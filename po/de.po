@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-06-22 17:27+0200\n"
+"POT-Creation-Date: 2003-06-22 18:11+0200\n"
 "PO-Revision-Date: 2003-03-04 18:50+0100\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Johannes Rohr <j.rohr@comlink.apc.org>\n"
@@ -15,15 +15,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: gui/BreakControl.cc:694
+#: gui/BreakControl.cc:725
 msgid "Disappears in"
 msgstr "Verschwindet in"
 
-#: gui/BreakControl.cc:698
+#: gui/BreakControl.cc:729
 msgid "Break in"
 msgstr "Pause in"
 
-#: gui/BreakControl.cc:702
+#: gui/BreakControl.cc:733
 msgid "Silent in"
 msgstr "Still in"
 

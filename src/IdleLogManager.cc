@@ -33,7 +33,7 @@ static const char rcsid[] = "$Id$";
 #include "PacketBuffer.hh"
 
 #define IDLELOG_MAXSIZE 		(4000)
-#define IDLELOG_MAXAGE		(12 * 30 * 30)
+#define IDLELOG_MAXAGE		(12 * 60 * 60)
 #define IDLELOG_INTERVAL		(30 * 60)
 #define IDLELOG_VERSION		(1)
 #define IDLELOG_INTERVAL_SIZE	(12)
@@ -675,6 +675,9 @@ IdleLogManager::load_idlelog(ClientInfo &info)
               info.idlelog.push_front(idle);
             }
         }
+
+      IdleInterval &idle = info.idlelog.back();
+      idle.begin_time = 1;
     }
   dump_idlelog(info);
   TRACE_EXIT();

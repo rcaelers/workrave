@@ -70,7 +70,9 @@ BreakControl::BreakControl(GUIControl::BreakId id, ControlInterface *c,
   break_window_destroy(false),
   prelude_window_destroy(false),
   insist_policy(INSIST_POLICY_HALT),
-  active_insist_policy(INSIST_POLICY_INVALID)
+  active_insist_policy(INSIST_POLICY_INVALID),
+  fake_break(false),
+  fake_break_count(0)
 {
   set_insist_break(insist_break);
   set_ignorable_break(ignorable_break);
@@ -365,13 +367,24 @@ void
 BreakControl::update_break_window()
 {
   assert(break_timer != NULL);
-  time_t idle = break_timer->get_elapsed_idle_time();
   time_t duration = break_timer->get_auto_reset();
+  time_t idle = 0;
+  
+  if (fake_break)
+    {
+      idle = duration - fake_break_count;
+      fake_break_count--;
+    }
+  else
+    {
+      idle = break_timer->get_elapsed_idle_time();
+    }
 
   if (idle > duration)
     {
       idle = duration;
     }
+
   assert(break_window != NULL);
   break_window->set_progress(idle, duration);
 }
@@ -382,6 +395,7 @@ void
 BreakControl::start_break()
 {
   TRACE_ENTER_MSG("BreakControl::start_break", break_id);
+  fake_break = false;
   user_initiated = false;
   forced_break = false;
   prelude_time = 0;
@@ -433,10 +447,24 @@ void
 BreakControl::force_start_break()
 {
   TRACE_ENTER_MSG("BreakControl::force_start_break", break_id);
+
+  fake_break = false;
   user_initiated = true;
   forced_break = true;
   prelude_time = 0;
 
+  if (break_timer->is_auto_reset_enabled())
+    {
+      TRACE_MSG("auto reset enabled");
+      time_t idle = break_timer->get_elapsed_idle_time();
+      TRACE_MSG(idle << " " << break_timer->get_auto_reset());
+      if (idle >= break_timer->get_auto_reset())
+        {
+          fake_break = true;
+          fake_break_count = break_timer->get_auto_reset();
+        }
+    }
+  
   goto_stage(STAGE_TAKING);
 
   TRACE_EXIT();
@@ -528,8 +556,11 @@ BreakControl::postpone_break()
 {
   if (!user_initiated)
     {
-      // Snooze the timer.
-      break_timer->snooze_timer();
+      if (!fake_break)
+        {
+          // Snooze the timer.
+          break_timer->snooze_timer();
+        }
       
       // Update stats.
       Statistics *stats = Statistics::get_instance();
@@ -828,6 +859,7 @@ BreakControl::set_state_data(bool active, const BreakStateData &data)
   
   if (new_break_stage == STAGE_TAKING)
     {
+      TRACE_MSG("TAKING -> PRELUDE");
       new_break_stage = STAGE_PRELUDE;
       prelude_count = number_of_preludes - 1;
     }
@@ -836,7 +868,7 @@ BreakControl::set_state_data(bool active, const BreakStateData &data)
     {
       if (forced_break && new_break_stage == STAGE_TAKING)
         {
-          TRACE_MSG("User inflicted break");
+          TRACE_MSG("User inflicted break -> TAKING");
 
           prelude_time = 0;
           goto_stage(STAGE_TAKING);
@@ -864,15 +896,19 @@ BreakControl::set_state_data(bool active, const BreakStateData &data)
             {
               if (!force_after_prelude)
                 {
+                  TRACE_MSG("SNOOZED");
                   goto_stage(STAGE_SNOOZED);
                 }
               else
                 {
+                  TRACE_MSG("TAKING");
                   goto_stage(STAGE_TAKING);
                 }
             }
           else
             {
+              TRACE_MSG("PRELUDE");
+
               // Idle until proven guilty.
               ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
               monitor->force_idle();
@@ -883,6 +919,7 @@ BreakControl::set_state_data(bool active, const BreakStateData &data)
         }
       else
         {
+          TRACE_MSG("NONE");
           goto_stage(STAGE_NONE);
         }
     }

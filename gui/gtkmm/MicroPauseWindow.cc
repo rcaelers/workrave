@@ -248,4 +248,3 @@ MicroPauseWindow::on_skip_button_clicked()
       break_response->skip_break();
     }
 }
-

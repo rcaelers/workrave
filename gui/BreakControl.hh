@@ -174,6 +174,12 @@ private:
 
   //! Policy currently in effect.
   InsistPolicy active_insist_policy;
+
+  //! Is this a break that is not controlled by the timer.
+  bool fake_break;
+
+  //! Fake break counter.
+  int fake_break_count;
 };
 
 #endif // BREAKCONTROL_HH
