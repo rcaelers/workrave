@@ -69,6 +69,12 @@ private:
   /** Back button */
   Gtk::Button *back_btn;
 
+  /** Last button */
+  Gtk::Button *last_btn;
+
+  /** First button */
+  Gtk::Button *first_btn;
+
   void init_gui();
   void select_day(int day);
   

@@ -104,11 +104,11 @@ StatisticsDialog::init_gui()
 
   // Button box.
   Gtk::HBox *btnbox= manage(new Gtk::HBox(false, 6));
-  Gtk::Button *first_btn  
+  first_btn  
     = manage(GtkUtil::create_stock_button_without_text(Gtk::Stock::GOTO_FIRST));
   first_btn->signal_clicked()
     .connect(SigC::slot(*this, &StatisticsDialog::on_history_goto_first));
-  Gtk::Button *last_btn
+  last_btn
     = manage(GtkUtil::create_stock_button_without_text(Gtk::Stock::GOTO_LAST));
   last_btn->signal_clicked()
     .connect(SigC::slot(*this, &StatisticsDialog::on_history_goto_last));
@@ -122,6 +122,7 @@ StatisticsDialog::init_gui()
     .connect(SigC::slot(*this, &StatisticsDialog::on_history_go_forward));
   
   Gtk::Label *nav_label = manage(new Gtk::Label(_("History:")));
+  nav_label->set_alignment(1.0, 0);
   btnbox->pack_start(*nav_label, true, true, 0);
   btnbox->pack_start(*first_btn, false, false, 0);
   btnbox->pack_start(*back_btn, false, false, 0);
@@ -514,6 +515,8 @@ StatisticsDialog::display_calendar_date()
     }
   forward_btn->set_sensitive(next >= 0);
   back_btn->set_sensitive(prev >= 0);
+  last_btn->set_sensitive(idx != 0);
+  first_btn->set_sensitive(idx != statistics->get_history_size());
   display_statistics(stats);
 }
 
@@ -539,7 +542,7 @@ StatisticsDialog::on_history_go_back()
 {
   int idx, next, prev;
   get_calendar_day_index(idx, next, prev);
-  if (next >= 0)
+  if (prev >= 0)
     set_calendar_day_index(prev);
 }
 
@@ -565,7 +568,7 @@ void
 StatisticsDialog::on_history_goto_first()
 {
   int size = statistics->get_history_size();
-  set_calendar_day_index(size > 0 ? size-1 : 0);
+  set_calendar_day_index(size);
 }
 
 

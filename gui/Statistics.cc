@@ -560,6 +560,16 @@ Statistics::get_day_index_by_date(int y, int m, int d,
           next = j;
         }
     }
+
+  if (prev < 0 && current_day->starts_before_date(y, m, d))
+    {
+      prev = 0;
+    }
+  if (next < 0 && !current_day->starts_at_date(y, m, d)
+      && !current_day->starts_before_date(y, m, d))
+    {
+      next = 0;
+    }
   TRACE_EXIT();
 }
 
