@@ -65,6 +65,7 @@ AppletWindow::AppletWindow() :
 #ifdef HAVE_GNOME
   applet_control(NULL),
 #endif
+  visible_count(0),
   cycle_time(10),
   applet_vertical(false),
   applet_size(0),
@@ -165,6 +166,7 @@ void
 AppletWindow::init_table()
 {
   TRACE_ENTER("AppletWindow::init_table");
+
   // Determine what breaks to show.
   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
     {
@@ -172,7 +174,7 @@ AppletWindow::init_table()
     }
 
   
-  // Compute number of vivisble breaks.
+  // Compute number of visible breaks.
   int number_of_timers = 0;
   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
     {

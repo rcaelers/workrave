@@ -134,11 +134,16 @@ GUI::main()
 {
   TRACE_ENTER("GUI::main");
 
+#ifdef HAVE_GNOME
+  init_gnome();
+#endif
+  
   // Win32 needs this....
   if (!g_thread_supported())
     {
       g_thread_init (NULL);
     }
+
   
   Gtk::Main kit(argc, argv);
 
@@ -218,6 +223,16 @@ static void my_log_handler(const gchar *log_domain, GLogLevelFlags log_level,
 {
 }
 #endif
+
+
+#ifdef HAVE_GNOME
+void
+GUI::init_gnome()
+{
+  gnome_init("workrave", VERSION, argc, argv);
+}
+#endif  
+
 
 //! Initializes messages hooks.
 void

@@ -86,6 +86,9 @@ private:
   void init_gui_control();
   void init_gui();
   void init_remote_control();
+#ifdef HAVE_GNOME
+  void init_gnome();
+#endif
   
 private:
   //! The one and only instance

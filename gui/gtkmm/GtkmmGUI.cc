@@ -1,6 +1,6 @@
 // GtkmmGUI.cc --- Gtk-- GUI Creator
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -30,9 +30,5 @@ static const char rcsid[] = "$Id$";
 GUIInterface *
 GtkmmGUI::create(ControlInterface *c, int argc, char **argv)
 {
-#ifdef HAVE_GNOME
-  // FIXME: check return type
-  gnome_init("Workrave", VERSION, argc, argv);
-#endif  
   return new GUI(c, argc, argv);
 }

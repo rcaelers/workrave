@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-02-23 11:26:25 robc>
+// Time-stamp: <2003-03-15 10:32:51 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -224,6 +224,8 @@ Timer::set_auto_reset(string predicate)
 void
 Timer::compute_next_limit_time()
 {
+  TRACE_ENTER_MSG("Timer::compute_next_limit_time", timer_id);
+  
   // default action.
   next_limit_time = 0;
 
@@ -233,6 +235,7 @@ Timer::compute_next_limit_time()
       if (!snooze_inhibited)
         {
           next_limit_time = last_limit_time + snooze_interval;
+          TRACE_MSG("1 " << next_limit_time << " " << last_limit_time);
         }
     }
   else if (timer_enabled && timer_state == STATE_RUNNING && last_start_time != 0 &&
@@ -247,14 +250,18 @@ Timer::compute_next_limit_time()
           if (snooze_on_active && !snooze_inhibited)
             {
               next_limit_time = last_start_time - elapsed_time + last_limit_elapsed + snooze_interval;
+              TRACE_MSG("2 " << next_limit_time << " " << last_limit_time << " "
+                        << elapsed_time << " " << last_limit_elapsed << " " << snooze_interval);
             }
         }
       else
         {
           // new limit = last start time + limit - elapsed.
           next_limit_time = last_start_time + limit_interval - elapsed_time;
+          TRACE_MSG("3 ");
         }
     }
+  TRACE_EXIT();
 }
 
 

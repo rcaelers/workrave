@@ -63,7 +63,6 @@ PreludeWindow::PreludeWindow()
   Gtk::HBox *hbox = manage(new Gtk::HBox(false, 6));
   hbox->pack_start(*image_icon, false, false, 0);
   hbox->pack_start(*vbox, false, false, 0);
-  
 
   // Frame
   frame = manage(new Frame);
@@ -136,16 +135,17 @@ void
 PreludeWindow::destroy()
 {
   GUIControl *gui_control = GUIControl::get_instance();
-  assert(gui_control != NULL);
-
-  ControlInterface *core_control = gui_control->get_core();
-  assert(core_control != NULL);
+  if (gui_control != NULL)
+    {
+      ControlInterface *core_control = gui_control->get_core();
+      assert(core_control != NULL);
+      
+      ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
+      assert(monitor != NULL);
+      
+      monitor->set_listener(NULL);
+    }
   
-  ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
-  assert(monitor != NULL);
-  
-  monitor->set_listener(NULL);
-
   delete this;
 }
 

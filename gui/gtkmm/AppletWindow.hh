@@ -147,6 +147,9 @@ private:
 
   //! Current slot content.
   int current_content[GUIControl::BREAK_ID_SIZEOF];
+
+  //! Number of visible breaks.
+  int visible_count;
   
   //! Duration of each cycle.
   int cycle_time;

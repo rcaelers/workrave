@@ -113,3 +113,14 @@ GtkUtil::create_label(string text, bool bold)
     }
   return label;
 }
+
+
+
+void
+GtkUtil::set_wmclass(Gtk::Window &window, string class_postfix)
+{
+  string s = gdk_get_program_class();
+  s += class_postfix;
+  
+  window.set_wmclass(g_get_prgname(), s);
+}

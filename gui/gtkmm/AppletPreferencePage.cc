@@ -71,6 +71,8 @@ AppletPreferencePage::create_page()
                         (_("Place rest break and daily limit in one spot")));
   place_items.push_back(Gtk::Menu_Helpers::MenuElem
                         (_("Place all timers in one spot")));
+  place_items.push_back(Gtk::Menu_Helpers::MenuElem
+                        (_("No timers visible")));
   place_button->signal_changed().connect
     (SigC::slot(*this, &AppletPreferencePage::on_place_changed));
   
@@ -208,10 +210,15 @@ AppletPreferencePage::on_place_changed()
       slots[GUIControl::BREAK_ID_REST_BREAK] = 1;
       slots[GUIControl::BREAK_ID_DAILY_LIMIT] = 1;
       break;
-    default:
+    case 3:
       slots[GUIControl::BREAK_ID_MICRO_PAUSE] = 0;
-      slots[GUIControl::BREAK_ID_REST_BREAK] = 0;
-      slots[GUIControl::BREAK_ID_DAILY_LIMIT] = 0;
+      slots[GUIControl::BREAK_ID_REST_BREAK] = 1;
+      slots[GUIControl::BREAK_ID_DAILY_LIMIT] = 1;
+      break;
+    default:
+      slots[GUIControl::BREAK_ID_MICRO_PAUSE] = -1;
+      slots[GUIControl::BREAK_ID_REST_BREAK] = -1;
+      slots[GUIControl::BREAK_ID_DAILY_LIMIT] = -1;
     }
 
   Configurator *c = GUIControl::get_instance()->get_configurator();

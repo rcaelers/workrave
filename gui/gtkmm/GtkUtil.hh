@@ -53,6 +53,8 @@ public:
   static void
   table_attach_right_aligned(Gtk::Table &table, Gtk::Widget &child,
                              guint left_attach, guint top_attach);
+
+  static void set_wmclass(Gtk::Window &window, string class_postfix);
 };
 
 #endif // GTKMMGUI_HH

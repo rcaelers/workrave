@@ -86,6 +86,10 @@ PreferencesDialog::PreferencesDialog()
 
   GUIControl *gui_control = GUIControl::get_instance();
   mode = gui_control->get_operation_mode();
+
+#ifdef HAVE_X
+  GtkUtil::set_wmclass(*this, "Preferences");
+#endif
   
   show_all();
 

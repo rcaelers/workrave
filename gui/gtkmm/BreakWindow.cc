@@ -30,6 +30,7 @@ static const char rcsid[] = "$Id$";
 #include <math.h>
 
 #include "BreakWindow.hh"
+#include "GtkUtil.hh"
 #include "WindowHints.hh"
 #include "Frame.hh"
 
@@ -40,7 +41,7 @@ static const char rcsid[] = "$Id$";
  *  \param control The controller.
  */
 BreakWindow::BreakWindow() :
-  Gtk::Window (Gtk::WINDOW_POPUP),
+  Gtk::Window(Gtk::WINDOW_POPUP),
   SCREEN_MARGIN(20),
 #ifdef HAVE_X
   grab_wanted(false),
@@ -52,6 +53,10 @@ BreakWindow::BreakWindow() :
   border_width(0)
 {
   Gtk::Window::set_border_width(0);
+
+#ifdef HAVE_X
+  GtkUtil::set_wmclass(*this, "Break");
+#endif
 }
 
 
