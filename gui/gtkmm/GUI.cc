@@ -300,22 +300,49 @@ GUI::on_save_yourself(int phase, Gnome::UI::SaveStyle save_style, bool shutdown,
       main_window->remember_position();
     }
 
-#if 0
   Gnome::UI::Client *client = Gnome::UI::Client::master_client();
 
-  vector<string> argv(4);
+  vector<string> args;
 
-//   if (message)
-//     {
-//       argv.push_back("--message");
-//       argv.push_back(message);
-//     }
-  
-  client->set_clone_command(argv);
-  client->set_restart_command(argv);
- 
-  TRACE_EXIT();
+  bool skip = false;
+  if (applet_window != NULL)
+    {
+      if (applet_window->get_applet_mode() == AppletWindow::APPLET_GNOME)
+        {
+          skip = true;
+        }
+    }
+
+  if (skip)
+    {
+      args.push_back("workrave-is-started-by-applet");
+    }
+  else
+    {
+      if (argv[0] != NULL)
+        {
+          args.push_back(argv[0]);
+        }
+      else
+        {
+          args.push_back("workrave");
+        }
+#ifdef HAVE_X
+      char *display_name = gdk_get_display();
+      if (display_name != NULL)
+        {
+          args.push_back("--display");
+          args.push_back(display_name);
+          g_free(display_name);
+        }
 #endif
+      
+    }
+  
+  client->set_clone_command(args);
+  client->set_restart_command(args);
+
+  TRACE_EXIT();
   return true;  
 }
 
