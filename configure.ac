@@ -16,7 +16,9 @@ AC_PREREQ(2.57)
 AM_CONFIG_HEADER(config.h)
 AM_INIT_AUTOMAKE(workrave, 1.6.2)
 
-                                   
+dnl Set of available languages.
+ALL_LINGUAS="nl de eo pl da es zh_TW ru fr pt_BR no lt"
+
 dnl some command line options.                           
 GCONF_LIBS=""
 AC_ARG_ENABLE( app-gtk,
@@ -98,13 +100,14 @@ else
    CXXFLAGS="${CXXFLAGS} -Os -g -DNDEBUG"
    LDFLAGS="${LDFLAGS} -g"
 fi
-                   
-AC_ARG_ENABLE( cwd,
-  [  --enable-cwd            compile with libcwd],
-       config_cwd_debug=$enableval
-       ,
-       config_cwd_debug=no
-    )
+
+dnl This hasn't been used for a long while...
+dnl AC_ARG_ENABLE( cwd,
+dnl   [  --enable-cwd            compile with libcwd],
+dnl        config_cwd_debug=$enableval
+dnl        ,
+dnl        config_cwd_debug=no
+dnl     )
                                
 dnl Include --enable-maintainer-mode option.
 AM_MAINTAINER_MODE
@@ -116,9 +119,6 @@ AC_SUBST(ISODATE)
 
 AC_CANONICAL_HOST
 AC_PREFIX_PROGRAM(workrave)
-
-dnl Set of available languages.
-ALL_LINGUAS="nl de eo pl da es zh_TW ru fr pt_BR no"
 
 dnl Checks for programs.
 AC_PROG_CC
