@@ -193,7 +193,7 @@ private:
   void signon_remote_client(string client_id);
   void signoff_remote_client(string client_id);
 
-#ifndef TEST
+#ifndef NDEBUG
   bool script_message(bool master, char *client_id, unsigned char *buffer, int size);
   void do_script();
 #endif  

@@ -29,11 +29,7 @@ static const char rcsid[] = "$Id$";
 #include <string.h>
 
 #include "DistributionManager.hh"
-#ifdef HAVE_EXPERIMENTAL  
 #include "DistributionSocketLink2.hh"
-#else
-#include "DistributionSocketLink.hh"
-#endif
 #include "DistributionLogListener.hh"
 #include "DistributionListener.hh"
 #include "Configurator.hh"

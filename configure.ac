@@ -140,6 +140,7 @@ AC_MSG_CHECKING([for some Win32 platform])
 case "$host" in
   *-*-mingw*|*-*-cygwin*)
     platform_win32=yes
+    config_with_gnome=no
     ;;
   *)
     platform_win32=no

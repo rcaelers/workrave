@@ -172,7 +172,7 @@ Control::process_timers(TimerInfo *infos)
   if (master_node != new_master_node)
     {
       master_node = new_master_node;
-#ifndef HAVE_EXPERIMENTAL      
+#if 0      
       // Enable/Disable timers.
       for (int i = 0; i < timer_count; i++)
         {
@@ -185,7 +185,7 @@ Control::process_timers(TimerInfo *infos)
               timers[i]->disable();
             }
         }
-#endif // HAVE_EXPERIMENTAL
+#endif
     }
 
   // 
@@ -243,7 +243,7 @@ Control::process_timers(TimerInfo *infos)
     }
 
   
-#ifndef HAVE_EXPERIMENTAL
+#if 0
   if (master_node)
 #endif    
     {
@@ -364,7 +364,7 @@ Control::update_idle_history(ClientInfo &info, ActivityState state, bool changed
 
   TRACE_MSG("last_elapsed " << info.last_elapsed);
   TRACE_MSG("total_elapsed " << info.total_elapsed);
-  
+#ifndef WIN32  
   IdleHistoryIter i = info.idle_history.begin();
   while (i != info.idle_history.end())
     {
@@ -385,6 +385,7 @@ Control::update_idle_history(ClientInfo &info, ActivityState state, bool changed
                    );
       i++;
     }
+#endif  
   TRACE_EXIT();
 }
 
@@ -466,21 +467,23 @@ Control::compute_active_time(int length)
       if (last_time != -1)
         {
           IdleInterval ii = *(iterators[last_iter]);
-          
+#ifndef WIN32          
           struct tm begin;
           localtime_r(&ii.idle_begin, &begin);
           struct tm end;
           localtime_r(&ii.idle_end, &end);
-          
+#endif          
           if (at_end[last_iter])
             {
               idle_count++;
               
+#ifndef WIN32
               TRACE_MSG("New end " << last_iter << " " 
                         << end.tm_hour << ":"
                         << end.tm_min << ":" 
                         << end.tm_sec << " "
                         << idle_count);
+#endif              
               at_end[last_iter] = false;
 
               end_time = ii.idle_end;
@@ -488,11 +491,13 @@ Control::compute_active_time(int length)
             }
           else
             {
+#ifndef WIN32
               TRACE_MSG("Begin " << last_iter << " " 
                         << begin.tm_hour << ":"
                         << begin.tm_min << ":"
                         << begin.tm_sec << "  "
                         << idle_count);
+#endif              
               at_end[last_iter] = true;
               iterators[last_iter]++;
               begin_time = ii.idle_begin;
@@ -1038,11 +1043,11 @@ Control::client_message(DistributionClientMessageID id, bool master, char *clien
     case DCM_IDLELOG:
       ret = set_idlelog_state(master, client_id, buffer, size);
       break;
-
+#ifndef NDEBUG
     case DCM_SCRIPT:
       ret = script_message(master, client_id, buffer, size);
       break;
-
+#endif
     default:
       break;
     }
@@ -1179,7 +1184,6 @@ Control::set_monitor_state(bool master, char *client_id, unsigned char *buffer, 
   (void) buffer;
   (void) size;
   
-#ifdef HAVE_EXPERIMENTAL  
   if (!master_node)
     {
       PacketBuffer state_packet;
@@ -1190,7 +1194,6 @@ Control::set_monitor_state(bool master, char *client_id, unsigned char *buffer, 
       state_packet.unpack_ushort();
       remote_state = (ActivityState) state_packet.unpack_ushort();
     }
-#endif
   
   TRACE_EXIT();
   return true;
@@ -1287,6 +1290,7 @@ Control::set_idlelog_state(bool master, char *client_id, unsigned char *buffer, 
       clients[id].idle_history.push_back(idle);
     }
 
+#ifndef WIN32  
   IdleHistoryIter i = clients[id].idle_history.begin();
   while (i != clients[id].idle_history.end())
     {
@@ -1307,7 +1311,7 @@ Control::set_idlelog_state(bool master, char *client_id, unsigned char *buffer, 
                    );
       i++;
     }
-
+#endif
   compute_timers();
   TRACE_EXIT();
   return true;
