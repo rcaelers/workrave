@@ -98,7 +98,48 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
               SystemTime.wHour,
               SystemTime.wMinute,
               SystemTime.wSecond);
+
+      fprintf(log, "version = %s\n", VERSION);
+      fprintf(log, "compile data = %s\n", __DATE__);
+      fprintf(log, "compile time = %s\n", __TIME__);
+      fprintf(log, "features = "
+#ifdef HAVE_DISTRIBUTION
+              "DISTRIBUTION "
+#endif
+#ifdef HAVE_EXERCISES
+              "EXERCISES "
+#endif
+#ifdef HAVE_EXPERIMENTAL
+              "EXPERIMENTAL "
+#endif
+#ifdef HAVE_GCONF
+              "GCONF?? "
+#endif
+#ifdef HAVE_GDOME
+              "GDOME "
+#endif
+#ifdef HAVE_GNET
+              "GNET "
+#endif
+#ifdef HAVE_GNET2
+              "GNET2 "
+#endif
+#ifdef HAVE_GNOME
+              "GNOME?? "
+#endif
+#ifdef HAVE_GTK_MULTIHEAD
+              "GTK_MULTIHEAD "
+#endif
+#ifdef HAVE_XRECORD
+              "XRECORD?? "
+#endif
+#ifndef NDEBUG
+              "DEBUG "
+#endif
+              "\n"
+              );
       
+      fprintf(log, "\n\n");
       fprintf(log, "code = %x\n", exception_record->ExceptionCode);
       fprintf(log, "flags = %x\n", exception_record->ExceptionFlags);
       fprintf(log, "address = %x\n", exception_record->ExceptionAddress);
@@ -409,7 +450,7 @@ save_key(FILE *log, HKEY key, char *name)
 
       if (strcmp("password", val) == 0)
         {
-          fprintf(log, "  string data = xxxx\n");
+          fprintf(log, "  string data = <hidden>\n");
         }
       else if (type == REG_SZ)
         {
