@@ -18,6 +18,10 @@ IconListNotebook::IconListNotebook()
   column_record.add(col_page);
   list_store = Gtk::ListStore::create(column_record);
   icon_list.set_model(list_store);
+
+  Gtk::TreeViewColumn *tvc = manage(new Gtk::TreeViewColumn("Bla"));
+  tvc->add_attribute(, col_title);
+  tvc
   
 //195           	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (dlg->priv->notebook), FALSE);
 //196           	gtk_notebook_set_show_border (GTK_NOTEBOOK (dlg->priv->notebook), 
