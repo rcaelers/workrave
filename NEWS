@@ -10,7 +10,10 @@ http://www.workrave.org
 ** Added a Brazilian Portuguese translation, thanks to Claudio
 Ferreira Filho!
 
-** Workrave now respects the "gtk-button-images" property. 
+** Workrave now respects the "gtk-button-images" property.
+
+** Fixed some high-profile bug fixes, especially activity monitoring
+problems when running X.
 
 
 * Workrave 1.6.1

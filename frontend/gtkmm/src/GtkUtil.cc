@@ -26,7 +26,7 @@
 
 #include "debug.hh"
 
-#include <gtkmm/settings.h>
+#include <gtk/gtksettings.h>
 #include <glib-object.h>
 
 #include "GUI.hh"
@@ -40,14 +40,13 @@ GtkUtil::has_button_images()
 {
   // Bypassing gtkmm is necessary, because it does not offer
   // a find_property method yet.
-  Glib::RefPtr<Gtk::Settings> settingsmm = Gtk::Settings::get_default();
-  GObject *settings = G_OBJECT(settingsmm->gobj());
-  GObjectClass * klazz = G_OBJECT_GET_CLASS(settings);
+  GtkSettings* settings = gtk_settings_get_default();
+  GObjectClass * klazz = G_OBJECT_GET_CLASS(G_OBJECT(settings));
   bool ret = true;
   if (g_object_class_find_property (klazz, "gtk-button-images"))
     {
       gboolean gbi;
-      g_object_get (settings, "gtk-button-images", &gbi, NULL);
+      g_object_get (G_OBJECT(settings), "gtk-button-images", &gbi, NULL);
       ret = gbi;
     }
   return ret;
