@@ -62,16 +62,18 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   GtkUtil::set_wmclass(*this, "Break");
 #endif
 
+  // On W32, must be *before* realize, otherwise a border is drawn.
+  set_resizable(false);
+  
   // Need to realize window before it is shown
   // Otherwise, there is not gobj()...
-  set_resizable(false);
   realize();
-
   if (! insist)
     {
       Glib::RefPtr<Gdk::Window> window = get_window();
       window->set_functions(Gdk::FUNC_MOVE);
     }
+
   
   this->head = head;
 #ifdef HAVE_GTK_MULTIHEAD  
@@ -142,7 +144,7 @@ create_tile_pixbuf (GdkPixbuf    *dest_pixbuf,
   gboolean need_composite;
   gboolean use_simple;
   int  cx, cy;
-  gdouble  colorv;
+  int  colorv;
   gint     pwidth, pheight;
 
   need_composite = (alpha < 255 || gdk_pixbuf_get_has_alpha (src_pixbuf));
@@ -171,7 +173,7 @@ create_tile_pixbuf (GdkPixbuf    *dest_pixbuf,
            MIN (pheight, field_geom->height - cy),
            cx, cy,
            1.0, 1.0,
-           GDK_INTERP_BILINEAR,
+           GDK_INTERP_NEAREST,
            alpha);
       else if (need_composite && use_simple)
         gdk_pixbuf_composite_color
@@ -181,7 +183,7 @@ create_tile_pixbuf (GdkPixbuf    *dest_pixbuf,
            MIN (pheight, field_geom->height - cy),
            cx, cy,
            1.0, 1.0,
-           GDK_INTERP_BILINEAR,
+           GDK_INTERP_NEAREST,
            alpha,
            65536, 65536, 65536,
            colorv, colorv);
