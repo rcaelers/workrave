@@ -26,6 +26,7 @@ static const char rcsid[] = "$Id$";
 #include <fstream>
 #include <sstream>
 #include <assert.h>
+#include <unistd.h>
 
 #include "Util.hh"
 #include "IdleLogManager.hh"
@@ -594,7 +595,11 @@ IdleLogManager::unlink_idlelog(PacketBuffer &buffer) const
           ss << Util::get_home_directory();
           ss << "idlelog." << id << ".log" << ends;
           
+#ifdef WIN32
+          _unlink(ss.str().c_str());
+#else
           unlink(ss.str().c_str());
+#endif
           
           g_free(id);
         }

@@ -22,6 +22,12 @@ static const char rcsid[] = "$Id$";
 #include "config.h"
 #endif
 
+#ifdef WIN32
+#ifdef _WIN32_IE
+#define _WIN32_IE 0x0500
+#endif
+#endif
+
 #include "nls.h"
 #include "debug.hh"
 
@@ -55,6 +61,9 @@ static const char rcsid[] = "$Id$";
 #endif
 
 #ifdef WIN32
+#ifdef _WIN32_IE
+#define _WIN32_IE 0x0500
+#endif
 #include <gdk/gdkwin32.h>
 #include <pbt.h>
 #endif
@@ -665,7 +674,7 @@ MainWindow::win32_add_tray_icon()
   win32_tray_icon.cbSize = sizeof(NOTIFYICONDATA);
   win32_tray_icon.hWnd = win32_main_hwnd;
   win32_tray_icon.uID = 1;
-  win32_tray_icon.uFlags = NIF_ICON|NIF_TIP|NIF_MESSAGE|NIF_INFO;
+  win32_tray_icon.uFlags = NIF_ICON|NIF_TIP|NIF_MESSAGE|0x00000010; // NIF_INFO;
   win32_tray_icon.uCallbackMessage = MYWM_TRAY_MESSAGE;
   win32_tray_icon.hIcon = LoadIcon(win32_hinstance, "workrave");
 
