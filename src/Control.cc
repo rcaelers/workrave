@@ -315,40 +315,20 @@ Control::update_idle_history(ClientInfo &info, ActivityState state, bool changed
 {
   TRACE_ENTER_MSG("Control::update_idle_history", ((int)state) << " " << changed);
 
-  IdleHistoryIter i = info.idle_history.begin();
-  while (i != info.idle_history.end())
-    {
-      IdleInterval &idle = *i;
-
-      struct tm begin_time;
-      localtime_r(&idle.idle_begin, &begin_time);
-      struct tm end_time;
-      localtime_r(&idle.idle_end, &end_time);
-
-      TRACE_MSG(   begin_time.tm_hour << ":"
-                   << begin_time.tm_min << ":"
-                   << begin_time.tm_sec << " - "
-                   << end_time.tm_hour << ":"
-                   << end_time.tm_min << ":" 
-                   << end_time.tm_sec << " "
-                   << idle.elapsed
-                   );
-      i++;
-    }
-  
   IdleInterval *idle = &(info.idle_history.front());
 
   if (state == ACTIVITY_IDLE)
     {
       if (changed)
         {
-          if (info.last_active_begin != 0)
-            {
-              idle->elapsed += (current_time - info.last_active_begin);
+          info.update(current_time);
+//           if (info.last_active_begin != 0)
+//             {
+//               idle->elapsed += (current_time - info.last_active_begin);
 
-              info.last_elapsed = 0;
-              info.last_active_begin = 0;
-            }
+//               info.last_elapsed = 0;
+//               info.last_active_begin = 0;
+//             }
 
           info.idle_history.push_front(IdleInterval(current_time, current_time));
         }
@@ -369,7 +349,7 @@ Control::update_idle_history(ClientInfo &info, ActivityState state, bool changed
           idle->idle_end = current_time;
 
           int total_idle = idle->idle_end - idle->idle_begin;
-          if (total_idle < 10 && info.idle_history.size() > 1)
+          if (total_idle < 1 && info.idle_history.size() > 1)
             {
               info.idle_history.pop_front();
             }
@@ -386,8 +366,9 @@ Control::update_idle_history(ClientInfo &info, ActivityState state, bool changed
     }
 
   TRACE_MSG("last_elapsed " << info.last_elapsed);
+  TRACE_MSG("last_elapsed " << info.total_elapsed);
   
-  /*IdleHistoryIter*/ i = info.idle_history.begin();
+  IdleHistoryIter i = info.idle_history.begin();
   while (i != info.idle_history.end())
     {
       IdleInterval &idle = *i;
@@ -410,6 +391,133 @@ Control::update_idle_history(ClientInfo &info, ActivityState state, bool changed
   TRACE_EXIT();
 }
 
+
+int
+Control::compute_common_idle_history(int length)
+{
+  TRACE_ENTER("Control::compute_common_idle_history");
+
+  // Number of client, myself included.
+  int size = clients.size() + 1;
+
+  IdleHistoryIter *iterators = new IdleHistoryIter[size];
+  IdleHistoryIter *end_iterators = new IdleHistoryIter[size];
+  bool *at_end = new bool[size];
+  int *elapsed = new int[size];
+ 
+  iterators[0] = my_info.idle_history.begin();
+  end_iterators[0] = my_info.idle_history.end();
+  at_end[0] = true;
+
+  int count = 1;
+  for (ClientMapIter i = clients.begin(); i != clients.end(); i++)
+    {
+      ClientInfo &info = (*i).second;
+      
+      iterators[count] = info.idle_history.begin();
+      end_iterators[count] = info.idle_history.end();
+      elapsed[count] = 0;
+      at_end[count] = true;
+
+      info.update(current_time);
+      count++;
+    }
+
+
+  // Number of simultaneous idle periods.
+  int idle_count = 0;
+
+  // Time of last unprocessed event.
+  time_t last_time = -1;
+
+  // Iterator of last unprocessed event.
+  int last_iter = -1;
+
+  // Stop criterium
+  bool stop = false;
+
+  // Begin and End time of idle perdiod.
+  time_t begin_time = -1;
+  time_t end_time = -1;
+  
+  while (!stop)
+    {
+      last_time = -1;
+      for (int i = 0; i < size; i ++)
+        {
+          if (iterators[i] != end_iterators[i])
+            {
+              IdleInterval ii = *(iterators[i]);
+              
+              time_t t = at_end[i] ? ii.idle_end : ii.idle_begin;
+              
+              if (last_time == -1 || t > last_time)
+                {
+                  last_time = t;
+                  last_iter = i;
+                }
+            }
+        }
+      
+      if (last_time != -1)
+        {
+          IdleInterval ii = *(iterators[last_iter]);
+          
+          struct tm begin;
+          localtime_r(&ii.idle_begin, &begin);
+          struct tm end;
+          localtime_r(&ii.idle_end, &end);
+          
+          if (at_end[last_iter])
+            {
+              idle_count++;
+              
+              TRACE_MSG("New end " << last_iter << " " 
+                        << end.tm_hour << ":"
+                        << end.tm_min << ":" 
+                        << end.tm_sec << " "
+                        << idle_count);
+              at_end[last_iter] = false;
+
+              end_time = ii.idle_end;
+              elapsed[last_iter] += ii.elapsed;
+            }
+          else
+            {
+              TRACE_MSG("Begin " << last_iter << " " 
+                        << begin.tm_hour << ":"
+                        << begin.tm_min << ":"
+                        << begin.tm_sec << "  "
+                        << idle_count);
+              at_end[last_iter] = true;
+              iterators[last_iter]++;
+              begin_time = ii.idle_begin;
+                
+              if (idle_count == size)
+                {
+                  TRACE_MSG("Common idle period of " << (end_time - begin_time));
+                  if ((end_time - begin_time) > length)
+                    {
+                      TRACE_MSG("break");
+                    }
+                }
+              idle_count--;
+            }
+        }
+      else
+        {
+          stop = true;
+        }
+    }
+
+  
+  delete [] iterators;
+  delete [] end_iterators;
+  delete [] at_end;
+
+  TRACE_EXIT();
+  return 0;
+}
 
 // Create the monitor based on the specified configuration.
 bool
@@ -1004,8 +1112,6 @@ Control::get_idlelog_state(unsigned char **buffer, int *size)
 bool
 Control::set_idlelog_state(bool master, char *client_id, unsigned char *buffer, int size)
 {
-  (void) client_id;
-  (void) master;
   TRACE_ENTER("Control::set_idlelog_state");
 
   PacketBuffer state_packet;
@@ -1062,7 +1168,8 @@ Control::set_idlelog_state(bool master, char *client_id, unsigned char *buffer, 
                    );
       i++;
     }
-  
+
+  compute_common_idle_history(30);
   TRACE_EXIT();
   return true;
 }

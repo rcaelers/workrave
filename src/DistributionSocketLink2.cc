@@ -225,18 +225,7 @@ DistributionSocketLink::disconnect_all()
 
   while (i != clients.end())
     {
-      Client *c = *i;
-      
-      if (c->socket != NULL)
-        {
-          dist_manager->log(_("Disconnecting %s:%d."), c->hostname, c->port);
-          delete c->socket;
-          c->socket = NULL;
-        }
-
-      c->reconnect_count = 0;
-      c->reconnect_time = 0;          
-
+      close_client(*i);
       ret = true;
       i++;
     }
@@ -608,19 +597,16 @@ DistributionSocketLink::set_client_id(Client *client, gchar *id, gchar *name, gi
  *
  *  \param client client to remove, or NULL if all clients to be removed.
  *
- *  \return true if a client has been removed
  */
-bool
+void
 DistributionSocketLink::remove_client(Client *client)
 {
   list<Client *>::iterator i = clients.begin();
-  bool ret = false;
   
   if (client == master_client)
     {
       // Client to be removed is master. Unset master client. 
       master_client = NULL;
-      ret = true;
     }
 
   while (i != clients.end())
@@ -630,15 +616,111 @@ DistributionSocketLink::remove_client(Client *client)
           dist_manager->log(_("Removing client %s:%d."), (*i)->hostname, (*i)->port);
           delete *i;
           i = clients.erase(i);
-          ret = true;
         }
       else
         {
           i++;
         }
     }
+}
 
-  return ret;
+
+//! Removes all peers of the specified client.
+void
+DistributionSocketLink::remove_peer_clients(Client *client)
+{
+  TRACE_ENTER("DistributionSocketLink::remove_peer_clients");
+  
+  list<Client *>::iterator i = clients.begin();
+  while (i != clients.end())
+    {
+      if ((*i)->peer == client)
+        {
+          TRACE_MSG("Client " << (*i)->peer->id << " is peer of " << client->id);
+          
+          dist_manager->log(_("Removing client %s:%d."), (*i)->hostname, (*i)->port);
+          send_signoff(NULL, *i);
+
+          if (client == master_client)
+            {
+              // Connection to master is lost. Unset master client. 
+              set_master(NULL);
+            }
+
+          delete *i;
+          i = clients.erase(i);
+        }
+      else
+        {
+          i++;
+        }
+    }
+}
+
+
+//! Closes the connection to a client.
+void
+DistributionSocketLink::close_client(Client *client, bool reconnect /* = false*/)
+{
+  TRACE_ENTER_MSG("DistributionSocketLink::client", client->id << " " << reconnect);
+  
+  if (client == master_client)
+    {
+      // Client to be closed is master. Unset master client. 
+      set_master(NULL);
+    }
+
+  if (client->type == CLIENTTYPE_DIRECT)
+    {
+      TRACE_MSG("Is direct");
+      // Closing direct connection.
+      dist_manager->log(_("Disconnecting %s:%d."), client->hostname, client->port);
+
+      // Inform the client that we are disconnecting.
+      send_signoff(client, NULL);
+      
+      if (client->socket != NULL)
+        {
+          TRACE_MSG("Still connected");
+          // Still connected. Disconect.
+          delete client->socket;
+          client->socket = NULL;
+
+          if (reconnect)
+            {
+              TRACE_MSG("must reconnected");
+              client->reconnect_count = reconnect_attempts;
+              client->reconnect_time = time(NULL) + reconnect_interval;
+            }
+          else
+            {
+              TRACE_MSG("set signed off");
+              client->reconnect_count = 0;
+              client->reconnect_time = 0;
+              client->type = CLIENTTYPE_SIGNEDOFF;
+            }
+        }
+
+      send_signoff(NULL, client);
+      remove_peer_clients(client);
+    }
+  else if (client->type == CLIENTTYPE_SIGNEDOFF)
+    {
+      TRACE_MSG("is signed off");
+      if (client->socket != NULL)
+        {
+          TRACE_MSG("still connected");
+
+          // Still connected. Disconect.
+          delete client->socket;
+          client->socket = NULL;
+
+          client->reconnect_count = 0;
+          client->reconnect_time = 0;
+        }
+      
+      remove_peer_clients(client);
+    }
 }
 
 
@@ -979,6 +1061,10 @@ DistributionSocketLink::process_client_packet(Client *client)
           forward = false;
           break;
 
+        case PACKET_SIGNOFF:
+          handle_signoff(packet, source);
+          break;
+
         case PACKET_CLAIM:
           handle_claim(packet, source);
           break;
@@ -1130,6 +1216,77 @@ DistributionSocketLink::handle_hello(PacketBuffer &packet, Client *client)
   TRACE_EXIT();
 }
 
+
+
+//! Sends a hello to the specified client.
+void
+DistributionSocketLink::send_signoff(Client *to, Client *signedoff_client)
+{
+  TRACE_ENTER("DistributionSocketLink::send_signoff");
+  
+  PacketBuffer packet;
+
+  packet.create();
+  init_packet(packet, PACKET_SIGNOFF);
+
+  if (signedoff_client != NULL)
+    {
+      TRACE_MSG("remote client " << signedoff_client->id);
+      packet.pack_string(signedoff_client->id);
+    }
+  else
+    {
+      TRACE_MSG("me " << myid);
+      packet.pack_string(myid);
+    }
+
+  if (to != NULL)
+    {
+      TRACE_MSG("sending to " << to->id);
+      send_packet(to, packet);
+    }
+  else
+    {
+      TRACE_MSG("broadcasting");
+      send_packet_broadcast(packet);
+    }
+  TRACE_EXIT();
+}
+
+
+//! Handles a Hello from the specified client.
+void
+DistributionSocketLink::handle_signoff(PacketBuffer &packet, Client *client)
+{
+  TRACE_ENTER("DistributionSocketLink::handle_signoff");
+
+  gchar *id = packet.unpack_string();
+  Client *c = NULL;
+  
+  if (id != NULL)
+    {
+      c = find_client_by_id(id);
+    }
+
+  if (c != NULL)
+    {
+      dist_manager->log(_("Client %s:%d signed off."), c->hostname, c->port);
+
+      if (c->type == CLIENTTYPE_DIRECT)
+        {
+          TRACE_MSG("Direct connection. setting signedoff");
+          c->type = CLIENTTYPE_SIGNEDOFF;
+          remove_peer_clients(c);
+        }
+      else
+        {
+          TRACE_MSG("Routed connection. removing");
+          remove_client(c);
+        }
+    }
+  
+  TRACE_EXIT();
+}
 
 
 //! Sends a duplicate to the specified client.
@@ -1440,20 +1597,7 @@ DistributionSocketLink::send_claim(Client *client)
         {
           dist_manager->log(_("Client timeout from %s:%d."), client->hostname, client->port);
 
-          // Socket error. disable client.
-          if (client->socket != NULL)
-            {
-              delete client->socket;
-              client->socket = NULL;
-            }
-
-          client->reconnect_count = reconnect_attempts;
-          client->reconnect_time = time(NULL) + reconnect_interval;
-
-          if (master_client == client)
-            {
-              set_master(NULL);
-            }
+          close_client(client, true);
         }
       client->claim_count++;
     }
@@ -1819,20 +1963,7 @@ DistributionSocketLink::socket_io(SocketConnection *con, void *data)
 
   if (!ret)
     {
-      // Socket error. disable client.
-      if (client->socket != NULL)
-        {
-          delete client->socket;
-          client->socket = NULL;
-        }
-
-      client->reconnect_count = reconnect_attempts;
-      client->reconnect_time = time(NULL) + reconnect_interval;
-
-      if (master_client == client)
-        {
-          set_master(NULL);
-        }
+      close_client(client, true);
     }
   
   TRACE_EXIT();
@@ -1887,21 +2018,13 @@ DistributionSocketLink::socket_closed(SocketConnection *con, void *data)
   if (client->socket != NULL)
     {
       dist_manager->log(_("Client %s:%d closed connection."), client->hostname, client->port);
-      delete client->socket;
-      client->socket = NULL;
+      close_client(client, true);
     }
   else
     {
       dist_manager->log(_("Could not connect to client %s:%d."), client->hostname, client->port);
     }
   
-  client->reconnect_count = reconnect_attempts;
-  client->reconnect_time = time(NULL) + reconnect_interval;
-  
-  if (master_client == client)
-    {
-      set_master(NULL);
-    }
   TRACE_EXIT();
 }
 

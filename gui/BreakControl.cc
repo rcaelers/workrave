@@ -812,10 +812,10 @@ BreakControl::set_state_data(bool active, const BreakStateData &data)
   TRACE_ENTER_MSG("BreakStateData::set_state_data", active);
 
   TRACE_MSG("forced = " << data.forced_break <<
-            "prelude = " << data.prelude_count <<
-            "stage = " <<  data.break_stage <<
-            "final = " << final_prelude <<
-            "time = " << data.prelude_time);
+            " prelude = " << data.prelude_count <<
+            " stage = " <<  data.break_stage <<
+            " final = " << final_prelude <<
+            " time = " << data.prelude_time);
   
   prelude_window_stop();
   break_window_stop();

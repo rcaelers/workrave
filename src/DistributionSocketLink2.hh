@@ -70,7 +70,7 @@ private:
     PACKET_STATEINFO	= 0x0006,
     PACKET_DUPLICATE	= 0x0007,
     PACKET_CLAIM_REJECT	= 0x0008,
-    PACKET_CLIENT_MESSAGE	= 0x0009,
+    PACKET_SIGNOFF	= 0x0009,
   };
 
   enum PacketFlags {
@@ -101,7 +101,7 @@ private:
       CLIENTTYPE_UNKNOWN 		= 1,
       CLIENTTYPE_DIRECT  		= 2,
       CLIENTTYPE_ROUTED  		= 3,
-      CLIENTTYPE_UNAVAILBLE 	= 4,
+      CLIENTTYPE_SIGNEDOFF 	= 4,
     };
   
   struct Client
@@ -205,7 +205,9 @@ public:
 private:
   bool is_client_valid(Client *client);
   bool add_client(gchar *id, gchar *host, gint port, ClientType type, Client *peer = NULL);
-  bool remove_client(Client *client);
+  void remove_client(Client *client);
+  void remove_peer_clients(Client *client);
+  void close_client(Client *client, bool reconnect = false);
   Client *find_client_by_canonicalname(gchar *name, gint port);
   Client *find_client_by_id(gchar *id);
   bool client_is_me(gchar *id);
@@ -228,6 +230,7 @@ private:
   
   void process_client_packet(Client *client);
   void handle_hello(PacketBuffer &packet, Client *client);
+  void handle_signoff(PacketBuffer &packet, Client *client);
   void handle_welcome(PacketBuffer &packet, Client *client);
   void handle_duplicate(PacketBuffer &packet, Client *client);
   bool handle_client_list(PacketBuffer &packet, Client *client, Client *direct);
@@ -237,6 +240,7 @@ private:
   void handle_claim_reject(PacketBuffer &packet, Client *client);
 
   void send_hello(Client *client);
+  void send_signoff(Client *to, Client *signedoff_client);
   void send_welcome(Client *client);
   void send_duplicate(Client *client);
   void send_client_list(Client *client, bool except = false);

@@ -136,6 +136,20 @@ private:
 
     time_t last_active_begin;
     time_t last_elapsed;
+    time_t total_elapsed;
+
+    void update(time_t current_time)
+    {
+      if (last_active_begin != 0)
+        {
+          IdleInterval *idle = &(idle_history.front());
+          idle->elapsed += (current_time - last_active_begin);
+          total_elapsed += (current_time - last_active_begin);
+            
+          last_elapsed = 0;
+          last_active_begin = 0;
+        }
+    }
   };
   typedef map<string, ClientInfo> ClientMap;
   typedef ClientMap::iterator ClientMapIter;
@@ -164,7 +178,8 @@ private:
   bool set_idlelog_state(bool master, char *client_id, unsigned char *buffer, int size);
   void update_remote_idle_history();
   void update_idle_history(ClientInfo &info, ActivityState state, bool changed);
-
+  int compute_common_idle_history(int length);
+  
   void signon_remote_client(string client_id);
   void signoff_remote_client(string client_id);
 #endif
