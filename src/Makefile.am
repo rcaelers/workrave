@@ -53,8 +53,6 @@ endif
 workrave_SOURCES 	= ${sources} ${sourcesxinput} ${sourceswin32input} \
 		   	  ${sourcesgdome} ${sourcesgconf} ${sourcesregistry}
 
-EXTRA_DIST 		=  $(wildcard *.hh) $(wildcard *.h) $(wildcard *.icc)
-
 workrave_CXXFLAGS 	= -W -DDATADIR="\"${pkgdatadir}\"" @ARCH_CFLAGS@ -I$(top_srcdir)/gui $(includesinput) \
 	 	   	  -D_XOPEN_SOURCE=600 @GTK_CFLAGS@ @GDOME_CFLAGS@ @GCONF_CFLAGS@
 
@@ -64,3 +62,5 @@ workrave_LDADD 		=  @GUI_LIBS@ @ARCH_LIBS@ @gnomeui_LIBS@ @GTK_LIBS@ @GTKMM_LIBS
 #CXXLD=ccmalloc g++
 
 $(bin_PROGRAMS): @ARCH_LIBS@ @GUI_LIBS@
+
+EXTRA_DIST 		= $(wildcard *.cc) $(wildcard *.rc) $(wildcard *.hh) $(wildcard *.h) $(wildcard *.icc)

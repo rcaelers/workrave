@@ -48,4 +48,4 @@ libgtkmmgui_a_CFLAGS	= -DDATADIR="\"${pkgdatadir}\"" -W @ARCH_CFLAGS@ -I$(top_sr
 
 endif
 
-EXTRA_DIST = $(wildcard *.hh) $(wildcard *.h)  $(wildcard *.icc)
+EXTRA_DIST = $(wildcard *.hh) $(wildcard *.cc) $(wildcard *.c) $(wildcard *.h)  $(wildcard *.icc)

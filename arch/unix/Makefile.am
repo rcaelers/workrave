@@ -2,7 +2,7 @@
 #
 # Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 #
-# Time-stamp: <2002-09-20 18:29:53 robc>
+# Time-stamp: <2002-09-24 17:45:13 robc>
 #
 # $Id$
 #
@@ -23,4 +23,4 @@ endif
 
 INCLUDES = -W -D_XOPEN_SOURCE=600 -I..
 
-EXTRA_DIST = $(wildcard *.hh) $(wildcard *.h) $(wildcard *.icc)
+EXTRA_DIST = $(wildcard *.cc) $(wildcard *.hh) $(wildcard *.h) $(wildcard *.icc)

@@ -2,14 +2,11 @@
 #
 # Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 #
+# Time-stamp: <2002-09-24 17:44:00 robc>
 #
 # $Id$
 #
 
 MAINTAINERCLEANFILES = Makefile.in
 
-imagesdir = $(pkgdatadir)/images
-
-images_DATA = $(wildcard *.png) $(wildcard *.ico)
-
-EXTRA_DIST = ${images_DATA}
+EXTRA_DIST = $(wildcard *.c) $(wildcard *.h) $(wildcard *.dsp) $(wildcard *.def)
