@@ -1,4 +1,5 @@
 ; setup.iss --- Inno setup file
+; (Important: *MUST* be DOS encoded)
 ;
 ; Copyright (C) 2002, 2003 Raymond Penners <raymond@dotsphinx.com>
 ; All rights reserved.
@@ -46,7 +47,10 @@ Name: "desktopicon"; Description: "Create a &desktop icon"; GroupDescription: "A
 Name: "startupmenu"; Description: "Start Workrave when Windows starts"; GroupDescription: "Additional tasks:"; MinVersion: 4,4
 
 [Files]
-Source: ".\runtime\*.*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
+Source: ".\runtime-harpoon\*.*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
+Source: ".\runtime-base\*.*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs;
+Source: ".\runtime-wimp\*.*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs; Components: gtk;
+Source: ".\runtime-gtk\*.*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs; Components: gtk;
 Source: "..\..\..\shared\images\*.png"; DestDir: "{app}\share\images\"; Flags: ignoreversion recursesubdirs
 Source: "..\..\..\shared\sounds\*.wav"; DestDir: "{app}\share\sounds\"; Flags: ignoreversion recursesubdirs
 Source: "..\..\..\shared\exercises\*.png"; DestDir: "{app}\share\exercises\"; Flags: ignoreversion recursesubdirs
