@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-02-05 21:27+0100\n"
+"POT-Creation-Date: 2003-02-08 20:27+0100\n"
 "PO-Revision-Date: 2003-01-04 22:07+0100\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -27,7 +27,7 @@ msgstr "Stil over"
 
 #. Labels
 #: gui/GUIControl.cc:84 gui/gtkmm/AppletPreferencePage.cc:64
-#: gui/gtkmm/MicroPauseWindow.cc:163 gui/gtkmm/StatisticsDialog.cc:170
+#: gui/gtkmm/MicroPauseWindow.cc:163 gui/gtkmm/StatisticsDialog.cc:171
 msgid "Micro-pause"
 msgstr "Micro-pauze"
 
@@ -36,7 +36,7 @@ msgid "Rest break"
 msgstr "Rustpauze"
 
 #: gui/GUIControl.cc:98 gui/gtkmm/AppletPreferencePage.cc:66
-#: gui/gtkmm/StatisticsDialog.cc:172
+#: gui/gtkmm/StatisticsDialog.cc:173
 msgid "Daily limit"
 msgstr "Dagelijkse limiet"
 
@@ -98,7 +98,7 @@ msgstr "Over %s"
 msgid "Layout"
 msgstr "Layout"
 
-#: gui/gtkmm/AppletPreferencePage.cc:65 gui/gtkmm/StatisticsDialog.cc:171
+#: gui/gtkmm/AppletPreferencePage.cc:65 gui/gtkmm/StatisticsDialog.cc:172
 msgid "Restbreak"
 msgstr "Rustpauze"
 
@@ -484,10 +484,14 @@ msgid "Breaks postponed"
 msgstr "Positie van de pauze"
 
 #: gui/gtkmm/StatisticsDialog.cc:161
+msgid "Total overdue time"
+msgstr ""
+
+#: gui/gtkmm/StatisticsDialog.cc:162
 msgid "Daily usage"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:222
+#: gui/gtkmm/StatisticsDialog.cc:224
 #, fuzzy
 msgid "Activity"
 msgstr "Actieve tijd (ms)"

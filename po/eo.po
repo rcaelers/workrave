@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-02-05 21:27+0100\n"
+"POT-Creation-Date: 2003-02-08 20:16+0100\n"
 "PO-Revision-Date: 2002-11-05 17:58-0800\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -27,7 +27,7 @@ msgstr "Silentiĝu en"
 
 #. Labels
 #: gui/GUIControl.cc:84 gui/gtkmm/AppletPreferencePage.cc:64
-#: gui/gtkmm/MicroPauseWindow.cc:163 gui/gtkmm/StatisticsDialog.cc:170
+#: gui/gtkmm/MicroPauseWindow.cc:163 gui/gtkmm/StatisticsDialog.cc:171
 msgid "Micro-pause"
 msgstr "Paŭzeto"
 
@@ -36,7 +36,7 @@ msgid "Rest break"
 msgstr "Ripozo"
 
 #: gui/GUIControl.cc:98 gui/gtkmm/AppletPreferencePage.cc:66
-#: gui/gtkmm/StatisticsDialog.cc:172
+#: gui/gtkmm/StatisticsDialog.cc:173
 msgid "Daily limit"
 msgstr "Taglimo"
 
@@ -98,7 +98,7 @@ msgstr "Pri %s"
 msgid "Layout"
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:65 gui/gtkmm/StatisticsDialog.cc:171
+#: gui/gtkmm/AppletPreferencePage.cc:65 gui/gtkmm/StatisticsDialog.cc:172
 #, fuzzy
 msgid "Restbreak"
 msgstr "Ripozo"
@@ -486,10 +486,14 @@ msgid "Breaks postponed"
 msgstr "Ripoza instigado"
 
 #: gui/gtkmm/StatisticsDialog.cc:161
+msgid "Total overdue time"
+msgstr ""
+
+#: gui/gtkmm/StatisticsDialog.cc:162
 msgid "Daily usage"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:222
+#: gui/gtkmm/StatisticsDialog.cc:224
 msgid "Activity"
 msgstr ""
 

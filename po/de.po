@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
-"POT-Creation-Date: 2003-02-05 21:22+0100\n"
+"POT-Creation-Date: 2003-02-08 20:28+0100\n"
 "PO-Revision-Date: 2003-01-04 22:09+0100\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Johannes Rohr <j.rohr@comlink.apc.org>\n"
@@ -29,7 +29,7 @@ msgstr "Still in"
 
 #. Labels
 #: gui/GUIControl.cc:84 gui/gtkmm/AppletPreferencePage.cc:64
-#: gui/gtkmm/MicroPauseWindow.cc:163 gui/gtkmm/StatisticsDialog.cc:170
+#: gui/gtkmm/MicroPauseWindow.cc:163 gui/gtkmm/StatisticsDialog.cc:171
 msgid "Micro-pause"
 msgstr "Mikropause"
 
@@ -38,7 +38,7 @@ msgid "Rest break"
 msgstr "Ruhepause"
 
 #: gui/GUIControl.cc:98 gui/gtkmm/AppletPreferencePage.cc:66
-#: gui/gtkmm/StatisticsDialog.cc:172
+#: gui/gtkmm/StatisticsDialog.cc:173
 msgid "Daily limit"
 msgstr "Tägliches Limit"
 
@@ -100,7 +100,7 @@ msgstr "Über %s"
 msgid "Layout"
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:65 gui/gtkmm/StatisticsDialog.cc:171
+#: gui/gtkmm/AppletPreferencePage.cc:65 gui/gtkmm/StatisticsDialog.cc:172
 #, fuzzy
 msgid "Restbreak"
 msgstr "Ruhepause"
@@ -492,10 +492,14 @@ msgid "Breaks postponed"
 msgstr "Ankündigung der Pause"
 
 #: gui/gtkmm/StatisticsDialog.cc:161
+msgid "Total overdue time"
+msgstr ""
+
+#: gui/gtkmm/StatisticsDialog.cc:162
 msgid "Daily usage"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:222
+#: gui/gtkmm/StatisticsDialog.cc:224
 msgid "Activity"
 msgstr ""
 

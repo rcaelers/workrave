@@ -130,7 +130,7 @@ public:
   ControlInterface *get_core();
   
 private:
-  void timer_action(string timer_id, TimerEvent event);
+  void timer_action(string timer_id, TimerInfo info);
   void stop_all_breaks();
   void restart_break();
   

@@ -34,7 +34,7 @@ public:
   StatisticsDialog();
   ~StatisticsDialog();
 
-  static const int BREAK_STATS = 6;
+  static const int BREAK_STATS = 7;
   
   int run();
   
@@ -43,7 +43,7 @@ private:
   Statistics *statistics;
   
   /** Labels for break stats. */
-  Gtk::Label *break_labels[GUIControl::BREAK_ID_SIZEOF][8];
+  Gtk::Label *break_labels[GUIControl::BREAK_ID_SIZEOF][9];
 
   /** Labels for break stats. */
   Gtk::Label *daily_usage_label;

@@ -52,6 +52,7 @@ public:
       STATS_BREAKVALUE_SKIPPED,
       STATS_BREAKVALUE_POSTPONED,
       STATS_BREAKVALUE_UNIQUE_BREAKS,
+      STATS_BREAKVALUE_TOTAL_OVERDUE,
       STATS_BREAKVALUE_SIZEOF
     };
 
@@ -130,6 +131,8 @@ public:
   void start_new_day();
 
   void increment_break_counter(GUIControl::BreakId, StatsBreakValueType st);
+  void set_break_counter(GUIControl::BreakId bt, StatsBreakValueType st, int value);
+  void add_break_counter(GUIControl::BreakId bt, StatsBreakValueType st, int value);
 
   DailyStats *get_current_day() const;
   DailyStats *get_day(int day) const;

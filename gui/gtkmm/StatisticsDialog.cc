@@ -158,6 +158,7 @@ StatisticsDialog::create_break_page(Gtk::Notebook *tnotebook)
   Gtk::Label *natural_label = manage(new Gtk::Label(_("Natural breaks")));
   Gtk::Label *skipped_label = manage(new Gtk::Label(_("Breaks skipped")));
   Gtk::Label *postponed_label = manage(new Gtk::Label(_("Breaks postponed")));
+  Gtk::Label *overdue_label = manage(new Gtk::Label(_("Total overdue time")));
   Gtk::Label *usage_label = manage(new Gtk::Label(_("Daily usage")));
 
   
@@ -179,7 +180,7 @@ StatisticsDialog::create_break_page(Gtk::Notebook *tnotebook)
 
   y = 1;
   table->attach(*hrule, 0, 5, y, y + 1, Gtk::EXPAND | Gtk::FILL, Gtk::SHRINK);
-  table->attach(*vrule, 1, 2, 0, 8, Gtk::SHRINK, Gtk::EXPAND | Gtk::FILL);
+  table->attach(*vrule, 1, 2, 0, 9, Gtk::SHRINK, Gtk::EXPAND | Gtk::FILL);
 
   y = 2;
   attach_right(*table, *unique_label, 0, y++);
@@ -188,11 +189,12 @@ StatisticsDialog::create_break_page(Gtk::Notebook *tnotebook)
   attach_right(*table, *natural_label, 0, y++);
   attach_right(*table, *skipped_label, 0, y++);
   attach_right(*table, *postponed_label, 0, y++);
+  attach_right(*table, *overdue_label, 0, y++);
   
   hrule = manage(new Gtk::HSeparator());
   vrule = manage(new Gtk::VSeparator());
   table->attach(*hrule, 0, 5, y, y + 1, Gtk::EXPAND | Gtk::FILL, Gtk::SHRINK);
-  table->attach(*vrule, 1, 2, 9, 11, Gtk::SHRINK, Gtk::EXPAND | Gtk::FILL);
+  table->attach(*vrule, 1, 2, 10, 12, Gtk::SHRINK, Gtk::EXPAND | Gtk::FILL);
   y++;
 
   daily_usage_label = new Gtk::Label();
@@ -269,6 +271,7 @@ StatisticsDialog::init_page_values()
   TRACE_EXIT();
 }
 
+
 void
 StatisticsDialog::select_day(int day)
 {
@@ -298,6 +301,9 @@ StatisticsDialog::select_day(int day)
 
   int value = stats->misc_stats[Statistics::STATS_VALUE_TOTAL_ACTIVE_TIME];
   daily_usage_label->set_text(Text::time_to_string(value));
+  
+  GUIControl *gui_control = GUIControl::get_instance();
+  assert(gui_control != NULL);
   
   // Put the breaks in table.
   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
@@ -334,6 +340,23 @@ StatisticsDialog::select_day(int day)
       ss.str("");
       ss << value;
       break_labels[i][5]->set_text(ss.str());
+
+      value = stats->break_stats[i][Statistics::STATS_BREAKVALUE_TOTAL_OVERDUE];
+
+      if (day == 0)
+        {
+          // HACK
+          TimerInterface *t = gui_control->timers[i].timer;
+          assert(t != NULL);
+          time_t elapsed = t->get_elapsed_time();
+          time_t limit = t->get_limit();
+          if (elapsed > limit)
+            {
+              value += elapsed - limit;
+            }
+        }
+      
+      break_labels[i][6]->set_text(Text::time_to_string(value));
     }
 }
 

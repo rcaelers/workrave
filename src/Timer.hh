@@ -117,6 +117,9 @@ public:
   void inhibit_snooze();
   void set_activity_monitor(ActivityMonitorInterface *am);
   bool has_activity_monitor() const;
+
+  time_t get_total_overdue_time() const;
+  void daily_reset_timer();
   
 private:
   //! Activity or Idle timer.
@@ -201,6 +204,9 @@ private:
   //! Next limit time.
   time_t next_limit_time;
 
+  //! Total overdue time.
+  time_t total_overdue_time;
+  
   //! Id of the timer.
   string timer_id;
 

@@ -335,9 +335,9 @@ GUIControl::init()
  *  \param action action that is performed by the timer.
 */
 void
-GUIControl::timer_action(string timer_id, TimerEvent event)
+GUIControl::timer_action(string timer_id, TimerInfo info)
 {
-  TRACE_ENTER_MSG("GUI::timer_action", timer_id << " " << event);
+  TRACE_ENTER_MSG("GUI::timer_action", timer_id << " " << info.event);
 
   GUIControl::BreakId id = BREAK_ID_NONE;
 
@@ -355,18 +355,34 @@ GUIControl::timer_action(string timer_id, TimerEvent event)
       id = BREAK_ID_DAILY_LIMIT;
     }
 
+  
   if (id != GUIControl::BREAK_ID_NONE)
     {
+      if (info.event == TIMER_EVENT_NATURAL_RESET ||
+          info.event == TIMER_EVENT_RESET)
+        {
+          TimerInterface *t = timers[id].timer;
+          assert(t != NULL);
+
+          if (info.elapsed_time > t->get_limit())
+            {
+              int overdue = info.elapsed_time - t->get_limit();
+
+              Statistics *stats = Statistics::get_instance();
+              stats->add_break_counter(id, Statistics::STATS_BREAKVALUE_TOTAL_OVERDUE, overdue);
+            }
+        }
+
       // Parse action.
-      if (event == TIMER_EVENT_LIMIT_REACHED)
+      if (info.event == TIMER_EVENT_LIMIT_REACHED)
         {
           break_action(id, GUIControl::BREAK_ACTION_START_BREAK);
         }
-      else if (event == TIMER_EVENT_RESET)
+      else if (info.event == TIMER_EVENT_RESET)
         {
           break_action(id, GUIControl::BREAK_ACTION_STOP_BREAK);
         }
-      else if (event == TIMER_EVENT_NATURAL_RESET)
+      else if (info.event == TIMER_EVENT_NATURAL_RESET)
         {
           break_action(id, GUIControl::BREAK_ACTION_NATURAL_STOP_BREAK);
         }
@@ -395,13 +411,12 @@ GUIControl::heartbeat()
               info.event == TIMER_EVENT_RESET)
             {
               Statistics *stats = Statistics::get_instance();
-
               stats->set_counter(Statistics::STATS_VALUE_TOTAL_ACTIVE_TIME, info.elapsed_time);
               stats->start_new_day();
             }
         }
-      
-      timer_action(id, info.event);
+
+      timer_action(id, info);
 
     }
 
@@ -440,6 +455,7 @@ GUIControl::heartbeat()
       update_statistics();
     }
 }
+
 
 
 void

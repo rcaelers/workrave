@@ -423,6 +423,30 @@ Statistics::increment_break_counter(GUIControl::BreakId bt, StatsBreakValueType 
   bs[st]++;
 }
 
+void
+Statistics::set_break_counter(GUIControl::BreakId bt, StatsBreakValueType st, int value)
+{
+  if (current_day == NULL)
+    {
+      start_new_day();
+    }
+
+  BreakStats &bs = current_day->break_stats[bt];
+  bs[st] = value;
+}
+
+
+void
+Statistics::add_break_counter(GUIControl::BreakId bt, StatsBreakValueType st, int value)
+{
+  if (current_day == NULL)
+    {
+      start_new_day();
+    }
+
+  BreakStats &bs = current_day->break_stats[bt];
+  bs[st] += value;
+}
 
 void
 Statistics::set_counter(StatsValueType t, int value)
@@ -526,6 +550,8 @@ Statistics::update_current_day()
     {
       // Collect total active time from dialy limit timer.
       GUIControl *gui_control = GUIControl::get_instance();
+      assert(gui_control != NULL);
+      
       TimerInterface *t = gui_control->timers[GUIControl::BREAK_ID_DAILY_LIMIT].timer;
       assert(t != NULL);
       current_day->misc_stats[STATS_VALUE_TOTAL_ACTIVE_TIME] = t->get_elapsed_time();
