@@ -1,0 +1,20 @@
+export CROSSROOT="/usr/local/cross-packages"
+export TOOLSROOT="/usr/local/cross-tools"
+
+export CFLAGS="-I$CROSSROOT/include"
+export CXXFLAGS="-I$CROSSROOT/include"
+export CPPFLAGS="-I$CROSSROOT/include"
+export LDFLAGS="-L$CROSSROOT/lib"
+
+export CC='i386-mingw32msvc-gcc -mms-bitfields -mno-cygwin'
+export CXX='i386-mingw32msvc-g++ -mms-bitfields -mno-cygwin'
+export DLLTOOL="i386-mingw32msvc-dlltool"
+export OBJDUMP="i386-mingw32msvc-objdump"
+export STRIP="i386-mingw32msvc-strip"
+export WINDRES="i386-mingw32msvc-windres"
+export AS="i386-mingw32msvc-as"
+
+export MACHTYPE="i386-mingw32msvc"
+
+export PKG_CONFIG_PATH="$CROSSROOT/lib/pkgconfig"
+export PATH="$TOOLSROOT/bin:$PATH"

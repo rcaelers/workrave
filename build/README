@@ -1,0 +1,108 @@
+Compiling Workrave for Windows
+******************************
+
+The Windows version of Workrave is cross compiled on Linux. This
+document describes how to setup a cross compile environment and how to
+compile Workrave in four easy steps:
+
+1. Installing MinGW cross compiler
+2. Installing 3rd party packages
+3. Installing MS compiler
+4. Compile Workrave
+
+
+Step 1. Installing MinGW cross compiler
+=======================================
+
+Workrave for Windows is compiled using MinGW. MinGW can be obtained
+from http://mingw.org/. The following packages are required:
+
+gcc-core        3.3.3-200402017-1
+gcc-g++         3.3.3-200402017-1
+binutils        2.15.90-20040222-1
+mingw-runtime   3.3
+w32api          2.5
+mingw-utils     0.3
+
+All of these packages can be downloaded, extracted, configured, compiled
+and installed by running the 'build-cross.sh" script. The cross
+compiler is installed in /usr/local/cross-tools. 
+
+Use this script at your own risk. It may be necessary to fine-tune and
+update the script before use.
+
+
+Step 2. Installing required packages
+====================================
+
+Workrave requires quite some 3rd party packages:
+
+glib            2.4.2
+gtk+            2.4.3
+atk             1.6.0
+pango           1.4.0
+zlib            1.2.1
+libpng          1.2.5
+libiconv        1.9.1
+gettext-runtime 0.13.1
+gnet            2.0.5
+gtkmm           2.4.4
+glibmm          2.4.3
+libsigc++       2.0.3
+
+All of these packages can be downloaded, extracted, configured, compiled
+and installed by running the 'build-packages.sh" script. The cross
+compiled packages are installed in /usr/local/cross-packages.
+
+
+Step 3. Installing MS Compiler
+==============================
+
+Some components of Workrave require the Microsoft C++ compiler. You
+need to download and install (on Windows!):
+
+- Inno Setup 4
+- Microsoft Platform SDK (core, internet and database is required)
+- Microsoft Visual C++ Toolkit 2003 
+
+Copy all of these to your ~/.wine/fake_windows/Program Files. Make
+sure that the bin directories of these packages are added to your
+Windows PATH. Note that nmake.exe is hidden in an IA64 directory. It
+also seems to work on IA32.
+
+And of course, you have to setup wine.
+
+
+Step 5. Compiling Workrave
+==========================
+
+First of all download and extract Workrave. Then follow the following
+steps:
+
+1. Create runtime
+
+cd frontend/gtkmm/win32/setup
+make-runtime.sh ../../../..
+tar xzf runtime-wimp.tar.gz; \
+mv runtime-wimp/lib/gtk-2.0/2.2.0 runtime-wimp/lib/gtk-2.0/2.4.0
+
+2. Compile harpoon and applet
+
+. vcvars32.sh;
+cd common/win32/harpoon/src
+wine nmake /f harpoon.mak CFG="harpoon - Win32 Release"
+cd frontend/win32/applet/src
+wine nmake /f Applet.mak CFG="Applet - Win32 Release"
+
+3. Configure and compile Workrave
+
+. mingw32
+./autogencross.sh
+make
+
+4. Create setup.exe
+
+cd frontend/gtkmm/win32/setup
+wine ISCC.exe setup.iss
+
+You now have a windows installer.
