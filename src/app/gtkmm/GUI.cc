@@ -192,7 +192,7 @@ GUI::main()
   // Win32 needs this....
   if (!g_thread_supported())
     {
-      g_thread_init (NULL);
+      g_thread_init(NULL);
     }
 #endif
   
