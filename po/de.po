@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
-"POT-Creation-Date: 2003-03-24 19:46+0100\n"
+"POT-Creation-Date: 2003-03-25 08:32+0100\n"
 "PO-Revision-Date: 2003-03-04 18:50+0100\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Johannes Rohr <j.rohr@comlink.apc.org>\n"
@@ -143,7 +143,7 @@ msgstr "Ruhepause"
 msgid "Daily limit:"
 msgstr "Tägliches Limit"
 
-#: gui/gtkmm/DailyLimitWindow.cc:45
+#: gui/gtkmm/DailyLimitWindow.cc:48
 msgid ""
 "You have reached your daily limit. Please stop working\n"
 "behind the computer. If your working day is not over yet,\n"
@@ -154,17 +154,17 @@ msgstr ""
 "Ende ist, wechseln Sie zu einer anderen Tätigkeit, z.B. zur\n"
 "Durchsicht von Dokumenten."
 
-#: gui/gtkmm/DailyLimitWindow.cc:67 gui/gtkmm/MicroPauseWindow.cc:73
+#: gui/gtkmm/DailyLimitWindow.cc:72 gui/gtkmm/MicroPauseWindow.cc:73
 #: gui/gtkmm/RestBreakWindow.cc:101
 msgid "Skip"
 msgstr "Überspringen"
 
-#: gui/gtkmm/DailyLimitWindow.cc:69 gui/gtkmm/MicroPauseWindow.cc:75
+#: gui/gtkmm/DailyLimitWindow.cc:74 gui/gtkmm/MicroPauseWindow.cc:75
 #: gui/gtkmm/RestBreakWindow.cc:103
 msgid "Postpone"
 msgstr "Aufschieben"
 
-#: gui/gtkmm/GUI.cc:443
+#: gui/gtkmm/GUI.cc:449
 msgid "I could not initialize Bonobo"
 msgstr "Konnte Bonobo nicht initialisieren"
 

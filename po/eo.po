@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-03-24 19:47+0100\n"
+"POT-Creation-Date: 2003-03-25 08:34+0100\n"
 "PO-Revision-Date: 2002-11-05 17:58-0800\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -146,7 +146,7 @@ msgstr "Ripozo"
 msgid "Daily limit:"
 msgstr "Taglimo"
 
-#: gui/gtkmm/DailyLimitWindow.cc:45
+#: gui/gtkmm/DailyLimitWindow.cc:48
 msgid ""
 "You have reached your daily limit. Please stop working\n"
 "behind the computer. If your working day is not over yet,\n"
@@ -156,17 +156,17 @@ msgstr ""
 "malantaŭ via komputilo.  Se via labortago ne ankoraŭ finiĝis,\n"
 "trovu ion alian por fari, kiel revuado de dokumento."
 
-#: gui/gtkmm/DailyLimitWindow.cc:67 gui/gtkmm/MicroPauseWindow.cc:73
+#: gui/gtkmm/DailyLimitWindow.cc:73 gui/gtkmm/MicroPauseWindow.cc:73
 #: gui/gtkmm/RestBreakWindow.cc:101
 msgid "Skip"
 msgstr "Transsaltu"
 
-#: gui/gtkmm/DailyLimitWindow.cc:69 gui/gtkmm/MicroPauseWindow.cc:75
+#: gui/gtkmm/DailyLimitWindow.cc:75 gui/gtkmm/MicroPauseWindow.cc:75
 #: gui/gtkmm/RestBreakWindow.cc:103
 msgid "Postpone"
 msgstr "Prokrastu"
 
-#: gui/gtkmm/GUI.cc:443
+#: gui/gtkmm/GUI.cc:449
 msgid "I could not initialize Bonobo"
 msgstr ""
 

@@ -31,30 +31,36 @@ static const char rcsid[] = "$Id$";
 #include "TimerInterface.hh"
 #include "BreakResponseInterface.hh"
 #include "Util.hh"
+#include "Hig.hh"
+#include "GUIControl.hh"
 
 
 //! Construct a new Micropause window.
 DailyLimitWindow::DailyLimitWindow(bool ignorable) :
   insist_break(false)
 {
-  set_border_width(5);
+  set_border_width(12);
   
   // Label
-  Gtk::Label *label = manage
-    (new Gtk::Label
-     (_("You have reached your daily limit. Please stop working\n"
-      "behind the computer. If your working day is not over yet,\n"
-      "find something else to do, such as reviewing a document."
-        )));
+  Glib::ustring txt = HigUtil::create_alert_text
+    (GUIControl::get_instance()
+     ->get_timer_data(GUIControl::BREAK_ID_DAILY_LIMIT)->label,
+     _("You have reached your daily limit. Please stop working\n"
+       "behind the computer. If your working day is not over yet,\n"
+       "find something else to do, such as reviewing a document."));
+  
+  Gtk::Label *label = manage(new Gtk::Label());
+  label->set_markup(txt);
 
   // Icon
   string icon = Util::complete_directory("daily-limit.png", Util::SEARCH_PATH_IMAGES);
   Gtk::Image *img = manage(new Gtk::Image(icon));
+  img->set_alignment(0.0, 0.0);
 
   // HBox
-  Gtk::HBox *hbox = manage(new Gtk::HBox(false, 6));
+  Gtk::HBox *hbox = manage(new Gtk::HBox(false, 12));
   hbox->pack_start(*img, false, false, 0);
-  hbox->pack_start(*label, Gtk::EXPAND | Gtk::FILL, 10);
+  hbox->pack_start(*label, Gtk::EXPAND | Gtk::FILL, 0);
 
   // Overall vbox
   Gtk::VBox *box = manage(new Gtk::VBox(false, 12));
@@ -84,7 +90,11 @@ DailyLimitWindow::DailyLimitWindow(bool ignorable) :
   stick();
   
   // Set some window hints.
-  WindowHints::set_skip_winlist(Gtk::Widget::gobj(), true);
+  WindowHints::set_skip_winlist(Gtk::Widget::gobj(),
+                                /**
+                                 * 43
+                                 */
+                                true);
   WindowHints::set_always_on_top(Gtk::Widget::gobj(), true);
   GTK_WIDGET_UNSET_FLAGS(Gtk::Widget::gobj(), GTK_CAN_FOCUS);
 }
