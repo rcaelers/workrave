@@ -4,10 +4,10 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: workrave 1.4.0\n"
+"Project-Id-Version: workrave 1.6.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-03 19:43+0200\n"
-"PO-Revision-Date: 2004-03-07 21:56+0100\n"
+"POT-Creation-Date: 2004-04-08 22:34+0200\n"
+"PO-Revision-Date: 2004-04-08 22:26+0200\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
 "MIME-Version: 1.0\n"
