@@ -5,8 +5,8 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: workrave 0.4.0\n"
-"POT-Creation-Date: 2002-10-19 22:00+0200\n"
+"Project-Id-Version: workrave 1.0.0\n"
+"POT-Creation-Date: 2002-10-22 21:57+0200\n"
 "PO-Revision-Date: 2002-10-19 22:03+0200\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -14,49 +14,41 @@ msgstr ""
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: gui/BreakControl.cc:647
+#: gui/BreakControl.cc:653
 msgid "Disappears in"
 msgstr "Verdwijnt over"
 
-#: gui/BreakControl.cc:651
+#: gui/BreakControl.cc:657
 msgid "Break in"
 msgstr "Pauze over"
 
-#: gui/BreakControl.cc:655
+#: gui/BreakControl.cc:661
 msgid "Silent in"
 msgstr "Stil over"
 
-#: gui/GUIControl.cc:85 gui/gtkmm/MicroPauseWindow.cc:165
-msgid "Micro-pause"
-msgstr "Micro-pauze"
-
-#: gui/GUIControl.cc:92
-msgid "Rest break"
-msgstr "Rustpauze"
-
-#: gui/GUIControl.cc:99
-msgid "Daily limit"
-msgstr "Dagelijkse limiet"
-
-#: gui/GUIControl.cc:273
+#: gui/GUIControl.cc:293
 msgid "Time for a micro-pause?"
 msgstr "Tijd voor een micro-pauze?"
 
-#: gui/GUIControl.cc:277
+#: gui/GUIControl.cc:300
 msgid "You need a rest break..."
 msgstr "Je bent toe aan een rustpauze..."
 
-#: gui/Text.cc:63
+#: gui/GUIControl.cc:307
+msgid "You should stop for today..."
+msgstr "Genoeg voor vandaag..."
+
+#: gui/Text.cc:75
 #, c-format
 msgid "%s%ld:%02ld:%02ld hours"
 msgstr "%s%ld:%02ld:%02ld uur"
 
-#: gui/Text.cc:67
+#: gui/Text.cc:79
 #, c-format
 msgid "%s%ld:%02ld minutes"
 msgstr "%s%ld:%02ld minuten"
 
-#: gui/Text.cc:71
+#: gui/Text.cc:83
 #, c-format
 msgid "%s%ld seconds"
 msgstr "%s%ld seconden"
@@ -142,67 +134,81 @@ msgstr ""
 "verbinding maakt tijdens het opstarten. Klik op de machine naam\n"
 "of poort nummer om deze te bewerken."
 
-#: gui/gtkmm/DailyLimitWindow.cc:60 gui/gtkmm/RestBreakWindow.cc:95
+#: gui/gtkmm/DailyLimitWindow.cc:43
+msgid ""
+"You have reached your daily limit. Please stop working\n"
+"behind the computer. If your working day is not over yet,\n"
+"find something other to do, such as reviewing a document."
+msgstr ""
+"Je hebt je dagelijkse limiet bereikt. Stop met werken\n"
+"achter de computer. Als je werkdag nog niet voorbij is,\n"
+"ga dan iets anders doen, bv. documenten reviewen."
+
+#: gui/gtkmm/DailyLimitWindow.cc:65 gui/gtkmm/RestBreakWindow.cc:95
 msgid "Skip"
 msgstr "Sla over"
 
-#: gui/gtkmm/DailyLimitWindow.cc:62 gui/gtkmm/RestBreakWindow.cc:97
+#: gui/gtkmm/DailyLimitWindow.cc:67 gui/gtkmm/RestBreakWindow.cc:97
 msgid "Postpone"
 msgstr "Stel uit"
 
-#: gui/gtkmm/MainWindow.cc:164 gui/gtkmm/MainWindow.cc:287
+#: gui/gtkmm/MainWindow.cc:169 gui/gtkmm/MainWindow.cc:292
 msgid "Wait"
 msgstr "Wacht"
 
-#: gui/gtkmm/MainWindow.cc:250
+#: gui/gtkmm/MainWindow.cc:255
 msgid "Inactive"
 msgstr "Inactief"
 
-#: gui/gtkmm/MainWindow.cc:348
+#: gui/gtkmm/MainWindow.cc:354
 msgid "_Mode"
 msgstr "_Modus"
 
-#: gui/gtkmm/MainWindow.cc:355
+#: gui/gtkmm/MainWindow.cc:361
 msgid "_Normal"
 msgstr "_Normaal"
 
-#: gui/gtkmm/MainWindow.cc:362
+#: gui/gtkmm/MainWindow.cc:368
 msgid "_Suspended"
 msgstr "_Uitgeschakeld"
 
-#: gui/gtkmm/MainWindow.cc:369
+#: gui/gtkmm/MainWindow.cc:375
 msgid "Q_uiet"
 msgstr "_Stil"
 
-#: gui/gtkmm/MainWindow.cc:383
+#: gui/gtkmm/MainWindow.cc:389
 msgid "_Network"
 msgstr "_Netwerk"
 
-#: gui/gtkmm/MainWindow.cc:387
+#: gui/gtkmm/MainWindow.cc:393
 msgid "_Connect"
 msgstr "Maak verbinding"
 
-#: gui/gtkmm/MainWindow.cc:392
+#: gui/gtkmm/MainWindow.cc:398
 msgid "_Disconnect"
 msgstr "Verbreek verbinding"
 
-#: gui/gtkmm/MainWindow.cc:397
+#: gui/gtkmm/MainWindow.cc:403
 msgid "_Reconnect"
 msgstr "Opnieuw verbinden"
 
-#: gui/gtkmm/MainWindow.cc:410
+#: gui/gtkmm/MainWindow.cc:408
+msgid "Show _log"
+msgstr "Toon _logboek"
+
+#: gui/gtkmm/MainWindow.cc:421
 msgid "_Rest break"
 msgstr "Rust pauze"
 
-#: gui/gtkmm/MainWindow.cc:422
+#: gui/gtkmm/MainWindow.cc:433
 msgid "Statistics"
 msgstr "Statistieken"
 
-#: gui/gtkmm/MainWindow.cc:435
+#: gui/gtkmm/MainWindow.cc:446
 msgid "About..."
 msgstr "Info..."
 
-#: gui/gtkmm/MainWindow.cc:598
+#: gui/gtkmm/MainWindow.cc:612
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -210,43 +216,23 @@ msgstr ""
 "Dit programma dient ter voorkoming en revalidatie van en Repetitive Strain "
 "Injury (RSI)."
 
-#: gui/gtkmm/MicroPauseWindow.cc:187
+#: gui/gtkmm/MicroPauseWindow.cc:164
+msgid "Micro-pause"
+msgstr "Micro-pauze"
+
+#: gui/gtkmm/MicroPauseWindow.cc:186
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Volgende rust pauze over %s"
 
-#: gui/gtkmm/MicroPauseWindow.cc:193
+#: gui/gtkmm/MicroPauseWindow.cc:192
 #, c-format
 msgid "Overdue rest break in %s"
 msgstr "Rust pauze %s te laat"
 
-#: gui/gtkmm/MicroPauseWindow.cc:196
+#: gui/gtkmm/MicroPauseWindow.cc:195
 msgid "Please relax for a few seconds"
 msgstr "Ontspan gedurende enkele seconden"
-
-#: gui/gtkmm/PreferencesDialog.cc:54
-msgid "Trigger-happy"
-msgstr "Nerveus"
-
-#: gui/gtkmm/PreferencesDialog.cc:55
-msgid "Quick"
-msgstr "Snel"
-
-#: gui/gtkmm/PreferencesDialog.cc:56
-msgid "Normal"
-msgstr "_Normaal"
-
-#: gui/gtkmm/PreferencesDialog.cc:57
-msgid "Sluggish"
-msgstr "Langzaam"
-
-#: gui/gtkmm/PreferencesDialog.cc:58
-msgid "Numb"
-msgstr "Zeer langzaam"
-
-#: gui/gtkmm/PreferencesDialog.cc:60 gui/gtkmm/PreferencesDialog.cc:292
-msgid "Custom settings"
-msgstr "Eigen instellingen"
 
 #: gui/gtkmm/PreferencesDialog.cc:82 gui/gtkmm/TimerPreferencesPanel.cc:236
 msgid "Timers"
@@ -336,6 +322,10 @@ msgstr ""
 "gebeurtenissen groter is dan 'Actieve tijd' maar\n"
 "kleiner dan 'Ruis'."
 
+#: gui/gtkmm/PreferencesDialog.cc:292
+msgid "Custom settings"
+msgstr "Eigen instellingen"
+
 #: gui/gtkmm/PreferencesDialog.cc:298
 msgid ""
 "Activity and idle time detection can be fine-tuned by the monitor\n"
@@ -365,7 +355,7 @@ msgstr ""
 "opstaat en wegloopt van de computer. Wandel enkele\n"
 "minuten rond, strek, en ontspan."
 
-#: gui/gtkmm/RestBreakWindow.cc:259
+#: gui/gtkmm/RestBreakWindow.cc:258
 #, c-format
 msgid "Rest break for %s"
 msgstr "Rust pauze gedurende %s"
@@ -418,30 +408,3 @@ msgstr "Pauze tijdsduur"
 msgid "Time before break"
 msgstr "Werktijd"
 
-#~ msgid "Join settings"
-#~ msgstr "Instellingen"
-
-#~ msgid "_Join"
-#~ msgstr "Maak verbinding"
-
-#~ msgid "_Leave"
-#~ msgstr "Verbreek verbinding"
-
-#, fuzzy
-#~ msgid ""
-#~ "You can run several instances of Workrave in a collective. All instances\n"
-#~ "that are a part of the collective share the same timer information."
-#~ msgstr ""
-#~ "Het is mogelijk om meerdere instanties van het programma in een\n"
-#~ "netwerk met elkaar te verbinden en de pauze informatie te delen."
-
-#, fuzzy
-#~ msgid "Enable collective"
-#~ msgstr "Activeer netwerk ondersteuning"
-
-#~ msgid "_Collective"
-#~ msgstr "_Netwerk"
-
-#, fuzzy
-#~ msgid "Collective"
-#~ msgstr "Netwerk"
