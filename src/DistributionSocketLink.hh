@@ -44,6 +44,7 @@ private:
     PACKET_WELCOME	= 0x0004,
     PACKET_NEW_MASTER	= 0x0005,
     PACKET_STATEINFO	= 0x0006,
+    PACKET_DUPLICATE	= 0x0007,
   };
 
   enum ClientListFlags
@@ -63,7 +64,9 @@ private:
       iochannel(NULL),
       watch_flags(0),
       watch(0),
-      link(NULL)
+      link(NULL),
+      reconnect_count(0),
+      reconnect_time(0)
     {
     }
 
@@ -117,6 +120,13 @@ private:
 
     //!
     PacketBuffer packet;
+
+    //! Reconnect counter;
+    int reconnect_count;
+    
+    //! Last reconnect attempt time;
+    time_t reconnect_time;
+
   };
 
   
@@ -127,6 +137,7 @@ public:
   int get_number_of_peers();
   void set_distribution_manager(DistributionLinkListener *dll);
   bool init();
+  void heartbeat();
   bool set_enabled(bool enabled);
   void set_user(string user, string password);
   void join(string url);
@@ -140,6 +151,8 @@ private:
   bool remove_client(Client *client);
   Client *find_client_by_servername(gchar *name, gint port);
   Client *find_client_by_canonicalname(gchar *name, gint port);
+  bool exits_client(gchar *host, gint port);
+  bool set_canonical(Client *client, gchar *host, gint port);
 
   void set_active(gchar *cname, gint port);
   void set_active(Client *client);
@@ -153,12 +166,14 @@ private:
   void process_client_packet(Client *client);
   void handle_hello(Client *client);
   void handle_welcome(Client *client);
+  void handle_duplicate(Client *client);
   void handle_client_list(Client *client);
   void handle_claim(Client *client);
   void handle_new_master(Client *client);
   void handle_state(Client *client);
   void send_hello(Client *client);
   void send_welcome(Client *client);
+  void send_duplicate(Client *client);
   void send_client_list(Client *client);
   void send_claim(Client *client);
   void send_new_master(Client *client = NULL);
@@ -181,6 +196,8 @@ private:
   static const string CFG_KEY_DISTRIBUTION_TCP_PORT;
   static const string CFG_KEY_DISTRIBUTION_TCP_USERNAME;
   static const string CFG_KEY_DISTRIBUTION_TCP_PASSWORD;
+  static const string CFG_KEY_DISTRIBUTION_TCP_INTERVAL;
+  static const string CFG_KEY_DISTRIBUTION_TCP_ATTEMPTS;
 
   //! Username for client authenication
   gchar *username;
@@ -217,6 +234,15 @@ private:
   
   //! State
   map<DistributedStateID, DistributedStateInterface *> state_map;
+
+  //!
+  int reconnect_attempts;
+
+  //!
+  int reconnect_interval;
+
+  //!
+  int heartbeat_count;
 };
 
 #endif // DISTRIBUTIONSOCKETLINK_HH

@@ -41,24 +41,33 @@ const string DistributionSocketLink::CFG_KEY_DISTRIBUTION_TCP = "distribution/tc
 const string DistributionSocketLink::CFG_KEY_DISTRIBUTION_TCP_PORT = "port";
 const string DistributionSocketLink::CFG_KEY_DISTRIBUTION_TCP_USERNAME = "username";
 const string DistributionSocketLink::CFG_KEY_DISTRIBUTION_TCP_PASSWORD = "password";
+const string DistributionSocketLink::CFG_KEY_DISTRIBUTION_TCP_ATTEMPTS = "reconnect_attempts";
+const string DistributionSocketLink::CFG_KEY_DISTRIBUTION_TCP_INTERVAL = "reconnect_interval";
 
 #define DEFAULT_PORT (4224)
+#define DEFAULT_INTERVAL (15)
+#define DEFAULT_ATTEMPTS (5)
 
+//! Construct a new socket link.
 DistributionSocketLink::DistributionSocketLink(Configurator *conf) :
   active_client(NULL),
   active(false),
   canonical_name(NULL),
-  server_port(0),
+  server_port(DEFAULT_PORT),
   server_socket(NULL),
   server_enabled(false),
   configurator(conf),
   dist_manager(NULL),
   username(NULL),
-  password(NULL)
+  password(NULL),
+  reconnect_attempts(DEFAULT_ATTEMPTS),
+  reconnect_interval(DEFAULT_INTERVAL),
+  heartbeat_count(0)
 {
 }
 
 
+//! Destructs the socket link.
 DistributionSocketLink::~DistributionSocketLink()
 {
   remove_client(NULL);
@@ -82,13 +91,83 @@ DistributionSocketLink::~DistributionSocketLink()
 }
 
 
-int
-DistributionSocketLink::get_number_of_peers()
+//! Initialize the link.
+bool
+DistributionSocketLink::init()
 {
-  return clients.size();
+  TRACE_ENTER("DistributionSocketLink::init");
+  server_port = DEFAULT_PORT;
+
+  GInetAddr *ia = gnet_inetaddr_gethostaddr();
+  canonical_name = gnet_inetaddr_get_canonical_name(ia);
+  gnet_inetaddr_delete(ia);
+
+  read_configuration();
+  configurator->add_listener(CFG_KEY_DISTRIBUTION_TCP, this);
+  
+  TRACE_EXIT();
+  return true;
 }
 
 
+//! Periodic heartbeat.
+void
+DistributionSocketLink::heartbeat()
+{
+  TRACE_ENTER("DistributionSocketLink::heartbeat");
+
+  heartbeat_count++;
+  
+  time_t current_time = time(NULL);
+  
+  list<Client *>::iterator i = clients.begin();
+  while (i != clients.end())
+    {
+      Client *c = *i;
+      if (c->reconnect_count > 0 &&
+          c->reconnect_time != 0 && current_time >= c->reconnect_time &&
+          c->canonical_name != NULL)
+        {
+          c->reconnect_count--;
+          c->reconnect_time = 0;
+          TRACE_MSG("Reconnecting " << c->canonical_name << " " <<  c->server_port);
+          gnet_tcp_socket_connect_async(c->canonical_name, c->server_port, static_async_connected, c);
+        }
+      i++;
+    }
+
+  if (heartbeat_count % 60 == 0 && active)
+    { 
+      send_state();
+    }
+                                         
+  TRACE_EXIT();
+}
+
+
+//! Returns the total number of peer in the network.
+int
+DistributionSocketLink::get_number_of_peers()
+{
+  int count = 0;
+  
+  list<Client *>::iterator i = clients.begin();
+  while (i != clients.end())
+    {
+      Client *c = *i;
+
+      if (c->socket != NULL && c->iochannel != NULL)
+        {
+          count++;
+        }
+      i++;
+    }
+
+  return count;
+}
+
+
+//! Join the WR network.
 void
 DistributionSocketLink::join(string url)
 {
@@ -100,6 +179,10 @@ DistributionSocketLink::join(string url)
 }
 
 
+//! Attempt to become the active node.
+/*!
+ *  \return true if the claim was successfull.
+ */
 bool
 DistributionSocketLink::claim()
 {
@@ -125,6 +208,7 @@ DistributionSocketLink::claim()
 }
 
 
+//! Sets the username and password.
 void
 DistributionSocketLink::set_user(string user, string pw)
 {
@@ -142,6 +226,7 @@ DistributionSocketLink::set_user(string user, string pw)
 }
 
 
+//! Sets the distribution manager for callbacks.
 void
 DistributionSocketLink::set_distribution_manager(DistributionLinkListener *dll)
 {
@@ -149,24 +234,7 @@ DistributionSocketLink::set_distribution_manager(DistributionLinkListener *dll)
 }
 
 
-bool
-DistributionSocketLink::init()
-{
-  TRACE_ENTER("DistributionSocketLink::init");
-  server_port = DEFAULT_PORT;
-
-  GInetAddr *ia = gnet_inetaddr_gethostaddr();
-  canonical_name = gnet_inetaddr_get_canonical_name(ia);
-  gnet_inetaddr_delete(ia);
-
-  read_configuration();
-  configurator->add_listener(CFG_KEY_DISTRIBUTION_TCP, this);
-  
-  TRACE_EXIT();
-  return true;
-}
-
-
+//! Enable/disable distributed operation.
 bool
 DistributionSocketLink::set_enabled(bool enabled)
 {
@@ -195,6 +263,7 @@ DistributionSocketLink::set_enabled(bool enabled)
 }
 
 
+//! Register a distributed state.
 bool
 DistributionSocketLink::register_state(DistributedStateID id,
                                        DistributedStateInterface *dist_state)
@@ -204,6 +273,7 @@ DistributionSocketLink::register_state(DistributedStateID id,
 }
 
 
+//! Unregister a distributed state.
 bool
 DistributionSocketLink::unregister_state(DistributedStateID id)
 {
@@ -212,11 +282,42 @@ DistributionSocketLink::unregister_state(DistributedStateID id)
 
 
 bool
+DistributionSocketLink::exits_client(gchar *host, gint port)
+{
+  bool ret = (port == server_port && strcmp(host, canonical_name) == 0);
+
+  if (!ret)
+    {
+      Client *c = find_client_by_canonicalname(host, port);
+      ret = (c != NULL);
+    }
+
+  return ret;
+}
+
+bool
 DistributionSocketLink::add_client(gchar *host, gint port)
 {
-  Client *c = find_client_by_canonicalname(host, port);
+  bool skip = false;
 
-  if (c == NULL && (port != server_port || strcmp(host, canonical_name) != 0))
+  skip = exits_client(host, port);
+  
+  if (!skip)
+    {
+      GInetAddr *ia =  gnet_inetaddr_new(host, port);
+      if (ia != NULL)
+        {
+          gchar *canonical_host = gnet_inetaddr_get_canonical_name(ia);
+          if (canonical_host != NULL)
+            {
+              skip = exits_client(canonical_host, port);
+              g_free(canonical_host);
+            }
+          gnet_inetaddr_delete(ia);
+        }
+    }
+  
+  if (!skip)
     {
       Client *client = new Client;
         
@@ -229,10 +330,65 @@ DistributionSocketLink::add_client(gchar *host, gint port)
       client->iochannel = NULL;
       client->watch_flags = 0;
       client->watch = 0;
-        
+      client->reconnect_count = reconnect_attempts;
+      
       clients.push_back(client);
       gnet_tcp_socket_connect_async(host, port, static_async_connected, client);
     }
+}
+
+
+bool
+DistributionSocketLink::set_canonical(Client *client, gchar *host, gint port)
+{
+  bool ret = true;
+  
+  bool exists = exits_client(host, port);
+  if (exists)
+    {
+      // Already have a client with this name/port
+      Client *old_client = find_client_by_canonicalname(host, port);
+
+      if (old_client == NULL)
+        {
+          // Iek this is me. Kill client
+          send_duplicate(client);
+          ret =  false;
+        }
+      else if (old_client != client)
+        {
+          bool connected = (old_client->socket != NULL || old_client->iochannel != NULL);
+          
+          if (connected)
+            {
+              // Already connected to this client.
+              send_duplicate(client);
+              ret = false;
+            }
+          else
+            {
+              // Client exist, but is not connected.
+              remove_client(old_client);
+            }
+        }
+      else
+        {
+          // it's ok. It's a known client
+        }
+    }
+
+  if (ret)
+    {
+      if (client->canonical_name != NULL)
+        {
+          g_free(client->canonical_name);
+        }
+
+      client->canonical_name = g_strdup(host);
+      client->server_port = port;
+    }
+  
+  return ret;
 }
 
 
@@ -472,6 +628,10 @@ DistributionSocketLink::process_client_packet(Client *client)
         case PACKET_STATEINFO:
           handle_state(client);
           break;
+
+        case PACKET_DUPLICATE:
+          handle_duplicate(client);
+          break;
         }
     }
 
@@ -491,6 +651,7 @@ DistributionSocketLink::send_hello(Client *client)
   init_packet(packet, PACKET_HELLO);
 
   packet.pack_string(username);
+  packet.pack_string(password);
   packet.pack_string(canonical_name);
   packet.pack_ushort(server_port);
   
@@ -505,31 +666,75 @@ DistributionSocketLink::handle_hello(Client *client)
   TRACE_ENTER("DistributionSocketLink::handle_hello");
   PacketBuffer &packet = client->packet;
   
-  gchar *uname = packet.unpack_string();
+  gchar *user = packet.unpack_string();
+  gchar *pass = packet.unpack_string();
   gchar *cname = packet.unpack_string();
   gint port = packet.unpack_ushort();
     
-  TRACE_MSG("Hello from " << cname << ":" << port << " " << uname);
+  TRACE_MSG("Hello from " << cname << ":" << port << " " << user);
 
-  if (client->canonical_name != NULL)
+  if ( (username == NULL || (user != NULL && strcmp(username, user) == 0)) &&
+       (password == NULL || (pass != NULL && strcmp(password, pass) == 0)))
     {
-      g_free(client->canonical_name);
+      bool ok = set_canonical(client, cname, port);
+  
+      if (ok)
+        {
+          TRACE_MSG("Registering");
+  
+          send_welcome(client);
+
+          // FIXME: fake not active...
+          set_active(NULL);
+  
+          send_client_list(client);
+        }
+      else
+        {
+          TRACE_MSG("Removing duplicate");
+          remove_client(client);
+        }
     }
-             
-  client->canonical_name = cname;
-  client->server_port = port;
-
-  g_free(uname);
+  else
+    {
+      TRACE_MSG("Client access denied");
+      remove_client(client);
+    }
   
-  send_welcome(client);
-
-  // FIXME: fake not active...
-  set_active(NULL);
-  
-  send_client_list(client);
+  g_free(cname);
+  g_free(user);
+  g_free(pass);
+    
   TRACE_EXIT();
 }
 
+
+
+void
+DistributionSocketLink::send_duplicate(Client *client)
+{
+  TRACE_ENTER("DistributionSocketLink::send_duplicate");
+  
+  PacketBuffer packet;
+
+  packet.create();
+  init_packet(packet, PACKET_DUPLICATE);
+
+  send_packet(client, packet);
+  TRACE_EXIT();
+}
+
+void
+DistributionSocketLink::handle_duplicate(Client *client)
+{
+  TRACE_ENTER("DistributionSocketLink::handle_duplicate");
+  PacketBuffer &packet = client->packet;
+  
+  TRACE_MSG("Removing duplicate");
+  remove_client(client);
+
+  TRACE_EXIT();
+}
 
 void
 DistributionSocketLink::send_welcome(Client *client)
@@ -561,15 +766,17 @@ DistributionSocketLink::handle_welcome(Client *client)
 
   TRACE_MSG("Welcome from " << name << ":" << port);
 
-  if (client->canonical_name != NULL)
+  bool ok = set_canonical(client, name, port);
+
+  if (ok)
     {
-      g_free(client->canonical_name);
+      send_client_list(client);
     }
-
-  client->server_port = port;
-  client->canonical_name = name;
-
-  send_client_list(client);
+  else
+    {
+      remove_client(client);
+    }
+  
   TRACE_EXIT();
 }
 
@@ -932,9 +1139,9 @@ DistributionSocketLink::async_accept(GTcpSocket *server_socket, GTcpSocket *clie
       TRACE_MSG("Accepted connection from " << name << ":" << port);
       gnet_inetaddr_delete(addr);
 
-      Client *client = new Client;
-
+      Client *client =  new Client;
       client->packet.create();
+              
       client->link = this;
       client->socket = client_socket;
       client->canonical_name = NULL;
@@ -942,12 +1149,12 @@ DistributionSocketLink::async_accept(GTcpSocket *server_socket, GTcpSocket *clie
       client->server_port = 0;
       client->iochannel = gnet_tcp_socket_get_iochannel(client_socket);
       client->watch_flags = G_IO_IN | G_IO_ERR | G_IO_HUP | G_IO_NVAL;
-
+      
       g_assert(client->iochannel);
       
       client->watch = g_io_add_watch (client->iochannel, (GIOCondition) client->watch_flags,
                                       static_async_io, client);
-
+      
       clients.push_back(client);
     }
   TRACE_EXIT();
@@ -963,7 +1170,7 @@ DistributionSocketLink::async_io(GIOChannel *iochannel, GIOCondition condition, 
   g_assert(client != NULL);
   g_assert(iochannel != NULL);
   
-  /* check for socket error */
+  // check for socket error
   if (condition & (G_IO_ERR | G_IO_HUP | G_IO_NVAL))
     {
       TRACE_MSG("Client socket error " << client->canonical_name << ":" << client->server_port);
@@ -1012,7 +1219,22 @@ DistributionSocketLink::async_io(GIOChannel *iochannel, GIOCondition condition, 
 
   if (!ret)
     {
-      remove_client(client);
+      // Socket error. disable client.
+      if (client->iochannel != NULL)
+        {
+          g_io_channel_unref(client->iochannel);
+          client->iochannel = NULL;
+        }
+
+      if (client->socket != NULL)
+        {
+          gnet_tcp_socket_delete(client->socket);
+          client->socket = NULL;
+        }
+      
+      g_source_remove(client->watch);
+      client->watch = 0;
+      client->watch_flags = 0;
     }
   
   TRACE_EXIT();
@@ -1033,7 +1255,13 @@ DistributionSocketLink::async_connected(GTcpSocket *socket, GInetAddr *ia,
     {
       TRACE_MSG("Error: could not connect. status=" << status);
 
-      remove_client(client);
+      if (client->reconnect_count > 0)
+        {
+          client->reconnect_time = time(NULL) + reconnect_interval;          
+        }
+
+      gnet_tcp_socket_delete(socket);
+      client->socket = NULL;
     }
   else
     {
@@ -1110,28 +1338,45 @@ DistributionSocketLink::read_configuration()
         {
           server_port = DEFAULT_PORT;
         }
-      // Username
-      string user;
-      is_set = configurator->get_value(CFG_KEY_DISTRIBUTION_TCP + CFG_KEY_DISTRIBUTION_TCP_USERNAME, &user);
-      if (!is_set)
-        {
-          username = NULL;
-        }
-      else
-        {
-          username = g_strdup(user.c_str());
-        }
-      // Password
-      string passwd;
-      is_set = configurator->get_value(CFG_KEY_DISTRIBUTION_TCP + CFG_KEY_DISTRIBUTION_TCP_PASSWORD, &passwd);
-      if (!is_set)
-        {
-          password = NULL;
-        }
-      else
-        {
-          password = g_strdup(passwd.c_str());
-        }
+    }
+  
+  // Reconnect interval
+  is_set = configurator->get_value(CFG_KEY_DISTRIBUTION_TCP + CFG_KEY_DISTRIBUTION_TCP_INTERVAL,
+                                   &reconnect_interval);
+  if (!is_set)
+    {
+      reconnect_interval = DEFAULT_INTERVAL;
+    }
+
+  // TCP listen port
+  is_set = configurator->get_value(CFG_KEY_DISTRIBUTION_TCP + CFG_KEY_DISTRIBUTION_TCP_ATTEMPTS,
+                                   &reconnect_attempts);
+  if (!is_set)
+    {
+      reconnect_attempts = DEFAULT_ATTEMPTS;
+    }
+
+  // Username
+  string user;
+  is_set = configurator->get_value(CFG_KEY_DISTRIBUTION_TCP + CFG_KEY_DISTRIBUTION_TCP_USERNAME, &user);
+  if (!is_set)
+    {
+      username = NULL;
+    }
+  else
+    {
+      username = g_strdup(user.c_str());
+    }
+  // Password
+  string passwd;
+  is_set = configurator->get_value(CFG_KEY_DISTRIBUTION_TCP + CFG_KEY_DISTRIBUTION_TCP_PASSWORD, &passwd);
+  if (!is_set)
+    {
+      password = NULL;
+    }
+  else
+    {
+      password = g_strdup(passwd.c_str());
     }
 }
 

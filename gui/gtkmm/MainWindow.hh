@@ -103,7 +103,11 @@ private:
 #ifndef NDEBUG
   void on_test_me();
 #endif
-
+#ifdef HAVE_DISTRIBUTION
+  void on_menu_hive_join();
+  void on_menu_hive_leave();
+#endif
+  
 #ifdef WIN32
 public:
   static void win32_set_start_in_tray(bool b);

@@ -168,6 +168,10 @@ private:
 
   //! Mode.
   OperationMode operation_mode;
+
+  //! Are we the active node in the WR network?
+  bool active_node;
+  
 };
 
 

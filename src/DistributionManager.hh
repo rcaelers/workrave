@@ -20,6 +20,7 @@
 #define DISTRIBUTIOMANAGER_HH
 
 #include <string>
+#include <list>
 
 #include "ConfiguratorListener.hh"
 #include "DistributionLinkListener.hh"
@@ -42,12 +43,16 @@ public:
 
   NodeState get_state() const;
   void init(Configurator *conf);
+  void heartbeart();
   bool is_active() const;
   int get_number_of_peers();
   bool claim();
   bool join(string url);
   bool register_state(DistributedStateID id, DistributedStateInterface *dist_state);
   bool unregister_state(DistributedStateID id);
+  void set_peers(string peers);
+  void add_peer(string peer);
+  void remove_peer(string peer);
 
   //
   void active_changed(bool result);
@@ -75,6 +80,9 @@ private:
 
   //! State
   NodeState state;
+
+  //! All peers
+  list<string> peer_urls;
 };
 
 

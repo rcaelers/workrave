@@ -225,15 +225,12 @@ GUIControl::GUIControl(GUIFactoryInterface *factory, ControlInterface *controlle
   
   configurator = NULL;
 
+  active_node = true;
   operation_mode = OPERATION_MODE_NORMAL;
   gui_factory = factory;
   core_control = controller;
   sound_player = NULL;
 
-#ifdef HAVE_DISTRIBUTION
-  init_distribution_manager();
-#endif
-  
   TRACE_EXIT();
 }
 
@@ -301,6 +298,10 @@ GUIControl::init()
 
   sound_player = new SoundPlayer(gui_factory->create_sound_player());
 
+#ifdef HAVE_DISTRIBUTION
+  init_distribution_manager();
+#endif
+  
   TRACE_EXIT();
 }
 
@@ -309,17 +310,40 @@ GUIControl::init()
 void
 GUIControl::heartbeat()
 {
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+  // Distributed  stuff
+
+#ifdef HAVE_DISTRIBUTION
+  bool new_active_node = true;
+  DistributionManager *dist_manager = DistributionManager::get_instance();
+  if (dist_manager != NULL)
     {
-      BreakControl *bc = timers[i].break_control;
-      if (bc != NULL
-          && bc->need_heartbeat())
-        {
-          bc->heartbeat();
-        }
+      new_active_node = dist_manager->is_active();
     }
 
-  update_statistics();
+  if (active_node != new_active_node)
+    {
+      active_node = new_active_node;
+      if (!active_node)
+        {
+          stop_all_breaks();
+        }
+    }
+#endif
+
+  if (active_node)
+    {
+      for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+        {
+          BreakControl *bc = timers[i].break_control;
+          if (bc != NULL
+              && bc->need_heartbeat())
+            {
+              bc->heartbeat();
+            }
+        }
+
+      update_statistics();
+    }
 }
 
 
@@ -771,21 +795,28 @@ GUIControl::get_state(DistributedStateID id, unsigned char **buffer, int *size)
       BreakControl *bi = timers[i].break_control;
 
       BreakInterface::BreakStateData state_data;
-      
-      bi->get_state_data(state_data);
-      
-      int pos = state_packet.bytes_written();
 
-      state_packet.pack_ushort(0);
-      state_packet.pack_byte((guint8)state_data.forced_break);
-      state_packet.pack_byte((guint8)state_data.final_prelude);
-      state_packet.pack_ulong((guint32)state_data.prelude_count);
-      state_packet.pack_ulong((guint32)state_data.break_stage);
-      state_packet.pack_ulong((guint32)state_data.prelude_time);
+      if (bi != NULL)
+        {
+          bi->get_state_data(state_data);
       
-      state_packet.poke_ushort(pos, state_packet.bytes_written() - pos);
+          int pos = state_packet.bytes_written();
+
+          state_packet.pack_ushort(0);
+          state_packet.pack_byte((guint8)state_data.forced_break);
+          state_packet.pack_byte((guint8)state_data.final_prelude);
+          state_packet.pack_ulong((guint32)state_data.prelude_count);
+          state_packet.pack_ulong((guint32)state_data.break_stage);
+          state_packet.pack_ulong((guint32)state_data.prelude_time);
+      
+          state_packet.poke_ushort(pos, state_packet.bytes_written() - pos);
+        }
+      else
+        {
+          state_packet.pack_ushort(0);
+        }
     }
-  
+
   *size = state_packet.bytes_written();
   *buffer = new unsigned char[*size + 1];
   memcpy(*buffer, state_packet.get_buffer(), *size);
@@ -797,7 +828,7 @@ GUIControl::get_state(DistributedStateID id, unsigned char **buffer, int *size)
 bool
 GUIControl::set_state(DistributedStateID id, unsigned char *buffer, int size)
 {
-  TRACE_ENTER("Control::set_state");
+  TRACE_ENTER("GUIControl::set_state");
 
   PacketBuffer state_packet;
   state_packet.create();
@@ -820,13 +851,16 @@ GUIControl::set_state(DistributedStateID id, unsigned char *buffer, int size)
 
       int data_size = state_packet.unpack_ushort();
 
-      state_data.forced_break = state_packet.unpack_byte();
-      state_data.final_prelude = state_packet.unpack_byte();
-      state_data.prelude_count = state_packet.unpack_ulong();
-      state_data.break_stage = state_packet.unpack_ulong();
-      state_data.prelude_time = state_packet.unpack_ulong();
+      if (data_size > 0)
+        {
+          state_data.forced_break = state_packet.unpack_byte();
+          state_data.final_prelude = state_packet.unpack_byte();
+          state_data.prelude_count = state_packet.unpack_ulong();
+          state_data.break_stage = state_packet.unpack_ulong();
+          state_data.prelude_time = state_packet.unpack_ulong();
 
-      bi->set_state_data(state_data);
+          bi->set_state_data(state_data);
+        }
     }
   
   TRACE_EXIT();

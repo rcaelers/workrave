@@ -173,6 +173,8 @@ Control::process_timers(map<string, TimerInfo> &infos)
   bool new_active_node = true;
   if (dist_manager != NULL)
     {
+      dist_manager->heartbeart();
+      
       new_active_node = dist_manager->is_active();
 
       if (!new_active_node && state == ACTIVITY_ACTIVE)

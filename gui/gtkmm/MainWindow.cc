@@ -374,6 +374,26 @@ MainWindow::create_menu(Gtk::RadioMenuItem *mode_menus[3])
   mode_menus[0] = normal_menu_item;
   mode_menus[1] = suspend_menu_item;
   mode_menus[2] = quiet_menu_item;
+
+#ifdef HAVE_DISTRIBUTION
+  // Distribution menu
+  Gtk::Menu *distr_menu = manage(new Gtk::Menu());
+  Gtk::Menu::MenuList &distr_menu_list = distr_menu->items();
+
+  Gtk::MenuItem *distr_menu_item = manage(new Gtk::MenuItem("_Hive",true));
+  distr_menu_item->set_submenu(*distr_menu);
+  distr_menu_item->show();
+
+  Gtk::MenuItem *distr_join_menu_item = manage(new Gtk::MenuItem("_Join",true));
+  distr_join_menu_item->show();
+  distr_join_menu_item->signal_activate().connect(SigC::slot(*this, &MainWindow::on_menu_hive_join));
+  distr_menu_list.push_back(*distr_join_menu_item);
+  
+  Gtk::MenuItem *distr_leave_menu_item = manage(new Gtk::MenuItem("_Leave",true));
+  distr_leave_menu_item->show();
+  distr_leave_menu_item->signal_activate().connect(SigC::slot(*this, &MainWindow::on_menu_hive_leave));
+  distr_menu_list.push_back(*distr_leave_menu_item);
+#endif
   
   // FIXME: add separators, etc...
   menulist.push_back(Gtk::Menu_Helpers::StockMenuElem(Gtk::Stock::PREFERENCES,
@@ -389,6 +409,10 @@ MainWindow::create_menu(Gtk::RadioMenuItem *mode_menus[3])
 
   menulist.push_back(*mode_menu_item);
 
+#ifdef HAVE_DISTRIBUTION
+  menulist.push_back(*distr_menu_item);
+#endif
+  
 #ifndef NDEBUG
   menulist.push_back(Gtk::Menu_Helpers::MenuElem("Statistics",
                                                  SigC::slot(*this, &MainWindow::on_menu_statistics)));
@@ -573,6 +597,20 @@ MainWindow::on_menu_about()
                     NULL,
                     pixbuf));
 }
+
+
+#ifdef HAVE_DISTRIBUTION
+void
+MainWindow::on_menu_hive_join()
+{
+}
+
+
+void
+MainWindow::on_menu_hive_leave()
+{
+}
+#endif
 
 bool
 MainWindow::get_always_on_top() 
