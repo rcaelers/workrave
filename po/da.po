@@ -316,7 +316,7 @@ msgstr "Afspil lyde vha. indbygget pc-højttaler"
 
 #: src/app/gtkmm/PreferencesDialog.cc:153
 msgid "None"
-msgstr ""
+msgstr "Ingen"
 
 #: src/app/gtkmm/PreferencesDialog.cc:155
 msgid "Block user input"
@@ -324,7 +324,7 @@ msgstr "Bloker bruger input"
 
 #: src/app/gtkmm/PreferencesDialog.cc:157
 msgid "Block all"
-msgstr ""
+msgstr "Bloker alt"
 
 #. Options
 #: src/app/gtkmm/PreferencesDialog.cc:176
@@ -339,7 +339,7 @@ msgstr "Lyd:"
 
 #: src/app/gtkmm/PreferencesDialog.cc:179
 msgid "Block mode:"
-msgstr ""
+msgstr "Blokeringsindstilling:"
 
 #: src/app/gtkmm/PreludeWindow.cc:99
 msgid "Time for a micro-pause?"

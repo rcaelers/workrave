@@ -323,7 +323,7 @@ msgstr "Zablokuj możliwość wprowadzania"
 
 #: src/app/gtkmm/PreferencesDialog.cc:157
 msgid "Block all"
-msgstr ""
+msgstr "Blokuj wszystko"
 
 #. Options
 #: src/app/gtkmm/PreferencesDialog.cc:176
@@ -338,7 +338,7 @@ msgstr "Dźwięk:"
 
 #: src/app/gtkmm/PreferencesDialog.cc:179
 msgid "Block mode:"
-msgstr ""
+msgstr "Blokuj tryb:"
 
 #: src/app/gtkmm/PreludeWindow.cc:99
 msgid "Time for a micro-pause?"
