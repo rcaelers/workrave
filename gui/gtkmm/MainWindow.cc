@@ -120,7 +120,7 @@ MainWindow::init()
       config->add_listener(GUIControl::CFG_KEY_MAIN_WINDOW, this);
     }
   
-  popup_menu = manage(create_menu());
+  popup_menu = manage(create_menu(popup_mode_menus));
 
   set_border_width(2);
   timers_box = manage(new Gtk::Table(GUIControl::TIMER_ID_SIZEOF, 2, false));
@@ -293,7 +293,7 @@ MainWindow::on_delete_event(GdkEventAny *)
 
 //! Create the popup-menu
 Gtk::Menu *
-MainWindow::create_menu()
+MainWindow::create_menu(Gtk::RadioMenuItem *mode_menus[3])
 {
   Gtk::Menu *pop_menu = new Gtk::Menu();
   
@@ -328,6 +328,10 @@ MainWindow::create_menu()
   quiet_menu_item->signal_toggled().connect(SigC::slot(*this, &MainWindow::on_menu_quiet));
   quiet_menu_item->show();
   modemenulist.push_back(*quiet_menu_item);
+
+  mode_menus[0] = normal_menu_item;
+  mode_menus[1] = suspend_menu_item;
+  mode_menus[2] = quiet_menu_item;
   
   // FIXME: add separators, etc...
   menulist.push_back(Gtk::Menu_Helpers::StockMenuElem(Gtk::Stock::PREFERENCES,
@@ -461,9 +465,9 @@ MainWindow::on_menu_quiet()
   TRACE_ENTER("MainWindow::on_menu_quiet");
 
   gui->set_operation_mode(GUIControl::OPERATION_MODE_QUIET);
-
-  TRACE_EXIT();
+  win32_sync_menu(2);
 }
+
 
 
 //! User requested immediate restbreak.
@@ -473,7 +477,7 @@ MainWindow::on_menu_suspend()
   TRACE_ENTER("MainWindow::on_menu_suspend");
 
   gui->set_operation_mode(GUIControl::OPERATION_MODE_SUSPENDED);
-
+  win32_sync_menu(1);
   TRACE_EXIT();
 }
 
@@ -481,6 +485,7 @@ void
 MainWindow::on_menu_normal()
 {
   gui->set_operation_mode(GUIControl::OPERATION_MODE_NORMAL);
+  win32_sync_menu(0);
 }
 
 
@@ -621,7 +626,8 @@ MainWindow::win32_init()
   strcpy(win32_tray_icon.szTip, "Workrave");
   Shell_NotifyIcon(NIM_ADD, &win32_tray_icon);
 
-  win32_tray_menu = manage(create_menu());
+  // Tray menu
+  win32_tray_menu = manage(create_menu(win32_tray_mode_menus));
   Gtk::Menu::MenuList &menulist = win32_tray_menu->items();
   menulist.push_front(Gtk::Menu_Helpers::StockMenuElem
                      (Gtk::Stock::OPEN,
@@ -654,7 +660,7 @@ MainWindow::win32_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
               GdkWindow *gdk_window = window->window;
               HWND phwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
               SetForegroundWindow(phwnd);
-              win->win32_tray_menu->popup(3, 0);
+              win->win32_tray_menu->popup(0, GetTickCount());
             }
             break;
           case WM_LBUTTONDBLCLK:
@@ -674,5 +680,25 @@ MainWindow::win32_on_tray_open()
   win32_show(true);
 }
 
+void
+MainWindow::win32_sync_menu(int mode)
+{
+  TRACE_ENTER("win32_sync_menu");
+
+  // Ugh, isn't there an other way to prevent endless signal loops?
+  static bool syncing = false;
+  if (syncing)
+    return;
+  syncing = true;
+
+  if (! popup_mode_menus[mode]->get_active())
+    popup_mode_menus[mode]->set_active(true);
+  if (! win32_tray_mode_menus[mode]->get_active())
+    win32_tray_mode_menus[mode]->set_active(true);
+
+  syncing = false;
+
+  TRACE_EXIT();
+}
 
 #endif

@@ -71,6 +71,9 @@ private:
   //! The popup menu.
   Gtk::Menu *popup_menu;
 
+  //! The popup mode menu items
+  Gtk::RadioMenuItem *popup_mode_menus[3];
+  
   //! Is the monitoring function suspended?
   bool monitor_suspended;
   
@@ -81,7 +84,7 @@ private:
   //
   void init();
   void setup();
-  Gtk::Menu *create_menu();
+  Gtk::Menu *create_menu(Gtk::RadioMenuItem *mode_menus[3]);
   void load_config();
   void store_config();
   void config_changed_notify(string key);
@@ -103,6 +106,7 @@ private:
 
 #ifdef WIN32
 private:
+  void win32_sync_menu(int mode);
   void win32_show(bool b);
   void win32_init();
   void win32_exit();
@@ -112,6 +116,7 @@ private:
                                             WPARAM wParam, LPARAM lParam);
 
   Gtk::Menu *win32_tray_menu;
+  Gtk::RadioMenuItem *win32_tray_mode_menus[3];
   HWND win32_main_hwnd;
   NOTIFYICONDATA win32_tray_icon;
 #endif
