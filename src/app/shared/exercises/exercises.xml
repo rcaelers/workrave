@@ -35,8 +35,8 @@
     <description xml:lang="en">Start with your head in a comfortable straight  position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side.</description>
     <description xml:lang="nl">Begin met je hoofd in een comfortabele rechte positie. Kantel dan langzaam je hoofd naar je rechter schouder toe, en strek daarme de spieren aan de linkerkant van je nek. Hou deze positie 5 seconden vast. Daarna kantel je je hoofd naar de linker schouder toe om de rechter nekspieren te strekken. Herhaal deze oefening twee keer voor elke kant.</description>
     <sequence duration="30">
-      <image src="neck-tilt-stretch.png" duration="5"/>
-      <image src="neck-tilt-stretch.png" duration="5" mirrorx="yes"/>
+      <image src="neck-tilt-stretch-1.png" duration="5"/>
+      <image src="neck-tilt-stretch-2.png" duration="5"/>
     </sequence>
   </exercise>
   <exercise>
