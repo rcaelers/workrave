@@ -101,7 +101,7 @@ AppletPreferencePage::create_page()
   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
     {
       slot_entry[i] = manage(new Gtk::SpinButton());
-      slot_entry[i]->set_range(0, 3);
+      slot_entry[i]->set_range(1, 3);
       slot_entry[i]->set_increments(1, 1);
       slot_entry[i]->set_numeric(true);
       slot_entry[i]->set_width_chars(2);
@@ -242,7 +242,7 @@ AppletPreferencePage::on_visible_toggled(int break_id)
   if (visible)
     {
       slot_entry[break_id]->set_sensitive(true);
-      value = (int) slot_entry[break_id]->get_value();
+      value = (int) slot_entry[break_id]->get_value() - 1;
     }
   else
     {
@@ -327,7 +327,7 @@ AppletPreferencePage::on_slot_changed(int break_id)
 {
   assert(break_id >= 0 && break_id < GUIControl::BREAK_ID_SIZEOF);
 
-  int value = (int) slot_entry[break_id]->get_value();
+  int value = (int) slot_entry[break_id]->get_value() - 1;
   
   Configurator *c = GUIControl::get_instance()->get_configurator();
   GUIControl::TimerData &data = GUIControl::get_instance()->timers[break_id];
@@ -398,7 +398,7 @@ AppletPreferencePage::init_page_values()
       if (value >= 0)
         {
           slot_entry[i]->set_sensitive(true);
-          slot_entry[i]->set_value(value);
+          slot_entry[i]->set_value(value + 1);
           visible_cb[i]->set_active(true);
         }
       else
