@@ -82,21 +82,21 @@ struct ConfigCheck
 } configCheck[] =
   {
     { "micro_pause",
-      "Micro-pause",
+      _("Micro-pause"),
       3*60, 30, false,	true,	150,
       "timer-micropause.png", "" ,
       3, true, true, true
     },
     {
       "rest_break",
-      "Rest break",
+      _("Rest break"),
       45*60, 10*60, false,	true, 180,
       "timer-restbreak.png", "",
       3, true, true, true
     },
     {
       "daily_limit",
-      "Daily limit",
+      _("Daily limit"),
       14400, 0,	false,	true, 150,
       "timer-daily.png", "day/4:00",
       3, true, true, true

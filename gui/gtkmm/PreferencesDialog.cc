@@ -41,25 +41,6 @@
 #include "NetworkPreferencePage.hh"
 #endif
 
-struct MonitorPreset
-{
-  const char *name;
-  int activity;
-  int idle;
-  int noise;
-};
-
-static MonitorPreset presets[] =
-{
-  { "Trigger-happy", 0, 1000, 0 },
-  { "Quick", 500, 3000, 20000 },
-  { "Normal", 1000, 5000, 10000 },
-  { "Sluggish", 5000, 10000, 4000 },
-  { "Numb", 10000, 10000, 9000 },
-  { NULL, 0, 0, 0 }, 
-  { "Custom settings", -1, -1, -1 },
-};
-    
 
 
 PreferencesDialog::PreferencesDialog()
@@ -68,7 +49,6 @@ PreferencesDialog::PreferencesDialog()
   TRACE_ENTER("PreferencesDialog::PreferencesDialog");
 
   // Pages
-  Gtk::Widget *monitor_page = manage(create_monitor_page());
   Gtk::Widget *gui_page = manage(create_gui_page());
   Gtk::Widget *timer_page = manage(create_timer_page());
 #ifdef HAVE_DISTRIBUTION
@@ -80,8 +60,6 @@ PreferencesDialog::PreferencesDialog()
   notebook->set_tab_pos (Gtk::POS_TOP);  
   notebook->pages().push_back(Gtk::Notebook_Helpers::TabElem
                               (*timer_page, _("Timers")));
-  notebook->pages().push_back(Gtk::Notebook_Helpers::TabElem
-                              (*monitor_page, _("Monitoring")));
   notebook->pages().push_back(Gtk::Notebook_Helpers::TabElem
                               (*gui_page, _("User interface")));
 #ifdef HAVE_DISTRIBUTION
@@ -206,138 +184,6 @@ PreferencesDialog::create_timer_page()
   return timer_page;
 }
 
-Gtk::Widget *
-PreferencesDialog::create_monitor_page()
-{
-  // Monitor preset
-  monitor_preset_button  = manage(new Gtk::OptionMenu());
-  Gtk::Menu *monitor_preset_menu = manage(new Gtk::Menu());
-  Gtk::Menu::MenuList &preset_list = monitor_preset_menu->items();
-  monitor_preset_button->set_menu(*monitor_preset_menu);
-  for (int i = 0; i < sizeof(presets)/sizeof(presets[0]); i++)
-    {
-      MonitorPreset *mp = presets + i;
-      if (! mp->name)
-        preset_list.push_back(Gtk::Menu_Helpers::SeparatorElem());
-      else
-        preset_list.push_back(Gtk::Menu_Helpers::MenuElem(_(mp->name)));
-    }
-
-  Gtk::HBox *mon_pbox = manage(new Gtk::HBox(false, 6));
-  mon_pbox->set_border_width(6);
-  Gtk::Label *label = manage(new Gtk::Label(_("Monitoring preset")));
-  mon_pbox->pack_start(*label, false, false, 0);
-  mon_pbox->pack_start(*monitor_preset_button, false, false, 0);
-
-  Gtk::Frame *mon_pframe = manage(new Gtk::Frame(_("Preset")));
-  mon_pframe->add(*mon_pbox);
-
-  // Monitor table
-  Gtk::Table *mon_table = manage(new Gtk::Table(4, 3, false));
-  mon_table->set_row_spacings(2);
-  mon_table->set_col_spacings(6);
-  mon_table->set_border_width(6);
-  int y = 0;
-  
-  label = manage
-    (new Gtk::Label
-     (_("Please regard me as active if the time between two user input events is within\n"
-        "the following range, specified in milliseconds:"
-      )));
-  Gtk::Alignment *align
-    = manage(new Gtk::Alignment(Gtk::ALIGN_LEFT, Gtk::ALIGN_BOTTOM, 0.0, 0.0));
-  align->add(*label);
-  mon_table->attach(*align, 0, 2, y, y+1, Gtk::FILL|Gtk::EXPAND, Gtk::SHRINK);
-  y++;
-
-  Gtk::HBox *range_box = manage(new Gtk::HBox(false, 6));
-  activity_time = manage(new TimeEntry(true));
-  range_box->add(*activity_time);
-  label = manage(new Gtk::Label(_("To (ms)")));
-  range_box->add(*label);
-  noise_time = manage(new TimeEntry(true));
-  range_box->add(*noise_time);
-
-  label = manage(new Gtk::Label(_("From (ms)")));
-  align
-    = manage(new Gtk::Alignment(Gtk::ALIGN_LEFT, Gtk::ALIGN_BOTTOM, 0.0, 0.0));
-  align->add(*label);
-
-  mon_table->attach(*align, 0, 1, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
-
-  align
-    = manage(new Gtk::Alignment(Gtk::ALIGN_LEFT, Gtk::ALIGN_BOTTOM, 0.0, 0.0));
-  align->add(*range_box);
-  mon_table->attach(*align, 1, 2, y, y+1, Gtk::FILL|Gtk::EXPAND, Gtk::SHRINK);
-
-  int val;
-  GUIControl::get_instance()->get_configurator()
-    ->get_value(ControlInterface::CFG_KEY_MONITOR_ACTIVITY, &val);
-  activity_time->set_value(val);
-
-
-  align
-    = manage(new Gtk::Alignment(Gtk::ALIGN_LEFT, Gtk::ALIGN_BOTTOM, 0.0, 0.0));
-  align->add(*noise_time);
-  mon_table->attach(*label, 2, 3, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
-  mon_table->attach(*align, 3, 4, y, y+1, Gtk::EXPAND|Gtk::FILL, Gtk::SHRINK);
-  GUIControl::get_instance()->get_configurator()
-    ->get_value(ControlInterface::CFG_KEY_MONITOR_NOISE, &val);
-  noise_time->set_value(val);
-  y++;
-
-  Gtk::HSeparator *sep = manage(new Gtk::HSeparator());
-  
-  mon_table->attach(*sep, 0, 2, y, y+1, Gtk::FILL|Gtk::EXPAND, Gtk::SHRINK, 0, 6);
-  y++;
-
-  label = manage
-    (new Gtk::Label
-     (_("Please regard me as idle if there are no user input events during the specified\n"
-        "idle time."
-      )));
-  align
-    = manage(new Gtk::Alignment(Gtk::ALIGN_LEFT, Gtk::ALIGN_BOTTOM, 0.0, 0.0));
-  align->add(*label);
-  mon_table->attach(*align, 0, 2, y, y+1, Gtk::FILL|Gtk::EXPAND, Gtk::SHRINK);
-  y++;
-
-  label = manage(new Gtk::Label(_("Idle time (ms)")));
-  idle_time = manage(new TimeEntry(true));
-  Gtk::Alignment *idle_align
-    = manage(new Gtk::Alignment(Gtk::ALIGN_LEFT, Gtk::ALIGN_BOTTOM, 1.0, 0.0));
-  idle_align->add(*idle_time);
-  mon_table->attach(*label, 0, 1, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
-  mon_table->attach(*idle_align, 1, 2, y, y+1, Gtk::EXPAND|Gtk::FILL, Gtk::SHRINK);
-  GUIControl::get_instance()->get_configurator()
-    ->get_value(ControlInterface::CFG_KEY_MONITOR_IDLE, &val);
-  idle_time->set_value(val);
-  y++;
-
-
-  update_preset();
-
-  // Signals
-  activity_time->signal_value_changed().connect(SigC::slot(*this, &PreferencesDialog::on_activity_time_changed));
-  idle_time->signal_value_changed().connect(SigC::slot(*this, &PreferencesDialog::on_idle_time_changed));
-  monitor_preset_button->signal_changed().connect(SigC::slot(*this, &PreferencesDialog::on_monitor_preset_changed));
-  noise_time->signal_value_changed().connect(SigC::slot(*this, &PreferencesDialog::on_noise_time_changed));
-  
-  // Monitor frame
-  Gtk::Frame *mon_tframe = manage(new Gtk::Frame(_("Custom settings")));
-  mon_tframe->add(*mon_table);
-
-  // Monitoring page
-  Gtk::VBox *monitor_page
-    = create_page
-    (_("Activity and idle time detection can be fine-tuned by the monitor\n"
-     "settings.  You can choose from various presets, or define your own\n"
-     "custom settings."),
-     "monitoring.png");
-  monitor_page->pack_start(*mon_pframe, false, false, 0);
-  monitor_page->pack_start(*mon_tframe, false, false, 0);
-  return monitor_page;
-}
 
 #ifdef HAVE_DISTRIBUTION
 Gtk::Widget *
@@ -403,96 +249,6 @@ PreferencesDialog::win32_on_start_in_tray_toggled()
 }
 #endif
 
-void
-PreferencesDialog::update_preset()
-{
-  int noise, idle, activity;
-  Configurator *cfg = GUIControl::get_instance()->get_configurator();
-  cfg->get_value(ControlInterface::CFG_KEY_MONITOR_NOISE, &noise);
-  cfg->get_value(ControlInterface::CFG_KEY_MONITOR_ACTIVITY, &activity);
-  cfg->get_value(ControlInterface::CFG_KEY_MONITOR_IDLE, &idle);
-
-  int match_idx = -1;
-  for (int i = 0; i < sizeof(presets)/sizeof(presets[0]); i++)
-    {
-      MonitorPreset *p = &presets[i];
-      if (! p->name)
-        continue;
-      
-      if (p->idle == idle
-          && p->activity == activity
-          && p->noise == noise)
-        {
-          match_idx = i;
-          break;
-        }
-      else if (p->idle < 0)
-        {
-          // Custom
-          match_idx = i;
-        }
-    }
-  assert(match_idx >= 0);
-  monitor_preset_button->set_history(match_idx);
-}
-
-void
-PreferencesDialog::on_activity_time_changed()
-{
-  set_activity_time(activity_time->get_value());
-  update_preset();
-}
-
-void
-PreferencesDialog::on_idle_time_changed()
-{
-  set_idle_time(idle_time->get_value());
-  update_preset();
-}
-
-void
-PreferencesDialog::on_monitor_preset_changed()
-{
-  int idx = monitor_preset_button->get_history();
-  MonitorPreset *p = &presets[idx];
-  if (p->activity >= 0)
-    {
-      noise_time->set_value(p->noise);
-      activity_time->set_value(p->activity);
-      idle_time->set_value(p->idle);
-      set_activity_time(p->activity);
-      set_noise_time(p->noise);
-      set_idle_time(p->idle);
-    }
-}
-
-void
-PreferencesDialog::on_noise_time_changed()
-{
-  set_noise_time(noise_time->get_value());
-  update_preset();
-}
-
-void
-PreferencesDialog::set_noise_time(time_t t)
-{
-  GUIControl::get_instance()->get_configurator()
-    ->set_value(ControlInterface::CFG_KEY_MONITOR_NOISE, t);
-}
-
-void
-PreferencesDialog::set_activity_time(time_t t)
-{
-  GUIControl::get_instance()->get_configurator()
-    ->set_value(ControlInterface::CFG_KEY_MONITOR_ACTIVITY, t);
-}
-
-void
-PreferencesDialog::set_idle_time(time_t t)
-{
-  GUIControl::get_instance()->get_configurator()
-    ->set_value(ControlInterface::CFG_KEY_MONITOR_IDLE, t);
-}
 
 int
 PreferencesDialog::run()

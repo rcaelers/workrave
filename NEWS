@@ -7,6 +7,10 @@ http://workrave.sourceforge.net
 
 * Workrave 1.0.0
 
+** Removed the monitoring preferences. Good defaults is all you want
+here, and it was far too difficult to try and explain these settings
+to ordinary users.
+
 ** Added the daily limit break window.
 
 ** Added internationalisation support. Currently, only a Dutch translation is

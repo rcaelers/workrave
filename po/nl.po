@@ -5,9 +5,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2002-10-22 21:57+0200\n"
-"PO-Revision-Date: 2002-10-19 22:03+0200\n"
+"Project-Id-Version: workrave 0.3.0\n"
+"POT-Creation-Date: 2002-10-25 23:58+0200\n"
+"PO-Revision-Date: 2002-10-26 00:04+0200\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
 "MIME-Version: 1.0\n"
@@ -25,6 +25,18 @@ msgstr "Pauze over"
 #: gui/BreakControl.cc:661
 msgid "Silent in"
 msgstr "Stil over"
+
+#: gui/GUIControl.cc:85 gui/gtkmm/MicroPauseWindow.cc:164
+msgid "Micro-pause"
+msgstr "Micro-pauze"
+
+#: gui/GUIControl.cc:92
+msgid "Rest break"
+msgstr "Rustpauze"
+
+#: gui/GUIControl.cc:99
+msgid "Daily limit"
+msgstr "Dagelijkse limiet"
 
 #: gui/GUIControl.cc:293
 msgid "Time for a micro-pause?"
@@ -53,6 +65,102 @@ msgstr "%s%ld:%02ld minuten"
 msgid "%s%ld seconds"
 msgstr "%s%ld seconden"
 
+#: gui/gtkmm/DailyLimitWindow.cc:43
+msgid ""
+"You have reached your daily limit. Please stop working\n"
+"behind the computer. If your working day is not over yet,\n"
+"find something other to do, such as reviewing a document."
+msgstr ""
+"Je hebt je dagelijkse limiet bereikt. Stop met werken\n"
+"achter de computer. Als je werkdag nog niet voorbij is,\n"
+"ga dan iets anders doen, bv. documenten reviewen."
+
+#: gui/gtkmm/DailyLimitWindow.cc:65 gui/gtkmm/MicroPauseWindow.cc:69
+#: gui/gtkmm/RestBreakWindow.cc:95
+msgid "Skip"
+msgstr "Sla over"
+
+#: gui/gtkmm/DailyLimitWindow.cc:67 gui/gtkmm/MicroPauseWindow.cc:71
+#: gui/gtkmm/RestBreakWindow.cc:97
+msgid "Postpone"
+msgstr "Stel uit"
+
+#: gui/gtkmm/MainWindow.cc:168 gui/gtkmm/MainWindow.cc:291
+msgid "Wait"
+msgstr "Wacht"
+
+#: gui/gtkmm/MainWindow.cc:254
+msgid "Inactive"
+msgstr "Inactief"
+
+#: gui/gtkmm/MainWindow.cc:353
+msgid "_Mode"
+msgstr "_Modus"
+
+#: gui/gtkmm/MainWindow.cc:360
+msgid "_Normal"
+msgstr "_Normaal"
+
+#: gui/gtkmm/MainWindow.cc:367
+msgid "_Suspended"
+msgstr "_Uitgeschakeld"
+
+#: gui/gtkmm/MainWindow.cc:374
+msgid "Q_uiet"
+msgstr "_Stil"
+
+#: gui/gtkmm/MainWindow.cc:388
+msgid "_Network"
+msgstr "_Netwerk"
+
+#: gui/gtkmm/MainWindow.cc:392
+msgid "_Connect"
+msgstr "Maak verbinding"
+
+#: gui/gtkmm/MainWindow.cc:397
+msgid "_Disconnect"
+msgstr "Verbreek verbinding"
+
+#: gui/gtkmm/MainWindow.cc:402
+msgid "_Reconnect"
+msgstr "Opnieuw verbinden"
+
+#: gui/gtkmm/MainWindow.cc:407
+msgid "Show _log"
+msgstr "Toon _logboek"
+
+#: gui/gtkmm/MainWindow.cc:422
+msgid "_Rest break"
+msgstr "Rustpauze"
+
+#: gui/gtkmm/MainWindow.cc:434
+msgid "Statistics"
+msgstr "Statistieken"
+
+#: gui/gtkmm/MainWindow.cc:447
+msgid "About..."
+msgstr "Info..."
+
+#: gui/gtkmm/MainWindow.cc:613
+msgid ""
+"This program assists in the prevention and recovery of Repetitive Strain "
+"Injury (RSI)."
+msgstr "Dit programma helpt bij het voorkomen en genezen van Repetitive Strain Injury (RSI)."
+
+#: gui/gtkmm/MicroPauseWindow.cc:186
+#, c-format
+msgid "Next rest break in %s"
+msgstr "Rustpauze over %s"
+
+#: gui/gtkmm/MicroPauseWindow.cc:192
+#, c-format
+msgid "Overdue rest break in %s"
+msgstr "Rustpauze %s te laat"
+
+#: gui/gtkmm/MicroPauseWindow.cc:195
+msgid "Please relax for a few seconds"
+msgstr "Ontspan gedurende enkele seconden"
+
 #: gui/gtkmm/NetworkJoinDialog.cc:39
 msgid "Network connect"
 msgstr "Netwerk verbinding"
@@ -80,6 +188,10 @@ msgstr "Maak verbinding bij opstarten"
 #: gui/gtkmm/NetworkJoinDialog.cc:92
 msgid "Connection details"
 msgstr "Interval tussen pogingen"
+
+#: gui/gtkmm/NetworkLogDialog.cc:37
+msgid "Network log"
+msgstr "Netwerk logboek"
 
 #: gui/gtkmm/NetworkPreferencePage.cc:69
 msgid "General"
@@ -134,149 +246,45 @@ msgstr ""
 "verbinding maakt tijdens het opstarten. Klik op de machine naam\n"
 "of poort nummer om deze te bewerken."
 
-#: gui/gtkmm/DailyLimitWindow.cc:43
-msgid ""
-"You have reached your daily limit. Please stop working\n"
-"behind the computer. If your working day is not over yet,\n"
-"find something other to do, such as reviewing a document."
-msgstr ""
-"Je hebt je dagelijkse limiet bereikt. Stop met werken\n"
-"achter de computer. Als je werkdag nog niet voorbij is,\n"
-"ga dan iets anders doen, bv. documenten reviewen."
-
-#: gui/gtkmm/DailyLimitWindow.cc:65 gui/gtkmm/RestBreakWindow.cc:95
-msgid "Skip"
-msgstr "Sla over"
-
-#: gui/gtkmm/DailyLimitWindow.cc:67 gui/gtkmm/RestBreakWindow.cc:97
-msgid "Postpone"
-msgstr "Stel uit"
-
-#: gui/gtkmm/MainWindow.cc:169 gui/gtkmm/MainWindow.cc:292
-msgid "Wait"
-msgstr "Wacht"
-
-#: gui/gtkmm/MainWindow.cc:255
-msgid "Inactive"
-msgstr "Inactief"
-
-#: gui/gtkmm/MainWindow.cc:354
-msgid "_Mode"
-msgstr "_Modus"
-
-#: gui/gtkmm/MainWindow.cc:361
-msgid "_Normal"
-msgstr "_Normaal"
-
-#: gui/gtkmm/MainWindow.cc:368
-msgid "_Suspended"
-msgstr "_Uitgeschakeld"
-
-#: gui/gtkmm/MainWindow.cc:375
-msgid "Q_uiet"
-msgstr "_Stil"
-
-#: gui/gtkmm/MainWindow.cc:389
-msgid "_Network"
-msgstr "_Netwerk"
-
-#: gui/gtkmm/MainWindow.cc:393
-msgid "_Connect"
-msgstr "Maak verbinding"
-
-#: gui/gtkmm/MainWindow.cc:398
-msgid "_Disconnect"
-msgstr "Verbreek verbinding"
-
-#: gui/gtkmm/MainWindow.cc:403
-msgid "_Reconnect"
-msgstr "Opnieuw verbinden"
-
-#: gui/gtkmm/MainWindow.cc:408
-msgid "Show _log"
-msgstr "Toon _logboek"
-
-#: gui/gtkmm/MainWindow.cc:421
-msgid "_Rest break"
-msgstr "Rustpauze"
-
-#: gui/gtkmm/MainWindow.cc:433
-msgid "Statistics"
-msgstr "Statistieken"
-
-#: gui/gtkmm/MainWindow.cc:446
-msgid "About..."
-msgstr "Info..."
-
-#: gui/gtkmm/MainWindow.cc:612
-msgid ""
-"This program assists in the prevention and recovery of Repetitive Strain "
-"Injury (RSI)."
-msgstr ""
-"Dit programma dient ter voorkoming en revalidatie van Repetitive Strain "
-"Injury (RSI)."
-
-#: gui/gtkmm/MicroPauseWindow.cc:164
-msgid "Micro-pause"
-msgstr "Micro-pauze"
-
-#: gui/gtkmm/MicroPauseWindow.cc:186
-#, c-format
-msgid "Next rest break in %s"
-msgstr "Rustpauze over %s"
-
-#: gui/gtkmm/MicroPauseWindow.cc:192
-#, c-format
-msgid "Overdue rest break in %s"
-msgstr "Rustpauze %s te laat"
-
-#: gui/gtkmm/MicroPauseWindow.cc:195
-msgid "Please relax for a few seconds"
-msgstr "Ontspan gedurende enkele seconden"
-
-#: gui/gtkmm/PreferencesDialog.cc:82 gui/gtkmm/TimerPreferencesPanel.cc:236
+#: gui/gtkmm/PreferencesDialog.cc:62 gui/gtkmm/TimerPreferencesPanel.cc:236
 msgid "Timers"
 msgstr "Klokken"
 
-#: gui/gtkmm/PreferencesDialog.cc:84
-msgid "Monitoring"
-msgstr "Activiteit detectie"
-
-#: gui/gtkmm/PreferencesDialog.cc:86
+#: gui/gtkmm/PreferencesDialog.cc:64
 msgid "User interface"
 msgstr "Gebruikers interface"
 
-#: gui/gtkmm/PreferencesDialog.cc:89
+#: gui/gtkmm/PreferencesDialog.cc:67
 msgid "Network"
 msgstr "Netwerk"
 
-#: gui/gtkmm/PreferencesDialog.cc:118
+#: gui/gtkmm/PreferencesDialog.cc:96
 msgid "The main window stays always on top of other windows"
 msgstr "Het hoofd window blijft boven alle andere windows"
 
-#: gui/gtkmm/PreferencesDialog.cc:127
+#: gui/gtkmm/PreferencesDialog.cc:105
 msgid "No sounds"
 msgstr "Geen geluid"
 
-#: gui/gtkmm/PreferencesDialog.cc:129
+#: gui/gtkmm/PreferencesDialog.cc:107
 msgid "Play sounds using sound card"
 msgstr "Speel geluiden met behulp van de geluidskaart"
 
-#: gui/gtkmm/PreferencesDialog.cc:131
+#: gui/gtkmm/PreferencesDialog.cc:109
 msgid "Play sounds using built-in speaker"
 msgstr "Speel geluiden met behulp van de ingebouwde speaker"
 
-#: gui/gtkmm/PreferencesDialog.cc:149
+#: gui/gtkmm/PreferencesDialog.cc:127
 msgid "Hide main window at start-up"
 msgstr "Verberg het hoofd window tijdens het opstarten"
 
-#: gui/gtkmm/PreferencesDialog.cc:168
+#: gui/gtkmm/PreferencesDialog.cc:146
 msgid "You can configure the user interface related settings from here."
 msgstr ""
 "In dit scherm kun je instellingen die betrekking hebben tot het\n"
 "gebruikers interface wijzigen."
 
-#: gui/gtkmm/PreferencesDialog.cc:183
+#: gui/gtkmm/PreferencesDialog.cc:161
 msgid ""
 "This dialog allows you to change the settings of the timers.  Each unit\n"
 "of time is broken down into hours, minutes and seconds (also known as\n"
@@ -286,57 +294,7 @@ msgstr ""
 "wordt gespecificeerd in uren, minuten en seconden (ook wel bekend\n"
 "als het \"uu:mm:ss\" formaat). Deze kunnen afzonderlijk aangepast worden."
 
-#: gui/gtkmm/PreferencesDialog.cc:228
-msgid "Monitoring preset"
-msgstr "Detectie type"
-
-#: gui/gtkmm/PreferencesDialog.cc:232
-msgid "Preset"
-msgstr "Standaard instelling"
-
-#: gui/gtkmm/PreferencesDialog.cc:242
-msgid "Activity time (ms)"
-msgstr "Actieve tijd (ms)"
-
-#: gui/gtkmm/PreferencesDialog.cc:252
-msgid "Noise time (ms)"
-msgstr "Ruis (ms)"
-
-#: gui/gtkmm/PreferencesDialog.cc:261
-msgid "Idle time (ms)"
-msgstr "Inactieve tijd (ms)"
-
-#: gui/gtkmm/PreferencesDialog.cc:273
-msgid ""
-"The timers are started if, during the 'Activity\n"
-"time', there was no inactivitiy for longer than\n"
-"'Noise time'.  When 'Noise time' exceeds 'Activity\n"
-"time', the timers are started if the time between\n"
-"two events is greater then 'Activity time' but\n"
-"smaller then 'Noise time'."
-msgstr ""
-"De klokken worden gestart als gedurende 'Actieve\n"
-"tijd' geen inactiviteit langer dan 'Ruis' optreedt.\n"
-"Voor 'Ruis' waarden groter dan 'Actieve tijd'\n"
-"starten de klokken als de tijd tussen twee\n"
-"gebeurtenissen groter is dan 'Actieve tijd' maar\n"
-"kleiner dan 'Ruis'."
-
-#: gui/gtkmm/PreferencesDialog.cc:292
-msgid "Custom settings"
-msgstr "Eigen instellingen"
-
-#: gui/gtkmm/PreferencesDialog.cc:298
-msgid ""
-"Activity and idle time detection can be fine-tuned by the monitor\n"
-"settings.  You can choose from various presets, or define your own\n"
-"custom settings."
-msgstr ""
-"In dit paneel kun je de activiteit detectie instellen. Je hebt de\n"
-"keuze uit enkele standaard instellingen, of je kunt je eigen instellingen\n"
-"kiezen."
-
-#: gui/gtkmm/PreferencesDialog.cc:314
+#: gui/gtkmm/PreferencesDialog.cc:195
 msgid ""
 "You can connect several instances of Workrave in a network. All connected\n"
 "instances share the same timer information, meaning you will be reminded\n"
@@ -408,3 +366,63 @@ msgstr "Pauze tijdsduur"
 msgid "Time before break"
 msgstr "Werktijd"
 
+#~ msgid "Credits"
+#~ msgstr "Credits"
+
+#~ msgid "_Written by"
+#~ msgstr "Geschreven door"
+
+#~ msgid "_Documented by"
+#~ msgstr "Documentatie door"
+
+#~ msgid "_Translated by"
+#~ msgstr "Vertaald door"
+
+#~ msgid "_Credits"
+#~ msgstr "_Credits"
+
+#~ msgid "Monitoring"
+#~ msgstr "Activiteit detectie"
+
+#~ msgid "Monitoring preset"
+#~ msgstr "Detectie type"
+
+#~ msgid "Preset"
+#~ msgstr "Standaard instelling"
+
+#~ msgid "Activity time (ms)"
+#~ msgstr "Actieve tijd (ms)"
+
+#~ msgid "Noise time (ms)"
+#~ msgstr "Ruis (ms)"
+
+#~ msgid "Idle time (ms)"
+#~ msgstr "Inactieve tijd (ms)"
+
+#~ msgid ""
+#~ "The timers are started if, during the 'Activity\n"
+#~ "time', there was no inactivitiy for longer than\n"
+#~ "'Noise time'.  When 'Noise time' exceeds 'Activity\n"
+#~ "time', the timers are started if the time between\n"
+#~ "two events is greater then 'Activity time' but\n"
+#~ "smaller then 'Noise time'."
+#~ msgstr ""
+#~ "De klokken worden gestart als gedurende 'Actieve\n"
+#~ "tijd' geen inactiviteit langer dan 'Ruis' optreedt.\n"
+#~ "Voor 'Ruis' waarden groter dan 'Actieve tijd'\n"
+#~ "starten de klokken als de tijd tussen twee\n"
+#~ "gebeurtenissen groter is dan 'Actieve tijd' maar\n"
+#~ "kleiner dan 'Ruis'."
+
+#~ msgid "Custom settings"
+#~ msgstr "Eigen instellingen"
+
+#~ msgid ""
+#~ "Activity and idle time detection can be fine-tuned by the monitor\n"
+#~ "settings.  You can choose from various presets, or define your own\n"
+#~ "custom settings."
+#~ msgstr ""
+#~ "In dit paneel kun je de activiteit detectie instellen. Je hebt de\n"
+#~ "keuze uit enkele standaard instellingen, of je kunt je eigen "
+#~ "instellingen\n"
+#~ "kiezen."

@@ -103,7 +103,6 @@ void
 MicroPauseWindow::start()
 {
   TRACE_ENTER("MicroPauseWindow::start");
-
   refresh();
   center();
   show_all();
@@ -112,9 +111,7 @@ MicroPauseWindow::start()
     {
       grab();
     }
-
   present(); // After grab() please (Windows)
-
   
   TRACE_EXIT();
 }

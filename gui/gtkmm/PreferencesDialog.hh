@@ -38,7 +38,6 @@ public:
   
 private:
   Gtk::VBox *create_page(const char *label, const char *image);
-  Gtk::Widget *create_monitor_page();
   Gtk::Widget *create_gui_page();
   Gtk::Widget *create_timer_page();
 #ifdef HAVE_DISTRIBUTION
@@ -47,21 +46,9 @@ private:
   
   void on_always_on_top_toggled();
   void on_sound_changed();
-  void on_activity_time_changed();
-  void on_idle_time_changed();
-  void on_noise_time_changed();
-  void on_monitor_preset_changed();
-  void update_preset();
-  void set_noise_time(time_t t);
-  void set_activity_time(time_t t);
-  void set_idle_time(time_t t);
   
   Gtk::CheckButton *ontop_cb;
-  Gtk::OptionMenu *monitor_preset_button;
   Gtk::OptionMenu *sound_button;
-  TimeEntry *activity_time;
-  TimeEntry *idle_time;
-  TimeEntry *noise_time;
 
 #ifdef WIN32
   void win32_on_start_in_tray_toggled();
