@@ -26,8 +26,9 @@
 class TimeEntry;
 
 #include <gtkmm.h>
+#include "Hig.hh"
 
-class NetworkJoinDialog : public Gtk::Dialog
+class NetworkJoinDialog : public HigDialog
 {
 public:  
   NetworkJoinDialog();

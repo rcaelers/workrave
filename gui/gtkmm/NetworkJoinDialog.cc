@@ -36,66 +36,57 @@ using namespace std;
 #include "Configurator.hh"
 #include "GUIControl.hh"
 #include "Util.hh"
+#include "GtkUtil.hh"
 
 NetworkJoinDialog::NetworkJoinDialog()
-  : Gtk::Dialog(_("Network connect"), true, false)
+  : HigDialog(_("Network connect"), true, false)
 {
   TRACE_ENTER("NetworkJoinDialog::NetworkJoinDialog");
 
-  string text =
+  // Icon
+  string title_icon = Util::complete_directory
+    ("network.png", Util::SEARCH_PATH_IMAGES);
+  Gtk::Image *title_img = manage(new Gtk::Image(title_icon));
+  Gtk::Alignment *img_aln
+    = Gtk::manage(new Gtk::Alignment
+                  (Gtk::ALIGN_LEFT, Gtk::ALIGN_TOP, 0.0, 0.0));
+  img_aln->add(*title_img);
+
+  const char *text =
     _("Enter the host name and port number of a computer\n"
       "in the network you wish to connect to.");
-  
-  // Title
-  Gtk::HBox *title_box = manage(new Gtk::HBox(false));
-  string title_icon = Util::complete_directory("network.png", Util::SEARCH_PATH_IMAGES);
-  Gtk::Image *title_img = manage(new Gtk::Image(title_icon));
   Gtk::Label *title_lab = manage(new Gtk::Label(text));
-  title_box->pack_start(*title_img, false, false, 6);
-  title_box->pack_start(*title_lab, false, true, 6);
 
-  // Entry
   host_entry = manage(new Gtk::Entry());
-  port_entry = manage(new Gtk::SpinButton());
-  Gtk::Label *host_label = manage(new Gtk::Label(_("Host name:")));
-  Gtk::Label *port_label = manage(new Gtk::Label(_("Port:")));
+  host_entry->set_width_chars(40);
 
+  port_entry = manage(new Gtk::SpinButton());
   port_entry->set_range(1024, 65535);
   port_entry->set_increments(1, 10);
   port_entry->set_numeric(true);
   port_entry->set_width_chars(10);
-  
-  host_entry->set_width_chars(40);
 
-  Gtk::Alignment *port_al = manage(new Gtk::Alignment(Gtk::ALIGN_LEFT, Gtk::ALIGN_BOTTOM, 0.0, 0.0));
-  port_al->add(*port_entry);
+  Gtk::Label *host_lab = manage(new Gtk::Label(_("Host name:")));
+  Gtk::Label *port_lab = manage(new Gtk::Label(_("Port:")));
 
-  Gtk::Table *entry_table = manage(new Gtk::Table(2, 2, false));
-  entry_table->set_row_spacings(2);
-  entry_table->set_col_spacings(6);
-  int y = 0;
-  entry_table->attach(*host_label, 0, 1, y, y+1, Gtk::FILL, Gtk::SHRINK);
-  entry_table->attach(*host_entry, 1, 2, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
-  y++;
-  entry_table->attach(*port_label, 0, 1, y, y+1, Gtk::FILL, Gtk::SHRINK);
-  entry_table->attach(*port_al, 1, 2, y, y+1, Gtk::SHRINK | Gtk::FILL, Gtk::SHRINK);
-
-  //
   startup_button = manage(new Gtk::CheckButton(_("Connect at start-up")));
-  y++;
-  entry_table->attach(*startup_button, 1, 2, y, y+1, Gtk::SHRINK | Gtk::FILL, Gtk::SHRINK);
-  
+
+  // Table
+  Gtk::Table *table = manage(new Gtk::Table(4, 2, false));
+  table->set_spacings(6);
+  title_lab->set_alignment(0.0);
+  table->attach(*title_lab, 0, 2, 0, 1, Gtk::FILL, Gtk::SHRINK, 0, 6);
+  GtkUtil::table_attach_left_aligned(*table, *host_lab, 0, 1);
+  GtkUtil::table_attach_left_aligned(*table, *host_entry, 1, 1); 
+  GtkUtil::table_attach_left_aligned(*table, *port_lab, 0, 2);
+  GtkUtil::table_attach_left_aligned(*table, *port_entry, 1, 2);
+
   // Page
-  Gtk::VBox *page = manage(new Gtk::VBox(false, 6));
-  page->pack_start(*title_box, false, true, 0);
-  page->pack_start(*entry_table, false, true, 0);
-  page->set_border_width(6);
+  Gtk::HBox *page = manage(new Gtk::HBox(false, 12));
+  page->pack_start(*img_aln, false, true, 0);
+  page->pack_start(*table, false, true, 0);
 
-  Gtk::Frame *frame = manage(new Gtk::Frame(_("Connection details")));
-  frame->set_border_width(6);
-  frame->add(*page);
-
-  get_vbox()->pack_start(*frame, false, false, 0);
+  get_vbox()->pack_start(*page, false, false, 0);
 
   add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
   add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);

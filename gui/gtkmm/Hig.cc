@@ -17,7 +17,6 @@ void
 HigDialog::set_hig_defaults()
 {
   set_border_width(12);
-  get_action_area()->set_border_width(0);
 }
 
 HigCategoryPanel::HigCategoryPanel(const char *lab)

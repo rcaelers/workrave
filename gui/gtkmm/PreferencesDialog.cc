@@ -235,7 +235,7 @@ PreferencesDialog::create_page(const char *label, const char *image)
 
   Gtk::VBox *page = manage(new Gtk::VBox(false, 6));
   page->pack_start(*info_box, false, true, 0);
-  page->set_border_width(6);
+  page->set_border_width(12);
   return page;
 }
 

@@ -47,7 +47,7 @@
 #include "nls.h"
 
 StatisticsDialog::StatisticsDialog()
-  : Gtk::Dialog(_("Statistics"), false, true),
+  : HigDialog(_("Statistics"), false, false),
     statistics(NULL),
     daily_usage_label(NULL),
     start_time_label(NULL),
@@ -89,8 +89,8 @@ StatisticsDialog::init_gui()
   Gtk::Notebook *tnotebook = manage(new Gtk::Notebook());
   tnotebook->set_tab_pos(Gtk::POS_TOP);  
 
-  Gtk::HBox *hbox = manage(new Gtk::HBox(false, 3));
-  Gtk::VBox *vbox = manage(new Gtk::VBox(false, 3));
+  Gtk::HBox *hbox = manage(new Gtk::HBox(false, 12));
+  Gtk::VBox *vbox = manage(new Gtk::VBox(false, 12));
 
   // Calendar
   calendar = manage(new Gtk::Calendar());
@@ -135,8 +135,8 @@ StatisticsDialog::init_gui()
   // Info box
   Gtk::Widget *infobox = manage(create_info_box());
   
-  hbox->pack_start(*navbox, false, false, 6);
-  hbox->pack_start(*vbox, true, true, 6);
+  hbox->pack_start(*navbox, false, false, 0);
+  hbox->pack_start(*vbox, true, true, 0);
 
   vbox->pack_start(*infobox, false, false, 0);
   vbox->pack_start(*tnotebook, true, true, 0);
@@ -145,7 +145,7 @@ StatisticsDialog::init_gui()
   create_activity_page(tnotebook);
 
   
-  get_vbox()->pack_start(*hbox, true, true, 3);
+  get_vbox()->pack_start(*hbox, true, true, 0);
 
   tnotebook->show_all();
   tnotebook->set_current_page(0);

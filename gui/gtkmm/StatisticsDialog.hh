@@ -28,8 +28,9 @@
 
 #include <gtkmm.h>
 #include <sstream>
+#include "Hig.hh"
 
-class StatisticsDialog : public Gtk::Dialog
+class StatisticsDialog : public HigDialog
 {
 public:  
   StatisticsDialog();
