@@ -1,0 +1,28 @@
+preliminary TODO list
+
+
+Wishlist
+========
+
+2.      Multi-user support
+3.      Distributed operation
+4.      Usage statistics.
+5.      Gnome status applet.
+done    Debian package
+7.      Configuration GUI.
+
+
+Daily/Weekly
+------------
++       Everything
+
+
+
+Misc
+----
+++++    Doxygen
+++++    Make code more robust. check dereferences etc.
++++     Extend logging/asserts
+++      I18N
++       Better separation of platforms
++       Sound support
