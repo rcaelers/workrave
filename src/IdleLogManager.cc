@@ -853,5 +853,5 @@ IdleLogManager::dump_idlelog(ClientInfo &info)
       i++;
     }
   TRACE_EXIT();
-}
 #endif
+}
