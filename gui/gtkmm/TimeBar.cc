@@ -85,6 +85,15 @@ void TimeBar::on_realize()
   set_secondary_bar_color(COLOR_ID_INACTIVE);
   set_text_color(Gdk::Color("black"));  //
 
+  Glib::RefPtr<Gtk::Style> style = get_style();
+  Gdk::Color light = style->get_light(Gtk::STATE_NORMAL);
+  Gdk::Color bg = style->get_bg(Gtk::STATE_NORMAL);
+  Gdk::Color mix;
+  mix.set_red((light.get_red() + bg.get_red())/2);
+  mix.set_blue((light.get_blue() + bg.get_blue())/2);
+  mix.set_green((light.get_green() + bg.get_green())/2);
+  bar_colors[COLOR_ID_BG] = mix;
+
 #if 1 // FIXME: bug66
   Glib::RefPtr<Gdk::Colormap> colormap = get_colormap();
   for (int i = 0; i < COLOR_ID_SIZEOF; i++)
@@ -141,9 +150,10 @@ TimeBar::on_expose_event(GdkEventExpose *e)
   Gdk::Rectangle area(&e->area);
   Glib::RefPtr<Gtk::Style> style = get_style();
 
+  window_gc->set_foreground(bar_colors[COLOR_ID_BG]);
   style->paint_shadow(window, Gtk::STATE_NORMAL, Gtk::SHADOW_IN, area,
                       *this, "", 0, 0, winw, winh);
-  window->draw_rectangle(style->get_light_gc(Gtk::STATE_NORMAL),
+  window->draw_rectangle(window_gc,
                          true, e->area.x+border_size, e->area.y+border_size,
                          e->area.width -2*border_size,
                          e->area.height -2*border_size);
