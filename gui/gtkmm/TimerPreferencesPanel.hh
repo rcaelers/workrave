@@ -56,6 +56,7 @@ private:
   Gtk::Frame *create_prelude_frame();
   Gtk::Frame *create_options_frame();
   Gtk::Frame *create_timers_frame();
+  void set_prelude_sensitivity();
   
   GUIControl::TimerId timer_id;
   GUIControl::TimerData *timer;

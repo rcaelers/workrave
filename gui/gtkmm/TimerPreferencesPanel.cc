@@ -79,26 +79,28 @@ TimerPreferencesPanel::create_prelude_frame()
   // Prelude frame
   Gtk::Frame *prelude_frame = new Gtk::Frame("Break prompting");
   prelude_cb = manage(new Gtk::CheckButton("Prompt before breaking"));
-  TimerInterface *itimer = timer->timer;
-  string pfx = GUIControl::CFG_KEY_BREAK + itimer->get_id();
-  Configurator *cfg = GUIControl::get_instance()->get_configurator();
-  int maxprel;
-  bool b = cfg->get_value(pfx + GUIControl::CFG_KEY_BREAK_MAX_PRELUDES,
-                          &maxprel);
-  prelude_cb->signal_toggled()
-    .connect(SigC::slot(*this,
-                        &TimerPreferencesPanel::on_preludes_active_toggled));
+  int max_preludes = timer->get_break_max_preludes();
+  prelude_cb->set_active(max_preludes != 0);
 
   has_max_prelude_cb = manage(new Gtk::CheckButton
                               ("Maximum number of prompts:"));
+  has_max_prelude_cb->set_active(max_preludes > 0);
+  
+  max_prelude_adjustment.set_value(max_preludes > 0 ? max_preludes : 1);
+  max_prelude_spin = manage(new Gtk::SpinButton(max_prelude_adjustment));
+  
+  force_after_prelude_cb = manage(new Gtk::CheckButton
+                                  ("Force break after maximum exceeded"));
+  force_after_prelude_cb->set_active(timer->get_break_force_after_preludes());
+
+  set_prelude_sensitivity();
+  
+  prelude_cb->signal_toggled()
+    .connect(SigC::slot(*this,
+                        &TimerPreferencesPanel::on_preludes_active_toggled));
   has_max_prelude_cb->signal_toggled()
     .connect(SigC::slot(*this,
                         &TimerPreferencesPanel::on_preludes_maximum_toggled));
-
-  max_prelude_spin = manage(new Gtk::SpinButton(max_prelude_adjustment));
-
-  force_after_prelude_cb = manage(new Gtk::CheckButton
-                                  ("Enforce break after maximum exceeded"));
   force_after_prelude_cb->signal_toggled()
     .connect(SigC::slot(*this,
                         &TimerPreferencesPanel::on_preludes_force_toggled));
@@ -243,19 +245,58 @@ TimerPreferencesPanel::config_changed_notify(string key)
 }
 
 void
+TimerPreferencesPanel::set_prelude_sensitivity()
+{
+  bool has_preludes = prelude_cb->get_active();
+  bool has_max = has_max_prelude_cb->get_active();
+  has_max_prelude_cb->set_sensitive(has_preludes);
+  max_prelude_spin->set_sensitive(has_preludes && has_max);
+  force_after_prelude_cb->set_sensitive(has_preludes && has_max);
+}
+
+void
 TimerPreferencesPanel::on_preludes_active_toggled()
 {
-  bool is_active = prelude_cb->get_active();
+  int mp;
+  if (prelude_cb->get_active())
+    {
+      if (has_max_prelude_cb->get_active())
+        {
+          mp = (int) max_prelude_adjustment.get_value();
+        }
+      else
+        {
+          mp = -1;
+        }
+    }
+  else
+    {
+      mp = 0;
+    }
+  timer->set_break_max_preludes(mp);
+  set_prelude_sensitivity();
 }
 
 void
 TimerPreferencesPanel::on_preludes_maximum_toggled()
 {
+  int mp;
+  if (has_max_prelude_cb->get_active())
+    {
+      mp = max_prelude_adjustment.get_value();
+    }
+  else
+    {
+      mp = -1;
+    }
+  timer->set_break_max_preludes(mp);
+  set_prelude_sensitivity();
 }
 
 void
 TimerPreferencesPanel::on_preludes_force_toggled()
 {
+  timer->set_break_force_after_preludes(force_after_prelude_cb->get_active());
 }
 
 
