@@ -533,30 +533,34 @@ Statistics::get_day(int day) const
   return ret;
 }
 
-Statistics::DailyStats *
-Statistics::get_day_by_date(int y, int m, int d) const
+void
+Statistics::get_day_index_by_date(int y, int m, int d,
+                                  int &idx, int &next, int &prev) const
 {
   TRACE_ENTER_MSG("Statistics::get_day_by_date", y << "/" << m << "/" << d);
-  DailyStats *ret = NULL;
+  idx = next = prev = -1;
   if (current_day->starts_at_date(y, m, d))
     {
-      ret = current_day;
+      idx = 0;
     }
-  else
+  for (int i = 0; i < history.size(); i++)
     {
-      for (vector<DailyStats *>::const_iterator i = history.begin();
-           i != history.end(); i++)
+      int j = history.size() - i;
+      DailyStats *stats = history[i];
+      if (idx < 0 && stats->starts_at_date(y, m, d))
         {
-          DailyStats *stats = *i;
-          if (stats->starts_at_date(y, m, d))
-            {
-              ret = stats;
-              break;
-            }
+          idx = j;
+        }
+      else if (stats->starts_before_date(y, m, d))
+        {
+          prev = j;
+        }
+      else if (next < 0)
+        {
+          next = j;
         }
     }
-  TRACE_RETURN(ret);
-  return ret;
+  TRACE_EXIT();
 }
 
 
@@ -863,6 +867,16 @@ Statistics::DailyStats::starts_at_date(int y, int m, int d)
   return (start.tm_year + 1900 == y
           && start.tm_mon + 1 == m
           && start.tm_mday == d);
+}
+
+bool
+Statistics::DailyStats::starts_before_date(int y, int m, int d)
+{
+  return (start.tm_year + 1900 < y
+          || (start.tm_year + 1900 == y
+              && (start.tm_mon + 1 < m
+                  || (start.tm_mon + 1 == m
+                      && start.tm_mday < d))));
 }
 
 

@@ -42,6 +42,7 @@
 #include "Text.hh"
 #include "Util.hh"
 #include "GUIControl.hh"
+#include "GtkUtil.hh"
 
 #include "nls.h"
 
@@ -101,10 +102,41 @@ StatisticsDialog::init_gui()
                             |Gtk::CALENDAR_SHOW_DAY_NAMES
                             |Gtk::CALENDAR_SHOW_HEADING);
 
+  // Button box.
+  Gtk::HBox *btnbox= manage(new Gtk::HBox(false, 6));
+  Gtk::Button *first_btn  
+    = manage(GtkUtil::create_stock_button_without_text(Gtk::Stock::GOTO_FIRST));
+  first_btn->signal_clicked()
+    .connect(SigC::slot(*this, &StatisticsDialog::on_history_goto_first));
+  Gtk::Button *last_btn
+    = manage(GtkUtil::create_stock_button_without_text(Gtk::Stock::GOTO_LAST));
+  last_btn->signal_clicked()
+    .connect(SigC::slot(*this, &StatisticsDialog::on_history_goto_last));
+  back_btn
+    = manage(GtkUtil::create_stock_button_without_text(Gtk::Stock::GO_BACK));
+  back_btn->signal_clicked()
+    .connect(SigC::slot(*this, &StatisticsDialog::on_history_go_back));
+  forward_btn
+    = manage(GtkUtil::create_stock_button_without_text(Gtk::Stock::GO_FORWARD));
+  forward_btn->signal_clicked()
+    .connect(SigC::slot(*this, &StatisticsDialog::on_history_go_forward));
+  
+  Gtk::Label *nav_label = manage(new Gtk::Label(_("History:")));
+  btnbox->pack_start(*nav_label, true, true, 0);
+  btnbox->pack_start(*first_btn, false, false, 0);
+  btnbox->pack_start(*back_btn, false, false, 0);
+  btnbox->pack_start(*forward_btn, false, false, 0);
+  btnbox->pack_start(*last_btn, false, false, 0);
+
+  // Navigation box
+  Gtk::VBox *navbox= manage(new Gtk::VBox(false, 6));
+  navbox->pack_start(*calendar, false, false, 0);
+  navbox->pack_start(*btnbox, false, false, 0);
+
   // Info box
   Gtk::Widget *infobox = manage(create_info_box());
   
-  hbox->pack_start(*calendar, false, false, 0);
+  hbox->pack_start(*navbox, false, false, 0);
   hbox->pack_start(*vbox, true, true, 0);
 
   vbox->pack_start(*infobox, false, false, 0);
@@ -452,11 +484,36 @@ StatisticsDialog::on_calendar_day_selected()
 }
 
 void
-StatisticsDialog::display_calendar_date()
+StatisticsDialog::get_calendar_day_index(int &idx, int &next, int &prev)
 {
   guint y, m, d;
   calendar->get_date(y, m, d);
-  Statistics::DailyStats *stats = statistics->get_day_by_date(y, m+1, d);
+  statistics->get_day_index_by_date(y, m+1, d, idx, next, prev);
+}
+
+void
+StatisticsDialog::set_calendar_day_index(int idx)
+{
+  calendar->freeze();
+  Statistics::DailyStats *stats = statistics->get_day(idx);
+  calendar->select_month(stats->start.tm_mon, stats->start.tm_year+1900);
+  calendar->select_day(stats->start.tm_mday);
+  calendar->thaw();
+  display_calendar_date();
+}
+
+void
+StatisticsDialog::display_calendar_date()
+{
+  int idx, next, prev;
+  get_calendar_day_index(idx, next, prev);
+  Statistics::DailyStats *stats = NULL;
+  if (idx >= 0)
+    {
+      stats = statistics->get_day(idx);
+    }
+  forward_btn->set_sensitive(next >= 0);
+  back_btn->set_sensitive(prev >= 0);
   display_statistics(stats);
 }
 
@@ -475,3 +532,40 @@ StatisticsDialog::on_focus_out_event(GdkEventFocus *event)
   TRACE_ENTER("StatisticsDialog::focus_out");
   TRACE_EXIT();
 }
+
+
+void
+StatisticsDialog::on_history_go_back()
+{
+  int idx, next, prev;
+  get_calendar_day_index(idx, next, prev);
+  if (next >= 0)
+    set_calendar_day_index(prev);
+}
+
+
+void
+StatisticsDialog::on_history_go_forward()
+{
+  int idx, next, prev;
+  get_calendar_day_index(idx, next, prev);
+  if (next >= 0)
+    set_calendar_day_index(next);
+}
+
+
+void
+StatisticsDialog::on_history_goto_last()
+{
+  set_calendar_day_index(0);
+}
+
+
+void
+StatisticsDialog::on_history_goto_first()
+{
+  int size = statistics->get_history_size();
+  set_calendar_day_index(size > 0 ? size-1 : 0);
+}
+
+

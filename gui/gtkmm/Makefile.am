@@ -62,6 +62,7 @@ libgtkmmgui_a_SOURCES = \
 	DailyLimitWindow.cc \
 	GUI.cc \
 	GtkmmGUI.cc \
+	GtkUtil.cc \
 	MainWindow.cc \
 	MicroPauseWindow.cc \
 	PreferencesDialog.cc \

@@ -120,6 +120,7 @@ public:
     MiscStats misc_stats;
 
     bool starts_at_date(int y, int m, int d);
+    bool starts_before_date(int y, int m, int d);
     bool is_empty() const
     {
       return start.tm_year == 0;
@@ -145,7 +146,7 @@ public:
 
   DailyStats *get_current_day() const;
   DailyStats *get_day(int day) const;
-  DailyStats *get_day_by_date(int y, int m, int d) const;
+  void get_day_index_by_date(int y, int m, int d, int &idx, int &next, int &prev) const;
   
   int get_history_size() const;
   void set_counter(StatsValueType t, int value);

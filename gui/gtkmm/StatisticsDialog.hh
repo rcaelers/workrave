@@ -62,7 +62,13 @@ private:
 
   /** Calendar */
   Gtk::Calendar *calendar;
-  
+
+  /** Forward button */
+  Gtk::Button *forward_btn;
+
+  /** Back button */
+  Gtk::Button *back_btn;
+
   void init_gui();
   void select_day(int day);
   
@@ -74,8 +80,14 @@ private:
   void attach_right(Gtk::Table &table, Widget &child, guint left_attach, guint top_attach);
   Gtk::Widget *create_label(char *label, char *tooltip);
 
+  void get_calendar_day_index(int &idx, int &next, int &prev);
+  void set_calendar_day_index(int idx);
   void on_calendar_month_changed();
   void on_calendar_day_selected();
+  void on_history_go_back();
+  void on_history_go_forward();
+  void on_history_goto_last();
+  void on_history_goto_first();
   void display_calendar_date();
   void display_statistics(Statistics::DailyStats *stats);
   
