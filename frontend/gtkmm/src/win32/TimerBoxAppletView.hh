@@ -45,12 +45,13 @@ public:
   void set_enabled(bool enabled);
 
   void init_menu();
-  short add_menu(const char *text, short cmd, short parent_menu, int flags);
+  void add_menu(const char *text, short cmd, int flags);
 
   enum MenuFlag
   {
     MENU_FLAG_TOGGLE = APPLET_MENU_FLAG_TOGGLE,
-    MENU_FLAG_SELECTED = APPLET_MENU_FLAG_SELECTED
+    MENU_FLAG_SELECTED = APPLET_MENU_FLAG_SELECTED,
+    MENU_FLAG_POPUP = APPLET_MENU_FLAG_POPUP
   };
   
 private:

@@ -20,6 +20,7 @@
 #include <time.h>
 
 #include "Globals.h"
+#include "Applet.hh"
 
 #ifndef DESKBAND_H
 #define DESKBAND_H
@@ -94,6 +95,8 @@ class CDeskBand : public IDeskBand,
   IInputObjectSite *m_pSite;
   TimerBox *m_TimerBox;
   time_t m_LastCopyData;
+  AppletMenuData m_AppletMenu;
+  BOOL m_HasAppletMenu;
 
  private:
   void FocusChange(BOOL);

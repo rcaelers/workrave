@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
-"POT-Creation-Date: 2004-02-05 21:44+0100\n"
+"POT-Creation-Date: 2004-02-15 11:36+0100\n"
 "PO-Revision-Date: 2003-09-09 16:25+0200\n"
 "Last-Translator: Christian Vejlbo <translate@vejlbo.dk>\n"
 "Language-Team:  <da@li.org>\n"
@@ -106,68 +106,68 @@ msgid "Rest break"
 msgstr "Hvilepause"
 
 #. Mode menu item
-#: frontend/gtkmm/src/Menus.cc:146
+#: frontend/gtkmm/src/Menus.cc:150
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
 msgid "_Mode"
 msgstr "_Tilstand"
 
-#: frontend/gtkmm/src/Menus.cc:153
+#: frontend/gtkmm/src/Menus.cc:157
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
 msgid "_Normal"
 msgstr "_Normal"
 
-#: frontend/gtkmm/src/Menus.cc:160
+#: frontend/gtkmm/src/Menus.cc:164
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
 msgid "_Suspended"
 msgstr "_Suspenderet"
 
-#: frontend/gtkmm/src/Menus.cc:167
+#: frontend/gtkmm/src/Menus.cc:171
 msgid "Q_uiet"
 msgstr "S_tille"
 
-#: frontend/gtkmm/src/Menus.cc:181
+#: frontend/gtkmm/src/Menus.cc:185
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
 msgid "_Network"
 msgstr "_Netværk"
 
-#: frontend/gtkmm/src/Menus.cc:185
+#: frontend/gtkmm/src/Menus.cc:189
 msgid "_Connect"
 msgstr "_Forbind"
 
-#: frontend/gtkmm/src/Menus.cc:190
+#: frontend/gtkmm/src/Menus.cc:194
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
 msgid "_Disconnect"
 msgstr "_Afbryd forbindelse"
 
-#: frontend/gtkmm/src/Menus.cc:195
+#: frontend/gtkmm/src/Menus.cc:199
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
 msgid "_Reconnect"
 msgstr "_Genopret forbindelse"
 
-#: frontend/gtkmm/src/Menus.cc:200
+#: frontend/gtkmm/src/Menus.cc:204
 msgid "Show _log"
 msgstr "_Vis logfil"
 
-#: frontend/gtkmm/src/Menus.cc:225 frontend/gtkmm/src/RestBreakWindow.cc:73
+#: frontend/gtkmm/src/Menus.cc:229 frontend/gtkmm/src/RestBreakWindow.cc:73
 msgid "_Rest break"
 msgstr "_Hvilepause"
 
-#: frontend/gtkmm/src/Menus.cc:237
+#: frontend/gtkmm/src/Menus.cc:241
 #: frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:40
 msgid "Exercises"
 msgstr "Øvelser"
 
-#: frontend/gtkmm/src/Menus.cc:247
+#: frontend/gtkmm/src/Menus.cc:251
 #: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:59
 #: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:138
 msgid "Statistics"
 msgstr "Statistik"
 
-#: frontend/gtkmm/src/Menus.cc:261
+#: frontend/gtkmm/src/Menus.cc:265
 msgid "About..."
 msgstr "Om..."
 
-#: frontend/gtkmm/src/Menus.cc:607
+#: frontend/gtkmm/src/Menus.cc:616
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."

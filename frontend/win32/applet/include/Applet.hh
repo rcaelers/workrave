@@ -47,11 +47,11 @@ struct AppletHeartbeatData
 
 #define APPLET_MENU_FLAG_TOGGLE 1
 #define APPLET_MENU_FLAG_SELECTED 2
+#define APPLET_MENU_FLAG_POPUP 4
 
 struct AppletMenuItemData
 {
   char text[APPLET_MENU_TEXT_MAX_LENGTH]; // mbs
-  short parent_menu;
   int flags;
   short command;
 };

@@ -158,15 +158,11 @@ TimerBoxAppletView::init_menu()
   menu_sent = false;
 }
 
-short
-TimerBoxAppletView::add_menu(const char *text, short cmd, short parent_menu,
-                             int flags)
+void
+TimerBoxAppletView::add_menu(const char *text, short cmd, int flags)
 {
-  short id = menu_data.num_items++;
-  AppletMenuItemData *d = &menu_data.items[id];
-  d->parent_menu = parent_menu;
+  AppletMenuItemData *d = &menu_data.items[menu_data.num_items++];
   d->command = cmd;
   strcpy(d->text, text);
   d->flags = flags;
-  return id;
 }

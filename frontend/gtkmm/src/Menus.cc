@@ -369,9 +369,26 @@ Menus::resync_applet()
   if (applet_window != NULL)
     {
       applet_window->init_menu();
-      short id = applet_window->add_menu("Parent", 0, -1, 0);
-      applet_window->add_menu("Sub", 0, id, TimerBoxAppletView::MENU_FLAG_TOGGLE);
-      applet_window->add_menu("Subact", 0, id, TimerBoxAppletView::MENU_FLAG_TOGGLE|TimerBoxAppletView::MENU_FLAG_SELECTED);
+
+      applet_window->add_menu(_("Preferences"), 0, 0);
+      applet_window->add_menu(_("_Rest break"), 0, 0);
+
+      applet_window->add_menu(_("_Normal"), 0, TimerBoxAppletView::MENU_FLAG_TOGGLE|TimerBoxAppletView::MENU_FLAG_POPUP);
+      applet_window->add_menu(_("_Suspended"), 0, TimerBoxAppletView::MENU_FLAG_TOGGLE|TimerBoxAppletView::MENU_FLAG_POPUP);
+      applet_window->add_menu(_("Q_uiet"), 0, TimerBoxAppletView::MENU_FLAG_TOGGLE|TimerBoxAppletView::MENU_FLAG_SELECTED|TimerBoxAppletView::MENU_FLAG_POPUP);
+      applet_window->add_menu(_("_Mode"), 0, 0);
+
+      applet_window->add_menu(_("Exercises"), 0, 0);
+
+#ifdef HAVE_DISTRIBUTION
+      applet_window->add_menu(_("_Connect"), 0, TimerBoxAppletView::MENU_FLAG_TOGGLE|TimerBoxAppletView::MENU_FLAG_POPUP);
+      applet_window->add_menu(_("_Disconnect"), 0, TimerBoxAppletView::MENU_FLAG_TOGGLE|TimerBoxAppletView::MENU_FLAG_POPUP);
+      applet_window->add_menu(_("_Reconnect"), 0, TimerBoxAppletView::MENU_FLAG_TOGGLE|TimerBoxAppletView::MENU_FLAG_SELECTED|TimerBoxAppletView::MENU_FLAG_POPUP);
+      applet_window->add_menu(_("Show _log"), 0, TimerBoxAppletView::MENU_FLAG_TOGGLE|TimerBoxAppletView::MENU_FLAG_SELECTED|TimerBoxAppletView::MENU_FLAG_POPUP);
+      applet_window->add_menu(_("_Network"), 0, 0);
+#endif
+      applet_window->add_menu(_("Statistics"), 0, 0);
+      applet_window->add_menu(_("About..."), 0, 0);
     }
 #endif
 

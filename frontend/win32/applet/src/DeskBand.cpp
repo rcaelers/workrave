@@ -35,6 +35,7 @@ CDeskBand::CDeskBand()
   m_dwViewMode = 0;
   m_dwBandID = 0;
   m_TimerBox = NULL;
+  m_HasAppletMenu = FALSE;
   m_LastCopyData = 0;
 
   m_ObjRefCount = 1;
@@ -376,20 +377,55 @@ CDeskBand::QueryContextMenu( HMENU hMenu,
                                           UINT idCmdLast,
                                           UINT uFlags)
 {
-Beep(8000, 100);
-/*
-  if(!(CMF_DEFAULTONLY & uFlags))
-    {
-      InsertMenu( hMenu, 
-                  indexMenu, 
-                  MF_STRING | MF_BYPOSITION, 
-                  idCmdFirst + IDM_COMMAND, 
-                  "&Desk Band Command");
+  if ((!m_HasAppletMenu) || (CMF_DEFAULTONLY & uFlags))
+    return MAKE_HRESULT(SEVERITY_SUCCESS, 0, USHORT(0));
 
-      return MAKE_HRESULT(SEVERITY_SUCCESS, 0, USHORT(IDM_COMMAND + 1));
+  int m = 0;
+  HMENU popup = NULL;
+  while (m < m_AppletMenu.num_items)
+    {
+      AppletMenuItemData *d = &m_AppletMenu.items[m++];
+      wchar_t textw[APPLET_MENU_TEXT_MAX_LENGTH*2];
+      mbstowcs(textw, d->text, APPLET_MENU_TEXT_MAX_LENGTH);
+      wchar_t *abbrev = wcschr(textw, '_');
+      if (abbrev != NULL)
+        {
+          *abbrev = '&';
+        }
+      if (d->flags & APPLET_MENU_FLAG_POPUP)
+        {
+          if (popup == NULL) 
+            {
+              popup = CreatePopupMenu();
+            }
+          AppendMenuW(popup, 
+                      MF_STRING | MF_BYPOSITION, 
+                      idCmdFirst + m, 
+                      textw);
+        }
+      else
+        {
+          if (popup != NULL)
+            {
+              InsertMenuW( hMenu, 
+                          indexMenu++, 
+                          MF_POPUP | MF_STRING | MF_BYPOSITION, 
+                          (UINT) popup, 
+                          textw);
+              popup = NULL;
+            }
+          else
+            {
+              InsertMenuW( hMenu, 
+                          indexMenu++, 
+                          MF_STRING | MF_BYPOSITION, 
+                          idCmdFirst + m, 
+                          textw);
+            }
+        }
     }
-*/
-  return MAKE_HRESULT(SEVERITY_SUCCESS, 0, USHORT(0));
+
+  return MAKE_HRESULT(SEVERITY_SUCCESS, 0, USHORT(m_AppletMenu.num_items + 1));
 }
 
 STDMETHODIMP
@@ -514,6 +550,7 @@ CDeskBand::OnTimer(WPARAM wParam, LPARAM lParam)
         {
           m_TimerBox->set_enabled(false);
           m_TimerBox->update();
+          m_HasAppletMenu = FALSE;
         }
     }
   return 0;
@@ -522,13 +559,18 @@ CDeskBand::OnTimer(WPARAM wParam, LPARAM lParam)
 LRESULT
 CDeskBand::OnCopyData(PCOPYDATASTRUCT copy_data)
 {
-    // FIXME: validate data length.
     m_LastCopyData = time(NULL);
-    if (m_TimerBox != NULL)
-    {
-        if (copy_data->dwData == APPLET_MESSAGE_HEARTBEAT
-            && copy_data->cbData == sizeof(AppletHeartbeatData))
-          {
+    if (copy_data->dwData == APPLET_MESSAGE_MENU
+        && copy_data->cbData == sizeof(AppletMenuData))
+      {
+      Beep(6000,100);
+        m_AppletMenu = *((AppletMenuData *) copy_data->lpData);
+        m_HasAppletMenu = TRUE;
+      }
+    else if (m_TimerBox != NULL
+             && copy_data->dwData == APPLET_MESSAGE_HEARTBEAT
+             && copy_data->cbData == sizeof(AppletHeartbeatData))
+      {
         AppletHeartbeatData *data = (AppletHeartbeatData *) copy_data->lpData;
         m_TimerBox->set_enabled(data->enabled);
         for (int s = 0; s < BREAK_ID_SIZEOF; s++) 
@@ -549,7 +591,7 @@ CDeskBand::OnCopyData(PCOPYDATASTRUCT copy_data)
         }
 
         m_TimerBox->update();
-      }   }
+      }   
     return 0;
 }
 
