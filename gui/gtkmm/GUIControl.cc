@@ -265,7 +265,6 @@ GUIControl::init()
   Statistics *stats = Statistics::get_instance();
   stats->load_current_day();
     
-  load_config();
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       ConfigCheck *tc = &configCheck[i];
@@ -279,7 +278,10 @@ GUIControl::init()
 
   timers[BREAK_ID_MICRO_PAUSE].break_control = micropause_control;
   timers[BREAK_ID_REST_BREAK].break_control = restbreak_control;
-  
+
+  // FIXME: Raymond??
+  load_config();
+
   TRACE_EXIT();
 }
 
