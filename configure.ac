@@ -8,6 +8,8 @@ dnl
 
 AC_INIT(src/Control.cc)
 
+dnl m4_pattern_allow(AM_PATH_ORBIT2)
+
 dnl Demand at least version 2.57 of autoconf.
 AC_PREREQ(2.57)
 
@@ -238,8 +240,6 @@ then
 
   if test "x$config_with_gnome" = "xyes"
   then
-    AC_PROG_INTLTOOL
-
     PKG_CHECK_MODULES(gnomeui, libgnomeui-2.0)
     PKG_CHECK_MODULES(APPLET, libpanelapplet-2.0 >= 2.0.10)
     PKG_CHECK_MODULES(BONOBO, libbonobo-2.0 >= 2.0.0)
@@ -254,9 +254,6 @@ then
   fi
 fi
 
-AC_PROG_INTLTOOL
-
-                
 AC_SUBST(gnomeui_LIBS)
 AC_SUBST(gnomeui_CFLAGS)
 
@@ -293,14 +290,6 @@ AC_SUBST(GNET_LIBS)
 AC_SUBST(GNET_CFLAGS)
 	        
                 
-dnl AC_ARG_WITH(gtk, AC_HELP_STRING([--with-gtk], [build GTK+ dispatcher]), [
-dnl   PKG_CHECK_MODULES(GTK, gtk+)
-dnl   AC_SUBST(GTK_LIBS)
-dnl   AC_SUBST(GTK_CFLAGS)
-dnl   GTKLIB="libsigcx-gtk.la"], [ GTKLIB=""])
-dnl 
-dnl AC_SUBST(GTKLIB)
-
 dnl AC_CHECK_LIB(Xmu,XmuClientWindow,LIBS="$LIBS -lXmu",
 dnl   AC_MSG_ERROR(Xmu library required))
 
@@ -400,6 +389,7 @@ dnl AM_GLIB_GNU_GETTEXT
 GETTEXT_PACKAGE=workrave
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE", [Blaat])
+dnl AC_PROG_INTLTOOL
 
 if test "x$config_with_xml" = "xyes"
 then

@@ -231,7 +231,7 @@ StatisticsDialog::create_activity_page(Gtk::Notebook *tnotebook)
 
 
 void
-StatisticsDialog::attach_left(Gtk::Table &table, Widget &child, guint left_attach, uint top_attach)
+StatisticsDialog::attach_left(Gtk::Table &table, Widget &child, guint left_attach, guint top_attach)
 {
   Gtk::Alignment *a = manage(new Gtk::Alignment(Gtk::ALIGN_LEFT, Gtk::ALIGN_BOTTOM, 0.0, 0.0));
   a->add(child);
@@ -242,7 +242,7 @@ StatisticsDialog::attach_left(Gtk::Table &table, Widget &child, guint left_attac
 
 
 void
-StatisticsDialog::attach_right(Gtk::Table &table, Widget &child, guint left_attach, uint top_attach)
+StatisticsDialog::attach_right(Gtk::Table &table, Widget &child, guint left_attach, guint top_attach)
 {
   Gtk::Alignment *a = manage(new Gtk::Alignment(Gtk::ALIGN_RIGHT, Gtk::ALIGN_BOTTOM, 0.0, 0.0));
   a->add(child);
