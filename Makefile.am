@@ -16,7 +16,8 @@ EXTRA_DIST	= \
 	autogen.sh \
 	autogenwin32.sh \
 	depcomp \
-	workrave.spec.in
+	workrave.spec.in \
+	workrave.spec
 
 INCLUDES = -I$(top_srcdir)/src -I$(top_builddir)/arch $(GTKMM_CFLAGS) $(GTK_CFLAGS) $(SIGC_CFLAGS)
 
