@@ -141,6 +141,8 @@ public:
 public:
   void win32_set_tray_tooltip(string tip);
   void win32_set_tray_icon(TimerBoxView::IconType icon);
+
+  TimerBoxControl *get_win32_timer_box_control() const;
   
 private:
   void win32_show(bool b);
@@ -165,6 +167,14 @@ private:
   TimerBoxControl *win32_timer_box_control;
 #endif
 };
+
+#ifdef WIN32
+inline TimerBoxControl *
+MainWindow::get_win32_timer_box_control() const
+{
+  return win32_timer_box_control;
+}
+#endif
 
 // inline bool
 // MainWindow::get_iconified() const

@@ -589,7 +589,15 @@ win32_filter_func (void     *xevent,
 
     case WM_USER + 1:
       {
+        GUI *gui = GUI::get_instance(); 
+        assert(gui != NULL);
+
+        MainWindow *main_window = gui->get_main_window();
+        assert(main_window != NULL);
+        
+        TimerBoxControl *win32_timer_box_control = main_window->get_win32_timer_box_control();
         win32_timer_box_control->force_cycle();
+        
         ret = GDK_FILTER_REMOVE;
       }
       break;

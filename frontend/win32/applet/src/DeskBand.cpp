@@ -505,7 +505,7 @@ CDeskBand::WndProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
       pThis->OnWindowPosChanging(wParam, lParam);
       break;
 
-    case WM_LBUTTONDBLCLK:
+    case WM_LBUTTONCLK:
       SendMessage(m_AppletMenu.command_window, WM_USER + 1, 0, 0);
       break;
     }    
