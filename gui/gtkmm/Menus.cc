@@ -55,6 +55,10 @@ static const char rcsid[] = "$Id$";
 #endif
 #include "MainWindow.hh"
 
+#ifdef HAVE_EXERCISES
+#include "ExercisesDialog.hh"
+#endif
+
 #ifndef NDEBUG
 #include "ControlInterface.hh"
 #endif
@@ -212,6 +216,7 @@ Menus::create_menu(Gtk::CheckMenuItem *check_menus[4])
                                                       SigC::slot(*this, &Menus::on_menu_preferences)));
 
 
+  // Rest break
   Gtk::Image *img = manage(new Gtk::Image(GUIControl::get_instance()->timers[GUIControl::BREAK_ID_REST_BREAK].icon));
   menulist.push_back(Gtk::Menu_Helpers::ImageMenuElem
                      (_("_Rest break"),
@@ -220,6 +225,14 @@ Menus::create_menu(Gtk::CheckMenuItem *check_menus[4])
                       SigC::slot(*this, &Menus::on_menu_restbreak_now)));
 
   menulist.push_back(*mode_menu_item);
+
+#ifdef HAVE_EXERCISES
+  // Exercises
+  menulist.push_back(Gtk::Menu_Helpers::MenuElem
+                     (_("Exercises"), 
+                      SigC::slot(*this, &Menus::on_menu_exercises)));
+#endif  
+  
 
 #ifdef HAVE_DISTRIBUTION
   menulist.push_back(*distr_menu_item);
@@ -514,6 +527,34 @@ Menus::on_menu_preferences()
       preferences_dialog->run();
     }
 }
+
+#ifdef HAVE_EXERCISES
+//! Exercises Dialog.
+void
+Menus::on_menu_exercises()
+{
+  if (exercises_dialog == NULL)
+    {
+      exercises_dialog = new ExercisesDialog();
+      exercises_dialog->signal_response().connect(SigC::slot(*this, &Menus::on_exercises_response));
+          
+      exercises_dialog->run();
+    }
+}
+
+void
+Menus::on_exercises_response(int response)
+{
+  (void) response;
+  
+  assert(exercises_dialog != NULL);
+  exercises_dialog->hide_all();
+
+  delete exercises_dialog;
+  exercises_dialog = NULL;
+}
+
+#endif
 
 
 //! Statistics Dialog.

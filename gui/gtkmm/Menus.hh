@@ -19,6 +19,7 @@
 #ifndef MENUS_HH
 #define MENUS_HH
 
+#include "config.h"
 #ifdef HAVE_GNOME
 #include <gnome.h>
 #endif
@@ -30,6 +31,7 @@ class StatisticsDialog;
 class PreferencesDialog;
 class MainWindow;
 class AppletWindow;
+class ExercisesDialog;
 
 #include <gtkmm.h>
 
@@ -67,6 +69,9 @@ private:
 #endif
   void on_statistics_response(int response);
   void on_preferences_response(int response);
+#ifdef HAVE_EXERCISES
+  void on_exercises_response(int response);
+#endif  
   void on_menu_normal_menu(Gtk::CheckMenuItem *);
   void on_menu_suspend_menu(Gtk::CheckMenuItem *);
   void on_menu_quiet_menu(Gtk::CheckMenuItem *);
@@ -78,6 +83,9 @@ public:
   void on_menu_about();
   void on_menu_quit();
   void on_menu_preferences();
+#ifdef HAVE_EXERCISES  
+  void on_menu_exercises();
+#endif
   void on_menu_statistics();
   void on_menu_normal();
   void on_menu_suspend();
@@ -114,6 +122,10 @@ private:
   // The Statistics dialog.
   PreferencesDialog *preferences_dialog;
 
+#ifdef HAVE_EXERCISES
+  // The exercises dialog.
+  ExercisesDialog *exercises_dialog;
+#endif
   //! The main window.
   MainWindow *main_window;
 

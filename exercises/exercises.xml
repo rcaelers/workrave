@@ -1,0 +1,12 @@
+<exercises>
+  <exercise>
+    <title xml:lang="nl">Bla</title>
+    <description xml:lang="bli">
+      haha
+    </description>
+    <sequence duration="20">
+      <image src="bla.png" duration="4">
+      <image src="bla.png" duration="16">
+    </sequence>
+  </exercise>
+</exercises>

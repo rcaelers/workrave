@@ -11,13 +11,19 @@ SUBDIRS = gtkmm text gnome
 
 noinst_LIBRARIES = libgui.a
 
+if HAVE_EXERCISES
+sourcesexercises = ExercisesParser.cc
+endif
+
 libgui_a_SOURCES = \
 	BreakControl.cc \
 	GUIControl.cc \
 	Statistics.cc \
 	SoundPlayer.cc \
-	Text.cc
+	Text.cc \
+	$(sourcesexercises)
+
 
 EXTRA_DIST = $(wildcard *.hh) $(wildcard *.cc) $(wildcard *.c) $(wildcard *.h)  $(wildcard *.icc)
 
-libgui_a_CXXFLAGS = -DWORKRAVE_DATADIR="\"${pkgdatadir}\"" -W @ARCH_CFLAGS@ -I$(top_srcdir)/src -I$(top_srcdir)/gui -I$(top_srcdir)/arch @GNOMEUI_CFLAGS@ @GTK_CFLAGS@ @GLIB_CFLAGS@ -D_XOPEN_SOURCE=600
+libgui_a_CXXFLAGS = -DWORKRAVE_DATADIR="\"${pkgdatadir}\"" -W @ARCH_CFLAGS@ -I$(top_srcdir)/src -I$(top_srcdir)/gui -I$(top_srcdir)/arch @GLIBMM_CFLAGS@ @GNOMEUI_CFLAGS@ @GTK_CFLAGS@ @GLIB_CFLAGS@ -D_XOPEN_SOURCE=600

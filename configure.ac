@@ -74,6 +74,13 @@ AC_ARG_ENABLE( distribution,
        ,
        config_distribution=no
     )
+
+AC_ARG_ENABLE( exercises,
+  [  --enable-exercises      compile with exercises support],
+       config_exercises=$enableval
+       ,
+       config_exercises=no
+    )
     
 if test "x$config_debug" = "xyes"; then
    CFLAGS="${CFLAGS} -g"
@@ -232,6 +239,11 @@ then
 
   AC_SUBST(GTK_LIBS)
   AC_SUBST(GTK_CFLAGS)
+
+  PKG_CHECK_MODULES(GLIBMM, glibmm-2.0)
+
+  AC_SUBST(GLIBMM_LIBS)
+  AC_SUBST(GLIBMM_CFLAGS)
 
   PKG_CHECK_MODULES(GTKMM, gtkmm-2.0)
 
@@ -499,6 +511,11 @@ if test "x$config_distribution" = "xyes"; then
    AC_DEFINE(HAVE_DISTRIBUTION,,[Define if distributed operation is available])
 fi
 
+HAVE_EXERCISES=
+if test "x$config_exercises" = "xyes"; then
+   AC_DEFINE(HAVE_EXERCISES,,[Define if exercises are available])
+fi
+
 HAVE_GNET=
 if test "x$GNET_LIBS" != "x"; then
    AC_DEFINE(HAVE_GNET,,[Define if GNet is available])
@@ -532,5 +549,6 @@ AM_CONDITIONAL(HAVE_ARCH_UNIX, test "x$platform_win32" != "xyes")
 AM_CONDITIONAL(HAVE_GUI_GTKMM, test "x$GTKMM_LIBS" != "x")
 AM_CONDITIONAL(HAVE_GUI_TEXT, test "x$config_with_text" = "xyes")
 AM_CONDITIONAL(HAVE_DISTRIBUTION, test "x$config_distribution" = "xyes")
+AM_CONDITIONAL(HAVE_EXERCISES, test "x$config_exercises" = "xyes")
                                                            
 AC_OUTPUT(src/Makefile arch/Makefile arch/unix/Makefile arch/win32/Makefile arch/win32/harpoon/Makefile gui/Makefile gui/gtkmm/Makefile gui/gnome/Makefile images/Makefile sounds/Makefile Makefile po/Makefile.in m4/Makefile gui/text/Makefile workrave.spec)

@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
+# Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
 #
 # $Id$
 #
@@ -56,6 +56,10 @@ if HAVE_DISTRIBUTION
 sourcesdistribution = NetworkJoinDialog.cc NetworkLogDialog.cc NetworkPreferencePage.cc
 endif
 
+if HAVE_EXERCISES
+sourcesexercises = ExercisesDialog.cc
+endif
+
 libgtkmmgui_a_SOURCES = \
 	$(sourcesidl) \
 	BreakWindow.cc \
@@ -83,7 +87,11 @@ libgtkmmgui_a_SOURCES = \
 	TimerWindow.cc \
 	Menus.cc \
 	Dispatcher.cc \
-	$(sourcesgnome) $(sourcesx) $(sourceswin32) ${sourcesdistribution}
+	$(sourcesgnome) \
+	$(sourcesx) \
+	$(sourceswin32) \
+	${sourcesdistribution} \
+	${sourcesexercises}
 
 libgtkmmgui_a_LIBADD = 
 
