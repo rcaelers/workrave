@@ -51,9 +51,9 @@ const std::string TimerBoxControl::CFG_KEY_TIMERBOX_IMMINENT = "/imminent";
 
 //! Constructor.
 TimerBoxControl::TimerBoxControl(std::string n, TimerBoxView &v) :
+  view(&v),
   cycle_time(10),
-  name(n),
-  view(&v)
+  name(n)
 {
   init();
 }

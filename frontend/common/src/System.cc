@@ -200,7 +200,7 @@ System::init(
     }
   else if ((lock = g_find_program_in_path("xlock")))
     {
-      xlock = g_strdup_printf("%s --display \"%s\"",
+      xlock = g_strdup_printf("%s -display \"%s\"",
                               lock, display);
     }
   g_free(lock);

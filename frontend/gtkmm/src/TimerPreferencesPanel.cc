@@ -387,6 +387,8 @@ TimerPreferencesPanel::enable_buttons()
   bool on = enabled_cb->get_active();
 
   ignorable_cb->set_sensitive(on);
+  activity_sensitive_cb->set_sensitive(on);
+  
 #ifdef HAVE_MICRO_BREAK_ACTIVITY
   if (monitor_cb != NULL)
     {
