@@ -180,17 +180,20 @@ BreakWindow::set_avoid_pointer(bool avoid_pointer)
           avoid_signal.disconnect();
         }
     }
-#else 
-  Gdk::EventMask events;
-
-  events = Gdk::ENTER_NOTIFY_MASK;
-  if (avoid_pointer)
+#else
+  if (is_realized())
     {
-      add_events(events);
-    }
-  else
-    {
-      set_events(get_events() & ~events);
+      Gdk::EventMask events;
+      
+      events = Gdk::ENTER_NOTIFY_MASK;
+      if (avoid_pointer)
+        {
+          add_events(events);
+        }
+      else
+        {
+          set_events(get_events() & ~events);
+        }
     }
 #endif
 }

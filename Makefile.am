@@ -7,7 +7,7 @@
 
 MAINTAINERCLEANFILES 	= aclocal.m4 config.h.in configure stamp-h.in Makefile.in \
         install-sh missing mkinstalldirs config.cache config.log config.status \
-	config.guess config.sub depcomp ltmain.sh
+	config.guess config.sub depcomp ltmain.sh build-stamp
 
 SUBDIRS 	= intl m4 po arch gui src images debian sounds 
 

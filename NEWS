@@ -11,6 +11,11 @@ http://workrave.sourceforge.net
 provided. We are still looking for volunteers to translate Workrave
 into other languages.
 
+** The "Collective" has been renamed to "Network".
+
+** A network log window has been added. This window shows informational
+messages about the communication between different Workrave instances. 
+
 * Workrave 0.3.0
 
 ** Added experimental(!) distribution support, dubbed "The
