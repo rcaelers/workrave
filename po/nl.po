@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
 "POT-Creation-Date: 2003-02-17 20:55+0100\n"
-"PO-Revision-Date: 2003-02-16 21:52+0100\n"
+"PO-Revision-Date: 2003-02-20 18:41+0100\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
 "MIME-Version: 1.0\n"
@@ -450,14 +450,12 @@ msgid "<b>End time:</b>"
 msgstr ""
 
 #: gui/gtkmm/StatisticsDialog.cc:174
-#, fuzzy
 msgid "Breaks"
 msgstr "Pauzes"
 
 #: gui/gtkmm/StatisticsDialog.cc:182
-#, fuzzy
 msgid "Total breaks"
-msgstr "Total aantal pauzes"
+msgstr "Aantal pauzes"
 
 #: gui/gtkmm/StatisticsDialog.cc:183
 msgid ""

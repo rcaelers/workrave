@@ -1,6 +1,6 @@
 // NetworkPreferencePage.cc --- Preferences widgets for a timer
 //
-// Copyright (C) 2002 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -84,8 +84,8 @@ NetworkPreferencePage::create_general_page(Gtk::Notebook *tnotebook)
   username_entry = manage(new Gtk::Entry());
   password_entry = manage(new Gtk::Entry());
   
-  Gtk::Label *username_label = manage(new Gtk::Label(_("Username")));
-  Gtk::Label *password_label = manage(new Gtk::Label(_("Password")));
+  Gtk::Label *username_label = manage(new Gtk::Label(_("Username:")));
+  Gtk::Label *password_label = manage(new Gtk::Label(_("Password:")));
 
   password_entry->set_visibility(false);
   password_entry->set_invisible_char('*');
@@ -95,10 +95,10 @@ NetworkPreferencePage::create_general_page(Gtk::Notebook *tnotebook)
   id_table->set_col_spacings(6);
   id_table->set_border_width(6);
   int y = 0;
-  id_table->attach(*username_label, 0, 1, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
+  id_table->attach(*username_label, 0, 1, y, y+1, Gtk::FILL, Gtk::SHRINK);
   id_table->attach(*username_entry, 1, 2, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
   y++;
-  id_table->attach(*password_label, 0, 1, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
+  id_table->attach(*password_label, 0, 1, y, y+1, Gtk::FILL, Gtk::SHRINK);
   id_table->attach(*password_entry, 1, 2, y, y+1, Gtk::SHRINK | Gtk::FILL, Gtk::SHRINK);
   y++;
 

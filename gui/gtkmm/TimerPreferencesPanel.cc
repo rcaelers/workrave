@@ -185,7 +185,8 @@ TimerPreferencesPanel::create_timers_frame()
 {
   // Snooze time
   TimerInterface *itimer = timer->timer;
-  Gtk::Label *snooze_lab = manage(new Gtk::Label(_("Post-pone time")));
+  Gtk::Label *snooze_lab = manage(new Gtk::Label(_("Post-pone time:")));
+  snooze_lab->set_alignment(0.0,0.0);
   snooze_tim = manage(new TimeEntry());
   snooze_tim->set_value (itimer->get_snooze());
   snooze_tim->signal_value_changed()
@@ -196,25 +197,27 @@ TimerPreferencesPanel::create_timers_frame()
   time_t auto_reset_value;
   if (break_id == GUIControl::BREAK_ID_DAILY_LIMIT)
     {
-      auto_reset_txt = _("Resets at");
+      auto_reset_txt = _("Resets at:");
       DayTimePred *pred = (DayTimePred *) itimer->get_auto_reset_predicate();
       assert(pred);
       auto_reset_value = pred->get_time_offset();
     }
   else
     {
-      auto_reset_txt = _("Pause duration");
+      auto_reset_txt = _("Pause duration:");
       auto_reset_value = itimer->get_auto_reset();
     }
   
   Gtk::Label *auto_reset_lab = manage(new Gtk::Label(auto_reset_txt));
+  auto_reset_lab->set_alignment(0.0,0.0);
   auto_reset_tim = manage(new TimeEntry());
   auto_reset_tim->set_value (auto_reset_value);
   auto_reset_tim->signal_value_changed()
     .connect(SigC::slot(*this, &TimerPreferencesPanel::on_auto_reset_changed));
 
   // Limit time
-  Gtk::Label *limit_lab = manage(new Gtk::Label(_("Time before break")));
+  Gtk::Label *limit_lab = manage(new Gtk::Label(_("Time before break:")));
+  limit_lab->set_alignment(0.0,0.0);
   limit_tim = manage(new TimeEntry());
   limit_tim->set_value (itimer->get_limit());
   limit_tim->signal_value_changed()
@@ -225,13 +228,13 @@ TimerPreferencesPanel::create_timers_frame()
   timers_table->set_row_spacings(2);
   timers_table->set_col_spacings(6);
   int y = 0;
-  timers_table->attach(*limit_lab, 0, 1, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
+  timers_table->attach(*limit_lab, 0, 1, y, y+1, Gtk::FILL, Gtk::SHRINK);
   timers_table->attach(*limit_tim, 1, 2, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
   y++;
-  timers_table->attach(*auto_reset_lab, 0, 1, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
+  timers_table->attach(*auto_reset_lab, 0, 1, y, y+1, Gtk::FILL, Gtk::SHRINK);
   timers_table->attach(*auto_reset_tim, 1, 2, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
   y++;
-  timers_table->attach(*snooze_lab, 0, 1, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
+  timers_table->attach(*snooze_lab, 0, 1, y, y+1, Gtk::FILL, Gtk::SHRINK);
   timers_table->attach(*snooze_tim, 1, 2, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
 
   // Timers frame

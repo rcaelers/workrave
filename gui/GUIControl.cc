@@ -868,6 +868,11 @@ GUIControl::config_changed_notify(string key)
   TRACE_EXIT();
 }
 
+GUIControl::TimerData *
+GUIControl::get_timer_data(GUIControl::BreakId id)
+{
+  return &timers[id];
+}
 
 
 

@@ -126,6 +126,7 @@ public:
   void break_action(BreakId id, BreakAction action);
   Configurator *get_configurator();
   void set_freeze_all_breaks(bool freeze);
+  TimerData *get_timer_data(BreakId id);
 
   ControlInterface *get_core();
   
@@ -208,5 +209,7 @@ GUIControl::get_core()
 {
   return core_control;
 }
+
+
 
 #endif // GUICONTROL_HH

@@ -40,3 +40,17 @@ GtkUtil::create_label_with_icon(const char *text, const char *icon)
   box->pack_start(*lab, false, false, 0);
   return box;
 }
+
+
+Gtk::Widget *
+GtkUtil::create_label_for_break(GUIControl::BreakId id)
+{
+  GUIControl *guic = GUIControl::get_instance();
+  GUIControl::TimerData *timer = guic->get_timer_data(id);
+#if 1
+  timer = &(guic->timers[(int)id]);
+#endif  
+  Gtk::Widget *label = 
+    GtkUtil::create_label_with_icon (timer->label, timer->icon.c_str());
+  return label;
+}

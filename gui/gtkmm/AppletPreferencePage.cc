@@ -29,7 +29,7 @@
 
 #include "Configurator.hh"
 #include "AppletWindow.hh"
-
+#include "GtkUtil.hh"
 
 //! Constructs the Applet Preference Notebook page.
 AppletPreferencePage::AppletPreferencePage()
@@ -61,16 +61,26 @@ AppletPreferencePage::create_page()
   Gtk::VBox *box = manage(new Gtk::VBox());
   
   // Labels
-  Gtk::Label *mp_label = manage(new Gtk::Label(_("Micro-pause")));
-  Gtk::Label *rb_label = manage(new Gtk::Label(_("Restbreak")));
-  Gtk::Label *dl_label = manage(new Gtk::Label(_("Daily limit")));
-  Gtk::Label *visible_label = manage(new Gtk::Label(_("Break visible")));
-  Gtk::Label *cycle_label = manage(new Gtk::Label(_("Cycle time")));
-  Gtk::Label *slot_label = manage(new Gtk::Label(_("Break position")));
-  Gtk::Label *first_label = manage(new Gtk::Label(_("Show only when first")));
-  Gtk::Label *imminent_label = manage(new Gtk::Label(_("Show only when imminent in")));
-  Gtk::Label *exclusive_label = manage(new Gtk::Label(_("Show exclusively")));
-  Gtk::Label *default_label = manage(new Gtk::Label(_("Default break")));
+  Gtk::Widget *mp_label = manage(GtkUtil::create_label_for_break
+                                 (GUIControl::BREAK_ID_MICRO_PAUSE));
+  Gtk::Widget *rb_label = manage(GtkUtil::create_label_for_break
+                                 (GUIControl::BREAK_ID_REST_BREAK));
+  Gtk::Widget *dl_label = manage(GtkUtil::create_label_for_break
+                                 (GUIControl::BREAK_ID_DAILY_LIMIT));
+  Gtk::Label *visible_label = manage(new Gtk::Label(_("Break visible:")));
+  visible_label->set_alignment(1.0);
+  Gtk::Label *cycle_label = manage(new Gtk::Label(_("Cycle time:")));
+  cycle_label->set_alignment(1.0);
+  Gtk::Label *slot_label = manage(new Gtk::Label(_("Break position:")));
+  slot_label->set_alignment(1.0);
+  Gtk::Label *first_label = manage(new Gtk::Label(_("Show only when first:")));
+  first_label->set_alignment(1.0);
+  Gtk::Label *imminent_label = manage(new Gtk::Label(_("Show only when imminent in:")));
+  imminent_label->set_alignment(1.0);
+  Gtk::Label *exclusive_label = manage(new Gtk::Label(_("Show exclusively:")));
+  exclusive_label->set_alignment(1.0);
+  Gtk::Label *default_label = manage(new Gtk::Label(_("Default break:")));
+  default_label->set_alignment(1.0);
 
   // Cycle time spin button.
   cycle_entry = manage(new Gtk::SpinButton());
@@ -170,26 +180,26 @@ AppletPreferencePage::create_page()
   // Add labels to table.
   int y = 0;
   
-  table->attach(*cycle_label, 0, 1, y, y + 1, Gtk::SHRINK, Gtk::SHRINK);
+  table->attach(*cycle_label, 0, 1, y, y + 1, Gtk::FILL, Gtk::SHRINK);
   table->attach(*cycle_entry, 1, 2, y, y + 1, Gtk::SHRINK, Gtk::SHRINK);
   y++;
   
-  table->attach(*mp_label, 1, 2, y, y + 1, Gtk::SHRINK, Gtk::SHRINK);
-  table->attach(*rb_label, 2, 3, y, y + 1, Gtk::SHRINK, Gtk::SHRINK);
-  table->attach(*dl_label, 3, 4, y, y + 1, Gtk::SHRINK, Gtk::SHRINK);
+  table->attach(*mp_label, 1, 2, y, y + 1, Gtk::FILL, Gtk::SHRINK);
+  table->attach(*rb_label, 2, 3, y, y + 1, Gtk::FILL, Gtk::SHRINK);
+  table->attach(*dl_label, 3, 4, y, y + 1, Gtk::FILL, Gtk::SHRINK);
   y++;
   
-  table->attach(*visible_label, 0, 1, y, y + 1, Gtk::SHRINK, Gtk::SHRINK);
+  table->attach(*visible_label, 0, 1, y, y + 1, Gtk::FILL, Gtk::SHRINK);
   y++;
-  table->attach(*slot_label, 0, 1, y, y + 1, Gtk::SHRINK, Gtk::SHRINK);
+  table->attach(*slot_label, 0, 1, y, y + 1, Gtk::FILL, Gtk::SHRINK);
   y++;
-  table->attach(*default_label, 0, 1, y, y + 1, Gtk::SHRINK, Gtk::SHRINK);
+  table->attach(*default_label, 0, 1, y, y + 1, Gtk::FILL, Gtk::SHRINK);
   y++;
-  table->attach(*exclusive_label, 0, 1, y, y + 1, Gtk::SHRINK, Gtk::SHRINK);
+  table->attach(*exclusive_label, 0, 1, y, y + 1, Gtk::FILL, Gtk::SHRINK);
   y++;
-  table->attach(*first_label, 0, 1, y, y + 1, Gtk::SHRINK, Gtk::SHRINK);
+  table->attach(*first_label, 0, 1, y, y + 1, Gtk::FILL, Gtk::SHRINK);
   y++;
-  table->attach(*imminent_label, 0, 1, y, y + 1, Gtk::SHRINK, Gtk::SHRINK);
+  table->attach(*imminent_label, 0, 1, y, y + 1, Gtk::FILL, Gtk::SHRINK);
   y++;
 
   // And put it all together.

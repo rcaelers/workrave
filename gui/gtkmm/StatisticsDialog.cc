@@ -242,18 +242,12 @@ StatisticsDialog::create_break_page(Gtk::Notebook *tnotebook)
   // Add labels to table.
   int y = 0;
 
-  GUIControl::TimerData *timers = &GUIControl::get_instance()->timers[0];
-  GUIControl::TimerData *timer = timers + GUIControl::BREAK_ID_MICRO_PAUSE;
-  Gtk::Widget *mp_label = manage
-    (GtkUtil::create_label_with_icon (_(timer->label), timer->icon.c_str()));
-
-  timer = timers + GUIControl::BREAK_ID_REST_BREAK;
-  Gtk::Widget *rb_label = manage
-    (GtkUtil::create_label_with_icon (_(timer->label), timer->icon.c_str()));
-
-  timer = timers + GUIControl::BREAK_ID_DAILY_LIMIT;
-  Gtk::Widget *dl_label = manage
-    (GtkUtil::create_label_with_icon (_(timer->label), timer->icon.c_str()));
+  Gtk::Widget *mp_label = manage(GtkUtil::create_label_for_break
+                                 (GUIControl::BREAK_ID_MICRO_PAUSE));
+  Gtk::Widget *rb_label = manage(GtkUtil::create_label_for_break
+                                 (GUIControl::BREAK_ID_REST_BREAK));
+  Gtk::Widget *dl_label = manage(GtkUtil::create_label_for_break
+                                 (GUIControl::BREAK_ID_DAILY_LIMIT));
 
   y = 0;
   attach_left(*table, *mp_label, 2, y);

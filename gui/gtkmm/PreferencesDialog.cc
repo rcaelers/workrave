@@ -174,10 +174,8 @@ PreferencesDialog::create_timer_page()
   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
     {
       // Label
-      GUIControl::TimerData *timer = &GUIControl::get_instance()->timers[i];
-      
-      Gtk::Widget *box = manage(GtkUtil::create_label_with_icon
-                                (_(timer->label), timer->icon.c_str()));
+      Gtk::Widget *box = manage(GtkUtil::create_label_for_break
+                                ((GUIControl::BreakId) i));
       TimerPreferencesPanel *tp = manage(new TimerPreferencesPanel(GUIControl::BreakId(i)));
       box->show_all();
       tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*tp, *box));

@@ -20,6 +20,7 @@
 #define GTKUTIL_HH
 
 #include <gtkmm.h>
+#include "GUIControl.hh"
 
 class GtkUtil
 {
@@ -29,6 +30,9 @@ public:
 
   static Gtk::Widget *
   create_label_with_icon(const char *text, const char *icon);
+
+  static Gtk::Widget *
+  create_label_for_break(GUIControl::BreakId id);
 };
 
 #endif // GTKMMGUI_HH
