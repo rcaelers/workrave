@@ -1,6 +1,6 @@
 // PacketBufer.hh
 //
-// Copyright (C) 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -68,8 +68,8 @@ public:
   
 public:
   guint8 *buffer;
-  guint8 *write_ptr;
   guint8 *read_ptr;
+  guint8 *write_ptr;
   int buffer_size;
 };
 

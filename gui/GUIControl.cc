@@ -352,7 +352,7 @@ GUIControl::heartbeat()
   TimerInfo infos[BREAK_ID_SIZEOF];
   core_control->process_timers(infos);
 
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+  for (int i = BREAK_ID_SIZEOF - 1; i >= 0;  i--)
     {
       TimerInfo info = infos[i];
       timer_action((BreakId)i, info);
@@ -481,7 +481,6 @@ GUIControl::restart_break()
 void
 GUIControl::set_freeze_all_breaks(bool freeze)
 {
-  TRACE_ENTER_MSG("GUIControl::set_freeze_all_breaks", freeze);
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       TimerInterface *t = timers[i].timer;
@@ -491,7 +490,6 @@ GUIControl::set_freeze_all_breaks(bool freeze)
           t->freeze_timer(freeze);
         }
     }
-  TRACE_EXIT();
 }
 
 
@@ -609,7 +607,7 @@ GUIControl::break_action(BreakId id, BreakAction action)
 void
 GUIControl::handle_start_break(BreakInterface *breaker, BreakId break_id, TimerInterface *timer)
 {
-  // Don't show MP when RB is active.
+  // Don't show MP when RB is active, RB when DL is active.
   for (int bi = break_id; bi <= BREAK_ID_DAILY_LIMIT; bi++)
     {
       if (timers[bi].break_control->get_break_state()
@@ -643,6 +641,10 @@ GUIControl::handle_start_break(BreakInterface *breaker, BreakId break_id, TimerI
           if (now + duration + threshold >= rbTimer->get_next_limit_time())
             {
               handle_start_break(restbreak_control, BREAK_ID_REST_BREAK, rbTimer);
+
+              // Snooze timer before the limit was reached. Just to make sure
+              // that it doesn't reach its limit again when elapsed == limit
+              rbTimer->snooze_timer();
               return;
             }
         }
@@ -656,7 +658,6 @@ GUIControl::handle_start_break(BreakInterface *breaker, BreakId break_id, TimerI
       if (t->break_control->get_break_state() == BreakInterface::BREAK_ACTIVE)
         {
           t->break_control->stop_break();
-          // t->timer->snooze_timer();
         }
     }
   

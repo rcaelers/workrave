@@ -43,8 +43,6 @@ static const char rcsid[] = "$Id$";
 bool
 WmSpec::supported()
 {
-  TRACE_ENTER("WmSpec::supported");
-
   Atom r_type, support_check;
   int r_format, p;
   unsigned long count, bytes_remain;
@@ -75,17 +73,13 @@ WmSpec::supported()
   if (prop2)
     XFree(prop2);
 
-  TRACE_EXIT();
   return ret;
 }
-
 
 
 void
 WmSpec::change_state(GtkWidget *gtk_window, bool add, const char *state)
 {
-  TRACE_ENTER_MSG("WmSpec::change_state", state);
-
   GdkWindow *window = GTK_WIDGET(gtk_window)->window;
   g_return_if_fail (GDK_IS_WINDOW(window));
   
@@ -99,8 +93,6 @@ WmSpec::change_state(GtkWidget *gtk_window, bool add, const char *state)
     {
       XEvent xev;
 
-      TRACE_MSG(wm_state_atom << " " << wm_value_atom);
-  
       xev.type = ClientMessage;
       xev.xclient.type = ClientMessage;
       xev.xclient.serial = 0;
@@ -127,7 +119,6 @@ WmSpec::change_state(GtkWidget *gtk_window, bool add, const char *state)
                       XA_ATOM, 32, PropModeAppend,
                       (guchar*) atoms, 1);
     }
-  TRACE_EXIT();
 }
 
 

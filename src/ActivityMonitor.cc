@@ -187,6 +187,7 @@ ActivityMonitor::mouse_notify(int x, int y, int wheel_delta)
 void
 ActivityMonitor::button_notify(int button_mask, bool is_press)
 {
+  (void)button_mask;
   lock.lock();
   if (click_x != -1)
     {
@@ -212,6 +213,8 @@ ActivityMonitor::button_notify(int button_mask, bool is_press)
 void
 ActivityMonitor::keyboard_notify(int key_code, int modifier)
 {
+  (void)key_code;
+  (void)modifier;
   lock.lock();
   action_notify();
   statistics.total_keystrokes++;

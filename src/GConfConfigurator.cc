@@ -372,8 +372,9 @@ GConfConfigurator::add_listener(string key_prefix, ConfiguratorListener *listene
 bool
 GConfConfigurator::remove_listener(ConfiguratorListener *listener)
 {
+  (void) listener;
   bool ret = false;
-  
+
 // TODO:
 
 /*  ListenerIDsIter i = listener_ids.begin();
@@ -437,6 +438,7 @@ GConfConfigurator::get_all_dirs(string key) const
 void
 GConfConfigurator::static_key_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer user_data)
 {
+  (void)client;
   GConfConfigurator *c = (GConfConfigurator *) user_data;
   c->key_changed(cnxn_id, entry);
 }

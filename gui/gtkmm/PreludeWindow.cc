@@ -186,11 +186,9 @@ PreludeWindow::refresh()
 void
 PreludeWindow::set_progress(int value, int max_value)
 {
-  TRACE_ENTER_MSG("PreludeWindow::set_progress", value << " " << max_value);
   progress_value = value;
   progress_max_value = max_value;
   refresh();
-  TRACE_EXIT()
 }
 
 
@@ -211,7 +209,6 @@ PreludeWindow::set_progress_text(string text)
 void
 PreludeWindow::set_stage(Stage stage)
 {
-  TRACE_ENTER_MSG("PreludeWindow::set_stage", stage);
   const char *icon = NULL;
   switch(stage)
     {
@@ -249,7 +246,6 @@ PreludeWindow::set_stage(Stage stage)
       string file = Util::complete_directory(icon, Util::SEARCH_PATH_IMAGES);
       image_icon->set(file);
     }
-  TRACE_EXIT();
 }
 
 
@@ -273,13 +269,10 @@ PreludeWindow::delayed_stop()
 bool
 PreludeWindow::action_notify()
 {
-  TRACE_ENTER("BreakControl::action_notify");
-
   if (dispatcher != NULL)
     {
       dispatcher->send_notification();
     }
-  TRACE_EXIT();
   return false; // false: kill listener.
 }
 
@@ -287,12 +280,10 @@ PreludeWindow::action_notify()
 void
 PreludeWindow::on_activity()
 {
-  TRACE_ENTER("BreakControl::on_activity");
   if (prelude_response != NULL)
     {
       prelude_response->prelude_stopped();
     }
-  TRACE_EXIT();
 }
 
 void

@@ -77,10 +77,12 @@ public:
 
   void get_statistics(ActivityMonitorStatistics &stats) const
   {
+    (void) stats;
   }
 
   void set_statistics(const ActivityMonitorStatistics &stats)
   {
+    (void) stats;
   }
 
   void reset_statistics()
@@ -89,6 +91,7 @@ public:
 
   void set_listener(ActivityMonitorListenerInterface *l)
   {
+    (void)l;
   }
   
 private:

@@ -108,8 +108,6 @@ void TimeBar::on_realize()
 void 
 TimeBar::on_size_request(GtkRequisition *requisition)
 {
-  TRACE_ENTER("TimeBar::on_size_request");
-
   Glib::RefPtr<Pango::Layout> pl = create_pango_layout(bar_text);
 
   string min_string = Text::time_to_string(-(59+59*60+9*60*60));;
@@ -127,9 +125,6 @@ TimeBar::on_size_request(GtkRequisition *requisition)
 
   requisition->width = width + 2 * MARGINX;
   requisition->height = max(height + 2 * MARGINY, MIN_HORIZONTAL_BAR_HEIGHT);
-
-  TRACE_MSG(requisition->width << " " << requisition->height);
-  TRACE_EXIT();
 }
 
 

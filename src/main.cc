@@ -39,6 +39,8 @@ run(int argc, char **argv)
 
   delete gui;
   delete control;
+
+  return 0;
 }
 
 

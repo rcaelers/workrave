@@ -43,6 +43,8 @@ public:
   void init();
   void update();
 
+  int get_visible_count() const;
+  
   static const string get_timer_config_key(string name, GUIControl::BreakId timer, const string &key);
   static int get_cycle_time(string name);
   static void set_cycle_time(string name, int time);
@@ -137,5 +139,12 @@ private:
   //!
   string name;
 };
+
+
+inline int
+TimerBox::get_visible_count() const
+{
+  return visible_count;
+}
 
 #endif // TIMERBOX_HH

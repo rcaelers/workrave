@@ -283,24 +283,7 @@ TimerBoxPreferencePage::on_display_changed(int break_id)
     }
   TimerBox::set_timer_flags(name, (GUIControl::BreakId) break_id, flags);
 
-#ifdef HAVE_X
-  if (name == "main_window")
-    {
-      int count = 0;
-      for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
-        {
-          if (timer_display_button[i]->get_history() == 0)
-            {
-              count++;
-            }
-        }
-
-      if (count == 3)
-        {
-          TimerBox::set_enabled(name, false);
-        }
-    }
-#endif  
+  enable_buttons();
 }
 
 
@@ -308,17 +291,39 @@ TimerBoxPreferencePage::on_display_changed(int break_id)
 void
 TimerBoxPreferencePage::enable_buttons(void)
 {
-  bool on = true;
-  if (name == "applet" && enabled_cb != NULL)
-    {
-      on = enabled_cb->get_active();
-    }
-  place_button->set_sensitive(on);
+  int count = 0;
   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
     {
-      timer_display_button[i]->set_sensitive(on);
+      if (timer_display_button[i]->get_history() == 0)
+        {
+          count++;
+        }
     }
-  cycle_entry->set_sensitive(on);
+
+  if (name == "applet")
+    {
+      bool on = enabled_cb->get_active();
+
+      place_button->set_sensitive(on && count != 3);
+      for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
+        {
+          timer_display_button[i]->set_sensitive(on);
+        }
+      cycle_entry->set_sensitive(on && count != 3);
+
+    }
+  else if (name == "main_window")
+    {
+      if (count == 3)
+        {
+          TimerBox::set_enabled(name, false);
+          enabled_cb->set_active(false);
+        }
+      enabled_cb->set_sensitive(count != 3);
+      place_button->set_sensitive(count != 3);
+      cycle_entry->set_sensitive(count != 3);
+      ontop_cb->set_sensitive(count != 3);
+    }
 }
 
 

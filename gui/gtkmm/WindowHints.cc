@@ -49,7 +49,6 @@ bool WindowHints::win_supported = false;
 bool
 WindowHints::init()
 {
-  TRACE_ENTER("WindowHints::init");
   bool rc = false;
   
 #if defined(HAVE_X)
@@ -72,7 +71,6 @@ WindowHints::init()
     }
 #endif
 
-  TRACE_EXIT();
   return rc;
 }
 
@@ -108,7 +106,6 @@ WindowHints::set_always_on_top(GtkWidget *window, bool onTop)
 bool
 WindowHints::set_skip_winlist(GtkWidget *window, bool skip)
 {
-  TRACE_ENTER("WindowHints::set_skip_winlist");
   bool ret = false;
   
 #ifdef HAVE_X
@@ -139,8 +136,6 @@ WindowHints::set_skip_winlist(GtkWidget *window, bool skip)
     }
 
 #endif
-  TRACE_EXIT();
-  
   return ret;
 }
 
@@ -161,8 +156,6 @@ win32_block_input(BOOL block, HWND unblocked_window)
 WindowHints::Grab *
 WindowHints::grab(GdkWindow *gdkWindow)
 {
-  TRACE_ENTER("WindowHints::grab");
-
   WindowHints::Grab *handle = NULL;
 #if defined(HAVE_X)
   // Grab keyboard.
@@ -190,7 +183,6 @@ WindowHints::grab(GdkWindow *gdkWindow)
   win32_block_input(TRUE, hDrawingWind);
   handle = (WindowHints::Grab *) 0xdeadf00d;
 #endif
-  TRACE_EXIT();
   return handle;
 }
 
@@ -199,7 +191,6 @@ WindowHints::grab(GdkWindow *gdkWindow)
 void
 WindowHints::ungrab(WindowHints::Grab *handle)
 {
-  TRACE_ENTER("WindowHints::ungrab");
   if (! handle)
     return;
   
@@ -210,7 +201,6 @@ WindowHints::ungrab(WindowHints::Grab *handle)
 #elif defined(WIN32)
   win32_block_input(FALSE, NULL);
 #endif
-  TRACE_EXIT();
 }
 
 

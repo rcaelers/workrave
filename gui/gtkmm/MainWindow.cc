@@ -244,8 +244,11 @@ MainWindow::update()
 void
 MainWindow::open_window()
 {
-  deiconify();
-  raise();
+  if (timers_box->get_visible_count() > 0)
+    {
+      deiconify();
+      raise();
+    }
 }
 
 

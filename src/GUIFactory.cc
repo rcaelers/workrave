@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-01-06 23:19:50 robc>
+// Time-stamp: <2003-04-11 22:54:50 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -37,6 +37,7 @@ GUIInterface *
 GUIFactory::create_gui(string type, ControlInterface *c, int argc, char **argv)
 {
   GUIInterface *gi =  NULL;
+  (void) type;
   
 #ifdef HAVE_GUI_GTK
   // if (type == "gtkmm")

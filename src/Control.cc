@@ -489,7 +489,6 @@ Control::load_state()
   ifstream stateFile(ss.str().c_str());
 
   bool ok = stateFile;
-  bool version2 = false;
   
   if (ok)
     {
@@ -608,6 +607,7 @@ bool
 Control::set_state(DistributedStateID id, bool master, unsigned char *buffer, int size)
 {
   (void) id;
+  (void) master;
   TRACE_ENTER("Control::set_state");
 
   PacketBuffer state_packet;
@@ -633,7 +633,7 @@ Control::set_state(DistributedStateID id, bool master, unsigned char *buffer, in
 
       Timer::TimerStateData state_data;
 
-      int data_size = state_packet.unpack_ushort();
+      state_packet.unpack_ushort();
       
       state_data.current_time = state_packet.unpack_ulong();
       state_data.elapsed_time = state_packet.unpack_ulong();

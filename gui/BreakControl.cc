@@ -94,7 +94,7 @@ BreakControl::~BreakControl()
 void
 BreakControl::heartbeat()
 {
-  TRACE_ENTER("BreakControl::heartbeat");
+  TRACE_ENTER_MSG("BreakControl::heartbeat", break_id);
 
   collect_garbage();
   
@@ -115,7 +115,8 @@ BreakControl::heartbeat()
       ActivityState activity_state = monitor->get_current_state();
       is_idle = (activity_state != ACTIVITY_ACTIVE);
     }
-  
+
+  TRACE_MSG("stage = " << break_stage);
   switch (break_stage)
     {
     case STAGE_NONE:
@@ -227,7 +228,7 @@ BreakControl::heartbeat()
 void
 BreakControl::goto_stage(BreakStage stage)
 {
-  TRACE_ENTER_MSG("BreakControl::goto_stage", stage);
+  TRACE_ENTER_MSG("BreakControl::goto_stage", break_id << " " << stage);
   switch (stage)
     {
     case STAGE_DELAYED:
@@ -373,7 +374,7 @@ BreakControl::update_break_window()
 void
 BreakControl::start_break()
 {
-  TRACE_ENTER("BreakControl::start_break");
+  TRACE_ENTER_MSG("BreakControl::start_break", break_id);
   user_initiated = false;
   forced_break = false;
   prelude_time = 0;
@@ -424,7 +425,7 @@ BreakControl::start_break()
 void
 BreakControl::force_start_break()
 {
-  TRACE_ENTER("BreakControl::force_start_break");
+  TRACE_ENTER_MSG("BreakControl::force_start_break", break_id);
   user_initiated = true;
   forced_break = true;
   prelude_time = 0;
@@ -443,7 +444,7 @@ BreakControl::force_start_break()
 void
 BreakControl::stop_break()
 {
-  TRACE_ENTER("BreakControl::stop_break");
+  TRACE_ENTER_MSG("BreakControl::stop_break", break_id);
 
   suspend_break();
   prelude_count = 0;
@@ -460,7 +461,7 @@ BreakControl::stop_break()
 void
 BreakControl::suspend_break()
 {
-  TRACE_ENTER("BreakControl::suspend_break");
+  TRACE_ENTER_MSG("BreakControl::suspend_break", break_id);
 
   goto_stage(STAGE_NONE);
   defrost();
@@ -492,7 +493,6 @@ BreakControl::need_heartbeat()
 BreakInterface::BreakState
 BreakControl::get_break_state()
 {
-  TRACE_ENTER("BreakControl::get_break_state")
   BreakState ret = BREAK_INACTIVE;
 
   if (break_stage == STAGE_NONE)
@@ -507,7 +507,6 @@ BreakControl::get_break_state()
     {
       ret = BREAK_ACTIVE;
     }
-  TRACE_RETURN(ret);
   return ret;
 }
 
@@ -523,7 +522,7 @@ BreakControl::postpone_break()
   if (!user_initiated)
     {
       // Snooze the timer.
-      // use "normal" snoozing... break_timer->snooze_timer();
+      break_timer->snooze_timer();
       
       // Update stats.
       Statistics *stats = Statistics::get_instance();
@@ -595,13 +594,11 @@ BreakControl::set_max_preludes(int m)
 void
 BreakControl::set_insist_break(bool i)
 {
-  TRACE_ENTER_MSG("BreakControl::set_insist_break", i)
   insist_break = i;
   if (break_window != NULL)
     {
       break_window->set_insist_break(insist_break);
     }
-  TRACE_EXIT();
 }
 
 
@@ -632,6 +629,7 @@ BreakControl::set_insist_policy(InsistPolicy p)
 void
 BreakControl::break_window_start()
 {
+  TRACE_ENTER_MSG("BreakControl::break_window_start", break_id);
   if (break_window == NULL)
     {
       assert(gui_factory != NULL);
@@ -647,6 +645,7 @@ BreakControl::break_window_start()
   update_break_window();
   
   break_window->start();
+  TRACE_EXIT();
 }
 
 
@@ -654,7 +653,7 @@ BreakControl::break_window_start()
 void
 BreakControl::break_window_stop()
 {
-  TRACE_ENTER("BreakControl::break_window_stop");
+  TRACE_ENTER_MSG("BreakControl::break_window_stop", break_id);
   if (break_window != NULL)
     {
       break_window->stop();
@@ -669,6 +668,8 @@ BreakControl::break_window_stop()
 void
 BreakControl::prelude_window_start()
 {
+  TRACE_ENTER_MSG("BreakControl::prelude_window_start", break_id);
+  
   if (prelude_window == NULL)
     {
       assert(gui_factory != NULL);
@@ -698,6 +699,7 @@ BreakControl::prelude_window_start()
   update_prelude_window();
   
   prelude_window->start();
+  TRACE_EXIT();
 }
 
 
@@ -705,7 +707,7 @@ BreakControl::prelude_window_start()
 void
 BreakControl::prelude_window_stop()
 {
-  TRACE_ENTER("BreakControl::prelude_window_stop");
+  TRACE_ENTER_MSG("BreakControl::prelude_window_stop", break_id);
   if (prelude_window != NULL)
     {
       prelude_window->stop();
@@ -747,7 +749,6 @@ BreakControl::collect_garbage()
 void
 BreakControl::freeze()
 {
-  TRACE_ENTER("BreakControl::freeze");
   switch (insist_policy)
     {
     case INSIST_POLICY_SUSPEND:
@@ -774,7 +775,6 @@ BreakControl::freeze()
     }
 
   active_insist_policy = insist_policy;
-  TRACE_EXIT();
 }
 
 
@@ -782,7 +782,6 @@ BreakControl::freeze()
 void
 BreakControl::defrost()
 {
-  TRACE_ENTER("BreakControl::defrost");
   switch (active_insist_policy)
     {
     case INSIST_POLICY_SUSPEND:
@@ -805,8 +804,6 @@ BreakControl::defrost()
     }
 
   active_insist_policy = INSIST_POLICY_INVALID;
-  
-  TRACE_EXIT();
 }
 
 
@@ -906,7 +903,7 @@ BreakControl::get_state_data(BreakStateData &data)
 void
 BreakControl::play_sound(SoundPlayerInterface::Sound snd)
 {
-  TRACE_ENTER("BreakControl::play_sound");
+  TRACE_ENTER_MSG("BreakControl::play_sound", break_id);
   if ((!user_initiated) && !(snd < 0) )
     {
       GUIControl::get_instance()->get_sound_player()

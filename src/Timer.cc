@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-04-08 23:13:34 robc>
+// Time-stamp: <2003-04-12 13:37:01 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -224,7 +224,7 @@ Timer::set_auto_reset(string predicate)
 void
 Timer::compute_next_limit_time()
 {
-  TRACE_ENTER_MSG("Timer::compute_next_limit_time", timer_id);
+  //TRACE_ENTER_MSG("Timer::compute_next_limit_time", timer_id);
   
   // default action.
   next_limit_time = 0;
@@ -235,7 +235,7 @@ Timer::compute_next_limit_time()
       if (!snooze_inhibited)
         {
           next_limit_time = last_limit_time + snooze_interval;
-          TRACE_MSG("1 " << next_limit_time << " " << last_limit_time);
+          //TRACE_MSG("1 " << next_limit_time << " " << last_limit_time);
         }
     }
   else if (timer_enabled && timer_state == STATE_RUNNING && last_start_time != 0 &&
@@ -250,18 +250,18 @@ Timer::compute_next_limit_time()
           if (snooze_on_active && !snooze_inhibited)
             {
               next_limit_time = last_start_time - elapsed_time + last_limit_elapsed + snooze_interval;
-              TRACE_MSG("2 " << next_limit_time << " " << last_limit_time << " "
-                        << elapsed_time << " " << last_limit_elapsed << " " << snooze_interval);
+              //TRACE_MSG("2 " << next_limit_time << " " << last_limit_time << " "
+              //<< elapsed_time << " " << last_limit_elapsed << " " << snooze_interval);
             }
         }
       else
         {
           // new limit = last start time + limit - elapsed.
           next_limit_time = last_start_time + limit_interval - elapsed_time;
-          TRACE_MSG("3 ");
+          //TRACE_MSG("3 ");
         }
     }
-  TRACE_EXIT();
+  //TRACE_EXIT();
 }
 
 
@@ -438,11 +438,12 @@ Timer::snooze_timer()
 {
   if (timer_enabled)
     {
-      snooze_on_active = false;
-
       // recompute.
+      snooze_on_active = true;
+
+      next_limit_time = 0;
       last_limit_time = time_source->get_time();
-      //last_limit_elapsed = get_elapsed_time();
+      last_limit_elapsed = get_elapsed_time();
       compute_next_limit_time();
     }
 }
@@ -531,54 +532,44 @@ Timer::get_total_overdue_time() const
 void
 Timer::shift_time(int delta)
 {
-  TRACE_ENTER_MSG("Timer", timer_id << " " << delta);
-  
   if (last_limit_time > 0)
     {
       last_limit_time += delta;
-      TRACE_MSG("1");
     }
   
   if (last_start_time > 0)
     {
       last_start_time += delta;
-      TRACE_MSG("2");
     }
 
   if (last_reset_time > 0)
     {
       last_reset_time += delta;
-      TRACE_MSG("3");
     }
 
   if (last_stop_time > 0)
     {
       last_stop_time += delta;
-      TRACE_MSG("4");
     }
 
   if (next_reset_time > 0)
     {
       next_reset_time += delta;
-      TRACE_MSG("5");
     }
 
   if (last_pred_reset_time > 0)
     {
       last_pred_reset_time += delta;
-      TRACE_MSG("6");
     }
 
   if (next_pred_reset_time > 0)
     {
       next_pred_reset_time += delta;
-      TRACE_MSG("7");
     }
 
   if (next_limit_time > 0)
     {
       next_limit_time += delta;
-      TRACE_MSG("8");
     }
 }
 

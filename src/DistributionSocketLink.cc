@@ -62,9 +62,9 @@ DistributionSocketLink::DistributionSocketLink(Configurator *conf) :
   myname(NULL),
   server_port(DEFAULT_PORT),
   server_socket(NULL),
-  server_enabled(false),
   username(NULL),
   password(NULL),
+  server_enabled(false),
   reconnect_attempts(DEFAULT_ATTEMPTS),
   reconnect_interval(DEFAULT_INTERVAL),
   heartbeat_count(0)
@@ -381,7 +381,7 @@ DistributionSocketLink::push_state(DistributedStateID id, unsigned char *buffer,
   gchar *name = NULL;
   gint port = 0;
   
-  bool have_master = get_master(&name, &port);
+  //bool have_master = get_master(&name, &port);
   packet.pack_string(name);
   packet.pack_ushort(port);
   g_free(name);
@@ -1207,7 +1207,7 @@ DistributionSocketLink::handle_claim(Client *client)
   TRACE_ENTER("DistributionSocketLink::handle_claim");
   PacketBuffer &packet = client->packet;
   
-  gint count = packet.unpack_ushort();
+  /*gint count = */ packet.unpack_ushort();
   
   if (i_am_master && master_locked)
     {
@@ -1348,7 +1348,7 @@ DistributionSocketLink::handle_new_master(Client *client)
 
   gchar *name = packet.unpack_string();
   gint port = packet.unpack_ushort();
-  gint count = packet.unpack_ushort();
+  /* gint count = */ packet.unpack_ushort();
 
   dist_manager->log(_("Client %s:%d is now the new master."), name, port);
   
@@ -1377,7 +1377,7 @@ DistributionSocketLink::send_state()
   gchar *name = NULL;
   gint port = 0;
   
-  bool have_master = get_master(&name, &port);
+  // bool have_master = get_master(&name, &port);
   packet.pack_string(name);
   packet.pack_ushort(port);
   g_free(name);
