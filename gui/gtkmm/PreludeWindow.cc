@@ -207,10 +207,13 @@ PreludeWindow::set_stage(Stage stage)
       break;
 
     case STAGE_MOVE_OUT:
-      int winx, winy;
-      get_position(winx, winy);
-      set_position(Gtk::WIN_POS_NONE);
-      move (winx, 50);
+      if (! did_avoid_pointer())
+        {
+          int winx, winy;
+          get_position(winx, winy);
+          set_position(Gtk::WIN_POS_NONE);
+          move (winx, 50);
+        }
       break;
     }
   if (icon != NULL)

@@ -45,6 +45,7 @@ protected:
   void add(Gtk::Widget& widget);
   void set_border_width(guint border_width);
   void set_avoid_pointer(bool avoid_pointer);
+  bool did_avoid_pointer() const;
   
 private:
 #ifdef WIN32
@@ -54,7 +55,6 @@ private:
   bool on_enter_notify_event(GdkEventCrossing* event);
 #endif
   void avoid_pointer(int x, int y);
-  
 private:
 #ifdef HAVE_X
   //! Do we want a keyboard/pointer grab
@@ -68,6 +68,9 @@ private:
 
   //! Do we want a to avoid pointer?
   bool avoid_wanted;
+
+  //! Did we avoid the pointer?
+  bool did_avoid;
   
   //! Grab
   WindowHints::Grab *grab_handle;
@@ -78,5 +81,12 @@ private:
   //! Border
   guint border_width;
 };
+
+
+inline bool
+BreakWindow::did_avoid_pointer() const
+{
+  return did_avoid;
+}
 
 #endif // RESTBREAKWINDOW_HH

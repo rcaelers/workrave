@@ -44,6 +44,7 @@ BreakWindow::BreakWindow() :
   grab_wanted(false),
 #endif
   avoid_wanted(false),
+  did_avoid(false),
   frame(NULL),
   border_width(0),
   grab_handle(NULL)
@@ -162,8 +163,9 @@ BreakWindow::set_avoid_pointer(bool avoid_pointer)
         {
           avoid_signal = Glib::signal_timeout()
             .connect(SigC::slot(*this, &BreakWindow::on_avoid_pointer_timer),
-                     200);
+                     150);
         }
+      did_avoid = false;
     }
   else
     {
@@ -223,40 +225,32 @@ BreakWindow::avoid_pointer(int px, int py)
   py += winy;
 #endif  
 
-  int cx = winx + width/2;
-  int cy = winy + height/2;
-
-  int dx = px - cx;
-  int dy = py - cy;
-
-  TRACE_MSG("cx="<<cx<<",cy="<<cy);
-
-  double angle = atan2(dy, dx);
-
-  const int jump = -width;
-  winx += (int) jump * cos(angle);
-  winy += (int) jump * sin(angle);
-  
-  int screen_width = gdk_screen_width();
   int screen_height = gdk_screen_height();
-  
-  int right_margin = screen_width - width - MARGIN;
-  int bottom_margin = screen_height - height - MARGIN;
-  
-  if (winx < MARGIN)
-    winx = right_margin;
-  else if (winx > right_margin)
-    winx = MARGIN;
-             
-  if (winy < MARGIN)
-    winy = bottom_margin;
-  else if (winy > bottom_margin)
-    winy = MARGIN;
+  int top_y = MARGIN;
+  int bottom_y = screen_height - height - MARGIN;
+  if (winy < top_y + MARGIN)
+    {
+      winy = bottom_y;
+    }
+  else if (winy > bottom_y - MARGIN)
+    {
+      winy = top_y;
+    }
+  else
+    {
+      if (py > winy + height/2)
+        {
+          winy = top_y;
+        }
+      else
+        {
+          winy = bottom_y;
+        }
+    }
 
-  TRACE_MSG(winx << " " << winy);
   set_position(Gtk::WIN_POS_NONE);
   move(winx, winy);
-
+  did_avoid = true;
   TRACE_EXIT();
 }
 
