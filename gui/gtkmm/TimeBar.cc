@@ -101,7 +101,7 @@ TimeBar::on_size_request(GtkRequisition *requisition)
 
   Glib::RefPtr<Pango::Layout> pl = create_pango_layout(bar_text);
 
-  string min_string = Text::time_to_string(-(59+59*60+23*60*60));;
+  string min_string = Text::time_to_string(-(59+59*60+9*60*60));;
   Glib::RefPtr<Pango::Layout> plmin = create_pango_layout(min_string);
 
   int width, height;

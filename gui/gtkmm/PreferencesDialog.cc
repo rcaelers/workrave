@@ -51,13 +51,13 @@ struct MonitorPreset
 
 static MonitorPreset presets[] =
 {
-  { _("Trigger-happy"), 0, 1000, 0 },
-  { _("Quick"), 500, 3000, 20000 },
-  { _("Normal"), 1000, 5000, 10000 },
-  { _("Sluggish"), 5000, 10000, 4000 },
-  { _("Numb"), 10000, 10000, 9000 },
+  { "Trigger-happy", 0, 1000, 0 },
+  { "Quick", 500, 3000, 20000 },
+  { "Normal", 1000, 5000, 10000 },
+  { "Sluggish", 5000, 10000, 4000 },
+  { "Numb", 10000, 10000, 9000 },
   { NULL, 0, 0, 0 }, 
-  { _("Custom settings"), -1, -1, -1 },
+  { "Custom settings", -1, -1, -1 },
 };
     
 
@@ -192,7 +192,7 @@ PreferencesDialog::create_timer_page()
       GUIControl::TimerData *timer = &GUIControl::get_instance()->timers[i];
       
       Gtk::HBox *box = manage(new Gtk::HBox(false, 3));
-      Gtk::Label *lab = manage(new Gtk::Label(timer->label));
+      Gtk::Label *lab = manage(new Gtk::Label(_(timer->label)));
       Gtk::Image *img = manage(new Gtk::Image(timer->icon));
       box->pack_start(*img, false, false, 0);
       box->pack_start(*lab, false, false, 0);
@@ -220,7 +220,7 @@ PreferencesDialog::create_monitor_page()
       if (! mp->name)
         preset_list.push_back(Gtk::Menu_Helpers::SeparatorElem());
       else
-        preset_list.push_back(Gtk::Menu_Helpers::MenuElem(mp->name));
+        preset_list.push_back(Gtk::Menu_Helpers::MenuElem(_(mp->name)));
     }
 
   Gtk::HBox *mon_pbox = manage(new Gtk::HBox(false, 6));

@@ -37,6 +37,7 @@ static const char rcsid[] = "$Id$";
 #include "SoundPlayer.hh"
 
 #include "Util.hh"
+#include "nls.h"
 
 #include "Configurator.hh"
 #include "ControlInterface.hh"
@@ -269,11 +270,11 @@ GUIControl::init()
   // FIXME: get_timer is a hack...will be fixed.
   BreakControl *micropause_control = new BreakControl(GUIControl::BREAK_ID_MICRO_PAUSE, core_control, gui_factory,
                                         core_control->get_timer("micro_pause"));
-  micropause_control->set_prelude_text("Time for a micro-pause?");
+  micropause_control->set_prelude_text(_("Time for a micro-pause?"));
 
   BreakControl *restbreak_control = new BreakControl(GUIControl::BREAK_ID_REST_BREAK, core_control, gui_factory,
                                        core_control->get_timer("rest_break"));
-  restbreak_control->set_prelude_text("You need a rest break...");
+  restbreak_control->set_prelude_text(_("You need a rest break..."));
 
   Statistics *stats = Statistics::get_instance();
   stats->init(core_control);

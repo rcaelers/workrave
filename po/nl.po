@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 0.4.0\n"
-"POT-Creation-Date: 2002-10-19 20:56+0200\n"
-"PO-Revision-Date: 2002-10-19 21:08+0200\n"
+"POT-Creation-Date: 2002-10-19 22:00+0200\n"
+"PO-Revision-Date: 2002-10-19 22:03+0200\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
 "MIME-Version: 1.0\n"
@@ -25,6 +25,26 @@ msgstr "Pauze over"
 #: gui/BreakControl.cc:655
 msgid "Silent in"
 msgstr "Stil over"
+
+#: gui/GUIControl.cc:85 gui/gtkmm/MicroPauseWindow.cc:165
+msgid "Micro-pause"
+msgstr "Micro-pauze"
+
+#: gui/GUIControl.cc:92
+msgid "Rest break"
+msgstr "Rust pauze"
+
+#: gui/GUIControl.cc:99
+msgid "Daily limit"
+msgstr "Dagelijkse limiet"
+
+#: gui/GUIControl.cc:273
+msgid "Time for a micro-pause?"
+msgstr "Tijd voor een micro-pauze?"
+
+#: gui/GUIControl.cc:277
+msgid "You need a rest break..."
+msgstr "Je bent toe aan een rust pauze..."
 
 #: gui/Text.cc:63
 #, c-format
@@ -189,10 +209,6 @@ msgid ""
 msgstr ""
 "Dit programma dient ter voorkoming en revalidatie van en Repetitive Strain "
 "Injury (RSI)."
-
-#: gui/gtkmm/MicroPauseWindow.cc:165
-msgid "Micro-pause"
-msgstr "Micro-pauze"
 
 #: gui/gtkmm/MicroPauseWindow.cc:187
 #, c-format

@@ -1,4 +1,5 @@
 gui/BreakControl.cc
+gui/GUIControl.cc
 gui/Text.cc
 gui/gtkmm/NetworkJoinDialog.cc
 gui/gtkmm/NetworkPreferencePage.cc
