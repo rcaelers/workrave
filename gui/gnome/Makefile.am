@@ -24,7 +24,7 @@ IDL_C_GENERATED = Workrave-Control.h			\
 MAINTAINERCLEANFILES =  Workrave-Applet.server.in Workrave-Applet.server \
 			Workrave-Control.server.in Workrave-Control.server \
 			$(IDL_A_GENERATED) $(IDL_C_GENERATED) \
-			Makefile.in
+			Makefile.in GNOME_WorkraveApplet.xml
 
 SUBDIRS = 
 
