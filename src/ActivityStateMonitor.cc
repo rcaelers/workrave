@@ -48,7 +48,8 @@ ActivityStateMonitor::ActivityStateMonitor() :
   prev_y(-1),
   click_x(-1),
   click_y(-1),
-  total_movement(0)
+  total_movement(0),
+  total_click_movement(0)
 {
   first_action_time.tv_sec = 0;
   first_action_time.tv_usec = 0;
