@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-09-25 20:16:52 robc>
+// Time-stamp: <2002-10-01 22:25:08 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -587,7 +587,7 @@ Timer::deserialize_state(std::string state)
   time_t saveTime;
   time_t elapsed;
   time_t lastReset;
-  time_t now = time_source->get_time();;
+  time_t now = time_source->get_time();
   
   ss >> saveTime
      >> elapsed
@@ -614,4 +614,31 @@ Timer::deserialize_state(std::string state)
   compute_next_predicate_reset_time();
 
   return true;
+}
+
+
+void
+Timer::set_state_data(const TimerStateData &data)
+{
+  time_t time_diff =  time_source->get_time() - data.current_time;
+
+  elapsed_time = data.elapsed_time;
+  elapsed_idle_time = data.elapsed_idle_time;
+  last_pred_reset_time = data.last_pred_reset_time + time_diff;
+
+  timer_state = STATE_INVALID;
+  previous_timer_state = STATE_INVALID;
+  
+  compute_next_predicate_reset_time();
+}
+
+
+void
+Timer::get_state_data(TimerStateData &data)
+{
+  data.current_time = time_source->get_time();
+  
+  data.elapsed_time = elapsed_time;
+  data.elapsed_idle_time = elapsed_idle_time;
+  data.last_pred_reset_time = last_pred_reset_time;
 }

@@ -42,6 +42,8 @@ public:
   void skip(int size) { read_ptr += size; }
                           
   void pack(const guint8 *data, int size);
+  void pack_raw(const guint8 *data, int size);
+  void pack_raw(PacketBuffer &buffer);
   void pack_string(const gchar *data);
   void pack_ushort(guint16 data);
   void pack_ulong(guint32 data);
@@ -50,6 +52,7 @@ public:
   void poke_ushort(int pos, guint16 data);
   
   int unpack(guint8 **data);
+  int unpack_raw(guint8 **data, int size);
   gchar *unpack_string();
   guint32 unpack_ulong();
   guint16 unpack_ushort();

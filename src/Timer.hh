@@ -51,6 +51,14 @@ class Timer :
   public TimerInterface
 {
 public:
+  struct TimerStateData
+  {
+    time_t current_time;
+    time_t elapsed_time;
+    time_t elapsed_idle_time;
+    time_t last_pred_reset_time;
+  };
+  
 public:
   // Construction/Destruction.
   Timer(TimeSource *timeSource);
@@ -105,6 +113,9 @@ public:
   string serialize_state() const;
   bool deserialize_state(string state);
 
+  void set_state_data(const TimerStateData &data);
+  void get_state_data(TimerStateData &data);
+  
   // Misc
   void set_snooze_interval(time_t time);
   void set_activity_monitor(ActivityMonitorInterface *am);

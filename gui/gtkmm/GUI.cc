@@ -45,6 +45,8 @@ static const char rcsid[] = "$Id$";
 
 #ifdef WIN32
 #include "Win32SoundPlayer.hh"
+#elif defined(HAVE_GNOME)
+#include "GnomeSoundPlayer.hh"
 #endif
 
 GUI *GUI::instance = NULL;

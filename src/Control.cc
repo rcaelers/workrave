@@ -46,6 +46,10 @@ static const char rcsid[] = "$Id$";
 #include "FakeActivityMonitor.hh"
 #endif
 
+#ifdef HAVE_DISTRIBUTION
+#include "PacketBuffer.hh"
+#endif
+
 const char *WORKRAVESTATE="WorkRaveState";
 const int SAVESTATETIME = 15;
 
@@ -572,22 +576,43 @@ Control::test_me()
 }
 #endif
 
-
+#ifdef HAVE_DISTRIBUTION
 bool
 Control::get_state(DistributedStateID id, unsigned char **buffer, int *size)
 {
   TRACE_ENTER("Control::get_state");
 
-  Timer *t = *(timers.begin());
-      
-  string stateStr = t->serialize_state();
+  PacketBuffer state_packet;
 
-  *size = stateStr.size();
-  *buffer = new unsigned char[*size + 1];
-  memcpy(*buffer, stateStr.c_str(), *size + 1);
+  state_packet.create();
 
-  TRACE_MSG("got state " << *buffer);
+  state_packet.pack_ushort(timers.size());
   
+  for (TimerCIter i = timers.begin(); i != timers.end(); i++)
+    {
+      Timer *t = *i;
+      state_packet.pack_string(t->get_id().c_str());
+
+      Timer::TimerStateData state_data;
+      
+      t->get_state_data(state_data);
+      
+      int pos = state_packet.bytes_written();
+
+      state_packet.pack_ushort(0);
+      state_packet.pack_ulong((guint32)state_data.current_time);
+      state_packet.pack_ulong((guint32)state_data.elapsed_time);
+      state_packet.pack_ulong((guint32)state_data.elapsed_idle_time);
+      state_packet.pack_ulong((guint32)state_data.last_pred_reset_time);
+
+      state_packet.poke_ushort(pos, state_packet.bytes_written() - pos);
+    }
+  
+  // FIXME: solve in PacketBuffer.
+  *size = state_packet.bytes_written();
+  *buffer = new unsigned char[*size + 1];
+  memcpy(*buffer, state_packet.get_buffer(), *size);
+
   TRACE_EXIT();
   return true;
 }
@@ -597,12 +622,30 @@ Control::set_state(DistributedStateID id, unsigned char *buffer, int size)
 {
   TRACE_ENTER("Control::set_state");
 
-  Timer *t = *(timers.begin());
+  PacketBuffer state_packet;
+  state_packet.create();
 
-  t->deserialize_state(string((char *)buffer));
+  int num_timers = state_packet.unpack_ushort();
+  
+  for (int i = 0; i < num_timers; i++)
+    {
+      gchar *id = state_packet.unpack_string();
+      
+      Timer *t = (Timer *)get_timer(id);
+      
+      Timer::TimerStateData state_data;
 
-  TRACE_MSG("got state " << buffer);
+      int data_size = state_packet.unpack_ushort();
+      
+      state_data.current_time = state_packet.unpack_ulong();
+      state_data.elapsed_time = state_packet.unpack_ulong();
+      state_data.elapsed_idle_time = state_packet.unpack_ulong();
+      state_data.last_pred_reset_time = state_packet.unpack_ulong();
+
+      t->set_state_data(state_data);
+    }
   
   TRACE_EXIT();
   return true;
 }
+#endif

@@ -57,8 +57,10 @@ class DistributionManager;
 class Control :
   public TimeSource,
   public ControlInterface,
-  public ConfiguratorListener,
-  public DistributedStateInterface
+  public ConfiguratorListener
+#ifdef HAVE_DISTRIBUTION
+  , public DistributedStateInterface
+#endif  
 {
 public:
   typedef std::list<Timer *> Timers;
@@ -112,15 +114,15 @@ private:
   void load_monitor_config();
   void store_monitor_config();
 
-#ifdef HAVE_DISTRIBUTION
-  bool create_distribution_manager();
-#endif
   bool create_monitor();
   bool create_timers();
   //bool process_timer_event(Timer *timer, Timer::TimerEvent event);
 
+#ifdef HAVE_DISTRIBUTION
+  bool create_distribution_manager();
   bool get_state(DistributedStateID id, unsigned char **buffer, int *size);
   bool set_state(DistributedStateID id, unsigned char *buffer, int size);
+#endif
   
 private:
   //! List of timers

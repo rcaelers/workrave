@@ -78,6 +78,20 @@ PacketBuffer::pack(const guint8 *data, int size)
 }
 
 
+
+void
+PacketBuffer::pack_raw(const guint8 *data, int size)
+{
+  guint8 *ret = NULL;
+  
+  if (write_ptr + size <= buffer + buffer_size)
+  {
+    memcpy(write_ptr, data, size);
+    write_ptr += size;
+  }
+}
+
+
 void
 PacketBuffer::pack_string(const gchar *data)
 {
@@ -157,6 +171,28 @@ PacketBuffer::unpack(guint8 **data)
   
   int size = unpack_ushort();
 
+  guint8 *r = (guint8 *)read_ptr;
+  
+  if (read_ptr + size <= buffer + buffer_size)
+    {
+      *data = g_new(guint8, size);
+      memcpy(*data, r, size);
+      read_ptr += size;
+    }
+  else
+    {
+      size = 0;
+    }
+  
+  return size;
+}
+
+
+int
+PacketBuffer::unpack_raw(guint8 **data, int size)
+{
+  g_assert(data != NULL);
+  
   guint8 *r = (guint8 *)read_ptr;
   
   if (read_ptr + size <= buffer + buffer_size)
