@@ -239,46 +239,50 @@ PreferencesDialog::create_monitor_page()
   mon_table->set_border_width(6);
   int y = 0;
   
-  label = manage(new Gtk::Label(_("Activity time (ms)")));
+  label = manage
+    (new Gtk::Label
+     (_("Please regard me as active if the time between two user input\n"
+        "events is within the following range:"
+      )));
+  mon_table->attach(*label, 0, 2, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
+  y++;
+
+  label = manage(new Gtk::Label(_("From (ms)")));
   activity_time = manage(new TimeEntry(true));
   mon_table->attach(*label, 0, 1, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
-  mon_table->attach(*activity_time, 1, 2, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
+  mon_table->attach(*activity_time, 1, 2, y, y+1, Gtk::EXPAND, Gtk::SHRINK);
   int val;
   GUIControl::get_instance()->get_configurator()
     ->get_value(ControlInterface::CFG_KEY_MONITOR_ACTIVITY, &val);
   activity_time->set_value(val);
   y++;
 
-  label = manage(new Gtk::Label(_("Noise time (ms)")));
+  label = manage(new Gtk::Label(_("To (ms)")));
   noise_time = manage(new TimeEntry(true));
   mon_table->attach(*label, 0, 1, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
-  mon_table->attach(*noise_time, 1, 2, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
+  mon_table->attach(*noise_time, 1, 2, y, y+1, Gtk::EXPAND, Gtk::SHRINK);
   GUIControl::get_instance()->get_configurator()
     ->get_value(ControlInterface::CFG_KEY_MONITOR_NOISE, &val);
   noise_time->set_value(val);
   y++;
   
+  label = manage
+    (new Gtk::Label
+     (_("Please regard me as idle if there are no user input\n"
+        "events during the specified idle time."
+      )));
+  mon_table->attach(*label, 0, 2, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
+  y++;
+
   label = manage(new Gtk::Label(_("Idle time (ms)")));
   idle_time = manage(new TimeEntry(true));
   mon_table->attach(*label, 0, 1, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
-  mon_table->attach(*idle_time, 1, 2, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
+  mon_table->attach(*idle_time, 1, 2, y, y+1, Gtk::EXPAND, Gtk::SHRINK);
   GUIControl::get_instance()->get_configurator()
     ->get_value(ControlInterface::CFG_KEY_MONITOR_IDLE, &val);
   idle_time->set_value(val);
   y++;
 
-  Gtk::VSeparator *sep = manage(new Gtk::VSeparator());
-  label = manage
-    (new Gtk::Label
-     (_("The timers are started if, during the 'Activity\n"
-        "time', there was no inactivitiy for longer than\n"
-        "'Noise time'.  When 'Noise time' exceeds 'Activity\n"
-        "time', the timers are started if the time between\n"
-        "two events is greater then 'Activity time' but\n"
-        "smaller then 'Noise time'.")
-      ));
-  mon_table->attach(*sep, 2, 3, 0, 3, Gtk::SHRINK, Gtk::FILL);
-  mon_table->attach(*label, 3, 4, 0, 3, Gtk::SHRINK, Gtk::SHRINK);
 
   update_preset();
 
