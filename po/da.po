@@ -6,14 +6,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-08-05 19:04+0200\n"
+"POT-Creation-Date: 2003-08-06 22:36+0200\n"
 "PO-Revision-Date: 2003-08-03 21:46+0200\n"
 "Last-Translator: Christian Vejlbo <translate@vejlbo.dk>\n"
 "Language-Team:  <da@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
 "X-Generator: KBabel 1.0.1\n"
 
 #: src/app/gtkmm/eggtrayicon.c:118
@@ -77,16 +77,15 @@ msgstr ""
 msgid "Exercises"
 msgstr "Øvelser"
 
-#: src/app/gtkmm/ExercisesPanel.cc:73
-#, fuzzy
+#: src/app/gtkmm/ExercisesPanel.cc:75
 msgid "Exercises player"
 msgstr "Øvelser"
 
-#: src/app/gtkmm/ExercisesPanel.cc:229
+#: src/app/gtkmm/ExercisesPanel.cc:239
 msgid "Resume"
 msgstr "Genoptag"
 
-#: src/app/gtkmm/ExercisesPanel.cc:229
+#: src/app/gtkmm/ExercisesPanel.cc:239
 msgid "Pause"
 msgstr "Pause"
 
@@ -94,12 +93,12 @@ msgstr "Pause"
 msgid "I could not initialize Bonobo"
 msgstr "Teknisk besked: Kunne ikke initialisere Bonobo"
 
-#: src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/MicroPauseWindow.cc:170
-#: src/app/gtkmm/MicroPauseWindow.cc:206
+#: src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/MicroPauseWindow.cc:172
+#: src/app/gtkmm/MicroPauseWindow.cc:208
 msgid "Micro-pause"
 msgstr "Mikropause"
 
-#: src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/RestBreakWindow.cc:284
+#: src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/RestBreakWindow.cc:286
 msgid "Rest break"
 msgstr "Hvilepause"
 
@@ -168,17 +167,17 @@ msgstr ""
 "Injury).\n"
 "Endvidere kan det hjælpe brugere til bedre skærmvaner."
 
-#: src/app/gtkmm/MicroPauseWindow.cc:192
+#: src/app/gtkmm/MicroPauseWindow.cc:194
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Næste hvilepause om %s"
 
-#: src/app/gtkmm/MicroPauseWindow.cc:198
+#: src/app/gtkmm/MicroPauseWindow.cc:200
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Tidspunktet for hvilepause er overskredet med %s minutter"
 
-#: src/app/gtkmm/MicroPauseWindow.cc:202
+#: src/app/gtkmm/MicroPauseWindow.cc:204
 msgid "Please relax for a few seconds"
 msgstr "Udnyt den lille pause til at slappe lidt af."
 
@@ -348,12 +347,12 @@ msgstr "Forsvinder om"
 msgid "Silent in"
 msgstr "Tavs om"
 
-#: src/app/gtkmm/RestBreakWindow.cc:266
+#: src/app/gtkmm/RestBreakWindow.cc:268
 #, c-format
 msgid "Rest break for %s"
 msgstr "Hvilepause i %s"
 
-#: src/app/gtkmm/RestBreakWindow.cc:285
+#: src/app/gtkmm/RestBreakWindow.cc:287
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -994,7 +993,6 @@ msgstr ""
 "pegende mod din krop. Stræk forsigtigt håndled og underarm."
 
 #: src/app/shared/exercises/exercises.xml.in.h:24
-#, fuzzy
 msgid ""
 "Stand up and try to reach the ceiling with your hands without lifting your "
 "heels. Hold that for a few seconds. Then let your hands slowly go to the "

@@ -29,6 +29,8 @@
 #include "SoundPlayerInterface.hh"
 #include "debug.hh"
 
+int ExercisesPanel::exercises_pointer = 0;
+
 ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
   : Gtk::HBox(false, 6),
          exercises(Exercise::get_exercises())
@@ -122,7 +124,13 @@ ExercisesPanel::~ExercisesPanel()
 void
 ExercisesPanel::reset()
 {
+  int i = adjust_exercises_pointer(1);
   exercise_iterator = exercises.begin();
+  while (i > 0)
+    {
+      exercise_iterator++;
+      i--;
+    }
   exercise_num = 0;
   paused = false;
   stopped = false;
@@ -200,6 +208,7 @@ ExercisesPanel::on_stop()
 void
 ExercisesPanel::on_go_back()
 {
+  adjust_exercises_pointer(-1);
   if (exercise_iterator == exercises.begin())
     {
       exercise_iterator = --(exercises.end());
@@ -214,6 +223,7 @@ ExercisesPanel::on_go_back()
 void
 ExercisesPanel::on_go_forward()
 {
+  adjust_exercises_pointer(1);
   exercise_iterator++;
   if (exercise_iterator == exercises.end())
     {

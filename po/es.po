@@ -6,8 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.2.2\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-08-05 19:04+0200\n"
+"POT-Creation-Date: 2003-08-06 22:36+0200\n"
 "PO-Revision-Date: 2003-08-02 18:54+0100\n"
 "Last-Translator:  <>\n"
 "Language-Team:  <>\n"
@@ -77,16 +76,16 @@ msgstr ""
 msgid "Exercises"
 msgstr "Ejercicios"
 
-#: src/app/gtkmm/ExercisesPanel.cc:73
+#: src/app/gtkmm/ExercisesPanel.cc:75
 #, fuzzy
 msgid "Exercises player"
 msgstr "Ejercicios"
 
-#: src/app/gtkmm/ExercisesPanel.cc:229
+#: src/app/gtkmm/ExercisesPanel.cc:239
 msgid "Resume"
 msgstr "Retomar"
 
-#: src/app/gtkmm/ExercisesPanel.cc:229
+#: src/app/gtkmm/ExercisesPanel.cc:239
 msgid "Pause"
 msgstr "Pausa"
 
@@ -94,12 +93,12 @@ msgstr "Pausa"
 msgid "I could not initialize Bonobo"
 msgstr "No se puede inicializar Bonobo"
 
-#: src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/MicroPauseWindow.cc:170
-#: src/app/gtkmm/MicroPauseWindow.cc:206
+#: src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/MicroPauseWindow.cc:172
+#: src/app/gtkmm/MicroPauseWindow.cc:208
 msgid "Micro-pause"
 msgstr "Micropausa"
 
-#: src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/RestBreakWindow.cc:284
+#: src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/RestBreakWindow.cc:286
 msgid "Rest break"
 msgstr "Descanso"
 
@@ -167,17 +166,17 @@ msgstr ""
 "Este programa le ayuda en la prevención y cura de lesiones por esfuerzo "
 "repetitivo (LER)."
 
-#: src/app/gtkmm/MicroPauseWindow.cc:192
+#: src/app/gtkmm/MicroPauseWindow.cc:194
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Próximo descanso en %s"
 
-#: src/app/gtkmm/MicroPauseWindow.cc:198
+#: src/app/gtkmm/MicroPauseWindow.cc:200
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Descanso retrasado %s minutos"
 
-#: src/app/gtkmm/MicroPauseWindow.cc:202
+#: src/app/gtkmm/MicroPauseWindow.cc:204
 msgid "Please relax for a few seconds"
 msgstr "Por favor, relájese unos segundos"
 
@@ -348,12 +347,12 @@ msgstr "Desaparece en"
 msgid "Silent in"
 msgstr "Silencioso en"
 
-#: src/app/gtkmm/RestBreakWindow.cc:266
+#: src/app/gtkmm/RestBreakWindow.cc:268
 #, c-format
 msgid "Rest break for %s"
 msgstr "Descanso de %s"
 
-#: src/app/gtkmm/RestBreakWindow.cc:285
+#: src/app/gtkmm/RestBreakWindow.cc:287
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"

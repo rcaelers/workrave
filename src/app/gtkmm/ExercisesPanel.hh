@@ -50,6 +50,13 @@ private:
   void refresh_progress();
   void refresh_sequence();
   void refresh_pause();
+  int adjust_exercises_pointer(int inc)
+  {
+    int ret = exercises_pointer;
+    exercises_pointer += inc;
+    exercises_pointer %= exercises.size();
+    return ret;
+  }
   
   Gtk::Frame image_frame;
   Gtk::Image image;
@@ -70,6 +77,7 @@ private:
   bool standalone;
   int exercise_num;
   int exercise_count;
+  static int exercises_pointer;
 };
 
 #endif // HAVE_EXERCISES
