@@ -573,6 +573,12 @@ MainWindow::on_menu_preferences()
   dialog->run();
   delete dialog;
 
+  // FIXME: bug 130:
+  // due to current Gtk+ behaviour of exit()'ing on WM_QUIT, we cannot
+  // store main window position on shutdown (bug 130).
+  // Therefore, this hack.
+  win32_remember_position();
+
   ctrl->set_operation_mode(mode);
 }
 
