@@ -1,1 +1,3 @@
 workrave	ICON    DISCARDABLE     "../../common/share/images/win32/workrave.ico"
+workravequiet	ICON    DISCARDABLE     "../../common/share/images/win32/workrave-quiet.ico"
+workravesusp	ICON    DISCARDABLE     "../../common/share/images/win32/workrave-suspended.ico"

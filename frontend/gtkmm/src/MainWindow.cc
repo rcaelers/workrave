@@ -670,8 +670,8 @@ void
 MainWindow::win32_add_tray_icon()
 {
   normal_icon = LoadIcon(win32_hinstance, "workrave");
-  quiet_icon = LoadIcon(win32_hinstance, "workrave-quiet");
-  suspended_icon = LoadIcon(win32_hinstance, "workrave-suspended");
+  quiet_icon = LoadIcon(win32_hinstance, "workravequiet");
+  suspended_icon = LoadIcon(win32_hinstance, "workravesusp");
 
   memset(&win32_tray_icon, 0, sizeof(NOTIFYICONDATA));
     
