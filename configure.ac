@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl
-dnl Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
+dnl Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
 dnl
 dnl
 dnl $Id$
@@ -723,9 +723,11 @@ AM_CONDITIONAL(HAVE_DISTRIBUTION, test "x$config_distribution" = "xyes")
 AM_CONDITIONAL(HAVE_EXERCISES, test "x$config_exercises" = "xyes")
 AM_CONDITIONAL(HAVE_EXPERIMENTAL, test "x$config_experimental" = "xyes")
 
-dnl somehow, this doesn't get defined anymore...                                  
+dnl somehow, these don't get defined anymore...                                  
 CATOBJEXT=.gmo 
+INSTOBJEXT=.po 
 AC_SUBST(CATOBJEXT)
+AC_SUBST(INSTOBJEXT)
 
         
 AC_OUTPUT(Makefile \
