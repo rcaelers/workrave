@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-10-28 20:37:32 robc>
+// Time-stamp: <2002-10-30 18:17:41 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -95,6 +95,7 @@ Timer::enable()
     {
       timer_enabled = true;
       snooze_inhibited = false;
+      snooze_on_active = true;
       stop_timer();
 
       // TODO: new, testing.
@@ -235,6 +236,7 @@ Timer::compute_next_limit_time()
       // Timer already reached limit
       if (!snooze_inhibited)
         {
+          TRACE_MSG("Compute Snooze on Clock");
           next_limit_time = last_limit_time + snooze_interval;
         }
     }
@@ -249,6 +251,7 @@ Timer::compute_next_limit_time()
           // Limit already reached.
           if (snooze_on_active && !snooze_inhibited)
             {
+              TRACE_MSG("Compute Snooze on Active");
               next_limit_time = last_start_time - elapsed_time + last_limit_elapsed + snooze_interval;
             }
         }
@@ -328,6 +331,7 @@ Timer::reset_timer()
   last_limit_elapsed = 0;
   last_reset_time = time_source->get_time();
   snooze_inhibited = false;
+  snooze_on_active = true;
   
   if (timer_state == STATE_RUNNING)
     {
@@ -439,6 +443,8 @@ Timer::snooze_timer()
 
   if (timer_enabled && get_elapsed_time() >= limit_interval)
     {
+      snooze_on_active = false;
+
       // recompute.
       last_limit_time = time_source->get_time();
       //last_limit_elapsed = get_elapsed_time();
@@ -596,6 +602,8 @@ Timer::process(ActivityState activityState, TimerInfo &info)
       next_limit_time = 0;
       last_limit_time = time_source->get_time();
       last_limit_elapsed = get_elapsed_time();
+
+      snooze_on_active = true;
 
       compute_next_limit_time();
       

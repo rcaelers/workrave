@@ -610,7 +610,7 @@ GUIControl::handle_start_break(BreakInterface *breaker, BreakId break_id, TimerI
       if (t->break_control->get_break_state() == BreakInterface::BREAK_ACTIVE)
         {
           t->break_control->stop_break();
-          t->timer->snooze_timer();
+          // t->timer->snooze_timer();
         }
     }
   
