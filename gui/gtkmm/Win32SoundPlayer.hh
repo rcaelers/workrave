@@ -24,9 +24,14 @@
 class Win32SoundPlayer : public SoundPlayerInterface
 {
 public:
+  Win32SoundPlayer();
+  ~Win32SoundPlayer();
+  
   void play_sound(Sound snd);
   void destroy();
+
 private:
+  void register_sound_events();
   void play_speaker(int (*beeps)[2]);
 };
 
