@@ -1,6 +1,6 @@
 // GUIControl.hh --- The WorkRave GUI
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -72,8 +72,23 @@ public:
   struct TimerData
   {
     TimerInterface *timer;
-    string name;
+    BreakControl *break_control;
+    const char *label;
     string icon;
+    int break_id;
+    string break_name;
+    
+    TimerData();
+    
+    int get_break_max_preludes() const;
+    bool get_break_force_after_preludes() const;
+    bool get_break_ignorable() const;
+    bool get_break_insisting() const;
+
+    void set_break_max_preludes(int n);
+    void set_break_force_after_preludes(bool b);
+    void set_break_ignorable(bool b);
+    void set_break_insisting(bool b);
   };
   TimerData timers[BREAK_ID_SIZEOF];
   
@@ -92,7 +107,8 @@ private:
   bool load_config();
   bool store_config();
   bool verify_config();
-  void load_break_control_config(string name);
+  void load_break_control_config(string break_id);
+  void load_break_control_config(int break_id);
   void config_changed_notify(string key);
   
 public:
@@ -114,12 +130,6 @@ private:
   
   //! The Controller
   ControlInterface *core_control;
-
-  //! The micropause break controller
-  BreakControl *micropause_control;
-  
-  //! The restbreak break controller
-  BreakControl *restbreak_control;
 
   //! Configuration access.
   Configurator *configurator;

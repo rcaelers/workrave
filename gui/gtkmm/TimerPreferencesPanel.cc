@@ -118,20 +118,17 @@ Gtk::Frame *
 TimerPreferencesPanel::create_options_frame()
 {
   TimerInterface *itimer = timer->timer;
-  string pfx = GUIControl::CFG_KEY_BREAK + itimer->get_id();
-  string tpfx = ControlInterface::CFG_KEY_TIMER + itimer->get_id();
-  bool insists, ignorable;
-  Configurator *cfg = GUIControl::get_instance()->get_configurator();
-  cfg->get_value(pfx + GUIControl::CFG_KEY_BREAK_INSISTING, &insists);
-  cfg->get_value(pfx + GUIControl::CFG_KEY_BREAK_IGNORABLE, &ignorable);
   
   // Insists option
+  bool insists = timer->get_break_insisting();
   insists_cb = manage(new Gtk::CheckButton("Block user input"));
   insists_cb->signal_toggled()
     .connect(SigC::slot(*this, &TimerPreferencesPanel::on_insists_toggled));
   insists_cb->set_active(insists);
 
   // Monitor
+  Configurator *cfg = GUIControl::get_instance()->get_configurator();
+  string tpfx = ControlInterface::CFG_KEY_TIMER + itimer->get_id();
   if (timer_id == GUIControl::TIMER_ID_DAILY_LIMIT)
     {
       monitor_cb
@@ -147,6 +144,7 @@ TimerPreferencesPanel::create_options_frame()
     monitor_cb = NULL;
 
   // Ignorable
+  bool ignorable = timer->get_break_ignorable();
   ignorable_cb = manage(new Gtk::CheckButton
                         ("Show 'Postpone' and 'Skip' button"));
   ignorable_cb->signal_toggled()
@@ -314,15 +312,7 @@ TimerPreferencesPanel::on_limit_changed()
 void
 TimerPreferencesPanel::on_insists_toggled()
 {
-  TRACE_ENTER("TimerPreferencesPanel::on_insists_toggled");
-
-  string key;
-  key = GUIControl::CFG_KEY_BREAK + timer->timer->get_id()
-    + GUIControl::CFG_KEY_BREAK_INSISTING;
-  GUIControl::get_instance()->get_configurator()
-    ->set_value(key, insists_cb->get_active());
-
-  TRACE_EXIT();
+  timer->set_break_insisting(insists_cb->get_active());
 }
 
 void
@@ -345,13 +335,5 @@ TimerPreferencesPanel::on_monitor_toggled()
 void
 TimerPreferencesPanel::on_ignorable_toggled()
 {
-  TRACE_ENTER("TimerPreferencesPanel::on_ignorable_toggled");
-
-  string key;
-  key = GUIControl::CFG_KEY_BREAK + timer->timer->get_id()
-    + GUIControl::CFG_KEY_BREAK_IGNORABLE;
-  GUIControl::get_instance()->get_configurator()
-    ->set_value(key, ignorable_cb->get_active());
-
-  TRACE_EXIT();
+  timer->set_break_ignorable(ignorable_cb->get_active());
 }

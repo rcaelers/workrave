@@ -103,7 +103,7 @@ PreferencesDialog::PreferencesDialog()
       GUIControl::TimerData *timer = &GUIControl::get_instance()->timers[i];
       
       Gtk::HBox *box = manage(new Gtk::HBox(false, 3));
-      Gtk::Label *lab = manage(new Gtk::Label(timer->name));
+      Gtk::Label *lab = manage(new Gtk::Label(timer->label));
       Gtk::Image *img = manage(new Gtk::Image(timer->icon));
       box->pack_start(*img, false, false, 0);
       box->pack_start(*lab, false, false, 0);

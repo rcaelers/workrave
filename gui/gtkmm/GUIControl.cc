@@ -1,6 +1,6 @@
 // GUIControl.cc
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -56,7 +56,7 @@ GUIControl *GUIControl::instance = NULL;
 struct ConfigCheck
 {
   const char *id;
-  const char *name;
+  const char *label;
   int limit;
   int autoreset;
   bool countdown;
@@ -96,6 +96,114 @@ struct ConfigCheck
 
 
 
+GUIControl::TimerData::TimerData()
+{
+  timer = NULL;
+  break_control = NULL;
+}
+    
+
+int
+GUIControl::TimerData::get_break_max_preludes() const
+{
+  bool b;
+  int rc;
+  b = GUIControl::get_instance()->get_configurator()
+    ->get_value(CFG_KEY_BREAK
+                + configCheck[break_id].id
+                + CFG_KEY_BREAK_MAX_PRELUDES, &rc);
+  if (! b)
+    {
+      rc = configCheck[break_id].max_preludes;
+    }
+  return rc;
+}
+
+bool
+GUIControl::TimerData::get_break_force_after_preludes() const
+{
+  bool b;
+  bool rc;
+  b = GUIControl::get_instance()->get_configurator()
+    ->get_value(CFG_KEY_BREAK
+                + configCheck[break_id].id
+                + CFG_KEY_BREAK_FORCE_AFTER_PRELUDES, &rc);
+  if (! b)
+    {
+      rc = configCheck[break_id].force_after_preludes;
+    }
+  return rc;
+}
+
+bool
+GUIControl::TimerData::get_break_ignorable() const
+{
+  bool b;
+  bool rc;
+  b = GUIControl::get_instance()->get_configurator()
+    ->get_value(CFG_KEY_BREAK
+                + configCheck[break_id].id
+                + CFG_KEY_BREAK_IGNORABLE, &rc);
+  if (! b)
+    {
+      rc = configCheck[break_id].ignorable_break;
+    }
+  return rc;
+}
+
+bool
+GUIControl::TimerData::get_break_insisting() const
+{
+  bool b;
+  bool rc;
+  b = GUIControl::get_instance()->get_configurator()
+    ->get_value(CFG_KEY_BREAK
+                + configCheck[break_id].id
+                + CFG_KEY_BREAK_INSISTING, &rc);
+  if (! b)
+    {
+      rc = configCheck[break_id].insist_break;
+    }
+  return rc;
+}
+
+void
+GUIControl::TimerData::set_break_max_preludes(int n)
+{
+  GUIControl::get_instance()->get_configurator()
+    ->set_value(CFG_KEY_BREAK
+                + configCheck[break_id].id
+                + CFG_KEY_BREAK_MAX_PRELUDES, n);
+}
+
+void
+GUIControl::TimerData::set_break_force_after_preludes(bool b)
+{
+  GUIControl::get_instance()->get_configurator()
+    ->set_value(CFG_KEY_BREAK
+                + configCheck[break_id].id
+                + CFG_KEY_BREAK_FORCE_AFTER_PRELUDES, b);
+}
+
+void
+GUIControl::TimerData::set_break_ignorable(bool b)
+{
+  GUIControl::get_instance()->get_configurator()
+    ->set_value(CFG_KEY_BREAK
+                + configCheck[break_id].id
+                + CFG_KEY_BREAK_IGNORABLE, b);
+}
+
+void
+GUIControl::TimerData::set_break_insisting(bool b)
+{
+  GUIControl::get_instance()->get_configurator()
+    ->set_value(CFG_KEY_BREAK
+                + configCheck[break_id].id
+                + CFG_KEY_BREAK_INSISTING, b);
+}
+
+
 //! GUIControl Constructor.
 /*!
  *  \param controller interface to the controller.
@@ -108,9 +216,6 @@ GUIControl::GUIControl(GUIFactoryInterface *factory, ControlInterface *controlle
   instance = this;
   
   configurator = NULL;
-
-  restbreak_control = NULL;
-  micropause_control = NULL;
 
   be_quiet = false;
   gui_factory = factory;
@@ -127,16 +232,13 @@ GUIControl::~GUIControl()
   assert(instance);
   instance = NULL;
 
-  if (restbreak_control != NULL)
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      delete restbreak_control;
+      if (timers[i].break_control != NULL)
+        {
+          delete timers[i].break_control;
+        }
     }
-
-  if (micropause_control != NULL)
-    {
-      delete micropause_control;
-    }
-
   if (configurator != NULL)
     {
       delete configurator;
@@ -152,11 +254,11 @@ GUIControl::init()
   TRACE_ENTER("GUIControl:init");
 
   // FIXME: get_timer is a hack...will be fixed.
-  micropause_control = new BreakControl(GUIControl::BREAK_ID_MICRO_PAUSE, core_control, gui_factory,
+  BreakControl *micropause_control = new BreakControl(GUIControl::BREAK_ID_MICRO_PAUSE, core_control, gui_factory,
                                         core_control->get_timer("micro_pause"));
   micropause_control->set_prelude_text("Time for a micro-pause?");
 
-  restbreak_control = new BreakControl(GUIControl::BREAK_ID_REST_BREAK, core_control, gui_factory,
+  BreakControl *restbreak_control = new BreakControl(GUIControl::BREAK_ID_REST_BREAK, core_control, gui_factory,
                                        core_control->get_timer("rest_break"));
   restbreak_control->set_prelude_text("You need a rest break...");
 
@@ -170,8 +272,14 @@ GUIControl::init()
       TimerData *td = &timers[i];
       td->timer = core_control->get_timer(tc->id);
       td->icon = Util::complete_directory(tc->icon, Util::SEARCH_PATH_IMAGES);
-      td->name = tc->name;
+      td->break_id = i;
+      td->break_name = tc->id;
+      td->label = tc->label;
     }
+
+  timers[BREAK_ID_MICRO_PAUSE].break_control = micropause_control;
+  timers[BREAK_ID_REST_BREAK].break_control = restbreak_control;
+  
   TRACE_EXIT();
 }
 
@@ -180,14 +288,14 @@ GUIControl::init()
 void
 GUIControl::heartbeat()
 {
-  if (micropause_control && micropause_control->need_heartbeat())
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      micropause_control->heartbeat();
-    }
-
-  if (restbreak_control && restbreak_control->need_heartbeat())
-    {
-      restbreak_control->heartbeat();
+      BreakControl *bc = timers[i].break_control;
+      if (bc != NULL
+          && bc->need_heartbeat())
+        {
+          bc->heartbeat();
+        }
     }
 
   update_statistics();
@@ -223,23 +331,29 @@ GUIControl::set_quiet(bool quiet)
 
   if (quiet)
     {
-      micropause_control->stop_break();
-      restbreak_control->stop_break();
+      for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+        {
+          BreakControl *bc = timers[i].break_control;
+          if (bc != NULL)
+            {
+              bc->stop_break();
+            }
+        }
     }
   else
     {
-      TimerInterface *mp_timer = timers[BREAK_ID_MICRO_PAUSE].timer;
-      TimerInterface *rb_timer = timers[BREAK_ID_REST_BREAK].timer;
-      
-      if (rb_timer->get_next_limit_time() > 0 &&
-          rb_timer->get_elapsed_time() >= rb_timer->get_limit())
+      for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
-          restbreak_control->start_break();
-        }
-      else if (mp_timer->get_next_limit_time() > 0 &&
-               mp_timer->get_elapsed_time() >= mp_timer->get_limit())
-        {
-          micropause_control->start_break();
+          TimerInterface *t = timers[i].timer;
+          BreakControl *bc = timers[i].break_control;
+          if (bc != NULL && t != NULL)
+            {
+              if (t->get_next_limit_time() > 0
+                  && t->get_elapsed_time() >= t->get_limit())
+                {
+                  bc->start_break();
+                }
+            }
         }
     }
   TRACE_EXIT();
@@ -262,20 +376,10 @@ GUIControl::break_action(BreakId id, BreakAction action)
       return;
     }
   
-  BreakInterface *breaker = NULL;
-  TimerInterface *timer = NULL;
-
-  switch (id)
+  BreakInterface *breaker = timers[id].break_control;
+  TimerInterface *timer = timers[id].timer;
+  if (id == BREAK_ID_DAILY_LIMIT)
     {
-    case BREAK_ID_MICRO_PAUSE:
-      breaker = micropause_control;
-      timer = timers[id].timer;
-      break;
-    case BREAK_ID_REST_BREAK:
-      breaker = restbreak_control;
-      timer = timers[id].timer;
-      break;
-    case BREAK_ID_DAILY_LIMIT:
       // FIXME: temp hack
       if (action == BREAK_ACTION_NATURAL_STOP_BREAK ||
           action == BREAK_ACTION_STOP_BREAK)
@@ -283,10 +387,7 @@ GUIControl::break_action(BreakId id, BreakAction action)
           Statistics *stats = Statistics::get_instance();
           stats->start_new_day();
         }
-      break; 
-    default:
-      break;
-   }
+    }
 
   if (breaker != NULL && timer != NULL)
     {
@@ -320,7 +421,11 @@ GUIControl::break_action(BreakId id, BreakAction action)
           if (breaker->get_break_state() == BreakInterface::BREAK_INACTIVE)
             {
               // quick hack...
-              if (id == BREAK_ID_REST_BREAK && micropause_control->get_break_state() == BreakInterface::BREAK_ACTIVE)
+              BreakControl *micropause_control
+                = timers[BREAK_ID_MICRO_PAUSE].break_control;
+              if (id == BREAK_ID_REST_BREAK
+                  && (micropause_control->get_break_state()
+                      == BreakInterface::BREAK_ACTIVE))
                 {
                   micropause_control->stop_break();
                 }
@@ -347,6 +452,10 @@ GUIControl::handle_start_break(BreakInterface *breaker, BreakId break_id, TimerI
   TRACE_ENTER("GUIControl::handle_start_break");
 
   // Don't show MP when RB is active.
+  BreakControl *restbreak_control, *micropause_control;
+  restbreak_control = timers[BREAK_ID_REST_BREAK].break_control;
+  micropause_control = timers[BREAK_ID_MICRO_PAUSE].break_control;
+  
   if (break_id == BREAK_ID_MICRO_PAUSE && restbreak_control->get_break_state() == BreakInterface::BREAK_ACTIVE)
     {
       // timer->snooze();
@@ -497,26 +606,7 @@ GUIControl::load_config()
   
   for (int i = 0; i < size; i++)
     {
-      TRACE_MSG(configCheck[i].id);
-
-      int max_preludes = configCheck[i].max_preludes;
-      bool force_after_preludes= configCheck[i].force_after_preludes;
-      bool insist_break  = configCheck[i].insist_break;
-      bool ignorable_break = configCheck[i].ignorable_break;
-
-      string pfx = CFG_KEY_BREAK + string(configCheck[i].id);
-      if (!configurator->exists_dir(pfx))
-        {  
-          changed = true;
-          
-          TRACE_MSG("set");
-          configurator->set_value(pfx + CFG_KEY_BREAK_MAX_PRELUDES, max_preludes);
-          configurator->set_value(pfx + CFG_KEY_BREAK_FORCE_AFTER_PRELUDES, force_after_preludes);
-          configurator->set_value(pfx + CFG_KEY_BREAK_IGNORABLE, ignorable_break);
-          configurator->set_value(pfx + CFG_KEY_BREAK_INSISTING, insist_break);
-        }
-
-      load_break_control_config(configCheck[i].id);
+      load_break_control_config(i);
     }
 
   configurator->add_listener(CFG_KEY_BREAKS, this);
@@ -527,40 +617,31 @@ GUIControl::load_config()
 
 
 void
-GUIControl::load_break_control_config(string name)
+GUIControl::load_break_control_config(string break_name)
 {
-  TRACE_ENTER_MSG("GUIControl::load_break_control_config", name);
-  BreakControl *bc = NULL;
-  
-  if (name == "micro_pause")
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      bc = micropause_control;
+      if (timers[i].break_name == break_name)
+        {
+          load_break_control_config(i);
+          return;
+        }
     }
-  else if (name == "rest_break")
-    {
-      bc = restbreak_control;
-    }
+}
 
+void
+GUIControl::load_break_control_config(int break_id)
+{
+  TRACE_ENTER_MSG("GUIControl::load_break_control_config", break_id);
+  TimerData *timer = &timers[break_id];
+  BreakControl *bc = timers[break_id].break_control;
+  
   if (bc != NULL)
     {
-      TRACE_MSG(name);
-      
-      int max_preludes;
-      bool force_after_preludes;
-      bool insist_break;
-      bool ignorable_break;
-  
-      string pfx = CFG_KEY_BREAK + name;
-
-      configurator->get_value(pfx + CFG_KEY_BREAK_MAX_PRELUDES, &max_preludes);
-      configurator->get_value(pfx + CFG_KEY_BREAK_FORCE_AFTER_PRELUDES, &force_after_preludes);
-      configurator->get_value(pfx + CFG_KEY_BREAK_IGNORABLE, &ignorable_break);
-      configurator->get_value(pfx + CFG_KEY_BREAK_INSISTING, &insist_break);
-  
-      bc->set_max_preludes(max_preludes);
-      bc->set_force_after_preludes(force_after_preludes);
-      bc->set_insist_break(insist_break);
-      bc->set_ignorable_break(ignorable_break);
+      bc->set_max_preludes(timer->get_break_max_preludes());
+      bc->set_force_after_preludes(timer->get_break_force_after_preludes());
+      bc->set_insist_break(timer->get_break_insisting());
+      bc->set_ignorable_break(timer->get_break_ignorable());
     }
   TRACE_EXIT();
 }
