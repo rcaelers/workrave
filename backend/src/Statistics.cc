@@ -1,6 +1,6 @@
 // Statistics.cc
 //
-// Copyright (C) 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -69,13 +69,18 @@ Statistics::init(Core *control)
 {
   core = control;
 
-  start_new_day();
-  
 #ifdef HAVE_DISTRIBUTION
   init_distribution_manager();
 #endif
 
-  load_current_day();
+  current_day = new DailyStatsImpl();
+  bool ok = load_current_day();
+  if (!ok)
+    {
+      current_day = NULL;
+      start_new_day();
+    }
+  
   update_enviromnent();
   load_history();
 }
@@ -275,7 +280,7 @@ Statistics::add_history(DailyStatsImpl *stats)
 }
 
 //! Load the statistics of the current day.
-void
+bool
 Statistics::load_current_day()
 {
   TRACE_ENTER("Statistics::load_current_day");
@@ -317,6 +322,7 @@ Statistics::load_current_day()
     }
   
   TRACE_EXIT();
+  return ok;
 }
 
 

@@ -1,6 +1,6 @@
 // Statistics.hh
 //
-// Copyright (C) 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -123,7 +123,7 @@ public:
   int get_counter(StatsValueType t);
   
 private:  
-  void load_current_day();
+  bool load_current_day();
   void update_current_day();
   void load_history();
 
