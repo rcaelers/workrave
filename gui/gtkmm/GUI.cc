@@ -311,9 +311,19 @@ GUI::on_save_yourself(int phase, Gnome::UI::SaveStyle save_style, bool shutdown,
 
   Gnome::UI::Client *client = Gnome::UI::Client::master_client();
 
-  vector<string> args;
-  args.push_back(argv[0] != NULL ? argv[0] : "workrave");
+  string program = argv[0] != NULL ? argv[0] : "workrave";
+  if (program[0] != '/' && program[0] != '~')
+    {
+      gchar *cwd = g_get_current_dir();
 
+      program = string(cwd) + "/" + program;
+
+      g_free(cwd);
+    }
+    
+  vector<string> args;
+  args.push_back(program);
+  
   bool skip = false;
   if (applet_window != NULL)
     {
