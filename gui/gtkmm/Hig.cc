@@ -20,7 +20,7 @@ HigDialog::get_vbox()
   if (vbox == NULL)
     {
       vbox = manage(new Gtk::VBox());
-      vbox->set_border_width(5);
+      vbox->set_border_width(6);
       Gtk::Dialog::get_vbox()->pack_start(*vbox, true, true, 0);
     }
   return vbox;
@@ -29,7 +29,7 @@ HigDialog::get_vbox()
 void
 HigDialog::set_hig_defaults()
 {
-  set_border_width(7);
+  set_border_width(6);
 }
 
 HigCategoryPanel::HigCategoryPanel(Gtk::Widget &lab)

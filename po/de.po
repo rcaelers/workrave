@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
-"POT-Creation-Date: 2003-03-22 21:50+0100\n"
+"POT-Creation-Date: 2003-03-22 22:32+0100\n"
 "PO-Revision-Date: 2003-03-04 18:50+0100\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Johannes Rohr <j.rohr@comlink.apc.org>\n"
@@ -69,24 +69,24 @@ msgstr "%s%ld Sekunden"
 msgid "Credits"
 msgstr "Mitwirkende"
 
-#: gui/gtkmm/gnome-about.c:339
+#: gui/gtkmm/gnome-about.c:341
 msgid "_Written by"
 msgstr "_Autoren:"
 
-#: gui/gtkmm/gnome-about.c:354
+#: gui/gtkmm/gnome-about.c:356
 msgid "_Documented by"
 msgstr "_Dokumentation von:"
 
-#: gui/gtkmm/gnome-about.c:369
+#: gui/gtkmm/gnome-about.c:371
 msgid "_Translated by"
 msgstr "Übersetzt von"
 
 #. Add the credits button
-#: gui/gtkmm/gnome-about.c:428
+#: gui/gtkmm/gnome-about.c:431
 msgid "_Credits"
 msgstr "Mitwirkende"
 
-#: gui/gtkmm/gnome-about.c:611
+#: gui/gtkmm/gnome-about.c:614
 #, c-format
 msgid "About %s"
 msgstr "Über %s"
@@ -164,7 +164,7 @@ msgstr "Überspringen"
 msgid "Postpone"
 msgstr "Aufschieben"
 
-#: gui/gtkmm/GUI.cc:441
+#: gui/gtkmm/GUI.cc:443
 msgid "I could not initialize Bonobo"
 msgstr "Konnte Bonobo nicht initialisieren"
 

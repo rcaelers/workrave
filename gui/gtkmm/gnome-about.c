@@ -307,12 +307,13 @@ gnome_about_display_credits_dialog (GnomeAbout *about)
         
         dialog = gtk_dialog_new_with_buttons (_("Credits"),
                                               GTK_WINDOW (about),
-                                              GTK_DIALOG_DESTROY_WITH_PARENT,
-                                              GTK_STOCK_OK, GTK_RESPONSE_OK,
+                                              GTK_DIALOG_DESTROY_WITH_PARENT|
+					      GTK_DIALOG_NO_SEPARATOR,
+                                              GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
                                               NULL);
         about->_priv->credits_dialog = dialog;
         gtk_window_set_default_size (GTK_WINDOW (dialog), 360, 260);
-        gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
+        gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_CLOSE);
         g_signal_connect (dialog, "response",
                           G_CALLBACK (gtk_widget_destroy), dialog);
         g_signal_connect (dialog, "destroy",
@@ -320,7 +321,10 @@ gnome_about_display_credits_dialog (GnomeAbout *about)
                           &(about->_priv->credits_dialog));
 
         notebook = gtk_notebook_new ();
-        gtk_container_set_border_width (GTK_CONTAINER (notebook), 8);
+
+        gtk_container_set_border_width (GTK_CONTAINER (notebook), 6);
+        gtk_container_set_border_width (GTK_CONTAINER (dialog), 6);
+
         gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), notebook, TRUE, TRUE, 0);
 
         if (about->_priv->authors != NULL) {
@@ -390,9 +394,12 @@ gnome_about_instance_init (GnomeAbout *about)
         priv->authors = NULL;
         priv->documenters = NULL;
 
+	gtk_dialog_set_has_separator (GTK_DIALOG (about), FALSE);
+	
         /* Widgets */
-        vbox = gtk_vbox_new (FALSE, 8);
-        gtk_container_set_border_width (GTK_CONTAINER (vbox), 8);
+        vbox = gtk_vbox_new (FALSE, 12);
+        gtk_container_set_border_width (GTK_CONTAINER (vbox), 6);
+        gtk_container_set_border_width (GTK_CONTAINER (about), 6);
 
         gtk_box_pack_start (GTK_BOX (GTK_DIALOG (about)->vbox), vbox, TRUE, TRUE, 0);
 
@@ -417,8 +424,8 @@ gnome_about_instance_init (GnomeAbout *about)
         gtk_widget_show_all (vbox);
         
         /* Add the OK button */
-        gtk_dialog_add_button (GTK_DIALOG (about), GTK_STOCK_OK, GTK_RESPONSE_OK);
-        gtk_dialog_set_default_response (GTK_DIALOG (about), GTK_RESPONSE_OK);
+        gtk_dialog_add_button (GTK_DIALOG (about), GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
+        gtk_dialog_set_default_response (GTK_DIALOG (about), GTK_RESPONSE_CLOSE);
 
         /* Add the credits button */
         button = gtk_dialog_add_button (GTK_DIALOG (about), _("_Credits"), GNOME_RESPONSE_CREDITS);

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-03-22 21:50+0100\n"
+"POT-Creation-Date: 2003-03-22 22:32+0100\n"
 "PO-Revision-Date: 2003-03-04 22:16+0100\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -68,24 +68,24 @@ msgstr "%s%ld seconden"
 msgid "Credits"
 msgstr "Credits"
 
-#: gui/gtkmm/gnome-about.c:339
+#: gui/gtkmm/gnome-about.c:341
 msgid "_Written by"
 msgstr "Geschreven door"
 
-#: gui/gtkmm/gnome-about.c:354
+#: gui/gtkmm/gnome-about.c:356
 msgid "_Documented by"
 msgstr "Documentatie door"
 
-#: gui/gtkmm/gnome-about.c:369
+#: gui/gtkmm/gnome-about.c:371
 msgid "_Translated by"
 msgstr "Vertaald door"
 
 #. Add the credits button
-#: gui/gtkmm/gnome-about.c:428
+#: gui/gtkmm/gnome-about.c:431
 msgid "_Credits"
 msgstr "_Credits"
 
-#: gui/gtkmm/gnome-about.c:611
+#: gui/gtkmm/gnome-about.c:614
 #, c-format
 msgid "About %s"
 msgstr "Over %s"
@@ -162,7 +162,7 @@ msgstr "Overslaan"
 msgid "Postpone"
 msgstr "Uitstellen"
 
-#: gui/gtkmm/GUI.cc:441
+#: gui/gtkmm/GUI.cc:443
 msgid "I could not initialize Bonobo"
 msgstr "Bonobo kon niet geïnitialiseerd worden"
 

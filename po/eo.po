@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-03-22 21:37+0100\n"
+"POT-Creation-Date: 2003-03-22 22:31+0100\n"
 "PO-Revision-Date: 2002-11-05 17:58-0800\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -68,24 +68,24 @@ msgstr "%s%ld sekundoj"
 msgid "Credits"
 msgstr "Kreditoj"
 
-#: gui/gtkmm/gnome-about.c:337
+#: gui/gtkmm/gnome-about.c:341
 msgid "_Written by"
 msgstr "_Verkita de"
 
-#: gui/gtkmm/gnome-about.c:352
+#: gui/gtkmm/gnome-about.c:356
 msgid "_Documented by"
 msgstr "_Dokumentita de"
 
-#: gui/gtkmm/gnome-about.c:367
+#: gui/gtkmm/gnome-about.c:371
 msgid "_Translated by"
 msgstr "_Tradukita de"
 
 #. Add the credits button
-#: gui/gtkmm/gnome-about.c:424
+#: gui/gtkmm/gnome-about.c:431
 msgid "_Credits"
 msgstr "_Kreditoj"
 
-#: gui/gtkmm/gnome-about.c:607
+#: gui/gtkmm/gnome-about.c:614
 #, c-format
 msgid "About %s"
 msgstr "Pri %s"
@@ -166,7 +166,7 @@ msgstr "Transsaltu"
 msgid "Postpone"
 msgstr "Prokrastu"
 
-#: gui/gtkmm/GUI.cc:441
+#: gui/gtkmm/GUI.cc:443
 msgid "I could not initialize Bonobo"
 msgstr ""
 
