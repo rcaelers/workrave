@@ -22,7 +22,11 @@
 
 #define APPLET_WINDOW_CLASS_NAME "WorkraveApplet"
 #define APPLET_BAR_TEXT_MAX_LENGTH 16
-struct AppletData
+
+#define APPLET_MESSAGE_HEARTBEAT 0
+#define APPLET_MESSAGE_MENU 1
+
+struct AppletHeartbeatData
 {
   bool enabled;
   short slots[BREAK_ID_SIZEOF];
@@ -36,6 +40,26 @@ struct AppletData
   short bar_primary_color[BREAK_ID_SIZEOF];
   int bar_primary_val[BREAK_ID_SIZEOF];
   int bar_primary_max[BREAK_ID_SIZEOF];
+};
+
+#define APPLET_MAX_MENU_ITEMS 16
+#define APPLET_MENU_TEXT_MAX_LENGTH 48
+
+#define APPLET_MENU_FLAG_TOGGLE 1
+#define APPLET_MENU_FLAG_SELECTED 2
+
+struct AppletMenuItemData
+{
+  char text[APPLET_MENU_TEXT_MAX_LENGTH]; // mbs
+  short parent_menu;
+  int flags;
+  short command;
+};
+
+struct AppletMenuData
+{
+  short num_items;
+  AppletMenuItemData items[APPLET_MAX_MENU_ITEMS];
 };
 
 

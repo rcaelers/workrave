@@ -1,6 +1,6 @@
 // Menus.cc --- Timer info Window
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -61,6 +61,10 @@ static const char rcsid[] = "$Id$";
 #ifdef HAVE_EXERCISES
 #include "ExercisesDialog.hh"
 #include "Exercise.hh"
+#endif
+
+#ifdef WIN32
+#include "TimerBoxAppletView.hh"
 #endif
 
 Menus *Menus::instance = NULL;
@@ -338,7 +342,7 @@ Menus::sync_tray_menu(bool active)
 void
 Menus::resync_applet()
 {
-#ifdef HAVE_GNOME
+#if defined(HAVE_GNOME)
   if (applet_window != NULL)
     {
       CoreInterface *core = CoreFactory::get_core();
@@ -357,15 +361,20 @@ Menus::resync_applet()
         default:
           break;
         }
+#if defined(HAVE_DISTRIBUTION)
+      applet_window->set_menu_active(3, network_log_dialog != NULL);
+#endif
+    }
+#elif defined(WIN32)
+  if (applet_window != NULL)
+    {
+      applet_window->init_menu();
+      short id = applet_window->add_menu("Parent", 0, -1, 0);
+      applet_window->add_menu("Sub", 0, id, TimerBoxAppletView::MENU_FLAG_TOGGLE);
+      applet_window->add_menu("Subact", 0, id, TimerBoxAppletView::MENU_FLAG_TOGGLE|TimerBoxAppletView::MENU_FLAG_SELECTED);
     }
 #endif
 
-#if defined(HAVE_GNOME) && defined(HAVE_DISTRIBUTION)
-  if (applet_window != NULL)
-    {
-      applet_window->set_menu_active(3, network_log_dialog != NULL);
-    }
-#endif
 }
 
 

@@ -40,14 +40,26 @@ public:
                     TimeBarInterface::ColorId secondary_color,
                     int secondary_value, int secondary_max);
   void update();
+  void update_time_bars();
+  void update_menu();
   void set_enabled(bool enabled);
 
+  void init_menu();
+  short add_menu(const char *text, short cmd, short parent_menu, int flags);
+
+  enum MenuFlag
+  {
+    MENU_FLAG_TOGGLE = APPLET_MENU_FLAG_TOGGLE,
+    MENU_FLAG_SELECTED = APPLET_MENU_FLAG_SELECTED
+  };
   
 private:
   HWND get_applet_window();
 
   HWND applet_window;
-  AppletData applet_data;
+  bool menu_sent;
+  AppletHeartbeatData heartbeat_data;
+  AppletMenuData menu_data;
 };
 
 

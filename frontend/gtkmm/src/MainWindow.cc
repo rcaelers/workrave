@@ -161,6 +161,10 @@ MainWindow::init()
 #endif
 
   Menus *menus = Menus::get_instance();
+#ifdef WIN32
+  menus->set_applet_window(&win32_timer_box_view);
+  menus->resync_applet();
+#endif
   menus->set_main_window(this);
   popup_menu = menus->create_main_window_menu();
   

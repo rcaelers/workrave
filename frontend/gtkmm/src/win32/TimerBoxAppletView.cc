@@ -55,7 +55,8 @@ RecursiveFindWindow(HWND hwnd, LPCTSTR lpClassName)
 TimerBoxAppletView::TimerBoxAppletView()
 {
   applet_window = NULL;
-  applet_data.enabled = false;
+  heartbeat_data.enabled = false;
+  init_menu();
 }
   
 
@@ -70,7 +71,7 @@ TimerBoxAppletView::~TimerBoxAppletView()
 void
 TimerBoxAppletView::set_slot(BreakId id, int slot)
 {
-  applet_data.slots[slot] = (short) id;
+  heartbeat_data.slots[slot] = (short) id;
 }
 
 void
@@ -81,26 +82,52 @@ TimerBoxAppletView::set_time_bar(BreakId id,
                                  TimeBarInterface::ColorId secondary_color,
                                  int secondary_val, int secondary_max)
 {
-  strncpy(applet_data.bar_text[id], text.c_str(), APPLET_BAR_TEXT_MAX_LENGTH-1);
-  applet_data.bar_text[id][APPLET_BAR_TEXT_MAX_LENGTH-1] = '\0';
-  applet_data.bar_primary_color[id] = primary_color;
-  applet_data.bar_primary_val[id] = primary_val;
-  applet_data.bar_primary_max[id] = primary_max;
-  applet_data.bar_secondary_color[id] = secondary_color;
-  applet_data.bar_secondary_val[id] = secondary_val;
-  applet_data.bar_secondary_max[id] = secondary_max;
+  strncpy(heartbeat_data.bar_text[id], text.c_str(), APPLET_BAR_TEXT_MAX_LENGTH-1);
+  heartbeat_data.bar_text[id][APPLET_BAR_TEXT_MAX_LENGTH-1] = '\0';
+  heartbeat_data.bar_primary_color[id] = primary_color;
+  heartbeat_data.bar_primary_val[id] = primary_val;
+  heartbeat_data.bar_primary_max[id] = primary_max;
+  heartbeat_data.bar_secondary_color[id] = secondary_color;
+  heartbeat_data.bar_secondary_val[id] = secondary_val;
+  heartbeat_data.bar_secondary_max[id] = secondary_max;
 }
 
 void
 TimerBoxAppletView::update()
 {
+  update_time_bars();
+  update_menu();
+}
+
+void
+TimerBoxAppletView::update_menu()
+{
+  if (menu_sent)
+    return;
+
   HWND hwnd = get_applet_window();
   if (hwnd != NULL)
     {
       COPYDATASTRUCT msg;
-      msg.dwData = 0;
-      msg.cbData = sizeof(AppletData);
-      msg.lpData = &applet_data;
+      msg.dwData = APPLET_MESSAGE_MENU;
+      msg.cbData = sizeof(AppletMenuData);
+      msg.lpData = &menu_data;
+      SendMessage(hwnd, WM_COPYDATA, 0, (LPARAM) &msg);
+
+      menu_sent = true;
+    }
+}
+
+void
+TimerBoxAppletView::update_time_bars()
+{
+  HWND hwnd = get_applet_window();
+  if (hwnd != NULL)
+    {
+      COPYDATASTRUCT msg;
+      msg.dwData = APPLET_MESSAGE_HEARTBEAT;
+      msg.cbData = sizeof(AppletHeartbeatData);
+      msg.lpData = &heartbeat_data;
       SendMessage(hwnd, WM_COPYDATA, 0, (LPARAM) &msg);
     }
 }
@@ -112,6 +139,7 @@ TimerBoxAppletView::get_applet_window()
     {
       HWND taskbar = FindWindow("Shell_TrayWnd",NULL);
       applet_window = RecursiveFindWindow(taskbar, APPLET_WINDOW_CLASS_NAME);
+      menu_sent = false;
     }
   return applet_window;
 }
@@ -119,6 +147,26 @@ TimerBoxAppletView::get_applet_window()
 void
 TimerBoxAppletView::set_enabled(bool enabled)
 {
-  applet_data.enabled = enabled;
+  heartbeat_data.enabled = enabled;
 }
 
+
+void
+TimerBoxAppletView::init_menu()
+{
+  menu_data.num_items = 0;
+  menu_sent = false;
+}
+
+short
+TimerBoxAppletView::add_menu(const char *text, short cmd, short parent_menu,
+                             int flags)
+{
+  short id = menu_data.num_items++;
+  AppletMenuItemData *d = &menu_data.items[id];
+  d->parent_menu = parent_menu;
+  d->command = cmd;
+  strcpy(d->text, text);
+  d->flags = flags;
+  return id;
+}

@@ -1,6 +1,6 @@
 // Menus.hh --- Main info Window
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -32,6 +32,7 @@ class PreferencesDialog;
 class MainWindow;
 class AppletWindow;
 class ExercisesDialog;
+class TimerBoxAppletView;
 
 #include <gtkmm/checkmenuitem.h>
 
@@ -52,8 +53,10 @@ public:
   static Menus *get_instance();
 
   void set_main_window(MainWindow *main);
-#ifdef HAVE_GNOME
+#if defined(HAVE_GNOME)
   void set_applet_window(AppletWindow *applet);
+#elif defined(WIN32)
+  void set_applet_window(TimerBoxAppletView *applet);
 #endif
   void resync_applet();
   
@@ -105,9 +108,12 @@ private:
   //! The one and only instance
   static Menus *instance;
   
-#ifdef HAVE_GNOME  
+#if defined(HAVE_GNOME)
   //! The applet windows
   AppletWindow *applet_window;
+#elif defined(WIN32)
+  //! The applet windows
+  TimerBoxAppletView *applet_window;
 #endif
 
 #ifdef HAVE_DISTRIBUTION
@@ -143,9 +149,15 @@ Menus::set_main_window(MainWindow *main)
 }
 
 
-#ifdef HAVE_GNOME
+#if defined(HAVE_GNOME)
 inline void
 Menus::set_applet_window(AppletWindow *applet)
+{
+  applet_window = applet;
+}
+#elif defined(WIN32)
+inline void
+Menus::set_applet_window(TimerBoxAppletView *applet)
 {
   applet_window = applet;
 }

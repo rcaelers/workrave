@@ -526,7 +526,10 @@ CDeskBand::OnCopyData(PCOPYDATASTRUCT copy_data)
     m_LastCopyData = time(NULL);
     if (m_TimerBox != NULL)
     {
-        AppletData *data = (AppletData *) copy_data->lpData;
+        if (copy_data->dwData == APPLET_MESSAGE_HEARTBEAT
+            && copy_data->cbData == sizeof(AppletHeartbeatData))
+          {
+        AppletHeartbeatData *data = (AppletHeartbeatData *) copy_data->lpData;
         m_TimerBox->set_enabled(data->enabled);
         for (int s = 0; s < BREAK_ID_SIZEOF; s++) 
         {
@@ -546,7 +549,7 @@ CDeskBand::OnCopyData(PCOPYDATASTRUCT copy_data)
         }
 
         m_TimerBox->update();
-    }
+      }   }
     return 0;
 }
 
