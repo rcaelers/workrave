@@ -83,7 +83,7 @@ public:
   time_t get_time() const;
 
   // ControlInterface methods.
-  void init();
+  void init(char *display_name);
   void terminate();
   void process_timers(map<string, TimerInfo> &infos);
 
@@ -117,7 +117,7 @@ private:
   void load_monitor_config();
   void store_monitor_config();
 
-  bool create_monitor();
+  bool create_monitor(char *display_name);
   bool create_timers();
   //bool process_timer_event(Timer *timer, Timer::TimerEvent event);
 

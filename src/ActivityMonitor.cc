@@ -34,12 +34,12 @@ static const char rcsid[] = "$Id$";
 #endif
 
 //! Constructor.
-ActivityMonitor::ActivityMonitor()
+ActivityMonitor::ActivityMonitor(char *display)
 {
   TRACE_ENTER("ActivityMonitor::ActivityMonitor");
 
 #if defined(HAVE_X)
-  input_monitor = new X11InputMonitor();
+  input_monitor = new X11InputMonitor(display);
 #elif defined(WIN32)
   input_monitor = new Win32InputMonitor();
 #endif

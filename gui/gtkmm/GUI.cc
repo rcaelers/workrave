@@ -123,7 +123,12 @@ GUI::run()
   WindowHints::init();
 
   // Initialize the core.
-  core_control->init();
+#ifdef HAVE_X
+  char *display_name = gdk_get_display();
+#else
+  char *display_name = NULL;
+#endif    
+  core_control->init(display_name);
   
   // Create all windows.
   gui_control->init();

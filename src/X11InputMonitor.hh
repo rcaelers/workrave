@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-09-14 19:56:48 robc>
+// Time-stamp: <2002-10-06 21:23:20 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -103,6 +103,9 @@ private:
   void handle_button(XEvent *event);
 
 private:
+  //! The X11 display name.
+  char *x11_display_name;
+
   //! The X11 display handle.
   Display *x11_display;
 

@@ -32,7 +32,7 @@ class ActivityMonitor :
   public ActivityMonitorInterface
 {
 public:
-  ActivityMonitor();
+  ActivityMonitor(char *display);
   virtual ~ActivityMonitor();
 
   void start();

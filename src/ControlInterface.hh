@@ -38,7 +38,7 @@ public:
   virtual TimerInterface *get_timer(string id) = 0;
   virtual ActivityMonitorInterface *get_activity_monitor() const = 0;
 
-  virtual void init() = 0;
+  virtual void init(char *display) = 0;
   virtual void process_timers(map<string, TimerInfo> &infos) = 0;
 #ifndef NDEBUG
   virtual void test_me() = 0;

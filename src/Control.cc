@@ -84,12 +84,12 @@ Control::~Control()
 
 
 void
-Control::init()
+Control::init(char *display_name)
 {
 #ifdef HAVE_DISTRIBUTION
   create_distribution_manager();
 #endif  
-  create_monitor();
+  create_monitor(display_name);
   create_timers();
 }
 
@@ -279,7 +279,7 @@ Control::create_distribution_manager()
 
 // Create the monitor based on the specified configuration.
 bool
-Control::create_monitor()
+Control::create_monitor(char *display_name)
 {
 #ifndef NDEBUG
   fake_monitor = NULL;
@@ -289,8 +289,8 @@ Control::create_monitor()
       fake_monitor = new FakeActivityMonitor();
     }
 #endif
-      
-  monitor = new ActivityMonitor();
+
+  monitor = new ActivityMonitor(display_name);
   load_monitor_config();
   store_monitor_config();
   
@@ -652,9 +652,15 @@ Control::set_state(DistributedStateID id, bool active, unsigned char *buffer, in
     {
       gchar *id = state_packet.unpack_string();
       TRACE_MSG("id = " << id);
+
+      if (id == NULL)
+        {
+          TRACE_EXIT();
+          return false;
+        }
       
       Timer *t = (Timer *)get_timer(id);
-      
+
       Timer::TimerStateData state_data;
 
       int data_size = state_packet.unpack_ushort();
@@ -671,7 +677,10 @@ Control::set_state(DistributedStateID id, bool active, unsigned char *buffer, in
                 << state_data.last_pred_reset_time 
                 );
 
-      t->set_state_data(state_data);
+      if (t != NULL)
+        {
+          t->set_state_data(state_data);
+        }
     }
   
   TRACE_EXIT();
