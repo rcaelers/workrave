@@ -102,6 +102,7 @@ BreakWindow::set_border_width(guint width)
 void
 BreakWindow::center()
 {
+  TRACE_ENTER("BreakWindow::center");
 #ifdef HAVE_GTK_MULTIHEAD
 
   if (!screen.is_null())
@@ -111,6 +112,11 @@ BreakWindow::center()
 
       GtkRequisition size;
       size_request(&size);
+
+      TRACE_MSG(monitor << " : " <<
+                geometry.get_width() << "x" << geometry.get_height() << " +" <<
+                geometry.get_x() << "+" << geometry.get_y() << " " <<
+                size.width << " " << size.height);
       
       int x = geometry.get_x() + (geometry.get_width() - size.width) / 2;
       int y = geometry.get_y() + (geometry.get_height() - size.height) / 2;
@@ -124,7 +130,8 @@ BreakWindow::center()
       set_position(Gtk::WIN_POS_CENTER_ALWAYS);
     }
 
-#endif  
+#endif
+  TRACE_EXIT();
 }
 
 

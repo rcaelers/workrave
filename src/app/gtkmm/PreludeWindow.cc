@@ -42,6 +42,8 @@ static const char rcsid[] = "$Id$";
 PreludeWindow::PreludeWindow(BreakId break_id MULTIHEAD_PARAMS)
   : break_id(break_id)
 {
+  realize();
+  
   // Time bar
   time_bar = manage(new TimeBar);
 
@@ -93,6 +95,7 @@ PreludeWindow::PreludeWindow(BreakId break_id MULTIHEAD_PARAMS)
   
   unset_flags(Gtk::CAN_FOCUS);
 
+  show_all_children();
   stick();
 
 #ifdef HAVE_GTK_MULTIHEAD
