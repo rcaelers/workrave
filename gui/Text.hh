@@ -21,6 +21,8 @@
 
 #include <string>
 
+using namespace std;
+
 class Text
 {
 public:
