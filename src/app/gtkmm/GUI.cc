@@ -406,7 +406,7 @@ void
 GUI::init_debug()
 {
 #ifdef NDEBUG
-  char *domains[] = { NULL, "Gtk", "GLib", "Gdk", "gtkmm" };
+  char *domains[] = { NULL, "Gtk", "GLib", "Gdk", "gtkmm", "GLib-GObject" };
   for (int i = 0; i < sizeof(domains)/sizeof(char *); i++)
     {
       g_log_set_handler(domains[i],
