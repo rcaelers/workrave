@@ -47,7 +47,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
                          bool ignorable, bool insist)
   : Gtk::Window(Gtk::WINDOW_TOPLEVEL),
          insist_break(insist),
-         ignorable_break(ignorable_break),
+         ignorable_break(ignorable),
 #ifdef HAVE_X
          grab_wanted(false),
 #endif
@@ -57,6 +57,10 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
 {
   this->break_id = break_id;
   
+#ifdef HAVE_X
+  GtkUtil::set_wmclass(*this, "Break");
+#endif
+
   // Need to realize window before it is shown
   // Otherwise, there is not gobj()...
   realize();
@@ -65,10 +69,6 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   Gtk::Window::set_border_width(12);
   Glib::RefPtr<Gdk::Window> window = get_window();
   window->set_functions(Gdk::FUNC_MOVE);
-
-#ifdef HAVE_X
-  GtkUtil::set_wmclass(*this, "Break");
-#endif
 
   this->head = head;
 #ifdef HAVE_GTK_MULTIHEAD  
