@@ -7,7 +7,13 @@
 
 MAINTAINERCLEANFILES = Makefile.in
 
+
 noinst_LIBRARIES = libgtkmmgui.a
+
+if HAVE_GNOME
+else
+sourcesgnome = gnome-about.c
+endif
 
 libgtkmmgui_a_SOURCES = \
 	BreakControl.cc \
@@ -27,7 +33,10 @@ libgtkmmgui_a_SOURCES = \
 	WindowHints.cc \
 	gnome-winhints.c \
 	Frame.cc \
-	WmSpec.cc
+	WmSpec.cc \
+	$(sourcesgnome)
+
+
 
 libgtkmmgui_a_LIBADD = 
 

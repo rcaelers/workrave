@@ -1,6 +1,6 @@
 // MainWindow.cc --- Main info Window
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -27,8 +27,11 @@ static const char rcsid[] = "$Id$";
 
 #include <unistd.h>
 #include <iostream>
+
 #ifdef HAVE_GNOME
 #include <gnome.h>
+#else
+#include "gnome-about.h"
 #endif
 
 #include "MainWindow.hh"
@@ -529,7 +532,6 @@ MainWindow::on_menu_preferences()
 void
 MainWindow::on_menu_about()
 {
-#ifdef HAVE_GNOME  
   const gchar *authors[] = {
    "Rob Caelers <robc@krandor.org>",
    "Raymond Penners <raymond@dotsphinx.com>",
@@ -544,6 +546,5 @@ MainWindow::on_menu_about()
                     (const gchar **) NULL,
                     NULL,
                     NULL));
-#endif   
 }
 

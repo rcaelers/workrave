@@ -1,6 +1,6 @@
 // DailyLimitWindow.cc --- window for the daily limit
 //
-// Copyright (C) 2002 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
