@@ -66,6 +66,13 @@ AC_ARG_ENABLE( gnome,
        config_with_gnome=yes
     )
 
+AC_ARG_ENABLE( kde,
+  [  --enable-kde            compile with KDE support],
+       config_with_kde=$enableval
+       ,
+       config_with_kde=no
+    )
+    
 AC_ARG_ENABLE( registry,
   [  --enable-registry       compile with Win32 registry support],
        config_with_registry=$enableval
@@ -151,6 +158,7 @@ case "$host" in
   *-*-mingw*|*-*-cygwin*)
     platform_win32=yes
     config_with_gnome=no
+    config_with_kde=no
     ;;
   *)
     platform_win32=no
@@ -300,6 +308,30 @@ then
 
   fi
 
+  dnl if test "x$config_with_kde" = "xyes"
+  dnl then
+    AC_BASE_PATH_KDE
+
+    KDE_SET_PREFIX
+
+    dnl for NLS support. Call them in this order!
+    dnl WITH_NLS is for the po files
+    AM_KDE_WITH_NLS
+
+    KDE_USE_QT(3.0.0)
+    AC_PATH_KDE
+    #MIN_CONFIG(3.0.0)
+
+    dnl PACKAGE set before
+    AC_CHECK_KDEMAXPATHLEN
+
+    KDE_CREATE_SUBDIRSLIST
+  dnl else
+  dnl   build_arts="no"
+  dnl   include_ARTS_TRUE='#'
+  dnl   include_ARTS_FALSE=
+  dnl fi
+  
   dnl
   dnl check if we have gtk+ 2.1.x (again - for multihead support)
   dnl
@@ -564,7 +596,9 @@ AC_SUBST(WR_BACKEND_DIRS)
 AC_SUBST(WR_BACKEND_LIBS)
 AC_SUBST(WR_BACKEND_CFLAGS)
 AC_SUBST(WR_BACKEND_INCLUDES)
-       
+
+AC_SUBST(include_ARTS)
+               
 HAVE_X=
 if test x$have_x = xyes ; then
    AC_DEFINE(HAVE_X,,[Define if X is available])
@@ -588,6 +622,11 @@ fi
 HAVE_GNOME=
 if test "x$config_with_gnome" = "xyes"; then
    AC_DEFINE(HAVE_GNOME,,[Define if Gnome is available])
+fi
+
+HAVE_KDE=
+if test "x$config_with_kde" = "xyes"; then
+   AC_DEFINE(HAVE_KDE,,[Define if KDE is available])
 fi
 
 HAVE_DISTRIBUTION=
@@ -635,6 +674,7 @@ AM_CONDITIONAL(HAVE_X, test x$have_x = xyes)
 AM_CONDITIONAL(HAVE_GCONF, test "x$GCONF_LIBS" != "x" -a "x$config_with_gconf" = "xyes")
 AM_CONDITIONAL(HAVE_GDOME, test "x$GDOME_LIB" != "x" -a "x$config_with_xml" = "xyes")
 AM_CONDITIONAL(HAVE_GNOME, test "x$config_with_gnome" = "xyes")
+AM_CONDITIONAL(HAVE_KDE, test "x$config_with_kde" = "xyes")
 AM_CONDITIONAL(HAVE_GNET, test "x$GNET_LIBS" != "x")
 AM_CONDITIONAL(HAVE_REGISTRY, test "x$config_with_registry" = "xyes")
 AM_CONDITIONAL(NDEBUG, test "x$config_debug" != "xyes")
@@ -647,6 +687,8 @@ AM_CONDITIONAL(HAVE_EXERCISES, test "x$config_exercises" = "xyes")
 AM_CONDITIONAL(HAVE_EXPERIMENTAL, test "x$config_experimental" = "xyes")
 
 
+AC_CONFIG_SUBDIRS(frontend/gtkmm/src/kde_applet)
+        
 AC_OUTPUT(Makefile \
           backend/Makefile \
           backend/src/Makefile \

@@ -14,6 +14,7 @@
 // GNU General Public License for more details.
 //
 // TODO: release CORBA memory.
+// TODO: refactor. split into 4 classes.
 
 static const char rcsid[] = "$Id$";
 
@@ -37,6 +38,10 @@ static const char rcsid[] = "$Id$";
 #include "RemoteControl.hh"
 #endif
 #include "eggtrayicon.h"
+
+#ifdef HAVE_KDE
+#include "KdeAppletWindow.hh"
+#endif
 
 #include "ConfiguratorInterface.hh"
 #include "CoreInterface.hh"
@@ -112,10 +117,17 @@ AppletWindow::init_applet()
 
   mode = APPLET_DISABLED;
 
-#ifdef HAVE_GNOME  
+#ifdef HAVE_GNOME
   if (init_gnome_applet())
     {
       mode = APPLET_GNOME;
+    }
+  else
+#endif    
+#ifdef HAVE_KDE
+  if (init_kde_applet())
+    {
+      mode = APPLET_KDE;
     }
   else
 #endif    
@@ -145,7 +157,14 @@ AppletWindow::destroy_applet()
     {
       destroy_gnome_applet();
     }
-#endif  
+#endif
+#ifdef HAVE_KDE
+  else if (mode == APPLET_KDE)
+    {
+      destroy_kde_applet();
+    }
+#endif
+  
   TRACE_EXIT();
 }
 
@@ -351,6 +370,99 @@ AppletWindow::destroy_gnome_applet()
           container = NULL;
         }
       applet_control = NULL; // FIXME: free memory.
+    }
+  mode = APPLET_DISABLED;
+}
+#endif
+
+
+#ifdef HAVE_KDE
+//! Initializes the native kde applet.
+bool
+AppletWindow::init_kde_applet()
+{
+  TRACE_ENTER("AppletWindow::init_kde_applet");
+
+  bool ok = true;
+
+  ok = KdeAppletWindow::get_vertical(applet_vertical);
+
+  if (ok)
+    {
+      ok = KdeAppletWindow::get_size(applet_size);
+    }
+  
+  if (ok)
+    {
+      // Initialize applet GUI.
+      
+      // Gtk::Alignment *frame = new Gtk::Alignment(1.0, 1.0, 0.0, 0.0);
+      // frame->set_border_width(2);
+
+      Gtk::EventBox *eventbox = new Gtk::EventBox;
+      eventbox->set_events(eventbox->get_events() | Gdk::BUTTON_PRESS_MASK | Gdk::BUTTON_RELEASE_MASK);
+      eventbox->signal_button_press_event().connect(MEMBER_SLOT(*this, &AppletWindow::on_button_press_event));
+      container = eventbox;
+      
+      // container = frame;
+
+      plug = new Gtk::Plug((unsigned int)0);
+      plug->add(*container);
+
+      plug->signal_embedded().connect(MEMBER_SLOT(*this, &AppletWindow::on_embedded));
+      plug->signal_delete_event().connect(MEMBER_SLOT(*this, &AppletWindow::delete_event));
+
+      // Gtkmm does not wrap this event....
+      g_signal_connect(G_OBJECT(plug->gobj()), "destroy-event",
+                       G_CALLBACK(AppletWindow::destroy_event), this);
+      
+      timer_box_view = manage(new TimerBoxGtkView());
+      timer_box_control = new TimerBoxControl("applet", *timer_box_view);
+      timer_box_view->set_geometry(applet_vertical, applet_size);
+      timer_box_view->show_all();
+      
+      container->add(*timer_box_view);
+      container->show_all();
+      plug->show_all();
+
+      // Tray menu
+      if (tray_menu == NULL)
+        {
+          Menus *menus = Menus::get_instance();
+          tray_menu = menus->create_tray_menu();
+        }
+
+      KdeAppletWindow::plug_window(plug->get_id());
+
+      // somehow, signal_embedded is never triggered...
+      set_mainwindow_applet_active(true);
+    }
+
+  TRACE_EXIT();
+  return ok;
+}
+
+
+//! Destroys the native gnome applet.
+void
+AppletWindow::destroy_kde_applet()
+{
+  if (mode == APPLET_KDE)
+    {
+      // Cleanup Widgets.
+      if (plug != NULL)
+        {
+          plug->remove();
+          delete plug;
+          plug = NULL;
+        }
+      
+      if (container != NULL)
+        {
+          container->remove();
+          delete container;
+          container = NULL;
+        }
     }
   mode = APPLET_DISABLED;
 }
@@ -631,7 +743,7 @@ AppletWindow::on_embedded()
   TRACE_ENTER("AppletWindow::on_embedded");
   set_mainwindow_applet_active(true);
 
-  if (mode == APPLET_TRAY)
+  if (mode == APPLET_TRAY || mode == APPLET_KDE)
     {
 #ifdef HAVE_GTKMM24
       Gtk::Requisition req;
@@ -642,7 +754,14 @@ AppletWindow::on_embedded()
       plug->size_request(&req);
       applet_size = req.height;
 #endif
+
+      TRACE_MSG("Size = " << req.width << " " << req.height << " " << applet_vertical);
       timer_box_view->set_geometry(applet_vertical, applet_size);
+
+      if (mode == APPLET_KDE)
+        {
+          KdeAppletWindow::set_size(req.width, req.height);
+        }
       TRACE_MSG(applet_size);
     }
   TRACE_EXIT();

@@ -89,6 +89,7 @@ TimerBoxGtkView::set_geometry(bool vertical, int size)
   this->vertical = vertical;
   this->size = size;
   init_table();
+
 }
 
 
@@ -195,9 +196,9 @@ TimerBoxGtkView::init_table()
       int width, height;
       bars[0]->get_preferred_size(width, height);
       
-      rows = size / (height + 1);
+      rows = size / (height + 4);
 
-      TRACE_MSG(size << " " << rows);
+      TRACE_MSG(size << " " << height << " " << rows);
       if (rows <= 0)
         {
           rows = 1;
@@ -273,7 +274,7 @@ TimerBoxGtkView::init_table()
               size_request(widget_size);
               
               TRACE_MSG("size = " << widget_size.width << " " << widget_size.height);
-              //bars[id]->set_size_request(-1, size / rows - (rows + 1) - 2);
+              // bars[id]->set_size_request(-1, size / rows - (rows + 1) - 2);
 #else
               GtkRequisition widget_size;
               size_request(&widget_size);
@@ -281,7 +282,6 @@ TimerBoxGtkView::init_table()
               TRACE_MSG("size = " << widget_size.width << " " << widget_size.height);
               //bars[id]->set_size_request(-1, size / rows - (rows + 1) - 2);
 #endif
-              
             }
 
           TRACE_MSG("attach " << cur_col << " " << cur_row);

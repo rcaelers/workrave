@@ -64,6 +64,11 @@ static const char rcsid[] = "$Id$";
 #include "libgnomeuimm/wrap_init.h"
 #endif
 
+#ifdef HAVE_GNOME
+#include <dcopclient.h>
+#include <kapp.h>
+#endif
+
 #ifdef WIN32
 #include "crashlog.h"
 #include "W32Compat.hh"
@@ -182,7 +187,10 @@ GUI::main()
 #ifdef HAVE_GNOME
   init_gnome();
 #endif
-
+#ifdef HAVE_KDE
+  init_kde();
+#endif
+    
 #ifdef WIN32
   // Win32 needs this....
   if (!g_thread_supported())
@@ -396,6 +404,18 @@ GUI::on_save_yourself(int phase, Gnome::UI::SaveStyle save_style, bool shutdown,
 
 #endif  
 
+
+#ifdef HAVE_KDE
+void
+GUI::init_kde()
+{
+  TRACE_ENTER("GUI::init_kde");
+  KApplication *a = new KApplication(argc, argv, "Workrave");
+  bool rc = kapp->dcopClient()->attach();
+  TRACE_MSG(rc);
+  TRACE_EXIT();
+}
+#endif
 
 //! Initializes messages hooks.
 void

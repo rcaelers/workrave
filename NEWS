@@ -11,6 +11,17 @@ http://www.workrave.org
 
 ** Morten Lunde translated Workrave into Norwegian, great!
 
+** Added cs.po (FIXME)
+
+** Workrave now uses the system tray icon to visualize the current
+mode (normal, suspended or quiet)
+
+** Added "Restbreak now" button to microbreak window.
+
+** KDE improvements. Workrave now has a native KDE applet.
+
+** Decent tooltips for Workrave system tray icon.
+
 * Workrave 1.6.2
 
 ** Added a Brazilian Portuguese translation, thanks to Claudio

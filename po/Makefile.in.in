@@ -100,7 +100,10 @@ $(POFILES): $(srcdir)/$(DOMAIN).pot
 	@lang=`echo $@ | sed -e 's,.*/,,' -e 's/\.po$$//'`; \
 	test "$(srcdir)" = . && cdcmd="" || cdcmd="cd $(srcdir) && "; \
 	echo "$${cdcmd}$(INTLTOOL_UPDATE) $${lang}.po"; \
-	cd $(srcdir) && INTLTOOL_EXTRACT=$(INTLTOOL_EXTRACT) $(INTLTOOL_UPDATE) $${lang};
+	cd $(srcdir) && $(INTLTOOL_UPDATE) --dist $${lang};
+
+## RC: originally:
+#	cd $(srcdir) && $(INTLTOOL_UPDATE) $${lang};
 
 install: install-exec install-data
 install-exec:

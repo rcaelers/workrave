@@ -155,7 +155,7 @@ if grep "^AM_PROG_LIBTOOL" configure.ac >/dev/null; then
 fi
 
 echo "Running aclocal $aclocalinclude ..."
-aclocal $aclocalinclude || {
+aclocal -I m4 $aclocalinclude || {
     echo
     echo "**Error**: aclocal failed. This may mean that you have not"
     echo "installed all of the packages you need, or you may need to"
@@ -186,6 +186,8 @@ autoconf --force || {
     exit 1
 }
 
+echo "Configuring KDE applet ..."
+make -C frontend/gtkmm/src/kde_applet -f Makefile.cvs
 
 conf_flags="--enable-maintainer-mode --enable-compile-warnings --enable-debug --enable-gnome --enable-distribution --enable-exercises"
  

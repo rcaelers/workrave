@@ -5,7 +5,7 @@
 # $Id$
 #
 
-SUBDIRS = 		gnome_applet win32 unix
+SUBDIRS = 		gnome_applet kde_applet win32 unix
 MAINTAINERCLEANFILES = 	Makefile.in ${IDL_A_GENERATED} ${IDL_C_GENERATED}
 
 
@@ -93,6 +93,10 @@ if HAVE_X
 X11LIBS = 		-lworkrave-frontend-gtkmm-unix -lXmu
 endif
 
+if HAVE_KDE
+sourceskde = 		kde_applet/kworkraveapplet/kworkraveapplet_stub.cpp KdeAppletWindow.cc
+endif
+
 workrave_SOURCES = \
 			$(sourcesidl) \
 			BreakWindow.cc \
@@ -127,13 +131,15 @@ workrave_SOURCES = \
 			$(sourcesx) \
 			$(sourceswin32) \
 			${sourcesdistribution} \
-			${sourcesexercises}
+			${sourcesexercises} \
+			${sourceskde}
 
 workrave_CXXFLAGS = 	-DWORKRAVE_DATADIR="\"${pkgdatadir}\"" -W \
 			@WR_FRONTEND_CFLAGS@ -I$(top_srcdir)/src \
 			 -I. @GNOMEUIMM_CFLAGS@ \
 			@GNOMEUI_CFLAGS@ @GTK_CFLAGS@ @GTKMM_CFLAGS@ \
 			@GCONF_CFLAGS@ -D_XOPEN_SOURCE=600 @GNET_CFLAGS@ \
+			@KDE_INCLUDES@ @QT_INCLUDES@\
 			$(includeswin32) $(includesinput) \
 			$(includesx) \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
@@ -157,6 +163,8 @@ $(bin_PROGRAMS): @WR_FRONTEND_LIBS@
 workrave_LDADD =  	@WR_FRONTEND_LIBS@ @GNOMEUI_LIBS@ @GNOMEUIMM_LIBS@ \
 			@GTK_LIBS@ @GTKMM_LIBS@ @GNET_LIBS@ @GTHREAD_LIBS@ \
 			@PTHREAD_LIBS@ @X_LIBS@ @GCONF_LIBS@ @GDOME_LIB@ \
+			@KDE_LDFLAGS@ @LIB_KDEUI@ @LIB_KDECORE@ \
+			@QT_LDFLAGS@ @LIB_QT@ \
 			${X11LIBS} ${WIN32LIBS} ${WIN32CONSOLE}
 
 # workrave_LINK		= $(LINK) \

@@ -149,6 +149,9 @@ private:
   bool on_save_yourself(int phase, Gnome::UI::SaveStyle save_style, bool shutdown,
                         Gnome::UI::InteractStyle interact_style, bool fast);
 #endif
+#ifdef HAVE_KDE
+  void init_kde();
+#endif
   void collect_garbage();
   BreakWindowInterface *create_break_window(HeadInfo &head, BreakId break_id, bool ignorable);
 

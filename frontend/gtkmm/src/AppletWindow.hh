@@ -49,7 +49,7 @@ class AppletWindow :
   public SigC::Object
 {
 public:  
-  enum AppletMode { APPLET_DISABLED, APPLET_TRAY, APPLET_GNOME };
+  enum AppletMode { APPLET_DISABLED, APPLET_TRAY, APPLET_GNOME, APPLET_KDE };
 
   AppletWindow();
   virtual ~AppletWindow();
@@ -122,7 +122,10 @@ private:
 
   static gboolean destroy_event(GtkWidget *widget, GdkEvent *event, gpointer user_data);
 #endif
-
+#ifdef HAVE_KDE
+  bool init_kde_applet();
+  void destroy_kde_applet();
+#endif
   // Events.
   void on_embedded();
   bool on_button_press_event(GdkEventButton *event);
