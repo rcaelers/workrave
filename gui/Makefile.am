@@ -19,4 +19,4 @@ libgui_a_SOURCES = \
 
 EXTRA_DIST = $(wildcard *.hh) $(wildcard *.cc) $(wildcard *.c) $(wildcard *.h)  $(wildcard *.icc)
 
-libgui_a_CXXFLAGS = -DDATADIR="\"${pkgdatadir}\"" -W @ARCH_CFLAGS@ -I$(top_srcdir)/src -I$(top_srcdir)/gui -I$(top_srcdir)/arch  @GLIB_CFLAGS@ -D_XOPEN_SOURCE=600
+libgui_a_CXXFLAGS = -DDATADIR="\"${pkgdatadir}\"" -W @ARCH_CFLAGS@ -I$(top_srcdir)/src -I$(top_srcdir)/gui -I$(top_srcdir)/arch  @GTK_CFLAGS@ @GLIB_CFLAGS@ -D_XOPEN_SOURCE=600

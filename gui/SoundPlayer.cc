@@ -26,6 +26,13 @@ static const char rcsid[] = "$Id$";
 #include "Thread.hh"
 #include "Sound.hh"
 
+#ifdef HAVE_GNOME
+#include <gdk/gdk.h>
+#endif
+#ifdef HAVE_X
+#include <X11/Xlib.h>
+#endif
+
 const char *SoundPlayer::CFG_KEY_SOUND_ENABLED = "sound/enabled";
 const char *SoundPlayer::CFG_KEY_SOUND_DEVICE = "sound/device";
 
@@ -119,11 +126,26 @@ SpeakerPlayer::run()
 {
   short (*b)[2];
   b = beeps;
+#ifdef HAVE_X
+  Display *display = NULL;
+#  ifdef HAVE_GNOME
+  display = XOpenDisplay(gdk_get_display());
+#  endif
+  if (display) {
+#endif  
   while (b[0][0])
     {
+#ifdef HAVE_X
+      ::Sound::beep(display, b[0][0], b[0][1]);
+#else
       ::Sound::beep(b[0][0], b[0][1]);
+#endif      
       b++;
     }
+#ifdef HAVE_X
+    XCloseDisplay(display);
+  }
+#endif
   
 }
   

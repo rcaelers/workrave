@@ -49,10 +49,6 @@ static const char rcsid[] = "$Id$";
 #include "GnomeSoundPlayer.hh"
 #endif
 
-#ifdef HAVE_X
-#include <X11/Xlib.h>
-#include <glibmm.h>
-#endif
 
 GUI *GUI::instance = NULL;
 
@@ -119,9 +115,6 @@ GUI::run()
   TRACE_ENTER("GUI:run");
 
   // Initialize Gtkmm
-#ifdef HAVE_X
-  XInitThreads();
-#endif
   Gtk::Main kit(argc, argv);
 
   //g_thread_init(NULL);
