@@ -301,7 +301,6 @@ GUI::on_save_yourself(int phase, Gnome::UI::SaveStyle save_style, bool shutdown,
     }
 
 #if 0
-  
   Gnome::UI::Client *client = Gnome::UI::Client::master_client();
 
   vector<string> argv(4);
