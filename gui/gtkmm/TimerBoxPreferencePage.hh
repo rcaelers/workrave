@@ -16,8 +16,8 @@
 // $Id$
 //
 
-#ifndef APPLETPREFERENCEPAGE_HH
-#define APPLETPREFERENCEPAGE_HH
+#ifndef TIMERBOXPREFERENCEPAGE_HH
+#define TIMERBOXPREFERENCEPAGE_HH
 
 class Configurator;
 
@@ -25,12 +25,12 @@ class Configurator;
 
 #include <gtkmm.h>
 
-class AppletPreferencePage
+class TimerBoxPreferencePage
   : public Gtk::HBox
 {
 public:  
-  AppletPreferencePage();
-  ~AppletPreferencePage();
+  TimerBoxPreferencePage(string name);
+  ~TimerBoxPreferencePage();
   
 private:
   void init_page_values();
@@ -40,6 +40,8 @@ private:
   void on_place_changed();
   void on_display_changed(int break_id);
   void on_cycle_time_changed();
+
+  string name;
   
   Gtk::CheckButton *enabled_cb;
   Gtk::OptionMenu *place_button;
@@ -47,4 +49,4 @@ private:
   Gtk::SpinButton *cycle_entry;
 };
 
-#endif // APPLETPREFERENCEPAGE_HH
+#endif // TIMERBOXPREFERENCEPAGE_HH

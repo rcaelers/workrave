@@ -1,4 +1,4 @@
-// AppletPreferencePage.cc --- Preferences widgets for a timer
+// TimerBoxPreferencePage.cc --- Preferences widgets for a timer
 //
 // Copyright (C) 2002, 2003 Rob Caelers & Raymond Penners
 // All rights reserved.
@@ -25,19 +25,22 @@
 #include "nls.h"
 #include "debug.hh"
 
-#include "AppletPreferencePage.hh"
+#include "TimerBoxPreferencePage.hh"
 
 #include "Configurator.hh"
+#include "TimerBox.hh"
 #include "AppletWindow.hh"
+#include "MainWindow.hh"
 #include "GtkUtil.hh"
 #include "GUI.hh"
 #include "Hig.hh"
 
 //! Constructs the Applet Preference Notebook page.
-AppletPreferencePage::AppletPreferencePage()
-  : Gtk::HBox(false, 6)
+TimerBoxPreferencePage::TimerBoxPreferencePage(string n)
+  : Gtk::HBox(false, 6),
+    name(n)
 {
-  TRACE_ENTER("AppletPreferencePage::AppletPreferencePage");
+  TRACE_ENTER("TimerBoxPreferencePage::TimerBoxPreferencePage");
 
   create_page();
   init_page_values();
@@ -47,16 +50,16 @@ AppletPreferencePage::AppletPreferencePage()
 
 
 //! Destructs the Applet Preference Notebook page.
-AppletPreferencePage::~AppletPreferencePage()
+TimerBoxPreferencePage::~TimerBoxPreferencePage()
 {
-  TRACE_ENTER("AppletPreferencePage::~AppletPreferencePage");
+  TRACE_ENTER("TimerBoxPreferencePage::~TimerBoxPreferencePage");
   TRACE_EXIT();
 }
 
 
 //! Initializes all widgets.
 void
-AppletPreferencePage::create_page()
+TimerBoxPreferencePage::create_page()
 {
   // Placement
   place_button  = manage(new Gtk::OptionMenu());
@@ -72,7 +75,7 @@ AppletPreferencePage::create_page()
   place_items.push_back(Gtk::Menu_Helpers::MenuElem
                         (_("Place all timers in one spot")));
   place_button->signal_changed().connect
-    (SigC::slot(*this, &AppletPreferencePage::on_place_changed));
+    (SigC::slot(*this, &TimerBoxPreferencePage::on_place_changed));
   
   // Cycle time spin button.
   cycle_entry = manage(new Gtk::SpinButton());
@@ -81,13 +84,13 @@ AppletPreferencePage::create_page()
   cycle_entry->set_numeric(true);
   cycle_entry->set_width_chars(3);
   cycle_entry->signal_changed().connect
-    (SigC::slot(*this, &AppletPreferencePage::on_cycle_time_changed));
+    (SigC::slot(*this, &TimerBoxPreferencePage::on_cycle_time_changed));
 
   // Timer display
   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
     {
-      GUIControl::TimerData *td
-        = GUIControl::get_instance()->get_timer_data((GUIControl::BreakId)i);
+//       GUIControl::TimerData *td
+//         = GUIControl::get_instance()->get_timer_data((GUIControl::BreakId)i);
       
       Gtk::OptionMenu *display_button  = manage(new Gtk::OptionMenu());
       timer_display_button[i] = display_button;
@@ -102,15 +105,24 @@ AppletPreferencePage::create_page()
       menu_list.push_back(Gtk::Menu_Helpers::MenuElem
                           (_("Show only when this timer is first due")));
       display_button->signal_changed().connect
-        (bind(SigC::slot(*this, &AppletPreferencePage::on_display_changed), i));
+        (bind(SigC::slot(*this, &TimerBoxPreferencePage::on_display_changed), i));
     }
 
   // Enabled/Disabled checkbox
+  Gtk::Label *enabled_lab = NULL;
+
+  if (name == "applet")
+    {
+      enabled_lab = manage(GtkUtil::create_label(_("Applet enabled"), true));
+    }
+  else if (name == "main_window")
+    {
+      enabled_lab = manage(GtkUtil::create_label(_("Main window enabled"), true));
+    }
+    
   enabled_cb = manage(new  Gtk::CheckButton());
-  Gtk::Label *enabled_lab
-    = manage(GtkUtil::create_label(_("Applet enabled"), true));
   enabled_cb->add(*enabled_lab);
-  enabled_cb->signal_toggled().connect(SigC::slot(*this, &AppletPreferencePage::on_enabled_toggled));
+  enabled_cb->signal_toggled().connect(SigC::slot(*this, &TimerBoxPreferencePage::on_enabled_toggled));
 
   // Layout
   HigCategoryPanel *hig = manage(new HigCategoryPanel(*enabled_cb));
@@ -126,12 +138,12 @@ AppletPreferencePage::create_page()
 
 //! Retrieves the applet configuration and sets the widgets.
 void
-AppletPreferencePage::init_page_values()
+TimerBoxPreferencePage::init_page_values()
 {
   enabled_cb->set_active(AppletWindow::is_enabled());
-  int mp_slot = AppletWindow::get_timer_slot(GUIControl::BREAK_ID_MICRO_PAUSE);
-  int rb_slot = AppletWindow::get_timer_slot(GUIControl::BREAK_ID_REST_BREAK);
-  int dl_slot = AppletWindow::get_timer_slot(GUIControl::BREAK_ID_DAILY_LIMIT);
+  int mp_slot = TimerBox::get_timer_slot(name, GUIControl::BREAK_ID_MICRO_PAUSE);
+  int rb_slot = TimerBox::get_timer_slot(name, GUIControl::BREAK_ID_REST_BREAK);
+  int dl_slot = TimerBox::get_timer_slot(name, GUIControl::BREAK_ID_DAILY_LIMIT);
   int place;
   if (mp_slot < rb_slot && rb_slot < dl_slot)
     {
@@ -154,13 +166,13 @@ AppletPreferencePage::init_page_values()
 
   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
     {
-      int flags = AppletWindow::get_timer_flags((GUIControl::BreakId) i);
+      int flags = TimerBox::get_timer_flags(name, (GUIControl::BreakId) i);
       int showhide;
-      if (flags & AppletWindow::BREAK_HIDE)
+      if (flags & TimerBox::BREAK_HIDE)
         {
           showhide = 0;
         }
-      else if (flags & AppletWindow::BREAK_WHEN_FIRST)
+      else if (flags & TimerBox::BREAK_WHEN_FIRST)
         {
           showhide = 2;
         }
@@ -170,25 +182,32 @@ AppletPreferencePage::init_page_values()
         }
       timer_display_button[i]->set_history(showhide);
     }
-  cycle_entry->set_value(AppletWindow::get_cycle_time());
+  cycle_entry->set_value(TimerBox::get_cycle_time(name));
   enable_buttons();
 }
 
 
 //! The applet on/off checkbox has been toggled.
 void
-AppletPreferencePage::on_enabled_toggled()
+TimerBoxPreferencePage::on_enabled_toggled()
 {
   bool on = enabled_cb->get_active();
-  
-  Configurator *c = GUIControl::get_instance()->get_configurator();
-  c->set_value(AppletWindow::CFG_KEY_APPLET_ENABLED, on);
+
+  if (name == "main_window")
+    {
+      MainWindow::set_start_in_tray(!on);
+    }
+  else if (name == "applet")
+    {
+      AppletWindow::set_enabled(on);
+    }
   enable_buttons();
 }
 
+
 //! The placement is changed.
 void
-AppletPreferencePage::on_place_changed()
+TimerBoxPreferencePage::on_place_changed()
 {
   int slots[GUIControl::BREAK_ID_SIZEOF];
   int idx = place_button->get_history();
@@ -220,10 +239,9 @@ AppletPreferencePage::on_place_changed()
       slots[GUIControl::BREAK_ID_DAILY_LIMIT] = -1;
     }
 
-  Configurator *c = GUIControl::get_instance()->get_configurator();
   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
     {
-      AppletWindow::set_timer_slot((GUIControl::BreakId) i, slots[i]);
+      TimerBox::set_timer_slot(name, (GUIControl::BreakId) i, slots[i]);
     }
   
 }
@@ -231,28 +249,28 @@ AppletPreferencePage::on_place_changed()
 
 //! The display of the specified break is changed.
 void
-AppletPreferencePage::on_display_changed(int break_id)
+TimerBoxPreferencePage::on_display_changed(int break_id)
 {
   int sel = timer_display_button[break_id]->get_history();
   int flags;
   switch (sel)
     {
     case 0:
-      flags |= AppletWindow::BREAK_HIDE;
+      flags |= TimerBox::BREAK_HIDE;
       break;
     case 1:
       flags = 0;
       break;
     default:
-      flags = AppletWindow::BREAK_WHEN_FIRST;
+      flags = TimerBox::BREAK_WHEN_FIRST;
       break;
     }
-  AppletWindow::set_timer_flags((GUIControl::BreakId) break_id, flags);
+  TimerBox::set_timer_flags(name, (GUIControl::BreakId) break_id, flags);
 }
 
 //! Enable widgets
 void
-AppletPreferencePage::enable_buttons(void)
+TimerBoxPreferencePage::enable_buttons(void)
 {
   bool on = enabled_cb->get_active();
   place_button->set_sensitive(on);
@@ -265,9 +283,9 @@ AppletPreferencePage::enable_buttons(void)
 
 //! The applet cycle time has been changed.
 void
-AppletPreferencePage::on_cycle_time_changed()
+TimerBoxPreferencePage::on_cycle_time_changed()
 {
   int value = (int) cycle_entry->get_value();
-  AppletWindow::set_cycle_time(value);
+  TimerBox::set_cycle_time(name, value);
 }
 

@@ -119,16 +119,16 @@ private:
   //! The command line arguments.
   char **argv;
 
+#ifdef HAVE_X  
+  //! The applet window.
+  AppletWindow *applet_window;
+#endif  
+
   //! The main window, shows the timers.
   MainWindow *main_window;
 
   /** */
   Gtk::Tooltips *tooltips;
-
-#ifdef HAVE_X  
-  //! The applet window.
-  AppletWindow *applet_window;
-#endif  
 };
 
 

@@ -22,6 +22,8 @@
 #include "preinclude.h"
 #include <stdio.h>
 
+#include "ConfiguratorListener.hh"
+
 #ifdef HAVE_GNOME
 #include <gnome.h>
 #include <bonobo.h>
@@ -33,17 +35,14 @@
 class GUI;
 class TimeBar;
 class NetworkLogDialog;
+class TimerBox;
 
 #include <gtkmm.h>
 #include <gtkmm/plug.h>
 
-#include "GUIControl.hh"
-#include "TimerWindow.hh"
-
 using namespace std;
 
 class AppletWindow :
-  public TimerWindow,
   public ConfiguratorListener,
   public SigC::Object
 {
@@ -58,9 +57,6 @@ public:
 
   AppletMode get_applet_mode() const;
   
-  // ConfiguratorListener
-  void config_changed_notify(string key);
-  
   void on_menu_restbreak_now();
   void button_clicked(int button);
 #ifdef HAVE_GNOME
@@ -70,94 +66,42 @@ public:
   void set_applet_size(int size);
   void set_applet_control(GNOME_Workrave_AppletControl applet_control);
 #endif
+
+  // ConfiguratorListener
+  void config_changed_notify(string key);
+  void read_configuration();
   
 public:
-  static const string get_timer_config_key(GUIControl::BreakId timer, const string &key);
   static bool is_enabled();
   static void set_enabled(bool enabled);
-  static int get_cycle_time();
-  static void set_cycle_time(int time);
-  static int get_timer_imminent_time(GUIControl::BreakId timer);
-  static void set_timer_imminent_time(GUIControl::BreakId timer, int time);
-  static int get_timer_slot(GUIControl::BreakId timer);
-  static void set_timer_slot(GUIControl::BreakId timer, int slot);
-  static int get_timer_flags(GUIControl::BreakId timer);
-  static void set_timer_flags(GUIControl::BreakId timer, int flags);
-  
-  
-public:  
-  static const string CFG_KEY_APPLET;
-  static const string CFG_KEY_APPLET_HORIZONTAL;
   static const string CFG_KEY_APPLET_ENABLED;
-  static const string CFG_KEY_APPLET_CYCLE_TIME;
-  static const string CFG_KEY_APPLET_POSITION;
-  static const string CFG_KEY_APPLET_FLAGS;
-  static const string CFG_KEY_APPLET_IMMINENT;
-
-  enum SlotType
-    {
-      BREAK_WHEN_IMMINENT = 1,
-      BREAK_WHEN_FIRST = 2,
-      BREAK_SKIP = 4,
-      BREAK_EXCLUSIVE = 8,
-      BREAK_DEFAULT = 16,
-      BREAK_HIDE = 32
-    };
   
 private:
+  TimerBox *timers_box;
+  
   //! Current applet mode.
   AppletMode mode;
 
-  //! Retry to initialize the panel again?
-  bool retry_init;
-
-  //! Reconfigure the panel.
-  bool reconfigure;
-  
   //! The Gtk+ plug in the panel.
   Gtk::Plug *plug;
 
   //! Container to put the timers in..
   Gtk::Bin *container;
   
-  //! Table containing all timer information
-  Gtk::Table *timers_box;
-
   //! The system tray menu.
   Gtk::Menu *tray_menu;
 
-  //!
-  Gtk::Image *sheep;
-  
 #ifdef HAVE_GNOME
   // 
   GNOME_Workrave_AppletControl applet_control;
 #endif
 
-  //! Positions for the break timers.
-  int break_position[GUIControl::BREAK_ID_SIZEOF];
+  //! Retry to initialize the panel again?
+  bool retry_init;
 
-  //! Flags for the break timers.
-  int break_flags[GUIControl::BREAK_ID_SIZEOF];
+  //! Reconfigure the panel.
+  bool reconfigure;
 
-  //! Imminent threshold for the timers.
-  int break_imminent_time[GUIControl::BREAK_ID_SIZEOF];
-  
-  //! Computed slot contents.
-  int break_slots[GUIControl::BREAK_ID_SIZEOF][GUIControl::BREAK_ID_SIZEOF];
-
-  //! Current cycle for each slot.
-  int break_slot_cycle[GUIControl::BREAK_ID_SIZEOF];
-
-  //! Current slot content.
-  int current_content[GUIControl::BREAK_ID_SIZEOF];
-
-  //! Number of visible breaks.
-  int visible_count;
-  
-  //! Duration of each cycle.
-  int cycle_time;
-  
   //! Allign break vertically.
   bool applet_vertical;
 
@@ -170,26 +114,20 @@ private:
 private:
   void init();
   void init_applet();
-  void init_table();
   bool init_tray_applet();
+
+  void destroy_applet();
+  void destroy_tray_applet();
 
 #ifdef HAVE_GNOME
   bool init_gnome_applet();
   void destroy_gnome_applet();
 #endif
 
-  void init_slot(int slot);
-  void cycle_slots();
-  
-  void destroy_applet();
-  void destroy_tray_applet();
-  void read_configuration();
-  
-  bool on_button_press_event(GdkEventButton *event);
-  bool delete_event(GdkEventAny *event);
-
   // Events.
+  bool on_button_press_event(GdkEventButton *event);
   bool on_delete_event(GdkEventAny*);
+  bool delete_event(GdkEventAny *event);
 };
 
 #endif // APPLETWINDOW_HH

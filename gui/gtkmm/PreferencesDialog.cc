@@ -44,7 +44,7 @@
 #include "NetworkPreferencePage.hh"
 #endif
 #ifdef HAVE_X
-#include "AppletPreferencePage.hh"
+#include "TimerBoxPreferencePage.hh"
 #endif
 
 
@@ -64,6 +64,9 @@ PreferencesDialog::PreferencesDialog()
   Gtk::Widget *gui_applet_page = manage(create_applet_page());
   gui_page->append_page(*gui_applet_page, _("Applet"));
 #endif
+  Gtk::Widget *gui_mainwindow_page = manage(create_mainwindow_page());
+  gui_page->append_page(*gui_mainwindow_page, _("Main Window"));
+
 #ifdef HAVE_DISTRIBUTION
   Gtk::Widget *network_page = manage(create_network_page());
 #endif
@@ -175,13 +178,20 @@ PreferencesDialog::create_timer_page()
   return tnotebook;
 }
 
+Gtk::Widget *
+PreferencesDialog::create_mainwindow_page()
+{
+  // Timers page
+  return new TimerBoxPreferencePage("main_window");
+}
+
 
 #ifdef HAVE_X
 Gtk::Widget *
 PreferencesDialog::create_applet_page()
 {
   // Timers page
-  return new AppletPreferencePage();
+  return new TimerBoxPreferencePage("applet");
 }
 #endif
 

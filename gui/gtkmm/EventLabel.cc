@@ -74,12 +74,14 @@ EventLabel::on_unrealize()
 bool
 EventLabel::on_map_event(GdkEventAny *event)
 {
-  Gtk::Label::on_map_event(event);
+  bool ret = Gtk::Label::on_map_event(event);
   
   if (event_window)
     {
       gdk_window_show(event_window);
     }
+
+  return ret;
 }
 
 bool
@@ -90,7 +92,7 @@ EventLabel::on_unmap_event(GdkEventAny *event)
       gdk_window_hide(event_window);
     }
   
-  Gtk::Label::on_unmap_event(event);
+  return Gtk::Label::on_unmap_event(event);
 }
 
 void

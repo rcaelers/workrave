@@ -32,6 +32,7 @@ static const char rcsid[] = "$Id$";
 #include <gnome.h>
 #include "AppletWindow.hh"
 #endif
+#include "TimerBox.hh"
 #include "MainWindow.hh"
 #include "PreferencesDialog.hh"
 #include "StatisticsDialog.hh"
@@ -121,17 +122,8 @@ MainWindow::init()
   menus->set_main_window(this);
   popup_menu = menus->create_main_window_menu();
   
-  timers_box = manage(new Gtk::Table(GUIControl::BREAK_ID_SIZEOF, 2, false));
-  timers_box->set_spacings(2);
-  
-  init_widgets();
-  
-  for (int count = 0; count < GUIControl::BREAK_ID_SIZEOF; count++)
-    {
-      timers_box->attach(*timer_names[count], 0, 1, count, count + 1, Gtk::FILL);
-      timers_box->attach(*timer_times[count], 1, 2, count, count + 1, Gtk::EXPAND | Gtk::FILL);
-    }
-  
+  timers_box = manage(new TimerBox("main_window"));
+  timers_box->set_geometry(true, -1);
   add(*timers_box);
 
   set_events(get_events() | Gdk::BUTTON_PRESS_MASK);
@@ -220,7 +212,7 @@ MainWindow::setup()
 void
 MainWindow::update()
 {
-  update_widgets();
+  timers_box->update();
 }
 
 
@@ -326,7 +318,9 @@ MainWindow::on_window_state_event(GdkEventWindowState *event)
           iconified = event->new_window_state & GDK_WINDOW_STATE_ICONIFIED;
         }
     }
+
   TRACE_EXIT();
+  return true;
 }
 
 void

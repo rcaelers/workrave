@@ -28,6 +28,7 @@
 class GUI;
 class TimeBar;
 class NetworkLogDialog;
+class TimerBox;
 
 #include <gtkmm.h>
 #ifdef WIN32
@@ -35,14 +36,12 @@ class NetworkLogDialog;
 #endif
 
 #include "ConfiguratorListener.hh"
-#include "TimerWindow.hh"
 
 using namespace std;
 
 class MainWindow :
   public Gtk::Window,
-  public ConfiguratorListener,
-  public TimerWindow
+  public ConfiguratorListener
 {
 public:  
   MainWindow();
@@ -70,7 +69,7 @@ private:
   SigC::Connection timer_connection;
 
   //! Table containing all timer information
-  Gtk::Table *timers_box;
+  TimerBox *timers_box;
 
   //! The popup menu.
   Gtk::Menu *popup_menu;

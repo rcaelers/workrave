@@ -45,7 +45,7 @@ sourcesgnome = gnome-about.c
 endif
 
 if HAVE_X
-sourcesx = AppletWindow.cc AppletPreferencePage.cc eggtrayicon.c
+sourcesx = AppletWindow.cc TimerBoxPreferencePage.cc eggtrayicon.c
 endif
 
 if PLATFORM_WIN32
@@ -84,7 +84,7 @@ libgtkmmgui_a_SOURCES = \
 	gnome-winhints.c \
 	Frame.cc \
 	WmSpec.cc \
-	TimerWindow.cc \
+	TimerBox.cc \
 	Menus.cc \
 	Dispatcher.cc \
 	$(sourcesgnome) \

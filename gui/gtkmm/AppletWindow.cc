@@ -13,8 +13,6 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
-//
-// TODO: split system tray and gnome applet.
 // TODO: release CORBA memory.
 
 static const char rcsid[] = "$Id$";
@@ -28,26 +26,20 @@ static const char rcsid[] = "$Id$";
 #include "nls.h"
 #include "debug.hh"
 
-#include "Util.hh"
 #include "AppletWindow.hh"
-#include "Configurator.hh"
+#include "TimerBox.hh"
 #include "GUI.hh"
 #include "GUIControl.hh"
+#include "Configurator.hh"
 #include "Menus.hh"
-#include "TimeBar.hh"
-#include "TimerInterface.hh"
+#include "Util.hh"
 
 #ifdef HAVE_GNOME
 #include "RemoteControl.hh"
 #endif
 #include "eggtrayicon.h"
 
-const string AppletWindow::CFG_KEY_APPLET = "gui/applet";
 const string AppletWindow::CFG_KEY_APPLET_ENABLED = "gui/applet/enabled";
-const string AppletWindow::CFG_KEY_APPLET_CYCLE_TIME = "gui/applet/cycle_time";
-const string AppletWindow::CFG_KEY_APPLET_POSITION = "/position";
-const string AppletWindow::CFG_KEY_APPLET_FLAGS = "/flags";
-const string AppletWindow::CFG_KEY_APPLET_IMMINENT = "/imminent";
 
 
 //! Constructor.
@@ -57,44 +49,24 @@ const string AppletWindow::CFG_KEY_APPLET_IMMINENT = "/imminent";
  */
 AppletWindow::AppletWindow() :
   mode(APPLET_DISABLED),
-  retry_init(false),
-  reconfigure(false),
   plug(NULL),
   container(NULL),
-  timers_box(NULL),
   tray_menu(NULL),
 #ifdef HAVE_GNOME
   applet_control(NULL),
 #endif
-  visible_count(-1),
-  cycle_time(10),
+  retry_init(false),
+  reconfigure(false),
   applet_vertical(false),
   applet_size(0),
   applet_enabled(true)
 {
-  for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
-    {
-      break_position[i] = i;
-      break_flags[i] = 0;
-      break_imminent_time[i] = 0;
-      current_content[i] = -1;
-      
-      for (int j = 0; j < GUIControl::BREAK_ID_SIZEOF; j++)
-        {
-          break_slots[i][j] = -1;
-        }
-      break_slot_cycle[i] = 0;
-    }
   
 #ifdef HAVE_GNOME
   Menus *menus = Menus::get_instance();
   menus->set_applet_window(this);
 #endif
 
-  string sheep_file = Util::complete_directory("workrave-icon-medium.png", Util::SEARCH_PATH_IMAGES);
-  sheep = manage(new Gtk::Image(sheep_file));
-  sheep->reference();
-  
   init();
 }
 
@@ -102,33 +74,8 @@ AppletWindow::AppletWindow() :
 //! Destructor.
 AppletWindow::~AppletWindow()
 {
-  TRACE_ENTER("AppletWindow::~AppletWindow");
-
-  if (timers_box != NULL)
-    {
-      delete timers_box;
-    }
-  if (plug != NULL)
-    {
-      delete plug;
-    }
-  if (container != NULL)
-    {
-      delete container;
-    }
-
-  for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
-    {
-      if (timer_names[i] != NULL)
-        timer_names[i]->unreference();
-      if (timer_times[i] != NULL)
-        timer_times[i]->unreference();
-    }
-
-  if (sheep != NULL)
-    sheep->unreference();
-  
-  TRACE_EXIT();
+  delete plug;
+  delete container;
 }
 
 
@@ -139,334 +86,20 @@ AppletWindow::init()
 {
   TRACE_ENTER("AppletWindow::init");
 
-  // Load the configuration
-  read_configuration();
-
-  // Listen for configugration changes.
   Configurator *config = GUIControl::get_instance()->get_configurator();
-  config->add_listener(AppletWindow::CFG_KEY_APPLET, this);
+  config->add_listener(AppletWindow::CFG_KEY_APPLET_ENABLED, this);
 
-  init_widgets();
-
-  for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
-    {
-      timer_names[i]->reference();
-      timer_times[i]->reference();
-    }
+  read_configuration();
   
   // Create the applet.
   if (applet_enabled)
     {
       init_applet();
-
-      if (mode != APPLET_DISABLED)
-        {
-          init_table();
-        }
     }
   
   TRACE_EXIT();
 }
   
-
-//! Initializes the applet.
-void
-AppletWindow::init_table()
-{
-  TRACE_ENTER("AppletWindow::init_table");
-
-  // Determine what breaks to show.
-  for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
-    {
-      init_slot(i);
-    }
-
-  
-  // Compute number of visible breaks.
-  int number_of_timers = 0;
-  for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
-    {
-      if (break_slots[i][0] != -1)
-        {
-          number_of_timers++;
-        }
-    }
-
-  
-  // Compute table dimensions.
-  int rows = number_of_timers;
-  int columns = 1;
-
-  if (rows == 0)
-    {
-      // Show sheep.
-      rows = 1;
-    }
-  
-  if (applet_vertical)
-    {
-      plug->set_size_request(applet_size, -1);
-    }
-  else
-    {
-      GtkRequisition size;
-      timer_times[0]->size_request(&size);
-      rows = applet_size / size.height;
-
-      if (rows <= 0)
-        {
-          rows = 1;
-        }
-      columns = (number_of_timers + rows - 1) / rows;
-      
-      plug->set_size_request(-1, applet_size);
-    }
-
-
-  // Compute new content.
-  int new_content[GUIControl::BREAK_ID_SIZEOF];
-  int slot = 0;
-  for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
-    {
-
-      new_content[i] = -1;
-      int cycle = break_slot_cycle[i];
-      int id = break_slots[i][cycle]; // break id
-      if (id != -1)
-        {
-          new_content[slot] = id;
-          slot++;
-        }
-    }
-
-  if (timers_box != NULL)
-    {
-      bool remove_all = number_of_timers != visible_count;
-      
-      // Remove old
-      for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
-        {
-          int id = current_content[i];
-          if (id != -1 && (id != new_content[i] || remove_all))
-            {
-              TRACE_MSG("remove old " << i << " " << id);
-              Gtk::Widget *child = timer_names[id];
-              timers_box->remove(*child);
-              child = timer_times[id];
-              timers_box->remove(*child);
-
-              current_content[i] = -1;
-            }
-        }
-
-      // Remove sheep
-      if ((number_of_timers > 0 || remove_all) && visible_count == 0)
-        {
-          TRACE_MSG("remove sheep ");
-          timers_box->remove(*sheep);
-          visible_count = -1;
-        }
-    }
-  
-  if (number_of_timers != visible_count)
-    {
-      delete timers_box;
-      timers_box = NULL;
-    }
-
-  
-  // Create table
-  if (timers_box == NULL)
-    {
-      timers_box = new Gtk::Table(rows, 2 * columns, false);
-      timers_box->set_spacings(2);
-      timers_box->reference();
-      container->add(*timers_box);
-    }
-
-  
-  // Add sheep.
-  if (number_of_timers == 0 && visible_count != 0)
-    {
-      timers_box->attach(*sheep, 0, 2, 0, 1, Gtk::FILL, Gtk::SHRINK);
-    }
-  
-  // Fill table.
-  for (int i = 0; i < slot; i++)
-    {
-      int id = new_content[i];
-      int cid = current_content[i];
-
-      if (id != cid)
-        {
-          current_content[i] = id;
-          
-          int cur_row = i % rows;
-          int cur_col = i / rows;
-          
-          if (!applet_vertical && applet_size > 0)
-            {
-              timer_times[id]->set_size_request(-1, applet_size / rows - 1 * (rows + 1) - 2);
-            }
-          
-          timers_box->attach(*timer_names[id], 2 * cur_col, 2 * cur_col + 1, cur_row, cur_row + 1,
-                             Gtk::FILL, Gtk::SHRINK);
-          timers_box->attach(*timer_times[id], 2 * cur_col + 1, 2 * cur_col + 2, cur_row, cur_row + 1,
-                             Gtk::EXPAND | Gtk::FILL, Gtk::SHRINK);
-
-        }
-    }
-
-  for (int i = slot; i < GUIControl::BREAK_ID_SIZEOF; i++)
-    {
-      current_content[i] = -1;
-    }
-
-  visible_count = number_of_timers;
-  
-  container->show_all();
-  plug->show_all();
-  TRACE_EXIT();
-}
-
-
-//! Compute what break to show on the specified location.
-void
-AppletWindow::init_slot(int slot)
-{
-  int count = 0;
-  int breaks_id[GUIControl::BREAK_ID_SIZEOF];
-  bool stop = false;
-
-  // Collect all timers for this slot.
-  for (int i = 0; !stop && i < GUIControl::BREAK_ID_SIZEOF; i++)
-    {
-      if (break_position[i] == slot && !(break_flags[i] & BREAK_HIDE))
-        {
-          breaks_id[count] = i;
-          break_flags[i] &= ~BREAK_SKIP;
-          count++;
-        }
-    }
-
-  // Compute timer that will elapse first.
-  time_t first = 0;
-  int first_id = -1;
-    
-  for (int i = 0; i < count; i++)
-    {
-      int id = breaks_id[i];
-      int flags = break_flags[id];
-
-      TimerInterface *timer = GUIControl::get_instance()->timers[id].timer;
-      time_t time_left = timer->get_limit() - timer->get_elapsed_time();
-        
-      // Exclude break if not imminent.
-      if (flags & BREAK_WHEN_IMMINENT && time_left > break_imminent_time[id])
-        {
-          break_flags[id] |= BREAK_SKIP;
-        }
-
-      // update first imminent timer.
-      if (!(flags & BREAK_SKIP) && (first_id == -1 || time_left < first))
-        {
-          first_id = id;
-          first = time_left;
-        }
-    }
-
-  
-  // Exclude break if not first.
-  for (int i = 0; i < count; i++)
-    {
-      int id = breaks_id[i];
-      int flags = break_flags[id];
-
-      if (!(flags & BREAK_SKIP))
-        {
-          if (flags & BREAK_WHEN_FIRST && first_id != id)
-            {
-              break_flags[id] |= BREAK_SKIP;
-            }
-        }
-    }
-
-  
-  // Exclude breaks if not exclusive.
-  bool have_one = false;
-  int breaks_left = 0;
-  for (int i = 0; i < count; i++)
-    {
-      int id = breaks_id[i];
-      int flags = break_flags[id];
-
-      if (!(flags & BREAK_SKIP))
-        {
-          if (flags & BREAK_EXCLUSIVE && have_one)
-            {
-              break_flags[id] |= BREAK_SKIP;
-            }
-
-          have_one = true;
-        }
-      
-      if (!(flags & BREAK_SKIP))
-        {
-          breaks_left++;
-        }
-    }
-
-  if (breaks_left == 0)
-    {
-      for (int i = 0; i < count; i++)
-        {
-          int id = breaks_id[i];
-          int flags = break_flags[id];
-          
-          if (flags & BREAK_DEFAULT && flags & BREAK_SKIP)
-            {
-              break_flags[id] &= ~BREAK_SKIP;
-              breaks_left = 1;
-              break;
-            }
-        }
-    }
-
-  for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
-    {
-      break_slots[slot][i] = -1;
-    }
-
-  int new_count = 0;
-  for (int i = 0; i < count; i++)
-    {
-      int id = breaks_id[i];
-      int flags = break_flags[id];
-          
-      if (!(flags & BREAK_SKIP))
-        {
-          break_slots[slot][new_count] = id;
-          new_count++;
-        }
-    }
-}
-
-
-//! Cycles through the breaks.
-void
-AppletWindow::cycle_slots()
-{
-  for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
-    {
-      break_slot_cycle[i]++;
-      if (break_slot_cycle[i] >= GUIControl::BREAK_ID_SIZEOF
-          || break_slots[i][break_slot_cycle[i]] == -1)
-        {
-          break_slot_cycle[i] = 0;
-        }
-    }
-}
-
 
 //! Initializes the applet.
 void
@@ -525,19 +158,16 @@ AppletWindow::init_tray_applet()
       
   if (tray_icon != NULL)
     {
+      plug = Glib::wrap(GTK_PLUG(tray_icon));
+
       Gtk::EventBox *eventbox = new Gtk::EventBox;
-        
-      // Necessary for popup menu 
       eventbox->set_events(eventbox->get_events() | Gdk::BUTTON_PRESS_MASK);
       eventbox->signal_button_press_event().connect(SigC::slot(*this, &AppletWindow::on_button_press_event));
       container = eventbox;
 
-      if (timers_box != NULL)
-        {
-          container->add(*timers_box);
-        }
+      timers_box = new TimerBox("applet");
+      container->add(*timers_box);
       
-      plug = Glib::wrap(GTK_PLUG(tray_icon));
       plug->add(*eventbox);
       plug->show_all();
       
@@ -553,6 +183,8 @@ AppletWindow::init_tray_applet()
       GtkRequisition req;
       plug->size_request(&req);
       applet_size = req.height;
+
+      timers_box->set_geometry(applet_vertical, 24);
     }
 
   TRACE_EXIT();
@@ -649,23 +281,17 @@ AppletWindow::init_gnome_applet()
       Gtk::Alignment *frame = new Gtk::Alignment(1.0, 1.0, 0.0, 0.0);
       frame->set_border_width(2);
 
-//       Gtk::EventBox *eventbox = manage(new Gtk::EventBox);
-//       eventbox->set_events(eventbox->get_events() | Gdk::BUTTON_PRESS_MASK);
-//       eventbox->add(*frame);
-//       eventbox->signal_button_press_event().connect(SigC::slot(*this, &AppletWindow::on_sheep_button_press_event));
-
-
       container = frame;
 
       plug = new Gtk::Plug(id);
       plug->add(*frame);
 
-      if (timers_box != NULL)
-        {
-          container->add(*timers_box);
-          container->show_all();
-        }
-
+      timers_box = new TimerBox("applet");
+      timers_box->set_geometry(applet_vertical, applet_size);
+      timers_box->show_all();
+      
+      container->add(*timers_box);
+      container->show_all();
       plug->show_all();
       
       plug->signal_delete_event().connect(SigC::slot(*this, &AppletWindow::delete_event));
@@ -799,10 +425,6 @@ AppletWindow::update()
         {
           // Attempt to initialize the applet again.
           init_applet();
-          if (mode != APPLET_DISABLED)
-            {
-              init_table();
-            }
           retry_init = false;
         }
     }
@@ -816,23 +438,7 @@ AppletWindow::update()
         }
       else
         {
-          // Cycle through the timers.
-          time_t t = time(NULL);
-          if (t % cycle_time == 0)
-            {
-              init_table();
-              cycle_slots();
-            }
-
-          // Configuration was changed. reinit.
-          if (reconfigure)
-            {
-              init_table();
-              reconfigure = false;
-            }
-
-          // Update the timer widgets.
-          update_widgets();
+          timers_box->update();
         }
     }
 }
@@ -909,6 +515,11 @@ AppletWindow::set_applet_vertical(bool v)
   applet_vertical = v;
   reconfigure = true;
 
+  if (timers_box != NULL)
+    {
+      timers_box->set_geometry(applet_vertical, applet_size);
+    }
+  
   TRACE_EXIT();
 }
 
@@ -922,16 +533,56 @@ AppletWindow::set_applet_size(int size)
   applet_size = size;
   reconfigure = true;
 
+  if (timers_box != NULL)
+    {
+      timers_box->set_geometry(applet_vertical, applet_size);
+    }
+  
   TRACE_EXIT();
 }
 #endif
   
 
-//! User has closed the main window.
+//! Users pressed some mouse button in the main window.
 bool
-AppletWindow::on_delete_event(GdkEventAny *)
+AppletWindow::on_button_press_event(GdkEventButton *event)
 {
-  return true;
+  bool ret = false;
+
+  if (event->type == GDK_BUTTON_PRESS)
+    {
+      if (event->button == 3 && tray_menu != NULL)
+        {
+          tray_menu->popup(event->button, event->time);
+          ret = true;
+        }
+      if (event->button == 1) // FIXME:  && visible_count == 0)
+        {
+          button_clicked(1);
+          ret = true;
+        }
+    }
+  
+  return ret;
+}
+
+
+void
+AppletWindow::button_clicked(int button)
+{
+  (void) button;
+  
+  GUI *gui = GUI::get_instance();
+  assert(gui != NULL);
+  
+  gui->toggle_main_window();
+}
+
+
+AppletWindow::AppletMode
+AppletWindow::get_applet_mode() const
+{
+  return mode;
 }
 
 
@@ -939,17 +590,7 @@ AppletWindow::on_delete_event(GdkEventAny *)
 void
 AppletWindow::read_configuration()
 {
-  Configurator *c = GUIControl::get_instance()->get_configurator();
   applet_enabled = is_enabled();
-  cycle_time = get_cycle_time();
-  for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
-    {
-      GUIControl::BreakId bid = (GUIControl::BreakId) i;
-      
-      break_position[i] = get_timer_slot(bid);;
-      break_flags[i] = get_timer_flags(bid);
-      break_imminent_time[i] = get_timer_imminent_time(bid);
-    }
 }
 
 
@@ -960,52 +601,7 @@ AppletWindow::config_changed_notify(string key)
   (void) key;
 
   read_configuration();
-  for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
-    {
-      break_slot_cycle[i] = 0;
-    }
-
   reconfigure = true;
-}
-
-
-//! Users pressed some mouse button in the main window.
-bool
-AppletWindow::on_button_press_event(GdkEventButton *event)
-{
-  TRACE_ENTER("AppletWindow::on_button_press_event");
-  bool ret = false;
-
-  if (event->type == GDK_BUTTON_PRESS)
-    {
-      if (event->button == 3 && tray_menu != NULL)
-        {
-          tray_menu->popup(event->button, event->time);
-          ret = true;
-        }
-      if (event->button == 1 && visible_count == 0)
-        {
-          button_clicked(1);
-          ret = true;
-        }
-    }
-  
-  return ret;
-}
-
-void
-AppletWindow::button_clicked(int button)
-{
-  GUI *gui = GUI::get_instance();
-  assert(gui != NULL);
-  
-  gui->toggle_main_window();
-}
-
-AppletWindow::AppletMode
-AppletWindow::get_applet_mode() const
-{
-  return mode;
 }
 
 
@@ -1021,99 +617,10 @@ AppletWindow::is_enabled()
   return ret;
 }
 
+
 void
 AppletWindow::set_enabled(bool enabled)
 {
   GUIControl::get_instance()->get_configurator()
     ->set_value(AppletWindow::CFG_KEY_APPLET_ENABLED, enabled);
 }
-
-int
-AppletWindow::get_cycle_time()
-{
-  int ret;
-  if (! GUIControl::get_instance()->get_configurator()
-      ->get_value(AppletWindow::CFG_KEY_APPLET_CYCLE_TIME, &ret))
-    {
-      ret = 10;
-    }
-  return ret;
-}
-
-void
-AppletWindow::set_cycle_time(int time)
-{
-  GUIControl::get_instance()->get_configurator()
-    ->set_value(AppletWindow::CFG_KEY_APPLET_CYCLE_TIME, time);
-}
-
-const string
-AppletWindow::get_timer_config_key(GUIControl::BreakId timer, const string &key)
-{
-  GUIControl::TimerData *data = GUIControl::get_instance()->get_timer_data(timer);
-  return string(CFG_KEY_APPLET) + "/" + data->break_name + key;
-}
-
-int
-AppletWindow::get_timer_imminent_time(GUIControl::BreakId timer)
-{
-  const string key = get_timer_config_key(timer, CFG_KEY_APPLET_IMMINENT);
-  int ret;
-  if (! GUIControl::get_instance()->get_configurator()
-      ->get_value(key, &ret))
-    {
-      ret = 30;
-    }
-  return ret;
-}
-
-void
-AppletWindow::set_timer_imminent_time(GUIControl::BreakId timer, int time)
-{
-  const string key = get_timer_config_key(timer, CFG_KEY_APPLET_IMMINENT);
-  GUIControl::get_instance()->get_configurator()->set_value(key, time);
-}
-
-int
-AppletWindow::get_timer_slot(GUIControl::BreakId timer)
-{
-  const string key = get_timer_config_key(timer, CFG_KEY_APPLET_POSITION);
-  int ret;
-  if (! GUIControl::get_instance()->get_configurator()
-      ->get_value(key, &ret))
-    {
-      // All in one slot is probably the best default since we cannot assume
-      // any users panel is large enough to hold all timers.
-      ret = 0;
-    }
-  return ret;
-}
-
-
-void
-AppletWindow::set_timer_slot(GUIControl::BreakId timer, int slot)
-{
-  const string key = get_timer_config_key(timer, CFG_KEY_APPLET_POSITION);
-  GUIControl::get_instance()->get_configurator()->set_value(key, slot);
-}
-
-int
-AppletWindow::get_timer_flags(GUIControl::BreakId timer)
-{
-  const string key = get_timer_config_key(timer, CFG_KEY_APPLET_FLAGS);
-  int ret;
-  if (! GUIControl::get_instance()->get_configurator()
-      ->get_value(key, &ret))
-    {
-      ret = 0;
-    }
-  return ret;
-}
-
-void
-AppletWindow::set_timer_flags(GUIControl::BreakId timer, int flags)
-{
-  const string key = get_timer_config_key(timer, CFG_KEY_APPLET_FLAGS);
-  GUIControl::get_instance()->get_configurator()->set_value(key, flags);
-}
-

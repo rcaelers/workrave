@@ -48,6 +48,7 @@ private:
 #ifdef HAVE_X
   Gtk::Widget *create_applet_page();
 #endif
+  Gtk::Widget *create_mainwindow_page();
   bool on_focus_in_event(GdkEventFocus *event);
   bool on_focus_out_event(GdkEventFocus *event);  
   

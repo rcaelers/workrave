@@ -296,6 +296,12 @@ GUI::on_save_yourself(int phase, Gnome::UI::SaveStyle save_style, bool shutdown,
 {
   TRACE_ENTER("GUI::on_save_yourself");
 
+  (void) phase;
+  (void) save_style;
+  (void) shutdown;
+  (void) interact_style;
+  (void) fast;
+  
   if (main_window != NULL)
     {
       // Remember position
