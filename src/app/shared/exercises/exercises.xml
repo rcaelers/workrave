@@ -51,10 +51,13 @@
   <exercise>
     <title xml:lang="en">Move the eyes</title>
     <title xml:lang="nl">Beweeg de ogen</title>
-    <description xml:lang="en">Point your eyes to the left upper corner of the outside border of your monitor (not your screen). Follow the lines of the border slowly to the right corner. Follow the border to the next corner until you got around it 2 times and reverse the excersise.</description>
-    <description xml:lang="nl">Kijk naar de linkse hoek van de buitenrand van je monitor. Volg langzaam met je ogen de buitenrand van de monitor naar de rechterhoek. Vervolg de beweging naar de volgende hoek, totdat je 2 keer rond geweest bent. Herhaal de beweging in tegengestelde richting</description>
-    <sequence duration="10">
-       <image src="none" duration="5"/>
+    <description xml:lang="en">Look at the upper left corner of the outside border of your monitor. Follow the border slowly to the upper right corner. Continue to the next corner, until you got around it two times. Then, reverse the excersise.</description>
+    <description xml:lang="nl">Kijk naar de hoek links-boven van de buitenrand van je monitor. Volg langzaam met je ogen de buitenrand van de monitor naar de hoek rechts-boven. Vervolg de beweging naar de volgende hoek, totdat je twee keer rond geweest bent. Herhaal daarna de beweging in tegengestelde richting.</description>
+    <sequence duration="32">
+       <image src="monitor-border-1.png" duration="4"/>
+       <image src="monitor-border-2.png" duration="4"/>
+       <image src="monitor-border-3.png" duration="4"/>
+       <image src="monitor-border-4.png" duration="4"/>
     </sequence>
   </exercise>
   <exercise>
