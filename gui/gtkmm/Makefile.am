@@ -68,6 +68,8 @@ libgtkmmgui_a_SOURCES = \
 	gnome-winhints.c \
 	Frame.cc \
 	WmSpec.cc \
+	TimerWindow.cc \
+	Menus.cc \
 	$(sourcesgnome) $(sourceswin32) ${sourcesdistribution}
 
 

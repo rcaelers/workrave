@@ -111,7 +111,8 @@ workrave_applet_control_class_init(AppletControlClass *klass)
   epv->get_socket_id = workrave_applet_control_get_socket_id;
   epv->get_size = workrave_applet_control_get_size;
   epv->get_vertical = workrave_applet_control_get_vertical;
-  epv->set_mode = workrave_applet_control_set_mode;
+  epv->set_menu_status = workrave_applet_control_set_menu_status;
+  epv->get_menu_status = workrave_applet_control_get_menu_status;
 }
 
 
@@ -124,6 +125,10 @@ workrave_applet_control_init(AppletControl *applet)
   applet->size = 48;
   applet->socket_id = 0;
   applet->vertical = FALSE;
+
+  applet->last_showlog_state = FALSE;
+  applet->last_mode = GNOME_Workrave_WorkraveControl_MODE_INVALID;
+  
 }
 
 
@@ -166,16 +171,17 @@ workrave_applet_control_get_vertical(PortableServer_Servant servant, CORBA_Envir
   return applet_control->vertical;
 }
 
+
 void
-workrave_applet_control_set_mode(PortableServer_Servant servant, CORBA_long item,
-                                 CORBA_Environment *ev)
+workrave_applet_control_set_menu_status(PortableServer_Servant servant, const CORBA_char *name,
+                                        const CORBA_boolean status, CORBA_Environment *ev)
 {
   AppletControl *applet_control = WR_APPLET_CONTROL(bonobo_object_from_servant(servant));
-
+  
   BonoboUIComponent *ui = NULL;
   PanelApplet *applet = NULL;
-  gboolean b;
-
+  gboolean set = FALSE;
+  
   if (applet_control != NULL)
     {
       applet = applet_control->applet;
@@ -188,19 +194,46 @@ workrave_applet_control_set_mode(PortableServer_Servant servant, CORBA_long item
   
   if (ui != NULL)
     {
-      switch (item)
-        {
-        case GNOME_Workrave_WorkraveControl_MODE_NORMAL:
-          bonobo_ui_component_set_prop(ui, "/commands/Normal", "state", "1", NULL);
-          break;
-        case GNOME_Workrave_WorkraveControl_MODE_SUSPENDED:
-          bonobo_ui_component_set_prop(ui, "/commands/Suspended", "state", "1", NULL);
-          break;
-        case GNOME_Workrave_WorkraveControl_MODE_QUIET:
-          bonobo_ui_component_set_prop(ui, "/commands/Quiet", "state", "1", NULL);
-          break;
-        }
+      const char *s = bonobo_ui_component_get_prop(ui, name, "state", NULL);
+
+      set = (s != NULL && atoi(s) != 0);
     }
+
+  if ((status && !set) || (!status && set))
+    {
+      bonobo_ui_component_set_prop(ui, name, "state", status ? "1" : "0", NULL);
+    }
+}
+
+static CORBA_boolean
+workrave_applet_control_get_menu_status(PortableServer_Servant servant, const CORBA_char *name,
+                                        CORBA_Environment *ev)
+{
+  AppletControl *applet_control = WR_APPLET_CONTROL(bonobo_object_from_servant(servant));
+  
+  BonoboUIComponent *ui = NULL;
+  PanelApplet *applet = NULL;
+  gboolean b;
+  CORBA_boolean ret = FALSE;
+    
+  if (applet_control != NULL)
+    {
+      applet = applet_control->applet;
+    }
+
+  if (applet != NULL)
+    {
+      ui = panel_applet_get_popup_component(applet);
+    }
+  
+  if (ui != NULL)
+    {
+      const char *s = bonobo_ui_component_get_prop(ui, name, "state", NULL);
+
+      ret = (s != NULL && atoi(s) != 0);
+    }
+
+  return ret;
 }
 
 
@@ -341,48 +374,6 @@ verb_restbreak(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
 }
 
 
-static void
-verb_mode(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
-{
-  workrave_applet_connect(FALSE);
-      
-  if (remote_control != NULL && verbname != NULL)
-    {
-      CORBA_Environment ev;
-      GNOME_Workrave_WorkraveControl_Mode mode = GNOME_Workrave_WorkraveControl_MODE_INVALID;
-
-      CORBA_exception_init(&ev);
-        
-      if (g_ascii_strcasecmp(verbname, "Normal") == 0)
-        {
-          mode = GNOME_Workrave_WorkraveControl_MODE_NORMAL;
-        }
-      else if (g_ascii_strcasecmp(verbname, "Suspended") == 0)
-        {
-          mode = GNOME_Workrave_WorkraveControl_MODE_SUSPENDED;
-        }
-      else if (g_ascii_strcasecmp(verbname, "Quiet") == 0)
-        {
-          mode = GNOME_Workrave_WorkraveControl_MODE_QUIET;
-        }
-
-      if (mode != GNOME_Workrave_WorkraveControl_MODE_INVALID)
-        {
-          GNOME_Workrave_WorkraveControl_set_mode(remote_control, mode, &ev);
-          
-          if (BONOBO_EX(&ev))
-            {
-              char *err = (char *) bonobo_exception_get_text(&ev);
-              g_warning (_("An exception occured '%s'"), err);
-              g_free(err);
-            }
-        }
-      
-      CORBA_exception_free(&ev);
-    }
-
-}
-
 
 static void
 verb_connect(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
@@ -452,27 +443,6 @@ verb_reconnect(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
 }
 
 
-static void
-verb_showlog(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
-{
-  workrave_applet_connect(FALSE);
-      
-  if (remote_control != NULL)
-    {
-      CORBA_Environment ev;
-      CORBA_exception_init(&ev);
-      
-      GNOME_Workrave_WorkraveControl_open_network_log(remote_control, &ev);
-
-      if (BONOBO_EX(&ev))
-        {
-          char *err = (char *) bonobo_exception_get_text(&ev);
-          g_warning (_("An exception occured '%s'"), err);
-          g_free(err);
-        }
-      CORBA_exception_free(&ev);
-    }
-}
 
 static void
 verb_quit(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
@@ -503,13 +473,9 @@ workrave_applet_verbs [] =
     BONOBO_UI_VERB("Open", verb_open),
     BONOBO_UI_VERB("Prefereces", verb_preferences),
     BONOBO_UI_VERB("Restbreak", verb_restbreak),
-    BONOBO_UI_VERB("Normal", verb_mode),
-    BONOBO_UI_VERB("Suspended", verb_mode),
-    BONOBO_UI_VERB("Quiet", verb_mode),
     BONOBO_UI_VERB("Connect", verb_connect),
     BONOBO_UI_VERB("Disconnect", verb_disconnect),
     BONOBO_UI_VERB("Reconnect", verb_reconnect),
-    BONOBO_UI_VERB("ShowLog", verb_showlog),
     BONOBO_UI_VERB("Quit", verb_quit),
     BONOBO_UI_VERB_END
   };
@@ -549,16 +515,131 @@ plug_added(GtkSocket *socket, void *manager)
 }
 
 
+static void
+showlog_callback(BonoboUIComponent *ui, const char *path, Bonobo_UIComponent_EventType type,
+                 const char *state, gpointer user_data)
+{
+  gboolean new_state;
+  FILE *file = fopen("/home/robc/wr.txt", "a+");
+  workrave_applet_connect(FALSE);
+
+
+  fprintf(file, "%s %s\n", path, state);
+  fclose(file);
+  
+  if (state == NULL || strcmp(state, "") == 0)
+    {
+      /* State goes blank when component is removed; ignore this. */
+      return;
+    }
+
+  new_state = strcmp (state, "0") != 0;
+
+  if (applet_control->last_showlog_state != new_state)
+    {
+      applet_control->last_showlog_state = new_state;
+      
+      if (remote_control != NULL)
+        {
+          CORBA_Environment ev;
+          CORBA_exception_init(&ev);
+          
+          GNOME_Workrave_WorkraveControl_open_network_log(remote_control, new_state, &ev);
+          
+          if (BONOBO_EX(&ev))
+            {
+              char *err = (char *) bonobo_exception_get_text(&ev);
+              g_warning (_("An exception occured '%s'"), err);
+              g_free(err);
+            }
+          
+          CORBA_exception_free(&ev);
+        }
+    }
+}
+
+
+
+static void
+mode_callback(BonoboUIComponent *ui, const char *path, Bonobo_UIComponent_EventType type,
+                 const char *state, gpointer user_data)
+{
+  gboolean new_state;
+  FILE *file = fopen("/home/robc/wr.txt", "a+");
+
+  fprintf(file, "%s %s\n", path, state);
+  fclose(file);
+  
+  workrave_applet_connect(FALSE);
+
+  if (state == NULL || strcmp(state, "") == 0)
+    {
+      /* State goes blank when component is removed; ignore this. */
+      return;
+    }
+
+  new_state = strcmp (state, "0") != 0;
+  
+  workrave_applet_connect(FALSE);
+      
+  if (remote_control != NULL && path != NULL && new_state)
+    {
+      CORBA_Environment ev;
+      GNOME_Workrave_WorkraveControl_Mode mode = GNOME_Workrave_WorkraveControl_MODE_INVALID;
+
+      CORBA_exception_init(&ev);
+        
+      if (g_ascii_strcasecmp(path, "Normal") == 0)
+        {
+          mode = GNOME_Workrave_WorkraveControl_MODE_NORMAL;
+        }
+      else if (g_ascii_strcasecmp(path, "Suspended") == 0)
+        {
+          mode = GNOME_Workrave_WorkraveControl_MODE_SUSPENDED;
+        }
+      else if (g_ascii_strcasecmp(path, "Quiet") == 0)
+        {
+          mode = GNOME_Workrave_WorkraveControl_MODE_QUIET;
+        }
+
+      if (mode != GNOME_Workrave_WorkraveControl_MODE_INVALID &&
+          mode != applet_control->last_mode)
+        {
+          applet_control->last_mode = mode;
+          GNOME_Workrave_WorkraveControl_set_mode(remote_control, mode, &ev);
+          
+          if (BONOBO_EX(&ev))
+            {
+              char *err = (char *) bonobo_exception_get_text(&ev);
+              g_warning (_("An exception occured '%s'"), err);
+              g_free(err);
+            }
+        }
+      
+      CORBA_exception_free(&ev);
+    }
+}
+
+
 static gboolean
 workrave_applet_fill(PanelApplet *applet)
 {
   GdkPixbuf *pixbuf;
   GtkWidget *hbox;
   GdkNativeWindow wnd;
+  BonoboUIComponent *ui = NULL;
   
   //
   applet_control->size = panel_applet_get_size(applet);
   panel_applet_setup_menu_from_file(applet, NULL, "GNOME_WorkraveApplet.xml", NULL, workrave_applet_verbs, applet);
+
+
+  ui = panel_applet_get_popup_component(applet);
+  bonobo_ui_component_add_listener(ui, "ShowLog", showlog_callback, NULL);
+  bonobo_ui_component_add_listener(ui, "Normal", mode_callback, NULL);
+  bonobo_ui_component_add_listener(ui, "Suspended", mode_callback, NULL);
+  bonobo_ui_component_add_listener(ui, "Quiet", mode_callback, NULL);
+
   
   // Socket.
   applet_control->socket = gtk_socket_new();

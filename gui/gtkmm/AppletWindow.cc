@@ -40,6 +40,8 @@ static const char rcsid[] = "$Id$";
 #include "ActivityMonitorInterface.hh"
 #include "Configurator.hh"
 
+#include "Menus.hh"
+
 #ifdef HAVE_DISTRIBUTION
 #include "DistributionManager.hh"
 #endif
@@ -60,16 +62,19 @@ const string AppletWindow::CFG_KEY_APPLET_SHOW_DAILY_LIMIT = "gui/applet/show_da
  *  \param control Interface to the controller.
  */
 AppletWindow::AppletWindow(GUI *g, ControlInterface *c) :
-  core_control(c),
-  gui(g),
+  TimerWindow(g, c),
   mode(APPLET_DISABLED),
-  retry_init(false)
+  retry_init(false),
+  applet_control(NULL)
 {
   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
     {
       show_break[i] = true;
     }
 
+  Menus *menus = Menus::get_instance();
+  menus->set_applet_window(this);
+  
   plug = NULL;
   horizontal = true;
   init();
@@ -143,42 +148,6 @@ AppletWindow::init_table()
 
 
 void
-AppletWindow::init_widgets()
-{
-  timer_names = new Gtk::Widget*[GUIControl::BREAK_ID_SIZEOF];
-  timer_times = new TimeBar*[GUIControl::BREAK_ID_SIZEOF];
-
-  for (int count = 0; count < GUIControl::BREAK_ID_SIZEOF; count++)
-    {
-      GUIControl::TimerData *timer = &GUIControl::get_instance()->timers[count];
-      Gtk::Image *img = manage(new Gtk::Image(timer->icon));
-      Gtk::Widget *w;
-      if (count == GUIControl::BREAK_ID_REST_BREAK)
-	{
-	  Gtk::Button *b = manage(new Gtk::Button());
-	  b->set_relief(Gtk::RELIEF_NONE);
-	  b->set_border_width(0);
-	  b->add(*img);
-	  //b->signal_clicked().connect(SigC::slot(*this, &AppletWindow::on_menu_restbreak_now));
-	  w = b;
-	}
-      else
-	{
-	  w = img;
-	}
-      
-      timer_names[count] = w;
-      
-      timer_times[count] = manage(new TimeBar);
-      timer_times[count]->set_text_alignment(1);
-      timer_times[count]->set_progress(0, 60);
-      timer_times[count]->set_text(_("Wait"));
-    }
-
-}
-
-
-void
 AppletWindow::init_applet()
 {
   TRACE_ENTER("AppletWindow::init_applet");
@@ -207,17 +176,16 @@ AppletWindow::init_applet()
 bool
 AppletWindow::init_native_applet()
 {
-  GNOME_Workrave_AppletControl ctrl;
   CORBA_Environment ev;
   bool ok = true;
   
   bonobo_activate();
 
   CORBA_exception_init (&ev);
-  ctrl = bonobo_activation_activate_from_id("OAFIID:GNOME_Workrave_AppletControl",
+  applet_control = bonobo_activation_activate_from_id("OAFIID:GNOME_Workrave_AppletControl",
                                             Bonobo_ACTIVATION_FLAG_EXISTING_ONLY, NULL, &ev);
   
-  if (ctrl == NULL || BONOBO_EX (&ev))
+  if (applet_control == NULL || BONOBO_EX (&ev))
     {
       g_warning(_("Could not contact Workrave Panel"));
       ok = false;
@@ -228,7 +196,7 @@ AppletWindow::init_native_applet()
 
   if (ok)
     {
-      id = GNOME_Workrave_AppletControl_get_socket_id(ctrl, &ev);
+      id = GNOME_Workrave_AppletControl_get_socket_id(applet_control, &ev);
 
       if (BONOBO_EX (&ev))
         {
@@ -238,7 +206,6 @@ AppletWindow::init_native_applet()
           ok = false;
         }
 
-      //GNOME_Workrave_AppletControl_set_mode(ctrl, GNOME_Workrave_WorkraveControl_MODE_QUIET, &ev);
     }
 
   if (ok)
@@ -249,6 +216,11 @@ AppletWindow::init_native_applet()
       plug->show_all();
       
       plug->signal_delete_event().connect(SigC::slot(*this, &AppletWindow::delete_event));
+      Menus *menus = Menus::get_instance();
+      if (menus != NULL)
+        {
+          menus->resync_applet();
+        }
     }
   
   CORBA_exception_free(&ev);
@@ -275,6 +247,16 @@ void
 AppletWindow::fire()
 {
   TRACE_ENTER("AppletWindow::fire");
+  if (mode == APPLET_TRAY)
+    {
+      if (plug != NULL)
+        {
+          plug->remove();
+          // FIXME: free memory
+        }
+      mode = APPLET_DISABLED;
+    }
+  
   if (mode == APPLET_DISABLED && applet_enabled)
     {
       TRACE_ENTER("AppletWindow::retrying");
@@ -298,94 +280,70 @@ AppletWindow::update()
     }
   else
     {
-      bool node_master = true;
-      int num_peers = 0;
-  
-#ifdef HAVE_DISTRIBUTION
-      DistributionManager *dist_manager = DistributionManager::get_instance();
-      if (dist_manager != NULL)
-        {
-          node_master = dist_manager->is_master();
-          num_peers = dist_manager->get_number_of_peers();
-        }
-#endif
-  
-      for (unsigned int count = 0; count < GUIControl::BREAK_ID_SIZEOF; count++)
-        {
-          TimerInterface *timer = GUIControl::get_instance()->timers[count].timer;
-          TimeBar *bar = timer_times[count];
-
-          if (!node_master && num_peers > 0)
-            {
-              bar->set_text(_("Inactive"));
-              bar->set_bar_color(TimeBar::COLOR_ID_INACTIVE);
-              bar->set_progress(0, 60);
-              bar->set_secondary_progress(0, 0);
-              bar->update();
-              continue;
-            }
-  
-          if (timer == NULL)
-            {
-              // FIXME: error handling.
-              continue;
-            }
-      
-          TimerInterface::TimerState timerState = timer->get_state();
-
-          // Collect some data.
-          time_t maxActiveTime = timer->get_limit();
-          time_t activeTime = timer->get_elapsed_time();
-          time_t breakDuration = timer->get_auto_reset();
-          time_t idleTime = timer->get_elapsed_idle_time();
-          bool overdue = (maxActiveTime < activeTime);
-          
-          // Set the text
-          if (timer->is_limit_enabled() && maxActiveTime != 0)
-            {
-              bar->set_text(Text::time_to_string(maxActiveTime - activeTime));
-            }
-          else
-            {
-              bar->set_text(Text::time_to_string(activeTime));
-            }
-
-          // And set the bar.
-          bar->set_secondary_progress(0, 0);
-
-          if (timerState == TimerInterface::STATE_INVALID)
-            {
-              bar->set_bar_color(TimeBar::COLOR_ID_INACTIVE);
-              bar->set_progress(0, 60);
-              bar->set_text(_("Wait"));
-            }
-          else
-            {
-              // Timer is running, show elapsed time.
-              bar->set_progress(activeTime, maxActiveTime);
-          
-              if (overdue)
-                {
-                  bar->set_bar_color(TimeBar::COLOR_ID_OVERDUE);
-                }
-              else
-                {
-                  bar->set_bar_color(TimeBar::COLOR_ID_ACTIVE);
-                }
-
-              if (//timerState == TimerInterface::STATE_STOPPED &&
-                  timer->is_auto_reset_enabled() && breakDuration != 0)
-                {
-                  // resting.
-                  bar->set_secondary_bar_color(TimeBar::COLOR_ID_INACTIVE);
-                  bar->set_secondary_progress(idleTime, breakDuration);
-                }
-            }
-          bar->update();
-        }
+      update_widgets();
     }
 }
 
+
+void
+AppletWindow::set_menu_active(int menu, bool active)
+{
+  TRACE_ENTER("AppletWindow::set_menu_active");
+  CORBA_Environment ev;
+
+  if (applet_control != NULL)
+    {
+      CORBA_exception_init (&ev);
+      switch (menu)
+        {
+        case 0:
+          GNOME_Workrave_AppletControl_set_menu_status(applet_control, "/commands/Normal", active, &ev);
+          break;
+        case 1:
+          GNOME_Workrave_AppletControl_set_menu_status(applet_control, "/commands/Suspended", active, &ev);
+          break;
+        case 2:
+          GNOME_Workrave_AppletControl_set_menu_status(applet_control, "/commands/Quiet", active, &ev);
+          break;
+        case 3:
+          GNOME_Workrave_AppletControl_set_menu_status(applet_control, "/commands/ShowLog", active, &ev);
+          break;
+        }
+    }
+  CORBA_exception_free(&ev);
+  TRACE_EXIT();
+}
+
+
+bool
+AppletWindow::get_menu_active(int menu)
+{
+  TRACE_ENTER("AppletWindow::get_menu_active");
+  CORBA_Environment ev;
+  bool ret = false;
+
+  if (applet_control != NULL)
+    {
+      CORBA_exception_init (&ev);
+      switch (menu)
+        {
+        case 0:
+          ret = GNOME_Workrave_AppletControl_get_menu_status(applet_control, "/commands/Normal", &ev);
+          break;
+        case 1:
+          ret = GNOME_Workrave_AppletControl_get_menu_status(applet_control, "/commands/Suspended", &ev);
+          break;
+        case 2:
+          ret = GNOME_Workrave_AppletControl_get_menu_status(applet_control, "/commands/Quiet", &ev);
+          break;
+        case 3:
+          ret = GNOME_Workrave_AppletControl_get_menu_status(applet_control, "/commands/ShowLog", &ev);
+          break;
+        }
+    }
+  CORBA_exception_free(&ev);
+  TRACE_EXIT();
+}
 
 
 //! User requested immediate restbreak.
@@ -405,6 +363,7 @@ AppletWindow::on_delete_event(GdkEventAny *)
   TRACE_EXIT();
   return true;
 }
+
 
 void
 AppletWindow::read_configuration()

@@ -27,16 +27,12 @@ static const char rcsid[] = "$Id$";
 #include "GUI.hh"
 #include "AppletWindow.hh"
 
+#include "Menus.hh"
+
 RemoteControl   *RemoteControl::instance = NULL;
 WorkraveControl *RemoteControl::workrave_control = NULL;
 
 #include "nls.h"
-
-#ifdef HAVE_DISTRIBUTION
-#include "DistributionManager.hh"
-#include "NetworkJoinDialog.hh"
-#include "NetworkLogDialog.hh"
-#endif
 
 /************************************************************************/
 /* GNOME::RemoteControl                                                 */
@@ -49,6 +45,20 @@ RemoteControl::RemoteControl()
 
 RemoteControl::~RemoteControl()
 {
+}
+
+
+RemoteControl *
+RemoteControl::get_instance()
+{
+  if (instance == NULL)
+    {
+      instance = new RemoteControl();
+      instance->workrave_control = workrave_control_new();
+      instance->workrave_control->_this = instance;
+    }
+       
+  return instance;
 }
 
 
@@ -70,75 +80,107 @@ WR_METHOD_ARGS0_IMPL(void, fire)
   TRACE_EXIT();
 }
 
-WR_METHOD_ARGS0_IMPL(CORBA_boolean, open_main)
+WR_METHOD_ARGS0_IMPL(void, open_main)
 {
   TRACE_ENTER("RemoteControl::open_main");
+  Menus *menus = Menus::get_instance();
+  if (menus != NULL)
+    {
+      menus->on_menu_open_main_window();
+    }
   TRACE_EXIT();
 }
 
 
-WR_METHOD_ARGS0_IMPL(CORBA_boolean, open_preferences)
+WR_METHOD_ARGS0_IMPL(void, open_preferences)
 {
+  Menus *menus = Menus::get_instance();
+  if (menus != NULL)
+    {
+      menus->on_menu_preferences();
+    }
 }
 
 
-WR_METHOD_ARGS0_IMPL(CORBA_boolean, open_network_connect)
+WR_METHOD_ARGS0_IMPL(void, open_network_connect)
 {
+  Menus *menus = Menus::get_instance();
+  if (menus != NULL)
+    {
+      menus->on_menu_network_join();
+    }
 }
 
 
-WR_METHOD_ARGS0_IMPL(CORBA_boolean, open_network_log)
+WR_METHOD_ARGS1_IMPL(void, open_network_log, CORBA_boolean, state)
 {
+  Menus *menus = Menus::get_instance();
+  if (menus != NULL)
+    {
+      menus->on_menu_network_log(state);
+    }
 }
 
   
-WR_METHOD_ARGS0_IMPL(CORBA_boolean, restbreak)
+WR_METHOD_ARGS0_IMPL(void, restbreak)
 {
-  GUI *gui = GUI::get_instance();
-
-  if (gui != NULL)
+  Menus *menus = Menus::get_instance();
+  if (menus != NULL)
     {
-      gui->restbreak_now();
+      menus->on_menu_restbreak_now();
     }
 }
 
 
-WR_METHOD_ARGS1_IMPL(CORBA_boolean, set_mode, GNOME_Workrave_WorkraveControl_Mode, mode)
+WR_METHOD_ARGS1_IMPL(void, set_mode, GNOME_Workrave_WorkraveControl_Mode, mode)
 {
-}
-
-
-WR_METHOD_ARGS0_IMPL(CORBA_boolean, disconnect_all)
-{
-#ifdef HAVE_DISTRIBUTION
-  DistributionManager *dist_manager = DistributionManager::get_instance();
-  if (dist_manager != NULL)
+  TRACE_ENTER("RemoteControl::set_mode");
+  Menus *menus = Menus::get_instance();
+  if (menus != NULL)
     {
-      dist_manager->disconnect_all();
+      switch (mode)
+        {
+        case GNOME_Workrave_WorkraveControl_MODE_NORMAL:
+          menus->on_menu_normal();
+          break;
+        case GNOME_Workrave_WorkraveControl_MODE_SUSPENDED:
+          menus->on_menu_suspend();
+          break;
+        case GNOME_Workrave_WorkraveControl_MODE_QUIET:
+          menus->on_menu_quiet();
+          break;
+        }
     }
-#endif
+  TRACE_EXIT();
 }
 
 
-WR_METHOD_ARGS0_IMPL(CORBA_boolean, reconnect_all)
+WR_METHOD_ARGS0_IMPL(void, disconnect_all)
 {
-#ifdef HAVE_DISTRIBUTION
-  DistributionManager *dist_manager = DistributionManager::get_instance();
-  if (dist_manager != NULL)
+  Menus *menus = Menus::get_instance();
+  if (menus != NULL)
     {
-      dist_manager->reconnect_all();
+      menus->on_menu_network_leave();
     }
-#endif
 }
 
 
-WR_METHOD_ARGS0_IMPL(CORBA_boolean, quit)
+WR_METHOD_ARGS0_IMPL(void, reconnect_all)
 {
-  GUI *gui = GUI::get_instance();
-
-  if (gui != NULL)
+  Menus *menus = Menus::get_instance();
+  if (menus != NULL)
     {
-      gui->terminate();
+      menus->on_menu_network_reconnect();
+    }
+}
+
+
+WR_METHOD_ARGS0_IMPL(void, quit)
+{
+  Menus *menus = Menus::get_instance();
+  if (menus != NULL)
+    {
+      menus->on_menu_quit();
     }
 }
 
@@ -178,10 +220,8 @@ workrave_control_class_init(WorkraveControlClass *klass)
 }
 
 static void
-workrave_control_init(WorkraveControl *applet)
+workrave_control_init(WorkraveControl *control)
 {
-  RemoteControl *control = RemoteControl::get_instance();
-  applet->_this = control;
 }
 
 
@@ -201,8 +241,23 @@ workrave_control_new(void)
 
 
 extern "C" BonoboObject*
-workrave_component_factory(BonoboGenericFactory *factory, const char *iid, void *data)
+workrave_component_factory(BonoboGenericFactory *factory, const char *object_id, void *data)
 {
-  WorkraveControl *workrave_control = workrave_control_new();
-  return BONOBO_OBJECT(workrave_control);
+  BonoboObject *object = NULL;
+	  
+  g_return_val_if_fail(object_id != NULL, NULL);
+
+  if (!strcmp(object_id, "OAFIID:GNOME_Workrave_WorkraveControl"))
+    {
+      RemoteControl *control = RemoteControl::get_instance();
+      object = BONOBO_OBJECT(control->workrave_control);
+    }
+  else
+    {
+      g_warning ("Unknown OAFIID 's'", object_id);
+    }
+
+
+  return object;
 }
+

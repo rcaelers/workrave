@@ -36,12 +36,14 @@ class NetworkLogDialog;
 #endif
 
 #include "ConfiguratorListener.hh"
+#include "TimerWindow.hh"
 
 using namespace std;
 
 class MainWindow :
   public Gtk::Window,
-  public ConfiguratorListener
+  public ConfiguratorListener,
+  public TimerWindow
 {
 public:  
   MainWindow(GUI *gui, ControlInterface *controller);
@@ -55,12 +57,6 @@ protected:
   bool on_button_press_event(GdkEventButton *event);
 
 private:
-  //! The controller that maintains the data and control over the breaks
-  ControlInterface *core_control;
-
-  //! Interface to the GUI.
-  GUI *gui;
-  
   //! Connection to the delete_event signal.
   SigC::Connection delete_connection;
 
@@ -70,53 +66,20 @@ private:
   //! Table containing all timer information
   Gtk::Table *timers_box;
 
-  //! Array of timer name labels
-  Gtk::Widget **timer_names;
-
-  //! Araay of timer value widgets.
-  TimeBar **timer_times;
-
   //! The popup menu.
   Gtk::Menu *popup_menu;
 
-  //! The popup mode menu items
-  Gtk::CheckMenuItem *popup_check_menus[4];
-  
   //! Is the monitoring function suspended?
   bool monitor_suspended;
 
-#ifdef HAVE_DISTRIBUTION
-  //! The log dialog.
-  NetworkLogDialog *network_log_dialog;
-#endif
-  
 private:
   //
   void init();
   void setup();
-  Gtk::Menu *create_menu(Gtk::CheckMenuItem *check_menus[4]);
   void config_changed_notify(string key);
 
   // Events.
   bool on_delete_event(GdkEventAny*);
-  void on_menu_about();
-  void on_menu_quit();
-  void on_menu_restbreak_now();
-  void on_menu_preferences();
-  void on_menu_statistics();
-  void on_menu_normal();
-  void on_menu_suspend();
-  void on_menu_quiet();
-#ifndef NDEBUG
-  void on_test_me();
-#endif
-#ifdef HAVE_DISTRIBUTION
-  void on_menu_network_join();
-  void on_menu_network_leave();
-  void on_menu_network_reconnect();
-  void on_menu_network_log();
-  void on_network_log_response(int response);
-#endif
   
 #ifdef WIN32
 public:
@@ -128,7 +91,6 @@ public:
   static const string CFG_KEY_MAIN_WINDOW_Y;
   
 private:
-  void win32_sync_menu(int mode);
   void win32_show(bool b);
   void win32_init();
   void win32_exit();
@@ -141,7 +103,6 @@ private:
                                             WPARAM wParam, LPARAM lParam);
 
   Gtk::Menu *win32_tray_menu;
-  Gtk::CheckMenuItem *win32_tray_check_menus[3];
   HWND win32_main_hwnd;
   NOTIFYICONDATA win32_tray_icon;
 #endif

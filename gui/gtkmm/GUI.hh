@@ -71,9 +71,12 @@ public:
   // Internal public methods
   void restbreak_now();
   void set_operation_mode(GUIControl::OperationMode mode);
+  GUIControl::OperationMode get_operation_mode();
   void open_main_window();
   void terminate();
 
+  ControlInterface *get_core_control() const;
+  
 #ifdef HAVE_GNOME
   AppletWindow *get_applet_window() const;
 #endif
@@ -121,5 +124,11 @@ GUI::get_applet_window() const
   return applet_window;
 }
 #endif
+
+inline ControlInterface *
+GUI::get_core_control() const
+{
+  return core_control;
+}
 
 #endif // GUI_HH

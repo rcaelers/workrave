@@ -3,6 +3,7 @@
     <cmd name="Normal"/>
     <cmd name="Suspended"/>
     <cmd name="Quiet"/>
+    <cmd name="ShowLog"/>
   </commands>
 
   <popups>
@@ -35,7 +36,7 @@
         <menuitem name="Connect Item" verb="Connect" _label="_Connect..."/>
         <menuitem name="Disconnect Item" verb="Disconnect" _label="_Disconnect"/>
         <menuitem name="Reconnect Item" verb="Reconnect" _label="_Reconnect"/>
-        <menuitem name="Show Log Item" verb="ShowLog" _label="_Show Log..."/>
+        <menuitem name="Show Log Item" verb="ShowLog" _label="_Show Log..." type="toggle" id="ShowLog"/>
 
       </submenu>
            

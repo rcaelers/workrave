@@ -117,6 +117,7 @@ public:
   void heartbeat();
   void init();
   OperationMode set_operation_mode(OperationMode mode);
+  OperationMode get_operation_mode();
   void break_action(BreakId id, BreakAction action);
   Configurator *get_configurator();
   void set_freeze_all_breaks(bool freeze);

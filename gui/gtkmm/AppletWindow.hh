@@ -37,11 +37,13 @@ class NetworkLogDialog;
 #include <gtkmm/plug.h>
 
 #include "GUIControl.hh"
+#include "TimerWindow.hh"
 
 using namespace std;
 
 class AppletWindow :
-  public Gtk::HBox
+  public Gtk::HBox,
+  public TimerWindow
 {
 public:  
   enum AppletMode { APPLET_DISABLED, APPLET_TRAY, APPLET_GNOME };
@@ -53,7 +55,9 @@ public:
   void fire();
   
   void on_menu_restbreak_now();
-
+  void set_menu_active(int menu, bool active);
+  bool get_menu_active(int menu);
+  
 public:  
   static const string CFG_KEY_APPLET;
   static const string CFG_KEY_APPLET_HORIZONTAL;
@@ -63,12 +67,6 @@ public:
   static const string CFG_KEY_APPLET_SHOW_DAILY_LIMIT;
   
 private:
-  //! The controller that maintains the data and control over the breaks
-  ControlInterface *core_control;
-
-  //! Interface to the GUI.
-  GUI *gui;
-
   //! Current Applet mode.
   AppletMode mode;
 
@@ -81,12 +79,6 @@ private:
   //! Table containing all timer information
   Gtk::Table *timers_box;
 
-  //! Array of timer name labels
-  Gtk::Widget **timer_names;
-
-  //! Araay of timer value widgets.
-  TimeBar **timer_times;
-
   //! Breaks to show in applet.
   bool show_break[GUIControl::BREAK_ID_SIZEOF];
 
@@ -95,11 +87,13 @@ private:
 
   //! Applet enabled?
   bool applet_enabled;
+
+  //
+  GNOME_Workrave_AppletControl applet_control;
   
 private:
   //
   void init();
-  void init_widgets();
   void init_applet();
   void init_table();
   bool init_native_applet();

@@ -10,16 +10,16 @@ module GNOME
 
       oneway void fire();
 
-      boolean open_main();
-      boolean open_preferences();
-      boolean open_network_connect();
-      boolean open_network_log();
+      oneway void open_main();
+      oneway void open_preferences();
+      oneway void open_network_connect();
+      oneway void open_network_log(in boolean state);
       
-      boolean restbreak();
-      boolean set_mode(in Mode mode);
-      boolean disconnect_all();
-      boolean reconnect_all();
-      boolean quit();
+      oneway void restbreak();
+      oneway void set_mode(in Mode mode);
+      oneway void disconnect_all();
+      oneway void reconnect_all();
+      oneway void quit();
     };
   };
 };

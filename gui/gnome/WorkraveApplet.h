@@ -30,6 +30,9 @@ struct _AppletControl
   long size;
   long socket_id;
   gboolean vertical;
+  
+  gboolean last_showlog_state;
+  GNOME_Workrave_WorkraveControl_Mode last_mode;
 };
 
 struct _AppletControlClass
@@ -45,8 +48,11 @@ static AppletControl*	workrave_applet_control_new(void);
 static CORBA_long 	workrave_applet_control_get_socket_id(PortableServer_Servant, CORBA_Environment *);
 static CORBA_long 	workrave_applet_control_get_size(PortableServer_Servant, CORBA_Environment *);
 static CORBA_boolean 	workrave_applet_control_get_vertical(PortableServer_Servant, CORBA_Environment *);
-static void	 	workrave_applet_control_set_mode(PortableServer_Servant, CORBA_long item,
-                                                         CORBA_Environment *);
+
+static void             workrave_applet_control_set_menu_status(PortableServer_Servant, const CORBA_char *,
+                                                                const CORBA_boolean, CORBA_Environment *);
+static CORBA_boolean    workrave_applet_control_get_menu_status(PortableServer_Servant, const CORBA_char *,
+                                                                CORBA_Environment *ev);
 
 G_END_DECLS
 

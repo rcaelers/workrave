@@ -431,6 +431,15 @@ GUIControl::set_freeze_all_breaks(bool freeze)
 
 
 GUIControl::OperationMode
+GUIControl::get_operation_mode()
+{
+  TRACE_ENTER("GUIControl::get_operation_mode");
+  TRACE_EXIT();
+  return operation_mode;
+}
+
+
+GUIControl::OperationMode
 GUIControl::set_operation_mode(OperationMode mode)
 {
   TRACE_ENTER_MSG("GUIControl::set_operation_mode", mode);

@@ -11,7 +11,8 @@ module GNOME
       long get_socket_id();
       long get_size();
       boolean get_vertical();
-      void set_mode(in long item);
+      void set_menu_status(in string menu, in boolean status);
+      boolean get_menu_status(in string menu);
     };
   };
 };

@@ -56,7 +56,6 @@ static const char rcsid[] = "$Id$";
 #ifdef HAVE_GNOME
 #include "AppletWindow.hh"
 #include "RemoteControl.hh"
-extern "C" BonoboObject *workrave_component_factory(BonoboGenericFactory *, const char *, void *);
 #endif
 
 GUI *GUI::instance = NULL;
@@ -85,11 +84,11 @@ GUI::GUI(ControlInterface *controller, int argc, char **argv)
       g_error (_("I could not initialize Bonobo"));
     }
 
+  RemoteControl::get_instance();
+  
   BonoboGenericFactory *factory;
   factory = bonobo_generic_factory_new("OAFIID:GNOME_Workrave_Factory", workrave_component_factory, NULL);
   bonobo_running_context_auto_exit_unref (BONOBO_OBJECT (factory));
-
-  // FIXME: workrave_control_new();
   
   applet_window = NULL;
 #endif
@@ -132,6 +131,13 @@ GUI::set_operation_mode(GUIControl::OperationMode mode)
   gui_control->set_operation_mode(mode);
 }
 
+
+GUIControl::OperationMode
+GUI::get_operation_mode()
+{
+  assert(gui_control != NULL);
+  return gui_control->get_operation_mode();
+}
 
 //! GUI Thread.
 void

@@ -19,6 +19,8 @@
 typedef struct _WorkraveControl       WorkraveControl;
 typedef struct _WorkraveControlClass  WorkraveControlClass;
 
+extern "C" BonoboObject *workrave_component_factory(BonoboGenericFactory *, const char *, void *);
+
 class RemoteControl
 {
 public:
@@ -32,16 +34,16 @@ public:
   
   WR_METHOD_NOARGS(void, fire);
 
-  WR_METHOD_NOARGS(CORBA_boolean, open_main);
-  WR_METHOD_NOARGS(CORBA_boolean, open_preferences);
-  WR_METHOD_NOARGS(CORBA_boolean, open_network_connect);
-  WR_METHOD_NOARGS(CORBA_boolean, open_network_log);
+  WR_METHOD_NOARGS(void, open_main);
+  WR_METHOD_NOARGS(void, open_preferences);
+  WR_METHOD_NOARGS(void, open_network_connect);
+  WR_METHOD       (void, open_network_log, CORBA_boolean state);
   
-  WR_METHOD_NOARGS(CORBA_boolean, restbreak);
-  WR_METHOD       (CORBA_boolean, set_mode, GNOME_Workrave_WorkraveControl_Mode mode);
-  WR_METHOD_NOARGS(CORBA_boolean, disconnect_all);
-  WR_METHOD_NOARGS(CORBA_boolean, reconnect_all);
-  WR_METHOD_NOARGS(CORBA_boolean, quit);
+  WR_METHOD_NOARGS(void, restbreak);
+  WR_METHOD       (void, set_mode, GNOME_Workrave_WorkraveControl_Mode mode);
+  WR_METHOD_NOARGS(void, disconnect_all);
+  WR_METHOD_NOARGS(void, reconnect_all);
+  WR_METHOD_NOARGS(void, quit);
   
 private:  
   //! The one and only instance
@@ -49,19 +51,10 @@ private:
 
   //!
   static WorkraveControl *workrave_control;
+
+  friend BonoboObject* workrave_component_factory(BonoboGenericFactory *factory, const char *_id, void *);
 };
 
-
-inline RemoteControl *
-RemoteControl::get_instance()
-{
-  if (instance == NULL)
-    {
-      instance = new RemoteControl();
-    }
-       
-  return instance;
-}
 
 G_BEGIN_DECLS
 
