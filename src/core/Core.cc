@@ -480,6 +480,7 @@ Core::set_powersave(bool down)
     {
       // Computer is going down
       powersave = true;
+      powersave_operation_mode = set_operation_mode(OPERATION_MODE_SUSPENDED);
       save_state();
       statistics->update();
     }
@@ -489,6 +490,7 @@ Core::set_powersave(bool down)
       // leave powersave true until the timewarp is detected
       // or until some time has passed
       powersave_resume_time = current_time;
+      set_operation_mode(powersave_operation_mode);
     }
   TRACE_EXIT();
 }

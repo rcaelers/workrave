@@ -224,6 +224,9 @@ private:
 
   //! Time the OS announces a resume from powersave
   time_t powersave_resume_time;
+
+  //! OperationMode before powersave
+  OperationMode powersave_operation_mode;
   
 #ifdef HAVE_DISTRIBUTION
   //! The Distribution Manager
