@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-01-12 11:44:51 robc>
+// Time-stamp: <2003-03-03 21:16:22 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -462,6 +462,7 @@ handleXRecordCallback(XPointer closure, XRecordInterceptData * data)
       
     case XRecordFromServer:
       event = (xEvent *)data->data;
+
       if (event->u.u.type == KeyPress)
         monitor->handle_xrecord_handle_key_event(data);
       else if (event->u.u.type == ButtonPress)
