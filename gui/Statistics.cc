@@ -245,7 +245,7 @@ Statistics::load_current_day()
     {
       string tag;
       stats_file >> tag;
-
+      
       ok = (tag == WORKRAVESTATS);
     }
 
@@ -525,7 +525,7 @@ Statistics::get_day(int day) const
           day--;
         }
 
-      if (day <= history.size() && day >= 0)
+      if (day < history.size() && day >= 0)
         {
           ret = history[day];
         }

@@ -277,6 +277,11 @@ StatisticsDialog::select_day(int day)
 {
   Statistics::DailyStats *stats = statistics->get_day(day);
 
+  if (stats == NULL)
+    {
+      return;
+    }
+  
   char s[200];
   size_t size = strftime(s, 200, "%c", &stats->start);
   if (size != 0)
