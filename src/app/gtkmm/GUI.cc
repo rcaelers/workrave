@@ -100,9 +100,6 @@ GUI::GUI(int argc, char **argv)  :
   num_heads(-1),
   screen_width(-1),
   screen_height(-1),
-  main_window_location(-1, -1),
-  main_window_head_location(-1, -1),
-  main_window_relocated_location(-1, -1),
 #if !defined(HAVE_GTK_MULTIHEAD) && defined(WIN32)
   enum_monitors(NULL),
   user_lib(NULL),
@@ -243,12 +240,6 @@ GUI::terminate()
 
   CoreFactory::get_configurator()->save();
   
-  if (main_window != NULL)
-    {
-      // Remember position
-      main_window->remember_position();
-    }
-
   collect_garbage();
   
   Gtk::Main::quit();
@@ -369,12 +360,6 @@ GUI::on_save_yourself(int phase, Gnome::UI::SaveStyle save_style, bool shutdown,
   (void) interact_style;
   (void) fast;
   
-  if (main_window != NULL)
-    {
-      // Remember position
-      main_window->remember_position();
-    }
-
   Gnome::UI::Client *client = Gnome::UI::Client::master_client();
 
   vector<string> args;
@@ -560,7 +545,7 @@ GUI::init_multihead_desktop()
     {
       if (main_window != NULL)
         {
-          relocate_main_window(width, height);
+          main_window->relocate_window(width, height);
         }
       screen_width = width;
       screen_height = height;
@@ -568,159 +553,6 @@ GUI::init_multihead_desktop()
 }
 
 
-void
-GUI::locate_main_window(GdkEventConfigure *event)
-{
-  TRACE_ENTER("GUI::locate_main_window");
-  int x, y;
-
-  if (event == NULL)
-    {
-      main_window->get_position(x, y);
-    }
-  else
-    {
-      x = event->x;
-      y = event->y;
-    }
-
-  TRACE_MSG("main window = " << x << " " << y);
-
-  if (x <= 0 && y <= 0)
-    {
-      // FIXME: this is a hack...
-      TRACE_EXIT();
-      return;
-    }
-  
-  if (x != main_window_relocated_location.get_x() ||
-      y != main_window_relocated_location.get_y())
-    {
-      // Only process movements that are user-initiated.
-      // If (x,y) == main_window_relocated_location then the move was initiated
-      // by workrave because a head was removed.
-
-      // Stores current location.
-      main_window_location.set_x(x);
-      main_window_location.set_y(y);
-      main_window->set_start_position(x, y);
-
-      if (x >= screen_width || y >= screen_height)
-        {
-          // location is outside visible screen, probably workrave was
-          // restarted with less heads than before it was terminated.
-
-          // Retrieve previous relative coords.
-          main_window->get_head_start_position(x, y);
-        }
-      else
-        {
-          // Determine location with current head.
-          // FIXME: only first head is used for relocation. for loop is breaked out...
-          for (int i = 0; i < num_heads; i++)
-            {
-              int left, top, width, height;
-
-              left = heads[i].get_x();
-              top = heads[i].get_y();
-              width = heads[i].get_width();
-              height = heads[i].get_height();
-              
-              if (x >= left && y >= top && x < left + width && y < top + height)
-                {
-                  x -= left;
-                  y -= top;
-
-                  // Use coordinates relative to right and butto edges of the
-                  // screen if the mainwindow is closer to those edges than to
-                  // the left/top edges.
-                 
-                  if (x >= width / 2)
-                    {
-                      x -= width;
-                    }
-                  if (y >= height / 2)
-                    {
-                      y -= height;
-                    }
-                  break;
-                }
-            }
-        }
-
-      TRACE_MSG("main window head = " << x << " " << y);
-
-      // Stores location relative to origin of current head.
-      main_window_head_location.set_x(x);
-      main_window_head_location.set_y(y);
-      main_window->set_head_start_position(x, y);
-    }
-  TRACE_EXIT();
-}
-
-
-void
-GUI::relocate_main_window(int width, int height)
-{
-  TRACE_ENTER_MSG("GUI::relocate_main_window", width << " " << height);
-  int x = main_window_location.get_x();
-  int y = main_window_location.get_y();
-
-  if (x <= 0 || y <= 0)
-    {
-      TRACE_MSG("invalid " << x << " " << y);
-    }
-  else if (x <= width && y <= height)
-    {
-      TRACE_MSG(x << " " << y);
-      TRACE_MSG("fits, moving to");
-      main_window->set_position(Gtk::WIN_POS_NONE);
-      main_window->move(x, y);
-    }
-  else
-    {
-      TRACE_MSG("move to differt head");
-      x = main_window_head_location.get_x();
-      y = main_window_head_location.get_y();
-
-      for (int i = 0; i < num_heads; i++)
-        {
-          if (heads[i].valid)
-            {
-              if (x < 0)
-                {
-                  x += heads[i].geometry.get_width();
-                }
-              if (y < 0)
-                {
-                  y += heads[i].geometry.get_height();
-                }
-              x += heads[i].geometry.get_x();
-              y += heads[i].geometry.get_y();
-
-              break;
-            }
-        }
-
-      if (x < 0)
-        {
-          x = 0;
-        }
-      if (y < 0)
-        {
-          y = 0;
-        }
-      
-      TRACE_MSG("moving to " << x << " " << y);
-      main_window_relocated_location.set_x(x);
-      main_window_relocated_location.set_y(y);
-
-      main_window->set_position(Gtk::WIN_POS_NONE);
-      main_window->move(x, y);
-    }
-  
-  TRACE_EXIT();
-}
 
 
 #ifdef HAVE_GTK_MULTIHEAD
@@ -880,13 +712,6 @@ GUI::init_gui()
 
   // The main status window.
   main_window = new MainWindow();
-  if (main_window->is_visible())
-    {
-      locate_main_window(NULL);
-      relocate_main_window(screen_width, screen_height);
-    }
-  main_window->signal_configure_event().connect(SigC::slot(*this, &GUI::on_mainwindow_configure_event));
-
   
 #ifdef HAVE_X  
   // The applet window.
@@ -1220,17 +1045,6 @@ GUI::on_activity()
 }
 
 
-bool
-GUI::on_mainwindow_configure_event(GdkEventConfigure *event)
-{
-  TRACE_ENTER_MSG("GUI::on_mainwindow_configure_event", event->x << " " << event->y);
-  (void) event;
-
-  locate_main_window(event);
-  
-  TRACE_EXIT();
-  return true;
-}
 
 GUI::BlockMode
 GUI::get_block_mode()
@@ -1316,3 +1130,70 @@ GUI::on_grab_retry_timer()
     }
 }
 #endif
+
+
+HeadInfo &
+GUI::get_head(int head)
+{
+  return heads[head < num_heads ? head : 0];
+}
+
+int
+GUI::map_to_head(int &x, int &y)
+{
+  int head = -1;
+  
+  for (int i = 0; i < num_heads; i++)
+    {
+      int left, top, width, height;
+
+      left = heads[i].get_x();
+      top = heads[i].get_y();
+      width = heads[i].get_width();
+      height = heads[i].get_height();
+              
+      if (x >= left && y >= top && x < left + width && y < top + height)
+        {
+          x -= left;
+          y -= top;
+
+          // Use coordinates relative to right and butto edges of the
+          // screen if the mainwindow is closer to those edges than to
+          // the left/top edges.
+                 
+          if (x >= width / 2)
+            {
+              x -= width;
+            }
+          if (y >= height / 2)
+            {
+              y -= height;
+            }
+          head = i;
+          break;
+        }
+    }
+
+  if (head < 0)
+    {
+      head = 0;
+      x = y = 256;
+    }
+  return head;
+}
+
+void
+GUI::map_from_head(int &x, int &y, int head)
+{
+  HeadInfo &h = get_head(head);
+  if (x < 0)
+    {
+      x += h.get_width();
+    }
+  if (y < 0)
+    {
+      y += h.get_height();
+    }
+  x += h.get_x();
+  y += h.get_y();
+}

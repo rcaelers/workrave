@@ -78,10 +78,8 @@ const string MainWindow::CFG_KEY_MAIN_WINDOW_X
 = "gui/main_window/x";
 const string MainWindow::CFG_KEY_MAIN_WINDOW_Y
 = "gui/main_window/y";
-const string MainWindow::CFG_KEY_MAIN_WINDOW_HEAD_X
-= "gui/main_window/head_x";
-const string MainWindow::CFG_KEY_MAIN_WINDOW_HEAD_Y
-= "gui/main_window/head_y";
+const string MainWindow::CFG_KEY_MAIN_WINDOW_HEAD
+= "gui/main_window/head";
 
 //! Constructor.
 /*!
@@ -93,7 +91,10 @@ MainWindow::MainWindow() :
   timers_box(NULL),
   monitor_suspended(false),
   visible(true),
-  applet_active(false)
+  applet_active(false),
+  window_location(-1, -1),
+  window_head_location(-1, -1),
+  window_relocated_location(-1, -1)
 {
 #ifdef HAVE_X
   leader = NULL;
@@ -182,12 +183,15 @@ MainWindow::init()
   stick();
   setup();
   
+  int x, y, head;
+  get_start_position(x, y, head);
+  GUI::get_instance()->map_from_head(x, y, head);
+  TRACE_MSG("moving to " << x << " " << y);
+  
 #ifdef WIN32
   window->set_functions(Gdk::FUNC_CLOSE|Gdk::FUNC_MOVE);
 
   win32_init();
-  int x, y;
-  get_start_position(x, y);
   set_gravity(Gdk::GRAVITY_STATIC); 
   set_position(Gtk::WIN_POS_NONE);
   if (!enabled) //  || get_start_in_tray())
@@ -203,12 +207,9 @@ MainWindow::init()
       show_all();
     }
 #else
-  int x, y;
-  get_start_position(x, y);
   set_gravity(Gdk::GRAVITY_STATIC); 
   set_position(Gtk::WIN_POS_NONE);
   show_all();
-  TRACE_MSG("moving to " << x << " " << y);
   move(x, y);
   
   if (!enabled) //  || get_start_in_tray())
@@ -218,7 +219,8 @@ MainWindow::init()
     }
 #endif
   setup();
-  set_title("W");
+  set_title("Workrave");
+
   TRACE_EXIT();
 }
 
@@ -276,10 +278,11 @@ MainWindow::open_window()
   TRACE_ENTER("MainWindow::open_window");
   if (timers_box->get_visible_count() > 0)
     {
-      int x, y;
+      int x, y, head;
       set_position(Gtk::WIN_POS_NONE);
-      set_gravity(Gdk::GRAVITY_STATIC); 
-      get_start_position(x, y);
+      set_gravity(Gdk::GRAVITY_STATIC);
+      get_start_position(x, y, head);
+      GUI::get_instance()->map_from_head(x, y, head);
       TRACE_MSG("moving to " << x << " " << y);
       move(x, y);
 
@@ -299,9 +302,6 @@ MainWindow::open_window()
 void
 MainWindow::close_window()
 {
-  // Remember position
-  remember_position();
-
 #ifdef WIN32
   win32_show(false);
 #else
@@ -539,9 +539,6 @@ MainWindow::win32_init()
 void
 MainWindow::win32_exit()
 {
-  // Remember position
-  remember_position();
-
   // Destroy tray
   Shell_NotifyIcon(NIM_DELETE, &win32_tray_icon);
   DestroyWindow(win32_main_hwnd);
@@ -650,7 +647,7 @@ MainWindow::win32_on_tray_open()
 #endif
 
 void
-MainWindow::get_start_position(int &x, int &y)
+MainWindow::get_start_position(int &x, int &y, int &head)
 {
   TRACE_ENTER("MainWindow::get_start_position");
   bool b;
@@ -666,65 +663,29 @@ MainWindow::get_start_position(int &x, int &y)
     {
       y = 256;
     }
-  TRACE_MSG(x << " " << y);
+  b = cfg->get_value(CFG_KEY_MAIN_WINDOW_HEAD, &head);
+  if (! b)
+    {
+      head = 0;
+    }
+  TRACE_MSG(x << " " << y << " " << head);
   TRACE_EXIT();
 }
 
 
 void
-MainWindow::set_start_position(int x, int y)
+MainWindow::set_start_position(int x, int y, int head)
 {
-  TRACE_ENTER_MSG("MainWindow::set_start_position", x << " " << y);
+  TRACE_ENTER_MSG("MainWindow::set_start_position",
+                  x << " " << y << " " << head);
   ConfiguratorInterface *cfg = CoreFactory::get_configurator();
   cfg->set_value(CFG_KEY_MAIN_WINDOW_X, x);
   cfg->set_value(CFG_KEY_MAIN_WINDOW_Y, y);
+  cfg->set_value(CFG_KEY_MAIN_WINDOW_HEAD, head);
   TRACE_EXIT();
 }
 
 
-void
-MainWindow::get_head_start_position(int &x, int &y)
-{
-  TRACE_ENTER("MainWindow::get_head_start_position");
-  bool b;
-  int sx, sy;
-  get_start_position(sx, sy);
-  
-  ConfiguratorInterface *cfg = CoreFactory::get_configurator();
-  b = cfg->get_value(CFG_KEY_MAIN_WINDOW_HEAD_X, &x);
-  if (! b)
-    {
-      x = sx;
-    }
-  b = cfg->get_value(CFG_KEY_MAIN_WINDOW_HEAD_Y, &y);
-  if (! b)
-    {
-      y = sy;
-    }
-  
-  TRACE_MSG(x << " " << y);
-  TRACE_EXIT();
-}
-
-
-void
-MainWindow::set_head_start_position(int x, int y)
-{
-  TRACE_ENTER_MSG("MainWindow::set_head_start_position", x << " " << y);
-  ConfiguratorInterface *cfg = CoreFactory::get_configurator();
-  cfg->set_value(CFG_KEY_MAIN_WINDOW_HEAD_X, x);
-  cfg->set_value(CFG_KEY_MAIN_WINDOW_HEAD_Y, y);
-  TRACE_EXIT();
-}
-
-
-void
-MainWindow::remember_position()
-{
-  int x, y;
-  get_position(x, y);
-  set_start_position(x, y);
-}
 
 
 void
@@ -755,11 +716,110 @@ MainWindow::set_applet_active(bool a)
 bool
 MainWindow::on_configure_event(GdkEventConfigure *event)
 {
-  TRACE_ENTER("MainWindow::on_configure_event");
+  TRACE_ENTER_MSG("MainWindow::on_configure_event",
+                  event->x << " " << event->y);
   // This method doesn't seem to do anything. Howener, GUI.cc does not
   // receive the configure event signal without this. Donno why....
-  (void) event;
-  Widget::on_configure_event(event);
+  locate_window(event);
+  bool ret =  Widget::on_configure_event(event);
   TRACE_EXIT();;
-  return false;
+  return ret;
+}
+
+void
+MainWindow::locate_window(GdkEventConfigure *event)
+{
+  TRACE_ENTER("MainWindow::locate_window");
+  int x, y;
+
+  if (event == NULL)
+    {
+      get_position(x, y);
+    }
+  else
+    {
+      x = event->x;
+      y = event->y;
+    }
+
+  TRACE_MSG("main window = " << x << " " << y);
+
+  if (x <= 0 && y <= 0)
+    {
+      // FIXME: this is a hack...
+      TRACE_EXIT();
+      return;
+    }
+  
+  if (x != window_relocated_location.get_x() ||
+      y != window_relocated_location.get_y())
+    {
+      window_location.set_x(x);
+      window_location.set_y(y);
+
+      int head = GUI::get_instance()->map_to_head(x, y);
+      TRACE_MSG("main window head = " << x << " " << y);
+      // Stores location relative to origin of current head.
+      window_head_location.set_x(x);
+      window_head_location.set_y(y);
+      set_start_position(x, y, head);
+    }
+  TRACE_EXIT();
+}
+
+
+void
+MainWindow::relocate_window(int width, int height)
+{
+  TRACE_ENTER_MSG("MainWindow::relocate_window", width << " " << height);
+  int x = window_location.get_x();
+  int y = window_location.get_y();
+
+  if (x <= 0 || y <= 0)
+    {
+      TRACE_MSG("invalid " << x << " " << y);
+    }
+  else if (x <= width && y <= height)
+    {
+      TRACE_MSG(x << " " << y);
+      TRACE_MSG("fits, moving to");
+      set_position(Gtk::WIN_POS_NONE);
+      move(x, y);
+    }
+  else
+    {
+      TRACE_MSG("move to differt head");
+      x = window_head_location.get_x();
+      y = window_head_location.get_y();
+
+      GUI *gui = GUI::get_instance();
+      int num_heads = gui->get_number_of_heads();
+      for (int i = 0; i < num_heads; i++)
+        {
+          HeadInfo &head = gui->get_head(i);
+          if (head.valid)
+            {
+              gui->map_from_head(x, y, i);
+              break;
+            }
+        }
+
+      if (x < 0)
+        {
+          x = 0;
+        }
+      if (y < 0)
+        {
+          y = 0;
+        }
+      
+      TRACE_MSG("moving to " << x << " " << y);
+      window_relocated_location.set_x(x);
+      window_relocated_location.set_y(y);
+
+      set_position(Gtk::WIN_POS_NONE);
+      move(x, y);
+    }
+  
+  TRACE_EXIT();
 }

@@ -761,18 +761,4 @@ Menus::on_preferences_response(int response)
 
   delete preferences_dialog;
   preferences_dialog = NULL;
-
-#ifdef WIN32
-  // FIXME: bug 130:
-  // due to current Gtk+ behaviour of exit()'ing on WM_QUIT, we cannot
-  // store main window position on shutdown (bug 130).
-  // Therefore, this hack.
-
-  MainWindow *window = gui->get_main_window();
-  if (window != NULL)
-    {
-      window->remember_position();
-    }
-#endif
-  
 }

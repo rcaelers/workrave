@@ -54,7 +54,7 @@ public:
   //bool get_iconified() const;
   
   void update();
-  void remember_position();
+  void relocate_window(int width, int height);
   
   static bool get_always_on_top();
   static void set_always_on_top(bool b);
@@ -91,11 +91,21 @@ private:
   Gtk::Window *leader;
 #endif
   
+  //! Location of main window.
+  Gdk::Point window_location;
+  
+  //! Location of main window relative to current head
+  Gdk::Point window_head_location;
+
+  //! Relocated location of main window
+  Gdk::Point window_relocated_location;
+  
 private:
   //
   void init();
   void setup();
   void config_changed_notify(std::string key);
+  void locate_window(GdkEventConfigure *event);
 
 
   // Events.
@@ -107,18 +117,15 @@ public:
   static void set_start_in_tray(bool b);
   static bool get_start_in_tray();
 
-  static void get_start_position(int &x, int &y);
-  static void set_start_position(int x, int y);
-  static void get_head_start_position(int &x, int &y);
-  static void set_head_start_position(int x, int y);
+  static void get_start_position(int &x, int &y, int &head);
+  static void set_start_position(int x, int y, int head);
   
   static const std::string CFG_KEY_MAIN_WINDOW;
   static const std::string CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP;
   static const std::string CFG_KEY_MAIN_WINDOW_START_IN_TRAY;
   static const std::string CFG_KEY_MAIN_WINDOW_X;
   static const std::string CFG_KEY_MAIN_WINDOW_Y;
-  static const std::string CFG_KEY_MAIN_WINDOW_HEAD_X;
-  static const std::string CFG_KEY_MAIN_WINDOW_HEAD_Y;
+  static const std::string CFG_KEY_MAIN_WINDOW_HEAD;
   
 #ifdef WIN32
 public:

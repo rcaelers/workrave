@@ -112,6 +112,10 @@ public:
   
   // Misc
   SigC::Signal0<void> &signal_heartbeat();
+  HeadInfo &get_head(int head);
+  int get_number_of_heads() const;
+  int map_to_head(int &x, int &y);
+  void map_from_head(int &x, int &y, int head);
   
 #ifdef HAVE_X  
   AppletWindow *get_applet_window() const;
@@ -152,10 +156,6 @@ private:
 #endif
   void collect_garbage();
   BreakWindowInterface *create_break_window(HeadInfo &head, BreakId break_id, bool ignorable);
-
-  void locate_main_window(GdkEventConfigure *event);
-  void relocate_main_window(int width, int height);
-  bool on_mainwindow_configure_event(GdkEventConfigure *event);
 
   bool grab();
   void ungrab();
@@ -236,15 +236,6 @@ private:
   //! Height of the screen.
   int screen_height;
 
-  //! Location of main window.
-  Gdk::Point main_window_location;
-  
-  //! Location of main window relative to current head
-  Gdk::Point main_window_head_location;
-
-  //! Relocated location of main window
-  Gdk::Point main_window_relocated_location;
-  
 #ifdef WIN32
   LUENUMDISPLAYMONITORS enum_monitors;
   HINSTANCE user_lib;
@@ -308,5 +299,13 @@ GUI::signal_heartbeat()
 {
   return heartbeat_signal;
 }
+
+//! Number of heads.
+inline int
+GUI::get_number_of_heads() const
+{
+  return num_heads;
+}
+
 
 #endif // GUI_HH
