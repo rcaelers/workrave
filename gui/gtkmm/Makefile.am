@@ -26,7 +26,7 @@ if HAVE_GUI_GTKMM
 noinst_LIBRARIES = libgtkmmgui.a
 
 if HAVE_GNOME
-sourcesgnome = GnomeSoundPlayer.cc AppletWindow.cc WorkraveControl.c eggtrayicon.c
+sourcesgnome = GnomeSoundPlayer.cc AppletWindow.cc RemoteControl.cc eggtrayicon.c
 
 ## CORBA stuff
 
