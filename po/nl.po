@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-02-20 19:17+0100\n"
-"PO-Revision-Date: 2003-02-20 18:41+0100\n"
+"POT-Creation-Date: 2003-02-20 20:39+0100\n"
+"PO-Revision-Date: 2003-02-20 20:46+0100\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
 "MIME-Version: 1.0\n"
@@ -91,85 +91,74 @@ msgid "About %s"
 msgstr "Over %s"
 
 #. Frame
-#: gui/gtkmm/AppletPreferencePage.cc:60
+#: gui/gtkmm/AppletPreferencePage.cc:61
 msgid "Layout"
 msgstr "Layout"
 
-#: gui/gtkmm/AppletPreferencePage.cc:70
-#, fuzzy
-msgid "Break visible:"
-msgstr "Pauze zichtbaar"
+#: gui/gtkmm/AppletPreferencePage.cc:71
+msgid "Show break at position:"
+msgstr "Toon pauze op plek:"
 
-#: gui/gtkmm/AppletPreferencePage.cc:72
-#, fuzzy
+#: gui/gtkmm/AppletPreferencePage.cc:73
 msgid "Cycle time:"
-msgstr "Tijd tussen pauzewissel"
+msgstr "Tijd tussen pauzewissel:"
 
-#: gui/gtkmm/AppletPreferencePage.cc:74
-#, fuzzy
-msgid "Break position:"
-msgstr "Positie van de pauze"
-
-#: gui/gtkmm/AppletPreferencePage.cc:76
-#, fuzzy
+#: gui/gtkmm/AppletPreferencePage.cc:75
 msgid "Show only when first:"
-msgstr "Toon alleen als eerste pauze"
+msgstr "Toon alleen als eerste pauze:"
 
-#: gui/gtkmm/AppletPreferencePage.cc:78
-#, fuzzy
+#: gui/gtkmm/AppletPreferencePage.cc:77
 msgid "Show only when imminent in:"
-msgstr "Toon alleen als pauze begint binnen"
+msgstr "Toon alleen als pauze begint binnen:"
 
-#: gui/gtkmm/AppletPreferencePage.cc:80
-#, fuzzy
+#: gui/gtkmm/AppletPreferencePage.cc:79
 msgid "Show exclusively:"
-msgstr "Toon pauze exclusief"
+msgstr "Toon pauze exclusief:"
 
-#: gui/gtkmm/AppletPreferencePage.cc:82
-#, fuzzy
+#: gui/gtkmm/AppletPreferencePage.cc:81
 msgid "Default break:"
-msgstr "Standaard pauze"
+msgstr "Standaard pauze:"
 
-#: gui/gtkmm/AppletPreferencePage.cc:106
+#: gui/gtkmm/AppletPreferencePage.cc:104
 msgid "Applet enabled or not."
 msgstr "Applet actief"
 
-#: gui/gtkmm/AppletPreferencePage.cc:107
+#: gui/gtkmm/AppletPreferencePage.cc:105
 msgid ""
 "When multiple breaks are shown on a certain position, this value indicates "
 "the time each break is shown."
-msgstr ""
+msgstr "De tijdsduur gedurende welke de pauze getoond wordt wanneer meerdere pauzes dezelfde plek delen."
 
-#: gui/gtkmm/AppletPreferencePage.cc:157
+#: gui/gtkmm/AppletPreferencePage.cc:152
 msgid "If set, this break will be shown in the applet."
-msgstr ""
+msgstr "Toon de pauze in de applet."
 
-#: gui/gtkmm/AppletPreferencePage.cc:159
+#: gui/gtkmm/AppletPreferencePage.cc:154
 msgid ""
 "Position on which the break timer is shown. Three positions are available. "
 "In case multiple breaks have the same position, they will be shown "
 "alternatingly."
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:163
+#: gui/gtkmm/AppletPreferencePage.cc:158
 msgid ""
 "If set, this break will be shown if no other breaks are shown on the "
 "selected position"
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:166
+#: gui/gtkmm/AppletPreferencePage.cc:161
 msgid ""
 "If set, the break timer will always be the only break that will be shown on "
 "that position. It will not be shown alternatingly with another break."
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:170
+#: gui/gtkmm/AppletPreferencePage.cc:165
 msgid ""
 "If set, the break timer will only be shown if it is the first break that "
 "will reach its limit."
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:173 gui/gtkmm/AppletPreferencePage.cc:176
+#: gui/gtkmm/AppletPreferencePage.cc:168 gui/gtkmm/AppletPreferencePage.cc:171
 msgid ""
 "If set, the break timer will only be shown if it will reach its limit within "
 "the specified time."
@@ -195,7 +184,7 @@ msgstr "Overslaan"
 msgid "Postpone"
 msgstr "Uitstellen"
 
-#: gui/gtkmm/GUI.cc:290
+#: gui/gtkmm/GUI.cc:292
 msgid "I could not initialize Bonobo"
 msgstr ""
 
@@ -282,13 +271,13 @@ msgstr ""
 "Geef de machine naam en poort nummer van een\n"
 "computer uit het netwerk op."
 
-#: gui/gtkmm/NetworkJoinDialog.cc:60 gui/gtkmm/NetworkPreferencePage.cc:228
-msgid "Host name"
-msgstr "Machine naam"
+#: gui/gtkmm/NetworkJoinDialog.cc:60
+msgid "Host name:"
+msgstr "Machine naam:"
 
-#: gui/gtkmm/NetworkJoinDialog.cc:61 gui/gtkmm/NetworkPreferencePage.cc:236
-msgid "Port"
-msgstr "Poort"
+#: gui/gtkmm/NetworkJoinDialog.cc:61
+msgid "Port:"
+msgstr "Poort:"
 
 #.
 #: gui/gtkmm/NetworkJoinDialog.cc:84
@@ -318,14 +307,12 @@ msgid "Identity"
 msgstr "Identiteit"
 
 #: gui/gtkmm/NetworkPreferencePage.cc:87
-#, fuzzy
 msgid "Username:"
-msgstr "Gebruikersnaam"
+msgstr "Gebruikersnaam:"
 
 #: gui/gtkmm/NetworkPreferencePage.cc:88
-#, fuzzy
 msgid "Password:"
-msgstr "Wachtwoord"
+msgstr "Wachtwoord:"
 
 #: gui/gtkmm/NetworkPreferencePage.cc:123
 msgid "Advanced"
@@ -336,22 +323,22 @@ msgid "Server settings"
 msgstr "Server instellingen"
 
 #: gui/gtkmm/NetworkPreferencePage.cc:152
-msgid "Server port"
-msgstr "Server poort"
-
-#: gui/gtkmm/NetworkPreferencePage.cc:153
-msgid "Reconnect atttempts"
-msgstr "Aantal pogingen tot verbinding"
+msgid "Server port:"
+msgstr "Server poort:"
 
 #: gui/gtkmm/NetworkPreferencePage.cc:154
-msgid "Reconnect interval"
-msgstr "Interval tussen pogingen"
+msgid "Reconnect atttempts:"
+msgstr "Aantal pogingen tot verbinding:"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:189
+#: gui/gtkmm/NetworkPreferencePage.cc:156
+msgid "Reconnect interval:"
+msgstr "Interval tussen pogingen:"
+
+#: gui/gtkmm/NetworkPreferencePage.cc:192
 msgid "Hosts"
 msgstr "Machines"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:199
+#: gui/gtkmm/NetworkPreferencePage.cc:202
 msgid ""
 "The following list specifies the hosts that Workrave connects to on\n"
 "start-up. Click the host name or port number to edit."
@@ -359,6 +346,14 @@ msgstr ""
 "De volgende lijst is een lijst van machines waarheen Workrave een\n"
 "verbinding maakt tijdens het opstarten. Klik op de machine naam\n"
 "of poort nummer om deze te bewerken."
+
+#: gui/gtkmm/NetworkPreferencePage.cc:231
+msgid "Host name"
+msgstr "Machine naam"
+
+#: gui/gtkmm/NetworkPreferencePage.cc:239
+msgid "Port"
+msgstr "Poort"
 
 #. Timers frame
 #: gui/gtkmm/PreferencesDialog.cc:70 gui/gtkmm/TimerPreferencesPanel.cc:241
@@ -371,7 +366,7 @@ msgstr "Gebruikers interface"
 
 #: gui/gtkmm/PreferencesDialog.cc:75
 msgid "Applet"
-msgstr ""
+msgstr "Applet"
 
 #: gui/gtkmm/PreferencesDialog.cc:79
 msgid "Network"
@@ -443,77 +438,77 @@ msgstr ""
 msgid "Rest break for %s"
 msgstr "Rustpauze gedurende %s"
 
-#: gui/gtkmm/StatisticsDialog.cc:124
+#: gui/gtkmm/StatisticsDialog.cc:119
 msgid "History:"
-msgstr ""
+msgstr "Historie:"
 
-#: gui/gtkmm/StatisticsDialog.cc:170
+#: gui/gtkmm/StatisticsDialog.cc:165
 msgid "<b>Start time:</b>"
-msgstr ""
+msgstr "<b>Start tijd:</b>"
 
-#: gui/gtkmm/StatisticsDialog.cc:172
+#: gui/gtkmm/StatisticsDialog.cc:167
 msgid "<b>End time:</b>"
-msgstr ""
+msgstr "<b>Eind tijd:</b>"
 
-#: gui/gtkmm/StatisticsDialog.cc:206
+#: gui/gtkmm/StatisticsDialog.cc:190
 msgid "Breaks"
 msgstr "Pauzes"
 
-#: gui/gtkmm/StatisticsDialog.cc:214
+#: gui/gtkmm/StatisticsDialog.cc:200
 msgid "Total breaks"
 msgstr "Aantal pauzes"
 
-#: gui/gtkmm/StatisticsDialog.cc:215
+#: gui/gtkmm/StatisticsDialog.cc:201
 msgid ""
 "Total number of unique breaks prompted. This equals the number of times the "
 "timer reached zero."
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:218
+#: gui/gtkmm/StatisticsDialog.cc:206
 msgid "Prompted"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:219
+#: gui/gtkmm/StatisticsDialog.cc:207
 msgid "Number of times workrave prompted you to take a break"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:221
+#: gui/gtkmm/StatisticsDialog.cc:211
 msgid "Breaks taken"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:222
+#: gui/gtkmm/StatisticsDialog.cc:212
 msgid "Number of times you took a break when prompted"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:224
+#: gui/gtkmm/StatisticsDialog.cc:216
 msgid "Natural breaks taken"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:225
+#: gui/gtkmm/StatisticsDialog.cc:217
 msgid "Number of times you took a break without being prompted"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:227
+#: gui/gtkmm/StatisticsDialog.cc:221
 msgid "Breaks skipped"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:228
+#: gui/gtkmm/StatisticsDialog.cc:222
 msgid "Number of times you skipped a break"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:230
+#: gui/gtkmm/StatisticsDialog.cc:226
 msgid "Breaks postponed"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:231
+#: gui/gtkmm/StatisticsDialog.cc:227
 msgid "Number of times you postponed a break"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:233
+#: gui/gtkmm/StatisticsDialog.cc:231
 msgid "Total overdue time"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:234
+#: gui/gtkmm/StatisticsDialog.cc:232
 msgid "The total time this break was overdue"
 msgstr ""
 
@@ -529,45 +524,45 @@ msgstr ""
 msgid "Activity"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:308
+#: gui/gtkmm/StatisticsDialog.cc:310
 msgid "Total mouse time:"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:309
+#: gui/gtkmm/StatisticsDialog.cc:311
 msgid "Total time you were using the mouse."
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:310
+#: gui/gtkmm/StatisticsDialog.cc:314
 msgid "Total mouse movement:"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:311
+#: gui/gtkmm/StatisticsDialog.cc:315
 msgid "Total mouse movement in number of pixels."
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:312
+#: gui/gtkmm/StatisticsDialog.cc:318
 msgid "Total click-to-click movement:"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:313
+#: gui/gtkmm/StatisticsDialog.cc:319
 msgid ""
 "Total mouse movement you would have had if you moved your mouse in straight "
 "lines between clicks."
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:315
+#: gui/gtkmm/StatisticsDialog.cc:323
 msgid "Total mouse button clicks:"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:316
+#: gui/gtkmm/StatisticsDialog.cc:324
 msgid "Total number of mouse button clicks."
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:317
+#: gui/gtkmm/StatisticsDialog.cc:327
 msgid "Total keystrokes:"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:318
+#: gui/gtkmm/StatisticsDialog.cc:328
 msgid "Total number of keys pressed."
 msgstr ""
 
@@ -606,25 +601,21 @@ msgid "Options"
 msgstr "Opties"
 
 #: gui/gtkmm/TimerPreferencesPanel.cc:188
-#, fuzzy
 msgid "Post-pone time:"
-msgstr "Uitstel tijd"
+msgstr "Uitstel tijd:"
 
 #: gui/gtkmm/TimerPreferencesPanel.cc:200
-#, fuzzy
 msgid "Resets at:"
-msgstr "Herstart om"
+msgstr "Herstart om:"
 
 #: gui/gtkmm/TimerPreferencesPanel.cc:207
-#, fuzzy
 msgid "Pause duration:"
-msgstr "Pauze tijdsduur"
+msgstr "Pauze tijdsduur:"
 
 #. Limit time
 #: gui/gtkmm/TimerPreferencesPanel.cc:219
-#, fuzzy
 msgid "Time before break:"
-msgstr "Werktijd"
+msgstr "Werktijd:"
 
 #: gui/gtkmm/TimerWindow.cc:111 gui/gtkmm/TimerWindow.cc:178
 msgid "Wait"
@@ -677,6 +668,9 @@ msgstr "Toon _logboek"
 #: gui/gnome/GNOME_WorkraveApplet.xml.in.h:14
 msgid "_Statistics"
 msgstr "Statistieken"
+
+#~ msgid "Break visible:"
+#~ msgstr "Pauze zichtbaar:"
 
 #~ msgid "Restbreak"
 #~ msgstr "Rustpauze"

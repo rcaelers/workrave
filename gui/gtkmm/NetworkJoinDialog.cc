@@ -57,8 +57,8 @@ NetworkJoinDialog::NetworkJoinDialog()
   // Entry
   host_entry = manage(new Gtk::Entry());
   port_entry = manage(new Gtk::SpinButton());
-  Gtk::Label *host_label = manage(new Gtk::Label(_("Host name")));
-  Gtk::Label *port_label = manage(new Gtk::Label(_("Port")));
+  Gtk::Label *host_label = manage(new Gtk::Label(_("Host name:")));
+  Gtk::Label *port_label = manage(new Gtk::Label(_("Port:")));
 
   port_entry->set_range(1024, 65535);
   port_entry->set_increments(1, 10);
@@ -74,10 +74,10 @@ NetworkJoinDialog::NetworkJoinDialog()
   entry_table->set_row_spacings(2);
   entry_table->set_col_spacings(6);
   int y = 0;
-  entry_table->attach(*host_label, 0, 1, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
+  entry_table->attach(*host_label, 0, 1, y, y+1, Gtk::FILL, Gtk::SHRINK);
   entry_table->attach(*host_entry, 1, 2, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
   y++;
-  entry_table->attach(*port_label, 0, 1, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
+  entry_table->attach(*port_label, 0, 1, y, y+1, Gtk::FILL, Gtk::SHRINK);
   entry_table->attach(*port_al, 1, 2, y, y+1, Gtk::SHRINK | Gtk::FILL, Gtk::SHRINK);
 
   //

@@ -149,9 +149,12 @@ NetworkPreferencePage::create_advanced_page(Gtk::Notebook *tnotebook)
   interval_entry->set_numeric(true);
   interval_entry->set_width_chars(10);
 
-  Gtk::Label *port_label = manage(new Gtk::Label(_("Server port")));
-  Gtk::Label *attempts_label = manage(new Gtk::Label(_("Reconnect atttempts")));
-  Gtk::Label *interval_label = manage(new Gtk::Label(_("Reconnect interval")));
+  Gtk::Label *port_label = manage(new Gtk::Label(_("Server port:")));
+  port_label->set_alignment(0.0);
+  Gtk::Label *attempts_label = manage(new Gtk::Label(_("Reconnect atttempts:")));
+  attempts_label->set_alignment(0.0);
+  Gtk::Label *interval_label = manage(new Gtk::Label(_("Reconnect interval:")));
+  interval_label->set_alignment(0.0);
 
   
   Gtk::Table *advanced_table = manage(new Gtk::Table(3, 2, false));
@@ -159,13 +162,13 @@ NetworkPreferencePage::create_advanced_page(Gtk::Notebook *tnotebook)
   advanced_table->set_col_spacings(6);
   advanced_table->set_border_width(6);
   int y = 0;
-  advanced_table->attach(*port_label, 0, 1, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
+  advanced_table->attach(*port_label, 0, 1, y, y+1, Gtk::FILL, Gtk::SHRINK);
   advanced_table->attach(*port_entry, 1, 2, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
   y++;
-  advanced_table->attach(*attempts_label, 0, 1, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
+  advanced_table->attach(*attempts_label, 0, 1, y, y+1, Gtk::FILL, Gtk::SHRINK);
   advanced_table->attach(*attempts_entry, 1, 2, y, y+1, Gtk::SHRINK | Gtk::FILL, Gtk::SHRINK);
   y++;
-  advanced_table->attach(*interval_label, 0, 1, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
+  advanced_table->attach(*interval_label, 0, 1, y, y+1, Gtk::FILL, Gtk::SHRINK);
   advanced_table->attach(*interval_entry, 1, 2, y, y+1, Gtk::SHRINK | Gtk::FILL, Gtk::SHRINK);
 
   advanced_frame->add(*advanced_table);
