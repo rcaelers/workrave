@@ -1,6 +1,6 @@
 // GUI.cc --- The WorkRave GUI
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
+1// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -79,7 +79,9 @@ GUI *GUI::instance = NULL;
 GUI::GUI(ControlInterface *controller, int argc, char **argv)  :
   configurator(NULL),
   core_control(controller),
+#ifdef HAVE_X
   applet_window(NULL),
+#endif  
   main_window(NULL)
 {
   TRACE_ENTER("GUI:GUI");
@@ -112,10 +114,12 @@ GUI::~GUI()
       delete main_window;
     }
 
+#ifdef HAVE_X
   if (applet_window != NULL)
     {
       delete applet_window;
     }
+#endif
   TRACE_EXIT();
 }
 
@@ -161,10 +165,11 @@ GUI::main()
 
   delete main_window;
   main_window = NULL;
-  
+
+#ifdef HAVE_X
   delete applet_window;
   applet_window = NULL;
-  
+#endif  
   TRACE_EXIT();
 }
 
@@ -235,12 +240,12 @@ GUI::on_timer()
     {
       main_window->update();
     }
-  
+#ifdef HAVE_X
   if (applet_window != NULL)
     {
       applet_window->update();
     }
-
+#endif
   return true;
 }
 
