@@ -294,8 +294,14 @@ BreakControl::goto_stage(BreakStage stage)
         
     case STAGE_TAKING:
       {
+        // Remove the prelude window, if necessary.
         prelude_window_stop();
 
+        // "Innocent until proven guilty".
+        ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
+        monitor->force_idle();
+        break_timer->stop_timer();
+        
         break_window_start();
         assert(break_window != NULL);
         break_window->refresh();
