@@ -42,6 +42,8 @@
 #include <gdkmm/screen.h>
 #endif
 
+#include "WindowHints.hh"
+
 #ifdef WIN32
 #include <windows.h>
 #include <winuser.h>
@@ -154,6 +156,13 @@ private:
   void locate_main_window(GdkEventConfigure *event);
   void relocate_main_window(int width, int height);
   bool on_mainwindow_configure_event(GdkEventConfigure *event);
+
+  bool grab();
+  void ungrab();
+
+#if defined(HAVE_X)
+  bool on_grab_retry_timer();
+#endif
   
 private:
   //! The one and only instance
@@ -242,7 +251,13 @@ private:
   int current_monitor;
 #endif
 
- 
+#ifdef HAVE_X
+  //! Do we want a keyboard/pointer grab
+  bool grab_wanted;
+#endif
+
+  //! Grab
+  WindowHints::Grab *grab_handle;
 };
 
 

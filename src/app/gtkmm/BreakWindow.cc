@@ -49,14 +49,10 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
          Gtk::Window(mode==GUI::BLOCK_MODE_NONE
                      ? Gtk::WINDOW_TOPLEVEL
                      : Gtk::WINDOW_POPUP),
+         block_mode(mode),
          ignorable_break(ignorable),
-#ifdef HAVE_X
-         grab_wanted(false),
-#endif
-         grab_handle(NULL),
          break_response(NULL),
-         gui(NULL),
-         block_mode(mode)
+         gui(NULL)
 {
   this->break_id = break_id;
   
@@ -310,7 +306,6 @@ BreakWindow::set_background_pixmap()
 BreakWindow::~BreakWindow()
 {
   TRACE_ENTER("BreakWindow::~BreakWindow");
-  ungrab();
   TRACE_EXIT();
 }
 
@@ -321,62 +316,6 @@ BreakWindow::center()
 {
   GtkUtil::center_window(*this, head);
 }
-
-
-
-//! Grabs the pointer and the keyboard.
-bool
-BreakWindow::grab()
-{
-  Glib::RefPtr<Gdk::Window> window = get_window();
-  GdkWindow *gdkWindow = window->gobj();
-#ifdef HAVE_X
-  grab_wanted = true;
-#endif
-  if (! grab_handle)
-    {
-      grab_handle = WindowHints::grab(gdkWindow);
-#ifdef HAVE_X
-      if (! grab_handle)
-	{
-	  Glib::signal_timeout().connect(SigC::slot(*this, &BreakWindow::on_grab_retry_timer), 2000);
-	}
-#endif
-    }
-  return grab_handle != NULL;
-}
-
-
-//! Releases the pointer and keyboard grab
-void
-BreakWindow::ungrab()
-{
-#ifdef HAVE_X
-  grab_wanted = false;
-#endif
-  if (grab_handle)
-    {
-      WindowHints::ungrab(grab_handle);
-      grab_handle = NULL;
-    }
-}
-
-
-#ifdef HAVE_X
-//! Reattempt to get the grab
-bool
-BreakWindow::on_grab_retry_timer()
-{
-  if (grab_wanted)
-    {
-      return !grab();
-    }
-  else
-    {
-      return false;
-    }
-}
-#endif
 
 
 
@@ -549,11 +488,6 @@ BreakWindow::start()
   center();
   show_all();
 
-  if (block_mode != GUI::BLOCK_MODE_NONE)
-    {
-      grab();
-    }
-
 #ifdef CAUSES_FVWM_FOCUS_PROBLEMS
   present(); // After grab() please (Windows)
 #endif
@@ -567,7 +501,6 @@ BreakWindow::stop()
 {
   TRACE_ENTER("BreakWindow::stop");
 
-  ungrab();
   hide_all();
 
   TRACE_EXIT();
@@ -590,5 +523,11 @@ BreakWindow::destroy()
 void
 BreakWindow::refresh()
 {
+}
+
+Glib::RefPtr<Gdk::Window>
+BreakWindow::get_gdk_window()
+{
+  return get_window();
 }
 

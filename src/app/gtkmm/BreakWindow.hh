@@ -54,13 +54,12 @@ public:
   virtual void stop();
   virtual void destroy();
   void refresh();
+  Glib::RefPtr<Gdk::Window> get_gdk_window();
   
 protected:
   virtual Gtk::Widget *create_gui() = 0;
   void init_gui();
   
-  bool grab();
-  void ungrab();
   void center();
 
   Gtk::HButtonBox *create_break_buttons(bool lockable, bool shutdownable);
@@ -85,20 +84,9 @@ private:
   Gtk::Button *create_lock_button();
   Gtk::Button *create_shutdown_button();
   void set_background_pixmap();
+
   
-#if defined(HAVE_X)
-  bool on_grab_retry_timer();
-#endif
-
 private:
-#ifdef HAVE_X
-  //! Do we want a keyboard/pointer grab
-  bool grab_wanted;
-#endif
-
-  //! Grab
-  WindowHints::Grab *grab_handle;
-
   //! Send response to this interface.
   BreakResponseInterface *break_response;
 

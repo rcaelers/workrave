@@ -102,13 +102,17 @@ GUI::GUI(int argc, char **argv)  :
   screen_height(-1),
   main_window_location(-1, -1),
   main_window_head_location(-1, -1),
-  main_window_relocated_location(-1, -1)
+  main_window_relocated_location(-1, -1),
 #if !defined(HAVE_GTK_MULTIHEAD) && defined(WIN32)
   ,
   enum_monitors(NULL),
   user_lib(NULL),
-  current_monitor(0)
+  current_monitor(0),
 #endif
+#ifdef HAVE_X
+  grab_wanted(false),
+#endif
+  grab_handle(NULL)
 {
   TRACE_ENTER("GUI:GUI");
 
@@ -129,6 +133,8 @@ GUI::~GUI()
 
   assert(instance);
   instance = NULL;
+
+  ungrab();
   
   if (dispatcher != NULL)
     {
@@ -384,12 +390,6 @@ GUI::on_save_yourself(int phase, Gnome::UI::SaveStyle save_style, bool shutdown,
         }
     }
 
-//   if (main_window != NULL)
-//     {
-//       bool iconified = main_window->get_iconified();
-//       TimerBox::set_enabled("main_window", !iconified);
-//     }
-  
   if (skip)
     {
       client->set_restart_style(GNOME_RESTART_NEVER);
@@ -1029,10 +1029,17 @@ GUI::start_break_window(BreakId break_id, bool ignorable)
       break_windows[i] = break_window;
       
       break_window->set_response(response);
+
+      
       break_window->start();
     }
 
   active_break_count = num_heads;
+  if (get_block_mode() != GUI::BLOCK_MODE_NONE)
+    {
+      grab();
+    }
+  
   TRACE_EXIT();
 }
 
@@ -1066,6 +1073,9 @@ GUI::hide_break_window()
       TRACE_MSG("break_window_destroy = true");
       break_window_destroy = true;
     }
+
+  ungrab();
+  
   TRACE_EXIT();
 }
 
@@ -1253,3 +1263,61 @@ GUI::set_block_mode(BlockMode mode)
   CoreFactory::get_configurator()
     ->set_value(CFG_KEY_GUI_BLOCK_MODE, int(mode));
 }
+
+
+//! Grabs the pointer and the keyboard.
+bool
+GUI::grab()
+{
+  if (break_windows != NULL && active_break_count > 0)
+    {
+      Glib::RefPtr<Gdk::Window> window = break_windows[0]->get_gdk_window();
+      GdkWindow *gdkWindow = window->gobj();
+#ifdef HAVE_X
+      grab_wanted = true;
+#endif
+      if (! grab_handle)
+        {
+          grab_handle = WindowHints::grab(gdkWindow);
+#ifdef HAVE_X
+          if (! grab_handle)
+            {
+              Glib::signal_timeout().connect(SigC::slot(*this, &GUI::on_grab_retry_timer), 2000);
+            }
+#endif
+        }
+    }
+  return grab_handle != NULL;
+}
+
+
+//! Releases the pointer and keyboard grab
+void
+GUI::ungrab()
+{
+#ifdef HAVE_X
+  grab_wanted = false;
+#endif
+  if (grab_handle)
+    {
+      WindowHints::ungrab(grab_handle);
+      grab_handle = NULL;
+    }
+}
+
+
+#ifdef HAVE_X
+//! Reattempt to get the grab
+bool
+GUI::on_grab_retry_timer()
+{
+  if (grab_wanted)
+    {
+      return !grab();
+    }
+  else
+    {
+      return false;
+    }
+}
+#endif

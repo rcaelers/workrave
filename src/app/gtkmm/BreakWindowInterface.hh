@@ -46,6 +46,9 @@ public:
 
   //! Sets the response callback.
   virtual void set_response(BreakResponseInterface *bri) = 0;
+
+  //
+  virtual Glib::RefPtr<Gdk::Window> get_gdk_window() = 0;
 };
 
 #endif // RESTBREAKWINDOWINTERFACE_HH
