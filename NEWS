@@ -5,7 +5,7 @@ See the end for copying conditions.
 Please report Workrave bug reports. Visit our bug tracker located at:
 http://workrave.sourceforge.net
 
-* Workrave 1.0.1
+* Workrave 1.1
 
 ** Thanks to Eric Lesh, Workrave has been translated into Esperanto.
 
@@ -14,6 +14,9 @@ http://workrave.sourceforge.net
 ** Added applet support. Workrave now supports both a native Gnome
 applet, as well as a system tray applet that *should* also work on
 KDE.
+
+** Added statistics (preliminary). Workrave shows break statistics and
+daily usage. More statistics will be added later.
 
 * Workrave 1.0.0
 

@@ -402,7 +402,7 @@ Statistics::load_history()
           
           load_day(day, stats_file);
 
-          history.push_front(day);
+          history.push_back(day);
           first = false;
         }
     }
@@ -491,12 +491,13 @@ Statistics::get_day(int day) const
     }
   else
     {
-      if (day < 0)
+      if (day > 0)
         {
           day = history.size() - day;
         }
       else
         {
+          day = -day;
           day--;
         }
 
