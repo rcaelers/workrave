@@ -414,10 +414,12 @@ GUI::init_gui()
 
   // The main status window.
   main_window = new MainWindow();
-  
+
+#ifdef HAVE_X  
   // The applet window.
   applet_window = new AppletWindow();
-
+#endif
+  
   tooltips = manage(new Gtk::Tooltips());
   tooltips->enable();
 
