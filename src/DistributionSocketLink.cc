@@ -360,6 +360,8 @@ DistributionSocketLink::unregister_state(DistributedStateID id)
 bool
 DistributionSocketLink::exists_client(gchar *host, gint port)
 {
+  TRACE_ENTER_MSG("DistributionSocketLink::exists_client", host << " " << port);
+
   bool ret = (port == server_port && strcmp(host, canonical_name) == 0);
 
   if (!ret)
@@ -368,6 +370,7 @@ DistributionSocketLink::exists_client(gchar *host, gint port)
       ret = (c != NULL);
     }
 
+  TRACE_RETURN(ret);
   return ret;
 }
 
@@ -432,6 +435,7 @@ DistributionSocketLink::add_client(gchar *host, gint port)
 bool
 DistributionSocketLink::set_canonical(Client *client, gchar *host, gint port)
 {
+  TRACE_ENTER_MSG("DistributionSocketLink::set_canonical", host << " " << port); 
   bool ret = true;
   
   bool exists = exists_client(host, port);
@@ -440,9 +444,10 @@ DistributionSocketLink::set_canonical(Client *client, gchar *host, gint port)
       // Already have a client with this name/port
       Client *old_client = find_client_by_canonicalname(host, port);
 
-      if (old_client == NULL)
+      if (old_client == NULL || (port == server_port && strcmp(host, canonical_name) == 0))
         {
           // Iek this is me.
+          TRACE_MSG("It'me me");
           ret =  false;
         }
       else if (old_client != client)
@@ -477,7 +482,8 @@ DistributionSocketLink::set_canonical(Client *client, gchar *host, gint port)
       client->canonical_name = g_strdup(host);
       client->server_port = port;
     }
-  
+
+  TRACE_RETURN(ret);
   return ret;
 }
 

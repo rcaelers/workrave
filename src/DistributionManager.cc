@@ -306,7 +306,7 @@ DistributionManager::remove_peer(string peer)
 
 //
 void
-DistributionManager::set_peers(string peers)
+DistributionManager::set_peers(string peers, bool connect)
 {
   TRACE_ENTER_MSG("DistributionManager::set_peers", peers);
   peer_urls.clear();
@@ -317,10 +317,17 @@ DistributionManager::set_peers(string peers)
       string peer = peers.substr(0, pos);
       peers = peers.substr(pos + 1);
 
-      sanitize_peer(peer);
-      peer_urls.push_back(peer);
-      join(peer);
+      if (peer != "")
+        {
+          sanitize_peer(peer);
+          peer_urls.push_back(peer);
 
+          if (connect)
+            {
+              join(peer);
+            }
+        }
+      
       pos = peers.find(',');
     }
 
@@ -328,7 +335,10 @@ DistributionManager::set_peers(string peers)
     {
       sanitize_peer(peers);
       peer_urls.push_back(peers);
-      join(peers);
+      if (connect)
+        {
+          join(peers);
+        }
     }
 
   write_peers();

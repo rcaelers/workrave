@@ -58,14 +58,19 @@ public:
   bool remove_peer(string peer);
   bool disconnect_all();
   bool reconnect_all();
+  void set_peers(string peers, bool connect = true);
   
   //
   void active_changed(bool result);
   void state_transfer_complete();
 
+  list<string> get_peers()
+  {
+    return peer_urls;
+  }
+  
 private:
   void sanitize_peer(string &peer);
-  void set_peers(string peers);
   void write_peers();
   void read_configuration();
   void config_changed_notify(string key);
