@@ -399,7 +399,7 @@ Core::get_statistics() const
 Break *
 Core::get_break(BreakId id)
 {
-  assert(id >= 0 && id <= BREAK_ID_SIZEOF);
+  assert(id >= 0 && id < BREAK_ID_SIZEOF);
   return &breaks[id];
 }
 

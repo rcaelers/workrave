@@ -489,7 +489,7 @@ TimerBox::init_slot(int slot)
     {
       TRACE_MSG("1 " << i);
       CoreInterface *core = CoreFactory::get_core();
-      BreakInterface *break_data = core->get_break(BreakId(count));
+      BreakInterface *break_data = core->get_break(BreakId(i));
 
       bool on = break_data->get_break_enabled();
       TRACE_MSG("2 " << on);
@@ -517,7 +517,7 @@ TimerBox::init_slot(int slot)
       TRACE_MSG("6 " << id << " " << flags);
       
       CoreInterface *core = CoreFactory::get_core();
-      BreakInterface *break_data = core->get_break(BreakId(count));
+      BreakInterface *break_data = core->get_break(BreakId(id));
       TimerInterface *timer = break_data->get_timer();
 
       TRACE_MSG("7");
