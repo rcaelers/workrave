@@ -315,7 +315,7 @@ msgstr "za pomocą głośniczka w komputerze"
 
 #: src/app/gtkmm/PreferencesDialog.cc:153
 msgid "None"
-msgstr ""
+msgstr "Nic nie blokuj"
 
 #: src/app/gtkmm/PreferencesDialog.cc:155
 msgid "Block user input"
@@ -338,7 +338,7 @@ msgstr "Dźwięk:"
 
 #: src/app/gtkmm/PreferencesDialog.cc:179
 msgid "Block mode:"
-msgstr "Blokuj tryb:"
+msgstr "Tryb blokowania:"
 
 #: src/app/gtkmm/PreludeWindow.cc:99
 msgid "Time for a micro-pause?"
