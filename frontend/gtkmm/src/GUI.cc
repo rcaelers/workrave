@@ -47,6 +47,7 @@ static const char rcsid[] = "$Id$";
 #include "RestBreakWindow.hh"
 #include "Util.hh"
 #include "WindowHints.hh"
+#include "System.hh"
 
 #ifdef HAVE_X
 #include "AppletWindow.hh"
@@ -187,6 +188,12 @@ GUI::main()
       g_thread_init(NULL);
     }
 #endif
+
+  System::init(
+#ifdef HAVE_X
+               gdk_get_display()
+#endif
+               );
   
   init_debug();
   init_nls();
@@ -375,7 +382,6 @@ GUI::on_save_yourself(int phase, Gnome::UI::SaveStyle save_style, bool shutdown,
         {
           args.push_back("--display");
           args.push_back(display_name);
-          // g_free(display_name);
         }
     }
 

@@ -30,6 +30,11 @@ from memory when not needed anymore.
 top of your current desktop background (wallpaper), instead of on a
 semi-transparent screen snapshot. 
 
+** Fixed screen locking on X11: previously only xlock was detected and
+used without passing a display parameter. Now, the proper screen
+lock command is invoked on the right display. For example, if KDE is
+detected its kdesktop_lock is executed.
+
 * High-profile bug fixes (Windows): activity monitoring when working
 in Exceed has been restored, and ZoneLab interaction problems
 (hangups) have been corrected.

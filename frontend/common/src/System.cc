@@ -1,6 +1,6 @@
 // Display.cc
 //
-// Copyright (C) 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -22,6 +22,11 @@
 
 #include "System.hh"
 #include "debug.hh"
+
+#if defined(HAVE_X)
+#include <X11/X.h>
+#include <X11/Xutil.h>
+#endif
 
 #ifdef WIN32
 #include <shlobj.h>
@@ -81,12 +86,10 @@ const GUID CLSID_Shell =
 
 #endif /* WIN32 */
 
-bool System::initialized = false;
-
-
 #if defined(HAVE_X)
 
 gchar *System::xlock = NULL;
+bool System::kde = false;
 
 #elif defined(WIN32)
 
@@ -99,7 +102,6 @@ bool System::shutdown_supported;
 bool
 System::is_lockable()
 {
-  init();
   bool ret;
 #if defined(HAVE_X)
   ret = xlock != NULL;
@@ -131,7 +133,6 @@ bool
 System::is_shutdown_supported()
 {
   bool ret;
-  init();
 #if defined(HAVE_X)
   ret = false;
 #elif defined(WIN32)
@@ -174,36 +175,166 @@ System::shutdown_helper(bool for_real)
 #endif
 
 void
-System::init()
+System::init(
+#if defined(HAVE_X)
+             const char *display
+#endif
+             )
 {
   TRACE_ENTER("System::init");
-  if (! initialized)
-    {
 #if defined(HAVE_X)
-      // Note: this memory is never freed
-      xlock = g_find_program_in_path("xlock");
-      if (xlock != NULL)
-        {
-          TRACE_MSG("Locking enabled");
-        }
-      else
-        {
-          TRACE_MSG("Locking disabled");
-        }
-#elif defined(WIN32)
-      // Note: this memory is never freed
-      user32_dll = LoadLibrary("user32.dll");
-      if (user32_dll != NULL)
-        {
-          lock_func = (LockWorkStationFunc)
-            GetProcAddress(user32_dll, "LockWorkStation");
-        }
-      shutdown_supported = shutdown_helper(false);
-#endif
-      initialized = true;
+  init_kde(display);
+  gchar *lock = NULL;
+  if (is_kde() && (lock = g_find_program_in_path("kdesktop_lock")))
+    {
+      xlock = g_strdup_printf("%s --display \"%s\" --forcelock",
+                              lock, display);
     }
+  else if ((lock = g_find_program_in_path("xscreensaver-command")))
+    {
+      xlock = g_strdup_printf("%s --display \"%s\" -lock",
+                              lock, display);
+    }
+  else if ((lock = g_find_program_in_path("xlock")))
+    {
+      xlock = g_strdup_printf("%s --display \"%s\"",
+                              lock, display);
+    }
+  g_free(lock);
+  
+  if (xlock != NULL)
+    {
+      TRACE_MSG("Locking enabled: " << xlock);
+    }
+  else
+    {
+      TRACE_MSG("Locking disabled");
+    }
+#elif defined(WIN32)
+  // Note: this memory is never freed
+  user32_dll = LoadLibrary("user32.dll");
+  if (user32_dll != NULL)
+    {
+      lock_func = (LockWorkStationFunc)
+        GetProcAddress(user32_dll, "LockWorkStation");
+    }
+  shutdown_supported = shutdown_helper(false);
+#endif
   TRACE_EXIT();
 }
 
 
+#if defined(HAVE_X)
+static bool
+get_self_typed_prop (Display *display,
+                     Window      xwindow,
+                     Atom        atom,
+                     unsigned long     *val)
+{  
+  Atom type;
+  int format;
+  unsigned long nitems;
+  unsigned long bytes_after;
+  unsigned long *num;
+  
+  type = None;
+  XGetWindowProperty (display,
+                      xwindow,
+                      atom,
+                      0, 100000,
+                      False, atom, &type, &format, &nitems,
+                      &bytes_after, (unsigned char **)&num);  
 
+  if (type != atom) {
+    return false;
+  }
+
+  if (val)
+    *val = *num;
+  
+  XFree (num);
+
+  return true;
+}
+
+static bool
+has_wm_state (Display *display, Window xwindow)
+{
+  return get_self_typed_prop (display, xwindow,
+                              XInternAtom (display, "WM_STATE", False),
+                              NULL);
+}
+
+static bool
+look_for_kdesktop_recursive (Display *display, Window xwindow)
+{
+  
+  Window ignored1, ignored2;
+  Window *children;
+  unsigned int n_children;
+  unsigned int i;
+  bool retval;
+  
+  /* If WM_STATE is set, this is a managed client, so look
+   * for the class hint and end recursion. Otherwise,
+   * this is probably just a WM frame, so keep recursing.
+   */
+  if (has_wm_state (display, xwindow)) {      
+    XClassHint ch;
+      
+    ch.res_name = NULL;
+    ch.res_class = NULL;
+      
+    XGetClassHint (display, xwindow, &ch);
+      
+      
+    if (ch.res_name)
+      XFree (ch.res_name);
+      
+    if (ch.res_class) {
+      if (strcmp (ch.res_class, "kdesktop") == 0) {
+        XFree (ch.res_class);
+        return true;
+      }
+      else
+        XFree (ch.res_class);
+    }
+    return false;
+  }
+  retval = false;
+  
+  XQueryTree (display,
+              xwindow,
+              &ignored1, &ignored2, &children, &n_children);
+
+  i = 0;
+  while (i < n_children) {
+    if (look_for_kdesktop_recursive (display, children[i])) {
+      retval = true;
+      break;
+    }
+      
+    ++i;
+  }
+  
+  if (children)
+    XFree (children);
+
+  return retval;
+}
+
+
+
+void
+System::init_kde(const char *display)
+{
+  TRACE_ENTER("System::init_kde");
+  Display * dis = XOpenDisplay(display);
+  if (dis != None)
+    {
+      kde = look_for_kdesktop_recursive (dis, XRootWindow(dis, 0));
+      XCloseDisplay(dis);
+    }
+  TRACE_RETURN(kde);
+}
+#endif

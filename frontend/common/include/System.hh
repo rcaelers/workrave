@@ -1,6 +1,6 @@
 // System.hh
 //
-// Copyright (C) 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -22,7 +22,7 @@
 #include "config.h"
 #include <glib.h>
 
-#ifdef WIN32
+#if defined(WIN32)
 #include <windows.h>
 #endif
 
@@ -33,12 +33,24 @@ public:
   static bool is_shutdown_supported();
   static void lock();
   static void shutdown();
-  
-private:
-  static void init();
+
+  static void init(
+#if defined(HAVE_X)
+                   const char *display
+#endif
+                   );
 
 #if defined(HAVE_X)
+  static bool is_kde() { return kde; }
+#endif
+  
+private:
+#if defined(HAVE_X)
+  static void init_kde(const char *display);
+  
   static gchar *xlock;
+  static bool kde;
+  
 #elif defined(WIN32)
   static bool shutdown_helper(bool for_real);
 
@@ -47,7 +59,6 @@ private:
   static HINSTANCE user32_dll;
   static bool shutdown_supported;
 #endif  
-  static bool initialized;
 };
 
 #endif // SYSTEM_HH
