@@ -27,21 +27,12 @@
 
 #include "BreakWindowInterface.hh"
 #include "WindowHints.hh"
-#ifdef WIN32
-#include "InputMonitorListenerInterface.hh"
-#endif
 
-#ifdef WIN32
-class InputMonitor;
-#endif
 
 class Frame;
 
 class BreakWindow :
   public Gtk::Window
-#ifdef WIN32
-  , public InputMonitorListenerInterface
-#endif
 {
 public:
   BreakWindow();
@@ -57,8 +48,7 @@ protected:
   
 private:
 #ifdef WIN32
-  void action_notify();
-  void mouse_notify(int x, int y, int wheel);
+  bool on_avoid_pointer_timer();
 #else
   bool on_grab_retry_timer();
   bool on_enter_notify_event(GdkEventCrossing* event);
@@ -72,8 +62,8 @@ private:
 #endif
 
 #ifdef WIN32
-  //! Input monitor
-  InputMonitor *input_monitor;
+  //! Avoid time signal
+  SigC::Connection avoid_signal;
 #endif
 
   //! Do we want a to avoid pointer?

@@ -20,7 +20,6 @@ sources = \
       TimePredFactory.cc \
       Timer.cc \
       WeekTimePred.cc \
-      InputMonitor.cc \
       main.cc
 
 if HAVE_X

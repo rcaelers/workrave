@@ -30,8 +30,6 @@ static const char rcsid[] = "$Id$";
 GUIInterface *
 GtkmmGUI::create(ControlInterface *c, int argc, char **argv)
 {
- /* init threads */
-  g_thread_init(NULL);
 #ifdef HAVE_GNOME
   // FIXME: check return type
   gnome_init("Workrave", VERSION, argc, argv);

@@ -29,9 +29,6 @@ static const char rcsid[] = "$Id$";
 #include "BreakWindow.hh"
 #include "WindowHints.hh"
 #include "Frame.hh"
-#ifdef WIN32
-#include "InputMonitor.hh"
-#endif
 
 const int MARGIN = 20;
 
@@ -51,7 +48,6 @@ BreakWindow::BreakWindow() :
   grab_handle(NULL)
 {
   Gtk::Window::set_border_width(0);
-  input_monitor = NULL;
 }
 
 
@@ -84,12 +80,6 @@ BreakWindow::~BreakWindow()
 {
   TRACE_ENTER("BreakWindow::~BreakWindow");
   ungrab();
-  if (input_monitor != NULL)
-    {
-      input_monitor->remove_listener(this);
-      input_monitor->unref();
-      input_monitor = NULL;
-    }
   TRACE_EXIT();
 }
 
@@ -166,17 +156,18 @@ BreakWindow::set_avoid_pointer(bool avoid_pointer)
 #ifdef WIN32
   if (avoid_pointer)
     {
-      if (! input_monitor)
+      if (! avoid_signal.connected())
         {
-          input_monitor = InputMonitor::get_instance();
+          avoid_signal = Glib::signal_timeout()
+            .connect(SigC::slot(*this, &BreakWindow::on_avoid_pointer_timer),
+                     100);
         }
-      input_monitor->add_listener(this);
     }
   else
     {
-      if (input_monitor)
+      if (avoid_signal.connected())
         {
-          input_monitor->remove_listener(this);
+          avoid_signal.disconnect();
         }
     }
 #else 
@@ -221,8 +212,8 @@ BreakWindow::avoid_pointer(int px, int py)
 #ifdef WIN32
   // This is only necessary for WIN32, since HAVE_X uses GdkEventCrossing.
   // Set gravitiy, otherwise, get_position() returns weird winy.
-  set_gravity(Gdk::GRAVITY_STATIC); 
-  get_position(winx, winy);
+  // set_gravity(Gdk::GRAVITY_STATIC); 
+  // get_position(winx, winy);
   TRACE_MSG("wx="<<winx<<",wy="<<winy<<",ww="<<width<<",wh="<<height);
   if (px < winx || px > winx+width || py < winy || py > winy+height)
     return;
@@ -280,17 +271,19 @@ BreakWindow::avoid_pointer(int px, int py)
 }
 
 #ifdef WIN32
-void
-BreakWindow::action_notify()
+bool
+BreakWindow::on_avoid_pointer_timer()
 {
+  TRACE_ENTER("BreakWindow::on_avoid_pointer_timer");
+
+  Glib::RefPtr<Gdk::Window> window = get_window();
+  GdkWindow *gdk_window = window->gobj();
+  gint x, y;
+  GdkModifierType mod;
+  GdkWindow *w = gdk_window_get_pointer(gdk_window, &x, &y, &mod);
+  avoid_pointer(x, y);
+  return true;
 }
 
-void
-BreakWindow::mouse_notify(int x, int y, int wheel)
-{
-  gdk_threads_enter();
-  avoid_pointer(x, y);
-  gdk_threads_leave();
-}
 
 #endif
