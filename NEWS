@@ -7,6 +7,10 @@ http://workrave.sourceforge.net
 
 * Workrave 1.4.0
 
+** Many laptop pointer devices "drift" over time. This used to cause
+Workrave to detect activity when there was in fact none.  Fixed,
+thanks to Chung-chieh Shan.
+
 ** On Windows, Workrave now notices when Explorer crashes and will try
 to reinsert the tray icon in the new Explorer taskbar.
 

@@ -134,7 +134,7 @@ ExercisesPanel::start_exercise()
   description_label.set_markup(HigUtil::create_alert_text(exercise.title.c_str(), exercise.description.c_str()));
   exercise_time = 0;
   seq_time = 0;
-  image_iterator = exercise.sequence.begin();
+  image_iterator = exercise.sequence.end();
   refresh_progress();
   refresh_sequence();
 }

@@ -5,18 +5,18 @@
     <description xml:lang="nl">Hou een arm horizontaal uitgestrekt voor je borstkas. Druk deze met de andere arm naar je toe totdat je voelt dat je schouder iets gespannen is. Hou dit even vol, en herhaal daarna de oefening voor de andere arm.</description>
     <description xml:lang="en">Keep one arm horizontally strechted in front of your chest. Push this arm with your other arm towards you until you feel a mild tension in your shoulder. Hold this position briefly, and repeat the exercise for your other arm.</description>
     <sequence duration="40">
-      <image src="shoulder-chest-stretch.png" duration="10"/>
-      <image src="shoulder-chest-stretch.png" mirrorx="yes" duration="10"/>
+      <image src="shoulder-arm-stretch.png" duration="10"/>
+      <image src="shoulder-arm-stretch.png" mirrorx="yes" duration="10"/>
     </sequence>
   </exercise>
   <exercise>
-    <title xml:lang="en">Wrist and lower arm stretch</title>
+    <title xml:lang="en">Wrist and lower arm desk stretch</title>
     <title xml:lang="nl">Pols en onderarm strekken</title>
     <description xml:lang="en">Stand by your desk and place both your palms on the desk with the fingers pointing toward your body. Gently stretch your wrists and lower arms.</description>
     <description xml:lang="nl">Ga naast je bureau staan en plaats beide handpalmen op het bureau zodanig dat je vingers naar je lichaam toe wijzen. Strek voorzichtig je polsen en je onderarmen.</description>
-    <sequence duration="20">
-      <image src="shoulder-chest-stretch.png" duration="4"/>
-      <image src="shoulder-chest-stretch.png" duration="16"/>
+    <sequence duration="40">
+      <image src="wrist-lower-arm-desk-stretch-1.png" duration="5"/>
+      <image src="wrist-lower-arm-desk-stretch-2.png" duration="15"/>
     </sequence>
   </exercise>
   <exercise>
@@ -24,19 +24,19 @@
     <title xml:lang="nl">Vingers strekken</title>
     <description xml:lang="en">Separate and stretch your fingers until a mild tension is felt, and hold this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold again for 10 seconds. Repeat this exercise once more.</description>
     <description xml:lang="nl">Strek je vingers uit elkaar totdat je een lighte spanning voelt, en hou deze positie 10 seconden vast. Ontspan nu, en buig daarna je vingers bij de knokkels, en hou dit weer 10 seconden vast. Herhaal deze oefening.</description>
-    <sequence duration="20">
-      <image src="shoulder-chest-stretch.png" duration="4"/>
-      <image src="shoulder-chest-stretch.png" duration="16"/>
+    <sequence duration="40">
+      <image src="finger-stretch-1.png" duration="10"/>
+      <image src="finger-stretch-2.png" duration="10"/>
     </sequence>
   </exercise>
   <exercise>
-    <title xml:lang="en">Neck stretch</title>
+    <title xml:lang="en">Neck tilt stretch</title>
     <title xml:lang="nl">Nek strekken</title>
     <description xml:lang="en">Start with your head in a comfortable straight  position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side.</description>
     <description xml:lang="nl">Begin met je hoofd in een comfortabele rechte positie. Kantel dan langzaam je hoofd naar je rechter schouder toe, en strek daarme de spieren aan de linkerkant van je nek. Hou deze positie 5 seconden vast. Daarna kantel je je hoofd naar de linker schouder toe om de rechter nekspieren te strekken. Herhaal deze oefening twee keer voor elke kant.</description>
-    <sequence duration="20">
-      <image src="shoulder-chest-stretch.png" duration="4"/>
-      <image src="shoulder-chest-stretch.png" duration="16"/>
+    <sequence duration="30">
+      <image src="neck-tilt-stretch.png" duration="5"/>
+      <image src="neck-tilt-stretch.png" duration="5" mirrorx="yes"/>
     </sequence>
   </exercise>
   <exercise>
@@ -44,9 +44,8 @@
     <title xml:lang="nl">Achterwaarts shouders strekken</title>
     <description xml:lang="en">Interlace your fingers behind your back. Then turn your elbows gently inward, while straightening your arms. Hold this position for 5 to 15 seconds, and repeat this exercise twice.</description>
     <description xml:lang="nl">Kruis je vingers achter je rug. Draai je ellebogen naar binnen toe terwijl je je armen strekt. Hou deze positie 5 tot 15 seconden vast. Herhaal deze oefening.</description>
-    <sequence duration="20">
-      <image src="shoulder-chest-stretch.png" duration="4"/>
-      <image src="shoulder-chest-stretch.png" duration="16"/>
+    <sequence duration="30">
+      <image src="backward-shoulder-stretch.png" duration="15"/>
     </sequence>
   </exercise>
 </exercises>
