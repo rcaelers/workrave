@@ -28,6 +28,9 @@
 
 TimeEntry::TimeEntry(bool millis)
   : Gtk::HBox(false, 1),
+    hrs(NULL),
+    mins(NULL),
+    secs(NULL),
     hours_adjustment(0, 0, 23),
     mins_adjustment(0, 0, 59),
     secs_adjustment(0, 0, 59)
@@ -35,9 +38,10 @@ TimeEntry::TimeEntry(bool millis)
   TRACE_ENTER("TimeEntry::TimeEntry");
   this->millis = millis;
   
-  Gtk::SpinButton *secs = manage(new Gtk::SpinButton(secs_adjustment));
+  secs = manage(new Gtk::SpinButton(secs_adjustment));
   secs->set_numeric(true);
-  secs_adjustment.signal_value_changed().connect(SigC::slot(*this, &TimeEntry::on_value_changed));
+  secs->signal_changed().connect(SigC::slot(*this, &TimeEntry::on_changed));
+  secs->signal_value_changed().connect(SigC::slot(*this, &TimeEntry::on_value_changed));
 
   if (millis)
     {
@@ -54,18 +58,19 @@ TimeEntry::TimeEntry(bool millis)
       secs->set_width_chars(2);
       secs->set_wrap(true);
 
-      Gtk::SpinButton *hrs = manage(new Gtk::SpinButton(hours_adjustment));
+      hrs = manage(new Gtk::SpinButton(hours_adjustment));
       hrs->set_numeric(true);
       hrs->set_wrap(true);
       hrs->set_width_chars(2);
-      hours_adjustment.signal_value_changed().connect(SigC::slot(*this, &TimeEntry::on_value_changed));
-	
-      Gtk::SpinButton *mins = manage(new Gtk::SpinButton(mins_adjustment));
+      hrs->signal_changed().connect(SigC::slot(*this, &TimeEntry::on_changed));
+      hrs->signal_value_changed().connect(SigC::slot(*this, &TimeEntry::on_value_changed));
+
+      mins = manage(new Gtk::SpinButton(mins_adjustment));
       mins->set_numeric(true);
       mins->set_wrap(true);
       mins->set_width_chars(2);
-      mins_adjustment.signal_value_changed().connect(SigC::slot(*this, &TimeEntry::on_value_changed));
-	
+      mins->signal_changed().connect(SigC::slot(*this, &TimeEntry::on_changed));
+      mins->signal_value_changed().connect(SigC::slot(*this, &TimeEntry::on_value_changed));
 	
       Gtk::Label *semi1 = manage(new Gtk::Label(":"));
       Gtk::Label *semi2 = manage(new Gtk::Label(":"));
@@ -110,17 +115,44 @@ TimeEntry::set_value(time_t t)
 time_t
 TimeEntry::get_value()
 {
-  int s = (int) secs_adjustment.get_value();
+  int s = secs->get_value_as_int();
   if (! millis)
     {
-      int h = (int) hours_adjustment.get_value();
-      int m = (int) mins_adjustment.get_value();
+      int h = hrs->get_value_as_int();
+      int m = mins->get_value_as_int();
       return h * 60 * 60 + m * 60 + s;
     }
   else
     {
       return s;
     }
+}
+
+void
+TimeEntry::update(Gtk::SpinButton *spin)
+{
+  // Needless to say, this kinda sucks.
+  const gchar *txt = spin->get_text().c_str();
+  if (txt != NULL && *txt != 0)
+    {
+      gchar *err = NULL;
+      int new_val = strtold(txt, &err);
+      if (err == NULL || *err == 0)
+        {
+          spin->update();
+        }
+    }
+}
+
+void
+TimeEntry::on_changed()
+{
+  if (! millis)
+    {
+      update(hrs);
+      update(mins);
+    }
+  update(secs);
 }
 
 void

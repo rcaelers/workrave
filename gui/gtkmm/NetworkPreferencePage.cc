@@ -358,6 +358,7 @@ NetworkPreferencePage::on_enabled_toggled()
 void
 NetworkPreferencePage::on_username_changed()
 {
+  TRACE_ENTER("NetworkPreferencePage::on_username_changed");
   string name = username_entry->get_text();
   Configurator *c = GUIControl::get_instance()->get_configurator();
   c->set_value(DistributionSocketLink::CFG_KEY_DISTRIBUTION_TCP + DistributionSocketLink::CFG_KEY_DISTRIBUTION_TCP_USERNAME, name);

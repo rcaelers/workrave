@@ -1,6 +1,6 @@
 // TimeEntry.hh --- Entry widget for time
 //
-// Copyright (C) 2002 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -38,11 +38,19 @@ public:
   signal_value_changed_t &signal_value_changed();
 
 protected:
+  virtual void on_changed();
   virtual void on_value_changed();
 
   signal_value_changed_t sig_value_changed;
+
+private:
+  void update(Gtk::SpinButton *spin);
   
 private:
+  Gtk::SpinButton *hrs;
+  Gtk::SpinButton *mins;
+  Gtk::SpinButton *secs;
+
   Gtk::Adjustment hours_adjustment;
   Gtk::Adjustment mins_adjustment;
   Gtk::Adjustment secs_adjustment;
