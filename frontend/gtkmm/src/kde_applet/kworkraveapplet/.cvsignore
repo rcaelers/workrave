@@ -2,3 +2,13 @@ Makefile
 Makefile.in
 .deps
 .libs
+kworkraveapplet.kidl
+kworkraveapplet.lo
+kworkraveapplet.moc.cpp
+kworkraveapplet.moc.lo
+kworkraveapplet_skel.cpp
+kworkraveapplet_skel.lo
+kworkraveapplet_stub.cpp
+kworkraveapplet_stub.h
+kworkraveapplet_stub.lo
+libkworkraveapplet.la
