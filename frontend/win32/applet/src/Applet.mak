@@ -40,9 +40,11 @@ CLEAN :
 	-@erase "$(INTDIR)\Applet.obj"
 	-@erase "$(INTDIR)\ClsFact.obj"
 	-@erase "$(INTDIR)\DeskBand.obj"
+	-@erase "$(INTDIR)\Icon.obj"
 	-@erase "$(INTDIR)\resource.res"
 	-@erase "$(INTDIR)\TimeBar.obj"
 	-@erase "$(INTDIR)\TimerBox.obj"
+	-@erase "$(INTDIR)\Util.obj"
 	-@erase "$(INTDIR)\vc60.idb"
 	-@erase "$(OUTDIR)\WorkraveApplet.dll"
 	-@erase "$(OUTDIR)\WorkraveApplet.exp"
@@ -101,8 +103,10 @@ LINK32_OBJS= \
 	"$(INTDIR)\Applet.obj" \
 	"$(INTDIR)\ClsFact.obj" \
 	"$(INTDIR)\DeskBand.obj" \
+	"$(INTDIR)\Icon.obj" \
 	"$(INTDIR)\TimeBar.obj" \
 	"$(INTDIR)\TimerBox.obj" \
+	"$(INTDIR)\Util.obj" \
 	"$(INTDIR)\resource.res"
 
 "$(OUTDIR)\WorkraveApplet.dll" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
@@ -139,11 +143,15 @@ CLEAN :
 	-@erase "$(INTDIR)\ClsFact.sbr"
 	-@erase "$(INTDIR)\DeskBand.obj"
 	-@erase "$(INTDIR)\DeskBand.sbr"
+	-@erase "$(INTDIR)\Icon.obj"
+	-@erase "$(INTDIR)\Icon.sbr"
 	-@erase "$(INTDIR)\resource.res"
 	-@erase "$(INTDIR)\TimeBar.obj"
 	-@erase "$(INTDIR)\TimeBar.sbr"
 	-@erase "$(INTDIR)\TimerBox.obj"
 	-@erase "$(INTDIR)\TimerBox.sbr"
+	-@erase "$(INTDIR)\Util.obj"
+	-@erase "$(INTDIR)\Util.sbr"
 	-@erase "$(INTDIR)\vc60.idb"
 	-@erase "$(INTDIR)\vc60.pdb"
 	-@erase "$(OUTDIR)\Applet.bsc"
@@ -199,8 +207,10 @@ BSC32_SBRS= \
 	"$(INTDIR)\Applet.sbr" \
 	"$(INTDIR)\ClsFact.sbr" \
 	"$(INTDIR)\DeskBand.sbr" \
+	"$(INTDIR)\Icon.sbr" \
 	"$(INTDIR)\TimeBar.sbr" \
-	"$(INTDIR)\TimerBox.sbr"
+	"$(INTDIR)\TimerBox.sbr" \
+	"$(INTDIR)\Util.sbr"
 
 "$(OUTDIR)\Applet.bsc" : "$(OUTDIR)" $(BSC32_SBRS)
     $(BSC32) @<<
@@ -215,8 +225,10 @@ LINK32_OBJS= \
 	"$(INTDIR)\Applet.obj" \
 	"$(INTDIR)\ClsFact.obj" \
 	"$(INTDIR)\DeskBand.obj" \
+	"$(INTDIR)\Icon.obj" \
 	"$(INTDIR)\TimeBar.obj" \
 	"$(INTDIR)\TimerBox.obj" \
+	"$(INTDIR)\Util.obj" \
 	"$(INTDIR)\resource.res"
 
 "$(OUTDIR)\WorkraveApplet.dll" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
@@ -285,6 +297,22 @@ SOURCE=.\DeskBand.cpp
 
 !ENDIF 
 
+SOURCE=.\Icon.cpp
+
+!IF  "$(CFG)" == "Applet - Win32 Release"
+
+
+"$(INTDIR)\Icon.obj" : $(SOURCE) "$(INTDIR)"
+
+
+!ELSEIF  "$(CFG)" == "Applet - Win32 Debug"
+
+
+"$(INTDIR)\Icon.obj"	"$(INTDIR)\Icon.sbr" : $(SOURCE) "$(INTDIR)"
+
+
+!ENDIF 
+
 SOURCE=.\resource.rc
 
 "$(INTDIR)\resource.res" : $(SOURCE) "$(INTDIR)"
@@ -319,6 +347,22 @@ SOURCE=.\TimerBox.cpp
 
 
 "$(INTDIR)\TimerBox.obj"	"$(INTDIR)\TimerBox.sbr" : $(SOURCE) "$(INTDIR)"
+
+
+!ENDIF 
+
+SOURCE=.\Util.cpp
+
+!IF  "$(CFG)" == "Applet - Win32 Release"
+
+
+"$(INTDIR)\Util.obj" : $(SOURCE) "$(INTDIR)"
+
+
+!ELSEIF  "$(CFG)" == "Applet - Win32 Debug"
+
+
+"$(INTDIR)\Util.obj"	"$(INTDIR)\Util.sbr" : $(SOURCE) "$(INTDIR)"
 
 
 !ENDIF 
