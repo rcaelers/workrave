@@ -30,10 +30,18 @@
 class BreakInterface;
 class TimerInterface;
 
+#ifdef HAVE_DISTRIBUTION
+#include "DistributedStateInterface.hh"
+#include "PacketBuffer.hh"
+#endif
+
 #include "GUIControl.hh"
 #include "ActivityMonitorInterface.hh"
 
-class Statistics
+class Statistics :
+#ifdef HAVE_DISTRIBUTION
+  public DistributedStateInterface
+#endif  
 {
 public:
   enum StatsBreakValueType
@@ -57,6 +65,19 @@ public:
       STATS_VALUE_TOTAL_KEYSTROKES,
       STATS_VALUE_SIZEOF
     };
+
+#ifdef HAVE_DISTRIBUTION
+  enum StatsMarker
+    {
+      STATS_MARKER_TODAY,
+      STATS_MARKER_HISTORY,
+      STATS_MARKER_END,
+      STATS_MARKER_STARTTIME,
+      STATS_MARKER_STOPTIME,
+      STATS_MARKER_BREAK_STATS,
+      STATS_MARKER_MISC_STATS,
+    };
+#endif
   
   typedef int BreakStats[STATS_BREAKVALUE_SIZEOF];
   typedef int MiscStats[STATS_VALUE_SIZEOF];
@@ -124,6 +145,13 @@ private:
   void load_day(DailyStats *stats, ifstream &stats_file);
   void save_current_day(ofstream &statsFile);
   void current_to_history();
+
+#ifdef HAVE_DISTRIBUTION
+  void init_distribution_manager();
+  bool get_state(DistributedStateID id, unsigned char **buffer, int *size);
+  bool set_state(DistributedStateID id, bool master, unsigned char *buffer, int size);
+  bool pack_stats(PacketBuffer &buffer, DailyStats *stats);
+#endif
   
 private:
   //! The one and only instance

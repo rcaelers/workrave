@@ -374,3 +374,36 @@ PacketBuffer::peek_byte(int pos)
     }
   return ret;
 }
+
+
+void
+PacketBuffer::reserve_size(int &pos)
+{
+  pos = bytes_written();
+  pack_ushort(0);
+}
+
+void 
+PacketBuffer::update_size(int pos)
+{
+  poke_ushort(pos, bytes_written() - pos - 2);
+}
+
+
+int
+PacketBuffer::read_size(int &pos)
+{
+  int size = unpack_ushort();
+
+  pos = bytes_read() + size;
+
+  return size;
+}
+
+
+void
+PacketBuffer::skip_size(int &pos)
+{
+  int size = (pos - bytes_read());
+  skip(size);
+}

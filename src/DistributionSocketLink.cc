@@ -1321,6 +1321,8 @@ DistributionSocketLink::send_state()
           packet.pack_ushort(size);
           packet.pack_ushort(id);
           packet.pack_raw(data, size);
+
+          delete [] data;
         }
       else
         {

@@ -23,6 +23,7 @@ enum DistributedStateID
   {
     DISTR_STATE_TIMERS = 0x0010,
     DISTR_STATE_BREAKS = 0x0020,
+    DISTR_STATE_STATS  = 0x0030,
   };
 
 class DistributedStateInterface

@@ -55,6 +55,11 @@ public:
   guint16 peek_ushort(int pos);
   guint8 peek_byte(int pos);
 
+  void reserve_size(int &pos);
+  void update_size(int pos);
+  int read_size(int &pos);
+  void skip_size(int &pos);
+  
   int bytes_available() { return write_ptr - read_ptr; }
   int bytes_written() { return write_ptr - buffer; }
   int bytes_read() { return read_ptr - buffer; }

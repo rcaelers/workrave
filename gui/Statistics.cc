@@ -24,9 +24,14 @@ static const char rcsid[] = "$Id$";
 
 #include "debug.hh"
 
+#include "Statistics.hh"
+
 #include "ControlInterface.hh"
 #include "Util.hh"
-#include "Statistics.hh"
+
+#ifdef HAVE_DISTRIBUTION
+#include "DistributionManager.hh"
+#endif
 
 Statistics *Statistics::instance = NULL;
 const char *WORKRAVESTATS="WorkRaveStats";
@@ -38,6 +43,10 @@ Statistics::Statistics() :
   current_day(NULL)
 {
   start_new_day();
+
+#ifdef HAVE_DISTRIBUTION
+  init_distribution_manager();
+#endif
 }
 
 
@@ -484,3 +493,206 @@ Statistics::update_current_day()
       current_day->misc_stats[STATS_VALUE_TOTAL_KEYSTROKES] = ams.total_keystrokes;
     }
 }
+
+
+
+#ifdef HAVE_DISTRIBUTION
+// Create the monitor based on the specified configuration.
+void
+Statistics::init_distribution_manager()
+{
+  DistributionManager *dist_manager = DistributionManager::get_instance();
+
+  if (dist_manager != NULL)
+    {
+      /// FIXME: not yet dist_manager->register_state(DISTR_STATE_STATS,  this);
+    }
+}
+
+bool
+Statistics::get_state(DistributedStateID id, unsigned char **buffer, int *size)
+{
+  TRACE_ENTER("Statistics::get_state");
+
+  PacketBuffer state_packet;
+  state_packet.create();
+
+  state_packet.pack_byte(STATS_MARKER_TODAY);
+  pack_stats(state_packet, current_day);
+
+  *size = state_packet.bytes_written();
+  *buffer = new unsigned char[*size + 1];
+  memcpy(*buffer, state_packet.get_buffer(), *size);
+
+  return true;
+}
+
+
+bool
+Statistics::pack_stats(PacketBuffer &buf, DailyStats *stats)
+{
+  TRACE_ENTER("Statistics::pack_stats");
+
+  int pos = 0;
+
+  buf.pack_byte(STATS_MARKER_STARTTIME);
+  buf.reserve_size(pos);
+  buf.pack_byte(stats->start.tm_mday);
+  buf.pack_byte(stats->start.tm_mon);
+  buf.pack_ushort(stats->start.tm_year);
+  buf.pack_byte(stats->start.tm_hour);
+  buf.pack_byte(stats->start.tm_min);
+  buf.update_size(pos);
+
+  buf.pack_byte(STATS_MARKER_STOPTIME);
+  buf.reserve_size(pos);
+  buf.pack_byte(stats->stop.tm_mday);
+  buf.pack_byte(stats->stop.tm_mon);
+  buf.pack_ushort(stats->stop.tm_year);
+  buf.pack_byte(stats->stop.tm_hour);
+  buf.pack_byte(stats->stop.tm_min);
+  buf.update_size(pos);
+  
+  for(int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
+    {
+      BreakStats &bs = current_day->break_stats[i];
+
+      buf.pack_byte(STATS_MARKER_BREAK_STATS);
+      buf.reserve_size(pos);
+      buf.pack_byte(i);
+      buf.pack_ushort(STATS_BREAKVALUE_SIZEOF);
+      
+      for(int j = 0; j < STATS_BREAKVALUE_SIZEOF; j++)
+        {
+          buf.pack_ulong(bs[j]);
+        }
+      buf.update_size(pos);
+    }
+
+  buf.pack_byte(STATS_MARKER_MISC_STATS);
+  buf.reserve_size(pos);
+  buf.pack_ushort(STATS_VALUE_SIZEOF);
+  
+  for(int j = 0; j < STATS_VALUE_SIZEOF; j++)
+    {
+      buf.pack_ulong(current_day->misc_stats[j]);
+    }
+  buf.update_size(pos);
+  
+  TRACE_EXIT();
+  return true;
+}
+
+bool
+Statistics::set_state(DistributedStateID id, bool master, unsigned char *buffer, int size)
+{
+  TRACE_ENTER("GUIControl::set_state");
+
+  PacketBuffer state_packet;
+  state_packet.create();
+
+  state_packet.pack_raw(buffer, size);
+
+  DailyStats *stats = NULL;
+  int pos = 0;
+  
+  StatsMarker marker = (StatsMarker) state_packet.unpack_byte();
+  while (marker != STATS_MARKER_END)
+    {
+      switch (marker)
+        {
+        case STATS_MARKER_TODAY:
+          stats = current_day;
+          break;
+          
+        case STATS_MARKER_HISTORY:
+          assert(1==0);
+          break;
+          
+        case STATS_MARKER_STARTTIME:
+          {
+            int size = state_packet.unpack_ushort();
+            
+            stats->start.tm_mday = state_packet.unpack_byte();
+            stats->start.tm_mon = state_packet.unpack_byte();
+            stats->start.tm_year = state_packet.unpack_ushort();
+            stats->start.tm_hour = state_packet.unpack_byte();
+            stats->start.tm_min = state_packet.unpack_byte();
+          }
+          break;
+          
+        case STATS_MARKER_STOPTIME:
+          {
+            int size = state_packet.unpack_ushort();
+            
+            stats->stop.tm_mday = state_packet.unpack_byte();
+            stats->stop.tm_mon = state_packet.unpack_byte();
+            stats->stop.tm_year = state_packet.unpack_ushort();
+            stats->stop.tm_hour = state_packet.unpack_byte();
+            stats->stop.tm_min = state_packet.unpack_byte();
+          }
+          break;
+
+        case STATS_MARKER_BREAK_STATS:
+          {
+            int size = state_packet.read_size(pos);
+            int bt = state_packet.unpack_byte();
+
+            BreakStats &bs = stats->break_stats[bt];
+
+            int count = state_packet.unpack_ushort();
+
+            if (count > STATS_BREAKVALUE_SIZEOF)
+              {
+                count = STATS_BREAKVALUE_SIZEOF;
+              }
+            
+            for(int j = 0; j < count; j++)
+              {
+                state_packet.pack_ulong(bs[j]);
+              }
+
+            state_packet.skip_size(pos);
+          }
+          break;
+          
+        case STATS_MARKER_MISC_STATS:
+          {
+            int size = state_packet.read_size(pos);
+
+            int count = state_packet.unpack_ushort();
+
+            if (count > STATS_VALUE_SIZEOF)
+              {
+                count = STATS_VALUE_SIZEOF;
+              }
+            
+            for(int j = 0; j < count; j++)
+              {
+                state_packet.pack_ulong(stats->misc_stats[j]);
+              }
+
+            state_packet.skip_size(pos);
+          }
+          break;
+          
+        case STATS_MARKER_END:
+          break;
+
+        default:
+          {
+            TRACE_MSG("Unknown marker");
+            int size = state_packet.read_size(pos);
+            state_packet.skip_size(pos);
+          }
+        }
+    
+      StatsMarker marker = (StatsMarker) state_packet.unpack_byte();
+    }
+  
+  TRACE_EXIT();
+  return true;
+}
+
+
+#endif
