@@ -281,6 +281,10 @@ GUIControl::init()
                                        core_control->get_timer("rest_break"));
   restbreak_control->set_prelude_text(_("You need a rest break..."));
 
+  BreakControl *dailybreak_control = new BreakControl(GUIControl::BREAK_ID_DAILY_LIMIT, core_control, gui_factory,
+                                       core_control->get_timer("daily_limit"));
+  dailybreak_control->set_prelude_text(_("You should stop for today..."));
+
   Statistics *stats = Statistics::get_instance();
   stats->init(core_control);
 
@@ -297,6 +301,7 @@ GUIControl::init()
 
   timers[BREAK_ID_MICRO_PAUSE].break_control = micropause_control;
   timers[BREAK_ID_REST_BREAK].break_control = restbreak_control;
+  timers[BREAK_ID_REST_BREAK].break_control = dailybreak_control;
 
   // FIXME: Raymond??
   load_config();
@@ -542,18 +547,23 @@ GUIControl::handle_start_break(BreakInterface *breaker, BreakId break_id, TimerI
   TRACE_ENTER("GUIControl::handle_start_break");
 
   // Don't show MP when RB is active.
-  BreakControl *restbreak_control, *micropause_control;
-  restbreak_control = timers[BREAK_ID_REST_BREAK].break_control;
-  micropause_control = timers[BREAK_ID_MICRO_PAUSE].break_control;
-  
-  if (break_id == BREAK_ID_MICRO_PAUSE && restbreak_control->get_break_state() == BreakInterface::BREAK_ACTIVE)
+  for (int bi = break_id; bi <= BREAK_ID_DAILY_LIMIT; bi++)
     {
-      // timer->snooze();
-      TRACE_RETURN("RB Active, snoozing");
-      return;
+      if (timers[bi].break_control->get_break_state()
+          == BreakInterface::BREAK_ACTIVE)
+        {
+          // timer->snooze();
+          TRACE_RETURN("Greater break active, snoozing");
+          return;
+        }
     }
+  
+
+  // FIXME: how does this relate to daily limit?
 
   // Advance restbreak if it follows within 30s after the end of a micropause break
+  BreakControl *restbreak_control;
+  restbreak_control = timers[BREAK_ID_REST_BREAK].break_control;
   if (break_id == BREAK_ID_MICRO_PAUSE)
     {
       TimerInterface *rbTimer = timers[BREAK_ID_REST_BREAK].timer;
@@ -585,13 +595,14 @@ GUIControl::handle_start_break(BreakInterface *breaker, BreakId break_id, TimerI
 
   // Stop micropause when a restbreak starts. should not happend.
   // restbreak should be advanced.
-  if (break_id == BREAK_ID_REST_BREAK && micropause_control->get_break_state() == BreakInterface::BREAK_ACTIVE)
+  for (int bi = BREAK_ID_MICRO_PAUSE; bi < break_id; bi++)
     {
-      micropause_control->stop_break();
-
-      TimerInterface *mptimer = timers[BREAK_ID_MICRO_PAUSE].timer;
-      assert(mptimer != NULL);
-      mptimer->snooze_timer();
+      TimerData *t = &timers[bi];
+      if (t->break_control->get_break_state() == BreakInterface::BREAK_ACTIVE)
+        {
+          t->break_control->stop_break();
+          t->timer->snooze_timer();
+        }
     }
   
   breaker->start_break();

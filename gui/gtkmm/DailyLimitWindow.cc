@@ -20,6 +20,7 @@ static const char rcsid[] = "$Id$";
 #include "config.h"
 #endif
 
+#include "nls.h"
 #include "debug.hh"
 
 #include "DailyLimitWindow.hh"
@@ -31,17 +32,16 @@ static const char rcsid[] = "$Id$";
 
 
 //! Construct a new Micropause window.
-DailyLimitWindow::DailyLimitWindow(TimerInterface *timer, bool ignorable) :
-  restbreak_timer(timer),
+DailyLimitWindow::DailyLimitWindow(bool ignorable) :
   insist_break(false)
 {
   set_border_width(5);
   
   // Label
-  label = manage(new Gtk::Label());
+  Gtk::Label *label = manage(new Gtk::Label("Hello"));
 
   // Icon
-  string icon = Util::complete_directory("daily_limit.png", Util::SEARCH_PATH_IMAGES);
+  string icon = Util::complete_directory("daily-limit.png", Util::SEARCH_PATH_IMAGES);
   Gtk::Image *img = manage(new Gtk::Image(icon));
 
   // HBox
@@ -93,12 +93,8 @@ DailyLimitWindow::~DailyLimitWindow()
 void
 DailyLimitWindow::start()
 {
-  TRACE_ENTER("DailyLimitWindow::start");
-
-  refresh();
-  show_all();
   center();
-  set_avoid_pointer(false);
+  show_all();
 
   if (insist_break)
     {
@@ -106,9 +102,6 @@ DailyLimitWindow::start()
     }
 
   present(); // After grab() please (Windows)
-
-  
-  TRACE_EXIT();
 }
 
 
@@ -119,7 +112,6 @@ DailyLimitWindow::stop()
   TRACE_ENTER("DailyLimitWindow::stop");
 
   ungrab();
-  
   hide_all();
 
   TRACE_EXIT();
@@ -139,13 +131,12 @@ DailyLimitWindow::destroy()
 }
 
 
-//! Updates the main window.
-void
-DailyLimitWindow::heartbeat()
-{
-  refresh();
-}
 
+void
+DailyLimitWindow::set_progress(int value, int max_value)
+{
+  // FIXME: show progress until timer restart time?
+}
 
 void
 DailyLimitWindow::set_insist_break(bool insist)
@@ -175,3 +166,9 @@ DailyLimitWindow::on_skip_button_clicked()
     }
 }
 
+
+//! Refreshes
+void
+DailyLimitWindow::refresh()
+{
+}

@@ -34,29 +34,21 @@ class DailyLimitWindow :
   public BreakWindowInterface
 {
 public:
-  DailyLimitWindow(TimerInterface *timer, bool ignorable);
+  DailyLimitWindow(bool ignorable);
   ~DailyLimitWindow();
 
   void start();
   void stop();
   void destroy();
+  void set_progress(int value, int max_value);
   void set_insist_break(bool insist);
-  void heartbeat();
+  void refresh();
   
 protected:
   void on_postpone_button_clicked();
   void on_skip_button_clicked();
   
 private:
-  void refresh();
-  void refresh_time_bar();
-  void refresh_label();
-  
-private:
-  //!
-  TimerInterface *restbreak_timer;
-  
-  //!
   bool insist_break;
 };
 

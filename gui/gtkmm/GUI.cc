@@ -39,6 +39,7 @@ static const char rcsid[] = "$Id$";
 #include "BreakControl.hh"
 #include "MainWindow.hh"
 #include "PreludeWindow.hh"
+#include "DailyLimitWindow.hh"
 #include "MicroPauseWindow.hh"
 #include "RestBreakWindow.hh"
 #include "WindowHints.hh"
@@ -267,6 +268,10 @@ GUI::create_break_window(GUIControl::BreakId break_id, bool ignorable)
   else if (break_id == GUIControl::BREAK_ID_REST_BREAK)
     {
       ret = new RestBreakWindow(ignorable); 
+    }
+  else if (break_id == GUIControl::BREAK_ID_DAILY_LIMIT)
+    {
+      ret = new DailyLimitWindow(ignorable);
     }
 
   return ret;

@@ -27,6 +27,7 @@ endif
 
 libgtkmmgui_a_SOURCES = \
 	BreakWindow.cc \
+	DailyLimitWindow.cc \
 	GUI.cc \
 	GtkmmGUI.cc \
 	MainWindow.cc \
