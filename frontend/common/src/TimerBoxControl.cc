@@ -458,7 +458,7 @@ TimerBoxControl::read_configuration()
       break_flags[i] = get_timer_flags(name, bid);
       break_imminent_time[i] = get_timer_imminent_time(name, bid);
     }
-  // view->set_enabled(is_enabled(name));
+  view->set_enabled(is_enabled(name));
   TRACE_EXIT();
 }
 

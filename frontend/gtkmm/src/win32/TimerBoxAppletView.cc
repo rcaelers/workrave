@@ -55,7 +55,7 @@ RecursiveFindWindow(HWND hwnd, LPCTSTR lpClassName)
 TimerBoxAppletView::TimerBoxAppletView()
 {
   applet_window = NULL;
-  applet_data.enabled = true;
+  applet_data.enabled = false;
 }
   
 
