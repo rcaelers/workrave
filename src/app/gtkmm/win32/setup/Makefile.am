@@ -2,12 +2,12 @@
 #
 # Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
 #
-# Time-stamp: <2003-08-31 20:56:47 pennersr>
+# Time-stamp: <2003-09-01 00:07:00 pennersr>
 #
 # $Id$
 #
 
-MAINTAINERCLEANFILES = Makefile.in
+MAINTAINERCLEANFILES = Makefile.in setup.iss
 
 
 
