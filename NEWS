@@ -5,6 +5,11 @@ See the end for copying conditions.
 Please report Workrave bug reports. Visit our bug tracker located at:
 http://www.workrave.org
 
+* Workrave 1.6.2
+
+** Added a Brazilian Portuguese translation, thanks to Claudio
+Ferreira Filho!
+
 * Workrave 1.6.1
 
 ** A bug was introduced in version 1.6.0 which could cause the status
