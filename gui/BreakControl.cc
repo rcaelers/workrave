@@ -211,8 +211,22 @@ BreakControl::goto_stage(BreakStage stage)
               {
                 Statistics *stats = Statistics::get_instance();
                 stats->increment_counter(break_id, Statistics::STAT_TYPE_TAKEN);
-                GUIControl::get_instance()->get_sound_player()
-                  ->play_sound(SoundPlayerInterface::SOUND_BREAK_ENDED);
+                // Play sound
+                SoundPlayerInterface::Sound snd;
+                snd = (SoundPlayerInterface::Sound)0;
+                switch (break_id)
+                  {
+                  case GUIControl::BREAK_ID_REST_BREAK:
+                    snd = SoundPlayerInterface::SOUND_REST_BREAK_ENDED;
+                  case GUIControl::BREAK_ID_MICRO_PAUSE:
+                    snd = SoundPlayerInterface::SOUND_MICRO_PAUSE_ENDED;
+                    break;
+                  }
+                if (snd)
+                  {
+                    GUIControl::get_instance()->get_sound_player()
+                      ->play_sound(snd);
+                  }
               }
           }
       }
@@ -250,8 +264,22 @@ BreakControl::goto_stage(BreakStage stage)
         break_window_start();
         assert(break_window != NULL);
         break_window->refresh();
-        GUIControl::get_instance()->get_sound_player()
-          ->play_sound(SoundPlayerInterface::SOUND_BREAK_STARTED);
+
+        // Play sound
+        SoundPlayerInterface::Sound snd;
+        snd = (SoundPlayerInterface::Sound)0;
+        switch (break_id)
+          {
+          case GUIControl::BREAK_ID_REST_BREAK:
+            snd = SoundPlayerInterface::SOUND_REST_BREAK_STARTED;
+          case GUIControl::BREAK_ID_MICRO_PAUSE:
+            snd = SoundPlayerInterface::SOUND_MICRO_PAUSE_STARTED;
+            break;
+          }
+        if (snd)
+          {
+            GUIControl::get_instance()->get_sound_player()->play_sound(snd);
+          }
 
         if (insist_break)
           {

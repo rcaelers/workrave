@@ -70,10 +70,14 @@ static struct SoundRegistry
     "Break prompt", prelude_beeps },
   { "WorkraveBreakIgnored", "break-ignored.wav",
     "Break ignored", break_ignore_beeps },
-  { "WorkraveBreakStarted", "break-started.wav",
-    "Break started", break_start_beeps },
-  { "WorkraveBreakEnded", "break-ended.wav",
-    "Break ended", break_end_beeps },
+  { "WorkraveRestBreakStarted", "restbreak-started.wav",
+    "Rest break started", break_start_beeps },
+  { "WorkraveRestBreakEnded", "restbreak-ended.wav",
+    "Rest break ended", break_end_beeps },
+  { "WorkraveMicroPauseStarted", "micropause-started.wav",
+    "Micro-pause started", break_start_beeps },
+  { "WorkraveMicroPauseEnded", "micropause-ended.wav",
+    "Micro-pause ended", break_end_beeps },
 };
 
 static bool
