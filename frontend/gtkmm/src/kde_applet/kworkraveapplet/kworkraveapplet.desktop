@@ -1,0 +1,6 @@
+[Desktop Entry]
+Encoding=UTF-8
+Comment=Workrave
+Name=Workrave
+X-KDE-Library=libkworkraveapplet
+X-KDE-UniqueApplet=true
