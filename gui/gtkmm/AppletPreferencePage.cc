@@ -58,14 +58,11 @@ AppletPreferencePage::create_page()
   Gtk::Frame *frame = manage(new Gtk::Frame(_("Layout")));
   Gtk::VBox *box = manage(new Gtk::VBox());
   
-  // Slot/Position of the break timer.
+  // Labels
   Gtk::Label *mp_label = manage(new Gtk::Label(_("Micro-pause")));
   Gtk::Label *rb_label = manage(new Gtk::Label(_("Restbreak")));
   Gtk::Label *dl_label = manage(new Gtk::Label(_("Daily limit")));
 
-  enabled_cb = manage(new  Gtk::CheckButton("Applet enabled"));
-  enabled_cb->signal_toggled().connect(SigC::slot(*this, &AppletPreferencePage::on_enabled_toggled));
-  
   Gtk::Label *visible_label = manage(new Gtk::Label(_("Break visible")));
   Gtk::Label *cycle_label = manage(new Gtk::Label(_("Cycle time")));
   Gtk::Label *slot_label = manage(new Gtk::Label(_("Break position")));
@@ -74,13 +71,19 @@ AppletPreferencePage::create_page()
   Gtk::Label *exclusive_label = manage(new Gtk::Label(_("Show exclusively")));
   Gtk::Label *default_label = manage(new Gtk::Label(_("Default break")));
 
+  // Cycle time
   cycle_entry = manage(new Gtk::SpinButton());
   cycle_entry->set_range(1, 999);
   cycle_entry->set_increments(1, 10);
   cycle_entry->set_numeric(true);
   cycle_entry->set_width_chars(3);
   cycle_entry->signal_changed().connect(SigC::slot(*this, &AppletPreferencePage::on_cycle_time_changed));
-  
+
+  // Enabled/Disabled
+  enabled_cb = manage(new  Gtk::CheckButton("Applet enabled"));
+  enabled_cb->signal_toggled().connect(SigC::slot(*this, &AppletPreferencePage::on_enabled_toggled));
+
+  // Table
   Gtk::Table *table = manage(new Gtk::Table(5, 4, false));
   table->set_row_spacings(2);
   table->set_col_spacings(6);
@@ -203,7 +206,8 @@ AppletPreferencePage::set_flag(int break_id, int flag, bool on)
   GUIControl::TimerData &data = GUIControl::get_instance()->timers[break_id];
       
   int value = 0;
-  c->get_value(AppletWindow::CFG_KEY_APPLET + "/" + data.break_name + AppletWindow::CFG_KEY_APPLET_FLAGS,
+  c->get_value(AppletWindow::CFG_KEY_APPLET + "/" + data.break_name
+               + AppletWindow::CFG_KEY_APPLET_FLAGS,
                &value);
 
   if (on)
@@ -215,7 +219,8 @@ AppletPreferencePage::set_flag(int break_id, int flag, bool on)
       value &= ~flag;
     }
 
-  c->set_value(AppletWindow::CFG_KEY_APPLET + "/" + data.break_name + AppletWindow::CFG_KEY_APPLET_FLAGS,
+  c->set_value(AppletWindow::CFG_KEY_APPLET + "/" + data.break_name
+               + AppletWindow::CFG_KEY_APPLET_FLAGS,
                value);
 }
 
@@ -251,6 +256,7 @@ AppletPreferencePage::on_default_toggled(int break_id)
   set_flag(break_id, AppletWindow::BREAK_DEFAULT, d);
 }
 
+
 void
 AppletPreferencePage::on_exclusive_toggled(int break_id)
 {
@@ -259,6 +265,7 @@ AppletPreferencePage::on_exclusive_toggled(int break_id)
   bool exclusive = exclusive_cb[break_id]->get_active();
   set_flag(break_id, AppletWindow::BREAK_EXCLUSIVE, exclusive);
 }
+
 
 void
 AppletPreferencePage::on_time_changed(int break_id)
@@ -270,10 +277,12 @@ AppletPreferencePage::on_time_changed(int break_id)
   Configurator *c = GUIControl::get_instance()->get_configurator();
   GUIControl::TimerData &data = GUIControl::get_instance()->timers[break_id];
       
-  c->set_value(AppletWindow::CFG_KEY_APPLET + "/" + data.break_name + AppletWindow::CFG_KEY_APPLET_IMMINENT,
+  c->set_value(AppletWindow::CFG_KEY_APPLET + "/" + data.break_name
+               + AppletWindow::CFG_KEY_APPLET_IMMINENT,
                value);
   
 }
+
 
 void
 AppletPreferencePage::on_slot_changed(int break_id)
@@ -285,7 +294,8 @@ AppletPreferencePage::on_slot_changed(int break_id)
   Configurator *c = GUIControl::get_instance()->get_configurator();
   GUIControl::TimerData &data = GUIControl::get_instance()->timers[break_id];
       
-  c->set_value(AppletWindow::CFG_KEY_APPLET + "/" + data.break_name + AppletWindow::CFG_KEY_APPLET_POSITION,
+  c->set_value(AppletWindow::CFG_KEY_APPLET + "/" + data.break_name
+               + AppletWindow::CFG_KEY_APPLET_POSITION,
                value);
 }
 
@@ -303,7 +313,6 @@ AppletPreferencePage::on_visible_toggled(int break_id)
     {
       slot_entry[break_id]->set_sensitive(true);
       value = (int) slot_entry[break_id]->get_value();
-  
     }
   else
     {
@@ -312,7 +321,8 @@ AppletPreferencePage::on_visible_toggled(int break_id)
 
   GUIControl::TimerData &data = GUIControl::get_instance()->timers[break_id];
       
-  c->set_value(AppletWindow::CFG_KEY_APPLET + "/" + data.break_name + AppletWindow::CFG_KEY_APPLET_POSITION,
+  c->set_value(AppletWindow::CFG_KEY_APPLET + "/" + data.break_name
+               + AppletWindow::CFG_KEY_APPLET_POSITION,
                value);
 }
 
@@ -337,11 +347,13 @@ AppletPreferencePage::on_cycle_time_changed()
 }
 
 
+//! Retrieves the applet configuration and sets the widgets.
 void
 AppletPreferencePage::init_page_values()
 {
   Configurator *c = GUIControl::get_instance()->get_configurator();
 
+  // Enabled 
   bool enabled = false;
   if (!c->get_value(AppletWindow::CFG_KEY_APPLET_ENABLED, &enabled))
     {
@@ -349,19 +361,23 @@ AppletPreferencePage::init_page_values()
     }
   enabled_cb->set_active(enabled);
   
+  // Cycle time. 
   int value = 10;
   if (!c->get_value(AppletWindow::CFG_KEY_APPLET_CYCLE_TIME, &value))
     {
       value = 10;
     }
   cycle_entry->set_value(value);
-  
+
+  // Break specific configuration
   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
     {
       GUIControl::TimerData &data = GUIControl::get_instance()->timers[i];
-      
+
+      // Break position
       int value = 0;
-      if (!c->get_value(AppletWindow::CFG_KEY_APPLET + "/" + data.break_name + AppletWindow::CFG_KEY_APPLET_POSITION, &value))
+      if (!c->get_value(AppletWindow::CFG_KEY_APPLET + "/" + data.break_name
+                        + AppletWindow::CFG_KEY_APPLET_POSITION, &value))
         {
           value = i;
         }
@@ -377,7 +393,8 @@ AppletPreferencePage::init_page_values()
           slot_entry[i]->set_sensitive(false);
           visible_cb[i]->set_active(false);
         }
-      
+
+      // Flags
       if (!c->get_value(AppletWindow::CFG_KEY_APPLET + "/" + data.break_name
                         + AppletWindow::CFG_KEY_APPLET_FLAGS, &value))
         {
@@ -389,7 +406,8 @@ AppletPreferencePage::init_page_values()
       exclusive_cb[i]->set_active(value & AppletWindow::BREAK_EXCLUSIVE);
       default_cb[i]->set_active(value & AppletWindow::BREAK_DEFAULT);
       time_entry[i]->set_sensitive(value & AppletWindow::BREAK_WHEN_IMMINENT);
-      
+
+      // Imminent time threshold.
       if (!c->get_value(AppletWindow::CFG_KEY_APPLET + "/" + data.break_name
                         + AppletWindow::CFG_KEY_APPLET_IMMINENT, &value))
         {
