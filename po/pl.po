@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-08 22:35+0200\n"
+"POT-Creation-Date: 2004-04-21 10:57+0200\n"
 "PO-Revision-Date: 2004-03-21 19:34+0100\n"
 "Last-Translator: mikolaj <mikolaj@localhost>\n"
 "Language-Team:  <pl@li.org>\n"
@@ -83,7 +83,7 @@ msgstr ""
 "skończył znajdź coś innego do roboty, np. przeglądanie\n"
 "dokumentów."
 
-#: frontend/gtkmm/src/GUI.cc:714
+#: frontend/gtkmm/src/GUI.cc:721
 msgid "I could not initialize Bonobo"
 msgstr "Nie mogę zainicjować Bonobo"
 

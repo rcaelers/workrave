@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-18 00:10+0100\n"
+"POT-Creation-Date: 2004-04-21 10:57+0200\n"
 "PO-Revision-Date: 2004-02-23 14:18+0100\n"
 "Last-Translator: Thomas Basset <thomas.basset@netcourrier.com>\n"
 "Language-Team: Français\n"
@@ -50,19 +50,19 @@ msgstr "_Crédits"
 msgid "About %s"
 msgstr "À propos de %s"
 
-#: frontend/gtkmm/src/BreakWindow.cc:311
+#: frontend/gtkmm/src/BreakWindow.cc:178
 msgid "Lock"
 msgstr "Verrouiller"
 
-#: frontend/gtkmm/src/BreakWindow.cc:330
+#: frontend/gtkmm/src/BreakWindow.cc:197
 msgid "Shut down"
 msgstr "Éteindre"
 
-#: frontend/gtkmm/src/BreakWindow.cc:347
+#: frontend/gtkmm/src/BreakWindow.cc:214
 msgid "Skip"
 msgstr "Ne pas faire"
 
-#: frontend/gtkmm/src/BreakWindow.cc:360
+#: frontend/gtkmm/src/BreakWindow.cc:227
 msgid "Postpone"
 msgstr "Plus tard"
 
@@ -77,9 +77,13 @@ msgid ""
 "You have reached your daily limit. Please stop working\n"
 "behind the computer. If your working day is not over yet,\n"
 "find something else to do, such as reviewing a document."
-msgstr "Vous avez atteint votre limite journalière. Vous devriez arrêter de travailler sur votre ordinateur. Si votre journée de travail n'est pas terminée, vous devriez quelque chose d'autre à faire, comme relire un document."
+msgstr ""
+"Vous avez atteint votre limite journalière. Vous devriez arrêter de "
+"travailler sur votre ordinateur. Si votre journée de travail n'est pas "
+"terminée, vous devriez quelque chose d'autre à faire, comme relire un "
+"document."
 
-#: frontend/gtkmm/src/GUI.cc:733
+#: frontend/gtkmm/src/GUI.cc:721
 msgid "I could not initialize Bonobo"
 msgstr "Impossible d'initialiser Bonobo"
 
@@ -92,102 +96,105 @@ msgstr "Inactif"
 msgid "Wait"
 msgstr ""
 
-#: frontend/gtkmm/src/GtkUtil.cc:117 frontend/gtkmm/src/MicroPauseWindow.cc:48
-#: frontend/gtkmm/src/MicroPauseWindow.cc:110
-#: frontend/gtkmm/src/MicroPauseWindow.cc:146
-msgid "Micro-pause"
+#: frontend/gtkmm/src/GtkUtil.cc:117 frontend/gtkmm/src/MicroBreakWindow.cc:48
+#: frontend/gtkmm/src/MicroBreakWindow.cc:110
+#: frontend/gtkmm/src/MicroBreakWindow.cc:150
+#, fuzzy
+msgid "Micro-break"
 msgstr "Micro-pause"
 
-#: frontend/gtkmm/src/GtkUtil.cc:117 frontend/gtkmm/src/RestBreakWindow.cc:179
+#: frontend/gtkmm/src/GtkUtil.cc:117 frontend/gtkmm/src/RestBreakWindow.cc:73
+#: frontend/gtkmm/src/RestBreakWindow.cc:179
 msgid "Rest break"
 msgstr "Pause prolongée"
 
 #. Mode menu item
-#: frontend/gtkmm/src/Menus.cc:168 frontend/gtkmm/src/Menus.cc:425
+#: frontend/gtkmm/src/Menus.cc:169 frontend/gtkmm/src/Menus.cc:430
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
 msgid "_Mode"
 msgstr "_Mode"
 
-#: frontend/gtkmm/src/Menus.cc:175 frontend/gtkmm/src/Menus.cc:404
+#: frontend/gtkmm/src/Menus.cc:176 frontend/gtkmm/src/Menus.cc:409
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
 msgid "_Normal"
 msgstr "_Normal"
 
-#: frontend/gtkmm/src/Menus.cc:182 frontend/gtkmm/src/Menus.cc:411
+#: frontend/gtkmm/src/Menus.cc:183 frontend/gtkmm/src/Menus.cc:416
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
 msgid "_Suspended"
 msgstr "_Suspendu"
 
-#: frontend/gtkmm/src/Menus.cc:189 frontend/gtkmm/src/Menus.cc:418
+#: frontend/gtkmm/src/Menus.cc:190 frontend/gtkmm/src/Menus.cc:423
 msgid "Q_uiet"
 msgstr "S_ilencieux"
 
-#: frontend/gtkmm/src/Menus.cc:203 frontend/gtkmm/src/Menus.cc:444
+#: frontend/gtkmm/src/Menus.cc:204 frontend/gtkmm/src/Menus.cc:449
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
 msgid "_Network"
 msgstr "_Réseau"
 
-#: frontend/gtkmm/src/Menus.cc:207 frontend/gtkmm/src/Menus.cc:428
+#: frontend/gtkmm/src/Menus.cc:208 frontend/gtkmm/src/Menus.cc:433
 msgid "_Connect"
 msgstr "_Connexion"
 
-#: frontend/gtkmm/src/Menus.cc:212 frontend/gtkmm/src/Menus.cc:431
+#: frontend/gtkmm/src/Menus.cc:213 frontend/gtkmm/src/Menus.cc:436
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
 msgid "_Disconnect"
 msgstr "_Déconnexion"
 
-#: frontend/gtkmm/src/Menus.cc:217 frontend/gtkmm/src/Menus.cc:435
+#: frontend/gtkmm/src/Menus.cc:218 frontend/gtkmm/src/Menus.cc:440
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
 msgid "_Reconnect"
 msgstr "_Reconnexion"
 
-#: frontend/gtkmm/src/Menus.cc:222 frontend/gtkmm/src/Menus.cc:438
+#: frontend/gtkmm/src/Menus.cc:223 frontend/gtkmm/src/Menus.cc:443
 msgid "Show _log"
 msgstr "_Afficher le journal"
 
-#: frontend/gtkmm/src/Menus.cc:247 frontend/gtkmm/src/Menus.cc:400
-#: frontend/gtkmm/src/RestBreakWindow.cc:73
+#: frontend/gtkmm/src/Menus.cc:248 frontend/gtkmm/src/Menus.cc:405
 msgid "_Rest break"
 msgstr "Pause pr_olongée"
 
-#: frontend/gtkmm/src/Menus.cc:257 frontend/gtkmm/src/Menus.cc:401
+#: frontend/gtkmm/src/Menus.cc:262 frontend/gtkmm/src/Menus.cc:406
 #: frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:40
 msgid "Exercises"
 msgstr "Exercices"
 
-#: frontend/gtkmm/src/Menus.cc:269 frontend/gtkmm/src/Menus.cc:446
+#: frontend/gtkmm/src/Menus.cc:274 frontend/gtkmm/src/Menus.cc:451
 #: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:59
 #: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:138
 msgid "Statistics"
 msgstr "Statistiques"
 
-#: frontend/gtkmm/src/Menus.cc:283 frontend/gtkmm/src/Menus.cc:447
+#: frontend/gtkmm/src/Menus.cc:288 frontend/gtkmm/src/Menus.cc:452
 msgid "About..."
 msgstr "À propos de..."
 
-#: frontend/gtkmm/src/Menus.cc:399 frontend/gtkmm/src/PreferencesDialog.cc:55
+#: frontend/gtkmm/src/Menus.cc:404 frontend/gtkmm/src/PreferencesDialog.cc:55
 msgid "Preferences"
 msgstr "Préférences"
 
-#: frontend/gtkmm/src/Menus.cc:689
+#: frontend/gtkmm/src/Menus.cc:707
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
-msgstr "Ce programme vous aide à éviter les Troubles Musculo-Squelletique (TMS) ou à vous en remettre."
+msgstr ""
+"Ce programme vous aide à éviter les Troubles Musculo-Squelletique (TMS) ou à "
+"vous en remettre."
 
-#: frontend/gtkmm/src/MicroPauseWindow.cc:132
+#: frontend/gtkmm/src/MicroBreakWindow.cc:128
+msgid "Please relax for a few seconds"
+msgstr "Détendez-vous pendant quelques secondes"
+
+#: frontend/gtkmm/src/MicroBreakWindow.cc:136
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Prochaine pause prolongée dans %s"
 
-#: frontend/gtkmm/src/MicroPauseWindow.cc:138
+#: frontend/gtkmm/src/MicroBreakWindow.cc:142
 #, c-format
 msgid "Rest break %s overdue"
 msgstr ""
-
-#: frontend/gtkmm/src/MicroPauseWindow.cc:142
-msgid "Please relax for a few seconds"
-msgstr "Détendez-vous pendant quelques secondes"
 
 #: frontend/gtkmm/src/PreferencesDialog.cc:63
 #: frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:103
@@ -205,7 +212,7 @@ msgstr "Applet"
 #. Notebook
 #: frontend/gtkmm/src/PreferencesDialog.cc:76
 #: frontend/gtkmm/src/TimerBoxPreferencePage.cc:169
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:193
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:202
 msgid "Timers"
 msgstr "Chronomètres"
 
@@ -243,7 +250,7 @@ msgstr "Verrouiller les périphériques de saisie et l'écran"
 
 #. Options
 #: frontend/gtkmm/src/PreferencesDialog.cc:175
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:137
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:141
 msgid "Options"
 msgstr "Options"
 
@@ -257,7 +264,8 @@ msgid "Block mode:"
 msgstr "Verrouillage :"
 
 #: frontend/gtkmm/src/PreludeWindow.cc:105
-msgid "Time for a micro-pause?"
+#, fuzzy
+msgid "Time for a micro-break?"
 msgstr "Une petite micro-pause ?"
 
 #: frontend/gtkmm/src/PreludeWindow.cc:109
@@ -301,7 +309,8 @@ msgid "Place timers next to each other"
 msgstr "Placer les chronomètres les uns à côté des autres"
 
 #: frontend/gtkmm/src/TimerBoxPreferencePage.cc:98
-msgid "Place micro-pause and rest break in one spot"
+#, fuzzy
+msgid "Place micro-break and rest break in one spot"
 msgstr "Regrouper la micro-pause et la pause prolongée"
 
 #: frontend/gtkmm/src/TimerBoxPreferencePage.cc:100
@@ -350,7 +359,8 @@ msgstr ""
 
 #. Layout
 #: frontend/gtkmm/src/TimerBoxPreferencePage.cc:172
-msgid "Micro-pause:"
+#, fuzzy
+msgid "Micro-break:"
 msgstr "Micro-pause :"
 
 #: frontend/gtkmm/src/TimerBoxPreferencePage.cc:173
@@ -362,53 +372,58 @@ msgid "Daily limit:"
 msgstr "Limite journalière :"
 
 #. Enabled/Disabled checkbox
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:60
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:63
 msgid "Enable timer"
 msgstr "Activer ce chronomètre"
 
 #. Prelude frame
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:100
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:104
 msgid "Break prompting"
 msgstr "Recommandation de pause"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:102
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:106
 msgid "Prompt before breaking"
 msgstr "Faire une recommandation avant la pause"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:107
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:111
 msgid "Maximum number of prompts:"
 msgstr "Nombre maximum de recommandations"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:142
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:146
 msgid "Show 'Postpone' and 'Skip' button"
 msgstr "Montrer les boutons 'Plus tard' et 'Ne pas faire'"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:151
-msgid "Timer ignores activity"
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:155
+msgid "Suspend timer when inactive"
 msgstr ""
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:166
-msgid "Regard micro-pauses as activity"
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:171
+#, fuzzy
+msgid "Regard micro-breaks as activity"
 msgstr "Compter les micro-pauses comme de l'activité"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:178
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:185
 msgid "Number of exercises:"
 msgstr "Nombre d'exercices :"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:200
-msgid "Time before break:"
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:210
+#, fuzzy
+msgid "Time before end:"
 msgstr "Délai entre deux pauses :"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:207
-msgid "Resets at:"
-msgstr "Réinitialiser à :"
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:211
+#, fuzzy
+msgid "Time between breaks:"
+msgstr "Délai entre deux pauses :"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:217
-msgid "Pause duration:"
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:220
+#, fuzzy
+msgid "Break duration:"
 msgstr "Durée de la pause :"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:234
-msgid "Post-pone time:"
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:242
+#, fuzzy
+msgid "Postpone time:"
 msgstr "Délai quand la pause est repoussée :"
 
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:1
@@ -460,24 +475,24 @@ msgstr "Workrave"
 msgid "Workrave Applet"
 msgstr "Applet de Workrave"
 
-#: frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:77
+#: frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:253
 msgid "Exercises player"
 msgstr "Gestionnaire d'exercices"
 
-#: frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:247
+#: frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:435
 msgid "Resume"
 msgstr "Reprendre"
 
-#: frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:247
+#: frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:435
 msgid "Pause"
 msgstr "Pause"
 
 #: frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:48
-#: frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:66
+#: frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:67
 msgid "Network connect"
 msgstr "Connexion au réseau"
 
-#: frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:67
+#: frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:68
 msgid ""
 "Enter the host name and port number of a computer\n"
 "in the network you wish to connect to."
@@ -492,10 +507,6 @@ msgstr "Nom d'hôté :"
 #: frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:81
 msgid "Port:"
 msgstr "Port :"
-
-#: frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:83
-msgid "Connect at start-up"
-msgstr "Se connecter au démarrage"
 
 #: frontend/plugin/distribution/gtkmm/src/NetworkLogDialog.cc:43
 msgid "Network log"
@@ -538,7 +549,8 @@ msgid ""
 "The following list specifies the hosts that Workrave connects to on\n"
 "start-up. Click the host name or port number to edit."
 msgstr ""
-"La liste ci-dessous contient les hôtes auxquels Workrav se connecte lorsqu'il se lance.\n"
+"La liste ci-dessous contient les hôtes auxquels Workrav se connecte "
+"lorsqu'il se lance.\n"
 "Cliquez sur le nom de 'hôte ou sur le numéro de port pour l'éditer."
 
 #: frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:188
@@ -573,7 +585,9 @@ msgstr "Pauses recommandées"
 msgid ""
 "The number of times you were prompted to break, excluding repeated prompts "
 "for the same break"
-msgstr "Le nombre de fois où le programme vous a suggéré de prendre une pause (les recommandations pour une même pause ne sont comptées qu'une seule fois)"
+msgstr ""
+"Le nombre de fois où le programme vous a suggéré de prendre une pause (les "
+"recommandations pour une même pause ne sont comptées qu'une seule fois)"
 
 #: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:190
 msgid "Repeated prompts"
@@ -581,7 +595,9 @@ msgstr "Recommandations répétées"
 
 #: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:191
 msgid "The number of times you were repeatedly prompted to break"
-msgstr "Le nombre de fois où il vous a été recommandé à plusieurs reprises de prendre une pause"
+msgstr ""
+"Le nombre de fois où il vous a été recommandé à plusieurs reprises de "
+"prendre une pause"
 
 #: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:195
 msgid "Prompted breaks taken"
@@ -599,7 +615,9 @@ msgstr "Pauses prises spontanément"
 
 #: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:201
 msgid "The number of times you took a break without being prompted"
-msgstr "Nombre de fois où vous avez pris une pause sans que le logiciel vous le recommande"
+msgstr ""
+"Nombre de fois où vous avez pris une pause sans que le logiciel vous le "
+"recommande"
 
 #: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:205
 msgid "Breaks skipped"
@@ -661,7 +679,9 @@ msgstr "Mouvements utiles :"
 msgid ""
 "The total mouse movement you would have had if you moved your mouse in "
 "straight lines between clicks"
-msgstr "Distance que vous auriez parcourue si vous aviez déplacé votre souris en ligne droite entre deux clics"
+msgstr ""
+"Distance que vous auriez parcourue si vous aviez déplacé votre souris en "
+"ligne droite entre deux clics"
 
 #: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:307
 msgid "Mouse button clicks:"
@@ -699,139 +719,143 @@ msgstr "%s%d:%02d minutes"
 msgid "%s%d seconds"
 msgstr "%s%d secondes"
 
-#: backend/src/DistributionSocketLink.cc:131
+#: backend/src/DistributionSocketLink.cc:127
 #, c-format
 msgid "Reconnecting to %s:%d."
 msgstr "Reconnexion à %s :%d."
 
-#. We did not succeed in starting the server. Arghh.
 #: backend/src/DistributionSocketLink.cc:345
+msgid "Cannot resolve my own hostname. Deactivating distribution."
+msgstr ""
+
+#. We did not succeed in starting the server. Arghh.
+#: backend/src/DistributionSocketLink.cc:356
 msgid "Could not enable network operation."
 msgstr "Impossible d'activer l'opération réseau."
 
-#: backend/src/DistributionSocketLink.cc:354
+#: backend/src/DistributionSocketLink.cc:365
 msgid "Disabling network operation."
 msgstr "Annulation de l'opération réseau."
 
-#: backend/src/DistributionSocketLink.cc:509
-#: backend/src/DistributionSocketLink.cc:536
+#: backend/src/DistributionSocketLink.cc:520
+#: backend/src/DistributionSocketLink.cc:547
 #, c-format
 msgid "Connecting to %s:%d."
 msgstr "Connexion à %s : %d."
 
-#: backend/src/DistributionSocketLink.cc:640
-#: backend/src/DistributionSocketLink.cc:665
+#: backend/src/DistributionSocketLink.cc:651
+#: backend/src/DistributionSocketLink.cc:676
 #, c-format
 msgid "Removing client %s:%d."
 msgstr "Retire le client %s : %d."
 
 #. Closing direct connection.
-#: backend/src/DistributionSocketLink.cc:702
+#: backend/src/DistributionSocketLink.cc:713
 #, c-format
 msgid "Disconnecting %s:%d."
 msgstr "Déconnecte %s :%d."
 
 #. It's a remote client. mark it master.
-#: backend/src/DistributionSocketLink.cc:870
+#: backend/src/DistributionSocketLink.cc:881
 #, c-format
 msgid "Client %s:%d is now master."
 msgstr "Client %s :%d est actuellement le maître."
 
 #. Its ME!
-#: backend/src/DistributionSocketLink.cc:876
+#: backend/src/DistributionSocketLink.cc:887
 msgid "I'm now master."
 msgstr "Je suis actuellement le maître."
 
-#: backend/src/DistributionSocketLink.cc:1205
+#: backend/src/DistributionSocketLink.cc:1216
 #, c-format
 msgid "Client %s:%d saying hello."
 msgstr "Client %s : %d dit bonjour."
 
 #. Duplicate client. inform client that it's bogus and close.
-#: backend/src/DistributionSocketLink.cc:1220
-#: backend/src/DistributionSocketLink.cc:1337
-#: backend/src/DistributionSocketLink.cc:1573
+#: backend/src/DistributionSocketLink.cc:1231
+#: backend/src/DistributionSocketLink.cc:1348
+#: backend/src/DistributionSocketLink.cc:1584
 #, c-format
 msgid "Client %s:%d is duplicate."
 msgstr "Client %s :%d existe déjà."
 
 #. Incorrect password.
-#: backend/src/DistributionSocketLink.cc:1229
+#: backend/src/DistributionSocketLink.cc:1240
 #, c-format
 msgid "Client %s:%d access denied."
 msgstr "Client %s : %d accès refusé."
 
-#: backend/src/DistributionSocketLink.cc:1296
+#: backend/src/DistributionSocketLink.cc:1307
 #, c-format
 msgid "Client %s:%d signed off."
 msgstr "Client %s :%d s'est déconnecté."
 
-#: backend/src/DistributionSocketLink.cc:1375
+#: backend/src/DistributionSocketLink.cc:1386
 #, c-format
 msgid "Client %s:%d is welcoming us."
 msgstr "Client %s :%d nous souhaite la bienvenue."
 
-#: backend/src/DistributionSocketLink.cc:1608
+#: backend/src/DistributionSocketLink.cc:1619
 #, c-format
 msgid "Requesting master status from %s:%d."
 msgstr ""
 
-#: backend/src/DistributionSocketLink.cc:1621
+#: backend/src/DistributionSocketLink.cc:1632
 #, c-format
 msgid "Client timeout from %s:%d."
 msgstr ""
 
-#: backend/src/DistributionSocketLink.cc:1642
+#: backend/src/DistributionSocketLink.cc:1653
 #, c-format
 msgid "Rejecting master request from client %s:%d."
 msgstr ""
 
-#: backend/src/DistributionSocketLink.cc:1648
+#: backend/src/DistributionSocketLink.cc:1659
 #, c-format
 msgid "Acknowledging master request from client %s:%d."
 msgstr ""
 
-#: backend/src/DistributionSocketLink.cc:1699
+#: backend/src/DistributionSocketLink.cc:1710
 #, c-format
 msgid "Non-master client %s:%d rejected master request."
 msgstr ""
 
-#: backend/src/DistributionSocketLink.cc:1704
+#: backend/src/DistributionSocketLink.cc:1715
 #, c-format
 msgid "Client %s:%d rejected master request, delaying."
 msgstr ""
 
 #. gint count =
-#: backend/src/DistributionSocketLink.cc:1775
+#: backend/src/DistributionSocketLink.cc:1786
 #, c-format
 msgid "Client %s is now the new master."
 msgstr "Le client %s est désormais le nouveau maître."
 
-#: backend/src/DistributionSocketLink.cc:1898
+#: backend/src/DistributionSocketLink.cc:1909
 msgid "Network operation started."
 msgstr "Opération réseau lancée."
 
-#: backend/src/DistributionSocketLink.cc:1915
+#: backend/src/DistributionSocketLink.cc:1926
 msgid "Accepted new client."
 msgstr "Nouveau client accepté."
 
-#: backend/src/DistributionSocketLink.cc:1970
+#: backend/src/DistributionSocketLink.cc:1981
 #, c-format
 msgid "Client %s:%d read error, closing."
 msgstr ""
 
-#: backend/src/DistributionSocketLink.cc:1975
-#: backend/src/DistributionSocketLink.cc:2046
+#: backend/src/DistributionSocketLink.cc:1986
+#: backend/src/DistributionSocketLink.cc:2057
 #, c-format
 msgid "Client %s:%d closed connection."
 msgstr "Client %s :%d a fermé la connection."
 
-#: backend/src/DistributionSocketLink.cc:2015
+#: backend/src/DistributionSocketLink.cc:2026
 #, c-format
 msgid "Client %s:%d connected."
 msgstr "Client %s :%d connecté."
 
-#: backend/src/DistributionSocketLink.cc:2051
+#: backend/src/DistributionSocketLink.cc:2062
 #, c-format
 msgid "Could not connect to client %s:%d."
 msgstr "Impossible de se connecter au client %s : %d."
@@ -853,7 +877,11 @@ msgid ""
 "Cover your eyes with your palms in such way that you can still open your "
 "eyelids. Now open your eyes and look into the darkness of your palms. This "
 "exercise gives better relief to your eyes compared to simply closing them."
-msgstr "Couvrez-vous les yeux avec vos mains, de manière à ce que vous puissiez quand même ouvrir les paupières. Ouvrez les yeux et regardez dans la pénombre créée par vos mains. Cet exercice repose davantage vos yeux que si vous vous contentez de les fermer."
+msgstr ""
+"Couvrez-vous les yeux avec vos mains, de manière à ce que vous puissiez "
+"quand même ouvrir les paupières. Ouvrez les yeux et regardez dans la "
+"pénombre créée par vos mains. Cet exercice repose davantage vos yeux que si "
+"vous vous contentez de les fermer."
 
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:4
 msgid "Finger stretch"
@@ -894,7 +922,12 @@ msgid ""
 "Look at the upper left corner of the outside border of your monitor. Follow "
 "the border slowly to the upper right corner. Continue to the next corner, "
 "until you got around it two times. Then, reverse the excersise."
-msgstr "Regardez le coin en haut à gauche de votre écran. Puis suivez lentement des yeux la bordure supérieure de votre écran jusqu'à arriver au coin en haut à droite. Continuez à faire le tour de l'écran en allant aux autres coins. Faites le tour de l'écran deux fois puis faites-le deux fois dans le sens inverse."
+msgstr ""
+"Regardez le coin en haut à gauche de votre écran. Puis suivez lentement des "
+"yeux la bordure supérieure de votre écran jusqu'à arriver au coin en haut à "
+"droite. Continuez à faire le tour de l'écran en allant aux autres coins. "
+"Faites le tour de l'écran deux fois puis faites-le deux fois dans le sens "
+"inverse."
 
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:10
 msgid ""
@@ -934,7 +967,7 @@ msgstr ""
 
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:18
 msgid ""
-"Put your hands on the armrests of your chair when your sitting down and "
+"Put your hands on the armrests of your chair when you are sitting down and "
 "press your body up until your arms are straight. Try to move your head even "
 "further by lowering your shoulders. Slowly move back into your chair."
 msgstr ""
@@ -1001,7 +1034,9 @@ msgstr "Tournez votre tête"
 msgid ""
 "Turn your head left and keep it there for 2 seconds. Then turn your head "
 "right and keep it there for 2 seconds."
-msgstr "Tournez votre tête à gauche et gardez cette position pendant deux secondes. Puis faites de même en tournant votre tête vers la droite."
+msgstr ""
+"Tournez votre tête à gauche et gardez cette position pendant deux secondes. "
+"Puis faites de même en tournant votre tête vers la droite."
 
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:30
 msgid "Wrist and lower arm desk stretch"
@@ -1024,11 +1059,13 @@ msgid "Exercises ended"
 msgstr "Exercices terminés"
 
 #: frontend/common/share/sounds/workrave.soundlist.in.h:6
-msgid "Micro-pause ended"
+#, fuzzy
+msgid "Micro-break ended"
 msgstr "Fin de la micro-pause"
 
 #: frontend/common/share/sounds/workrave.soundlist.in.h:7
-msgid "Micro-pause started"
+#, fuzzy
+msgid "Micro-break started"
 msgstr "Début de la micro-pause"
 
 #: frontend/common/share/sounds/workrave.soundlist.in.h:8
@@ -1039,3 +1076,8 @@ msgstr "Pause prolongée terminée"
 msgid "Rest break started"
 msgstr "Pause prolongée commencée"
 
+#~ msgid "Resets at:"
+#~ msgstr "Réinitialiser à :"
+
+#~ msgid "Connect at start-up"
+#~ msgstr "Se connecter au démarrage"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.6.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-04 20:46+0200\n"
+"POT-Creation-Date: 2004-04-21 10:57+0200\n"
 "PO-Revision-Date: 2004-04-08 22:33+0200\n"
 "Last-Translator: Sergey Kirkinsky <ksa@pfr.altai.ru>\n"
 "Language-Team: Sergey Kirkinsky <ksa@pfr.altai.ru>\n"
@@ -81,7 +81,7 @@ msgstr ""
 "возле компьютера. Если Ваш рабочий день ещё не закончился,\n"
 "то найдите себе другое занятие, например, просмотр документов."
 
-#: frontend/gtkmm/src/GUI.cc:699
+#: frontend/gtkmm/src/GUI.cc:721
 msgid "I could not initialize Bonobo"
 msgstr "Не могу инициализировать Bonobo"
 
@@ -96,7 +96,7 @@ msgstr "Ожидание"
 
 #: frontend/gtkmm/src/GtkUtil.cc:117 frontend/gtkmm/src/MicroBreakWindow.cc:48
 #: frontend/gtkmm/src/MicroBreakWindow.cc:110
-#: frontend/gtkmm/src/MicroBreakWindow.cc:151
+#: frontend/gtkmm/src/MicroBreakWindow.cc:150
 msgid "Micro-break"
 msgstr "Миниотдых"
 
@@ -106,72 +106,72 @@ msgid "Rest break"
 msgstr "Перерыв"
 
 #. Mode menu item
-#: frontend/gtkmm/src/Menus.cc:169 frontend/gtkmm/src/Menus.cc:426
+#: frontend/gtkmm/src/Menus.cc:169 frontend/gtkmm/src/Menus.cc:430
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
 msgid "_Mode"
 msgstr "_Режим"
 
-#: frontend/gtkmm/src/Menus.cc:176 frontend/gtkmm/src/Menus.cc:405
+#: frontend/gtkmm/src/Menus.cc:176 frontend/gtkmm/src/Menus.cc:409
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
 msgid "_Normal"
 msgstr "_Обычный"
 
-#: frontend/gtkmm/src/Menus.cc:183 frontend/gtkmm/src/Menus.cc:412
+#: frontend/gtkmm/src/Menus.cc:183 frontend/gtkmm/src/Menus.cc:416
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
 msgid "_Suspended"
 msgstr "_Приостановлен"
 
-#: frontend/gtkmm/src/Menus.cc:190 frontend/gtkmm/src/Menus.cc:419
+#: frontend/gtkmm/src/Menus.cc:190 frontend/gtkmm/src/Menus.cc:423
 msgid "Q_uiet"
 msgstr "_Тихо"
 
-#: frontend/gtkmm/src/Menus.cc:204 frontend/gtkmm/src/Menus.cc:445
+#: frontend/gtkmm/src/Menus.cc:204 frontend/gtkmm/src/Menus.cc:449
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
 msgid "_Network"
 msgstr "_Сеть"
 
-#: frontend/gtkmm/src/Menus.cc:208 frontend/gtkmm/src/Menus.cc:429
+#: frontend/gtkmm/src/Menus.cc:208 frontend/gtkmm/src/Menus.cc:433
 msgid "_Connect"
 msgstr "С_оединить"
 
-#: frontend/gtkmm/src/Menus.cc:213 frontend/gtkmm/src/Menus.cc:432
+#: frontend/gtkmm/src/Menus.cc:213 frontend/gtkmm/src/Menus.cc:436
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
 msgid "_Disconnect"
 msgstr "_Разорвать"
 
-#: frontend/gtkmm/src/Menus.cc:218 frontend/gtkmm/src/Menus.cc:436
+#: frontend/gtkmm/src/Menus.cc:218 frontend/gtkmm/src/Menus.cc:440
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
 msgid "_Reconnect"
 msgstr "_Пересоединиться"
 
-#: frontend/gtkmm/src/Menus.cc:223 frontend/gtkmm/src/Menus.cc:439
+#: frontend/gtkmm/src/Menus.cc:223 frontend/gtkmm/src/Menus.cc:443
 msgid "Show _log"
 msgstr "Показать _журнал"
 
-#: frontend/gtkmm/src/Menus.cc:248 frontend/gtkmm/src/Menus.cc:401
+#: frontend/gtkmm/src/Menus.cc:248 frontend/gtkmm/src/Menus.cc:405
 msgid "_Rest break"
 msgstr "_Перерыв"
 
-#: frontend/gtkmm/src/Menus.cc:258 frontend/gtkmm/src/Menus.cc:402
+#: frontend/gtkmm/src/Menus.cc:262 frontend/gtkmm/src/Menus.cc:406
 #: frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:40
 msgid "Exercises"
 msgstr "Упражнения"
 
-#: frontend/gtkmm/src/Menus.cc:270 frontend/gtkmm/src/Menus.cc:447
+#: frontend/gtkmm/src/Menus.cc:274 frontend/gtkmm/src/Menus.cc:451
 #: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:59
 #: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:138
 msgid "Statistics"
 msgstr "Статистика"
 
-#: frontend/gtkmm/src/Menus.cc:284 frontend/gtkmm/src/Menus.cc:448
+#: frontend/gtkmm/src/Menus.cc:288 frontend/gtkmm/src/Menus.cc:452
 msgid "About..."
 msgstr "О программе..."
 
-#: frontend/gtkmm/src/Menus.cc:400 frontend/gtkmm/src/PreferencesDialog.cc:55
+#: frontend/gtkmm/src/Menus.cc:404 frontend/gtkmm/src/PreferencesDialog.cc:55
 msgid "Preferences"
 msgstr "Настройки"
 
-#: frontend/gtkmm/src/Menus.cc:703
+#: frontend/gtkmm/src/Menus.cc:707
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -179,16 +179,16 @@ msgstr ""
 "Эта программа помогает в предупреждении и лечении Туннельного Синдрома "
 "Запястья и снятии общего мышечного напряжения."
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:129
+#: frontend/gtkmm/src/MicroBreakWindow.cc:128
 msgid "Please relax for a few seconds"
 msgstr "Пожалуйста, расслабьтесь на несколько секунд"
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:137
+#: frontend/gtkmm/src/MicroBreakWindow.cc:136
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Следующий перерыв в %s"
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:143
+#: frontend/gtkmm/src/MicroBreakWindow.cc:142
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Перерыв %s запоздал"
@@ -295,8 +295,8 @@ msgid ""
 "walk away from your computer on a regular basis. Just\n"
 "walk around for a few minutes, stretch, and relax."
 msgstr ""
-"Это Ваш перерыв. Встаньте и отойдите ненадолго от компьютера. "
-"Просто прогуляйтесь несколько минут, потянитесь и расслабьтесь."
+"Это Ваш перерыв. Встаньте и отойдите ненадолго от компьютера. Просто "
+"прогуляйтесь несколько минут, потянитесь и расслабьтесь."
 
 #: frontend/gtkmm/src/TimerBoxPreferencePage.cc:96
 msgid "Place timers next to each other"
@@ -462,15 +462,15 @@ msgstr "Workrave"
 msgid "Workrave Applet"
 msgstr "Апплет Workrave"
 
-#: frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:251
+#: frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:253
 msgid "Exercises player"
 msgstr "Просмотрщик упражнений"
 
-#: frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:433
+#: frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:435
 msgid "Resume"
 msgstr "Продолжить"
 
-#: frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:433
+#: frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:435
 msgid "Pause"
 msgstr "Пауза"
 
@@ -483,8 +483,7 @@ msgstr "Соединение по сети"
 msgid ""
 "Enter the host name and port number of a computer\n"
 "in the network you wish to connect to."
-msgstr ""
-"Введите имя и порт компьютера в сети, с которым вы хотите соединиться."
+msgstr "Введите имя и порт компьютера в сети, с которым вы хотите соединиться."
 
 #: frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:80
 msgid "Host name:"
@@ -660,8 +659,8 @@ msgid ""
 "The total mouse movement you would have had if you moved your mouse in "
 "straight lines between clicks"
 msgstr ""
-"Общее перемещение мыши, которое бы было, если бы вы двигали её по "
-"прямым линиям между щелчками"
+"Общее перемещение мыши, которое бы было, если бы вы двигали её по прямым "
+"линиям между щелчками"
 
 #: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:307
 msgid "Mouse button clicks:"
@@ -706,7 +705,8 @@ msgstr "Повторно соединиться с %s:%d."
 
 #: backend/src/DistributionSocketLink.cc:345
 msgid "Cannot resolve my own hostname. Deactivating distribution."
-msgstr "Не могу разрешить свое собственное имя компьютера. Выполнение прекращено."
+msgstr ""
+"Не могу разрешить свое собственное имя компьютера. Выполнение прекращено."
 
 #. We did not succeed in starting the server. Arghh.
 #: backend/src/DistributionSocketLink.cc:356
@@ -888,8 +888,8 @@ msgid ""
 "seconds, and repeat this exercise twice."
 msgstr ""
 "Переплетите пальцы позади спины. Затем, медленно выгните локти внутрь, "
-"выпрямляя руки. Задержитесь в таком положении от 5 до 15 секунд и "
-"повторите упражнение дважды."
+"выпрямляя руки. Задержитесь в таком положении от 5 до 15 секунд и повторите "
+"упражнение дважды."
 
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:7
 msgid ""
@@ -910,7 +910,8 @@ msgid ""
 msgstr ""
 "Держите голову прямо и нижнюю челюсть параллельно полу. Наклоните голову "
 "вперёд (чтобы получился двойной подбородок). Подержите 2 секунды и "
-"расслабьтесь. Откиньте голову назад, подержите 2 секунды и опять расслабьтесь."
+"расслабьтесь. Откиньте голову назад, подержите 2 секунды и опять "
+"расслабьтесь."
 
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:9
 msgid ""
@@ -933,8 +934,8 @@ msgstr ""
 "Посмотрите на самую дальнюю точку, которые вы можете увидеть за своим "
 "монитором. Сфокусируйте взгляд на этой точке. После нескольких секунд "
 "сфокусируйтесь на мониторе. Повторите. Если вы не можете смотреть очень "
-"далеко от монитора используйте, например, ручку держа её на том же расстоянии,"
-"что и монитор."
+"далеко от монитора используйте, например, ручку держа её на том же "
+"расстоянии,что и монитор."
 
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:11
 msgid "Look into the darkness"
@@ -970,8 +971,8 @@ msgid ""
 "press your body up until your arms are straight. Try to move your head even "
 "further by lowering your shoulders. Slowly move back into your chair."
 msgstr ""
-"Положите руки на подлокотники кресла, на котором вы сидите, и поднимите себя, "
-"выпрямив руки. Попытайтесь откинуть голову назад опуская плечи. "
+"Положите руки на подлокотники кресла, на котором вы сидите, и поднимите "
+"себя, выпрямив руки. Попытайтесь откинуть голову назад опуская плечи. "
 "Медленно сядьте обратно на стул."
 
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:19
@@ -1020,11 +1021,9 @@ msgid ""
 "again."
 msgstr ""
 "Встаньте и попробуйте потянуться руками, не отрывая пятки от пола. Постойте "
-"так несколько секунд. Затем, расслабьте кисти не сгибая руки. "
-"Продолжайте их опускать, медленно сгибаясь, пока Вы не сможете (или "
-"почти не сможете) коснуться ваших ботинок. Медленно выпрямитесь до "
-"вертикального положения"
-
+"так несколько секунд. Затем, расслабьте кисти не сгибая руки. Продолжайте их "
+"опускать, медленно сгибаясь, пока Вы не сможете (или почти не сможете) "
+"коснуться ваших ботинок. Медленно выпрямитесь до вертикального положения"
 
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:25
 msgid ""
@@ -1035,9 +1034,8 @@ msgid ""
 msgstr ""
 "Сделайте голову прямо. Затем, медленно наклоните голову к правому плечу, "
 "чтобы мягко растянуть мускулы на левой стороне шеи. Задержитесь в этом "
-"положение в течение 5 секунд. Затем, наклоните голову к левой стороне, "
-"чтобы растянуть мышцы на другой стороне. Сделайте это дважды для каждой "
-"стороны."
+"положение в течение 5 секунд. Затем, наклоните голову к левой стороне, чтобы "
+"растянуть мышцы на другой стороне. Сделайте это дважды для каждой стороны."
 
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:26
 msgid "Stretch your back"
