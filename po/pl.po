@@ -674,10 +674,12 @@ msgid "%s%d:%02d minutes"
 msgstr "%s%d:%02d minut"
 
 #: src/app/Text.cc:83
+#, c-format
 msgid "%s%d seconds"
-msgstr "%s%ld sekund"
+msgstr "%s%d sekund"
 
 #: src/core/DistributionSocketLink.cc:131
+#, c-format
 msgid "Reconnecting to %s:%d."
 msgstr "Ponowne łączenie z %s:%d."
 
@@ -815,7 +817,7 @@ msgstr "Połączenie do klienta %s:%d niemożliwe."
 
 #: src/app/shared/exercises/exercises.xml.in.h:1
 msgid "Backward shoulder stretch"
-msgstr ""
+msgstr "Rozciąganie barków za plecami"
 
 #: src/app/shared/exercises/exercises.xml.in.h:2
 msgid ""
@@ -824,6 +826,10 @@ msgid ""
 "for each time you breath in and out. To extra relax your eyes, try closing "
 "them in micro pauses too."
 msgstr ""
+"Zamknij oczy, zrób wydech tak długi jak potrafisz i spróbuj się "
+"zrelaksować. Robiąc wdech rób to tak długo jak to możliwe. Spróbuj "
+"liczyć do 8 z każdym wdechem i wydechem. Żeby dodatkowo odpoczęły oczy "
+"próbuj je zamykać przy każdej mikropauzie."
 
 #: src/app/shared/exercises/exercises.xml.in.h:3
 msgid ""
@@ -831,10 +837,13 @@ msgid ""
 "eyelids. Now open your eyes and look into the darkness of your palms. This "
 "exercise gives better relief to your eyes compared to simply closing them."
 msgstr ""
+"Zakryj oczy dłońmi tak żebyś mógł otworzyć oczy, ale jednocześnie "
+"nie docierało do nich światło.  Teraz otwórz oczy i spójrz w ciemność. "
+"To ćwiczenie daje większą ulgę niż zwykłe zamknięcie oczu."
 
 #: src/app/shared/exercises/exercises.xml.in.h:4
 msgid "Finger stretch"
-msgstr ""
+msgstr "Rozciąganie palców"
 
 #: src/app/shared/exercises/exercises.xml.in.h:5
 msgid ""
@@ -843,6 +852,10 @@ msgid ""
 "without changing the angle of your elbows. Then push your body back from the "
 "wall again without changing the angle of the elbows."
 msgstr ""
+"Stań naprzeciw ściany (lub czegoś podobnego) i oprzyj się "
+"umieszczając dłonie na wysokości barków, zegnij lekko łokcie. Napieraj "
+"ciałem na ścianę nie zmieniając kąta ugięcia łokci. Następnie odepchnij "
+"się od ściany nie zmieniając kąta ugięcia łokci."
 
 #: src/app/shared/exercises/exercises.xml.in.h:6
 msgid ""
@@ -850,6 +863,9 @@ msgid ""
 "inward, while straightening your arms. Hold this position for 5 to 15 "
 "seconds, and repeat this exercise twice."
 msgstr ""
+"Spleć palce za plecami. Zegnij delikatnie łokcie do wnętrza "
+"jednocześnie wyprostowując ramiona. Wytrzymaj w tej pozycji 5 do 15 "
+"sekund i powtórz ćwiczenie dwa razy."
 
 #: src/app/shared/exercises/exercises.xml.in.h:7
 msgid ""
@@ -858,6 +874,9 @@ msgid ""
 "shoulder. Hold this position briefly, and repeat the exercise for your other "
 "arm."
 msgstr ""
+"Jedno ramię wyprostuj przed klatką piersiową. Pociągnij to ramię "
+"drugim dopóki nie poczujesz napięcia w barku. Wytrzymaj tak przez moment "
+"i powtórz ćwiczenie z drugim ramieniem."
 
 #: src/app/shared/exercises/exercises.xml.in.h:8
 msgid ""
@@ -865,6 +884,11 @@ msgid ""
 "head back (making a double chin). Keep this 2 seconds and relax. Move your "
 "head the same way forward, keep this 2 seconds and relax again."
 msgstr ""
+" Trzymaj głowę wyprostowaną, tak że dolna szczęka jest równolegle do "
+"podłogi. Rusz głową do tyłu cały czas trzymając szczękę poziomo (robiąc "
+"podwójny podbródek). Wytrzymaj 2 sekundy i rozluźnij się. Porusz głową "
+"do przodu w ten sam sposób, wytrzymaj 2 sekundy i rozluźnij "
+"się."
 
 #: src/app/shared/exercises/exercises.xml.in.h:9
 msgid ""
@@ -872,6 +896,9 @@ msgid ""
 "the border slowly to the upper right corner. Continue to the next corner, "
 "until you got around it two times. Then, reverse the excersise."
 msgstr ""
+"Spójrz na górny lewy róg monitora. Powoli przesuwaj wzrok do górnego prawego "
+"rogu. Kontynuuj do następnego rogu dopóki nie okrążysz w ten sposób monitora "
+"dwukrotnie. Następnie odwróć kierunek ćwiczenia."
 
 #: src/app/shared/exercises/exercises.xml.in.h:10
 msgid ""
@@ -884,30 +911,34 @@ msgstr ""
 #: src/app/shared/exercises/exercises.xml.in.h:11
 msgid "Look into the darkness"
 msgstr ""
+"Spójrz na najdalszy punkt jaki możesz zobaczyć za monitorem. Po paru "
+"sekundach zogniskuj wzrok na krawędzi monitor. Powtórz to. Jeśli nie możesz "
+"patrzeć daleko od monitora, użyj na przykład ołówka i trzymaj go w takiej "
+"samej odległości co monitor."
 
 #: src/app/shared/exercises/exercises.xml.in.h:12
 msgid "Move the eyes"
-msgstr ""
+msgstr "Poruszanie oczami"
 
 #: src/app/shared/exercises/exercises.xml.in.h:13
 msgid "Move the shoulderblades"
-msgstr ""
+msgstr "Rozluźnianie łopatek"
 
 #: src/app/shared/exercises/exercises.xml.in.h:14
 msgid "Move the shoulders"
-msgstr ""
+msgstr "Rozluźnianie barków"
 
 #: src/app/shared/exercises/exercises.xml.in.h:15
 msgid "Move the shoulders up and down"
-msgstr ""
+msgstr "Ruszanie barkami w górę i dół"
 
 #: src/app/shared/exercises/exercises.xml.in.h:16
 msgid "Neck stretch"
-msgstr ""
+msgstr "Napinanie szyi"
 
 #: src/app/shared/exercises/exercises.xml.in.h:17
 msgid "Neck tilt stretch"
-msgstr ""
+msgstr "Rozciąganie szyi"
 
 #: src/app/shared/exercises/exercises.xml.in.h:18
 msgid ""
@@ -915,10 +946,13 @@ msgid ""
 "press your body up until your arms are straight. Try to move your head even "
 "further by lowering your shoulders. Slowly move back into your chair."
 msgstr ""
+"Siedząc umieść ręce na podłokietnikach Twojego fotela. Wyprostuj je tak aż "
+"się uniesiesz. Spróbuj unieść głowę jeszcze wyżej obniżając barki. Powoli "
+"wróć do fotela."
 
 #: src/app/shared/exercises/exercises.xml.in.h:19
 msgid "Relax the eyes"
-msgstr ""
+msgstr "Odpoczynek dla oczu"
 
 #: src/app/shared/exercises/exercises.xml.in.h:20
 msgid ""
@@ -926,10 +960,13 @@ msgid ""
 "this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
 "again for 10 seconds. Repeat this exercise once more."
 msgstr ""
+"Rozdziel i wyprostuj palce tak aż poczujesz napięcie, wytrzymaj 10 sekund. "
+"Rozluźnij dłonie a następnie zegnij palce w kostkach na 10 sekund. Powtórz "
+"ćwiczenie jeszcze raz."
 
 #: src/app/shared/exercises/exercises.xml.in.h:21
 msgid "Shoulder-arm stretch"
-msgstr ""
+msgstr "Rozciąganie ramienia"
 
 #: src/app/shared/exercises/exercises.xml.in.h:22
 msgid ""
@@ -937,12 +974,17 @@ msgid ""
 "this 4 times clockwise, 4 times counter clockwise and relax for a few "
 "seconds. Repeat with the left arm."
 msgstr ""
+"Zrób prawym ramieniem powolny ruch tak jakby śmigłem samolotu. Powtórz to "
+"4 razy zgodnie z ruchem wskazówek zegara, 4 razy w przeciwnym kierunku "
+"i rozluźnij się na parę sekund. Powtórz ćwiczenie z lewym ramieniem."
 
 #: src/app/shared/exercises/exercises.xml.in.h:23
 msgid ""
 "Stand by your desk and place both your palms on the desk with the fingers "
 "pointing toward your body. Gently stretch your wrists and lower arms."
 msgstr ""
+"Stań obok biurka i umieść obie dłonie na biurku palcami w swoją stronę. "
+"Delikatnie rozciągnij nadgarstki i przedramiona."
 
 #: src/app/shared/exercises/exercises.xml.in.h:24
 msgid ""
@@ -961,28 +1003,34 @@ msgid ""
 "side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
 "the left side to stretch your other side. Do this twice for each side."
 msgstr ""
+"Zacznij z głową wygodnie wyprostowaną. Natępnie powoli pochyl głowę na "
+"prawy bark by delikatnie napiąć mieśnie lewej strony szyi. Wytrzymaj 5 "
+"sekund. Potem pochyl głowę na lewą stronę by napiąć mięśnie z drugiej "
+"strony. Powtórz to dwa razy dla każdej strony."
 
 #: src/app/shared/exercises/exercises.xml.in.h:26
 msgid "Stretch your back"
-msgstr ""
+msgstr "Napinanie mięśni pleców"
 
 #: src/app/shared/exercises/exercises.xml.in.h:27
 msgid "Train focussing the eyes"
-msgstr ""
+msgstr "Trening akomodacji"
 
 #: src/app/shared/exercises/exercises.xml.in.h:28
 msgid "Turn your head"
-msgstr ""
+msgstr "Obroty głowy"
 
 #: src/app/shared/exercises/exercises.xml.in.h:29
 msgid ""
 "Turn your head left and keep it there for 2 seconds. Then turn your head "
 "right and keep it there for 2 seconds."
 msgstr ""
+"Obróć głowę w lewo i trzymaj tak 2 sekundy.  Następnie obróć głowę w prawo "
+"i też wytrzymaj 2 sekundy."
 
 #: src/app/shared/exercises/exercises.xml.in.h:30
 msgid "Wrist and lower arm desk stretch"
-msgstr ""
+msgstr "Rozciąganie nadgarstków i przedramienia o biurko"
 
 #: src/app/shared/sounds/workrave.soundlist.in.h:1
 msgid "Break ignored"
