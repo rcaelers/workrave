@@ -52,7 +52,8 @@ endif
 
 if PLATFORM_WIN32
 sourceswin32 		= resource.rc
-includeswin32 		= -I$(top_srcdir)/shared/win32/harpoon/
+includeswin32 		= -I$(top_srcdir)/shared/win32/harpoon/ -Iwin32/
+workrave_LDFLAGS        = -Lwin32/
 endif
 
 if HAVE_DISTRIBUTION
@@ -70,7 +71,7 @@ WINDRES ?= "windres"
 
 includesinput 		= -I$(top_srcdir)/src/shared/win32/harpoon/
 WIN32LIBS 		= $(top_srcdir)/src/shared/win32/harpoon/Release/harpoon.lib \
-			  -lshell32 -lole32 -lwinmm
+			  -lworkravewin32 -lshell32 -lole32 -lwinmm
 endif
 
 if HAVE_X

@@ -1,6 +1,6 @@
 // main.cc --- Main
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -26,6 +26,9 @@ static const char rcsid[] = "$Id$";
 #include <fstream>
 
 #include "GUI.hh"
+#ifdef WIN32
+#include "dll_hell.h"
+#endif
 
 extern "C" int run(int argc, char **argv);
 
@@ -34,6 +37,10 @@ run(int argc, char **argv)
 {
   GUI *gui = new GUI(argc, argv);
 
+#ifdef WIN32
+  dll_hell_check();
+#endif
+  
   gui->main();
 
   delete gui;
@@ -97,6 +104,7 @@ int WINAPI WinMain (HINSTANCE hInstance,
                     int iCmdShow) 
 {
   char *argv[] = { szCmdLine };
+  char buf[1000];
 
   // InnoSetup: [...] requires that you add code to your application
   // which creates a mutex with the name you specify in this

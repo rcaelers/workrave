@@ -7,6 +7,10 @@ http://www.workrave.org
 
 * Workrave 1.4.1
 
+** The Windows installer now offers the option to install Workrave
+using the standalone Dropline GTK+ runtime. For more information, see
+http://www.dropline.net/gtk/.
+
 ** Removed the "Force break after maximum preludes" option. It is now
 on by default.
 

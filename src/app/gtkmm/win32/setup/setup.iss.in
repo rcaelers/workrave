@@ -70,6 +70,7 @@ Source: "..\..\..\..\..\po\pl.gmo"; DestDir: "{app}\lib\locale\pl\LC_MESSAGES"; 
 [Registry]
 Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\Workrave.exe"; ValueType: string; ValueData: "{app}\lib\Workrave.exe"; Flags: uninsdeletekeyifempty
 Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\Workrave.exe"; ValueName: "Path"; ValueType: string; ValueData: "{code:GetAppPath}"; Flags: uninsdeletekeyifempty
+Root: HKLM; Subkey: "SOFTWARE\Workrave"; ValueName: "CommonGTK"; ValueType: string; ValueData: "{code:GetCommonGtkKey}";
 
 [Icons]
 Name: "{group}\Workrave"; Filename: "{app}\lib\Workrave.exe"
@@ -115,6 +116,14 @@ var
 begin
     i := Pos(',gtk', WizardSelectedComponents(False));
     Result := i <> 0;
+end;
+
+function GetCommonGtkKey(S: String): String;
+begin
+    Result := 'TRUE';
+    if (isGtkRuntimeToBeInstalled()) then begin
+        Result := 'FALSE';
+    end
 end;
 
 function GetAppPath(S: String): String;
