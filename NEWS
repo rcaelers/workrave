@@ -7,6 +7,12 @@ http://www.workrave.org
 
 * Workrave 1.2.3
 
+** Multihead support for X11. Workrave now shows a break windows on
+all monitors.
+
+** Workrave can now cope with changes in system time and OS features
+like suspend-to-ram.
+
 ** Previously, the end time that showed up in the stats dialog equaled
 the time at which the clock reset (typically equal to the start of the
 next working day).  This lead to weird from/to times, as in: "From
