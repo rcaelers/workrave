@@ -89,6 +89,14 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
       description_widget = description_box;
     }
 
+  // This is ugly, but I could not find a decent way to do this otherwise.
+  //  size_group = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_BOTH);
+  //  size_group->add_widget(image_frame);
+  //  size_group->add_widget(*description_widget);
+
+  image.set_size_request(250, 250);
+  description_label.set_size_request(250, 200);
+
   back_button->signal_clicked()
     .connect(SigC::slot(*this, &ExercisesPanel::on_go_back));
 
@@ -109,8 +117,6 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
   exercise_count = 0;
   reset();
 
-  description_widget->set_size_request(250, 250);
-  image.set_size_request(250, 250);
 }
 
 ExercisesPanel::~ExercisesPanel()

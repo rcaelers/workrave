@@ -65,6 +65,7 @@ private:
   Gtk::Button *back_button;
   Gtk::Button *pause_button;
   Gtk::Button *forward_button;
+  Glib::RefPtr<Gtk::SizeGroup> size_group;
   const std::list<Exercise> &exercises;
   std::list<Exercise>::const_iterator exercise_iterator;
   std::list<Exercise::Image>::const_iterator image_iterator;
