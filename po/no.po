@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: no\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-19 18:58+0200\n"
+"POT-Creation-Date: 2004-12-04 17:23+0100\n"
 "PO-Revision-Date: 2004-07-16 14:25+0200\n"
 "Last-Translator: Morten Lunde <morten.lunde@broadpark.no>\n"
 "Language-Team:  >\n"
@@ -67,11 +67,6 @@ msgstr "Hopp over"
 msgid "Postpone"
 msgstr "Utsett"
 
-#: frontend/gtkmm/src/BreakWindow.cc:241
-#, fuzzy
-msgid "Restbreak"
-msgstr "_Hvilepause"
-
 #: frontend/gtkmm/src/DailyLimitWindow.cc:45
 #: frontend/gtkmm/src/DailyLimitWindow.cc:53
 #: frontend/common/src/TimerBoxControl.cc:171
@@ -90,29 +85,31 @@ msgstr ""
 "ved datamaskinen. Hvis din arbeidsdag ikke er slutt, finn \n"
 "på noe annet å gjøre, som gjennomlesning av et dokument."
 
-#: frontend/gtkmm/src/GUI.cc:732
+#: frontend/gtkmm/src/GUI.cc:721
 msgid "I could not initialize Bonobo"
 msgstr "Feil: Kunne ikke initialisere Bonobo"
 
 #. FIXME: duplicate
 #: frontend/common/src/TimerBoxControl.cc:171
-#: frontend/gtkmm/src/GtkUtil.cc:154 frontend/gtkmm/src/MicroBreakWindow.cc:48
-#: frontend/gtkmm/src/MicroBreakWindow.cc:110
-#: frontend/gtkmm/src/MicroBreakWindow.cc:188
+#: frontend/gtkmm/src/GtkUtil.cc:154 frontend/gtkmm/src/MicroBreakWindow.cc:49
+#: frontend/gtkmm/src/MicroBreakWindow.cc:169
+#: frontend/gtkmm/src/MicroBreakWindow.cc:247
 msgid "Micro-break"
 msgstr "Mikropause"
 
 #: frontend/common/src/TimerBoxControl.cc:171
-#: frontend/gtkmm/src/GtkUtil.cc:154 frontend/gtkmm/src/RestBreakWindow.cc:73
+#: frontend/gtkmm/src/GtkUtil.cc:154
+#: frontend/gtkmm/src/MicroBreakWindow.cc:142
+#: frontend/gtkmm/src/RestBreakWindow.cc:73
 #: frontend/gtkmm/src/RestBreakWindow.cc:181
 msgid "Rest break"
 msgstr "Hvilepause"
 
-#: frontend/common/src/TimerBoxControl.cc:188
+#: frontend/common/src/TimerBoxControl.cc:189
 msgid "Inactive"
 msgstr "Inaktiv"
 
-#: frontend/common/src/TimerBoxControl.cc:235
+#: frontend/common/src/TimerBoxControl.cc:237
 #: frontend/gtkmm/src/TimerBoxGtkView.cc:161
 msgid "Wait"
 msgstr "Vent"
@@ -184,7 +181,7 @@ msgstr "Om..."
 msgid "Preferences"
 msgstr "Innstillinger"
 
-#: frontend/gtkmm/src/Menus.cc:712
+#: frontend/gtkmm/src/Menus.cc:715
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -192,26 +189,26 @@ msgstr ""
 "Dette programmet hjelper til med å forebygge RSI syndrom (Repetetive Strain "
 "Injury)."
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:150
+#: frontend/gtkmm/src/MicroBreakWindow.cc:209
 msgid "Please relax for a few seconds"
 msgstr "Benytt denne pausen til å slappe av litt."
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:157
+#: frontend/gtkmm/src/MicroBreakWindow.cc:216
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Neste hvilepause om %s"
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:162
+#: frontend/gtkmm/src/MicroBreakWindow.cc:221
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Tidspunktet for hvilepause er overskredet med %s minutter"
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:175
+#: frontend/gtkmm/src/MicroBreakWindow.cc:234
 #, fuzzy, c-format
 msgid "Daily limit in %s"
 msgstr "Daglig grense"
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:180
+#: frontend/gtkmm/src/MicroBreakWindow.cc:239
 #, fuzzy, c-format
 msgid "Daily limit %s overdue"
 msgstr "Daglig grense"
@@ -298,15 +295,15 @@ msgstr "Du trenger en hvilepause..."
 msgid "You should stop for today..."
 msgstr "Du bør stoppe for i dag..."
 
-#: frontend/gtkmm/src/PreludeWindow.cc:256
+#: frontend/gtkmm/src/PreludeWindow.cc:253
 msgid "Break in"
 msgstr "Pause om"
 
-#: frontend/gtkmm/src/PreludeWindow.cc:260
+#: frontend/gtkmm/src/PreludeWindow.cc:257
 msgid "Disappears in"
 msgstr "Forsvinner om"
 
-#: frontend/gtkmm/src/PreludeWindow.cc:264
+#: frontend/gtkmm/src/PreludeWindow.cc:261
 msgid "Silent in"
 msgstr "Stille om"
 
@@ -1120,6 +1117,10 @@ msgstr "Hvilepause avsluttet"
 #: frontend/common/share/sounds/workrave.soundlist.in.h:9
 msgid "Rest break started"
 msgstr "Hvilepause startet"
+
+#, fuzzy
+#~ msgid "Restbreak"
+#~ msgstr "_Hvilepause"
 
 #~ msgid "Block inndata og skjerm"
 #~ msgstr "Blokker alt"

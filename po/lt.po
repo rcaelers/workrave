@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.6.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-19 18:58+0200\n"
+"POT-Creation-Date: 2004-12-04 17:23+0100\n"
 "PO-Revision-Date: 2004-07-14 23:19+0200\n"
 "Last-Translator: Artūras Šlajus <x11@h2o.sky.lt>\n"
 "Language-Team: Artūras Šlajus <x11@h2o.sky.lt>\n"
@@ -66,11 +66,6 @@ msgstr "Praleisti"
 msgid "Postpone"
 msgstr "Atidėti"
 
-#: frontend/gtkmm/src/BreakWindow.cc:241
-#, fuzzy
-msgid "Restbreak"
-msgstr "Poilsio pe_rtrauka"
-
 #: frontend/gtkmm/src/DailyLimitWindow.cc:45
 #: frontend/gtkmm/src/DailyLimitWindow.cc:53
 #: frontend/common/src/TimerBoxControl.cc:171
@@ -89,29 +84,31 @@ msgstr ""
 "Jei tavo darbo diena dar nepasibaigė, susirask kokį nors \n"
 "kitą darba, pavyzdžiui peržiūrėk dokumentus."
 
-#: frontend/gtkmm/src/GUI.cc:732
+#: frontend/gtkmm/src/GUI.cc:721
 msgid "I could not initialize Bonobo"
 msgstr "Nepavyko inicializuoti Bonobo"
 
 #. FIXME: duplicate
 #: frontend/common/src/TimerBoxControl.cc:171
-#: frontend/gtkmm/src/GtkUtil.cc:154 frontend/gtkmm/src/MicroBreakWindow.cc:48
-#: frontend/gtkmm/src/MicroBreakWindow.cc:110
-#: frontend/gtkmm/src/MicroBreakWindow.cc:188
+#: frontend/gtkmm/src/GtkUtil.cc:154 frontend/gtkmm/src/MicroBreakWindow.cc:49
+#: frontend/gtkmm/src/MicroBreakWindow.cc:169
+#: frontend/gtkmm/src/MicroBreakWindow.cc:247
 msgid "Micro-break"
 msgstr "Mikro-pertraukėlė"
 
 #: frontend/common/src/TimerBoxControl.cc:171
-#: frontend/gtkmm/src/GtkUtil.cc:154 frontend/gtkmm/src/RestBreakWindow.cc:73
+#: frontend/gtkmm/src/GtkUtil.cc:154
+#: frontend/gtkmm/src/MicroBreakWindow.cc:142
+#: frontend/gtkmm/src/RestBreakWindow.cc:73
 #: frontend/gtkmm/src/RestBreakWindow.cc:181
 msgid "Rest break"
 msgstr "Poilsio pertrauka"
 
-#: frontend/common/src/TimerBoxControl.cc:188
+#: frontend/common/src/TimerBoxControl.cc:189
 msgid "Inactive"
 msgstr "Neaktyvus"
 
-#: frontend/common/src/TimerBoxControl.cc:235
+#: frontend/common/src/TimerBoxControl.cc:237
 #: frontend/gtkmm/src/TimerBoxGtkView.cc:161
 msgid "Wait"
 msgstr "Laukti"
@@ -183,33 +180,33 @@ msgstr "Apie..."
 msgid "Preferences"
 msgstr "Parinktys"
 
-#: frontend/gtkmm/src/Menus.cc:712
+#: frontend/gtkmm/src/Menus.cc:715
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
 msgstr ""
 "Ši programa padeda išvengti ir atsistatyti po Pakartotinės Jėgos Žalos (RSI)."
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:150
+#: frontend/gtkmm/src/MicroBreakWindow.cc:209
 msgid "Please relax for a few seconds"
 msgstr "Atsipalaiduokite kelioms sekundėms"
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:157
+#: frontend/gtkmm/src/MicroBreakWindow.cc:216
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Iki kitos poilsio pertaukos liko %s"
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:162
+#: frontend/gtkmm/src/MicroBreakWindow.cc:221
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Poilsio pertrauka %s praleista"
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:175
+#: frontend/gtkmm/src/MicroBreakWindow.cc:234
 #, fuzzy, c-format
 msgid "Daily limit in %s"
 msgstr "Dienos limitas"
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:180
+#: frontend/gtkmm/src/MicroBreakWindow.cc:239
 #, fuzzy, c-format
 msgid "Daily limit %s overdue"
 msgstr "Dienos limitas"
@@ -297,15 +294,15 @@ msgstr "Tau reikia poilsio pertraukos..."
 msgid "You should stop for today..."
 msgstr "Šiandien jau turėtum baigti..."
 
-#: frontend/gtkmm/src/PreludeWindow.cc:256
+#: frontend/gtkmm/src/PreludeWindow.cc:253
 msgid "Break in"
 msgstr "Pertauka po"
 
-#: frontend/gtkmm/src/PreludeWindow.cc:260
+#: frontend/gtkmm/src/PreludeWindow.cc:257
 msgid "Disappears in"
 msgstr "Išnyks po"
 
-#: frontend/gtkmm/src/PreludeWindow.cc:264
+#: frontend/gtkmm/src/PreludeWindow.cc:261
 msgid "Silent in"
 msgstr "Tylus po"
 
@@ -1135,3 +1132,7 @@ msgstr "Poilsio pertrauka baigta"
 #: frontend/common/share/sounds/workrave.soundlist.in.h:9
 msgid "Rest break started"
 msgstr "Poilsio pertrauka pradėta"
+
+#, fuzzy
+#~ msgid "Restbreak"
+#~ msgstr "Poilsio pe_rtrauka"

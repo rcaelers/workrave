@@ -723,7 +723,9 @@ AM_CONDITIONAL(HAVE_DISTRIBUTION, test "x$config_distribution" = "xyes")
 AM_CONDITIONAL(HAVE_EXERCISES, test "x$config_exercises" = "xyes")
 AM_CONDITIONAL(HAVE_EXPERIMENTAL, test "x$config_experimental" = "xyes")
 
-
+dnl somehow, this doesn't get defined anymore...                                  
+CATOBJEXT=.gmo 
+AC_SUBST(CATOBJEXT)
 
         
 AC_OUTPUT(Makefile \

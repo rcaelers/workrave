@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WorkRave 1.4.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-19 18:58+0200\n"
+"POT-Creation-Date: 2004-12-04 17:23+0100\n"
 "PO-Revision-Date: 2004-07-13 20:39+0200\n"
 "Last-Translator: Rex Tsai <chihchun@linux.org.tw>\n"
 "Language-Team: Chinese/Traditional <zh-l10n@linux.org.tw>\n"
@@ -66,11 +66,6 @@ msgstr "略過"
 msgid "Postpone"
 msgstr "延後"
 
-#: frontend/gtkmm/src/BreakWindow.cc:241
-#, fuzzy
-msgid "Restbreak"
-msgstr "休息(_R)"
-
 #: frontend/gtkmm/src/DailyLimitWindow.cc:45
 #: frontend/gtkmm/src/DailyLimitWindow.cc:53
 #: frontend/common/src/TimerBoxControl.cc:171
@@ -88,29 +83,31 @@ msgstr ""
 "您已經達到每日限制量。請停止在電腦前工作工作。\n"
 "如果您尚未下班，找些其他的事情來做，例如檢閱文件。"
 
-#: frontend/gtkmm/src/GUI.cc:732
+#: frontend/gtkmm/src/GUI.cc:721
 msgid "I could not initialize Bonobo"
 msgstr "無法啟動 Bonobo"
 
 #. FIXME: duplicate
 #: frontend/common/src/TimerBoxControl.cc:171
-#: frontend/gtkmm/src/GtkUtil.cc:154 frontend/gtkmm/src/MicroBreakWindow.cc:48
-#: frontend/gtkmm/src/MicroBreakWindow.cc:110
-#: frontend/gtkmm/src/MicroBreakWindow.cc:188
+#: frontend/gtkmm/src/GtkUtil.cc:154 frontend/gtkmm/src/MicroBreakWindow.cc:49
+#: frontend/gtkmm/src/MicroBreakWindow.cc:169
+#: frontend/gtkmm/src/MicroBreakWindow.cc:247
 msgid "Micro-break"
 msgstr "暫停"
 
 #: frontend/common/src/TimerBoxControl.cc:171
-#: frontend/gtkmm/src/GtkUtil.cc:154 frontend/gtkmm/src/RestBreakWindow.cc:73
+#: frontend/gtkmm/src/GtkUtil.cc:154
+#: frontend/gtkmm/src/MicroBreakWindow.cc:142
+#: frontend/gtkmm/src/RestBreakWindow.cc:73
 #: frontend/gtkmm/src/RestBreakWindow.cc:181
 msgid "Rest break"
 msgstr "休息"
 
-#: frontend/common/src/TimerBoxControl.cc:188
+#: frontend/common/src/TimerBoxControl.cc:189
 msgid "Inactive"
 msgstr "靜止"
 
-#: frontend/common/src/TimerBoxControl.cc:235
+#: frontend/common/src/TimerBoxControl.cc:237
 #: frontend/gtkmm/src/TimerBoxGtkView.cc:161
 msgid "Wait"
 msgstr "等待"
@@ -181,32 +178,32 @@ msgstr "關於..."
 msgid "Preferences"
 msgstr "偏好"
 
-#: frontend/gtkmm/src/Menus.cc:712
+#: frontend/gtkmm/src/Menus.cc:715
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
 msgstr "這個軟體是協助預防與復原重複性壓力傷害 (Repetitive Strain Injury RSI)"
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:150
+#: frontend/gtkmm/src/MicroBreakWindow.cc:209
 msgid "Please relax for a few seconds"
 msgstr "請放鬆幾秒"
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:157
+#: frontend/gtkmm/src/MicroBreakWindow.cc:216
 #, c-format
 msgid "Next rest break in %s"
 msgstr "下次休息時間 %s"
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:162
+#: frontend/gtkmm/src/MicroBreakWindow.cc:221
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "休息 %s 逾時"
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:175
+#: frontend/gtkmm/src/MicroBreakWindow.cc:234
 #, fuzzy, c-format
 msgid "Daily limit in %s"
 msgstr "每日限制"
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:180
+#: frontend/gtkmm/src/MicroBreakWindow.cc:239
 #, fuzzy, c-format
 msgid "Daily limit %s overdue"
 msgstr "每日限制"
@@ -290,15 +287,15 @@ msgstr "您需要一個休息..."
 msgid "You should stop for today..."
 msgstr "今天應該到此為止了..."
 
-#: frontend/gtkmm/src/PreludeWindow.cc:256
+#: frontend/gtkmm/src/PreludeWindow.cc:253
 msgid "Break in"
 msgstr "休息"
 
-#: frontend/gtkmm/src/PreludeWindow.cc:260
+#: frontend/gtkmm/src/PreludeWindow.cc:257
 msgid "Disappears in"
 msgstr "自動消失 "
 
-#: frontend/gtkmm/src/PreludeWindow.cc:264
+#: frontend/gtkmm/src/PreludeWindow.cc:261
 msgid "Silent in"
 msgstr "沉默"
 
@@ -1086,6 +1083,10 @@ msgstr "休息停止"
 #: frontend/common/share/sounds/workrave.soundlist.in.h:9
 msgid "Rest break started"
 msgstr "休息開始"
+
+#, fuzzy
+#~ msgid "Restbreak"
+#~ msgstr "休息(_R)"
 
 #~ msgid "Connect at start-up"
 #~ msgstr "在啟動時自動連接"

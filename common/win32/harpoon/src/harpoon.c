@@ -400,9 +400,17 @@ harpoon_keyboard_ll_hook (int code, WPARAM wpar, LPARAM lpar)
     {
       KBDLLHOOKSTRUCT *kb = (KBDLLHOOKSTRUCT *) lpar;
       BOOL pressed = !(kb->flags & (1<<7));
-      HarpoonEventType evt = pressed ? HARPOON_KEY_PRESS : HARPOON_KEY_RELEASE;
       forcecallnext = !pressed;
-      PostMessage (notification_window, WM_USER + evt, (WPARAM) 0, (LPARAM) 0);
+
+      // The low level hook also intercepts keys injected using keybd_event.
+      // Some application use this function to toggle the keyboard lights...
+      if (kb->vkCode != VK_NUMLOCK &&
+          kb->vkCode != VK_CAPITAL &&
+          kb->vkCode != VK_SCROLL)
+        { 
+          HarpoonEventType evt = pressed ? HARPOON_KEY_PRESS : HARPOON_KEY_RELEASE;
+          PostMessage (notification_window, WM_USER + evt, (WPARAM) 0, (LPARAM) 0);
+        }
     }
   return harpoon_generic_hook_return (code, wpar, lpar, keyboard_ll_hook,
                                       forcecallnext);

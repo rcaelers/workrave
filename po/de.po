@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.4.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-19 18:58+0200\n"
+"POT-Creation-Date: 2004-12-04 17:23+0100\n"
 "PO-Revision-Date: 2004-07-13 20:38+0200\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -77,12 +77,6 @@ msgstr "Überspringen"
 msgid "Postpone"
 msgstr "Aufschieben"
 
-# src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:13
-#: frontend/gtkmm/src/BreakWindow.cc:241
-#, fuzzy
-msgid "Restbreak"
-msgstr "_Ruhepause"
-
 # src/app/gtkmm/DailyLimitWindow.cc:47 src/app/gtkmm/GtkUtil.cc:88
 # src/app/shared/sounds/workrave.soundlist.in.h:3
 #: frontend/gtkmm/src/DailyLimitWindow.cc:45
@@ -105,7 +99,7 @@ msgstr ""
 "zu einer anderen Tätigkeit, z.B. zur Durchsicht von Dokumenten."
 
 # src/app/gtkmm/GUI.cc:676
-#: frontend/gtkmm/src/GUI.cc:732
+#: frontend/gtkmm/src/GUI.cc:721
 msgid "I could not initialize Bonobo"
 msgstr "Konnte Bonobo nicht initialisieren"
 
@@ -113,26 +107,28 @@ msgstr "Konnte Bonobo nicht initialisieren"
 # src/app/gtkmm/MicroPauseWindow.cc:204
 #. FIXME: duplicate
 #: frontend/common/src/TimerBoxControl.cc:171
-#: frontend/gtkmm/src/GtkUtil.cc:154 frontend/gtkmm/src/MicroBreakWindow.cc:48
-#: frontend/gtkmm/src/MicroBreakWindow.cc:110
-#: frontend/gtkmm/src/MicroBreakWindow.cc:188
+#: frontend/gtkmm/src/GtkUtil.cc:154 frontend/gtkmm/src/MicroBreakWindow.cc:49
+#: frontend/gtkmm/src/MicroBreakWindow.cc:169
+#: frontend/gtkmm/src/MicroBreakWindow.cc:247
 msgid "Micro-break"
 msgstr "Mikropause"
 
 # src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/RestBreakWindow.cc:284
 #: frontend/common/src/TimerBoxControl.cc:171
-#: frontend/gtkmm/src/GtkUtil.cc:154 frontend/gtkmm/src/RestBreakWindow.cc:73
+#: frontend/gtkmm/src/GtkUtil.cc:154
+#: frontend/gtkmm/src/MicroBreakWindow.cc:142
+#: frontend/gtkmm/src/RestBreakWindow.cc:73
 #: frontend/gtkmm/src/RestBreakWindow.cc:181
 msgid "Rest break"
 msgstr "Ruhepause"
 
 # src/app/gtkmm/TimerBox.cc:254
-#: frontend/common/src/TimerBoxControl.cc:188
+#: frontend/common/src/TimerBoxControl.cc:189
 msgid "Inactive"
 msgstr "Inaktiv"
 
 # src/app/gtkmm/TimerBox.cc:220 src/app/gtkmm/TimerBox.cc:300
-#: frontend/common/src/TimerBoxControl.cc:235
+#: frontend/common/src/TimerBoxControl.cc:237
 #: frontend/gtkmm/src/TimerBoxGtkView.cc:161
 msgid "Wait"
 msgstr "Warten"
@@ -225,7 +221,7 @@ msgid "Preferences"
 msgstr "Vorlieben"
 
 # src/app/gtkmm/Menus.cc:605
-#: frontend/gtkmm/src/Menus.cc:712
+#: frontend/gtkmm/src/Menus.cc:715
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -234,32 +230,32 @@ msgstr ""
 "(Repetetive Strain Injury) und unterstützt den Genesungsprozess."
 
 # src/app/gtkmm/MicroPauseWindow.cc:200
-#: frontend/gtkmm/src/MicroBreakWindow.cc:150
+#: frontend/gtkmm/src/MicroBreakWindow.cc:209
 msgid "Please relax for a few seconds"
 msgstr "Bitte entspannen Sie sich für ein paar Sekunden"
 
 # src/app/gtkmm/MicroPauseWindow.cc:190
-#: frontend/gtkmm/src/MicroBreakWindow.cc:157
+#: frontend/gtkmm/src/MicroBreakWindow.cc:216
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Nächste Ruhepause in %s"
 
 # src/app/gtkmm/MicroPauseWindow.cc:196
-#: frontend/gtkmm/src/MicroBreakWindow.cc:162
+#: frontend/gtkmm/src/MicroBreakWindow.cc:221
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Ruhepause %s Minuten überfällig"
 
 # src/app/gtkmm/DailyLimitWindow.cc:47 src/app/gtkmm/GtkUtil.cc:88
 # src/app/shared/sounds/workrave.soundlist.in.h:3
-#: frontend/gtkmm/src/MicroBreakWindow.cc:175
+#: frontend/gtkmm/src/MicroBreakWindow.cc:234
 #, fuzzy, c-format
 msgid "Daily limit in %s"
 msgstr "Tägliches Limit"
 
 # src/app/gtkmm/DailyLimitWindow.cc:47 src/app/gtkmm/GtkUtil.cc:88
 # src/app/shared/sounds/workrave.soundlist.in.h:3
-#: frontend/gtkmm/src/MicroBreakWindow.cc:180
+#: frontend/gtkmm/src/MicroBreakWindow.cc:239
 #, fuzzy, c-format
 msgid "Daily limit %s overdue"
 msgstr "Tägliches Limit"
@@ -364,17 +360,17 @@ msgid "You should stop for today..."
 msgstr "Sie sollten für heute aufhören..."
 
 # src/app/gtkmm/PreludeWindow.cc:208
-#: frontend/gtkmm/src/PreludeWindow.cc:256
+#: frontend/gtkmm/src/PreludeWindow.cc:253
 msgid "Break in"
 msgstr "Pause in"
 
 # src/app/gtkmm/PreludeWindow.cc:212
-#: frontend/gtkmm/src/PreludeWindow.cc:260
+#: frontend/gtkmm/src/PreludeWindow.cc:257
 msgid "Disappears in"
 msgstr "Verschwindet in"
 
 # src/app/gtkmm/PreludeWindow.cc:216
-#: frontend/gtkmm/src/PreludeWindow.cc:264
+#: frontend/gtkmm/src/PreludeWindow.cc:261
 msgid "Silent in"
 msgstr "Still in"
 
@@ -1372,6 +1368,11 @@ msgstr "Ruhepause beendet"
 #: frontend/common/share/sounds/workrave.soundlist.in.h:9
 msgid "Rest break started"
 msgstr "Ruhepause begonnen"
+
+# src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:13
+#, fuzzy
+#~ msgid "Restbreak"
+#~ msgstr "_Ruhepause"
 
 # src/app/gtkmm/NetworkJoinDialog.cc:76
 #~ msgid "Connect at start-up"
