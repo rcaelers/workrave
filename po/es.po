@@ -98,7 +98,6 @@ msgstr "Espere"
 #: frontend/gtkmm/src/GtkUtil.cc:117 frontend/gtkmm/src/MicroBreakWindow.cc:48
 #: frontend/gtkmm/src/MicroBreakWindow.cc:110
 #: frontend/gtkmm/src/MicroBreakWindow.cc:146
-#, fuzzy
 msgid "Micro-break"
 msgstr "Micropausa"
 
@@ -263,7 +262,6 @@ msgid "Block mode:"
 msgstr "Modo de impedimento"
 
 #: frontend/gtkmm/src/PreludeWindow.cc:105
-#, fuzzy
 msgid "Time for a micro-break?"
 msgstr "¿Una micropausa?"
 
@@ -307,7 +305,6 @@ msgid "Place timers next to each other"
 msgstr "Mostrar los temporizadores juntos"
 
 #: frontend/gtkmm/src/TimerBoxPreferencePage.cc:98
-#, fuzzy
 msgid "Place micro-break and rest break in one spot"
 msgstr "Mostrar micropausa y descanso en un mismo espacio"
 
@@ -357,7 +354,6 @@ msgstr "Tiempo hasta el cambio de la muestra:"
 
 #. Layout
 #: frontend/gtkmm/src/TimerBoxPreferencePage.cc:172
-#, fuzzy
 msgid "Micro-break:"
 msgstr "Micropausa:"
 
@@ -396,7 +392,6 @@ msgid "Suspend timer when inactive"
 msgstr ""
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:171
-#, fuzzy
 msgid "Regard micro-breaks as activity"
 msgstr "Considerar las micropausas como actividad"
 
@@ -405,22 +400,18 @@ msgid "Number of exercises:"
 msgstr "Número de ejercicios:"
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:210
-#, fuzzy
 msgid "Time before end:"
 msgstr "Tiempo hasta la interrupción:"
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:211
-#, fuzzy
 msgid "Time between breaks:"
 msgstr "Tiempo hasta la interrupción:"
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:220
-#, fuzzy
 msgid "Break duration:"
 msgstr "Duración de la interrupción:"
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:242
-#, fuzzy
 msgid "Postpone time:"
 msgstr "Duración del aplazamiento:"
 

@@ -1,5 +1,5 @@
 # translation of da.po for Workrave
-# Copyright (C) 2003 Rob Caelers & Raymond Penners
+# Copyright (C) 2003, 2004 Rob Caelers & Raymond Penners
 # This file is distributed under the same license as the Workrave product.
 # Christian Vejlbo <christian@vejlbo.dk>, 2003
 # 
@@ -98,7 +98,6 @@ msgstr "Vent"
 #: frontend/gtkmm/src/GtkUtil.cc:117 frontend/gtkmm/src/MicroBreakWindow.cc:48
 #: frontend/gtkmm/src/MicroBreakWindow.cc:110
 #: frontend/gtkmm/src/MicroBreakWindow.cc:146
-#, fuzzy
 msgid "Micro-break"
 msgstr "Mikropause"
 
@@ -264,7 +263,6 @@ msgid "Block mode:"
 msgstr "Blokeringsindstilling:"
 
 #: frontend/gtkmm/src/PreludeWindow.cc:105
-#, fuzzy
 msgid "Time for a micro-break?"
 msgstr "Tid til en mikropause ?"
 
@@ -308,7 +306,6 @@ msgid "Place timers next to each other"
 msgstr "Placér tiderne ved siden af hinanden"
 
 #: frontend/gtkmm/src/TimerBoxPreferencePage.cc:98
-#, fuzzy
 msgid "Place micro-break and rest break in one spot"
 msgstr "Placér mikropauser og hvilepauser på samme tidspunkt"
 
@@ -358,7 +355,6 @@ msgstr "Tidscyklus:"
 
 #. Layout
 #: frontend/gtkmm/src/TimerBoxPreferencePage.cc:172
-#, fuzzy
 msgid "Micro-break:"
 msgstr "Mikropause:"
 
@@ -397,7 +393,6 @@ msgid "Suspend timer when inactive"
 msgstr ""
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:171
-#, fuzzy
 msgid "Regard micro-breaks as activity"
 msgstr "Betragt mikropauser som aktiviteter"
 
@@ -406,22 +401,18 @@ msgid "Number of exercises:"
 msgstr "Antal øvelser:"
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:210
-#, fuzzy
 msgid "Time before end:"
 msgstr "Tid før pause:"
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:211
-#, fuzzy
 msgid "Time between breaks:"
 msgstr "Tid før pause:"
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:220
-#, fuzzy
 msgid "Break duration:"
 msgstr "Pause længde:"
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:242
-#, fuzzy
 msgid "Postpone time:"
 msgstr "Udsættelses-periode:"
 
@@ -1092,12 +1083,10 @@ msgid "Exercises ended"
 msgstr "Øvelser afsluttet"
 
 #: frontend/common/share/sounds/workrave.soundlist.in.h:6
-#, fuzzy
 msgid "Micro-break ended"
-msgstr "Mikropause"
+msgstr "Mikropause afsluttet"
 
 #: frontend/common/share/sounds/workrave.soundlist.in.h:7
-#, fuzzy
 msgid "Micro-break started"
 msgstr "Mikropause startet"
 

@@ -32,10 +32,11 @@
 #include <gtkmm/buttonbox.h>
 #include <gtkmm/button.h>
 #include <gtkmm/image.h>
-#include <gtkmm/label.h>
 #include <gtkmm/frame.h>
 #include <gtkmm/progressbar.h>
 #include <gtkmm/sizegroup.h>
+#include <gtkmm/textview.h>
+#include <gtkmm/scrolledwindow.h>
 
 class ExercisesPanel : public Gtk::HBox
 {
@@ -69,7 +70,8 @@ private:
   Gtk::Frame image_frame;
   Gtk::Image image;
   Gtk::ProgressBar progress_bar;
-  Gtk::Label description_label;
+  Gtk::TextView description_text;
+  Gtk::ScrolledWindow description_scroll;
   Gtk::Button *back_button;
   Gtk::Button *pause_button;
   Gtk::Button *forward_button;

@@ -98,7 +98,6 @@ msgstr "Czekaj"
 #: frontend/gtkmm/src/GtkUtil.cc:117 frontend/gtkmm/src/MicroBreakWindow.cc:48
 #: frontend/gtkmm/src/MicroBreakWindow.cc:110
 #: frontend/gtkmm/src/MicroBreakWindow.cc:146
-#, fuzzy
 msgid "Micro-break"
 msgstr "Mikropauza"
 
@@ -263,7 +262,6 @@ msgid "Block mode:"
 msgstr "Tryb blokowania:"
 
 #: frontend/gtkmm/src/PreludeWindow.cc:105
-#, fuzzy
 msgid "Time for a micro-break?"
 msgstr "Czas na mikropauzę?"
 
@@ -307,7 +305,6 @@ msgid "Place timers next to each other"
 msgstr "Umieść zegary jeden obok drugiego"
 
 #: frontend/gtkmm/src/TimerBoxPreferencePage.cc:98
-#, fuzzy
 msgid "Place micro-break and rest break in one spot"
 msgstr "Umieść mikropauzę i odpoczynek w jednym miejscu"
 
@@ -357,7 +354,6 @@ msgstr "Czas cyklu:"
 
 #. Layout
 #: frontend/gtkmm/src/TimerBoxPreferencePage.cc:172
-#, fuzzy
 msgid "Micro-break:"
 msgstr "Mikropauza:"
 
@@ -396,7 +392,6 @@ msgid "Suspend timer when inactive"
 msgstr ""
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:171
-#, fuzzy
 msgid "Regard micro-breaks as activity"
 msgstr "Uważaj mikropauzy za aktywność"
 
@@ -405,22 +400,18 @@ msgid "Number of exercises:"
 msgstr "Liczba ćwiczeń:"
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:210
-#, fuzzy
 msgid "Time before end:"
 msgstr "Czas między przerwami:"
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:211
-#, fuzzy
 msgid "Time between breaks:"
 msgstr "Czas między przerwami:"
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:220
-#, fuzzy
 msgid "Break duration:"
 msgstr "Czas trwania przerwy:"
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:242
-#, fuzzy
 msgid "Postpone time:"
 msgstr "Opóźnienie trwa:"
 
@@ -1093,12 +1084,10 @@ msgid "Exercises ended"
 msgstr "Ćwiczenia zakończone"
 
 #: frontend/common/share/sounds/workrave.soundlist.in.h:6
-#, fuzzy
 msgid "Micro-break ended"
-msgstr "Mikropauza"
+msgstr "Mikropauza zakończona"
 
 #: frontend/common/share/sounds/workrave.soundlist.in.h:7
-#, fuzzy
 msgid "Micro-break started"
 msgstr "Mikropauza rozpoczęta"
 
