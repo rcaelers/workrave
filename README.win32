@@ -4,6 +4,8 @@ Compiling Workrave on Windows (Draft)
 Compiling Workrave on Windows is a real crime. For those who are brave
 enough, here are some hints from the top of my memory.
 
+Note: The developers no longer compile workrave this way. Workrave is
+now cross-compiled on Linux.
 
 Step 1. Install Cygwin
 ======================
