@@ -68,9 +68,9 @@ WINDRES ?= "windres"
 .rc.o:
 	${WINDRES} -o $@ $<
 
-includesinput 		= -I$(top_srcdir)/shared/win32/harpoon/
+includesinput 		= -I$(top_srcdir)/src/shared/win32/harpoon/
 sourceswin32input 	= Win32InputMonitor.cc resource.rc
-WIN32LIBS 		= $(top_srcdir)/shared/win32/harpoon/Release/harpoon.lib \
+WIN32LIBS 		= $(top_srcdir)/src/shared/win32/harpoon/Release/harpoon.lib \
 			  -lshell32 -lole32 -lwinmm
 endif
 
@@ -112,7 +112,7 @@ workrave_SOURCES = \
 		${sourcesdistribution} \
 		${sourcesexercises}
 
-workrave_CXXFLAGS = -DWORKRAVE_DATADIR="\"${pkgdatadir}\"" -W @APP_CFLAGS@ -I$(top_srcdir)/src -I$(top_srcdir)/app @GNOMEUIMM_CFLAGS@ @GNOMEUI_CFLAGS@ @GTK_CFLAGS@ @GTKMM_CFLAGS@ @GCONF_CFLAGS@ -D_XOPEN_SOURCE=600 @GNET_CFLAGS@ $(includeswin32)
+workrave_CXXFLAGS = -DWORKRAVE_DATADIR="\"${pkgdatadir}\"" -W @APP_CFLAGS@ -I$(top_srcdir)/src -I$(top_srcdir)/app @GNOMEUIMM_CFLAGS@ @GNOMEUI_CFLAGS@ @GTK_CFLAGS@ @GTKMM_CFLAGS@ @GCONF_CFLAGS@ -D_XOPEN_SOURCE=600 @GNET_CFLAGS@ $(includeswin32) $(includesinput)
 
 workrave_CFLAGS	= -DWORKRAVE_DATADIR="\"${pkgdatadir}\"" @APP_CFLAGS@ -I$(top_srcdir)/src -I$(top_srcdir)/app @GNOMEUI_CFLAGS@ @GTK_CFLAGS@ @GTKMM_CFLAGS@ -D_XOPEN_SOURCE=600
 
