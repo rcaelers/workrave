@@ -74,14 +74,14 @@ struct ConfigCheck
   {
     { "micro_pause",
       "Micro-pause",
-      150, 30, false,	true,	150,
+      3*60, 30, false,	true,	150,
       "timer-micropause.png", "" ,
-      3, true, false, false
+      3, true, true, true
     },
     {
       "rest_break",
       "Rest break",
-      1200, 600, false,	true, 150,
+      45*60, 10*60, false,	true, 180,
       "timer-restbreak.png", "",
       3, true, true, true
     },
@@ -90,7 +90,7 @@ struct ConfigCheck
       "Daily limit",
       14400, 0,	false,	true, 150,
       "timer-daily.png", "day/4:00",
-      0, true, true, true
+      3, true, true, true
     },
   };
 

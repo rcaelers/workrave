@@ -104,6 +104,9 @@ TimerPreferencesPanel::create_prelude_frame()
   force_after_prelude_cb->signal_toggled()
     .connect(SigC::slot(*this,
                         &TimerPreferencesPanel::on_preludes_force_toggled));
+  max_prelude_adjustment.signal_value_changed()
+    .connect(SigC::slot(*this,
+                        &TimerPreferencesPanel::on_preludes_maximum_changed));
 
   Gtk::VBox *prelude_vbox = new Gtk::VBox(false, 6);
   prelude_vbox->set_border_width(6);
@@ -124,9 +127,9 @@ TimerPreferencesPanel::create_options_frame()
   // Insists option
   bool insists = timer->get_break_insisting();
   insists_cb = manage(new Gtk::CheckButton("Block user input"));
+  insists_cb->set_active(insists);
   insists_cb->signal_toggled()
     .connect(SigC::slot(*this, &TimerPreferencesPanel::on_insists_toggled));
-  insists_cb->set_active(insists);
 
   // Monitor
   Configurator *cfg = GUIControl::get_instance()->get_configurator();
@@ -135,12 +138,12 @@ TimerPreferencesPanel::create_options_frame()
     {
       monitor_cb
         = manage(new Gtk::CheckButton("Regard micro-pauses as activity"));
-      monitor_cb->signal_toggled()
-        .connect(SigC::slot(*this, &TimerPreferencesPanel::on_monitor_toggled));
       string monitor_name;
       bool b = cfg->get_value
         (tpfx + ControlInterface::CFG_KEY_TIMER_MONITOR, &monitor_name);
       monitor_cb->set_active(b && monitor_name != "");
+      monitor_cb->signal_toggled()
+        .connect(SigC::slot(*this, &TimerPreferencesPanel::on_monitor_toggled));
     }
   else
     monitor_cb = NULL;
@@ -149,9 +152,9 @@ TimerPreferencesPanel::create_options_frame()
   bool ignorable = timer->get_break_ignorable();
   ignorable_cb = manage(new Gtk::CheckButton
                         ("Show 'Postpone' and 'Skip' button"));
+  ignorable_cb->set_active(ignorable);
   ignorable_cb->signal_toggled()
     .connect(SigC::slot(*this, &TimerPreferencesPanel::on_ignorable_toggled));
-  ignorable_cb->set_active(ignorable);
   
   // Options table
   Gtk::Table *opts_table = manage(new Gtk::Table(2,2, false));
@@ -173,6 +176,7 @@ TimerPreferencesPanel::create_options_frame()
   Gtk::Frame *opts_frame = new Gtk::Frame("Options");
   opts_table->set_border_width(6);
   opts_frame->add(*opts_table);
+
 
   return opts_frame;
 }
@@ -239,10 +243,6 @@ TimerPreferencesPanel::create_timers_frame()
 }
 
 
-void
-TimerPreferencesPanel::config_changed_notify(string key)
-{
-}
 
 void
 TimerPreferencesPanel::set_prelude_sensitivity()
@@ -275,6 +275,13 @@ TimerPreferencesPanel::on_preludes_active_toggled()
     }
   timer->set_break_max_preludes(mp);
   set_prelude_sensitivity();
+}
+
+void
+TimerPreferencesPanel::on_preludes_maximum_changed()
+{
+  int mp = (int) max_prelude_adjustment.get_value();
+  timer->set_break_max_preludes(mp);
 }
 
 void

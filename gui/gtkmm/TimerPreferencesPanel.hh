@@ -28,20 +28,18 @@ class TimerInterface;
 class Configurator;
 
 #include <gtkmm.h>
-#include "ConfiguratorListener.hh"
 #include "GUIControl.hh"
 
 class TimeEntry;
 
 class TimerPreferencesPanel
-  : public Gtk::HBox,
-    public ConfiguratorListener
+  : public Gtk::HBox
 {
 public:  
   TimerPreferencesPanel(GUIControl::TimerId timer);
   ~TimerPreferencesPanel();
-
-  virtual void config_changed_notify(string key);
+  
+private:
   void on_snooze_changed();
   void on_auto_reset_changed();
   void on_limit_changed();
@@ -50,9 +48,8 @@ public:
   void on_monitor_toggled();
   void on_preludes_active_toggled();
   void on_preludes_maximum_toggled();
+  void on_preludes_maximum_changed();
   void on_preludes_force_toggled();
-  
-private:
   Gtk::Frame *create_prelude_frame();
   Gtk::Frame *create_options_frame();
   Gtk::Frame *create_timers_frame();

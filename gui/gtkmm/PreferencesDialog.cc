@@ -47,12 +47,11 @@ struct MonitorPreset
 
 static MonitorPreset presets[] =
 {
-  { "Trigger-happy", 1000, 1000, 0 },
-  { "Nervous", 1000, 1000, 500 },
-  { "Alert", 2000, 5000, 1000 },
+  { "Trigger-happy", 0, 1000, 0 },
+  { "Quick", 1000, 5000, 800 },
   { "Normal", 1000, 5000, 9000 },
-  { "Sluggish", 1000, 10000, 9000 },
-  { "Numb", 1000, 10000, 9000 },
+  { "Sluggish", 5000, 10000, 4000 },
+  { "Numb", 10000, 10000, 9000 },
   { NULL, 0, 0, 0 }, 
   { "Custom settings", -1, -1, -1 },
 };
@@ -185,6 +184,15 @@ PreferencesDialog::create_monitor_page()
   activity_time->set_value(val);
   y++;
 
+  label = manage(new Gtk::Label("Noise time (ms)"));
+  noise_time = manage(new TimeEntry(true));
+  mon_table->attach(*label, 0, 1, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
+  mon_table->attach(*noise_time, 1, 2, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
+  GUIControl::get_instance()->get_configurator()
+    ->get_value(ControlInterface::CFG_KEY_MONITOR_NOISE, &val);
+  noise_time->set_value(val);
+  y++;
+  
   label = manage(new Gtk::Label("Idle time (ms)"));
   idle_time = manage(new TimeEntry(true));
   mon_table->attach(*label, 0, 1, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
@@ -193,14 +201,6 @@ PreferencesDialog::create_monitor_page()
     ->get_value(ControlInterface::CFG_KEY_MONITOR_IDLE, &val);
   idle_time->set_value(val);
   y++;
-
-  label = manage(new Gtk::Label("Noise time (ms)"));
-  noise_time = manage(new TimeEntry(true));
-  mon_table->attach(*label, 0, 1, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
-  mon_table->attach(*noise_time, 1, 2, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
-  GUIControl::get_instance()->get_configurator()
-    ->get_value(ControlInterface::CFG_KEY_MONITOR_NOISE, &val);
-  noise_time->set_value(val);
 
   update_preset();
 
