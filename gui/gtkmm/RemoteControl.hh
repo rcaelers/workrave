@@ -52,7 +52,7 @@ private:
   //! The one and only instance
   static RemoteControl *instance;
 
-  //!
+  //! The underlaying CORBA object.
   static WorkraveControl *workrave_control;
 
   friend BonoboObject* workrave_component_factory(BonoboGenericFactory *factory, const char *_id, void *);

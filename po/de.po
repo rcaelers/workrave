@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
-"POT-Creation-Date: 2002-12-29 18:22+0100\n"
+"POT-Creation-Date: 2002-12-30 16:23+0100\n"
 "PO-Revision-Date: 2002-11-15 13:17+0100\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Johannes Rohr <j.rohr@comlink.apc.org>\n"
@@ -28,7 +28,7 @@ msgid "Silent in"
 msgstr "Still in"
 
 #. Slot/Position of the break timer.
-#: gui/GUIControl.cc:85 gui/gtkmm/AppletPreferencePage.cc:65
+#: gui/GUIControl.cc:85 gui/gtkmm/AppletPreferencePage.cc:62
 #: gui/gtkmm/MicroPauseWindow.cc:161
 msgid "Micro-pause"
 msgstr "Mikropause"
@@ -37,7 +37,7 @@ msgstr "Mikropause"
 msgid "Rest break"
 msgstr "Ruhepause"
 
-#: gui/GUIControl.cc:99 gui/gtkmm/AppletPreferencePage.cc:67
+#: gui/GUIControl.cc:99 gui/gtkmm/AppletPreferencePage.cc:64
 msgid "Daily limit"
 msgstr "Tägliches Limit"
 
@@ -95,38 +95,69 @@ msgid "About %s"
 msgstr "Über %s"
 
 #. Frame
-#: gui/gtkmm/AppletPreferencePage.cc:61
+#: gui/gtkmm/AppletPreferencePage.cc:58
 msgid "Layout"
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:66
+#: gui/gtkmm/AppletPreferencePage.cc:63
 #, fuzzy
 msgid "Restbreak"
 msgstr "Ruhepause"
 
-#: gui/gtkmm/AppletPreferencePage.cc:72
+#: gui/gtkmm/AppletPreferencePage.cc:69
 msgid "Cycle time"
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:73
+#: gui/gtkmm/AppletPreferencePage.cc:70
 #, fuzzy
 msgid "Break position"
 msgstr "Ankündigung der Pause"
 
-#: gui/gtkmm/AppletPreferencePage.cc:74
+#: gui/gtkmm/AppletPreferencePage.cc:71
 msgid "Show only when first"
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:75
-msgid "Show only when imminent"
+#: gui/gtkmm/AppletPreferencePage.cc:72
+msgid "Show only when imminent in"
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:76
+#: gui/gtkmm/AppletPreferencePage.cc:73
 msgid "Show exclusively"
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:77
-msgid "Break is imminent when due in"
+#: gui/gtkmm/AppletPreferencePage.cc:90
+msgid "Applet enabled or not."
+msgstr ""
+
+#: gui/gtkmm/AppletPreferencePage.cc:91
+msgid ""
+"When multiple breaks are shown on a certain position, this value indicates "
+"the time each break is shown."
+msgstr ""
+
+#: gui/gtkmm/AppletPreferencePage.cc:129
+msgid ""
+"Position on which the break timer is shown. Three positions are available. "
+"In case multiple breaks have the same position, they will be shown "
+"alternatingly."
+msgstr ""
+
+#: gui/gtkmm/AppletPreferencePage.cc:133
+msgid ""
+"If set, the break timer will always be the only break that will shown on "
+"that position. It will not be shown alternatingly with another break."
+msgstr ""
+
+#: gui/gtkmm/AppletPreferencePage.cc:137
+msgid ""
+"If set, the break timer will only be shown if it is the first break that "
+"will reach its limit."
+msgstr ""
+
+#: gui/gtkmm/AppletPreferencePage.cc:140 gui/gtkmm/AppletPreferencePage.cc:143
+msgid ""
+"If set, the break timer will only be shown if it will reach its limit within "
+"the specified time."
 msgstr ""
 
 #: gui/gtkmm/AppletWindow.cc:517
@@ -164,15 +195,15 @@ msgid "I could not initialize Bonobo"
 msgstr ""
 
 #. Mode menu item
-#: gui/gtkmm/Menus.cc:136
+#: gui/gtkmm/Menus.cc:136 gui/gnome/GNOME_WorkraveApplet.xml.in.h:4
 msgid "_Mode"
 msgstr "_Betriebsart"
 
-#: gui/gtkmm/Menus.cc:143
+#: gui/gtkmm/Menus.cc:143 gui/gnome/GNOME_WorkraveApplet.xml.in.h:6
 msgid "_Normal"
 msgstr "_Normal"
 
-#: gui/gtkmm/Menus.cc:150
+#: gui/gtkmm/Menus.cc:150 gui/gnome/GNOME_WorkraveApplet.xml.in.h:14
 #, fuzzy
 msgid "_Suspended"
 msgstr "_Angehalten"
@@ -181,7 +212,7 @@ msgstr "_Angehalten"
 msgid "Q_uiet"
 msgstr "St_ill"
 
-#: gui/gtkmm/Menus.cc:171
+#: gui/gtkmm/Menus.cc:171 gui/gnome/GNOME_WorkraveApplet.xml.in.h:5
 msgid "_Network"
 msgstr "N_etzwerk"
 
@@ -189,11 +220,11 @@ msgstr "N_etzwerk"
 msgid "_Connect"
 msgstr "_Verbinden"
 
-#: gui/gtkmm/Menus.cc:180
+#: gui/gtkmm/Menus.cc:180 gui/gnome/GNOME_WorkraveApplet.xml.in.h:3
 msgid "_Disconnect"
 msgstr "_Trennen"
 
-#: gui/gtkmm/Menus.cc:185
+#: gui/gtkmm/Menus.cc:185 gui/gnome/GNOME_WorkraveApplet.xml.in.h:11
 msgid "_Reconnect"
 msgstr "Verbindung _Wiederaufnehmen"
 
@@ -468,6 +499,52 @@ msgstr "Warten"
 #: gui/gtkmm/TimerWindow.cc:137
 msgid "Inactive"
 msgstr "Inaktiv"
+
+#: gui/gnome/Workrave-Applet.server.in.in.h:1
+msgid "Workrave"
+msgstr ""
+
+#: gui/gnome/Workrave-Applet.server.in.in.h:2
+msgid "Workrave Applet"
+msgstr ""
+
+#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:1
+#, fuzzy
+msgid "_About..."
+msgstr "Über..."
+
+#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:2
+#, fuzzy
+msgid "_Connect..."
+msgstr "_Verbinden"
+
+#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:7
+msgid "_Open"
+msgstr ""
+
+#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:8
+msgid "_Preferences"
+msgstr ""
+
+#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:9
+#, fuzzy
+msgid "_Quiet"
+msgstr "St_ill"
+
+#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:10
+#, fuzzy
+msgid "_Quit"
+msgstr "St_ill"
+
+#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:12
+#, fuzzy
+msgid "_Restbreak"
+msgstr "_Ruhepause"
+
+#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:13
+#, fuzzy
+msgid "_Show Log..."
+msgstr "_Protokoll anzeigen"
 
 #~ msgid "Overdue rest break in %s"
 #~ msgstr "Überfällige Ruhepause in %s"

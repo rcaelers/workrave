@@ -28,3 +28,6 @@ gui/gtkmm/TimerWindow.cc
 gui/gtkmm/Win32SoundPlayer.cc
 gui/gtkmm/WindowHints.cc
 gui/gtkmm/WmSpec.cc
+gui/gnome/Workrave-Applet.server.in.in
+gui/gnome/Workrave-Control.server.in.in
+gui/gnome/GNOME_WorkraveApplet.xml.in

@@ -36,8 +36,6 @@ static GNOME_Workrave_AppletControl remote_control = NULL;
 /* GNOME::AppletControl                                                 */
 /************************************************************************/
 
-static BonoboObjectClass *parent_class = NULL;
-
 BONOBO_TYPE_FUNC_FULL(AppletControl,
                       GNOME_Workrave_AppletControl,
                       BONOBO_OBJECT_TYPE,
@@ -83,8 +81,8 @@ workrave_applet_connect(gboolean start)
           flags = Bonobo_ACTIVATION_FLAG_EXISTING_ONLY;
         }
       
-      remote_control = bonobo_activation_activate_from_id("OAFIID:GNOME_Workrave_WorkraveControl", flags,
-                                                          NULL, &ev);
+      remote_control = bonobo_activation_activate_from_id("OAFIID:GNOME_Workrave_WorkraveControl",
+                                                          flags, NULL, &ev);
       
       if (remote_control == NULL || BONOBO_EX(&ev))
         {
@@ -104,8 +102,6 @@ workrave_applet_control_class_init(AppletControlClass *klass)
 {
   POA_GNOME_Workrave_AppletControl__epv *epv = &klass->epv;
 
-  parent_class = g_type_class_peek_parent(klass);
-          
   epv->get_socket_id = workrave_applet_control_get_socket_id;
   epv->get_size = workrave_applet_control_get_size;
   epv->get_vertical = workrave_applet_control_get_vertical;
@@ -247,7 +243,6 @@ workrave_applet_control_register_control(PortableServer_Servant servant,
 {
   AppletControl *applet_control = WR_APPLET_CONTROL(bonobo_object_from_servant(servant));
   return TRUE;
-  
 }
 
 
@@ -310,7 +305,7 @@ verb_about(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
   GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(WORKRAVE_DATADIR "/images/workrave.png", NULL);  
   gtk_widget_show (gnome_about_new
                    ("Workrave Applet", VERSION,
-                    "Copyright 2001-2002 Rob Caelers & Raymond Penners",
+                    "Copyright 2001-2003 Rob Caelers & Raymond Penners",
                     _("This program assists in the prevention and recovery"
                       " of Repetitive Strain Injury (RSI)."),
                     (const gchar **) authors,
@@ -552,6 +547,7 @@ change_orient(PanelApplet *applet, PanelAppletOrient o, gpointer data)
     }
 }
 
+
 static gboolean
 plug_removed(GtkSocket *socket, void *manager)
 {
@@ -609,10 +605,9 @@ showlog_callback(BonoboUIComponent *ui, const char *path, Bonobo_UIComponent_Eve
 }
 
 
-
 static void
 mode_callback(BonoboUIComponent *ui, const char *path, Bonobo_UIComponent_EventType type,
-                 const char *state, gpointer user_data)
+              const char *state, gpointer user_data)
 {
   gboolean new_state;
   workrave_applet_connect(FALSE);
@@ -624,15 +619,11 @@ mode_callback(BonoboUIComponent *ui, const char *path, Bonobo_UIComponent_EventT
     }
 
   new_state = strcmp (state, "0") != 0;
-  
-  workrave_applet_connect(FALSE);
       
   if (remote_control != NULL && path != NULL && new_state)
     {
       CORBA_Environment ev;
       GNOME_Workrave_WorkraveControl_Mode mode = GNOME_Workrave_WorkraveControl_MODE_INVALID;
-
-      CORBA_exception_init(&ev);
         
       if (g_ascii_strcasecmp(path, "Normal") == 0)
         {
@@ -651,17 +642,19 @@ mode_callback(BonoboUIComponent *ui, const char *path, Bonobo_UIComponent_EventT
           mode != applet_control->last_mode)
         {
           applet_control->last_mode = mode;
+
+          CORBA_exception_init(&ev);
           GNOME_Workrave_WorkraveControl_set_mode(remote_control, mode, &ev);
-          
+
           if (BONOBO_EX(&ev))
             {
               char *err = (char *) bonobo_exception_get_text(&ev);
               g_warning (_("An exception occured '%s'"), err);
               g_free(err);
             }
+          
+          CORBA_exception_free(&ev);
         }
-      
-      CORBA_exception_free(&ev);
     }
 }
 
@@ -669,22 +662,21 @@ mode_callback(BonoboUIComponent *ui, const char *path, Bonobo_UIComponent_EventT
 static gboolean
 workrave_applet_fill(PanelApplet *applet)
 {
-  GdkPixbuf *pixbuf;
-  GtkWidget *hbox;
+  GdkPixbuf *pixbuf = NULL;
+  GtkWidget *hbox = NULL;
   BonoboUIComponent *ui = NULL;
   
-  //
-  applet_control->size = panel_applet_get_size(applet);
-  panel_applet_setup_menu_from_file(applet, NULL, "GNOME_WorkraveApplet.xml", NULL, workrave_applet_verbs, applet);
+  // Create menus.
+  panel_applet_setup_menu_from_file(applet, NULL, "GNOME_WorkraveApplet.xml", NULL,
+                                    workrave_applet_verbs, applet);
 
-
+  // Add listeners for menu toggle-items.
   ui = panel_applet_get_popup_component(applet);
   bonobo_ui_component_add_listener(ui, "ShowLog", showlog_callback, NULL);
   bonobo_ui_component_add_listener(ui, "Normal", mode_callback, NULL);
   bonobo_ui_component_add_listener(ui, "Suspended", mode_callback, NULL);
   bonobo_ui_component_add_listener(ui, "Quiet", mode_callback, NULL);
 
-  
   // Socket.
   applet_control->socket = gtk_socket_new();
   
@@ -709,6 +701,8 @@ workrave_applet_fill(PanelApplet *applet)
   gtk_widget_show(GTK_WIDGET(applet));
 
   applet_control->socket_id = gtk_socket_get_id(GTK_SOCKET(applet_control->socket));
+  applet_control->size = panel_applet_get_size(applet);
+
   return TRUE;
 }
 
@@ -718,15 +712,15 @@ workrave_applet_factory(PanelApplet *applet, const gchar *iid, gpointer data)
 {
   gboolean retval = FALSE;
   
-  applet_control = workrave_applet_control_new();
-  applet_control->applet = applet;
-
   if (!strcmp(iid, "OAFIID:GNOME_WorkraveApplet"))
     {
-      retval = workrave_applet_fill(applet); 
-    }
+      applet_control = workrave_applet_control_new();
+      applet_control->applet = applet;
 
-  workrave_applet_fire_workrave();
+      retval = workrave_applet_fill(applet); 
+
+      workrave_applet_fire_workrave();
+    }
 
   return retval;
 }

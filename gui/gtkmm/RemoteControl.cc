@@ -217,8 +217,6 @@ WR_METHOD_ARGS1_IMPL(void, set_applet_size, CORBA_long, size)
 /* GNOME::WorkraveControl                                               */
 /************************************************************************/
 
-static BonoboObjectClass *parent_class = NULL;
-
 BONOBO_TYPE_FUNC_FULL(WorkraveControl,
                       GNOME_Workrave_WorkraveControl,
                       BONOBO_OBJECT_TYPE,
@@ -228,9 +226,7 @@ BONOBO_TYPE_FUNC_FULL(WorkraveControl,
 static void
 workrave_control_class_init(WorkraveControlClass *klass)
 {
-  //GObjectClass *object_class = G_OBJECT_CLASS(klass);
   POA_GNOME_Workrave_WorkraveControl__epv *epv = &klass->epv;
-  parent_class = (BonoboObjectClass *)g_type_class_peek_parent(klass);
 
   WR_METHOD_REGISTER(fire);
 

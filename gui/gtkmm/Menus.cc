@@ -513,7 +513,7 @@ Menus::on_menu_about()
   GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(icon.c_str(), NULL);  
   gtk_widget_show (gnome_about_new
                    ("Workrave", VERSION,
-                    "Copyright 2001-2002 Rob Caelers & Raymond Penners",
+                    "Copyright 2001-2003 Rob Caelers & Raymond Penners",
                     _("This program assists in the prevention and recovery"
                       " of Repetitive Strain Injury (RSI)."),
                     (const gchar **) authors,
