@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
-"POT-Creation-Date: 2003-01-26 15:30+0100\n"
+"POT-Creation-Date: 2003-01-26 15:36+0100\n"
 "PO-Revision-Date: 2003-01-04 22:09+0100\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Johannes Rohr <j.rohr@comlink.apc.org>\n"

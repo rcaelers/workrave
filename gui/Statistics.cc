@@ -402,7 +402,7 @@ Statistics::load_history()
           
           load_day(day, stats_file);
 
-          history.push_back(day);
+          history.push_front(day);
           first = false;
         }
     }
