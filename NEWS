@@ -5,10 +5,12 @@ See the end for copying conditions.
 Please report Workrave bug reports. Visit our bug tracker located at:
 http://workrave.sourceforge.net
 
-* Workrave 0.1.1
+* Workrave 0.2.0
 
 ** Activity during a persisted break is no longer ignored.
    Instead, the timer is stopped whenefer the user is active.
+
+** Added taskbar tray support (Windows only). 
 
 * Workrave 0.1.0
 
