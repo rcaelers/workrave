@@ -102,8 +102,16 @@ BreakWindow::init_gui()
           window_frame->set_frame_style(Frame::STYLE_BREAK_WINDOW);
           window_frame->add(*gui);
 
-          set_size_request(head.geometry.get_width(),
-                           head.geometry.get_height());
+          if (head.valid)
+            {
+              set_size_request(head.geometry.get_width(),
+                               head.geometry.get_height());
+            }
+          else
+            {
+              set_size_request(gdk_screen_width(),
+                               gdk_screen_height());
+            }
 
           set_app_paintable(true);
           set_background_pixmap();
@@ -203,16 +211,31 @@ BreakWindow::set_background_pixmap()
   GdkPixmap          *pixmap;
   GdkRectangle        rect;
   GdkColor            color;
+  int screen_x, screen_y, screen_width, screen_height;
 
+  if (head.valid)
+    {
+      screen_x = head.geometry.get_x();
+      screen_y = head.geometry.get_y();
+      screen_width = head.geometry.get_width();
+      screen_height = head.geometry.get_height();
+    }
+  else
+    {
+      screen_x = 0;
+      screen_y = 0;
+      screen_width = gdk_screen_width();
+      screen_height = gdk_screen_height();
+    }
   tmp_pixbuf = gdk_pixbuf_get_from_drawable (NULL,
                                              gdk_get_default_root_window (),
                                              gdk_colormap_get_system (),
-                                             head.geometry.get_x(),
-                                             head.geometry.get_y(),
+                                             screen_x,
+                                             screen_y,
                                              0,
                                              0,
-                                             head.geometry.get_width (),
-                                             head.geometry.get_height ());
+                                             screen_width,
+                                             screen_height);
 
   std::string file = Util::complete_directory
     ("ocean-stripes.png", Util::SEARCH_PATH_IMAGES);
@@ -220,8 +243,8 @@ BreakWindow::set_background_pixmap()
   
   rect.x = 0;
   rect.y = 0;
-  rect.width = gdk_screen_width ();
-  rect.height = gdk_screen_height ();
+  rect.width = screen_width;
+  rect.height = screen_height;
 
   color.red = 0;
   color.blue = 0;
@@ -239,8 +262,8 @@ BreakWindow::set_background_pixmap()
                         tmp_pixbuf,
                         0,
                         0,
-                        gdk_screen_width (),
-                        gdk_screen_height (),
+                        screen_width,
+                        screen_height,
                         0,
                         0,
                         1,
@@ -251,8 +274,8 @@ BreakWindow::set_background_pixmap()
   g_object_unref (tile_pixbuf);
 
   pixmap = gdk_pixmap_new (GTK_WIDGET (gobj())->window,
-                           gdk_screen_width (),
-                           gdk_screen_height (),
+                           screen_width,
+                           screen_height,
                            -1);
 
   gdk_pixbuf_render_to_drawable_alpha (tmp_pixbuf,
@@ -261,8 +284,8 @@ BreakWindow::set_background_pixmap()
                                        0,
                                        0,
                                        0,
-                                       gdk_screen_width (),
-                                       gdk_screen_height (),
+                                       screen_width,
+                                       screen_height,
                                        GDK_PIXBUF_ALPHA_BILEVEL,
                                        0,
                                        GDK_RGB_DITHER_NONE,
