@@ -5,6 +5,11 @@ See the end for copying conditions.
 Please report Workrave bug reports. Visit our bug tracker located at:
 http://workrave.sourceforge.net
 
+* Workrave 1.4.0
+
+** On Windows, Workrave now notices when Explorer crashes and will try
+to reinsert the tray icon in the new Explorer taskbar.
+
 * Workrave 1.2.2
 
 ** If you stopped working during a prelude just before it was about to

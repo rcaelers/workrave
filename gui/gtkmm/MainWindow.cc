@@ -426,7 +426,7 @@ MainWindow::win32_init()
 {
   TRACE_ENTER("MainWindow::win32_init");
   
-  HINSTANCE hinstance = (HINSTANCE) GetModuleHandle(NULL);
+  win32_hinstance = (HINSTANCE) GetModuleHandle(NULL);
   
   WNDCLASSEX wclass =
     {
@@ -435,7 +435,7 @@ MainWindow::win32_init()
       win32_window_proc,
       0,
       0,
-      hinstance,
+      win32_hinstance,
       NULL,
       NULL,
       NULL,
@@ -453,7 +453,7 @@ MainWindow::win32_init()
                                    CW_USEDEFAULT, CW_USEDEFAULT,
                                    (HWND)NULL,
                                    (HMENU)NULL,
-                                   hinstance,
+                                   win32_hinstance,
                                    (LPSTR)NULL);
   ShowWindow(win32_main_hwnd, SW_HIDE);
   
@@ -467,14 +467,8 @@ MainWindow::win32_init()
   SetWindowLong(hwnd, GWL_HWNDPARENT, (LONG) win32_main_hwnd);
 
   // Tray icon
-  win32_tray_icon.cbSize = sizeof(NOTIFYICONDATA);
-  win32_tray_icon.hWnd = win32_main_hwnd;
-  win32_tray_icon.uID = 1;
-  win32_tray_icon.uFlags = NIF_ICON|NIF_TIP|NIF_MESSAGE;
-  win32_tray_icon.uCallbackMessage = MYWM_TRAY_MESSAGE;
-  win32_tray_icon.hIcon = LoadIcon(hinstance, "workrave");
-  strcpy(win32_tray_icon.szTip, "Workrave");
-  Shell_NotifyIcon(NIM_ADD, &win32_tray_icon);
+  wm_taskbarcreated = RegisterWindowMessage("TaskbarCreated");
+  win32_add_tray_icon();
 
   // Tray menu
   Menus *menus = Menus::get_instance();
@@ -500,33 +494,51 @@ MainWindow::win32_exit()
   UnregisterClass(WIN32_MAIN_CLASS_NAME, GetModuleHandle(NULL));
 }
 
+void
+MainWindow::win32_add_tray_icon()
+{
+  win32_tray_icon.cbSize = sizeof(NOTIFYICONDATA);
+  win32_tray_icon.hWnd = win32_main_hwnd;
+  win32_tray_icon.uID = 1;
+  win32_tray_icon.uFlags = NIF_ICON|NIF_TIP|NIF_MESSAGE;
+  win32_tray_icon.uCallbackMessage = MYWM_TRAY_MESSAGE;
+  win32_tray_icon.hIcon = LoadIcon(win32_hinstance, "workrave");
+  strcpy(win32_tray_icon.szTip, "Workrave");
+  Shell_NotifyIcon(NIM_ADD, &win32_tray_icon);
+  DestroyIcon(win32_tray_icon.hIcon);
+}
+
 LRESULT CALLBACK
 MainWindow::win32_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
                               LPARAM lParam)
 {
-  switch (uMsg)
+  MainWindow *win = (MainWindow *) GetWindowLong(hwnd, GWL_USERDATA);
+  if (win != NULL)
     {
-    case MYWM_TRAY_MESSAGE:
-      {
-        MainWindow *win;
-        win = (MainWindow *) GetWindowLong(hwnd, GWL_USERDATA);
-        switch (lParam)
-          {
-          case WM_RBUTTONUP:
+      if (uMsg == win->wm_taskbarcreated)
+        {
+          win->win32_add_tray_icon();
+        }
+      else if (uMsg == MYWM_TRAY_MESSAGE)
+        {
+          MainWindow *win;
+          win = (MainWindow *) GetWindowLong(hwnd, GWL_USERDATA);
+          switch (lParam)
             {
-              GtkWidget *window = (GtkWidget*) win->win32_tray_menu->gobj();
-              GdkWindow *gdk_window = window->window;
-              HWND phwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
-              SetForegroundWindow(phwnd);
-              win->win32_tray_menu->popup(0, GetTickCount());
+            case WM_RBUTTONUP:
+              {
+                GtkWidget *window = (GtkWidget*) win->win32_tray_menu->gobj();
+                GdkWindow *gdk_window = window->window;
+                HWND phwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
+                SetForegroundWindow(phwnd);
+                win->win32_tray_menu->popup(0, GetTickCount());
+              }
+              break;
+            case WM_LBUTTONDBLCLK:
+              win->win32_show(true);
+              break;
             }
-            break;
-          case WM_LBUTTONDBLCLK:
-            win->win32_show(true);
-            break;
-          }
-      }
-      break;
+        }
     }
   return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }

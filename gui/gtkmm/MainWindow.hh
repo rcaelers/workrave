@@ -119,13 +119,16 @@ private:
   void win32_init();
   void win32_exit();
   void win32_on_tray_open();
-
+  void win32_add_tray_icon();
+  
   static LRESULT CALLBACK win32_window_proc(HWND hwnd, UINT uMsg,
                                             WPARAM wParam, LPARAM lParam);
 
   Gtk::Menu *win32_tray_menu;
   HWND win32_main_hwnd;
+  HINSTANCE win32_hinstance;
   NOTIFYICONDATA win32_tray_icon;
+  UINT wm_taskbarcreated;
 #endif
 };
 

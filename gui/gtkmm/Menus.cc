@@ -57,6 +57,7 @@ static const char rcsid[] = "$Id$";
 
 #ifdef HAVE_EXERCISES
 #include "ExercisesDialog.hh"
+#include "Exercise.hh"
 #endif
 
 #ifndef NDEBUG
@@ -231,7 +232,7 @@ Menus::create_menu(Gtk::CheckMenuItem *check_menus[4])
 
 #ifdef HAVE_EXERCISES
   // Exercises
-  if (Exercises::has_exercises())
+  if (Exercise::has_exercises())
     {
       menulist.push_back(Gtk::Menu_Helpers::MenuElem
                          (_("Exercises"), 
