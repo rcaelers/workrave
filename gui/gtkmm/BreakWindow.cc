@@ -181,7 +181,7 @@ BreakWindow::set_avoid_pointer(bool avoid_pointer)
         }
     }
 #else
-  if (is_realized())
+  if (! is_realized())
     {
       Gdk::EventMask events;
       

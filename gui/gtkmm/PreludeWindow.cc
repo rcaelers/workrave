@@ -140,7 +140,6 @@ PreludeWindow::stop()
   TRACE_ENTER("PreludeWindow::stop");
 
   frame->set_frame_flashing(0);
-  set_avoid_pointer(false);
   hide_all();
 
   TRACE_EXIT();

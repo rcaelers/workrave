@@ -134,6 +134,20 @@ SpeakerPlayer::SpeakerPlayer(short (*b)[2])
 void
 SpeakerPlayer::run()
 {
+#ifdef WIN32
+  // Windows 95 Beep() only beeps, it ignores frequency & duration parameters.
+  // So, in the case of W95 do not relay on Sound::beep()
+  OSVERSIONINFO osvi;
+  osvi.dwOSVersionInfoSize = sizeof(osvi);
+  if (! GetVersionEx(&osvi))
+    return;
+  if (osvi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS
+      && osvi.dwMinorVersion == 0) {
+    ::Beep(256, 256);
+    return;
+  }
+#endif
+  
   short (*b)[2];
   b = beeps;
 #ifdef HAVE_X
