@@ -34,8 +34,8 @@ EventLabel::on_realize()
 
   GdkWindowAttr attributes;
   attributes.window_type = GDK_WINDOW_CHILD;
-  attributes.x = widget->allocation.x ;
-  attributes.y = widget->allocation.y ;
+  attributes.x = widget->allocation.x;
+  attributes.y = widget->allocation.y;
   attributes.width = widget->allocation.width;
   attributes.height = widget->allocation.height;
   attributes.wclass = GDK_INPUT_ONLY;
