@@ -1,6 +1,6 @@
 // CollectivePreferencePage.cc --- Preferences widgets for a timer
 //
-// Copyright (C) 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -45,8 +45,8 @@ CollectivePreferencePage::CollectivePreferencePage()
   tnotebook->set_tab_pos(Gtk::POS_TOP);  
 
   create_general_page(tnotebook);
-  create_advanced_page(tnotebook);
   create_peers_page(tnotebook);
+  create_advanced_page(tnotebook);
 
   init_page_values();
   
@@ -78,11 +78,10 @@ CollectivePreferencePage::create_general_page(Gtk::Notebook *tnotebook)
   gp->set_border_width(6);
 
   // Main switch
-  enabled_cb = manage(new Gtk::CheckButton("Collective enabled"));
+  enabled_cb = manage(new Gtk::CheckButton("Enable collective"));
 
   // Identity
   Gtk::Frame *id_frame = new Gtk::Frame("Identity");
-  id_frame->set_border_width(6);
 
   username_entry = manage(new Gtk::Entry());
   password1_entry = manage(new Gtk::Entry());
@@ -90,7 +89,7 @@ CollectivePreferencePage::create_general_page(Gtk::Notebook *tnotebook)
   
   Gtk::Label *username_label = manage(new Gtk::Label("Username"));
   Gtk::Label *password1_label = manage(new Gtk::Label("Password"));
-  password2_label = manage(new Gtk::Label("Retype"));
+  password2_label = manage(new Gtk::Label("Confirm password"));
 
   password1_entry->set_visibility(false);
   password1_entry->set_invisible_char('*');
@@ -114,7 +113,7 @@ CollectivePreferencePage::create_general_page(Gtk::Notebook *tnotebook)
   id_frame->add(*id_table);
   
   gp->pack_start(*enabled_cb, false, false, 0);
-  gp->pack_start(*id_frame, true, true, 0);
+  gp->pack_start(*id_frame, false, false, 0);
 
   box->show_all();
   tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*gp, *box));
@@ -139,7 +138,6 @@ CollectivePreferencePage::create_advanced_page(Gtk::Notebook *tnotebook)
   gp->set_border_width(6);
 
   Gtk::Frame *advanced_frame = new Gtk::Frame("Server settings");
-  advanced_frame->set_border_width(6);
 
   port_entry = manage(new Gtk::SpinButton());
   attempts_entry = manage(new Gtk::SpinButton());
@@ -197,7 +195,7 @@ void
 CollectivePreferencePage::create_peers_page(Gtk::Notebook *tnotebook)
 {
   Gtk::HBox *box = manage(new Gtk::HBox(false, 3));
-  Gtk::Label *lab = manage(new Gtk::Label("Peers"));
+  Gtk::Label *lab = manage(new Gtk::Label("Hosts"));
   // Gtk::Image *img = manage(new Gtk::Image();
   // box->pack_start(*img, false, false, 0);
   box->pack_start(*lab, false, false, 0);
@@ -206,8 +204,9 @@ CollectivePreferencePage::create_peers_page(Gtk::Notebook *tnotebook)
   gp->set_border_width(6);
 
   // Info text
-  string label =
-    "Workrave will connect to these hosts at start-up.";
+  const char *label =
+    "The following list specifies the hosts that Workrave connects to on\n"
+    "start-up. Click the host name or port number to edit.";
     
   Gtk::HBox *infohbox = manage(new Gtk::HBox(false, 6));
   Gtk::Label *info_lab = manage(new Gtk::Label(label));
@@ -235,7 +234,7 @@ CollectivePreferencePage::create_peers_page(Gtk::Notebook *tnotebook)
   int cols_count = 0;
   
   renderer = Gtk::manage(new Gtk::CellRendererText());
-  cols_count = peers_list->append_column("Hostname", *renderer);
+  cols_count = peers_list->append_column("Host name", *renderer);
   column = peers_list->get_column(cols_count-1);
   column->add_attribute(renderer->property_text(), peers_columns.hostname);
   column->set_resizable(true);
@@ -250,8 +249,11 @@ CollectivePreferencePage::create_peers_page(Gtk::Notebook *tnotebook)
   renderer->property_editable().set_value(true);
   renderer->signal_edited().connect(SigC::slot(*this, &CollectivePreferencePage::on_port_edited));
 
+  Gtk::ScrolledWindow *peers_scroll = manage(new Gtk::ScrolledWindow());
+  peers_scroll->add(*peers_list);
+  
   Gtk::VBox *peersvbox = manage(new Gtk::VBox(true, 6));
-  peersvbox->pack_start(*peers_list, true, true, 0);
+  peersvbox->pack_start(*peers_scroll, true, true, 0);
 
   hbox->pack_start(*peersvbox, true, true, 0);
 
@@ -261,14 +263,14 @@ CollectivePreferencePage::create_peers_page(Gtk::Notebook *tnotebook)
 
                                     
   // Buttons
-  remove_btn = manage(new Gtk::Button("Remove"));
+  remove_btn = manage(new Gtk::Button(Gtk::Stock::REMOVE));
   remove_btn->signal_clicked().connect(SigC::slot(*this, &CollectivePreferencePage::on_peer_remove));
-  add_btn = manage(new Gtk::Button("Add"));
+  add_btn = manage(new Gtk::Button(Gtk::Stock::ADD));
   add_btn->signal_clicked().connect(SigC::slot(*this, &CollectivePreferencePage::on_peer_add));
 
   Gtk::VBox *btnbox= manage(new Gtk::VBox(false, 6));
-  btnbox->pack_start(*remove_btn, false, false, 0);
   btnbox->pack_start(*add_btn, false, false, 0);
+  btnbox->pack_start(*remove_btn, false, false, 0);
   
   hbox->pack_start(*btnbox, false, false, 0);
   

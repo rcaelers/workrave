@@ -310,7 +310,7 @@ PreferencesDialog::create_collective_page()
 
   Gtk::Widget *page = manage(new CollectivePreferencePage());
   
-  collective_page->pack_start(*page, false, false, 0);
+  collective_page->pack_start(*page, true, true, 0);
 
   return collective_page;
 }

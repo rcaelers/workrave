@@ -1,6 +1,6 @@
 // CollectiveJoinDialog.cc --- CollectiveJoin dialog
 //
-// Copyright (C) 2002 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -39,13 +39,13 @@ using SigC::slot;
 
 
 CollectiveJoinDialog::CollectiveJoinDialog()
-  : Gtk::Dialog("Join the Collective", true, false)
+  : Gtk::Dialog("Join the collective", true, false)
 {
   TRACE_ENTER("CollectiveJoinDialog::CollectiveJoinDialog");
 
   string text =
-    "Enter the hostname and port of a computer in the\n"
-    "collective you want to join.";
+    "Enter the host name and port number of a computer\n"
+    "in the collective you want to join.";
   
   // Title
   Gtk::HBox *title_box = manage(new Gtk::HBox(false));
@@ -83,18 +83,23 @@ CollectiveJoinDialog::CollectiveJoinDialog()
 
   //
   startup_button = manage(new Gtk::CheckButton("Connect at startup"));
+  y++;
+  entry_table->attach(*startup_button, 1, 2, y, y+1, Gtk::SHRINK | Gtk::FILL, Gtk::SHRINK);
   
   // Page
   Gtk::VBox *page = new Gtk::VBox(false, 6);
   page->pack_start(*title_box, false, true, 0);
   page->pack_start(*entry_table, false, true, 0);
-  page->pack_start(*startup_button, false, true, 0);
   page->set_border_width(6);
 
-  get_vbox()->pack_start(*page, false, false, 0);
+  Gtk::Frame *frame = manage(new Gtk::Frame("Join settings"));
+  frame->set_border_width(6);
+  frame->add(*page);
 
-  add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
+  get_vbox()->pack_start(*frame, false, false, 0);
+
   add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
+  add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
 
   show_all();
 
