@@ -65,13 +65,12 @@ const string MainWindow::CFG_KEY_MAIN_WINDOW_START_IN_TRAY
 #ifdef WIN32
 const char *WIN32_MAIN_CLASS_NAME = "Workrave";
 const UINT MYWM_TRAY_MESSAGE = WM_USER +0x100;
+#endif
 
 const string MainWindow::CFG_KEY_MAIN_WINDOW_X
 = "gui/main_window/x";
 const string MainWindow::CFG_KEY_MAIN_WINDOW_Y
 = "gui/main_window/y";
-
-#endif
 
 //! Constructor.
 /*!
@@ -161,7 +160,7 @@ MainWindow::init()
 
   win32_init();
   int x, y;
-  win32_get_start_position(x, y);
+  get_start_position(x, y);
   set_gravity(Gdk::GRAVITY_STATIC); 
   set_position(Gtk::WIN_POS_NONE);
   if (get_start_in_tray())
@@ -177,7 +176,14 @@ MainWindow::init()
       show_all();
     }
 #else
+  int x, y;
+  get_start_position(x, y);
+  set_gravity(Gdk::GRAVITY_STATIC); 
+  set_position(Gtk::WIN_POS_NONE);
   show_all();
+  move(x, y);
+  TRACE_MSG(x << " " << y);
+  
   if (get_start_in_tray())
     {
       close_window();
@@ -453,7 +459,7 @@ void
 MainWindow::win32_exit()
 {
   // Remember position
-  win32_remember_position();
+  remember_position();
 
   // Destroy tray
   Shell_NotifyIcon(NIM_DELETE, &win32_tray_icon);
@@ -500,10 +506,10 @@ MainWindow::win32_on_tray_open()
 }
 
 
-
+#endif
 
 void
-MainWindow::win32_get_start_position(int &x, int &y)
+MainWindow::get_start_position(int &x, int &y)
 {
   bool b;
   // FIXME: Default to right-bottom instead of 256x256
@@ -520,8 +526,9 @@ MainWindow::win32_get_start_position(int &x, int &y)
     }
 }
 
+
 void
-MainWindow::win32_set_start_position(int x, int y)
+MainWindow::set_start_position(int x, int y)
 {
   Configurator *cfg = GUIControl::get_instance()->get_configurator();
   cfg->set_value(CFG_KEY_MAIN_WINDOW_X, x);
@@ -530,11 +537,9 @@ MainWindow::win32_set_start_position(int x, int y)
 
 
 void
-MainWindow::win32_remember_position()
+MainWindow::remember_position()
 {
   int x, y;
   get_position(x, y);
-  win32_set_start_position(x, y);
+  set_start_position(x, y);
 }
-
-#endif

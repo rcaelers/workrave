@@ -61,6 +61,7 @@ static const char rcsid[] = "$Id$";
 #ifdef HAVE_GNOME
 #include "AppletWindow.hh"
 #include "RemoteControl.hh"
+#include "libgnomeuimm/wrap_init.h"
 #endif
 
 GUI *GUI::instance = NULL;
@@ -177,6 +178,13 @@ void
 GUI::terminate()
 {
   TRACE_ENTER("GUI::terminate");
+
+  if (main_window != NULL)
+    {
+      // Remember position
+      main_window->remember_position();
+    }
+
   Gtk::Main::quit();
   TRACE_EXIT();
 }
@@ -256,11 +264,15 @@ GUI::init_gnome()
   
   gnome_init("workrave", VERSION, argc, argv);
 
-#if 1
-  Gnome::UI::Client *client = Gnome::UI::Client::master_client();
+  Gnome::UI::wrap_init();
 
-  TRACE_MSG(gnome_master_client());
-#endif
+  Gnome::UI::Client *client = Gnome::UI::Client::master_client();
+  if (client != NULL)
+    {
+      TRACE_MSG("Connecting to SM");
+      client->signal_save_yourself().connect(SigC::slot(*this, &GUI::on_save_yourself));
+      client->signal_die().connect(SigC::slot(*this, &GUI::on_die));
+    }
   
   TRACE_EXIT();
 }
@@ -282,6 +294,12 @@ GUI::on_save_yourself(int phase, Gnome::UI::SaveStyle save_style, bool shutdown,
 {
   TRACE_ENTER("GUI::on_save_yourself");
 
+  if (main_window != NULL)
+    {
+      // Remember position
+      main_window->remember_position();
+    }
+
 #if 0
   
   Gnome::UI::Client *client = Gnome::UI::Client::master_client();
@@ -294,8 +312,8 @@ GUI::on_save_yourself(int phase, Gnome::UI::SaveStyle save_style, bool shutdown,
 //       argv.push_back(message);
 //     }
   
-  client->set_clone_command (argv);
-  client->set_restart_command (argv);
+  client->set_clone_command(argv);
+  client->set_restart_command(argv);
  
   TRACE_EXIT();
 #endif

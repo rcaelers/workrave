@@ -50,9 +50,12 @@ public:
 
   void open_window();
   void close_window();
-  void toggle_window();
+  void toggle_window(); 
+
   
   void update();
+  void remember_position();
+  
   static bool get_always_on_top();
   static void set_always_on_top(bool b);
 
@@ -88,6 +91,9 @@ private:
   void setup();
   void config_changed_notify(string key);
 
+  static void get_start_position(int &x, int &y);
+  static void set_start_position(int x, int y);
+
   // Events.
   bool on_delete_event(GdkEventAny*);
 
@@ -95,21 +101,17 @@ public:
   static void set_start_in_tray(bool b);
   static bool get_start_in_tray();
   static const string CFG_KEY_MAIN_WINDOW_START_IN_TRAY;
+  static const string CFG_KEY_MAIN_WINDOW_X;
+  static const string CFG_KEY_MAIN_WINDOW_Y;
   
 #ifdef WIN32
 public:
-  void win32_remember_position();
-
-  static const string CFG_KEY_MAIN_WINDOW_X;
-  static const string CFG_KEY_MAIN_WINDOW_Y;
   
 private:
   void win32_show(bool b);
   void win32_init();
   void win32_exit();
   void win32_on_tray_open();
-  static void win32_get_start_position(int &x, int &y);
-  static void win32_set_start_position(int x, int y);
 
   static LRESULT CALLBACK win32_window_proc(HWND hwnd, UINT uMsg,
                                             WPARAM wParam, LPARAM lParam);
