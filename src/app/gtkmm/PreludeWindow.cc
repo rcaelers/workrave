@@ -41,12 +41,24 @@ static const char rcsid[] = "$Id$";
 #include "Frame.hh"
 #include "TimeBar.hh"
 #include "Hig.hh"
+#include "GtkUtil.hh"
 
 
 //! Construct a new Micropause window.
 PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
-  : break_id(break_id)
+  : Gtk::Window(Gtk::WINDOW_POPUP),
+         break_id(break_id),
+         SCREEN_MARGIN(20),
+         frame(NULL),
+         window_frame(NULL),
+         border_width(0)
 {
+  Gtk::Window::set_border_width(0);
+#ifdef HAVE_X
+  GtkUtil::set_wmclass(*this, "Prelude");
+#endif
+
+  init_avoid_pointer();
   realize();
   
   // Time bar
@@ -103,13 +115,22 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
   show_all_children();
   stick();
 
-  set_screen(head);
+  this->head = head;
+#ifdef HAVE_GTK_MULTIHEAD  
+  Gtk::Window::set_screen(head.screen);
+#endif
 }
 
 
 //! Destructor.
 PreludeWindow::~PreludeWindow()
 {
+#ifdef WIN32
+  if (avoid_signal.connected())
+    {
+      avoid_signal.disconnect();
+    }
+#endif
 }
 
 
@@ -133,9 +154,8 @@ PreludeWindow::start()
   WindowHints::set_always_on_top(Gtk::Widget::gobj(), true);
 #endif
   
-  set_avoid_pointer(true);
   refresh();
-  center();
+  GtkUtil::center_window(*this, head);
   show_all();
 
 
@@ -144,6 +164,19 @@ PreludeWindow::start()
   TRACE_EXIT();
 }
 
+//! Adds a child to the window.
+void
+PreludeWindow::add(Gtk::Widget& widget)
+{
+  if (! window_frame)
+    {
+      window_frame = manage(new Frame());
+      window_frame->set_border_width(0);
+      window_frame->set_frame_style(Frame::STYLE_BREAK_WINDOW);
+      Gtk::Window::add(*window_frame);
+    }
+  window_frame->add(widget);
+}
 
 //! Self-Destruct
 /*!
@@ -250,7 +283,7 @@ PreludeWindow::set_stage(AppInterface::PreludeStage stage)
       break;
 
     case AppInterface::STAGE_MOVE_OUT:
-      if (! did_avoid_pointer())
+      if (! did_avoid)
         {
           int winx, winy;
           get_position(winx, winy);
@@ -273,3 +306,112 @@ PreludeWindow::on_frame_flash(bool frame_visible)
   flash_visible = frame_visible;
   refresh();
 }
+
+// Sets whether the window should run away for the mouse pointer.
+void
+PreludeWindow::init_avoid_pointer()
+{
+#ifdef WIN32
+  if (! avoid_signal.connected())
+    {
+      avoid_signal = Glib::signal_timeout()
+        .connect(SigC::slot(*this, &PreludeWindow::on_avoid_pointer_timer),
+                 150);
+    }
+#else
+  if (! is_realized())
+    {
+      Gdk::EventMask events;
+      
+      events = Gdk::ENTER_NOTIFY_MASK;
+      add_events(events);
+    }
+#endif
+  did_avoid = false;
+}
+
+#ifdef HAVE_X
+
+//! GDK EventNotifyEvent notification.
+bool
+PreludeWindow::on_enter_notify_event(GdkEventCrossing *event)
+{
+  avoid_pointer((int)event->x, (int)event->y);
+  return Gtk::Window::on_enter_notify_event(event);
+}
+#endif
+
+
+//! Move window if pointer is neat specified location.
+void
+PreludeWindow::avoid_pointer(int px, int py)
+{
+  Glib::RefPtr<Gdk::Window> window = get_window();
+    
+  int winx, winy, width, height, wind;
+  window->get_geometry(winx, winy, width, height, wind);
+
+#ifdef WIN32
+  // This is only necessary for WIN32, since HAVE_X uses GdkEventCrossing.
+  // Set gravitiy, otherwise, get_position() returns weird winy.
+  set_gravity(Gdk::GRAVITY_STATIC); 
+  get_position(winx, winy);
+  if (px < winx || px > winx+width || py < winy || py > winy+height)
+    return;
+#else
+  px += winx;
+  py += winy;
+#endif  
+
+  int screen_height;
+
+  if (head.valid)
+    {
+      screen_height = head.geometry.get_height();
+    }
+  else
+    {
+      screen_height = gdk_screen_height();
+    }
+  
+  int top_y = SCREEN_MARGIN;
+  int bottom_y = screen_height - height - SCREEN_MARGIN;
+  if (winy < top_y + SCREEN_MARGIN)
+    {
+      winy = bottom_y;
+    }
+  else if (winy > bottom_y - SCREEN_MARGIN)
+    {
+      winy = top_y;
+    }
+  else
+    {
+      if (py > winy + height/2)
+        {
+          winy = top_y;
+        }
+      else
+        {
+          winy = bottom_y;
+        }
+    }
+
+  set_position(Gtk::WIN_POS_NONE);
+  move(winx, winy);
+  did_avoid = true;
+}
+
+#ifdef WIN32
+bool
+PreludeWindow::on_avoid_pointer_timer()
+{
+  // gdk_window_get_pointer is not reliable.
+  POINT p;
+  if (GetCursorPos(&p))
+    {
+      avoid_pointer(p.x, p.y);
+    }
+  return true;
+}
+
+#endif

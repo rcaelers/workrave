@@ -50,7 +50,6 @@ public:
   
 protected:
   //Overridden default signal handlers:
-  virtual void on_realize();
   virtual bool on_expose_event(GdkEventExpose* event);
   
   void on_postpone_button_clicked();
@@ -71,18 +70,9 @@ private:
 #endif
 
 private:
-  //! Graphic context.
-  Glib::RefPtr<Gdk::GC> window_gc;
-
   //!
   Gtk::HButtonBox *button_box;
   
-  //! Color of the time-bar.
-  Gdk::Color border_color;
-  
-  //! Color of the text.
-  Gdk::Color text_color;
-
   //! Window width
   int window_width;
 

@@ -31,6 +31,8 @@
 
 #include "CoreInterface.hh"
 
+class HeadInfo;
+
 class GtkUtil
 {
 public:
@@ -74,6 +76,7 @@ public:
                              guint left_attach, guint top_attach);
 
   static void set_wmclass(Gtk::Window &window, std::string class_postfix);
+  static void center_window(Gtk::Window &window, HeadInfo &head);
 };
 
 #endif // GTKMMGUI_HH

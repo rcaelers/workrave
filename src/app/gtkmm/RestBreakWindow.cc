@@ -71,11 +71,8 @@ RestBreakWindow::RestBreakWindow(HeadInfo &head, bool ignorable, bool insist) :
 {
   TRACE_ENTER("RestBreakWindow::RestBreakWindow");
 
-  realize();
-  
   // Initialize this window
-  set_border_width(12);
-  set_resizable(false);
+  set_title(_("_Rest break"));
   
   // Add other widgets.
   Gtk::VBox *vbox = manage(new Gtk::VBox(false, 6));
@@ -217,26 +214,6 @@ RestBreakWindow::on_skip_button_clicked()
     }
 }
 
-
-//! RestBreak window is realized.
-void
-RestBreakWindow::on_realize()
-{
-  // We need to call the base on_realize()
-  Gtk::Window::on_realize();
-
-  // Now we can allocate any additional resources we need
-  Glib::RefPtr<Gdk::Window> window = get_window();
-
-  // Alloc some colors
-  Glib::RefPtr<Gdk::Colormap> colormap = get_colormap();
-  border_color = Gdk::Color("black");
-  colormap->alloc_color(border_color);
-
-  window_gc = Gdk::GC::create(window);
-
-  window->clear();
-}
 
 
 //! RestBreak window is exposed.

@@ -41,12 +41,8 @@ static const char rcsid[] = "$Id$";
 DailyLimitWindow::DailyLimitWindow(HeadInfo &head, bool ignorable, bool insist) :
   insist_break(insist)
 {
-  // Need to realize window before it is shown
-  // Otherwise, there is not gobj()...
-  realize();
+  set_title(_("Daily limit"));
 
-  set_border_width(12);
-  
   // Label
   Glib::ustring txt = HigUtil::create_alert_text
     (_("Daily limit"),

@@ -30,6 +30,7 @@
 #include "Util.hh"
 #include "GtkUtil.hh"
 #include "EventLabel.hh"
+#include "HeadInfo.hh"
 
 Gtk::Button *
 GtkUtil::create_custom_stock_button(const char *label_text,
@@ -276,4 +277,42 @@ GtkUtil::flip_pixbuf(Glib::RefPtr<Gdk::Pixbuf> pixbuf, bool horizontal, bool ver
   GdkPixbuf *pb = pixbuf->gobj();
   GdkPixbuf *pbflip = pixbuf_copy_mirror(pb, horizontal, vertical);
   return Glib::wrap(pbflip, false);
+}
+
+
+//! Centers the window.
+void
+GtkUtil::center_window(Gtk::Window &window, HeadInfo &head)
+{
+  TRACE_ENTER("GtkUtil::center_window");
+
+  if (head.valid)
+    {
+      GtkRequisition size;
+      window.size_request(&size);
+
+#ifdef WIN32
+      TRACE_MSG(
+                head.geometry.get_width() << "x" << head.geometry.get_height() << " +" <<
+                head.geometry.get_x() << "+" << head.geometry.get_y() << " " <<
+                size.width << " " << size.height);
+#else
+      TRACE_MSG(
+                head.monitor << " : " <<
+                head.geometry.get_width() << "x" << head.geometry.get_height() << " +" <<
+                head.geometry.get_x() << "+" << head.geometry.get_y() << " " <<
+                size.width << " " << size.height);
+#endif                
+      
+      int x = head.geometry.get_x() + (head.geometry.get_width() - size.width) / 2;
+      int y = head.geometry.get_y() + (head.geometry.get_height() - size.height) / 2;
+      
+      window.set_position(Gtk::WIN_POS_NONE);
+      window.move(x, y);
+    }
+  else
+    {
+      window.set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+    }
+  TRACE_EXIT();
 }

@@ -45,12 +45,8 @@ MicroPauseWindow::MicroPauseWindow(HeadInfo &head, TimerInterface *timer, bool i
   progress_max_value(0),
   insist_break(insist)
 {
-  // Need to realize window before it is shown
-  // Otherwise, there is not gobj()...
-  realize();
+  set_title(_("Micro-pause"));
 
-  set_border_width(12);
-  
   // Time bar
   time_bar = manage(new TimeBar);
   time_bar->set_text("Micropause 0:32"); // FIXME

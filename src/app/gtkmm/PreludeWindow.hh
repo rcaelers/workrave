@@ -33,7 +33,7 @@ namespace Gtk
 }
 
 class PreludeWindow :
-  public BreakWindow,
+  public Gtk::Window,
   public PreludeWindowInterface
 {
 public:
@@ -51,16 +51,39 @@ public:
   
 private:
   void on_frame_flash(bool frame_visible);
+  void init_avoid_pointer();
+  void add(Gtk::Widget& widget);
+  
+#ifdef WIN32
+  bool on_avoid_pointer_timer();
+#else
+  bool on_enter_notify_event(GdkEventCrossing* event);
+#endif
+  void avoid_pointer(int x, int y);
   
 private:
+#ifdef WIN32
+  //! Avoid time signal
+  SigC::Connection avoid_signal;
+#endif
+
+  //! Avoid margin.
+  const int SCREEN_MARGIN;
+
+  //! Did we avoid the pointer?
+  bool did_avoid;
+  
   //!
   BreakId break_id;
   
   //! Time bar
   TimeBar *time_bar;
 
-  //! Time bar
+  //! Frame
   Frame *frame;
+
+  //! Frame
+  Frame *window_frame;
 
   //! Warn color
   Gdk::Color color_warn;
@@ -83,9 +106,15 @@ private:
 
   //! Flash
   bool flash_visible;;
-  
+
+  //! Head
+  HeadInfo head;
+
   //! Send response to this interface.
   BreakResponseInterface *prelude_response;
+
+  //! Border
+  guint border_width;
 };
 
 
