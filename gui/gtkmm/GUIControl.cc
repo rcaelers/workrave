@@ -344,7 +344,7 @@ GUIControl::set_quiet(bool quiet)
     }
   else
     {
-      for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+      for (int i = BREAK_ID_SIZEOF - 1; i >= 0; i--)
         {
           TimerInterface *t = timers[i].timer;
           BreakControl *bc = timers[i].break_control;
@@ -354,6 +354,7 @@ GUIControl::set_quiet(bool quiet)
                   && t->get_elapsed_time() >= t->get_limit())
                 {
                   bc->start_break();
+                  break;
                 }
             }
         }
