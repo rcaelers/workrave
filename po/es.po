@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.2.2\n"
-"POT-Creation-Date: 2004-02-29 14:32+0100\n"
+"POT-Creation-Date: 2004-03-01 19:05+0100\n"
 "PO-Revision-Date: 2003-09-09 16:27+0200\n"
 "Last-Translator:  <>\n"
 "Language-Team:  <>\n"
@@ -405,20 +405,26 @@ msgstr "Considerar las micropausas como actividad"
 msgid "Number of exercises:"
 msgstr "Número de ejercicios:"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:200
-msgid "Time before break:"
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:201
+#, fuzzy
+msgid "Time before end:"
 msgstr "Tiempo hasta la interrupción:"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:207
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:202
+#, fuzzy
+msgid "Time between breaks:"
+msgstr "Tiempo hasta la interrupción:"
+
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:209
 msgid "Resets at:"
 msgstr "Restablecer después de:"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:217
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:219
 #, fuzzy
 msgid "Break duration:"
 msgstr "Duración de la interrupción:"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:234
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:236
 #, fuzzy
 msgid "Postpone time:"
 msgstr "Duración del aplazamiento:"
@@ -1097,11 +1103,13 @@ msgid "Exercises ended"
 msgstr "Fin de los ejercicios"
 
 #: frontend/common/share/sounds/workrave.soundlist.in.h:6
-msgid "Micro-pause ended"
-msgstr "Fin de la micropausa"
+#, fuzzy
+msgid "Micro-break ended"
+msgstr "Micropausa"
 
 #: frontend/common/share/sounds/workrave.soundlist.in.h:7
-msgid "Micro-pause started"
+#, fuzzy
+msgid "Micro-break started"
 msgstr "Fin de la micropausa"
 
 #: frontend/common/share/sounds/workrave.soundlist.in.h:8
@@ -1111,6 +1119,9 @@ msgstr "Comienzo del descanso"
 #: frontend/common/share/sounds/workrave.soundlist.in.h:9
 msgid "Rest break started"
 msgstr "Comienzo del descanso"
+
+#~ msgid "Micro-pause ended"
+#~ msgstr "Fin de la micropausa"
 
 #~ msgid "None"
 #~ msgstr "Ninguno"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2004-02-29 14:58+0100\n"
+"POT-Creation-Date: 2004-03-01 19:16+0100\n"
 "PO-Revision-Date: 2003-09-08 19:07+0200\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -49,20 +49,20 @@ msgstr "_Kreditoj"
 msgid "About %s"
 msgstr "Pri %s"
 
-#: frontend/gtkmm/src/BreakWindow.cc:311
+#: frontend/gtkmm/src/BreakWindow.cc:321
 msgid "Lock"
 msgstr "Ŝlosu"
 
-#: frontend/gtkmm/src/BreakWindow.cc:330
+#: frontend/gtkmm/src/BreakWindow.cc:340
 #, fuzzy
 msgid "Shut down"
 msgstr "Montru _protokolon"
 
-#: frontend/gtkmm/src/BreakWindow.cc:347
+#: frontend/gtkmm/src/BreakWindow.cc:357
 msgid "Skip"
 msgstr "Transsaltu"
 
-#: frontend/gtkmm/src/BreakWindow.cc:360
+#: frontend/gtkmm/src/BreakWindow.cc:370
 msgid "Postpone"
 msgstr "Prokrastu"
 
@@ -411,22 +411,27 @@ msgstr "Rigardu paŭzetoj kiel agado"
 msgid "Number of exercises:"
 msgstr ""
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:200
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:201
 #, fuzzy
-msgid "Time before break:"
+msgid "Time before end:"
 msgstr "Tempo por ripozo"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:207
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:202
+#, fuzzy
+msgid "Time between breaks:"
+msgstr "Tempo por ripozo"
+
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:209
 #, fuzzy
 msgid "Resets at:"
 msgstr "Reŝargas je"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:217
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:219
 #, fuzzy
 msgid "Break duration:"
 msgstr "Daŭro de paŭzo"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:234
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:236
 #, fuzzy
 msgid "Postpone time:"
 msgstr "Prokrasta tempo"
@@ -1074,12 +1079,12 @@ msgstr ""
 
 #: frontend/common/share/sounds/workrave.soundlist.in.h:6
 #, fuzzy
-msgid "Micro-pause ended"
+msgid "Micro-break ended"
 msgstr "Paŭzeto"
 
 #: frontend/common/share/sounds/workrave.soundlist.in.h:7
 #, fuzzy
-msgid "Micro-pause started"
+msgid "Micro-break started"
 msgstr "Paŭzeto"
 
 #: frontend/common/share/sounds/workrave.soundlist.in.h:8
@@ -1091,6 +1096,10 @@ msgstr "Ripozo"
 #, fuzzy
 msgid "Rest break started"
 msgstr "Ripozo por %s"
+
+#, fuzzy
+#~ msgid "Micro-pause ended"
+#~ msgstr "Paŭzeto"
 
 #~ msgid "Force break after maximum exceeded"
 #~ msgstr "Devigu ripzon post maksimumo superita"

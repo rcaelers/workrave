@@ -1,6 +1,6 @@
 // BreakWindow.cc --- base class for the break windows
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -39,6 +39,10 @@ static const char rcsid[] = "$Id$";
 #include "System.hh"
 #include "Util.hh"
 
+#ifdef WIN32
+#include "DesktopWindow.hh"
+#endif
+
 
 //! Constructor
 /*!
@@ -55,6 +59,10 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
          gui(NULL)
 {
   this->break_id = break_id;
+
+#ifdef WIN32
+  desktop_window = NULL;
+#endif
   
 #ifdef HAVE_X
   GtkUtil::set_wmclass(*this, "Break");
@@ -79,6 +87,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
 #endif
 }
 
+
 //! Init GUI
 void
 BreakWindow::init_gui()
@@ -101,6 +110,10 @@ BreakWindow::init_gui()
           window_frame->add(*gui);
           if (block_mode == GUI::BLOCK_MODE_ALL)
             {
+#ifdef WIN32
+              desktop_window = new DesktopWindow(head);
+              add(*window_frame);
+#else
               set_size_request(head.get_width(),
                                head.get_height());
               set_app_paintable(true);
@@ -109,6 +122,7 @@ BreakWindow::init_gui()
                 = manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
               align->add(*window_frame);
               add(*align);
+#endif
             }
           else
             {
@@ -129,6 +143,8 @@ BreakWindow::init_gui()
         }
     }
 }
+
+#ifndef WIN32
 
 //! Courtesy of DrWright
 static GdkPixbuf *
@@ -263,7 +279,6 @@ BreakWindow::set_background_pixmap()
                            screen_width,
                            screen_height,
                            -1);
-
   gdk_pixbuf_render_to_drawable_alpha (tmp_pixbuf,
                                        pixmap,
                                        0,
@@ -279,15 +294,18 @@ BreakWindow::set_background_pixmap()
                                        0);
   g_object_unref (tmp_pixbuf);
 
-  gdk_window_set_back_pixmap (GTK_WIDGET (gobj())->window, pixmap, FALSE);
+   gdk_window_set_back_pixmap (GTK_WIDGET (gobj())->window, pixmap, FALSE);
   g_object_unref (pixmap);
 }
-
+#endif
         
 //! Destructor.
 BreakWindow::~BreakWindow()
 {
   TRACE_ENTER("BreakWindow::~BreakWindow");
+#ifdef WIN32
+  delete desktop_window;
+#endif
   TRACE_EXIT();
 }
 
@@ -386,6 +404,7 @@ BreakWindow::on_shutdown_button_clicked()
   System::shutdown();
 }
 
+
 //! User has closed the main window.
 bool
 BreakWindow::on_delete_event(GdkEventAny *)
@@ -475,6 +494,10 @@ BreakWindow::start()
 
   init_gui();
   center();
+#ifdef WIN32
+  if (desktop_window)
+    desktop_window->set_visible(true);
+#endif  
   show_all();
 
 #ifdef CAUSES_FVWM_FOCUS_PROBLEMS
@@ -491,6 +514,10 @@ BreakWindow::stop()
   TRACE_ENTER("BreakWindow::stop");
 
   hide_all();
+#ifdef WIN32
+  if (desktop_window)
+    desktop_window->set_visible(false);
+#endif  
 
   TRACE_EXIT();
 }

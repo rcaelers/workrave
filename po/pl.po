@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
-"POT-Creation-Date: 2004-02-29 14:58+0100\n"
+"POT-Creation-Date: 2004-03-01 19:16+0100\n"
 "PO-Revision-Date: 2003-09-09 16:27+0200\n"
 "Last-Translator: Mikołaj Machowski <mikmach@wp.pl>\n"
 "Language-Team: Mikołaj Machowski <mikmach@wp.pl>\n"
@@ -49,19 +49,19 @@ msgstr "Autorzy"
 msgid "About %s"
 msgstr "O programie %s"
 
-#: frontend/gtkmm/src/BreakWindow.cc:311
+#: frontend/gtkmm/src/BreakWindow.cc:321
 msgid "Lock"
 msgstr "Zablokuj"
 
-#: frontend/gtkmm/src/BreakWindow.cc:330
+#: frontend/gtkmm/src/BreakWindow.cc:340
 msgid "Shut down"
 msgstr "Wyłącz"
 
-#: frontend/gtkmm/src/BreakWindow.cc:347
+#: frontend/gtkmm/src/BreakWindow.cc:357
 msgid "Skip"
 msgstr "Pomiń"
 
-#: frontend/gtkmm/src/BreakWindow.cc:360
+#: frontend/gtkmm/src/BreakWindow.cc:370
 msgid "Postpone"
 msgstr "Opóźnij"
 
@@ -405,20 +405,26 @@ msgstr "Uważaj mikropauzy za aktywność"
 msgid "Number of exercises:"
 msgstr "Liczba ćwiczeń:"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:200
-msgid "Time before break:"
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:201
+#, fuzzy
+msgid "Time before end:"
 msgstr "Czas między przerwami:"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:207
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:202
+#, fuzzy
+msgid "Time between breaks:"
+msgstr "Czas między przerwami:"
+
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:209
 msgid "Resets at:"
 msgstr "Zresetuj o:"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:217
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:219
 #, fuzzy
 msgid "Break duration:"
 msgstr "Czas trwania przerwy:"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:234
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:236
 #, fuzzy
 msgid "Postpone time:"
 msgstr "Opóźnienie trwa:"
@@ -1088,11 +1094,13 @@ msgid "Exercises ended"
 msgstr "Ćwiczenia zakończone"
 
 #: frontend/common/share/sounds/workrave.soundlist.in.h:6
-msgid "Micro-pause ended"
-msgstr "Mikropauza zakończona"
+#, fuzzy
+msgid "Micro-break ended"
+msgstr "Mikropauza"
 
 #: frontend/common/share/sounds/workrave.soundlist.in.h:7
-msgid "Micro-pause started"
+#, fuzzy
+msgid "Micro-break started"
 msgstr "Mikropauza rozpoczęta"
 
 #: frontend/common/share/sounds/workrave.soundlist.in.h:8
@@ -1102,6 +1110,9 @@ msgstr "Odpoczynek zakończony"
 #: frontend/common/share/sounds/workrave.soundlist.in.h:9
 msgid "Rest break started"
 msgstr "Odpoczynek rozpoczęty"
+
+#~ msgid "Micro-pause ended"
+#~ msgstr "Mikropauza zakończona"
 
 #~ msgid "None"
 #~ msgstr "Nic nie blokuj"

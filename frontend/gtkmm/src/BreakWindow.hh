@@ -1,6 +1,6 @@
 // BreakWindow.hh --- base class for the break windows
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -30,6 +30,10 @@
 #include "HeadInfo.hh"
 #include "WindowHints.hh"
 #include "GUI.hh"
+
+#ifdef WIN32
+class DesktopWindow;
+#endif
 
 class BreakResponseInterface;
 
@@ -95,6 +99,10 @@ private:
 
   //! GUI
   Gtk::Widget *gui;
+
+#ifdef WIN32
+  DesktopWindow *desktop_window;
+#endif
 };
 
 #endif // BREAKWINDOW_HH

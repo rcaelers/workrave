@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.4.0\n"
-"POT-Creation-Date: 2004-02-29 14:57+0100\n"
+"POT-Creation-Date: 2004-03-01 19:16+0100\n"
 "PO-Revision-Date: 2003-10-23 13:04+0200\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -58,22 +58,22 @@ msgstr "_Mitwirkende"
 msgid "About %s"
 msgstr "Über %s"
 
-#: frontend/gtkmm/src/BreakWindow.cc:311
+#: frontend/gtkmm/src/BreakWindow.cc:321
 msgid "Lock"
 msgstr "Sperren"
 
 # src/app/gtkmm/TimerBoxPreferencePage.cc:123
-#: frontend/gtkmm/src/BreakWindow.cc:330
+#: frontend/gtkmm/src/BreakWindow.cc:340
 msgid "Shut down"
 msgstr "Herunterfahren"
 
 # src/app/gtkmm/BreakWindow.cc:327
-#: frontend/gtkmm/src/BreakWindow.cc:347
+#: frontend/gtkmm/src/BreakWindow.cc:357
 msgid "Skip"
 msgstr "Überspringen"
 
 # src/app/gtkmm/BreakWindow.cc:338
-#: frontend/gtkmm/src/BreakWindow.cc:360
+#: frontend/gtkmm/src/BreakWindow.cc:370
 msgid "Postpone"
 msgstr "Aufschieben"
 
@@ -501,23 +501,30 @@ msgid "Number of exercises:"
 msgstr "Anzahl der Übungen"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:202
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:200
-msgid "Time before break:"
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:201
+#, fuzzy
+msgid "Time before end:"
+msgstr "Zeit bis zur Pause:"
+
+# src/app/gtkmm/TimerPreferencesPanel.cc:202
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:202
+#, fuzzy
+msgid "Time between breaks:"
 msgstr "Zeit bis zur Pause:"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:209
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:207
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:209
 msgid "Resets at:"
 msgstr "Zurücksetzen nach:"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:219
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:217
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:219
 #, fuzzy
 msgid "Break duration:"
 msgstr "Dauer der Pause:"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:236
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:234
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:236
 #, fuzzy
 msgid "Postpone time:"
 msgstr "Dauer des Aufschubs:"
@@ -1335,14 +1342,17 @@ msgstr "Übung beendet"
 msgid "Exercises ended"
 msgstr "Übungen beendet"
 
-# src/app/shared/sounds/workrave.soundlist.in.h:6
+# src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/MicroPauseWindow.cc:168
+# src/app/gtkmm/MicroPauseWindow.cc:204
 #: frontend/common/share/sounds/workrave.soundlist.in.h:6
-msgid "Micro-pause ended"
-msgstr "Mikropause beendet"
+#, fuzzy
+msgid "Micro-break ended"
+msgstr "Mikropause"
 
 # src/app/shared/sounds/workrave.soundlist.in.h:7
 #: frontend/common/share/sounds/workrave.soundlist.in.h:7
-msgid "Micro-pause started"
+#, fuzzy
+msgid "Micro-break started"
 msgstr "Mikropause begonnen"
 
 # src/app/shared/sounds/workrave.soundlist.in.h:8
@@ -1354,6 +1364,10 @@ msgstr "Ruhepause beendet"
 #: frontend/common/share/sounds/workrave.soundlist.in.h:9
 msgid "Rest break started"
 msgstr "Ruhepause begonnen"
+
+# src/app/shared/sounds/workrave.soundlist.in.h:6
+#~ msgid "Micro-pause ended"
+#~ msgstr "Mikropause beendet"
 
 #~ msgid "None"
 #~ msgstr "Nichts"

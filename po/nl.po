@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.4.0\n"
-"POT-Creation-Date: 2004-02-29 14:57+0100\n"
+"POT-Creation-Date: 2004-03-01 19:16+0100\n"
 "PO-Revision-Date: 2003-09-09 16:26+0200\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -48,19 +48,19 @@ msgstr "_Credits"
 msgid "About %s"
 msgstr "Over %s"
 
-#: frontend/gtkmm/src/BreakWindow.cc:311
+#: frontend/gtkmm/src/BreakWindow.cc:321
 msgid "Lock"
 msgstr "Vergrendelen"
 
-#: frontend/gtkmm/src/BreakWindow.cc:330
+#: frontend/gtkmm/src/BreakWindow.cc:340
 msgid "Shut down"
 msgstr "Uitschakelen"
 
-#: frontend/gtkmm/src/BreakWindow.cc:347
+#: frontend/gtkmm/src/BreakWindow.cc:357
 msgid "Skip"
 msgstr "Overslaan"
 
-#: frontend/gtkmm/src/BreakWindow.cc:360
+#: frontend/gtkmm/src/BreakWindow.cc:370
 msgid "Postpone"
 msgstr "Uitstellen"
 
@@ -403,20 +403,26 @@ msgstr "Micro-pauzes tellen als werktijd"
 msgid "Number of exercises:"
 msgstr "Aantal oefeningen:"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:200
-msgid "Time before break:"
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:201
+#, fuzzy
+msgid "Time before end:"
 msgstr "Werktijd:"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:207
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:202
+#, fuzzy
+msgid "Time between breaks:"
+msgstr "Werktijd:"
+
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:209
 msgid "Resets at:"
 msgstr "Herstart om:"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:217
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:219
 #, fuzzy
 msgid "Break duration:"
 msgstr "Pauze tijdsduur:"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:234
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:236
 #, fuzzy
 msgid "Postpone time:"
 msgstr "Uitstel tijd:"
@@ -1093,11 +1099,13 @@ msgid "Exercises ended"
 msgstr "Einde oefeningen"
 
 #: frontend/common/share/sounds/workrave.soundlist.in.h:6
-msgid "Micro-pause ended"
-msgstr "Einde micro-pauze"
+#, fuzzy
+msgid "Micro-break ended"
+msgstr "Micro-pauze"
 
 #: frontend/common/share/sounds/workrave.soundlist.in.h:7
-msgid "Micro-pause started"
+#, fuzzy
+msgid "Micro-break started"
 msgstr "Begin micro-pauze"
 
 #: frontend/common/share/sounds/workrave.soundlist.in.h:8
@@ -1107,6 +1115,9 @@ msgstr "Einde rustpauze"
 #: frontend/common/share/sounds/workrave.soundlist.in.h:9
 msgid "Rest break started"
 msgstr "Begin rustpauze"
+
+#~ msgid "Micro-pause ended"
+#~ msgstr "Einde micro-pauze"
 
 #~ msgid "None"
 #~ msgstr "Geen"

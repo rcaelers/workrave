@@ -1,6 +1,6 @@
 // HeadInfo.hh --- Multi head info
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -37,10 +37,10 @@ public:
     count = 0;
   }
   
-  int get_width();
-  int get_height();
-  int get_x();
-  int get_y();
+  int get_width() const;
+  int get_height() const;
+  int get_x() const;
+  int get_y() const;
   
 #ifdef HAVE_GTK_MULTIHEAD
   Glib::RefPtr<Gdk::Screen> screen;

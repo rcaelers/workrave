@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
-"POT-Creation-Date: 2004-02-29 14:58+0100\n"
+"POT-Creation-Date: 2004-03-01 19:16+0100\n"
 "PO-Revision-Date: 2003-09-09 16:25+0200\n"
 "Last-Translator: Christian Vejlbo <translate@vejlbo.dk>\n"
 "Language-Team:  <da@li.org>\n"
@@ -50,19 +50,19 @@ msgstr "_Credits"
 msgid "About %s"
 msgstr "Om %s"
 
-#: frontend/gtkmm/src/BreakWindow.cc:311
+#: frontend/gtkmm/src/BreakWindow.cc:321
 msgid "Lock"
 msgstr "Lås"
 
-#: frontend/gtkmm/src/BreakWindow.cc:330
+#: frontend/gtkmm/src/BreakWindow.cc:340
 msgid "Shut down"
 msgstr "Luk ned"
 
-#: frontend/gtkmm/src/BreakWindow.cc:347
+#: frontend/gtkmm/src/BreakWindow.cc:357
 msgid "Skip"
 msgstr "Spring over"
 
-#: frontend/gtkmm/src/BreakWindow.cc:360
+#: frontend/gtkmm/src/BreakWindow.cc:370
 msgid "Postpone"
 msgstr "Udsæt"
 
@@ -406,20 +406,26 @@ msgstr "Betragt mikropauser som aktiviteter"
 msgid "Number of exercises:"
 msgstr "Antal øvelser:"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:200
-msgid "Time before break:"
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:201
+#, fuzzy
+msgid "Time before end:"
 msgstr "Tid før pause:"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:207
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:202
+#, fuzzy
+msgid "Time between breaks:"
+msgstr "Tid før pause:"
+
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:209
 msgid "Resets at:"
 msgstr "Nulstiller om:"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:217
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:219
 #, fuzzy
 msgid "Break duration:"
 msgstr "Pause længde:"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:234
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:236
 #, fuzzy
 msgid "Postpone time:"
 msgstr "Udsættelses-periode:"
@@ -1087,11 +1093,13 @@ msgid "Exercises ended"
 msgstr "Øvelser afsluttet"
 
 #: frontend/common/share/sounds/workrave.soundlist.in.h:6
-msgid "Micro-pause ended"
-msgstr "Mikropause afsluttet"
+#, fuzzy
+msgid "Micro-break ended"
+msgstr "Mikropause"
 
 #: frontend/common/share/sounds/workrave.soundlist.in.h:7
-msgid "Micro-pause started"
+#, fuzzy
+msgid "Micro-break started"
 msgstr "Mikropause startet"
 
 #: frontend/common/share/sounds/workrave.soundlist.in.h:8
@@ -1101,6 +1109,9 @@ msgstr "Hvilepause afsluttet"
 #: frontend/common/share/sounds/workrave.soundlist.in.h:9
 msgid "Rest break started"
 msgstr "Hvilepause startet"
+
+#~ msgid "Micro-pause ended"
+#~ msgstr "Mikropause afsluttet"
 
 #~ msgid "None"
 #~ msgstr "Ingen"

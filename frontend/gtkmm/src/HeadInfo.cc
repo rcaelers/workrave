@@ -1,6 +1,6 @@
 // HeadInfo.hh --- Multi head info
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -19,7 +19,7 @@
 #include "HeadInfo.hh"
 
 int
-HeadInfo::get_width()
+HeadInfo::get_width() const
 {
   if (valid)
     {
@@ -32,7 +32,7 @@ HeadInfo::get_width()
 }
 
 int
-HeadInfo::get_height()
+HeadInfo::get_height() const
 {
   if (valid)
     {
@@ -45,7 +45,7 @@ HeadInfo::get_height()
 }
 
 int
-HeadInfo::get_x()
+HeadInfo::get_x() const
 {
   if (valid)
     {
@@ -58,7 +58,7 @@ HeadInfo::get_x()
 }
 
 int
-HeadInfo::get_y()
+HeadInfo::get_y() const
 {
   if (valid)
     {
