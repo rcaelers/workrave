@@ -582,6 +582,30 @@ Control::compute_idle_time()
 
 
 void
+Control::save_idle_log(ClientInfo &info)
+{
+}
+
+
+void
+Control::load_idle_log(ClientInfo &info, string filename)
+{
+}
+
+
+void
+Control::load_all_idle_logs()
+{
+}
+
+
+void
+Control::update_idle_log(ClientInfo &info,  IdleInterval)
+{
+}
+
+
+void
 Control::compute_timers()
 {
   TRACE_ENTER("Control:compute_timers");

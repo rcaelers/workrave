@@ -189,6 +189,11 @@ private:
   int compute_active_time(int length);
   int compute_idle_time();
   void compute_timers();
+
+  void save_idle_log(ClientInfo &info);
+  void load_idle_log(ClientInfo &info, string filename);
+  void load_all_idle_logs();
+  void update_idle_log(ClientInfo &info,  IdleInterval);
   
   void signon_remote_client(string client_id);
   void signoff_remote_client(string client_id);
