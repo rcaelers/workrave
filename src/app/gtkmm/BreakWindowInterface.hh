@@ -45,7 +45,7 @@ public:
   virtual void set_progress(int value, int max_value) = 0;
 
   //! Sets the response callback.
-  virtual void set_break_response(BreakResponseInterface *bri) = 0;
+  virtual void set_response(BreakResponseInterface *bri) = 0;
 };
 
 #endif // RESTBREAKWINDOWINTERFACE_HH

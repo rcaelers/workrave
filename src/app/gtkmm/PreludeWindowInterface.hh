@@ -20,35 +20,16 @@
 #define PRELUDEWINDOWINTERFACE_HH
 
 #include <string>
-
-class PreludeResponseInterface;
+#include "AppInterface.hh"
 
 class PreludeWindowInterface
 {
 public:
-  enum Stage
-  {
-    STAGE_INITIAL = 0,
-    STAGE_MOVE_OUT,
-    STAGE_WARN,
-    STAGE_ALERT,
-  };
-
-  enum ProgressText
-    {
-      PROGRESS_TEXT_BREAK_IN,
-      PROGRESS_TEXT_DISAPPEARS_IN,
-      PROGRESS_TEXT_SILENT_IN,
-    };
-  
   //! Starts (i.e. shows) the prelude window.
   virtual void start() = 0;
   
   //! Stops (i.e. hides) the prelude window.
   virtual void stop() = 0;
-
-  //! Sets the prelude window on hold, returns true if supported.
-  virtual bool delayed_stop() = 0;
 
   //! Destroys the prelude window.
   /*! \warn this will 'delete' the window.
@@ -62,13 +43,13 @@ public:
   virtual void set_progress(int value, int max_value) = 0;
 
   //! Sets the alert stage of the prelude window.
-  virtual void set_stage(Stage stage) = 0;
+  virtual void set_stage(AppInterface::PreludeStage stage) = 0;
 
   //! Sets the progress text of the prelude window.
-  virtual void set_progress_text(ProgressText text) = 0;
+  virtual void set_progress_text(AppInterface::PreludeProgressText text) = 0;
 
   //! Sets the response callback.
-  virtual void set_prelude_response(PreludeResponseInterface *pri) = 0;
+  virtual void set_response(BreakResponseInterface *pri) = 0;
 };
 
 #endif // RESTPRELUDEWINDOWINTERFACE_HH
