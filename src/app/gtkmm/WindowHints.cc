@@ -244,3 +244,15 @@ WindowHints::set_tool_window(GtkWidget *window, bool istool)
 #endif
   return rc;
 }
+
+
+#if defined(WIN32)
+void
+WindowHints::attach_thread_input(bool enabled)
+{
+  AttachThreadInput
+    (GetWindowThreadProcessId(GetForegroundWindow(),NULL),
+     GetCurrentThreadId(),enabled);
+  
+}
+#endif

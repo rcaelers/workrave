@@ -1,6 +1,6 @@
 // WindowHints.hh 
 //
-// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -46,6 +46,9 @@ public:
   static bool set_tool_window(GtkWidget *window, bool istool);
   static Grab *grab(GdkWindow *window);
   static void ungrab(Grab *grab);
+#if defined(WIN32)
+  static void attach_thread_input(bool enabled);
+#endif
 };
 
 #endif // WINDOWHINTS_HH

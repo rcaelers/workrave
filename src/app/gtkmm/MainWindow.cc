@@ -470,8 +470,9 @@ MainWindow::win32_show(bool b)
   ShowWindow(hwnd, b ? SW_SHOWNORMAL : SW_HIDE);
   if (b)
     {
-      deiconify();
-      raise();
+      WindowHints::attach_thread_input(TRUE);
+      present();
+      WindowHints::attach_thread_input(FALSE);
     }
 }
 
