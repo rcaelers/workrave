@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-01-10 21:41:06 robc>
+// Time-stamp: <2003-01-12 11:44:51 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -127,6 +127,7 @@ X11InputMonitor::X11InputMonitor(char *name) :
 }
 
 
+// FIXME: never executed....
 X11InputMonitor::~X11InputMonitor()
 {
   TRACE_ENTER("X11InputMonitor::~X11InputMonitor");
@@ -140,6 +141,13 @@ X11InputMonitor::~X11InputMonitor()
     {
       free(x11_display_name);
     }
+
+#ifdef HAVE_XRECORD
+  if (xrecord_datalink != NULL)
+    {
+      XCloseDisplay(xrecord_datalink);
+    }
+#endif
   TRACE_EXIT();
 }
 
@@ -482,6 +490,7 @@ X11InputMonitor::run_xrecord()
     {
       XRecordFreeContext(x11_display, xrecord_context);
       XCloseDisplay(xrecord_datalink);
+      xrecord_datalink = NULL;
     }
   else
     {

@@ -16,7 +16,6 @@
 //
 // TODO: split system tray and gnome applet.
 // TODO: release CORBA memory.
-// TODO: smoother update of table.
 
 static const char rcsid[] = "$Id$";
 
@@ -168,16 +167,6 @@ AppletWindow::init_table()
 {
   TRACE_ENTER("AppletWindow::init_table");
 
-  // Reinitialize widgets and container.
-//   if (timers_box != NULL)
-//     {
-//       container->remove();
-//       delete timers_box;
-//       timers_box = NULL;
-//       init_widgets();
-//     }
-
-  
   // Determine what breaks to show.
   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
     {
@@ -225,6 +214,7 @@ AppletWindow::init_table()
     {
       timers_box = new Gtk::Table(rows, 2 * columns, false);
       timers_box->set_spacings(2);
+      timers_box->reference();
       container->add(*timers_box);
     }
 
@@ -508,6 +498,11 @@ AppletWindow::init_tray_applet()
       eventbox->set_events(eventbox->get_events() | Gdk::BUTTON_PRESS_MASK);
       eventbox->signal_button_press_event().connect(SigC::slot(*this, &AppletWindow::on_button_press_event));
       container = eventbox;
+
+      if (timers_box != NULL)
+        {
+          container->add(*timers_box);
+        }
       
       plug = Glib::wrap(GTK_PLUG(tray_icon));
       plug->add(*eventbox);
@@ -617,9 +612,16 @@ AppletWindow::init_gnome_applet()
       Gtk::Alignment *frame = new Gtk::Alignment(1.0, 1.0, 0.0, 0.0);
       frame->set_border_width(2);
       container = frame;
-        
+
       plug = new Gtk::Plug(id);
       plug->add(*frame);
+
+      if (timers_box != NULL)
+        {
+          container->add(*timers_box);
+          container->show_all();
+        }
+
       plug->show_all();
       
       plug->signal_delete_event().connect(SigC::slot(*this, &AppletWindow::delete_event));
@@ -677,6 +679,7 @@ AppletWindow::destroy_gnome_applet()
         {
           container->remove();
           delete container;
+          container = NULL;
         }
       applet_control = NULL; // FIXME: free memory.
     }
@@ -727,7 +730,6 @@ AppletWindow::update()
       if (applet_enabled)
         {
           // Enable applet.
-          //init_widgets();
           retry_init = true;
         }
 

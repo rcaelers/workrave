@@ -1,6 +1,6 @@
 // WorkraveApplet.cc
 //
-// Copyright (C) 2002 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -53,7 +53,7 @@ RemoteControl::get_instance()
 {
   if (instance == NULL)
     {
-      instance = new RemoteControl();
+      instance = new RemoteControl(); // FIXME: Leak
       instance->workrave_control = workrave_control_new();
       instance->workrave_control->_this = instance;
     }

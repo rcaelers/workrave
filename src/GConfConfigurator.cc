@@ -1,6 +1,6 @@
 // GConfConfigurator.cc --- Configuration Access
 //
-// Copyright (C) 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -76,7 +76,11 @@ GConfConfigurator::get_value(string key, GConfValue **value) const
   if (error != NULL || *value == NULL)
     {
       ret = false;
-      *value = NULL;
+      if (*value != NULL)
+        {
+          gconf_value_free(*value);
+          *value = NULL;
+        }
     }
   
   return ret;
