@@ -687,7 +687,7 @@ MainWindow::win32_add_tray_icon()
   
   strcpy(win32_tray_icon.szTip, "Workrave");
   strcpy(win32_tray_icon.szInfoTitle, "Workrave");
-  strcpy(win32_tray_icon.szInfo, "Workrave");
+  strncpy(win32_tray_icon.szInfo, "Workrave", 255);
 
   Shell_NotifyIcon(NIM_ADD, &win32_tray_icon);
   DestroyIcon(win32_tray_icon.hIcon);
