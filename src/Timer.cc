@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-04-08 21:38:24 robc>
+// Time-stamp: <2003-04-08 23:13:34 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -436,7 +436,7 @@ Timer::stop_timer()
 void
 Timer::snooze_timer()
 {
-  if (timer_enabled) //  && get_elapsed_time() >= limit_interval)
+  if (timer_enabled)
     {
       snooze_on_active = false;
 

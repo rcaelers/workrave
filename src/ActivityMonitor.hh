@@ -95,6 +95,8 @@ public:
   //! Keyboard activity is reported by the input monitor.
   void keyboard_notify(int key_code, int modifier);
 
+  void shift_time(int delta);
+  
 private:
   void call_listener();
   

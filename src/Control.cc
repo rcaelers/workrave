@@ -179,6 +179,7 @@ Control::process_timers(TimerInfo *infos)
           TRACE_MSG("Time warp of " << gap << " seconds");
           
           monitor->force_idle();
+          monitor->shift_time(gap);
           for (int i = 0; i < timer_count; i++)
             {
               timers[i]->shift_time(gap);

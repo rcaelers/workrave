@@ -16,6 +16,16 @@
 // $Id$
 //
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "preinclude.h"
+
+#include "nls.h"
+
+#include "debug.hh"
+
 #include "GUI.hh"
 #include "GtkUtil.hh"
 #include "EventLabel.hh"
@@ -98,7 +108,7 @@ GtkUtil::create_label_with_tooltip(string text, string tooltip)
   return eventbox;
 #else
   EventLabel *label = Gtk::manage(new EventLabel(text));
-
+  
   GUI::get_instance()->get_tooltips()->set_tip(*label, tooltip);
   return label;
 #endif

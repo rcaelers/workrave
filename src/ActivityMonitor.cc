@@ -397,3 +397,21 @@ ActivityMonitor::call_listener()
         }
     }
 }
+
+void
+ActivityMonitor::shift_time(int delta)
+{
+  struct timeval d;
+
+  tvSETTIME(d, delta, 0)
+    
+  if (!tvTIMEEQ0(last_action_time))
+    tvADDTIME(last_action_time, last_action_time, d);
+
+  if (!tvTIMEEQ0(first_action_time))
+    tvADDTIME(first_action_time, first_action_time, d);
+
+  if (!tvTIMEEQ0(last_mouse_time))
+    tvADDTIME(last_mouse_time, last_mouse_time, d);
+}
+
