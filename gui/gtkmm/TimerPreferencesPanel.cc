@@ -47,7 +47,7 @@ TimerPreferencesPanel::TimerPreferencesPanel(GUIControl::TimerId t)
   Gtk::Frame *opts_frame = manage(create_options_frame());
 
   // VBox
-  Gtk::VBox *vbox = new Gtk::VBox(false, 6);
+  Gtk::VBox *vbox = manage(new Gtk::VBox(false, 6));
   vbox->pack_start(*timers_frame, false, false, 0);
   vbox->pack_start(*opts_frame, false, false, 0);
   
@@ -74,7 +74,7 @@ Gtk::Frame *
 TimerPreferencesPanel::create_prelude_frame()
 {
   // Prelude frame
-  Gtk::Frame *prelude_frame = new Gtk::Frame(_("Break prompting"));
+  Gtk::Frame *prelude_frame = manage(new Gtk::Frame(_("Break prompting")));
   prelude_cb = manage(new Gtk::CheckButton(_("Prompt before breaking")));
   int max_preludes = timer->get_break_max_preludes();
   prelude_cb->set_active(max_preludes != 0);
@@ -105,7 +105,7 @@ TimerPreferencesPanel::create_prelude_frame()
     .connect(SigC::slot(*this,
                         &TimerPreferencesPanel::on_preludes_maximum_changed));
 
-  Gtk::VBox *prelude_vbox = new Gtk::VBox(false, 0);
+  Gtk::VBox *prelude_vbox = manage(new Gtk::VBox(false, 0));
   prelude_vbox->set_border_width(6);
   prelude_vbox->pack_start(*prelude_cb, false, false, 0);
   prelude_vbox->pack_start(*has_max_prelude_cb, false, false, 0);
@@ -170,7 +170,7 @@ TimerPreferencesPanel::create_options_frame()
     }
 
   // Options frame
-  Gtk::Frame *opts_frame = new Gtk::Frame(_("Options"));
+  Gtk::Frame *opts_frame = manage(new Gtk::Frame(_("Options")));
   opts_table->set_border_width(6);
   opts_frame->add(*opts_table);
 
@@ -233,7 +233,7 @@ TimerPreferencesPanel::create_timers_frame()
   timers_table->attach(*snooze_tim, 1, 2, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
 
   // Timers frame
-  Gtk::Frame *timers_frame = new Gtk::Frame(_("Timers"));
+  Gtk::Frame *timers_frame = manage(new Gtk::Frame(_("Timers")));
   timers_table->set_border_width(6);
   timers_frame->add(*timers_table);
   return timers_frame;

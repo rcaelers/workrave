@@ -78,7 +78,7 @@ NetworkPreferencePage::create_general_page(Gtk::Notebook *tnotebook)
   enabled_cb = manage(new Gtk::CheckButton(_("Enable networking")));
 
   // Identity
-  Gtk::Frame *id_frame = new Gtk::Frame(_("Identity"));
+  Gtk::Frame *id_frame = manage(new Gtk::Frame(_("Identity")));
 
   username_entry = manage(new Gtk::Entry());
   password_entry = manage(new Gtk::Entry());
@@ -127,7 +127,7 @@ NetworkPreferencePage::create_advanced_page(Gtk::Notebook *tnotebook)
   Gtk::VBox *gp = manage(new Gtk::VBox(false, 6));
   gp->set_border_width(6);
 
-  Gtk::Frame *advanced_frame = new Gtk::Frame(_("Server settings"));
+  Gtk::Frame *advanced_frame = manage(new Gtk::Frame(_("Server settings")));
 
   port_entry = manage(new Gtk::SpinButton());
   attempts_entry = manage(new Gtk::SpinButton());
@@ -456,7 +456,6 @@ NetworkPreferencePage::on_peer_remove()
   for (type_children::iterator iter = children.begin(); iter != children.end(); ++iter)
     {
       Gtk::TreeModel::Row row = *iter;
-
       
       string hostname = row[peers_columns.hostname];
       string port = row[peers_columns.port];

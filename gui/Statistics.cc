@@ -53,6 +53,8 @@ Statistics::Statistics() :
 //! Destructor
 Statistics::~Statistics()
 {
+  instance = NULL;
+  
   if (current_day != NULL)
     {
       delete current_day;
@@ -389,6 +391,8 @@ Statistics::load_history()
           DailyStats *day = new DailyStats();
           
           load_day(day, stats_file);
+
+          history.push_back(day);
         }
     }
 }
@@ -756,6 +760,14 @@ Statistics::set_state(DistributedStateID id, bool master, unsigned char *buffer,
         }
     }
 
+  if (stats_to_history)
+    {
+      // this should not happend. but just to avoid a potential memory leak...
+      TRACE_MSG("Save to history");
+      day_to_history(stats);
+      stats_to_history = false;
+    }
+  
   update_enviromnent();
   dump();
 

@@ -99,12 +99,12 @@ MainWindow::~MainWindow()
 {
   TRACE_ENTER("MainWindow::~MainWindow");
 
-  if (timer_times)
+  if (timer_times != NULL)
     {
       delete [] timer_times;
     }
 
-  if (timer_names)
+  if (timer_names != NULL)
     {
       delete [] timer_names;
     }
@@ -342,7 +342,8 @@ MainWindow::on_delete_event(GdkEventAny *)
 Gtk::Menu *
 MainWindow::create_menu(Gtk::RadioMenuItem *mode_menus[3])
 {
-  Gtk::Menu *pop_menu = new Gtk::Menu();
+  //FIXME: untested, added manage
+  Gtk::Menu *pop_menu = manage(new Gtk::Menu());
   
   Gtk::Menu::MenuList &menulist = pop_menu->items();
 
@@ -677,7 +678,7 @@ MainWindow::on_network_log_response(int response)
 { 
   network_log_dialog->hide_all();
   distr_log_menu_item->set_active(false);
-  //delete network_log_dialog;
+  // done by gtkmm ??? delete network_log_dialog;
   network_log_dialog = NULL;
 }
 

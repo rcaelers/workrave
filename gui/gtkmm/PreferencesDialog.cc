@@ -154,7 +154,7 @@ PreferencesDialog::create_gui_page()
 #endif
 
   // Options
-  Gtk::VBox *opts_box = new Gtk::VBox(false, 0);
+  Gtk::VBox *opts_box = manage(new Gtk::VBox(false, 0));
   opts_box->pack_start(*ontop_cb, false, false, 0);
 #ifdef WIN32
   opts_box->pack_start(*win32_start_in_tray_cb, false, false, 0);
@@ -334,7 +334,7 @@ PreferencesDialog::create_page(const char *label, const char *image)
   info_box->pack_start(*info_img, false, false, 6);
   info_box->pack_start(*info_lab, false, true, 6);
 
-  Gtk::VBox *page = new Gtk::VBox(false, 6);
+  Gtk::VBox *page = manage(new Gtk::VBox(false, 6));
   page->pack_start(*info_box, false, true, 0);
   page->set_border_width(6);
   return page;

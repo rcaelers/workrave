@@ -320,8 +320,11 @@ GNetSocketConnection::~GNetSocketConnection()
     {
       g_free(name);
     }
-  
-  g_source_remove(watch);
+
+  if (watch != 0)
+    {
+      g_source_remove(watch);
+    }
 }
 
 

@@ -84,7 +84,7 @@ NetworkJoinDialog::NetworkJoinDialog()
   entry_table->attach(*startup_button, 1, 2, y, y+1, Gtk::SHRINK | Gtk::FILL, Gtk::SHRINK);
   
   // Page
-  Gtk::VBox *page = new Gtk::VBox(false, 6);
+  Gtk::VBox *page = manage(new Gtk::VBox(false, 6));
   page->pack_start(*title_box, false, true, 0);
   page->pack_start(*entry_table, false, true, 0);
   page->set_border_width(6);

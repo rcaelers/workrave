@@ -35,6 +35,7 @@ class ControlInterface;
 class BreakInterface;
 class TimerInterface;
 class SoundPlayerInterface;
+class Statistics;
 
 using namespace std;
 
@@ -162,6 +163,9 @@ private:
 
   //! The sound player
   SoundPlayerInterface *sound_player;
+
+  //! The statistics collector.
+  Statistics *statistics;
   
   //! Configuration access.
   Configurator *configurator;

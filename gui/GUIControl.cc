@@ -224,6 +224,7 @@ GUIControl::GUIControl(GUIFactoryInterface *factory, ControlInterface *controlle
   assert(! instance);
   instance = this;
   
+  statistics = NULL;
   configurator = NULL;
 
   master_node = true;
@@ -257,6 +258,10 @@ GUIControl::~GUIControl()
   if (sound_player != NULL)
     {
       delete sound_player;
+    }
+  if (statistics != NULL)
+    {
+      delete statistics;
     }
   TRACE_EXIT();
 }

@@ -86,6 +86,13 @@ Control::~Control()
       ti++;
     }
 
+#ifdef HAVE_DISTRIBUTION
+  if (dist_manager != NULL)
+    {
+      delete dist_manager;
+    }
+#endif
+  
   delete monitor;
   
   TRACE_EXIT();
@@ -136,6 +143,9 @@ Control::main(int argc, char **argv)
 
   gui->run();
 
+  //FIXME: untested, solves memleak, gui not freed.
+  delete gui;
+  
   return 0;
 }
 

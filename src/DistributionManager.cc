@@ -52,6 +52,12 @@ DistributionManager::DistributionManager() :
 //! Destructs this DistributionManager. 
 DistributionManager::~DistributionManager()
 {
+  instance = NULL;
+  
+  if (link != NULL)
+    {
+      delete link;
+    }
 }
 
 

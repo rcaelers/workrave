@@ -82,6 +82,9 @@ BreakControl::BreakControl(GUIControl::BreakId id, ControlInterface *c,
 //! Destructor.
 BreakControl::~BreakControl()
 {
+  prelude_window_stop();
+  break_window_stop();
+  delay_window_destroy = false;
   collect_garbage();
 }
 
