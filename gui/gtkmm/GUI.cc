@@ -1,6 +1,6 @@
 // GUI.cc --- The WorkRave GUI
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -47,6 +47,11 @@ static const char rcsid[] = "$Id$";
 #include "Win32SoundPlayer.hh"
 #elif defined(HAVE_GNOME)
 #include "GnomeSoundPlayer.hh"
+#endif
+
+#ifdef HAVE_X
+#include <X11/Xlib.h>
+#include <glibmm.h>
 #endif
 
 GUI *GUI::instance = NULL;
@@ -114,7 +119,10 @@ GUI::run()
   TRACE_ENTER("GUI:run");
 
   // Initialize Gtkmm
+  XInitThreads();
   Gtk::Main kit(argc, argv);
+
+  //g_thread_init(NULL);
 
   // Setup the window hints module.
   WindowHints::init();
@@ -138,7 +146,9 @@ GUI::run()
                                  );
   
   // Enter the event loop
+  gdk_threads_enter();
   Gtk::Main::run(*main_window);
+  gdk_threads_leave();
   TRACE_MSG("end of Gtk::Main::run");
     
   delete main_window;

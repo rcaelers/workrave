@@ -1,9 +1,7 @@
 // Thread.cc --- Thread class
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
 // All rights reserved.
-//
-// Time-stamp: <2002-08-17 20:13:46 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,30 +23,32 @@ static const char rcsid[] = "$Id$";
 #include "Thread.hh"
 
 void *
-threadHandler(void* arg)
+Thread::thread_handler(void* arg)
 {
     Thread *t = (Thread *)arg;
 
     if (t != NULL)
       {
         t->internal_run();
+        if (t->auto_delete)
+          delete t;
       }
-
     return 0;
 }
 
 
-Thread::Thread()
+Thread::Thread(bool del)
 {
-  m_target = NULL;
-  m_running = false;
+  target = NULL;
+  running = false;
+  auto_delete = del;
 }
 
 
-Thread::Thread(Runnable *target)
+Thread::Thread(Runnable *t)
 {
-  m_target = target;
-  m_running = false;
+  target = t;
+  running = false;
 }
 
 
@@ -82,37 +82,37 @@ void
 Thread::start()
 {
   // FIXME: leak
-  pthread_create(&m_threadId, NULL, threadHandler, this);
+  pthread_create(&thread_id, NULL, thread_handler, this);
 }
 
 
 void
 Thread::stop()
 {
-  pthread_cancel(m_threadId);
+  pthread_cancel(thread_id);
 }
 
 
 void
 Thread::wait()
 {
-  pthread_join(m_threadId, NULL);
+  pthread_join(thread_id, NULL);
 }
 
 
 void
 Thread::run()
 {
-  if (m_target != NULL)
+  if (target != NULL)
     {
-      m_target->run();
+      target->run();
     }
 }
 
 void
 Thread::internal_run()
 {
-  m_running = true;
+  running = true;
   run();
-  m_running = false;
+  running = false;
 }

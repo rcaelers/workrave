@@ -21,7 +21,7 @@ static const char rcsid[] = "$Id$";
 #endif
 
 #include "GnomeSoundPlayer.hh"
-
+#include "Sound.hh"
 
 GnomeSoundPlayer::GnomeSoundPlayer()
 {
@@ -30,6 +30,8 @@ GnomeSoundPlayer::GnomeSoundPlayer()
 GnomeSoundPlayer::~GnomeSoundPlayer()
 {
 }
+
+
 
 void
 GnomeSoundPlayer::play_sound(Sound snd)

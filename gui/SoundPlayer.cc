@@ -23,9 +23,114 @@ static const char rcsid[] = "$Id$";
 #include "SoundPlayer.hh"
 #include "GUIControl.hh"
 #include "Configurator.hh"
+#include "Thread.hh"
+#include "Sound.hh"
 
 const char *SoundPlayer::CFG_KEY_SOUND_ENABLED = "sound/enabled";
 const char *SoundPlayer::CFG_KEY_SOUND_DEVICE = "sound/device";
+
+/**********************************************************************
+ * PC-Speaker
+ **********************************************************************/
+static short prelude_beeps[][2]=
+{
+    { 250, 50},
+    { 300, 50},
+    { 0, 0 }
+};
+    
+static short micro_pause_start_beeps[][2]=
+{
+    { 320, 70 },
+    { 350, 70 },
+    { 0, 0 },
+};
+
+static short micro_pause_end_beeps[][2]=
+{
+  { 350, 70 },
+  { 320, 70 },
+  { 0, 0 },
+};
+
+static short rest_break_start_beeps[][2]=
+{
+  { 160, 70 }, 
+  { 180, 70 }, 
+  { 200, 70 }, 
+  { 230, 70 }, 
+  { 260, 70 }, 
+  { 290, 70 }, 
+  { 320, 70 }, 
+  { 350, 70 },
+  { 0, 0 }
+};
+
+static short rest_break_end_beeps[][2]=
+{
+  { 350, 70 }, 
+  { 320, 70 }, 
+  { 290, 70 }, 
+  { 260, 70 }, 
+  { 230, 70 }, 
+  { 200, 70 }, 
+  { 180, 70 }, 
+  { 160, 70 }, 
+  { 0, 0 }
+};
+
+static short break_ignore_beeps[][2]=
+{
+    { 60, 250 }, 
+    { 50, 400 },
+    { 0, 0 }
+};
+
+static short (*beep_map[])[2] =
+{
+  prelude_beeps,
+  break_ignore_beeps,
+  rest_break_start_beeps,
+  rest_break_end_beeps,
+  micro_pause_start_beeps,
+  micro_pause_end_beeps
+};
+
+
+class SpeakerPlayer : public Thread
+{
+public:
+  SpeakerPlayer(short (*beeps)[2]);
+  void run();
+private:
+  SoundPlayer *player;
+  short (*beeps)[2];
+};
+
+
+SpeakerPlayer::SpeakerPlayer(short (*b)[2])
+  : Thread(true)
+{
+  beeps = b;
+}
+
+void
+SpeakerPlayer::run()
+{
+  short (*b)[2];
+  b = beeps;
+  while (b[0][0])
+    {
+      ::Sound::beep(b[0][0], b[0][1]);
+      b++;
+    }
+  
+}
+  
+
+/**********************************************************************
+ * SoundPlayer
+ **********************************************************************/
 
 
 SoundPlayer::SoundPlayer(SoundPlayerInterface *p)
@@ -41,9 +146,18 @@ SoundPlayer::~SoundPlayer()
 void
 SoundPlayer::play_sound(Sound snd)
 {
-  if (is_enabled() && player != NULL)
+ 
+  if (is_enabled())
     {
-      player->play_sound(snd);
+      if (get_device() == DEVICE_SOUNDCARD && player != NULL)
+        {
+          player->play_sound(snd);
+        }
+      else
+        {
+          Thread *t = new SpeakerPlayer(beep_map[snd]);
+          t->start();
+        }
     }
 }
 

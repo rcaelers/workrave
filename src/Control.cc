@@ -47,7 +47,6 @@ static const char rcsid[] = "$Id$";
 #include "FakeActivityMonitor.hh"
 #endif
 
-
 const char *WORKRAVESTATE="WorkRaveState";
 const int SAVESTATETIME = 15;
 

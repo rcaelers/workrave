@@ -1,9 +1,7 @@
 // Thread.hh --- Thread class
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
 // All rights reserved.
-//
-// Time-stamp: <2002-08-17 20:14:00 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -41,7 +39,7 @@ class Thread : public Runnable
 {
 public:
   //! Construct a new thread.
-  Thread();
+  Thread(bool auto_delete = false);
 
   //! Construct a new thread for the supplied runnable object.
   Thread(Runnable *target);
@@ -56,7 +54,7 @@ public:
   void suspend()
   {
 #ifdef  _SIG_THREAD_SUSPEND
-    pthread_kill(m_threadId, _SIG_THREAD_SUSPEND);
+    pthread_kill(thread_id, _SIG_THREAD_SUSPEND);
 #endif
     // TODO: win32
   }
@@ -65,14 +63,14 @@ public:
   void resume()
   {
 #ifdef  _SIG_THREAD_RESUME
-    pthread_kill(m_threadId, _SIG_THREAD_RESUME);
+    pthread_kill(thread_id, _SIG_THREAD_RESUME);
 #endif
     // TODO: win32
   }
 
   bool isRunning() const
   {
-    return m_running;
+    return running;
   }
     
   //! Start this thread.
@@ -94,14 +92,19 @@ public:
   static void sleep(long millis, int nanos = 0);
   
 private:
+  static void *thread_handler(void* arg);
+
   //! This thread runnable object. May be zero.
-  Runnable *m_target;
+  Runnable *target;
 
   //! POSIX threads thread id.
-  pthread_t m_threadId;
+  pthread_t thread_id;
 
   //! Thread is running ?
-  bool m_running;
+  bool running;
+
+  //! Auto-delete thread ?
+  bool auto_delete;
 };
 
 
