@@ -209,6 +209,11 @@ AppletPreferencePage::on_place_changed()
       slots[GUIControl::BREAK_ID_REST_BREAK] = 1;
       slots[GUIControl::BREAK_ID_DAILY_LIMIT] = 1;
       break;
+    case 3:
+      slots[GUIControl::BREAK_ID_MICRO_PAUSE] = 0;
+      slots[GUIControl::BREAK_ID_REST_BREAK] = 0;
+      slots[GUIControl::BREAK_ID_DAILY_LIMIT] = 0;
+      break;
     default:
       slots[GUIControl::BREAK_ID_MICRO_PAUSE] = -1;
       slots[GUIControl::BREAK_ID_REST_BREAK] = -1;
