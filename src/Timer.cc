@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-11-10 21:53:57 robc>
+// Time-stamp: <2002-11-11 18:36:34 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -443,7 +443,7 @@ Timer::snooze_timer()
 {
   TRACE_ENTER_MSG("Timer::snooze", timer_id);
 
-  if (timer_enabled && get_elapsed_time() >= limit_interval)
+  if (timer_enabled) //  && get_elapsed_time() >= limit_interval)
     {
       snooze_on_active = false;
 

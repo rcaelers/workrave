@@ -189,6 +189,7 @@ BreakWindow::set_avoid_pointer(bool avoid_pointer)
       if (avoid_pointer)
         {
           add_events(events);
+          did_avoid = false;
         }
       else
         {

@@ -187,7 +187,8 @@ BreakControl::heartbeat()
             prelude_window->set_stage(PreludeWindowInterface::STAGE_WARN);
             prelude_window->refresh();
           }
-        else if (prelude_time == 4)
+
+        if (prelude_time == 4)
           {
             assert(prelude_window != NULL);
             prelude_window->set_stage(PreludeWindowInterface::STAGE_MOVE_OUT);
@@ -807,16 +808,24 @@ BreakControl::set_state_data(bool active, const BreakStateData &data)
   prelude_count = data.prelude_count;
   prelude_time = data.prelude_time;
 
+  BreakStage new_break_stage = (BreakStage) data.break_stage;
+  
+  if (new_break_stage == STAGE_TAKING)
+    {
+      new_break_stage = STAGE_PRELUDE;
+      prelude_count = number_of_preludes - 1;
+    }
+  
   if (active)
     {
-      if (forced_break && data.break_stage == STAGE_TAKING)
+      if (forced_break && new_break_stage == STAGE_TAKING)
         {
           TRACE_MSG("User inflicted break");
 
           prelude_time = 0;
           goto_stage(STAGE_TAKING);
         }
-      else if (data.break_stage == STAGE_TAKING) // && !forced_break
+      else if (new_break_stage == STAGE_TAKING) // && !forced_break
         {
           TRACE_MSG("Break active");
 
@@ -827,7 +836,7 @@ BreakControl::set_state_data(bool active, const BreakStateData &data)
       
           goto_stage(STAGE_TAKING);
         }
-      else if (data.break_stage == STAGE_SNOOZED || data.break_stage == STAGE_PRELUDE)
+      else if (new_break_stage == STAGE_SNOOZED || new_break_stage == STAGE_PRELUDE)
         {
           TRACE_MSG("Snooze/Prelude");
   
