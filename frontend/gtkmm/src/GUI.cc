@@ -472,6 +472,10 @@ GUI::init_multihead()
 
       heads[0].valid = false;
       heads[0].count = 0;
+      heads[0].geometry.set_width(gdk_screen_width());
+      heads[0].geometry.set_height(gdk_screen_height());
+      heads[0].geometry.set_x(0);
+      heads[0].geometry.set_y(0);
     }
 
   init_multihead_desktop();

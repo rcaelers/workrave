@@ -357,7 +357,7 @@ NetworkPreferencePage::on_peer_remove()
   const Gtk::TreeSelection::SlotForeachIter& slot =
     sigc::mem_fun(*this, &NetworkPreferencePage::remove_peer);
 
-  selection->selected_foreach(slot);
+  selection->selected_foreach_iter(slot);
 #else
   selection->selected_foreach(SigC::slot(*this, &NetworkPreferencePage::remove_peer));
 #endif

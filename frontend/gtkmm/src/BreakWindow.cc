@@ -84,8 +84,11 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
 
   
   this->head = head;
-#ifdef HAVE_GTK_MULTIHEAD  
-  Gtk::Window::set_screen(head.screen);
+#ifdef HAVE_GTK_MULTIHEAD
+  if (head.valid)
+    {
+      Gtk::Window::set_screen(head.screen);
+    }
 #endif
 }
 

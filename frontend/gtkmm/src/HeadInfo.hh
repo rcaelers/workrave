@@ -19,6 +19,10 @@
 #ifndef MULTIHEAD_HH
 #define MULTIHEAD_HH
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include "preinclude.h"
 
 #include <gdkmm/rectangle.h>

@@ -238,8 +238,6 @@ AC_SUBST(GLIB_CFLAGS)
 
 if test "x$config_with_gtk" = "xyes"
 then
-  PKG_CHECK_MODULES(SIGC, sigc++-1.2)
-
   AC_SUBST(SIGC_LIBS)
   AC_SUBST(SIGC_CFLAGS)
 
@@ -248,15 +246,17 @@ then
   AC_SUBST(GTK_LIBS)
   AC_SUBST(GTK_CFLAGS)
 
-  PKG_CHECK_MODULES(GLIBMM, glibmm-2.0,, :)
-  PKG_CHECK_MODULES(GTKMM, gtkmm-2.0,, :)
+  PKG_CHECK_MODULES(GLIBMM, glibmm-2.4,, :)
+  PKG_CHECK_MODULES(GTKMM, gtkmm-2.4,, :)
 
   HAVE_GTKMM24=
   if test "x$GLIBMM_LIBS" = "x" -o "x$GTKMM_LIBS" = "x"
   then
-        PKG_CHECK_MODULES(GLIBMM, glibmm-2.4)
-        PKG_CHECK_MODULES(GTKMM, gtkmm-2.4)
-
+        PKG_CHECK_MODULES(SIGC, sigc++-1.2)
+        PKG_CHECK_MODULES(GLIBMM, glibmm-2.0)
+        PKG_CHECK_MODULES(GTKMM, gtkmm-2.0)
+  else
+        PKG_CHECK_MODULES(SIGC, sigc++-2.0)
         AC_DEFINE(HAVE_GTKMM24,,[Define if gtk2.4 is used])
   fi
 
@@ -268,13 +268,13 @@ then
 
   if test "x$config_with_gnome" = "xyes"
   then
-    PKG_CHECK_MODULES(GNOMEUIMM, libgnomeuimm-2.0,,:)
+    PKG_CHECK_MODULES(GNOMEUIMM, libgnomeuimm-2.6,,:)
 
     AC_SUBST(GNOMEUIMM)
 
     if test "x$GNOMEUIMM_LIBS" = "x"
     then
-        PKG_CHECK_MODULES(GNOMEUIMM, libgnomeuimm-2.6)
+        PKG_CHECK_MODULES(GNOMEUIMM, libgnomeuimm-2.0)
     fi
 
     PKG_CHECK_MODULES(GNOMEUI, libgnomeui-2.0)

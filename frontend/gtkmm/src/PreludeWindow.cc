@@ -124,7 +124,10 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
 
   this->head = head;
 #ifdef HAVE_GTK_MULTIHEAD  
-  Gtk::Window::set_screen(head.screen);
+  if (head.valid)
+    {
+      Gtk::Window::set_screen(head.screen);
+    }
 #endif
 }
 
