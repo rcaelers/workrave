@@ -289,7 +289,6 @@ Control::update_remote_idle_history()
   TRACE_ENTER("Control::update_remote_idle_history");
 
   string master_id = dist_manager->get_master_id();
-  TRACE_MSG("master = " << master_id);
 
   for (ClientMapIter i = clients.begin(); i != clients.end(); i++)
     {
@@ -306,9 +305,6 @@ Control::update_remote_idle_history()
         }
 
       bool changed = (state != info.last_state || is_master != info.is_master);
-
-      TRACE_MSG(id << " " << master_id);
-      TRACE_MSG(state << " " << info.last_state << " " << is_master << " " << info.is_master);
 
       update_idle_history(info, state, changed);
 
@@ -550,14 +546,12 @@ Control::compute_idle_time()
       info.update(current_time);
       if (idle.elapsed == 0)
         {
-          TRACE_MSG("idle");
           count++;
         }
       if (idle.idle_begin > latest_start_time)
         {
           latest_start_time = idle.idle_begin;
           TRACE_MSG(current_time - latest_start_time);
-          TRACE_MSG(latest_start_time);
         }
     }
 
@@ -577,14 +571,21 @@ Control::compute_idle_time()
 void
 Control::compute_timers()
 {
+  TRACE_ENTER("Control:compute_timers");
   for (int i = 0; i < timer_count; i++)
     {
       int autoreset = timers[i]->get_auto_reset();
-      
+
+      int idle = compute_idle_time();
+          
       if (autoreset != 0)
         {
           int elapsed = compute_active_time(autoreset);
-          int idle = compute_idle_time();
+
+          if (idle > autoreset)
+            {
+              idle = autoreset;
+            }
           
           timers[i]->set_values(elapsed, idle);
         }
@@ -593,18 +594,20 @@ Control::compute_timers()
           my_info.update(current_time);
 
           int elapsed = my_info.total_elapsed;
-          int idle = compute_idle_time();
 
+          TRACE_MSG(elapsed << " " << idle);
           for (ClientMapIter it = clients.begin(); it != clients.end(); it++)
             {
               ClientInfo &info = (*it).second;
               info.update(current_time);
               elapsed += info.total_elapsed;
+              TRACE_MSG(elapsed);
             }
 
           timers[i]->set_values(elapsed, idle);
         }
     }
+  TRACE_EXIT();
 }
 
 // Create the monitor based on the specified configuration.
@@ -1175,6 +1178,8 @@ Control::get_idlelog_state(unsigned char **buffer, int *size)
 {
   TRACE_ENTER("Control::get_idlelog_state");
 
+  my_info.update(current_time);
+    
   PacketBuffer state_packet;
 
   int idle_size = my_info.idle_history.size();
@@ -1182,21 +1187,17 @@ Control::get_idlelog_state(unsigned char **buffer, int *size)
 
   state_packet.pack_ushort(idle_size);
   state_packet.pack_string(dist_manager->get_my_id().c_str());
+  state_packet.pack_ulong(my_info.total_elapsed);
   state_packet.pack_ulong(current_time);
   state_packet.pack_byte(master_node);
   state_packet.pack_byte(master_node ? monitor_state : ACTIVITY_IDLE);
 
-  bool first = true;
   IdleHistoryIter i = my_info.idle_history.begin();
   while (i != my_info.idle_history.end())
     {
       IdleInterval &idle = *i;
 
       int elapsed = idle.elapsed;
-      if (first)
-        {
-          elapsed += my_info.last_elapsed;
-        }
 
       int pos = state_packet.bytes_written();
       state_packet.pack_ushort(0);
@@ -1234,18 +1235,19 @@ Control::set_idlelog_state(bool master, char *client_id, unsigned char *buffer, 
   
   int num_idle = state_packet.unpack_ushort();
   gchar *id = state_packet.unpack_string();
+  int total_elapsed = state_packet.unpack_ulong();
   time_t time_diff = state_packet.unpack_ulong() - current_time;
     
-  TRACE_MSG("id = " << id);
-  TRACE_MSG("numidle = " << num_idle);
-
   ClientInfo info;
   info.is_master = (bool) state_packet.unpack_byte();
   info.last_state = (ActivityState) state_packet.unpack_byte();
+  info.total_elapsed = total_elapsed;
   clients[id] = info;
 
-  TRACE_MSG("master  = " << info.is_master);
-  TRACE_MSG("state = " << info.last_state);
+  TRACE_MSG("id = " << id <<
+            " numidle = " << num_idle <<
+            " master  = " << info.is_master <<
+            " state = " << info.last_state);
 
   for (int i = 0; i < num_idle; i++)
     {
