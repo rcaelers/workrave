@@ -407,7 +407,11 @@ save_key(FILE *log, HKEY key, char *name)
       if (val_size)
         fprintf(log, "  value = %s\n", val);
 
-      if (type == REG_SZ)
+      if (strcmp("password", val) == 0)
+        {
+          fprintf(log, "  string data = xxxx\n");
+        }
+      else if (type == REG_SZ)
         {
           fprintf(log, "  string data = %s\n", data);
         }
