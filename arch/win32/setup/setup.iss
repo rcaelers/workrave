@@ -60,7 +60,7 @@ Name: "{userstartup}\Workrave"; Filename: "{app}\lib\Workrave.exe"; MinVersion: 
 Name: "{app}\Workrave"; Filename: "{app}\lib\Workrave.exe"
 
 
-;[Run]
-;Filename: "{app}\workrave.exe"; Description: "Launch Workrave"; Flags: nowait postinstall skipifsilent
+[Run]
+Filename: "{app}\workrave.exe"; Description: "Launch Workrave"; Flags: nowait postinstall skipifsilent
 
 
