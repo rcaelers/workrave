@@ -119,6 +119,12 @@ GUI::~GUI()
   assert(instance);
   instance = NULL;
   
+  if (dispatcher != NULL)
+    {
+      dispatch_connection.disconnect();
+      delete dispatcher;
+    }
+
   if (core != NULL)
     {
       // FIXME: cannot delete interface. delete core;
