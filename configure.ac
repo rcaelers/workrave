@@ -671,6 +671,7 @@ AC_OUTPUT(Makefile \
           frontend/plugin/exercises/common/src/Makefile \
           frontend/plugin/exercises/gtkmm/Makefile \
           frontend/plugin/exercises/gtkmm/src/Makefile \
+          po/POTFILES \
           po/Makefile.in \
           po/Makefile \
           m4/Makefile \
