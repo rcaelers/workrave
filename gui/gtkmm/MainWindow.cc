@@ -1,6 +1,6 @@
 // MainWindow.cc --- Main info Window
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -27,16 +27,20 @@ static const char rcsid[] = "$Id$";
 
 #include <unistd.h>
 #include <iostream>
+
 #ifdef HAVE_GNOME
 #include <gnome.h>
+#else
+#include "gnome-about.h"
 #endif
-
 #include "MainWindow.hh"
 #include "PreferencesDialog.hh"
+#include "StatisticsDialog.hh"
 #include "WindowHints.hh"
 #include "TimeBar.hh"
 #include "GUI.hh"
 #include "GUIControl.hh"
+#include "Util.hh"
 
 #include "Configurator.hh"
 #include "TimerInterface.hh"
@@ -44,8 +48,25 @@ static const char rcsid[] = "$Id$";
 #include "ActivityMonitorInterface.hh"
 #include "Statistics.hh"
 
+#ifdef WIN32
+#include <gdk/gdkwin32.h>
+#endif
+
 using std::cout;
 using SigC::slot;
+
+#ifdef WIN32
+const char *WIN32_MAIN_CLASS_NAME = "Workrave";
+const UINT MYWM_TRAY_MESSAGE = WM_USER +0x100;
+
+const string MainWindow::CFG_KEY_MAIN_WINDOW_START_IN_TRAY
+= "gui/main_window/start_in_tray";
+const string MainWindow::CFG_KEY_MAIN_WINDOW_X
+= "gui/main_window/x";
+const string MainWindow::CFG_KEY_MAIN_WINDOW_Y
+= "gui/main_window/y";
+
+#endif
 
 //! Constructor.
 /*!
@@ -58,9 +79,7 @@ MainWindow::MainWindow(GUI *g, ControlInterface *c) :
   timers_box(NULL),
   timer_names(NULL),
   timer_times(NULL),
-  monitor_suspended(false),
-  be_quiet(false),
-  always_on_top(true)
+  monitor_suspended(false)
 {
   init();
 }
@@ -71,11 +90,6 @@ MainWindow::~MainWindow()
 {
   TRACE_ENTER("MainWindow::~MainWindow");
 
-  if (delete_connection.connected())
-    {
-      delete_connection.disconnect();
-    }
-  
   if (timer_times)
     {
       delete [] timer_times;
@@ -86,6 +100,10 @@ MainWindow::~MainWindow()
       delete [] timer_names;
     }
 
+#ifdef WIN32
+  win32_exit();
+#endif
+  
   TRACE_EXIT();
 }
 
@@ -98,20 +116,13 @@ MainWindow::init()
 
   set_title("Workrave");
   
-  delete_connection =  signal_delete_event().connect(SigC::slot(*this, &MainWindow::on_delete_event));
-
-  // Load config and store it again
-  // (in case no config was found and defaults were used)
-  load_config();
-  store_config();
-  
   Configurator *config = gui->get_configurator();
   if (config != NULL)
     {
       config->add_listener(GUIControl::CFG_KEY_MAIN_WINDOW, this);
     }
   
-  create_menu();
+  popup_menu = manage(create_menu(popup_mode_menus));
 
   set_border_width(2);
   timers_box = manage(new Gtk::Table(GUIControl::TIMER_ID_SIZEOF, 2, false));
@@ -152,19 +163,43 @@ MainWindow::init()
     }
   
   add(*timers_box);
-  show_all();
+
+  realize_if_needed();
 
   set_resizable(false);
-
-  Glib::RefPtr<Gdk::Window> window = get_window();
-  window->set_functions(Gdk::FUNC_CLOSE|Gdk::FUNC_MOVE|Gdk::FUNC_MINIMIZE);
-  WindowHints::set_tool_window(Gtk::Widget::gobj(), true);
-  WindowHints::set_skip_winlist(Gtk::Widget::gobj(), true);
   setup();
   stick();
-  
+
+  Glib::RefPtr<Gdk::Window> window = get_window();
+  window->set_functions(Gdk::FUNC_CLOSE|Gdk::FUNC_MOVE);
+  WindowHints::set_tool_window(Gtk::Widget::gobj(), true);
+  WindowHints::set_skip_winlist(Gtk::Widget::gobj(), true);
+
+#ifdef WIN32
+  win32_init();
+  int x, y;
+  win32_get_start_position(x, y);
+  set_gravity(Gdk::GRAVITY_STATIC); 
+  set_position(Gtk::WIN_POS_NONE);
+  if (win32_get_start_in_tray())
+    {
+      move(-1024, 0);
+      show_all();
+      win32_show(false);
+      move(x, y);
+    }
+  else
+    {
+      move(x, y);
+      show_all();
+    }
+#else
+  show_all();
+#endif
   TRACE_EXIT();
 }
+
+
 
 
 //! Setup configuration settings.
@@ -173,6 +208,7 @@ MainWindow::setup()
 {
   TRACE_ENTER("MainWindow::setup");
 
+  bool always_on_top = get_always_on_top();
   WindowHints::set_always_on_top(Gtk::Widget::gobj(), always_on_top);
   
   if (always_on_top)
@@ -241,7 +277,7 @@ MainWindow::update()
               bar->set_bar_color(TimeBar::COLOR_ID_ACTIVE);
             }
 
-	  if (timerState == TimerInterface::STATE_STOPPED &&
+	  if (//timerState == TimerInterface::STATE_STOPPED &&
 	      timer->is_auto_reset_enabled() && breakDuration != 0)
 	    {
 	      // resting.
@@ -262,8 +298,12 @@ MainWindow::on_delete_event(GdkEventAny *)
 {
   TRACE_ENTER("MainWindow::on_delete_event");
 
+#ifdef WIN32
+  win32_show(false);
+#else
   gui->terminate();
-
+#endif
+  
   TRACE_EXIT();
   return true;
 }
@@ -271,12 +311,12 @@ MainWindow::on_delete_event(GdkEventAny *)
 
 
 //! Create the popup-menu
-void
-MainWindow::create_menu()
+Gtk::Menu *
+MainWindow::create_menu(Gtk::RadioMenuItem *mode_menus[3])
 {
-  popup_menu = manage(new Gtk::Menu());
+  Gtk::Menu *pop_menu = new Gtk::Menu();
   
-  Gtk::Menu::MenuList &menulist = popup_menu->items();
+  Gtk::Menu::MenuList &menulist = pop_menu->items();
 
   Gtk::Menu *mode_menu = manage(new Gtk::Menu());
   Gtk::Menu::MenuList &modemenulist = mode_menu->items();
@@ -288,22 +328,29 @@ MainWindow::create_menu()
 
   Gtk::RadioMenuItem::Group gr;
   // Suspend menu item.
-  normal_menu_item = manage(new Gtk::RadioMenuItem(gr, "_Normal", true));
+  Gtk::RadioMenuItem *normal_menu_item
+    = manage(new Gtk::RadioMenuItem(gr, "_Normal", true));
   normal_menu_item->signal_toggled().connect(SigC::slot(*this, &MainWindow::on_menu_normal));
   normal_menu_item->show();
   modemenulist.push_back(*normal_menu_item);
 
   // Suspend menu item.
-  suspend_menu_item = manage(new Gtk::RadioMenuItem(gr, "_Suspended", true));
+  Gtk::RadioMenuItem *suspend_menu_item
+    = manage(new Gtk::RadioMenuItem(gr, "_Suspended", true));
   suspend_menu_item->signal_toggled().connect(SigC::slot(*this, &MainWindow::on_menu_suspend));
   suspend_menu_item->show();
   modemenulist.push_back(*suspend_menu_item);
 
   // Quiet menu item.
-  quiet_menu_item = manage(new Gtk::RadioMenuItem(gr, "Q_uiet", true));
+  Gtk::RadioMenuItem *quiet_menu_item
+    = manage(new Gtk::RadioMenuItem(gr, "Q_uiet", true));
   quiet_menu_item->signal_toggled().connect(SigC::slot(*this, &MainWindow::on_menu_quiet));
   quiet_menu_item->show();
   modemenulist.push_back(*quiet_menu_item);
+
+  mode_menus[0] = normal_menu_item;
+  mode_menus[1] = suspend_menu_item;
+  mode_menus[2] = quiet_menu_item;
   
   // FIXME: add separators, etc...
   menulist.push_back(Gtk::Menu_Helpers::StockMenuElem(Gtk::Stock::PREFERENCES,
@@ -320,6 +367,9 @@ MainWindow::create_menu()
   menulist.push_back(*mode_menu_item);
 
 #ifndef NDEBUG
+  menulist.push_back(Gtk::Menu_Helpers::MenuElem("Statistics",
+                                                 SigC::slot(*this, &MainWindow::on_menu_statistics)));
+  
   menulist.push_back(Gtk::Menu_Helpers::MenuElem("_Test",
                                                  SigC::slot(*this, &MainWindow::on_test_me)));
 #endif
@@ -340,87 +390,18 @@ MainWindow::create_menu()
   // And register button callback
   set_events(get_events() | Gdk::BUTTON_PRESS_MASK);
   signal_button_press_event().connect(SigC::slot(*this, &MainWindow::on_button_event));
+
+  return pop_menu;
 }
 
 
-void
-MainWindow::load_config()
-{
-  assert(gui != NULL);
-  
-  Configurator *config = gui->get_configurator();
-  if (config != NULL)
-    {
-      bool onTop;
-      if (config->get_value(GUIControl::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP, &onTop))
-        {
-          always_on_top = onTop;
-        }
-    }
-}
 
-
-void
-MainWindow::store_config()
-{
-  assert(gui != NULL);
-  
-  Configurator *config = gui->get_configurator();
-  if (config != NULL)
-    {
-      config->set_value(GUIControl::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP, always_on_top);
-      config->save();
-    }
-}
-
-
-//! User requested immediate restbreak.
-void
-MainWindow::set_quiet(bool b)
-{
-  TRACE_ENTER("MainWindow::set_quiet");
-  
-  be_quiet = b;
-
-  assert(gui != NULL);
-  gui->set_quiet(be_quiet);
-  
-  TRACE_EXIT();
-}
-
-
-void
-MainWindow::set_suspend(bool b)
-{
-  TRACE_ENTER("MainWindow::set_suspend");
-  assert(core_control != NULL);
-  
-  monitor_suspended = b;
-
-  ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
-  assert(monitor != NULL);
-  
-  if (monitor_suspended)
-    {
-      monitor->force_idle();
-      monitor->suspend();
-    }
-  else
-    {
-      monitor->resume();
-    }
-  
-  TRACE_EXIT();
-}
 
 void
 MainWindow::config_changed_notify(string key)
 {
   TRACE_ENTER("MainWindow::config_changed_notify");
-
-  load_config();
   setup();
-
   TRACE_EXIT();
 }
 
@@ -469,12 +450,13 @@ void
 MainWindow::on_menu_quiet()
 {
   TRACE_ENTER("MainWindow::on_menu_quiet");
-  
-  set_quiet(true);
-  set_suspend(false);
 
-  TRACE_EXIT();
+  gui->set_operation_mode(GUIControl::OPERATION_MODE_QUIET);
+#ifdef WIN32
+  win32_sync_menu(2);
+#endif
 }
+
 
 
 //! User requested immediate restbreak.
@@ -483,17 +465,20 @@ MainWindow::on_menu_suspend()
 {
   TRACE_ENTER("MainWindow::on_menu_suspend");
 
-  set_suspend(true);
-  set_quiet(false);
-
+  gui->set_operation_mode(GUIControl::OPERATION_MODE_SUSPENDED);
+#ifdef WIN32
+  win32_sync_menu(1);
+#endif
   TRACE_EXIT();
 }
 
 void
 MainWindow::on_menu_normal()
 {
-  set_suspend(false);
-  set_quiet(false);
+  gui->set_operation_mode(GUIControl::OPERATION_MODE_NORMAL);
+#ifdef WIN3
+  win32_sync_menu(0);
+#endif
 }
 
 
@@ -513,9 +498,31 @@ MainWindow::on_test_me()
 void
 MainWindow::on_menu_preferences()
 {
+  GUIControl::OperationMode mode;
+  GUIControl *ctrl = GUIControl::get_instance();
+  mode = ctrl->set_operation_mode(GUIControl::OPERATION_MODE_QUIET);
+
   PreferencesDialog *dialog = new PreferencesDialog();
   dialog->run();
   delete dialog;
+
+  ctrl->set_operation_mode(mode);
+}
+
+
+//! Preferences Dialog.
+void
+MainWindow::on_menu_statistics()
+{
+  GUIControl::OperationMode mode;
+  GUIControl *ctrl = GUIControl::get_instance();
+  mode = ctrl->set_operation_mode(GUIControl::OPERATION_MODE_QUIET);
+
+  StatisticsDialog *dialog = new StatisticsDialog();
+  dialog->run();
+  delete dialog;
+
+  ctrl->set_operation_mode(mode);
 }
 
 
@@ -523,12 +530,14 @@ MainWindow::on_menu_preferences()
 void
 MainWindow::on_menu_about()
 {
-#ifdef HAVE_GNOME  
   const gchar *authors[] = {
    "Rob Caelers <robc@krandor.org>",
    "Raymond Penners <raymond@dotsphinx.com>",
    NULL
   };
+  string icon = Util::complete_directory("workrave.png",
+                                         Util::SEARCH_PATH_IMAGES);
+  GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(icon.c_str(), NULL);  
   gtk_widget_show (gnome_about_new
                    ("Workrave", VERSION,
                     "Copyright 2001-2002 Rob Caelers & Raymond Penners",
@@ -537,7 +546,236 @@ MainWindow::on_menu_about()
                     (const gchar **) authors,
                     (const gchar **) NULL,
                     NULL,
-                    NULL));
-#endif   
+                    pixbuf));
 }
 
+bool
+MainWindow::get_always_on_top() 
+{
+  bool b;
+  bool rc;
+  b = GUIControl::get_instance()->get_configurator()
+    ->get_value(GUIControl::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP, &rc);
+  if (! b)
+    {
+      rc = false;
+    }
+  return rc;
+}
+
+void
+MainWindow::set_always_on_top(bool b)
+{
+  GUIControl::get_instance()->get_configurator()
+    ->set_value(GUIControl::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP, b);
+}
+
+#ifdef WIN32
+void
+MainWindow::win32_show(bool b)
+{
+  // Gtk's hide() seems to quit the program.
+  GtkWidget *window = Gtk::Widget::gobj();
+  GdkWindow *gdk_window = window->window;
+  HWND hwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
+  ShowWindow(hwnd, b ? SW_SHOWNORMAL : SW_HIDE);
+  if (b)
+    {
+      deiconify();
+      raise();
+    }
+}
+
+void
+MainWindow::win32_init()
+{
+  HINSTANCE hinstance = (HINSTANCE) GetModuleHandle(NULL);
+  
+  WNDCLASSEX wclass =
+    {
+      sizeof(WNDCLASSEX),
+      0,
+      win32_window_proc,
+      0,
+      0,
+      hinstance,
+      NULL,
+      NULL,
+      NULL,
+      NULL,
+      WIN32_MAIN_CLASS_NAME,
+      NULL
+    };
+  ATOM atom = RegisterClassEx(&wclass);
+
+  win32_main_hwnd = CreateWindowEx(WS_EX_TOOLWINDOW,
+                                   WIN32_MAIN_CLASS_NAME,
+                                   "Workrave",
+                                   WS_OVERLAPPED,
+                                   CW_USEDEFAULT, CW_USEDEFAULT,
+                                   CW_USEDEFAULT, CW_USEDEFAULT,
+                                   (HWND)NULL,
+                                   (HMENU)NULL,
+                                   hinstance,
+                                   (LPSTR)NULL);
+  ShowWindow(win32_main_hwnd, SW_HIDE);
+  
+  // User data
+  SetWindowLong(win32_main_hwnd, GWL_USERDATA, (LONG) this);
+  
+  // Reassign ownership
+  GtkWidget *window = Gtk::Widget::gobj();
+  GdkWindow *gdk_window = window->window;
+  HWND hwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
+  SetWindowLong(hwnd, GWL_HWNDPARENT, (LONG) win32_main_hwnd);
+
+  // Tray icon
+  win32_tray_icon.cbSize = sizeof(NOTIFYICONDATA);
+  win32_tray_icon.hWnd = win32_main_hwnd;
+  win32_tray_icon.uID = 1;
+  win32_tray_icon.uFlags = NIF_ICON|NIF_TIP|NIF_MESSAGE;
+  win32_tray_icon.uCallbackMessage = MYWM_TRAY_MESSAGE;
+  win32_tray_icon.hIcon = LoadIcon(hinstance, "workrave");
+  strcpy(win32_tray_icon.szTip, "Workrave");
+  Shell_NotifyIcon(NIM_ADD, &win32_tray_icon);
+
+  // Tray menu
+  win32_tray_menu = manage(create_menu(win32_tray_mode_menus));
+  Gtk::Menu::MenuList &menulist = win32_tray_menu->items();
+  menulist.push_front(Gtk::Menu_Helpers::StockMenuElem
+                     (Gtk::Stock::OPEN,
+                      SigC::slot(*this, &MainWindow::win32_on_tray_open)));
+}
+
+void
+MainWindow::win32_exit()
+{
+  // Remember position
+  win32_remember_position();
+
+  // Destroy tray
+  Shell_NotifyIcon(NIM_DELETE, &win32_tray_icon);
+  DestroyWindow(win32_main_hwnd);
+  UnregisterClass(WIN32_MAIN_CLASS_NAME, GetModuleHandle(NULL));
+}
+
+LRESULT CALLBACK
+MainWindow::win32_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
+                              LPARAM lParam)
+{
+  switch (uMsg)
+    {
+    case MYWM_TRAY_MESSAGE:
+      {
+        MainWindow *win;
+        win = (MainWindow *) GetWindowLong(hwnd, GWL_USERDATA);
+        switch (lParam)
+          {
+          case WM_RBUTTONUP:
+            {
+              GtkWidget *window = (GtkWidget*) win->win32_tray_menu->gobj();
+              GdkWindow *gdk_window = window->window;
+              HWND phwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
+              SetForegroundWindow(phwnd);
+              win->win32_tray_menu->popup(0, GetTickCount());
+            }
+            break;
+          case WM_LBUTTONDBLCLK:
+            win->win32_show(true);
+            break;
+          }
+      }
+      break;
+    }
+  return DefWindowProc(hwnd, uMsg, wParam, lParam);
+}
+
+//! User requested immediate restbreak.
+void
+MainWindow::win32_on_tray_open()
+{
+  win32_show(true);
+}
+
+void
+MainWindow::win32_sync_menu(int mode)
+{
+  TRACE_ENTER("win32_sync_menu");
+
+  // Ugh, isn't there an other way to prevent endless signal loops?
+  static bool syncing = false;
+  if (syncing)
+    return;
+  syncing = true;
+
+  if (! popup_mode_menus[mode]->get_active())
+    popup_mode_menus[mode]->set_active(true);
+  if (! win32_tray_mode_menus[mode]->get_active())
+    win32_tray_mode_menus[mode]->set_active(true);
+
+  syncing = false;
+
+  TRACE_EXIT();
+}
+
+bool
+MainWindow::win32_get_start_in_tray() 
+{
+  bool b;
+  bool rc;
+  b = GUIControl::get_instance()->get_configurator()
+    ->get_value(CFG_KEY_MAIN_WINDOW_START_IN_TRAY, &rc);
+  if (! b)
+    {
+      rc = false;
+    }
+  return rc;
+}
+
+void
+MainWindow::win32_set_start_in_tray(bool b)
+{
+  GUIControl::get_instance()->get_configurator()
+    ->set_value(CFG_KEY_MAIN_WINDOW_START_IN_TRAY, b);
+}
+
+void
+MainWindow::win32_get_start_position(int &x, int &y)
+{
+  bool b;
+  // FIXME: Default to right-bottom instead of 256x256
+  Configurator *cfg = GUIControl::get_instance()->get_configurator();
+  b = cfg->get_value(CFG_KEY_MAIN_WINDOW_X, &x);
+  if (! b)
+    {
+      x = 256;
+    }
+  b = cfg->get_value(CFG_KEY_MAIN_WINDOW_Y, &y);
+  if (! b)
+    {
+      y = 256;
+    }
+}
+
+void
+MainWindow::win32_set_start_position(int x, int y)
+{
+  Configurator *cfg = GUIControl::get_instance()->get_configurator();
+  cfg->set_value(CFG_KEY_MAIN_WINDOW_X, x);
+  cfg->set_value(CFG_KEY_MAIN_WINDOW_Y, y);
+}
+
+void
+MainWindow::win32_remember_position()
+{
+  GtkWidget *window = Gtk::Widget::gobj();
+  GdkWindow *gdk_window = window->window;
+  HWND hwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
+  RECT rect;
+  if (GetWindowRect(hwnd, &rect))
+    {
+      win32_set_start_position(rect.left, rect.top);
+    }
+}
+
+#endif

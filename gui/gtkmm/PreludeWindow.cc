@@ -1,6 +1,6 @@
 // PreludeWindow.cc
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -100,9 +100,15 @@ PreludeWindow::start()
 
   // Set some window hints.
   WindowHints::set_skip_winlist(Gtk::Widget::gobj(), true);
-  WindowHints::set_always_on_top(Gtk::Widget::gobj(), true);
 
+  // Under Windows, Gtk::WINDOW_POPUP is always on top.
+  // An additional always on top seems to give it focus, so don't do this.
+#ifndef WIN32
+  WindowHints::set_always_on_top(Gtk::Widget::gobj(), true);
+#endif
+  
   set_avoid_pointer(true);
+  refresh();
   center();
   show_all();
 
@@ -153,8 +159,8 @@ PreludeWindow::set_progress(int value, int max_value)
 {
   TRACE_ENTER_MSG("PreludeWindow::set_progress", value << " " << max_value);
   time_bar->set_progress(value, max_value);
-  string s = string("Disappears in ")
-    + TimeBar::time_to_string(max_value-value);
+  string s = progress_text;
+  s += TimeBar::time_to_string(max_value-value);
   time_bar->set_text(s);
   TRACE_EXIT()
 }
@@ -164,6 +170,13 @@ void
 PreludeWindow::set_text(string text)
 {
   label->set_text(text);
+}
+
+
+void
+PreludeWindow::set_progress_text(string text)
+{
+  progress_text = text;
 }
 
 

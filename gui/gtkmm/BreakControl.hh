@@ -38,6 +38,15 @@ class BreakControl :
   public BreakResponseInterface
 {
 public:
+  enum InsistPolicy
+    {
+      INSIST_POLICY_INVALID,
+      INSIST_POLICY_HALT,
+      INSIST_POLICY_RESET,
+      INSIST_POLICY_SUSPEND,
+      INSIST_POLICY_SIZEOF
+    };
+  
   BreakControl(GUIControl::BreakId id, ControlInterface *control,
                GUIFactoryInterface *factory, TimerInterface *timer);
   virtual ~BreakControl();
@@ -55,6 +64,7 @@ public:
   void set_force_after_preludes(bool f);
   void set_max_preludes(int m);
   void set_insist_break(bool i);
+  void set_insist_policy(InsistPolicy p);
   void set_ignorable_break(bool i);
   
   // BreakResponseInterface
@@ -68,6 +78,8 @@ public:
   void prelude_window_stop();
 
   void collect_garbage();
+  void freeze();
+  void defrost();
   
 private:
   enum BreakStage { STAGE_NONE,
@@ -100,12 +112,15 @@ private:
   //! Interface to the prelude window.
   PreludeWindowInterface *prelude_window;
 
-  //! Text in the prelude window.
+  //! "Prompt" text in the prelude window.
   string prelude_text;
   
   //! Current stage in the break.
   BreakStage break_stage;
 
+  //! This is a final prompt, forcing break after this prelude
+  bool final_prelude;
+  
   //! How long is the prelude active.
   int prelude_time;
 
@@ -132,6 +147,13 @@ private:
 
   //! Destroy prelude window on next heartbeat?
   bool prelude_window_destroy;
+
+  //! What to do with activity during insisted break?
+  InsistPolicy insist_policy;
+
+  //! Policy currently in effect.
+  InsistPolicy active_insist_policy;
+  
 };
 
 #endif // BREAKCONTROL_HH

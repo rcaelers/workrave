@@ -94,10 +94,10 @@ GUI::restbreak_now()
 }
 
 void
-GUI::set_quiet(bool quiet)
+GUI::set_operation_mode(GUIControl::OperationMode mode)
 {
   assert(gui_control != NULL);
-  gui_control->set_quiet(quiet);
+  gui_control->set_operation_mode(mode);
 }
 
 

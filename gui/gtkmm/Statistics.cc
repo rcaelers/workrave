@@ -24,6 +24,7 @@ static const char rcsid[] = "$Id$";
 
 #include "debug.hh"
 
+#include "ControlInterface.hh"
 #include "Util.hh"
 #include "Statistics.hh"
 
@@ -32,8 +33,9 @@ const char *WORKRAVESTATS="WorkRaveStats";
 const int STATSVERSION = 3;
 
 //! Constructor
-Statistics::Statistics()
-  : current_day(NULL)
+Statistics::Statistics() : 
+  current_day(NULL),
+  core_control(NULL)
 {
   start_new_day();
 }
@@ -47,28 +49,45 @@ Statistics::~Statistics()
       delete current_day;
     }
   
-  for (list<DailyStats *>::iterator i = history.begin(); i != history.end(); i++)
+  for (vector<DailyStats *>::iterator i = history.begin(); i != history.end(); i++)
     {
       delete *i;
     }
 }
 
 
-//! Starts an new day and archive current any (if exists)
+void
+Statistics::init(ControlInterface *control)
+{
+  core_control = control;
+}
+
+
+//! Starts a new day and archive current any (if exists)
 void
 Statistics::start_new_day()
 {
-  if (current_day != NULL)
-    {
-      current_to_history();
-    }
-
-  current_day = new DailyStats();
-
   const time_t now = time(NULL);
   struct tm *tmnow = localtime(&now);
-  current_day->start = *tmnow;
-  current_day->stop = *tmnow;
+
+  if (current_day == NULL ||
+      tmnow->tm_mday !=  current_day->start.tm_mday ||
+      tmnow->tm_mon  !=  current_day->start.tm_mon  ||
+      tmnow->tm_year !=  current_day->start.tm_year ||
+      tmnow->tm_hour !=  current_day->start.tm_hour ||
+      tmnow->tm_min  !=  current_day->start.tm_min)
+    {
+      
+      if (current_day != NULL)
+        {
+          current_to_history();
+        }
+
+      current_day = new DailyStats();
+
+      current_day->start = *tmnow;
+      current_day->stop = *tmnow;
+    }
 }
 
 
@@ -348,3 +367,67 @@ Statistics::dump()
     }
   TRACE_EXIT();
 }
+
+
+Statistics::DailyStats *
+Statistics::get_current_day() const
+{
+}
+
+
+Statistics::DailyStats *
+Statistics::get_day(int day) const
+{
+  DailyStats *ret = NULL;
+  
+  if (day == 0)
+    {
+      ret = current_day;
+    }
+  else
+    {
+      if (day < 0)
+        {
+          day = history.size() - day;
+        }
+      else
+        {
+          day--;
+        }
+
+      if (day <= history.size() && day >= 0)
+        {
+          ret = history[day];
+        }
+    }
+
+  return ret;
+}
+
+
+int
+Statistics::get_history_size() const
+{
+  return history.size();
+}
+
+
+
+void
+Statistics::update_current_day()
+{
+  if (core_control != NULL)
+    {
+      TimerInterface *t = core_control->get_timer("daily_limit");
+      assert(t != NULL);
+
+      set_total_active(t->get_elapsed_time());
+
+      ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
+      assert(monitor != NULL);
+
+      monitor->get_statistics(current_day->activity_stats);
+    }
+}
+
+

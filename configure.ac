@@ -12,7 +12,7 @@ dnl Demand at least version 2.50 of autoconf.
 AC_PREREQ(2.50)
         
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(workrave, 0.1.0)
+AM_INIT_AUTOMAKE(workrave, 0.2.0)
 
                                    
 dnl some command line options.                           
@@ -354,6 +354,7 @@ then
     	if test x$2 = xfailure; then
     		AC_MSG_ERROR(Could not find gdome-config)
     	fi
+        AC_MSG_ERROR(Need GDome2)
     fi
     GDOME_CFLAGS=`$GDOME_CONFIG --cflags`
     AC_CHECK_LIB(gdome, gdome_el_nodeType, [
@@ -390,32 +391,25 @@ if test "$config_cwd_debug" = yes; then
 fi
 
           
-GUI_DIRS=""
 GUI_LIBS=""
 GUI_CFLAGS="-I \$(top_srcdir)/gui"
                
 if test "x$GTKMM_LIBS" != "x"; then
-   GUI_DIRS="gtkmm $GUI_DIRS" 
    GUI_LIBS="../gui/gtkmm/libgtkmmgui.a $GUI_LIBS"
 fi
-AC_SUBST(GUI_DIRS)
 AC_SUBST(GUI_LIBS)
 AC_SUBST(GUI_CFLAGS)
 
 dnl FIXME: automate
-ARCH_DIRS="" 
 ARCH_LIBS="../arch/libarch.a"
 ARCH_CFLAGS="-I \$(top_srcdir)/arch"
 
 if test "x$platform_win32" = "xyes"; then
-   ARCH_DIRS="win32 $ARCH_DIRS";
    ARCH_LIBS="$ARCH_LIBS ../arch/win32/libarchwin32.a"
    ARCH_CFLAGS="$ARCH_CFLAGS -I \$(top_srcdir)/arch/win32"
 else
-   ARCH_DIRS="unix $ARCH_DIRS";
    ARCH_LIBS="$ARCH_LIBS ../arch/unix/libarchunix.a"
    ARCH_CFLAGS="$ARCH_CFLAGS -I \$(top_srcdir)/arch/unix"
-        
 fi   
                                         
 AC_SUBST(ARCH_DIRS)
@@ -459,5 +453,8 @@ AM_CONDITIONAL(HAVE_GDOME, test "x$GDOME_LIB" != "x")
 AM_CONDITIONAL(HAVE_GNOME, test "x$config_with_gnome" = "xyes")
 AM_CONDITIONAL(HAVE_REGISTRY, test "x$config_with_registry" = "xyes")
 AM_CONDITIONAL(NDEBUG, test "x$config_debug" != "xyes")
-                           
-AC_OUTPUT(src/Makefile arch/Makefile arch/unix/Makefile arch/win32/Makefile gui/Makefile gui/gtkmm/Makefile images/Makefile debian/Makefile Makefile)
+AM_CONDITIONAL(HAVE_ARCH_WIN32, test "x$platform_win32" = "xyes")
+AM_CONDITIONAL(HAVE_ARCH_UNIX, test "x$platform_win32" != "xyes")
+AM_CONDITIONAL(HAVE_GUI_GTKMM, test "x$GTKMM_LIBS" != "x")
+                                                           
+AC_OUTPUT(src/Makefile arch/Makefile arch/unix/Makefile arch/win32/Makefile arch/win32/harpoon/Makefile gui/Makefile gui/gtkmm/Makefile images/Makefile debian/Makefile Makefile)

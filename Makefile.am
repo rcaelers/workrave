@@ -2,8 +2,6 @@
 #
 # Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 #
-# Time-stamp: <2002-09-01 19:35:33 robc>
-#
 # $Id$
 #
 
@@ -23,4 +21,26 @@ INCLUDES = -I$(top_srcdir)/src -I$(top_builddir)/arch $(GTKMM_CFLAGS) $(GTK_CFLA
 
 LDADD = $(GTKMM_LIBS) $(GTK_LIBS) $(SIGC_LIBS)
 
-noinst_PROGRAMS = 
+noinst_PROGRAMS =
+
+if PLATFORM_WIN32
+dist_pkgdata_DATA = README.txt NEWS.txt AUTHORS.txt COPYING.txt ChangeLog.txt
+endif
+
+
+unix2dos = perl -e 'while (<>) { s/$$/\r/; print; }'
+
+README.txt: README
+	$(unix2dos) <$^ >$@
+
+NEWS.txt: NEWS
+	$(unix2dos) <$^ >$@
+
+AUTHORS.txt: AUTHORS
+	$(unix2dos) <$^ >$@
+
+ChangeLog.txt: ChangeLog
+	$(unix2dos) <$^ >$@
+
+COPYING.txt: COPYING
+	$(unix2dos) <$^ >$@

@@ -88,6 +88,7 @@ Control::main(int argc, char **argv)
   GUIInterface *gui = GUIFactory::create_gui("gtkmm", this, argc, argv);
 
   configurator = gui->get_configurator();
+
   gui->run();
 
   return 0;
@@ -138,16 +139,50 @@ Control::process_timers(map<string, TimerInfo> &infos)
   static int count = 0;
   
   ActivityState state = monitor->get_current_state();
-          
+
+  ActivityMonitorStatistics stats;
+  monitor->get_statistics(stats);
+
+  int ratio = 0;
+  if (stats.total_movement != 0)
+    {
+      ratio = (stats.total_click_movement * 100) / stats.total_movement;
+    }
+  
+  TRACE_MSG("monitor stats "
+            << stats.total_movement << " " 
+            << stats.total_click_movement << " "
+            << ratio << " "
+            << stats.total_movement_time << " "
+            << stats.total_clicks << " "
+            << stats.total_keystrokes
+            )
+
   current_time = time(NULL);
-  TRACE_MSG("run");
-          
+
+  // FIXME: quick solution for dependancy probleem if a timer
+  // uses a private activity monitor...
+  
   for (TimerCIter i = timers.begin(); i != timers.end(); i++)
     {
-      TimerInfo info;
-      (*i)->process(state, info);
+      if (!(*i)->has_activity_monitor())
+        {
+          TimerInfo info;
+          (*i)->process(state, info);
 
-      infos[(*i)->get_id()] = info;
+          infos[(*i)->get_id()] = info;
+        }
+    }
+
+  for (TimerCIter i = timers.begin(); i != timers.end(); i++)
+    {
+      if (((*i)->has_activity_monitor()))
+        {
+          TimerInfo info;
+          (*i)->process(state, info);
+          
+          infos[(*i)->get_id()] = info;
+        }
     }
 
   if (count % SAVESTATETIME == 0)
@@ -156,6 +191,7 @@ Control::process_timers(map<string, TimerInfo> &infos)
     }
       
   count++;
+  TRACE_EXIT();
 }
 
   

@@ -22,6 +22,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
 #include <map>
 #include <list>
 #include <time.h>
@@ -30,6 +31,7 @@ class BreakInterface;
 class TimerInterface;
 
 #include "GUIControl.hh"
+#include "ActivityMonitorInterface.hh"
 
 class Statistics
 {
@@ -60,10 +62,21 @@ public:
         }
       total_active = 0;
     }
-        
-    struct tm start, stop;
+
+    //! Start time of this day.
+    struct tm start;
+
+    //! Stop time of this day.
+    struct tm stop;
+
+    //! Statistic of each break
     BreakStats break_stats[GUIControl::BREAK_ID_SIZEOF];
+
+    //! Total time active
     int total_active;
+
+    //! Stats of the Activity monitor.
+    ActivityMonitorStatistics activity_stats;
   };
   
   //! Constructor.
@@ -74,15 +87,21 @@ public:
 
 public:
   static Statistics *get_instance();
-
+  void init(ControlInterface *control);
+  
   void start_new_day();
   void load_current_day();
   void save_current_day();
+  void update_current_day();
   void load_history();
 
   void increment_counter(GUIControl::BreakId, StatType st);
   void set_total_active(int active);
 
+  DailyStats *get_current_day() const;
+  DailyStats *get_day(int day) const;
+  int get_history_size() const;
+  
   void dump();
 
 private:
@@ -94,11 +113,14 @@ private:
   //! The one and only instance
   static Statistics *instance;
 
+  //! Interface to the core_control.
+  ControlInterface *core_control;
+  
   //! Statistics of current day.
   DailyStats *current_day;
 
   //! History
-  list<DailyStats *> history;
+  vector<DailyStats *> history;
 };
 
 

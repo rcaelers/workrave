@@ -2,14 +2,14 @@
 #
 # Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 #
-# Time-stamp: <2002-09-02 16:06:21 caelersr>
+# Time-stamp: <2002-09-20 18:27:01 robc>
 #
 # $Id$
 #
 
 MAINTAINERCLEANFILES = Makefile.in
 
-SUBDIRS = $(ARCH_DIRS)
+SUBDIRS = win32 unix
 
 noinst_LIBRARIES = libarch.a
 

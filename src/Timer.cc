@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-09-16 15:24:17 caelersr>
+// Time-stamp: <2002-09-25 20:16:52 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -45,6 +45,7 @@ static const char rcsid[] = "$Id$";
 Timer::Timer(TimeSource *timeSource) :
   activity_timer(true),
   timer_enabled(false),
+  timer_frozen(false),
   activity_state(ACTIVITY_UNKNOWN),
   timer_state(STATE_INVALID),
   previous_timer_state(STATE_INVALID),
@@ -56,6 +57,7 @@ Timer::Timer(TimeSource *timeSource) :
   autoreset_interval_predicate(NULL),
   restore_enabled(true),
   elapsed_time(0),
+  elapsed_idle_time(0),
   last_limit_time(0),
   last_start_time(0),
   last_reset_time(0),
@@ -84,12 +86,8 @@ Timer::~Timer()
 void
 Timer::enable()
 {
-  lock.lock();
-
   timer_enabled = true;
   stop_timer();
-
-  lock.unlock();
 }
 
 
@@ -97,12 +95,8 @@ Timer::enable()
 void
 Timer::disable()
 {
-  lock.lock();
-
   timer_enabled = false;
   stop_timer();
-
-  lock.unlock();
 }
 
 
@@ -114,12 +108,8 @@ Timer::disable()
 void
 Timer::set_limit(long limitTime)
 {
-  lock.lock();
-
   limit_interval = limitTime;
   compute_next_limit_time();
-
-  lock.unlock();
 }
 
 
@@ -131,12 +121,8 @@ Timer::set_limit(long limitTime)
 void
 Timer::set_limit_enabled(bool b)
 {
-  lock.lock();
-
   limit_enabled = b;
   compute_next_limit_time();
-
-  lock.unlock();
 }
 
 
@@ -155,12 +141,8 @@ Timer::set_snooze_interval(time_t t)
 void
 Timer::set_auto_reset_enabled(bool b)
 {
-  lock.lock();
-
   autoreset_enabled = b;
   compute_next_reset_time();
-  
-  lock.unlock();
 }
 
 
@@ -171,12 +153,8 @@ Timer::set_auto_reset_enabled(bool b)
 void
 Timer::set_auto_reset(long resetTime)
 {
-  lock.lock();
-
   autoreset_interval = resetTime;
   compute_next_reset_time();
-
-  lock.unlock();
 }
 
 
@@ -187,12 +165,8 @@ Timer::set_auto_reset(long resetTime)
 void
 Timer::set_auto_reset(string predicate)
 {
-  lock.lock();
-
   autoreset_interval_predicate = TimePredFactory::create_time_pred(predicate);
   compute_next_predicate_reset_time();
-
-  lock.unlock();
 }
 
 
@@ -201,7 +175,6 @@ Timer::set_auto_reset(string predicate)
 void
 Timer::compute_next_limit_time()
 {
-  lock.lock();
   TRACE_ENTER_MSG("Timer::compute_next_limit_time", timer_id);
   
   if (last_limit_time != 0)
@@ -209,7 +182,8 @@ Timer::compute_next_limit_time()
       // Timer already reached limit
       next_limit_time = last_limit_time + snooze_interval;
     }
-  else if (timer_enabled && timer_state == STATE_RUNNING && limit_enabled && limit_interval != 0)
+  else if (timer_enabled && timer_state == STATE_RUNNING && last_start_time != 0 &&
+           limit_enabled && limit_interval != 0)
     {
       // We are enabled, running and a limit != 0 was set.
       // So update our current Limit.
@@ -225,7 +199,6 @@ Timer::compute_next_limit_time()
     }
 
   TRACE_RETURN(next_limit_time);
-  lock.unlock();
 }
 
 
@@ -233,15 +206,13 @@ Timer::compute_next_limit_time()
 void
 Timer::compute_next_reset_time()
 {
-  lock.lock();
-
   if (timer_enabled && timer_state == STATE_STOPPED && last_stop_time != 0 &&
       autoreset_enabled && autoreset_interval != 0)
     {
       // We are enabled, not running and a limit != 0 was set.
 
       // next reset time = last stop time + auto reset
-      next_reset_time = last_stop_time + autoreset_interval;
+      next_reset_time = last_stop_time + autoreset_interval - elapsed_idle_time;
 
       if (next_reset_time <= last_reset_time)
         {
@@ -253,8 +224,6 @@ Timer::compute_next_reset_time()
       // Just in case....
       next_reset_time = 0;
     }
-  
-  lock.unlock();
 }
 
 
@@ -262,7 +231,6 @@ void
 Timer::compute_next_predicate_reset_time()
 {
   TRACE_ENTER_MSG("Timer::compute_next_predicate_reset_time", timer_id);
-  lock.lock();
 
   if (autoreset_interval_predicate)
     {
@@ -276,7 +244,6 @@ Timer::compute_next_predicate_reset_time()
       next_pred_reset_time = autoreset_interval_predicate->get_next();
     }
   
-  lock.unlock();
   TRACE_EXIT();
 }
 
@@ -285,7 +252,6 @@ Timer::compute_next_predicate_reset_time()
 void
 Timer::reset_timer()
 {
-  lock.lock();
   TRACE_ENTER_MSG("Timer::reset_timer", timer_id);
 
   // Full reset.
@@ -298,9 +264,10 @@ Timer::reset_timer()
       // Pretend the timer just started.
       last_start_time = time_source->get_time();
       last_stop_time = 0;
-
+      
       compute_next_limit_time();
       next_reset_time = 0;
+      elapsed_idle_time = 0;
     }
   else
     {
@@ -308,14 +275,12 @@ Timer::reset_timer()
       last_start_time = 0;
       next_reset_time = 0;
       next_limit_time = 0;
-      TRACE_MSG("reset next limit time");
     }
       
   next_pred_reset_time = 0;
   compute_next_predicate_reset_time();
 
   TRACE_EXIT();
-  lock.unlock();
 }
 
 
@@ -323,21 +288,34 @@ Timer::reset_timer()
 void
 Timer::start_timer()
 {
-  lock.lock();
-
-  // Set last start and stop times.
-  last_start_time = time_source->get_time();
-  last_stop_time = 0;
-  next_reset_time = 0;
+  if (timer_state != STATE_RUNNING)
+    {
+      // Set last start and stop times.
+      if (!timer_frozen)
+        {
+          // Timer is not frozen, so let's start.
+          last_start_time = time_source->get_time();
+          elapsed_idle_time = 0;
+        }
+      else
+        {
+          // Update elapsed time.
+          if (last_stop_time != 0)
+            {
+              elapsed_idle_time += (time_source->get_time() - last_stop_time);
+            }
+          last_start_time = 0;
+        }
+      
+      last_stop_time = 0;
+      next_reset_time = 0;
   
-  // update state.
-  timer_state = STATE_RUNNING;
+      // update state.
+      timer_state = STATE_RUNNING;
 
-  // When to generate a limit-reached-event.
-  compute_next_limit_time();
-
-  
-  lock.unlock();
+      // When to generate a limit-reached-event.
+      compute_next_limit_time();
+    }
 }
 
 
@@ -345,32 +323,31 @@ Timer::start_timer()
 void
 Timer::stop_timer()
 {
-  lock.lock();
-
-  // Update last stop time.
-  last_stop_time = time_source->get_time();
-
-  // Update elapsed time.
-  if (last_start_time != 0)
+  if (timer_state != STATE_STOPPED)
     {
-      // But only if we are running...
+      // Update last stop time.
+      last_stop_time = time_source->get_time();
 
-      elapsed_time += (last_stop_time - last_start_time);
+      // Update elapsed time.
+      if (last_start_time != 0)
+        {
+          // But only if we are running...
+
+          elapsed_time += (last_stop_time - last_start_time);
+        }
+  
+      // Reset last start time.
+      last_start_time = 0;
+  
+      // Update state.
+      timer_state = STATE_STOPPED;
+
+      // When to reset the timer.
+      compute_next_reset_time();
+
+      // 
+      compute_next_limit_time();
     }
-  
-  // Reset last start time.
-  last_start_time = 0;
-  
-  // Update state.
-  timer_state = STATE_STOPPED;
-
-  // When to reset the timer.
-  compute_next_reset_time();
-
-  // 
-  compute_next_limit_time();
-  
-  lock.unlock();
 }
 
 
@@ -383,7 +360,6 @@ void
 Timer::snooze_timer()
 {
   TRACE_ENTER_MSG("Timer::snooze", timer_id);
-  lock.lock();
 
   if (get_elapsed_time() >= limit_interval)
     {
@@ -392,9 +368,27 @@ Timer::snooze_timer()
       compute_next_limit_time();
     }
 
-  lock.unlock();
-
   TRACE_EXIT();
+}
+
+
+void
+Timer::freeze_timer(bool freeze)
+{
+  if (freeze && !timer_frozen )
+    {
+      last_start_time = 0;
+    }
+  else if (!freeze && timer_frozen)
+    {
+      if (timer_state == STATE_RUNNING)
+        {
+          last_start_time = time_source->get_time();
+          elapsed_idle_time = 0;
+        }
+    }
+  timer_frozen = freeze;
+
 }
 
 
@@ -402,17 +396,15 @@ Timer::snooze_timer()
 time_t
 Timer::get_elapsed_idle_time() const
 {
-  lock.lock();
-  time_t ret = 0;
+  time_t ret = elapsed_idle_time;
   
   if (last_stop_time != 0)
     {
       // We are not running.
       
-      ret = time_source->get_time() - last_stop_time;
+      ret += (time_source->get_time() - last_stop_time);
     }
 
-  lock.unlock();
   return ret;
 }
 
@@ -421,8 +413,6 @@ Timer::get_elapsed_idle_time() const
 time_t
 Timer::get_elapsed_time() const
 {
-  lock.lock();
-
   time_t ret = elapsed_time;
 
   if (last_start_time != 0)
@@ -438,7 +428,6 @@ Timer::get_elapsed_time() const
       // total elapsed = elapsed
     }
 
-  lock.unlock();
   return ret;
 }
 
@@ -483,8 +472,6 @@ Timer::idle_notify()
 void
 Timer::process(ActivityState activityState, TimerInfo &info)
 {
-  lock.lock();
-
   if (activity_monitor != NULL)
     {
       activityState = activity_monitor->get_current_state();
@@ -572,9 +559,6 @@ Timer::process(ActivityState activityState, TimerInfo &info)
     }
   
   previous_timer_state = timer_state;
-  lock.unlock();
-
-  //return event;
 }
 
 
@@ -609,8 +593,6 @@ Timer::deserialize_state(std::string state)
      >> elapsed
      >> lastReset;
   
-  lock.lock();
-  
   last_pred_reset_time = lastReset;
   elapsed_time = 0;
 
@@ -631,6 +613,5 @@ Timer::deserialize_state(std::string state)
 
   compute_next_predicate_reset_time();
 
-  lock.unlock();
   return true;
 }

@@ -17,7 +17,7 @@
 
 [Setup]
 AppName=Workrave
-AppVerName=Workrave 0.1.0
+AppVerName=Workrave 0.2.0
 AppPublisher=Rob Caelers & Raymond Penners
 AppPublisherURL=http://workrave.sourceforge.net
 AppSupportURL=http://workrave.sourceforge.net
@@ -37,11 +37,10 @@ Name: "startupmenu"; Description: "Start Workrave when Windows starts"; GroupDes
 [Files]
 Source: ".\runtime\*.*"; DestDir: "{app}"; CopyMode: alwaysoverwrite; Flags: recursesubdirs
 Source: "..\..\..\images\*.png"; DestDir: "{app}\share\images\"; CopyMode: alwaysoverwrite; Flags: recursesubdirs
-Source: "..\..\..\COPYING"; DestDir: "{app}"; DestName: "COPYING.txt"; CopyMode: alwaysoverwrite;
-Source: "..\..\..\AUTHORS"; DestDir: "{app}"; DestName: "AUTHORS.txt"; CopyMode: alwaysoverwrite;
-Source: "..\..\..\NEWS"; DestDir: "{app}"; DestName: "NEWS.txt"; CopyMode: alwaysoverwrite;
-Source: "..\..\..\README"; DestDir: "{app}"; DestName: "README.txt"; CopyMode: alwaysoverwrite;
-Source: "..\..\..\ChangeLog"; DestDir: "{app}"; DestName: "ChangeLog.txt"; CopyMode: alwaysoverwrite;
+Source: "..\..\..\COPYING.txt"; DestDir: "{app}"; DestName: "COPYING.txt"; CopyMode: alwaysoverwrite;
+Source: "..\..\..\AUTHORS.txt"; DestDir: "{app}"; DestName: "AUTHORS.txt"; CopyMode: alwaysoverwrite;
+Source: "..\..\..\NEWS.txt"; DestDir: "{app}"; DestName: "NEWS.txt"; CopyMode: alwaysoverwrite;
+Source: "..\..\..\README.txt"; DestDir: "{app}"; DestName: "README.txt"; CopyMode: alwaysoverwrite;
 Source: "..\..\..\src\workrave.exe"; DestDir: "{app}"; DestName: "Workrave.exe"; CopyMode: alwaysoverwrite;
 
 [Registry]

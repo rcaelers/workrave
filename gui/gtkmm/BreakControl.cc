@@ -54,6 +54,7 @@ BreakControl::BreakControl(GUIControl::BreakId id, ControlInterface *c,
   prelude_window(NULL),
   break_stage(STAGE_NONE),
   prelude_time(0),
+  final_prelude(false),
   forced_break(false),
   prelude_count(0),
   number_of_preludes(2),
@@ -61,7 +62,9 @@ BreakControl::BreakControl(GUIControl::BreakId id, ControlInterface *c,
   insist_break(true),
   ignorable_break(true),
   break_window_destroy(false),
-  prelude_window_destroy(false)
+  prelude_window_destroy(false),
+  insist_policy(INSIST_POLICY_HALT),
+  active_insist_policy(INSIST_POLICY_INVALID)
 {
   set_insist_break(insist_break);
   set_ignorable_break(ignorable_break);
@@ -129,7 +132,14 @@ BreakControl::heartbeat()
           }
         else if (prelude_time == 30)
           {
-            goto_stage(STAGE_SNOOZED);
+            if (force_after_prelude && final_prelude)
+              {
+                goto_stage(STAGE_TAKING);
+              }
+            else
+              {
+                goto_stage(STAGE_SNOOZED);
+              }
           }
         else if (prelude_time == 20)
           {
@@ -151,10 +161,9 @@ BreakControl::heartbeat()
         // We go back to prelude IF
         // 1) the user is NOT idle, and
         // 2) this is NO forced (user initiated) break, and
-        // 3) we don't have number_of_preludes set (i.e. != -1)
+        // 3) we don't have number_of_preludes set (i.e. >= 0)
         // 4) we hasn't reached the number_of_preludes
-        if (!is_idle && !forced_break &&
-            number_of_preludes != -1 && prelude_count < number_of_preludes)
+        if (!is_idle && !forced_break && !final_prelude && !insist_break)
           {
             goto_stage(STAGE_PRELUDE);
           }
@@ -177,16 +186,15 @@ BreakControl::heartbeat()
 void
 BreakControl::goto_stage(BreakStage stage)
 {
-  TRACE_ENTER_MSG("BreakStage::goto_stage", stage);
+  TRACE_ENTER_MSG("BreakControl::goto_stage", stage);
   switch (stage)
     {
     case STAGE_NONE:
       break_window_stop();
       prelude_window_stop();
       {
-        ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
-        monitor->resume();
-
+        defrost();
+        
         if (break_stage == STAGE_TAKING)
           {
             time_t idle = break_timer->get_elapsed_idle_time();
@@ -206,9 +214,8 @@ BreakControl::goto_stage(BreakStage stage)
         break_window_stop();
         prelude_window_stop();
         // break_timer->snooze_timer();
-        
-        ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
-        monitor->resume();
+
+        defrost();
       }
       break;
 
@@ -233,9 +240,7 @@ BreakControl::goto_stage(BreakStage stage)
 
         if (insist_break)
           {
-            TRACE_MSG("suspending monitor");
-            ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
-            monitor->suspend();
+            freeze();
           }
       }
       break;
@@ -285,40 +290,29 @@ BreakControl::start_break()
   ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
   TRACE_MSG("prelude count = " << prelude_count << " " << number_of_preludes);
 
-  // Start with prelude IF
-  // 1) This break has a prelude, and
-  // 2) Either no force limit was set, or this limit was noy yet reached.
-  if (number_of_preludes == -1 || prelude_count < number_of_preludes)
+  final_prelude = number_of_preludes >= 0 && prelude_count + 1 >= number_of_preludes;
+
+  TRACE_MSG("final_prelude = " << final_prelude);
+  
+  if (!force_after_prelude && number_of_preludes >= 0 && prelude_count >= number_of_preludes)
     {
+      goto_stage(STAGE_SNOOZED);
+    }
+  else
+    {
+      
       monitor->force_idle();
       break_timer->stop_timer();
-
+  
       Statistics *stats = Statistics::get_instance();
       stats->increment_counter(break_id, Statistics::STAT_TYPE_PROMPTED);
-
+      
       if (prelude_count == 0)
         {
           stats->increment_counter(break_id, Statistics::STAT_TYPE_UNIQUE_BREAKS);
         }
-        
+      
       goto_stage(STAGE_PRELUDE);
-    }
-  else 
-    {
-      if (force_after_prelude)
-        {
-          monitor->force_idle();
-          break_timer->stop_timer();
-  
-          Statistics *stats = Statistics::get_instance();
-          stats->increment_counter(break_id, Statistics::STAT_TYPE_PROMPTED);
-          
-          goto_stage(STAGE_TAKING);
-        }
-      else
-        {
-          goto_stage(STAGE_SNOOZED);
-        }
     }
 
   TRACE_EXIT();
@@ -368,22 +362,17 @@ BreakControl::suspend_break()
   TRACE_ENTER("BreakControl::suspend_break");
 
   goto_stage(STAGE_NONE);
-  ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
-  monitor->resume();
-
+  defrost();
+  
   TRACE_EXIT();
 }
 
 
-//! Sets the text shown in the prelude window.
+//! Sets the prompt text shown in the prelude window.
 void
 BreakControl::set_prelude_text(string text)
 {
   prelude_text = text;
-  if (prelude_window != NULL)
-    {
-      prelude_window->set_text(text);
-    }
 }
 
 
@@ -510,6 +499,13 @@ BreakControl::set_ignorable_break(bool i)
 }
 
 
+void
+BreakControl::set_insist_policy(InsistPolicy p)
+{
+  insist_policy = p;
+}
+
+
 //! Creates and shows the break window.
 void
 BreakControl::break_window_start()
@@ -559,6 +555,20 @@ BreakControl::prelude_window_start()
 
   prelude_window->set_frame(0);
   prelude_window->set_text(prelude_text);
+
+  if (!final_prelude)
+    {
+      prelude_window->set_progress_text("Disappears in ");
+    }
+  else if (force_after_prelude) // && final_prelude
+    {
+      prelude_window->set_progress_text("Break in ");
+    }
+  else // final_prelude && ! force_after_prelude
+    {
+      prelude_window->set_progress_text("SILENT in ");
+    }
+  
   update_prelude_window();
   
   prelude_window->start();
@@ -594,4 +604,64 @@ BreakControl::collect_garbage()
       break_window = NULL;
       break_window_destroy = false;
     }
+}
+
+
+void
+BreakControl::freeze()
+{
+  TRACE_ENTER("BreakControl::freeze");
+  switch (insist_policy)
+    {
+    case INSIST_POLICY_SUSPEND:
+      {
+        TRACE_MSG("suspending monitor");
+        ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
+        monitor->suspend();
+      }
+      break;
+    case INSIST_POLICY_HALT:
+      {
+        TRACE_MSG("freezing timer");
+        GUIControl *gui_control = GUIControl::get_instance();
+        gui_control->set_freeze_all_breaks(true);
+      }
+      break;
+    case INSIST_POLICY_RESET:
+      
+    default:
+      break;
+    }
+
+  active_insist_policy = insist_policy;
+  TRACE_EXIT();
+}
+
+void
+BreakControl::defrost()
+{
+  TRACE_ENTER("BreakControl::defrost");
+  switch (active_insist_policy)
+    {
+    case INSIST_POLICY_SUSPEND:
+      {
+        ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
+        monitor->resume();
+      }
+      break;
+    case INSIST_POLICY_HALT:
+      {
+        TRACE_MSG("defrosting timer");
+        GUIControl *gui_control = GUIControl::get_instance();
+        gui_control->set_freeze_all_breaks(false);
+      }
+      break;
+      
+    default:
+      break;
+    }
+
+  active_insist_policy = INSIST_POLICY_INVALID;
+  
+  TRACE_EXIT();
 }

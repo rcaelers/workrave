@@ -2,11 +2,11 @@
 #
 # Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 #
-# Time-stamp: <2002-09-20 18:30:33 robc>
+# Time-stamp: <2002-09-24 17:44:00 robc>
 #
 # $Id$
 #
 
 MAINTAINERCLEANFILES = Makefile.in
 
-SUBDIRS = gtkmm
+EXTRA_DIST = $(wildcard *.c) $(wildcard *.h) $(wildcard *.dsp) $(wildcard *.def)

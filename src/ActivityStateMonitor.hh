@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-09-15 19:29:04 pennersr>
+// Time-stamp: <2002-09-23 19:43:04 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -66,6 +66,12 @@ public:
   //! Mouse activity is reported by the activity monitor.
   void mouse_notify(int x, int y, int wheel = 0);
 
+  //! Mouse button activity is reported by the activity monitor.
+  void button_notify(int button_mask);
+
+  //! Keyboard activity is reported by the activity monitor.
+  void keyboard_notify(int key_code, int modifier);
+  
   //! Terminate the monitor.
   void terminate();
 
@@ -80,6 +86,9 @@ public:
 
   //! Sets the operation parameters.
   void get_parameters(int &noise, int &activity, int &idle);
+
+  //! Returns the total mouse movement
+  int get_statistics(ActivityMonitorStatistics &stats) const;
   
 private:
   //! the current state.
@@ -87,6 +96,18 @@ private:
 
   //! Internal locking
   Mutex lock;
+
+  //! Previous X coordinate
+  int prev_x;
+  
+  //! Previous Y coordinate
+  int prev_y;
+
+  //! Previous X-click coordinate
+  int click_x;
+  
+  //! Previous Y-click coordinate
+  int click_y;
 
   //! Last time activity was detected
   struct timeval last_action_time;
@@ -102,6 +123,15 @@ private:
 
   //! The idle threshold.
   struct timeval idle_threshold;
+
+  //! Statistical info.
+  ActivityMonitorStatistics statistics;
+
+  //! Last time a mouse event was received.
+  struct timeval last_mouse_time;
+
+  //! Last time a mouse event was received.
+  struct timeval total_mouse_time;
 };
 
 #endif // ACTIVITYSTATEMONITOR_HH

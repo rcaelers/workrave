@@ -3,8 +3,6 @@
 // Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-09-13 12:42:47 robc>
-//
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
@@ -46,6 +44,8 @@ public:
   void get_parameters(int &noise, int &activity, int &idle);
   ActivityState get_current_state() const;
 
+  void get_statistics(ActivityMonitorStatistics &stats) const;
+  
 private:
   //! The actual monitoring driver.
   InputMonitorInterface *input_monitor;

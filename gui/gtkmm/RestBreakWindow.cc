@@ -130,8 +130,9 @@ RestBreakWindow::~RestBreakWindow()
 void
 RestBreakWindow::start()
 {
-  show_all();
+  refresh();
   center();
+  show_all();
   set_avoid_pointer(false);
 
   if (insist_break)

@@ -27,9 +27,13 @@ sourcesxinput = X11InputMonitor.cc
 X11LIBS    = -lXmu
 endif
 
+
 if PLATFORM_WIN32
+.rc.o:
+	windres -o $@ $<
+
 includesinput = -I$(top_srcdir)/arch/win32/harpoon/
-sourceswin32input = Win32InputMonitor.cc 
+sourceswin32input = Win32InputMonitor.cc resource.rc
 WIN32LIBS = $(top_srcdir)/arch/win32/harpoon/Release/harpoon.lib \
 	-lshell32 -lole32
 endif
@@ -49,8 +53,6 @@ endif
 workrave_SOURCES 	= ${sources} ${sourcesxinput} ${sourceswin32input} \
 		   	  ${sourcesgdome} ${sourcesgconf} ${sourcesregistry}
 
-EXTRA_DIST 		=  $(wildcard *.hh) $(wildcard *.h) $(wildcard *.icc)
-
 workrave_CXXFLAGS 	= -W -DDATADIR="\"${pkgdatadir}\"" @ARCH_CFLAGS@ -I$(top_srcdir)/gui $(includesinput) \
 	 	   	  -D_XOPEN_SOURCE=600 @GTK_CFLAGS@ @GDOME_CFLAGS@ @GCONF_CFLAGS@
 
@@ -60,3 +62,5 @@ workrave_LDADD 		=  @GUI_LIBS@ @ARCH_LIBS@ @gnomeui_LIBS@ @GTK_LIBS@ @GTKMM_LIBS
 #CXXLD=ccmalloc g++
 
 $(bin_PROGRAMS): @ARCH_LIBS@ @GUI_LIBS@
+
+EXTRA_DIST 		= $(wildcard *.cc) $(wildcard *.rc) $(wildcard *.hh) $(wildcard *.h) $(wildcard *.icc)

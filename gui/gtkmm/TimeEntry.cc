@@ -46,7 +46,7 @@ TimeEntry::TimeEntry(bool millis)
 
   if (millis)
     {
-      secs->set_width_chars(5);
+      secs->set_width_chars(6);
       secs->set_wrap(false);
 
       secs_adjustment.set_upper(60000);

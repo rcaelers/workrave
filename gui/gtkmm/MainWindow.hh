@@ -1,6 +1,6 @@
 // MainWindow.hh --- Main info Window
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -30,6 +30,9 @@ class ControlInterface;
 class TimeBar;
 
 #include <gtkmm.h>
+#ifdef WIN32
+#include <windows.h>
+#endif
 
 #include "ConfiguratorListener.hh"
 
@@ -42,6 +45,9 @@ public:
   ~MainWindow();
 
   void update();
+  static bool get_always_on_top();
+  static void set_always_on_top(bool b);
+
 
 private:
   //! The controller that maintains the data and control over the breaks
@@ -68,35 +74,18 @@ private:
   //! The popup menu.
   Gtk::Menu *popup_menu;
 
-  //! Normal menu item.
-  Gtk::CheckMenuItem *normal_menu_item;
-
-  //! Suspend menu item.
-  Gtk::CheckMenuItem *suspend_menu_item;
-
-  //! Quiet menu item.
-  Gtk::CheckMenuItem *quiet_menu_item;
+  //! The popup mode menu items
+  Gtk::RadioMenuItem *popup_mode_menus[3];
   
   //! Is the monitoring function suspended?
   bool monitor_suspended;
-  
-  //! Is workrave quiet?
-  bool be_quiet;
-
-  //! MainWindow always on-top ?
-  bool always_on_top;
   
 private:
   //
   void init();
   void setup();
-  void create_menu();
-  void load_config();
-  void store_config();
+  Gtk::Menu *create_menu(Gtk::RadioMenuItem *mode_menus[3]);
   void config_changed_notify(string key);
-
-  void set_suspend(bool b);
-  void set_quiet(bool b);
 
   // Events.
   bool on_delete_event(GdkEventAny*);
@@ -105,11 +94,40 @@ private:
   void on_menu_quit();
   void on_menu_restbreak_now();
   void on_menu_preferences();
+  void on_menu_statistics();
   void on_menu_normal();
   void on_menu_suspend();
   void on_menu_quiet();
 #ifndef NDEBUG
   void on_test_me();
+#endif
+
+#ifdef WIN32
+public:
+  static void win32_set_start_in_tray(bool b);
+  static bool win32_get_start_in_tray();
+
+  static const string CFG_KEY_MAIN_WINDOW_START_IN_TRAY;
+  static const string CFG_KEY_MAIN_WINDOW_X;
+  static const string CFG_KEY_MAIN_WINDOW_Y;
+  
+private:
+  void win32_sync_menu(int mode);
+  void win32_show(bool b);
+  void win32_init();
+  void win32_exit();
+  void win32_on_tray_open();
+  void win32_remember_position();
+  static void win32_get_start_position(int &x, int &y);
+  static void win32_set_start_position(int x, int y);
+
+  static LRESULT CALLBACK win32_window_proc(HWND hwnd, UINT uMsg,
+                                            WPARAM wParam, LPARAM lParam);
+
+  Gtk::Menu *win32_tray_menu;
+  Gtk::RadioMenuItem *win32_tray_mode_menus[3];
+  HWND win32_main_hwnd;
+  NOTIFYICONDATA win32_tray_icon;
 #endif
 };
 

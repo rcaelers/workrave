@@ -1,6 +1,6 @@
 // BreakWindow.cc --- base class for the break windows
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -29,7 +29,6 @@ static const char rcsid[] = "$Id$";
 #include "BreakWindow.hh"
 #include "WindowHints.hh"
 #include "Frame.hh"
-
 
 const int MARGIN = 20;
 
@@ -153,16 +152,28 @@ BreakWindow::on_grab_retry_timer()
 void
 BreakWindow::set_avoid_pointer(bool avoid_pointer)
 {
+  avoid_wanted = avoid_pointer;
+#ifdef WIN32
+  if (avoid_pointer)
+    {
+      if (! avoid_signal.connected())
+        {
+          avoid_signal = Glib::signal_timeout()
+            .connect(SigC::slot(*this, &BreakWindow::on_avoid_pointer_timer),
+                     200);
+        }
+    }
+  else
+    {
+      if (avoid_signal.connected())
+        {
+          avoid_signal.disconnect();
+        }
+    }
+#else 
   Gdk::EventMask events;
 
-  avoid_wanted = avoid_pointer;
-#if defined(HAVE_X)
   events = Gdk::ENTER_NOTIFY_MASK;
-#elif defined(WIN32)
-  events = (Gdk::POINTER_MOTION_MASK
-            |Gdk::POINTER_MOTION_HINT_MASK);
-#endif
-  
   if (avoid_pointer)
     {
       add_events(events);
@@ -171,17 +182,10 @@ BreakWindow::set_avoid_pointer(bool avoid_pointer)
     {
       set_events(get_events() & ~events);
     }
+#endif
 }
 
-#ifdef WIN32
-bool
-BreakWindow::on_motion_notify_event(GdkEventMotion *event)
-{
-  avoid_pointer(event->x, event->y);
-  return Gtk::Window::on_motion_notify_event(event);
-}
-
-#else
+#ifdef HAVE_X
 
 //! GDK EventNotifyEvent notification.
 bool
@@ -204,31 +208,39 @@ BreakWindow::avoid_pointer(int px, int py)
     
   int winx, winy, width, height, wind;
   window->get_geometry(winx, winy, width, height, wind);
+
+#ifdef WIN32
+  // This is only necessary for WIN32, since HAVE_X uses GdkEventCrossing.
+  // Set gravitiy, otherwise, get_position() returns weird winy.
+  set_gravity(Gdk::GRAVITY_STATIC); 
   get_position(winx, winy);
-  
+  TRACE_MSG("wx="<<winx<<",wy="<<winy<<",ww="<<width<<",wh="<<height);
+  if (px < winx || px > winx+width || py < winy || py > winy+height)
+    return;
+#endif  
+
   gdouble x = px;
   gdouble y = py;
 
   int deltax = 0;
   int deltay = 0;
-  const int jump_x = 2*width;
-  const int jump_y = 2*height;
+  const int jump = 2*width;
     
   if (y < (0.2 * height))
-    deltay = jump_y;
+    deltay = jump;
   else if (y > (0.8 * height))
-    deltay = -jump_y;
+    deltay = -jump;
         
   if (x < (0.2 * width))
-    deltax = jump_x;
+    deltax = jump;
   else if (x > 0.8 * width)
-    deltax = -jump_x;
+    deltax = -jump;
   else if (! deltay)
     {
       if (x > 0.5*width)
-        deltax = -jump_x;
+        deltax = -jump;
       else
-        deltax = jump_x;
+        deltax = jump;
     }
 
   int screen_width = gdk_screen_width();
@@ -256,3 +268,21 @@ BreakWindow::avoid_pointer(int px, int py)
 
   TRACE_EXIT();
 }
+
+#ifdef WIN32
+bool
+BreakWindow::on_avoid_pointer_timer()
+{
+  TRACE_ENTER("BreakWindow::on_avoid_pointer_timer");
+
+  // gdk_window_get_pointer is not reliable.
+  POINT p;
+  if (GetCursorPos(&p))
+    {
+      avoid_pointer(p.x, p.y);
+    }
+  return true;
+}
+
+
+#endif

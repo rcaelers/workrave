@@ -1,6 +1,6 @@
-// InputMonitorListenInterface.hh
+// PreferencesDialog.hh --- Statistics Dialog
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -16,16 +16,24 @@
 // $Id$
 //
 
-#ifndef INPUTMONITORLISTENERINTERFACE_HH
-#define INPUTMONITORLISTENERINTERFACE_HH
+#ifndef STATISTICSDIALOG_HH
+#define STATISTICSDIALOG_HH
 
-class InputMonitorListenerInterface
+#include <stdio.h>
+
+#include "preinclude.h"
+
+#include <gtkmm.h>
+
+class StatisticsDialog : public Gtk::Dialog
 {
-public:
-  virtual void action_notify() = 0;
-  virtual void mouse_notify(int x, int y, int wheel = 0) = 0;
-  virtual void button_notify(int button_mask) = 0;
-  virtual void keyboard_notify(int key_code, int modifier) = 0;
+public:  
+  StatisticsDialog();
+  ~StatisticsDialog();
+
+  int run();
+  
+private:
 };
 
-#endif // INPUTMONITORLISTENERINTERFACE_HH
+#endif // STATISTICSWINDOW_HH

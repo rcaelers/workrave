@@ -1,6 +1,6 @@
 // WindowHints.cc 
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -277,18 +277,24 @@ WindowHints::set_tool_window(GtkWidget *window, bool istool)
     }
 
 #elif defined(WIN32)
+#if 0
   HWND hDrawingWind = (HWND) GDK_WINDOW_HWND(gdkWindow);
   DWORD dwExStyle = GetWindowLong (hDrawingWind, GWL_EXSTYLE);
+  DWORD dwStyle = GetWindowLong (hDrawingWind, GWL_STYLE);
   if (istool)
     {
       dwExStyle |= WS_EX_TOOLWINDOW;
+      dwExStyle &= ~WS_EX_APPWINDOW;
     }
   else
     {
       dwExStyle &= ~WS_EX_TOOLWINDOW;
+      dwExStyle |= WS_EX_APPWINDOW;
     }
   SetWindowLong(hDrawingWind, GWL_EXSTYLE, dwExStyle);
+  SetWindowLong(hDrawingWind, GWL_STYLE, dwStyle);
   rc = true;
+#endif
 #endif
   return rc;
 }

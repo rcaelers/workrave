@@ -1,0 +1,44 @@
+Workrave NEWS -- history of user-visible changes.  26 September 2002
+Copyright (C) 2001-2002 Rob Caelers & Raymond Penners
+See the end for copying conditions.
+
+Please report Workrave bug reports. Visit our bug tracker located at:
+http://workrave.sourceforge.net
+
+* Workrave 0.2.0
+
+** Activity during a persisted break is no longer ignored. Instead,
+the timer is stopped whenefer the user is active.
+
+** Microsoft Windows specific changes
+
+*** Added taskbar tray support. When the main window is closed, the
+program remains active in the tray. In the user interface preferences,
+you can select to hide the program when started.
+
+*** The main window is now opened at the position where it was during
+the last program exit.
+
+* Workrave 0.1.0
+
+** First public release. 
+
+----------------------------------------------------------------------
+Copyright information:
+
+Copyright (C) 2001-2002 Rob Caelers & Raymond Penners
+
+   Permission is granted to anyone to make or distribute verbatim copies
+   of this document as received, in any medium, provided that the
+   copyright notice and this permission notice are preserved,
+   thus giving the recipient permission to redistribute in turn.
+
+   Permission is granted to distribute modified versions
+   of this document, or of portions of it,
+   under the above conditions, provided also that they
+   carry prominent notices stating who last changed them.
+
+Local variables:
+mode: outline
+paragraph-separate: "[ 	]*$"
+end:

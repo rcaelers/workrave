@@ -60,7 +60,7 @@ public:
     time_t idle = timer->get_elapsed_idle_time();
     time_t reset = timer->get_auto_reset();
 
-    if (state == TimerInterface::STATE_STOPPED && idle > reset)
+    if (state == TimerInterface::STATE_STOPPED && idle >= reset)
       {
         return ACTIVITY_IDLE;
       }
@@ -75,6 +75,10 @@ public:
   {
   }
 
+  void get_statistics(ActivityMonitorStatistics &stats) const
+  {
+  }
+  
 private:
   //! Reference timer.
   TimerInterface *timer;

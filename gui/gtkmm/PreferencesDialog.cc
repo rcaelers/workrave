@@ -33,6 +33,7 @@
 #include "ControlInterface.hh"
 #include "TimeEntry.hh"
 #include "Util.hh"
+#include "MainWindow.hh"
 
 using std::cout;
 using SigC::slot;
@@ -47,12 +48,11 @@ struct MonitorPreset
 
 static MonitorPreset presets[] =
 {
-  { "Trigger-happy", 1000, 1000, 0 },
-  { "Nervous", 1000, 1000, 500 },
-  { "Alert", 2000, 5000, 1000 },
+  { "Trigger-happy", 0, 1000, 0 },
+  { "Quick", 1000, 5000, 800 },
   { "Normal", 1000, 5000, 9000 },
-  { "Sluggish", 1000, 10000, 9000 },
-  { "Numb", 1000, 10000, 9000 },
+  { "Sluggish", 5000, 10000, 4000 },
+  { "Numb", 10000, 10000, 9000 },
   { NULL, 0, 0, 0 }, 
   { "Custom settings", -1, -1, -1 },
 };
@@ -64,44 +64,10 @@ PreferencesDialog::PreferencesDialog()
 {
   TRACE_ENTER("PreferencesDialog::PreferencesDialog");
 
-  // Always-on-top
-  ontop_cb = manage(new Gtk::CheckButton("The main window stays always on top of other windows"));
-  ontop_cb->signal_toggled().connect(SigC::slot(*this, &PreferencesDialog::on_always_on_top_toggled));
-  bool ontop;
-  GUIControl::get_instance()->get_configurator()->get_value(GUIControl::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP, &ontop);
-  ontop_cb->set_active(ontop);
-
-
-  // Monitor page
+  // Pages
   Gtk::Widget *monitor_page = manage(create_monitor_page());
-  
-  // GUI page
-  Gtk::VBox *gui_page
-    = manage
-    (create_page
-     ("You can configure the user interface related settings from here.\n",
-      "display.png"));
-  Gtk::Frame *gui_frame = manage(new Gtk::Frame("Options"));
-  ontop_cb->set_border_width(6);
-  gui_frame->add(*ontop_cb);
-  gui_page->pack_start(*gui_frame, false, false, 0);
-
-
-  // Timers page
-  Gtk::VBox *timer_page
-    = manage
-    (create_page
-     ("This dialog allows you to change the settings of the timers.  Each unit\n"
-      "of time is broken down into hours, minutes and seconds (also known as\n"
-      "the \"hh:mm:ss\" format).  These can all be controlled individually.",
-      "time.png"));
-  for (int i = 0; i < GUIControl::TIMER_ID_SIZEOF; i++)
-    {
-      TimerPreferencesPanel *tp = manage(new TimerPreferencesPanel(GUIControl::TimerId(i)));
-      timer_page->pack_start(*tp, false, false, 0);
-    }
-
-
+  Gtk::Widget *gui_page = manage(create_gui_page());
+  Gtk::Widget *timer_page = manage(create_timer_page());
   
   // Notebook
   Gtk::Notebook *notebook = manage(new Gtk::Notebook());
@@ -128,6 +94,77 @@ PreferencesDialog::~PreferencesDialog()
   TRACE_EXIT();
 }
 
+
+
+Gtk::Widget *
+PreferencesDialog::create_gui_page()
+{
+  // Always-on-top
+  ontop_cb = manage(new Gtk::CheckButton("The main window stays always on top of other windows"));
+  ontop_cb->signal_toggled().connect(SigC::slot(*this, &PreferencesDialog::on_always_on_top_toggled));
+  ontop_cb->set_active(MainWindow::get_always_on_top());
+
+#ifdef WIN32
+  // Tray start
+  win32_start_in_tray_cb
+    = manage(new Gtk::CheckButton("Hide main window at start-up"));
+  win32_start_in_tray_cb->signal_toggled()
+    .connect(SigC::slot(*this,
+			&PreferencesDialog::win32_on_start_in_tray_toggled));
+  win32_start_in_tray_cb->set_active(MainWindow::win32_get_start_in_tray());
+#endif
+
+  // Options
+  Gtk::VBox *opts_box = new Gtk::VBox(false, 0);
+  opts_box->pack_start(*ontop_cb, false, false, 0);
+#ifdef WIN32
+  opts_box->pack_start(*win32_start_in_tray_cb, false, false, 0);
+#endif
+  opts_box->set_border_width(6);
+
+  // Page
+  Gtk::VBox *gui_page
+    = create_page
+    ("You can configure the user interface related settings from here.\n",
+     "display.png");
+  Gtk::Frame *gui_frame = manage(new Gtk::Frame("Options"));
+  gui_frame->add(*opts_box);
+  gui_page->pack_start(*gui_frame, false, false, 0);
+
+  return gui_page;
+}
+
+Gtk::Widget *
+PreferencesDialog::create_timer_page()
+{
+  // Timers page
+  Gtk::VBox *timer_page
+    = create_page
+    ("This dialog allows you to change the settings of the timers.  Each unit\n"
+     "of time is broken down into hours, minutes and seconds (also known as\n"
+     "the \"hh:mm:ss\" format).  These can all be controlled individually.",
+     "time.png");
+  Gtk::Notebook *tnotebook = manage(new Gtk::Notebook());
+  tnotebook->set_tab_pos (Gtk::POS_TOP);  
+  for (int i = 0; i < GUIControl::TIMER_ID_SIZEOF; i++)
+    {
+      // Label
+      GUIControl::TimerData *timer = &GUIControl::get_instance()->timers[i];
+      
+      Gtk::HBox *box = manage(new Gtk::HBox(false, 3));
+      Gtk::Label *lab = manage(new Gtk::Label(timer->label));
+      Gtk::Image *img = manage(new Gtk::Image(timer->icon));
+      box->pack_start(*img, false, false, 0);
+      box->pack_start(*lab, false, false, 0);
+
+      TimerPreferencesPanel *tp = manage(new TimerPreferencesPanel(GUIControl::TimerId(i)));
+      box->show_all();
+      tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*tp, *box));
+    }
+  timer_page->pack_start(*tnotebook, false, false, 0);
+
+  return timer_page;
+}
 
 Gtk::Widget *
 PreferencesDialog::create_monitor_page()
@@ -156,7 +193,7 @@ PreferencesDialog::create_monitor_page()
   mon_pframe->add(*mon_pbox);
 
   // Monitor table
-  Gtk::Table *mon_table = manage(new Gtk::Table(2, 3, false));
+  Gtk::Table *mon_table = manage(new Gtk::Table(4, 3, false));
   mon_table->set_row_spacings(2);
   mon_table->set_col_spacings(6);
   mon_table->set_border_width(6);
@@ -172,6 +209,15 @@ PreferencesDialog::create_monitor_page()
   activity_time->set_value(val);
   y++;
 
+  label = manage(new Gtk::Label("Noise time (ms)"));
+  noise_time = manage(new TimeEntry(true));
+  mon_table->attach(*label, 0, 1, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
+  mon_table->attach(*noise_time, 1, 2, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
+  GUIControl::get_instance()->get_configurator()
+    ->get_value(ControlInterface::CFG_KEY_MONITOR_NOISE, &val);
+  noise_time->set_value(val);
+  y++;
+  
   label = manage(new Gtk::Label("Idle time (ms)"));
   idle_time = manage(new TimeEntry(true));
   mon_table->attach(*label, 0, 1, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
@@ -181,13 +227,17 @@ PreferencesDialog::create_monitor_page()
   idle_time->set_value(val);
   y++;
 
-  label = manage(new Gtk::Label("Noise time (ms)"));
-  noise_time = manage(new TimeEntry(true));
-  mon_table->attach(*label, 0, 1, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
-  mon_table->attach(*noise_time, 1, 2, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
-  GUIControl::get_instance()->get_configurator()
-    ->get_value(ControlInterface::CFG_KEY_MONITOR_NOISE, &val);
-  noise_time->set_value(val);
+  Gtk::VSeparator *sep = manage(new Gtk::VSeparator());
+  label = manage
+    (new Gtk::Label
+     ("The timers are started if, during the 'Activity\n"
+     "time', there was no inactivitiy for longer than\n"
+      "'Noise time'.  When 'Noise time' exceeds 'Activity\n"
+      "time', the timers are started if two consecutive\n"
+      "user input events occur during 'Noise time'."
+      ));
+  mon_table->attach(*sep, 2, 3, 0, 3, Gtk::SHRINK, Gtk::FILL);
+  mon_table->attach(*label, 3, 4, 0, 3, Gtk::SHRINK, Gtk::SHRINK);
 
   update_preset();
 
@@ -206,8 +256,7 @@ PreferencesDialog::create_monitor_page()
     = create_page
     ("Activity and idle time detection can be fine-tuned by the monitor\n"
      "settings.  You can choose from various presets, or define your own\n"
-     "custom settings.  The timers are activated if, during a time span of\n"
-     "'Activitiy time', there was no inactivitiy for longer than 'Noise time'",
+     "custom settings.",
      "monitoring.png");
   monitor_page->pack_start(*mon_pframe, false, false, 0);
   monitor_page->pack_start(*mon_tframe, false, false, 0);
@@ -234,9 +283,16 @@ PreferencesDialog::create_page(const char *label, const char *image)
 void
 PreferencesDialog::on_always_on_top_toggled()
 {
-  GUIControl::get_instance()->get_configurator()->set_value(GUIControl::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP, ontop_cb->get_active());
-  
+  MainWindow::set_always_on_top(ontop_cb->get_active());
 }
+
+#ifdef WIN32
+void
+PreferencesDialog::win32_on_start_in_tray_toggled()
+{
+  MainWindow::win32_set_start_in_tray(win32_start_in_tray_cb->get_active());
+}
+#endif
 
 void
 PreferencesDialog::update_preset()
