@@ -33,6 +33,7 @@ public:
   static BOOL EnumDisplayMonitors(HDC hdc,LPCRECT rect,MONITORENUMPROC proc,LPARAM lparam);
   static BOOL GetMonitorInfo(HMONITOR monitor, LPMONITORINFO info);
   static HMONITOR MonitorFromPoint(POINT pt, DWORD dwFlags);
+  static BOOL SetWindowOnTop(HWND hwnd, BOOL top);
 
 private:
   static void init();

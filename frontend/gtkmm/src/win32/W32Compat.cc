@@ -74,3 +74,9 @@ W32Compat::init()
 }
 
 
+BOOL
+W32Compat::SetWindowOnTop(HWND hwnd, BOOL top)
+{
+  return SetWindowPos(hwnd, top ? HWND_TOPMOST : HWND_NOTOPMOST, 
+                      0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE);
+}

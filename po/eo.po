@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2004-03-01 19:16+0100\n"
+"POT-Creation-Date: 2004-03-04 19:41+0100\n"
 "PO-Revision-Date: 2003-09-08 19:07+0200\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -49,20 +49,20 @@ msgstr "_Kreditoj"
 msgid "About %s"
 msgstr "Pri %s"
 
-#: frontend/gtkmm/src/BreakWindow.cc:321
+#: frontend/gtkmm/src/BreakWindow.cc:329
 msgid "Lock"
 msgstr "Ŝlosu"
 
-#: frontend/gtkmm/src/BreakWindow.cc:340
+#: frontend/gtkmm/src/BreakWindow.cc:348
 #, fuzzy
 msgid "Shut down"
 msgstr "Montru _protokolon"
 
-#: frontend/gtkmm/src/BreakWindow.cc:357
+#: frontend/gtkmm/src/BreakWindow.cc:365
 msgid "Skip"
 msgstr "Transsaltu"
 
-#: frontend/gtkmm/src/BreakWindow.cc:370
+#: frontend/gtkmm/src/BreakWindow.cc:378
 msgid "Postpone"
 msgstr "Prokrastu"
 
@@ -82,7 +82,7 @@ msgstr ""
 "malantaŭ via komputilo.  Se via labortago ne ankoraŭ finiĝis,\n"
 "trovu ion alian por fari, kiel revuado de dokumento."
 
-#: frontend/gtkmm/src/GUI.cc:733
+#: frontend/gtkmm/src/GUI.cc:693
 msgid "I could not initialize Bonobo"
 msgstr ""
 

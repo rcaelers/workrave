@@ -55,7 +55,7 @@ DesktopWindow::DesktopWindow(const HeadInfo &head)
     }
 
   
-  hwnd = CreateWindowEx(0,
+  hwnd = CreateWindowEx(WS_EX_TOOLWINDOW,
                         WINDOW_CLASS,
                         WINDOW_CLASS,
                         WS_POPUP,
@@ -125,4 +125,9 @@ void
 DesktopWindow::set_visible(bool visible)
 {
   ShowWindow(hwnd, visible ? SW_SHOW : SW_HIDE);
+  if (visible)
+    {
+      W32Compat::SetWindowOnTop(hwnd, TRUE);
+    }
+
 }

@@ -1,9 +1,17 @@
 Workrave NEWS -- history of user-visible changes.  3 November 2003
-Copyright (C) 2001-2003 Rob Caelers & Raymond Penners
+Copyright (C) 2001-2004 Rob Caelers & Raymond Penners
 See the end for copying conditions.
 
 Please report Workrave bug reports. Visit our bug tracker located at:
 http://www.workrave.org
+
+* Workrave 1.6.0
+
+** Terminology: we now use the term "micro-break" instead of "micro-pause".
+
+** When block mode "Block all" is used, we display the break window on
+top of your current desktop background (wallpaper), instead of on a
+semi-transparent screen snapshot (Windows only).
 
 * Workrave 1.4.1
 

@@ -1,6 +1,6 @@
 // WindowHints.cc 
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -35,6 +35,7 @@ static const char rcsid[] = "$Id$";
 #include <windows.h>
 #include <gdk/gdkwin32.h>
 #include "harpoon.h"
+#include "W32Compat.hh"
 #endif
 
 #if defined(HAVE_X)
@@ -96,8 +97,7 @@ WindowHints::set_always_on_top(GtkWidget *window, bool onTop)
   
 #elif defined(WIN32)
   HWND hwnd = (HWND) GDK_WINDOW_HWND(window->window);
-  rc = SetWindowPos(hwnd, onTop ? HWND_TOPMOST : HWND_NOTOPMOST, 
-		    0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE);
+  W32Compat::SetWindowOnTop(hwnd, onTop);
 #endif
   return rc;
 }
