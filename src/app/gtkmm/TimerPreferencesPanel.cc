@@ -145,6 +145,15 @@ TimerPreferencesPanel::create_options_panel()
     .connect(SigC::slot(*this, &TimerPreferencesPanel::on_ignorable_toggled));
   hig->add(*ignorable_cb);
 
+  // Sensitive for activity
+  bool sensitive = break_data->get_timer_activity_sensitive();
+  activity_sensitive_cb = manage(new Gtk::CheckButton
+                        (_("Timer ignores activity")));
+  activity_sensitive_cb->set_active(!sensitive);
+  activity_sensitive_cb->signal_toggled()
+    .connect(SigC::slot(*this, &TimerPreferencesPanel::on_activity_sensitive_toggled));
+  hig->add(*activity_sensitive_cb);
+
   // Break specific options
   monitor_cb = NULL;
 #ifdef HAVE_EXERCISES
@@ -173,6 +182,7 @@ TimerPreferencesPanel::create_options_panel()
                             &TimerPreferencesPanel::on_exercises_changed));
     }
 #endif
+
   
   return hig;
 }
@@ -350,6 +360,12 @@ void
 TimerPreferencesPanel::on_ignorable_toggled()
 {
   break_data->set_break_ignorable(ignorable_cb->get_active());
+}
+
+void
+TimerPreferencesPanel::on_activity_sensitive_toggled()
+{
+  break_data->set_timer_activity_sensitive(!activity_sensitive_cb->get_active());
 }
 
 void

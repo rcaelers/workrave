@@ -83,6 +83,8 @@ public:
   void set_timer_snooze(int n);
   string get_timer_monitor() const;
   void set_timer_monitor(string n);
+  bool get_timer_activity_sensitive() const;
+  void set_timer_activity_sensitive(bool b);
   int get_break_max_preludes() const;
   void set_break_max_preludes(int n);
   bool get_break_ignorable() const;
@@ -114,6 +116,7 @@ public:
   static const string CFG_KEY_TIMER_RESET_PRED;
   static const string CFG_KEY_TIMER_SNOOZE;
   static const string CFG_KEY_TIMER_MONITOR;
+  static const string CFG_KEY_TIMER_ACTIVITY_SENSITIVE;
 
   static const string CFG_KEY_BREAK_PREFIX;
   

@@ -55,6 +55,7 @@ private:
   void on_limit_changed();
   void on_ignorable_toggled();
   void on_monitor_toggled();
+  void on_activity_sensitive_toggled();
   void on_preludes_active_toggled();
   void on_preludes_maximum_toggled();
   void on_preludes_maximum_changed();
@@ -73,6 +74,7 @@ private:
   BreakInterface *break_data;
 
   Gtk::CheckButton *ignorable_cb;
+  Gtk::CheckButton *activity_sensitive_cb;
   Gtk::CheckButton *monitor_cb;
   Gtk::CheckButton *prelude_cb;
   Gtk::CheckButton *has_max_prelude_cb;

@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-11-01 00:07:22 robc>
+// Time-stamp: <2003-11-14 18:41:19 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -71,7 +71,8 @@ Timer::Timer(TimeSource *timeSource) :
   next_limit_time(0),
   total_overdue_time(0),
   time_source(timeSource),
-  activity_monitor(NULL)
+  activity_monitor(NULL),
+  activity_sensitive(true)
 {
 }
 
@@ -212,6 +213,14 @@ Timer::set_auto_reset(long resetTime)
 
   autoreset_interval = resetTime;
   compute_next_reset_time();
+}
+
+
+//! Marks timer sensitive or insensitive for activity
+void
+Timer::set_activity_sensitive(bool a)
+{
+  activity_sensitive = a;
 }
 
 
@@ -622,16 +631,44 @@ Timer::idle_notify()
 void
 Timer::process(ActivityState activityState, TimerInfo &info)
 {
-  //TRACE_ENTER_MSG("Timer::process", timer_id);
-  if (activity_monitor != NULL)
-    {
-      activityState = activity_monitor->get_current_state();
-    }
-        
+  TRACE_ENTER_MSG("Timer::process", timer_id);
+  time_t current_time= time_source->get_time();
+
   info.event = TIMER_EVENT_NONE;
   info.idle_time = get_elapsed_idle_time();
   info.elapsed_time = get_elapsed_time();
 
+  if (activity_sensitive)
+    {
+      if (activity_monitor != NULL)
+        {
+          activityState = activity_monitor->get_current_state();
+        }
+    }
+  else
+    {
+      if (get_elapsed_time() >= limit_interval)
+        {
+          activityState = ACTIVITY_IDLE;
+
+          TRACE_MSG(current_time << " " << next_limit_time);
+
+          if (previous_timer_state == STATE_RUNNING)
+            {
+              info.event = TIMER_EVENT_LIMIT_REACHED;
+              info.idle_time = get_elapsed_idle_time();
+              info.elapsed_time = get_elapsed_time();
+            }
+        }
+      else
+        {
+          if (get_elapsed_time() > 0)
+            {
+              activityState = ACTIVITY_ACTIVE;
+            }
+        }
+    }
+  
   if (timer_enabled)
     {
       if (activityState == ACTIVITY_ACTIVE && timer_state != STATE_RUNNING)
@@ -646,7 +683,6 @@ Timer::process(ActivityState activityState, TimerInfo &info)
   
   activity_state = activityState;
   
-  time_t current_time= time_source->get_time();
 
   //TRACE_MSG(next_pred_reset_time << " " << (next_pred_reset_time - current_time));
   if (autoreset_interval_predicate && next_pred_reset_time != 0 && current_time >=  next_pred_reset_time)
@@ -695,7 +731,7 @@ Timer::process(ActivityState activityState, TimerInfo &info)
         {
         case STATE_RUNNING:
           {
-            if (previous_timer_state == STATE_STOPPED)
+            if (info.event == TIMER_EVENT_NONE && previous_timer_state == STATE_STOPPED)
               {
                 info.event = TIMER_EVENT_STARTED;
               }
@@ -704,7 +740,7 @@ Timer::process(ActivityState activityState, TimerInfo &info)
           
         case STATE_STOPPED:
           {
-            if (previous_timer_state == STATE_RUNNING)
+            if (info.event == TIMER_EVENT_NONE && previous_timer_state == STATE_RUNNING)
               {
                 info.event = TIMER_EVENT_STOPPED;
               }

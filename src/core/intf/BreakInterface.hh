@@ -59,6 +59,8 @@ public:
   virtual void set_timer_snooze(int n) = 0;
   virtual string get_timer_monitor() const = 0;
   virtual void set_timer_monitor(string n) = 0;
+  virtual bool get_timer_activity_sensitive() const = 0;
+  virtual void set_timer_activity_sensitive(bool b) = 0;
   virtual int get_break_max_preludes() const = 0;
   virtual void set_break_max_preludes(int n) = 0;
   virtual bool get_break_ignorable() const = 0;

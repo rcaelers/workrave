@@ -37,6 +37,7 @@ const string Break::CFG_KEY_TIMER_AUTO_RESET = "/auto_reset";
 const string Break::CFG_KEY_TIMER_RESET_PRED = "/reset_pred";
 const string Break::CFG_KEY_TIMER_SNOOZE = "/snooze";
 const string Break::CFG_KEY_TIMER_MONITOR = "/monitor";
+const string Break::CFG_KEY_TIMER_ACTIVITY_SENSITIVE = "/activity_sensitive";
 
 const string Break::CFG_KEY_BREAK_PREFIX = "gui/breaks/";
 
@@ -191,6 +192,7 @@ Break::update_timer_config()
   set_timer_auto_reset(get_timer_auto_reset());
   set_timer_reset_pred(get_timer_reset_pred());
   set_timer_snooze(get_timer_snooze());
+  set_timer_activity_sensitive(get_timer_activity_sensitive());
   
 }
 
@@ -219,7 +221,11 @@ Break::load_timer_config()
   int snooze = get_timer_snooze();
   timer->set_snooze_interval(snooze);
 
-  // Read the
+  // Read the activity insensitive flag
+  bool sensitive = get_timer_activity_sensitive();
+  timer->set_activity_sensitive(sensitive);
+
+  // Default
   timer->set_for_activity(true);
 }
 
@@ -392,6 +398,28 @@ Break::set_timer_monitor(string n)
 
 
 //!
+bool
+Break::get_timer_activity_sensitive() const
+{
+  bool b;
+  bool rc = true;
+  b = configurator->get_value(timer_prefix + CFG_KEY_TIMER_ACTIVITY_SENSITIVE, &rc);
+  if (! b)
+    {
+      rc = true;
+    }
+
+  return rc;
+}
+
+
+void
+Break::set_timer_activity_sensitive(bool b)
+{
+  configurator->set_value(timer_prefix + CFG_KEY_TIMER_ACTIVITY_SENSITIVE, b);
+}
+
+
 int
 Break::get_break_max_preludes() const
 {

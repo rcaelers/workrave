@@ -154,6 +154,7 @@ public:
   void stop_timer();
   void reset_timer();
 
+  void set_activity_sensitive(bool a);
   
 private:
   //! Activity or Idle timer.
@@ -249,6 +250,9 @@ private:
 
   //! Activity Mobnitor to use.
   ActivityMonitorInterface *activity_monitor;
+
+  //!  Is this timer sensitive for activity
+  bool activity_sensitive;
   
 private:
   void compute_next_limit_time();
