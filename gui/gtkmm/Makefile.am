@@ -26,7 +26,7 @@ if HAVE_GUI_GTKMM
 noinst_LIBRARIES = libgtkmmgui.a
 
 if HAVE_GNOME
-sourcesgnome = GnomeSoundPlayer.cc AppletWindow.cc RemoteControl.cc eggtrayicon.c 
+sourcesgnome = GnomeSoundPlayer.cc RemoteControl.cc
 sourcesidl = ${IDL_A_GENERATED} ${IDL_C_GENERATED}
 
 ## CORBA stuff
@@ -40,6 +40,10 @@ $(IDL_C_GENERATED): $(IDL_C)
 ## End CORBA stuff
 else
 sourcesgnome = gnome-about.c
+endif
+
+if HAVE_X
+sourcesx = AppletWindow.cc AppletPreferencePage.cc eggtrayicon.c
 endif
 
 if PLATFORM_WIN32
@@ -71,7 +75,7 @@ libgtkmmgui_a_SOURCES = \
 	WmSpec.cc \
 	TimerWindow.cc \
 	Menus.cc \
-	$(sourcesgnome) $(sourceswin32) ${sourcesdistribution}
+	$(sourcesgnome) $(sourcesx) $(sourceswin32) ${sourcesdistribution}
 
 
 

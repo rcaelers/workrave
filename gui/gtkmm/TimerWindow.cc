@@ -209,6 +209,3 @@ TimerWindow::on_menu_restbreak_now()
 {
   gui->restbreak_now();
 }
-
-
-

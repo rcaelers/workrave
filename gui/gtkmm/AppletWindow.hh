@@ -22,11 +22,13 @@
 #include "preinclude.h"
 #include <stdio.h>
 
+#ifdef HAVE_GNOME
 #include <gnome.h>
 #include <bonobo.h>
 #include <bonobo/bonobo-xobject.h>
 #include "Workrave-Applet.h"
 #include "Workrave-Control.h"
+#endif
 
 class GUI;
 class ControlInterface;
@@ -42,11 +44,12 @@ class NetworkLogDialog;
 using namespace std;
 
 class AppletWindow :
-  public TimerWindow
+  public TimerWindow,
+  public ConfiguratorListener
 {
 public:  
   enum AppletMode { APPLET_DISABLED, APPLET_TRAY, APPLET_GNOME };
-                    
+
   AppletWindow(GUI *gui, ControlInterface *controller);
   ~AppletWindow();
 
@@ -54,20 +57,34 @@ public:
   void fire();
   
   void on_menu_restbreak_now();
+#ifdef HAVE_GNOME
   void set_menu_active(int menu, bool active);
   bool get_menu_active(int menu);
   void set_applet_vertical(bool vertical);
   void set_applet_size(int size);
+#endif
+
+  void config_changed_notify(string key);
   
 public:  
   static const string CFG_KEY_APPLET;
   static const string CFG_KEY_APPLET_HORIZONTAL;
   static const string CFG_KEY_APPLET_ENABLED;
-  static const string CFG_KEY_APPLET_SHOW_MICRO_PAUSE;
-  static const string CFG_KEY_APPLET_SHOW_REST_BREAK;
-  static const string CFG_KEY_APPLET_SHOW_DAILY_LIMIT;
+  static const string CFG_KEY_APPLET_CYCLE_TIME;
+  static const string CFG_KEY_APPLET_POSITION;
+  static const string CFG_KEY_APPLET_FLAGS;
+  static const string CFG_KEY_APPLET_IMMINENT;
   
 private:
+  enum SlotType
+    {
+      BREAK_WHEN_IMMINENT = 1,
+      BREAK_WHEN_FIRST = 2,
+      BREAK_SKIP = 4,
+      BREAK_EXCLUSIVE = 8,
+      BREAK_DEFAULT = 16
+    };
+      
   //! Current Applet mode.
   AppletMode mode;
 
@@ -92,9 +109,24 @@ private:
   //!
   int number_of_timers;
   
-  //! Breaks to show in applet.
-  bool show_break[GUIControl::BREAK_ID_SIZEOF];
+  //! Position for the break timer.
+  int break_position[GUIControl::BREAK_ID_SIZEOF];
 
+  //! Flags for the break timer.
+  int break_flags[GUIControl::BREAK_ID_SIZEOF];
+
+  //! Flags for the break timer.
+  int break_imminent_time[GUIControl::BREAK_ID_SIZEOF];
+  
+  //!
+  int break_slots[GUIControl::BREAK_ID_SIZEOF][GUIControl::BREAK_ID_SIZEOF];
+
+  //!
+  int break_slot_cycle[GUIControl::BREAK_ID_SIZEOF];
+
+  //!
+  int cycle_time;
+  
   //! Allign break vertically.
   bool applet_vertical;
 
@@ -122,13 +154,19 @@ private:
   void init_applet();
   void init_table();
   bool init_tray_applet();
+
+#ifdef HAVE_GNOME
   bool init_gnome_applet();
+  void destroy_gnome_applet();
+#endif
+
+  void init_slot(int slot);
+  void cycle_slots();
+  
   void destroy_applet();
   void destroy_tray_applet();
-  void destroy_gnome_applet();
   void read_configuration();
-
-
+  
   bool on_button_press_event(GdkEventButton *event);
   bool delete_event(GdkEventAny *event);
 

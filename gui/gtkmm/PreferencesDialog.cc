@@ -40,6 +40,9 @@
 #ifdef HAVE_DISTRIBUTION
 #include "NetworkPreferencePage.hh"
 #endif
+#ifdef HAVE_X
+#include "AppletPreferencePage.hh"
+#endif
 
 
 
@@ -51,6 +54,9 @@ PreferencesDialog::PreferencesDialog()
   // Pages
   Gtk::Widget *gui_page = manage(create_gui_page());
   Gtk::Widget *timer_page = manage(create_timer_page());
+#ifdef HAVE_X
+  Gtk::Widget *applet_page = manage(create_applet_page());
+#endif
 #ifdef HAVE_DISTRIBUTION
   Gtk::Widget *network_page = manage(create_network_page());
 #endif
@@ -62,6 +68,10 @@ PreferencesDialog::PreferencesDialog()
                               (*timer_page, _("Timers")));
   notebook->pages().push_back(Gtk::Notebook_Helpers::TabElem
                               (*gui_page, _("User interface")));
+#ifdef HAVE_X
+  notebook->pages().push_back(Gtk::Notebook_Helpers::TabElem
+                              (*applet_page, _("Applet")));
+#endif  
 #ifdef HAVE_DISTRIBUTION
   notebook->pages().push_back(Gtk::Notebook_Helpers::TabElem
                               (*network_page, _("Network")));
@@ -183,6 +193,25 @@ PreferencesDialog::create_timer_page()
 
   return timer_page;
 }
+
+
+#ifdef HAVE_X
+Gtk::Widget *
+PreferencesDialog::create_applet_page()
+{
+  // Timers page
+  Gtk::VBox *applet_page
+    = create_page
+    (_("\n"),
+     "network.png");
+
+  Gtk::Widget *page = manage(new AppletPreferencePage());
+  
+  applet_page->pack_start(*page, true, true, 0);
+
+  return applet_page;
+}
+#endif
 
 
 #ifdef HAVE_DISTRIBUTION

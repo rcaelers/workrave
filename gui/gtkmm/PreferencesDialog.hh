@@ -43,6 +43,9 @@ private:
 #ifdef HAVE_DISTRIBUTION
   Gtk::Widget *create_network_page();
 #endif
+#ifdef HAVE_GNOME
+  Gtk::Widget *create_applet_page();
+#endif
   
   void on_always_on_top_toggled();
   void on_sound_changed();
