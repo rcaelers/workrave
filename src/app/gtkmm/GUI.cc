@@ -480,7 +480,7 @@ GUI::init_multihead()
   TRACE_ENTER("GUI::init_multihead");
 
 #if defined(HAVE_GTK_MULTIHEAD)
-  //  init_gtk_multihead();
+  init_gtk_multihead();
 #elif defined(WIN32)
   init_win32_multihead();
 #endif
