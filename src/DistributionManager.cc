@@ -26,6 +26,7 @@ static const char rcsid[] = "$Id$";
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdarg.h>
+#include <string.h>
 
 #include "DistributionManager.hh"
 #include "DistributionSocketLink.hh"
@@ -470,12 +471,12 @@ DistributionManager::log(char *fmt, ...)
   struct tm *lt = localtime(&current_time);
 
   char str[256];
-  snprintf(str, 255, "[%02d/%02d/%02d %02d:%02d:%02d] ",
-           lt->tm_mday, lt->tm_mon + 1, lt->tm_year + 1900,
-           lt->tm_hour, lt->tm_min, lt->tm_sec);
+  _snprintf(str, 255, "[%02d/%02d/%02d %02d:%02d:%02d] ",
+          lt->tm_mday, lt->tm_mon + 1, lt->tm_year + 1900,
+          lt->tm_hour, lt->tm_min, lt->tm_sec);
 
   char *ptr = str + strlen(str);
-  vsnprintf(ptr, 255 - strlen(str), fmt, va);
+  _vsnprintf(ptr, 255 - strlen(str), fmt, va);
 
   ptr = str + strlen(str);
   ptr[0] = '\n';

@@ -5,13 +5,16 @@ See the end for copying conditions.
 Please report Workrave bug reports. Visit our bug tracker located at:
 http://workrave.sourceforge.net
 
-* Workrave 0.4.0
+* Workrave 1.0.0
+
+** Added the daily limit break window.
 
 ** Added internationalisation support. Currently, only a Dutch translation is
 provided. We are still looking for volunteers to translate Workrave
 into other languages.
 
-** The "Collective" has been renamed to "Network".
+** The "Collective" has been renamed to "Network", which is far more
+meaningful to non-geek users.
 
 ** A network log window has been added. This window shows informational
 messages about the communication between different Workrave instances. 

@@ -32,7 +32,7 @@ msgstr "Micro-pauze"
 
 #: gui/GUIControl.cc:92
 msgid "Rest break"
-msgstr "Rust pauze"
+msgstr "Rustpauze"
 
 #: gui/GUIControl.cc:99
 msgid "Daily limit"
@@ -44,7 +44,7 @@ msgstr "Tijd voor een micro-pauze?"
 
 #: gui/GUIControl.cc:277
 msgid "You need a rest break..."
-msgstr "Je bent toe aan een rust pauze..."
+msgstr "Je bent toe aan een rustpauze..."
 
 #: gui/Text.cc:63
 #, c-format

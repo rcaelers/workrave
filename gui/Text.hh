@@ -20,6 +20,7 @@
 #define TEXT_HH
 
 #include <string>
+#include <time.h>
 
 using namespace std;
 
