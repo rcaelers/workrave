@@ -1,6 +1,6 @@
 // RestBreakWindow.cc --- window for the microbreak
 //
-// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 //
@@ -48,6 +48,7 @@ const int TIMEOUT = 1000;
 
 #include "CoreInterface.hh"
 #include "CoreFactory.hh"
+#include "ActivityMonitorInterface.hh"
 
 #ifdef HAVE_EXERCISES
 #include "Exercise.hh"
@@ -96,6 +97,8 @@ RestBreakWindow::create_gui()
     {
       vbox->pack_end(*manage(button_box), Gtk::SHRINK, 6);
     }
+
+  show_color_1_active_during_break = true;
   return vbox;
 }
 
@@ -163,6 +166,29 @@ RestBreakWindow::draw_time_bar()
   sprintf(s, _("Rest break for %s"), Text::time_to_string(time, true).c_str());
   
   timebar->set_text(s);
+
+  CoreInterface *core = CoreFactory::get_core();
+  ActivityMonitorInterface *monitor = core->get_activity_monitor();
+  ActivityState state = monitor->get_current_state();
+  if (state == ACTIVITY_ACTIVE)
+    {
+      if (show_color_1_active_during_break)
+        {
+          timebar->set_bar_color(TimeBarInterface::COLOR_ID_1_ACTIVE_DURING_BREAK);
+        }
+      else
+        {
+          timebar->set_bar_color(TimeBarInterface::COLOR_ID_2_ACTIVE_DURING_BREAK);
+        }
+
+      show_color_1_active_during_break = ! show_color_1_active_during_break;
+    }
+  else
+   {
+      timebar->set_bar_color(TimeBarInterface::COLOR_ID_INACTIVE);
+      show_color_1_active_during_break = true;
+   }
+
   timebar->update();
 }
 

@@ -1,6 +1,6 @@
 // RestBreakWindow.hh --- window for the microbreak
 //
-// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -72,6 +72,9 @@ private:
 #ifdef HAVE_EXERCISES
   Gtk::HBox pluggable_panel;
 #endif
+
+  //! Takes care of the flashing of the progress bar during break when user is active
+  bool show_color_1_active_during_break;
 };
 
 

@@ -1,6 +1,6 @@
 // TimerBoxControl.cc --- Timers Widgets
 //
-// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -53,7 +53,8 @@ const std::string TimerBoxControl::CFG_KEY_TIMERBOX_IMMINENT = "/imminent";
 TimerBoxControl::TimerBoxControl(std::string n, TimerBoxView &v) :
   view(&v),
   cycle_time(10),
-  name(n)
+  name(n),
+  force_duration(0)
 {
   init();
 }
@@ -87,11 +88,18 @@ TimerBoxControl::update()
     }
   else
     {
-      time_t t = time(NULL);
-      if (t % cycle_time == 0)
+      if (force_duration == 0)
         {
-          init_table();
-          cycle_slots();
+          time_t t = time(NULL);
+          if (t % cycle_time == 0)
+            {
+              init_table();
+              cycle_slots();
+            }
+        }
+      else
+        {
+          force_duration--;
         }
     }
 
@@ -105,6 +113,15 @@ TimerBoxControl::update()
   // Update the timer widgets.
   update_widgets();
   view->update();
+}
+
+
+void
+TimerBoxControl::force_cycle()
+{
+  force_duration = cycle_time;
+  init_table();
+  cycle_slots();
 }
 
 
@@ -326,10 +343,9 @@ TimerBoxControl::init_slot(int slot)
   // TRACE_ENTER_MSG("TimerBoxControl::init_slot", slot);
   int count = 0;
   int breaks_id[BREAK_ID_SIZEOF];
-  bool stop = false;
 
   // Collect all timers for this slot.
-  for (int i = 0; !stop && i < BREAK_ID_SIZEOF; i++)
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       CoreInterface *core = CoreFactory::get_core();
       BreakInterface *break_data = core->get_break(BreakId(i));
@@ -360,7 +376,8 @@ TimerBoxControl::init_slot(int slot)
       time_t time_left = timer->get_limit() - timer->get_elapsed_time();
         
       // Exclude break if not imminent.
-      if (flags & BREAK_WHEN_IMMINENT && time_left > break_imminent_time[id])
+      if (flags & BREAK_WHEN_IMMINENT && time_left > break_imminent_time[id] &&
+          force_duration == 0)
         {
           break_flags[id] |= BREAK_SKIP;
         }
@@ -382,7 +399,7 @@ TimerBoxControl::init_slot(int slot)
 
       if (!(flags & BREAK_SKIP))
         {
-          if (flags & BREAK_WHEN_FIRST && first_id != id)
+          if (flags & BREAK_WHEN_FIRST && first_id != id && force_duration == 0)
             {
               break_flags[id] |= BREAK_SKIP;
             }
@@ -400,7 +417,7 @@ TimerBoxControl::init_slot(int slot)
 
       if (!(flags & BREAK_SKIP))
         {
-          if (flags & BREAK_EXCLUSIVE && have_one)
+          if (flags & BREAK_EXCLUSIVE && have_one && force_duration == 0)
             {
               break_flags[id] |= BREAK_SKIP;
             }

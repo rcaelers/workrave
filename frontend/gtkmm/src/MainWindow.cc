@@ -1,6 +1,6 @@
 // MainWindow.cc --- Main info Window
 //
-// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -585,6 +585,14 @@ win32_filter_func (void     *xevent,
         menus->on_applet_command((short) msg->wParam);
         ret = GDK_FILTER_REMOVE;
       }
+      break;
+
+    case WM_USER + 1:
+      {
+        win32_timer_box_control->force_cycle();
+        ret = GDK_FILTER_REMOVE;
+      }
+      break;
     }
 
   TRACE_EXIT();

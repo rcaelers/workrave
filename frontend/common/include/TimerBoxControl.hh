@@ -1,6 +1,6 @@
 // TimerBoxControl.hh --- All timers
 //
-// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -33,7 +33,8 @@ public:
 
   void init();
   void update();
-
+  void force_cycle();
+  
   static const std::string get_timer_config_key(std::string name, BreakId timer, const std::string &key);
   static int get_cycle_time(std::string name);
   static void set_cycle_time(std::string name, int time);
@@ -109,6 +110,12 @@ private:
 
   //! Last known operation mode
   OperationMode operation_mode;
+
+  //! 
+  int forced_cycle;
+
+  //!
+  int force_duration;
 };
 
 #endif // TIMERBOXCONTROL_HH

@@ -1,6 +1,6 @@
 // DeskBand.cpp --- CDeskBand implementation
 //
-// Copyright (C) 2004 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2004, 2005 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -503,6 +503,11 @@ CDeskBand::WndProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
 
     case WM_WINDOWPOSCHANGING:
       pThis->OnWindowPosChanging(wParam, lParam);
+      break;
+
+    case WM_LBUTTONDBLCLK:
+      SendMessage(m_AppletMenu.command_window, WM_USER + 1, 0, 0);
+      break;
     }    
   return DefWindowProc(hWnd, uMessage, wParam, lParam);
 }
