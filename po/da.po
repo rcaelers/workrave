@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "POT-Creation-Date: 2003-08-01 21:54+0200\n"
-"PO-Revision-Date: 2003-07-31 20:44+0200\n"
-"Last-Translator: \n"
-"Language-Team:  <C@li.org>\n"
+"PO-Revision-Date: 2003-08-03 21:46+0200\n"
+"Last-Translator: Christian Vejlbo <translate@vejlbo.dk>\n"
+"Language-Team:  <da@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -480,7 +480,7 @@ msgstr "Det totale antal tryk på muse-knapper"
 
 #: src/app/gtkmm/StatisticsDialog.cc:303
 msgid "Keystrokes:"
-msgstr "Tasketryk:"
+msgstr "Tastetryk:"
 
 #: src/app/gtkmm/StatisticsDialog.cc:304
 msgid "The total number of keys pressed"
@@ -627,9 +627,8 @@ msgid "_Connect..."
 msgstr "_Opret forbindelse..."
 
 #: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:4
-#, fuzzy
 msgid "_Exercises"
-msgstr "Øvelser"
+msgstr "_Øvelser"
 
 #: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:8
 msgid "_Open"
@@ -836,13 +835,13 @@ msgstr ""
 "gang du trækker vejret og ånder ud igen. For at slappe ekstra af i øjnene, "
 "prøv at lukke dem i mikropauser også."
 
-# FIXME: Wrong encoding... Hold dine hænder op foran øjnene således at du stadig kan åbne øjnene. �bn nu øjnene og kig ind i mørket i dine håndflader. �velsen giver bedre afslapning til dine øjne sammenlignet med bare at lukke dem.
 #: src/app/shared/exercises/exercises.xml.in.h:3
 msgid ""
 "Cover your eyes with your palms in such way that you can still open your "
 "eyelids. Now open your eyes and look into the darkness of your palms. This "
 "exercise gives better relief to your eyes compared to simply closing them."
-msgstr "Hold dine hænder...FIXME"
+msgstr ""
+"Hold dine hænder op foran øjnene således, at du stadig kan åbne øjnene. Åbn nu øjnene og kig ind i mørket i dine håndflader. Øvelsen giver bedre afslapning til dine øjne sammenlignet med bare at lukke dem."
 
 #: src/app/shared/exercises/exercises.xml.in.h:4
 msgid "Finger stretch"
@@ -1043,15 +1042,15 @@ msgstr "Pause ignoreret"
 
 #: src/app/shared/sounds/workrave.soundlist.in.h:2
 msgid "Break prompt"
-msgstr "Pause pÃ¥mindelse"
+msgstr "Pause påmindelse"
 
 #: src/app/shared/sounds/workrave.soundlist.in.h:4
 msgid "Exercise ended"
-msgstr "Ãvelse afsluttet"
+msgstr "Øvelse afsluttet"
 
 #: src/app/shared/sounds/workrave.soundlist.in.h:5
 msgid "Exercises ended"
-msgstr "Ãvelser afsluttet"
+msgstr "Øvelser afsluttet"
 
 #: src/app/shared/sounds/workrave.soundlist.in.h:6
 msgid "Micro-pause ended"
@@ -1059,7 +1058,7 @@ msgstr "Mikropause afsluttet"
 
 #: src/app/shared/sounds/workrave.soundlist.in.h:7
 msgid "Micro-pause started"
-msgstr "Mikrobause startet"
+msgstr "Mikropause startet"
 
 #: src/app/shared/sounds/workrave.soundlist.in.h:8
 msgid "Rest break ended"
@@ -1085,8 +1084,7 @@ msgstr "Hvilepause startet"
 #~ msgstr ""
 #~ "I dette vindue kan du ændre indstillingerne for tidstællerne. Formatet\n"
 #~ "på tiden er timer:minutter:sekudner, dvs (hh:mm:ss). Det er muligt at "
-#~ "rette\n"
-#~ "uafhængigt i både timer, minutter og sekunder."
+#~ "rette uafhængigt i både timer, minutter og sekunder."
 
 #~ msgid "You can configure the applet related settings from here."
 #~ msgstr "Applet-relaterede indstillinger kan rettes herfra."
@@ -1100,8 +1098,7 @@ msgstr "Hvilepause startet"
 #~ "Du kan sammenkoble Workrave kørende på forskellige maskiner i et "
 #~ "nætværk.\n"
 #~ "Alle sammenkoblede instanser deler den samme timer-information, dvs. du "
-#~ "kan\n"
-#~ "blive mindet om pauser selv om du ofte skifter maskine"
+#~ "kan blive mindet om pauser selv om du ofte skifter maskine"
 
 #, fuzzy
 #~ msgid "Open"
