@@ -45,9 +45,10 @@ const int TIMEOUT = 1000;
 #include "BreakResponseInterface.hh"
 #include "GtkUtil.hh"
 
-#ifdef HAVE_EXERCISES
 #include "CoreInterface.hh"
 #include "CoreFactory.hh"
+
+#ifdef HAVE_EXERCISES
 #include "Exercise.hh"
 #include "ExercisesPanel.hh"
 #endif
@@ -243,6 +244,8 @@ RestBreakWindow::install_info_panel()
   center();
 }
 
+#endif
+
 void
 RestBreakWindow::set_ignore_activity(bool i)
 {
@@ -257,4 +260,3 @@ RestBreakWindow::set_ignore_activity(bool i)
                          ? BreakInterface::INSIST_POLICY_HALT
                          : BreakInterface::INSIST_POLICY_RESET));
 }
-#endif

@@ -101,21 +101,24 @@ Statistics::set_reset_predicate(TimePred *predicate)
 
 
 //! Periodic heartbeat.
-void
+bool
 Statistics::update()
 {
+  bool new_day_started = false;
+  
   TRACE_ENTER("Statistics::update");
   TRACE_MSG(time(NULL) << " " << reset_predicate->get_next() << " " <<
             (reset_predicate->get_next() - time(NULL)));
   if (reset_predicate != NULL && time(NULL) > reset_predicate->get_next())
     {
       TRACE_MSG("NEW DAY");
-      start_new_day();
+      new_day_started = true;
     }
       
   update_current_day();
   save_day(current_day);
   TRACE_EXIT();
+  return new_day_started;
 }
 
 
@@ -154,6 +157,10 @@ Statistics::start_new_day()
           reset_predicate->set_last(t);
         }
     }
+
+  update_current_day();
+  save_day(current_day);
+  
   TRACE_EXIT();
 }
 

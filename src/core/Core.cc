@@ -488,7 +488,11 @@ Core::set_powersave(bool down)
       powersave = true;
       powersave_operation_mode = set_operation_mode(OPERATION_MODE_SUSPENDED);
       save_state();
-      statistics->update();
+
+      if (statistics->update())
+        {
+          daily_reset();
+        }
     }
   else
     {
@@ -549,7 +553,10 @@ Core::update_statistics()
 
   if (count % 30 == 0)
     {
-      statistics->update();
+      if (statistics->update())
+        {
+          daily_reset();
+        }
     }
 
   count++;
@@ -577,20 +584,7 @@ Core::heartbeat()
       if (breaks[i].is_enabled())
         {
           timer_action((BreakId)i, info);
-          // OBSOLETE          
-//           if (i == BREAK_ID_DAILY_LIMIT)
-//             {
-//               if (info.event == TIMER_EVENT_NATURAL_RESET ||
-//                   info.event == TIMER_EVENT_RESET)
-//                 {
-//                   statistics->set_counter(Statistics::STATS_VALUE_TOTAL_ACTIVE_TIME, info.elapsed_time);
-//                   statistics->start_new_day();
-                  
-//                   daily_reset();
-//                 }
-//             }
         }
-
     }
 
   // Distributed  stuff
@@ -1019,6 +1013,9 @@ Core::daily_reset()
 #ifdef HAVE_DISTRIBUTION
   idlelog_manager->reset();
 #endif
+
+  statistics->start_new_day();
+
   TRACE_EXIT();
 }
 

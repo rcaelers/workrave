@@ -107,7 +107,7 @@ public:
 public:
   void init(Core *core);
   void set_reset_predicate(TimePred *predicate);
-  void update();
+  bool update();
   void dump();
   void start_new_day();
 

@@ -553,8 +553,6 @@ GUI::init_multihead_desktop()
 }
 
 
-
-
 #ifdef HAVE_GTK_MULTIHEAD
 void
 GUI::init_gtk_multihead()
