@@ -129,6 +129,7 @@ Control::main(int argc, char **argv)
   locale_dir = GNOMELOCALEDIR;
 #endif
   bindtextdomain(PACKAGE, locale_dir);
+  bind_textdomain_codeset(PACKAGE, "UTF-8");
   textdomain(PACKAGE);
 #endif
   
