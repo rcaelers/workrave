@@ -95,7 +95,9 @@ Core::Core() :
   application(NULL),
   statistics(NULL),
   operation_mode(OPERATION_MODE_NORMAL),
-  core_event_listener(NULL)
+  core_event_listener(NULL),
+  powersave(false),
+  powersave_resume_time(0)
 #ifdef HAVE_DISTRIBUTION
   ,
   dist_manager(NULL),
@@ -470,6 +472,27 @@ Core::force_break(BreakId id)
   break_action(id, BREAK_ACTION_FORCE_START_BREAK);
 }
 
+void
+Core::set_powersave(bool down)
+{
+  TRACE_ENTER_MSG("Core::set_powersave", down);
+  if (down)
+    {
+      // Computer is going down
+      powersave = true;
+      save_state();
+      statistics->update();
+    }
+  else
+    {
+      // Computer is coming back
+      // leave powersave true until the timewarp is detected
+      // or until some time has passed
+      powersave_resume_time = current_time;
+    }
+  TRACE_EXIT();
+}
+
 
 /********************************************************************************/
 /**** Break Resonse                                                        ******/
@@ -691,19 +714,33 @@ Core::process_timers(TimerInfo *infos)
       int gap = current_time - 1 - last_process_time;
       if (abs(gap) > 5)
         {
-          TRACE_MSG("Time warp of " << gap << " seconds");
-          
-          monitor->force_idle();
-          monitor->shift_time(gap);
-          for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+          if (!powersave)
             {
-              breaks[i].get_timer()->shift_time(gap);
+              TRACE_MSG("Time warp of " << gap << " seconds. Correcting");
+
+              monitor->force_idle();
+              monitor->shift_time(gap);
+              for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+                {
+                  breaks[i].get_timer()->shift_time(gap);
+                }
+              
+              state = ACTIVITY_IDLE;
             }
-          
-          state = ACTIVITY_IDLE;
+          else
+            {
+              powersave_resume_time = 0;
+              powersave = false;
+              TRACE_MSG("Time warp of " << gap << " seconds because of powersave");
+            }
+        }
+      if (powersave && powersave_resume_time != 0 && current_time > powersave_resume_time + 60)
+        {
+          TRACE_MSG("No time warp of after powersave");
+          powersave = false;
+          powersave_resume_time = 0;
         }
     }
-
   
 #if 0
   if (master_node)
@@ -1372,11 +1409,15 @@ Core::set_monitor_state(bool master, PacketBuffer &buffer)
 bool
 Core::request_config(PacketBuffer &buffer) const
 {
+  (void)buffer;
+  return true;
 }
 
 bool
 Core::process_remote_config(PacketBuffer &buffer)
 {
+  (void) buffer;
+  return true;
 }
 
 //! A remote client has signed on.

@@ -75,6 +75,10 @@ const string MainWindow::CFG_KEY_MAIN_WINDOW_X
 = "gui/main_window/x";
 const string MainWindow::CFG_KEY_MAIN_WINDOW_Y
 = "gui/main_window/y";
+const string MainWindow::CFG_KEY_MAIN_WINDOW_HEAD_X
+= "gui/main_window/head_x";
+const string MainWindow::CFG_KEY_MAIN_WINDOW_HEAD_Y
+= "gui/main_window/head_y";
 
 //! Constructor.
 /*!
@@ -400,15 +404,6 @@ MainWindow::on_window_state_event(GdkEventWindowState *event)
 }
 
 
-bool
-MainWindow::on_configure_event(GdkEventConfigure *event)
-{
-  (void) event;
-  remember_position();
-  return true;
-}
-
-
 void
 MainWindow::config_changed_notify(string key)
 {
@@ -612,48 +607,29 @@ MainWindow::win32_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
               TRACE_MSG("Query Suspend Failed");
               break;
 
-              //case PBT_APMRESUMEAUTOMATIC:
-              // This notification would be processed if the app handled 
-              // something like a resume caused by an incoming network 
-              // request, by a modem ring, etc.  We DO NOT want to handle 
-              // this the same way that PBT_APMRESUMESUSPEND is handled
-              // because at this point there is no user interaction. As 
-              // soon as Windows detects user interaction (mouse move, 
-              // keyboard, etc.) it will notify us with a PBT_RESUMESUSPEND
-              // notification.
-//                TRACE_MSG("Resume automatic");
-//                break;
-
-            case PBT_APMRESUMECRITICAL:
-              // This notification means the system was suspended without 
-              // the application receiving any suspend messages. The
-              // application needs to reestablish any network connections
-              // reopen any files and attempt to restore any known 
-              // context. The application should also attempt to detect any 
-              // data loss or corruption and notify the user.
-              TRACE_MSG("Resume critical");
-              break;
-
             case PBT_APMRESUMESUSPEND:
-              // Reestablish any network connections saved in the suspend 
-              // function or reopen any files and seek to the 
-              // previously saved position(s).
-
-              // If the files are local, then the state of the files will be 
-              // saved. Be aware that this would require that the application 
-              // know which files are local and which are out on the 
-              // network.
-              TRACE_MSG("Resume suspend");
+              {
+                TRACE_MSG("Resume suspend");
+                CoreInterface *core = CoreFactory::get_core();
+                assert(core != NULL);
+                core->set_powersave(true);
+              }
               break;
 
             case PBT_APMSUSPEND:
-              // Save the necessary info for reestablishing network 
-              // connections or close all files and save information 
-              // necessary to reestablish the state for each file (file 
-              // path/name, file pointer position, etc.).
-              TRACE_MSG("suspend");
+              {
+                TRACE_MSG("suspend");
+                CoreInterface *core = CoreFactory::get_core();
+                assert(core != NULL);
+                core->set_powersave(false);
+              }
               break;
             }
+        }
+      else if (uMsg == WM_DISPLAYCHANGE)
+        {
+          TRACE_MSG("WM_DISPLAYCHANGE " << wParam << " " << lParam);
+          gui->init_multihead();
         }
     }
   
@@ -700,6 +676,36 @@ MainWindow::set_start_position(int x, int y)
 
 
 void
+MainWindow::get_head_start_position(int &x, int &y)
+{
+  bool b;
+  int sx, sy;
+  get_start_position(sx, sy);
+  
+  ConfiguratorInterface *cfg = CoreFactory::get_configurator();
+  b = cfg->get_value(CFG_KEY_MAIN_WINDOW_HEAD_X, &x);
+  if (! b)
+    {
+      x = sx;
+    }
+  b = cfg->get_value(CFG_KEY_MAIN_WINDOW_HEAD_Y, &y);
+  if (! b)
+    {
+      y = sy;
+    }
+}
+
+
+void
+MainWindow::set_head_start_position(int x, int y)
+{
+  ConfiguratorInterface *cfg = CoreFactory::get_configurator();
+  cfg->set_value(CFG_KEY_MAIN_WINDOW_HEAD_X, x);
+  cfg->set_value(CFG_KEY_MAIN_WINDOW_HEAD_Y, y);
+}
+
+
+void
 MainWindow::remember_position()
 {
   int x, y;
@@ -712,4 +718,14 @@ void
 MainWindow::set_skipwinlist(bool s)
 {
   WindowHints::set_skip_winlist(Gtk::Widget::gobj(), s);
+}
+
+
+bool
+MainWindow::on_configure_event(GdkEventConfigure *event)
+{
+  // This methods doesn't seem to do anything. Howener, GUI.cc does not
+  // receive the configure event signal without this. Donno why....
+  (void) event;
+  return false;
 }

@@ -95,6 +95,9 @@ public:
 
   //! Sets the callback for activity monitor events.
   virtual void set_core_events_listener(CoreEventListener *l) = 0;
+
+  //! Notifies the core that the computer will enter or leave powersave (suspend/hibernate)
+  virtual void set_powersave(bool down) = 0;
   
 #ifndef NDEBUG
   virtual void test_me() = 0;

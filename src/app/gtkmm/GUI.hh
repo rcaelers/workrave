@@ -97,6 +97,7 @@ public:
   void close_main_window();
   void toggle_main_window();
   void terminate();
+  void init_multihead();
 
   // Misc
   
@@ -115,7 +116,6 @@ private:
   void init_nls();
   void init_core();
   void init_sound_player();
-  void init_multihead();
   void init_multihead_mem(int new_num_heads);
   void init_multihead_desktop();
   void init_gui();
@@ -143,7 +143,9 @@ private:
   void collect_garbage();
   BreakWindowInterface *create_break_window(HeadInfo &head, BreakId break_id, bool ignorable, bool insist);
 
+  void locate_main_window();
   void relocate_main_window(int width, int height);
+  bool on_mainwindow_configure_event(GdkEventConfigure *event);
   
 private:
   //! The one and only instance
@@ -218,6 +220,13 @@ private:
   int screen_height;
 
   //! Location of main window.
+  Gdk::Point main_window_location;
+  
+  //! Location of main window relative to current head
+  Gdk::Point main_window_head_location;
+
+  //! Relocated location of main window
+  Gdk::Point main_window_relocated_location;
   
 #ifdef WIN32
   LUENUMDISPLAYMONITORS enum_monitors;

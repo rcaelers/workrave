@@ -90,23 +90,28 @@ private:
   void setup();
   void config_changed_notify(string key);
 
-  static void get_start_position(int &x, int &y);
-  static void set_start_position(int x, int y);
 
   // Events.
   bool on_delete_event(GdkEventAny*);
   bool on_window_state_event(GdkEventWindowState *event);
-  bool on_configure_event (GdkEventConfigure *event);
+  bool on_configure_event(GdkEventConfigure *event);
   
 public:  
   static void set_start_in_tray(bool b);
   static bool get_start_in_tray();
 
+  static void get_start_position(int &x, int &y);
+  static void set_start_position(int x, int y);
+  static void get_head_start_position(int &x, int &y);
+  static void set_head_start_position(int x, int y);
+  
   static const string CFG_KEY_MAIN_WINDOW;
   static const string CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP;
   static const string CFG_KEY_MAIN_WINDOW_START_IN_TRAY;
   static const string CFG_KEY_MAIN_WINDOW_X;
   static const string CFG_KEY_MAIN_WINDOW_Y;
+  static const string CFG_KEY_MAIN_WINDOW_HEAD_X;
+  static const string CFG_KEY_MAIN_WINDOW_HEAD_Y;
   
 #ifdef WIN32
 public:

@@ -106,7 +106,8 @@ public:
   void set_activity_monitor_listener(ActivityMonitorListener *l);
   void set_core_events_listener(CoreEventListener *l);
   void force_break(BreakId id);
-  
+  void set_powersave(bool down);
+ 
   time_t get_time() const;
   void post_event(CoreEvent event);
 
@@ -218,6 +219,12 @@ private:
   //!
   CoreEventListener *core_event_listener;
 
+  //! Did the OS announce a powersave?
+  bool powersave;
+
+  //! Time the OS announces a resume from powersave
+  time_t powersave_resume_time;
+  
 #ifdef HAVE_DISTRIBUTION
   //! The Distribution Manager
   DistributionManager *dist_manager;

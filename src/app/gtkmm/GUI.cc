@@ -95,7 +95,12 @@ GUI::GUI(int argc, char **argv)  :
   break_window_destroy(false),
   prelude_window_destroy(false),
   heads(NULL),
-  num_heads(-1)
+  num_heads(-1),
+  screen_width(-1),
+  screen_height(-1),
+  main_window_location(-1, -1),
+  main_window_head_location(-1, -1),
+  main_window_relocated_location(-1, -1)
 #ifdef WIN32
   ,
   enum_monitors(NULL),
@@ -171,6 +176,7 @@ GUI::main()
   TRACE_ENTER("GUI::main");
 
 #ifdef WIN32
+  // Enable Windows structural exception handling.
   __try1(exception_handler);
 #endif
 
@@ -214,6 +220,7 @@ GUI::main()
 #endif  
 
 #ifdef WIN32
+  // Disable Windows structural exception handling.
   __except1;
 #endif
   
@@ -473,18 +480,19 @@ GUI::init_multihead()
   TRACE_ENTER("GUI::init_multihead");
 
 #if defined(HAVE_GTK_MULTIHEAD)
-  init_gtk_multihead();
+  //  init_gtk_multihead();
 #elif defined(WIN32)
   init_win32_multihead();
 #endif
   if (num_heads == -1)
     {
       init_multihead_mem(1);
+
       heads[0].valid = false;
       heads[0].count = 0;
     }
 
-  //init_multihead_desktop();
+  init_multihead_desktop();
   TRACE_EXIT();
 }
 
@@ -516,7 +524,7 @@ void
 GUI::init_multihead_desktop()
 {
   TRACE_ENTER("GUI::init_multihead_desktop");
-  TRACE_MSG("width x height " << gdk_screen_width() << " " << gdk_screen_height());
+  TRACE_MSG("gdk width x height " << gdk_screen_width() << " " << gdk_screen_height());
     
   int width = 0;
   int height = 0;
@@ -534,7 +542,7 @@ GUI::init_multihead_desktop()
         }
 
       int w = heads[i].geometry.get_x() + heads[i].geometry.get_width();
-      int h = heads[i].geometry.get_y() + heads[i].geometry.get_width();
+      int h = heads[i].geometry.get_y() + heads[i].geometry.get_height();
 
       if (w > width)
         {
@@ -546,34 +554,163 @@ GUI::init_multihead_desktop()
         }
     }
 
+  TRACE_MSG("width x height " << width << " " << height);
   if (screen_width != width || screen_height != height)
     {
-      relocate_main_window(width, height);
+      if (main_window != NULL)
+        {
+          relocate_main_window(width, height);
+        }
       screen_width = width;
       screen_height = height;
     }
 }
 
+
+void
+GUI::locate_main_window()
+{
+  TRACE_ENTER("GUI::locate_main_window");
+  int x, y;
+  main_window->get_position(x, y);
+
+  TRACE_MSG("main window = " << x << " " << y);
+
+  if (x != main_window_relocated_location.get_x() ||
+      y != main_window_relocated_location.get_y())
+    {
+      // Only process movements that are user-initiated.
+      // If (x,y) == main_window_relocated_location then the move was initiated
+      // by workrave because a head was removed.
+
+      // Stores current location.
+      main_window_location.set_x(x);
+      main_window_location.set_y(y);
+      main_window->set_start_position(x, y);
+
+      if (x >= screen_width || y >= screen_height)
+        {
+          // location is outside visible screen, probably workrave was
+          // restarted with less heads than before it was terminated.
+
+          // Retrieve previous relative coords.
+          main_window->get_head_start_position(x, y);
+        }
+      else
+        {
+          // Determine location with current head.
+          // FIXME: only first head is used for relocation. for loop is breaked out...
+          for (int i = 0; i < num_heads; i++)
+            {
+              int left, top, width, height;
+              
+              if (!heads[i].valid)
+                {
+                  left = 0;
+                  top = 0;
+                  width = gdk_screen_width();
+                  height = gdk_screen_height();
+                }
+              else
+                {
+                  left = heads[i].geometry.get_x();
+                  top = heads[i].geometry.get_y();
+                  width = heads[i].geometry.get_width();
+                  height = heads[i].geometry.get_height();
+                }
+              
+              if (x >= left && y >= top && x < left + width && y < top + height)
+                {
+                  x -= left;
+                  y -= top;
+
+                  // Use coordinates relative to right and butto edges of the
+                  // screen if the mainwindow is closer to those edges than to
+                  // the left/top edges.
+                 
+                  if (x >= width / 2)
+                    {
+                      x -= width;
+                    }
+                  if (y >= height / 2)
+                    {
+                      y -= height;
+                    }
+                  break;
+                }
+            }
+        }
+
+      TRACE_MSG("main window head = " << x << " " << y);
+
+      // Stores location relative to origin of current head.
+      main_window_head_location.set_x(x);
+      main_window_head_location.set_y(y);
+      main_window->set_head_start_position(x, y);
+    }
+  TRACE_EXIT();
+}
+
+
 void
 GUI::relocate_main_window(int width, int height)
 {
   TRACE_ENTER_MSG("GUI::relocate_main_window", width << " " << height);
-  int x, y, w, h;
+  int x = main_window_location.get_x();
+  int y = main_window_location.get_y();
 
-  // Get main window geometry
-  GtkRequisition size;
-  main_window->size_request(&size);
-  main_window->get_position(x, y);
-  w = size.width;
-  h = size.height;
-
-  TRACE_MSG("main window = " << x << " " << y << " " << w << " " << h);
-
-  if (x + w >= width)
+  if (x <= width && y <= height)
     {
-      // relocate X.
+      TRACE_MSG(x << " " << y);
+      TRACE_MSG("fits");
+      main_window->set_position(Gtk::WIN_POS_NONE);
+      main_window->move(x, y);
     }
+  else
+    {
+      TRACE_MSG("move to differt head");
+      x = main_window_head_location.get_x();
+      y = main_window_head_location.get_y();
+
+      for (int i = 0; i < num_heads; i++)
+        {
+          if (heads[i].valid)
+            {
+              if (x < 0)
+                {
+                  x += heads[i].geometry.get_width();
+                }
+              if (y < 0)
+                {
+                  y += heads[i].geometry.get_height();
+                }
+              x += heads[i].geometry.get_x();
+              y += heads[i].geometry.get_y();
+
+              break;
+            }
+        }
+
+      if (x < 0)
+        {
+          x = 0;
+        }
+      if (y < 0)
+        {
+          y = 0;
+        }
+      
+      TRACE_MSG("move to " << x << " " << y);
+      main_window_relocated_location.set_x(x);
+      main_window_relocated_location.set_y(y);
+
+      main_window->set_position(Gtk::WIN_POS_NONE);
+      main_window->move(x, y);
+    }
+  
+  TRACE_EXIT();
 }
+
 
 #ifdef HAVE_GTK_MULTIHEAD
 void
@@ -732,7 +869,10 @@ GUI::init_gui()
 
   // The main status window.
   main_window = new MainWindow();
-
+  main_window->signal_configure_event().connect(SigC::slot(*this, &GUI::on_mainwindow_configure_event));
+  locate_main_window();
+  relocate_main_window(screen_width, screen_height);
+  
 #ifdef HAVE_X  
   // The applet window.
   applet_window = new AppletWindow();
@@ -1051,4 +1191,17 @@ GUI::on_activity()
       response->stop_prelude(active_break_id);
     }
   TRACE_EXIT();
+}
+
+
+bool
+GUI::on_mainwindow_configure_event(GdkEventConfigure *event)
+{
+  TRACE_ENTER("GUI::on_mainwindow_configure_event");
+  (void) event;
+
+  locate_main_window();
+  
+  TRACE_EXIT();
+  return true;
 }

@@ -9,6 +9,18 @@ http://www.workrave.org
 
 ** Some strings in the German translation were too long, fixed.
 
+** Added multihead support for Windows.
+
+** Improved suspend (to ram) support. Workrave now assumes that you
+are idle while suspended instead of assuming that no time passes.
+
+** Improved multihead support. The status window is now automatically
+relocated when the monitor on which it is displayed is removed. It
+moved back to its original location when the monitor returns.
+
+** Exercises navigation can now be used without causing Workrave to
+remove the break window and show the warning windows again.
+
 * Workrave 1.4.0
 
 ** Added exercises.
