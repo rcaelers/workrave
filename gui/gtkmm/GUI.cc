@@ -290,7 +290,7 @@ GUI::create_sound_player()
 #elif defined(HAVE_GNOME)
   snd = new GnomeSoundPlayer();
 #else
-#  error snd = new StubSoundPlayer()
+#  warning Sound card support disabled.
 #endif
   return snd;
 }
