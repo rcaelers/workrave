@@ -134,6 +134,12 @@ GUI::main()
 {
   TRACE_ENTER("GUI::main");
 
+  // Win32 needs this....
+  if (!g_thread_supported())
+    {
+      g_thread_init (NULL);
+    }
+  
   Gtk::Main kit(argc, argv);
 
   init_debug();
@@ -206,6 +212,12 @@ GUI::on_timer()
   return true;
 }
 
+#ifdef NDEBUG
+static void my_log_handler(const gchar *log_domain, GLogLevelFlags log_level,
+                           const gchar *message, gpointer user_data)
+{
+}
+#endif
 
 //! Initializes messages hooks.
 void
@@ -399,10 +411,4 @@ GUI::create_configurator()
   return configurator;
 }
 
-#ifdef NDEBUG
-static void my_log_handler(const gchar *log_domain, GLogLevelFlags log_level,
-                           const gchar *message, gpointer user_data)
-{
-}
-#endif
 

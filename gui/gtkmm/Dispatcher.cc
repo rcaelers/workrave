@@ -95,7 +95,7 @@ Dispatcher::create_thread_pipe()
   if (event_handle)
     {
       io_connection = Glib::signal_io().connect(SigC::slot_class(*this, &Dispatcher::io_handler),
-                                                (int)receive_fd,
+                                                (int)event_handle,
                                                 Glib::IO_IN);
 
       queue =  g_async_queue_new();
@@ -107,7 +107,7 @@ Dispatcher::create_thread_pipe()
 void
 Dispatcher::send_notification()
 {
-  Dispatch *data = new DispatchData();
+  DispatchData *data = new DispatchData();
 
   data->tag        = 0xdeadbeef;
 

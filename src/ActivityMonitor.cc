@@ -55,7 +55,8 @@ ActivityMonitor::ActivityMonitor(char *display) :
   prev_x(-1),
   prev_y(-1),
   click_x(-1),
-  click_y(-1)
+  click_y(-1),
+  listener(NULL)
 {
   TRACE_ENTER("ActivityMonitor::ActivityMonitor");
 
