@@ -143,7 +143,7 @@ ActivityStateMonitor::mouse_notify(int x, int y, int wheel_delta)
 
 
 void
-ActivityStateMonitor::button_notify(int button_mask)
+ActivityStateMonitor::button_notify(int button_mask, bool is_press)
 {
   lock.lock();
   if (click_x != -1)
@@ -158,7 +158,10 @@ ActivityStateMonitor::button_notify(int button_mask)
   click_y = prev_y;
   action_notify();
 
-  statistics.total_clicks++;
+  if (is_press)
+    {
+      statistics.total_clicks++;
+    }
   
   lock.unlock();
 }

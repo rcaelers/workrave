@@ -107,34 +107,38 @@ LRESULT CALLBACK
 Win32InputMonitor::mouse_hook(int code, WPARAM wparam, LPARAM lparam)
 {
   PMOUSEHOOKSTRUCTEX mhs = (PMOUSEHOOKSTRUCTEX) lparam;
-//    TRACE_ENTER_MSG("Win32InputMonitor::mouse_hook",
-//                    wparam << ", (" << mx
-//                    << ", " << my
-//                    << ", " << mw << ")");
-  switch (wparam)
+  //    TRACE_ENTER_MSG("Win32InputMonitor::mouse_hook",
+  //                    wparam << ", (" << mx
+  //                    << ", " << my
+  //                    << ", " << mw << ")");
+  if (code == HC_ACTION)
     {
-    case WM_LBUTTONDOWN:
-    case WM_MBUTTONDOWN:
-    case WM_RBUTTONDOWN:
-      if (code == HC_ACTION)
+      switch (wparam)
         {
-          listener->button_notify(0); // FIXME: proper parameter
+        case WM_LBUTTONDOWN:
+        case WM_MBUTTONDOWN:
+        case WM_RBUTTONDOWN:
+          listener->button_notify(0, true); // FIXME: proper parameter
           break;
+  
+        case WM_LBUTTONUP:
+        case WM_MBUTTONUP:
+        case WM_RBUTTONUP:
+          listener->button_notify(0, false); // FIXME: proper parameter
+          break;
+        
+        case WM_LBUTTONDBLCLK:
+        case WM_MBUTTONDBLCLK:
+        case WM_RBUTTONDBLCLK:
+          listener->action_notify();
+          break;
+        
+        default:
+          int mx = mhs->MOUSEHOOKSTRUCT.pt.x;
+          int my = mhs->MOUSEHOOKSTRUCT.pt.y;
+          int mw = wparam == WM_MOUSEWHEEL ? HIWORD(mhs->mouseData) : 0;
+          listener->mouse_notify(mx, my, mw);
         }
-    case WM_LBUTTONUP:
-    case WM_MBUTTONUP:
-    case WM_RBUTTONUP:
-    case WM_LBUTTONDBLCLK:
-    case WM_MBUTTONDBLCLK:
-    case WM_RBUTTONDBLCLK:
-      listener->action_notify();
-      break;
-      
-    default:
-      int mx = mhs->MOUSEHOOKSTRUCT.pt.x;
-      int my = mhs->MOUSEHOOKSTRUCT.pt.y;
-      int mw = wparam == WM_MOUSEWHEEL ? HIWORD(mhs->mouseData) : 0;
-      listener->mouse_notify(mx, my, mw);
     }
 }
 

@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-02-22 09:42:34 robc>
+// Time-stamp: <2003-03-04 18:58:16 pennersr>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -67,7 +67,7 @@ public:
   void mouse_notify(int x, int y, int wheel = 0);
 
   //! Mouse button activity is reported by the activity monitor.
-  void button_notify(int button_mask);
+  void button_notify(int button_mask, bool is_press);
 
   //! Keyboard activity is reported by the activity monitor.
   void keyboard_notify(int key_code, int modifier);
