@@ -250,7 +250,7 @@ StatisticsDialog::create_break_page(Gtk::Notebook *tnotebook)
   table->attach(*vrule, 1, 2, 10, 12, Gtk::SHRINK, Gtk::EXPAND | Gtk::FILL);
   y++;
 
-  daily_usage_label = new Gtk::Label();
+  daily_usage_label = manage(new Gtk::Label());
   
   GtkUtil::table_attach_right_aligned(*table, *usage_label, 0, y);
   GtkUtil::table_attach_right_aligned(*table, *daily_usage_label, 2, y++);
