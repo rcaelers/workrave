@@ -19,15 +19,15 @@ msgstr "Malaperas en"
 
 #: gui/BreakControl.cc:677
 msgid "Break in"
-msgstr "Æesu en"
+msgstr "Äˆesu en"
 
 #: gui/BreakControl.cc:681
 msgid "Silent in"
-msgstr "Silentiøu en"
+msgstr "SilentiÄu en"
 
 #: gui/GUIControl.cc:85 gui/gtkmm/MicroPauseWindow.cc:161
 msgid "Micro-pause"
-msgstr "Paızeto"
+msgstr "PaÅ­zeto"
 
 #: gui/GUIControl.cc:92
 msgid "Rest break"
@@ -39,7 +39,7 @@ msgstr "Taglimo"
 
 #: gui/GUIControl.cc:293
 msgid "Time for a micro-pause?"
-msgstr "Æu horo por paızeto?"
+msgstr "Äˆu horo por paÅ­zeto?"
 
 #: gui/GUIControl.cc:300
 msgid "You need a rest break..."
@@ -47,7 +47,7 @@ msgstr "Vi bezonas ripozon..."
 
 #: gui/GUIControl.cc:307
 msgid "You should stop for today..."
-msgstr "Vi devas halti por hodiaı..."
+msgstr "Vi devas halti por hodiaÅ­..."
 
 #: gui/Text.cc:75
 #, c-format
@@ -96,7 +96,7 @@ msgid ""
 "find something other to do, such as reviewing a document."
 msgstr ""
 "Vi atingis vian taga limo. Bonvolu halti laboron\n"
-"malantaı via komputilo.  Se via labortago ne ankoraı finiøis,\n"
+"malantaÅ­ via komputilo.  Se via labortago ne ankoraÅ­ finiÄis,\n"
 "trovu ion alian por fari, kiel revuado de dokumento."
 
 #: gui/gtkmm/DailyLimitWindow.cc:65 gui/gtkmm/MicroPauseWindow.cc:69
@@ -169,7 +169,7 @@ msgstr "Pri..."
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
-msgstr "Tiu æi programo helpas kun la malebligado kaj resaniøado de Ripetada Trostreæa Vundo (RSI)."
+msgstr "Tiu Ä‰i programo helpas kun la malebligado kaj resaniÄado de Ripetada TrostreÄ‰a Vundo (RSI)."
 
 #: gui/gtkmm/MicroPauseWindow.cc:183
 #, c-format
@@ -183,7 +183,7 @@ msgstr "Malfrua ripozo en %s"
 
 #: gui/gtkmm/MicroPauseWindow.cc:192
 msgid "Please relax for a few seconds"
-msgstr "Bonvolu trankviliøi por kelkaj sekundoj"
+msgstr "Bonvolu trankviliÄi por kelkaj sekundoj"
 
 #: gui/gtkmm/NetworkJoinDialog.cc:39
 msgid "Network connect"
@@ -219,7 +219,7 @@ msgstr "Reta protokolo"
 
 #: gui/gtkmm/NetworkPreferencePage.cc:70
 msgid "General"
-msgstr "Øenerala"
+msgstr "Äœenerala"
 
 #: gui/gtkmm/NetworkPreferencePage.cc:79
 msgid "Enable networking"
@@ -266,12 +266,12 @@ msgid ""
 "The following list specifies the hosts that Workrave connects to on\n"
 "start-up. Click the host name or port number to edit."
 msgstr ""
-"La sekvanta listo specifas la retnodoj kiu Workrave alkonektas æe\n"
-"startigo.  Klaku nomon de retnodo aı numero de pordo por şanøi."
+"La sekvanta listo specifas la retnodoj kiu Workrave alkonektas Ä‰e\n"
+"startigo.  Klaku nomon de retnodo aÅ­ numero de pordo por ÅanÄi."
 
 #: gui/gtkmm/PreferencesDialog.cc:62 gui/gtkmm/TimerPreferencesPanel.cc:236
 msgid "Timers"
-msgstr "Horloøoj"
+msgstr "HorloÄoj"
 
 #: gui/gtkmm/PreferencesDialog.cc:64
 msgid "User interface"
@@ -283,7 +283,7 @@ msgstr "Reto"
 
 #: gui/gtkmm/PreferencesDialog.cc:96
 msgid "The main window stays always on top of other windows"
-msgstr "La æefa fenestro æiam restas antaı ol la aliaj fenestroj"
+msgstr "La Ä‰efa fenestro Ä‰iam restas antaÅ­ ol la aliaj fenestroj"
 
 #: gui/gtkmm/PreferencesDialog.cc:105
 msgid "No sounds"
@@ -295,15 +295,15 @@ msgstr "Ludu sonojn uzante sonkarton"
 
 #: gui/gtkmm/PreferencesDialog.cc:109
 msgid "Play sounds using built-in speaker"
-msgstr "Ludu sonojn uzante en-komputila laıtparolilo"
+msgstr "Ludu sonojn uzante en-komputila laÅ­tparolilo"
 
 #: gui/gtkmm/PreferencesDialog.cc:127
 msgid "Hide main window at start-up"
-msgstr "Kaşu æefan fenestron æe startigo"
+msgstr "KaÅu Ä‰efan fenestron Ä‰e startigo"
 
 #: gui/gtkmm/PreferencesDialog.cc:146
 msgid "You can configure the user interface related settings from here."
-msgstr "Vi povas konfiguri la uzulajn inferfacajn agordojn de tie æi."
+msgstr "Vi povas konfiguri la uzulajn inferfacajn agordojn de tie Ä‰i."
 
 #: gui/gtkmm/PreferencesDialog.cc:161
 msgid ""
@@ -311,9 +311,9 @@ msgid ""
 "of time is broken down into hours, minutes and seconds (also known as\n"
 "the \"hh:mm:ss\" format).  These can all be controlled individually."
 msgstr ""
-"Tiu æi dialogo permesas vin şanøi agordojn de horloøoj.  Æiu unuo\n"
-"de tempo estas dispecigita al horoj, minutoj, kaj sekundoj (ankaı konata\n"
-"kiel \"hh:mm:ss\" formato).  Tiuj æi æiu povas esti kontrolata individue."
+"Tiu Ä‰i dialogo permesas vin ÅanÄi agordojn de horloÄoj.  Äˆiu unuo\n"
+"de tempo estas dispecigita al horoj, minutoj, kaj sekundoj (ankaÅ­ konata\n"
+"kiel \"hh:mm:ss\" formato).  Tiuj Ä‰i Ä‰iu povas esti kontrolata individue."
 
 #: gui/gtkmm/PreferencesDialog.cc:195
 msgid ""
@@ -321,9 +321,9 @@ msgid ""
 "instances share the same timer information, meaning you will be reminded\n"
 "of your breaks even if you switch computers."
 msgstr ""
-"Vi povas konekti kelkajn aliajn aperoj de Workrave en reto. Æiu konektita\n"
-"apero uzas la saman horloøan informon, signifante ke vi estos rememorigita\n"
-"de ripozoj eæ se vi komutas komputilojn."
+"Vi povas konekti kelkajn aliajn aperoj de Workrave en reto. Äˆiu konektita\n"
+"apero uzas la saman horloÄan informon, signifante ke vi estos rememorigita\n"
+"de ripozoj eÄ‰ se vi komutas komputilojn."
 
 #: gui/gtkmm/RestBreakWindow.cc:76
 msgid ""
@@ -331,10 +331,10 @@ msgid ""
 "walk away from your computer on a regular basis. Just\n"
 "walk around for a few minutes, stretch, and relax."
 msgstr ""
-"Tiu æi estas vian ripozon. Certigu ke vi starigi kaj\n"
+"Tiu Ä‰i estas vian ripozon. Certigu ke vi starigi kaj\n"
 "piediri for de via komputilo regulare. Nur\n"
-"piediru æirkaıe por iom da minutoj, streæu, kaj\n"
-"trankviliøu."
+"piediru Ä‰irkaÅ­e por iom da minutoj, streÄ‰u, kaj\n"
+"trankviliÄu."
 
 #: gui/gtkmm/RestBreakWindow.cc:258
 #, c-format
@@ -347,7 +347,7 @@ msgstr "Ripoza instigado"
 
 #: gui/gtkmm/TimerPreferencesPanel.cc:78
 msgid "Prompt before breaking"
-msgstr "Instigu antaı ol ripozi"
+msgstr "Instigu antaÅ­ ol ripozi"
 
 #: gui/gtkmm/TimerPreferencesPanel.cc:83
 msgid "Maximum number of prompts:"
@@ -363,7 +363,7 @@ msgstr "Bloku uzulan enigon"
 
 #: gui/gtkmm/TimerPreferencesPanel.cc:137
 msgid "Regard micro-pauses as activity"
-msgstr "Rigardu paızetoj kiel agado"
+msgstr "Rigardu paÅ­zetoj kiel agado"
 
 #: gui/gtkmm/TimerPreferencesPanel.cc:151
 msgid "Show 'Postpone' and 'Skip' button"
@@ -379,11 +379,11 @@ msgstr "Prokrasta tempo"
 
 #: gui/gtkmm/TimerPreferencesPanel.cc:197
 msgid "Resets at"
-msgstr "Reşargas je"
+msgstr "ReÅargas je"
 
 #: gui/gtkmm/TimerPreferencesPanel.cc:204
 msgid "Pause duration"
-msgstr "Daıro de paızo"
+msgstr "DaÅ­ro de paÅ­zo"
 
 #: gui/gtkmm/TimerPreferencesPanel.cc:215
 msgid "Time before break"
