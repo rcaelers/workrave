@@ -212,8 +212,8 @@ BreakWindow::avoid_pointer(int px, int py)
 #ifdef WIN32
   // This is only necessary for WIN32, since HAVE_X uses GdkEventCrossing.
   // Set gravitiy, otherwise, get_position() returns weird winy.
-  // set_gravity(Gdk::GRAVITY_STATIC); 
-  // get_position(winx, winy);
+  set_gravity(Gdk::GRAVITY_STATIC); 
+  get_position(winx, winy);
   TRACE_MSG("wx="<<winx<<",wy="<<winy<<",ww="<<width<<",wh="<<height);
   if (px < winx || px > winx+width || py < winy || py > winy+height)
     return;
@@ -276,12 +276,12 @@ BreakWindow::on_avoid_pointer_timer()
 {
   TRACE_ENTER("BreakWindow::on_avoid_pointer_timer");
 
-  Glib::RefPtr<Gdk::Window> window = get_window();
-  GdkWindow *gdk_window = window->gobj();
-  gint x, y;
-  GdkModifierType mod;
-  GdkWindow *w = gdk_window_get_pointer(gdk_window, &x, &y, &mod);
-  avoid_pointer(x, y);
+  // gdk_window_get_pointer is not reliable.
+  POINT p;
+  if (GetCursorPos(&p))
+    {
+      avoid_pointer(p.x, p.y);
+    }
   return true;
 }
 
