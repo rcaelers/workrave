@@ -88,6 +88,33 @@ BreakControl::heartbeat()
 {
   TRACE_ENTER("BreakControl::heartbeat");
 
+#ifdef CRASHTEST
+  static int count = 0;
+
+  if (break_id == GUIControl::BREAK_ID_MICRO_PAUSE)
+    {
+      if (count % 3 == 0)
+        {
+          TRACE_MSG("starting");
+          break_window_start();
+        }
+      else if (count % 3 == 1)
+        {
+          TRACE_MSG("stop");
+          break_window->stop();
+        }
+      else if (count % 3 == 2)
+        {
+          TRACE_MSG("destroy");
+          assert(break_window != NULL);
+          break_window->destroy();
+          break_window = NULL;
+        }
+      count++;
+    }
+  return;
+#endif
+  
   collect_garbage();
   
   prelude_time++;
@@ -423,10 +450,14 @@ BreakControl::set_prelude_text(string text)
 bool
 BreakControl::need_heartbeat()
 {
+#ifdef CRASHTEST
+  return true;
+#else  
   return
     break_window_destroy ||
     prelude_window_destroy ||
     ( break_stage != STAGE_NONE && break_stage != STAGE_SNOOZED );
+#endif
 }
 
 
@@ -580,9 +611,11 @@ BreakControl::break_window_stop()
   if (break_window != NULL)
     {
       break_window->stop();
+#ifndef WIN32      
       break_window_destroy = true;
       delay_window_destroy = true;
       TRACE_MSG("marking for delay destroy");
+#endif      
     }
   TRACE_EXIT();
 }
@@ -631,9 +664,11 @@ BreakControl::prelude_window_stop()
   if (prelude_window != NULL)
     {
       prelude_window->stop();
+#ifndef WIN32      
       prelude_window_destroy = true;
       delay_window_destroy = true;
       TRACE_MSG("marking for delay destroy");
+#endif
     }
   TRACE_EXIT();
 }

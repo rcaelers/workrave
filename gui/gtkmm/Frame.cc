@@ -29,6 +29,10 @@ Frame::Frame()
 
 Frame::~Frame()
 {
+  if (flash_signal.connected())
+    {
+      flash_signal.disconnect();
+    }
   // FIXME: delete gc?
 }
 

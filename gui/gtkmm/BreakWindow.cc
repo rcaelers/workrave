@@ -81,6 +81,10 @@ BreakWindow::set_border_width(guint width)
 BreakWindow::~BreakWindow()
 {
   TRACE_ENTER("BreakWindow::~BreakWindow");
+  if (avoid_signal.connected())
+    {
+      avoid_signal.disconnect();
+    }
   ungrab();
   TRACE_EXIT();
 }
