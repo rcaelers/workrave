@@ -84,8 +84,10 @@ PreferencesDialog::PreferencesDialog()
   get_vbox()->pack_start(*notebook, false, false, 0);
   add_button(Gtk::Stock::CLOSE, Gtk::RESPONSE_CLOSE);
 
+  GUIControl *gui_control = GUIControl::get_instance();
+  mode = gui_control->get_operation_mode();
+  
   show_all();
-
 
   TRACE_EXIT();
 }
@@ -95,6 +97,10 @@ PreferencesDialog::PreferencesDialog()
 PreferencesDialog::~PreferencesDialog()
 {
   TRACE_ENTER("PreferencesDialog::~PreferencesDialog");
+
+  GUIControl *gui_control = GUIControl::get_instance();
+  gui_control->set_operation_mode(mode);
+
   TRACE_EXIT();
 }
 
