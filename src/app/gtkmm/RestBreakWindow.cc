@@ -250,6 +250,10 @@ RestBreakWindow::set_ignore_activity(bool i)
   BreakInterface *bi = core->get_break(BREAK_ID_REST_BREAK);
   assert(bi != NULL);
 
-  bi->set_insist_policy(i ? BreakInterface::INSIST_POLICY_IGNORE : BreakInterface::INSIST_POLICY_HALT);
+  bi->set_insist_policy(i ?
+                        BreakInterface::INSIST_POLICY_IGNORE :
+                        (insist_break ?
+                         BreakInterface::INSIST_POLICY_HALT :
+                         BreakInterface::INSIST_POLICY_RESET));
 }
 #endif

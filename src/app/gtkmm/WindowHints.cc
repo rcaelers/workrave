@@ -165,9 +165,13 @@ WindowHints::grab(GdkWindow *gdkWindow)
 
   // Grab pointer
   GdkGrabStatus pointerGrabStatus;
-  pointerGrabStatus = gdk_pointer_grab(gdkWindow, TRUE, GDK_BUTTON_PRESS_MASK, NULL, NULL, GDK_CURRENT_TIME);
+  pointerGrabStatus = gdk_pointer_grab(gdkWindow,
+                                       TRUE,
+                                       (GdkEventMask) (GDK_BUTTON_RELEASE_MASK |
+                                                       GDK_BUTTON_PRESS_MASK |
+                                                       GDK_POINTER_MOTION_MASK),
+                                       NULL, NULL, GDK_CURRENT_TIME);
 
-  
   if (pointerGrabStatus == GDK_GRAB_SUCCESS
       && keybGrabStatus == GDK_GRAB_SUCCESS)
     {

@@ -40,6 +40,9 @@ static const char rcsid[] = "$Id$";
 #include "Statistics.hh"
 #include "BreakControl.hh"
 #include "Timer.hh"
+#include "TimePredFactory.hh"
+#include "TimePred.hh"
+#include "TimeSource.hh"
 
 #ifdef HAVE_DISTRIBUTION
 #include "DistributionManager.hh"
@@ -64,27 +67,6 @@ const string Core::CFG_KEY_MONITOR_NOISE = "monitor/noise";
 const string Core::CFG_KEY_MONITOR_ACTIVITY = "monitor/activity";
 const string Core::CFG_KEY_MONITOR_IDLE = "monitor/idle";
 
-#if 0
-static char *check_config_keys[] =
-  {
-const string Break::CFG_KEY_TIMER_PREFIX = "timers/";
-
-const string Break::CFG_KEY_TIMER_LIMIT = "/limit";
-const string Break::CFG_KEY_TIMER_AUTO_RESET = "/auto_reset";
-const string Break::CFG_KEY_TIMER_RESET_PRED = "/reset_pred";
-const string Break::CFG_KEY_TIMER_SNOOZE = "/snooze";
-const string Break::CFG_KEY_TIMER_MONITOR = "/monitor";
-
-const string Break::CFG_KEY_BREAK_PREFIX = "gui/breaks/";
-
-const string Break::CFG_KEY_BREAK_MAX_PRELUDES = "/max_preludes";
-const string Break::CFG_KEY_BREAK_FORCE_AFTER_PRELUDES = "/force_after_preludes";
-const string Break::CFG_KEY_BREAK_IGNORABLE = "/ignorable_break";
-const string Break::CFG_KEY_BREAK_INSISTING = "/insist_break";
-const string Break::CFG_KEY_BREAK_ENABLED = "/enabled";
-const string Break::CFG_KEY_BREAK_EXERCISES = "/exercises";
-  };
-#endif
 
 //! Constructs a new Core.
 Core::Core() :
@@ -176,7 +158,7 @@ Core::init(int argc, char **argv, AppInterface *app, char *display_name)
 #endif
 
   init_breaks();
-  init_staticstics();
+  init_statistics();
 
   load_state();
 }
@@ -275,10 +257,19 @@ Core::init_distribution_manager()
 
 //! Initializes the statistics.
 void
-Core::init_staticstics()
+Core::init_statistics()
 {
   statistics = new Statistics();
+
+  Break &b = breaks[BREAK_ID_DAILY_LIMIT];
+  TimePred *predicate = TimePredFactory::create_time_pred(b.get_timer_reset_pred());
+
+  configurator->add_listener(Break::CFG_KEY_TIMER_PREFIX +
+                             breaks[BREAK_ID_DAILY_LIMIT].get_name() +
+                             Break::CFG_KEY_TIMER_RESET_PRED, this);
+  
   statistics->init(this);
+  statistics->set_reset_predicate(predicate);
 }
 
 
@@ -320,7 +311,21 @@ Core::config_changed_notify(string key)
 {
   string::size_type pos = key.find('/');
   string path;
-  
+
+  if (key == ( Break::CFG_KEY_TIMER_PREFIX +
+               breaks[BREAK_ID_DAILY_LIMIT].get_name() +
+               Break::CFG_KEY_TIMER_RESET_PRED))
+      {
+
+        Break &b = breaks[BREAK_ID_DAILY_LIMIT];
+        TimePred *predicate = TimePredFactory::create_time_pred(b.get_timer_reset_pred());
+
+        if (statistics != NULL)
+          {
+            statistics->set_reset_predicate(predicate);
+          }
+      }
+      
   if (pos != string::npos)
     {
       path = key.substr(0, pos);
@@ -542,7 +547,7 @@ Core::update_statistics()
 {
   static int count = 0;
 
-  if (count % 60 == 0)
+  if (count % 30 == 0)
     {
       statistics->update();
     }
@@ -572,18 +577,18 @@ Core::heartbeat()
       if (breaks[i].is_enabled())
         {
           timer_action((BreakId)i, info);
-          
-          if (i == BREAK_ID_DAILY_LIMIT)
-            {
-              if (info.event == TIMER_EVENT_NATURAL_RESET ||
-                  info.event == TIMER_EVENT_RESET)
-                {
-                  statistics->set_counter(Statistics::STATS_VALUE_TOTAL_ACTIVE_TIME, info.elapsed_time);
-                  statistics->start_new_day();
+          // OBSOLETE          
+//           if (i == BREAK_ID_DAILY_LIMIT)
+//             {
+//               if (info.event == TIMER_EVENT_NATURAL_RESET ||
+//                   info.event == TIMER_EVENT_RESET)
+//                 {
+//                   statistics->set_counter(Statistics::STATS_VALUE_TOTAL_ACTIVE_TIME, info.elapsed_time);
+//                   statistics->start_new_day();
                   
-                  daily_reset();
-                }
-            }
+//                   daily_reset();
+//                 }
+//             }
         }
 
     }

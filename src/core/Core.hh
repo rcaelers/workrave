@@ -129,7 +129,7 @@ private:
   void init_configurator();
   void init_monitor(char *display_name);
   void init_distribution_manager();
-  void init_staticstics();
+  void init_statistics();
   void load_monitor_config();
   void config_changed_notify(string key);
   void update_statistics();

@@ -164,7 +164,7 @@ public:
   int compute_idle_time();
 
 private:
-  void update_idlelog(ClientInfo &info, ActivityState state, bool changed);
+  void update_idlelog(ClientInfo &info, ActivityState state, bool master);
   void expire();
   void expire(ClientInfo &info);
 
@@ -182,7 +182,8 @@ private:
   void save();
   void load();
   void update_idlelog(ClientInfo &info, const IdleInterval &idle);
-  
+
+  void fix_idlelog(ClientInfo &info);
   void dump_idlelog(ClientInfo &info);
 };
 

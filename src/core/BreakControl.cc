@@ -692,16 +692,17 @@ BreakControl::freeze()
 {
   TRACE_ENTER_MSG("BreakControl::freeze", insist_policy);
   BreakInterface::InsistPolicy policy = insist_policy;
-  
-  if (!insist_break)
-    {
-      // This break does not user input. When the user moves the mouse,
-      // we timer should start running... this is a hack...
-      if (policy == BreakInterface::INSIST_POLICY_HALT)
-        {
-          policy = BreakInterface::INSIST_POLICY_RESET;
-        }
-    }
+
+  // OBSOLETE (i hope)
+//   if (!insist_break)
+//     {
+//       // This break does not user input. When the user moves the mouse,
+//       // we timer should start running... this is a hack...
+//       if (policy == BreakInterface::INSIST_POLICY_HALT)
+//         {
+//           policy = BreakInterface::INSIST_POLICY_RESET;
+//         }
+//     }
   
   
   switch (policy)

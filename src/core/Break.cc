@@ -505,9 +505,9 @@ Break::set_break_enabled(bool b)
 
 
 bool
-Break::startsWith(string &key, string prefix, string &name)
+Break::starts_with(string &key, string prefix, string &name)
 {
-  TRACE_ENTER_MSG("Break::startsWith", key << " " << prefix);
+  TRACE_ENTER_MSG("Break::starts_with", key << " " << prefix);
   bool ret = false;
   
   // Search prefix (just in case some Configurator added a leading /)
@@ -540,12 +540,12 @@ Break::config_changed_notify(string key)
   TRACE_ENTER_MSG("Break::config_changed_notify", key);
   string name;
 
-  if (startsWith(key, CFG_KEY_BREAK_PREFIX, name))
+  if (starts_with(key, CFG_KEY_BREAK_PREFIX, name))
     {
       TRACE_MSG("break: " << name);
       load_break_control_config();
     }
-  else if (startsWith(key, CFG_KEY_TIMER_PREFIX, name))
+  else if (starts_with(key, CFG_KEY_TIMER_PREFIX, name))
     {
       TRACE_MSG("timer: " << name);
       load_timer_config();

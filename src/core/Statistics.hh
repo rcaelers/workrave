@@ -24,6 +24,7 @@
 #include <vector>
 #include <time.h>
 
+class TimePred;
 class BreakInterface;
 class TimerInterface;
 class PacketBuffer;
@@ -105,6 +106,7 @@ public:
 
 public:
   void init(Core *core);
+  void set_reset_predicate(TimePred *predicate);
   void update();
   void dump();
   void start_new_day();
@@ -146,8 +148,6 @@ private:
 #endif
   
 private:
-
-  
   //! Interface to the core_control.
   Core *core;
   
@@ -156,6 +156,9 @@ private:
 
   //! History
   vector<DailyStatsImpl *> history;
+
+  //! Predicate that indicates when the stats need to be reset
+  TimePred *reset_predicate;
 };
 
 #endif // STATISTICS_HH

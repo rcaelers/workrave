@@ -70,11 +70,8 @@ IdleLogManager::update_all_idlelogs(string master_id, ActivityState current_stat
           master = true;
         }
 
-      // Did the state/master status change?
-      bool changed = (state != info.state || master != info.master);
-
       // Update history.
-      update_idlelog(info, state, changed);
+      update_idlelog(info, state, master);
 
       // Remember current state/master status.
       info.master = master;
@@ -185,9 +182,12 @@ IdleLogManager::expire(ClientInfo &info)
 
 //! Update the idle log of a single client.
 void
-IdleLogManager::update_idlelog(ClientInfo &info, ActivityState state, bool changed)
+IdleLogManager::update_idlelog(ClientInfo &info, ActivityState state, bool master)
 {
-  TRACE_ENTER_MSG("IdleLogManager::update_idlelog", ((int)state) << " " << changed);
+  TRACE_ENTER_MSG("IdleLogManager::update_idlelog", ((int)state) << " " << master);
+  
+  // Did the state/master status change?
+  bool changed = state != info.state; // RC: removed... || master != info.master;
 
   int current_time = time_source->get_time();
   IdleInterval *idle = &(info.idlelog.front());
@@ -196,11 +196,17 @@ IdleLogManager::update_idlelog(ClientInfo &info, ActivityState state, bool chang
     {
       if (changed)
         {
+          // State changed from active to idle:
+
+          // update active time of last interval.
           info.update(current_time);
+
+          // create a new (empty) idle interval.
           info.idlelog.push_front(IdleInterval(current_time, current_time));
         }
       else
         {
+          // State remained idle. Update end time of idle interval.
           idle->end_time = current_time;
         }
     }
@@ -208,6 +214,8 @@ IdleLogManager::update_idlelog(ClientInfo &info, ActivityState state, bool chang
     {
       if (changed)
         {
+          // State changed from idle to active:
+          
           idle->end_time = current_time;
 
           int total_idle = idle->end_time - idle->begin_time;
@@ -229,6 +237,7 @@ IdleLogManager::update_idlelog(ClientInfo &info, ActivityState state, bool chang
         }
       else if (info.last_active_begin_time != 0)
         {
+          // State remained active.
           info.last_active_time = current_time - info.last_active_begin_time;
         }
     }
@@ -303,7 +312,6 @@ IdleLogManager::compute_active_time(int length)
   bool stop = false;
 
   // Begin and End time of idle perdiod.
-  time_t begin_time = -1;
   time_t end_time = -1;
   
   while (!stop)
@@ -331,6 +339,7 @@ IdleLogManager::compute_active_time(int length)
           IdleInterval &ii = *(iterators[last_iter]);
           if (at_end[last_iter])
             {
+              TRACE_MSG("End time " << ii.end_time << " active " << ii.active_time);
               idle_count++;
               
               at_end[last_iter] = false;
@@ -339,14 +348,15 @@ IdleLogManager::compute_active_time(int length)
             }
           else
             {
+              TRACE_MSG("Begin time " << ii.begin_time);
+
               at_end[last_iter] = true;
               iterators[last_iter]++;
-              begin_time = ii.begin_time;
               
               if (idle_count == size)
                 {
-                  TRACE_MSG("Common idle period of " << (end_time - begin_time));
-                  if ((end_time - begin_time) > length)
+                  TRACE_MSG("Common idle period of " << (end_time - ii.begin_time));
+                  if ((end_time - ii.begin_time) > length)
                     {
                       stop = true;
                     }
@@ -364,7 +374,7 @@ IdleLogManager::compute_active_time(int length)
   int total_active_time = 0;
   for (int i = 0; i < size; i++)
     {
-      TRACE_MSG(i << " " << active_time[i]);
+      TRACE_MSG("active time of " << i << " = " << active_time[i]);
       total_active_time += active_time[i];
     }
 
@@ -673,8 +683,8 @@ IdleLogManager::load_idlelog(ClientInfo &info)
     {
       if (num_intervals > IDLELOG_MAXSIZE)
         {
-          TRACE_MSG("Skipping " << (IDLELOG_MAXSIZE - num_intervals) << " intervals");
-          int skip = (IDLELOG_MAXSIZE - num_intervals) * IDLELOG_INTERVAL_SIZE;
+          TRACE_MSG("Skipping " << (num_intervals - IDLELOG_MAXSIZE) << " intervals");
+          int skip = (num_intervals - IDLELOG_MAXSIZE) * IDLELOG_INTERVAL_SIZE;
           file.seekg(skip);
           size -= skip;
           num_intervals = IDLELOG_MAXSIZE;
@@ -702,7 +712,10 @@ IdleLogManager::load_idlelog(ClientInfo &info)
       IdleInterval &idle = info.idlelog.back();
       idle.begin_time = 1;
     }
+
   dump_idlelog(info);
+//   fix_idlelog(info);
+//   dump_idlelog(info);
   TRACE_EXIT();
 }
 
@@ -802,6 +815,7 @@ IdleLogManager::set_idlelog(PacketBuffer &buffer)
       clients[info.client_id].idlelog.push_back(idle);
     }
 
+//   fix_idlelog(info);
   save_index();
   save_idlelog(clients[info.client_id]);
   
@@ -846,7 +860,7 @@ void
 IdleLogManager::dump_idlelog(ClientInfo &info)
 {
   (void) info;
-#if 0
+#if 1
 #ifndef WIN32  
   TRACE_ENTER("IdleLogManager::dump_idlelog");
 
@@ -877,4 +891,64 @@ IdleLogManager::dump_idlelog(ClientInfo &info)
   TRACE_EXIT();
 #endif
 #endif
+}
+
+void
+IdleLogManager::fix_idlelog(ClientInfo &info)
+{
+  TRACE_ENTER("IdleLogManager::fix_idlelog");
+  
+  int current_time = time_source->get_time();
+  info.update(current_time);
+
+  time_t next_time = -1;
+
+  for (IdleLogRIter i = info.idlelog.rbegin(); i != info.idlelog.rend(); i++)
+    {
+      IdleInterval &idle = *i;
+
+      TRACE_MSG(idle.begin_time << " " << idle.end_time << " " << idle.active_time);
+
+      if (next_time == -1)
+        {
+          if (idle.begin_time != 1)
+            {
+              TRACE_MSG("Fixing first start time. setting to 1");
+              idle.begin_time = 1;
+            }
+        }
+      else
+        {
+          if (idle.begin_time != next_time || idle.begin_time == 1)
+            {
+              TRACE_MSG("Fixing start time. setting from "
+                        << idle.begin_time << " to "
+                        << next_time);
+              idle.begin_time = next_time;
+            }
+        }
+
+      next_time = idle.end_time + idle.active_time;
+    }
+
+  if (info.idlelog.size() > 0)
+    {
+      IdleInterval &idle = info.idlelog.front();
+      if (idle.active_time == 0)
+        {
+          TRACE_MSG("Setting last end time from "
+                    << idle.end_time << " to "
+                    << current_time);
+          
+          idle.end_time = current_time;
+        }
+      else
+        {
+          TRACE_MSG("Added last begin= " << next_time << " end=" << current_time);
+          
+          info.idlelog.push_front(IdleInterval(next_time, current_time));
+        }
+    }
+  
+  TRACE_EXIT();
 }

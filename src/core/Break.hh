@@ -106,9 +106,9 @@ private:
   void update_break_config();
   void load_break_control_config();
 
-  bool startsWith(string &key, string prefix, string &timer_name);
+  bool starts_with(string &key, string prefix, string &timer_name);
   
-private:
+public:
   static const string CFG_KEY_TIMER_PREFIX;
   
   static const string CFG_KEY_TIMER_LIMIT;

@@ -70,13 +70,19 @@ protected:
   
   //! Information about the (multi)head.
   HeadInfo head;
-  
+
+  //! Insist
+  bool insist_break;
+
+  //! Ignorable
+  bool ignorable_break;
+
 private:
   Gtk::Button *create_skip_button();
   Gtk::Button *create_postpone_button();
   Gtk::Button *create_lock_button();
   Gtk::Button *create_shutdown_button();
-
+  
 #if defined(HAVE_X)
   bool on_grab_retry_timer();
 #endif
@@ -86,12 +92,6 @@ private:
   //! Do we want a keyboard/pointer grab
   bool grab_wanted;
 #endif
-
-  //! Insist
-  bool insist_break;
-
-  //! Ignorable
-  bool ignorable_break;
 
   //! Grab
   WindowHints::Grab *grab_handle;
