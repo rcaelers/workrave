@@ -453,7 +453,7 @@ if test "x$GTKMM_LIBS" != "x"; then
 fi
 
 if test "x$config_with_text" = "xyes"; then
-   GUI_LIBS="../gui/gtkmm/libtextgui.a $GUI_LIBS"
+   GUI_LIBS="../gui/text/libtextgui.a $GUI_LIBS"
 fi
         
 AC_SUBST(GUI_LIBS)
