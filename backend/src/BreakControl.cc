@@ -783,13 +783,16 @@ BreakControl::set_state_data(bool active, const BreakStateData &data)
 	    " force ignorable break = " << reached_max_postpone <<
             " time = " << data.prelude_time);
   
-  application->hide_break_window();
+  // TODO: check application->hide_break_window();
 
   user_initiated = data.user_initiated;
   prelude_count = data.prelude_count;
   prelude_time = data.prelude_time;
   postponable_count = data.postponable_count;
 
+  //TODO:
+  return;
+    
   BreakStage new_break_stage = (BreakStage) data.break_stage;
   
   if (new_break_stage == STAGE_TAKING)

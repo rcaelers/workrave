@@ -592,7 +592,7 @@ Core::heartbeat()
       TRACE_MSG("new_master changed = " << new_master_node);
       if (!master_node)
         {
-          stop_all_breaks();
+          // TODO: check stop_all_breaks();
         }
     }
 #endif
@@ -620,7 +620,6 @@ Core::process_timers(TimerInfo *infos)
   TRACE_ENTER("Core::process_timers");
   static int count = 0;
 
-  
   // Retrieve State.
   ActivityState state = monitor->get_current_state();
 
@@ -674,7 +673,8 @@ Core::process_timers(TimerInfo *infos)
 
   // Distribute monitor state if we are master and the
   // state has changed.
-  if (master_node && monitor_state != state)
+  TRACE_MSG("monitor state " << new_master_node << " " << state << " " << monitor_state);
+  if (new_master_node && monitor_state != state)
     {
       PacketBuffer buffer;
       buffer.create();
@@ -683,17 +683,16 @@ Core::process_timers(TimerInfo *infos)
       buffer.pack_ushort(state);
       
       dist_manager->broadcast_client_message(DCM_MONITOR, buffer);
+      monitor_state = state;
     }
   
-  monitor_state = state;
-
   // 
-  if (!master_node)
+  if (!new_master_node)
     {
       state = remote_state;
     }
 
-  TRACE_MSG(master_node << " " << state << " " << monitor_state << " " << remote_state);
+  TRACE_MSG("process states " << master_node << " " << state << " " << monitor_state << " " << remote_state);
 
   // Update our idle history.
   idlelog_manager->update_all_idlelogs(dist_manager->get_master_id(), state);
@@ -1404,6 +1403,7 @@ Core::set_monitor_state(bool master, PacketBuffer &buffer)
     {
       buffer.unpack_ushort();
       remote_state = (ActivityState) buffer.unpack_ushort();
+      TRACE_MSG(remote_state);
     }
   
   TRACE_EXIT();
