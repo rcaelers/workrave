@@ -61,7 +61,6 @@ registry_get_value(const char *path, const char *name,
 {
   HKEY handle;
   bool rc = false;
-  DWORD disp;
   LONG err;
 
   err = RegOpenKeyEx(HKEY_CURRENT_USER, path, 0, KEY_ALL_ACCESS, &handle);

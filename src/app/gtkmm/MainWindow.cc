@@ -498,7 +498,7 @@ MainWindow::win32_init()
       WIN32_MAIN_CLASS_NAME,
       NULL
     };
-  ATOM atom = RegisterClassEx(&wclass);
+  /* ATOM atom = */ RegisterClassEx(&wclass);
 
   win32_main_hwnd = CreateWindowEx(WS_EX_TOOLWINDOW,
                                    WIN32_MAIN_CLASS_NAME,
