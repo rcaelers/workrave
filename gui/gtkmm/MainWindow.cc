@@ -143,7 +143,9 @@ MainWindow::init()
   stick();
 
   Glib::RefPtr<Gdk::Window> window = get_window();
+#ifdef WIN32
   window->set_functions(Gdk::FUNC_CLOSE|Gdk::FUNC_MOVE);
+#endif
   // WindowHints::set_tool_window(Gtk::Widget::gobj(), true);
   WindowHints::set_skip_winlist(Gtk::Widget::gobj(), true);
 

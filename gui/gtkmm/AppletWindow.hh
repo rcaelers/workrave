@@ -88,16 +88,25 @@ private:
 
   Gtk::EventBox *eventbox;
   Gtk::Alignment *frame;
+
+  //!
+  int number_of_timers;
   
   //! Breaks to show in applet.
   bool show_break[GUIControl::BREAK_ID_SIZEOF];
 
   //! Allign break vertically.
-  bool vertical;
+  bool applet_vertical;
 
   //!
   int applet_size;
+
+  //!
+  int applet_width;
   
+  //!
+  int applet_height;
+
   //! Applet enabled?
   bool applet_enabled;
 
