@@ -387,8 +387,9 @@ bool
 BreakControl::need_heartbeat()
 {
   return
-    break_stage != STAGE_NONE &&
-    break_stage != STAGE_SNOOZED; 
+    break_window_destroy ||
+    prelude_window_destroy ||
+    ( break_stage != STAGE_NONE && break_stage != STAGE_SNOOZED );
 }
 
 
@@ -538,12 +539,15 @@ BreakControl::break_window_start()
 void
 BreakControl::break_window_stop()
 {
+  TRACE_ENTER("BreakControl::break_window_stop");
   if (break_window != NULL)
     {
       break_window->stop();
       break_window_destroy = true;
       delay_window_destroy = true;
+      TRACE_MSG("marking for delay destroy");
     }
+  TRACE_EXIT();
 }
 
 
@@ -586,12 +590,15 @@ BreakControl::prelude_window_start()
 void
 BreakControl::prelude_window_stop()
 {
+  TRACE_ENTER("BreakControl::prelude_window_stop");
   if (prelude_window != NULL)
     {
       prelude_window->stop();
       prelude_window_destroy = true;
       delay_window_destroy = true;
+      TRACE_MSG("marking for delay destroy");
     }
+  TRACE_EXIT();
 }
 
 
@@ -599,14 +606,18 @@ BreakControl::prelude_window_stop()
 void
 BreakControl::collect_garbage()
 {
+  TRACE_ENTER("BreakControl::collect_garbage");
+  
   if (delay_window_destroy)
     {
+      TRACE_MSG("Delayed");
       delay_window_destroy = false;
     }
   else
     {
       if (prelude_window_destroy)
         {
+          TRACE_MSG("Destroying prelude");
           prelude_window->destroy();
           prelude_window = NULL;
           prelude_window_destroy = false;
@@ -614,11 +625,13 @@ BreakControl::collect_garbage()
   
       if (break_window_destroy)
         {
+          TRACE_MSG("Destroying break");
           break_window->destroy();
           break_window = NULL;
           break_window_destroy = false;
         }
     }
+  TRACE_EXIT();
 }
 
 
