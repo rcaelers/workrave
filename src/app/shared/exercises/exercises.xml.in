@@ -113,9 +113,9 @@
   <exercise>
     <_title>Turn your head</_title>
     <_description>Turn your head left and keep it there for 2 seconds. Then turn your head right and keep it there for 2 seconds.</_description>
-    <sequence duration="20">
-       <image src="turn-head-1.png" duration="2"/>
-       <image src="turn-head-2.png" duration="2"/>
+    <sequence duration="24">
+       <image src="turn-head-1.png" duration="3"/>
+       <image src="turn-head-2.png" duration="3"/>
     </sequence>
   </exercise>
 <!--
