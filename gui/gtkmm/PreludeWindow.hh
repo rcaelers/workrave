@@ -3,8 +3,6 @@
 // Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-09-11 22:35:14 robc>
-//
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
@@ -44,6 +42,7 @@ public:
   void set_progress(int value, int max_value);
   void set_text(string text);
   void set_frame(int stage);
+  void set_progress_text(string text);
   
 private:  
   //! Time bar
@@ -63,6 +62,9 @@ private:
 
   //! Icon
   Gtk::Image *image_icon;
+
+  //! Final prelude
+  string progress_text;
 };
 
 #endif // PRELUDEWINDOW_HH

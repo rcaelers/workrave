@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-09-14 13:17:03 pennersr>
+// Time-stamp: <2002-09-21 23:53:41 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -69,7 +69,7 @@ public:
   
   // Internal public methods
   void restbreak_now();
-  void set_quiet(bool quiet);
+  void set_operation_mode(GUIControl::OperationMode mode);
   void terminate();
   
 private:

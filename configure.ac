@@ -390,32 +390,25 @@ if test "$config_cwd_debug" = yes; then
 fi
 
           
-GUI_DIRS=""
 GUI_LIBS=""
 GUI_CFLAGS="-I \$(top_srcdir)/gui"
                
 if test "x$GTKMM_LIBS" != "x"; then
-   GUI_DIRS="gtkmm $GUI_DIRS" 
    GUI_LIBS="../gui/gtkmm/libgtkmmgui.a $GUI_LIBS"
 fi
-AC_SUBST(GUI_DIRS)
 AC_SUBST(GUI_LIBS)
 AC_SUBST(GUI_CFLAGS)
 
 dnl FIXME: automate
-ARCH_DIRS="" 
 ARCH_LIBS="../arch/libarch.a"
 ARCH_CFLAGS="-I \$(top_srcdir)/arch"
 
 if test "x$platform_win32" = "xyes"; then
-   ARCH_DIRS="win32 $ARCH_DIRS";
    ARCH_LIBS="$ARCH_LIBS ../arch/win32/libarchwin32.a"
    ARCH_CFLAGS="$ARCH_CFLAGS -I \$(top_srcdir)/arch/win32"
 else
-   ARCH_DIRS="unix $ARCH_DIRS";
    ARCH_LIBS="$ARCH_LIBS ../arch/unix/libarchunix.a"
    ARCH_CFLAGS="$ARCH_CFLAGS -I \$(top_srcdir)/arch/unix"
-        
 fi   
                                         
 AC_SUBST(ARCH_DIRS)
@@ -459,5 +452,8 @@ AM_CONDITIONAL(HAVE_GDOME, test "x$GDOME_LIB" != "x")
 AM_CONDITIONAL(HAVE_GNOME, test "x$config_with_gnome" = "xyes")
 AM_CONDITIONAL(HAVE_REGISTRY, test "x$config_with_registry" = "xyes")
 AM_CONDITIONAL(NDEBUG, test "x$config_debug" != "xyes")
-                           
+AM_CONDITIONAL(HAVE_ARCH_WIN32, test "x$platform_win32" = "xyes")
+AM_CONDITIONAL(HAVE_ARCH_UNIX, test "x$platform_win32" != "xyes")
+AM_CONDITIONAL(HAVE_GUI_GTKMM, test "x$GTKMM_LIBS" != "x")
+                                                           
 AC_OUTPUT(src/Makefile arch/Makefile arch/unix/Makefile arch/win32/Makefile gui/Makefile gui/gtkmm/Makefile images/Makefile debian/Makefile Makefile)

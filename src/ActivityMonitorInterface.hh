@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-09-03 15:56:01 caelersr>
+// Time-stamp: <2002-09-21 20:08:03 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,6 +25,17 @@ class ActivityListener;
 
 enum ActivityState { ACTIVITY_UNKNOWN, ACTIVITY_SUSPENDED, ACTIVITY_IDLE, ACTIVITY_NOISE, ACTIVITY_ACTIVE } ;
 
+class ActivityMonitorStatistics
+{
+public:
+  //! Total mouse movement;
+  int total_movement;
+
+  //! Total mouse movement bewteen click-point;
+  int total_click_movement;
+};
+
+
 //! Interface that all activity monitors must support.
 class ActivityMonitorInterface
 {
@@ -43,6 +54,9 @@ public:
 
   //! Force state to be idle.
   virtual void force_idle() = 0;
+
+  //! Retrieves the statistics.
+  virtual void get_statistics(ActivityMonitorStatistics &stats) const = 0;
 };
 
 #endif // ACTIVITYMONITORINTERFACE_HH

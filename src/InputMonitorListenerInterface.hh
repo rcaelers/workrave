@@ -24,6 +24,8 @@ class InputMonitorListenerInterface
 public:
   virtual void action_notify() = 0;
   virtual void mouse_notify(int x, int y, int wheel = 0) = 0;
+  virtual void button_notify(int button_mask) = 0;
+  virtual void keyboard_notify(int key_code, int modifier) = 0;
 };
 
 #endif // INPUTMONITORLISTENERINTERFACE_HH

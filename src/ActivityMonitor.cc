@@ -3,8 +3,6 @@
 // Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-09-14 19:57:39 robc>
-//
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
@@ -29,27 +27,21 @@ static const char rcsid[] = "$Id$";
 
 #include "ActivityMonitor.hh"
 #include "ActivityStateMonitor.hh"
-
-#ifdef HAVE_X
+#if defined(HAVE_X)
 #include "X11InputMonitor.hh"
-#else
-#ifdef WIN32
+#elif defined(WIN32)
 #include "Win32InputMonitor.hh"
 #endif
-#endif
-
 
 //! Constructor.
 ActivityMonitor::ActivityMonitor()
 {
   TRACE_ENTER("ActivityMonitor::ActivityMonitor");
 
-#ifdef HAVE_X
+#if defined(HAVE_X)
   input_monitor = new X11InputMonitor();
-#else
-#ifdef WIN32
+#elif defined(WIN32)
   input_monitor = new Win32InputMonitor();
-#endif
 #endif
 
   activity_state = new ActivityStateMonitor();
@@ -57,6 +49,7 @@ ActivityMonitor::ActivityMonitor()
   // TODO: perhaps move this to a start() method...
   input_monitor->init(activity_state);
 
+ 
   TRACE_EXIT();
 }
 
@@ -152,4 +145,11 @@ void
 ActivityMonitor::get_parameters(int &noise, int &activity, int &idle)
 { 
   activity_state->get_parameters(noise, activity, idle);
+}
+
+void
+ActivityMonitor::get_statistics(ActivityMonitorStatistics &stats) const
+{
+  stats.total_movement = activity_state->get_mouse_movement();
+  stats.total_click_movement = activity_state->get_mouse_click_movement();
 }

@@ -1,12 +1,5 @@
-workrave (0.2-1) unstable; urgency=low
+workrave (0.1.0-1) unstable; urgency=low
 
-  * Snapshot
+  * First public release
 
- -- Rob Caelers <robc@krandor.org>  Thu,  5 Sep 2002 15:00:06 +0200
-
-workrave (0.1-1) unstable; urgency=low
-
-  * Initial Release.
-
- -- Rob Caelers <robc@krandor.org>  Wed, 21 Aug 2002 11:51:12 +0200
-
+ -- Rob Caelers <robc@krandor.org>  Sun,  22 Sep 2002 15:00:06 +0200

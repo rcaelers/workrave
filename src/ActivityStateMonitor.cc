@@ -43,7 +43,13 @@ static const char rcsid[] = "$Id$";
 
 
 ActivityStateMonitor::ActivityStateMonitor() :
-  activity_state(ACTIVITY_IDLE)
+  activity_state(ACTIVITY_IDLE),
+  prev_x(-1),
+  prev_y(-1),
+  click_x(-1),
+  click_y(-1),
+  total_movement(0),
+  total_click_movement(0)
 {
   first_action_time.tv_sec = 0;
   first_action_time.tv_usec = 0;
@@ -96,18 +102,50 @@ ActivityStateMonitor::get_parameters(int &noise, int &activity, int &idle)
 void
 ActivityStateMonitor::mouse_notify(int x, int y, int wheel_delta)
 {
-  static int prev_x = -1;
-  static int prev_y = -1;
-  
+  lock.lock();
   int sensitivity = 3;
   if ((abs(x - prev_x) >= sensitivity && abs(y - prev_y) >= sensitivity)
       || wheel_delta != 0)
     {
+      int delta_x = x - prev_x;
+      int delta_y = y - prev_y;
+      
+      total_movement += int(sqrt(delta_x * delta_x + delta_y * delta_y));
+      
       prev_x = x;
       prev_y = y;
       action_notify();
     }
+  lock.unlock();
 }
+
+
+void
+ActivityStateMonitor::button_notify(int button_mask)
+{
+  lock.lock();
+  if (click_x != -1)
+    {
+      int delta_x = click_x - prev_x;
+      int delta_y = click_y - prev_y;
+     
+      total_click_movement += int(sqrt(delta_x * delta_x + delta_y * delta_y));
+    }
+  click_x = prev_x;
+  click_y = prev_y;
+  action_notify();
+  lock.unlock();
+}
+
+
+void
+ActivityStateMonitor::keyboard_notify(int key_code, int modifier)
+{
+  lock.lock();
+  action_notify();
+  lock.unlock();
+}
+
 
 void
 ActivityStateMonitor::action_notify()
@@ -225,10 +263,24 @@ ActivityStateMonitor::get_current_state()
   return activity_state;
 }
 
+
 void
 ActivityStateMonitor::force_idle()
 {
   lock.lock();
   activity_state = ACTIVITY_IDLE;
   lock.unlock();
+}
+
+
+int
+ActivityStateMonitor::get_mouse_movement() const
+{
+  return total_movement;
+}
+
+int
+ActivityStateMonitor::get_mouse_click_movement() const
+{
+  return total_click_movement;
 }

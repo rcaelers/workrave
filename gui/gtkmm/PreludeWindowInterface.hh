@@ -33,6 +33,7 @@ public:
   virtual void set_progress(int value, int max_value) = 0;
   virtual void set_text(string text) = 0;
   virtual void set_frame(int stage) = 0;
+  virtual void set_progress_text(string text) = 0;
 };
 
 #endif // RESTPRELUDEWINDOWINTERFACE_HH

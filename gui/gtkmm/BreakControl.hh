@@ -100,12 +100,15 @@ private:
   //! Interface to the prelude window.
   PreludeWindowInterface *prelude_window;
 
-  //! Text in the prelude window.
+  //! "Prompt" text in the prelude window.
   string prelude_text;
   
   //! Current stage in the break.
   BreakStage break_stage;
 
+  //! This is a final prompt, forcing break after this prelude
+  bool final_prelude;
+  
   //! How long is the prelude active.
   int prelude_time;
 

@@ -1,6 +1,6 @@
 // MainWindow.cc --- Main info Window
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -27,16 +27,21 @@ static const char rcsid[] = "$Id$";
 
 #include <unistd.h>
 #include <iostream>
+
 #ifdef HAVE_GNOME
 #include <gnome.h>
+#else
+#include "gnome-about.h"
 #endif
 
 #include "MainWindow.hh"
 #include "PreferencesDialog.hh"
+#include "StatisticsDialog.hh"
 #include "WindowHints.hh"
 #include "TimeBar.hh"
 #include "GUI.hh"
 #include "GUIControl.hh"
+#include "Util.hh"
 
 #include "Configurator.hh"
 #include "TimerInterface.hh"
@@ -59,7 +64,6 @@ MainWindow::MainWindow(GUI *g, ControlInterface *c) :
   timer_names(NULL),
   timer_times(NULL),
   monitor_suspended(false),
-  be_quiet(false),
   always_on_top(true)
 {
   init();
@@ -320,6 +324,9 @@ MainWindow::create_menu()
   menulist.push_back(*mode_menu_item);
 
 #ifndef NDEBUG
+  menulist.push_back(Gtk::Menu_Helpers::MenuElem("Statistics",
+                                                 SigC::slot(*this, &MainWindow::on_menu_statistics)));
+  
   menulist.push_back(Gtk::Menu_Helpers::MenuElem("_Test",
                                                  SigC::slot(*this, &MainWindow::on_test_me)));
 #endif
@@ -373,45 +380,6 @@ MainWindow::store_config()
     }
 }
 
-
-//! User requested immediate restbreak.
-void
-MainWindow::set_quiet(bool b)
-{
-  TRACE_ENTER("MainWindow::set_quiet");
-  
-  be_quiet = b;
-
-  assert(gui != NULL);
-  gui->set_quiet(be_quiet);
-  
-  TRACE_EXIT();
-}
-
-
-void
-MainWindow::set_suspend(bool b)
-{
-  TRACE_ENTER("MainWindow::set_suspend");
-  assert(core_control != NULL);
-  
-  monitor_suspended = b;
-
-  ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
-  assert(monitor != NULL);
-  
-  if (monitor_suspended)
-    {
-      monitor->force_idle();
-      monitor->suspend();
-    }
-  else
-    {
-      monitor->resume();
-    }
-  
-  TRACE_EXIT();
-}
 
 void
 MainWindow::config_changed_notify(string key)
@@ -469,9 +437,8 @@ void
 MainWindow::on_menu_quiet()
 {
   TRACE_ENTER("MainWindow::on_menu_quiet");
-  
-  set_quiet(true);
-  set_suspend(false);
+
+  gui->set_operation_mode(GUIControl::OPERATION_MODE_QUIET);
 
   TRACE_EXIT();
 }
@@ -483,8 +450,7 @@ MainWindow::on_menu_suspend()
 {
   TRACE_ENTER("MainWindow::on_menu_suspend");
 
-  set_suspend(true);
-  set_quiet(false);
+  gui->set_operation_mode(GUIControl::OPERATION_MODE_SUSPENDED);
 
   TRACE_EXIT();
 }
@@ -492,8 +458,7 @@ MainWindow::on_menu_suspend()
 void
 MainWindow::on_menu_normal()
 {
-  set_suspend(false);
-  set_quiet(false);
+  gui->set_operation_mode(GUIControl::OPERATION_MODE_NORMAL);
 }
 
 
@@ -513,9 +478,31 @@ MainWindow::on_test_me()
 void
 MainWindow::on_menu_preferences()
 {
+  GUIControl::OperationMode mode;
+  GUIControl *ctrl = GUIControl::get_instance();
+  mode = ctrl->set_operation_mode(GUIControl::OPERATION_MODE_QUIET);
+
   PreferencesDialog *dialog = new PreferencesDialog();
   dialog->run();
   delete dialog;
+
+  ctrl->set_operation_mode(mode);
+}
+
+
+//! Preferences Dialog.
+void
+MainWindow::on_menu_statistics()
+{
+  GUIControl::OperationMode mode;
+  GUIControl *ctrl = GUIControl::get_instance();
+  mode = ctrl->set_operation_mode(GUIControl::OPERATION_MODE_QUIET);
+
+  StatisticsDialog *dialog = new StatisticsDialog();
+  dialog->run();
+  delete dialog;
+
+  ctrl->set_operation_mode(mode);
 }
 
 
@@ -523,12 +510,14 @@ MainWindow::on_menu_preferences()
 void
 MainWindow::on_menu_about()
 {
-#ifdef HAVE_GNOME  
   const gchar *authors[] = {
    "Rob Caelers <robc@krandor.org>",
    "Raymond Penners <raymond@dotsphinx.com>",
    NULL
   };
+  string icon = Util::complete_directory("workrave.png",
+                                         Util::SEARCH_PATH_IMAGES);
+  GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(icon.c_str(), NULL);  
   gtk_widget_show (gnome_about_new
                    ("Workrave", VERSION,
                     "Copyright 2001-2002 Rob Caelers & Raymond Penners",
@@ -537,7 +526,6 @@ MainWindow::on_menu_about()
                     (const gchar **) authors,
                     (const gchar **) NULL,
                     NULL,
-                    NULL));
-#endif   
+                    pixbuf));
 }
 

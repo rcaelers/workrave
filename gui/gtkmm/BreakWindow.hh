@@ -1,6 +1,6 @@
 // BreakWindow.hh --- base class for the break windows
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -28,6 +28,7 @@
 #include "BreakWindowInterface.hh"
 #include "WindowHints.hh"
 
+
 class Frame;
 
 class BreakWindow :
@@ -46,12 +47,10 @@ protected:
   void set_avoid_pointer(bool avoid_pointer);
   
 private:
-#ifdef HAVE_X
-  bool on_grab_retry_timer();
-#endif
 #ifdef WIN32
-  bool on_motion_notify_event(GdkEventMotion* event);
+  bool on_avoid_pointer_timer();
 #else
+  bool on_grab_retry_timer();
   bool on_enter_notify_event(GdkEventCrossing* event);
 #endif
   void avoid_pointer(int x, int y);
@@ -60,6 +59,11 @@ private:
 #ifdef HAVE_X
   //! Do we want a keyboard/pointer grab
   bool grab_wanted;
+#endif
+
+#ifdef WIN32
+  //! Avoid time signal
+  SigC::Connection avoid_signal;
 #endif
 
   //! Do we want a to avoid pointer?

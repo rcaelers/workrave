@@ -1,6 +1,6 @@
 // MainWindow.hh --- Main info Window
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -80,9 +80,6 @@ private:
   //! Is the monitoring function suspended?
   bool monitor_suspended;
   
-  //! Is workrave quiet?
-  bool be_quiet;
-
   //! MainWindow always on-top ?
   bool always_on_top;
   
@@ -95,9 +92,6 @@ private:
   void store_config();
   void config_changed_notify(string key);
 
-  void set_suspend(bool b);
-  void set_quiet(bool b);
-
   // Events.
   bool on_delete_event(GdkEventAny*);
   bool on_button_event(GdkEventButton *event);
@@ -105,6 +99,7 @@ private:
   void on_menu_quit();
   void on_menu_restbreak_now();
   void on_menu_preferences();
+  void on_menu_statistics();
   void on_menu_normal();
   void on_menu_suspend();
   void on_menu_quiet();

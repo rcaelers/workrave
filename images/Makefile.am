@@ -10,10 +10,6 @@ MAINTAINERCLEANFILES = Makefile.in
 
 imagesdir = $(pkgdatadir)/images
 
-images_DATA = \
-	timer-daily.png \
-	timer-micropause.png \
-	timer-restbreak.png \
-	micropause.png
+images_DATA = $(wildcard *.png)
 
 EXTRA_DIST = ${images_DATA}

@@ -27,9 +27,13 @@ sourcesxinput = X11InputMonitor.cc
 X11LIBS    = -lXmu
 endif
 
+
 if PLATFORM_WIN32
+.rc.o:
+	windres -o $@ $<
+
 includesinput = -I$(top_srcdir)/arch/win32/harpoon/
-sourceswin32input = Win32InputMonitor.cc 
+sourceswin32input = Win32InputMonitor.cc resource.rc
 WIN32LIBS = $(top_srcdir)/arch/win32/harpoon/Release/harpoon.lib \
 	-lshell32 -lole32
 endif

@@ -217,20 +217,24 @@ harpoon_hook_generic(HOOKPROC hf, HOOKPROC ghf, int hid, HHOOK *handle,
 static LRESULT CALLBACK
 harpoon_mouse_hook(int code, WPARAM wpar, LPARAM lpar)
 {
-  DWORD mouseData, dwVersion, dwWindowsMajorVersion;
+  DWORD dwVersion, dwWindowsMajorVersion;
+  MOUSEHOOKSTRUCTEX mhsex;
+  PMOUSEHOOKSTRUCT pmhs;
 
-  harpoon_mailslot_send_message(WH_MOUSE, code, wpar, lpar);
-  harpoon_mailslot_send_data((void*) lpar, sizeof(MOUSEHOOKSTRUCT));
+  harpoon_mailslot_send_message(WH_MOUSE, code, wpar, 0L);
 
-  mouseData = 0;
+  pmhs = (PMOUSEHOOKSTRUCT) lpar;
+  mhsex.MOUSEHOOKSTRUCT = *pmhs;
+  mhsex.mouseData = 0;
+
   dwVersion = GetVersion();
   dwWindowsMajorVersion =  (DWORD)(LOBYTE(LOWORD(dwVersion)));
   if (dwWindowsMajorVersion >= 5)
     {
-      mouseData = ((PMOUSEHOOKSTRUCTEX)lpar)->mouseData;
+      mhsex.mouseData = ((PMOUSEHOOKSTRUCTEX) pmhs)->mouseData;
     }
-  harpoon_mailslot_send_data(&mouseData, sizeof(mouseData));
 
+  harpoon_mailslot_send_data(&mhsex, sizeof(mhsex));
 
   return CallNextHookEx(mouse_hook_handle, code, wpar, lpar);
 }

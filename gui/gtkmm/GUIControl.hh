@@ -1,6 +1,6 @@
 // GUIControl.hh --- The WorkRave GUI
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -41,6 +41,14 @@ public:
   //! Destructor
   virtual ~GUIControl();
 
+  enum OperationMode
+    {
+      OPERATION_MODE_NORMAL,
+      OPERATION_MODE_SUSPENDED,
+      OPERATION_MODE_QUIET,
+      OPERATION_MODE_SIZEOF
+    };
+  
   enum BreakId
     {
       BREAK_ID_NONE = -1,
@@ -72,8 +80,23 @@ public:
   struct TimerData
   {
     TimerInterface *timer;
-    string name;
+    BreakControl *break_control;
+    const char *label;
     string icon;
+    int break_id;
+    string break_name;
+    
+    TimerData();
+    
+    int get_break_max_preludes() const;
+    bool get_break_force_after_preludes() const;
+    bool get_break_ignorable() const;
+    bool get_break_insisting() const;
+
+    void set_break_max_preludes(int n);
+    void set_break_force_after_preludes(bool b);
+    void set_break_ignorable(bool b);
+    void set_break_insisting(bool b);
   };
   TimerData timers[BREAK_ID_SIZEOF];
   
@@ -81,18 +104,22 @@ public:
   static GUIControl *get_instance();
   void heartbeat();
   void init();
-  void set_quiet(bool quiet);
+  OperationMode set_operation_mode(OperationMode mode);
   void break_action(BreakId id, BreakAction action);
   Configurator *get_configurator();
 
 private:
+  void stop_all_breaks();
+  void restart_break();
+  
   void update_statistics();
   void handle_start_break(BreakInterface *breaker, BreakId break_id, TimerInterface *timer);
   void handle_stop_break(BreakInterface *breaker, BreakId break_id, TimerInterface *timer);
   bool load_config();
   bool store_config();
   bool verify_config();
-  void load_break_control_config(string name);
+  void load_break_control_config(string break_id);
+  void load_break_control_config(int break_id);
   void config_changed_notify(string key);
   
 public:
@@ -115,17 +142,11 @@ private:
   //! The Controller
   ControlInterface *core_control;
 
-  //! The micropause break controller
-  BreakControl *micropause_control;
-  
-  //! The restbreak break controller
-  BreakControl *restbreak_control;
-
   //! Configuration access.
   Configurator *configurator;
 
-  //! GUI must be quiet.
-  bool be_quiet;
+  //! Mode.
+  OperationMode operation_mode;
 };
 
 
