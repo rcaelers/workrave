@@ -62,8 +62,7 @@ private:
   Gtk::Label *password2_label;
   Gtk::Entry *peers_entry;
   Gtk::Entry *username_entry;
-  Gtk::Entry *password1_entry;
-  Gtk::Entry *password2_entry;
+  Gtk::Entry *password_entry;
   Gtk::CheckButton *enabled_cb;
   Gtk::SpinButton *port_entry;
   Gtk::SpinButton *attempts_entry;

@@ -84,17 +84,13 @@ CollectivePreferencePage::create_general_page(Gtk::Notebook *tnotebook)
   Gtk::Frame *id_frame = new Gtk::Frame("Identity");
 
   username_entry = manage(new Gtk::Entry());
-  password1_entry = manage(new Gtk::Entry());
-  password2_entry = manage(new Gtk::Entry());
+  password_entry = manage(new Gtk::Entry());
   
   Gtk::Label *username_label = manage(new Gtk::Label("Username"));
-  Gtk::Label *password1_label = manage(new Gtk::Label("Password"));
-  password2_label = manage(new Gtk::Label("Confirm password"));
+  Gtk::Label *password_label = manage(new Gtk::Label("Password"));
 
-  password1_entry->set_visibility(false);
-  password1_entry->set_invisible_char('*');
-  password2_entry->set_visibility(false);
-  password2_entry->set_invisible_char('*'); 
+  password_entry->set_visibility(false);
+  password_entry->set_invisible_char('*');
   
   Gtk::Table *id_table = manage(new Gtk::Table(3, 2, false));
   id_table->set_row_spacings(2);
@@ -104,11 +100,9 @@ CollectivePreferencePage::create_general_page(Gtk::Notebook *tnotebook)
   id_table->attach(*username_label, 0, 1, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
   id_table->attach(*username_entry, 1, 2, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
   y++;
-  id_table->attach(*password1_label, 0, 1, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
-  id_table->attach(*password1_entry, 1, 2, y, y+1, Gtk::SHRINK | Gtk::FILL, Gtk::SHRINK);
+  id_table->attach(*password_label, 0, 1, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
+  id_table->attach(*password_entry, 1, 2, y, y+1, Gtk::SHRINK | Gtk::FILL, Gtk::SHRINK);
   y++;
-  id_table->attach(*password2_label, 0, 1, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
-  id_table->attach(*password2_entry, 1, 2, y, y+1, Gtk::SHRINK | Gtk::FILL, Gtk::SHRINK);
 
   id_frame->add(*id_table);
   
@@ -120,8 +114,7 @@ CollectivePreferencePage::create_general_page(Gtk::Notebook *tnotebook)
 
   enabled_cb->signal_toggled().connect(SigC::slot(*this, &CollectivePreferencePage::on_enabled_toggled));
   username_entry->signal_changed().connect(SigC::slot(*this, &CollectivePreferencePage::on_username_changed));
-  password1_entry->signal_changed().connect(SigC::slot(*this, &CollectivePreferencePage::on_password_changed));
-  password2_entry->signal_changed().connect(SigC::slot(*this, &CollectivePreferencePage::on_password_changed));
+  password_entry->signal_changed().connect(SigC::slot(*this, &CollectivePreferencePage::on_password_changed));
 }
 
 
@@ -353,8 +346,7 @@ CollectivePreferencePage::init_page_values()
       str = "";
     }
   
-  password1_entry->set_text(str);
-  password2_entry->set_text(str);
+  password_entry->set_text(str);
 
   // Port
   int value;
@@ -417,19 +409,9 @@ CollectivePreferencePage::on_username_changed()
 void
 CollectivePreferencePage::on_password_changed()
 {
-  string pw1 = password1_entry->get_text();
-  string pw2 = password2_entry->get_text();
-
-  if (pw1 == pw2)
-    {
-      Configurator *c = GUIControl::get_instance()->get_configurator();
-      c->set_value(DistributionSocketLink::CFG_KEY_DISTRIBUTION_TCP + DistributionSocketLink::CFG_KEY_DISTRIBUTION_TCP_PASSWORD, pw1);
-      password2_label->set_text("Verified");
-    }
-  else
-    {
-      password2_label->set_text("Retype");
-    }
+  string pw = password_entry->get_text();
+  Configurator *c = GUIControl::get_instance()->get_configurator();
+  c->set_value(DistributionSocketLink::CFG_KEY_DISTRIBUTION_TCP + DistributionSocketLink::CFG_KEY_DISTRIBUTION_TCP_PASSWORD, pw);
 }
 
 
