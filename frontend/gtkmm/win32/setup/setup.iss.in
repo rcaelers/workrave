@@ -62,6 +62,7 @@ Source: "..\..\..\..\NEWS.txt"; DestDir: "{app}"; DestName: "NEWS.txt"; Flags: i
 Source: "..\..\..\..\README.txt"; DestDir: "{app}"; DestName: "README.txt"; Flags: ignoreversion;
 Source: "..\..\src\workrave.exe"; DestDir: "{app}\lib"; DestName: "Workrave.exe"; Flags: ignoreversion;
 Source: "..\..\..\..\po\nl.gmo"; DestDir: "{app}\lib\locale\nl\LC_MESSAGES"; DestName: "workrave.mo"; Flags: ignoreversion;
+Source: "..\..\..\..\po\zh_TW.gmo"; DestDir: "{app}\lib\locale\zh_TW\LC_MESSAGES"; DestName: "workrave.mo"; Flags: ignoreversion;
 Source: "..\..\..\..\po\de.gmo"; DestDir: "{app}\lib\locale\de\LC_MESSAGES"; DestName: "workrave.mo"; Flags: ignoreversion;
 Source: "..\..\..\..\po\eo.gmo"; DestDir: "{app}\lib\locale\eo\LC_MESSAGES"; DestName: "workrave.mo"; Flags: ignoreversion;
 Source: "..\..\..\..\po\es.gmo"; DestDir: "{app}\lib\locale\es\LC_MESSAGES"; DestName: "workrave.mo"; Flags: ignoreversion;

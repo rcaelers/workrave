@@ -118,7 +118,7 @@ AC_CANONICAL_HOST
 AC_PREFIX_PROGRAM(workrave)
 
 dnl Set of available languages.
-ALL_LINGUAS="nl de eo pl da es"
+ALL_LINGUAS="nl de eo pl da es zh_TW"
 
 dnl Checks for programs.
 AC_PROG_CC
@@ -672,6 +672,7 @@ AC_OUTPUT(Makefile \
           frontend/plugin/exercises/common/src/Makefile \
           frontend/plugin/exercises/gtkmm/Makefile \
           frontend/plugin/exercises/gtkmm/src/Makefile \
+          intl/Makefile \
           po/POTFILES \
           po/Makefile.in \
           po/Makefile \

@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
 #
 # $Id$
 #
@@ -17,7 +17,7 @@ MAINTAINERCLEANFILES = 	\
 		compile AUTHORS.txt COPYING.txt ChangeLog.txt \
 		NEWS.txt README.txt
 
-SUBDIRS = 	m4 po backend common frontend
+SUBDIRS = 	m4 po intl backend common frontend 
 
 EXTRA_DIST = 	config.rpath  \
 		config.xml \
