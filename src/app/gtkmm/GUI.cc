@@ -147,6 +147,14 @@ GUI::~GUI()
       delete applet_window;
     }
 #endif
+  
+#ifdef WIN32
+  if (user_lib != NULL)
+    {
+      FreeLibrary(user_lib);
+    }
+#endif
+  
   TRACE_EXIT();
 }
 
@@ -537,6 +545,8 @@ GUI::init_gtk_multihead()
 #ifdef WIN32
 BOOL CALLBACK enum_monitor_callback(HMONITOR monitor, HDC, LPRECT rc, LPARAM dwData)
 {
+  (void) monitor;
+  
   GUI *gui = (GUI *) dwData;
 
   gui->enum_monitor_callback(rc);
@@ -547,6 +557,11 @@ BOOL CALLBACK enum_monitor_callback(HMONITOR monitor, HDC, LPRECT rc, LPARAM dwD
 BOOL CALLBACK
 GUI::enum_monitor_callback(LPRECT rc)
 {
+  TRACE_ENTER("GUI::enum_monitor_callback");
+  TRACE_MSG(current_monitor << " " << num_heads);
+
+  TRACE_MSG(rc->left << " " << rc->top << " - " << rc->right << " " << rc->bottom);
+  
   if (current_monitor < num_heads)
     {
       Gdk::Rectangle &geometry = heads[current_monitor].geometry;
@@ -562,11 +577,21 @@ GUI::enum_monitor_callback(LPRECT rc)
   return TRUE;
 };
 
+BOOL EnumDisplayDevices(
+  LPCTSTR lpDevice,                // device name
+  DWORD iDevNum,                   // display device
+  PDISPLAY_DEVICE lpDisplayDevice, // device information
+  DWORD dwFlags                    // reserved
+);
+
 void
 GUI::init_win32_multihead()
 {
+  TRACE_ENTER("GUI::init_win32_multihead");
+  
   if (num_heads == -1)
     {
+      TRACE_MSG("init");
       if (user_lib == NULL)
         {
           user_lib = LoadLibrary("user32.dll");
@@ -574,11 +599,13 @@ GUI::init_win32_multihead()
       
       if (user_lib != NULL)
         {
+          TRACE_MSG("get num");
           enum_monitors = (LUENUMDISPLAYMONITORS)GetProcAddress(user_lib,"EnumDisplayMonitors");
         }
           
       if (enum_monitors == NULL)
         {
+          TRACE_MSG("!enum");
           FreeLibrary(user_lib);
           user_lib = NULL;
         }
@@ -586,14 +613,16 @@ GUI::init_win32_multihead()
 
   if (enum_monitors != NULL)
     {
+      TRACE_MSG("enum");
       int new_num_heads = GetSystemMetrics(SM_CMONITORS);
 
+      TRACE_MSG("# = " << new_num_heads);
       init_multihead_mem(new_num_heads);
   
       if (num_heads > 1)
         {
           current_monitor = 0;
-          (*enum_monitors)(NULL,NULL, enum_monitor_callback, (LPARAM)this);
+          (*enum_monitors)(NULL,NULL, ::enum_monitor_callback, (LPARAM)this);
         }
       else if (num_heads == 1)
         {
@@ -606,9 +635,6 @@ GUI::init_win32_multihead()
       init_multihead_mem(1);
       heads[0].valid = false;
     }
-
-  
-  else 
 }
 
 #endif
@@ -717,7 +743,8 @@ void
 GUI::start_prelude_window(BreakId break_id)
 {
   hide_break_window();
-
+  init_multihead();
+  
   active_break_id = break_id;
   for (int i = 0; i < num_heads; i++)
     {
@@ -740,6 +767,7 @@ void
 GUI::start_break_window(BreakId break_id, bool ignorable, bool insist)
 {
   hide_break_window();
+  init_multihead();
 
   active_break_id = break_id;
 

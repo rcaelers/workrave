@@ -109,10 +109,18 @@ BreakWindow::center()
       GtkRequisition size;
       size_request(&size);
 
-      TRACE_MSG(head.monitor << " : " <<
+#ifdef WIN32
+      TRACE_MSG(
                 head.geometry.get_width() << "x" << head.geometry.get_height() << " +" <<
                 head.geometry.get_x() << "+" << head.geometry.get_y() << " " <<
                 size.width << " " << size.height);
+#else
+      TRACE_MSG(
+                head.monitor << " : " <<
+                head.geometry.get_width() << "x" << head.geometry.get_height() << " +" <<
+                head.geometry.get_x() << "+" << head.geometry.get_y() << " " <<
+                size.width << " " << size.height);
+#endif                
       
       int x = head.geometry.get_x() + (head.geometry.get_width() - size.width) / 2;
       int y = head.geometry.get_y() + (head.geometry.get_height() - size.height) / 2;

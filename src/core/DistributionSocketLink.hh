@@ -73,7 +73,7 @@ private:
   enum ClientListFlags
     {
       CLIENTLIST_ME  	= 1,
-      CLIENTLIST_MASTER 	= 2,
+      CLIENTLIST_MASTER	= 2,
     };
 
   struct ClientMessageListener
@@ -90,9 +90,9 @@ private:
 
   enum ClientType
     {
-      CLIENTTYPE_UNKNOWN 		= 1,
-      CLIENTTYPE_DIRECT  		= 2,
-      CLIENTTYPE_ROUTED  		= 3,
+      CLIENTTYPE_UNKNOWN	= 1,
+      CLIENTTYPE_DIRECT 	= 2,
+      CLIENTTYPE_ROUTED 	= 3,
       CLIENTTYPE_SIGNEDOFF 	= 4,
     };
   

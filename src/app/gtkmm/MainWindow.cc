@@ -118,19 +118,27 @@ MainWindow::init()
   set_title("Workrave");
   set_border_width(2);
 
+  TRACE_MSG("1");
   list<Glib::RefPtr<Gdk::Pixbuf> > icons;
 
   char *icon_files[] = { "workrave-icon-small.png",
                          "workrave-icon-medium.png",
                          "workrave-icon-large.png" };
   
+  TRACE_MSG("2");
   for (unsigned int i = 0; i < sizeof(icon_files) / sizeof(char *); i++)
     {
+  TRACE_MSG("3");
       string file = Util::complete_directory(icon_files[i], Util::SEARCH_PATH_IMAGES);
+      TRACE_MSG("4 " << file);
       Glib::RefPtr<Gdk::Pixbuf> pixbuf = Gdk::Pixbuf::create_from_file(file);
+  TRACE_MSG("5");
       icons.push_back(pixbuf);
+  TRACE_MSG("6");
     }
+  TRACE_MSG("7");
 
+  
   Glib::ListHandle<Glib::RefPtr<Gdk::Pixbuf> > icon_list(icons);
   set_icon_list(icon_list);
     
@@ -149,7 +157,6 @@ MainWindow::init()
 
   set_events(get_events() | Gdk::BUTTON_PRESS_MASK);
 
-  
   // Necessary for popup menu 
   realize_if_needed();
 
@@ -163,11 +170,11 @@ MainWindow::init()
   Glib::RefPtr<Gdk::Window> leader_window = leader->get_window();
   window->set_group(leader_window);
 #endif
-  
+
   set_resizable(false);
   stick();
   setup();
-
+  
 #ifdef WIN32
   window->set_functions(Gdk::FUNC_CLOSE|Gdk::FUNC_MOVE);
 

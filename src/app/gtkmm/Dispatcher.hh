@@ -24,6 +24,10 @@
 #include <sigc++/class_slot.h>
 #include <glibmm.h>
 
+#ifdef WIN32
+#include <windows.h>
+#endif
+
 class Dispatcher
 {
 private:
