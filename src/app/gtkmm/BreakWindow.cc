@@ -102,8 +102,8 @@ BreakWindow::init_gui()
 
           set_size_request(
 #ifdef HAVE_GTK_MULTIHEAD
-                           head.screen->get_screen_width(),
-                           head.screen->get_screen_height()
+                           head.screen->get_width(),
+                           head.screen->get_height()
 #else
                            gdk_screen_width(),
                            gdk_screen_height()
@@ -141,7 +141,7 @@ create_tile_pixbuf (GdkPixbuf    *dest_pixbuf,
 {
   gboolean need_composite;
   gboolean use_simple;
-  gdouble  cx, cy;
+  int  cx, cy;
   gdouble  colorv;
   gint     pwidth, pheight;
 
