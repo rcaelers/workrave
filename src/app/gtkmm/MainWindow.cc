@@ -160,7 +160,7 @@ MainWindow::init()
   add(*timers_box);
 
   set_events(get_events() | Gdk::BUTTON_PRESS_MASK | Gdk::SUBSTRUCTURE_MASK);
-
+  
   // Necessary for popup menu 
   realize_if_needed();
 
@@ -723,12 +723,13 @@ MainWindow::set_skipwinlist(bool s)
   WindowHints::set_skip_winlist(Gtk::Widget::gobj(), s);
 }
 
-
 bool
 MainWindow::on_configure_event(GdkEventConfigure *event)
 {
+  TRACE_ENTER("MainWindow::on_configure_event");
   // This method doesn't seem to do anything. Howener, GUI.cc does not
   // receive the configure event signal without this. Donno why....
   (void) event;
+  Widget::on_configure_event(event);
   return false;
 }

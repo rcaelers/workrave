@@ -109,7 +109,7 @@ public:
   MainWindow *get_main_window() const;
   Gtk::Tooltips *get_tooltips() const;
   SoundPlayerInterface *get_sound_player() const;
-  
+
 private:
   bool on_timer();
   void init_debug();

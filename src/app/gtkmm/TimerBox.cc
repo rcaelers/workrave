@@ -349,6 +349,8 @@ TimerBox::init_table()
         }
     }
 
+  TRACE_MSG("number_of_timers = " << number_of_timers);
+  
   // Compute table dimensions.
   int rows = number_of_timers;
   int columns = 1;
@@ -375,6 +377,7 @@ TimerBox::init_table()
     }
 
   columns = (number_of_timers + rows - 1) / rows;
+  TRACE_MSG("c/r " << columns << " " << rows);
 
   // Compute new content.
   int new_content[BREAK_ID_SIZEOF];
@@ -399,11 +402,12 @@ TimerBox::init_table()
       int id = current_content[i];
       if (id != -1 && (id != new_content[i] || remove_all))
         {
+          TRACE_MSG("remove " << i << " " << id);
           Gtk::Widget *child = labels[id];
           remove(*child);
           child = bars[id];
           remove(*child);
-          
+        
           current_content[i] = -1;
         }
     }
@@ -411,17 +415,18 @@ TimerBox::init_table()
   // Remove sheep
   if ((number_of_timers > 0 || remove_all) && visible_count == 0)
     {
+      TRACE_MSG("remove sheep");
       remove(*sheep);
       visible_count = -1;
     }
 
   TRACE_MSG(rows <<" " << table_rows << " " << columns << " " << table_columns);
-  if (rows != table_rows || columns != table_columns || number_of_timers != visible_count)
+  //  if (rows != table_rows || columns != table_columns || number_of_timers != visible_count)
     {
       TRACE_MSG("resize");
       resize(rows, 2 * columns);
-      set_spacings(1);
-      show_all();
+      //set_spacings(1);
+      //show_all();
 
       table_columns = columns;
       table_rows = rows;
@@ -455,6 +460,8 @@ TimerBox::init_table()
               TRACE_MSG("size = " << widget_size.width << " " << widget_size.height);
               //bars[id]->set_size_request(-1, size / rows - (rows + 1) - 2);
             }
+
+          TRACE_MSG("attach " << cur_col << " " << cur_row);
           
           attach(*labels[id], 2 * cur_col, 2 * cur_col + 1, cur_row, cur_row + 1,
                  Gtk::FILL, Gtk::SHRINK);
