@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2004-03-08 21:46:52 robc>
+// Time-stamp: <2004-05-14 20:06:54 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -480,7 +480,7 @@ Timer::snooze_timer()
 void
 Timer::freeze_timer(bool freeze)
 {
-  if (timer_enabled)
+  if (timer_enabled && activity_sensitive)
     {
       if (freeze && !timer_frozen)
         {
