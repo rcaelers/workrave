@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-03-22 20:26+0100\n"
+"POT-Creation-Date: 2003-03-22 21:50+0100\n"
 "PO-Revision-Date: 2003-03-04 22:16+0100\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -68,24 +68,24 @@ msgstr "%s%ld seconden"
 msgid "Credits"
 msgstr "Credits"
 
-#: gui/gtkmm/gnome-about.c:337
+#: gui/gtkmm/gnome-about.c:339
 msgid "_Written by"
 msgstr "Geschreven door"
 
-#: gui/gtkmm/gnome-about.c:352
+#: gui/gtkmm/gnome-about.c:354
 msgid "_Documented by"
 msgstr "Documentatie door"
 
-#: gui/gtkmm/gnome-about.c:367
+#: gui/gtkmm/gnome-about.c:369
 msgid "_Translated by"
 msgstr "Vertaald door"
 
 #. Add the credits button
-#: gui/gtkmm/gnome-about.c:424
+#: gui/gtkmm/gnome-about.c:428
 msgid "_Credits"
 msgstr "_Credits"
 
-#: gui/gtkmm/gnome-about.c:607
+#: gui/gtkmm/gnome-about.c:611
 #, c-format
 msgid "About %s"
 msgstr "Over %s"
@@ -270,43 +270,39 @@ msgstr "Netwerk logboek"
 msgid "Enable networking"
 msgstr "Activeer netwerk ondersteuning"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:79 gui/gtkmm/PreferencesDialog.cc:61
-msgid "General"
-msgstr "Algemeen"
-
-#: gui/gtkmm/NetworkPreferencePage.cc:86
+#: gui/gtkmm/NetworkPreferencePage.cc:82
 msgid "Username:"
 msgstr "Gebruikersnaam:"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:87
+#: gui/gtkmm/NetworkPreferencePage.cc:83
 msgid "Password:"
 msgstr "Wachtwoord:"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:103
-msgid "Advanced"
-msgstr "Geavanceerd"
+#: gui/gtkmm/NetworkPreferencePage.cc:88 gui/gtkmm/PreferencesDialog.cc:61
+msgid "General"
+msgstr "Algemeen"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:106
+#: gui/gtkmm/NetworkPreferencePage.cc:100
 msgid "Server settings"
 msgstr "Server instellingen"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:128
+#: gui/gtkmm/NetworkPreferencePage.cc:122
 msgid "Server port:"
 msgstr "Server poort:"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:129
+#: gui/gtkmm/NetworkPreferencePage.cc:123
 msgid "Reconnect attempts:"
 msgstr "Aantal pogingen tot verbinding:"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:130
+#: gui/gtkmm/NetworkPreferencePage.cc:124
 msgid "Reconnect interval:"
 msgstr "Interval tussen pogingen:"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:146
-msgid "Hosts"
-msgstr "Machines"
+#: gui/gtkmm/NetworkPreferencePage.cc:127
+msgid "Advanced"
+msgstr "Geavanceerd"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:156
+#: gui/gtkmm/NetworkPreferencePage.cc:144
 msgid ""
 "The following list specifies the hosts that Workrave connects to on\n"
 "start-up. Click the host name or port number to edit."
@@ -315,19 +311,23 @@ msgstr ""
 "verbinding maakt tijdens het opstarten. Klik op de machine naam\n"
 "of poort nummer om deze te bewerken."
 
-#: gui/gtkmm/NetworkPreferencePage.cc:185
+#: gui/gtkmm/NetworkPreferencePage.cc:173
 msgid "Host name"
 msgstr "Machine naam"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:193
+#: gui/gtkmm/NetworkPreferencePage.cc:181
 msgid "Port"
 msgstr "Poort"
+
+#: gui/gtkmm/NetworkPreferencePage.cc:218
+msgid "Hosts"
+msgstr "Machines"
 
 #: gui/gtkmm/PreferencesDialog.cc:53
 msgid "Preferences"
 msgstr "Voorkeuren"
 
-#: gui/gtkmm/PreferencesDialog.cc:65 gui/gtkmm/PreferencesDialog.cc:75
+#: gui/gtkmm/PreferencesDialog.cc:65
 msgid "Applet"
 msgstr "Applet"
 
@@ -340,36 +340,36 @@ msgstr "Klokken"
 msgid "User interface"
 msgstr "Gebruikers interface"
 
-#: gui/gtkmm/PreferencesDialog.cc:78
+#: gui/gtkmm/PreferencesDialog.cc:75
 msgid "Network"
 msgstr "Netwerk"
 
-#: gui/gtkmm/PreferencesDialog.cc:117
+#: gui/gtkmm/PreferencesDialog.cc:114
 msgid "The main window stays always on top of other windows"
 msgstr "Het hoofdvenster blijft boven alle andere vensters"
 
-#: gui/gtkmm/PreferencesDialog.cc:126
+#: gui/gtkmm/PreferencesDialog.cc:123
 msgid "No sounds"
 msgstr "Geen geluid"
 
-#: gui/gtkmm/PreferencesDialog.cc:128
+#: gui/gtkmm/PreferencesDialog.cc:125
 msgid "Play sounds using sound card"
 msgstr "Speel geluiden met behulp van de geluidskaart"
 
-#: gui/gtkmm/PreferencesDialog.cc:130
+#: gui/gtkmm/PreferencesDialog.cc:127
 msgid "Play sounds using built-in speaker"
 msgstr "Speel geluiden met behulp van de ingebouwde speaker"
 
-#: gui/gtkmm/PreferencesDialog.cc:146
+#: gui/gtkmm/PreferencesDialog.cc:143
 msgid "Hide main window at start-up"
 msgstr "Verberg het hoofdvenster tijdens het opstarten"
 
 #. Options
-#: gui/gtkmm/PreferencesDialog.cc:153 gui/gtkmm/TimerPreferencesPanel.cc:128
+#: gui/gtkmm/PreferencesDialog.cc:150 gui/gtkmm/TimerPreferencesPanel.cc:128
 msgid "Options"
 msgstr "Opties"
 
-#: gui/gtkmm/PreferencesDialog.cc:156
+#: gui/gtkmm/PreferencesDialog.cc:153
 msgid "Sound:"
 msgstr "Geluid:"
 
@@ -553,8 +553,8 @@ msgid "Show 'Postpone' and 'Skip' button"
 msgstr "Toon 'Uitstellen' en 'Overslaan'"
 
 #: gui/gtkmm/TimerPreferencesPanel.cc:181
-msgid "Post-pone time:"
-msgstr "Uitstel tijd:"
+msgid "Time before break:"
+msgstr "Werktijd:"
 
 #: gui/gtkmm/TimerPreferencesPanel.cc:188
 msgid "Resets at:"
@@ -565,8 +565,8 @@ msgid "Pause duration:"
 msgstr "Pauze tijdsduur:"
 
 #: gui/gtkmm/TimerPreferencesPanel.cc:210
-msgid "Time before break:"
-msgstr "Werktijd:"
+msgid "Post-pone time:"
+msgstr "Uitstel tijd:"
 
 #: gui/gtkmm/TimerWindow.cc:111 gui/gtkmm/TimerWindow.cc:178
 msgid "Wait"

@@ -75,12 +75,8 @@ NetworkPreferencePage::create_general_page(Gtk::Notebook *tnotebook)
     = manage(GtkUtil::create_label(_("Enable networking"), true));
   enabled_cb->add(*ena_lab);
 
-
-  Gtk::Label *lab = manage(new Gtk::Label(_("General")));
-
   // Identity
   HigCategoryPanel *id_frame = manage(new HigCategoryPanel(*enabled_cb));
-  id_frame->set_border_width(12);
   username_entry = manage(new Gtk::Entry());
   password_entry = manage(new Gtk::Entry());
   id_frame->add(_("Username:"), *username_entry);
@@ -88,8 +84,8 @@ NetworkPreferencePage::create_general_page(Gtk::Notebook *tnotebook)
   password_entry->set_visibility(false);
   password_entry->set_invisible_char('*');
   
-  tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem
-                               (*id_frame, *lab));
+  id_frame->set_border_width(12);
+  tnotebook->append_page(*id_frame, _("General"));
 
   enabled_cb->signal_toggled().connect(SigC::slot(*this, &NetworkPreferencePage::on_enabled_toggled));
   username_entry->signal_changed().connect(SigC::slot(*this, &NetworkPreferencePage::on_username_changed));
@@ -100,8 +96,6 @@ NetworkPreferencePage::create_general_page(Gtk::Notebook *tnotebook)
 void
 NetworkPreferencePage::create_advanced_page(Gtk::Notebook *tnotebook)
 {
-  Gtk::Label *lab = manage(new Gtk::Label(_("Advanced")));
-
   HigCategoryPanel *advanced_frame
     = manage(new HigCategoryPanel(_("Server settings")));
   advanced_frame->set_border_width(12);
@@ -129,8 +123,8 @@ NetworkPreferencePage::create_advanced_page(Gtk::Notebook *tnotebook)
   advanced_frame->add(_("Reconnect attempts:"), *attempts_entry);
   advanced_frame->add(_("Reconnect interval:"), *interval_entry);
 
-  tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem
-                               (*advanced_frame, *lab));
+  advanced_frame->set_border_width(12);
+  tnotebook->append_page(*advanced_frame, _("Advanced"));
 
   port_entry->signal_changed().connect(SigC::slot(*this, &NetworkPreferencePage::on_port_changed));
   interval_entry->signal_changed().connect(SigC::slot(*this, &NetworkPreferencePage::on_interval_changed));
@@ -142,12 +136,6 @@ NetworkPreferencePage::create_advanced_page(Gtk::Notebook *tnotebook)
 void
 NetworkPreferencePage::create_peers_page(Gtk::Notebook *tnotebook)
 {
-  Gtk::HBox *box = manage(new Gtk::HBox(false, 3));
-  Gtk::Label *lab = manage(new Gtk::Label(_("Hosts")));
-  // Gtk::Image *img = manage(new Gtk::Image();
-  // box->pack_start(*img, false, false, 0);
-  box->pack_start(*lab, false, false, 0);
-
   Gtk::VBox *gp = manage(new Gtk::VBox(false, 6));
   gp->set_border_width(6);
 
@@ -224,11 +212,10 @@ NetworkPreferencePage::create_peers_page(Gtk::Notebook *tnotebook)
   
   gp->pack_start(*hbox, true, true, 0);
   
-  box->show_all();
   gp->show_all();
   
-  tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*gp, *box));
-  
+  gp->set_border_width(12);
+  tnotebook->append_page(*gp, _("Hosts"));
 }
 
 void

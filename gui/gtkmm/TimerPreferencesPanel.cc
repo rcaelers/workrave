@@ -59,7 +59,7 @@ TimerPreferencesPanel::TimerPreferencesPanel(GUIControl::BreakId t)
   pack_start(*categories, false, false, 0);
   pack_start(*prelude_frame, false, false, 0);
 
-  set_border_width(6);
+  set_border_width(12);
 
   TRACE_EXIT();
 }
@@ -172,14 +172,14 @@ TimerPreferencesPanel::create_timers_panel()
 {
   HigCategoryPanel *hig = manage(new HigCategoryPanel(_("Timers")));
 
-  // Snooze time
   TimerInterface *itimer = timer->timer;
-  snooze_tim = manage(new TimeEntry());
-  snooze_tim->set_value (itimer->get_snooze());
-  snooze_tim->signal_value_changed()
-    .connect(SigC::slot(*this, &TimerPreferencesPanel::on_snooze_changed));
-  hig->add(_("Post-pone time:"), *snooze_tim);
-  
+  // Limit time
+  limit_tim = manage(new TimeEntry());
+  limit_tim->set_value (itimer->get_limit());
+  limit_tim->signal_value_changed()
+    .connect(SigC::slot(*this, &TimerPreferencesPanel::on_limit_changed));
+  hig->add(_("Time before break:"), *limit_tim);
+
   // Auto-reset time
   const char *auto_reset_txt;
   time_t auto_reset_value;
@@ -202,13 +202,13 @@ TimerPreferencesPanel::create_timers_panel()
     .connect(SigC::slot(*this, &TimerPreferencesPanel::on_auto_reset_changed));
   hig->add(auto_reset_txt, *auto_reset_tim);
 
-  // Limit time
-  limit_tim = manage(new TimeEntry());
-  limit_tim->set_value (itimer->get_limit());
-  limit_tim->signal_value_changed()
-    .connect(SigC::slot(*this, &TimerPreferencesPanel::on_limit_changed));
-  hig->add(_("Time before break:"), *limit_tim);
-
+  // Snooze time
+  snooze_tim = manage(new TimeEntry());
+  snooze_tim->set_value (itimer->get_snooze());
+  snooze_tim->signal_value_changed()
+    .connect(SigC::slot(*this, &TimerPreferencesPanel::on_snooze_changed));
+  hig->add(_("Post-pone time:"), *snooze_tim);
+  
   return hig;
 }
 

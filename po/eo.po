@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-03-22 20:25+0100\n"
+"POT-Creation-Date: 2003-03-22 21:37+0100\n"
 "PO-Revision-Date: 2002-11-05 17:58-0800\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -276,48 +276,44 @@ msgstr "Reta protokolo"
 msgid "Enable networking"
 msgstr "Validigu retumadon"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:79 gui/gtkmm/PreferencesDialog.cc:61
-msgid "General"
-msgstr "Ĝenerala"
-
-#: gui/gtkmm/NetworkPreferencePage.cc:86
+#: gui/gtkmm/NetworkPreferencePage.cc:82
 #, fuzzy
 msgid "Username:"
 msgstr "Salutnomo"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:87
+#: gui/gtkmm/NetworkPreferencePage.cc:83
 #, fuzzy
 msgid "Password:"
 msgstr "Pasvorto"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:103
-msgid "Advanced"
-msgstr "Altgrada"
+#: gui/gtkmm/NetworkPreferencePage.cc:88 gui/gtkmm/PreferencesDialog.cc:61
+msgid "General"
+msgstr "Ĝenerala"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:106
+#: gui/gtkmm/NetworkPreferencePage.cc:100
 msgid "Server settings"
 msgstr "Servilaj agordoj"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:128
+#: gui/gtkmm/NetworkPreferencePage.cc:122
 #, fuzzy
 msgid "Server port:"
 msgstr "Servila pordo"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:129
+#: gui/gtkmm/NetworkPreferencePage.cc:123
 #, fuzzy
 msgid "Reconnect attempts:"
 msgstr "Rekonektaj provoj"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:130
+#: gui/gtkmm/NetworkPreferencePage.cc:124
 #, fuzzy
 msgid "Reconnect interval:"
 msgstr "Rekonekta intertempo"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:146
-msgid "Hosts"
-msgstr "Retnodoj"
+#: gui/gtkmm/NetworkPreferencePage.cc:127
+msgid "Advanced"
+msgstr "Altgrada"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:156
+#: gui/gtkmm/NetworkPreferencePage.cc:144
 msgid ""
 "The following list specifies the hosts that Workrave connects to on\n"
 "start-up. Click the host name or port number to edit."
@@ -325,19 +321,23 @@ msgstr ""
 "La sekvanta listo specifas la retnodoj kiu Workrave alkonektas ĉe\n"
 "startigo.  Klaku nomon de retnodo aŭ numero de pordo por ŝanĝi."
 
-#: gui/gtkmm/NetworkPreferencePage.cc:185
+#: gui/gtkmm/NetworkPreferencePage.cc:173
 msgid "Host name"
 msgstr "Nomo de retnodo"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:193
+#: gui/gtkmm/NetworkPreferencePage.cc:181
 msgid "Port"
 msgstr "Pordo"
+
+#: gui/gtkmm/NetworkPreferencePage.cc:218
+msgid "Hosts"
+msgstr "Retnodoj"
 
 #: gui/gtkmm/PreferencesDialog.cc:53
 msgid "Preferences"
 msgstr ""
 
-#: gui/gtkmm/PreferencesDialog.cc:65 gui/gtkmm/PreferencesDialog.cc:75
+#: gui/gtkmm/PreferencesDialog.cc:65
 msgid "Applet"
 msgstr ""
 
@@ -350,36 +350,36 @@ msgstr "Horloĝoj"
 msgid "User interface"
 msgstr "Uzula inferfaco"
 
-#: gui/gtkmm/PreferencesDialog.cc:78
+#: gui/gtkmm/PreferencesDialog.cc:75
 msgid "Network"
 msgstr "Reto"
 
-#: gui/gtkmm/PreferencesDialog.cc:117
+#: gui/gtkmm/PreferencesDialog.cc:114
 msgid "The main window stays always on top of other windows"
 msgstr "La ĉefa fenestro ĉiam restas antaŭ ol la aliaj fenestroj"
 
-#: gui/gtkmm/PreferencesDialog.cc:126
+#: gui/gtkmm/PreferencesDialog.cc:123
 msgid "No sounds"
 msgstr "Ne sonoj"
 
-#: gui/gtkmm/PreferencesDialog.cc:128
+#: gui/gtkmm/PreferencesDialog.cc:125
 msgid "Play sounds using sound card"
 msgstr "Ludu sonojn uzante sonkarton"
 
-#: gui/gtkmm/PreferencesDialog.cc:130
+#: gui/gtkmm/PreferencesDialog.cc:127
 msgid "Play sounds using built-in speaker"
 msgstr "Ludu sonojn uzante en-komputila laŭtparolilo"
 
-#: gui/gtkmm/PreferencesDialog.cc:146
+#: gui/gtkmm/PreferencesDialog.cc:143
 msgid "Hide main window at start-up"
 msgstr "Kaŝu ĉefan fenestron ĉe startigo"
 
 #. Options
-#: gui/gtkmm/PreferencesDialog.cc:153 gui/gtkmm/TimerPreferencesPanel.cc:128
+#: gui/gtkmm/PreferencesDialog.cc:150 gui/gtkmm/TimerPreferencesPanel.cc:128
 msgid "Options"
 msgstr "Opcioj"
 
-#: gui/gtkmm/PreferencesDialog.cc:156
+#: gui/gtkmm/PreferencesDialog.cc:153
 msgid "Sound:"
 msgstr ""
 
@@ -574,8 +574,8 @@ msgstr "Montru 'Proktrastu' kaj 'Transsaltu' butonon"
 
 #: gui/gtkmm/TimerPreferencesPanel.cc:181
 #, fuzzy
-msgid "Post-pone time:"
-msgstr "Prokrasta tempo"
+msgid "Time before break:"
+msgstr "Tempo por ripozo"
 
 #: gui/gtkmm/TimerPreferencesPanel.cc:188
 #, fuzzy
@@ -589,8 +589,8 @@ msgstr "Daŭro de paŭzo"
 
 #: gui/gtkmm/TimerPreferencesPanel.cc:210
 #, fuzzy
-msgid "Time before break:"
-msgstr "Tempo por ripozo"
+msgid "Post-pone time:"
+msgstr "Prokrasta tempo"
 
 #: gui/gtkmm/TimerWindow.cc:111 gui/gtkmm/TimerWindow.cc:178
 msgid "Wait"

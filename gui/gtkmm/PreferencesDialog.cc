@@ -151,7 +151,7 @@ PreferencesDialog::create_gui_page()
   panel->add(*ontop_cb);
   panel->add(*start_in_tray_cb);
   panel->add(_("Sound:"), *sound_button);
-
+  panel->set_border_width(12);
   return panel;
 }
 

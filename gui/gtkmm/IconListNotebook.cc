@@ -23,6 +23,7 @@
 
 
 IconListNotebook::IconListNotebook()
+  : Gtk::HBox(false, 6)
 {
   icon_list.show();
   icon_list.set_headers_visible(false);
@@ -52,7 +53,6 @@ IconListNotebook::IconListNotebook()
 
   notebook.set_show_tabs(false);
   notebook.set_show_border(false);
-  notebook.set_border_width(6);
 
   pack_start(*scroller, false, false, 0);
   pack_start(notebook, true, true, 0);
