@@ -6,7 +6,7 @@ dnl
 dnl $Id$
 dnl
 
-AC_INIT(src/core/Core.cc)
+AC_INIT(backend/src/Core.cc)
 
 dnl m4_pattern_allow(AM_PATH_ORBIT2)
 
@@ -496,48 +496,48 @@ if test "$config_cwd_debug" = yes; then
 fi
 
           
-CORE_LIBS="\$(top_srcdir)/src/core/libcore.a"
-CORE_CFLAGS="-I \$(top_srcdir)/src/core -I \$(top_srcdir)/src/core/intf"
-CORE_INTF="-I \$(top_srcdir)/src/core/intf"
-SHARED_LIBS="\$(top_srcdir)/src/shared/libshared.a"
-SHARED_CFLAGS="-I \$(top_srcdir)/src/shared"
+WR_BACKEND_LIBS="\$(top_srcdir)/backend/src/libworkrave-backend.a"
+WR_BACKEND_CFLAGS="-I \$(top_srcdir)/backend/include -I \$(top_srcdir)/backend/src/"
+WR_BACKEND_INCLUDES="-I \$(top_srcdir)/backend/include"
+WR_COMMON_LIBS="\$(top_srcdir)/common/src/libworkrave-common.a"
+WR_COMMON_CFLAGS="-I \$(top_srcdir)/common/include"
 
 if test "x$platform_win32" = "xyes"; then
-   SHARED_LIBS="\$(top_srcdir)/src/shared/win32/libsharedwin32.a $SHARED_LIBS"
-   SHARED_CFLAGS="$SHARED_CFLAGS -I \$(top_srcdir)/src/shared/win32"
+   WR_COMMON_LIBS="\$(top_srcdir)/common/src/win32/libworkrave-common-win32.a $WR_COMMON_LIBS"
+   WR_COMMON_CFLAGS="$WR_COMMON_CFLAGS -I \$(top_srcdir)/common/include/win32"
 
-   CORE_LIBS="$CORE_LIBS \$(top_srcdir)/src/core/win32/libcorewin32.a"
-   CORE_CFLAGS="$CORE_CFLAGS -I \$(top_srcdir)/src/core/win32"
+   WR_BACKEND_LIBS="$WR_BACKEND_LIBS \$(top_srcdir)/backend/src/win32/libworkrave-backend-win32.a"
+   WR_BACKEND_CFLAGS="$WR_BACKEND_CFLAGS -I \$(top_srcdir)/backend/src/win32"
 else
-   SHARED_LIBS="\$(top_srcdir)/src/shared/unix/libsharedunix.a $SHARED_LIBS"
-   SHARED_CFLAGS="$SHARED_CFLAGS -I \$(top_srcdir)/src/shared/unix"
+   WR_COMMON_LIBS="\$(top_srcdir)/common/src/unix/libworkrave-common-unix.a $WR_COMMON_LIBS"
+   WR_COMMON_CFLAGS="$WR_COMMON_CFLAGS -I \$(top_srcdir)/common/include/unix"
 
-   CORE_LIBS="$CORE_LIBS \$(top_srcdir)/src/core/unix/libcoreunix.a"
-   CORE_CFLAGS="$CORE_CFLAGS -I \$(top_srcdir)/src/core/unix"
+   WR_BACKEND_LIBS="$WR_BACKEND_LIBS \$(top_srcdir)/backend/src/unix/libworkrave-backend-unix.a"
+   WR_BACKEND_CFLAGS="$WR_BACKEND_CFLAGS -I \$(top_srcdir)/backend/src/unix"
 fi   
 
-APP_LIBS="$CORE_LIBS $SHARED_LIBS \$(top_srcdir)/src/app/shared/libapp.a $SHARED_LIBS"
-APP_CFLAGS="$SHARED_CFLAGS $CORE_CFLAGS -I \$(top_srcdir)/src/app/shared/intf -I \$(top_srcdir)/src/app/shared/"
+WR_FRONTEND_LIBS="$WR_BACKEND_LIBS $WR_COMMON_LIBS \$(top_srcdir)/frontend/common/src/libworkrave-frontend-common.a $WR_COMMON_LIBS"
+WR_FRONTEND_CFLAGS="$WR_COMMON_CFLAGS $WR_BACKEND_CFLAGS -I \$(top_srcdir)/frontend/common/include/"
 if test "x$platform_win32" = "xyes"; then
-   APP_LIBS="$APP_LIBS \$(top_srcdir)/src/app/shared/win32/libappwin32.a"
-   APP_CFLAGS="$APP_CFLAGS -I \$(top_srcdir)/src/app/shared/win32"
+   WR_FRONTEND_LIBS="$WR_FRONTEND_LIBS \$(top_srcdir)/frontend/common/src/win32/libworkrave-frontend-common-win32.a"
+   WR_FRONTEND_CFLAGS="$WR_FRONTEND_CFLAGS -I \$(top_srcdir)/frontend/common/include/win32"
 fi
 if test "x$config_with_gnome" = "xyes"; then
-   APP_LIBS="$APP_LIBS \$(top_srcdir)/src/app/shared/gnome/libappgnome.a"
-   APP_CFLAGS="$APP_CFLAGS -I \$(top_srcdir)/src/app/shared/gnome"
+   WR_FRONTEND_LIBS="$WR_FRONTEND_LIBS \$(top_srcdir)/frontend/common/src/gnome/libworkrave-frontend-common-gnome.a"
+   WR_FRONTEND_CFLAGS="$WR_FRONTEND_CFLAGS -I \$(top_srcdir)/frontend/common/include/gnome"
 fi   
                                              
-AC_SUBST(APP_LIBS)
-AC_SUBST(APP_CFLAGS)
+AC_SUBST(WR_FRONTEND_LIBS)
+AC_SUBST(WR_FRONTEND_CFLAGS)
 
-AC_SUBST(SHARED_DIRS)
-AC_SUBST(SHARED_LIBS)
-AC_SUBST(SHARED_CFLAGS)
+AC_SUBST(WR_COMMON_DIRS)
+AC_SUBST(WR_COMMON_LIBS)
+AC_SUBST(WR_COMMON_CFLAGS)
  
-AC_SUBST(CORE_DIRS)
-AC_SUBST(CORE_LIBS)
-AC_SUBST(CORE_CFLAGS)
-AC_SUBST(CORE_INTF)
+AC_SUBST(WR_BACKEND_DIRS)
+AC_SUBST(WR_BACKEND_LIBS)
+AC_SUBST(WR_BACKEND_CFLAGS)
+AC_SUBST(WR_BACKEND_INCLUDES)
        
 HAVE_X=
 if test x$have_x = xyes ; then
@@ -620,30 +620,52 @@ AM_CONDITIONAL(HAVE_DISTRIBUTION, test "x$config_distribution" = "xyes")
 AM_CONDITIONAL(HAVE_EXERCISES, test "x$config_exercises" = "xyes")
 AM_CONDITIONAL(HAVE_EXPERIMENTAL, test "x$config_experimental" = "xyes")
                                                            
+
 AC_OUTPUT(Makefile \
-          src/Makefile \
-          src/core/Makefile \
-          src/core/unix/Makefile \
-          src/core/win32/Makefile \
-          src/core/intf/Makefile \
-          src/shared/Makefile \
-          src/shared/unix/Makefile \
-          src/shared/win32/Makefile \
-          src/shared/win32/harpoon/Makefile \
-          src/app/Makefile \
-          src/app/gtkmm/Makefile \
-          src/app/gtkmm/gnome_applet/Makefile \
-          src/app/gtkmm/win32/Makefile \
-          src/app/gtkmm/win32/setup/Makefile \
-          src/app/gtkmm/win32/setup/setup.iss \
-          src/app/text/Makefile \
-          src/app/shared/Makefile \
-          src/app/shared/images/Makefile \
-          src/app/shared/exercises/Makefile \
-          src/app/shared/sounds/Makefile \
-          src/app/shared/win32/Makefile \
-          src/app/shared/gnome/Makefile \
-          src/app/shared/intf/Makefile \
+          backend/Makefile \
+          backend/src/Makefile \
+          backend/src/unix/Makefile \
+          backend/src/win32/Makefile \
+          backend/include/Makefile \
+          common/Makefile \
+          common/src/Makefile \
+          common/src/unix/Makefile \
+          common/src/win32/Makefile \
+          common/include/Makefile \
+          common/include/win32/Makefile \
+          common/include/unix/Makefile \
+          common/win32/Makefile \
+          common/win32/harpoon/Makefile \
+          common/win32/harpoon/include/Makefile \
+          common/win32/harpoon/src/Makefile \
+          frontend/Makefile \
+          frontend/common/Makefile \
+          frontend/common/include/Makefile \
+          frontend/common/share/Makefile \
+          frontend/common/share/sounds/Makefile \
+          frontend/common/share/images/Makefile \
+          frontend/common/src/Makefile \
+          frontend/common/src/gnome/Makefile \
+          frontend/common/src/win32/Makefile \
+          frontend/gtkmm/Makefile \
+          frontend/gtkmm/win32/Makefile \
+          frontend/gtkmm/win32/setup/Makefile \
+          frontend/gtkmm/src/Makefile \
+          frontend/gtkmm/src/win32/Makefile \
+          frontend/gtkmm/src/gnome_applet/Makefile \
+          frontend/plugin/Makefile \
+          frontend/plugin/distribution/Makefile \
+          frontend/plugin/distribution/gtkmm/Makefile \
+          frontend/plugin/distribution/gtkmm/src/Makefile \
+          frontend/plugin/statistics/Makefile \
+          frontend/plugin/statistics/gtkmm/Makefile \
+          frontend/plugin/statistics/gtkmm/src/Makefile \
+          frontend/plugin/exercises/Makefile \
+          frontend/plugin/exercises/common/Makefile \
+          frontend/plugin/exercises/common/share/Makefile \
+          frontend/plugin/exercises/common/src/Makefile \
+          frontend/plugin/exercises/gtkmm/Makefile \
+          frontend/plugin/exercises/gtkmm/src/Makefile \
           po/Makefile.in \
           m4/Makefile \
           workrave.spec)

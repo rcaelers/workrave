@@ -1,0 +1,161 @@
+; setup.iss --- Inno setup file
+; (Important: *MUST* be DOS encoded)
+;
+; Copyright (C) 2002, 2003 Raymond Penners <raymond@dotsphinx.com>
+; All rights reserved.
+;
+; This program is free software; you can redistribute it and/or modify
+; it under the terms of the GNU General Public License as published by
+; the Free Software Foundation; either version 2, or (at your option)
+; any later version.
+;
+; This program is distributed in the hope that it will be useful,
+; but WITHOUT ANY WARRANTY; without even the implied warranty of
+; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+; GNU General Public License for more details.
+;
+; $Id$
+
+[Setup]
+AppName=Workrave
+AppVerName=Workrave @VERSION@
+AppPublisher=Rob Caelers & Raymond Penners
+AppPublisherURL=http://www.workrave.org
+AppSupportURL=http://www.workrave.org
+AppUpdatesURL=http://www.workrave.org
+DefaultDirName={pf}\Workrave
+DefaultGroupName=Workrave
+LicenseFile=..\..\..\..\..\COPYING
+AppMutex=WorkraveMutex
+WizardImageFile=WizModernImage.bmp
+WizardSmallImageFile=WizModernSmall.bmp
+
+; uncomment the following line if you want your installation to run on NT 3.51 too.
+; MinVersion=4,3.51
+
+[Types]
+Name: "gtk"; Description: "Full installation (including GTK+ runtime)"
+Name: "nogtk"; Description: "Compact installation (excludes GTK+ runtime)"
+
+[Components]
+Name: "main"; Description: "Main Files"; Types: gtk nogtk; Flags: fixed
+Name: "gtk"; Description: "GTK+ Runtime Environment"; Types: gtk;
+
+
+[Tasks]
+Name: "desktopicon"; Description: "Create a &desktop icon"; GroupDescription: "Additional tasks:"; MinVersion: 4,4
+Name: "startupmenu"; Description: "Start Workrave when Windows starts"; GroupDescription: "Additional tasks:"; MinVersion: 4,4
+
+[Files]
+Source: ".\runtime-harpoon\*.*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
+Source: ".\runtime-base\*.*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs;
+Source: ".\runtime-gtk\*.*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs; Components: gtk;
+Source: ".\runtime-wimp\*.*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs; Components: gtk;
+Source: "..\..\..\shared\images\*.png"; DestDir: "{app}\share\images\"; Flags: ignoreversion recursesubdirs
+Source: "..\..\..\shared\sounds\*.wav"; DestDir: "{app}\share\sounds\"; Flags: ignoreversion recursesubdirs
+Source: "..\..\..\shared\exercises\*.png"; DestDir: "{app}\share\exercises\"; Flags: ignoreversion recursesubdirs
+Source: "..\..\..\shared\exercises\exercises.xml"; DestDir: "{app}\share\exercises\"; Flags: ignoreversion
+Source: "..\..\..\..\..\COPYING.txt"; DestDir: "{app}"; DestName: "COPYING.txt"; Flags: ignoreversion;
+Source: "..\..\..\..\..\AUTHORS.txt"; DestDir: "{app}"; DestName: "AUTHORS.txt"; Flags: ignoreversion;
+Source: "..\..\..\..\..\NEWS.txt"; DestDir: "{app}"; DestName: "NEWS.txt"; Flags: ignoreversion;
+Source: "..\..\..\..\..\README.txt"; DestDir: "{app}"; DestName: "README.txt"; Flags: ignoreversion;
+Source: "..\..\workrave.exe"; DestDir: "{app}\lib"; DestName: "Workrave.exe"; Flags: ignoreversion;
+Source: "..\..\..\..\..\po\nl.gmo"; DestDir: "{app}\lib\locale\nl\LC_MESSAGES"; DestName: "workrave.mo"; Flags: ignoreversion;
+Source: "..\..\..\..\..\po\de.gmo"; DestDir: "{app}\lib\locale\de\LC_MESSAGES"; DestName: "workrave.mo"; Flags: ignoreversion;
+Source: "..\..\..\..\..\po\eo.gmo"; DestDir: "{app}\lib\locale\eo\LC_MESSAGES"; DestName: "workrave.mo"; Flags: ignoreversion;
+Source: "..\..\..\..\..\po\es.gmo"; DestDir: "{app}\lib\locale\es\LC_MESSAGES"; DestName: "workrave.mo"; Flags: ignoreversion;
+Source: "..\..\..\..\..\po\da.gmo"; DestDir: "{app}\lib\locale\da\LC_MESSAGES"; DestName: "workrave.mo"; Flags: ignoreversion;
+Source: "..\..\..\..\..\po\pl.gmo"; DestDir: "{app}\lib\locale\pl\LC_MESSAGES"; DestName: "workrave.mo"; Flags: ignoreversion;
+
+[Registry]
+Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\Workrave.exe"; ValueType: string; ValueData: "{app}\lib\Workrave.exe"; Flags: uninsdeletekeyifempty
+Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\Workrave.exe"; ValueName: "Path"; ValueType: string; ValueData: "{code:GetAppPath}"; Flags: uninsdeletekeyifempty
+Root: HKLM; Subkey: "SOFTWARE\Workrave"; ValueName: "CommonGTK"; ValueType: string; ValueData: "{code:GetCommonGtkKey}";
+
+[Icons]
+Name: "{group}\Workrave"; Filename: "{app}\lib\Workrave.exe"
+Name: "{group}\News"; Filename: "{app}\NEWS.txt"
+Name: "{group}\Read me"; Filename: "{app}\README.txt"
+Name: "{group}\License"; Filename: "{app}\COPYING.txt"
+Name: "{group}\Uninstall"; Filename: "{uninstallexe}"
+Name: "{userdesktop}\Workrave"; Filename: "{app}\lib\Workrave.exe"; MinVersion: 4,4; Tasks: desktopicon
+Name: "{userstartup}\Workrave"; Filename: "{app}\lib\Workrave.exe"; MinVersion: 4,4; Tasks: startupmenu
+Name: "{app}\Workrave"; Filename: "{app}\lib\Workrave.exe"
+
+
+
+[Run]
+Filename: "{app}\Workrave.lnk"; Description: "Launch Workrave"; Flags: nowait postinstall skipifsilent shellexec;
+
+[Code]
+function InitializeSetup(): Boolean;
+begin
+  Result := true;
+end;
+
+function HasGtkRuntime(): Boolean;
+var
+  v: String;
+begin
+  Result := RegQueryStringValue(HKLM, 'Software\GTK\2.0', 'Version', v);
+end;
+
+function GetGtkRuntimePath(): String;
+var
+  b: Boolean;
+begin
+  b := RegQueryStringValue(HKLM, 'Software\GTK\2.0', 'Path', Result);
+  if not b then begin
+    Result := '';
+  end
+end;
+
+function IsGtkRuntimeToBeInstalled(): Boolean;
+var
+  i: Integer;
+begin
+    i := Pos(',gtk', WizardSelectedComponents(False));
+    Result := i <> 0;
+end;
+
+function GetCommonGtkKey(S: String): String;
+begin
+    Result := 'TRUE';
+    if (isGtkRuntimeToBeInstalled()) then begin
+        Result := 'FALSE';
+    end
+end;
+
+function GetAppPath(S: String): String;
+begin
+  Result := WizardDirValue + '\lib';
+  if (not IsGtkRuntimeToBeInstalled()) then begin
+    Result := Result + ';' + GetGtkRuntimePath() + '\lib';    
+  end
+end;
+
+function ScriptDlgPages(CurPage: Integer; BackClicked: Boolean): Boolean;
+var
+  I, CurSubPage: Integer;
+begin
+   Result := True;
+  if (not BackClicked and (CurPage = wpSelectComponents)) then begin
+    if (not HasGtkRuntime()) and (not IsGtkRuntimeToBeInstalled()) then begin
+      MsgBox('Setup could not find the required GTK+ runtime environment. Please choose the full installation instead, or download and install the GTK+ runtime environment from http://www.dropline.net/gtk/.', mbError, MB_OK);
+      Result := False;
+    end
+  end
+end;
+
+
+function NextButtonClick(CurPage: Integer): Boolean;
+begin
+  Result := ScriptDlgPages(CurPage, False);
+end;
+
+function BackButtonClick(CurPage: Integer): Boolean;
+begin
+  Result := ScriptDlgPages(CurPage, True);
+end;
+
+

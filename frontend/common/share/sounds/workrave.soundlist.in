@@ -1,0 +1,37 @@
+[__section_info__]
+_description=Workrave
+
+[restbreak_started]
+file=workrave/restbreak-started.wav
+_description=Rest break started
+
+[restbreak_ended]
+file=workrave/restbreak-ended.wav
+_description=Rest break ended
+
+[micropause_started]
+file=workrave/micropause-started.wav
+_description=Micro-pause started
+
+[micropause_ended]
+file=workrave/micropause-ended.wav
+_description=Micro-pause ended
+
+[break_ignored]
+file=workrave/break-ignored.wav
+_description=Break ignored
+
+[break_prelude]
+file=workrave/break-prelude.wav
+_description=Break prompt
+
+file=workrave/daily-limit.wav
+_description=Daily limit
+
+[exercise_ended]
+file=workrave/exercise-ended.wav
+_description=Exercise ended
+
+[exercises_ended]
+file=workrave/exercises-ended.wav
+_description=Exercises ended

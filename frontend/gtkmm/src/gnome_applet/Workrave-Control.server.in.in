@@ -1,0 +1,26 @@
+<oaf_info>
+
+        <oaf_server     iid="OAFIID:GNOME_Workrave_Factory"
+	                type="exe"
+	                location="@BINDIR@/workrave">
+
+        	<oaf_attribute name="repo_ids" type="stringv">
+	        	<item value="IDL:Bonobo/GenericFactory:1.0"/>
+	        </oaf_attribute>
+        	<oaf_attribute name="name" type="string" value="Workrave Factory"/>
+        	<oaf_attribute name="description" type="string" value="Workrave"/>
+        </oaf_server>
+
+	<oaf_server     iid="OAFIID:GNOME_Workrave_WorkraveControl"
+	        	type="factory"
+		        location="OAFIID:GNOME_Workrave_Factory">
+
+		<oaf_attribute name="repo_ids" type="stringv">
+			<item value="IDL:GNOME/Workrave/WorkraveControl:1.0"/>
+		</oaf_attribute>
+
+		<oaf_attribute name="name" type="string" value="WorkraveControl"/>
+		<oaf_attribute name="description" type="string" value="Workrave Control Interface"/>
+	</oaf_server>
+
+</oaf_info>
