@@ -329,7 +329,7 @@ GUI::on_save_yourself(int phase, Gnome::UI::SaveStyle save_style, bool shutdown,
         {
           args.push_back("--display");
           args.push_back(display_name);
-          g_free(display_name);
+          // g_free(display_name);
         }
     }
   
@@ -394,9 +394,9 @@ GUI::init_core_control()
   Configurator *config = create_configurator();
   core_control->init(GUIControl::BREAK_ID_SIZEOF, config, display_name);
 
-#ifdef HAVE_X
-  g_free(display_name);
-#endif
+// #ifdef HAVE_X
+//    g_free(display_name);
+// #endif
 }
 
 

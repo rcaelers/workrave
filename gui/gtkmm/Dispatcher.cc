@@ -28,6 +28,7 @@ static const char rcsid[] = "$Id$";
 
 #include "nls.h"
 #include "debug.hh"
+#include "errno.h"
 
 #include <glib.h>
 #include <fcntl.h>
