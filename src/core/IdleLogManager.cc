@@ -825,6 +825,8 @@ IdleLogManager::signoff_remote_client(string client_id)
 void
 IdleLogManager::dump_idlelog(ClientInfo &info)
 {
+  (void) info;
+#if 0
 #ifndef WIN32  
   TRACE_ENTER("IdleLogManager::dump_idlelog");
 
@@ -853,5 +855,6 @@ IdleLogManager::dump_idlelog(ClientInfo &info)
       i++;
     }
   TRACE_EXIT();
+#endif
 #endif
 }

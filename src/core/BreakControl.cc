@@ -31,9 +31,7 @@ static const char rcsid[] = "$Id$";
 #include "BreakInterface.hh"
 #include "Core.hh"
 #include "Statistics.hh"
-#include "GUIFactoryInterface.hh"
-#include "PreludeWindowInterface.hh"
-#include "BreakWindowInterface.hh"
+#include "AppInterface.hh"
 #include "ActivityMonitorInterface.hh"
 #include "ActivityMonitorListener.hh"
 #include "Timer.hh"
@@ -52,13 +50,11 @@ static const char rcsid[] = "$Id$";
  *          windows.
  *  \param timer pointer to the interface of the timer that belongs to this break.
  */
-BreakControl::BreakControl(BreakId id, Core *c, GUIFactoryInterface *factory, Timer *timer) :
+BreakControl::BreakControl(BreakId id, Core *c, AppInterface *app, Timer *timer) :
   break_id(id),
   core(c),
-  gui_factory(factory),
+  application(app),
   break_timer(timer),
-  break_window(NULL),
-  prelude_window(NULL),
   break_stage(STAGE_NONE),
   final_prelude(false),
   prelude_time(0),
@@ -68,8 +64,6 @@ BreakControl::BreakControl(BreakId id, Core *c, GUIFactoryInterface *factory, Ti
   force_after_prelude(true),
   insist_break(true),
   ignorable_break(true),
-  break_window_destroy(false),
-  prelude_window_destroy(false),
   insist_policy(INSIST_POLICY_HALT),
   active_insist_policy(INSIST_POLICY_INVALID),
   fake_break(false),
@@ -79,15 +73,14 @@ BreakControl::BreakControl(BreakId id, Core *c, GUIFactoryInterface *factory, Ti
   set_ignorable_break(ignorable_break);
 
   assert(break_timer != NULL);
+  assert(application != NULL);
 }
 
 
 //! Destructor.
 BreakControl::~BreakControl()
 {
-  prelude_window_stop();
-  break_window_stop();
-  collect_garbage();
+  application->hide_break_window();
 }
 
 
@@ -97,8 +90,6 @@ BreakControl::heartbeat()
 {
   TRACE_ENTER_MSG("BreakControl::heartbeat", break_id);
 
-  collect_garbage();
-  
   prelude_time++;
 
   bool is_idle = false;
@@ -138,9 +129,9 @@ BreakControl::heartbeat()
         
     case STAGE_PRELUDE:
       {
-        assert(prelude_window != NULL);
+        assert(application != NULL);
         update_prelude_window();
-        prelude_window->refresh();
+        application->refresh_break_window();
 
         if (is_idle)
           {
@@ -163,7 +154,7 @@ BreakControl::heartbeat()
               {
                 // Snooze break.
                 break_stage = STAGE_PRELUDE; // FIXME: hack to avoid race. will fix later.
-                bool delayed = prelude_window->delayed_stop();
+                bool delayed = application->delayed_hide_break_window();
                 if (!delayed)
                   {
                     goto_stage(STAGE_SNOOZED);
@@ -177,23 +168,20 @@ BreakControl::heartbeat()
         else if (prelude_time == 20)
           {
             // Still not idle after 20s. Red alert.
-            assert(prelude_window != NULL);
-            prelude_window->set_stage(PreludeWindowInterface::STAGE_ALERT);
-            prelude_window->refresh();
+            application->set_prelude_stage(AppInterface::STAGE_ALERT);
+            application->refresh_break_window();
           }
         else if (prelude_time == 10)
           {
             // Still not idle after 10s. Yellow alert.
-            assert(prelude_window != NULL);
-            prelude_window->set_stage(PreludeWindowInterface::STAGE_WARN);
-            prelude_window->refresh();
+            application->set_prelude_stage(AppInterface::STAGE_WARN);
+            application->refresh_break_window();
           }
 
         if (prelude_time == 4)
           {
             // Move prelude window to top of screen after 4s.
-            assert(prelude_window != NULL);
-            prelude_window->set_stage(PreludeWindowInterface::STAGE_MOVE_OUT);
+            application->set_prelude_stage(AppInterface::STAGE_MOVE_OUT);
           }
       } 
       break;
@@ -214,8 +202,7 @@ BreakControl::heartbeat()
           {
             // refresh the break window.
             update_break_window();
-            assert(break_window != NULL);
-            break_window->refresh();
+            application->refresh_break_window();
           }
       }
       break;
@@ -238,8 +225,7 @@ BreakControl::goto_stage(BreakStage stage)
     case STAGE_NONE:
       {
         // Teminate the break.
-        break_window_stop();
-        prelude_window_stop();
+        application->hide_break_window();
         defrost();
 
         if (break_stage == STAGE_TAKING)
@@ -281,8 +267,7 @@ BreakControl::goto_stage(BreakStage stage)
       
     case STAGE_SNOOZED:
       {
-        break_window_stop();
-        prelude_window_stop();
+        application->hide_break_window();
         if (!user_initiated)
           {
             post_event(CORE_EVENT_SOUND_BREAK_IGNORED);
@@ -295,10 +280,10 @@ BreakControl::goto_stage(BreakStage stage)
       {
         prelude_count++;
         prelude_time = 0;
-        break_window_stop();
+        application->hide_break_window();
 
         prelude_window_start();
-        prelude_window->refresh();
+        application->refresh_break_window();
         post_event(CORE_EVENT_SOUND_BREAK_PRELUDE);
       }
       break;
@@ -306,7 +291,7 @@ BreakControl::goto_stage(BreakStage stage)
     case STAGE_TAKING:
       {
         // Remove the prelude window, if necessary.
-        prelude_window_stop();
+        application->hide_break_window();
 
         // "Innocent until proven guilty".
         ActivityMonitorInterface *monitor = core->get_activity_monitor();
@@ -315,8 +300,7 @@ BreakControl::goto_stage(BreakStage stage)
 
         // Start the break.
         break_window_start();
-        assert(break_window != NULL);
-        break_window->refresh();
+        application->refresh_break_window();
 
         // Play sound
         if (!user_initiated)
@@ -356,8 +340,7 @@ BreakControl::goto_stage(BreakStage stage)
 void
 BreakControl::update_prelude_window()
 {
-  assert(prelude_window != NULL);
-  prelude_window->set_progress(prelude_time, 29);
+  application->set_break_progress(prelude_time, 29);
 }
 
 
@@ -384,8 +367,7 @@ BreakControl::update_break_window()
       idle = duration;
     }
 
-  assert(break_window != NULL);
-  break_window->set_progress(idle, duration);
+  application->set_break_progress(idle, duration);
 }
 
 
@@ -508,10 +490,7 @@ BreakControl::suspend_break()
 bool
 BreakControl::need_heartbeat()
 {
-  return
-    break_window_destroy ||
-    prelude_window_destroy ||
-    ( break_stage != STAGE_NONE && break_stage != STAGE_SNOOZED );
+  return ( break_stage != STAGE_NONE && break_stage != STAGE_SNOOZED );
 }
 
 
@@ -560,6 +539,16 @@ BreakControl::postpone_break()
 
   // and stop the break.
   stop_break();
+}
+
+
+void
+BreakControl::stop_prelude()
+{
+  if (break_stage == STAGE_DELAYED)
+    {
+      goto_stage(STAGE_SNOOZED);
+    }
 }
 
 
@@ -655,109 +644,41 @@ void
 BreakControl::break_window_start()
 {
   TRACE_ENTER_MSG("BreakControl::break_window_start", break_id);
-  if (break_window == NULL)
-    {
-      assert(gui_factory != NULL);
-      break_window = gui_factory->create_break_window(break_id,
-                                                      forced_break ? true : ignorable_break,
-                                                      insist_break);
-    }
 
-  break_window_destroy = false;
-  
-  assert(break_window != NULL);
-  break_window->set_break_response(this);
-  
+  application->start_break_window(break_id,
+                                  forced_break ? true : ignorable_break,
+                                  insist_break);
+
   update_break_window();
-  
-  break_window->start();
   TRACE_EXIT();
 }
-
-
-//! Removes the break windows.
-void
-BreakControl::break_window_stop()
-{
-  TRACE_ENTER_MSG("BreakControl::break_window_stop", break_id);
-  if (break_window != NULL)
-    {
-      break_window->stop();
-      break_window_destroy = true;
-    }
-  TRACE_EXIT();
-}
-
 
 //! Creates and shows the prelude window.
 void
 BreakControl::prelude_window_start()
 {
   TRACE_ENTER_MSG("BreakControl::prelude_window_start", break_id);
-  
-  if (prelude_window == NULL)
-    {
-      assert(gui_factory != NULL);
-      prelude_window = gui_factory->create_prelude_window(break_id);
-      assert(prelude_window != NULL);
-    }
-  
-  prelude_window_destroy = false;
 
-  prelude_window->set_prelude_response(this);
-  prelude_window->set_stage(PreludeWindowInterface::STAGE_INITIAL);
+  application->start_prelude_window(break_id);
+
+  application->set_prelude_stage(AppInterface::STAGE_INITIAL);
 
   if (!final_prelude)
     {
-      prelude_window->set_progress_text(PreludeWindowInterface::PROGRESS_TEXT_DISAPPEARS_IN);
+      application->set_prelude_progress_text(AppInterface::PROGRESS_TEXT_DISAPPEARS_IN);
     }
   else if (force_after_prelude) // && final_prelude
     {
-      prelude_window->set_progress_text(PreludeWindowInterface::PROGRESS_TEXT_BREAK_IN);
+      application->set_prelude_progress_text(AppInterface::PROGRESS_TEXT_BREAK_IN);
     }
   else // final_prelude && ! force_after_prelude
     {
-      prelude_window->set_progress_text(PreludeWindowInterface::PROGRESS_TEXT_SILENT_IN);
+      application->set_prelude_progress_text(AppInterface::PROGRESS_TEXT_SILENT_IN);
     }
   
   update_prelude_window();
   
-  prelude_window->start();
   TRACE_EXIT();
-}
-
-
-//! Removes the prelude window.
-void
-BreakControl::prelude_window_stop()
-{
-  TRACE_ENTER_MSG("BreakControl::prelude_window_stop", break_id);
-  if (prelude_window != NULL)
-    {
-      prelude_window->stop();
-      prelude_window_destroy = true;
-    }
-  TRACE_EXIT();
-}
-
-
-//! Destroys the break/prelude windows, if requested.
-void
-BreakControl::collect_garbage()
-{
-  if (prelude_window_destroy)
-    {
-      prelude_window->destroy();
-      prelude_window = NULL;
-      prelude_window_destroy = false;
-    }
-  
-  if (break_window_destroy)
-    {
-      break_window->destroy();
-      break_window = NULL;
-      break_window_destroy = false;
-    }
 }
 
 
@@ -833,8 +754,7 @@ BreakControl::set_state_data(bool active, const BreakStateData &data)
             " final = " << final_prelude <<
             " time = " << data.prelude_time);
   
-  prelude_window_stop();
-  break_window_stop();
+  application->hide_break_window();
 
   forced_break = data.forced_break;
   prelude_count = data.prelude_count;
@@ -938,11 +858,3 @@ BreakControl::post_event(CoreEvent event)
 }
 
 
-void
-BreakControl::prelude_stopped()
-{
-  if (break_stage == STAGE_DELAYED)
-    {
-      goto_stage(STAGE_SNOOZED);
-    }
-}

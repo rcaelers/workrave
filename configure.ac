@@ -273,6 +273,17 @@ then
     AC_SUBST(IDL_INCLUDES)
 
   fi
+
+  dnl
+  dnl check if we have gtk+ 2.1.x (again - for multihead support)
+  dnl
+  AC_MSG_CHECKING([for gtk+ multihead support])
+  if $PKG_CONFIG --atleast-version 2.1.0 gtk+-2.0; then
+    AC_DEFINE(HAVE_GTK_MULTIHEAD,,[gtk+ with multihead support found])
+    AC_MSG_RESULT(yes)
+  else
+    AC_MSG_RESULT(no)
+  fi
 fi
 
 AC_SUBST(GNOMEUIMM_LIBS)

@@ -29,9 +29,8 @@ static const char rcsid[] = "$Id$";
 
 #include "CoreFactory.hh"
 #include "CoreInterface.hh"
-#include "PreludeResponseInterface.hh"
 
-#include "Dispatcher.hh"
+#include "BreakResponseInterface.hh"
 #include "PreludeWindow.hh"
 #include "WindowHints.hh"
 #include "Frame.hh"
@@ -40,7 +39,8 @@ static const char rcsid[] = "$Id$";
 
 
 //! Construct a new Micropause window.
-PreludeWindow::PreludeWindow(BreakId break_id)
+PreludeWindow::PreludeWindow(BreakId break_id MULTIHEAD_PARAMS)
+  : break_id(break_id)
 {
   // Time bar
   time_bar = manage(new TimeBar);
@@ -95,16 +95,15 @@ PreludeWindow::PreludeWindow(BreakId break_id)
 
   stick();
 
-  dispatcher = new Dispatcher;
-  dispatch_connection = dispatcher->connect(SigC::slot_class(*this, &PreludeWindow::on_activity));
+#ifdef HAVE_GTK_MULTIHEAD
+  set_screen(screen, monitor);
+#endif
 }
 
 
 //! Destructor.
 PreludeWindow::~PreludeWindow()
 {
-  dispatch_connection.disconnect();
-  delete dispatcher;
 }
 
 
@@ -200,19 +199,19 @@ PreludeWindow::set_progress(int value, int max_value)
 
 
 void
-PreludeWindow::set_progress_text(ProgressText text)
+PreludeWindow::set_progress_text(AppInterface::PreludeProgressText text)
 {
   switch (text)
     {
-    case PROGRESS_TEXT_BREAK_IN:
+    case AppInterface::PROGRESS_TEXT_BREAK_IN:
       progress_text = _("Break in");
       break;
       
-    case PROGRESS_TEXT_DISAPPEARS_IN:
+    case AppInterface::PROGRESS_TEXT_DISAPPEARS_IN:
       progress_text = _("Disappears in");
       break;
       
-    case PROGRESS_TEXT_SILENT_IN:
+    case AppInterface::PROGRESS_TEXT_SILENT_IN:
       progress_text = _("Silent in");
       break;
     }
@@ -220,31 +219,31 @@ PreludeWindow::set_progress_text(ProgressText text)
 
 
 void
-PreludeWindow::set_stage(Stage stage)
+PreludeWindow::set_stage(AppInterface::PreludeStage stage)
 {
   const char *icon = NULL;
   switch(stage)
     {
-    case STAGE_INITIAL:
+    case AppInterface::STAGE_INITIAL:
       frame->set_frame_flashing(0);
       frame->set_frame_visible(false);
       icon = "prelude-hint.png";
       break;
       
-    case STAGE_WARN:
+    case AppInterface::STAGE_WARN:
       frame->set_frame_visible(true);
       frame->set_frame_flashing(500);
       frame->set_frame_color(color_warn);
       icon = "prelude-hint-sad.png";
       break;
       
-    case STAGE_ALERT:
+    case AppInterface::STAGE_ALERT:
       frame->set_frame_flashing(500);
       frame->set_frame_color(color_alert);
       icon = "prelude-hint-sad.png";
       break;
 
-    case STAGE_MOVE_OUT:
+    case AppInterface::STAGE_MOVE_OUT:
       if (! did_avoid_pointer())
         {
           int winx, winy;
@@ -261,35 +260,6 @@ PreludeWindow::set_stage(Stage stage)
     }
 }
 
-
-bool
-PreludeWindow::delayed_stop()
-{
-  CoreInterface *core = CoreFactory::get_core();
-  core->set_activity_monitor_listener(this);
-  return true;
-}
-
-
-bool
-PreludeWindow::action_notify()
-{
-  if (dispatcher != NULL)
-    {
-      dispatcher->send_notification();
-    }
-  return false; // false: kill listener.
-}
-
-
-void
-PreludeWindow::on_activity()
-{
-  if (prelude_response != NULL)
-    {
-      prelude_response->prelude_stopped();
-    }
-}
 
 void
 PreludeWindow::on_frame_flash(bool frame_visible)

@@ -25,7 +25,7 @@
 #include "Timer.hh"
 
 class Configurator;
-class GUIFactoryInterface;
+class AppInterface;
 class BreakControl;
 
 using namespace std;
@@ -51,7 +51,7 @@ private:
   Configurator *configurator;
 
   //!
-  GUIFactoryInterface *gui_factory;
+  AppInterface *application;
   
   //! Interface pointer to the timer.
   Timer *timer;
@@ -66,7 +66,7 @@ public:
   Break();
   virtual ~Break();
 
-  void init(BreakId id, GUIFactoryInterface *factory);
+  void init(BreakId id, AppInterface *app);
 
   bool is_enabled() const;
   string get_name() const;
@@ -105,6 +105,8 @@ private:
   void init_break_control();
   void update_break_config();
   void load_break_control_config();
+
+  bool startsWith(string &key, string prefix, string &timer_name);
   
 private:
   static const string CFG_KEY_TIMER_PREFIX;

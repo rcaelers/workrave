@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-07-01 19:14:58 robc>
+// Time-stamp: <2003-07-02 18:49:08 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -232,19 +232,19 @@ Timer::set_auto_reset(string predicate)
 void
 Timer::compute_next_limit_time()
 {
-  TRACE_ENTER_MSG("Timer::compute_next_limit_time", timer_id);
+  //TRACE_ENTER_MSG("Timer::compute_next_limit_time", timer_id);
   
   // default action.
   next_limit_time = 0;
 
   if (timer_enabled && last_limit_time > 0 && !snooze_on_active)
     {
-      TRACE_MSG("1a " << next_limit_time << " " << last_limit_time);
+      //TRACE_MSG("1a " << next_limit_time << " " << last_limit_time);
       // Timer already reached limit
       if (!snooze_inhibited)
         {
           next_limit_time = last_limit_time + snooze_interval;
-          TRACE_MSG("1 " << next_limit_time << " " << last_limit_time);
+          //TRACE_MSG("1 " << next_limit_time << " " << last_limit_time);
         }
     }
   else if (timer_enabled && timer_state == STATE_RUNNING && last_start_time != 0 &&
@@ -253,25 +253,25 @@ Timer::compute_next_limit_time()
       // We are enabled, running and a limit != 0 was set.
       // So update our current Limit.
 
-      TRACE_MSG("2a " << next_limit_time << " " << last_limit_time);
+      //TRACE_MSG("2a " << next_limit_time << " " << last_limit_time);
       if (last_limit_time > 0)
         {
           // Limit already reached.
           if (snooze_on_active && !snooze_inhibited)
             {
               next_limit_time = last_start_time - elapsed_time + last_limit_elapsed + snooze_interval;
-              TRACE_MSG("2 " << next_limit_time << " " << last_limit_time << " "
-              << elapsed_time << " " << last_limit_elapsed << " " << snooze_interval);
+              //TRACE_MSG("2 " << next_limit_time << " " << last_limit_time << " "
+              //<< elapsed_time << " " << last_limit_elapsed << " " << snooze_interval);
             }
         }
       else
         {
           // new limit = last start time + limit - elapsed.
           next_limit_time = last_start_time + limit_interval - elapsed_time;
-          TRACE_MSG("3 ");
+          //TRACE_MSG("3 ");
         }
     }
-  TRACE_EXIT();
+  //TRACE_EXIT();
 }
 
 
@@ -303,7 +303,7 @@ Timer::compute_next_reset_time()
 void
 Timer::compute_next_predicate_reset_time()
 {
-  TRACE_ENTER_MSG("Timer::compute_next_predicate_reset_time", timer_id);
+  //TRACE_ENTER_MSG("Timer::compute_next_predicate_reset_time", timer_id);
   
   if (timer_enabled && autoreset_interval_predicate)
     {
@@ -315,9 +315,9 @@ Timer::compute_next_predicate_reset_time()
       autoreset_interval_predicate->set_last(last_pred_reset_time);
       next_pred_reset_time = autoreset_interval_predicate->get_next();
     }
-  TRACE_MSG(timer_enabled << " " << autoreset_interval_predicate << " " << next_pred_reset_time);
+  //TRACE_MSG(timer_enabled << " " << autoreset_interval_predicate << " " << next_pred_reset_time);
             
-  TRACE_EXIT();
+  //TRACE_EXIT();
 }
 
 //! Daily Reset.
@@ -332,7 +332,7 @@ Timer::daily_reset_timer()
 void
 Timer::reset_timer()
 {
-  TRACE_ENTER("Timer::reset_timer");
+  //TRACE_ENTER("Timer::reset_timer");
   // Update total overdue.
   time_t elapsed = get_elapsed_time();
   if (elapsed > limit_interval)
@@ -374,7 +374,7 @@ Timer::reset_timer()
       
   next_pred_reset_time = 0;
   compute_next_predicate_reset_time();
-  TRACE_EXIT();
+  //TRACE_EXIT();
 }
 
 

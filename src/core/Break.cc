@@ -94,7 +94,7 @@ struct Defaults
 Break::Break() :
   break_id(BREAK_ID_NONE),
   configurator(NULL),
-  gui_factory(NULL),
+  application(NULL),
   timer(NULL),
   break_control(NULL),
   enabled(true)
@@ -106,21 +106,21 @@ Break::Break() :
 
 //! Initializes the break.
 void
-Break::init(BreakId id, GUIFactoryInterface *factory)
+Break::init(BreakId id, AppInterface *app)
 {
   TRACE_ENTER("Break::init");
 
   break_id = id;
   Core *core = Core::get_instance();
   configurator = core->get_configurator();
-  gui_factory = factory;
+  application = app;
 
   Defaults &def = default_config[break_id];
 
   break_name = def.name;
   timer = new Timer(core);
   timer->set_id(break_name);
-  break_control = new BreakControl(break_id, core, gui_factory, timer);
+  break_control = new BreakControl(break_id, core, app, timer);
 
   init_timer();
   init_break_control();
@@ -529,6 +529,32 @@ Break::set_break_enabled(bool b)
 }
 
 
+bool
+Break::startsWith(string &key, string prefix, string &name)
+{
+  TRACE_ENTER_MSG("Break::startsWith", key << " " << prefix);
+  bool ret = false;
+  
+  // Search prefix (just in case some Configurator added a leading /)
+  string::size_type pos = key.rfind(prefix);
+  
+  if (pos != string::npos)
+    {
+      TRACE_MSG(pos);
+      key = key.substr(pos + prefix.length());
+      pos = key.find('/');
+
+      if (pos != string::npos)
+        {
+          name = key.substr(0, pos);
+          key = key.substr(pos + 1);
+        }
+      ret = true;
+    }
+
+  TRACE_EXIT();
+  return ret;
+}
 
 
 
@@ -536,69 +562,19 @@ Break::set_break_enabled(bool b)
 void
 Break::config_changed_notify(string key)
 {
-  (void) key;
-//   // Expected prefix
-//   string prefix = CFG_KEY_BREAK;
+  TRACE_ENTER_MSG("Break::config_changed_notify", key);
+  string name;
 
-//   // Search prefix (just in case some Configurator added a leading /)
-//   string::size_type pos = key.rfind(prefix);
-
-//   if (pos != string::npos)
-//     {
-//       key = key.substr(pos + prefix.length());
-//     }
-
-//   pos = key.find('/');
-
-//   string break_id;
-//   if (pos != string::npos)
-//     {
-//       break_id = key.substr(0, pos);
-//       key = key.substr(pos + 1);
-//     }
-
-//   load_break_control_config(break_id);
-
-
-
-//   string::size_type pos = key.find('/');
-
-//   string path;
-//   string timer_id;
-  
-//   if (pos != string::npos)
-//     {
-//       path = key.substr(0, pos);
-//       key = key.substr(pos + 1);
-//     }
-
-//   if (path == CFG_KEY_TIMERS)
-//     {
-//       pos = key.find('/');
-
-//       if (pos != string::npos)
-//         {
-//           timer_id = key.substr(0, pos);
-//           key = key.substr(pos + 1);
-//         }
- 
-//       if (timer_id != "")
-//         {
-//           for (int i = 0; i < timer_count; i++)
-//             {
-//               if (timers[i]->get_id() == timer_id)
-//                 {
-//                   configure_timer(timers[i]);
-//                 }
-//             }
-//         }
-//     }
-//   else if (path == CFG_KEY_MONITOR)
-//     {
-//       load_monitor_config();
-//     }
-// }
-
-
-
+  if (startsWith(key, CFG_KEY_BREAK_PREFIX, name))
+    {
+      TRACE_MSG("break: " << name);
+      load_break_control_config();
+    }
+  else if (startsWith(key, CFG_KEY_TIMER_PREFIX, name))
+    {
+      TRACE_MSG("timer: " << name);
+      load_timer_config();
+      load_timer_monitor_config();
+    }
+  TRACE_EXIT();
 }

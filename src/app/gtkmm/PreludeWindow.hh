@@ -21,7 +21,6 @@
 
 #include "BreakWindow.hh"
 #include "PreludeWindowInterface.hh"
-#include "ActivityMonitorListener.hh"
 
 class TimeBar;
 class Frame;
@@ -29,29 +28,27 @@ class Dispatcher;
 
 class PreludeWindow :
   public BreakWindow,
-  public PreludeWindowInterface,
-  public ActivityMonitorListener
+  public PreludeWindowInterface
 {
 public:
-  PreludeWindow(BreakId break_id);
+  PreludeWindow(BreakId break_id MULTIHEAD_PARAMS);
   virtual ~PreludeWindow();
 
   void start();
-  bool delayed_stop();
   void stop();
   void destroy();
   void refresh();
   void set_progress(int value, int max_value);
-  void set_stage(Stage stage);
-  void set_progress_text(ProgressText text);
-  void set_prelude_response(PreludeResponseInterface *pri);
+  void set_stage(AppInterface::PreludeStage stage);
+  void set_progress_text(AppInterface::PreludeProgressText text);
+  void set_response(BreakResponseInterface *pri);
   
 private:
-  bool action_notify();
-  void on_activity();
   void on_frame_flash(bool frame_visible);
   
 private:
+  //!
+  BreakId break_id;
   
   //! Time bar
   TimeBar *time_bar;
@@ -81,16 +78,13 @@ private:
   //! Flash
   bool flash_visible;;
   
-  SigC::Connection dispatch_connection;
-  Dispatcher *dispatcher;
-
   //! Send response to this interface.
-  PreludeResponseInterface *prelude_response;
+  BreakResponseInterface *prelude_response;
 };
 
 
 inline void
-PreludeWindow::set_prelude_response(PreludeResponseInterface *pri)
+PreludeWindow::set_response(BreakResponseInterface *pri)
 {
   prelude_response = pri;
 }

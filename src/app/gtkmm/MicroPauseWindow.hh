@@ -33,7 +33,7 @@ class MicroPauseWindow :
   public BreakWindowInterface
 {
 public:
-  MicroPauseWindow(TimerInterface *timer, bool ignorable, bool insist);
+  MicroPauseWindow(TimerInterface *timer, bool ignorable, bool insist MULTIHEAD_PARAMS);
   virtual ~MicroPauseWindow();
 
   void start();
@@ -41,7 +41,7 @@ public:
   void destroy();
   void set_progress(int value, int max_value);
   void heartbeat();
-  void set_break_response(BreakResponseInterface *bri);
+  void set_response(BreakResponseInterface *bri);
   
 protected:
   void on_postpone_button_clicked();
@@ -75,8 +75,9 @@ private:
   BreakResponseInterface *break_response;
 };
 
+
 inline void
-MicroPauseWindow::set_break_response(BreakResponseInterface *bri)
+MicroPauseWindow::set_response(BreakResponseInterface *bri)
 {
   break_response = bri;
 }

@@ -330,7 +330,7 @@ TimerBox::update_widgets()
 void
 TimerBox::init_table()
 {
-  TRACE_ENTER("TimerBox::init_table");
+  //TRACE_ENTER("TimerBox::init_table");
 
   // Determine what breaks to show.
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -361,13 +361,13 @@ TimerBox::init_table()
 
   if (!vertical)
     {
-      TRACE_MSG("!vertical")
+      //TRACE_MSG("!vertical")
       int width, height;
       bars[0]->get_preferred_size(width, height);
       
       rows = size / (height + 1);
 
-      TRACE_MSG(size << " " << rows);
+      //TRACE_MSG(size << " " << rows);
       if (rows <= 0)
         {
           rows = 1;
@@ -415,10 +415,10 @@ TimerBox::init_table()
       visible_count = -1;
     }
 
-  TRACE_MSG(rows <<" " << table_rows << " " << columns << " " << table_columns);
+  // TRACE_MSG(rows <<" " << table_rows << " " << columns << " " << table_columns);
   if (rows != table_rows || columns != table_columns || number_of_timers != visible_count)
     {
-      TRACE_MSG("resize");
+      //TRACE_MSG("resize");
       resize(rows, 2 * columns);
       set_spacings(1);
       show_all();
@@ -446,13 +446,13 @@ TimerBox::init_table()
           int cur_row = i % rows;
           int cur_col = i / rows;
            
-          TRACE_MSG("size = " << size);
+          //TRACE_MSG("size = " << size);
           if (!vertical && size > 0)
             {
               GtkRequisition widget_size;
               size_request(&widget_size);
               
-              TRACE_MSG("size = " << widget_size.width << " " << widget_size.height);
+              //TRACE_MSG("size = " << widget_size.width << " " << widget_size.height);
               //bars[id]->set_size_request(-1, size / rows - (rows + 1) - 2);
             }
           
@@ -471,7 +471,7 @@ TimerBox::init_table()
   visible_count = number_of_timers;
   
   show_all();
-  TRACE_EXIT();
+  //TRACE_EXIT();
 }
 
 

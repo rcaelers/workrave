@@ -38,6 +38,7 @@
 #include <string>
 
 #include "Break.hh"
+#include "BreakResponseInterface.hh"
 #include "ActivityMonitorInterface.hh"
 #include "CoreInterface.hh"
 #include "CoreEventListener.hh"
@@ -50,7 +51,7 @@ class ActivityMonitor;
 class Configurator;
 class Statistics;
 class SoundPlayerInterface;
-class GUIFactoryInterface;
+class AppInterface;
 class FakeActivityMonitor;
 class IdleLogManager;
 class BreakControl;
@@ -64,7 +65,8 @@ class BreakControl;
 class Core :
   public TimeSource,
   public CoreInterface,
-  public ConfiguratorListener
+  public ConfiguratorListener,
+  public BreakResponseInterface
 #ifdef HAVE_DISTRIBUTION
   ,
   public DistributionClientMessageInterface,
@@ -121,7 +123,7 @@ private:
     };
 #endif  
   
-  void init(int argc, char **argv, GUIFactoryInterface *factory, char *display_name);
+  void init(int argc, char **argv, AppInterface *application, char *display_name);
   void init_breaks();
   void init_configurator();
   void init_monitor(char *display_name);
@@ -162,6 +164,12 @@ private:
   void do_script();
 #endif // NDEBUG
 #endif // HAVE_DISTRIBUTION
+
+
+  // BreakResponseInterface
+  void postpone_break(BreakId break_id);
+  void skip_break(BreakId break_id);
+  void stop_prelude(BreakId break_id);
   
 private:
   //! The one and only instance
@@ -192,7 +200,7 @@ private:
   ActivityMonitor *monitor;
 
   //! GUI Widget factory.
-  GUIFactoryInterface *gui_factory;
+  AppInterface *application;
   
   //! The statistics collector.
   Statistics *statistics;

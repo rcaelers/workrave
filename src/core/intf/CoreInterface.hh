@@ -25,7 +25,7 @@ class BreakInterface;
 class TimerInterface;
 class ActivityMonitorListener;
 class Configurator;
-class GUIFactoryInterface;
+class AppInterface;
 class StatisticsInterface;
 class DistributionManagerInterface;
 class CoreEventListener;
@@ -62,7 +62,7 @@ class CoreInterface
 {
 public:
   //! Initialize the Core Control. Must be called first.
-  virtual void init(int argc, char **argv, GUIFactoryInterface *factory, char *display) = 0;
+  virtual void init(int argc, char **argv, AppInterface *app, char *display) = 0;
 
   //! Periodic heartbeat. The GUI *MUST* call this method every second.
   virtual void heartbeat() = 0;

@@ -31,7 +31,7 @@ class RestBreakWindow :
   public BreakWindowInterface
 {
 public:
-  RestBreakWindow(bool ignorable, bool insist);
+  RestBreakWindow(bool ignorable, bool insist MULTIHEAD_PARAMS);
   virtual ~RestBreakWindow();
   
   void start();
@@ -39,7 +39,7 @@ public:
   void destroy();
   void set_progress(int value, int max_value);
   void refresh();
-  void set_break_response(BreakResponseInterface *bri);
+  void set_response(BreakResponseInterface *bri);
   
 protected:
   //Overridden default signal handlers:
@@ -102,7 +102,7 @@ private:
 };
 
 inline void
-RestBreakWindow::set_break_response(BreakResponseInterface *bri)
+RestBreakWindow::set_response(BreakResponseInterface *bri)
 {
   break_response = bri;
 }

@@ -27,6 +27,14 @@
 
 #include "WindowHints.hh"
 
+#ifdef HAVE_GTK_MULTIHEAD
+#include <gdkmm/display.h>
+#include <gdkmm/screen.h>
+#define MULTIHEAD_PARAMS , Glib::RefPtr<Gdk::Screen> screen, int monitor
+#define MULTIHEAD_ARGS , screen, monitor
+#endif
+
+
 class Frame;
 
 class BreakWindow :
@@ -48,6 +56,10 @@ protected:
   void set_avoid_pointer(bool avoid_pointer);
   bool did_avoid_pointer() const;
 
+#ifdef HAVE_GTK_MULTIHEAD
+  void set_screen(Glib::RefPtr<Gdk::Screen> screen, int monitor);
+#endif  
+  
   const int SCREEN_MARGIN;
 
 private:
@@ -83,6 +95,11 @@ private:
 
   //! Border
   guint border_width;
+
+#ifdef HAVE_GTK_MULTIHEAD
+  Glib::RefPtr<Gdk::Screen> screen;
+  int monitor;
+#endif  
 };
 
 

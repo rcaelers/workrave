@@ -73,7 +73,7 @@ PacketBuffer::create(int size)
 void
 PacketBuffer::resize(int size)
 {
-  TRACE_ENTER_MSG("PacketBuffer::resize", size);
+  //TRACE_ENTER_MSG("PacketBuffer::resize", size);
   narrow(0, -1);
 
   if (size == 0)
@@ -96,30 +96,30 @@ PacketBuffer::resize(int size)
           write_offset = size - 1;
         }
 
-      TRACE_MSG(read_offset << " " << write_offset);
+      //TRACE_MSG(read_offset << " " << write_offset);
 
       buffer = g_renew(guint8, buffer, size);
 
-      TRACE_MSG(buffer);
+      //TRACE_MSG(buffer);
       
       read_ptr = buffer + read_offset;
       write_ptr = buffer + write_offset;
       buffer_size = size;
     }
-  TRACE_EXIT();
+  //TRACE_EXIT();
 }
 
 void
 PacketBuffer::grow(int size)
 {
-  TRACE_ENTER_MSG("PacketBuffer::grow()", size)
+  //TRACE_ENTER_MSG("PacketBuffer::grow()", size)
   if (size < GROW_SIZE)
     {
       size = GROW_SIZE;
     }
 
   resize(buffer_size + size);
-  TRACE_EXIT();
+  //TRACE_EXIT();
 }
 
 
@@ -528,7 +528,7 @@ PacketBuffer::insert(int pos, int size)
 void
 PacketBuffer::narrow(int pos, int size)
 {
-  TRACE_ENTER_MSG("PacketBuffer::narrow", pos << " " << size);
+  //TRACE_ENTER_MSG("PacketBuffer::narrow", pos << " " << size);
   if (pos == 0 && size == -1)
     {
       if (original_buffer != NULL)
@@ -562,5 +562,5 @@ PacketBuffer::narrow(int pos, int size)
       buffer_size = size;
       read_ptr = buffer;
     }
-  TRACE_EXIT();
+  //TRACE_EXIT();
 }

@@ -33,7 +33,7 @@ static const char rcsid[] = "$Id$";
 
 
 //! Construct a new Daily limit window.
-DailyLimitWindow::DailyLimitWindow(bool ignorable, bool insist) :
+DailyLimitWindow::DailyLimitWindow(bool ignorable, bool insist MULTIHEAD_PARAMS) :
   insist_break(insist)
 {
   set_border_width(12);
@@ -87,6 +87,10 @@ DailyLimitWindow::DailyLimitWindow(bool ignorable, bool insist) :
   WindowHints::set_skip_winlist(Gtk::Widget::gobj(), true);
   WindowHints::set_always_on_top(Gtk::Widget::gobj(), true);
   GTK_WIDGET_UNSET_FLAGS(Gtk::Widget::gobj(), GTK_CAN_FOCUS);
+
+#ifdef HAVE_GTK_MULTIHEAD
+  set_screen(screen, monitor);
+#endif
 }
 
 
@@ -150,7 +154,7 @@ DailyLimitWindow::on_postpone_button_clicked()
 {
   if (break_response != NULL)
     {
-      break_response->postpone_break();
+      break_response->postpone_break(BREAK_ID_DAILY_LIMIT);
     }
 }
 
@@ -161,7 +165,7 @@ DailyLimitWindow::on_skip_button_clicked()
 {
   if (break_response != NULL)
     {
-      break_response->skip_break();
+      break_response->skip_break(BREAK_ID_DAILY_LIMIT);
     }
 }
 

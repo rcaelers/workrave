@@ -29,7 +29,7 @@ class DailyLimitWindow :
   public BreakWindowInterface
 {
 public:
-  DailyLimitWindow(bool ignorable, bool insist);
+  DailyLimitWindow(bool ignorable, bool insist MULTIHEAD_PARAMS);
   virtual ~DailyLimitWindow();
 
   void start();
@@ -37,7 +37,7 @@ public:
   void destroy();
   void set_progress(int value, int max_value);
   void refresh();
-  void set_break_response(BreakResponseInterface *bri);
+  void set_response(BreakResponseInterface *bri);
   
 protected:
   void on_postpone_button_clicked();
@@ -51,7 +51,7 @@ private:
 };
 
 inline void
-DailyLimitWindow::set_break_response(BreakResponseInterface *bri)
+DailyLimitWindow::set_response(BreakResponseInterface *bri)
 {
   break_response = bri;
 }

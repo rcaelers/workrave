@@ -35,7 +35,7 @@ static const char rcsid[] = "$Id$";
 #include "Hig.hh"
 
 //! Construct a new Micropause window.
-MicroPauseWindow::MicroPauseWindow(TimerInterface *timer, bool ignorable, bool insist) :
+MicroPauseWindow::MicroPauseWindow(TimerInterface *timer, bool ignorable, bool insist MULTIHEAD_PARAMS) :
   restbreak_timer(timer),
   progress_value(0),
   progress_max_value(0),
@@ -90,12 +90,18 @@ MicroPauseWindow::MicroPauseWindow(TimerInterface *timer, bool ignorable, bool i
   WindowHints::set_skip_winlist(Gtk::Widget::gobj(), true);
   WindowHints::set_always_on_top(Gtk::Widget::gobj(), true);
   GTK_WIDGET_UNSET_FLAGS(Gtk::Widget::gobj(), GTK_CAN_FOCUS);
+
+#ifdef HAVE_GTK_MULTIHEAD
+  set_screen(screen, monitor);
+#endif
 }
 
 
 //! Destructor.
 MicroPauseWindow::~MicroPauseWindow()
 {
+  TRACE_ENTER("MicroPauseWindow::~MicroPauseWindow");
+  TRACE_EXIT();
 }
 
 
@@ -223,7 +229,7 @@ MicroPauseWindow::on_postpone_button_clicked()
 {
   if (break_response != NULL)
     {
-      break_response->postpone_break();
+      break_response->postpone_break(BREAK_ID_MICRO_PAUSE);
     }
 }
 
@@ -234,6 +240,6 @@ MicroPauseWindow::on_skip_button_clicked()
 {
   if (break_response != NULL)
     {
-      break_response->skip_break();
+      break_response->skip_break(BREAK_ID_MICRO_PAUSE);
     }
 }

@@ -57,7 +57,7 @@ const int MARGINY = 8;
 /*!
  *  \param control The controller.
  */
-RestBreakWindow::RestBreakWindow(bool ignorable, bool insist) :
+RestBreakWindow::RestBreakWindow(bool ignorable, bool insist MULTIHEAD_PARAMS) :
   window_width(0),
   window_height(0),
   timebar(NULL),
@@ -109,6 +109,11 @@ RestBreakWindow::RestBreakWindow(bool ignorable, bool insist) :
   
   add_events(Gdk::EXPOSURE_MASK);
   add_events(Gdk::FOCUS_CHANGE_MASK);
+
+#ifdef HAVE_GTK_MULTIHEAD
+  set_screen(screen, monitor);
+#endif
+  
   TRACE_EXIT();
 }
 
@@ -180,7 +185,7 @@ RestBreakWindow::on_postpone_button_clicked()
 {
   if (break_response != NULL)
     {
-      break_response->postpone_break();
+      break_response->postpone_break(BREAK_ID_REST_BREAK);
     }
 }
 
@@ -191,7 +196,7 @@ RestBreakWindow::on_skip_button_clicked()
 {
   if (break_response != NULL)
     {
-      break_response->skip_break();
+      break_response->skip_break(BREAK_ID_REST_BREAK);
     }
 }
 

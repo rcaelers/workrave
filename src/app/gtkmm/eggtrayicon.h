@@ -45,7 +45,10 @@ struct _EggTrayIcon
   Atom selection_atom;
   Atom manager_atom;
   Atom system_tray_opcode_atom;
+  Atom orientation_atom;
   Window manager_window;
+
+  GtkOrientation orientation;
 };
 
 struct _EggTrayIconClass
@@ -55,10 +58,8 @@ struct _EggTrayIconClass
 
 GType        egg_tray_icon_get_type       (void);
 
-#if EGG_TRAY_ENABLE_MULTIHEAD
 EggTrayIcon *egg_tray_icon_new_for_screen (GdkScreen   *screen,
 					   const gchar *name);
-#endif
 
 EggTrayIcon *egg_tray_icon_new            (const gchar *name);
 
@@ -69,7 +70,7 @@ guint        egg_tray_icon_send_message   (EggTrayIcon *icon,
 void         egg_tray_icon_cancel_message (EggTrayIcon *icon,
 					   guint        id);
 
-
+GtkOrientation egg_tray_icon_get_orientation (EggTrayIcon *icon);
 					    
 G_END_DECLS
 

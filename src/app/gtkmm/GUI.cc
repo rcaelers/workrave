@@ -36,9 +36,13 @@ static const char rcsid[] = "$Id$";
 #include "CoreInterface.hh"
 #include "ConfiguratorInterface.hh"
 
+#include "BreakResponseInterface.hh"
+#include "Dispatcher.hh"
 #include "DailyLimitWindow.hh"
 #include "MainWindow.hh"
 #include "TimerBox.hh"
+#include "BreakWindowInterface.hh"
+#include "BreakWindow.hh"
 #include "MicroPauseWindow.hh"
 #include "PreludeWindow.hh"
 #include "RestBreakWindow.hh"
@@ -50,6 +54,11 @@ static const char rcsid[] = "$Id$";
 #endif
 
 #include <gtk/gtk.h>
+
+#ifdef HAVE_GTK_MULTIHEAD
+#include <gdkmm/display.h>
+#include <gdkmm/screen.h>
+#endif
 
 #ifdef HAVE_GCONF
 #include <gconf/gconf-client.h>
@@ -80,11 +89,20 @@ GUI::GUI(int argc, char **argv)  :
   configurator(NULL),
   core(NULL),
   sound_player(NULL),
+  break_windows(NULL),
+  prelude_windows(NULL),
+  active_break_count(0),
+  active_prelude_count(0),
+  response(NULL),
+  active_break_id(BREAK_ID_NONE),
 #ifdef HAVE_X
   applet_window(NULL),
 #endif  
   main_window(NULL),
-  tooltips(NULL)
+  tooltips(NULL),
+  break_window_destroy(false),
+  prelude_window_destroy(false),
+  total_num_monitors(1)
 {
   TRACE_ENTER("GUI:GUI");
 
@@ -158,6 +176,8 @@ GUI::main()
   init_nls();
   init_core();
   init_gui();
+  init_multihead();
+  init_sound_player();
   init_remote_control();
   
   // Enter the event loop
@@ -190,6 +210,8 @@ GUI::terminate()
       main_window->remember_position();
     }
 
+  collect_garbage();
+  
   Gtk::Main::quit();
   TRACE_EXIT();
 }
@@ -250,6 +272,9 @@ GUI::on_timer()
 #endif
 
   heartbeat_signal();
+
+  collect_garbage();
+  
   return true;
 }
 
@@ -417,6 +442,34 @@ GUI::init_core()
 }
 
 
+void
+GUI::init_multihead()
+{
+#ifdef HAVE_GTK_MULTIHEAD
+  TRACE_ENTER("GUI::init_multihead");
+
+  total_num_monitors = 0;
+  
+  Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
+  int num_screens = display->get_n_screens();
+  
+  TRACE_MSG("num screens = " << num_screens);
+  for (int i = 0; i < num_screens; i++)
+    {
+      Glib::RefPtr<Gdk::Screen> screen = display->get_screen(i);
+      int num_monitors = screen->get_n_monitors();
+
+      total_num_monitors += num_monitors;
+      TRACE_MSG("num monitor = " << num_monitors);
+    }
+  prelude_windows = new PreludeWindow*[total_num_monitors];
+  break_windows = new BreakWindowInterface*[total_num_monitors];
+#else
+  prelude_windows = new PreludeWindow*[1];
+  break_windows = new BreakWindowInterface*[1];
+#endif  
+}
+
 //! Initializes the GUI
 void
 GUI::init_gui()
@@ -459,31 +512,23 @@ GUI::init_remote_control()
 }
 
 
-//! Returns a prelude window.
-PreludeWindowInterface *
-GUI::create_prelude_window(BreakId id)
-{
-  return new PreludeWindow(id);
-}
-
-
 //! Returns a break window for the specified break.
 BreakWindowInterface *
-GUI::create_break_window(BreakId break_id, bool ignorable, bool insist)
+GUI::create_break_window(BreakId break_id, bool ignorable, bool insist MULTIHEAD_PARAMS)
 {
   BreakWindowInterface *ret = NULL;
   
   if (break_id == BREAK_ID_MICRO_PAUSE)
     {
-      ret = new MicroPauseWindow(core->get_timer(BREAK_ID_REST_BREAK), ignorable, insist);
+      ret = new MicroPauseWindow(core->get_timer(BREAK_ID_REST_BREAK), ignorable, insist MULTIHEAD_ARGS);
     }
   else if (break_id == BREAK_ID_REST_BREAK)
     {
-      ret = new RestBreakWindow(ignorable, insist); 
+      ret = new RestBreakWindow(ignorable, insist MULTIHEAD_ARGS); 
     }
   else if (break_id == BREAK_ID_DAILY_LIMIT)
     {
-      ret = new DailyLimitWindow(ignorable, insist);
+      ret = new DailyLimitWindow(ignorable, insist MULTIHEAD_ARGS);
     }
 
   return ret;
@@ -516,3 +561,266 @@ GUI::core_event_notify(CoreEvent event)
     }
 }
 
+
+void
+GUI::set_break_response(BreakResponseInterface *rep)
+{
+  response = rep;
+}
+
+
+void
+GUI::start_prelude_window(BreakId break_id)
+{
+  hide_break_window();
+
+  active_break_id = break_id;
+#ifdef HAVE_GTK_MULTIHEAD
+  Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
+  int num_screen = display->get_n_screens();
+  int count = 0;
+
+  for (int i = 0; i < num_screen; i++)
+    {
+      Glib::RefPtr<Gdk::Screen> screen = display->get_screen(i);
+
+      // FIXME: resize if needed.
+      for (int j = 0; j < screen->get_n_monitors() && count < total_num_monitors; j++, count++)
+        {
+          PreludeWindow *prelude_window = new PreludeWindow(break_id, screen, j);
+
+          prelude_windows[count] = prelude_window;
+
+          prelude_window->set_response(response);
+          prelude_window->start();
+        }
+    }
+
+  active_prelude_count = count;
+#else
+
+  PreludeWindow *prelude_window = new PreludeWindow(break_id);
+
+  prelude_windows[0] = prelude_window;
+
+  prelude_window->set_response(response);
+  prelude_window->start();
+
+#endif
+
+  dispatcher = new Dispatcher;
+  dispatch_connection = dispatcher->connect(SigC::slot_class(*this, &GUI::on_activity));
+}
+
+
+void
+GUI::start_break_window(BreakId break_id, bool ignorable, bool insist)
+{
+  hide_break_window();
+
+  active_break_id = break_id;
+
+#ifdef HAVE_GTK_MULTIHEAD
+  Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
+  int num_screen = display->get_n_screens();
+  int count = 0;
+
+  for (int i = 0; i < num_screen; i++)
+    {
+      Glib::RefPtr<Gdk::Screen> screen = display->get_screen(i);
+
+      // FIXME: resize if needed.
+      for (int j = 0; j < screen->get_n_monitors() && count < total_num_monitors; j++, count++)
+        {
+          BreakWindowInterface *break_window = create_break_window(break_id, ignorable, insist, screen, j);
+
+          break_windows[count] = break_window;
+  
+          break_window->set_response(response);
+          break_window->start();
+        }
+    }
+
+  active_break_count = count;
+#else
+  
+  BreakWindow *break_window = create_break_window(break_id, ignorable, insist);
+
+  break_windows[0] = break_window;
+  
+  break_window->set_response(response);
+  break_window->start();
+#endif
+}
+
+
+void
+GUI::hide_break_window()
+{
+  active_break_id = BREAK_ID_NONE;
+
+  for (int i = 0; i < active_prelude_count; i++)
+    {
+      if (prelude_windows[i] != NULL)
+        {
+          prelude_windows[i]->stop();
+        }
+    }
+  if (active_prelude_count > 0)
+    {
+      prelude_window_destroy = true;
+    }
+  
+  if (dispatcher != NULL)
+    {
+      dispatch_connection.disconnect();
+      delete dispatcher;
+      dispatcher = NULL;
+    }
+
+  for (int i = 0; i < active_break_count; i++)
+    {
+      if (break_windows[i] != NULL)
+        {
+          break_windows[i]->stop();
+        }
+    }
+  if (active_break_count > 0)
+    {
+      break_window_destroy = true;
+    }
+}
+
+
+void
+GUI::refresh_break_window()
+{
+  for (int i = 0; i < active_prelude_count; i++)
+    {
+      if (prelude_windows[i] != NULL)
+        {
+          prelude_windows[i]->refresh();
+        }
+    }
+  for (int i = 0; i < active_break_count; i++)
+    {
+      if (break_windows[i] != NULL)
+        {
+          break_windows[i]->refresh();
+        }
+    }
+}
+
+
+void
+GUI::set_break_progress(int value, int max_value)
+{
+  for (int i = 0; i < active_prelude_count; i++)
+    {
+      if (prelude_windows[i] != NULL)
+        {
+          prelude_windows[i]->set_progress(value, max_value);
+        }
+    }
+  
+  for (int i = 0; i < active_break_count; i++)
+    {
+      if (break_windows[i] != NULL)
+        {
+          break_windows[i]->set_progress(value, max_value);
+        }
+    }
+}
+
+
+bool
+GUI::delayed_hide_break_window()
+{
+  bool ret = false;
+  if (active_prelude_count > 0)
+    {
+      core->set_activity_monitor_listener(this);
+      ret = true;
+    }
+  return ret;
+}
+
+
+void
+GUI::set_prelude_stage(PreludeStage stage)
+{
+  for (int i = 0; i < active_prelude_count; i++)
+    {
+      if (prelude_windows[i] != NULL)
+        {
+          prelude_windows[i]->set_stage(stage);
+        }
+    }
+}
+
+
+void
+GUI::set_prelude_progress_text(PreludeProgressText text)
+{ 
+  for (int i = 0; i < active_prelude_count; i++)
+    {
+      if (prelude_windows[i] != NULL)
+        {
+          prelude_windows[i]->set_progress_text(text);
+        }
+    }
+}
+
+//! Destroys the break/prelude windows, if requested.
+void
+GUI::collect_garbage()
+{
+  if (prelude_window_destroy)
+    {
+      for (int i = 0; i < active_prelude_count; i++)
+        {
+          if (prelude_windows[i] != NULL)
+            {
+              prelude_windows[i]->destroy();
+              prelude_windows[i] = NULL;
+            }
+        }
+      prelude_window_destroy = false;
+      active_prelude_count = 0;
+    }
+  
+  if (break_window_destroy)
+    {
+      for (int i = 0; i < active_break_count; i++)
+        {
+          if (break_windows[i] != NULL)
+            {
+              break_windows[i]->destroy();
+              break_windows[i] = NULL;
+            }
+        }
+      break_window_destroy = false;
+      active_break_count = 0;
+    }
+}
+
+
+bool
+GUI::action_notify()
+{
+  if (dispatcher != NULL)
+    {
+      dispatcher->send_notification();
+    }
+  return false; // false: kill listener.
+}
+
+
+void
+GUI::on_activity()
+{
+  if (response != NULL)
+    {
+      response->stop_prelude(active_break_id);
+    }
+}

@@ -23,19 +23,14 @@
 #include "CoreEventListener.hh"
 #include "BreakInterface.hh"
 #include "BreakResponseInterface.hh"
-#include "PreludeResponseInterface.hh"
 
 class ActivityMonitorListenerInterface;
-class BreakWindowInterface;
 class Core;
-class GUIFactoryInterface;
+class AppInterface;
 class PreludeWindow;
-class PreludeWindowInterface;
 class Timer;
 
-class BreakControl :
-  public BreakResponseInterface,
-  public PreludeResponseInterface
+class BreakControl
 {
 public:
   enum BreakState { BREAK_ACTIVE, BREAK_INACTIVE, BREAK_SUSPENDED };
@@ -69,7 +64,7 @@ public:
     int prelude_time;
   };
   
-  BreakControl(BreakId id, Core *core, GUIFactoryInterface *factory, Timer *timer);
+  BreakControl(BreakId id, Core *core, AppInterface *app, Timer *timer);
   virtual ~BreakControl();
 
   // BreakInterface
@@ -92,18 +87,13 @@ public:
   // BreakResponseInterface
   void postpone_break();
   void skip_break();
-
-  // PreludeResponseInterface
-  void prelude_stopped();
+  void stop_prelude();
   
 private:
   void break_window_start();
-  void break_window_stop();
   void prelude_window_start();
-  void prelude_window_stop();
   void post_event(CoreEvent event);
   
-  void collect_garbage();
   void freeze();
   void defrost();
 
@@ -128,17 +118,11 @@ private:
   Core *core;
 
   //! GUI Factory used to create the break/prelude windows.
-  GUIFactoryInterface *gui_factory;
+  AppInterface *application;
   
   //! Interface to the timer controlling the break.
   Timer *break_timer;
   
-  //! Interface to the break window.
-  BreakWindowInterface *break_window;
-
-  //! Interface to the prelude window.
-  PreludeWindowInterface *prelude_window;
-
   //! Current stage in the break.
   BreakStage break_stage;
 
@@ -168,12 +152,6 @@ private:
 
   //! Can the use explicitly ignore the break?
   bool ignorable_break;
-
-  //! Destroy break window on next heartbeat?
-  bool break_window_destroy;
-
-  //! Destroy prelude window on next heartbeat?
-  bool prelude_window_destroy;
 
   //! What to do with activity during insisted break?
   InsistPolicy insist_policy;

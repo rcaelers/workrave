@@ -25,9 +25,11 @@
 #include <glibmm.h>
 #include <gtkmm.h>
 
+#include "BreakWindow.hh"
 #include "Mutex.hh"
 #include "CoreEventListener.hh"
-#include "GUIFactoryInterface.hh"
+#include "ActivityMonitorListener.hh"
+#include "AppInterface.hh"
 
 #ifdef HAVE_GNOME
 #include <libgnomeuimm.h>
@@ -38,6 +40,11 @@ class MainWindow;
 class MicroPauseWindow;
 class RestBreakWindow;
 class AppletWindow;
+class BreakWindow;
+class PreludeWindow;
+class BreakWindowInterface;
+class BreakResponseInterface;
+class Dispatcher;
 
 // Generic GUI
 class BreakControl;
@@ -47,8 +54,9 @@ class SoundPlayerInterface;
 class ConfiguratorInterface;
 
 class GUI :
-  public GUIFactoryInterface,
+  public AppInterface,
   public CoreEventListener,
+  public ActivityMonitorListener,
   public SigC::Object
 {
 public:
@@ -63,8 +71,15 @@ public:
   void main();
 
   // GUIFactoryInterface methods
-  PreludeWindowInterface *create_prelude_window(BreakId break_id);
-  BreakWindowInterface *create_break_window(BreakId break_id, bool ignorable, bool insist);
+  virtual void set_break_response(BreakResponseInterface *rep);
+  virtual void start_prelude_window(BreakId break_id);
+  virtual void start_break_window(BreakId break_id, bool ignorable, bool insist);
+  virtual void hide_break_window();
+  virtual void refresh_break_window();
+  virtual void set_break_progress(int value, int max_value);
+  virtual bool delayed_hide_break_window();
+  virtual void set_prelude_stage(PreludeStage stage);
+  virtual void set_prelude_progress_text(PreludeProgressText text);
 
   void core_event_notify(CoreEvent event);
   
@@ -90,15 +105,22 @@ private:
   void init_nls();
   void init_core();
   void init_sound_player();
+  void init_multihead();
   void init_gui();
   void init_remote_control();
 
+  bool action_notify();
+  void on_activity();
+  
 #ifdef HAVE_GNOME
   void init_gnome();
   void on_die();
   bool on_save_yourself(int phase, Gnome::UI::SaveStyle save_style, bool shutdown,
                         Gnome::UI::InteractStyle interact_style, bool fast);
 #endif
+
+  void collect_garbage();
+  BreakWindowInterface *create_break_window(BreakId break_id, bool ignorable, bool insist MULTIHEAD_PARAMS);
   
 private:
   //! The one and only instance
@@ -113,6 +135,24 @@ private:
   //! The sound player
   SoundPlayerInterface *sound_player;
 
+  //! Interface to the break window.
+  BreakWindowInterface **break_windows;
+
+  //! Interface to the prelude windows.
+  PreludeWindow **prelude_windows;
+
+  //! Number of active prelude windows;
+  int active_break_count;
+  
+  //! Number of active prelude windows;
+  int active_prelude_count;
+  
+  //! Reponse interface for breaks
+  BreakResponseInterface *response;
+
+  //! Current active break.
+  BreakId active_break_id;
+  
   //! The number of command line arguments.
   int argc;
 
@@ -132,6 +172,20 @@ private:
 
   //! Heartbeat signal
   SigC::Signal0<void> heartbeat_signal;
+
+  //! Destroy break window on next heartbeat?
+  bool break_window_destroy;
+
+  //! Destroy prelude window on next heartbeat?
+  bool prelude_window_destroy;
+
+  SigC::Connection dispatch_connection;
+  Dispatcher *dispatcher;
+
+#ifdef HAVE_GTK_MULTIHEAD
+  //! Total number of monitors on all screens.
+  int total_num_monitors;
+#endif
 };
 
 

@@ -103,9 +103,50 @@ void
 BreakWindow::center()
 {
   TRACE_ENTER("BreakWindow::center");
-  set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+
+#ifdef HAVE_GTK_MULTIHEAD
+
+  if (!screen.is_null())
+    {
+      TRACE_MSG("screen set");
+      
+      Gdk::Rectangle geometry;
+      screen->get_monitor_geometry(monitor, geometry);
+
+      int winx, winy, width, height, wind;
+      Glib::RefPtr<Gdk::Window> window = get_window();
+      window->get_geometry(winx, winy, width, height, wind);
+
+      TRACE_MSG(geometry.get_x() << " " << geometry.get_y() << " " <<
+                geometry.get_width() << " " << geometry.get_height());
+
+      TRACE_MSG(winx << " " << winy << " " << width << " "<< height);
+      int x = geometry.get_x() + (geometry.get_width() - width) / 2;
+      int y = geometry.get_y() + (geometry.get_height() - height) / 2;
+      
+      set_position(Gtk::WIN_POS_NONE);
+      move(x, y);
+    }
+  else
+#else
+    {
+      set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+    }
+
+#endif  
   TRACE_EXIT();
 }
+
+
+#ifdef HAVE_GTK_MULTIHEAD
+//! Centers the window
+void
+BreakWindow::set_screen(Glib::RefPtr<Gdk::Screen> screen, int monitor)
+{
+  this->screen = screen;
+  this->monitor = monitor;
+}
+#endif
 
 
 //! Grabs the pointer and the keyboard.
@@ -241,7 +282,14 @@ BreakWindow::avoid_pointer(int px, int py)
   py += winy;
 #endif  
 
+#ifdef HAVE_GTK_MULTIHEAD
+  Gdk::Rectangle geometry;
+  screen->get_monitor_geometry(monitor, geometry);
+  int screen_height = geometry.get_height();
+#else
   int screen_height = gdk_screen_height();
+#endif
+  
   int top_y = SCREEN_MARGIN;
   int bottom_y = screen_height - height - SCREEN_MARGIN;
   if (winy < top_y + SCREEN_MARGIN)

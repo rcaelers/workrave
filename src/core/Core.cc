@@ -31,6 +31,7 @@ static const char rcsid[] = "$Id$";
 #include "Core.hh"
 
 #include "Util.hh"
+#include "AppInterface.hh"
 #include "CoreEventListener.hh"
 #include "ActivityMonitor.hh"
 #include "TimerActivityMonitor.hh"
@@ -70,7 +71,7 @@ Core::Core() :
   master_node(true),
   configurator(NULL),
   monitor(NULL),
-  gui_factory(NULL),
+  application(NULL),
   statistics(NULL),
   operation_mode(OPERATION_MODE_NORMAL),
   core_event_listener(NULL)
@@ -138,9 +139,9 @@ Core::~Core()
 
 //! Initializes the core.
 void
-Core::init(int argc, char **argv, GUIFactoryInterface *factory, char *display_name)
+Core::init(int argc, char **argv, AppInterface *app, char *display_name)
 {
-  gui_factory = factory;
+  application = app;
   this->argc = argc;
   this->argv =argv;
   
@@ -217,8 +218,9 @@ Core::init_breaks()
 {
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      breaks[i].init(BreakId(i), gui_factory);
+      breaks[i].init(BreakId(i), application);
     }
+  application->set_break_response(this);
 }
 
 
@@ -327,8 +329,14 @@ Core::get_time() const
 Timer *
 Core::get_timer(BreakId id) const
 {
-  assert(id > 0 && id <= BREAK_ID_SIZEOF);
-  return breaks[id].get_timer();
+  if (id > 0 && id < BREAK_ID_SIZEOF)
+    {
+      return breaks[id].get_timer();
+    }
+  else
+    {
+      return NULL;
+    }
 }
 
 
@@ -441,6 +449,42 @@ Core::force_break(BreakId id)
   break_action(id, BREAK_ACTION_FORCE_START_BREAK);
 }
 
+
+/********************************************************************************/
+/**** Break Resonse                                                        ******/
+/********************************************************************************/
+
+
+void
+Core::postpone_break(BreakId break_id)
+{
+  if (break_id >= 0 && break_id < BREAK_ID_SIZEOF)
+    {
+      BreakControl *bc = breaks[break_id].get_break_control();
+      bc->postpone_break();
+    }
+}
+
+void
+Core::skip_break(BreakId break_id)
+{
+  if (break_id >= 0 && break_id < BREAK_ID_SIZEOF)
+    {
+      BreakControl *bc = breaks[break_id].get_break_control();
+      bc->skip_break();
+    }
+}
+
+void
+Core::stop_prelude(BreakId break_id)
+{
+  if (break_id >= 0 && break_id < BREAK_ID_SIZEOF)
+    {
+      BreakControl *bc = breaks[break_id].get_break_control();
+      bc->stop_prelude();
+    }
+}
+
 /********************************************************************************/
 /**** Break handling                                                       ******/
 /********************************************************************************/
@@ -464,7 +508,7 @@ Core::update_statistics()
 void
 Core::heartbeat()
 {
-  assert(gui_factory != NULL);
+  assert(application != NULL);
   
   TimerInfo infos[BREAK_ID_SIZEOF];
 
