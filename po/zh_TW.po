@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WorkRave 1.4.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-08 22:35+0200\n"
-"PO-Revision-Date: 2004-04-08 22:26+0200\n"
+"POT-Creation-Date: 2004-04-20 09:33+0200\n"
+"PO-Revision-Date: 2004-04-13 22:07+0800\n"
 "Last-Translator: Rex Tsai <chihchun@linux.org.tw>\n"
 "Language-Team: Chinese/Traditional <zh-l10n@linux.org.tw>\n"
 "MIME-Version: 1.0\n"
@@ -81,7 +81,7 @@ msgstr ""
 "您已經達到每日限制量。請停止在電腦前工作工作。\n"
 "如果您尚未下班，找些其他的事情來做，例如檢閱文件。"
 
-#: frontend/gtkmm/src/GUI.cc:714
+#: frontend/gtkmm/src/GUI.cc:721
 msgid "I could not initialize Bonobo"
 msgstr "無法啟動 Bonobo"
 
@@ -385,7 +385,7 @@ msgstr "顯示 '延後' 與 '略過' 按鈕"
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:155
 msgid "Suspend timer when inactive"
-msgstr ""
+msgstr "未活動時暫停計時器"
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:171
 msgid "Regard micro-breaks as activity"
@@ -696,7 +696,7 @@ msgstr "重新連接到 %s:%d"
 
 #: backend/src/DistributionSocketLink.cc:345
 msgid "Cannot resolve my own hostname. Deactivating distribution."
-msgstr ""
+msgstr "無法解析本身主機名稱。停止分散式計算。"
 
 #. We did not succeed in starting the server. Arghh.
 #: backend/src/DistributionSocketLink.cc:356
