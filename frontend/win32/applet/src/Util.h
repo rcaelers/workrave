@@ -24,7 +24,7 @@
 class TransparentDamageControl
 {
 public:
-  void BeginPaint();
+  void BeginPaint(BOOL repaint);
   void HideWindow(HWND hwnd);
   void ShowWindow(HWND hwnd, int x, int y);
   void EndPaint();
@@ -38,6 +38,7 @@ private:
     };
   ShowWindowData show_windows[TRANSPARENT_DAMAGE_CONTROL_BUF_SIZE];
   int show_windows_num;
+  BOOL repaint;
 };
 
 

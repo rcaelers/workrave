@@ -106,6 +106,7 @@ class CDeskBand : public IDeskBand,
   LRESULT OnCopyData(PCOPYDATASTRUCT data);
   LRESULT OnSize(LPARAM);
   LRESULT OnTimer(WPARAM wParam, LPARAM lParam);
+  LRESULT OnWindowPosChanging(WPARAM wParam, LPARAM lParam);
   BOOL RegisterAndCreateWindow(void);
 };
 

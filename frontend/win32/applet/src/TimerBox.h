@@ -36,7 +36,7 @@ class TimerBox
   void set_slot(int slot, BreakId brk);
   TimeBar *get_time_bar(BreakId timer);
   void set_size(int width, int height);
-  void update();
+  void update(bool repaint);
   void set_enabled(bool enabled);
 
  private:

@@ -501,6 +501,9 @@ CDeskBand::WndProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
    
     case WM_SIZE:
       return pThis->OnSize(lParam);
+
+    case WM_WINDOWPOSCHANGING:
+      pThis->OnWindowPosChanging(wParam, lParam);
     }    
   return DefWindowProc(hWnd, uMessage, wParam, lParam);
 }
@@ -521,7 +524,7 @@ CDeskBand::OnTimer(WPARAM wParam, LPARAM lParam)
       if (m_LastCopyData == 0 || difftime(time(NULL), m_LastCopyData) > 2)
         {
           m_TimerBox->set_enabled(false);
-          m_TimerBox->update();
+          m_TimerBox->update(false);
         }
     }
   return 0;
@@ -560,7 +563,7 @@ CDeskBand::OnCopyData(PCOPYDATASTRUCT copy_data)
             }
         }
 
-        m_TimerBox->update();
+        m_TimerBox->update(false);
       }   
     return 0;
 }
@@ -576,11 +579,12 @@ CDeskBand::OnSize(LPARAM lParam)
   if (m_TimerBox != NULL) 
     {
       m_TimerBox->set_size(cx, cy);
-      m_TimerBox->update();
+      m_TimerBox->update(true);
     }
 
   return 0;
 }
+
 
 
 void
@@ -673,3 +677,12 @@ CDeskBand::RegisterAndCreateWindow(void)
 
 
 
+LRESULT 
+CDeskBand::OnWindowPosChanging(WPARAM wParam, LPARAM lParam)
+{
+  if (m_TimerBox != NULL)
+    {
+      m_TimerBox->update(true);
+    }
+  return 0;
+}

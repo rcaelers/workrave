@@ -1,6 +1,6 @@
 // NetworkJoinDialog.cc --- NetworkJoin dialog
 //
-// Copyright (C) 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -50,7 +50,8 @@ NetworkJoinDialog::NetworkJoinDialog()
   TRACE_ENTER("NetworkJoinDialog::NetworkJoinDialog");
 
   CoreInterface *core = CoreFactory::get_core();
-  dist_manager = core->get_distribution_manager();
+  DistributionManagerInterface *dist_manager
+    = core->get_distribution_manager();
   
   // Icon
   std::string title_icon = Util::complete_directory
@@ -76,6 +77,7 @@ NetworkJoinDialog::NetworkJoinDialog()
   port_entry->set_increments(1, 10);
   port_entry->set_numeric(true);
   port_entry->set_width_chars(10);
+  port_entry->set_value(dist_manager->get_port());
 
   Gtk::Label *host_lab = manage(new Gtk::Label(_("Host name:")));
   Gtk::Label *port_lab = manage(new Gtk::Label(_("Port:")));
@@ -115,32 +117,16 @@ NetworkJoinDialog::~NetworkJoinDialog()
   TRACE_EXIT();
 }
 
-void
-NetworkJoinDialog::init()
+
+std::string
+NetworkJoinDialog::get_connect_url()
 {
-  int value = dist_manager->get_port();
-  port_entry->set_value(value);
+  std::string peer = "tcp://" + host_entry->get_text() + ":" + port_entry->get_text();
+  return peer;
 }
 
-int
-NetworkJoinDialog::run()
+bool
+NetworkJoinDialog::is_connect_at_startup_selected()
 {
-  init();
-  
-  int id = Gtk::Dialog::run();
-
-  if (id == Gtk::RESPONSE_OK)
-    {
-      std::string peer = "tcp://" + host_entry->get_text() + ":" + port_entry->get_text();
-      if (startup_button->get_active())
-        {
-          dist_manager->add_peer(peer);
-        }
-      else
-        {
-          dist_manager->connect(peer);
-        }
-    }
-  CoreFactory::get_configurator()->save();
-  return id;
+  return startup_button->get_active();
 }

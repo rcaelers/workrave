@@ -99,6 +99,7 @@ Menus::Menus() :
 #endif
 #ifdef HAVE_DISTRIBUTION
   network_log_dialog(NULL),
+  network_join_dialog(NULL),
 #endif
   statistics_dialog(NULL),
   preferences_dialog(NULL),
@@ -613,6 +614,10 @@ Menus::on_menu_preferences()
           
       preferences_dialog->run();
     }
+  else
+    {
+      preferences_dialog->present();
+    }
 }
 
 #ifdef HAVE_EXERCISES
@@ -627,6 +632,10 @@ Menus::on_menu_exercises()
       exercises_dialog->signal_response().connect(SigC::slot(*this, &Menus::on_exercises_response));
           
       exercises_dialog->run();
+    }
+  else
+    {
+      exercises_dialog->present();
     }
   TRACE_EXIT();
 }
@@ -660,6 +669,10 @@ Menus::on_menu_statistics()
       statistics_dialog->signal_response().connect(SigC::slot(*this, &Menus::on_statistics_response));
           
       statistics_dialog->run();
+    }
+  else
+    {
+      statistics_dialog->present();
     }
 }
 
@@ -699,19 +712,49 @@ void
 Menus::on_menu_network_join()
 {
 #ifdef HAVE_DISTRIBUTION
-  OperationMode mode;
-
-  CoreInterface *core = CoreFactory::get_core();
-  mode = core->set_operation_mode(OPERATION_MODE_QUIET);
-
-  NetworkJoinDialog *dialog = new NetworkJoinDialog();
-  dialog->run();
-  delete dialog;
-
-  core->set_operation_mode(mode);
+  if (network_join_dialog == NULL)
+    {
+      network_join_dialog = new NetworkJoinDialog();
+      network_join_dialog->signal_response().connect(SigC::slot(*this, &Menus::on_network_join_response));
+      network_join_dialog->run();
+    }
+  else
+    {
+      network_join_dialog->present();
+    }
 #endif
 }
 
+#ifdef HAVE_DISTRIBUTION
+void
+Menus::on_network_join_response(int response)
+{
+  (void) response;
+  
+  assert(network_join_dialog != NULL);
+  network_join_dialog->hide_all();
+
+  if (response == Gtk::RESPONSE_OK)
+    {
+      CoreInterface *core = CoreFactory::get_core();
+      DistributionManagerInterface *dist_manager
+        = core->get_distribution_manager();
+      std::string peer = network_join_dialog->get_connect_url();
+      if (network_join_dialog->is_connect_at_startup_selected())
+        {
+          dist_manager->add_peer(peer);
+        }
+      else
+        {
+          dist_manager->connect(peer);
+        }
+      CoreFactory::get_configurator()->save();
+    }
+
+  delete network_join_dialog;
+  network_join_dialog = NULL;
+}
+#endif
 
 void
 Menus::on_menu_network_leave()

@@ -94,10 +94,10 @@ TimerBox::set_size(int w, int h)
 
 
 void 
-TimerBox::update()
+TimerBox::update(bool repaint)
 {
   TransparentDamageControl ctrl;
-  ctrl.BeginPaint();
+  ctrl.BeginPaint(repaint);
   update_time_bars(ctrl);
   update_sheep(ctrl);
   ctrl.EndPaint();

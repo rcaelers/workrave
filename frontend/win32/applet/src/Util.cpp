@@ -40,7 +40,7 @@ TransparentHideWindow(HWND hwnd)
 
 
 static void
-TransparentPrepareShowWindow(HWND hwnd, int x, int y)
+TransparentPrepareShowWindow(HWND hwnd, int x, int y, BOOL repaint)
 {
   
   if (IsWindowVisible(hwnd))
@@ -51,7 +51,7 @@ TransparentPrepareShowWindow(HWND hwnd, int x, int y)
       p.x = r.left;
       p.y = r.top;
       ScreenToClient(GetParent(hwnd), &p);
-      if (p.x != x || p.y != y)
+      if (repaint || p.x != x || p.y != y)
         {
           TransparentHideWindow(hwnd);
         }
@@ -60,10 +60,11 @@ TransparentPrepareShowWindow(HWND hwnd, int x, int y)
 
 
 void 
-TransparentDamageControl::BeginPaint()
+TransparentDamageControl::BeginPaint(BOOL rp)
 {
   hide_windows_num = 0;
   show_windows_num = 0;
+  repaint = rp;
 }
 
 void 
@@ -91,7 +92,7 @@ TransparentDamageControl::EndPaint()
   for (int s = 0; s < show_windows_num; s++)
     {
       ShowWindowData *d = &show_windows[s];
-      TransparentPrepareShowWindow(d->hwnd, d->x, d->y);
+      TransparentPrepareShowWindow(d->hwnd, d->x, d->y, repaint);
     }
   for (int p = 0; p < show_windows_num; p++)
     {

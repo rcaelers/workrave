@@ -27,6 +27,7 @@
 class GUI;
 class TimeBar;
 class NetworkLogDialog;
+class NetworkJoinDialog;
 class StatisticsDialog;
 class PreferencesDialog;
 class MainWindow;
@@ -69,6 +70,7 @@ private:
   void on_menu_network_log_main_window();
   void on_menu_network_log_tray();
   void on_network_log_response(int response);
+  void on_network_join_response(int response);
 #endif
   void on_statistics_response(int response);
   void on_preferences_response(int response);
@@ -118,8 +120,8 @@ private:
 #endif
 
 #ifdef HAVE_DISTRIBUTION
-  //! The log dialog.
   NetworkLogDialog *network_log_dialog;
+  NetworkJoinDialog *network_join_dialog;
 #endif
 
   // The Statistics dialog.

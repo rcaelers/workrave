@@ -1,6 +1,6 @@
 // NetworkJoinDialog.hh --- NetworkJoin Dialog
 //
-// Copyright (C) 2002, 2003 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -19,6 +19,7 @@
 #ifndef NETWORKJOINDIALOG_HH
 #define NETWORKJOINDIALOG_HH
 
+#include <string>
 #include <stdio.h>
 
 #include "preinclude.h"
@@ -40,10 +41,8 @@ public:
   NetworkJoinDialog();
   ~NetworkJoinDialog();
 
-  int run();
-  
-private:
-  void init();
+  std::string get_connect_url();
+  bool is_connect_at_startup_selected();
 
   DistributionManagerInterface *dist_manager;
   Gtk::Entry *host_entry;
