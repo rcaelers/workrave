@@ -551,11 +551,14 @@ GUI::init_multihead_desktop()
 void
 GUI::init_gtk_multihead()
 {
-  int new_num_heads = 0;
+  TRACE_ENTER("GUI::init_gtk_multihead");
 
+  int new_num_heads = 0;
+  
   Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
   int num_screens = display->get_n_screens();
-  
+
+  TRACE_MSG("screens = " << num_screens);
   for (int i = 0; i < num_screens; i++)
     {
       Glib::RefPtr<Gdk::Screen> screen = display->get_screen(i);
@@ -587,6 +590,8 @@ GUI::init_gtk_multihead()
             }
         }
     }
+
+  TRACE_EXIT();
 }
 #endif
 

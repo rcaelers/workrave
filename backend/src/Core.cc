@@ -724,14 +724,6 @@ Core::process_timers(TimerInfo *infos)
               // In case the windows message was lost. some people reported that
               // workrave never restarted the timers...
               set_operation_mode(powersave_operation_mode);
-              
-              if (powersave_resume_time == 0)
-                {
-                  // Mmm, A time warp while in powersave. assume we have resumed...
-                  powersave_resume_time = current_time;
-                  TRACE_MSG("Assuming end of powersave");
-                }
-
             }
         }
       if (powersave && powersave_resume_time != 0 && current_time > powersave_resume_time + 30)
