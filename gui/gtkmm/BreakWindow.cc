@@ -33,7 +33,7 @@ static const char rcsid[] = "$Id$";
 #include "GtkUtil.hh"
 #include "WindowHints.hh"
 #include "Frame.hh"
-
+#include "nls.h"
 
 
 //! Constructor
@@ -269,6 +269,24 @@ BreakWindow::avoid_pointer(int px, int py)
   move(winx, winy);
   did_avoid = true;
   TRACE_EXIT();
+}
+
+Gtk::Button *
+BreakWindow::create_skip_button()
+{
+  Gtk::Button *ret;
+  ret = GtkUtil::create_custom_stock_button(_("Skip"), Gtk::Stock::CLOSE);
+  GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
+  return ret;
+}
+
+Gtk::Button *
+BreakWindow::create_postpone_button()
+{
+  Gtk::Button *ret;
+  ret = GtkUtil::create_custom_stock_button(_("Postpone"), Gtk::Stock::REDO);
+  GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
+  return ret;
 }
 
 #ifdef WIN32

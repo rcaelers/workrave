@@ -29,6 +29,15 @@ public:
   static Gtk::Button *
   create_stock_button_without_text(const Gtk::StockID& stock_id);
 
+  static Gtk::Button *
+  create_custom_stock_button(const char *label, const Gtk::StockID& stock_id);
+
+  static Gtk::Button *
+  update_stock_button_without_text(const Gtk::StockID& stock_id);
+
+  static Gtk::Button *
+  update_custom_stock_button(const char *label, const Gtk::StockID& stock_id);
+
   static Gtk::Widget *
   create_label_with_icon(string text, const char *icon);
 

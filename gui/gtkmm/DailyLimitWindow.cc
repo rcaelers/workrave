@@ -70,12 +70,10 @@ DailyLimitWindow::DailyLimitWindow(bool ignorable) :
   if (ignorable)
     {
       Gtk::HButtonBox *button_box = manage(new Gtk::HButtonBox(Gtk::BUTTONBOX_END, 6));
-      Gtk::Button *skipButton = manage(new Gtk::Button(_("Skip")));
+      Gtk::Button *skipButton = manage(create_skip_button());
       button_box->pack_end(*skipButton, Gtk::SHRINK, 0);
-      Gtk::Button *postponeButton = manage(new Gtk::Button(_("Postpone")));
+      Gtk::Button *postponeButton = manage(create_postpone_button());
       button_box->pack_end(*postponeButton, Gtk::SHRINK, 0);
-      GTK_WIDGET_UNSET_FLAGS(postponeButton->gobj(), GTK_CAN_FOCUS);
-      GTK_WIDGET_UNSET_FLAGS(skipButton->gobj(), GTK_CAN_FOCUS);
       postponeButton->signal_clicked().connect(SigC::slot(*this, &DailyLimitWindow::on_postpone_button_clicked));
       skipButton->signal_clicked().connect(SigC::slot(*this, &DailyLimitWindow::on_skip_button_clicked));
 

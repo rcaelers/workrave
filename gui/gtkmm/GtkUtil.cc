@@ -31,6 +31,26 @@
 #include "EventLabel.hh"
 
 Gtk::Button *
+GtkUtil::create_custom_stock_button(const char *label_text,
+                                    const Gtk::StockID& stock_id)
+{
+  Gtk::Button *btn = new Gtk::Button();
+  Gtk::Image *img = new Gtk::Image(stock_id, 
+                                   Gtk::ICON_SIZE_BUTTON);
+  Gtk::manage(img);
+  Gtk::Label *label = manage(new Gtk::Label(label_text));
+  Gtk::HBox *hbox = manage(new Gtk::HBox(false, 2));
+  Gtk::Alignment *align = manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
+  hbox->pack_start(*img, false, false, 0);
+  hbox->pack_end(*label, false, false, 0);
+  btn->add(*align);
+  align->add(*hbox);
+  align->show_all();
+  
+  return btn;
+}
+
+Gtk::Button *
 GtkUtil::create_stock_button_without_text(const Gtk::StockID& stock_id)
 {
   Gtk::Button *btn = new Gtk::Button();

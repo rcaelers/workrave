@@ -1,6 +1,6 @@
 // BreakWindow.hh --- base class for the break windows
 //
-// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -38,6 +38,9 @@ public:
   BreakWindow();
   virtual ~BreakWindow();
 
+  static Gtk::Button *create_skip_button();
+  static Gtk::Button *create_postpone_button();
+  
 protected:
   bool grab();
   void ungrab();
