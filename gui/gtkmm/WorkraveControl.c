@@ -92,13 +92,13 @@ workrave_control_fire(PortableServer_Servant servant, CORBA_Environment *ev)
 {
   WorkraveControl *control = WORKRAVE_CONTROL(bonobo_object_from_servant(servant));
 
-  char *argv[1] = { "workrave" };
+  char *argv[] = { "workrave" };
 
   FILE *file = fopen("/home/robc/wr.txt", "a+");
   fprintf(file, "fire!\n");
   fclose(file);
   
-  run(1, argv);
+  run(sizeof(argv)/sizeof(argv[0]), argv);
 }
 
 

@@ -50,6 +50,7 @@ sourcesdistribution = NetworkJoinDialog.cc NetworkLogDialog.cc NetworkPreference
 endif
 
 libgtkmmgui_a_SOURCES = \
+	${IDL_A_GENERATED} ${IDL_C_GENERATED} \
 	BreakWindow.cc \
 	DailyLimitWindow.cc \
 	GUI.cc \
@@ -67,7 +68,6 @@ libgtkmmgui_a_SOURCES = \
 	gnome-winhints.c \
 	Frame.cc \
 	WmSpec.cc \
-	${IDL_A_GENERATED} ${IDL_C_GENERATED} \
 	$(sourcesgnome) $(sourceswin32) ${sourcesdistribution}
 
 

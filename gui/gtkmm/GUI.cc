@@ -83,8 +83,7 @@ GUI::GUI(ControlInterface *controller, int argc, char **argv)
     {
       g_error (_("I could not initialize Bonobo"));
     }
-
-  bonobo_generic_factory_main("OAFIID:GNOME_Workrave_Factory", workrave_component_factory, NULL);     
+  
   applet_window = NULL;
 #endif
   
