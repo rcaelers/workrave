@@ -124,8 +124,8 @@ MainWindow::init()
 {
   TRACE_ENTER("MainWindow::init");
 
-  set_title("Workrave");
   set_border_width(2);
+  set_resizable(false);
 
   list<Glib::RefPtr<Gdk::Pixbuf> > icons;
 
@@ -179,7 +179,6 @@ MainWindow::init()
   window->set_group(leader_window);
 #endif
 
-  set_resizable(false);
   stick();
   setup();
   
@@ -219,6 +218,7 @@ MainWindow::init()
     }
 #endif
   setup();
+  set_title("W");
   TRACE_EXIT();
 }
 

@@ -364,17 +364,7 @@ PreludeWindow::avoid_pointer(int px, int py)
   py += winy;
 #endif  
 
-  int screen_height;
-
-  if (head.valid)
-    {
-      screen_height = head.geometry.get_height();
-    }
-  else
-    {
-      screen_height = gdk_screen_height();
-    }
-  
+  int screen_height = head.get_height();
   int top_y = SCREEN_MARGIN;
   int bottom_y = screen_height - height - SCREEN_MARGIN;
   if (winy < top_y + SCREEN_MARGIN)

@@ -620,21 +620,11 @@ GUI::locate_main_window(GdkEventConfigure *event)
           for (int i = 0; i < num_heads; i++)
             {
               int left, top, width, height;
-              
-              if (!heads[i].valid)
-                {
-                  left = 0;
-                  top = 0;
-                  width = gdk_screen_width();
-                  height = gdk_screen_height();
-                }
-              else
-                {
-                  left = heads[i].geometry.get_x();
-                  top = heads[i].geometry.get_y();
-                  width = heads[i].geometry.get_width();
-                  height = heads[i].geometry.get_height();
-                }
+
+              left = heads[i].get_x();
+              top = heads[i].get_y();
+              width = heads[i].get_width();
+              height = heads[i].get_height();
               
               if (x >= left && y >= top && x < left + width && y < top + height)
                 {
@@ -890,13 +880,13 @@ GUI::init_gui()
 
   // The main status window.
   main_window = new MainWindow();
-  main_window->signal_configure_event().connect(SigC::slot(*this, &GUI::on_mainwindow_configure_event));
-
   if (main_window->is_visible())
     {
       locate_main_window(NULL);
       relocate_main_window(screen_width, screen_height);
     }
+  main_window->signal_configure_event().connect(SigC::slot(*this, &GUI::on_mainwindow_configure_event));
+
   
 #ifdef HAVE_X  
   // The applet window.

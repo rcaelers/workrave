@@ -16,40 +16,56 @@
 // $Id$
 //
 
-#ifndef MULTIHEAD_HH
-#define MULTIHEAD_HH
+#include "HeadInfo.hh"
 
-#include "preinclude.h"
-
-#include <gdkmm/rectangle.h>
-
-#ifdef HAVE_GTK_MULTIHEAD
-#include <gdkmm/display.h>
-#include <gdkmm/screen.h>
-#endif
-
-class HeadInfo
+int
+HeadInfo::get_width()
 {
-public:
-  HeadInfo()
-  {
-    valid = false;
-    count = 0;
-  }
-  
-  int get_width();
-  int get_height();
-  int get_x();
-  int get_y();
-  
-#ifdef HAVE_GTK_MULTIHEAD
-  Glib::RefPtr<Gdk::Screen> screen;
-  int monitor;
-#endif
-  
-  int count;
-  bool valid;
-  Gdk::Rectangle geometry;
-};
+  if (valid)
+    {
+      return geometry.get_width();
+    }
+  else
+    {
+      return gdk_screen_width();
+    }
+}
 
-#endif // MULTIHEAD_HH
+int
+HeadInfo::get_height()
+{
+  if (valid)
+    {
+      return geometry.get_height();
+    }
+  else
+    {
+      return gdk_screen_height();
+    }
+}
+
+int
+HeadInfo::get_x()
+{
+  if (valid)
+    {
+      return geometry.get_x();
+    }
+  else
+    {
+      return 0;
+    }
+}
+
+int
+HeadInfo::get_y()
+{
+  if (valid)
+    {
+      return geometry.get_y();
+    }
+  else
+    {
+      return 0;
+    }
+}

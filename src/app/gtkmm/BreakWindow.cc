@@ -101,17 +101,8 @@ BreakWindow::init_gui()
           window_frame->add(*gui);
           if (block_mode == GUI::BLOCK_MODE_ALL)
             {
-              if (head.valid)
-                {
-                  set_size_request(head.geometry.get_width(),
-                                   head.geometry.get_height());
-                }
-              else
-                {
-                  set_size_request(gdk_screen_width(),
-                                   gdk_screen_height());
-                }
-
+              set_size_request(head.get_width(),
+                               head.get_height());
               set_app_paintable(true);
               set_background_pixmap();
               Gtk::Alignment *align
@@ -217,20 +208,11 @@ BreakWindow::set_background_pixmap()
   GdkColor            color;
   int screen_x, screen_y, screen_width, screen_height;
 
-  if (head.valid)
-    {
-      screen_x = head.geometry.get_x();
-      screen_y = head.geometry.get_y();
-      screen_width = head.geometry.get_width();
-      screen_height = head.geometry.get_height();
-    }
-  else
-    {
-      screen_x = 0;
-      screen_y = 0;
-      screen_width = gdk_screen_width();
-      screen_height = gdk_screen_height();
-    }
+  screen_x = head.get_x();
+  screen_y = head.get_y();
+  screen_width = head.get_width();
+  screen_height = head.get_height();
+
   tmp_pixbuf = gdk_pixbuf_get_from_drawable (NULL,
                                              gdk_get_default_root_window (),
                                              gdk_colormap_get_system (),
