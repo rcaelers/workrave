@@ -553,7 +553,7 @@ msgstr "Компьютеры"
 
 #: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:132
 msgid "Browse history"
-msgstr "История просмотра"
+msgstr "Просмотр истории"
 
 #: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:139
 msgid "Date:"
@@ -715,7 +715,7 @@ msgstr "Сетевые операции недоступны."
 
 #: backend/src/DistributionSocketLink.cc:365
 msgid "Disabling network operation."
-msgstr "Отключить сетевые операции"
+msgstr "Отмена сетевых операций"
 
 #: backend/src/DistributionSocketLink.cc:520
 #: backend/src/DistributionSocketLink.cc:547
@@ -958,11 +958,11 @@ msgstr "Движение плечами вверх и вниз"
 
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:16
 msgid "Neck stretch"
-msgstr "Потягивание шею"
+msgstr "Потягивание шеи"
 
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:17
 msgid "Neck tilt stretch"
-msgstr "Потягивание шею наклонами"
+msgstr "Потягивание шеи наклонами"
 
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:18
 msgid ""
