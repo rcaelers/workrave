@@ -1,6 +1,6 @@
 // TimeBar.cc --- Time Bar
 //
-// Copyright (C) 2002, 2003, 2004 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -58,6 +58,10 @@ TimeBar::TimeBar() :
   bar_text_align(0)
 {
   add_events(Gdk::EXPOSURE_MASK);
+
+  set_bar_color(COLOR_ID_INACTIVE);
+  set_secondary_bar_color(COLOR_ID_INACTIVE);
+  set_text_color(Gdk::Color("black"));  //
 }
 
 
@@ -69,15 +73,15 @@ TimeBar::~TimeBar()
 
 void TimeBar::on_realize()
 {
+  // FIXME: for some reason, the timebar get realized EACH TIME
+  //        the timerbox is cycled...
+  
+  TRACE_ENTER("TimeBar::on_realize");
   // We need to call the base on_realize()
   Gtk::DrawingArea::on_realize();
   // Now we can allocate any additional resources we need
   Glib::RefPtr<Gdk::Window> window = get_window();
   window_gc = Gdk::GC::create(window);
-
-  set_bar_color(COLOR_ID_INACTIVE);
-  set_secondary_bar_color(COLOR_ID_INACTIVE);
-  set_text_color(Gdk::Color("black"));  //
 
   Glib::RefPtr<Gtk::Style> style = get_style();
   Gdk::Color light = style->get_light(Gtk::STATE_NORMAL);
@@ -168,6 +172,12 @@ TimeBar::on_expose_event(GdkEventExpose *e)
   if (bar_max_value > 0)
     {
       bar_width = (bar_value * (winw - 2 * border_size)) / bar_max_value;
+    }
+
+  if (bar_max_value == 1200)
+    {
+      TRACE_ENTER("expose");
+      TRACE_MSG(bar_value << " " << bar_color);
     }
   
   // Secondary bar
