@@ -536,7 +536,7 @@ Menus::on_menu_about()
   };
   string icon = Util::complete_directory("workrave.png",
                                          Util::SEARCH_PATH_IMAGES);
-  GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(icon.c_str(), NULL);  
+  GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(icon.c_str(), NULL); // FIXME: leak
   gtk_widget_show (gnome_about_new
                    ("Workrave", VERSION,
                     "Copyright 2001-2003 Rob Caelers & Raymond Penners",

@@ -457,7 +457,7 @@ Statistics::load_history()
 
       if (ok)
         {
-          DailyStats *day = new DailyStats();
+          DailyStats *day = new DailyStats(); // FIXME: leak
           
           load_day(day, stats_file);
 

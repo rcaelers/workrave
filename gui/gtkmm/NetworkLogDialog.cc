@@ -42,7 +42,7 @@ NetworkLogDialog::NetworkLogDialog()
 
   set_default_size(600, 400);
 
-  text_buffer = Gtk::TextBuffer::create();
+  text_buffer = Gtk::TextBuffer::create(); // FIXME: leak
 
   text_view = Gtk::manage(new Gtk::TextView(text_buffer));
   text_view->set_cursor_visible(false);

@@ -545,6 +545,7 @@ AppletWindow::init_gnome_applet()
   CORBA_exception_init (&ev);
 
   // Connect to the applet.
+  // FIXME: leak
   applet_control = bonobo_activation_activate_from_id("OAFIID:GNOME_Workrave_AppletControl",
                                                       Bonobo_ACTIVATION_FLAG_EXISTING_ONLY, NULL, &ev);
 
