@@ -100,7 +100,8 @@
     </description>
     <description xml:lang="nl">Zet je handen op de leuning van je stoel als je zit en duw je lichaam omhoog totdat je armen gestrekt zijn. Probeer met je hoofd nog verder omhoog te komen door je schouders te laten zakken. Laat je daarna langzaam weer terug in je stoel zakken.</description>
     <sequence duration="30">
-       <image src="none" duration="15"/>
+       <image src="chair-pushup-1.png" duration="5"/>
+       <image src="chair-pushup-2.png" duration="10"/>
     </sequence>
   </exercise>
   <exercise>
@@ -127,14 +128,15 @@
     <description xml:lang="en">Turn your head left and keep it there for 2 seconds. Then turn your head right and keep it there for 2 seconds.</description>
     <description xml:lang="nl">Draai je hoofd naar links en houdt dat 2 seconden vast. Draai daarna je hoofd naar rechts en houdt dat 2 seconden vast.</description>
     <sequence duration="20">
-       <image src="none" duration="10"/>
+       <image src="turn-head.png" duration="2"/>
+       <image src="turn-head.png" duration="2" mirrorx="yes"/>
     </sequence>
   </exercise>
   <exercise>
     <title xml:lang="en">Neck stretch</title>
     <title xml:lang="nl">Rekken van de nek</title>
     <description xml:lang="en">Keep your head straight and your lower jaw parallel to the floor. Move your head back (making a double chin).  Keep this 2 seconds and relax. Move your head the same way forward, keep this 2 seconds and relax again.</description>
-    <description xml:lang="nl">Houd je hoofd recht en je onderkaak evenwijdig aan de vloer. Beweeg je hoofd naar achtern (maak een dubbele kin). Houd dit 2 seconden vast en ontspan. Beweeg je hoofd op dezelfde manier naar voren en houd dat 2 seconden vast en ontspan opnieuw.</description>
+    <description xml:lang="nl">Houd je hoofd recht en je onderkaak evenwijdig aan de vloer. Beweeg je hoofd naar achteren (maak een dubbele kin). Houd dit 2 seconden vast en ontspan. Beweeg je hoofd op dezelfde manier naar voren en houd dat 2 seconden vast en ontspan opnieuw.</description>
     <sequence duration="20">
        <image src="none" duration="10"/>
     </sequence>
