@@ -79,7 +79,9 @@ Core::Core() :
   operation_mode(OPERATION_MODE_NORMAL),
   core_event_listener(NULL),
   powersave(false),
-  powersave_resume_time(0)
+  powersave_resume_time(0),
+  powersave_operation_mode(OPERATION_MODE_NORMAL),
+  resume_break(BREAK_ID_NONE)
 #ifdef HAVE_DISTRIBUTION
   ,
   dist_manager(NULL),
@@ -462,26 +464,32 @@ Core::set_core_events_listener(CoreEventListener *l)
 
 //! Forces the start of the specified break.
 void
-Core::force_break(BreakId id)
+Core::force_break(BreakId id, bool initiated_by_user)
 {
-  do_force_break(id);
+  do_force_break(id, initiated_by_user);
 #ifdef HAVE_DISTRIBUTION  
-  send_break_control_message(id, BCM_START_BREAK);
+  send_break_control_message_bool_param(id, BCM_START_BREAK, initiated_by_user);
 #endif
 }
 
 //! Forces the start of the specified break.
 void
-Core::do_force_break(BreakId id)
+Core::do_force_break(BreakId id, bool initiated_by_user)
 {
+  TRACE_ENTER_MSG("Core::do_force_break", id);
   BreakControl *microbreak_control = breaks[BREAK_ID_MICRO_BREAK].get_break_control();
-  if (id == BREAK_ID_REST_BREAK
-      && (microbreak_control->get_break_state() == BreakControl::BREAK_ACTIVE))
+  BreakControl *breaker = breaks[id].get_break_control();
+
+  if (id == BREAK_ID_REST_BREAK &&
+      (microbreak_control->get_break_state() == BreakControl::BREAK_ACTIVE))
     {
       microbreak_control->stop_break(false);
+      resume_break = BREAK_ID_MICRO_BREAK;
+      TRACE_MSG("Resuming Micro break");
     }
-  BreakControl *breaker = breaks[id].get_break_control();
-  breaker->force_start_break();
+
+  breaker->force_start_break(initiated_by_user);
+  TRACE_EXIT();
 }
 
 
@@ -528,6 +536,19 @@ Core::postpone_break(BreakId break_id)
 #ifdef HAVE_DISTRIBUTION  
   send_break_control_message(break_id, BCM_POSTPONE);
 #endif
+
+  if (resume_break != BREAK_ID_NONE &&
+      !breaks[resume_break].get_break_ignorable())
+    {
+      Timer *timer = breaks[resume_break].get_timer();
+      assert(timer != NULL);
+
+      if (timer->get_elapsed_time() > timer->get_limit())
+        {
+          force_break(resume_break, false);
+          resume_break = BREAK_ID_NONE;
+        }
+    }
 }
 
 
@@ -539,10 +560,23 @@ Core::skip_break(BreakId break_id)
 #ifdef HAVE_DISTRIBUTION  
   send_break_control_message(break_id, BCM_SKIP);
 #endif
+      
+  if (resume_break != BREAK_ID_NONE &&
+      !breaks[resume_break].get_break_ignorable())
+    {
+      Timer *timer = breaks[resume_break].get_timer();
+      assert(timer != NULL);
+
+      if (timer->get_elapsed_time() > timer->get_limit())
+        {
+          force_break(resume_break, false);
+          resume_break = BREAK_ID_NONE;
+        }
+    }
 }
 
 
-//! Users stop the prelude.
+//! User stops the prelude.
 void
 Core::stop_prelude(BreakId break_id)
 {
@@ -850,7 +884,7 @@ Core::timer_action(BreakId id, TimerInfo info)
     case TIMER_EVENT_LIMIT_REACHED:
       if (breaker->get_break_state() == BreakControl::BREAK_INACTIVE)
         {
-          start_break(breaker, id, timer);
+          start_break(id);
         }
       break;
       
@@ -877,12 +911,10 @@ Core::timer_action(BreakId id, TimerInfo info)
 
 //! starts the specified break.
 /*!
- *  \param breaker Interface to the break that must be started.
  *  \param break_id ID of the timer that caused the break.
- *  \param timer Interface to the timer the caused the break.
  */
 void
-Core::start_break(BreakControl *breaker, BreakId break_id, Timer *timer)
+Core::start_break(BreakId break_id, BreakId resume_this_break)
 {
   // Don't show MB when RB is active, RB when DL is active.
   for (int bi = break_id; bi <= BREAK_ID_DAILY_LIMIT; bi++)
@@ -907,17 +939,17 @@ Core::start_break(BreakControl *breaker, BreakId break_id, Timer *timer)
       // Only advance when
       // 0. It is activity sensitive
       // 1. we have a next limit reached time.
-      // 2. timer is not yet over its limit. otherwise, it will interfere with snoozing.
       if (activity_sensitive &&
-          rb_timer->get_next_limit_time() > 0
-          /* && rb_timer->get_elapsed_time() < rb_timer->get_limit() */)
+          rb_timer->get_next_limit_time() > 0)
         {
+          Timer *timer = breaks[break_id].get_timer();
+
           time_t duration = timer->get_auto_reset();
           time_t now = get_time();
           
           if (now + duration + 30 >= rb_timer->get_next_limit_time())
             {
-              start_break(restbreak_control, BREAK_ID_REST_BREAK, rb_timer);
+              start_break(BREAK_ID_REST_BREAK, BREAK_ID_MICRO_BREAK);
 
               // Snooze timer before the limit was reached. Just to make sure
               // that it doesn't reach its limit again when elapsed == limit
@@ -936,7 +968,12 @@ Core::start_break(BreakControl *breaker, BreakId break_id, Timer *timer)
           breaks[bi].get_break_control()->stop_break(false);
         }
     }
+
+  // If break 'break_id' ends, and break 'resume_this_break' if still
+  // active, resume it...
+  resume_break = resume_this_break;
   
+  BreakControl *breaker = breaks[break_id].get_break_control();
   breaker->start_break();
 }
 
@@ -1455,6 +1492,7 @@ Core::compute_timers()
 }
 
 
+//! Sends a break control message to all workrave clients.
 void
 Core::send_break_control_message(BreakId break_id, BreakControlMessage message)
 {
@@ -1468,13 +1506,29 @@ Core::send_break_control_message(BreakId break_id, BreakControlMessage message)
   dist_manager->broadcast_client_message(DCM_BREAKCONTROL, buffer);
 }
 
+//! Sends a break control message with boolena parameter to all workrave clients.
+void
+Core::send_break_control_message_bool_param(BreakId break_id, BreakControlMessage message,
+                                            bool param)
+{
+  PacketBuffer buffer;
+  buffer.create();
+  
+  buffer.pack_ushort(5);
+  buffer.pack_ushort(break_id);
+  buffer.pack_ushort(message);
+  buffer.pack_byte(param);
+  
+  dist_manager->broadcast_client_message(DCM_BREAKCONTROL, buffer);
+}
+
 
 bool
 Core::set_break_control(PacketBuffer &buffer)
 {
   int data_size = buffer.unpack_ushort();
 
-  if (data_size == 4)
+  if (data_size >= 4)
     {
       BreakId break_id = (BreakId) buffer.unpack_ushort();
       BreakControlMessage message = (BreakControlMessage) buffer.unpack_ushort();
@@ -1494,7 +1548,16 @@ Core::set_break_control(PacketBuffer &buffer)
           break;
 
         case BCM_START_BREAK:
-          do_force_break(break_id);
+          if (data_size >= 5)
+            {
+              // Only for post 1.6.2 workrave...
+              bool initiated_by_user = (bool) buffer.unpack_byte();
+              do_force_break(break_id, initiated_by_user);
+            }
+          else
+            {
+              do_force_break(break_id, true);
+            }
           break;
         }
     }

@@ -1,6 +1,6 @@
 // ControlInterface.hh --- The main controller interface
 //
-// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -69,7 +69,7 @@ public:
   virtual void heartbeat() = 0;
 
   //! Forces a break of the specified type.
-  virtual void force_break(BreakId id) = 0;
+  virtual void force_break(BreakId id, bool initiated_by_user) = 0;
  
   //! Returns the break interface of the specified type.
   virtual BreakInterface *get_break(BreakId id) = 0;

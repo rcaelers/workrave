@@ -1,6 +1,6 @@
 // BreakControl.cc
 //
-// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -424,12 +424,12 @@ BreakControl::start_break()
 
 //! Starts the break without preludes.
 void
-BreakControl::force_start_break()
+BreakControl::force_start_break(bool initiated_by_user)
 {
   TRACE_ENTER_MSG("BreakControl::force_start_break", break_id);
 
   fake_break = false;
-  user_initiated = true;
+  user_initiated = initiated_by_user;
   prelude_time = 0;
   user_abort = false;
   
@@ -566,13 +566,14 @@ BreakControl::skip_break()
   // This is to avoid a skip sound...
   user_abort = true;
 
-  // Reset the restbreak timer.
   if (break_id == BREAK_ID_DAILY_LIMIT)
     {
+      // Make sure the daily limit remains silent after skipping.
       break_timer->inhibit_snooze();
     }
   else
     {
+      // Reset the restbreak timer.
       break_timer->reset_timer();
     }
   

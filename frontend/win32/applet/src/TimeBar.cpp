@@ -1,6 +1,6 @@
 // TimeBar.cpp --- Time bar
 //
-// Copyright (C) 2004 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2004, 2005 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -18,6 +18,7 @@
 #include <stdio.h>
 
 #include "TimeBar.h"
+#include "CDeskBand.h"
 
 const int BORDER_SIZE = 2;
 const int MARGINX = 4;
@@ -30,7 +31,8 @@ const int MINIMAL_HEIGHT = 16;
 HBRUSH TimeBar::bar_colors[TimeBarInterface::COLOR_ID_SIZEOF];
 HFONT TimeBar::bar_font = NULL;
 
-TimeBar::TimeBar(HWND parent, HINSTANCE hinst)
+TimeBar::TimeBar(HWND parent, HINSTANCE hinst, CDeskBand *deskband)
+  : deskband(deskband)
 {
   init(hinst);
 
@@ -64,6 +66,10 @@ TimeBar::wnd_proc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
     {
     case WM_PAINT:
       return pThis->on_paint();
+
+    case WM_LBUTTONUP:
+      SendMessage(deskband->get_command_window(), WM_USER + 1, 0, NULL);
+      break;
     }
   return DefWindowProc(hWnd, uMessage, wParam, lParam);
 }

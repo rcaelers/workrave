@@ -673,7 +673,7 @@ CDeskBand::RegisterAndCreateWindow(void)
                                  g_hInst,
                                  (LPVOID)this);
 
-      m_TimerBox = new TimerBox(h, g_hInst);
+      m_TimerBox = new TimerBox(h, g_hInst, this);
     }
 
   return (NULL != m_hWnd);

@@ -1,6 +1,6 @@
 // Core.hh --- The main controller
 //
-// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -93,7 +93,7 @@ public:
 #endif
   Statistics *get_statistics() const;
   void set_core_events_listener(CoreEventListener *l);
-  void force_break(BreakId id);
+  void force_break(BreakId id, bool initiated_by_user);
   void set_powersave(bool down);
  
   time_t get_time() const;
@@ -104,7 +104,7 @@ public:
   void set_freeze_all_breaks(bool freeze);
 
   void stop_prelude(BreakId break_id);
-  void do_force_break(BreakId id);
+  void do_force_break(BreakId id, bool initiated_by_user);
   
 private:
 
@@ -129,7 +129,7 @@ private:
   void process_state();
   void process_timewarp();
   void process_timers();
-  void start_break(BreakControl *breaker, BreakId break_id, Timer *timer);
+  void start_break(BreakId break_id, BreakId resume_this_break = BREAK_ID_NONE);
   void stop_all_breaks();
   void daily_reset();
   void save_state() const;
@@ -164,6 +164,8 @@ private:
     };
   
   void send_break_control_message(BreakId break_id, BreakControlMessage message);
+  void send_break_control_message_bool_param(BreakId break_id, BreakControlMessage message,
+                                             bool param);
   bool set_break_control(PacketBuffer &buffer);
   
   void signon_remote_client(string client_id);
@@ -227,6 +229,9 @@ private:
 
   //! OperationMode before powersave
   OperationMode powersave_operation_mode;
+
+  //! Resumes this break if current break ends.
+  BreakId resume_break;
   
 #ifdef HAVE_DISTRIBUTION
   //! The Distribution Manager

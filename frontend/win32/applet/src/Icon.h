@@ -1,6 +1,6 @@
 // Icon.h --- Icon
 //
-// Copyright (C) 2004 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2004, 2005 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -20,16 +20,19 @@
 
 #include <windows.h>
 
+class CDeskBand;
+
 class Icon 
 {
- public:
-  Icon(HWND hwnd, HINSTANCE hinst, const char *resource);
+public:
+  Icon(HWND hwnd, HINSTANCE hinst, const char *resource, CDeskBand *deskband);
   ~Icon();
 
   HWND get_handle() const { return hwnd; };
   void get_size(int &w, int &h) const;
 
- private:
+private:
+  CDeskBand *deskband;
   HWND hwnd;
   HICON icon;
   static void init(HINSTANCE hinst);

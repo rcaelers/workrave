@@ -1,6 +1,6 @@
 // Icon.cpp --- Icon
 //
-// Copyright (C) 2004 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2004, 2005 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -18,10 +18,12 @@
 #include <stdio.h>
 
 #include "Icon.h"
+#include "CDeskBand.h"
 
 #define ICON_CLASS_NAME "WorkraveIcon"
 
 Icon::Icon(HWND parent, HINSTANCE hinst, const char *resource)
+  : deskband(deskband)
 {
   init(hinst);
   icon = LoadIcon(hinst, resource);
@@ -44,6 +46,10 @@ Icon::wnd_proc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
     {
     case WM_PAINT:
       return pThis->on_paint();
+
+    case WM_LBUTTONUP:
+      SendMessage(deskband->get_command_window(), WM_USER + 1, 0, NULL);
+      break;
     }
   return DefWindowProc(hWnd, uMessage, wParam, lParam);
 }

@@ -1,6 +1,6 @@
 // TimerBox.h --- Timer box
 //
-// Copyright (C) 2004 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2004, 2005 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -26,11 +26,12 @@
 
 class TimeBar;
 class Icon;
+class CDeskBand;
 
 class TimerBox
 {
  public:
-  TimerBox(HWND parent, HINSTANCE hinst);
+  TimerBox(HWND parent, HINSTANCE hinst, CDeskBand *deskband);
   ~TimerBox();
 
   void set_slot(int slot, BreakId brk);

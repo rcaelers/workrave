@@ -1,6 +1,6 @@
 // BreakWindow.cc --- base class for the break windows
 //
-// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -57,6 +57,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
                      : Gtk::WINDOW_POPUP),
          block_mode(mode),
          ignorable_break(ignorable),
+         frame(NULL),
          break_response(NULL),
          gui(NULL)
 {
@@ -110,9 +111,19 @@ BreakWindow::init_gui()
         {
           set_border_width(0);
           Frame *window_frame = manage(new Frame());
-          window_frame->set_border_width(12);
+          window_frame->set_border_width(0);
           window_frame->set_frame_style(Frame::STYLE_BREAK_WINDOW);
-          window_frame->add(*gui);
+
+          frame = manage(new Frame());
+          frame->set_frame_style(Frame::STYLE_SOLID);
+          frame->set_frame_width(6);
+          frame->set_border_width(6);
+          frame->set_frame_flashing(0);
+          frame->set_frame_visible(false);
+
+          window_frame->add(*frame);
+          frame->add(*gui);
+
           if (block_mode == GUI::BLOCK_MODE_ALL)
             {
 #ifdef WIN32
@@ -155,6 +166,9 @@ BreakWindow::init_gui()
 BreakWindow::~BreakWindow()
 {
   TRACE_ENTER("BreakWindow::~BreakWindow");
+
+  frame->set_frame_flashing(0);
+  
 #ifdef WIN32
   delete desktop_window;
 #endif
@@ -374,6 +388,8 @@ BreakWindow::stop()
 {
   TRACE_ENTER("BreakWindow::stop");
 
+  frame->set_frame_flashing(0);
+  
   hide_all();
 #ifdef WIN32
   if (desktop_window)

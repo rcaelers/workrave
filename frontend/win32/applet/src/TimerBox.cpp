@@ -1,6 +1,6 @@
 // TimerBox.cpp --- Timer box
 //
-// Copyright (C) 2004 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2004, 2005 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -23,15 +23,15 @@
 const int PADDING_X = 2;
 const int PADDING_Y = 2;
 
-TimerBox::TimerBox(HWND parent, HINSTANCE hinst)
+TimerBox::TimerBox(HWND parent, HINSTANCE hinst, CDeskBand *deskband)
 {
   const char *icon_ids[] = { "micropause", "restbreak", "dailylimit" };
   sheep_icon = new Icon(parent, hinst, "workrave");
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++) 
     {
-      slot_to_time_bar[i] = new TimeBar(parent, hinst);
-      break_to_icon[i] = new Icon(parent, hinst, icon_ids[i]);
+      slot_to_time_bar[i] = new TimeBar(parent, hinst, deskband);
+      break_to_icon[i] = new Icon(parent, hinst, icon_ids[i], deskband);
 
       break_visible[i] = false;
       slot_to_break[i] = BREAK_ID_NONE;

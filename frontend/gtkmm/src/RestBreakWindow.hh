@@ -73,8 +73,8 @@ private:
   Gtk::HBox pluggable_panel;
 #endif
 
-  //! Takes care of the flashing of the progress bar during break when user is active
-  bool show_color_1_active_during_break;
+  //! Is currently flashing because user is active?
+  bool is_flashing;
 };
 
 

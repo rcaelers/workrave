@@ -1,6 +1,6 @@
 // BreakWindow.hh --- base class for the break windows
 //
-// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -36,6 +36,7 @@ class DesktopWindow;
 #endif
 
 class BreakResponseInterface;
+class Frame;
 
 namespace Gtk
 {
@@ -82,6 +83,9 @@ protected:
   //! Ignorable
   bool ignorable_break;
 
+  //! Flash frame
+  Frame *frame;
+  
 protected:
   Gtk::Button *create_skip_button();
   Gtk::Button *create_postpone_button();

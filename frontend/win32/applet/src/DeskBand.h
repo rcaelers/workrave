@@ -1,6 +1,6 @@
 // DeskBand.h --- CDeskBand definitions
 //
-// Copyright (C) 2004 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2004, 2005 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -40,10 +40,10 @@ class CDeskBand : public IDeskBand,
                   public IPersistStream,
                   public IContextMenu
 {
- protected:
+protected:
   DWORD m_ObjRefCount;
 
- public:
+public:
   CDeskBand();
   ~CDeskBand();
 
@@ -85,7 +85,9 @@ class CDeskBand : public IDeskBand,
   STDMETHOD (InvokeCommand)(LPCMINVOKECOMMANDINFO);
   STDMETHOD (GetCommandString)(UINT, UINT, LPUINT, LPSTR, UINT);
 
- private:
+  HWND get_command_window() const;
+  
+private:
   BOOL m_bFocus;
   HWND m_hwndParent;
   HWND m_hWnd;
@@ -97,7 +99,7 @@ class CDeskBand : public IDeskBand,
   AppletMenuData m_AppletMenu;
   BOOL m_HasAppletMenu;
 
- private:
+private:
   void FocusChange(BOOL);
   LRESULT OnKillFocus(void);
   LRESULT OnSetFocus(void);
@@ -109,6 +111,12 @@ class CDeskBand : public IDeskBand,
   LRESULT OnWindowPosChanging(WPARAM wParam, LPARAM lParam);
   BOOL RegisterAndCreateWindow(void);
 };
+
+inline HWND
+CDeskBand::get_command_window() const
+{
+  return m_AppletMenu.command_window;
+}
 
 #endif   //DESKBAND_H
 

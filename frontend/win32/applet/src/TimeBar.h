@@ -1,6 +1,6 @@
 // TimeBar.h --- Time bar
 //
-// Copyright (C) 2004 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2004, 2005 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -24,10 +24,12 @@
 #include "TimeBarInterface.hh"
 #include "Applet.hh"
 
+class CDeskBand;
+
 class TimeBar 
 {
- public:
-  TimeBar(HWND hwnd, HINSTANCE hinst);
+public:
+  TimeBar(HWND hwnd, HINSTANCE hinst, CDeskBand *deskband);
   ~TimeBar();
 
   void set_progress(int value, int max_value);
@@ -42,7 +44,8 @@ class TimeBar
   void get_size(int &width, int &height);
   HWND get_handle() const { return hwnd; };
 
- private:
+private:
+  CDeskBand *deskband;
   HWND hwnd;
   int width, height;
   int bar_max_value;

@@ -46,7 +46,8 @@ static const char rcsid[] = "$Id$";
 MicroBreakWindow::MicroBreakWindow(HeadInfo &head, bool ignorable, GUI::BlockMode mode) :
   BreakWindow(BREAK_ID_MICRO_BREAK, head, ignorable, mode),
   progress_value(0),
-  progress_max_value(0)
+  progress_max_value(0),
+  is_flashing(false)
 {
   set_title(_("Micro-break"));
 }
@@ -57,8 +58,7 @@ MicroBreakWindow::create_gui()
   // Time bar
   time_bar = manage(new TimeBar);
   time_bar->set_text("Microbreak 0:32"); // FIXME
-  show_color_1_active_during_break = true;
-
+  
   // Label
   label = manage(new Gtk::Label());
 
@@ -179,23 +179,18 @@ MicroBreakWindow::refresh_time_bar()
   CoreInterface *core = CoreFactory::get_core();
   ActivityMonitorInterface *monitor = core->get_activity_monitor();
   ActivityState state = monitor->get_current_state();
-  if (state == ACTIVITY_ACTIVE)
+  if (state == ACTIVITY_ACTIVE && !is_flashing)
     {
-      if (show_color_1_active_during_break)
-        {
-          time_bar->set_bar_color(TimeBarInterface::COLOR_ID_1_ACTIVE_DURING_BREAK);
-        }
-      else
-        {
-          time_bar->set_bar_color(TimeBarInterface::COLOR_ID_2_ACTIVE_DURING_BREAK);
-        }
-
-      show_color_1_active_during_break = ! show_color_1_active_during_break;
+      frame->set_frame_color(Gdk::Color("orange"));
+      frame->set_frame_visible(true);
+      frame->set_frame_flashing(500);
+      is_flashing = true;
     }
-  else
+  else if (state == ACTIVITY_IDLE && is_flashing)
    {
-      time_bar->set_bar_color(TimeBarInterface::COLOR_ID_INACTIVE);
-      show_color_1_active_during_break = true;
+      frame->set_frame_flashing(0);
+      frame->set_frame_visible(false);
+      is_flashing = false;
    }
   time_bar->update();
   TRACE_MSG(progress_value << " " << progress_max_value);
