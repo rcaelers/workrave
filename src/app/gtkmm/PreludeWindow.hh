@@ -112,9 +112,6 @@ private:
 
   //! Send response to this interface.
   BreakResponseInterface *prelude_response;
-
-  //! Border
-  guint border_width;
 };
 
 

@@ -50,8 +50,7 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
          break_id(break_id),
          SCREEN_MARGIN(20),
          frame(NULL),
-         window_frame(NULL),
-         border_width(0)
+         window_frame(NULL)
 {
   Gtk::Window::set_border_width(0);
 #ifdef HAVE_X
