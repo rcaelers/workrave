@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-10-21 20:53:16 robc>
+// Time-stamp: <2002-10-26 17:30:51 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -50,6 +50,7 @@ Timer::Timer(TimeSource *timeSource) :
   timer_state(STATE_INVALID),
   previous_timer_state(STATE_INVALID),
   snooze_interval(60),
+  snooze_inhibited(false),
   limit_enabled(true),
   limit_interval(600),
   autoreset_enabled(true),
@@ -91,6 +92,7 @@ Timer::enable()
   if (!timer_enabled)
     {
       timer_enabled = true;
+      snooze_inhibited = false;
       stop_timer();
 
       if (get_elapsed_time() >= limit_interval)
@@ -158,6 +160,12 @@ Timer::set_snooze_interval(time_t t)
 }
 
 
+void
+Timer::inhibit_snooze()
+{
+  snooze_inhibited = true;
+}
+
 //! Enable/Disable auto-reset
 /*!
  * \param b indicates whether the timer auto-reset must be enabled (\c true)
@@ -178,6 +186,11 @@ Timer::set_auto_reset_enabled(bool b)
 void
 Timer::set_auto_reset(long resetTime)
 {
+  if (resetTime > autoreset_interval)
+    {
+      snooze_inhibited = false;
+    }
+
   autoreset_interval = resetTime;
   compute_next_reset_time();
 }
@@ -202,7 +215,7 @@ Timer::compute_next_limit_time()
 {
   TRACE_ENTER_MSG("Timer::compute_next_limit_time", timer_id);
   
-  if (timer_enabled && last_limit_time != 0)
+  if (timer_enabled && last_limit_time != 0 && !snooze_inhibited)
     {
       // Timer already reached limit
       next_limit_time = last_limit_time + snooze_interval;
@@ -289,6 +302,7 @@ Timer::reset_timer()
   elapsed_time = 0;
   last_limit_time = 0;
   last_reset_time = time_source->get_time();
+  snooze_inhibited = false;
   
   if (timer_state == STATE_RUNNING)
     {

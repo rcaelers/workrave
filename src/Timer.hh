@@ -114,6 +114,7 @@ public:
   
   // Misc
   void set_snooze_interval(time_t time);
+  void inhibit_snooze();
   void set_activity_monitor(ActivityMonitorInterface *am);
   bool has_activity_monitor();
   
@@ -140,9 +141,12 @@ private:
   //! The previous state of the timer. (i.e. before process() was called).
   TimerState previous_timer_state;
 
-  // Default snooze time
+  //! Default snooze time
   time_t snooze_interval;
-  
+
+  //! Don't snooze til next reset or changes.
+  bool snooze_inhibited;
+
   //! Is the timer limit enabled?
   bool limit_enabled;
   
