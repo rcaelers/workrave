@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
 "POT-Creation-Date: 2003-02-16 20:15+0100\n"
-"PO-Revision-Date: 2003-01-04 22:07+0100\n"
+"PO-Revision-Date: 2003-02-16 21:52+0100\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
 "MIME-Version: 1.0\n"
@@ -452,12 +452,12 @@ msgstr ""
 #: gui/gtkmm/StatisticsDialog.cc:171
 #, fuzzy
 msgid "Breaks"
-msgstr "Pauze over"
+msgstr "Pauzes"
 
 #: gui/gtkmm/StatisticsDialog.cc:179
 #, fuzzy
 msgid "Total breaks"
-msgstr "Standaard pauze"
+msgstr "Total aantal pauzes"
 
 #: gui/gtkmm/StatisticsDialog.cc:180
 msgid ""
@@ -476,7 +476,7 @@ msgstr ""
 #: gui/gtkmm/StatisticsDialog.cc:186
 #, fuzzy
 msgid "Breaks taken"
-msgstr "Pauze over"
+msgstr ""
 
 #: gui/gtkmm/StatisticsDialog.cc:187
 msgid "Number of times you took a break when prompted"
@@ -485,7 +485,7 @@ msgstr ""
 #: gui/gtkmm/StatisticsDialog.cc:189
 #, fuzzy
 msgid "Natural breaks taken"
-msgstr "Standaard pauze"
+msgstr ""
 
 #: gui/gtkmm/StatisticsDialog.cc:190
 msgid "Number of times you took a break without being prompted"
@@ -494,7 +494,7 @@ msgstr ""
 #: gui/gtkmm/StatisticsDialog.cc:192
 #, fuzzy
 msgid "Breaks skipped"
-msgstr "Pauze zichtbaar"
+msgstr ""
 
 #: gui/gtkmm/StatisticsDialog.cc:193
 msgid "Number of times you skipped a break"
@@ -503,7 +503,7 @@ msgstr ""
 #: gui/gtkmm/StatisticsDialog.cc:195
 #, fuzzy
 msgid "Breaks postponed"
-msgstr "Positie van de pauze"
+msgstr ""
 
 #: gui/gtkmm/StatisticsDialog.cc:196
 msgid "Number of times you postponed a break"
@@ -516,7 +516,7 @@ msgstr ""
 #: gui/gtkmm/StatisticsDialog.cc:199
 #, fuzzy
 msgid "The total time this break was overdue"
-msgstr "Rustpauze %s te laat"
+msgstr ""
 
 #: gui/gtkmm/StatisticsDialog.cc:201
 msgid "Daily usage"
@@ -529,12 +529,12 @@ msgstr ""
 #: gui/gtkmm/StatisticsDialog.cc:263
 #, fuzzy
 msgid "Activity"
-msgstr "Actieve tijd (ms)"
+msgstr ""
 
 #: gui/gtkmm/StatisticsDialog.cc:271
 #, fuzzy
 msgid "Total mouse time:"
-msgstr "Uitstel tijd"
+msgstr ""
 
 #: gui/gtkmm/StatisticsDialog.cc:272
 msgid "Total time you were using the mouse."
@@ -543,7 +543,7 @@ msgstr ""
 #: gui/gtkmm/StatisticsDialog.cc:273
 #, fuzzy
 msgid "Total mouse movement:"
-msgstr "Uitstel tijd"
+msgstr ""
 
 #: gui/gtkmm/StatisticsDialog.cc:274
 msgid "Total mouse movement in number of pixels."
@@ -562,7 +562,7 @@ msgstr ""
 #: gui/gtkmm/StatisticsDialog.cc:278
 #, fuzzy
 msgid "Total mouse button clicks:"
-msgstr "Uitstel tijd"
+msgstr ""
 
 #: gui/gtkmm/StatisticsDialog.cc:279
 msgid "Total number of mouse button clicks."
@@ -571,7 +571,7 @@ msgstr ""
 #: gui/gtkmm/StatisticsDialog.cc:280
 #, fuzzy
 msgid "Total keystrokes:"
-msgstr "Standaard pauze"
+msgstr ""
 
 #: gui/gtkmm/StatisticsDialog.cc:281
 msgid "Total number of keys pressed."
@@ -665,7 +665,6 @@ msgid "_Quiet"
 msgstr "_Stil"
 
 #: gui/gnome/GNOME_WorkraveApplet.xml.in.h:10
-#, fuzzy
 msgid "_Quit"
 msgstr "_Beeeindigen"
 
@@ -678,7 +677,6 @@ msgid "_Show Log..."
 msgstr "Toon _logboek"
 
 #: gui/gnome/GNOME_WorkraveApplet.xml.in.h:14
-#, fuzzy
 msgid "_Statistics"
 msgstr "Statistieken"
 
