@@ -223,13 +223,13 @@ AC_SUBST(GTKMM_CFLAGS)
 
 if test "x$config_with_gnome" = "xyes"
 then
-  AC_PROG_INTLTOOL
+  dnl AC_PROG_INTLTOOL
 
   PKG_CHECK_MODULES(gnomeui, libgnomeui-2.0)
   PKG_CHECK_MODULES(APPLET, libpanelapplet-2.0 >= 2.0.10)
   PKG_CHECK_MODULES(BONOBO, libbonobo-2.0 >= 2.0.0)
 
-  AM_PATH_ORBIT2
+  dnl AM_PATH_ORBIT2
 
   AC_MSG_CHECKING(for CORBA include paths)
   IDL_INCLUDES="-I "`pkg-config --variable=idldir libbonobo-2.0`" -I "`pkg-config --variable=idldir bonobo-activation-2.0`
