@@ -39,6 +39,10 @@
 #include <gdkmm/screen.h>
 #endif
 
+#ifdef HAVE_WIN32
+#include <windows.h>
+#endif
+
 // GTKMM classes
 class MainWindow;
 class MicroPauseWindow;
@@ -109,11 +113,19 @@ private:
   void init_core();
   void init_sound_player();
   void init_multihead();
+  void init_multihead_mem(int new_num_heads);
   void init_gui();
   void init_remote_control();
 
   bool action_notify();
   void on_activity();
+
+#if defined(HAVE_GTK_MULTIHEAD)
+  void init_gtk_multihead();
+#elif defined(HAVE_WIN32)
+  void init_win32_multihead();
+  void update_win32_multihead();
+#endif
   
 #ifdef HAVE_GNOME
   void init_gnome();
@@ -187,6 +199,13 @@ private:
 
   HeadInfo *heads;
   int num_heads;
+
+#ifdef HAVE_WIN32
+  LUENUMDISPLAYMONITORS enum_monitors;
+  INSTANCE user_lib;
+  int current_monitor;
+#endif
+  
 };
 
 

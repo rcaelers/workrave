@@ -97,7 +97,13 @@ GUI::GUI(int argc, char **argv)  :
   break_window_destroy(false),
   prelude_window_destroy(false),
   heads(NULL),
-  num_heads(0)
+  num_heads(-1)
+#ifdef WIN32
+  ,
+  enum_monitors(NULL),
+  user_lib(NULL),
+  current_monitor(0)
+#endif
 {
   TRACE_ENTER("GUI:GUI");
 
@@ -448,9 +454,52 @@ GUI::init_multihead()
 {
   TRACE_ENTER("GUI::init_multihead");
 
-  int new_num_heads = 0;
-  
+#if defined(HAVE_GTK_MULTIHEAD)
+  init_gtk_multihead();
+#elif defined(HAVE_WIN32)
+  init_win32_multihead();
+#else
+  if (num_heads == -1)
+    {
+      num_heads = 1;
+      heads = new HeadInfo[1];
+      heads[0].valid = false;
+    }
+#endif
+
+
+
+  TRACE_EXIT();
+}
+
+void
+GUI::init_multihead_mem(int new_num_heads)
+{
+  if (new_num_heads != num_heads || num_heads <= 0)
+    {
+      num_heads = new_num_heads;
+                                  
+      delete [] heads;
+      heads = new HeadInfo[num_heads];
+
+      prelude_window_destroy = true;
+      break_window_destroy = true;
+      collect_garbage();
+
+      delete [] prelude_windows;
+      delete [] break_windows;
+      prelude_windows = new PreludeWindow*[num_heads];
+      break_windows = new BreakWindowInterface*[num_heads];
+    }
+}
+
+
 #ifdef HAVE_GTK_MULTIHEAD
+void
+GUI::init_gtk_multihead()
+{
+  int new_num_heads = 0;
+
   Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
   int num_screens = display->get_n_screens();
   
@@ -462,20 +511,9 @@ GUI::init_multihead()
           new_num_heads += screen->get_n_monitors();
         }
     }
-#else
-  new_num_heads = 1;
-#endif
 
-  if (new_num_heads != num_heads || num_heads <= 0)
-    {
-      TRACE_MSG("num_heads = " << new_num_heads);
-      num_heads = new_num_heads;
-                                  
-      delete [] heads;
-      heads = new HeadInfo[num_heads];
-    }
-
-#ifdef HAVE_GTK_MULTIHEAD
+  init_multihead_mem(new_num_heads);
+  
   int count = 0;
   for (int i = 0; i < num_screens; i++)
     {
@@ -485,7 +523,6 @@ GUI::init_multihead()
           int num_monitors = screen->get_n_monitors();
           for (int j = 0; j < num_monitors && count < num_heads; j++)
             {
-              Gdk::Rectangle geometry;
               heads[count].screen = screen;
               heads[count].monitor = j;
               heads[count].valid = true;
@@ -496,16 +533,80 @@ GUI::init_multihead()
             }
         }
     }
-
-#else
-  num_heads = 1;
-  heads[0].valid = false;
-#endif
-  
-  prelude_windows = new PreludeWindow*[num_heads];
-  break_windows = new BreakWindowInterface*[num_heads];
-  TRACE_EXIT();
 }
+#endif
+
+
+#ifdef HAVE_WIN32
+void
+GUI::init_win32_multihead()
+{
+  if (num_heads == -1)
+    {
+      if (user_lib == NULL)
+        {
+          user_lib = LoadLibrary("user32.dll");
+        }
+      
+      if (user_lib != NULL)
+        {
+          enum_monitors = (LUENUMDISPLAYMONITORS)GetProcAddress(user_lib,"EnumDisplayMonitors");
+        }
+          
+      if (enum_monitors == NULL)
+        {
+          FreeLibrary(user_lib);
+          user_lib = NULL;
+        }
+    }
+
+  if (enum_monitors != NULL)
+    {
+      int new_num_head = GetSystemMetrics(SM_CMONITORS);
+
+      init_multihead_mem(new_num_heads);
+  
+      if (num_heads > 1)
+        {
+          current_monitor = 0;
+          (*enum_monitors)(NULL,NULL, enum_monitor_callback, (LPARAM)this);
+        }
+      else if (num_heads == 1)
+        {
+          heads[0].valid = false;
+        }
+    }
+  else
+    {
+      num_heads = 1;
+      init_multihead_mem(1);
+      heads[0].valid = false;
+    }
+
+  
+  else 
+}
+
+BOOL CALLBACK enum_monitor_callback(HMONITOR monitor, HDC, LPRECT rc, LPARAM dwData)
+{
+  GUI *gui = (GUI *) dwData;
+
+  if (current_monitor < num_heads)
+    {
+      Gtk::Rectangle &geometry = heads[current_monitor].geometry;
+      
+      geometry.set_x(rc->left);
+      geometry.set_y(rc->top);
+      geometry.set_width(rc->right - rc->left + 1);
+      geometry.set_height(rc->bottom - rc->right + 1);
+      
+      current_monitor++;
+    }
+  
+  return TRUE;
+};
+#endif
+
 
 //! Initializes the GUI
 void
@@ -770,7 +871,7 @@ GUI::set_prelude_progress_text(PreludeProgressText text)
 void
 GUI::collect_garbage()
 {
-  if (prelude_window_destroy)
+  if (prelude_window_destroy && prelude_windows != NULL)
     {
       for (int i = 0; i < active_prelude_count; i++)
         {
@@ -784,7 +885,7 @@ GUI::collect_garbage()
       active_prelude_count = 0;
     }
   
-  if (break_window_destroy)
+  if (break_window_destroy && break_windows != NULL)
     {
       for (int i = 0; i < active_break_count; i++)
         {
