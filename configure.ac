@@ -406,7 +406,7 @@ if test "$config_cwd_debug" = yes; then
 fi
 
           
-GUI_LIBS=""
+GUI_LIBS="../gui/libgui.a"
 GUI_CFLAGS="-I \$(top_srcdir)/gui"
                
 if test "x$GTKMM_LIBS" != "x"; then

@@ -20,7 +20,6 @@
 #define BREAKCONTROL_HH
 
 #include <stdio.h>
-#include <sigc++/object.h>
 
 #include "BreakInterface.hh"
 #include "BreakResponseInterface.hh"
