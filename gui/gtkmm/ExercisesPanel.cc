@@ -30,12 +30,11 @@
 #include "SoundPlayerInterface.hh"
 
 ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
-  : Gtk::HBox(false, 6)
+  : Gtk::HBox(false, 6),
+         exercises(Exercise::get_exercises())
 {
   standalone = dialog_action_area != NULL;
   
-  Exercise::parse_exercises(exercises);
-
   progress_bar.set_orientation(Gtk::PROGRESS_BOTTOM_TO_TOP);
 
 

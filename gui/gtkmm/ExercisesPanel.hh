@@ -56,7 +56,7 @@ private:
   Gtk::Button *back_button;
   Gtk::Button *pause_button;
   Gtk::Button *forward_button;
-  std::list<Exercise> exercises;
+  const std::list<Exercise> &exercises;
   std::list<Exercise>::const_iterator exercise_iterator;
   std::list<Exercise::Image>::const_iterator image_iterator;
   SigC::Connection heartbeat_signal;

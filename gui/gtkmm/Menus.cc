@@ -231,9 +231,12 @@ Menus::create_menu(Gtk::CheckMenuItem *check_menus[4])
 
 #ifdef HAVE_EXERCISES
   // Exercises
-  menulist.push_back(Gtk::Menu_Helpers::MenuElem
-                     (_("Exercises"), 
-                      SigC::slot(*this, &Menus::on_menu_exercises)));
+  if (Exercises::has_exercises())
+    {
+      menulist.push_back(Gtk::Menu_Helpers::MenuElem
+                         (_("Exercises"), 
+                          SigC::slot(*this, &Menus::on_menu_exercises)));
+    }
 #endif  
   
 

@@ -45,6 +45,9 @@ struct ExerciseParser
   const GList *i18n_languages;
 };
 
+std::list<Exercise> Exercise::exercises;
+bool exercises_parsed = false;
+
 static const gchar *
 exercise_parse_lookup_attribute(const gchar *find, const gchar **names,
                                 const gchar **values)
@@ -306,5 +309,24 @@ Exercise::parse_exercises(std::list<Exercise> &exercises)
   return parse_exercises(file_name.c_str(), exercises);
 
 }
+
+const std::list<Exercise> &
+Exercise::get_exercises()
+{
+  if (! exercises_parsed)
+    {
+      parse_exercises(exercises);
+      exercises_parsed = true;
+    }
+  return exercises;
+}
+
+bool
+Exercise::has_exercises()
+{
+  const std::list<Exercise> &ex = get_exercises();
+  return ex.size() > 0;
+}
+
 
 #endif // HAVE_EXERCISES

@@ -21,14 +21,16 @@
 
 #include "config.h"
 
-#ifdef HAVE_EXERCISES
-
 #include <list>
 #include <string>
 
 
 struct Exercise
 {
+public:
+  static bool has_exercises();
+
+#ifdef HAVE_EXERCISES
   struct Image
   {
     std::string image;
@@ -47,12 +49,18 @@ struct Exercise
   int duration;
   std::list<Image> sequence;
 
+public:
+  static const std::list<Exercise> &get_exercises();
+
+private:
   static void parse_exercises(std::list<Exercise>&);
   static void parse_exercises(const char *file_name, std::list<Exercise>&);
+
+  static std::list<Exercise> exercises;
+#endif // HAVE_EXERCISES
 };
 
 
 
-#endif // HAVE_EXERCISES
 
 #endif // EXERCISE_HH
