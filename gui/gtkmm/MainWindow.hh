@@ -30,6 +30,9 @@ class ControlInterface;
 class TimeBar;
 
 #include <gtkmm.h>
+#ifdef WIN32
+#include <windows.h>
+#endif
 
 #include "ConfiguratorListener.hh"
 
@@ -105,6 +108,17 @@ private:
   void on_menu_quiet();
 #ifndef NDEBUG
   void on_test_me();
+#endif
+
+#ifdef WIN32
+private:
+  void win32_show(bool b);
+  void win32_init();
+  void win32_exit();
+  static LRESULT CALLBACK win32_window_proc(HWND hwnd, UINT uMsg,
+                                            WPARAM wParam, LPARAM lParam);
+  HWND win32_main_hwnd;
+  NOTIFYICONDATA win32_tray_icon;
 #endif
 };
 

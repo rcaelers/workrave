@@ -33,7 +33,6 @@ static const char rcsid[] = "$Id$";
 #else
 #include "gnome-about.h"
 #endif
-
 #include "MainWindow.hh"
 #include "PreferencesDialog.hh"
 #include "StatisticsDialog.hh"
@@ -49,8 +48,18 @@ static const char rcsid[] = "$Id$";
 #include "ActivityMonitorInterface.hh"
 #include "Statistics.hh"
 
+#ifdef WIN32
+#include <gdk/gdkwin32.h>
+#endif
+
 using std::cout;
 using SigC::slot;
+
+#ifdef WIN32
+const char *WIN32_MAIN_CLASS_NAME = "Workrave";
+const UINT MYWM_TRAY_MESSAGE = WM_USER +0x100;
+MainWindow *bla; //FIXME!
+#endif
 
 //! Constructor.
 /*!
@@ -75,11 +84,6 @@ MainWindow::~MainWindow()
 {
   TRACE_ENTER("MainWindow::~MainWindow");
 
-  if (delete_connection.connected())
-    {
-      delete_connection.disconnect();
-    }
-  
   if (timer_times)
     {
       delete [] timer_times;
@@ -90,6 +94,10 @@ MainWindow::~MainWindow()
       delete [] timer_names;
     }
 
+#ifdef WIN32
+  win32_exit();
+#endif
+  
   TRACE_EXIT();
 }
 
@@ -102,8 +110,6 @@ MainWindow::init()
 
   set_title("Workrave");
   
-  delete_connection =  signal_delete_event().connect(SigC::slot(*this, &MainWindow::on_delete_event));
-
   // Load config and store it again
   // (in case no config was found and defaults were used)
   load_config();
@@ -166,9 +172,14 @@ MainWindow::init()
   WindowHints::set_skip_winlist(Gtk::Widget::gobj(), true);
   setup();
   stick();
-  
+
+#ifdef WIN32
+  win32_init();
+#endif
   TRACE_EXIT();
 }
+
+
 
 
 //! Setup configuration settings.
@@ -266,8 +277,12 @@ MainWindow::on_delete_event(GdkEventAny *)
 {
   TRACE_ENTER("MainWindow::on_delete_event");
 
+#ifdef WIN32
+  win32_show(false);
+#else
   gui->terminate();
-
+#endif
+  
   TRACE_EXIT();
   return true;
 }
@@ -529,3 +544,94 @@ MainWindow::on_menu_about()
                     pixbuf));
 }
 
+
+#ifdef WIN32
+void
+MainWindow::win32_show(bool b)
+{
+  // Gtk's hide() seems to quit the program.
+  GtkWidget *window = Gtk::Widget::gobj();
+  GdkWindow *gdk_window = window->window;
+  HWND hwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
+  ShowWindow(hwnd, b ? SW_SHOWNORMAL : SW_HIDE);
+}
+
+void
+MainWindow::win32_init()
+{
+  HINSTANCE hinstance = (HINSTANCE) GetModuleHandle(NULL);
+  
+  WNDCLASSEX wclass =
+    {
+      sizeof(WNDCLASSEX),
+      0,
+      win32_window_proc,
+      0,
+      0,
+      hinstance,
+      NULL,
+      NULL,
+      NULL,
+      NULL,
+      WIN32_MAIN_CLASS_NAME,
+      NULL
+    };
+  ATOM atom = RegisterClassEx(&wclass);
+
+  win32_main_hwnd = CreateWindowEx(0,
+                                   WIN32_MAIN_CLASS_NAME,
+                                   "Workrave",
+                                   0,
+                                   0,0,
+                                   32,
+                                   32,
+                                   (HWND)NULL,
+                                   (HMENU)NULL,
+                                   hinstance,
+                                   (LPSTR)NULL);
+
+  // Tray icon
+  win32_tray_icon.cbSize = sizeof(NOTIFYICONDATA);
+  win32_tray_icon.hWnd = win32_main_hwnd;
+  win32_tray_icon.uID = 1;
+  win32_tray_icon.uFlags = NIF_ICON|NIF_TIP|NIF_MESSAGE;
+  win32_tray_icon.uCallbackMessage = MYWM_TRAY_MESSAGE;
+  win32_tray_icon.hIcon = LoadIcon(hinstance, "workrave");
+  strcpy(win32_tray_icon.szTip, "Workrave");
+  Shell_NotifyIcon(NIM_ADD, &win32_tray_icon);
+  bla = this;
+}
+
+void
+MainWindow::win32_exit()
+{
+  Shell_NotifyIcon(NIM_DELETE, &win32_tray_icon);
+  DestroyWindow(win32_main_hwnd);
+  UnregisterClass(WIN32_MAIN_CLASS_NAME, GetModuleHandle(NULL));
+}
+
+LRESULT CALLBACK
+MainWindow::win32_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
+                              LPARAM lParam)
+{
+  switch (uMsg)
+    {
+    case MYWM_TRAY_MESSAGE:
+      {
+        switch (lParam)
+          {
+          case WM_RBUTTONUP:
+            // FIXME: supply actual time instead of 0?
+            bla->popup_menu->popup(3, 0); 
+            break;
+          case WM_LBUTTONDBLCLK:
+            bla->win32_show(true);
+            break;
+          }
+      }
+      break;
+    }
+  return DefWindowProc(hwnd, uMsg, wParam, lParam);
+}
+
+#endif

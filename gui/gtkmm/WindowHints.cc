@@ -283,11 +283,12 @@ WindowHints::set_tool_window(GtkWidget *window, bool istool)
   if (istool)
     {
       dwExStyle |= WS_EX_TOOLWINDOW;
-      dwStyle &= ~(WS_MINIMIZEBOX|WS_MAXIMIZEBOX);
+      dwExStyle &= ~WS_EX_APPWINDOW;
     }
   else
     {
       dwExStyle &= ~WS_EX_TOOLWINDOW;
+      dwExStyle |= WS_EX_APPWINDOW;
     }
   SetWindowLong(hDrawingWind, GWL_EXSTYLE, dwExStyle);
   SetWindowLong(hDrawingWind, GWL_STYLE, dwStyle);
