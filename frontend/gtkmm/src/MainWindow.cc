@@ -23,7 +23,7 @@ static const char rcsid[] = "$Id$";
 #endif
 
 #ifdef WIN32
-#ifdef _WIN32_IE
+#ifndef _WIN32_IE
 #define _WIN32_IE 0x0500
 #endif
 #endif
