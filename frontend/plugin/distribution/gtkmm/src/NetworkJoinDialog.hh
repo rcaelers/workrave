@@ -44,7 +44,7 @@ public:
   std::string get_connect_url();
   bool is_connect_at_startup_selected();
 
-  DistributionManagerInterface *dist_manager;
+private:
   Gtk::Entry *host_entry;
   Gtk::SpinButton *port_entry;
   Gtk::CheckButton *startup_button;
