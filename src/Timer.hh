@@ -33,7 +33,6 @@
 #include <string>
 #include <list>
 
-#include "Mutex.hh"
 #include "TimerInterface.hh"
 #include "ActivityMonitorInterface.hh"
 
@@ -176,9 +175,6 @@ private:
 
   //! Next limit time.
   time_t next_limit_time;
-
-  //! Global lock for attributes.
-  mutable Mutex lock;
 
   //! Id of the timer.
   string timer_id;
