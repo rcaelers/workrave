@@ -270,11 +270,11 @@ msgstr "Options"
 #  panel->add(*start_in_tray_cb);
 #: frontend/gtkmm/src/PreferencesDialog.cc:177
 msgid "Sound:"
-msgstr "Son:"
+msgstr "Son :"
 
 #: frontend/gtkmm/src/PreferencesDialog.cc:178
 msgid "Block mode:"
-msgstr "Verrouillage:"
+msgstr "Verrouillage :"
 
 #: frontend/gtkmm/src/PreludeWindow.cc:105
 msgid "Time for a micro-break?"
@@ -362,24 +362,24 @@ msgstr "Affichage"
 
 #: frontend/gtkmm/src/TimerBoxPreferencePage.cc:166
 msgid "Placement:"
-msgstr "Disposition:"
+msgstr "Disposition :"
 
 #: frontend/gtkmm/src/TimerBoxPreferencePage.cc:167
 msgid "Cycle time:"
-msgstr "Intervalle de rotation:"
+msgstr "Intervalle de rotation :"
 
 #  Layout
 #: frontend/gtkmm/src/TimerBoxPreferencePage.cc:172
 msgid "Micro-break:"
-msgstr "Micro-pause:"
+msgstr "Micro-pause :"
 
 #: frontend/gtkmm/src/TimerBoxPreferencePage.cc:173
 msgid "Rest break:"
-msgstr "Pause prolongée:"
+msgstr "Pause prolongée :"
 
 #: frontend/gtkmm/src/TimerBoxPreferencePage.cc:174
 msgid "Daily limit:"
-msgstr "Limite journalière:"
+msgstr "Limite journalière :"
 
 #  Enabled/Disabled checkbox
 #. Enabled/Disabled checkbox
@@ -415,23 +415,23 @@ msgstr "Compter les micro-pauses comme de l'activité"
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:185
 msgid "Number of exercises:"
-msgstr "Nombre d'exercices:"
+msgstr "Nombre d'exercices :"
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:210
 msgid "Time before end:"
-msgstr "Temps restant:"
+msgstr "Temps restant :"
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:211
 msgid "Time between breaks:"
-msgstr "Intervalle entre deux pauses:"
+msgstr "Intervalle entre deux pauses :"
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:220
 msgid "Break duration:"
-msgstr "Durée de la pause:"
+msgstr "Durée de la pause :"
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:242
 msgid "Postpone time:"
-msgstr "Temps de report de pause:"
+msgstr "Temps de report de pause :"
 
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:1
 msgid "_About..."
@@ -509,11 +509,11 @@ msgstr ""
 
 #: frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:80
 msgid "Host name:"
-msgstr "Nom d'hôte:"
+msgstr "Nom d'hôte :"
 
 #: frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:81
 msgid "Port:"
-msgstr "Port:"
+msgstr "Port :"
 
 #: frontend/plugin/distribution/gtkmm/src/NetworkLogDialog.cc:43
 msgid "Network log"
@@ -525,11 +525,11 @@ msgstr "Activer le support réseau"
 
 #: frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:97
 msgid "Username:"
-msgstr "Nom d'utilisateur:"
+msgstr "Nom d'utilisateur :"
 
 #: frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:98
 msgid "Password:"
-msgstr "Mot de passe:"
+msgstr "Mot de passe :"
 
 #: frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:115
 msgid "Server settings"
@@ -537,15 +537,15 @@ msgstr "Configuration du serveur"
 
 #: frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:137
 msgid "Server port:"
-msgstr "Port du serveur:"
+msgstr "Port du serveur :"
 
 #: frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:138
 msgid "Reconnect attempts:"
-msgstr "Tentatives de reconnexion:"
+msgstr "Tentatives de reconnexion :"
 
 #: frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:139
 msgid "Reconnect interval:"
-msgstr "Intervalle entre deux reconnexions:"
+msgstr "Intervalle entre deux reconnexions :"
 
 #: frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:142
 msgid "Advanced"
@@ -578,7 +578,7 @@ msgstr "Parcourir l'historique"
 
 #: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:139
 msgid "Date:"
-msgstr "Date:"
+msgstr "Date :"
 
 #: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:174
 msgid "Breaks"
@@ -656,7 +656,7 @@ msgstr "Activité"
 
 #: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:294
 msgid "Mouse usage:"
-msgstr "Utilisation de la souris:"
+msgstr "Utilisation de la souris :"
 
 #: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:295
 msgid "The total time you were using the mouse"
@@ -664,7 +664,7 @@ msgstr "Durée totale d'utilisation de la souris"
 
 #: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:298
 msgid "Mouse movement:"
-msgstr "Mouvements de la souris:"
+msgstr "Mouvements de la souris :"
 
 #: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:299
 msgid "The total on-screen mouse movement"
@@ -672,7 +672,7 @@ msgstr "Distance totale parcourue par la souris"
 
 #: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:302
 msgid "Effective mouse movement:"
-msgstr "Mouvements utiles:"
+msgstr "Mouvements utiles :"
 
 #: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:303
 msgid "The total mouse movement you would have had if you moved your mouse in straight lines between clicks"
@@ -680,7 +680,7 @@ msgstr "Distance totale que vous auriez parcourue si vous aviez déplacé votre so
 
 #: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:307
 msgid "Mouse button clicks:"
-msgstr "Clics de souris:"
+msgstr "Clics de souris :"
 
 #: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:308
 msgid "The total number of mouse button clicks"
@@ -688,7 +688,7 @@ msgstr "Nombre total de clics de souris"
 
 #: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:311
 msgid "Keystrokes:"
-msgstr "Frappes clavier:"
+msgstr "Frappes clavier :"
 
 #: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:312
 msgid "The total number of keys pressed"
