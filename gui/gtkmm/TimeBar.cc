@@ -102,6 +102,7 @@ void TimeBar::on_realize()
 void 
 TimeBar::on_size_request(GtkRequisition *requisition)
 {
+  TRACE_ENTER("TimeBar:on_size_request");
   Glib::RefPtr<Pango::Layout> pl = create_pango_layout(bar_text);
 
   string min_string = Text::time_to_string(-(59+59*60+9*60*60));;
@@ -119,9 +120,11 @@ TimeBar::on_size_request(GtkRequisition *requisition)
 
   requisition->width = width + 2 * MARGINX;
   requisition->height = max(height + 2 * MARGINY, MIN_HORIZONTAL_BAR_HEIGHT);
+  TRACE_EXIT();
 }
 
 
+//! Draws the timebar
 bool
 TimeBar::on_expose_event(GdkEventExpose *e)
 {
@@ -239,7 +242,7 @@ TimeBar::on_expose_event(GdkEventExpose *e)
 }
 
 
-//! Sets the time to be displayed.
+//! Sets the time progress to be displayed.
 void
 TimeBar::set_progress(int value, int max_value)
 {
@@ -253,7 +256,7 @@ TimeBar::set_progress(int value, int max_value)
 }
 
 
-//! Sets the time to be displayed.
+//! Sets the secondary time progress to be displayed.
 void
 TimeBar::set_secondary_progress(int value, int max_value)
 {
@@ -265,6 +268,7 @@ TimeBar::set_secondary_progress(int value, int max_value)
   secondary_bar_value = value;
   secondary_bar_max_value = max_value;
 }
+
 
 //! Sets the text to be displayed.
 void
@@ -289,7 +293,8 @@ TimeBar::set_bar_color(ColorId color)
   bar_color = color;
 }
 
-//! Sets the color of the bar.
+
+//! Sets the color of the secondary bar.
 void
 TimeBar::set_secondary_bar_color(ColorId color)
 {
@@ -297,14 +302,12 @@ TimeBar::set_secondary_bar_color(ColorId color)
 }
 
 
-//! Sets the color of the bar.
+//! Sets the text color.
 void
 TimeBar::set_text_color(Gdk::Color color)
 {
   bar_text_color = color;
 }
-
-
 
 
 //! Updates the screen.

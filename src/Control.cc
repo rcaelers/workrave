@@ -135,10 +135,12 @@ Control::process_timers(TimerInfo *infos)
   TRACE_ENTER("Control::process_timers");
   static int count = 0;
 
+#ifndef NDEBUG  
   if (script_start_time != -1 && current_time >= script_start_time)
     {
       do_script();
     }
+#endif
   
   // Retrieve State.
   ActivityState state = monitor->get_current_state();
@@ -288,26 +290,28 @@ Control::update_remote_idle_history()
 {
   TRACE_ENTER("Control::update_remote_idle_history");
 
-  string master_id = dist_manager->get_master_id();
-
   for (ClientMapIter i = clients.begin(); i != clients.end(); i++)
     {
-      string id = i->first;
       ClientInfo &info = i->second;
 
+      // Default: remote client is idle and not master
       ActivityState state = ACTIVITY_IDLE;
       bool is_master = false;
 
-      if (id == master_id)
+      if (i->first == dist_manager->get_master_id())
         {
+          // Correction, remote client IS master.
           state = remote_state;
           is_master = true;
         }
 
+      // Did the state/master status change?
       bool changed = (state != info.last_state || is_master != info.is_master);
 
+      // Update history.
       update_idle_history(info, state, changed);
 
+      // Remember current state/master status.
       info.is_master = is_master;
       info.last_state = state;
     }
@@ -343,11 +347,12 @@ Control::update_idle_history(ClientInfo &info, ActivityState state, bool changed
           int total_idle = idle->idle_end - idle->idle_begin;
           if (total_idle < 1 && info.idle_history.size() > 1)
             {
+              // Idle period too short. remove it
               info.idle_history.pop_front();
+              idle = &(info.idle_history.front());
             }
 
-          idle = &(info.idle_history.front());
-          
+          // Update start time of last active period.
           info.last_elapsed = 0;
           info.last_active_begin = current_time;
         }
@@ -392,17 +397,20 @@ Control::compute_active_time(int length)
   // Number of client, myself included.
   int size = clients.size() + 1;
 
+  // Data for each client.
   IdleHistoryIter *iterators = new IdleHistoryIter[size];
   IdleHistoryIter *end_iterators = new IdleHistoryIter[size];
   bool *at_end = new bool[size];
   int *elapsed = new int[size];
- 
+
+  // Init data for me.
   my_info.update(current_time);
   iterators[0] = my_info.idle_history.begin();
   end_iterators[0] = my_info.idle_history.end();
   at_end[0] = true;
   elapsed[0] = 0;
 
+  // Init data for remote client.
   int count = 1;
   for (ClientMapIter i = clients.begin(); i != clients.end(); i++)
     {
@@ -453,7 +461,8 @@ Control::compute_active_time(int length)
                 }
             }
         }
-      
+
+      // Did we found one?
       if (last_time != -1)
         {
           IdleInterval ii = *(iterators[last_iter]);
@@ -521,7 +530,6 @@ Control::compute_active_time(int length)
   TRACE_EXIT();
   return total_elapsed;
 }
-
 
 
 int
@@ -686,6 +694,22 @@ Control::init_timers()
   configurator->add_listener(CFG_KEY_TIMERS, this);
 }
 
+void
+Control::daily_reset()
+{
+#ifdef HAVE_DISTRIBUTION
+  my_info.update(current_time);
+  my_info.total_elapsed = 0;
+
+  for (ClientMapIter i = clients.begin(); i != clients.end(); i++)
+    {
+      ClientInfo &info = (*i).second;
+      info.update(current_time);
+      info.total_elapsed = 0;
+    }
+#endif
+}
+  
 
 TimerInterface *
 Control::create_timer(int timer_id, string name)
@@ -947,8 +971,7 @@ Control::test_me()
                                          (unsigned char *)state_packet.get_buffer(),
                                          state_packet.bytes_written());
   
-  /*
-  if (fake_monitor != NULL)
+  /*  if (fake_monitor != NULL)
     {
       ActivityState state = fake_monitor->get_current_state();
 

@@ -82,6 +82,7 @@ public:
   void terminate();
   void process_timers(TimerInfo *infos);
   void init_timers();
+  void daily_reset();
   
   TimerInterface *create_timer(int timer_id, string name);
   ActivityMonitorInterface *get_activity_monitor() const

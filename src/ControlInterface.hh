@@ -42,6 +42,9 @@ public:
   //! Initializes all added timers.
   virtual void init_timers() = 0;
 
+  //! Resets daily stuff.
+  virtual void daily_reset() = 0;
+
   //! Processes all timers.
   virtual void process_timers(TimerInfo *infos) = 0;
 

@@ -263,22 +263,6 @@ AppletWindow::init_gnome_applet()
     }
 
 
-//   if (ok)
-//     {
-//       // Register at applet.
-//       RemoteControl *remote = RemoteControl::get_instance();
-//       if (remote != NULL)
-//         {
-//           WorkraveControl *control = remote->get_remote_control();
-
-//           if (control != NULL)
-//             {
-//               Bonobo_Unknown x = bonobo_object_corba_objref(BONOBO_OBJECT(control));
-//               GNOME_Workrave_AppletControl_register_control(applet_control, x, &ev);
-//             }
-//         }
-//     }
-  
   if (ok)
     {
       // Initialize applet GUI.

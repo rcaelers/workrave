@@ -358,13 +358,18 @@ TimerBox::init_table()
 
   if (!vertical)
     {
+      TRACE_MSG("!vertical")
       GtkRequisition bar_size;
       bars[0]->size_request(&bar_size);
+      TRACE_MSG(bar_size.height << " " << bar_size.width);
+      
       GtkRequisition label_size;
       labels[0]->size_request(&label_size);
+      TRACE_MSG(label_size.height << " " << label_size.width);
 
       rows = size / (bar_size.height + label_size.height);
 
+      TRACE_MSG(size << " " << rows);
       if (rows <= 0)
         {
           rows = 1;
