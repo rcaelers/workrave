@@ -18,6 +18,7 @@
 
 #include "InputMonitor.hh"
 #include "Mutex.hh"
+#include "debug.hh"
 
 #if defined(HAVE_X)
 #include "X11InputMonitor.hh"
@@ -33,6 +34,7 @@ Mutex InputMonitor::mutex;
 
 InputMonitor::InputMonitor()
 {
+  TRACE_ENTER("InputMonitor::InputMonitor");
   ref_count = 0;
 #if defined(HAVE_X)
   monitor = new X11InputMonitor();
@@ -47,25 +49,35 @@ InputMonitor::InputMonitor()
 
 InputMonitor::~InputMonitor()
 {
+  TRACE_ENTER("InputMonitor::~InputMonitor");
+  mutex.lock();
+  monitor->terminate();
+  mutex.unlock();
+}
+
+void
+InputMonitor::unref()
+{
   mutex.lock();
   ref_count--;
   if (! ref_count)
     {
-      monitor->terminate();
+      delete instance;
+      instance = NULL;
     }
-  instance = NULL;
   mutex.unlock();
 }
 
 InputMonitor *
 InputMonitor::get_instance()
 {
+  TRACE_ENTER("InputMonitor::get_instance");
   mutex.lock();
   if (! instance)
     {
       instance = new InputMonitor();
     }
-  instance->ref_count++;
+  ref_count++;
   mutex.unlock();
   return instance;
 }
@@ -73,6 +85,7 @@ InputMonitor::get_instance()
 void
 InputMonitor::add_listener(InputMonitorListenerInterface *listener)
 {
+  TRACE_ENTER_MSG("InputMonitor::add_listener", listener);
   mutex.lock();
   listeners.push_back(listener);
   mutex.unlock();
@@ -81,6 +94,8 @@ InputMonitor::add_listener(InputMonitorListenerInterface *listener)
 void
 InputMonitor::remove_listener(InputMonitorListenerInterface *listener)
 {
+  TRACE_ENTER_MSG("InputMonitor::remove_listener", listener);
+
   mutex.lock();
   listeners.remove(listener);
   mutex.unlock();

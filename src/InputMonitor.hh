@@ -30,8 +30,8 @@ class InputMonitor
 {
 public:
   static InputMonitor *get_instance();
-  ~InputMonitor();
-  
+  void unref();
+
   void add_listener(InputMonitorListenerInterface *listener);
   void remove_listener(InputMonitorListenerInterface *listener);
 
@@ -40,6 +40,7 @@ public:
 
 private:
   InputMonitor();
+  ~InputMonitor();
 
   static list<InputMonitorListenerInterface *> listeners;
   static InputMonitor *instance;

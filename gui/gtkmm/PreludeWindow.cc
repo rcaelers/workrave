@@ -108,6 +108,7 @@ PreludeWindow::start()
 #endif
   
   set_avoid_pointer(true);
+  refresh();
   center();
   show_all();
 

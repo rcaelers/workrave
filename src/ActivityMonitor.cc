@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-09-20 20:31:31 pennersr>
+// Time-stamp: <2002-09-20 23:59:14 pennersr>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -55,7 +55,7 @@ ActivityMonitor::~ActivityMonitor()
   if (input_monitor != NULL)
     {
       input_monitor->remove_listener(activity_state);
-      delete input_monitor;
+      input_monitor->unref();
     }
 
   if (activity_state != NULL)

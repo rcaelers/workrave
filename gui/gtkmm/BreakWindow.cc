@@ -87,7 +87,8 @@ BreakWindow::~BreakWindow()
   if (input_monitor != NULL)
     {
       input_monitor->remove_listener(this);
-      delete input_monitor;
+      input_monitor->unref();
+      input_monitor = NULL;
     }
   TRACE_EXIT();
 }
