@@ -65,30 +65,28 @@ RestBreakWindow::RestBreakWindow(bool ignorable) :
   progress_value(0),
   progress_max_value(0),
   insist_break(true)
+#ifdef HAVE_EXERCISES
+  ,exercises_panel(NULL)
+#endif
 {
   // Initialize this window
   set_border_width(12);
 
-  // Title
-  Gtk::HBox *info_box = manage(new Gtk::HBox(false, 12));
-  string icon = Util::complete_directory("restbreak.png", Util::SEARCH_PATH_IMAGES);
-  Gtk::Image *info_img = manage(new Gtk::Image(icon));
-  info_img->set_alignment(0.0, 0.0);
-  Gtk::Label *info_lab =
-    manage(new Gtk::Label());
-  Glib::ustring txt = HigUtil::create_alert_text
-    (GUIControl::get_instance()
-     ->get_timer_data(GUIControl::BREAK_ID_REST_BREAK)->label,
-     _("This is your rest break. Make sure you stand up and\n"
-       "walk away from your computer on a regular basis. Just\n"
-       "walk around for a few minutes, stretch, and relax."));
-  info_lab->set_markup(txt);
-  info_box->pack_start(*info_img, false, false, 0);
-  info_box->pack_start(*info_lab, false, true, 0);
+  Gtk::Widget *plugged_panel;
+  
+#ifdef HAVE_EXERCISES
+  plugged_panel = &pluggable_panel;
+  pluggable_panel.pack_start(exercises_panel, false, false, 0);
+  exercises_panel.set_exercise_count(3);
+  exercises_panel.signal_stop().connect
+    (SigC::slot(*this, &RestBreakWindow::exercises_stopped));
+#else
+  plugged_panel = create_info_panel();
+#endif
 
   // Add other widgets.
   Gtk::VBox *vbox = manage(new Gtk::VBox(false, 6));
-  vbox->pack_start(*info_box, false, false, 0);
+  vbox->pack_start(*plugged_panel, false, false, 0);
 
   // Timebar
   timebar = manage(new TimeBar);
@@ -266,3 +264,36 @@ RestBreakWindow::draw_time_bar()
   timebar->set_text(s);
   timebar->update();
 }
+
+
+Gtk::Widget *
+RestBreakWindow::create_info_panel()
+{
+  Gtk::HBox *info_box = manage(new Gtk::HBox(false, 12));
+  
+  string icon = Util::complete_directory("restbreak.png", Util::SEARCH_PATH_IMAGES);
+  Gtk::Image *info_img = manage(new Gtk::Image(icon));
+  info_img->set_alignment(0.0, 0.0);
+  Gtk::Label *info_lab =
+    manage(new Gtk::Label());
+  Glib::ustring txt = HigUtil::create_alert_text
+    (GUIControl::get_instance()
+     ->get_timer_data(GUIControl::BREAK_ID_REST_BREAK)->label,
+     _("This is your rest break. Make sure you stand up and\n"
+       "walk away from your computer on a regular basis. Just\n"
+       "walk around for a few minutes, stretch, and relax."));
+  info_lab->set_markup(txt);
+  info_box->pack_start(*info_img, false, false, 0);
+  info_box->pack_start(*info_lab, false, true, 0);
+  return info_box;
+}
+
+#ifdef HAVE_EXERCISES
+void
+RestBreakWindow::exercises_stopped()
+{
+  pluggable_panel.remove(exercises_panel);
+  pluggable_panel.pack_start(*(create_info_panel()), false, false, 0);
+  pluggable_panel.show_all();
+}
+#endif

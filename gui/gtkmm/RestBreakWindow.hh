@@ -24,9 +24,14 @@
 class BreakControl;
 class TimeBar;
 
+#include "config.h"
 #include "BreakInterface.hh"
 #include "BreakWindowInterface.hh"
 #include "BreakWindow.hh"
+
+#ifdef HAVE_EXERCISES
+#include "ExercisesPanel.hh"
+#endif
 
 class RestBreakWindow :
   public BreakWindow,
@@ -35,7 +40,7 @@ class RestBreakWindow :
 public:
   RestBreakWindow(bool ignorable);
   virtual ~RestBreakWindow();
-
+  
   void start();
   void stop();
   void destroy();
@@ -55,7 +60,12 @@ protected:
   
 private:
   void suspend_break();
+  Gtk::Widget *RestBreakWindow::create_info_panel();
   
+#ifdef HAVE_EXERCISES
+  void exercises_stopped();
+#endif
+
 private:
   //! Graphic context.
   Glib::RefPtr<Gdk::GC> window_gc;
@@ -86,6 +96,12 @@ private:
 
   //!
   bool insist_break;
+
+  
+#ifdef HAVE_EXERCISES
+  ExercisesPanel exercises_panel;
+  Gtk::HBox pluggable_panel;
+#endif  
 };
 
 #endif // RESTBREAKWINDOW_HH
