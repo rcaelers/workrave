@@ -172,6 +172,7 @@ AppletWindow::init_tray_applet()
       plug->add(*eventbox);
       plug->show_all();
       
+      TRACE_MSG("0");
       // Tray menu
       if (tray_menu == NULL)
         {
@@ -179,16 +180,22 @@ AppletWindow::init_tray_applet()
           tray_menu = menus->create_tray_menu();
         }
 
+      TRACE_MSG("1");
       ret = true;
       applet_vertical = false;
       GtkRequisition req;
       plug->size_request(&req);
       applet_size = req.height;
+      TRACE_MSG("2");
 
       timers_box->set_geometry(applet_vertical, 24);
 
+      TRACE_MSG("3");
+      
       plug->signal_embedded().connect(SigC::slot(*this, &AppletWindow::on_embedded));
+      TRACE_MSG("4");
       plug->signal_delete_event().connect(SigC::slot(*this, &AppletWindow::delete_event));
+      TRACE_MSG("5");
     }
 
   TRACE_EXIT();
@@ -604,8 +611,10 @@ AppletWindow::read_configuration()
 void
 AppletWindow::config_changed_notify(string key)
 {
+  TRACE_ENTER_MSG("AppletWindow::config_changed_notify", key);
   (void) key;
   read_configuration();
+  TRACE_EXIT();
 }
 
 
