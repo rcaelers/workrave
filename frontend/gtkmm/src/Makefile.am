@@ -8,9 +8,9 @@
 SUBDIRS = 		gnome_applet kde_applet win32 unix
 MAINTAINERCLEANFILES = 	Makefile.in ${IDL_A_GENERATED} ${IDL_C_GENERATED}
 
-
 bin_PROGRAMS = 		workrave
 
+# Additional IDL sources.
 IDL_A = 		gnome_applet/Workrave-Applet.idl
 
 IDL_A_GENERATED = 	Workrave-Applet.h			\
@@ -28,55 +28,78 @@ IDL_C_GENERATED = 	Workrave-Control.h			\
 DEFS = 			@DEFS@ -DGNOMELOCALEDIR=\""$(datadir)/locale"\" \
 			-I$(top_srcdir)/intl -I..
 
+extrasources =
+extranodistsources = 
+
+# Additional Gnome sources
+sourcesgnome = 		RemoteControl.cc
+sourcesgnome_idl = 	${IDL_C_GENERATED} ${IDL_A_GENERATED}
+
+# Additional non-Gnome sources.
+sourcesnognome = 	gnome-about.c
+
+# Additional KDE sources.
+if HAVE_KDE
+sourceskde = 		KdeAppletWindow.cc
+sourcesnodistkde = 	kde_applet/kworkraveapplet_stub.cpp
+endif
+
+# Additional X11 sources.
+sourcesx = 		AppletWindow.cc eggtrayicon.c
+
+# Additional Win32 sources.
+sourceswin32 = 		resource.rc
+
+# Additional distribution sources.
+DISTRIBUTION_HOME = 	../../plugin/distribution
+sourcesdistribution = 	${DISTRIBUTION_HOME}/gtkmm/src/NetworkJoinDialog.cc \
+			${DISTRIBUTION_HOME}/gtkmm/src/NetworkLogDialog.cc \
+			${DISTRIBUTION_HOME}/gtkmm/src/NetworkPreferencePage.cc
+
+# Additional exercises sources.
+EXERCISES_HOME =	../../plugin/exercises
+sourcesexercises = 	${EXERCISES_HOME}/gtkmm/src/ExercisesDialog.cc \
+			${EXERCISES_HOME}/gtkmm/src/ExercisesPanel.cc \
+			${EXERCISES_HOME}/common/src/Exercise.cc
+
+# Statistics.
+STATISTICS_HOME = 	../../plugin/statistics
+
+
 if HAVE_APP_GTKMM
 
 if HAVE_GNOME
-sourcesgnome = 		RemoteControl.cc
-sourcesidl = 		${IDL_C_GENERATED} ${IDL_A_GENERATED}
-
-## CORBA stuff
-
-$(IDL_A_GENERATED): $(IDL_A) 
-	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl $(IDL_INCLUDES) \
-		gnome_applet/Workrave-Applet.idl
-
-$(IDL_C_GENERATED): $(IDL_C) 
-	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl $(IDL_INCLUDES) \
-		gnome_applet/Workrave-Control.idl
-
-## End CORBA stuff
+extrasources +=		$(sourcesgnome)
+extranodistsources +=	$(sourcesgnome_idl)
 else
-sourcesgnome = 		gnome-about.c
+extrasources +=		$(sourcesnognome)
+endif
+
+if HAVE_KDE
+extrasources +=		$(sourceskde)
+extranodistsources +=	$(sourcesnodistkde)
 endif
 
 if HAVE_X
-sourcesx = 		AppletWindow.cc eggtrayicon.c
+extrasources +=		$(sourcesx)
 includesx = 		-Iunix/
 workrave_LDFLAGS = 	-Lunix/
 endif
 
 if PLATFORM_WIN32
-sourceswin32 = 		resource.rc
+extrasources +=		$(sourceswin32)
 includeswin32 = 	-I$(top_srcdir)/common/win32/harpoon/include -Iwin32/ \
 			-I../../win32/applet/include
 workrave_LDFLAGS = 	-Lwin32/
 endif
 
-DISTRIBUTION_HOME = 	../../plugin/distribution
 if HAVE_DISTRIBUTION
-sourcesdistribution = 	${DISTRIBUTION_HOME}/gtkmm/src/NetworkJoinDialog.cc \
-			${DISTRIBUTION_HOME}/gtkmm/src/NetworkLogDialog.cc \
-			${DISTRIBUTION_HOME}/gtkmm/src/NetworkPreferencePage.cc
+extrasources +=		$(sourcesdistribution)
 endif
 
-EXERCISES_HOME =	../../plugin/exercises
 if HAVE_EXERCISES
-sourcesexercises = 	${EXERCISES_HOME}/gtkmm/src/ExercisesDialog.cc \
-			${EXERCISES_HOME}/gtkmm/src/ExercisesPanel.cc \
-			${EXERCISES_HOME}/common/src/Exercise.cc
+extrasources +=		$(sourcesexercises)
 endif
-
-STATISTICS_HOME = 	../../plugin/statistics
 
 if PLATFORM_WIN32
 WINDRES ?= 		"windres"
@@ -93,16 +116,11 @@ if HAVE_X
 X11LIBS = 		-lworkrave-frontend-gtkmm-unix -lXmu
 endif
 
-if HAVE_KDE
-sourceskde = 		kde_applet/kworkraveapplet_stub.cpp KdeAppletWindow.cc
-endif
-
 if HAVE_WIN32
 win32cflags		= -D_WIN32_IE=0x0500
 endif
 
 workrave_SOURCES = \
-			$(sourcesidl) \
 			BreakWindow.cc \
 			DailyLimitWindow.cc \
 			GUI.cc \
@@ -131,12 +149,11 @@ workrave_SOURCES = \
 			Menus.cc \
 			Dispatcher.cc \
 			main.cc \
-			$(sourcesgnome) \
-			$(sourcesx) \
-			$(sourceswin32) \
-			${sourcesdistribution} \
-			${sourcesexercises} \
-			${sourceskde}
+			$(extrasources)
+
+nodist_workrave_SOURCES = \
+			$(extranodistsources)
+
 
 workrave_CXXFLAGS = 	-DWORKRAVE_DATADIR="\"${pkgdatadir}\"" -W \
 			@WR_FRONTEND_CFLAGS@ -I$(top_srcdir)/src \
@@ -180,5 +197,20 @@ workrave_LDADD =  	@WR_FRONTEND_LIBS@ @GNOMEUI_LIBS@ @GNOMEUIMM_LIBS@ \
 #	@rm -f workrave$(EXEEXT)
 #	$(CXXLINK) $(workrave_LDFLAGS) $(workrave_OBJECTS) $(workrave_LDADD) $(LIBS)
 
-EXTRA_DIST = 		$(wildcard *.hh) $(wildcard *.cc) $(wildcard *.c) \
-			$(wildcard *.h)  $(wildcard *.icc)
+
+$(IDL_A_GENERATED): $(IDL_A) 
+	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl $(IDL_INCLUDES) \
+		gnome_applet/Workrave-Applet.idl
+
+$(IDL_C_GENERATED): $(IDL_C) 
+	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl $(IDL_INCLUDES) \
+		gnome_applet/Workrave-Control.idl
+
+
+EXTRA_DIST =    ${sourcesgnome} \
+		${sourcesnognome} \
+		${sourceskde} \
+		${sourcesx} \
+		${sourceswin32} \
+		${sourcesdistribution} \
+		${sourcesexercises}

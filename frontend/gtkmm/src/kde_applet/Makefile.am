@@ -23,8 +23,6 @@ kworkraveapplet.moc.cpp: $(srcdir)/kworkraveapplet.h
 
 endif
 
-EXTRA_DIST 	= $(wildcard *.desktop)				\
-		  $(wildcard *.h) $(wildcard *.cpp)		\
-		  $(wildcard *.c) $(wildcard *.h)
+EXTRA_DIST 	= $(wildcard *.desktop)
 
 MAINTAINERCLEANFILES = Makefile Makefile.in

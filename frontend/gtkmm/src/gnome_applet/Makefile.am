@@ -2,9 +2,9 @@ EXTRA_DIST 	= Workrave-Applet.server.in.in  		\
 		  Workrave-Control.server.in.in  		\
 	     	  $(ui_DATA)					\
 		  $(wildcard *.xml.in)				\
-		  $(wildcard *.hh) $(wildcard *.cc)		\
-		  $(wildcard *.c) $(wildcard *.h)		\
-		  $(wildcard *.icc) $(wildcard *.idl)
+	  	  WorkraveApplet.c				\
+		  WorkraveApplet.h				\
+		  $(wildcard *.idl)
 
 IDL_A 		= Workrave-Applet.idl
 
@@ -54,7 +54,8 @@ FLAGS				= @APPLET_CFLAGS@ @WR_COMMON_CFLAGS@ \
 
 libexec_PROGRAMS 		= workrave-applet
 
-workrave_applet_SOURCES 	= $(IDL_C_GENERATED) $(IDL_A_GENERATED) WorkraveApplet.c
+workrave_applet_SOURCES 	= WorkraveApplet.c
+nodist_workrave_applet_SOURCES 	= $(IDL_C_GENERATED) $(IDL_A_GENERATED)
 workrave_applet_LDADD 		= @APPLET_LIBS@
 workrave_applet_CXXFLAGS 	= ${FLAGS}
 workrave_applet_CFLAGS 		= ${FLAGS}
