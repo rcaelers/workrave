@@ -1,4 +1,4 @@
-?package(workrave):needs=X11 section=Apps/Tools\
+?package(workrave):needs="X11" section="Apps/Tools"\
   title="Workrave"\
   longtitle="Workrave: RSI prevention tool"\
   command="/usr/bin/workrave"
