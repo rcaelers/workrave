@@ -32,6 +32,9 @@ static const char rcsid[] = "$Id$";
 #include <gdk/gdk.h>
 #include "GnomeSoundPlayer.hh"
 #endif
+#ifdef HAVE_KDE
+#include "KdeSoundPlayer.hh"
+#endif
 #ifdef HAVE_X
 #include <X11/Xlib.h>
 #endif
@@ -211,6 +214,8 @@ SoundPlayer::SoundPlayer()
      new Win32SoundPlayer()
 #elif defined(HAVE_GNOME)
      new GnomeSoundPlayer()
+#elif defined(HAVE_KDE)
+     new KdeSoundPlayer()
 #else
 #  warning Sound card support disabled.
      NULL

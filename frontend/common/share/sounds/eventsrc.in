@@ -28,25 +28,30 @@ default_sound=workrave/micro-break-ended.wav
 
 [break_ignored]
 _Name=Break ignored
+_Comment=Break ignored
 default_presentation=1
 default_sound=workrave/break-ignored.wav
 
 [break_prelude]
 _Name=Break prompt
+_Comment=Break prompt
 default_presentation=1
 default_sound=workrave/break-prelude.wav
 
 [daily_limit]
 _Name=Daily limit
+_Comment=Daily limit
 default_presentation=1
 default_sound=workrave/daily-limit.wav
 
 [exercise_ended]
 _Name=Exercise ended
+_Comment=Exercise ended
 default_presentation=1
 default_sound=workrave/exercise-ended.wav
 
 [exercises_ended]
 _Name=Exercises ended
+_Comment=Exercises ended
 default_presentation=1
 default_sound=workrave/exercises-ended.wav

@@ -30,7 +30,7 @@ static const char rcsid[] = "$Id$";
 #ifdef HAVE_KDE
 #include <dcopclient.h>
 #include <kapp.h>
-#include <kde_applet/kworkraveapplet/kworkraveapplet_stub.h>
+#include <kde_applet/kworkraveapplet_stub.h>
 #endif
 
 

@@ -585,6 +585,10 @@ if test "x$config_with_gnome" = "xyes"; then
    WR_FRONTEND_LIBS="$WR_FRONTEND_LIBS \$(top_srcdir)/frontend/common/src/gnome/libworkrave-frontend-common-gnome.a"
    WR_FRONTEND_CFLAGS="$WR_FRONTEND_CFLAGS -I \$(top_srcdir)/frontend/common/include/gnome"
 fi   
+if test "x$config_with_kde" = "xyes"; then
+   WR_FRONTEND_LIBS="$WR_FRONTEND_LIBS \$(top_srcdir)/frontend/common/src/kde/libworkrave-frontend-common-kde.a"
+   WR_FRONTEND_CFLAGS="$WR_FRONTEND_CFLAGS -I \$(top_srcdir)/frontend/common/include/kde"
+fi   
                                              
 AC_SUBST(WR_FRONTEND_LIBS)
 AC_SUBST(WR_FRONTEND_CFLAGS)
@@ -716,6 +720,7 @@ AC_OUTPUT(Makefile \
           frontend/common/share/images/win32/Makefile \
           frontend/common/src/Makefile \
           frontend/common/src/gnome/Makefile \
+          frontend/common/src/kde/Makefile \
           frontend/common/src/win32/Makefile \
           frontend/win32/Makefile \
           frontend/win32/applet/Makefile \

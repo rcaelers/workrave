@@ -276,6 +276,9 @@ TimerBoxControl::init_icon()
     case OPERATION_MODE_QUIET:
       view->set_icon(TimerBoxView::ICON_QUIET);
       break;
+
+    default:
+      break;
     }
 }
 

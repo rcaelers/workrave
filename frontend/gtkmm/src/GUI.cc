@@ -67,7 +67,6 @@ static const char rcsid[] = "$Id$";
 #ifdef HAVE_KDE
 #include <dcopclient.h>
 #include <kapp.h>
-#include <knotifyclient.h>
 #endif
 
 #ifdef WIN32
@@ -410,14 +409,12 @@ GUI::on_save_yourself(int phase, Gnome::UI::SaveStyle save_style, bool shutdown,
 void
 GUI::init_kde()
 {
+  // FIXME: memory leaks in here.
   TRACE_ENTER("GUI::init_kde");
   KApplication *a = new KApplication(argc, argv, "Workrave");
   bool rc = kapp->dcopClient()->attach();
   TRACE_MSG(rc);
 
-  int x = KNotifyClient::event("rest_break_started", _("Restbreak"));
-  TRACE_MSG(x);
-  
   TRACE_EXIT();
 }
 #endif

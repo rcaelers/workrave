@@ -1,11 +1,11 @@
-fWorkrave NEWS -- history of user-visible changes.  13 July 2004
+Workrave NEWS -- history of user-visible changes.  13 October 2004
 Copyright (C) 2001-2004 Rob Caelers & Raymond Penners
 See the end for copying conditions.
 
 Please report Workrave bug reports. Visit our bug tracker located at:
 http://www.workrave.org
 
-* Workrave 1.6.3
+* Workrave 1.8.0
 
 ** Added lt.po (FIXME)
 
@@ -18,7 +18,8 @@ mode (normal, suspended or quiet)
 
 ** Added "Restbreak now" button to microbreak window.
 
-** KDE improvements. Workrave now has a native KDE applet.
+** KDE improvements. Workrave now has a native KDE applet and
+supports KDE sound events.
 
 ** Decent tooltips for Workrave system tray icon.
 

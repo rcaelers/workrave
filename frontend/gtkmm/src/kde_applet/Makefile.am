@@ -2,7 +2,7 @@ if HAVE_KDE
 
 lib_LTLIBRARIES = libkworkraveapplet.la
 
-libkworkraveapplet_la_SOURCES = kworkraveapplet.moc.cpp kworkraveapplet_skel.cpp kworkraveapplet_stub.cpp
+libkworkraveapplet_la_SOURCES = kworkraveapplet.cpp kworkraveapplet.moc.cpp kworkraveapplet_skel.cpp kworkraveapplet_stub.cpp
 libkworkraveapplet_la_LDFLAGS = -module -avoid-version $(all_libraries)
 libkworkraveapplet_la_LIBADD = $(LIB_KDEUI) @all_libraries@
 libkworkraveapplet_la_CXXFLAGS = $(KDE_CXXFLAGS) @all_includes@

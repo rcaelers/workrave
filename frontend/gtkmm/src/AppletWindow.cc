@@ -682,6 +682,9 @@ AppletWindow::set_applet_size(int size)
 }
 
 
+#endif
+  
+#if defined(HAVE_GNOME) || defined(HAVE_KDE)
 //! Destroy notification.
 gboolean
 AppletWindow::destroy_event(GtkWidget *widget, GdkEvent *event, gpointer user_data)
@@ -696,7 +699,6 @@ AppletWindow::destroy_event(GtkWidget *widget, GdkEvent *event, gpointer user_da
   return true;
 }
 #endif
-  
 
 //! User pressed some mouse button in the main window.
 bool

@@ -127,9 +127,12 @@ private:
 #ifdef HAVE_GNOME
   bool init_gnome_applet();
   void destroy_gnome_applet();
+#endif
 
+#if defined(HAVE_GNOME) || defined(HAVE_KDE)
   static gboolean destroy_event(GtkWidget *widget, GdkEvent *event, gpointer user_data);
 #endif
+  
 #ifdef HAVE_KDE
   bool init_kde_applet();
   void destroy_kde_applet();

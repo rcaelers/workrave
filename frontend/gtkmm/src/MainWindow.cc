@@ -36,6 +36,9 @@ static const char rcsid[] = "$Id$";
 
 #ifdef HAVE_GNOME
 #include <gnome.h>
+#endif
+
+#if defined(HAVE_GNOME) || defined(HAVE_KDE)
 #include "AppletWindow.hh"
 #endif
 
@@ -383,7 +386,7 @@ MainWindow::on_delete_event(GdkEventAny *)
   GUI *gui = GUI::get_instance(); 
   assert(gui != NULL);
   
-#ifdef HAVE_GNOME
+#if defined(HAVE_GNOME) || defined(HAVE_KDE)
   AppletWindow *applet = gui->get_applet_window();
   if (applet != NULL)
     {
@@ -402,7 +405,7 @@ MainWindow::on_delete_event(GdkEventAny *)
     }
 #else
   gui->terminate();
-#endif // HAVE_GNOME
+#endif // HAVE_GNOME || HAVE_KDE
 #endif // WIN32
   
   TRACE_EXIT();
