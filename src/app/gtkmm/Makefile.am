@@ -5,7 +5,7 @@
 # $Id$
 #
 
-SUBDIRS 		= gnome_applet
+SUBDIRS 		= gnome_applet win32
 MAINTAINERCLEANFILES 	= Makefile.in ${IDL_A_GENERATED} ${IDL_C_GENERATED}
 
 

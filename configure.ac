@@ -617,6 +617,7 @@ AC_OUTPUT(Makefile \
           src/app/Makefile \
           src/app/gtkmm/Makefile \
           src/app/gtkmm/gnome_applet/Makefile \
+          src/app/gtkmm/win32/setup/setup.iss \
           src/app/text/Makefile \
           src/app/shared/Makefile \
           src/app/shared/images/Makefile \

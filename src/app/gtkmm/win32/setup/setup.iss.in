@@ -17,7 +17,7 @@
 
 [Setup]
 AppName=Workrave
-AppVerName=Workrave 1.4.0
+AppVerName=Workrave @VERSION@
 AppPublisher=Rob Caelers & Raymond Penners
 AppPublisherURL=http://www.workrave.org
 AppSupportURL=http://www.workrave.org
