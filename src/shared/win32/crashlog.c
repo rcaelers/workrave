@@ -1,7 +1,7 @@
 /*
- * harpoon.c
+ * crashlog.c
  *
- * Copyright (C) 2002-2003 Raymond Penners <raymond@dotsphinx.com>
+ * Copyright (C) 2003 Rob Caelers <robc@krandor.org>
  * All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -15,6 +15,8 @@
  * GNU General Public License for more details.
  *
  * $Id$
+ *
+ * Based on Dr. Mingw.
  */
 
 static const char rcsid[] = "$Id$";
@@ -28,8 +30,11 @@ static const char rcsid[] = "$Id$";
 #include <assert.h>
 
 #include "crashlog.h"
+#include "harpoon/harpoon.h"
 
 static void unwind_stack(FILE *log, HANDLE process, PCONTEXT context);
+static void dump_registers(FILE *log, PCONTEXT context);
+static void dump_registry(FILE *log, HKEY key, char *name);
 
 static 
 DWORD GetModuleBase(DWORD dwAddress)
@@ -39,6 +44,20 @@ DWORD GetModuleBase(DWORD dwAddress)
   return VirtualQuery((LPCVOID) dwAddress, &Buffer, sizeof(Buffer)) ? (DWORD) Buffer.AllocationBase : 0;
 }
 
+static EXCEPTION_DISPOSITION __cdecl 
+double_exception_handler(struct _EXCEPTION_RECORD *exception_record, 
+                         void *establisher_frame, 
+                         struct _CONTEXT *context_record, 
+                         void *dispatcher_context)
+{
+  MessageBox(NULL,
+             "Workrave has unexpectedly crashed and failed to create a crash "
+             "log. This is serious. Please report this to workrave-devel@sourceforge.net or "
+             "file a bugreport at: "
+             "http://workrave.org/cgi-bin/bugzilla/enter_bug.cgi. " , "Double exception", MB_OK);
+
+  exit(1);
+}
 EXCEPTION_DISPOSITION __cdecl 
 exception_handler(struct _EXCEPTION_RECORD *exception_record, 
                   void *establisher_frame, 
@@ -49,6 +68,10 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
   char crash_text[1024];
   TCHAR szModule[MAX_PATH];
   HMODULE hModule;
+
+  __try1(double_exception_handler);
+
+  harpoon_unblock_input();
 
   GetModuleFileName(GetModuleHandle(NULL), crash_log_name, sizeof(crash_log_name));
   // crash_log_name == c:\program files\workrave\lib\workrave.exe
@@ -65,9 +88,16 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
   FILE *log = fopen(crash_log_name, "w");
   if (log != NULL)
     {
+      SYSTEMTIME SystemTime;
 
-      fprintf(log, "Exception Report\n");
-      fprintf(log, "----------------\n\n");
+      GetLocalTime(&SystemTime);	
+      fprintf(log, "Crash log created on %02d/%02d/%04d at %02d:%02d:%02d.\n\n",
+              SystemTime.wDay,
+              SystemTime.wMonth,
+              SystemTime.wYear,
+              SystemTime.wHour,
+              SystemTime.wMinute,
+              SystemTime.wSecond);
       
       fprintf(log, "code = %x\n", exception_record->ExceptionCode);
       fprintf(log, "flags = %x\n", exception_record->ExceptionFlags);
@@ -205,19 +235,25 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
       DWORD pid = GetCurrentProcessId();
       HANDLE process = OpenProcess(PROCESS_ALL_ACCESS, TRUE, pid);
 
+      dump_registers(log, context_record);
       unwind_stack(log, process, context_record);
+      fprintf(log, "\nRegistry dump:\n\n");
+      dump_registry(log, HKEY_CURRENT_USER, "Software\\Workrave");
       
       fclose(log);
     }
 
   snprintf(crash_text, 1023,
-           "Workrave unexpectedly crashed. A crash log has been saved to "
-           "%s. Please mail this file to to workrave-devel@sourceforge.net or "
-           "file a bugreport at our bugzilla: "
+           "Workrave has unexpectedly crashed. A crash log has been saved to "
+           "%s. Please mail this file to workrave-devel@sourceforge.net or "
+           "file a bugreport at: "
            "http://workrave.org/cgi-bin/bugzilla/enter_bug.cgi. "
            "Thanks.", crash_log_name);
   
   MessageBox(NULL, crash_text, "Exception", MB_OK);
+
+  __except1;
+  
   exit(1);
 }
 
@@ -266,7 +302,7 @@ unwind_stack(FILE *log, HANDLE process, PCONTEXT context)
 {
   STACKFRAME          sf;
 
-  fprintf(log, "Stack trace:\n");
+  fprintf(log, "Stack trace:\n\n");
 
   ZeroMemory(&sf,  sizeof(STACKFRAME));
   sf.AddrPC.Offset    = context->Eip;
@@ -292,3 +328,135 @@ unwind_stack(FILE *log, HANDLE process, PCONTEXT context)
               sf.AddrReturn.Offset);
     }
 }
+
+static void
+dump_registers(FILE *log, PCONTEXT context)
+{
+  fprintf(log, "Registers:\n\n");
+
+  if (context->ContextFlags & CONTEXT_INTEGER)
+    {
+      fprintf(log, "eax=%08lx ebx=%08lx ecx=%08lx edx=%08lx esi=%08lx edi=%08lx\n",
+              context->Eax, context->Ebx, context->Ecx, context->Edx,
+              context->Esi, context->Edi);
+    }
+  
+  if (context->ContextFlags & CONTEXT_CONTROL)
+    {
+      fprintf(log, "eip=%08lx esp=%08lx ebp=%08lx iopl=%1lx %s %s %s %s %s %s %s %s %s %s\n",
+              context->Eip, context->Esp, context->Ebp,
+              (context->EFlags >> 12) & 3,	//  IOPL level value
+              context->EFlags & 0x00100000 ? "vip" : "   ",	//  VIP (virtual interrupt pending)
+              context->EFlags & 0x00080000 ? "vif" : "   ",	//  VIF (virtual interrupt flag)
+              context->EFlags & 0x00000800 ? "ov" : "nv",	//  VIF (virtual interrupt flag)
+              context->EFlags & 0x00000400 ? "dn" : "up",	//  OF (overflow flag)
+              context->EFlags & 0x00000200 ? "ei" : "di",	//  IF (interrupt enable flag)
+              context->EFlags & 0x00000080 ? "ng" : "pl",	//  SF (sign flag)
+              context->EFlags & 0x00000040 ? "zr" : "nz",	//  ZF (zero flag)
+              context->EFlags & 0x00000010 ? "ac" : "na",	//  AF (aux carry flag)
+              context->EFlags & 0x00000004 ? "po" : "pe",	//  PF (parity flag)
+              context->EFlags & 0x00000001 ? "cy" : "nc"	//  CF (carry flag)
+              );
+    }
+  
+  if (context->ContextFlags & CONTEXT_SEGMENTS)
+    {
+      fprintf(log, "cs=%04lx  ss=%04lx  ds=%04lx  es=%04lx  fs=%04lx  gs=%04lx",
+              context->SegCs, context->SegSs, context->SegDs, context->SegEs,
+              context->SegFs, context->SegGs);
+
+      if(context->ContextFlags & CONTEXT_CONTROL)
+        {
+          fprintf(log, "             efl=%08lx", context->EFlags);
+        }
+    }
+  else
+    {
+      if (context->ContextFlags & CONTEXT_CONTROL)
+        {
+          fprintf(log, "                                                                       efl=%08lx",
+                  context->EFlags);
+        }
+    }
+  
+  fprintf(log, "\n\n");
+}
+
+static void
+save_key(FILE *log, HKEY key, char *name)
+{
+  DWORD i;
+  char keyname[512];
+  int keyname_len = strlen(keyname);
+
+  fprintf(log, "key = %s\n", name);
+  
+  for (i = 0; ; i++)
+    {
+      char val[256];
+      DWORD val_size = sizeof(val);
+      BYTE data[0x4000];
+      DWORD data_size = sizeof(data);
+      DWORD type;
+  
+      LONG rc = RegEnumValue(key, i, val, &val_size, 0, &type, data, &data_size);
+
+      if (rc != ERROR_SUCCESS)
+        break;
+
+      if (val_size)
+        fprintf(log, "  value = %s\n", val);
+
+      if (type == REG_SZ)
+        {
+          fprintf(log, "  string data = %s\n", data);
+        }
+      else if (type == REG_DWORD && data_size==4)
+        {
+          fprintf(log, "  dword data = %08lx\n", data);
+        }
+      else
+        {
+          fprintf(log, "  hex data = [unsupported]\n");
+        }
+    }
+
+  fprintf(log, "\n");
+
+  strcpy(keyname, name);
+  strcat(keyname, "\\");
+  keyname_len = strlen(keyname);
+  
+  for (i = 0; ; i++)
+    {
+      HKEY subkey;
+      LONG rc = RegEnumKey(key, i, keyname + keyname_len,
+                           sizeof(keyname) - keyname_len);
+
+      if (rc != ERROR_SUCCESS)
+        break;
+
+      rc = RegOpenKey(key, keyname + keyname_len, &subkey);
+      if (rc == ERROR_SUCCESS)
+        {
+          dump_registry(log, subkey, keyname);
+          RegCloseKey(subkey);
+        }
+    }
+}
+
+
+static void
+dump_registry(FILE *log, HKEY key, char *name)
+{
+  HKEY handle;
+  LONG rc = RegOpenKeyEx(HKEY_CURRENT_USER, name, 0, KEY_ALL_ACCESS, &handle);
+
+  if (rc == ERROR_SUCCESS)
+    {
+      save_key(log, handle, name);
+      RegCloseKey(handle);
+    }
+}
+
+

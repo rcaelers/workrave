@@ -174,6 +174,8 @@ GUI::main()
   __try1(exception_handler);
 #endif
 
+//    char *x = NULL;
+//    *x = 1;
   Gtk::Main kit(argc, argv);
   
 #ifdef HAVE_GNOME
@@ -473,7 +475,7 @@ GUI::init_multihead()
 #if defined(HAVE_GTK_MULTIHEAD)
   init_gtk_multihead();
 #elif defined(WIN32)
-  init_win32_multihead();
+  // RC: temp disable: init_win32_multihead();
 #endif
   if (num_heads == -1)
     {
@@ -582,7 +584,7 @@ GUI::enum_monitor_callback(LPRECT rc)
       geometry.set_x(rc->left);
       geometry.set_y(rc->top);
       geometry.set_width(rc->right - rc->left + 1);
-      geometry.set_height(rc->bottom - rc->right + 1);
+      geometry.set_height(rc->bottom - rc->top + 1);
       heads[current_monitor].valid = true;
       heads[current_monitor].count = current_monitor;
       
