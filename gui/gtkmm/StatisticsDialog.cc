@@ -168,15 +168,15 @@ StatisticsDialog::create_info_box()
   start_time_label = manage(new Gtk::Label);
   end_time_label = manage(new Gtk::Label);
   
-  start_label->set_alignment(1.0, 0);
-  end_label->set_alignment(1.0, 0);
-  start_time_label->set_alignment(0.0, 0);
-  end_time_label->set_alignment(0.0, 0);
+  start_label->set_alignment(0.0, 0);
+  end_label->set_alignment(0.0, 0);
+  start_time_label->set_alignment(1.0, 0);
+  end_time_label->set_alignment(1.0, 0);
 
   table->attach(*start_label, 0, 1, 0, 1, Gtk::FILL, Gtk::SHRINK);
-  table->attach(*start_time_label, 1, 2, 0, 1, Gtk::FILL|Gtk::EXPAND, Gtk::SHRINK);
+  table->attach(*start_time_label, 1, 2, 0, 1, Gtk::FILL, Gtk::SHRINK);
   table->attach(*end_label, 0, 1, 1, 2, Gtk::FILL, Gtk::SHRINK);
-  table->attach(*end_time_label, 1, 2, 1, 2, Gtk::FILL|Gtk::EXPAND, Gtk::SHRINK);
+  table->attach(*end_time_label, 1, 2, 1, 2, Gtk::FILL, Gtk::SHRINK);
   return table;
 }
 
@@ -442,12 +442,12 @@ StatisticsDialog::display_statistics(Statistics::DailyStats *stats)
 
       value = stats->misc_stats[Statistics::STATS_VALUE_TOTAL_MOUSE_MOVEMENT];
       ss.str("");
-      ss << value;
+      stream_distance(ss, value);
       activity_labels[1]->set_text(ss.str());
       
       value = stats->misc_stats[Statistics::STATS_VALUE_TOTAL_CLICK_MOVEMENT];
       ss.str("");
-      ss << value;
+      stream_distance(ss, value);
       activity_labels[2]->set_text(ss.str());
 
       value = stats->misc_stats[Statistics::STATS_VALUE_TOTAL_CLICKS];
@@ -562,3 +562,12 @@ StatisticsDialog::on_history_goto_first()
 }
 
 
+void
+StatisticsDialog::stream_distance(stringstream &stream, int pixels)
+{
+  char buf[64];
+
+  double mm = (double) pixels * gdk_screen_width_mm() / gdk_screen_width();
+  sprintf(buf, "%.02f m", mm/1000);
+  stream << buf;
+}

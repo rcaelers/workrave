@@ -27,6 +27,7 @@
 #include "Statistics.hh"
 
 #include <gtkmm.h>
+#include <sstream>
 
 class StatisticsDialog : public Gtk::Dialog
 {
@@ -79,6 +80,7 @@ private:
   void create_break_page(Gtk::Notebook *tnotebook);
   void create_activity_page(Gtk::Notebook *tnotebook);
 
+  void stream_distance(stringstream &stream, int pixels);
   void get_calendar_day_index(int &idx, int &next, int &prev);
   void set_calendar_day_index(int idx);
   void on_calendar_month_changed();
