@@ -64,7 +64,6 @@ MainWindow::MainWindow(GUI *g, ControlInterface *c) :
   timer_names(NULL),
   timer_times(NULL),
   monitor_suspended(false),
-  be_quiet(false),
   always_on_top(true)
 {
   init();
@@ -382,45 +381,6 @@ MainWindow::store_config()
 }
 
 
-//! User requested immediate restbreak.
-void
-MainWindow::set_quiet(bool b)
-{
-  TRACE_ENTER("MainWindow::set_quiet");
-  
-  be_quiet = b;
-
-  assert(gui != NULL);
-  gui->set_quiet(be_quiet);
-  
-  TRACE_EXIT();
-}
-
-
-void
-MainWindow::set_suspend(bool b)
-{
-  TRACE_ENTER("MainWindow::set_suspend");
-  assert(core_control != NULL);
-  
-  monitor_suspended = b;
-
-  ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
-  assert(monitor != NULL);
-  
-  if (monitor_suspended)
-    {
-      monitor->force_idle();
-      monitor->suspend();
-    }
-  else
-    {
-      monitor->resume();
-    }
-  
-  TRACE_EXIT();
-}
-
 void
 MainWindow::config_changed_notify(string key)
 {
@@ -477,9 +437,8 @@ void
 MainWindow::on_menu_quiet()
 {
   TRACE_ENTER("MainWindow::on_menu_quiet");
-  
-  set_quiet(true);
-  set_suspend(false);
+
+  gui->set_operation_mode(GUIControl::OPERATION_MODE_QUIET);
 
   TRACE_EXIT();
 }
@@ -491,8 +450,7 @@ MainWindow::on_menu_suspend()
 {
   TRACE_ENTER("MainWindow::on_menu_suspend");
 
-  set_suspend(true);
-  set_quiet(false);
+  gui->set_operation_mode(GUIControl::OPERATION_MODE_SUSPENDED);
 
   TRACE_EXIT();
 }
@@ -500,8 +458,7 @@ MainWindow::on_menu_suspend()
 void
 MainWindow::on_menu_normal()
 {
-  set_suspend(false);
-  set_quiet(false);
+  gui->set_operation_mode(GUIControl::OPERATION_MODE_NORMAL);
 }
 
 
@@ -521,15 +478,15 @@ MainWindow::on_test_me()
 void
 MainWindow::on_menu_preferences()
 {
-  bool quiet;
+  GUIControl::OperationMode mode;
   GUIControl *ctrl = GUIControl::get_instance();
-  quiet = ctrl->set_quiet(true);
+  mode = ctrl->set_operation_mode(GUIControl::OPERATION_MODE_QUIET);
 
   PreferencesDialog *dialog = new PreferencesDialog();
   dialog->run();
   delete dialog;
 
-  ctrl->set_quiet(quiet);
+  ctrl->set_operation_mode(mode);
 }
 
 
@@ -537,15 +494,15 @@ MainWindow::on_menu_preferences()
 void
 MainWindow::on_menu_statistics()
 {
-  bool quiet;
+  GUIControl::OperationMode mode;
   GUIControl *ctrl = GUIControl::get_instance();
-  quiet = ctrl->set_quiet(true);
+  mode = ctrl->set_operation_mode(GUIControl::OPERATION_MODE_QUIET);
 
   StatisticsDialog *dialog = new StatisticsDialog();
   dialog->run();
   delete dialog;
 
-  ctrl->set_quiet(quiet);
+  ctrl->set_operation_mode(mode);
 }
 
 

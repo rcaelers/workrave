@@ -41,6 +41,14 @@ public:
   //! Destructor
   virtual ~GUIControl();
 
+  enum OperationMode
+    {
+      OPERATION_MODE_NORMAL,
+      OPERATION_MODE_SUSPENDED,
+      OPERATION_MODE_QUIET,
+      OPERATION_MODE_SIZEOF
+    };
+  
   enum BreakId
     {
       BREAK_ID_NONE = -1,
@@ -96,11 +104,14 @@ public:
   static GUIControl *get_instance();
   void heartbeat();
   void init();
-  bool set_quiet(bool quiet);
+  OperationMode set_operation_mode(OperationMode mode);
   void break_action(BreakId id, BreakAction action);
   Configurator *get_configurator();
 
 private:
+  void stop_all_breaks();
+  void restart_break();
+  
   void update_statistics();
   void handle_start_break(BreakInterface *breaker, BreakId break_id, TimerInterface *timer);
   void handle_stop_break(BreakInterface *breaker, BreakId break_id, TimerInterface *timer);
@@ -134,8 +145,8 @@ private:
   //! Configuration access.
   Configurator *configurator;
 
-  //! GUI must be quiet.
-  bool be_quiet;
+  //! Mode.
+  OperationMode operation_mode;
 };
 
 

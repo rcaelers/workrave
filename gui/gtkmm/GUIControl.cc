@@ -217,7 +217,7 @@ GUIControl::GUIControl(GUIFactoryInterface *factory, ControlInterface *controlle
   
   configurator = NULL;
 
-  be_quiet = false;
+  operation_mode = OPERATION_MODE_NORMAL;
   gui_factory = factory;
   core_control = controller;
 
@@ -324,43 +324,78 @@ GUIControl::update_statistics()
   count++;
 }
 
-bool
-GUIControl::set_quiet(bool quiet)
+void
+GUIControl::stop_all_breaks()
 {
-  TRACE_ENTER_MSG("GUIControl::set_quiet", quiet);
-  bool rc = be_quiet;
-  be_quiet = quiet;
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+    {
+      BreakControl *bc = timers[i].break_control;
+      if (bc != NULL)
+        {
+          bc->stop_break();
+        }
+    }
+}
 
-  if (quiet)
+
+void
+GUIControl::restart_break()
+{
+  for (int i = BREAK_ID_SIZEOF - 1; i >= 0; i--)
     {
-      for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+      TimerInterface *t = timers[i].timer;
+      BreakControl *bc = timers[i].break_control;
+      if (bc != NULL && t != NULL)
         {
-          BreakControl *bc = timers[i].break_control;
-          if (bc != NULL)
+          if (t->get_next_limit_time() > 0
+              && t->get_elapsed_time() >= t->get_limit())
             {
-              bc->stop_break();
+              bc->start_break();
+              break;
             }
         }
     }
-  else
+}
+
+
+GUIControl::OperationMode
+GUIControl::set_operation_mode(OperationMode mode)
+{
+  TRACE_ENTER_MSG("GUIControl::set_operation_mode", mode);
+
+  OperationMode previous_mode = operation_mode;  
+
+  if (operation_mode != mode)
     {
-      for (int i = BREAK_ID_SIZEOF - 1; i >= 0; i--)
+      operation_mode = mode;
+
+      if (operation_mode == OPERATION_MODE_SUSPENDED ||
+          operation_mode == OPERATION_MODE_QUIET)
         {
-          TimerInterface *t = timers[i].timer;
-          BreakControl *bc = timers[i].break_control;
-          if (bc != NULL && t != NULL)
-            {
-              if (t->get_next_limit_time() > 0
-                  && t->get_elapsed_time() >= t->get_limit())
-                {
-                  bc->start_break();
-                  break;
-                }
-            }
+          stop_all_breaks();
+        }
+
+      if (operation_mode == OPERATION_MODE_NORMAL)
+        {
+          restart_break();
+        }
+
+      ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
+      assert(monitor != NULL);
+
+      if (operation_mode == OPERATION_MODE_SUSPENDED)
+        {
+          monitor->force_idle();
+          monitor->suspend();
+        }
+      else if (previous_mode == OPERATION_MODE_SUSPENDED)
+        {
+          monitor->resume();
         }
     }
+
   TRACE_EXIT();
-  return rc;
+  return previous_mode;
 }
 
  
@@ -374,7 +409,7 @@ GUIControl::break_action(BreakId id, BreakAction action)
 {
   TRACE_ENTER("GUIControl::timer_action");
 
-  if (be_quiet && action != BREAK_ACTION_FORCE_START_BREAK)
+  if (operation_mode == OPERATION_MODE_QUIET && action != BREAK_ACTION_FORCE_START_BREAK)
     {
       return;
     }

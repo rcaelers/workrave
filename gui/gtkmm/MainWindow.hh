@@ -80,9 +80,6 @@ private:
   //! Is the monitoring function suspended?
   bool monitor_suspended;
   
-  //! Is workrave quiet?
-  bool be_quiet;
-
   //! MainWindow always on-top ?
   bool always_on_top;
   
@@ -94,9 +91,6 @@ private:
   void load_config();
   void store_config();
   void config_changed_notify(string key);
-
-  void set_suspend(bool b);
-  void set_quiet(bool b);
 
   // Events.
   bool on_delete_event(GdkEventAny*);
