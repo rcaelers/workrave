@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-01-15 22:08+0100\n"
+"POT-Creation-Date: 2003-01-25 23:24+0100\n"
 "PO-Revision-Date: 2002-11-05 17:58-0800\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -27,7 +27,7 @@ msgstr "Silentiĝu en"
 
 #. Labels
 #: gui/GUIControl.cc:84 gui/gtkmm/AppletPreferencePage.cc:64
-#: gui/gtkmm/MicroPauseWindow.cc:161
+#: gui/gtkmm/MicroPauseWindow.cc:161 gui/gtkmm/StatisticsDialog.cc:148
 msgid "Micro-pause"
 msgstr "Paŭzeto"
 
@@ -36,6 +36,7 @@ msgid "Rest break"
 msgstr "Ripozo"
 
 #: gui/GUIControl.cc:98 gui/gtkmm/AppletPreferencePage.cc:66
+#: gui/gtkmm/StatisticsDialog.cc:150
 msgid "Daily limit"
 msgstr "Taglimo"
 
@@ -97,7 +98,7 @@ msgstr "Pri %s"
 msgid "Layout"
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:65
+#: gui/gtkmm/AppletPreferencePage.cc:65 gui/gtkmm/StatisticsDialog.cc:149
 #, fuzzy
 msgid "Restbreak"
 msgstr "Ripozo"
@@ -442,6 +443,64 @@ msgstr ""
 msgid "Rest break for %s"
 msgstr "Ripozo por %s"
 
+#: gui/gtkmm/StatisticsDialog.cc:106
+msgid "Start time:"
+msgstr ""
+
+#: gui/gtkmm/StatisticsDialog.cc:107
+msgid "End time:"
+msgstr ""
+
+#: gui/gtkmm/StatisticsDialog.cc:109
+msgid "Sat Jan 25 2003, 4:00"
+msgstr ""
+
+#: gui/gtkmm/StatisticsDialog.cc:110
+msgid "Sun Jan 26 2003, 4:00"
+msgstr ""
+
+#: gui/gtkmm/StatisticsDialog.cc:125
+#, fuzzy
+msgid "Breaks"
+msgstr "Ĉesu en"
+
+#: gui/gtkmm/StatisticsDialog.cc:133
+#, fuzzy
+msgid "Total breaks"
+msgstr "Ripozo"
+
+#: gui/gtkmm/StatisticsDialog.cc:134
+msgid "Prompted"
+msgstr ""
+
+#: gui/gtkmm/StatisticsDialog.cc:135
+#, fuzzy
+msgid "Breaks Taken"
+msgstr "Ĉesu en"
+
+#: gui/gtkmm/StatisticsDialog.cc:136
+#, fuzzy
+msgid "Natural breaks"
+msgstr "Ripozo"
+
+#: gui/gtkmm/StatisticsDialog.cc:137
+#, fuzzy
+msgid "Breaks skipped"
+msgstr "Ĉesu en"
+
+#: gui/gtkmm/StatisticsDialog.cc:138
+#, fuzzy
+msgid "Breaks postponed"
+msgstr "Ripoza instigado"
+
+#: gui/gtkmm/StatisticsDialog.cc:139
+msgid "Daily usage"
+msgstr ""
+
+#: gui/gtkmm/StatisticsDialog.cc:201
+msgid "Activity"
+msgstr ""
+
 #. Prelude frame
 #: gui/gtkmm/TimerPreferencesPanel.cc:77
 msgid "Break prompting"
@@ -546,6 +605,14 @@ msgstr "_Ripozon"
 #, fuzzy
 msgid "_Show Log..."
 msgstr "Montru _protokolon"
+
+#, fuzzy
+#~ msgid "Skipped"
+#~ msgstr "Transsaltu"
+
+#, fuzzy
+#~ msgid "Postponsed"
+#~ msgstr "Prokrastu"
 
 #~ msgid "Overdue rest break in %s"
 #~ msgstr "Malfrua ripozo en %s"
