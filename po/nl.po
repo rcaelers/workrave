@@ -5,13 +5,13 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: workrave 0.3.0\n"
+"Project-Id-Version: workrave 1.0.0\n"
 "POT-Creation-Date: 2002-10-30 20:20+0100\n"
 "PO-Revision-Date: 2002-10-26 00:04+0200\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: gui/BreakControl.cc:673
@@ -103,12 +103,12 @@ msgstr ""
 #: gui/gtkmm/DailyLimitWindow.cc:65 gui/gtkmm/MicroPauseWindow.cc:69
 #: gui/gtkmm/RestBreakWindow.cc:95
 msgid "Skip"
-msgstr "Sla over"
+msgstr "Overslaan"
 
 #: gui/gtkmm/DailyLimitWindow.cc:67 gui/gtkmm/MicroPauseWindow.cc:71
 #: gui/gtkmm/RestBreakWindow.cc:97
 msgid "Postpone"
-msgstr "Stel uit"
+msgstr "Uitstellen"
 
 #: gui/gtkmm/MainWindow.cc:168 gui/gtkmm/MainWindow.cc:294
 msgid "Wait"
@@ -371,7 +371,7 @@ msgstr "Micro-pauzes tellen als werktijd"
 
 #: gui/gtkmm/TimerPreferencesPanel.cc:151
 msgid "Show 'Postpone' and 'Skip' button"
-msgstr "Toon 'Stel uit' en 'Sla over'  knoppen"
+msgstr "Toon 'Uitstellen' en 'Overslaan'"
 
 #: gui/gtkmm/TimerPreferencesPanel.cc:173
 msgid "Options"
