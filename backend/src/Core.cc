@@ -643,6 +643,8 @@ Core::heartbeat()
 void
 Core::process_distribution()
 {
+  bool previous_master_mode = master_node;
+
   // Default
   master_node = true;
 
@@ -669,7 +671,8 @@ Core::process_distribution()
         }
     }
 
-  if (master_node && local_state != state)
+  if ( (previous_master_mode != master_node) ||
+       (master_node && local_state != state) )
     {
       PacketBuffer buffer;
       buffer.create();
@@ -678,6 +681,13 @@ Core::process_distribution()
       buffer.pack_ushort(state);
       
       dist_manager->broadcast_client_message(DCM_MONITOR, buffer);
+
+      buffer.clear();
+      bool ret = request_timer_state(buffer);
+      if (ret)
+        {
+          dist_manager->broadcast_client_message(DCM_TIMERS, buffer);
+        }
     }
   
 #endif
