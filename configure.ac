@@ -309,11 +309,11 @@ then
 
   fi
 
-  AC_BASE_PATH_KDE
-  KDE_SET_PREFIX
-
   if test "x$config_with_kde" = "xyes"
   then
+    AC_BASE_PATH_KDE
+    KDE_SET_PREFIX
+
     dnl for NLS support. Call them in this order!
     dnl WITH_NLS is for the po files
     AM_KDE_WITH_NLS
