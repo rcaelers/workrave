@@ -89,10 +89,10 @@ AC_CANONICAL_HOST
 AC_PREFIX_PROGRAM(workrave)
 
 dnl Set of available languages.
-ALL_LINGUAS="nl de"
+ALL_LINGUAS="nl de eo"
 
 dnl Checks for programs.
-AC_PROG_INTLTOOL
+dnl AC_PROG_INTLTOOL
 AC_PROG_CC
 AC_PROG_CXX
 AC_PROG_CPP
