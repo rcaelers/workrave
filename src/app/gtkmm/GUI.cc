@@ -185,10 +185,12 @@ GUI::main()
   init_nls();
   init_core();
   init_sound_player();
-  init_gui();
   init_multihead();
   init_remote_control();
+  init_gui();
 
+  on_timer();
+  
   // Enter the event loop
   gdk_threads_enter();
   Gtk::Main::run();
