@@ -135,7 +135,6 @@ RestBreakWindow::start()
   refresh();
   center();
   show_all();
-  set_avoid_pointer(false);
 
   if (insist_break)
     {
