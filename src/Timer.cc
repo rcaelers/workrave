@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-10-04 08:11:03 robc>
+// Time-stamp: <2002-10-04 19:12:14 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -377,8 +377,11 @@ Timer::freeze_timer(bool freeze)
 {
   if (freeze && !timer_frozen )
     {
-      elapsed_time += (time_source->get_time() - last_start_time);      
-      last_start_time = 0;
+      if (last_limit_time != 0)
+        {
+          elapsed_time += (time_source->get_time() - last_start_time);
+          last_start_time = 0;
+        }
     }
   else if (!freeze && timer_frozen)
     {
