@@ -63,7 +63,8 @@ RestBreakWindow::RestBreakWindow(HeadInfo &head, bool ignorable, bool insist) :
   timebar(NULL),
   progress_value(0),
   progress_max_value(0),
-  insist_break(insist)
+  insist_break(insist),
+  head_info(head)
 {
   TRACE_ENTER("RestBreakWindow::RestBreakWindow");
 
@@ -324,16 +325,23 @@ RestBreakWindow::get_exercise_count()
 void
 RestBreakWindow::install_exercises_panel()
 {
-  set_ignore_activity(true);
-  clear_pluggable_panel();
-  ExercisesPanel *exercises_panel = manage(new ExercisesPanel(NULL));
-  pluggable_panel.pack_start(*exercises_panel, false, false, 0);
-  exercises_panel->set_exercise_count(get_exercise_count());
-  exercises_panel->signal_stop().connect
-    (SigC::slot(*this, &RestBreakWindow::install_info_panel));
-  pluggable_panel.show_all();
-  pluggable_panel.queue_resize();
-  center();
+  if (head_info.count != 0)
+    {
+      install_info_panel();
+    }
+  else
+    {
+      set_ignore_activity(true);
+      clear_pluggable_panel();
+      ExercisesPanel *exercises_panel = manage(new ExercisesPanel(NULL));
+      pluggable_panel.pack_start(*exercises_panel, false, false, 0);
+      exercises_panel->set_exercise_count(get_exercise_count());
+      exercises_panel->signal_stop().connect
+        (SigC::slot(*this, &RestBreakWindow::install_info_panel));
+      pluggable_panel.show_all();
+      pluggable_panel.queue_resize();
+      center();
+    }
 }
 
 void

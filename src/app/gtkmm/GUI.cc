@@ -66,6 +66,10 @@ static const char rcsid[] = "$Id$";
 #include "libgnomeuimm/wrap_init.h"
 #endif
 
+#ifdef WIN32
+#include "crashlog.h"
+#endif
+
 GUI *GUI::instance = NULL;
 
 //! GUI Constructor.
@@ -160,12 +164,15 @@ GUI::restbreak_now()
   core->force_break(BREAK_ID_REST_BREAK);
 }
 
-
 //! The main entry point.
 void
 GUI::main()
 {
   TRACE_ENTER("GUI::main");
+
+#ifdef WIN32
+  __try1(exception_handler);
+#endif
 
   Gtk::Main kit(argc, argv);
   
@@ -203,6 +210,11 @@ GUI::main()
   delete applet_window;
   applet_window = NULL;
 #endif  
+
+#ifdef WIN32
+  __except1;
+#endif
+  
   TRACE_EXIT();
 }
 
@@ -462,14 +474,15 @@ GUI::init_multihead()
   init_gtk_multihead();
 #elif defined(WIN32)
   init_win32_multihead();
-#else
+#endif
   if (num_heads == -1)
     {
-      num_heads = 1;
-      heads = new HeadInfo[1];
+      init_multihead_mem(1);
       heads[0].valid = false;
+      heads[0].count = 0;
+//        heads[1].valid = false;
+//        heads[1].count = 1;
     }
-#endif
   TRACE_EXIT();
 }
 
@@ -530,7 +543,8 @@ GUI::init_gtk_multihead()
               heads[count].screen = screen;
               heads[count].monitor = j;
               heads[count].valid = true;
-
+              heads[count].count = count;
+              
               screen->get_monitor_geometry(j, heads[count].geometry);
 
               count++;
@@ -569,6 +583,8 @@ GUI::enum_monitor_callback(LPRECT rc)
       geometry.set_y(rc->top);
       geometry.set_width(rc->right - rc->left + 1);
       geometry.set_height(rc->bottom - rc->right + 1);
+      heads[current_monitor].valid = true;
+      heads[current_monitor].count = current_monitor;
       
       current_monitor++;
     }
@@ -629,6 +645,7 @@ GUI::init_win32_multihead()
       else if (num_heads == 1)
         {
           heads[0].valid = false;
+          heads[0].count = 0;
         }
     }
   else
@@ -636,6 +653,7 @@ GUI::init_win32_multihead()
       num_heads = 1;
       init_multihead_mem(1);
       heads[0].valid = false;
+      heads[0].count = 0;
     }
 }
 
@@ -767,6 +785,7 @@ GUI::start_prelude_window(BreakId break_id)
 void
 GUI::start_break_window(BreakId break_id, bool ignorable, bool insist)
 {
+  TRACE_ENTER_MSG("GUI::start_break_window", num_heads);
   hide_break_window();
   init_multihead();
   collect_garbage();
@@ -784,6 +803,7 @@ GUI::start_break_window(BreakId break_id, bool ignorable, bool insist)
     }
 
   active_break_count = num_heads;
+  TRACE_EXIT();
 }
 
 void

@@ -94,9 +94,9 @@ if test "x$config_debug" = "xyes"; then
    CXXFLAGS="${CXXFLAGS} -g -Wall"
    LDFLAGS="${LDFLAGS} -g"
 else
-   CFLAGS="${CFLAGS} -O2 -DNDEBUG"
-   CXXFLAGS="${CXXFLAGS} -O2 -DNDEBUG"
-   LDFLAGS="${LDFLAGS}"
+   CFLAGS="${CFLAGS} -Os -g -DNDEBUG"
+   CXXFLAGS="${CXXFLAGS} -Os -g -DNDEBUG"
+   LDFLAGS="${LDFLAGS} -g"
 fi
                    
 AC_ARG_ENABLE( cwd,

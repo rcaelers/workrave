@@ -100,6 +100,8 @@ private:
 
   //! Send response to this interface.
   BreakResponseInterface *break_response;
+
+  HeadInfo &head_info;
 };
 
 inline void

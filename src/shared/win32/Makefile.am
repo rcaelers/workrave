@@ -2,7 +2,7 @@
 #
 # Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 #
-# Time-stamp: <2003-08-05 16:53:31 robc>
+# Time-stamp: <2003-08-27 17:14:51 robc>
 #
 # $Id$
 #
@@ -17,7 +17,8 @@ noinst_LIBRARIES = libsharedwin32.a
 
 libsharedwin32_a_SOURCES = \
 	gettimeofday.c \
-	Thread.cc
+	Thread.cc \
+	crashlog.c
 
 libsharedwin32_a_LIBADD =
 

@@ -124,4 +124,12 @@ workrave_LDADD 		=  @APP_LIBS@ @GNOMEUI_LIBS@ @GNOMEUIMM_LIBS@ @GTK_LIBS@ \
 		            @PTHREAD_LIBS@ @X_LIBS@ @GCONF_LIBS@ @GDOME_LIB@ \
 			   ${X11LIBS} ${WIN32LIBS} ${WIN32CONSOLE}
 
+# workrave_LINK		= $(LINK) \
+# 			  nm - nos > workrave.dmp \
+# 			  strip workrave$(EXEEXT)
+
+#workrave$(EXEEXT): $(workrave_OBJECTS) $(workrave_DEPENDENCIES) 
+#	@rm -f workrave$(EXEEXT)
+#	$(CXXLINK) $(workrave_LDFLAGS) $(workrave_OBJECTS) $(workrave_LDADD) $(LIBS)
+
 EXTRA_DIST = $(wildcard *.hh) $(wildcard *.cc) $(wildcard *.c) $(wildcard *.h)  $(wildcard *.icc)

@@ -34,6 +34,7 @@ public:
   HeadInfo()
   {
     valid = false;
+    count = 0;
   }
   
 #ifdef HAVE_GTK_MULTIHEAD
@@ -44,6 +45,7 @@ public:
 #ifdef WIN32
 #endif
 
+  int count;
   bool valid;
   Gdk::Rectangle geometry;
 };
