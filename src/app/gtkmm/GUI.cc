@@ -605,8 +605,11 @@ GUI::init_win32_multihead()
       if (enum_monitors == NULL)
         {
           TRACE_MSG("!enum");
-          FreeLibrary(user_lib);
-          user_lib = NULL;
+          if (user_lib != NULL)
+            {
+              FreeLibrary(user_lib);
+              user_lib = NULL;
+            }
         }
     }
 

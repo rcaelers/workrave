@@ -467,12 +467,13 @@ StatisticsDialog::display_calendar_date()
   if (idx >= 0)
     {
       stats = statistics->get_day(idx);
+      display_statistics(stats);
     }
+  
   forward_btn->set_sensitive(next >= 0);
   back_btn->set_sensitive(prev >= 0);
   last_btn->set_sensitive(idx != 0);
   first_btn->set_sensitive(idx != statistics->get_history_size());
-  display_statistics(stats);
 }
 
 void
