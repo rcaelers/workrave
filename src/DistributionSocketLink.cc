@@ -360,6 +360,32 @@ DistributionSocketLink::unregister_state(DistributedStateID id)
 }
 
 
+bool
+DistributionSocketLink::push_state(DistributedStateID id, unsigned char *buffer, int size)
+{
+  TRACE_ENTER("DistributionSocketLink::push_state");
+  PacketBuffer packet;
+  packet.create();
+  init_packet(packet, PACKET_STATEINFO);
+
+  gchar *name = NULL;
+  gint port = 0;
+  
+  bool have_master = get_master(&name, &port);
+  packet.pack_string(name);
+  packet.pack_ushort(port);
+  g_free(name);
+  
+  packet.pack_ushort(1);
+  packet.pack_ushort(size);
+  packet.pack_ushort(id);
+  packet.pack_raw(buffer, size);
+
+  send_packet_broadcast(packet);
+  TRACE_EXIT();
+}
+
+
 //! Returns whether the specified client is this client.
 bool
 DistributionSocketLink::client_is_me(gchar *host, gint port)

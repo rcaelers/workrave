@@ -148,6 +148,7 @@ public:
 
   bool register_state(DistributedStateID id, DistributedStateInterface *dist_state);
   bool unregister_state(DistributedStateID id);
+  bool push_state(DistributedStateID id, unsigned char *buffer, int size);
 
   void socket_accepted(SocketConnection *scon, SocketConnection *ccon);
   void socket_connected(SocketConnection *con, void *data);

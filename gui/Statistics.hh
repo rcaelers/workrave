@@ -122,29 +122,30 @@ public:
 public:
   static Statistics *get_instance();
   void init(ControlInterface *control);
-  
+  void heartbeat();
+  void dump();
   void start_new_day();
-  void load_current_day();
-  void save_current_day();
-  void update_current_day();
-  void load_history();
 
   void increment_break_counter(GUIControl::BreakId, StatsBreakValueType st);
-  void set_counter(StatsValueType t, int value);
-  int get_counter(StatsValueType t);
-                 
-  void set_total_active(int active);
 
   DailyStats *get_current_day() const;
   DailyStats *get_day(int day) const;
   int get_history_size() const;
+  void set_counter(StatsValueType t, int value);
+  int get_counter(StatsValueType t);
   
-  void dump();
+private:  
+  void load_current_day();
+  void update_current_day();
+  void load_history();
 
 private:
   void load_day(DailyStats *stats, ifstream &stats_file);
-  void save_current_day(ofstream &statsFile);
-  void current_to_history();
+  void save_day(DailyStats *stats);
+  void save_day(DailyStats *stats, ofstream &stats_file);
+
+  void day_to_history(DailyStats *stats);
+  void day_to_remote_history(DailyStats *stats);
   void update_enviromnent();
 
 #ifdef HAVE_DISTRIBUTION

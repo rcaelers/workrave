@@ -278,7 +278,6 @@ GUIControl::init()
 
   Statistics *stats = Statistics::get_instance();
   stats->init(core_control);
-  stats->load_current_day();
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
@@ -356,8 +355,7 @@ GUIControl::update_statistics()
   if (count % 60 == 0)
     {
       Statistics *stats = Statistics::get_instance();
-      stats->update_current_day();
-      stats->save_current_day();
+      stats->heartbeat();
     }
 
   count++;

@@ -582,6 +582,9 @@ MainWindow::on_menu_statistics()
   GUIControl *ctrl = GUIControl::get_instance();
   mode = ctrl->set_operation_mode(GUIControl::OPERATION_MODE_QUIET);
 
+//   Statistics *stats = Statistics::get_instance();
+//   stats->start_new_day();
+  
   StatisticsDialog *dialog = new StatisticsDialog();
   dialog->run();
   delete dialog;

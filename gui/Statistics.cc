@@ -65,10 +65,21 @@ Statistics::~Statistics()
 }
 
 
+//! Initializes the Statistics.
 void
 Statistics::init(ControlInterface *control)
 {
   core_control = control;
+  load_current_day();
+}
+
+
+//! Periodic heartbeat.
+void
+Statistics::heartbeat()
+{
+  update_current_day();
+  save_day(current_day);
 }
 
 
@@ -89,7 +100,8 @@ Statistics::start_new_day()
       
       if (current_day != NULL)
         {
-          current_to_history();
+          day_to_history(current_day);
+          day_to_remote_history(current_day);
         }
 
       current_day = new DailyStats();
@@ -100,11 +112,10 @@ Statistics::start_new_day()
 }
 
 
-//! Adds the current day to this history.
 void
-Statistics::current_to_history()
+Statistics::day_to_history(DailyStats *stats)
 {
-  history.push_back(current_day);
+  history.push_back(stats);
   
   stringstream ss;
   ss << Util::get_home_directory();
@@ -112,7 +123,7 @@ Statistics::current_to_history()
 
   const time_t now = time(NULL);
   struct tm *tmnow = localtime(&now);
-  current_day->stop = *tmnow;
+  stats->stop = *tmnow;
 
   bool exists = Util::file_exists(ss.str());
 
@@ -123,30 +134,55 @@ Statistics::current_to_history()
       stats_file << WORKRAVESTATS << " " << STATSVERSION  << endl;
     }
 
-  save_current_day(stats_file);
+  save_day(stats, stats_file);
   stats_file.close();
+
+}
+
+
+//! Adds the current day to this history.
+void
+Statistics::day_to_remote_history(DailyStats *stats)
+{
+#ifdef HAVE_DISTRIBUTION
+  DistributionManager *dist_manager = DistributionManager::get_instance();
+
+  if (dist_manager != NULL)
+    {
+      PacketBuffer state_packet;
+      state_packet.create();
+
+      state_packet.pack_byte(STATS_MARKER_HISTORY);
+      pack_stats(state_packet, stats);
+      state_packet.pack_byte(STATS_MARKER_END);
+
+      dist_manager->push_state(DISTR_STATE_STATS,
+                               (unsigned char *)state_packet.get_buffer(),
+                               state_packet.bytes_written());
+    }
+#endif
 }
 
 
 //! Saves the current day to the specified stream.
 void
-Statistics::save_current_day(ofstream &stats_file)
+Statistics::save_day(DailyStats *stats, ofstream &stats_file)
 {
   stats_file << "D "
-             << current_day->start.tm_mday << " "
-             << current_day->start.tm_mon << " "
-             << current_day->start.tm_year << " " 
-             << current_day->start.tm_hour << " "
-             << current_day->start.tm_min << " "
-             << current_day->stop.tm_mday << " "
-             << current_day->stop.tm_mon << " "
-             << current_day->stop.tm_year << " " 
-             << current_day->stop.tm_hour << " "
-             << current_day->stop.tm_min <<  endl;
+             << stats->start.tm_mday << " "
+             << stats->start.tm_mon << " "
+             << stats->start.tm_year << " " 
+             << stats->start.tm_hour << " "
+             << stats->start.tm_min << " "
+             << stats->stop.tm_mday << " "
+             << stats->stop.tm_mon << " "
+             << stats->stop.tm_year << " " 
+             << stats->stop.tm_hour << " "
+             << stats->stop.tm_min <<  endl;
     
   for(int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
     {
-      BreakStats &bs = current_day->break_stats[i];
+      BreakStats &bs = stats->break_stats[i];
 
       stats_file << "B " << i << " " << STATS_BREAKVALUE_SIZEOF << " ";
       for(int j = 0; j < STATS_BREAKVALUE_SIZEOF; j++)
@@ -159,7 +195,7 @@ Statistics::save_current_day(ofstream &stats_file)
   stats_file << "M " << STATS_VALUE_SIZEOF << " ";
   for(int j = 0; j < STATS_VALUE_SIZEOF; j++)
     {
-      stats_file << current_day->misc_stats[j] << " ";
+      stats_file << stats->misc_stats[j] << " ";
     }
   stats_file << endl;
   
@@ -167,9 +203,9 @@ Statistics::save_current_day(ofstream &stats_file)
 }
 
 
-//! Saves the statistics of the current day.
+//! Saves the statistics of the specified day.
 void
-Statistics::save_current_day()
+Statistics::save_day(DailyStats *stats)
 {
   stringstream ss;
   ss << Util::get_home_directory();
@@ -177,13 +213,13 @@ Statistics::save_current_day()
 
   const time_t now = time(NULL);
   struct tm *tmnow = localtime(&now);
-  current_day->stop = *tmnow;
+  stats->stop = *tmnow;
   
   ofstream stats_file(ss.str().c_str());
 
   stats_file << WORKRAVESTATS << " " << STATSVERSION  << endl;
 
-  save_current_day(stats_file);
+  save_day(stats, stats_file);
 }
 
 
@@ -386,14 +422,6 @@ Statistics::get_counter(StatsValueType t)
 }
 
 
-//! Sets the total active time of the current day.
-void
-Statistics::set_total_active(int active)
-{
-  current_day->misc_stats[STATS_VALUE_TOTAL_ACTIVE_TIME] = active;
-}
-
-
 //! Dump
 void
 Statistics::dump()
@@ -483,7 +511,7 @@ Statistics::update_current_day()
       // Collect total active time from dialy limit timer.
       TimerInterface *t = core_control->get_timer("daily_limit");
       assert(t != NULL);
-      set_total_active(t->get_elapsed_time());
+      current_day->misc_stats[STATS_VALUE_TOTAL_ACTIVE_TIME] = t->get_elapsed_time();
 
       // Collect activity monitor stats.
       ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
@@ -627,10 +655,11 @@ Statistics::set_state(DistributedStateID id, bool master, unsigned char *buffer,
 
   DailyStats *stats = NULL;
   int pos = 0;
+  bool stats_to_history = false;
   
-  StatsMarker marker = (StatsMarker) state_packet.unpack_byte();
-  while (marker != STATS_MARKER_END && state_packet.bytes_available() > 0)
+  while (state_packet.bytes_available() > 0)
     {
+      StatsMarker marker = (StatsMarker) state_packet.unpack_byte();
       TRACE_MSG("Marker = " << marker);
       switch (marker)
         {
@@ -639,7 +668,8 @@ Statistics::set_state(DistributedStateID id, bool master, unsigned char *buffer,
           break;
           
         case STATS_MARKER_HISTORY:
-          assert(1==0);
+          stats = new DailyStats();
+          stats_to_history = true;
           break;
           
         case STATS_MARKER_STARTTIME:
@@ -709,6 +739,12 @@ Statistics::set_state(DistributedStateID id, bool master, unsigned char *buffer,
           break;
           
         case STATS_MARKER_END:
+          if (stats_to_history)
+            {
+              TRACE_MSG("Save to history");
+              day_to_history(stats);
+              stats_to_history = false;
+            }
           break;
 
         default:
@@ -718,8 +754,6 @@ Statistics::set_state(DistributedStateID id, bool master, unsigned char *buffer,
             state_packet.skip_size(pos);
           }
         }
-    
-      marker = (StatsMarker) state_packet.unpack_byte();
     }
 
   update_enviromnent();

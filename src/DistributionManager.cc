@@ -225,7 +225,19 @@ DistributionManager::unregister_state(DistributedStateID id)
     }
   return ret;
 }
+
+bool
+DistributionManager::push_state(DistributedStateID id, unsigned char *buffer, int size)
+{
+  bool ret = false;
   
+  if (link != NULL)
+    {
+      ret = link->push_state(id, buffer, size);
+    }
+  return ret;
+}
+
 
 //! Event from Link that our 'master' status changed.
 void
