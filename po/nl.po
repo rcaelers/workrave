@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-01-29 23:13+0100\n"
+"POT-Creation-Date: 2003-02-01 20:21+0100\n"
 "PO-Revision-Date: 2003-01-04 22:07+0100\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -195,7 +195,7 @@ msgstr "Overslaan"
 msgid "Postpone"
 msgstr "Uitstellen"
 
-#: gui/gtkmm/GUI.cc:289
+#: gui/gtkmm/GUI.cc:290
 msgid "I could not initialize Bonobo"
 msgstr ""
 
@@ -270,11 +270,11 @@ msgstr "Rustpauze %s te laat"
 msgid "Please relax for a few seconds"
 msgstr "Ontspan gedurende enkele seconden"
 
-#: gui/gtkmm/NetworkJoinDialog.cc:39
+#: gui/gtkmm/NetworkJoinDialog.cc:41
 msgid "Network connect"
 msgstr "Netwerk verbinding"
 
-#: gui/gtkmm/NetworkJoinDialog.cc:44
+#: gui/gtkmm/NetworkJoinDialog.cc:46
 msgid ""
 "Enter the host name and port number of a computer\n"
 "in the network you wish to connect to."
@@ -282,24 +282,24 @@ msgstr ""
 "Geef de machine naam en poort nummer van een\n"
 "computer uit het netwerk op."
 
-#: gui/gtkmm/NetworkJoinDialog.cc:58 gui/gtkmm/NetworkPreferencePage.cc:228
+#: gui/gtkmm/NetworkJoinDialog.cc:60 gui/gtkmm/NetworkPreferencePage.cc:228
 msgid "Host name"
 msgstr "Machine naam"
 
-#: gui/gtkmm/NetworkJoinDialog.cc:59 gui/gtkmm/NetworkPreferencePage.cc:236
+#: gui/gtkmm/NetworkJoinDialog.cc:61 gui/gtkmm/NetworkPreferencePage.cc:236
 msgid "Port"
 msgstr "Poort"
 
 #.
-#: gui/gtkmm/NetworkJoinDialog.cc:82
+#: gui/gtkmm/NetworkJoinDialog.cc:84
 msgid "Connect at start-up"
 msgstr "Maak verbinding bij opstarten"
 
-#: gui/gtkmm/NetworkJoinDialog.cc:92
+#: gui/gtkmm/NetworkJoinDialog.cc:94
 msgid "Connection details"
 msgstr "Interval tussen pogingen"
 
-#: gui/gtkmm/NetworkLogDialog.cc:37
+#: gui/gtkmm/NetworkLogDialog.cc:39
 msgid "Network log"
 msgstr "Netwerk logboek"
 
