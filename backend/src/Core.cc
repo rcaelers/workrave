@@ -462,8 +462,9 @@ Core::set_powersave(bool down)
   if (down)
     {
       // Computer is going down
-      powersave = true;
       powersave_operation_mode = set_operation_mode(OPERATION_MODE_SUSPENDED);
+      powersave_resume_time = 0;
+      powersave = true;
       save_state();
 
       statistics->update();
@@ -473,7 +474,11 @@ Core::set_powersave(bool down)
       // Computer is coming back
       // leave powersave true until the timewarp is detected
       // or until some time has passed
-      powersave_resume_time = current_time;
+      if (powersave_resume_time == 0)
+        {
+          powersave_resume_time = current_time;
+        }
+          
       set_operation_mode(powersave_operation_mode);
     }
   TRACE_EXIT();
@@ -714,16 +719,27 @@ Core::process_timers(TimerInfo *infos)
             }
           else
             {
-              powersave_resume_time = 0;
-              powersave = false;
               TRACE_MSG("Time warp of " << gap << " seconds because of powersave");
+
+              // In case the windows message was lost. some people reported that
+              // workrave never restarted the timers...
+              set_operation_mode(powersave_operation_mode);
+              
+              if (powersave_resume_time == 0)
+                {
+                  // Mmm, A time warp while in powersave. assume we have resumed...
+                  powersave_resume_time = current_time;
+                  TRACE_MSG("Assuming end of powersave");
+                }
+
             }
         }
-      if (powersave && powersave_resume_time != 0 && current_time > powersave_resume_time + 60)
+      if (powersave && powersave_resume_time != 0 && current_time > powersave_resume_time + 30)
         {
-          TRACE_MSG("No time warp of after powersave");
+          TRACE_MSG("End of time warp after powersave");
           powersave = false;
           powersave_resume_time = 0;
+
         }
     }
   

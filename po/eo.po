@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-08 22:28+0100\n"
+"POT-Creation-Date: 2004-03-18 20:14+0100\n"
 "PO-Revision-Date: 2003-09-08 19:07+0200\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -97,83 +97,83 @@ msgstr "Atendu"
 
 #: frontend/gtkmm/src/GtkUtil.cc:117 frontend/gtkmm/src/MicroBreakWindow.cc:48
 #: frontend/gtkmm/src/MicroBreakWindow.cc:110
-#: frontend/gtkmm/src/MicroBreakWindow.cc:146
+#: frontend/gtkmm/src/MicroBreakWindow.cc:151
 #, fuzzy
 msgid "Micro-break"
 msgstr "Paŭzeto"
 
-#: frontend/gtkmm/src/GtkUtil.cc:117 frontend/gtkmm/src/RestBreakWindow.cc:179
+#: frontend/gtkmm/src/GtkUtil.cc:117 frontend/gtkmm/src/RestBreakWindow.cc:73
+#: frontend/gtkmm/src/RestBreakWindow.cc:179
 msgid "Rest break"
 msgstr "Ripozo"
 
 #. Mode menu item
-#: frontend/gtkmm/src/Menus.cc:168 frontend/gtkmm/src/Menus.cc:425
+#: frontend/gtkmm/src/Menus.cc:169 frontend/gtkmm/src/Menus.cc:426
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
 msgid "_Mode"
 msgstr "_Modo"
 
-#: frontend/gtkmm/src/Menus.cc:175 frontend/gtkmm/src/Menus.cc:404
+#: frontend/gtkmm/src/Menus.cc:176 frontend/gtkmm/src/Menus.cc:405
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
 msgid "_Normal"
 msgstr "_Normala"
 
-#: frontend/gtkmm/src/Menus.cc:182 frontend/gtkmm/src/Menus.cc:411
+#: frontend/gtkmm/src/Menus.cc:183 frontend/gtkmm/src/Menus.cc:412
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
 msgid "_Suspended"
 msgstr "_Interrompita"
 
-#: frontend/gtkmm/src/Menus.cc:189 frontend/gtkmm/src/Menus.cc:418
+#: frontend/gtkmm/src/Menus.cc:190 frontend/gtkmm/src/Menus.cc:419
 msgid "Q_uiet"
 msgstr "S_ilenta"
 
-#: frontend/gtkmm/src/Menus.cc:203 frontend/gtkmm/src/Menus.cc:444
+#: frontend/gtkmm/src/Menus.cc:204 frontend/gtkmm/src/Menus.cc:445
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
 msgid "_Network"
 msgstr "_Reto"
 
-#: frontend/gtkmm/src/Menus.cc:207 frontend/gtkmm/src/Menus.cc:428
+#: frontend/gtkmm/src/Menus.cc:208 frontend/gtkmm/src/Menus.cc:429
 msgid "_Connect"
 msgstr "_Konektu"
 
-#: frontend/gtkmm/src/Menus.cc:212 frontend/gtkmm/src/Menus.cc:431
+#: frontend/gtkmm/src/Menus.cc:213 frontend/gtkmm/src/Menus.cc:432
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
 msgid "_Disconnect"
 msgstr "_Malkonektu"
 
-#: frontend/gtkmm/src/Menus.cc:217 frontend/gtkmm/src/Menus.cc:435
+#: frontend/gtkmm/src/Menus.cc:218 frontend/gtkmm/src/Menus.cc:436
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
 msgid "_Reconnect"
 msgstr "_Rekonektu"
 
-#: frontend/gtkmm/src/Menus.cc:222 frontend/gtkmm/src/Menus.cc:438
+#: frontend/gtkmm/src/Menus.cc:223 frontend/gtkmm/src/Menus.cc:439
 msgid "Show _log"
 msgstr "Montru _protokolon"
 
-#: frontend/gtkmm/src/Menus.cc:247 frontend/gtkmm/src/Menus.cc:400
-#: frontend/gtkmm/src/RestBreakWindow.cc:73
+#: frontend/gtkmm/src/Menus.cc:248 frontend/gtkmm/src/Menus.cc:401
 msgid "_Rest break"
 msgstr "_Ripozon"
 
-#: frontend/gtkmm/src/Menus.cc:257 frontend/gtkmm/src/Menus.cc:401
+#: frontend/gtkmm/src/Menus.cc:258 frontend/gtkmm/src/Menus.cc:402
 #: frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:40
 msgid "Exercises"
 msgstr ""
 
-#: frontend/gtkmm/src/Menus.cc:269 frontend/gtkmm/src/Menus.cc:446
+#: frontend/gtkmm/src/Menus.cc:270 frontend/gtkmm/src/Menus.cc:447
 #: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:59
 #: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:138
 msgid "Statistics"
 msgstr "Statistiko"
 
-#: frontend/gtkmm/src/Menus.cc:283 frontend/gtkmm/src/Menus.cc:447
+#: frontend/gtkmm/src/Menus.cc:284 frontend/gtkmm/src/Menus.cc:448
 msgid "About..."
 msgstr "Pri..."
 
-#: frontend/gtkmm/src/Menus.cc:399 frontend/gtkmm/src/PreferencesDialog.cc:55
+#: frontend/gtkmm/src/Menus.cc:400 frontend/gtkmm/src/PreferencesDialog.cc:55
 msgid "Preferences"
 msgstr ""
 
-#: frontend/gtkmm/src/Menus.cc:689
+#: frontend/gtkmm/src/Menus.cc:703
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -181,19 +181,19 @@ msgstr ""
 "Tiu ĉi programo helpas kun la malebligado kaj resaniĝado de Ripetada "
 "Trostreĉa Vundo (RSI)."
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:132
+#: frontend/gtkmm/src/MicroBreakWindow.cc:129
+msgid "Please relax for a few seconds"
+msgstr "Bonvolu trankviliĝi por kelkaj sekundoj"
+
+#: frontend/gtkmm/src/MicroBreakWindow.cc:137
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Sekvanta ripozo en %s"
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:138
+#: frontend/gtkmm/src/MicroBreakWindow.cc:143
 #, fuzzy, c-format
 msgid "Rest break %s overdue"
 msgstr "Ripozo por %s"
-
-#: frontend/gtkmm/src/MicroBreakWindow.cc:142
-msgid "Please relax for a few seconds"
-msgstr "Bonvolu trankviliĝi por kelkaj sekundoj"
 
 #: frontend/gtkmm/src/PreferencesDialog.cc:63
 #: frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:103
@@ -486,24 +486,24 @@ msgstr ""
 msgid "Workrave Applet"
 msgstr ""
 
-#: frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:77
+#: frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:252
 msgid "Exercises player"
 msgstr ""
 
-#: frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:247
+#: frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:425
 msgid "Resume"
 msgstr ""
 
-#: frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:247
+#: frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:425
 msgid "Pause"
 msgstr ""
 
 #: frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:48
-#: frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:66
+#: frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:67
 msgid "Network connect"
 msgstr "Rete konekti"
 
-#: frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:67
+#: frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:68
 msgid ""
 "Enter the host name and port number of a computer\n"
 "in the network you wish to connect to."
@@ -511,17 +511,17 @@ msgstr ""
 "Enigu nomo de retnodo kaj numero de pordo de komputilo\n"
 "en la reto vi volas alkonteki."
 
-#: frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:80
+#: frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:82
 #, fuzzy
 msgid "Host name:"
 msgstr "Nomo de retnodo"
 
-#: frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:81
+#: frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:83
 #, fuzzy
 msgid "Port:"
 msgstr "Pordo"
 
-#: frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:83
+#: frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:85
 msgid "Connect at start-up"
 msgstr "Konektu je startigo"
 
