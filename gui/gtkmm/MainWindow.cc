@@ -600,24 +600,16 @@ MainWindow::win32_init()
                                    (HMENU)NULL,
                                    hinstance,
                                    (LPSTR)NULL);
-
+  ShowWindow(win32_main_hwnd, SW_HIDE);
+  
   // User data
   SetWindowLong(win32_main_hwnd, GWL_USERDATA, (LONG) this);
   
-  // Reparent
-#if 0
+  // Reassign ownership
   GtkWidget *window = Gtk::Widget::gobj();
   GdkWindow *gdk_window = window->window;
   HWND hwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
-  SetParent(hwnd, win32_main_hwnd);
-  DWORD dwExStyle = GetWindowLong (hwnd, GWL_EXSTYLE);
-  DWORD dwStyle = GetWindowLong (hwnd, GWL_STYLE);
-  dwExStyle &= ~WS_EX_APPWINDOW;
-  dwStyle |= WS_OVERLAPPED;
-  SetWindowLong(hwnd, GWL_EXSTYLE, dwExStyle);
-  SetWindowLong(hwnd, GWL_STYLE, dwStyle);
-#endif  
-  
+  SetWindowLong(hwnd, GWL_HWNDPARENT, (LONG) win32_main_hwnd);
 
   // Tray icon
   win32_tray_icon.cbSize = sizeof(NOTIFYICONDATA);
