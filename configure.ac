@@ -76,10 +76,10 @@ AC_ARG_ENABLE( distribution,
     )
 
 AC_ARG_ENABLE( exercises,
-  [  --enable-exercises      compile with exercises support],
+  [  --disable-exercises      compile without exercises support],
        config_exercises=$enableval
        ,
-       config_exercises=no
+       config_exercises=yes
     )
 
 AC_ARG_ENABLE( experimental,
