@@ -144,7 +144,7 @@ GUI::main()
   
   // Enter the event loop
   gdk_threads_enter();
-  Gtk::Main::run(*main_window);
+  Gtk::Main::run(); //*main_window);
   gdk_threads_leave();
 
   delete main_window;

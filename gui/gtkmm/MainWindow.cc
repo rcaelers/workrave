@@ -34,6 +34,7 @@ static const char rcsid[] = "$Id$";
 #include "MainWindow.hh"
 #include "PreferencesDialog.hh"
 #include "StatisticsDialog.hh"
+#include "AppletWindow.hh"
 #include "WindowHints.hh"
 #include "TimeBar.hh"
 #include "GUI.hh"
@@ -131,19 +132,14 @@ MainWindow::init()
   set_events(get_events() | Gdk::BUTTON_PRESS_MASK);
 
   realize_if_needed();
-
   set_resizable(false);
-  setup();
   stick();
+  setup();
 
+#ifdef WIN32
   Glib::RefPtr<Gdk::Window> window = get_window();
-#ifdef WIN32
   window->set_functions(Gdk::FUNC_CLOSE|Gdk::FUNC_MOVE);
-#endif
-  // WindowHints::set_tool_window(Gtk::Widget::gobj(), true);
-  WindowHints::set_skip_winlist(Gtk::Widget::gobj(), true);
 
-#ifdef WIN32
   win32_init();
   int x, y;
   win32_get_start_position(x, y);
@@ -189,6 +185,8 @@ MainWindow::setup()
       raise();
     }
 
+  WindowHints::set_skip_winlist(Gtk::Widget::gobj(), true);
+  
   TRACE_EXIT()
 }
 
@@ -206,13 +204,34 @@ bool
 MainWindow::on_delete_event(GdkEventAny *)
 {
   TRACE_ENTER("MainWindow::on_delete_event");
+  bool terminate = true;
 
 #ifdef WIN32
   win32_show(false);
+  terminate = false;
 #else
   GUI *gui = GUI::get_instance(); 
+  assert(gui != NULL);
+  
+#ifdef HAVE_GNOME
+  AppletWindow *applet = gui->get_applet_window();
+  if (applet != NULL)
+    {
+      AppletWindow::AppletMode mode = applet->get_applet_mode();
+      terminate = mode == AppletWindow::APPLET_DISABLED;
+    }
+  if (terminate)
+    {
+      gui->terminate();
+    }
+  else
+    {
+      iconify();
+    }
+#else
   gui->terminate();
-#endif
+#endif // HAVE_GNOME
+#endif // WIN32
   
   TRACE_EXIT();
   return true;

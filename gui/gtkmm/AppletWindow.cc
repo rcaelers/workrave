@@ -949,3 +949,10 @@ AppletWindow::on_button_press_event(GdkEventButton *event)
   TRACE_EXIT();
   return ret;
 }
+
+
+AppletWindow::AppletMode
+AppletWindow::get_applet_mode() const
+{
+  return mode;
+}

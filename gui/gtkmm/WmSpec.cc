@@ -95,12 +95,12 @@ WmSpec::change_state(GtkWidget *gtk_window, bool add, const char *state)
   Atom wm_state_atom = gdk_x11_get_xatom_by_name(XA_NET_WM_STATE);
   Atom wm_value_atom =  gdk_x11_get_xatom_by_name(state);
 
-  TRACE_MSG(wm_state_atom << " " << wm_value_atom);
-  
   if (GTK_WIDGET_MAPPED(gtk_window))
     {
       XEvent xev;
 
+      TRACE_MSG(wm_state_atom << " " << wm_value_atom);
+  
       xev.type = ClientMessage;
       xev.xclient.type = ClientMessage;
       xev.xclient.serial = 0;
@@ -116,6 +116,16 @@ WmSpec::change_state(GtkWidget *gtk_window, bool add, const char *state)
       XSendEvent (GDK_DISPLAY(), GDK_ROOT_WINDOW(), False,
                   SubstructureRedirectMask | SubstructureNotifyMask,
                   &xev);
+    }
+  else
+    {
+      Atom atoms[1];
+      atoms[0] = wm_value_atom;
+      XChangeProperty(GDK_DISPLAY(),
+                      GDK_WINDOW_XID(gtk_window->window),
+                      wm_state_atom,
+                      XA_ATOM, 32, PropModeAppend,
+                      (guchar*) atoms, 1);
     }
   TRACE_EXIT();
 }

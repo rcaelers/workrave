@@ -200,7 +200,7 @@ Statistics::save_day(DailyStats *stats, ofstream &stats_file)
       stats_file << endl;
     }
 
-  stats_file << "M " << STATS_VALUE_SIZEOF << " ";
+  stats_file << "m " << STATS_VALUE_SIZEOF << " ";
   for(int j = 0; j < STATS_VALUE_SIZEOF; j++)
     {
       stats_file << stats->misc_stats[j] << " ";
@@ -367,7 +367,7 @@ Statistics::load_day(DailyStats *stats, ifstream &stats_file)
               bs[j] = value;
             }
         }
-      else if (cmd == "M")
+      else if (cmd == "M" || cmd == "m")
         {
           int size;
           stats_file >> size;
@@ -382,7 +382,15 @@ Statistics::load_day(DailyStats *stats, ifstream &stats_file)
               int value;
               stats_file >> value;
 
-              stats->misc_stats[j] = value;
+              if (cmd == "m")
+                {
+                  // Ignore older 'M' stats. they are broken....
+                  stats->misc_stats[j] = value;
+                }
+              else
+                {
+                  stats->misc_stats[j] = 0;
+                }
             }
         }
       else if (cmd == "G")

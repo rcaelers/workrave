@@ -56,6 +56,8 @@ public:
   void update();
   void fire();
 
+  AppletMode get_applet_mode() const;
+  
   // ConfiguratorListener
   void config_changed_notify(string key);
   
