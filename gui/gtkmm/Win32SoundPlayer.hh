@@ -31,7 +31,6 @@ public:
 
 private:
   void register_sound_events();
-  static void play_speaker(short (*beeps)[2]);
   static DWORD WINAPI thread_proc(LPVOID lpParameter);
 
   static volatile HANDLE thread_handle;

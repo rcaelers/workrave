@@ -2,7 +2,7 @@
 #
 # Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 #
-# Time-stamp: <2002-09-24 17:45:45 robc>
+# Time-stamp: <2002-10-06 18:12:32 pennersr>
 #
 # $Id$
 #
@@ -16,7 +16,8 @@ if HAVE_ARCH_WIN32
 noinst_LIBRARIES = libarchwin32.a
 
 libarchwin32_a_SOURCES = \
-	gettimeofday.c
+	gettimeofday.c \
+	Thread.cc
 
 libarchwin32_a_LIBADD =
 

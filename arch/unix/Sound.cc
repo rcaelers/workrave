@@ -3,7 +3,7 @@
 // Copyright (C) 2002 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
-// Time-stamp: <2002-10-06 17:32:53 pennersr>
+// Time-stamp: <2002-10-06 18:31:05 pennersr>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,6 +27,7 @@
 void
 Sound::beep(int freq, int millis)
 {
+#if 0  
   // FIXME: what about a KDE port?
   extern Display *gdk_display;
 
@@ -47,6 +48,6 @@ Sound::beep(int freq, int millis)
   XChangeKeyboardControl(gdk_display, KBBellDuration|KBBellPitch, &values);
 
   XUnlockDisplay(gdk_display);
-  
+#endif  
   Thread::sleep(millis, 0);
 }

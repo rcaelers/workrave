@@ -25,60 +25,6 @@ static const char rcsid[] = "$Id$";
 #include "SoundPlayer.hh"
 #include "Util.hh"
 
-static short prelude_beeps[][2]=
-{
-    { 250, 50},
-    { 300, 50},
-    { 0, 0 }
-};
-    
-static short micro_pause_start_beeps[][2]=
-{
-    { 320, 70 },
-    { 350, 70 },
-    { 0, 0 },
-};
-
-static short micro_pause_end_beeps[][2]=
-{
-  { 350, 70 },
-  { 320, 70 },
-  { 0, 0 },
-};
-
-static short rest_break_start_beeps[][2]=
-{
-  { 160, 70 }, 
-  { 180, 70 }, 
-  { 200, 70 }, 
-  { 230, 70 }, 
-  { 260, 70 }, 
-  { 290, 70 }, 
-  { 320, 70 }, 
-  { 350, 70 },
-  { 0, 0 }
-};
-
-static short rest_break_end_beeps[][2]=
-{
-  { 350, 70 }, 
-  { 320, 70 }, 
-  { 290, 70 }, 
-  { 260, 70 }, 
-  { 230, 70 }, 
-  { 200, 70 }, 
-  { 180, 70 }, 
-  { 160, 70 }, 
-  { 0, 0 }
-};
-
-static short break_ignore_beeps[][2]=
-{
-    { 60, 250 }, 
-    { 50, 400 },
-    { 0, 0 }
-};
-
 volatile HANDLE Win32SoundPlayer::thread_handle = NULL;
 
 static struct SoundRegistry 
@@ -86,21 +32,20 @@ static struct SoundRegistry
   const char *event_label;
   const char *wav_file;
   const char *friendly_name;
-  short (*beeps)[2];
 } sound_registry[] =
 {
   { "WorkraveBreakPrelude", "break-prelude.wav",
-    "Break prompt", prelude_beeps },
+    "Break prompt" },
   { "WorkraveBreakIgnored", "break-ignored.wav",
-    "Break ignored", break_ignore_beeps },
+    "Break ignored" },
   { "WorkraveRestBreakStarted", "restbreak-started.wav",
-    "Rest break started", rest_break_start_beeps },
+    "Rest break started" },
   { "WorkraveRestBreakEnded", "restbreak-ended.wav",
-    "Rest break ended", rest_break_end_beeps },
+    "Rest break ended" },
   { "WorkraveMicroPauseStarted", "micropause-started.wav",
-    "Micro-pause started", micro_pause_start_beeps },
+    "Micro-pause started" },
   { "WorkraveMicroPauseEnded", "micropause-ended.wav",
-    "Micro-pause ended", micro_pause_end_beeps },
+    "Micro-pause ended" },
 };
 
 static bool
@@ -193,16 +138,6 @@ Win32SoundPlayer::register_sound_events()
 
 
 void
-Win32SoundPlayer::play_speaker(short (*beeps)[2])
-{
-  while (beeps[0][0])
-    {
-      Beep(beeps[0][0], beeps[0][1]);
-      beeps++;
-    }
-}
-
-void
 Win32SoundPlayer::play_sound(Sound snd)
 {
   SoundRegistry *s = &sound_registry[snd];
@@ -223,14 +158,7 @@ Win32SoundPlayer::thread_proc(LPVOID lpParameter)
 {
   SoundRegistry *snd = (SoundRegistry*) lpParameter;
 
-  if (SoundPlayer::get_device() == SoundPlayer::DEVICE_SPEAKER)
-    {
-      play_speaker(snd->beeps);
-    }
-  else
-    {
-      PlaySound(snd->event_label, 0, SND_APPLICATION);
-    }
+  PlaySound(snd->event_label, 0, SND_APPLICATION);
 
   CloseHandle(thread_handle);
   thread_handle = NULL;

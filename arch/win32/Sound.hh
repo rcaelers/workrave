@@ -3,7 +3,7 @@
 // Copyright (C) 2002 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
-// Time-stamp: <2002-10-06 10:04:51 pennersr>
+// Time-stamp: <2002-10-06 18:06:38 pennersr>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 #ifndef SOUND_HH
 #define SOUND_HH
 
-#include <winbase.h>
+#include <windows.h>
 
 class Sound
 {

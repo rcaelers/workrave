@@ -119,7 +119,9 @@ GUI::run()
   TRACE_ENTER("GUI:run");
 
   // Initialize Gtkmm
+#ifdef HAVE_X
   XInitThreads();
+#endif
   Gtk::Main kit(argc, argv);
 
   //g_thread_init(NULL);
