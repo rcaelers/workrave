@@ -42,9 +42,6 @@ public:
   int monitor;
 #endif
   
-#ifdef WIN32
-#endif
-
   int count;
   bool valid;
   Gdk::Rectangle geometry;

@@ -101,7 +101,7 @@ GUI::GUI(int argc, char **argv)  :
   main_window_location(-1, -1),
   main_window_head_location(-1, -1),
   main_window_relocated_location(-1, -1)
-#ifdef WIN32
+#if !defined(HAVE_GTK_MULTIHEAD) && defined(WIN32)
   ,
   enum_monitors(NULL),
   user_lib(NULL),
@@ -151,7 +151,7 @@ GUI::~GUI()
     }
 #endif
   
-#ifdef WIN32
+#if !defined(HAVE_GTK_MULTIHEAD) && defined(WIN32)
   if (user_lib != NULL)
     {
       FreeLibrary(user_lib);
@@ -756,7 +756,7 @@ GUI::init_gtk_multihead()
 #endif
 
 
-#ifdef WIN32
+#if !defined(HAVE_GTK_MULTIHEAD) && defined(WIN32)
 BOOL CALLBACK enum_monitor_callback(HMONITOR monitor, HDC, LPRECT rc, LPARAM dwData)
 {
   (void) monitor;
