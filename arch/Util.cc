@@ -1,6 +1,6 @@
 // Util.cc --- General purpose utility functions
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -130,9 +130,15 @@ Util::get_application_directory()
 {
   char app_dir_name[MAX_PATH];
   GetModuleFileName(GetModuleHandle(NULL), app_dir_name, sizeof(app_dir_name));
+  // app_dir_name == c:\program files\workrave\lib\workrave.exe
   char *s = strrchr(app_dir_name, '\\');
   assert (s);
   *s = '\0';
+  // app_dir_name == c:\program files\workrave\lib
+  s = strrchr(app_dir_name, '\\');
+  assert (s);
+  *s = '\0';
+  // app_dir_name == c:\program files\workrave
   return string(app_dir_name);
 }
 #endif

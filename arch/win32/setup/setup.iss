@@ -17,7 +17,7 @@
 
 [Setup]
 AppName=Workrave
-AppVerName=Workrave 0.3.0
+AppVerName=Workrave 0.3.99
 AppPublisher=Rob Caelers & Raymond Penners
 AppPublisherURL=http://workrave.sourceforge.net
 AppSupportURL=http://workrave.sourceforge.net
@@ -43,19 +43,20 @@ Source: "..\..\..\COPYING.txt"; DestDir: "{app}"; DestName: "COPYING.txt"; CopyM
 Source: "..\..\..\AUTHORS.txt"; DestDir: "{app}"; DestName: "AUTHORS.txt"; CopyMode: alwaysoverwrite;
 Source: "..\..\..\NEWS.txt"; DestDir: "{app}"; DestName: "NEWS.txt"; CopyMode: alwaysoverwrite;
 Source: "..\..\..\README.txt"; DestDir: "{app}"; DestName: "README.txt"; CopyMode: alwaysoverwrite;
-Source: "..\..\..\src\workrave.exe"; DestDir: "{app}"; DestName: "Workrave.exe"; CopyMode: alwaysoverwrite;
+Source: "..\..\..\src\workrave.exe"; DestDir: "{app}\lib"; DestName: "Workrave.exe"; CopyMode: alwaysoverwrite;
 
 [Registry]
-Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\Workrave.exe"; ValueType: string; ValueData: "{app}\Workrave.exe"; Flags: uninsdeletekeyifempty
+Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\Workrave.exe"; ValueType: string; ValueData: "{app}\lib\Workrave.exe"; Flags: uninsdeletekeyifempty
 Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\Workrave.exe"; ValueName: "Path"; ValueType: string; ValueData: "{app}\lib"; Flags: uninsdeletekeyifempty
 
 [Icons]
-Name: "{group}\Workrave"; Filename: "{app}\workrave.exe"
+Name: "{group}\Workrave"; Filename: "{app}\lib\Workrave.exe"
 Name: "{group}\News"; Filename: "{app}\NEWS.txt"
 Name: "{group}\Read me"; Filename: "{app}\README.txt"
 Name: "{group}\License"; Filename: "{app}\COPYING.txt"
-Name: "{userdesktop}\Workrave"; Filename: "{app}\workrave.exe"; MinVersion: 4,4; Tasks: desktopicon
-Name: "{userstartup}\Workrave"; Filename: "{app}\workrave.exe"; MinVersion: 4,4; Tasks: startupmenu
+Name: "{userdesktop}\Workrave"; Filename: "{app}\lib\Workrave.exe"; MinVersion: 4,4; Tasks: desktopicon
+Name: "{userstartup}\Workrave"; Filename: "{app}\lib\Workrave.exe"; MinVersion: 4,4; Tasks: startupmenu
+Name: "{app}\Workrave"; Filename: "{app}\lib\Workrave.exe"
 
 
 ;[Run]
