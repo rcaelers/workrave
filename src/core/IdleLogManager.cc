@@ -867,7 +867,7 @@ void
 IdleLogManager::dump_idlelog(ClientInfo &info)
 {
   (void) info;
-#if 1
+#if 0
 #ifndef WIN32  
   TRACE_ENTER("IdleLogManager::dump_idlelog");
 

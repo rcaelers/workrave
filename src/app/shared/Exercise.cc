@@ -28,6 +28,7 @@
 
 #include <unistd.h>
 #include <assert.h>
+#include <stdio.h>
 
 #include <glib.h>
 
@@ -268,15 +269,14 @@ ExerciseParser::ExerciseParser(std::list<Exercise> &exe)
 }
 
 
-   
-
 void
 Exercise::parse_exercises(const char *file_name,
                           std::list<Exercise> &exe)
 {
+  FILE *stream = NULL;
   TRACE_ENTER_MSG("ExercisesParser::get_exercises", file_name);
   
-  FILE *stream = fopen(file_name, "rb");
+  stream = fopen(file_name, "rb");
   if (stream)
     {
       GMarkupParser parser;

@@ -844,7 +844,7 @@ Core::break_action(BreakId id, BreakAction action)
             if (id == BREAK_ID_REST_BREAK
                 && (micropause_control->get_break_state() == BreakControl::BREAK_ACTIVE))
               {
-                micropause_control->stop_break();
+                micropause_control->stop_break(false);
               }
             breaker->force_start_break();
           }
@@ -885,16 +885,20 @@ Core::handle_start_break(BreakControl *breaker, BreakId break_id, Timer *timer)
     {
       Timer *rbTimer = breaks[BREAK_ID_REST_BREAK].get_timer();
       assert(rbTimer != NULL);
+
+      bool activity_sensitive = breaks[BREAK_ID_REST_BREAK].get_timer_activity_sensitive();
       
       // Only advance when
+      // 0. It is activity sensitive
       // 1. we have a next limit reached time.
       // 2. timer is not yet over its limit. otherwise, it will interfere with snoozing.
-      if (rbTimer->get_next_limit_time() > 0 /* &&
-                                                rbTimer->get_elapsed_time() < rbTimer->get_limit() */)
+      if (activity_sensitive &&
+          rbTimer->get_next_limit_time() > 0
+          /* && rbTimer->get_elapsed_time() < rbTimer->get_limit() */)
         {
           int threshold = 30; // TODO: should be configurable
           time_t duration = timer->get_auto_reset();
-          time_t now = time(NULL); // TODO: core_control->get_time();
+          time_t now = get_time();
           
           if (now + duration + threshold >= rbTimer->get_next_limit_time())
             {
@@ -914,7 +918,7 @@ Core::handle_start_break(BreakControl *breaker, BreakId break_id, Timer *timer)
     {
       if (breaks[bi].get_break_control()->get_break_state() == BreakControl::BREAK_ACTIVE)
         {
-          breaks[bi].get_break_control()->stop_break();
+          breaks[bi].get_break_control()->stop_break(false);
         }
     }
   
@@ -966,7 +970,7 @@ Core::stop_all_breaks()
       BreakControl *bc = breaks[i].get_break_control();
       if (bc != NULL)
         {
-          bc->stop_break();
+          bc->stop_break(false);
         }
     }
 }
@@ -1235,8 +1239,8 @@ Core::request_break_state(PacketBuffer &buffer)
           int pos = buffer.bytes_written();
 
           buffer.pack_ushort(0);
-          buffer.pack_byte((guint8)state_data.forced_break);
-          buffer.pack_byte((guint8)state_data.final_prelude);
+          buffer.pack_byte((guint8)state_data.user_initiated);
+          buffer.pack_byte((guint8)state_data.reached_max_prelude);
           buffer.pack_ulong((guint32)state_data.prelude_count);
           buffer.pack_ulong((guint32)state_data.break_stage);
           buffer.pack_ulong((guint32)state_data.prelude_time);
@@ -1273,8 +1277,8 @@ Core::set_break_state(bool master, PacketBuffer &buffer)
 
       if (data_size > 0)
         {
-          state_data.forced_break = buffer.unpack_byte();
-          state_data.final_prelude = buffer.unpack_byte();
+          state_data.user_initiated = buffer.unpack_byte();
+          state_data.reached_max_prelude = buffer.unpack_byte();
           state_data.prelude_count = buffer.unpack_ulong();
           state_data.break_stage = buffer.unpack_ulong();
           state_data.prelude_time = buffer.unpack_ulong();

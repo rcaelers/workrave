@@ -87,6 +87,8 @@ public:
   void set_timer_activity_sensitive(bool b);
   int get_break_max_preludes() const;
   void set_break_max_preludes(int n);
+  int get_break_max_postpone() const;
+  void set_break_max_postpone(int n);
   bool get_break_ignorable() const;
   void set_break_ignorable(bool b);
   int get_break_exercises() const;
@@ -121,6 +123,7 @@ public:
   static const string CFG_KEY_BREAK_PREFIX;
   
   static const string CFG_KEY_BREAK_MAX_PRELUDES;
+  static const string CFG_KEY_BREAK_MAX_POSTPONE;
   static const string CFG_KEY_BREAK_FORCE_AFTER_PRELUDES;
   static const string CFG_KEY_BREAK_IGNORABLE;
   static const string CFG_KEY_BREAK_ENABLED;

@@ -35,6 +35,7 @@
 #include <unistd.h>
 #include <assert.h>
 #include <sstream>
+#include <stdio.h>
 
 #include <gtkmm/notebook.h>
 #include <gtkmm/calendar.h>

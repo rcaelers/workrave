@@ -29,6 +29,7 @@ const int TIMEOUT = 1000;
 
 #include <gtkmm/button.h>
 #include <gtkmm/image.h>
+#include <gtkmm/label.h>
 
 #include "debug.hh"
 #include "nls.h"

@@ -39,12 +39,14 @@ public:
   //! Defines what to do when the user is active during a break.
   struct BreakStateData
   {
-    bool forced_break;
+    bool user_initiated;
     int prelude_count;
+    int postponable_count;
 
     int break_stage;
-    bool final_prelude;
+    bool reached_max_prelude;
     int prelude_time;
+    bool reached_max_postpone;
   };
   
   BreakControl(BreakId id, Core *core, AppInterface *app, Timer *timer);
@@ -53,7 +55,7 @@ public:
   // BreakInterface
   void start_break();
   void force_start_break();
-  void stop_break();
+  void stop_break(bool forced_stop = false);
   bool need_heartbeat();
   void heartbeat();
   BreakState get_break_state();
@@ -62,6 +64,7 @@ public:
 
   // Configuration
   void set_max_preludes(int m);
+  void set_max_postpone(int m);
   void set_insist_policy(BreakInterface::InsistPolicy p);
   void set_ignorable_break(bool i);
   BreakInterface::InsistPolicy get_insist_policy() const;
@@ -109,25 +112,37 @@ private:
   BreakStage break_stage;
 
   //! This is a final prelude prompt, forcing break after this prelude
-  bool final_prelude;
+  bool reached_max_prelude;
   
   //! How long is the prelude active.
   int prelude_time;
 
   //! (User initiated/seld-inflicted) forced break (i.e. RestBreak now)
-  bool forced_break;
-
-  //! User initiated skip/start break.
   bool user_initiated;
 
   //! How many times have we preluded (since the limit was reached)
   int prelude_count;
 
-  //! After how many preludes do we force a break or give up?
-  int number_of_preludes;
+  //! Total number of time the user could have postponed the break.
+  /*! This includes the implicit (ignoring the prelude windows) as well as the
+   *  explicit (clicking postpone) number of times the break was postponed.
+   */
+  int postponable_count;
 
-  //! Can the use explicitly ignore the break?
+  //! Have we seen too many preludes and need to make the break non-ignorable
+  bool reached_max_postpone;
+
+  //! After how many preludes do we force a break or give up?
+  int max_number_of_preludes;
+
+  //! After how many preludes do we make the break not ignorable?
+  int max_number_of_postpones;
+
+  //! Can the use explicitly ignore the break? (window setting)
   bool ignorable_break;
+
+  //! Can the use explicitly ignore the break? (configuration setting)
+  bool config_ignorable_break;
 
   //! What to do with activity during insisted break?
   BreakInterface::InsistPolicy insist_policy;

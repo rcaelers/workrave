@@ -56,12 +56,16 @@ BreakControl::BreakControl(BreakId id, Core *c, AppInterface *app, Timer *timer)
   application(app),
   break_timer(timer),
   break_stage(STAGE_NONE),
-  final_prelude(false),
+  reached_max_prelude(false),
   prelude_time(0),
-  forced_break(false),
+  user_initiated(false),
   prelude_count(0),
-  number_of_preludes(2),
+  postponable_count(0),
+  reached_max_postpone(false),
+  max_number_of_preludes(2),
+  max_number_of_postpones(2),
   ignorable_break(true),
+  config_ignorable_break(true),
   insist_policy(BreakInterface::INSIST_POLICY_HALT),
   active_insist_policy(BreakInterface::INSIST_POLICY_INVALID),
   fake_break(false),
@@ -94,7 +98,8 @@ BreakControl::heartbeat()
 
   if (!break_timer->has_activity_monitor())
     {
-      // Prefer running state of timer.
+      // Prefer the running state of the break timer as input for
+      // our current activity.
       TimerInterface::TimerState tstate = break_timer->get_state();
       is_idle = (tstate == TimerInterface::STATE_STOPPED);
     }
@@ -143,7 +148,7 @@ BreakControl::heartbeat()
         else if (prelude_time == 30)
           {
             // User is not idle and the prelude is visible for 30s.
-            if (final_prelude)
+            if (reached_max_prelude)
               {
                 // Final prelude, force break.
                 goto_stage(STAGE_TAKING);
@@ -186,25 +191,9 @@ BreakControl::heartbeat()
         
     case STAGE_TAKING:
       {
-        // We go back to prelude IF
-        // 1) the user is NOT idle, and
-        // 2) this is NO forced (user initiated) break, and
-        // 3) we don't have number_of_preludes set (i.e. >= 0)
-        // 4) we hasn't reached the number_of_preludes
-
-#if 0 // insist_break is no more, so if proven stable the if can be removed.
-        if (!is_idle && !forced_break && !final_prelude /*&& !insist_break*/)
-          {
-            // User is active while taking the break. back to prelude.
-            goto_stage(STAGE_PRELUDE);
-          }
-        else
-#endif
-          {
-            // refresh the break window.
-            update_break_window();
-            application->refresh_break_window();
-          }
+        // refresh the break window.
+        update_break_window();
+        application->refresh_break_window();
       }
       break;
     }
@@ -275,6 +264,7 @@ BreakControl::goto_stage(BreakStage stage)
     case STAGE_PRELUDE:
       {
         prelude_count++;
+        postponable_count++;
         prelude_time = 0;
         application->hide_break_window();
 
@@ -293,6 +283,17 @@ BreakControl::goto_stage(BreakStage stage)
         ActivityMonitorInterface *monitor = core->get_activity_monitor();
         monitor->force_idle();
         break_timer->stop_timer();
+
+	// Check if we have reached the maximum number of preludes and force
+	// break
+	if (reached_max_postpone)
+	  {
+	    ignorable_break = false;
+	  }
+	else
+	  {
+	    ignorable_break = config_ignorable_break;
+	  }
 
         // Start the break.
         break_window_start();
@@ -354,7 +355,7 @@ BreakControl::update_break_window()
 
       if (fake_break_count <= 0)
         {
-          stop_break();
+          stop_break(false);
         }
 
       fake_break_count--;
@@ -380,13 +381,14 @@ BreakControl::start_break()
   TRACE_ENTER_MSG("BreakControl::start_break", break_id);
   fake_break = false;
   user_initiated = false;
-  forced_break = false;
   prelude_time = 0;
   user_abort = false;
   
-  final_prelude = number_of_preludes >= 0 && prelude_count + 1 >= number_of_preludes;
+  reached_max_prelude = max_number_of_preludes >= 0 && prelude_count + 1 >= max_number_of_preludes;
+  reached_max_postpone = max_number_of_postpones >= 0 && postponable_count + 1 >= max_number_of_postpones;
 
-  if (number_of_preludes >= 0 && prelude_count >= number_of_preludes)
+  if ((max_number_of_preludes >= 0 && prelude_count >= max_number_of_preludes) ||
+      (max_number_of_postpones >= 0 && postponable_count >= max_number_of_postpones))
     {
       // Forcing break without prelude.
       goto_stage(STAGE_TAKING);
@@ -425,7 +427,6 @@ BreakControl::force_start_break()
 
   fake_break = false;
   user_initiated = true;
-  forced_break = true;
   prelude_time = 0;
   user_abort = false;
   
@@ -454,12 +455,18 @@ BreakControl::force_start_break()
  *  wrt, "max-preludes", the break will start over when it comes back.
  */
 void
-BreakControl::stop_break()
+BreakControl::stop_break(bool forced_stop)
 {
   TRACE_ENTER_MSG("BreakControl::stop_break", break_id);
 
+  TRACE_MSG(" forced stop = " << forced_stop);
+
   suspend_break();
   prelude_count = 0;
+  if (!forced_stop)
+    {
+      postponable_count = 0;
+    }
 
   TRACE_EXIT();
 }
@@ -537,7 +544,7 @@ BreakControl::postpone_break()
   user_abort = true;
 
   // and stop the break.
-  stop_break();
+  stop_break(true);
 }
 
 
@@ -576,7 +583,7 @@ BreakControl::skip_break()
   stats->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_SKIPPED);
 
   // and stop the break.
-  stop_break();
+  stop_break(false);
 }
 
 
@@ -588,9 +595,15 @@ BreakControl::skip_break()
 void
 BreakControl::set_max_preludes(int m)
 {
-  number_of_preludes = m;
+  max_number_of_preludes = m;
 }
 
+//! Sets the maximum number of preludes before making the break not ignorable
+void
+BreakControl::set_max_postpone(int m)
+{
+  max_number_of_postpones = m;
+}
 
 
 
@@ -601,7 +614,7 @@ BreakControl::set_max_preludes(int m)
 void
 BreakControl::set_ignorable_break(bool i)
 {
-  ignorable_break = i;
+  config_ignorable_break = i;
 }
 
 
@@ -646,7 +659,7 @@ BreakControl::break_window_start()
   TRACE_ENTER_MSG("BreakControl::break_window_start", break_id);
 
   application->start_break_window(break_id,
-                                  forced_break ? true : ignorable_break);
+                                  user_initiated ? true : ignorable_break);
 
   update_break_window();
   TRACE_EXIT();
@@ -662,7 +675,7 @@ BreakControl::prelude_window_start()
 
   application->set_prelude_stage(AppInterface::STAGE_INITIAL);
 
-  if (!final_prelude)
+  if (!reached_max_prelude)
     {
       application->set_prelude_progress_text(AppInterface::PROGRESS_TEXT_DISAPPEARS_IN);
     }
@@ -762,17 +775,20 @@ BreakControl::set_state_data(bool active, const BreakStateData &data)
 {
   TRACE_ENTER_MSG("BreakStateData::set_state_data", active);
 
-  TRACE_MSG("forced = " << data.forced_break <<
+  TRACE_MSG("forced = " << data.user_initiated <<
             " prelude = " << data.prelude_count <<
             " stage = " <<  data.break_stage <<
-            " final = " << final_prelude <<
+            " final = " << reached_max_prelude <<
+	    " total preludes = " << postponable_count <<
+	    " force ignorable break = " << reached_max_postpone <<
             " time = " << data.prelude_time);
   
   application->hide_break_window();
 
-  forced_break = data.forced_break;
+  user_initiated = data.user_initiated;
   prelude_count = data.prelude_count;
   prelude_time = data.prelude_time;
+  postponable_count = data.postponable_count;
 
   BreakStage new_break_stage = (BreakStage) data.break_stage;
   
@@ -780,19 +796,19 @@ BreakControl::set_state_data(bool active, const BreakStateData &data)
     {
       TRACE_MSG("TAKING -> PRELUDE");
       new_break_stage = STAGE_PRELUDE;
-      prelude_count = number_of_preludes - 1;
+      prelude_count = max_number_of_preludes - 1;
     }
   
   if (active)
     {
-      if (forced_break && new_break_stage == STAGE_TAKING)
+      if (user_initiated && new_break_stage == STAGE_TAKING)
         {
           TRACE_MSG("User inflicted break -> TAKING");
 
           prelude_time = 0;
           goto_stage(STAGE_TAKING);
         }
-      else if (new_break_stage == STAGE_TAKING) // && !forced_break
+      else if (new_break_stage == STAGE_TAKING) // && !user_initiated
         {
           TRACE_MSG("Break active");
 
@@ -807,11 +823,11 @@ BreakControl::set_state_data(bool active, const BreakStateData &data)
         {
           TRACE_MSG("Snooze/Prelude");
   
-          forced_break = false;
+          user_initiated = false;
           prelude_time = 0;
-          final_prelude = number_of_preludes >= 0 && prelude_count + 1 >= number_of_preludes;
+          reached_max_prelude = max_number_of_preludes >= 0 && prelude_count + 1 >= max_number_of_preludes;
 
-          if (number_of_preludes >= 0 && prelude_count >= number_of_preludes)
+          if (max_number_of_preludes >= 0 && prelude_count >= max_number_of_preludes)
             {
               TRACE_MSG("TAKING");
               goto_stage(STAGE_TAKING);
@@ -843,11 +859,13 @@ BreakControl::set_state_data(bool active, const BreakStateData &data)
 void
 BreakControl::get_state_data(BreakStateData &data)
 {
-  data.forced_break = forced_break;
+  data.user_initiated = user_initiated;
   data.prelude_count = prelude_count;
   data.break_stage = break_stage;
-  data.final_prelude = final_prelude;
+  data.reached_max_prelude = reached_max_prelude;
   data.prelude_time = prelude_time;
+  data.postponable_count = postponable_count;
+  data.reached_max_postpone = reached_max_postpone;
 }
 
 
@@ -862,5 +880,3 @@ BreakControl::post_event(CoreEvent event)
     }
   TRACE_EXIT();
 }
-
-

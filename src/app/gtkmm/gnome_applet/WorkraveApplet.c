@@ -850,6 +850,7 @@ workrave_applet_fill(PanelApplet *applet)
   GdkPixbuf *pixbuf = NULL;
   GtkWidget *hbox = NULL;
   BonoboUIComponent *ui = NULL;
+  GtkWidget *event_box = NULL;
   
   // Create menus.
   panel_applet_setup_menu_from_file(applet, NULL, "GNOME_WorkraveApplet.xml", NULL,
@@ -863,7 +864,7 @@ workrave_applet_fill(PanelApplet *applet)
   bonobo_ui_component_add_listener(ui, "Quiet", mode_callback, NULL);
 
   // Eventbox
-  GtkWidget *event_box = gtk_event_box_new();
+  event_box = gtk_event_box_new();
   applet_control->event_box = event_box;
   gtk_widget_set_events(event_box, gtk_widget_get_events(event_box) | GDK_BUTTON_PRESS_MASK);
   gtk_widget_show(GTK_WIDGET(event_box));

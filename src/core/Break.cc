@@ -42,6 +42,7 @@ const string Break::CFG_KEY_TIMER_ACTIVITY_SENSITIVE = "/activity_sensitive";
 const string Break::CFG_KEY_BREAK_PREFIX = "gui/breaks/";
 
 const string Break::CFG_KEY_BREAK_MAX_PRELUDES = "/max_preludes";
+const string Break::CFG_KEY_BREAK_MAX_POSTPONE = "/max_postpone";
 const string Break::CFG_KEY_BREAK_IGNORABLE = "/ignorable_break";
 const string Break::CFG_KEY_BREAK_ENABLED = "/enabled";
 const string Break::CFG_KEY_BREAK_EXERCISES = "/exercises";
@@ -58,6 +59,7 @@ struct Defaults
 
   // Break settings
   int max_preludes;
+  int max_postpone;
   bool ignorable_break;
   int exercises;
 
@@ -66,21 +68,21 @@ struct Defaults
     {
       "micro_pause",
       3*60, 30, "", 150,
-      3, true,  
+      3, -1, true,  
       0,
     },
 
     {
       "rest_break",
       45*60, 10*60, "", 180,
-      3, true,
+      3, -1, true,
       3
     },
     
     {
       "daily_limit",
       14400, 0, "day/4:00", 20 * 60,
-      3, true,
+      3, -1, true,
       0
     }
   };
@@ -270,6 +272,7 @@ void
 Break::update_break_config()
 {
   set_break_max_preludes(get_break_max_preludes());
+  set_break_max_postpone(get_break_max_postpone());
   set_break_ignorable(get_break_ignorable());
   set_break_enabled(get_break_enabled());
   set_break_exercises(get_break_exercises());
@@ -280,6 +283,7 @@ void
 Break::load_break_control_config()
 {
   break_control->set_max_preludes(get_break_max_preludes());
+  break_control->set_max_postpone(get_break_max_postpone());
   break_control->set_ignorable_break(get_break_ignorable());
 
   enabled = get_break_enabled();
@@ -441,6 +445,26 @@ Break::set_break_max_preludes(int n)
   configurator->set_value(break_prefix + CFG_KEY_BREAK_MAX_PRELUDES, n);
 }
 
+//!
+int
+Break::get_break_max_postpone() const
+{
+  int rc;
+  bool b = configurator->get_value(break_prefix + CFG_KEY_BREAK_MAX_POSTPONE, &rc);
+  if (! b)
+    {
+      rc = default_config[break_id].max_postpone;
+    }
+  
+  return rc;
+}
+
+//!
+void
+Break::set_break_max_postpone(int n)
+{
+  configurator->set_value(break_prefix + CFG_KEY_BREAK_MAX_POSTPONE, n);
+}
 
 
 //!

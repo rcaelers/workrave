@@ -35,6 +35,7 @@
 #include <gtkmm/bin.h>
 #include <gtkmm/menu.h>
 #include <gtkmm/plug.h>
+#include <gtkmm/eventbox.h>
 
 class TimerBox;
 

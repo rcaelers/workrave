@@ -6,14 +6,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
-"POT-Creation-Date: 2003-10-30 21:45+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-11-17 21:01+0100\n"
 "PO-Revision-Date: 2003-09-09 16:25+0200\n"
 "Last-Translator: Christian Vejlbo <translate@vejlbo.dk>\n"
 "Language-Team:  <da@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
 "X-Generator: KBabel 1.0.1\n"
 
 #: src/app/gtkmm/eggtrayicon.c:118
@@ -290,7 +290,7 @@ msgstr "Status Vindue"
 #. Notebook
 #: src/app/gtkmm/PreferencesDialog.cc:77
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:171
-#: src/app/gtkmm/TimerPreferencesPanel.cc:183
+#: src/app/gtkmm/TimerPreferencesPanel.cc:193
 msgid "Timers"
 msgstr "Tidstællere"
 
@@ -608,27 +608,32 @@ msgstr "Maksimalt antal anmodninger:"
 msgid "Show 'Postpone' and 'Skip' button"
 msgstr "Vis knapperne 'Udsæt' samt 'Spring Over'"
 
-#: src/app/gtkmm/TimerPreferencesPanel.cc:157
+#: src/app/gtkmm/TimerPreferencesPanel.cc:151
+#, fuzzy
+msgid "Timer ignores activity"
+msgstr "Betragt mikropauser som aktiviteter"
+
+#: src/app/gtkmm/TimerPreferencesPanel.cc:166
 msgid "Regard micro-pauses as activity"
 msgstr "Betragt mikropauser som aktiviteter"
 
-#: src/app/gtkmm/TimerPreferencesPanel.cc:169
+#: src/app/gtkmm/TimerPreferencesPanel.cc:178
 msgid "Number of exercises:"
 msgstr "Antal øvelser:"
 
-#: src/app/gtkmm/TimerPreferencesPanel.cc:190
+#: src/app/gtkmm/TimerPreferencesPanel.cc:200
 msgid "Time before break:"
 msgstr "Tid før pause:"
 
-#: src/app/gtkmm/TimerPreferencesPanel.cc:197
+#: src/app/gtkmm/TimerPreferencesPanel.cc:207
 msgid "Resets at:"
 msgstr "Nulstiller om:"
 
-#: src/app/gtkmm/TimerPreferencesPanel.cc:207
+#: src/app/gtkmm/TimerPreferencesPanel.cc:217
 msgid "Pause duration:"
 msgstr "Pause længde:"
 
-#: src/app/gtkmm/TimerPreferencesPanel.cc:224
+#: src/app/gtkmm/TimerPreferencesPanel.cc:234
 msgid "Post-pone time:"
 msgstr "Udsættelses-periode:"
 

@@ -7,14 +7,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.4.0\n"
-"POT-Creation-Date: 2003-10-30 21:45+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-11-17 21:01+0100\n"
 "PO-Revision-Date: 2003-10-23 13:04+0200\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
 
 # src/app/gtkmm/eggtrayicon.c:118
 #: src/app/gtkmm/eggtrayicon.c:118
@@ -363,7 +363,7 @@ msgstr "Statusfenster"
 #. Notebook
 #: src/app/gtkmm/PreferencesDialog.cc:77
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:171
-#: src/app/gtkmm/TimerPreferencesPanel.cc:183
+#: src/app/gtkmm/TimerPreferencesPanel.cc:193
 msgid "Timers"
 msgstr "Zeitmesser"
 
@@ -377,7 +377,7 @@ msgstr "Benutzervorlieben"
 msgid "Network"
 msgstr "Netzwerk"
 
-#
+# 
 # src/app/gtkmm/PreferencesDialog.cc:115
 #: src/app/gtkmm/PreferencesDialog.cc:121
 msgid "No sounds"
@@ -753,32 +753,38 @@ msgid "Show 'Postpone' and 'Skip' button"
 msgstr "Knöpfe 'Aufschieben' und 'Überspringen' anzeigen"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:169
-#: src/app/gtkmm/TimerPreferencesPanel.cc:157
+#: src/app/gtkmm/TimerPreferencesPanel.cc:151
+#, fuzzy
+msgid "Timer ignores activity"
+msgstr "Mikropausen als Aktivität betrachten"
+
+# src/app/gtkmm/TimerPreferencesPanel.cc:169
+#: src/app/gtkmm/TimerPreferencesPanel.cc:166
 msgid "Regard micro-pauses as activity"
 msgstr "Mikropausen als Aktivität betrachten"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:181
-#: src/app/gtkmm/TimerPreferencesPanel.cc:169
+#: src/app/gtkmm/TimerPreferencesPanel.cc:178
 msgid "Number of exercises:"
 msgstr "Anzahl der Übungen"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:202
-#: src/app/gtkmm/TimerPreferencesPanel.cc:190
+#: src/app/gtkmm/TimerPreferencesPanel.cc:200
 msgid "Time before break:"
 msgstr "Zeit bis zur Pause:"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:209
-#: src/app/gtkmm/TimerPreferencesPanel.cc:197
+#: src/app/gtkmm/TimerPreferencesPanel.cc:207
 msgid "Resets at:"
 msgstr "Zurücksetzen nach:"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:219
-#: src/app/gtkmm/TimerPreferencesPanel.cc:207
+#: src/app/gtkmm/TimerPreferencesPanel.cc:217
 msgid "Pause duration:"
 msgstr "Dauer der Pause:"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:236
-#: src/app/gtkmm/TimerPreferencesPanel.cc:224
+#: src/app/gtkmm/TimerPreferencesPanel.cc:234
 msgid "Post-pone time:"
 msgstr "Dauer des Aufschubs:"
 
