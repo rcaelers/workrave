@@ -172,7 +172,6 @@ AppletWindow::init_tray_applet()
       plug->add(*eventbox);
       plug->show_all();
       
-      TRACE_MSG("0");
       // Tray menu
       if (tray_menu == NULL)
         {
@@ -180,22 +179,16 @@ AppletWindow::init_tray_applet()
           tray_menu = menus->create_tray_menu();
         }
 
-      TRACE_MSG("1");
       ret = true;
       applet_vertical = false;
       GtkRequisition req;
       plug->size_request(&req);
       applet_size = req.height;
-      TRACE_MSG("2");
 
       timers_box->set_geometry(applet_vertical, 24);
 
-      TRACE_MSG("3");
-      
       plug->signal_embedded().connect(SigC::slot(*this, &AppletWindow::on_embedded));
-      TRACE_MSG("4");
       plug->signal_delete_event().connect(SigC::slot(*this, &AppletWindow::delete_event));
-      TRACE_MSG("5");
     }
 
   TRACE_EXIT();
@@ -303,7 +296,6 @@ AppletWindow::init_gnome_applet()
         {
           menus->resync_applet();
         }
-      set_mainwindow_skipwinlist(true);
 
 #ifndef HAVE_EXERCISES
       GNOME_Workrave_AppletControl_set_menu_active(applet_control, "/commands/Exercises", false, &ev);

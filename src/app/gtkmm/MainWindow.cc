@@ -205,6 +205,7 @@ MainWindow::init()
   
   if (!enabled) //  || get_start_in_tray())
     {
+      iconify();
       close_window();
     }
 #endif
@@ -228,7 +229,7 @@ MainWindow::setup()
 
   TRACE_MSG("on top " << always_on_top);
   TRACE_MSG("enabled " << new_enabled);
-  
+
   if (enabled != new_enabled)
     {
       enabled = new_enabled;
@@ -246,8 +247,6 @@ MainWindow::setup()
       raise();
     }
 
-  set_skipwinlist(false);
-  
   TRACE_EXIT()
 }
 
@@ -267,8 +266,15 @@ MainWindow::open_window()
 {
   if (timers_box->get_visible_count() > 0)
     {
+      int x, y;
+      get_start_position(x, y);
+      set_gravity(Gdk::GRAVITY_STATIC); 
+      set_position(Gtk::WIN_POS_NONE);
+
+//       show_all();
+//       move(x, y);
+//       raise();
       deiconify();
-      raise();
     }
 }
 
@@ -277,7 +283,22 @@ MainWindow::open_window()
 void
 MainWindow::close_window()
 {
+#ifdef HAVE_GNOME
+  GUI *gui = GUI::get_instance(); 
+  assert(gui != NULL);
+
+  AppletWindow *applet = gui->get_applet_window();
+  if (applet != NULL)
+    {
+      AppletWindow::AppletMode mode = applet->get_applet_mode();
+      set_skipwinlist(mode != AppletWindow::APPLET_DISABLED);
+    }
+#endif
+  // Remember position
+  remember_position();
+
   iconify();
+  // hide();
 }
 
 
@@ -317,13 +338,15 @@ MainWindow::on_delete_event(GdkEventAny *)
       AppletWindow::AppletMode mode = applet->get_applet_mode();
       terminate = mode == AppletWindow::APPLET_DISABLED;
     }
+  
   if (terminate)
     {
       gui->terminate();
     }
   else
     {
-      iconify();
+      close_window();
+      TimerBox::set_enabled("main_window", false);
     }
 #else
   gui->terminate();
