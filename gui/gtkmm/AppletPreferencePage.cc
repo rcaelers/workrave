@@ -121,6 +121,7 @@ AppletPreferencePage::create_page()
   hig->add(_("Daily limit:"), *timer_display_button[2]);
 
   pack_end(*hig, true, true, 0);
+  set_border_width(12);
 }
 
 //! Retrieves the applet configuration and sets the widgets.
