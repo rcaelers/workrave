@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl
-dnl Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
+dnl Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
 dnl
 dnl
 dnl $Id$
@@ -23,7 +23,6 @@ AC_ARG_ENABLE( gconf,
        ,
        config_with_gconf=no
     )
-
 
 AC_ARG_ENABLE( xml,
   [  --enable-xml            compile with XML support],
@@ -267,7 +266,7 @@ AC_SUBST(GCONF_CFLAGS)
 
 if test "x$config_distribution" = "xyes"
 then           
-AM_PATH_GNET(1.1.4,[] ,[] )
+AM_PATH_GNET(1.1.7,[] ,[] )
 fi
                     
 AC_SUBST(GNET_LIBS)

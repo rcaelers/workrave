@@ -135,7 +135,7 @@ AppletPreferencePage::create_page()
       table->attach(*hbox, i + 1, i + 2, y, y + 1, Gtk::SHRINK, Gtk::SHRINK);
       y++;
 
-      visible_cb[i]->signal_toggled().connect(bind(SigC::slot(*this, &AppletPreferencePage::on_first_toggled), i));
+      visible_cb[i]->signal_toggled().connect(bind(SigC::slot(*this, &AppletPreferencePage::on_visible_toggled), i));
       first_cb[i]->signal_toggled().connect(bind(SigC::slot(*this, &AppletPreferencePage::on_first_toggled), i));
       exclusive_cb[i]->signal_toggled().connect(bind(SigC::slot(*this, &AppletPreferencePage::on_exclusive_toggled), i));
       default_cb[i]->signal_toggled().connect(bind(SigC::slot(*this, &AppletPreferencePage::on_default_toggled), i));
