@@ -7,12 +7,12 @@ http://workrave.sourceforge.net
 
 * Workrave 0.3.0
 
-** Added distribution support, dubbed "The Collective". What this
-means is that you can now create a network of Workrave instances
-running on several computers. All instances that are part of "the
-collective" share the same timer information, meaning that if one
-computer informs you to take a break, it is futile to flee to another
-computer as it will also tell you to take a break.
+** Added experimental(!) distribution support, dubbed "The
+Collective". What this means is that you can now create a network of
+Workrave instances running on several computers. All instances that
+are part of "the collective" share the same timer information, meaning
+that if one computer informs you to take a break, it is futile to flee
+to another computer as it will also tell you to take a break.
 
 ** Added sound support. You can configure the samples that are played
 through the standard sound control panel provided by Gnome and
