@@ -142,10 +142,10 @@ WindowHints::set_skip_winlist(GtkWidget *window, bool skip)
 
 #ifdef WIN32
 static void
-win32_block_input(BOOL block, HWND unblocked_window)
+win32_block_input(BOOL block, HWND *unblocked_windows)
 {
   if (block)
-    harpoon_block_input(unblocked_window);
+    harpoon_block_input_except_for(unblocked_windows);
   else
     harpoon_unblock_input();
   UINT uPreviousState;
@@ -187,18 +187,19 @@ WindowHints::grab(int num_windows, GdkWindow **windows)
 #elif defined(WIN32)
   if (num_windows > 0)
     {
-      HWND hDrawingWind[num_windows];
+      HWND unblocked_windows[num_windows + 1];
       for (int i = 0; i < num_windows; i++)
         {
-          hDrawingWind[i] = (HWND) GDK_WINDOW_HWND(windows[i]);
+          unblocked_windows[i] = (HWND) GDK_WINDOW_HWND(windows[i]);
 
-          SetWindowPos(hDrawingWind[i], HWND_TOPMOST,
+          SetWindowPos(unblocked_windows[i], HWND_TOPMOST,
                        0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE);
-          BringWindowToTop(hDrawingWind[i]);
+          BringWindowToTop(unblocked_windows[i]);
         }
 
-      // FIXME: pass array.
-      win32_block_input(TRUE, hDrawingWind[0]);
+      unblocked_windows[num_windows] = NULL;
+      
+      win32_block_input(TRUE, unblocked_windows);
       handle = (WindowHints::Grab *) 0xdeadf00d;
     }
 #endif
