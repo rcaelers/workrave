@@ -16,6 +16,7 @@
 // $Id$
 //
 
+#include <gtk/gtk.h>
 #include "IconListNotebook.hh"
 #include "IconListCellRenderer.hh"
 
@@ -34,26 +35,42 @@ IconListNotebook::IconListNotebook()
   list_store = Gtk::ListStore::create(model_columns);
   icon_list.set_model(list_store);
 
-  IconListCellRenderer *renderer = manage(new IconListCellRenderer());
-  Gtk::TreeViewColumn *tvc = manage(new Gtk::TreeViewColumn("Bla",
-                                                            *renderer));
+  IconListCellRenderer *renderer = new IconListCellRenderer();
+  Gtk::TreeViewColumn *tvc = new Gtk::TreeViewColumn("Bla",
+                                                     *Gtk::manage(renderer));
+  icon_list.append_column(*Gtk::manage(tvc));
   tvc->add_attribute(renderer->property_text(),
                      model_columns.text);
   tvc->add_attribute(renderer->property_pixbuf(),
                      model_columns.pixbuf);
 
-  icon_list.append_column(*tvc);
-  
-//195           	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (dlg->priv->notebook), FALSE);
-//196           	gtk_notebook_set_show_border (GTK_NOTEBOOK (dlg->priv->notebook), 
-//197           				      FALSE);
-//
-//198 campd 1.2 	gtk_container_set_border_width (GTK_CONTAINER (dlg->priv->notebook),  
+
+  Glib::RefPtr<Gtk::TreeSelection> selection = icon_list.get_selection();
+  selection->set_mode(Gtk::SELECTION_SINGLE);
+  selection->signal_changed()
+    .connect(SigC::slot(*this, &IconListNotebook::on_page_changed));
+
+  notebook.set_show_tabs(false);
+  notebook.set_show_border(false);
+  notebook.set_border_width(6);
 
   pack_start(*scroller, false, false, 0);
   pack_start(notebook, true, true, 0);
 }
 
+
+void
+IconListNotebook::on_page_changed()
+{
+  if(const Gtk::TreeModel::iterator selected
+     = icon_list.get_selection()->get_selected())
+  {
+    Glib::RefPtr<Gtk::Widget> page =  (*selected)[model_columns.page];
+    int page_num = gtk_notebook_page_num(notebook.gobj(), page->gobj());
+    notebook.set_current_page(page_num);
+    
+  }
+}
 
 void
 IconListNotebook::add_page(const char *name, Glib::RefPtr<Gdk::Pixbuf> pixbuf,
@@ -64,4 +81,6 @@ IconListNotebook::add_page(const char *name, Glib::RefPtr<Gdk::Pixbuf> pixbuf,
   Gtk::TreeRow row = *list_store->append();
   row[model_columns.text] = Glib::ustring(name);
   row[model_columns.pixbuf] = pixbuf;
+  Glib::RefPtr<Gtk::Widget> page(&widget);
+  row[model_columns.page] = page;
 }

@@ -43,8 +43,13 @@ protected:
 
 
 private:
+  void update_properties();
+  
   Gtk::CellRendererPixbuf pixbuf_renderer;
   Gtk::CellRendererText text_renderer;
+
+  Glib::Property<Glib::ustring> property_text_;
+  Glib::Property<Glib::RefPtr<Gdk::Pixbuf> > property_pixbuf_;
 };
 
 

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
-"POT-Creation-Date: 2003-03-19 20:57+0100\n"
+"POT-Creation-Date: 2003-03-21 23:28+0100\n"
 "PO-Revision-Date: 2003-03-04 18:50+0100\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Johannes Rohr <j.rohr@comlink.apc.org>\n"
@@ -164,20 +164,20 @@ msgstr "Überspringen"
 msgid "Postpone"
 msgstr "Aufschieben"
 
-#: gui/gtkmm/GUI.cc:423
+#: gui/gtkmm/GUI.cc:422
 msgid "I could not initialize Bonobo"
 msgstr "Konnte Bonobo nicht initialisieren"
 
 #. Mode menu item
-#: gui/gtkmm/Menus.cc:140 gui/gnome/GNOME_WorkraveApplet.xml.in.h:4
+#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:4 gui/gtkmm/Menus.cc:140
 msgid "_Mode"
 msgstr "_Betriebsart"
 
-#: gui/gtkmm/Menus.cc:147 gui/gnome/GNOME_WorkraveApplet.xml.in.h:6
+#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:6 gui/gtkmm/Menus.cc:147
 msgid "_Normal"
 msgstr "_Normal"
 
-#: gui/gtkmm/Menus.cc:154 gui/gnome/GNOME_WorkraveApplet.xml.in.h:15
+#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:15 gui/gtkmm/Menus.cc:154
 msgid "_Suspended"
 msgstr "_Angehalten"
 
@@ -185,7 +185,7 @@ msgstr "_Angehalten"
 msgid "Q_uiet"
 msgstr "St_ill"
 
-#: gui/gtkmm/Menus.cc:175 gui/gnome/GNOME_WorkraveApplet.xml.in.h:5
+#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:5 gui/gtkmm/Menus.cc:175
 msgid "_Network"
 msgstr "N_etzwerk"
 
@@ -193,11 +193,11 @@ msgstr "N_etzwerk"
 msgid "_Connect"
 msgstr "_Verbinden"
 
-#: gui/gtkmm/Menus.cc:184 gui/gnome/GNOME_WorkraveApplet.xml.in.h:3
+#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:3 gui/gtkmm/Menus.cc:184
 msgid "_Disconnect"
 msgstr "_Trennen"
 
-#: gui/gtkmm/Menus.cc:189 gui/gnome/GNOME_WorkraveApplet.xml.in.h:11
+#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:11 gui/gtkmm/Menus.cc:189
 msgid "_Reconnect"
 msgstr "Verbindung _Wiederaufnehmen"
 
@@ -335,80 +335,51 @@ msgstr "Port"
 msgid "Preferences"
 msgstr "Vorlieben"
 
-#: gui/gtkmm/PreferencesDialog.cc:71 gui/gtkmm/TimerPreferencesPanel.cc:173
+#. Notebook
+#: gui/gtkmm/PreferencesDialog.cc:68 gui/gtkmm/TimerPreferencesPanel.cc:173
 msgid "Timers"
 msgstr "Zeitmesser"
 
-#: gui/gtkmm/PreferencesDialog.cc:73
+#: gui/gtkmm/PreferencesDialog.cc:69
 msgid "User interface"
 msgstr "Benutzervorlieben"
 
-#: gui/gtkmm/PreferencesDialog.cc:76
+#: gui/gtkmm/PreferencesDialog.cc:71
 msgid "Applet"
 msgstr "Applet"
 
-#: gui/gtkmm/PreferencesDialog.cc:80
+#: gui/gtkmm/PreferencesDialog.cc:74
 msgid "Network"
 msgstr "Netzwerk"
 
-#: gui/gtkmm/PreferencesDialog.cc:119
+#: gui/gtkmm/PreferencesDialog.cc:113
 msgid "The main window stays always on top of other windows"
 msgstr "Das Hauptfenster bleibt immer über allen anderen Fenstern"
 
-#: gui/gtkmm/PreferencesDialog.cc:128
+#: gui/gtkmm/PreferencesDialog.cc:122
 msgid "No sounds"
 msgstr "Keine Klänge"
 
-#: gui/gtkmm/PreferencesDialog.cc:130
+#: gui/gtkmm/PreferencesDialog.cc:124
 msgid "Play sounds using sound card"
 msgstr "Klänge mittels der Soundkarte abspielen"
 
-#: gui/gtkmm/PreferencesDialog.cc:132
+#: gui/gtkmm/PreferencesDialog.cc:126
 msgid "Play sounds using built-in speaker"
 msgstr "Klänge mit dem PC-Lautsprecher abspielen"
 
-#: gui/gtkmm/PreferencesDialog.cc:148
+#: gui/gtkmm/PreferencesDialog.cc:142
 msgid "Hide main window at start-up"
 msgstr "Hauptfenster beim Start verstecken"
 
 #. Options
-#: gui/gtkmm/PreferencesDialog.cc:155 gui/gtkmm/TimerPreferencesPanel.cc:128
+#: gui/gtkmm/PreferencesDialog.cc:149 gui/gtkmm/TimerPreferencesPanel.cc:128
 msgid "Options"
 msgstr "Optionen"
 
-#: gui/gtkmm/PreferencesDialog.cc:158
+#: gui/gtkmm/PreferencesDialog.cc:152
 msgid "Sound:"
 msgstr "Klang:"
-
-#: gui/gtkmm/PreferencesDialog.cc:163
-msgid "You can configure the user interface related settings from here."
-msgstr ""
-"Sie können hier die Einstellungen der Benutzeroberfläche konfigurieren."
-
-#: gui/gtkmm/PreferencesDialog.cc:176
-msgid ""
-"This dialog allows you to change the settings of the timers.  Each unit\n"
-"of time is broken down into hours, minutes and seconds (also known as\n"
-"the \"hh:mm:ss\" format).  These can all be controlled individually."
-msgstr ""
-"Dieses Dialog ermöglicht es Ihnen, die Einstellungen der Zeitmesser zu\n"
-"ändern. Jede Einheit ist in Stunden, Minuten und Sekunden unterteilt\n"
-"(das sog. \"hh:mm:ss\"-Format) und kann indivuell angepasst werden."
-
-#: gui/gtkmm/PreferencesDialog.cc:204
-msgid "You can configure the applet related settings from here."
-msgstr "Sie können hier die Einstellungen des Applets konfigurieren."
-
-#: gui/gtkmm/PreferencesDialog.cc:223
-msgid ""
-"You can connect several instances of Workrave in a network. All connected\n"
-"instances share the same timer information, meaning you will be reminded\n"
-"of your breaks even if you switch computers."
-msgstr ""
-"Sie können mehrere Instanzen von Workrave in einem Netzwerk\n"
-"miteinander verbinden. Alle verbundenen Instanzen greifen auf\n"
-"dieselben Zeitmessungen zurück. Das heißt, dass Sie auch dann an Ihre\n"
-"Pausen erinnert werden, wenn Sie den Computer wechseln."
 
 #: gui/gtkmm/RestBreakWindow.cc:76
 msgid ""
@@ -653,6 +624,33 @@ msgstr "_Protokoll anzeigen"
 #: gui/gnome/GNOME_WorkraveApplet.xml.in.h:14
 msgid "_Statistics"
 msgstr "_Statistik"
+
+#~ msgid "You can configure the user interface related settings from here."
+#~ msgstr ""
+#~ "Sie können hier die Einstellungen der Benutzeroberfläche konfigurieren."
+
+#~ msgid ""
+#~ "This dialog allows you to change the settings of the timers.  Each unit\n"
+#~ "of time is broken down into hours, minutes and seconds (also known as\n"
+#~ "the \"hh:mm:ss\" format).  These can all be controlled individually."
+#~ msgstr ""
+#~ "Dieses Dialog ermöglicht es Ihnen, die Einstellungen der Zeitmesser zu\n"
+#~ "ändern. Jede Einheit ist in Stunden, Minuten und Sekunden unterteilt\n"
+#~ "(das sog. \"hh:mm:ss\"-Format) und kann indivuell angepasst werden."
+
+#~ msgid "You can configure the applet related settings from here."
+#~ msgstr "Sie können hier die Einstellungen des Applets konfigurieren."
+
+#~ msgid ""
+#~ "You can connect several instances of Workrave in a network. All "
+#~ "connected\n"
+#~ "instances share the same timer information, meaning you will be reminded\n"
+#~ "of your breaks even if you switch computers."
+#~ msgstr ""
+#~ "Sie können mehrere Instanzen von Workrave in einem Netzwerk\n"
+#~ "miteinander verbinden. Alle verbundenen Instanzen greifen auf\n"
+#~ "dieselben Zeitmessungen zurück. Das heißt, dass Sie auch dann an Ihre\n"
+#~ "Pausen erinnert werden, wenn Sie den Computer wechseln."
 
 #, fuzzy
 #~ msgid "Open"

@@ -24,6 +24,7 @@
 #include "preinclude.h"
 #include "GUIControl.hh"
 #include "Hig.hh"
+#include "IconListNotebook.hh"
 
 class TimeEntry;
 
@@ -38,7 +39,7 @@ public:
   int run();
   
 private:
-  Gtk::VBox *create_page(const char *label, const char *image);
+  void add_page(const char *label, const char *image, Gtk::Widget &widget);
   Gtk::Widget *create_gui_page();
   Gtk::Widget *create_timer_page();
 #ifdef HAVE_DISTRIBUTION
@@ -62,6 +63,7 @@ private:
 
   // Mode before focus in.
   GUIControl::OperationMode mode;
+  IconListNotebook notebook;
 };
 
 #endif // PREFERENCESWINDOW_HH

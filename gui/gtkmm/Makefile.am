@@ -64,6 +64,8 @@ libgtkmmgui_a_SOURCES = \
 	GtkmmGUI.cc \
 	GtkUtil.cc \
 	Hig.cc \
+	IconListNotebook.cc \
+	IconListCellRenderer.cc \
 	MainWindow.cc \
 	MicroPauseWindow.cc \
 	PreferencesDialog.cc \

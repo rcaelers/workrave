@@ -713,7 +713,7 @@ Menus::on_preferences_response(int response)
   MainWindow *window = gui->get_main_window();
   if (window != NULL)
     {
-      window->win32_remember_position();
+      window->remember_position();
     }
 #endif
   

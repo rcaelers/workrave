@@ -63,25 +63,19 @@ PreferencesDialog::PreferencesDialog()
 #ifdef HAVE_DISTRIBUTION
   Gtk::Widget *network_page = manage(create_network_page());
 #endif
-  
+
   // Notebook
-  Gtk::Notebook *notebook = manage(new Gtk::Notebook());
-  notebook->set_tab_pos (Gtk::POS_TOP);  
-  notebook->pages().push_back(Gtk::Notebook_Helpers::TabElem
-                              (*timer_page, _("Timers")));
-  notebook->pages().push_back(Gtk::Notebook_Helpers::TabElem
-                              (*gui_page, _("User interface")));
+  add_page(_("Timers"), "time.png", *timer_page);
+  add_page(_("User interface"), "display.png", *gui_page);
 #ifdef HAVE_X
-  notebook->pages().push_back(Gtk::Notebook_Helpers::TabElem
-                              (*applet_page, _("Applet")));
+  add_page(_("Applet"), "applet.png", *applet_page);
 #endif  
 #ifdef HAVE_DISTRIBUTION
-  notebook->pages().push_back(Gtk::Notebook_Helpers::TabElem
-                              (*network_page, _("Network")));
+  add_page(_("Network"), "network.png", *network_page);
 #endif
   
   // Dialog
-  get_vbox()->pack_start(*notebook, false, false, 0);
+  get_vbox()->pack_start(notebook, false, false, 0);
   add_button(Gtk::Stock::CLOSE, Gtk::RESPONSE_CLOSE);
 
   GUIControl *gui_control = GUIControl::get_instance();
@@ -157,26 +151,13 @@ PreferencesDialog::create_gui_page()
   panel->add(*start_in_tray_cb);
   panel->add(_("Sound:"), *sound_button);
 
-  // Page
-  Gtk::VBox *gui_page
-    = create_page
-    (_("You can configure the user interface related settings from here."),
-     "display.png");
-  gui_page->pack_start(*panel, false, false, 0);
-
-  return gui_page;
+  return panel;
 }
 
 Gtk::Widget *
 PreferencesDialog::create_timer_page()
 {
   // Timers page
-  Gtk::VBox *timer_page
-    = create_page
-    (_("This dialog allows you to change the settings of the timers.  Each unit\n"
-     "of time is broken down into hours, minutes and seconds (also known as\n"
-     "the \"hh:mm:ss\" format).  These can all be controlled individually."),
-     "time.png");
   Gtk::Notebook *tnotebook = manage(new Gtk::Notebook());
   tnotebook->set_tab_pos (Gtk::POS_TOP);  
   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
@@ -188,9 +169,7 @@ PreferencesDialog::create_timer_page()
       box->show_all();
       tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*tp, *box));
     }
-  timer_page->pack_start(*tnotebook, false, false, 0);
-
-  return timer_page;
+  return tnotebook;
 }
 
 
@@ -199,16 +178,7 @@ Gtk::Widget *
 PreferencesDialog::create_applet_page()
 {
   // Timers page
-  Gtk::VBox *applet_page
-    = create_page
-    (_("You can configure the applet related settings from here."),
-     "applet.png");
-
-  Gtk::Widget *page = manage(new AppletPreferencePage());
-  
-  applet_page->pack_start(*page, true, true, 0);
-
-  return applet_page;
+  return new AppletPreferencePage();
 }
 #endif
 
@@ -217,36 +187,17 @@ PreferencesDialog::create_applet_page()
 Gtk::Widget *
 PreferencesDialog::create_network_page()
 {
-  // Timers page
-  Gtk::VBox *network_page
-    = create_page
-    (_("You can connect several instances of Workrave in a network. All connected\n"
-       "instances share the same timer information, meaning you will be reminded\n"
-       "of your breaks even if you switch computers."),
-     "network.png");
-
-  Gtk::Widget *page = manage(new NetworkPreferencePage());
-  
-  network_page->pack_start(*page, true, true, 0);
-
-  return network_page;
+  return new NetworkPreferencePage();
 }
 #endif
 
-Gtk::VBox *
-PreferencesDialog::create_page(const char *label, const char *image)
+void
+PreferencesDialog::add_page(const char *label, const char *image,
+                            Gtk::Widget &widget)
 {
-  Gtk::HBox *info_box = manage(new Gtk::HBox(false));
   string icon = Util::complete_directory(image, Util::SEARCH_PATH_IMAGES);
-  Gtk::Image *info_img = manage(new Gtk::Image(icon));
-  Gtk::Label *info_lab = manage(new Gtk::Label(label));
-  info_box->pack_start(*info_img, false, false, 6);
-  info_box->pack_start(*info_lab, false, true, 6);
-
-  Gtk::VBox *page = manage(new Gtk::VBox(false, 6));
-  page->pack_start(*info_box, false, true, 0);
-  page->set_border_width(12);
-  return page;
+  Glib::RefPtr<Gdk::Pixbuf> pixbuf = Gdk::Pixbuf::create_from_file(icon);
+  notebook.add_page(label, pixbuf, widget);
 }
 
 void

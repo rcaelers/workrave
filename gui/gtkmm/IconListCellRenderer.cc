@@ -7,7 +7,9 @@
 
 IconListCellRenderer::IconListCellRenderer()
   : Glib::ObjectBase (typeid(IconListCellRenderer)),
-          Gtk::CellRenderer ()
+          Gtk::CellRenderer (),
+               property_text_      (*this, "text"),
+               property_pixbuf_      (*this, "pixbuf")
 {
 }
 
@@ -16,14 +18,21 @@ IconListCellRenderer::~IconListCellRenderer()
 
 Glib::PropertyProxy<Glib::ustring> IconListCellRenderer::property_text()
 {
-  return text_renderer.property_text();
+  return property_text_.get_proxy();
 }
 
 Glib::PropertyProxy<Glib::RefPtr<Gdk::Pixbuf> > IconListCellRenderer::property_pixbuf()
 {
-  return pixbuf_renderer.property_pixbuf();
+  return property_pixbuf_.get_proxy();
 }
 
+
+void
+IconListCellRenderer::update_properties()
+{
+  text_renderer.property_text() = property_text_;
+  pixbuf_renderer.property_pixbuf() = property_pixbuf_;
+}
 
 
 void
@@ -37,6 +46,7 @@ IconListCellRenderer::get_size_vfunc(Gtk::Widget& widget,
   int text_width;
   int text_height;
 
+  update_properties();
   GdkRectangle *rect = NULL;
   if (cell_area)
     {
@@ -60,7 +70,7 @@ IconListCellRenderer::get_size_vfunc(Gtk::Widget& widget,
   if (width) {
     *width = MAX (*width, text_width);
     *width += SPACE * 2;
-  }  
+  }
 }
 
 
@@ -72,6 +82,7 @@ IconListCellRenderer::render_vfunc(const Glib::RefPtr<Gdk::Window>& window,
                                    const Gdk::Rectangle& expose_area,
                                    Gtk::CellRendererState flags)
 {
+  update_properties();
 #if 1
   GdkRectangle text_area;
   GdkRectangle pixbuf_area;

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-03-19 20:59+0100\n"
+"POT-Creation-Date: 2003-03-21 23:29+0100\n"
 "PO-Revision-Date: 2003-03-04 22:16+0100\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -162,20 +162,20 @@ msgstr "Overslaan"
 msgid "Postpone"
 msgstr "Uitstellen"
 
-#: gui/gtkmm/GUI.cc:423
+#: gui/gtkmm/GUI.cc:422
 msgid "I could not initialize Bonobo"
 msgstr "Bonobo kon niet geïnitialiseerd worden"
 
 #. Mode menu item
-#: gui/gtkmm/Menus.cc:140 gui/gnome/GNOME_WorkraveApplet.xml.in.h:4
+#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:4 gui/gtkmm/Menus.cc:140
 msgid "_Mode"
 msgstr "_Modus"
 
-#: gui/gtkmm/Menus.cc:147 gui/gnome/GNOME_WorkraveApplet.xml.in.h:6
+#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:6 gui/gtkmm/Menus.cc:147
 msgid "_Normal"
 msgstr "_Normaal"
 
-#: gui/gtkmm/Menus.cc:154 gui/gnome/GNOME_WorkraveApplet.xml.in.h:15
+#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:15 gui/gtkmm/Menus.cc:154
 msgid "_Suspended"
 msgstr "_Uitgeschakeld"
 
@@ -183,7 +183,7 @@ msgstr "_Uitgeschakeld"
 msgid "Q_uiet"
 msgstr "_Stil"
 
-#: gui/gtkmm/Menus.cc:175 gui/gnome/GNOME_WorkraveApplet.xml.in.h:5
+#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:5 gui/gtkmm/Menus.cc:175
 msgid "_Network"
 msgstr "_Netwerk"
 
@@ -191,11 +191,11 @@ msgstr "_Netwerk"
 msgid "_Connect"
 msgstr "Maak verbinding"
 
-#: gui/gtkmm/Menus.cc:184 gui/gnome/GNOME_WorkraveApplet.xml.in.h:3
+#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:3 gui/gtkmm/Menus.cc:184
 msgid "_Disconnect"
 msgstr "Verbreek verbinding"
 
-#: gui/gtkmm/Menus.cc:189 gui/gnome/GNOME_WorkraveApplet.xml.in.h:11
+#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:11 gui/gtkmm/Menus.cc:189
 msgid "_Reconnect"
 msgstr "Opnieuw verbinden"
 
@@ -332,81 +332,51 @@ msgstr "Poort"
 msgid "Preferences"
 msgstr "Voorkeuren"
 
-#: gui/gtkmm/PreferencesDialog.cc:71 gui/gtkmm/TimerPreferencesPanel.cc:173
+#. Notebook
+#: gui/gtkmm/PreferencesDialog.cc:68 gui/gtkmm/TimerPreferencesPanel.cc:173
 msgid "Timers"
 msgstr "Klokken"
 
-#: gui/gtkmm/PreferencesDialog.cc:73
+#: gui/gtkmm/PreferencesDialog.cc:69
 msgid "User interface"
 msgstr "Gebruikers interface"
 
-#: gui/gtkmm/PreferencesDialog.cc:76
+#: gui/gtkmm/PreferencesDialog.cc:71
 msgid "Applet"
 msgstr "Applet"
 
-#: gui/gtkmm/PreferencesDialog.cc:80
+#: gui/gtkmm/PreferencesDialog.cc:74
 msgid "Network"
 msgstr "Netwerk"
 
-#: gui/gtkmm/PreferencesDialog.cc:119
+#: gui/gtkmm/PreferencesDialog.cc:113
 msgid "The main window stays always on top of other windows"
 msgstr "Het hoofdvenster blijft boven alle andere vensters"
 
-#: gui/gtkmm/PreferencesDialog.cc:128
+#: gui/gtkmm/PreferencesDialog.cc:122
 msgid "No sounds"
 msgstr "Geen geluid"
 
-#: gui/gtkmm/PreferencesDialog.cc:130
+#: gui/gtkmm/PreferencesDialog.cc:124
 msgid "Play sounds using sound card"
 msgstr "Speel geluiden met behulp van de geluidskaart"
 
-#: gui/gtkmm/PreferencesDialog.cc:132
+#: gui/gtkmm/PreferencesDialog.cc:126
 msgid "Play sounds using built-in speaker"
 msgstr "Speel geluiden met behulp van de ingebouwde speaker"
 
-#: gui/gtkmm/PreferencesDialog.cc:148
+#: gui/gtkmm/PreferencesDialog.cc:142
 msgid "Hide main window at start-up"
 msgstr "Verberg het hoofdvenster tijdens het opstarten"
 
 #. Options
-#: gui/gtkmm/PreferencesDialog.cc:155 gui/gtkmm/TimerPreferencesPanel.cc:128
+#: gui/gtkmm/PreferencesDialog.cc:149 gui/gtkmm/TimerPreferencesPanel.cc:128
 msgid "Options"
 msgstr "Opties"
 
-#: gui/gtkmm/PreferencesDialog.cc:158
+#: gui/gtkmm/PreferencesDialog.cc:152
 msgid "Sound:"
 msgstr "Geluid:"
-
-#: gui/gtkmm/PreferencesDialog.cc:163
-msgid "You can configure the user interface related settings from here."
-msgstr ""
-"In dit scherm kun je instellingen die betrekking hebben tot het\n"
-"gebruikers interface wijzigen."
-
-#: gui/gtkmm/PreferencesDialog.cc:176
-msgid ""
-"This dialog allows you to change the settings of the timers.  Each unit\n"
-"of time is broken down into hours, minutes and seconds (also known as\n"
-"the \"hh:mm:ss\" format).  These can all be controlled individually."
-msgstr ""
-"In dit scherm kun je de instellingen van de klokken wijzigen. De tijd\n"
-"wordt gespecificeerd in uren, minuten en seconden (ook wel bekend\n"
-"als het \"uu:mm:ss\" formaat). Deze kunnen afzonderlijk aangepast worden."
-
-#: gui/gtkmm/PreferencesDialog.cc:204
-msgid "You can configure the applet related settings from here."
-msgstr ""
-"In dit scherm kun je instellingen die betrekking hebben tot de\n"
-"applet wijzigen."
-
-#: gui/gtkmm/PreferencesDialog.cc:223
-msgid ""
-"You can connect several instances of Workrave in a network. All connected\n"
-"instances share the same timer information, meaning you will be reminded\n"
-"of your breaks even if you switch computers."
-msgstr ""
-"Het is mogelijk om meerdere instanties van het programma in een\n"
-"netwerk met elkaar te verbinden en de pauze informatie te delen."
 
 #: gui/gtkmm/RestBreakWindow.cc:76
 msgid ""
@@ -654,6 +624,34 @@ msgstr "Toon _logboek"
 #: gui/gnome/GNOME_WorkraveApplet.xml.in.h:14
 msgid "_Statistics"
 msgstr "Statistieken"
+
+#~ msgid "You can configure the user interface related settings from here."
+#~ msgstr ""
+#~ "In dit scherm kun je instellingen die betrekking hebben tot het\n"
+#~ "gebruikers interface wijzigen."
+
+#~ msgid ""
+#~ "This dialog allows you to change the settings of the timers.  Each unit\n"
+#~ "of time is broken down into hours, minutes and seconds (also known as\n"
+#~ "the \"hh:mm:ss\" format).  These can all be controlled individually."
+#~ msgstr ""
+#~ "In dit scherm kun je de instellingen van de klokken wijzigen. De tijd\n"
+#~ "wordt gespecificeerd in uren, minuten en seconden (ook wel bekend\n"
+#~ "als het \"uu:mm:ss\" formaat). Deze kunnen afzonderlijk aangepast worden."
+
+#~ msgid "You can configure the applet related settings from here."
+#~ msgstr ""
+#~ "In dit scherm kun je instellingen die betrekking hebben tot de\n"
+#~ "applet wijzigen."
+
+#~ msgid ""
+#~ "You can connect several instances of Workrave in a network. All "
+#~ "connected\n"
+#~ "instances share the same timer information, meaning you will be reminded\n"
+#~ "of your breaks even if you switch computers."
+#~ msgstr ""
+#~ "Het is mogelijk om meerdere instanties van het programma in een\n"
+#~ "netwerk met elkaar te verbinden en de pauze informatie te delen."
 
 #, fuzzy
 #~ msgid "Open"

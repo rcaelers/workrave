@@ -28,6 +28,8 @@ public:
   void add_page(const char *name, Glib::RefPtr<Gdk::Pixbuf>, Gtk::Widget &widget);
 
 private:
+  void on_page_changed();
+  
   struct ModelColumns : public Gtk::TreeModel::ColumnRecord
   {
     Gtk::TreeModelColumn<Glib::ustring> text;
