@@ -97,6 +97,10 @@ if HAVE_KDE
 sourceskde = 		kde_applet/kworkraveapplet_stub.cpp KdeAppletWindow.cc
 endif
 
+if HAVE_WIN32
+win32cflags		= -D_WIN32_IE=0x0500
+endif
+
 workrave_SOURCES = \
 			$(sourcesidl) \
 			BreakWindow.cc \
@@ -154,7 +158,8 @@ workrave_CFLAGS	= 	-DWORKRAVE_DATADIR="\"${pkgdatadir}\"" \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
 			-I${STATISTICS_HOME}/gtkmm/src \
 			-I${EXERCISES_HOME}/gtkmm/src \
-			-I${EXERCISES_HOME}/common/src 
+			-I${EXERCISES_HOME}/common/src \
+			$(win32cflags)
 
 endif
 

@@ -23,9 +23,9 @@ static const char rcsid[] = "$Id$";
 #endif
 
 #ifdef WIN32
-#ifndef _WIN32_IE
-#define _WIN32_IE 0x0500
-#endif
+#include <gdk/gdkwin32.h>
+#include <shellapi.h>
+#include <pbt.h>
 #endif
 
 #include "nls.h"
@@ -63,13 +63,6 @@ static const char rcsid[] = "$Id$";
 #include "NetworkLogDialog.hh"
 #endif
 
-#ifdef WIN32
-#ifdef _WIN32_IE
-#define _WIN32_IE 0x0500
-#endif
-#include <gdk/gdkwin32.h>
-#include <pbt.h>
-#endif
 
 #include "Menus.hh"
 
@@ -93,6 +86,8 @@ const string MainWindow::CFG_KEY_MAIN_WINDOW_Y
 = "gui/main_window/y";
 const string MainWindow::CFG_KEY_MAIN_WINDOW_HEAD
 = "gui/main_window/head";
+
+
 
 //! Constructor.
 /*!
@@ -681,19 +676,17 @@ MainWindow::win32_add_tray_icon()
   win32_tray_icon.cbSize = sizeof(NOTIFYICONDATA);
   win32_tray_icon.hWnd = win32_main_hwnd;
   win32_tray_icon.uID = 1;
-  win32_tray_icon.uFlags = NIF_ICON|NIF_TIP|NIF_MESSAGE|0x00000010; // NIF_INFO;
+  win32_tray_icon.uFlags = NIF_ICON|NIF_TIP|NIF_MESSAGE; //|0x00000010; // NIF_INFO;
   win32_tray_icon.uCallbackMessage = MYWM_TRAY_MESSAGE;
   win32_tray_icon.hIcon = normal_icon;
   strcpy(win32_tray_icon.szTip, "Workrave");
 
-#if 1 // Requires new Mingw runtime...
-  win32_tray_icon.dwInfoFlags = 0; // NIIF_NONE;
-  win32_tray_icon.uTimeout = 5 * 1000;
+  // Balloon: not used.
+  //win32_tray_icon.dwInfoFlags = 0; // NIIF_NONE;
+  //win32_tray_icon.uTimeout = 0; // 5 * 1000;
+  //strcpy(win32_tray_icon.szInfoTitle, "Workrave");
+  //strncpy(win32_tray_icon.szInfo, "Workrave", 255);
 
-  strcpy(win32_tray_icon.szInfoTitle, "Workrave");
-  strncpy(win32_tray_icon.szInfo, "Workrave", 255);
-#endif
-  
   Shell_NotifyIcon(NIM_ADD, &win32_tray_icon);
   DestroyIcon(win32_tray_icon.hIcon);
 }
@@ -701,10 +694,8 @@ MainWindow::win32_add_tray_icon()
 void
 MainWindow::win32_set_tray_tooltip(string tip)
 {
-#if 1 // Requires new Mingw runtime...
-  strcpy(win32_tray_icon.szInfo, tip.c_str());
+  strncpy(win32_tray_icon.szTip, tip.c_str(), 127);
   Shell_NotifyIcon(NIM_MODIFY, &win32_tray_icon);
-#endif  
 }
 
 
