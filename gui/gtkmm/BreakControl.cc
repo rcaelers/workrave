@@ -290,14 +290,7 @@ BreakControl::start_break()
   ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
   TRACE_MSG("prelude count = " << prelude_count << " " << number_of_preludes);
 
-  if (!force_after_prelude)
-    {
-      final_prelude = number_of_preludes >= 0 && prelude_count >= number_of_preludes - 1;
-    }
-  else
-    {
-      final_prelude = number_of_preludes >= 0 && prelude_count >= number_of_preludes;
-    }
+  final_prelude = number_of_preludes >= 0 && prelude_count + 1 >= number_of_preludes;
 
   TRACE_MSG("final_prelude = " << final_prelude);
   

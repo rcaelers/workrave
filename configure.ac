@@ -354,6 +354,7 @@ then
     	if test x$2 = xfailure; then
     		AC_MSG_ERROR(Could not find gdome-config)
     	fi
+        AC_MSG_ERROR(Need GDome2)
     fi
     GDOME_CFLAGS=`$GDOME_CONFIG --cflags`
     AC_CHECK_LIB(gdome, gdome_el_nodeType, [
