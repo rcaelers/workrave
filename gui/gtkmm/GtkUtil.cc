@@ -47,7 +47,7 @@ GtkUtil::create_label_for_break(GUIControl::BreakId id)
 {
   GUIControl *guic = GUIControl::get_instance();
   GUIControl::TimerData *timer = guic->get_timer_data(id);
-#if 1
+#if 0
   timer = &(guic->timers[(int)id]);
 #endif  
   Gtk::Widget *label = 

@@ -22,6 +22,7 @@
 #include <stdio.h>
 
 #include "preinclude.h"
+#include "GUIControl.hh"
 
 class TimeEntry;
 
@@ -45,6 +46,8 @@ private:
 #ifdef HAVE_X
   Gtk::Widget *create_applet_page();
 #endif
+  bool on_focus_in_event(GdkEventFocus *event);
+  bool on_focus_out_event(GdkEventFocus *event);  
   
   void on_always_on_top_toggled();
   void on_sound_changed();
@@ -55,6 +58,9 @@ private:
   void on_start_in_tray_toggled();
 
   Gtk::CheckButton *start_in_tray_cb;
+
+  // Mode before focus in.
+  GUIControl::OperationMode mode;
 };
 
 #endif // PREFERENCESWINDOW_HH

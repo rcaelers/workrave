@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-02-17 20:55+0100\n"
+"POT-Creation-Date: 2003-02-20 19:17+0100\n"
 "PO-Revision-Date: 2003-02-20 18:41+0100\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -25,9 +25,7 @@ msgstr "Pauze over"
 msgid "Silent in"
 msgstr "Stil over"
 
-#. Labels
-#: gui/GUIControl.cc:84 gui/gtkmm/AppletPreferencePage.cc:64
-#: gui/gtkmm/MicroPauseWindow.cc:163 gui/gtkmm/StatisticsDialog.cc:213
+#: gui/GUIControl.cc:84 gui/gtkmm/MicroPauseWindow.cc:163
 msgid "Micro-pause"
 msgstr "Micro-pauze"
 
@@ -35,8 +33,7 @@ msgstr "Micro-pauze"
 msgid "Rest break"
 msgstr "Rustpauze"
 
-#: gui/GUIControl.cc:98 gui/gtkmm/AppletPreferencePage.cc:66
-#: gui/gtkmm/StatisticsDialog.cc:215
+#: gui/GUIControl.cc:98
 msgid "Daily limit"
 msgstr "Dagelijkse limiet"
 
@@ -98,78 +95,81 @@ msgstr "Over %s"
 msgid "Layout"
 msgstr "Layout"
 
-#: gui/gtkmm/AppletPreferencePage.cc:65 gui/gtkmm/StatisticsDialog.cc:214
-msgid "Restbreak"
-msgstr "Rustpauze"
-
-#: gui/gtkmm/AppletPreferencePage.cc:67
-msgid "Break visible"
+#: gui/gtkmm/AppletPreferencePage.cc:70
+#, fuzzy
+msgid "Break visible:"
 msgstr "Pauze zichtbaar"
 
-#: gui/gtkmm/AppletPreferencePage.cc:68
-msgid "Cycle time"
+#: gui/gtkmm/AppletPreferencePage.cc:72
+#, fuzzy
+msgid "Cycle time:"
 msgstr "Tijd tussen pauzewissel"
 
-#: gui/gtkmm/AppletPreferencePage.cc:69
-msgid "Break position"
+#: gui/gtkmm/AppletPreferencePage.cc:74
+#, fuzzy
+msgid "Break position:"
 msgstr "Positie van de pauze"
 
-#: gui/gtkmm/AppletPreferencePage.cc:70
-msgid "Show only when first"
+#: gui/gtkmm/AppletPreferencePage.cc:76
+#, fuzzy
+msgid "Show only when first:"
 msgstr "Toon alleen als eerste pauze"
 
-#: gui/gtkmm/AppletPreferencePage.cc:71
-msgid "Show only when imminent in"
+#: gui/gtkmm/AppletPreferencePage.cc:78
+#, fuzzy
+msgid "Show only when imminent in:"
 msgstr "Toon alleen als pauze begint binnen"
 
-#: gui/gtkmm/AppletPreferencePage.cc:72
-msgid "Show exclusively"
+#: gui/gtkmm/AppletPreferencePage.cc:80
+#, fuzzy
+msgid "Show exclusively:"
 msgstr "Toon pauze exclusief"
 
-#: gui/gtkmm/AppletPreferencePage.cc:73
-msgid "Default break"
+#: gui/gtkmm/AppletPreferencePage.cc:82
+#, fuzzy
+msgid "Default break:"
 msgstr "Standaard pauze"
 
-#: gui/gtkmm/AppletPreferencePage.cc:96
+#: gui/gtkmm/AppletPreferencePage.cc:106
 msgid "Applet enabled or not."
 msgstr "Applet actief"
 
-#: gui/gtkmm/AppletPreferencePage.cc:97
+#: gui/gtkmm/AppletPreferencePage.cc:107
 msgid ""
 "When multiple breaks are shown on a certain position, this value indicates "
 "the time each break is shown."
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:147
+#: gui/gtkmm/AppletPreferencePage.cc:157
 msgid "If set, this break will be shown in the applet."
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:149
+#: gui/gtkmm/AppletPreferencePage.cc:159
 msgid ""
 "Position on which the break timer is shown. Three positions are available. "
 "In case multiple breaks have the same position, they will be shown "
 "alternatingly."
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:153
+#: gui/gtkmm/AppletPreferencePage.cc:163
 msgid ""
 "If set, this break will be shown if no other breaks are shown on the "
 "selected position"
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:156
+#: gui/gtkmm/AppletPreferencePage.cc:166
 msgid ""
 "If set, the break timer will always be the only break that will be shown on "
 "that position. It will not be shown alternatingly with another break."
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:160
+#: gui/gtkmm/AppletPreferencePage.cc:170
 msgid ""
 "If set, the break timer will only be shown if it is the first break that "
 "will reach its limit."
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:163 gui/gtkmm/AppletPreferencePage.cc:166
+#: gui/gtkmm/AppletPreferencePage.cc:173 gui/gtkmm/AppletPreferencePage.cc:176
 msgid ""
 "If set, the break timer will only be shown if it will reach its limit within "
 "the specified time."
@@ -200,55 +200,55 @@ msgid "I could not initialize Bonobo"
 msgstr ""
 
 #. Mode menu item
-#: gui/gtkmm/Menus.cc:139 gui/gnome/GNOME_WorkraveApplet.xml.in.h:4
+#: gui/gtkmm/Menus.cc:140 gui/gnome/GNOME_WorkraveApplet.xml.in.h:4
 msgid "_Mode"
 msgstr "_Modus"
 
-#: gui/gtkmm/Menus.cc:146 gui/gnome/GNOME_WorkraveApplet.xml.in.h:6
+#: gui/gtkmm/Menus.cc:147 gui/gnome/GNOME_WorkraveApplet.xml.in.h:6
 msgid "_Normal"
 msgstr "_Normaal"
 
-#: gui/gtkmm/Menus.cc:153 gui/gnome/GNOME_WorkraveApplet.xml.in.h:15
+#: gui/gtkmm/Menus.cc:154 gui/gnome/GNOME_WorkraveApplet.xml.in.h:15
 msgid "_Suspended"
 msgstr "_Uitgeschakeld"
 
-#: gui/gtkmm/Menus.cc:160
+#: gui/gtkmm/Menus.cc:161
 msgid "Q_uiet"
 msgstr "_Stil"
 
-#: gui/gtkmm/Menus.cc:174 gui/gnome/GNOME_WorkraveApplet.xml.in.h:5
+#: gui/gtkmm/Menus.cc:175 gui/gnome/GNOME_WorkraveApplet.xml.in.h:5
 msgid "_Network"
 msgstr "_Netwerk"
 
-#: gui/gtkmm/Menus.cc:178
+#: gui/gtkmm/Menus.cc:179
 msgid "_Connect"
 msgstr "Maak verbinding"
 
-#: gui/gtkmm/Menus.cc:183 gui/gnome/GNOME_WorkraveApplet.xml.in.h:3
+#: gui/gtkmm/Menus.cc:184 gui/gnome/GNOME_WorkraveApplet.xml.in.h:3
 msgid "_Disconnect"
 msgstr "Verbreek verbinding"
 
-#: gui/gtkmm/Menus.cc:188 gui/gnome/GNOME_WorkraveApplet.xml.in.h:11
+#: gui/gtkmm/Menus.cc:189 gui/gnome/GNOME_WorkraveApplet.xml.in.h:11
 msgid "_Reconnect"
 msgstr "Opnieuw verbinden"
 
-#: gui/gtkmm/Menus.cc:193
+#: gui/gtkmm/Menus.cc:194
 msgid "Show _log"
 msgstr "Toon _logboek"
 
-#: gui/gtkmm/Menus.cc:207
+#: gui/gtkmm/Menus.cc:208
 msgid "_Rest break"
 msgstr "Rustpauze"
 
-#: gui/gtkmm/Menus.cc:218 gui/gtkmm/StatisticsDialog.cc:49
+#: gui/gtkmm/Menus.cc:219 gui/gtkmm/StatisticsDialog.cc:50
 msgid "Statistics"
 msgstr "Statistieken"
 
-#: gui/gtkmm/Menus.cc:232
+#: gui/gtkmm/Menus.cc:233
 msgid "About..."
 msgstr "Info..."
 
-#: gui/gtkmm/Menus.cc:528
+#: gui/gtkmm/Menus.cc:543
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -318,11 +318,13 @@ msgid "Identity"
 msgstr "Identiteit"
 
 #: gui/gtkmm/NetworkPreferencePage.cc:87
-msgid "Username"
+#, fuzzy
+msgid "Username:"
 msgstr "Gebruikersnaam"
 
 #: gui/gtkmm/NetworkPreferencePage.cc:88
-msgid "Password"
+#, fuzzy
+msgid "Password:"
 msgstr "Wachtwoord"
 
 #: gui/gtkmm/NetworkPreferencePage.cc:123
@@ -359,49 +361,49 @@ msgstr ""
 "of poort nummer om deze te bewerken."
 
 #. Timers frame
-#: gui/gtkmm/PreferencesDialog.cc:69 gui/gtkmm/TimerPreferencesPanel.cc:238
+#: gui/gtkmm/PreferencesDialog.cc:70 gui/gtkmm/TimerPreferencesPanel.cc:241
 msgid "Timers"
 msgstr "Klokken"
 
-#: gui/gtkmm/PreferencesDialog.cc:71
+#: gui/gtkmm/PreferencesDialog.cc:72
 msgid "User interface"
 msgstr "Gebruikers interface"
 
-#: gui/gtkmm/PreferencesDialog.cc:74
+#: gui/gtkmm/PreferencesDialog.cc:75
 msgid "Applet"
 msgstr ""
 
-#: gui/gtkmm/PreferencesDialog.cc:78
+#: gui/gtkmm/PreferencesDialog.cc:79
 msgid "Network"
 msgstr "Netwerk"
 
-#: gui/gtkmm/PreferencesDialog.cc:107
+#: gui/gtkmm/PreferencesDialog.cc:108
 msgid "The main window stays always on top of other windows"
 msgstr "Het hoofdvenster blijft boven alle andere vensters"
 
-#: gui/gtkmm/PreferencesDialog.cc:116
+#: gui/gtkmm/PreferencesDialog.cc:117
 msgid "No sounds"
 msgstr "Geen geluid"
 
-#: gui/gtkmm/PreferencesDialog.cc:118
+#: gui/gtkmm/PreferencesDialog.cc:119
 msgid "Play sounds using sound card"
 msgstr "Speel geluiden met behulp van de geluidskaart"
 
-#: gui/gtkmm/PreferencesDialog.cc:120
+#: gui/gtkmm/PreferencesDialog.cc:121
 msgid "Play sounds using built-in speaker"
 msgstr "Speel geluiden met behulp van de ingebouwde speaker"
 
-#: gui/gtkmm/PreferencesDialog.cc:136
+#: gui/gtkmm/PreferencesDialog.cc:137
 msgid "Hide main window at start-up"
 msgstr "Verberg het hoofdvenster tijdens het opstarten"
 
-#: gui/gtkmm/PreferencesDialog.cc:152
+#: gui/gtkmm/PreferencesDialog.cc:153
 msgid "You can configure the user interface related settings from here."
 msgstr ""
 "In dit scherm kun je instellingen die betrekking hebben tot het\n"
 "gebruikers interface wijzigen."
 
-#: gui/gtkmm/PreferencesDialog.cc:167
+#: gui/gtkmm/PreferencesDialog.cc:168
 msgid ""
 "This dialog allows you to change the settings of the timers.  Each unit\n"
 "of time is broken down into hours, minutes and seconds (also known as\n"
@@ -411,13 +413,13 @@ msgstr ""
 "wordt gespecificeerd in uren, minuten en seconden (ook wel bekend\n"
 "als het \"uu:mm:ss\" formaat). Deze kunnen afzonderlijk aangepast worden."
 
-#: gui/gtkmm/PreferencesDialog.cc:201
+#: gui/gtkmm/PreferencesDialog.cc:196
 msgid "You can configure the applet related settings from here."
 msgstr ""
 "In dit scherm kun je instellingen die betrekking hebben tot de\n"
 "applet wijzigen."
 
-#: gui/gtkmm/PreferencesDialog.cc:220
+#: gui/gtkmm/PreferencesDialog.cc:215
 msgid ""
 "You can connect several instances of Workrave in a network. All connected\n"
 "instances share the same timer information, meaning you will be reminded\n"
@@ -441,127 +443,131 @@ msgstr ""
 msgid "Rest break for %s"
 msgstr "Rustpauze gedurende %s"
 
-#: gui/gtkmm/StatisticsDialog.cc:138
+#: gui/gtkmm/StatisticsDialog.cc:124
+msgid "History:"
+msgstr ""
+
+#: gui/gtkmm/StatisticsDialog.cc:170
 msgid "<b>Start time:</b>"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:140
+#: gui/gtkmm/StatisticsDialog.cc:172
 msgid "<b>End time:</b>"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:174
+#: gui/gtkmm/StatisticsDialog.cc:206
 msgid "Breaks"
 msgstr "Pauzes"
 
-#: gui/gtkmm/StatisticsDialog.cc:182
+#: gui/gtkmm/StatisticsDialog.cc:214
 msgid "Total breaks"
 msgstr "Aantal pauzes"
 
-#: gui/gtkmm/StatisticsDialog.cc:183
+#: gui/gtkmm/StatisticsDialog.cc:215
 msgid ""
 "Total number of unique breaks prompted. This equals the number of times the "
 "timer reached zero."
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:186
+#: gui/gtkmm/StatisticsDialog.cc:218
 msgid "Prompted"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:187
+#: gui/gtkmm/StatisticsDialog.cc:219
 msgid "Number of times workrave prompted you to take a break"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:189
+#: gui/gtkmm/StatisticsDialog.cc:221
 msgid "Breaks taken"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:190
+#: gui/gtkmm/StatisticsDialog.cc:222
 msgid "Number of times you took a break when prompted"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:192
+#: gui/gtkmm/StatisticsDialog.cc:224
 msgid "Natural breaks taken"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:193
+#: gui/gtkmm/StatisticsDialog.cc:225
 msgid "Number of times you took a break without being prompted"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:195
+#: gui/gtkmm/StatisticsDialog.cc:227
 msgid "Breaks skipped"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:196
+#: gui/gtkmm/StatisticsDialog.cc:228
 msgid "Number of times you skipped a break"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:198
+#: gui/gtkmm/StatisticsDialog.cc:230
 msgid "Breaks postponed"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:199
+#: gui/gtkmm/StatisticsDialog.cc:231
 msgid "Number of times you postponed a break"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:201
+#: gui/gtkmm/StatisticsDialog.cc:233
 msgid "Total overdue time"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:202
+#: gui/gtkmm/StatisticsDialog.cc:234
 msgid "The total time this break was overdue"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:204
+#: gui/gtkmm/StatisticsDialog.cc:236
 msgid "Daily usage"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:205
+#: gui/gtkmm/StatisticsDialog.cc:237
 msgid "Total computer usage"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:266
+#: gui/gtkmm/StatisticsDialog.cc:300
 msgid "Activity"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:274
+#: gui/gtkmm/StatisticsDialog.cc:308
 msgid "Total mouse time:"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:275
+#: gui/gtkmm/StatisticsDialog.cc:309
 msgid "Total time you were using the mouse."
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:276
+#: gui/gtkmm/StatisticsDialog.cc:310
 msgid "Total mouse movement:"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:277
+#: gui/gtkmm/StatisticsDialog.cc:311
 msgid "Total mouse movement in number of pixels."
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:278
+#: gui/gtkmm/StatisticsDialog.cc:312
 msgid "Total click-to-click movement:"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:279
+#: gui/gtkmm/StatisticsDialog.cc:313
 msgid ""
 "Total mouse movement you would have had if you moved your mouse in straight "
 "lines between clicks."
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:281
+#: gui/gtkmm/StatisticsDialog.cc:315
 msgid "Total mouse button clicks:"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:282
+#: gui/gtkmm/StatisticsDialog.cc:316
 msgid "Total number of mouse button clicks."
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:283
+#: gui/gtkmm/StatisticsDialog.cc:317
 msgid "Total keystrokes:"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:284
+#: gui/gtkmm/StatisticsDialog.cc:318
 msgid "Total number of keys pressed."
 msgstr ""
 
@@ -600,20 +606,24 @@ msgid "Options"
 msgstr "Opties"
 
 #: gui/gtkmm/TimerPreferencesPanel.cc:188
-msgid "Post-pone time"
+#, fuzzy
+msgid "Post-pone time:"
 msgstr "Uitstel tijd"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:199
-msgid "Resets at"
+#: gui/gtkmm/TimerPreferencesPanel.cc:200
+#, fuzzy
+msgid "Resets at:"
 msgstr "Herstart om"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:206
-msgid "Pause duration"
+#: gui/gtkmm/TimerPreferencesPanel.cc:207
+#, fuzzy
+msgid "Pause duration:"
 msgstr "Pauze tijdsduur"
 
 #. Limit time
-#: gui/gtkmm/TimerPreferencesPanel.cc:217
-msgid "Time before break"
+#: gui/gtkmm/TimerPreferencesPanel.cc:219
+#, fuzzy
+msgid "Time before break:"
 msgstr "Werktijd"
 
 #: gui/gtkmm/TimerWindow.cc:111 gui/gtkmm/TimerWindow.cc:178
@@ -667,6 +677,9 @@ msgstr "Toon _logboek"
 #: gui/gnome/GNOME_WorkraveApplet.xml.in.h:14
 msgid "_Statistics"
 msgstr "Statistieken"
+
+#~ msgid "Restbreak"
+#~ msgstr "Rustpauze"
 
 #, fuzzy
 #~ msgid "Skipped"

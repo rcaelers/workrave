@@ -75,6 +75,7 @@ Menus::Menus() :
   network_log_dialog(NULL),
 #endif
   statistics_dialog(NULL),
+  preferences_dialog(NULL),
   main_window(NULL)
 {
   gui = GUI::get_instance();
@@ -463,36 +464,50 @@ Menus::on_test_me()
 
 
 //! Preferences Dialog.
-void
-Menus::on_menu_preferences()
-{
-  TRACE_ENTER("Menus::on_menu_preferences");
-  GUIControl::OperationMode mode;
-  GUIControl *gui_control = GUIControl::get_instance();
-  mode = gui_control->set_operation_mode(GUIControl::OPERATION_MODE_QUIET);
+// void
+// Menus::on_menu_preferences()
+// {
+//   TRACE_ENTER("Menus::on_menu_preferences");
+//   GUIControl::OperationMode mode;
+//   GUIControl *gui_control = GUIControl::get_instance();
+//   mode = gui_control->set_operation_mode(GUIControl::OPERATION_MODE_QUIET);
 
-  PreferencesDialog *dialog = new PreferencesDialog();
-  dialog->run();
-  delete dialog;
+//   PreferencesDialog *dialog = new PreferencesDialog();
+//   dialog->run();
+//   delete dialog;
 
-#ifdef WIN32
-  // FIXME: bug 130:
-  // due to current Gtk+ behaviour of exit()'ing on WM_QUIT, we cannot
-  // store main window position on shutdown (bug 130).
-  // Therefore, this hack.
+// #ifdef WIN32
+//   // FIXME: bug 130:
+//   // due to current Gtk+ behaviour of exit()'ing on WM_QUIT, we cannot
+//   // store main window position on shutdown (bug 130).
+//   // Therefore, this hack.
 
-  MainWindow *window = gui->get_main_window();
-  if (window != NULL)
-    {
-      window->win32_remember_position();
-    }
-#endif
-  gui_control->set_operation_mode(mode);
-  TRACE_EXIT();
-}
+//   MainWindow *window = gui->get_main_window();
+//   if (window != NULL)
+//     {
+//       window->win32_remember_position();
+//     }
+// #endif
+//   gui_control->set_operation_mode(mode);
+//   TRACE_EXIT();
+// }
 
 
 //! Preferences Dialog.
+void
+Menus::on_menu_preferences()
+{
+  if (preferences_dialog == NULL)
+    {
+      preferences_dialog = new PreferencesDialog();
+      preferences_dialog->signal_response().connect(SigC::slot(*this, &Menus::on_preferences_response));
+          
+      preferences_dialog->run();
+    }
+}
+
+
+//! Statistics Dialog.
 void
 Menus::on_menu_statistics()
 {
@@ -664,4 +679,32 @@ Menus::on_statistics_response(int response)
 
   // done by gtkmm ??? delete statistics_dialog;
   statistics_dialog = NULL;
+}
+
+
+void
+Menus::on_preferences_response(int response)
+{
+  (void) response;
+  
+  assert(preferences_dialog != NULL);
+  preferences_dialog->hide_all();
+
+  GUIControl::get_instance()->get_configurator()->save();
+
+  preferences_dialog = NULL;
+
+#ifdef WIN32
+  // FIXME: bug 130:
+  // due to current Gtk+ behaviour of exit()'ing on WM_QUIT, we cannot
+  // store main window position on shutdown (bug 130).
+  // Therefore, this hack.
+
+  MainWindow *window = gui->get_main_window();
+  if (window != NULL)
+    {
+      window->win32_remember_position();
+    }
+#endif
+  
 }

@@ -49,7 +49,7 @@
 
 
 PreferencesDialog::PreferencesDialog()
-  : Gtk::Dialog("Preferences", true, false)
+  : Gtk::Dialog("Preferences", false, false)
 {
   TRACE_ENTER("PreferencesDialog::PreferencesDialog");
 
@@ -271,8 +271,31 @@ PreferencesDialog::on_start_in_tray_toggled()
 int
 PreferencesDialog::run()
 {
-  int id = Gtk::Dialog::run();
-  GUIControl::get_instance()->get_configurator()->save();
+//   int id = Gtk::Dialog::run();
+//   GUIControl::get_instance()->get_configurator()->save();
 
-  return id;
+  show_all();
+  return 0;
+}
+
+
+bool
+PreferencesDialog::on_focus_in_event(GdkEventFocus *event)
+{ 
+  TRACE_ENTER("PreferencesDialog::focus_in");
+
+  GUIControl *gui_control = GUIControl::get_instance();
+  mode = gui_control->set_operation_mode(GUIControl::OPERATION_MODE_QUIET);
+
+  TRACE_EXIT();
+}
+
+
+bool
+PreferencesDialog::on_focus_out_event(GdkEventFocus *event)
+{ 
+  TRACE_ENTER("PreferencesDialog::focus_out");
+  GUIControl *gui_control = GUIControl::get_instance();
+  gui_control->set_operation_mode(mode);
+  TRACE_EXIT();
 }
