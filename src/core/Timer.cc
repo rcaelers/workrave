@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-06-10 20:00:23 robc>
+// Time-stamp: <2003-07-01 19:14:58 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -303,6 +303,8 @@ Timer::compute_next_reset_time()
 void
 Timer::compute_next_predicate_reset_time()
 {
+  TRACE_ENTER_MSG("Timer::compute_next_predicate_reset_time", timer_id);
+  
   if (timer_enabled && autoreset_interval_predicate)
     {
       if (last_pred_reset_time == 0)
@@ -313,6 +315,9 @@ Timer::compute_next_predicate_reset_time()
       autoreset_interval_predicate->set_last(last_pred_reset_time);
       next_pred_reset_time = autoreset_interval_predicate->get_next();
     }
+  TRACE_MSG(timer_enabled << " " << autoreset_interval_predicate << " " << next_pred_reset_time);
+            
+  TRACE_EXIT();
 }
 
 //! Daily Reset.
@@ -327,6 +332,7 @@ Timer::daily_reset_timer()
 void
 Timer::reset_timer()
 {
+  TRACE_ENTER("Timer::reset_timer");
   // Update total overdue.
   time_t elapsed = get_elapsed_time();
   if (elapsed > limit_interval)
@@ -368,6 +374,7 @@ Timer::reset_timer()
       
   next_pred_reset_time = 0;
   compute_next_predicate_reset_time();
+  TRACE_EXIT();
 }
 
 
@@ -774,8 +781,11 @@ Timer::deserialize_state(std::string state)
   bool tooOld = ((autoreset_enabled && autoreset_interval != 0) && (now - saveTime >  autoreset_interval));
 
   if (! tooOld)
-    {  
-      next_reset_time = now + autoreset_interval;
+    {
+      if (autoreset_enabled)
+        {
+          next_reset_time = now + autoreset_interval;
+        }
       elapsed_time = elapsed;
       snooze_inhibited = si;
     }
@@ -791,6 +801,7 @@ Timer::deserialize_state(std::string state)
 
   compute_next_predicate_reset_time();
 
+  TRACE_MSG("elapsed = " << elapsed_time);
   return true;
 }
 
