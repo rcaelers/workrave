@@ -79,6 +79,7 @@ Menus::Menus() :
   network_log_dialog(NULL),
 #endif
   statistics_dialog(NULL),
+  exercises_dialog(NULL),
   preferences_dialog(NULL),
   main_window(NULL)
 {
