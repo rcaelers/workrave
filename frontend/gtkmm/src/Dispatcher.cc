@@ -1,4 +1,4 @@
-// Dispatcher.cc --- Inter-thread dispatcher
+/ Dispatcher.cc --- Inter-thread dispatcher
 //
 // Copyright (C) 2003, 2004 Rob Caelers
 // All rights reserved.
@@ -100,7 +100,7 @@ Dispatcher::create_thread_pipe()
   if (event_handle)
     {
       queue =  g_async_queue_new();
-      io_connection = Glib::signal_io().connect(MEMBER_SLOT_class(*this, &Dispatcher::io_handler),
+      io_connection = Glib::signal_io().connect(SigC::slot_class(*this, &Dispatcher::io_handler),
                                                 (int)event_handle,
                                                 Glib::IO_IN);
 
