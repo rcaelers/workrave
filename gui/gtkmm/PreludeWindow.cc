@@ -181,40 +181,42 @@ PreludeWindow::set_progress_text(string text)
 
 
 void
-PreludeWindow::set_frame(int stage)
+PreludeWindow::set_stage(Stage stage)
 {
-  TRACE_ENTER_MSG("PreludeWindow::set_frame", stage);
-  string icon;
+  TRACE_ENTER_MSG("PreludeWindow::set_stage", stage);
+  const char *icon = NULL;
   switch(stage)
     {
-    case 0:
+    case STAGE_INITIAL:
       frame->set_frame_flashing(0);
       frame->set_frame_visible(false);
       icon = "prelude-hint.png";
       break;
       
-    case 1:
-      {
-        frame->set_frame_visible(true);
-        frame->set_frame_flashing(500);
-        frame->set_frame_color(color_warn);
-
-        // temporary hack because enter_notify does not work under windows.
-        int winx, winy;
-        get_position(winx, winy);
-        set_position(Gtk::WIN_POS_NONE);
-        move (winx, 50);
-      }
+    case STAGE_WARN:
+      frame->set_frame_visible(true);
+      frame->set_frame_flashing(500);
+      frame->set_frame_color(color_warn);
       icon = "prelude-hint-sad.png";
       break;
       
-    case 2:
+    case STAGE_ALERT:
       frame->set_frame_flashing(500);
       frame->set_frame_color(color_alert);
       icon = "prelude-hint-sad.png";
       break;
+
+    case STAGE_MOVE_OUT:
+      int winx, winy;
+      get_position(winx, winy);
+      set_position(Gtk::WIN_POS_NONE);
+      move (winx, 50);
+      break;
     }
-  icon = Util::complete_directory(icon, Util::SEARCH_PATH_IMAGES);
-  image_icon->set(icon);
+  if (icon != NULL)
+    {
+      string file = Util::complete_directory(icon, Util::SEARCH_PATH_IMAGES);
+      image_icon->set(file);
+    }
   TRACE_EXIT();
 }

@@ -25,6 +25,7 @@ static const char rcsid[] = "$Id$";
 #include "preinclude.h"
 
 #include <gtkmm.h>
+#include <math.h>
 
 #include "BreakWindow.hh"
 #include "WindowHints.hh"
@@ -214,41 +215,30 @@ BreakWindow::avoid_pointer(int px, int py)
   // Set gravitiy, otherwise, get_position() returns weird winy.
   set_gravity(Gdk::GRAVITY_STATIC); 
   get_position(winx, winy);
-  TRACE_MSG("wx="<<winx<<",wy="<<winy<<",ww="<<width<<",wh="<<height);
   if (px < winx || px > winx+width || py < winy || py > winy+height)
     return;
+#else
+  px += winx;
+  py += winy;
 #endif  
 
-  gdouble x = px;
-  gdouble y = py;
+  int cx = winx + width/2;
+  int cy = winy + height/2;
 
-  int deltax = 0;
-  int deltay = 0;
-  const int jump = 2*width;
-    
-  if (y < (0.2 * height))
-    deltay = jump;
-  else if (y > (0.8 * height))
-    deltay = -jump;
-        
-  if (x < (0.2 * width))
-    deltax = jump;
-  else if (x > 0.8 * width)
-    deltax = -jump;
-  else if (! deltay)
-    {
-      if (x > 0.5*width)
-        deltax = -jump;
-      else
-        deltax = jump;
-    }
+  int dx = px - cx;
+  int dy = py - cy;
 
+  TRACE_MSG("cx="<<cx<<",cy="<<cy);
+
+  double angle = atan2(dy, dx);
+
+  const int jump = -width;
+  winx += (int) jump * cos(angle);
+  winy += (int) jump * sin(angle);
+  
   int screen_width = gdk_screen_width();
   int screen_height = gdk_screen_height();
   
-  winx += deltax;
-  winy += deltay;
-
   int right_margin = screen_width - width - MARGIN;
   int bottom_margin = screen_height - height - MARGIN;
   

@@ -1,6 +1,6 @@
 // BreakControl.cc
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -145,14 +145,19 @@ BreakControl::heartbeat()
         else if (prelude_time == 20)
           {
             assert(prelude_window != NULL);
-            prelude_window->set_frame(2);
+            prelude_window->set_stage(PreludeWindowInterface::STAGE_ALERT);
             prelude_window->refresh();
           }
         else if (prelude_time == 10)
           {
             assert(prelude_window != NULL);
-            prelude_window->set_frame(1);
+            prelude_window->set_stage(PreludeWindowInterface::STAGE_WARN);
             prelude_window->refresh();
+          }
+        else if (prelude_time == 4)
+          {
+            assert(prelude_window != NULL);
+            prelude_window->set_stage(PreludeWindowInterface::STAGE_MOVE_OUT);
           }
       } 
       break;
@@ -555,7 +560,7 @@ BreakControl::prelude_window_start()
   
   prelude_window_destroy = false;
 
-  prelude_window->set_frame(0);
+  prelude_window->set_stage(PreludeWindowInterface::STAGE_INITIAL);
   prelude_window->set_text(prelude_text);
 
   if (!final_prelude)

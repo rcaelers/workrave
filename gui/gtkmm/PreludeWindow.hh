@@ -1,6 +1,6 @@
 // PreludeWindow.hh --- window for the micropause
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -41,7 +41,7 @@ public:
   void refresh();
   void set_progress(int value, int max_value);
   void set_text(string text);
-  void set_frame(int stage);
+  void set_stage(Stage stage);
   void set_progress_text(string text);
   
 private:  

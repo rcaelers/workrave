@@ -5,6 +5,12 @@ See the end for copying conditions.
 Please report Workrave bug reports. Visit our bug tracker located at:
 http://workrave.sourceforge.net
 
+* Workrave 0.x.y
+
+** The window prompting you to brake now moves earlier to the top of
+the screen so that it does not interfere too much. Furtermore, the
+window has a new and improved "evasive manouvers" algorithm.
+
 * Workrave 0.2.0
 
 ** Activity during a persisted break is no longer ignored. Instead,
