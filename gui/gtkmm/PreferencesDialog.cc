@@ -241,52 +241,74 @@ PreferencesDialog::create_monitor_page()
   
   label = manage
     (new Gtk::Label
-     (_("Please regard me as active if the time between two user input events is\n"
-        "within the following range, specified in milliseconds:"
+     (_("Please regard me as active if the time between two user input events is within\n"
+        "the following range, specified in milliseconds:"
       )));
-  mon_table->attach(*label, 0, 2, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
+  Gtk::Alignment *align
+    = manage(new Gtk::Alignment(Gtk::ALIGN_LEFT, Gtk::ALIGN_BOTTOM, 0.0, 0.0));
+  align->add(*label);
+  mon_table->attach(*align, 0, 2, y, y+1, Gtk::FILL|Gtk::EXPAND, Gtk::SHRINK);
   y++;
 
-  label = manage(new Gtk::Label(_("From (ms)")));
-  Gtk::Alignment *from_align
-    = manage(new Gtk::Alignment(Gtk::ALIGN_LEFT, Gtk::ALIGN_BOTTOM, 0.0, 0.0));
+  Gtk::HBox *range_box = manage(new Gtk::HBox(false, 6));
   activity_time = manage(new TimeEntry(true));
-  from_align->add(*activity_time);
-  mon_table->attach(*label, 0, 1, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
-  mon_table->attach(*from_align, 1, 2, y, y+1, Gtk::FILL|Gtk::SHRINK, Gtk::SHRINK);
+  range_box->add(*activity_time);
+  label = manage(new Gtk::Label(_("To (ms)")));
+  range_box->add(*label);
+  noise_time = manage(new TimeEntry(true));
+  range_box->add(*noise_time);
+
+  label = manage(new Gtk::Label(_("From (ms)")));
+  align
+    = manage(new Gtk::Alignment(Gtk::ALIGN_LEFT, Gtk::ALIGN_BOTTOM, 0.0, 0.0));
+  align->add(*label);
+
+  mon_table->attach(*align, 0, 1, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
+
+  align
+    = manage(new Gtk::Alignment(Gtk::ALIGN_LEFT, Gtk::ALIGN_BOTTOM, 0.0, 0.0));
+  align->add(*range_box);
+  mon_table->attach(*align, 1, 2, y, y+1, Gtk::FILL|Gtk::EXPAND, Gtk::SHRINK);
+
   int val;
   GUIControl::get_instance()->get_configurator()
     ->get_value(ControlInterface::CFG_KEY_MONITOR_ACTIVITY, &val);
   activity_time->set_value(val);
-  y++;
 
-  label = manage(new Gtk::Label(_("To (ms)")));
-  noise_time = manage(new TimeEntry(true));
-  Gtk::Alignment *to_align
+
+  align
     = manage(new Gtk::Alignment(Gtk::ALIGN_LEFT, Gtk::ALIGN_BOTTOM, 0.0, 0.0));
-  to_align->add(*noise_time);
-  mon_table->attach(*label, 0, 1, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
-  mon_table->attach(*to_align, 1, 2, y, y+1, Gtk::FILL|Gtk::SHRINK, Gtk::SHRINK);
+  align->add(*noise_time);
+  mon_table->attach(*label, 2, 3, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
+  mon_table->attach(*align, 3, 4, y, y+1, Gtk::EXPAND|Gtk::FILL, Gtk::SHRINK);
   GUIControl::get_instance()->get_configurator()
     ->get_value(ControlInterface::CFG_KEY_MONITOR_NOISE, &val);
   noise_time->set_value(val);
   y++;
+
+  Gtk::HSeparator *sep = manage(new Gtk::HSeparator());
   
+  mon_table->attach(*sep, 0, 2, y, y+1, Gtk::FILL|Gtk::EXPAND, Gtk::SHRINK, 0, 6);
+  y++;
+
   label = manage
     (new Gtk::Label
-     (_("Please regard me as idle if there are no user input events during the\n"
-        "specified idle time."
+     (_("Please regard me as idle if there are no user input events during the specified\n"
+        "idle time."
       )));
-  mon_table->attach(*label, 0, 2, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
+  align
+    = manage(new Gtk::Alignment(Gtk::ALIGN_LEFT, Gtk::ALIGN_BOTTOM, 0.0, 0.0));
+  align->add(*label);
+  mon_table->attach(*align, 0, 2, y, y+1, Gtk::FILL|Gtk::EXPAND, Gtk::SHRINK);
   y++;
 
   label = manage(new Gtk::Label(_("Idle time (ms)")));
   idle_time = manage(new TimeEntry(true));
   Gtk::Alignment *idle_align
-    = manage(new Gtk::Alignment(Gtk::ALIGN_LEFT, Gtk::ALIGN_BOTTOM, 0.0, 0.0));
+    = manage(new Gtk::Alignment(Gtk::ALIGN_LEFT, Gtk::ALIGN_BOTTOM, 1.0, 0.0));
   idle_align->add(*idle_time);
   mon_table->attach(*label, 0, 1, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
-  mon_table->attach(*idle_align, 1, 2, y, y+1, Gtk::FILL|Gtk::SHRINK, Gtk::SHRINK);
+  mon_table->attach(*idle_align, 1, 2, y, y+1, Gtk::EXPAND|Gtk::FILL, Gtk::SHRINK);
   GUIControl::get_instance()->get_configurator()
     ->get_value(ControlInterface::CFG_KEY_MONITOR_IDLE, &val);
   idle_time->set_value(val);
