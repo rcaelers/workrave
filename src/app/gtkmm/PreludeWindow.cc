@@ -39,7 +39,7 @@ static const char rcsid[] = "$Id$";
 
 
 //! Construct a new Micropause window.
-PreludeWindow::PreludeWindow(BreakId break_id MULTIHEAD_PARAMS)
+PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
   : break_id(break_id)
 {
   realize();
@@ -98,9 +98,7 @@ PreludeWindow::PreludeWindow(BreakId break_id MULTIHEAD_PARAMS)
   show_all_children();
   stick();
 
-#ifdef HAVE_GTK_MULTIHEAD
-  set_screen(screen, monitor);
-#endif
+  set_screen(head);
 }
 
 

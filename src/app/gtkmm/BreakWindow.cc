@@ -103,34 +103,27 @@ void
 BreakWindow::center()
 {
   TRACE_ENTER("BreakWindow::center");
-#ifdef HAVE_GTK_MULTIHEAD
 
-  if (!screen.is_null())
+  if (head.valid)
     {
-      Gdk::Rectangle geometry;
-      screen->get_monitor_geometry(monitor, geometry);
-
       GtkRequisition size;
       size_request(&size);
 
-      TRACE_MSG(monitor << " : " <<
-                geometry.get_width() << "x" << geometry.get_height() << " +" <<
-                geometry.get_x() << "+" << geometry.get_y() << " " <<
+      TRACE_MSG(head.monitor << " : " <<
+                head.geometry.get_width() << "x" << head.geometry.get_height() << " +" <<
+                head.geometry.get_x() << "+" << head.geometry.get_y() << " " <<
                 size.width << " " << size.height);
       
-      int x = geometry.get_x() + (geometry.get_width() - size.width) / 2;
-      int y = geometry.get_y() + (geometry.get_height() - size.height) / 2;
+      int x = head.geometry.get_x() + (head.geometry.get_width() - size.width) / 2;
+      int y = head.geometry.get_y() + (head.geometry.get_height() - size.height) / 2;
       
       set_position(Gtk::WIN_POS_NONE);
       move(x, y);
     }
   else
-#else
     {
       set_position(Gtk::WIN_POS_CENTER_ALWAYS);
     }
-
-#endif
   TRACE_EXIT();
 }
 
@@ -138,11 +131,10 @@ BreakWindow::center()
 #ifdef HAVE_GTK_MULTIHEAD
 //! Centers the window
 void
-BreakWindow::set_screen(Glib::RefPtr<Gdk::Screen> screen, int monitor)
+BreakWindow::set_screen(HeadInfo &head)
 {
-  this->screen = screen;
-  this->monitor = monitor;
-  Gtk::Window::set_screen(screen);
+  this->head = head;
+  Gtk::Window::set_screen(head.screen);
 }
 #endif
 
@@ -280,13 +272,16 @@ BreakWindow::avoid_pointer(int px, int py)
   py += winy;
 #endif  
 
-#ifdef HAVE_GTK_MULTIHEAD
-  Gdk::Rectangle geometry;
-  screen->get_monitor_geometry(monitor, geometry);
-  int screen_height = geometry.get_height();
-#else
-  int screen_height = gdk_screen_height();
-#endif
+  int screen_height;
+
+  if (head.valid)
+    {
+      screen_height = head.geometry.get_height();
+    }
+  else
+    {
+      screen_height = gdk_screen_height();
+    }
   
   int top_y = SCREEN_MARGIN;
   int bottom_y = screen_height - height - SCREEN_MARGIN;

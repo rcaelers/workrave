@@ -29,7 +29,7 @@ class DailyLimitWindow :
   public BreakWindowInterface
 {
 public:
-  DailyLimitWindow(bool ignorable, bool insist MULTIHEAD_PARAMS);
+  DailyLimitWindow(HeadInfo &head, bool ignorable, bool insist);
   virtual ~DailyLimitWindow();
 
   void start();

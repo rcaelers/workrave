@@ -31,7 +31,7 @@ class PreludeWindow :
   public PreludeWindowInterface
 {
 public:
-  PreludeWindow(BreakId break_id MULTIHEAD_PARAMS);
+  PreludeWindow(HeadInfo &head, BreakId break_id);
   virtual ~PreludeWindow();
 
   void start();

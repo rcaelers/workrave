@@ -7,7 +7,7 @@ http://www.workrave.org
 
 * Workrave 1.2.3
 
-** Multihead support for X11. Workrave now shows a break window on
+** Multihead support for X11. Workrave now shows break windows on
 all monitors.
 
 ** Workrave can now cope with changes in system time and OS features

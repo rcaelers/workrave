@@ -33,7 +33,7 @@ class MicroPauseWindow :
   public BreakWindowInterface
 {
 public:
-  MicroPauseWindow(TimerInterface *timer, bool ignorable, bool insist MULTIHEAD_PARAMS);
+  MicroPauseWindow(HeadInfo &head, TimerInterface *timer, bool ignorable, bool insist);
   virtual ~MicroPauseWindow();
 
   void start();

@@ -35,7 +35,7 @@ static const char rcsid[] = "$Id$";
 #include "Hig.hh"
 
 //! Construct a new Micropause window.
-MicroPauseWindow::MicroPauseWindow(TimerInterface *timer, bool ignorable, bool insist MULTIHEAD_PARAMS) :
+MicroPauseWindow::MicroPauseWindow(HeadInfo &head, TimerInterface *timer, bool ignorable, bool insist) :
   restbreak_timer(timer),
   progress_value(0),
   progress_max_value(0),
@@ -93,9 +93,7 @@ MicroPauseWindow::MicroPauseWindow(TimerInterface *timer, bool ignorable, bool i
   WindowHints::set_always_on_top(Gtk::Widget::gobj(), true);
   GTK_WIDGET_UNSET_FLAGS(Gtk::Widget::gobj(), GTK_CAN_FOCUS);
 
-#ifdef HAVE_GTK_MULTIHEAD
-  set_screen(screen, monitor);
-#endif
+  set_screen(head);
 }
 
 

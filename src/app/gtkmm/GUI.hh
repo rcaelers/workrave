@@ -25,7 +25,7 @@
 #include <glibmm.h>
 #include <gtkmm.h>
 
-#include "BreakWindow.hh"
+#include "HeadInfo.hh"
 #include "Mutex.hh"
 #include "CoreEventListener.hh"
 #include "ActivityMonitorListener.hh"
@@ -34,13 +34,16 @@
 #ifdef HAVE_GNOME
 #include <libgnomeuimm.h>
 #endif
+#ifdef HAVE_GTK_MULTIHEAD
+#include <gdkmm/display.h>
+#include <gdkmm/screen.h>
+#endif
 
 // GTKMM classes
 class MainWindow;
 class MicroPauseWindow;
 class RestBreakWindow;
 class AppletWindow;
-class BreakWindow;
 class PreludeWindow;
 class BreakWindowInterface;
 class BreakResponseInterface;
@@ -60,12 +63,9 @@ class GUI :
   public SigC::Object
 {
 public:
-  //! Destructor
+  GUI(int argc, char **argv);
   virtual ~GUI();
   
-public:
-  //! Constructor.
-  GUI(int argc, char **argv);
   static GUI *get_instance();
 
   void main();
@@ -81,6 +81,7 @@ public:
   virtual void set_prelude_stage(PreludeStage stage);
   virtual void set_prelude_progress_text(PreludeProgressText text);
 
+  //
   void core_event_notify(CoreEvent event);
   
   // Internal public methods
@@ -90,6 +91,8 @@ public:
   void toggle_main_window();
   void terminate();
 
+  // Misc
+  
   SigC::Signal0<void> &signal_heartbeat();
   
 #ifdef HAVE_X  
@@ -120,7 +123,7 @@ private:
 #endif
 
   void collect_garbage();
-  BreakWindowInterface *create_break_window(BreakId break_id, bool ignorable, bool insist MULTIHEAD_PARAMS);
+  BreakWindowInterface *create_break_window(HeadInfo &head, BreakId break_id, bool ignorable, bool insist);
   
 private:
   //! The one and only instance
@@ -182,10 +185,8 @@ private:
   SigC::Connection dispatch_connection;
   Dispatcher *dispatcher;
 
-#ifdef HAVE_GTK_MULTIHEAD
-  //! Total number of monitors on all screens.
-  int total_num_monitors;
-#endif
+  HeadInfo *heads;
+  int num_heads;
 };
 
 

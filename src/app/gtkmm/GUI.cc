@@ -55,11 +55,6 @@ static const char rcsid[] = "$Id$";
 
 #include <gtk/gtk.h>
 
-#ifdef HAVE_GTK_MULTIHEAD
-#include <gdkmm/display.h>
-#include <gdkmm/screen.h>
-#endif
-
 #ifdef HAVE_GCONF
 #include <gconf/gconf-client.h>
 #endif
@@ -101,7 +96,8 @@ GUI::GUI(int argc, char **argv)  :
   tooltips(NULL),
   break_window_destroy(false),
   prelude_window_destroy(false),
-  total_num_monitors(1)
+  heads(NULL),
+  num_heads(0)
 {
   TRACE_ENTER("GUI:GUI");
 
@@ -444,29 +440,65 @@ GUI::init_core()
 void
 GUI::init_multihead()
 {
-#ifdef HAVE_GTK_MULTIHEAD
   TRACE_ENTER("GUI::init_multihead");
 
-  total_num_monitors = 0;
+  int new_num_heads = 0;
   
+#ifdef HAVE_GTK_MULTIHEAD
   Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
   int num_screens = display->get_n_screens();
   
-  TRACE_MSG("num screens = " << num_screens);
   for (int i = 0; i < num_screens; i++)
     {
       Glib::RefPtr<Gdk::Screen> screen = display->get_screen(i);
-      int num_monitors = screen->get_n_monitors();
-
-      total_num_monitors += num_monitors;
-      TRACE_MSG("num monitor = " << num_monitors);
+      if (!screen.is_null())
+        {
+          new_num_heads += screen->get_n_monitors();
+        }
     }
-  prelude_windows = new PreludeWindow*[total_num_monitors];
-  break_windows = new BreakWindowInterface*[total_num_monitors];
 #else
-  prelude_windows = new PreludeWindow*[1];
-  break_windows = new BreakWindowInterface*[1];
-#endif  
+  new_num_heads = 1;
+#endif
+
+  if (new_num_heads != num_heads || num_heads <= 0)
+    {
+      TRACE_MSG("num_heads = " << new_num_heads);
+      num_heads = new_num_heads;
+                                  
+      delete [] heads;
+      heads = new HeadInfo[num_heads];
+    }
+
+#ifdef HAVE_GTK_MULTIHEAD
+  int count = 0;
+  for (int i = 0; i < num_screens; i++)
+    {
+      Glib::RefPtr<Gdk::Screen> screen = display->get_screen(i);
+      if (!screen.is_null())
+        {
+          int num_monitors = screen->get_n_monitors();
+          for (int j = 0; j < num_monitors && count < num_heads; j++)
+            {
+              Gdk::Rectangle geometry;
+              heads[count].screen = screen;
+              heads[count].monitor = j;
+              heads[count].valid = true;
+
+              screen->get_monitor_geometry(j, heads[count].geometry);
+
+              count++;
+            }
+        }
+    }
+
+#else
+  num_heads = 1;
+  heads[0].valid = false;
+#endif
+  
+  prelude_windows = new PreludeWindow*[num_heads];
+  break_windows = new BreakWindowInterface*[num_heads];
+  TRACE_EXIT();
 }
 
 //! Initializes the GUI
@@ -513,21 +545,21 @@ GUI::init_remote_control()
 
 //! Returns a break window for the specified break.
 BreakWindowInterface *
-GUI::create_break_window(BreakId break_id, bool ignorable, bool insist MULTIHEAD_PARAMS)
+GUI::create_break_window(HeadInfo &head, BreakId break_id, bool ignorable, bool insist)
 {
   BreakWindowInterface *ret = NULL;
   
   if (break_id == BREAK_ID_MICRO_PAUSE)
     {
-      ret = new MicroPauseWindow(core->get_timer(BREAK_ID_REST_BREAK), ignorable, insist MULTIHEAD_ARGS);
+      ret = new MicroPauseWindow(head, core->get_timer(BREAK_ID_REST_BREAK), ignorable, insist);
     }
   else if (break_id == BREAK_ID_REST_BREAK)
     {
-      ret = new RestBreakWindow(ignorable, insist MULTIHEAD_ARGS); 
+      ret = new RestBreakWindow(head, ignorable, insist); 
     }
   else if (break_id == BREAK_ID_DAILY_LIMIT)
     {
-      ret = new DailyLimitWindow(ignorable, insist MULTIHEAD_ARGS);
+      ret = new DailyLimitWindow(head, ignorable, insist);
     }
 
   return ret;
@@ -574,38 +606,17 @@ GUI::start_prelude_window(BreakId break_id)
   hide_break_window();
 
   active_break_id = break_id;
-#ifdef HAVE_GTK_MULTIHEAD
-  Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
-  int num_screen = display->get_n_screens();
-  int count = 0;
-
-  for (int i = 0; i < num_screen; i++)
+  for (int i = 0; i < num_heads; i++)
     {
-      Glib::RefPtr<Gdk::Screen> screen = display->get_screen(i);
+      PreludeWindow *prelude_window = new PreludeWindow(heads[i], break_id);
 
-      // FIXME: resize if needed.
-      for (int j = 0; j < screen->get_n_monitors() && count < total_num_monitors; j++, count++)
-        {
-          PreludeWindow *prelude_window = new PreludeWindow(break_id, screen, j);
-
-          prelude_windows[count] = prelude_window;
-
-          prelude_window->set_response(response);
-          prelude_window->start();
-        }
+      prelude_windows[i] = prelude_window;
+      
+      prelude_window->set_response(response);
+      prelude_window->start();
     }
 
-  active_prelude_count = count;
-#else
-
-  PreludeWindow *prelude_window = new PreludeWindow(break_id);
-
-  prelude_windows[0] = prelude_window;
-
-  prelude_window->set_response(response);
-  prelude_window->start();
-
-#endif
+  active_prelude_count = num_heads;
 
   dispatcher = new Dispatcher;
   dispatch_connection = dispatcher->connect(SigC::slot_class(*this, &GUI::on_activity));
@@ -619,39 +630,18 @@ GUI::start_break_window(BreakId break_id, bool ignorable, bool insist)
 
   active_break_id = break_id;
 
-#ifdef HAVE_GTK_MULTIHEAD
-  Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
-  int num_screen = display->get_n_screens();
-  int count = 0;
-
-  for (int i = 0; i < num_screen; i++)
+  for (int i = 0; i < num_heads; i++)
     {
-      Glib::RefPtr<Gdk::Screen> screen = display->get_screen(i);
+      BreakWindowInterface *break_window = create_break_window(heads[i], break_id, ignorable, insist);
 
-      // FIXME: resize if needed.
-      for (int j = 0; j < screen->get_n_monitors() && count < total_num_monitors; j++, count++)
-        {
-          BreakWindowInterface *break_window = create_break_window(break_id, ignorable, insist, screen, j);
-
-          break_windows[count] = break_window;
-  
-          break_window->set_response(response);
-          break_window->start();
-        }
+      break_windows[i] = break_window;
+      
+      break_window->set_response(response);
+      break_window->start();
     }
 
-  active_break_count = count;
-#else
-  
-  BreakWindow *break_window = create_break_window(break_id, ignorable, insist);
-
-  break_windows[0] = break_window;
-  
-  break_window->set_response(response);
-  break_window->start();
-#endif
+  active_break_count = num_heads;
 }
-
 
 void
 GUI::hide_break_window()

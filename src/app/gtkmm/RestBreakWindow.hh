@@ -31,7 +31,7 @@ class RestBreakWindow :
   public BreakWindowInterface
 {
 public:
-  RestBreakWindow(bool ignorable, bool insist MULTIHEAD_PARAMS);
+  RestBreakWindow(HeadInfo &head, bool ignorable, bool insist);
   virtual ~RestBreakWindow();
   
   void start();

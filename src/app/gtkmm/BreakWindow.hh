@@ -25,15 +25,8 @@
 
 #include <gtkmm.h>
 
+#include "HeadInfo.hh"
 #include "WindowHints.hh"
-
-#ifdef HAVE_GTK_MULTIHEAD
-#include <gdkmm/display.h>
-#include <gdkmm/screen.h>
-#define MULTIHEAD_PARAMS , Glib::RefPtr<Gdk::Screen> screen, int monitor
-#define MULTIHEAD_ARGS , screen, monitor
-#endif
-
 
 class Frame;
 
@@ -57,11 +50,14 @@ protected:
   bool did_avoid_pointer() const;
 
 #ifdef HAVE_GTK_MULTIHEAD
-  void set_screen(Glib::RefPtr<Gdk::Screen> screen, int monitor);
+  void set_screen(HeadInfo &head);
 #endif  
   
   const int SCREEN_MARGIN;
 
+  //! Information about the (multi)head.
+  HeadInfo head;
+  
 private:
 #ifdef WIN32
   bool on_avoid_pointer_timer();
@@ -96,10 +92,6 @@ private:
   //! Border
   guint border_width;
 
-#ifdef HAVE_GTK_MULTIHEAD
-  Glib::RefPtr<Gdk::Screen> screen;
-  int monitor;
-#endif  
 };
 
 

@@ -33,7 +33,7 @@ static const char rcsid[] = "$Id$";
 
 
 //! Construct a new Daily limit window.
-DailyLimitWindow::DailyLimitWindow(bool ignorable, bool insist MULTIHEAD_PARAMS) :
+DailyLimitWindow::DailyLimitWindow(HeadInfo &head, bool ignorable, bool insist) :
   insist_break(insist)
 {
   // Need to realize window before it is shown
@@ -90,9 +90,7 @@ DailyLimitWindow::DailyLimitWindow(bool ignorable, bool insist MULTIHEAD_PARAMS)
   WindowHints::set_always_on_top(Gtk::Widget::gobj(), true);
   GTK_WIDGET_UNSET_FLAGS(Gtk::Widget::gobj(), GTK_CAN_FOCUS);
 
-#ifdef HAVE_GTK_MULTIHEAD
-  set_screen(screen, monitor);
-#endif
+  set_screen(head);
 }
 
 

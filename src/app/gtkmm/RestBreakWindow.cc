@@ -57,7 +57,7 @@ const int MARGINY = 8;
 /*!
  *  \param control The controller.
  */
-RestBreakWindow::RestBreakWindow(bool ignorable, bool insist MULTIHEAD_PARAMS) :
+RestBreakWindow::RestBreakWindow(HeadInfo &head, bool ignorable, bool insist) :
   window_width(0),
   window_height(0),
   timebar(NULL),
@@ -116,9 +116,7 @@ RestBreakWindow::RestBreakWindow(bool ignorable, bool insist MULTIHEAD_PARAMS) :
   add_events(Gdk::EXPOSURE_MASK);
   add_events(Gdk::FOCUS_CHANGE_MASK);
 
-#ifdef HAVE_GTK_MULTIHEAD
-  set_screen(screen, monitor);
-#endif
+  set_screen(head);
   
   TRACE_EXIT();
 }
@@ -329,6 +327,8 @@ RestBreakWindow::install_exercises_panel()
   exercises_panel->signal_stop().connect
     (SigC::slot(*this, &RestBreakWindow::install_info_panel));
   pluggable_panel.show_all();
+  pluggable_panel.queue_resize();
+  center();
 }
 
 void
@@ -338,5 +338,6 @@ RestBreakWindow::install_info_panel()
   pluggable_panel.pack_start(*(create_info_panel()), false, false, 0);
   pluggable_panel.show_all();
   pluggable_panel.queue_resize();
+  center();
 }
 #endif
