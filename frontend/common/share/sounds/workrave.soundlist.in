@@ -1,21 +1,21 @@
 [__section_info__]
 _description=Workrave
 
-[restbreak_started]
+[rest_break_started]
 file=workrave/restbreak-started.wav
 _description=Rest break started
 
-[restbreak_ended]
+[rest_break_ended]
 file=workrave/restbreak-ended.wav
 _description=Rest break ended
 
-[micropause_started]
-file=workrave/micropause-started.wav
-_description=Micro-pause started
+[micro_break_started]
+file=workrave/micro-break-started.wav
+_description=Micro-break started
 
-[micropause_ended]
-file=workrave/micropause-ended.wav
-_description=Micro-pause ended
+[micro_break_ended]
+file=workrave/micro-break-ended.wav
+_description=Micro-break ended
 
 [break_ignored]
 file=workrave/break-ignored.wav

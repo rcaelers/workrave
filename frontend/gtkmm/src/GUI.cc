@@ -42,7 +42,7 @@ static const char rcsid[] = "$Id$";
 #include "MainWindow.hh"
 #include "BreakWindowInterface.hh"
 #include "BreakWindow.hh"
-#include "MicroPauseWindow.hh"
+#include "MicroBreakWindow.hh"
 #include "PreludeWindow.hh"
 #include "RestBreakWindow.hh"
 #include "Util.hh"
@@ -748,9 +748,9 @@ GUI::create_break_window(HeadInfo &head, BreakId break_id, bool ignorable)
 {
   BreakWindowInterface *ret = NULL;
   BlockMode block_mode = get_block_mode();
-  if (break_id == BREAK_ID_MICRO_PAUSE)
+  if (break_id == BREAK_ID_MICRO_BREAK)
     {
-      ret = new MicroPauseWindow(head, core->get_timer(BREAK_ID_REST_BREAK),
+      ret = new MicroBreakWindow(head, core->get_timer(BREAK_ID_REST_BREAK),
                                  ignorable, block_mode);
     }
   else if (break_id == BREAK_ID_REST_BREAK)

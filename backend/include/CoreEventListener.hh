@@ -1,6 +1,6 @@
 // CoreEventListener.hh
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -26,8 +26,8 @@ enum CoreEvent
     CORE_EVENT_SOUND_BREAK_IGNORED,
     CORE_EVENT_SOUND_REST_BREAK_STARTED,
     CORE_EVENT_SOUND_REST_BREAK_ENDED,
-    CORE_EVENT_SOUND_MICRO_PAUSE_STARTED,
-    CORE_EVENT_SOUND_MICRO_PAUSE_ENDED,
+    CORE_EVENT_SOUND_MICRO_BREAK_STARTED,
+    CORE_EVENT_SOUND_MICRO_BREAK_ENDED,
     CORE_EVENT_SOUND_DAILY_LIMIT,
     CORE_EVENT_SOUND_EXERCISE_ENDED,
     CORE_EVENT_SOUND_EXERCISES_ENDED

@@ -1,6 +1,6 @@
-// MicroPauseWindow.hh --- window for the micropause
+// MicroBreakWindow.hh --- window for the microbreak
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -16,8 +16,8 @@
 // $Id$
 //
 
-#ifndef MICROPAUSEWINDOW_HH
-#define MICROPAUSEWINDOW_HH
+#ifndef MICROBREAKWINDOW_HH
+#define MICROBREAKWINDOW_HH
 
 #include <stdio.h>
 
@@ -32,13 +32,13 @@ namespace Gtk
   class Label;
 }
 
-class MicroPauseWindow :
+class MicroBreakWindow :
   public BreakWindow
 {
 public:
-  MicroPauseWindow(HeadInfo &head, TimerInterface *timer, bool ignorable,
+  MicroBreakWindow(HeadInfo &head, TimerInterface *timer, bool ignorable,
                    GUI::BlockMode mode);
-  virtual ~MicroPauseWindow();
+  virtual ~MicroBreakWindow();
 
   void set_progress(int value, int max_value);
   void heartbeat();
@@ -70,4 +70,4 @@ private:
 
 
 
-#endif // MICROPAUSEWINDOW_HH
+#endif // MICROBREAKWINDOW_HH

@@ -1,6 +1,6 @@
 // GtkUtil.cc --- Gtk utilities
 //
-// Copyright (C) 2003 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2003, 2004 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -113,8 +113,8 @@ Gtk::Widget *
 GtkUtil::create_label_for_break(BreakId id)
 {
   // FIXME: duplicate:
-  char *icons[] = { "timer-micropause.png", "timer-restbreak.png", "timer-daily.png" };
-  char *labels[] = { _("Micro-pause"), _("Rest break"), _("Daily limit") };
+  char *icons[] = { "timer-micro-break.png", "timer-rest-break.png", "timer-daily.png" };
+  char *labels[] = { _("Micro-break"), _("Rest break"), _("Daily limit") };
 
   string icon = Util::complete_directory(string(icons[id]), Util::SEARCH_PATH_IMAGES);
   

@@ -1,6 +1,6 @@
 // TimerPreferencesPanel.cc --- Preferences widgets for a timer
 //
-// Copyright (C) 2002, 2003 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -163,7 +163,7 @@ TimerPreferencesPanel::create_options_panel()
   if (break_id == BREAK_ID_DAILY_LIMIT)
     {
       monitor_cb
-        = manage(new Gtk::CheckButton(_("Regard micro-pauses as activity")));
+        = manage(new Gtk::CheckButton(_("Regard micro-breaks as activity")));
       string monitor_name;
       monitor_name = break_data->get_timer_monitor();
       monitor_cb->set_active(monitor_name != "");
@@ -197,7 +197,9 @@ TimerPreferencesPanel::create_timers_panel(Glib::RefPtr<Gtk::SizeGroup> size_gro
   limit_tim->set_value(break_data->get_timer_limit());
   limit_tim->signal_value_changed()
     .connect(SigC::slot(*this, &TimerPreferencesPanel::on_limit_changed));
-  hig->add(_("Time before break:"), *limit_tim);
+  hig->add(break_id == BREAK_ID_DAILY_LIMIT
+           ? _("Time before end:")
+           : _("Time between breaks:"), *limit_tim);
 
   // Auto-reset time
   const char *auto_reset_txt;
@@ -214,7 +216,7 @@ TimerPreferencesPanel::create_timers_panel(Glib::RefPtr<Gtk::SizeGroup> size_gro
     }
   else
     {
-      auto_reset_txt = _("Pause duration:");
+      auto_reset_txt = _("Break duration:");
       auto_reset_value = break_data->get_timer_auto_reset();
     }
   
@@ -231,7 +233,7 @@ TimerPreferencesPanel::create_timers_panel(Glib::RefPtr<Gtk::SizeGroup> size_gro
   snooze_tim->set_value (break_data->get_timer_snooze());
   snooze_tim->signal_value_changed()
     .connect(SigC::slot(*this, &TimerPreferencesPanel::on_snooze_changed));
-  hig->add(_("Post-pone time:"), *snooze_tim);
+  hig->add(_("Postpone time:"), *snooze_tim);
   
   return hig;
 }
@@ -349,7 +351,7 @@ TimerPreferencesPanel::on_monitor_toggled()
   if (monitor_cb->get_active())
     {
       CoreInterface *core = CoreFactory::get_core();
-      BreakInterface *mp_break = core->get_break(BREAK_ID_MICRO_PAUSE);
+      BreakInterface *mp_break = core->get_break(BREAK_ID_MICRO_BREAK);
       val = mp_break->get_name();
     }
 

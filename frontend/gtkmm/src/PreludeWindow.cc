@@ -1,6 +1,6 @@
 // PreludeWindow.cc
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -44,7 +44,7 @@ static const char rcsid[] = "$Id$";
 #include "GtkUtil.hh"
 
 
-//! Construct a new Micropause window.
+//! Construct a new Microbreak window.
 PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
   : Gtk::Window(Gtk::WINDOW_POPUP),
     SCREEN_MARGIN(20),
@@ -101,8 +101,8 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
 
   switch (break_id)
     {
-    case BREAK_ID_MICRO_PAUSE:
-      label->set_markup(HigUtil::create_alert_text(_("Time for a micro-pause?"), NULL));
+    case BREAK_ID_MICRO_BREAK:
+      label->set_markup(HigUtil::create_alert_text(_("Time for a micro-break?"), NULL));
       break;
         
     case BREAK_ID_REST_BREAK:
@@ -142,7 +142,7 @@ PreludeWindow::~PreludeWindow()
 
 
 
-//! Starts the micropause.
+//! Starts the microbreak.
 void
 PreludeWindow::start()
 {
@@ -203,7 +203,7 @@ PreludeWindow::destroy()
 }
 
 
-//! Stops the micropause.
+//! Stops the microbreak.
 void
 PreludeWindow::stop()
 {

@@ -1,6 +1,6 @@
 // Control.cc --- The main controller
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -840,7 +840,7 @@ Core::break_action(BreakId id, BreakAction action)
           {
             // quick hack...
             BreakControl *micropause_control
-              = breaks[BREAK_ID_MICRO_PAUSE].get_break_control();
+              = breaks[BREAK_ID_MICRO_BREAK].get_break_control();
             if (id == BREAK_ID_REST_BREAK
                 && (micropause_control->get_break_state() == BreakControl::BREAK_ACTIVE))
               {
@@ -881,7 +881,7 @@ Core::handle_start_break(BreakControl *breaker, BreakId break_id, Timer *timer)
   BreakControl *restbreak_control;
   restbreak_control = breaks[BREAK_ID_REST_BREAK].get_break_control();
 
-  if (break_id == BREAK_ID_MICRO_PAUSE && breaks[BREAK_ID_REST_BREAK].is_enabled())
+  if (break_id == BREAK_ID_MICRO_BREAK && breaks[BREAK_ID_REST_BREAK].is_enabled())
     {
       Timer *rbTimer = breaks[BREAK_ID_REST_BREAK].get_timer();
       assert(rbTimer != NULL);
@@ -914,7 +914,7 @@ Core::handle_start_break(BreakControl *breaker, BreakId break_id, Timer *timer)
 
   // Stop micropause when a restbreak starts. should not happend.
   // restbreak should be advanced.
-  for (int bi = BREAK_ID_MICRO_PAUSE; bi < break_id; bi++)
+  for (int bi = BREAK_ID_MICRO_BREAK; bi < break_id; bi++)
     {
       if (breaks[bi].get_break_control()->get_break_state() == BreakControl::BREAK_ACTIVE)
         {

@@ -95,7 +95,7 @@ TimerBoxPreferencePage::create_page()
   place_items.push_back(Gtk::Menu_Helpers::MenuElem
                         (_("Place timers next to each other")));
   place_items.push_back(Gtk::Menu_Helpers::MenuElem
-                        (_("Place micro-pause and rest break in one spot")));
+                        (_("Place micro-break and rest break in one spot")));
   place_items.push_back(Gtk::Menu_Helpers::MenuElem
                         (_("Place rest break and daily limit in one spot")));
   place_items.push_back(Gtk::Menu_Helpers::MenuElem
@@ -169,7 +169,7 @@ TimerBoxPreferencePage::create_page()
   hig->add_caption(_("Timers"));
   
   // Layout
-  hig->add(_("Micro-pause:"), *timer_display_button[0]);
+  hig->add(_("Micro-break:"), *timer_display_button[0]);
   hig->add(_("Rest break:"), *timer_display_button[1]);
   hig->add(_("Daily limit:"), *timer_display_button[2]);
 
@@ -183,7 +183,7 @@ TimerBoxPreferencePage::create_page()
 void
 TimerBoxPreferencePage::init_page_values()
 {
-  int mp_slot = TimerBoxControl::get_timer_slot(name, BREAK_ID_MICRO_PAUSE);
+  int mp_slot = TimerBoxControl::get_timer_slot(name, BREAK_ID_MICRO_BREAK);
   int rb_slot = TimerBoxControl::get_timer_slot(name, BREAK_ID_REST_BREAK);
   int dl_slot = TimerBoxControl::get_timer_slot(name, BREAK_ID_DAILY_LIMIT);
   int place;
@@ -252,27 +252,27 @@ TimerBoxPreferencePage::on_place_changed()
   switch (idx)
     {
     case 0:
-      slots[BREAK_ID_MICRO_PAUSE] = 0;
+      slots[BREAK_ID_MICRO_BREAK] = 0;
       slots[BREAK_ID_REST_BREAK] = 1;
       slots[BREAK_ID_DAILY_LIMIT] = 2;
       break;
     case 1:
-      slots[BREAK_ID_MICRO_PAUSE] = 0;
+      slots[BREAK_ID_MICRO_BREAK] = 0;
       slots[BREAK_ID_REST_BREAK] = 0;
       slots[BREAK_ID_DAILY_LIMIT] = 1;
       break;
     case 2:
-      slots[BREAK_ID_MICRO_PAUSE] = 0;
+      slots[BREAK_ID_MICRO_BREAK] = 0;
       slots[BREAK_ID_REST_BREAK] = 1;
       slots[BREAK_ID_DAILY_LIMIT] = 1;
       break;
     case 3:
-      slots[BREAK_ID_MICRO_PAUSE] = 0;
+      slots[BREAK_ID_MICRO_BREAK] = 0;
       slots[BREAK_ID_REST_BREAK] = 0;
       slots[BREAK_ID_DAILY_LIMIT] = 0;
       break;
     default:
-      slots[BREAK_ID_MICRO_PAUSE] = -1;
+      slots[BREAK_ID_MICRO_BREAK] = -1;
       slots[BREAK_ID_REST_BREAK] = -1;
       slots[BREAK_ID_DAILY_LIMIT] = -1;
     }

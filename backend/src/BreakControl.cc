@@ -1,6 +1,6 @@
 // BreakControl.cc
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -239,8 +239,8 @@ BreakControl::goto_stage(BreakStage stage)
                   case BREAK_ID_REST_BREAK:
                     post_event(CORE_EVENT_SOUND_REST_BREAK_ENDED);
                     break;
-                  case BREAK_ID_MICRO_PAUSE:
-                    post_event(CORE_EVENT_SOUND_MICRO_PAUSE_ENDED);
+                  case BREAK_ID_MICRO_BREAK:
+                    post_event(CORE_EVENT_SOUND_MICRO_BREAK_ENDED);
                     break;
                   default:
                     break;
@@ -308,8 +308,8 @@ BreakControl::goto_stage(BreakStage stage)
               case BREAK_ID_REST_BREAK:
                 event = CORE_EVENT_SOUND_REST_BREAK_STARTED;
                 break;
-              case BREAK_ID_MICRO_PAUSE:
-                event = CORE_EVENT_SOUND_MICRO_PAUSE_STARTED;
+              case BREAK_ID_MICRO_BREAK:
+                event = CORE_EVENT_SOUND_MICRO_BREAK_STARTED;
                 break;
               case BREAK_ID_DAILY_LIMIT:
                 event = CORE_EVENT_SOUND_DAILY_LIMIT;

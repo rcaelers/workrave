@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
-"POT-Creation-Date: 2004-02-15 20:34+0100\n"
+"POT-Creation-Date: 2004-02-29 14:58+0100\n"
 "PO-Revision-Date: 2003-09-09 16:27+0200\n"
 "Last-Translator: Mikołaj Machowski <mikmach@wp.pl>\n"
 "Language-Team: Mikołaj Machowski <mikmach@wp.pl>\n"
@@ -95,10 +95,11 @@ msgstr "Nieaktywny"
 msgid "Wait"
 msgstr "Czekaj"
 
-#: frontend/gtkmm/src/GtkUtil.cc:117 frontend/gtkmm/src/MicroPauseWindow.cc:48
-#: frontend/gtkmm/src/MicroPauseWindow.cc:110
-#: frontend/gtkmm/src/MicroPauseWindow.cc:146
-msgid "Micro-pause"
+#: frontend/gtkmm/src/GtkUtil.cc:117 frontend/gtkmm/src/MicroBreakWindow.cc:48
+#: frontend/gtkmm/src/MicroBreakWindow.cc:110
+#: frontend/gtkmm/src/MicroBreakWindow.cc:146
+#, fuzzy
+msgid "Micro-break"
 msgstr "Mikropauza"
 
 #: frontend/gtkmm/src/GtkUtil.cc:117 frontend/gtkmm/src/RestBreakWindow.cc:179
@@ -106,73 +107,73 @@ msgid "Rest break"
 msgstr "Odpoczynek"
 
 #. Mode menu item
-#: frontend/gtkmm/src/Menus.cc:167 frontend/gtkmm/src/Menus.cc:403
+#: frontend/gtkmm/src/Menus.cc:168 frontend/gtkmm/src/Menus.cc:425
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
 msgid "_Mode"
 msgstr "_Tryb"
 
-#: frontend/gtkmm/src/Menus.cc:174 frontend/gtkmm/src/Menus.cc:393
+#: frontend/gtkmm/src/Menus.cc:175 frontend/gtkmm/src/Menus.cc:404
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
 msgid "_Normal"
 msgstr "_Normalny"
 
-#: frontend/gtkmm/src/Menus.cc:181 frontend/gtkmm/src/Menus.cc:396
+#: frontend/gtkmm/src/Menus.cc:182 frontend/gtkmm/src/Menus.cc:411
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
 msgid "_Suspended"
 msgstr "_Zawieszony"
 
-#: frontend/gtkmm/src/Menus.cc:188 frontend/gtkmm/src/Menus.cc:399
+#: frontend/gtkmm/src/Menus.cc:189 frontend/gtkmm/src/Menus.cc:418
 msgid "Q_uiet"
 msgstr "_Cichy"
 
-#: frontend/gtkmm/src/Menus.cc:202 frontend/gtkmm/src/Menus.cc:423
+#: frontend/gtkmm/src/Menus.cc:203 frontend/gtkmm/src/Menus.cc:444
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
 msgid "_Network"
 msgstr "_Sieć"
 
-#: frontend/gtkmm/src/Menus.cc:206 frontend/gtkmm/src/Menus.cc:408
+#: frontend/gtkmm/src/Menus.cc:207 frontend/gtkmm/src/Menus.cc:428
 msgid "_Connect"
 msgstr "_Połącz"
 
-#: frontend/gtkmm/src/Menus.cc:211 frontend/gtkmm/src/Menus.cc:411
+#: frontend/gtkmm/src/Menus.cc:212 frontend/gtkmm/src/Menus.cc:431
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
 msgid "_Disconnect"
 msgstr "_Rozłącz"
 
-#: frontend/gtkmm/src/Menus.cc:216 frontend/gtkmm/src/Menus.cc:415
+#: frontend/gtkmm/src/Menus.cc:217 frontend/gtkmm/src/Menus.cc:435
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
 msgid "_Reconnect"
 msgstr "Połącz znowu"
 
-#: frontend/gtkmm/src/Menus.cc:221 frontend/gtkmm/src/Menus.cc:419
+#: frontend/gtkmm/src/Menus.cc:222 frontend/gtkmm/src/Menus.cc:438
 msgid "Show _log"
 msgstr "_Pokaż log"
 
-#: frontend/gtkmm/src/Menus.cc:246 frontend/gtkmm/src/Menus.cc:391
+#: frontend/gtkmm/src/Menus.cc:247 frontend/gtkmm/src/Menus.cc:400
 #: frontend/gtkmm/src/RestBreakWindow.cc:73
 msgid "_Rest break"
 msgstr "_Odpoczynek"
 
-#: frontend/gtkmm/src/Menus.cc:258 frontend/gtkmm/src/Menus.cc:405
+#: frontend/gtkmm/src/Menus.cc:257 frontend/gtkmm/src/Menus.cc:401
 #: frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:40
 msgid "Exercises"
 msgstr "Ćwiczenia"
 
-#: frontend/gtkmm/src/Menus.cc:268 frontend/gtkmm/src/Menus.cc:425
+#: frontend/gtkmm/src/Menus.cc:269 frontend/gtkmm/src/Menus.cc:446
 #: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:59
 #: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:138
 msgid "Statistics"
 msgstr "Statystyki"
 
-#: frontend/gtkmm/src/Menus.cc:282 frontend/gtkmm/src/Menus.cc:426
+#: frontend/gtkmm/src/Menus.cc:283 frontend/gtkmm/src/Menus.cc:447
 msgid "About..."
 msgstr "O programie..."
 
-#: frontend/gtkmm/src/Menus.cc:390 frontend/gtkmm/src/PreferencesDialog.cc:55
+#: frontend/gtkmm/src/Menus.cc:399 frontend/gtkmm/src/PreferencesDialog.cc:55
 msgid "Preferences"
 msgstr "Preferencje"
 
-#: frontend/gtkmm/src/Menus.cc:668
+#: frontend/gtkmm/src/Menus.cc:689
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -180,17 +181,17 @@ msgstr ""
 "Program ten pomaga w zapobieganiu RSI (Repetitive Strain Injury)\n"
 "oraz wspomaga rekonwalescencję."
 
-#: frontend/gtkmm/src/MicroPauseWindow.cc:132
+#: frontend/gtkmm/src/MicroBreakWindow.cc:132
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Następny odpoczynek za %s"
 
-#: frontend/gtkmm/src/MicroPauseWindow.cc:138
+#: frontend/gtkmm/src/MicroBreakWindow.cc:138
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Zalegasz z odpoczynkiem %s"
 
-#: frontend/gtkmm/src/MicroPauseWindow.cc:142
+#: frontend/gtkmm/src/MicroBreakWindow.cc:142
 msgid "Please relax for a few seconds"
 msgstr "Zrelaksuj się parę sekund"
 
@@ -262,7 +263,8 @@ msgid "Block mode:"
 msgstr "Tryb blokowania:"
 
 #: frontend/gtkmm/src/PreludeWindow.cc:105
-msgid "Time for a micro-pause?"
+#, fuzzy
+msgid "Time for a micro-break?"
 msgstr "Czas na mikropauzę?"
 
 #: frontend/gtkmm/src/PreludeWindow.cc:109
@@ -305,7 +307,8 @@ msgid "Place timers next to each other"
 msgstr "Umieść zegary jeden obok drugiego"
 
 #: frontend/gtkmm/src/TimerBoxPreferencePage.cc:98
-msgid "Place micro-pause and rest break in one spot"
+#, fuzzy
+msgid "Place micro-break and rest break in one spot"
 msgstr "Umieść mikropauzę i odpoczynek w jednym miejscu"
 
 #: frontend/gtkmm/src/TimerBoxPreferencePage.cc:100
@@ -354,7 +357,8 @@ msgstr "Czas cyklu:"
 
 #. Layout
 #: frontend/gtkmm/src/TimerBoxPreferencePage.cc:172
-msgid "Micro-pause:"
+#, fuzzy
+msgid "Micro-break:"
 msgstr "Mikropauza:"
 
 #: frontend/gtkmm/src/TimerBoxPreferencePage.cc:173
@@ -393,7 +397,8 @@ msgid "Timer ignores activity"
 msgstr "Uważaj mikropauzy za aktywność"
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:166
-msgid "Regard micro-pauses as activity"
+#, fuzzy
+msgid "Regard micro-breaks as activity"
 msgstr "Uważaj mikropauzy za aktywność"
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:178
@@ -409,11 +414,13 @@ msgid "Resets at:"
 msgstr "Zresetuj o:"
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:217
-msgid "Pause duration:"
+#, fuzzy
+msgid "Break duration:"
 msgstr "Czas trwania przerwy:"
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:234
-msgid "Post-pone time:"
+#, fuzzy
+msgid "Postpone time:"
 msgstr "Opóźnienie trwa:"
 
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:1

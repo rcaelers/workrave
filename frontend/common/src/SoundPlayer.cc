@@ -1,6 +1,6 @@
 // SoundPlayer.cc --- Sound player
 //
-// Copyright (C) 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -52,14 +52,14 @@ static short prelude_beeps[][2]=
     { 0, 0 }
 };
     
-static short micro_pause_start_beeps[][2]=
+static short micro_break_start_beeps[][2]=
 {
     { 320, 70 },
     { 350, 70 },
     { 0, 0 },
 };
 
-static short micro_pause_end_beeps[][2]=
+static short micro_break_end_beeps[][2]=
 {
   { 350, 70 },
   { 320, 70 },
@@ -130,8 +130,8 @@ static short (*beep_map[])[2] =
   break_ignore_beeps,
   rest_break_start_beeps,
   rest_break_end_beeps,
-  micro_pause_start_beeps,
-  micro_pause_end_beeps,
+  micro_break_start_beeps,
+  micro_break_end_beeps,
   daily_limit_beeps,
   exercise_ended_beeps,
   exercises_ended_beeps

@@ -1,6 +1,6 @@
-// PreludeWindow.hh --- window for the micropause
+// PreludeWindow.hh --- window for the microbreak
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify

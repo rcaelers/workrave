@@ -1,6 +1,6 @@
 // GnomeSoundPlayer.cc --- Sound player
 //
-// Copyright (C) 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -46,10 +46,10 @@ GnomeSoundPlayer::play_sound(Sound snd)
   char *map[] = {
     "break_prelude",
     "break_ignored",
-    "restbreak_started",
-    "restbreak_ended",
-    "micropause_started",
-    "micropause_ended",
+    "rest_break_started",
+    "rest_break_ended",
+    "micro_break_started",
+    "micro_break_ended",
     "daily_limit",
     "exercise_ended",
     "exercises_ended"

@@ -1,6 +1,6 @@
-// RestBreakWindow.cc --- window for the micropause
+// RestBreakWindow.cc --- window for the microbreak
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 //
@@ -170,7 +170,7 @@ RestBreakWindow::create_info_panel()
 {
   Gtk::HBox *info_box = manage(new Gtk::HBox(false, 12));
   
-  string icon = Util::complete_directory("restbreak.png", Util::SEARCH_PATH_IMAGES);
+  string icon = Util::complete_directory("rest-break.png", Util::SEARCH_PATH_IMAGES);
   Gtk::Image *info_img = manage(new Gtk::Image(icon));
   info_img->set_alignment(0.0, 0.0);
   Gtk::Label *info_lab =

@@ -103,7 +103,7 @@ workrave_SOURCES = \
 			IconListNotebook.cc \
 			IconListCellRenderer.cc \
 			MainWindow.cc \
-			MicroPauseWindow.cc \
+			MicroBreakWindow.cc \
 			PreferencesDialog.cc \
 			PreludeWindow.cc \
 			RestBreakWindow.cc \

@@ -16,7 +16,7 @@ frontend/gtkmm/src/IconListCellRenderer.cc
 frontend/gtkmm/src/IconListNotebook.cc
 frontend/gtkmm/src/MainWindow.cc
 frontend/gtkmm/src/Menus.cc
-frontend/gtkmm/src/MicroPauseWindow.cc
+frontend/gtkmm/src/MicroBreakWindow.cc
 frontend/gtkmm/src/PreferencesDialog.cc
 frontend/gtkmm/src/PreludeWindow.cc
 frontend/gtkmm/src/RemoteControl.cc

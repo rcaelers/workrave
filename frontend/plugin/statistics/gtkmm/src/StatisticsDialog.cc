@@ -1,6 +1,6 @@
 // StatisticsDialog.cc --- Statistics dialog
 //
-// Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2004 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -227,7 +227,7 @@ StatisticsDialog::create_break_page(Gtk::Notebook *tnotebook)
   int y = 0;
 
   Gtk::Widget *mp_label = manage(GtkUtil::create_label_for_break
-                                 (BREAK_ID_MICRO_PAUSE));
+                                 (BREAK_ID_MICRO_BREAK));
   Gtk::Widget *rb_label = manage(GtkUtil::create_label_for_break
                                  (BREAK_ID_REST_BREAK));
   Gtk::Widget *dl_label = manage(GtkUtil::create_label_for_break

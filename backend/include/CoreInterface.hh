@@ -1,6 +1,6 @@
 // ControlInterface.hh --- The main controller interface
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -51,7 +51,7 @@ enum OperationMode
 enum BreakId
   {
     BREAK_ID_NONE = -1,
-    BREAK_ID_MICRO_PAUSE = 0,
+    BREAK_ID_MICRO_BREAK = 0,
     BREAK_ID_REST_BREAK,
     BREAK_ID_DAILY_LIMIT,
     BREAK_ID_SIZEOF

@@ -1,6 +1,6 @@
 // Win32SoundPlayer.cc --- Sound player
 //
-// Copyright (C) 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -39,14 +39,14 @@ static struct SoundRegistry
     "Break prompt" },
   { "WorkraveBreakIgnored", "break-ignored.wav",
     "Break ignored" },
-  { "WorkraveRestBreakStarted", "restbreak-started.wav",
+  { "WorkraveRestBreakStarted", "rest-break-started.wav",
     "Rest break started" },
-  { "WorkraveRestBreakEnded", "restbreak-ended.wav",
+  { "WorkraveRestBreakEnded", "rest-break-ended.wav",
     "Rest break ended" },
-  { "WorkraveMicroPauseStarted", "micropause-started.wav",
-    "Micro-pause started" },
-  { "WorkraveMicroPauseEnded", "micropause-ended.wav",
-    "Micro-pause ended" },
+  { "WorkraveMicroBreakStarted", "micro-break-started.wav",
+    "Micro-break started" },
+  { "WorkraveMicroBreakEnded", "micro-break-ended.wav",
+    "Micro-break ended" },
   { "WorkraveDailyLimit", "daily-limit.wav",
     "Daily limit" },
   { "WorkraveExerciseEnded", "exercise-ended.wav",

@@ -125,7 +125,7 @@ TimerBoxGtkView::init_widgets()
   Glib::RefPtr<Gtk::SizeGroup> size_group
     = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_HORIZONTAL);
 
-  char *icons[] = { "timer-micropause.png", "timer-restbreak.png", "timer-daily.png" };
+  char *icons[] = { "timer-micro-break.png", "timer-rest-break.png", "timer-daily.png" };
   for (int count = 0; count < BREAK_ID_SIZEOF; count++)
     {
       string icon = Util::complete_directory(string(icons[count]), Util::SEARCH_PATH_IMAGES);

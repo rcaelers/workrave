@@ -1,6 +1,6 @@
 // Break.cc
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -66,6 +66,7 @@ struct Defaults
 } default_config[] =
   {
     {
+      // FIXME: Rename to micro_break, but in a backwards compatible manner.
       "micro_pause",
       3*60, 30, "", 150,
       3, -1, true,  

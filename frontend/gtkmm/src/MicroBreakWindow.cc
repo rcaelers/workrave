@@ -1,6 +1,6 @@
-// MicroPauseWindow.cc --- window for the micropause
+// MicroBreakWindow.cc --- window for the microbreak
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -29,7 +29,7 @@ static const char rcsid[] = "$Id$";
 #include "nls.h"
 #include "debug.hh"
 
-#include "MicroPauseWindow.hh"
+#include "MicroBreakWindow.hh"
 #include "WindowHints.hh"
 #include "TimeBar.hh"
 #include "TimerInterface.hh"
@@ -38,28 +38,28 @@ static const char rcsid[] = "$Id$";
 #include "Text.hh"
 #include "Hig.hh"
 
-//! Construct a new Micropause window.
-MicroPauseWindow::MicroPauseWindow(HeadInfo &head, TimerInterface *timer, bool ignorable, GUI::BlockMode mode) :
-  BreakWindow(BREAK_ID_MICRO_PAUSE, head, ignorable, mode),
+//! Construct a new Microbreak window.
+MicroBreakWindow::MicroBreakWindow(HeadInfo &head, TimerInterface *timer, bool ignorable, GUI::BlockMode mode) :
+  BreakWindow(BREAK_ID_MICRO_BREAK, head, ignorable, mode),
   restbreak_timer(timer),
   progress_value(0),
   progress_max_value(0)
 {
-  set_title(_("Micro-pause"));
+  set_title(_("Micro-break"));
 }
 
 Gtk::Widget *
-MicroPauseWindow::create_gui()
+MicroBreakWindow::create_gui()
 {
   // Time bar
   time_bar = manage(new TimeBar);
-  time_bar->set_text("Micropause 0:32"); // FIXME
+  time_bar->set_text("Microbreak 0:32"); // FIXME
 
   // Label
   label = manage(new Gtk::Label());
 
   // Icon
-  string icon = Util::complete_directory("micropause.png", Util::SEARCH_PATH_IMAGES);
+  string icon = Util::complete_directory("microbreak.png", Util::SEARCH_PATH_IMAGES);
   Gtk::Image *img = manage(new Gtk::Image(icon));
   img->set_alignment(0.0, 0.0);
   
@@ -85,9 +85,9 @@ MicroPauseWindow::create_gui()
 
 
 //! Destructor.
-MicroPauseWindow::~MicroPauseWindow()
+MicroBreakWindow::~MicroBreakWindow()
 {
-  TRACE_ENTER("MicroPauseWindow::~MicroPauseWindow");
+  TRACE_ENTER("MicroBreakWindow::~MicroBreakWindow");
   TRACE_EXIT();
 }
 
@@ -95,19 +95,19 @@ MicroPauseWindow::~MicroPauseWindow()
 
 //! Updates the main window.
 void
-MicroPauseWindow::heartbeat()
+MicroBreakWindow::heartbeat()
 {
   refresh();
 }
 
 
 void
-MicroPauseWindow::refresh_time_bar()
+MicroBreakWindow::refresh_time_bar()
 {
-  TRACE_ENTER("MicroPauseWindow::refresh_time_bar");
+  TRACE_ENTER("MicroBreakWindow::refresh_time_bar");
 
   time_t time = progress_max_value - progress_value;
-  string s = _("Micro-pause");
+  string s = _("Micro-break");
   s += ' ';
   s += Text::time_to_string(time);
   time_bar->set_progress(progress_value, progress_max_value - 1);
@@ -119,9 +119,9 @@ MicroPauseWindow::refresh_time_bar()
 
 
 void
-MicroPauseWindow::refresh_label()
+MicroBreakWindow::refresh_label()
 {
-  TRACE_ENTER("MicroPauseWindow::refresh_label");
+  TRACE_ENTER("MicroBreakWindow::refresh_label");
   time_t limit = restbreak_timer->get_limit();
   time_t elapsed =  restbreak_timer->get_elapsed_time();
   char s[128];
@@ -143,14 +143,14 @@ MicroPauseWindow::refresh_label()
   txt += "\n";
   txt += s;
   
-  label->set_markup(HigUtil::create_alert_text(_("Micro-pause"), txt.c_str()));
+  label->set_markup(HigUtil::create_alert_text(_("Micro-break"), txt.c_str()));
   TRACE_EXIT();
 }
 
 
 //! Refresh window.
 void
-MicroPauseWindow::refresh()
+MicroBreakWindow::refresh()
 {
   refresh_time_bar();
   refresh_label();
@@ -158,7 +158,7 @@ MicroPauseWindow::refresh()
 
 
 void
-MicroPauseWindow::set_progress(int value, int max_value)
+MicroBreakWindow::set_progress(int value, int max_value)
 {
   progress_max_value = max_value;
   progress_value = value;
