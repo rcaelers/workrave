@@ -38,17 +38,20 @@ private:
   void on_go_forward();
   void on_pause();
   void heartbeat();
+  void start_exercise();
   
   Gtk::Frame image_frame;
   Gtk::Image image;
   Gtk::ProgressBar progress_bar;
-  Gtk::TextView text_view;
+  Gtk::Label description_label;
   Gtk::Button back_button;
   Gtk::Button pause_button;
   Gtk::Button forward_button;
   Gtk::VBox image_box;
   std::list<Exercise> exercises;
+  std::list<Exercise>::const_iterator exercise_iterator;
   SigC::Connection heartbeat_signal;
+  int exercise_time;
 };
 
 #endif // HAVE_EXERCISES

@@ -26,7 +26,8 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
     forward_button(Gtk::Stock::GO_FORWARD)
 {
   Exercise::parse_exercises(exercises);
-  text_view.set_editable(false);
+  exercise_iterator = exercises.begin();
+
   progress_bar.set_orientation(Gtk::PROGRESS_TOP_TO_BOTTOM);
 
 
@@ -39,7 +40,9 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
   pause_button.signal_clicked()
     .connect(SigC::slot(*this, &ExercisesPanel::on_pause));
 
-  text_view.set_size_request(250, 250);
+  description_label.set_size_request(250, 250);
+  description_label.set_line_wrap(true);
+  
   image.set_size_request(250, 250);
   image_frame.add(image);
 
@@ -70,8 +73,10 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
   
   pack_start(image_box, false, false, 0);
   pack_start(progress_bar, false, false, 0);
-  pack_start(text_view, false, false, 0);
+  pack_start(description_label, false, false, 0);
 
+  start_exercise();
+  
   heartbeat_signal = GUI::get_instance()->signal_heartbeat()
     .connect(SigC::slot(*this, &ExercisesPanel::heartbeat));
 }
@@ -85,13 +90,37 @@ ExercisesPanel::~ExercisesPanel()
 }
 
 void
+ExercisesPanel::start_exercise()
+{
+  const Exercise &exercise = *exercise_iterator;
+  description_label.set_label(exercise.description);
+  exercise_time = 0;
+  progress_bar.set_fraction(0.);
+}
+
+void
 ExercisesPanel::on_go_back()
 {
+  if (exercise_iterator == exercises.begin())
+    {
+      exercise_iterator = --(exercises.end());
+    }
+  else
+    {
+      exercise_iterator--;
+    }
+  start_exercise();
 }
 
 void
 ExercisesPanel::on_go_forward()
 {
+  exercise_iterator++;
+  if (exercise_iterator == exercises.end())
+    {
+      exercise_iterator = exercises.begin();;
+    }
+  start_exercise();
 }
 
 void
@@ -102,4 +131,14 @@ ExercisesPanel::on_pause()
 void
 ExercisesPanel::heartbeat()
 {
+  const Exercise &exercise = *exercise_iterator;
+  if (exercise_time >= exercise.duration)
+    {
+      on_go_forward();
+    }
+  else
+    {
+      exercise_time++;
+      progress_bar.set_fraction((double) exercise_time / exercise.duration);
+    }
 }
