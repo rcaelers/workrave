@@ -81,10 +81,12 @@ BreakWindow::set_border_width(guint width)
 BreakWindow::~BreakWindow()
 {
   TRACE_ENTER("BreakWindow::~BreakWindow");
+#ifdef WIN32
   if (avoid_signal.connected())
     {
       avoid_signal.disconnect();
     }
+#endif
   ungrab();
   TRACE_EXIT();
 }
