@@ -33,7 +33,8 @@ CDeskBand::CDeskBand()
   m_dwViewMode = 0;
   m_dwBandID = 0;
   m_TimerBox = NULL;
- 
+  m_LastCopyData = 0;
+  
   m_ObjRefCount = 1;
   g_DllRefCount++;
 }
@@ -373,6 +374,7 @@ CDeskBand::QueryContextMenu( HMENU hMenu,
                                           UINT idCmdLast,
                                           UINT uFlags)
 {
+/*
   if(!(CMF_DEFAULTONLY & uFlags))
     {
       InsertMenu( hMenu, 
@@ -383,42 +385,25 @@ CDeskBand::QueryContextMenu( HMENU hMenu,
 
       return MAKE_HRESULT(SEVERITY_SUCCESS, 0, USHORT(IDM_COMMAND + 1));
     }
-
+*/
   return MAKE_HRESULT(SEVERITY_SUCCESS, 0, USHORT(0));
 }
 
 STDMETHODIMP
 CDeskBand::InvokeCommand(LPCMINVOKECOMMANDINFO lpcmi)
 {
+/*
   switch (LOWORD(lpcmi->lpVerb))
     {
     case IDM_COMMAND:
       MessageBox(lpcmi->hwnd, TEXT("Desk Band Command selected."), TEXT("Sample Desk Band"), MB_OK | MB_ICONINFORMATION);
-
-      {
-  BreakId slots[BREAK_ID_SIZEOF] = { BREAK_ID_MICRO_PAUSE, BREAK_ID_NONE, BREAK_ID_NONE };
-  static int i = 0;
-  if (i %2 ==0)
-  {
-      slots[1] = BREAK_ID_DAILY_LIMIT;
-      slots[2] = BREAK_ID_REST_BREAK;
-  }
-  i++;
-
-  for (int j = 0; j < BREAK_ID_SIZEOF; j++)
-  {
- m_TimerBox->set_slot(j, slots[j]);
-  }
- m_TimerBox->update();
- RedrawWindow(m_hWnd, NULL, NULL, RDW_ERASE|RDW_ALLCHILDREN|RDW_UPDATENOW);
-      }
-
+      // RedrawWindow(m_hWnd, NULL, NULL, RDW_ERASE|RDW_ALLCHILDREN|RDW_UPDATENOW);
       break;
 
     default:
       return E_INVALIDARG;
     }
-
+*/
   return NOERROR;
 }
 
@@ -430,7 +415,7 @@ CDeskBand::GetCommandString( UINT idCommand,
                                           UINT uMaxNameLen)
 {
   HRESULT  hr = E_INVALIDARG;
-
+/*
   switch(uFlags)
     {
     case GCS_HELPTEXT:
@@ -457,7 +442,7 @@ CDeskBand::GetCommandString( UINT idCommand,
       hr = NOERROR;
       break;
     }
-
+*/
   return hr;
 }
 
@@ -476,6 +461,7 @@ CDeskBand::WndProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
 
         //set the window handle
         pThis->m_hWnd = hWnd;
+        SetTimer(hWnd, 0xdeadf00d, 3000, NULL);
       }
       break;
    
@@ -485,6 +471,9 @@ CDeskBand::WndProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
     case WM_COMMAND:
       return pThis->OnCommand(wParam, lParam);
    
+    case WM_TIMER:
+      return pThis->OnTimer(wParam, lParam);
+
     case WM_COPYDATA:
       return pThis->OnCopyData((PCOPYDATASTRUCT) lParam);
 
@@ -515,12 +504,28 @@ CDeskBand::OnCommand(WPARAM wParam, LPARAM lParam)
 }
 
 LRESULT
+CDeskBand::OnTimer(WPARAM wParam, LPARAM lParam)
+{
+  if (m_TimerBox != NULL)
+    {
+      if (m_LastCopyData == 0 || difftime(time(NULL), m_LastCopyData) > 2)
+        {
+          m_TimerBox->set_enabled(false);
+          m_TimerBox->update();
+        }
+    }
+  return 0;
+}
+
+LRESULT
 CDeskBand::OnCopyData(PCOPYDATASTRUCT copy_data)
 {
     // FIXME: validate data length.
+    m_LastCopyData = time(NULL);
     if (m_TimerBox != NULL)
     {
         AppletData *data = (AppletData *) copy_data->lpData;
+        m_TimerBox->set_enabled(data->enabled);
         for (int s = 0; s < BREAK_ID_SIZEOF; s++) 
         {
             m_TimerBox->set_slot(s, (BreakId) data->slots[s]);

@@ -32,17 +32,23 @@ class TimerBox
   ~TimerBox();
 
   void set_slot(int slot, BreakId brk);
-  void set_time_bar(BreakId timer, time_t value);
   TimeBar *get_time_bar(BreakId timer);
   void set_size(int width, int height);
   void update();
+  void set_enabled(bool enabled);
 
  private:
-  TimeBar *time_bars[BREAK_ID_SIZEOF];
-  HWND break_icons[BREAK_ID_SIZEOF];
-  TimeBar *break_time_bars[BREAK_ID_SIZEOF];
-  BreakId break_slots[BREAK_ID_SIZEOF];
+  void update_time_bars();
+  void update_sheep();
+
+  TimeBar *slot_to_time_bar[BREAK_ID_SIZEOF];
+  HWND sheep_icon;
+  HWND break_to_icon[BREAK_ID_SIZEOF];
+  BreakId slot_to_break[BREAK_ID_SIZEOF];
+  short break_to_slot[BREAK_ID_SIZEOF];
   bool break_visible[BREAK_ID_SIZEOF];
+  bool enabled;
+  short filled_slots;
   int width;
   int height;
 };

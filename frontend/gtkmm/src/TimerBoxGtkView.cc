@@ -339,3 +339,8 @@ TimerBoxGtkView::update()
     }
 }
   
+void
+TimerBoxGtkView::set_enabled(bool enabled)
+{
+  // Status window disappears, no need to do anything here.
+}

@@ -17,6 +17,7 @@
 
 #include <windows.h>
 #include <shlobj.h>
+#include <time.h>
 
 #include "Globals.h"
 
@@ -92,7 +93,8 @@ class CDeskBand : public IDeskBand,
   DWORD m_dwBandID;
   IInputObjectSite *m_pSite;
   TimerBox *m_TimerBox;
-  
+  time_t m_LastCopyData;
+
  private:
   void FocusChange(BOOL);
   LRESULT OnKillFocus(void);
@@ -102,6 +104,7 @@ class CDeskBand : public IDeskBand,
   LRESULT OnCommand(WPARAM wParam, LPARAM lParam);
   LRESULT OnCopyData(PCOPYDATASTRUCT data);
   LRESULT OnSize(LPARAM);
+  LRESULT OnTimer(WPARAM wParam, LPARAM lParam);
   BOOL RegisterAndCreateWindow(void);
   
 };

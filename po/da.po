@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
-"POT-Creation-Date: 2004-02-04 22:42+0100\n"
+"POT-Creation-Date: 2004-02-04 23:35+0100\n"
 "PO-Revision-Date: 2003-09-09 16:25+0200\n"
 "Last-Translator: Christian Vejlbo <translate@vejlbo.dk>\n"
 "Language-Team:  <da@li.org>\n"

@@ -40,6 +40,7 @@ public:
                     TimeBarInterface::ColorId secondary_color,
                     int secondary_value, int secondary_max);
   void update();
+  void set_enabled(bool enabled);
 
   
 private:

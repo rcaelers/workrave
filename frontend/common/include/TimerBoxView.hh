@@ -35,6 +35,7 @@ public:
                             int primary_value, int primary_max,
                             TimeBarInterface::ColorId secondary_color,
                             int secondary_value, int secondary_max) = 0;
+  virtual void set_enabled(bool enabled) = 0;
   virtual void update() = 0;
   
 };

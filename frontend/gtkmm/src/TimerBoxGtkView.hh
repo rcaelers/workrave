@@ -47,6 +47,7 @@ public:
                             int primary_value, int primary_max,
                             TimeBar::ColorId secondary_color,
                             int secondary_value, int secondary_max);
+  void set_enabled(bool enabled);
   void update();
 
   

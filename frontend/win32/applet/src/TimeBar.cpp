@@ -19,9 +19,10 @@
 
 #include "TimeBar.h"
 
+const int BORDER_SIZE = 2;
 const int MARGINX = 4;
-const int MARGINY = 3;
-const int MIN_HORIZONTAL_BAR_HEIGHT = 20; // stolen from gtk's progress bar
+const int MARGINY = 0;
+const int MINIMAL_HEIGHT = 16;
 
 #define TIME_BAR_CLASS_NAME "WorkraveTimeBar"
 #define GDK_TO_COLORREF(r, g, b) (((r)>>8) | (((g)>>8) <<8) | (((b)>>8) << 16))
@@ -100,12 +101,10 @@ TimeBar::compute_size(int &w, int &h)
       w= rect.right;
     }
 
-  w += 2*MARGINX;
-  h += 2*MARGINY;
-  if (h < MIN_HORIZONTAL_BAR_HEIGHT) 
-    {
-      h = MIN_HORIZONTAL_BAR_HEIGHT;
-    }
+  w += 2*MARGINX + 2*BORDER_SIZE;
+  h += 2*MARGINY + 2*BORDER_SIZE;
+  if (h < MINIMAL_HEIGHT)
+    h = MINIMAL_HEIGHT;
   ReleaseDC(hwnd, dc);
 }
 
@@ -130,7 +129,7 @@ TimeBar::on_paint(void)
 
   // Bar
   int bar_width = 0;
-  int border_size = 2;
+  int border_size = BORDER_SIZE;
   if (bar_max_value > 0)
     {
       bar_width = (bar_value * (winw - 2 * border_size)) / bar_max_value;
@@ -219,6 +218,8 @@ TimeBar::on_paint(void)
   DrawEdge(dc, &r, BF_ADJUST|EDGE_SUNKEN,BF_RECT);
 
   SetBkMode(dc, TRANSPARENT);
+  r.right -= border_size + MARGINX;
+  r.left += border_size + MARGINX;
   DrawText(dc, bar_text, strlen(bar_text), &r, DT_SINGLELINE|DT_VCENTER|DT_RIGHT);
 
   ReleaseDC(hwnd, dc);

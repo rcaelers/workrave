@@ -1,6 +1,6 @@
 // TimeBar.cc --- Time Bar
 //
-// Copyright (C) 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -179,7 +179,13 @@ TimeBar::on_expose_event(GdkEventExpose *e)
   if (sbar_width > 0)
     {
       // Overlap
-      assert(secondary_bar_color == COLOR_ID_INACTIVE);
+      
+      // We should assert() because this is not supported
+      // but there are some weird boundary cases
+      // in which this still happens.. need to check
+      // this out some time.
+      // assert(secondary_bar_color == COLOR_ID_INACTIVE);
+      
       ColorId overlap_color;
       switch (bar_color)
         {
@@ -190,7 +196,11 @@ TimeBar::on_expose_event(GdkEventExpose *e)
           overlap_color = COLOR_ID_INACTIVE_OVER_OVERDUE;
           break;
         default:
-          abort();
+          // We could abort() because this is not supported
+          // but there are some weird boundary cases
+          // in which this still happens.. need to check
+          // this out some time.
+          overlap_color = COLOR_ID_INACTIVE_OVER_ACTIVE;
         }
 
       if (sbar_width >= bar_width)

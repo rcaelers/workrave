@@ -18,20 +18,31 @@
 #include "TimerBox.h"
 #include "TimeBar.h"
 
+const int ICON_WIDTH = 16;
+const int ICON_HEIGHT = 16;
+const int PADDING_X = 2;
+const int PADDING_Y = 2;
+
 TimerBox::TimerBox(HWND parent, HINSTANCE hinst)
 {
   const char *icon_ids[] = { "micropause", "restbreak", "dailylimit" };
+  sheep_icon = CreateWindowEx
+      (WS_EX_TRANSPARENT, "STATIC",
+       "workrave", SS_REALSIZEIMAGE | SS_ICON | WS_CHILD
+       | WS_CLIPSIBLINGS, 0, 0, ICON_WIDTH, ICON_HEIGHT, parent, NULL, hinst, NULL);
   for (int i = 0; i < BREAK_ID_SIZEOF; i++) {
-    time_bars[i] = new TimeBar(parent, hinst);
-    break_icons[i] = CreateWindowEx
+    slot_to_time_bar[i] = new TimeBar(parent, hinst);
+    break_to_icon[i] = CreateWindowEx
       (WS_EX_TRANSPARENT, "STATIC",
        icon_ids[i], SS_REALSIZEIMAGE | SS_ICON | WS_CHILD
-       | WS_CLIPSIBLINGS | WS_BORDER, 0, 0, 16, 16, parent, NULL, hinst, NULL);
+       | WS_CLIPSIBLINGS, 0, 0, ICON_WIDTH, ICON_HEIGHT, parent, NULL, hinst, NULL);
 
-    break_time_bars[i] = NULL;
     break_visible[i] = false;
-    break_slots[i] = BREAK_ID_NONE;
+    slot_to_break[i] = BREAK_ID_NONE;
+    break_to_slot[i] = -1;
   }
+  filled_slots = 0;
+  enabled = false;
 }
 
 
@@ -39,8 +50,8 @@ TimerBox::~TimerBox()
 {
   for (int i = 0; i < BREAK_ID_SIZEOF; i++) 
     {
-      DestroyWindow(break_icons[i]);
-      delete time_bars[i];
+      DestroyWindow(break_to_icon[i]);
+      delete slot_to_time_bar[i];
     }
 }
 
@@ -48,28 +59,33 @@ TimerBox::~TimerBox()
 void 
 TimerBox::set_slot(int slot, BreakId brk)
 {
-  BreakId old_brk = break_slots[slot];
+  BreakId old_brk = slot_to_break[slot];
   if (old_brk != brk)
     {
-      break_slots[slot] = brk;
-      if (brk != BREAK_ID_NONE)
-        {
-          break_visible[brk] = true;
-          break_time_bars[brk] = time_bars[slot];
-        }
-
       if (old_brk != BREAK_ID_NONE)
         {
           break_visible[old_brk] = false;
-          break_time_bars[old_brk] = NULL;
+          break_to_slot[old_brk] = -1;
+          filled_slots--;
+        }
+      slot_to_break[slot] = brk;
+      if (brk != BREAK_ID_NONE)
+        {
+          int old_slot = break_to_slot[brk];
+          if (old_slot >= 0)
+            {
+              slot_to_break[old_slot] = BREAK_ID_NONE;
+            }
+          else
+            {
+              filled_slots++;
+            }
+          break_visible[brk] = true;
+          break_to_slot[brk] = slot;
         }
     }
 }
 
-void 
-TimerBox::set_time_bar(BreakId timer, time_t value)
-{
-}
 
 void 
 TimerBox::set_size(int w, int h)
@@ -78,48 +94,78 @@ TimerBox::set_size(int w, int h)
   height = h;
 }
 
+
 void 
 TimerBox::update()
 {
-  int x = 0, y = 0;
-  int bar_w, bar_h;
+  update_sheep();
+  update_time_bars();
+}
 
-  time_bars[0]->get_size(bar_w, bar_h);
-  int filled_slots = 0;
 
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++) 
+void 
+TimerBox::update_sheep()
+{
+  if (enabled && (filled_slots != 0))
     {
-      BreakId bid = break_slots[i];
+      ShowWindow(sheep_icon, SW_HIDE);
+    }
+  else
+    {
+      int x = (width - ICON_WIDTH)/2;
+      int y = (height- ICON_HEIGHT)/2;
+      SetWindowPos(sheep_icon, NULL, x, y, 0, 0,
+                   SWP_SHOWWINDOW|SWP_NOZORDER|SWP_NOSIZE);
+    }
+}
 
-      if (bid != BREAK_ID_NONE) 
+void 
+TimerBox::update_time_bars()
+{
+  if (enabled)
+    {
+      int x = 0, y = 0;
+      int bar_w, bar_h;
+
+      slot_to_time_bar[0]->get_size(bar_w, bar_h);
+      int icon_bar_w = ICON_WIDTH + PADDING_X + bar_w;
+      int columns = __max(1, width / icon_bar_w);
+      int rows = (filled_slots + columns - 1) / columns;
+      int box_h = rows * __max(ICON_HEIGHT, bar_h) + (rows -1) * PADDING_Y;
+      y = __max(0, (height - box_h)/2);
+  
+      for (int i = 0; i < BREAK_ID_SIZEOF; i++) 
         {
-          TimeBar *bar = break_time_bars[bid];
-          filled_slots++;
+          BreakId bid = slot_to_break[i];
 
-          SetWindowPos(break_icons[bid], NULL, x, y, 0, 0,
-                       SWP_SHOWWINDOW|SWP_NOZORDER|SWP_NOSIZE);
-          bar->set_position(true, x+16, y);
-          bar->update();
-          x += 16 + bar_w;
-          if (x + 16 + bar_w > width)
+          if (bid != BREAK_ID_NONE) 
             {
-              x = 0;
-              y += bar_h;
-            }
+              TimeBar *bar = get_time_bar(bid);
 
+              SetWindowPos(break_to_icon[bid], NULL, x, y, 0, 0,
+                           SWP_SHOWWINDOW|SWP_NOZORDER|SWP_NOSIZE);
+              bar->set_position(true, x+ICON_WIDTH+PADDING_X, y);
+              bar->update();
+              x += icon_bar_w;
+              if (x + icon_bar_w > width)
+                {
+                  x = 0;
+                  y += __max(ICON_HEIGHT, bar_h) + PADDING_Y;
+                }
+
+            }
         }
     }
-
   for (int h = 0; h < BREAK_ID_SIZEOF; h++)
     {
-      if (! break_visible[h])
+      if ((! enabled) || (! break_visible[h]))
         {
-          ShowWindow(break_icons[h], SW_HIDE);
+          ShowWindow(break_to_icon[h], SW_HIDE);
         }
     }
-  for (int j = filled_slots; j < BREAK_ID_SIZEOF; j++) 
+  for (int j = enabled ? filled_slots : 0; j < BREAK_ID_SIZEOF; j++) 
     {
-      time_bars[j]->set_position(false, 0, 0);
+      slot_to_time_bar[j]->set_position(false, 0, 0);
     }
 }
 
@@ -128,5 +174,18 @@ TimerBox::update()
 TimeBar *
 TimerBox::get_time_bar(BreakId timer)
 {
-  return break_time_bars[timer];
+  TimeBar *ret = NULL;
+  int slot = break_to_slot[timer];
+  if (slot >= 0)
+    {
+      ret = slot_to_time_bar[slot];
+    }
+  return ret;
+}
+
+
+void
+TimerBox::set_enabled(bool ena)
+{
+  enabled = ena;
 }

@@ -116,4 +116,9 @@ TimerBoxAppletView::get_applet_window()
   return applet_window;
 }
 
+void
+TimerBoxAppletView::set_enabled(bool enabled)
+{
+  // applet_data.enabled = enabled;
+}
 
