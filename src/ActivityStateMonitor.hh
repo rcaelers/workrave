@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-09-21 20:01:21 robc>
+// Time-stamp: <2002-09-23 19:43:04 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -88,10 +88,7 @@ public:
   void get_parameters(int &noise, int &activity, int &idle);
 
   //! Returns the total mouse movement
-  int get_mouse_movement() const;
-
-  //! Returns the total mouse click movement
-  int get_mouse_click_movement() const;
+  int get_statistics(ActivityMonitorStatistics &stats) const;
   
 private:
   //! the current state.
@@ -127,13 +124,14 @@ private:
   //! The idle threshold.
   struct timeval idle_threshold;
 
-  // Statistical info.
+  //! Statistical info.
+  ActivityMonitorStatistics statistics;
 
-  //! Total mouse movement;
-  int total_movement;
+  //! Last time a mouse event was received.
+  struct timeval last_mouse_time;
 
-  //! Total mouse movement bewteen click-point;
-  int total_click_movement;
+  //! Last time a mouse event was received.
+  struct timeval total_mouse_time;
 };
 
 #endif // ACTIVITYSTATEMONITOR_HH

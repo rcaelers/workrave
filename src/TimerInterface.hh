@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-09-16 15:10:12 caelersr>
+// Time-stamp: <2002-09-23 20:04:02 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -95,6 +95,7 @@ public:
   virtual void snooze_timer() = 0;
   virtual void stop_timer() = 0;
   virtual void reset_timer() = 0;
+  virtual void freeze_timer(bool f) = 0;
   
   // Timer ID
   virtual string get_id() const = 0;

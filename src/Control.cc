@@ -151,8 +151,13 @@ Control::process_timers(map<string, TimerInfo> &infos)
   
   TRACE_MSG("monitor stats "
             << stats.total_movement << " " 
-            << stats.total_click_movement << " " 
-            << ratio);
+            << stats.total_click_movement << " "
+            << ratio << " "
+            << stats.total_movement_time << " "
+            << stats.total_clicks << " "
+            << stats.total_keystrokes
+            )
+
   
   current_time = time(NULL);
           

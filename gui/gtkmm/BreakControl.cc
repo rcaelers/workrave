@@ -62,7 +62,9 @@ BreakControl::BreakControl(GUIControl::BreakId id, ControlInterface *c,
   insist_break(true),
   ignorable_break(true),
   break_window_destroy(false),
-  prelude_window_destroy(false)
+  prelude_window_destroy(false),
+  insist_policy(INSIST_POLICY_HALT),
+  active_insist_policy(INSIST_POLICY_INVALID)
 {
   set_insist_break(insist_break);
   set_ignorable_break(ignorable_break);
@@ -161,7 +163,7 @@ BreakControl::heartbeat()
         // 2) this is NO forced (user initiated) break, and
         // 3) we don't have number_of_preludes set (i.e. >= 0)
         // 4) we hasn't reached the number_of_preludes
-        if (!is_idle && !forced_break && !final_prelude)
+        if (!is_idle && !forced_break && !final_prelude && !insist_break)
           {
             goto_stage(STAGE_PRELUDE);
           }
@@ -191,9 +193,8 @@ BreakControl::goto_stage(BreakStage stage)
       break_window_stop();
       prelude_window_stop();
       {
-        ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
-        monitor->resume();
-
+        defrost();
+        
         if (break_stage == STAGE_TAKING)
           {
             time_t idle = break_timer->get_elapsed_idle_time();
@@ -213,9 +214,8 @@ BreakControl::goto_stage(BreakStage stage)
         break_window_stop();
         prelude_window_stop();
         // break_timer->snooze_timer();
-        
-        ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
-        monitor->resume();
+
+        defrost();
       }
       break;
 
@@ -240,9 +240,7 @@ BreakControl::goto_stage(BreakStage stage)
 
         if (insist_break)
           {
-            TRACE_MSG("suspending monitor");
-            ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
-            monitor->suspend();
+            freeze();
           }
       }
       break;
@@ -371,9 +369,8 @@ BreakControl::suspend_break()
   TRACE_ENTER("BreakControl::suspend_break");
 
   goto_stage(STAGE_NONE);
-  ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
-  monitor->resume();
-
+  defrost();
+  
   TRACE_EXIT();
 }
 
@@ -509,6 +506,13 @@ BreakControl::set_ignorable_break(bool i)
 }
 
 
+void
+BreakControl::set_insist_policy(InsistPolicy p)
+{
+  insist_policy = p;
+}
+
+
 //! Creates and shows the break window.
 void
 BreakControl::break_window_start()
@@ -607,4 +611,62 @@ BreakControl::collect_garbage()
       break_window = NULL;
       break_window_destroy = false;
     }
+}
+
+
+void
+BreakControl::freeze()
+{
+  TRACE_ENTER("BreakControl::freeze");
+  switch (insist_policy)
+    {
+    case INSIST_POLICY_SUSPEND:
+      {
+        TRACE_MSG("suspending monitor");
+        ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
+        monitor->suspend();
+      }
+      break;
+    case INSIST_POLICY_HALT:
+      {
+        TRACE_MSG("freezing timer");
+        break_timer->freeze_timer(true);
+      }
+      break;
+    case INSIST_POLICY_RESET:
+      
+    default:
+      break;
+    }
+
+  active_insist_policy = insist_policy;
+  TRACE_EXIT();
+}
+
+void
+BreakControl::defrost()
+{
+  TRACE_ENTER("BreakControl::defrost");
+  switch (active_insist_policy)
+    {
+    case INSIST_POLICY_SUSPEND:
+      {
+        ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
+        monitor->resume();
+      }
+      break;
+    case INSIST_POLICY_HALT:
+      {
+        TRACE_MSG("freezing timer");
+        break_timer->freeze_timer(false);
+      }
+      break;
+      
+    default:
+      break;
+    }
+
+  active_insist_policy = INSIST_POLICY_INVALID;
+  
+  TRACE_EXIT();
 }

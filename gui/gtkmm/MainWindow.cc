@@ -245,7 +245,7 @@ MainWindow::update()
               bar->set_bar_color(TimeBar::COLOR_ID_ACTIVE);
             }
 
-	  if (timerState == TimerInterface::STATE_STOPPED &&
+	  if (//timerState == TimerInterface::STATE_STOPPED &&
 	      timer->is_auto_reset_enabled() && breakDuration != 0)
 	    {
 	      // resting.

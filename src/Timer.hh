@@ -63,6 +63,7 @@ public:
   void stop_timer();
   void reset_timer();
   void snooze_timer();
+  void freeze_timer(bool f);
 
   // Timer processing.
   //TimerEvent process(ActivityState activityState);
@@ -118,6 +119,9 @@ private:
 
   //! Is this timer enabled ?
   bool timer_enabled;
+
+  //! Is the timer frozen? A frozen timer only counts idle time.
+  bool timer_frozen;
   
   //! State of the state monitor.
   ActivityState activity_state;
@@ -151,6 +155,9 @@ private:
   
   //! Elapsed time.
   time_t elapsed_time;
+
+  //! Elapsed Idle time.
+  time_t elapsed_idle_time;
 
   //! Last time the limit was reached.
   time_t last_limit_time;

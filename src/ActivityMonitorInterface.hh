@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-09-21 20:08:03 robc>
+// Time-stamp: <2002-09-23 19:46:45 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -33,6 +33,15 @@ public:
 
   //! Total mouse movement bewteen click-point;
   int total_click_movement;
+
+  //! Total mouse movement time.
+  int total_movement_time;
+
+  //! Total mouse button clicks.
+  int total_clicks;
+
+  //! Total number of keystokes
+  int total_keystrokes;
 };
 
 

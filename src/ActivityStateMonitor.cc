@@ -47,9 +47,7 @@ ActivityStateMonitor::ActivityStateMonitor() :
   prev_x(-1),
   prev_y(-1),
   click_x(-1),
-  click_y(-1),
-  total_movement(0),
-  total_click_movement(0)
+  click_y(-1)
 {
   first_action_time.tv_sec = 0;
   first_action_time.tv_usec = 0;
@@ -65,6 +63,14 @@ ActivityStateMonitor::ActivityStateMonitor() :
 
   idle_threshold.tv_sec = 5;
   idle_threshold.tv_usec = 0;
+
+  last_mouse_time.tv_sec = 0;
+  last_mouse_time.tv_usec = 0;
+  
+  statistics.total_movement = 0;
+  statistics.total_click_movement = 0;
+  statistics.total_clicks = 0;
+  statistics.total_keystrokes = 0;
 }
 
 
@@ -110,11 +116,24 @@ ActivityStateMonitor::mouse_notify(int x, int y, int wheel_delta)
       int delta_x = x - prev_x;
       int delta_y = y - prev_y;
       
-      total_movement += int(sqrt(delta_x * delta_x + delta_y * delta_y));
+      statistics.total_movement += int(sqrt(delta_x * delta_x + delta_y * delta_y));
       
       prev_x = x;
       prev_y = y;
       action_notify();
+
+      struct timeval now, tv;
+
+      gettimeofday(&now, NULL);
+      tvSUBTIME(tv, now, last_mouse_time);
+      
+      if (tv.tv_sec < 1)
+        {
+          tvADDTIME(total_mouse_time, total_mouse_time, tv)
+        }
+
+      last_mouse_time = now;
+      
     }
   lock.unlock();
 }
@@ -129,11 +148,15 @@ ActivityStateMonitor::button_notify(int button_mask)
       int delta_x = click_x - prev_x;
       int delta_y = click_y - prev_y;
      
-      total_click_movement += int(sqrt(delta_x * delta_x + delta_y * delta_y));
+      statistics.total_click_movement += int(sqrt(delta_x * delta_x + delta_y * delta_y));
     }
+  
   click_x = prev_x;
   click_y = prev_y;
   action_notify();
+
+  statistics.total_clicks++;
+  
   lock.unlock();
 }
 
@@ -143,6 +166,7 @@ ActivityStateMonitor::keyboard_notify(int key_code, int modifier)
 {
   lock.lock();
   action_notify();
+  statistics.total_keystrokes++;
   lock.unlock();
 }
 
@@ -274,13 +298,8 @@ ActivityStateMonitor::force_idle()
 
 
 int
-ActivityStateMonitor::get_mouse_movement() const
+ActivityStateMonitor::get_statistics(ActivityMonitorStatistics &stats) const
 {
-  return total_movement;
-}
-
-int
-ActivityStateMonitor::get_mouse_click_movement() const
-{
-  return total_click_movement;
+  stats = statistics;
+  stats.total_movement_time = total_mouse_time.tv_sec;
 }

@@ -24,6 +24,7 @@ static const char rcsid[] = "$Id$";
 
 #include "debug.hh"
 
+#include "ControlInterface.hh"
 #include "Util.hh"
 #include "Statistics.hh"
 
@@ -32,8 +33,9 @@ const char *WORKRAVESTATS="WorkRaveStats";
 const int STATSVERSION = 3;
 
 //! Constructor
-Statistics::Statistics()
-  : current_day(NULL)
+Statistics::Statistics() : 
+  current_day(NULL),
+  core_control(NULL)
 {
   start_new_day();
 }
@@ -51,6 +53,13 @@ Statistics::~Statistics()
     {
       delete *i;
     }
+}
+
+
+void
+Statistics::init(ControlInterface *control)
+{
+  core_control = control;
 }
 
 
@@ -401,3 +410,24 @@ Statistics::get_history_size() const
 {
   return history.size();
 }
+
+
+
+void
+Statistics::update_current_day()
+{
+  if (core_control != NULL)
+    {
+      TimerInterface *t = core_control->get_timer("daily_limit");
+      assert(t != NULL);
+
+      set_total_active(t->get_elapsed_time());
+
+      ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
+      assert(monitor != NULL);
+
+      monitor->get_statistics(current_day->activity_stats);
+    }
+}
+
+

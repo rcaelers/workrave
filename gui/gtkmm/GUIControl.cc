@@ -263,6 +263,7 @@ GUIControl::init()
   restbreak_control->set_prelude_text("You need a rest break...");
 
   Statistics *stats = Statistics::get_instance();
+  stats->init(core_control);
   stats->load_current_day();
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -311,13 +312,8 @@ GUIControl::update_statistics()
 
   if (count % 60 == 0)
     {
-      TimerInterface *t = core_control->get_timer("daily_limit");
-      assert(t != NULL);
-
-      time_t elasped = t->get_elapsed_time();
-
       Statistics *stats = Statistics::get_instance();
-      stats->set_total_active(elasped);
+      stats->update_current_day();
       stats->save_current_day();
     }
 
