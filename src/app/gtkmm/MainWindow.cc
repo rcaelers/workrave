@@ -292,7 +292,7 @@ MainWindow::open_window()
 void
 MainWindow::close_window()
 {
-#ifdef HAVE_GNOME
+#ifdef HAVE_GNOME_THIS_IS_BROKEN
   GUI *gui = GUI::get_instance(); 
   assert(gui != NULL);
 

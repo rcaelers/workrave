@@ -102,7 +102,9 @@ DailyLimitWindow::DailyLimitWindow(HeadInfo &head, bool ignorable, bool insist) 
   stick();
   
   // Set some window hints.
+#ifdef BROKEN  
   WindowHints::set_skip_winlist(Gtk::Widget::gobj(), true);
+#endif  
   WindowHints::set_always_on_top(Gtk::Widget::gobj(), true);
   GTK_WIDGET_UNSET_FLAGS(Gtk::Widget::gobj(), GTK_CAN_FOCUS);
 
