@@ -60,12 +60,13 @@ static const char rcsid[] = "$Id$";
 
 #include "Menus.hh"
 
+const string MainWindow::CFG_KEY_MAIN_WINDOW_START_IN_TRAY
+= "gui/main_window/start_in_tray";
+
 #ifdef WIN32
 const char *WIN32_MAIN_CLASS_NAME = "Workrave";
 const UINT MYWM_TRAY_MESSAGE = WM_USER +0x100;
 
-const string MainWindow::CFG_KEY_MAIN_WINDOW_START_IN_TRAY
-= "gui/main_window/start_in_tray";
 const string MainWindow::CFG_KEY_MAIN_WINDOW_X
 = "gui/main_window/x";
 const string MainWindow::CFG_KEY_MAIN_WINDOW_Y
@@ -155,7 +156,7 @@ MainWindow::init()
   win32_get_start_position(x, y);
   set_gravity(Gdk::GRAVITY_STATIC); 
   set_position(Gtk::WIN_POS_NONE);
-  if (win32_get_start_in_tray())
+  if (get_start_in_tray())
     {
       move(-1024, 0);
       show_all();
@@ -169,6 +170,10 @@ MainWindow::init()
     }
 #else
   show_all();
+  if (get_start_in_tray())
+    {
+      iconify();
+    }
 #endif
   setup();
   TRACE_EXIT();
@@ -269,6 +274,30 @@ MainWindow::set_always_on_top(bool b)
   GUIControl::get_instance()->get_configurator()
     ->set_value(GUIControl::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP, b);
 }
+
+
+bool
+MainWindow::get_start_in_tray() 
+{
+  bool b;
+  bool rc;
+  b = GUIControl::get_instance()->get_configurator()
+    ->get_value(CFG_KEY_MAIN_WINDOW_START_IN_TRAY, &rc);
+  if (! b)
+    {
+      rc = false;
+    }
+  return rc;
+}
+
+
+void
+MainWindow::set_start_in_tray(bool b)
+{
+  GUIControl::get_instance()->get_configurator()
+    ->set_value(CFG_KEY_MAIN_WINDOW_START_IN_TRAY, b);
+}
+
 
 #ifdef WIN32
 void
@@ -403,27 +432,6 @@ MainWindow::win32_on_tray_open()
 }
 
 
-bool
-MainWindow::win32_get_start_in_tray() 
-{
-  bool b;
-  bool rc;
-  b = GUIControl::get_instance()->get_configurator()
-    ->get_value(CFG_KEY_MAIN_WINDOW_START_IN_TRAY, &rc);
-  if (! b)
-    {
-      rc = false;
-    }
-  return rc;
-}
-
-
-void
-MainWindow::win32_set_start_in_tray(bool b)
-{
-  GUIControl::get_instance()->get_configurator()
-    ->set_value(CFG_KEY_MAIN_WINDOW_START_IN_TRAY, b);
-}
 
 
 void

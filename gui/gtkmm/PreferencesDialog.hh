@@ -53,11 +53,9 @@ private:
   Gtk::CheckButton *ontop_cb;
   Gtk::OptionMenu *sound_button;
 
-#ifdef WIN32
-  void win32_on_start_in_tray_toggled();
+  void on_start_in_tray_toggled();
 
-  Gtk::CheckButton *win32_start_in_tray_cb;
-#endif
+  Gtk::CheckButton *start_in_tray_cb;
 };
 
 #endif // PREFERENCESWINDOW_HH

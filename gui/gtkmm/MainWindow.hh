@@ -80,14 +80,16 @@ private:
 
   // Events.
   bool on_delete_event(GdkEventAny*);
+
+public:  
+  static void set_start_in_tray(bool b);
+  static bool get_start_in_tray();
+  static const string CFG_KEY_MAIN_WINDOW_START_IN_TRAY;
   
 #ifdef WIN32
 public:
-  static void win32_set_start_in_tray(bool b);
-  static bool win32_get_start_in_tray();
   void win32_remember_position();
 
-  static const string CFG_KEY_MAIN_WINDOW_START_IN_TRAY;
   static const string CFG_KEY_MAIN_WINDOW_X;
   static const string CFG_KEY_MAIN_WINDOW_Y;
   

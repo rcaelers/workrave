@@ -130,23 +130,18 @@ PreferencesDialog::create_gui_page()
   sound_button->set_history(idx);
   sound_button->signal_changed().connect(SigC::slot(*this, &PreferencesDialog::on_sound_changed));
   
-  
-#ifdef WIN32
   // Tray start
-  win32_start_in_tray_cb
+  start_in_tray_cb
     = manage(new Gtk::CheckButton(_("Hide main window at start-up")));
-  win32_start_in_tray_cb->signal_toggled()
+  start_in_tray_cb->signal_toggled()
     .connect(SigC::slot(*this,
-			&PreferencesDialog::win32_on_start_in_tray_toggled));
-  win32_start_in_tray_cb->set_active(MainWindow::win32_get_start_in_tray());
-#endif
+			&PreferencesDialog::on_start_in_tray_toggled));
+  start_in_tray_cb->set_active(MainWindow::get_start_in_tray());
 
   // Options
   Gtk::VBox *opts_box = manage(new Gtk::VBox(false, 0));
   opts_box->pack_start(*ontop_cb, false, false, 0);
-#ifdef WIN32
-  opts_box->pack_start(*win32_start_in_tray_cb, false, false, 0);
-#endif
+  opts_box->pack_start(*start_in_tray_cb, false, false, 0);
   opts_box->pack_start(*sound_button, false, false, 0);
   opts_box->set_border_width(6);
 
@@ -270,13 +265,11 @@ PreferencesDialog::on_sound_changed()
     }
 }
 
-#ifdef WIN32
 void
-PreferencesDialog::win32_on_start_in_tray_toggled()
+PreferencesDialog::on_start_in_tray_toggled()
 {
-  MainWindow::win32_set_start_in_tray(win32_start_in_tray_cb->get_active());
+  MainWindow::set_start_in_tray(start_in_tray_cb->get_active());
 }
-#endif
 
 
 int
