@@ -525,6 +525,8 @@ win32_filter_func (void     *xevent,
 		    GdkEvent *event,
 		    gpointer  data)
 {
+  TRACE_ENTER("MainWindow::win32_filter_func");
+
   MSG *msg = (MSG *) xevent;
   GdkFilterReturn ret = GDK_FILTER_CONTINUE;
   switch (msg->message)
@@ -584,6 +586,7 @@ win32_filter_func (void     *xevent,
       }
     }
 
+  TRACE_EXIT();
   return ret;
 }
 
