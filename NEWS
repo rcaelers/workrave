@@ -7,10 +7,17 @@ http://workrave.sourceforge.net
 
 * Workrave 0.2.0
 
-** Activity during a persisted break is no longer ignored.
-   Instead, the timer is stopped whenefer the user is active.
+** Activity during a persisted break is no longer ignored. Instead,
+the timer is stopped whenefer the user is active.
 
-** Added taskbar tray support (Windows only). 
+** Microsoft Windows specific changes
+
+*** Added taskbar tray support. When the main window is closed, the
+program remains active in the tray. In the user interface preferences,
+you can select to hide the program when started.
+
+*** The main window is now opened at the position where it was during
+the last program exit.
 
 * Workrave 0.1.0
 

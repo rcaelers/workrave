@@ -45,6 +45,9 @@ public:
   ~MainWindow();
 
   void update();
+  static bool get_always_on_top();
+  static void set_always_on_top(bool b);
+
 
 private:
   //! The controller that maintains the data and control over the breaks
@@ -77,16 +80,11 @@ private:
   //! Is the monitoring function suspended?
   bool monitor_suspended;
   
-  //! MainWindow always on-top ?
-  bool always_on_top;
-  
 private:
   //
   void init();
   void setup();
   Gtk::Menu *create_menu(Gtk::RadioMenuItem *mode_menus[3]);
-  void load_config();
-  void store_config();
   void config_changed_notify(string key);
 
   // Events.
@@ -105,12 +103,23 @@ private:
 #endif
 
 #ifdef WIN32
+public:
+  static void win32_set_start_in_tray(bool b);
+  static bool win32_get_start_in_tray();
+
+  static const string CFG_KEY_MAIN_WINDOW_START_IN_TRAY;
+  static const string CFG_KEY_MAIN_WINDOW_X;
+  static const string CFG_KEY_MAIN_WINDOW_Y;
+  
 private:
   void win32_sync_menu(int mode);
   void win32_show(bool b);
   void win32_init();
   void win32_exit();
   void win32_on_tray_open();
+  void win32_remember_position();
+  static void win32_get_start_position(int &x, int &y);
+  static void win32_set_start_position(int x, int y);
 
   static LRESULT CALLBACK win32_window_proc(HWND hwnd, UINT uMsg,
                                             WPARAM wParam, LPARAM lParam);

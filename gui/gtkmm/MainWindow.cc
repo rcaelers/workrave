@@ -58,6 +58,14 @@ using SigC::slot;
 #ifdef WIN32
 const char *WIN32_MAIN_CLASS_NAME = "Workrave";
 const UINT MYWM_TRAY_MESSAGE = WM_USER +0x100;
+
+const string MainWindow::CFG_KEY_MAIN_WINDOW_START_IN_TRAY
+= "gui/main_window/start_in_tray";
+const string MainWindow::CFG_KEY_MAIN_WINDOW_X
+= "gui/main_window/x";
+const string MainWindow::CFG_KEY_MAIN_WINDOW_Y
+= "gui/main_window/y";
+
 #endif
 
 //! Constructor.
@@ -71,8 +79,7 @@ MainWindow::MainWindow(GUI *g, ControlInterface *c) :
   timers_box(NULL),
   timer_names(NULL),
   timer_times(NULL),
-  monitor_suspended(false),
-  always_on_top(true)
+  monitor_suspended(false)
 {
   init();
 }
@@ -108,11 +115,6 @@ MainWindow::init()
   TRACE_ENTER("MainWindow::init");
 
   set_title("Workrave");
-  
-  // Load config and store it again
-  // (in case no config was found and defaults were used)
-  load_config();
-  store_config();
   
   Configurator *config = gui->get_configurator();
   if (config != NULL)
@@ -175,9 +177,25 @@ MainWindow::init()
 
 #ifdef WIN32
   win32_init();
-#endif
-
+  int x, y;
+  win32_get_start_position(x, y);
+  set_gravity(Gdk::GRAVITY_STATIC); 
+  set_position(Gtk::WIN_POS_NONE);
+  if (win32_get_start_in_tray())
+    {
+      move(-1024, 0);
+      show_all();
+      win32_show(false);
+      move(x, y);
+    }
+  else
+    {
+      move(x, y);
+      show_all();
+    }
+#else
   show_all();
+#endif
   TRACE_EXIT();
 }
 
@@ -190,6 +208,7 @@ MainWindow::setup()
 {
   TRACE_ENTER("MainWindow::setup");
 
+  bool always_on_top = get_always_on_top();
   WindowHints::set_always_on_top(Gtk::Widget::gobj(), always_on_top);
   
   if (always_on_top)
@@ -376,45 +395,13 @@ MainWindow::create_menu(Gtk::RadioMenuItem *mode_menus[3])
 }
 
 
-void
-MainWindow::load_config()
-{
-  assert(gui != NULL);
-  
-  Configurator *config = gui->get_configurator();
-  if (config != NULL)
-    {
-      bool onTop;
-      if (config->get_value(GUIControl::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP, &onTop))
-        {
-          always_on_top = onTop;
-        }
-    }
-}
-
-
-void
-MainWindow::store_config()
-{
-  assert(gui != NULL);
-  
-  Configurator *config = gui->get_configurator();
-  if (config != NULL)
-    {
-      config->set_value(GUIControl::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP, always_on_top);
-      config->save();
-    }
-}
 
 
 void
 MainWindow::config_changed_notify(string key)
 {
   TRACE_ENTER("MainWindow::config_changed_notify");
-
-  load_config();
   setup();
-
   TRACE_EXIT();
 }
 
@@ -562,6 +549,26 @@ MainWindow::on_menu_about()
                     pixbuf));
 }
 
+bool
+MainWindow::get_always_on_top() 
+{
+  bool b;
+  bool rc;
+  b = GUIControl::get_instance()->get_configurator()
+    ->get_value(GUIControl::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP, &rc);
+  if (! b)
+    {
+      rc = false;
+    }
+  return rc;
+}
+
+void
+MainWindow::set_always_on_top(bool b)
+{
+  GUIControl::get_instance()->get_configurator()
+    ->set_value(GUIControl::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP, b);
+}
 
 #ifdef WIN32
 void
@@ -643,6 +650,10 @@ MainWindow::win32_init()
 void
 MainWindow::win32_exit()
 {
+  // Remember position
+  win32_remember_position();
+
+  // Destroy tray
   Shell_NotifyIcon(NIM_DELETE, &win32_tray_icon);
   DestroyWindow(win32_main_hwnd);
   UnregisterClass(WIN32_MAIN_CLASS_NAME, GetModuleHandle(NULL));
@@ -705,6 +716,66 @@ MainWindow::win32_sync_menu(int mode)
   syncing = false;
 
   TRACE_EXIT();
+}
+
+bool
+MainWindow::win32_get_start_in_tray() 
+{
+  bool b;
+  bool rc;
+  b = GUIControl::get_instance()->get_configurator()
+    ->get_value(CFG_KEY_MAIN_WINDOW_START_IN_TRAY, &rc);
+  if (! b)
+    {
+      rc = false;
+    }
+  return rc;
+}
+
+void
+MainWindow::win32_set_start_in_tray(bool b)
+{
+  GUIControl::get_instance()->get_configurator()
+    ->set_value(CFG_KEY_MAIN_WINDOW_START_IN_TRAY, b);
+}
+
+void
+MainWindow::win32_get_start_position(int &x, int &y)
+{
+  bool b;
+  // FIXME: Default to right-bottom instead of 256x256
+  Configurator *cfg = GUIControl::get_instance()->get_configurator();
+  b = cfg->get_value(CFG_KEY_MAIN_WINDOW_X, &x);
+  if (! b)
+    {
+      x = 256;
+    }
+  b = cfg->get_value(CFG_KEY_MAIN_WINDOW_Y, &y);
+  if (! b)
+    {
+      y = 256;
+    }
+}
+
+void
+MainWindow::win32_set_start_position(int x, int y)
+{
+  Configurator *cfg = GUIControl::get_instance()->get_configurator();
+  cfg->set_value(CFG_KEY_MAIN_WINDOW_X, x);
+  cfg->set_value(CFG_KEY_MAIN_WINDOW_Y, y);
+}
+
+void
+MainWindow::win32_remember_position()
+{
+  GtkWidget *window = Gtk::Widget::gobj();
+  GdkWindow *gdk_window = window->window;
+  HWND hwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
+  RECT rect;
+  if (GetWindowRect(hwnd, &rect))
+    {
+      win32_set_start_position(rect.left, rect.top);
+    }
 }
 
 #endif

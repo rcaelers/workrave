@@ -33,6 +33,7 @@
 #include "ControlInterface.hh"
 #include "TimeEntry.hh"
 #include "Util.hh"
+#include "MainWindow.hh"
 
 using std::cout;
 using SigC::slot;
@@ -63,57 +64,10 @@ PreferencesDialog::PreferencesDialog()
 {
   TRACE_ENTER("PreferencesDialog::PreferencesDialog");
 
-  // Always-on-top
-  ontop_cb = manage(new Gtk::CheckButton("The main window stays always on top of other windows"));
-  ontop_cb->signal_toggled().connect(SigC::slot(*this, &PreferencesDialog::on_always_on_top_toggled));
-  bool ontop;
-  GUIControl::get_instance()->get_configurator()->get_value(GUIControl::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP, &ontop);
-  ontop_cb->set_active(ontop);
-
-
-  // Monitor page
+  // Pages
   Gtk::Widget *monitor_page = manage(create_monitor_page());
-  
-  // GUI page
-  Gtk::VBox *gui_page
-    = manage
-    (create_page
-     ("You can configure the user interface related settings from here.\n",
-      "display.png"));
-  Gtk::Frame *gui_frame = manage(new Gtk::Frame("Options"));
-  ontop_cb->set_border_width(6);
-  gui_frame->add(*ontop_cb);
-  gui_page->pack_start(*gui_frame, false, false, 0);
-
-
-  // Timers page
-  Gtk::VBox *timer_page
-    = manage
-    (create_page
-     ("This dialog allows you to change the settings of the timers.  Each unit\n"
-      "of time is broken down into hours, minutes and seconds (also known as\n"
-      "the \"hh:mm:ss\" format).  These can all be controlled individually.",
-      "time.png"));
-  Gtk::Notebook *tnotebook = manage(new Gtk::Notebook());
-  tnotebook->set_tab_pos (Gtk::POS_TOP);  
-  for (int i = 0; i < GUIControl::TIMER_ID_SIZEOF; i++)
-    {
-      // Label
-      GUIControl::TimerData *timer = &GUIControl::get_instance()->timers[i];
-      
-      Gtk::HBox *box = manage(new Gtk::HBox(false, 3));
-      Gtk::Label *lab = manage(new Gtk::Label(timer->label));
-      Gtk::Image *img = manage(new Gtk::Image(timer->icon));
-      box->pack_start(*img, false, false, 0);
-      box->pack_start(*lab, false, false, 0);
-
-      TimerPreferencesPanel *tp = manage(new TimerPreferencesPanel(GUIControl::TimerId(i)));
-      box->show_all();
-      tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*tp, *box));
-    }
-  timer_page->pack_start(*tnotebook, false, false, 0);
-
-
+  Gtk::Widget *gui_page = manage(create_gui_page());
+  Gtk::Widget *timer_page = manage(create_timer_page());
   
   // Notebook
   Gtk::Notebook *notebook = manage(new Gtk::Notebook());
@@ -140,6 +94,75 @@ PreferencesDialog::~PreferencesDialog()
   TRACE_EXIT();
 }
 
+
+
+Gtk::Widget *
+PreferencesDialog::create_gui_page()
+{
+  // Always-on-top
+  ontop_cb = manage(new Gtk::CheckButton("The main window stays always on top of other windows"));
+  ontop_cb->signal_toggled().connect(SigC::slot(*this, &PreferencesDialog::on_always_on_top_toggled));
+  ontop_cb->set_active(MainWindow::get_always_on_top());
+
+#ifdef WIN32
+  // Tray start
+  win32_start_in_tray_cb
+    = manage(new Gtk::CheckButton("Hide main window at start-up"));
+  win32_start_in_tray_cb->signal_toggled()
+    .connect(SigC::slot(*this,
+			&PreferencesDialog::win32_on_start_in_tray_toggled));
+  win32_start_in_tray_cb->set_active(MainWindow::win32_get_start_in_tray());
+#endif
+
+  // Options
+  Gtk::VBox *opts_box = new Gtk::VBox(false, 6);
+  opts_box->pack_start(*ontop_cb, false, false, 0);
+  opts_box->pack_start(*win32_start_in_tray_cb, false, false, 0);
+  opts_box->set_border_width(6);
+
+  // Page
+  Gtk::VBox *gui_page
+    = create_page
+    ("You can configure the user interface related settings from here.\n",
+     "display.png");
+  Gtk::Frame *gui_frame = manage(new Gtk::Frame("Options"));
+  gui_frame->add(*opts_box);
+  gui_page->pack_start(*gui_frame, false, false, 0);
+
+  return gui_page;
+}
+
+Gtk::Widget *
+PreferencesDialog::create_timer_page()
+{
+  // Timers page
+  Gtk::VBox *timer_page
+    = create_page
+    ("This dialog allows you to change the settings of the timers.  Each unit\n"
+     "of time is broken down into hours, minutes and seconds (also known as\n"
+     "the \"hh:mm:ss\" format).  These can all be controlled individually.",
+     "time.png");
+  Gtk::Notebook *tnotebook = manage(new Gtk::Notebook());
+  tnotebook->set_tab_pos (Gtk::POS_TOP);  
+  for (int i = 0; i < GUIControl::TIMER_ID_SIZEOF; i++)
+    {
+      // Label
+      GUIControl::TimerData *timer = &GUIControl::get_instance()->timers[i];
+      
+      Gtk::HBox *box = manage(new Gtk::HBox(false, 3));
+      Gtk::Label *lab = manage(new Gtk::Label(timer->label));
+      Gtk::Image *img = manage(new Gtk::Image(timer->icon));
+      box->pack_start(*img, false, false, 0);
+      box->pack_start(*lab, false, false, 0);
+
+      TimerPreferencesPanel *tp = manage(new TimerPreferencesPanel(GUIControl::TimerId(i)));
+      box->show_all();
+      tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*tp, *box));
+    }
+  timer_page->pack_start(*tnotebook, false, false, 0);
+
+  return timer_page;
+}
 
 Gtk::Widget *
 PreferencesDialog::create_monitor_page()
@@ -258,8 +281,13 @@ PreferencesDialog::create_page(const char *label, const char *image)
 void
 PreferencesDialog::on_always_on_top_toggled()
 {
-  GUIControl::get_instance()->get_configurator()->set_value(GUIControl::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP, ontop_cb->get_active());
-  
+  MainWindow::set_always_on_top(ontop_cb->get_active());
+}
+
+void
+PreferencesDialog::win32_on_start_in_tray_toggled()
+{
+  MainWindow::win32_set_start_in_tray(win32_start_in_tray_cb->get_active());
 }
 
 void

@@ -37,9 +37,11 @@ public:
   int run();
   
 private:
-  Gtk::Widget *create_monitor_page();
   Gtk::VBox *create_page(const char *label, const char *image);
-
+  Gtk::Widget *create_monitor_page();
+  Gtk::Widget *create_gui_page();
+  Gtk::Widget *create_timer_page();
+  
   void on_always_on_top_toggled();
   void on_activity_time_changed();
   void on_idle_time_changed();
@@ -55,6 +57,12 @@ private:
   TimeEntry *activity_time;
   TimeEntry *idle_time;
   TimeEntry *noise_time;
+
+#ifdef WIN32
+  void win32_on_start_in_tray_toggled();
+
+  Gtk::CheckButton *win32_start_in_tray_cb;
+#endif
 };
 
 #endif // PREFERENCESWINDOW_HH
