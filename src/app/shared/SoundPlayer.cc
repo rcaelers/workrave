@@ -30,9 +30,13 @@ static const char rcsid[] = "$Id$";
 
 #ifdef HAVE_GNOME
 #include <gdk/gdk.h>
+#include "GnomeSoundPlayer.hh"
 #endif
 #ifdef HAVE_X
 #include <X11/Xlib.h>
+#endif
+#ifdef WIN32
+#include "Win32SoundPlayer.hh"
 #endif
 
 const char *SoundPlayer::CFG_KEY_SOUND_ENABLED = "sound/enabled";
@@ -154,6 +158,7 @@ SpeakerPlayer::SpeakerPlayer(short (*b)[2])
 void
 SpeakerPlayer::run()
 {
+  TRACE_ENTER("SpeakerPlayer::run");
 #ifdef WIN32
   // Windows 95 Beep() only beeps, it ignores frequency & duration parameters.
   // So, in the case of W95 do not relay on Sound::beep()
@@ -190,7 +195,7 @@ SpeakerPlayer::run()
     XCloseDisplay(display);
   }
 #endif
-  
+  TRACE_EXIT();
 }
   
 
@@ -199,9 +204,18 @@ SpeakerPlayer::run()
  **********************************************************************/
 
 
-SoundPlayer::SoundPlayer(SoundPlayerInterface *p)
+SoundPlayer::SoundPlayer()
 {
-  player = p;
+  player =
+#if defined(WIN32)
+     new Win32SoundPlayer()
+#elif defined(HAVE_GNOME)
+     new GnomeSoundPlayer()
+#else
+#  warning Sound card support disabled.
+     null
+#endif
+    ;
 }
 
 SoundPlayer::~SoundPlayer()

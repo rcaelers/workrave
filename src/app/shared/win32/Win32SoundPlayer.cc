@@ -24,6 +24,7 @@ static const char rcsid[] = "$Id$";
 #include "Win32SoundPlayer.hh"
 #include "SoundPlayer.hh"
 #include "Util.hh"
+#include "debug.hh"
 
 volatile HANDLE Win32SoundPlayer::thread_handle = NULL;
 
@@ -146,6 +147,7 @@ Win32SoundPlayer::register_sound_events()
 void
 Win32SoundPlayer::play_sound(Sound snd)
 {
+  TRACE_ENTER("Win32SoundPlayer::play_sound");
   SoundRegistry *s = &sound_registry[snd];
   if (! thread_handle)
     {
@@ -156,6 +158,7 @@ Win32SoundPlayer::play_sound(Sound snd)
       DWORD id;
       thread_handle = CreateThread(&sa, 0, thread_proc, s, 0, &id);
     }
+  TRACE_EXIT();
 }
 
 

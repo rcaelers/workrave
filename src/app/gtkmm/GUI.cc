@@ -59,13 +59,7 @@ static const char rcsid[] = "$Id$";
 #include <gconf/gconf-client.h>
 #endif
 
-#ifdef WIN32
-#include "Win32SoundPlayer.hh"
-#elif defined(HAVE_GNOME)
-#include "GnomeSoundPlayer.hh"
-#else
-#include "SoundPlayerInterface.hh"
-#endif
+#include "SoundPlayer.hh"
 
 #ifdef HAVE_GNOME
 #include "RemoteControl.hh"
@@ -712,13 +706,7 @@ GUI::create_break_window(HeadInfo &head, BreakId break_id, bool ignorable, bool 
 void
 GUI::init_sound_player()
 {
-#if defined(WIN32)
-  sound_player = new Win32SoundPlayer();
-#elif defined(HAVE_GNOME)
-  sound_player = new GnomeSoundPlayer(); // FIXME: LEAK
-#else
-#  warning Sound card support disabled.
-#endif
+  sound_player = new SoundPlayer();
 }
 
 
