@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-10-09 17:13:17 robc>
+// Time-stamp: <2002-10-21 20:48:09 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -127,8 +127,17 @@ Timer::disable()
 void
 Timer::set_limit(long limitTime)
 {
+  TRACE_ENTER("Timer::set_limit");
   limit_interval = limitTime;
+
+  TRACE_MSG(get_elapsed_time() << " " << limitTime);
+  if (get_elapsed_time() < limitTime)
+    {
+      last_limit_time = 0;
+    }
+
   compute_next_limit_time();
+  TRACE_EXIT();
 }
 
 
@@ -198,13 +207,15 @@ Timer::compute_next_limit_time()
   
   if (timer_enabled && last_limit_time != 0)
     {
+      TRACE_MSG("1");
       // Timer already reached limit
       next_limit_time = last_limit_time + snooze_interval;
     }
   else if (timer_enabled && timer_state == STATE_RUNNING && last_start_time != 0 &&
            limit_enabled && limit_interval != 0)
-    {
-      // We are enabled, running and a limit != 0 was set.
+    { 
+      TRACE_MSG("2");
+     // We are enabled, running and a limit != 0 was set.
       // So update our current Limit.
 
       // new limit = last start time + limit - elapsed.
@@ -213,10 +224,13 @@ Timer::compute_next_limit_time()
     }
   else
     {
+      TRACE_MSG("3");
       // Just in case....
       next_limit_time = 0;
     }
 
+  TRACE_MSG(next_limit_time - time(NULL));
+  
   TRACE_RETURN(next_limit_time);
 }
 
