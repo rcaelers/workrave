@@ -1,6 +1,6 @@
 // PreludeWindow.cc
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -100,8 +100,13 @@ PreludeWindow::start()
 
   // Set some window hints.
   WindowHints::set_skip_winlist(Gtk::Widget::gobj(), true);
-  WindowHints::set_always_on_top(Gtk::Widget::gobj(), true);
 
+  // Under Windows, Gtk::WINDOW_POPUP is always on top.
+  // An additional always on top seems to give it focus, so don't do this.
+#ifndef WIN32
+  WindowHints::set_always_on_top(Gtk::Widget::gobj(), true);
+#endif
+  
   set_avoid_pointer(true);
   center();
   show_all();

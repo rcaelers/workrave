@@ -99,7 +99,8 @@ Win32InputMonitor::mouse_hook(int code, WPARAM wparam, LPARAM lparam)
   PMOUSEHOOKSTRUCTEX mhs = (PMOUSEHOOKSTRUCTEX) lparam;
   int mx = mhs->MOUSEHOOKSTRUCT.pt.x;
   int my = mhs->MOUSEHOOKSTRUCT.pt.y;
-  int mw = HIWORD(mhs->mouseData);
+  int mw = wparam == WM_MOUSEWHEEL ? HIWORD(mhs->mouseData) : 0;
+
   TRACE_ENTER_MSG("Win32InputMonitor::mouse_hook",
                   wparam << ", (" << mx
                   << ", " << my
