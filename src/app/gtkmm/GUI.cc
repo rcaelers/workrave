@@ -904,9 +904,6 @@ GUI::collect_garbage()
   TRACE_ENTER("GUI::collect_garbage");
   if (prelude_window_destroy)
     {
-      prelude_window_destroy = false;
-      active_prelude_count = 0;
-
       if (prelude_windows != NULL)
         {
           for (int i = 0; i < active_prelude_count; i++)
@@ -918,13 +915,12 @@ GUI::collect_garbage()
                 }
             }
         }
+      prelude_window_destroy = false;
+      active_prelude_count = 0;
     }
   
   if (break_window_destroy)
     {
-      break_window_destroy = false;
-      active_break_count = 0;
-
       if (break_windows != NULL)
         {
           TRACE_MSG("1");
@@ -939,6 +935,8 @@ GUI::collect_garbage()
                 }
             }
         }
+      break_window_destroy = false;
+      active_break_count = 0;
     }
   TRACE_EXIT();
 }
