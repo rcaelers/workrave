@@ -92,12 +92,13 @@ private:
   static void static_async_accept(GTcpSocket* server, GTcpSocket* client, gpointer data);
   static gboolean static_async_io(GIOChannel* iochannel, GIOCondition condition, gpointer data);
 
-#ifdef HAVE_GNET2
+#ifndef HAVE_GNET2
   static void static_async_connected(GTcpSocket *socket, GInetAddr *ia,
                                      GTcpSocketConnectAsyncStatus status, gpointer data);
-#endif
+#else
   static void static_async_connected(GTcpSocket *socket,
                                      GTcpSocketConnectAsyncStatus status, gpointer data);
+#endif  
 };
 
 #endif // GNETSOCKETDRIVER_HH
