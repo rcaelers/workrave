@@ -33,7 +33,7 @@ INTDIR=.\Release
 OutDir=.\Release
 # End Custom Macros
 
-ALL : "$(OUTDIR)\WorkraveApplet.dll" ".\Release\Register.out"
+ALL : "$(OUTDIR)\workrave-applet.dll" ".\Release\Register.out"
 
 
 CLEAN :
@@ -46,16 +46,16 @@ CLEAN :
 	-@erase "$(INTDIR)\TimerBox.obj"
 	-@erase "$(INTDIR)\Util.obj"
 	-@erase "$(INTDIR)\vc60.idb"
-	-@erase "$(OUTDIR)\WorkraveApplet.dll"
-	-@erase "$(OUTDIR)\WorkraveApplet.exp"
-	-@erase "$(OUTDIR)\WorkraveApplet.lib"
+	-@erase "$(OUTDIR)\workrave-applet.dll"
+	-@erase "$(OUTDIR)\workrave-applet.exp"
+	-@erase "$(OUTDIR)\workrave-applet.lib"
 	-@erase ".\Release\Register.out"
 
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MT /W3 /GX /O2 /I "../include" /I "..\..\..\backend\include" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\Applet.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
+CPP_PROJ=/nologo /MT /W3 /GX /O2 /I "../include" /I "..\..\..\..\backend\include" /I "..\..\..\common\include" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\Applet.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c 
 
 .c{$(INTDIR)}.obj::
    $(CPP) @<<
@@ -96,7 +96,7 @@ BSC32_FLAGS=/nologo /o"$(OUTDIR)\Applet.bsc"
 BSC32_SBRS= \
 	
 LINK32=link.exe
-LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /incremental:no /pdb:"$(OUTDIR)\WorkraveApplet.pdb" /machine:I386 /def:".\Applet.def" /out:"$(OUTDIR)\WorkraveApplet.dll" /implib:"$(OUTDIR)\WorkraveApplet.lib" 
+LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /incremental:no /pdb:"$(OUTDIR)\workrave-applet.pdb" /machine:I386 /def:".\Applet.def" /out:"$(OUTDIR)\workrave-applet.dll" /implib:"$(OUTDIR)\workrave-applet.lib" 
 DEF_FILE= \
 	".\Applet.def"
 LINK32_OBJS= \
@@ -109,13 +109,13 @@ LINK32_OBJS= \
 	"$(INTDIR)\Util.obj" \
 	"$(INTDIR)\resource.res"
 
-"$(OUTDIR)\WorkraveApplet.dll" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
+"$(OUTDIR)\workrave-applet.dll" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
   $(LINK32_FLAGS) $(LINK32_OBJS)
 <<
 
 OutDir=.\Release
-InputPath=.\Release\WorkraveApplet.dll
+InputPath=.\Release\workrave-applet.dll
 SOURCE="$(InputPath)"
 
 "$(OUTDIR)\Register.out" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
@@ -133,7 +133,7 @@ INTDIR=.\Debug
 OutDir=.\Debug
 # End Custom Macros
 
-ALL : "$(OUTDIR)\WorkraveApplet.dll" "$(OUTDIR)\Applet.bsc"
+ALL : "$(OUTDIR)\workrave-applet.dll" "$(OUTDIR)\Applet.bsc"
 
 
 CLEAN :
@@ -155,11 +155,11 @@ CLEAN :
 	-@erase "$(INTDIR)\vc60.idb"
 	-@erase "$(INTDIR)\vc60.pdb"
 	-@erase "$(OUTDIR)\Applet.bsc"
-	-@erase "$(OUTDIR)\WorkraveApplet.dll"
-	-@erase "$(OUTDIR)\WorkraveApplet.exp"
-	-@erase "$(OUTDIR)\WorkraveApplet.ilk"
-	-@erase "$(OUTDIR)\WorkraveApplet.lib"
-	-@erase "$(OUTDIR)\WorkraveApplet.pdb"
+	-@erase "$(OUTDIR)\workrave-applet.dll"
+	-@erase "$(OUTDIR)\workrave-applet.exp"
+	-@erase "$(OUTDIR)\workrave-applet.ilk"
+	-@erase "$(OUTDIR)\workrave-applet.lib"
+	-@erase "$(OUTDIR)\workrave-applet.pdb"
 
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
@@ -218,7 +218,7 @@ BSC32_SBRS= \
 <<
 
 LINK32=link.exe
-LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /incremental:yes /pdb:"$(OUTDIR)\WorkraveApplet.pdb" /debug /machine:I386 /def:".\Applet.def" /out:"$(OUTDIR)\WorkraveApplet.dll" /implib:"$(OUTDIR)\WorkraveApplet.lib" /pdbtype:sept 
+LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /incremental:yes /pdb:"$(OUTDIR)\workrave-applet.pdb" /debug /machine:I386 /def:".\Applet.def" /out:"$(OUTDIR)\workrave-applet.dll" /implib:"$(OUTDIR)\workrave-applet.lib" /pdbtype:sept 
 DEF_FILE= \
 	".\Applet.def"
 LINK32_OBJS= \
@@ -231,7 +231,7 @@ LINK32_OBJS= \
 	"$(INTDIR)\Util.obj" \
 	"$(INTDIR)\resource.res"
 
-"$(OUTDIR)\WorkraveApplet.dll" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
+"$(OUTDIR)\workrave-applet.dll" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
   $(LINK32_FLAGS) $(LINK32_OBJS)
 <<
