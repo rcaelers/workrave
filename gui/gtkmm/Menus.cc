@@ -79,10 +79,10 @@ Menus::Menus() :
   network_log_dialog(NULL),
 #endif
   statistics_dialog(NULL),
+  preferences_dialog(NULL),
 #ifdef HAVE_EXERCISES
   exercises_dialog(NULL),
 #endif
-  preferences_dialog(NULL),
   main_window(NULL)
 {
   gui = GUI::get_instance();

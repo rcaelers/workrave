@@ -79,6 +79,7 @@ const string MainWindow::CFG_KEY_MAIN_WINDOW_Y
  *  \param control Interface to the controller.
  */
 MainWindow::MainWindow() :
+  enabled(true),
   timers_box(NULL),
   monitor_suspended(false),
   iconified(false)
@@ -117,6 +118,9 @@ MainWindow::init()
 
   Configurator *config = GUIControl::get_instance()->get_configurator();
   config->add_listener(GUIControl::CFG_KEY_MAIN_WINDOW, this);
+  config->add_listener(TimerBox::CFG_KEY_TIMERBOX + "applet", this);
+
+  enabled = TimerBox::is_enabled("main_window");
 
   Menus *menus = Menus::get_instance();
   menus->set_main_window(this);
@@ -155,7 +159,7 @@ MainWindow::init()
   get_start_position(x, y);
   set_gravity(Gdk::GRAVITY_STATIC); 
   set_position(Gtk::WIN_POS_NONE);
-  if (get_start_in_tray())
+  if (!enabled || get_start_in_tray())
     {
       move(-1024, 0);
       show_all();
@@ -176,7 +180,7 @@ MainWindow::init()
   move(x, y);
   TRACE_MSG(x << " " << y);
   
-  if (get_start_in_tray())
+  if (!enabled || get_start_in_tray())
     {
       close_window();
     }
@@ -196,7 +200,21 @@ MainWindow::setup()
 
   bool always_on_top = get_always_on_top();
   WindowHints::set_always_on_top(Gtk::Widget::gobj(), always_on_top);
-  
+
+  bool new_enabled = TimerBox::is_enabled("main_window");
+
+  if (enabled != new_enabled)
+    {
+      enabled = new_enabled;
+      if (enabled)
+        {
+          open_window();
+        }
+      else
+        {
+          close_window();
+        }
+    }
   if (always_on_top)
     {
       raise();

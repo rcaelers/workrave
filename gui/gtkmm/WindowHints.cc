@@ -293,6 +293,7 @@ WindowHints::set_tool_window(GtkWidget *window, bool istool)
 {
   bool rc = false;
 #if defined(HAVE_X)
+  (void) istool;
   
   switch (type)
     {

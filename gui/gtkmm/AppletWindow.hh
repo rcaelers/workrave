@@ -72,10 +72,6 @@ public:
   void read_configuration();
   
 public:
-  static bool is_enabled();
-  static void set_enabled(bool enabled);
-  static const string CFG_KEY_APPLET_ENABLED;
-  
 private:
   TimerBox *timers_box;
   

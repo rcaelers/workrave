@@ -584,7 +584,7 @@ Statistics::get_day(int day) const
           day--;
         }
 
-      if (day < history.size() && day >= 0)
+      if (day < int(history.size()) && day >= 0)
         {
           ret = history[day];
         }
@@ -599,7 +599,7 @@ Statistics::get_day_index_by_date(int y, int m, int d,
 {
   TRACE_ENTER_MSG("Statistics::get_day_by_date", y << "/" << m << "/" << d);
   idx = next = prev = -1;
-  for (int i = 0; i <= history.size(); i++)
+  for (int i = 0; i <= int(history.size()); i++)
     {
       int j = history.size() - i;
       DailyStats *stats = j == 0 ? current_day : history[i];
@@ -721,7 +721,8 @@ bool
 Statistics::get_state(DistributedStateID id, unsigned char **buffer, int *size)
 {
   TRACE_ENTER("Statistics::get_state");
-
+  (void) id;
+  
   update_current_day();
   dump();
   
@@ -801,6 +802,9 @@ Statistics::set_state(DistributedStateID id, bool master, unsigned char *buffer,
 {
   TRACE_ENTER("Statistics::set_state");
 
+  (void) id;
+  (void) master;
+
   return false;
   
   PacketBuffer state_packet;
@@ -830,6 +834,7 @@ Statistics::set_state(DistributedStateID id, bool master, unsigned char *buffer,
         case STATS_MARKER_STARTTIME:
           {
             int size = state_packet.unpack_ushort();
+            (void) size;
             
             stats->start.tm_mday = state_packet.unpack_byte();
             stats->start.tm_mon = state_packet.unpack_byte();
@@ -842,6 +847,7 @@ Statistics::set_state(DistributedStateID id, bool master, unsigned char *buffer,
         case STATS_MARKER_STOPTIME:
           {
             int size = state_packet.unpack_ushort();
+            (void) size;
             
             stats->stop.tm_mday = state_packet.unpack_byte();
             stats->stop.tm_mon = state_packet.unpack_byte();
@@ -855,6 +861,7 @@ Statistics::set_state(DistributedStateID id, bool master, unsigned char *buffer,
           {
             int size = state_packet.read_size(pos);
             int bt = state_packet.unpack_byte();
+            (void) size;
 
             BreakStats &bs = stats->break_stats[bt];
 
@@ -878,6 +885,7 @@ Statistics::set_state(DistributedStateID id, bool master, unsigned char *buffer,
           {
             int size = state_packet.read_size(pos);
             int count = state_packet.unpack_ushort();
+            (void) size;
 
             if (count > STATS_VALUE_SIZEOF)
               {
@@ -906,6 +914,7 @@ Statistics::set_state(DistributedStateID id, bool master, unsigned char *buffer,
           {
             TRACE_MSG("Unknown marker");
             int size = state_packet.read_size(pos);
+            (void) size;
             state_packet.skip_size(pos);
           }
         }

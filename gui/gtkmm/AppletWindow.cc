@@ -39,8 +39,6 @@ static const char rcsid[] = "$Id$";
 #endif
 #include "eggtrayicon.h"
 
-const string AppletWindow::CFG_KEY_APPLET_ENABLED = "gui/applet/enabled";
-
 
 //! Constructor.
 /*!
@@ -87,7 +85,7 @@ AppletWindow::init()
   TRACE_ENTER("AppletWindow::init");
 
   Configurator *config = GUIControl::get_instance()->get_configurator();
-  config->add_listener(AppletWindow::CFG_KEY_APPLET_ENABLED, this);
+  config->add_listener(TimerBox::CFG_KEY_TIMERBOX + "applet", this);
 
   read_configuration();
   
@@ -590,7 +588,7 @@ AppletWindow::get_applet_mode() const
 void
 AppletWindow::read_configuration()
 {
-  applet_enabled = is_enabled();
+  applet_enabled = TimerBox::is_enabled("applet");
 }
 
 
@@ -602,25 +600,4 @@ AppletWindow::config_changed_notify(string key)
 
   read_configuration();
   reconfigure = true;
-}
-
-
-bool
-AppletWindow::is_enabled()
-{
-  bool ret;
-  if (! GUIControl::get_instance()->get_configurator()
-      ->get_value(AppletWindow::CFG_KEY_APPLET_ENABLED, &ret))
-    {
-      ret = true;
-    }
-  return ret;
-}
-
-
-void
-AppletWindow::set_enabled(bool enabled)
-{
-  GUIControl::get_instance()->get_configurator()
-    ->set_value(AppletWindow::CFG_KEY_APPLET_ENABLED, enabled);
 }

@@ -91,9 +91,6 @@ TimerBoxPreferencePage::create_page()
   // Timer display
   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
     {
-//       GUIControl::TimerData *td
-//         = GUIControl::get_instance()->get_timer_data((GUIControl::BreakId)i);
-      
       Gtk::OptionMenu *display_button  = manage(new Gtk::OptionMenu());
       timer_display_button[i] = display_button;
       
@@ -111,23 +108,25 @@ TimerBoxPreferencePage::create_page()
     }
 
   // Enabled/Disabled checkbox
-  Gtk::Label *enabled_lab = NULL;
+  HigCategoryPanel *hig = NULL;
 
-  if (name == "applet")
+  if (name == "main_window")
     {
-      enabled_lab = manage(GtkUtil::create_label(_("Applet enabled"), true));
+      hig = manage(new HigCategoryPanel(""));
     }
-  else if (name == "main_window")
+#ifdef HAVE_X  
+  else if (name == "applet")
     {
-      enabled_lab = manage(GtkUtil::create_label(_("Main window enabled"), true));
+      Gtk::Label *enabled_lab = manage(GtkUtil::create_label(_("Applet enabled"), true));
+      enabled_cb = manage(new  Gtk::CheckButton());
+      enabled_cb->add(*enabled_lab);
+      enabled_cb->signal_toggled().connect(SigC::slot(*this, &TimerBoxPreferencePage::on_enabled_toggled));
+      hig = manage(new HigCategoryPanel(*enabled_cb));
     }
-    
-  enabled_cb = manage(new  Gtk::CheckButton());
-  enabled_cb->add(*enabled_lab);
-  enabled_cb->signal_toggled().connect(SigC::slot(*this, &TimerBoxPreferencePage::on_enabled_toggled));
-
+#endif
+  
   // Layout
-  HigCategoryPanel *hig = manage(new HigCategoryPanel(*enabled_cb));
+  
   hig->add(_("Placement:"), *place_button);
   hig->add(_("Cycle time:"), *cycle_entry);
   hig->add(_("Micro-pause:"), *timer_display_button[0]);
@@ -143,7 +142,10 @@ void
 TimerBoxPreferencePage::init_page_values()
 {
 #ifdef HAVE_X
-  enabled_cb->set_active(AppletWindow::is_enabled());
+  if (name == "applet")
+    {
+      enabled_cb->set_active(TimerBox::is_enabled(name));
+    }
 #endif
   int mp_slot = TimerBox::get_timer_slot(name, GUIControl::BREAK_ID_MICRO_PAUSE);
   int rb_slot = TimerBox::get_timer_slot(name, GUIControl::BREAK_ID_REST_BREAK);
@@ -201,10 +203,10 @@ TimerBoxPreferencePage::on_enabled_toggled()
     {
       MainWindow::set_start_in_tray(!on);
     }
-#ifdef HAVE_X
+#ifdef HAVE_X    
   else if (name == "applet")
     {
-      AppletWindow::set_enabled(on);
+      TimerBox::set_enabled(name, on);
     }
 #endif
   enable_buttons();
@@ -272,13 +274,33 @@ TimerBoxPreferencePage::on_display_changed(int break_id)
       break;
     }
   TimerBox::set_timer_flags(name, (GUIControl::BreakId) break_id, flags);
+
+#ifdef HAVE_X
+  if (name == "main_window")
+    {
+      int count = 0;
+      for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
+        {
+          if (timer_display_button[i]->get_history() == 0)
+            {
+              count++;
+            }
+        }
+      TimerBox::set_enabled(name, count != 3);
+    }
+#endif  
 }
+
 
 //! Enable widgets
 void
 TimerBoxPreferencePage::enable_buttons(void)
 {
-  bool on = enabled_cb->get_active();
+  bool on = true;
+  if (enabled_cb != NULL)
+    {
+      on = enabled_cb->get_active();
+    }
   place_button->set_sensitive(on);
   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
     {
@@ -286,6 +308,7 @@ TimerBoxPreferencePage::enable_buttons(void)
     }
   cycle_entry->set_sensitive(on);
 }
+
 
 //! The applet cycle time has been changed.
 void

@@ -52,15 +52,17 @@ public:
   static void set_timer_slot(string name, GUIControl::BreakId timer, int slot);
   static int get_timer_flags(string name, GUIControl::BreakId timer);
   static void set_timer_flags(string name, GUIControl::BreakId timer, int flags);
-  
+  static bool is_enabled(string name);
+  static void set_enabled(string name, bool enabled);
   
 public:
-  static const string CFG_KEY_TIMERSBOX;
-  static const string CFG_KEY_TIMERSBOX_HORIZONTAL;
-  static const string CFG_KEY_TIMERSBOX_CYCLE_TIME;
-  static const string CFG_KEY_TIMERSBOX_POSITION;
-  static const string CFG_KEY_TIMERSBOX_FLAGS;
-  static const string CFG_KEY_TIMERSBOX_IMMINENT;
+  static const string CFG_KEY_TIMERBOX;
+  static const string CFG_KEY_TIMERBOX_HORIZONTAL;
+  static const string CFG_KEY_TIMERBOX_CYCLE_TIME;
+  static const string CFG_KEY_TIMERBOX_POSITION;
+  static const string CFG_KEY_TIMERBOX_FLAGS;
+  static const string CFG_KEY_TIMERBOX_IMMINENT;
+  static const string CFG_KEY_TIMERBOX_ENABLED;
 
   enum SlotType
     {

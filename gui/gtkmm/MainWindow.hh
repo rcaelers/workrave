@@ -62,6 +62,9 @@ protected:
   bool on_button_press_event(GdkEventButton *event);
 
 private:
+  //! Window enabled
+  bool enabled;
+  
   //! Connection to the delete_event signal.
   SigC::Connection delete_connection;
 

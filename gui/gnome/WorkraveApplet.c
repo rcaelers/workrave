@@ -247,7 +247,7 @@ workrave_applet_control_register_control(PortableServer_Servant servant,
                                          const Bonobo_Unknown control,
                                          CORBA_Environment *ev)
 {
-  AppletControl *applet_control = WR_APPLET_CONTROL(bonobo_object_from_servant(servant));
+  //AppletControl *applet_control = WR_APPLET_CONTROL(bonobo_object_from_servant(servant));
   return TRUE;
 }
 
@@ -257,7 +257,7 @@ workrave_applet_control_unregister_control(PortableServer_Servant servant,
                                            const Bonobo_Unknown control,
                                            CORBA_Environment *ev)
 {
-  AppletControl *applet_control = WR_APPLET_CONTROL(bonobo_object_from_servant(servant));
+  //AppletControl *applet_control = WR_APPLET_CONTROL(bonobo_object_from_servant(servant));
   return TRUE;
 } 
 

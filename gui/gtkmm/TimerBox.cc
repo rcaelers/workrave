@@ -45,11 +45,12 @@ static const char rcsid[] = "$Id$";
 #include "DistributionManager.hh"
 #endif
 
-const string TimerBox::CFG_KEY_TIMERSBOX = "gui/";
-const string TimerBox::CFG_KEY_TIMERSBOX_CYCLE_TIME = "/cycle_time";
-const string TimerBox::CFG_KEY_TIMERSBOX_POSITION = "/position";
-const string TimerBox::CFG_KEY_TIMERSBOX_FLAGS = "/flags";
-const string TimerBox::CFG_KEY_TIMERSBOX_IMMINENT = "/imminent";
+const string TimerBox::CFG_KEY_TIMERBOX = "gui/";
+const string TimerBox::CFG_KEY_TIMERBOX_CYCLE_TIME = "/cycle_time";
+const string TimerBox::CFG_KEY_TIMERBOX_ENABLED = "/enabled";
+const string TimerBox::CFG_KEY_TIMERBOX_POSITION = "/position";
+const string TimerBox::CFG_KEY_TIMERBOX_FLAGS = "/flags";
+const string TimerBox::CFG_KEY_TIMERBOX_IMMINENT = "/imminent";
 
 
 //! Constructor.
@@ -137,7 +138,7 @@ TimerBox::init()
 
   // Listen for configugration changes.
   Configurator *config = GUIControl::get_instance()->get_configurator();
-  config->add_listener(TimerBox::CFG_KEY_TIMERSBOX + name, this);
+  config->add_listener(TimerBox::CFG_KEY_TIMERBOX + name, this);
 
   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
     {
@@ -623,7 +624,7 @@ TimerBox::get_cycle_time(string name)
 {
   int ret;
   if (! GUIControl::get_instance()->get_configurator()
-      ->get_value(TimerBox::CFG_KEY_TIMERSBOX + name + TimerBox::CFG_KEY_TIMERSBOX_CYCLE_TIME, &ret))
+      ->get_value(TimerBox::CFG_KEY_TIMERBOX + name + TimerBox::CFG_KEY_TIMERBOX_CYCLE_TIME, &ret))
     {
       ret = 10;
     }
@@ -635,7 +636,7 @@ void
 TimerBox::set_cycle_time(string name, int time)
 {
   GUIControl::get_instance()->get_configurator()
-    ->set_value(TimerBox::CFG_KEY_TIMERSBOX + name + TimerBox::CFG_KEY_TIMERSBOX_CYCLE_TIME, time);
+    ->set_value(TimerBox::CFG_KEY_TIMERBOX + name + TimerBox::CFG_KEY_TIMERBOX_CYCLE_TIME, time);
 }
 
 
@@ -643,14 +644,14 @@ const string
 TimerBox::get_timer_config_key(string name, GUIControl::BreakId timer, const string &key)
 {
   GUIControl::TimerData *data = GUIControl::get_instance()->get_timer_data(timer);
-  return string(CFG_KEY_TIMERSBOX) + name + "/" + data->break_name + key;
+  return string(CFG_KEY_TIMERBOX) + name + "/" + data->break_name + key;
 }
 
 
 int
 TimerBox::get_timer_imminent_time(string name, GUIControl::BreakId timer)
 {
-  const string key = get_timer_config_key(name, timer, CFG_KEY_TIMERSBOX_IMMINENT);
+  const string key = get_timer_config_key(name, timer, CFG_KEY_TIMERBOX_IMMINENT);
   int ret;
   if (! GUIControl::get_instance()->get_configurator()
       ->get_value(key, &ret))
@@ -664,7 +665,7 @@ TimerBox::get_timer_imminent_time(string name, GUIControl::BreakId timer)
 void
 TimerBox::set_timer_imminent_time(string name, GUIControl::BreakId timer, int time)
 {
-  const string key = get_timer_config_key(name, timer, CFG_KEY_TIMERSBOX_IMMINENT);
+  const string key = get_timer_config_key(name, timer, CFG_KEY_TIMERBOX_IMMINENT);
   GUIControl::get_instance()->get_configurator()->set_value(key, time);
 }
 
@@ -672,7 +673,7 @@ TimerBox::set_timer_imminent_time(string name, GUIControl::BreakId timer, int ti
 int
 TimerBox::get_timer_slot(string name, GUIControl::BreakId timer)
 {
-  const string key = get_timer_config_key(name, timer, CFG_KEY_TIMERSBOX_POSITION);
+  const string key = get_timer_config_key(name, timer, CFG_KEY_TIMERBOX_POSITION);
   int ret;
   if (! GUIControl::get_instance()->get_configurator()
       ->get_value(key, &ret))
@@ -695,7 +696,7 @@ TimerBox::get_timer_slot(string name, GUIControl::BreakId timer)
 void
 TimerBox::set_timer_slot(string name, GUIControl::BreakId timer, int slot)
 {
-  const string key = get_timer_config_key(name, timer, CFG_KEY_TIMERSBOX_POSITION);
+  const string key = get_timer_config_key(name, timer, CFG_KEY_TIMERBOX_POSITION);
   GUIControl::get_instance()->get_configurator()->set_value(key, slot);
 }
 
@@ -703,7 +704,7 @@ TimerBox::set_timer_slot(string name, GUIControl::BreakId timer, int slot)
 int
 TimerBox::get_timer_flags(string name, GUIControl::BreakId timer)
 {
-  const string key = get_timer_config_key(name, timer, CFG_KEY_TIMERSBOX_FLAGS);
+  const string key = get_timer_config_key(name, timer, CFG_KEY_TIMERBOX_FLAGS);
   int ret;
   if (! GUIControl::get_instance()->get_configurator()
       ->get_value(key, &ret))
@@ -717,6 +718,28 @@ TimerBox::get_timer_flags(string name, GUIControl::BreakId timer)
 void
 TimerBox::set_timer_flags(string name, GUIControl::BreakId timer, int flags)
 {
-  const string key = get_timer_config_key(name, timer, CFG_KEY_TIMERSBOX_FLAGS);
+  const string key = get_timer_config_key(name, timer, CFG_KEY_TIMERBOX_FLAGS);
   GUIControl::get_instance()->get_configurator()->set_value(key, flags);
+}
+
+
+
+bool
+TimerBox::is_enabled(string name)
+{
+  bool ret;
+  if (! GUIControl::get_instance()->get_configurator()
+      ->get_value(CFG_KEY_TIMERBOX + name + CFG_KEY_TIMERBOX_ENABLED, &ret))
+    {
+      ret = true;
+    }
+  return ret;
+}
+
+
+void
+TimerBox::set_enabled(string name, bool enabled)
+{
+  GUIControl::get_instance()->get_configurator()
+    ->set_value(CFG_KEY_TIMERBOX + name + CFG_KEY_TIMERBOX_ENABLED, enabled);
 }
