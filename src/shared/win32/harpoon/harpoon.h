@@ -4,7 +4,7 @@
  * Copyright (C) 2002, 2003 Raymond Penners <raymond@dotsphinx.com>
  * All rights reserved.
  *
- * Time-stamp: <2003-04-09 19:06:41 pennersr>
+ * Time-stamp: <2003-10-22 21:10:03 pennersr>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,17 +34,17 @@ extern "C" {
 #endif
 
 
-HARPOON_API BOOL harpoon_init(void);
-HARPOON_API void harpoon_exit(void);
+HARPOON_API BOOL harpoon_init (void);
+HARPOON_API void harpoon_exit (void);
 
-HARPOON_API void harpoon_unhook_mouse();
-HARPOON_API void harpoon_hook_mouse(HOOKPROC hf);
+HARPOON_API void harpoon_unhook_mouse ();
+HARPOON_API void harpoon_hook_mouse (HOOKPROC hf);
 
-HARPOON_API void harpoon_unhook_keyboard();
-HARPOON_API void harpoon_hook_keyboard(HOOKPROC hf);
+HARPOON_API void harpoon_unhook_keyboard ();
+HARPOON_API void harpoon_hook_keyboard (HOOKPROC hf);
 
-HARPOON_API void harpoon_block_input(HWND unblocked, ...);
-HARPOON_API void harpoon_unblock_input(void);
+HARPOON_API void harpoon_block_input_except_for (HWND *unblocked);
+HARPOON_API void harpoon_unblock_input (void);
 
 #ifdef __cplusplus
 }

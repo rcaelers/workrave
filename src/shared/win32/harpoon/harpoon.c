@@ -24,7 +24,7 @@
 
 #include "harpoon.h"
 
-#define HARPOON_MAX_UNBLOCKED_WINDOWS 8 // Fixed, but ought to be enough...
+#define HARPOON_MAX_UNBLOCKED_WINDOWS 16 /* Fixed, but ought to be enough... */
 #define HARPOON_WINDOW_CLASS "HarpoonNotificationWindow"
 
 #pragma comment(linker, "/SECTION:.shared,RWS")
@@ -80,7 +80,7 @@ harpoon_is_window_blocked (HWND hwnd)
           HWND ubw = unblocked_windows[i];
           if (ubw == NULL)
             break;
-          // FIXME: GetParent is not enough, traverse all ancestors.
+          /* FIXME: GetParent is not enough, traverse all ancestors. */
           if (hwnd == ubw || GetParent (hwnd) == ubw)
             {
               ret = FALSE;
@@ -98,22 +98,19 @@ harpoon_unblock_input (void)
 }
 
 HARPOON_API void
-harpoon_block_input (HWND unblocked, ...)
+harpoon_block_input_except_for (HWND *unblocked)
 {
-  va_list va;
   int i;
   BOOL last;
   
   block_input = TRUE;
-  unblocked_windows[0] = unblocked;
-  va_start(va, unblocked);
   last = FALSE;
-  for (i = 1; i < HARPOON_MAX_UNBLOCKED_WINDOWS; i++)
+  for (i = 0; i < HARPOON_MAX_UNBLOCKED_WINDOWS; i++)
     {
       HWND hwnd;
       if (! last)
         {
-          hwnd = va_arg(va, HWND);
+          hwnd = unblocked[i];
           last = (hwnd == NULL);
         }
       else
