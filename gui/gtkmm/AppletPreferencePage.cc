@@ -154,7 +154,7 @@ AppletPreferencePage::create_page()
                                       "are shown on the selected position"));
 
       tips->set_tip(*exclusive_cb[i], _("If set, the break timer will always be the only "
-                                        "break that will shown on that position. It will not "
+                                        "break that will be shown on that position. It will not "
                                         "be shown alternatingly with another break."));
 
       tips->set_tip(*first_cb[i], _("If set, the break timer will only be shown if it is the "

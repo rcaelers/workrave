@@ -199,7 +199,7 @@ PreferencesDialog::create_applet_page()
   Gtk::VBox *applet_page
     = create_page
     (_("You can configure the applet related settings from here."),
-     "display.png");
+     "applet.png");
 
   Gtk::Widget *page = manage(new AppletPreferencePage());
   
