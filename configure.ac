@@ -66,6 +66,14 @@ AC_ARG_ENABLE( gnome,
        config_with_gnome=yes
     )
 
+AC_ARG_ENABLE( dbus,
+  [  --enable-dbus           compile with d-bus support],
+       config_with_dbus=$enableval
+       ,
+       config_with_dbus=no
+    )
+
+    
 AC_ARG_ENABLE( kde,
   [  --enable-kde            compile with KDE support],
        config_with_kde=$enableval
@@ -401,6 +409,29 @@ if test "x$GNET_LIBS" == "x"; then
    config_distribution=no
 fi
 
+dnl DBUS
+            
+if test "x$config_with_busd" != "xno"; then
+   dbus_pkgconfig="dbus-1 >= 0.22 dbus-glib-1"
+   PKG_CHECK_MODULES(DBUS, $dbus_pkgconfig, have_dbus=yes, have_dbus=no)
+   if test x$have_dbus = xyes; then
+      AC_DEFINE(HAVE_DBUS, 1, d-bus support)
+   fi
+else
+   have_dbus=no
+   dbus_pkgconfig=
+fi
+
+if test "x$have_dbus" != "xyes"; then
+  if test "x$enable_dbus" = "xyes"; then
+      AC_MSG_ERROR([Couldn't find d-bus.])
+  else
+   dbus_pkgconfig=
+  fi
+fi
+
+AM_CONDITIONAL(HAVE_DBUS, test x$have_dbus = xyes)
+        
                 
 dnl AC_CHECK_LIB(Xmu,XmuClientWindow,LIBS="$LIBS -lXmu",
 dnl   AC_MSG_ERROR(Xmuxd library required))
