@@ -74,11 +74,10 @@ MicroPauseWindow::create_gui()
   box->pack_start(*time_bar, Gtk::EXPAND | Gtk::FILL, 0);
 
   // Button box at the bottom.
-  Gtk::HButtonBox *button_box
-    = manage(create_break_buttons(false, false));
+  Gtk::HButtonBox *button_box = create_break_buttons(false, false);
   if (button_box != NULL)
     {
-      box->pack_start(*button_box, Gtk::EXPAND | Gtk::FILL, 0);
+      box->pack_start(*manage(button_box), Gtk::EXPAND | Gtk::FILL, 0);
     }
 
   return box;

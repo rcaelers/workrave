@@ -30,7 +30,6 @@
 #include "HeadInfo.hh"
 #include "WindowHints.hh"
 
-class Frame;
 class BreakResponseInterface;
 
 namespace Gtk

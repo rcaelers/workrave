@@ -35,7 +35,9 @@ static const char rcsid[] = "$Id$";
 #include "BreakResponseInterface.hh"
 #include "GtkUtil.hh"
 #include "WindowHints.hh"
+#ifndef HAVE_BREAK_WINDOW_TITLEBAR
 #include "Frame.hh"
+#endif
 #include "System.hh"
 
 
@@ -44,8 +46,12 @@ static const char rcsid[] = "$Id$";
  *  \param control The controller.
  */
 BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
-                         bool ignorable, bool insist)
-  : Gtk::Window(Gtk::WINDOW_TOPLEVEL),
+                         bool ignorable, bool insist) :
+#ifdef HAVE_BREAK_WINDOW_TITLEBAR
+         Gtk::Window(Gtk::WINDOW_TOPLEVEL),
+#else
+         Gtk::Window(Gtk::WINDOW_POPUP),
+#endif
          insist_break(insist),
          ignorable_break(ignorable),
 #ifdef HAVE_X
@@ -66,7 +72,6 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   realize();
 
   set_resizable(false);
-  Gtk::Window::set_border_width(12);
   Glib::RefPtr<Gdk::Window> window = get_window();
   window->set_functions(Gdk::FUNC_MOVE);
 
@@ -83,7 +88,18 @@ BreakWindow::init_gui()
   if (gui == NULL)
     {
       gui = manage(create_gui());
+
+      //#ifdef HAVE_BREAK_WINDOW_TITLEBAR
+      set_border_width(12);
       add(*gui);
+      //#else
+//      set_border_width(0);
+//      Frame *window_frame = manage(new Frame());
+//      window_frame->set_border_width(12);
+//      window_frame->set_frame_style(Frame::STYLE_BREAK_WINDOW);
+//      window_frame->add(*gui);
+//      add(*window_frame);
+//#endif      
       show_all_children();
       stick();
   
@@ -385,3 +401,4 @@ void
 BreakWindow::refresh()
 {
 }
+
