@@ -126,7 +126,9 @@ GUI::run()
   Glib::signal_timeout().connect(SigC::slot(*this, &GUI::on_timer), 1000);
   
   // Enter the event loop
+  gdk_threads_enter();
   Gtk::Main::run(*main_window);
+  gdk_threads_leave();
   TRACE_MSG("end of Gtk::Main::run");
     
   delete main_window;
