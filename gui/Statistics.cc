@@ -539,14 +539,10 @@ Statistics::get_day_index_by_date(int y, int m, int d,
 {
   TRACE_ENTER_MSG("Statistics::get_day_by_date", y << "/" << m << "/" << d);
   idx = next = prev = -1;
-  if (current_day->starts_at_date(y, m, d))
-    {
-      idx = 0;
-    }
-  for (int i = 0; i < history.size(); i++)
+  for (int i = 0; i <= history.size(); i++)
     {
       int j = history.size() - i;
-      DailyStats *stats = history[i];
+      DailyStats *stats = j == 0 ? current_day : history[i];
       if (idx < 0 && stats->starts_at_date(y, m, d))
         {
           idx = j;

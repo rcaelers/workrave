@@ -122,7 +122,7 @@ StatisticsDialog::init_gui()
     .connect(SigC::slot(*this, &StatisticsDialog::on_history_go_forward));
   
   Gtk::Label *nav_label = manage(new Gtk::Label(_("History:")));
-  nav_label->set_alignment(1.0, 0);
+  nav_label->set_alignment(1.0, 0.5);
   btnbox->pack_start(*nav_label, true, true, 0);
   btnbox->pack_start(*first_btn, false, false, 0);
   btnbox->pack_start(*back_btn, false, false, 0);
