@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-11-08 19:52:58 robc>
+// Time-stamp: <2002-11-10 21:53:57 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -122,11 +122,13 @@ Timer::enable()
 void
 Timer::disable()
 {
+  TRACE_ENTER("Timer::disable");
   if (timer_enabled)
     {
       timer_enabled = false;
       stop_timer();
     }
+  TRACE_EXIT();
 }
 
 
@@ -477,8 +479,8 @@ Timer::freeze_timer(bool freeze)
               elapsed_idle_time = 0;
             }
         }
-      timer_frozen = freeze;
     }
+  timer_frozen = freeze;
 }
 
 
