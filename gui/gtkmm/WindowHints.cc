@@ -41,21 +41,9 @@ static const char rcsid[] = "$Id$";
 WindowHints::hint_type WindowHints::type = WindowHints::HINTTYPE_NONE;
 bool WindowHints::net_supported = false;
 bool WindowHints::win_supported = false;
-
-#elif defined(WIN32)
-// FIXME: remove this if other methods proven stable
-#define GLASS_CLASS_NAME "GlassWindow"
 #endif
 
 
-#ifdef WIN32
-// FIXME: remove this branch if other methods proven stable
-static LRESULT CALLBACK
-glass_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-  return DefWindowProc(hwnd, uMsg, wParam, lParam);
-}
-#endif 
 
 
 bool
@@ -82,27 +70,6 @@ WindowHints::init()
       net_supported = true;
       rc = true;
     }
-  
-#elif defined(WIN32)
-
-  WNDCLASSEX wclass =
-    {
-      sizeof(WNDCLASSEX),
-      0,
-      glass_window_proc,
-      0,
-      0,
-      GetModuleHandle(NULL),
-      NULL,
-      NULL,
-      NULL,
-      NULL,
-      GLASS_CLASS_NAME,
-      NULL
-    };
-  ATOM atom = RegisterClassEx(&wclass);
-  TRACE_MSG("register class returned " << atom);
-  // FIXME: unregister, where?
 #endif
 
   TRACE_EXIT();
@@ -181,7 +148,10 @@ WindowHints::set_skip_winlist(GtkWidget *window, bool skip)
 static void
 win32_block_input(BOOL block, HWND unblocked_window)
 {
-  harpoon_block_input(block, unblocked_window);
+  if (block)
+    harpoon_block_input(unblocked_window);
+  else
+    harpoon_unblock_input();
   UINT uPreviousState;
   SystemParametersInfo(SPI_SETSCREENSAVERRUNNING, block, &uPreviousState, 0);
 }
@@ -212,52 +182,13 @@ WindowHints::grab(GdkWindow *gdkWindow)
       handle = (WindowHints::Grab *) 0xdeadf00d;
     }
 #elif defined(WIN32)
-#if 0 // FIXME: remove this branch if other methods proven stable
-  HWND hDrawingWind = (HWND) GDK_WINDOW_HWND(gdkWindow);
-  HWND glass = CreateWindowEx( WS_EX_TOPMOST|WS_EX_TRANSPARENT|WS_EX_TOOLWINDOW,
-			       GLASS_CLASS_NAME,
-			       "Grab Window",
-			       WS_DISABLED|WS_POPUP|WS_VISIBLE,
-			       0,0,
-			       GetSystemMetrics(SM_CXSCREEN),
-			       GetSystemMetrics(SM_CYSCREEN),
-			       (HWND)NULL,
-			       (HMENU)NULL,
-			       (HINSTANCE)GetWindowLong(hDrawingWind, GWL_HINSTANCE),
-			       (LPSTR)NULL);
-  TRACE_MSG("glass window: " << glass);
-  if (glass != NULL)
-    {
-      SetWindowPos(hDrawingWind, HWND_TOPMOST,
-                   0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE);
-      BringWindowToTop(hDrawingWind);
-
-
-      HWND theForegroundWnd = GetForegroundWindow();
-      // Attach your thread to the foreground window thread
-      AttachThreadInput(GetWindowThreadProcessId(theForegroundWnd, NULL),
-                        GetCurrentThreadId(), true);
-      // Send your dialog or window to the front
-      SetForegroundWindow(hDrawingWind);
-      SetActiveWindow(hDrawingWind);
-      if (IsIconic(hDrawingWind))
-        ShowWindow(hDrawingWind, SW_RESTORE);
-      else
-        ShowWindow(hDrawingWind, SW_SHOW);
-      AttachThreadInput(GetWindowThreadProcessId(theForegroundWnd, NULL),
-                        GetCurrentThreadId(), false);
-
-      handle = (WindowHints::Grab *) glass;
-    }
-#else
   HWND hDrawingWind = (HWND) GDK_WINDOW_HWND(gdkWindow);
   SetWindowPos(hDrawingWind, HWND_TOPMOST,
                0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE);
   BringWindowToTop(hDrawingWind);
 
   win32_block_input(TRUE, hDrawingWind);
-  handle = (WindowHints::Grab *) 1;
-#endif
+  handle = (WindowHints::Grab *) 0xdeadf00d;
 #endif
   TRACE_EXIT();
   return handle;
@@ -277,12 +208,7 @@ WindowHints::ungrab(WindowHints::Grab *handle)
   gdk_pointer_ungrab(GDK_CURRENT_TIME);
 
 #elif defined(WIN32)
-#if 0 // FIXME: remove this branch if other methods proven stable
-  HWND hwnd = (HWND) handle;
-  DestroyWindow(hwnd);
-#else
   win32_block_input(FALSE, NULL);
-#endif
 #endif
   TRACE_EXIT();
 }

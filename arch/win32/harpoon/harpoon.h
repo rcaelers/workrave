@@ -4,7 +4,7 @@
  * Copyright (C) 2002, 2003 Raymond Penners <raymond@dotsphinx.com>
  * All rights reserved.
  *
- * Time-stamp: <2003-04-07 23:53:42 pennersr>
+ * Time-stamp: <2003-04-09 19:06:41 pennersr>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,7 +43,8 @@ HARPOON_API void harpoon_hook_mouse(HOOKPROC hf);
 HARPOON_API void harpoon_unhook_keyboard();
 HARPOON_API void harpoon_hook_keyboard(HOOKPROC hf);
 
-HARPOON_API void harpoon_block_input(BOOL block, HWND unblocked);
+HARPOON_API void harpoon_block_input(HWND unblocked, ...);
+HARPOON_API void harpoon_unblock_input(void);
 
 #ifdef __cplusplus
 }

@@ -19,16 +19,18 @@
 
 #include <windows.h>
 #include <stdio.h>
+#include <stdarg.h>
 #include "harpoon.h"
 
 #define HARPOON_MAILSLOT_NAME "\\\\.\\mailslot\\harpoon"
+#define HARPOON_MAX_UNBLOCKED_WINDOWS 8 // Fixed, but ought to be enough...
 
 #pragma comment(linker, "/SECTION:.shared,RWS")
 #pragma data_seg(".shared")
 HHOOK mouse_hook_handle = NULL;
 HHOOK keyboard_hook_handle = NULL;
 BOOL block_input = FALSE;
-HWND unblocked_window = NULL;
+HWND unblocked_windows[HARPOON_MAX_UNBLOCKED_WINDOWS];
 #pragma data_seg()
 
 static HANDLE dll_handle = NULL;
@@ -51,6 +53,70 @@ typedef struct {
   DWORD mouseData;
 } MOUSEHOOKSTRUCTEX, *PMOUSEHOOKSTRUCTEX;
 
+
+
+/**********************************************************************
+ * Misc
+ **********************************************************************/
+
+static BOOL
+harpoon_is_window_blocked(HWND hwnd)
+{
+  BOOL ret;
+
+  ret = block_input;
+  if (ret && hwnd != NULL)
+    {
+      int i;
+
+      for (i = 0; i < HARPOON_MAX_UNBLOCKED_WINDOWS; i++)
+        {
+          HWND ubw = unblocked_windows[i];
+          if (ubw == NULL)
+            break;
+          // FIXME: GetParent is not enough, traverse all ancestors.
+          if (hwnd == ubw || GetParent(hwnd) == ubw)
+            {
+              ret = FALSE;
+              break;
+            }
+        }
+    }
+  return ret;
+}
+
+HARPOON_API void
+harpoon_unblock_input(void)
+{
+  block_input = FALSE;
+}
+
+HARPOON_API void
+harpoon_block_input(HWND unblocked, ...)
+{
+  va_list va;
+  int i;
+  BOOL last;
+  
+  block_input = TRUE;
+  unblocked_windows[0] = unblocked;
+  va_start(va, unblocked);
+  last = FALSE;
+  for (i = 1; i < HARPOON_MAX_UNBLOCKED_WINDOWS; i++)
+    {
+      HWND hwnd;
+      if (! last)
+        {
+          hwnd = va_arg(va, HWND);
+          last = (hwnd == NULL);
+        }
+      else
+        {
+          hwnd = NULL;
+        }
+      unblocked_windows[i] = hwnd;
+    }
+}
 
 
 DWORD WINAPI 
@@ -139,8 +205,13 @@ harpoon_init(void)
 {
   SECURITY_ATTRIBUTES sa;
   BOOL rc;
-
+  int i;
   block_input = FALSE;
+
+  for (i = 0; i < HARPOON_MAX_UNBLOCKED_WINDOWS; i++)
+    {
+      unblocked_windows[i] = NULL;
+    }
 
   sa.nLength = sizeof(sa);
   sa.bInheritHandle = TRUE;
@@ -185,6 +256,7 @@ harpoon_exit(void)
  * Generic hook
  **********************************************************************/
 
+
 static LRESULT
 harpoon_generic_hook_return(int code, WPARAM wpar, LPARAM lpar, HHOOK hhook)
 {
@@ -193,18 +265,17 @@ harpoon_generic_hook_return(int code, WPARAM wpar, LPARAM lpar, HHOOK hhook)
   
   if (block_input && code == HC_ACTION)
     {
-      HWND target_window = NULL;
-      blocked = TRUE;
+      HWND target_window;
       if (hhook == mouse_hook_handle)
         {
           PMOUSEHOOKSTRUCT pmhs = (PMOUSEHOOKSTRUCT) lpar;
           target_window = pmhs->hwnd;
         }
-      if (target_window != NULL && unblocked_window != NULL)
+      else
         {
-          blocked = target_window != unblocked_window &&
-            GetParent(target_window) != unblocked_window;
+          target_window = NULL;
         }
+      blocked = harpoon_is_window_blocked(target_window);
     }
   if (blocked)
     {
@@ -316,18 +387,10 @@ harpoon_hook_keyboard(HOOKPROC hf)
 }
 
 
-
 
 /**********************************************************************
- * Misc
+ * Main
  **********************************************************************/
-
-HARPOON_API void
-harpoon_block_input(BOOL block, HWND unblocked)
-{
-  block_input = block;
-  unblocked_window = unblocked;
-}
 
 BOOL APIENTRY 
 DllMain( HANDLE hModule, 
