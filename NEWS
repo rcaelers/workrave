@@ -5,9 +5,10 @@ See the end for copying conditions.
 Please report Workrave bug reports. Visit our bug tracker located at:
 http://www.workrave.org
 
-* Workrave 1.2.3
+* Workrave 1.4.0
 
-** Added Polish translation. Many thanks to Mikolaj Machowski.
+** Workrave has been translated to Polish, Danish and Spanish. Many
+thanks to Mikolaj Machowski, Christian Vejlbo, and Pablo Rodriguez!
 
 ** Multihead support for X11. Workrave now shows break windows on
 all monitors.
