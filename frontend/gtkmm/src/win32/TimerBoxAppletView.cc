@@ -23,6 +23,9 @@ static const char rcsid[] = "$Id$";
 #include "TimerBoxAppletView.hh"
 #include "Applet.hh"
 
+#include "GUI.hh"
+#include "MainWindow.hh"
+
 static HWND
 RecursiveFindWindow(HWND hwnd, LPCTSTR lpClassName)
 {
@@ -93,8 +96,12 @@ TimerBoxAppletView::set_time_bar(BreakId id,
 }
 
 void
-TimerBoxAppletView::set_tip(string tip)
+TimerBoxAppletView::set_tip(std::string tip)
 {
+  GUI *gui = GUI::get_instance();
+  MainWindow *main_window = gui->get_main_window();
+
+  main_window->win32_set_tray_tooltip(tip);
 }
 
 

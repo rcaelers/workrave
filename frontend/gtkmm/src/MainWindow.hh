@@ -135,6 +135,7 @@ public:
   
 #ifdef WIN32
 public:
+  void win32_set_tray_tooltip(string tip);
   
 private:
   void win32_show(bool b);
@@ -142,7 +143,6 @@ private:
   void win32_exit();
   void win32_on_tray_open();
   void win32_add_tray_icon();
-  void win32_set_tray_tooltip(string tip);
   
   static LRESULT CALLBACK win32_window_proc(HWND hwnd, UINT uMsg,
                                             WPARAM wParam, LPARAM lParam);
