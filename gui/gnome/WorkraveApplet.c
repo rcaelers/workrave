@@ -34,6 +34,8 @@ static GNOME_Workrave_AppletControl remote_control = NULL;
 
 static void
 workrave_applet_hide_menus(gboolean hide);
+static void
+workrave_applet_set_hidden(gchar *name, gboolean hidden);
 
 /************************************************************************/
 /* GNOME::AppletControl                                                 */
@@ -113,8 +115,8 @@ workrave_applet_control_class_init(AppletControlClass *klass)
   epv->get_vertical = workrave_applet_control_get_vertical;
   epv->set_menu_status = workrave_applet_control_set_menu_status;
   epv->get_menu_status = workrave_applet_control_get_menu_status;
-  epv->register_control = workrave_applet_control_register_control;
-  epv->unregister_control = workrave_applet_control_unregister_control;
+  epv->set_menu_active = workrave_applet_control_set_menu_active;
+  epv->get_menu_active = workrave_applet_control_get_menu_active;
 }
 
 
@@ -241,25 +243,63 @@ workrave_applet_control_get_menu_status(PortableServer_Servant servant, const CO
 }
 
 
-
-static CORBA_boolean
-workrave_applet_control_register_control(PortableServer_Servant servant,
-                                         const Bonobo_Unknown control,
-                                         CORBA_Environment *ev)
+void
+workrave_applet_control_set_menu_active(PortableServer_Servant servant, const CORBA_char *name,
+                                        const CORBA_boolean status, CORBA_Environment *ev)
 {
-  //AppletControl *applet_control = WR_APPLET_CONTROL(bonobo_object_from_servant(servant));
-  return TRUE;
+  workrave_applet_set_hidden(name, !status); 
 }
 
 
 static CORBA_boolean
-workrave_applet_control_unregister_control(PortableServer_Servant servant,
-                                           const Bonobo_Unknown control,
-                                           CORBA_Environment *ev)
+workrave_applet_control_get_menu_active(PortableServer_Servant servant, const CORBA_char *name,
+                                        CORBA_Environment *ev)
 {
-  //AppletControl *applet_control = WR_APPLET_CONTROL(bonobo_object_from_servant(servant));
-  return TRUE;
-} 
+  AppletControl *applet_control = WR_APPLET_CONTROL(bonobo_object_from_servant(servant));
+  
+  BonoboUIComponent *ui = NULL;
+  PanelApplet *applet = NULL;
+  CORBA_boolean ret = FALSE;
+    
+  if (applet_control != NULL)
+    {
+      applet = applet_control->applet;
+    }
+
+  if (applet != NULL)
+    {
+      ui = panel_applet_get_popup_component(applet);
+    }
+  
+  if (ui != NULL)
+    {
+      const char *s = bonobo_ui_component_get_prop(ui, name, "hidden", NULL);
+
+      ret = (s != NULL && atoi(s) != 0);
+    }
+
+  return ret;
+}
+
+
+/* static CORBA_boolean */
+/* workrave_applet_control_register_control(PortableServer_Servant servant, */
+/*                                          const Bonobo_Unknown control, */
+/*                                          CORBA_Environment *ev) */
+/* { */
+/*   //AppletControl *applet_control = WR_APPLET_CONTROL(bonobo_object_from_servant(servant)); */
+/*   return TRUE; */
+/* } */
+
+
+/* static CORBA_boolean */
+/* workrave_applet_control_unregister_control(PortableServer_Servant servant, */
+/*                                            const Bonobo_Unknown control, */
+/*                                            CORBA_Environment *ev) */
+/* { */
+/*   //AppletControl *applet_control = WR_APPLET_CONTROL(bonobo_object_from_servant(servant)); */
+/*   return TRUE; */
+/* }  */
 
 
 gboolean
@@ -370,6 +410,29 @@ verb_preferences(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
 
 }
 
+
+static void
+verb_exercises(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
+{
+  workrave_applet_connect(FALSE);
+      
+  if (remote_control != NULL)
+    {
+      CORBA_Environment ev;
+      CORBA_exception_init(&ev);
+     
+      GNOME_Workrave_WorkraveControl_open_exercises(remote_control, &ev);
+
+      if (BONOBO_EX(&ev))
+        {
+          char *err = (char *) bonobo_exception_get_text(&ev);
+          g_warning (_("An exception occured '%s'"), err);
+          g_free(err);
+        }
+      CORBA_exception_free(&ev);
+    }
+
+}
 
 static void
 verb_statistics(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
@@ -514,6 +577,7 @@ workrave_applet_verbs [] =
   {
     BONOBO_UI_VERB("About", verb_about),
     BONOBO_UI_VERB("Open", verb_open),
+    BONOBO_UI_VERB("Exercises", verb_exercises),
     BONOBO_UI_VERB("Preferences", verb_preferences),
     BONOBO_UI_VERB("Restbreak", verb_restbreak),
     BONOBO_UI_VERB("Connect", verb_connect),
@@ -759,13 +823,6 @@ workrave_applet_set_hidden(gchar *name, gboolean hidden)
 static void
 workrave_applet_hide_menus(gboolean hide)
 {
-  PanelApplet *applet = NULL;
-  
-  if (applet_control != NULL)
-    {
-      applet = applet_control->applet;
-    }
-
   workrave_applet_set_hidden("/commands/Preferences", hide);
   workrave_applet_set_hidden("/commands/Restbreak", hide);
   workrave_applet_set_hidden("/commands/Network", hide);
@@ -774,6 +831,7 @@ workrave_applet_hide_menus(gboolean hide)
   workrave_applet_set_hidden("/commands/Quiet", hide);
   workrave_applet_set_hidden("/commands/Mode", hide);
   workrave_applet_set_hidden("/commands/Statistics", hide);
+  workrave_applet_set_hidden("/commands/Exercises", hide);
   workrave_applet_set_hidden("/commands/Quit", hide);
 }
 

@@ -14,6 +14,9 @@ thanks to Chung-chieh Shan.
 ** On Windows, Workrave now notices when Explorer crashes and will try
 to reinsert the tray icon in the new Explorer taskbar.
 
+** On Linux, Workrave now notices when the gnome-panel crashes and
+will to reinsert the applet in the new panel.
+
 * Workrave 1.2.2
 
 ** If you stopped working during a prelude just before it was about to

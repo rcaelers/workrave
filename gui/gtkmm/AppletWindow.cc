@@ -262,21 +262,22 @@ AppletWindow::init_gnome_applet()
       ok = !BONOBO_EX(&ev);
     }
 
-  if (ok)
-    {
-      // Register at applet.
-      RemoteControl *remote = RemoteControl::get_instance();
-      if (remote != NULL)
-        {
-          WorkraveControl *control = remote->get_remote_control();
 
-          if (control != NULL)
-            {
-              Bonobo_Unknown x = bonobo_object_corba_objref(BONOBO_OBJECT(control));
-              GNOME_Workrave_AppletControl_register_control(applet_control, x, &ev);
-            }
-        }
-    }
+//   if (ok)
+//     {
+//       // Register at applet.
+//       RemoteControl *remote = RemoteControl::get_instance();
+//       if (remote != NULL)
+//         {
+//           WorkraveControl *control = remote->get_remote_control();
+
+//           if (control != NULL)
+//             {
+//               Bonobo_Unknown x = bonobo_object_corba_objref(BONOBO_OBJECT(control));
+//               GNOME_Workrave_AppletControl_register_control(applet_control, x, &ev);
+//             }
+//         }
+//     }
   
   if (ok)
     {
@@ -312,6 +313,13 @@ AppletWindow::init_gnome_applet()
           menus->resync_applet();
         }
       set_mainwindow_skipwinlist(true);
+
+#ifndef HAVE_EXERCISES
+      GNOME_Workrave_AppletControl_set_menu_active(applet_control, "/commands/Exercises", false, &ev);
+#endif
+#ifndef HAVE_DISTRIBUTION
+      GNOME_Workrave_AppletControl_set_menu_active(applet_control, "/commands/Network", false, &ev);
+#endif      
     }
 
   if (!ok)
@@ -331,22 +339,22 @@ AppletWindow::destroy_gnome_applet()
 {
   if (mode == APPLET_GNOME)
     {
-      RemoteControl *remote = RemoteControl::get_instance();
-      if (remote != NULL && applet_control != NULL)
-        {
-          CORBA_Environment ev;
-          CORBA_exception_init (&ev);
+//       RemoteControl *remote = RemoteControl::get_instance();
+//       if (remote != NULL && applet_control != NULL)
+//         {
+//           CORBA_Environment ev;
+//           CORBA_exception_init (&ev);
 
-          WorkraveControl *control = remote->get_remote_control();
-          if (control != NULL)
-            {
-              // Unregister workrave.
-              Bonobo_Unknown x = bonobo_object_corba_objref(BONOBO_OBJECT(control));
-              GNOME_Workrave_AppletControl_unregister_control(applet_control, x, &ev);
-            }
+//           WorkraveControl *control = remote->get_remote_control();
+//           if (control != NULL)
+//             {
+//               // Unregister workrave.
+//               Bonobo_Unknown x = bonobo_object_corba_objref(BONOBO_OBJECT(control));
+//               GNOME_Workrave_AppletControl_unregister_control(applet_control, x, &ev);
+//             }
           
-          CORBA_exception_free(&ev);
-        }
+//           CORBA_exception_free(&ev);
+//         }
 
       // Cleanup Widgets.
       if (plug != NULL)
@@ -561,6 +569,7 @@ AppletWindow::destroy_event(GtkWidget *widget, GdkEvent *event, gpointer user_da
       AppletWindow *applet = (AppletWindow *) user_data;
       applet->delete_event(NULL);
     }
+  return true;
 }
 #endif
   
@@ -640,7 +649,6 @@ AppletWindow::on_embedded()
       timers_box->set_geometry(applet_vertical, applet_size);
       TRACE_MSG(applet_size);
     }
-  
   TRACE_EXIT();
 }
 

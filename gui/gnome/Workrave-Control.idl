@@ -15,6 +15,7 @@ module GNOME
       oneway void open_network_connect();
       oneway void open_statistics();
       oneway void open_network_log(in boolean state);
+      oneway void open_exercises();
       
       oneway void restbreak();
       oneway void set_mode(in Mode mode);
