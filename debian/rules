@@ -84,6 +84,7 @@ binary-arch: build install
 	dh_installman
 	dh_installinfo
 	dh_undocumented
+	dh_undocumented workrave.1
 	dh_installchangelogs ChangeLog
 	dh_link
 	dh_strip
