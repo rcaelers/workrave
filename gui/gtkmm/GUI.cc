@@ -155,7 +155,6 @@ GUI::timer_action(string timer_id, TimerEvent event)
   TRACE_ENTER_MSG("GUI::timer_action", timer_id << " " << event);
 
   GUIControl::BreakId id = GUIControl::BREAK_ID_NONE;
-  GUIControl::BreakAction act = GUIControl::BREAK_ACTION_NONE;
 
   // Parse timer_id
   if (timer_id == "micro_pause")

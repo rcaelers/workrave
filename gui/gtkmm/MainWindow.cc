@@ -424,6 +424,7 @@ void
 MainWindow::config_changed_notify(string key)
 {
   TRACE_ENTER("MainWindow::config_changed_notify");
+  (void) key;
   setup();
   TRACE_EXIT();
 }
@@ -478,6 +479,7 @@ MainWindow::on_menu_quiet()
 #ifdef WIN32
   win32_sync_menu(2);
 #endif
+  TRACE_EXIT();
 }
 
 

@@ -34,8 +34,8 @@ const int STATSVERSION = 3;
 
 //! Constructor
 Statistics::Statistics() : 
-  current_day(NULL),
-  core_control(NULL)
+  core_control(NULL),
+  current_day(NULL)
 {
   start_new_day();
 }
@@ -208,7 +208,7 @@ Statistics::load_current_day()
       string cmd;
       stats_file >> cmd;
 
-      ok == (cmd == "D");
+      ok = (cmd == "D");
     }
 
   if (ok)
@@ -243,7 +243,6 @@ Statistics::load_day(DailyStats *stats, ifstream &stats_file)
   while (ok && !stats_file.eof())
     {
       string cmd;
-      GUIControl::BreakId bt;
       stats_file >> cmd;
 
       if (cmd == "B")
@@ -313,7 +312,7 @@ Statistics::load_history()
       string cmd;
       stats_file >> cmd;
 
-      ok == (cmd == "D");
+      ok = (cmd == "D");
 
       if (ok)
         {
@@ -372,6 +371,8 @@ Statistics::dump()
 Statistics::DailyStats *
 Statistics::get_current_day() const
 {
+  //FIXME:
+  return NULL;
 }
 
 

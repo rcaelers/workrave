@@ -51,4 +51,6 @@ int
 StatisticsDialog::run()
 {
   int id = Gtk::Dialog::run();
+  //FIXME: what to return???
+  return id;
 }

@@ -32,9 +32,9 @@ static const char rcsid[] = "$Id$";
 
 //! Construct a new Micropause window.
 MicroPauseWindow::MicroPauseWindow(TimerInterface *timer, bool ignorable) :
+  restbreak_timer(timer),
   progress_value(0),
   progress_max_value(0),
-  restbreak_timer(timer),
   insist_break(false)
 {
   set_border_width(5);

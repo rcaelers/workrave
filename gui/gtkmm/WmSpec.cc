@@ -46,7 +46,7 @@ WmSpec::supported()
   TRACE_ENTER("WmSpec::supported");
 
   Atom r_type, support_check;
-  int r_format, prev_error, p;
+  int r_format, p;
   unsigned long count, bytes_remain;
   unsigned char *prop = NULL, *prop2 = NULL;
   bool ret = false;
@@ -78,6 +78,7 @@ WmSpec::supported()
     XFree(prop2);
   //gdk_error_warnings = prev_error;
 
+  TRACE_EXIT();
   return ret;
 }
 

@@ -101,6 +101,7 @@ WindowHints::init()
   // FIXME: unregister, where?
 #endif
 
+  TRACE_EXIT();
   return rc;
 }
 
@@ -236,6 +237,7 @@ WindowHints::grab(GdkWindow *gdkWindow)
       handle = (WindowHints::Grab *) glass;
     }
 #endif
+  TRACE_EXIT();
   return handle;
 }
 
@@ -256,16 +258,16 @@ WindowHints::ungrab(WindowHints::Grab *handle)
   HWND hwnd = (HWND) handle;
   DestroyWindow(hwnd);
 #endif
+  TRACE_EXIT();
 }
 
 
 bool
 WindowHints::set_tool_window(GtkWidget *window, bool istool)
 {
-  GdkWindow *gdkWindow = window->window;
   bool rc = false;
 #if defined(HAVE_X)
-
+  
   switch (type)
     {
     case HINTTYPE_NET:
@@ -278,6 +280,8 @@ WindowHints::set_tool_window(GtkWidget *window, bool istool)
 
 #elif defined(WIN32)
 #if 0
+  GdkWindow *gdkWindow = window->window;
+
   HWND hDrawingWind = (HWND) GDK_WINDOW_HWND(gdkWindow);
   DWORD dwExStyle = GetWindowLong (hDrawingWind, GWL_EXSTYLE);
   DWORD dwStyle = GetWindowLong (hDrawingWind, GWL_STYLE);

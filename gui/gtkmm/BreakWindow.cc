@@ -92,6 +92,7 @@ BreakWindow::center()
 {
   TRACE_ENTER("BreakWindow::center");
   set_position(Gtk::WIN_POS_CENTER_ALWAYS);
+  TRACE_EXIT();
 }
 
 
