@@ -1,9 +1,9 @@
 // preinclude.h --- Patch includes
 //
-// Copyright (C) 2002, 2003 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
-// Time-stamp: <2003-09-24 14:16:20 workrave>
+// Time-stamp: <2004-04-03 13:09:15 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,9 +18,19 @@
 // $Id$
 //
 
+#ifndef PREINCLUDE_HH
+#define PREINCLUDE_HH
+
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
+
+#ifdef HAVE_GTKMM24
+#define MEMBER_SLOT sigc::mem_fun
+#else
+#define MEMBER_SLOT SigC::slot
+#endif
+
 
 #undef THREAD_PRIORITY_NORMAL
 #undef THREAD_PRIORITY_LOW
@@ -31,3 +41,4 @@
 #undef OK
 
 
+#endif

@@ -16,11 +16,11 @@
 
 static const char rcsid[] = "$Id$";
 
-#include "preinclude.h"
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
+
+#include "preinclude.h"
 
 #include <unistd.h>
 #include <iostream>
@@ -45,6 +45,7 @@ static const char rcsid[] = "$Id$";
 
 //! Constructor.
 TimerBoxGtkView::TimerBoxGtkView() :
+  reconfigure(true),
   labels(NULL),
   bars(NULL),
   sheep(NULL),
@@ -52,8 +53,7 @@ TimerBoxGtkView::TimerBoxGtkView() :
   size(0),
   table_rows(-1),
   table_columns(-1),
-  visible_count(-1),
-  reconfigure(true)
+  visible_count(-1)
 {
   init();
 }
@@ -139,7 +139,7 @@ TimerBoxGtkView::init_widgets()
           b->add(*img);
           
           Menus *menus = Menus::get_instance();
-          b->signal_clicked().connect(SigC::slot(*menus, &Menus::on_menu_restbreak_now));
+          b->signal_clicked().connect(MEMBER_SLOT(*menus, &Menus::on_menu_restbreak_now));
           w = b;
 	}
       else
@@ -267,11 +267,20 @@ TimerBoxGtkView::init_table()
           TRACE_MSG("size = " << size);
           if (!vertical && size > 0)
             {
+#ifdef HAVE_GTKMM24
+              Gtk::Requisition widget_size;
+              size_request(widget_size);
+              
+              TRACE_MSG("size = " << widget_size.width << " " << widget_size.height);
+              //bars[id]->set_size_request(-1, size / rows - (rows + 1) - 2);
+#else
               GtkRequisition widget_size;
               size_request(&widget_size);
               
               TRACE_MSG("size = " << widget_size.width << " " << widget_size.height);
               //bars[id]->set_size_request(-1, size / rows - (rows + 1) - 2);
+#endif
+              
             }
 
           TRACE_MSG("attach " << cur_col << " " << cur_row);
@@ -342,5 +351,6 @@ TimerBoxGtkView::update()
 void
 TimerBoxGtkView::set_enabled(bool enabled)
 {
+  (void) enabled;
   // Status window disappears, no need to do anything here.
 }

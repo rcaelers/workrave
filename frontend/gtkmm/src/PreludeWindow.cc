@@ -93,7 +93,7 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
   frame->set_frame_width(6);
   frame->set_border_width(6);
   frame->add(*hbox);
-  frame->signal_flash().connect(SigC::slot(*this, &PreludeWindow::on_frame_flash));
+  frame->signal_flash().connect(MEMBER_SLOT(*this, &PreludeWindow::on_frame_flash));
   flash_visible = true;
   color_warn = Gdk::Color("orange");
   color_alert = Gdk::Color("red");
@@ -322,7 +322,7 @@ PreludeWindow::init_avoid_pointer()
   if (! avoid_signal.connected())
     {
       avoid_signal = Glib::signal_timeout()
-        .connect(SigC::slot(*this, &PreludeWindow::on_avoid_pointer_timer),
+        .connect(MEMBER_SLOT(*this, &PreludeWindow::on_avoid_pointer_timer),
                  150);
     }
 #else

@@ -288,8 +288,13 @@ GtkUtil::center_window(Gtk::Window &window, HeadInfo &head)
 
   if (head.valid)
     {
+#ifdef HAVE_GTKMM24      
+      Gtk::Requisition size;
+      window.size_request(size);
+#else
       GtkRequisition size;
       window.size_request(&size);
+#endif      
 
 #ifdef WIN32
       TRACE_MSG(

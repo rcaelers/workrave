@@ -1,9 +1,9 @@
 // FrameWindow.hh --- Gtk::Frame like widget 
 //
-// Copyright (C) 2001, 2002, 2003 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2001, 2002, 2003, 2004 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
-// Time-stamp: <2003-03-09 22:11:53 pennersr>
+// Time-stamp: <2004-04-03 13:15:05 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -41,8 +41,14 @@ public:
 
 protected:
   bool on_timer();
+#ifdef HAVE_GTKMM24
+  void on_size_request(Gtk::Requisition *requisition);
+  void on_size_allocate(Gtk::Allocation &allocation);
+#else
   void on_size_request(GtkRequisition *requisition);
-  void on_size_allocate (GtkAllocation* allocation);
+  void on_size_allocate(GtkAllocation *allocation);
+#endif
+
   bool on_expose_event(GdkEventExpose* e);
   void on_realize();
 

@@ -13,8 +13,11 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
+
 #include <gtk/gtkcellrenderer.h>
 #include <gtkmm/cellrenderer.h>
+
+#include "debug.hh"
 
 #include "IconListCellRenderer.hh"
 
@@ -23,9 +26,9 @@
 
 IconListCellRenderer::IconListCellRenderer()
   : Glib::ObjectBase (typeid(IconListCellRenderer)),
-          Gtk::CellRenderer (),
-               property_text_      (*this, "text"),
-               property_pixbuf_      (*this, "pixbuf")
+    Gtk::CellRenderer(),
+    property_text_   (*this, "text"),
+    property_pixbuf_ (*this, "pixbuf")
 {
 }
 
@@ -50,6 +53,17 @@ IconListCellRenderer::update_properties()
   pixbuf_renderer.property_pixbuf() = property_pixbuf_;
 }
 
+void
+IconListCellRenderer::get_size_vfunc(Gtk::Widget& widget,
+                                     const Gdk::Rectangle* cell_area,
+                                     int* x_offset, int* y_offset,
+                                     int* width,    int* height) const
+{
+  // FIXME: gtkmm 2.4 changed their API. this method now needs to be const.
+  //        This is a (temporary) hack to get thing working again.
+  IconListCellRenderer *r = const_cast<IconListCellRenderer *>(this);
+  r->get_size_vfunc(widget, cell_area, x_offset, y_offset, width, height);
+}
 
 void
 IconListCellRenderer::get_size_vfunc(Gtk::Widget& widget,
@@ -94,7 +108,12 @@ IconListCellRenderer::get_size_vfunc(Gtk::Widget& widget,
 
 
 void
-IconListCellRenderer::render_vfunc(const Glib::RefPtr<Gdk::Window>& window,
+IconListCellRenderer::render_vfunc(
+#ifdef HAVE_GTKMM24
+                                   const Glib::RefPtr<Gdk::Drawable>& window,
+#else
+                                   const Glib::RefPtr<Gdk::Window>& window,
+#endif                                   
                                    Gtk::Widget& widget,
                                    const Gdk::Rectangle& bg_area,
                                    const Gdk::Rectangle& cell_area,

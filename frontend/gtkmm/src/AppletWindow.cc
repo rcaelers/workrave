@@ -166,15 +166,15 @@ AppletWindow::init_tray_applet()
 
       Gtk::EventBox *eventbox = new Gtk::EventBox;
       eventbox->set_events(eventbox->get_events() | Gdk::BUTTON_PRESS_MASK);
-      eventbox->signal_button_press_event().connect(SigC::slot(*this, &AppletWindow::on_button_press_event));
+      eventbox->signal_button_press_event().connect(MEMBER_SLOT(*this, &AppletWindow::on_button_press_event));
       container = eventbox;
 
       timer_box_view = manage(new TimerBoxGtkView());
       timer_box_control = new TimerBoxControl("applet", *timer_box_view);
       container->add(*timer_box_view);
 
-      plug->signal_embedded().connect(SigC::slot(*this, &AppletWindow::on_embedded));
-      plug->signal_delete_event().connect(SigC::slot(*this, &AppletWindow::delete_event));
+      plug->signal_embedded().connect(MEMBER_SLOT(*this, &AppletWindow::on_embedded));
+      plug->signal_delete_event().connect(MEMBER_SLOT(*this, &AppletWindow::delete_event));
       
       plug->add(*eventbox);
       plug->show_all();
@@ -188,10 +188,15 @@ AppletWindow::init_tray_applet()
 
       ret = true;
       applet_vertical = false;
+#ifdef HAVE_GTKMM24
+      Gtk::Requisition req;
+      plug->size_request(req);
+      applet_size = req.height;
+#else
       GtkRequisition req;
       plug->size_request(&req);
       applet_size = req.height;
-
+#endif      
       timer_box_view->set_geometry(applet_vertical, 24);
 
     }
@@ -281,8 +286,8 @@ AppletWindow::init_gnome_applet()
       plug = new Gtk::Plug(id);
       plug->add(*frame);
 
-      plug->signal_embedded().connect(SigC::slot(*this, &AppletWindow::on_embedded));
-      plug->signal_delete_event().connect(SigC::slot(*this, &AppletWindow::delete_event));
+      plug->signal_embedded().connect(MEMBER_SLOT(*this, &AppletWindow::on_embedded));
+      plug->signal_delete_event().connect(MEMBER_SLOT(*this, &AppletWindow::delete_event));
 
       // Gtkmm does not wrap this event....
       g_signal_connect(G_OBJECT(plug->gobj()), "destroy-event",
@@ -628,10 +633,15 @@ AppletWindow::on_embedded()
 
   if (mode == APPLET_TRAY)
     {
+#ifdef HAVE_GTKMM24
+      Gtk::Requisition req;
+      plug->size_request(req);
+      applet_size = req.height;
+#else
       GtkRequisition req;
       plug->size_request(&req);
       applet_size = req.height;
-
+#endif
       timer_box_view->set_geometry(applet_vertical, applet_size);
       TRACE_MSG(applet_size);
     }

@@ -22,6 +22,10 @@
 #include "preinclude.h"
 #include <stdio.h>
 
+#ifdef HAVE_GTKMM24
+#include <sigc++/compatibility.h>
+#endif
+
 #include "ConfiguratorListener.hh"
 
 #ifdef HAVE_GNOME

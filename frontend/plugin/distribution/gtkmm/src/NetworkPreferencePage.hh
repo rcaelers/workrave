@@ -1,6 +1,6 @@
 // NetworkPreferencesPage.hh --- Preferences for network
 //
-// Copyright (C) 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -70,6 +70,7 @@ private:
   void on_port_edited(const Glib::ustring& path_string, const Glib::ustring& new_text);
   
   void update_peers();
+
   void remove_peer(const Gtk::TreeModel::iterator &iter);
 
   DistributionManagerInterface *dist_manager;

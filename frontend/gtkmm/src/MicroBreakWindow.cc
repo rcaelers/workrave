@@ -124,7 +124,6 @@ MicroBreakWindow::refresh_label()
   TRACE_ENTER("MicroBreakWindow::refresh_label");
   time_t limit = restbreak_timer->get_limit();
   time_t elapsed =  restbreak_timer->get_elapsed_time();
-  char s[128];
 
   Glib::ustring txt(_("Please relax for a few seconds"));
   if (restbreak_timer->get_state() != TimerInterface::STATE_INVALID)

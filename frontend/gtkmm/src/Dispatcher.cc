@@ -1,6 +1,6 @@
 // Dispatcher.cc --- Inter-thread dispatcher
 //
-// Copyright (C) 2003 Rob Caelers
+// Copyright (C) 2003, 2004 Rob Caelers
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -18,10 +18,14 @@
 
 static const char rcsid[] = "$Id$";
 
-#include "preinclude.h"
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
+#endif
+
+#include "preinclude.h"
+
+#ifdef HAVE_GTKMM24
+#include <sigc++/compatibility.h>
 #endif
 
 #include "Dispatcher.hh"
@@ -96,7 +100,7 @@ Dispatcher::create_thread_pipe()
   if (event_handle)
     {
       queue =  g_async_queue_new();
-      io_connection = Glib::signal_io().connect(SigC::slot_class(*this, &Dispatcher::io_handler),
+      io_connection = Glib::signal_io().connect(MEMBER_SLOT_class(*this, &Dispatcher::io_handler),
                                                 (int)event_handle,
                                                 Glib::IO_IN);
 

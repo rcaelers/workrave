@@ -1,6 +1,6 @@
 // EventLabel.hh --- Label that receives events.
 //
-// Copyright (C) 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2003, 2004 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -38,7 +38,11 @@ private:
   void on_unrealize();
   bool on_map_event(GdkEventAny *event);
   bool on_unmap_event(GdkEventAny *event);
+#ifdef HAVE_GTKMM24
+  void on_size_allocate(Gtk::Allocation &allocation);
+#else
   void on_size_allocate(GtkAllocation *allocation);
+#endif
 
   GdkWindow *event_window;
 };

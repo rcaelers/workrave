@@ -1,6 +1,6 @@
 // NetworkPreferencePage.cc --- Preferences widgets for a timer
 //
-// Copyright (C) 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -15,11 +15,11 @@
 //
 // $Id$
 
-#include "preinclude.h"
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
+
+#include "preinclude.h"
 
 #include "nls.h"
 #include "debug.hh"
@@ -102,9 +102,9 @@ NetworkPreferencePage::create_general_page(Gtk::Notebook *tnotebook)
   id_frame->set_border_width(12);
   tnotebook->append_page(*id_frame, _("General"));
 
-  enabled_cb->signal_toggled().connect(SigC::slot(*this, &NetworkPreferencePage::on_enabled_toggled));
-  username_entry->signal_changed().connect(SigC::slot(*this, &NetworkPreferencePage::on_username_changed));
-  password_entry->signal_changed().connect(SigC::slot(*this, &NetworkPreferencePage::on_password_changed));
+  enabled_cb->signal_toggled().connect(MEMBER_SLOT(*this, &NetworkPreferencePage::on_enabled_toggled));
+  username_entry->signal_changed().connect(MEMBER_SLOT(*this, &NetworkPreferencePage::on_username_changed));
+  password_entry->signal_changed().connect(MEMBER_SLOT(*this, &NetworkPreferencePage::on_password_changed));
 }
 
 
@@ -141,9 +141,9 @@ NetworkPreferencePage::create_advanced_page(Gtk::Notebook *tnotebook)
   advanced_frame->set_border_width(12);
   tnotebook->append_page(*advanced_frame, _("Advanced"));
 
-  port_entry->signal_changed().connect(SigC::slot(*this, &NetworkPreferencePage::on_port_changed));
-  interval_entry->signal_changed().connect(SigC::slot(*this, &NetworkPreferencePage::on_interval_changed));
-  attempts_entry->signal_changed().connect(SigC::slot(*this, &NetworkPreferencePage::on_attempts_changed));
+  port_entry->signal_changed().connect(MEMBER_SLOT(*this, &NetworkPreferencePage::on_port_changed));
+  interval_entry->signal_changed().connect(MEMBER_SLOT(*this, &NetworkPreferencePage::on_interval_changed));
+  attempts_entry->signal_changed().connect(MEMBER_SLOT(*this, &NetworkPreferencePage::on_attempts_changed));
   
 }
 
@@ -190,7 +190,7 @@ NetworkPreferencePage::create_peers_page(Gtk::Notebook *tnotebook)
   column->add_attribute(renderer->property_text(), peers_columns.hostname);
   column->set_resizable(true);
   renderer->property_editable().set_value(true);
-  renderer->signal_edited().connect(SigC::slot(*this, &NetworkPreferencePage::on_hostname_edited));
+  renderer->signal_edited().connect(MEMBER_SLOT(*this, &NetworkPreferencePage::on_hostname_edited));
     
   renderer = Gtk::manage(new Gtk::CellRendererText());
   cols_count = peers_list->append_column(_("Port"), *renderer);
@@ -198,7 +198,7 @@ NetworkPreferencePage::create_peers_page(Gtk::Notebook *tnotebook)
   column->add_attribute(renderer->property_text(), peers_columns.port);
   column->set_resizable(true);
   renderer->property_editable().set_value(true);
-  renderer->signal_edited().connect(SigC::slot(*this, &NetworkPreferencePage::on_port_edited));
+  renderer->signal_edited().connect(MEMBER_SLOT(*this, &NetworkPreferencePage::on_port_edited));
 
   Gtk::ScrolledWindow *peers_scroll = manage(new Gtk::ScrolledWindow());
   peers_scroll->add(*peers_list);
@@ -208,16 +208,16 @@ NetworkPreferencePage::create_peers_page(Gtk::Notebook *tnotebook)
 
   hbox->pack_start(*peersvbox, true, true, 0);
 
-  peers_store->signal_row_changed().connect(SigC::slot(*this, &NetworkPreferencePage::on_row_changed));
-  peers_store->signal_row_inserted().connect(SigC::slot(*this, &NetworkPreferencePage::on_row_changed));
-  peers_store->signal_row_deleted().connect(SigC::slot(*this, &NetworkPreferencePage::on_row_deleted));
+  peers_store->signal_row_changed().connect(MEMBER_SLOT(*this, &NetworkPreferencePage::on_row_changed));
+  peers_store->signal_row_inserted().connect(MEMBER_SLOT(*this, &NetworkPreferencePage::on_row_changed));
+  peers_store->signal_row_deleted().connect(MEMBER_SLOT(*this, &NetworkPreferencePage::on_row_deleted));
 
                                     
   // Buttons
   remove_btn = manage(new Gtk::Button(Gtk::Stock::REMOVE));
-  remove_btn->signal_clicked().connect(SigC::slot(*this, &NetworkPreferencePage::on_peer_remove));
+  remove_btn->signal_clicked().connect(MEMBER_SLOT(*this, &NetworkPreferencePage::on_peer_remove));
   add_btn = manage(new Gtk::Button(Gtk::Stock::ADD));
-  add_btn->signal_clicked().connect(SigC::slot(*this, &NetworkPreferencePage::on_peer_add));
+  add_btn->signal_clicked().connect(MEMBER_SLOT(*this, &NetworkPreferencePage::on_peer_add));
 
   Gtk::VBox *btnbox= manage(new Gtk::VBox(false, 6));
   btnbox->pack_start(*add_btn, false, false, 0);
@@ -353,8 +353,15 @@ NetworkPreferencePage::on_peer_remove()
   TRACE_ENTER("NetworkPreferencePage::on_peer_remove");
   Glib::RefPtr<Gtk::TreeSelection> selection = peers_list->get_selection();
 
-  selection->selected_foreach(SigC::slot(*this, &NetworkPreferencePage::remove_peer));
+#ifdef HAVE_GTKMM24
+  const Gtk::TreeSelection::SlotForeachIter& slot =
+    sigc::mem_fun(*this, &NetworkPreferencePage::remove_peer);
 
+  selection->selected_foreach(slot);
+#else
+  selection->selected_foreach(SigC::slot(*this, &NetworkPreferencePage::remove_peer));
+#endif
+  
   Glib::RefPtr<Gtk::ListStore> new_store = Gtk::ListStore::create(peers_columns);
 
   typedef Gtk::TreeModel::Children type_children;

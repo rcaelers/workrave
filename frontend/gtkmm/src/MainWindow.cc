@@ -650,7 +650,7 @@ MainWindow::win32_init()
 
   menulist.push_front(Gtk::Menu_Helpers::StockMenuElem
                       (Gtk::Stock::OPEN,
-                       SigC::slot(*this, &MainWindow::win32_on_tray_open)));
+                       MEMBER_SLOT(*this, &MainWindow::win32_on_tray_open)));
   TRACE_EXIT();
 }
 

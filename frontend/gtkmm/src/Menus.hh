@@ -20,6 +20,11 @@
 #define MENUS_HH
 
 #include "config.h"
+
+#ifdef HAVE_GTKMM24
+#include <sigc++/compatibility.h>
+#endif
+
 #ifdef HAVE_GNOME
 #include <gnome.h>
 #endif

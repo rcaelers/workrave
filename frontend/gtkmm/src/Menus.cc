@@ -132,7 +132,7 @@ Menus::create_main_window_menu()
   Gtk::Menu *menu = manage(create_menu(main_window_check_menus)); // FIXME: leak
     
 #ifdef HAVE_DISTRIBUTION
-  main_window_check_menus[3]->signal_toggled().connect(SigC::slot(*this,
+  main_window_check_menus[3]->signal_toggled().connect(MEMBER_SLOT(*this,
                                                                   &Menus::on_menu_network_log_main_window));
 #endif  
 
@@ -145,7 +145,7 @@ Menus::create_tray_menu()
 {
   Gtk::Menu *menu = manage(create_menu(tray_check_menus));
 #ifdef HAVE_DISTRIBUTION
-  tray_check_menus[3]->signal_toggled().connect(SigC::slot(*this,
+  tray_check_menus[3]->signal_toggled().connect(MEMBER_SLOT(*this,
                                                            &Menus::on_menu_network_log_tray));
 #endif
 
@@ -174,21 +174,21 @@ Menus::create_menu(Gtk::CheckMenuItem *check_menus[4])
   // Suspend menu item.
   Gtk::RadioMenuItem *normal_menu_item
     = manage(new Gtk::RadioMenuItem(gr, _("_Normal"), true));
-  normal_menu_item->signal_toggled().connect(bind(SigC::slot(*this, &Menus::on_menu_normal_menu), normal_menu_item));
+  normal_menu_item->signal_toggled().connect(bind(MEMBER_SLOT(*this, &Menus::on_menu_normal_menu), normal_menu_item));
   normal_menu_item->show();
   modemenulist.push_back(*normal_menu_item);
 
   // Suspend menu item.
   Gtk::RadioMenuItem *suspend_menu_item
     = manage(new Gtk::RadioMenuItem(gr, _("_Suspended"), true));
-  suspend_menu_item->signal_toggled().connect(bind(SigC::slot(*this, &Menus::on_menu_suspend_menu), suspend_menu_item));
+  suspend_menu_item->signal_toggled().connect(bind(MEMBER_SLOT(*this, &Menus::on_menu_suspend_menu), suspend_menu_item));
   suspend_menu_item->show();
   modemenulist.push_back(*suspend_menu_item);
 
   // Quiet menu item.
   Gtk::RadioMenuItem *quiet_menu_item
     = manage(new Gtk::RadioMenuItem(gr, _("Q_uiet"), true));
-  quiet_menu_item->signal_toggled().connect(bind(SigC::slot(*this, &Menus::on_menu_quiet_menu),quiet_menu_item));
+  quiet_menu_item->signal_toggled().connect(bind(MEMBER_SLOT(*this, &Menus::on_menu_quiet_menu),quiet_menu_item));
   quiet_menu_item->show();
   modemenulist.push_back(*quiet_menu_item);
 
@@ -207,17 +207,17 @@ Menus::create_menu(Gtk::CheckMenuItem *check_menus[4])
 
   Gtk::MenuItem *distr_join_menu_item = manage(new Gtk::MenuItem(_("_Connect"),true));
   distr_join_menu_item->show();
-  distr_join_menu_item->signal_activate().connect(SigC::slot(*this, &Menus::on_menu_network_join));
+  distr_join_menu_item->signal_activate().connect(MEMBER_SLOT(*this, &Menus::on_menu_network_join));
   distr_menu_list.push_back(*distr_join_menu_item);
   
   Gtk::MenuItem *distr_leave_menu_item = manage(new Gtk::MenuItem(_("_Disconnect"),true));
   distr_leave_menu_item->show();
-  distr_leave_menu_item->signal_activate().connect(SigC::slot(*this, &Menus::on_menu_network_leave));
+  distr_leave_menu_item->signal_activate().connect(MEMBER_SLOT(*this, &Menus::on_menu_network_leave));
   distr_menu_list.push_back(*distr_leave_menu_item);
 
   Gtk::MenuItem *distr_reconnect_menu_item = manage(new Gtk::MenuItem(_("_Reconnect"),true));
   distr_reconnect_menu_item->show();
-  distr_reconnect_menu_item->signal_activate().connect(SigC::slot(*this, &Menus::on_menu_network_reconnect));
+  distr_reconnect_menu_item->signal_activate().connect(MEMBER_SLOT(*this, &Menus::on_menu_network_reconnect));
   distr_menu_list.push_back(*distr_reconnect_menu_item);
 
   Gtk::CheckMenuItem *distr_log_menu_item = manage(new Gtk::CheckMenuItem(_("Show _log"), true));
@@ -233,12 +233,12 @@ Menus::create_menu(Gtk::CheckMenuItem *check_menus[4])
     {
       menulist.push_front(Gtk::Menu_Helpers::StockMenuElem
                           (Gtk::Stock::OPEN,
-                           SigC::slot(*this, &Menus::on_menu_open_main_window)));
+                           MEMBER_SLOT(*this, &Menus::on_menu_open_main_window)));
     }
 #endif
   
   menulist.push_back(Gtk::Menu_Helpers::StockMenuElem(Gtk::Stock::PREFERENCES,
-                                                      SigC::slot(*this, &Menus::on_menu_preferences)));
+                                                      MEMBER_SLOT(*this, &Menus::on_menu_preferences)));
 
 
   // Rest break
@@ -246,9 +246,13 @@ Menus::create_menu(Gtk::CheckMenuItem *check_menus[4])
   Gtk::Image *img = manage(new Gtk::Image(rb_icon));
   menulist.push_back(Gtk::Menu_Helpers::ImageMenuElem
                      (_("_Rest break"),
+#ifdef HAVE_GTKMM24
+                      Gtk::AccelKey("<control>r"),
+#else
                       Gtk::Menu::AccelKey("<control>r"),
+#endif
                       *img,
-                      SigC::slot(*this, &Menus::on_menu_restbreak_now)));
+                      MEMBER_SLOT(*this, &Menus::on_menu_restbreak_now)));
 
 #ifdef HAVE_EXERCISES
   // Exercises
@@ -256,7 +260,7 @@ Menus::create_menu(Gtk::CheckMenuItem *check_menus[4])
     {
       menulist.push_back(Gtk::Menu_Helpers::MenuElem
                          (_("Exercises"), 
-                          SigC::slot(*this, &Menus::on_menu_exercises)));
+                          MEMBER_SLOT(*this, &Menus::on_menu_exercises)));
     }
 #endif  
   menulist.push_back(*mode_menu_item);
@@ -268,25 +272,25 @@ Menus::create_menu(Gtk::CheckMenuItem *check_menus[4])
 #endif
   
   menulist.push_back(Gtk::Menu_Helpers::MenuElem(_("Statistics"), 
-                                                 SigC::slot(*this, &Menus::on_menu_statistics)));
+                                                 MEMBER_SLOT(*this, &Menus::on_menu_statistics)));
   
 #ifndef NDEBUG
   menulist.push_back(Gtk::Menu_Helpers::MenuElem("_Test",
-                                                 SigC::slot(*this, &Menus::on_test_me)));
+                                                 MEMBER_SLOT(*this, &Menus::on_test_me)));
 #endif
   
 #ifdef HAVE_GNOME
   menulist.push_back(Gtk::Menu_Helpers::StockMenuElem
 		     (Gtk::StockID(GNOME_STOCK_ABOUT),
-		      SigC::slot(*this, &Menus::on_menu_about)));
+		      MEMBER_SLOT(*this, &Menus::on_menu_about)));
 #else
   menulist.push_back(Gtk::Menu_Helpers::MenuElem
 		     (_("About..."),
-		      SigC::slot(*this, &Menus::on_menu_about)));
+		      MEMBER_SLOT(*this, &Menus::on_menu_about)));
 #endif
 
   menulist.push_back(Gtk::Menu_Helpers::StockMenuElem(Gtk::Stock::QUIT,
-                                                 SigC::slot(*this, &Menus::on_menu_quit)));
+                                                 MEMBER_SLOT(*this, &Menus::on_menu_quit)));
 
   TRACE_EXIT();
   return pop_menu;
@@ -610,7 +614,7 @@ Menus::on_menu_preferences()
   if (preferences_dialog == NULL)
     {
       preferences_dialog = new PreferencesDialog();
-      preferences_dialog->signal_response().connect(SigC::slot(*this, &Menus::on_preferences_response));
+      preferences_dialog->signal_response().connect(MEMBER_SLOT(*this, &Menus::on_preferences_response));
           
       preferences_dialog->run();
     }
@@ -629,7 +633,7 @@ Menus::on_menu_exercises()
   if (exercises_dialog == NULL)
     {
       exercises_dialog = new ExercisesDialog();
-      exercises_dialog->signal_response().connect(SigC::slot(*this, &Menus::on_exercises_response));
+      exercises_dialog->signal_response().connect(MEMBER_SLOT(*this, &Menus::on_exercises_response));
           
       exercises_dialog->run();
     }
@@ -666,7 +670,7 @@ Menus::on_menu_statistics()
       stats->update();
       
       statistics_dialog = new StatisticsDialog();
-      statistics_dialog->signal_response().connect(SigC::slot(*this, &Menus::on_statistics_response));
+      statistics_dialog->signal_response().connect(MEMBER_SLOT(*this, &Menus::on_statistics_response));
           
       statistics_dialog->run();
     }
@@ -717,7 +721,7 @@ Menus::on_menu_network_join()
   if (network_join_dialog == NULL)
     {
       network_join_dialog = new NetworkJoinDialog();
-      network_join_dialog->signal_response().connect(SigC::slot(*this, &Menus::on_network_join_response));
+      network_join_dialog->signal_response().connect(MEMBER_SLOT(*this, &Menus::on_network_join_response));
       network_join_dialog->run();
     }
   else
@@ -788,7 +792,7 @@ Menus::on_menu_network_log(bool active)
       if (network_log_dialog == NULL)
         {
           network_log_dialog = new NetworkLogDialog();
-          network_log_dialog->signal_response().connect(SigC::slot(*this, &Menus::on_network_log_response));
+          network_log_dialog->signal_response().connect(MEMBER_SLOT(*this, &Menus::on_network_log_response));
           
           sync_tray_menu(active);
 

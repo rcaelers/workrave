@@ -71,6 +71,8 @@ static const char rcsid[] = "$Id$";
 
 #include <gtkmm/main.h>
 
+#include <glibmm/refptr.h>
+
 GUI *GUI::instance = NULL;
 
 const string GUI::CFG_KEY_GUI_BLOCK_MODE =  "gui/breaks/block_mode";
@@ -324,8 +326,8 @@ GUI::init_gnome()
   Gnome::UI::Client *client = Gnome::UI::Client::master_client();
   if (client != NULL)
     {
-      client->signal_save_yourself().connect(SigC::slot(*this, &GUI::on_save_yourself));
-      client->signal_die().connect(SigC::slot(*this, &GUI::on_die));
+      client->signal_save_yourself().connect(MEMBER_SLOT(*this, &GUI::on_save_yourself));
+      client->signal_die().connect(MEMBER_SLOT(*this, &GUI::on_die));
     }
   
   TRACE_EXIT();
@@ -562,7 +564,11 @@ GUI::init_gtk_multihead()
   for (int i = 0; i < num_screens; i++)
     {
       Glib::RefPtr<Gdk::Screen> screen = display->get_screen(i);
+#ifdef HAVE_GTKMM24
+      if (screen)
+#else
       if (!screen.is_null())
+#endif        
         {
           new_num_heads += screen->get_n_monitors();
         }
@@ -574,7 +580,11 @@ GUI::init_gtk_multihead()
   for (int i = 0; i < num_screens; i++)
     {
       Glib::RefPtr<Gdk::Screen> screen = display->get_screen(i);
+#ifdef HAVE_GTKMM24
+      if (screen)
+#else
       if (!screen.is_null())
+#endif        
         {
           int num_monitors = screen->get_n_monitors();
           for (int j = 0; j < num_monitors && count < num_heads; j++)
@@ -687,7 +697,7 @@ GUI::init_gui()
   tooltips->enable();
 
   // Periodic timer.
-  Glib::signal_timeout().connect(SigC::slot(*this, &GUI::on_timer), 1000);
+  Glib::signal_timeout().connect(MEMBER_SLOT(*this, &GUI::on_timer), 1000);
 
   dispatcher = new Dispatcher;
   dispatch_connection = dispatcher->connect(SigC::slot_class(*this, &GUI::on_activity));
@@ -1057,7 +1067,7 @@ GUI::grab()
 #ifdef HAVE_X
           if (! grab_handle)
             {
-              Glib::signal_timeout().connect(SigC::slot(*this, &GUI::on_grab_retry_timer), 2000);
+              Glib::signal_timeout().connect(MEMBER_SLOT(*this, &GUI::on_grab_retry_timer), 2000);
             }
 #endif
         }
@@ -1091,7 +1101,7 @@ GUI::interrupt_grab()
       
       WindowHints::ungrab(grab_handle);
       grab_handle = NULL;
-      Glib::signal_timeout().connect(SigC::slot(*this, &GUI::on_grab_retry_timer), 2000);
+      Glib::signal_timeout().connect(MEMBER_SLOT(*this, &GUI::on_grab_retry_timer), 2000);
 #endif
     }
 }

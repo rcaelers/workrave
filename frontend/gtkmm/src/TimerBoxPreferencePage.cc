@@ -16,11 +16,11 @@
 // $Id$
 //
 
-#include "preinclude.h"
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
+
+#include "preinclude.h"
 
 #include <gtkmm/optionmenu.h>
 #include <gtkmm/spinbutton.h>
@@ -101,7 +101,7 @@ TimerBoxPreferencePage::create_page()
   place_items.push_back(Gtk::Menu_Helpers::MenuElem
                         (_("Place all timers in one spot")));
   place_button->signal_changed().connect
-    (SigC::slot(*this, &TimerBoxPreferencePage::on_place_changed));
+    (MEMBER_SLOT(*this, &TimerBoxPreferencePage::on_place_changed));
   
   // Cycle time spin button.
   cycle_entry = manage(new Gtk::SpinButton());
@@ -110,7 +110,7 @@ TimerBoxPreferencePage::create_page()
   cycle_entry->set_numeric(true);
   cycle_entry->set_width_chars(3);
   cycle_entry->signal_changed().connect
-    (SigC::slot(*this, &TimerBoxPreferencePage::on_cycle_time_changed));
+    (MEMBER_SLOT(*this, &TimerBoxPreferencePage::on_cycle_time_changed));
 
   // Timer display
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -128,7 +128,7 @@ TimerBoxPreferencePage::create_page()
       menu_list.push_back(Gtk::Menu_Helpers::MenuElem
                           (_("Show only when this timer is first due")));
       display_button->signal_changed().connect
-        (bind(SigC::slot(*this, &TimerBoxPreferencePage::on_display_changed), i));
+        (bind(MEMBER_SLOT(*this, &TimerBoxPreferencePage::on_display_changed), i));
     }
 
   // Enabled/Disabled checkbox
@@ -142,7 +142,7 @@ TimerBoxPreferencePage::create_page()
       ontop_cb = manage
         (new Gtk::CheckButton
          (_("The status window stays always on top of other windows")));
-      ontop_cb->signal_toggled().connect(SigC::slot(*this, &TimerBoxPreferencePage::on_always_on_top_toggled));
+      ontop_cb->signal_toggled().connect(MEMBER_SLOT(*this, &TimerBoxPreferencePage::on_always_on_top_toggled));
       ontop_cb->set_active(MainWindow::get_always_on_top());
     }
   else if (name == "applet")
@@ -152,7 +152,7 @@ TimerBoxPreferencePage::create_page()
   
   enabled_cb = manage(new Gtk::CheckButton());
   enabled_cb->add(*enabled_lab);
-  enabled_cb->signal_toggled().connect(SigC::slot(*this, &TimerBoxPreferencePage::on_enabled_toggled));
+  enabled_cb->signal_toggled().connect(MEMBER_SLOT(*this, &TimerBoxPreferencePage::on_enabled_toggled));
 
   HigCategoryPanel *hig = manage(new HigCategoryPanel(_("Display")));
 

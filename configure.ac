@@ -248,19 +248,33 @@ then
   AC_SUBST(GTK_LIBS)
   AC_SUBST(GTK_CFLAGS)
 
-  PKG_CHECK_MODULES(GLIBMM, glibmm-2.0)
+  PKG_CHECK_MODULES(GLIBMM, glibmm-2.0,, :)
+  PKG_CHECK_MODULES(GTKMM, gtkmm-2.0,, :)
+
+  HAVE_GTKMM24=
+  if test "x$GLIBMM_LIBS" = "x" -o "x$GTKMM_LIBS" = "x"
+  then
+        PKG_CHECK_MODULES(GLIBMM, glibmm-2.4)
+        PKG_CHECK_MODULES(GTKMM, gtkmm-2.4)
+
+        AC_DEFINE(HAVE_GTKMM24,,[Define if gtk2.4 is used])
+  fi
 
   AC_SUBST(GLIBMM_LIBS)
   AC_SUBST(GLIBMM_CFLAGS)
-
-  PKG_CHECK_MODULES(GTKMM, gtkmm-2.0)
 
   AC_SUBST(GTKMM_LIBS)
   AC_SUBST(GTKMM_CFLAGS)
 
   if test "x$config_with_gnome" = "xyes"
   then
-    PKG_CHECK_MODULES(GNOMEUIMM, libgnomeuimm-2.0)
+    PKG_CHECK_MODULES(GNOMEUIMM, libgnomeuimm-2.0,,:)
+
+    if test "x$GNOMEUIMM" = "x"
+    then
+        PKG_CHECK_MODULES(GNOMEUIMM, libgnomeuimm-2.6)
+    fi
+
     PKG_CHECK_MODULES(GNOMEUI, libgnomeui-2.0)
     PKG_CHECK_MODULES(APPLET, libpanelapplet-2.0 >= 2.0.10)
     PKG_CHECK_MODULES(BONOBO, libbonobo-2.0 >= 2.0.0)

@@ -1,6 +1,6 @@
 // IconListNotebook.hh --- Notebook like widget 
 //
-// Copyright (C) 2003 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2003, 2004 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -15,6 +15,14 @@
 //
 // $Id$
 //
+
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "preinclude.h"
+#include "debug.hh"
+#include "nls.h"
 
 #include <gtkmm/scrolledwindow.h>
 
@@ -50,7 +58,7 @@ IconListNotebook::IconListNotebook()
   Glib::RefPtr<Gtk::TreeSelection> selection = icon_list.get_selection();
   selection->set_mode(Gtk::SELECTION_SINGLE);
   selection->signal_changed()
-    .connect(SigC::slot(*this, &IconListNotebook::on_page_changed));
+    .connect(MEMBER_SLOT(*this, &IconListNotebook::on_page_changed));
 
   notebook.set_show_tabs(false);
   notebook.set_show_border(false);
@@ -69,7 +77,6 @@ IconListNotebook::on_page_changed()
     Gtk::Widget *page =  (*selected)[model_columns.page];
     int page_num = gtk_notebook_page_num(notebook.gobj(), page->gobj());
     notebook.set_current_page(page_num);
-    
   }
 }
 

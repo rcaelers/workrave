@@ -19,11 +19,11 @@ static const char rcsid[] = "$Id$";
 
 const int TIMEOUT = 1000;
 
-#include "preinclude.h"
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
+
+#include "preinclude.h"
 
 #include <unistd.h>
 
@@ -227,7 +227,7 @@ RestBreakWindow::install_exercises_panel()
       pluggable_panel.pack_start(*exercises_panel, false, false, 0);
       exercises_panel->set_exercise_count(get_exercise_count());
       exercises_panel->signal_stop().connect
-        (SigC::slot(*this, &RestBreakWindow::install_info_panel));
+        (MEMBER_SLOT(*this, &RestBreakWindow::install_info_panel));
       pluggable_panel.show_all();
       pluggable_panel.queue_resize();
       center();

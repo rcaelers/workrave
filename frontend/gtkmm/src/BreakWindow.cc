@@ -177,7 +177,7 @@ BreakWindow::create_lock_button()
     {
       ret = manage(GtkUtil::create_image_button(_("Lock"), "lock.png"));
       ret->signal_clicked()
-        .connect(SigC::slot(*this, &BreakWindow::on_lock_button_clicked));
+        .connect(MEMBER_SLOT(*this, &BreakWindow::on_lock_button_clicked));
       GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
     }
   else
@@ -196,7 +196,7 @@ BreakWindow::create_shutdown_button()
     {
       ret = manage(GtkUtil::create_image_button(_("Shut down"), "shutdown.png"));
       ret->signal_clicked()
-        .connect(SigC::slot(*this, &BreakWindow::on_shutdown_button_clicked));
+        .connect(MEMBER_SLOT(*this, &BreakWindow::on_shutdown_button_clicked));
       GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
     }
   else
@@ -213,7 +213,7 @@ BreakWindow::create_skip_button()
   Gtk::Button *ret;
   ret = manage(GtkUtil::create_custom_stock_button(_("Skip"), Gtk::Stock::CLOSE));
   ret->signal_clicked()
-    .connect(SigC::slot(*this, &BreakWindow::on_skip_button_clicked));
+    .connect(MEMBER_SLOT(*this, &BreakWindow::on_skip_button_clicked));
   GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
   return ret;
 }
@@ -226,7 +226,7 @@ BreakWindow::create_postpone_button()
   Gtk::Button *ret;
   ret = manage(GtkUtil::create_custom_stock_button(_("Postpone"), Gtk::Stock::REDO));
   ret->signal_clicked()
-    .connect(SigC::slot(*this, &BreakWindow::on_postpone_button_clicked));
+    .connect(MEMBER_SLOT(*this, &BreakWindow::on_postpone_button_clicked));
   GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
   return ret;
 }

@@ -19,6 +19,10 @@
 #ifndef ICON_LIST_CELL_RENDERER_HH
 #define ICON_LIST_CELL_RENDERER_HH
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include <gtkmm/cellrenderer.h>
 #include <gtkmm/cellrendererpixbuf.h>
 #include <gtkmm/cellrenderertext.h>
@@ -36,15 +40,28 @@ protected:
   virtual void get_size_vfunc(Gtk::Widget& widget,
                               const Gdk::Rectangle *cell_area,
                               int* x_offset, int* y_offset,
+                              int* width,    int* height) const;
+
+  virtual void get_size_vfunc(Gtk::Widget& widget,
+                              const Gdk::Rectangle *cell_area,
+                              int* x_offset, int* y_offset,
                               int* width,    int* height);
 
+#ifdef HAVE_GTKMM24
+  virtual void render_vfunc(const Glib::RefPtr<Gdk::Drawable>& window,
+                            Gtk::Widget& widget,
+                            const Gdk::Rectangle& background_area,
+                            const Gdk::Rectangle& cell_area,
+                            const Gdk::Rectangle& expose_area,
+                            Gtk::CellRendererState flags);
+#else
   virtual void render_vfunc(const Glib::RefPtr<Gdk::Window>& window,
                             Gtk::Widget& widget,
                             const Gdk::Rectangle& background_area,
                             const Gdk::Rectangle& cell_area,
                             const Gdk::Rectangle& expose_area,
                             Gtk::CellRendererState flags);
-
+#endif
 
 private:
   void update_properties();
