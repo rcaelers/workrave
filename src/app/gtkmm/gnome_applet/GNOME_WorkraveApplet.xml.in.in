@@ -20,6 +20,8 @@
       <menuitem name="Restbreak Item" verb="Restbreak" _label="_Restbreak"
                 pixtype="filename" pixname="@PIXDIR@/timer-restbreak.png"/>
 
+      <menuitem name="Exercises Item" verb="Exercises" _label="_Exercises"/>
+
       <submenu name="Mode Item" id="Mode" _label="_Mode">
 
         <menuitem name="Normal Item" verb="Normal" _label="_Normal"

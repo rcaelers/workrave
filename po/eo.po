@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-26 23:24+0200\n"
+"POT-Creation-Date: 2003-07-27 14:05+0200\n"
 "PO-Revision-Date: 2002-11-05 17:58-0800\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -98,14 +98,17 @@ msgstr "Ripozo"
 
 #. Mode menu item
 #: src/app/gtkmm/Menus.cc:143
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:5
 msgid "_Mode"
 msgstr "_Modo"
 
 #: src/app/gtkmm/Menus.cc:150
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:7
 msgid "_Normal"
 msgstr "_Normala"
 
 #: src/app/gtkmm/Menus.cc:157
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:16
 msgid "_Suspended"
 msgstr "_Interrompita"
 
@@ -114,6 +117,7 @@ msgid "Q_uiet"
 msgstr "S_ilenta"
 
 #: src/app/gtkmm/Menus.cc:178
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:6
 msgid "_Network"
 msgstr "_Reto"
 
@@ -122,10 +126,12 @@ msgid "_Connect"
 msgstr "_Konektu"
 
 #: src/app/gtkmm/Menus.cc:187
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:3
 msgid "_Disconnect"
 msgstr "_Malkonektu"
 
 #: src/app/gtkmm/Menus.cc:192
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:12
 msgid "_Reconnect"
 msgstr "_Rekonektu"
 
@@ -638,6 +644,61 @@ msgstr "Daŭro de paŭzo"
 msgid "Post-pone time:"
 msgstr "Prokrasta tempo"
 
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:1
+#, fuzzy
+msgid "_About..."
+msgstr "Pri..."
+
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:2
+#, fuzzy
+msgid "_Connect..."
+msgstr "_Konektu"
+
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:4
+msgid "_Exercises"
+msgstr ""
+
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:8
+msgid "_Open"
+msgstr ""
+
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:9
+msgid "_Preferences"
+msgstr ""
+
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:10
+#, fuzzy
+msgid "_Quiet"
+msgstr "S_ilenta"
+
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:11
+#, fuzzy
+msgid "_Quit"
+msgstr "S_ilenta"
+
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:13
+#, fuzzy
+msgid "_Restbreak"
+msgstr "_Ripozon"
+
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:14
+#, fuzzy
+msgid "_Show Log..."
+msgstr "Montru _protokolon"
+
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:15
+#, fuzzy
+msgid "_Statistics"
+msgstr "Statistiko"
+
+#: src/app/gtkmm/gnome_applet/Workrave-Applet.server.in.in.h:1
+msgid "Workrave"
+msgstr ""
+
+#: src/app/gtkmm/gnome_applet/Workrave-Applet.server.in.in.h:2
+msgid "Workrave Applet"
+msgstr ""
+
 #: src/app/Text.cc:75
 #, fuzzy, c-format
 msgid "%s%d:%02d:%02d hours"
@@ -789,34 +850,6 @@ msgstr ""
 #, c-format
 msgid "Could not connect to client %s:%d."
 msgstr ""
-
-#, fuzzy
-#~ msgid "_About..."
-#~ msgstr "Pri..."
-
-#, fuzzy
-#~ msgid "_Connect..."
-#~ msgstr "_Konektu"
-
-#, fuzzy
-#~ msgid "_Quiet"
-#~ msgstr "S_ilenta"
-
-#, fuzzy
-#~ msgid "_Quit"
-#~ msgstr "S_ilenta"
-
-#, fuzzy
-#~ msgid "_Restbreak"
-#~ msgstr "_Ripozon"
-
-#, fuzzy
-#~ msgid "_Show Log..."
-#~ msgstr "Montru _protokolon"
-
-#, fuzzy
-#~ msgid "_Statistics"
-#~ msgstr "Statistiko"
 
 #~ msgid "Hide main window at start-up"
 #~ msgstr "Kaŝu ĉefan fenestron ĉe startigo"

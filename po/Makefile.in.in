@@ -1,5 +1,5 @@
 # Makefile for PO directory in any package using GNU gettext.
-# Copyright (C) 1995-1997, 2000-2003 by Ulrich Drepper <drepper@gnu.ai.mit.edu>
+# Copyright (C) 1995-1997, 2000-2002 by Ulrich Drepper <drepper@gnu.ai.mit.edu>
 #
 # This file can be copied and used freely without restrictions.  It can
 # be used in projects which are not available under the GNU General Public
@@ -20,6 +20,7 @@ SHELL = /bin/sh
 
 srcdir = @srcdir@
 top_srcdir = @top_srcdir@
+## top_builddir = @top_builddir@
 top_builddir = ..
 VPATH = @srcdir@
 
@@ -32,9 +33,9 @@ gettextsrcdir = $(datadir)/gettext/po
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
 MKINSTALLDIRS = @MKINSTALLDIRS@
-mkinstalldirs =  $(SHELL) `case "$(MKINSTALLDIRS)" in /*) echo "$(MKINSTALLDIRS)" ;; ../*) echo "$(MKINSTALLDIRS)" ;; *) echo "$(top_builddir)/$(MKINSTALLDIRS)" ;; esac`
+mkinstalldirs = $(SHELL) `case "$(MKINSTALLDIRS)" in /*) echo "$(MKINSTALLDIRS)" ;; *) echo "$(top_builddir)/$(MKINSTALLDIRS)" ;; esac`
 
-DOMAIN = $(PACKAGE)
+DOMAIN = $(GETTEXT_PACKAGE)
 GMSGFMT = @GMSGFMT@
 MSGFMT = @MSGFMT@
 XGETTEXT = @XGETTEXT@
@@ -272,12 +273,11 @@ update-po: Makefile
 	tmpdir=`pwd`; \
 	echo "$$lang:"; \
 	test "$(srcdir)" = . && cdcmd="" || cdcmd="cd $(srcdir) && "; \
-	echo "$${cdcmd}$(INTLTOOL_MERGE) $(DOMAIN) $$lang.po"; \
+	echo "$${cdcmd}$(INTLTOOL_MERGE) $$lang"; \
 	cd $(srcdir); \
-	if !$(INTLTOOL_MERGE) $(DOMAIN) $$lang.po; then \
-	  echo "intltool-update for $$lang.po failed!" 1>&2; \
-	  cp $$lang.old.po $$lang.po; \
-	fi
+	$(INTLTOOL_MERGE) $$lang || \
+	  (echo "intltool-update for $$lang.po failed!" 1>&2; \
+	  cp $$lang.old.po $$lang.po;)
 
 $(DUMMYPOFILES):
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-26 23:24+0200\n"
+"POT-Creation-Date: 2003-07-27 14:05+0200\n"
 "PO-Revision-Date: 2003-03-04 18:50+0100\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Johannes Rohr <j.rohr@comlink.apc.org>\n"
@@ -100,14 +100,17 @@ msgstr "Ruhepause"
 
 #. Mode menu item
 #: src/app/gtkmm/Menus.cc:143
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:5
 msgid "_Mode"
 msgstr "_Betriebsart"
 
 #: src/app/gtkmm/Menus.cc:150
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:7
 msgid "_Normal"
 msgstr "_Normal"
 
 #: src/app/gtkmm/Menus.cc:157
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:16
 msgid "_Suspended"
 msgstr "_Angehalten"
 
@@ -116,6 +119,7 @@ msgid "Q_uiet"
 msgstr "St_ill"
 
 #: src/app/gtkmm/Menus.cc:178
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:6
 msgid "_Network"
 msgstr "N_etzwerk"
 
@@ -124,10 +128,12 @@ msgid "_Connect"
 msgstr "_Verbinden"
 
 #: src/app/gtkmm/Menus.cc:187
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:3
 msgid "_Disconnect"
 msgstr "_Trennen"
 
 #: src/app/gtkmm/Menus.cc:192
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:12
 msgid "_Reconnect"
 msgstr "Verbindung _Wiederaufnehmen"
 
@@ -614,6 +620,54 @@ msgstr "Dauer der Pause:"
 msgid "Post-pone time:"
 msgstr "Dauer des Aufschubs:"
 
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:1
+msgid "_About..."
+msgstr "Über..."
+
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:2
+msgid "_Connect..."
+msgstr "_Verbinden..."
+
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:4
+msgid "_Exercises"
+msgstr ""
+
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:8
+msgid "_Open"
+msgstr "Ö_ffnen"
+
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:9
+msgid "_Preferences"
+msgstr "_Vorlieben"
+
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:10
+msgid "_Quiet"
+msgstr "St_ill"
+
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:11
+msgid "_Quit"
+msgstr "_Ende"
+
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:13
+msgid "_Restbreak"
+msgstr "_Ruhepause"
+
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:14
+msgid "_Show Log..."
+msgstr "_Protokoll anzeigen"
+
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:15
+msgid "_Statistics"
+msgstr "_Statistik"
+
+#: src/app/gtkmm/gnome_applet/Workrave-Applet.server.in.in.h:1
+msgid "Workrave"
+msgstr "Workrave"
+
+#: src/app/gtkmm/gnome_applet/Workrave-Applet.server.in.in.h:2
+msgid "Workrave Applet"
+msgstr "Workrave-Applet"
+
 #: src/app/Text.cc:75
 #, c-format
 msgid "%s%d:%02d:%02d hours"
@@ -765,39 +819,6 @@ msgstr ""
 #, c-format
 msgid "Could not connect to client %s:%d."
 msgstr ""
-
-#~ msgid "_About..."
-#~ msgstr "Über..."
-
-#~ msgid "_Connect..."
-#~ msgstr "_Verbinden..."
-
-#~ msgid "_Open"
-#~ msgstr "Ö_ffnen"
-
-#~ msgid "_Preferences"
-#~ msgstr "_Vorlieben"
-
-#~ msgid "_Quiet"
-#~ msgstr "St_ill"
-
-#~ msgid "_Quit"
-#~ msgstr "_Ende"
-
-#~ msgid "_Restbreak"
-#~ msgstr "_Ruhepause"
-
-#~ msgid "_Show Log..."
-#~ msgstr "_Protokoll anzeigen"
-
-#~ msgid "_Statistics"
-#~ msgstr "_Statistik"
-
-#~ msgid "Workrave"
-#~ msgstr "Workrave"
-
-#~ msgid "Workrave Applet"
-#~ msgstr "Workrave-Applet"
 
 #~ msgid "Hide main window at start-up"
 #~ msgstr "Hauptfenster beim Start verstecken"

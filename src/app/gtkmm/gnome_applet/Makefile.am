@@ -65,10 +65,11 @@ Workrave-Applet.server.in: Workrave-Applet.server.in.in
 Workrave-Control.server.in: Workrave-Control.server.in.in
 	sed -e "s|\@BINDIR\@|$(bindir)|" $< > $@
 
-GNOME_WorkraveApplet.xml: GNOME_WorkraveApplet.xml.in
+GNOME_WorkraveApplet.xml.in: GNOME_WorkraveApplet.xml.in.in
 	sed -e "s|\@PIXDIR\@|$(pkgdatadir)/images|" $< > $@
 
 @INTLTOOL_SERVER_RULE@
 
+@INTLTOOL_XML_RULE@
 
 endif
