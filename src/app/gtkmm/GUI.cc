@@ -1269,7 +1269,7 @@ GUI::set_block_mode(BlockMode mode)
 bool
 GUI::grab()
 {
-  if (break_windows != NULL)
+  if (break_windows != NULL && active_break_count > 0)
     {
       GdkWindow *windows[active_break_count];
       
