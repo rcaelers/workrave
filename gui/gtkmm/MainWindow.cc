@@ -30,11 +30,11 @@ static const char rcsid[] = "$Id$";
 
 #ifdef HAVE_GNOME
 #include <gnome.h>
+#include "AppletWindow.hh"
 #endif
 #include "MainWindow.hh"
 #include "PreferencesDialog.hh"
 #include "StatisticsDialog.hh"
-#include "AppletWindow.hh"
 #include "WindowHints.hh"
 #include "TimeBar.hh"
 #include "GUI.hh"
