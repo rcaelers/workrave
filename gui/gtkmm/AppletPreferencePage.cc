@@ -14,6 +14,7 @@
 // GNU General Public License for more details.
 //
 // $Id$
+//
 
 #include "preinclude.h"
 
@@ -24,16 +25,13 @@
 #include "nls.h"
 #include "debug.hh"
 
-#include <unistd.h>
-#include <sstream>
-
 #include "AppletPreferencePage.hh"
 
 #include "Configurator.hh"
 #include "AppletWindow.hh"
 
 
-//! Construct the Applet Preference Notebook page.
+//! Constructs the Applet Preference Notebook page.
 AppletPreferencePage::AppletPreferencePage()
   : Gtk::HBox(false, 6)
 {
@@ -46,7 +44,7 @@ AppletPreferencePage::AppletPreferencePage()
 }
 
 
-//! Destruct the Applet Preference Notebook page.
+//! Destructs the Applet Preference Notebook page.
 AppletPreferencePage::~AppletPreferencePage()
 {
   TRACE_ENTER("AppletPreferencePage::~AppletPreferencePage");
@@ -99,7 +97,7 @@ AppletPreferencePage::create_page()
   tips->set_tip(*cycle_entry, _("When multiple breaks are shown on a certain position, "
                                 "this value indicates the time each break is shown."));
 
-  // Put break in table.
+  // Put the breaks in table.
   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
     {
       slot_entry[i] = manage(new Gtk::SpinButton());

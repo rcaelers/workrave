@@ -1,6 +1,6 @@
 // WindowHints.cc 
 //
-// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -45,6 +45,7 @@ bool WindowHints::win_supported = false;
 #define GLASS_CLASS_NAME "GlassWindow"
 #endif
 
+
 #ifdef WIN32
 static LRESULT CALLBACK
 glass_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -52,6 +53,7 @@ glass_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
   return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 #endif 
+
 
 bool
 WindowHints::init()
@@ -110,13 +112,13 @@ WindowHints::set_always_on_top(GtkWidget *window, bool onTop)
 {
   bool rc = false;
 #ifdef HAVE_X
-  if (net_supported)
+  if (win_supported)
     {
       gnome_win_hints_set_layer(window, onTop ? WIN_LAYER_ONTOP : WIN_LAYER_NORMAL);
       rc = true;
     }
 
-  if (win_supported)
+  if (net_supported)
     {
       WmSpec::change_state(window, onTop, "_NET_WM_STATE_STAYS_ON_TOP");
       WmSpec::change_state(window, onTop, "_NET_WM_STATE_ABOVE");

@@ -1,6 +1,6 @@
 // Control.cc --- The main controller
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -285,7 +285,6 @@ PacketBuffer::unpack_byte()
 }
 
 
-
 int
 PacketBuffer::peek(int pos, guint8 **data)
 {
@@ -376,6 +375,7 @@ PacketBuffer::reserve_size(int &pos)
   pos = bytes_written();
   pack_ushort(0);
 }
+
 
 void 
 PacketBuffer::update_size(int pos)

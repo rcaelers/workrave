@@ -1,9 +1,9 @@
 // TimerInterface.hh --- The Break Timer Query Interface
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-10-26 17:27:21 robc>
+// Time-stamp: <2003-01-05 16:30:43 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -48,6 +48,7 @@ enum TimerEvent
     TIMER_EVENT_NATURAL_RESET,
     TIMER_EVENT_LIMIT_REACHED,
   };
+
 
 struct TimerInfo
 {
@@ -103,7 +104,7 @@ public:
   // Timer ID
   virtual string get_id() const = 0;
 
-  virtual bool has_activity_monitor() = 0;
+  virtual bool has_activity_monitor() const = 0;
 };
 
 #endif // TIMERINTERFACE_HH

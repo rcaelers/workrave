@@ -785,7 +785,7 @@ BreakControl::defrost()
 }
 
 
-
+//! Initializes this control to the specified state.
 void
 BreakControl::set_state_data(bool active, const BreakStateData &data)
 {
@@ -865,6 +865,7 @@ BreakControl::set_state_data(bool active, const BreakStateData &data)
 }
 
 
+//! Returns the state of this control.
 void
 BreakControl::get_state_data(BreakStateData &data)
 {

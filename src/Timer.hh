@@ -1,6 +1,6 @@
 // Timer.hh --- Break Timer
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -116,7 +116,7 @@ public:
   void set_snooze_interval(time_t time);
   void inhibit_snooze();
   void set_activity_monitor(ActivityMonitorInterface *am);
-  bool has_activity_monitor();
+  bool has_activity_monitor() const;
   
 private:
   //! Activity or Idle timer.
@@ -204,9 +204,6 @@ private:
   //! Id of the timer.
   string timer_id;
 
-  //! Icon of the timer.
-  string timer_icon;
-
   //! Our source of time.
   TimeSource *time_source;
 
@@ -225,9 +222,6 @@ private:
   // Implementation of ActivityListener.
   void activity_notify();
   void idle_notify();
-
-
-  
 };
 
 #include "Timer.icc"

@@ -1,9 +1,9 @@
 // Timer.icc --- Timer
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-09-24 18:23:54 robc>
+// Time-stamp: <2003-01-05 16:27:31 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
 // GNU General Public License for more details.
 //
 
-//! Set timer for activity counting.
+//! Sets timer for activity counting.
 inline void
 Timer::set_for_activity(bool a)
 {
@@ -32,7 +32,7 @@ Timer::is_limit_enabled() const
 }
 
 
-//! Return the limit
+//! Returns the limit
 inline time_t
 Timer::get_limit() const
 {
@@ -40,7 +40,7 @@ Timer::get_limit() const
 }
 
 
-//! Return the next limit time
+//! Returns the next limit time
 inline time_t
 Timer::get_next_limit_time() const
 {
@@ -56,27 +56,31 @@ Timer::is_auto_reset_enabled() const
 }
 
 
-//! Return the limit
+//! Returns the auto reset interval
 inline time_t
 Timer::get_auto_reset() const
 {
   return autoreset_interval;
 }
 
-//! Return the limit
+
+//! Returns the auto reset predicate
 inline TimePred *
 Timer::get_auto_reset_predicate() const
 {
   return autoreset_interval_predicate;
 }
 
+
+//! Returns the next time the timer will reset.
 inline time_t
 Timer::get_next_reset_time() const
 {
   return next_reset_time;
 }
 
-//! Return if this timer counts activity-time instead of idle-time.
+
+//! Returns if this timer counts activity-time instead of idle-time.
 inline bool
 Timer::is_activity_timer() const
 {
@@ -84,13 +88,15 @@ Timer::is_activity_timer() const
 }
 
 
+//! Returns the snooze interval.
 inline time_t
 Timer::get_snooze() const
 {
   return snooze_interval;
 }
 
-//! Set ID of this timer.
+
+//! Sets ID of this timer.
 inline void
 Timer::set_id(string id)
 {
@@ -98,7 +104,7 @@ Timer::set_id(string id)
 }
 
 
-//! Get ID  of this timer.
+//! Gets ID of this timer.
 inline string
 Timer::get_id() const
 {
@@ -106,7 +112,7 @@ Timer::get_id() const
 }
 
 
-//! Return the enabled state.
+//! Returns the enabled state.
 /*!
  *  The timer only responds to activity events when enabled.
  *
@@ -121,9 +127,6 @@ Timer::is_enabled() const
 
 
 //! Returns the timer state.
-/*!
- *  \returns the timer state.
- */
 inline Timer::TimerState
 Timer::get_state() const
 {
@@ -131,14 +134,17 @@ Timer::get_state() const
 }
 
 
+//! Sets the activity monitor to be used for this timer.
 inline void
 Timer::set_activity_monitor(ActivityMonitorInterface *am)
 {
   activity_monitor = am;
 }
 
+
+//! Does this timer have its own activity monitor?
 inline bool
-Timer::has_activity_monitor()
+Timer::has_activity_monitor() const
 {
   return activity_monitor != NULL;
 }

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
-"POT-Creation-Date: 2003-01-05 16:06+0100\n"
+"POT-Creation-Date: 2003-01-05 17:02+0100\n"
 "PO-Revision-Date: 2003-01-04 22:09+0100\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Johannes Rohr <j.rohr@comlink.apc.org>\n"
@@ -28,7 +28,7 @@ msgid "Silent in"
 msgstr "Still in"
 
 #. Labels
-#: gui/GUIControl.cc:85 gui/gtkmm/AppletPreferencePage.cc:66
+#: gui/GUIControl.cc:85 gui/gtkmm/AppletPreferencePage.cc:64
 #: gui/gtkmm/MicroPauseWindow.cc:161
 msgid "Micro-pause"
 msgstr "Mikropause"
@@ -37,7 +37,7 @@ msgstr "Mikropause"
 msgid "Rest break"
 msgstr "Ruhepause"
 
-#: gui/GUIControl.cc:99 gui/gtkmm/AppletPreferencePage.cc:68
+#: gui/GUIControl.cc:99 gui/gtkmm/AppletPreferencePage.cc:66
 msgid "Daily limit"
 msgstr "Tägliches Limit"
 
@@ -95,83 +95,83 @@ msgid "About %s"
 msgstr "Über %s"
 
 #. Frame
-#: gui/gtkmm/AppletPreferencePage.cc:62
+#: gui/gtkmm/AppletPreferencePage.cc:60
 msgid "Layout"
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:67
+#: gui/gtkmm/AppletPreferencePage.cc:65
 #, fuzzy
 msgid "Restbreak"
 msgstr "Ruhepause"
 
-#: gui/gtkmm/AppletPreferencePage.cc:69
+#: gui/gtkmm/AppletPreferencePage.cc:67
 msgid "Break visible"
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:70
+#: gui/gtkmm/AppletPreferencePage.cc:68
 msgid "Cycle time"
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:71
+#: gui/gtkmm/AppletPreferencePage.cc:69
 msgid "Break position"
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:72
+#: gui/gtkmm/AppletPreferencePage.cc:70
 msgid "Show only when first"
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:73
+#: gui/gtkmm/AppletPreferencePage.cc:71
 msgid "Show only when imminent in"
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:74
+#: gui/gtkmm/AppletPreferencePage.cc:72
 msgid "Show exclusively"
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:75
+#: gui/gtkmm/AppletPreferencePage.cc:73
 msgid "Default break"
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:98
+#: gui/gtkmm/AppletPreferencePage.cc:96
 msgid "Applet enabled or not."
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:99
+#: gui/gtkmm/AppletPreferencePage.cc:97
 msgid ""
 "When multiple breaks are shown on a certain position, this value indicates "
 "the time each break is shown."
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:149
+#: gui/gtkmm/AppletPreferencePage.cc:147
 msgid "If set, this break will be shown in the applet."
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:151
+#: gui/gtkmm/AppletPreferencePage.cc:149
 msgid ""
 "Position on which the break timer is shown. Three positions are available. "
 "In case multiple breaks have the same position, they will be shown "
 "alternatingly."
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:155
+#: gui/gtkmm/AppletPreferencePage.cc:153
 msgid ""
 "If set, this break will be shown if no other breaks are shown on the "
 "selected position"
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:158
+#: gui/gtkmm/AppletPreferencePage.cc:156
 msgid ""
 "If set, the break timer will always be the only break that will shown on "
 "that position. It will not be shown alternatingly with another break."
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:162
+#: gui/gtkmm/AppletPreferencePage.cc:160
 msgid ""
 "If set, the break timer will only be shown if it is the first break that "
 "will reach its limit."
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:165 gui/gtkmm/AppletPreferencePage.cc:168
+#: gui/gtkmm/AppletPreferencePage.cc:163 gui/gtkmm/AppletPreferencePage.cc:166
 msgid ""
 "If set, the break timer will only be shown if it will reach its limit within "
 "the specified time."
