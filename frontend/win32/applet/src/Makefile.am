@@ -10,6 +10,7 @@ MAINTAINERCLEANFILES = 	Makefile.in
 EXTRA_DIST = 		Applet.cpp \
 			Applet.def \
 			Applet.dsp \
+			Applet.mak \
 			resource.rc \
 			ClsFact.cpp \
 			DeskBand.cpp \
