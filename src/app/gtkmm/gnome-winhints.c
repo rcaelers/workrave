@@ -15,7 +15,6 @@ static Atom _XA_WIN_WORKSPACE_COUNT;
 static Atom _XA_WIN_WORKSPACE_NAMES;
 static Atom _XA_WIN_STATE;
 static Atom _XA_WIN_HINTS;
-static Atom _XA_WIN_PROTOCOLS;
 static Atom _XA_WIN_LAYER;
 static Atom _XA_WIN_ICONS;
 static Atom _XA_WIN_CLIENT_LIST;
