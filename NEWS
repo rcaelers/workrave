@@ -5,6 +5,24 @@ See the end for copying conditions.
 Please report Workrave bug reports. Visit our bug tracker located at:
 http://workrave.sourceforge.net
 
+* Workrave 1.2.2
+
+** If you stopped working during a prelude just before it was about to
+disappear, the prelude would still go away because Workrave assumed
+you wanted to continue working. This behaviour has been changed now:
+if there is no activity when the count-down has reached zero, Workrave
+waits a couple of seconds to see if you are really idle. If that is
+the case, a break window appears. If not, you can continue working.
+
+** Redesigned the preferences panel. It used to have nested tabs,
+these have been replaced with an icon shortcut bar.
+
+** The break windows have been given a title.
+
+** The Window version now included GTK-Wimp. This makes the visual
+appearance of Workrave blend much better into the Windows desktop
+environment (http://gtk-wimp.sourceforge.net).
+
 * Workrave 1.2.0
 
 ** Johannes Rohr provided a german translation, thanks!
