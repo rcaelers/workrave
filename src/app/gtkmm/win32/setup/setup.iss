@@ -35,8 +35,7 @@ Name: "desktopicon"; Description: "Create a &desktop icon"; GroupDescription: "A
 Name: "startupmenu"; Description: "Start Workrave when Windows starts"; GroupDescription: "Additional tasks:"; MinVersion: 4,4
 
 [Files]
-Source: ".\runtime\*.*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs
-Source: ".\runtime\lib\harpoon.dll"; DestDir: "{app}\lib\"; Flags: restartreplace uninsrestartdelete;
+Source: ".\runtime\*.*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
 Source: "..\..\..\shared\images\*.png"; DestDir: "{app}\share\images\"; Flags: ignoreversion recursesubdirs
 Source: "..\..\..\shared\sounds\*.wav"; DestDir: "{app}\share\sounds\"; Flags: ignoreversion recursesubdirs
 Source: "..\..\..\shared\exercises\*.png"; DestDir: "{app}\share\exercises\"; Flags: ignoreversion recursesubdirs

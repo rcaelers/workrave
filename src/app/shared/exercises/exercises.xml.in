@@ -8,6 +8,7 @@
       <image src="shoulder-arm-stretch.png" mirrorx="yes" duration="10"/>
     </sequence>
   </exercise>
+<!--
   <exercise>
     <_title>Wrist and lower arm desk stretch</_title>
     <_description>Stand by your desk and place both your palms on the desk with the fingers pointing toward your body. Gently stretch your wrists and lower arms.</_description>
@@ -16,6 +17,7 @@
       <image src="wrist-lower-arm-desk-stretch-2.png" duration="15"/>
     </sequence>
   </exercise>
+-->
   <exercise>
     <_title>Finger stretch</_title>
     <_description>Separate and stretch your fingers until a mild tension is felt, and hold this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold again for 10 seconds. Repeat this exercise once more.</_description>
@@ -49,6 +51,7 @@
        <image src="monitor-border-4.png" duration="4"/>
     </sequence>
   </exercise>
+<!--
   <exercise>
     <_title>Relax the eyes</_title>
     <_description>Close your eyes and breath out as long as you can and try to relax. When breathing in, again do it as slowly as possible. Try to count slowly to 8 for each time you breath in and out. To extra relax your eyes, try closing them in micro pauses too.</_description>
@@ -56,6 +59,7 @@
        <image src="none" duration="6"/>
     </sequence>
   </exercise>
+-->
   <exercise>
     <_title>Train focussing the eyes</_title>
     <_description>Look for the furthest point you can see behind your monitor. Focus your eyes on the remote point. After a few seconds focus on your monitor border. Repeat it. If you can't look very far from your monitor, use a pen for instance and keep it the same distance as your monitor.</_description>
@@ -88,6 +92,7 @@
        <image src="chair-pushup-2.png" duration="10"/>
     </sequence>
   </exercise>
+<!--
   <exercise>
     <_title>Move the shoulderblades</_title>
     <_description>Go stand face to a wall (or something) and put your hands at shoulder hight against it with your elbows slightly bended. Push your body to the wall, without changing the angle of your elbows. Then push your body back from the wall again without changing the angle of the elbows.</_description>
@@ -95,6 +100,8 @@
        <image src="none" duration="10"/>
     </sequence>
   </exercise>
+-->
+<!--
   <exercise>
     <_title>Stretch your back</_title>
     <_description>Stand up and try to reach the ceiling with your hands without lifting your heels. Hold that for a few seconds. Then let your hands slowly go to the floor, without bending your arms. Keep them moving to the floor by bending you back slowly until you can (almost) place them in front of your shoes. Slowly roll your back up straight from your hips up, until it is straight up again.</_description>
@@ -102,6 +109,7 @@
        <image src="none" duration="15"/>
     </sequence>
   </exercise>
+-->
   <exercise>
     <_title>Turn your head</_title>
     <_description>Turn your head left and keep it there for 2 seconds. Then turn your head right and keep it there for 2 seconds.</_description>
@@ -110,6 +118,7 @@
        <image src="turn-head-2.png" duration="2"/>
     </sequence>
   </exercise>
+<!--
   <exercise>
     <_title>Neck stretch</_title>
     <_description>Keep your head straight and your lower jaw parallel to the floor. Move your head back (making a double chin).  Keep this 2 seconds and relax. Move your head the same way forward, keep this 2 seconds and relax again.</_description>
@@ -117,4 +126,5 @@
        <image src="none" duration="10"/>
     </sequence>
   </exercise>
+-->
 </exercises>
