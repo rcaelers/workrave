@@ -7,14 +7,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.4.0\n"
-"POT-Creation-Date: 2004-03-18 21:28+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-04-03 19:43+0200\n"
 "PO-Revision-Date: 2004-03-19 20:15+0100\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
 
 # src/app/gtkmm/eggtrayicon.c:118
 #: frontend/gtkmm/src/eggtrayicon.c:118
@@ -79,9 +79,9 @@ msgstr "Aufschieben"
 
 # src/app/gtkmm/DailyLimitWindow.cc:47 src/app/gtkmm/GtkUtil.cc:88
 # src/app/shared/sounds/workrave.soundlist.in.h:3
-#: frontend/common/share/sounds/workrave.soundlist.in.h:3
 #: frontend/gtkmm/src/DailyLimitWindow.cc:45
 #: frontend/gtkmm/src/DailyLimitWindow.cc:53 frontend/gtkmm/src/GtkUtil.cc:117
+#: frontend/common/share/sounds/workrave.soundlist.in.h:3
 msgid "Daily limit"
 msgstr "Tägliches Limit"
 
@@ -97,7 +97,7 @@ msgstr ""
 "zu einer anderen Tätigkeit, z.B. zur Durchsicht von Dokumenten."
 
 # src/app/gtkmm/GUI.cc:676
-#: frontend/gtkmm/src/GUI.cc:693
+#: frontend/gtkmm/src/GUI.cc:714
 msgid "I could not initialize Bonobo"
 msgstr "Konnte Bonobo nicht initialisieren"
 
@@ -116,7 +116,7 @@ msgstr "Warten"
 # src/app/gtkmm/MicroPauseWindow.cc:204
 #: frontend/gtkmm/src/GtkUtil.cc:117 frontend/gtkmm/src/MicroBreakWindow.cc:48
 #: frontend/gtkmm/src/MicroBreakWindow.cc:110
-#: frontend/gtkmm/src/MicroBreakWindow.cc:151
+#: frontend/gtkmm/src/MicroBreakWindow.cc:150
 msgid "Micro-break"
 msgstr "Mikropause"
 
@@ -129,92 +129,92 @@ msgstr "Ruhepause"
 # src/app/gtkmm/Menus.cc:143
 # src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
 #. Mode menu item
-#: frontend/gtkmm/src/Menus.cc:169 frontend/gtkmm/src/Menus.cc:426
+#: frontend/gtkmm/src/Menus.cc:169 frontend/gtkmm/src/Menus.cc:430
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
 msgid "_Mode"
 msgstr "_Betriebsart"
 
 # src/app/gtkmm/Menus.cc:150
 # src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
-#: frontend/gtkmm/src/Menus.cc:176 frontend/gtkmm/src/Menus.cc:405
+#: frontend/gtkmm/src/Menus.cc:176 frontend/gtkmm/src/Menus.cc:409
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
 msgid "_Normal"
 msgstr "_Normal"
 
 # src/app/gtkmm/Menus.cc:157
 # src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
-#: frontend/gtkmm/src/Menus.cc:183 frontend/gtkmm/src/Menus.cc:412
+#: frontend/gtkmm/src/Menus.cc:183 frontend/gtkmm/src/Menus.cc:416
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
 msgid "_Suspended"
 msgstr "_Angehalten"
 
 # src/app/gtkmm/Menus.cc:164
-#: frontend/gtkmm/src/Menus.cc:190 frontend/gtkmm/src/Menus.cc:419
+#: frontend/gtkmm/src/Menus.cc:190 frontend/gtkmm/src/Menus.cc:423
 msgid "Q_uiet"
 msgstr "St_ill"
 
 # src/app/gtkmm/Menus.cc:178
 # src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
-#: frontend/gtkmm/src/Menus.cc:204 frontend/gtkmm/src/Menus.cc:445
+#: frontend/gtkmm/src/Menus.cc:204 frontend/gtkmm/src/Menus.cc:449
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
 msgid "_Network"
 msgstr "N_etzwerk"
 
 # src/app/gtkmm/Menus.cc:182
-#: frontend/gtkmm/src/Menus.cc:208 frontend/gtkmm/src/Menus.cc:429
+#: frontend/gtkmm/src/Menus.cc:208 frontend/gtkmm/src/Menus.cc:433
 msgid "_Connect"
 msgstr "_Verbinden"
 
 # src/app/gtkmm/Menus.cc:187
 # src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
-#: frontend/gtkmm/src/Menus.cc:213 frontend/gtkmm/src/Menus.cc:432
+#: frontend/gtkmm/src/Menus.cc:213 frontend/gtkmm/src/Menus.cc:436
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
 msgid "_Disconnect"
 msgstr "_Trennen"
 
 # src/app/gtkmm/Menus.cc:192
 # src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
-#: frontend/gtkmm/src/Menus.cc:218 frontend/gtkmm/src/Menus.cc:436
+#: frontend/gtkmm/src/Menus.cc:218 frontend/gtkmm/src/Menus.cc:440
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
 msgid "_Reconnect"
 msgstr "Verbindung _Wiederaufnehmen"
 
 # src/app/gtkmm/Menus.cc:197
-#: frontend/gtkmm/src/Menus.cc:223 frontend/gtkmm/src/Menus.cc:439
+#: frontend/gtkmm/src/Menus.cc:223 frontend/gtkmm/src/Menus.cc:443
 msgid "Show _log"
 msgstr "_Protokoll anzeigen"
 
 # src/app/gtkmm/Menus.cc:222
-#: frontend/gtkmm/src/Menus.cc:248 frontend/gtkmm/src/Menus.cc:401
+#: frontend/gtkmm/src/Menus.cc:248 frontend/gtkmm/src/Menus.cc:405
 msgid "_Rest break"
 msgstr "_Ruhepause"
 
 # src/app/gtkmm/ExercisesDialog.cc:38 src/app/gtkmm/Menus.cc:234
-#: frontend/gtkmm/src/Menus.cc:258 frontend/gtkmm/src/Menus.cc:402
+#: frontend/gtkmm/src/Menus.cc:262 frontend/gtkmm/src/Menus.cc:406
 #: frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:40
 msgid "Exercises"
 msgstr "Übungen"
 
 # src/app/gtkmm/Menus.cc:244 src/app/gtkmm/StatisticsDialog.cc:51
 # src/app/gtkmm/StatisticsDialog.cc:130
-#: frontend/gtkmm/src/Menus.cc:270 frontend/gtkmm/src/Menus.cc:447
+#: frontend/gtkmm/src/Menus.cc:274 frontend/gtkmm/src/Menus.cc:451
 #: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:59
 #: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:138
 msgid "Statistics"
 msgstr "Statistik"
 
 # src/app/gtkmm/Menus.cc:258
-#: frontend/gtkmm/src/Menus.cc:284 frontend/gtkmm/src/Menus.cc:448
+#: frontend/gtkmm/src/Menus.cc:288 frontend/gtkmm/src/Menus.cc:452
 msgid "About..."
 msgstr "Über..."
 
 # src/app/gtkmm/PreferencesDialog.cc:49
-#: frontend/gtkmm/src/Menus.cc:400 frontend/gtkmm/src/PreferencesDialog.cc:55
+#: frontend/gtkmm/src/Menus.cc:404 frontend/gtkmm/src/PreferencesDialog.cc:55
 msgid "Preferences"
 msgstr "Vorlieben"
 
 # src/app/gtkmm/Menus.cc:605
-#: frontend/gtkmm/src/Menus.cc:703
+#: frontend/gtkmm/src/Menus.cc:707
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -223,18 +223,18 @@ msgstr ""
 "(Repetetive Strain Injury) und unterstützt den Genesungsprozess."
 
 # src/app/gtkmm/MicroPauseWindow.cc:200
-#: frontend/gtkmm/src/MicroBreakWindow.cc:129
+#: frontend/gtkmm/src/MicroBreakWindow.cc:128
 msgid "Please relax for a few seconds"
 msgstr "Bitte entspannen Sie sich für ein paar Sekunden"
 
 # src/app/gtkmm/MicroPauseWindow.cc:190
-#: frontend/gtkmm/src/MicroBreakWindow.cc:137
+#: frontend/gtkmm/src/MicroBreakWindow.cc:136
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Nächste Ruhepause in %s"
 
 # src/app/gtkmm/MicroPauseWindow.cc:196
-#: frontend/gtkmm/src/MicroBreakWindow.cc:143
+#: frontend/gtkmm/src/MicroBreakWindow.cc:142
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Ruhepause %s Minuten überfällig"
@@ -565,8 +565,8 @@ msgstr "_Statistik"
 
 # src/app/gtkmm/gnome_applet/Workrave-Applet.server.in.in.h:1
 # src/app/shared/sounds/workrave.soundlist.in.h:10
-#: frontend/common/share/sounds/workrave.soundlist.in.h:10
 #: frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:1
+#: frontend/common/share/sounds/workrave.soundlist.in.h:10
 msgid "Workrave"
 msgstr "Workrave"
 
@@ -576,17 +576,17 @@ msgid "Workrave Applet"
 msgstr "Workrave-Applet"
 
 # src/app/gtkmm/ExercisesDialog.cc:38 src/app/gtkmm/Menus.cc:234
-#: frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:251
+#: frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:253
 msgid "Exercises player"
 msgstr "Übungsabspieler"
 
 # src/app/gtkmm/ExercisesPanel.cc:226
-#: frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:433
+#: frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:435
 msgid "Resume"
 msgstr "Wiederaufnehmen"
 
 # src/app/gtkmm/ExercisesPanel.cc:226
-#: frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:433
+#: frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:435
 msgid "Pause"
 msgstr "Pause"
 
@@ -875,7 +875,8 @@ msgstr "Wiederaufnahme der Verbindung mit %s:%d:"
 
 #: backend/src/DistributionSocketLink.cc:345
 msgid "Cannot resolve my own hostname. Deactivating distribution."
-msgstr "Kann eigenen Rechnernamen nicht auflösen. Netzwerkbetrieb wird deaktiviert."
+msgstr ""
+"Kann eigenen Rechnernamen nicht auflösen. Netzwerkbetrieb wird deaktiviert."
 
 # src/core/DistributionSocketLink.cc:345
 #. We did not succeed in starting the server. Arghh.

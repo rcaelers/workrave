@@ -5,14 +5,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2004-03-18 21:28+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-04-03 19:43+0200\n"
 "PO-Revision-Date: 2003-09-08 19:07+0200\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
 
 #: frontend/gtkmm/src/eggtrayicon.c:118
 #, fuzzy
@@ -66,9 +66,9 @@ msgstr "Transsaltu"
 msgid "Postpone"
 msgstr "Prokrastu"
 
-#: frontend/common/share/sounds/workrave.soundlist.in.h:3
 #: frontend/gtkmm/src/DailyLimitWindow.cc:45
 #: frontend/gtkmm/src/DailyLimitWindow.cc:53 frontend/gtkmm/src/GtkUtil.cc:117
+#: frontend/common/share/sounds/workrave.soundlist.in.h:3
 msgid "Daily limit"
 msgstr "Taglimo"
 
@@ -82,7 +82,7 @@ msgstr ""
 "malantaŭ via komputilo.  Se via labortago ne ankoraŭ finiĝis,\n"
 "trovu ion alian por fari, kiel revuado de dokumento."
 
-#: frontend/gtkmm/src/GUI.cc:693
+#: frontend/gtkmm/src/GUI.cc:714
 msgid "I could not initialize Bonobo"
 msgstr ""
 
@@ -97,7 +97,7 @@ msgstr "Atendu"
 
 #: frontend/gtkmm/src/GtkUtil.cc:117 frontend/gtkmm/src/MicroBreakWindow.cc:48
 #: frontend/gtkmm/src/MicroBreakWindow.cc:110
-#: frontend/gtkmm/src/MicroBreakWindow.cc:151
+#: frontend/gtkmm/src/MicroBreakWindow.cc:150
 #, fuzzy
 msgid "Micro-break"
 msgstr "Paŭzeto"
@@ -108,72 +108,72 @@ msgid "Rest break"
 msgstr "Ripozo"
 
 #. Mode menu item
-#: frontend/gtkmm/src/Menus.cc:169 frontend/gtkmm/src/Menus.cc:426
+#: frontend/gtkmm/src/Menus.cc:169 frontend/gtkmm/src/Menus.cc:430
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
 msgid "_Mode"
 msgstr "_Modo"
 
-#: frontend/gtkmm/src/Menus.cc:176 frontend/gtkmm/src/Menus.cc:405
+#: frontend/gtkmm/src/Menus.cc:176 frontend/gtkmm/src/Menus.cc:409
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
 msgid "_Normal"
 msgstr "_Normala"
 
-#: frontend/gtkmm/src/Menus.cc:183 frontend/gtkmm/src/Menus.cc:412
+#: frontend/gtkmm/src/Menus.cc:183 frontend/gtkmm/src/Menus.cc:416
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
 msgid "_Suspended"
 msgstr "_Interrompita"
 
-#: frontend/gtkmm/src/Menus.cc:190 frontend/gtkmm/src/Menus.cc:419
+#: frontend/gtkmm/src/Menus.cc:190 frontend/gtkmm/src/Menus.cc:423
 msgid "Q_uiet"
 msgstr "S_ilenta"
 
-#: frontend/gtkmm/src/Menus.cc:204 frontend/gtkmm/src/Menus.cc:445
+#: frontend/gtkmm/src/Menus.cc:204 frontend/gtkmm/src/Menus.cc:449
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
 msgid "_Network"
 msgstr "_Reto"
 
-#: frontend/gtkmm/src/Menus.cc:208 frontend/gtkmm/src/Menus.cc:429
+#: frontend/gtkmm/src/Menus.cc:208 frontend/gtkmm/src/Menus.cc:433
 msgid "_Connect"
 msgstr "_Konektu"
 
-#: frontend/gtkmm/src/Menus.cc:213 frontend/gtkmm/src/Menus.cc:432
+#: frontend/gtkmm/src/Menus.cc:213 frontend/gtkmm/src/Menus.cc:436
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
 msgid "_Disconnect"
 msgstr "_Malkonektu"
 
-#: frontend/gtkmm/src/Menus.cc:218 frontend/gtkmm/src/Menus.cc:436
+#: frontend/gtkmm/src/Menus.cc:218 frontend/gtkmm/src/Menus.cc:440
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
 msgid "_Reconnect"
 msgstr "_Rekonektu"
 
-#: frontend/gtkmm/src/Menus.cc:223 frontend/gtkmm/src/Menus.cc:439
+#: frontend/gtkmm/src/Menus.cc:223 frontend/gtkmm/src/Menus.cc:443
 msgid "Show _log"
 msgstr "Montru _protokolon"
 
-#: frontend/gtkmm/src/Menus.cc:248 frontend/gtkmm/src/Menus.cc:401
+#: frontend/gtkmm/src/Menus.cc:248 frontend/gtkmm/src/Menus.cc:405
 msgid "_Rest break"
 msgstr "_Ripozon"
 
-#: frontend/gtkmm/src/Menus.cc:258 frontend/gtkmm/src/Menus.cc:402
+#: frontend/gtkmm/src/Menus.cc:262 frontend/gtkmm/src/Menus.cc:406
 #: frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:40
 msgid "Exercises"
 msgstr ""
 
-#: frontend/gtkmm/src/Menus.cc:270 frontend/gtkmm/src/Menus.cc:447
+#: frontend/gtkmm/src/Menus.cc:274 frontend/gtkmm/src/Menus.cc:451
 #: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:59
 #: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:138
 msgid "Statistics"
 msgstr "Statistiko"
 
-#: frontend/gtkmm/src/Menus.cc:284 frontend/gtkmm/src/Menus.cc:448
+#: frontend/gtkmm/src/Menus.cc:288 frontend/gtkmm/src/Menus.cc:452
 msgid "About..."
 msgstr "Pri..."
 
-#: frontend/gtkmm/src/Menus.cc:400 frontend/gtkmm/src/PreferencesDialog.cc:55
+#: frontend/gtkmm/src/Menus.cc:404 frontend/gtkmm/src/PreferencesDialog.cc:55
 msgid "Preferences"
 msgstr ""
 
-#: frontend/gtkmm/src/Menus.cc:703
+#: frontend/gtkmm/src/Menus.cc:707
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -181,16 +181,16 @@ msgstr ""
 "Tiu ĉi programo helpas kun la malebligado kaj resaniĝado de Ripetada "
 "Trostreĉa Vundo (RSI)."
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:129
+#: frontend/gtkmm/src/MicroBreakWindow.cc:128
 msgid "Please relax for a few seconds"
 msgstr "Bonvolu trankviliĝi por kelkaj sekundoj"
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:137
+#: frontend/gtkmm/src/MicroBreakWindow.cc:136
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Sekvanta ripozo en %s"
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:143
+#: frontend/gtkmm/src/MicroBreakWindow.cc:142
 #, fuzzy, c-format
 msgid "Rest break %s overdue"
 msgstr "Ripozo por %s"
@@ -477,8 +477,8 @@ msgstr "Montru _protokolon"
 msgid "_Statistics"
 msgstr "Statistiko"
 
-#: frontend/common/share/sounds/workrave.soundlist.in.h:10
 #: frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:1
+#: frontend/common/share/sounds/workrave.soundlist.in.h:10
 msgid "Workrave"
 msgstr ""
 
@@ -486,15 +486,15 @@ msgstr ""
 msgid "Workrave Applet"
 msgstr ""
 
-#: frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:251
+#: frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:253
 msgid "Exercises player"
 msgstr ""
 
-#: frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:433
+#: frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:435
 msgid "Resume"
 msgstr ""
 
-#: frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:433
+#: frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:435
 msgid "Pause"
 msgstr ""
 

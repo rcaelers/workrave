@@ -18,6 +18,7 @@ MAINTAINERCLEANFILES = 	\
 		NEWS.txt README.txt
 
 SUBDIRS = 	m4 po backend common frontend 
+DIST_SUBDIRS =  $(SUBDIRS) intl
 
 EXTRA_DIST = 	config.rpath  \
 		config.xml \
