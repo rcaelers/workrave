@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-08-06 13:19:50 robc>
+// Time-stamp: <2003-08-26 18:19:47 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -226,8 +226,8 @@ X11InputMonitor::run_events()
   int (*old_handler)(Display *dpy, XErrorEvent *error);
 
   old_handler = XSetErrorHandler(&errorHandler);
-  //  XGrabButton(x11_display, AnyButton, AnyModifier, root_window, True,
-  //              ButtonPressMask, GrabModeSync, GrabModeAsync, None, None);
+  XGrabButton(x11_display, AnyButton, AnyModifier, root_window, True,
+              ButtonPressMask, GrabModeSync, GrabModeAsync, None, None);
   XSync(x11_display,False);
   XSetErrorHandler(old_handler);
 

@@ -64,8 +64,8 @@ BreakControl::BreakControl(BreakId id, Core *c, AppInterface *app, Timer *timer)
   force_after_prelude(true),
   insist_break(true),
   ignorable_break(true),
-  insist_policy(INSIST_POLICY_HALT),
-  active_insist_policy(INSIST_POLICY_INVALID),
+  insist_policy(BreakInterface::INSIST_POLICY_HALT),
+  active_insist_policy(BreakInterface::INSIST_POLICY_INVALID),
   fake_break(false),
   fake_break_count(0),
   user_abort(false)
@@ -319,7 +319,7 @@ BreakControl::goto_stage(BreakStage stage)
             post_event(event);
           }
 
-        if (insist_break)
+        //RC: testing... if (insist_break)
           {
             freeze();
           }
@@ -641,9 +641,31 @@ BreakControl::set_ignorable_break(bool i)
  *  taking a break.
  */
 void
-BreakControl::set_insist_policy(InsistPolicy p)
+BreakControl::set_insist_policy(BreakInterface::InsistPolicy p)
 {
-  insist_policy = p;
+  TRACE_ENTER_MSG("BreakControl::set_insist_policy", p);
+
+  if (active_insist_policy != BreakInterface::INSIST_POLICY_INVALID &&
+      insist_policy != p)
+    {
+      TRACE_MSG("refreeze " << active_insist_policy);
+      defrost();
+      insist_policy = p;
+      freeze();
+    }
+  else
+    {
+      insist_policy = p;
+    }
+  TRACE_EXIT();
+}
+
+
+//! Gets the insist policy.
+BreakInterface::InsistPolicy
+BreakControl::get_insist_policy() const
+{
+  return insist_policy;
 }
 
 
@@ -694,22 +716,36 @@ BreakControl::prelude_window_start()
 void
 BreakControl::freeze()
 {
-  switch (insist_policy)
+  TRACE_ENTER_MSG("BreakControl::freeze", insist_policy);
+  BreakInterface::InsistPolicy policy = insist_policy;
+  
+  if (!insist_break)
     {
-    case INSIST_POLICY_SUSPEND:
+      // This break does not user input. When the user moves the mouse,
+      // we timer should start running... this is a hack...
+      if (policy == BreakInterface::INSIST_POLICY_HALT)
+        {
+          policy = BreakInterface::INSIST_POLICY_RESET;
+        }
+    }
+  
+  
+  switch (policy)
+    {
+    case BreakInterface::INSIST_POLICY_IGNORE:
       {
         // Ignore all activity during break by suspending the activity monitor.
         ActivityMonitorInterface *monitor = core->get_activity_monitor();
         monitor->suspend();
       }
       break;
-    case INSIST_POLICY_HALT:
+    case BreakInterface::INSIST_POLICY_HALT:
       {
         // Halt timer when the user is active.
         core->set_freeze_all_breaks(true);
       }
       break;
-    case INSIST_POLICY_RESET:
+    case BreakInterface::INSIST_POLICY_RESET:
       // reset the timer when the user becomes active.
       // default.
       break;
@@ -718,7 +754,8 @@ BreakControl::freeze()
       break;
     }
 
-  active_insist_policy = insist_policy;
+  active_insist_policy = policy;
+  TRACE_EXIT();
 }
 
 
@@ -726,16 +763,18 @@ BreakControl::freeze()
 void
 BreakControl::defrost()
 {
+  TRACE_ENTER_MSG("BreakControl::defrost", active_insist_policy);
+  
   switch (active_insist_policy)
     {
-    case INSIST_POLICY_SUSPEND:
+    case BreakInterface::INSIST_POLICY_IGNORE:
       {
         // Resumes the activity monitor.
         ActivityMonitorInterface *monitor = core->get_activity_monitor();
         monitor->resume();
       }
       break;
-    case INSIST_POLICY_HALT:
+    case BreakInterface::INSIST_POLICY_HALT:
       {
         // Desfrost timers.
         core->set_freeze_all_breaks(false);
@@ -746,7 +785,8 @@ BreakControl::defrost()
       break;
     }
 
-  active_insist_policy = INSIST_POLICY_INVALID;
+  active_insist_policy = BreakInterface::INSIST_POLICY_INVALID;
+  TRACE_EXIT();
 }
 
 

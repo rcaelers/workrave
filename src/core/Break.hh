@@ -96,6 +96,8 @@ public:
   bool get_break_enabled() const;
   void set_break_enabled(bool b);
   void config_changed_notify(string key);
+  void set_insist_policy(InsistPolicy p);
+  InsistPolicy get_insist_policy() const;
 
 private:
   void init_timer();

@@ -54,6 +54,7 @@ protected:
 private:
   void suspend_break();
   Gtk::Widget *RestBreakWindow::create_info_panel();
+  void set_ignore_activity(bool i);
   
 #ifdef HAVE_EXERCISES
   void install_exercises_panel();

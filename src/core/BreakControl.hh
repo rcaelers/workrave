@@ -35,23 +35,6 @@ class BreakControl
 public:
   enum BreakState { BREAK_ACTIVE, BREAK_INACTIVE, BREAK_SUSPENDED };
 
-  enum InsistPolicy
-    {
-      //! Uninitialized policy
-      INSIST_POLICY_INVALID,
-
-      //! Halts the timer on activity.
-      INSIST_POLICY_HALT,
-
-      //! Resets the timer on activity.
-      INSIST_POLICY_RESET,
-
-      //! Ignores all activity.
-      INSIST_POLICY_SUSPEND,
-
-      //! Number of policies.
-      INSIST_POLICY_SIZEOF
-    };
   
   //! Defines what to do when the user is active during a break.
   struct BreakStateData
@@ -81,8 +64,9 @@ public:
   void set_force_after_preludes(bool f);
   void set_max_preludes(int m);
   void set_insist_break(bool i);
-  void set_insist_policy(InsistPolicy p);
+  void set_insist_policy(BreakInterface::InsistPolicy p);
   void set_ignorable_break(bool i);
+  BreakInterface::InsistPolicy get_insist_policy() const;
   
   // BreakResponseInterface
   void postpone_break();
@@ -154,10 +138,10 @@ private:
   bool ignorable_break;
 
   //! What to do with activity during insisted break?
-  InsistPolicy insist_policy;
+  BreakInterface::InsistPolicy insist_policy;
 
   //! Policy currently in effect.
-  InsistPolicy active_insist_policy;
+  BreakInterface::InsistPolicy active_insist_policy;
 
   //! Is this a break that is not controlled by the timer.
   bool fake_break;

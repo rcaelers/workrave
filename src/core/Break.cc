@@ -579,3 +579,20 @@ Break::config_changed_notify(string key)
     }
   TRACE_EXIT();
 }
+
+
+//! Sets the insist policy.
+void
+Break::set_insist_policy(BreakInterface::InsistPolicy p)
+{
+  break_control->set_insist_policy(p);
+}
+
+
+//! Gets the insist policy.
+BreakInterface::InsistPolicy
+Break::get_insist_policy() const
+{
+  return break_control->get_insist_policy();
+}
+

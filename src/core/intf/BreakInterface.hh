@@ -27,6 +27,24 @@ using namespace std;
 class BreakInterface
 {
 public:
+  enum InsistPolicy
+    {
+      //! Uninitialized policy
+      INSIST_POLICY_INVALID,
+
+      //! Halts the timer on activity.
+      INSIST_POLICY_HALT,
+
+      //! Resets the timer on activity.
+      INSIST_POLICY_RESET,
+
+      //! Ignores all activity.
+      INSIST_POLICY_IGNORE,
+
+      //! Number of policies.
+      INSIST_POLICY_SIZEOF
+    };
+
   virtual TimerInterface *get_timer() const = 0;
   virtual bool is_enabled() const = 0;
   virtual string get_name() const = 0;
@@ -53,6 +71,8 @@ public:
   virtual void set_break_insisting(bool b) = 0;
   virtual bool get_break_enabled() const = 0;
   virtual void set_break_enabled(bool b) = 0;
+  virtual void set_insist_policy(InsistPolicy p) = 0;
+
 };
 
 #endif // TIMERDATA_HH

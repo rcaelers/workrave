@@ -8,13 +8,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.4.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-08-13 15:40+0200\n"
+"POT-Creation-Date: 2003-08-24 21:39+0200\n"
 "PO-Revision-Date: 2003-08-22 18:25+0200\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit"
+"Content-Transfer-Encoding: 8bit\n"
 
 # src/app/gtkmm/eggtrayicon.c:118
 #: src/app/gtkmm/eggtrayicon.c:118
@@ -81,7 +81,10 @@ msgid ""
 "You have reached your daily limit. Please stop working\n"
 "behind the computer. If your working day is not over yet,\n"
 "find something else to do, such as reviewing a document."
-msgstr " Sie haben Ihr tägliches Limit erreicht. Bitte beenden Sie die Arbeit am Computer. Falls Ihr Arbeitstag noch nicht zu Ende ist, wechseln Sie zu einer anderen Tätigkeit, z.B. zur Durchsicht von Dokumenten."
+msgstr ""
+" Sie haben Ihr tägliches Limit erreicht. Bitte beenden Sie die Arbeit am "
+"Computer. Falls Ihr Arbeitstag noch nicht zu Ende ist, wechseln Sie zu einer "
+"anderen Tätigkeit, z.B. zur Durchsicht von Dokumenten."
 
 # src/app/gtkmm/ExercisesDialog.cc:38 src/app/gtkmm/Menus.cc:234
 #: src/app/gtkmm/ExercisesDialog.cc:38 src/app/gtkmm/Menus.cc:234
@@ -308,7 +311,10 @@ msgstr "Erweitert"
 msgid ""
 "The following list specifies the hosts that Workrave connects to on\n"
 "start-up. Click the host name or port number to edit."
-msgstr " Die folgende Liste legt die Rechner fest, zu denen Workrave beim Programmstart eine Verbindung aufnimmt. Klicken Sie zum Bearbeiten auf den Rechnernamen oder die Portnummer."
+msgstr ""
+" Die folgende Liste legt die Rechner fest, zu denen Workrave beim "
+"Programmstart eine Verbindung aufnimmt. Klicken Sie zum Bearbeiten auf den "
+"Rechnernamen oder die Portnummer."
 
 # src/app/gtkmm/NetworkPreferencePage.cc:177
 #: src/app/gtkmm/NetworkPreferencePage.cc:177
@@ -360,7 +366,7 @@ msgstr "Benutzervorlieben"
 msgid "Network"
 msgstr "Netzwerk"
 
-#
+# 
 # src/app/gtkmm/PreferencesDialog.cc:115
 #: src/app/gtkmm/PreferencesDialog.cc:115
 msgid "No sounds"
@@ -439,7 +445,10 @@ msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
 "walk around for a few minutes, stretch, and relax."
-msgstr " Dies ist Ihre Ruhepause. Achten Sie darauf, dass Sie regelmäßig aufstehen und Ihren Computerarbeitsplatz verlassen. Gehen Sie einfach ein paar Minuten umher, strecken sie sich aus und entspannen Sie sich."
+msgstr ""
+" Dies ist Ihre Ruhepause. Achten Sie darauf, dass Sie regelmäßig aufstehen "
+"und Ihren Computerarbeitsplatz verlassen. Gehen Sie einfach ein paar Minuten "
+"umher, strecken sie sich aus und entspannen Sie sich."
 
 # src/app/gtkmm/StatisticsDialog.cc:124
 #: src/app/gtkmm/StatisticsDialog.cc:124
@@ -1021,7 +1030,12 @@ msgid ""
 "breathing in, again do it as slowly as possible. Try to count slowly to 8 "
 "for each time you breath in and out. To extra relax your eyes, try closing "
 "them in micro pauses too."
-msgstr "Schließen Sie die Augen, atmen Sie so tief aus, wie sie können und versuchen Sie, sich zu entspannen. Wenn Sie einatmen, tun Sie dies ebenfalls so langsam wie möglich. Versuchen Sie bei jedem Ein- und Ausatmen, langsam bis acht zu zählen. Um auch ihre Augen zu entspannen, schließen Sie sie in den Mikropausen ebenfalls."
+msgstr ""
+"Schließen Sie die Augen, atmen Sie so tief aus, wie sie können und versuchen "
+"Sie, sich zu entspannen. Wenn Sie einatmen, tun Sie dies ebenfalls so "
+"langsam wie möglich. Versuchen Sie bei jedem Ein- und Ausatmen, langsam bis "
+"acht zu zählen. Um auch ihre Augen zu entspannen, schließen Sie sie in den "
+"Mikropausen ebenfalls."
 
 # src/app/shared/exercises/exercises.xml.in.h:3
 #: src/app/shared/exercises/exercises.xml.in.h:3
@@ -1029,7 +1043,11 @@ msgid ""
 "Cover your eyes with your palms in such way that you can still open your "
 "eyelids. Now open your eyes and look into the darkness of your palms. This "
 "exercise gives better relief to your eyes compared to simply closing them."
-msgstr "Bedecken Sie die Augen mit den Handflächen, so dass sie die Augenlider immer noch öffnen können. Jetzt öffnen Sie die Augen und schauen Sie in die Dunkelheit Ihrer Handflächen. Diese Übung bringt Ihren Augen mehr Erholung als wenn Sie sie einfach schließen würden."
+msgstr ""
+"Bedecken Sie die Augen mit den Handflächen, so dass sie die Augenlider immer "
+"noch öffnen können. Jetzt öffnen Sie die Augen und schauen Sie in die "
+"Dunkelheit Ihrer Handflächen. Diese Übung bringt Ihren Augen mehr Erholung "
+"als wenn Sie sie einfach schließen würden."
 
 # src/app/shared/exercises/exercises.xml.in.h:4
 #: src/app/shared/exercises/exercises.xml.in.h:4
@@ -1068,7 +1086,11 @@ msgid ""
 "with your other arm towards you until you feel a mild tension in your "
 "shoulder. Hold this position briefly, and repeat the exercise for your other "
 "arm."
-msgstr "Halten Sie einen Arm horizontal ausgestreckt vor der Brust. Mit dem anderen Arm stoßen Sie diesen Arm zu sich hin, bis Sie eine leichte Spannung in der Schulter verspüren. Bleiben Sie kurz in dieser Position und wiederholen Sie die Übung mit dem anderen Arm."
+msgstr ""
+"Halten Sie einen Arm horizontal ausgestreckt vor der Brust. Mit dem anderen "
+"Arm stoßen Sie diesen Arm zu sich hin, bis Sie eine leichte Spannung in der "
+"Schulter verspüren. Bleiben Sie kurz in dieser Position und wiederholen Sie "
+"die Übung mit dem anderen Arm."
 
 # src/app/shared/exercises/exercises.xml.in.h:8
 #: src/app/shared/exercises/exercises.xml.in.h:8
@@ -1076,7 +1098,11 @@ msgid ""
 "Keep your head straight and your lower jaw parallel to the floor. Move your "
 "head back (making a double chin). Keep this 2 seconds and relax. Move your "
 "head the same way forward, keep this 2 seconds and relax again."
-msgstr "Halten Sie den Kopf gerade und den Unterkiefer parallel zum Fußboden. Bewegen Sie den Kopf zurück (Machen Sie ein Doppelkinn). Bleiben Sie so für zwei Sekunden und entspannen Sie sich. Bewegen Sie den Kopf auf dieselbe Art vorwärts, bleiben Sie so für zwei Sekunden und entspannen Sie sich wieder."
+msgstr ""
+"Halten Sie den Kopf gerade und den Unterkiefer parallel zum Fußboden. "
+"Bewegen Sie den Kopf zurück (Machen Sie ein Doppelkinn). Bleiben Sie so für "
+"zwei Sekunden und entspannen Sie sich. Bewegen Sie den Kopf auf dieselbe Art "
+"vorwärts, bleiben Sie so für zwei Sekunden und entspannen Sie sich wieder."
 
 # src/app/shared/exercises/exercises.xml.in.h:9
 #: src/app/shared/exercises/exercises.xml.in.h:9
@@ -1084,7 +1110,11 @@ msgid ""
 "Look at the upper left corner of the outside border of your monitor. Follow "
 "the border slowly to the upper right corner. Continue to the next corner, "
 "until you got around it two times. Then, reverse the excersise."
-msgstr "Schauen Sie auf die obere linke Ecke des Außenrands Ihres Bildschirms. Folgen Sie dem Rand langsam bis zur oberen rechten Ecke. Setzen Sie bis zur nächsten Ecke fort bis sie ihn zweimal umrundet haben. Dann wiederholen Sie die Übung in umgekehrter Richtung."
+msgstr ""
+"Schauen Sie auf die obere linke Ecke des Außenrands Ihres Bildschirms. "
+"Folgen Sie dem Rand langsam bis zur oberen rechten Ecke. Setzen Sie bis zur "
+"nächsten Ecke fort bis sie ihn zweimal umrundet haben. Dann wiederholen Sie "
+"die Übung in umgekehrter Richtung."
 
 # src/app/shared/exercises/exercises.xml.in.h:10
 #: src/app/shared/exercises/exercises.xml.in.h:10
@@ -1093,7 +1123,12 @@ msgid ""
 "on the remote point. After a few seconds focus on your monitor border. "
 "Repeat it. If you can't look very far from your monitor, use a pen for "
 "instance and keep it the same distance as your monitor."
-msgstr "Schauen Sie den entferntesten Punkt, den Sie hinter Ihrem Bildschirm sehen können. Fixieren Sie den enfernten Punkt. Nach ein paar Sekunden fokussieren Sie den Bildschirmrand. Wiederholen Sie. Falls Sie von ihrem Bildschirm aus nicht sehr weit blicken können, benutzen Sie stattdessen z.B.  einen Stift und halten Sie Ihn in Bildschirmentfernung vor das Gesicht."
+msgstr ""
+"Schauen Sie den entferntesten Punkt, den Sie hinter Ihrem Bildschirm sehen "
+"können. Fixieren Sie den enfernten Punkt. Nach ein paar Sekunden fokussieren "
+"Sie den Bildschirmrand. Wiederholen Sie. Falls Sie von ihrem Bildschirm aus "
+"nicht sehr weit blicken können, benutzen Sie stattdessen z.B.  einen Stift "
+"und halten Sie Ihn in Bildschirmentfernung vor das Gesicht."
 
 # src/app/shared/exercises/exercises.xml.in.h:11
 #: src/app/shared/exercises/exercises.xml.in.h:11
@@ -1153,7 +1188,12 @@ msgid ""
 "Separate and stretch your fingers until a mild tension is felt, and hold "
 "this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
 "again for 10 seconds. Repeat this exercise once more."
-msgstr "Spreizen und strecken Sie die Finger, bis Sie eine leichte Spannung verspüren und behalten Sie die Position für zehn Sekunden bei. Entspannen Sie sich, danach beugen Sie die Finger an den Knöcheln und behalten Sie die Position wieder für zehn Sekunden bei. Wiederholen Sie diese Übung noch einmal."
+msgstr ""
+"Spreizen und strecken Sie die Finger, bis Sie eine leichte Spannung "
+"verspüren und behalten Sie die Position für zehn Sekunden bei. Entspannen "
+"Sie sich, danach beugen Sie die Finger an den Knöcheln und behalten Sie die "
+"Position wieder für zehn Sekunden bei. Wiederholen Sie diese Übung noch "
+"einmal."
 
 # src/app/shared/exercises/exercises.xml.in.h:21
 #: src/app/shared/exercises/exercises.xml.in.h:21
@@ -1166,14 +1206,21 @@ msgid ""
 "Spin your right arm slowly round like a plane propellor beside your body. Do "
 "this 4 times clockwise, 4 times counter clockwise and relax for a few "
 "seconds. Repeat with the left arm."
-msgstr "Rotieren Sie den rechten Arm langsam im Kreis neben dem Körper wie einen Flugzeugpropeller. Machen Sie dies viermal im Uhrzeigersinn, viermal gegen den Uhrzeigersinn und entspannen Sie sich für ein paar Sekunden. Wiederholen Sie dies mit dem rechten Arm."
+msgstr ""
+"Rotieren Sie den rechten Arm langsam im Kreis neben dem Körper wie einen "
+"Flugzeugpropeller. Machen Sie dies viermal im Uhrzeigersinn, viermal gegen "
+"den Uhrzeigersinn und entspannen Sie sich für ein paar Sekunden. Wiederholen "
+"Sie dies mit dem rechten Arm."
 
 # src/app/shared/exercises/exercises.xml.in.h:23
 #: src/app/shared/exercises/exercises.xml.in.h:23
 msgid ""
 "Stand by your desk and place both your palms on the desk with the fingers "
 "pointing toward your body. Gently stretch your wrists and lower arms."
-msgstr "Stellen Sie sich vor Ihren Schreibtisch und legen Sie die Handflächen so auf den Tisch, dass die Finger zu Ihrem Körper zeigen. Dehnen Sie sanft Ihre Handgelenke und Unterarme."
+msgstr ""
+"Stellen Sie sich vor Ihren Schreibtisch und legen Sie die Handflächen so auf "
+"den Tisch, dass die Finger zu Ihrem Körper zeigen. Dehnen Sie sanft Ihre "
+"Handgelenke und Unterarme."
 
 # src/app/shared/exercises/exercises.xml.in.h:24
 #: src/app/shared/exercises/exercises.xml.in.h:24
@@ -1184,7 +1231,14 @@ msgid ""
 "you back slowly until you can (almost) place them in front of your shoes. "
 "Slowly roll your back up straight from your hips up, until it is straight up "
 "again."
-msgstr "Stellen Sie sich hin und versuchen Sie, die Decke mit den Händen zu erreichen, ohne die Hacken anzuheben. Bleiben Sie so für ein paar Sekunden. Dann lassen Sie die Hände langsam zum Fußboden sinken, ohne die Arme zu beugen. Bewegen Sie sie, indem Sie den Rücken langsam beugen weiter zum Fußboden hin, bis sie sie (fast) vor ihren Schuhen aufsetzen können. Beginnend bei den Hüften rollen sie den Rücken wieder ab, bis er wieder gerade ist."
+msgstr ""
+"Stellen Sie sich hin und versuchen Sie, die Decke mit den Händen zu "
+"erreichen, ohne die Hacken anzuheben. Bleiben Sie so für ein paar Sekunden. "
+"Dann lassen Sie die Hände langsam zum Fußboden sinken, ohne die Arme zu "
+"beugen. Bewegen Sie sie, indem Sie den Rücken langsam beugen weiter zum "
+"Fußboden hin, bis sie sie (fast) vor ihren Schuhen aufsetzen können. "
+"Beginnend bei den Hüften rollen sie den Rücken wieder ab, bis er wieder "
+"gerade ist."
 
 # src/app/shared/exercises/exercises.xml.in.h:25
 #: src/app/shared/exercises/exercises.xml.in.h:25
@@ -1193,7 +1247,12 @@ msgid ""
 "your head to your right shoulder to gently stretch the muscles on the left "
 "side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
 "the left side to stretch your other side. Do this twice for each side."
-msgstr "Beginnen Sie, indem Sie den Kopf in eine angenehme Position bringen. Dann neigen Sie den Kopf langsam zur rechten Schulter, um die Muskeln auf der linken Seite des Halses sanft zu dehnen. Behalten Sie diese Position für fünf Sekunden bei. Dann neigen Sie den Kopf nach links um Muskeln der anderen Seite zu dehnen. Wiederholen Sie dies für beide Seiten."
+msgstr ""
+"Beginnen Sie, indem Sie den Kopf in eine angenehme Position bringen. Dann "
+"neigen Sie den Kopf langsam zur rechten Schulter, um die Muskeln auf der "
+"linken Seite des Halses sanft zu dehnen. Behalten Sie diese Position für "
+"fünf Sekunden bei. Dann neigen Sie den Kopf nach links um Muskeln der "
+"anderen Seite zu dehnen. Wiederholen Sie dies für beide Seiten."
 
 # src/app/shared/exercises/exercises.xml.in.h:26
 #: src/app/shared/exercises/exercises.xml.in.h:26
@@ -1264,4 +1323,3 @@ msgstr "Ruhepause beendet"
 #: src/app/shared/sounds/workrave.soundlist.in.h:9
 msgid "Rest break started"
 msgstr "Ruhepause begonnen"
-

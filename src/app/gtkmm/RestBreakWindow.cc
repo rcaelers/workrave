@@ -137,6 +137,8 @@ RestBreakWindow::start()
 {
   TRACE_ENTER("RestBreakWindow::start");
   refresh();
+  set_ignore_activity(false);
+  
 #ifdef HAVE_EXERCISES
   if (get_exercise_count() > 0)
     {
@@ -322,6 +324,7 @@ RestBreakWindow::get_exercise_count()
 void
 RestBreakWindow::install_exercises_panel()
 {
+  set_ignore_activity(true);
   clear_pluggable_panel();
   ExercisesPanel *exercises_panel = manage(new ExercisesPanel(NULL));
   pluggable_panel.pack_start(*exercises_panel, false, false, 0);
@@ -336,10 +339,22 @@ RestBreakWindow::install_exercises_panel()
 void
 RestBreakWindow::install_info_panel()
 {
+  set_ignore_activity(false);
   clear_pluggable_panel();
   pluggable_panel.pack_start(*(create_info_panel()), false, false, 0);
   pluggable_panel.show_all();
   pluggable_panel.queue_resize();
   center();
+}
+
+void
+RestBreakWindow::set_ignore_activity(bool i)
+{
+  CoreInterface *core = CoreFactory::get_core();
+  assert(core != NULL);
+  BreakInterface *bi = core->get_break(BREAK_ID_REST_BREAK);
+  assert(bi != NULL);
+
+  bi->set_insist_policy(i ? BreakInterface::INSIST_POLICY_IGNORE : BreakInterface::INSIST_POLICY_HALT);
 }
 #endif
