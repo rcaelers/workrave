@@ -308,12 +308,11 @@ then
 
   fi
 
-  dnl if test "x$config_with_kde" = "xyes"
-  dnl then
-    AC_BASE_PATH_KDE
+  AC_BASE_PATH_KDE
+  KDE_SET_PREFIX
 
-    KDE_SET_PREFIX
-
+  if test "x$config_with_kde" = "xyes"
+  then
     dnl for NLS support. Call them in this order!
     dnl WITH_NLS is for the po files
     AM_KDE_WITH_NLS
@@ -326,11 +325,11 @@ then
     AC_CHECK_KDEMAXPATHLEN
 
     KDE_CREATE_SUBDIRSLIST
-  dnl else
-  dnl   build_arts="no"
-  dnl   include_ARTS_TRUE='#'
-  dnl   include_ARTS_FALSE=
-  dnl fi
+  else
+     build_arts="no"
+     include_ARTS_TRUE='#'
+     include_ARTS_FALSE=
+  fi
   
   dnl
   dnl check if we have gtk+ 2.1.x (again - for multihead support)

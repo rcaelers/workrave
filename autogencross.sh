@@ -155,7 +155,7 @@ if grep "^AM_PROG_LIBTOOL" configure.ac >/dev/null; then
 fi
 
 echo "Running aclocal $aclocalinclude ..."
-aclocal $aclocalinclude || {
+aclocal $aclocalinclude -I m4|| {
     echo
     echo "**Error**: aclocal failed. This may mean that you have not"
     echo "installed all of the packages you need, or you may need to"
