@@ -309,7 +309,7 @@ harpoon_hook(int hook_id, HOOKPROC hf)
  * Mouse hook
  **********************************************************************/
 
-static LRESULT CALLBACK
+LRESULT CALLBACK
 harpoon_mouse_hook (int code, WPARAM wpar, LPARAM lpar)
 {
   HarpoonMouseMessage msg;
