@@ -50,8 +50,14 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
     SCREEN_MARGIN(20),
     did_avoid(false),
     break_id(break_id),
+    time_bar(NULL),
     frame(NULL),
     window_frame(NULL),
+    label(NULL),
+    image_icon(NULL),
+    progress_value(0),
+    progress_max_value(0),
+    flash_visible(false),
     prelude_response(NULL)
 {
   Gtk::Window::set_border_width(0);

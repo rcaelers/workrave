@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-12-29 19:33:58 robc>
+// Time-stamp: <2003-12-30 10:06:44 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -643,8 +643,19 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
 
       if (activity_state != ACTIVITY_UNKNOWN)
         {
-          // Initially, assume the state remains the same
-          new_activity_state = activity_state;
+          TRACE_MSG("as = " << activity_state << " nas = " << new_activity_state << " el=" << get_elapsed_time());
+
+          if (activity_state != ACTIVITY_ACTIVE && get_elapsed_time() == 0)
+            {
+              TRACE_MSG("new state1 = " << activity_state << " " << new_activity_state);
+            }
+          else
+            {
+              // Initially, assume the state remains the same
+              new_activity_state = activity_state;
+              TRACE_MSG("new state2 = " << activity_state << " " << new_activity_state);
+            }
+
           TRACE_MSG("state = " << new_activity_state);
           TRACE_MSG("time, next limit "
                     << current_time << " "
@@ -652,14 +663,6 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
                     << limit_interval << " "
                     << (next_limit_time - current_time)
                     );
-        }
-      else
-        {
-          if (activity_state == ACTIVITY_IDLE && get_elapsed_time() == 0)
-            {
-              new_activity_state = activity_state;
-              TRACE_MSG("new state = " << activity_state);
-            }
         }
     }
   
@@ -727,7 +730,7 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
       if (!activity_sensitive)
         {
           TRACE_MSG("reset reached, setting state = IDLE");
-          activity_state = ACTIVITY_ACTIVE;
+          activity_state = ACTIVITY_IDLE;
         }
     }
   else if (timer_enabled)

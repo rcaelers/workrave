@@ -143,16 +143,10 @@ GUI::~GUI()
       // FIXME: cannot delete interface. delete core;
     }
 
-  if (main_window != NULL)
-    {
-      delete main_window;
-    }
+  delete main_window;
 
 #ifdef HAVE_X
-  if (applet_window != NULL)
-    {
-      delete applet_window;
-    }
+  delete applet_window;
 #endif
   
 #if !defined(HAVE_GTK_MULTIHEAD) && defined(WIN32)
@@ -161,6 +155,9 @@ GUI::~GUI()
       FreeLibrary(user_lib);
     }
 #endif
+
+  delete [] prelude_windows;
+  delete [] break_windows;
   
   TRACE_EXIT();
 }
@@ -774,6 +771,7 @@ GUI::create_break_window(HeadInfo &head, BreakId break_id, bool ignorable)
 void
 GUI::init_sound_player()
 {
+  // FIXME: Memory leak.
   sound_player = new SoundPlayer();
 }
 

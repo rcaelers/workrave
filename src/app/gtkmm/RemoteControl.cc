@@ -55,7 +55,8 @@ RemoteControl::get_instance()
 {
   if (instance == NULL)
     {
-      instance = new RemoteControl(); // FIXME: Leak
+      // FIXME: Memory leak.
+      instance = new RemoteControl(); 
       instance->workrave_control = workrave_control_new();
       instance->workrave_control->_this = instance;
     }
