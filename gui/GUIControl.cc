@@ -280,7 +280,7 @@ GUIControl::init()
   TRACE_ENTER("GUIControl:init");
 
   Statistics *stats = Statistics::get_instance();
-  //  stats->init(core_control);
+  stats->init(core_control);
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
@@ -388,8 +388,21 @@ GUIControl::heartbeat()
     {
       string id = i->first;
       TimerInfo &info = i->second;
+      
+      if (id == "daily_limit")
+        {
+          if (info.event == TIMER_EVENT_NATURAL_RESET ||
+              info.event == TIMER_EVENT_RESET)
+            {
+              Statistics *stats = Statistics::get_instance();
 
+              stats->set_counter(Statistics::STATS_VALUE_TOTAL_ACTIVE_TIME, info.elapsed_time);
+              stats->start_new_day();
+            }
+        }
+      
       timer_action(id, info.event);
+
     }
 
   // Distributed  stuff
@@ -555,16 +568,6 @@ GUIControl::break_action(BreakId id, BreakAction action)
   
   BreakInterface *breaker = timers[id].break_control;
   TimerInterface *timer = timers[id].timer;
-  if (id == BREAK_ID_DAILY_LIMIT)
-    {
-      // FIXME: temp hack
-      if (action == BREAK_ACTION_NATURAL_STOP_BREAK ||
-          action == BREAK_ACTION_STOP_BREAK)
-        {
-          Statistics *stats = Statistics::get_instance();
-          stats->start_new_day();
-        }
-    }
 
   if (breaker != NULL && timer != NULL)
     {
