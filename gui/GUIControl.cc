@@ -97,7 +97,7 @@ struct ConfigCheck
     {
       "daily_limit",
       _("Daily limit"),
-      14400, 0,	false,	true, 150,
+      14400, 0,	false,	true, 20 * 60,
       "timer-daily.png", "day/4:00",
       3, true, true, true
     },
@@ -581,8 +581,8 @@ GUIControl::handle_start_break(BreakInterface *breaker, BreakId break_id, TimerI
       // Only advance when
       // 1. we have a next limit reached time.
       // 2. timer is not yet over its limit. otherwise, it will interfere with snoozing.
-      if (rbTimer->get_next_limit_time() > 0 &&
-          rbTimer->get_elapsed_time() < rbTimer->get_limit())
+      if (rbTimer->get_next_limit_time() > 0 /* &&
+                                                rbTimer->get_elapsed_time() < rbTimer->get_limit() */)
         {
           int threshold = 30; // TODO: should be configurable
           time_t duration = timer->get_auto_reset();

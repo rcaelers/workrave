@@ -46,10 +46,11 @@ NetworkPreferencePage::NetworkPreferencePage()
   create_advanced_page(tnotebook);
 
   init_page_values();
-  
-  tnotebook->show_all();
 
   pack_start(*tnotebook, true, true, 0);
+
+  tnotebook->show_all();
+  tnotebook->set_current_page(0);
 
   TRACE_EXIT();
 }
@@ -460,7 +461,7 @@ NetworkPreferencePage::on_peer_remove()
       string hostname = row[peers_columns.hostname];
       string port = row[peers_columns.port];
 
-      if (hostname != "" && port != "")
+      if (hostname != "" || port != "")
         {
           Gtk::TreeRow new_row = *(new_store->append());
           
