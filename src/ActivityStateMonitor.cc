@@ -315,3 +315,15 @@ ActivityStateMonitor::set_statistics(const ActivityMonitorStatistics &stats)
   total_mouse_time.tv_sec = stats.total_movement_time;
   total_mouse_time.tv_usec = 0;
 }
+
+void
+ActivityStateMonitor::reset_statistics()
+{
+  total_mouse_time.tv_sec = 0;
+  total_mouse_time.tv_usec = 0;
+
+  statistics.total_movement = 0;
+  statistics.total_click_movement = 0;
+  statistics.total_clicks = 0;
+  statistics.total_keystrokes = 0;
+}

@@ -1,6 +1,6 @@
 // TimerActivityMonitor.hh
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -80,6 +80,10 @@ public:
   }
 
   void set_statistics(const ActivityMonitorStatistics &stats)
+  {
+  }
+
+  void reset_statistics()
   {
   }
   

@@ -161,3 +161,9 @@ ActivityMonitor::set_statistics(const ActivityMonitorStatistics &stats)
 {
   activity_state->set_statistics(stats);
 }
+
+void
+ActivityMonitor::reset_statistics()
+{
+  activity_state->reset_statistics();
+}

@@ -1,9 +1,9 @@
 // ActivityStateMonitor.hh --- ActivityStateMonitor for X11
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-10-20 17:40:01 robc>
+// Time-stamp: <2003-02-22 09:42:34 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -92,6 +92,9 @@ public:
 
   //! Sets the statistics
   void set_statistics(const ActivityMonitorStatistics &stats);
+
+  //! Resets the statistics.
+  void reset_statistics();
   
 private:
   //! the current state.

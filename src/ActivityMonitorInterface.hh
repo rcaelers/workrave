@@ -1,9 +1,9 @@
 // ActivityMonitorInterface.hh --- Interface definition for the Activity Monitor
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-10-20 17:44:01 robc>
+// Time-stamp: <2003-02-22 09:43:06 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -69,6 +69,10 @@ public:
 
   //! Retrieves the statistics.
   virtual void set_statistics(const ActivityMonitorStatistics &stats) = 0;
+
+  //! Resets the statistics.
+  virtual void reset_statistics() = 0;
+  
 };
 
 #endif // ACTIVITYMONITORINTERFACE_HH

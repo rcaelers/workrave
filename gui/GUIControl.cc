@@ -460,6 +460,10 @@ GUIControl::daily_reset()
 
       t->daily_reset_timer();
     }
+
+  ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
+  assert(monitor != NULL);
+  monitor->reset_statistics();
 }
 
 void
