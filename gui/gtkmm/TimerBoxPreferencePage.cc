@@ -29,7 +29,9 @@
 
 #include "Configurator.hh"
 #include "TimerBox.hh"
+#ifdef HAVE_X
 #include "AppletWindow.hh"
+#endif
 #include "MainWindow.hh"
 #include "GtkUtil.hh"
 #include "GUI.hh"
@@ -140,7 +142,9 @@ TimerBoxPreferencePage::create_page()
 void
 TimerBoxPreferencePage::init_page_values()
 {
+#ifdef HAVE_X
   enabled_cb->set_active(AppletWindow::is_enabled());
+#endif
   int mp_slot = TimerBox::get_timer_slot(name, GUIControl::BREAK_ID_MICRO_PAUSE);
   int rb_slot = TimerBox::get_timer_slot(name, GUIControl::BREAK_ID_REST_BREAK);
   int dl_slot = TimerBox::get_timer_slot(name, GUIControl::BREAK_ID_DAILY_LIMIT);
@@ -197,10 +201,12 @@ TimerBoxPreferencePage::on_enabled_toggled()
     {
       MainWindow::set_start_in_tray(!on);
     }
+#ifdef HAVE_X
   else if (name == "applet")
     {
       AppletWindow::set_enabled(on);
     }
+#endif
   enable_buttons();
 }
 

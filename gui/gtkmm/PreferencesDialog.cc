@@ -43,9 +43,7 @@
 #ifdef HAVE_DISTRIBUTION
 #include "NetworkPreferencePage.hh"
 #endif
-#ifdef HAVE_X
 #include "TimerBoxPreferencePage.hh"
-#endif
 
 
 

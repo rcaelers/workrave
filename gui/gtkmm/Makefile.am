@@ -45,11 +45,12 @@ sourcesgnome = gnome-about.c
 endif
 
 if HAVE_X
-sourcesx = AppletWindow.cc TimerBoxPreferencePage.cc eggtrayicon.c
+sourcesx = AppletWindow.cc eggtrayicon.c
 endif
 
 if PLATFORM_WIN32
 sourceswin32 = Win32SoundPlayer.cc
+includeswin32 = -I$(top_srcdir)/arch/win32/harpoon/
 endif
 
 if HAVE_DISTRIBUTION
@@ -85,6 +86,7 @@ libgtkmmgui_a_SOURCES = \
 	Frame.cc \
 	WmSpec.cc \
 	TimerBox.cc \
+	TimerBoxPreferencePage.cc \
 	Menus.cc \
 	Dispatcher.cc \
 	$(sourcesgnome) \
@@ -95,7 +97,7 @@ libgtkmmgui_a_SOURCES = \
 
 libgtkmmgui_a_LIBADD = 
 
-libgtkmmgui_a_CXXFLAGS 	= -DWORKRAVE_DATADIR="\"${pkgdatadir}\"" -W @ARCH_CFLAGS@ -I$(top_srcdir)/src -I$(top_srcdir)/gui @GNOMEUIMM_CFLAGS@ @GNOMEUI_CFLAGS@ @GTK_CFLAGS@ @GTKMM_CFLAGS@ @GCONF_CFLAGS@ -D_XOPEN_SOURCE=600 @GNET_CFLAGS@
+libgtkmmgui_a_CXXFLAGS 	= -DWORKRAVE_DATADIR="\"${pkgdatadir}\"" -W @ARCH_CFLAGS@ -I$(top_srcdir)/src -I$(top_srcdir)/gui @GNOMEUIMM_CFLAGS@ @GNOMEUI_CFLAGS@ @GTK_CFLAGS@ @GTKMM_CFLAGS@ @GCONF_CFLAGS@ -D_XOPEN_SOURCE=600 @GNET_CFLAGS@ $(includeswin32)
 
 libgtkmmgui_a_CFLAGS	= -DWORKRAVE_DATADIR="\"${pkgdatadir}\"" @ARCH_CFLAGS@ -I$(top_srcdir)/src -I$(top_srcdir)/gui @GNOMEUI_CFLAGS@ @GTK_CFLAGS@ @GTKMM_CFLAGS@ -D_XOPEN_SOURCE=600
 

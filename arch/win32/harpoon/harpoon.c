@@ -1,7 +1,7 @@
 /*
  * harpoon.c
  *
- * Copyright (C) 2002 Raymond Penners <raymond@dotsphinx.com>
+ * Copyright (C) 2002-2003 Raymond Penners <raymond@dotsphinx.com>
  * All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -27,6 +27,8 @@
 #pragma data_seg(".shared")
 HHOOK mouse_hook_handle = NULL;
 HHOOK keyboard_hook_handle = NULL;
+BOOL block_input = FALSE;
+HWND unblocked_window = NULL;
 #pragma data_seg()
 
 static HANDLE dll_handle = NULL;
@@ -45,8 +47,8 @@ struct harpoon_mailslot_message
 };
 
 typedef struct {
-    MOUSEHOOKSTRUCT MOUSEHOOKSTRUCT;
-    DWORD mouseData;
+  MOUSEHOOKSTRUCT MOUSEHOOKSTRUCT;
+  DWORD mouseData;
 } MOUSEHOOKSTRUCTEX, *PMOUSEHOOKSTRUCTEX;
 
 
@@ -138,6 +140,8 @@ harpoon_init(void)
   SECURITY_ATTRIBUTES sa;
   BOOL rc;
 
+  block_input = FALSE;
+
   sa.nLength = sizeof(sa);
   sa.bInheritHandle = TRUE;
   sa.lpSecurityDescriptor = NULL;
@@ -181,13 +185,45 @@ harpoon_exit(void)
  * Generic hook
  **********************************************************************/
 
+static LRESULT
+harpoon_generic_hook_return(int code, WPARAM wpar, LPARAM lpar, HHOOK hhook)
+{
+  BOOL blocked = FALSE;
+  LRESULT ret;
+  
+  if (block_input && code == HC_ACTION)
+    {
+      HWND target_window = NULL;
+      blocked = TRUE;
+      if (hhook == mouse_hook_handle)
+        {
+          PMOUSEHOOKSTRUCT pmhs = (PMOUSEHOOKSTRUCT) lpar;
+          target_window = pmhs->hwnd;
+        }
+      if (target_window != NULL && unblocked_window != NULL)
+        {
+          blocked = target_window != unblocked_window &&
+            GetParent(target_window) != unblocked_window;
+        }
+    }
+  if (blocked)
+    {
+      ret = -1;
+    }
+  else
+    {
+      ret = CallNextHookEx(hhook, code, wpar, lpar);
+    }
+  return ret;
+}
 
 static LRESULT CALLBACK 
 harpoon_generic_hook(int code, WPARAM wpar, LPARAM lpar, int hid, HHOOK hhook)
 {
   harpoon_mailslot_send_message(hid, code, wpar, lpar);
-  return CallNextHookEx(hhook, code, wpar, lpar);
+  return harpoon_generic_hook_return(code, wpar, lpar, hhook);
 }
+  
 
 
 HARPOON_API void
@@ -236,7 +272,7 @@ harpoon_mouse_hook(int code, WPARAM wpar, LPARAM lpar)
 
   harpoon_mailslot_send_data(&mhsex, sizeof(mhsex));
 
-  return CallNextHookEx(mouse_hook_handle, code, wpar, lpar);
+  return harpoon_generic_hook_return(code, wpar, lpar, mouse_hook_handle);
 }
 
 HARPOON_API void
@@ -283,8 +319,15 @@ harpoon_hook_keyboard(HOOKPROC hf)
 
 
 /**********************************************************************
- * DllMain
+ * Misc
  **********************************************************************/
+
+HARPOON_API void
+harpoon_block_input(BOOL block, HWND unblocked)
+{
+  block_input = block;
+  unblocked_window = unblocked;
+}
 
 BOOL APIENTRY 
 DllMain( HANDLE hModule, 

@@ -34,6 +34,7 @@ static const char rcsid[] = "$Id$";
 #ifdef WIN32
 #include <windows.h>
 #include <gdk/gdkwin32.h>
+#include "harpoon.h"
 #endif
 
 #if defined(HAVE_X)
@@ -42,11 +43,13 @@ bool WindowHints::net_supported = false;
 bool WindowHints::win_supported = false;
 
 #elif defined(WIN32)
+// FIXME: remove this if other methods proven stable
 #define GLASS_CLASS_NAME "GlassWindow"
 #endif
 
 
 #ifdef WIN32
+// FIXME: remove this branch if other methods proven stable
 static LRESULT CALLBACK
 glass_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -174,6 +177,15 @@ WindowHints::set_skip_winlist(GtkWidget *window, bool skip)
   return ret;
 }
 
+#ifdef WIN32
+static void
+win32_block_input(BOOL block, HWND unblocked_window)
+{
+  harpoon_block_input(block, unblocked_window);
+  UINT uPreviousState;
+  SystemParametersInfo(SPI_SETSCREENSAVERRUNNING, block, &uPreviousState, 0);
+}
+#endif
 
 //! Grabs the pointer and the keyboard.
 WindowHints::Grab *
@@ -200,6 +212,7 @@ WindowHints::grab(GdkWindow *gdkWindow)
       handle = (WindowHints::Grab *) 0xdeadf00d;
     }
 #elif defined(WIN32)
+#if 0 // FIXME: remove this branch if other methods proven stable
   HWND hDrawingWind = (HWND) GDK_WINDOW_HWND(gdkWindow);
   HWND glass = CreateWindowEx( WS_EX_TOPMOST|WS_EX_TRANSPARENT|WS_EX_TOOLWINDOW,
 			       GLASS_CLASS_NAME,
@@ -236,6 +249,15 @@ WindowHints::grab(GdkWindow *gdkWindow)
 
       handle = (WindowHints::Grab *) glass;
     }
+#else
+  HWND hDrawingWind = (HWND) GDK_WINDOW_HWND(gdkWindow);
+  SetWindowPos(hDrawingWind, HWND_TOPMOST,
+               0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE);
+  BringWindowToTop(hDrawingWind);
+
+  win32_block_input(TRUE, hDrawingWind);
+  handle = (WindowHints::Grab *) 1;
+#endif
 #endif
   TRACE_EXIT();
   return handle;
@@ -255,8 +277,12 @@ WindowHints::ungrab(WindowHints::Grab *handle)
   gdk_pointer_ungrab(GDK_CURRENT_TIME);
 
 #elif defined(WIN32)
+#if 0 // FIXME: remove this branch if other methods proven stable
   HWND hwnd = (HWND) handle;
   DestroyWindow(hwnd);
+#else
+  win32_block_input(FALSE, NULL);
+#endif
 #endif
   TRACE_EXIT();
 }
