@@ -127,9 +127,12 @@ harpoon_thread_proc(LPVOID lpParameter)
     {
       struct harpoon_mailslot_message msg;
       DWORD read;
-      
-      ReadFile(mailslot, &msg, sizeof(msg), &read, NULL);
 
+      running = ReadFile(mailslot, &msg, sizeof(msg), &read, NULL);
+      if ((! running) || (read != sizeof(msg)))
+        {
+          break;
+        }
 
       switch (msg.hook)
 	{
