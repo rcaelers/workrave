@@ -119,11 +119,23 @@ exercise_parser_start_element  (GMarkupParseContext *,
       bool mx = mirrorx != NULL && !strcmp(mirrorx, "yes");
       ep->exercise->sequence.push_back(Exercise::Image(src, dur, mx));
     }
+  else if (! strcmp(element_name, "exercises"))
+    {
+    }
+  else if (! strcmp(element_name, "title")
+           || ! strcmp(element_name, "description"))
+    {
+      const gchar *value = exercise_parse_lookup_attribute
+        ("xml:lang", attribute_names, attribute_values);
+      ep->lang = value ? value : "";
+      ep->cdata = "";
+    }
+  else
+    {
+      TRACE_MSG(element_name);
+      abort();
+    }
 
-  const gchar *value = exercise_parse_lookup_attribute
-    ("xml:lang", attribute_names, attribute_values);
-  ep->lang = value ? value : "";
-  ep->cdata = "";
   TRACE_EXIT();
 }
 
