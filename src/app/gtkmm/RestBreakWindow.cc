@@ -299,7 +299,7 @@ RestBreakWindow::get_exercise_count()
   
   if (Exercise::has_exercises())
     {
-      CoreInterface *core = CoreFactory->get_core();
+      CoreInterface *core = CoreFactory::get_core();
       assert(core != NULL);
       
       ret = core->get_break(BREAK_ID_REST_BREAK)->get_break_exercises();
