@@ -20,6 +20,8 @@ static const char rcsid[] = "$Id$";
 #include "config.h"
 #endif
 
+#define NOMINMAX
+
 #include "SoundPlayer.hh"
 #include "GUIControl.hh"
 #include "Configurator.hh"

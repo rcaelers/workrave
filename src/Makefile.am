@@ -31,8 +31,9 @@ DEFS = @DEFS@ -DGNOMELOCALEDIR=\""$(datadir)/locale"\" -I$(top_srcdir)/intl
 
 
 if PLATFORM_WIN32
+WINDRES ?= "winres"
 .rc.o:
-	windres -o $@ $<
+	${WINDRES} -o $@ $<
 
 includesinput = -I$(top_srcdir)/arch/win32/harpoon/
 sourceswin32input = Win32InputMonitor.cc resource.rc

@@ -19,6 +19,8 @@
 #include "config.h"
 #endif
 
+#include "preinclude.h"
+
 #include "debug.hh"
 
 #if TIME_WITH_SYS_TIME

@@ -23,6 +23,8 @@ const int TIMEOUT = 1000;
 #include "config.h"
 #endif
 
+#include "preinclude.h"
+
 #include "nls.h"
 #include <unistd.h>
 

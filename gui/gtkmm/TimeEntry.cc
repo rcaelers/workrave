@@ -1,6 +1,6 @@
 // TimeEntry.cc --- Entry widget for time
 //
-// Copyright (C) 2002 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -15,12 +15,11 @@
 //
 // $Id$
 
-// TODO: only when needed.
-#define NOMINMAX
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
+
+#include "preinclude.h"
 
 #include "debug.hh"
 
