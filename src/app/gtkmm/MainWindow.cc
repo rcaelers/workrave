@@ -154,7 +154,7 @@ MainWindow::init()
   timers_box->set_geometry(true, -1);
   add(*timers_box);
 
-  set_events(get_events() | Gdk::BUTTON_PRESS_MASK);
+  set_events(get_events() | Gdk::BUTTON_PRESS_MASK | Gdk::SUBSTRUCTURE_MASK);
 
   // Necessary for popup menu 
   realize_if_needed();
@@ -397,6 +397,16 @@ MainWindow::on_window_state_event(GdkEventWindowState *event)
   TRACE_EXIT();
   return true;
 }
+
+
+bool
+MainWindow::on_configure_event(GdkEventConfigure *event)
+{
+  (void) event;
+  remember_position();
+  return true;
+}
+
 
 void
 MainWindow::config_changed_notify(string key)
