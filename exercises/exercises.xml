@@ -1,8 +1,15 @@
 <exercises>
   <exercise>
-    <title xml:lang="nl">Bla</title>
+    <title xml:lang="en">thisisBla</title>
+    <title xml:lang="nl">ditisBla</title>
     <description xml:lang="bli">
       haha
+    </description>
+    <description xml:lang="edn">
+      hahaen!
+    </description>
+    <description xml:lang="nal">
+      hahaen!a
     </description>
     <sequence duration="20">
       <image src="bla.png" duration="4"/>

@@ -33,6 +33,8 @@ struct Exercise
   {
     std::string image;
     int duration;
+
+    Image(const char *img, int dur) { image = img; duration = dur; }
   };
   
   std::string title;
