@@ -115,6 +115,7 @@ public:
 
   void set_state_data(const TimerStateData &data);
   void get_state_data(TimerStateData &data);
+  void set_values(int elapsed, int idle);
   
   // Misc
   void set_snooze_interval(time_t time);

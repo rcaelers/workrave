@@ -56,6 +56,7 @@ Control::Control() :
   remote_state(ACTIVITY_IDLE),
 #  ifndef NDEBUG
   script_count(-1),
+  script_start_time(-1),
 #  endif
 #endif
 #ifndef NDEBUG
@@ -71,7 +72,7 @@ Control::Control() :
   current_time = time(NULL);
 
 #ifdef HAVE_DISTRIBUTION
-  my_info.idle_history.push_front(IdleInterval(current_time, current_time));
+  my_info.idle_history.push_front(IdleInterval(1, current_time));
 #endif
 }
 
@@ -134,7 +135,7 @@ Control::process_timers(TimerInfo *infos)
   TRACE_ENTER("Control::process_timers");
   static int count = 0;
 
-  if (script_count != -1)
+  if (script_start_time != -1 && current_time >= script_start_time)
     {
       do_script();
     }
@@ -330,14 +331,6 @@ Control::update_idle_history(ClientInfo &info, ActivityState state, bool changed
       if (changed)
         {
           info.update(current_time);
-//           if (info.last_active_begin != 0)
-//             {
-//               idle->elapsed += (current_time - info.last_active_begin);
-
-//               info.last_elapsed = 0;
-//               info.last_active_begin = 0;
-//             }
-
           info.idle_history.push_front(IdleInterval(current_time, current_time));
         }
       else
@@ -349,11 +342,6 @@ Control::update_idle_history(ClientInfo &info, ActivityState state, bool changed
     {
       if (changed)
         {
-          if (idle->idle_begin == 0)
-            {
-              idle->idle_begin = current_time;
-            }
-
           idle->idle_end = current_time;
 
           int total_idle = idle->idle_end - idle->idle_begin;
@@ -374,7 +362,7 @@ Control::update_idle_history(ClientInfo &info, ActivityState state, bool changed
     }
 
   TRACE_MSG("last_elapsed " << info.last_elapsed);
-  TRACE_MSG("last_elapsed " << info.total_elapsed);
+  TRACE_MSG("total_elapsed " << info.total_elapsed);
   
   IdleHistoryIter i = info.idle_history.begin();
   while (i != info.idle_history.end())
@@ -401,9 +389,9 @@ Control::update_idle_history(ClientInfo &info, ActivityState state, bool changed
 
 
 int
-Control::compute_common_idle_history(int length)
+Control::compute_active_time(int length)
 {
-  TRACE_ENTER("Control::compute_common_idle_history");
+  TRACE_ENTER("Control::compute_active_time");
 
   // Number of client, myself included.
   int size = clients.size() + 1;
@@ -413,6 +401,7 @@ Control::compute_common_idle_history(int length)
   bool *at_end = new bool[size];
   int *elapsed = new int[size];
  
+  my_info.update(current_time);
   iterators[0] = my_info.idle_history.begin();
   end_iterators[0] = my_info.idle_history.end();
   at_end[0] = true;
@@ -534,7 +523,88 @@ Control::compute_common_idle_history(int length)
   delete [] at_end;
 
   TRACE_EXIT();
-  return 0;
+  return total_elapsed;
+}
+
+
+
+int
+Control::compute_idle_time()
+{
+  TRACE_ENTER("Control::compute_idle_time");
+
+  my_info.update(current_time);
+  IdleInterval &idle = my_info.idle_history.front();
+
+  int count = idle.elapsed == 0 ? 1 : 0;
+  time_t latest_start_time = idle.idle_begin;
+
+  TRACE_MSG(current_time - latest_start_time);
+  TRACE_MSG(latest_start_time);
+  
+  for (ClientMapIter i = clients.begin(); i != clients.end(); i++)
+    {
+      ClientInfo &info = (*i).second;
+      IdleInterval &idle = info.idle_history.front();
+
+      info.update(current_time);
+      if (idle.elapsed == 0)
+        {
+          TRACE_MSG("idle");
+          count++;
+        }
+      if (idle.idle_begin > latest_start_time)
+        {
+          latest_start_time = idle.idle_begin;
+          TRACE_MSG(current_time - latest_start_time);
+          TRACE_MSG(latest_start_time);
+        }
+    }
+
+  TRACE_MSG("count = " << count);
+  if (count != clients.size() + 1)
+    {
+      latest_start_time = current_time;
+    }
+
+  TRACE_MSG((current_time - latest_start_time));
+  TRACE_EXIT();
+  
+  return current_time - latest_start_time;
+}
+
+
+void
+Control::compute_timers()
+{
+  for (int i = 0; i < timer_count; i++)
+    {
+      int autoreset = timers[i]->get_auto_reset();
+      
+      if (autoreset != 0)
+        {
+          int elapsed = compute_active_time(autoreset);
+          int idle = compute_idle_time();
+          
+          timers[i]->set_values(elapsed, idle);
+        }
+      else
+        {
+          my_info.update(current_time);
+
+          int elapsed = my_info.total_elapsed;
+          int idle = compute_idle_time();
+
+          for (ClientMapIter it = clients.begin(); it != clients.end(); it++)
+            {
+              ClientInfo &info = (*it).second;
+              info.update(current_time);
+              elapsed += info.total_elapsed;
+            }
+
+          timers[i]->set_values(elapsed, idle);
+        }
+    }
 }
 
 // Create the monitor based on the specified configuration.
@@ -861,13 +931,15 @@ Control::test_me()
   TRACE_ENTER("Control::test_me");
 
   script_count = 0;
+  script_start_time = current_time + 5;
 
   PacketBuffer state_packet;
   state_packet.create();
 
   state_packet.pack_ushort(1);
   state_packet.pack_ushort(SCRIPT_START);
-      
+  state_packet.pack_ushort(script_start_time);
+
   dist_manager->broadcast_client_message(DCM_SCRIPT,
                                          (unsigned char *)state_packet.get_buffer(),
                                          state_packet.bytes_written());
@@ -1210,10 +1282,11 @@ Control::set_idlelog_state(bool master, char *client_id, unsigned char *buffer, 
       i++;
     }
 
-  compute_common_idle_history(30);
+  compute_timers();
   TRACE_EXIT();
   return true;
 }
+
 
 #ifndef NDEBUG
 bool
@@ -1240,6 +1313,7 @@ Control::script_message(bool master, char *client_id, unsigned char *buffer, int
         {
         case SCRIPT_START:
           {
+            script_start_time = packet.unpack_ulong();            
             script_count = 0;
           }
           break;
@@ -1275,7 +1349,7 @@ Control::do_script()
           fake_monitor->set_state(ACTIVITY_IDLE);
           dist_manager->disconnect("192.168.0.42:2702");
         }
-      else if (script_count == 82)
+      else if (script_count == 85)
         {
           dist_manager->connect("tcp://192.168.0.42:2702");
         }
@@ -1313,7 +1387,7 @@ Control::signon_remote_client(string client_id)
 
   ClientInfo info;
   clients[client_id] = info;
-  clients[client_id].idle_history.push_front(IdleInterval(current_time, current_time));
+  clients[client_id].idle_history.push_front(IdleInterval(1, current_time));
 
   TRACE_EXIT();
 }

@@ -131,7 +131,8 @@ private:
       last_state(ACTIVITY_UNKNOWN),
       is_master(false),
       last_active_begin(0),
-      last_elapsed(0)
+      last_elapsed(0),
+      total_elapsed(0)
     {
     }
 
@@ -184,7 +185,9 @@ private:
   bool set_idlelog_state(bool master, char *client_id, unsigned char *buffer, int size);
   void update_remote_idle_history();
   void update_idle_history(ClientInfo &info, ActivityState state, bool changed);
-  int compute_common_idle_history(int length);
+  int compute_active_time(int length);
+  int compute_idle_time();
+  void compute_timers();
   
   void signon_remote_client(string client_id);
   void signoff_remote_client(string client_id);
@@ -214,6 +217,8 @@ private:
 
 #ifndef NDEBUG
   int script_count;
+
+  int script_start_time;
 #endif
 #endif
 
