@@ -65,6 +65,7 @@ public:
 #endif
 
   void config_changed_notify(string key);
+
   
 public:  
   static const string CFG_KEY_APPLET;

@@ -41,8 +41,8 @@ AppletPreferencePage::AppletPreferencePage()
   tnotebook->set_tab_pos(Gtk::POS_TOP);  
 
   create_page();
-
-
+  init_page_values();
+  
   TRACE_EXIT();
 }
 
@@ -59,16 +59,20 @@ AppletPreferencePage::create_page()
 {
   // Frame
   Gtk::Frame *frame = manage(new Gtk::Frame(_("layout")));
-
+  Gtk::VBox *box = manage(new Gtk::VBox());
+  
   // Slot/Position of the break timer.
   Gtk::Label *mp_label = manage(new Gtk::Label(_("Micro-pause")));
   Gtk::Label *rb_label = manage(new Gtk::Label(_("Restbreak")));
   Gtk::Label *dl_label = manage(new Gtk::Label(_("Daily limit")));
 
+  Gtk::Label *cycle_label = manage(new Gtk::Label(_("Cycle time")));
   Gtk::Label *slot_label = manage(new Gtk::Label(_("Break position")));
   Gtk::Label *first_label = manage(new Gtk::Label(_("Show only when first")));
   Gtk::Label *imminent_label = manage(new Gtk::Label(_("Show only when imminent")));
   Gtk::Label *time_label = manage(new Gtk::Label(_("Break is imminent when due in")));
+
+  cycle_entry = manage(new Gtk::SpinButton());
   
   Gtk::Table *table = manage(new Gtk::Table(5, 4, false));
   table->set_row_spacings(2);
@@ -96,6 +100,12 @@ AppletPreferencePage::create_page()
       table->attach(*first_cb[i], i + 1, i + 2, 2, 3, Gtk::SHRINK, Gtk::SHRINK);
       table->attach(*imminent_cb[i], i + 1, i + 2, 3, 4, Gtk::SHRINK, Gtk::SHRINK);
       table->attach(*time_entry[i], i + 1, i + 2, 4, 5, Gtk::SHRINK, Gtk::SHRINK);
+
+      first_cb[i]->signal_toggled().connect(bind(SigC::slot(*this, &AppletPreferencePage::on_first_toggled), i));
+      imminent_cb[i]->signal_toggled().connect(bind(SigC::slot(*this, &AppletPreferencePage::on_imminent_toggled), i));
+      time_entry[i]->signal_changed().connect(bind(SigC::slot(*this, &AppletPreferencePage::on_time_changed), i));
+      slot_entry[i]->signal_changed().connect(bind(SigC::slot(*this, &AppletPreferencePage::on_slot_changed), i));
+
     }
   
   int y = 0;
@@ -107,9 +117,88 @@ AppletPreferencePage::create_page()
   table->attach(*first_label, 0, 1, 2, 3, Gtk::SHRINK, Gtk::SHRINK);
   table->attach(*imminent_label, 0, 1, 3, 4, Gtk::SHRINK, Gtk::SHRINK);
   table->attach(*time_label, 0, 1, 4, 5, Gtk::SHRINK, Gtk::SHRINK);
-  
-  frame->add(*table);
+
+  box->pack_start(*table, true, true, 0);
+  frame->add(*box);
   pack_end(*frame, true, true, 0);
+
+
+}
+
+
+void
+AppletPreferencePage::set_flag(int break_id, int flag, bool on)
+{
+  assert(break_id >= 0 && break_id < GUIControl::BREAK_ID_SIZEOF);
+
+  Configurator *c = GUIControl::get_instance()->get_configurator();
+  GUIControl::TimerData &data = GUIControl::get_instance()->timers[break_id];
+      
+  int value = 0;
+  c->get_value(AppletWindow::CFG_KEY_APPLET + "/" + data.break_name + AppletWindow::CFG_KEY_APPLET_FLAGS,
+               &value);
+
+  if (on)
+    {
+      value |= flag;
+    }
+  else
+    {
+      value &= ~flag;
+    }
+
+  c->set_value(AppletWindow::CFG_KEY_APPLET + "/" + data.break_name + AppletWindow::CFG_KEY_APPLET_FLAGS,
+               value);
+}
+
+
+void
+AppletPreferencePage::on_first_toggled(int break_id)
+{
+  assert(break_id >= 0 && break_id < GUIControl::BREAK_ID_SIZEOF);
+
+  bool first = first_cb[break_id]->get_active();
+  set_flag(break_id, AppletWindow::BREAK_WHEN_FIRST, first);
+}
+
+
+void
+AppletPreferencePage::on_imminent_toggled(int break_id)
+{
+  assert(break_id >= 0 && break_id < GUIControl::BREAK_ID_SIZEOF);
+
+  bool imminent = imminent_cb[break_id]->get_active();
+  set_flag(break_id, AppletWindow::BREAK_WHEN_IMMINENT, imminent);
+}
+
+
+void AppletPreferencePage::on_time_changed(int break_id)
+{
+  assert(break_id >= 0 && break_id < GUIControl::BREAK_ID_SIZEOF);
+
+  int value = time_entry[break_id]->get_value();
+  
+  Configurator *c = GUIControl::get_instance()->get_configurator();
+  GUIControl::TimerData &data = GUIControl::get_instance()->timers[break_id];
+      
+  c->set_value(AppletWindow::CFG_KEY_APPLET + "/" + data.break_name + AppletWindow::CFG_KEY_APPLET_IMMINENT,
+               value);
+  
+}
+
+void
+AppletPreferencePage::on_slot_changed(int break_id)
+{
+  assert(break_id >= 0 && break_id < GUIControl::BREAK_ID_SIZEOF);
+
+  int value = slot_entry[break_id]->get_value();
+  
+  Configurator *c = GUIControl::get_instance()->get_configurator();
+  GUIControl::TimerData &data = GUIControl::get_instance()->timers[break_id];
+      
+  c->set_value(AppletWindow::CFG_KEY_APPLET + "/" + data.break_name + AppletWindow::CFG_KEY_APPLET_POSITION,
+               value);
+  
 }
 
 void
@@ -139,14 +228,21 @@ AppletPreferencePage::init_page_values()
           value = i;
         }
 
+      slot_entry[i]->set_value(value);
+      
       if (!c->get_value(AppletWindow::CFG_KEY_APPLET + "/" + data.break_name + AppletWindow::CFG_KEY_APPLET_FLAGS, &value))
         {
           value = AppletWindow::BREAK_EXCLUSIVE;
         }
+
+      imminent_cb[i]->set_active(value & AppletWindow::BREAK_WHEN_IMMINENT);
+      first_cb[i]->set_active(value & AppletWindow::BREAK_WHEN_FIRST);
       
       if (!c->get_value(AppletWindow::CFG_KEY_APPLET + "/" + data.break_name + AppletWindow::CFG_KEY_APPLET_IMMINENT, &value))
         {
           value = 30;
         }
+
+      time_entry[i]->set_value(value);
     }
 }
