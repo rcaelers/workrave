@@ -91,3 +91,17 @@ HigCategoriesPanel::add(Gtk::Widget &panel)
 }
 
 
+Glib::ustring
+HigUtil::create_alert_text(const char *caption,
+                           const char *body)
+{
+  Glib::ustring txt = "<span weight=\"bold\" size=\"larger\">";
+  txt += caption;
+  txt += "</span>";
+  if (body != NULL)
+    {
+      txt += "\n\n";
+      txt += body;
+    }
+  return txt;
+}

@@ -36,6 +36,7 @@ static const char rcsid[] = "$Id$";
 #include "WindowHints.hh"
 #include "Frame.hh"
 #include "TimeBar.hh"
+#include "Hig.hh"
 
 
 //! Construct a new Micropause window.
@@ -68,7 +69,7 @@ PreludeWindow::PreludeWindow()
   frame = manage(new Frame);
   frame->set_frame_style(Frame::STYLE_SOLID);
   frame->set_frame_width(6);
-  frame->set_border_width(3);
+  frame->set_border_width(6);
   frame->add(*hbox);
   frame->signal_flash().connect(SigC::slot(*this, &PreludeWindow::on_frame_flash));
   flash_visible = true;
@@ -196,7 +197,7 @@ PreludeWindow::set_progress(int value, int max_value)
 void
 PreludeWindow::set_text(string text)
 {
-  label->set_text(text);
+  label->set_markup(HigUtil::create_alert_text(text.c_str(), NULL));
 }
 
 

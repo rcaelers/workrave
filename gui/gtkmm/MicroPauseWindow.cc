@@ -32,7 +32,8 @@ static const char rcsid[] = "$Id$";
 #include "BreakResponseInterface.hh"
 #include "Util.hh"
 #include "Text.hh"
-
+#include "Hig.hh"
+#include "GUIControl.hh"
 
 //! Construct a new Micropause window.
 MicroPauseWindow::MicroPauseWindow(TimerInterface *timer, bool ignorable) :
@@ -41,7 +42,7 @@ MicroPauseWindow::MicroPauseWindow(TimerInterface *timer, bool ignorable) :
   progress_max_value(0),
   insist_break(false)
 {
-  set_border_width(5);
+  set_border_width(12);
   
   // Time bar
   time_bar = manage(new TimeBar);
@@ -53,11 +54,12 @@ MicroPauseWindow::MicroPauseWindow(TimerInterface *timer, bool ignorable) :
   // Icon
   string icon = Util::complete_directory("micropause.png", Util::SEARCH_PATH_IMAGES);
   Gtk::Image *img = manage(new Gtk::Image(icon));
-
+  img->set_alignment(0.0, 0.0);
+  
   // HBox
-  Gtk::HBox *hbox = manage(new Gtk::HBox(false, 0));
+  Gtk::HBox *hbox = manage(new Gtk::HBox(false, 12));
   hbox->pack_start(*img, false, false, 0);
-  hbox->pack_start(*label, Gtk::EXPAND | Gtk::FILL, 10);
+  hbox->pack_start(*label, Gtk::EXPAND | Gtk::FILL, 0);
 
   // Overall vbox
   Gtk::VBox *box = manage(new Gtk::VBox(false, 12));
@@ -191,7 +193,15 @@ MicroPauseWindow::refresh_label()
       sprintf(s, _("Rest break %s overdue"),
               Text::time_to_string(rb, true).c_str());
     }
-  label->set_text(string(_("Please relax for a few seconds")) + '\n' + s);
+
+  Glib::ustring txt(_("Please relax for a few seconds"));
+  txt += "\n";
+  txt += s;
+  
+  label->set_markup(HigUtil::create_alert_text
+                    (GUIControl::get_instance()
+                     ->get_timer_data(GUIControl::BREAK_ID_MICRO_PAUSE)->label,
+                     txt.c_str()));
   TRACE_EXIT();
 }
 

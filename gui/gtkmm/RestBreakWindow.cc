@@ -31,6 +31,8 @@ const int TIMEOUT = 1000;
 #include "debug.hh"
 #include "Util.hh"
 #include "Text.hh"
+#include "Hig.hh"
+#include "GUIControl.hh"
 
 const int MARGINX = 8;
 const int MARGINY = 8;
@@ -68,17 +70,21 @@ RestBreakWindow::RestBreakWindow(bool ignorable) :
   set_border_width(12);
 
   // Title
-  Gtk::HBox *info_box = manage(new Gtk::HBox(false, 6));
+  Gtk::HBox *info_box = manage(new Gtk::HBox(false, 12));
   string icon = Util::complete_directory("restbreak.png", Util::SEARCH_PATH_IMAGES);
   Gtk::Image *info_img = manage(new Gtk::Image(icon));
+  info_img->set_alignment(0.0, 0.0);
   Gtk::Label *info_lab =
-    manage(new Gtk::Label
-           (_("This is your rest break. Make sure you stand up and\n"
-              "walk away from your computer on a regular basis. Just\n"
-              "walk around for a few minutes, stretch, and relax.")));
-
-  info_box->pack_start(*info_img, false, false, 6);
-  info_box->pack_start(*info_lab, false, true, 6);
+    manage(new Gtk::Label());
+  Glib::ustring txt = HigUtil::create_alert_text
+    (GUIControl::get_instance()
+     ->get_timer_data(GUIControl::BREAK_ID_REST_BREAK)->label,
+     _("This is your rest break. Make sure you stand up and\n"
+       "walk away from your computer on a regular basis. Just\n"
+       "walk around for a few minutes, stretch, and relax."));
+  info_lab->set_markup(txt);
+  info_box->pack_start(*info_img, false, false, 0);
+  info_box->pack_start(*info_lab, false, true, 0);
 
   // Add other widgets.
   Gtk::VBox *vbox = manage(new Gtk::VBox(false, 6));
@@ -86,7 +92,7 @@ RestBreakWindow::RestBreakWindow(bool ignorable) :
 
   // Timebar
   timebar = manage(new TimeBar);
-  vbox->pack_start(*timebar, false, false, 0);
+  vbox->pack_start(*timebar, false, false, 6);
   
   // Button box at the bottom.
   if (ignorable)

@@ -57,5 +57,11 @@ public:
   void add(Gtk::Widget &panel);
 };
 
+class HigUtil
+{
+public:
+  static Glib::ustring create_alert_text(const char *caption,
+                                         const char *body);
+};
 
 #endif // HIG_HH
