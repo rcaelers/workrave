@@ -89,9 +89,10 @@ AC_CANONICAL_HOST
 AC_PREFIX_PROGRAM(workrave)
 
 dnl Set of available languages.
-ALL_LINGUAS="nl eo"
+ALL_LINGUAS="nl de"
 
 dnl Checks for programs.
+AC_PROG_INTLTOOL
 AC_PROG_CC
 AC_PROG_CXX
 AC_PROG_CPP
@@ -364,15 +365,13 @@ CFLAGS=$CFLAGS_save
 LIBS=$LIBS_save
 
 dnl internationalization macros
-AM_GNU_GETTEXT
+AM_GNU_GETTEXT([external])
+dnl AM_GLIB_GNU_GETTEXT
 
 GETTEXT_PACKAGE=workrave
 AC_SUBST(GETTEXT_PACKAGE)
-AC_DEFINE(GETTEXT_PACKAGE, "workrave", [Blaat])
-AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE")
+AC_DEFINE(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE", [Blaat])
 
-dnl AM_GLIB_GNU_GETTEXT
-        
 if test "x$config_with_xml" = "xyes"
 then
     AC_PATH_PROG(GDOME_CONFIG, gdome-config, no)
@@ -495,4 +494,4 @@ AM_CONDITIONAL(HAVE_ARCH_UNIX, test "x$platform_win32" != "xyes")
 AM_CONDITIONAL(HAVE_GUI_GTKMM, test "x$GTKMM_LIBS" != "x")
 AM_CONDITIONAL(HAVE_DISTRIBUTION, test "x$config_distribution" = "xyes")
                                                            
-AC_OUTPUT(src/Makefile arch/Makefile arch/unix/Makefile arch/win32/Makefile arch/win32/harpoon/Makefile gui/Makefile gui/gtkmm/Makefile gui/gnome/Makefile images/Makefile sounds/Makefile debian/Makefile Makefile intl/Makefile po/Makefile.in m4/Makefile workrave.spec)
+AC_OUTPUT(src/Makefile arch/Makefile arch/unix/Makefile arch/win32/Makefile arch/win32/harpoon/Makefile gui/Makefile gui/gtkmm/Makefile gui/gnome/Makefile images/Makefile sounds/Makefile debian/Makefile Makefile po/Makefile.in m4/Makefile workrave.spec)

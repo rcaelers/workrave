@@ -1,25 +1,29 @@
+EXTRA_DIST =					\
+	GNOME_WorkraveApplet_Factory.server.in.in  \
+	workrave.schemas.in				\
+	$(ui_DATA)
+
+MAINTAINERCLEANFILES = GNOME_WorkraveApplet_Factory.server.in GNOME_WorkraveApplet_Factory.server
+
+SUBDIRS = 
+
+if HAVE_GNOME
+
 INCLUDES =							\
 	-I$(srcdir)						\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\"		\
 	-DGNOME_ICONDIR=\""$(datadir)/pixmaps\""		\
+	-DWORKRAVE_DATADIR="\"${pkgdatadir}\""			\
 	$(GNOME_INCLUDEDIR)					\
 	$(WARN_CFLAGS)						\
 	@APPLET_CFLAGS@						\
 	@ARCH_CFLAGS@
 
-SUBDIRS = 
-
 libexec_PROGRAMS = workrave-applet
 
-workrave_applet_SOURCES = workrave-applet.c
+workrave_applet_SOURCES = WorkraveApplet.cc
 
-workrave_applet_LDADD = \
-	@APPLET_LIBS@
-
-EXTRA_DIST =					\
-	GNOME_WorkraveApplet_Factory.server.in  \
-	workrave.schemas.in				\
-	$(ui_DATA)
+workrave_applet_LDADD = @APPLET_LIBS@
 
 uidir		= $(datadir)/gnome-2.0/ui
 ui_DATA		= GNOME_WorkraveApplet.xml
@@ -28,10 +32,10 @@ serverdir       = $(libdir)/bonobo/servers
 server_in_files = GNOME_WorkraveApplet_Factory.server.in
 server_DATA     = $(server_in_files:.server.in=.server)
 
-GNOME_WorkraveApplet_Factory.server: GNOME_WorkraveApplet_Factory.server.in
+GNOME_WorkraveApplet_Factory.server.in: GNOME_WorkraveApplet_Factory.server.in.in
 	sed -e "s|\@LIBEXECDIR\@|$(libexecdir)|" $< > $@
 
-#@INTLTOOL_SERVER_RULE@
+@INTLTOOL_SERVER_RULE@
 
 #schemasdir       = $(sysconfdir)/gconf/schemas
 #schemas_in_files = workrave.schemas.in
@@ -47,3 +51,4 @@ install-data-local:
 	done \
 	fi
 
+endif

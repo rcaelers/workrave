@@ -44,12 +44,18 @@ static const char rcsid[] = "$Id$";
 #include "RestBreakWindow.hh"
 #include "WindowHints.hh"
 
+#include <gtk/gtk.h>
+#include "../gui/gtkmm/eggtrayicon.h"
+
 #ifdef WIN32
 #include "Win32SoundPlayer.hh"
 #elif defined(HAVE_GNOME)
 #include "GnomeSoundPlayer.hh"
 #endif
 
+#ifdef HAVE_GNOME
+#include "AppletWindow.hh"
+#endif
 
 GUI *GUI::instance = NULL;
 
@@ -71,6 +77,10 @@ GUI::GUI(ControlInterface *controller, int argc, char **argv)
   this->argc = argc;
   this->argv = argv;
 
+#ifdef HAVE_GNOME
+  applet_window = NULL;
+#endif
+  
   gui_control = new GUIControl(this, controller);
   
   TRACE_EXIT();
@@ -115,6 +125,11 @@ GUI::run()
 {
   TRACE_ENTER("GUI:run");
 
+
+  GtkWidget *button;
+  EggTrayIcon *tray_icon;
+
+  
   // Initialize Gtkmm
   Gtk::Main kit(argc, argv);
 
@@ -137,6 +152,13 @@ GUI::run()
   // The main status window.
   main_window = new MainWindow(this, core_control);
 
+  
+#ifdef HAVE_GNOME
+  applet_window = new AppletWindow(this, core_control);
+  applet_window->show_all();
+#endif  
+
+  
   // Periodic timer.
   Glib::signal_timeout().connect(SigC::slot(*this, &GUI::on_timer),
 #ifdef CRASHTEST // FIXME: bug66
@@ -153,7 +175,11 @@ GUI::run()
   TRACE_MSG("end of Gtk::Main::run");
     
   delete main_window;
- 
+
+#ifdef HAVE_GNOME
+  delete applet_window;
+#endif  
+  
   TRACE_EXIT();
 }
 
@@ -233,6 +259,13 @@ GUI::heartbeat()
       main_window->update();
     }
 
+#ifdef HAVE_GNOME
+  if (applet_window != NULL)
+    {
+      applet_window->update();
+    }
+#endif
+  
   if (gui_control != NULL)
     {
       gui_control->heartbeat();

@@ -33,6 +33,7 @@
 class MainWindow;
 class MicroPauseWindow;
 class RestBreakWindow;
+class AppletWindow;
 
 // Generic GUI
 class GUIControl;
@@ -96,6 +97,10 @@ private:
 
   //! The main window, shows the timers
   MainWindow *main_window;
+
+#ifdef HAVE_GNOME
+  AppletWindow *applet_window;
+#endif  
 };
 
 inline GUI *

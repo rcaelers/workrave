@@ -7,9 +7,11 @@
 
 MAINTAINERCLEANFILES 	= aclocal.m4 config.h.in configure stamp-h.in Makefile.in \
         install-sh missing mkinstalldirs config.cache config.log config.status \
-	config.guess config.sub depcomp ltmain.sh build-stamp
+	config.guess config.sub depcomp ltmain.sh build-stamp \
+	intltool-update.in intltool-update intltool-merge.in intltool-merge \
+	intltool-extract.in intltool-extract workrave.spec config.rpath compile
 
-SUBDIRS 	= intl m4 po arch gui src images debian sounds 
+SUBDIRS 	= m4 po arch gui src images debian sounds 
 
 EXTRA_DIST	= \
 	config.xml \

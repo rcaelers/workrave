@@ -12,7 +12,7 @@ if HAVE_GUI_GTKMM
 noinst_LIBRARIES = libgtkmmgui.a
 
 if HAVE_GNOME
-sourcesgnome = GnomeSoundPlayer.cc
+sourcesgnome = GnomeSoundPlayer.cc AppletWindow.cc eggtrayicon.c
 else
 sourcesgnome = gnome-about.c
 endif

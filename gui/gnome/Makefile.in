@@ -37,7 +37,6 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 host_triplet = @host@
 ACLOCAL = @ACLOCAL@
-ALLOCA = @ALLOCA@
 AMDEP_FALSE = @AMDEP_FALSE@
 AMDEP_TRUE = @AMDEP_TRUE@
 AMTAR = @AMTAR@
@@ -50,8 +49,6 @@ AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
-BUILD_INCLUDED_LIBINTL = @BUILD_INCLUDED_LIBINTL@
-CATOBJEXT = @CATOBJEXT@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
@@ -62,7 +59,6 @@ CXXCPP = @CXXCPP@
 CXXDEPMODE = @CXXDEPMODE@
 CXXFLAGS = @CXXFLAGS@
 CYGPATH_W = @CYGPATH_W@
-DATADIRNAME = @DATADIRNAME@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
 ECHO_C = @ECHO_C@
@@ -75,9 +71,7 @@ GCONF_LIBS = @GCONF_LIBS@
 GDOME_CFLAGS = @GDOME_CFLAGS@
 GDOME_CONFIG = @GDOME_CONFIG@
 GDOME_LIB = @GDOME_LIB@
-GENCAT = @GENCAT@
 GETTEXT_PACKAGE = @GETTEXT_PACKAGE@
-GLIBC21 = @GLIBC21@
 GLIB_CFLAGS = @GLIB_CFLAGS@
 GLIB_LIBS = @GLIB_LIBS@
 GMODULE_CFLAGS = @GMODULE_CFLAGS@
@@ -120,11 +114,24 @@ INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
-INSTOBJEXT = @INSTOBJEXT@
-INTLBISON = @INTLBISON@
 INTLLIBS = @INTLLIBS@
-INTLOBJS = @INTLOBJS@
-INTL_LIBTOOL_SUFFIX_PREFIX = @INTL_LIBTOOL_SUFFIX_PREFIX@
+INTLTOOL_CAVES_RULE = @INTLTOOL_CAVES_RULE@
+INTLTOOL_DESKTOP_RULE = @INTLTOOL_DESKTOP_RULE@
+INTLTOOL_DIRECTORY_RULE = @INTLTOOL_DIRECTORY_RULE@
+INTLTOOL_EXTRACT = @INTLTOOL_EXTRACT@
+INTLTOOL_KEYS_RULE = @INTLTOOL_KEYS_RULE@
+INTLTOOL_MERGE = @INTLTOOL_MERGE@
+INTLTOOL_OAF_RULE = @INTLTOOL_OAF_RULE@
+INTLTOOL_PERL = @INTLTOOL_PERL@
+INTLTOOL_PONG_RULE = @INTLTOOL_PONG_RULE@
+INTLTOOL_PROP_RULE = @INTLTOOL_PROP_RULE@
+INTLTOOL_SCHEMAS_RULE = @INTLTOOL_SCHEMAS_RULE@
+INTLTOOL_SERVER_RULE = @INTLTOOL_SERVER_RULE@
+INTLTOOL_SHEET_RULE = @INTLTOOL_SHEET_RULE@
+INTLTOOL_SOUNDLIST_RULE = @INTLTOOL_SOUNDLIST_RULE@
+INTLTOOL_UI_RULE = @INTLTOOL_UI_RULE@
+INTLTOOL_UPDATE = @INTLTOOL_UPDATE@
+INTLTOOL_XML_RULE = @INTLTOOL_XML_RULE@
 ISODATE = @ISODATE@
 LDFLAGS = @LDFLAGS@
 LIBICONV = @LIBICONV@
@@ -166,7 +173,6 @@ SHELL = @SHELL@
 SIGC_CFLAGS = @SIGC_CFLAGS@
 SIGC_LIBS = @SIGC_LIBS@
 STRIP = @STRIP@
-USE_INCLUDED_LIBINTL = @USE_INCLUDED_LIBINTL@
 USE_NLS = @USE_NLS@
 VERSION = @VERSION@
 WIN32CONSOLE = @WIN32CONSOLE@
@@ -217,59 +223,64 @@ sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
-INCLUDES = \
-	-I$(srcdir)						\
-	-DGNOMELOCALEDIR=\""$(datadir)/locale"\"		\
-	-DGNOME_ICONDIR=\""$(datadir)/pixmaps\""		\
-	$(GNOME_INCLUDEDIR)					\
-	$(WARN_CFLAGS)						\
-	@APPLET_CFLAGS@						\
-	@ARCH_CFLAGS@
-
-
-SUBDIRS = 
-
-libexec_PROGRAMS = workrave-applet
-
-workrave_applet_SOURCES = workrave-applet.c
-
-workrave_applet_LDADD = \
-	@APPLET_LIBS@
-
-
 EXTRA_DIST = \
-	GNOME_WorkraveApplet_Factory.server.in  \
+	GNOME_WorkraveApplet_Factory.server.in.in  \
 	workrave.schemas.in				\
 	$(ui_DATA)
 
 
-uidir = $(datadir)/gnome-2.0/ui
-ui_DATA = GNOME_WorkraveApplet.xml
+MAINTAINERCLEANFILES = GNOME_WorkraveApplet_Factory.server.in GNOME_WorkraveApplet_Factory.server
 
-serverdir = $(libdir)/bonobo/servers
-server_in_files = GNOME_WorkraveApplet_Factory.server.in
-server_DATA = $(server_in_files:.server.in=.server)
+SUBDIRS = 
+
+@HAVE_GNOME_TRUE@INCLUDES = \
+@HAVE_GNOME_TRUE@	-I$(srcdir)						\
+@HAVE_GNOME_TRUE@	-DGNOMELOCALEDIR=\""$(datadir)/locale"\"		\
+@HAVE_GNOME_TRUE@	-DGNOME_ICONDIR=\""$(datadir)/pixmaps\""		\
+@HAVE_GNOME_TRUE@	-DWORKRAVE_DATADIR="\"${pkgdatadir}\""			\
+@HAVE_GNOME_TRUE@	$(GNOME_INCLUDEDIR)					\
+@HAVE_GNOME_TRUE@	$(WARN_CFLAGS)						\
+@HAVE_GNOME_TRUE@	@APPLET_CFLAGS@						\
+@HAVE_GNOME_TRUE@	@ARCH_CFLAGS@
+
+
+@HAVE_GNOME_TRUE@libexec_PROGRAMS = workrave-applet
+
+@HAVE_GNOME_TRUE@workrave_applet_SOURCES = WorkraveApplet.cc
+
+@HAVE_GNOME_TRUE@workrave_applet_LDADD = @APPLET_LIBS@
+
+@HAVE_GNOME_TRUE@uidir = $(datadir)/gnome-2.0/ui
+@HAVE_GNOME_TRUE@ui_DATA = GNOME_WorkraveApplet.xml
+
+@HAVE_GNOME_TRUE@serverdir = $(libdir)/bonobo/servers
+@HAVE_GNOME_TRUE@server_in_files = GNOME_WorkraveApplet_Factory.server.in
+@HAVE_GNOME_TRUE@server_DATA = $(server_in_files:.server.in=.server)
 subdir = gui/gnome
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
-libexec_PROGRAMS = workrave-applet$(EXEEXT)
+@HAVE_GNOME_TRUE@libexec_PROGRAMS = workrave-applet$(EXEEXT)
+@HAVE_GNOME_FALSE@libexec_PROGRAMS =
 PROGRAMS = $(libexec_PROGRAMS)
 
-am_workrave_applet_OBJECTS = workrave-applet.$(OBJEXT)
+am__workrave_applet_SOURCES_DIST = WorkraveApplet.cc
+@HAVE_GNOME_TRUE@am_workrave_applet_OBJECTS = WorkraveApplet.$(OBJEXT)
 workrave_applet_OBJECTS = $(am_workrave_applet_OBJECTS)
-workrave_applet_DEPENDENCIES =
+@HAVE_GNOME_TRUE@workrave_applet_DEPENDENCIES =
+@HAVE_GNOME_FALSE@workrave_applet_DEPENDENCIES =
 workrave_applet_LDFLAGS =
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
-@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/workrave-applet.Po
-COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
-	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-CCLD = $(CC)
-LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES = $(workrave_applet_SOURCES)
+@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/WorkraveApplet.Po
+CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+CXXLD = $(CXX)
+CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
+	-o $@
+DIST_SOURCES = $(am__workrave_applet_SOURCES_DIST)
 DATA = $(server_DATA) $(ui_DATA)
 
 
@@ -285,7 +296,7 @@ SOURCES = $(workrave_applet_SOURCES)
 all: all-recursive
 
 .SUFFIXES:
-.SUFFIXES: .c .o .obj
+.SUFFIXES: .cc .o .obj
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am  $(top_srcdir)/configure.ac $(ACLOCAL_M4)
 	cd $(top_srcdir) && \
 	  $(AUTOMAKE) --gnu  gui/gnome/Makefile
@@ -317,7 +328,7 @@ clean-libexecPROGRAMS:
 	-test -z "$(libexec_PROGRAMS)" || rm -f $(libexec_PROGRAMS)
 workrave-applet$(EXEEXT): $(workrave_applet_OBJECTS) $(workrave_applet_DEPENDENCIES) 
 	@rm -f workrave-applet$(EXEEXT)
-	$(LINK) $(workrave_applet_LDFLAGS) $(workrave_applet_OBJECTS) $(workrave_applet_LDADD) $(LIBS)
+	$(CXXLINK) $(workrave_applet_LDFLAGS) $(workrave_applet_OBJECTS) $(workrave_applet_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT) core *.core
@@ -325,32 +336,32 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/workrave-applet.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/WorkraveApplet.Po@am__quote@
 
 distclean-depend:
 	-rm -rf ./$(DEPDIR)
 
-.c.o:
-@am__fastdepCC_TRUE@	if $(COMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" \
-@am__fastdepCC_TRUE@	  -c -o $@ `test -f '$<' || echo '$(srcdir)/'`$<; \
-@am__fastdepCC_TRUE@	then mv "$(DEPDIR)/$*.Tpo" "$(DEPDIR)/$*.Po"; \
-@am__fastdepCC_TRUE@	else rm -f "$(DEPDIR)/$*.Tpo"; exit 1; \
-@am__fastdepCC_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(COMPILE) -c `test -f '$<' || echo '$(srcdir)/'`$<
+.cc.o:
+@am__fastdepCXX_TRUE@	if $(CXXCOMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o $@ `test -f '$<' || echo '$(srcdir)/'`$<; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/$*.Tpo" "$(DEPDIR)/$*.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/$*.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXXCOMPILE) -c -o $@ `test -f '$<' || echo '$(srcdir)/'`$<
 
-.c.obj:
-@am__fastdepCC_TRUE@	if $(COMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" \
-@am__fastdepCC_TRUE@	  -c -o $@ `if test -f '$<'; then $(CYGPATH_W) '$<'; else $(CYGPATH_W) '$(srcdir)/$<'`; \
-@am__fastdepCC_TRUE@	then mv "$(DEPDIR)/$*.Tpo" "$(DEPDIR)/$*.Po"; \
-@am__fastdepCC_TRUE@	else rm -f "$(DEPDIR)/$*.Tpo"; exit 1; \
-@am__fastdepCC_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(COMPILE) -c `if test -f '$<'; then $(CYGPATH_W) '$<'; else $(CYGPATH_W) '$(srcdir)/$<'`
+.cc.obj:
+@am__fastdepCXX_TRUE@	if $(CXXCOMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o $@ `if test -f '$<'; then $(CYGPATH_W) '$<'; else $(CYGPATH_W) '$(srcdir)/$<'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/$*.Tpo" "$(DEPDIR)/$*.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/$*.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXXCOMPILE) -c -o $@ `if test -f '$<'; then $(CYGPATH_W) '$<'; else $(CYGPATH_W) '$(srcdir)/$<'`
 uninstall-info-am:
 serverDATA_INSTALL = $(INSTALL_DATA)
 install-serverDATA: $(server_DATA)
@@ -582,6 +593,7 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
+	-test -z "$(MAINTAINERCLEANFILES)" || rm -f $(MAINTAINERCLEANFILES)
 clean: clean-recursive
 
 clean-am: clean-generic clean-libexecPROGRAMS mostlyclean-am
@@ -650,10 +662,10 @@ uninstall-info: uninstall-info-recursive
 	uninstall-recursive uninstall-serverDATA uninstall-uiDATA
 
 
-GNOME_WorkraveApplet_Factory.server: GNOME_WorkraveApplet_Factory.server.in
-	sed -e "s|\@LIBEXECDIR\@|$(libexecdir)|" $< > $@
+@HAVE_GNOME_TRUE@GNOME_WorkraveApplet_Factory.server.in: GNOME_WorkraveApplet_Factory.server.in.in
+@HAVE_GNOME_TRUE@	sed -e "s|\@LIBEXECDIR\@|$(libexecdir)|" $< > $@
 
-#@INTLTOOL_SERVER_RULE@
+@HAVE_GNOME_TRUE@@INTLTOOL_SERVER_RULE@
 
 #schemasdir       = $(sysconfdir)/gconf/schemas
 #schemas_in_files = workrave.schemas.in
@@ -662,12 +674,12 @@ GNOME_WorkraveApplet_Factory.server: GNOME_WorkraveApplet_Factory.server.in
 #@INTLTOOL_SCHEMAS_RULE@
 
 # don't do this if we are building in eg. rpm
-install-data-local:
-	if test -z "$(DESTDIR)" ; then \
-		for p in $(schemas_DATA) ; do \
-			GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $(top_builddir)/applets/workrave/$$p ; \
-	done \
-	fi
+@HAVE_GNOME_TRUE@install-data-local:
+@HAVE_GNOME_TRUE@	if test -z "$(DESTDIR)" ; then \
+@HAVE_GNOME_TRUE@		for p in $(schemas_DATA) ; do \
+@HAVE_GNOME_TRUE@			GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $(top_builddir)/applets/workrave/$$p ; \
+@HAVE_GNOME_TRUE@	done \
+@HAVE_GNOME_TRUE@	fi
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

@@ -1,0 +1,6 @@
+2002-11-09  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.am (SUBDIRS): Remove intl.
+	(EXTRA_DIST): Add config.rpath.
+	* configure.ac (AC_OUTPUT): Remove intl/Makefile.
+
