@@ -138,7 +138,7 @@ NetworkJoinDialog::run()
         }
       else
         {
-          dist_manager->join(peer);
+          dist_manager->connect(peer);
         }
     }
   GUIControl::get_instance()->get_configurator()->save();

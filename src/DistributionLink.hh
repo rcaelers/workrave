@@ -48,7 +48,10 @@ public:
   virtual void set_user(string username, string password) = 0;
 
   //! Connects to a certain host.
-  virtual void join(string url) = 0;
+  virtual void connect(string url) = 0;
+
+  //! Disconnect the specified client.
+  virtual void disconnect(string id) = 0;
 
   //! Request to become master.
   virtual bool claim() = 0;

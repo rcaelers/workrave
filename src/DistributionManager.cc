@@ -197,13 +197,28 @@ DistributionManager::set_lock_master(bool lock)
 
 //! Connect to the specified URL.
 bool
-DistributionManager::join(string url)
+DistributionManager::connect(string url)
 {
   bool ret = false;
   
   if (link != NULL)
     {
-      link->join(url);
+      link->connect(url);
+      ret = true;
+    }
+  return ret;
+}
+
+
+//! Disconnects from client with the specified id.
+bool
+DistributionManager::disconnect(string id)
+{
+  bool ret = false;
+  
+  if (link != NULL)
+    {
+      link->disconnect(id);
       ret = true;
     }
   return ret;
@@ -404,7 +419,7 @@ DistributionManager::add_peer(string peer)
   if (i == peer_urls.end())
     {
       peer_urls.push_back(peer);
-      join(peer);
+      connect(peer);
       ret = true;
     }
 
@@ -450,7 +465,7 @@ DistributionManager::set_peers(string peers, bool connect)
 
 //
 void
-DistributionManager::parse_peers(string peers, bool connect)
+DistributionManager::parse_peers(string peers, bool doconnect)
 {
   TRACE_ENTER_MSG("DistributionManager::parse_peers", peers);
   peer_urls.clear();
@@ -466,9 +481,9 @@ DistributionManager::parse_peers(string peers, bool connect)
           sanitize_peer(peer);
           peer_urls.push_back(peer);
 
-          if (connect)
+          if (doconnect)
             {
-              join(peer);
+              connect(peer);
             }
         }
       
@@ -479,9 +494,9 @@ DistributionManager::parse_peers(string peers, bool connect)
     {
       sanitize_peer(peers);
       peer_urls.push_back(peers);
-      if (connect)
+      if (doconnect)
         {
-          join(peers);
+          connect(peers);
         }
     }
   TRACE_EXIT();

@@ -58,7 +58,8 @@ public:
   int get_number_of_peers();
   bool claim();
   bool set_lock_master(bool lock);
-  bool join(string url);
+  bool connect(string url);
+  bool disconnect(string id);
   bool register_client_message(DistributionClientMessageID id, DistributionClientMessageType type,
                                DistributionClientMessageInterface *dist_state);
   bool unregister_client_message(DistributionClientMessageID id);

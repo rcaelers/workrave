@@ -22,8 +22,9 @@
 enum DistributionClientMessageID
   {
     DCM_TIMERS  = 0x0010,
-    DCM_MONITOR = 0x0018,
-    DCM_IDLELOG = 0x0019,
+    DCM_MONITOR = 0x0011,
+    DCM_IDLELOG = 0x0012,
+    DCM_SCRIPT  = 0x0013,
     DCM_BREAKS  = 0x0020,
     DCM_STATS   = 0x0030,
   };

@@ -144,6 +144,7 @@ GNetSocketDriver::async_accept(GTcpSocket *server, GTcpSocket *client, GNetSocke
       ccon->iochannel = gnet_tcp_socket_get_iochannel(client);
 #endif      
       ccon->watch_flags = G_IO_IN | G_IO_ERR | G_IO_HUP | G_IO_NVAL;
+      ccon->socket = client;
       
       g_assert(ccon->iochannel);
       ccon->watch = g_io_add_watch(ccon->iochannel, (GIOCondition) ccon->watch_flags, static_async_io, ccon);
@@ -309,6 +310,7 @@ GNetSocketConnection::~GNetSocketConnection()
   
   if (socket != NULL)
     {
+      TRACE_MSG("1");
       gnet_tcp_socket_delete(socket);
     }
 

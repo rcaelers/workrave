@@ -188,7 +188,7 @@ DistributionSocketLink::get_number_of_peers()
 
 //! Join the WR network.
 void
-DistributionSocketLink::join(string url)
+DistributionSocketLink::connect(string url)
 {
   if (server_enabled)
     {
@@ -211,6 +211,21 @@ DistributionSocketLink::join(string url)
       gnet_url_delete(client_url);
 #endif      
     }
+}
+
+
+//! Disconnects the specified client.
+void
+DistributionSocketLink::disconnect(string id)
+{
+  TRACE_ENTER_MSG("DistributionSocketLink::disconnect", id);
+  Client *c = find_client_by_id((gchar*)id.c_str());
+  if (c != NULL)
+    {
+      TRACE_MSG("close");
+      close_client(c);
+    }
+  TRACE_EXIT();
 }
 
 
@@ -488,7 +503,21 @@ DistributionSocketLink::add_client(gchar *id, gchar *host, gint port, ClientType
           host = canonical_host;
         }
     }
- 
+
+  Client *c = find_client_by_canonicalname(host, port);
+  if (c != NULL && c->type == CLIENTTYPE_SIGNEDOFF && type == CLIENTTYPE_DIRECT)
+    {
+      if (c->id != NULL)
+        {
+          dist_manager->signon_remote_client(c->id);
+        }
+
+      c->type = type;
+      dist_manager->log(_("Connecting to %s:%d."), host, port);
+      socket_driver->connect(host, port, c);
+      skip = true;
+    }
+
   if (!skip)
     {
       // Client does not yet exists as far as we can see.
@@ -550,7 +579,9 @@ DistributionSocketLink::set_client_id(Client *client, gchar *id, gchar *name, gi
         {
           // It's a remote client, but not the same one.
 
-          bool reuse = (old_client->type == CLIENTTYPE_DIRECT && old_client->socket == NULL);
+          bool reuse = ((old_client->type == CLIENTTYPE_DIRECT ||
+                         old_client->type == CLIENTTYPE_SIGNEDOFF)
+                        && old_client->socket == NULL);
           
           if (reuse)
             {
@@ -655,6 +686,7 @@ DistributionSocketLink::remove_peer_clients(Client *client)
           i++;
         }
     }
+  TRACE_EXIT();
 }
 
 
@@ -662,8 +694,14 @@ DistributionSocketLink::remove_peer_clients(Client *client)
 void
 DistributionSocketLink::close_client(Client *client, bool reconnect /* = false*/)
 {
-  TRACE_ENTER_MSG("DistributionSocketLink::client", client->id << " " << reconnect);
-  
+  TRACE_ENTER_MSG("DistributionSocketLink::close_client", client->id << " " << reconnect);
+
+  list<Client *>::iterator i = clients.begin();
+  while (i != clients.end())
+    {
+      TRACE_MSG("client " << (*i)->id);
+      i++;
+    }
   if (client == master_client)
     {
       // Client to be closed is master. Unset master client. 
@@ -1260,6 +1298,8 @@ DistributionSocketLink::handle_signoff(PacketBuffer &packet, Client *client)
 {
   TRACE_ENTER("DistributionSocketLink::handle_signoff");
 
+  (void) client;
+  
   gchar *id = packet.unpack_string();
   Client *c = NULL;
   

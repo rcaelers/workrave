@@ -186,7 +186,8 @@ public:
   void heartbeat();
   bool set_enabled(bool enabled);
   void set_user(string user, string password);
-  void join(string url);
+  void connect(string url);
+  void disconnect(string id);
   bool disconnect_all();
   bool reconnect_all();
   bool claim();

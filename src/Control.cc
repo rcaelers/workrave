@@ -54,6 +54,9 @@ Control::Control() :
   dist_manager(NULL),
   monitor_state(ACTIVITY_UNKNOWN),
   remote_state(ACTIVITY_IDLE),
+#  ifndef NDEBUG
+  script_count(-1),
+#  endif
 #endif
 #ifndef NDEBUG
   fake_monitor(NULL),
@@ -130,7 +133,12 @@ Control::process_timers(TimerInfo *infos)
 {
   TRACE_ENTER("Control::process_timers");
   static int count = 0;
- 
+
+  if (script_count != -1)
+    {
+      do_script();
+    }
+  
   // Retrieve State.
   ActivityState state = monitor->get_current_state();
 #ifndef NDEBUG
@@ -408,6 +416,7 @@ Control::compute_common_idle_history(int length)
   iterators[0] = my_info.idle_history.begin();
   end_iterators[0] = my_info.idle_history.end();
   at_end[0] = true;
+  elapsed[0] = 0;
 
   int count = 1;
   for (ClientMapIter i = clients.begin(); i != clients.end(); i++)
@@ -442,6 +451,7 @@ Control::compute_common_idle_history(int length)
   
   while (!stop)
     {
+      // Find latest event.
       last_time = -1;
       for (int i = 0; i < size; i ++)
         {
@@ -498,7 +508,7 @@ Control::compute_common_idle_history(int length)
                   TRACE_MSG("Common idle period of " << (end_time - begin_time));
                   if ((end_time - begin_time) > length)
                     {
-                      TRACE_MSG("break");
+                      stop = true;
                     }
                 }
               idle_count--;
@@ -510,6 +520,14 @@ Control::compute_common_idle_history(int length)
         }
     }
 
+  int total_elapsed = 0;
+  for (int i = 0; i < size; i++)
+    {
+      TRACE_MSG(i << " " << elapsed[i]);
+      total_elapsed += elapsed[i];
+    }
+
+  TRACE_MSG("total = " << total_elapsed);
   
   delete [] iterators;
   delete [] end_iterators;
@@ -531,6 +549,9 @@ Control::create_distribution_manager()
       dist_manager->register_client_message(DCM_TIMERS, DCMT_MASTER, this);
       dist_manager->register_client_message(DCM_MONITOR, DCMT_MASTER, this);
       dist_manager->register_client_message(DCM_IDLELOG, DCMT_SIGNON, this);
+#ifndef NDEBUG
+      dist_manager->register_client_message(DCM_SCRIPT, DCMT_PASSIVE, this);
+#endif      
       dist_manager->add_listener(this);
     }
   return dist_manager != NULL;
@@ -839,6 +860,19 @@ Control::test_me()
 {
   TRACE_ENTER("Control::test_me");
 
+  script_count = 0;
+
+  PacketBuffer state_packet;
+  state_packet.create();
+
+  state_packet.pack_ushort(1);
+  state_packet.pack_ushort(SCRIPT_START);
+      
+  dist_manager->broadcast_client_message(DCM_SCRIPT,
+                                         (unsigned char *)state_packet.get_buffer(),
+                                         state_packet.bytes_written());
+  
+  /*
   if (fake_monitor != NULL)
     {
       ActivityState state = fake_monitor->get_current_state();
@@ -854,7 +888,7 @@ Control::test_me()
           fake_monitor->set_state(ACTIVITY_ACTIVE);
         }
     }
-  
+  */
   TRACE_EXIT();
 }
 #endif
@@ -904,6 +938,10 @@ Control::client_message(DistributionClientMessageID id, bool master, char *clien
 
     case DCM_IDLELOG:
       ret = set_idlelog_state(master, client_id, buffer, size);
+      break;
+
+    case DCM_SCRIPT:
+      ret = script_message(master, client_id, buffer, size);
       break;
 
     default:
@@ -1114,6 +1152,9 @@ Control::set_idlelog_state(bool master, char *client_id, unsigned char *buffer, 
 {
   TRACE_ENTER("Control::set_idlelog_state");
 
+  (void) master;
+  (void) client_id;
+  
   PacketBuffer state_packet;
   state_packet.create(size);
 
@@ -1174,6 +1215,95 @@ Control::set_idlelog_state(bool master, char *client_id, unsigned char *buffer, 
   return true;
 }
 
+#ifndef NDEBUG
+bool
+Control::script_message(bool master, char *client_id, unsigned char *buffer, int size)
+{
+  TRACE_ENTER("Control::script_message");
+
+  (void) master;
+  (void) client_id;
+  
+  PacketBuffer packet;
+  packet.create(size);
+
+  packet.pack_raw(buffer, size);
+  
+  int cmd_size = packet.unpack_ushort();
+  TRACE_MSG("size = " << cmd_size);
+
+  for (int i = 0; i < cmd_size; i++)
+    {
+      ScriptCommand type = (ScriptCommand) packet.unpack_ushort();
+
+      switch (type)
+        {
+        case SCRIPT_START:
+          {
+            script_count = 0;
+          }
+          break;
+        }
+    }
+
+  TRACE_EXIT();
+  return true;
+}
+
+void
+Control::do_script()
+{
+  string id = dist_manager->get_my_id();
+  PacketBuffer packet;
+
+  if (id == "192.168.0.42:2701")
+    {
+      if (script_count == 0)
+        {
+          fake_monitor->set_state(ACTIVITY_ACTIVE);      
+        }
+      else if (script_count == 5)
+        {
+          fake_monitor->set_state(ACTIVITY_IDLE);
+        }
+      else if (script_count == 40)
+        {
+          fake_monitor->set_state(ACTIVITY_ACTIVE);      
+        }
+      else if (script_count == 50)
+        {
+          fake_monitor->set_state(ACTIVITY_IDLE);
+          dist_manager->disconnect("192.168.0.42:2702");
+        }
+      else if (script_count == 82)
+        {
+          dist_manager->connect("tcp://192.168.0.42:2702");
+        }
+    }
+  else if (id == "192.168.0.42:2702")
+    {
+      if (script_count == 51)
+        {
+          fake_monitor->set_state(ACTIVITY_ACTIVE);
+        }
+      else if (script_count == 61)
+        {
+          fake_monitor->set_state(ACTIVITY_IDLE);
+        }
+      else if (script_count == 71)
+        {
+          fake_monitor->set_state(ACTIVITY_ACTIVE);
+        }
+      else if (script_count == 81)
+        {
+          fake_monitor->set_state(ACTIVITY_IDLE);
+        }
+    }
+
+  script_count++;
+}
+
+#endif
 
 //! A remote client has signed on.
 void

@@ -96,6 +96,12 @@ public:
 #endif  
 
 private:
+#ifndef NDEBUG
+  enum ScriptCommand
+    {
+      SCRIPT_START = 1,
+    };
+#endif  
   struct IdleInterval
   {
     IdleInterval() :
@@ -182,6 +188,11 @@ private:
   
   void signon_remote_client(string client_id);
   void signoff_remote_client(string client_id);
+
+#ifndef TEST
+  bool script_message(bool master, char *client_id, unsigned char *buffer, int size);
+  void do_script();
+#endif  
 #endif
 
 private:
@@ -200,6 +211,10 @@ private:
 
   //! Info about all clients.
   ClientMap clients;
+
+#ifndef NDEBUG
+  int script_count;
+#endif
 #endif
 
 #ifndef NDEBUG
