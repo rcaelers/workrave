@@ -104,9 +104,9 @@ private:
   void on_test_me();
 #endif
 #ifdef HAVE_DISTRIBUTION
-  void on_menu_collective_join();
-  void on_menu_collective_leave();
-  void on_menu_collective_reconnect();
+  void on_menu_network_join();
+  void on_menu_network_leave();
+  void on_menu_network_reconnect();
 #endif
   
 #ifdef WIN32

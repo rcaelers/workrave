@@ -1,4 +1,4 @@
-// CollectivePreferencePage.cc --- Preferences widgets for a timer
+// NetworkPreferencePage.cc --- Preferences widgets for a timer
 //
 // Copyright (C) 2002 Rob Caelers & Raymond Penners
 // All rights reserved.
@@ -28,7 +28,7 @@
 
 #include <unistd.h>
 #include "GUIControl.hh"
-#include "CollectivePreferencePage.hh"
+#include "NetworkPreferencePage.hh"
 #include "Configurator.hh"
 #include "DistributionManager.hh"
 #include "DistributionSocketLink.hh"
@@ -37,10 +37,10 @@ using std::cout;
 using SigC::slot;
 
 
-CollectivePreferencePage::CollectivePreferencePage()
+NetworkPreferencePage::NetworkPreferencePage()
   : Gtk::HBox(false, 6)
 {
-  TRACE_ENTER("CollectivePreferencePage::CollectivePreferencePage");
+  TRACE_ENTER("NetworkPreferencePage::NetworkPreferencePage");
 
   Gtk::Notebook *tnotebook = manage(new Gtk::Notebook());
   tnotebook->set_tab_pos(Gtk::POS_TOP);  
@@ -59,15 +59,15 @@ CollectivePreferencePage::CollectivePreferencePage()
 }
 
 
-CollectivePreferencePage::~CollectivePreferencePage()
+NetworkPreferencePage::~NetworkPreferencePage()
 {
-  TRACE_ENTER("CollectivePreferencePage::~CollectivePreferencePage");
+  TRACE_ENTER("NetworkPreferencePage::~NetworkPreferencePage");
   TRACE_EXIT();
 }
 
 
 void
-CollectivePreferencePage::create_general_page(Gtk::Notebook *tnotebook)
+NetworkPreferencePage::create_general_page(Gtk::Notebook *tnotebook)
 {
   Gtk::HBox *box = manage(new Gtk::HBox(false, 3));
   Gtk::Label *lab = manage(new Gtk::Label(_("General")));
@@ -113,14 +113,14 @@ CollectivePreferencePage::create_general_page(Gtk::Notebook *tnotebook)
   box->show_all();
   tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*gp, *box));
 
-  enabled_cb->signal_toggled().connect(SigC::slot(*this, &CollectivePreferencePage::on_enabled_toggled));
-  username_entry->signal_changed().connect(SigC::slot(*this, &CollectivePreferencePage::on_username_changed));
-  password_entry->signal_changed().connect(SigC::slot(*this, &CollectivePreferencePage::on_password_changed));
+  enabled_cb->signal_toggled().connect(SigC::slot(*this, &NetworkPreferencePage::on_enabled_toggled));
+  username_entry->signal_changed().connect(SigC::slot(*this, &NetworkPreferencePage::on_username_changed));
+  password_entry->signal_changed().connect(SigC::slot(*this, &NetworkPreferencePage::on_password_changed));
 }
 
 
 void
-CollectivePreferencePage::create_advanced_page(Gtk::Notebook *tnotebook)
+NetworkPreferencePage::create_advanced_page(Gtk::Notebook *tnotebook)
 {
   Gtk::HBox *box = manage(new Gtk::HBox(false, 3));
   Gtk::Label *lab = manage(new Gtk::Label(_("Advanced")));
@@ -178,15 +178,15 @@ CollectivePreferencePage::create_advanced_page(Gtk::Notebook *tnotebook)
   box->show_all();
   tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*gp, *box));
 
-  port_entry->signal_changed().connect(SigC::slot(*this, &CollectivePreferencePage::on_port_changed));
-  interval_entry->signal_changed().connect(SigC::slot(*this, &CollectivePreferencePage::on_interval_changed));
-  attempts_entry->signal_changed().connect(SigC::slot(*this, &CollectivePreferencePage::on_attempts_changed));
+  port_entry->signal_changed().connect(SigC::slot(*this, &NetworkPreferencePage::on_port_changed));
+  interval_entry->signal_changed().connect(SigC::slot(*this, &NetworkPreferencePage::on_interval_changed));
+  attempts_entry->signal_changed().connect(SigC::slot(*this, &NetworkPreferencePage::on_attempts_changed));
   
 }
 
 
 void
-CollectivePreferencePage::create_peers_page(Gtk::Notebook *tnotebook)
+NetworkPreferencePage::create_peers_page(Gtk::Notebook *tnotebook)
 {
   Gtk::HBox *box = manage(new Gtk::HBox(false, 3));
   Gtk::Label *lab = manage(new Gtk::Label(_("Hosts")));
@@ -233,7 +233,7 @@ CollectivePreferencePage::create_peers_page(Gtk::Notebook *tnotebook)
   column->add_attribute(renderer->property_text(), peers_columns.hostname);
   column->set_resizable(true);
   renderer->property_editable().set_value(true);
-  renderer->signal_edited().connect(SigC::slot(*this, &CollectivePreferencePage::on_hostname_edited));
+  renderer->signal_edited().connect(SigC::slot(*this, &NetworkPreferencePage::on_hostname_edited));
     
   renderer = Gtk::manage(new Gtk::CellRendererText());
   cols_count = peers_list->append_column(_("Port"), *renderer);
@@ -241,7 +241,7 @@ CollectivePreferencePage::create_peers_page(Gtk::Notebook *tnotebook)
   column->add_attribute(renderer->property_text(), peers_columns.port);
   column->set_resizable(true);
   renderer->property_editable().set_value(true);
-  renderer->signal_edited().connect(SigC::slot(*this, &CollectivePreferencePage::on_port_edited));
+  renderer->signal_edited().connect(SigC::slot(*this, &NetworkPreferencePage::on_port_edited));
 
   Gtk::ScrolledWindow *peers_scroll = manage(new Gtk::ScrolledWindow());
   peers_scroll->add(*peers_list);
@@ -251,16 +251,16 @@ CollectivePreferencePage::create_peers_page(Gtk::Notebook *tnotebook)
 
   hbox->pack_start(*peersvbox, true, true, 0);
 
-  peers_store->signal_row_changed().connect(SigC::slot(*this, &CollectivePreferencePage::on_row_changed));
-  peers_store->signal_row_inserted().connect(SigC::slot(*this, &CollectivePreferencePage::on_row_changed));
-  peers_store->signal_row_deleted().connect(SigC::slot(*this, &CollectivePreferencePage::on_row_deleted));
+  peers_store->signal_row_changed().connect(SigC::slot(*this, &NetworkPreferencePage::on_row_changed));
+  peers_store->signal_row_inserted().connect(SigC::slot(*this, &NetworkPreferencePage::on_row_changed));
+  peers_store->signal_row_deleted().connect(SigC::slot(*this, &NetworkPreferencePage::on_row_deleted));
 
                                     
   // Buttons
   remove_btn = manage(new Gtk::Button(Gtk::Stock::REMOVE));
-  remove_btn->signal_clicked().connect(SigC::slot(*this, &CollectivePreferencePage::on_peer_remove));
+  remove_btn->signal_clicked().connect(SigC::slot(*this, &NetworkPreferencePage::on_peer_remove));
   add_btn = manage(new Gtk::Button(Gtk::Stock::ADD));
-  add_btn->signal_clicked().connect(SigC::slot(*this, &CollectivePreferencePage::on_peer_add));
+  add_btn->signal_clicked().connect(SigC::slot(*this, &NetworkPreferencePage::on_peer_add));
 
   Gtk::VBox *btnbox= manage(new Gtk::VBox(false, 6));
   btnbox->pack_start(*add_btn, false, false, 0);
@@ -278,7 +278,7 @@ CollectivePreferencePage::create_peers_page(Gtk::Notebook *tnotebook)
 }
 
 void
-CollectivePreferencePage::create_model()
+NetworkPreferencePage::create_model()
 {
   peers_store = Gtk::ListStore::create(peers_columns);
 
@@ -318,7 +318,7 @@ CollectivePreferencePage::create_model()
   
 
 void
-CollectivePreferencePage::init_page_values()
+NetworkPreferencePage::init_page_values()
 {
   Configurator *c = GUIControl::get_instance()->get_configurator();
   bool is_set;
@@ -391,9 +391,9 @@ CollectivePreferencePage::init_page_values()
 
 
 void
-CollectivePreferencePage::on_enabled_toggled()
+NetworkPreferencePage::on_enabled_toggled()
 {
-  TRACE_ENTER("CollectivePreferencePage::on_enabled_toggled");
+  TRACE_ENTER("NetworkPreferencePage::on_enabled_toggled");
   bool enabled = enabled_cb->get_active();
   Configurator *c = GUIControl::get_instance()->get_configurator();
   c->set_value(DistributionManager::CFG_KEY_DISTRIBUTION + DistributionManager::CFG_KEY_DISTRIBUTION_ENABLED, enabled);
@@ -402,7 +402,7 @@ CollectivePreferencePage::on_enabled_toggled()
 
 
 void
-CollectivePreferencePage::on_username_changed()
+NetworkPreferencePage::on_username_changed()
 {
   string name = username_entry->get_text();
   Configurator *c = GUIControl::get_instance()->get_configurator();
@@ -411,7 +411,7 @@ CollectivePreferencePage::on_username_changed()
 
 
 void
-CollectivePreferencePage::on_password_changed()
+NetworkPreferencePage::on_password_changed()
 {
   string pw = password_entry->get_text();
   Configurator *c = GUIControl::get_instance()->get_configurator();
@@ -420,7 +420,7 @@ CollectivePreferencePage::on_password_changed()
 
 
 void
-CollectivePreferencePage::on_port_changed()
+NetworkPreferencePage::on_port_changed()
 {
   int value = (int) port_entry->get_value();
   Configurator *c = GUIControl::get_instance()->get_configurator();
@@ -429,7 +429,7 @@ CollectivePreferencePage::on_port_changed()
 
 
 void
-CollectivePreferencePage::on_interval_changed()
+NetworkPreferencePage::on_interval_changed()
 {
   int value = (int) interval_entry->get_value();
   Configurator *c = GUIControl::get_instance()->get_configurator();
@@ -438,7 +438,7 @@ CollectivePreferencePage::on_interval_changed()
 
 
 void
-CollectivePreferencePage::on_attempts_changed()
+NetworkPreferencePage::on_attempts_changed()
 {
   int value = (int) attempts_entry->get_value();
   Configurator *c = GUIControl::get_instance()->get_configurator();
@@ -446,12 +446,12 @@ CollectivePreferencePage::on_attempts_changed()
 }
 
 void
-CollectivePreferencePage::on_peer_remove()
+NetworkPreferencePage::on_peer_remove()
 {
-  TRACE_ENTER("CollectivePreferencePage::on_peer_remove");
+  TRACE_ENTER("NetworkPreferencePage::on_peer_remove");
   Glib::RefPtr<Gtk::TreeSelection> selection = peers_list->get_selection();
 
-  selection->selected_foreach(SigC::slot(*this, &CollectivePreferencePage::remove_peer));
+  selection->selected_foreach(SigC::slot(*this, &NetworkPreferencePage::remove_peer));
 
   Glib::RefPtr<Gtk::ListStore> new_store = Gtk::ListStore::create(peers_columns);
 
@@ -481,7 +481,7 @@ CollectivePreferencePage::on_peer_remove()
 
 
 void
-CollectivePreferencePage::on_peer_add()
+NetworkPreferencePage::on_peer_add()
 {
   Gtk::TreeRow row = *(peers_store->append());
   int port = (int) port_entry->get_value();
@@ -494,7 +494,7 @@ CollectivePreferencePage::on_peer_add()
 }
 
 void
-CollectivePreferencePage::remove_peer(const Gtk::TreeModel::iterator &iter)
+NetworkPreferencePage::remove_peer(const Gtk::TreeModel::iterator &iter)
 {
   Gtk::TreeModel::Row row = *iter;
   string s = row[peers_columns.hostname];
@@ -503,21 +503,21 @@ CollectivePreferencePage::remove_peer(const Gtk::TreeModel::iterator &iter)
 }
 
 void
-CollectivePreferencePage::on_row_changed(const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& iter)
+NetworkPreferencePage::on_row_changed(const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& iter)
 {
   update_peers();
 }
 
 
 void
-CollectivePreferencePage::on_row_deleted(const Gtk::TreeModel::Path& path)
+NetworkPreferencePage::on_row_deleted(const Gtk::TreeModel::Path& path)
 {
   update_peers();
 }
 
 
 void
-CollectivePreferencePage::on_hostname_edited(const Glib::ustring& path_string, const Glib::ustring& new_text)
+NetworkPreferencePage::on_hostname_edited(const Glib::ustring& path_string, const Glib::ustring& new_text)
 {
   GtkTreePath *gpath = gtk_tree_path_new_from_string (path_string.c_str());
   Gtk::TreePath path(gpath);
@@ -530,7 +530,7 @@ CollectivePreferencePage::on_hostname_edited(const Glib::ustring& path_string, c
 
 
 void
-CollectivePreferencePage::on_port_edited(const Glib::ustring& path_string, const Glib::ustring& new_text)
+NetworkPreferencePage::on_port_edited(const Glib::ustring& path_string, const Glib::ustring& new_text)
 {
   GtkTreePath *gpath = gtk_tree_path_new_from_string (path_string.c_str());
   Gtk::TreePath path(gpath);
@@ -543,7 +543,7 @@ CollectivePreferencePage::on_port_edited(const Glib::ustring& path_string, const
 
 
 void
-CollectivePreferencePage::update_peers()
+NetworkPreferencePage::update_peers()
 {
   string peers;
   bool first = true;

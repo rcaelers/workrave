@@ -1,4 +1,4 @@
-// CollectiveJoinDialog.hh --- CollectiveJoin Dialog
+// NetworkJoinDialog.hh --- NetworkJoin Dialog
 //
 // Copyright (C) 2002 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
@@ -16,8 +16,8 @@
 // $Id$
 //
 
-#ifndef COLLECTIVEJOINDIALOG_HH
-#define COLLECTIVEJOINDIALOG_HH
+#ifndef NETWORKJOINDIALOG_HH
+#define NETWORKJOINDIALOG_HH
 
 #include <stdio.h>
 
@@ -28,11 +28,11 @@ class TimeEntry;
 
 #include <gtkmm.h>
 
-class CollectiveJoinDialog : public Gtk::Dialog
+class NetworkJoinDialog : public Gtk::Dialog
 {
 public:  
-  CollectiveJoinDialog();
-  ~CollectiveJoinDialog();
+  NetworkJoinDialog();
+  ~NetworkJoinDialog();
 
   int run();
   
@@ -44,4 +44,4 @@ private:
   Gtk::CheckButton *startup_button;
 };
 
-#endif // COLLECTIVEJOINWINDOW_HH
+#endif // NETWORKJOINWINDOW_HH

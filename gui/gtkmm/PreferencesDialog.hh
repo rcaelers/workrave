@@ -42,7 +42,7 @@ private:
   Gtk::Widget *create_gui_page();
   Gtk::Widget *create_timer_page();
 #ifdef HAVE_DISTRIBUTION
-  Gtk::Widget *create_collective_page();
+  Gtk::Widget *create_network_page();
 #endif
   
   void on_always_on_top_toggled();

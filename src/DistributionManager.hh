@@ -28,6 +28,7 @@
 
 class DistributionLink;
 class Configurator;
+class DistributionLogListener;
 
 class DistributionManager :
   public DistributionLinkListener,
@@ -70,6 +71,9 @@ public:
   }
 
   void log(char *fmt, ...);
+  bool add_listener(DistributionLogListener *listener);
+  bool remove_listener(DistributionLogListener *listener);
+  void fire_event(string message);
            
 private:
   void sanitize_peer(string &peer);
@@ -79,6 +83,9 @@ private:
   void config_changed_notify(string key);
   
 private:
+  typedef std::list<DistributionLogListener *> Listeners;
+  typedef std::list<DistributionLogListener *>::iterator ListenerIter;
+  
   //! Is distribution operation enabled?
   bool distribution_enabled;
 
@@ -100,7 +107,11 @@ private:
   //! All peers
   list<string> peer_urls;
 
+  // ! All log messages
   list<string> log_messages;
+
+  //! Log listeners.
+  Listeners listeners;
 };
 
 

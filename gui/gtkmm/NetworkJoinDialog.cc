@@ -1,4 +1,4 @@
-// CollectiveJoinDialog.cc --- CollectiveJoin dialog
+// NetworkJoinDialog.cc --- NetworkJoin dialog
 //
 // Copyright (C) 2002 Rob Caelers & Raymond Penners
 // All rights reserved.
@@ -27,7 +27,7 @@
 #include <unistd.h>
 #include <assert.h>
 
-#include "CollectiveJoinDialog.hh"
+#include "NetworkJoinDialog.hh"
 
 #include "DistributionManager.hh"
 #include "DistributionSocketLink.hh"
@@ -39,10 +39,10 @@ using std::cout;
 using SigC::slot;
 
 
-CollectiveJoinDialog::CollectiveJoinDialog()
+NetworkJoinDialog::NetworkJoinDialog()
   : Gtk::Dialog(_("Network connect"), true, false)
 {
-  TRACE_ENTER("CollectiveJoinDialog::CollectiveJoinDialog");
+  TRACE_ENTER("NetworkJoinDialog::NetworkJoinDialog");
 
   string text =
     _("Enter the host name and port number of a computer\n"
@@ -109,14 +109,14 @@ CollectiveJoinDialog::CollectiveJoinDialog()
 
 
 //! Destructor.
-CollectiveJoinDialog::~CollectiveJoinDialog()
+NetworkJoinDialog::~NetworkJoinDialog()
 {
-  TRACE_ENTER("CollectiveJoinDialog::~CollectiveJoinDialog");
+  TRACE_ENTER("NetworkJoinDialog::~NetworkJoinDialog");
   TRACE_EXIT();
 }
 
 void
-CollectiveJoinDialog::init()
+NetworkJoinDialog::init()
 {
   int value;
   Configurator *c = GUIControl::get_instance()->get_configurator();
@@ -130,7 +130,7 @@ CollectiveJoinDialog::init()
 }
 
 int
-CollectiveJoinDialog::run()
+NetworkJoinDialog::run()
 {
   init();
   

@@ -22,7 +22,7 @@ sourceswin32 = Win32SoundPlayer.cc
 endif
 
 if HAVE_DISTRIBUTION
-sourcesdistribution = CollectiveJoinDialog.cc CollectivePreferencePage.cc
+sourcesdistribution = NetworkJoinDialog.cc NetworkPreferencePage.cc
 endif
 
 libgtkmmgui_a_SOURCES = \

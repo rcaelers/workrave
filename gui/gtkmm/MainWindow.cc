@@ -51,7 +51,7 @@ static const char rcsid[] = "$Id$";
 
 #ifdef HAVE_DISTRIBUTION
 #include "DistributionManager.hh"
-#include "CollectiveJoinDialog.hh"
+#include "NetworkJoinDialog.hh"
 #endif
 
 #ifdef WIN32
@@ -388,17 +388,17 @@ MainWindow::create_menu(Gtk::RadioMenuItem *mode_menus[3])
 
   Gtk::MenuItem *distr_join_menu_item = manage(new Gtk::MenuItem(_("_Connect"),true));
   distr_join_menu_item->show();
-  distr_join_menu_item->signal_activate().connect(SigC::slot(*this, &MainWindow::on_menu_collective_join));
+  distr_join_menu_item->signal_activate().connect(SigC::slot(*this, &MainWindow::on_menu_network_join));
   distr_menu_list.push_back(*distr_join_menu_item);
   
   Gtk::MenuItem *distr_leave_menu_item = manage(new Gtk::MenuItem(_("_Disconnect"),true));
   distr_leave_menu_item->show();
-  distr_leave_menu_item->signal_activate().connect(SigC::slot(*this, &MainWindow::on_menu_collective_leave));
+  distr_leave_menu_item->signal_activate().connect(SigC::slot(*this, &MainWindow::on_menu_network_leave));
   distr_menu_list.push_back(*distr_leave_menu_item);
 
   Gtk::MenuItem *distr_reconnect_menu_item = manage(new Gtk::MenuItem(_("_Reconnect"),true));
   distr_reconnect_menu_item->show();
-  distr_reconnect_menu_item->signal_activate().connect(SigC::slot(*this, &MainWindow::on_menu_collective_reconnect));
+  distr_reconnect_menu_item->signal_activate().connect(SigC::slot(*this, &MainWindow::on_menu_network_reconnect));
   distr_menu_list.push_back(*distr_reconnect_menu_item);
 #endif
   
@@ -608,13 +608,13 @@ MainWindow::on_menu_about()
 
 #ifdef HAVE_DISTRIBUTION
 void
-MainWindow::on_menu_collective_join()
+MainWindow::on_menu_network_join()
 {
   GUIControl::OperationMode mode;
   GUIControl *ctrl = GUIControl::get_instance();
   mode = ctrl->set_operation_mode(GUIControl::OPERATION_MODE_QUIET);
 
-  CollectiveJoinDialog *dialog = new CollectiveJoinDialog();
+  NetworkJoinDialog *dialog = new NetworkJoinDialog();
   dialog->run();
   delete dialog;
 
@@ -623,7 +623,7 @@ MainWindow::on_menu_collective_join()
 
 
 void
-MainWindow::on_menu_collective_leave()
+MainWindow::on_menu_network_leave()
 {
   DistributionManager *dist_manager = DistributionManager::get_instance();
   if (dist_manager != NULL)
@@ -633,7 +633,7 @@ MainWindow::on_menu_collective_leave()
 }
 
 void
-MainWindow::on_menu_collective_reconnect()
+MainWindow::on_menu_network_reconnect()
 {
   DistributionManager *dist_manager = DistributionManager::get_instance();
   if (dist_manager != NULL)

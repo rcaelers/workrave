@@ -16,8 +16,8 @@
 // $Id$
 //
 
-#ifndef COLLECTIVEPREFERENCEPAGE_HH
-#define COLLECTIVEPREFERENCEPAGE_HH
+#ifndef NETWORKPREFERENCEPAGE_HH
+#define NETWORKPREFERENCEPAGE_HH
 
 #include <stdio.h>
 #include <string>
@@ -28,12 +28,12 @@ class Configurator;
 
 #include <gtkmm.h>
 
-class CollectivePreferencePage
+class NetworkPreferencePage
   : public Gtk::HBox
 {
 public:  
-  CollectivePreferencePage();
-  ~CollectivePreferencePage();
+  NetworkPreferencePage();
+  ~NetworkPreferencePage();
   
 private:
   void init_page_values();
@@ -88,4 +88,4 @@ private:
   const ModelColumns peers_columns;
 };
 
-#endif // COLLECTIVEPREFERENCEPAGE_HH
+#endif // NETWORKPREFERENCEPAGE_HH

@@ -38,7 +38,7 @@
 #include "MainWindow.hh"
 
 #ifdef HAVE_DISTRIBUTION
-#include "CollectivePreferencePage.hh"
+#include "NetworkPreferencePage.hh"
 #endif
 
 using std::cout;
@@ -76,7 +76,7 @@ PreferencesDialog::PreferencesDialog()
   Gtk::Widget *gui_page = manage(create_gui_page());
   Gtk::Widget *timer_page = manage(create_timer_page());
 #ifdef HAVE_DISTRIBUTION
-  Gtk::Widget *collective_page = manage(create_collective_page());
+  Gtk::Widget *network_page = manage(create_network_page());
 #endif
   
   // Notebook
@@ -90,7 +90,7 @@ PreferencesDialog::PreferencesDialog()
                               (*gui_page, _("User interface")));
 #ifdef HAVE_DISTRIBUTION
   notebook->pages().push_back(Gtk::Notebook_Helpers::TabElem
-                              (*collective_page, _("Network")));
+                              (*network_page, _("Network")));
 #endif
   
   // Dialog
@@ -310,21 +310,21 @@ PreferencesDialog::create_monitor_page()
 
 #ifdef HAVE_DISTRIBUTION
 Gtk::Widget *
-PreferencesDialog::create_collective_page()
+PreferencesDialog::create_network_page()
 {
   // Timers page
-  Gtk::VBox *collective_page
+  Gtk::VBox *network_page
     = create_page
     (_("You can connect several instances of Workrave in a network. All connected\n"
        "instances share the same timer information, meaning you will be reminded\n"
        "of your breaks even if you switch computers."),
      "collective.png");
 
-  Gtk::Widget *page = manage(new CollectivePreferencePage());
+  Gtk::Widget *page = manage(new NetworkPreferencePage());
   
-  collective_page->pack_start(*page, true, true, 0);
+  network_page->pack_start(*page, true, true, 0);
 
-  return collective_page;
+  return network_page;
 }
 #endif
 

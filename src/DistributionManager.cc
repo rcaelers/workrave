@@ -29,6 +29,7 @@ static const char rcsid[] = "$Id$";
 
 #include "DistributionManager.hh"
 #include "DistributionSocketLink.hh"
+#include "DistributionLogListener.hh"
 #include "Configurator.hh"
 
 DistributionManager *DistributionManager::instance = NULL;
@@ -454,5 +455,97 @@ DistributionManager::log(char *fmt, ...)
     {
       log_messages.erase(log_messages.begin());
     }
+  fire_event(str);
 }
+
+
+
+//! Adds the log listener.
+/*!
+ *  \param listener listener to add.
+ *
+ *  \retval true listener successfully added.
+ *  \retval false listener already added.
+ */
+bool
+DistributionManager::add_listener(DistributionLogListener *listener)
+{
+  bool ret = true;
+
+  ListenerIter i = listeners.begin();
+  while (ret && i != listeners.end())
+    {
+      DistributionLogListener *l = *i;
+
+      if (listener == l)
+        {
+          // Already added. Skip
+          ret = false;
+        }
+      
+      i++;
+    }
   
+  if (ret)
+    {
+      // not found -> add
+      listeners.push_back(listener);
+    }
+
+  return ret;
+}
+
+
+//! Removes the log listener.
+/*!
+ *  \param listener listener to stop monitoring.
+ *
+ *  \retval true listener successfully removed.
+ *  \retval false listener not found.
+ */
+bool
+DistributionManager::remove_listener(DistributionLogListener *listener)
+{
+  bool ret = false;
+
+  ListenerIter i = listeners.begin();
+  while (!ret && i != listeners.end())
+    {
+      DistributionLogListener *l = *i;
+
+      if (listener == l)
+        {
+          // Found. Remove
+          i = listeners.erase(i);
+          ret = true;
+        }
+      else
+        {
+          i++;
+        }
+    }
+
+  return ret;
+}
+
+
+
+//! Fire a log event.
+void
+DistributionManager::fire_event(string message)
+{
+  TRACE_ENTER_MSG("Configurator::fire_event", message);
+  
+  ListenerIter i = listeners.begin();
+  while (i != listeners.end())
+    {
+      DistributionLogListener *l = *i;
+      if (l != NULL)
+        {
+          l->distribution_log(message);
+        }
+      i++;
+    }
+  
+  TRACE_EXIT();
+}
