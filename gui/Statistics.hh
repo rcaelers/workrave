@@ -36,18 +36,30 @@ class TimerInterface;
 class Statistics
 {
 public:
-  enum StatType
+  enum StatsBreakValueType
     {
-      STAT_TYPE_PROMPTED = 0,
-      STAT_TYPE_TAKEN,
-      STAT_TYPE_NATURAL_TAKEN,
-      STAT_TYPE_SKIPPED,
-      STAT_TYPE_POSTPONED,
-      STAT_TYPE_UNIQUE_BREAKS,
-      STAT_TYPE_SIZEOF
+      STATS_BREAKVALUE_PROMPTED = 0,
+      STATS_BREAKVALUE_TAKEN,
+      STATS_BREAKVALUE_NATURAL_TAKEN,
+      STATS_BREAKVALUE_SKIPPED,
+      STATS_BREAKVALUE_POSTPONED,
+      STATS_BREAKVALUE_UNIQUE_BREAKS,
+      STATS_BREAKVALUE_SIZEOF
     };
 
-  typedef int BreakStats[STAT_TYPE_SIZEOF];
+  enum StatsValueType
+    {
+      STATS_VALUE_TOTAL_ACTIVE_TIME = 0,
+      STATS_VALUE_TOTAL_MOUSE_MOVEMENT,
+      STATS_VALUE_TOTAL_CLICK_MOVEMENT,
+      STATS_VALUE_TOTAL_MOVEMENT_TIME,
+      STATS_VALUE_TOTAL_CLICKS,
+      STATS_VALUE_TOTAL_KEYSTROKES,
+      STATS_VALUE_SIZEOF
+    };
+  
+  typedef int BreakStats[STATS_BREAKVALUE_SIZEOF];
+  typedef int MiscStats[STATS_VALUE_SIZEOF];
   
   struct DailyStats
   {
@@ -55,12 +67,16 @@ public:
     {
       for(int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
         {
-          for(int j = 0; j < STAT_TYPE_SIZEOF; j++)
+          for(int j = 0; j < STATS_BREAKVALUE_SIZEOF; j++)
             {
               break_stats[i][j] = 0;
             }
+        } 
+
+      for(int j = 0; j < STATS_VALUE_SIZEOF; j++)
+        {
+          misc_stats[j] = 0;
         }
-      total_active = 0;
     }
 
     //! Start time of this day.
@@ -72,11 +88,8 @@ public:
     //! Statistic of each break
     BreakStats break_stats[GUIControl::BREAK_ID_SIZEOF];
 
-    //! Total time active
-    int total_active;
-
-    //! Stats of the Activity monitor.
-    ActivityMonitorStatistics activity_stats;
+    //! Misc statistics
+    MiscStats misc_stats;
   };
   
   //! Constructor.
@@ -95,7 +108,10 @@ public:
   void update_current_day();
   void load_history();
 
-  void increment_counter(GUIControl::BreakId, StatType st);
+  void increment_break_counter(GUIControl::BreakId, StatsBreakValueType st);
+  void set_counter(StatsValueType t, int value);
+  int get_counter(StatsValueType t);
+                 
   void set_total_active(int active);
 
   DailyStats *get_current_day() const;

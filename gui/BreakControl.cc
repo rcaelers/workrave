@@ -241,7 +241,7 @@ BreakControl::goto_stage(BreakStage stage)
             if (idle >= reset)
               {
                 Statistics *stats = Statistics::get_instance();
-                stats->increment_counter(break_id, Statistics::STAT_TYPE_TAKEN);
+                stats->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_TAKEN);
                 // Play sound
                 SoundPlayerInterface::Sound snd;
                 snd = (SoundPlayerInterface::Sound)0;
@@ -380,11 +380,11 @@ BreakControl::start_break()
       break_timer->stop_timer();
   
       Statistics *stats = Statistics::get_instance();
-      stats->increment_counter(break_id, Statistics::STAT_TYPE_PROMPTED);
+      stats->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_PROMPTED);
       
       if (prelude_count == 0)
         {
-          stats->increment_counter(break_id, Statistics::STAT_TYPE_UNIQUE_BREAKS);
+          stats->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_UNIQUE_BREAKS);
         }
       
       goto_stage(STAGE_PRELUDE);
@@ -502,7 +502,7 @@ BreakControl::postpone_break()
   break_timer->snooze_timer();
   
   Statistics *stats = Statistics::get_instance();
-  stats->increment_counter(break_id, Statistics::STAT_TYPE_POSTPONED);
+  stats->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_POSTPONED);
 
   // and stop the break.
   stop_break();
@@ -520,7 +520,7 @@ BreakControl::skip_break()
   break_timer->reset_timer();
 
   Statistics *stats = Statistics::get_instance();
-  stats->increment_counter(break_id, Statistics::STAT_TYPE_SKIPPED);
+  stats->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_SKIPPED);
   
   // and stop the break.
   stop_break();

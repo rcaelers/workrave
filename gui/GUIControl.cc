@@ -501,7 +501,7 @@ GUIControl::break_action(BreakId id, BreakAction action)
                 handle_stop_break(breaker, id, timer);
               }
             Statistics *stats = Statistics::get_instance();
-            stats->increment_counter(id, Statistics::STAT_TYPE_NATURAL_TAKEN);
+            stats->increment_break_counter(id, Statistics::STATS_BREAKVALUE_NATURAL_TAKEN);
           }
           break;
       

@@ -30,7 +30,7 @@ static const char rcsid[] = "$Id$";
 
 Statistics *Statistics::instance = NULL;
 const char *WORKRAVESTATS="WorkRaveStats";
-const int STATSVERSION = 3;
+const int STATSVERSION = 4;
 
 //! Constructor
 Statistics::Statistics() : 
@@ -139,17 +139,21 @@ Statistics::save_current_day(ofstream &stats_file)
     {
       BreakStats &bs = current_day->break_stats[i];
 
-      stats_file << "B " << i << " " << STAT_TYPE_SIZEOF << " ";
-      for(int j = 0; j < STAT_TYPE_SIZEOF; j++)
+      stats_file << "B " << i << " " << STATS_BREAKVALUE_SIZEOF << " ";
+      for(int j = 0; j < STATS_BREAKVALUE_SIZEOF; j++)
         {
           stats_file << bs[j] << " ";
         }
       stats_file << endl;
     }
-  stats_file << "G "
-             << current_day->total_active
-             << endl;
 
+  stats_file << "M " << STATS_VALUE_SIZEOF << " ";
+  for(int j = 0; j < STATS_VALUE_SIZEOF; j++)
+    {
+      stats_file << current_day->misc_stats[j] << " ";
+    }
+  stats_file << endl;
+  
   stats_file.close();
 }
 
@@ -253,9 +257,9 @@ Statistics::load_day(DailyStats *stats, ifstream &stats_file)
           
           BreakStats &bs = stats->break_stats[bt];
 
-          if (size > STAT_TYPE_SIZEOF)
+          if (size > STATS_BREAKVALUE_SIZEOF)
             {
-              size = STAT_TYPE_SIZEOF;
+              size = STATS_BREAKVALUE_SIZEOF;
             }
           
           for(int j = 0; j < size; j++)
@@ -266,9 +270,30 @@ Statistics::load_day(DailyStats *stats, ifstream &stats_file)
               bs[j] = value;
             }
         }
+      else if (cmd == "M")
+        {
+          int size;
+          stats_file >> size;
+          
+          if (size > STATS_VALUE_SIZEOF)
+            {
+              size = STATS_VALUE_SIZEOF;
+            }
+          
+          for(int j = 0; j < size; j++)
+            {
+              int value;
+              stats_file >> value;
+
+              stats->misc_stats[j] = value;
+            }
+        }
       else if (cmd == "G")
         {
-          stats_file >> stats->total_active;
+          int total_active;
+          stats_file >> total_active;
+
+          stats->misc_stats[STATS_VALUE_TOTAL_ACTIVE_TIME] = total_active;
         }
       else if (cmd == "D")
         {
@@ -326,7 +351,7 @@ Statistics::load_history()
 
 //! Increment the specified statistics counter of the current day.
 void
-Statistics::increment_counter(GUIControl::BreakId bt, StatType st)
+Statistics::increment_break_counter(GUIControl::BreakId bt, StatsBreakValueType st)
 {
   if (current_day == NULL)
     {
@@ -338,11 +363,25 @@ Statistics::increment_counter(GUIControl::BreakId bt, StatType st)
 }
 
 
+void
+Statistics::set_counter(StatsValueType t, int value)
+{
+  current_day->misc_stats[t] = value;
+}
+
+
+int
+Statistics::get_counter(StatsValueType t)
+{
+  return current_day->misc_stats[t];
+}
+
+
 //! Sets the total active time of the current day.
 void
 Statistics::set_total_active(int active)
 {
-  current_day->total_active = active;
+  current_day->misc_stats[STATS_VALUE_TOTAL_ACTIVE_TIME] = active;
 }
 
 
@@ -357,13 +396,20 @@ Statistics::dump()
       BreakStats &bs = current_day->break_stats[i];
 
       TRACE_MSG("Break " << i);
-      for(int j = 0; j < STAT_TYPE_SIZEOF; j++)
+      for(int j = 0; j < STATS_BREAKVALUE_SIZEOF; j++)
         {
           int value = bs[j];
 
           TRACE_MSG("STAT " << value);
         }
     }
+  for(int j = 0; j < STATS_VALUE_SIZEOF; j++)
+    {
+      int value = current_day->misc_stats[j];
+      
+      TRACE_MSG("STAT " << value);
+    }
+  
   TRACE_EXIT();
 }
 
@@ -419,16 +465,22 @@ Statistics::update_current_day()
 {
   if (core_control != NULL)
     {
+      // Collect total active time from dialy limit timer.
       TimerInterface *t = core_control->get_timer("daily_limit");
       assert(t != NULL);
-
       set_total_active(t->get_elapsed_time());
 
+      // Collect activity monitor stats.
       ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
       assert(monitor != NULL);
 
-      monitor->get_statistics(current_day->activity_stats);
+      ActivityMonitorStatistics ams;
+      monitor->get_statistics(ams);
+
+      current_day->misc_stats[STATS_VALUE_TOTAL_MOUSE_MOVEMENT] = ams.total_movement;
+      current_day->misc_stats[STATS_VALUE_TOTAL_CLICK_MOVEMENT] = ams.total_click_movement;
+      current_day->misc_stats[STATS_VALUE_TOTAL_MOVEMENT_TIME] = ams.total_movement_time;
+      current_day->misc_stats[STATS_VALUE_TOTAL_CLICKS] = ams.total_clicks;
+      current_day->misc_stats[STATS_VALUE_TOTAL_KEYSTROKES] = ams.total_keystrokes;
     }
 }
-
-
