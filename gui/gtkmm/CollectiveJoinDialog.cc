@@ -40,7 +40,7 @@ using SigC::slot;
 
 
 CollectiveJoinDialog::CollectiveJoinDialog()
-  : Gtk::Dialog("Network connect", true, false)
+  : Gtk::Dialog(_("Network connect"), true, false)
 {
   TRACE_ENTER("CollectiveJoinDialog::CollectiveJoinDialog");
 

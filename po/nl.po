@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 0.3.0\n"
-"POT-Creation-Date: 2002-10-17 23:01+0200\n"
-"PO-Revision-Date: 2002-10-17 23:03+0200\n"
+"POT-Creation-Date: 2002-10-17 23:31+0200\n"
+"PO-Revision-Date: 2002-10-17 23:31+0200\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
 "MIME-Version: 1.0\n"
@@ -26,10 +26,16 @@ msgstr "Pauze over"
 msgid "Silent in"
 msgstr "Stil over"
 
+#: gui/gtkmm/CollectiveJoinDialog.cc:43
+#, fuzzy
+msgid "Network connect"
+msgstr "Netwerk verbinding"
+
 #: gui/gtkmm/CollectiveJoinDialog.cc:48
+#, fuzzy
 msgid ""
 "Enter the host name and port number of a computer\n"
-"in the collective you want to join."
+"in the network you wish to connect to."
 msgstr ""
 "Geef de machine naam en poort nummer van een\n"
 "computer uit het netwerk op."
@@ -49,8 +55,9 @@ msgid "Connect at start-up"
 msgstr "Maak verbinding bij opstarten"
 
 #: gui/gtkmm/CollectiveJoinDialog.cc:96
-msgid "Join settings"
-msgstr "Instellingen"
+#, fuzzy
+msgid "Connection details"
+msgstr "Interval tussen pogingen"
 
 #: gui/gtkmm/CollectivePreferencePage.cc:73
 msgid "General"
@@ -142,16 +149,18 @@ msgid "_Network"
 msgstr "_Netwerk"
 
 #: gui/gtkmm/MainWindow.cc:389
-msgid "_Join"
+#, fuzzy
+msgid "_Connect"
 msgstr "Maak verbinding"
 
 #: gui/gtkmm/MainWindow.cc:394
-msgid "_Leave"
+#, fuzzy
+msgid "_Disconnect"
 msgstr "Verbreek verbinding"
 
 #: gui/gtkmm/MainWindow.cc:399
 msgid "_Reconnect"
-msgstr "Verbind opnieuw"
+msgstr "Opnieuw verbinden"
 
 #: gui/gtkmm/MainWindow.cc:412
 msgid "_Rest break"
@@ -195,7 +204,7 @@ msgstr "Gebruikers interface"
 
 #: gui/gtkmm/PreferencesDialog.cc:93
 msgid "Network"
-msgstr ""
+msgstr "Netwerk"
 
 #: gui/gtkmm/PreferencesDialog.cc:122
 msgid "The main window stays always on top of other windows"
@@ -236,7 +245,7 @@ msgstr ""
 # FIXME
 #: gui/gtkmm/PreferencesDialog.cc:232
 msgid "Monitoring preset"
-msgstr "Detectie voorinstelling"
+msgstr "Detectie type"
 
 #: gui/gtkmm/PreferencesDialog.cc:236
 msgid "Preset"
@@ -286,10 +295,10 @@ msgstr ""
 "kiezen."
 
 #: gui/gtkmm/PreferencesDialog.cc:318
-#, fuzzy
 msgid ""
-"You can run several instances of Workrave in a collective. All instances\n"
-"that are a part of the collective share the same timer information."
+"You can connect several instances of Workrave in a network. All connected\n"
+"instances share the same timer information, meaning you will be reminded\n"
+"of your breaks even if you switch computers."
 msgstr ""
 "Het is mogelijk om meerdere instanties van het programma in een\n"
 "netwerk met elkaar te verbinden en de pauze informatie te delen."
@@ -351,6 +360,23 @@ msgstr "Pauze tijdsduur"
 #: gui/gtkmm/TimerPreferencesPanel.cc:219
 msgid "Time before break"
 msgstr "Werktijd"
+
+#~ msgid "Join settings"
+#~ msgstr "Instellingen"
+
+#~ msgid "_Join"
+#~ msgstr "Maak verbinding"
+
+#~ msgid "_Leave"
+#~ msgstr "Verbreek verbinding"
+
+#, fuzzy
+#~ msgid ""
+#~ "You can run several instances of Workrave in a collective. All instances\n"
+#~ "that are a part of the collective share the same timer information."
+#~ msgstr ""
+#~ "Het is mogelijk om meerdere instanties van het programma in een\n"
+#~ "netwerk met elkaar te verbinden en de pauze informatie te delen."
 
 #, fuzzy
 #~ msgid "Enable collective"
