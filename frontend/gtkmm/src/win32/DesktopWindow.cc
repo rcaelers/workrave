@@ -18,6 +18,7 @@
 
 #include "DesktopWindow.hh"
 #include "W32Compat.hh"
+#include "debug.hh"
 
 const char * const DesktopWindow::WINDOW_CLASS = "WorkraveDesktopWindow";
 
@@ -25,6 +26,7 @@ bool DesktopWindow::initialized = false;
 
 DesktopWindow::DesktopWindow(const HeadInfo &head)
 {
+  TRACE_ENTER("DesktopWindow::DesktopWindow");
   init();
   HINSTANCE hinstance = (HINSTANCE) GetModuleHandle(NULL);
 
@@ -37,6 +39,7 @@ DesktopWindow::DesktopWindow(const HeadInfo &head)
       HMONITOR monitor = W32Compat::MonitorFromPoint(pt, MONITOR_DEFAULTTONULL);
       if (monitor)
         {
+          TRACE_MSG("Monitor found");
           MONITORINFO info;
           info.cbSize = sizeof(MONITORINFO);
           
@@ -44,8 +47,9 @@ DesktopWindow::DesktopWindow(const HeadInfo &head)
             {
               x = info.rcMonitor.left;
               y = info.rcMonitor.top;
-              w = info.rcMonitor.right - x + 1;
-              h = info.rcMonitor.bottom - y + 1;
+              w = info.rcMonitor.right - x;
+              h = info.rcMonitor.bottom - y;
+              TRACE_MSG("Monitor dimensions: " << x << ", " << y << ", " << w << ", " << h);
             }
         }
     }
@@ -61,6 +65,8 @@ DesktopWindow::DesktopWindow(const HeadInfo &head)
                         hinstance,
                         (LPSTR)NULL);
   SetWindowLong(hwnd, GWL_USERDATA, (LONG) this);
+
+  TRACE_EXIT();
 }
 
 DesktopWindow::~DesktopWindow()

@@ -533,7 +533,7 @@ win32_filter_func (void     *xevent,
     {
     case WM_POWERBROADCAST:
       {
-        TRACE_MSG("WM_POWERBROADCAST " << wParam << " " << lParam);
+        TRACE_MSG("WM_POWERBROADCAST " << msg->wParam << " " << msg->lParam);
           switch (msg->wParam)
             {
             case PBT_APMQUERYSUSPEND:

@@ -59,7 +59,7 @@ W32Compat::init()
   if (user_lib)
     {
       enum_display_monitors_proc = (ENUMDISPLAYMONITORSPROC) GetProcAddress(user_lib,"EnumDisplayMonitors");
-      get_monitor_info_proc = (GETMONITORINFOPROC) GetProcAddress(user_lib, "GetMonitorInfo");
+      get_monitor_info_proc = (GETMONITORINFOPROC) GetProcAddress(user_lib, "GetMonitorInfoA");
       monitor_from_point_proc = (MONITORFROMPOINTPROC) GetProcAddress(user_lib, "MonitorFromPoint");
     }
 

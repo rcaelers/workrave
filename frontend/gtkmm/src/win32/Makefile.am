@@ -2,7 +2,7 @@
 #
 # Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
 #
-# Time-stamp: <2004-03-03 13:27:00 pennersr>
+# Time-stamp: <2004-03-04 14:27:32 workrave>
 #
 # $Id$
 #
@@ -24,7 +24,9 @@ libworkrave_frontend_gtkmm_win32_a_CFLAGS = \
 			-W  -I../../../common/include \
 			-I../../../../backend/include \
 			-I../../../win32/applet/include \
-			-I .. @GTKMM_CFLAGS@
+			-I .. @GTKMM_CFLAGS@ \
+                        -I ../../../../common/include/win32 \
+                        -I ../../../../common/include
 
 
 libworkrave_frontend_gtkmm_win32_a_CXXFLAGS = \
