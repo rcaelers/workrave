@@ -460,19 +460,18 @@ GUIControl::break_action(BreakId id, BreakAction action)
           break;
       
         case BREAK_ACTION_FORCE_START_BREAK:
-          if (breaker->get_break_state() == BreakInterface::BREAK_INACTIVE)
-            {
-              // quick hack...
-              BreakControl *micropause_control
-                = timers[BREAK_ID_MICRO_PAUSE].break_control;
-              if (id == BREAK_ID_REST_BREAK
-                  && (micropause_control->get_break_state()
-                      == BreakInterface::BREAK_ACTIVE))
-                {
-                  micropause_control->stop_break();
-                }
-              breaker->force_start_break();
-            }
+          {
+            // quick hack...
+            BreakControl *micropause_control
+              = timers[BREAK_ID_MICRO_PAUSE].break_control;
+            if (id == BREAK_ID_REST_BREAK
+                && (micropause_control->get_break_state()
+                    == BreakInterface::BREAK_ACTIVE))
+              {
+                micropause_control->stop_break();
+              }
+            breaker->force_start_break();
+          }
           break;
         default:
           break;
