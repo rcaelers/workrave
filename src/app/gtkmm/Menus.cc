@@ -590,7 +590,6 @@ Menus::on_menu_about()
    NULL
   };
   const gchar *translators = 
-    "Rob Caelers <robc@krandor.org>\n"
     "Raymond Penners <raymond@dotsphinx.com>\n"
     "Johannes Rohr <j.rohr@comlink.apc.org>\n"
     "Christian Vejlbo <christian@vejlbo.dk>\n"
