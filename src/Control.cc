@@ -114,7 +114,14 @@ Control::main(int argc, char **argv)
 #  ifndef HAVE_GNOME 
   gtk_set_locale();
 #  endif
-  bindtextdomain(PACKAGE, GNOMELOCALEDIR);
+  const char *locale_dir;
+#ifdef WIN32
+  string dir = Util::get_application_directory() + "\\lib\\locale";
+  locale_dir = dir.c_str();
+#else
+  locale_dir = GNOMELOCALEDIR;
+#endif
+  bindtextdomain(PACKAGE, locale_dir);
   textdomain(PACKAGE);
 #endif
   

@@ -56,8 +56,8 @@ static MonitorPreset presets[] =
 {
   // FIXME: fix bug 75 before applying i18n _()
   { "Trigger-happy", 0, 1000, 0 },
-  { "Quick", 1000, 5000, 800 },
-  { "Normal", 1000, 5000, 9000 },
+  { "Quick", 500, 3000, 20000 },
+  { "Normal", 1000, 5000, 10000 },
   { "Sluggish", 5000, 10000, 4000 },
   { "Numb", 10000, 10000, 9000 },
   { NULL, 0, 0, 0 }, 
@@ -277,8 +277,9 @@ PreferencesDialog::create_monitor_page()
      (_("The timers are started if, during the 'Activity\n"
         "time', there was no inactivitiy for longer than\n"
         "'Noise time'.  When 'Noise time' exceeds 'Activity\n"
-        "time', the timers are started if two consecutive\n"
-        "user input events occur during 'Noise time'.")
+        "time', the timers are started if the time between\n"
+        "two events is greater then 'Activity time' but\n"
+        "smaller then 'Noise time'.")
       ));
   mon_table->attach(*sep, 2, 3, 0, 3, Gtk::SHRINK, Gtk::FILL);
   mon_table->attach(*label, 3, 4, 0, 3, Gtk::SHRINK, Gtk::SHRINK);

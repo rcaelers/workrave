@@ -44,6 +44,7 @@ Source: "..\..\..\AUTHORS.txt"; DestDir: "{app}"; DestName: "AUTHORS.txt"; CopyM
 Source: "..\..\..\NEWS.txt"; DestDir: "{app}"; DestName: "NEWS.txt"; CopyMode: alwaysoverwrite;
 Source: "..\..\..\README.txt"; DestDir: "{app}"; DestName: "README.txt"; CopyMode: alwaysoverwrite;
 Source: "..\..\..\src\workrave.exe"; DestDir: "{app}\lib"; DestName: "Workrave.exe"; CopyMode: alwaysoverwrite;
+Source: "..\..\..\po\nl.gmo"; DestDir: "{app}\lib\locale\nl\LC_MESSAGES"; DestName: "workrave.mo"; CopyMode: alwaysoverwrite;
 
 [Registry]
 Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\Workrave.exe"; ValueType: string; ValueData: "{app}\lib\Workrave.exe"; Flags: uninsdeletekeyifempty

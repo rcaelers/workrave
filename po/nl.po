@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 0.3.0\n"
-"POT-Creation-Date: 2002-10-16 21:13+0200\n"
+"POT-Creation-Date: 2002-10-17 22:21+0200\n"
 "PO-Revision-Date: 2002-10-14 21:22+0200\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -189,7 +189,7 @@ msgstr "Klokken"
 # FIXME
 #: gui/gtkmm/PreferencesDialog.cc:88
 msgid "Monitoring"
-msgstr ""
+msgstr "Activiteit detectie"
 
 #: gui/gtkmm/PreferencesDialog.cc:90
 msgid "User interface"
@@ -239,7 +239,7 @@ msgstr ""
 # FIXME
 #: gui/gtkmm/PreferencesDialog.cc:232
 msgid "Monitoring preset"
-msgstr ""
+msgstr "Detectie voorinstelling"
 
 #: gui/gtkmm/PreferencesDialog.cc:236
 msgid "Preset"
@@ -258,26 +258,37 @@ msgid "Idle time (ms)"
 msgstr "Inactieve tijd (ms)"
 
 #: gui/gtkmm/PreferencesDialog.cc:277
+#, fuzzy
 msgid ""
 "The timers are started if, during the 'Activity\n"
 "time', there was no inactivitiy for longer than\n"
 "'Noise time'.  When 'Noise time' exceeds 'Activity\n"
-"time', the timers are started if two consecutive\n"
-"user input events occur during 'Noise time'."
+"time', the timers are started if the time between\n"
+"two events is greater then 'Activity time' but\n"
+"smaller then 'Noise time'."
 msgstr ""
+"De klokken worden gestart als gedurende 'Actieve\n"
+"tijd' geen inactiviteit langer dan 'Ruis' optreedt.\n"
+"Voor 'Ruis' waarden groter dan 'Actieve tijd'\n"
+"starten de klokken als de tijd tussen twee\n"
+"gebeurtenissen groter is dan 'Actieve tijd' maar\n"
+"kleiner dan 'Ruis'."
 
-#: gui/gtkmm/PreferencesDialog.cc:295
+#: gui/gtkmm/PreferencesDialog.cc:296
 msgid "Custom settings"
-msgstr ""
+msgstr "Eigen instellingen"
 
-#: gui/gtkmm/PreferencesDialog.cc:301
+#: gui/gtkmm/PreferencesDialog.cc:302
 msgid ""
 "Activity and idle time detection can be fine-tuned by the monitor\n"
 "settings.  You can choose from various presets, or define your own\n"
 "custom settings."
 msgstr ""
+"In dit paneel kun je de activiteit detectie instellen. Je hebt de\n"
+"keuze uit enkele voorinstellingen, of je kunt je eigen instellingen\n"
+"kiezen."
 
-#: gui/gtkmm/PreferencesDialog.cc:317
+#: gui/gtkmm/PreferencesDialog.cc:318
 msgid ""
 "Workrave allows you to run several workrave instances in a collective.\n"
 "All workraves in the collective will share the same timers.\n"
