@@ -7,8 +7,6 @@ http://workrave.sourceforge.net
 
 * Workrave 1.2.0
 
-** Thanks to Eric Lesh, Workrave has been translated into Esperanto.
-
 ** Johannes Rohr provided a german translation, thanks!
 
 ** Added applet support. Workrave now supports both a native Gnome
@@ -17,6 +15,10 @@ KDE.
 
 ** Added statistics. Workrave shows break statistics and daily usage.
 More statistics will be added later.
+
+** A leaflet promoting Workrave is now available.  Please spread it as
+far as possible.  For example, distribute several copies at the
+office.  (http://workrave.sourceforge.net/leaflet/)
 
 ** Last but absolutely not least: increased sheep size in the about
 window. :)
