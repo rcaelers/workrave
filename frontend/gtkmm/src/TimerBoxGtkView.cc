@@ -171,7 +171,7 @@ TimerBoxGtkView::init_table()
   int number_of_timers = 0;
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      if (current_content[i] != BREAK_ID_NONE)
+      if (new_content[i] != BREAK_ID_NONE)
         {
           number_of_timers++;
         }

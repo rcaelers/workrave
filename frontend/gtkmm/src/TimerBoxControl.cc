@@ -92,6 +92,7 @@ TimerBoxControl::update()
   
   // Update the timer widgets.
   update_widgets();
+  view->update();
 }
 
 
@@ -169,6 +170,7 @@ TimerBoxControl::update_widgets()
         {
           text = _("Inactive");
           primary_color = TimeBar::COLOR_ID_INACTIVE;
+          secondary_color = TimeBar::COLOR_ID_INACTIVE;
           primary_val = 0;
           primary_max = 60;
           secondary_val = 0;

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.4.0\n"
-"POT-Creation-Date: 2004-02-02 22:33+0100\n"
+"POT-Creation-Date: 2004-02-02 22:35+0100\n"
 "PO-Revision-Date: 2003-09-09 16:26+0200\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -288,12 +288,12 @@ msgstr ""
 "opstaat en wegloopt van de computer. Wandel enkele\n"
 "minuten rond, strek, en ontspan."
 
-#: frontend/gtkmm/src/TimerBoxControl.cc:212
+#: frontend/gtkmm/src/TimerBoxControl.cc:213
 #: frontend/gtkmm/src/TimerBoxGtkView.cc:156
 msgid "Wait"
 msgstr "Wacht"
 
-#: frontend/gtkmm/src/TimerBoxControl.cc:170
+#: frontend/gtkmm/src/TimerBoxControl.cc:171
 msgid "Inactive"
 msgstr "Inactief"
 

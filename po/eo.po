@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2004-02-02 22:33+0100\n"
+"POT-Creation-Date: 2004-02-02 22:35+0100\n"
 "PO-Revision-Date: 2003-09-08 19:07+0200\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -292,12 +292,12 @@ msgstr ""
 "piediru ĉirkaŭe por iom da minutoj, streĉu, kaj\n"
 "trankviliĝu."
 
-#: frontend/gtkmm/src/TimerBoxControl.cc:212
+#: frontend/gtkmm/src/TimerBoxControl.cc:213
 #: frontend/gtkmm/src/TimerBoxGtkView.cc:156
 msgid "Wait"
 msgstr "Atendu"
 
-#: frontend/gtkmm/src/TimerBoxControl.cc:170
+#: frontend/gtkmm/src/TimerBoxControl.cc:171
 msgid "Inactive"
 msgstr "Neaktiva"
 
