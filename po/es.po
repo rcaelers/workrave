@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-08-24 21:39+0200\n"
+"POT-Creation-Date: 2003-09-08 00:37+0200\n"
 "PO-Revision-Date: 2003-08-06 22:54+0100\n"
 "Last-Translator:  <>\n"
 "Language-Team:  <>\n"
@@ -49,15 +49,19 @@ msgstr "_Colaboradores:"
 msgid "About %s"
 msgstr "Acerca de %s"
 
-#: src/app/gtkmm/BreakWindow.cc:327
+#: src/app/gtkmm/BreakWindow.cc:329
+msgid "Lock"
+msgstr ""
+
+#: src/app/gtkmm/BreakWindow.cc:346
 msgid "Skip"
 msgstr "Saltar"
 
-#: src/app/gtkmm/BreakWindow.cc:338
+#: src/app/gtkmm/BreakWindow.cc:357
 msgid "Postpone"
 msgstr "Aplazar"
 
-#: src/app/gtkmm/DailyLimitWindow.cc:47 src/app/gtkmm/GtkUtil.cc:88
+#: src/app/gtkmm/DailyLimitWindow.cc:47 src/app/gtkmm/GtkUtil.cc:115
 #: src/app/shared/sounds/workrave.soundlist.in.h:3
 msgid "Daily limit"
 msgstr "Límite diario"
@@ -89,16 +93,16 @@ msgstr "Retomar"
 msgid "Pause"
 msgstr "Pausa"
 
-#: src/app/gtkmm/GUI.cc:678
+#: src/app/gtkmm/GUI.cc:899
 msgid "I could not initialize Bonobo"
 msgstr "No se puede inicializar Bonobo"
 
-#: src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/MicroPauseWindow.cc:172
+#: src/app/gtkmm/GtkUtil.cc:115 src/app/gtkmm/MicroPauseWindow.cc:172
 #: src/app/gtkmm/MicroPauseWindow.cc:208
 msgid "Micro-pause"
 msgstr "Micropausa"
 
-#: src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/RestBreakWindow.cc:286
+#: src/app/gtkmm/GtkUtil.cc:115 src/app/gtkmm/RestBreakWindow.cc:294
 msgid "Rest break"
 msgstr "Descanso"
 
@@ -347,12 +351,12 @@ msgstr "Desaparece en"
 msgid "Silent in"
 msgstr "Silencioso en"
 
-#: src/app/gtkmm/RestBreakWindow.cc:268
+#: src/app/gtkmm/RestBreakWindow.cc:276
 #, c-format
 msgid "Rest break for %s"
 msgstr "Descanso de %s"
 
-#: src/app/gtkmm/RestBreakWindow.cc:287
+#: src/app/gtkmm/RestBreakWindow.cc:295
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"

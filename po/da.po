@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-08-24 21:39+0200\n"
+"POT-Creation-Date: 2003-09-08 00:38+0200\n"
 "PO-Revision-Date: 2003-08-03 21:46+0200\n"
 "Last-Translator: Christian Vejlbo <translate@vejlbo.dk>\n"
 "Language-Team:  <da@li.org>\n"
@@ -50,15 +50,19 @@ msgstr "_Credits"
 msgid "About %s"
 msgstr "Om %s"
 
-#: src/app/gtkmm/BreakWindow.cc:327
+#: src/app/gtkmm/BreakWindow.cc:329
+msgid "Lock"
+msgstr ""
+
+#: src/app/gtkmm/BreakWindow.cc:346
 msgid "Skip"
 msgstr "Spring over"
 
-#: src/app/gtkmm/BreakWindow.cc:338
+#: src/app/gtkmm/BreakWindow.cc:357
 msgid "Postpone"
 msgstr "Udsæt"
 
-#: src/app/gtkmm/DailyLimitWindow.cc:47 src/app/gtkmm/GtkUtil.cc:88
+#: src/app/gtkmm/DailyLimitWindow.cc:47 src/app/gtkmm/GtkUtil.cc:116
 #: src/app/shared/sounds/workrave.soundlist.in.h:3
 msgid "Daily limit"
 msgstr "Daglig grænse"
@@ -89,16 +93,16 @@ msgstr "Genoptag"
 msgid "Pause"
 msgstr "Pause"
 
-#: src/app/gtkmm/GUI.cc:678
+#: src/app/gtkmm/GUI.cc:899
 msgid "I could not initialize Bonobo"
 msgstr "Teknisk besked: Kunne ikke initialisere Bonobo"
 
-#: src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/MicroPauseWindow.cc:172
+#: src/app/gtkmm/GtkUtil.cc:116 src/app/gtkmm/MicroPauseWindow.cc:172
 #: src/app/gtkmm/MicroPauseWindow.cc:208
 msgid "Micro-pause"
 msgstr "Mikropause"
 
-#: src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/RestBreakWindow.cc:286
+#: src/app/gtkmm/GtkUtil.cc:116 src/app/gtkmm/RestBreakWindow.cc:294
 msgid "Rest break"
 msgstr "Hvilepause"
 
@@ -347,12 +351,12 @@ msgstr "Forsvinder om"
 msgid "Silent in"
 msgstr "Tavs om"
 
-#: src/app/gtkmm/RestBreakWindow.cc:268
+#: src/app/gtkmm/RestBreakWindow.cc:276
 #, c-format
 msgid "Rest break for %s"
 msgstr "Hvilepause i %s"
 
-#: src/app/gtkmm/RestBreakWindow.cc:287
+#: src/app/gtkmm/RestBreakWindow.cc:295
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"

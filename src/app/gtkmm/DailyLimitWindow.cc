@@ -70,6 +70,9 @@ DailyLimitWindow::DailyLimitWindow(HeadInfo &head, bool ignorable, bool insist) 
   if (ignorable)
     {
       Gtk::HButtonBox *button_box = manage(new Gtk::HButtonBox(Gtk::BUTTONBOX_END, 6));
+      Gtk::Button *lockButton = create_lock_button();
+      if (lockButton != NULL)
+        button_box->pack_end(*manage(lockButton), Gtk::SHRINK, 0);
       Gtk::Button *skipButton = manage(create_skip_button());
       button_box->pack_end(*skipButton, Gtk::SHRINK, 0);
       Gtk::Button *postponeButton = manage(create_postpone_button());

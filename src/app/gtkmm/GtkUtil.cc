@@ -68,6 +68,34 @@ GtkUtil::update_custom_stock_button(Gtk::Button *btn,
 }
 
 
+Gtk::Button *
+GtkUtil::create_image_button(const char *label_text,
+                             const char *image_file)
+{
+  Gtk::Button *btn = new Gtk::Button();
+  string icon = Util::complete_directory(image_file, Util::SEARCH_PATH_IMAGES);
+  Gtk::Image *img = manage(new Gtk::Image(icon));
+  if (label_text != NULL)
+    {
+      Gtk::Label *label = manage(new Gtk::Label(label_text));
+      Gtk::HBox *hbox = manage(new Gtk::HBox(false, 2));
+      Gtk::Alignment *align = manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
+      hbox->pack_start(*img, false, false, 0);
+      hbox->pack_end(*label, false, false, 0);
+      btn->add(*align);
+      align->add(*hbox);
+      align->show_all();
+    }
+  else
+    {
+      btn->add(*img);
+      img->show_all();
+    }
+  return btn;
+}
+
+
+
 Gtk::Widget *
 GtkUtil::create_label_with_icon(string text, const char *icon)
 {

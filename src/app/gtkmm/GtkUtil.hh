@@ -33,6 +33,9 @@ public:
   create_custom_stock_button(const char *label_text,
                              const Gtk::StockID& stock_id);
 
+  static Gtk::Button *
+  create_image_button(const char *label_text, const char *image_file);
+
   static void
   update_custom_stock_button(Gtk::Button *btn, const char *label_text,
                              const Gtk::StockID& stock_id);

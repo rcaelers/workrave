@@ -31,6 +31,7 @@ static const char rcsid[] = "$Id$";
 #include "GtkUtil.hh"
 #include "WindowHints.hh"
 #include "Frame.hh"
+#include "Display.hh"
 
 
 //! Constructor
@@ -318,6 +319,24 @@ BreakWindow::avoid_pointer(int px, int py)
   did_avoid = true;
 }
 
+//! Creates the lock button
+Gtk::Button *
+BreakWindow::create_lock_button()
+{
+  Gtk::Button *ret;
+  if (Display::is_lockable())
+    {
+      ret = GtkUtil::create_image_button(_("Lock"), "lock.png");
+      ret->signal_clicked()
+        .connect(SigC::slot(*this, &BreakWindow::on_lock_button_clicked));
+      GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
+    }
+  else
+    {
+      ret = NULL;
+    }
+  return ret;
+}
 
 //! Creates the skip button.
 Gtk::Button *
@@ -355,3 +374,10 @@ BreakWindow::on_avoid_pointer_timer()
 }
 
 #endif
+
+//! The lock button was clicked.
+void
+BreakWindow::on_lock_button_clicked()
+{
+  Display::lock();
+}

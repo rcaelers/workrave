@@ -17,6 +17,7 @@ endif
 
 libapp_a_SOURCES 	= Text.cc \
 			  SoundPlayer.cc \
+			  Display.cc \
 			  $(sourcesexercises)
 
 

@@ -93,6 +93,10 @@ RestBreakWindow::RestBreakWindow(HeadInfo &head, bool ignorable, bool insist) :
     {
       button_box = manage(new Gtk::HButtonBox(Gtk::BUTTONBOX_END, 6));
       
+      Gtk::Button *lockButton = create_lock_button();
+      if (lockButton != NULL)
+        button_box->pack_end(*manage(lockButton), Gtk::SHRINK, 0);
+
       Gtk::Button *skipButton = manage(create_skip_button());
       button_box->pack_end(*skipButton, Gtk::SHRINK, 0);
 
@@ -197,6 +201,7 @@ RestBreakWindow::on_postpone_button_clicked()
       break_response->postpone_break(BREAK_ID_REST_BREAK);
     }
 }
+
 
 
 //! The skip button was clicked.

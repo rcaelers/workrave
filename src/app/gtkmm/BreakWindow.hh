@@ -39,6 +39,7 @@ public:
 
   static Gtk::Button *create_skip_button();
   static Gtk::Button *create_postpone_button();
+  Gtk::Button *create_lock_button();
   
 protected:
   bool grab();
@@ -49,6 +50,7 @@ protected:
   void set_avoid_pointer(bool avoid_pointer);
   bool did_avoid_pointer() const;
 
+  void on_lock_button_clicked();
   void set_screen(HeadInfo &head);
   
   const int SCREEN_MARGIN;

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.4.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-08-24 21:39+0200\n"
+"POT-Creation-Date: 2003-09-08 00:38+0200\n"
 "PO-Revision-Date: 2003-07-29 20:57+0200\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -48,15 +48,19 @@ msgstr "_Credits"
 msgid "About %s"
 msgstr "Over %s"
 
-#: src/app/gtkmm/BreakWindow.cc:327
+#: src/app/gtkmm/BreakWindow.cc:329
+msgid "Lock"
+msgstr ""
+
+#: src/app/gtkmm/BreakWindow.cc:346
 msgid "Skip"
 msgstr "Overslaan"
 
-#: src/app/gtkmm/BreakWindow.cc:338
+#: src/app/gtkmm/BreakWindow.cc:357
 msgid "Postpone"
 msgstr "Uitstellen"
 
-#: src/app/gtkmm/DailyLimitWindow.cc:47 src/app/gtkmm/GtkUtil.cc:88
+#: src/app/gtkmm/DailyLimitWindow.cc:47 src/app/gtkmm/GtkUtil.cc:116
 #: src/app/shared/sounds/workrave.soundlist.in.h:3
 msgid "Daily limit"
 msgstr "Dagelijkse limiet"
@@ -87,16 +91,16 @@ msgstr "Ga verder"
 msgid "Pause"
 msgstr "Pauzeer"
 
-#: src/app/gtkmm/GUI.cc:678
+#: src/app/gtkmm/GUI.cc:899
 msgid "I could not initialize Bonobo"
 msgstr "Bonobo kon niet geÃ¯nitialiseerd worden"
 
-#: src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/MicroPauseWindow.cc:172
+#: src/app/gtkmm/GtkUtil.cc:116 src/app/gtkmm/MicroPauseWindow.cc:172
 #: src/app/gtkmm/MicroPauseWindow.cc:208
 msgid "Micro-pause"
 msgstr "Micro-pauze"
 
-#: src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/RestBreakWindow.cc:286
+#: src/app/gtkmm/GtkUtil.cc:116 src/app/gtkmm/RestBreakWindow.cc:294
 msgid "Rest break"
 msgstr "Rustpauze"
 
@@ -345,12 +349,12 @@ msgstr "Verdwijnt over"
 msgid "Silent in"
 msgstr "Stil over"
 
-#: src/app/gtkmm/RestBreakWindow.cc:268
+#: src/app/gtkmm/RestBreakWindow.cc:276
 #, c-format
 msgid "Rest break for %s"
 msgstr "Rustpauze gedurende %s"
 
-#: src/app/gtkmm/RestBreakWindow.cc:287
+#: src/app/gtkmm/RestBreakWindow.cc:295
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
