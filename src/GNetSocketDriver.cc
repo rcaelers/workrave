@@ -44,8 +44,6 @@ GNetSocketDriver::~GNetSocketDriver()
 bool
 GNetSocketDriver::init()
 {
-  TRACE_ENTER("GNetSocketDriver::init");
-  TRACE_EXIT();
   return true;
 }
 
@@ -84,16 +82,12 @@ GNetSocketDriver::canonicalize(char *host)
 SocketConnection *
 GNetSocketDriver::connect(char *host, int port, void *data)
 {
-  TRACE_ENTER("GNetSocketDriver::connect");
-
   GNetSocketConnection *con = new GNetSocketConnection;
 
   con->driver = this;
   con->data = data;
     
   gnet_tcp_socket_connect_async(host, port, static_async_connected, con);
-
-  TRACE_EXIT();
   return con;
 }
 
@@ -102,8 +96,6 @@ GNetSocketDriver::connect(char *host, int port, void *data)
 SocketConnection *
 GNetSocketDriver::listen(int port, void *data)
 {
-  TRACE_ENTER("GNetSocketDriver::listen");
-
   bool ret = false;
   GNetSocketConnection *con = new GNetSocketConnection;
 
@@ -121,7 +113,6 @@ GNetSocketDriver::listen(int port, void *data)
       con = NULL;
     }
   
-  TRACE_RETURN(ret);
   return con;
 }
 
@@ -143,7 +134,6 @@ GNetSocketDriver::async_accept(GTcpSocket *server, GTcpSocket *client, GNetSocke
 {
   (void) server;
   
-  TRACE_ENTER("GNetSocketDriver::async_accept");
   if (client != NULL)
     {
       GNetSocketConnection *ccon =  new GNetSocketConnection;
@@ -161,7 +151,6 @@ GNetSocketDriver::async_accept(GTcpSocket *server, GTcpSocket *client, GNetSocke
           listener->socket_accepted(scon, ccon);
         }
     }
-  TRACE_EXIT();
 }
 
 
@@ -169,7 +158,6 @@ GNetSocketDriver::async_accept(GTcpSocket *server, GTcpSocket *client, GNetSocke
 bool
 GNetSocketDriver::async_io(GIOChannel *iochannel, GIOCondition condition, GNetSocketConnection *con)
 {
-  TRACE_ENTER("GNetSocketDriver::async_io");
   bool ret = true;
 
   g_assert(con != NULL);
@@ -195,7 +183,6 @@ GNetSocketDriver::async_io(GIOChannel *iochannel, GIOCondition condition, GNetSo
         }
     }
 
-  TRACE_EXIT();
   return ret;
 }
 
@@ -206,8 +193,6 @@ GNetSocketDriver::async_connected(GTcpSocket *socket, GInetAddr *ia,
                                   GTcpSocketConnectAsyncStatus status,
                                   GNetSocketConnection *con)
 {
-  TRACE_ENTER("GNetSocketDriver::async_connected");
-
   g_assert(con != NULL);
   
   if (status != GTCP_SOCKET_CONNECT_ASYNC_STATUS_OK)
@@ -239,7 +224,6 @@ GNetSocketDriver::async_connected(GTcpSocket *socket, GInetAddr *ia,
       
       gnet_inetaddr_delete(ia);
     }
-  TRACE_EXIT();
 }
 
 
@@ -359,7 +343,6 @@ GNetSocketConnection::read(void *buf, int count, int &bytes_read)
 bool
 GNetSocketConnection::write(void *buf, int count, int &bytes_written)
 {
-  TRACE_ENTER("GNetSocketConnection::write");
   bool ret = false;
 
   if (iochannel != NULL)
@@ -367,7 +350,6 @@ GNetSocketConnection::write(void *buf, int count, int &bytes_written)
       bytes_written = 0;
       GIOError error = g_io_channel_write(iochannel, (char *)buf, count, (guint *)&bytes_written);
 
-      TRACE_MSG(error);
       if (error != G_IO_ERROR_NONE)
         {
           bytes_written = -1;
@@ -383,7 +365,6 @@ GNetSocketConnection::write(void *buf, int count, int &bytes_written)
         }
     }
 
-  TRACE_EXIT();
   return ret;
 }
 

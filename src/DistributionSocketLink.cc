@@ -103,7 +103,7 @@ DistributionSocketLink::~DistributionSocketLink()
 
 
 //! Initialize the link.
-bool
+void
 DistributionSocketLink::init()
 {
   TRACE_ENTER("DistributionSocketLink::init");
@@ -120,7 +120,6 @@ DistributionSocketLink::init()
   configurator->add_listener(CFG_KEY_DISTRIBUTION_TCP, this);
   
   TRACE_EXIT();
-  return true;
 }
 
 
@@ -381,7 +380,7 @@ DistributionSocketLink::push_state(DistributedStateID id, unsigned char *buffer,
   gchar *name = NULL;
   gint port = 0;
   
-  //bool have_master = get_master(&name, &port);
+  get_master(&name, &port);
   packet.pack_string(name);
   packet.pack_ushort(port);
   g_free(name);
@@ -1377,7 +1376,7 @@ DistributionSocketLink::send_state()
   gchar *name = NULL;
   gint port = 0;
   
-  // bool have_master = get_master(&name, &port);
+  get_master(&name, &port);
   packet.pack_string(name);
   packet.pack_ushort(port);
   g_free(name);
@@ -1519,7 +1518,6 @@ DistributionSocketLink::socket_io(SocketConnection *con, void *data)
   bool ret = true;
 
   Client *client = (Client *)data;
-  
   g_assert(client != NULL);
 
   if (!is_client_valid(client))
@@ -1551,9 +1549,7 @@ DistributionSocketLink::socket_io(SocketConnection *con, void *data)
     }
   else
     {
-      // TRACE_MSG("Read from " << client->hostname << ":" << client->port << " " <<  bytes_read);
       g_assert(bytes_read > 0);
-      
       client->packet.write_ptr += bytes_read;
       
       if (client->packet.peek_ushort(0) == client->packet.bytes_written())
@@ -1561,7 +1557,6 @@ DistributionSocketLink::socket_io(SocketConnection *con, void *data)
           process_client_packet(client);
         }
     }
-  
 
   if (!ret)
     {
@@ -1600,7 +1595,6 @@ DistributionSocketLink::socket_connected(SocketConnection *con, void *data)
     {
       TRACE_RETURN("Invalid client");
       return;
-      
     }
  
   dist_manager->log(_("Client %s:%d connected."), client->hostname, client->port);
@@ -1692,7 +1686,7 @@ DistributionSocketLink::read_configuration()
       reconnect_interval = DEFAULT_INTERVAL;
     }
 
-  // TCP listen port
+  // Number of connect attempts
   is_set = configurator->get_value(CFG_KEY_DISTRIBUTION_TCP + CFG_KEY_DISTRIBUTION_TCP_ATTEMPTS,
                                    &reconnect_attempts);
   if (!is_set)

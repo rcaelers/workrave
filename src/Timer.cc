@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-04-19 16:53:05 robc>
+// Time-stamp: <2003-04-20 17:53:09 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -97,7 +97,6 @@ Timer::enable()
       snooze_on_active = true;
       stop_timer();
 
-      // TODO: new, testing.
       if (autoreset_enabled && autoreset_interval != 0 && get_elapsed_time() == 0)
         {
           elapsed_idle_time = autoreset_interval;
@@ -124,6 +123,15 @@ Timer::disable()
     {
       timer_enabled = false;
       stop_timer();
+
+      last_start_time = 0;
+      last_stop_time = 0;
+      last_reset_time = 0;
+      next_limit_time = 0;
+      next_reset_time = 0;
+
+      timer_state = STATE_INVALID;
+      previous_timer_state = STATE_INVALID;
     }
 }
 
@@ -754,15 +762,14 @@ Timer::deserialize_state(std::string state)
      >> lle;
 
   TRACE_MSG(si << " " << llt << " " << lle);
-  last_limit_time = llt;
-  last_limit_elapsed = lle;
-  snooze_inhibited = si;
 
   TRACE_MSG(snooze_inhibited);
   
   last_pred_reset_time = lastReset;
   total_overdue_time = overdue;
   elapsed_time = 0;
+  last_start_time = 0;
+  last_stop_time = 0;
 
   bool tooOld = ((autoreset_enabled && autoreset_interval != 0) && (now - saveTime >  autoreset_interval));
 
@@ -770,13 +777,14 @@ Timer::deserialize_state(std::string state)
     {  
       next_reset_time = now + autoreset_interval;
       elapsed_time = elapsed;
+      snooze_inhibited = si;
     }
 
   // overdue, so snooze
   if (get_elapsed_time() >= limit_interval)
     {
-      //last_limit_time = time_source->get_time();
-      //last_limit_elapsed = 0;
+      last_limit_time = llt;
+      last_limit_elapsed = lle;
       
       compute_next_limit_time();
     }
@@ -794,18 +802,37 @@ Timer::set_state_data(const TimerStateData &data)
 
   elapsed_time = data.elapsed_time;
   elapsed_idle_time = data.elapsed_idle_time;
-  last_pred_reset_time = data.last_pred_reset_time + time_diff;
+  last_pred_reset_time = data.last_pred_reset_time;
   total_overdue_time = data.total_overdue_time;
 
-  last_limit_time = data.last_limit_time + time_diff;
+  last_limit_time = data.last_limit_time;
   last_limit_elapsed = data.last_limit_elapsed;
   snooze_inhibited = data.snooze_inhibited;
+
+  if (last_pred_reset_time > 0)
+    {
+      last_pred_reset_time += time_diff;
+    }
   
-  timer_state = STATE_INVALID;
-  previous_timer_state = STATE_INVALID;
+  if (last_limit_time > 0)
+    {
+      last_limit_time += time_diff;
+    }
+
   last_start_time = 0;
   last_stop_time = 0;
+  
+  if (timer_state == STATE_RUNNING)
+    {
+      last_start_time = time_source->get_time();
+    }
+  else if (timer_state == STATE_STOPPED)
+    {
+      last_stop_time = time_source->get_time();
+    }
 
+  compute_next_limit_time();
+  compute_next_reset_time();
   compute_next_predicate_reset_time();
 }
 

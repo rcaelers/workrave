@@ -69,6 +69,7 @@ RestBreakWindow::RestBreakWindow(bool ignorable) :
   ,exercises_panel(NULL)
 #endif
 {
+  TRACE_ENTER("RestBreakWindow::RestBreakWindow");
   // Initialize this window
   set_border_width(12);
 
@@ -120,6 +121,7 @@ RestBreakWindow::RestBreakWindow(bool ignorable) :
   
   add_events(Gdk::EXPOSURE_MASK);
   add_events(Gdk::FOCUS_CHANGE_MASK);
+  TRACE_EXIT();
 }
 
 
@@ -136,6 +138,7 @@ RestBreakWindow::~RestBreakWindow()
 void
 RestBreakWindow::start()
 {
+  TRACE_ENTER("RestBreakWindow::start");
   refresh();
   center();
   show_all();
@@ -146,6 +149,7 @@ RestBreakWindow::start()
     }
 
   present(); // After grab() please (Windows)
+  TRACE_EXIT();
 }
 
 

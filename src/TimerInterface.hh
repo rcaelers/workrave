@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-02-08 21:23:03 robc>
+// Time-stamp: <2003-04-20 15:48:32 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -54,6 +54,8 @@ enum TimerEvent
 
 struct TimerInfo
 {
+  bool enabled;
+  
   TimerEvent event;
   time_t idle_time;
   time_t elapsed_time;

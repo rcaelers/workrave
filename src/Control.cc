@@ -156,7 +156,7 @@ Control::process_timers(TimerInfo *infos)
       // Enable/Disable timers.
       for (int i = 0; i < timer_count; i++)
         {
-          if (master_node)
+          if (master_node && infos[i].enabled)
             {
               timers[i]->enable();
             }
@@ -193,15 +193,23 @@ Control::process_timers(TimerInfo *infos)
     {
       for (int i = 0; i < timer_count; i++)
         {
-          if (!(timers[i]->has_activity_monitor()))
+          if (infos[i].enabled)
             {
-              timers[i]->process(state, infos[i]);
+              timers[i]->enable();
+              if (!(timers[i]->has_activity_monitor()))
+                {
+                  timers[i]->process(state, infos[i]);
+                }
+            }
+          else
+            {
+              timers[i]->disable();
             }
         }
 
       for (int i = 0; i < timer_count; i++)
         {
-          if (timers[i]->has_activity_monitor())
+          if (infos[i].enabled && timers[i]->has_activity_monitor())
             {
               timers[i]->process(state, infos[i]);
             }
@@ -563,8 +571,52 @@ Control::test_me()
 bool
 Control::get_state(DistributedStateID id, unsigned char **buffer, int *size)
 {
-  (void) id;
-  TRACE_ENTER("Control::get_state");
+  bool ret = false;
+  
+  switch (id)
+    {
+    case DISTR_STATE_TIMERS:
+      ret = get_timer_state(buffer, size);
+      break;
+        
+    case DISTR_STATE_MONITOR:
+      ret = get_monitor_state(buffer, size);
+      break;
+
+    default:
+      break;
+    }
+
+  return ret;
+}
+
+bool
+Control::set_state(DistributedStateID id, bool master, unsigned char *buffer, int size)
+{
+  bool ret = false;
+  
+  switch (id)
+    {
+    case DISTR_STATE_TIMERS:
+      ret = set_timer_state(master, buffer, size);
+      break;
+        
+    case DISTR_STATE_MONITOR:
+      ret = set_monitor_state(master, buffer, size);
+      break;
+
+    default:
+      break;
+    }
+
+  return ret;
+}
+
+
+bool
+Control::get_timer_state(unsigned char **buffer, int *size)
+{
+  TRACE_ENTER("Control::get_timer_state");
 
   PacketBuffer state_packet;
 
@@ -590,6 +642,10 @@ Control::get_state(DistributedStateID id, unsigned char **buffer, int *size)
       state_packet.pack_ulong((guint32)state_data.last_pred_reset_time);
       state_packet.pack_ulong((guint32)state_data.total_overdue_time);
 
+      state_packet.pack_ulong((guint32)state_data.last_limit_time);
+      state_packet.pack_ulong((guint32)state_data.last_limit_elapsed);
+      state_packet.pack_ushort((guint16)state_data.snooze_inhibited);
+      
       state_packet.poke_ushort(pos, state_packet.bytes_written() - pos);
     }
   
@@ -604,9 +660,8 @@ Control::get_state(DistributedStateID id, unsigned char **buffer, int *size)
 
 
 bool
-Control::set_state(DistributedStateID id, bool master, unsigned char *buffer, int size)
+Control::set_timer_state(bool master, unsigned char *buffer, int size)
 {
-  (void) id;
   (void) master;
   TRACE_ENTER("Control::set_state");
 
@@ -641,6 +696,10 @@ Control::set_state(DistributedStateID id, bool master, unsigned char *buffer, in
       state_data.last_pred_reset_time = state_packet.unpack_ulong();
       state_data.total_overdue_time = state_packet.unpack_ulong();
 
+      state_data.last_limit_time = state_packet.unpack_ulong();
+      state_data.last_limit_elapsed = state_packet.unpack_ulong();
+      state_data.snooze_inhibited = state_packet.unpack_ushort();
+      
       TRACE_MSG("state = "
                 << state_data.current_time << " "
                 << state_data.elapsed_time << " "
@@ -658,4 +717,51 @@ Control::set_state(DistributedStateID id, bool master, unsigned char *buffer, in
   TRACE_EXIT();
   return true;
 }
+
+
+
+bool
+Control::get_monitor_state(unsigned char **buffer, int *size)
+{
+  TRACE_ENTER("Control::get_monitor_state");
+
+  PacketBuffer state_packet;
+
+  ActivityState state = monitor->get_current_state();
+#ifndef NDEBUG
+  if (fake_monitor != NULL)
+    {
+      state = fake_monitor->get_current_state();
+    }
+#endif  
+  
+  state_packet.create();
+  state_packet.pack_ushort(state);
+  
+  *size = state_packet.bytes_written();
+  *buffer = new unsigned char[*size + 1];
+  memcpy(*buffer, state_packet.get_buffer(), *size);
+
+  TRACE_EXIT();
+  return true;
+}
+
+
+bool
+Control::set_monitor_state(bool master, unsigned char *buffer, int size)
+{
+  (void) master;
+  TRACE_ENTER("Control::set_monitor_state");
+
+  PacketBuffer state_packet;
+  state_packet.create();
+
+  state_packet.pack_raw(buffer, size);
+  
+  ActivityState state = (ActivityState) state_packet.unpack_ushort();
+
+  TRACE_EXIT();
+  return true;
+}
+
 #endif

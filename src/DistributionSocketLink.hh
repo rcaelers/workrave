@@ -76,7 +76,7 @@ private:
     {
       CLIENTLIST_FORWARDABLE  		= 1,
       CLIENTLIST_IAM_ACTIVE   		= 2,
-      CLIENTLIST_HAS_ACTIVE_REF   	= 4,
+      CLIENTLIST_HAS_ACTIVE_REF   		= 4,
     };
   
   struct Client
@@ -140,7 +140,7 @@ public:
   
   int get_number_of_peers();
   void set_distribution_manager(DistributionLinkListener *dll);
-  bool init();
+  void init();
   void heartbeat();
   bool set_enabled(bool enabled);
   void set_user(string user, string password);
@@ -211,10 +211,10 @@ private:
   //! The configuration access.
   Configurator *configurator;
   
-  //! Username for client authenication
+  //! Username for client authentication
   gchar *username;
 
-  //! Password for client authenication.
+  //! Password for client authentication.
   gchar *password;
 
   //! All clients.

@@ -377,6 +377,12 @@ void
 GUIControl::heartbeat()
 {
   TimerInfo infos[BREAK_ID_SIZEOF];
+
+  for (int i = 0; i <= BREAK_ID_SIZEOF; i++)
+    {
+      infos[i].enabled = timers[i].enabled;
+    }
+
   core_control->process_timers(infos);
 
   for (int i = BREAK_ID_SIZEOF - 1; i >= 0;  i--)

@@ -1,6 +1,6 @@
 // DistributionLink.hh
 //
-// Copyright (C) 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -35,7 +35,7 @@ public:
   virtual int get_number_of_peers() = 0;
   virtual void set_distribution_manager(DistributionLinkListener *dll) = 0;
   virtual bool set_enabled(bool enabled) = 0;
-  virtual bool init() = 0;
+  virtual void init() = 0;
   virtual void heartbeat() = 0;
   virtual void set_user(string username, string password) = 0;
   virtual void join(string url) = 0;

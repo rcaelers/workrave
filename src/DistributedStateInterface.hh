@@ -1,6 +1,6 @@
 // DistributedStateListener.hh
 //
-// Copyright (C) 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -21,9 +21,10 @@
 
 enum DistributedStateID
   {
-    DISTR_STATE_TIMERS = 0x0010,
-    DISTR_STATE_BREAKS = 0x0020,
-    DISTR_STATE_STATS  = 0x0030,
+    DISTR_STATE_TIMERS  = 0x0010,
+    DISTR_STATE_MONITOR = 0x0018,
+    DISTR_STATE_BREAKS  = 0x0020,
+    DISTR_STATE_STATS   = 0x0030,
   };
 
 class DistributedStateInterface

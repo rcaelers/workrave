@@ -108,6 +108,10 @@ private:
   bool create_distribution_manager();
   bool get_state(DistributedStateID id, unsigned char **buffer, int *size);
   bool set_state(DistributedStateID id, bool master, unsigned char *buffer, int size);
+  bool get_timer_state(unsigned char **buffer, int *size);
+  bool set_timer_state(bool master, unsigned char *buffer, int size);
+  bool get_monitor_state(unsigned char **buffer, int *size);
+  bool set_monitor_state(bool master, unsigned char *buffer, int size);
 #endif
   
 private:
