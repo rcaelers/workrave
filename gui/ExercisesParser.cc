@@ -46,6 +46,16 @@ ExercisesParser::on_start_element (Glib::Markup::ParseContext& context,
       exercises->push_back(Exercise());
       exercise = &(*(exercises->end()));
     }
+  AttributeMap::const_iterator it = attributes.find("xml:lang");
+  if (it != attributes.end())
+    {
+      lang = (*it).second;
+    }
+  else
+    {
+      lang = "";
+    }
+  cdata = "";
   TRACE_EXIT();
 }
 
@@ -54,6 +64,15 @@ ExercisesParser::on_end_element (Glib::Markup::ParseContext& context,
                                  const Glib::ustring& element_name)
 {
   TRACE_ENTER_MSG("ExercisesParser::on_end_element", element_name);
+  if (element_name == "title")
+    {
+      TRACE_MSG("title=" << cdata);
+    }
+  else if (element_name == "description")
+    {
+      TRACE_MSG("desc=" << cdata);
+    }
+  TRACE_MSG("lang=" << lang);
   TRACE_EXIT();
 }
 
@@ -62,6 +81,7 @@ ExercisesParser::on_text (Glib::Markup::ParseContext& context,
                           const Glib::ustring& text)
 {
   TRACE_ENTER_MSG("ExercisesParser::on_text", text);
+  cdata.append(text);
   TRACE_EXIT();
 }
 
@@ -75,7 +95,7 @@ ExercisesParser::on_passthrough (Glib::Markup::ParseContext& context,
    
 
 void
-ExercisesParser::parse_exercises(std::string file_name,
+ExercisesParser::parse_exercises(Glib::ustring file_name,
                                  std::list<Exercise> &exe)
 {
   TRACE_ENTER_MSG("ExercisesParser::get_exercises", file_name);
@@ -107,7 +127,7 @@ ExercisesParser::parse_exercises(std::string file_name,
 void
 ExercisesParser::parse_exercises(std::list<Exercise> &exercises)
 {
-  std::string file_name = Util::complete_directory
+  Glib::ustring file_name = Util::complete_directory
     ("exercises.xml", Util::SEARCH_PATH_EXERCISES);
   return parse_exercises(file_name, exercises);
 }

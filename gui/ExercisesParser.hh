@@ -32,12 +32,12 @@ struct Exercise
 {
   struct Image
   {
-    std::string image;
+    Glib::ustring image;
     int duration;
   };
   
-  std::string title;
-  std::string description;
+  Glib::ustring title;
+  Glib::ustring description;
   int duration;
   std::list<Image> sequence;
 };
@@ -48,7 +48,7 @@ public:
   ExercisesParser(std::list<Exercise> &ex);
   
   static void parse_exercises(std::list<Exercise>&);
-  static void parse_exercises(std::string file_name, std::list<Exercise>&);
+  static void parse_exercises(Glib::ustring file_name, std::list<Exercise>&);
 
 protected:
   void on_start_element (Glib::Markup::ParseContext& context,
@@ -63,6 +63,8 @@ protected:
 private:
   std::list<Exercise> *exercises;
   Exercise *exercise;
+  Glib::ustring lang;
+  Glib::ustring cdata;
 };
 
 
