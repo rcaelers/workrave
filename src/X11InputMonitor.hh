@@ -52,7 +52,7 @@ class X11InputMonitor :
 {
 public:
   //! Constructor.
-  X11InputMonitor();
+  X11InputMonitor(char *display_name);
 
   //! Destructor.
   virtual ~X11InputMonitor();
