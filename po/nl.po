@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.4.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-07 21:16+0100\n"
-"PO-Revision-Date: 2003-09-09 16:26+0200\n"
+"POT-Creation-Date: 2004-03-07 21:47+0100\n"
+"PO-Revision-Date: 2004-03-07 21:56+0100\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
 "MIME-Version: 1.0\n"
@@ -386,8 +386,8 @@ msgid "Show 'Postpone' and 'Skip' button"
 msgstr "Toon 'Uitstellen' en 'Overslaan'"
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:151
-msgid "Timer ignores activity"
-msgstr "Micro-pauzes tellen als werktijd"
+msgid "Suspend timer when inactive"
+msgstr "Stop de klok tijdens inactiviteit"
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:166
 msgid "Regard micro-breaks as activity"
@@ -1103,6 +1103,9 @@ msgstr "Einde rustpauze"
 #: frontend/common/share/sounds/workrave.soundlist.in.h:9
 msgid "Rest break started"
 msgstr "Begin rustpauze"
+
+#~ msgid "Timer ignores activity"
+#~ msgstr "Micro-pauzes tellen als werktijd"
 
 #~ msgid "Micro-pause ended"
 #~ msgstr "Einde micro-pauze"

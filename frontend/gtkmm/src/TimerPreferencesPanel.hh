@@ -1,6 +1,6 @@
 // TimerPreferencesPanel.hh --- Preferences widgets for a timer
 //
-// Copyright (C) 2002, 2003 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -46,7 +46,9 @@ class TimerPreferencesPanel
   : public Gtk::VBox
 {
 public:  
-  TimerPreferencesPanel(BreakId timer, Glib::RefPtr<Gtk::SizeGroup> size_group);
+  TimerPreferencesPanel(BreakId timer,
+                        Glib::RefPtr<Gtk::SizeGroup> hsize_group,
+                        Glib::RefPtr<Gtk::SizeGroup> vsize_group);
   ~TimerPreferencesPanel();
   
 private:
@@ -54,7 +56,9 @@ private:
   void on_auto_reset_changed();
   void on_limit_changed();
   void on_ignorable_toggled();
+#ifdef HAVE_KEES_JAN
   void on_monitor_toggled();
+#endif
   void on_activity_sensitive_toggled();
   void on_preludes_active_toggled();
   void on_preludes_maximum_toggled();
@@ -64,7 +68,8 @@ private:
 #endif
   Gtk::Widget *create_prelude_panel();
   Gtk::Widget *create_options_panel();
-  Gtk::Widget *create_timers_panel(Glib::RefPtr<Gtk::SizeGroup> size_group);
+  Gtk::Widget *create_timers_panel(Glib::RefPtr<Gtk::SizeGroup> hsize_group,
+                                   Glib::RefPtr<Gtk::SizeGroup> vsize_group);
   void set_prelude_sensitivity();
 
   void on_enabled_toggled();
@@ -75,7 +80,9 @@ private:
 
   Gtk::CheckButton *ignorable_cb;
   Gtk::CheckButton *activity_sensitive_cb;
+#ifdef HAVE_KEES_JAN
   Gtk::CheckButton *monitor_cb;
+#endif
   Gtk::CheckButton *prelude_cb;
   Gtk::CheckButton *has_max_prelude_cb;
   TimeEntry *limit_tim, *auto_reset_tim, *snooze_tim;

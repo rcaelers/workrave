@@ -186,14 +186,16 @@ PreferencesDialog::create_timer_page()
   // Timers page
   Gtk::Notebook *tnotebook = manage(new Gtk::Notebook());
   tnotebook->set_tab_pos (Gtk::POS_TOP);
-  Glib::RefPtr<Gtk::SizeGroup> size_group
+  Glib::RefPtr<Gtk::SizeGroup> hsize_group
     = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_HORIZONTAL);
+  Glib::RefPtr<Gtk::SizeGroup> vsize_group
+    = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_VERTICAL);
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       // Label
       Gtk::Widget *box = manage(GtkUtil::create_label_for_break
                                 ((BreakId) i));
-      TimerPreferencesPanel *tp = manage(new TimerPreferencesPanel(BreakId(i), size_group));
+      TimerPreferencesPanel *tp = manage(new TimerPreferencesPanel(BreakId(i), hsize_group, vsize_group));
       box->show_all();
       tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*tp, *box));
     }

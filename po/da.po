@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-07 21:16+0100\n"
+"POT-Creation-Date: 2004-03-07 21:47+0100\n"
 "PO-Revision-Date: 2003-09-09 16:25+0200\n"
 "Last-Translator: Christian Vejlbo <translate@vejlbo.dk>\n"
 "Language-Team:  <da@li.org>\n"
@@ -393,9 +393,8 @@ msgid "Show 'Postpone' and 'Skip' button"
 msgstr "Vis knapperne 'Udsæt' samt 'Spring Over'"
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:151
-#, fuzzy
-msgid "Timer ignores activity"
-msgstr "Betragt mikropauser som aktiviteter"
+msgid "Suspend timer when inactive"
+msgstr ""
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:166
 #, fuzzy
@@ -1109,6 +1108,10 @@ msgstr "Hvilepause afsluttet"
 #: frontend/common/share/sounds/workrave.soundlist.in.h:9
 msgid "Rest break started"
 msgstr "Hvilepause startet"
+
+#, fuzzy
+#~ msgid "Timer ignores activity"
+#~ msgstr "Betragt mikropauser som aktiviteter"
 
 #~ msgid "Micro-pause ended"
 #~ msgstr "Mikropause afsluttet"

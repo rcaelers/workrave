@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-07 21:16+0100\n"
+"POT-Creation-Date: 2004-03-07 21:47+0100\n"
 "PO-Revision-Date: 2003-09-08 19:07+0200\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -398,9 +398,8 @@ msgid "Show 'Postpone' and 'Skip' button"
 msgstr "Montru 'Proktrastu' kaj 'Transsaltu' butonon"
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:151
-#, fuzzy
-msgid "Timer ignores activity"
-msgstr "Rigardu paŭzetoj kiel agado"
+msgid "Suspend timer when inactive"
+msgstr ""
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:166
 #, fuzzy
@@ -1096,6 +1095,10 @@ msgstr "Ripozo"
 #, fuzzy
 msgid "Rest break started"
 msgstr "Ripozo por %s"
+
+#, fuzzy
+#~ msgid "Timer ignores activity"
+#~ msgstr "Rigardu paŭzetoj kiel agado"
 
 #, fuzzy
 #~ msgid "Micro-pause ended"

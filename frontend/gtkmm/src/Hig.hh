@@ -1,6 +1,6 @@
 // Hig.hh --- Gnome HIG stuff
 //
-// Copyright (C) 2003 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2003, 2004 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -42,7 +42,7 @@ class HigCategoryPanel : public Gtk::VBox
 public:
   HigCategoryPanel(Gtk::Widget &lab);
   HigCategoryPanel(const char *lab);
-  void add(const char *lab, Gtk::Widget &widget);
+  Gtk::Label *add(const char *lab, Gtk::Widget &widget);
   void add(Gtk::Label &label, Gtk::Widget &widget);
   void add(Gtk::Widget &widget);
 

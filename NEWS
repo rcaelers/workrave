@@ -7,6 +7,11 @@ http://www.workrave.org
 
 * Workrave 1.6.0
 
+** Timers can be configured to ignore activity.
+
+** Bloat removal: removed the "Regard micro-pauses as activity" option
+and the "Resets at" time from the daily limit panel.
+
 ** Exercises are no longer read during program startup, and are
 released from memory when not needed anymore.
 

@@ -42,9 +42,12 @@
 #include "Hig.hh"
 
 
-TimerPreferencesPanel::TimerPreferencesPanel(BreakId t,Glib::RefPtr<Gtk::SizeGroup> size_group)
+TimerPreferencesPanel::TimerPreferencesPanel
+(BreakId t,
+ Glib::RefPtr<Gtk::SizeGroup> hsize_group,
+ Glib::RefPtr<Gtk::SizeGroup> vsize_group)
   : Gtk::VBox(false, 6),
-    max_prelude_adjustment(0, 1, 100)
+         max_prelude_adjustment(0, 1, 100)
 #ifdef HAVE_EXERCISES
   ,exercises_adjustment(0, 0, 10)
 #endif  
@@ -66,7 +69,8 @@ TimerPreferencesPanel::TimerPreferencesPanel(BreakId t,Glib::RefPtr<Gtk::SizeGro
   HigCategoriesPanel *categories = manage(new HigCategoriesPanel());;
   
   Gtk::Widget *prelude_frame = manage(create_prelude_panel());
-  Gtk::Widget *timers_frame = manage(create_timers_panel(size_group));
+  Gtk::Widget *timers_frame = manage(create_timers_panel
+                                     (hsize_group, vsize_group));
   Gtk::Widget *opts_frame = manage(create_options_panel());
 
   categories->add(*timers_frame);
@@ -148,18 +152,19 @@ TimerPreferencesPanel::create_options_panel()
   // Sensitive for activity
   bool sensitive = break_data->get_timer_activity_sensitive();
   activity_sensitive_cb = manage(new Gtk::CheckButton
-                        (_("Timer ignores activity")));
-  activity_sensitive_cb->set_active(!sensitive);
+                        (_("Suspend timer when inactive")));
+  activity_sensitive_cb->set_active(sensitive);
   activity_sensitive_cb->signal_toggled()
     .connect(SigC::slot(*this, &TimerPreferencesPanel::on_activity_sensitive_toggled));
   hig->add(*activity_sensitive_cb);
 
   // Break specific options
-  monitor_cb = NULL;
 #ifdef HAVE_EXERCISES
   exercises_spin = NULL;
 #endif
 
+#ifdef HAVE_KEES_JAN
+  monitor_cb = NULL;
   if (break_id == BREAK_ID_DAILY_LIMIT)
     {
       monitor_cb
@@ -171,8 +176,10 @@ TimerPreferencesPanel::create_options_panel()
         .connect(SigC::slot(*this, &TimerPreferencesPanel::on_monitor_toggled));
       hig->add(*monitor_cb);
     }
+#endif
+  
 #ifdef HAVE_EXERCISES
-  else if (break_id == BREAK_ID_REST_BREAK)
+  if (break_id == BREAK_ID_REST_BREAK)
     {
       exercises_spin = manage(new Gtk::SpinButton(exercises_adjustment));
       hig->add(_("Number of exercises:"), *exercises_spin);
@@ -188,7 +195,9 @@ TimerPreferencesPanel::create_options_panel()
 }
 
 Gtk::Widget *
-TimerPreferencesPanel::create_timers_panel(Glib::RefPtr<Gtk::SizeGroup> size_group)
+TimerPreferencesPanel::create_timers_panel
+(Glib::RefPtr<Gtk::SizeGroup> hsize_group,
+ Glib::RefPtr<Gtk::SizeGroup> vsize_group)
 {
   HigCategoryPanel *hig = manage(new HigCategoryPanel(_("Timers")));
 
@@ -197,44 +206,43 @@ TimerPreferencesPanel::create_timers_panel(Glib::RefPtr<Gtk::SizeGroup> size_gro
   limit_tim->set_value(break_data->get_timer_limit());
   limit_tim->signal_value_changed()
     .connect(SigC::slot(*this, &TimerPreferencesPanel::on_limit_changed));
-  hig->add(break_id == BREAK_ID_DAILY_LIMIT
+  Gtk::Label *limit_lab = hig->add(break_id == BREAK_ID_DAILY_LIMIT
            ? _("Time before end:")
            : _("Time between breaks:"), *limit_tim);
+  hsize_group->add_widget(*limit_lab);
 
   // Auto-reset time
-  const char *auto_reset_txt;
-  time_t auto_reset_value;
-  if (break_id == BREAK_ID_DAILY_LIMIT)
+  if (break_id != BREAK_ID_DAILY_LIMIT)
     {
-      auto_reset_txt = _("Resets at:");
-      TimePred *pred = TimePredFactory::create_time_pred(break_data->get_timer_reset_pred());
-      DayTimePred *dpred = dynamic_cast<DayTimePred *>(pred);
-      if (dpred != NULL)
-        {
-          auto_reset_value = dpred->get_time_offset();
-        }
+      const char *auto_reset_txt;
+      time_t auto_reset_value;
+      
+      auto_reset_txt = _("Break duration:");
+      auto_reset_value = break_data->get_timer_auto_reset();
+  
+      auto_reset_tim = manage(new TimeEntry());
+      auto_reset_tim->set_value (auto_reset_value);
+      auto_reset_tim->signal_value_changed()
+        .connect(SigC::slot(*this,
+                            &TimerPreferencesPanel::on_auto_reset_changed));
+      Gtk::Label *auto_reset_lab = manage(new Gtk::Label(auto_reset_txt));
+      hsize_group->add_widget(*auto_reset_lab);
+      hig->add(*auto_reset_lab, *auto_reset_tim);
     }
   else
     {
-      auto_reset_txt = _("Break duration:");
-      auto_reset_value = break_data->get_timer_auto_reset();
+      auto_reset_tim = NULL;
     }
-  
-  auto_reset_tim = manage(new TimeEntry());
-  auto_reset_tim->set_value (auto_reset_value);
-  auto_reset_tim->signal_value_changed()
-    .connect(SigC::slot(*this, &TimerPreferencesPanel::on_auto_reset_changed));
-  Gtk::Label *auto_reset_lab = manage(new Gtk::Label(auto_reset_txt));
-  size_group->add_widget(*auto_reset_lab);
-  hig->add(*auto_reset_lab, *auto_reset_tim);
 
   // Snooze time
   snooze_tim = manage(new TimeEntry());
   snooze_tim->set_value (break_data->get_timer_snooze());
   snooze_tim->signal_value_changed()
     .connect(SigC::slot(*this, &TimerPreferencesPanel::on_snooze_changed));
-  hig->add(_("Postpone time:"), *snooze_tim);
-  
+  Gtk::Label *snooze_lab = hig->add(_("Postpone time:"), *snooze_tim);
+  hsize_group->add_widget(*snooze_lab);
+
+  vsize_group->add_widget(*hig);
   return hig;
 }
 
@@ -312,15 +320,9 @@ void
 TimerPreferencesPanel::on_auto_reset_changed()
 {
   TRACE_ENTER("TimerPreferencesPanel::on_auto_reset_changed");
-  time_t val = auto_reset_tim->get_value();
-  if (break_id == BREAK_ID_DAILY_LIMIT)
+  if (auto_reset_tim != NULL)
     {
-      DayTimePred pred;
-      pred.init(val/(60*60), (val/60)%60);
-      break_data->set_timer_reset_pred(pred.to_string());
-    }
-  else
-    {
+      time_t val = auto_reset_tim->get_value();
       break_data->set_timer_auto_reset(val);
     }
   TRACE_EXIT();
@@ -342,7 +344,7 @@ TimerPreferencesPanel::on_limit_changed()
   TRACE_EXIT();
 }
 
-
+#ifdef HAVE_KEES_JAN
 void
 TimerPreferencesPanel::on_monitor_toggled()
 {
@@ -357,6 +359,7 @@ TimerPreferencesPanel::on_monitor_toggled()
 
   break_data->set_timer_monitor(val);
 }
+#endif
 
 void
 TimerPreferencesPanel::on_ignorable_toggled()
@@ -367,7 +370,7 @@ TimerPreferencesPanel::on_ignorable_toggled()
 void
 TimerPreferencesPanel::on_activity_sensitive_toggled()
 {
-  break_data->set_timer_activity_sensitive(!activity_sensitive_cb->get_active());
+  break_data->set_timer_activity_sensitive(activity_sensitive_cb->get_active());
 }
 
 void
@@ -384,14 +387,18 @@ TimerPreferencesPanel::enable_buttons()
   bool on = enabled_cb->get_active();
 
   ignorable_cb->set_sensitive(on);
+#ifdef HAVE_KEES_JAN
   if (monitor_cb != NULL)
     {
       monitor_cb->set_sensitive(on);
     }
+#endif
+
   prelude_cb->set_sensitive(on);
   has_max_prelude_cb->set_sensitive(on);
   limit_tim->set_sensitive(on);
-  auto_reset_tim->set_sensitive(on);
+  if (auto_reset_tim != NULL)
+    auto_reset_tim->set_sensitive(on);
   snooze_tim->set_sensitive(on);
   max_prelude_spin->set_sensitive(on);
 }

@@ -63,11 +63,12 @@ HigCategoryPanel::init(Gtk::Widget &lab)
   options_box->set_spacing(6);
 }
 
-void
+Gtk::Label *
 HigCategoryPanel::add(const char *text, Gtk::Widget &widget)
 {
   Gtk::Label *lab = manage(new Gtk::Label(text));
   add(*lab, widget);
+  return lab;
 }
 
 void

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.4.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-07 21:16+0100\n"
+"POT-Creation-Date: 2004-03-07 21:47+0100\n"
 "PO-Revision-Date: 2003-10-23 13:04+0200\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -483,11 +483,9 @@ msgstr "Maximale Anzahl von Hinweisen:"
 msgid "Show 'Postpone' and 'Skip' button"
 msgstr "Knöpfe 'Aufschieben' und 'Überspringen' anzeigen"
 
-# src/app/gtkmm/TimerPreferencesPanel.cc:169
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:151
-#, fuzzy
-msgid "Timer ignores activity"
-msgstr "Mikropausen als Aktivität betrachten"
+msgid "Suspend timer when inactive"
+msgstr ""
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:169
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:166
@@ -1364,6 +1362,11 @@ msgstr "Ruhepause beendet"
 #: frontend/common/share/sounds/workrave.soundlist.in.h:9
 msgid "Rest break started"
 msgstr "Ruhepause begonnen"
+
+# src/app/gtkmm/TimerPreferencesPanel.cc:169
+#, fuzzy
+#~ msgid "Timer ignores activity"
+#~ msgstr "Mikropausen als Aktivität betrachten"
 
 # src/app/shared/sounds/workrave.soundlist.in.h:6
 #~ msgid "Micro-pause ended"
