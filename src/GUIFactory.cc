@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-08-11 19:15:54 robc>
+// Time-stamp: <2002-10-15 09:45:51 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@ GUIFactory::create_gui(string type, ControlInterface *c, int argc, char **argv)
   if (type == "gtkmm")
     {
       gi =GtkmmGUI::create(c, argc, argv);
+
     }
   
   return gi;

@@ -49,4 +49,4 @@
 #  endif
 #endif
 
-#endif WORKRAVE_NLS_H
+#endif // WORKRAVE_NLS_H

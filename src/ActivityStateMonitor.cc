@@ -116,7 +116,7 @@ ActivityStateMonitor::mouse_notify(int x, int y, int wheel_delta)
       int delta_x = x - prev_x;
       int delta_y = y - prev_y;
       
-      statistics.total_movement += int(sqrt(delta_x * delta_x + delta_y * delta_y));
+      statistics.total_movement += int(sqrt((double)(delta_x * delta_x + delta_y * delta_y)));
       
       prev_x = x;
       prev_y = y;
@@ -148,7 +148,7 @@ ActivityStateMonitor::button_notify(int button_mask)
       int delta_x = click_x - prev_x;
       int delta_y = click_y - prev_y;
      
-      statistics.total_click_movement += int(sqrt(delta_x * delta_x + delta_y * delta_y));
+      statistics.total_click_movement += int(sqrt((double)(delta_x * delta_x + delta_y * delta_y)));
     }
   
   click_x = prev_x;

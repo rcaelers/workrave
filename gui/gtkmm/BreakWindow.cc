@@ -201,7 +201,7 @@ BreakWindow::set_avoid_pointer(bool avoid_pointer)
 bool
 BreakWindow::on_enter_notify_event(GdkEventCrossing *event)
 {
-  avoid_pointer(event->x, event->y);
+  avoid_pointer((int)event->x, (int)event->y);
   return Gtk::Window::on_enter_notify_event(event);
 }
 #endif

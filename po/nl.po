@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 0.3.0\n"
-"POT-Creation-Date: 2002-10-14 21:00+0200\n"
+"POT-Creation-Date: 2002-10-15 08:46+0200\n"
 "PO-Revision-Date: 2002-10-14 21:22+0200\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -170,7 +170,9 @@ msgstr "Info..."
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
-msgstr "Dit programma dient ter voorkoming en revalidatie van en Repetitive Strain Injury (RSI)."
+msgstr ""
+"Dit programma dient ter voorkoming en revalidatie van en Repetitive Strain "
+"Injury (RSI)."
 
 #: gui/gtkmm/MicroPauseWindow.cc:164
 msgid "Micro-pause"
@@ -180,51 +182,51 @@ msgstr "Micro-pauze"
 msgid "Please relax for a few seconds"
 msgstr "Ontspan gedurende enkele seconden"
 
-#: gui/gtkmm/PreferencesDialog.cc:85 gui/gtkmm/TimerPreferencesPanel.cc:240
+#: gui/gtkmm/PreferencesDialog.cc:86 gui/gtkmm/TimerPreferencesPanel.cc:240
 msgid "Timers"
 msgstr "Klokken"
 
 # FIXME
-#: gui/gtkmm/PreferencesDialog.cc:87
+#: gui/gtkmm/PreferencesDialog.cc:88
 msgid "Monitoring"
 msgstr ""
 
-#: gui/gtkmm/PreferencesDialog.cc:89
+#: gui/gtkmm/PreferencesDialog.cc:90
 msgid "User interface"
 msgstr "Gebruikers interface"
 
-#: gui/gtkmm/PreferencesDialog.cc:92
+#: gui/gtkmm/PreferencesDialog.cc:93
 #, fuzzy
 msgid "Collective"
 msgstr "Netwerk"
 
-#: gui/gtkmm/PreferencesDialog.cc:121
+#: gui/gtkmm/PreferencesDialog.cc:122
 msgid "The main window stays always on top of other windows"
 msgstr "Het hoofd window blijft boven alle andere windows"
 
-#: gui/gtkmm/PreferencesDialog.cc:130
+#: gui/gtkmm/PreferencesDialog.cc:131
 msgid "No sounds"
 msgstr "Geen geluid"
 
-#: gui/gtkmm/PreferencesDialog.cc:132
+#: gui/gtkmm/PreferencesDialog.cc:133
 msgid "Play sounds using sound card"
 msgstr "Speel geluiden met behulp van de geluidskaart"
 
-#: gui/gtkmm/PreferencesDialog.cc:134
+#: gui/gtkmm/PreferencesDialog.cc:135
 msgid "Play sounds using built-in speaker"
 msgstr "Speel geluiden met behulp van de ingebouwde speaker"
 
-#: gui/gtkmm/PreferencesDialog.cc:152
+#: gui/gtkmm/PreferencesDialog.cc:153
 msgid "Hide main window at start-up"
 msgstr "Verberg het hoofd window tijdens het opstarten"
 
-#: gui/gtkmm/PreferencesDialog.cc:171
+#: gui/gtkmm/PreferencesDialog.cc:172
 msgid "You can configure the user interface related settings from here."
 msgstr ""
 "In dit scherm kun je instellingen die betrekking hebben tot het\n"
 "gebruikers interface wijzigen."
 
-#: gui/gtkmm/PreferencesDialog.cc:186
+#: gui/gtkmm/PreferencesDialog.cc:187
 msgid ""
 "This dialog allows you to change the settings of the timers.  Each unit\n"
 "of time is broken down into hours, minutes and seconds (also known as\n"
@@ -235,27 +237,27 @@ msgstr ""
 "als het \"uu:mm:ss\" formaat). Deze kunnen afzonderlijk aangepast worden."
 
 # FIXME
-#: gui/gtkmm/PreferencesDialog.cc:231
+#: gui/gtkmm/PreferencesDialog.cc:232
 msgid "Monitoring preset"
 msgstr ""
 
-#: gui/gtkmm/PreferencesDialog.cc:235
+#: gui/gtkmm/PreferencesDialog.cc:236
 msgid "Preset"
 msgstr "Voorinstelling"
 
-#: gui/gtkmm/PreferencesDialog.cc:245
+#: gui/gtkmm/PreferencesDialog.cc:246
 msgid "Activity time (ms)"
 msgstr "Actieve tijd (ms)"
 
-#: gui/gtkmm/PreferencesDialog.cc:255
+#: gui/gtkmm/PreferencesDialog.cc:256
 msgid "Noise time (ms)"
 msgstr "Ruis (ms)"
 
-#: gui/gtkmm/PreferencesDialog.cc:264
+#: gui/gtkmm/PreferencesDialog.cc:265
 msgid "Idle time (ms)"
 msgstr "Inactieve tijd (ms)"
 
-#: gui/gtkmm/PreferencesDialog.cc:276
+#: gui/gtkmm/PreferencesDialog.cc:277
 msgid ""
 "The timers are started if, during the 'Activity\n"
 "time', there was no inactivitiy for longer than\n"
@@ -264,18 +266,18 @@ msgid ""
 "user input events occur during 'Noise time'."
 msgstr ""
 
-#: gui/gtkmm/PreferencesDialog.cc:294
+#: gui/gtkmm/PreferencesDialog.cc:295
 msgid "Custom settings"
 msgstr ""
 
-#: gui/gtkmm/PreferencesDialog.cc:300
+#: gui/gtkmm/PreferencesDialog.cc:301
 msgid ""
 "Activity and idle time detection can be fine-tuned by the monitor\n"
 "settings.  You can choose from various presets, or define your own\n"
 "custom settings."
 msgstr ""
 
-#: gui/gtkmm/PreferencesDialog.cc:316
+#: gui/gtkmm/PreferencesDialog.cc:317
 msgid ""
 "Workrave allows you to run several workrave instances in a collective.\n"
 "All workraves in the collective will share the same timers.\n"
