@@ -177,7 +177,10 @@ DistributionSocketLink::join(string url)
 {
   GURL *client_url = gnet_url_new(url.c_str());
 
-  add_client(client_url->hostname, client_url->port);
+  if (client_url != NULL)
+    {
+      add_client(client_url->hostname, client_url->port);
+    }
 
   gnet_url_delete(client_url);
 }
@@ -349,6 +352,16 @@ bool
 DistributionSocketLink::unregister_state(DistributedStateID id)
 {
   return false;
+}
+
+
+//! Returns whether the specified client is this client.
+bool
+DistributionSocketLink::client_is_me(gchar *host, gint port)
+{
+  return
+    (host != NULL) && (canonical_name != NULL) &&
+    (port == server_port) && (strcmp(host, canonical_name) == 0);
 }
 
 
@@ -541,6 +554,31 @@ DistributionSocketLink::find_client_by_canonicalname(gchar *name, gint port)
           ret = *i;
         }
       i++;
+    }
+  return ret;
+}
+
+
+//! Returns the active client.
+bool
+DistributionSocketLink::get_active(gchar **name, gint *port) const
+{
+  bool ret = false;
+  
+  *name = NULL;
+  *port = 0;
+  
+  if (active)
+    {
+      *name = g_strdup(canonical_name);
+      *port = server_port;
+      ret = true;
+    }
+  else if (active_client != NULL)
+    {
+      *name = g_strdup(active_client->canonical_name);
+      *port = active_client->server_port;
+      ret = true;
     }
   return ret;
 }
@@ -1070,15 +1108,18 @@ DistributionSocketLink::handle_claim(Client *client)
   gint count = packet.unpack_ushort();
   bool was_active = active;
 
-  // Marks client as active and tell everyone.
+  // Marks client as active
   set_active(client);
-  send_new_master();
+  assert(!active);
 
   // If I was previously active, distribute state.
   if (was_active)
     {
       send_state();
     }
+  
+  // And tell everyone we have a new master.
+  send_new_master();
   
   TRACE_EXIT();
 }
@@ -1163,6 +1204,14 @@ DistributionSocketLink::send_state()
   packet.create();
   init_packet(packet, PACKET_STATEINFO);
 
+  gchar *name = NULL;
+  gint port = 0;
+  
+  bool have_active = get_active(&name, &port);
+  packet.pack_string(name);
+  packet.pack_ushort(port);
+  g_free(name);
+  
   packet.pack_ushort(state_map.size());
   
   map<DistributedStateID, DistributedStateInterface *>::iterator i = state_map.begin();
@@ -1200,6 +1249,17 @@ DistributionSocketLink::handle_state(Client *client)
   TRACE_ENTER("DistributionSocketLink:handle_state");
   PacketBuffer &packet = client->packet;
 
+  bool will_i_become_active = false;
+  
+  gchar *name = packet.unpack_string();
+  gint port = packet.unpack_ushort();
+
+  if (name != NULL)
+    {
+      will_i_become_active = client_is_me(name, port);
+      g_free(name);
+    }
+  
   gint size = packet.unpack_ushort();
   
   for (int i = 0; i < size; i++)
@@ -1212,7 +1272,7 @@ DistributionSocketLink::handle_state(Client *client)
           guint8 *data = NULL;
           if (packet.unpack_raw(&data, datalen) != 0)
             {
-              state_map[id]->set_state(id, active, data, datalen);
+              state_map[id]->set_state(id, will_i_become_active, data, datalen);
             }
           else
             {

@@ -774,7 +774,7 @@ BreakControl::defrost()
 void
 BreakControl::set_state_data(bool active, const BreakStateData &data)
 {
-  TRACE_ENTER("BreakStateData::set_state_data");
+  TRACE_ENTER_MSG("BreakStateData::set_state_data", active);
   
   prelude_window_stop();
   break_window_stop();

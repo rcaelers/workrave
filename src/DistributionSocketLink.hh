@@ -174,9 +174,11 @@ private:
   bool add_client(gchar *host, gint port);
   bool remove_client(Client *client);
   Client *find_client_by_canonicalname(gchar *name, gint port);
+  bool client_is_me(gchar *host, gint port);
   bool exists_client(gchar *host, gint port);
   bool set_canonical(Client *client, gchar *host, gint port);
 
+  bool get_active(gchar **name, gint *port) const;
   void set_active(gchar *cname, gint port);
   void set_active(Client *client);
   void set_me_active();
