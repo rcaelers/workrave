@@ -5,6 +5,12 @@ See the end for copying conditions.
 Please report Workrave bug reports. Visit our bug tracker located at:
 http://workrave.sourceforge.net
 
+* Workrave 0.4.0
+
+** Added internationalisation support. Currently, only a Dutch translation is
+provided. We are still looking for volunteers to translate Workrave
+into other languages.
+
 * Workrave 0.3.0
 
 ** Added experimental(!) distribution support, dubbed "The
