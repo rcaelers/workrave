@@ -1,6 +1,6 @@
 // IdleLogManager.hh --- Bookkeeping of idle time
 //
-// Copyright (C) 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2003, 2004 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -54,26 +54,36 @@ private:
   {
     IdleInterval() :
       begin_time(0),
+      end_idle_time(0),
       end_time(0),
-      active_time(0)
+      active_time(0),
+      to_be_saved(false)
     {
     }
 
     IdleInterval(time_t b, time_t e) :
       begin_time(b),
+      end_idle_time(e),
       end_time(e),
-      active_time(0)
+      active_time(0),
+      to_be_saved(false)
     {
     }
 
-    //! Start time of interval
+    //! Start time of idle interval
     time_t begin_time;
 
-    //! End time of interface
+    //! End time of idle interval (and start of active part)
+    time_t end_idle_time;
+
+    //! End time of active interval.
     time_t end_time;
 
     //! Elapsed active time AFTER the idle interval.
     time_t active_time;
+
+    //! Yet to be saved
+    bool to_be_saved;
   };
   
 
@@ -100,6 +110,9 @@ private:
     //! List of idle period of this client.
     IdleLog idlelog;
 
+    //! Current interval
+    IdleInterval current_interval;
+    
     //! Last known state
     ActivityState state;
 
@@ -123,10 +136,9 @@ private:
     {
       if (last_active_begin_time != 0)
         {
-          IdleInterval *idle = &(idlelog.front());
-          idle->active_time += (current_time - last_active_begin_time);
-          total_active_time += (current_time - last_active_begin_time);
-            
+          current_interval.active_time += (current_time - last_active_begin_time);
+          total_active_time            += (current_time - last_active_begin_time);
+
           last_active_time = 0;
           last_active_begin_time = 0;
         }
@@ -177,6 +189,7 @@ private:
 
   void pack_idlelog(PacketBuffer &buffer, const ClientInfo &ci) const;
   void unpack_idlelog(PacketBuffer &buffer, ClientInfo &ci, time_t &pack_time, int &num_intervals) const;
+  void unlink_idlelog(PacketBuffer &buffer) const;
 
   void save_index();
   void load_index();
