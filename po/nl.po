@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 0.3.0\n"
-"POT-Creation-Date: 2002-10-26 18:21+0200\n"
+"POT-Creation-Date: 2002-10-30 20:14+0100\n"
 "PO-Revision-Date: 2002-10-26 00:04+0200\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -14,15 +14,15 @@ msgstr ""
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: gui/BreakControl.cc:660
+#: gui/BreakControl.cc:673
 msgid "Disappears in"
 msgstr "Verdwijnt over"
 
-#: gui/BreakControl.cc:664
+#: gui/BreakControl.cc:677
 msgid "Break in"
 msgstr "Pauze over"
 
-#: gui/BreakControl.cc:668
+#: gui/BreakControl.cc:681
 msgid "Silent in"
 msgstr "Stil over"
 
@@ -86,6 +86,7 @@ msgid "_Credits"
 msgstr "_Credits"
 
 #: gui/gtkmm/gnome-about.c:607
+#, c-format
 msgid "About %s"
 msgstr "Over %s"
 
@@ -109,63 +110,63 @@ msgstr "Sla over"
 msgid "Postpone"
 msgstr "Stel uit"
 
-#: gui/gtkmm/MainWindow.cc:168 gui/gtkmm/MainWindow.cc:291
+#: gui/gtkmm/MainWindow.cc:168 gui/gtkmm/MainWindow.cc:294
 msgid "Wait"
 msgstr "Wacht"
 
-#: gui/gtkmm/MainWindow.cc:254
+#: gui/gtkmm/MainWindow.cc:257
 msgid "Inactive"
 msgstr "Inactief"
 
-#: gui/gtkmm/MainWindow.cc:353
+#: gui/gtkmm/MainWindow.cc:357
 msgid "_Mode"
 msgstr "_Modus"
 
-#: gui/gtkmm/MainWindow.cc:360
+#: gui/gtkmm/MainWindow.cc:364
 msgid "_Normal"
 msgstr "_Normaal"
 
-#: gui/gtkmm/MainWindow.cc:367
+#: gui/gtkmm/MainWindow.cc:371
 msgid "_Suspended"
 msgstr "_Uitgeschakeld"
 
-#: gui/gtkmm/MainWindow.cc:374
+#: gui/gtkmm/MainWindow.cc:378
 msgid "Q_uiet"
 msgstr "_Stil"
 
-#: gui/gtkmm/MainWindow.cc:388
+#: gui/gtkmm/MainWindow.cc:392
 msgid "_Network"
 msgstr "_Netwerk"
 
-#: gui/gtkmm/MainWindow.cc:392
+#: gui/gtkmm/MainWindow.cc:396
 msgid "_Connect"
 msgstr "Maak verbinding"
 
-#: gui/gtkmm/MainWindow.cc:397
+#: gui/gtkmm/MainWindow.cc:401
 msgid "_Disconnect"
 msgstr "Verbreek verbinding"
 
-#: gui/gtkmm/MainWindow.cc:402
+#: gui/gtkmm/MainWindow.cc:406
 msgid "_Reconnect"
 msgstr "Opnieuw verbinden"
 
-#: gui/gtkmm/MainWindow.cc:407
+#: gui/gtkmm/MainWindow.cc:411
 msgid "Show _log"
 msgstr "Toon _logboek"
 
-#: gui/gtkmm/MainWindow.cc:422
+#: gui/gtkmm/MainWindow.cc:426
 msgid "_Rest break"
 msgstr "Rustpauze"
 
-#: gui/gtkmm/MainWindow.cc:434
+#: gui/gtkmm/MainWindow.cc:438
 msgid "Statistics"
 msgstr "Statistieken"
 
-#: gui/gtkmm/MainWindow.cc:447
+#: gui/gtkmm/MainWindow.cc:451
 msgid "About..."
 msgstr "Info..."
 
-#: gui/gtkmm/MainWindow.cc:613
+#: gui/gtkmm/MainWindow.cc:620
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
