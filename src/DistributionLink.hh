@@ -42,6 +42,8 @@ public:
   virtual bool claim() = 0;
   virtual bool register_state(DistributedStateID id, DistributedStateInterface *dist_state) = 0;
   virtual bool unregister_state(DistributedStateID id) = 0;
+  virtual bool disconnect_all() = 0;
+  virtual bool reconnect_all() = 0;
 };
 
 #endif // DISTRIBUTIONLINK_HH

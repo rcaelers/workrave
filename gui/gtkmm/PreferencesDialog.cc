@@ -36,6 +36,10 @@
 #include "Util.hh"
 #include "MainWindow.hh"
 
+#ifdef HAVE_DISTRIBUTION
+#include "CollectivePreferencePage.hh"
+#endif
+
 using std::cout;
 using SigC::slot;
 
@@ -69,6 +73,9 @@ PreferencesDialog::PreferencesDialog()
   Gtk::Widget *monitor_page = manage(create_monitor_page());
   Gtk::Widget *gui_page = manage(create_gui_page());
   Gtk::Widget *timer_page = manage(create_timer_page());
+#ifdef HAVE_DISTRIBUTION
+  Gtk::Widget *collective_page = manage(create_collective_page());
+#endif
   
   // Notebook
   Gtk::Notebook *notebook = manage(new Gtk::Notebook());
@@ -76,7 +83,10 @@ PreferencesDialog::PreferencesDialog()
   notebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*timer_page, "Timers"));
   notebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*monitor_page, "Monitoring"));
   notebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*gui_page, "User interface"));
-
+#ifdef HAVE_DISTRIBUTION
+  notebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*collective_page, "Collective"));
+#endif
+  
   // Dialog
   get_vbox()->pack_start(*notebook, false, false, 0);
   add_button(Gtk::Stock::CLOSE, Gtk::RESPONSE_CLOSE);
@@ -255,7 +265,7 @@ PreferencesDialog::create_monitor_page()
   label = manage
     (new Gtk::Label
      ("The timers are started if, during the 'Activity\n"
-     "time', there was no inactivitiy for longer than\n"
+      "time', there was no inactivitiy for longer than\n"
       "'Noise time'.  When 'Noise time' exceeds 'Activity\n"
       "time', the timers are started if two consecutive\n"
       "user input events occur during 'Noise time'."
@@ -287,6 +297,24 @@ PreferencesDialog::create_monitor_page()
   return monitor_page;
 }
 
+#ifdef HAVE_DISTRIBUTION
+Gtk::Widget *
+PreferencesDialog::create_collective_page()
+{
+  // Timers page
+  Gtk::VBox *collective_page
+    = create_page
+    ("Workrave allows you to run several workrave instances in a collective.\n"
+     "All workraves in the collective will share the same timers.\n",
+     "collective.png");
+
+  Gtk::Widget *page = manage(new CollectivePreferencePage());
+  
+  collective_page->pack_start(*page, false, false, 0);
+
+  return collective_page;
+}
+#endif
 
 Gtk::VBox *
 PreferencesDialog::create_page(const char *label, const char *image)

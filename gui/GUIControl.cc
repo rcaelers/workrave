@@ -826,7 +826,7 @@ GUIControl::get_state(DistributedStateID id, unsigned char **buffer, int *size)
 }
 
 bool
-GUIControl::set_state(DistributedStateID id, unsigned char *buffer, int size)
+GUIControl::set_state(DistributedStateID id, bool active, unsigned char *buffer, int size)
 {
   TRACE_ENTER("GUIControl::set_state");
 
@@ -859,7 +859,7 @@ GUIControl::set_state(DistributedStateID id, unsigned char *buffer, int size)
           state_data.break_stage = state_packet.unpack_ulong();
           state_data.prelude_time = state_packet.unpack_ulong();
 
-          bi->set_state_data(state_data);
+          bi->set_state_data(active, state_data);
         }
     }
   

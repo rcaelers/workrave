@@ -21,6 +21,7 @@ static const char rcsid[] = "$Id$";
 #endif
 
 #include "debug.hh"
+#include <algorithm>
 #include <assert.h>
 
 #include "DistributionManager.hh"
@@ -29,14 +30,15 @@ static const char rcsid[] = "$Id$";
 
 DistributionManager *DistributionManager::instance = NULL;
 
-const string DistributionManager::CFG_KEY_DISTRIBUTION = "distribution/";
-const string DistributionManager::CFG_KEY_DISTRIBUTION_ENABLED = "enabled";
-const string DistributionManager::CFG_KEY_DISTRIBUTION_PEERS = "peers";
+const string DistributionManager::CFG_KEY_DISTRIBUTION = "distribution";
+const string DistributionManager::CFG_KEY_DISTRIBUTION_ENABLED = "/enabled";
+const string DistributionManager::CFG_KEY_DISTRIBUTION_PEERS = "/peers";
 
 
 //! Constructs a new DistributionManager.
 DistributionManager::DistributionManager() :
   distribution_enabled(false),
+  state_complete(true),
   link(NULL),
   state(NODE_STANDBY)
 {
@@ -108,7 +110,7 @@ DistributionManager::get_number_of_peers()
 bool
 DistributionManager::is_active() const
 {
-  return state == NODE_ACTIVE;
+  return state == NODE_ACTIVE && state_complete;
 }
 
 
@@ -144,6 +146,33 @@ DistributionManager::join(string url)
   if (link != NULL)
     {
       link->join(url);
+      ret = true;
+    }
+  return ret;
+}
+
+bool
+DistributionManager::disconnect_all()
+{
+  bool ret = false;
+  
+  if (link != NULL)
+    {
+      link->disconnect_all();
+      ret = true;
+    }
+  return ret;
+}
+
+
+bool
+DistributionManager::reconnect_all()
+{
+  bool ret = false;
+  
+  if (link != NULL)
+    {
+      link->reconnect_all();
       ret = true;
     }
   return ret;
@@ -186,16 +215,38 @@ DistributionManager::active_changed(bool new_active)
 {
   TRACE_ENTER("DistributionManager::active_changed");
   state = (new_active ? NODE_ACTIVE : NODE_STANDBY);
+
+  if (new_active)
+    {
+      state_complete = false;
+    }
   TRACE_EXIT();
 }
 
 
-
-//! Adds the specified peer.
 void
-DistributionManager::add_peer(string peer)
+DistributionManager::state_transfer_complete()
 {
-  TRACE_ENTER_MSG("DistributionManager:add_peer", peer);
+  state_complete = true;
+}
+
+
+//! Cleanup the peer's name?.
+void
+DistributionManager::sanitize_peer(string &peer)
+{
+  int len = peer.length();
+  while (len > 1 && (peer[0] == ' '))
+    {
+      peer = peer.substr(1, len - 1);
+      len--;
+    }
+  
+  while (len > 1 && (peer[len - 1] == ' '))
+    {
+      peer = peer.substr(0, len - 1);
+      len--;
+    }
 
   std::string::size_type pos = peer.find("://");
   
@@ -203,19 +254,52 @@ DistributionManager::add_peer(string peer)
     {
       peer = "tcp://" + peer;
     }
+}
 
-  peer_urls.push_back(peer);
-  join(peer);
+
+//! Adds the specified peer.
+bool
+DistributionManager::add_peer(string peer)
+{
+  TRACE_ENTER_MSG("DistributionManager:add_peer", peer);
+  bool ret = false;
   
+  sanitize_peer(peer);
+
+  list<string>::iterator i = find(peer_urls.begin(), peer_urls.end(), peer);
+
+  if (i == peer_urls.end())
+    {
+      peer_urls.push_back(peer);
+      join(peer);
+      ret = true;
+    }
+
+  write_peers();
+
   TRACE_EXIT();
+  return ret;
 }
 
 
 //! Removed the specified peer.
-void
+bool
 DistributionManager::remove_peer(string peer)
 {
   TRACE_ENTER_MSG("DistributionManager:remove_peer", peer);
+  bool ret = false;
+  
+  sanitize_peer(peer);
+  list<string>::iterator i = find(peer_urls.begin(), peer_urls.end(), peer);
+
+  if (i != peer_urls.end())
+    {
+      peer_urls.erase(i);
+      ret = true;
+    }
+
+  write_peers();
+  
   TRACE_EXIT();
 }
 
@@ -225,21 +309,30 @@ void
 DistributionManager::set_peers(string peers)
 {
   TRACE_ENTER_MSG("DistributionManager::set_peers", peers);
+  peer_urls.clear();
+
   std::string::size_type pos = peers.find(',');
-  
   while (pos != std::string::npos)
     {
       string peer = peers.substr(0, pos);
       peers = peers.substr(pos + 1);
 
-      add_peer(peer);
+      sanitize_peer(peer);
+      peer_urls.push_back(peer);
+      join(peer);
+
       pos = peers.find(',');
     }
 
   if (peers.length() > 0)
     {
-      add_peer(peers);
+      sanitize_peer(peers);
+      peer_urls.push_back(peers);
+      join(peers);
     }
+
+  write_peers();
+  
   TRACE_EXIT();
 }
 
@@ -277,6 +370,24 @@ DistributionManager::read_configuration()
           set_peers(peer);
         }
     }
+}
+
+
+void
+DistributionManager::write_peers()
+{
+  string peers;
+
+  for (list<string>::iterator i = peer_urls.begin(); i != peer_urls.end(); i++)
+    {
+      if (i != peer_urls.begin())
+        {
+          peers += ",";
+        }
+      peers += (*i);
+    }
+  
+  configurator->set_value(CFG_KEY_DISTRIBUTION + CFG_KEY_DISTRIBUTION_PEERS, peers);
 }
 
 

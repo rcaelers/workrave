@@ -41,6 +41,9 @@ private:
   Gtk::Widget *create_monitor_page();
   Gtk::Widget *create_gui_page();
   Gtk::Widget *create_timer_page();
+#ifdef HAVE_DISTRIBUTION
+  Gtk::Widget *create_collective_page();
+#endif
   
   void on_always_on_top_toggled();
   void on_sound_changed();

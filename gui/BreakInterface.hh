@@ -3,7 +3,7 @@
 // Copyright (C) 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-10-04 20:45:47 robc>
+// Time-stamp: <2002-10-05 21:56:27 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -58,7 +58,7 @@ public:
   //! Period update. 
   virtual void heartbeat() = 0;
 
-  virtual void set_state_data(const BreakStateData &data) = 0;
+  virtual void set_state_data(bool activate, const BreakStateData &data) = 0;
   virtual void get_state_data(BreakStateData &data) = 0;
 };
 

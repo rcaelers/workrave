@@ -772,7 +772,7 @@ BreakControl::defrost()
 
 
 void
-BreakControl::set_state_data(const BreakStateData &data)
+BreakControl::set_state_data(bool active, const BreakStateData &data)
 {
   TRACE_ENTER("BreakStateData::set_state_data");
   
@@ -783,14 +783,7 @@ BreakControl::set_state_data(const BreakStateData &data)
   prelude_count = data.prelude_count;
   prelude_time = data.prelude_time;
 
-#ifdef HAVE_DISTRIBUTION
-  bool active_node = true;
-  DistributionManager *dist_manager = DistributionManager::get_instance();
-  if (dist_manager != NULL)
-    {
-      active_node = dist_manager->is_active();
-    }
-  if (active_node)
+  if (active)
     {
       if (forced_break && data.break_stage == STAGE_TAKING)
         {
@@ -837,7 +830,7 @@ BreakControl::set_state_data(const BreakStateData &data)
           goto_stage(STAGE_NONE);
         }
     }
-#endif
+
   TRACE_EXIT();
 }
 
@@ -845,11 +838,12 @@ BreakControl::set_state_data(const BreakStateData &data)
 void
 BreakControl::get_state_data(BreakStateData &data)
 {
+  // FOR TESTING.
 //   if (break_id == GUIControl::BREAK_ID_MICRO_PAUSE)
 //     {
 //       data.forced_break = false;
 //       data.prelude_count = 1;
-//       data.break_stage = STAGE_PRELUDE;
+//       data.break_stage = STAGE_TAKING;
 //       data.final_prelude = false;
 //       data.prelude_time = 10;
 //     }

@@ -29,6 +29,10 @@
 #include "ConfiguratorListener.hh"
 #include "PacketBuffer.hh"
 
+#define DEFAULT_PORT (4224)
+#define DEFAULT_INTERVAL (15)
+#define DEFAULT_ATTEMPTS (5)
+
 class DistributionLinkListener;
 class Configurator;
 
@@ -36,6 +40,14 @@ class DistributionSocketLink :
   public DistributionLink,
   public ConfiguratorListener
 {
+public:
+  static const string CFG_KEY_DISTRIBUTION_TCP;
+  static const string CFG_KEY_DISTRIBUTION_TCP_PORT;
+  static const string CFG_KEY_DISTRIBUTION_TCP_USERNAME;
+  static const string CFG_KEY_DISTRIBUTION_TCP_PASSWORD;
+  static const string CFG_KEY_DISTRIBUTION_TCP_INTERVAL;
+  static const string CFG_KEY_DISTRIBUTION_TCP_ATTEMPTS;
+  
 private:
   enum PacketCommand {
     PACKET_HELLO 	= 0x0001,
@@ -141,6 +153,8 @@ public:
   bool set_enabled(bool enabled);
   void set_user(string user, string password);
   void join(string url);
+  bool disconnect_all();
+  bool reconnect_all();
   bool claim();
 
   bool register_state(DistributedStateID id, DistributedStateInterface *dist_state);
@@ -149,9 +163,8 @@ public:
 private:
   bool add_client(gchar *host, gint port);
   bool remove_client(Client *client);
-  Client *find_client_by_servername(gchar *name, gint port);
   Client *find_client_by_canonicalname(gchar *name, gint port);
-  bool exits_client(gchar *host, gint port);
+  bool exists_client(gchar *host, gint port);
   bool set_canonical(Client *client, gchar *host, gint port);
 
   void set_active(gchar *cname, gint port);
@@ -192,13 +205,6 @@ private:
   void config_changed_notify(string key);
   
 private:
-  static const string CFG_KEY_DISTRIBUTION_TCP;
-  static const string CFG_KEY_DISTRIBUTION_TCP_PORT;
-  static const string CFG_KEY_DISTRIBUTION_TCP_USERNAME;
-  static const string CFG_KEY_DISTRIBUTION_TCP_PASSWORD;
-  static const string CFG_KEY_DISTRIBUTION_TCP_INTERVAL;
-  static const string CFG_KEY_DISTRIBUTION_TCP_ATTEMPTS;
-
   //! Username for client authenication
   gchar *username;
 

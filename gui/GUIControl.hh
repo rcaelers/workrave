@@ -137,7 +137,7 @@ private:
 #ifdef HAVE_DISTRIBUTION
   void init_distribution_manager();
   bool get_state(DistributedStateID id, unsigned char **buffer, int *size);
-  bool set_state(DistributedStateID id, unsigned char *buffer, int size);
+  bool set_state(DistributedStateID id, bool active, unsigned char *buffer, int size);
 #endif
   
 public:

@@ -637,7 +637,7 @@ Control::get_state(DistributedStateID id, unsigned char **buffer, int *size)
 }
 
 bool
-Control::set_state(DistributedStateID id, unsigned char *buffer, int size)
+Control::set_state(DistributedStateID id, bool active, unsigned char *buffer, int size)
 {
   TRACE_ENTER("Control::set_state");
 

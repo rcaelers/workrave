@@ -31,7 +31,7 @@ public:
   DistributedStateInterface() {}
   virtual ~DistributedStateInterface() {}
   virtual bool get_state(DistributedStateID id, unsigned char **buffer, int *size) = 0;
-  virtual bool set_state(DistributedStateID id, unsigned char *buffer, int size) = 0;
+  virtual bool set_state(DistributedStateID id, bool active, unsigned char *buffer, int size) = 0;
 };
 
 #endif // DISTRIBUTEDSTATEINTERFACE_HH

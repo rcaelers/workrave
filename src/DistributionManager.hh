@@ -34,6 +34,10 @@ class DistributionManager :
   public ConfiguratorListener
 {
 public:
+  static const string CFG_KEY_DISTRIBUTION;
+  static const string CFG_KEY_DISTRIBUTION_ENABLED;
+  static const string CFG_KEY_DISTRIBUTION_PEERS;
+
   enum NodeState { NODE_ACTIVE, NODE_PASSIVE, NODE_STANDBY };
   
   static DistributionManager *get_instance();
@@ -50,25 +54,29 @@ public:
   bool join(string url);
   bool register_state(DistributedStateID id, DistributedStateInterface *dist_state);
   bool unregister_state(DistributedStateID id);
-  void set_peers(string peers);
-  void add_peer(string peer);
-  void remove_peer(string peer);
-
+  bool add_peer(string peer);
+  bool remove_peer(string peer);
+  bool disconnect_all();
+  bool reconnect_all();
+  
   //
   void active_changed(bool result);
+  void state_transfer_complete();
 
 private:
+  void sanitize_peer(string &peer);
+  void set_peers(string peers);
+  void write_peers();
   void read_configuration();
   void config_changed_notify(string key);
   
 private:
-  static const string CFG_KEY_DISTRIBUTION;
-  static const string CFG_KEY_DISTRIBUTION_ENABLED;
-  static const string CFG_KEY_DISTRIBUTION_PEERS;
-
   //! Is distribution operation enabled?
   bool distribution_enabled;
 
+  //! Did we received all state after becoming active?
+  bool state_complete;
+  
   //! The one and only instance
   static DistributionManager *instance;
 

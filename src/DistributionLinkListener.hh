@@ -23,6 +23,7 @@ class DistributionLinkListener
 {
 public:
   virtual void active_changed(bool result) = 0;
+  virtual void state_transfer_complete() = 0;
 };
 
 #endif // DISTRIBUTIONLINKLISTENER_HH

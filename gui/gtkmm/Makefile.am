@@ -22,6 +22,10 @@ if PLATFORM_WIN32
 sourceswin32 = Win32SoundPlayer.cc
 endif
 
+if HAVE_DISTRIBUTION
+sourcesdistribution = CollectiveJoinDialog.cc CollectivePreferencePage.cc
+endif
+
 libgtkmmgui_a_SOURCES = \
 	BreakWindow.cc \
 	GUI.cc \
@@ -39,13 +43,13 @@ libgtkmmgui_a_SOURCES = \
 	gnome-winhints.c \
 	Frame.cc \
 	WmSpec.cc \
-	$(sourcesgnome) $(sourceswin32)
+	$(sourcesgnome) $(sourceswin32) ${sourcesdistribution}
 
 
 
 libgtkmmgui_a_LIBADD = 
 
-libgtkmmgui_a_CXXFLAGS 	= -DDATADIR="\"${pkgdatadir}\"" -W @ARCH_CFLAGS@ -I$(top_srcdir)/src -I$(top_srcdir)/gui @gnomeui_CFLAGS@ @GTK_CFLAGS@ @GTKMM_CFLAGS@ -D_XOPEN_SOURCE=600
+libgtkmmgui_a_CXXFLAGS 	= -DDATADIR="\"${pkgdatadir}\"" -W @ARCH_CFLAGS@ -I$(top_srcdir)/src -I$(top_srcdir)/gui @gnomeui_CFLAGS@ @GTK_CFLAGS@ @GTKMM_CFLAGS@ -D_XOPEN_SOURCE=600 @GNET_CFLAGS@
 
 libgtkmmgui_a_CFLAGS	= -DDATADIR="\"${pkgdatadir}\"" -W @ARCH_CFLAGS@ -I$(top_srcdir)/src -I$(top_srcdir)/gui @gnomeui_CFLAGS@ @GTK_CFLAGS@ @GTKMM_CFLAGS@ -D_XOPEN_SOURCE=600
 
