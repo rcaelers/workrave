@@ -45,7 +45,8 @@ using namespace std;
 
 class AppletWindow :
   public TimerWindow,
-  public ConfiguratorListener
+  public ConfiguratorListener,
+  public SigC::Object
 {
 public:  
   enum AppletMode { APPLET_DISABLED, APPLET_TRAY, APPLET_GNOME };

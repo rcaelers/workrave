@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
-"POT-Creation-Date: 2002-12-30 16:23+0100\n"
+"POT-Creation-Date: 2002-12-31 13:47+0100\n"
 "PO-Revision-Date: 2002-11-15 13:17+0100\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Johannes Rohr <j.rohr@comlink.apc.org>\n"
@@ -492,11 +492,11 @@ msgstr "Dauer der Pause"
 msgid "Time before break"
 msgstr "Zeit bis zur Pause"
 
-#: gui/gtkmm/TimerWindow.cc:109 gui/gtkmm/TimerWindow.cc:176
+#: gui/gtkmm/TimerWindow.cc:112 gui/gtkmm/TimerWindow.cc:179
 msgid "Wait"
 msgstr "Warten"
 
-#: gui/gtkmm/TimerWindow.cc:137
+#: gui/gtkmm/TimerWindow.cc:140
 msgid "Inactive"
 msgstr "Inaktiv"
 

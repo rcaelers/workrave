@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2002-12-30 16:23+0100\n"
+"POT-Creation-Date: 2002-12-31 13:46+0100\n"
 "PO-Revision-Date: 2002-11-05 17:58-0800\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -482,11 +482,11 @@ msgstr "Daŭro de paŭzo"
 msgid "Time before break"
 msgstr "Tempo por ripozo"
 
-#: gui/gtkmm/TimerWindow.cc:109 gui/gtkmm/TimerWindow.cc:176
+#: gui/gtkmm/TimerWindow.cc:112 gui/gtkmm/TimerWindow.cc:179
 msgid "Wait"
 msgstr "Atendu"
 
-#: gui/gtkmm/TimerWindow.cc:137
+#: gui/gtkmm/TimerWindow.cc:140
 msgid "Inactive"
 msgstr "Neaktiva"
 

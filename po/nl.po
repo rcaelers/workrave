@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2002-12-30 16:23+0100\n"
+"POT-Creation-Date: 2002-12-31 13:46+0100\n"
 "PO-Revision-Date: 2002-10-26 00:04+0200\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -486,11 +486,11 @@ msgstr "Pauze tijdsduur"
 msgid "Time before break"
 msgstr "Werktijd"
 
-#: gui/gtkmm/TimerWindow.cc:109 gui/gtkmm/TimerWindow.cc:176
+#: gui/gtkmm/TimerWindow.cc:112 gui/gtkmm/TimerWindow.cc:179
 msgid "Wait"
 msgstr "Wacht"
 
-#: gui/gtkmm/TimerWindow.cc:137
+#: gui/gtkmm/TimerWindow.cc:140
 msgid "Inactive"
 msgstr "Inactief"
 
