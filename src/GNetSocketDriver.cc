@@ -189,8 +189,11 @@ GNetSocketDriver::async_io(GIOChannel *iochannel, GIOCondition condition, GNetSo
     {
       if (listener != NULL)
         {
+          TRACE_MSG("Informing listener");
           listener->socket_closed(con, con->data);
+          TRACE_MSG("Closing");
           con->close();
+          TRACE_MSG("Closed");
         }
       ret = false;
     }

@@ -152,3 +152,9 @@ ActivityMonitor::get_statistics(ActivityMonitorStatistics &stats) const
 {
   activity_state->get_statistics(stats);
 }
+
+void
+ActivityMonitor::set_statistics(const ActivityMonitorStatistics &stats)
+{
+  activity_state->set_statistics(stats);
+}

@@ -145,6 +145,7 @@ private:
   void load_day(DailyStats *stats, ifstream &stats_file);
   void save_current_day(ofstream &statsFile);
   void current_to_history();
+  void update_enviromnent();
 
 #ifdef HAVE_DISTRIBUTION
   void init_distribution_manager();

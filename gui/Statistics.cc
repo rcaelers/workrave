@@ -400,25 +400,31 @@ Statistics::dump()
 {
   TRACE_ENTER("Statistics::dump");
 
+  update_current_day();
+  
+  stringstream ss;
   for(int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
     {
       BreakStats &bs = current_day->break_stats[i];
 
-      TRACE_MSG("Break " << i);
+      ss << "Break " << i << " ";
       for(int j = 0; j < STATS_BREAKVALUE_SIZEOF; j++)
         {
           int value = bs[j];
 
-          TRACE_MSG("STAT " << value);
+          ss << value << " ";
         }
     }
+
+  ss << "stats ";
   for(int j = 0; j < STATS_VALUE_SIZEOF; j++)
     {
       int value = current_day->misc_stats[j];
       
-      TRACE_MSG("STAT " << value);
+      ss  << value << " ";
     }
-  
+
+  TRACE_MSG(ss.str());
   TRACE_EXIT();
 }
 
@@ -495,6 +501,28 @@ Statistics::update_current_day()
 }
 
 
+void
+Statistics::update_enviromnent()
+{
+  if (core_control != NULL)
+    {
+      // Collect activity monitor stats.
+      ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
+      assert(monitor != NULL);
+
+      ActivityMonitorStatistics ams;
+      
+      ams.total_movement = current_day->misc_stats[STATS_VALUE_TOTAL_MOUSE_MOVEMENT];
+      ams.total_click_movement = current_day->misc_stats[STATS_VALUE_TOTAL_CLICK_MOVEMENT];
+      ams.total_movement_time = current_day->misc_stats[STATS_VALUE_TOTAL_MOVEMENT_TIME];
+      ams.total_clicks = current_day->misc_stats[STATS_VALUE_TOTAL_CLICKS];
+      ams.total_keystrokes = current_day->misc_stats[STATS_VALUE_TOTAL_KEYSTROKES];
+
+      monitor->set_statistics(ams);
+    }
+}
+
+
 
 #ifdef HAVE_DISTRIBUTION
 // Create the monitor based on the specified configuration.
@@ -505,7 +533,7 @@ Statistics::init_distribution_manager()
 
   if (dist_manager != NULL)
     {
-      /// FIXME: not yet dist_manager->register_state(DISTR_STATE_STATS,  this);
+      dist_manager->register_state(DISTR_STATE_STATS,  this);
     }
 }
 
@@ -514,11 +542,15 @@ Statistics::get_state(DistributedStateID id, unsigned char **buffer, int *size)
 {
   TRACE_ENTER("Statistics::get_state");
 
+  update_current_day();
+  dump();
+  
   PacketBuffer state_packet;
   state_packet.create();
 
   state_packet.pack_byte(STATS_MARKER_TODAY);
   pack_stats(state_packet, current_day);
+  state_packet.pack_byte(STATS_MARKER_END);
 
   *size = state_packet.bytes_written();
   *buffer = new unsigned char[*size + 1];
@@ -586,7 +618,7 @@ Statistics::pack_stats(PacketBuffer &buf, DailyStats *stats)
 bool
 Statistics::set_state(DistributedStateID id, bool master, unsigned char *buffer, int size)
 {
-  TRACE_ENTER("GUIControl::set_state");
+  TRACE_ENTER("Statistics::set_state");
 
   PacketBuffer state_packet;
   state_packet.create();
@@ -597,8 +629,9 @@ Statistics::set_state(DistributedStateID id, bool master, unsigned char *buffer,
   int pos = 0;
   
   StatsMarker marker = (StatsMarker) state_packet.unpack_byte();
-  while (marker != STATS_MARKER_END)
+  while (marker != STATS_MARKER_END && state_packet.bytes_available() > 0)
     {
+      TRACE_MSG("Marker = " << marker);
       switch (marker)
         {
         case STATS_MARKER_TODAY:
@@ -649,7 +682,7 @@ Statistics::set_state(DistributedStateID id, bool master, unsigned char *buffer,
             
             for(int j = 0; j < count; j++)
               {
-                state_packet.pack_ulong(bs[j]);
+                bs[j] = state_packet.unpack_ulong();
               }
 
             state_packet.skip_size(pos);
@@ -659,7 +692,6 @@ Statistics::set_state(DistributedStateID id, bool master, unsigned char *buffer,
         case STATS_MARKER_MISC_STATS:
           {
             int size = state_packet.read_size(pos);
-
             int count = state_packet.unpack_ushort();
 
             if (count > STATS_VALUE_SIZEOF)
@@ -669,7 +701,7 @@ Statistics::set_state(DistributedStateID id, bool master, unsigned char *buffer,
             
             for(int j = 0; j < count; j++)
               {
-                state_packet.pack_ulong(stats->misc_stats[j]);
+                stats->misc_stats[j] = state_packet.unpack_ulong();
               }
 
             state_packet.skip_size(pos);
@@ -687,9 +719,12 @@ Statistics::set_state(DistributedStateID id, bool master, unsigned char *buffer,
           }
         }
     
-      StatsMarker marker = (StatsMarker) state_packet.unpack_byte();
+      marker = (StatsMarker) state_packet.unpack_byte();
     }
-  
+
+  update_enviromnent();
+  dump();
+
   TRACE_EXIT();
   return true;
 }

@@ -297,9 +297,17 @@ ActivityStateMonitor::force_idle()
 }
 
 
-int
+void
 ActivityStateMonitor::get_statistics(ActivityMonitorStatistics &stats) const
 {
   stats = statistics;
   stats.total_movement_time = total_mouse_time.tv_sec;
+}
+
+
+void
+ActivityStateMonitor::set_statistics(const ActivityMonitorStatistics &stats)
+{
+  statistics = stats;
+  total_mouse_time.tv_sec = stats.total_movement_time;
 }

@@ -45,6 +45,7 @@ public:
   ActivityState get_current_state() const;
 
   void get_statistics(ActivityMonitorStatistics &stats) const;
+  void set_statistics(const ActivityMonitorStatistics &stats);
   
 private:
   //! The actual monitoring driver.

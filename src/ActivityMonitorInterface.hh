@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-09-23 19:46:45 robc>
+// Time-stamp: <2002-10-20 17:44:01 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -66,6 +66,9 @@ public:
 
   //! Retrieves the statistics.
   virtual void get_statistics(ActivityMonitorStatistics &stats) const = 0;
+
+  //! Retrieves the statistics.
+  virtual void set_statistics(const ActivityMonitorStatistics &stats) = 0;
 };
 
 #endif // ACTIVITYMONITORINTERFACE_HH

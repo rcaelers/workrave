@@ -68,6 +68,10 @@ public:
   {
   }
 
+  void set_statistics(const ActivityMonitorStatistics &stats)
+  {
+  }
+
   void set_state(ActivityState s)
   {
     state = s;

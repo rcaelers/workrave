@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-09-23 19:43:04 robc>
+// Time-stamp: <2002-10-20 17:40:01 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -87,8 +87,11 @@ public:
   //! Sets the operation parameters.
   void get_parameters(int &noise, int &activity, int &idle);
 
-  //! Returns the total mouse movement
-  int get_statistics(ActivityMonitorStatistics &stats) const;
+  //! Returns the statistics.
+  void get_statistics(ActivityMonitorStatistics &stats) const;
+
+  //! Sets the statistics
+  void set_statistics(const ActivityMonitorStatistics &stats);
   
 private:
   //! the current state.
