@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-03-03 21:16:22 robc>
+// Time-stamp: <2003-03-04 19:44:15 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -248,6 +248,7 @@ X11InputMonitor::run_events()
               break;
 
             case ButtonPress:
+            case ButtonRelease:
               handle_button(&event);
               break;
             }
@@ -378,7 +379,7 @@ X11InputMonitor::handle_button(XEvent *event)
   if (event != NULL)
     {
       int b = event->xbutton.button;
-      listener->button_notify(b);
+      listener->button_notify(b, event->xany.type == ButtonPress);
     }
   else
     {
@@ -436,7 +437,8 @@ X11InputMonitor::handle_xrecord_handle_button_event(XRecordInterceptData *data)
   if (event != NULL)
     {
       int b = event->u.keyButtonPointer.state;
-      listener->button_notify(b);
+
+      listener->button_notify(b, event->u.u.type == ButtonPress);
     }
   else
     {
@@ -465,7 +467,7 @@ handleXRecordCallback(XPointer closure, XRecordInterceptData * data)
 
       if (event->u.u.type == KeyPress)
         monitor->handle_xrecord_handle_key_event(data);
-      else if (event->u.u.type == ButtonPress)
+      else if (event->u.u.type == ButtonPress || event->u.u.type == ButtonRelease)
         monitor->handle_xrecord_handle_button_event(data);
       else if (event->u.u.type == MotionNotify)
         monitor->handle_xrecord_handle_motion_event(data);
