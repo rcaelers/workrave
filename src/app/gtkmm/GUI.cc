@@ -475,15 +475,13 @@ GUI::init_multihead()
 #if defined(HAVE_GTK_MULTIHEAD)
   init_gtk_multihead();
 #elif defined(WIN32)
-  // RC: temp disable: init_win32_multihead();
+  init_win32_multihead();
 #endif
   if (num_heads == -1)
     {
       init_multihead_mem(1);
       heads[0].valid = false;
       heads[0].count = 0;
-//        heads[1].valid = false;
-//        heads[1].count = 1;
     }
   TRACE_EXIT();
 }
@@ -652,7 +650,6 @@ GUI::init_win32_multihead()
     }
   else
     {
-      num_heads = 1;
       init_multihead_mem(1);
       heads[0].valid = false;
       heads[0].count = 0;
