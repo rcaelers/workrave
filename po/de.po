@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.4.0\n"
-"POT-Creation-Date: 2003-10-20 21:15+0200\n"
+"POT-Creation-Date: 2003-10-30 21:45+0100\n"
 "PO-Revision-Date: 2003-10-23 13:04+0200\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -58,22 +58,22 @@ msgstr "_Mitwirkende"
 msgid "About %s"
 msgstr "Über %s"
 
-#: src/app/gtkmm/BreakWindow.cc:390
+#: src/app/gtkmm/BreakWindow.cc:311
 msgid "Lock"
 msgstr "Sperren"
 
 # src/app/gtkmm/TimerBoxPreferencePage.cc:123
-#: src/app/gtkmm/BreakWindow.cc:409
+#: src/app/gtkmm/BreakWindow.cc:330
 msgid "Shut down"
 msgstr "Herunterfahren"
 
 # src/app/gtkmm/BreakWindow.cc:327
-#: src/app/gtkmm/BreakWindow.cc:426
+#: src/app/gtkmm/BreakWindow.cc:347
 msgid "Skip"
 msgstr "Überspringen"
 
 # src/app/gtkmm/BreakWindow.cc:338
-#: src/app/gtkmm/BreakWindow.cc:439
+#: src/app/gtkmm/BreakWindow.cc:360
 msgid "Postpone"
 msgstr "Aufschieben"
 
@@ -117,7 +117,7 @@ msgid "Pause"
 msgstr "Pause"
 
 # src/app/gtkmm/GUI.cc:676
-#: src/app/gtkmm/GUI.cc:901
+#: src/app/gtkmm/GUI.cc:737
 msgid "I could not initialize Bonobo"
 msgstr "Konnte Bonobo nicht initialisieren"
 
@@ -129,7 +129,7 @@ msgid "Micro-pause"
 msgstr "Mikropause"
 
 # src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/RestBreakWindow.cc:284
-#: src/app/gtkmm/GtkUtil.cc:117 src/app/gtkmm/RestBreakWindow.cc:177
+#: src/app/gtkmm/GtkUtil.cc:117 src/app/gtkmm/RestBreakWindow.cc:178
 msgid "Rest break"
 msgstr "Ruhepause"
 
@@ -192,7 +192,7 @@ msgid "Show _log"
 msgstr "_Protokoll anzeigen"
 
 # src/app/gtkmm/Menus.cc:222
-#: src/app/gtkmm/Menus.cc:225 src/app/gtkmm/RestBreakWindow.cc:71
+#: src/app/gtkmm/Menus.cc:225 src/app/gtkmm/RestBreakWindow.cc:72
 msgid "_Rest break"
 msgstr "_Ruhepause"
 
@@ -394,16 +394,16 @@ msgid "Play sounds using built-in speaker"
 msgstr "Klänge mit dem PC-Lautsprecher abspielen"
 
 #: src/app/gtkmm/PreferencesDialog.cc:153
-msgid "None"
+msgid "No blocking"
 msgstr "Nichts"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:145
 #: src/app/gtkmm/PreferencesDialog.cc:155
-msgid "Block user input"
+msgid "Block input"
 msgstr "Benutzereingaben blockieren"
 
 #: src/app/gtkmm/PreferencesDialog.cc:157
-msgid "Block all"
+msgid "Block input and screen"
 msgstr "Alles blockieren"
 
 # src/app/gtkmm/PreferencesDialog.cc:142
@@ -455,13 +455,13 @@ msgid "Silent in"
 msgstr "Still in"
 
 # src/app/gtkmm/RestBreakWindow.cc:266
-#: src/app/gtkmm/RestBreakWindow.cc:159
+#: src/app/gtkmm/RestBreakWindow.cc:160
 #, c-format
 msgid "Rest break for %s"
 msgstr "Ruhepause für %s"
 
 # src/app/gtkmm/RestBreakWindow.cc:285
-#: src/app/gtkmm/RestBreakWindow.cc:178
+#: src/app/gtkmm/RestBreakWindow.cc:179
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -1335,6 +1335,12 @@ msgstr "Ruhepause beendet"
 #: src/app/shared/sounds/workrave.soundlist.in.h:9
 msgid "Rest break started"
 msgstr "Ruhepause begonnen"
+
+#~ msgid "None"
+#~ msgstr "Nichts"
+
+#~ msgid "Block all"
+#~ msgstr "Alles blockieren"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:110
 #~ msgid "Force break after maximum exceeded"

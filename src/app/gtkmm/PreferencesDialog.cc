@@ -150,11 +150,11 @@ PreferencesDialog::create_gui_page()
   Gtk::Menu *block_menu = manage(new Gtk::Menu());
   Gtk::Menu::MenuList &block_list = block_menu->items();
   block_button->set_menu(*block_menu);
-  block_list.push_back(Gtk::Menu_Helpers::MenuElem(_("None")));
+  block_list.push_back(Gtk::Menu_Helpers::MenuElem(_("No blocking")));
   block_list.push_back(Gtk::Menu_Helpers::MenuElem
-                       (_("Block user input")));
+                       (_("Block input")));
   block_list.push_back(Gtk::Menu_Helpers::MenuElem
-                       (_("Block all")));
+                       (_("Block input and screen")));
 
   int block_idx;
   switch (GUI::get_instance()->get_block_mode())

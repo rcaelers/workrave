@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.4.0\n"
-"POT-Creation-Date: 2003-10-20 21:15+0200\n"
+"POT-Creation-Date: 2003-10-30 21:45+0100\n"
 "PO-Revision-Date: 2003-09-09 16:26+0200\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -48,19 +48,19 @@ msgstr "_Credits"
 msgid "About %s"
 msgstr "Over %s"
 
-#: src/app/gtkmm/BreakWindow.cc:390
+#: src/app/gtkmm/BreakWindow.cc:311
 msgid "Lock"
 msgstr "Vergrendelen"
 
-#: src/app/gtkmm/BreakWindow.cc:409
+#: src/app/gtkmm/BreakWindow.cc:330
 msgid "Shut down"
 msgstr "Uitschakelen"
 
-#: src/app/gtkmm/BreakWindow.cc:426
+#: src/app/gtkmm/BreakWindow.cc:347
 msgid "Skip"
 msgstr "Overslaan"
 
-#: src/app/gtkmm/BreakWindow.cc:439
+#: src/app/gtkmm/BreakWindow.cc:360
 msgid "Postpone"
 msgstr "Uitstellen"
 
@@ -96,7 +96,7 @@ msgstr "Ga verder"
 msgid "Pause"
 msgstr "Pauzeer"
 
-#: src/app/gtkmm/GUI.cc:901
+#: src/app/gtkmm/GUI.cc:737
 msgid "I could not initialize Bonobo"
 msgstr "Bonobo kon niet geÃ¯nitialiseerd worden"
 
@@ -105,7 +105,7 @@ msgstr "Bonobo kon niet geÃ¯nitialiseerd worden"
 msgid "Micro-pause"
 msgstr "Micro-pauze"
 
-#: src/app/gtkmm/GtkUtil.cc:117 src/app/gtkmm/RestBreakWindow.cc:177
+#: src/app/gtkmm/GtkUtil.cc:117 src/app/gtkmm/RestBreakWindow.cc:178
 msgid "Rest break"
 msgstr "Rustpauze"
 
@@ -152,7 +152,7 @@ msgstr "Opnieuw verbinden"
 msgid "Show _log"
 msgstr "Toon _logboek"
 
-#: src/app/gtkmm/Menus.cc:225 src/app/gtkmm/RestBreakWindow.cc:71
+#: src/app/gtkmm/Menus.cc:225 src/app/gtkmm/RestBreakWindow.cc:72
 msgid "_Rest break"
 msgstr "Rustpauze"
 
@@ -313,16 +313,16 @@ msgid "Play sounds using built-in speaker"
 msgstr "Speel geluiden met behulp van de ingebouwde speaker"
 
 #: src/app/gtkmm/PreferencesDialog.cc:153
-msgid "None"
-msgstr "Geen"
+msgid "No blocking"
+msgstr "Geen blokkering"
 
 #: src/app/gtkmm/PreferencesDialog.cc:155
-msgid "Block user input"
+msgid "Block input"
 msgstr "Blokkeer invoer"
 
 #: src/app/gtkmm/PreferencesDialog.cc:157
-msgid "Block all"
-msgstr "Blokkeer alles"
+msgid "Block input and screen"
+msgstr "Blokkeer invoer en scherm"
 
 #. Options
 #: src/app/gtkmm/PreferencesDialog.cc:176
@@ -363,12 +363,12 @@ msgstr "Verdwijnt over"
 msgid "Silent in"
 msgstr "Stil over"
 
-#: src/app/gtkmm/RestBreakWindow.cc:159
+#: src/app/gtkmm/RestBreakWindow.cc:160
 #, c-format
 msgid "Rest break for %s"
 msgstr "Rustpauze gedurende %s"
 
-#: src/app/gtkmm/RestBreakWindow.cc:178
+#: src/app/gtkmm/RestBreakWindow.cc:179
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -1089,6 +1089,12 @@ msgstr "Einde rustpauze"
 #: src/app/shared/sounds/workrave.soundlist.in.h:9
 msgid "Rest break started"
 msgstr "Begin rustpauze"
+
+#~ msgid "None"
+#~ msgstr "Geen"
+
+#~ msgid "Block all"
+#~ msgstr "Blokkeer alles"
 
 #~ msgid "Force break after maximum exceeded"
 #~ msgstr "Forceer pauze na maximum"

@@ -151,9 +151,6 @@ MainWindow::init()
   Glib::ListHandle<Glib::RefPtr<Gdk::Pixbuf> > icon_list(icons);
   set_icon_list(icon_list);
     
-  ConfiguratorInterface *config = CoreFactory::get_configurator();
-  config->add_listener(TimerBox::CFG_KEY_TIMERBOX + "main_window", this);
-
   enabled = TimerBox::is_enabled("main_window");
 
   Menus *menus = Menus::get_instance();
@@ -185,7 +182,14 @@ MainWindow::init()
   
   int x, y, head;
   get_start_position(x, y, head);
+  window_head_location.set_x(x);
+  window_head_location.set_y(y);
+  
   GUI::get_instance()->map_from_head(x, y, head);
+  window_location.set_x(x);
+  window_location.set_y(y);
+  window_relocated_location.set_x(x);
+  window_relocated_location.set_y(y);
   TRACE_MSG("moving to " << x << " " << y);
   
 #ifdef WIN32
@@ -220,6 +224,9 @@ MainWindow::init()
 #endif
   setup();
   set_title("Workrave");
+
+  ConfiguratorInterface *config = CoreFactory::get_configurator();
+  config->add_listener(TimerBox::CFG_KEY_TIMERBOX + "main_window", this);
 
   TRACE_EXIT();
 }
@@ -406,9 +413,13 @@ MainWindow::on_window_state_event(GdkEventWindowState *event)
 void
 MainWindow::config_changed_notify(string key)
 {
-  TRACE_ENTER("MainWindow::config_changed_notify");
-  (void) key;
-  setup();
+  TRACE_ENTER_MSG("MainWindow::config_changed_notify", key);
+  if (key != CFG_KEY_MAIN_WINDOW_HEAD
+      && key != CFG_KEY_MAIN_WINDOW_X
+      && key != CFG_KEY_MAIN_WINDOW_Y)
+    {
+      setup();
+    }
   TRACE_EXIT();
 }
 
@@ -718,11 +729,9 @@ MainWindow::on_configure_event(GdkEventConfigure *event)
 {
   TRACE_ENTER_MSG("MainWindow::on_configure_event",
                   event->x << " " << event->y);
-  // This method doesn't seem to do anything. Howener, GUI.cc does not
-  // receive the configure event signal without this. Donno why....
   locate_window(event);
   bool ret =  Widget::on_configure_event(event);
-  TRACE_EXIT();;
+  TRACE_EXIT();
   return ret;
 }
 

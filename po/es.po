@@ -1,4 +1,4 @@
-# Spanish translation for Workrave 1.2.2.
+# Spanish translation for Workrave 1.4.1.
 # Copyright (C) YEAR Rob Caelers & Raymond Penners
 # This file is distributed under the same license as the PACKAGE package.
 # Pablo Rodríguez, 2003.
@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.2.2\n"
-"POT-Creation-Date: 2003-10-20 21:15+0200\n"
+"POT-Creation-Date: 2003-10-30 21:45+0100\n"
 "PO-Revision-Date: 2003-09-09 16:27+0200\n"
 "Last-Translator:  <>\n"
 "Language-Team:  <>\n"
@@ -49,19 +49,19 @@ msgstr "_Colaboradores:"
 msgid "About %s"
 msgstr "Acerca de %s"
 
-#: src/app/gtkmm/BreakWindow.cc:390
+#: src/app/gtkmm/BreakWindow.cc:311
 msgid "Lock"
 msgstr "Bloquear"
 
-#: src/app/gtkmm/BreakWindow.cc:409
+#: src/app/gtkmm/BreakWindow.cc:330
 msgid "Shut down"
 msgstr "Apagar"
 
-#: src/app/gtkmm/BreakWindow.cc:426
+#: src/app/gtkmm/BreakWindow.cc:347
 msgid "Skip"
 msgstr "Saltar"
 
-#: src/app/gtkmm/BreakWindow.cc:439
+#: src/app/gtkmm/BreakWindow.cc:360
 msgid "Postpone"
 msgstr "Aplazar"
 
@@ -98,7 +98,7 @@ msgstr "Retomar"
 msgid "Pause"
 msgstr "Pausa"
 
-#: src/app/gtkmm/GUI.cc:901
+#: src/app/gtkmm/GUI.cc:737
 msgid "I could not initialize Bonobo"
 msgstr "No se puede inicializar Bonobo"
 
@@ -107,7 +107,7 @@ msgstr "No se puede inicializar Bonobo"
 msgid "Micro-pause"
 msgstr "Micropausa"
 
-#: src/app/gtkmm/GtkUtil.cc:117 src/app/gtkmm/RestBreakWindow.cc:177
+#: src/app/gtkmm/GtkUtil.cc:117 src/app/gtkmm/RestBreakWindow.cc:178
 msgid "Rest break"
 msgstr "Descanso"
 
@@ -154,7 +154,7 @@ msgstr "_Volver a conectar"
 msgid "Show _log"
 msgstr "_Mostrar bitácora"
 
-#: src/app/gtkmm/Menus.cc:225 src/app/gtkmm/RestBreakWindow.cc:71
+#: src/app/gtkmm/Menus.cc:225 src/app/gtkmm/RestBreakWindow.cc:72
 msgid "_Rest break"
 msgstr "_Descanso"
 
@@ -315,16 +315,16 @@ msgid "Play sounds using built-in speaker"
 msgstr "Sonidos por el altavoz integrado"
 
 #: src/app/gtkmm/PreferencesDialog.cc:153
-msgid "None"
-msgstr ""
+msgid "No blocking"
+msgstr "Ninguno"
 
 #: src/app/gtkmm/PreferencesDialog.cc:155
-msgid "Block user input"
+msgid "Block input"
 msgstr "Impedir el trabajo del usuario"
 
 #: src/app/gtkmm/PreferencesDialog.cc:157
-msgid "Block all"
-msgstr ""
+msgid "Block input and screen"
+msgstr "Impedir todo"
 
 #. Options
 #: src/app/gtkmm/PreferencesDialog.cc:176
@@ -339,7 +339,7 @@ msgstr "Sonido:"
 
 #: src/app/gtkmm/PreferencesDialog.cc:179
 msgid "Block mode:"
-msgstr ""
+msgstr "Modo de impedimento"
 
 #: src/app/gtkmm/PreludeWindow.cc:99
 msgid "Time for a micro-pause?"
@@ -365,12 +365,12 @@ msgstr "Desaparece en"
 msgid "Silent in"
 msgstr "Silencioso en"
 
-#: src/app/gtkmm/RestBreakWindow.cc:159
+#: src/app/gtkmm/RestBreakWindow.cc:160
 #, c-format
 msgid "Rest break for %s"
 msgstr "Descanso de %s"
 
-#: src/app/gtkmm/RestBreakWindow.cc:178
+#: src/app/gtkmm/RestBreakWindow.cc:179
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -1093,6 +1093,12 @@ msgstr "Comienzo del descanso"
 #: src/app/shared/sounds/workrave.soundlist.in.h:9
 msgid "Rest break started"
 msgstr "Comienzo del descanso"
+
+#~ msgid "None"
+#~ msgstr "Ninguno"
+
+#~ msgid "Block all"
+#~ msgstr "Impedir todo"
 
 #~ msgid "Force break after maximum exceeded"
 #~ msgstr "Forzar interrupción, si se supera el máximo"

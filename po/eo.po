@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-10-20 21:15+0200\n"
+"POT-Creation-Date: 2003-10-30 21:45+0100\n"
 "PO-Revision-Date: 2003-09-08 19:07+0200\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -49,20 +49,20 @@ msgstr "_Kreditoj"
 msgid "About %s"
 msgstr "Pri %s"
 
-#: src/app/gtkmm/BreakWindow.cc:390
+#: src/app/gtkmm/BreakWindow.cc:311
 msgid "Lock"
 msgstr "Ŝlosu"
 
-#: src/app/gtkmm/BreakWindow.cc:409
+#: src/app/gtkmm/BreakWindow.cc:330
 #, fuzzy
 msgid "Shut down"
 msgstr "Montru _protokolon"
 
-#: src/app/gtkmm/BreakWindow.cc:426
+#: src/app/gtkmm/BreakWindow.cc:347
 msgid "Skip"
 msgstr "Transsaltu"
 
-#: src/app/gtkmm/BreakWindow.cc:439
+#: src/app/gtkmm/BreakWindow.cc:360
 msgid "Postpone"
 msgstr "Prokrastu"
 
@@ -98,7 +98,7 @@ msgstr ""
 msgid "Pause"
 msgstr ""
 
-#: src/app/gtkmm/GUI.cc:901
+#: src/app/gtkmm/GUI.cc:737
 msgid "I could not initialize Bonobo"
 msgstr ""
 
@@ -107,7 +107,7 @@ msgstr ""
 msgid "Micro-pause"
 msgstr "Paŭzeto"
 
-#: src/app/gtkmm/GtkUtil.cc:117 src/app/gtkmm/RestBreakWindow.cc:177
+#: src/app/gtkmm/GtkUtil.cc:117 src/app/gtkmm/RestBreakWindow.cc:178
 msgid "Rest break"
 msgstr "Ripozo"
 
@@ -154,7 +154,7 @@ msgstr "_Rekonektu"
 msgid "Show _log"
 msgstr "Montru _protokolon"
 
-#: src/app/gtkmm/Menus.cc:225 src/app/gtkmm/RestBreakWindow.cc:71
+#: src/app/gtkmm/Menus.cc:225 src/app/gtkmm/RestBreakWindow.cc:72
 msgid "_Rest break"
 msgstr "_Ripozon"
 
@@ -321,15 +321,16 @@ msgid "Play sounds using built-in speaker"
 msgstr "Ludu sonojn uzante en-komputila laŭtparolilo"
 
 #: src/app/gtkmm/PreferencesDialog.cc:153
-msgid "None"
+msgid "No blocking"
 msgstr ""
 
 #: src/app/gtkmm/PreferencesDialog.cc:155
-msgid "Block user input"
+#, fuzzy
+msgid "Block input"
 msgstr "Bloku uzulan enigon"
 
 #: src/app/gtkmm/PreferencesDialog.cc:157
-msgid "Block all"
+msgid "Block input and screen"
 msgstr ""
 
 #. Options
@@ -371,12 +372,12 @@ msgstr "Malaperas en"
 msgid "Silent in"
 msgstr "Silentiĝu en"
 
-#: src/app/gtkmm/RestBreakWindow.cc:159
+#: src/app/gtkmm/RestBreakWindow.cc:160
 #, c-format
 msgid "Rest break for %s"
 msgstr "Ripozo por %s"
 
-#: src/app/gtkmm/RestBreakWindow.cc:178
+#: src/app/gtkmm/RestBreakWindow.cc:179
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
-"POT-Creation-Date: 2003-10-20 21:15+0200\n"
+"POT-Creation-Date: 2003-10-30 21:45+0100\n"
 "PO-Revision-Date: 2003-09-09 16:27+0200\n"
 "Last-Translator: Mikołaj Machowski <mikmach@wp.pl>\n"
 "Language-Team: Mikołaj Machowski <mikmach@wp.pl>\n"
@@ -49,19 +49,19 @@ msgstr "Autorzy"
 msgid "About %s"
 msgstr "O programie %s"
 
-#: src/app/gtkmm/BreakWindow.cc:390
+#: src/app/gtkmm/BreakWindow.cc:311
 msgid "Lock"
 msgstr "Zablokuj"
 
-#: src/app/gtkmm/BreakWindow.cc:409
+#: src/app/gtkmm/BreakWindow.cc:330
 msgid "Shut down"
 msgstr "Wyłącz"
 
-#: src/app/gtkmm/BreakWindow.cc:426
+#: src/app/gtkmm/BreakWindow.cc:347
 msgid "Skip"
 msgstr "Pomiń"
 
-#: src/app/gtkmm/BreakWindow.cc:439
+#: src/app/gtkmm/BreakWindow.cc:360
 msgid "Postpone"
 msgstr "Opóźnij"
 
@@ -98,7 +98,7 @@ msgstr "Przywróć"
 msgid "Pause"
 msgstr "Pauza"
 
-#: src/app/gtkmm/GUI.cc:901
+#: src/app/gtkmm/GUI.cc:737
 msgid "I could not initialize Bonobo"
 msgstr "Nie mogę zainicjować Bonobo"
 
@@ -107,7 +107,7 @@ msgstr "Nie mogę zainicjować Bonobo"
 msgid "Micro-pause"
 msgstr "Mikropauza"
 
-#: src/app/gtkmm/GtkUtil.cc:117 src/app/gtkmm/RestBreakWindow.cc:177
+#: src/app/gtkmm/GtkUtil.cc:117 src/app/gtkmm/RestBreakWindow.cc:178
 msgid "Rest break"
 msgstr "Odpoczynek"
 
@@ -154,7 +154,7 @@ msgstr "Połącz znowu"
 msgid "Show _log"
 msgstr "_Pokaż log"
 
-#: src/app/gtkmm/Menus.cc:225 src/app/gtkmm/RestBreakWindow.cc:71
+#: src/app/gtkmm/Menus.cc:225 src/app/gtkmm/RestBreakWindow.cc:72
 msgid "_Rest break"
 msgstr "_Odpoczynek"
 
@@ -314,15 +314,15 @@ msgid "Play sounds using built-in speaker"
 msgstr "za pomocą głośniczka w komputerze"
 
 #: src/app/gtkmm/PreferencesDialog.cc:153
-msgid "None"
+msgid "No blocking"
 msgstr "Nic nie blokuj"
 
 #: src/app/gtkmm/PreferencesDialog.cc:155
-msgid "Block user input"
+msgid "Block input"
 msgstr "Zablokuj możliwość wprowadzania"
 
 #: src/app/gtkmm/PreferencesDialog.cc:157
-msgid "Block all"
+msgid "Block input and screen"
 msgstr "Blokuj wszystko"
 
 #. Options
@@ -364,12 +364,12 @@ msgstr "Znika za"
 msgid "Silent in"
 msgstr "Cisza za"
 
-#: src/app/gtkmm/RestBreakWindow.cc:159
+#: src/app/gtkmm/RestBreakWindow.cc:160
 #, c-format
 msgid "Rest break for %s"
 msgstr "Odpoczynek potrwa %s"
 
-#: src/app/gtkmm/RestBreakWindow.cc:178
+#: src/app/gtkmm/RestBreakWindow.cc:179
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -1084,6 +1084,12 @@ msgstr "Odpoczynek zakończony"
 #: src/app/shared/sounds/workrave.soundlist.in.h:9
 msgid "Rest break started"
 msgstr "Odpoczynek rozpoczęty"
+
+#~ msgid "None"
+#~ msgstr "Nic nie blokuj"
+
+#~ msgid "Block all"
+#~ msgstr "Blokuj wszystko"
 
 #~ msgid "Force break after maximum exceeded"
 #~ msgstr "Wymuś przerwę po osiągnięciu maksimum"
