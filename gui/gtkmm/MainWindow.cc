@@ -172,6 +172,9 @@ MainWindow::init()
   
   add(*timers_box);
 
+  // Necessary for popup menu 
+  set_events(get_events() | Gdk::BUTTON_PRESS_MASK);
+
   realize_if_needed();
 
   set_resizable(false);
@@ -341,6 +344,7 @@ MainWindow::on_delete_event(GdkEventAny *)
 Gtk::Menu *
 MainWindow::create_menu(Gtk::CheckMenuItem *check_menus[4])
 {
+  TRACE_ENTER("MainWindow::create_menu");
   //FIXME: untested, added manage
   Gtk::Menu *pop_menu = manage(new Gtk::Menu());
   
@@ -431,7 +435,7 @@ MainWindow::create_menu(Gtk::CheckMenuItem *check_menus[4])
 #endif
   
 #ifndef NDEBUG
-  menulist.push_back(Gtk::Menu_Helpers::MenuElem(_("Statistics"),
+  menulist.push_back(Gtk::Menu_Helpers::MenuElem(_("Statistics"), 
                                                  SigC::slot(*this, &MainWindow::on_menu_statistics)));
   
   menulist.push_back(Gtk::Menu_Helpers::MenuElem("_Test",
@@ -451,10 +455,7 @@ MainWindow::create_menu(Gtk::CheckMenuItem *check_menus[4])
   menulist.push_back(Gtk::Menu_Helpers::StockMenuElem(Gtk::Stock::QUIT,
                                                  SigC::slot(*this, &MainWindow::on_menu_quit)));
 
-  // And register button callback
-  set_events(get_events() | Gdk::BUTTON_PRESS_MASK);
-  signal_button_press_event().connect(SigC::slot(*this, &MainWindow::on_button_event));
-
+  TRACE_EXIT();
   return pop_menu;
 }
 
@@ -473,9 +474,9 @@ MainWindow::config_changed_notify(string key)
 
 //! Users pressed some mouse button in the main window.
 bool
-MainWindow::on_button_event(GdkEventButton *event)
+MainWindow::on_button_press_event(GdkEventButton *event)
 {
-  TRACE_ENTER("MainWindow::on_button_event");
+  TRACE_ENTER("MainWindow::on_button_press_event");
   bool ret = false;
 
   // TODO: magic number.
@@ -767,6 +768,8 @@ MainWindow::win32_show(bool b)
 void
 MainWindow::win32_init()
 {
+  TRACE_ENTER("MainWindow::win32_init");
+  
   HINSTANCE hinstance = (HINSTANCE) GetModuleHandle(NULL);
   
   WNDCLASSEX wclass =
@@ -823,6 +826,7 @@ MainWindow::win32_init()
   menulist.push_front(Gtk::Menu_Helpers::StockMenuElem
                      (Gtk::Stock::OPEN,
                       SigC::slot(*this, &MainWindow::win32_on_tray_open)));
+  TRACE_EXIT();
 }
 
 void

@@ -51,6 +51,8 @@ public:
   static bool get_always_on_top();
   static void set_always_on_top(bool b);
 
+protected:
+  bool on_button_press_event(GdkEventButton *event);
 
 private:
   //! The controller that maintains the data and control over the breaks
@@ -97,7 +99,6 @@ private:
 
   // Events.
   bool on_delete_event(GdkEventAny*);
-  bool on_button_event(GdkEventButton *event);
   void on_menu_about();
   void on_menu_quit();
   void on_menu_restbreak_now();
