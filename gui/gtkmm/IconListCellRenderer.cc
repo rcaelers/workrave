@@ -1,4 +1,5 @@
 #include <gtkmm.h>
+#include <gtk/gtk.h>
 #include "IconListCellRenderer.hh"
 
 #define PAD 3
@@ -6,14 +7,8 @@
 
 IconListCellRenderer::IconListCellRenderer()
   : Glib::ObjectBase (typeid(IconListCellRenderer)),
-          Gtk::CellRenderer (),
-               property_pixbuf_ (*this, "pixbuf"),
-               property_text_ (*this, "text"),
-               property_active_      (*this, "active",      false)
+          Gtk::CellRenderer ()
 {
-  property_mode() = Gtk::CELL_RENDERER_MODE_ACTIVATABLE;
-  property_xpad() = 2;
-  property_ypad() = 2;
 }
 
 IconListCellRenderer::~IconListCellRenderer()
@@ -21,60 +16,100 @@ IconListCellRenderer::~IconListCellRenderer()
 
 Glib::PropertyProxy<Glib::ustring> IconListCellRenderer::property_text()
 {
-  return property_text_.get_proxy();
+  return text_renderer.property_text();
 }
 
 Glib::PropertyProxy<Glib::RefPtr<Gdk::Pixbuf> > IconListCellRenderer::property_pixbuf()
 {
-  return property_pixbuf_.get_proxy();
-}
-
-Glib::PropertyProxy<bool>
-IconListCellRenderer::property_active()
-{
-  return property_active_.get_proxy();
+  return pixbuf_renderer.property_pixbuf();
 }
 
 
-void IconListCellRenderer::get_size(Gtk::Widget& widget,
-                                          const Gdk::Rectangle& cell_area,
-                                          int& x_offset, int& y_offset,
-                                          int& width,    int& height)
-{
- int text_x_offset;
- int text_y_offset;
- int text_width;
- int text_height;
 
- int pb_x_offset;
- int pb_y_offset;
- int pb_width;
- int pb_height;
- 
- pixbuf_renderer.get_size(widget, cell_area, 
-                          pb_x_offset, pb_y_offset, pb_width, pb_height);
- 
- text_renderer.get_size(widget, cell_area,
-                        text_x_offset, text_y_offset, text_width, text_height);
+void
+IconListCellRenderer::get_size_vfunc(Gtk::Widget& widget,
+                                     const Gdk::Rectangle* cell_area,
+                                     int* x_offset, int* y_offset,
+                                     int* width,    int* height)
+{
+  int text_x_offset;
+  int text_y_offset;
+  int text_width;
+  int text_height;
+
+  GdkRectangle *rect = NULL;
+  if (cell_area)
+    {
+      rect = (GdkRectangle *) cell_area->gobj();
+    }
+    
   
- height = pb_height + text_height + PAD;
- width = 2*SPACE + MAX (pb_width, text_width);
+  GtkCellRenderer *rend = GTK_CELL_RENDERER(text_renderer.gobj());
+  gtk_cell_renderer_get_size (rend, widget.gobj(), rect,
+                              NULL, NULL, width, height);
+
+  rend = GTK_CELL_RENDERER(pixbuf_renderer.gobj());
+  gtk_cell_renderer_get_size (rend, widget.gobj(),
+                              rect,
+                              &text_x_offset, &text_y_offset,
+                              &text_width, &text_height);
+  if (height) {
+    *height = *height + text_height + PAD;
+  }
+
+  if (width) {
+    *width = MAX (*width, text_width);
+    *width += SPACE * 2;
+  }  
 }
 
-SigC::Signal1<void, const Glib::ustring&>&
-IconListCellRenderer::signal_toggled()
-{
-  return signal_toggled_;
-}
 
 void
 IconListCellRenderer::render_vfunc(const Glib::RefPtr<Gdk::Window>& window,
                                    Gtk::Widget& widget,
-                                   const Gdk::Rectangle&,
+                                   const Gdk::Rectangle& bg_area,
                                    const Gdk::Rectangle& cell_area,
-                                   const Gdk::Rectangle&,
+                                   const Gdk::Rectangle& expose_area,
                                    Gtk::CellRendererState flags)
 {
+#if 1
+  GdkRectangle text_area;
+  GdkRectangle pixbuf_area;
+  int width, height;
+
+  GdkRectangle *ca = (GdkRectangle *) cell_area.gobj();
+  GtkWidget *widg = widget.gobj();
+  GdkWindow *wind = window->gobj();
+  GtkCellRenderer *prend = GTK_CELL_RENDERER(pixbuf_renderer.gobj());
+  gtk_cell_renderer_get_size (prend, widg, ca, 
+                              NULL, NULL, &width, &height);
+  	
+  pixbuf_area.y = ca->y;
+  pixbuf_area.x = ca->x;
+  pixbuf_area.height = height;
+  pixbuf_area.width = ca->width;
+  
+  GtkCellRenderer *trend = GTK_CELL_RENDERER(text_renderer.gobj());
+  gtk_cell_renderer_get_size (trend, widg, ca, 
+                              NULL, NULL, &width, &height);
+  
+  text_area.x = ca->x + (ca->width - width) / 2;
+  text_area.y = ca->y + (pixbuf_area.height + PAD);
+  text_area.height = height;
+  text_area.width = width;
+  
+  gtk_cell_renderer_render (prend, wind, widg, 
+                            (GdkRectangle*)bg_area.gobj(), &pixbuf_area,
+                            (GdkRectangle*)expose_area.gobj(),
+                            (GtkCellRendererState) flags);
+  
+  gtk_cell_renderer_render (trend, wind, widg,
+                            (GdkRectangle*)bg_area.gobj(),
+                            &text_area,
+                            (GdkRectangle*)expose_area.gobj(),
+                            (GtkCellRendererState)  flags);  
+#endif
+#if 0
   const unsigned int cell_xpad = property_xpad();
   const unsigned int cell_ypad = property_ypad();
 
@@ -100,17 +135,6 @@ IconListCellRenderer::render_vfunc(const Glib::RefPtr<Gdk::Window>& window,
                                   cell_area.get_x() + x_offset + cell_xpad,
                                   cell_area.get_y() + y_offset + cell_ypad,
                                   width - 1, height - 1);
+#endif
 }
-
-bool IconListCellRenderer::activate_vfunc(GdkEvent*,
-                                          Gtk::Widget&,
-                                          const Glib::ustring& path,
-                                          const Gdk::Rectangle&,
-                                          const Gdk::Rectangle&,
-                                          Gtk::CellRendererState)
-{
-  signal_toggled_(path);
-  return true;
-}
-
 
