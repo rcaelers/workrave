@@ -107,6 +107,14 @@ private:
 
   //! Applet enabled?
   bool applet_enabled;
+
+#ifdef HAVE_KDE
+#ifdef HAVE_GTKMM24
+  Gtk::Requisition last_size;
+#else
+  GtkRequisition last_size;
+#endif
+#endif
   
 private:
   void init();

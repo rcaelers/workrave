@@ -86,9 +86,11 @@ TimerBoxGtkView::~TimerBoxGtkView()
 void
 TimerBoxGtkView::set_geometry(bool vertical, int size)
 {
+  TRACE_ENTER_MSG("TimerBoxGtkView::set_geometry", vertical << " " << size);
   this->vertical = vertical;
   this->size = size;
   init_table();
+  TRACE_EXIT();
 
 }
 
@@ -298,6 +300,11 @@ TimerBoxGtkView::init_table()
       current_content[i] = -1;
     }
 
+  //FIXME: remove
+  Gtk::Requisition widget_size;
+  size_request(widget_size);
+  TRACE_MSG("size = " << widget_size.width << " " << widget_size.height);
+  
   visible_count = number_of_timers;
   
   show_all();

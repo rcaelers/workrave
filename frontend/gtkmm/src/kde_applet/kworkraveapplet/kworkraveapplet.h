@@ -47,20 +47,11 @@ public:
                   QWidget *parent = 0, const char *name = 0);
   virtual ~KWorkraveApplet();
 
-protected:
-/*   void resizeEvent(QResizeEvent *e); */
-
-/* protected slots: */
-/*   void systemTrayWindowAdded(WId); */
-/*   void updateTrayWindows(); */
-/*   void layoutTray(); */
-/*   void paletteChange(const QPalette &); */
+protected slots:
+  void embedded_window_destroyed();
 
 private:
-  //void embedWindow( WId w, bool kde_tray );
-
-  QXEmbed embed;
-  
+  QXEmbed *embed;
   KWinModule *kwin_module;
 };
 

@@ -681,14 +681,16 @@ MainWindow::win32_add_tray_icon()
   win32_tray_icon.uFlags = NIF_ICON|NIF_TIP|NIF_MESSAGE|0x00000010; // NIF_INFO;
   win32_tray_icon.uCallbackMessage = MYWM_TRAY_MESSAGE;
   win32_tray_icon.hIcon = normal_icon;
+  strcpy(win32_tray_icon.szTip, "Workrave");
 
+#if 0 // Required new Mingw runtime...
   win32_tray_icon.dwInfoFlags = 0; // NIIF_NONE;
   win32_tray_icon.uTimeout = 5 * 1000;
-  
-  strcpy(win32_tray_icon.szTip, "Workrave");
+
   strcpy(win32_tray_icon.szInfoTitle, "Workrave");
   strncpy(win32_tray_icon.szInfo, "Workrave", 255);
-
+#endif
+  
   Shell_NotifyIcon(NIM_ADD, &win32_tray_icon);
   DestroyIcon(win32_tray_icon.hIcon);
 }
@@ -696,8 +698,10 @@ MainWindow::win32_add_tray_icon()
 void
 MainWindow::win32_set_tray_tooltip(string tip)
 {
+#if 0 // Required new Mingw runtime...
   strcpy(win32_tray_icon.szInfo, tip.c_str());
   Shell_NotifyIcon(NIM_MODIFY, &win32_tray_icon);
+#endif  
 }
 
 

@@ -425,6 +425,10 @@ AppletWindow::init_kde_applet()
       container->show_all();
       plug->show_all();
 
+      Gtk::Requisition req;
+      container->size_request(req);
+      TRACE_MSG("Size = " << req.width << " " << req.height << " " << applet_vertical);
+      
       // Tray menu
       if (tray_menu == NULL)
         {
@@ -525,6 +529,7 @@ AppletWindow::set_applet_control(GNOME_Workrave_AppletControl applet_control)
 void
 AppletWindow::update()
 {
+  TRACE_ENTER("AppletWindow::update");
   if (mode == APPLET_DISABLED)
     {
       // Applet is disabled.
@@ -553,8 +558,29 @@ AppletWindow::update()
       else
         {
           timer_box_control->update();
+
+#ifdef HAVE_KDE
+          if (mode == APPLET_KDE)
+            {
+#ifdef HAVE_GTKMM24
+              Gtk::Requisition req;
+              container->size_request(req);
+#else
+              GtkRequisition req;
+              container->size_request(&req);
+#endif
+
+              TRACE_MSG("Size = " << req.width << " " << req.height << " " << applet_vertical);
+              if (req.width != last_size.width || req.height != last_size.height)
+                {
+                  last_size = req;
+                  KdeAppletWindow::set_size(last_size.width, last_size.height);
+                }
+            }
+#endif              
         }
     }
+  TRACE_EXIT();
 }
 
 
@@ -743,7 +769,7 @@ AppletWindow::on_embedded()
   TRACE_ENTER("AppletWindow::on_embedded");
   set_mainwindow_applet_active(true);
 
-  if (mode == APPLET_TRAY || mode == APPLET_KDE)
+  if (mode == APPLET_TRAY)
     {
 #ifdef HAVE_GTKMM24
       Gtk::Requisition req;
@@ -758,14 +784,28 @@ AppletWindow::on_embedded()
       TRACE_MSG("Size = " << req.width << " " << req.height << " " << applet_vertical);
       timer_box_view->set_geometry(applet_vertical, applet_size);
 
-#ifdef HAVE_KDE
-      if (mode == APPLET_KDE)
-        {
-          KdeAppletWindow::set_size(req.width, req.height);
-        }
-#endif      
       TRACE_MSG(applet_size);
     }
+#ifdef HAVE_KDE
+  else if (mode == APPLET_KDE)
+    {
+      container->set_size_request(-1,-1);
+#ifdef HAVE_GTKMM24
+      container->size_request(last_size);
+#else
+      container->size_request(&last_size);
+#endif
+
+      TRACE_MSG("Size = " << last_size.width << " " << last_size.height << " " << applet_vertical);
+      timer_box_view->set_geometry(applet_vertical, applet_size);
+
+      TRACE_MSG(applet_size);
+      if (mode == APPLET_KDE)
+        {
+          KdeAppletWindow::set_size(last_size.width, last_size.height);
+        }
+    }
+#endif      
   TRACE_EXIT();
 }
 

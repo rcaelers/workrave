@@ -53,7 +53,7 @@ KdeAppletWindow::get_size(int &size)
   TRACE_ENTER("KdeAppletWindow::get_size");
   KWorkraveApplet_stub dcop("kworkrave", "KWorkrave"); 
   size = dcop.get_size();
-  TRACE_MSG(dcop.ok());
+  TRACE_MSG(dcop.ok() << " " << size);
   TRACE_EXIT();
 
   return dcop.ok();
@@ -65,7 +65,7 @@ KdeAppletWindow::get_vertical(bool &vertical)
   TRACE_ENTER("KdeAppletWindow::get_vertical");
   KWorkraveApplet_stub dcop("kworkrave", "KWorkrave"); 
   vertical = dcop.get_vertical();
-  TRACE_MSG(dcop.ok());
+  TRACE_MSG(dcop.ok() << " " << vertical);
   TRACE_EXIT();
 
   return dcop.ok();

@@ -66,7 +66,7 @@ KWorkraveApplet::KWorkraveApplet(const QString& configFile, Type type, int actio
                                  QWidget *parent, const char *name)
   : KPanelApplet(configFile, type, actions, parent, name),
     DCOPObject("KWorkrave"),
-    embed(this)
+    embed(NULL)
 {
 }
 
@@ -79,10 +79,25 @@ KWorkraveApplet::~KWorkraveApplet()
 void
 KWorkraveApplet::embed_window(int window_id)
 {
-  embed.embed(window_id);
-  embed.show();
+  if (embed != NULL)
+    {
+      delete embed;
+    }
+  embed = new QXEmbed(this);
+  embed->embed(window_id);
+  embed->show();
+
+  connect(embed, SIGNAL(embeddedWindowDestroyed()), SLOT(embedded_window_destroyed()));
 }
 
+
+void
+KWorkraveApplet::embedded_window_destroyed()
+{
+  embed->hide();
+  delete embed;
+  embed = NULL;
+}
 
 long
 KWorkraveApplet::get_size()
@@ -112,16 +127,19 @@ KWorkraveApplet::get_vertical()
 void
 KWorkraveApplet::set_size(int width, int height)
 {
-  Orientation o = orientation();
-  
-  embed.resize(width, height);
-  if (o == Qt::Vertical)
+  if (embed != NULL)
     {
-      embed.move((size().width() - width) / 2, 0);
-    }
-  else
-    {
-      embed.move(0, (size().height() - height) / 2);
+      Orientation o = orientation();
+
+      embed->resize(width, height);
+      if (o == Qt::Vertical)
+        {
+          embed->move((size().width() - width) / 2, 0);
+        }
+      else
+        {
+          embed->move(0, (size().height() - height) / 2);
+        }
     }
 }
 
