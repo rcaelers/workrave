@@ -65,6 +65,8 @@ TimerBox::TimerBox(string n) :
   cycle_time(10),
   vertical(false),
   size(0),
+  table_rows(-1),
+  table_columns(-1),
   visible_count(-1),
   name(n)
 {
@@ -359,15 +361,10 @@ TimerBox::init_table()
   if (!vertical)
     {
       TRACE_MSG("!vertical")
-      GtkRequisition bar_size;
-      bars[0]->size_request(&bar_size);
-      TRACE_MSG(bar_size.height << " " << bar_size.width);
+      int width, height;
+      bars[0]->get_preferred_size(width, height);
       
-      GtkRequisition label_size;
-      labels[0]->size_request(&label_size);
-      TRACE_MSG(label_size.height << " " << label_size.width);
-
-      rows = size / (bar_size.height + label_size.height);
+      rows = size / (height + 1);
 
       TRACE_MSG(size << " " << rows);
       if (rows <= 0)
@@ -393,7 +390,7 @@ TimerBox::init_table()
         }
     }
 
-  bool remove_all = number_of_timers != visible_count;
+  bool remove_all = rows != table_rows || columns != table_columns || number_of_timers != visible_count;
   
   // Remove old
   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
@@ -416,12 +413,17 @@ TimerBox::init_table()
       remove(*sheep);
       visible_count = -1;
     }
-  
-  if (number_of_timers != visible_count)
+
+  TRACE_MSG(rows <<" " << table_rows << " " << columns << " " << table_columns);
+  if (rows != table_rows || columns != table_columns || number_of_timers != visible_count)
     {
+      TRACE_MSG("resize");
       resize(rows, 2 * columns);
-      set_spacings(2);
+      set_spacings(1);
       show_all();
+
+      table_columns = columns;
+      table_rows = rows;
     }
   
   // Add sheep.
@@ -450,7 +452,7 @@ TimerBox::init_table()
               size_request(&widget_size);
               
               TRACE_MSG("size = " << widget_size.width << " " << widget_size.height);
-              bars[id]->set_size_request(-1, size / rows - (rows + 1) - 2);
+              //bars[id]->set_size_request(-1, size / rows - (rows + 1) - 2);
             }
           
           attach(*labels[id], 2 * cur_col, 2 * cur_col + 1, cur_row, cur_row + 1,

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-06-10 21:33+0200\n"
+"POT-Creation-Date: 2003-06-11 20:27+0200\n"
 "PO-Revision-Date: 2003-03-04 22:16+0100\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -509,11 +509,11 @@ msgstr "Het totaal aantal toetsen ingedrukt"
 msgid "%s, from %s to %s"
 msgstr "%s, van %s tot %s"
 
-#: gui/gtkmm/TimerBox.cc:222 gui/gtkmm/TimerBox.cc:297
+#: gui/gtkmm/TimerBox.cc:224 gui/gtkmm/TimerBox.cc:299
 msgid "Wait"
 msgstr "Wacht"
 
-#: gui/gtkmm/TimerBox.cc:251
+#: gui/gtkmm/TimerBox.cc:253
 msgid "Inactive"
 msgstr "Inactief"
 

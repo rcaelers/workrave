@@ -533,6 +533,8 @@ AppletWindow::set_applet_size(int size)
 {
   TRACE_ENTER_MSG("AppletWindow::set_applet_size", size);
 
+  plug->queue_resize();
+  
   applet_size = size;
 
   if (timers_box != NULL)

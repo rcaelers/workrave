@@ -957,6 +957,7 @@ Control::test_me()
 {
   TRACE_ENTER("Control::test_me");
 
+#if 0  
   script_count = 0;
   script_start_time = current_time + 5;
 
@@ -970,8 +971,8 @@ Control::test_me()
   dist_manager->broadcast_client_message(DCM_SCRIPT,
                                          (unsigned char *)state_packet.get_buffer(),
                                          state_packet.bytes_written());
-  
-  /*  if (fake_monitor != NULL)
+#else  
+  if (fake_monitor != NULL)
     {
       ActivityState state = fake_monitor->get_current_state();
 
@@ -986,7 +987,7 @@ Control::test_me()
           fake_monitor->set_state(ACTIVITY_ACTIVE);
         }
     }
-  */
+#endif
   TRACE_EXIT();
 }
 #endif

@@ -114,6 +114,12 @@ private:
 
   //!
   int size;
+
+  //!
+  int table_rows;
+
+  //!
+  int table_columns;
   
   //! Positions for the break timers.
   int break_position[GUIControl::BREAK_ID_SIZEOF];

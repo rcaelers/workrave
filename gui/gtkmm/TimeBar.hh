@@ -66,6 +66,8 @@ public:
   void set_text_alignment(int align);
 
   void set_border_size(int size);
+
+  void get_preferred_size(int &width, int &height);
   
 protected:
   //Overridden default signal handlers:

@@ -120,9 +120,22 @@ TimeBar::on_size_request(GtkRequisition *requisition)
 
   requisition->width = width + 2 * MARGINX;
   requisition->height = max(height + 2 * MARGINY, MIN_HORIZONTAL_BAR_HEIGHT);
+
+  TRACE_MSG(requisition->width << " " << requisition->height);
   TRACE_EXIT();
 }
 
+
+//! Returns the preferred size.
+void
+TimeBar::get_preferred_size(int &width, int &height) 
+{
+  GtkRequisition req;
+  on_size_request(&req);
+
+  width = req.width;
+  height = req.height;
+}
 
 //! Draws the timebar
 bool

@@ -506,7 +506,9 @@ GUIControl::daily_reset()
   ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
   assert(monitor != NULL);
   monitor->reset_statistics();
+  core_control->daily_reset();
 }
+
 
 void
 GUIControl::update_statistics()
@@ -521,6 +523,7 @@ GUIControl::update_statistics()
 
   count++;
 }
+
 
 void
 GUIControl::stop_all_breaks()
