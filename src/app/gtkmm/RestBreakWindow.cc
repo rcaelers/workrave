@@ -38,6 +38,7 @@ const int TIMEOUT = 1000;
 #include "WindowHints.hh"
 
 #include "TimerInterface.hh"
+#include "BreakInterface.hh"
 #include "BreakResponseInterface.hh"
 #include "GtkUtil.hh"
 
