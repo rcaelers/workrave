@@ -119,6 +119,22 @@ MainWindow::init()
   set_title("Workrave");
   set_border_width(2);
 
+  list<Glib::RefPtr<Gdk::Pixbuf> > icons;
+
+  char *icon_files[] = { "workrave-icon-small.png",
+                         "workrave-icon-medium.png",
+                         "workrave-icon-large.png" };
+  
+  for (int i = 0; i < sizeof(icon_files) / sizeof(char *); i++)
+    {
+      string file = Util::complete_directory(icon_files[i], Util::SEARCH_PATH_IMAGES);
+      Glib::RefPtr<Gdk::Pixbuf> pixbuf = Gdk::Pixbuf::create_from_file(file);
+      icons.push_back(pixbuf);
+    }
+
+  Glib::ListHandle<Glib::RefPtr<Gdk::Pixbuf> > icon_list(icons);
+  set_icon_list(icon_list);
+    
   Configurator *config = GUIControl::get_instance()->get_configurator();
   config->add_listener(TimerBox::CFG_KEY_TIMERBOX + "main_window", this);
 
