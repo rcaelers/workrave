@@ -1,7 +1,7 @@
 /*
  * harpoon.c
  *
- * Copyright (C) 2002-2003 Raymond Penners <raymond@dotsphinx.com>
+ * Copyright (C) 2002-2004 Raymond Penners <raymond@dotsphinx.com>
  * All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -219,12 +219,13 @@ harpoon_window_proc (HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 
 static LRESULT
-harpoon_generic_hook_return(int code, WPARAM wpar, LPARAM lpar, HHOOK hook)
+harpoon_generic_hook_return(int code, WPARAM wpar, LPARAM lpar, HHOOK hook,
+                            BOOL forcecallnext)
 {
   BOOL blocked = FALSE;
   LRESULT ret;
   
-  if (block_input && code == HC_ACTION)
+  if (!forcecallnext && block_input && code == HC_ACTION)
     {
       HWND target_window;
       if (hook == mouse_hook)
@@ -333,7 +334,7 @@ harpoon_mouse_hook (int code, WPARAM wpar, LPARAM lpar)
         }
       harpoon_post_message (evt, button, MAKELONG(x, y));
     }
-  return harpoon_generic_hook_return (code, wpar, lpar, mouse_hook);
+  return harpoon_generic_hook_return (code, wpar, lpar, mouse_hook, FALSE);
 }
 
 
@@ -370,6 +371,7 @@ harpoon_supports_keyboard_ll(void)
 static LRESULT CALLBACK 
 harpoon_keyboard_hook (int code, WPARAM wpar, LPARAM lpar)
 {
+  BOOL forcecallnext = false;
   if (code == HC_ACTION)
     {
       BOOL pressed = (lpar & (1 << 31)) == 0;
@@ -382,23 +384,28 @@ harpoon_keyboard_hook (int code, WPARAM wpar, LPARAM lpar)
         }
 
       evt = pressed ? HARPOON_KEY_PRESS : HARPOON_KEY_RELEASE;
+      forcecallnext = !pressed;
       harpoon_post_message (evt, 0, flags);
     }
-  return harpoon_generic_hook_return (code, wpar, lpar, keyboard_hook);
+  return harpoon_generic_hook_return (code, wpar, lpar, keyboard_hook,
+                                      forcecallnext);
 }
 
 
 static LRESULT CALLBACK 
 harpoon_keyboard_ll_hook (int code, WPARAM wpar, LPARAM lpar)
 {
+  BOOL forcecallnext = false;
   if (code == HC_ACTION)
     {
       KBDLLHOOKSTRUCT *kb = (KBDLLHOOKSTRUCT *) lpar;
       BOOL pressed = !(kb->flags & (1<<7));
       HarpoonEventType evt = pressed ? HARPOON_KEY_PRESS : HARPOON_KEY_RELEASE;
+      forcecallnext = !pressed;
       PostMessage (notification_window, WM_USER + evt, (WPARAM) 0, (LPARAM) 0);
     }
-  return harpoon_generic_hook_return (code, wpar, lpar, keyboard_ll_hook);
+  return harpoon_generic_hook_return (code, wpar, lpar, keyboard_ll_hook,
+                                      forcecallnext);
 }
 
 
