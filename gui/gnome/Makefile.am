@@ -1,48 +1,55 @@
-EXTRA_DIST =					\
-	GNOME_WorkraveApplet_Factory.server.in.in  \
-	workrave.schemas.in				\
-	$(ui_DATA)
+uidir		= $(datadir)/gnome-2.0/ui
+ui_DATA		= GNOME_WorkraveApplet.xml
 
-MAINTAINERCLEANFILES = GNOME_WorkraveApplet_Factory.server.in GNOME_WorkraveApplet_Factory.server
+serverdir       = $(libdir)/bonobo/servers
+server_in_files = Workrave-Applet.server.in
+server_DATA     = $(server_in_files:.server.in=.server)
+
+EXTRA_DIST 	= Workrave-Applet.server.in.in  		\
+	     	  workrave.schemas.in				\
+	     	  $(ui_DATA)					\
+		  $(wildcard *.hh) $(wildcard *.cc)		\
+		  $(wildcard *.c) $(wildcard *.h)		\
+		  $(wildcard *.icc) $(wildcard *.idl)
+
+IDLS 		= Workrave-Applet.idl
+
+IDL_GENERATED   = Workrave-Applet.h			\
+		  Workrave-Applet-common.c		\
+	  	  Workrave-Applet-skels.c		\
+		  Workrave-Applet-stubs.c
+
+
+MAINTAINERCLEANFILES =  Workrave-Applet.server.in Workrave-Applet.server $(IDL_GENERATED)
+
 
 SUBDIRS = 
 
 if HAVE_GNOME
 
-INCLUDES =							\
-	-I$(srcdir)						\
-	-DGNOMELOCALEDIR=\""$(datadir)/locale"\"		\
-	-DGNOME_ICONDIR=\""$(datadir)/pixmaps\""		\
-	-DWORKRAVE_DATADIR="\"${pkgdatadir}\""			\
-	$(GNOME_INCLUDEDIR)					\
-	$(WARN_CFLAGS)						\
-	@APPLET_CFLAGS@						\
-	@ARCH_CFLAGS@						\
-	`orbit2-config --cflags server`
+## CORBA stuff
 
-libexec_PROGRAMS = workrave-applet
+$(IDL_GENERATED): $(IDLS) 
+	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl $(IDL_INCLUDES) Workrave-Applet.idl
 
-workrave_applet_SOURCES = WorkraveApplet.cc
-workrave_applet_LDADD = @APPLET_LIBS@
+## End CORBA stuff
 
-uidir		= $(datadir)/gnome-2.0/ui
-ui_DATA		= GNOME_WorkraveApplet.xml
+INCLUDES 			= -I$(srcdir)
 
-serverdir       = $(libdir)/bonobo/servers
-server_in_files = GNOME_WorkraveApplet_Factory.server.in
-server_DATA     = $(server_in_files:.server.in=.server)
+FLAGS				= @APPLET_CFLAGS@ @ARCH_CFLAGS@ \
+	  	  		  -DWORKRAVE_DATADIR="\"${pkgdatadir}\"" \
+	 		 	  -DGNOMELOCALEDIR="\"$(datadir)/locale\""
 
-GNOME_WorkraveApplet_Factory.server.in: GNOME_WorkraveApplet_Factory.server.in.in
+libexec_PROGRAMS 		= workrave-applet
+
+workrave_applet_SOURCES 	= $(IDL_GENERATED) WorkraveApplet.c WorkraveAppletControl.c 
+workrave_applet_LDADD 		= @APPLET_LIBS@
+workrave_applet_CXXFLAGS 	= ${FLAGS}
+workrave_applet_CFLAGS 		= ${FLAGS}
+
+Workrave-Applet.server.in: Workrave-Applet.server.in.in
 	sed -e "s|\@LIBEXECDIR\@|$(libexecdir)|" $< > $@
 
 @INTLTOOL_SERVER_RULE@
-
-# don't do this if we are building in eg. rpm
-install-data-local:
-	if test -z "$(DESTDIR)" ; then \
-		for p in $(schemas_DATA) ; do \
-			GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $(top_builddir)/applets/workrave/$$p ; \
-	done \
-	fi
 
 endif

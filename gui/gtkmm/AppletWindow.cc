@@ -16,8 +16,7 @@
 
 static const char rcsid[] = "$Id$";
 
-// TODO: only when needed.
-#define NOMINMAX
+#include "preinclude.h"
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -173,15 +172,7 @@ AppletWindow::init_widgets()
 void
 AppletWindow::init_applet()
 {
-  const char *plugid = getenv("WORKRAVE_PLUG");
-  if (plugid != NULL)
-    {
-      Gtk::Plug *plug = new Gtk::Plug(atoi(plugid));
-      plug->add(*this);
-      
-      plug->show_all();
-    }
-  else
+  if (!init_native_applet())
     {
       EggTrayIcon *tray_icon = egg_tray_icon_new("Workrave Tray Icon");
       
@@ -192,6 +183,54 @@ AppletWindow::init_applet()
           tray->show_all();
         }
     }
+}
+
+
+bool
+AppletWindow::init_native_applet()
+{
+  GNOME_Workrave_AppletControl ctrl;
+  CORBA_Environment ev;
+  bool ok = true;
+  
+  bonobo_activate();
+
+  CORBA_exception_init (&ev);
+  ctrl = bonobo_activation_activate_from_id("OAFIID:GNOME_Workrave_AppletControl",
+                                            Bonobo_ACTIVATION_FLAG_EXISTING_ONLY, NULL, &ev);
+  
+  if (ctrl == NULL || BONOBO_EX (&ev))
+    {
+      g_warning(_("Could not contact Workrave Panel"));
+      ok = false;
+    }
+  
+
+  long id = 0;
+
+  if (ok)
+    {
+      id = GNOME_Workrave_AppletControl_get_socket_id(ctrl, &ev);
+
+      if (BONOBO_EX (&ev))
+        {
+          char *err = bonobo_exception_get_text(&ev);
+          g_warning (_("An exception occured '%s'"), err);
+          g_free(err);
+          ok = false;
+        }
+    }
+
+  if (ok)
+    {
+      Gtk::Plug *plug = new Gtk::Plug(id);
+      plug->add(*this);
+      set_border_width(2);
+      plug->show_all();
+    }
+
+  CORBA_exception_free(&ev);
+  return ok;
 }
 
 
@@ -219,6 +258,9 @@ AppletWindow::update()
       if (!node_master && num_peers > 0)
         {
           bar->set_text(_("Inactive"));
+          bar->set_bar_color(TimeBar::COLOR_ID_INACTIVE);
+          bar->set_progress(0, 60);
+          bar->set_secondary_progress(0, 0);
           bar->update();
           continue;
         }

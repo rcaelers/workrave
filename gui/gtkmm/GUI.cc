@@ -78,6 +78,11 @@ GUI::GUI(ControlInterface *controller, int argc, char **argv)
   this->argv = argv;
 
 #ifdef HAVE_GNOME
+  if (!bonobo_init(&argc, argv))
+    {
+      g_error (_("I could not initialize Bonobo"));
+    }
+      
   applet_window = NULL;
 #endif
   

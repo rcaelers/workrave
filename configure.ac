@@ -92,7 +92,6 @@ dnl Set of available languages.
 ALL_LINGUAS="nl de eo"
 
 dnl Checks for programs.
-dnl AC_PROG_INTLTOOL
 AC_PROG_CC
 AC_PROG_CXX
 AC_PROG_CPP
@@ -224,8 +223,19 @@ AC_SUBST(GTKMM_CFLAGS)
 
 if test "x$config_with_gnome" = "xyes"
 then
+  AC_PROG_INTLTOOL
+
   PKG_CHECK_MODULES(gnomeui, libgnomeui-2.0)
-  PKG_CHECK_MODULES(APPLET, libpanelapplet-2.0 >= 1.5.20)
+  PKG_CHECK_MODULES(APPLET, libpanelapplet-2.0 >= 2.0.10)
+  PKG_CHECK_MODULES(BONOBO, libbonobo-2.0 >= 2.0.0)
+
+  AM_PATH_ORBIT2
+
+  AC_MSG_CHECKING(for CORBA include paths)
+  IDL_INCLUDES="-I "`pkg-config --variable=idldir libbonobo-2.0`" -I "`pkg-config --variable=idldir bonobo-activation-2.0`
+  AC_MSG_RESULT($IDL_INCLUDES)
+  AC_SUBST(IDL_INCLUDES)
+
 fi
 
 AC_SUBST(gnomeui_LIBS)

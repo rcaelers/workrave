@@ -5,7 +5,13 @@
 # $Id$
 #
 
-MAINTAINERCLEANFILES = Makefile.in
+IDL_GENERATED =				\
+	Workrave-Applet.h	\
+	Workrave-Applet-common.c	\
+	Workrave-Applet-skels.c	\
+	Workrave-Applet-stubs.c
+
+MAINTAINERCLEANFILES = Makefile.in ${IDL_GENERATED}
 
 if HAVE_GUI_GTKMM
 
@@ -13,6 +19,13 @@ noinst_LIBRARIES = libgtkmmgui.a
 
 if HAVE_GNOME
 sourcesgnome = GnomeSoundPlayer.cc AppletWindow.cc eggtrayicon.c
+
+## CORBA stuff
+IDLS =	../gnome/Workrave-Applet.idl
+
+$(IDL_GENERATED): $(IDLS) 
+	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl $(IDL_INCLUDES) ../gnome/Workrave-Applet.idl
+## End CORBA stuff
 else
 sourcesgnome = gnome-about.c
 endif
@@ -43,6 +56,7 @@ libgtkmmgui_a_SOURCES = \
 	gnome-winhints.c \
 	Frame.cc \
 	WmSpec.cc \
+	${IDL_GENERATED} \
 	$(sourcesgnome) $(sourceswin32) ${sourcesdistribution}
 
 

@@ -23,12 +23,20 @@ static const char rcsid[] = "$Id$";
 #include <gnome.h>
 #include <panel-applet.h>
 
+#include "WorkraveAppletControl.h"
+
 #include "nls.h"
+
+/************************************************************************/
 
 static int panel_size = 48;
 static gboolean panel_vertical = FALSE;
 static GtkWidget *panel_image = NULL;
 static GtkWidget *panel_socket = NULL;
+
+long workrave_applet_socket_id = 0;
+
+/************************************************************************/
 
 static void
 about(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
@@ -80,9 +88,6 @@ change_orient(PanelApplet *applet, PanelAppletOrient o, gpointer data)
 static gboolean
 plug_removed (GtkSocket *socket, void *manager)
 {
-  FILE *f = fopen("/home/robc/socket.txt", "w+");
-  fprintf(f, "removed\n");
-  fclose(f);
   gtk_widget_show(GTK_WIDGET(panel_image));
   gtk_widget_hide(GTK_WIDGET(socket));
   return TRUE;
@@ -92,9 +97,6 @@ plug_removed (GtkSocket *socket, void *manager)
 static gboolean
 plug_added (GtkSocket *socket, void *manager)
 {
-  FILE *f = fopen("/home/robc/socket.txt", "w+");
-  fprintf(f, "added\n");
-  fclose(f);
   gtk_widget_hide(GTK_WIDGET(panel_image));
   gtk_widget_show(GTK_WIDGET(socket));
   return TRUE;
@@ -106,7 +108,8 @@ workrave_applet_fill(PanelApplet *applet)
 {
   GdkPixbuf *pixbuf;
   GtkWidget *hbox;
-
+  GdkNativeWindow wnd;
+  
   //
   panel_size = panel_applet_get_size(applet);
   panel_applet_setup_menu_from_file(applet, NULL, "GNOME_WorkraveApplet.xml", NULL, workrave_applet_verbs, applet);
@@ -117,6 +120,7 @@ workrave_applet_fill(PanelApplet *applet)
   // Image
   pixbuf = gdk_pixbuf_new_from_file(WORKRAVE_DATADIR "/images/workrave.png", NULL);  
   panel_image = gtk_image_new_from_pixbuf(pixbuf);
+  gtk_widget_show(GTK_WIDGET(panel_image));
 
   // Signals.
   g_signal_connect(panel_socket, "plug_removed", G_CALLBACK(plug_removed), NULL);
@@ -133,11 +137,8 @@ workrave_applet_fill(PanelApplet *applet)
   gtk_widget_show(GTK_WIDGET(hbox));
   gtk_widget_show(GTK_WIDGET(applet));
 
-  GdkNativeWindow wnd = gtk_socket_get_id(GTK_SOCKET(panel_socket));
-
-  FILE *f = fopen("/home/robc/plug.txt", "w");
-  fprintf(f, "%d", wnd);
-  fclose(f);
+  wnd = gtk_socket_get_id(GTK_SOCKET(panel_socket));
+  workrave_applet_socket_id = wnd;
   
   return TRUE;
 }
@@ -147,11 +148,14 @@ static gboolean
 workrave_applet_factory(PanelApplet *applet, const gchar *iid, gpointer data)
 {
   gboolean retval = FALSE;
-    
+  AppletControl *ctrl = NULL;
+  
   if (!strcmp(iid, "OAFIID:GNOME_WorkraveApplet"))
     {
       retval = workrave_applet_fill(applet); 
     }
+
+  ctrl = workrave_applet_new();
   
   return retval;
 }

@@ -22,6 +22,11 @@
 #include "preinclude.h"
 #include <stdio.h>
 
+#include <gnome.h>
+#include <bonobo.h>
+#include <bonobo/bonobo-xobject.h>
+#include "Workrave-Applet.h"
+
 class GUI;
 class ControlInterface;
 class TimeBar;
@@ -80,6 +85,7 @@ private:
   void init_widgets();
   void init_applet();
   void init_table();
+  bool init_native_applet();
   void read_configuration();
 
   // Events.

@@ -1,0 +1,12 @@
+#include <Bonobo.idl>
+
+module GNOME
+{
+  module Workrave
+  {
+    interface AppletControl : Bonobo::Unknown
+    {
+      long get_socket_id();        
+    };
+  };
+};

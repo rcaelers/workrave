@@ -254,6 +254,9 @@ MainWindow::update()
 
       if (!node_master && num_peers > 0)
         {
+          bar->set_bar_color(TimeBar::COLOR_ID_INACTIVE);
+          bar->set_progress(0, 60);
+          bar->set_secondary_progress(0, 0);
           bar->set_text(_("Inactive"));
           bar->update();
           continue;

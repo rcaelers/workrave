@@ -15,7 +15,7 @@ test -z "$srcdir" && srcdir=.
 }
  
 
-(grep "^AC_PROG_INTLTOOL" $srcdir/configure.ac >/dev/null) && {
+(grep "AC_PROG_INTLTOOL" $srcdir/configure.ac >/dev/null) && {
     (intltoolize --version) < /dev/null > /dev/null 2>&1 || {
         echo 
         echo "**Error**: You must have \`intltoolize' installed to compile $PKG_NAME."
@@ -137,7 +137,7 @@ esac
 #    test -r $srcdir/aclocal.m4 && chmod u+w $srcdir/aclocal.m4
 #fi
 
-if grep "^AC_PROG_INTLTOOL" configure.ac >/dev/null; then
+if grep "AC_PROG_INTLTOOL" configure.ac >/dev/null; then
     echo "Running intltoolize..."
     intltoolize --copy --force --automake
 fi
