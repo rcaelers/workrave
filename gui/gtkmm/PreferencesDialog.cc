@@ -31,6 +31,7 @@
 #include "TimerPreferencesPanel.hh"
 #include "Configurator.hh"
 #include "ControlInterface.hh"
+#include "SoundPlayer.hh"
 #include "TimeEntry.hh"
 #include "Util.hh"
 #include "MainWindow.hh"
@@ -104,6 +105,28 @@ PreferencesDialog::create_gui_page()
   ontop_cb->signal_toggled().connect(SigC::slot(*this, &PreferencesDialog::on_always_on_top_toggled));
   ontop_cb->set_active(MainWindow::get_always_on_top());
 
+  // Sound types
+  sound_button  = manage(new Gtk::OptionMenu());
+  Gtk::Menu *sound_menu = manage(new Gtk::Menu());
+  Gtk::Menu::MenuList &sound_list = sound_menu->items();
+  sound_button->set_menu(*sound_menu);
+  sound_list.push_back(Gtk::Menu_Helpers::MenuElem("No sounds"));
+  sound_list.push_back(Gtk::Menu_Helpers::MenuElem("Play sounds using sound card"));
+  sound_list.push_back(Gtk::Menu_Helpers::MenuElem("Play sounds using built-in speaker"));
+  int idx;
+  if (! SoundPlayer::is_enabled())
+    idx = 0;
+  else
+    {
+      if (SoundPlayer::DEVICE_SPEAKER == SoundPlayer::get_device())
+        idx = 2;
+      else
+        idx = 1;
+    }
+  sound_button->set_history(idx);
+  sound_button->signal_changed().connect(SigC::slot(*this, &PreferencesDialog::on_sound_changed));
+  
+  
 #ifdef WIN32
   // Tray start
   win32_start_in_tray_cb
@@ -120,6 +143,7 @@ PreferencesDialog::create_gui_page()
 #ifdef WIN32
   opts_box->pack_start(*win32_start_in_tray_cb, false, false, 0);
 #endif
+  opts_box->pack_start(*sound_button, false, false, 0);
   opts_box->set_border_width(6);
 
   // Page
@@ -284,6 +308,20 @@ void
 PreferencesDialog::on_always_on_top_toggled()
 {
   MainWindow::set_always_on_top(ontop_cb->get_active());
+}
+
+void
+PreferencesDialog::on_sound_changed()
+{
+  int idx = sound_button->get_history();
+  SoundPlayer::set_enabled(idx > 0);
+  if (idx > 0)
+    {
+      SoundPlayer::Device dev = idx == 1
+        ? SoundPlayer::DEVICE_SOUNDCARD
+        : SoundPlayer::DEVICE_SPEAKER;
+      SoundPlayer::set_device(dev);
+    }
 }
 
 #ifdef WIN32

@@ -14,7 +14,8 @@ noinst_LIBRARIES = libgui.a
 libgui_a_SOURCES = \
 	BreakControl.cc \
 	GUIControl.cc \
-	Statistics.cc 
+	Statistics.cc \
+	SoundPlayer.cc
 
 EXTRA_DIST = $(wildcard *.hh) $(wildcard *.cc) $(wildcard *.c) $(wildcard *.h)  $(wildcard *.icc)
 

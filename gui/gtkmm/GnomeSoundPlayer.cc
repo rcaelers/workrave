@@ -22,10 +22,13 @@ static const char rcsid[] = "$Id$";
 
 #include "GnomeSoundPlayer.hh"
 
-void
-GnomeSoundPlayer::destroy()
+
+GnomeSoundPlayer::GnomeSoundPlayer()
 {
-  delete this;
+}
+
+GnomeSoundPlayer::~GnomeSoundPlayer()
+{
 }
 
 void

@@ -22,34 +22,57 @@ static const char rcsid[] = "$Id$";
 
 #include <windows.h>
 #include "Win32SoundPlayer.hh"
+#include "SoundPlayer.hh"
 #include "Util.hh"
 
-static int prelude_beeps[][2]=
+static short prelude_beeps[][2]=
 {
-    { 400, 50},
-    { 450, 50},
-    { 500, 50},
-    { 550, 50},
+    { 250, 50},
+    { 300, 50},
     { 0, 0 }
 };
     
-static int break_start_beeps[][2]=
+static short micro_pause_start_beeps[][2]=
 {
-    { 450, 150},
-    { 550, 200},
+    { 320, 70 },
+    { 350, 70 },
     { 0, 0 },
 };
 
-static int break_end_beeps[][2]=
+static short micro_pause_end_beeps[][2]=
 {
-    { 550, 50},
-    { 500, 50},
-    { 450, 50},
-    { 400, 50},
-    { 0, 0 },
+  { 350, 70 },
+  { 320, 70 },
+  { 0, 0 },
 };
 
-static int break_ignore_beeps[][2]=
+static short rest_break_start_beeps[][2]=
+{
+  { 160, 70 }, 
+  { 180, 70 }, 
+  { 200, 70 }, 
+  { 230, 70 }, 
+  { 260, 70 }, 
+  { 290, 70 }, 
+  { 320, 70 }, 
+  { 350, 70 },
+  { 0, 0 }
+};
+
+static short rest_break_end_beeps[][2]=
+{
+  { 350, 70 }, 
+  { 320, 70 }, 
+  { 290, 70 }, 
+  { 260, 70 }, 
+  { 230, 70 }, 
+  { 200, 70 }, 
+  { 180, 70 }, 
+  { 160, 70 }, 
+  { 0, 0 }
+};
+
+static short break_ignore_beeps[][2]=
 {
     { 60, 250 }, 
     { 50, 400 },
@@ -63,7 +86,7 @@ static struct SoundRegistry
   const char *event_label;
   const char *wav_file;
   const char *friendly_name;
-  int (*beeps)[2];
+  short (*beeps)[2];
 } sound_registry[] =
 {
   { "WorkraveBreakPrelude", "break-prelude.wav",
@@ -71,13 +94,13 @@ static struct SoundRegistry
   { "WorkraveBreakIgnored", "break-ignored.wav",
     "Break ignored", break_ignore_beeps },
   { "WorkraveRestBreakStarted", "restbreak-started.wav",
-    "Rest break started", break_start_beeps },
+    "Rest break started", rest_break_start_beeps },
   { "WorkraveRestBreakEnded", "restbreak-ended.wav",
-    "Rest break ended", break_end_beeps },
+    "Rest break ended", rest_break_end_beeps },
   { "WorkraveMicroPauseStarted", "micropause-started.wav",
-    "Micro-pause started", break_start_beeps },
+    "Micro-pause started", micro_pause_start_beeps },
   { "WorkraveMicroPauseEnded", "micropause-ended.wav",
-    "Micro-pause ended", break_end_beeps },
+    "Micro-pause ended", micro_pause_end_beeps },
 };
 
 static bool
@@ -167,15 +190,10 @@ Win32SoundPlayer::register_sound_events()
     }
 }
 
-void
-Win32SoundPlayer::destroy()
-{
-  delete this;
-}
 
 
 void
-Win32SoundPlayer::play_speaker(int (*beeps)[2])
+Win32SoundPlayer::play_speaker(short (*beeps)[2])
 {
   while (beeps[0][0])
     {
@@ -205,8 +223,14 @@ Win32SoundPlayer::thread_proc(LPVOID lpParameter)
 {
   SoundRegistry *snd = (SoundRegistry*) lpParameter;
 
-  //  play_speaker(snd->beeps);
-  PlaySound(snd->event_label, 0, SND_APPLICATION);
+  if (SoundPlayer::get_device() == SoundPlayer::DEVICE_SPEAKER)
+    {
+      play_speaker(snd->beeps);
+    }
+  else
+    {
+      PlaySound(snd->event_label, 0, SND_APPLICATION);
+    }
 
   CloseHandle(thread_handle);
   thread_handle = NULL;

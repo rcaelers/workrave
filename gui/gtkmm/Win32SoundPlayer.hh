@@ -28,11 +28,10 @@ public:
   ~Win32SoundPlayer();
   
   void play_sound(Sound snd);
-  void destroy();
 
 private:
   void register_sound_events();
-  void play_speaker(int (*beeps)[2]);
+  static void play_speaker(short (*beeps)[2]);
   static DWORD WINAPI thread_proc(LPVOID lpParameter);
 
   static volatile HANDLE thread_handle;

@@ -43,6 +43,7 @@ private:
   Gtk::Widget *create_timer_page();
   
   void on_always_on_top_toggled();
+  void on_sound_changed();
   void on_activity_time_changed();
   void on_idle_time_changed();
   void on_noise_time_changed();
@@ -54,6 +55,7 @@ private:
   
   Gtk::CheckButton *ontop_cb;
   Gtk::OptionMenu *monitor_preset_button;
+  Gtk::OptionMenu *sound_button;
   TimeEntry *activity_time;
   TimeEntry *idle_time;
   TimeEntry *noise_time;

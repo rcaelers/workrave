@@ -1,4 +1,4 @@
-// GnomeSoundPlayer.hh
+// SoundPlayer.hh
 //
 // Copyright (C) 2002 Rob Caelers & Raymond Penners
 // All rights reserved.
@@ -16,17 +16,34 @@
 // $Id$
 //
 
-#ifndef GNOMESOUNDPLAYER_HH
-#define GNOMESOUNDPLAYER_HH
+#ifndef SOUNDPLAYER_HH
+#define SOUNDPLAYER_HH
 
-#include <SoundPlayerInterface.hh>
+#include "SoundPlayerInterface.hh"
 
-class GnomeSoundPlayer : public SoundPlayerInterface
+class SoundPlayer : public SoundPlayerInterface
 {
 public:
-  GnomeSoundPlayer();
-  ~GnomeSoundPlayer();
+  enum Device
+  {
+    DEVICE_SPEAKER = 0,
+    DEVICE_SOUNDCARD
+  };
+  
+  SoundPlayer(SoundPlayerInterface *p);
+  ~SoundPlayer();
   void play_sound(Sound snd);
+
+  static bool is_enabled();
+  static void set_enabled(bool enabled);
+  static Device get_device();
+  static void set_device(Device dev);
+  
+private:
+  static const char *CFG_KEY_SOUND_ENABLED;
+  static const char *CFG_KEY_SOUND_DEVICE;
+
+  SoundPlayerInterface *player;
 };
 
-#endif // GNOMESOUNDPLAYER_HH
+#endif // SOUNDPLAYER_HH

@@ -35,7 +35,6 @@ public:
 
   //! Plays sound, returns immediately.
   virtual void play_sound(Sound snd) = 0;
-  virtual void destroy() = 0;
 };
 
 #endif // SOUNDPLAYERINTERFACE_HH

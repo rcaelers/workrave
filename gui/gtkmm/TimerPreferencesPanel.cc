@@ -108,7 +108,7 @@ TimerPreferencesPanel::create_prelude_frame()
     .connect(SigC::slot(*this,
                         &TimerPreferencesPanel::on_preludes_maximum_changed));
 
-  Gtk::VBox *prelude_vbox = new Gtk::VBox(false, 6);
+  Gtk::VBox *prelude_vbox = new Gtk::VBox(false, 0);
   prelude_vbox->set_border_width(6);
   prelude_vbox->pack_start(*prelude_cb, false, false, 0);
   prelude_vbox->pack_start(*has_max_prelude_cb, false, false, 0);

@@ -34,6 +34,7 @@ static const char rcsid[] = "$Id$";
 #include "PreludeWindowInterface.hh"
 #include "SoundPlayerInterface.hh"
 #include "GUIFactoryInterface.hh"
+#include "SoundPlayer.hh"
 
 #include "Util.hh"
 
@@ -248,7 +249,7 @@ GUIControl::~GUIControl()
     }
   if (sound_player != NULL)
     {
-      sound_player->destroy();
+      delete sound_player;
     }
   TRACE_EXIT();
 }
@@ -289,7 +290,7 @@ GUIControl::init()
   // FIXME: Raymond??
   load_config();
 
-  sound_player = gui_factory->create_sound_player();
+  sound_player = new SoundPlayer(gui_factory->create_sound_player());
 
   TRACE_EXIT();
 }
