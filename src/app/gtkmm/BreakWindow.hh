@@ -49,9 +49,7 @@ protected:
   void set_avoid_pointer(bool avoid_pointer);
   bool did_avoid_pointer() const;
 
-#ifdef HAVE_GTK_MULTIHEAD
   void set_screen(HeadInfo &head);
-#endif  
   
   const int SCREEN_MARGIN;
 

@@ -39,8 +39,11 @@
 #include <gdkmm/screen.h>
 #endif
 
-#ifdef HAVE_WIN32
+#ifdef WIN32
 #include <windows.h>
+#include <winuser.h>
+typedef BOOL (CALLBACK *LUMONITORENUMPROC)(HMONITOR,HDC,LPRECT,LPARAM);
+typedef BOOL (WINAPI *LUENUMDISPLAYMONITORS)(HDC,LPCRECT,LUMONITORENUMPROC,LPARAM);
 #endif
 
 // GTKMM classes
@@ -122,9 +125,12 @@ private:
 
 #if defined(HAVE_GTK_MULTIHEAD)
   void init_gtk_multihead();
-#elif defined(HAVE_WIN32)
+#elif defined(WIN32)
   void init_win32_multihead();
   void update_win32_multihead();
+public:
+  BOOL CALLBACK enum_monitor_callback(LPRECT rc);
+private:
 #endif
   
 #ifdef HAVE_GNOME
@@ -133,7 +139,6 @@ private:
   bool on_save_yourself(int phase, Gnome::UI::SaveStyle save_style, bool shutdown,
                         Gnome::UI::InteractStyle interact_style, bool fast);
 #endif
-
   void collect_garbage();
   BreakWindowInterface *create_break_window(HeadInfo &head, BreakId break_id, bool ignorable, bool insist);
   
@@ -200,9 +205,9 @@ private:
   HeadInfo *heads;
   int num_heads;
 
-#ifdef HAVE_WIN32
+#ifdef WIN32
   LUENUMDISPLAYMONITORS enum_monitors;
-  INSTANCE user_lib;
+  HINSTANCE user_lib;
   int current_monitor;
 #endif
   

@@ -456,7 +456,7 @@ GUI::init_multihead()
 
 #if defined(HAVE_GTK_MULTIHEAD)
   init_gtk_multihead();
-#elif defined(HAVE_WIN32)
+#elif defined(WIN32)
   init_win32_multihead();
 #else
   if (num_heads == -1)
@@ -466,9 +466,6 @@ GUI::init_multihead()
       heads[0].valid = false;
     }
 #endif
-
-
-
   TRACE_EXIT();
 }
 
@@ -537,7 +534,34 @@ GUI::init_gtk_multihead()
 #endif
 
 
-#ifdef HAVE_WIN32
+#ifdef WIN32
+BOOL CALLBACK enum_monitor_callback(HMONITOR monitor, HDC, LPRECT rc, LPARAM dwData)
+{
+  GUI *gui = (GUI *) dwData;
+
+  gui->enum_monitor_callback(rc);
+  
+  return TRUE;
+};
+
+BOOL CALLBACK
+GUI::enum_monitor_callback(LPRECT rc)
+{
+  if (current_monitor < num_heads)
+    {
+      Gdk::Rectangle &geometry = heads[current_monitor].geometry;
+      
+      geometry.set_x(rc->left);
+      geometry.set_y(rc->top);
+      geometry.set_width(rc->right - rc->left + 1);
+      geometry.set_height(rc->bottom - rc->right + 1);
+      
+      current_monitor++;
+    }
+  
+  return TRUE;
+};
+
 void
 GUI::init_win32_multihead()
 {
@@ -562,7 +586,7 @@ GUI::init_win32_multihead()
 
   if (enum_monitors != NULL)
     {
-      int new_num_head = GetSystemMetrics(SM_CMONITORS);
+      int new_num_heads = GetSystemMetrics(SM_CMONITORS);
 
       init_multihead_mem(new_num_heads);
   
@@ -587,24 +611,6 @@ GUI::init_win32_multihead()
   else 
 }
 
-BOOL CALLBACK enum_monitor_callback(HMONITOR monitor, HDC, LPRECT rc, LPARAM dwData)
-{
-  GUI *gui = (GUI *) dwData;
-
-  if (current_monitor < num_heads)
-    {
-      Gtk::Rectangle &geometry = heads[current_monitor].geometry;
-      
-      geometry.set_x(rc->left);
-      geometry.set_y(rc->top);
-      geometry.set_width(rc->right - rc->left + 1);
-      geometry.set_height(rc->bottom - rc->right + 1);
-      
-      current_monitor++;
-    }
-  
-  return TRUE;
-};
 #endif
 
 

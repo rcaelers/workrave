@@ -128,15 +128,15 @@ BreakWindow::center()
 }
 
 
-#ifdef HAVE_GTK_MULTIHEAD
 //! Centers the window
 void
 BreakWindow::set_screen(HeadInfo &head)
 {
   this->head = head;
+#ifdef HAVE_GTK_MULTIHEAD  
   Gtk::Window::set_screen(head.screen);
-}
 #endif
+}
 
 
 //! Grabs the pointer and the keyboard.
