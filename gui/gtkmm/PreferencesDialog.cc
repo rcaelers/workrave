@@ -248,8 +248,8 @@ PreferencesDialog::on_focus_in_event(GdkEventFocus *event)
 
   GUIControl *gui_control = GUIControl::get_instance();
   mode = gui_control->set_operation_mode(GUIControl::OPERATION_MODE_QUIET);
-
   TRACE_EXIT();
+  return HigDialog::on_focus_in_event(event);
 }
 
 
@@ -260,4 +260,5 @@ PreferencesDialog::on_focus_out_event(GdkEventFocus *event)
   GUIControl *gui_control = GUIControl::get_instance();
   gui_control->set_operation_mode(mode);
   TRACE_EXIT();
+  return HigDialog::on_focus_out_event(event);
 }

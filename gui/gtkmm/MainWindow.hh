@@ -51,7 +51,7 @@ public:
   void open_window();
   void close_window();
   void toggle_window(); 
-
+  bool get_iconified() const;
   
   void update();
   void remember_position();
@@ -96,7 +96,8 @@ private:
 
   // Events.
   bool on_delete_event(GdkEventAny*);
-
+  bool on_window_state_event(GdkEventWindowState *event);
+   
 public:  
   static void set_start_in_tray(bool b);
   static bool get_start_in_tray();
@@ -121,5 +122,11 @@ private:
   NOTIFYICONDATA win32_tray_icon;
 #endif
 };
+
+inline bool
+MainWindow::get_iconified() const
+{
+  return iconified;
+}
 
 #endif // MAINWINDOW_HH

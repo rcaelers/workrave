@@ -315,6 +315,12 @@ GUI::on_save_yourself(int phase, Gnome::UI::SaveStyle save_style, bool shutdown,
         }
     }
 
+  if (main_window != NULL)
+    {
+      bool iconified = main_window->get_iconified();
+      MainWindow::set_start_in_tray(iconified);
+    }
+  
   if (skip)
     {
       client->set_restart_style(GNOME_RESTART_NEVER);
@@ -332,10 +338,15 @@ GUI::on_save_yourself(int phase, Gnome::UI::SaveStyle save_style, bool shutdown,
           // g_free(display_name);
         }
     }
+
+  TRACE_MSG("3");
   
   client->set_clone_command(args);
+  TRACE_MSG("3a");
   client->set_restart_command(args);
 
+  TRACE_MSG("4");
+  
   TRACE_EXIT();
   return true;  
 }

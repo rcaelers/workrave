@@ -23,6 +23,12 @@ these have been replaced with an icon shortcut bar.
 appearance of Workrave blend much better into the Windows desktop
 environment (http://gtk-wimp.sourceforge.net).
 
+** Beter support for Gnome session management. Workrave is now
+properly restarted by the gnome session manager.
+
+** The applet can now be configured to show only the Workrave sheep.
+Clicking on the sheep will toggle the visibility of the main window.
+
 * Workrave 1.2.1
 
 ** Some errors in the build process have been fixed. Only a new source
