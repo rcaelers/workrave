@@ -2,7 +2,7 @@
 #
 # Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 #
-# Time-stamp: <2002-09-24 17:45:13 robc>
+# Time-stamp: <2002-10-06 09:53:13 pennersr>
 #
 # $Id$
 #
@@ -15,7 +15,8 @@ noinst_LIBRARIES = libarchunix.a
 
 libarchunix_a_SOURCES = \
 	Condition.cc \
-	Thread.cc
+	Thread.cc \
+	Sound.cc
 
 libarchunix_a_LIBADD =
 
