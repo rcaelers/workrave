@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
-"POT-Creation-Date: 2003-08-01 21:54+0200\n"
+"POT-Creation-Date: 2003-08-04 22:28+0200\n"
 "PO-Revision-Date: 2003-08-03 21:46+0200\n"
 "Last-Translator: Christian Vejlbo <translate@vejlbo.dk>\n"
 "Language-Team:  <da@li.org>\n"
@@ -77,15 +77,20 @@ msgstr ""
 msgid "Exercises"
 msgstr "Øvelser"
 
-#: src/app/gtkmm/ExercisesPanel.cc:226
+#: src/app/gtkmm/ExercisesPanel.cc:73
+#, fuzzy
+msgid "Exercises player"
+msgstr "Øvelser"
+
+#: src/app/gtkmm/ExercisesPanel.cc:229
 msgid "Resume"
 msgstr "Genoptag"
 
-#: src/app/gtkmm/ExercisesPanel.cc:226
+#: src/app/gtkmm/ExercisesPanel.cc:229
 msgid "Pause"
 msgstr "Pause"
 
-#: src/app/gtkmm/GUI.cc:676
+#: src/app/gtkmm/GUI.cc:670
 msgid "I could not initialize Bonobo"
 msgstr "Teknisk besked: Kunne ikke initialisere Bonobo"
 
@@ -154,7 +159,7 @@ msgstr "Statistik"
 msgid "About..."
 msgstr "Om..."
 
-#: src/app/gtkmm/Menus.cc:605
+#: src/app/gtkmm/Menus.cc:604
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -667,17 +672,17 @@ msgstr "Workrave"
 msgid "Workrave Applet"
 msgstr "Workrave-Applet"
 
-#: src/app/Text.cc:75
+#: src/app/shared/Text.cc:75
 #, c-format
 msgid "%s%d:%02d:%02d hours"
 msgstr "%s%d:%02d:%02d timer"
 
-#: src/app/Text.cc:79
+#: src/app/shared/Text.cc:79
 #, c-format
 msgid "%s%d:%02d minutes"
 msgstr "%s%d:%02d minutter"
 
-#: src/app/Text.cc:83
+#: src/app/shared/Text.cc:83
 #, c-format
 msgid "%s%d seconds"
 msgstr "%s%d sekunder"
@@ -841,7 +846,9 @@ msgid ""
 "eyelids. Now open your eyes and look into the darkness of your palms. This "
 "exercise gives better relief to your eyes compared to simply closing them."
 msgstr ""
-"Hold dine hænder op foran øjnene således, at du stadig kan åbne øjnene. Åbn nu øjnene og kig ind i mørket i dine håndflader. Øvelsen giver bedre afslapning til dine øjne sammenlignet med bare at lukke dem."
+"Hold dine hænder op foran øjnene således, at du stadig kan åbne øjnene. Åbn "
+"nu øjnene og kig ind i mørket i dine håndflader. Øvelsen giver bedre "
+"afslapning til dine øjne sammenlignet med bare at lukke dem."
 
 #: src/app/shared/exercises/exercises.xml.in.h:4
 msgid "Finger stretch"
@@ -987,10 +994,11 @@ msgstr ""
 "pegende mod din krop. Stræk forsigtigt håndled og underarm."
 
 #: src/app/shared/exercises/exercises.xml.in.h:24
+#, fuzzy
 msgid ""
 "Stand up and try to reach the ceiling with your hands without lifting your "
-"heals. Hold that for a few seconds. Then let your hands slowly go to the "
-"flour, without bending your arms. Keep them moving to the flour by bending "
+"heels. Hold that for a few seconds. Then let your hands slowly go to the "
+"floor, without bending your arms. Keep them moving to the floor by bending "
 "you back slowly until you can (almost) place them in front of your shoes. "
 "Slowly roll your back up straight from your hips up, until it is straight up "
 "again."

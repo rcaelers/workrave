@@ -69,7 +69,10 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
 
       Gtk::HBox *button_box = manage(new Gtk::HBox());
       Gtk::Label *browse_label = manage(new Gtk::Label());
-      browse_label->set_markup("<b>Exercises player:</b>");
+      string browse_label_text = "<b>";
+      browse_label_text += _("Exercises player");
+      browse_label_text += ":</b>";
+      browse_label->set_markup(browse_label_text);
       button_box->pack_start(*browse_label, false, false, 6);
       button_box->pack_start(*back_button, false, false, 0);
       button_box->pack_start(*pause_button, false, false, 0);
