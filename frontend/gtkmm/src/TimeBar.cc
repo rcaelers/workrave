@@ -42,6 +42,8 @@ Gdk::Color TimeBar::bar_colors[TimeBar::COLOR_ID_SIZEOF] =
     Gdk::Color("lightblue"),
     Gdk::Color("lightgreen"),
     Gdk::Color("orange"),
+    Gdk::Color("red"),
+    Gdk::Color("#e00000"),
     Gdk::Color("#00d4b2"),
     Gdk::Color("lightgreen"),
   };
@@ -186,7 +188,6 @@ TimeBar::on_expose_event(GdkEventExpose *e)
       // in which this still happens.. need to check
       // this out some time.
       // assert(secondary_bar_color == COLOR_ID_INACTIVE);
-      
       ColorId overlap_color;
       switch (bar_color)
         {

@@ -1,6 +1,6 @@
 // MicroBreakWindow.cc --- window for the microbreak
 //
-// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -39,6 +39,8 @@ static const char rcsid[] = "$Id$";
 #include "GtkUtil.hh"
 #include "Text.hh"
 #include "Hig.hh"
+#include "ActivityMonitorInterface.hh"
+#include "Frame.hh"
 
 //! Construct a new Microbreak window.
 MicroBreakWindow::MicroBreakWindow(HeadInfo &head, bool ignorable, GUI::BlockMode mode) :
@@ -55,6 +57,7 @@ MicroBreakWindow::create_gui()
   // Time bar
   time_bar = manage(new TimeBar);
   time_bar->set_text("Microbreak 0:32"); // FIXME
+  show_color_1_active_during_break = true;
 
   // Label
   label = manage(new Gtk::Label());
@@ -169,8 +172,31 @@ MicroBreakWindow::refresh_time_bar()
   string s = _("Micro-break");
   s += ' ';
   s += Text::time_to_string(time);
+ 
   time_bar->set_progress(progress_value, progress_max_value - 1);
   time_bar->set_text(s);
+
+  CoreInterface *core = CoreFactory::get_core();
+  ActivityMonitorInterface *monitor = core->get_activity_monitor();
+  ActivityState state = monitor->get_current_state();
+  if (state == ACTIVITY_ACTIVE)
+    {
+      if (show_color_1_active_during_break)
+        {
+          time_bar->set_bar_color(TimeBarInterface::COLOR_ID_1_ACTIVE_DURING_BREAK);
+        }
+      else
+        {
+          time_bar->set_bar_color(TimeBarInterface::COLOR_ID_2_ACTIVE_DURING_BREAK);
+        }
+
+      show_color_1_active_during_break = ! show_color_1_active_during_break;
+    }
+  else
+   {
+      time_bar->set_bar_color(TimeBarInterface::COLOR_ID_INACTIVE);
+      show_color_1_active_during_break = true;
+   }
   time_bar->update();
   TRACE_MSG(progress_value << " " << progress_max_value);
   TRACE_EXIT();
@@ -266,5 +292,3 @@ MicroBreakWindow::set_progress(int value, int max_value)
   progress_max_value = max_value;
   progress_value = value;
 }
-
-

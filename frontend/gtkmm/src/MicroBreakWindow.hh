@@ -51,6 +51,8 @@ private:
   void refresh_time_bar();
   void refresh_label();
   Gtk::Button *create_restbreaknow_button(bool label);
+
+  virtual bool on_flash_timer();
   
 private:
   //! Time bar
@@ -64,6 +66,9 @@ private:
 
   //! Progress
   int progress_max_value;
+
+  //! Takes care of the flashing of the progress bar during break when user is active
+  bool show_color_1_active_during_break;
 };
 
 

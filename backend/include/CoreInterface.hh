@@ -23,6 +23,7 @@
 
 class BreakInterface;
 class TimerInterface;
+class ActivityMonitorInterface;
 class ActivityMonitorListener;
 class Configurator;
 class AppInterface;
@@ -78,6 +79,9 @@ public:
 
   //! Returns the statistics interface.
   virtual StatisticsInterface *get_statistics() const = 0;
+
+  //! Returns the activity monitor interface
+  virtual ActivityMonitorInterface *get_activity_monitor() const = 0;
 
 #ifdef HAVE_DISTRIBUTION
   //! Returns the distribution manager (if available).
