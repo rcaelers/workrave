@@ -1,0 +1,12 @@
+Source: workrave
+Section: x11
+Priority: optional
+Maintainer: Rob Caelers <robc@krandor.org>
+Build-Depends: debhelper (>> 3.0.0), autotools-dev, libgtkmm1.3-dev (>> 1.3.20), libsigc++-1.1-dev (>> 1.1.13), libgdome2-dev (>> 0.7.2)
+Standards-Version: 3.5.2
+
+Package: workrave
+Architecture: any
+Depends: ${shlibs:Depends}
+Description: RSI prevention tool
+ workrave is a tool that reminds you to take regular breaks.
