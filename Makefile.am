@@ -12,22 +12,19 @@ MAINTAINERCLEANFILES 	= aclocal.m4 config.h.in configure stamp-h.in Makefile.in 
 	intltool-extract.in intltool-extract workrave.spec config.rpath compile \
 	AUTHORS.txt COPYING.txt ChangeLog.txt NEWS.txt README.txt
 
-SUBDIRS 	= m4 po arch gui src images exercises sounds 
+SUBDIRS 	= m4 po src
 
-EXTRA_DIST	= config.rpath  \
-	config.xml \
-	autogen.sh \
-	autogenwin32.sh \
-	autogencross.sh \
-	depcomp \
-	workrave.spec.in \
-	workrave.spec \
-	intltool-extract.in intltool-merge.in intltool-update.in \
-	README.win32
-
-INCLUDES = -I$(top_srcdir)/src -I$(top_builddir)/arch $(GTKMM_CFLAGS) $(GTK_CFLAGS) $(SIGC_CFLAGS)
-
-LDADD = $(GTKMM_LIBS) $(GTK_LIBS) $(SIGC_LIBS)
+EXTRA_DIST	= \
+		config.rpath  \
+		config.xml \
+		autogen.sh \
+		autogenwin32.sh \
+		autogencross.sh \
+		depcomp \
+		workrave.spec.in \
+		workrave.spec \
+		intltool-extract.in intltool-merge.in intltool-update.in \
+		README.win32
 
 noinst_PROGRAMS =
 
@@ -36,7 +33,6 @@ dist_pkgdata_DATA = README.txt NEWS.txt AUTHORS.txt COPYING.txt ChangeLog.txt
 endif
 
 ACLOCAL_AMFLAGS = -I m4
-
 
 unix2dos = perl -e 'while (<>) { s/$$/\r/; print; }'
 

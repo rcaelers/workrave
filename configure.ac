@@ -6,7 +6,7 @@ dnl
 dnl $Id$
 dnl
 
-AC_INIT(src/Control.cc)
+AC_INIT(src/core/Core.cc)
 
 dnl m4_pattern_allow(AM_PATH_ORBIT2)
 
@@ -19,15 +19,15 @@ AM_INIT_AUTOMAKE(workrave, 1.2.3)
                                    
 dnl some command line options.                           
 GCONF_LIBS=""
-AC_ARG_ENABLE( gui-gtk,
-  [  --disable-gui-gtk       compile without Gtk/Gnome support],
+AC_ARG_ENABLE( app-gtk,
+  [  --disable-app-gtk       compile without Gtk/Gnome support],
        config_with_gtk=$enableval
        ,
        config_with_gtk=yes
     )
 
-AC_ARG_ENABLE( gui-text,
-  [  --enable-gui-text       compile with Dummy text GUI support],
+AC_ARG_ENABLE( app-text,
+  [  --enable-app-text       compile with Dummy text GUI support],
        config_with_text=$enableval
        ,
        config_with_text=no
@@ -322,7 +322,7 @@ fi
 
                 
 dnl AC_CHECK_LIB(Xmu,XmuClientWindow,LIBS="$LIBS -lXmu",
-dnl   AC_MSG_ERROR(Xmu library required))
+dnl   AC_MSG_ERROR(Xmuxd library required))
 
 LIBS_save=$LIBS
 LIBS="$LIBS -L $ac_x_libraries"
@@ -466,36 +466,41 @@ if test "$config_cwd_debug" = yes; then
 fi
 
           
-GUI_LIBS="../gui/libgui.a"
-GUI_CFLAGS="-I \$(top_srcdir)/gui"
-               
-if test "x$GTKMM_LIBS" != "x"; then
-   GUI_LIBS="../gui/gtkmm/libgtkmmgui.a $GUI_LIBS"
-fi
-
-if test "x$config_with_text" = "xyes"; then
-   GUI_LIBS="../gui/text/libtextgui.a $GUI_LIBS"
-fi
-        
-AC_SUBST(GUI_LIBS)
-AC_SUBST(GUI_CFLAGS)
-
-dnl FIXME: automate
-ARCH_LIBS="../arch/libarch.a"
-ARCH_CFLAGS="-I \$(top_srcdir)/arch"
+CORE_LIBS="\$(top_srcdir)/src/core/libcore.a"
+CORE_CFLAGS="-I \$(top_srcdir)/src/core -I \$(top_srcdir)/src/core/intf"
+CORE_INTF="-I \$(top_srcdir)/src/core/intf"
+SHARED_LIBS="\$(top_srcdir)/src/shared/libshared.a"
+SHARED_CFLAGS="-I \$(top_srcdir)/src/shared"
 
 if test "x$platform_win32" = "xyes"; then
-   ARCH_LIBS="$ARCH_LIBS ../arch/win32/libarchwin32.a"
-   ARCH_CFLAGS="$ARCH_CFLAGS -I \$(top_srcdir)/arch/win32"
-else
-   ARCH_LIBS="$ARCH_LIBS ../arch/unix/libarchunix.a"
-   ARCH_CFLAGS="$ARCH_CFLAGS -I \$(top_srcdir)/arch/unix"
-fi   
-                                        
-AC_SUBST(ARCH_DIRS)
-AC_SUBST(ARCH_LIBS)
-AC_SUBST(ARCH_CFLAGS)
+   SHARED_LIBS="\$(top_srcdir)/src/shared/win32/libsharedwin32.a $SHARED_LIBS"
+   SHARED_CFLAGS="$SHARED_CFLAGS -I \$(top_srcdir)/src/shared/win32"
 
+   CORE_LIBS="$CORE_LIBS \$(top_srcdir)/src/core/win32/libcorewin32.a"
+   CORE_CFLAGS="$CORE_CFLAGS -I \$(top_srcdir)/src/core/win32"
+else
+   SHARED_LIBS="\$(top_srcdir)/src/shared/unix/libsharedunix.a $SHARED_LIBS"
+   SHARED_CFLAGS="$SHARED_CFLAGS -I \$(top_srcdir)/src/shared/unix"
+
+   CORE_LIBS="$CORE_LIBS \$(top_srcdir)/src/core/unix/libcoreunix.a"
+   CORE_CFLAGS="$CORE_CFLAGS -I \$(top_srcdir)/src/core/unix"
+fi   
+
+APP_LIBS="$CORE_LIBS $SHARED_LIBS \$(top_srcdir)/src/app/libapp.a $SHARED_LIBS"
+APP_CFLAGS="$SHARED_CFLAGS $CORE_CFLAGS"
+                                             
+AC_SUBST(APP_LIBS)
+AC_SUBST(APP_CFLAGS)
+
+AC_SUBST(SHARED_DIRS)
+AC_SUBST(SHARED_LIBS)
+AC_SUBST(SHARED_CFLAGS)
+ 
+AC_SUBST(CORE_DIRS)
+AC_SUBST(CORE_LIBS)
+AC_SUBST(CORE_CFLAGS)
+AC_SUBST(CORE_INTF)
+       
 HAVE_X=
 if test x$have_x = xyes ; then
    AC_DEFINE(HAVE_X,,[Define if X is available])
@@ -546,14 +551,14 @@ if test "x$GNET2" != "x"; then
    AC_DEFINE(HAVE_GNET2,,[Define if GNet2 is available])
 fi
         
-HAVE_GUI_GTK=
+HAVE_APP_GTK=
 if test "x$GTKMM_LIBS" != "x"; then
-   AC_DEFINE(HAVE_GUI_GTK,,[Define if Gtk is available])
+   AC_DEFINE(HAVE_APP_GTK,,[Define if Gtk is available])
 fi
 
-HAVE_GUI_TEXT=
+HAVE_APP_TEXT=
 if test "x$config_with_text" = "xyes"; then
-   AC_DEFINE(HAVE_GUI_TEXT,,[Define if Text is available])
+   AC_DEFINE(HAVE_APP_TEXT,,[Define if Text is available])
 fi
                                 
 WIN32CONSOLE=
@@ -569,12 +574,31 @@ AM_CONDITIONAL(HAVE_GNOME, test "x$config_with_gnome" = "xyes")
 AM_CONDITIONAL(HAVE_GNET, test "x$GNET_LIBS" != "x")
 AM_CONDITIONAL(HAVE_REGISTRY, test "x$config_with_registry" = "xyes")
 AM_CONDITIONAL(NDEBUG, test "x$config_debug" != "xyes")
-AM_CONDITIONAL(HAVE_ARCH_WIN32, test "x$platform_win32" = "xyes")
-AM_CONDITIONAL(HAVE_ARCH_UNIX, test "x$platform_win32" != "xyes")
-AM_CONDITIONAL(HAVE_GUI_GTKMM, test "x$GTKMM_LIBS" != "x")
-AM_CONDITIONAL(HAVE_GUI_TEXT, test "x$config_with_text" = "xyes")
+AM_CONDITIONAL(HAVE_WIN32, test "x$platform_win32" = "xyes")
+AM_CONDITIONAL(HAVE_UNIX, test "x$platform_win32" != "xyes")
+AM_CONDITIONAL(HAVE_APP_GTKMM, test "x$GTKMM_LIBS" != "x")
+AM_CONDITIONAL(HAVE_APP_TEXT, test "x$config_with_text" = "xyes")
 AM_CONDITIONAL(HAVE_DISTRIBUTION, test "x$config_distribution" = "xyes")
 AM_CONDITIONAL(HAVE_EXERCISES, test "x$config_exercises" = "xyes")
 AM_CONDITIONAL(HAVE_EXPERIMENTAL, test "x$config_experimental" = "xyes")
                                                            
-AC_OUTPUT(src/Makefile arch/Makefile arch/unix/Makefile arch/win32/Makefile arch/win32/harpoon/Makefile gui/Makefile gui/gtkmm/Makefile gui/gnome/Makefile images/Makefile exercises/Makefile sounds/Makefile Makefile po/Makefile.in m4/Makefile gui/text/Makefile workrave.spec)
+AC_OUTPUT(Makefile \
+          src/Makefile \
+          src/core/Makefile \
+          src/core/unix/Makefile \
+          src/core/win32/Makefile \
+          src/shared/Makefile \
+          src/shared/unix/Makefile \
+          src/shared/win32/Makefile \
+          src/shared/win32/harpoon/Makefile \
+          src/app/Makefile \
+          src/app/gtkmm/Makefile \
+          src/app/gtkmm/gnome_applet/Makefile \
+          src/app/text/Makefile \
+          src/app/shared/Makefile \
+          src/app/shared/images/Makefile \
+          src/app/shared/exercises/Makefile \
+          src/app/shared/sounds/Makefile \
+          po/Makefile.in \
+          m4/Makefile \
+          workrave.spec)
