@@ -55,7 +55,7 @@ endif
 if HAVE_DISTRIBUTION
 sourcesdistribution = DistributionManager.cc
 if HAVE_GNET
-sourcesgnet = DistributionSocketLink.cc PacketBuffer.cc
+sourcesgnet = DistributionSocketLink.cc PacketBuffer.cc SocketDriver.cc GNetSocketDriver.cc
 endif
 endif
 
