@@ -1,3 +1,9 @@
+workrave (1.4.1) unstable; urgency=low
+
+  * New upstream
+
+ -- Rob Caelers <robc@krandor.org>  Mon,  3 Nov 2003 21:06:27 +0100
+
 workrave (1.4.0) unstable; urgency=low
 
   * New release
