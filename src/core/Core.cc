@@ -170,12 +170,13 @@ Core::init(int argc, char **argv, AppInterface *app, char *display_name)
   
   init_configurator();
   init_monitor(display_name);
-  init_breaks();
-  init_staticstics();
-  
+
 #ifdef HAVE_DISTRIBUTION
   init_distribution_manager();
 #endif
+
+  init_breaks();
+  init_staticstics();
 
   load_state();
 }

@@ -1802,7 +1802,7 @@ DistributionSocketLink::send_client_message(DistributionClientMessageType type)
   
   packet.pack_ushort(client_message_map.size());
   
-  map<DistributionClientMessageID, ClientMessageListener>::iterator i = client_message_map.begin();
+  ClientMessageMap::iterator i = client_message_map.begin();
   while (i != client_message_map.end())
     {
       DistributionClientMessageID id = i->first;
@@ -1866,8 +1866,12 @@ DistributionSocketLink::handle_client_message(PacketBuffer &packet, Client *clie
         {
           // Narrow the buffer to the client message data.
           packet.narrow(-1, datalen);
-          
-          client_message_map[id].listener->client_message(id, will_i_become_master, client->id, packet);
+
+          ClientMessageMap::iterator it = client_message_map.find(id);
+          if (it != client_message_map.end())
+            {
+              client_message_map[id].listener->client_message(id, will_i_become_master, client->id, packet);
+            }
 
           packet.narrow(0, -1);
         }

@@ -252,6 +252,8 @@ private:
   void config_changed_notify(string key);
   
 private:
+  typedef map<DistributionClientMessageID, ClientMessageListener> ClientMessageMap;
+  
   //! The socket library.
   SocketDriver *socket_driver;
   
@@ -295,7 +297,7 @@ private:
   bool server_enabled;
   
   //! ClientMessage listeners
-  map<DistributionClientMessageID, ClientMessageListener> client_message_map;
+  ClientMessageMap client_message_map;
 
   //!
   int reconnect_attempts;
