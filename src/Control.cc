@@ -231,7 +231,6 @@ Control::create_monitor(char *display_name)
 
   monitor = new ActivityMonitor(display_name);
   load_monitor_config();
-  store_monitor_config();
   
   configurator->add_listener(CFG_KEY_MONITOR, this);
   
@@ -348,16 +347,19 @@ Control::configure_timer_monitor(Timer *timer)
 void
 Control::load_monitor_config()
 {
-  int noise = 9000;
-  int activity = 1000;
-  int idle = 5000;
+  int noise;
+  int activity;
+  int idle;
 
   assert(configurator != NULL);
   assert(monitor != NULL);
   
-  configurator->get_value(CFG_KEY_MONITOR_NOISE, &noise);
-  configurator->get_value(CFG_KEY_MONITOR_ACTIVITY, &activity);
-  configurator->get_value(CFG_KEY_MONITOR_IDLE, &idle);
+  if (! configurator->get_value(CFG_KEY_MONITOR_NOISE, &noise))
+      noise = 9000;
+  if (! configurator->get_value(CFG_KEY_MONITOR_ACTIVITY, &activity))
+    activity = 1000;
+  if (! configurator->get_value(CFG_KEY_MONITOR_IDLE, &idle))
+    idle = 5000;
   
   if (noise < 50)
     noise *= 1000;

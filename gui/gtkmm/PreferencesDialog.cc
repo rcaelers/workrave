@@ -76,7 +76,7 @@ PreferencesDialog::PreferencesDialog()
 #endif
   
   // Dialog
-  get_vbox()->pack_start(notebook, false, false, 0);
+  get_vbox()->pack_start(notebook, true, true, 0);
   add_button(Gtk::Stock::CLOSE, Gtk::RESPONSE_CLOSE);
 
   GUIControl *gui_control = GUIControl::get_instance();
