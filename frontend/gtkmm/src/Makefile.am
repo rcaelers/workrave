@@ -94,7 +94,7 @@ X11LIBS = 		-lworkrave-frontend-gtkmm-unix -lXmu
 endif
 
 if HAVE_KDE
-sourceskde = 		kde_applet/kworkraveapplet/kworkraveapplet_stub.cpp KdeAppletWindow.cc
+sourceskde = 		kde_applet/kworkraveapplet_stub.cpp KdeAppletWindow.cc
 endif
 
 workrave_SOURCES = \
