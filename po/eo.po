@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-02-23 22:32+0100\n"
+"POT-Creation-Date: 2003-03-01 10:42+0100\n"
 "PO-Revision-Date: 2002-11-05 17:58-0800\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -25,29 +25,29 @@ msgstr "Ĉesu en"
 msgid "Silent in"
 msgstr "Silentiĝu en"
 
-#: gui/GUIControl.cc:84 gui/gtkmm/MicroPauseWindow.cc:163
-msgid "Micro-pause"
-msgstr "Paŭzeto"
-
-#: gui/GUIControl.cc:91
-msgid "Rest break"
-msgstr "Ripozo"
-
-#: gui/GUIControl.cc:98
-msgid "Daily limit"
-msgstr "Taglimo"
-
-#: gui/GUIControl.cc:299
+#: gui/GUIControl.cc:293
 msgid "Time for a micro-pause?"
 msgstr "Ĉu horo por paŭzeto?"
 
-#: gui/GUIControl.cc:305
+#: gui/GUIControl.cc:294 gui/gtkmm/MicroPauseWindow.cc:163
+msgid "Micro-pause"
+msgstr "Paŭzeto"
+
+#: gui/GUIControl.cc:300
 msgid "You need a rest break..."
 msgstr "Vi bezonas ripozon..."
 
-#: gui/GUIControl.cc:311
+#: gui/GUIControl.cc:301
+msgid "Rest break"
+msgstr "Ripozo"
+
+#: gui/GUIControl.cc:307
 msgid "You should stop for today..."
 msgstr "Vi devas halti por hodiaŭ..."
+
+#: gui/GUIControl.cc:308
+msgid "Daily limit"
+msgstr "Taglimo"
 
 #: gui/Text.cc:75
 #, fuzzy, c-format

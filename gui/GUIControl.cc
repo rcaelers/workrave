@@ -64,7 +64,6 @@ GUIControl *GUIControl::instance = NULL;
 struct ConfigCheck
 {
   const char *id;
-  const char *label;
   int limit;
   int autoreset;
   bool countdown;
@@ -81,27 +80,23 @@ struct ConfigCheck
 } configCheck[] =
   {
     { "micro_pause",
-      _("Micro-pause"),
       3*60, 30, false,	true,	150,
       "timer-micropause.png", "" ,
       3, true, true, true
     },
     {
       "rest_break",
-      _("Rest break"),
       45*60, 10*60, false,	true, 180,
       "timer-restbreak.png", "",
       3, true, true, true
     },
     {
       "daily_limit",
-      _("Daily limit"),
       14400, 0,	false,	true, 20 * 60,
       "timer-daily.png", "day/4:00",
       3, true, true, true
     },
   };
-
 
 
 GUIControl::TimerData::TimerData()
@@ -290,25 +285,27 @@ GUIControl::init()
       td->icon = Util::complete_directory(tc->icon, Util::SEARCH_PATH_IMAGES);
       td->break_id = i;
       td->break_name = tc->id;
-      td->label = tc->label;
       switch (i)
         {
         case BREAK_ID_MICRO_PAUSE:
           td->break_control = new BreakControl
             (GUIControl::BREAK_ID_MICRO_PAUSE, core_control, gui_factory, td->timer);
           td->break_control->set_prelude_text(_("Time for a micro-pause?"));
+          td->label = _("Micro-pause");
           break;
           
         case BREAK_ID_REST_BREAK:
           td->break_control = new BreakControl
             (GUIControl::BREAK_ID_REST_BREAK, core_control, gui_factory, td->timer);
           td->break_control->set_prelude_text(_("You need a rest break..."));
+          td->label = _("Rest break");
           break;
           
         case BREAK_ID_DAILY_LIMIT:
           td->break_control = new BreakControl
             (GUIControl::BREAK_ID_DAILY_LIMIT, core_control, gui_factory, td->timer);
           td->break_control->set_prelude_text(_("You should stop for today..."));
+          td->label = _("Daily limit");
           break;
           
         default:
