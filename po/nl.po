@@ -198,7 +198,7 @@ msgstr "Toon _logboek"
 
 #: gui/gtkmm/MainWindow.cc:421
 msgid "_Rest break"
-msgstr "Rust pauze"
+msgstr "Rustpauze"
 
 #: gui/gtkmm/MainWindow.cc:433
 msgid "Statistics"
@@ -223,12 +223,12 @@ msgstr "Micro-pauze"
 #: gui/gtkmm/MicroPauseWindow.cc:186
 #, c-format
 msgid "Next rest break in %s"
-msgstr "Volgende rust pauze over %s"
+msgstr "Volgende rustpauze over %s"
 
 #: gui/gtkmm/MicroPauseWindow.cc:192
 #, c-format
 msgid "Overdue rest break in %s"
-msgstr "Rust pauze %s te laat"
+msgstr "Rustpauze %s te laat"
 
 #: gui/gtkmm/MicroPauseWindow.cc:195
 msgid "Please relax for a few seconds"
@@ -351,14 +351,14 @@ msgid ""
 "walk away from your computer on a regular basis. Just\n"
 "walk around for a few minutes, stretch, and relax."
 msgstr ""
-"Dit is je rust pauze. Zorg ervoor dat je regelmatig\n"
+"Dit is je rustpauze. Zorg ervoor dat je regelmatig\n"
 "opstaat en wegloopt van de computer. Wandel enkele\n"
 "minuten rond, strek, en ontspan."
 
 #: gui/gtkmm/RestBreakWindow.cc:258
 #, c-format
 msgid "Rest break for %s"
-msgstr "Rust pauze gedurende %s"
+msgstr "Rustpauze gedurende %s"
 
 #: gui/gtkmm/TimerPreferencesPanel.cc:77
 msgid "Break prompting"

@@ -66,9 +66,9 @@ MicroPauseWindow::MicroPauseWindow(TimerInterface *timer, bool ignorable) :
   if (ignorable)
     {
       Gtk::HButtonBox *button_box = manage(new Gtk::HButtonBox(Gtk::BUTTONBOX_END, 6));
-      Gtk::Button *skipButton = manage(new Gtk::Button("Skip"));
+      Gtk::Button *skipButton = manage(new Gtk::Button(_("Skip")));
       button_box->pack_end(*skipButton, Gtk::SHRINK, 0);
-      Gtk::Button *postponeButton = manage(new Gtk::Button("Postpone"));
+      Gtk::Button *postponeButton = manage(new Gtk::Button(_("Postpone")));
       button_box->pack_end(*postponeButton, Gtk::SHRINK, 0);
       GTK_WIDGET_UNSET_FLAGS(postponeButton->gobj(), GTK_CAN_FOCUS);
       GTK_WIDGET_UNSET_FLAGS(skipButton->gobj(), GTK_CAN_FOCUS);
