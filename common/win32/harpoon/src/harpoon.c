@@ -35,14 +35,15 @@
 #pragma comment(linker, "/SECTION:.shared,RWS")
 #pragma data_seg(".shared")
 HWND notification_window = NULL;
-HHOOK hook_handles[WH_MAX+1];
+HHOOK mouse_hook = NULL;
+HHOOK keyboard_hook = NULL;
+HHOOK keyboard_ll_hook = NULL;
 BOOL block_input = FALSE;
 HWND unblocked_windows[HARPOON_MAX_UNBLOCKED_WINDOWS];
 #pragma data_seg()
 
 static HANDLE dll_handle = NULL;
-static volatile HOOKPROC hook_user_callbacks[WH_MAX+1];
-static HOOKPROC hook_impl_callbacks[WH_MAX+1];
+static volatile HarpoonHookFunc user_callback = NULL;
 static ATOM notification_class = 0;
 
 typedef struct
@@ -51,24 +52,6 @@ typedef struct
   DWORD mouseData;
 } MOUSEHOOKSTRUCTEX, *PMOUSEHOOKSTRUCTEX;
 
-typedef struct
-{
-  int code;
-  WPARAM wparam;
-  LPARAM lparam;
-} HarpoonMessage;
-
-typedef struct
-{
-  HarpoonMessage message;
-  MOUSEHOOKSTRUCTEX mouse;
-} HarpoonMouseMessage;
-
-typedef struct
-{
-  HarpoonMessage message;
-  KBDLLHOOKSTRUCT keyboard_ll;
-} HarpoonKeyboardLLMessage;
 
 
 /**********************************************************************
@@ -171,74 +154,59 @@ harpoon_block_input_except_for (HWND *unblocked)
  **********************************************************************/
 
 static void
-harpoon_post_message (int hook, HarpoonMessage *msg, DWORD msg_size)
+harpoon_post_message(HarpoonEventType evt, int par1, int par2)
 {
-  COPYDATASTRUCT copy;
-  WPARAM wparam;
-  
-  copy.lpData = msg;
-  copy.dwData = hook;
-  if (hook == WH_MOUSE)
-    {
-      wparam = (WPARAM) ((HarpoonMouseMessage *) msg)
-        ->mouse.MOUSEHOOKSTRUCT.hwnd;
-    }
-  else
-    {
-      wparam = 0;
-    }
-  copy.cbData = msg_size;
-  SendMessage (notification_window, WM_COPYDATA, wparam, (LPARAM) &copy);
+  PostMessage (notification_window, WM_USER + evt, (WPARAM) par1, (LPARAM) par2);
 }
 
 static LRESULT CALLBACK
 harpoon_window_proc (HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-  if (uMsg == WM_COPYDATA)
+  if (user_callback)
     {
-      PCOPYDATASTRUCT copy = (PCOPYDATASTRUCT) lParam;
-      HarpoonMessage *msg = (HarpoonMessage *) copy->lpData;
-      DWORD hook_id = copy->dwData;
-      switch (hook_id)
-	{
-	case WH_MOUSE:
-	  {
-            HOOKPROC proc;
-            HarpoonMouseMessage *mmsg = (HarpoonMouseMessage *) msg;
-            
-            proc = hook_user_callbacks[WH_MOUSE];
-            if (proc != NULL)
-              {
-                (*proc)(msg->code, msg->wparam, (LPARAM) &mmsg->mouse);
-              }
-	    break;
-	  }
+      HarpoonEvent evt;
+      int evt_type;
+      evt.type = HARPOON_NOTHING;
+      evt_type = uMsg - WM_USER;
+      if (evt_type >= 0 && evt_type < HARPOON_EVENT__SIZEOF)
+        {
+          evt.type = (HarpoonEventType) evt_type;
+          switch (evt.type)
+            {
+            case HARPOON_KEY_PRESS:
+            case HARPOON_KEY_RELEASE:
+              evt.keyboard.flags = lParam;
+              break;
 
-	case WH_KEYBOARD_LL:
-	  {
-            HOOKPROC proc;
-            HarpoonKeyboardLLMessage *kmsg = (HarpoonKeyboardLLMessage *) msg;
-            
-            proc = hook_user_callbacks[WH_KEYBOARD_LL];
-            if (proc != NULL)
-              {
-                (*proc)(msg->code, msg->wparam, (LPARAM) &kmsg->keyboard_ll);
-              }
-	    break;
-	  }
+            case HARPOON_BUTTON_PRESS:
+            case HARPOON_BUTTON_RELEASE:
+            case HARPOON_2BUTTON_PRESS:
+            case HARPOON_MOUSE_WHEEL:
+            case HARPOON_MOUSE_MOVE:
+              evt.mouse.x = LOWORD(lParam);
+              evt.mouse.y = HIWORD(lParam);
+              if (evt.type == HARPOON_MOUSE_WHEEL)
+                {
+                  evt.mouse.button = -1;
+                  evt.mouse.wheel = wParam;
+                }
+              else
+                {
+                  evt.mouse.button = wParam;
+                  evt.mouse.wheel = 0;
+                }
+              break;
 
-        default:
-          {
-            HOOKPROC proc;
-            proc = hook_user_callbacks[hook_id];
-            if (proc != NULL)
-              {
-                (*proc)(msg->code, msg->wparam, msg->lparam);
-              }
-	  }
-          break;
+            default:
+              evt.type = HARPOON_NOTHING;
+            }
 
+          if (evt.type != HARPOON_NOTHING)
+            {
+              (*user_callback)(&evt);
+            }
         }
+
     }
   return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
@@ -251,7 +219,7 @@ harpoon_window_proc (HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 
 static LRESULT
-harpoon_generic_hook_return(int code, WPARAM wpar, LPARAM lpar, int hid)
+harpoon_generic_hook_return(int code, WPARAM wpar, LPARAM lpar, HHOOK hook)
 {
   BOOL blocked = FALSE;
   LRESULT ret;
@@ -259,7 +227,7 @@ harpoon_generic_hook_return(int code, WPARAM wpar, LPARAM lpar, int hid)
   if (block_input && code == HC_ACTION)
     {
       HWND target_window;
-      if (hid == WH_MOUSE)
+      if (hook == mouse_hook)
         {
           PMOUSEHOOKSTRUCT pmhs = (PMOUSEHOOKSTRUCT) lpar;
           target_window = pmhs->hwnd;
@@ -276,63 +244,7 @@ harpoon_generic_hook_return(int code, WPARAM wpar, LPARAM lpar, int hid)
     }
   else
     {
-      ret = CallNextHookEx(hook_handles[hid], code, wpar, lpar);
-    }
-  return ret;
-}
-
-static LRESULT CALLBACK 
-harpoon_generic_hook(int code, WPARAM wpar, LPARAM lpar, int hid)
-{
-  HarpoonMessage msg;
-
-  msg.code = code;
-  msg.wparam = wpar;
-  msg.lparam = lpar;
-  harpoon_post_message (hid, &msg, sizeof(msg));
-  return harpoon_generic_hook_return (code, wpar, lpar, hid);
-}
-  
-
-static void
-harpoon_unhook_by_id(int hook_id)
-{
-  HHOOK handle = hook_handles[hook_id];
-  if (handle != NULL)
-    {
-      UnhookWindowsHookEx(handle);
-      hook_handles[hook_id] = NULL;
-      hook_user_callbacks[hook_id] = NULL;
-    }
-}
-
-void
-harpoon_unhook(HHOOK handle)
-{
-  int hook_id;
-  for (hook_id = 0; hook_id <= WH_MAX; hook_id++)
-    {
-      if (hook_handles[hook_id] == handle)
-        {
-          harpoon_unhook_by_id(hook_id);
-          break;
-        }
-    }
-}
-
-HHOOK
-harpoon_hook(int hook_id, HOOKPROC hf)
-{
-  HHOOK ret = NULL;
-  if (hook_id >= 0 && hook_id <= WH_MAX 
-      && hook_handles[hook_id] == NULL
-      && hook_impl_callbacks[hook_id] != NULL)
-    {
-      ret = hook_handles[hook_id] = SetWindowsHookEx(hook_id, hook_impl_callbacks[hook_id], dll_handle, 0);
-      if (ret != NULL)
-        {
-          hook_user_callbacks[hook_id] = hf;
-        }
+      ret = CallNextHookEx(hook, code, wpar, lpar);
     }
   return ret;
 }
@@ -355,25 +267,73 @@ harpoon_supports_mouse_hook_struct_ex(void)
 LRESULT CALLBACK
 harpoon_mouse_hook (int code, WPARAM wpar, LPARAM lpar)
 {
-  HarpoonMouseMessage msg;
-  PMOUSEHOOKSTRUCT pmhs;
-
-  msg.message.code = code;
-  msg.message.wparam = wpar;
-  msg.message.lparam = 0;
-  
-  pmhs = (PMOUSEHOOKSTRUCT) lpar;
-  msg.mouse.MOUSEHOOKSTRUCT = *pmhs;
-  msg.mouse.mouseData = 0;
-
-  if (harpoon_supports_mouse_hook_struct_ex())
+  if (code == HC_ACTION)
     {
-      msg.mouse.mouseData = ((PMOUSEHOOKSTRUCTEX) pmhs)->mouseData;
+      PMOUSEHOOKSTRUCT pmhs = (PMOUSEHOOKSTRUCT) lpar;
+      DWORD mouse_data = 0;
+      HarpoonEventType evt = HARPOON_NOTHING;
+      int button = -1;
+      int x = pmhs->pt.x;
+      int y = pmhs->pt.y;
+
+      if (harpoon_supports_mouse_hook_struct_ex())
+        {
+          mouse_data = ((PMOUSEHOOKSTRUCTEX) pmhs)->mouseData;
+        }
+
+
+      switch (wpar)
+        {
+        case WM_LBUTTONDOWN:
+          button = 0;
+          evt = HARPOON_BUTTON_PRESS;
+          break;
+        case WM_MBUTTONDOWN:
+          button = 1;
+          evt = HARPOON_BUTTON_PRESS;
+          break;
+        case WM_RBUTTONDOWN:
+          button = 2;
+          evt = HARPOON_BUTTON_PRESS;
+          break;
+  
+        case WM_LBUTTONUP:
+          button = 0;
+          evt = HARPOON_BUTTON_RELEASE;
+          break;
+        case WM_MBUTTONUP:
+          button = 1;
+          evt = HARPOON_BUTTON_RELEASE;
+          break;
+        case WM_RBUTTONUP:
+          button = 2;
+          evt = HARPOON_BUTTON_RELEASE;
+          break;
+
+        case WM_LBUTTONDBLCLK:
+          button = 0;
+          evt = HARPOON_2BUTTON_PRESS;
+          break;
+        case WM_MBUTTONDBLCLK:
+          button = 1;
+          evt = HARPOON_2BUTTON_PRESS;
+          break;
+        case WM_RBUTTONDBLCLK:
+          button = 2;
+          evt = HARPOON_2BUTTON_PRESS;
+          break;
+
+        case WM_MOUSEWHEEL:
+          evt = HARPOON_MOUSE_WHEEL;
+          button = mouse_data;
+          break;
+
+        default:
+          evt = HARPOON_MOUSE_MOVE;
+        }
+      harpoon_post_message (evt, button, MAKELONG(x, y));
     }
-
-  harpoon_post_message (WH_MOUSE, &msg.message, sizeof(msg));
-
-  return harpoon_generic_hook_return (code, wpar, lpar, WH_MOUSE);
+  return harpoon_generic_hook_return (code, wpar, lpar, mouse_hook);
 }
 
 
@@ -410,23 +370,35 @@ harpoon_supports_keyboard_ll(void)
 static LRESULT CALLBACK 
 harpoon_keyboard_hook (int code, WPARAM wpar, LPARAM lpar)
 {
-  return harpoon_generic_hook (code, wpar, lpar, WH_KEYBOARD);
+  if (code == HC_ACTION)
+    {
+      BOOL pressed = (lpar & (1 << 31)) == 0;
+      BOOL prevpressed = (lpar & (1 << 30)) != 0;
+      HarpoonEventType evt;
+      int flags = 0;
+      if (pressed && prevpressed)
+        {
+          flags |= HARPOON_KEY_REPEAT_FLAG;
+        }
+
+      evt = pressed ? HARPOON_KEY_PRESS : HARPOON_KEY_RELEASE;
+      harpoon_post_message (evt, 0, flags);
+    }
+  return harpoon_generic_hook_return (code, wpar, lpar, keyboard_hook);
 }
 
 
 static LRESULT CALLBACK 
 harpoon_keyboard_ll_hook (int code, WPARAM wpar, LPARAM lpar)
 {
-  HarpoonKeyboardLLMessage msg;
-
-  msg.message.code = code;
-  msg.message.wparam = wpar;
-  msg.message.lparam = 0;
-  
-  msg.keyboard_ll = *((KBDLLHOOKSTRUCT *) lpar);
-  harpoon_post_message (WH_KEYBOARD_LL, &msg.message, sizeof(msg));
-
-  return harpoon_generic_hook_return (code, wpar, lpar, WH_KEYBOARD_LL);
+  if (code == HC_ACTION)
+    {
+      KBDLLHOOKSTRUCT *kb = (KBDLLHOOKSTRUCT *) lpar;
+      BOOL pressed = !(kb->flags & (1<<7));
+      HarpoonEventType evt = pressed ? HARPOON_KEY_PRESS : HARPOON_KEY_RELEASE;
+      PostMessage (notification_window, WM_USER + evt, (WPARAM) 0, (LPARAM) 0);
+    }
+  return harpoon_generic_hook_return (code, wpar, lpar, keyboard_ll_hook);
 }
 
 
@@ -454,13 +426,6 @@ harpoon_init (void)
     HARPOON_WINDOW_CLASS,
     NULL
   };
-
-  memset(hook_user_callbacks, 0, sizeof(hook_user_callbacks));
-  memset(hook_impl_callbacks, 0, sizeof(hook_impl_callbacks));
-  hook_impl_callbacks[WH_MOUSE] = harpoon_mouse_hook;
-  hook_impl_callbacks[WH_KEYBOARD] = harpoon_keyboard_hook;
-  hook_impl_callbacks[WH_KEYBOARD_LL] = harpoon_keyboard_ll_hook;
-  memset(hook_handles, 0, sizeof(hook_handles));
 
   block_input = FALSE;
   for (i = 0; i < HARPOON_MAX_UNBLOCKED_WINDOWS; i++)
@@ -496,11 +461,7 @@ harpoon_init (void)
 HARPOON_API void
 harpoon_exit (void)
 {
-  int hook_id;
-  for (hook_id = 0; hook_id <= WH_MAX; hook_id++)
-    {
-      harpoon_unhook_by_id(hook_id);
-    }
+  harpoon_unhook();
 
   if (notification_window)
     {
@@ -514,6 +475,41 @@ harpoon_exit (void)
     }
 }
 
+
+void
+harpoon_unhook ()
+{
+  if (mouse_hook)
+    {
+      UnhookWindowsHookEx(mouse_hook);
+      mouse_hook = NULL;
+    }
+  if (keyboard_hook)
+    {
+      UnhookWindowsHookEx(keyboard_hook);
+      keyboard_hook = NULL;
+    }
+  if (keyboard_ll_hook)
+    {
+      UnhookWindowsHookEx(keyboard_ll_hook);
+      keyboard_ll_hook = NULL;
+    }
+  user_callback = NULL;
+}
+
+void 
+harpoon_hook (HarpoonHookFunc func)
+{
+  harpoon_unhook();
+  user_callback = func;
+  mouse_hook = SetWindowsHookEx(WH_MOUSE, harpoon_mouse_hook, dll_handle, 0);
+  keyboard_ll_hook = SetWindowsHookEx(WH_KEYBOARD_LL, harpoon_keyboard_ll_hook, dll_handle, 0);
+  if (keyboard_ll_hook == NULL)
+    {
+      keyboard_hook = SetWindowsHookEx(WH_KEYBOARD, harpoon_keyboard_hook, dll_handle, 0);
+    }
+
+}
 
 
 

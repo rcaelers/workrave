@@ -33,6 +33,8 @@
 #include <windows.h>
 #include "InputMonitorInterface.hh"
 
+typedef union HarpoonEventUnion HarpoonEvent;
+
 //! Activity monitor for a local X server.
 class Win32InputMonitor :
   public InputMonitorInterface
@@ -48,9 +50,7 @@ public:
   void terminate() ;
 
 private:
-  static LRESULT CALLBACK keyboard_hook(int code, WPARAM wparam, LPARAM lparam);
-  static LRESULT CALLBACK keyboard_ll_hook(int code, WPARAM wparam, LPARAM lparam);
-  static LRESULT CALLBACK mouse_hook(int code, WPARAM wparam, LPARAM lparam);
+  static void on_harpoon_event(HarpoonEvent *event);
   static InputMonitorListenerInterface *listener;
 };
 

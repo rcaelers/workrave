@@ -68,12 +68,7 @@ Win32InputMonitor::init(InputMonitorListenerInterface *l)
   BOOL b = harpoon_init();
   assert(b);
 
-  harpoon_hook(WH_MOUSE, mouse_hook);
-  if (harpoon_hook(WH_KEYBOARD_LL, keyboard_ll_hook) == NULL)
-    {
-      // Pre NT4 SP3.
-      harpoon_hook(WH_KEYBOARD, keyboard_hook);
-    }
+  harpoon_hook(on_harpoon_event);
 }
 
 //! Stops the activity monitoring.
@@ -88,76 +83,38 @@ Win32InputMonitor::terminate()
 }
 
 
-LRESULT CALLBACK
-Win32InputMonitor::keyboard_ll_hook(int code, WPARAM wparam, LPARAM lparam)
+
+
+
+void
+Win32InputMonitor::on_harpoon_event(HarpoonEvent *event)
 {
-  KBDLLHOOKSTRUCT *kb = (KBDLLHOOKSTRUCT *) lparam;
-  // We test for keyups, because I could not find a way
-  // to distinguish between key downs, and auto-repeated keydowns.
-  if ((kb->flags & (1<<7)))
+  switch (event->type)
     {
-      // FIXME: supply decent parameters to keyboard_notify()
-      listener->keyboard_notify(0, 0);
-    }
-  else
-    {
+    case HARPOON_BUTTON_PRESS:
+      listener->button_notify(0, true); // FIXME: proper parameter
+      break;
+
+    case HARPOON_BUTTON_RELEASE:
+      listener->button_notify(0, false); // FIXME: proper parameter
+      break;
+
+    case HARPOON_2BUTTON_PRESS:
+    case HARPOON_KEY_PRESS:
       listener->action_notify();
-    }
-}
+      break;
 
-LRESULT CALLBACK
-Win32InputMonitor::keyboard_hook(int code, WPARAM wparam, LPARAM lparam)
-{
-  TRACE_ENTER_MSG("Win32InputMonitor::keyboard_hook", code << ", " << wparam << ", " << lparam);
-  bool pressed = (lparam & (1 << 31)) == 0;
-  bool prevpressed = (lparam & (1 << 30)) != 0;
-  if (pressed && !prevpressed && code == HC_ACTION)
-    {
-      // FIXME: supply decent parameters to keyboard_notify()
+    case HARPOON_MOUSE_WHEEL:
+      listener->mouse_notify(event->mouse.x, event->mouse.y,
+                             event->mouse.wheel);
+      break;
+
+    case HARPOON_KEY_RELEASE:
       listener->keyboard_notify(0, 0);
-    }
-  else
-    {
-      listener->action_notify();
+      break;
+
+    case HARPOON_MOUSE_MOVE:
+      listener->mouse_notify(event->mouse.x, event->mouse.y, 0);
+      break;
     }
 }
-
-LRESULT CALLBACK
-Win32InputMonitor::mouse_hook(int code, WPARAM wparam, LPARAM lparam)
-{
-  PMOUSEHOOKSTRUCTEX mhs = (PMOUSEHOOKSTRUCTEX) lparam;
-  //    TRACE_ENTER_MSG("Win32InputMonitor::mouse_hook",
-  //                    wparam << ", (" << mx
-  //                    << ", " << my
-  //                    << ", " << mw << ")");
-  if (code == HC_ACTION)
-    {
-      switch (wparam)
-        {
-        case WM_LBUTTONDOWN:
-        case WM_MBUTTONDOWN:
-        case WM_RBUTTONDOWN:
-          listener->button_notify(0, true); // FIXME: proper parameter
-          break;
-  
-        case WM_LBUTTONUP:
-        case WM_MBUTTONUP:
-        case WM_RBUTTONUP:
-          listener->button_notify(0, false); // FIXME: proper parameter
-          break;
-        
-        case WM_LBUTTONDBLCLK:
-        case WM_MBUTTONDBLCLK:
-        case WM_RBUTTONDBLCLK:
-          listener->action_notify();
-          break;
-        
-        default:
-          int mx = mhs->MOUSEHOOKSTRUCT.pt.x;
-          int my = mhs->MOUSEHOOKSTRUCT.pt.y;
-          int mw = wparam == WM_MOUSEWHEEL ? HIWORD(mhs->mouseData) : 0;
-          listener->mouse_notify(mx, my, mw);
-        }
-    }
-}
-
