@@ -271,10 +271,11 @@ MainWindow::open_window()
       set_gravity(Gdk::GRAVITY_STATIC); 
       set_position(Gtk::WIN_POS_NONE);
 
-//       show_all();
-//       move(x, y);
-//       raise();
+#ifdef WIN32
+      win32_show(true);
+#else
       deiconify();
+#endif
     }
 }
 
@@ -297,8 +298,11 @@ MainWindow::close_window()
   // Remember position
   remember_position();
 
+#ifdef WIN32
+  win32_show(false);
+#else
   iconify();
-  // hide();
+#endif
 }
 
 
