@@ -264,7 +264,7 @@ GUIControl::init()
 
   Statistics *stats = Statistics::get_instance();
   stats->load_current_day();
-    
+
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       ConfigCheck *tc = &configCheck[i];

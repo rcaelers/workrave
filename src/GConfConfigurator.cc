@@ -62,6 +62,28 @@ GConfConfigurator::save()
 }
 
 
+bool
+GConfConfigurator::get_value(string key, GConfValue **value) const
+{
+  bool ret = true;
+  GError *error = NULL;
+
+  string full_key = gconf_root + key;
+
+  assert(value != NULL);
+  *value  = gconf_client_get_without_default(gconf_client, full_key.c_str(), &error);
+
+  if (error != NULL || *value == NULL)
+    {
+      ret = false;
+      *value = NULL;
+    }
+  
+  return ret;
+}
+  
+
+
 //! Returns the value of the specified attribute
 /*!
  *  \retval true value successfully returned.
@@ -70,22 +92,21 @@ GConfConfigurator::save()
 bool
 GConfConfigurator::get_value(string key, string *out) const
 {
-  bool ret = true;
-  GError *error = NULL;
+  GConfValue *value;
 
-  string full_key = gconf_root + key;
-    
-  gchar *str = gconf_client_get_string(gconf_client, full_key.c_str(), &error);
-
-  if (error != NULL || str == NULL)
+  bool ret = get_value(key, &value);
+  if (ret)
     {
-      ret = false;
+      if (value->type == GCONF_VALUE_STRING)
+        {
+          *out = gconf_value_get_string(value);
+        }
+      else
+        {
+          ret = false;
+        }
+      gconf_value_free(value);
     }
-  else
-    {
-      *out = str;
-    }
-  
   return ret;
 }
 
@@ -98,21 +119,21 @@ GConfConfigurator::get_value(string key, string *out) const
 bool
 GConfConfigurator::get_value(string key, bool *out) const
 {
-  bool ret = true;
-  GError *error = NULL;
-  
-  string full_key = gconf_root + key;
-  gboolean b = gconf_client_get_bool(gconf_client, full_key.c_str(), &error);
+  GConfValue *value;
 
-  if (error != NULL)
+  bool ret = get_value(key, &value);
+  if (ret)
     {
-      ret = false;
+      if (value->type == GCONF_VALUE_BOOL)
+        {
+          *out = gconf_value_get_bool(value);
+        }
+      else
+        {
+          ret = false;
+        }
+      gconf_value_free(value);
     }
-  else
-    {
-      *out = b;
-    }
-  
   return ret;
 }
 
@@ -125,19 +146,20 @@ GConfConfigurator::get_value(string key, bool *out) const
 bool
 GConfConfigurator::get_value(string key, int *out) const
 {
-  bool ret = true;
-  GError *error = NULL;
-  
-  string full_key = gconf_root + key;
-  gint i = gconf_client_get_int(gconf_client, full_key.c_str(), &error);
+  GConfValue *value;
 
-  if (error != NULL)
+  bool ret = get_value(key, &value);
+  if (ret)
     {
-      ret = false;
-    }
-  else
-    {
-      *out = i;
+      if (value->type == GCONF_VALUE_INT)
+        {
+          *out = gconf_value_get_int(value);
+        }
+      else
+        {
+          ret = false;
+        }
+      gconf_value_free(value);
     }
   return ret;
 }
@@ -151,21 +173,21 @@ GConfConfigurator::get_value(string key, int *out) const
 bool
 GConfConfigurator::get_value(string key, long *out) const
 {
-  bool ret = true;
-  GError *error = NULL;
-  
-  string full_key = gconf_root + key;
-  gint i = gconf_client_get_int(gconf_client, full_key.c_str(), &error);
-  
-  if (error != NULL)
+  GConfValue *value;
+
+  bool ret = get_value(key, &value);
+  if (ret)
     {
-      ret = false;
+      if (value->type == GCONF_VALUE_INT)
+        {
+          *out = gconf_value_get_int(value);
+        }
+      else
+        {
+          ret = false;
+        }
+      gconf_value_free(value);
     }
-  else
-    {
-      *out = i;
-    }
-  
   return ret;
 }
 
@@ -178,21 +200,21 @@ GConfConfigurator::get_value(string key, long *out) const
 bool
 GConfConfigurator::get_value(string key, double *out) const
 {
-  bool ret = true;
-  GError *error = NULL;
-  
-  string full_key = gconf_root + key;
-  gdouble d = gconf_client_get_float(gconf_client, full_key.c_str(), &error);
-  
-  if (error != NULL)
+  GConfValue *value;
+
+  bool ret = get_value(key, &value);
+  if (ret)
     {
-      ret = false;
+      if (value->type == GCONF_VALUE_FLOAT)
+        {
+          *out = gconf_value_get_float(value);
+        }
+      else
+        {
+          ret = false;
+        }
+      gconf_value_free(value);
     }
-  else
-    {
-      *out = d;
-    }
-  
   return ret;
 }
 

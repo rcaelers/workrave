@@ -88,6 +88,7 @@ Control::main(int argc, char **argv)
   GUIInterface *gui = GUIFactory::create_gui("gtkmm", this, argc, argv);
 
   configurator = gui->get_configurator();
+
   gui->run();
 
   return 0;

@@ -39,6 +39,8 @@ public:
   virtual bool load(string filename);
   virtual bool save(string filename);
   virtual bool save();
+
+  virtual bool get_value(string key, GConfValue **value) const;
   virtual bool get_value(string key, string *out) const;
   virtual bool get_value(string key, bool *out) const;
   virtual bool get_value(string key, int *out) const;
