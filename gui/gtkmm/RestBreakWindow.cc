@@ -200,7 +200,7 @@ RestBreakWindow::on_realize()
   Glib::RefPtr<Gdk::Window> window = get_window();
 
   // Alloc some colors
-  Glib::RefPtr<Gdk::Colormap> colormap = get_default_colormap();
+  Glib::RefPtr<Gdk::Colormap> colormap = get_colormap();
   border_color = Gdk::Color("black");
   colormap->alloc_color(border_color);
 

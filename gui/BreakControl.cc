@@ -615,11 +615,11 @@ BreakControl::break_window_stop()
   if (break_window != NULL)
     {
       break_window->stop();
-#ifndef WIN32      
+//#ifndef WIN32      // FIXME: bug66
       break_window_destroy = true;
       delay_window_destroy = true;
       TRACE_MSG("marking for delay destroy");
-#endif      
+//#endif      
     }
   TRACE_EXIT();
 }
@@ -668,11 +668,11 @@ BreakControl::prelude_window_stop()
   if (prelude_window != NULL)
     {
       prelude_window->stop();
-#ifndef WIN32      
+//#ifndef WIN32      // FIXME: bug66
       prelude_window_destroy = true;
       delay_window_destroy = true;
       TRACE_MSG("marking for delay destroy");
-#endif
+//#endif // FIXME: bug66
     }
   TRACE_EXIT();
 }

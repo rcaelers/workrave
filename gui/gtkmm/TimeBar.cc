@@ -83,7 +83,7 @@ void TimeBar::on_realize()
   set_text_color(Gdk::Color("black"));  //
 
 #if 1 // FIXME: bug66
-  Glib::RefPtr<Gdk::Colormap> colormap = get_default_colormap();
+  Glib::RefPtr<Gdk::Colormap> colormap = get_colormap();
   for (int i = 0; i < COLOR_ID_SIZEOF; i++)
     {
       colormap->alloc_color(bar_colors[i]);

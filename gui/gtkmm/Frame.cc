@@ -121,7 +121,7 @@ Frame::on_realize()
 
   color_black.set_rgb(0, 0, 0);
 #if 1 // FIXME: bug66
-  color_map = get_default_colormap();
+  color_map = get_colormap();
   color_map->alloc_color(color_black);
 #endif
   set_frame_color(frame_color);
