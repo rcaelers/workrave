@@ -43,6 +43,10 @@ static const char rcsid[] = "$Id$";
 #include "RestBreakWindow.hh"
 #include "WindowHints.hh"
 
+#ifdef WIN32
+#include "Win32SoundPlayer.hh"
+#endif
+
 GUI *GUI::instance = NULL;
 
 //! GUI Constructor.
@@ -256,4 +260,19 @@ GUI::on_timer()
 {
   heartbeat();
   return true;
+}
+
+
+SoundPlayerInterface *
+GUI::create_sound_player()
+{
+  SoundPlayerInterface *snd = NULL;
+#if defined(WIN32)
+  snd = new Win32SoundPlayer();
+#elif defined(HAVE_GNOME)
+  snd = new GnomeSoundPlayer();
+#else
+#  error snd = new StubSoundPlayer()
+#endif
+  return snd;
 }

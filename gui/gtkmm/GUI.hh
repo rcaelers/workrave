@@ -1,9 +1,7 @@
 // GUI.hh --- The WorkRave GUI
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
 // All rights reserved.
-//
-// Time-stamp: <2002-09-21 23:53:41 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -39,6 +37,7 @@ class RestBreakWindow;
 // Generic GUI
 class GUIControl;
 class BreakControl;
+class SoundPlayerInterface;
 
 // Core interfaces
 class BreakInterface;
@@ -66,6 +65,7 @@ public:
   // GUIFactoryInterface methods
   PreludeWindowInterface *create_prelude_window();
   BreakWindowInterface *create_break_window(GUIControl::BreakId break_id, bool ignorable);
+  SoundPlayerInterface *create_sound_player();
   
   // Internal public methods
   void restbreak_now();

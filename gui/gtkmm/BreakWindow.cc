@@ -31,7 +31,6 @@ static const char rcsid[] = "$Id$";
 #include "WindowHints.hh"
 #include "Frame.hh"
 
-const int MARGIN = 20;
 
 
 //! Constructor
@@ -47,7 +46,8 @@ BreakWindow::BreakWindow() :
   did_avoid(false),
   frame(NULL),
   border_width(0),
-  grab_handle(NULL)
+  grab_handle(NULL),
+  SCREEN_MARGIN(20)
 {
   Gtk::Window::set_border_width(0);
 }
@@ -226,13 +226,13 @@ BreakWindow::avoid_pointer(int px, int py)
 #endif  
 
   int screen_height = gdk_screen_height();
-  int top_y = MARGIN;
-  int bottom_y = screen_height - height - MARGIN;
-  if (winy < top_y + MARGIN)
+  int top_y = SCREEN_MARGIN;
+  int bottom_y = screen_height - height - SCREEN_MARGIN;
+  if (winy < top_y + SCREEN_MARGIN)
     {
       winy = bottom_y;
     }
-  else if (winy > bottom_y - MARGIN)
+  else if (winy > bottom_y - SCREEN_MARGIN)
     {
       winy = top_y;
     }

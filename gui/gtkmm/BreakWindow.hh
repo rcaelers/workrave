@@ -46,6 +46,8 @@ protected:
   void set_border_width(guint border_width);
   void set_avoid_pointer(bool avoid_pointer);
   bool did_avoid_pointer() const;
+
+  const int SCREEN_MARGIN;
   
 private:
 #ifdef WIN32

@@ -21,6 +21,7 @@
 
 class PreludeWindowInterface;
 class BreakWindowInterface;
+class SoundPlayerInterface;
 
 #include "GUIControl.hh"
 #include <string>
@@ -30,6 +31,7 @@ class GUIFactoryInterface
 public:
   virtual PreludeWindowInterface *create_prelude_window() = 0;
   virtual BreakWindowInterface *create_break_window(GUIControl::BreakId break_id, bool ignorable) = 0;
+  virtual SoundPlayerInterface *create_sound_player() = 0;
 };
 
 #endif // RESTGUIFACTORYINTERFACE_HH

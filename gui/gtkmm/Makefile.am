@@ -13,7 +13,11 @@ noinst_LIBRARIES = libgtkmmgui.a
 
 if HAVE_GNOME
 else
-sourcesgnome = gnome-about.c
+sourcesgnome = gnome-about.c GnomeSoundPlayer.cc
+endif
+
+if PLATFORM_WIN32
+sourceswin32 = Win32SoundPlayer.cc
 endif
 
 libgtkmmgui_a_SOURCES = \
@@ -33,7 +37,7 @@ libgtkmmgui_a_SOURCES = \
 	gnome-winhints.c \
 	Frame.cc \
 	WmSpec.cc \
-	$(sourcesgnome)
+	$(sourcesgnome) $(sourceswin32)
 
 
 

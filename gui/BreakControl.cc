@@ -30,6 +30,7 @@ static const char rcsid[] = "$Id$";
 #include "GUIFactoryInterface.hh"
 #include "PreludeWindowInterface.hh"
 #include "BreakWindowInterface.hh"
+#include "SoundPlayerInterface.hh"
 
 #include "ActivityMonitorInterface.hh"
 #include "ControlInterface.hh"
@@ -210,6 +211,8 @@ BreakControl::goto_stage(BreakStage stage)
               {
                 Statistics *stats = Statistics::get_instance();
                 stats->increment_counter(break_id, Statistics::STAT_TYPE_TAKEN);
+                GUIControl::get_instance()->get_sound_player()
+                  ->play_sound(SoundPlayerInterface::SOUND_BREAK_ENDED);
               }
           }
       }
@@ -220,6 +223,8 @@ BreakControl::goto_stage(BreakStage stage)
         break_window_stop();
         prelude_window_stop();
         // break_timer->snooze_timer();
+        GUIControl::get_instance()->get_sound_player()
+          ->play_sound(SoundPlayerInterface::SOUND_BREAK_IGNORED);
 
         defrost();
       }
@@ -233,6 +238,8 @@ BreakControl::goto_stage(BreakStage stage)
 
         prelude_window_start();
         prelude_window->refresh();
+        GUIControl::get_instance()->get_sound_player()
+          ->play_sound(SoundPlayerInterface::SOUND_BREAK_PRELUDE);
       }
       break;
         
@@ -243,6 +250,8 @@ BreakControl::goto_stage(BreakStage stage)
         break_window_start();
         assert(break_window != NULL);
         break_window->refresh();
+        GUIControl::get_instance()->get_sound_player()
+          ->play_sound(SoundPlayerInterface::SOUND_BREAK_STARTED);
 
         if (insist_break)
           {

@@ -30,6 +30,7 @@ class BreakControl;
 class ControlInterface;
 class BreakInterface;
 class TimerInterface;
+class SoundPlayerInterface;
 
 class GUIControl :
   public ConfiguratorListener
@@ -102,6 +103,7 @@ public:
   
 public:
   static GUIControl *get_instance();
+  SoundPlayerInterface *get_sound_player();
   void heartbeat();
   void init();
   OperationMode set_operation_mode(OperationMode mode);
@@ -143,6 +145,9 @@ private:
   //! The Controller
   ControlInterface *core_control;
 
+  //! The sound player
+  SoundPlayerInterface *sound_player;
+  
   //! Configuration access.
   Configurator *configurator;
 
@@ -155,6 +160,12 @@ inline GUIControl *
 GUIControl::get_instance()
 {
   return instance;
+}
+
+inline SoundPlayerInterface *
+GUIControl::get_sound_player()
+{
+  return sound_player;
 }
 
 #endif // GUICONTROL_HH
