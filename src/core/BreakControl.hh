@@ -164,6 +164,9 @@ private:
 
   //! Fake break counter.
   int fake_break_count;
+
+  //! Break will be stopped because the user pressed skip.
+  bool skip_pressed;
 };
 
 #endif // BREAKCONTROL_HH

@@ -67,7 +67,8 @@ BreakControl::BreakControl(BreakId id, Core *c, AppInterface *app, Timer *timer)
   insist_policy(INSIST_POLICY_HALT),
   active_insist_policy(INSIST_POLICY_INVALID),
   fake_break(false),
-  fake_break_count(0)
+  fake_break_count(0),
+  skip_pressed(false)
 {
   set_insist_break(insist_break);
   set_ignorable_break(ignorable_break);
@@ -235,7 +236,7 @@ BreakControl::goto_stage(BreakStage stage)
             time_t idle = break_timer->get_elapsed_idle_time();
             time_t reset = break_timer->get_auto_reset();
 
-            if (idle >= reset)
+            if (idle >= reset && !skip_pressed)
               {
                 // natural break end.
 
@@ -381,7 +382,8 @@ BreakControl::start_break()
   user_initiated = false;
   forced_break = false;
   prelude_time = 0;
-
+  skip_pressed = false;
+  
   final_prelude = number_of_preludes >= 0 && prelude_count + 1 >= number_of_preludes;
 
   if (number_of_preludes >= 0 && prelude_count >= number_of_preludes)
@@ -434,7 +436,8 @@ BreakControl::force_start_break()
   user_initiated = true;
   forced_break = true;
   prelude_time = 0;
-
+  skip_pressed = false;
+  
   if (break_timer->is_auto_reset_enabled())
     {
       TRACE_MSG("auto reset enabled");
@@ -562,7 +565,7 @@ void
 BreakControl::skip_break()
 {
   // This is to avoid a skip sound...
-  user_initiated = true;
+  skip_pressed = true;
 
   // Reset the restbreak timer.
   if (break_id == BREAK_ID_DAILY_LIMIT)
