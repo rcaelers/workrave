@@ -22,6 +22,7 @@
 #ifdef HAVE_EXERCISES
 
 #include "ExercisesParser.hh"
+#include "Util.hh"
 
 #include "nls.h"
 #include "debug.hh"
@@ -29,5 +30,78 @@
 #include <unistd.h>
 #include <assert.h>
 
+
+void
+ExercisesParser::on_start_element (Glib::Markup::ParseContext& context,
+                                   const Glib::ustring& element_name,
+                                   const AttributeMap& attributes)
+{
+  TRACE_ENTER_MSG("ExercisesParser::on_start_element", element_name);
+  TRACE_EXIT();
+}
+
+void
+ExercisesParser::on_end_element (Glib::Markup::ParseContext& context,
+                                 const Glib::ustring& element_name)
+{
+  TRACE_ENTER_MSG("ExercisesParser::on_end_element", element_name);
+  TRACE_EXIT();
+}
+
+void
+ExercisesParser::on_text (Glib::Markup::ParseContext& context,
+                          const Glib::ustring& text)
+{
+  TRACE_ENTER_MSG("ExercisesParser::on_text", text);
+  TRACE_EXIT();
+}
+
+void
+ExercisesParser::on_passthrough (Glib::Markup::ParseContext& context,
+                                 const Glib::ustring& passthrough_text)
+{
+  TRACE_ENTER_MSG("ExercisesParser::on_passthrough", passthrough_text);
+  TRACE_EXIT();
+}
+   
+
+const std::list<Exercise>
+ExercisesParser::get_exercises(std::string file_name)
+{
+  TRACE_ENTER_MSG("ExercisesParser::get_exercises", file_name);
+  std::list<Exercise> exercises;
+  
+  // I hate C++ streams.
+  FILE *stream = fopen(file_name.c_str(), "rb");
+  if (stream)
+    {
+      ExercisesParser parser;
+      Glib::Markup::ParseContext context(parser);
+
+      char buf[1024];
+      while (true)
+        {
+          int n = fread(buf, 1, sizeof(buf), stream);
+          if (ferror(stream))
+            break;
+          context.parse(buf, buf + n);
+          if (feof(stream))
+            break;
+        }
+      fclose(stream);
+      context.end_parse();
+    }
+  TRACE_EXIT();
+  return exercises;
+}
+
+
+const std::list<Exercise>
+ExercisesParser::get_exercises()
+{
+  std::string exercises = Util::complete_directory
+    ("exercises.xml", Util::SEARCH_PATH_EXERCISES);
+  return get_exercises(exercises);
+}
 
 #endif // HAVE_EXERCISES

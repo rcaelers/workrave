@@ -30,6 +30,7 @@
 #include <assert.h>
 
 #include "ExercisesDialog.hh"
+#include "ExercisesParser.hh"
 
 
 
@@ -38,6 +39,7 @@ ExercisesDialog::ExercisesDialog()
 {
   TRACE_ENTER("ExercisesDialog::ExercisesDialog");
 
+  ExercisesParser::get_exercises();
   TRACE_EXIT();
 }
 

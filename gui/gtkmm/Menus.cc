@@ -533,6 +533,7 @@ Menus::on_menu_preferences()
 void
 Menus::on_menu_exercises()
 {
+  TRACE_ENTER("Menus::on_menu_exercises");
   if (exercises_dialog == NULL)
     {
       exercises_dialog = new ExercisesDialog();
@@ -540,6 +541,7 @@ Menus::on_menu_exercises()
           
       exercises_dialog->run();
     }
+  TRACE_EXIT();
 }
 
 void

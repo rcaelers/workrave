@@ -25,9 +25,28 @@
 
 #include <glibmm/markup.h>
 #include <list>
+#include <string>
+
+class Exercise
+{
+};
 
 class ExercisesParser : public Glib::Markup::Parser
 {
+public:
+  static const std::list<Exercise> get_exercises();
+  static const std::list<Exercise> get_exercises(std::string file_name);
+
+protected:
+  void on_start_element (Glib::Markup::ParseContext& context,
+                         const Glib::ustring& element_name,
+                         const AttributeMap& attributes);
+  void on_end_element (Glib::Markup::ParseContext& context,
+                       const Glib::ustring& element_name);
+  void on_text (Glib::Markup::ParseContext& context,
+                const Glib::ustring& text);
+  void on_passthrough (Glib::Markup::ParseContext& context,
+                       const Glib::ustring& passthrough_text);
 };
 
 #endif // HAVE_EXERCISES

@@ -5,8 +5,8 @@
       haha
     </description>
     <sequence duration="20">
-      <image src="bla.png" duration="4">
-      <image src="bla.png" duration="16">
+      <image src="bla.png" duration="4"/>
+      <image src="bla.png" duration="16"/>
     </sequence>
   </exercise>
 </exercises>

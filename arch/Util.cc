@@ -198,6 +198,16 @@ Util::get_search_path(SearchPathId type)
       searchPath.push_back(string(app_dir) + "\\etc");
 #endif    
     }
+  else if (type == SEARCH_PATH_EXERCISES)
+    {
+#if defined(HAVE_X)
+      searchPath.push_back(string(WORKRAVE_DATADIR) + "/exercises");
+#elif defined(WIN32)
+      searchPath.push_back(string(app_dir) + "\\share\\exercises");
+#else
+#error Not properly ported.
+#endif    
+    }
 
   return searchPath;
 }
