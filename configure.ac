@@ -440,8 +440,15 @@ dnl AM_GLIB_GNU_GETTEXT
 
 GETTEXT_PACKAGE=workrave
 AC_SUBST(GETTEXT_PACKAGE)
+
+dnl Hack because windows gettext package is SEVERELY broken...
+if test "x$platform_win32" != "xyes"; then
+        USE_NLS=yes
+fi
+
 AC_DEFINE(GETTEXT_PACKAGE, "workrave", [Blaat])
 AC_PROG_INTLTOOL
+
 
 if test "x$config_with_xml" = "xyes"
 then

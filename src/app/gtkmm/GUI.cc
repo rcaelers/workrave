@@ -104,7 +104,6 @@ GUI::GUI(int argc, char **argv)  :
   main_window_head_location(-1, -1),
   main_window_relocated_location(-1, -1),
 #if !defined(HAVE_GTK_MULTIHEAD) && defined(WIN32)
-  ,
   enum_monitors(NULL),
   user_lib(NULL),
   current_monitor(0),
