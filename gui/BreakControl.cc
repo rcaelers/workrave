@@ -153,8 +153,6 @@ BreakControl::heartbeat()
       
     case STAGE_PRELUDE:
       {
-        TRACE_MSG("prelude count = " << prelude_count);
-
         assert(prelude_window != NULL);
         update_prelude_window();
         prelude_window->refresh();
@@ -378,13 +376,19 @@ BreakControl::start_break()
 
   TRACE_MSG("final_prelude = " << final_prelude);
   
-  if (!force_after_prelude && number_of_preludes >= 0 && prelude_count >= number_of_preludes)
+  if (number_of_preludes >= 0 && prelude_count >= number_of_preludes)
     {
-      goto_stage(STAGE_SNOOZED);
+      if (!force_after_prelude)
+        {
+          goto_stage(STAGE_SNOOZED);
+        }
+      else
+        {
+          goto_stage(STAGE_TAKING);
+        }
     }
   else
     {
-      
       monitor->force_idle();
       break_timer->stop_timer();
   
@@ -828,9 +832,16 @@ BreakControl::set_state_data(bool active, const BreakStateData &data)
           prelude_time = 0;
           final_prelude = number_of_preludes >= 0 && prelude_count + 1 >= number_of_preludes;
 
-          if (!force_after_prelude && number_of_preludes >= 0 && prelude_count >= number_of_preludes)
+          if (number_of_preludes >= 0 && prelude_count >= number_of_preludes)
             {
-              goto_stage(STAGE_SNOOZED);
+              if (!force_after_prelude)
+                {
+                  goto_stage(STAGE_SNOOZED);
+                }
+              else
+                {
+                  goto_stage(STAGE_TAKING);
+                }
             }
           else
             {
