@@ -28,7 +28,7 @@
   </exercise>
   <exercise>
     <_title>Neck tilt stretch</_title>
-    <_description>Start with your head in a comfortable straight  position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side.</_description>
+    <_description>Start with your head in a comfortable straight position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side.</_description>
     <sequence duration="30">
       <image src="neck-tilt-stretch-1.png" duration="5"/>
       <image src="neck-tilt-stretch-2.png" duration="5"/>
@@ -77,7 +77,7 @@
   </exercise>
   <exercise>
     <_title>Move the shoulders</_title>
-    <_description>Spin your right arm slowly round like a plane propellor beside your body. Do this 4 times clockwise, 4 times counter clockwise and relax for a few seconds.  Repeat with the left arm.</_description>
+    <_description>Spin your right arm slowly round like a plane propellor beside your body. Do this 4 times clockwise, 4 times counter clockwise and relax for a few seconds. Repeat with the left arm.</_description>
     <sequence duration="30">
        <image src="rotate-arm.png" duration="15"/>
        <image src="rotate-arm.png" duration="15" mirrorx="yes"/>
