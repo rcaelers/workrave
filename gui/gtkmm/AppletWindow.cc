@@ -48,6 +48,7 @@ static const char rcsid[] = "$Id$";
 
 const string AppletWindow::CFG_KEY_APPLET = "gui/applet";
 const string AppletWindow::CFG_KEY_APPLET_HORIZONTAL = "gui/applet/horizontal";
+const string AppletWindow::CFG_KEY_APPLET_ENABLED = "gui/applet/enabled";
 const string AppletWindow::CFG_KEY_APPLET_SHOW_MICRO_PAUSE = "gui/applet/show_micro_pause";
 const string AppletWindow::CFG_KEY_APPLET_SHOW_REST_BREAK = "gui/applet/show_rest_break";
 const string AppletWindow::CFG_KEY_APPLET_SHOW_DAILY_LIMIT = "gui/applet/show_daily_limit";
@@ -86,10 +87,15 @@ void
 AppletWindow::init()
 {
   TRACE_ENTER("AppletWindow::init");
+
   read_configuration();
-  init_widgets();
-  init_table();
-  init_applet();
+
+  if (applet_enabled)
+    {
+      init_widgets();
+      init_table();
+      init_applet();
+    }
   
   TRACE_EXIT();
 }
@@ -360,6 +366,12 @@ AppletWindow::read_configuration()
       c->set_value(AppletWindow::CFG_KEY_APPLET_HORIZONTAL, horizontal);
     }
 
+  if (!c->get_value(AppletWindow::CFG_KEY_APPLET_ENABLED, &applet_enabled))
+    {
+      applet_enabled = true;
+      c->set_value(AppletWindow::CFG_KEY_APPLET_ENABLED, applet_enabled);
+    }
+  
   bool rc;
   if (!c->get_value(AppletWindow::CFG_KEY_APPLET_SHOW_MICRO_PAUSE, &rc))
     {

@@ -53,6 +53,7 @@ public:
 public:  
   static const string CFG_KEY_APPLET;
   static const string CFG_KEY_APPLET_HORIZONTAL;
+  static const string CFG_KEY_APPLET_ENABLED;
   static const string CFG_KEY_APPLET_SHOW_MICRO_PAUSE;
   static const string CFG_KEY_APPLET_SHOW_REST_BREAK;
   static const string CFG_KEY_APPLET_SHOW_DAILY_LIMIT;
@@ -78,6 +79,9 @@ private:
 
   //! Allign break horizontally.
   bool horizontal;
+
+  //! Applet enabled?
+  bool applet_enabled;
   
 private:
   //
