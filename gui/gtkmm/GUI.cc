@@ -128,32 +128,15 @@ GUI::restbreak_now()
 }
 
 
-#ifdef NDEBUG
-void my_log_handler(const gchar *log_domain, GLogLevelFlags log_level,
-                    const gchar *message, gpointer user_data)
-{
-}
-#endif
-
 //! The main entry point.
 void
 GUI::main()
 {
+  TRACE_ENTER("GUI::main");
+
   Gtk::Main kit(argc, argv);
 
-  TRACE_ENTER("GUI::main");
-  
-#ifdef NDEBUG
-  char *domains[] = { NULL, "Gtk", "GLib", "Gdk", "gtkmm" };
-  for (int i = 0; i < sizeof(domains)/sizeof(char *); i++)
-    {
-      g_log_set_handler(domains[i],
-                        (GLogLevelFlags) (G_LOG_LEVEL_MASK | G_LOG_FLAG_FATAL | G_LOG_FLAG_RECURSION),
-                        my_log_handler, NULL);
-    }
-  
-#endif
-  
+  init_debug();
   init_nls();
   init_core_control();
   init_gui_control();
@@ -162,7 +145,7 @@ GUI::main()
   
   // Enter the event loop
   gdk_threads_enter();
-  Gtk::Main::run(); //*main_window);
+  Gtk::Main::run();
   gdk_threads_leave();
 
   delete main_window;
@@ -191,15 +174,11 @@ GUI::terminate()
 void
 GUI::open_main_window()
 {
-  TRACE_ENTER("GUI::open_main_window");
-
   if (main_window != NULL)
     {
       main_window->deiconify();
       main_window->raise();
     }
-  
-  TRACE_EXIT();
 }
 
 
@@ -228,6 +207,24 @@ GUI::on_timer()
 }
 
 
+//! Initializes messages hooks.
+void
+GUI::init_debug()
+{
+#ifdef NDEBUG
+  char *domains[] = { NULL, "Gtk", "GLib", "Gdk", "gtkmm" };
+  for (int i = 0; i < sizeof(domains)/sizeof(char *); i++)
+    {
+      g_log_set_handler(domains[i],
+                        (GLogLevelFlags) (G_LOG_LEVEL_MASK | G_LOG_FLAG_FATAL | G_LOG_FLAG_RECURSION),
+                        my_log_handler, NULL);
+    }
+  
+#endif
+}
+
+
+//! Initializes i18n.
 void
 GUI::init_nls()
 {
@@ -259,7 +256,7 @@ GUI::init_core_control()
   char *display_name = NULL;
 #endif
   Configurator *config = create_configurator();
-  core_control->init(config, display_name);
+  core_control->init(GUIControl::BREAK_ID_SIZEOF, config, display_name);
 
 #ifdef HAVE_X
   g_free(display_name);
@@ -267,6 +264,7 @@ GUI::init_core_control()
 }
 
 
+//! Initializes the GUI Controller.
 void
 GUI::init_gui_control()
 {
@@ -275,11 +273,11 @@ GUI::init_gui_control()
 }
 
 
+
+//! Initializes the GUI
 void
 GUI::init_gui()
 {
-  TRACE_ENTER("GUI::init_gui");
-
   // Setup the window hints module.
   WindowHints::init();
 
@@ -293,17 +291,16 @@ GUI::init_gui()
 
   tooltips = manage(new Gtk::Tooltips());
   tooltips->enable();
+
   // Periodic timer.
   Glib::signal_timeout().connect(SigC::slot(*this, &GUI::on_timer), 1000);
-
-  TRACE_EXIT();
 }
 
 
+//! Initializes the CORBA remote control interface.
 void
 GUI::init_remote_control()
 {
-  TRACE_ENTER("GUI::init_remote_control");
 #ifdef HAVE_GNOME
   if (!bonobo_init(&argc, argv))
     {
@@ -316,7 +313,6 @@ GUI::init_remote_control()
   factory = bonobo_generic_factory_new("OAFIID:GNOME_Workrave_Factory", workrave_component_factory, NULL);
   bonobo_running_context_auto_exit_unref (BONOBO_OBJECT (factory));
 #endif
-  TRACE_EXIT();
 }
 
 
@@ -402,3 +398,11 @@ GUI::create_configurator()
     }
   return configurator;
 }
+
+#ifdef NDEBUG
+static void my_log_handler(const gchar *log_domain, GLogLevelFlags log_level,
+                           const gchar *message, gpointer user_data)
+{
+}
+#endif
+

@@ -4,6 +4,8 @@
     <cmd name="Suspended"/>
     <cmd name="Quiet"/>
     <cmd name="ShowLog"/>
+    <cmd name="Mode"/>
+    <cmd name="Network"/>
   </commands>
 
   <popups>
@@ -18,7 +20,7 @@
       <menuitem name="Restbreak Item" verb="Restbreak" _label="_Restbreak"
                 pixtype="filename" pixname="@PIXDIR@/timer-restbreak.png"/>
 
-      <submenu name="Mode Item" _label="_Mode">
+      <submenu name="Mode Item" id="Mode" _label="_Mode">
 
         <menuitem name="Normal Item" verb="Normal" _label="_Normal"
                   type="radio" group="Mode" id="Normal"/>
@@ -31,7 +33,7 @@
 
       </submenu>
 
-      <submenu name="Network Item" _label="_Network">
+      <submenu name="Network Item" id="Network" _label="_Network">
 
         <menuitem name="Connect Item" verb="Connect" _label="_Connect..."/>
         <menuitem name="Disconnect Item" verb="Disconnect" _label="_Disconnect"/>

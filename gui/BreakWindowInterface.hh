@@ -26,6 +26,11 @@ class BreakResponseInterface;
 class BreakWindowInterface
 {
 public:
+  BreakWindowInterface()
+  {
+    break_response = NULL;
+  }
+
   //! Starts (i.e. shows) the break window.
   virtual void start() = 0;
 

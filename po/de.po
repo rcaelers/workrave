@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
-"POT-Creation-Date: 2003-03-06 21:29+0100\n"
+"POT-Creation-Date: 2003-03-09 17:35+0100\n"
 "PO-Revision-Date: 2003-03-04 18:50+0100\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Johannes Rohr <j.rohr@comlink.apc.org>\n"
@@ -14,39 +14,39 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: gui/BreakControl.cc:659
+#: gui/BreakControl.cc:682
 msgid "Disappears in"
 msgstr "Verschwindet in"
 
-#: gui/BreakControl.cc:663
+#: gui/BreakControl.cc:686
 msgid "Break in"
 msgstr "Pause in"
 
-#: gui/BreakControl.cc:667
+#: gui/BreakControl.cc:690
 msgid "Silent in"
 msgstr "Still in"
 
-#: gui/GUIControl.cc:293
+#: gui/GUIControl.cc:291
 msgid "Time for a micro-pause?"
 msgstr "Zeit für eine Mikropause?"
 
-#: gui/GUIControl.cc:294 gui/gtkmm/MicroPauseWindow.cc:163
+#: gui/GUIControl.cc:292 gui/gtkmm/MicroPauseWindow.cc:163
 msgid "Micro-pause"
 msgstr "Mikropause"
 
-#: gui/GUIControl.cc:300
+#: gui/GUIControl.cc:298
 msgid "You need a rest break..."
 msgstr "Sie brauchen eine Ruhepause..."
 
-#: gui/GUIControl.cc:301
+#: gui/GUIControl.cc:299
 msgid "Rest break"
 msgstr "Ruhepause"
 
-#: gui/GUIControl.cc:307
+#: gui/GUIControl.cc:305
 msgid "You should stop for today..."
 msgstr "Sie sollten für heute aufhören..."
 
-#: gui/GUIControl.cc:308
+#: gui/GUIControl.cc:306
 msgid "Daily limit"
 msgstr "Tägliches Limit"
 
@@ -164,7 +164,7 @@ msgstr "Überspringen"
 msgid "Postpone"
 msgstr "Aufschieben"
 
-#: gui/gtkmm/GUI.cc:310
+#: gui/gtkmm/GUI.cc:307
 msgid "I could not initialize Bonobo"
 msgstr "Konnte Bonobo nicht initialisieren"
 

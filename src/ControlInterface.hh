@@ -20,8 +20,6 @@
 #define CONTROLINTERFACE_HH
 
 #include <string>
-#include <list>
-#include <map>
 
 #include "TimerInterface.hh"
 
@@ -36,16 +34,16 @@ public:
   virtual ~ControlInterface() {}
 
   //! Initialize the Core Control. Must be called first.
-  virtual void init(Configurator *config, char *display) = 0;
+  virtual void init(int timer_count, Configurator *config, char *display) = 0;
 
   //! Creates and adds the timer.
-  virtual TimerInterface *create_timer(string id) = 0;
+  virtual TimerInterface *create_timer(int timer_id, string name) = 0;
 
   //! Initializes all added timers.
   virtual void init_timers() = 0;
 
   //! Processes all timers.
-  virtual void process_timers(map<string, TimerInfo> &infos) = 0;
+  virtual void process_timers(TimerInfo *infos) = 0;
 
   //! Returns the activity monitor.
   virtual ActivityMonitorInterface *get_activity_monitor() const = 0;

@@ -33,6 +33,7 @@ static const char rcsid[] = "$Id$";
 #include "BreakWindowInterface.hh"
 #include "SoundPlayerInterface.hh"
 #include "ActivityMonitorInterface.hh"
+#include "ActivityMonitorListenerInterface.hh"
 #include "ControlInterface.hh"
 #include "TimerInterface.hh"
 
@@ -122,7 +123,17 @@ BreakControl::heartbeat()
       
     case STAGE_SNOOZED:
       break;
-      
+
+    case STAGE_DELAYED:
+      {
+        if (is_idle)
+          {
+            // User is idle.
+            goto_stage(STAGE_TAKING);
+          }
+      }
+      break;
+        
     case STAGE_PRELUDE:
       {
         assert(prelude_window != NULL);
@@ -210,13 +221,16 @@ BreakControl::goto_stage(BreakStage stage)
   TRACE_ENTER_MSG("BreakControl::goto_stage", stage);
   switch (stage)
     {
+    case STAGE_DELAYED:
+      break;
+      
     case STAGE_NONE:
       {
         // Teminate the break.
         break_window_stop();
         prelude_window_stop();
         defrost();
-        
+
         if (break_stage == STAGE_TAKING)
           {
             // Update statistics and play sound if the break end
@@ -254,10 +268,18 @@ BreakControl::goto_stage(BreakStage stage)
       
     case STAGE_SNOOZED:
       {
-        break_window_stop();
-        prelude_window_stop();
-        play_sound(SoundPlayerInterface::SOUND_BREAK_IGNORED);
-        defrost();
+        bool delayed = prelude_window->delayed_stop();
+        if (!delayed)
+          {
+            break_window_stop();
+            prelude_window_stop();
+            play_sound(SoundPlayerInterface::SOUND_BREAK_IGNORED);
+            defrost();
+          }
+        else
+          {
+            stage = STAGE_DELAYED;
+          }
       }
       break;
 
@@ -651,6 +673,7 @@ BreakControl::prelude_window_start()
   
   prelude_window_destroy = false;
 
+  prelude_window->set_prelude_response(this);
   prelude_window->set_stage(PreludeWindowInterface::STAGE_INITIAL);
   prelude_window->set_text(prelude_text);
 
@@ -885,4 +908,15 @@ BreakControl::play_sound(SoundPlayerInterface::Sound snd)
         ->play_sound(snd);
     }
   TRACE_EXIT();
+}
+
+void
+BreakControl::prelude_stopped()
+{
+  break_window_stop();
+  prelude_window_stop();
+  play_sound(SoundPlayerInterface::SOUND_BREAK_IGNORED);
+  defrost();
+
+  break_stage = STAGE_SNOOZED;
 }

@@ -1,6 +1,6 @@
 // PreludeWindow.hh --- window for the micropause
 //
-// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -23,19 +23,24 @@
 
 #include "BreakWindow.hh"
 #include "PreludeWindowInterface.hh"
+#include "ActivityMonitorListenerInterface.hh"
+
 
 class TimeBar;
 class Frame;
+class Dispatcher;
 
 class PreludeWindow :
   public BreakWindow,
-  public PreludeWindowInterface
+  public PreludeWindowInterface,
+  public ActivityMonitorListenerInterface
 {
 public:
   PreludeWindow();
   ~PreludeWindow();
 
   void start();
+  bool delayed_stop();
   void stop();
   void destroy();
   void refresh();
@@ -44,7 +49,12 @@ public:
   void set_stage(Stage stage);
   void set_progress_text(string text);
   
-private:  
+private:
+  bool action_notify();
+  void on_activity();
+  
+private:
+  
   //! Time bar
   TimeBar *time_bar;
 
@@ -65,6 +75,9 @@ private:
 
   //! Final prelude
   string progress_text;
+
+  SigC::Connection dispatch_connection;
+  Dispatcher *dispatcher;
 };
 
 #endif // PRELUDEWINDOW_HH

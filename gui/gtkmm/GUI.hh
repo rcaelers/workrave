@@ -80,6 +80,7 @@ public:
   
 private:
   bool on_timer();
+  void init_debug();
   void init_nls();
   void init_core_control();
   void init_gui_control();

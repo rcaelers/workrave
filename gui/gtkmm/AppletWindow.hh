@@ -67,6 +67,7 @@ public:
   bool get_menu_active(int menu);
   void set_applet_vertical(bool vertical);
   void set_applet_size(int size);
+  void set_applet_control(GNOME_Workrave_AppletControl applet_control);
 #endif
   
 public:

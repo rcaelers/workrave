@@ -23,7 +23,6 @@ static const char rcsid[] = "$Id$";
 #include "debug.hh"
 #include "nls.h"
 
-
 #include <sstream>
 #include <unistd.h>
 #include <stdio.h>
@@ -77,7 +76,7 @@ struct ConfigCheck
   bool insist_break;
   bool ignorable_break;
   
-} configCheck[] =
+} default_config[] =
   {
     { "micro_pause",
       3*60, 30, false,	true,	150,
@@ -113,11 +112,11 @@ GUIControl::TimerData::get_break_max_preludes() const
   int rc;
   b = GUIControl::get_instance()->get_configurator()
     ->get_value(CFG_KEY_BREAK
-                + configCheck[break_id].id
+                + default_config[break_id].id
                 + CFG_KEY_BREAK_MAX_PRELUDES, &rc);
   if (! b)
     {
-      rc = configCheck[break_id].max_preludes;
+      rc = default_config[break_id].max_preludes;
     }
   return rc;
 }
@@ -130,11 +129,11 @@ GUIControl::TimerData::get_break_force_after_preludes() const
   bool rc;
   b = GUIControl::get_instance()->get_configurator()
     ->get_value(CFG_KEY_BREAK
-                + configCheck[break_id].id
+                + default_config[break_id].id
                 + CFG_KEY_BREAK_FORCE_AFTER_PRELUDES, &rc);
   if (! b)
     {
-      rc = configCheck[break_id].force_after_preludes;
+      rc = default_config[break_id].force_after_preludes;
     }
   return rc;
 }
@@ -147,11 +146,11 @@ GUIControl::TimerData::get_break_ignorable() const
   bool rc;
   b = GUIControl::get_instance()->get_configurator()
     ->get_value(CFG_KEY_BREAK
-                + configCheck[break_id].id
+                + default_config[break_id].id
                 + CFG_KEY_BREAK_IGNORABLE, &rc);
   if (! b)
     {
-      rc = configCheck[break_id].ignorable_break;
+      rc = default_config[break_id].ignorable_break;
     }
   return rc;
 }
@@ -164,11 +163,11 @@ GUIControl::TimerData::get_break_insisting() const
   bool rc;
   b = GUIControl::get_instance()->get_configurator()
     ->get_value(CFG_KEY_BREAK
-                + configCheck[break_id].id
+                + default_config[break_id].id
                 + CFG_KEY_BREAK_INSISTING, &rc);
   if (! b)
     {
-      rc = configCheck[break_id].insist_break;
+      rc = default_config[break_id].insist_break;
     }
   return rc;
 }
@@ -179,7 +178,7 @@ GUIControl::TimerData::set_break_max_preludes(int n)
 {
   GUIControl::get_instance()->get_configurator()
     ->set_value(CFG_KEY_BREAK
-                + configCheck[break_id].id
+                + default_config[break_id].id
                 + CFG_KEY_BREAK_MAX_PRELUDES, n);
 }
 
@@ -189,7 +188,7 @@ GUIControl::TimerData::set_break_force_after_preludes(bool b)
 {
   GUIControl::get_instance()->get_configurator()
     ->set_value(CFG_KEY_BREAK
-                + configCheck[break_id].id
+                + default_config[break_id].id
                 + CFG_KEY_BREAK_FORCE_AFTER_PRELUDES, b);
 }
 
@@ -199,7 +198,7 @@ GUIControl::TimerData::set_break_ignorable(bool b)
 {
   GUIControl::get_instance()->get_configurator()
     ->set_value(CFG_KEY_BREAK
-                + configCheck[break_id].id
+                + default_config[break_id].id
                 + CFG_KEY_BREAK_IGNORABLE, b);
 }
 
@@ -209,7 +208,7 @@ GUIControl::TimerData::set_break_insisting(bool b)
 {
   GUIControl::get_instance()->get_configurator()
     ->set_value(CFG_KEY_BREAK
-                + configCheck[break_id].id
+                + default_config[break_id].id
                 + CFG_KEY_BREAK_INSISTING, b);
 }
 
@@ -272,19 +271,18 @@ GUIControl::~GUIControl()
 void
 GUIControl::init()
 {
-  TRACE_ENTER("GUIControl:init");
-
   Statistics *stats = Statistics::get_instance();
   stats->init(core_control);
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      ConfigCheck *tc = &configCheck[i];
+      ConfigCheck *tc = &default_config[i];
       TimerData *td = &timers[i];
-      td->timer = core_control->create_timer(tc->id);
+      td->timer = core_control->create_timer(i, tc->id);
       td->icon = Util::complete_directory(tc->icon, Util::SEARCH_PATH_IMAGES);
       td->break_id = i;
       td->break_name = tc->id;
+      
       switch (i)
         {
         case BREAK_ID_MICRO_PAUSE:
@@ -321,9 +319,8 @@ GUIControl::init()
 #ifdef HAVE_DISTRIBUTION
   init_distribution_manager();
 #endif
-  
-  TRACE_EXIT();
 }
+
 
 
 //! Notication of a timer action.
@@ -332,60 +329,37 @@ GUIControl::init()
  *  \param action action that is performed by the timer.
 */
 void
-GUIControl::timer_action(string timer_id, TimerInfo info)
+GUIControl::timer_action(BreakId id, TimerInfo info)
 {
-  GUIControl::BreakId id = BREAK_ID_NONE;
-
-  // Parse timer_id
-  if (timer_id == "micro_pause")
+  // Parse action.
+  if (info.event == TIMER_EVENT_LIMIT_REACHED)
     {
-      id = BREAK_ID_MICRO_PAUSE;
+      break_action(id, GUIControl::BREAK_ACTION_START_BREAK);
     }
-  else if (timer_id == "rest_break")
+  else if (info.event == TIMER_EVENT_RESET)
     {
-      id = BREAK_ID_REST_BREAK;
+      break_action(id, GUIControl::BREAK_ACTION_STOP_BREAK);
     }
-  else if (timer_id == "daily_limit")
+  else if (info.event == TIMER_EVENT_NATURAL_RESET)
     {
-      id = BREAK_ID_DAILY_LIMIT;
-    }
-
-  
-  if (id != GUIControl::BREAK_ID_NONE)
-    {
-      // Parse action.
-      if (info.event == TIMER_EVENT_LIMIT_REACHED)
-        {
-          break_action(id, GUIControl::BREAK_ACTION_START_BREAK);
-        }
-      else if (info.event == TIMER_EVENT_RESET)
-        {
-          break_action(id, GUIControl::BREAK_ACTION_STOP_BREAK);
-        }
-      else if (info.event == TIMER_EVENT_NATURAL_RESET)
-        {
-          break_action(id, GUIControl::BREAK_ACTION_NATURAL_STOP_BREAK);
-        }
+      break_action(id, GUIControl::BREAK_ACTION_NATURAL_STOP_BREAK);
     }
 }
-
-
 
 
 //! Periodic heartbeat.
 void
 GUIControl::heartbeat()
 {
-  map<string, TimerInfo> infos;
+  TimerInfo infos[BREAK_ID_SIZEOF];
   core_control->process_timers(infos);
-  for (map<string, TimerInfo>::iterator i = infos.begin(); i != infos.end(); i++)
-    {
-      string id = i->first;
-      TimerInfo &info = i->second;
-      
-      timer_action(id, info);
 
-      if (id == "daily_limit")
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+    {
+      TimerInfo info = infos[i];
+      timer_action((BreakId)i, info);
+
+      if (i == BREAK_ID_DAILY_LIMIT)
         {
           if (info.event == TIMER_EVENT_NATURAL_RESET ||
               info.event == TIMER_EVENT_RESET)
@@ -637,16 +611,12 @@ GUIControl::break_action(BreakId id, BreakAction action)
 void
 GUIControl::handle_start_break(BreakInterface *breaker, BreakId break_id, TimerInterface *timer)
 {
-  TRACE_ENTER("GUIControl::handle_start_break");
-
   // Don't show MP when RB is active.
   for (int bi = break_id; bi <= BREAK_ID_DAILY_LIMIT; bi++)
     {
       if (timers[bi].break_control->get_break_state()
           == BreakInterface::BREAK_ACTIVE)
         {
-          // timer->snooze();
-          TRACE_RETURN("Greater break active, snoozing");
           return;
         }
     }
@@ -674,13 +644,7 @@ GUIControl::handle_start_break(BreakInterface *breaker, BreakId break_id, TimerI
           
           if (now + duration + threshold >= rbTimer->get_next_limit_time())
             {
-              TRACE_MSG("Advancing RB " << duration << " + " << threshold <<
-                        " = " << rbTimer->get_next_limit_time() - now);
-              
               handle_start_break(restbreak_control, BREAK_ID_REST_BREAK, rbTimer);
-              // timer->snooze();
-              
-              TRACE_RETURN("RB started, snoozing MP");
               return;
             }
         }
@@ -699,7 +663,6 @@ GUIControl::handle_start_break(BreakInterface *breaker, BreakId break_id, TimerI
     }
   
   breaker->start_break();
-  TRACE_EXIT();
 }
 
 
@@ -740,27 +703,27 @@ GUIControl::get_configurator()
 bool
 GUIControl::verify_config()
 {
-  int size = sizeof(configCheck) / sizeof(ConfigCheck);
+  int size = sizeof(default_config) / sizeof(ConfigCheck);
   bool changed = false;
   
   for (int i = 0; i < size; i++)
     {
-      string pfx = ControlInterface::CFG_KEY_TIMER + string(configCheck[i].id);
+      string pfx = ControlInterface::CFG_KEY_TIMER + string(default_config[i].id);
 
       if (!configurator->exists_dir(pfx))
         {  
           changed = true;
           
-          configurator->set_value(pfx + ControlInterface::CFG_KEY_TIMER_LIMIT, configCheck[i].limit);
-          configurator->set_value(pfx + ControlInterface::CFG_KEY_TIMER_AUTO_RESET, configCheck[i].autoreset);
+          configurator->set_value(pfx + ControlInterface::CFG_KEY_TIMER_LIMIT, default_config[i].limit);
+          configurator->set_value(pfx + ControlInterface::CFG_KEY_TIMER_AUTO_RESET, default_config[i].autoreset);
           
-          configurator->set_value(pfx + ControlInterface::CFG_KEY_TIMER_SNOOZE, configCheck[i].snooze);
-          configurator->set_value(pfx + ControlInterface::CFG_KEY_TIMER_COUNT_ACTIVITY, configCheck[i].countactivity);
+          configurator->set_value(pfx + ControlInterface::CFG_KEY_TIMER_SNOOZE, default_config[i].snooze);
+          configurator->set_value(pfx + ControlInterface::CFG_KEY_TIMER_COUNT_ACTIVITY, default_config[i].countactivity);
           configurator->set_value(pfx + ControlInterface::CFG_KEY_TIMER_RESTORE, true);
 
-          if (configCheck[i].resetpred != "")
+          if (default_config[i].resetpred != "")
             {
-              configurator->set_value(pfx + ControlInterface::CFG_KEY_TIMER_RESET_PRED, configCheck[i].resetpred);
+              configurator->set_value(pfx + ControlInterface::CFG_KEY_TIMER_RESET_PRED, default_config[i].resetpred);
             }
         }
     }
@@ -772,9 +735,7 @@ GUIControl::verify_config()
 bool
 GUIControl::load_config()
 {
-  TRACE_ENTER("GUIControl::load_config");
-  
-  int size = sizeof(configCheck) / sizeof(ConfigCheck);
+  int size = sizeof(default_config) / sizeof(ConfigCheck);
   bool changed = false;
   
   for (int i = 0; i < size; i++)
@@ -784,7 +745,6 @@ GUIControl::load_config()
 
   configurator->add_listener(CFG_KEY_BREAKS, this);
   
-  TRACE_EXIT();
   return changed;
 }
 
@@ -805,7 +765,6 @@ GUIControl::load_break_control_config(string break_name)
 void
 GUIControl::load_break_control_config(int break_id)
 {
-  TRACE_ENTER_MSG("GUIControl::load_break_control_config", break_id);
   TimerData *timer = &timers[break_id];
   BreakControl *bc = timers[break_id].break_control;
   
@@ -816,19 +775,16 @@ GUIControl::load_break_control_config(int break_id)
       bc->set_insist_break(timer->get_break_insisting());
       bc->set_ignorable_break(timer->get_break_ignorable());
     }
-  TRACE_EXIT();
 }
 
 
 void
 GUIControl::config_changed_notify(string key)
 {
-  TRACE_ENTER_MSG("GUIControl:config_changed_notify", key);
-
   // Expected prefix
   string prefix = CFG_KEY_BREAK;
 
-  // Search prefix (just in case some Configurator added a leading /
+  // Search prefix (just in case some Configurator added a leading /)
   std::string::size_type pos = key.rfind(prefix);
 
   if (pos != std::string::npos)
@@ -836,8 +792,6 @@ GUIControl::config_changed_notify(string key)
       key = key.substr(pos + prefix.length());
     }
 
-  TRACE_MSG(key);
-  
   pos = key.find('/');
 
   string break_id;
@@ -848,9 +802,8 @@ GUIControl::config_changed_notify(string key)
     }
 
   load_break_control_config(break_id);
-
-  TRACE_EXIT();
 }
+
 
 GUIControl::TimerData *
 GUIControl::get_timer_data(GUIControl::BreakId id)
@@ -873,12 +826,11 @@ GUIControl::init_distribution_manager()
     }
 }
 
+
 bool
 GUIControl::get_state(DistributedStateID id, unsigned char **buffer, int *size)
 {
   (void) id;
-  TRACE_ENTER("GUIControl::get_state");
-
   PacketBuffer state_packet;
   state_packet.create();
   state_packet.pack_ushort(BREAK_ID_SIZEOF);
@@ -914,16 +866,14 @@ GUIControl::get_state(DistributedStateID id, unsigned char **buffer, int *size)
   *buffer = new unsigned char[*size + 1];
   memcpy(*buffer, state_packet.get_buffer(), *size);
 
-  TRACE_EXIT();
   return true;
 }
+
 
 bool
 GUIControl::set_state(DistributedStateID id, bool master, unsigned char *buffer, int size)
 {
   (void) id;
-  TRACE_ENTER("GUIControl::set_state");
-
   PacketBuffer state_packet;
   state_packet.create();
 
@@ -933,7 +883,6 @@ GUIControl::set_state(DistributedStateID id, bool master, unsigned char *buffer,
 
   if (num_breaks > BREAK_ID_SIZEOF)
     {
-      TRACE_MSG("More breaks received");
       num_breaks = BREAK_ID_SIZEOF;
     }
       
@@ -957,7 +906,6 @@ GUIControl::set_state(DistributedStateID id, bool master, unsigned char *buffer,
         }
     }
   
-  TRACE_EXIT();
   return true;
 }
 #endif

@@ -47,17 +47,22 @@ static const char rcsid[] = "$Id$";
 const char *WORKRAVESTATE="WorkRaveState";
 const int SAVESTATETIME = 15;
 
+
 //! Constructor
-Control::Control()
+Control::Control() :
+#ifdef HAVE_DISTRIBUTION
+  dist_manager(NULL),
+#endif
+#ifndef NDEBUG
+  fake_monitor(NULL),
+#endif  
+  timer_count(0),
+  timers(NULL),
+  configurator(NULL),
+  monitor(NULL),
+  master_node(true)
 {
   current_time = time(NULL);
-  master_node = true;
-  monitor = NULL;
-  configurator = NULL;
-
-#ifdef HAVE_DISTRIBUTION
-  dist_manager = NULL;
-#endif  
 }
 
 
@@ -71,33 +76,34 @@ Control::~Control()
       monitor->terminate();
     }
 
-  TimerCIter ti = timers.begin();
-  while (ti != timers.end())
+  for (int i = 0; i < timer_count; i++)
     {
-      delete *ti;
-      ti++;
+      delete timers[i];
     }
-
+  delete [] timers;
+  
 #ifdef HAVE_DISTRIBUTION
-  if (dist_manager != NULL)
-    {
-      delete dist_manager;
-    }
+  delete dist_manager;
 #endif
 
-  if (monitor != NULL)
-    {
-      delete monitor;
-    }
+  delete monitor;
   
   TRACE_EXIT();
 }
 
 
 void
-Control::init(Configurator *config, char *display_name)
+Control::init(int timer_count, Configurator *config, char *display_name)
 {
-  configurator = config;
+  this->configurator = config;
+  this->timer_count = timer_count;
+  this->timers = new Timer*[timer_count];
+
+  for (int i = 0; i < timer_count; i++)
+    {
+      timers[i] = NULL;
+    }
+  
 #ifdef HAVE_DISTRIBUTION
   create_distribution_manager();
 #endif  
@@ -113,13 +119,12 @@ Control::get_time() const
 
 
 void
-Control::process_timers(map<string, TimerInfo> &infos)
+Control::process_timers(TimerInfo *infos)
 {
   TRACE_ENTER("Control::process_timers");
   static int count = 0;
 
   // Retrieve State.
-  
   ActivityState state = monitor->get_current_state();
 #ifndef NDEBUG
   if (fake_monitor != NULL)
@@ -135,9 +140,7 @@ Control::process_timers(map<string, TimerInfo> &infos)
   if (dist_manager != NULL)
     {
       dist_manager->heartbeart();
-
       dist_manager->set_lock_master(state == ACTIVITY_ACTIVE);
-      
       new_master_node = dist_manager->is_master();
 
       if (!new_master_node && state == ACTIVITY_ACTIVE)
@@ -150,67 +153,42 @@ Control::process_timers(map<string, TimerInfo> &infos)
     {
       master_node = new_master_node;
       // Enable/Disable timers.
-      for (TimerCIter i = timers.begin(); i != timers.end(); i++)
+      for (int i = 0; i < timer_count; i++)
         {
           if (master_node)
             {
-              (*i)->enable();
+              timers[i]->enable();
             }
           else
             {
-              (*i)->disable();
+              timers[i]->disable();
             }
         }
     }
 #endif
-  
-  // Stats
-  ActivityMonitorStatistics stats;
-  monitor->get_statistics(stats);
-
-  int ratio = 0;
-  if (stats.total_movement != 0)
-    {
-      ratio = (stats.total_click_movement * 100) / stats.total_movement;
-    }
-  
-  TRACE_MSG("monitor stats "
-            << stats.total_movement << " " 
-            << stats.total_click_movement << " "
-            << ratio << " "
-            << stats.total_movement_time << " "
-            << stats.total_clicks << " "
-            << stats.total_keystrokes
-            );
   
   // Timers
   current_time = time(NULL);
 
   if (master_node)
     {
-      for (TimerCIter i = timers.begin(); i != timers.end(); i++)
+      for (int i = 0; i < timer_count; i++)
         {
-          if (!(*i)->has_activity_monitor())
+          if (!(timers[i]->has_activity_monitor()))
             {
-              TimerInfo info;
-              (*i)->process(state, info);
-
-              infos[(*i)->get_id()] = info;
+              timers[i]->process(state, infos[i]);
             }
         }
 
-      for (TimerCIter i = timers.begin(); i != timers.end(); i++)
+      for (int i = 0; i < timer_count; i++)
         {
-          if (((*i)->has_activity_monitor()))
+          if (timers[i]->has_activity_monitor())
             {
-              TimerInfo info;
-              (*i)->process(state, info);
-          
-              infos[(*i)->get_id()] = info;
+              timers[i]->process(state, infos[i]);
             }
         }
     }
-
+  
   if (count % SAVESTATETIME == 0)
     {
       save_state();
@@ -266,60 +244,58 @@ Control::get_timer(string id)
 {
   Timer *timer = NULL;
   
-  for (TimerCIter i = timers.begin(); i != timers.end(); i++)
+  for (int i = 0; i < timer_count; i++)
     {
-      if ((*i)->get_id() == id)
+      if (timers[i]->get_id() == id)
         {
-          timer = *i;
+          timer = timers[i];
           break;
         }
     }
   return timer;
 }
 
-// Create the timers based on the specified configuration. 
+
+// Initialize the timers based on the specified configuration. 
 void
 Control::init_timers()
 {
-  TRACE_ENTER("Control::init_timers");
-
   load_state();
 
-  for (TimerCIter i = timers.begin(); i != timers.end(); i++)
+  for (int i = 0; i < timer_count; i++)
     {
-      string monitor_name;
-      configure_timer_monitor((*i)->get_id(), *i);
-      (*i)->enable();
+      configure_timer_monitor(timers[i]);
+      timers[i]->enable();
     }
 
   configurator->add_listener(CFG_KEY_TIMERS, this);
-  
-  TRACE_EXIT();
 }
 
 
 TimerInterface *
-Control::create_timer(string id)
+Control::create_timer(int timer_id, string name)
 {
-  TRACE_ENTER_MSG("Control::create_timer", id);
+  Timer *timer = NULL;
   
-  Timer *timer = new Timer(this);
-  timer->set_id(id);
-
-  configure_timer(id, timer);
-  configure_timer_monitor(id, timer);
-
-  timers.push_back(timer);
-
+  if (timer_id >= 0 && timer_id < timer_count)
+    {
+      timer = new Timer(this);
+      timer->set_id(name);
+      
+      configure_timer(timer);
+      configure_timer_monitor(timer);
+      
+      timers[timer_id] = timer;
+    }
+  
   return timer;
 }
 
 
 void
-Control::configure_timer(string id, Timer *timer)
+Control::configure_timer(Timer *timer)
 {
-  TRACE_ENTER_MSG("Control::configure_timer", id);
-  string prefix = CFG_KEY_TIMER + id;
+  string prefix = CFG_KEY_TIMER + timer->get_id();
 
   int limit = 0;
   int autoreset = 0;
@@ -345,23 +321,19 @@ Control::configure_timer(string id, Timer *timer)
 
   configurator->get_value(prefix + CFG_KEY_TIMER_COUNT_ACTIVITY, &countActivity);
   timer->set_for_activity(countActivity);
-
-  TRACE_EXIT();
 }
 
 
 void
-Control::configure_timer_monitor(string id, Timer *timer)
+Control::configure_timer_monitor(Timer *timer)
 {
-  TRACE_ENTER_MSG("Control::configure_timer_monitor", id);
   string monitor_name;
-  bool ret = configurator->get_value(CFG_KEY_TIMER + id + CFG_KEY_TIMER_MONITOR, &monitor_name);
+  bool ret = configurator->get_value(CFG_KEY_TIMER + timer->get_id() + CFG_KEY_TIMER_MONITOR, &monitor_name);
   if (ret && monitor_name != "")
     {
       TimerInterface *master = get_timer(monitor_name);
       if (master != NULL)
         {
-          TRACE_MSG("Setting master activity monitor for " << id << " to " << monitor_name);
           TimerActivityMonitor *am = new TimerActivityMonitor(master);
           timer->set_activity_monitor(am);
         }
@@ -370,8 +342,8 @@ Control::configure_timer_monitor(string id, Timer *timer)
     {
       timer->set_activity_monitor(NULL);
     }
-  TRACE_EXIT();
 }
+
 
 void
 Control::load_monitor_config()
@@ -423,12 +395,10 @@ Control::store_monitor_config()
 void
 Control::config_changed_notify(string key)
 {
-  TRACE_ENTER_MSG("Control:config_changed_notify", key);
-  
   std::string::size_type pos = key.find('/');
 
   string path;
-  string timerId;
+  string timer_id;
   
   if (pos != std::string::npos)
     {
@@ -442,17 +412,17 @@ Control::config_changed_notify(string key)
 
       if (pos != std::string::npos)
         {
-          timerId = key.substr(0, pos);
+          timer_id = key.substr(0, pos);
           key = key.substr(pos + 1);
         }
  
-      if (timerId != "")
+      if (timer_id != "")
         {
-          for (TimerCIter i = timers.begin(); i != timers.end(); i++)
+          for (int i = 0; i < timer_count; i++)
             {
-              if ((*i)->get_id() == timerId)
+              if (timers[i]->get_id() == timer_id)
                 {
-                  configure_timer(timerId, (*i));
+                  configure_timer(timers[i]);
                 }
             }
         }
@@ -461,8 +431,6 @@ Control::config_changed_notify(string key)
     {
       load_monitor_config();
     }
-  
-  TRACE_EXIT();
 }
 
 void
@@ -477,9 +445,9 @@ Control::save_state() const
   stateFile << "WorkRaveState 2"  << endl
             << get_time() << endl;
   
-  for (TimerCIter ti = timers.begin(); ti != timers.end(); ti++)
+  for (int i = 0; i < timer_count; i++)
     {
-      string stateStr = (*ti)->serialize_state();
+      string stateStr = timers[i]->serialize_state();
 
       stateFile << stateStr << endl;
     }
@@ -491,7 +459,6 @@ Control::save_state() const
 void
 Control::load_state()
 {
-  TRACE_ENTER("Control::load_state");
   stringstream ss;
   ss << Util::get_home_directory();
   ss << "state" << ends;
@@ -528,20 +495,20 @@ Control::load_state()
       string id;
       stateFile >> id;
 
-      for (TimerCIter i = timers.begin(); i != timers.end(); i++)
+      for (int i = 0; i < timer_count; i++)
         {
-          if ((*i)->get_id() == id)
+          if (timers[i]->get_id() == id)
             {
               string state;
               getline(stateFile, state);
 
-              (*i)->deserialize_state(state);
+              timers[i]->deserialize_state(state);
               break;
             }
         }
     }
-  TRACE_EXIT();
 }
+
 
 #ifndef NDEBUG
 void
@@ -569,6 +536,7 @@ Control::test_me()
 }
 #endif
 
+
 #ifdef HAVE_DISTRIBUTION
 bool
 Control::get_state(DistributedStateID id, unsigned char **buffer, int *size)
@@ -580,11 +548,11 @@ Control::get_state(DistributedStateID id, unsigned char **buffer, int *size)
 
   state_packet.create();
 
-  state_packet.pack_ushort(timers.size());
+  state_packet.pack_ushort(timer_count);
   
-  for (TimerCIter i = timers.begin(); i != timers.end(); i++)
+  for (int i = 0; i < timer_count; i++)
     {
-      Timer *t = *i;
+      Timer *t = timers[i];
       state_packet.pack_string(t->get_id().c_str());
 
       Timer::TimerStateData state_data;

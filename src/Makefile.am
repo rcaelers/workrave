@@ -11,7 +11,6 @@ bin_PROGRAMS = workrave
 
 sources = \
       ActivityMonitor.cc \
-      ActivityStateMonitor.cc \
       Configurator.cc \
       Control.cc \
       ControlInterface.cc \

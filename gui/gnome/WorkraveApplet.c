@@ -32,6 +32,9 @@ static const char rcsid[] = "$Id$";
 static AppletControl *applet_control = NULL;
 static GNOME_Workrave_AppletControl remote_control = NULL;
 
+static void
+workrave_applet_hide_menus(gboolean hide);
+
 /************************************************************************/
 /* GNOME::AppletControl                                                 */
 /************************************************************************/
@@ -58,6 +61,7 @@ workrave_applet_connect(gboolean start)
       if (BONOBO_EX(&ev))
         {
           remote_control = NULL;
+          ok = FALSE;
         }
       else
         {
@@ -65,6 +69,7 @@ workrave_applet_connect(gboolean start)
           if (BONOBO_EX(&ev))
             {
               remote_control = NULL;
+              ok = FALSE;
             }
         }
       CORBA_exception_free(&ev);
@@ -86,12 +91,13 @@ workrave_applet_connect(gboolean start)
       
       if (remote_control == NULL || BONOBO_EX(&ev))
         {
-          g_warning(_("Could not contact Workrave"));
           ok = FALSE;
         }
       
       CORBA_exception_free(&ev);
     }
+
+  //workrave_applet_hide_menus(!ok);
   
   return ok;
 }
@@ -195,11 +201,11 @@ workrave_applet_control_set_menu_status(PortableServer_Servant servant, const CO
       const char *s = bonobo_ui_component_get_prop(ui, name, "state", NULL);
 
       set = (s != NULL && atoi(s) != 0);
-    }
-
-  if ((status && !set) || (!status && set))
-    {
-      bonobo_ui_component_set_prop(ui, name, "state", status ? "1" : "0", NULL);
+ 
+      if ((status && !set) || (!status && set))
+        {
+          bonobo_ui_component_set_prop(ui, name, "state", status ? "1" : "0", NULL);
+        }
     }
 }
 
@@ -267,7 +273,9 @@ workrave_applet_fire_workrave()
       CORBA_Environment ev;
       CORBA_exception_init(&ev);
       
-      GNOME_Workrave_WorkraveControl_fire(remote_control, &ev);
+      GNOME_Workrave_WorkraveControl_set_applet(remote_control,
+                                                bonobo_object_corba_objref(BONOBO_OBJECT(applet_control)),
+                                                &ev);
 
       if (BONOBO_EX(&ev))
         {
@@ -318,7 +326,7 @@ verb_about(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
 static void
 verb_open(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
 {
-  workrave_applet_connect(FALSE);
+  workrave_applet_connect(TRUE);
       
   if (remote_control != NULL)
     {
@@ -577,6 +585,7 @@ plug_removed(GtkSocket *socket, void *manager)
 {
   gtk_widget_show(GTK_WIDGET(applet_control->image));
   gtk_widget_hide(GTK_WIDGET(applet_control->socket));
+  workrave_applet_hide_menus(TRUE);
   return TRUE;
 }
 
@@ -586,6 +595,7 @@ plug_added(GtkSocket *socket, void *manager)
 {
   gtk_widget_hide(GTK_WIDGET(applet_control->image));
   gtk_widget_show(GTK_WIDGET(applet_control->socket));
+  workrave_applet_hide_menus(FALSE);
   return TRUE;
 }
 
@@ -683,6 +693,59 @@ mode_callback(BonoboUIComponent *ui, const char *path, Bonobo_UIComponent_EventT
 }
 
 
+static void
+workrave_applet_set_hidden(gchar *name, gboolean hidden)
+{
+  BonoboUIComponent *ui = NULL;
+  PanelApplet *applet = NULL;
+  gboolean set = FALSE;
+  
+  if (applet_control != NULL)
+    {
+      applet = applet_control->applet;
+    }
+
+  if (applet != NULL)
+    {
+      ui = panel_applet_get_popup_component(applet);
+    }
+  
+  if (ui != NULL)
+    {
+      const char *s = bonobo_ui_component_get_prop(ui, name, "hidden", NULL);
+
+      set = (s != NULL && atoi(s) != 0);
+
+      if ((hidden && !set) || (!hidden && set))
+      {
+        bonobo_ui_component_set_prop(ui, name, "hidden", hidden ? "1" : "0", NULL);
+      }
+    }
+}
+
+
+static void
+workrave_applet_hide_menus(gboolean hide)
+{
+  PanelApplet *applet = NULL;
+  
+  if (applet_control != NULL)
+    {
+      applet = applet_control->applet;
+    }
+
+  workrave_applet_set_hidden("/commands/Preferences", hide);
+  workrave_applet_set_hidden("/commands/Restbreak", hide);
+  workrave_applet_set_hidden("/commands/Network", hide);
+  workrave_applet_set_hidden("/commands/Normal", hide);
+  workrave_applet_set_hidden("/commands/Suspended", hide);
+  workrave_applet_set_hidden("/commands/Quiet", hide);
+  workrave_applet_set_hidden("/commands/Mode", hide);
+  workrave_applet_set_hidden("/commands/Statistics", hide);
+  workrave_applet_set_hidden("/commands/Quit", hide);
+}
+
+
 static gboolean
 workrave_applet_fill(PanelApplet *applet)
 {
@@ -726,6 +789,8 @@ workrave_applet_fill(PanelApplet *applet)
 
   applet_control->socket_id = gtk_socket_get_id(GTK_SOCKET(applet_control->socket));
   applet_control->size = panel_applet_get_size(applet);
+
+  workrave_applet_hide_menus(TRUE);
 
   return TRUE;
 }

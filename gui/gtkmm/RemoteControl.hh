@@ -48,6 +48,7 @@ public:
   WR_METHOD_NOARGS(void, quit);
   WR_METHOD       (void, set_applet_vertical, CORBA_boolean vertical);
   WR_METHOD       (void, set_applet_size, CORBA_long size);
+  WR_METHOD       (void, set_applet, const Bonobo_Unknown applet);
   
 private:  
   //! The one and only instance

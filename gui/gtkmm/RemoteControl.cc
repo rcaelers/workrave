@@ -223,6 +223,35 @@ WR_METHOD_ARGS1_IMPL(void, set_applet_size, CORBA_long, size)
 }
 
 
+WR_METHOD_ARGS1_IMPL(void, set_applet, Bonobo_Unknown, applet_control)
+{
+  TRACE_ENTER("set_applet");
+  GUI *gui = GUI::get_instance();
+
+  AppletWindow *applet = NULL;
+  if (gui != NULL)
+    {
+      applet = gui->get_applet_window();
+    }
+
+  if (applet != NULL)
+    {
+      GNOME_Workrave_AppletControl c =
+        Bonobo_Unknown_queryInterface(applet_control,
+                                      "IDL:GNOME/Workrave/AppletControl:1.0",
+                                      NULL);
+      
+      if (c != CORBA_OBJECT_NIL)
+        {
+          applet->set_applet_control(c);
+        }
+      TRACE_MSG(c);
+    }
+  TRACE_EXIT();
+}
+
+
+
 /************************************************************************/
 /* GNOME::WorkraveControl                                               */
 /************************************************************************/
@@ -254,6 +283,7 @@ workrave_control_class_init(WorkraveControlClass *klass)
 
   WR_METHOD_REGISTER(set_applet_vertical);
   WR_METHOD_REGISTER(set_applet_size);
+  WR_METHOD_REGISTER(set_applet);
 }
 
 

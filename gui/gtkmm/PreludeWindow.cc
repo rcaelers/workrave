@@ -26,6 +26,12 @@ static const char rcsid[] = "$Id$";
 #include "Text.hh"
 #include "Util.hh"
 
+#include "Dispatcher.hh"
+#include "ActivityMonitorInterface.hh"
+#include "ControlInterface.hh"
+#include "PreludeResponseInterface.hh"
+
+#include "GUIControl.hh"
 #include "PreludeWindow.hh"
 #include "WindowHints.hh"
 #include "Frame.hh"
@@ -71,15 +77,18 @@ PreludeWindow::PreludeWindow()
 
   unset_flags(Gtk::CAN_FOCUS);
 
-  
   stick();
-  
+
+  dispatcher = new Dispatcher;
+  dispatch_connection = dispatcher->connect(SigC::slot_class(*this, &PreludeWindow::on_activity));
 }
 
 
 //! Destructor.
 PreludeWindow::~PreludeWindow()
 {
+  dispatch_connection.disconnect();
+  delete dispatcher;
 }
 
 
@@ -124,6 +133,17 @@ PreludeWindow::start()
 void
 PreludeWindow::destroy()
 {
+  GUIControl *gui_control = GUIControl::get_instance();
+  assert(gui_control != NULL);
+
+  ControlInterface *core_control = gui_control->get_core();
+  assert(core_control != NULL);
+  
+  ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
+  assert(monitor != NULL);
+  
+  monitor->set_listener(NULL);
+
   delete this;
 }
 
@@ -154,8 +174,12 @@ PreludeWindow::set_progress(int value, int max_value)
 {
   TRACE_ENTER_MSG("PreludeWindow::set_progress", value << " " << max_value);
   time_bar->set_progress(value, max_value);
-  string s = progress_text;
-  s += " " + Text::time_to_string(max_value-value);
+
+  string s;
+  if (max_value >= value)
+    {
+      s = progress_text + " " + Text::time_to_string(max_value-value);
+    }
   time_bar->set_text(s);
   TRACE_EXIT()
 }
@@ -215,6 +239,49 @@ PreludeWindow::set_stage(Stage stage)
     {
       string file = Util::complete_directory(icon, Util::SEARCH_PATH_IMAGES);
       image_icon->set(file);
+    }
+  TRACE_EXIT();
+}
+
+
+bool
+PreludeWindow::delayed_stop()
+{
+  GUIControl *gui_control = GUIControl::get_instance();
+  assert(gui_control != NULL);
+
+  ControlInterface *core_control = gui_control->get_core();
+  assert(core_control != NULL);
+  
+  ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
+  assert(monitor != NULL);
+  
+  monitor->set_listener(this);
+  return true;
+}
+
+
+bool
+PreludeWindow::action_notify()
+{
+  TRACE_ENTER("BreakControl::action_notify");
+
+  if (dispatcher != NULL)
+    {
+      dispatcher->send_notification();
+    }
+  TRACE_EXIT();
+  return false; // false: kill listener.
+}
+
+
+void
+PreludeWindow::on_activity()
+{
+  TRACE_ENTER("BreakControl::on_activity");
+  if (prelude_response != NULL)
+    {
+      prelude_response->prelude_stopped();
     }
   TRACE_EXIT();
 }

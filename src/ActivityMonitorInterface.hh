@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-02-22 09:43:06 robc>
+// Time-stamp: <2003-03-09 14:17:23 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@
 #define ACTIVITYMONITORINTERFACE_HH
 
 class ActivityListener;
+class ActivityMonitorListenerInterface;
 
 enum ActivityState { ACTIVITY_UNKNOWN, ACTIVITY_SUSPENDED, ACTIVITY_IDLE, ACTIVITY_NOISE, ACTIVITY_ACTIVE } ;
 
@@ -59,7 +60,7 @@ public:
   virtual void resume() = 0;
 
   //! Returns the current state
-  virtual ActivityState get_current_state() const = 0;
+  virtual ActivityState get_current_state() = 0;
 
   //! Force state to be idle.
   virtual void force_idle() = 0;
@@ -72,7 +73,9 @@ public:
 
   //! Resets the statistics.
   virtual void reset_statistics() = 0;
-  
+
+  //!
+  virtual void set_listener(ActivityMonitorListenerInterface *l) = 0;
 };
 
 #endif // ACTIVITYMONITORINTERFACE_HH

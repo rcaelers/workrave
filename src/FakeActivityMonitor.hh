@@ -48,7 +48,7 @@ public:
   }
 
   //! Returns the current state
-  ActivityState get_current_state() const
+  ActivityState get_current_state()
   {
     if (suspended)
       {
@@ -79,6 +79,10 @@ public:
   void set_state(ActivityState s)
   {
     state = s;
+  }
+
+  void set_listener(ActivityMonitorListenerInterface *l)
+  {
   }
   
 private:

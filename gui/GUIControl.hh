@@ -131,7 +131,7 @@ public:
   ControlInterface *get_core();
   
 private:
-  void timer_action(string timer_id, TimerInfo info);
+  void timer_action(BreakId break_id, TimerInfo info);
   void stop_all_breaks();
   void restart_break();
   

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-03-06 21:29+0100\n"
+"POT-Creation-Date: 2003-03-09 17:35+0100\n"
 "PO-Revision-Date: 2003-03-04 22:16+0100\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -13,39 +13,39 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: gui/BreakControl.cc:659
+#: gui/BreakControl.cc:682
 msgid "Disappears in"
 msgstr "Verdwijnt over"
 
-#: gui/BreakControl.cc:663
+#: gui/BreakControl.cc:686
 msgid "Break in"
 msgstr "Pauze over"
 
-#: gui/BreakControl.cc:667
+#: gui/BreakControl.cc:690
 msgid "Silent in"
 msgstr "Stil over"
 
-#: gui/GUIControl.cc:293
+#: gui/GUIControl.cc:291
 msgid "Time for a micro-pause?"
 msgstr "Tijd voor een micro-pauze?"
 
-#: gui/GUIControl.cc:294 gui/gtkmm/MicroPauseWindow.cc:163
+#: gui/GUIControl.cc:292 gui/gtkmm/MicroPauseWindow.cc:163
 msgid "Micro-pause"
 msgstr "Micro-pauze"
 
-#: gui/GUIControl.cc:300
+#: gui/GUIControl.cc:298
 msgid "You need a rest break..."
 msgstr "Je bent toe aan een rustpauze..."
 
-#: gui/GUIControl.cc:301
+#: gui/GUIControl.cc:299
 msgid "Rest break"
 msgstr "Rustpauze"
 
-#: gui/GUIControl.cc:307
+#: gui/GUIControl.cc:305
 msgid "You should stop for today..."
 msgstr "Genoeg voor vandaag..."
 
-#: gui/GUIControl.cc:308
+#: gui/GUIControl.cc:306
 msgid "Daily limit"
 msgstr "Dagelijkse limiet"
 
@@ -162,7 +162,7 @@ msgstr "Overslaan"
 msgid "Postpone"
 msgstr "Uitstellen"
 
-#: gui/gtkmm/GUI.cc:310
+#: gui/gtkmm/GUI.cc:307
 msgid "I could not initialize Bonobo"
 msgstr "Bonobo kon niet geïnitialiseerd worden"
 

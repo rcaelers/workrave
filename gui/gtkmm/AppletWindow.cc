@@ -552,9 +552,12 @@ AppletWindow::init_gnome_applet()
 
   // Connect to the applet.
   // FIXME: leak
-  applet_control = bonobo_activation_activate_from_id("OAFIID:GNOME_Workrave_AppletControl",
-                                                      Bonobo_ACTIVATION_FLAG_EXISTING_ONLY, NULL, &ev);
-
+  if (applet_control == NULL)
+    {
+      applet_control = bonobo_activation_activate_from_id("OAFIID:GNOME_Workrave_AppletControl",
+                                                          Bonobo_ACTIVATION_FLAG_EXISTING_ONLY, NULL, &ev);
+    }
+  
   // Socket ID of the applet.
   long id = 0;
   if (applet_control != NULL && !BONOBO_EX(&ev))
@@ -694,6 +697,28 @@ AppletWindow::fire()
     {
       destroy_tray_applet();
     }
+  
+  if (mode == APPLET_DISABLED && applet_enabled)
+    {
+      retry_init = true;
+    }
+}
+
+//! Fire up the applet (as requested by the native gnome applet).
+void
+AppletWindow::set_applet_control(GNOME_Workrave_AppletControl applet_control)
+{
+  if (mode == APPLET_TRAY)
+    {
+      destroy_tray_applet();
+    }
+
+  if (this->applet_control != NULL)
+    {
+      // FIXME: free old interface
+    }
+  
+  this->applet_control = applet_control;
   
   if (mode == APPLET_DISABLED && applet_enabled)
     {

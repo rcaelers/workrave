@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-03-06 21:24+0100\n"
+"POT-Creation-Date: 2003-03-09 18:22+0100\n"
 "PO-Revision-Date: 2002-11-05 17:58-0800\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -13,39 +13,39 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: gui/BreakControl.cc:659
+#: gui/BreakControl.cc:682
 msgid "Disappears in"
 msgstr "Malaperas en"
 
-#: gui/BreakControl.cc:663
+#: gui/BreakControl.cc:686
 msgid "Break in"
 msgstr "Ĉesu en"
 
-#: gui/BreakControl.cc:667
+#: gui/BreakControl.cc:690
 msgid "Silent in"
 msgstr "Silentiĝu en"
 
-#: gui/GUIControl.cc:293
+#: gui/GUIControl.cc:291
 msgid "Time for a micro-pause?"
 msgstr "Ĉu horo por paŭzeto?"
 
-#: gui/GUIControl.cc:294 gui/gtkmm/MicroPauseWindow.cc:163
+#: gui/GUIControl.cc:292 gui/gtkmm/MicroPauseWindow.cc:163
 msgid "Micro-pause"
 msgstr "Paŭzeto"
 
-#: gui/GUIControl.cc:300
+#: gui/GUIControl.cc:298
 msgid "You need a rest break..."
 msgstr "Vi bezonas ripozon..."
 
-#: gui/GUIControl.cc:301
+#: gui/GUIControl.cc:299
 msgid "Rest break"
 msgstr "Ripozo"
 
-#: gui/GUIControl.cc:307
+#: gui/GUIControl.cc:305
 msgid "You should stop for today..."
 msgstr "Vi devas halti por hodiaŭ..."
 
-#: gui/GUIControl.cc:308
+#: gui/GUIControl.cc:306
 msgid "Daily limit"
 msgstr "Taglimo"
 
@@ -166,7 +166,7 @@ msgstr "Transsaltu"
 msgid "Postpone"
 msgstr "Prokrastu"
 
-#: gui/gtkmm/GUI.cc:310
+#: gui/gtkmm/GUI.cc:307
 msgid "I could not initialize Bonobo"
 msgstr ""
 

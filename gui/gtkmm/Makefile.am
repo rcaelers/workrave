@@ -79,6 +79,7 @@ libgtkmmgui_a_SOURCES = \
 	WmSpec.cc \
 	TimerWindow.cc \
 	Menus.cc \
+	Dispatcher.cc \
 	$(sourcesgnome) $(sourcesx) $(sourceswin32) ${sourcesdistribution}
 
 libgtkmmgui_a_LIBADD = 

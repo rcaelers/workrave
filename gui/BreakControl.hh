@@ -21,6 +21,7 @@
 
 #include "BreakInterface.hh"
 #include "BreakResponseInterface.hh"
+#include "PreludeResponseInterface.hh"
 #include "GUIControl.hh"
 #include "SoundPlayerInterface.hh"
 
@@ -30,10 +31,12 @@ class PreludeWindowInterface;
 class TimerInterface;
 class ControlInterface;
 class GUIFactoryInterface;
+class ActivityMonitorListenerInterface;
 
 class BreakControl :
   public BreakInterface,
-  public BreakResponseInterface
+  public BreakResponseInterface,
+  public PreludeResponseInterface
 {
 public:
   //! Defines what to do when the user is active during a break.
@@ -81,6 +84,9 @@ public:
   void postpone_break();
   void skip_break();
 
+  // PreludeResponseInterface
+  void prelude_stopped();
+  
 private:
   void break_window_start();
   void break_window_stop();
@@ -91,12 +97,13 @@ private:
   void collect_garbage();
   void freeze();
   void defrost();
-  
+
 private:
   enum BreakStage { STAGE_NONE,
                     STAGE_SNOOZED,
                     STAGE_PRELUDE,
-                    STAGE_TAKING
+                    STAGE_TAKING,
+                    STAGE_DELAYED
   };
 
   void update_prelude_window();
@@ -169,7 +176,7 @@ private:
   InsistPolicy insist_policy;
 
   //! Policy currently in effect.
-  InsistPolicy active_insist_policy; 
+  InsistPolicy active_insist_policy;
 };
 
 #endif // BREAKCONTROL_HH
