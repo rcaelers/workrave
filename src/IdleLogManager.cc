@@ -196,6 +196,7 @@ IdleLogManager::update_idlelog(ClientInfo &info, ActivityState state, bool chang
     {
       if (changed)
         {
+          info.update(current_time);
           info.idlelog.push_front(IdleInterval(current_time, current_time));
         }
       else
