@@ -1051,7 +1051,7 @@ msgstr "Rek je rug"
 
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:27
 msgid "Train focusing the eyes"
-msgstr "Train het focussen de ogen"
+msgstr "Train het focussen van de ogen"
 
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:28
 msgid "Turn your head"
