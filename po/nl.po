@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 0.3.0\n"
-"POT-Creation-Date: 2002-10-17 22:21+0200\n"
-"PO-Revision-Date: 2002-10-14 21:22+0200\n"
+"POT-Creation-Date: 2002-10-17 23:01+0200\n"
+"PO-Revision-Date: 2002-10-17 23:03+0200\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
 "MIME-Version: 1.0\n"
@@ -57,8 +57,7 @@ msgid "General"
 msgstr "Algemeen"
 
 #: gui/gtkmm/CollectivePreferencePage.cc:82
-#, fuzzy
-msgid "Enable collective"
+msgid "Enable networking"
 msgstr "Activeer netwerk ondersteuning"
 
 #: gui/gtkmm/CollectivePreferencePage.cc:85
@@ -139,7 +138,7 @@ msgid "Q_uiet"
 msgstr "_Stil"
 
 #: gui/gtkmm/MainWindow.cc:385
-msgid "_Collective"
+msgid "_Network"
 msgstr "_Netwerk"
 
 #: gui/gtkmm/MainWindow.cc:389
@@ -186,7 +185,6 @@ msgstr "Ontspan gedurende enkele seconden"
 msgid "Timers"
 msgstr "Klokken"
 
-# FIXME
 #: gui/gtkmm/PreferencesDialog.cc:88
 msgid "Monitoring"
 msgstr "Activiteit detectie"
@@ -196,9 +194,8 @@ msgid "User interface"
 msgstr "Gebruikers interface"
 
 #: gui/gtkmm/PreferencesDialog.cc:93
-#, fuzzy
-msgid "Collective"
-msgstr "Netwerk"
+msgid "Network"
+msgstr ""
 
 #: gui/gtkmm/PreferencesDialog.cc:122
 msgid "The main window stays always on top of other windows"
@@ -289,10 +286,13 @@ msgstr ""
 "kiezen."
 
 #: gui/gtkmm/PreferencesDialog.cc:318
+#, fuzzy
 msgid ""
-"Workrave allows you to run several workrave instances in a collective.\n"
-"All workraves in the collective will share the same timers.\n"
+"You can run several instances of Workrave in a collective. All instances\n"
+"that are a part of the collective share the same timer information."
 msgstr ""
+"Het is mogelijk om meerdere instanties van het programma in een\n"
+"netwerk met elkaar te verbinden en de pauze informatie te delen."
 
 #: gui/gtkmm/RestBreakWindow.cc:75
 msgid ""
@@ -300,10 +300,13 @@ msgid ""
 "walk away from your computer on a regular basis. Just\n"
 "walk around for a few minutes, stretch, and relax."
 msgstr ""
+"Dit is je rust pauze. Zorg ervoor dat je regelmatig\n"
+"opstaat en wegloopt van de computer. Wandel enkele\n"
+"minuten rond, strek, en ontspan."
 
 #: gui/gtkmm/TimerPreferencesPanel.cc:81
 msgid "Break prompting"
-msgstr "Pauze verzoeken"
+msgstr "Verzoek tot pauze"
 
 #: gui/gtkmm/TimerPreferencesPanel.cc:82
 msgid "Prompt before breaking"
@@ -348,3 +351,14 @@ msgstr "Pauze tijdsduur"
 #: gui/gtkmm/TimerPreferencesPanel.cc:219
 msgid "Time before break"
 msgstr "Werktijd"
+
+#, fuzzy
+#~ msgid "Enable collective"
+#~ msgstr "Activeer netwerk ondersteuning"
+
+#~ msgid "_Collective"
+#~ msgstr "_Netwerk"
+
+#, fuzzy
+#~ msgid "Collective"
+#~ msgstr "Netwerk"

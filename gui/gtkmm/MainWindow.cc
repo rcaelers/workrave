@@ -382,16 +382,16 @@ MainWindow::create_menu(Gtk::RadioMenuItem *mode_menus[3])
   Gtk::Menu *distr_menu = manage(new Gtk::Menu());
   Gtk::Menu::MenuList &distr_menu_list = distr_menu->items();
 
-  Gtk::MenuItem *distr_menu_item = manage(new Gtk::MenuItem(_("_Collective"),true));
+  Gtk::MenuItem *distr_menu_item = manage(new Gtk::MenuItem(_("_Network"),true));
   distr_menu_item->set_submenu(*distr_menu);
   distr_menu_item->show();
 
-  Gtk::MenuItem *distr_join_menu_item = manage(new Gtk::MenuItem(_("_Join"),true));
+  Gtk::MenuItem *distr_join_menu_item = manage(new Gtk::MenuItem(_("_Connect"),true));
   distr_join_menu_item->show();
   distr_join_menu_item->signal_activate().connect(SigC::slot(*this, &MainWindow::on_menu_collective_join));
   distr_menu_list.push_back(*distr_join_menu_item);
   
-  Gtk::MenuItem *distr_leave_menu_item = manage(new Gtk::MenuItem(_("_Leave"),true));
+  Gtk::MenuItem *distr_leave_menu_item = manage(new Gtk::MenuItem(_("_Disconnect"),true));
   distr_leave_menu_item->show();
   distr_leave_menu_item->signal_activate().connect(SigC::slot(*this, &MainWindow::on_menu_collective_leave));
   distr_menu_list.push_back(*distr_leave_menu_item);

@@ -40,13 +40,13 @@ using SigC::slot;
 
 
 CollectiveJoinDialog::CollectiveJoinDialog()
-  : Gtk::Dialog("Join the collective", true, false)
+  : Gtk::Dialog("Network connect", true, false)
 {
   TRACE_ENTER("CollectiveJoinDialog::CollectiveJoinDialog");
 
   string text =
     _("Enter the host name and port number of a computer\n"
-      "in the collective you want to join.");
+      "in the network you wish to connect to.");
   
   // Title
   Gtk::HBox *title_box = manage(new Gtk::HBox(false));
@@ -93,7 +93,7 @@ CollectiveJoinDialog::CollectiveJoinDialog()
   page->pack_start(*entry_table, false, true, 0);
   page->set_border_width(6);
 
-  Gtk::Frame *frame = manage(new Gtk::Frame(_("Join settings")));
+  Gtk::Frame *frame = manage(new Gtk::Frame(_("Connection details")));
   frame->set_border_width(6);
   frame->add(*page);
 

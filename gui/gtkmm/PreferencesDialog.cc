@@ -90,7 +90,7 @@ PreferencesDialog::PreferencesDialog()
                               (*gui_page, _("User interface")));
 #ifdef HAVE_DISTRIBUTION
   notebook->pages().push_back(Gtk::Notebook_Helpers::TabElem
-                              (*collective_page, _("Collective")));
+                              (*collective_page, _("Network")));
 #endif
   
   // Dialog
@@ -315,8 +315,9 @@ PreferencesDialog::create_collective_page()
   // Timers page
   Gtk::VBox *collective_page
     = create_page
-    (_("Workrave allows you to run several workrave instances in a collective.\n"
-     "All workraves in the collective will share the same timers.\n"),
+    (_("You can connect several instances of Workrave in a network. All connected\n"
+       "instances share the same timer information, meaning you will be reminded\n"
+       "of your breaks even if you switch computers."),
      "collective.png");
 
   Gtk::Widget *page = manage(new CollectivePreferencePage());

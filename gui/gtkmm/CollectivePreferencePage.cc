@@ -79,7 +79,7 @@ CollectivePreferencePage::create_general_page(Gtk::Notebook *tnotebook)
   gp->set_border_width(6);
 
   // Main switch
-  enabled_cb = manage(new Gtk::CheckButton(_("Enable collective")));
+  enabled_cb = manage(new Gtk::CheckButton(_("Enable networking")));
 
   // Identity
   Gtk::Frame *id_frame = new Gtk::Frame(_("Identity"));
