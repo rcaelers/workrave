@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.6.2\n"
 "POT-Creation-Date: 2004-07-13 22:48+0200\n"
-"PO-Revision-Date: 2004-07-14 19:37+0200\n"
+"PO-Revision-Date: 2004-07-14 23:19+0200\n"
 "Last-Translator: Artūras Šlajus <x11@h2o.sky.lt>\n"
 "Language-Team: Artūras Šlajus <x11@h2o.sky.lt>\n"
 "MIME-Version: 1.0\n"
@@ -198,7 +198,7 @@ msgstr "Atsipalaiduokite kelioms sekundėms"
 #: frontend/gtkmm/src/MicroBreakWindow.cc:136
 #, c-format
 msgid "Next rest break in %s"
-msgstr "Kita poilsio pertauka po %s"
+msgstr "Iki kitos poilsio pertaukos liko %s"
 
 #: frontend/gtkmm/src/MicroBreakWindow.cc:142
 #, c-format
@@ -298,9 +298,9 @@ msgid "Silent in"
 msgstr "Tylus po"
 
 #: frontend/gtkmm/src/RestBreakWindow.cc:161
-#, fuzzy, c-format
+#, c-format
 msgid "Rest break for %s"
-msgstr "Poilsio pertrauka %s"
+msgstr "Iki poilsio pertraukos pabaigos liko %s"
 
 #: frontend/gtkmm/src/RestBreakWindow.cc:180
 msgid ""
