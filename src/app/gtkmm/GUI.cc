@@ -1120,11 +1120,11 @@ GUI::interrupt_grab()
     {
 #ifdef HAVE_X
       grab_wanted = true;
-#endif
       
       WindowHints::ungrab(grab_handle);
       grab_handle = NULL;
       Glib::signal_timeout().connect(SigC::slot(*this, &GUI::on_grab_retry_timer), 2000);
+#endif
     }
 }
   
