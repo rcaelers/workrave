@@ -27,15 +27,26 @@
 #include <list>
 #include <string>
 
-class Exercise
+
+struct Exercise
 {
+  struct Image
+  {
+    std::string image;
+    int duration;
+  };
+  
+  std::string title;
+  std::string description;
+  int duration;
+  std::list<Image> sequence;
 };
 
 class ExercisesParser : public Glib::Markup::Parser
 {
 public:
-  static const std::list<Exercise> get_exercises();
-  static const std::list<Exercise> get_exercises(std::string file_name);
+  static void parse_exercises(std::list<Exercise>&);
+  static void parse_exercises(std::string file_name, std::list<Exercises>&);
 
 protected:
   void on_start_element (Glib::Markup::ParseContext& context,
@@ -47,6 +58,9 @@ protected:
                 const Glib::ustring& text);
   void on_passthrough (Glib::Markup::ParseContext& context,
                        const Glib::ustring& passthrough_text);
+
+private:
+  std::list<Exercise> *exercises;
 };
 
 #endif // HAVE_EXERCISES

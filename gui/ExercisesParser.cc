@@ -30,6 +30,7 @@
 #include <unistd.h>
 #include <assert.h>
 
+std::list<Exercise> *ExercisesParser::exercises = NULL;
 
 void
 ExercisesParser::on_start_element (Glib::Markup::ParseContext& context,
@@ -65,11 +66,12 @@ ExercisesParser::on_passthrough (Glib::Markup::ParseContext& context,
 }
    
 
-const std::list<Exercise>
-ExercisesParser::get_exercises(std::string file_name)
+void
+ExercisesParser::parse_exercises(std::string file_name,
+                                 std::list<Exercise> &exe)
 {
   TRACE_ENTER_MSG("ExercisesParser::get_exercises", file_name);
-  std::list<Exercise> exercises;
+  exercises = &exe;
   
   // I hate C++ streams.
   FILE *stream = fopen(file_name.c_str(), "rb");
@@ -92,16 +94,15 @@ ExercisesParser::get_exercises(std::string file_name)
       context.end_parse();
     }
   TRACE_EXIT();
-  return exercises;
 }
 
 
-const std::list<Exercise>
-ExercisesParser::get_exercises()
+void
+ExercisesParser::parse_exercises(std::list<Exercise> &exercises)
 {
-  std::string exercises = Util::complete_directory
+  std::string file_name = Util::complete_directory
     ("exercises.xml", Util::SEARCH_PATH_EXERCISES);
-  return get_exercises(exercises);
+  return get_exercises(file_name, exercises);
 }
 
 #endif // HAVE_EXERCISES
