@@ -47,7 +47,7 @@ Name: "desktopicon"; Description: "Create a &desktop icon"; GroupDescription: "A
 Name: "startupmenu"; Description: "Start Workrave when Windows starts"; GroupDescription: "Additional tasks:"; MinVersion: 4,4
 
 [Files]
-Source: ".\runtime-harpoon\*.*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
+Source: "..\..\..\..\common\win32\harpoon\src\Release\harpoon.dll"; DestDir: "{app}\lib"; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
 Source: "..\..\..\win32\applet\src\Release\workrave-applet.dll"; DestDir: "{app}\lib"; Flags: ignoreversion restartreplace uninsrestartdelete;
 Source: ".\runtime-base\*.*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs;
 Source: ".\runtime-gtk\*.*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs; Components: gtk;
