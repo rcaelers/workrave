@@ -39,8 +39,8 @@ class TimeBar
   void set_bar_color(TimeBarInterface::ColorId color);
   void set_secondary_bar_color(TimeBarInterface::ColorId color);
 
-  void set_position(BOOL visible, int x, int y);
   void get_size(int &width, int &height);
+  HWND get_handle() const { return hwnd; };
 
  private:
   HWND hwnd;

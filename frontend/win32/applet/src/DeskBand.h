@@ -106,7 +106,6 @@ class CDeskBand : public IDeskBand,
   LRESULT OnSize(LPARAM);
   LRESULT OnTimer(WPARAM wParam, LPARAM lParam);
   BOOL RegisterAndCreateWindow(void);
-  
 };
 
 #endif   //DESKBAND_H

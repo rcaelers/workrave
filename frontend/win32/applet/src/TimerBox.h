@@ -22,8 +22,10 @@
 #include <time.h>
 
 #include "CoreInterface.hh"
+#include "Util.h"
 
 class TimeBar;
+class Icon;
 
 class TimerBox
 {
@@ -38,12 +40,13 @@ class TimerBox
   void set_enabled(bool enabled);
 
  private:
-  void update_time_bars();
-  void update_sheep();
+  void update_sheep(TransparentDamageControl &ctrl);
+  void update_time_bars(TransparentDamageControl &ctrl);
 
   TimeBar *slot_to_time_bar[BREAK_ID_SIZEOF];
-  HWND sheep_icon;
-  HWND break_to_icon[BREAK_ID_SIZEOF];
+  HWND parent_window;
+  Icon *sheep_icon;
+  Icon *break_to_icon[BREAK_ID_SIZEOF];
   BreakId slot_to_break[BREAK_ID_SIZEOF];
   short break_to_slot[BREAK_ID_SIZEOF];
   bool break_visible[BREAK_ID_SIZEOF];

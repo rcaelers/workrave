@@ -15,6 +15,8 @@
 //
 // $Id$
 
+#include <windowsx.h>
+
 #include "DeskBand.h"
 #include "TimeBar.h"
 #include "TimerBox.h"
@@ -34,7 +36,7 @@ CDeskBand::CDeskBand()
   m_dwBandID = 0;
   m_TimerBox = NULL;
   m_LastCopyData = 0;
-  
+
   m_ObjRefCount = 1;
   g_DllRefCount++;
 }
@@ -374,6 +376,7 @@ CDeskBand::QueryContextMenu( HMENU hMenu,
                                           UINT idCmdLast,
                                           UINT uFlags)
 {
+Beep(8000, 100);
 /*
   if(!(CMF_DEFAULTONLY & uFlags))
     {
@@ -485,8 +488,7 @@ CDeskBand::WndProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
    
     case WM_SIZE:
       return pThis->OnSize(lParam);
-    }
-
+    }    
   return DefWindowProc(hWnd, uMessage, wParam, lParam);
 }
 
@@ -557,10 +559,11 @@ CDeskBand::OnSize(LPARAM lParam)
   cx = LOWORD(lParam);
   cy = HIWORD(lParam);
   if (m_TimerBox != NULL) 
-  {
-  m_TimerBox->set_size(cx, cy);
-  m_TimerBox->update();
-  }
+    {
+      m_TimerBox->set_size(cx, cy);
+      m_TimerBox->update();
+    }
+
   return 0;
 }
 
@@ -619,7 +622,7 @@ CDeskBand::RegisterAndCreateWindow(void)
           wc.hInstance      = g_hInst;
           wc.hIcon          = NULL;
           wc.hCursor        = LoadCursor(NULL, IDC_ARROW);
-          wc.hbrBackground  = (HBRUSH)(COLOR_WINDOWFRAME+1);
+          wc.hbrBackground  = NULL;//(HBRUSH)(COLOR_WINDOWFRAME+1);
           wc.lpszMenuName   = NULL;
           wc.lpszClassName  = DB_CLASS_NAME;
       
@@ -634,7 +637,7 @@ CDeskBand::RegisterAndCreateWindow(void)
       GetClientRect(m_hwndParent, &rc);
 
       //Create the window. The WndProc will set m_hWnd.
-      HWND h = CreateWindowEx(   0, // WS_EX_TRANSPARENT,
+      HWND h = CreateWindowEx(   WS_EX_TRANSPARENT,
                                  DB_CLASS_NAME,
                                  NULL,
                                  WS_CHILD | WS_CLIPSIBLINGS,
@@ -652,4 +655,6 @@ CDeskBand::RegisterAndCreateWindow(void)
 
   return (NULL != m_hWnd);
 }
+
+
 

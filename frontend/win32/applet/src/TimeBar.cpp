@@ -306,20 +306,6 @@ TimeBar::time_to_string(time_t time, char *buf, int len)
     }
 }
 
-void
-TimeBar::set_position(BOOL visible, int x, int y)
-{
-  if (! visible)
-    {
-      ShowWindow(hwnd, SW_HIDE);
-    }
-  else
-    {
-      SetWindowPos(hwnd, NULL, x, y, 0, 0, SWP_NOSIZE|SWP_NOZORDER|SWP_SHOWWINDOW);
-    }
-}
-
-
 
 void 
 TimeBar::set_progress(int value, int max_value)

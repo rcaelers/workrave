@@ -130,6 +130,14 @@ SOURCE=.\Guid.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\Icon.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Icon.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\resource.rc
 # End Source File
 # Begin Source File
@@ -159,6 +167,14 @@ SOURCE=.\TimerBox.cpp
 # Begin Source File
 
 SOURCE=.\TimerBox.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Util.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Util.h
 # End Source File
 # Begin Source File
 

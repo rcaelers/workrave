@@ -17,32 +17,29 @@
 
 #include "TimerBox.h"
 #include "TimeBar.h"
+#include "Util.h"
+#include "Icon.h"
 
-const int ICON_WIDTH = 16;
-const int ICON_HEIGHT = 16;
 const int PADDING_X = 2;
 const int PADDING_Y = 2;
 
 TimerBox::TimerBox(HWND parent, HINSTANCE hinst)
 {
   const char *icon_ids[] = { "micropause", "restbreak", "dailylimit" };
-  sheep_icon = CreateWindowEx
-      (WS_EX_TRANSPARENT, "STATIC",
-       "workrave", SS_REALSIZEIMAGE | SS_ICON | WS_CHILD
-       | WS_CLIPSIBLINGS, 0, 0, ICON_WIDTH, ICON_HEIGHT, parent, NULL, hinst, NULL);
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++) {
-    slot_to_time_bar[i] = new TimeBar(parent, hinst);
-    break_to_icon[i] = CreateWindowEx
-      (WS_EX_TRANSPARENT, "STATIC",
-       icon_ids[i], SS_REALSIZEIMAGE | SS_ICON | WS_CHILD
-       | WS_CLIPSIBLINGS, 0, 0, ICON_WIDTH, ICON_HEIGHT, parent, NULL, hinst, NULL);
+  sheep_icon = new Icon(parent, hinst, "workrave");
 
-    break_visible[i] = false;
-    slot_to_break[i] = BREAK_ID_NONE;
-    break_to_slot[i] = -1;
-  }
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++) 
+    {
+      slot_to_time_bar[i] = new TimeBar(parent, hinst);
+      break_to_icon[i] = new Icon(parent, hinst, icon_ids[i]);
+
+      break_visible[i] = false;
+      slot_to_break[i] = BREAK_ID_NONE;
+      break_to_slot[i] = -1;
+    }
   filled_slots = 0;
   enabled = false;
+  parent_window = parent;
 }
 
 
@@ -50,9 +47,10 @@ TimerBox::~TimerBox()
 {
   for (int i = 0; i < BREAK_ID_SIZEOF; i++) 
     {
-      DestroyWindow(break_to_icon[i]);
+      delete break_to_icon[i];
       delete slot_to_time_bar[i];
     }
+  delete sheep_icon;
 }
 
 
@@ -98,42 +96,49 @@ TimerBox::set_size(int w, int h)
 void 
 TimerBox::update()
 {
-  update_sheep();
-  update_time_bars();
+  TransparentDamageControl ctrl;
+  ctrl.BeginPaint();
+  update_time_bars(ctrl);
+  update_sheep(ctrl);
+  ctrl.EndPaint();
 }
 
 
 void 
-TimerBox::update_sheep()
+TimerBox::update_sheep(TransparentDamageControl &ctrl)
 {
   if (enabled && (filled_slots != 0))
     {
-      ShowWindow(sheep_icon, SW_HIDE);
+      ctrl.HideWindow(sheep_icon->get_handle());
     }
-  else
+  else 
     {
-      int x = (width - ICON_WIDTH)/2;
-      int y = (height- ICON_HEIGHT)/2;
-      SetWindowPos(sheep_icon, NULL, x, y, 0, 0,
-                   SWP_SHOWWINDOW|SWP_NOZORDER|SWP_NOSIZE);
+      int w, h;
+      sheep_icon->get_size(w, h);
+      int x = (width - w)/2;
+      int y = (height- h)/2;
+      ctrl.ShowWindow(sheep_icon->get_handle(), x, y);
     }
 }
 
+
 void 
-TimerBox::update_time_bars()
+TimerBox::update_time_bars(TransparentDamageControl &ctrl)
 {
   if (enabled)
     {
       int x = 0, y = 0;
       int bar_w, bar_h;
+      int icon_width, icon_height;
 
       slot_to_time_bar[0]->get_size(bar_w, bar_h);
-      int icon_bar_w = ICON_WIDTH + PADDING_X + bar_w;
+      break_to_icon[0]->get_size(icon_width, icon_height);
+      int icon_bar_w = icon_width + PADDING_X + bar_w;
       int columns = __max(1, width / icon_bar_w);
       int rows = (filled_slots + columns - 1) / columns;
-      int box_h = rows * __max(ICON_HEIGHT, bar_h) + (rows -1) * PADDING_Y;
+      int box_h = rows * __max(icon_height, bar_h) + (rows -1) * PADDING_Y;
       y = __max(0, (height - box_h)/2);
-  
+
       for (int i = 0; i < BREAK_ID_SIZEOF; i++) 
         {
           BreakId bid = slot_to_break[i];
@@ -142,32 +147,34 @@ TimerBox::update_time_bars()
             {
               TimeBar *bar = get_time_bar(bid);
 
-              SetWindowPos(break_to_icon[bid], NULL, x, y, 0, 0,
-                           SWP_SHOWWINDOW|SWP_NOZORDER|SWP_NOSIZE);
-              bar->set_position(true, x+ICON_WIDTH+PADDING_X, y);
+              ctrl.ShowWindow(break_to_icon[bid]->get_handle(), x, y);
+              ctrl.ShowWindow(bar->get_handle(), x+icon_width+PADDING_X, y);
               bar->update();
               x += icon_bar_w;
               if (x + icon_bar_w > width)
                 {
                   x = 0;
-                  y += __max(ICON_HEIGHT, bar_h) + PADDING_Y;
+                  y += __max(icon_height, bar_h) + PADDING_Y;
                 }
 
             }
         }
     }
+
   for (int h = 0; h < BREAK_ID_SIZEOF; h++)
     {
       if ((! enabled) || (! break_visible[h]))
         {
-          ShowWindow(break_to_icon[h], SW_HIDE);
+          ctrl.HideWindow(break_to_icon[h]->get_handle());
         }
     }
   for (int j = enabled ? filled_slots : 0; j < BREAK_ID_SIZEOF; j++) 
     {
-      slot_to_time_bar[j]->set_position(false, 0, 0);
+      ctrl.HideWindow(slot_to_time_bar[j]->get_handle());
     }
 }
+
+
 
 
 
