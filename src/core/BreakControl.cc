@@ -243,22 +243,17 @@ BreakControl::goto_stage(BreakStage stage)
                 Statistics *stats = core->get_statistics();
                 stats->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_TAKEN);
 
-                if (!user_initiated)
+                // Play sound
+                switch (break_id)
                   {
-                    // Play sound
-                    CoreEvent event = CORE_EVENT_NONE;
-                    switch (break_id)
-                      {
-                      case BREAK_ID_REST_BREAK:
-                        event = CORE_EVENT_SOUND_REST_BREAK_ENDED;
-                        break;
-                      case BREAK_ID_MICRO_PAUSE:
-                        event = CORE_EVENT_SOUND_MICRO_PAUSE_ENDED;
-                        break;
-                      default:
-                        break;
-                      }
-                    post_event(event);
+                  case BREAK_ID_REST_BREAK:
+                    post_event(CORE_EVENT_SOUND_REST_BREAK_ENDED);
+                    break;
+                  case BREAK_ID_MICRO_PAUSE:
+                    post_event(CORE_EVENT_SOUND_MICRO_PAUSE_ENDED);
+                    break;
+                  default:
+                    break;
                   }
               }
           }
@@ -355,6 +350,12 @@ BreakControl::update_break_window()
   if (fake_break)
     {
       idle = duration - fake_break_count;
+
+      if (fake_break_count == 0)
+        {
+          stop_break();
+        }
+
       fake_break_count--;
     }
   else
@@ -441,6 +442,7 @@ BreakControl::force_start_break()
       TRACE_MSG(idle << " " << break_timer->get_auto_reset());
       if (idle >= break_timer->get_auto_reset())
         {
+          TRACE_MSG("Faking break");
           fake_break = true;
           fake_break_count = break_timer->get_auto_reset();
         }
