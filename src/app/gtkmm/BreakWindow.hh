@@ -82,6 +82,7 @@ private:
   Gtk::Button *create_postpone_button();
   Gtk::Button *create_lock_button();
   Gtk::Button *create_shutdown_button();
+  void set_background_pixmap();
   
 #if defined(HAVE_X)
   bool on_grab_retry_timer();

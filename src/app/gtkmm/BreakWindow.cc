@@ -35,10 +35,9 @@ static const char rcsid[] = "$Id$";
 #include "BreakResponseInterface.hh"
 #include "GtkUtil.hh"
 #include "WindowHints.hh"
-#ifndef HAVE_BREAK_WINDOW_TITLEBAR
 #include "Frame.hh"
-#endif
 #include "System.hh"
+#include "Util.hh"
 
 
 //! Constructor
@@ -47,11 +46,7 @@ static const char rcsid[] = "$Id$";
  */
 BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
                          bool ignorable, bool insist) :
-#ifdef HAVE_BREAK_WINDOW_TITLEBAR
-         Gtk::Window(Gtk::WINDOW_TOPLEVEL),
-#else
-         Gtk::Window(Gtk::WINDOW_POPUP),
-#endif
+         Gtk::Window(insist ? Gtk::WINDOW_POPUP : Gtk::WINDOW_TOPLEVEL),
          insist_break(insist),
          ignorable_break(ignorable),
 #ifdef HAVE_X
@@ -63,12 +58,6 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
 {
   this->break_id = break_id;
   
-#ifdef HAVE_BREAK_WINDOW_TITLEBAR
-      set_border_width(12);
-#else
-      set_border_width(0);
-#endif      
-
 #ifdef HAVE_X
   GtkUtil::set_wmclass(*this, "Break");
 #endif
@@ -78,10 +67,11 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   set_resizable(false);
   realize();
 
-#ifdef HAVE_BREAK_WINDOW_TITLEBAR
-  Glib::RefPtr<Gdk::Window> window = get_window();
-  window->set_functions(Gdk::FUNC_MOVE);
-#endif
+  if (! insist)
+    {
+      Glib::RefPtr<Gdk::Window> window = get_window();
+      window->set_functions(Gdk::FUNC_MOVE);
+    }
   
   this->head = head;
 #ifdef HAVE_GTK_MULTIHEAD  
@@ -97,15 +87,35 @@ BreakWindow::init_gui()
     {
       gui = manage(create_gui());
 
-#ifdef HAVE_BREAK_WINDOW_TITLEBAR
-      add(*gui);
+      if (! insist_break)
+        {
+          set_border_width(12);
+          add(*gui);
+        }
+      else
+        {
+          set_border_width(0);
+          Frame *window_frame = manage(new Frame());
+          window_frame->set_border_width(12);
+          window_frame->set_frame_style(Frame::STYLE_BREAK_WINDOW);
+          window_frame->add(*gui);
+
+          set_size_request(
+#ifdef HAVE_GTK_MULTIHEAD
+                           head.screen->get_screen_width(),
+                           head.screen->get_screen_height()
 #else
-      Frame *window_frame = manage(new Frame());
-      window_frame->set_border_width(12);
-      window_frame->set_frame_style(Frame::STYLE_BREAK_WINDOW);
-      window_frame->add(*gui);
-      add(*window_frame);
-#endif      
+                           gdk_screen_width(),
+                           gdk_screen_height()
+#endif
+                           );
+          set_app_paintable(true);
+          set_background_pixmap();
+          Gtk::Alignment *align
+            = manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
+          align->add(*window_frame);
+          add(*align);
+        }
       show_all_children();
       stick();
   
@@ -121,7 +131,154 @@ BreakWindow::init_gui()
     }
 }
 
+//! Courtesy of DrWright
+static GdkPixbuf *
+create_tile_pixbuf (GdkPixbuf    *dest_pixbuf,
+                    GdkPixbuf    *src_pixbuf,
+                    GdkRectangle *field_geom,
+                    guint         alpha,
+                    GdkColor     *bg_color) 
+{
+  gboolean need_composite;
+  gboolean use_simple;
+  gdouble  cx, cy;
+  gdouble  colorv;
+  gint     pwidth, pheight;
 
+  need_composite = (alpha < 255 || gdk_pixbuf_get_has_alpha (src_pixbuf));
+  use_simple = (dest_pixbuf == NULL);
+
+  if (dest_pixbuf == NULL)
+    dest_pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE, 8, field_geom->width, field_geom->height);
+
+  if (need_composite && use_simple)
+    colorv = ((bg_color->red & 0xff00) << 8) |
+      (bg_color->green & 0xff00) |
+      ((bg_color->blue & 0xff00) >> 8);
+  else
+    colorv = 0;
+
+  pwidth = gdk_pixbuf_get_width (src_pixbuf);
+  pheight = gdk_pixbuf_get_height (src_pixbuf);
+
+  for (cy = 0; cy < field_geom->height; cy += pheight) {
+    for (cx = 0; cx < field_geom->width; cx += pwidth) {
+      if (need_composite && !use_simple)
+        gdk_pixbuf_composite
+          (src_pixbuf, dest_pixbuf,
+           cx, cy,
+           MIN (pwidth, field_geom->width - cx), 
+           MIN (pheight, field_geom->height - cy),
+           cx, cy,
+           1.0, 1.0,
+           GDK_INTERP_BILINEAR,
+           alpha);
+      else if (need_composite && use_simple)
+        gdk_pixbuf_composite_color
+          (src_pixbuf, dest_pixbuf,
+           cx, cy,
+           MIN (pwidth, field_geom->width - cx), 
+           MIN (pheight, field_geom->height - cy),
+           cx, cy,
+           1.0, 1.0,
+           GDK_INTERP_BILINEAR,
+           alpha,
+           65536, 65536, 65536,
+           colorv, colorv);
+      else
+        gdk_pixbuf_copy_area
+          (src_pixbuf,
+           0, 0,
+           MIN (pwidth, field_geom->width - cx),
+           MIN (pheight, field_geom->height - cy),
+           dest_pixbuf,
+           cx, cy);
+    }
+  }
+
+  return dest_pixbuf;
+}
+
+//! Courtesy of DrWright
+void
+BreakWindow::set_background_pixmap()
+{
+  GdkPixbuf          *tmp_pixbuf, *pixbuf, *tile_pixbuf;
+  GdkPixmap          *pixmap;
+  GdkRectangle        rect;
+  GdkColor            color;
+
+  tmp_pixbuf = gdk_pixbuf_get_from_drawable (NULL,
+                                             gdk_get_default_root_window (),
+                                             gdk_colormap_get_system (),
+                                             0,
+                                             0,
+                                             0,
+                                             0,
+                                             gdk_screen_width (),
+                                             gdk_screen_height ());
+
+  std::string file = Util::complete_directory
+    ("ocean-stripes.png", Util::SEARCH_PATH_IMAGES);
+  pixbuf = gdk_pixbuf_new_from_file (file.c_str(), NULL);
+  
+  rect.x = 0;
+  rect.y = 0;
+  rect.width = gdk_screen_width ();
+  rect.height = gdk_screen_height ();
+
+  color.red = 0;
+  color.blue = 0;
+  color.green = 0;
+	
+  tile_pixbuf = create_tile_pixbuf (NULL,
+                                    pixbuf,
+                                    &rect,
+                                    155,
+                                    &color);
+
+  g_object_unref (pixbuf);
+
+  gdk_pixbuf_composite (tile_pixbuf,
+                        tmp_pixbuf,
+                        0,
+                        0,
+                        gdk_screen_width (),
+                        gdk_screen_height (),
+                        0,
+                        0,
+                        1,
+                        1,
+                        GDK_INTERP_NEAREST,
+                        225);
+
+  g_object_unref (tile_pixbuf);
+
+  pixmap = gdk_pixmap_new (GTK_WIDGET (gobj())->window,
+                           gdk_screen_width (),
+                           gdk_screen_height (),
+                           -1);
+
+  gdk_pixbuf_render_to_drawable_alpha (tmp_pixbuf,
+                                       pixmap,
+                                       0,
+                                       0,
+                                       0,
+                                       0,
+                                       gdk_screen_width (),
+                                       gdk_screen_height (),
+                                       GDK_PIXBUF_ALPHA_BILEVEL,
+                                       0,
+                                       GDK_RGB_DITHER_NONE,
+                                       0,
+                                       0);
+  g_object_unref (tmp_pixbuf);
+
+  gdk_window_set_back_pixmap (GTK_WIDGET (gobj())->window, pixmap, FALSE);
+  g_object_unref (pixmap);
+}
+
+        
 //! Destructor.
 BreakWindow::~BreakWindow()
 {
