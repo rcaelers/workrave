@@ -1,9 +1,9 @@
 // X11InputMonitor.cc --- ActivityMonitor for X11
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-09-25 20:21:28 robc>
+// Time-stamp: <2004-07-01 20:25:14 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -387,7 +387,11 @@ X11InputMonitor::handle_button(XEvent *event)
   if (event != NULL)
     {
       int b = event->xbutton.button;
-      listener->button_notify(b, event->xany.type == ButtonPress);
+      // FIXME: this is a hack. XGrabButton does not generate a button release
+      // event...
+      
+      listener->button_notify(b, true);
+      listener->button_notify(b, false);
     }
   else
     {
@@ -491,7 +495,7 @@ handleXRecordCallback(XPointer closure, XRecordInterceptData * data)
 void
 X11InputMonitor::run_xrecord()
 {
-  TRACE_ENTER("X11InputMonitor::run_xrecord")
+  TRACE_ENTER("X11InputMonitor::run_xrecord");
     
   init_xrecord();
 
@@ -504,11 +508,12 @@ X11InputMonitor::run_xrecord()
     }
   else
     {
+      TRACE_MSG("Fallback to run events");
       use_xrecord = false;
       run_events();
     }
   TRACE_EXIT()
-}
+    }
 
 
 //! Initialize the XRecord monitoring.
@@ -559,6 +564,7 @@ X11InputMonitor::init_xrecord()
         }
     }
 
+  TRACE_MSG("use_xrecord= " << use_xrecord);
   TRACE_EXIT();
   return use_xrecord;
 }

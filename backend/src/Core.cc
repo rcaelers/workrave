@@ -269,6 +269,8 @@ Core::init_statistics()
 void
 Core::load_monitor_config()
 {
+  TRACE_ENTER("Core::load_monitor_config");
+
   int noise;
   int activity;
   int idle;
@@ -292,7 +294,10 @@ Core::load_monitor_config()
   if (idle < 50)
     idle *= 1000;
 
+  TRACE_MSG("Monitor config = " << noise << " " << activity << " " << idle);
+            
   monitor->set_parameters(noise, activity, idle);
+  TRACE_EXIT();
 }
 
 
@@ -551,6 +556,7 @@ Core::heartbeat()
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       infos[i].enabled = breaks[i].is_enabled();
+      TRACE_MSG("Break " << i << " " << infos[i].enabled);
     }
 
   process_timers(infos);
@@ -623,6 +629,8 @@ Core::process_timers(TimerInfo *infos)
   // Retrieve State.
   ActivityState state = monitor->get_current_state();
 
+  TRACE_MSG("state = " << state);
+  
 #ifdef HAVE_DISTRIBUTION  
 #ifndef NDEBUG  
   if (script_start_time != -1 && current_time >= script_start_time)
@@ -650,6 +658,7 @@ Core::process_timers(TimerInfo *infos)
         }
     }
 
+  TRACE_MSG("master/new master = " << master_node << " " << new_master_node);
   
 #if NO_LONGER_USED_I_THINK
   // Enable or disable timers if we became or lost being master
@@ -673,7 +682,9 @@ Core::process_timers(TimerInfo *infos)
 
   // Distribute monitor state if we are master and the
   // state has changed.
-  TRACE_MSG("monitor state " << new_master_node << " " << state << " " << monitor_state);
+  TRACE_MSG("state/monitor state/remote_state = "
+            << state << " " << monitor_state << " " << remote_state);
+  
   if (new_master_node && monitor_state != state)
     {
       PacketBuffer buffer;
@@ -692,7 +703,8 @@ Core::process_timers(TimerInfo *infos)
       state = remote_state;
     }
 
-  TRACE_MSG("process states " << master_node << " " << state << " " << monitor_state << " " << remote_state);
+  TRACE_MSG("process master_node/state/monitor_state/remote_state "
+            << master_node << " " << state << " " << monitor_state << " " << remote_state);
 
   // Update our idle history.
   idlelog_manager->update_all_idlelogs(dist_manager->get_master_id(), state);
@@ -755,7 +767,10 @@ Core::process_timers(TimerInfo *infos)
           
           if (!(breaks[i].get_timer()->has_activity_monitor()))
             {
+              TRACE_MSG("Processing " << i << " without activity monitor " << infos[i].enabled);
               breaks[i].get_timer()->process(state, infos[i]);
+              TRACE_MSG("Processed " << i << " "
+                        << infos[i].elapsed_time << " " << infos[i].idle_time);
             }
         }
 
@@ -763,7 +778,10 @@ Core::process_timers(TimerInfo *infos)
         {
           if (breaks[i].get_timer()->has_activity_monitor())
             {
+              TRACE_MSG("Processing " << i << " with activity monitor" << infos[i].enabled);
               breaks[i].get_timer()->process(state, infos[i]);
+              TRACE_MSG("Processed " << i << " "
+                        << infos[i].elapsed_time << " " << infos[i].idle_time);
             }
         }
     }

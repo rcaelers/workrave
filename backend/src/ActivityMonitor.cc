@@ -126,9 +126,11 @@ ActivityMonitor::terminate()
 void
 ActivityMonitor::suspend()
 {
+  TRACE_ENTER_MSG("ActivityMonitor::suspend", activity_state);
   lock.lock();
   activity_state = ACTIVITY_SUSPENDED;
   lock.unlock();
+  TRACE_RETURN(activity_state);
 }
 
 
@@ -136,9 +138,11 @@ ActivityMonitor::suspend()
 void
 ActivityMonitor::resume()
 {
+  TRACE_ENTER_MSG("ActivityMonitor::resume", activity_state);
   lock.lock();
   activity_state = ACTIVITY_IDLE;
   lock.unlock();
+  TRACE_RETURN(activity_state);
 }
 
 
@@ -146,9 +150,11 @@ ActivityMonitor::resume()
 void
 ActivityMonitor::force_idle()
 {
+  TRACE_ENTER_MSG("ActivityMonitor::force_idle", activity_state);
   lock.lock();
   activity_state = ACTIVITY_IDLE;
   lock.unlock();
+  TRACE_RETURN(activity_state);
 }
 
 
@@ -156,6 +162,7 @@ ActivityMonitor::force_idle()
 ActivityState
 ActivityMonitor::get_current_state()
 {
+  TRACE_ENTER_MSG("ActivityMonitor::get_current_state", activity_state);
   lock.lock();
 
   // First update the state...
@@ -165,6 +172,10 @@ ActivityMonitor::get_current_state()
       gettimeofday(&now, NULL);
 
       tvSUBTIME(tv, now, last_action_time);
+
+      TRACE_MSG("Active: "
+                << tv.tv_sec << "." << tv.tv_usec << " "
+                << idle_threshold.tv_sec << " " << idle_threshold.tv_usec);
       if (tvTIMEGT(tv, idle_threshold))
         {
           // No longer active.
@@ -173,6 +184,7 @@ ActivityMonitor::get_current_state()
     }
 
   lock.unlock();
+  TRACE_RETURN(activity_state);
   return activity_state;
 }
 
@@ -274,6 +286,7 @@ ActivityMonitor::set_listener(ActivityMonitorListener *l)
 void
 ActivityMonitor::action_notify()
 {
+  TRACE_ENTER_MSG("ActivityMonitor::action_notify", activity_state);
   lock.lock();
   
   struct timeval now;
@@ -323,7 +336,8 @@ ActivityMonitor::action_notify()
 
   last_action_time = now;
   lock.unlock();
-  call_listener();  
+  call_listener();
+  TRACE_EXIT();
 }
 
 
@@ -333,6 +347,8 @@ ActivityMonitor::mouse_notify(int x, int y, int wheel_delta)
 {
   static const int sensitivity = 3;
 
+  TRACE_ENTER_MSG("ActivityMonitor::mouse_notify", x << " " << y << " " << wheel_delta << " " << button_is_pressed);
+  
   lock.lock();
   const int delta_x = x - prev_x;
   const int delta_y = y - prev_y;
@@ -369,6 +385,8 @@ ActivityMonitor::button_notify(int button_mask, bool is_press)
 {
   (void)button_mask;
 
+  TRACE_ENTER_MSG("ActivityMonitor::button_notify", button_mask << " " << is_press);
+  
   lock.lock();
   if (click_x != -1)
     {
@@ -380,12 +398,12 @@ ActivityMonitor::button_notify(int button_mask, bool is_press)
   
   click_x = prev_x;
   click_y = prev_y;
-  action_notify();
 
   button_is_pressed = is_press;
   
   if (is_press)
     {
+      action_notify();
       statistics.total_clicks++;
     }
   
@@ -397,9 +415,11 @@ ActivityMonitor::button_notify(int button_mask, bool is_press)
 void
 ActivityMonitor::keyboard_notify(int key_code, int modifier)
 {
+  TRACE_ENTER_MSG("ActivityMonitor::keyboard_notify", key_code << " " << modifier);
+
   (void)key_code;
   (void)modifier;
-
+  
   lock.lock();
   action_notify();
   statistics.total_keystrokes++;

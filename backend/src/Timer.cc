@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2004-05-14 20:06:54 robc>
+// Time-stamp: <2004-07-01 19:48:22 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -88,6 +88,8 @@ Timer::~Timer()
 void
 Timer::enable()
 {
+  TRACE_ENTER_MSG("Timer::disable", timer_id << timer_enabled);
+  
   if (!timer_enabled)
     {
       timer_enabled = true;
@@ -110,6 +112,8 @@ Timer::enable()
 
       compute_next_predicate_reset_time();
     }
+
+  TRACE_EXIT();
 }
 
 
@@ -117,6 +121,8 @@ Timer::enable()
 void
 Timer::disable()
 {
+  TRACE_ENTER_MSG("Timer::disable", timer_id << timer_enabled);
+  
   if (timer_enabled)
     {
       timer_enabled = false;
@@ -131,6 +137,7 @@ Timer::disable()
       timer_state = STATE_INVALID;
       previous_timer_state = STATE_INVALID;
     }
+  TRACE_EXIT();
 }
 
 
@@ -340,6 +347,8 @@ Timer::daily_reset_timer()
 void
 Timer::reset_timer()
 {
+  TRACE_ENTER_MSG("Timer::reset", timer_id << timer_state);
+  
   // Update total overdue.
   time_t elapsed = get_elapsed_time();
   if (elapsed > limit_interval)
@@ -380,6 +389,7 @@ Timer::reset_timer()
       
   next_pred_reset_time = 0;
   compute_next_predicate_reset_time();
+  TRACE_EXIT();
 }
 
 
@@ -387,8 +397,12 @@ Timer::reset_timer()
 void
 Timer::start_timer()
 {
+  TRACE_ENTER_MSG("Timer::start_timer", timer_id << timer_state);
+  
   if (timer_state != STATE_RUNNING)
     {
+      TRACE_MSG("frozen = " <<  timer_frozen);
+      
       // Set last start and stop times.
       if (!timer_frozen)
         {
@@ -415,6 +429,7 @@ Timer::start_timer()
       // When to generate a limit-reached-event.
       compute_next_limit_time();
     }
+  TRACE_EXIT();
 }
 
 
@@ -422,8 +437,12 @@ Timer::start_timer()
 void
 Timer::stop_timer()
 {
+  TRACE_ENTER_MSG("Timer::stop_timer", timer_id << timer_state);
+  
   if (timer_state != STATE_STOPPED)
     {
+      TRACE_MSG("last_start_time = " <<  last_start_time);
+
       // Update last stop time.
       last_stop_time = time_source->get_time();
 
@@ -447,6 +466,7 @@ Timer::stop_timer()
       // 
       compute_next_limit_time();
     }
+  TRACE_EXIT();
 }
 
 
@@ -480,13 +500,17 @@ Timer::snooze_timer()
 void
 Timer::freeze_timer(bool freeze)
 {
+  TRACE_ENTER_MSG("Timer::freeze_timer", timer_id << freeze << " " << timer_enabled << " " << activity_sensitive);
+  
   if (timer_enabled && activity_sensitive)
     {
+      TRACE_MSG("frozen "  << timer_frozen);
       if (freeze && !timer_frozen)
         {
           // FIXME: Why does this say "last_limit_time" ??? should it be last_start_time???
           if (last_limit_time != 0 && timer_state == STATE_RUNNING)
             {
+              TRACE_MSG("reset");
               elapsed_time += (time_source->get_time() - last_start_time);
               last_start_time = 0;
             }
@@ -495,12 +519,14 @@ Timer::freeze_timer(bool freeze)
         {
           if (timer_state == STATE_RUNNING)
             {
+              TRACE_MSG("reset");
               last_start_time = time_source->get_time();
               elapsed_idle_time = 0;
             }
         }
     }
   timer_frozen = freeze;
+  TRACE_EXIT();
 }
 
 
@@ -525,8 +551,12 @@ Timer::get_elapsed_idle_time() const
 time_t
 Timer::get_elapsed_time() const
 {
+  TRACE_ENTER_MSG("Timer::get_elapsed_time", timer_id);
+  
   time_t ret = elapsed_time;
 
+  TRACE_MSG("enabled/last_start_time = " << timer_enabled << " " << last_start_time);
+  
   if (timer_enabled && last_start_time != 0)
     {
       // We are running:
@@ -630,7 +660,7 @@ Timer::idle_notify()
 void
 Timer::process(ActivityState new_activity_state, TimerInfo &info)
 {
-  TRACE_ENTER_MSG("Timer::Process", timer_id);
+  TRACE_ENTER_MSG("Timer::Process", timer_id << timer_id << " " << new_activity_state);
   time_t current_time= time_source->get_time();
 
   // Default event to return.
@@ -638,14 +668,21 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
   info.idle_time = get_elapsed_idle_time();
   info.elapsed_time = get_elapsed_time();
 
+  TRACE_MSG("idle = " << info.idle_time << " elap = " << info.elapsed_time);
+  TRACE_MSG("enabled = " << timer_enabled << " " << activity_timer);
+  TRACE_MSG("last_start_time " << last_start_time);
+  
   if (activity_sensitive)
     {
+      TRACE_MSG("is activity sensitive");
+      
       // This timer responds to the activity monitoring.
       if (activity_monitor != NULL)
         {
           // The timer users its own activity monitor and ignore the 'global'
           // activity monitor state (new_activity_state)
           new_activity_state = activity_monitor->get_current_state();
+          TRACE_MSG("state =" << new_activity_state);
         }
     }
   else
@@ -653,6 +690,8 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
       // This timer is activity insensitive. It periodically switches between
       // idle and active.
 
+      TRACE_MSG("is not activity sensitive");
+      
       if (activity_state != ACTIVITY_UNKNOWN)
         {
           TRACE_MSG("as = " << activity_state << " nas = " << new_activity_state << " el=" << get_elapsed_time());
@@ -688,15 +727,18 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
     {
       if (new_activity_state == ACTIVITY_ACTIVE && timer_state != STATE_RUNNING)
         {
+          TRACE_MSG("activity_notify");
           activity_notify();
         }
       else if (new_activity_state != ACTIVITY_ACTIVE && timer_state == STATE_RUNNING)
         {
+          TRACE_MSG("idle_notify");
           idle_notify();
         }
     }
   
   activity_state = new_activity_state;
+  TRACE_MSG("activity_state = " << activity_state);
 
   if (autoreset_interval_predicate && next_pred_reset_time != 0 && current_time >= next_pred_reset_time)
     {
