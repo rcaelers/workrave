@@ -21,6 +21,7 @@
 
 #include <list>
 #include "InputMonitorListenerInterface.hh"
+#include "Mutex.hh"
 
 class InputMonitorInterface;
 
@@ -44,6 +45,7 @@ private:
   static InputMonitor *instance;
   static int ref_count;
   static InputMonitorInterface *monitor;
+  static Mutex mutex;
 };
 
 #endif // INPUTMONITOR_HH

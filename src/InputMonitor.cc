@@ -17,6 +17,7 @@
 //
 
 #include "InputMonitor.hh"
+#include "Mutex.hh"
 
 #if defined(HAVE_X)
 #include "X11InputMonitor.hh"
@@ -28,6 +29,7 @@ InputMonitor *InputMonitor::instance = NULL;
 InputMonitorInterface *InputMonitor::monitor = NULL;
 int InputMonitor::ref_count = 0;
 list<InputMonitorListenerInterface *> InputMonitor::listeners;
+Mutex InputMonitor::mutex;
 
 InputMonitor::InputMonitor()
 {
@@ -45,53 +47,65 @@ InputMonitor::InputMonitor()
 
 InputMonitor::~InputMonitor()
 {
+  mutex.lock();
   ref_count--;
   if (! ref_count)
     {
       monitor->terminate();
     }
   instance = NULL;
+  mutex.unlock();
 }
 
 InputMonitor *
 InputMonitor::get_instance()
 {
+  mutex.lock();
   if (! instance)
     {
       instance = new InputMonitor();
     }
   instance->ref_count++;
+  mutex.unlock();
   return instance;
 }
 
 void
 InputMonitor::add_listener(InputMonitorListenerInterface *listener)
 {
+  mutex.lock();
   listeners.push_back(listener);
+  mutex.unlock();
 }
 
 void
 InputMonitor::remove_listener(InputMonitorListenerInterface *listener)
 {
+  mutex.lock();
   listeners.remove(listener);
+  mutex.unlock();
 }
 
 void
 InputMonitor::action_notify()
 {
+  mutex.lock();
   for (list<InputMonitorListenerInterface *>::const_iterator i
          = listeners.begin(); i != listeners.end(); i++)
     {
       (*i)->action_notify();
     }
+  mutex.unlock();
 }
 
 void
 InputMonitor::mouse_notify(int x, int y, int wheel = 0)
 {
+  mutex.lock();
   for (list<InputMonitorListenerInterface *>::const_iterator i
          = listeners.begin(); i != listeners.end(); i++)
     {
       (*i)->mouse_notify(x, y, wheel);
     }
+  mutex.unlock();
 }
