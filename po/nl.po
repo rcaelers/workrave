@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-12 22:24+0200\n"
+"POT-Creation-Date: 2003-07-15 23:26+0200\n"
 "PO-Revision-Date: 2003-03-04 22:16+0100\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -83,7 +83,7 @@ msgstr ""
 msgid "Pause"
 msgstr ""
 
-#: src/app/gtkmm/GUI.cc:673
+#: src/app/gtkmm/GUI.cc:676
 msgid "I could not initialize Bonobo"
 msgstr "Bonobo kon niet geïnitialiseerd worden"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-12 22:24+0200\n"
+"POT-Creation-Date: 2003-07-15 23:22+0200\n"
 "PO-Revision-Date: 2003-03-04 18:50+0100\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Johannes Rohr <j.rohr@comlink.apc.org>\n"
@@ -85,7 +85,7 @@ msgstr ""
 msgid "Pause"
 msgstr ""
 
-#: src/app/gtkmm/GUI.cc:673
+#: src/app/gtkmm/GUI.cc:676
 msgid "I could not initialize Bonobo"
 msgstr "Konnte Bonobo nicht initialisieren"
 

@@ -441,13 +441,20 @@ void
 IdleLogManager::unpack_idle_interval(PacketBuffer &buffer, IdleInterval &idle, time_t delta_time) const
 {
   int pos = 0;
-  buffer.read_size(pos);
+  int size = buffer.read_size(pos);
 
-  idle.begin_time = buffer.unpack_ulong() - delta_time;
-  idle.end_time = buffer.unpack_ulong() - delta_time;
-  idle.active_time = buffer.unpack_ushort();
-
-  buffer.skip_size(pos);
+  if (size > 0 && buffer.bytes_available() >= size)
+    {
+      idle.begin_time = buffer.unpack_ulong() - delta_time;
+      idle.end_time = buffer.unpack_ulong() - delta_time;
+      idle.active_time = buffer.unpack_ushort();
+      
+      buffer.skip_size(pos);
+    }
+  else
+    {
+      buffer.clear();
+    }
 }
 
 
@@ -479,22 +486,33 @@ IdleLogManager::unpack_idlelog(PacketBuffer &buffer, ClientInfo &ci,
                                time_t &delta_time, int &num_intervals) const
 {
   int pos = 0;
-  buffer.read_size(pos);
+  int size = buffer.read_size(pos);
 
-  delta_time = buffer.unpack_ulong() - time_source->get_time();
+  if (size > 0 && buffer.bytes_available() >= size)
+    {
+      delta_time = buffer.unpack_ulong() - time_source->get_time();
+      
+      char *id = buffer.unpack_string();
 
-  char *id = buffer.unpack_string();
-  
-  ci.client_id = id;
-  ci.total_active_time = buffer.unpack_ulong();
-  ci.master = (bool) buffer.unpack_byte();
-  ci.state = (ActivityState) buffer.unpack_byte();
+      if (id != NULL)
+        {
+          ci.client_id = id;
+        }
+      
+      ci.total_active_time = buffer.unpack_ulong();
+      ci.master = (bool) buffer.unpack_byte();
+      ci.state = (ActivityState) buffer.unpack_byte();
+      
+      num_intervals = buffer.unpack_ushort();
+      
+      g_free(id);
 
-  num_intervals = buffer.unpack_ushort();
-
-  g_free(id);
-  
-  buffer.skip_size(pos);
+      buffer.skip_size(pos);
+    }
+  else
+    {
+      buffer.clear();
+    }
 }
 
 
@@ -574,8 +592,10 @@ IdleLogManager::load_index()
           TRACE_MSG("Version - ok");
 
           char *id = buffer.unpack_string();
-
-          TRACE_MSG("id = " << id);
+          if (id != NULL)
+            {
+              TRACE_MSG("id = " << id);
+            }
           
           while (buffer.bytes_available() > 0)
             {
