@@ -1,43 +1,45 @@
-# Workrave 
-# Copyright (C) 2002, 2003 Rob Caelers & Raymond Penners
-# Raymond Penners <raymond@dotsphinx.com>, 2002.
-# 
+# translation of da.po to 
+# translation of da.po for Workrave
+# Copyright (C) 2003 Rob Caelers & Raymond Penners
+# This file is distributed under the same license as the PACKAGE package.
+# Christian Vejlbo <christian@vejlbo.dk>, 2003
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: workrave 1.0.0\n"
+"Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-07-22 22:13+0200\n"
-"PO-Revision-Date: 2003-03-04 22:16+0100\n"
-"Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
-"Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
+"PO-Revision-Date: 2003-07-22 21:54+0200\n"
+"Last-Translator: \n"
+"Language-Team:  <C@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.0.1\n"
 
 #: src/app/gtkmm/eggtrayicon.c:118
-#, fuzzy
 msgid "Orientation"
-msgstr "Stil over"
+msgstr "Orientering"
 
 #: src/app/gtkmm/eggtrayicon.c:119
 msgid "The orientation of the tray."
-msgstr ""
+msgstr "Orienteringen af systemområdet"
 
 #: src/app/gtkmm/gnome-about.c:308
 msgid "Credits"
-msgstr "Credits"
+msgstr "Udviklere"
 
 #: src/app/gtkmm/gnome-about.c:341
 msgid "_Written by"
-msgstr "Geschreven door"
+msgstr "_Skrevet af:"
 
 #: src/app/gtkmm/gnome-about.c:356
 msgid "_Documented by"
-msgstr "Documentatie door"
+msgstr "_Dokumentation af:"
 
 #: src/app/gtkmm/gnome-about.c:371
 msgid "_Translated by"
-msgstr "Vertaald door"
+msgstr "_Oversat af"
 
 #. Add the credits button
 #: src/app/gtkmm/gnome-about.c:431
@@ -47,19 +49,19 @@ msgstr "_Credits"
 #: src/app/gtkmm/gnome-about.c:614
 #, c-format
 msgid "About %s"
-msgstr "Over %s"
+msgstr "Om %s"
 
 #: src/app/gtkmm/BreakWindow.cc:327
 msgid "Skip"
-msgstr "Overslaan"
+msgstr "Spring over"
 
 #: src/app/gtkmm/BreakWindow.cc:338
 msgid "Postpone"
-msgstr "Uitstellen"
+msgstr "Udsæt"
 
 #: src/app/gtkmm/DailyLimitWindow.cc:47 src/app/gtkmm/GtkUtil.cc:88
 msgid "Daily limit"
-msgstr "Dagelijkse limiet"
+msgstr "Daglig grænse"
 
 #: src/app/gtkmm/DailyLimitWindow.cc:48
 msgid ""
@@ -67,196 +69,196 @@ msgid ""
 "behind the computer. If your working day is not over yet,\n"
 "find something else to do, such as reviewing a document."
 msgstr ""
-"Je hebt je dagelijkse limiet bereikt. Stop met werken\n"
-"achter de computer. Als je werkdag nog niet voorbij is,\n"
-"ga dan iets anders doen, bv. documenten reviewen."
+"Du har nået din daglige grænse. Stop venligst arbejdet \n"
+"ved computeren. Hvis din arbejdsdag fortsætter, så løs \n"
+"en anden type opgave, eksempelvis gennemlæsning af et dokument. "
 
 #: src/app/gtkmm/ExercisesDialog.cc:38 src/app/gtkmm/Menus.cc:234
 msgid "Exercises"
-msgstr ""
+msgstr "Øvelser"
 
 #: src/app/gtkmm/ExercisesPanel.cc:222
 msgid "Resume"
-msgstr ""
+msgstr "Genoptag"
 
 #: src/app/gtkmm/ExercisesPanel.cc:222
 msgid "Pause"
-msgstr ""
+msgstr "Pause"
 
 #: src/app/gtkmm/GUI.cc:676
 msgid "I could not initialize Bonobo"
-msgstr "Bonobo kon niet geïnitialiseerd worden"
+msgstr "Teknisk besked: Kunne ikke initialisere Bonobo"
 
 #: src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/MicroPauseWindow.cc:168
 #: src/app/gtkmm/MicroPauseWindow.cc:204
 msgid "Micro-pause"
-msgstr "Micro-pauze"
+msgstr "Mikropause"
 
 #: src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/RestBreakWindow.cc:284
 msgid "Rest break"
-msgstr "Rustpauze"
+msgstr "Hvilepause"
 
 #. Mode menu item
 #: src/app/gtkmm/Menus.cc:143
 msgid "_Mode"
-msgstr "_Modus"
+msgstr "_Tilstand"
 
 #: src/app/gtkmm/Menus.cc:150
 msgid "_Normal"
-msgstr "_Normaal"
+msgstr "_Normal"
 
 #: src/app/gtkmm/Menus.cc:157
 msgid "_Suspended"
-msgstr "_Uitgeschakeld"
+msgstr "_Suspenderet"
 
 #: src/app/gtkmm/Menus.cc:164
 msgid "Q_uiet"
-msgstr "_Stil"
+msgstr "S_tille"
 
 #: src/app/gtkmm/Menus.cc:178
 msgid "_Network"
-msgstr "_Netwerk"
+msgstr "_Netværk"
 
 #: src/app/gtkmm/Menus.cc:182
 msgid "_Connect"
-msgstr "Maak verbinding"
+msgstr "_Forbind"
 
 #: src/app/gtkmm/Menus.cc:187
 msgid "_Disconnect"
-msgstr "Verbreek verbinding"
+msgstr "_Afbryd forbindelse"
 
 #: src/app/gtkmm/Menus.cc:192
 msgid "_Reconnect"
-msgstr "Opnieuw verbinden"
+msgstr "_Genopret forbindelse"
 
 #: src/app/gtkmm/Menus.cc:197
 msgid "Show _log"
-msgstr "Toon _logboek"
+msgstr "_Vis logfil"
 
 #: src/app/gtkmm/Menus.cc:222
 msgid "_Rest break"
-msgstr "Rustpauze"
+msgstr "_Hvilepause"
 
 #: src/app/gtkmm/Menus.cc:244 src/app/gtkmm/StatisticsDialog.cc:51
 #: src/app/gtkmm/StatisticsDialog.cc:130
 msgid "Statistics"
-msgstr "Statistieken"
+msgstr "Statistik"
 
 #: src/app/gtkmm/Menus.cc:258
 msgid "About..."
-msgstr "Info..."
+msgstr "Om..."
 
 #: src/app/gtkmm/Menus.cc:598
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
 msgstr ""
-"Dit programma helpt bij het voorkomen en genezen van Repetitive Strain "
-"Injury (RSI)."
+"Dette program hjælper med at forebygge RSI syndrom (Repetetive Strain "
+"Injury).\n"
+"Endvidere kan det hjælpe brugere til bedre skærmvaner."
 
 #: src/app/gtkmm/MicroPauseWindow.cc:190
 #, c-format
 msgid "Next rest break in %s"
-msgstr "Rustpauze over %s"
+msgstr "Næste hvilepause om %s"
 
 #: src/app/gtkmm/MicroPauseWindow.cc:196
 #, c-format
 msgid "Rest break %s overdue"
-msgstr "Rustpauze %s te laat"
+msgstr "Tidspunktet for hvilepause er overskredet med %s minutter"
 
 #: src/app/gtkmm/MicroPauseWindow.cc:200
 msgid "Please relax for a few seconds"
-msgstr "Ontspan gedurende enkele seconden"
+msgstr "Udnyt den lille pause til at slappe lidt af."
 
 #: src/app/gtkmm/NetworkJoinDialog.cc:41 src/app/gtkmm/NetworkJoinDialog.cc:59
 msgid "Network connect"
-msgstr "Netwerk verbinding"
+msgstr "Netværksforbindelse."
 
 #: src/app/gtkmm/NetworkJoinDialog.cc:60
 msgid ""
 "Enter the host name and port number of a computer\n"
 "in the network you wish to connect to."
 msgstr ""
-"Geef de machine naam en poort nummer van een\n"
-"computer uit het netwerk op."
+"Angiv venligst navn og portnummer for den computer på netværket\n"
+"du ønsker at tilslutte til."
 
 #: src/app/gtkmm/NetworkJoinDialog.cc:73
 msgid "Host name:"
-msgstr "Machine naam:"
+msgstr "Værtsnavn:"
 
 #: src/app/gtkmm/NetworkJoinDialog.cc:74
 msgid "Port:"
-msgstr "Poort:"
+msgstr "Port:"
 
 #: src/app/gtkmm/NetworkJoinDialog.cc:76
 msgid "Connect at start-up"
-msgstr "Maak verbinding bij opstarten"
+msgstr "Tilslut ved opstart"
 
 #: src/app/gtkmm/NetworkLogDialog.cc:40
 msgid "Network log"
-msgstr "Netwerk logboek"
+msgstr "Netværks log"
 
 #: src/app/gtkmm/NetworkPreferencePage.cc:79
 msgid "Enable networking"
-msgstr "Activeer netwerk ondersteuning"
+msgstr "Aktiver netværk"
 
 #: src/app/gtkmm/NetworkPreferencePage.cc:86
 msgid "Username:"
-msgstr "Gebruikersnaam:"
+msgstr "Brugernavn:"
 
 #: src/app/gtkmm/NetworkPreferencePage.cc:87
 msgid "Password:"
-msgstr "Wachtwoord:"
+msgstr "Adgangskode:"
 
 #: src/app/gtkmm/NetworkPreferencePage.cc:92
 #: src/app/gtkmm/PreferencesDialog.cc:57
 msgid "General"
-msgstr "Algemeen"
+msgstr "Generelt"
 
 #: src/app/gtkmm/NetworkPreferencePage.cc:104
 msgid "Server settings"
-msgstr "Server instellingen"
+msgstr "Server indstillinger"
 
 #: src/app/gtkmm/NetworkPreferencePage.cc:126
 msgid "Server port:"
-msgstr "Server poort:"
+msgstr "Serverport:"
 
 #: src/app/gtkmm/NetworkPreferencePage.cc:127
 msgid "Reconnect attempts:"
-msgstr "Aantal pogingen tot verbinding:"
+msgstr "Genetableringsforsøg:"
 
 #: src/app/gtkmm/NetworkPreferencePage.cc:128
 msgid "Reconnect interval:"
-msgstr "Interval tussen pogingen:"
+msgstr "Forsøg genetablering efter:"
 
 #: src/app/gtkmm/NetworkPreferencePage.cc:131
 msgid "Advanced"
-msgstr "Geavanceerd"
+msgstr "Avanceret"
 
 #: src/app/gtkmm/NetworkPreferencePage.cc:148
 msgid ""
 "The following list specifies the hosts that Workrave connects to on\n"
 "start-up. Click the host name or port number to edit."
 msgstr ""
-"De volgende lijst is een lijst van machines waarheen Workrave een\n"
-"verbinding maakt tijdens het opstarten. Klik op de machine naam\n"
-"of poort nummer om deze te bewerken."
+"Den følgende liste angiver de værtsnavne Workrave forbinder til\n"
+"ved opstart. Klik på navn eller portnummer for at redigere. "
 
 #: src/app/gtkmm/NetworkPreferencePage.cc:177
 msgid "Host name"
-msgstr "Machine naam"
+msgstr "Værtsnavn"
 
 #: src/app/gtkmm/NetworkPreferencePage.cc:185
 msgid "Port"
-msgstr "Poort"
+msgstr "Port"
 
 #: src/app/gtkmm/NetworkPreferencePage.cc:222
 msgid "Hosts"
-msgstr "Machines"
+msgstr "Værter"
 
 #: src/app/gtkmm/PreferencesDialog.cc:49
 msgid "Preferences"
-msgstr "Voorkeuren"
+msgstr "Indstillinger"
 
 #: src/app/gtkmm/PreferencesDialog.cc:61
 msgid "Applet"
@@ -264,34 +266,34 @@ msgstr "Applet"
 
 #: src/app/gtkmm/PreferencesDialog.cc:64
 msgid "Status Window"
-msgstr ""
+msgstr "Status Vindue"
 
 #. Notebook
 #: src/app/gtkmm/PreferencesDialog.cc:71
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:167
 #: src/app/gtkmm/TimerPreferencesPanel.cc:195
 msgid "Timers"
-msgstr "Klokken"
+msgstr "Tidstællere"
 
 #: src/app/gtkmm/PreferencesDialog.cc:72
 msgid "User interface"
-msgstr "Gebruikers interface"
+msgstr "Brugergrænseflade"
 
 #: src/app/gtkmm/PreferencesDialog.cc:74
 msgid "Network"
-msgstr "Netwerk"
+msgstr "Netværk"
 
 #: src/app/gtkmm/PreferencesDialog.cc:115
 msgid "No sounds"
-msgstr "Geen geluid"
+msgstr "Ingen lyde"
 
 #: src/app/gtkmm/PreferencesDialog.cc:117
 msgid "Play sounds using sound card"
-msgstr "Speel geluiden met behulp van de geluidskaart"
+msgstr "Afspil lyde vha. lydkort"
 
 #: src/app/gtkmm/PreferencesDialog.cc:119
 msgid "Play sounds using built-in speaker"
-msgstr "Speel geluiden met behulp van de ingebouwde speaker"
+msgstr "Afspil lyde vha. indbygget pc-højttaler"
 
 #. Tray start
 #.   start_in_tray_cb
@@ -304,41 +306,41 @@ msgstr "Speel geluiden met behulp van de ingebouwde speaker"
 #: src/app/gtkmm/PreferencesDialog.cc:142
 #: src/app/gtkmm/TimerPreferencesPanel.cc:141
 msgid "Options"
-msgstr "Opties"
+msgstr "Muligheder"
 
 #. panel->add(*start_in_tray_cb);
 #: src/app/gtkmm/PreferencesDialog.cc:144
 msgid "Sound:"
-msgstr "Geluid:"
+msgstr "Lyd:"
 
 #: src/app/gtkmm/PreludeWindow.cc:81
 msgid "Time for a micro-pause?"
-msgstr "Tijd voor een micro-pauze?"
+msgstr "Tid til en mikropause ?"
 
 #: src/app/gtkmm/PreludeWindow.cc:85
 msgid "You need a rest break..."
-msgstr "Je bent toe aan een rustpauze..."
+msgstr "Du har brug for en hvilepause..."
 
 #: src/app/gtkmm/PreludeWindow.cc:89
 msgid "You should stop for today..."
-msgstr "Genoeg voor vandaag..."
+msgstr "Du bør stoppe for i dag."
 
 #: src/app/gtkmm/PreludeWindow.cc:208
 msgid "Break in"
-msgstr "Pauze over"
+msgstr "Pause om"
 
 #: src/app/gtkmm/PreludeWindow.cc:212
 msgid "Disappears in"
-msgstr "Verdwijnt over"
+msgstr "Forsvinder om"
 
 #: src/app/gtkmm/PreludeWindow.cc:216
 msgid "Silent in"
-msgstr "Stil over"
+msgstr "Tavs om"
 
 #: src/app/gtkmm/RestBreakWindow.cc:266
 #, c-format
 msgid "Rest break for %s"
-msgstr "Rustpauze gedurende %s"
+msgstr "Hvilepause i %s"
 
 #: src/app/gtkmm/RestBreakWindow.cc:285
 msgid ""
@@ -346,336 +348,332 @@ msgid ""
 "walk away from your computer on a regular basis. Just\n"
 "walk around for a few minutes, stretch, and relax."
 msgstr ""
-"Dit is je rustpauze. Zorg ervoor dat je regelmatig\n"
-"opstaat en wegloopt van de computer. Wandel enkele\n"
-"minuten rond, strek, en ontspan."
+"Nu har du hvilepause. Rejs dig jævnligt og gå lidt rundt\n"
+"væk fra computeren. Slap blot lidt af i et par minutter:\n"
+"stræk ud, slap af, tag lidt kaffe eller lignende. "
 
 #: src/app/gtkmm/StatisticsDialog.cc:124
 msgid "Browse history"
-msgstr "Bladeren"
+msgstr "Historik"
 
 #: src/app/gtkmm/StatisticsDialog.cc:131
 msgid "Date:"
-msgstr "Datum:"
+msgstr "Dato:"
 
 #: src/app/gtkmm/StatisticsDialog.cc:166
 msgid "Breaks"
-msgstr "Pauzes"
+msgstr "Pauser"
 
 #: src/app/gtkmm/StatisticsDialog.cc:176
 msgid "Break prompts"
-msgstr "Verzoeken tot pauze"
+msgstr "Pause anmodninger"
 
 #: src/app/gtkmm/StatisticsDialog.cc:177
 msgid ""
 "The number of times you were prompted to break, excluding repeated prompts "
 "for the same break"
 msgstr ""
-"Het aantal keren dat je verzocht werd te pauzeren, exclusief herhaalde "
-"verzoeken voor dezelfde pauze"
+"Antal gange du blev bedt om at holde pause, eksklusiv gentagne anmodninger "
+"for den samme pause"
 
 #: src/app/gtkmm/StatisticsDialog.cc:182
 msgid "Repeated prompts"
-msgstr "Herhaalde verzoeken"
+msgstr "Gentagne anmodninger"
 
 #: src/app/gtkmm/StatisticsDialog.cc:183
 msgid "The number of times you were repeatedly prompted to break"
-msgstr "Het aantal keren dat je meermaals verzocht werd te pauzeren"
+msgstr "Antal gange anmodninger om pauser er blevet gentaget"
 
 #: src/app/gtkmm/StatisticsDialog.cc:187
 msgid "Prompted breaks taken"
-msgstr "Opgevolgde pauzes"
+msgstr "Anmodede pauser holdt"
 
 #: src/app/gtkmm/StatisticsDialog.cc:188
 msgid "The number of times you took a break when being prompted"
-msgstr ""
-"Het aantal keren dat je een pauze nam toen je verzocht werd te pauzeren"
+msgstr "Antal gange du holdt pause efter at være blevet anmodet"
 
 #: src/app/gtkmm/StatisticsDialog.cc:192
 msgid "Natural breaks taken"
-msgstr "Zelfstandig genomen pauzes"
+msgstr "Naturlige pauser afholdt"
 
 #: src/app/gtkmm/StatisticsDialog.cc:193
 msgid "The number of times you took a break without being prompted"
-msgstr ""
-"Het aantal keren dat je een pauze nam zonder dat je hiertoe verzocht werd"
+msgstr "Antal gange du har holdt pause uden at være anmodet om det"
 
 #: src/app/gtkmm/StatisticsDialog.cc:197
 msgid "Breaks skipped"
-msgstr "Overgeslagen pauzes"
+msgstr "Oversprungne pauser"
 
 #: src/app/gtkmm/StatisticsDialog.cc:198
 msgid "The number of breaks you skipped"
-msgstr "Het aantal pauzes dat je hebt overgeslagen"
+msgstr "Antal pauser afbrudt"
 
 #: src/app/gtkmm/StatisticsDialog.cc:202
 msgid "Breaks postponed"
-msgstr "Uitgestelde pauzes"
+msgstr "Antal pauser udsat"
 
 #: src/app/gtkmm/StatisticsDialog.cc:203
 msgid "The number of breaks you postponed"
-msgstr "Het aantal pauzes dat je hebt uitgesteld"
+msgstr "Antallet af pauser du har udsat"
 
 #: src/app/gtkmm/StatisticsDialog.cc:207
 msgid "Overdue time"
-msgstr "Overtijd"
+msgstr "Overskredet tid"
 
 #: src/app/gtkmm/StatisticsDialog.cc:208
 msgid "The total time this break was overdue"
-msgstr "De totale tijd die je overtijd was"
+msgstr "Den totale tid denne pause har været forsinket"
 
 #: src/app/gtkmm/StatisticsDialog.cc:212
 msgid "Daily usage"
-msgstr "Dagelijks gebruik"
+msgstr "Daglig brug"
 
 #: src/app/gtkmm/StatisticsDialog.cc:213
 msgid "The total computer usage"
-msgstr "Het totale computer gebruik"
+msgstr "Den totale computerbrug"
 
 #: src/app/gtkmm/StatisticsDialog.cc:276
 msgid "Activity"
-msgstr "Activiteit"
+msgstr "Aktivitet"
 
 #: src/app/gtkmm/StatisticsDialog.cc:286
 msgid "Mouse usage:"
-msgstr "Muis gebruik:"
+msgstr "Brug af mus:"
 
 #: src/app/gtkmm/StatisticsDialog.cc:287
 msgid "The total time you were using the mouse"
-msgstr "De tijdsduur gedurende welke je de muis gebruikte"
+msgstr "Den totale tid du har brugt musen"
 
 #: src/app/gtkmm/StatisticsDialog.cc:290
 msgid "Mouse movement:"
-msgstr "Muis beweging:"
+msgstr "Muse-bevægelse:"
 
 #: src/app/gtkmm/StatisticsDialog.cc:291
 msgid "The total on-screen mouse movement"
-msgstr "De totale muis beweging gemeten op het scherm"
+msgstr "Den totale bevægelse af musen på skærmen"
 
 #: src/app/gtkmm/StatisticsDialog.cc:294
 msgid "Effective mouse movement:"
-msgstr "Effectieve muis beweging:"
+msgstr "Effektiv bevægelse af mus"
 
 #: src/app/gtkmm/StatisticsDialog.cc:295
 msgid ""
 "The total mouse movement you would have had if you moved your mouse in "
 "straight lines between clicks"
 msgstr ""
-"De totale muis beweging die je gehad zou hebben als je in rechte lijnen "
-"tussen muis kliks zou bewegen"
+"Den totale musebevægelse du ville have haft, hvis du havde bevæget din mus\n"
+"i lige linier mellem klik"
 
 #: src/app/gtkmm/StatisticsDialog.cc:299
 msgid "Mouse button clicks:"
-msgstr "Muis kliks:"
+msgstr "Antal tryk på muse-knapper:"
 
 #: src/app/gtkmm/StatisticsDialog.cc:300
 msgid "The total number of mouse button clicks"
-msgstr "Het totaal aantal muis kliks"
+msgstr "Det totale antal tryk på muse-knapper"
 
 #: src/app/gtkmm/StatisticsDialog.cc:303
 msgid "Keystrokes:"
-msgstr "Toetsaanslagen:"
+msgstr "Tasketryk:"
 
 #: src/app/gtkmm/StatisticsDialog.cc:304
 msgid "The total number of keys pressed"
-msgstr "Het totaal aantal toetsen ingedrukt"
+msgstr "Det totale antal tastetryk"
 
 #: src/app/gtkmm/StatisticsDialog.cc:354
 #, c-format
 msgid "%s, from %s to %s"
-msgstr "%s, van %s tot %s"
+msgstr "%s, fra %s til %s"
 
 #: src/app/gtkmm/TimerBox.cc:220 src/app/gtkmm/TimerBox.cc:300
 msgid "Wait"
-msgstr "Wacht"
+msgstr "Vent"
 
 #: src/app/gtkmm/TimerBox.cc:254
 msgid "Inactive"
-msgstr "Inactief"
+msgstr "Inaktiv"
 
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:92
 msgid "Place timers next to each other"
-msgstr "Plaats de klokken naast elkaar"
+msgstr "Placér tiderne ved siden af hinanden"
 
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:94
 msgid "Place micro-pause and rest break in one spot"
-msgstr "Plaats micro-pauze en rustpauze op één plek"
+msgstr "Placér mikropauser og hvilepauser på samme tidspunkt"
 
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:96
 msgid "Place rest break and daily limit in one spot"
-msgstr "Plaats rustpauze en dagelijkse limiet op één plek"
+msgstr "Placer hvilepauser og daglig grænse på samme tidspunkt"
 
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:98
 msgid "Place all timers in one spot"
-msgstr "Plaats alle klokken op dezelfde plek"
+msgstr "Placer alle pauser på samme tidspunkt"
 
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:121
 msgid "Hide"
-msgstr "Verberg"
+msgstr "Skjul"
 
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:123
 msgid "Show"
-msgstr "Toon"
+msgstr "Vis"
 
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:125
 msgid "Show only when this timer is first due"
-msgstr "Toon alleen als deze als eerste afloopt"
+msgstr "Vis kun første gang perioden udløber"
 
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:135
 msgid "Show status window"
-msgstr ""
+msgstr "Vis status vindue"
 
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:140
-#, fuzzy
 msgid "The status window stays always on top of other windows"
-msgstr "Het hoofdvenster blijft boven alle andere vensters"
+msgstr "Statusvinduet er altid øverst"
 
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:147
 msgid "Applet enabled"
-msgstr "Applet actief"
+msgstr "Applet aktiveret"
 
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:155
 msgid "Display"
-msgstr ""
+msgstr "Vis"
 
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:164
 msgid "Placement:"
-msgstr "Plaatsing:"
+msgstr "Placering:"
 
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:165
 msgid "Cycle time:"
-msgstr "Tijd tussen pauzewissel:"
+msgstr "Tidscyklus:"
 
 #. Layout
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:170
 msgid "Micro-pause:"
-msgstr "Micro-pauze:"
+msgstr "Mikropause:"
 
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:171
 msgid "Rest break:"
-msgstr "Rustpauze:"
+msgstr "Hvilepause:"
 
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:172
 msgid "Daily limit:"
-msgstr "Dagelijkse limiet:"
+msgstr "Daglig grænse:"
 
 #. Enabled/Disabled checkbox
 #: src/app/gtkmm/TimerPreferencesPanel.cc:57
-#, fuzzy
 msgid "Enable timer"
-msgstr "<b>Eind tijd:</b>"
+msgstr "Aktiver timer"
 
 #. Prelude frame
 #: src/app/gtkmm/TimerPreferencesPanel.cc:96
 msgid "Break prompting"
-msgstr "Verzoek tot pauze"
+msgstr "Pauseanmodninger"
 
 #: src/app/gtkmm/TimerPreferencesPanel.cc:98
 msgid "Prompt before breaking"
-msgstr "Vraag alvorens te pauzeren"
+msgstr "Anmod før afholdelse af pauser"
 
 #: src/app/gtkmm/TimerPreferencesPanel.cc:103
 msgid "Maximum number of prompts:"
-msgstr "Max. aantal verzoeken:"
+msgstr "Maksimalt antal anmodninger:"
 
 #: src/app/gtkmm/TimerPreferencesPanel.cc:110
 msgid "Force break after maximum exceeded"
-msgstr "Forceer pauze na maximum"
+msgstr "Fremtving pause hvis overskredet"
 
 #: src/app/gtkmm/TimerPreferencesPanel.cc:145
 msgid "Block user input"
-msgstr "Blokkeer invoer"
+msgstr "Bloker bruger input"
 
 #: src/app/gtkmm/TimerPreferencesPanel.cc:154
 msgid "Show 'Postpone' and 'Skip' button"
-msgstr "Toon 'Uitstellen' en 'Overslaan'"
+msgstr "Vis knapperne 'Udsæt' samt 'Spring Over'"
 
 #: src/app/gtkmm/TimerPreferencesPanel.cc:169
 msgid "Regard micro-pauses as activity"
-msgstr "Micro-pauzes tellen als werktijd"
+msgstr "Betragt mikropauser som aktiviteter"
 
 #: src/app/gtkmm/TimerPreferencesPanel.cc:181
 msgid "Number of exercises:"
-msgstr ""
+msgstr "Antal øvelser:"
 
 #: src/app/gtkmm/TimerPreferencesPanel.cc:202
 msgid "Time before break:"
-msgstr "Werktijd:"
+msgstr "Tid før pause:"
 
 #: src/app/gtkmm/TimerPreferencesPanel.cc:209
 msgid "Resets at:"
-msgstr "Herstart om:"
+msgstr "Nulstiller om:"
 
 #: src/app/gtkmm/TimerPreferencesPanel.cc:219
 msgid "Pause duration:"
-msgstr "Pauze tijdsduur:"
+msgstr "Pause længde:"
 
 #: src/app/gtkmm/TimerPreferencesPanel.cc:236
 msgid "Post-pone time:"
-msgstr "Uitstel tijd:"
+msgstr "Udsættelses-periode:"
 
 #: src/app/Text.cc:75
 #, c-format
 msgid "%s%d:%02d:%02d hours"
-msgstr "%s%d:%02d:%02d uur"
+msgstr "%s%d:%02d:%02d timer"
 
 #: src/app/Text.cc:79
 #, c-format
 msgid "%s%d:%02d minutes"
-msgstr "%s%d:%02d minuten"
+msgstr "%s%d:%02d minutter"
 
 #: src/app/Text.cc:83
-#, fuzzy, c-format
+#, c-format
 msgid "%s%d seconds"
-msgstr "%s%ld seconden"
+msgstr "%s%d sekunder"
 
 #: src/core/DistributionSocketLink.cc:131
-#, fuzzy, c-format
+#, c-format
 msgid "Reconnecting to %s:%d."
-msgstr "Aantal pogingen tot verbinding:"
+msgstr "Forsøg at genoprette til %s:%d."
 
 #. We did not succeed in starting the server. Arghh.
 #: src/core/DistributionSocketLink.cc:345
 msgid "Could not enable network operation."
-msgstr ""
+msgstr "Kunne ikke aktivere netværksfunktionen."
 
 #: src/core/DistributionSocketLink.cc:354
 msgid "Disabling network operation."
-msgstr ""
+msgstr "Afbryder netværksfunktionen."
 
 #: src/core/DistributionSocketLink.cc:509
 #: src/core/DistributionSocketLink.cc:536
-#, fuzzy, c-format
+#, c-format
 msgid "Connecting to %s:%d."
-msgstr "Interval tussen pogingen"
+msgstr "Tilslutter til %s:%d."
 
 #: src/core/DistributionSocketLink.cc:640
 #: src/core/DistributionSocketLink.cc:665
 #, c-format
 msgid "Removing client %s:%d."
-msgstr ""
+msgstr "Fjerner klient %s:%d."
 
 #. Closing direct connection.
 #: src/core/DistributionSocketLink.cc:702
-#, fuzzy, c-format
+#, c-format
 msgid "Disconnecting %s:%d."
-msgstr "Verbreek verbinding"
+msgstr "Afbryder %s:%d."
 
 #. It's a remote client. mark it master.
 #: src/core/DistributionSocketLink.cc:870
 #, c-format
 msgid "Client %s:%d is now master."
-msgstr ""
+msgstr "Klienten %s:%d er nu 'master'"
 
 #. Its ME!
 #: src/core/DistributionSocketLink.cc:876
 msgid "I'm now master."
-msgstr ""
+msgstr "Jeg er nu 'master'"
 
 #: src/core/DistributionSocketLink.cc:1205
 #, c-format
 msgid "Client %s:%d saying hello."
-msgstr ""
+msgstr "Klient %s:%d siger 'hej'."
 
 #. Duplicate client. inform client that it's bogus and close.
 #: src/core/DistributionSocketLink.cc:1220
@@ -683,146 +681,143 @@ msgstr ""
 #: src/core/DistributionSocketLink.cc:1573
 #, c-format
 msgid "Client %s:%d is duplicate."
-msgstr ""
+msgstr "Klient %s:%d er duplikat."
 
 #. Incorrect password.
 #: src/core/DistributionSocketLink.cc:1229
 #, c-format
 msgid "Client %s:%d access denied."
-msgstr ""
+msgstr "Adgang nægtet til klient %s:%d."
 
 #: src/core/DistributionSocketLink.cc:1296
 #, c-format
 msgid "Client %s:%d signed off."
-msgstr ""
+msgstr "Klient %s:%d lukkede ned."
 
 #: src/core/DistributionSocketLink.cc:1375
 #, c-format
 msgid "Client %s:%d is welcoming us."
-msgstr ""
+msgstr "Klient %s:%d byder os velkommen."
 
 #: src/core/DistributionSocketLink.cc:1608
 #, c-format
 msgid "Requesting master status from %s:%d."
-msgstr ""
+msgstr "Anmoder om master status fra %s:%d."
 
 #: src/core/DistributionSocketLink.cc:1621
 #, c-format
 msgid "Client timeout from %s:%d."
-msgstr ""
+msgstr "Klient timeout fra %s:%d.."
 
 #: src/core/DistributionSocketLink.cc:1642
 #, c-format
 msgid "Rejecting master request from client %s:%d."
-msgstr ""
+msgstr "Afviser master anmodning fra klient %s:%d."
 
 #: src/core/DistributionSocketLink.cc:1648
 #, c-format
 msgid "Acknowledging master request from client %s:%d."
-msgstr ""
+msgstr "Bekræfter master anmodning fra klient %s:%d."
 
 #: src/core/DistributionSocketLink.cc:1699
 #, c-format
 msgid "Non-master client %s:%d rejected master request."
-msgstr ""
+msgstr "Ikke-master klient %s:%d afviste master anmodning."
 
 #: src/core/DistributionSocketLink.cc:1704
 #, c-format
 msgid "Client %s:%d rejected master request, delaying."
-msgstr ""
+msgstr "Klient %s:%d afviste master anmodning, udsætter."
 
 #. gint count =
 #: src/core/DistributionSocketLink.cc:1775
 #, c-format
 msgid "Client %s is now the new master."
-msgstr ""
+msgstr "Klient %s er nu ny master."
 
 #: src/core/DistributionSocketLink.cc:1894
 msgid "Network operation started."
-msgstr ""
+msgstr "Netværkfunktion startet"
 
 #: src/core/DistributionSocketLink.cc:1911
 msgid "Accepted new client."
-msgstr ""
+msgstr "Accepterede ny klient."
 
 #: src/core/DistributionSocketLink.cc:1966
 #, c-format
 msgid "Client %s:%d read error, closing."
-msgstr ""
+msgstr "Klient %s:%d læse-fejl, lukker."
 
 #: src/core/DistributionSocketLink.cc:1971
 #: src/core/DistributionSocketLink.cc:2042
 #, c-format
 msgid "Client %s:%d closed connection."
-msgstr ""
+msgstr "Klient %s:%d afbrød forbindelsen."
 
 #: src/core/DistributionSocketLink.cc:2011
 #, c-format
 msgid "Client %s:%d connected."
-msgstr ""
+msgstr "Klient %s:%d tilsluttet."
 
 #: src/core/DistributionSocketLink.cc:2047
 #, c-format
 msgid "Could not connect to client %s:%d."
-msgstr ""
+msgstr "Kunen ikke forbinde til klient %s:%d."
 
 #~ msgid "_About..."
-#~ msgstr "Info..."
+#~ msgstr "Über..."
 
 #~ msgid "_Connect..."
-#~ msgstr "Maak verbinding..."
+#~ msgstr "_Verbinden..."
 
 #~ msgid "_Open"
-#~ msgstr "_Open"
+#~ msgstr "Ö_ffnen"
 
 #~ msgid "_Preferences"
-#~ msgstr "Voorkeuren"
+#~ msgstr "_Vorlieben"
 
 #~ msgid "_Quiet"
-#~ msgstr "_Stil"
+#~ msgstr "St_ill"
 
 #~ msgid "_Quit"
-#~ msgstr "_Beeeindigen"
+#~ msgstr "_Ende"
 
 #~ msgid "_Restbreak"
-#~ msgstr "_Rustpauze"
+#~ msgstr "_Ruhepause"
 
 #~ msgid "_Show Log..."
-#~ msgstr "Toon _logboek"
+#~ msgstr "_Protokoll anzeigen"
 
 #~ msgid "_Statistics"
-#~ msgstr "Statistieken"
+#~ msgstr "_Statistik"
 
 #~ msgid "Workrave"
 #~ msgstr "Workrave"
 
 #~ msgid "Workrave Applet"
-#~ msgstr "Workrave Applet"
+#~ msgstr "Workrave-Applet"
 
 #~ msgid "Hide main window at start-up"
-#~ msgstr "Verberg het hoofdvenster tijdens het opstarten"
+#~ msgstr "Hauptfenster beim Start verstecken"
 
 #~ msgid "Identity"
-#~ msgstr "Identiteit"
+#~ msgstr "Identität"
 
 #~ msgid "You can configure the user interface related settings from here."
 #~ msgstr ""
-#~ "In dit scherm kun je instellingen die betrekking hebben tot het\n"
-#~ "gebruikers interface wijzigen."
+#~ "Sie können hier die Einstellungen der Benutzeroberfläche konfigurieren."
 
 #~ msgid ""
 #~ "This dialog allows you to change the settings of the timers.  Each unit\n"
 #~ "of time is broken down into hours, minutes and seconds (also known as\n"
 #~ "the \"hh:mm:ss\" format).  These can all be controlled individually."
 #~ msgstr ""
-#~ "In dit scherm kun je de instellingen van de klokken wijzigen. De tijd\n"
-#~ "wordt gespecificeerd in uren, minuten en seconden (ook wel bekend\n"
-#~ "als het \"uu:mm:ss\" formaat). Deze kunnen afzonderlijk aangepast worden."
+#~ "Dieses Dialog ermöglicht es Ihnen, die Einstellungen der Zeitmesser zu\n"
+#~ "ändern. Jede Einheit ist in Stunden, Minuten und Sekunden unterteilt\n"
+#~ "(das sog. \"hh:mm:ss\"-Format) und kann indivuell angepasst werden."
 
 #~ msgid "You can configure the applet related settings from here."
-#~ msgstr ""
-#~ "In dit scherm kun je instellingen die betrekking hebben tot de\n"
-#~ "applet wijzigen."
+#~ msgstr "Sie können hier die Einstellungen des Applets konfigurieren."
 
 #~ msgid ""
 #~ "You can connect several instances of Workrave in a network. All "
@@ -830,108 +825,11 @@ msgstr ""
 #~ "instances share the same timer information, meaning you will be reminded\n"
 #~ "of your breaks even if you switch computers."
 #~ msgstr ""
-#~ "Het is mogelijk om meerdere instanties van het programma in een\n"
-#~ "netwerk met elkaar te verbinden en de pauze informatie te delen."
+#~ "Sie können mehrere Instanzen von Workrave in einem Netzwerk\n"
+#~ "miteinander verbinden. Alle verbundenen Instanzen greifen auf\n"
+#~ "dieselben Zeitmessungen zurück. Das heißt, dass Sie auch dann an Ihre\n"
+#~ "Pausen erinnert werden, wenn Sie den Computer wechseln."
 
 #, fuzzy
 #~ msgid "Open"
-#~ msgstr "_Open"
-
-#~ msgid "Total breaks"
-#~ msgstr "Aantal pauzes"
-
-#~ msgid "Total mouse time:"
-#~ msgstr "Muis gebruik:"
-
-#~ msgid "Show break at position:"
-#~ msgstr "Toon pauze op plek:"
-
-#~ msgid "Show only when first:"
-#~ msgstr "Toon alleen als eerste pauze:"
-
-#~ msgid "Show only when imminent in:"
-#~ msgstr "Toon alleen als pauze begint binnen:"
-
-#~ msgid "Show exclusively:"
-#~ msgstr "Toon pauze exclusief:"
-
-#~ msgid "Default break:"
-#~ msgstr "Standaard pauze:"
-
-#~ msgid ""
-#~ "When multiple breaks are shown on a certain position, this value "
-#~ "indicates the time each break is shown."
-#~ msgstr ""
-#~ "De tijdsduur gedurende welke de pauze getoond wordt wanneer meerdere "
-#~ "pauzes dezelfde plek delen."
-
-#~ msgid "If set, this break will be shown in the applet."
-#~ msgstr "Toon de pauze in de applet."
-
-#~ msgid "Layout"
-#~ msgstr "Layout"
-
-#, fuzzy
-#~ msgid "History"
-#~ msgstr "Historie:"
-
-#, fuzzy
-#~ msgid "Start time:"
-#~ msgstr "<b>Start tijd:</b>"
-
-#~ msgid "Break visible:"
-#~ msgstr "Pauze zichtbaar:"
-
-#~ msgid "Restbreak"
-#~ msgstr "Rustpauze"
-
-#, fuzzy
-#~ msgid "Skipped"
-#~ msgstr "Overslaan"
-
-#, fuzzy
-#~ msgid "Postponsed"
-#~ msgstr "Uitstellen"
-
-#~ msgid "Monitoring"
-#~ msgstr "Activiteit detectie"
-
-#~ msgid "Monitoring preset"
-#~ msgstr "Detectie type"
-
-#~ msgid "Preset"
-#~ msgstr "Standaard instelling"
-
-#~ msgid "Noise time (ms)"
-#~ msgstr "Ruis (ms)"
-
-#~ msgid "Idle time (ms)"
-#~ msgstr "Inactieve tijd (ms)"
-
-#~ msgid ""
-#~ "The timers are started if, during the 'Activity\n"
-#~ "time', there was no inactivitiy for longer than\n"
-#~ "'Noise time'.  When 'Noise time' exceeds 'Activity\n"
-#~ "time', the timers are started if the time between\n"
-#~ "two events is greater then 'Activity time' but\n"
-#~ "smaller then 'Noise time'."
-#~ msgstr ""
-#~ "De klokken worden gestart als gedurende 'Actieve\n"
-#~ "tijd' geen inactiviteit langer dan 'Ruis' optreedt.\n"
-#~ "Voor 'Ruis' waarden groter dan 'Actieve tijd'\n"
-#~ "starten de klokken als de tijd tussen twee\n"
-#~ "gebeurtenissen groter is dan 'Actieve tijd' maar\n"
-#~ "kleiner dan 'Ruis'."
-
-#~ msgid "Custom settings"
-#~ msgstr "Eigen instellingen"
-
-#~ msgid ""
-#~ "Activity and idle time detection can be fine-tuned by the monitor\n"
-#~ "settings.  You can choose from various presets, or define your own\n"
-#~ "custom settings."
-#~ msgstr ""
-#~ "In dit paneel kun je de activiteit detectie instellen. Je hebt de\n"
-#~ "keuze uit enkele standaard instellingen, of je kunt je eigen "
-#~ "instellingen\n"
-#~ "kiezen."
+#~ msgstr "Ö_ffnen"
