@@ -87,7 +87,8 @@ private:
       port(0),
       reconnect_count(0),
       reconnect_time(0),
-      next_claim_time(0)
+      next_claim_time(0),
+      reject_count(0)
     {
     }
     
@@ -123,6 +124,9 @@ private:
 
     //! Next time we can try to claim from this client;
     time_t next_claim_time;
+
+    //! Number of time a claim was rejected.
+    int reject_count;
   };
 
   

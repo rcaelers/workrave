@@ -1197,7 +1197,15 @@ DistributionSocketLink::handle_claim_reject(Client *client)
     {
       dist_manager->log(_("Client %s:%d rejected master request, delaying."),
                         client->hostname, client->port);
-      client->next_claim_time = time(NULL) + 30;
+      client->reject_count++;
+      int count = client->reject_count;
+
+      if (count > 6)
+        {
+          count = 6;
+        }
+      
+      client->next_claim_time = time(NULL) + 5 * count;
     }
   
   TRACE_EXIT();
@@ -1253,6 +1261,11 @@ void
 DistributionSocketLink::handle_new_master(Client *client)
 {
   TRACE_ENTER("DistributionSocketLink::handle_new_master");
+
+  for (list<Client *>::iterator i = clients.begin(); i != clients.end(); i++)
+    {
+      (*i)->reject_count = 0;
+    }
 
   PacketBuffer &packet = client->packet;
 
