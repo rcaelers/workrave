@@ -332,7 +332,7 @@ Menus::resync_applet()
     }
 #endif
 
-#ifdef HAVE_GNOME
+#if defined(HAVE_GNOME) && defined(HAVE_DISTRIBUTION)
   if (applet_window != NULL)
     {
       applet_window->set_menu_active(3, network_log_dialog != NULL);

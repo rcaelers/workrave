@@ -14,7 +14,7 @@ dnl Demand at least version 2.57 of autoconf.
 AC_PREREQ(2.57)
 
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(workrave, 1.2.1)
+AM_INIT_AUTOMAKE(workrave, 1.3.1)
 
                                    
 dnl some command line options.                           
@@ -471,12 +471,12 @@ if test x$have_x = xyes ; then
 fi
 
 HAVE_GCONF=
-if test "x$GCONF_LIBS" != "x"; then
+if test "x$GCONF_LIBS" != "x" -a "x$config_with_gconf" = "xyes"; then
    AC_DEFINE(HAVE_GCONF,,[Define if GConf is available])
 fi
 
 HAVE_GDOME=
-if test "x$GDOME_LIB" != "x"; then
+if test "x$GDOME_LIB" != "x" -a "x$config_with_xml" = "xyes"; then
    AC_DEFINE(HAVE_GDOME,,[Define if GDome is available])
 fi
 
@@ -517,8 +517,8 @@ fi
 AC_SUBST(WIN32CONSOLE)
 
 AM_CONDITIONAL(HAVE_X, test x$have_x = xyes)
-AM_CONDITIONAL(HAVE_GCONF, test "x$GCONF_LIBS" != "x")
-AM_CONDITIONAL(HAVE_GDOME, test "x$GDOME_LIB" != "x")
+AM_CONDITIONAL(HAVE_GCONF, test "x$GCONF_LIBS" != "x" -a "x$config_with_gconf" = "xyes")
+AM_CONDITIONAL(HAVE_GDOME, test "x$GDOME_LIB" != "x" -a "x$config_with_xml" = "xyes")
 AM_CONDITIONAL(HAVE_GNOME, test "x$config_with_gnome" = "xyes")
 AM_CONDITIONAL(HAVE_GNET, test "x$GNET_LIBS" != "x")
 AM_CONDITIONAL(HAVE_REGISTRY, test "x$config_with_registry" = "xyes")
