@@ -155,7 +155,9 @@ RestBreakWindow::start()
       grab();
     }
 
+#ifdef CAUSES_FVWM_FOCUS_PROBLEMS
   present(); // After grab() please (Windows)
+#endif
   TRACE_EXIT();
 }
 

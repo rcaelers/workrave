@@ -85,17 +85,17 @@ MicroPauseWindow::MicroPauseWindow(HeadInfo &head, TimerInterface *timer, bool i
 
   add(*box);
 
+  //GTK_WIDGET_UNSET_FLAGS(Gtk::Widget::gobj(), GTK_CAN_FOCUS);
+  unset_flags(Gtk::CAN_FOCUS);
+
   show_all_children();
   stick();
   
-  //GTK_WIDGET_UNSET_FLAGS(Gtk::Widget::gobj(), GTK_CAN_FOCUS);
-  unset_flags(Gtk::CAN_FOCUS);
+  set_screen(head);
 
   // Set some window hints.
   WindowHints::set_skip_winlist(Gtk::Widget::gobj(), true);
   WindowHints::set_always_on_top(Gtk::Widget::gobj(), true);
-
-  set_screen(head);
 }
 
 
@@ -120,7 +120,9 @@ MicroPauseWindow::start()
     {
       grab();
     }
+#ifdef CAUSES_FVWM_FOCUS_PROBLEMS
   present(); // After grab() please (Windows)
+#endif
   
   TRACE_EXIT();
 }
