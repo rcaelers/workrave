@@ -133,20 +133,14 @@ Dispatcher::io_handler(Glib::IOCondition)
   
   while ((data = (DispatchData*)g_async_queue_try_pop(queue)))
     {
-      TRACE_MSG("1");
       DispatchData local_data = *data;
       delete data;
-      TRACE_MSG("2");
       
       g_return_val_if_fail(local_data.tag == 0xdeadbeef, true);
 
-      TRACE_MSG("3");
-      
       signal();
-      TRACE_MSG("4");
     }
 
-  TRACE_MSG("5");
   return true;
 }
 #endif
