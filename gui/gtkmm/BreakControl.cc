@@ -63,6 +63,7 @@ BreakControl::BreakControl(GUIControl::BreakId id, ControlInterface *c,
   ignorable_break(true),
   break_window_destroy(false),
   prelude_window_destroy(false),
+  delay_window_destroy(false),
   insist_policy(INSIST_POLICY_HALT),
   active_insist_policy(INSIST_POLICY_INVALID)
 {
@@ -517,7 +518,7 @@ BreakControl::break_window_start()
     }
 
   break_window_destroy = false;
-
+  
   assert(break_window != NULL);
   break_window->set_break_response(this);
   break_window->set_insist_break(insist_break);
@@ -536,6 +537,7 @@ BreakControl::break_window_stop()
     {
       break_window->stop();
       break_window_destroy = true;
+      delay_window_destroy = true;
     }
 }
 
@@ -583,6 +585,7 @@ BreakControl::prelude_window_stop()
     {
       prelude_window->stop();
       prelude_window_destroy = true;
+      delay_window_destroy = true;
     }
 }
 
@@ -591,18 +594,25 @@ BreakControl::prelude_window_stop()
 void
 BreakControl::collect_garbage()
 {
-  if (prelude_window_destroy)
+  if (delay_window_destroy)
     {
-      prelude_window->destroy();
-      prelude_window = NULL;
-      prelude_window_destroy = false;
+      delay_window_destroy = false;
     }
-  
-  if (break_window_destroy)
+  else
     {
-      break_window->destroy();
-      break_window = NULL;
-      break_window_destroy = false;
+      if (prelude_window_destroy)
+        {
+          prelude_window->destroy();
+          prelude_window = NULL;
+          prelude_window_destroy = false;
+        }
+  
+      if (break_window_destroy)
+        {
+          break_window->destroy();
+          break_window = NULL;
+          break_window_destroy = false;
+        }
     }
 }
 
