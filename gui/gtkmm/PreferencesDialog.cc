@@ -248,9 +248,12 @@ PreferencesDialog::create_monitor_page()
   y++;
 
   label = manage(new Gtk::Label(_("From (ms)")));
+  Gtk::Alignment *from_align
+    = manage(new Gtk::Alignment(Gtk::ALIGN_LEFT, Gtk::ALIGN_BOTTOM, 0.0, 0.0));
   activity_time = manage(new TimeEntry(true));
+  from_align->add(*activity_time);
   mon_table->attach(*label, 0, 1, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
-  mon_table->attach(*activity_time, 1, 2, y, y+1, Gtk::EXPAND, Gtk::SHRINK);
+  mon_table->attach(*from_align, 1, 2, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
   int val;
   GUIControl::get_instance()->get_configurator()
     ->get_value(ControlInterface::CFG_KEY_MONITOR_ACTIVITY, &val);
@@ -260,7 +263,7 @@ PreferencesDialog::create_monitor_page()
   label = manage(new Gtk::Label(_("To (ms)")));
   noise_time = manage(new TimeEntry(true));
   mon_table->attach(*label, 0, 1, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
-  mon_table->attach(*noise_time, 1, 2, y, y+1, Gtk::EXPAND, Gtk::SHRINK);
+  mon_table->attach(*noise_time, 1, 2, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
   GUIControl::get_instance()->get_configurator()
     ->get_value(ControlInterface::CFG_KEY_MONITOR_NOISE, &val);
   noise_time->set_value(val);
@@ -277,7 +280,7 @@ PreferencesDialog::create_monitor_page()
   label = manage(new Gtk::Label(_("Idle time (ms)")));
   idle_time = manage(new TimeEntry(true));
   mon_table->attach(*label, 0, 1, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
-  mon_table->attach(*idle_time, 1, 2, y, y+1, Gtk::EXPAND, Gtk::SHRINK);
+  mon_table->attach(*idle_time, 1, 2, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
   GUIControl::get_instance()->get_configurator()
     ->get_value(ControlInterface::CFG_KEY_MONITOR_IDLE, &val);
   idle_time->set_value(val);
