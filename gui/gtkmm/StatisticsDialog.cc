@@ -75,6 +75,9 @@ StatisticsDialog::~StatisticsDialog()
 int
 StatisticsDialog::run()
 {
+  // Periodic timer.
+  Glib::signal_timeout().connect(SigC::slot(*this, &StatisticsDialog::on_timer), 1000);
+
   show_all();
   return 0;
 }
@@ -438,6 +441,9 @@ StatisticsDialog::display_statistics(Statistics::DailyStats *stats)
       break_labels[i][6]->set_text(Text::time_to_string(value));
 
       value = stats->misc_stats[Statistics::STATS_VALUE_TOTAL_MOVEMENT_TIME];
+      if (value > 24 * 60 * 60) {
+        value = 0;
+      }
       activity_labels[0]->set_text(Text::time_to_string(value));
 
       value = stats->misc_stats[Statistics::STATS_VALUE_TOTAL_MOUSE_MOVEMENT];
@@ -510,23 +516,6 @@ StatisticsDialog::display_calendar_date()
   display_statistics(stats);
 }
 
-
-bool
-StatisticsDialog::on_focus_in_event(GdkEventFocus *event)
-{ 
-  TRACE_ENTER("StatisticsDialog::focus_in");
-  TRACE_EXIT();
-}
-
-
-bool
-StatisticsDialog::on_focus_out_event(GdkEventFocus *event)
-{ 
-  TRACE_ENTER("StatisticsDialog::focus_out");
-  TRACE_EXIT();
-}
-
-
 void
 StatisticsDialog::on_history_go_back()
 {
@@ -562,6 +551,25 @@ StatisticsDialog::on_history_goto_first()
 }
 
 
+//! Periodic heartbeat.
+bool
+StatisticsDialog::on_timer()
+{
+  TRACE_ENTER("StatisticsDialog:on_timer");
+  int idx, next, prev;
+  get_calendar_day_index(idx, next, prev);
+
+  TRACE_MSG(idx);
+  if (idx == 0)
+    {
+      Statistics *stats = Statistics::get_instance();
+      stats->heartbeat();
+      display_calendar_date();
+    }
+  return true;
+}
+
+
 void
 StatisticsDialog::stream_distance(stringstream &stream, int pixels)
 {
@@ -571,3 +579,5 @@ StatisticsDialog::stream_distance(stringstream &stream, int pixels)
   sprintf(buf, "%.02f m", mm/1000);
   stream << buf;
 }
+
+

@@ -231,6 +231,62 @@ Statistics::save_day(DailyStats *stats)
 }
 
 
+//! Add the stats the the history list.
+void
+Statistics::add_history(DailyStats *stats)
+{
+  TRACE_ENTER("Statistics::add_history");
+
+  if (stats == NULL)
+    {
+      return;
+    }
+  
+  if (history.size() == 0)
+    {
+      history.push_back(stats);
+    }
+  else
+    {
+      HistoryRIter i = history.rbegin();
+      while (i != history.rend())
+        {
+          DailyStats *ref = *i;
+
+          if (stats->start.tm_year == ref->start.tm_year  &&
+              stats->start.tm_mon == ref->start.tm_mon &&
+              stats->start.tm_mday == ref->start.tm_mday)
+            {
+              *i = stats;
+              break;
+            }
+
+          else if ( stats->start.tm_year > ref->start.tm_year
+                    || (stats->start.tm_year == ref->start.tm_year
+                        && (stats->start.tm_mon > ref->start.tm_mon
+                            || (stats->start.tm_mon == ref->start.tm_mon
+                                && stats->start.tm_mday > ref->start.tm_mday))))
+          {
+            if (i == history.rbegin())
+              {
+                history.push_back(stats);
+              }
+            else
+              {
+                TRACE_MSG("3b");
+                history.insert(i.base(), stats);
+              }
+            break;
+          }
+          else
+            {
+              TRACE_MSG("4");
+            }
+          i++;
+        }
+    }
+}
+
 //! Load the statistics of the current day.
 void
 Statistics::load_current_day()
@@ -405,12 +461,13 @@ Statistics::load_history()
           
           load_day(day, stats_file);
 
-          history.push_back(day);
+          add_history(day);
           first = false;
         }
     }
   TRACE_EXIT();
 }
+
 
 
 //! Increment the specified statistics counter of the current day.

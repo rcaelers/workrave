@@ -166,6 +166,8 @@ private:
   void day_to_remote_history(DailyStats *stats);
   void update_enviromnent();
 
+  void add_history(DailyStats *stats);
+  
 #ifdef HAVE_DISTRIBUTION
   void init_distribution_manager();
   bool get_state(DistributedStateID id, unsigned char **buffer, int *size);
@@ -174,6 +176,10 @@ private:
 #endif
   
 private:
+  typedef vector<DailyStats *> History;
+  typedef vector<DailyStats *>::iterator HistoryIter;
+  typedef vector<DailyStats *>::reverse_iterator HistoryRIter;
+  
   //! The one and only instance
   static Statistics *instance;
 

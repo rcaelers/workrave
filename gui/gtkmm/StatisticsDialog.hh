@@ -92,8 +92,7 @@ private:
   void display_calendar_date();
   void display_statistics(Statistics::DailyStats *stats);
   
-  bool on_focus_in_event(GdkEventFocus *event);
-  bool on_focus_out_event(GdkEventFocus *event);  
+  bool on_timer();
 };
 
 #endif // STATISTICSWINDOW_HH
