@@ -35,29 +35,16 @@ public:
 private:
   void init_page_values();
   void create_page();
-
-  void set_flag(int break_id, int flag, bool on);
-  void on_first_toggled(int break_id);
-  void on_imminent_toggled(int break_id);
-  void on_default_toggled(int break_id);
-  void on_exclusive_toggled(int break_id);
-  void on_time_changed(int break_id);
-  void on_slot_changed(int break_id);
-  void on_visible_toggled(int break_id);
-
+  void enable_buttons();
   void on_enabled_toggled();
+  void on_place_changed();
+  void on_display_changed(int break_id);
   void on_cycle_time_changed();
-  void enable_buttons(void);
   
-  Gtk::SpinButton *cycle_entry;
   Gtk::CheckButton *enabled_cb;
-  Gtk::CheckButton *visible_cb[GUIControl::BREAK_ID_SIZEOF];  
-  Gtk::SpinButton *slot_entry[GUIControl::BREAK_ID_SIZEOF];  
-  Gtk::CheckButton *first_cb[GUIControl::BREAK_ID_SIZEOF];  
-  Gtk::CheckButton *imminent_cb[GUIControl::BREAK_ID_SIZEOF];  
-  Gtk::CheckButton *exclusive_cb[GUIControl::BREAK_ID_SIZEOF];  
-  Gtk::CheckButton *default_cb[GUIControl::BREAK_ID_SIZEOF];  
-  Gtk::SpinButton *time_entry[GUIControl::BREAK_ID_SIZEOF];  
+  Gtk::OptionMenu *place_button;
+  Gtk::OptionMenu *timer_display_button[GUIControl::BREAK_ID_SIZEOF];
+  Gtk::SpinButton *cycle_entry;
 };
 
 #endif // APPLETPREFERENCEPAGE_HH

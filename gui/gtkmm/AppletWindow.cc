@@ -42,7 +42,6 @@ static const char rcsid[] = "$Id$";
 #include "eggtrayicon.h"
 
 const string AppletWindow::CFG_KEY_APPLET = "gui/applet";
-const string AppletWindow::CFG_KEY_APPLET_HORIZONTAL = "gui/applet/vertical";
 const string AppletWindow::CFG_KEY_APPLET_ENABLED = "gui/applet/enabled";
 const string AppletWindow::CFG_KEY_APPLET_CYCLE_TIME = "gui/applet/cycle_time";
 const string AppletWindow::CFG_KEY_APPLET_POSITION = "/position";
@@ -289,10 +288,10 @@ AppletWindow::init_slot(int slot)
   // Collect all timers for this slot.
   for (int i = 0; !stop && i < GUIControl::BREAK_ID_SIZEOF; i++)
     {
-      if (break_position[i] == slot)
+      if (break_position[i] == slot && !(break_flags[i] & BREAK_HIDE))
         {
           breaks_id[count] = i;
-          break_flags[count] &= ~BREAK_SKIP;
+          break_flags[i] &= ~BREAK_SKIP;
           count++;
         }
     }
@@ -855,45 +854,15 @@ void
 AppletWindow::read_configuration()
 {
   Configurator *c = GUIControl::get_instance()->get_configurator();
-
-  if (!c->get_value(AppletWindow::CFG_KEY_APPLET_ENABLED, &applet_enabled))
-    {
-      applet_enabled = true;
-      c->set_value(AppletWindow::CFG_KEY_APPLET_ENABLED, applet_enabled);
-    }
-
-  if (!c->get_value(AppletWindow::CFG_KEY_APPLET_CYCLE_TIME, &cycle_time))
-    {
-      cycle_time = 10;
-      c->set_value(AppletWindow::CFG_KEY_APPLET_CYCLE_TIME, cycle_time);
-    }
-  
+  applet_enabled = is_enabled();
+  cycle_time = get_cycle_time();
   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
     {
-      GUIControl::TimerData &data = GUIControl::get_instance()->timers[i];
+      GUIControl::BreakId bid = (GUIControl::BreakId) i;
       
-      int value = 0;
-      
-      if (!c->get_value(CFG_KEY_APPLET + "/" + data.break_name + CFG_KEY_APPLET_POSITION, &value))
-        {
-          value = i;
-          c->set_value(CFG_KEY_APPLET + "/" + data.break_name + CFG_KEY_APPLET_POSITION, value);
-        }
-      break_position[i] = value;
-
-      if (!c->get_value(CFG_KEY_APPLET + "/" + data.break_name + CFG_KEY_APPLET_FLAGS, &value))
-        {
-          value = BREAK_EXCLUSIVE;
-          c->set_value(CFG_KEY_APPLET + "/" + data.break_name + CFG_KEY_APPLET_FLAGS, value);
-        }
-      break_flags[i] = value;
-      
-      if (!c->get_value(CFG_KEY_APPLET + "/" + data.break_name + CFG_KEY_APPLET_IMMINENT, &value))
-        {
-          value = 30;
-          c->set_value(CFG_KEY_APPLET + "/" + data.break_name + CFG_KEY_APPLET_IMMINENT, value);
-        }
-      break_imminent_time[i] = value;
+      break_position[i] = get_timer_slot(bid);;
+      break_flags[i] = get_timer_flags(bid);
+      break_imminent_time[i] = get_timer_imminent_time(bid);
     }
 }
 
@@ -938,3 +907,113 @@ AppletWindow::get_applet_mode() const
 {
   return mode;
 }
+
+
+bool
+AppletWindow::is_enabled()
+{
+  bool ret;
+  if (! GUIControl::get_instance()->get_configurator()
+      ->get_value(AppletWindow::CFG_KEY_APPLET_ENABLED, &ret))
+    {
+      ret = true;
+    }
+  return ret;
+}
+
+void
+AppletWindow::set_enabled(bool enabled)
+{
+  GUIControl::get_instance()->get_configurator()
+    ->set_value(AppletWindow::CFG_KEY_APPLET_ENABLED, enabled);
+}
+
+int
+AppletWindow::get_cycle_time()
+{
+  int ret;
+  if (! GUIControl::get_instance()->get_configurator()
+      ->get_value(AppletWindow::CFG_KEY_APPLET_CYCLE_TIME, &ret))
+    {
+      ret = 10;
+    }
+  return ret;
+}
+
+void
+AppletWindow::set_cycle_time(int time)
+{
+  GUIControl::get_instance()->get_configurator()
+    ->set_value(AppletWindow::CFG_KEY_APPLET_CYCLE_TIME, time);
+}
+
+const string
+AppletWindow::get_timer_config_key(GUIControl::BreakId timer, const string &key)
+{
+  GUIControl::TimerData *data = GUIControl::get_instance()->get_timer_data(timer);
+  return string(CFG_KEY_APPLET) + "/" + data->break_name + key;
+}
+
+int
+AppletWindow::get_timer_imminent_time(GUIControl::BreakId timer)
+{
+  const string key = get_timer_config_key(timer, CFG_KEY_APPLET_IMMINENT);
+  int ret;
+  if (! GUIControl::get_instance()->get_configurator()
+      ->get_value(key, &ret))
+    {
+      ret = 30;
+    }
+  return ret;
+}
+
+void
+AppletWindow::set_timer_imminent_time(GUIControl::BreakId timer, int time)
+{
+  const string key = get_timer_config_key(timer, CFG_KEY_APPLET_IMMINENT);
+  GUIControl::get_instance()->get_configurator()->set_value(key, time);
+}
+
+int
+AppletWindow::get_timer_slot(GUIControl::BreakId timer)
+{
+  const string key = get_timer_config_key(timer, CFG_KEY_APPLET_POSITION);
+  int ret;
+  if (! GUIControl::get_instance()->get_configurator()
+      ->get_value(key, &ret))
+    {
+      // All in one slot is probably the best default since we cannot assume
+      // any users panel is large enough to hold all timers.
+      ret = 0;
+    }
+  return ret;
+}
+
+
+void
+AppletWindow::set_timer_slot(GUIControl::BreakId timer, int slot)
+{
+  const string key = get_timer_config_key(timer, CFG_KEY_APPLET_POSITION);
+  GUIControl::get_instance()->get_configurator()->set_value(key, slot);
+}
+
+int
+AppletWindow::get_timer_flags(GUIControl::BreakId timer)
+{
+  const string key = get_timer_config_key(timer, CFG_KEY_APPLET_FLAGS);
+  int ret;
+  if (! GUIControl::get_instance()->get_configurator()
+      ->get_value(key, &ret))
+    {
+      ret = 0;
+    }
+  return ret;
+}
+
+void
+AppletWindow::set_timer_flags(GUIControl::BreakId timer, int flags)
+{
+  const string key = get_timer_config_key(timer, CFG_KEY_APPLET_FLAGS);
+  GUIControl::get_instance()->get_configurator()->set_value(key, flags);
+}
+

@@ -38,11 +38,14 @@ private:
 class HigCategoryPanel : public Gtk::VBox
 {
 public:
+  HigCategoryPanel(Gtk::Widget &lab);
   HigCategoryPanel(const char *lab);
   void add(const char *lab, Gtk::Widget &widget);
   void add(Gtk::Widget &widget);
 
 private:
+  void init(Gtk::Widget &lab);
+  
   Gtk::VBox *options_box;
   Glib::RefPtr<Gtk::SizeGroup> size_group;
 };

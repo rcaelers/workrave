@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-03-01 10:42+0100\n"
+"POT-Creation-Date: 2003-03-03 20:07+0100\n"
 "PO-Revision-Date: 2002-11-05 17:58-0800\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -90,76 +90,61 @@ msgstr "_Kreditoj"
 msgid "About %s"
 msgstr "Pri %s"
 
-#: gui/gtkmm/AppletPreferencePage.cc:70
+#: gui/gtkmm/AppletPreferencePage.cc:67
+msgid "Place timers next to each other"
+msgstr ""
+
+#: gui/gtkmm/AppletPreferencePage.cc:69
+msgid "Place micro-pause and rest break in one spot"
+msgstr ""
+
+#: gui/gtkmm/AppletPreferencePage.cc:71
+msgid "Place rest break and daily limit in one spot"
+msgstr ""
+
+#: gui/gtkmm/AppletPreferencePage.cc:73
+msgid "Place all timers in one spot"
+msgstr ""
+
+#: gui/gtkmm/AppletPreferencePage.cc:99
+msgid "Hide"
+msgstr ""
+
+#: gui/gtkmm/AppletPreferencePage.cc:101
 #, fuzzy
-msgid "Show break at position:"
-msgstr "Ripoza instigado"
+msgid "Show"
+msgstr "Montru _protokolon"
 
-#: gui/gtkmm/AppletPreferencePage.cc:72
-msgid "Cycle time:"
+#: gui/gtkmm/AppletPreferencePage.cc:103
+msgid "Show only when this timer is first due"
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:74
-msgid "Show only when first:"
-msgstr ""
-
-#: gui/gtkmm/AppletPreferencePage.cc:76
-msgid "Show only when imminent in:"
-msgstr ""
-
-#: gui/gtkmm/AppletPreferencePage.cc:78
-msgid "Show exclusively:"
-msgstr ""
-
-#: gui/gtkmm/AppletPreferencePage.cc:80
-#, fuzzy
-msgid "Default break:"
-msgstr "Ripozo"
-
-#: gui/gtkmm/AppletPreferencePage.cc:94
+#: gui/gtkmm/AppletPreferencePage.cc:111
 msgid "Applet enabled"
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:106
-msgid ""
-"When multiple breaks are shown on a certain position, this value indicates "
-"the time each break is shown."
+#: gui/gtkmm/AppletPreferencePage.cc:117
+msgid "Placement:"
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:153
-msgid "If set, this break will be shown in the applet."
+#: gui/gtkmm/AppletPreferencePage.cc:118
+msgid "Cycle time:"
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:155
-msgid ""
-"Position on which the break timer is shown. Three positions are available. "
-"In case multiple breaks have the same position, they will be shown "
-"alternatingly."
-msgstr ""
+#: gui/gtkmm/AppletPreferencePage.cc:119
+#, fuzzy
+msgid "Micro-pause:"
+msgstr "Paŭzeto"
 
-#: gui/gtkmm/AppletPreferencePage.cc:159
-msgid ""
-"If set, this break will be shown if no other breaks are shown on the "
-"selected position"
-msgstr ""
+#: gui/gtkmm/AppletPreferencePage.cc:120
+#, fuzzy
+msgid "Rest break:"
+msgstr "Ripozo"
 
-#: gui/gtkmm/AppletPreferencePage.cc:162
-msgid ""
-"If set, the break timer will always be the only break that will be shown on "
-"that position. It will not be shown alternatingly with another break."
-msgstr ""
-
-#: gui/gtkmm/AppletPreferencePage.cc:166
-msgid ""
-"If set, the break timer will only be shown if it is the first break that "
-"will reach its limit."
-msgstr ""
-
-#: gui/gtkmm/AppletPreferencePage.cc:169 gui/gtkmm/AppletPreferencePage.cc:172
-msgid ""
-"If set, the break timer will only be shown if it will reach its limit within "
-"the specified time."
-msgstr ""
+#: gui/gtkmm/AppletPreferencePage.cc:121
+#, fuzzy
+msgid "Daily limit:"
+msgstr "Taglimo"
 
 #: gui/gtkmm/DailyLimitWindow.cc:45
 msgid ""
@@ -373,40 +358,40 @@ msgstr ""
 msgid "Network"
 msgstr "Reto"
 
-#: gui/gtkmm/PreferencesDialog.cc:109
+#: gui/gtkmm/PreferencesDialog.cc:115
 msgid "The main window stays always on top of other windows"
 msgstr "La ĉefa fenestro ĉiam restas antaŭ ol la aliaj fenestroj"
 
-#: gui/gtkmm/PreferencesDialog.cc:118
+#: gui/gtkmm/PreferencesDialog.cc:124
 msgid "No sounds"
 msgstr "Ne sonoj"
 
-#: gui/gtkmm/PreferencesDialog.cc:120
+#: gui/gtkmm/PreferencesDialog.cc:126
 msgid "Play sounds using sound card"
 msgstr "Ludu sonojn uzante sonkarton"
 
-#: gui/gtkmm/PreferencesDialog.cc:122
+#: gui/gtkmm/PreferencesDialog.cc:128
 msgid "Play sounds using built-in speaker"
 msgstr "Ludu sonojn uzante en-komputila laŭtparolilo"
 
-#: gui/gtkmm/PreferencesDialog.cc:138
+#: gui/gtkmm/PreferencesDialog.cc:144
 msgid "Hide main window at start-up"
 msgstr "Kaŝu ĉefan fenestron ĉe startigo"
 
 #. Options
-#: gui/gtkmm/PreferencesDialog.cc:145 gui/gtkmm/TimerPreferencesPanel.cc:128
+#: gui/gtkmm/PreferencesDialog.cc:151 gui/gtkmm/TimerPreferencesPanel.cc:128
 msgid "Options"
 msgstr "Opcioj"
 
-#: gui/gtkmm/PreferencesDialog.cc:148
+#: gui/gtkmm/PreferencesDialog.cc:154
 msgid "Sound:"
 msgstr ""
 
-#: gui/gtkmm/PreferencesDialog.cc:153
+#: gui/gtkmm/PreferencesDialog.cc:159
 msgid "You can configure the user interface related settings from here."
 msgstr "Vi povas konfiguri la uzulajn inferfacajn agordojn de tie ĉi."
 
-#: gui/gtkmm/PreferencesDialog.cc:166
+#: gui/gtkmm/PreferencesDialog.cc:172
 msgid ""
 "This dialog allows you to change the settings of the timers.  Each unit\n"
 "of time is broken down into hours, minutes and seconds (also known as\n"
@@ -416,12 +401,12 @@ msgstr ""
 "de tempo estas dispecigita al horoj, minutoj, kaj sekundoj (ankaŭ konata\n"
 "kiel \"hh:mm:ss\" formato).  Tiuj ĉi ĉiu povas esti kontrolata individue."
 
-#: gui/gtkmm/PreferencesDialog.cc:194
+#: gui/gtkmm/PreferencesDialog.cc:200
 #, fuzzy
 msgid "You can configure the applet related settings from here."
 msgstr "Vi povas konfiguri la uzulajn inferfacajn agordojn de tie ĉi."
 
-#: gui/gtkmm/PreferencesDialog.cc:213
+#: gui/gtkmm/PreferencesDialog.cc:219
 msgid ""
 "You can connect several instances of Workrave in a network. All connected\n"
 "instances share the same timer information, meaning you will be reminded\n"
@@ -694,6 +679,14 @@ msgstr "Montru _protokolon"
 #, fuzzy
 msgid "_Statistics"
 msgstr "Statistiko"
+
+#, fuzzy
+#~ msgid "Show break at position:"
+#~ msgstr "Ripoza instigado"
+
+#, fuzzy
+#~ msgid "Default break:"
+#~ msgstr "Ripozo"
 
 #~ msgid "Connection details"
 #~ msgstr "Konektaj detaloj"

@@ -69,6 +69,20 @@ public:
   void set_applet_size(int size);
 #endif
   
+public:
+  static const string get_timer_config_key(GUIControl::BreakId timer, const string &key);
+  static bool is_enabled();
+  static void set_enabled(bool enabled);
+  static int get_cycle_time();
+  static void set_cycle_time(int time);
+  static int get_timer_imminent_time(GUIControl::BreakId timer);
+  static void set_timer_imminent_time(GUIControl::BreakId timer, int time);
+  static int get_timer_slot(GUIControl::BreakId timer);
+  static void set_timer_slot(GUIControl::BreakId timer, int slot);
+  static int get_timer_flags(GUIControl::BreakId timer);
+  static void set_timer_flags(GUIControl::BreakId timer, int flags);
+  
+  
 public:  
   static const string CFG_KEY_APPLET;
   static const string CFG_KEY_APPLET_HORIZONTAL;
@@ -84,7 +98,8 @@ public:
       BREAK_WHEN_FIRST = 2,
       BREAK_SKIP = 4,
       BREAK_EXCLUSIVE = 8,
-      BREAK_DEFAULT = 16
+      BREAK_DEFAULT = 16,
+      BREAK_HIDE = 32
     };
   
 private:

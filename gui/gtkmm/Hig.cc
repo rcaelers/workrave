@@ -32,13 +32,24 @@ HigDialog::set_hig_defaults()
   set_border_width(7);
 }
 
+HigCategoryPanel::HigCategoryPanel(Gtk::Widget &lab)
+{
+  init(lab);
+}
+
 HigCategoryPanel::HigCategoryPanel(const char *lab)
+{
+  Gtk::Label *widg = manage(GtkUtil::create_label(string(lab), true));
+  widg->set_alignment(0.0);
+  init(*widg);
+}
+
+void
+HigCategoryPanel::init(Gtk::Widget &lab)
 {
   size_group = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_HORIZONTAL);
   set_spacing(6);
-  Gtk::Label *category = manage(GtkUtil::create_label(string(lab), true));
-  category->set_alignment(0.0);
-  pack_start(*category, false, false, 0);
+  pack_start(lab, false, false, 0);
 
   Gtk::HBox *ibox = manage(new Gtk::HBox());
   pack_start(*ibox, false, false, 0);

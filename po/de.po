@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
-"POT-Creation-Date: 2003-03-01 10:38+0100\n"
+"POT-Creation-Date: 2003-03-03 20:04+0100\n"
 "PO-Revision-Date: 2003-02-20 21:07+0100\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Johannes Rohr <j.rohr@comlink.apc.org>\n"
@@ -26,29 +26,29 @@ msgstr "Pause in"
 msgid "Silent in"
 msgstr "Still in"
 
-#: gui/GUIControl.cc:84 gui/gtkmm/MicroPauseWindow.cc:163
-msgid "Micro-pause"
-msgstr "Mikropause"
-
-#: gui/GUIControl.cc:91
-msgid "Rest break"
-msgstr "Ruhepause"
-
-#: gui/GUIControl.cc:98
-msgid "Daily limit"
-msgstr "Tägliches Limit"
-
-#: gui/GUIControl.cc:299
+#: gui/GUIControl.cc:293
 msgid "Time for a micro-pause?"
 msgstr "Zeit für eine Mikropause?"
 
-#: gui/GUIControl.cc:305
+#: gui/GUIControl.cc:294 gui/gtkmm/MicroPauseWindow.cc:163
+msgid "Micro-pause"
+msgstr "Mikropause"
+
+#: gui/GUIControl.cc:300
 msgid "You need a rest break..."
 msgstr "Sie brauchen eine Ruhepause..."
 
-#: gui/GUIControl.cc:311
+#: gui/GUIControl.cc:301
+msgid "Rest break"
+msgstr "Ruhepause"
+
+#: gui/GUIControl.cc:307
 msgid "You should stop for today..."
 msgstr "Sie sollten für heute aufhören..."
+
+#: gui/GUIControl.cc:308
+msgid "Daily limit"
+msgstr "Tägliches Limit"
 
 #: gui/Text.cc:75
 #, c-format
@@ -91,36 +91,85 @@ msgstr "Mitwirkende"
 msgid "About %s"
 msgstr "Über %s"
 
-#: gui/gtkmm/AppletPreferencePage.cc:70
-msgid "Show break at position:"
+#: gui/gtkmm/AppletPreferencePage.cc:67
+msgid "Place timers next to each other"
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:72
-msgid "Cycle time:"
-msgstr "Zeit bis zum Wechsel der Anzeige:"
+#: gui/gtkmm/AppletPreferencePage.cc:69
+msgid "Place micro-pause and rest break in one spot"
+msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:74
-msgid "Show only when first:"
+#: gui/gtkmm/AppletPreferencePage.cc:71
+msgid "Place rest break and daily limit in one spot"
+msgstr ""
+
+#: gui/gtkmm/AppletPreferencePage.cc:73
+msgid "Place all timers in one spot"
+msgstr ""
+
+#: gui/gtkmm/AppletPreferencePage.cc:99
+msgid "Hide"
+msgstr ""
+
+#: gui/gtkmm/AppletPreferencePage.cc:101
+#, fuzzy
+msgid "Show"
+msgstr "_Protokoll anzeigen"
+
+#: gui/gtkmm/AppletPreferencePage.cc:103
+#, fuzzy
+msgid "Show only when this timer is first due"
 msgstr "Pause nur anzeigen, wenn als nächstes fällig:"
 
-#: gui/gtkmm/AppletPreferencePage.cc:76
-msgid "Show only when imminent in:"
-msgstr "Nur anzeigen, wenn Pause in n Minuten ansteht.:"
-
-#: gui/gtkmm/AppletPreferencePage.cc:78
-msgid "Show exclusively:"
-msgstr "Exklusiv anzeigen:"
-
-#: gui/gtkmm/AppletPreferencePage.cc:80
-msgid "Default break:"
-msgstr "Voreingestellter Pausenanzeiger:"
-
-#: gui/gtkmm/AppletPreferencePage.cc:94
+#: gui/gtkmm/AppletPreferencePage.cc:111 gui/gtkmm/AppletPreferencePage.cc:304
 #, fuzzy
 msgid "Applet enabled"
 msgstr "Applet aktiv oder nicht."
 
-#: gui/gtkmm/AppletPreferencePage.cc:106
+#: gui/gtkmm/AppletPreferencePage.cc:117
+msgid "Placement:"
+msgstr ""
+
+#: gui/gtkmm/AppletPreferencePage.cc:118 gui/gtkmm/AppletPreferencePage.cc:282
+msgid "Cycle time:"
+msgstr "Zeit bis zum Wechsel der Anzeige:"
+
+#: gui/gtkmm/AppletPreferencePage.cc:119
+#, fuzzy
+msgid "Micro-pause:"
+msgstr "Mikropause"
+
+#: gui/gtkmm/AppletPreferencePage.cc:120
+#, fuzzy
+msgid "Rest break:"
+msgstr "Ruhepause"
+
+#: gui/gtkmm/AppletPreferencePage.cc:121
+#, fuzzy
+msgid "Daily limit:"
+msgstr "Tägliches Limit"
+
+#: gui/gtkmm/AppletPreferencePage.cc:280
+msgid "Show break at position:"
+msgstr ""
+
+#: gui/gtkmm/AppletPreferencePage.cc:284
+msgid "Show only when first:"
+msgstr "Pause nur anzeigen, wenn als nächstes fällig:"
+
+#: gui/gtkmm/AppletPreferencePage.cc:286
+msgid "Show only when imminent in:"
+msgstr "Nur anzeigen, wenn Pause in n Minuten ansteht.:"
+
+#: gui/gtkmm/AppletPreferencePage.cc:288
+msgid "Show exclusively:"
+msgstr "Exklusiv anzeigen:"
+
+#: gui/gtkmm/AppletPreferencePage.cc:290
+msgid "Default break:"
+msgstr "Voreingestellter Pausenanzeiger:"
+
+#: gui/gtkmm/AppletPreferencePage.cc:316
 msgid ""
 "When multiple breaks are shown on a certain position, this value indicates "
 "the time each break is shown."
@@ -128,12 +177,12 @@ msgstr ""
 "Falls verschiedene Pausen an einer bestimmten Position angezeigt\n"
 "werden, legt dieser Wert fest, wie lange jede Pause angezeigt wird."
 
-#: gui/gtkmm/AppletPreferencePage.cc:153
+#: gui/gtkmm/AppletPreferencePage.cc:363
 msgid "If set, this break will be shown in the applet."
 msgstr ""
 "Wenn diese Einstellung gewählt ist, wird diese Pause im Applet angezeigt."
 
-#: gui/gtkmm/AppletPreferencePage.cc:155
+#: gui/gtkmm/AppletPreferencePage.cc:365
 msgid ""
 "Position on which the break timer is shown. Three positions are available. "
 "In case multiple breaks have the same position, they will be shown "
@@ -143,7 +192,7 @@ msgstr ""
 "verfügbar. Werden mehrere Anzeiger auf dieselbe Position gesetzt, so\n"
 "werden sie im Wechsel nacheinander angezeigt."
 
-#: gui/gtkmm/AppletPreferencePage.cc:159
+#: gui/gtkmm/AppletPreferencePage.cc:369
 msgid ""
 "If set, this break will be shown if no other breaks are shown on the "
 "selected position"
@@ -152,7 +201,7 @@ msgstr ""
 "keine anderen Pausenanzeiger an der gewählten Position angezeigt\n"
 "werden."
 
-#: gui/gtkmm/AppletPreferencePage.cc:162
+#: gui/gtkmm/AppletPreferencePage.cc:372
 msgid ""
 "If set, the break timer will always be the only break that will be shown on "
 "that position. It will not be shown alternatingly with another break."
@@ -161,7 +210,7 @@ msgstr ""
 "an dieser Position angezeigt. Er wird also nicht im Wechsel mit\n"
 "anderen Pausen angezeigt."
 
-#: gui/gtkmm/AppletPreferencePage.cc:166
+#: gui/gtkmm/AppletPreferencePage.cc:376
 msgid ""
 "If set, the break timer will only be shown if it is the first break that "
 "will reach its limit."
@@ -169,7 +218,7 @@ msgstr ""
 "Wenn diese Einstellung aktiv ist, wird der Pausenanzeiger nur dann "
 "angezeigt, wenn diese Pause als nächstes an der Reihe ist."
 
-#: gui/gtkmm/AppletPreferencePage.cc:169 gui/gtkmm/AppletPreferencePage.cc:172
+#: gui/gtkmm/AppletPreferencePage.cc:379 gui/gtkmm/AppletPreferencePage.cc:382
 msgid ""
 "If set, the break timer will only be shown if it will reach its limit within "
 "the specified time."
@@ -387,41 +436,41 @@ msgstr "Applet"
 msgid "Network"
 msgstr "Netzwerk"
 
-#: gui/gtkmm/PreferencesDialog.cc:109
+#: gui/gtkmm/PreferencesDialog.cc:115
 msgid "The main window stays always on top of other windows"
 msgstr "Das Hauptfenster bleibt immer über allen anderen Fenstern"
 
-#: gui/gtkmm/PreferencesDialog.cc:118
+#: gui/gtkmm/PreferencesDialog.cc:124
 msgid "No sounds"
 msgstr "Keine Klänge"
 
-#: gui/gtkmm/PreferencesDialog.cc:120
+#: gui/gtkmm/PreferencesDialog.cc:126
 msgid "Play sounds using sound card"
 msgstr "Klänge mittels der Soundkarte abspielen"
 
-#: gui/gtkmm/PreferencesDialog.cc:122
+#: gui/gtkmm/PreferencesDialog.cc:128
 msgid "Play sounds using built-in speaker"
 msgstr "Klänge mit dem PC-Lautsprecher abspielen"
 
-#: gui/gtkmm/PreferencesDialog.cc:138
+#: gui/gtkmm/PreferencesDialog.cc:144
 msgid "Hide main window at start-up"
 msgstr "Verstecke das Hauptfenster beim Start"
 
 #. Options
-#: gui/gtkmm/PreferencesDialog.cc:145 gui/gtkmm/TimerPreferencesPanel.cc:128
+#: gui/gtkmm/PreferencesDialog.cc:151 gui/gtkmm/TimerPreferencesPanel.cc:128
 msgid "Options"
 msgstr "Optionen"
 
-#: gui/gtkmm/PreferencesDialog.cc:148
+#: gui/gtkmm/PreferencesDialog.cc:154
 msgid "Sound:"
 msgstr ""
 
-#: gui/gtkmm/PreferencesDialog.cc:153
+#: gui/gtkmm/PreferencesDialog.cc:159
 msgid "You can configure the user interface related settings from here."
 msgstr ""
 "Sie können hier die Einstellungen der Benutzeroberfläche konfigurieren."
 
-#: gui/gtkmm/PreferencesDialog.cc:166
+#: gui/gtkmm/PreferencesDialog.cc:172
 msgid ""
 "This dialog allows you to change the settings of the timers.  Each unit\n"
 "of time is broken down into hours, minutes and seconds (also known as\n"
@@ -431,11 +480,11 @@ msgstr ""
 "ändern. Jede Einheit ist in Stunden, Minuten und Sekunden unterteilt\n"
 "(das sog. \"hh:mm:ss\"-Format) und kann indivuell angepasst werden."
 
-#: gui/gtkmm/PreferencesDialog.cc:194
+#: gui/gtkmm/PreferencesDialog.cc:200
 msgid "You can configure the applet related settings from here."
 msgstr "Sie können hier die Einstellungen des Applets konfigurieren."
 
-#: gui/gtkmm/PreferencesDialog.cc:213
+#: gui/gtkmm/PreferencesDialog.cc:219
 msgid ""
 "You can connect several instances of Workrave in a network. All connected\n"
 "instances share the same timer information, meaning you will be reminded\n"
