@@ -1142,6 +1142,11 @@ int
 GUI::map_to_head(int &x, int &y)
 {
   int head = -1;
+
+  if (num_heads == 1 && !heads[0].valid)
+    {
+      return -1;
+    }
   
   for (int i = 0; i < num_heads; i++)
     {
