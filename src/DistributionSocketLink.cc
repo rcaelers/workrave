@@ -575,6 +575,26 @@ DistributionSocketLink::remove_client(Client *client)
 }
 
 
+//! Check if a client point is stil valid....
+bool
+DistributionSocketLink::is_client_valid(Client *client)
+{
+  list<Client *>::iterator i = clients.begin();
+  bool ret = false;
+  
+  while (!ret && i != clients.end())
+    {
+      if (*i == client)
+        {
+          ret = true;
+        }
+      i++;
+    }
+
+  return ret;
+}
+
+
 //! Finds a remote client by its canonical name and port.
 DistributionSocketLink::Client *
 DistributionSocketLink::find_client_by_canonicalname(gchar *name, gint port)
@@ -1478,7 +1498,14 @@ DistributionSocketLink::socket_io(SocketConnection *con, void *data)
   Client *client = (Client *)data;
   
   g_assert(client != NULL);
-  
+
+  if (!is_client_valid(client))
+    {
+      TRACE_RETURN("Invalid client");
+      return;
+      
+    }
+
   int bytes_read = 0;
   int bytes_to_read = 4;
 
@@ -1545,7 +1572,14 @@ DistributionSocketLink::socket_connected(SocketConnection *con, void *data)
   
   g_assert(client != NULL);
   g_assert(con != NULL);
-
+ 
+  if (!is_client_valid(client))
+    {
+      TRACE_RETURN("Invalid client");
+      return;
+      
+    }
+ 
   dist_manager->log(_("Client %s:%d connected."), client->hostname, client->port);
   
   client->reconnect_count = 0;
@@ -1565,7 +1599,14 @@ DistributionSocketLink::socket_closed(SocketConnection *con, void *data)
 
   Client *client = (Client *)data;
   assert(client != NULL);
-  
+
+  if (!is_client_valid(client))
+    {
+      TRACE_RETURN("Invalid client");
+      return;
+      
+    }
+
   // Socket error. Disable client.
   if (client->socket != NULL)
     {
