@@ -24,18 +24,25 @@
 #include "debug.hh"
 
 
-gchar *Display::xlock = NULL;
 bool Display::initialized = false;
 
+#if defined(HAVE_X)
+gchar *Display::xlock = NULL;
+#elif defined(WIN32)
+HINSTANCE Display::user32_dll = NULL;
+Display::LockWorkStationFunc Display::lock_func = NULL;
+#endif
 
 bool
 Display::is_lockable()
 {
   init();
   bool ret;
-#ifdef HAVE_X
+#if defined(HAVE_X)
   ret = xlock != NULL;
-#else  
+#elif defined(WIN32)
+  ret = lock_func != NULL;
+#else
   ret = false;
 #endif
   return ret;
@@ -44,16 +51,17 @@ Display::is_lockable()
 void
 Display::lock()
 {
-  init();
-#ifdef HAVE_X
-  if (xlock != NULL)
+  if (is_lockable())
     {
+#if defined(HAVE_X)
       GString *cmd = g_string_new(xlock);
       cmd = g_string_append_c(cmd, '&');
       system(cmd->str);
       g_string_free(cmd, true);
-    }
+#elif defined(WIN32)
+      (*lock_func)();
 #endif  
+    }
 }
   
 void
@@ -62,7 +70,8 @@ Display::init()
   TRACE_ENTER("Display::init");
   if (! initialized)
     {
-#ifdef HAVE_X
+#if defined(HAVE_X)
+      // Note: this memory is never freed
       xlock = g_find_program_in_path("xlock");
       if (xlock != NULL)
         {
@@ -71,6 +80,14 @@ Display::init()
       else
         {
           TRACE_MSG("Locking disabled");
+        }
+#elif defined(WIN32)
+      // Note: this memory is never freed
+      user32_dll = LoadLibrary("user32.dll");
+      if (user32_dll != NULL)
+        {
+          lock_func = (LockWorkStationFunc)
+            GetProcAddress(user32_dll, "LockWorkStation");
         }
 #endif
       initialized = true;

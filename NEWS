@@ -21,8 +21,8 @@ moved back to its original location when the monitor returns.
 ** Exercises navigation can now be used without causing Workrave to
 remove the break window and show the warning windows again.
 
-** The X11 version now has a "Lock" button on the rest break and daily
-limit, so that you can lock your display while you are taking breaks.
+** There now is a "Lock" button on the rest break and daily limit, so
+that you can safely lock your display while you are taking breaks.
 
 * Workrave 1.4.0
 

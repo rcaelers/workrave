@@ -19,7 +19,9 @@
 #ifndef DISPLAY_HH
 #define DISPLAY_HH
 
+#include "config.h"
 #include <glib.h>
+#include <windows.h>
 
 class Display
 {
@@ -30,7 +32,13 @@ public:
 private:
   static void init();
 
+#if defined(HAVE_X)
   static gchar *xlock;
+#elif defined(WIN32)
+  typedef HRESULT (FAR PASCAL *LockWorkStationFunc)(void);
+  static LockWorkStationFunc lock_func;
+  static HINSTANCE user32_dll;
+#endif  
   static bool initialized;
 };
 
