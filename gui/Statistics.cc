@@ -56,6 +56,8 @@ Statistics::Statistics() :
 Statistics::~Statistics()
 {
   instance = NULL;
+
+  heartbeat();
   
   if (current_day != NULL)
     {
@@ -75,6 +77,7 @@ Statistics::init(ControlInterface *control)
 {
   core_control = control;
   load_current_day();
+  update_enviromnent();
   load_history();
 }
 
@@ -258,7 +261,7 @@ Statistics::load_current_day()
     }
 
   if (ok)
-    {
+    { 
       string cmd;
       stats_file >> cmd;
 
