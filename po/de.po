@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
 "POT-Creation-Date: 2003-02-20 20:56+0100\n"
-"PO-Revision-Date: 2003-02-20 20:58+0100\n"
+"PO-Revision-Date: 2003-02-20 21:07+0100\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "MIME-Version: 1.0\n"
@@ -98,7 +98,7 @@ msgstr "Layout"
 
 #: gui/gtkmm/AppletPreferencePage.cc:71
 msgid "Show break at position:"
-msgstr "Anordnung der Pausenanzeiger:"
+msgstr ""
 
 #: gui/gtkmm/AppletPreferencePage.cc:73
 msgid "Cycle time:"
