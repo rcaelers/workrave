@@ -66,29 +66,20 @@ RestBreakWindow::RestBreakWindow(bool ignorable) :
   progress_value(0),
   progress_max_value(0),
   insist_break(true)
-#ifdef HAVE_EXERCISES
-  ,exercises_panel(NULL)
-#endif
 {
   TRACE_ENTER("RestBreakWindow::RestBreakWindow");
   // Initialize this window
   set_border_width(12);
 
-  Gtk::Widget *plugged_panel;
-  
-#ifdef HAVE_EXERCISES
-  plugged_panel = &pluggable_panel;
-  pluggable_panel.pack_start(exercises_panel, false, false, 0);
-  exercises_panel.set_exercise_count(3);
-  exercises_panel.signal_stop().connect
-    (SigC::slot(*this, &RestBreakWindow::exercises_stopped));
-#else
-  plugged_panel = create_info_panel();
-#endif
-
   // Add other widgets.
   Gtk::VBox *vbox = manage(new Gtk::VBox(false, 6));
-  vbox->pack_start(*plugged_panel, false, false, 0);
+  vbox->pack_start(
+#ifdef HAVE_EXERCISES
+                   pluggable_panel
+#else
+                   *create_info_panel()
+#endif
+                   , false, false, 0);
 
   // Timebar
   timebar = manage(new TimeBar);
@@ -116,6 +107,7 @@ RestBreakWindow::RestBreakWindow(bool ignorable) :
   // Set window hints.
   WindowHints::set_skip_winlist(Gtk::Widget::gobj(), true);
   WindowHints::set_always_on_top(Gtk::Widget::gobj(), true);
+  set_resizable(false);
   
   add_events(Gdk::EXPOSURE_MASK);
   add_events(Gdk::FOCUS_CHANGE_MASK);
@@ -138,6 +130,9 @@ RestBreakWindow::start()
 {
   TRACE_ENTER("RestBreakWindow::start");
   refresh();
+#ifdef HAVE_EXERCISES
+  start_exercises();
+#endif
   center();
   show_all();
 
@@ -292,10 +287,33 @@ RestBreakWindow::create_info_panel()
 
 #ifdef HAVE_EXERCISES
 void
+RestBreakWindow::clear_pluggable_panel()
+{
+  Glib::ListHandle<Gtk::Widget *> children = pluggable_panel.get_children();
+  if (children.size() > 0)
+    {
+      pluggable_panel.remove(*(*(children.begin())));
+    }
+}
+
+void
+RestBreakWindow::start_exercises()
+{
+  clear_pluggable_panel();
+  ExercisesPanel *exercises_panel = manage(new ExercisesPanel(NULL));
+  pluggable_panel.pack_start(*exercises_panel, false, false, 0);
+  exercises_panel->set_exercise_count(3);
+  exercises_panel->signal_stop().connect
+    (SigC::slot(*this, &RestBreakWindow::exercises_stopped));
+  pluggable_panel.show_all();
+}
+
+void
 RestBreakWindow::exercises_stopped()
 {
-  pluggable_panel.remove(exercises_panel);
+  clear_pluggable_panel();
   pluggable_panel.pack_start(*(create_info_panel()), false, false, 0);
   pluggable_panel.show_all();
+  pluggable_panel.queue_resize();
 }
 #endif

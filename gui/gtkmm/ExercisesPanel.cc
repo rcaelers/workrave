@@ -33,21 +33,17 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
   standalone = dialog_action_area != NULL;
   
   Exercise::parse_exercises(exercises);
-  exercise_iterator = exercises.begin();
 
   progress_bar.set_orientation(Gtk::PROGRESS_BOTTOM_TO_TOP);
 
 
-  description_label.set_size_request(250, 250);
   description_label.set_line_wrap(true);
   description_label.set_alignment(0.0, 0.0);
-  image.set_size_request(250, 250);
   image_frame.add(image);
 
-  image_box.pack_start(image_frame, false, false, 0);
-
   pause_button =  manage(new Gtk::Button());
-
+  Gtk::Widget *description_widget;
+  
   if (dialog_action_area != NULL)
     {
       back_button =  manage(new Gtk::Button(Gtk::Stock::GO_BACK));
@@ -56,26 +52,24 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
       dialog_action_area->pack_start(*back_button, false, false, 0);
       dialog_action_area->pack_start(*pause_button, false, false, 0);
       dialog_action_area->pack_start(*forward_button, false, false, 0);
+      description_widget = &description_label;
     }
   else
     {
-      back_button =  GtkUtil::create_stock_button_without_text
-        (Gtk::Stock::GO_BACK);
-      forward_button =  GtkUtil::create_stock_button_without_text
-        (Gtk::Stock::GO_FORWARD);
+      back_button =  GtkUtil::create_custom_stock_button
+        (NULL, Gtk::Stock::GO_BACK);
+      forward_button =  GtkUtil::create_custom_stock_button
+        (NULL, Gtk::Stock::GO_FORWARD);
       
-      Gtk::Button *stop_button =  GtkUtil::create_stock_button_without_text
-        (Gtk::Stock::CLOSE);
+      Gtk::Button *stop_button =  GtkUtil::create_custom_stock_button
+        (NULL, Gtk::Stock::CLOSE);
       stop_button->signal_clicked()
         .connect(SigC::slot(*this, &ExercisesPanel::on_stop));
 
       Gtk::HBox *button_box = manage(new Gtk::HBox());
-      Glib::RefPtr<Gtk::SizeGroup> button_size_group;
-      button_size_group = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_HORIZONTAL);
-      button_size_group->add_widget(*back_button);
-      button_size_group->add_widget(*pause_button);
-      button_size_group->add_widget(*forward_button);
-      button_size_group->add_widget(*stop_button);
+      Gtk::Label *browse_label = manage(new Gtk::Label());
+      browse_label->set_markup("<b>Exercises player:</b>");
+      button_box->pack_start(*browse_label, false, false, 6);
       button_box->pack_start(*back_button, false, false, 0);
       button_box->pack_start(*pause_button, false, false, 0);
       button_box->pack_start(*forward_button, false, false, 0);
@@ -83,7 +77,10 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
       Gtk::Alignment *button_align
         = manage(new Gtk::Alignment(1.0, 0.0, 0.0, 0.0));
       button_align->add(*button_box);
-      image_box.pack_start(*button_align, false, false, 0);
+      Gtk::VBox *description_box = manage(new Gtk::VBox());
+      description_box->pack_start(description_label, true, true, 0);
+      description_box->pack_start(*button_align, false, false, 0);
+      description_widget = description_box;
     }
 
   back_button->signal_clicked()
@@ -96,18 +93,18 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
     .connect(SigC::slot(*this, &ExercisesPanel::on_pause));
 
   
-  pack_start(image_box, false, false, 0);
+  pack_start(image_frame, false, false, 0);
   pack_start(progress_bar, false, false, 0);
-  pack_start(description_label, false, false, 0);
+  pack_start(*description_widget, false, false, 0);
 
-  paused = false;
-  refresh_pause();
-  start_exercise();
-  
   heartbeat_signal = GUI::get_instance()->signal_heartbeat()
     .connect(SigC::slot(*this, &ExercisesPanel::heartbeat));
 
-  exercise_count = exercise_num = 0;
+  exercise_count = 0;
+  reset();
+
+  description_widget->set_size_request(250, 250);
+  image.set_size_request(250, 250);
 }
 
 ExercisesPanel::~ExercisesPanel()
@@ -116,6 +113,17 @@ ExercisesPanel::~ExercisesPanel()
     {
       heartbeat_signal.disconnect();
     }
+}
+
+void
+ExercisesPanel::reset()
+{
+  exercise_iterator = exercises.begin();
+  exercise_num = 0;
+  paused = false;
+  stopped = false;
+  refresh_pause();
+  start_exercise();
 }
 
 void
@@ -175,7 +183,11 @@ ExercisesPanel::refresh_progress()
 void
 ExercisesPanel::on_stop()
 {
-  stop_signal();
+  if (! stopped)
+    {
+      stopped = true;
+      stop_signal();
+    }
 }
 
 void
@@ -206,20 +218,11 @@ ExercisesPanel::on_go_forward()
 void
 ExercisesPanel::refresh_pause()
 {
-  if (standalone)
-    {
-      pause_button->set_label(paused ? _("Resume") : _("Pause"));
-    }
-  else
-    {
-      Gtk::Image *img = new Gtk::Image
-        (paused ? Gtk::Stock::EXECUTE : Gtk::Stock::STOP, 
-         Gtk::ICON_SIZE_BUTTON);
-      Gtk::manage(img);
-      pause_button->remove();
-      pause_button->add(*img);
-      img->show_all();
-    }
+  Gtk::StockID stock_id = paused ? Gtk::Stock::EXECUTE : Gtk::Stock::STOP;
+  const char *label = label = paused ? _("Resume") : _("Pause");
+  GtkUtil::update_custom_stock_button(pause_button,
+                                      standalone ? label : NULL,
+                                      stock_id);
 }
 
 void
@@ -232,7 +235,7 @@ ExercisesPanel::on_pause()
 void
 ExercisesPanel::heartbeat()
 {
-  if (paused)
+  if (paused || stopped)
     return;
   
   const Exercise &exercise = *exercise_iterator;

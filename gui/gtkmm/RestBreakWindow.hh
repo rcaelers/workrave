@@ -64,6 +64,8 @@ private:
   
 #ifdef HAVE_EXERCISES
   void exercises_stopped();
+  void start_exercises();
+  void clear_pluggable_panel();
 #endif
 
 private:
@@ -99,7 +101,6 @@ private:
 
   
 #ifdef HAVE_EXERCISES
-  ExercisesPanel exercises_panel;
   Gtk::HBox pluggable_panel;
 #endif  
 };

@@ -99,19 +99,19 @@ StatisticsDialog::init_gui()
   // Button box.
   Gtk::HBox *btnbox= manage(new Gtk::HBox(false, 6));
   first_btn  
-    = manage(GtkUtil::create_stock_button_without_text(Gtk::Stock::GOTO_FIRST));
+    = manage(GtkUtil::create_custom_stock_button(NULL,Gtk::Stock::GOTO_FIRST));
   first_btn->signal_clicked()
     .connect(SigC::slot(*this, &StatisticsDialog::on_history_goto_first));
   last_btn
-    = manage(GtkUtil::create_stock_button_without_text(Gtk::Stock::GOTO_LAST));
+    = manage(GtkUtil::create_custom_stock_button(NULL,Gtk::Stock::GOTO_LAST));
   last_btn->signal_clicked()
     .connect(SigC::slot(*this, &StatisticsDialog::on_history_goto_last));
   back_btn
-    = manage(GtkUtil::create_stock_button_without_text(Gtk::Stock::GO_BACK));
+    = manage(GtkUtil::create_custom_stock_button(NULL,Gtk::Stock::GO_BACK));
   back_btn->signal_clicked()
     .connect(SigC::slot(*this, &StatisticsDialog::on_history_go_back));
   forward_btn
-    = manage(GtkUtil::create_stock_button_without_text(Gtk::Stock::GO_FORWARD));
+    = manage(GtkUtil::create_custom_stock_button(NULL,Gtk::Stock::GO_FORWARD));
   forward_btn->signal_clicked()
     .connect(SigC::slot(*this, &StatisticsDialog::on_history_go_forward));
   

@@ -37,6 +37,7 @@ public:
   SigC::Signal0<void> &signal_stop() { return stop_signal; }
 
 private:
+  void reset();
   void on_go_back();
   void on_go_forward();
   void on_pause();
@@ -47,7 +48,7 @@ private:
   void refresh_progress();
   void refresh_sequence();
   void refresh_pause();
-
+  
   Gtk::Frame image_frame;
   Gtk::Image image;
   Gtk::ProgressBar progress_bar;
@@ -55,7 +56,6 @@ private:
   Gtk::Button *back_button;
   Gtk::Button *pause_button;
   Gtk::Button *forward_button;
-  Gtk::VBox image_box;
   std::list<Exercise> exercises;
   std::list<Exercise>::const_iterator exercise_iterator;
   std::list<Exercise::Image>::const_iterator image_iterator;
@@ -63,6 +63,7 @@ private:
   int exercise_time;
   int seq_time;
   bool paused;
+  bool stopped;
   SigC::Signal0<void> stop_signal;
   bool standalone;
   int exercise_num;
