@@ -40,7 +40,8 @@
 //! Constructs the Applet Preference Notebook page.
 TimerBoxPreferencePage::TimerBoxPreferencePage(string n)
   : Gtk::HBox(false, 6),
-    name(n)
+    name(n),
+    ontop_cb(NULL)
 {
   TRACE_ENTER("TimerBoxPreferencePage::TimerBoxPreferencePage");
 
@@ -108,32 +109,51 @@ TimerBoxPreferencePage::create_page()
     }
 
   // Enabled/Disabled checkbox
-  HigCategoryPanel *hig = NULL;
+  Gtk::Label *enabled_lab = NULL;
 
   if (name == "main_window")
     {
-      hig = manage(new HigCategoryPanel(""));
+      enabled_lab = manage(GtkUtil::create_label(_("Show status window"), false));
+
+      // Always-on-top
+      ontop_cb = manage
+        (new Gtk::CheckButton
+         (_("The status window stays always on top of other windows")));
+      ontop_cb->signal_toggled().connect(SigC::slot(*this, &TimerBoxPreferencePage::on_always_on_top_toggled));
+      ontop_cb->set_active(MainWindow::get_always_on_top());
     }
 #ifdef HAVE_X  
   else if (name == "applet")
     {
-      Gtk::Label *enabled_lab = manage(GtkUtil::create_label(_("Applet enabled"), true));
-      enabled_cb = manage(new  Gtk::CheckButton());
-      enabled_cb->add(*enabled_lab);
-      enabled_cb->signal_toggled().connect(SigC::slot(*this, &TimerBoxPreferencePage::on_enabled_toggled));
-      hig = manage(new HigCategoryPanel(*enabled_cb));
+      enabled_lab = manage(GtkUtil::create_label(_("Applet enabled"), false));
     }
 #endif
   
-  // Layout
+  enabled_cb = manage(new  Gtk::CheckButton());
+  enabled_cb->add(*enabled_lab);
+  enabled_cb->signal_toggled().connect(SigC::slot(*this, &TimerBoxPreferencePage::on_enabled_toggled));
+
+  HigCategoryPanel *hig = manage(new HigCategoryPanel(_("Display")));
+
+  hig->add(*enabled_cb);
+
+  if (ontop_cb != NULL)
+    {
+      hig->add(*ontop_cb);
+    }
   
   hig->add(_("Placement:"), *place_button);
   hig->add(_("Cycle time:"), *cycle_entry);
+
+  hig->add_caption(_("Timers"));
+  
+  // Layout
   hig->add(_("Micro-pause:"), *timer_display_button[0]);
   hig->add(_("Rest break:"), *timer_display_button[1]);
   hig->add(_("Daily limit:"), *timer_display_button[2]);
 
   pack_end(*hig, true, true, 0);
+  
   set_border_width(12);
 }
 
@@ -141,12 +161,8 @@ TimerBoxPreferencePage::create_page()
 void
 TimerBoxPreferencePage::init_page_values()
 {
-#ifdef HAVE_X
-  if (name == "applet")
-    {
-      enabled_cb->set_active(TimerBox::is_enabled(name));
-    }
-#endif
+  enabled_cb->set_active(TimerBox::is_enabled(name));
+
   int mp_slot = TimerBox::get_timer_slot(name, GUIControl::BREAK_ID_MICRO_PAUSE);
   int rb_slot = TimerBox::get_timer_slot(name, GUIControl::BREAK_ID_REST_BREAK);
   int dl_slot = TimerBox::get_timer_slot(name, GUIControl::BREAK_ID_DAILY_LIMIT);
@@ -199,16 +215,8 @@ TimerBoxPreferencePage::on_enabled_toggled()
 {
   bool on = enabled_cb->get_active();
 
-  if (name == "main_window")
-    {
-      MainWindow::set_start_in_tray(!on);
-    }
-#ifdef HAVE_X    
-  else if (name == "applet")
-    {
-      TimerBox::set_enabled(name, on);
-    }
-#endif
+  TimerBox::set_enabled(name, on);
+
   enable_buttons();
 }
 
@@ -286,7 +294,11 @@ TimerBoxPreferencePage::on_display_changed(int break_id)
               count++;
             }
         }
-      TimerBox::set_enabled(name, count != 3);
+
+      if (count == 3)
+        {
+          TimerBox::set_enabled(name, false);
+        }
     }
 #endif  
 }
@@ -297,7 +309,7 @@ void
 TimerBoxPreferencePage::enable_buttons(void)
 {
   bool on = true;
-  if (enabled_cb != NULL)
+  if (name == "applet" && enabled_cb != NULL)
     {
       on = enabled_cb->get_active();
     }
@@ -316,5 +328,11 @@ TimerBoxPreferencePage::on_cycle_time_changed()
 {
   int value = (int) cycle_entry->get_value();
   TimerBox::set_cycle_time(name, value);
+}
+
+void
+TimerBoxPreferencePage::on_always_on_top_toggled()
+{
+  MainWindow::set_always_on_top(ontop_cb->get_active());
 }
 

@@ -40,9 +40,11 @@ private:
   void on_place_changed();
   void on_display_changed(int break_id);
   void on_cycle_time_changed();
+  void on_always_on_top_toggled();
 
   string name;
   
+  Gtk::CheckButton *ontop_cb;
   Gtk::CheckButton *enabled_cb;
   Gtk::OptionMenu *place_button;
   Gtk::OptionMenu *timer_display_button[GUIControl::BREAK_ID_SIZEOF];

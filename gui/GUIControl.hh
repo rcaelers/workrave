@@ -159,8 +159,6 @@ public:
   static const string CFG_KEY_BREAK_FORCE_AFTER_PRELUDES;
   static const string CFG_KEY_BREAK_IGNORABLE;
   static const string CFG_KEY_BREAK_INSISTING;
-  static const string CFG_KEY_MAIN_WINDOW;
-  static const string CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP;
   
 private:
   //! The one and only instance

@@ -86,6 +86,30 @@ HigCategoryPanel::add(Gtk::Widget &widget)
   options_box->pack_start(widget, false, false, 0);
 }
 
+void
+HigCategoryPanel::add_caption(const char *text)
+{
+  Gtk::Label *lab = manage(GtkUtil::create_label(string(text), true));
+  lab->set_alignment(0.0);
+  add_caption(*lab);
+}
+
+void
+HigCategoryPanel::add_caption(Gtk::Widget &lab)
+{
+  pack_start(lab, false, false, 0);
+
+  Gtk::HBox *ibox = manage(new Gtk::HBox());
+  pack_start(*ibox, false, false, 0);
+  
+  Gtk::Label *indent_lab = manage(new Gtk::Label("    "));
+  ibox->pack_start(*indent_lab, false, false, 0);
+  options_box = manage(new Gtk::VBox());
+  ibox->pack_start(*options_box, false, false, 0);
+  options_box->set_spacing(6);
+}
+
+
 HigCategoriesPanel::HigCategoriesPanel()
 {
   set_spacing(18);

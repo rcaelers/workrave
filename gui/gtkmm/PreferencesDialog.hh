@@ -52,15 +52,9 @@ private:
   bool on_focus_in_event(GdkEventFocus *event);
   bool on_focus_out_event(GdkEventFocus *event);  
   
-  void on_always_on_top_toggled();
   void on_sound_changed();
   
-  Gtk::CheckButton *ontop_cb;
   Gtk::OptionMenu *sound_button;
-
-  void on_start_in_tray_toggled();
-
-  Gtk::CheckButton *start_in_tray_cb;
 
   // Mode before focus in.
   GUIControl::OperationMode mode;

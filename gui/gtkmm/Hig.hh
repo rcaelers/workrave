@@ -44,6 +44,9 @@ public:
   void add(Gtk::Label &label, Gtk::Widget &widget);
   void add(Gtk::Widget &widget);
 
+  void add_caption(Gtk::Widget &lab);
+  void add_caption(const char *lab);
+  
 private:
   void init(Gtk::Widget &lab);
   

@@ -60,6 +60,9 @@ static const char rcsid[] = "$Id$";
 
 #include "Menus.hh"
 
+const string MainWindow::CFG_KEY_MAIN_WINDOW = "gui/main_window";
+const string MainWindow::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP = "gui/main_window/always_on_top";
+
 const string MainWindow::CFG_KEY_MAIN_WINDOW_START_IN_TRAY
 = "gui/main_window/start_in_tray";
 
@@ -117,8 +120,7 @@ MainWindow::init()
   set_border_width(2);
 
   Configurator *config = GUIControl::get_instance()->get_configurator();
-  config->add_listener(GUIControl::CFG_KEY_MAIN_WINDOW, this);
-  config->add_listener(TimerBox::CFG_KEY_TIMERBOX + "applet", this);
+  config->add_listener(TimerBox::CFG_KEY_TIMERBOX + "main_window", this);
 
   enabled = TimerBox::is_enabled("main_window");
 
@@ -159,7 +161,7 @@ MainWindow::init()
   get_start_position(x, y);
   set_gravity(Gdk::GRAVITY_STATIC); 
   set_position(Gtk::WIN_POS_NONE);
-  if (!enabled || get_start_in_tray())
+  if (!enabled) //  || get_start_in_tray())
     {
       move(-1024, 0);
       show_all();
@@ -180,7 +182,7 @@ MainWindow::init()
   move(x, y);
   TRACE_MSG(x << " " << y);
   
-  if (!enabled || get_start_in_tray())
+  if (!enabled) //  || get_start_in_tray())
     {
       close_window();
     }
@@ -203,6 +205,9 @@ MainWindow::setup()
 
   bool new_enabled = TimerBox::is_enabled("main_window");
 
+  TRACE_MSG("on top " << always_on_top);
+  TRACE_MSG("enabled " << new_enabled);
+  
   if (enabled != new_enabled)
     {
       enabled = new_enabled;
@@ -334,6 +339,7 @@ MainWindow::on_window_state_event(GdkEventWindowState *event)
       if (event->changed_mask & GDK_WINDOW_STATE_ICONIFIED)
         {
           iconified = event->new_window_state & GDK_WINDOW_STATE_ICONIFIED;
+          TimerBox::set_enabled("main_window", !iconified);
         }
     }
 
@@ -356,7 +362,7 @@ MainWindow::get_always_on_top()
   bool b;
   bool rc;
   b = GUIControl::get_instance()->get_configurator()
-    ->get_value(GUIControl::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP, &rc);
+    ->get_value(MainWindow::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP, &rc);
   if (! b)
     {
       rc = false;
@@ -369,7 +375,7 @@ void
 MainWindow::set_always_on_top(bool b)
 {
   GUIControl::get_instance()->get_configurator()
-    ->set_value(GUIControl::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP, b);
+    ->set_value(MainWindow::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP, b);
 }
 
 

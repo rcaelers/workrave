@@ -103,6 +103,9 @@ private:
 public:  
   static void set_start_in_tray(bool b);
   static bool get_start_in_tray();
+
+  static const string CFG_KEY_MAIN_WINDOW;
+  static const string CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP;
   static const string CFG_KEY_MAIN_WINDOW_START_IN_TRAY;
   static const string CFG_KEY_MAIN_WINDOW_X;
   static const string CFG_KEY_MAIN_WINDOW_Y;

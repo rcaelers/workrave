@@ -63,7 +63,7 @@ PreferencesDialog::PreferencesDialog()
   gui_page->append_page(*gui_applet_page, _("Applet"));
 #endif
   Gtk::Widget *gui_mainwindow_page = manage(create_mainwindow_page());
-  gui_page->append_page(*gui_mainwindow_page, _("Main Window"));
+  gui_page->append_page(*gui_mainwindow_page, _("Status Window"));
 
 #ifdef HAVE_DISTRIBUTION
   Gtk::Widget *network_page = manage(create_network_page());
@@ -109,13 +109,6 @@ PreferencesDialog::~PreferencesDialog()
 Gtk::Widget *
 PreferencesDialog::create_gui_page()
 {
-  // Always-on-top
-  ontop_cb = manage
-    (new Gtk::CheckButton
-     (_("The main window stays always on top of other windows")));
-  ontop_cb->signal_toggled().connect(SigC::slot(*this, &PreferencesDialog::on_always_on_top_toggled));
-  ontop_cb->set_active(MainWindow::get_always_on_top());
-
   // Sound types
   sound_button  = manage(new Gtk::OptionMenu());
   Gtk::Menu *sound_menu = manage(new Gtk::Menu());
@@ -140,17 +133,16 @@ PreferencesDialog::create_gui_page()
   sound_button->signal_changed().connect(SigC::slot(*this, &PreferencesDialog::on_sound_changed));
   
   // Tray start
-  start_in_tray_cb
-    = manage(new Gtk::CheckButton(_("Hide main window at start-up")));
-  start_in_tray_cb->signal_toggled()
-    .connect(SigC::slot(*this,
-			&PreferencesDialog::on_start_in_tray_toggled));
-  start_in_tray_cb->set_active(MainWindow::get_start_in_tray());
+//   start_in_tray_cb
+//     = manage(new Gtk::CheckButton(_("Hide main window at start-up")));
+//   start_in_tray_cb->signal_toggled()
+//     .connect(SigC::slot(*this,
+// 			&PreferencesDialog::on_start_in_tray_toggled));
+//   start_in_tray_cb->set_active(MainWindow::get_start_in_tray());
 
   // Options
   HigCategoryPanel *panel = manage(new HigCategoryPanel(_("Options")));
-  panel->add(*ontop_cb);
-  panel->add(*start_in_tray_cb);
+  //panel->add(*start_in_tray_cb);
   panel->add(_("Sound:"), *sound_button);
   panel->set_border_width(12);
   return panel;
@@ -212,12 +204,6 @@ PreferencesDialog::add_page(const char *label, const char *image,
 }
 
 void
-PreferencesDialog::on_always_on_top_toggled()
-{
-  MainWindow::set_always_on_top(ontop_cb->get_active());
-}
-
-void
 PreferencesDialog::on_sound_changed()
 {
   int idx = sound_button->get_history();
@@ -231,19 +217,17 @@ PreferencesDialog::on_sound_changed()
     }
 }
 
-void
-PreferencesDialog::on_start_in_tray_toggled()
-{
-  MainWindow::set_start_in_tray(start_in_tray_cb->get_active());
-}
+// void
+// PreferencesDialog::on_start_in_tray_toggled()
+// {
+//   MainWindow::set_start_in_tray(start_in_tray_cb->get_active());
+// }
 
 
 int
 PreferencesDialog::run()
 {
-//   int id = Gtk::Dialog::run();
-//   GUIControl::get_instance()->get_configurator()->save();
-
+  // GUIControl::get_instance()->get_configurator()->save();
   show_all();
   return 0;
 }

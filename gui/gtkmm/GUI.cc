@@ -40,6 +40,7 @@ static const char rcsid[] = "$Id$";
 #include "DailyLimitWindow.hh"
 #include "GUIControl.hh"
 #include "MainWindow.hh"
+#include "TimerBox.hh"
 #include "MicroPauseWindow.hh"
 #include "PreludeWindow.hh"
 #include "RestBreakWindow.hh"
@@ -325,7 +326,7 @@ GUI::on_save_yourself(int phase, Gnome::UI::SaveStyle save_style, bool shutdown,
   if (main_window != NULL)
     {
       bool iconified = main_window->get_iconified();
-      MainWindow::set_start_in_tray(iconified);
+      TimerBox::set_enabled("main_window", !iconified);
     }
   
   if (skip)
@@ -546,5 +547,3 @@ GUI::create_configurator()
     }
   return configurator;
 }
-
-

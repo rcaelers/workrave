@@ -55,8 +55,6 @@ const string GUIControl::CFG_KEY_BREAK_MAX_PRELUDES = "/max_preludes";
 const string GUIControl::CFG_KEY_BREAK_FORCE_AFTER_PRELUDES = "/force_after_preludes";
 const string GUIControl::CFG_KEY_BREAK_IGNORABLE = "/ignorable_break";
 const string GUIControl::CFG_KEY_BREAK_INSISTING = "/insist_break";
-const string GUIControl::CFG_KEY_MAIN_WINDOW = "gui/main_window";
-const string GUIControl::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP = "gui/main_window/always_on_top";
 
 GUIControl *GUIControl::instance = NULL;
 
