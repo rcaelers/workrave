@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-02-08 22:38:30 robc>
+// Time-stamp: <2003-02-08 23:01:28 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -336,9 +336,10 @@ Timer::reset_timer()
   TRACE_ENTER_MSG("Timer::reset_timer", timer_id);
 
   // Update total overdue.
-  if (elapsed_time > limit_interval)
+  time_t elapsed = get_elapsed_time();
+  if (elapsed > limit_interval)
     {
-      total_overdue_time += (elapsed_time - limit_interval);
+      total_overdue_time += (elapsed - limit_interval);
     }
   
   // Full reset.
@@ -542,9 +543,10 @@ time_t
 Timer::get_total_overdue_time() const
 {
   time_t ret = total_overdue_time;
-  if (elapsed_time > limit_interval)
+  time_t elapsed = get_elapsed_time();
+  if (elapsed > limit_interval)
     {
-      ret += (elapsed_time - limit_interval);
+      ret += (elapsed - limit_interval);
     }
 
   return ret;
