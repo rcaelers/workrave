@@ -746,6 +746,7 @@ GUI::start_prelude_window(BreakId break_id)
 {
   hide_break_window();
   init_multihead();
+  collect_garbage();
   
   active_break_id = break_id;
   for (int i = 0; i < num_heads; i++)
@@ -768,7 +769,8 @@ GUI::start_break_window(BreakId break_id, bool ignorable, bool insist)
 {
   hide_break_window();
   init_multihead();
-
+  collect_garbage();
+  
   active_break_id = break_id;
 
   for (int i = 0; i < num_heads; i++)
