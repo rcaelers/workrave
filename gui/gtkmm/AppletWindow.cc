@@ -55,7 +55,6 @@ AppletWindow::AppletWindow() :
   applet_control(NULL),
 #endif
   retry_init(false),
-  reconfigure(false),
   applet_vertical(false),
   applet_size(0),
   applet_enabled(true)
@@ -188,6 +187,7 @@ AppletWindow::init_tray_applet()
       timers_box->set_geometry(applet_vertical, 24);
 
       plug->signal_embedded().connect(SigC::slot(*this, &AppletWindow::on_embedded));
+      plug->signal_delete_event().connect(SigC::slot(*this, &AppletWindow::delete_event));
     }
 
   TRACE_EXIT();
@@ -298,8 +298,14 @@ AppletWindow::init_gnome_applet()
       container->show_all();
       plug->show_all();
       
+      plug->signal_embedded().connect(SigC::slot(*this, &AppletWindow::on_embedded));
       plug->signal_delete_event().connect(SigC::slot(*this, &AppletWindow::delete_event));
 
+
+      // Gtkmm does not wrap this event....
+      g_signal_connect(G_OBJECT(plug->gobj()), "destroy-event",
+                       G_CALLBACK(AppletWindow::destroy_event), this);
+      
       Menus *menus = Menus::get_instance();
       if (menus != NULL)
         {
@@ -367,6 +373,7 @@ bool
 AppletWindow::delete_event(GdkEventAny *event)
 {
   (void) event;
+  set_mainwindow_skipwinlist(false);
   destroy_applet();
   return true;
 }
@@ -517,7 +524,6 @@ AppletWindow::set_applet_vertical(bool v)
   TRACE_ENTER_MSG("AppletWindow::set_applet_vertical", applet_vertical);
 
   applet_vertical = v;
-  reconfigure = true;
 
   if (timers_box != NULL)
     {
@@ -535,7 +541,6 @@ AppletWindow::set_applet_size(int size)
   TRACE_ENTER_MSG("AppletWindow::set_applet_size", size);
 
   applet_size = size;
-  reconfigure = true;
 
   if (timers_box != NULL)
     {
@@ -543,6 +548,18 @@ AppletWindow::set_applet_size(int size)
     }
   
   TRACE_EXIT();
+}
+
+gboolean
+AppletWindow::destroy_event(GtkWidget *widget, GdkEvent *event, gpointer user_data)
+{
+  (void) event;
+  (void) widget;
+  if (user_data != NULL)
+    {
+      AppletWindow *applet = (AppletWindow *) user_data;
+      applet->delete_event(NULL);
+    }
 }
 #endif
   
@@ -605,7 +622,6 @@ AppletWindow::config_changed_notify(string key)
   (void) key;
 
   read_configuration();
-  reconfigure = true;
 }
 
 void
@@ -614,13 +630,15 @@ AppletWindow::on_embedded()
   TRACE_ENTER("AppletWindow::on_embedded");
   set_mainwindow_skipwinlist(true);
 
-  GtkRequisition req;
-  plug->size_request(&req);
-  applet_size = req.height;
+  if (mode == APPLET_TRAY)
+    {
+      GtkRequisition req;
+      plug->size_request(&req);
+      applet_size = req.height;
 
-  timers_box->set_geometry(applet_vertical, applet_size);
-
-  TRACE_MSG(applet_size);
+      timers_box->set_geometry(applet_vertical, applet_size);
+      TRACE_MSG(applet_size);
+    }
   
   TRACE_EXIT();
 }
@@ -636,3 +654,4 @@ AppletWindow::set_mainwindow_skipwinlist(bool s)
       main->set_skipwinlist(s);
     }
 }
+

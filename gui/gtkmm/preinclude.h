@@ -1,9 +1,9 @@
 // preinclude.h --- Patch includes
 //
-// Copyright (C) 2002 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
-// Time-stamp: <2002-10-17 23:54:07 robc>
+// Time-stamp: <2003-04-20 23:34:19 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -26,6 +26,5 @@
 #undef DELETE
 #undef ERROR
 #undef OK
-#undef ERROR
 
 

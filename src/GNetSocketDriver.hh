@@ -19,7 +19,11 @@
 #define GNETSOCKETDRIVER_HH
 
 #include <glib.h>
+#ifdef HAVE_GNET2
+#include <gnet.h>
+#else
 #include <gnet/gnet.h>
+#endif
 
 #include "SocketDriver.hh"
 
@@ -87,7 +91,12 @@ private:
   
   static void static_async_accept(GTcpSocket* server, GTcpSocket* client, gpointer data);
   static gboolean static_async_io(GIOChannel* iochannel, GIOCondition condition, gpointer data);
+
+#ifdef HAVE_GNET2
   static void static_async_connected(GTcpSocket *socket, GInetAddr *ia,
+                                     GTcpSocketConnectAsyncStatus status, gpointer data);
+#endif
+  static void static_async_connected(GTcpSocket *socket,
                                      GTcpSocketConnectAsyncStatus status, gpointer data);
 };
 

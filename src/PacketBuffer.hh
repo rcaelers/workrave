@@ -31,7 +31,8 @@ public:
   void create(int size = 0);
   void clear() { write_ptr = read_ptr = buffer; }
   void skip(int size) { read_ptr += size; }
-                          
+  void insert(int pos, int size);
+  
   void pack(const guint8 *data, int size);
   void pack_raw(const guint8 *data, int size);
   void pack_raw(PacketBuffer &buffer);
@@ -40,7 +41,9 @@ public:
   void pack_ulong(guint32 data);
   void pack_byte(guint8 data);
 
+  void poke_byte(int pos, guint8 data);
   void poke_ushort(int pos, guint16 data);
+  void poke_string(int pos, const gchar *data);
   
   int unpack(guint8 **data);
   int unpack_raw(guint8 **data, int size);
@@ -65,6 +68,7 @@ public:
   int bytes_read() { return read_ptr - buffer; }
   gchar *get_buffer() { return (gchar *) buffer; }
   gchar *get_write_ptr() { return (gchar *)write_ptr; }
+  void restart_read() { read_ptr = buffer; }
   
 public:
   guint8 *buffer;

@@ -91,6 +91,9 @@ TimerBox::~TimerBox()
   
   if (sheep != NULL)
     sheep->unreference();
+
+  Configurator *config = GUIControl::get_instance()->get_configurator();
+  config->remove_listener(this);
   
   TRACE_EXIT();
 }
@@ -142,6 +145,11 @@ TimerBox::init()
 
   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
     {
+      GUIControl::TimerData *timer = &GUIControl::get_instance()->timers[i];
+      config->add_listener(GUIControl::CFG_KEY_BREAK
+                           + timer->break_name
+                           + GUIControl::CFG_KEY_BREAK_ENABLED, this);
+
       break_position[i] = i;
       break_flags[i] = 0;
       break_imminent_time[i] = 0;
@@ -239,14 +247,22 @@ TimerBox::update_widgets()
 
       if (!node_master && num_peers > 0)
         {
+#ifndef NEW_DISTR          
           bar->set_text(_("Inactive"));
           bar->set_bar_color(TimeBar::COLOR_ID_INACTIVE);
           bar->set_progress(0, 60);
           bar->set_secondary_progress(0, 0);
           bar->update();
           continue;
+#else
+          bar->set_text_color(Gdk::Color("white"));
+#endif          
         }
-  
+      else
+        {
+          bar->set_text_color(Gdk::Color("black"));
+        }
+      
       if (timer == NULL)
         {
           continue;

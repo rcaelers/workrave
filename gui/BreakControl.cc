@@ -270,7 +270,10 @@ BreakControl::goto_stage(BreakStage stage)
                   default:
                     break;
                   }
-                play_sound(snd);
+                if (!user_initiated)
+                  {
+                    play_sound(snd);
+                  }
               }
           }
       }

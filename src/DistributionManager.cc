@@ -29,7 +29,11 @@ static const char rcsid[] = "$Id$";
 #include <string.h>
 
 #include "DistributionManager.hh"
+#ifdef NEW_DISTR  
+#include "DistributionSocketLink2.hh"
+#else
 #include "DistributionSocketLink.hh"
+#endif
 #include "DistributionLogListener.hh"
 #include "Configurator.hh"
 
@@ -74,7 +78,11 @@ DistributionManager::init(Configurator *conf)
   configurator = conf;
 
   // Create link to the outside world.
+#ifndef NEW_DISTR  
   DistributionSocketLink *socketlink = new DistributionSocketLink(conf);
+#else
+  DistributionSocketLink *socketlink = new DistributionSocketLink2(conf);
+#endif
   socketlink->set_distribution_manager(this);
   socketlink->init();
   link = socketlink;
@@ -211,13 +219,14 @@ DistributionManager::reconnect_all()
 
 //! Register the specified state callback.
 bool
-DistributionManager::register_state(DistributedStateID id, DistributedStateInterface *dist_state)
+DistributionManager::register_state(DistributedStateID id, DistributedStateInterface *dist_state,
+                                    bool automatic)
 {
   bool ret = false;
   
   if (link != NULL)
     {
-      link->register_state(id, dist_state);
+      link->register_state(id, dist_state, automatic);
       ret = true;
     }
   return ret;
@@ -573,7 +582,7 @@ DistributionManager::remove_log_listener(DistributionLogListener *listener)
 void
 DistributionManager::fire_event(string message)
 {
-  TRACE_ENTER_MSG("Configurator::fire_event", message);
+  TRACE_ENTER_MSG("DistributionManager::fire_event", message);
   
   ListenerIter i = listeners.begin();
   while (i != listeners.end())

@@ -111,6 +111,26 @@ PacketBuffer::pack_string(const gchar *data)
   }
 }
 
+void
+PacketBuffer::poke_string(int pos, const gchar *data)
+{
+  int size = 0;  
+  if (data != NULL)
+    {
+      size = strlen(data);
+    }
+  
+  if (pos + size + 2 <= buffer_size)
+  {
+    poke_ushort(pos, size);
+
+    if (size > 0)
+      {
+        memcpy(buffer + pos + 2, data, size);
+      }
+  }
+}
+
 
 void
 PacketBuffer::pack_ushort(guint16 data)
@@ -153,6 +173,15 @@ PacketBuffer::pack_byte(guint8 data)
     }
 }
 
+
+void
+PacketBuffer::poke_byte(int pos, guint8 data)
+{
+  if (pos + 1 <= buffer_size)
+    {
+      buffer[pos] = data;
+    }
+}
 
 void
 PacketBuffer::poke_ushort(int pos, guint16 data)
@@ -402,4 +431,17 @@ PacketBuffer::skip_size(int &pos)
 {
   int size = (pos - bytes_read());
   skip(size);
+}
+
+void
+PacketBuffer::insert(int pos, int size)
+{
+  if (pos < bytes_written())
+    {
+      int move = bytes_written() - pos;
+      
+      memmove(buffer + pos + size, buffer + pos, move);
+
+      write_ptr += size;
+    }
 }

@@ -118,6 +118,9 @@ private:
 #ifdef HAVE_DISTRIBUTION
   //! The Distribution Manager
   DistributionManager *dist_manager;
+
+  //! State of the remote master.
+  ActivityState monitor_state;
 #endif
 
 #ifndef NDEBUG

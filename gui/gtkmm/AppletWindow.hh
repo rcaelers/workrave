@@ -95,9 +95,6 @@ private:
   //! Retry to initialize the panel again?
   bool retry_init;
 
-  //! Reconfigure the panel.
-  bool reconfigure;
-
   //! Allign break vertically.
   bool applet_vertical;
 
@@ -120,6 +117,8 @@ private:
 #ifdef HAVE_GNOME
   bool init_gnome_applet();
   void destroy_gnome_applet();
+
+  static gboolean destroy_event(GtkWidget *widget, GdkEvent *event, gpointer user_data);
 #endif
 
   // Events.

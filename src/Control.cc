@@ -52,6 +52,7 @@ const int SAVESTATETIME = 15;
 Control::Control() :
 #ifdef HAVE_DISTRIBUTION
   dist_manager(NULL),
+  monitor_state(ACTIVITY_UNKNOWN),
 #endif
 #ifndef NDEBUG
   fake_monitor(NULL),
@@ -153,6 +154,7 @@ Control::process_timers(TimerInfo *infos)
   if (master_node != new_master_node)
     {
       master_node = new_master_node;
+#ifndef NEW_DISTR      
       // Enable/Disable timers.
       for (int i = 0; i < timer_count; i++)
         {
@@ -165,8 +167,26 @@ Control::process_timers(TimerInfo *infos)
               timers[i]->disable();
             }
         }
+#endif // NEW_DISTR
     }
-#endif
+
+  if (master_node && monitor_state != state)
+    {
+      TRACE_MSG("Push state = " << state);
+      PacketBuffer state_packet;
+      state_packet.create();
+
+      state_packet.pack_ushort(1);
+      state_packet.pack_ushort(state);
+      
+      dist_manager->push_state(DISTR_STATE_MONITOR,
+                               (unsigned char *)state_packet.get_buffer(),
+                               state_packet.bytes_written());
+
+      monitor_state = state;
+    }
+
+#endif // HAVE_DISTRIBUTION
   
   // Timers
   current_time = time(NULL);
@@ -188,8 +208,15 @@ Control::process_timers(TimerInfo *infos)
           state = ACTIVITY_IDLE;
         }
     }
-  
+
+  if (!master_node)
+    {
+      state = monitor_state;
+    }
+
+#ifndef NEW_DISTR  
   if (master_node)
+#endif    
     {
       for (int i = 0; i < timer_count; i++)
         {
@@ -239,6 +266,7 @@ Control::create_distribution_manager()
     {
       dist_manager->init(configurator);
       dist_manager->register_state(DISTR_STATE_TIMERS,  this);
+      dist_manager->register_state(DISTR_STATE_MONITOR,  this);
     }
   return dist_manager != NULL;
 }
@@ -724,24 +752,8 @@ bool
 Control::get_monitor_state(unsigned char **buffer, int *size)
 {
   TRACE_ENTER("Control::get_monitor_state");
-
-  PacketBuffer state_packet;
-
-  ActivityState state = monitor->get_current_state();
-#ifndef NDEBUG
-  if (fake_monitor != NULL)
-    {
-      state = fake_monitor->get_current_state();
-    }
-#endif  
-  
-  state_packet.create();
-  state_packet.pack_ushort(state);
-  
-  *size = state_packet.bytes_written();
-  *buffer = new unsigned char[*size + 1];
-  memcpy(*buffer, state_packet.get_buffer(), *size);
-
+  (void) buffer;
+  (void) size;
   TRACE_EXIT();
   return true;
 }
@@ -750,16 +762,22 @@ Control::get_monitor_state(unsigned char **buffer, int *size)
 bool
 Control::set_monitor_state(bool master, unsigned char *buffer, int size)
 {
-  (void) master;
-  TRACE_ENTER("Control::set_monitor_state");
+  TRACE_ENTER_MSG("Control::set_monitor_state", master << " " << master_node);
 
-  PacketBuffer state_packet;
-  state_packet.create();
-
-  state_packet.pack_raw(buffer, size);
+#ifdef NEW_DISTR  
+  if (!master_node)
+    {
+      PacketBuffer state_packet;
+      state_packet.create();
+      
+      state_packet.pack_raw(buffer, size);
   
-  ActivityState state = (ActivityState) state_packet.unpack_ushort();
-
+      state_packet.unpack_ushort();
+      monitor_state = (ActivityState) state_packet.unpack_ushort();
+      TRACE_MSG(monitor_state);
+    }
+#endif
+  
   TRACE_EXIT();
   return true;
 }

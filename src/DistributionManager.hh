@@ -56,7 +56,7 @@ public:
   bool claim();
   bool set_lock_master(bool lock);
   bool join(string url);
-  bool register_state(DistributedStateID id, DistributedStateInterface *dist_state);
+  bool register_state(DistributedStateID id, DistributedStateInterface *dist_state, bool automatic = true);
   bool unregister_state(DistributedStateID id);
   bool push_state(DistributedStateID id, unsigned char *buffer, int size);
   bool add_peer(string peer);

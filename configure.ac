@@ -298,10 +298,12 @@ AC_SUBST(GCONF_LIBS)
 AC_SUBST(GCONF_CFLAGS)
 
 if test "x$config_distribution" = "xyes"
-then           
-AM_PATH_GNET(1.1.7,[] ,[] )
+then
+AM_PATH_GNET_2_0(2.0.0,[] ,[] )
+GNET2=yes                          
+dnl AM_PATH_GNET(1.1.7,[] ,[] )
 fi
-                    
+        
 AC_SUBST(GNET_LIBS)
 AC_SUBST(GNET_CFLAGS)
 	        
@@ -521,6 +523,11 @@ if test "x$GNET_LIBS" != "x"; then
    AC_DEFINE(HAVE_GNET,,[Define if GNet is available])
 fi
 
+HAVE_GNET2=
+if test "x$GNET2" != "x"; then
+   AC_DEFINE(HAVE_GNET2,,[Define if GNet2 is available])
+fi
+        
 HAVE_GUI_GTK=
 if test "x$GTKMM_LIBS" != "x"; then
    AC_DEFINE(HAVE_GUI_GTK,,[Define if Gtk is available])

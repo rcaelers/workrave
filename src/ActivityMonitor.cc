@@ -153,18 +153,18 @@ ActivityMonitor::get_parameters(int &noise, int &activity, int &idle)
 void
 ActivityMonitor::mouse_notify(int x, int y, int wheel_delta)
 {
-  lock.lock();
-  int sensitivity = 3;
-  if ((abs(x - prev_x) >= sensitivity || abs(y - prev_y) >= sensitivity)
+  static const int sensitivity = 3;
+
+  const int delta_x = x - prev_x;
+  const int delta_y = y - prev_y;
+  prev_x = x;
+  prev_y = y;
+  
+  if (abs(delta_x) >= sensitivity || abs(delta_y) >= sensitivity
       || wheel_delta != 0)
     {
-      int delta_x = x - prev_x;
-      int delta_y = y - prev_y;
-      
       statistics.total_movement += int(sqrt((double)(delta_x * delta_x + delta_y * delta_y)));
       
-      prev_x = x;
-      prev_y = y;
       action_notify();
 
       struct timeval now, tv;

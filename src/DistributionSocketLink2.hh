@@ -72,13 +72,17 @@ private:
     PACKET_CLAIM_REJECT	= 0x0008,
   };
 
+  enum PacketFlags {
+    PACKETFLAG_SOURCE 	= 0x0001,
+    PACKETFLAG_DEST 	= 0x0002,
+  };
+  
   enum ClientListFlags
     {
-      CLIENTLIST_FORWARDABLE  		= 1,
-      CLIENTLIST_IAM_ACTIVE   		= 2,
-      CLIENTLIST_HAS_ACTIVE_REF   		= 4,
+      CLIENTLIST_ME  		= 1,
+      CLIENTLIST_MASTER  		= 2,
     };
-  
+
   struct StateListener
   {
     DistributedStateInterface *listener;
@@ -91,12 +95,24 @@ private:
     }
   };
 
+  enum ClientType
+    {
+      CLIENTTYPE_UNKNOWN 		= 1,
+      CLIENTTYPE_DIRECT  		= 2,
+      CLIENTTYPE_ROUTED  		= 3,
+      CLIENTTYPE_UNAVAILBLE 	= 4,
+    };
+  
   struct Client
   {
     Client() :
+      type(CLIENTTYPE_UNKNOWN),
+      peer(NULL),
       socket(NULL),
+      id(NULL),
       hostname(NULL),
       port(0),
+      sent_client_list(false),
       reconnect_count(0),
       reconnect_time(0),
       next_claim_time(0),
@@ -117,14 +133,26 @@ private:
         }
     }
 
+    //! Type of connection with client.
+    ClientType type;
+
+    //! Peer client for remote clients.
+    Client *peer;
+    
     //!
     SocketConnection *socket;
+
+    //! ID
+    gchar *id;
     
     //! Canonical IP.
     gchar *hostname;
     
     //! port.
     gint port;
+
+    //!
+    bool sent_client_list;
 
     //!
     PacketBuffer packet;
@@ -173,15 +201,18 @@ public:
   
 private:
   bool is_client_valid(Client *client);
-  bool add_client(gchar *host, gint port);
+  bool add_client(gchar *id, gchar *host, gint port, ClientType type, Client *peer = NULL);
   bool remove_client(Client *client);
   Client *find_client_by_canonicalname(gchar *name, gint port);
-  bool client_is_me(gchar *host, gint port);
+  Client *find_client_by_id(gchar *id);
+  bool client_is_me(gchar *id);
   bool exists_client(gchar *host, gint port);
-  bool set_canonical(Client *client, gchar *host, gint port);
-
-  bool get_master(gchar **name, gint *port) const;
-  void set_master(gchar *cname, gint port);
+  bool exists_client(gchar *id);
+  
+  bool set_client_id(Client *client, gchar *id, gchar *name, gint port);
+  
+  bool get_master(gchar **id) const;
+  void set_master_by_id(gchar *id);
   void set_master(Client *client);
   void set_me_master();
 
@@ -189,20 +220,22 @@ private:
   void send_packet_broadcast(PacketBuffer &packet);
   void send_packet_except(PacketBuffer &packet, Client *client);
   void send_packet(Client *client, PacketBuffer &packet);
-
+  void forward_packet_except(PacketBuffer &packet, Client *client, Client *source);
+  void forward_packet(PacketBuffer &packet, Client *dest, Client *source);
+  
   void process_client_packet(Client *client);
-  void handle_hello(Client *client);
-  void handle_welcome(Client *client);
-  void handle_duplicate(Client *client);
-  void handle_client_list(Client *client);
-  void handle_claim(Client *client);
-  void handle_new_master(Client *client);
-  void handle_state(Client *client);
-  void handle_claim_reject(Client *client);
+  void handle_hello(PacketBuffer &packet, Client *client);
+  void handle_welcome(PacketBuffer &packet, Client *client);
+  void handle_duplicate(PacketBuffer &packet, Client *client);
+  bool handle_client_list(PacketBuffer &packet, Client *client, Client *direct);
+  void handle_claim(PacketBuffer &packet, Client *client);
+  void handle_new_master(PacketBuffer &packet, Client *client);
+  void handle_state(PacketBuffer &packet, Client *client);
+  void handle_claim_reject(PacketBuffer &packet, Client *client);
   void send_hello(Client *client);
   void send_welcome(Client *client);
   void send_duplicate(Client *client);
-  void send_client_list(Client *client);
+  void send_client_list(Client *client, bool except = false);
   void send_claim(Client *client);
   void send_new_master(Client *client = NULL);
   void send_claim_reject(Client *client);
@@ -243,6 +276,9 @@ private:
   
   //!
   gchar *myname;
+
+  //!
+  gchar *myid;
   
   //! My server port
   gint server_port;

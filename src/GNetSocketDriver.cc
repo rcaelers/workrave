@@ -52,7 +52,12 @@ GNetSocketDriver::init()
 char *
 GNetSocketDriver::get_my_canonical_name()
 {
+#ifdef HAVE_GNET2
+  GInetAddr *ia = gnet_inetaddr_get_host_addr();
+#else
   GInetAddr *ia = gnet_inetaddr_gethostaddr();
+#endif
+  
   g_assert(ia != NULL);
   char *name = gnet_inetaddr_get_canonical_name(ia);
   gnet_inetaddr_delete(ia);
@@ -96,13 +101,16 @@ GNetSocketDriver::connect(char *host, int port, void *data)
 SocketConnection *
 GNetSocketDriver::listen(int port, void *data)
 {
-  bool ret = false;
   GNetSocketConnection *con = new GNetSocketConnection;
 
   con->driver = this;
   con->data = data;
   
+#ifdef HAVE_GNET2
+  con->socket = gnet_tcp_socket_server_new_with_port(port);
+#else
   con->socket = gnet_tcp_socket_server_new(port);
+#endif
   if (con->socket != NULL)
     {
       gnet_tcp_socket_server_accept_async(con->socket, static_async_accept, con);
@@ -140,7 +148,11 @@ GNetSocketDriver::async_accept(GTcpSocket *server, GTcpSocket *client, GNetSocke
 
       ccon->driver = this;
       ccon->data = NULL;
+#ifdef HAVE_GNET2
+      ccon->iochannel = gnet_tcp_socket_get_io_channel(client);
+#else
       ccon->iochannel = gnet_tcp_socket_get_iochannel(client);
+#endif      
       ccon->watch_flags = G_IO_IN | G_IO_ERR | G_IO_HUP | G_IO_NVAL;
       
       g_assert(ccon->iochannel);
@@ -158,6 +170,7 @@ GNetSocketDriver::async_accept(GTcpSocket *server, GTcpSocket *client, GNetSocke
 bool
 GNetSocketDriver::async_io(GIOChannel *iochannel, GIOCondition condition, GNetSocketConnection *con)
 {
+  TRACE_ENTER("GNetSocketConnection::async_io");
   bool ret = true;
 
   g_assert(con != NULL);
@@ -183,6 +196,7 @@ GNetSocketDriver::async_io(GIOChannel *iochannel, GIOCondition condition, GNetSo
         }
     }
 
+  TRACE_EXIT();
   return ret;
 }
 
@@ -213,7 +227,11 @@ GNetSocketDriver::async_connected(GTcpSocket *socket, GInetAddr *ia,
       con->socket = socket;
       con->name = gnet_inetaddr_get_canonical_name(ia);
       con->port = gnet_inetaddr_get_port(ia);
+#ifdef HAVE_GNET2      
+      con->iochannel = gnet_tcp_socket_get_io_channel(socket);
+#else
       con->iochannel = gnet_tcp_socket_get_iochannel(socket);
+#endif      
       con->watch_flags = G_IO_IN | G_IO_ERR | G_IO_HUP | G_IO_NVAL;
       con->watch = g_io_add_watch(con->iochannel, (GIOCondition)con->watch_flags, static_async_io, con);
 
@@ -252,11 +270,23 @@ GNetSocketDriver::static_async_io(GIOChannel *iochannel, GIOCondition condition,
 
 //! Connection established.
 void 
-GNetSocketDriver::static_async_connected(GTcpSocket *socket, GInetAddr *ia,
-                                         GTcpSocketConnectAsyncStatus status, gpointer data)
+GNetSocketDriver::static_async_connected(GTcpSocket *socket,
+#ifndef HAVE_GNET2                                         
+                                         GInetAddr *ia,
+#endif                                         
+                                         GTcpSocketConnectAsyncStatus status,
+                                         gpointer data)
 {
   GNetSocketConnection *con =  (GNetSocketConnection *)data;
 
+#ifdef HAVE_GNET2
+  GInetAddr *ia = NULL;
+  if (socket != NULL)
+    {
+      ia = gnet_tcp_socket_get_remote_inetaddr(socket);
+    }
+#endif
+  
   g_assert(con != NULL);
   con->driver->async_connected(socket, ia, status, con);
 }
@@ -278,10 +308,14 @@ GNetSocketConnection::GNetSocketConnection() :
 //! Destructs the connection.
 GNetSocketConnection::~GNetSocketConnection()
 {
+  TRACE_ENTER("GNetSocketConnection::~GNetSocketConnection");
+#ifndef HAVE_GNET2
   if (iochannel != NULL)
     {
+      // this causes troubles with gnet2
       g_io_channel_unref(iochannel);
     }
+#endif
   
   if (socket != NULL)
     {
@@ -297,6 +331,7 @@ GNetSocketConnection::~GNetSocketConnection()
     {
       g_source_remove(watch);
     }
+  TRACE_EXIT();
 }
 
 
@@ -318,7 +353,7 @@ GNetSocketConnection::read(void *buf, int count, int &bytes_read)
     {
       bytes_read = 0;
       
-      GIOError error = g_io_channel_read(iochannel, (char *)buf, count, (guint *)&bytes_read);
+      GIOError error = g_io_channel_read(iochannel, (char *)buf, (gsize)count, (gsize *)&bytes_read);
   
       if (error != G_IO_ERROR_NONE)
         {
@@ -348,7 +383,7 @@ GNetSocketConnection::write(void *buf, int count, int &bytes_written)
   if (iochannel != NULL)
     {
       bytes_written = 0;
-      GIOError error = g_io_channel_write(iochannel, (char *)buf, count, (guint *)&bytes_written);
+      GIOError error = g_io_channel_write(iochannel, (char *)buf, (gsize)count, (gsize *)&bytes_written);
 
       if (error != G_IO_ERROR_NONE)
         {
