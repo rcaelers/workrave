@@ -184,9 +184,9 @@ GUI::main()
   init_debug();
   init_nls();
   init_core();
+  init_sound_player();
   init_gui();
   init_multihead();
-  init_sound_player();
   init_remote_control();
 
   // Enter the event loop
@@ -474,6 +474,7 @@ GUI::init_multihead()
 void
 GUI::init_multihead_mem(int new_num_heads)
 {
+  TRACE_ENTER("GUI::init_multihead_mem");
   if (new_num_heads != num_heads || num_heads <= 0)
     {
       num_heads = new_num_heads;
@@ -481,6 +482,7 @@ GUI::init_multihead_mem(int new_num_heads)
       delete [] heads;
       heads = new HeadInfo[num_heads];
 
+      TRACE_MSG("prelude_window_destroy = true");
       prelude_window_destroy = true;
       break_window_destroy = true;
       collect_garbage();
@@ -490,6 +492,7 @@ GUI::init_multihead_mem(int new_num_heads)
       prelude_windows = new PreludeWindow*[num_heads];
       break_windows = new BreakWindowInterface*[num_heads];
     }
+  TRACE_EXIT();
 }
 
 
@@ -779,6 +782,7 @@ GUI::start_break_window(BreakId break_id, bool ignorable, bool insist)
 void
 GUI::hide_break_window()
 {
+  TRACE_ENTER("GUI::hide_break_window");
   active_break_id = BREAK_ID_NONE;
 
   for (int i = 0; i < active_prelude_count; i++)
@@ -802,8 +806,10 @@ GUI::hide_break_window()
     }
   if (active_break_count > 0)
     {
+      TRACE_MSG("break_window_destroy = true");
       break_window_destroy = true;
     }
+  TRACE_EXIT();
 }
 
 
@@ -890,33 +896,46 @@ GUI::set_prelude_progress_text(PreludeProgressText text)
 void
 GUI::collect_garbage()
 {
-  if (prelude_window_destroy && prelude_windows != NULL)
+  TRACE_ENTER("GUI::collect_garbage");
+  if (prelude_window_destroy)
     {
-      for (int i = 0; i < active_prelude_count; i++)
-        {
-          if (prelude_windows[i] != NULL)
-            {
-              prelude_windows[i]->destroy();
-              prelude_windows[i] = NULL;
-            }
-        }
       prelude_window_destroy = false;
       active_prelude_count = 0;
-    }
-  
-  if (break_window_destroy && break_windows != NULL)
-    {
-      for (int i = 0; i < active_break_count; i++)
+
+      if (prelude_windows != NULL)
         {
-          if (break_windows[i] != NULL)
+          for (int i = 0; i < active_prelude_count; i++)
             {
-              break_windows[i]->destroy();
-              break_windows[i] = NULL;
+              if (prelude_windows[i] != NULL)
+                {
+                  prelude_windows[i]->destroy();
+                  prelude_windows[i] = NULL;
+                }
             }
         }
+    }
+  
+  if (break_window_destroy)
+    {
       break_window_destroy = false;
       active_break_count = 0;
+
+      if (break_windows != NULL)
+        {
+          TRACE_MSG("1");
+          for (int i = 0; i < active_break_count; i++)
+            {
+              TRACE_MSG("2 " << i);
+              if (break_windows[i] != NULL)
+                {
+                  TRACE_MSG("3");
+                  break_windows[i]->destroy();
+                  break_windows[i] = NULL;
+                }
+            }
+        }
     }
+  TRACE_EXIT();
 }
 
 

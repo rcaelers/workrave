@@ -182,7 +182,8 @@ Break::init_timer()
   load_timer_monitor_config();
   
   timer->enable();
-
+  timer->stop_timer();
+  
   configurator->add_listener(CFG_KEY_TIMER_PREFIX + break_name, this);
 }
 
