@@ -26,6 +26,7 @@
 
 class BreakInterface;
 class TimerInterface;
+class PacketBuffer;
 
 #ifdef HAVE_DISTRIBUTION
 #include "DistributionClientMessageInterface.hh"
@@ -167,9 +168,10 @@ private:
   
 #ifdef HAVE_DISTRIBUTION
   void init_distribution_manager();
-  bool request_client_message(DistributionClientMessageID id, unsigned char **buffer, int *size);
-  bool client_message(DistributionClientMessageID id, bool master, char *client_id, unsigned char *buffer, int size);
-  bool pack_stats(PacketBuffer &buffer, DailyStats *stats);
+  bool request_client_message(DistributionClientMessageID id, PacketBuffer &buffer);
+  bool client_message(DistributionClientMessageID id, bool master, const char *client_id,
+                      PacketBuffer &buffer);
+  bool pack_stats(PacketBuffer &buffer, const DailyStats *stats);
 #endif
   
 private:

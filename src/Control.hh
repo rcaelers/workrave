@@ -57,6 +57,7 @@ class FakeActivityMonitor;
 
 class DistributionManager;
 class IdleLogManager;
+class PacketBuffer;
 
 class Control :
   public TimeSource,
@@ -118,13 +119,13 @@ private:
 
 #ifdef HAVE_DISTRIBUTION
   bool create_distribution_manager();
-  bool request_client_message(DistributionClientMessageID id, unsigned char **buffer, int *size);
-  bool client_message(DistributionClientMessageID id, bool master, char *client_id,
-                      unsigned char *buffer, int size);
+  bool request_client_message(DistributionClientMessageID id, PacketBuffer &buffer);
+  bool client_message(DistributionClientMessageID id, bool master, const char *client_id,
+                      PacketBuffer &buffer);
   
-  bool get_timer_state(unsigned char **buffer, int *size);
-  bool set_timer_state(unsigned char *buffer, int size);
-  bool set_monitor_state(bool master, unsigned char *buffer, int size);
+  bool get_timer_state(PacketBuffer &buffer) const;
+  bool set_timer_state(PacketBuffer &buffer);
+  bool set_monitor_state(bool master, PacketBuffer &buffer);
 
   void signon_remote_client(string client_id);
   void signoff_remote_client(string client_id);
@@ -132,7 +133,7 @@ private:
   void compute_timers();
   
 #ifndef NDEBUG
-  bool script_message(bool master, char *client_id, unsigned char *buffer, int size);
+  bool script_message(bool master, const char *client_id, PacketBuffer &buffer);
   void do_script();
 #endif  
 #endif

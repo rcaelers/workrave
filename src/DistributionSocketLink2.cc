@@ -144,7 +144,7 @@ DistributionSocketLink::heartbeat()
       // Periodically distribute state, in case the master crashes.
       if (heartbeat_count % 30 == 0 && i_am_master)
         { 
-          send_state(DCMT_MASTER);
+          send_client_message(DCMT_MASTER);
         }
     }
 }
@@ -372,23 +372,23 @@ DistributionSocketLink::set_enabled(bool enabled)
 }
 
 
-//! Register a distributed state.
+//! Register a distributed client message callback.
 bool
 DistributionSocketLink::register_client_message(DistributionClientMessageID id,
                                                 DistributionClientMessageType type,
-                                                DistributionClientMessageInterface *dist_state)
+                                                DistributionClientMessageInterface *callback)
 {
-  StateListener sl;
-  sl.listener = dist_state;
+  ClientMessageListener sl;
+  sl.listener = callback;
   sl.type = type;
   
-  state_map[id] = sl;
+  client_message_map[id] = sl;
   
   return true;
 }
 
 
-//! Unregister a distributed state.
+//! Unregister a distributed clien _message callback.
 bool
 DistributionSocketLink::unregister_client_message(DistributionClientMessageID id)
 {
@@ -399,23 +399,23 @@ DistributionSocketLink::unregister_client_message(DistributionClientMessageID id
 
 //! Force is state distribution.
 bool
-DistributionSocketLink::broadcast_client_message(DistributionClientMessageID dsid, unsigned char *buffer, int size)
+DistributionSocketLink::broadcast_client_message(DistributionClientMessageID dsid,
+                                                 PacketBuffer &buffer)
 {
   TRACE_ENTER("DistributionSocketLink::broadcast_client_message");
+
   PacketBuffer packet;
   packet.create();
-  init_packet(packet, PACKET_STATEINFO);
+  init_packet(packet, PACKET_CLIENTMSG);
 
-  gchar *id = NULL;
-  
-  get_master(&id);
+  gchar *id = get_master();
   packet.pack_string(id);
-  g_free(id);
-  
+
   packet.pack_ushort(1);
-  packet.pack_ushort(size);
   packet.pack_ushort(dsid);
-  packet.pack_raw(buffer, size);
+  packet.pack_ushort(buffer.bytes_written());
+  packet.pack_raw((unsigned char *)buffer.get_buffer(),
+                  buffer.bytes_written());
 
   send_packet_broadcast(packet);
   return true;
@@ -820,24 +820,20 @@ DistributionSocketLink::find_client_by_id(gchar *id)
 
 
 //! Returns the master client.
-bool
-DistributionSocketLink::get_master(gchar **id) const
+char *
+DistributionSocketLink::get_master() const
 {
-  bool ret = false;
-  
-  *id = NULL;
+  char *id = NULL;
   
   if (i_am_master)
     {
-      *id = g_strdup(myid);
-      ret = true;
+      id = myid;
     }
   else if (master_client != NULL && master_client->id != NULL)
     {
-      *id = g_strdup(master_client->id);
-      ret = true;
+      id = master_client->id;
     }
-  return ret;
+  return id;
 }
 
 
@@ -1120,8 +1116,8 @@ DistributionSocketLink::process_client_packet(Client *client)
           handle_new_master(packet, source); 
           break;
 
-        case PACKET_STATEINFO:
-          handle_state(packet, source);
+        case PACKET_CLIENTMSG:
+          handle_client_message(packet, source);
           break;
 
         case PACKET_DUPLICATE:
@@ -1582,7 +1578,7 @@ DistributionSocketLink::handle_client_list(PacketBuffer &packet, Client *client,
           TRACE_MSG(master_id << " is now master");
         }
 
-      send_state(DCMT_SIGNON);
+      send_client_message(DCMT_SIGNON);
     }
   else
     {
@@ -1676,7 +1672,7 @@ DistributionSocketLink::handle_claim(PacketBuffer &packet, Client *client)
         {
           //dist_manager->log(_("Transferring state to client %s:%d."),
           //                  client->hostname, client->port);
-          send_state(DCMT_MASTER);
+          send_client_message(DCMT_MASTER);
         }
   
       // And tell everyone we have a new master.
@@ -1804,49 +1800,41 @@ DistributionSocketLink::handle_new_master(PacketBuffer &packet, Client *client)
 }
 
 
-// Distributes the current state.
+// Distributes the current client message.
 void
-DistributionSocketLink::send_state(DistributionClientMessageType type)
+DistributionSocketLink::send_client_message(DistributionClientMessageType type)
 {
-  TRACE_ENTER("DistributionSocketLink:send_state");
+  TRACE_ENTER("DistributionSocketLink:send_client_message");
 
   PacketBuffer packet;
   packet.create();
-  init_packet(packet, PACKET_STATEINFO);
+  init_packet(packet, PACKET_CLIENTMSG);
 
-  gchar *id = NULL;
-  
-  get_master(&id);
+  gchar *id = get_master();
   packet.pack_string(id);
-  g_free(id);
   
-  packet.pack_ushort(state_map.size());
+  packet.pack_ushort(client_message_map.size());
   
-  map<DistributionClientMessageID, StateListener>::iterator i = state_map.begin();
-  while (i != state_map.end())
+  map<DistributionClientMessageID, ClientMessageListener>::iterator i = client_message_map.begin();
+  while (i != client_message_map.end())
     {
       DistributionClientMessageID id = i->first;
-      StateListener &sl = i->second;
+      ClientMessageListener &sl = i->second;
       
       DistributionClientMessageInterface *itf = sl.listener;
 
-      guint8 *data = NULL;
-      gint size = 0;
+      int pos = 0;
+      packet.pack_ushort(id);
+      packet.reserve_size(pos);
+      
+      if ((sl.type & type) != 0)
+        {
+          TRACE_MSG("request " << id << " " << type);
+          itf->request_client_message(id, packet);
+        }
 
-      if (((sl.type & type) != 0) && itf->request_client_message(id, &data, &size))
-        {
-          TRACE_MSG(id);
-          packet.pack_ushort(size);
-          packet.pack_ushort(id);
-          packet.pack_raw(data, size);
-          
-          delete [] data;
-        }
-      else
-        {
-          packet.pack_ushort(0);
-          packet.pack_ushort(id);
-        }
+      packet.update_size(pos);
+      
       i++;
     }
 
@@ -1855,46 +1843,51 @@ DistributionSocketLink::send_state(DistributionClientMessageType type)
 }
 
 
-//! Handles new state from a remote client.
+//! Handles client message  from a remote client.
 void
-DistributionSocketLink::handle_state(PacketBuffer &packet, Client *client)
+DistributionSocketLink::handle_client_message(PacketBuffer &packet, Client *client)
 {
-  TRACE_ENTER("DistributionSocketLink:handle_state");
+  TRACE_ENTER("DistributionSocketLink:handle_client_message");
   (void) client;
 
   bool will_i_become_master = false;
 
-  // dist_manager->log(_("Reveived state from client %s:%d."), client->hostname, client->port);
+  // dist_manager->log(_("Reveived client message from client %s:%d."), client->hostname, client->port);
   
   gchar *id = packet.unpack_string();
 
   if (id != NULL)
     {
+      //TRACE_MSG("id = " << id);
+
       will_i_become_master = client_is_me(id);
       g_free(id);
     }
   
   gint size = packet.unpack_ushort();
+  int pos;
   
+  TRACE_MSG("size = " << size);
   for (int i = 0; i < size; i++)
     {
-      gint datalen = packet.unpack_ushort();
       DistributionClientMessageID id = (DistributionClientMessageID) packet.unpack_ushort();
+      gint datalen = packet.read_size(pos);
+
+      TRACE_MSG("len = " << datalen << " " << id);
 
       if (datalen != 0)
         {
-          guint8 *data = NULL;
-          if (packet.unpack_raw(&data, datalen) != 0)
-            {
-              state_map[id].listener->client_message(id, will_i_become_master, client->id, data, datalen);
-            }
-          else
-            {
-              TRACE_MSG("Illegal state packet");
-              break;
-            }
-              
+          // Narrow the buffer to the client message data.
+          packet.narrow(-1, datalen);
+          
+          client_message_map[id].listener->client_message(id, will_i_become_master, client->id, packet);
+
+          packet.narrow(0, -1);
         }
+
+      TRACE_MSG("skip");
+      packet.skip_size(pos);
+      TRACE_MSG("skiped");
     }
 
   TRACE_EXIT();
@@ -1971,13 +1964,8 @@ DistributionSocketLink::socket_io(SocketConnection *con, void *data)
   if (client->packet.bytes_available() >= 4)
     {
       bytes_to_read = client->packet.peek_ushort(0) - 4;
-      if (bytes_to_read + 4 > client->packet.get_buffer_size())
-        {
-          // FIXME: the 1024 is lame...
-          client->packet.resize(bytes_to_read + 4 + 1024);
-        }
     }
-      
+
   bool ok = con->read(client->packet.get_write_ptr(), bytes_to_read, bytes_read);
       
   if (!ok)

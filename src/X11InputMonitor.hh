@@ -1,9 +1,9 @@
 // X11InputMonitor.hh --- ActivityMonitor for X11
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-10-06 21:23:20 robc>
+// Time-stamp: <2003-06-21 22:16:56 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -52,7 +52,7 @@ class X11InputMonitor :
 {
 public:
   //! Constructor.
-  X11InputMonitor(char *display_name);
+  X11InputMonitor(const char *display_name);
 
   //! Destructor.
   virtual ~X11InputMonitor();

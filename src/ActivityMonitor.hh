@@ -39,63 +39,36 @@ class ActivityListener;
 class InputMonitorInterface;
 class Thread;
 
+
 class ActivityMonitor :
   public InputMonitorListenerInterface,
   public ActivityMonitorInterface
 {
 public:
-  ActivityMonitor(char *display);
+  ActivityMonitor(const char *display);
   virtual ~ActivityMonitor();
 
-  //! Starts the monitor.
-  void start();
-
-  //! Terminates the monitor.
   void terminate();
-  
-  //! Suspends the activity monitoring.
   void suspend();
-
-  //! Resumes the activity monitoring.
   void resume();
-
-  //! Forces state te be idle.
   void force_idle();
+  void shift_time(int delta);
 
-  //! Returns the current state
   ActivityState get_current_state();
 
-  //! Sets the operation parameters.
   void set_parameters(int noise, int activity, int idle);
-
-  //! Sets the operation parameters.
   void get_parameters(int &noise, int &activity, int &idle);
 
-  //! Returns the statistics.
   void get_statistics(ActivityMonitorStatistics &stats) const;
-
-  //! Sets the statistics
   void set_statistics(const ActivityMonitorStatistics &stats);
-
-  //! Resets the statistics.
   void reset_statistics();
 
-  //!
   void set_listener(ActivityMonitorListenerInterface *l);
   
-  //! Activity is reported by the input monitor.
   void action_notify();
-
-  //! Mouse activity is reported by the input monitor.
   void mouse_notify(int x, int y, int wheel = 0);
-
-  //! Mouse button activity is reported by the input monitor.
   void button_notify(int button_mask, bool is_press);
-
-  //! Keyboard activity is reported by the input monitor.
   void keyboard_notify(int key_code, int modifier);
-
-  void shift_time(int delta);
   
 private:
   void call_listener();
@@ -143,10 +116,10 @@ private:
   //! Last time a mouse event was received.
   struct timeval last_mouse_time;
 
-  //! Last time a mouse event was received.
+  //! Total time that the mouse was moving.
   struct timeval total_mouse_time;
 
-  //!
+  //! Activity listener.
   ActivityMonitorListenerInterface *listener;
 };
 

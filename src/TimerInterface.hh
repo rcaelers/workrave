@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-04-20 15:48:32 robc>
+// Time-stamp: <2003-06-22 11:14:23 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -36,8 +36,6 @@ class TimePred;
 #endif
 
 #include <string>
-
-class TimePred;
 
 using namespace std;
 

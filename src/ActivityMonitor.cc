@@ -50,7 +50,7 @@ static const char rcsid[] = "$Id$";
 
 
 //! Constructor.
-ActivityMonitor::ActivityMonitor(char *display) :
+ActivityMonitor::ActivityMonitor(const char *display) :
   activity_state(ACTIVITY_IDLE),
   prev_x(-1),
   prev_y(-1),
@@ -103,15 +103,13 @@ ActivityMonitor::~ActivityMonitor()
 {
   TRACE_ENTER("ActivityMonitor::~ActivityMonitor");
 
-  if (input_monitor != NULL)
-    {
-      delete input_monitor;
-    }
+  delete input_monitor;
 
   TRACE_EXIT();
 }
  
 
+//! Terminates the monitor.
 void
 ActivityMonitor::terminate()
 {
@@ -123,7 +121,63 @@ ActivityMonitor::terminate()
 }
 
 
+//! Suspends the activity monitoring.
+void
+ActivityMonitor::suspend()
+{
+  lock.lock();
+  activity_state = ACTIVITY_SUSPENDED;
+  lock.unlock();
+}
 
+
+//! Resumes the activity monitoring.
+void
+ActivityMonitor::resume()
+{
+  lock.lock();
+  activity_state = ACTIVITY_IDLE;
+  lock.unlock();
+}
+
+
+//! Forces state te be idle.
+void
+ActivityMonitor::force_idle()
+{
+  lock.lock();
+  activity_state = ACTIVITY_IDLE;
+  lock.unlock();
+}
+
+
+//! Returns the current state
+ActivityState
+ActivityMonitor::get_current_state()
+{
+  lock.lock();
+
+  // First update the state...
+  if (activity_state == ACTIVITY_ACTIVE)
+    {
+      struct timeval now, tv;
+      gettimeofday(&now, NULL);
+
+      tvSUBTIME(tv, now, last_action_time);
+      if (tvTIMEGT(tv, idle_threshold))
+        {
+          // No longer active.
+          activity_state = ACTIVITY_IDLE;
+        }
+    }
+
+  lock.unlock();
+  return activity_state;
+}
+
+
+
+//! Sets the operation parameters.
 void
 ActivityMonitor::set_parameters(int noise, int activity, int idle)
 {
@@ -141,6 +195,8 @@ ActivityMonitor::set_parameters(int noise, int activity, int idle)
 }
 
 
+
+//! Sets the operation parameters.
 void
 ActivityMonitor::get_parameters(int &noise, int &activity, int &idle)
 {
@@ -150,6 +206,127 @@ ActivityMonitor::get_parameters(int &noise, int &activity, int &idle)
 }
 
 
+//! Returns the statistics.
+void
+ActivityMonitor::get_statistics(ActivityMonitorStatistics &stats) const
+{
+  stats = statistics;
+  stats.total_movement_time = total_mouse_time.tv_sec;
+}
+
+
+//! Sets the statistics
+void
+ActivityMonitor::set_statistics(const ActivityMonitorStatistics &stats)
+{
+  statistics = stats;
+  total_mouse_time.tv_sec = stats.total_movement_time;
+  total_mouse_time.tv_usec = 0;
+}
+
+
+//! Resets the statistics.
+void
+ActivityMonitor::reset_statistics()
+{
+  total_mouse_time.tv_sec = 0;
+  total_mouse_time.tv_usec = 0;
+
+  statistics.total_movement = 0;
+  statistics.total_click_movement = 0;
+  statistics.total_clicks = 0;
+  statistics.total_keystrokes = 0;
+}
+
+
+
+//! Shifts the internal time (after system clock has been set)
+void
+ActivityMonitor::shift_time(int delta)
+{
+  struct timeval d;
+
+  tvSETTIME(d, delta, 0)
+    
+  if (!tvTIMEEQ0(last_action_time))
+    tvADDTIME(last_action_time, last_action_time, d);
+
+  if (!tvTIMEEQ0(first_action_time))
+    tvADDTIME(first_action_time, first_action_time, d);
+
+  if (!tvTIMEEQ0(last_mouse_time))
+    tvADDTIME(last_mouse_time, last_mouse_time, d);
+}
+
+
+//! Sets the callback listener.
+void
+ActivityMonitor::set_listener(ActivityMonitorListenerInterface *l)
+{
+  lock.lock();
+  listener = l;
+  lock.unlock();
+}
+
+
+//! Activity is reported by the input monitor.
+void
+ActivityMonitor::action_notify()
+{
+  lock.lock();
+  
+  struct timeval now;
+  gettimeofday(&now, NULL);
+
+  switch (activity_state)
+    {
+    case ACTIVITY_IDLE:
+      {
+        first_action_time = now;
+        last_action_time = now;
+
+        if (tvTIMEEQ0(activity_threshold))
+          {
+            activity_state = ACTIVITY_ACTIVE;
+          }
+        else
+          {
+            activity_state = ACTIVITY_NOISE;
+          }
+      }
+      break;
+      
+    case ACTIVITY_NOISE:
+      {
+        struct timeval tv;
+        
+        tvSUBTIME(tv, now, last_action_time);
+        if (tvTIMEGT(tv, noise_threshold))
+          {
+            first_action_time = now;
+          }
+        else
+          {
+            tvSUBTIME(tv, now, first_action_time);
+            if (tvTIMEGEQ(tv, activity_threshold))
+              {
+                activity_state = ACTIVITY_ACTIVE;
+              }
+          }
+      }
+      break;
+
+    default:
+      break;
+    }
+
+  last_action_time = now;
+  lock.unlock();
+  call_listener();  
+}
+
+
+//! Mouse activity is reported by the input monitor.
 void
 ActivityMonitor::mouse_notify(int x, int y, int wheel_delta)
 {
@@ -185,10 +362,12 @@ ActivityMonitor::mouse_notify(int x, int y, int wheel_delta)
 }
 
 
+//! Mouse button activity is reported by the input monitor.
 void
 ActivityMonitor::button_notify(int button_mask, bool is_press)
 {
   (void)button_mask;
+
   lock.lock();
   if (click_x != -1)
     {
@@ -211,11 +390,13 @@ ActivityMonitor::button_notify(int button_mask, bool is_press)
 }
 
 
+//! Keyboard activity is reported by the input monitor.
 void
 ActivityMonitor::keyboard_notify(int key_code, int modifier)
 {
   (void)key_code;
   (void)modifier;
+
   lock.lock();
   action_notify();
   statistics.total_keystrokes++;
@@ -223,165 +404,7 @@ ActivityMonitor::keyboard_notify(int key_code, int modifier)
 }
 
 
-void
-ActivityMonitor::action_notify()
-{
-  lock.lock();
-  
-  struct timeval now;
-  gettimeofday(&now, NULL);
-
-  switch (activity_state)
-    {
-    case ACTIVITY_IDLE:
-      {
-        first_action_time = now;
-        last_action_time = now;
-
-        if (tvTIMEEQ0(activity_threshold))
-          {
-            activity_state = ACTIVITY_ACTIVE;
-          }
-        else
-          {
-            activity_state = ACTIVITY_NOISE;
-          }
-      }
-      break;
-      
-    case ACTIVITY_NOISE:
-      {
-        struct timeval tv;
-        
-        tvSUBTIME(tv, now, last_action_time);
-        if (tvTIMEGT(tv, noise_threshold))
-          {
-            first_action_time = now;
-            //TRACE_MSG("Noise");
-          }
-        else
-          {
-            bool active = false;
-#if 0
-            tvADDTIME(tv, first_action_time, activity_threshold); //TODO: precompute
-            tvSUBTIME(tv, tv, now);                                     
-            active = tvTIMELT(tv, noise_threshold);
-#else
-            tvSUBTIME(tv, now, first_action_time);
-            active = tvTIMEGEQ(tv, activity_threshold);
-#endif                               
-            if (active)
-              {
-                activity_state = ACTIVITY_ACTIVE;
-              }
-            else
-              {
-                // noise
-              }
-          }
-      }
-      break;
-
-    default:
-      break;
-    }
-
-  last_action_time = now;
-  lock.unlock();
-  call_listener();  
-}
-
-
-//! Suspends the activity monitoring.
-void
-ActivityMonitor::suspend()
-{
-  lock.lock();
-  activity_state = ACTIVITY_SUSPENDED;
-  lock.unlock();
-}
-
-
-//! Resumes the activity monitoring.
-void
-ActivityMonitor::resume()
-{
-  lock.lock();
-  activity_state = ACTIVITY_IDLE;
-  lock.unlock();
-}
-
-
-//! Returns the current state.
-ActivityState
-ActivityMonitor::get_current_state()
-{
-  lock.lock();
-
-  if (activity_state == ACTIVITY_ACTIVE)
-    {
-      struct timeval now, tv;
-      gettimeofday(&now, NULL);
-
-      tvSUBTIME(tv, now, last_action_time);
-      if (tvTIMEGT(tv, idle_threshold))
-        {
-          activity_state = ACTIVITY_IDLE;
-        }
-    }
-
-  lock.unlock();
-  return activity_state;
-}
-
-
-void
-ActivityMonitor::force_idle()
-{
-  lock.lock();
-  activity_state = ACTIVITY_IDLE;
-  lock.unlock();
-}
-
-
-void
-ActivityMonitor::get_statistics(ActivityMonitorStatistics &stats) const
-{
-  stats = statistics;
-  stats.total_movement_time = total_mouse_time.tv_sec;
-}
-
-
-void
-ActivityMonitor::set_statistics(const ActivityMonitorStatistics &stats)
-{
-  statistics = stats;
-  total_mouse_time.tv_sec = stats.total_movement_time;
-  total_mouse_time.tv_usec = 0;
-}
-
-
-void
-ActivityMonitor::reset_statistics()
-{
-  total_mouse_time.tv_sec = 0;
-  total_mouse_time.tv_usec = 0;
-
-  statistics.total_movement = 0;
-  statistics.total_click_movement = 0;
-  statistics.total_clicks = 0;
-  statistics.total_keystrokes = 0;
-}
-
-void
-ActivityMonitor::set_listener(ActivityMonitorListenerInterface *l)
-{
-  lock.lock();
-  listener = l;
-  lock.unlock();
-}
-
-
+//! Calls the callback listener.
 void
 ActivityMonitor::call_listener()
 {
@@ -393,29 +416,13 @@ ActivityMonitor::call_listener()
 
   if (l != NULL)
     {
+      // Listener is set.
       if (!l->action_notify())
         {
+          // Remove listener.
           lock.lock();
           listener = NULL;
           lock.unlock();
         }
     }
 }
-
-void
-ActivityMonitor::shift_time(int delta)
-{
-  struct timeval d;
-
-  tvSETTIME(d, delta, 0)
-    
-  if (!tvTIMEEQ0(last_action_time))
-    tvADDTIME(last_action_time, last_action_time, d);
-
-  if (!tvTIMEEQ0(first_action_time))
-    tvADDTIME(first_action_time, first_action_time, d);
-
-  if (!tvTIMEEQ0(last_mouse_time))
-    tvADDTIME(last_mouse_time, last_mouse_time, d);
-}
-

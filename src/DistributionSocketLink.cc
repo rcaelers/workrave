@@ -363,7 +363,7 @@ DistributionSocketLink::set_enabled(bool enabled)
 //! Register a distributed state.
 bool
 DistributionSocketLink::register_client_message(DistributionClientMessageID id,
-                                       DistributionClientMessageInterface *dist_state,
+                                       DistributionClientMessageInterface *callback,
                                        bool automatic)
 {
   StateListener sl;
@@ -387,7 +387,8 @@ DistributionSocketLink::unregister_client_message(DistributionClientMessageID id
 
 //! Force is state distribution.
 bool
-DistributionSocketLink::broadcast_client_message(DistributionClientMessageID id, unsigned char *buffer, int size)
+DistributionSocketLink::broadcast_client_message(DistributionClientMessageID id,
+                                                 unsigned char *buffer, int size)
 {
   TRACE_ENTER("DistributionSocketLink::broadcast_client_message");
   PacketBuffer packet;

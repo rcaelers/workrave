@@ -133,12 +133,7 @@ Statistics::day_to_history(DailyStats *stats)
   ss << Util::get_home_directory();
   ss << "historystats" << ends;
 
-  const time_t now = time(NULL);
-  struct tm *tmnow = localtime(&now);
-  stats->stop = *tmnow;
-
   bool exists = Util::file_exists(ss.str());
-
   ofstream stats_file(ss.str().c_str(), ios::app);
 
   if (!exists)
@@ -168,9 +163,7 @@ Statistics::day_to_remote_history(DailyStats *stats)
       pack_stats(state_packet, stats);
       state_packet.pack_byte(STATS_MARKER_END);
 
-      dist_manager->broadcast_client_message(DCM_STATS,
-                               (unsigned char *)state_packet.get_buffer(),
-                               state_packet.bytes_written());
+      dist_manager->broadcast_client_message(DCM_STATS, state_packet);
     }
 #endif
 }
@@ -223,10 +216,6 @@ Statistics::save_day(DailyStats *stats)
   ss << Util::get_home_directory();
   ss << "todaystats" << ends;
 
-  const time_t now = time(NULL);
-  struct tm *tmnow = localtime(&now);
-  stats->stop = *tmnow;
-  
   ofstream stats_file(ss.str().c_str());
 
   stats_file << WORKRAVESTATS << " " << STATSVERSION  << endl;
@@ -651,7 +640,10 @@ Statistics::update_current_day()
       assert(t != NULL);
       current_day->misc_stats[STATS_VALUE_TOTAL_ACTIVE_TIME] = t->get_elapsed_time();
 
-
+      const time_t now = time(NULL);
+      struct tm *tmnow = localtime(&now);
+      current_day->stop = *tmnow;
+      
       for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
         {
           TimerInterface *t = gui_control->timers[i].timer;
@@ -718,7 +710,7 @@ Statistics::init_distribution_manager()
 }
 
 bool
-Statistics::request_client_message(DistributionClientMessageID id, unsigned char **buffer, int *size)
+Statistics::request_client_message(DistributionClientMessageID id, PacketBuffer &buffer)
 {
   TRACE_ENTER("Statistics::request_client_message");
   (void) id;
@@ -726,16 +718,9 @@ Statistics::request_client_message(DistributionClientMessageID id, unsigned char
   update_current_day();
   dump();
   
-  PacketBuffer state_packet;
-  state_packet.create();
-
-  state_packet.pack_byte(STATS_MARKER_TODAY);
-  pack_stats(state_packet, current_day);
-  state_packet.pack_byte(STATS_MARKER_END);
-
-  *size = state_packet.bytes_written();
-  *buffer = new unsigned char[*size + 1];
-  memcpy(*buffer, state_packet.get_buffer(), *size);
+  buffer.pack_byte(STATS_MARKER_TODAY);
+  pack_stats(buffer, current_day);
+  buffer.pack_byte(STATS_MARKER_END);
 
   TRACE_EXIT();
   return true;
@@ -743,7 +728,7 @@ Statistics::request_client_message(DistributionClientMessageID id, unsigned char
 
 
 bool
-Statistics::pack_stats(PacketBuffer &buf, DailyStats *stats)
+Statistics::pack_stats(PacketBuffer &buf, const DailyStats *stats)
 {
   TRACE_ENTER("Statistics::pack_stats");
 
@@ -798,7 +783,8 @@ Statistics::pack_stats(PacketBuffer &buf, DailyStats *stats)
 }
 
 bool
-Statistics::client_message(DistributionClientMessageID id, bool master, char *client_id, unsigned char *buffer, int size)
+Statistics::client_message(DistributionClientMessageID id, bool master, const char *client_id,
+                           PacketBuffer &buffer)
 {
   TRACE_ENTER("Statistics::client_message");
 
@@ -808,18 +794,13 @@ Statistics::client_message(DistributionClientMessageID id, bool master, char *cl
 
   return false;
   
-  PacketBuffer state_packet;
-  state_packet.create();
-
-  state_packet.pack_raw(buffer, size);
-
   DailyStats *stats = NULL;
   int pos = 0;
   bool stats_to_history = false;
   
-  while (state_packet.bytes_available() > 0)
+  while (buffer.bytes_available() > 0)
     {
-      StatsMarker marker = (StatsMarker) state_packet.unpack_byte();
+      StatsMarker marker = (StatsMarker) buffer.unpack_byte();
       TRACE_MSG("Marker = " << marker);
       switch (marker)
         {
@@ -834,39 +815,39 @@ Statistics::client_message(DistributionClientMessageID id, bool master, char *cl
           
         case STATS_MARKER_STARTTIME:
           {
-            int size = state_packet.unpack_ushort();
+            int size = buffer.unpack_ushort();
             (void) size;
             
-            stats->start.tm_mday = state_packet.unpack_byte();
-            stats->start.tm_mon = state_packet.unpack_byte();
-            stats->start.tm_year = state_packet.unpack_ushort();
-            stats->start.tm_hour = state_packet.unpack_byte();
-            stats->start.tm_min = state_packet.unpack_byte();
+            stats->start.tm_mday = buffer.unpack_byte();
+            stats->start.tm_mon = buffer.unpack_byte();
+            stats->start.tm_year = buffer.unpack_ushort();
+            stats->start.tm_hour = buffer.unpack_byte();
+            stats->start.tm_min = buffer.unpack_byte();
           }
           break;
           
         case STATS_MARKER_STOPTIME:
           {
-            int size = state_packet.unpack_ushort();
+            int size = buffer.unpack_ushort();
             (void) size;
             
-            stats->stop.tm_mday = state_packet.unpack_byte();
-            stats->stop.tm_mon = state_packet.unpack_byte();
-            stats->stop.tm_year = state_packet.unpack_ushort();
-            stats->stop.tm_hour = state_packet.unpack_byte();
-            stats->stop.tm_min = state_packet.unpack_byte();
+            stats->stop.tm_mday = buffer.unpack_byte();
+            stats->stop.tm_mon = buffer.unpack_byte();
+            stats->stop.tm_year = buffer.unpack_ushort();
+            stats->stop.tm_hour = buffer.unpack_byte();
+            stats->stop.tm_min = buffer.unpack_byte();
           }
           break;
 
         case STATS_MARKER_BREAK_STATS:
           {
-            int size = state_packet.read_size(pos);
-            int bt = state_packet.unpack_byte();
+            int size = buffer.read_size(pos);
+            int bt = buffer.unpack_byte();
             (void) size;
 
             BreakStats &bs = stats->break_stats[bt];
 
-            int count = state_packet.unpack_ushort();
+            int count = buffer.unpack_ushort();
 
             if (count > STATS_BREAKVALUE_SIZEOF)
               {
@@ -875,17 +856,17 @@ Statistics::client_message(DistributionClientMessageID id, bool master, char *cl
             
             for(int j = 0; j < count; j++)
               {
-                bs[j] = state_packet.unpack_ulong();
+                bs[j] = buffer.unpack_ulong();
               }
 
-            state_packet.skip_size(pos);
+            buffer.skip_size(pos);
           }
           break;
           
         case STATS_MARKER_MISC_STATS:
           {
-            int size = state_packet.read_size(pos);
-            int count = state_packet.unpack_ushort();
+            int size = buffer.read_size(pos);
+            int count = buffer.unpack_ushort();
             (void) size;
 
             if (count > STATS_VALUE_SIZEOF)
@@ -895,10 +876,10 @@ Statistics::client_message(DistributionClientMessageID id, bool master, char *cl
             
             for(int j = 0; j < count; j++)
               {
-                stats->misc_stats[j] = state_packet.unpack_ulong();
+                stats->misc_stats[j] = buffer.unpack_ulong();
               }
 
-            state_packet.skip_size(pos);
+            buffer.skip_size(pos);
           }
           break;
           
@@ -914,9 +895,9 @@ Statistics::client_message(DistributionClientMessageID id, bool master, char *cl
         default:
           {
             TRACE_MSG("Unknown marker");
-            int size = state_packet.read_size(pos);
+            int size = buffer.read_size(pos);
             (void) size;
-            state_packet.skip_size(pos);
+            buffer.skip_size(pos);
           }
         }
     }

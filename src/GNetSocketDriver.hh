@@ -35,7 +35,6 @@ public:
   GNetSocketConnection();
   virtual ~GNetSocketConnection();
 
-  char *get_canonical_name();
   bool read(void *buf, int count, int &bytes_read);
   bool write(void *buf, int count, int &bytes_written);
   bool close();
@@ -74,16 +73,12 @@ public:
 
   // Socket driver methods.
   char *get_my_canonical_name();
-  char *canonicalize(char *);
+  char *canonicalize(const char *);
   bool init();
-  SocketConnection *connect(char *hostname, int port, void *data);
+  SocketConnection *connect(const char *hostname, int port, void *data);
   SocketConnection *listen(int port, void *data);
-
-  // hack...
-  //void fire_closed(SocketConnection *con);
   
 private:
-
   void async_accept(GTcpSocket *server, GTcpSocket *client, GNetSocketConnection *c);
   bool async_io(GIOChannel* iochannel, GIOCondition condition, GNetSocketConnection *c);
   void async_connected(GTcpSocket *socket, GInetAddr *ia, GTcpSocketConnectAsyncStatus status,

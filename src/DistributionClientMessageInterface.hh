@@ -19,6 +19,8 @@
 #ifndef DISTRIBUTIONCLIENTMESSAGEINTERFACE_HH
 #define DISTRIBUTIONCLIENTMESSAGEINTERFACE_HH
 
+class PacketBuffer;
+
 enum DistributionClientMessageID
   {
     DCM_TIMERS  = 0x0010,
@@ -41,15 +43,13 @@ class DistributionClientMessageInterface
 {
 public:
   virtual bool request_client_message(DistributionClientMessageID id,
-                                      unsigned char **buffer,
-                                      int *size) = 0;
+                                      PacketBuffer &buffer) = 0;
 
   
   virtual bool client_message(DistributionClientMessageID id,
                               bool active,
-                              char *client_id,
-                              unsigned char *buffer,
-                              int size) = 0;
+                              const char *client_id,
+                              PacketBuffer &buffer) = 0;
 };
 
 #endif // DISTRIBUTIONCLIENTMESSAGEINTERFACE_HH

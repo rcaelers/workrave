@@ -30,10 +30,6 @@ class ConfiguratorListener;
 class Configurator
 {
 public:
-  //! Constructor
-  Configurator();
-
-  //! Destructor
   virtual ~Configurator();
 
   //! Creates a Configurator with the specified type.
@@ -173,7 +169,7 @@ public:
   //! Returns all configuration directories below the specified path.
   virtual list<string> get_all_dirs(string key) const = 0;
 
-  //! Does the spcified directory exist ?
+  //! Does the specified directory exist ?
   virtual bool exists_dir(string key) const = 0;
 
 protected:
@@ -181,6 +177,8 @@ protected:
   void strip_leading_slash(string &key) const;
   void strip_trailing_slash(string &key) const;
   void add_trailing_slash(string &key) const;
+
+  Configurator();
   
 protected:
   typedef std::list<std::pair<string, ConfiguratorListener *> > Listeners;

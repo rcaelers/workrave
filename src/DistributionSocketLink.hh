@@ -162,7 +162,9 @@ public:
   bool claim();
   bool set_lock_master(bool lock);
 
-  bool register_client_message(DistributionClientMessageID id, DistributionClientMessageInterface *dist_state, bool automatic = true);
+  bool register_client_message(DistributionClientMessageID id,
+                               DistributionClientMessageInterface *callback,
+                               bool automatic = true);
   bool unregister_client_message(DistributionClientMessageID id);
   bool broadcast_client_message(DistributionClientMessageID id, unsigned char *buffer, int size);
 

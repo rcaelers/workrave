@@ -31,9 +31,6 @@ public:
   SocketConnection();
   virtual ~SocketConnection();
 
-  //! Returns the canonical name of the remote host.
-  virtual char *get_canonical_name() = 0;
-
   //! Reads data from the connection.
   virtual bool read(void *buf, int count, int &bytes_read) = 0;
 
@@ -80,13 +77,13 @@ public:
   virtual char *get_my_canonical_name() = 0;
 
   //! Returns the canonical host name for the specified host name.
-  virtual char *canonicalize(char *) = 0;
+  virtual char *canonicalize(const char *) = 0;
 
   //! Initialize the socket driver.
   virtual bool init() = 0;
 
   //! Create a connection to the specified host and port.
-  virtual SocketConnection *connect(char *hostname, int port, void *data) = 0;
+  virtual SocketConnection *connect(const char *hostname, int port, void *data) = 0;
 
   //! Listen at the specified port.
   virtual SocketConnection *listen(int port, void *data) = 0;

@@ -1,9 +1,7 @@
 // InputMonitorInterface.hh --- Interface definition for the Activity Monitor
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
-//
-// Time-stamp: <2002-08-21 23:57:42 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

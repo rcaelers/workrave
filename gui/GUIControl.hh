@@ -155,8 +155,9 @@ private:
 
 #ifdef HAVE_DISTRIBUTION
   void init_distribution_manager();
-  bool request_client_message(DistributionClientMessageID id, unsigned char **buffer, int *size);
-  bool client_message(DistributionClientMessageID id, bool master, char *client_id, unsigned char *buffer, int size);
+  bool request_client_message(DistributionClientMessageID id, PacketBuffer &buffer);
+  bool client_message(DistributionClientMessageID id, bool master, const char *client_id,
+                      PacketBuffer &buffer);
 #endif
   
 public:

@@ -32,6 +32,7 @@ class DistributionLink;
 class Configurator;
 class DistributionLogListener;
 class DistributionListener;
+class PacketBuffer;
 
 class DistributionManager :
   public DistributionLinkListener,
@@ -61,13 +62,13 @@ public:
   bool connect(string url);
   bool disconnect(string id);
   bool register_client_message(DistributionClientMessageID id, DistributionClientMessageType type,
-                               DistributionClientMessageInterface *dist_state);
+                               DistributionClientMessageInterface *callback);
   bool unregister_client_message(DistributionClientMessageID id);
 
   bool add_listener(DistributionListener *listener);
   bool remove_listener(DistributionListener *listener);
   
-  bool broadcast_client_message(DistributionClientMessageID id, unsigned char *buffer, int size);
+  bool broadcast_client_message(DistributionClientMessageID id, PacketBuffer &buffer);
   bool add_peer(string peer);
   bool remove_peer(string peer);
   bool disconnect_all();

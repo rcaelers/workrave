@@ -147,6 +147,10 @@ enum
   COMPONENT_MODIFIER =  1 << 2
 };
 
+
+/* The following is (partly) taken from the libgnome package.
+ * Copyright (C) 1997, 1998, 1999, 2000 Free Software Foundation, Inc.  
+ */
 /* Break an X/Open style locale specification into components
  */
 static guint
@@ -201,6 +205,10 @@ explode_locale (const gchar *locale,
   return mask;
 }
 
+
+/* The following is (partly) taken from the libgnome package.
+ * Copyright (C) 1997, 1998, 1999, 2000 Free Software Foundation, Inc.  
+ */
 /*
  * Compute all interesting variants for a given locale name -
  * by stripping off different components of the value.
@@ -344,5 +352,3 @@ nls_get_language_list (const gchar *category_name)
 
 #endif
 }
-
-

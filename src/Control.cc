@@ -79,6 +79,8 @@ Control::~Control()
 {
   TRACE_ENTER("Control::~Control");
 
+  save_state();
+  
   if (monitor != NULL)
     {
       monitor->terminate();
@@ -91,6 +93,12 @@ Control::~Control()
   delete [] timers;
   
 #ifdef HAVE_DISTRIBUTION
+  if (idlelog_manager != NULL)
+    {
+      idlelog_manager->terminate();
+      delete idlelog_manager;
+    }
+  
   delete dist_manager;
 #endif
 
@@ -189,15 +197,13 @@ Control::process_timers(TimerInfo *infos)
   // state has changed.
   if (master_node && monitor_state != state)
     {
-      PacketBuffer state_packet;
-      state_packet.create();
+      PacketBuffer buffer;
+      buffer.create();
 
-      state_packet.pack_ushort(1);
-      state_packet.pack_ushort(state);
+      buffer.pack_ushort(1);
+      buffer.pack_ushort(state);
       
-      dist_manager->broadcast_client_message(DCM_MONITOR,
-                               (unsigned char *)state_packet.get_buffer(),
-                               state_packet.bytes_written());
+      dist_manager->broadcast_client_message(DCM_MONITOR, buffer);
     }
   
   monitor_state = state;
@@ -298,6 +304,7 @@ Control::create_distribution_manager()
 
       
       idlelog_manager = new IdleLogManager(dist_manager->get_my_id(), this);
+      idlelog_manager->init();
     }
   return dist_manager != NULL;
 }
@@ -613,20 +620,19 @@ Control::test_me()
 {
   TRACE_ENTER("Control::test_me");
 
-#if 0  
+#if 0
   script_count = 0;
   script_start_time = current_time + 5;
 
-  PacketBuffer state_packet;
-  state_packet.create();
+  PacketBuffer buffer;
+  buffer.create();
 
-  state_packet.pack_ushort(1);
-  state_packet.pack_ushort(SCRIPT_START);
-  state_packet.pack_ushort(script_start_time);
+  buffer.pack_ushort(1);
+  buffer.pack_ushort(SCRIPT_START);
+  buffer.pack_ushort(script_start_time);
 
-  dist_manager->broadcast_client_message(DCM_SCRIPT,
-                                         (unsigned char *)state_packet.get_buffer(),
-                                         state_packet.bytes_written());
+  dist_manager->broadcast_client_message(DCM_SCRIPT, buffer);
+
 #else  
   if (fake_monitor != NULL)
     {
@@ -651,14 +657,14 @@ Control::test_me()
 
 #ifdef HAVE_DISTRIBUTION
 bool
-Control::request_client_message(DistributionClientMessageID id, unsigned char **buffer, int *size)
+Control::request_client_message(DistributionClientMessageID id, PacketBuffer &buffer)
 {
   bool ret = false;
   
   switch (id)
     {
     case DCM_TIMERS:
-      ret = get_timer_state(buffer, size);
+      ret = get_timer_state(buffer);
       break;
         
     case DCM_MONITOR:
@@ -666,7 +672,8 @@ Control::request_client_message(DistributionClientMessageID id, unsigned char **
       break;
 
     case DCM_IDLELOG:
-      ret = idlelog_manager->get_idlelog(buffer, size);
+      idlelog_manager->get_idlelog(buffer);
+      ret = true;
       break;
 
     default:
@@ -677,28 +684,30 @@ Control::request_client_message(DistributionClientMessageID id, unsigned char **
 }
 
 bool
-Control::client_message(DistributionClientMessageID id, bool master, char *client_id, unsigned char *buffer, int size)
+Control::client_message(DistributionClientMessageID id, bool master, const char *client_id,
+                        PacketBuffer &buffer)
 {
   bool ret = false;
   
   switch (id)
     {
     case DCM_TIMERS:
-      ret = set_timer_state(buffer, size);
+      ret = set_timer_state(buffer);
       break;
         
     case DCM_MONITOR:
-      ret = set_monitor_state(master, buffer, size);
+      ret = set_monitor_state(master, buffer);
       break;
 
     case DCM_IDLELOG:
-      ret = idlelog_manager->set_idlelog(buffer, size);
+      idlelog_manager->set_idlelog(buffer);
       compute_timers();
+      ret = true;
       break;
       
 #ifndef NDEBUG
     case DCM_SCRIPT:
-      ret = script_message(master, client_id, buffer, size);
+      ret = script_message(master, client_id, buffer);
       break;
 #endif
     default:
@@ -710,44 +719,36 @@ Control::client_message(DistributionClientMessageID id, bool master, char *clien
 
 
 bool
-Control::get_timer_state(unsigned char **buffer, int *size)
+Control::get_timer_state(PacketBuffer &buffer) const
 {
   TRACE_ENTER("Control::get_timer_state");
 
-  PacketBuffer state_packet;
-
-  state_packet.create();
-  state_packet.pack_ushort(timer_count);
+  buffer.pack_ushort(timer_count);
   
   for (int i = 0; i < timer_count; i++)
     {
       Timer *t = timers[i];
-      state_packet.pack_string(t->get_id().c_str());
+      buffer.pack_string(t->get_id().c_str());
 
       Timer::TimerStateData state_data;
       
       t->get_state_data(state_data);
       
-      int pos = state_packet.bytes_written();
+      int pos = buffer.bytes_written();
 
-      state_packet.pack_ushort(0);
-      state_packet.pack_ulong((guint32)state_data.current_time);
-      state_packet.pack_ulong((guint32)state_data.elapsed_time);
-      state_packet.pack_ulong((guint32)state_data.elapsed_idle_time);
-      state_packet.pack_ulong((guint32)state_data.last_pred_reset_time);
-      state_packet.pack_ulong((guint32)state_data.total_overdue_time);
+      buffer.pack_ushort(0);
+      buffer.pack_ulong((guint32)state_data.current_time);
+      buffer.pack_ulong((guint32)state_data.elapsed_time);
+      buffer.pack_ulong((guint32)state_data.elapsed_idle_time);
+      buffer.pack_ulong((guint32)state_data.last_pred_reset_time);
+      buffer.pack_ulong((guint32)state_data.total_overdue_time);
 
-      state_packet.pack_ulong((guint32)state_data.last_limit_time);
-      state_packet.pack_ulong((guint32)state_data.last_limit_elapsed);
-      state_packet.pack_ushort((guint16)state_data.snooze_inhibited);
+      buffer.pack_ulong((guint32)state_data.last_limit_time);
+      buffer.pack_ulong((guint32)state_data.last_limit_elapsed);
+      buffer.pack_ushort((guint16)state_data.snooze_inhibited);
       
-      state_packet.poke_ushort(pos, state_packet.bytes_written() - pos);
+      buffer.poke_ushort(pos, buffer.bytes_written() - pos);
     }
-  
-  // FIXME: solve in PacketBuffer.
-  *size = state_packet.bytes_written();
-  *buffer = new unsigned char[*size + 1];
-  memcpy(*buffer, state_packet.get_buffer(), *size);
 
   TRACE_EXIT();
   return true;
@@ -755,21 +756,16 @@ Control::get_timer_state(unsigned char **buffer, int *size)
 
 
 bool
-Control::set_timer_state(unsigned char *buffer, int size)
+Control::set_timer_state(PacketBuffer &buffer)
 {
   TRACE_ENTER("Control::set_timer_state");
 
-  PacketBuffer state_packet;
-  state_packet.create();
-
-  state_packet.pack_raw(buffer, size);
-  
-  int num_timers = state_packet.unpack_ushort();
+  int num_timers = buffer.unpack_ushort();
 
   TRACE_MSG("numtimer = " << num_timers);
   for (int i = 0; i < num_timers; i++)
     {
-      gchar *id = state_packet.unpack_string();
+      gchar *id = buffer.unpack_string();
       TRACE_MSG("id = " << id);
 
       if (id == NULL)
@@ -782,17 +778,17 @@ Control::set_timer_state(unsigned char *buffer, int size)
 
       Timer::TimerStateData state_data;
 
-      state_packet.unpack_ushort();
+      buffer.unpack_ushort();
       
-      state_data.current_time = state_packet.unpack_ulong();
-      state_data.elapsed_time = state_packet.unpack_ulong();
-      state_data.elapsed_idle_time = state_packet.unpack_ulong();
-      state_data.last_pred_reset_time = state_packet.unpack_ulong();
-      state_data.total_overdue_time = state_packet.unpack_ulong();
+      state_data.current_time = buffer.unpack_ulong();
+      state_data.elapsed_time = buffer.unpack_ulong();
+      state_data.elapsed_idle_time = buffer.unpack_ulong();
+      state_data.last_pred_reset_time = buffer.unpack_ulong();
+      state_data.total_overdue_time = buffer.unpack_ulong();
 
-      state_data.last_limit_time = state_packet.unpack_ulong();
-      state_data.last_limit_elapsed = state_packet.unpack_ulong();
-      state_data.snooze_inhibited = state_packet.unpack_ushort();
+      state_data.last_limit_time = buffer.unpack_ulong();
+      state_data.last_limit_elapsed = buffer.unpack_ulong();
+      state_data.snooze_inhibited = buffer.unpack_ushort();
       
       TRACE_MSG("state = "
                 << state_data.current_time << " "
@@ -814,19 +810,14 @@ Control::set_timer_state(unsigned char *buffer, int size)
 
 
 bool
-Control::set_monitor_state(bool master, unsigned char *buffer, int size)
+Control::set_monitor_state(bool master, PacketBuffer &buffer)
 {
   TRACE_ENTER_MSG("Control::set_monitor_state", master << " " << master_node);
 
   if (!master_node)
     {
-      PacketBuffer state_packet;
-      state_packet.create();
-      
-      state_packet.pack_raw(buffer, size);
-  
-      state_packet.unpack_ushort();
-      remote_state = (ActivityState) state_packet.unpack_ushort();
+      buffer.unpack_ushort();
+      remote_state = (ActivityState) buffer.unpack_ushort();
     }
   
   TRACE_EXIT();
@@ -888,28 +879,23 @@ Control::compute_timers()
 
 #ifndef NDEBUG
 bool
-Control::script_message(bool master, char *client_id, unsigned char *buffer, int size)
+Control::script_message(bool master, const char *client_id, PacketBuffer &buffer)
 {
   TRACE_ENTER("Control::script_message");
 
   (void) master;
   (void) client_id;
   
-  PacketBuffer packet;
-  packet.create(size);
-
-  packet.pack_raw(buffer, size);
-  
-  int cmd_size = packet.unpack_ushort();
+  int cmd_size = buffer.unpack_ushort();
   for (int i = 0; i < cmd_size; i++)
     {
-      ScriptCommand type = (ScriptCommand) packet.unpack_ushort();
+      ScriptCommand type = (ScriptCommand) buffer.unpack_ushort();
 
       switch (type)
         {
         case SCRIPT_START:
           {
-            script_start_time = packet.unpack_ulong();            
+            script_start_time = buffer.unpack_ulong();            
             script_count = 0;
           }
           break;

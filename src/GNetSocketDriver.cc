@@ -69,7 +69,7 @@ GNetSocketDriver::get_my_canonical_name()
 
 //! Returns the canonical hostname of the specified hostname.
 char *
-GNetSocketDriver::canonicalize(char *host)
+GNetSocketDriver::canonicalize(const char *host)
 {
   char *ret = NULL;
   
@@ -86,7 +86,7 @@ GNetSocketDriver::canonicalize(char *host)
 
 //! Connects to the specified host.
 SocketConnection *
-GNetSocketDriver::connect(char *host, int port, void *data)
+GNetSocketDriver::connect(const char *host, int port, void *data)
 {
   GNetSocketConnection *con = new GNetSocketConnection;
 
@@ -324,14 +324,6 @@ GNetSocketConnection::~GNetSocketConnection()
       g_source_remove(watch);
     }
   TRACE_EXIT();
-}
-
-
-//! Returns the canonical name of the remote host.
-char *
-GNetSocketConnection::get_canonical_name()
-{
-  return NULL;
 }
 
 

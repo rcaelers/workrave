@@ -44,6 +44,7 @@ using namespace std;
 #include "ActivityMonitor.hh"
 
 class TimeSource;
+class PacketBuffer;
 
 class IdleLogManager
 {
@@ -78,6 +79,7 @@ private:
 
   typedef list<IdleInterval> IdleLog;
   typedef IdleLog::iterator IdleLogIter;
+  typedef IdleLog::reverse_iterator IdleLogRIter;
 
   //! Idle information of a single client.
   struct ClientInfo
@@ -91,6 +93,9 @@ private:
     {
     }
 
+    //! ID
+    string client_id;
+    
     //! List of idle period of this client.
     IdleLog idlelog;
 
@@ -135,34 +140,50 @@ private:
   ClientMap clients;
 
   //! Time
-  TimeSource *time_source;
+  const TimeSource *time_source;
 
-private:
-  void update_idlelog(ClientInfo &info, ActivityState state, bool changed);
-  void dump_idlelog(ClientInfo &info);
+  //! Last time we performed an expiration run.
+  time_t last_expiration_time;
   
 public:
-  IdleLogManager(string myid, TimeSource *control);
+  IdleLogManager(string myid, const TimeSource *control);
 
   void update_all_idlelogs(string master_id, ActivityState state);
   void reset();
+  void init();
+  void terminate();
 
   void signon_remote_client(string client_id);
   void signoff_remote_client(string client_id);
 
-  bool get_idlelog(unsigned char **buffer, int *size);
-  bool set_idlelog(unsigned char *buffer, int size);
+  void get_idlelog(PacketBuffer &buffer);
+  void set_idlelog(PacketBuffer &buffer);
 
   int compute_total_active_time();
   int compute_active_time(int length);
   int compute_idle_time();
-  
+
+private:
+  void update_idlelog(ClientInfo &info, ActivityState state, bool changed);
+  void expire();
+  void expire(ClientInfo &info);
+
+  void pack_idle_interval(PacketBuffer &buffer, const IdleInterval &idle) const;
+  void unpack_idle_interval(PacketBuffer &buffer, IdleInterval &idle, time_t delta_time) const;
+
+  void pack_idlelog(PacketBuffer &buffer, const ClientInfo &ci) const;
+  void unpack_idlelog(PacketBuffer &buffer, ClientInfo &ci,time_t &delta_time, int &num_intervals) const;
+
+  void save_index();
+  void load_index();
   void save_idlelog(ClientInfo &info);
-  void load_idlelog(ClientInfo &info, string filename);
-  void load_all_idlelogs();
-  void update_idlelog(ClientInfo &info,  IdleInterval);
+  void load_idlelog(ClientInfo &info);
 
-
+  void save();
+  void load();
+  void update_idlelog(ClientInfo &info, const IdleInterval &idle);
+  
+  void dump_idlelog(ClientInfo &info);
 };
 
 

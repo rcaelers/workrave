@@ -22,6 +22,7 @@
 class ActivityMonitorListenerInterface
 {
 public:
+  // Notification that the user is currently active.
   virtual bool action_notify() = 0;
 };
 

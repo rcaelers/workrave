@@ -38,6 +38,7 @@ static const char rcsid[] = "$Id$";
 #endif
 
 
+//! Creates a configurator of the specified type.
 Configurator *
 Configurator::create(string type)
 {
@@ -72,14 +73,20 @@ Configurator::create(string type)
   return c;
 }
 
+
+// Constructs a new configurator.
 Configurator::Configurator()
 {
 }
 
+
+// Destructs the configurator.
 Configurator::~Configurator()
 {
 }
 
+
+//! Add the specified configuration change listener.
 /*!
  *  \param listener listener to add.
  *
@@ -87,19 +94,16 @@ Configurator::~Configurator()
  *  \retval false listener already added.
  */
 bool
-Configurator::add_listener(string keyPrefix, ConfiguratorListener *listener)
+Configurator::add_listener(string key_prefix, ConfiguratorListener *listener)
 {
   bool ret = true;
 
-  strip_leading_slash(keyPrefix);
+  strip_leading_slash(key_prefix);
   
   ListenerIter i = listeners.begin();
   while (ret && i != listeners.end())
     {
-      string p = i->first;
-      ConfiguratorListener *l = i->second;
-
-      if (keyPrefix == p && listener == l)
+      if (key_prefix == i->first && listener == i->second)
         {
           // Already added. Skip
           ret = false;
@@ -111,16 +115,15 @@ Configurator::add_listener(string keyPrefix, ConfiguratorListener *listener)
   if (ret)
     {
       // not found -> add
-      listeners.push_back(make_pair(keyPrefix, listener));
+      listeners.push_back(make_pair(key_prefix, listener));
     }
 
   return ret;
 }
 
 
-//! Remove the specified activity listener.
+//! Removes the specified configuration change listener.
 /*!
- *
  *  \param listener listener to remove.
  *
  *  \retval true listener successfully removed.
@@ -134,9 +137,7 @@ Configurator::remove_listener(ConfiguratorListener *listener)
   ListenerIter i = listeners.begin();
   while (i != listeners.end())
     {
-      ConfiguratorListener *l = i->second;
-
-      if (listener == l)
+      if (listener == i->second)
         {
           // Found. Remove
           i = listeners.erase(i);
@@ -152,10 +153,10 @@ Configurator::remove_listener(ConfiguratorListener *listener)
 }
 
 
-//! Remove the specified activity listener.
+//! Removes the specified configuration change listener.
 /*!
- *
  *  \param listener listener to remove.
+ *  \param listener key of listener to remove.
  *
  *  \retval true listener successfully removed.
  *  \retval false listener not found.
@@ -183,6 +184,16 @@ Configurator::remove_listener(string key, ConfiguratorListener *listener)
   return ret;
 }
 
+
+
+//! Finds the key of the specified configuration change listener.
+/*!
+ *  \param listener listener to find the key of.
+ *  \param key returned key.
+ *
+ *  \retval true listener successfully found.
+ *  \retval false listener not found.
+ */
 bool
 Configurator::find_listener(ConfiguratorListener *listener, string &key) const
 {
@@ -231,7 +242,7 @@ Configurator::fire_configurator_event(string key)
 }
 
 
-//! Removes the leading '/'
+//! Removes the leading '/'.
 void
 Configurator::strip_leading_slash(string &key) const
 {
@@ -246,7 +257,7 @@ Configurator::strip_leading_slash(string &key) const
 }
 
 
-//! Removes the trailing '/'
+//! Removes the trailing '/'.
 void
 Configurator::strip_trailing_slash(string &key) const
 {
@@ -261,7 +272,7 @@ Configurator::strip_trailing_slash(string &key) const
 }
 
 
-//! Add add trailing '/' if it isn't there yet.
+//! Adds add trailing '/' if it isn't there yet.
 void
 Configurator::add_trailing_slash(string &key) const
 {

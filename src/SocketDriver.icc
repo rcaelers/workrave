@@ -16,14 +16,16 @@
 //
 
 //! Construct a new socket connection.
-inline SocketConnection::SocketConnection()
+inline
+SocketConnection::SocketConnection()
   : data(NULL)
 {
 }
 
 
 //! Destruct socket connection.
-inline SocketConnection::~SocketConnection()
+inline
+SocketConnection::~SocketConnection()
 {
 }
 
@@ -44,15 +46,17 @@ SocketConnection::set_data(void *d)
 }
 
 
-//! Construct a new socket driver.
-inline SocketDriver::SocketDriver()
+//! Constructs a new socket driver.
+inline
+SocketDriver::SocketDriver()
   : listener(NULL)
 {
 }
 
 
-//! Destruct socket drivers.
-inline SocketDriver::~SocketDriver()
+//! Destructs socket drivers.
+inline
+SocketDriver::~SocketDriver()
 {
 }
 

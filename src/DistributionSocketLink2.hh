@@ -67,7 +67,7 @@ private:
     PACKET_CLIENT_LIST	= 0x0003,
     PACKET_WELCOME	= 0x0004,
     PACKET_NEW_MASTER	= 0x0005,
-    PACKET_STATEINFO	= 0x0006,
+    PACKET_CLIENTMSG	= 0x0006,
     PACKET_DUPLICATE	= 0x0007,
     PACKET_CLAIM_REJECT	= 0x0008,
     PACKET_SIGNOFF	= 0x0009,
@@ -80,16 +80,16 @@ private:
   
   enum ClientListFlags
     {
-      CLIENTLIST_ME  		= 1,
-      CLIENTLIST_MASTER  		= 2,
+      CLIENTLIST_ME  	= 1,
+      CLIENTLIST_MASTER 	= 2,
     };
 
-  struct StateListener
+  struct ClientMessageListener
   {
     DistributionClientMessageInterface *listener;
     DistributionClientMessageType type;
 
-    StateListener() :
+    ClientMessageListener() :
       listener(NULL),
       type(DCMT_PASSIVE)
     {
@@ -194,9 +194,9 @@ public:
   bool set_lock_master(bool lock);
   
   bool register_client_message(DistributionClientMessageID id, DistributionClientMessageType type,
-                               DistributionClientMessageInterface *dist_state);
+                               DistributionClientMessageInterface *callback);
   bool unregister_client_message(DistributionClientMessageID id);
-  bool broadcast_client_message(DistributionClientMessageID id, unsigned char *buffer, int size);
+  bool broadcast_client_message(DistributionClientMessageID id, PacketBuffer &buffer);
 
   void socket_accepted(SocketConnection *scon, SocketConnection *ccon);
   void socket_connected(SocketConnection *con, void *data);
@@ -217,7 +217,7 @@ private:
   
   bool set_client_id(Client *client, gchar *id, gchar *name, gint port);
   
-  bool get_master(gchar **id) const;
+  char *get_master() const;
   void set_master_by_id(gchar *id);
   void set_master(Client *client);
   void set_me_master();
@@ -237,7 +237,7 @@ private:
   bool handle_client_list(PacketBuffer &packet, Client *client, Client *direct);
   void handle_claim(PacketBuffer &packet, Client *client);
   void handle_new_master(PacketBuffer &packet, Client *client);
-  void handle_state(PacketBuffer &packet, Client *client);
+  void handle_client_message(PacketBuffer &packet, Client *client);
   void handle_claim_reject(PacketBuffer &packet, Client *client);
 
   void send_hello(Client *client);
@@ -248,7 +248,7 @@ private:
   void send_claim(Client *client);
   void send_new_master(Client *client = NULL);
   void send_claim_reject(Client *client);
-  void send_state(DistributionClientMessageType type);
+  void send_client_message(DistributionClientMessageType type);
   
   bool start_async_server();
 
@@ -259,7 +259,7 @@ private:
   //! The socket library.
   SocketDriver *socket_driver;
   
-  //! The distribution manager
+  //! The distribution manager.
   DistributionLinkListener *dist_manager;
 
   //! The configuration access.
@@ -277,16 +277,16 @@ private:
   //! Active client
   Client *master_client;
 
-  //!
+  //! Whether I'm the master.
   bool i_am_master;
 
-  //!
+  //! Whether the master status is locked by me.
   bool master_locked;
   
-  //!
+  //! My name
   gchar *myname;
 
-  //!
+  //! My ID accross the network.
   gchar *myid;
   
   //! My server port
@@ -295,11 +295,11 @@ private:
   //! The server socket.
   SocketConnection *server_socket;
 
-  //!
+  //! Whether distribution is enabled.
   bool server_enabled;
   
-  //! State
-  map<DistributionClientMessageID, StateListener> state_map;
+  //! ClientMessage listeners
+  map<DistributionClientMessageID, ClientMessageListener> client_message_map;
 
   //!
   int reconnect_attempts;

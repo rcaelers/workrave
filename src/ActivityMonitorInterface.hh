@@ -3,8 +3,6 @@
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-03-09 14:17:23 robc>
-//
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
@@ -24,8 +22,16 @@
 class ActivityListener;
 class ActivityMonitorListenerInterface;
 
-enum ActivityState { ACTIVITY_UNKNOWN, ACTIVITY_SUSPENDED, ACTIVITY_IDLE, ACTIVITY_NOISE, ACTIVITY_ACTIVE } ;
+//! State of the activity monitor.
+enum ActivityState
+  { ACTIVITY_UNKNOWN,
+    ACTIVITY_SUSPENDED,
+    ACTIVITY_IDLE,
+    ACTIVITY_NOISE,
+    ACTIVITY_ACTIVE
+  } ;
 
+//! Statisticts about user activity.
 class ActivityMonitorStatistics
 {
 public:
@@ -46,7 +52,7 @@ public:
 };
 
 
-//! Interface that all activity monitors must support.
+//! Interface that all activity monitor implements.
 class ActivityMonitorInterface
 {
 public:
@@ -68,13 +74,13 @@ public:
   //! Retrieves the statistics.
   virtual void get_statistics(ActivityMonitorStatistics &stats) const = 0;
 
-  //! Retrieves the statistics.
+  //! Sets the statistics.
   virtual void set_statistics(const ActivityMonitorStatistics &stats) = 0;
 
   //! Resets the statistics.
   virtual void reset_statistics() = 0;
 
-  //!
+  //! Sets the callback for activity monitor events.
   virtual void set_listener(ActivityMonitorListenerInterface *l) = 0;
 };
 

@@ -21,6 +21,8 @@
 
 #include "glib.h"
 
+#define GROW_SIZE	(4096)
+
 class PacketBuffer
 {
 public:
@@ -30,7 +32,10 @@ public:
 
   void create(int size = 0);
   void resize(int size);
-  void clear() { write_ptr = read_ptr = buffer; }
+  void grow(int size);
+  void narrow(int pos, int size);
+  
+  void clear() { narrow(0, -1); write_ptr = read_ptr = buffer; }
   void skip(int size) { read_ptr += size; }
   void insert(int pos, int size);
   
@@ -77,6 +82,9 @@ public:
   guint8 *read_ptr;
   guint8 *write_ptr;
   int buffer_size;
+
+  guint8 *original_buffer;
+  int original_buffer_size;
 };
 
 

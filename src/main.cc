@@ -55,7 +55,7 @@ main(int argc, char **argv)
 
   // This will warn you when you are using header files that do not belong to the
   // shared libcwd object that you linked with.
-  Debug( check_configuration() );
+  Debug(check_configuration());
 
   // Turn on debug object `libcw_do'.
   Debug(libcw_do.on());

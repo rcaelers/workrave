@@ -255,13 +255,13 @@ DistributionManager::reconnect_all()
 bool
 DistributionManager::register_client_message(DistributionClientMessageID id,
                                              DistributionClientMessageType type,
-                                             DistributionClientMessageInterface *dist_state)
+                                             DistributionClientMessageInterface *callback)
 {
   bool ret = false;
   
   if (link != NULL)
     {
-      link->register_client_message(id, type, dist_state);
+      link->register_client_message(id, type, callback);
       ret = true;
     }
   return ret;
@@ -342,13 +342,13 @@ DistributionManager::remove_listener(DistributionListener *listener)
 
 //! Broadcasts a client message to all
 bool
-DistributionManager::broadcast_client_message(DistributionClientMessageID id, unsigned char *buffer, int size)
+DistributionManager::broadcast_client_message(DistributionClientMessageID id, PacketBuffer &buffer)
 {
   bool ret = false;
   
   if (link != NULL)
     {
-      ret = link->broadcast_client_message(id, buffer, size);
+      ret = link->broadcast_client_message(id, buffer);
     }
   return ret;
 }

@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-01-05 16:02:11 robc>
+// Time-stamp: <2003-06-21 22:22:24 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -51,7 +51,7 @@ public:
     last_time = lastTime;
   }
 
-  //! Compute the next time the predicate matches given the time of the previous match.
+  //! Computes the next time the predicate matches given the time of the previous match.
   virtual time_t get_next() = 0;
 
   //! Returns the string representation of this predicate.

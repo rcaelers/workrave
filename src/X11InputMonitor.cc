@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-04-11 22:55:09 robc>
+// Time-stamp: <2003-06-21 22:18:12 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -53,6 +53,7 @@ static const char rcsid[] = "$Id$";
 
 #include "timeutil.h"
 
+//! Intercepts X11 protocol errors.
 static int
 errorHandler(Display *dpy, XErrorEvent *error)
 {
@@ -63,6 +64,7 @@ errorHandler(Display *dpy, XErrorEvent *error)
 }
 
 
+//! Obtains the next X11 event with specified timeout.
 static Bool
 XNextEventTimed(Display* dsp, XEvent* event_return, long millis)
 {
@@ -108,7 +110,7 @@ XNextEventTimed(Display* dsp, XEvent* event_return, long millis)
 }
 
 
-X11InputMonitor::X11InputMonitor(char *name) :
+X11InputMonitor::X11InputMonitor(const char *name) :
   x11_display_name(NULL),
   x11_display(NULL),
   abort(false)

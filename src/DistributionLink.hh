@@ -23,6 +23,7 @@
 
 class DistributionLinkListener;
 class DistributionClientMessageInterface;
+class PacketBuffer;
 
 #include "DistributionClientMessageInterface.hh"
 
@@ -63,15 +64,14 @@ public:
   //! Registers a client message callback.
   virtual bool register_client_message(DistributionClientMessageID id,
                                        DistributionClientMessageType type,
-                                       DistributionClientMessageInterface *dist_state) = 0;
+                                       DistributionClientMessageInterface *callback) = 0;
 
   //! Unregisters a client message callback.
   virtual bool unregister_client_message(DistributionClientMessageID id) = 0;
 
   //! Sends a client message to all remote hosts.
   virtual bool broadcast_client_message(DistributionClientMessageID id,
-                                        unsigned char *buffer,
-                                        int size) = 0;
+                                        PacketBuffer &buffer) = 0;
 
   //! Disconnects from all remote clients.
   virtual bool disconnect_all() = 0;

@@ -910,59 +910,49 @@ GUIControl::init_distribution_manager()
 
 
 bool
-GUIControl::request_client_message(DistributionClientMessageID id, unsigned char **buffer, int *size)
+GUIControl::request_client_message(DistributionClientMessageID id, PacketBuffer &buffer)
 {
   (void) id;
-  PacketBuffer state_packet;
-  state_packet.create();
-  state_packet.pack_ushort(BREAK_ID_SIZEOF);
+  buffer.pack_ushort(BREAK_ID_SIZEOF);
   
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       BreakControl *bi = timers[i].break_control;
 
-      BreakInterface::BreakStateData state_data;
-
       if (bi != NULL)
         {
+          BreakInterface::BreakStateData state_data;
           bi->get_state_data(state_data);
       
-          int pos = state_packet.bytes_written();
+          int pos = buffer.bytes_written();
 
-          state_packet.pack_ushort(0);
-          state_packet.pack_byte((guint8)state_data.forced_break);
-          state_packet.pack_byte((guint8)state_data.final_prelude);
-          state_packet.pack_ulong((guint32)state_data.prelude_count);
-          state_packet.pack_ulong((guint32)state_data.break_stage);
-          state_packet.pack_ulong((guint32)state_data.prelude_time);
+          buffer.pack_ushort(0);
+          buffer.pack_byte((guint8)state_data.forced_break);
+          buffer.pack_byte((guint8)state_data.final_prelude);
+          buffer.pack_ulong((guint32)state_data.prelude_count);
+          buffer.pack_ulong((guint32)state_data.break_stage);
+          buffer.pack_ulong((guint32)state_data.prelude_time);
       
-          state_packet.poke_ushort(pos, state_packet.bytes_written() - pos);
+          buffer.poke_ushort(pos, buffer.bytes_written() - pos);
         }
       else
         {
-          state_packet.pack_ushort(0);
+          buffer.pack_ushort(0);
         }
     }
-
-  *size = state_packet.bytes_written();
-  *buffer = new unsigned char[*size + 1];
-  memcpy(*buffer, state_packet.get_buffer(), *size);
 
   return true;
 }
 
 
 bool
-GUIControl::client_message(DistributionClientMessageID id, bool master, char *client_id, unsigned char *buffer, int size)
+GUIControl::client_message(DistributionClientMessageID id, bool master, const char *client_id,
+                           PacketBuffer &buffer)
 {
   (void) id;
   (void) client_id;
-  PacketBuffer state_packet;
-  state_packet.create();
 
-  state_packet.pack_raw(buffer, size);
-  
-  int num_breaks = state_packet.unpack_ushort();
+  int num_breaks = buffer.unpack_ushort();
 
   if (num_breaks > BREAK_ID_SIZEOF)
     {
@@ -975,15 +965,15 @@ GUIControl::client_message(DistributionClientMessageID id, bool master, char *cl
       
       BreakInterface::BreakStateData state_data;
 
-      int data_size = state_packet.unpack_ushort();
+      int data_size = buffer.unpack_ushort();
 
       if (data_size > 0)
         {
-          state_data.forced_break = state_packet.unpack_byte();
-          state_data.final_prelude = state_packet.unpack_byte();
-          state_data.prelude_count = state_packet.unpack_ulong();
-          state_data.break_stage = state_packet.unpack_ulong();
-          state_data.prelude_time = state_packet.unpack_ulong();
+          state_data.forced_break = buffer.unpack_byte();
+          state_data.final_prelude = buffer.unpack_byte();
+          state_data.prelude_count = buffer.unpack_ulong();
+          state_data.break_stage = buffer.unpack_ulong();
+          state_data.prelude_time = buffer.unpack_ulong();
 
           bi->set_state_data(master, state_data);
         }
