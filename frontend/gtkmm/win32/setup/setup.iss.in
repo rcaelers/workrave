@@ -48,7 +48,7 @@ Name: "startupmenu"; Description: "Start Workrave when Windows starts"; GroupDes
 
 [Files]
 Source: "..\..\..\..\common\win32\harpoon\src\Release\harpoon.dll"; DestDir: "{app}\lib"; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
-Source: "..\..\..\win32\applet\src\Release\workrave-applet.dll"; DestDir: "{app}\lib"; Flags: ignoreversion restartreplace uninsrestartdelete;
+Source: "..\..\..\win32\applet\src\Release\workrave-applet.dll"; DestDir: "{app}\lib"; Flags: ignoreversion restartreplace uninsrestartdelete regserver;
 Source: ".\runtime-base\*.*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs;
 Source: ".\runtime-gtk\*.*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs; Components: gtk;
 Source: ".\runtime-wimp\*.*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs; Components: gtk;

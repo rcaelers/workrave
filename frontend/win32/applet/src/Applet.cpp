@@ -20,6 +20,7 @@
 #include <comcat.h>
 #include <olectl.h>
 #include "ClsFact.h"
+#include <shlwapi.h>
 
 #pragma data_seg(".text")
 #define INITGUID
@@ -162,7 +163,6 @@ typedef struct{
 }DOREGSTRUCT, *LPDOREGSTRUCT;
 
 
-// FIXME: Implement 'reg'
 BOOL
 RegisterServer(CLSID clsid, LPTSTR lpszTitle, BOOL reg)
 {
@@ -202,43 +202,53 @@ RegisterServer(CLSID clsid, LPTSTR lpszTitle, BOOL reg)
 
   DOREGSTRUCT ClsidEntries[] = {HKEY_CLASSES_ROOT,   TEXT("CLSID\\%s"),                  NULL,                   lpszTitle,
                                 HKEY_CLASSES_ROOT,   TEXT("CLSID\\%s\\InprocServer32"),  NULL,                   szModule,
-                                HKEY_CLASSES_ROOT,   TEXT("CLSID\\%s\\InprocServer32"),  TEXT("ThreadingModel"), TEXT("Apartment"),
-                                NULL,                NULL,                               NULL,                   NULL};
+                                HKEY_CLASSES_ROOT,   TEXT("CLSID\\%s\\InprocServer32"),  TEXT("ThreadingModel"), TEXT("Apartment")
+    };
 
-  //register the CLSID entries
-  for(i = 0; ClsidEntries[i].hRootKey; i++)
+  if (reg)
+    {
+      //register the CLSID entries
+      for(i = 0; i < sizeof(ClsidEntries)/sizeof(ClsidEntries[0]); i++)
+        {
+          //create the sub key string - for this case, insert the file extension
+          wsprintf(szSubKey, ClsidEntries[i].szSubKey, szCLSID);
+
+          lResult = RegCreateKeyEx(  ClsidEntries[i].hRootKey,
+                                     szSubKey,
+                                     0,
+                                     NULL,
+                                     REG_OPTION_NON_VOLATILE,
+                                     KEY_WRITE,
+                                     NULL,
+                                     &hKey,
+                                     &dwDisp);
+   
+          if(NOERROR == lResult)
+            {
+              TCHAR szData[MAX_PATH];
+
+              //if necessary, create the value string
+              wsprintf(szData, ClsidEntries[i].szData, szModule);
+   
+              lResult = RegSetValueEx(   hKey,
+                                         ClsidEntries[i].lpszValueName,
+                                         0,
+                                         REG_SZ,
+                                         (LPBYTE)szData,
+                                         lstrlen(szData) + 1);
+      
+              RegCloseKey(hKey);
+            }
+          else
+            return FALSE;
+        }
+    }
+  else
     {
       //create the sub key string - for this case, insert the file extension
-      wsprintf(szSubKey, ClsidEntries[i].szSubKey, szCLSID);
+      wsprintf(szSubKey, ClsidEntries[0].szSubKey, szCLSID);
 
-      lResult = RegCreateKeyEx(  ClsidEntries[i].hRootKey,
-                                 szSubKey,
-                                 0,
-                                 NULL,
-                                 REG_OPTION_NON_VOLATILE,
-                                 KEY_WRITE,
-                                 NULL,
-                                 &hKey,
-                                 &dwDisp);
-   
-      if(NOERROR == lResult)
-        {
-          TCHAR szData[MAX_PATH];
-
-          //if necessary, create the value string
-          wsprintf(szData, ClsidEntries[i].szData, szModule);
-   
-          lResult = RegSetValueEx(   hKey,
-                                     ClsidEntries[i].lpszValueName,
-                                     0,
-                                     REG_SZ,
-                                     (LPBYTE)szData,
-                                     lstrlen(szData) + 1);
-      
-          RegCloseKey(hKey);
-        }
-      else
-        return FALSE;
+      SHDeleteKey(ClsidEntries[0].hRootKey, szSubKey);
     }
 
   //If running on NT, register the extension as approved.
@@ -268,12 +278,19 @@ RegisterServer(CLSID clsid, LPTSTR lpszTitle, BOOL reg)
           //Create the value string.
           lstrcpy(szData, lpszTitle);
 
-          lResult = RegSetValueEx(   hKey,
-                                     szCLSID,
-                                     0,
-                                     REG_SZ,
-                                     (LPBYTE)szData,
-                                     (lstrlen(szData) + 1) * sizeof(TCHAR));
+          if (reg)
+            {
+              lResult = RegSetValueEx(   hKey,
+                                         szCLSID,
+                                         0,
+                                         REG_SZ,
+                                         (LPBYTE)szData,
+                                         (lstrlen(szData) + 1) * sizeof(TCHAR));
+            }
+          else
+            {
+              lResult = RegDeleteValue(hKey, szCLSID);
+            }
       
           RegCloseKey(hKey);
         }
