@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-09-13 12:42:47 robc>
+// Time-stamp: <2002-09-20 20:30:18 pennersr>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@
 
 #include "ActivityMonitorInterface.hh"
 
-class InputMonitorInterface;
+class InputMonitor;
 class ActivityListener;
 class ActivityStateMonitor;
 class Thread;
@@ -48,7 +48,7 @@ public:
 
 private:
   //! The actual monitoring driver.
-  InputMonitorInterface *input_monitor;
+  InputMonitor *input_monitor;
   
   //! The state monitor.
   ActivityStateMonitor *activity_state;

@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-09-14 19:57:39 robc>
+// Time-stamp: <2002-09-20 20:31:31 pennersr>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -29,33 +29,19 @@ static const char rcsid[] = "$Id$";
 
 #include "ActivityMonitor.hh"
 #include "ActivityStateMonitor.hh"
-
-#ifdef HAVE_X
-#include "X11InputMonitor.hh"
-#else
-#ifdef WIN32
-#include "Win32InputMonitor.hh"
-#endif
-#endif
-
+#include "InputMonitor.hh"
 
 //! Constructor.
 ActivityMonitor::ActivityMonitor()
 {
   TRACE_ENTER("ActivityMonitor::ActivityMonitor");
 
-#ifdef HAVE_X
-  input_monitor = new X11InputMonitor();
-#else
-#ifdef WIN32
-  input_monitor = new Win32InputMonitor();
-#endif
-#endif
+  input_monitor = InputMonitor::get_instance();
 
   activity_state = new ActivityStateMonitor();
 
   // TODO: perhaps move this to a start() method...
-  input_monitor->init(activity_state);
+  input_monitor->add_listener(activity_state);
 
   TRACE_EXIT();
 }
@@ -68,6 +54,7 @@ ActivityMonitor::~ActivityMonitor()
 
   if (input_monitor != NULL)
     {
+      input_monitor->remove_listener(activity_state);
       delete input_monitor;
     }
 
@@ -84,9 +71,6 @@ void
 ActivityMonitor::terminate()
 {
   TRACE_ENTER("ActivityMonitor::terminate");
-
-  TRACE_MSG("Terminating input monitor");
-  input_monitor->terminate();
 
   TRACE_MSG("deleting state monitor");
 
