@@ -315,19 +315,13 @@ GUI::on_save_yourself(int phase, Gnome::UI::SaveStyle save_style, bool shutdown,
 
   if (skip)
     {
-      args.push_back("workrave-is-started-by-applet");
+      client->set_restart_style(GNOME_RESTART_NEVER);
     }
   else
     {
-      if (argv[0] != NULL)
-        {
-          args.push_back(argv[0]);
-        }
-      else
-        {
-          args.push_back("workrave");
-        }
-#ifdef HAVE_X
+      client->set_restart_style(GNOME_RESTART_IF_RUNNING);
+      args.push_back(argv[0] != NULL ? argv[0] : "workrave");
+      
       char *display_name = gdk_get_display();
       if (display_name != NULL)
         {
@@ -335,8 +329,6 @@ GUI::on_save_yourself(int phase, Gnome::UI::SaveStyle save_style, bool shutdown,
           args.push_back(display_name);
           g_free(display_name);
         }
-#endif
-      
     }
   
   client->set_clone_command(args);
