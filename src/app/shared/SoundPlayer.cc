@@ -213,7 +213,7 @@ SoundPlayer::SoundPlayer()
      new GnomeSoundPlayer()
 #else
 #  warning Sound card support disabled.
-     null
+     NULL
 #endif
     ;
 }
