@@ -47,6 +47,9 @@ public:
   void set_exercise_count(int num);
   SigC::Signal0<void> &signal_stop() { return stop_signal; }
 
+protected:
+  void on_realize();
+
 private:
   void reset();
   void on_go_back();

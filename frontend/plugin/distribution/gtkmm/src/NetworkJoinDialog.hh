@@ -25,15 +25,11 @@
 #include "preinclude.h"
 #include "Hig.hh"
 
+#include <gtkmm/entry.h>
+#include <gtkmm/spinbutton.h>
+
 class DistributionManagerInterface;
 class TimeEntry;
-
-namespace Gtk
-{
-  class SpinButton;
-  class Entry;
-  class CheckButton;
-}
 
 class NetworkJoinDialog : public HigDialog
 {
@@ -42,12 +38,10 @@ public:
   ~NetworkJoinDialog();
 
   std::string get_connect_url();
-  bool is_connect_at_startup_selected();
 
 private:
-  Gtk::Entry *host_entry;
-  Gtk::SpinButton *port_entry;
-  Gtk::CheckButton *startup_button;
+  Gtk::Entry host_entry;
+  Gtk::SpinButton port_entry;
 };
 
 #endif // NETWORKJOINWINDOW_HH

@@ -215,8 +215,7 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
   description_scroll.add(description_text);
   description_scroll.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
 
-  description_text.modify_base
-    (Gtk::STATE_NORMAL, get_style()->get_background(Gtk::STATE_NORMAL));
+  description_text.set_cursor_visible(false);
   description_text.set_wrap_mode(Gtk::WRAP_WORD);
   description_text.set_editable(false);
   image_frame.add(image);
@@ -295,6 +294,15 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
   reset();
 
 }
+
+void
+ExercisesPanel::on_realize()
+{
+  Gtk::HBox::on_realize();
+  description_text.modify_base
+    (Gtk::STATE_NORMAL, get_style()->get_background(Gtk::STATE_NORMAL));
+} 
+
 
 ExercisesPanel::~ExercisesPanel()
 {

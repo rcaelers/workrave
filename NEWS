@@ -7,19 +7,33 @@ http://www.workrave.org
 
 * Workrave 1.6.0
 
+** Workrave has been translated into Chinese. Thanks to Rex Tsai.
+
+** The explanation of an exercise is now scrollable, if it does not
+fit onscreen.
+
+** The Windows version now includes a taskbar applet version of the
+status window. After installation of Workrave, right click your
+taskbar and select "Workrave" from the list of toolbars.
+
 ** Timers can be configured to ignore activity.
 
-** Bloat removal: removed the "Regard micro-pauses as activity" option
-and the "Resets at" time from the daily limit panel.
+** Bloat removal: removed the "Resets at" option from the daily limit
+panel.
 
-** Exercises are no longer read during program startup, and are
-released from memory when not needed anymore.
+** Exercises are no longer read at program startup, and are released
+from memory when not needed anymore.
 
 ** Terminology: we now use the term "micro-break" instead of "micro-pause".
 
 ** When block mode "Block all" is used, we display the break window on
 top of your current desktop background (wallpaper), instead of on a
 semi-transparent screen snapshot. 
+
+* High-profile bug fixes (Windows): activity monitoring when working
+in Exceed has been restored, and ZoneLab interaction problems
+(hangups) have been corrected.
+
 
 * Workrave 1.4.1
 

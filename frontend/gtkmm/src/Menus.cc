@@ -742,14 +742,7 @@ Menus::on_network_join_response(int response)
       DistributionManagerInterface *dist_manager
         = core->get_distribution_manager();
       std::string peer = network_join_dialog->get_connect_url();
-      if (network_join_dialog->is_connect_at_startup_selected())
-        {
-          dist_manager->add_peer(peer);
-        }
-      else
-        {
-          dist_manager->connect(peer);
-        }
+      dist_manager->connect(peer);
       CoreFactory::get_configurator()->save();
     }
 

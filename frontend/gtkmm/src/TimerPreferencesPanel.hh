@@ -34,6 +34,8 @@
 
 #include "CoreInterface.hh"
 
+#define HAVE_MICRO_BREAK_ACTIVITY 1
+
 class TimeEntry;
 
 namespace Gtk
@@ -56,7 +58,7 @@ private:
   void on_auto_reset_changed();
   void on_limit_changed();
   void on_ignorable_toggled();
-#ifdef HAVE_KEES_JAN
+#ifdef HAVE_MICRO_BREAK_ACTIVITY
   void on_monitor_toggled();
 #endif
   void on_activity_sensitive_toggled();
@@ -80,7 +82,7 @@ private:
 
   Gtk::CheckButton *ignorable_cb;
   Gtk::CheckButton *activity_sensitive_cb;
-#ifdef HAVE_KEES_JAN
+#ifdef HAVE_MICRO_BREAK_ACTIVITY
   Gtk::CheckButton *monitor_cb;
 #endif
   Gtk::CheckButton *prelude_cb;

@@ -163,7 +163,7 @@ TimerPreferencesPanel::create_options_panel()
   exercises_spin = NULL;
 #endif
 
-#ifdef HAVE_KEES_JAN
+#ifdef HAVE_MICRO_BREAK_ACTIVITY
   monitor_cb = NULL;
   if (break_id == BREAK_ID_DAILY_LIMIT)
     {
@@ -344,7 +344,7 @@ TimerPreferencesPanel::on_limit_changed()
   TRACE_EXIT();
 }
 
-#ifdef HAVE_KEES_JAN
+#ifdef HAVE_MICRO_BREAK_ACTIVITY
 void
 TimerPreferencesPanel::on_monitor_toggled()
 {
@@ -387,7 +387,7 @@ TimerPreferencesPanel::enable_buttons()
   bool on = enabled_cb->get_active();
 
   ignorable_cb->set_sensitive(on);
-#ifdef HAVE_KEES_JAN
+#ifdef HAVE_MICRO_BREAK_ACTIVITY
   if (monitor_cb != NULL)
     {
       monitor_cb->set_sensitive(on);
