@@ -115,12 +115,15 @@ private:
   void destroy_applet();
   void destroy_tray_applet();
 
+  void set_mainwindow_skipwinlist(bool s);
+    
 #ifdef HAVE_GNOME
   bool init_gnome_applet();
   void destroy_gnome_applet();
 #endif
 
   // Events.
+  void on_embedded();
   bool on_button_press_event(GdkEventButton *event);
   bool on_delete_event(GdkEventAny*);
   bool delete_event(GdkEventAny *event);

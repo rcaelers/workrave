@@ -49,7 +49,8 @@ public:
 
   void open_window();
   void close_window();
-  void toggle_window(); 
+  void toggle_window();
+  void set_skipwinlist(bool s);
   bool get_iconified() const;
   
   void update();

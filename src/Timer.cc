@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-04-19 16:39:51 robc>
+// Time-stamp: <2003-04-19 16:53:05 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -775,8 +775,8 @@ Timer::deserialize_state(std::string state)
   // overdue, so snooze
   if (get_elapsed_time() >= limit_interval)
     {
-      last_limit_time = time_source->get_time();
-      last_limit_elapsed = 0;
+      //last_limit_time = time_source->get_time();
+      //last_limit_elapsed = 0;
       
       compute_next_limit_time();
     }

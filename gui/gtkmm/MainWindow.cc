@@ -225,7 +225,7 @@ MainWindow::setup()
       raise();
     }
 
-  WindowHints::set_skip_winlist(Gtk::Widget::gobj(), true);
+  set_skipwinlist(false);
   
   TRACE_EXIT()
 }
@@ -575,4 +575,10 @@ MainWindow::remember_position()
   int x, y;
   get_position(x, y);
   set_start_position(x, y);
+}
+
+void
+MainWindow::set_skipwinlist(bool s)
+{
+  WindowHints::set_skip_winlist(Gtk::Widget::gobj(), s);
 }

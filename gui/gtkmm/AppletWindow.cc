@@ -27,6 +27,7 @@ static const char rcsid[] = "$Id$";
 #include "debug.hh"
 
 #include "AppletWindow.hh"
+#include "MainWindow.hh"
 #include "TimerBox.hh"
 #include "GUI.hh"
 #include "GUIControl.hh"
@@ -74,6 +75,7 @@ AppletWindow::~AppletWindow()
 {
   delete plug;
   delete container;
+  set_mainwindow_skipwinlist(false);
 }
 
 
@@ -152,6 +154,7 @@ AppletWindow::init_tray_applet()
   TRACE_ENTER("AppletWindow::init_tray_applet");
   bool ret = false;
   
+  set_mainwindow_skipwinlist(false);
   EggTrayIcon *tray_icon = egg_tray_icon_new("Workrave Tray Icon");
       
   if (tray_icon != NULL)
@@ -183,6 +186,8 @@ AppletWindow::init_tray_applet()
       applet_size = req.height;
 
       timers_box->set_geometry(applet_vertical, 24);
+
+      plug->signal_embedded().connect(SigC::slot(*this, &AppletWindow::on_embedded));
     }
 
   TRACE_EXIT();
@@ -196,6 +201,7 @@ AppletWindow::destroy_tray_applet()
 {
   if (mode == APPLET_TRAY)
     {
+      set_mainwindow_skipwinlist(false);
       if (plug != NULL)
         {
           plug->remove();
@@ -600,4 +606,33 @@ AppletWindow::config_changed_notify(string key)
 
   read_configuration();
   reconfigure = true;
+}
+
+void
+AppletWindow::on_embedded()
+{
+  TRACE_ENTER("AppletWindow::on_embedded");
+  set_mainwindow_skipwinlist(true);
+
+  GtkRequisition req;
+  plug->size_request(&req);
+  applet_size = req.height;
+
+  timers_box->set_geometry(applet_vertical, applet_size);
+
+  TRACE_MSG(applet_size);
+  
+  TRACE_EXIT();
+}
+
+
+void
+AppletWindow::set_mainwindow_skipwinlist(bool s)
+{
+  GUI *gui = GUI::get_instance();
+  MainWindow *main = gui->get_main_window();
+  if (main != NULL)
+    {
+      main->set_skipwinlist(s);
+    }
 }
