@@ -95,7 +95,11 @@ GUI::main()
 
   while (1)
     {
+#if defined(WIN32)
+      Sleep(1000);
+#else
       sleep(1);
+#endif
       if (gui_control != NULL)
         {
           gui_control->heartbeat();
@@ -143,7 +147,7 @@ GUI::create_sound_player()
 {
   SoundPlayerInterface *snd = NULL;
 #if defined(WIN32)
-  snd = new Win32SoundPlayer();
+  //snd = new Win32SoundPlayer();
 #elif defined(HAVE_GNOME)
   snd = new GnomeSoundPlayer();
 #else
