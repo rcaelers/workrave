@@ -74,8 +74,7 @@ public:
   static const string CFG_KEY_APPLET_POSITION;
   static const string CFG_KEY_APPLET_FLAGS;
   static const string CFG_KEY_APPLET_IMMINENT;
-  
-private:
+
   enum SlotType
     {
       BREAK_WHEN_IMMINENT = 1,
@@ -84,6 +83,8 @@ private:
       BREAK_EXCLUSIVE = 8,
       BREAK_DEFAULT = 16
     };
+  
+private:
       
   //! Current Applet mode.
   AppletMode mode;

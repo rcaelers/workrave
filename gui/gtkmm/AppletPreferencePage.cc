@@ -30,8 +30,7 @@
 #include "GUIControl.hh"
 #include "AppletPreferencePage.hh"
 #include "Configurator.hh"
-#include "DistributionManager.hh"
-#include "DistributionSocketLink.hh"
+#include "AppletWindow.hh"
 
 AppletPreferencePage::AppletPreferencePage()
   : Gtk::HBox(false, 6)
@@ -41,9 +40,8 @@ AppletPreferencePage::AppletPreferencePage()
   Gtk::Notebook *tnotebook = manage(new Gtk::Notebook());
   tnotebook->set_tab_pos(Gtk::POS_TOP);  
 
-  //init_page_values();
+  create_page();
 
-  // pack_start(*tnotebook, true, true, 0);
 
   TRACE_EXIT();
 }
@@ -56,74 +54,99 @@ AppletPreferencePage::~AppletPreferencePage()
 }
 
 
-// void
-// AppletPreferencePage::init_page_values()
-// {
-//   Configurator *c = GUIControl::get_instance()->get_configurator();
-//   bool is_set;
+void
+AppletPreferencePage::create_page()
+{
+  // Frame
+  Gtk::Frame *frame = manage(new Gtk::Frame(_("layout")));
 
-//   // Master enabled switch.
-//   bool enabled = false;
-//   is_set = c->get_value(DistributionManager::CFG_KEY_DISTRIBUTION + DistributionManager::CFG_KEY_DISTRIBUTION_ENABLED, &enabled);
-//   if (!is_set)
-//     {
-//       enabled = false;
-//     }
+  // Slot/Position of the break timer.
+  Gtk::Label *mp_label = manage(new Gtk::Label(_("Micro-pause")));
+  Gtk::Label *rb_label = manage(new Gtk::Label(_("Restbreak")));
+  Gtk::Label *dl_label = manage(new Gtk::Label(_("Daily limit")));
+
+  Gtk::Label *slot_label = manage(new Gtk::Label(_("Break position")));
+  Gtk::Label *first_label = manage(new Gtk::Label(_("Show only when first")));
+  Gtk::Label *imminent_label = manage(new Gtk::Label(_("Show only when imminent")));
+  Gtk::Label *time_label = manage(new Gtk::Label(_("Break is imminent when due in")));
   
-//   enabled_cb->set_active(enabled);
-
-//   // Username.
-//   string str;
-//   is_set = c->get_value(DistributionSocketLink::CFG_KEY_DISTRIBUTION_TCP + DistributionSocketLink::CFG_KEY_DISTRIBUTION_TCP_USERNAME, &str);
-//   if (!is_set)
-//     {
-//       str = "";
-//     }
+  Gtk::Table *table = manage(new Gtk::Table(5, 4, false));
+  table->set_row_spacings(2);
+  table->set_col_spacings(6);
+  table->set_border_width(6);
   
-//   username_entry->set_text(str);
+  for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
+    {
+      slot_entry[i] = manage(new Gtk::SpinButton());
+      slot_entry[i]->set_range(0, 3);
+      slot_entry[i]->set_increments(1, 1);
+      slot_entry[i]->set_numeric(true);
+      slot_entry[i]->set_width_chars(2);
 
-//   // Password
-//   is_set = c->get_value(DistributionSocketLink::CFG_KEY_DISTRIBUTION_TCP + DistributionSocketLink::CFG_KEY_DISTRIBUTION_TCP_PASSWORD, &str);
-//   if (!is_set)
-//     {
-//       str = "";
-//     }
+      time_entry[i] = manage(new Gtk::SpinButton());
+      time_entry[i]->set_range(0, 3600);
+      time_entry[i]->set_increments(1, 10);
+      time_entry[i]->set_numeric(true);
+      time_entry[i]->set_width_chars(4);
+      
+      first_cb[i] = manage(new  Gtk::CheckButton());
+      imminent_cb[i] = manage(new  Gtk::CheckButton());
+
+      table->attach(*slot_entry[i], i + 1, i + 2, 1, 2, Gtk::SHRINK, Gtk::SHRINK);
+      table->attach(*first_cb[i], i + 1, i + 2, 2, 3, Gtk::SHRINK, Gtk::SHRINK);
+      table->attach(*imminent_cb[i], i + 1, i + 2, 3, 4, Gtk::SHRINK, Gtk::SHRINK);
+      table->attach(*time_entry[i], i + 1, i + 2, 4, 5, Gtk::SHRINK, Gtk::SHRINK);
+    }
   
-//   password_entry->set_text(str);
+  int y = 0;
+  table->attach(*mp_label, 1, 2, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
+  table->attach(*rb_label, 2, 3, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
+  table->attach(*dl_label, 3, 4, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
 
-//   // Port
-//   int value;
-//   is_set = c->get_value(DistributionSocketLink::CFG_KEY_DISTRIBUTION_TCP + DistributionSocketLink::CFG_KEY_DISTRIBUTION_TCP_PORT, &value);
-//   if (!is_set)
-//     {
-//       value = DEFAULT_PORT;
-//     }
+  table->attach(*slot_label, 0, 1, 1, 2, Gtk::SHRINK, Gtk::SHRINK);
+  table->attach(*first_label, 0, 1, 2, 3, Gtk::SHRINK, Gtk::SHRINK);
+  table->attach(*imminent_label, 0, 1, 3, 4, Gtk::SHRINK, Gtk::SHRINK);
+  table->attach(*time_label, 0, 1, 4, 5, Gtk::SHRINK, Gtk::SHRINK);
   
-//   port_entry->set_value(value);
+  frame->add(*table);
+  pack_end(*frame, true, true, 0);
+}
 
-//   // Attempts
-//   is_set = c->get_value(DistributionSocketLink::CFG_KEY_DISTRIBUTION_TCP + DistributionSocketLink::CFG_KEY_DISTRIBUTION_TCP_ATTEMPTS, &value);
-//   if (!is_set)
-//     {
-//       value = DEFAULT_ATTEMPTS;
-//     }
+void
+AppletPreferencePage::init_page_values()
+{
+  Configurator *c = GUIControl::get_instance()->get_configurator();
+
+  bool enabled = false;
+  if (!c->get_value(AppletWindow::CFG_KEY_APPLET_ENABLED, &enabled))
+    {
+      enabled = false;
+    }
+
+  int value = 10;
+  if (!c->get_value(AppletWindow::CFG_KEY_APPLET_CYCLE_TIME, &value))
+    {
+      value = 10;
+    }
   
-//   attempts_entry->set_value(value);
+  for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
+    {
+      GUIControl::TimerData &data = GUIControl::get_instance()->timers[i];
+      
+      int value = 0;
+      if (!c->get_value(AppletWindow::CFG_KEY_APPLET + "/" + data.break_name + AppletWindow::CFG_KEY_APPLET_POSITION, &value))
+        {
+          value = i;
+        }
 
-//   // Interval
-//   is_set = c->get_value(DistributionSocketLink::CFG_KEY_DISTRIBUTION_TCP + DistributionSocketLink::CFG_KEY_DISTRIBUTION_TCP_INTERVAL, &value);
-//   if (!is_set)
-//     {
-//       value = DEFAULT_INTERVAL;
-//     }
-  
-//   interval_entry->set_value(value);
-
-//   // Peers
-//   is_set = c->get_value(DistributionManager::CFG_KEY_DISTRIBUTION + DistributionManager::CFG_KEY_DISTRIBUTION_PEERS, &str);
-//   if (!is_set)
-//     {
-//       str = "";
-//     }
-
-// }
+      if (!c->get_value(AppletWindow::CFG_KEY_APPLET + "/" + data.break_name + AppletWindow::CFG_KEY_APPLET_FLAGS, &value))
+        {
+          value = AppletWindow::BREAK_EXCLUSIVE;
+        }
+      
+      if (!c->get_value(AppletWindow::CFG_KEY_APPLET + "/" + data.break_name + AppletWindow::CFG_KEY_APPLET_IMMINENT, &value))
+        {
+          value = 30;
+        }
+    }
+}

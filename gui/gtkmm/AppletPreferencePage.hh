@@ -36,8 +36,13 @@ public:
   ~AppletPreferencePage();
   
 private:
-  //void init_page_values();
-  void create_model();
+  void init_page_values();
+  void create_page();
+
+  Gtk::SpinButton *slot_entry[GUIControl::BREAK_ID_SIZEOF];  
+  Gtk::CheckButton *first_cb[GUIControl::BREAK_ID_SIZEOF];  
+  Gtk::CheckButton *imminent_cb[GUIControl::BREAK_ID_SIZEOF];  
+  Gtk::SpinButton *time_entry[GUIControl::BREAK_ID_SIZEOF];  
 };
 
 #endif // APPLETPREFERENCEPAGE_HH

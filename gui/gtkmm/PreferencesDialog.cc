@@ -202,8 +202,8 @@ PreferencesDialog::create_applet_page()
   // Timers page
   Gtk::VBox *applet_page
     = create_page
-    (_("\n"),
-     "network.png");
+    (_("You can configure the applet related settings from here."),
+     "display.png");
 
   Gtk::Widget *page = manage(new AppletPreferencePage());
   
