@@ -222,6 +222,11 @@ AppletWindow::init_native_applet()
           menus->resync_applet();
         }
     }
+
+  if (!ok)
+    {
+      applet_control = NULL;
+    }
   
   CORBA_exception_free(&ev);
   return ok;
@@ -309,8 +314,8 @@ AppletWindow::set_menu_active(int menu, bool active)
           GNOME_Workrave_AppletControl_set_menu_status(applet_control, "/commands/ShowLog", active, &ev);
           break;
         }
+      CORBA_exception_free(&ev);
     }
-  CORBA_exception_free(&ev);
   TRACE_EXIT();
 }
 
@@ -340,8 +345,8 @@ AppletWindow::get_menu_active(int menu)
           ret = GNOME_Workrave_AppletControl_get_menu_status(applet_control, "/commands/ShowLog", &ev);
           break;
         }
+      CORBA_exception_free(&ev);
     }
-  CORBA_exception_free(&ev);
   TRACE_EXIT();
 }
 
