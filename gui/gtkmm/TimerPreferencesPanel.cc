@@ -38,7 +38,7 @@
 #include "Hig.hh"
 
 
-TimerPreferencesPanel::TimerPreferencesPanel(GUIControl::BreakId t)
+TimerPreferencesPanel::TimerPreferencesPanel (GUIControl::BreakId t,Glib::RefPtr<Gtk::SizeGroup> size_group)
   : Gtk::HBox(false, 6),
     max_prelude_adjustment(0, 1, 100)
 {
@@ -59,6 +59,7 @@ TimerPreferencesPanel::TimerPreferencesPanel(GUIControl::BreakId t)
   pack_start(*categories, false, false, 0);
   pack_start(*prelude_frame, false, false, 0);
 
+  size_group->add_widget(*categories);
   set_border_width(12);
 
   TRACE_EXIT();

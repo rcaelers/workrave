@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-03-24 19:29+0100\n"
+"POT-Creation-Date: 2003-03-24 19:47+0100\n"
 "PO-Revision-Date: 2003-03-04 22:16+0100\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -332,7 +332,7 @@ msgid "Applet"
 msgstr "Applet"
 
 #. Notebook
-#: gui/gtkmm/PreferencesDialog.cc:72 gui/gtkmm/TimerPreferencesPanel.cc:173
+#: gui/gtkmm/PreferencesDialog.cc:72 gui/gtkmm/TimerPreferencesPanel.cc:174
 msgid "Timers"
 msgstr "Klokken"
 
@@ -365,7 +365,7 @@ msgid "Hide main window at start-up"
 msgstr "Verberg het hoofdvenster tijdens het opstarten"
 
 #. Options
-#: gui/gtkmm/PreferencesDialog.cc:150 gui/gtkmm/TimerPreferencesPanel.cc:128
+#: gui/gtkmm/PreferencesDialog.cc:150 gui/gtkmm/TimerPreferencesPanel.cc:129
 msgid "Options"
 msgstr "Opties"
 
@@ -524,47 +524,47 @@ msgid "%s, from %s to %s"
 msgstr "%s, van %s tot %s"
 
 #. Prelude frame
-#: gui/gtkmm/TimerPreferencesPanel.cc:81
+#: gui/gtkmm/TimerPreferencesPanel.cc:82
 msgid "Break prompting"
 msgstr "Verzoek tot pauze"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:83
+#: gui/gtkmm/TimerPreferencesPanel.cc:84
 msgid "Prompt before breaking"
 msgstr "Vraag alvorens te pauzeren"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:88
+#: gui/gtkmm/TimerPreferencesPanel.cc:89
 msgid "Maximum number of prompts:"
 msgstr "Max. aantal verzoeken:"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:95
+#: gui/gtkmm/TimerPreferencesPanel.cc:96
 msgid "Force break after maximum exceeded"
-msgstr "Forceer pauze bij na maximum"
+msgstr "Forceer pauze na maximum"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:132
+#: gui/gtkmm/TimerPreferencesPanel.cc:133
 msgid "Block user input"
 msgstr "Blokkeer invoer"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:144
+#: gui/gtkmm/TimerPreferencesPanel.cc:145
 msgid "Regard micro-pauses as activity"
 msgstr "Micro-pauzes tellen als werktijd"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:161
+#: gui/gtkmm/TimerPreferencesPanel.cc:162
 msgid "Show 'Postpone' and 'Skip' button"
 msgstr "Toon 'Uitstellen' en 'Overslaan'"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:181
+#: gui/gtkmm/TimerPreferencesPanel.cc:182
 msgid "Time before break:"
 msgstr "Werktijd:"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:188
+#: gui/gtkmm/TimerPreferencesPanel.cc:189
 msgid "Resets at:"
 msgstr "Herstart om:"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:195
+#: gui/gtkmm/TimerPreferencesPanel.cc:196
 msgid "Pause duration:"
 msgstr "Pauze tijdsduur:"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:210
+#: gui/gtkmm/TimerPreferencesPanel.cc:211
 msgid "Post-pone time:"
 msgstr "Uitstel tijd:"
 

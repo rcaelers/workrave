@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
-"POT-Creation-Date: 2003-03-24 19:29+0100\n"
+"POT-Creation-Date: 2003-03-24 19:46+0100\n"
 "PO-Revision-Date: 2003-03-04 18:50+0100\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Johannes Rohr <j.rohr@comlink.apc.org>\n"
@@ -335,7 +335,7 @@ msgid "Applet"
 msgstr "Applet"
 
 #. Notebook
-#: gui/gtkmm/PreferencesDialog.cc:72 gui/gtkmm/TimerPreferencesPanel.cc:173
+#: gui/gtkmm/PreferencesDialog.cc:72 gui/gtkmm/TimerPreferencesPanel.cc:174
 msgid "Timers"
 msgstr "Zeitmesser"
 
@@ -368,7 +368,7 @@ msgid "Hide main window at start-up"
 msgstr "Hauptfenster beim Start verstecken"
 
 #. Options
-#: gui/gtkmm/PreferencesDialog.cc:150 gui/gtkmm/TimerPreferencesPanel.cc:128
+#: gui/gtkmm/PreferencesDialog.cc:150 gui/gtkmm/TimerPreferencesPanel.cc:129
 msgid "Options"
 msgstr "Optionen"
 
@@ -524,47 +524,47 @@ msgid "%s, from %s to %s"
 msgstr "%s, von %s bis %s"
 
 #. Prelude frame
-#: gui/gtkmm/TimerPreferencesPanel.cc:81
+#: gui/gtkmm/TimerPreferencesPanel.cc:82
 msgid "Break prompting"
 msgstr "Ankündigung der Pause"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:83
+#: gui/gtkmm/TimerPreferencesPanel.cc:84
 msgid "Prompt before breaking"
 msgstr "Vor der Pause Hinweis ausgeben"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:88
+#: gui/gtkmm/TimerPreferencesPanel.cc:89
 msgid "Maximum number of prompts:"
 msgstr "Maximale Anzahl von Hinweisen:"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:95
+#: gui/gtkmm/TimerPreferencesPanel.cc:96
 msgid "Force break after maximum exceeded"
 msgstr "Pause erzwingen, wenn das Maximum überschritten ist"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:132
+#: gui/gtkmm/TimerPreferencesPanel.cc:133
 msgid "Block user input"
 msgstr "Benutzereingaben blockieren"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:144
+#: gui/gtkmm/TimerPreferencesPanel.cc:145
 msgid "Regard micro-pauses as activity"
 msgstr "Mikropausen als Aktivität betrachten"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:161
+#: gui/gtkmm/TimerPreferencesPanel.cc:162
 msgid "Show 'Postpone' and 'Skip' button"
 msgstr "Knöpfe 'Aufschieben' und 'Überspringen' anzeigen"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:181
+#: gui/gtkmm/TimerPreferencesPanel.cc:182
 msgid "Time before break:"
 msgstr "Zeit bis zur Pause:"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:188
+#: gui/gtkmm/TimerPreferencesPanel.cc:189
 msgid "Resets at:"
 msgstr "Zurücksetzen nach:"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:195
+#: gui/gtkmm/TimerPreferencesPanel.cc:196
 msgid "Pause duration:"
 msgstr "Dauer der Pause:"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:210
+#: gui/gtkmm/TimerPreferencesPanel.cc:211
 msgid "Post-pone time:"
 msgstr "Dauer des Aufschubs:"
 

@@ -36,7 +36,7 @@ class TimerPreferencesPanel
   : public Gtk::HBox
 {
 public:  
-  TimerPreferencesPanel(GUIControl::BreakId timer);
+  TimerPreferencesPanel(GUIControl::BreakId timer, Glib::RefPtr<Gtk::SizeGroup> size_group);
   ~TimerPreferencesPanel();
   
 private:
