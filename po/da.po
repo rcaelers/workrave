@@ -1,14 +1,13 @@
-# translation of da.po to 
 # translation of da.po for Workrave
 # Copyright (C) 2003 Rob Caelers & Raymond Penners
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the Workrave product.
 # Christian Vejlbo <christian@vejlbo.dk>, 2003
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-27 16:16+0200\n"
+"POT-Creation-Date: 2003-07-27 18:31+0200\n"
 "PO-Revision-Date: 2003-07-22 21:54+0200\n"
 "Last-Translator: \n"
 "Language-Team:  <C@li.org>\n"
@@ -100,17 +99,14 @@ msgstr "Hvilepause"
 
 #. Mode menu item
 #: src/app/gtkmm/Menus.cc:143
-#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
 msgid "_Mode"
 msgstr "_Tilstand"
 
 #: src/app/gtkmm/Menus.cc:150
-#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
 msgid "_Normal"
 msgstr "_Normal"
 
 #: src/app/gtkmm/Menus.cc:157
-#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
 msgid "_Suspended"
 msgstr "_Suspenderet"
 
@@ -119,7 +115,6 @@ msgid "Q_uiet"
 msgstr "S_tille"
 
 #: src/app/gtkmm/Menus.cc:178
-#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
 msgid "_Network"
 msgstr "_Netværk"
 
@@ -128,12 +123,10 @@ msgid "_Connect"
 msgstr "_Forbind"
 
 #: src/app/gtkmm/Menus.cc:187
-#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
 msgid "_Disconnect"
 msgstr "_Afbryd forbindelse"
 
 #: src/app/gtkmm/Menus.cc:192
-#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
 msgid "_Reconnect"
 msgstr "_Genopret forbindelse"
 
@@ -618,55 +611,6 @@ msgstr "Pause længde:"
 msgid "Post-pone time:"
 msgstr "Udsættelses-periode:"
 
-#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:1
-msgid "_About..."
-msgstr "Über..."
-
-#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:2
-msgid "_Connect..."
-msgstr "_Verbinden..."
-
-#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:4
-#, fuzzy
-msgid "_Exercises"
-msgstr "Øvelser"
-
-#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:8
-msgid "_Open"
-msgstr "Ö_ffnen"
-
-#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:9
-msgid "_Preferences"
-msgstr "_Vorlieben"
-
-#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:10
-msgid "_Quiet"
-msgstr "St_ill"
-
-#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:11
-msgid "_Quit"
-msgstr "_Ende"
-
-#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:13
-msgid "_Restbreak"
-msgstr "_Ruhepause"
-
-#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:14
-msgid "_Show Log..."
-msgstr "_Protokoll anzeigen"
-
-#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:15
-msgid "_Statistics"
-msgstr "_Statistik"
-
-#: src/app/gtkmm/gnome_applet/Workrave-Applet.server.in.in.h:1
-msgid "Workrave"
-msgstr "Workrave"
-
-#: src/app/gtkmm/gnome_applet/Workrave-Applet.server.in.in.h:2
-msgid "Workrave Applet"
-msgstr "Workrave-Applet"
-
 #: src/app/Text.cc:75
 #, c-format
 msgid "%s%d:%02d:%02d hours"
@@ -817,29 +761,62 @@ msgstr "Klient %s:%d tilsluttet."
 #: src/core/DistributionSocketLink.cc:2047
 #, c-format
 msgid "Could not connect to client %s:%d."
-msgstr "Kunen ikke forbinde til klient %s:%d."
+msgstr "Kunne ikke forbinde til klient %s:%d."
+
+#~ msgid "_About..."
+#~ msgstr "Om..."
+
+#~ msgid "_Connect..."
+#~ msgstr "_Opret forbindelse..."
+
+#~ msgid "_Open"
+#~ msgstr "Å_ben"
+
+#~ msgid "_Preferences"
+#~ msgstr "_Indstillinger"
+
+#~ msgid "_Quiet"
+#~ msgstr "St_ille"
+
+#~ msgid "_Quit"
+#~ msgstr "_Luk"
+
+#~ msgid "_Restbreak"
+#~ msgstr "_Hvilepause"
+
+#~ msgid "_Show Log..."
+#~ msgstr "_Vis historik"
+
+#~ msgid "_Statistics"
+#~ msgstr "_Statistik"
+
+#~ msgid "Workrave"
+#~ msgstr "Workrave"
+
+#~ msgid "Workrave Applet"
+#~ msgstr "Workrave-Applet"
 
 #~ msgid "Hide main window at start-up"
-#~ msgstr "Hauptfenster beim Start verstecken"
+#~ msgstr "Skjul vindue ved opstart"
 
 #~ msgid "Identity"
-#~ msgstr "Identität"
+#~ msgstr "Identitet"
 
 #~ msgid "You can configure the user interface related settings from here."
-#~ msgstr ""
-#~ "Sie können hier die Einstellungen der Benutzeroberfläche konfigurieren."
+#~ msgstr "Her kan du rette indstillingerne for brugergrænsefladen."
 
 #~ msgid ""
 #~ "This dialog allows you to change the settings of the timers.  Each unit\n"
 #~ "of time is broken down into hours, minutes and seconds (also known as\n"
 #~ "the \"hh:mm:ss\" format).  These can all be controlled individually."
 #~ msgstr ""
-#~ "Dieses Dialog ermöglicht es Ihnen, die Einstellungen der Zeitmesser zu\n"
-#~ "ändern. Jede Einheit ist in Stunden, Minuten und Sekunden unterteilt\n"
-#~ "(das sog. \"hh:mm:ss\"-Format) und kann indivuell angepasst werden."
+#~ "I dette vindue kan du ændre indstillingerne for tidstællerne. Formatet\n"
+#~ "på tiden er timer:minutter:sekudner, dvs (hh:mm:ss). Det er muligt at "
+#~ "rette\n"
+#~ "uafhængigt i både timer, minutter og sekunder."
 
 #~ msgid "You can configure the applet related settings from here."
-#~ msgstr "Sie können hier die Einstellungen des Applets konfigurieren."
+#~ msgstr "Applet-relaterede indstillinger kan rettes herfra."
 
 #~ msgid ""
 #~ "You can connect several instances of Workrave in a network. All "
@@ -847,11 +824,12 @@ msgstr "Kunen ikke forbinde til klient %s:%d."
 #~ "instances share the same timer information, meaning you will be reminded\n"
 #~ "of your breaks even if you switch computers."
 #~ msgstr ""
-#~ "Sie können mehrere Instanzen von Workrave in einem Netzwerk\n"
-#~ "miteinander verbinden. Alle verbundenen Instanzen greifen auf\n"
-#~ "dieselben Zeitmessungen zurück. Das heißt, dass Sie auch dann an Ihre\n"
-#~ "Pausen erinnert werden, wenn Sie den Computer wechseln."
+#~ "Du kan sammenkoble Workrave kørende på forskellige maskiner i et "
+#~ "nætværk.\n"
+#~ "Alle sammenkoblede instanser deler den samme timer-information, dvs. du "
+#~ "kan\n"
+#~ "blive mindet om pauser selv om du ofte skifter maskine"
 
 #, fuzzy
 #~ msgid "Open"
-#~ msgstr "Ö_ffnen"
+#~ msgstr "Å_ben"

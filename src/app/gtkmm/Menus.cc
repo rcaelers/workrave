@@ -589,6 +589,13 @@ Menus::on_menu_about()
    "Raymond Penners <raymond@dotsphinx.com>",
    NULL
   };
+  const gchar *translators = 
+    "Rob Caelers <robc@krandor.org>\n"
+    "Raymond Penners <raymond@dotsphinx.com>\n"
+    "Johannes Rohr <j.rohr@comlink.apc.org>\n"
+    "Christian Vejlbo <christian@vejlbo.dk>\n"
+    "Mikolaj Machowski <mikmach@wp.pl>\n";
+
   string icon = Util::complete_directory("workrave.png",
                                          Util::SEARCH_PATH_IMAGES);
   GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(icon.c_str(), NULL); // FIXME: leak
@@ -599,7 +606,7 @@ Menus::on_menu_about()
                       " of Repetitive Strain Injury (RSI)."),
                     (const gchar **) authors,
                     (const gchar **) NULL,
-                    NULL,
+                    translators,
                     pixbuf));
 }
 

@@ -4,10 +4,10 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: workrave 1.0.0\n"
+"Project-Id-Version: workrave 1.4.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-07-27 16:16+0200\n"
-"PO-Revision-Date: 2003-03-04 22:16+0100\n"
+"PO-Revision-Date: 2003-07-27 21:20+0200\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
 "MIME-Version: 1.0\n"
@@ -15,13 +15,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: src/app/gtkmm/eggtrayicon.c:118
-#, fuzzy
 msgid "Orientation"
-msgstr "Stil over"
+msgstr "Oriëntatie"
 
 #: src/app/gtkmm/eggtrayicon.c:119
 msgid "The orientation of the tray."
-msgstr ""
+msgstr "De oriëntatie van het systeemvak."
 
 #: src/app/gtkmm/gnome-about.c:308
 msgid "Credits"
@@ -73,19 +72,19 @@ msgstr ""
 
 #: src/app/gtkmm/ExercisesDialog.cc:38 src/app/gtkmm/Menus.cc:234
 msgid "Exercises"
-msgstr ""
+msgstr "Oefeningen"
 
 #: src/app/gtkmm/ExercisesPanel.cc:222
 msgid "Resume"
-msgstr ""
+msgstr "Ga verder"
 
 #: src/app/gtkmm/ExercisesPanel.cc:222
 msgid "Pause"
-msgstr ""
+msgstr "Pauzeer"
 
 #: src/app/gtkmm/GUI.cc:676
 msgid "I could not initialize Bonobo"
-msgstr "Bonobo kon niet geïnitialiseerd worden"
+msgstr "Bonobo kon niet geÃ¯nitialiseerd worden"
 
 #: src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/MicroPauseWindow.cc:168
 #: src/app/gtkmm/MicroPauseWindow.cc:204
@@ -270,14 +269,14 @@ msgstr "Applet"
 
 #: src/app/gtkmm/PreferencesDialog.cc:64
 msgid "Status Window"
-msgstr ""
+msgstr "Statusvenster"
 
 #. Notebook
 #: src/app/gtkmm/PreferencesDialog.cc:71
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:167
 #: src/app/gtkmm/TimerPreferencesPanel.cc:195
 msgid "Timers"
-msgstr "Klokken"
+msgstr "Tijden"
 
 #: src/app/gtkmm/PreferencesDialog.cc:72
 msgid "User interface"
@@ -444,7 +443,7 @@ msgstr "Activiteit"
 
 #: src/app/gtkmm/StatisticsDialog.cc:286
 msgid "Mouse usage:"
-msgstr "Muis gebruik:"
+msgstr "Muisgebruik:"
 
 #: src/app/gtkmm/StatisticsDialog.cc:287
 msgid "The total time you were using the mouse"
@@ -452,31 +451,29 @@ msgstr "De tijdsduur gedurende welke je de muis gebruikte"
 
 #: src/app/gtkmm/StatisticsDialog.cc:290
 msgid "Mouse movement:"
-msgstr "Muis beweging:"
+msgstr "Muisbeweging:"
 
 #: src/app/gtkmm/StatisticsDialog.cc:291
 msgid "The total on-screen mouse movement"
-msgstr "De totale muis beweging gemeten op het scherm"
+msgstr "De totale muisbeweging gemeten op het scherm"
 
 #: src/app/gtkmm/StatisticsDialog.cc:294
 msgid "Effective mouse movement:"
-msgstr "Effectieve muis beweging:"
+msgstr "Effectieve muisbeweging:"
 
 #: src/app/gtkmm/StatisticsDialog.cc:295
 msgid ""
 "The total mouse movement you would have had if you moved your mouse in "
 "straight lines between clicks"
-msgstr ""
-"De totale muis beweging die je gehad zou hebben als je in rechte lijnen "
-"tussen muis kliks zou bewegen"
+msgstr "De totale muisbeweging die je gehad zou hebben als je in rechte lijnen tussen muiskliks zou bewegen"
 
 #: src/app/gtkmm/StatisticsDialog.cc:299
 msgid "Mouse button clicks:"
-msgstr "Muis kliks:"
+msgstr "Muiskliks:"
 
 #: src/app/gtkmm/StatisticsDialog.cc:300
 msgid "The total number of mouse button clicks"
-msgstr "Het totaal aantal muis kliks"
+msgstr "Het totaal aantal muiskliks"
 
 #: src/app/gtkmm/StatisticsDialog.cc:303
 msgid "Keystrokes:"
@@ -529,12 +526,11 @@ msgstr "Toon alleen als deze als eerste afloopt"
 
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:135
 msgid "Show status window"
-msgstr ""
+msgstr "Toon statusvenster"
 
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:140
-#, fuzzy
 msgid "The status window stays always on top of other windows"
-msgstr "Het hoofdvenster blijft boven alle andere vensters"
+msgstr "Het statusvenster blijft boven alle andere vensters"
 
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:147
 msgid "Applet enabled"
@@ -542,7 +538,7 @@ msgstr "Applet actief"
 
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:155
 msgid "Display"
-msgstr ""
+msgstr "Weergave"
 
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:164
 msgid "Placement:"
@@ -567,9 +563,8 @@ msgstr "Dagelijkse limiet:"
 
 #. Enabled/Disabled checkbox
 #: src/app/gtkmm/TimerPreferencesPanel.cc:57
-#, fuzzy
 msgid "Enable timer"
-msgstr "<b>Eind tijd:</b>"
+msgstr "Activeer klok"
 
 #. Prelude frame
 #: src/app/gtkmm/TimerPreferencesPanel.cc:96
@@ -602,7 +597,7 @@ msgstr "Micro-pauzes tellen als werktijd"
 
 #: src/app/gtkmm/TimerPreferencesPanel.cc:181
 msgid "Number of exercises:"
-msgstr ""
+msgstr "Aantal oefeningen:"
 
 #: src/app/gtkmm/TimerPreferencesPanel.cc:202
 msgid "Time before break:"
@@ -630,7 +625,7 @@ msgstr "Maak verbinding..."
 
 #: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:4
 msgid "_Exercises"
-msgstr ""
+msgstr "Oefeningen"
 
 #: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:8
 msgid "_Open"
@@ -679,57 +674,57 @@ msgid "%s%d:%02d minutes"
 msgstr "%s%d:%02d minuten"
 
 #: src/app/Text.cc:83
-#, fuzzy, c-format
+#, c-format
 msgid "%s%d seconds"
-msgstr "%s%ld seconden"
+msgstr "%s%d seconden"
 
 #: src/core/DistributionSocketLink.cc:131
-#, fuzzy, c-format
+#, c-format
 msgid "Reconnecting to %s:%d."
-msgstr "Aantal pogingen tot verbinding:"
+msgstr "Opnieuw aan het verbinden met cliënt %s:%d."
 
 #. We did not succeed in starting the server. Arghh.
 #: src/core/DistributionSocketLink.cc:345
 msgid "Could not enable network operation."
-msgstr ""
+msgstr "Kon netwerkfuncties niet activeren."
 
 #: src/core/DistributionSocketLink.cc:354
 msgid "Disabling network operation."
-msgstr ""
+msgstr "Netwerkfuncties uitgezet."
 
 #: src/core/DistributionSocketLink.cc:509
 #: src/core/DistributionSocketLink.cc:536
-#, fuzzy, c-format
+#, c-format
 msgid "Connecting to %s:%d."
-msgstr "Interval tussen pogingen"
+msgstr "Aan het verbinden met %s:%d."
 
 #: src/core/DistributionSocketLink.cc:640
 #: src/core/DistributionSocketLink.cc:665
 #, c-format
 msgid "Removing client %s:%d."
-msgstr ""
+msgstr "Cliënt %s:%d verwijderd."
 
 #. Closing direct connection.
 #: src/core/DistributionSocketLink.cc:702
-#, fuzzy, c-format
+#, c-format
 msgid "Disconnecting %s:%d."
-msgstr "Verbreek verbinding"
+msgstr "Verbinding verbroken met %s:%d."
 
 #. It's a remote client. mark it master.
 #: src/core/DistributionSocketLink.cc:870
 #, c-format
 msgid "Client %s:%d is now master."
-msgstr ""
+msgstr "Cliënt %s:%d is nu de leider."
 
 #. Its ME!
 #: src/core/DistributionSocketLink.cc:876
 msgid "I'm now master."
-msgstr ""
+msgstr "Ik ben nu de leider."
 
 #: src/core/DistributionSocketLink.cc:1205
 #, c-format
 msgid "Client %s:%d saying hello."
-msgstr ""
+msgstr "Cliënt %s:%d zegt hallo."
 
 #. Duplicate client. inform client that it's bogus and close.
 #: src/core/DistributionSocketLink.cc:1220
@@ -737,88 +732,88 @@ msgstr ""
 #: src/core/DistributionSocketLink.cc:1573
 #, c-format
 msgid "Client %s:%d is duplicate."
-msgstr ""
+msgstr "Cliënt %s:%d komt vaker voor."
 
 #. Incorrect password.
 #: src/core/DistributionSocketLink.cc:1229
 #, c-format
 msgid "Client %s:%d access denied."
-msgstr ""
+msgstr "Cliënt %s:%d krijgt geen toegang."
 
 #: src/core/DistributionSocketLink.cc:1296
 #, c-format
 msgid "Client %s:%d signed off."
-msgstr ""
+msgstr "Cliënt %s:%d heeft zich afgemeld."
 
 #: src/core/DistributionSocketLink.cc:1375
 #, c-format
 msgid "Client %s:%d is welcoming us."
-msgstr ""
+msgstr "Cliënt %s:%d heet ons welkom."
 
 #: src/core/DistributionSocketLink.cc:1608
 #, c-format
 msgid "Requesting master status from %s:%d."
-msgstr ""
+msgstr "Leiderschapsaanvraag ingediend bij %s:%d."
 
 #: src/core/DistributionSocketLink.cc:1621
 #, c-format
 msgid "Client timeout from %s:%d."
-msgstr ""
+msgstr "Cliënt reageerde niet op tijd vanaf %s:%d."
 
 #: src/core/DistributionSocketLink.cc:1642
 #, c-format
 msgid "Rejecting master request from client %s:%d."
-msgstr ""
+msgstr "Verzoek tot leiderschap van cliënt %s:%d gewijgerd."
 
 #: src/core/DistributionSocketLink.cc:1648
 #, c-format
 msgid "Acknowledging master request from client %s:%d."
-msgstr ""
+msgstr "Leiderschapsoverdracht van cliënt %s:%d bevestigd."
 
 #: src/core/DistributionSocketLink.cc:1699
 #, c-format
 msgid "Non-master client %s:%d rejected master request."
-msgstr ""
+msgstr "Niet-leidende cliënt %s:%d weigert leiderschapsverzoek."
 
 #: src/core/DistributionSocketLink.cc:1704
 #, c-format
 msgid "Client %s:%d rejected master request, delaying."
-msgstr ""
+msgstr "Cliënt %s:%d weigerde leiderschapsverzoek, uitgesteld."
 
 #. gint count =
 #: src/core/DistributionSocketLink.cc:1775
 #, c-format
 msgid "Client %s is now the new master."
-msgstr ""
+msgstr "Cliënt %s is nu de nieuwe leider."
 
 #: src/core/DistributionSocketLink.cc:1894
 msgid "Network operation started."
-msgstr ""
+msgstr "Netwerkfuncties gestart."
 
 #: src/core/DistributionSocketLink.cc:1911
 msgid "Accepted new client."
-msgstr ""
+msgstr "Nieuwe cliënt geaccepteerd."
 
 #: src/core/DistributionSocketLink.cc:1966
 #, c-format
 msgid "Client %s:%d read error, closing."
-msgstr ""
+msgstr "Leesfout van cliënt %s:%d, verbinding gesloten."
 
 #: src/core/DistributionSocketLink.cc:1971
 #: src/core/DistributionSocketLink.cc:2042
 #, c-format
 msgid "Client %s:%d closed connection."
-msgstr ""
+msgstr "Cliënt %s:%d heeft de connectie gesloten."
 
 #: src/core/DistributionSocketLink.cc:2011
 #, c-format
 msgid "Client %s:%d connected."
-msgstr ""
+msgstr "Cliënt %s:%d heeft verbinding gemaakt."
 
 #: src/core/DistributionSocketLink.cc:2047
 #, c-format
 msgid "Could not connect to client %s:%d."
-msgstr ""
+msgstr "Kon niet verbinden met cliënt %s:%d."
 
 #~ msgid "Hide main window at start-up"
 #~ msgstr "Verberg het hoofdvenster tijdens het opstarten"
