@@ -46,4 +46,9 @@ stamp.h
 tags
 version.h
 autom4te.cache
-
+intltool-extract.in
+intltool-merge.in
+intltool-update.in
+intltool-extract
+intltool-merge
+intltool-update
