@@ -41,7 +41,6 @@ Source: "..\..\..\COPYING.txt"; DestDir: "{app}"; DestName: "COPYING.txt"; CopyM
 Source: "..\..\..\AUTHORS.txt"; DestDir: "{app}"; DestName: "AUTHORS.txt"; CopyMode: alwaysoverwrite;
 Source: "..\..\..\NEWS.txt"; DestDir: "{app}"; DestName: "NEWS.txt"; CopyMode: alwaysoverwrite;
 Source: "..\..\..\README.txt"; DestDir: "{app}"; DestName: "README.txt"; CopyMode: alwaysoverwrite;
-Source: "..\..\..\ChangeLog.txt"; DestDir: "{app}"; DestName: "ChangeLog.txt"; CopyMode: alwaysoverwrite;
 Source: "..\..\..\src\workrave.exe"; DestDir: "{app}"; DestName: "Workrave.exe"; CopyMode: alwaysoverwrite;
 
 [Registry]
