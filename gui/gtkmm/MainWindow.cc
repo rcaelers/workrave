@@ -86,8 +86,7 @@ MainWindow::MainWindow(GUI *g, ControlInterface *c) :
   timer_times(NULL),
   monitor_suspended(false)
 #ifdef HAVE_DISTRIBUTION
-  ,network_log_dialog(NULL),
-  distr_log_menu_item(NULL)
+  ,network_log_dialog(NULL)
 #endif
 {
   init();
@@ -131,7 +130,7 @@ MainWindow::init()
       config->add_listener(GUIControl::CFG_KEY_MAIN_WINDOW, this);
     }
   
-  popup_menu = manage(create_menu(popup_mode_menus));
+  popup_menu = manage(create_menu(popup_check_menus));
 
   set_border_width(2);
   timers_box = manage(new Gtk::Table(GUIControl::TIMER_ID_SIZEOF, 2, false));
@@ -340,7 +339,7 @@ MainWindow::on_delete_event(GdkEventAny *)
 
 //! Create the popup-menu
 Gtk::Menu *
-MainWindow::create_menu(Gtk::RadioMenuItem *mode_menus[3])
+MainWindow::create_menu(Gtk::CheckMenuItem *check_menus[4])
 {
   //FIXME: untested, added manage
   Gtk::Menu *pop_menu = manage(new Gtk::Menu());
@@ -377,9 +376,9 @@ MainWindow::create_menu(Gtk::RadioMenuItem *mode_menus[3])
   quiet_menu_item->show();
   modemenulist.push_back(*quiet_menu_item);
 
-  mode_menus[0] = normal_menu_item;
-  mode_menus[1] = suspend_menu_item;
-  mode_menus[2] = quiet_menu_item;
+  check_menus[0] = normal_menu_item;
+  check_menus[1] = suspend_menu_item;
+  check_menus[2] = quiet_menu_item;
 
 #ifdef HAVE_DISTRIBUTION
   // Distribution menu
@@ -405,10 +404,12 @@ MainWindow::create_menu(Gtk::RadioMenuItem *mode_menus[3])
   distr_reconnect_menu_item->signal_activate().connect(SigC::slot(*this, &MainWindow::on_menu_network_reconnect));
   distr_menu_list.push_back(*distr_reconnect_menu_item);
 
-  distr_log_menu_item = manage(new Gtk::CheckMenuItem(_("Show _log"), true));
+  Gtk::CheckMenuItem *distr_log_menu_item = manage(new Gtk::CheckMenuItem(_("Show _log"), true));
   distr_log_menu_item->show();
   distr_log_menu_item->signal_toggled().connect(SigC::slot(*this, &MainWindow::on_menu_network_log));
   distr_menu_list.push_back(*distr_log_menu_item);
+
+  check_menus[3] = distr_log_menu_item;
 #endif
   
   // FIXME: add separators, etc...
@@ -657,27 +658,69 @@ MainWindow::on_menu_network_reconnect()
 void
 MainWindow::on_menu_network_log()
 {
-  bool active = distr_log_menu_item->get_active();
+  TRACE_ENTER("MainWindow::on_menu_network_log");
 
+#ifdef WIN32 // HACK ALERT.
+  static bool syncing = false;
+  if (syncing)
+    return;
+  syncing = true;
+
+  static bool prev_popup_active = false;
+  static bool prev_tray_active = false;
+  
+  bool popup_active = popup_check_menus[3]->get_active();
+  bool tray_active = win32_tray_check_menus[3]->get_active();
+  bool active = false;
+  
+  if (popup_active != prev_popup_active)
+    {
+      active = popup_active;
+    }
+  else if (tray_active != prev_tray_active)
+    {
+      active = tray_active;
+    }
+  prev_popup_active = active;
+  prev_tray_active = active;
+
+  popup_check_menus[3]->set_active(active);
+  win32_tray_check_menus[3]->set_active(active);
+  
+  syncing = false;
+  
+#else
+  bool active = popup_check_menus[3]->get_active();
+#endif
+  TRACE_MSG("active = " << active);
+  
   if (active)
     {
+      TRACE_MSG("new log ");
       network_log_dialog = new NetworkLogDialog();
       network_log_dialog->signal_response().connect(SigC::slot(*this, &MainWindow::on_network_log_response));
   
       network_log_dialog->run();
     }
-  else
+  else if (network_log_dialog != NULL)
     {
+      TRACE_MSG("close log ");
       network_log_dialog->hide_all();
       delete network_log_dialog;
+      network_log_dialog = NULL;
     }
+
+  TRACE_EXIT();
 }
 
 void
 MainWindow::on_network_log_response(int response)
 { 
   network_log_dialog->hide_all();
-  distr_log_menu_item->set_active(false);
+  popup_check_menus[3]->set_active(false);
+#ifdef WIN32
+  win32_tray_check_menus[3]->set_active(false);
+#endif
   // done by gtkmm ??? delete network_log_dialog;
   network_log_dialog = NULL;
 }
@@ -775,7 +818,7 @@ MainWindow::win32_init()
   Shell_NotifyIcon(NIM_ADD, &win32_tray_icon);
 
   // Tray menu
-  win32_tray_menu = manage(create_menu(win32_tray_mode_menus));
+  win32_tray_menu = manage(create_menu(win32_tray_check_menus));
   Gtk::Menu::MenuList &menulist = win32_tray_menu->items();
   menulist.push_front(Gtk::Menu_Helpers::StockMenuElem
                      (Gtk::Stock::OPEN,
@@ -843,10 +886,10 @@ MainWindow::win32_sync_menu(int mode)
     return;
   syncing = true;
 
-  if (! popup_mode_menus[mode]->get_active())
-    popup_mode_menus[mode]->set_active(true);
-  if (! win32_tray_mode_menus[mode]->get_active())
-    win32_tray_mode_menus[mode]->set_active(true);
+  if (! popup_check_menus[mode]->get_active())
+    popup_check_menus[mode]->set_active(true);
+  if (! win32_tray_check_menus[mode]->get_active())
+    win32_tray_check_menus[mode]->set_active(true);
 
   syncing = false;
 

@@ -78,15 +78,12 @@ private:
   Gtk::Menu *popup_menu;
 
   //! The popup mode menu items
-  Gtk::RadioMenuItem *popup_mode_menus[3];
+  Gtk::CheckMenuItem *popup_check_menus[4];
   
   //! Is the monitoring function suspended?
   bool monitor_suspended;
 
 #ifdef HAVE_DISTRIBUTION
-  //! The log toggle button.
-  Gtk::CheckMenuItem *distr_log_menu_item;
-  
   //! The log dialog.
   NetworkLogDialog *network_log_dialog;
 #endif
@@ -95,7 +92,7 @@ private:
   //
   void init();
   void setup();
-  Gtk::Menu *create_menu(Gtk::RadioMenuItem *mode_menus[3]);
+  Gtk::Menu *create_menu(Gtk::CheckMenuItem *check_menus[4]);
   void config_changed_notify(string key);
 
   // Events.
@@ -143,7 +140,7 @@ private:
                                             WPARAM wParam, LPARAM lParam);
 
   Gtk::Menu *win32_tray_menu;
-  Gtk::RadioMenuItem *win32_tray_mode_menus[3];
+  Gtk::CheckMenuItem *win32_tray_check_menus[3];
   HWND win32_main_hwnd;
   NOTIFYICONDATA win32_tray_icon;
 #endif

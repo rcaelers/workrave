@@ -101,10 +101,10 @@ Win32InputMonitor::mouse_hook(int code, WPARAM wparam, LPARAM lparam)
   int my = mhs->MOUSEHOOKSTRUCT.pt.y;
   int mw = wparam == WM_MOUSEWHEEL ? HIWORD(mhs->mouseData) : 0;
 
-  TRACE_ENTER_MSG("Win32InputMonitor::mouse_hook",
-                  wparam << ", (" << mx
-                  << ", " << my
-                  << ", " << mw << ")");
+//    TRACE_ENTER_MSG("Win32InputMonitor::mouse_hook",
+//                    wparam << ", (" << mx
+//                    << ", " << my
+//                    << ", " << mw << ")");
   listener->mouse_notify(mx, my, mw);
 }
 
