@@ -58,6 +58,9 @@ public:
     time_t elapsed_idle_time;
     time_t last_pred_reset_time;
     time_t total_overdue_time;
+    time_t last_limit_time;
+    time_t last_limit_elapsed;
+    time_t snooze_inhibited;
   };
   
 public:

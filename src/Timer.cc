@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-04-12 13:37:01 robc>
+// Time-stamp: <2003-04-19 16:39:51 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -224,18 +224,19 @@ Timer::set_auto_reset(string predicate)
 void
 Timer::compute_next_limit_time()
 {
-  //TRACE_ENTER_MSG("Timer::compute_next_limit_time", timer_id);
+  TRACE_ENTER_MSG("Timer::compute_next_limit_time", timer_id);
   
   // default action.
   next_limit_time = 0;
 
-  if (timer_enabled && last_limit_time != 0 && !snooze_on_active)
+  if (timer_enabled && last_limit_time > 0 && !snooze_on_active)
     {
+      TRACE_MSG("1a " << next_limit_time << " " << last_limit_time);
       // Timer already reached limit
       if (!snooze_inhibited)
         {
           next_limit_time = last_limit_time + snooze_interval;
-          //TRACE_MSG("1 " << next_limit_time << " " << last_limit_time);
+          TRACE_MSG("1 " << next_limit_time << " " << last_limit_time);
         }
     }
   else if (timer_enabled && timer_state == STATE_RUNNING && last_start_time != 0 &&
@@ -244,24 +245,25 @@ Timer::compute_next_limit_time()
       // We are enabled, running and a limit != 0 was set.
       // So update our current Limit.
 
-      if (last_limit_time != 0)
+      TRACE_MSG("2a " << next_limit_time << " " << last_limit_time);
+      if (last_limit_time > 0)
         {
           // Limit already reached.
           if (snooze_on_active && !snooze_inhibited)
             {
               next_limit_time = last_start_time - elapsed_time + last_limit_elapsed + snooze_interval;
-              //TRACE_MSG("2 " << next_limit_time << " " << last_limit_time << " "
-              //<< elapsed_time << " " << last_limit_elapsed << " " << snooze_interval);
+              TRACE_MSG("2 " << next_limit_time << " " << last_limit_time << " "
+              << elapsed_time << " " << last_limit_elapsed << " " << snooze_interval);
             }
         }
       else
         {
           // new limit = last start time + limit - elapsed.
           next_limit_time = last_start_time + limit_interval - elapsed_time;
-          //TRACE_MSG("3 ");
+          TRACE_MSG("3 ");
         }
     }
-  //TRACE_EXIT();
+  TRACE_EXIT();
 }
 
 
@@ -718,9 +720,12 @@ Timer::serialize_state() const
          << time_source->get_time() << " "
          << get_elapsed_time() << " "
          << last_pred_reset_time << " "
-         << total_overdue_time;
+         << total_overdue_time << " "
+         << snooze_inhibited << " "
+         << last_limit_time << " "
+         << last_limit_elapsed;
     }
-  
+
   return ss.str();
 }
 
@@ -728,6 +733,7 @@ Timer::serialize_state() const
 bool
 Timer::deserialize_state(std::string state)
 {
+  TRACE_ENTER("Timer::deserialize_state");
   istringstream ss(state);
 
   time_t saveTime = 0;
@@ -735,11 +741,24 @@ Timer::deserialize_state(std::string state)
   time_t lastReset = 0;
   time_t overdue = 0;
   time_t now = time_source->get_time();
+  time_t llt = 0;
+  time_t lle = 0;
+  bool si = false;
   
   ss >> saveTime
      >> elapsed
      >> lastReset
-     >> overdue;
+     >> overdue
+     >> si
+     >> llt
+     >> lle;
+
+  TRACE_MSG(si << " " << llt << " " << lle);
+  last_limit_time = llt;
+  last_limit_elapsed = lle;
+  snooze_inhibited = si;
+
+  TRACE_MSG(snooze_inhibited);
   
   last_pred_reset_time = lastReset;
   total_overdue_time = overdue;
@@ -777,6 +796,10 @@ Timer::set_state_data(const TimerStateData &data)
   elapsed_idle_time = data.elapsed_idle_time;
   last_pred_reset_time = data.last_pred_reset_time + time_diff;
   total_overdue_time = data.total_overdue_time;
+
+  last_limit_time = data.last_limit_time + time_diff;
+  last_limit_elapsed = data.last_limit_elapsed;
+  snooze_inhibited = data.snooze_inhibited;
   
   timer_state = STATE_INVALID;
   previous_timer_state = STATE_INVALID;
@@ -798,6 +821,10 @@ Timer::get_state_data(TimerStateData &data)
   data.last_pred_reset_time = last_pred_reset_time;
   data.total_overdue_time = total_overdue_time;
 
+  data.last_limit_time = last_limit_time;
+  data.last_limit_elapsed = last_limit_elapsed;
+  data.snooze_inhibited = snooze_inhibited;
+  
   TRACE_MSG("elapsed = " << data.elapsed_time);
   TRACE_EXIT();
 }

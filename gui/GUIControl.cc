@@ -805,6 +805,8 @@ GUIControl::load_break_control_config(int break_id)
       bc->set_insist_break(timer->get_break_insisting());
       bc->set_ignorable_break(timer->get_break_ignorable());
     }
+
+  timer->enabled = timer->get_break_enabled();
 }
 
 
