@@ -71,6 +71,8 @@ Source: "..\..\..\..\po\pl.gmo"; DestDir: "{app}\lib\locale\pl\LC_MESSAGES"; Des
 Source: "..\..\..\..\po\ru.gmo"; DestDir: "{app}\lib\locale\ru\LC_MESSAGES"; DestName: "workrave.mo"; Flags: ignoreversion;
 Source: "..\..\..\..\po\fr.gmo"; DestDir: "{app}\lib\locale\fr\LC_MESSAGES"; DestName: "workrave.mo"; Flags: ignoreversion;
 Source: "..\..\..\..\po\pt_BR.gmo"; DestDir: "{app}\lib\locale\pt_BR\LC_MESSAGES"; DestName: "workrave.mo"; Flags: ignoreversion;
+Source: "..\..\..\..\po\no.gmo"; DestDir: "{app}\lib\locale\no\LC_MESSAGES"; DestName: "workrave.mo"; Flags: ignoreversion;
+Source: "..\..\..\..\po\lt.gmo"; DestDir: "{app}\lib\locale\lt\LC_MESSAGES"; DestName: "workrave.mo"; Flags: ignoreversion;
 
 [Registry]
 Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\Workrave.exe"; ValueType: string; ValueData: "{app}\lib\Workrave.exe"; Flags: uninsdeletekeyifempty
