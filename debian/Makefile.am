@@ -1,23 +1,23 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+# Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 #
-# Time-stamp: <2002-09-20 18:36:57 robc>
+# Time-stamp: <2003-03-04 17:50:12 robc>
 #
 # $Id$
 #
 
 MAINTAINERCLEANFILES = Makefile.in
 
-EXTRA_DIST = \
-      Makefile.am \
-      README.Debian \
-      changelog \
-      control \
-      copyright \
-      dirs \
-      docs \
-      rules
+#EXTRA_DIST = \
+#      Makefile.am \
+#      README.Debian \
+#      changelog \
+#      control \
+#      copyright \
+#      dirs \
+#      docs \
+#      rules
 
 
 #      conffiles.ex \
