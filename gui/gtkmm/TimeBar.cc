@@ -141,9 +141,6 @@ TimeBar::on_expose_event(GdkEventExpose *e)
   Gdk::Rectangle area(&e->area);
   Glib::RefPtr<Gtk::Style> style = get_style();
 
-  //  style->paint_box(window, Gtk::STATE_PRELIGHT, Gtk::SHADOW_IN, area,
-//                       *this, "", 0, 0,
-//                       winw, winh);
   style->paint_shadow(window, Gtk::STATE_NORMAL, Gtk::SHADOW_IN, area,
                       *this, "", 0, 0, winw, winh);
   window->draw_rectangle(style->get_light_gc(Gtk::STATE_NORMAL),
