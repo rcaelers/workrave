@@ -18,6 +18,7 @@ EXTRA_DIST	= \
 	config.xml \
 	autogen.sh \
 	autogenwin32.sh \
+	autogencross.sh \
 	depcomp \
 	workrave.spec.in \
 	workrave.spec \

@@ -1,6 +1,5 @@
 EXTRA_DIST 	= Workrave-Applet.server.in.in  		\
 		  Workrave-Control.server.in.in  		\
-	     	  workrave.schemas.in				\
 	     	  $(ui_DATA)					\
 		  $(wildcard *.xml.in)				\
 		  $(wildcard *.hh) $(wildcard *.cc)		\
