@@ -337,8 +337,6 @@ GUIControl::init()
 void
 GUIControl::timer_action(string timer_id, TimerInfo info)
 {
-  TRACE_ENTER_MSG("GUI::timer_action", timer_id << " " << info.event);
-
   GUIControl::BreakId id = BREAK_ID_NONE;
 
   // Parse timer_id
@@ -372,8 +370,6 @@ GUIControl::timer_action(string timer_id, TimerInfo info)
           break_action(id, GUIControl::BREAK_ACTION_NATURAL_STOP_BREAK);
         }
     }
-
-  TRACE_EXIT();
 }
 
 
@@ -397,11 +393,11 @@ GUIControl::heartbeat()
           if (info.event == TIMER_EVENT_NATURAL_RESET ||
               info.event == TIMER_EVENT_RESET)
             {
-              daily_reset();
-              
               Statistics *stats = Statistics::get_instance();
               stats->set_counter(Statistics::STATS_VALUE_TOTAL_ACTIVE_TIME, info.elapsed_time);
               stats->start_new_day();
+
+              daily_reset();
             }
         }
 
@@ -533,8 +529,6 @@ GUIControl::set_freeze_all_breaks(bool freeze)
 GUIControl::OperationMode
 GUIControl::get_operation_mode()
 {
-  TRACE_ENTER("GUIControl::get_operation_mode");
-  TRACE_EXIT();
   return operation_mode;
 }
 
@@ -542,8 +536,6 @@ GUIControl::get_operation_mode()
 GUIControl::OperationMode
 GUIControl::set_operation_mode(OperationMode mode)
 {
-  TRACE_ENTER_MSG("GUIControl::set_operation_mode", mode);
-
   OperationMode previous_mode = operation_mode;  
 
   if (operation_mode != mode)
@@ -570,7 +562,6 @@ GUIControl::set_operation_mode(OperationMode mode)
         }
     }
 
-  TRACE_EXIT();
   return previous_mode;
 }
 
@@ -583,8 +574,6 @@ GUIControl::set_operation_mode(OperationMode mode)
 void
 GUIControl::break_action(BreakId id, BreakAction action)
 {
-  TRACE_ENTER("GUIControl::timer_action");
-
   if (operation_mode == OPERATION_MODE_QUIET && action != BREAK_ACTION_FORCE_START_BREAK)
     {
       return;
@@ -639,7 +628,6 @@ GUIControl::break_action(BreakId id, BreakAction action)
           break;
         }
     }
-  TRACE_EXIT();
 }
 
 
@@ -755,21 +743,17 @@ GUIControl::get_configurator()
 bool
 GUIControl::verify_config()
 {
-  TRACE_ENTER("GUIControl::verify_config");
-  
   int size = sizeof(configCheck) / sizeof(ConfigCheck);
   bool changed = false;
   
   for (int i = 0; i < size; i++)
     {
-      TRACE_MSG(configCheck[i].id);
       string pfx = ControlInterface::CFG_KEY_TIMER + string(configCheck[i].id);
 
       if (!configurator->exists_dir(pfx))
         {  
           changed = true;
           
-          TRACE_MSG("set");
           configurator->set_value(pfx + ControlInterface::CFG_KEY_TIMER_LIMIT, configCheck[i].limit);
           configurator->set_value(pfx + ControlInterface::CFG_KEY_TIMER_AUTO_RESET, configCheck[i].autoreset);
           
@@ -784,7 +768,6 @@ GUIControl::verify_config()
         }
     }
 
-  TRACE_EXIT();
   return changed;
 }
 

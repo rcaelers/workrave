@@ -692,8 +692,6 @@ BreakControl::prelude_window_stop()
 void
 BreakControl::collect_garbage()
 {
-  TRACE_ENTER("BreakControl::collect_garbage");
-  
   if (delay_window_destroy)
     {
       delay_window_destroy = false;
@@ -714,7 +712,6 @@ BreakControl::collect_garbage()
           break_window_destroy = false;
         }
     }
-  TRACE_EXIT();
 }
 
 

@@ -165,8 +165,6 @@ AppletWindow::init()
 void
 AppletWindow::init_table()
 {
-  TRACE_ENTER("AppletWindow::init_table");
-
   // Determine what breaks to show.
   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
     {
@@ -277,7 +275,6 @@ AppletWindow::init_table()
 
   container->show_all();
   plug->show_all();
-  TRACE_EXIT();
 }
 
 
@@ -285,7 +282,6 @@ AppletWindow::init_table()
 void
 AppletWindow::init_slot(int slot)
 {
-  TRACE_ENTER_MSG("AppletWindow::init_slot", slot);
   int count = 0;
   int breaks_id[GUIControl::BREAK_ID_SIZEOF];
   bool stop = false;
@@ -401,8 +397,6 @@ AppletWindow::init_slot(int slot)
           new_count++;
         }
     }
-
-  TRACE_EXIT();
 }
 
 
@@ -680,9 +674,7 @@ bool
 AppletWindow::delete_event(GdkEventAny *event)
 {
   (void) event;
-  TRACE_ENTER("AppletWindow::deleted");
   destroy_applet();
-  TRACE_EXIT();
   return true;
 }
     
@@ -691,7 +683,6 @@ AppletWindow::delete_event(GdkEventAny *event)
 void
 AppletWindow::fire()
 {
-  TRACE_ENTER("AppletWindow::fire");
   if (mode == APPLET_TRAY)
     {
       destroy_tray_applet();
@@ -699,10 +690,8 @@ AppletWindow::fire()
   
   if (mode == APPLET_DISABLED && applet_enabled)
     {
-      TRACE_MSG("AppletWindow::retrying");
       retry_init = true;
     }
-  TRACE_EXIT();
 }
 
 
@@ -769,7 +758,6 @@ AppletWindow::update()
 void
 AppletWindow::set_menu_active(int menu, bool active)
 {
-  TRACE_ENTER("AppletWindow::set_menu_active");
   CORBA_Environment ev;
 
   if (applet_control != NULL)
@@ -792,7 +780,6 @@ AppletWindow::set_menu_active(int menu, bool active)
         }
       CORBA_exception_free(&ev);
     }
-  TRACE_EXIT();
 }
 
 
@@ -800,7 +787,6 @@ AppletWindow::set_menu_active(int menu, bool active)
 bool
 AppletWindow::get_menu_active(int menu)
 {
-  TRACE_ENTER("AppletWindow::get_menu_active");
   CORBA_Environment ev;
   bool ret = false;
 
@@ -824,7 +810,6 @@ AppletWindow::get_menu_active(int menu)
         }
       CORBA_exception_free(&ev);
     }
-  TRACE_EXIT();
   return ret;
 }
 
@@ -860,8 +845,6 @@ AppletWindow::set_applet_size(int size)
 bool
 AppletWindow::on_delete_event(GdkEventAny *)
 {
-  TRACE_ENTER("AppletWindow::on_delete_event");
-  TRACE_EXIT();
   return true;
 }
 
@@ -934,7 +917,6 @@ AppletWindow::config_changed_notify(string key)
 bool
 AppletWindow::on_button_press_event(GdkEventButton *event)
 {
-  TRACE_ENTER("Applet::on_button_press_event");
   bool ret = false;
 
   if (tray_menu != NULL)
@@ -946,7 +928,6 @@ AppletWindow::on_button_press_event(GdkEventButton *event)
         }
     }
   
-  TRACE_EXIT();
   return ret;
 }
 

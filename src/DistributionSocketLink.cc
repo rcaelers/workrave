@@ -128,8 +128,6 @@ DistributionSocketLink::init()
 void
 DistributionSocketLink::heartbeat()
 {
-  TRACE_ENTER("DistributionSocketLink::heartbeat");
-
   if (server_enabled)
     {
       heartbeat_count++;
@@ -160,8 +158,6 @@ DistributionSocketLink::heartbeat()
           send_state();
         }
     }
-  
-  TRACE_EXIT();
 }
 
 

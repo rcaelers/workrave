@@ -314,7 +314,7 @@ StatisticsDialog::create_activity_page(Gtk::Notebook *tnotebook)
 
   for (int i = 0; i < 5; i++)
     {
-      activity_labels[i] = new Gtk::Label();
+      activity_labels[i] = manage(new Gtk::Label());
       GtkUtil::table_attach_right_aligned(*table, *activity_labels[i], 1, i);
     }
   

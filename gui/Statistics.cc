@@ -95,6 +95,7 @@ Statistics::heartbeat()
 void
 Statistics::start_new_day()
 {
+  TRACE_ENTER("Statistics::start_new_day");
   const time_t now = time(NULL);
   struct tm *tmnow = localtime(&now);
 
@@ -105,9 +106,11 @@ Statistics::start_new_day()
       tmnow->tm_hour !=  current_day->start.tm_hour ||
       tmnow->tm_min  !=  current_day->start.tm_min)
     {
-      
+
+      TRACE_MSG("New day");
       if (current_day != NULL)
         {
+          TRACE_MSG("Save old day");
           day_to_history(current_day);
           day_to_remote_history(current_day);
         }
@@ -117,6 +120,7 @@ Statistics::start_new_day()
       current_day->start = *tmnow;
       current_day->stop = *tmnow;
     }
+  TRACE_EXIT();
 }
 
 
