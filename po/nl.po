@@ -1,5 +1,5 @@
 # Workrave 
-# Copyright (C) 2002, 2003 Rob Caelers & Raymond Penners
+# Copyright (C) 2002, 2003, 2004 Rob Caelers & Raymond Penners
 # Raymond Penners <raymond@dotsphinx.com>, 2002.
 # 
 msgid ""
@@ -96,7 +96,6 @@ msgstr "Wacht"
 #: frontend/gtkmm/src/GtkUtil.cc:117 frontend/gtkmm/src/MicroBreakWindow.cc:48
 #: frontend/gtkmm/src/MicroBreakWindow.cc:110
 #: frontend/gtkmm/src/MicroBreakWindow.cc:146
-#, fuzzy
 msgid "Micro-break"
 msgstr "Micro-pauze"
 
@@ -261,7 +260,6 @@ msgid "Block mode:"
 msgstr "Blokkeer modus:"
 
 #: frontend/gtkmm/src/PreludeWindow.cc:105
-#, fuzzy
 msgid "Time for a micro-break?"
 msgstr "Tijd voor een micro-pauze?"
 
@@ -305,7 +303,6 @@ msgid "Place timers next to each other"
 msgstr "Plaats de klokken naast elkaar"
 
 #: frontend/gtkmm/src/TimerBoxPreferencePage.cc:98
-#, fuzzy
 msgid "Place micro-break and rest break in one spot"
 msgstr "Plaats micro-pauze en rustpauze op één plek"
 
@@ -355,7 +352,6 @@ msgstr "Tijd tussen pauzewissel:"
 
 #. Layout
 #: frontend/gtkmm/src/TimerBoxPreferencePage.cc:172
-#, fuzzy
 msgid "Micro-break:"
 msgstr "Micro-pauze:"
 
@@ -390,12 +386,10 @@ msgid "Show 'Postpone' and 'Skip' button"
 msgstr "Toon 'Uitstellen' en 'Overslaan'"
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:151
-#, fuzzy
 msgid "Timer ignores activity"
 msgstr "Micro-pauzes tellen als werktijd"
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:166
-#, fuzzy
 msgid "Regard micro-breaks as activity"
 msgstr "Micro-pauzes tellen als werktijd"
 
@@ -404,12 +398,10 @@ msgid "Number of exercises:"
 msgstr "Aantal oefeningen:"
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:201
-#, fuzzy
 msgid "Time before end:"
 msgstr "Werktijd:"
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:202
-#, fuzzy
 msgid "Time between breaks:"
 msgstr "Werktijd:"
 
@@ -418,12 +410,10 @@ msgid "Resets at:"
 msgstr "Herstart om:"
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:219
-#, fuzzy
 msgid "Break duration:"
 msgstr "Pauze tijdsduur:"
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:236
-#, fuzzy
 msgid "Postpone time:"
 msgstr "Uitstel tijd:"
 
@@ -1099,12 +1089,10 @@ msgid "Exercises ended"
 msgstr "Einde oefeningen"
 
 #: frontend/common/share/sounds/workrave.soundlist.in.h:6
-#, fuzzy
 msgid "Micro-break ended"
-msgstr "Micro-pauze"
+msgstr "Einde micro-pauze"
 
 #: frontend/common/share/sounds/workrave.soundlist.in.h:7
-#, fuzzy
 msgid "Micro-break started"
 msgstr "Begin micro-pauze"
 
