@@ -31,6 +31,8 @@ private:
 #if defined(HAVE_X)
   enum hint_type { HINTTYPE_NONE, HINTTYPE_WIN, HINTTYPE_NET };
   static hint_type type;
+  static bool net_supported;
+  static bool win_supported;
 #elif defined(WIN32)
 
 #endif

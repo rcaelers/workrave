@@ -38,6 +38,9 @@ static const char rcsid[] = "$Id$";
 
 #if defined(HAVE_X)
 WindowHints::hint_type WindowHints::type = WindowHints::HINTTYPE_NONE;
+bool WindowHints::net_supported = false;
+bool WindowHints::win_supported = false;
+
 #elif defined(WIN32)
 #define GLASS_CLASS_NAME "GlassWindow"
 #endif
@@ -59,26 +62,22 @@ WindowHints::init()
 #if defined(HAVE_X)
   type = HINTTYPE_NONE;
 
-  if (type == HINTTYPE_NONE)
+  // Check for GNOME
+  gnome_win_hints_init();
+  if (gnome_win_hints_wm_exists())
     {
-      if (WmSpec::supported())
-        {
-          type = HINTTYPE_NET;
-          rc = true;
-        }
-    }
-  
-  if (type == HINTTYPE_NONE)
-    {
-      // Check for GNOME
-      gnome_win_hints_init();
-      if (gnome_win_hints_wm_exists())
-        {
-          type = HINTTYPE_WIN;
-          rc = true;
-        }
+      type = HINTTYPE_WIN;
+      win_supported = true;
+      rc = true;
     }
 
+  if (WmSpec::supported())
+    {
+      type = HINTTYPE_NET;
+      net_supported = true;
+      rc = true;
+    }
+  
 #elif defined(WIN32)
 
   WNDCLASSEX wclass =
@@ -111,21 +110,19 @@ WindowHints::set_always_on_top(GtkWidget *window, bool onTop)
 {
   bool rc = false;
 #ifdef HAVE_X
-  switch (type)
+  if (net_supported)
     {
-    case HINTTYPE_WIN:
       gnome_win_hints_set_layer(window, onTop ? WIN_LAYER_ONTOP : WIN_LAYER_NORMAL);
       rc = true;
-
-    case HINTTYPE_NET:
-      WmSpec::change_state(window, onTop, "_NET_WM_STATE_FLOATING");
-      WmSpec::change_state(window, onTop, "_NET_WM_STATE_STAYS_ON_TOP");
-      WmSpec::change_state(window, onTop, "_NET_WM_STATE_MODAL");
-      rc = true;
-      
-    default:
-      break;
     }
+
+  if (win_supported)
+    {
+      WmSpec::change_state(window, onTop, "_NET_WM_STATE_STAYS_ON_TOP");
+      WmSpec::change_state(window, onTop, "_NET_WM_STATE_ABOVE");
+      rc = true;
+    }
+  
 #elif defined(WIN32)
   HWND hwnd = (HWND) GDK_WINDOW_HWND(window->window);
   rc = SetWindowPos(hwnd, onTop ? HWND_TOPMOST : HWND_NOTOPMOST, 
