@@ -209,8 +209,8 @@ MainWindow::init()
   set_gravity(Gdk::GRAVITY_STATIC); 
   set_position(Gtk::WIN_POS_NONE);
   show_all();
+  TRACE_MSG("moving to " << x << " " << y);
   move(x, y);
-  TRACE_MSG(x << " " << y);
   
   if (!enabled) //  || get_start_in_tray())
     {
@@ -273,12 +273,15 @@ MainWindow::update()
 void
 MainWindow::open_window()
 {
+  TRACE_ENTER("MainWindow::open_window");
   if (timers_box->get_visible_count() > 0)
     {
       int x, y;
-      get_start_position(x, y);
-      set_gravity(Gdk::GRAVITY_STATIC); 
       set_position(Gtk::WIN_POS_NONE);
+      set_gravity(Gdk::GRAVITY_STATIC); 
+      get_start_position(x, y);
+      TRACE_MSG("moving to " << x << " " << y);
+      move(x, y);
 
 #ifdef WIN32
       win32_show(true);
@@ -287,7 +290,9 @@ MainWindow::open_window()
       deiconify();
 #endif
     }
+  TRACE_EXIT();
 }
+
 
 
 //! Closes the main window.
@@ -647,6 +652,7 @@ MainWindow::win32_on_tray_open()
 void
 MainWindow::get_start_position(int &x, int &y)
 {
+  TRACE_ENTER("MainWindow::get_start_position");
   bool b;
   // FIXME: Default to right-bottom instead of 256x256
   ConfiguratorInterface *cfg = CoreFactory::get_configurator();
@@ -660,21 +666,26 @@ MainWindow::get_start_position(int &x, int &y)
     {
       y = 256;
     }
+  TRACE_MSG(x << " " << y);
+  TRACE_EXIT();
 }
 
 
 void
 MainWindow::set_start_position(int x, int y)
 {
+  TRACE_ENTER_MSG("MainWindow::set_start_position", x << " " << y);
   ConfiguratorInterface *cfg = CoreFactory::get_configurator();
   cfg->set_value(CFG_KEY_MAIN_WINDOW_X, x);
   cfg->set_value(CFG_KEY_MAIN_WINDOW_Y, y);
+  TRACE_EXIT();
 }
 
 
 void
 MainWindow::get_head_start_position(int &x, int &y)
 {
+  TRACE_ENTER("MainWindow::get_head_start_position");
   bool b;
   int sx, sy;
   get_start_position(sx, sy);
@@ -690,15 +701,20 @@ MainWindow::get_head_start_position(int &x, int &y)
     {
       y = sy;
     }
+  
+  TRACE_MSG(x << " " << y);
+  TRACE_EXIT();
 }
 
 
 void
 MainWindow::set_head_start_position(int x, int y)
 {
+  TRACE_ENTER_MSG("MainWindow::set_head_start_position", x << " " << y);
   ConfiguratorInterface *cfg = CoreFactory::get_configurator();
   cfg->set_value(CFG_KEY_MAIN_WINDOW_HEAD_X, x);
   cfg->set_value(CFG_KEY_MAIN_WINDOW_HEAD_Y, y);
+  TRACE_EXIT();
 }
 
 

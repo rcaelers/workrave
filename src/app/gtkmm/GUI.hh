@@ -151,7 +151,7 @@ private:
   void collect_garbage();
   BreakWindowInterface *create_break_window(HeadInfo &head, BreakId break_id, bool ignorable);
 
-  void locate_main_window();
+  void locate_main_window(GdkEventConfigure *event);
   void relocate_main_window(int width, int height);
   bool on_mainwindow_configure_event(GdkEventConfigure *event);
   

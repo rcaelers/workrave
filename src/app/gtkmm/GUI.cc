@@ -570,14 +570,30 @@ GUI::init_multihead_desktop()
 
 
 void
-GUI::locate_main_window()
+GUI::locate_main_window(GdkEventConfigure *event)
 {
   TRACE_ENTER("GUI::locate_main_window");
   int x, y;
-  main_window->get_position(x, y);
+
+  if (event == NULL)
+    {
+      main_window->get_position(x, y);
+    }
+  else
+    {
+      x = event->x;
+      y = event->y;
+    }
 
   TRACE_MSG("main window = " << x << " " << y);
 
+  if (x <= 0 && y <= 0)
+    {
+      // FIXME: this is a hack...
+      TRACE_EXIT();
+      return;
+    }
+  
   if (x != main_window_relocated_location.get_x() ||
       y != main_window_relocated_location.get_y())
     {
@@ -661,10 +677,14 @@ GUI::relocate_main_window(int width, int height)
   int x = main_window_location.get_x();
   int y = main_window_location.get_y();
 
-  if (x <= width && y <= height)
+  if (x <= 0 || y <= 0)
+    {
+      TRACE_MSG("invalid " << x << " " << y);
+    }
+  else if (x <= width && y <= height)
     {
       TRACE_MSG(x << " " << y);
-      TRACE_MSG("fits");
+      TRACE_MSG("fits, moving to");
       main_window->set_position(Gtk::WIN_POS_NONE);
       main_window->move(x, y);
     }
@@ -702,7 +722,7 @@ GUI::relocate_main_window(int width, int height)
           y = 0;
         }
       
-      TRACE_MSG("move to " << x << " " << y);
+      TRACE_MSG("moving to " << x << " " << y);
       main_window_relocated_location.set_x(x);
       main_window_relocated_location.set_y(y);
 
@@ -872,8 +892,12 @@ GUI::init_gui()
   // The main status window.
   main_window = new MainWindow();
   main_window->signal_configure_event().connect(SigC::slot(*this, &GUI::on_mainwindow_configure_event));
-  locate_main_window();
-  relocate_main_window(screen_width, screen_height);
+
+  if (main_window->is_visible())
+    {
+      locate_main_window(NULL);
+      relocate_main_window(screen_width, screen_height);
+    }
   
 #ifdef HAVE_X  
   // The applet window.
@@ -1200,10 +1224,10 @@ GUI::on_activity()
 bool
 GUI::on_mainwindow_configure_event(GdkEventConfigure *event)
 {
-  TRACE_ENTER("GUI::on_mainwindow_configure_event");
+  TRACE_ENTER_MSG("GUI::on_mainwindow_configure_event", event->x << " " << event->y);
   (void) event;
 
-  locate_main_window();
+  locate_main_window(event);
   
   TRACE_EXIT();
   return true;
