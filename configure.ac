@@ -240,7 +240,8 @@ then
 
   if test "x$config_with_gnome" = "xyes"
   then
-    PKG_CHECK_MODULES(gnomeui, libgnomeui-2.0)
+    PKG_CHECK_MODULES(GNOMEUIMM, libgnomeuimm-2.0)
+    PKG_CHECK_MODULES(GNOMEUI, libgnomeui-2.0)
     PKG_CHECK_MODULES(APPLET, libpanelapplet-2.0 >= 2.0.10)
     PKG_CHECK_MODULES(BONOBO, libbonobo-2.0 >= 2.0.0)
 
@@ -254,8 +255,11 @@ then
   fi
 fi
 
-AC_SUBST(gnomeui_LIBS)
-AC_SUBST(gnomeui_CFLAGS)
+AC_SUBST(GNOMEUIMM_LIBS)
+AC_SUBST(GNOMEUIMM_CFLAGS)
+        
+AC_SUBST(GNOMEUI_LIBS)
+AC_SUBST(GNOMEUI_CFLAGS)
 
 AC_SUBST(APPLET_CFLAGS)
 AC_SUBST(APPLET_LIBS)

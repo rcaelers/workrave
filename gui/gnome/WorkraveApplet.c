@@ -797,7 +797,7 @@ workrave_applet_fill(PanelApplet *applet)
   bonobo_ui_component_add_listener(ui, "Quiet", mode_callback, NULL);
 
   // Eventbox
-  GtkEventBox *event_box = gtk_event_box_new();
+  GtkWidget *event_box = gtk_event_box_new();
   applet_control->event_box = event_box;
   gtk_widget_set_events(event_box, gtk_widget_get_events(event_box) | GDK_BUTTON_PRESS_MASK);
   gtk_widget_show(GTK_WIDGET(event_box));

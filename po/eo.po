@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-03-15 23:41+0100\n"
+"POT-Creation-Date: 2003-03-18 22:00+0100\n"
 "PO-Revision-Date: 2002-11-05 17:58-0800\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -166,7 +166,7 @@ msgstr "Transsaltu"
 msgid "Postpone"
 msgstr "Prokrastu"
 
-#: gui/gtkmm/GUI.cc:356
+#: gui/gtkmm/GUI.cc:405
 msgid "I could not initialize Bonobo"
 msgstr ""
 
@@ -207,24 +207,20 @@ msgstr "_Rekonektu"
 msgid "Show _log"
 msgstr "Montru _protokolon"
 
-#: gui/gtkmm/Menus.cc:204
-msgid "Open"
-msgstr ""
-
-#: gui/gtkmm/Menus.cc:214
+#: gui/gtkmm/Menus.cc:217
 msgid "_Rest break"
 msgstr "_Ripozon"
 
-#: gui/gtkmm/Menus.cc:225 gui/gtkmm/StatisticsDialog.cc:50
+#: gui/gtkmm/Menus.cc:228 gui/gtkmm/StatisticsDialog.cc:50
 #: gui/gtkmm/StatisticsDialog.cc:134
 msgid "Statistics"
 msgstr "Statistiko"
 
-#: gui/gtkmm/Menus.cc:239
+#: gui/gtkmm/Menus.cc:242
 msgid "About..."
 msgstr "Pri..."
 
-#: gui/gtkmm/Menus.cc:549
+#: gui/gtkmm/Menus.cc:552
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."

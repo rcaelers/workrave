@@ -199,11 +199,14 @@ Menus::create_menu(Gtk::CheckMenuItem *check_menus[4])
 #endif
   
   // FIXME: add separators, etc...
+#ifndef WIN32
   if (check_menus == tray_check_menus)
     {
-      menulist.push_back(Gtk::Menu_Helpers::MenuElem(_("Open"), 
-                                                     SigC::slot(*this, &Menus::on_menu_open_main_window)));
+      menulist.push_front(Gtk::Menu_Helpers::StockMenuElem
+                          (Gtk::Stock::OPEN,
+                           SigC::slot(*this, &Menus::on_menu_open_main_window)));
     }
+#endif
   
   menulist.push_back(Gtk::Menu_Helpers::StockMenuElem(Gtk::Stock::PREFERENCES,
                                                       SigC::slot(*this, &Menus::on_menu_preferences)));

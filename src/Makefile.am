@@ -64,10 +64,11 @@ workrave_SOURCES 	= ${sources} ${sourcesxinput} ${sourceswin32input} \
 			  ${sourcesdistribution} ${sourcesgnet}
 
 workrave_CXXFLAGS 	= -W -DWORKRAVE_DATADIR="\"${pkgdatadir}\"" @ARCH_CFLAGS@ -I$(top_srcdir)/gui $(includesinput) \
-	 	   	  -D_XOPEN_SOURCE=600 @gnomeui_CFLAGS@ @GTK_CFLAGS@ @GDOME_CFLAGS@ @GCONF_CFLAGS@ @GNET_CFLAGS@
+	 	   	  -D_XOPEN_SOURCE=600 @GNOMEUI_CFLAGS@ @GTK_CFLAGS@ @GDOME_CFLAGS@ @GCONF_CFLAGS@ @GNET_CFLAGS@
 
-workrave_LDADD 		=  @GUI_LIBS@ @ARCH_LIBS@ @gnomeui_LIBS@ @GTK_LIBS@ @GTKMM_LIBS@ @GNET_LIBS@ \
-		           @PTHREAD_LIBS@ @X_LIBS@ @GCONF_LIBS@ @GDOME_LIB@ \
+workrave_LDADD 		=  @GUI_LIBS@ @ARCH_LIBS@ @GNOMEUI_LIBS@ @GNOMEUIMM_LIBS@ @GTK_LIBS@ \
+			   @GTKMM_LIBS@ @GNET_LIBS@ \
+		            @PTHREAD_LIBS@ @X_LIBS@ @GCONF_LIBS@ @GDOME_LIB@ \
 			   ${X11LIBS} ${WIN32LIBS} ${WIN32CONSOLE}
 
 #CXXLD=ccmalloc g++

@@ -29,6 +29,10 @@
 #include "GUIFactoryInterface.hh"
 #include <gtkmm.h>
 
+#ifdef HAVE_GNOME
+#include <libgnomeuimm.h>
+#endif
+
 // GTKMM classes
 class MainWindow;
 class MicroPauseWindow;
@@ -88,8 +92,12 @@ private:
   void init_gui_control();
   void init_gui();
   void init_remote_control();
+
 #ifdef HAVE_GNOME
   void init_gnome();
+  void on_die();
+  bool on_save_yourself(int phase, Gnome::UI::SaveStyle save_style, bool shutdown,
+                        Gnome::UI::InteractStyle interact_style, bool fast);
 #endif
   
 private:

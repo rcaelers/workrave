@@ -134,6 +134,8 @@ GUI::main()
 {
   TRACE_ENTER("GUI::main");
 
+  Gtk::Main kit(argc, argv);
+  
 #ifdef HAVE_GNOME
   init_gnome();
 #endif
@@ -145,7 +147,6 @@ GUI::main()
     }
 
   
-  Gtk::Main kit(argc, argv);
 
   init_debug();
   init_nls();
@@ -251,8 +252,56 @@ static void my_log_handler(const gchar *log_domain, GLogLevelFlags log_level,
 void
 GUI::init_gnome()
 {
+  TRACE_ENTER("GUI::init_gnome");
+  
   gnome_init("workrave", VERSION, argc, argv);
+
+#if 1
+  Gnome::UI::Client *client = Gnome::UI::Client::master_client();
+
+  TRACE_MSG(gnome_master_client());
+#endif
+  
+  TRACE_EXIT();
 }
+
+void
+GUI::on_die()
+{
+  TRACE_ENTER("GUI::on_die");
+
+  Gtk::Main::quit();
+  
+  TRACE_EXIT();
+}
+ 
+
+bool
+GUI::on_save_yourself(int phase, Gnome::UI::SaveStyle save_style, bool shutdown,
+                      Gnome::UI::InteractStyle interact_style, bool fast)
+{
+  TRACE_ENTER("GUI::on_save_yourself");
+
+#if 0
+  
+  Gnome::UI::Client *client = Gnome::UI::Client::master_client();
+
+  vector<string> argv(4);
+
+//   if (message)
+//     {
+//       argv.push_back("--message");
+//       argv.push_back(message);
+//     }
+  
+  client->set_clone_command (argv);
+  client->set_restart_command (argv);
+ 
+  TRACE_EXIT();
+#endif
+  return true;  
+}
+
 #endif  
 
 

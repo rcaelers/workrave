@@ -23,7 +23,7 @@ struct _AppletControl
 {
   BonoboObject parent;
 
-  GtkEventBox *event_box;
+  GtkWidget *event_box;
   GtkWidget *image;
   GtkWidget *socket;
   PanelApplet *applet;

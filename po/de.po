@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
-"POT-Creation-Date: 2003-03-15 23:36+0100\n"
+"POT-Creation-Date: 2003-03-18 21:59+0100\n"
 "PO-Revision-Date: 2003-03-04 18:50+0100\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Johannes Rohr <j.rohr@comlink.apc.org>\n"
@@ -164,7 +164,7 @@ msgstr "Überspringen"
 msgid "Postpone"
 msgstr "Aufschieben"
 
-#: gui/gtkmm/GUI.cc:356
+#: gui/gtkmm/GUI.cc:405
 msgid "I could not initialize Bonobo"
 msgstr "Konnte Bonobo nicht initialisieren"
 
@@ -205,25 +205,20 @@ msgstr "Verbindung _Wiederaufnehmen"
 msgid "Show _log"
 msgstr "_Protokoll anzeigen"
 
-#: gui/gtkmm/Menus.cc:204
-#, fuzzy
-msgid "Open"
-msgstr "Ö_ffnen"
-
-#: gui/gtkmm/Menus.cc:214
+#: gui/gtkmm/Menus.cc:217
 msgid "_Rest break"
 msgstr "_Ruhepause"
 
-#: gui/gtkmm/Menus.cc:225 gui/gtkmm/StatisticsDialog.cc:50
+#: gui/gtkmm/Menus.cc:228 gui/gtkmm/StatisticsDialog.cc:50
 #: gui/gtkmm/StatisticsDialog.cc:134
 msgid "Statistics"
 msgstr "Statistik"
 
-#: gui/gtkmm/Menus.cc:239
+#: gui/gtkmm/Menus.cc:242
 msgid "About..."
 msgstr "Über..."
 
-#: gui/gtkmm/Menus.cc:549
+#: gui/gtkmm/Menus.cc:552
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -658,3 +653,7 @@ msgstr "_Protokoll anzeigen"
 #: gui/gnome/GNOME_WorkraveApplet.xml.in.h:14
 msgid "_Statistics"
 msgstr "_Statistik"
+
+#, fuzzy
+#~ msgid "Open"
+#~ msgstr "Ö_ffnen"
