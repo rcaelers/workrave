@@ -63,6 +63,7 @@ libgtkmmgui_a_SOURCES = \
 	GUI.cc \
 	GtkmmGUI.cc \
 	GtkUtil.cc \
+	EventLabel.cc \
 	Hig.cc \
 	IconListNotebook.cc \
 	IconListCellRenderer.cc \

@@ -18,7 +18,7 @@
 
 #include "GUI.hh"
 #include "GtkUtil.hh"
-
+#include "EventLabel.hh"
 
 Gtk::Button *
 GtkUtil::create_stock_button_without_text(const Gtk::StockID& stock_id)
@@ -89,12 +89,19 @@ GtkUtil::table_attach_right_aligned(Gtk::Table &table, Gtk::Widget &child,
 Gtk::Widget *
 GtkUtil::create_label_with_tooltip(string text, string tooltip)
 {
+#if 0
   Gtk::Label *label = Gtk::manage(new Gtk::Label(text));
   Gtk::EventBox *eventbox = Gtk::manage(new Gtk::EventBox());
   eventbox->add(*label);
 
   GUI::get_instance()->get_tooltips()->set_tip(*eventbox, tooltip);
   return eventbox;
+#else
+  EventLabel *label = Gtk::manage(new EventLabel(text));
+
+  GUI::get_instance()->get_tooltips()->set_tip(*label, tooltip);
+  return label;
+#endif
 }
 
 Gtk::Label *
