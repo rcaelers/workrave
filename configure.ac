@@ -281,7 +281,7 @@ then
     PKG_CHECK_MODULES(APPLET, libpanelapplet-2.0 >= 2.0.10)
     PKG_CHECK_MODULES(BONOBO, libbonobo-2.0 >= 2.0.0)
 
-    AM_PATH_ORBIT2
+    AM_PATH_ORBIT2(2.8.3)
 
     AC_MSG_CHECKING(for CORBA include paths)
     IDL_INCLUDES="-I "`pkg-config --variable=idldir libbonobo-2.0`" -I "`pkg-config --variable=idldir bonobo-activation-2.0`
