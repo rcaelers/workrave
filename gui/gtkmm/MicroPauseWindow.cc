@@ -186,7 +186,7 @@ MicroPauseWindow::refresh_label()
   else
     {
       time_t rb = elapsed - limit;
-      sprintf(s, _("Overdue rest break in %s"),
+      sprintf(s, _("Rest break %s overdue"),
               Text::time_to_string(rb, true).c_str());
     }
   label->set_text(string(_("Please relax for a few seconds")) + '\n' + s);

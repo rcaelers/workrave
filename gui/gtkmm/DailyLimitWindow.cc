@@ -42,7 +42,7 @@ DailyLimitWindow::DailyLimitWindow(bool ignorable) :
     (new Gtk::Label
      (_("You have reached your daily limit. Please stop working\n"
       "behind the computer. If your working day is not over yet,\n"
-      "find something other to do, such as reviewing a document."
+      "find something else to do, such as reviewing a document."
         )));
 
   // Icon

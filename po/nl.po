@@ -95,7 +95,7 @@ msgstr "Over %s"
 msgid ""
 "You have reached your daily limit. Please stop working\n"
 "behind the computer. If your working day is not over yet,\n"
-"find something other to do, such as reviewing a document."
+"find something else to do, such as reviewing a document."
 msgstr ""
 "Je hebt je dagelijkse limiet bereikt. Stop met werken\n"
 "achter de computer. Als je werkdag nog niet voorbij is,\n"
@@ -183,7 +183,7 @@ msgstr "Rustpauze over %s"
 
 #: gui/gtkmm/MicroPauseWindow.cc:189
 #, c-format
-msgid "Overdue rest break in %s"
+msgid "Rest break %s overdue"
 msgstr "Rustpauze %s te laat"
 
 #: gui/gtkmm/MicroPauseWindow.cc:192
