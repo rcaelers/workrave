@@ -376,6 +376,7 @@ DistributionSocketLink::exists_client(gchar *host, gint port)
 bool
 DistributionSocketLink::add_client(gchar *host, gint port)
 {
+  TRACE_ENTER_MSG("DistributionSocketLink::add_client", host << " " << port);
   gchar *canonical_host = NULL;
   
   bool skip = exists_client(host, port);
@@ -412,10 +413,12 @@ DistributionSocketLink::add_client(gchar *host, gint port)
       client->server_port = port;
       
       clients.push_back(client);
+      TRACE_MSG("Connecting to " << host << " " << port);
       gnet_tcp_socket_connect_async(host, port, static_async_connected, client);
     }
 
   g_free(canonical_host);
+  TRACE_EXIT();
 }
 
 
