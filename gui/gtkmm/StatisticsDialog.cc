@@ -46,7 +46,13 @@
 #include "nls.h"
 
 StatisticsDialog::StatisticsDialog()
-  : Gtk::Dialog("Statistics", true, false)
+  : Gtk::Dialog(_("Statistics"), false, true),
+    statistics(NULL),
+    daily_usage_label(NULL),
+    day_adjust(NULL),
+    start_time_label(NULL),
+    end_time_label(NULL),
+    tips(NULL)
 {
   TRACE_ENTER("StatisticsDialog::StatisticsDialog");
 
@@ -55,6 +61,7 @@ StatisticsDialog::StatisticsDialog()
   init_gui();
   init_page_values();
   select_day(0);
+  
   TRACE_EXIT();
 }
 
@@ -66,11 +73,12 @@ StatisticsDialog::~StatisticsDialog()
   TRACE_EXIT();
 }
 
+
 int
 StatisticsDialog::run()
 {
-  int id = Gtk::Dialog::run();
-  return id;
+  show_all();
+  return 0;
 }
 
 
@@ -80,7 +88,10 @@ StatisticsDialog::init_gui()
   Gtk::Notebook *tnotebook = manage(new Gtk::Notebook());
   tnotebook->set_tab_pos(Gtk::POS_TOP);  
 
-
+  // Init tooltips.
+  tips = manage(new Gtk::Tooltips());
+  tips->enable();
+  
   Gtk::HBox *hbox = manage(new Gtk::HBox(false, 3));
   Gtk::VBox *vbox = manage(new Gtk::VBox(false, 3));
 
@@ -140,6 +151,19 @@ StatisticsDialog::create_info_box(Gtk::Box *box)
 }
 
 
+Gtk::Widget *
+StatisticsDialog::createLabel(char *text, char *tooltip)
+{
+  Gtk::Label *label = manage(new Gtk::Label(text));
+  Gtk::EventBox *eventbox = manage(new Gtk::EventBox());
+
+  eventbox->add(*label);
+
+  tips->set_tip(*eventbox, tooltip);
+  return eventbox;
+}
+
+
 void
 StatisticsDialog::create_break_page(Gtk::Notebook *tnotebook)
 {
@@ -152,15 +176,30 @@ StatisticsDialog::create_break_page(Gtk::Notebook *tnotebook)
   table->set_col_spacings(6);
   table->set_border_width(6);
 
-  Gtk::Label *unique_label = manage(new Gtk::Label(_("Total breaks")));
-  Gtk::Label *prompted_label = manage(new Gtk::Label(_("Prompted")));
-  Gtk::Label *taken_label = manage(new Gtk::Label(_("Breaks Taken")));
-  Gtk::Label *natural_label = manage(new Gtk::Label(_("Natural breaks")));
-  Gtk::Label *skipped_label = manage(new Gtk::Label(_("Breaks skipped")));
-  Gtk::Label *postponed_label = manage(new Gtk::Label(_("Breaks postponed")));
-  Gtk::Label *overdue_label = manage(new Gtk::Label(_("Total overdue time")));
-  Gtk::Label *usage_label = manage(new Gtk::Label(_("Daily usage")));
+  Gtk::Widget *unique_label = createLabel(_("Total breaks"),
+                                          _("Total number of unique breaks prompted. This equals "
+                                            "the number of times the timer reached zero."));
+  
+  Gtk::Widget *prompted_label = createLabel(_("Prompted"),
+                                            _("Number of times workrave prompted you to take a break"));
+  
+  Gtk::Widget *taken_label = createLabel(_("Breaks taken"),
+                                         _("Number of times you took a break when prompted"));
+  
+  Gtk::Widget *natural_label = createLabel(_("Natural breaks taken"),
+                                         _("Number of times you took a break without being prompted"));
+  
+  Gtk::Widget *skipped_label = createLabel(_("Breaks skipped"),
+                                           _("Number of times you skipped a break"));
+ 
+  Gtk::Widget *postponed_label = createLabel(_("Breaks postponed"),
+                                             _("Number of times you postponed a break"));
+  
+  Gtk::Widget *overdue_label = createLabel(_("Total overdue time"),
+                                           _("The total time this break was overdue"));
 
+  Gtk::Widget *usage_label = createLabel(_("Daily usage"),
+                                        _("Total computer usage"));
   
   Gtk::HSeparator *hrule = manage(new Gtk::HSeparator());
   Gtk::VSeparator *vrule = manage(new Gtk::VSeparator());

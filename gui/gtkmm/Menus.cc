@@ -74,6 +74,7 @@ Menus::Menus() :
 #ifdef HAVE_DISTRIBUTION
   network_log_dialog(NULL),
 #endif
+  statistics_dialog(NULL),
   main_window(NULL)
 {
   gui = GUI::get_instance();
@@ -495,18 +496,16 @@ Menus::on_menu_preferences()
 void
 Menus::on_menu_statistics()
 {
-  GUIControl::OperationMode mode;
-  GUIControl *gui_control = GUIControl::get_instance();
-  mode = gui_control->set_operation_mode(GUIControl::OPERATION_MODE_QUIET);
-
-  Statistics *stats = Statistics::get_instance();
-  stats->heartbeat();
-  
-  StatisticsDialog *dialog = new StatisticsDialog();
-  dialog->run();
-  delete dialog;
-
-  gui_control->set_operation_mode(mode);
+  if (statistics_dialog == NULL)
+    {
+      Statistics *stats = Statistics::get_instance();
+      stats->heartbeat();
+      
+      statistics_dialog = new StatisticsDialog();
+      statistics_dialog->signal_response().connect(SigC::slot(*this, &Menus::on_statistics_response));
+          
+      statistics_dialog->run();
+    }
 }
 
 
@@ -643,6 +642,8 @@ void
 Menus::on_network_log_response(int response)
 {
   (void) response;
+
+  assert(network_log_dialog != NULL);
   
   network_log_dialog->hide_all();
 
@@ -652,3 +653,15 @@ Menus::on_network_log_response(int response)
 }
 
 #endif
+
+void
+Menus::on_statistics_response(int response)
+{
+  (void) response;
+  
+  assert(statistics_dialog != NULL);
+  statistics_dialog->hide_all();
+
+  // done by gtkmm ??? delete statistics_dialog;
+  statistics_dialog = NULL;
+}

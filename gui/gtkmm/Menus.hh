@@ -26,6 +26,7 @@
 class GUI;
 class TimeBar;
 class NetworkLogDialog;
+class StatisticsDialog;
 class MainWindow;
 class AppletWindow;
 
@@ -63,6 +64,7 @@ private:
   void on_menu_network_log_tray();
   void on_network_log_response(int response);
 #endif
+  void on_statistics_response(int response);
   void on_menu_normal_menu(Gtk::CheckMenuItem *);
   void on_menu_suspend_menu(Gtk::CheckMenuItem *);
   void on_menu_quiet_menu(Gtk::CheckMenuItem *);
@@ -103,6 +105,9 @@ private:
   //! The log dialog.
   NetworkLogDialog *network_log_dialog;
 #endif
+
+  // The Statistics dialog.
+  StatisticsDialog *statistics_dialog;
   
   //! The main window.
   MainWindow *main_window;

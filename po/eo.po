@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-02-13 21:23+0100\n"
+"POT-Creation-Date: 2003-02-16 15:48+0100\n"
 "PO-Revision-Date: 2002-11-05 17:58-0800\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -27,7 +27,7 @@ msgstr "Silentiĝu en"
 
 #. Labels
 #: gui/GUIControl.cc:84 gui/gtkmm/AppletPreferencePage.cc:64
-#: gui/gtkmm/MicroPauseWindow.cc:163 gui/gtkmm/StatisticsDialog.cc:171
+#: gui/gtkmm/MicroPauseWindow.cc:163 gui/gtkmm/StatisticsDialog.cc:210
 msgid "Micro-pause"
 msgstr "Paŭzeto"
 
@@ -36,7 +36,7 @@ msgid "Rest break"
 msgstr "Ripozo"
 
 #: gui/GUIControl.cc:98 gui/gtkmm/AppletPreferencePage.cc:66
-#: gui/gtkmm/StatisticsDialog.cc:173
+#: gui/gtkmm/StatisticsDialog.cc:212
 msgid "Daily limit"
 msgstr "Taglimo"
 
@@ -98,7 +98,7 @@ msgstr "Pri %s"
 msgid "Layout"
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:65 gui/gtkmm/StatisticsDialog.cc:172
+#: gui/gtkmm/AppletPreferencePage.cc:65 gui/gtkmm/StatisticsDialog.cc:211
 #, fuzzy
 msgid "Restbreak"
 msgstr "Ripozo"
@@ -204,55 +204,55 @@ msgid "I could not initialize Bonobo"
 msgstr ""
 
 #. Mode menu item
-#: gui/gtkmm/Menus.cc:138 gui/gnome/GNOME_WorkraveApplet.xml.in.h:4
+#: gui/gtkmm/Menus.cc:139 gui/gnome/GNOME_WorkraveApplet.xml.in.h:4
 msgid "_Mode"
 msgstr "_Modo"
 
-#: gui/gtkmm/Menus.cc:145 gui/gnome/GNOME_WorkraveApplet.xml.in.h:6
+#: gui/gtkmm/Menus.cc:146 gui/gnome/GNOME_WorkraveApplet.xml.in.h:6
 msgid "_Normal"
 msgstr "_Normala"
 
-#: gui/gtkmm/Menus.cc:152 gui/gnome/GNOME_WorkraveApplet.xml.in.h:15
+#: gui/gtkmm/Menus.cc:153 gui/gnome/GNOME_WorkraveApplet.xml.in.h:15
 msgid "_Suspended"
 msgstr "_Interrompita"
 
-#: gui/gtkmm/Menus.cc:159
+#: gui/gtkmm/Menus.cc:160
 msgid "Q_uiet"
 msgstr "S_ilenta"
 
-#: gui/gtkmm/Menus.cc:173 gui/gnome/GNOME_WorkraveApplet.xml.in.h:5
+#: gui/gtkmm/Menus.cc:174 gui/gnome/GNOME_WorkraveApplet.xml.in.h:5
 msgid "_Network"
 msgstr "_Reto"
 
-#: gui/gtkmm/Menus.cc:177
+#: gui/gtkmm/Menus.cc:178
 msgid "_Connect"
 msgstr "_Konektu"
 
-#: gui/gtkmm/Menus.cc:182 gui/gnome/GNOME_WorkraveApplet.xml.in.h:3
+#: gui/gtkmm/Menus.cc:183 gui/gnome/GNOME_WorkraveApplet.xml.in.h:3
 msgid "_Disconnect"
 msgstr "_Malkonektu"
 
-#: gui/gtkmm/Menus.cc:187 gui/gnome/GNOME_WorkraveApplet.xml.in.h:11
+#: gui/gtkmm/Menus.cc:188 gui/gnome/GNOME_WorkraveApplet.xml.in.h:11
 msgid "_Reconnect"
 msgstr "_Rekonektu"
 
-#: gui/gtkmm/Menus.cc:192
+#: gui/gtkmm/Menus.cc:193
 msgid "Show _log"
 msgstr "Montru _protokolon"
 
-#: gui/gtkmm/Menus.cc:206
+#: gui/gtkmm/Menus.cc:207
 msgid "_Rest break"
 msgstr "_Ripozon"
 
-#: gui/gtkmm/Menus.cc:217
+#: gui/gtkmm/Menus.cc:218 gui/gtkmm/StatisticsDialog.cc:49
 msgid "Statistics"
 msgstr "Statistiko"
 
-#: gui/gtkmm/Menus.cc:231
+#: gui/gtkmm/Menus.cc:232
 msgid "About..."
 msgstr "Pri..."
 
-#: gui/gtkmm/Menus.cc:529
+#: gui/gtkmm/Menus.cc:528
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -443,57 +443,92 @@ msgstr ""
 msgid "Rest break for %s"
 msgstr "Ripozo por %s"
 
-#: gui/gtkmm/StatisticsDialog.cc:128
+#: gui/gtkmm/StatisticsDialog.cc:139
 msgid "Start time:"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:129
+#: gui/gtkmm/StatisticsDialog.cc:140
 msgid "End time:"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:147
+#: gui/gtkmm/StatisticsDialog.cc:171
 #, fuzzy
 msgid "Breaks"
 msgstr "Ĉesu en"
 
-#: gui/gtkmm/StatisticsDialog.cc:155
+#: gui/gtkmm/StatisticsDialog.cc:179
 #, fuzzy
 msgid "Total breaks"
 msgstr "Ripozo"
 
-#: gui/gtkmm/StatisticsDialog.cc:156
+#: gui/gtkmm/StatisticsDialog.cc:180
+msgid ""
+"Total number of unique breaks prompted. This equals the number of times the "
+"timers reached zero."
+msgstr ""
+
+#: gui/gtkmm/StatisticsDialog.cc:183
 msgid "Prompted"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:157
+#: gui/gtkmm/StatisticsDialog.cc:184
+msgid "Number of times workrave prompted you to take a break"
+msgstr ""
+
+#: gui/gtkmm/StatisticsDialog.cc:186
 #, fuzzy
 msgid "Breaks Taken"
 msgstr "Ĉesu en"
 
-#: gui/gtkmm/StatisticsDialog.cc:158
+#: gui/gtkmm/StatisticsDialog.cc:187
+msgid "Number of times you took a break when prompted"
+msgstr ""
+
+#: gui/gtkmm/StatisticsDialog.cc:189
 #, fuzzy
 msgid "Natural breaks"
 msgstr "Ripozo"
 
-#: gui/gtkmm/StatisticsDialog.cc:159
+#: gui/gtkmm/StatisticsDialog.cc:190
+msgid "Number of times you took a break without being prompted"
+msgstr ""
+
+#: gui/gtkmm/StatisticsDialog.cc:192
 #, fuzzy
 msgid "Breaks skipped"
 msgstr "Ĉesu en"
 
-#: gui/gtkmm/StatisticsDialog.cc:160
+#: gui/gtkmm/StatisticsDialog.cc:193
+msgid "Number of times you skipped a break"
+msgstr ""
+
+#: gui/gtkmm/StatisticsDialog.cc:195
 #, fuzzy
 msgid "Breaks postponed"
 msgstr "Ripoza instigado"
 
-#: gui/gtkmm/StatisticsDialog.cc:161
+#: gui/gtkmm/StatisticsDialog.cc:196
+msgid "Number of times you postponed a break"
+msgstr ""
+
+#: gui/gtkmm/StatisticsDialog.cc:198
 msgid "Total overdue time"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:162
+#: gui/gtkmm/StatisticsDialog.cc:199
+#, fuzzy
+msgid "The total time this break was overdue"
+msgstr "Ripozo por %s"
+
+#: gui/gtkmm/StatisticsDialog.cc:201
 msgid "Daily usage"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:224
+#: gui/gtkmm/StatisticsDialog.cc:202
+msgid "Total computer usage"
+msgstr ""
+
+#: gui/gtkmm/StatisticsDialog.cc:263
 msgid "Activity"
 msgstr ""
 

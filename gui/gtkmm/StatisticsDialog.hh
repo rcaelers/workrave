@@ -54,6 +54,9 @@ private:
   Gtk::Label *start_time_label;
 
   Gtk::Label *end_time_label;
+
+  /** */
+  Gtk::Tooltips *tips;
   
   void init_gui();
   void init_page_values();
@@ -65,6 +68,7 @@ private:
 
   void attach_left(Gtk::Table &table, Widget &child, guint left_attach, guint top_attach);
   void attach_right(Gtk::Table &table, Widget &child, guint left_attach, guint top_attach);
+  Gtk::Widget *createLabel(char *label, char *tooltip);
 
   void on_scrollbar();
 };
