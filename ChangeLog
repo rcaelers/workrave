@@ -1,3 +1,25 @@
+2003-07-08  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.am (SUBDIRS): Add intl.
+	* configure.ac (AC_OUTPUT): Add intl/Makefile.
+
+2003-07-08  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.am (EXTRA_DIST): Add config.rpath.
+	* configure.ac (AC_OUTPUT): Add po/Makefile.in.
+
+2003-07-08  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.am (EXTRA_DIST): Add config.rpath.
+
+2003-07-07  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* configure.ac (AC_OUTPUT): Add intl/Makefile.
+
+2003-07-07  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.am (EXTRA_DIST): Add config.rpath.
+
 2003-05-01  gettextize  <bug-gnu-gettext@gnu.org>
 
 	* Makefile.am (EXTRA_DIST): Add config.rpath.

@@ -7,6 +7,8 @@ http://www.workrave.org
 
 * Workrave 1.2.3
 
+** Added Polish translation. Many thanks to Mikolaj Machowski.
+
 ** Multihead support for X11. Workrave now shows break windows on
 all monitors.
 

@@ -14,7 +14,7 @@ MAINTAINERCLEANFILES 	= aclocal.m4 config.h.in configure stamp-h.in Makefile.in 
 
 SUBDIRS 	= m4 po src
 
-EXTRA_DIST	= \
+EXTRA_DIST	= config.rpath  config.rpath  config.rpath  \
 		config.rpath  \
 		config.xml \
 		autogen.sh \
