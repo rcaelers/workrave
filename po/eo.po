@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-02-08 22:18+0100\n"
+"POT-Creation-Date: 2003-02-08 22:45+0100\n"
 "PO-Revision-Date: 2002-11-05 17:58-0800\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -252,7 +252,7 @@ msgstr "Statistiko"
 msgid "About..."
 msgstr "Pri..."
 
-#: gui/gtkmm/Menus.cc:526
+#: gui/gtkmm/Menus.cc:529
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."

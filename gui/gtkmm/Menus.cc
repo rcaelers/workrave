@@ -499,6 +499,9 @@ Menus::on_menu_statistics()
   GUIControl *gui_control = GUIControl::get_instance();
   mode = gui_control->set_operation_mode(GUIControl::OPERATION_MODE_QUIET);
 
+  Statistics *stats = Statistics::get_instance();
+  stats->heartbeat();
+  
   StatisticsDialog *dialog = new StatisticsDialog();
   dialog->run();
   delete dialog;

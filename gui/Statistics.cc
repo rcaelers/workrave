@@ -327,7 +327,7 @@ Statistics::load_day(DailyStats *stats, ifstream &stats_file)
           
           if (size > STATS_VALUE_SIZEOF)
             {
-              size = STATS_VALUE_SIZEOF;
+             size = STATS_VALUE_SIZEOF;
             }
           
           for(int j = 0; j < size; j++)
