@@ -1,6 +1,6 @@
 // GnetSocketDriver.cc
 //
-// Copyright (C) 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -26,15 +26,9 @@ static const char rcsid[] = "$Id$";
 #include "debug.hh"
 #include <assert.h>
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include <signal.h>
-
 #include "GNetSocketDriver.hh"
 
-//! Construct a new gnet socket driver.
+//! Constructs a new Gnet socket driver.
 GNetSocketDriver::GNetSocketDriver()
 {
 }
@@ -46,7 +40,7 @@ GNetSocketDriver::~GNetSocketDriver()
 }
 
 
-//! Initialize the driver.
+//! Initializes the driver.
 bool
 GNetSocketDriver::init()
 {
@@ -56,6 +50,7 @@ GNetSocketDriver::init()
 }
 
 
+//! Returns the canonicalize hostname of the remote host.
 char *
 GNetSocketDriver::get_my_canonical_name()
 {
@@ -68,6 +63,7 @@ GNetSocketDriver::get_my_canonical_name()
 }
 
 
+//! Returns the canonical hostname of the specified hostname.
 char *
 GNetSocketDriver::canonicalize(char *host)
 {
@@ -84,6 +80,7 @@ GNetSocketDriver::canonicalize(char *host)
 }
 
 
+//! Connects to the specified host.
 SocketConnection *
 GNetSocketDriver::connect(char *host, int port, void *data)
 {
@@ -101,6 +98,7 @@ GNetSocketDriver::connect(char *host, int port, void *data)
 }
 
 
+//! Listens at the specified port.
 SocketConnection *
 GNetSocketDriver::listen(int port, void *data)
 {
@@ -115,16 +113,6 @@ GNetSocketDriver::listen(int port, void *data)
   con->socket = gnet_tcp_socket_server_new(port);
   if (con->socket != NULL)
     {
-      /* Print the address */
-      GInetAddr *addr = gnet_tcp_socket_get_inetaddr(con->socket);
-      g_assert(addr);
-      gchar *name = gnet_inetaddr_get_canonical_name(addr);
-      g_assert (name);
-      gint port = gnet_inetaddr_get_port(addr);
-      TRACE_MSG("Async echoserver running on " << name << ":" << port);
-      gnet_inetaddr_delete(addr);
-      g_free(name);
-      
       gnet_tcp_socket_server_accept_async(con->socket, static_async_accept, con);
     }
   else
@@ -138,7 +126,7 @@ GNetSocketDriver::listen(int port, void *data)
 }
 
 
-
+//! GNet has accepted a new connection.
 void
 GNetSocketDriver::async_accept(GTcpSocket *server, GTcpSocket *client, GNetSocketConnection *scon)
 {
@@ -147,15 +135,6 @@ GNetSocketDriver::async_accept(GTcpSocket *server, GTcpSocket *client, GNetSocke
   TRACE_ENTER("GNetSocketDriver::async_accept");
   if (client != NULL)
     {
-      GInetAddr *addr = gnet_tcp_socket_get_inetaddr(client);
-      g_assert(addr);
-      gchar *name = gnet_inetaddr_get_canonical_name(addr);
-      g_assert(name);
-      gint port = gnet_inetaddr_get_port(addr);
-
-      TRACE_MSG("Accepted connection from " << name << ":" << port);
-      gnet_inetaddr_delete(addr);
-
       GNetSocketConnection *ccon =  new GNetSocketConnection;
 
       ccon->driver = this;
@@ -175,6 +154,7 @@ GNetSocketDriver::async_accept(GTcpSocket *server, GTcpSocket *client, GNetSocke
 }
 
 
+//! GNets reports that data is ready to be read.
 bool
 GNetSocketDriver::async_io(GIOChannel *iochannel, GIOCondition condition, GNetSocketConnection *con)
 {
@@ -189,11 +169,8 @@ GNetSocketDriver::async_io(GIOChannel *iochannel, GIOCondition condition, GNetSo
     {
       if (listener != NULL)
         {
-          TRACE_MSG("Informing listener");
           listener->socket_closed(con, con->data);
-          TRACE_MSG("Closing");
           con->close();
-          TRACE_MSG("Closed");
         }
       ret = false;
     }
@@ -212,6 +189,7 @@ GNetSocketDriver::async_io(GIOChannel *iochannel, GIOCondition condition, GNetSo
 }
 
 
+//! GNet reports that the connection is established.
 void 
 GNetSocketDriver::async_connected(GTcpSocket *socket, GInetAddr *ia,
                                   GTcpSocketConnectAsyncStatus status,
@@ -223,8 +201,6 @@ GNetSocketDriver::async_connected(GTcpSocket *socket, GInetAddr *ia,
   
   if (status != GTCP_SOCKET_CONNECT_ASYNC_STATUS_OK)
     {
-      TRACE_MSG("Error: could not connect. status = " << status);
-
       gnet_tcp_socket_delete(socket);
       con->socket = NULL;
 
@@ -235,8 +211,6 @@ GNetSocketDriver::async_connected(GTcpSocket *socket, GInetAddr *ia,
     }
   else
     {
-      TRACE_MSG("Connected");
-
       g_assert(ia != NULL);
       g_assert(socket != NULL);
       
@@ -258,6 +232,7 @@ GNetSocketDriver::async_connected(GTcpSocket *socket, GInetAddr *ia,
 }
 
 
+//! Accepted connection.
 void
 GNetSocketDriver::static_async_accept(GTcpSocket *server, GTcpSocket *client, gpointer data)
 {
@@ -268,6 +243,7 @@ GNetSocketDriver::static_async_accept(GTcpSocket *server, GTcpSocket *client, gp
 }
 
 
+//! IO ready.
 gboolean
 GNetSocketDriver::static_async_io(GIOChannel *iochannel, GIOCondition condition,
                                         gpointer data)
@@ -279,6 +255,7 @@ GNetSocketDriver::static_async_io(GIOChannel *iochannel, GIOCondition condition,
 }
 
 
+//! Connection established.
 void 
 GNetSocketDriver::static_async_connected(GTcpSocket *socket, GInetAddr *ia,
                                          GTcpSocketConnectAsyncStatus status, gpointer data)
@@ -290,8 +267,7 @@ GNetSocketDriver::static_async_connected(GTcpSocket *socket, GInetAddr *ia,
 }
 
 
-
-
+//! Creates a new connection.
 GNetSocketConnection::GNetSocketConnection() :
   socket(NULL),
   iochannel(NULL),
@@ -304,6 +280,7 @@ GNetSocketConnection::GNetSocketConnection() :
 }
 
 
+//! Destructs the connection.
 GNetSocketConnection::~GNetSocketConnection()
 {
   if (iochannel != NULL)
@@ -328,12 +305,15 @@ GNetSocketConnection::~GNetSocketConnection()
 }
 
 
+//! Returns the canonical name of the remote host.
 char *
 GNetSocketConnection::get_canonical_name()
 {
   return NULL;
 }
 
+
+//! Reads from the connection.
 bool
 GNetSocketConnection::read(void *buf, int count, int &bytes_read)
 {
@@ -358,7 +338,8 @@ GNetSocketConnection::read(void *buf, int count, int &bytes_read)
   return ret;
 }
 
-  
+
+//! Writes to the connection.
 bool
 GNetSocketConnection::write(void *buf, int count, int &bytes_written)
 {
@@ -383,6 +364,7 @@ GNetSocketConnection::write(void *buf, int count, int &bytes_written)
 }
 
 
+//! Closes the connection.
 bool
 GNetSocketConnection::close()
 {

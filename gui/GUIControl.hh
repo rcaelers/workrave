@@ -1,6 +1,6 @@
 // GUIControl.hh --- The WorkRave GUI
 //
-// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -52,14 +52,24 @@ public:
   //! Destructor
   virtual ~GUIControl();
 
+  //! Mode
   enum OperationMode
     {
+      //! Break are reported to the user when due.
       OPERATION_MODE_NORMAL,
+
+      //! Monitoring is suspended.
       OPERATION_MODE_SUSPENDED,
+
+      //! Break are not reported to the user when due.
       OPERATION_MODE_QUIET,
+
+      //! Number of modes.
       OPERATION_MODE_SIZEOF
     };
+
   
+  //! ID of a break.
   enum BreakId
     {
       BREAK_ID_NONE = -1,
@@ -69,6 +79,8 @@ public:
       BREAK_ID_SIZEOF
     };
 
+  
+  //! ID of a timer.
   enum TimerId
     {
       TIMER_ID_NONE = -1,
@@ -88,6 +100,7 @@ public:
       BREAK_ACTION_FORCE_START_BREAK,
     };
 
+  
   struct TimerData
   {
     TimerInterface *timer;
@@ -171,21 +184,22 @@ private:
   //! Configuration access.
   Configurator *configurator;
 
-  //! Mode.
+  //! Current operation mode.
   OperationMode operation_mode;
 
   //! Are we the master node in the WR network?
   bool master_node;
-  
 };
 
 
+//! Returns the singleton instance of the GUIControl.
 inline GUIControl *
 GUIControl::get_instance()
 {
   return instance;
 }
 
+//! Returns the sound player.
 inline SoundPlayerInterface *
 GUIControl::get_sound_player()
 {

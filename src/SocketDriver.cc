@@ -1,6 +1,6 @@
 // SocketDriver.cc
 //
-// Copyright (C) 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -23,21 +23,23 @@ static const char rcsid[] = "$Id$";
 
 #include "debug.hh"
 #include <assert.h>
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include <signal.h>
 
 #include "SocketDriver.hh"
 
+
+//! Construct a new socket connection.
 SocketConnection::SocketConnection()
   : data(NULL)
 {
 }
 
 
+
+//! Destruct socket connection.
 SocketConnection::~SocketConnection()
 {
 }

@@ -86,4 +86,3 @@ Text::time_to_string(time_t time, bool display_units)
 
   return s;
 }
-

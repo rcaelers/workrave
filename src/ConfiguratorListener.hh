@@ -1,9 +1,9 @@
 // ConfiguratorListener.hh
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-10-04 18:46:47 robc>
+// Time-stamp: <2003-01-05 16:04:34 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,6 +27,7 @@
 class ConfiguratorListener
 {
 public:
+  //! The configuration item with specified key has changed.
   virtual void config_changed_notify(std::string key) = 0;
 };
 

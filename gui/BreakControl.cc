@@ -1,6 +1,6 @@
 // BreakControl.cc
 //
-// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -26,13 +26,12 @@ static const char rcsid[] = "$Id$";
 #include <string>
 
 #include "BreakControl.hh"
-#include "Statistics.hh"
 
+#include "Statistics.hh"
 #include "GUIFactoryInterface.hh"
 #include "PreludeWindowInterface.hh"
 #include "BreakWindowInterface.hh"
 #include "SoundPlayerInterface.hh"
-
 #include "ActivityMonitorInterface.hh"
 #include "ControlInterface.hh"
 #include "TimerInterface.hh"
@@ -40,6 +39,7 @@ static const char rcsid[] = "$Id$";
 #ifdef HAVE_DISTRIBUTION
 #include "DistributionManager.hh"
 #endif
+
 
 //! Construct a new Break Controller.
 /*!
@@ -95,39 +95,9 @@ BreakControl::heartbeat()
 {
   TRACE_ENTER("BreakControl::heartbeat");
 
-#ifdef CRASHTEST
-  static int count = 0;
-
-  if (break_id == GUIControl::BREAK_ID_MICRO_PAUSE)
-    {
-      if (count % 3 == 0)
-        {
-          TRACE_MSG("starting");
-          break_window_start();
-        }
-      else if (count % 3 == 1)
-        {
-          TRACE_MSG("stop");
-          break_window->stop();
-        }
-      else if (count % 3 == 2)
-        {
-          TRACE_MSG("destroy");
-          assert(break_window != NULL);
-          break_window->destroy();
-          break_window = NULL;
-        }
-      count++;
-    }
-  return;
-#endif
-  
   collect_garbage();
   
   prelude_time++;
-
-  ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
-  ActivityState activity_state = monitor->get_current_state();
 
   bool is_idle = false;
 
@@ -140,6 +110,8 @@ BreakControl::heartbeat()
   else
     {
       // Unless the timer has it's own activity monitor.
+      ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
+      ActivityState activity_state = monitor->get_current_state();
       is_idle = (activity_state != ACTIVITY_ACTIVE);
     }
   
@@ -159,30 +131,37 @@ BreakControl::heartbeat()
 
         if (is_idle)
           {
+            // User is idle.
             if (prelude_time >= 10)
               {
+                // User is idle and prelude is visible for at least 10s.
                 goto_stage(STAGE_TAKING);
               }
           }
         else if (prelude_time == 30)
           {
+            // User is not idle and the prelude is visible for 30s.
             if (force_after_prelude && final_prelude)
               {
+                // Final prelude, force break.
                 goto_stage(STAGE_TAKING);
               }
             else
               {
+                // Snooze break.
                 goto_stage(STAGE_SNOOZED);
               }
           }
         else if (prelude_time == 20)
           {
+            // Still not idle after 20s. Red alert.
             assert(prelude_window != NULL);
             prelude_window->set_stage(PreludeWindowInterface::STAGE_ALERT);
             prelude_window->refresh();
           }
         else if (prelude_time == 10)
           {
+            // Still not idle after 10s. Yellow alert.
             assert(prelude_window != NULL);
             prelude_window->set_stage(PreludeWindowInterface::STAGE_WARN);
             prelude_window->refresh();
@@ -190,6 +169,7 @@ BreakControl::heartbeat()
 
         if (prelude_time == 4)
           {
+            // Move prelude window to top of screen after 4s.
             assert(prelude_window != NULL);
             prelude_window->set_stage(PreludeWindowInterface::STAGE_MOVE_OUT);
           }
@@ -205,12 +185,13 @@ BreakControl::heartbeat()
         // 4) we hasn't reached the number_of_preludes
         if (!is_idle && !forced_break && !final_prelude && !insist_break)
           {
+            // User is active while taking the break. back to prelude.
             goto_stage(STAGE_PRELUDE);
           }
         else
           {
+            // refresh the break window.
             update_break_window();
-            
             assert(break_window != NULL);
             break_window->refresh();
           }
@@ -231,19 +212,26 @@ BreakControl::goto_stage(BreakStage stage)
     {
     case STAGE_NONE:
       {
+        // Teminate the break.
         break_window_stop();
         prelude_window_stop();
         defrost();
         
         if (break_stage == STAGE_TAKING)
           {
+            // Update statistics and play sound if the break end
+            // was "natural"
             time_t idle = break_timer->get_elapsed_idle_time();
             time_t reset = break_timer->get_auto_reset();
 
             if (idle >= reset)
               {
+                // natural break end.
+
+                // Update stats.
                 Statistics *stats = Statistics::get_instance();
                 stats->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_TAKEN);
+
                 // Play sound
                 SoundPlayerInterface::Sound snd;
                 snd = (SoundPlayerInterface::Sound) -1;
@@ -294,7 +282,8 @@ BreakControl::goto_stage(BreakStage stage)
         ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
         monitor->force_idle();
         break_timer->stop_timer();
-        
+
+        // Start the break.
         break_window_start();
         assert(break_window != NULL);
         break_window->refresh();
@@ -366,30 +355,32 @@ BreakControl::start_break()
   forced_break = false;
   prelude_time = 0;
 
-  // Idle until proven guilty.
-  ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
-  TRACE_MSG("prelude count = " << prelude_count << " " << number_of_preludes);
-
   final_prelude = number_of_preludes >= 0 && prelude_count + 1 >= number_of_preludes;
 
-  TRACE_MSG("final_prelude = " << final_prelude);
-  
   if (number_of_preludes >= 0 && prelude_count >= number_of_preludes)
     {
+      // We reached the maximum number of preludes.
       if (!force_after_prelude)
         {
+          // Ignoring...for good...
           goto_stage(STAGE_SNOOZED);
         }
       else
         {
+          // Forcing break without prelude.
           goto_stage(STAGE_TAKING);
         }
     }
   else
     {
+      // Starting break with prelude.
+      
+      // Idle until proven guilty.
+      ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
       monitor->force_idle();
       break_timer->stop_timer();
-  
+
+      // Update statistics.
       Statistics *stats = Statistics::get_instance();
       stats->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_PROMPTED);
       
@@ -397,7 +388,8 @@ BreakControl::start_break()
         {
           stats->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_UNIQUE_BREAKS);
         }
-      
+
+      // Start prelude.
       goto_stage(STAGE_PRELUDE);
     }
 
@@ -423,7 +415,7 @@ BreakControl::force_start_break()
 //! Stops the break.
 /*!
  *  Stopping a break will reset the "number of presented preludes" counter. So,
- *  wrt, "max-preludes", the break will start over when ik comes back.
+ *  wrt, "max-preludes", the break will start over when it comes back.
  */
 void
 BreakControl::stop_break()
@@ -466,14 +458,10 @@ BreakControl::set_prelude_text(string text)
 bool
 BreakControl::need_heartbeat()
 {
-#ifdef CRASHTEST
-  return true;
-#else  
   return
     break_window_destroy ||
     prelude_window_destroy ||
     ( break_stage != STAGE_NONE && break_stage != STAGE_SNOOZED );
-#endif
 }
 
 
@@ -511,7 +499,8 @@ BreakControl::postpone_break()
 {
   // Snooze the timer.
   break_timer->snooze_timer();
-  
+
+  // Update stats.
   Statistics *stats = Statistics::get_instance();
   stats->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_POSTPONED);
 
@@ -528,6 +517,7 @@ void
 BreakControl::skip_break()
 {
   user_initiated = true;
+  
   // Reset the restbreak timer.
   if (break_id == GUIControl::BREAK_ID_DAILY_LIMIT)
     {
@@ -538,6 +528,7 @@ BreakControl::skip_break()
       break_timer->reset_timer();
     }
 
+  // Update stats.
   Statistics *stats = Statistics::get_instance();
   stats->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_SKIPPED);
   
@@ -572,7 +563,7 @@ BreakControl::set_max_preludes(int m)
 
 //! Sets the insist-break flags
 /*!
- *  A break that has 'insist' set, locks the keyboard during the break..
+ *  A break that has 'insist' set, locks the keyboard during the break.
  */
 void
 BreakControl::set_insist_break(bool i)
@@ -589,7 +580,7 @@ BreakControl::set_insist_break(bool i)
 
 //! Sets the ignorable-break flags
 /*!
- *  A break that is ignorable had a skip/postpone button.
+ *  A break that is ignorable has a skip/postpone button.
  */
 void
 BreakControl::set_ignorable_break(bool i)
@@ -598,6 +589,11 @@ BreakControl::set_ignorable_break(bool i)
 }
 
 
+//! Sets the insist policy.
+/*!
+ *  The insist policy determines what to do when the user is active while
+ *  taking a break.
+ */
 void
 BreakControl::set_insist_policy(InsistPolicy p)
 {
@@ -635,11 +631,8 @@ BreakControl::break_window_stop()
   if (break_window != NULL)
     {
       break_window->stop();
-//#ifndef WIN32      // FIXME: bug66
       break_window_destroy = true;
       delay_window_destroy = true;
-      TRACE_MSG("marking for delay destroy");
-//#endif      
     }
   TRACE_EXIT();
 }
@@ -688,17 +681,14 @@ BreakControl::prelude_window_stop()
   if (prelude_window != NULL)
     {
       prelude_window->stop();
-//#ifndef WIN32      // FIXME: bug66
       prelude_window_destroy = true;
       delay_window_destroy = true;
-      TRACE_MSG("marking for delay destroy");
-//#endif // FIXME: bug66
     }
   TRACE_EXIT();
 }
 
 
-//! Destroy the break/prelude windows, if requested.
+//! Destroys the break/prelude windows, if requested.
 void
 BreakControl::collect_garbage()
 {
@@ -706,14 +696,12 @@ BreakControl::collect_garbage()
   
   if (delay_window_destroy)
     {
-      TRACE_MSG("Delayed");
       delay_window_destroy = false;
     }
   else
     {
       if (prelude_window_destroy)
         {
-          TRACE_MSG("Destroying prelude");
           prelude_window->destroy();
           prelude_window = NULL;
           prelude_window_destroy = false;
@@ -721,7 +709,6 @@ BreakControl::collect_garbage()
   
       if (break_window_destroy)
         {
-          TRACE_MSG("Destroying break");
           break_window->destroy();
           break_window = NULL;
           break_window_destroy = false;
@@ -731,6 +718,7 @@ BreakControl::collect_garbage()
 }
 
 
+//! Excecutes the insist policy.
 void
 BreakControl::freeze()
 {
@@ -739,19 +727,22 @@ BreakControl::freeze()
     {
     case INSIST_POLICY_SUSPEND:
       {
-        TRACE_MSG("suspending monitor");
+        // Ignore all activity during break by suspending the activity monitor.
         ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
         monitor->suspend();
       }
       break;
     case INSIST_POLICY_HALT:
       {
-        TRACE_MSG("freezing timer");
+        // Halt timer when the user is active.
         GUIControl *gui_control = GUIControl::get_instance();
         gui_control->set_freeze_all_breaks(true);
       }
       break;
     case INSIST_POLICY_RESET:
+      // reset the timer when the user becomes active.
+      // default.
+      break;
       
     default:
       break;
@@ -761,6 +752,8 @@ BreakControl::freeze()
   TRACE_EXIT();
 }
 
+
+//! Undoes the insist policy.
 void
 BreakControl::defrost()
 {
@@ -769,13 +762,14 @@ BreakControl::defrost()
     {
     case INSIST_POLICY_SUSPEND:
       {
+        // Resumes the activity monitor.
         ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
         monitor->resume();
       }
       break;
     case INSIST_POLICY_HALT:
       {
-        TRACE_MSG("defrosting timer");
+        // Desfrost timers.
         GUIControl *gui_control = GUIControl::get_instance();
         gui_control->set_freeze_all_breaks(false);
       }
@@ -789,6 +783,7 @@ BreakControl::defrost()
   
   TRACE_EXIT();
 }
+
 
 
 void
@@ -873,31 +868,19 @@ BreakControl::set_state_data(bool active, const BreakStateData &data)
 void
 BreakControl::get_state_data(BreakStateData &data)
 {
-  // FOR TESTING.
-//   if (break_id == GUIControl::BREAK_ID_MICRO_PAUSE)
-//     {
-//       data.forced_break = false;
-//       data.prelude_count = 1;
-//       data.break_stage = STAGE_TAKING;
-//       data.final_prelude = false;
-//       data.prelude_time = 10;
-//     }
-//   else
-    {
-      data.forced_break = forced_break;
-      data.prelude_count = prelude_count;
-      data.break_stage = break_stage;
-      data.final_prelude = final_prelude;
-      data.prelude_time = prelude_time;
-    }
+  data.forced_break = forced_break;
+  data.prelude_count = prelude_count;
+  data.break_stage = break_stage;
+  data.final_prelude = final_prelude;
+  data.prelude_time = prelude_time;
 }
 
+
+//! Plays the specified sound unless action is user initiated.
 void
 BreakControl::play_sound(SoundPlayerInterface::Sound snd)
 {
   TRACE_ENTER("BreakControl::play_sound");
-  TRACE_MSG("user_initiated = " << user_initiated);
-  TRACE_MSG("snd = " << snd);
   if ((!user_initiated) && !(snd < 0) )
     {
       GUIControl::get_instance()->get_sound_player()

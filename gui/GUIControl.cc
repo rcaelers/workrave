@@ -1,6 +1,6 @@
 // GUIControl.cc
 //
-// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -21,6 +21,8 @@ static const char rcsid[] = "$Id$";
 #endif
 
 #include "debug.hh"
+#include "nls.h"
+
 
 #include <sstream>
 #include <unistd.h>
@@ -29,27 +31,25 @@ static const char rcsid[] = "$Id$";
 #include <fcntl.h>
 
 #include "GUIControl.hh"
-#include "Statistics.hh"
+
+#include "BreakControl.hh"
 #include "BreakWindowInterface.hh"
-#include "PreludeWindowInterface.hh"
-#include "SoundPlayerInterface.hh"
-#include "GUIFactoryInterface.hh"
-#include "SoundPlayer.hh"
-
-#include "Util.hh"
-#include "nls.h"
-
 #include "Configurator.hh"
-#include "ControlInterface.hh"
-#include "TimerInterface.hh"
 #include "Control.hh"
+#include "ControlInterface.hh"
+#include "GUIFactoryInterface.hh"
+#include "PreludeWindowInterface.hh"
+#include "SoundPlayer.hh"
+#include "SoundPlayerInterface.hh"
+#include "Statistics.hh"
+#include "TimerInterface.hh"
+#include "Util.hh"
 
 #ifdef HAVE_DISTRIBUTION
 #include "DistributionManager.hh"
 #include "PacketBuffer.hh"
 #endif
 
-#include "BreakControl.hh"
 
 const string GUIControl::CFG_KEY_BREAKS = "gui/breaks";
 const string GUIControl::CFG_KEY_BREAK = "gui/breaks/";
@@ -128,6 +128,7 @@ GUIControl::TimerData::get_break_max_preludes() const
   return rc;
 }
 
+
 bool
 GUIControl::TimerData::get_break_force_after_preludes() const
 {
@@ -143,6 +144,7 @@ GUIControl::TimerData::get_break_force_after_preludes() const
     }
   return rc;
 }
+
 
 bool
 GUIControl::TimerData::get_break_ignorable() const
@@ -160,6 +162,7 @@ GUIControl::TimerData::get_break_ignorable() const
   return rc;
 }
 
+
 bool
 GUIControl::TimerData::get_break_insisting() const
 {
@@ -176,6 +179,7 @@ GUIControl::TimerData::get_break_insisting() const
   return rc;
 }
 
+
 void
 GUIControl::TimerData::set_break_max_preludes(int n)
 {
@@ -184,6 +188,7 @@ GUIControl::TimerData::set_break_max_preludes(int n)
                 + configCheck[break_id].id
                 + CFG_KEY_BREAK_MAX_PRELUDES, n);
 }
+
 
 void
 GUIControl::TimerData::set_break_force_after_preludes(bool b)
@@ -194,6 +199,7 @@ GUIControl::TimerData::set_break_force_after_preludes(bool b)
                 + CFG_KEY_BREAK_FORCE_AFTER_PRELUDES, b);
 }
 
+
 void
 GUIControl::TimerData::set_break_ignorable(bool b)
 {
@@ -203,6 +209,7 @@ GUIControl::TimerData::set_break_ignorable(bool b)
                 + CFG_KEY_BREAK_IGNORABLE, b);
 }
 
+
 void
 GUIControl::TimerData::set_break_insisting(bool b)
 {
@@ -211,6 +218,7 @@ GUIControl::TimerData::set_break_insisting(bool b)
                 + configCheck[break_id].id
                 + CFG_KEY_BREAK_INSISTING, b);
 }
+
 
 
 //! GUIControl Constructor.

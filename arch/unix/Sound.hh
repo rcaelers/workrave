@@ -24,11 +24,7 @@
 class Sound
 {
 public:
-#ifdef HAVE_X
   static void beep(Display *x11, int frequency, int millis);
-#else
-  static void beep(Display *x11, int frequency, int millis);
-#endif
 };
 
 

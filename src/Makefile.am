@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
 #
 # $Id$
 #
@@ -55,7 +55,7 @@ endif
 if HAVE_DISTRIBUTION
 sourcesdistribution = DistributionManager.cc
 if HAVE_GNET
-sourcesgnet = DistributionSocketLink.cc PacketBuffer.cc SocketDriver.cc GNetSocketDriver.cc
+sourcesgnet = DistributionSocketLink.cc PacketBuffer.cc GNetSocketDriver.cc
 endif
 endif
 

@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-01-05 00:21:25 robc>
+// Time-stamp: <2003-01-05 16:03:42 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -31,7 +31,6 @@
 #  include <time.h>
 # endif
 #endif
-
 
 //! A source of time.
 class TimeSource

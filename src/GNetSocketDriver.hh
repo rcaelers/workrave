@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -20,17 +20,6 @@
 
 #include <glib.h>
 #include <gnet/gnet.h>
-
-#if TIME_WITH_SYS_TIME
-# include <sys/time.h>
-# include <time.h>
-#else
-# if HAVE_SYS_TIME_H
-#  include <sys/time.h>
-# else
-#  include <time.h>
-# endif
-#endif
 
 #include "SocketDriver.hh"
 
@@ -57,10 +46,10 @@ private:
   //! I/O Events we are monitoring.
   gint watch_flags;
 
-  //! Our Watch
+  //! Our watch ID
   guint watch;
 
-  //! for static methods.
+  //! Reference to driver for static methods.
   GNetSocketDriver *driver;
 
   //! Canonical host name.
@@ -79,9 +68,9 @@ public:
   GNetSocketDriver();
   virtual ~GNetSocketDriver();
 
+  // Socket driver methods.
   char *get_my_canonical_name();
   char *canonicalize(char *);
-  
   bool init();
   SocketConnection *connect(char *hostname, int port, void *data);
   SocketConnection *listen(int port, void *data);

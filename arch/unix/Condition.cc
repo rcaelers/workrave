@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-01-05 00:34:06 robc>
+// Time-stamp: <2003-01-05 13:29:37 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ static const char rcsid[] = "$Id$";
 #include "timeutil.h"
 
 
-//! Construct the condition.
+//! Constructs the condition.
 Condition::Condition()
 {
   pthread_cond_init(&m_cond, NULL);
@@ -41,14 +41,14 @@ Condition::Condition()
 }
 
 
-//! Destruct the condition.
+//! Destructs the condition.
 Condition::~Condition()
 {
   pthread_cond_destroy(&m_cond);
 }
 
 
-//! Signal the condition.
+//! Signals the condition.
 void
 Condition::signal(void)
 {
@@ -60,7 +60,7 @@ Condition::signal(void)
 }
 
 
-//! Wait at most the specified amount of time until the condition is signaled.
+//! Waits at most the specified amount of time until the condition is signaled.
 bool
 Condition::wait(long timer)
 {
@@ -99,7 +99,7 @@ Condition::wait(long timer)
 }
 
 	
-//! Wait at most the specified amount of time until the condition is signaled.
+//! Waits at most the specified amount of time until the condition is signaled.
 bool
 Condition::wait(struct timeval tv)
 {
@@ -133,7 +133,7 @@ Condition::wait(struct timeval tv)
 }
 
 
-//! Wait at most until the specified time until the condition is signaled.
+//! Waits at most until the specified time until the condition is signaled.
 bool
 Condition::wait_until(struct timeval tv)
 {

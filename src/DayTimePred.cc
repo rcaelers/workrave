@@ -1,9 +1,9 @@
 // DayTimePred.cc --- Daily Time Predicate
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-09-14 19:49:49 robc>
+// Time-stamp: <2003-01-05 16:05:29 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ static const char rcsid[] = "$Id$";
 
 #include "DayTimePred.hh"
 
-//! Set the last time the predicate matched.
+//! Sets the last time the predicate matched.
 void
 DayTimePred::set_last(time_t lastTime)
 {
@@ -121,6 +121,7 @@ DayTimePred::get_time_offset()
   return pred_hour*60*60 + pred_min*60;
 }
 
+
 time_t
 DayTimePred::get_next()
 {
@@ -158,6 +159,7 @@ DayTimePred::get_next()
       return 0;
     }
 }
+
 
 string
 DayTimePred::to_string() const

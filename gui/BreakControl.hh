@@ -1,6 +1,6 @@
-// BreakControl.hh --- window for the micropause
+// BreakControl.hh --- controller for a single break
 //
-// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -19,8 +19,6 @@
 #ifndef BREAKCONTROL_HH
 #define BREAKCONTROL_HH
 
-#include <stdio.h>
-
 #include "BreakInterface.hh"
 #include "BreakResponseInterface.hh"
 #include "GUIControl.hh"
@@ -38,12 +36,22 @@ class BreakControl :
   public BreakResponseInterface
 {
 public:
+  //! Defines what to do when the user is active during a break.
   enum InsistPolicy
     {
+      //! Uninitialized policy
       INSIST_POLICY_INVALID,
+
+      //! Halts the timer on activity.
       INSIST_POLICY_HALT,
+
+      //! Resets the timer on activity.
       INSIST_POLICY_RESET,
+
+      //! Ignores all activity.
       INSIST_POLICY_SUSPEND,
+
+      //! Number of policies.
       INSIST_POLICY_SIZEOF
     };
   
@@ -97,7 +105,7 @@ private:
   void suspend_break();
 
 private:
-  //! ID of the break.
+  //! ID of the break controlled by this BreakControl. 
   GUIControl::BreakId break_id;
   
   //! The Controller.
@@ -121,7 +129,7 @@ private:
   //! Current stage in the break.
   BreakStage break_stage;
 
-  //! This is a final prompt, forcing break after this prelude
+  //! This is a final prelude prompt, forcing break after this prelude
   bool final_prelude;
   
   //! How long is the prelude active.
@@ -161,8 +169,7 @@ private:
   InsistPolicy insist_policy;
 
   //! Policy currently in effect.
-  InsistPolicy active_insist_policy;
-  
+  InsistPolicy active_insist_policy; 
 };
 
 #endif // BREAKCONTROL_HH

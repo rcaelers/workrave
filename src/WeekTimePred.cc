@@ -1,9 +1,9 @@
 // WeekTimePred.cc --- Daily Time Predicate
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-09-14 19:50:24 robc>
+// Time-stamp: <2003-01-05 16:06:00 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -167,6 +167,7 @@ WeekTimePred::get_next()
       return 0;
     }
 }
+
 
 string
 WeekTimePred::to_string() const

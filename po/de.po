@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
-"POT-Creation-Date: 2003-01-05 00:49+0100\n"
+"POT-Creation-Date: 2003-01-05 16:06+0100\n"
 "PO-Revision-Date: 2003-01-04 22:09+0100\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Johannes Rohr <j.rohr@comlink.apc.org>\n"
@@ -15,15 +15,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 0.9.6\n"
 
-#: gui/BreakControl.cc:666
+#: gui/BreakControl.cc:659
 msgid "Disappears in"
 msgstr "Verschwindet in"
 
-#: gui/BreakControl.cc:670
+#: gui/BreakControl.cc:663
 msgid "Break in"
 msgstr "Pause in"
 
-#: gui/BreakControl.cc:674
+#: gui/BreakControl.cc:667
 msgid "Silent in"
 msgstr "Still in"
 
@@ -41,15 +41,15 @@ msgstr "Ruhepause"
 msgid "Daily limit"
 msgstr "Tägliches Limit"
 
-#: gui/GUIControl.cc:293
+#: gui/GUIControl.cc:301
 msgid "Time for a micro-pause?"
 msgstr "Zeit für eine Mikropause?"
 
-#: gui/GUIControl.cc:300
+#: gui/GUIControl.cc:308
 msgid "You need a rest break..."
 msgstr "Sie brauchen eine Ruhepause..."
 
-#: gui/GUIControl.cc:307
+#: gui/GUIControl.cc:315
 msgid "You should stop for today..."
 msgstr "Sie sollten für heute aufhören..."
 
