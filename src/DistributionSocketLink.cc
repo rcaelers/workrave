@@ -94,6 +94,7 @@ DistributionSocketLink::claim()
 {
   TRACE_ENTER("DistributionSocketLink::claim");
   bool ret = true;
+
   if (active_client != NULL)
     {
       send_claim(active_client);
@@ -199,10 +200,12 @@ bool
 DistributionSocketLink::remove_client(Client *client)
 {
   list<Client *>::iterator i = clients.begin();
-
+  bool ret = false;
+  
   if (client == active_client)
     {
       active_client = NULL;
+      ret = true;
     }
   
   while (i != clients.end())
@@ -211,14 +214,13 @@ DistributionSocketLink::remove_client(Client *client)
         {
           delete *i;
           i = clients.erase(i);
+          ret = true;
         }
       else
         {
           i++;
         }
     }
-
-  delete client;
 }
 
 DistributionSocketLink::Client *
@@ -306,6 +308,7 @@ DistributionSocketLink::set_active(gchar *cname, gint port)
     {
       TRACE_MSG("Iek");
     }
+  
   TRACE_EXIT();
 }
 
@@ -346,25 +349,20 @@ DistributionSocketLink::send_packet_except(PacketBuffer &packet, Client *client)
   packet.poke_ushort(0, size);
 
   list<Client *>::iterator i = clients.begin();
-
   while (i != clients.end())
     {
       Client *c = *i;
 
-      if (c != client)
+      if (c != client && c->iochannel != NULL)
         {
-          guint bytes_written;
-          GIOError error;
-          GIOChannel *iochannel = c->iochannel;
-
-          if (iochannel != NULL)
-            {
-              TRACE_MSG("to " << c->canonical_name << ":" << c->server_port);
-              error = g_io_channel_write(iochannel, packet.get_buffer(), size, &bytes_written);
-            }
+          TRACE_MSG("sending to " << c->canonical_name << ":" << c->server_port);
+          
+          guint bytes_written = 0;
+          GIOError error = g_io_channel_write(c->iochannel, packet.get_buffer(), size, &bytes_written);
         }
       i++;
     }
+
   TRACE_EXIT();
 }
 
@@ -375,19 +373,15 @@ DistributionSocketLink::send_packet(Client *client, PacketBuffer &packet)
 {
   TRACE_ENTER("DistributionSocketLink::send_packet");
 
-  GIOChannel *iochannel = client->iochannel;
-
-  if (iochannel != NULL)
+  if (client->iochannel != NULL)
     {
       gint size = packet.bytes_written();
   
       // Length.
       packet.poke_ushort(0, size);
       
-      guint bytes_written;
-      GIOError error;
-      
-      error = g_io_channel_write(iochannel, packet.get_buffer(), size, &bytes_written);
+      guint bytes_written = 0;
+      GIOError error = g_io_channel_write(client->iochannel, packet.get_buffer(), size, &bytes_written);
     }
   
   TRACE_EXIT();
@@ -511,8 +505,6 @@ DistributionSocketLink::send_welcome(Client *client)
   packet.pack_string(canonical_name);
   packet.pack_ushort(server_port);
 
-  // Active client.
-  
   send_packet(client, packet);
   TRACE_EXIT();
 }
@@ -650,8 +642,7 @@ DistributionSocketLink::handle_client_list(Client *client)
       gchar *cname = packet.unpack_string();
       gchar *sname = packet.unpack_string();
       gint port = packet.unpack_ushort();
-      gint forward = packet.unpack_byte();
-      
+       
       TRACE_MSG("new client: " << cname << ":" << port);
       if (port != 0 && find_client_by_canonicalname(cname, port) == NULL)
         {
@@ -824,14 +815,12 @@ DistributionSocketLink::handle_state(Client *client)
   PacketBuffer &packet = client->packet;
 
   gint size = packet.unpack_ushort();
-  TRACE_MSG("size = " << size);
   
   for (int i = 0; i < size; i++)
     {
       gint datalen = packet.unpack_ushort();
       DistributedStateID id = (DistributedStateID) packet.unpack_ushort();
 
-      TRACE_MSG(datalen << " " << id);
       DistributedStateInterface *itf = state_map[id];
 
       if (datalen != 0)
@@ -880,12 +869,14 @@ DistributionSocketLink::start_async_server()
 
 
 void
-DistributionSocketLink::async_accept(GTcpSocket *server, GTcpSocket *client)
+DistributionSocketLink::async_accept(GTcpSocket *server_socket, GTcpSocket *client_socket)
 {
+  (void) server_socket;
+  
   TRACE_ENTER("DistributionSocketLink::async_accept");
-  if (client != NULL)
+  if (client_socket != NULL)
     {
-      GInetAddr *addr = gnet_tcp_socket_get_inetaddr(client);
+      GInetAddr *addr = gnet_tcp_socket_get_inetaddr(client_socket);
       g_assert(addr);
       gchar *name = gnet_inetaddr_get_canonical_name(addr);
       g_assert(name);
@@ -894,61 +885,59 @@ DistributionSocketLink::async_accept(GTcpSocket *server, GTcpSocket *client)
       TRACE_MSG("Accepted connection from " << name << ":" << port);
       gnet_inetaddr_delete(addr);
 
-      GIOChannel *client_iochannel = gnet_tcp_socket_get_iochannel(client);
-      g_assert(client_iochannel != NULL);
+      Client *client = new Client;
 
-      Client *client_state = new Client;
+      client->packet.create();
+      client->link = this;
+      client->socket = client_socket;
+      client->canonical_name = NULL;
+      client->server_name = name;
+      client->server_port = 0;
+      client->iochannel = gnet_tcp_socket_get_iochannel(client_socket);
+      client->watch_flags = G_IO_IN | G_IO_ERR | G_IO_HUP | G_IO_NVAL;
 
-      client_state->packet.create();
-      client_state->link = this;
-      client_state->socket = client;
-      client_state->canonical_name = NULL;
-      client_state->server_name = name;
-      client_state->server_port = 0;
-      client_state->iochannel = client_iochannel;
-      client_state->watch_flags = G_IO_IN | G_IO_ERR | G_IO_HUP | G_IO_NVAL;
-      client_state->watch = 
-	g_io_add_watch (client_iochannel, (GIOCondition) client_state->watch_flags,
-			static_async_io, client_state);
+      g_assert(client->iochannel);
+      
+      client->watch = g_io_add_watch (client->iochannel, (GIOCondition) client->watch_flags,
+                                      static_async_io, client);
 
-      clients.push_back(client_state);
+      clients.push_back(client);
     }
   TRACE_EXIT();
 }
 
 
 bool
-DistributionSocketLink::async_io(GIOChannel* iochannel, GIOCondition condition, Client *client)
+DistributionSocketLink::async_io(GIOChannel *iochannel, GIOCondition condition, Client *client)
 {
   TRACE_ENTER("DistributionSocketLink::async_io");
   bool ret = true;
 
   g_assert(client != NULL);
+  g_assert(iochannel != NULL);
   
-  /* Check for socket error */
+  /* check for socket error */
   if (condition & (G_IO_ERR | G_IO_HUP | G_IO_NVAL))
     {
       TRACE_MSG("Client socket error " << client->canonical_name << ":" << client->server_port);
       ret = false;
     }
 
-  // Input
+  // process input
   if (ret && (condition & G_IO_IN))
     {
       TRACE_MSG("Client ready for read " << client->canonical_name << ":" << client->server_port);
 
-      GIOError error;
-      guint bytes_read;
+      guint bytes_read = 0;
       guint bytes_to_read = 4;
 
       if (client->packet.bytes_available() >= 4)
         {
           bytes_to_read = client->packet.peek_ushort(0) - 4;
-          TRACE_MSG("to read " << bytes_to_read);
         }
       
-      error = g_io_channel_read(iochannel, client->packet.get_write_ptr(), bytes_to_read, &bytes_read);
-
+      GIOError error = g_io_channel_read(iochannel, client->packet.get_write_ptr(), bytes_to_read, &bytes_read);
+      
       if (error != G_IO_ERROR_NONE)
 	{
 	  TRACE_MSG("Client read error " << client->canonical_name << ":" << client->server_port << " " <<  error);
@@ -964,33 +953,21 @@ DistributionSocketLink::async_io(GIOChannel* iochannel, GIOCondition condition, 
           TRACE_MSG("Read from " << client->canonical_name << ":" << client->server_port << " " <<  bytes_read);
 	  g_assert(bytes_read > 0);
 
-          TRACE_MSG(((int)client->packet.get_buffer()[0]) << " " << ((int)client->packet.get_buffer()[1]));
-          
 	  client->packet.write_ptr += bytes_read;
 
           if (client->packet.peek_ushort(0) == client->packet.bytes_written())
             {
-              for (int i = 0; i < client->packet.bytes_written(); i++)
-                {
-                  int j = (unsigned char)(client->packet.get_buffer()[i]);
-                  TRACE_MSG(j);
-                }
-             
               process_client_packet(client);
             }
 	}
-
-      if (!ret)
-        {
-          remove_client(client);
-        }
+      
     }
 
-  if (ret && (condition & G_IO_OUT))
-   {
-      TRACE_MSG("Client ready for write " << client->canonical_name << ":" << client->server_port);
-   }
-
+  if (!ret)
+    {
+      remove_client(client);
+    }
+  
   TRACE_EXIT();
   return ret;
 }
@@ -998,31 +975,35 @@ DistributionSocketLink::async_io(GIOChannel* iochannel, GIOCondition condition, 
 
 void 
 DistributionSocketLink::async_connected(GTcpSocket *socket, GInetAddr *ia,
-                                              GTcpSocketConnectAsyncStatus status,
-                                              Client *client)
+                                        GTcpSocketConnectAsyncStatus status,
+                                        Client *client)
 {
   TRACE_ENTER("DistributionSocketLink::async_connected");
+
+  g_assert(client != NULL);
   
   if (status != GTCP_SOCKET_CONNECT_ASYNC_STATUS_OK)
     {
       TRACE_MSG("Error: could not connect. status=" << status);
+
+      remove_client(client);
     }
   else
     {
-      GIOChannel *iochannel = gnet_tcp_socket_get_iochannel(socket);
+      TRACE_MSG("connected to " << client->server_name << ":" << client->server_port);
+
+      g_assert(ia != NULL);
+      g_assert(socket != NULL);
       
       client->socket = socket;
       client->server_name = gnet_inetaddr_get_canonical_name(ia);
       client->server_port = gnet_inetaddr_get_port(ia);
-      client->iochannel = iochannel;
+      client->iochannel = gnet_tcp_socket_get_iochannel(socket);
       client->watch_flags = G_IO_IN | G_IO_ERR | G_IO_HUP | G_IO_NVAL;
-      client->watch = 
-	g_io_add_watch (iochannel, (GIOCondition) client->watch_flags,
-			static_async_io, client);
+      client->watch = g_io_add_watch(client->iochannel, (GIOCondition) client->watch_flags,
+                                     static_async_io, client);
       
       gnet_inetaddr_delete(ia);
-
-      TRACE_MSG("connected to " << client->server_name << ":" << client->server_port);
       send_hello(client);
     }
   TRACE_EXIT();
@@ -1033,10 +1014,9 @@ void
 DistributionSocketLink::static_async_accept(GTcpSocket* server, GTcpSocket* client, gpointer data)
 {
   DistributionSocketLink *link = (DistributionSocketLink *)data;
-  if (link != NULL)
-    {
-      link->async_accept(server, client);
-    }
+  g_assert(link != NULL);
+  
+  link->async_accept(server, client);
 }
 
 
@@ -1045,14 +1025,9 @@ DistributionSocketLink::static_async_io(GIOChannel *iochannel, GIOCondition cond
                                         gpointer data)
 {
   Client *client =  (Client *)data;
-  gboolean ret = FALSE;
   
-  if (client != NULL)
-    {
-      ret = client->link->async_io(iochannel, condition, client);
-    }
-
-  return ret;
+  g_assert(client != NULL);
+  return client->link->async_io(iochannel, condition, client);
 }
 
 
@@ -1062,9 +1037,7 @@ DistributionSocketLink::static_async_connected(GTcpSocket *socket, GInetAddr *ia
 {
   Client *client =  (Client *)data;
 
-  if (client != NULL)
-    {
-      client->link->async_connected(socket, ia, status, client);
-    }
+  g_assert(client != NULL);
+  client->link->async_connected(socket, ia, status, client);
 }
 

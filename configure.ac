@@ -252,7 +252,7 @@ AC_SUBST(GCONF_CFLAGS)
 
 if test "x$config_distribution" = "xyes"
 then           
-AM_PATH_GNET(1.1.0,[] ,[] )
+AM_PATH_GNET(1.1.4,[] ,[] )
 fi
                     
 AC_SUBST(GNET_LIBS)
