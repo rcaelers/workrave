@@ -47,7 +47,7 @@ Source: "..\..\..\src\workrave.exe"; DestDir: "{app}\lib"; DestName: "Workrave.e
 Source: "..\..\..\..\workrave-misc\doc\leaflet\leaflet-en.pdf"; DestDir: "{app}\doc"; DestName: "leaflet.pdf"; Flags: ignoreversion;
 Source: "..\..\..\po\nl.gmo"; DestDir: "{app}\lib\locale\nl\LC_MESSAGES"; DestName: "workrave.mo"; Flags: ignoreversion;
 Source: "..\..\..\po\de.gmo"; DestDir: "{app}\lib\locale\de\LC_MESSAGES"; DestName: "workrave.mo"; Flags: ignoreversion;
-Source: "..\..\..\po\eo.gmo"; DestDir: "{app}\lib\locale\eo\LC_MESSAGES"; DestName: "workrave.mo"; Flags: ignoreversion;
+; Source: "..\..\..\po\eo.gmo"; DestDir: "{app}\lib\locale\eo\LC_MESSAGES"; DestName: "workrave.mo"; Flags: ignoreversion;
 
 [Registry]
 Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\Workrave.exe"; ValueType: string; ValueData: "{app}\lib\Workrave.exe"; Flags: uninsdeletekeyifempty
