@@ -28,8 +28,8 @@ EXTRA_DIST = 	config.rpath  \
 		depcomp \
 		workrave.spec.in \
 		workrave.spec \
-		intltool-extract.in intltool-merge.in intltool-update.in \
-		README.win32
+		intltool-extract.in intltool-merge.in intltool-update.in
+		
 
 noinst_PROGRAMS =
 
