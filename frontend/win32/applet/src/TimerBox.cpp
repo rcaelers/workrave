@@ -26,7 +26,7 @@ const int PADDING_Y = 2;
 TimerBox::TimerBox(HWND parent, HINSTANCE hinst, CDeskBand *deskband)
 {
   const char *icon_ids[] = { "micropause", "restbreak", "dailylimit" };
-  sheep_icon = new Icon(parent, hinst, "workrave");
+  sheep_icon = new Icon(parent, hinst, "workrave", deskband);
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++) 
     {

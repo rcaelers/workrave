@@ -18,7 +18,7 @@
 #include <stdio.h>
 
 #include "TimeBar.h"
-#include "CDeskBand.h"
+#include "DeskBand.h"
 
 const int BORDER_SIZE = 2;
 const int MARGINX = 4;
@@ -68,7 +68,7 @@ TimeBar::wnd_proc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
       return pThis->on_paint();
 
     case WM_LBUTTONUP:
-      SendMessage(deskband->get_command_window(), WM_USER + 1, 0, NULL);
+      SendMessage(pThis->deskband->get_command_window(), WM_USER + 1, 0, NULL);
       break;
     }
   return DefWindowProc(hWnd, uMessage, wParam, lParam);

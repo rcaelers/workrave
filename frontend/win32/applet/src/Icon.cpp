@@ -18,11 +18,11 @@
 #include <stdio.h>
 
 #include "Icon.h"
-#include "CDeskBand.h"
+#include "DeskBand.h"
 
 #define ICON_CLASS_NAME "WorkraveIcon"
 
-Icon::Icon(HWND parent, HINSTANCE hinst, const char *resource)
+Icon::Icon(HWND parent, HINSTANCE hinst, const char *resource, CDeskBand *deskband)
   : deskband(deskband)
 {
   init(hinst);
@@ -48,7 +48,7 @@ Icon::wnd_proc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
       return pThis->on_paint();
 
     case WM_LBUTTONUP:
-      SendMessage(deskband->get_command_window(), WM_USER + 1, 0, NULL);
+      SendMessage(pThis->deskband->get_command_window(), WM_USER + 1, 0, NULL);
       break;
     }
   return DefWindowProc(hWnd, uMessage, wParam, lParam);
