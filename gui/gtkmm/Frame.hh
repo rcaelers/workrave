@@ -1,9 +1,9 @@
 // FrameWindow.hh --- Gtk::Frame like widget 
 //
-// Copyright (C) 2001, 2002 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2001, 2002, 2003 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
-// Time-stamp: <2002-09-03 10:09:25 pennersr>
+// Time-stamp: <2003-03-09 22:11:53 pennersr>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -37,7 +37,8 @@ public:
   void set_frame_color(const Gdk::Color &color);
   void set_frame_flashing(int delay);
   void set_frame_visible(bool visible);
-  
+  SigC::Signal1<void,bool> &signal_flash();
+
 protected:
   bool on_timer();
   void on_size_request(GtkRequisition *requisition);
@@ -72,5 +73,8 @@ private:
 
   //! Flash timeout signal
   SigC::Connection flash_signal;
- };
+
+  //! Flash signal source
+  SigC::Signal1<void,bool> flash_signal_src;
+};
 

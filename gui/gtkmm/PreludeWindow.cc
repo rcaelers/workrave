@@ -71,6 +71,8 @@ PreludeWindow::PreludeWindow()
   frame->set_frame_width(6);
   frame->set_border_width(3);
   frame->add(*hbox);
+  frame->signal_flash().connect(SigC::slot(*this, &PreludeWindow::on_frame_flash));
+  flash_visible = true;
   color_warn = Gdk::Color("orange");
   color_alert = Gdk::Color("red");
   add(*frame);
@@ -165,6 +167,17 @@ PreludeWindow::stop()
 void
 PreludeWindow::refresh()
 {
+  time_bar->set_progress(progress_value, progress_max_value);
+
+  string s;
+  int tminus = progress_max_value - progress_value;
+  if (tminus >= 0 || (tminus < 0 && flash_visible))
+    {
+      if (tminus < 0)
+        tminus = 0;
+      s = progress_text + " " + Text::time_to_string(tminus);
+    }
+  time_bar->set_text(s);
   time_bar->update();
 }
 
@@ -173,14 +186,9 @@ void
 PreludeWindow::set_progress(int value, int max_value)
 {
   TRACE_ENTER_MSG("PreludeWindow::set_progress", value << " " << max_value);
-  time_bar->set_progress(value, max_value);
-
-  string s;
-  if (max_value >= value)
-    {
-      s = progress_text + " " + Text::time_to_string(max_value-value);
-    }
-  time_bar->set_text(s);
+  progress_value = value;
+  progress_max_value = max_value;
+  refresh();
   TRACE_EXIT()
 }
 
@@ -284,4 +292,11 @@ PreludeWindow::on_activity()
       prelude_response->prelude_stopped();
     }
   TRACE_EXIT();
+}
+
+void
+PreludeWindow::on_frame_flash(bool frame_visible)
+{
+  flash_visible = frame_visible;
+  refresh();
 }

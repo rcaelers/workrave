@@ -116,6 +116,7 @@ bool
 Frame::on_timer()
 {
   set_frame_visible(! frame_visible);
+  flash_signal_src(frame_visible);
   return true;
 }
 
@@ -204,5 +205,11 @@ Frame::on_expose_event(GdkEventExpose* e)
   bool rc = Gtk::Bin::on_expose_event(e);
 
   return rc;
+}
+
+SigC::Signal1<void,bool> &
+Frame::signal_flash()
+{
+  return flash_signal_src;
 }
 

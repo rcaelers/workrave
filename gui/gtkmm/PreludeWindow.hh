@@ -52,6 +52,7 @@ public:
 private:
   bool action_notify();
   void on_activity();
+  void on_frame_flash(bool frame_visible);
   
 private:
   
@@ -76,6 +77,13 @@ private:
   //! Final prelude
   string progress_text;
 
+  //! Progress values
+  int progress_value;
+  int progress_max_value;
+
+  //! Flash
+  bool flash_visible;;
+  
   SigC::Connection dispatch_connection;
   Dispatcher *dispatcher;
 };
