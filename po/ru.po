@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.6.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-30 23:11+0200\n"
-"PO-Revision-Date: 2004-04-08 22:33+0200\n"
+"POT-Creation-Date: 2004-07-13 20:39+0200\n"
+"PO-Revision-Date: 2004-07-13 20:39+0200\n"
 "Last-Translator: Sergey Kirkinsky <ksa@pfr.altai.ru>\n"
 "Language-Team: Sergey Kirkinsky <ksa@pfr.altai.ru>\n"
 "MIME-Version: 1.0\n"
@@ -66,7 +66,7 @@ msgid "Postpone"
 msgstr "Отложить"
 
 #: frontend/gtkmm/src/DailyLimitWindow.cc:45
-#: frontend/gtkmm/src/DailyLimitWindow.cc:53 frontend/gtkmm/src/GtkUtil.cc:117
+#: frontend/gtkmm/src/DailyLimitWindow.cc:53 frontend/gtkmm/src/GtkUtil.cc:154
 #: frontend/common/share/sounds/workrave.soundlist.in.h:3
 msgid "Daily limit"
 msgstr "Дневной предел"
@@ -81,7 +81,7 @@ msgstr ""
 "возле компьютера. Если Ваш рабочий день ещё не закончился,\n"
 "то найдите себе другое занятие, например, просмотр документов."
 
-#: frontend/gtkmm/src/GUI.cc:725
+#: frontend/gtkmm/src/GUI.cc:710
 msgid "I could not initialize Bonobo"
 msgstr "Не могу инициализировать Bonobo"
 
@@ -94,13 +94,13 @@ msgstr "Неактивно"
 msgid "Wait"
 msgstr "Ожидание"
 
-#: frontend/gtkmm/src/GtkUtil.cc:117 frontend/gtkmm/src/MicroBreakWindow.cc:48
+#: frontend/gtkmm/src/GtkUtil.cc:154 frontend/gtkmm/src/MicroBreakWindow.cc:48
 #: frontend/gtkmm/src/MicroBreakWindow.cc:110
 #: frontend/gtkmm/src/MicroBreakWindow.cc:150
 msgid "Micro-break"
 msgstr "Миниотдых"
 
-#: frontend/gtkmm/src/GtkUtil.cc:117 frontend/gtkmm/src/RestBreakWindow.cc:73
+#: frontend/gtkmm/src/GtkUtil.cc:154 frontend/gtkmm/src/RestBreakWindow.cc:73
 #: frontend/gtkmm/src/RestBreakWindow.cc:179
 msgid "Rest break"
 msgstr "Перерыв"
@@ -171,7 +171,7 @@ msgstr "О программе..."
 msgid "Preferences"
 msgstr "Настройки"
 
-#: frontend/gtkmm/src/Menus.cc:710
+#: frontend/gtkmm/src/Menus.cc:711
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -927,9 +927,10 @@ msgstr ""
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:10
 msgid ""
 "Look for the furthest point you can see behind your monitor. Focus your eyes "
-"on the remote point. After a few seconds focus on your monitor border. "
-"Repeat it. If you can't look very far from your monitor, use a pen for "
-"instance and keep it the same distance as your monitor."
+"on the remote point. Then focus on your monitor border. Repeat it. If you "
+"can't look very far from your monitor, face another direction with a longer "
+"view. Then switch your focus between a distant object and a pen held at the "
+"same distance from your eyes as your monitor."
 msgstr ""
 "Посмотрите на самую дальнюю точку, которые вы можете увидеть за своим "
 "монитором. Сфокусируйте взгляд на этой точке. После нескольких секунд "

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.6.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-30 23:11+0200\n"
-"PO-Revision-Date: 2004-06-24 20:51+0200\n"
+"POT-Creation-Date: 2004-07-13 20:39+0200\n"
+"PO-Revision-Date: 2004-07-13 20:38+0200\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
 "MIME-Version: 1.0\n"
@@ -65,7 +65,7 @@ msgid "Postpone"
 msgstr "Uitstellen"
 
 #: frontend/gtkmm/src/DailyLimitWindow.cc:45
-#: frontend/gtkmm/src/DailyLimitWindow.cc:53 frontend/gtkmm/src/GtkUtil.cc:117
+#: frontend/gtkmm/src/DailyLimitWindow.cc:53 frontend/gtkmm/src/GtkUtil.cc:154
 #: frontend/common/share/sounds/workrave.soundlist.in.h:3
 msgid "Daily limit"
 msgstr "Dagelijkse limiet"
@@ -80,7 +80,7 @@ msgstr ""
 "achter de computer. Als je werkdag nog niet voorbij is,\n"
 "ga dan iets anders doen, bv. documenten reviewen."
 
-#: frontend/gtkmm/src/GUI.cc:725
+#: frontend/gtkmm/src/GUI.cc:710
 msgid "I could not initialize Bonobo"
 msgstr "Bonobo kon niet geÃ¯nitialiseerd worden"
 
@@ -93,13 +93,13 @@ msgstr "Inactief"
 msgid "Wait"
 msgstr "Wacht"
 
-#: frontend/gtkmm/src/GtkUtil.cc:117 frontend/gtkmm/src/MicroBreakWindow.cc:48
+#: frontend/gtkmm/src/GtkUtil.cc:154 frontend/gtkmm/src/MicroBreakWindow.cc:48
 #: frontend/gtkmm/src/MicroBreakWindow.cc:110
 #: frontend/gtkmm/src/MicroBreakWindow.cc:150
 msgid "Micro-break"
 msgstr "Micro-pauze"
 
-#: frontend/gtkmm/src/GtkUtil.cc:117 frontend/gtkmm/src/RestBreakWindow.cc:73
+#: frontend/gtkmm/src/GtkUtil.cc:154 frontend/gtkmm/src/RestBreakWindow.cc:73
 #: frontend/gtkmm/src/RestBreakWindow.cc:179
 msgid "Rest break"
 msgstr "Rustpauze"
@@ -170,7 +170,7 @@ msgstr "Info..."
 msgid "Preferences"
 msgstr "Voorkeuren"
 
-#: frontend/gtkmm/src/Menus.cc:710
+#: frontend/gtkmm/src/Menus.cc:711
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -930,9 +930,10 @@ msgstr ""
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:10
 msgid ""
 "Look for the furthest point you can see behind your monitor. Focus your eyes "
-"on the remote point. After a few seconds focus on your monitor border. "
-"Repeat it. If you can't look very far from your monitor, use a pen for "
-"instance and keep it the same distance as your monitor."
+"on the remote point. Then focus on your monitor border. Repeat it. If you "
+"can't look very far from your monitor, face another direction with a longer "
+"view. Then switch your focus between a distant object and a pen held at the "
+"same distance from your eyes as your monitor."
 msgstr ""
 "Zoek naar het verste punt dat je kan zien achter je monitor. Focus je ogen "
 "op dit punt. Na een paar seconden focus je op de rand van je monitor. "
@@ -987,7 +988,10 @@ msgid ""
 "Separate and stretch your fingers until a mild tension is felt, and hold "
 "this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
 "again for 10 seconds. Repeat this exercise once more."
-msgstr "Strek je vingers uit elkaar totdat je een lichte spanning voelt, en hou deze positie 10 seconden vast. Ontspan nu, en buig daarna je vingers bij de knokkels, en hou dit weer 10 seconden vast. Herhaal deze oefening."
+msgstr ""
+"Strek je vingers uit elkaar totdat je een lichte spanning voelt, en hou deze "
+"positie 10 seconden vast. Ontspan nu, en buig daarna je vingers bij de "
+"knokkels, en hou dit weer 10 seconden vast. Herhaal deze oefening."
 
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:21
 msgid "Shoulder-arm stretch"

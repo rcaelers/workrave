@@ -62,7 +62,7 @@
 -->
   <exercise>
     <_title>Train focusing the eyes</_title>
-    <_description>Look for the furthest point you can see behind your monitor. Focus your eyes on the remote point. After a few seconds focus on your monitor border. Repeat it. If you can't look very far from your monitor, use a pen for instance and keep it the same distance as your monitor.</_description>
+    <_description>Look for the furthest point you can see behind your monitor. Focus your eyes on the remote point. Then focus on your monitor border. Repeat it. If you can't look very far from your monitor, face another direction with a longer view. Then switch your focus between a distant object and a pen held at the same distance from your eyes as your monitor.</_description>
     <sequence duration="25">
        <image src="depth-focus-1.png" duration="5"/>
        <image src="depth-focus-2.png" duration="5"/>

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-30 23:11+0200\n"
-"PO-Revision-Date: 2004-03-20 02:18+0100\n"
+"POT-Creation-Date: 2004-07-13 20:39+0200\n"
+"PO-Revision-Date: 2004-07-13 20:40+0200\n"
 "Last-Translator:  <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -66,7 +66,7 @@ msgid "Postpone"
 msgstr "Atrasar"
 
 #: frontend/gtkmm/src/DailyLimitWindow.cc:45
-#: frontend/gtkmm/src/DailyLimitWindow.cc:53 frontend/gtkmm/src/GtkUtil.cc:117
+#: frontend/gtkmm/src/DailyLimitWindow.cc:53 frontend/gtkmm/src/GtkUtil.cc:154
 #: frontend/common/share/sounds/workrave.soundlist.in.h:3
 msgid "Daily limit"
 msgstr "Limíte diário"
@@ -82,7 +82,7 @@ msgstr ""
 "terminado, troque de atividade, como por exemplo,\n"
 "revisar documentos."
 
-#: frontend/gtkmm/src/GUI.cc:725
+#: frontend/gtkmm/src/GUI.cc:710
 msgid "I could not initialize Bonobo"
 msgstr "Não foi possível inicializar o Bonobo"
 
@@ -95,13 +95,13 @@ msgstr "Inativo"
 msgid "Wait"
 msgstr "Espere"
 
-#: frontend/gtkmm/src/GtkUtil.cc:117 frontend/gtkmm/src/MicroBreakWindow.cc:48
+#: frontend/gtkmm/src/GtkUtil.cc:154 frontend/gtkmm/src/MicroBreakWindow.cc:48
 #: frontend/gtkmm/src/MicroBreakWindow.cc:110
 #: frontend/gtkmm/src/MicroBreakWindow.cc:150
 msgid "Micro-break"
 msgstr "Micropausa"
 
-#: frontend/gtkmm/src/GtkUtil.cc:117 frontend/gtkmm/src/RestBreakWindow.cc:73
+#: frontend/gtkmm/src/GtkUtil.cc:154 frontend/gtkmm/src/RestBreakWindow.cc:73
 #: frontend/gtkmm/src/RestBreakWindow.cc:179
 msgid "Rest break"
 msgstr "Descanso"
@@ -172,13 +172,13 @@ msgstr "Sobre o..."
 msgid "Preferences"
 msgstr "Preferências"
 
-#: frontend/gtkmm/src/Menus.cc:710
+#: frontend/gtkmm/src/Menus.cc:711
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
 msgstr ""
-"Este programa lhe ajuda na prevencão e cura de lesões por esforço "
-"repetitivo (LER)."
+"Este programa lhe ajuda na prevencão e cura de lesões por esforço repetitivo "
+"(LER)."
 
 #: frontend/gtkmm/src/MicroBreakWindow.cc:128
 msgid "Please relax for a few seconds"
@@ -664,8 +664,8 @@ msgid ""
 "The total mouse movement you would have had if you moved your mouse in "
 "straight lines between clicks"
 msgstr ""
-"Distancia total que o mouse percorreu, se tivesse traçado linhas "
-"retas entre os cliques"
+"Distancia total que o mouse percorreu, se tivesse traçado linhas retas entre "
+"os cliques"
 
 #: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:307
 msgid "Mouse button clicks:"
@@ -802,8 +802,7 @@ msgstr "Confirmado status de mestre do cliente %s:%d."
 #: backend/src/DistributionSocketLink.cc:1710
 #, c-format
 msgid "Non-master client %s:%d rejected master request."
-msgstr ""
-"O cliente %s:%d sem status de mestre recusou a solicitação do mestre."
+msgstr "O cliente %s:%d sem status de mestre recusou a solicitação do mestre."
 
 #: backend/src/DistributionSocketLink.cc:1715
 #, c-format
@@ -856,10 +855,10 @@ msgid ""
 "for each time you breathe in and out. To extra relax your eyes, try closing "
 "them in micro pauses too."
 msgstr ""
-"Feche os olhos, expire tudo que poça e trate de se relaxar. Quando "
-"inspirar, volte a fazê-lo o mais lentamente possível. Tente contar lentamente "
-"até 8 cada vez que inspire e expire. Para descansar seus olhos, trate de "
-"fechar-los também durante as micropausas."
+"Feche os olhos, expire tudo que poça e trate de se relaxar. Quando inspirar, "
+"volte a fazê-lo o mais lentamente possível. Tente contar lentamente até 8 "
+"cada vez que inspire e expire. Para descansar seus olhos, trate de fechar-"
+"los também durante as micropausas."
 
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:3
 msgid ""
@@ -872,7 +871,7 @@ msgstr ""
 "alivia mais seus olhos que somente os fechar."
 
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:4
-msgid "Fimger stretch"
+msgid "Finger stretch"
 msgstr "Alongamento de dedos"
 
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:5
@@ -883,10 +882,9 @@ msgid ""
 "wall again without changing the angle of the elbows."
 msgstr ""
 "Fique na frente de uma parede (ou algo assim) e coloca as mãos na parede na "
-"altura dos ombros, com os cotovelos levemente flexionados. Empurre seu "
-"corpo contra a parede, sem mudar a flexão dos cotovelos. Então empurre "
-"seu corpo no sentido contrário da parede, sem trocar a flexão dos "
-"cotovelos."
+"altura dos ombros, com os cotovelos levemente flexionados. Empurre seu corpo "
+"contra a parede, sem mudar a flexão dos cotovelos. Então empurre seu corpo "
+"no sentido contrário da parede, sem trocar a flexão dos cotovelos."
 
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:6
 msgid ""
@@ -894,9 +892,9 @@ msgid ""
 "inward, while straightening your arms. Hold this position for 5 to 15 "
 "seconds, and repeat this exercise twice."
 msgstr ""
-"Entrelace os dedos das mãos por detrás das costas. Mova os cotovelos "
-"para dentro estendendo os braços. Mantenha-se neste posição durante "
-"5 a 15 segundos e repita o exercício duas vezes."
+"Entrelace os dedos das mãos por detrás das costas. Mova os cotovelos para "
+"dentro estendendo os braços. Mantenha-se neste posição durante 5 a 15 "
+"segundos e repita o exercício duas vezes."
 
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:7
 msgid ""
@@ -905,9 +903,9 @@ msgid ""
 "shoulder. Hold this position briefly, and repeat the exercise for your other "
 "arm."
 msgstr ""
-"Ponha um braço extendido horizontalmente diante do peito. Empurre este "
-"braço com o outro braço até que sinta uma tensão suave no ombro. "
-"Mantenha brevemente esta posição e repita o exercício com o outro braço."
+"Ponha um braço extendido horizontalmente diante do peito. Empurre este braço "
+"com o outro braço até que sinta uma tensão suave no ombro. Mantenha "
+"brevemente esta posição e repita o exercício com o outro braço."
 
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:8
 msgid ""
@@ -915,10 +913,10 @@ msgid ""
 "head back (making a double chin). Keep this 2 seconds and relax. Move your "
 "head the same way forward, keep this 2 seconds and relax again."
 msgstr ""
-"Mantenha a cabeça erguida e a mandíbula inferior paralela ao solo. Mova "
-"a cabeça para atrás, fazendo papada. Mantenha esta posição durante 2 "
-"segundos e descanse. Mova a cabeça do mesmo modo para frente, fique assim "
-"durante dois segundos e volte a descansar."
+"Mantenha a cabeça erguida e a mandíbula inferior paralela ao solo. Mova a "
+"cabeça para atrás, fazendo papada. Mantenha esta posição durante 2 segundos "
+"e descanse. Mova a cabeça do mesmo modo para frente, fique assim durante "
+"dois segundos e volte a descansar."
 
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:9
 msgid ""
@@ -926,17 +924,17 @@ msgid ""
 "the border slowly to the upper right corner. Continue to the next corner, "
 "until you got around it two times. Then, reverse the exercise."
 msgstr ""
-"Olhe o canto superior esquerdo da borda externa do seu monitor. Siga "
-"a borda lentamente até o canto superior direito. Siga até o canto "
-"seguinte, até que que tenha dado duas voltas. Faça este exercício no sentido "
-"contrário."
+"Olhe o canto superior esquerdo da borda externa do seu monitor. Siga a borda "
+"lentamente até o canto superior direito. Siga até o canto seguinte, até que "
+"que tenha dado duas voltas. Faça este exercício no sentido contrário."
 
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:10
 msgid ""
 "Look for the furthest point you can see behind your monitor. Focus your eyes "
-"on the remote point. After a few seconds focus on your monitor border. "
-"Repeat it. If you can't look very far from your monitor, use a pen for "
-"instance and keep it the same distance as your monitor."
+"on the remote point. Then focus on your monitor border. Repeat it. If you "
+"can't look very far from your monitor, face another direction with a longer "
+"view. Then switch your focus between a distant object and a pen held at the "
+"same distance from your eyes as your monitor."
 msgstr ""
 "Olhe no ponto mais distante que poça alcançar atrás de seu monitor. Foque a "
 "vista neste ponto distante. Depois de uns segundos, foque na borda do "
@@ -977,10 +975,10 @@ msgid ""
 "press your body up until your arms are straight. Try to move your head even "
 "further by lowering your shoulders. Slowly move back into your chair."
 msgstr ""
-"Ponha as mãos nos apoios de braços da cadeira que está sentado e "
-"empurre seu corpo para cima até que seus braços estejam totalmente "
-"esticados. Tente mover a cabeça mais acima baixando os ombros. Volte "
-"lentamente a se sentar na cadeira."
+"Ponha as mãos nos apoios de braços da cadeira que está sentado e empurre seu "
+"corpo para cima até que seus braços estejam totalmente esticados. Tente "
+"mover a cabeça mais acima baixando os ombros. Volte lentamente a se sentar "
+"na cadeira."
 
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:19
 msgid "Relax the eyes"
@@ -992,10 +990,9 @@ msgid ""
 "this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
 "again for 10 seconds. Repeat this exercise once more."
 msgstr ""
-"Estique os dedos separando-os até que sinta uma ligeira tensão e "
-"mantenha-os assim durante 10 segundos. Relaxe, logo dobre as articulações "
-"dos dedos e mantenha-os assim durante 10 segundos. Repita este exercício uma "
-"vez."
+"Estique os dedos separando-os até que sinta uma ligeira tensão e mantenha-os "
+"assim durante 10 segundos. Relaxe, logo dobre as articulações dos dedos e "
+"mantenha-os assim durante 10 segundos. Repita este exercício uma vez."
 
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:21
 msgid "Shoulder-arm stretch"
@@ -1008,15 +1005,16 @@ msgid ""
 "with the left arm."
 msgstr ""
 "Gire seu braço direito lentamente como a hélice de um avião. Gire-o 4 vezes "
-"no sentido horário, 4 no sentido contrario, e descanse unos segundos." "Repita com o braço esquerdo."
+"no sentido horário, 4 no sentido contrario, e descanse unos segundos.Repita "
+"com o braço esquerdo."
 
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:23
 msgid ""
 "Stand by your desk and place both your palms on the desk with the fingers "
 "pointing toward your body. Gently stretch your wrists and lower arms."
 msgstr ""
-"Ponha-se de pé de um lado da mesa e apoie as palmas na mesa, com os "
-"dedos apontando para seu corpo. Estique suavemente seus pulsos e antebraços."
+"Ponha-se de pé de um lado da mesa e apoie as palmas na mesa, com os dedos "
+"apontando para seu corpo. Estique suavemente seus pulsos e antebraços."
 
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:24
 msgid ""
@@ -1029,10 +1027,9 @@ msgid ""
 msgstr ""
 "Levante-se e tente tocar o teto com as mãos sem levantar os calcanhares. "
 "Mantenha-se assim durante alguns segundos. Então baixe as mãos lentamente "
-"até o solo sem dobrar seus braços. Mantenha os movimento até se "
-"dobrar lentamente até que possa quase colocá-los em frente de seus sapatos. "
-"Volte a erguer-se lentamente desde a cadeira, até voltar a estar "
-"totalmente direito."
+"até o solo sem dobrar seus braços. Mantenha os movimento até se dobrar "
+"lentamente até que possa quase colocá-los em frente de seus sapatos. Volte a "
+"erguer-se lentamente desde a cadeira, até voltar a estar totalmente direito."
 
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:25
 msgid ""
@@ -1041,11 +1038,11 @@ msgid ""
 "side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
 "the left side to stretch your other side. Do this twice for each side."
 msgstr ""
-"Comece colocando a cabeça comodamente em posição erguida. Incline sua "
-"cabeça lentamente até o ombro direito, esticando suavemente os músculos "
-"do lado esquerdo do pescoço. Mantenha essa posição durante 5 segundos. "
-"Então, incline a cabeça para o lado esquerdo para esticar o lado "
-"direito. Faça este movimento duas vezes para cada lado."
+"Comece colocando a cabeça comodamente em posição erguida. Incline sua cabeça "
+"lentamente até o ombro direito, esticando suavemente os músculos do lado "
+"esquerdo do pescoço. Mantenha essa posição durante 5 segundos. Então, "
+"incline a cabeça para o lado esquerdo para esticar o lado direito. Faça este "
+"movimento duas vezes para cada lado."
 
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:26
 msgid "Stretch your back"

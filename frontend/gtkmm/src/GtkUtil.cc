@@ -26,11 +26,32 @@
 
 #include "debug.hh"
 
+#include <gtkmm/settings.h>
+#include <glib-object.h>
+
 #include "GUI.hh"
 #include "Util.hh"
 #include "GtkUtil.hh"
 #include "EventLabel.hh"
 #include "HeadInfo.hh"
+
+bool
+GtkUtil::has_button_images()
+{
+  // Bypassing gtkmm is necessary, because it does not offer
+  // a find_property method yet.
+  Glib::RefPtr<Gtk::Settings> settingsmm = Gtk::Settings::get_default();
+  GObject *settings = G_OBJECT(settingsmm->gobj());
+  GObjectClass * klazz = G_OBJECT_GET_CLASS(settings);
+  bool ret = true;
+  if (g_object_class_find_property (klazz, "gtk-button-images"))
+    {
+      gboolean gbi;
+      g_object_get (settings, "gtk-button-images", &gbi, NULL);
+      ret = gbi;
+    }
+  return ret;
+}
 
 Gtk::Button *
 GtkUtil::create_custom_stock_button(const char *label_text,
@@ -47,15 +68,23 @@ GtkUtil::update_custom_stock_button(Gtk::Button *btn,
                                     const char *label_text,
                                     const Gtk::StockID& stock_id)
 {
-  Gtk::Image *img = manage(new Gtk::Image(stock_id, 
-                                          Gtk::ICON_SIZE_BUTTON));
+  Gtk::Image *img = NULL;
+
+  if (has_button_images() || !label_text)
+    {
+      img = manage(new Gtk::Image(stock_id, 
+                                  Gtk::ICON_SIZE_BUTTON));
+    }
   btn->remove();
   if (label_text != NULL)
     {
       Gtk::Label *label = manage(new Gtk::Label(label_text));
       Gtk::HBox *hbox = manage(new Gtk::HBox(false, 2));
       Gtk::Alignment *align = manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
-      hbox->pack_start(*img, false, false, 0);
+      if (img != NULL)
+        {
+          hbox->pack_start(*img, false, false, 0);
+        }
       hbox->pack_end(*label, false, false, 0);
       btn->add(*align);
       align->add(*hbox);
@@ -74,14 +103,22 @@ GtkUtil::create_image_button(const char *label_text,
                              const char *image_file)
 {
   Gtk::Button *btn = new Gtk::Button();
-  string icon = Util::complete_directory(image_file, Util::SEARCH_PATH_IMAGES);
-  Gtk::Image *img = manage(new Gtk::Image(icon));
+  Gtk::Image *img = NULL;
+  if (has_button_images())
+    {
+      string icon = Util::complete_directory(image_file,
+                                             Util::SEARCH_PATH_IMAGES);
+      img = manage(new Gtk::Image(icon));
+    }
   if (label_text != NULL)
     {
       Gtk::Label *label = manage(new Gtk::Label(label_text));
       Gtk::HBox *hbox = manage(new Gtk::HBox(false, 2));
       Gtk::Alignment *align = manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
-      hbox->pack_start(*img, false, false, 0);
+      if (img != NULL)
+        {
+          hbox->pack_start(*img, false, false, 0);
+        }
       hbox->pack_end(*label, false, false, 0);
       btn->add(*align);
       align->add(*hbox);

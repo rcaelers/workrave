@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-30 23:11+0200\n"
-"PO-Revision-Date: 2004-03-20 02:18+0100\n"
+"POT-Creation-Date: 2004-07-13 20:39+0200\n"
+"PO-Revision-Date: 2004-07-13 20:38+0200\n"
 "Last-Translator:  <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -67,7 +67,7 @@ msgid "Postpone"
 msgstr "Aplazar"
 
 #: frontend/gtkmm/src/DailyLimitWindow.cc:45
-#: frontend/gtkmm/src/DailyLimitWindow.cc:53 frontend/gtkmm/src/GtkUtil.cc:117
+#: frontend/gtkmm/src/DailyLimitWindow.cc:53 frontend/gtkmm/src/GtkUtil.cc:154
 #: frontend/common/share/sounds/workrave.soundlist.in.h:3
 msgid "Daily limit"
 msgstr "Límite diario"
@@ -83,7 +83,7 @@ msgstr ""
 "no haya terminado, cambie de actividad, como por ejemplo,\n"
 "revisar documentos."
 
-#: frontend/gtkmm/src/GUI.cc:725
+#: frontend/gtkmm/src/GUI.cc:710
 msgid "I could not initialize Bonobo"
 msgstr "No se puede inicializar Bonobo"
 
@@ -96,13 +96,13 @@ msgstr "Inactivo"
 msgid "Wait"
 msgstr "Espere"
 
-#: frontend/gtkmm/src/GtkUtil.cc:117 frontend/gtkmm/src/MicroBreakWindow.cc:48
+#: frontend/gtkmm/src/GtkUtil.cc:154 frontend/gtkmm/src/MicroBreakWindow.cc:48
 #: frontend/gtkmm/src/MicroBreakWindow.cc:110
 #: frontend/gtkmm/src/MicroBreakWindow.cc:150
 msgid "Micro-break"
 msgstr "Micropausa"
 
-#: frontend/gtkmm/src/GtkUtil.cc:117 frontend/gtkmm/src/RestBreakWindow.cc:73
+#: frontend/gtkmm/src/GtkUtil.cc:154 frontend/gtkmm/src/RestBreakWindow.cc:73
 #: frontend/gtkmm/src/RestBreakWindow.cc:179
 msgid "Rest break"
 msgstr "Descanso"
@@ -173,7 +173,7 @@ msgstr "Acerca de..."
 msgid "Preferences"
 msgstr "Preferencias"
 
-#: frontend/gtkmm/src/Menus.cc:710
+#: frontend/gtkmm/src/Menus.cc:711
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -935,9 +935,10 @@ msgstr ""
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:10
 msgid ""
 "Look for the furthest point you can see behind your monitor. Focus your eyes "
-"on the remote point. After a few seconds focus on your monitor border. "
-"Repeat it. If you can't look very far from your monitor, use a pen for "
-"instance and keep it the same distance as your monitor."
+"on the remote point. Then focus on your monitor border. Repeat it. If you "
+"can't look very far from your monitor, face another direction with a longer "
+"view. Then switch your focus between a distant object and a pen held at the "
+"same distance from your eyes as your monitor."
 msgstr ""
 "Mire al punto más lejano que pueda alcanzar tras su monitor. Enfoque la "
 "vista en ese punto lejano. Después de unos segundos, enfoque en el borde del "

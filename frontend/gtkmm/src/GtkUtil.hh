@@ -1,6 +1,6 @@
 // GtkUtil.hh --- Gtk utilities
 //
-// Copyright (C) 2003 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2003, 2004 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -77,6 +77,8 @@ public:
 
   static void set_wmclass(Gtk::Window &window, std::string class_postfix);
   static void center_window(Gtk::Window &window, HeadInfo &head);
+
+  static bool GtkUtil::has_button_images();
 };
 
 #endif // GTKMMGUI_HH

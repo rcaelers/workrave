@@ -1,4 +1,4 @@
-fWorkrave NEWS -- history of user-visible changes.  13 May 2004
+fWorkrave NEWS -- history of user-visible changes.  13 July 2004
 Copyright (C) 2001-2004 Rob Caelers & Raymond Penners
 See the end for copying conditions.
 
@@ -10,11 +10,15 @@ http://www.workrave.org
 ** Added a Brazilian Portuguese translation, thanks to Claudio
 Ferreira Filho!
 
+** Workrave now respects the "gtk-button-images" property. 
+
+
 * Workrave 1.6.1
 
 ** A bug was introduced in version 1.6.0 which could cause the status
 window to disappear. Version 1.6.1 is only a minor bug fix release
 that addresses this problem.
+
 
 * Workrave 1.6.0
 
@@ -48,7 +52,7 @@ used without passing a display parameter. Now, the proper screen
 lock command is invoked on the right display. For example, if KDE is
 detected its kdesktop_lock is executed.
 
-* High-profile bug fixes (Windows): activity monitoring when working
+** High-profile bug fixes (Windows): activity monitoring when working
 in Exceed has been restored, and ZoneLab interaction problems
 (hangups) have been corrected.
 
