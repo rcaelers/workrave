@@ -247,6 +247,7 @@ GUI::on_timer()
       applet_window->update();
     }
 #endif
+  heartbeat_signal();
   return true;
 }
 

@@ -78,6 +78,8 @@ public:
   void toggle_main_window();
   void terminate();
 
+  SigC::Signal0<void> &signal_heartbeat();
+  
 #ifdef HAVE_X  
   AppletWindow *get_applet_window() const;
 #endif  
@@ -129,6 +131,9 @@ private:
 
   /** */
   Gtk::Tooltips *tooltips;
+
+  //! Heartbeat signal
+  SigC::Signal0<void> heartbeat_signal;
 };
 
 
@@ -162,5 +167,13 @@ GUI::get_main_window() const
 {
   return main_window;
 }
+
+
+inline SigC::Signal0<void> &
+GUI::signal_heartbeat()
+{
+  return heartbeat_signal;
+}
+
 
 #endif // GUI_HH

@@ -35,7 +35,8 @@
 
 
 ExercisesDialog::ExercisesDialog()
-  : HigDialog(_("Exercises"), false, false)
+  : HigDialog(_("Exercises"), false, false),
+    exercises_panel(get_action_area())
 {
   TRACE_ENTER("ExercisesDialog::ExercisesDialog");
 

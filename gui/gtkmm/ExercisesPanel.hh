@@ -30,24 +30,25 @@
 class ExercisesPanel : public Gtk::HBox
 {
 public:  
-  ExercisesPanel();
+  ExercisesPanel(Gtk::HButtonBox *dialog_action_area);
   ~ExercisesPanel();
 
 private:
   void on_go_back();
   void on_go_forward();
   void on_pause();
-
+  void heartbeat();
+  
   Gtk::Frame image_frame;
   Gtk::Image image;
   Gtk::ProgressBar progress_bar;
   Gtk::TextView text_view;
-  Gtk::Button *back_button;
-  Gtk::Button *pause_button;
-  Gtk::Button *forward_button;
-  Gtk::HBox button_box;
+  Gtk::Button back_button;
+  Gtk::Button pause_button;
+  Gtk::Button forward_button;
   Gtk::VBox image_box;
   std::list<Exercise> exercises;
+  SigC::Connection heartbeat_signal;
 };
 
 #endif // HAVE_EXERCISES
