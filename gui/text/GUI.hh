@@ -24,7 +24,6 @@
 
 // Generic GUI
 class GUIControl;
-class BreakControl;
 class SoundPlayerInterface;
 
 // Core interfaces

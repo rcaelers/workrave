@@ -462,7 +462,10 @@ TimerBox::init_slot(int slot)
   // Collect all timers for this slot.
   for (int i = 0; !stop && i < GUIControl::BREAK_ID_SIZEOF; i++)
     {
-      if (break_position[i] == slot && !(break_flags[i] & BREAK_HIDE))
+      GUIControl::TimerData *timer = &GUIControl::get_instance()->timers[i];
+      bool on = timer->get_break_enabled();
+      
+      if (on && break_position[i] == slot && !(break_flags[i] & BREAK_HIDE))
         {
           breaks_id[count] = i;
           break_flags[i] &= ~BREAK_SKIP;

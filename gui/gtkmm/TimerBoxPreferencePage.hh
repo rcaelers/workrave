@@ -22,11 +22,13 @@
 class Configurator;
 
 #include "GUIControl.hh"
+#include "ConfiguratorListener.hh"
 
 #include <gtkmm.h>
 
 class TimerBoxPreferencePage
-  : public Gtk::HBox
+  : public Gtk::HBox,
+    public ConfiguratorListener
 {
 public:  
   TimerBoxPreferencePage(string name);
@@ -42,6 +44,8 @@ private:
   void on_cycle_time_changed();
   void on_always_on_top_toggled();
 
+  void config_changed_notify(string key);
+  
   string name;
   
   Gtk::CheckButton *ontop_cb;

@@ -144,13 +144,14 @@ GUI::main()
 #ifdef HAVE_GNOME
   init_gnome();
 #endif
-  
+
+#ifdef WIN32
   // Win32 needs this....
   if (!g_thread_supported())
     {
       g_thread_init (NULL);
     }
-
+#endif
   
   init_debug();
   init_nls();
@@ -313,14 +314,14 @@ GUI::on_save_yourself(int phase, Gnome::UI::SaveStyle save_style, bool shutdown,
   Gnome::UI::Client *client = Gnome::UI::Client::master_client();
 
   string program = argv[0] != NULL ? argv[0] : "workrave";
-  if (program[0] != '/' && program[0] != '~')
-    {
-      gchar *cwd = g_get_current_dir();
+//   if (program[0] != '/' && program[0] != '~')
+//     {
+//       gchar *cwd = g_get_current_dir();
 
-      program = string(cwd) + "/" + program;
+//       program = string(cwd) + "/" + program;
 
-      g_free(cwd);
-    }
+//       g_free(cwd);
+//     }
     
   vector<string> args;
   args.push_back(program);

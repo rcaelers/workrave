@@ -280,7 +280,10 @@ BreakControl::goto_stage(BreakStage stage)
       {
         break_window_stop();
         prelude_window_stop();
-        play_sound(SoundPlayerInterface::SOUND_BREAK_IGNORED);
+        if (!user_initiated)
+          {
+            play_sound(SoundPlayerInterface::SOUND_BREAK_IGNORED);
+          }
         defrost();
       }
       break;
@@ -329,7 +332,10 @@ BreakControl::goto_stage(BreakStage stage)
           default:
             break;
           }
-        play_sound(snd);
+        if (!user_initiated)
+          {
+            play_sound(snd);
+          }
 
         if (insist_break)
           {
@@ -904,7 +910,7 @@ void
 BreakControl::play_sound(SoundPlayerInterface::Sound snd)
 {
   TRACE_ENTER_MSG("BreakControl::play_sound", break_id);
-  if ((!user_initiated) && !(snd < 0) )
+  if (snd >= 0)
     {
       GUIControl::get_instance()->get_sound_player()
         ->play_sound(snd);

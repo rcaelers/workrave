@@ -47,7 +47,19 @@ TimerBoxPreferencePage::TimerBoxPreferencePage(string n)
 
   create_page();
   init_page_values();
-  
+  enable_buttons();
+
+  Configurator *config = GUIControl::get_instance()->get_configurator();
+  config->add_listener(TimerBox::CFG_KEY_TIMERBOX + name, this);
+
+  for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
+    {
+      GUIControl::TimerData *timer = &GUIControl::get_instance()->timers[i];
+      config->add_listener(GUIControl::CFG_KEY_BREAK
+                           + timer->break_name
+                           + GUIControl::CFG_KEY_BREAK_ENABLED, this);
+    }
+      
   TRACE_EXIT();
 }
 
@@ -56,6 +68,10 @@ TimerBoxPreferencePage::TimerBoxPreferencePage(string n)
 TimerBoxPreferencePage::~TimerBoxPreferencePage()
 {
   TRACE_ENTER("TimerBoxPreferencePage::~TimerBoxPreferencePage");
+
+  Configurator *config = GUIControl::get_instance()->get_configurator();
+  config->remove_listener(this);
+  
   TRACE_EXIT();
 }
 
@@ -129,7 +145,7 @@ TimerBoxPreferencePage::create_page()
     }
 #endif
   
-  enabled_cb = manage(new  Gtk::CheckButton());
+  enabled_cb = manage(new Gtk::CheckButton());
   enabled_cb->add(*enabled_lab);
   enabled_cb->signal_toggled().connect(SigC::slot(*this, &TimerBoxPreferencePage::on_enabled_toggled));
 
@@ -307,13 +323,21 @@ TimerBoxPreferencePage::enable_buttons(void)
       place_button->set_sensitive(on && count != 3);
       for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
         {
-          timer_display_button[i]->set_sensitive(on);
+          GUIControl::TimerData *timer = &GUIControl::get_instance()->timers[i];
+
+          bool timer_on = timer->get_break_enabled();
+          timer_display_button[i]->set_sensitive(on && timer_on);
         }
       cycle_entry->set_sensitive(on && count != 3);
 
     }
   else if (name == "main_window")
     {
+      for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
+        {
+          GUIControl::TimerData *timer = &GUIControl::get_instance()->timers[i];
+          timer_display_button[i]->set_sensitive(timer->get_break_enabled());
+        }
       if (count == 3)
         {
           TimerBox::set_enabled(name, false);
@@ -341,3 +365,12 @@ TimerBoxPreferencePage::on_always_on_top_toggled()
   MainWindow::set_always_on_top(ontop_cb->get_active());
 }
 
+
+void
+TimerBoxPreferencePage::config_changed_notify(string key)
+{
+  TRACE_ENTER("TimerBoxPreferencePage::config_changed_notify");
+  (void)key;
+  enable_buttons();
+  TRACE_EXIT();
+}

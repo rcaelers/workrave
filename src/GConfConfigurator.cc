@@ -358,7 +358,8 @@ GConfConfigurator::add_listener(string key_prefix, ConfiguratorListener *listene
   // And add callback to Configurator.
   if (ret)
     {
-      listener_ids[id] = key_prefix;
+      id2key_map[id] = key_prefix;
+      ids_map[make_pair(key_prefix, listener)] = id;
       ret = Configurator::add_listener(key_prefix, listener);
     }
 
@@ -372,27 +373,47 @@ GConfConfigurator::add_listener(string key_prefix, ConfiguratorListener *listene
 bool
 GConfConfigurator::remove_listener(ConfiguratorListener *listener)
 {
-  (void) listener;
-  bool ret = false;
-
-// TODO:
-
-/*  ListenerIDsIter i = listener_ids.begin();
-  while (i != listener_ids.end())
-    {
-      if (i->second == key_prefix)
-        {
-          listener_ids.erase(i);
-          
-          ret = Configurator::remove_listener(key_prefix);
-
-          break;
-        }
-    }
-*/
-  return ret;
+  return remove_listener("", listener);
 }
 
+bool
+GConfConfigurator::remove_listener(string remove_key, ConfiguratorListener *listener)
+{
+  bool ret = false;
+
+  IDMapIter i = ids_map.begin();
+  while (i != ids_map.end())
+    {
+      pair<string, ConfiguratorListener *> key = i->first;
+
+      string key_prefix = key.first;
+      
+      if ((key.first == remove_key || remove_key == "") && key.second == listener)
+        {
+          guint id = i->second;
+
+          gconf_client_notify_remove(gconf_client, id);
+          
+          string full_key = gconf_root + key_prefix;
+          GError *error = NULL;
+          
+          gconf_client_remove_dir(gconf_client, full_key.c_str(), &error);
+          
+          ids_map.erase(i);
+
+          ListenerIDsIter i2 = id2key_map.find(id);
+          if (i2 != id2key_map.end())
+            {
+              id2key_map.erase(i2);
+            }
+          
+          ret = Configurator::remove_listener(key_prefix, listener);
+        }
+      i++;
+    }
+
+  return ret;
+}
 
 
 
@@ -448,7 +469,7 @@ void
 GConfConfigurator::key_changed(guint id, GConfEntry *entry)
 {
   TRACE_ENTER_MSG("GConfConfigurator::key_changed", id);
-  string dir = listener_ids[id];
+  string dir = id2key_map[id];
 
   string full_key = entry->key;
   TRACE_MSG(full_key);

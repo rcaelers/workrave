@@ -15,9 +15,6 @@
 //
 // $Id$
 
-// TODO: only when needed.
-#define NOMINMAX
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -39,13 +36,22 @@
 
 
 TimerPreferencesPanel::TimerPreferencesPanel (GUIControl::BreakId t,Glib::RefPtr<Gtk::SizeGroup> size_group)
-  : Gtk::HBox(false, 6),
+  : Gtk::VBox(false, 6),
     max_prelude_adjustment(0, 1, 100)
 {
   TRACE_ENTER("TimerPreferencesPanel::TimerPreferencesPanel");
   break_id = t;
   timer = &GUIControl::get_instance()->timers[t];
 
+  Gtk::HBox *box = manage(new Gtk::HBox(false, 6));
+
+  // Enabled/Disabled checkbox
+  Gtk::Label *enabled_lab = manage(GtkUtil::create_label(_("Enable timer"), true));
+  enabled_cb = manage(new Gtk::CheckButton());
+  enabled_cb->add(*enabled_lab);
+  enabled_cb->set_active(timer->get_break_enabled());
+  enabled_cb->signal_toggled().connect(SigC::slot(*this, &TimerPreferencesPanel::on_enabled_toggled));
+  
   HigCategoriesPanel *categories = manage(new HigCategoriesPanel());;
   
   Gtk::Widget *prelude_frame = manage(create_prelude_panel());
@@ -54,11 +60,16 @@ TimerPreferencesPanel::TimerPreferencesPanel (GUIControl::BreakId t,Glib::RefPtr
 
   categories->add(*timers_frame);
   categories->add(*opts_frame);
+
+  enable_buttons();
   
   // Overall box
-  pack_start(*categories, false, false, 0);
-  pack_start(*prelude_frame, false, false, 0);
+  box->pack_start(*categories, false, false, 0);
+  box->pack_start(*prelude_frame, false, false, 0);
 
+  pack_start(*enabled_cb, false, false, 0);
+  pack_start(*box, false, false, 0);
+  
   set_border_width(12);
 
   TRACE_EXIT();
@@ -220,11 +231,12 @@ TimerPreferencesPanel::create_timers_panel(Glib::RefPtr<Gtk::SizeGroup> size_gro
 void
 TimerPreferencesPanel::set_prelude_sensitivity()
 {
+  bool on = enabled_cb->get_active();
   bool has_preludes = prelude_cb->get_active();
   bool has_max = has_max_prelude_cb->get_active();
-  has_max_prelude_cb->set_sensitive(has_preludes);
-  max_prelude_spin->set_sensitive(has_preludes && has_max);
-  force_after_prelude_cb->set_sensitive(has_preludes && has_max);
+  has_max_prelude_cb->set_sensitive(has_preludes && on);
+  max_prelude_spin->set_sensitive(has_preludes && has_max && on);
+  force_after_prelude_cb->set_sensitive(has_preludes && has_max && on);
 }
 
 void
@@ -357,4 +369,32 @@ void
 TimerPreferencesPanel::on_ignorable_toggled()
 {
   timer->set_break_ignorable(ignorable_cb->get_active());
+}
+
+void
+TimerPreferencesPanel::on_enabled_toggled()
+{
+  timer->set_break_enabled(enabled_cb->get_active());
+  enable_buttons();
+}
+
+//! Enable widgets
+void
+TimerPreferencesPanel::enable_buttons()
+{
+  bool on = enabled_cb->get_active();
+
+  insists_cb->set_sensitive(on);
+  ignorable_cb->set_sensitive(on);
+  if (monitor_cb != NULL)
+    {
+      monitor_cb->set_sensitive(on);
+    }
+  prelude_cb->set_sensitive(on);
+  has_max_prelude_cb->set_sensitive(on);
+  force_after_prelude_cb->set_sensitive(on);
+  limit_tim->set_sensitive(on);
+  auto_reset_tim->set_sensitive(on);
+  snooze_tim->set_sensitive(on);
+  max_prelude_spin->set_sensitive(on);
 }

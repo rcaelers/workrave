@@ -1,6 +1,6 @@
 // Configurator.hh 
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -136,13 +136,13 @@ public:
 
   //! Adds the specified configuration change listener.
   /*!
-   *  \param keyPrefix configuration path to monitor.
+   *  \param key_prefix configuration path to monitor.
    *  \param listener listener to add.
    *
    *  \retval true listener successfully added.
    *  \retval false listener already added.
    */
-  virtual bool add_listener(string keyPrefix, ConfiguratorListener *listener);
+  virtual bool add_listener(string key_prefix, ConfiguratorListener *listener);
 
   //! Removes the specified configuration change listener.
   /*!
@@ -153,6 +153,23 @@ public:
    */
   virtual bool remove_listener(ConfiguratorListener *listener);
 
+  //! Removes the specified configuration change listener.
+  /*!
+   *  \param key_prefix configuration path to monitor.
+   *  \param listener listener to stop monitoring.
+   *
+   *  \retval true listener successfully removed.
+   *  \retval false listener not found.
+   */
+  virtual bool remove_listener(string key_prefix, ConfiguratorListener *listener);
+  
+  //! Finds the key monitored by the the specified configuration change listener.
+  /*!
+   *  \param listener listener to find the key of.
+   *
+   */
+  virtual bool find_listener(ConfiguratorListener *listener, string &key) const;
+  
   //! Returns all configuration directories below the specified path.
   virtual list<string> get_all_dirs(string key) const = 0;
 
@@ -168,6 +185,7 @@ protected:
 protected:
   typedef std::list<std::pair<string, ConfiguratorListener *> > Listeners;
   typedef std::list<std::pair<string, ConfiguratorListener *> >::iterator ListenerIter;
+  typedef std::list<std::pair<string, ConfiguratorListener *> >::const_iterator ListenerCIter;
   
   //! Configuration change listeners.
   Listeners listeners;

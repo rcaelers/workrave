@@ -100,6 +100,7 @@ public:
     string icon;
     int break_id;
     string break_name;
+    bool enabled;
     
     TimerData();
     
@@ -107,11 +108,13 @@ public:
     bool get_break_force_after_preludes() const;
     bool get_break_ignorable() const;
     bool get_break_insisting() const;
-
+    bool get_break_enabled() const;
+    
     void set_break_max_preludes(int n);
     void set_break_force_after_preludes(bool b);
     void set_break_ignorable(bool b);
     void set_break_insisting(bool b);
+    void set_break_enabled(bool b);
   };
   TimerData timers[BREAK_ID_SIZEOF];
   
@@ -159,6 +162,7 @@ public:
   static const string CFG_KEY_BREAK_FORCE_AFTER_PRELUDES;
   static const string CFG_KEY_BREAK_IGNORABLE;
   static const string CFG_KEY_BREAK_INSISTING;
+  static const string CFG_KEY_BREAK_ENABLED;
   
 private:
   //! The one and only instance

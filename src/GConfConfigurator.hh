@@ -1,6 +1,6 @@
 // GConfConfigurator.hh
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -53,8 +53,9 @@ public:
   virtual bool set_value(string key, double v);
   virtual list<string> get_all_dirs(string key) const;
   virtual bool exists_dir(string key) const;
-  virtual bool add_listener(string keyPrefix, ConfiguratorListener *listener);
+  virtual bool add_listener(string key_prefix, ConfiguratorListener *listener);
   virtual bool remove_listener(ConfiguratorListener *listener);
+  virtual bool remove_listener(string key_prefix, ConfiguratorListener *listener);
 
   
   
@@ -63,10 +64,16 @@ private:
   
 private:
   typedef map<guint, string> ListenerIDs;
-  typedef map<guint, string>::iterator ListenerIDsIter;
+  typedef ListenerIDs::iterator ListenerIDsIter;
+
+  typedef map<pair<string, ConfiguratorListener *>, guint> IDMap;
+  typedef IDMap::iterator IDMapIter;
   
   //! GConf IDs to paths map.
-  ListenerIDs listener_ids;
+  ListenerIDs id2key_map;
+
+  //! key/itf to id map.
+  IDMap ids_map;
   
   //! GConf thingy
   GConfClient *gconf_client;

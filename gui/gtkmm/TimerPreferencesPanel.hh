@@ -33,7 +33,7 @@ class Configurator;
 class TimeEntry;
 
 class TimerPreferencesPanel
-  : public Gtk::HBox
+  : public Gtk::VBox
 {
 public:  
   TimerPreferencesPanel(GUIControl::BreakId timer, Glib::RefPtr<Gtk::SizeGroup> size_group);
@@ -54,6 +54,9 @@ private:
   Gtk::Widget *create_options_panel();
   Gtk::Widget *create_timers_panel(Glib::RefPtr<Gtk::SizeGroup> size_group);
   void set_prelude_sensitivity();
+
+  void on_enabled_toggled();
+  void enable_buttons();
   
   GUIControl::BreakId break_id;
   GUIControl::TimerData *timer;
@@ -67,6 +70,7 @@ private:
   TimeEntry *limit_tim, *auto_reset_tim, *snooze_tim;
   Gtk::SpinButton *max_prelude_spin;
   Gtk::Adjustment max_prelude_adjustment;
+  Gtk::CheckButton *enabled_cb;
 };
 
 #endif // TIMERPREFERENCESPANEL_HH

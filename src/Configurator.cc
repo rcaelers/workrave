@@ -1,6 +1,6 @@
 // Configurator.cc --- Configuration Access
 //
-// Copyright (C) 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -146,6 +146,58 @@ Configurator::remove_listener(ConfiguratorListener *listener)
         {
           i++;
         }
+    }
+
+  return ret;
+}
+
+
+//! Remove the specified activity listener.
+/*!
+ *
+ *  \param listener listener to remove.
+ *
+ *  \retval true listener successfully removed.
+ *  \retval false listener not found.
+ */
+bool
+Configurator::remove_listener(string key, ConfiguratorListener *listener)
+{
+  bool ret = false;
+
+  ListenerIter i = listeners.begin();
+  while (i != listeners.end())
+    {
+      if (i->first == key && i->second == listener)
+        {
+          // Found. Remove
+          i = listeners.erase(i);
+          ret = true;
+        }
+      else
+        {
+          i++;
+        }
+    }
+
+  return ret;
+}
+
+bool
+Configurator::find_listener(ConfiguratorListener *listener, string &key) const
+{
+  bool ret = false;
+
+  ListenerCIter i = listeners.begin();
+  while (i != listeners.end())
+    {
+      if (listener == i->second)
+        {
+          key = i->first;
+          ret = true;
+          break;
+        }
+      i++;
     }
 
   return ret;

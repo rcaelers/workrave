@@ -55,6 +55,7 @@ const string GUIControl::CFG_KEY_BREAK_MAX_PRELUDES = "/max_preludes";
 const string GUIControl::CFG_KEY_BREAK_FORCE_AFTER_PRELUDES = "/force_after_preludes";
 const string GUIControl::CFG_KEY_BREAK_IGNORABLE = "/ignorable_break";
 const string GUIControl::CFG_KEY_BREAK_INSISTING = "/insist_break";
+const string GUIControl::CFG_KEY_BREAK_ENABLED = "/enabled";
 
 GUIControl *GUIControl::instance = NULL;
 
@@ -170,6 +171,22 @@ GUIControl::TimerData::get_break_insisting() const
   return rc;
 }
 
+bool
+GUIControl::TimerData::get_break_enabled() const
+{
+  bool b;
+  bool rc;
+  b = GUIControl::get_instance()->get_configurator()
+    ->get_value(CFG_KEY_BREAK
+                + default_config[break_id].id
+                + CFG_KEY_BREAK_ENABLED, &rc);
+  if (! b)
+    {
+      rc = true;
+    }
+  return rc;
+}
+
 
 void
 GUIControl::TimerData::set_break_max_preludes(int n)
@@ -208,6 +225,16 @@ GUIControl::TimerData::set_break_insisting(bool b)
     ->set_value(CFG_KEY_BREAK
                 + default_config[break_id].id
                 + CFG_KEY_BREAK_INSISTING, b);
+}
+
+
+void
+GUIControl::TimerData::set_break_enabled(bool b)
+{
+  GUIControl::get_instance()->get_configurator()
+    ->set_value(CFG_KEY_BREAK
+                + default_config[break_id].id
+                + CFG_KEY_BREAK_ENABLED, b);
 }
 
 
@@ -355,18 +382,21 @@ GUIControl::heartbeat()
   for (int i = BREAK_ID_SIZEOF - 1; i >= 0;  i--)
     {
       TimerInfo info = infos[i];
-      timer_action((BreakId)i, info);
-
-      if (i == BREAK_ID_DAILY_LIMIT)
+      if (timers[i].enabled)
         {
-          if (info.event == TIMER_EVENT_NATURAL_RESET ||
-              info.event == TIMER_EVENT_RESET)
+          timer_action((BreakId)i, info);
+          
+          if (i == BREAK_ID_DAILY_LIMIT)
             {
-              Statistics *stats = Statistics::get_instance();
-              stats->set_counter(Statistics::STATS_VALUE_TOTAL_ACTIVE_TIME, info.elapsed_time);
-              stats->start_new_day();
-
-              daily_reset();
+              if (info.event == TIMER_EVENT_NATURAL_RESET ||
+                  info.event == TIMER_EVENT_RESET)
+                {
+                  Statistics *stats = Statistics::get_instance();
+                  stats->set_counter(Statistics::STATS_VALUE_TOTAL_ACTIVE_TIME, info.elapsed_time);
+                  stats->start_new_day();
+                  
+                  daily_reset();
+                }
             }
         }
 
@@ -466,7 +496,7 @@ GUIControl::restart_break()
     {
       TimerInterface *t = timers[i].timer;
       BreakControl *bc = timers[i].break_control;
-      if (bc != NULL && t != NULL)
+      if (timers[i].enabled && bc != NULL && t != NULL)
         {
           if (t->get_next_limit_time() > 0
               && t->get_elapsed_time() >= t->get_limit())
@@ -623,7 +653,8 @@ GUIControl::handle_start_break(BreakInterface *breaker, BreakId break_id, TimerI
   // Advance restbreak if it follows within 30s after the end of a micropause break
   BreakControl *restbreak_control;
   restbreak_control = timers[BREAK_ID_REST_BREAK].break_control;
-  if (break_id == BREAK_ID_MICRO_PAUSE)
+
+  if (break_id == BREAK_ID_MICRO_PAUSE && timers[BREAK_ID_REST_BREAK].enabled)
     {
       TimerInterface *rbTimer = timers[BREAK_ID_REST_BREAK].timer;
       assert(rbTimer != NULL);
