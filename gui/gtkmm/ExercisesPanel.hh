@@ -24,7 +24,7 @@
 #ifdef HAVE_EXERCISES
 
 #include "preinclude.h"
-
+#include "Exercise.hh"
 #include <gtkmm.h>
 
 class ExercisesPanel : public Gtk::HBox
@@ -34,6 +34,20 @@ public:
   ~ExercisesPanel();
 
 private:
+  void on_go_back();
+  void on_go_forward();
+  void on_pause();
+
+  Gtk::Frame image_frame;
+  Gtk::Image image;
+  Gtk::ProgressBar progress_bar;
+  Gtk::TextView text_view;
+  Gtk::Button *back_button;
+  Gtk::Button *pause_button;
+  Gtk::Button *forward_button;
+  Gtk::HBox button_box;
+  Gtk::VBox image_box;
+  std::list<Exercise> exercises;
 };
 
 #endif // HAVE_EXERCISES

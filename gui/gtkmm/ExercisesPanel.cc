@@ -17,4 +17,59 @@
 //
 
 #include "ExercisesPanel.hh"
+#include "GtkUtil.hh"
+
+ExercisesPanel::ExercisesPanel()
+{
+  Exercise::parse_exercises(exercises);
+  text_view.set_editable(false);
+  progress_bar.set_orientation(Gtk::PROGRESS_TOP_TO_BOTTOM);
+  
+  back_button = manage
+    (GtkUtil::create_stock_button_without_text(Gtk::Stock::GO_BACK));
+  back_button->signal_clicked()
+    .connect(SigC::slot(*this, &StatisticsDialog::on_go_back));
+
+  forward_button = manage
+    (GtkUtil::create_stock_button_without_text(Gtk::Stock::GO_FORWARD));
+  forward_button->signal_clicked()
+    .connect(SigC::slot(*this, &StatisticsDialog::on_go_forward));
+
+  pause_button = manage
+    (GtkUtil::create_stock_button_without_text(Gtk::Stock::STOP));
+  pause_button->signal_clicked()
+    .connect(SigC::slot(*this, &StatisticsDialog::on_pause));
+
+  image_frame.add(image);
+
+  button_box.pack_start(*back_button, false, false, 0);
+  button_box.pack_start(*pause_button, false, false, 0);
+  button_box.pack_start(*forward_button, false, false, 0);
+
+  image_box.pack_start(image_frame, false, false, 0);
+  image_box.pack_start(button_box, false, false, 0);
+  
+  pack_start(image_box, false, false, 0);
+  pack_start(progress_bar, false, false, 0);
+  pack_start(text_view, false, false, 0);
+}
+
+ExercisesPanel::~ExercisesPanel()
+{
+}
+
+void
+ExercisePanel::on_go_back()
+{
+}
+
+void
+ExercisePanel::on_go_forward()
+{
+}
+
+void
+ExercisePanel::on_pause()
+{
+}
 
