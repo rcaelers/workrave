@@ -6,14 +6,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-31 20:48+0200\n"
+"POT-Creation-Date: 2003-08-12 22:25+0200\n"
 "PO-Revision-Date: 2003-07-07 18:50+0100\n"
 "Last-Translator: Mikołaj Machowski <mikmach@wp.pl>\n"
 "Language-Team: Mikołaj Machowski <mikmach@wp.pl>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
 
 #: src/app/gtkmm/eggtrayicon.c:118
 msgid "Orientation"
@@ -77,24 +77,28 @@ msgstr ""
 msgid "Exercises"
 msgstr "Ćwiczenia"
 
-#: src/app/gtkmm/ExercisesPanel.cc:226
+#: src/app/gtkmm/ExercisesPanel.cc:75
+msgid "Exercises player"
+msgstr "Ćwiczenia"
+
+#: src/app/gtkmm/ExercisesPanel.cc:245
 msgid "Resume"
 msgstr "Przywróć"
 
-#: src/app/gtkmm/ExercisesPanel.cc:226
+#: src/app/gtkmm/ExercisesPanel.cc:245
 msgid "Pause"
 msgstr "Pauza"
 
-#: src/app/gtkmm/GUI.cc:676
+#: src/app/gtkmm/GUI.cc:678
 msgid "I could not initialize Bonobo"
 msgstr "Nie mogę zainicjować Bonobo"
 
-#: src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/MicroPauseWindow.cc:168
-#: src/app/gtkmm/MicroPauseWindow.cc:204
+#: src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/MicroPauseWindow.cc:172
+#: src/app/gtkmm/MicroPauseWindow.cc:208
 msgid "Micro-pause"
 msgstr "Mikropauza"
 
-#: src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/RestBreakWindow.cc:284
+#: src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/RestBreakWindow.cc:286
 msgid "Rest break"
 msgstr "Odpoczynek"
 
@@ -154,7 +158,7 @@ msgstr "Statystyki"
 msgid "About..."
 msgstr "O programie..."
 
-#: src/app/gtkmm/Menus.cc:605
+#: src/app/gtkmm/Menus.cc:604
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -162,17 +166,17 @@ msgstr ""
 "Program ten pomaga w zapobieganiu RSI (Repetitive Strain Injury)\n"
 "oraz wspomaga rekonwalescencję."
 
-#: src/app/gtkmm/MicroPauseWindow.cc:190
+#: src/app/gtkmm/MicroPauseWindow.cc:194
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Następny odpoczynek za %s"
 
-#: src/app/gtkmm/MicroPauseWindow.cc:196
+#: src/app/gtkmm/MicroPauseWindow.cc:200
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Zalegasz z odpoczynkiem %s"
 
-#: src/app/gtkmm/MicroPauseWindow.cc:200
+#: src/app/gtkmm/MicroPauseWindow.cc:204
 msgid "Please relax for a few seconds"
 msgstr "Zrelaksuj się parę sekund"
 
@@ -342,12 +346,12 @@ msgstr "Znika za"
 msgid "Silent in"
 msgstr "Cisza za"
 
-#: src/app/gtkmm/RestBreakWindow.cc:266
+#: src/app/gtkmm/RestBreakWindow.cc:268
 #, c-format
 msgid "Rest break for %s"
 msgstr "Odpoczynek potrwa %s"
 
-#: src/app/gtkmm/RestBreakWindow.cc:285
+#: src/app/gtkmm/RestBreakWindow.cc:287
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -663,17 +667,17 @@ msgstr "Workrave"
 msgid "Workrave Applet"
 msgstr "Aplet Workrave"
 
-#: src/app/Text.cc:75
+#: src/app/shared/Text.cc:75
 #, c-format
 msgid "%s%d:%02d:%02d hours"
 msgstr "%s%d:%02d:%02d godzin"
 
-#: src/app/Text.cc:79
+#: src/app/shared/Text.cc:79
 #, c-format
 msgid "%s%d:%02d minutes"
 msgstr "%s%d:%02d minut"
 
-#: src/app/Text.cc:83
+#: src/app/shared/Text.cc:83
 #, c-format
 msgid "%s%d seconds"
 msgstr "%s%d sekund"
@@ -826,10 +830,10 @@ msgid ""
 "for each time you breath in and out. To extra relax your eyes, try closing "
 "them in micro pauses too."
 msgstr ""
-"Zamknij oczy, zrób wydech tak długi jak potrafisz i spróbuj się "
-"zrelaksować. Robiąc wdech rób to tak długo jak to możliwe. Spróbuj "
-"liczyć do 8 z każdym wdechem i wydechem. Żeby dodatkowo odpoczęły oczy "
-"próbuj je zamykać przy każdej mikropauzie."
+"Zamknij oczy, zrób wydech tak długi jak potrafisz i spróbuj się zrelaksować. "
+"Robiąc wdech rób to tak długo jak to możliwe. Spróbuj liczyć do 8 z każdym "
+"wdechem i wydechem. Żeby dodatkowo odpoczęły oczy próbuj je zamykać przy "
+"każdej mikropauzie."
 
 #: src/app/shared/exercises/exercises.xml.in.h:3
 msgid ""
@@ -837,9 +841,9 @@ msgid ""
 "eyelids. Now open your eyes and look into the darkness of your palms. This "
 "exercise gives better relief to your eyes compared to simply closing them."
 msgstr ""
-"Zakryj oczy dłońmi tak żebyś mógł otworzyć oczy, ale jednocześnie "
-"nie docierało do nich światło.  Teraz otwórz oczy i spójrz w ciemność. "
-"To ćwiczenie daje większą ulgę niż zwykłe zamknięcie oczu."
+"Zakryj oczy dłońmi tak żebyś mógł otworzyć oczy, ale jednocześnie nie "
+"docierało do nich światło.  Teraz otwórz oczy i spójrz w ciemność. To "
+"ćwiczenie daje większą ulgę niż zwykłe zamknięcie oczu."
 
 #: src/app/shared/exercises/exercises.xml.in.h:4
 msgid "Finger stretch"
@@ -852,10 +856,10 @@ msgid ""
 "without changing the angle of your elbows. Then push your body back from the "
 "wall again without changing the angle of the elbows."
 msgstr ""
-"Stań naprzeciw ściany (lub czegoś podobnego) i oprzyj się "
-"umieszczając dłonie na wysokości barków, zegnij lekko łokcie. Napieraj "
-"ciałem na ścianę nie zmieniając kąta ugięcia łokci. Następnie odepchnij "
-"się od ściany nie zmieniając kąta ugięcia łokci."
+"Stań naprzeciw ściany (lub czegoś podobnego) i oprzyj się umieszczając "
+"dłonie na wysokości barków, zegnij lekko łokcie. Napieraj ciałem na ścianę "
+"nie zmieniając kąta ugięcia łokci. Następnie odepchnij się od ściany nie "
+"zmieniając kąta ugięcia łokci."
 
 #: src/app/shared/exercises/exercises.xml.in.h:6
 msgid ""
@@ -863,9 +867,9 @@ msgid ""
 "inward, while straightening your arms. Hold this position for 5 to 15 "
 "seconds, and repeat this exercise twice."
 msgstr ""
-"Spleć palce za plecami. Zegnij delikatnie łokcie do wnętrza "
-"jednocześnie wyprostowując ramiona. Wytrzymaj w tej pozycji 5 do 15 "
-"sekund i powtórz ćwiczenie dwa razy."
+"Spleć palce za plecami. Zegnij delikatnie łokcie do wnętrza jednocześnie "
+"wyprostowując ramiona. Wytrzymaj w tej pozycji 5 do 15 sekund i powtórz "
+"ćwiczenie dwa razy."
 
 #: src/app/shared/exercises/exercises.xml.in.h:7
 msgid ""
@@ -874,9 +878,9 @@ msgid ""
 "shoulder. Hold this position briefly, and repeat the exercise for your other "
 "arm."
 msgstr ""
-"Jedno ramię wyprostuj przed klatką piersiową. Pociągnij to ramię "
-"drugim dopóki nie poczujesz napięcia w barku. Wytrzymaj tak przez moment "
-"i powtórz ćwiczenie z drugim ramieniem."
+"Jedno ramię wyprostuj przed klatką piersiową. Pociągnij to ramię drugim "
+"dopóki nie poczujesz napięcia w barku. Wytrzymaj tak przez moment i powtórz "
+"ćwiczenie z drugim ramieniem."
 
 #: src/app/shared/exercises/exercises.xml.in.h:8
 msgid ""
@@ -886,9 +890,8 @@ msgid ""
 msgstr ""
 " Trzymaj głowę wyprostowaną, tak że dolna szczęka jest równolegle do "
 "podłogi. Rusz głową do tyłu cały czas trzymając szczękę poziomo (robiąc "
-"podwójny podbródek). Wytrzymaj 2 sekundy i rozluźnij się. Porusz głową "
-"do przodu w ten sam sposób, wytrzymaj 2 sekundy i rozluźnij "
-"się."
+"podwójny podbródek). Wytrzymaj 2 sekundy i rozluźnij się. Porusz głową do "
+"przodu w ten sam sposób, wytrzymaj 2 sekundy i rozluźnij się."
 
 #: src/app/shared/exercises/exercises.xml.in.h:9
 msgid ""
@@ -907,6 +910,10 @@ msgid ""
 "Repeat it. If you can't look very far from your monitor, use a pen for "
 "instance and keep it the same distance as your monitor."
 msgstr ""
+"Spójrz na najdalszy punkt jaki możesz zobaczyć za monitorem. Po paru "
+"sekundach zogniskuj wzrok na krawędzi monitor. Powtórz to. Jeśli nie możesz "
+"patrzeć daleko od monitora, użyj na przykład ołówka i trzymaj go w takiej "
+"samej odległości co monitor."
 
 #: src/app/shared/exercises/exercises.xml.in.h:11
 msgid "Look into the darkness"
@@ -974,9 +981,9 @@ msgid ""
 "this 4 times clockwise, 4 times counter clockwise and relax for a few "
 "seconds. Repeat with the left arm."
 msgstr ""
-"Zrób prawym ramieniem powolny ruch tak jakby śmigłem samolotu. Powtórz to "
-"4 razy zgodnie z ruchem wskazówek zegara, 4 razy w przeciwnym kierunku "
-"i rozluźnij się na parę sekund. Powtórz ćwiczenie z lewym ramieniem."
+"Zrób prawym ramieniem powolny ruch tak jakby śmigłem samolotu. Powtórz to 4 "
+"razy zgodnie z ruchem wskazówek zegara, 4 razy w przeciwnym kierunku i "
+"rozluźnij się na parę sekund. Powtórz ćwiczenie z lewym ramieniem."
 
 #: src/app/shared/exercises/exercises.xml.in.h:23
 msgid ""
@@ -989,12 +996,16 @@ msgstr ""
 #: src/app/shared/exercises/exercises.xml.in.h:24
 msgid ""
 "Stand up and try to reach the ceiling with your hands without lifting your "
-"heals. Hold that for a few seconds. Then let your hands slowly go to the "
-"flour, without bending your arms. Keep them moving to the flour by bending "
+"heels. Hold that for a few seconds. Then let your hands slowly go to the "
+"floor, without bending your arms. Keep them moving to the floor by bending "
 "you back slowly until you can (almost) place them in front of your shoes. "
 "Slowly roll your back up straight from your hips up, until it is straight up "
 "again."
 msgstr ""
+"Wstań i spróbuj sięgnąć sufitu nie odrywając pięt od podłogi. Wytrzymaj parę "
+"sekund. Opuść dłonie powoli nie zginając rąk.  Kontynuuj ruch do podłogi "
+"zginając plecy dopóki prawie dotkniesz podłogi przed stopami. Powoli "
+"wyprostuj plecy od bioder w górę dopóki się nie wyprostujesz całkowicie."
 
 #: src/app/shared/exercises/exercises.xml.in.h:25
 msgid ""
@@ -1003,10 +1014,10 @@ msgid ""
 "side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
 "the left side to stretch your other side. Do this twice for each side."
 msgstr ""
-"Zacznij z głową wygodnie wyprostowaną. Natępnie powoli pochyl głowę na "
-"prawy bark by delikatnie napiąć mieśnie lewej strony szyi. Wytrzymaj 5 "
-"sekund. Potem pochyl głowę na lewą stronę by napiąć mięśnie z drugiej "
-"strony. Powtórz to dwa razy dla każdej strony."
+"Zacznij z głową wygodnie wyprostowaną. Natępnie powoli pochyl głowę na prawy "
+"bark by delikatnie napiąć mieśnie lewej strony szyi. Wytrzymaj 5 sekund. "
+"Potem pochyl głowę na lewą stronę by napiąć mięśnie z drugiej strony. "
+"Powtórz to dwa razy dla każdej strony."
 
 #: src/app/shared/exercises/exercises.xml.in.h:26
 msgid "Stretch your back"
@@ -1025,8 +1036,8 @@ msgid ""
 "Turn your head left and keep it there for 2 seconds. Then turn your head "
 "right and keep it there for 2 seconds."
 msgstr ""
-"Obróć głowę w lewo i trzymaj tak 2 sekundy.  Następnie obróć głowę w prawo "
-"i też wytrzymaj 2 sekundy."
+"Obróć głowę w lewo i trzymaj tak 2 sekundy.  Następnie obróć głowę w prawo i "
+"też wytrzymaj 2 sekundy."
 
 #: src/app/shared/exercises/exercises.xml.in.h:30
 msgid "Wrist and lower arm desk stretch"

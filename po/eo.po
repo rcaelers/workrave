@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-08-06 22:36+0200\n"
+"POT-Creation-Date: 2003-08-12 22:25+0200\n"
 "PO-Revision-Date: 2002-11-05 17:58-0800\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -80,15 +80,15 @@ msgstr ""
 msgid "Exercises player"
 msgstr ""
 
-#: src/app/gtkmm/ExercisesPanel.cc:239
+#: src/app/gtkmm/ExercisesPanel.cc:245
 msgid "Resume"
 msgstr ""
 
-#: src/app/gtkmm/ExercisesPanel.cc:239
+#: src/app/gtkmm/ExercisesPanel.cc:245
 msgid "Pause"
 msgstr ""
 
-#: src/app/gtkmm/GUI.cc:670
+#: src/app/gtkmm/GUI.cc:678
 msgid "I could not initialize Bonobo"
 msgstr ""
 

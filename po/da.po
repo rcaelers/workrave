@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
-"POT-Creation-Date: 2003-08-06 22:36+0200\n"
+"POT-Creation-Date: 2003-08-12 22:25+0200\n"
 "PO-Revision-Date: 2003-08-03 21:46+0200\n"
 "Last-Translator: Christian Vejlbo <translate@vejlbo.dk>\n"
 "Language-Team:  <da@li.org>\n"
@@ -81,15 +81,15 @@ msgstr "Øvelser"
 msgid "Exercises player"
 msgstr "Øvelser"
 
-#: src/app/gtkmm/ExercisesPanel.cc:239
+#: src/app/gtkmm/ExercisesPanel.cc:245
 msgid "Resume"
 msgstr "Genoptag"
 
-#: src/app/gtkmm/ExercisesPanel.cc:239
+#: src/app/gtkmm/ExercisesPanel.cc:245
 msgid "Pause"
 msgstr "Pause"
 
-#: src/app/gtkmm/GUI.cc:670
+#: src/app/gtkmm/GUI.cc:678
 msgid "I could not initialize Bonobo"
 msgstr "Teknisk besked: Kunne ikke initialisere Bonobo"
 

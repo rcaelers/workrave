@@ -11,7 +11,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
-"POT-Creation-Date: 2003-08-06 22:36+0200\n"
+"POT-Creation-Date: 2003-08-12 22:25+0200\n"
 "PO-Revision-Date: 2003-08-02 17:57+0200\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Johannes Rohr <j.rohr@comlink.apc.org>\n"
@@ -113,25 +113,24 @@ msgstr "Ãbungen"
 # src/app/gtkmm/ExercisesDialog.cc:38 src/app/gtkmm/Menus.cc:234
 
 #: src/app/gtkmm/ExercisesPanel.cc:75
-#, fuzzy
 msgid "Exercises player"
 msgstr "Ãbungen"
 
 # src/app/gtkmm/ExercisesPanel.cc:226
 
-#: src/app/gtkmm/ExercisesPanel.cc:239
+#: src/app/gtkmm/ExercisesPanel.cc:245
 msgid "Resume"
 msgstr "Wiederaufnehmen"
 
 # src/app/gtkmm/ExercisesPanel.cc:226
 
-#: src/app/gtkmm/ExercisesPanel.cc:239
+#: src/app/gtkmm/ExercisesPanel.cc:245
 msgid "Pause"
 msgstr "Pause"
 
 # src/app/gtkmm/GUI.cc:676
 
-#: src/app/gtkmm/GUI.cc:670
+#: src/app/gtkmm/GUI.cc:678
 msgid "I could not initialize Bonobo"
 msgstr "Konnte Bonobo nicht initialisieren"
 
@@ -1453,7 +1452,6 @@ msgstr ""
 # src/app/shared/exercises/exercises.xml.in.h:24
 
 #: src/app/shared/exercises/exercises.xml.in.h:24
-#, fuzzy
 msgid ""
 "Stand up and try to reach the ceiling with your hands without lifting your "
 "heels. Hold that for a few seconds. Then let your hands slowly go to the "

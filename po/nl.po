@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.4.0\n"
-"POT-Creation-Date: 2003-08-06 22:36+0200\n"
+"POT-Creation-Date: 2003-08-12 22:25+0200\n"
 "PO-Revision-Date: 2003-07-29 20:57+0200\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -79,15 +79,15 @@ msgstr "Oefeningen"
 msgid "Exercises player"
 msgstr "Oefeningen"
 
-#: src/app/gtkmm/ExercisesPanel.cc:239
+#: src/app/gtkmm/ExercisesPanel.cc:245
 msgid "Resume"
 msgstr "Ga verder"
 
-#: src/app/gtkmm/ExercisesPanel.cc:239
+#: src/app/gtkmm/ExercisesPanel.cc:245
 msgid "Pause"
 msgstr "Pauzeer"
 
-#: src/app/gtkmm/GUI.cc:670
+#: src/app/gtkmm/GUI.cc:678
 msgid "I could not initialize Bonobo"
 msgstr "Bonobo kon niet geÃ¯nitialiseerd worden"
 
