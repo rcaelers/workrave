@@ -2,14 +2,12 @@
 #
 # Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 #
-# Time-stamp: <2003-06-24 23:20:23 robc>
+# Time-stamp: <2003-08-01 22:19:19 pennersr>
 #
 # $Id$
 #
 
 MAINTAINERCLEANFILES = Makefile.in
-
-SUBDIRS = harpoon
 
 if HAVE_WIN32
 

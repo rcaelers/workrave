@@ -1,67 +1,65 @@
-# SOME DESCRIPTIVE TITLE.
+# Spanish translation for Workrave 1.2.2.
 # Copyright (C) YEAR Rob Caelers & Raymond Penners
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Pablo Rodríguez, 2003.
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: Workrave 1.0.0\n"
+"Project-Id-Version: Workrave 1.2.2\n"
 "POT-Creation-Date: 2003-08-01 21:54+0200\n"
-"PO-Revision-Date: 2003-07-07 18:50+0100\n"
-"Last-Translator: Mikołaj Machowski <mikmach@wp.pl>\n"
-"Language-Team: Mikołaj Machowski <mikmach@wp.pl>\n"
+"PO-Revision-Date: 2003-07-31 20:52+0100\n"
+"Last-Translator:  <>\n"
+"Language-Team:  <>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
 
 #: src/app/gtkmm/eggtrayicon.c:118
-#, fuzzy
 msgid "Orientation"
-msgstr "Orientacja"
+msgstr "Orientación"
 
 #: src/app/gtkmm/eggtrayicon.c:119
 msgid "The orientation of the tray."
-msgstr "Orientacja tacki"
+msgstr "Orientación de la ventana de aviso"
 
 #: src/app/gtkmm/gnome-about.c:308
 msgid "Credits"
-msgstr "Autorzy"
+msgstr "Colaboradores"
 
 #: src/app/gtkmm/gnome-about.c:341
 msgid "_Written by"
-msgstr "_Autorzy:"
+msgstr "_Autores:"
 
 #: src/app/gtkmm/gnome-about.c:356
 msgid "_Documented by"
-msgstr "_Dokukumentacja:"
+msgstr "_Documentado por"
 
 #: src/app/gtkmm/gnome-about.c:371
 msgid "_Translated by"
-msgstr "Przetłumaczone przez"
+msgstr "Traducido por"
 
 #. Add the credits button
 #: src/app/gtkmm/gnome-about.c:431
 msgid "_Credits"
-msgstr "Autorzy"
+msgstr "Colaboradores"
 
 #: src/app/gtkmm/gnome-about.c:614
 #, c-format
 msgid "About %s"
-msgstr "O programie %s"
+msgstr "Acerca de %s"
 
 #: src/app/gtkmm/BreakWindow.cc:327
 msgid "Skip"
-msgstr "Pomiń"
+msgstr "Saltar"
 
 #: src/app/gtkmm/BreakWindow.cc:338
 msgid "Postpone"
-msgstr "Opóźnij"
+msgstr "Aplazar"
 
 #: src/app/gtkmm/DailyLimitWindow.cc:47 src/app/gtkmm/GtkUtil.cc:88
 #: src/app/shared/sounds/workrave.soundlist.in.h:3
 msgid "Daily limit"
-msgstr "Dzienny limit"
+msgstr "Límite diario"
 
 #: src/app/gtkmm/DailyLimitWindow.cc:48
 msgid ""
@@ -69,237 +67,236 @@ msgid ""
 "behind the computer. If your working day is not over yet,\n"
 "find something else to do, such as reviewing a document."
 msgstr ""
-"Osiągnąłeś swój dzienny limit. Lepiej nie siedź już\n"
-"przed komputerem. Jeśli Twój dzień pracy jeszcze się nie\n"
-"skończył znajdź coś innego do roboty, np. przeglądanie,\n"
-"dokumentów."
+"Ha alcanzado su llímite diario. Por favor, no siga trabajando\n"
+"con el ordenador. En caso de que su horario de trabajo todavía\n"
+"no haya terminado, cambie de actividad, como por ejemplo,\n"
+"revisar documentos."
 
 #: src/app/gtkmm/ExercisesDialog.cc:38 src/app/gtkmm/Menus.cc:234
 msgid "Exercises"
-msgstr "Ćwiczenia"
+msgstr "Ejercicios"
 
 #: src/app/gtkmm/ExercisesPanel.cc:226
 msgid "Resume"
-msgstr "Przywróć"
+msgstr "Retomar"
 
 #: src/app/gtkmm/ExercisesPanel.cc:226
 msgid "Pause"
-msgstr "Pauza"
+msgstr "Pausa"
 
 #: src/app/gtkmm/GUI.cc:676
 msgid "I could not initialize Bonobo"
-msgstr "Nie mogę zainicjalizować Bonobo"
+msgstr "No se puede inicializar Bonobo"
 
 #: src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/MicroPauseWindow.cc:168
 #: src/app/gtkmm/MicroPauseWindow.cc:204
 msgid "Micro-pause"
-msgstr "Mikropauza"
+msgstr "Micropausa"
 
 #: src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/RestBreakWindow.cc:284
 msgid "Rest break"
-msgstr "Odpoczynek"
+msgstr "Descanso"
 
 #. Mode menu item
 #: src/app/gtkmm/Menus.cc:143
 #: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
 msgid "_Mode"
-msgstr "_Tryb"
+msgstr "_Modo"
 
 #: src/app/gtkmm/Menus.cc:150
 #: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
 msgid "_Normal"
-msgstr "_Normalny"
+msgstr "_Normal"
 
 #: src/app/gtkmm/Menus.cc:157
 #: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
 msgid "_Suspended"
-msgstr "_Zawieszony"
+msgstr "_Suspendido"
 
 #: src/app/gtkmm/Menus.cc:164
 msgid "Q_uiet"
-msgstr "_Cichy"
+msgstr "_Parado"
 
 #: src/app/gtkmm/Menus.cc:178
 #: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
 msgid "_Network"
-msgstr "_Sieć"
+msgstr "_Red"
 
 #: src/app/gtkmm/Menus.cc:182
 msgid "_Connect"
-msgstr "_Połącz"
+msgstr "_Conectar"
 
 #: src/app/gtkmm/Menus.cc:187
 #: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
 msgid "_Disconnect"
-msgstr "_Rozłącz"
+msgstr "_Desconectar"
 
 #: src/app/gtkmm/Menus.cc:192
 #: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
 msgid "_Reconnect"
-msgstr "Połącz znowu"
+msgstr "_Volver a conectar"
 
 #: src/app/gtkmm/Menus.cc:197
 msgid "Show _log"
-msgstr "_Pokaż log"
+msgstr "_Mostrar bitácora"
 
 #: src/app/gtkmm/Menus.cc:222
 msgid "_Rest break"
-msgstr "_Odpoczynek"
+msgstr "_Descanso"
 
 #: src/app/gtkmm/Menus.cc:244 src/app/gtkmm/StatisticsDialog.cc:51
 #: src/app/gtkmm/StatisticsDialog.cc:130
 msgid "Statistics"
-msgstr "Statystyki"
+msgstr "Estadística"
 
 #: src/app/gtkmm/Menus.cc:258
 msgid "About..."
-msgstr "O programie..."
+msgstr "Acerca de..."
 
 #: src/app/gtkmm/Menus.cc:605
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
-msgstr ""
-"Program ten zapobiegać RSI (Repetitive Strain Injury)\n"
-"oraz wspomaga rekonwalescencję."
+msgstr "Este programa le ayuda en la prevención y cura del síndrome RSI."
 
 #: src/app/gtkmm/MicroPauseWindow.cc:190
 #, c-format
 msgid "Next rest break in %s"
-msgstr "Następny odpoczynek za %s"
+msgstr "Próximo descanso en %s"
 
 #: src/app/gtkmm/MicroPauseWindow.cc:196
 #, c-format
 msgid "Rest break %s overdue"
-msgstr "Zalegasz z odpoczynkiem %s"
+msgstr "Descanso retrasado %s minutos"
 
 #: src/app/gtkmm/MicroPauseWindow.cc:200
 msgid "Please relax for a few seconds"
-msgstr "Zrelaksuj się parę sekund"
+msgstr "Por favor, relájese unos segundos"
 
 #: src/app/gtkmm/NetworkJoinDialog.cc:41 src/app/gtkmm/NetworkJoinDialog.cc:59
 msgid "Network connect"
-msgstr "Połączenie z siecią"
+msgstr "Conexión a red"
 
 #: src/app/gtkmm/NetworkJoinDialog.cc:60
 msgid ""
 "Enter the host name and port number of a computer\n"
 "in the network you wish to connect to."
 msgstr ""
-"Wprowadź nazwę hosta i numer portu komputera\n"
-"w sieci, z którym chcesz się połączyć."
+"Introduzca el nombre y número de puerto del ordenador\n"
+"en la red al que desea conectarse."
 
 #: src/app/gtkmm/NetworkJoinDialog.cc:73
 msgid "Host name:"
-msgstr "Nazwa hosta:"
+msgstr "Nombre del servidor:"
 
 #: src/app/gtkmm/NetworkJoinDialog.cc:74
 msgid "Port:"
-msgstr "Port:"
+msgstr "Puerto:"
 
 #: src/app/gtkmm/NetworkJoinDialog.cc:76
 msgid "Connect at start-up"
-msgstr "Połącz w czasie startu"
+msgstr "Conectar al comienzo del programa"
 
 #: src/app/gtkmm/NetworkLogDialog.cc:40
 msgid "Network log"
-msgstr "Log połączenia sieciowego"
+msgstr "Bitácora de red"
 
 #: src/app/gtkmm/NetworkPreferencePage.cc:79
 msgid "Enable networking"
-msgstr "Włącz pracę w sieci"
+msgstr "Habilitar la conexión en red"
 
 #: src/app/gtkmm/NetworkPreferencePage.cc:86
 msgid "Username:"
-msgstr "Użytkownik:"
+msgstr "Nombre de usuario:"
 
 #: src/app/gtkmm/NetworkPreferencePage.cc:87
 msgid "Password:"
-msgstr "Hasło:"
+msgstr "Contraseña:"
 
 #: src/app/gtkmm/NetworkPreferencePage.cc:92
 #: src/app/gtkmm/PreferencesDialog.cc:57
 msgid "General"
-msgstr "Ogólne"
+msgstr "General"
 
 #: src/app/gtkmm/NetworkPreferencePage.cc:104
 msgid "Server settings"
-msgstr "Ustawienia serwera"
+msgstr "Configuración del servidor"
 
 #: src/app/gtkmm/NetworkPreferencePage.cc:126
 msgid "Server port:"
-msgstr "Port serwera:"
+msgstr "Puerto del servidor:"
 
 #: src/app/gtkmm/NetworkPreferencePage.cc:127
 msgid "Reconnect attempts:"
-msgstr "Próbuję się połączyć:"
+msgstr "Intentos de conexión:"
 
 #: src/app/gtkmm/NetworkPreferencePage.cc:128
 msgid "Reconnect interval:"
-msgstr "Czas między próbami połączenia:"
+msgstr "Intervalo entre los intentos:"
 
 #: src/app/gtkmm/NetworkPreferencePage.cc:131
 msgid "Advanced"
-msgstr "Zaawansowane"
+msgstr "Avanzado"
 
 #: src/app/gtkmm/NetworkPreferencePage.cc:148
 msgid ""
 "The following list specifies the hosts that Workrave connects to on\n"
 "start-up. Click the host name or port number to edit."
 msgstr ""
-"Ta lista przedstawia hosty, do których Workrave łączy się w czasie\n"
-"startu. Kliknij na nazwę hosta lub numer portu do edycji."
+"La siguiente lista especifica los servidores a los que Workrave se conecta\n"
+"al inicio del programa. Pinchando en nombre del servidor o el número de\n"
+"puerto, puede cambiarlos."
 
 #: src/app/gtkmm/NetworkPreferencePage.cc:177
 msgid "Host name"
-msgstr "Nazwa komputera"
+msgstr "Nombre del servidor"
 
 #: src/app/gtkmm/NetworkPreferencePage.cc:185
 msgid "Port"
-msgstr "Port"
+msgstr "Puerto"
 
 #: src/app/gtkmm/NetworkPreferencePage.cc:222
 msgid "Hosts"
-msgstr "Komputery w sieci"
+msgstr "Servidores en red"
 
 #: src/app/gtkmm/PreferencesDialog.cc:49
 msgid "Preferences"
-msgstr "Preferencje"
+msgstr "Preferencias"
 
 #: src/app/gtkmm/PreferencesDialog.cc:61
 msgid "Applet"
-msgstr "Aplet"
+msgstr "Applet"
 
 #: src/app/gtkmm/PreferencesDialog.cc:64
 msgid "Status Window"
-msgstr "Okno stanu"
+msgstr "Ventana de estado"
 
 #. Notebook
 #: src/app/gtkmm/PreferencesDialog.cc:71
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:167
 #: src/app/gtkmm/TimerPreferencesPanel.cc:195
 msgid "Timers"
-msgstr "Zegary"
+msgstr "Temporizadores"
 
 #: src/app/gtkmm/PreferencesDialog.cc:72
 msgid "User interface"
-msgstr "Interfejs użytkownika"
+msgstr "Interfaz de usuario"
 
 #: src/app/gtkmm/PreferencesDialog.cc:74
 msgid "Network"
-msgstr "Sieć"
+msgstr "Red"
 
 #: src/app/gtkmm/PreferencesDialog.cc:115
 msgid "No sounds"
-msgstr "Bez dźwięku"
+msgstr "Sin sonidos"
 
 #: src/app/gtkmm/PreferencesDialog.cc:117
 msgid "Play sounds using sound card"
-msgstr "przy pomocy karty dźwiękowej"
+msgstr "Sonido por tarjeta de sonido"
 
 #: src/app/gtkmm/PreferencesDialog.cc:119
 msgid "Play sounds using built-in speaker"
-msgstr "za pomocą głośniczka w komputerze"
+msgstr "Sonidos por el altavoz integrado"
 
 #. Tray start
 #.   start_in_tray_cb
@@ -312,41 +309,41 @@ msgstr "za pomocą głośniczka w komputerze"
 #: src/app/gtkmm/PreferencesDialog.cc:142
 #: src/app/gtkmm/TimerPreferencesPanel.cc:141
 msgid "Options"
-msgstr "Opcje"
+msgstr "Opciones"
 
 #. panel->add(*start_in_tray_cb);
 #: src/app/gtkmm/PreferencesDialog.cc:144
 msgid "Sound:"
-msgstr "Dźwięk:"
+msgstr "Sonido:"
 
 #: src/app/gtkmm/PreludeWindow.cc:81
 msgid "Time for a micro-pause?"
-msgstr "Czas na mikropauzę?"
+msgstr "¿Es momento para una micropausa?"
 
 #: src/app/gtkmm/PreludeWindow.cc:85
 msgid "You need a rest break..."
-msgstr "Potrzebujesz odpoczynku..."
+msgstr "Necesita un descanso..."
 
 #: src/app/gtkmm/PreludeWindow.cc:89
 msgid "You should stop for today..."
-msgstr "Powninieneś skończyć na dzisiaj..."
+msgstr "Debería terminar por hoy..."
 
 #: src/app/gtkmm/PreludeWindow.cc:208
 msgid "Break in"
-msgstr "Przerwa za"
+msgstr "Descanso en"
 
 #: src/app/gtkmm/PreludeWindow.cc:212
 msgid "Disappears in"
-msgstr "Znika za"
+msgstr "Desaparece en"
 
 #: src/app/gtkmm/PreludeWindow.cc:216
 msgid "Silent in"
-msgstr "Cisza za"
+msgstr "Silencioso en"
 
 #: src/app/gtkmm/RestBreakWindow.cc:266
 #, c-format
 msgid "Rest break for %s"
-msgstr "Odpoczynek potrwa %s"
+msgstr "Descanso de %s"
 
 #: src/app/gtkmm/RestBreakWindow.cc:285
 msgid ""
@@ -354,309 +351,309 @@ msgid ""
 "walk away from your computer on a regular basis. Just\n"
 "walk around for a few minutes, stretch, and relax."
 msgstr ""
-"Czas na odpoczynek. Wstawaj od komputera w regularnych\n"
-"odstępach czasu. Pochodź przez kilka minut, wykonaj\n"
-"kilka prostych ćwiczenń, rozciągnij się, zrelaksuj."
+"Éste es su ttiempo de descanso. Debe levantarse, caminar\n"
+"y alejarse un rato del lugar del ordenador. Sencillamente\n"
+"ande unos minutos, realice estiramientos y relájese."
 
 #: src/app/gtkmm/StatisticsDialog.cc:124
 msgid "Browse history"
-msgstr "Przejrzyj historię"
+msgstr "Ver historial"
 
 #: src/app/gtkmm/StatisticsDialog.cc:131
 msgid "Date:"
-msgstr "Data:"
+msgstr "Fecha:"
 
 #: src/app/gtkmm/StatisticsDialog.cc:166
 msgid "Breaks"
-msgstr "Przerwy"
+msgstr "Descansos"
 
 #: src/app/gtkmm/StatisticsDialog.cc:176
 msgid "Break prompts"
-msgstr "Zachęt do przerwy"
+msgstr "Avisos de descanso"
 
 #: src/app/gtkmm/StatisticsDialog.cc:177
 msgid ""
 "The number of times you were prompted to break, excluding repeated prompts "
 "for the same break"
 msgstr ""
-"Ile razy byłeś zachęcany do przerwy, wyłączając powtarzające się zachęty"
+"Número de veces que fue avisado, sin contar avisos repetidos para el mismo "
+"descanso, "
 
 #: src/app/gtkmm/StatisticsDialog.cc:182
 msgid "Repeated prompts"
-msgstr "Powtórzonych zachęt"
+msgstr "Avisos repetidos"
 
 #: src/app/gtkmm/StatisticsDialog.cc:183
 msgid "The number of times you were repeatedly prompted to break"
-msgstr "Ile razy pod rząd byłeś zachęcany do przerwy"
+msgstr "Número de veces que se le avisó repetidamente para hacer un descanso"
 
 #: src/app/gtkmm/StatisticsDialog.cc:187
 msgid "Prompted breaks taken"
-msgstr "Zaakceptowanych przerw"
+msgstr "Núemero de veces que tomó el descanso"
 
 #: src/app/gtkmm/StatisticsDialog.cc:188
 msgid "The number of times you took a break when being prompted"
-msgstr "Ile razy odpocząłeś po zachęcie"
+msgstr "Número de veces que tomó un descanso al ser avisado"
 
 #: src/app/gtkmm/StatisticsDialog.cc:192
 msgid "Natural breaks taken"
-msgstr "Naturalnych przerw"
+msgstr "Descasos espontáneos"
 
 #: src/app/gtkmm/StatisticsDialog.cc:193
 msgid "The number of times you took a break without being prompted"
-msgstr "Ile razy odpocząłeś bez zachęty"
+msgstr "Número de veces que tomó un descaso sin que hubiese aviso"
 
 #: src/app/gtkmm/StatisticsDialog.cc:197
 msgid "Breaks skipped"
-msgstr "Ominiętych przerw"
+msgstr "Descansos saltados"
 
 #: src/app/gtkmm/StatisticsDialog.cc:198
 msgid "The number of breaks you skipped"
-msgstr "Ile przerw zostało ominiętych"
+msgstr "Número de descansos que se ha saltado"
 
 #: src/app/gtkmm/StatisticsDialog.cc:202
 msgid "Breaks postponed"
-msgstr "Przerw opóźnionych"
+msgstr "Descansos aplazados"
 
 #: src/app/gtkmm/StatisticsDialog.cc:203
 msgid "The number of breaks you postponed"
-msgstr "Ile przerw zostało opóźnionych"
+msgstr "Número de descansos que ha aplazado"
 
 #: src/app/gtkmm/StatisticsDialog.cc:207
 msgid "Overdue time"
-msgstr "Opóźnienia w sumie"
+msgstr "Tiempo de retraso"
 
 #: src/app/gtkmm/StatisticsDialog.cc:208
 msgid "The total time this break was overdue"
-msgstr "Całkowity czas kiedy przerwa była opóźniona"
+msgstr "Tiempo total de retraso de este descanso"
 
 #: src/app/gtkmm/StatisticsDialog.cc:212
 msgid "Daily usage"
-msgstr "Dzienne użycie"
+msgstr "Uso diario"
 
 #: src/app/gtkmm/StatisticsDialog.cc:213
 msgid "The total computer usage"
-msgstr "Całkowity czas używania komputera"
+msgstr "Uso total del ordenador"
 
 #: src/app/gtkmm/StatisticsDialog.cc:276
 msgid "Activity"
-msgstr "Aktywność"
+msgstr "Actividad"
 
 #: src/app/gtkmm/StatisticsDialog.cc:286
 msgid "Mouse usage:"
-msgstr "Użycie myszy"
+msgstr "Uso del ratón:"
 
 #: src/app/gtkmm/StatisticsDialog.cc:287
 msgid "The total time you were using the mouse"
-msgstr "Całkowity czas używania myszy"
+msgstr "Tiempo total de uso del ratón"
 
 #: src/app/gtkmm/StatisticsDialog.cc:290
 msgid "Mouse movement:"
-msgstr "Ruch myszy:"
+msgstr "Movimiento del ratón:"
 
 #: src/app/gtkmm/StatisticsDialog.cc:291
 msgid "The total on-screen mouse movement"
-msgstr "Całkowity ruch myszy gdyby poruszała się prosto między kliknięciami."
+msgstr "Distancia total recorrida con el ratón"
 
 #: src/app/gtkmm/StatisticsDialog.cc:294
 msgid "Effective mouse movement:"
-msgstr "Efektywny ruch myszy:"
+msgstr "Movimiento efectivo del ratón:"
 
 #: src/app/gtkmm/StatisticsDialog.cc:295
 msgid ""
 "The total mouse movement you would have had if you moved your mouse in "
 "straight lines between clicks"
-msgstr "Całkowity ruch myszy gdyby poruszała się prosto między kliknięciami."
+msgstr ""
+"Distancia total que el ratón habría recorrido, si hubiese trazado líneas "
+"rectas entre la pulsación de los botones"
 
 #: src/app/gtkmm/StatisticsDialog.cc:299
 msgid "Mouse button clicks:"
-msgstr "Liczba kliknięć myszą:"
+msgstr "Pulsaciones del ratón:"
 
 #: src/app/gtkmm/StatisticsDialog.cc:300
 msgid "The total number of mouse button clicks"
-msgstr "Całkowita liczba kliknięć myszą"
+msgstr "Número total de pulsaciones de los botones del ratón"
 
 #: src/app/gtkmm/StatisticsDialog.cc:303
 msgid "Keystrokes:"
-msgstr "Naciśnięć klawiszy:"
+msgstr "Pulsaciones de telclas:"
 
 #: src/app/gtkmm/StatisticsDialog.cc:304
 msgid "The total number of keys pressed"
-msgstr "Całkowita liczba naciśnięć klawiszy"
+msgstr "Número total de teclas pulsadas"
 
 #: src/app/gtkmm/StatisticsDialog.cc:354
 #, c-format
 msgid "%s, from %s to %s"
-msgstr "%s, od %s do %s"
+msgstr "%s, de %s a %s"
 
 #: src/app/gtkmm/TimerBox.cc:220 src/app/gtkmm/TimerBox.cc:300
 msgid "Wait"
-msgstr "Czekaj"
+msgstr "Espere"
 
 #: src/app/gtkmm/TimerBox.cc:254
 msgid "Inactive"
-msgstr "Nieaktywny"
+msgstr "Inactivo"
 
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:92
 msgid "Place timers next to each other"
-msgstr "Umieść zegary jeden obok drugiego"
+msgstr "Mostrar los temporizadores juntos"
 
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:94
 msgid "Place micro-pause and rest break in one spot"
-msgstr "Umieść mikropauzę i odpoczynek w jednym miejscu"
+msgstr "Mostrar micropausa y descanso en un mismo espacio"
 
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:96
 msgid "Place rest break and daily limit in one spot"
-msgstr "Umieść odpoczynek i limit dzienny w jednym miejscu"
+msgstr "Mostrar descanso y límite diario en un mismo espacio"
 
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:98
 msgid "Place all timers in one spot"
-msgstr "Umieść wszystkie zegary w jednym miejscu"
+msgstr "Mostrar todos los temporizadores en un mismo espacio"
 
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:121
 msgid "Hide"
-msgstr "Ukryj"
+msgstr "Ocultar"
 
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:123
 msgid "Show"
-msgstr "Pokaż"
+msgstr "Mostrar"
 
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:125
 msgid "Show only when this timer is first due"
-msgstr "Pokaż tylko jeśli ten typ przerwy jest następny"
+msgstr "Mostrar sólo cuando este temporizador se haya cumplido"
 
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:135
 msgid "Show status window"
-msgstr "Pokaż okno stanu"
+msgstr "Mostrar la ventana de estado"
 
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:140
-#, fuzzy
 msgid "The status window stays always on top of other windows"
-msgstr "Okno stanu zawsze nad innymi oknami"
+msgstr "La ventana de estado está siempre encima de las demás ventanas"
 
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:147
 msgid "Applet enabled"
-msgstr "Uaktywnij aplet"
+msgstr "Applet activado"
 
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:155
 msgid "Display"
-msgstr "Display"
+msgstr "Muestra"
 
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:164
 msgid "Placement:"
-msgstr "Rozmieszczenie:"
+msgstr "Posición:"
 
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:165
 msgid "Cycle time:"
-msgstr "Czas cyklu:"
+msgstr "Tiempo hasta el cambio de la muestra:"
 
 #. Layout
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:170
 msgid "Micro-pause:"
-msgstr "Mikropauza:"
+msgstr "Micropausa:"
 
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:171
 msgid "Rest break:"
-msgstr "Odpoczynek:"
+msgstr "Descanso:"
 
 #: src/app/gtkmm/TimerBoxPreferencePage.cc:172
 msgid "Daily limit:"
-msgstr "Dzienny limit:"
+msgstr "Límite diario:"
 
 #. Enabled/Disabled checkbox
 #: src/app/gtkmm/TimerPreferencesPanel.cc:57
-#, fuzzy
 msgid "Enable timer"
-msgstr "Pokaż zegary"
+msgstr "Emplear temporizador"
 
 #. Prelude frame
 #: src/app/gtkmm/TimerPreferencesPanel.cc:96
 msgid "Break prompting"
-msgstr "Zachęta do przerwy"
+msgstr "Aviso de descanso"
 
 #: src/app/gtkmm/TimerPreferencesPanel.cc:98
 msgid "Prompt before breaking"
-msgstr "Zachęta przed przerwą"
+msgstr "Avisar antes del descanso"
 
 #: src/app/gtkmm/TimerPreferencesPanel.cc:103
 msgid "Maximum number of prompts:"
-msgstr "Maksymalna liczba zachęt:"
+msgstr "Número máximo de avisos:"
 
 #: src/app/gtkmm/TimerPreferencesPanel.cc:110
 msgid "Force break after maximum exceeded"
-msgstr "Wymuś przerwę po osiągnięciu maksimum"
+msgstr "Forzar descanso, si se supera el máximo"
 
 #: src/app/gtkmm/TimerPreferencesPanel.cc:145
 msgid "Block user input"
-msgstr "Zablokuj możliwość wprowadzania"
+msgstr "Impedir el trabajo del usuario"
 
 #: src/app/gtkmm/TimerPreferencesPanel.cc:154
 msgid "Show 'Postpone' and 'Skip' button"
-msgstr "Pokaż przyciski 'Opóźnij' i 'Pomiń'"
+msgstr "Mostrar botones de 'Aplazar' y 'Saltar'"
 
 #: src/app/gtkmm/TimerPreferencesPanel.cc:169
 msgid "Regard micro-pauses as activity"
-msgstr "Uważaj mikropauzy za aktywność"
+msgstr "Considerar las micropausas como actividad"
 
 #: src/app/gtkmm/TimerPreferencesPanel.cc:181
 msgid "Number of exercises:"
-msgstr "Liczba ćwiczeń:"
+msgstr "Número de ejercicios:"
 
 #: src/app/gtkmm/TimerPreferencesPanel.cc:202
 msgid "Time before break:"
-msgstr "Czas między przerwami:"
+msgstr "Tiempo hasta el descanso:"
 
 #: src/app/gtkmm/TimerPreferencesPanel.cc:209
 msgid "Resets at:"
-msgstr "Zresetuj o:"
+msgstr "Restablecer después de:"
 
 #: src/app/gtkmm/TimerPreferencesPanel.cc:219
 msgid "Pause duration:"
-msgstr "Czas trwania przerwy:"
+msgstr "Duración de la pausa:"
 
 #: src/app/gtkmm/TimerPreferencesPanel.cc:236
 msgid "Post-pone time:"
-msgstr "Opóźnienie trwa:"
+msgstr "Duración del aplazamiento:"
 
 #: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:1
 msgid "_About..."
-msgstr "O programie..."
+msgstr "Acerca de..."
 
 #: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:2
 msgid "_Connect..."
-msgstr "_Połączenie..."
+msgstr "_Conectar..."
 
 #: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:4
-#, fuzzy
 msgid "_Exercises"
-msgstr "Ćwiczenia"
+msgstr "_Ejercicios"
 
 #: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:8
 msgid "_Open"
-msgstr "Otwórz"
+msgstr "_Abrir"
 
 #: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:9
 msgid "_Preferences"
-msgstr "_Preferencje"
+msgstr "_Preferencias"
 
 #: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:10
 msgid "_Quiet"
-msgstr "Cicho"
+msgstr "Pa_rado"
 
 #: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:11
 msgid "_Quit"
-msgstr "_Wyjdź"
+msgstr "_Salir"
 
 #: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:13
 msgid "_Restbreak"
-msgstr "_Odpoczynek"
+msgstr "_Descanso"
 
 #: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:14
 msgid "_Show Log..."
-msgstr "_Pokaż log"
+msgstr "_Mostrar bitácora"
 
 #: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:15
 msgid "_Statistics"
-msgstr "_Statystyki"
+msgstr "_Estadística"
 
 #: src/app/gtkmm/gnome_applet/Workrave-Applet.server.in.in.h:1
 #: src/app/shared/sounds/workrave.soundlist.in.h:10
@@ -665,70 +662,70 @@ msgstr "Workrave"
 
 #: src/app/gtkmm/gnome_applet/Workrave-Applet.server.in.in.h:2
 msgid "Workrave Applet"
-msgstr "Aplet Workrave"
+msgstr "Applet de Workrave"
 
 #: src/app/Text.cc:75
 #, c-format
 msgid "%s%d:%02d:%02d hours"
-msgstr "%s%d:%02d:%02d godzin"
+msgstr "%s%d:%02d:%02d horas"
 
 #: src/app/Text.cc:79
 #, c-format
 msgid "%s%d:%02d minutes"
-msgstr "%s%d:%02d minut"
+msgstr "%s%d:%02d minutos"
 
 #: src/app/Text.cc:83
-#, fuzzy, c-format
+#, c-format
 msgid "%s%d seconds"
-msgstr "%s%ld sekund"
+msgstr "%s%d segundos"
 
 #: src/core/DistributionSocketLink.cc:131
-#, fuzzy, c-format
+#, c-format
 msgid "Reconnecting to %s:%d."
-msgstr "Ponowne łączenie do %s:%d."
+msgstr "Volviendo a conectar con %s:%d:"
 
 #. We did not succeed in starting the server. Arghh.
 #: src/core/DistributionSocketLink.cc:345
 msgid "Could not enable network operation."
-msgstr "Operacje w sieci są niemożliwe"
+msgstr "No se ha podido realizar la conexión de red."
 
 #: src/core/DistributionSocketLink.cc:354
 msgid "Disabling network operation."
-msgstr "Wyłączanie operacji w sieci."
+msgstr "Desactivando la conexión de red."
 
 #: src/core/DistributionSocketLink.cc:509
 #: src/core/DistributionSocketLink.cc:536
 #, c-format
 msgid "Connecting to %s:%d."
-msgstr "Łączenie do %s:%d."
+msgstr "Conectando con %s:%d."
 
 #: src/core/DistributionSocketLink.cc:640
 #: src/core/DistributionSocketLink.cc:665
 #, c-format
 msgid "Removing client %s:%d."
-msgstr "Usuwanie klienta %s:%d."
+msgstr "Borrando cliente %s:%d."
 
 #. Closing direct connection.
 #: src/core/DistributionSocketLink.cc:702
-#, fuzzy, c-format
+#, c-format
 msgid "Disconnecting %s:%d."
-msgstr "Rozłączanie %s:%d."
+msgstr "Desconectando de %s:%d."
 
 #. It's a remote client. mark it master.
 #: src/core/DistributionSocketLink.cc:870
 #, c-format
 msgid "Client %s:%d is now master."
-msgstr "Klient %s:%d jest teraz mistrzem."
+msgstr "El cliente %s:%d es ahora amo."
 
 #. Its ME!
 #: src/core/DistributionSocketLink.cc:876
 msgid "I'm now master."
-msgstr "Jestem mistrzem."
+msgstr "Ahora soy yo amo."
 
 #: src/core/DistributionSocketLink.cc:1205
 #, c-format
 msgid "Client %s:%d saying hello."
-msgstr "Klient %s:%d pozdrawia."
+msgstr "El cliente %s:%d dice 'Hola'."
 
 #. Duplicate client. inform client that it's bogus and close.
 #: src/core/DistributionSocketLink.cc:1220
@@ -736,88 +733,89 @@ msgstr "Klient %s:%d pozdrawia."
 #: src/core/DistributionSocketLink.cc:1573
 #, c-format
 msgid "Client %s:%d is duplicate."
-msgstr "Klient %s:%d jest duplikatem."
+msgstr "El cliente %s:%d está duplicado."
 
 #. Incorrect password.
 #: src/core/DistributionSocketLink.cc:1229
 #, c-format
 msgid "Client %s:%d access denied."
-msgstr "Dostęp do klienta %s:%d niemożliwy."
+msgstr "Acceso denegado al cliente %s:%d."
 
 #: src/core/DistributionSocketLink.cc:1296
 #, c-format
 msgid "Client %s:%d signed off."
-msgstr "Klient %s:%d odłączony."
+msgstr "El cliente %s:%d se ha dado de baja."
 
 #: src/core/DistributionSocketLink.cc:1375
 #, c-format
 msgid "Client %s:%d is welcoming us."
-msgstr "Klient %s:%d wita."
+msgstr "El cliente %s:%d le da la bienvenida."
 
 #: src/core/DistributionSocketLink.cc:1608
 #, c-format
 msgid "Requesting master status from %s:%d."
-msgstr "Żądanie uprzywilejowanego statusu od %s:%d."
+msgstr "Solicitando el estatuo de amo a %s:%d."
 
 #: src/core/DistributionSocketLink.cc:1621
 #, c-format
 msgid "Client timeout from %s:%d."
-msgstr "Przekroczenie czasu przez %s:%d."
+msgstr "Tiempo sobrepasado del cliente %s:%d."
 
 #: src/core/DistributionSocketLink.cc:1642
 #, c-format
 msgid "Rejecting master request from client %s:%d."
-msgstr "Odrzucenie prośby mistrza przez klienta %s:%d."
+msgstr "Denegada la solicitud del cliente %s:%d de estatuto de amo."
 
 #: src/core/DistributionSocketLink.cc:1648
 #, c-format
 msgid "Acknowledging master request from client %s:%d."
-msgstr "Przyjęcie prośby od mistrza przez klienta %s:%d."
+msgstr "Confirmado estatuto de amo del cliente %s:%d."
 
 #: src/core/DistributionSocketLink.cc:1699
 #, c-format
 msgid "Non-master client %s:%d rejected master request."
-msgstr "Zwykły klient %s:%d odrzucił prośbę mistrza."
+msgstr ""
+"El cliente %s:%d sin estatuto de amo ha rechazado la solicitud del amo."
 
 #: src/core/DistributionSocketLink.cc:1704
 #, c-format
 msgid "Client %s:%d rejected master request, delaying."
-msgstr "Klient %s:%d odrzucił prośbę mistrza, opóźnienie."
+msgstr "El cliente %s:%d ha rechazado la petición del amo. Aguarde."
 
 #. gint count =
 #: src/core/DistributionSocketLink.cc:1775
 #, c-format
 msgid "Client %s is now the new master."
-msgstr "Klient %s jest nowym mistrzem."
+msgstr "El cliente %s es ahora el nuevo amo."
 
 #: src/core/DistributionSocketLink.cc:1894
 msgid "Network operation started."
-msgstr "Rozpoczęcie operacji w sieci."
+msgstr "Inicializada la actividad en red."
 
 #: src/core/DistributionSocketLink.cc:1911
 msgid "Accepted new client."
-msgstr "Nowy klient zaakceptowany."
+msgstr "Nuevo cliente aceptado."
 
 #: src/core/DistributionSocketLink.cc:1966
 #, c-format
 msgid "Client %s:%d read error, closing."
-msgstr "Błąd odzytu klienta %s:%d, zamykam."
+msgstr "Error de lectura en el cliente %s:%d, cerrando conexión."
 
 #: src/core/DistributionSocketLink.cc:1971
 #: src/core/DistributionSocketLink.cc:2042
 #, c-format
 msgid "Client %s:%d closed connection."
-msgstr "Klient %s:%d zamknął połączenie."
+msgstr "Conexión cerrada por el cliente %s:%d."
 
 #: src/core/DistributionSocketLink.cc:2011
 #, c-format
 msgid "Client %s:%d connected."
-msgstr "Klient %s:%d połączony."
+msgstr "Cliente %s:%d conectado"
 
 #: src/core/DistributionSocketLink.cc:2047
 #, c-format
 msgid "Could not connect to client %s:%d."
-msgstr "Połączenie do klienta %s:%d niemożliwe."
+msgstr "No se ha podido conectar al cliente %s:%d."
 
 #: src/app/shared/exercises/exercises.xml.in.h:1
 msgid "Backward shoulder stretch"
@@ -993,74 +991,39 @@ msgstr ""
 #: src/app/shared/sounds/workrave.soundlist.in.h:1
 #, fuzzy
 msgid "Break ignored"
-msgstr "Przerwa za"
+msgstr "Descanso en"
 
 #: src/app/shared/sounds/workrave.soundlist.in.h:2
 #, fuzzy
 msgid "Break prompt"
-msgstr "Zachęt do przerwy"
+msgstr "Avisos de descanso"
 
 #: src/app/shared/sounds/workrave.soundlist.in.h:4
 #, fuzzy
 msgid "Exercise ended"
-msgstr "Ćwiczenia"
+msgstr "Ejercicios"
 
 #: src/app/shared/sounds/workrave.soundlist.in.h:5
 #, fuzzy
 msgid "Exercises ended"
-msgstr "Ćwiczenia"
+msgstr "Ejercicios"
 
 #: src/app/shared/sounds/workrave.soundlist.in.h:6
 #, fuzzy
 msgid "Micro-pause ended"
-msgstr "Mikropauza"
+msgstr "Micropausa"
 
 #: src/app/shared/sounds/workrave.soundlist.in.h:7
 #, fuzzy
 msgid "Micro-pause started"
-msgstr "Mikropauza"
+msgstr "Micropausa"
 
 #: src/app/shared/sounds/workrave.soundlist.in.h:8
 #, fuzzy
 msgid "Rest break ended"
-msgstr "Odpoczynek"
+msgstr "Descanso"
 
 #: src/app/shared/sounds/workrave.soundlist.in.h:9
 #, fuzzy
 msgid "Rest break started"
-msgstr "Zalegasz z odpoczynkiem %s"
-
-#~ msgid "Hide main window at start-up"
-#~ msgstr "Ukryj główne okno w czasie startu"
-
-#~ msgid "Identity"
-#~ msgstr "Identyfikacja"
-
-#~ msgid "You can configure the user interface related settings from here."
-#~ msgstr "Możesz tu skonfigurować rzeczy związane z interfejsem użytkownika."
-
-#~ msgid ""
-#~ "This dialog allows you to change the settings of the timers.  Each unit\n"
-#~ "of time is broken down into hours, minutes and seconds (also known as\n"
-#~ "the \"hh:mm:ss\" format).  These can all be controlled individually."
-#~ msgstr ""
-#~ "Tutaj możesz zmienić ustawienia zegarów. Każdy zegar jest rozbity na\n"
-#~ "godziny, minuty i sekundy (znane także jako format \"hh:mm:ss\").\n"
-#~ "Każda może być kontrolowana oddzielnie."
-
-#~ msgid "You can configure the applet related settings from here."
-#~ msgstr "Możesz tu skonfigurować rzeczy związane z apletem."
-
-#~ msgid ""
-#~ "You can connect several instances of Workrave in a network. All "
-#~ "connected\n"
-#~ "instances share the same timer information, meaning you will be reminded\n"
-#~ "of your breaks even if you switch computers."
-#~ msgstr ""
-#~ "Możesz połączyć kilka programów Workrave w sieć. Wszystkie będą dzieliły\n"
-#~ "informacje o zegarach. Oznacza to, że będą przypominały o przerwach\n"
-#~ "nawet jeśli zmienisz komputery."
-
-#, fuzzy
-#~ msgid "Open"
-#~ msgstr "Otwórz"
+msgstr "Descanso retrasado %s minutos"

@@ -118,7 +118,7 @@ AC_CANONICAL_HOST
 AC_PREFIX_PROGRAM(workrave)
 
 dnl Set of available languages.
-ALL_LINGUAS="nl de eo pl da"
+ALL_LINGUAS="nl de eo pl da es"
 
 dnl Checks for programs.
 AC_PROG_CC
@@ -499,8 +499,16 @@ else
    CORE_CFLAGS="$CORE_CFLAGS -I \$(top_srcdir)/src/core/unix"
 fi   
 
-APP_LIBS="$CORE_LIBS $SHARED_LIBS \$(top_srcdir)/src/app/libapp.a $SHARED_LIBS"
-APP_CFLAGS="$SHARED_CFLAGS $CORE_CFLAGS"
+APP_LIBS="$CORE_LIBS $SHARED_LIBS \$(top_srcdir)/src/app/shared/libapp.a $SHARED_LIBS"
+APP_CFLAGS="$SHARED_CFLAGS $CORE_CFLAGS -I \$(top_srcdir)/src/app/shared/intf -I \$(top_srcdir)/src/app/shared/"
+if test "x$platform_win32" = "xyes"; then
+   APP_LIBS="$APP_LIBS \$(top_srcdir)/src/app/shared/win32/libappwin32.a"
+   APP_CFLAGS="$APP_CFLAGS -I \$(top_srcdir)/src/app/shared/win32"
+fi
+if test "x$config_with_gnome" = "xyes"; then
+   APP_LIBS="$APP_LIBS \$(top_srcdir)/src/app/shared/gnome/libappgnome.a"
+   APP_CFLAGS="$APP_CFLAGS -I \$(top_srcdir)/src/app/shared/gnome"
+fi   
                                              
 AC_SUBST(APP_LIBS)
 AC_SUBST(APP_CFLAGS)
@@ -613,6 +621,9 @@ AC_OUTPUT(Makefile \
           src/app/shared/images/Makefile \
           src/app/shared/exercises/Makefile \
           src/app/shared/sounds/Makefile \
+          src/app/shared/win32/Makefile \
+          src/app/shared/gnome/Makefile \
+          src/app/shared/intf/Makefile \
           po/Makefile.in \
           m4/Makefile \
           workrave.spec)

@@ -6,14 +6,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-29 20:49+0200\n"
+"POT-Creation-Date: 2003-08-01 21:54+0200\n"
 "PO-Revision-Date: 2003-07-31 20:44+0200\n"
 "Last-Translator: \n"
 "Language-Team:  <C@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
 "X-Generator: KBabel 1.0.1\n"
 
 #: src/app/gtkmm/eggtrayicon.c:118
@@ -77,11 +77,11 @@ msgstr ""
 msgid "Exercises"
 msgstr "Øvelser"
 
-#: src/app/gtkmm/ExercisesPanel.cc:222
+#: src/app/gtkmm/ExercisesPanel.cc:226
 msgid "Resume"
 msgstr "Genoptag"
 
-#: src/app/gtkmm/ExercisesPanel.cc:222
+#: src/app/gtkmm/ExercisesPanel.cc:226
 msgid "Pause"
 msgstr "Pause"
 
@@ -830,7 +830,11 @@ msgid ""
 "breathing in, again do it as slowly as possible. Try to count slowly to 8 "
 "for each time you breath in and out. To extra relax your eyes, try closing "
 "them in micro pauses too."
-msgstr "Luk dine øjne og ånd så dybt ud du kan mens du slapper af. Træk vejret ind igen så langsomt som muligt. Forsøg evt. at tælle langsomt til otte for hver gang du trækker vejret og ånder ud igen. For at slappe ekstra af i øjnene, prøv at lukke dem i mikropauser også."
+msgstr ""
+"Luk dine øjne og ånd så dybt ud du kan mens du slapper af. Træk vejret ind "
+"igen så langsomt som muligt. Forsøg evt. at tælle langsomt til otte for hver "
+"gang du trækker vejret og ånder ud igen. For at slappe ekstra af i øjnene, "
+"prøv at lukke dem i mikropauser også."
 
 # FIXME: Wrong encoding... Hold dine hænder op foran øjnene således at du stadig kan åbne øjnene. �bn nu øjnene og kig ind i mørket i dine håndflader. �velsen giver bedre afslapning til dine øjne sammenlignet med bare at lukke dem.
 #: src/app/shared/exercises/exercises.xml.in.h:3
@@ -850,14 +854,19 @@ msgid ""
 "against it with your elbows slightly bended. Push your body to the wall, "
 "without changing the angle of your elbows. Then push your body back from the "
 "wall again without changing the angle of the elbows."
-msgstr "Stil dig med ansigtet mod en væg. Placer hænderne på væggen i skulderhøjde med albuerne let bøjede. Skub kroppen mod væggen uden at ændre vinklen på albuerne. Skub dig tilbage fra væggen igen uden at ændre vinklen på albuerne"
+msgstr ""
+"Stil dig med ansigtet mod en væg. Placer hænderne på væggen i skulderhøjde "
+"med albuerne let bøjede. Skub kroppen mod væggen uden at ændre vinklen på "
+"albuerne. Skub dig tilbage fra væggen igen uden at ændre vinklen på albuerne"
 
 #: src/app/shared/exercises/exercises.xml.in.h:6
 msgid ""
 "Interlace your fingers behind your back. Then turn your elbows gently "
 "inward, while straightening your arms. Hold this position for 5 to 15 "
 "seconds, and repeat this exercise twice."
-msgstr "Flet fingrene bag ryggen. Drej albuerne forsigtigt indad, mens du strækker dine arme. Hold stillingen i 5 til 15 sekunder. Gentag øvelsen to gange."
+msgstr ""
+"Flet fingrene bag ryggen. Drej albuerne forsigtigt indad, mens du strækker "
+"dine arme. Hold stillingen i 5 til 15 sekunder. Gentag øvelsen to gange."
 
 #: src/app/shared/exercises/exercises.xml.in.h:7
 msgid ""
@@ -865,21 +874,32 @@ msgid ""
 "with your other arm towards you until you feel a mild tension in your "
 "shoulder. Hold this position briefly, and repeat the exercise for your other "
 "arm."
-msgstr "Hold den ene arm strukket skråt fremad ud i luften foran din brystkasse. Med din anden arm skal du skubbe din fremstrakte arm mod dig, indtil du mærker et let stræk i din skulder. Hold strækket kortvarigt, og gentag øvelsen med den modsatte arm."
+msgstr ""
+"Hold den ene arm strukket skråt fremad ud i luften foran din brystkasse. Med "
+"din anden arm skal du skubbe din fremstrakte arm mod dig, indtil du mærker "
+"et let stræk i din skulder. Hold strækket kortvarigt, og gentag øvelsen med "
+"den modsatte arm."
 
 #: src/app/shared/exercises/exercises.xml.in.h:8
 msgid ""
 "Keep your head straight and your lower jaw parallel to the floor. Move your "
 "head back (making a double chin). Keep this 2 seconds and relax. Move your "
 "head the same way forward, keep this 2 seconds and relax again."
-msgstr "Hold hovedet fremad med kæben parallel med gulvet. Flyt langsome hovedet tilbage (så du laver dobbelt-hage). Hold positionen i to sekunder. Flyt hovedet forsigtigt fremad og slap af."
+msgstr ""
+"Hold hovedet fremad med kæben parallel med gulvet. Flyt langsome hovedet "
+"tilbage (så du laver dobbelt-hage). Hold positionen i to sekunder. Flyt "
+"hovedet forsigtigt fremad og slap af."
 
 #: src/app/shared/exercises/exercises.xml.in.h:9
 msgid ""
 "Look at the upper left corner of the outside border of your monitor. Follow "
 "the border slowly to the upper right corner. Continue to the next corner, "
 "until you got around it two times. Then, reverse the excersise."
-msgstr "Kig på øverste venstre hjørne af den yderste kant på din skærm. Følg kanten langsomt med øjnene til det øvre højre hjørne. Gentag til du når næste hjørne osv, indtil du er nået hele vejen rundt to gange, Gentag øvelsen den modsatte vej rundt."
+msgstr ""
+"Kig på øverste venstre hjørne af den yderste kant på din skærm. Følg kanten "
+"langsomt med øjnene til det øvre højre hjørne. Gentag til du når næste "
+"hjørne osv, indtil du er nået hele vejen rundt to gange, Gentag øvelsen den "
+"modsatte vej rundt."
 
 #: src/app/shared/exercises/exercises.xml.in.h:10
 msgid ""
@@ -887,7 +907,11 @@ msgid ""
 "on the remote point. After a few seconds focus on your monitor border. "
 "Repeat it. If you can't look very far from your monitor, use a pen for "
 "instance and keep it the same distance as your monitor."
-msgstr "Fokuser på det fjerneste punkt du kan se bagved din skærm. Efter et par sekunder, fokuser på kanten af din skærm. Gentag øvelsen. Brug evt. en kuglepen i stedet for kanten af skærmen i en anden retning end skærmen, hvis du har bedre afstand der."
+msgstr ""
+"Fokuser på det fjerneste punkt du kan se bagved din skærm. Efter et par "
+"sekunder, fokuser på kanten af din skærm. Gentag øvelsen. Brug evt. en "
+"kuglepen i stedet for kanten af skærmen i en anden retning end skærmen, hvis "
+"du har bedre afstand der."
 
 #: src/app/shared/exercises/exercises.xml.in.h:11
 msgid "Look into the darkness"
@@ -922,7 +946,10 @@ msgid ""
 "Put your hands on the armrests of your chair when your sitting down and "
 "press your body up until your arms are straight. Try to move your head even "
 "further by lowering your shoulders. Slowly move back into your chair."
-msgstr "Tag fat på armlænene på din stol. Pres dig opad i armene indtil de er strækkede. Forsøg at strække hovedet endnu mere opad ved at sænke skuldrene. Bevæg dig forsigtigt tibage på plads."
+msgstr ""
+"Tag fat på armlænene på din stol. Pres dig opad i armene indtil de er "
+"strækkede. Forsøg at strække hovedet endnu mere opad ved at sænke skuldrene. "
+"Bevæg dig forsigtigt tibage på plads."
 
 #: src/app/shared/exercises/exercises.xml.in.h:19
 msgid "Relax the eyes"
@@ -933,7 +960,10 @@ msgid ""
 "Separate and stretch your fingers until a mild tension is felt, and hold "
 "this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
 "again for 10 seconds. Repeat this exercise once more."
-msgstr "Stræk og spred dine fingre undtil du kan mærke et let stræk. Hold strækket i 10 sekunder. Slap lidt af og bør herefter dine fingre. Hold positionen i 10 sekunder. Gentag øvelsen igen."
+msgstr ""
+"Stræk og spred dine fingre undtil du kan mærke et let stræk. Hold strækket i "
+"10 sekunder. Slap lidt af og bør herefter dine fingre. Hold positionen i 10 "
+"sekunder. Gentag øvelsen igen."
 
 #: src/app/shared/exercises/exercises.xml.in.h:21
 msgid "Shoulder-arm stretch"
@@ -944,13 +974,18 @@ msgid ""
 "Spin your right arm slowly round like a plane propellor beside your body. Do "
 "this 4 times clockwise, 4 times counter clockwise and relax for a few "
 "seconds. Repeat with the left arm."
-msgstr "Sving langsomt højre arm rundt i store cirker helt oppe ved øret. Udfør 4 sving fremad, og 4 sving tilbage og slap af i et par skunder. Gentag øvelsen med venstre arm."
+msgstr ""
+"Sving langsomt højre arm rundt i store cirker helt oppe ved øret. Udfør 4 "
+"sving fremad, og 4 sving tilbage og slap af i et par skunder. Gentag øvelsen "
+"med venstre arm."
 
 #: src/app/shared/exercises/exercises.xml.in.h:23
 msgid ""
 "Stand by your desk and place both your palms on the desk with the fingers "
 "pointing toward your body. Gently stretch your wrists and lower arms."
-msgstr "Stå ved dit bord og placer begge håndflader på bordfladen, med fingrene pegende mod din krop. Stræk forsigtigt håndled og underarm."
+msgstr ""
+"Stå ved dit bord og placer begge håndflader på bordfladen, med fingrene "
+"pegende mod din krop. Stræk forsigtigt håndled og underarm."
 
 #: src/app/shared/exercises/exercises.xml.in.h:24
 msgid ""
@@ -960,7 +995,11 @@ msgid ""
 "you back slowly until you can (almost) place them in front of your shoes. "
 "Slowly roll your back up straight from your hips up, until it is straight up "
 "again."
-msgstr "Stå oprejst og ræk ud efter loftet med hænderne uden at løfte hælene fra gulvet. Hold strækket i et par sekunder. Lad derefter en forover-rulning i ryggen så dine hænder (næsten) rører jorden foran dine fødder. Rul forsigtigt tlbage til oprejst position."
+msgstr ""
+"Stå oprejst og ræk ud efter loftet med hænderne uden at løfte hælene fra "
+"gulvet. Hold strækket i et par sekunder. Lad derefter en forover-rulning i "
+"ryggen så dine hænder (næsten) rører jorden foran dine fødder. Rul "
+"forsigtigt tlbage til oprejst position."
 
 #: src/app/shared/exercises/exercises.xml.in.h:25
 msgid ""
@@ -968,7 +1007,11 @@ msgid ""
 "your head to your right shoulder to gently stretch the muscles on the left "
 "side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
 "the left side to stretch your other side. Do this twice for each side."
-msgstr "Se lige frem og find en behagelig position med hovedet. Læg højre øre mod højre skulder, så dine muskler på venstre side af halsen strækker. Hold strækket i 5 sekunder. Gentag derefter øvelsen med venstre øre mod venstre skulder. Udfør øvelsen to gange til hver side."
+msgstr ""
+"Se lige frem og find en behagelig position med hovedet. Læg højre øre mod "
+"højre skulder, så dine muskler på venstre side af halsen strækker. Hold "
+"strækket i 5 sekunder. Gentag derefter øvelsen med venstre øre mod venstre "
+"skulder. Udfør øvelsen to gange til hver side."
 
 #: src/app/shared/exercises/exercises.xml.in.h:26
 msgid "Stretch your back"
@@ -986,7 +1029,9 @@ msgstr "Drej hovedet"
 msgid ""
 "Turn your head left and keep it there for 2 seconds. Then turn your head "
 "right and keep it there for 2 seconds."
-msgstr "Drej hovedet med venstre og hold det drejet i to sekunder. Drej derefter hovedet mod højre i to sekunder."
+msgstr ""
+"Drej hovedet med venstre og hold det drejet i to sekunder. Drej derefter "
+"hovedet mod højre i to sekunder."
 
 #: src/app/shared/exercises/exercises.xml.in.h:30
 msgid "Wrist and lower arm desk stretch"

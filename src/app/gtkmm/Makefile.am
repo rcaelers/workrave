@@ -30,7 +30,7 @@ DEFS 			= @DEFS@ -DGNOMELOCALEDIR=\""$(datadir)/locale"\" -I$(top_srcdir)/intl -
 if HAVE_APP_GTKMM
 
 if HAVE_GNOME
-sourcesgnome 		= GnomeSoundPlayer.cc RemoteControl.cc
+sourcesgnome 		= RemoteControl.cc
 sourcesidl 		= ${IDL_C_GENERATED} ${IDL_A_GENERATED}
 
 ## CORBA stuff
@@ -51,7 +51,7 @@ sourcesx 		= AppletWindow.cc eggtrayicon.c
 endif
 
 if PLATFORM_WIN32
-sourceswin32 		= Win32SoundPlayer.cc resource.rc
+sourceswin32 		= resource.rc
 includeswin32 		= -I$(top_srcdir)/shared/win32/harpoon/
 endif
 
