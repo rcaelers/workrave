@@ -112,8 +112,8 @@ private:
   void setup();
   void config_changed_notify(std::string key);
   void locate_window(GdkEventConfigure *event);
-
-
+  void move_to_start_position();
+  
   // Events.
   bool on_delete_event(GdkEventAny*);
   bool on_window_state_event(GdkEventWindowState *event);

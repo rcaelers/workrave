@@ -1,9 +1,13 @@
-Workrave NEWS -- history of user-visible changes.  30 April 2004
+Workrave NEWS -- history of user-visible changes.  13 May 2004
 Copyright (C) 2001-2004 Rob Caelers & Raymond Penners
 See the end for copying conditions.
 
 Please report Workrave bug reports. Visit our bug tracker located at:
 http://www.workrave.org
+
+* Workrave 1.6.1
+
+** The status window no longer disappears.
 
 * Workrave 1.6.0
 

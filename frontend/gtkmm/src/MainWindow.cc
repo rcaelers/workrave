@@ -188,18 +188,6 @@ MainWindow::init()
   stick();
   setup();
   
-  int x, y, head;
-  get_start_position(x, y, head);
-  window_head_location.set_x(x);
-  window_head_location.set_y(y);
-  
-  GUI::get_instance()->map_from_head(x, y, head);
-  window_location.set_x(x);
-  window_location.set_y(y);
-  window_relocated_location.set_x(x);
-  window_relocated_location.set_y(y);
-  TRACE_MSG("moving to " << x << " " << y);
-  
 #ifdef WIN32
   window->set_functions(Gdk::FUNC_CLOSE|Gdk::FUNC_MOVE);
 
@@ -217,11 +205,11 @@ MainWindow::init()
       move(-1024, 0);
       show_all();
       win32_show(false);
-      move(x, y);
+      move_to_start_position();
     }
   else
     {
-      move(x, y);
+      move_to_start_position();;
       show_all();
     }
 #else
@@ -237,7 +225,7 @@ MainWindow::init()
     {
       win32_show(false);
     }
-  move(x, y);
+  move_to_start_position();
   // (end of hack)
 #endif
   
@@ -245,7 +233,7 @@ MainWindow::init()
   set_gravity(Gdk::GRAVITY_STATIC); 
   set_position(Gtk::WIN_POS_NONE);
   show_all();
-  move(x, y);
+  move_to_start_position();
   
   if (!enabled) //  || get_start_in_tray())
     {
@@ -319,20 +307,26 @@ MainWindow::open_window()
   TRACE_ENTER("MainWindow::open_window");
   if (timer_box_view->get_visible_count() > 0)
     {
-      int x, y, head;
-      set_position(Gtk::WIN_POS_NONE);
-      set_gravity(Gdk::GRAVITY_STATIC);
-      get_start_position(x, y, head);
-      GUI::get_instance()->map_from_head(x, y, head);
-      TRACE_MSG("moving to " << x << " " << y);
-      move(x, y);
-
 #ifdef WIN32
       win32_show(true);
 #else
       show_all();
       deiconify();
 #endif
+
+      int x, y, head;
+      set_position(Gtk::WIN_POS_NONE);
+      set_gravity(Gdk::GRAVITY_STATIC);
+      get_start_position(x, y, head);
+
+      GtkRequisition req;
+      on_size_request(&req);
+      GUI::get_instance()->bound_head(x, y, req.width, req.height, head);
+
+      GUI::get_instance()->map_from_head(x, y, head);
+      TRACE_MSG("moving to " << x << " " << y);
+      move(x, y);
+
     }
   TRACE_EXIT();
 }
@@ -747,7 +741,14 @@ MainWindow::get_start_position(int &x, int &y, int &head)
     {
       head = 0;
     }
+
+  if (head < 0)
+    {
+      head = 0;
+    }
+        
   TRACE_MSG(x << " " << y << " " << head);
+
   TRACE_EXIT();
 }
 
@@ -765,6 +766,35 @@ MainWindow::set_start_position(int x, int y, int head)
 }
 
 
+
+void
+MainWindow::move_to_start_position()
+{
+  TRACE_ENTER("MainWindow::move_to_start_position");
+
+  int x, y, head;
+  get_start_position(x, y, head);
+
+  GtkRequisition req;
+  on_size_request(&req);
+
+  GUI::get_instance()->bound_head(x, y, req.width, req.height, head);
+  
+  window_head_location.set_x(x);
+  window_head_location.set_y(y);
+
+  GUI::get_instance()->map_from_head(x, y, head);
+
+  TRACE_MSG("Main window size " << req.width << " " << req.height);
+
+  window_location.set_x(x);
+  window_location.set_y(y);
+  window_relocated_location.set_x(x);
+  window_relocated_location.set_y(y);
+  TRACE_MSG("moving to " << x << " " << y);
+
+  move(x, y);
+}
 
 
 void
@@ -808,15 +838,23 @@ MainWindow::locate_window(GdkEventConfigure *event)
 {
   TRACE_ENTER("MainWindow::locate_window");
   int x, y;
-
+  int width, height;
+  
   if (event == NULL)
     {
       get_position(x, y);
+
+      GtkRequisition req;
+      on_size_request(&req);
+      width = req.width;
+      height = req.height;
     }
   else
     {
       x = event->x;
       y = event->y;
+      width = event->width;
+      height = event->height;
     }
 
   TRACE_MSG("main window = " << x << " " << y);
@@ -837,9 +875,17 @@ MainWindow::locate_window(GdkEventConfigure *event)
       int head = GUI::get_instance()->map_to_head(x, y);
       TRACE_MSG("main window head = " << x << " " << y);
       // Stores location relative to origin of current head.
+
+      bool rc = GUI::get_instance()->bound_head(x, y, width, height, head);
+
       window_head_location.set_x(x);
       window_head_location.set_y(y);
       set_start_position(x, y, head);
+
+      if (rc)
+        {
+          move_to_start_position();
+        }
     }
   TRACE_EXIT();
 }
@@ -876,6 +922,10 @@ MainWindow::relocate_window(int width, int height)
           HeadInfo &head = gui->get_head(i);
           if (head.valid)
             {
+              GtkRequisition req;
+              on_size_request(&req);
+              GUI::get_instance()->bound_head(x, y, req.width, req.height, i);
+              
               gui->map_from_head(x, y, i);
               break;
             }
@@ -900,5 +950,3 @@ MainWindow::relocate_window(int width, int height)
   
   TRACE_EXIT();
 }
-
-

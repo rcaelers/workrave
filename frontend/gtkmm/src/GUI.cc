@@ -461,11 +461,14 @@ GUI::init_multihead()
 {
   TRACE_ENTER("GUI::init_multihead");
 
+  num_heads = -1;
+  
 #if defined(HAVE_GTK_MULTIHEAD)
   init_gtk_multihead();
 #elif defined(WIN32)
   init_win32_multihead();
 #endif
+
   if (num_heads == -1)
     {
       init_multihead_mem(1);
@@ -607,11 +610,6 @@ GUI::init_gtk_multihead()
               }
         }
     }
-  else
-    {
-      // Use GTK way of centering..
-      num_screens = -1;
-    }
   TRACE_EXIT();
 }
 #endif
@@ -658,31 +656,18 @@ void
 GUI::init_win32_multihead()
 {
   TRACE_ENTER("GUI::init_win32_multihead");
-  
+
   if (! W32Compat::IsWindows95())
     {
-      TRACE_MSG("enum");
       int new_num_heads = GetSystemMetrics(SM_CMONITORS);
-
-      TRACE_MSG("# = " << new_num_heads);
-      init_multihead_mem(new_num_heads);
   
-      if (num_heads > 1)
+      if (new_num_heads > 1)
         {
+          init_multihead_mem(new_num_heads);
+          
           current_monitor = 0;
-          W32Compat::EnumDisplayMonitors(NULL,NULL, ::enum_monitor_callback, (LPARAM)this);
+          W32Compat::EnumDisplayMonitors(NULL, NULL, ::enum_monitor_callback, (LPARAM)this);
         }
-      else if (num_heads == 1)
-        {
-          heads[0].valid = false;
-          heads[0].count = 0;
-        }
-    }
-  else
-    {
-      init_multihead_mem(1);
-      heads[0].valid = false;
-      heads[0].count = 0;
     }
 }
 
@@ -1147,11 +1132,6 @@ GUI::map_to_head(int &x, int &y)
 {
   int head = -1;
 
-  if (num_heads == 1 && !heads[0].valid)
-    {
-      return -1;
-    }
-  
   for (int i = 0; i < num_heads; i++)
     {
       int left, top, width, height;
@@ -1203,6 +1183,52 @@ GUI::map_from_head(int &x, int &y, int head)
     {
       y += h.get_height();
     }
+
   x += h.get_x();
   y += h.get_y();
+}
+
+
+bool
+GUI::bound_head(int &x, int &y, int width, int height, int head)
+{
+  bool ret = false;
+  
+  HeadInfo &h = get_head(head);
+  if (x < - h.get_width())
+    {
+      x = 0;
+      ret = true;
+    }
+  if (y < - h.get_height())
+    {
+      y = 0;
+      ret = true;
+    }
+
+  // Make sure something remains visible..
+  if (x > - 10 && x < 0)
+    {
+      x = - 10;
+      ret = true;
+    }
+  if (y > - 10 && y < 0)
+    {
+      y = - 10;
+      ret = true;
+    }
+  
+  if (x + width >= h.get_width())
+    {
+      x = h.get_width() - width - 10;
+      ret = true;
+    }
+
+  if (y + height >= h.get_height())
+    {
+      y = h.get_height() - height - 10;
+      ret = true;
+    }
+
+  return ret;
 }
