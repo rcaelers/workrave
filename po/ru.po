@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.6.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-08 22:50+0200\n"
+"POT-Creation-Date: 2004-10-18 18:50+0200\n"
 "PO-Revision-Date: 2004-07-13 20:39+0200\n"
 "Last-Translator: Sergey Kirkinsky <ksa@pfr.altai.ru>\n"
 "Language-Team: Sergey Kirkinsky <ksa@pfr.altai.ru>\n"
@@ -88,7 +88,7 @@ msgstr ""
 "возле компьютера. Если Ваш рабочий день ещё не закончился,\n"
 "то найдите себе другое занятие, например, просмотр документов."
 
-#: frontend/gtkmm/src/GUI.cc:710
+#: frontend/gtkmm/src/GUI.cc:732
 msgid "I could not initialize Bonobo"
 msgstr "Не могу инициализировать Bonobo"
 
@@ -111,7 +111,7 @@ msgid "Inactive"
 msgstr "Неактивно"
 
 #: frontend/common/src/TimerBoxControl.cc:235
-#: frontend/gtkmm/src/TimerBoxGtkView.cc:158
+#: frontend/gtkmm/src/TimerBoxGtkView.cc:161
 msgid "Wait"
 msgstr "Ожидание"
 

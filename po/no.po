@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: no\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-08 22:50+0200\n"
+"POT-Creation-Date: 2004-10-18 18:50+0200\n"
 "PO-Revision-Date: 2004-07-16 14:25+0200\n"
 "Last-Translator: Morten Lunde <morten.lunde@broadpark.no>\n"
 "Language-Team:  >\n"
@@ -90,7 +90,7 @@ msgstr ""
 "ved datamaskinen. Hvis din arbeidsdag ikke er slutt, finn \n"
 "på noe annet å gjøre, som gjennomlesning av et dokument."
 
-#: frontend/gtkmm/src/GUI.cc:710
+#: frontend/gtkmm/src/GUI.cc:732
 msgid "I could not initialize Bonobo"
 msgstr "Feil: Kunne ikke initialisere Bonobo"
 
@@ -113,7 +113,7 @@ msgid "Inactive"
 msgstr "Inaktiv"
 
 #: frontend/common/src/TimerBoxControl.cc:235
-#: frontend/gtkmm/src/TimerBoxGtkView.cc:158
+#: frontend/gtkmm/src/TimerBoxGtkView.cc:161
 msgid "Wait"
 msgstr "Vent"
 

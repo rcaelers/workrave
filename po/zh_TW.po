@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WorkRave 1.4.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-08 22:50+0200\n"
+"POT-Creation-Date: 2004-10-18 18:50+0200\n"
 "PO-Revision-Date: 2004-07-13 20:39+0200\n"
 "Last-Translator: Rex Tsai <chihchun@linux.org.tw>\n"
 "Language-Team: Chinese/Traditional <zh-l10n@linux.org.tw>\n"
@@ -88,7 +88,7 @@ msgstr ""
 "您已經達到每日限制量。請停止在電腦前工作工作。\n"
 "如果您尚未下班，找些其他的事情來做，例如檢閱文件。"
 
-#: frontend/gtkmm/src/GUI.cc:710
+#: frontend/gtkmm/src/GUI.cc:732
 msgid "I could not initialize Bonobo"
 msgstr "無法啟動 Bonobo"
 
@@ -111,7 +111,7 @@ msgid "Inactive"
 msgstr "靜止"
 
 #: frontend/common/src/TimerBoxControl.cc:235
-#: frontend/gtkmm/src/TimerBoxGtkView.cc:158
+#: frontend/gtkmm/src/TimerBoxGtkView.cc:161
 msgid "Wait"
 msgstr "等待"
 

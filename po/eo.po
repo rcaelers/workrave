@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-08 22:50+0200\n"
+"POT-Creation-Date: 2004-10-18 18:50+0200\n"
 "PO-Revision-Date: 2003-09-08 19:07+0200\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -89,7 +89,7 @@ msgstr ""
 "malantaŭ via komputilo.  Se via labortago ne ankoraŭ finiĝis,\n"
 "trovu ion alian por fari, kiel revuado de dokumento."
 
-#: frontend/gtkmm/src/GUI.cc:710
+#: frontend/gtkmm/src/GUI.cc:732
 msgid "I could not initialize Bonobo"
 msgstr ""
 
@@ -113,7 +113,7 @@ msgid "Inactive"
 msgstr "Neaktiva"
 
 #: frontend/common/src/TimerBoxControl.cc:235
-#: frontend/gtkmm/src/TimerBoxGtkView.cc:158
+#: frontend/gtkmm/src/TimerBoxGtkView.cc:161
 msgid "Wait"
 msgstr "Atendu"
 

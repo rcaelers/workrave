@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-08 22:50+0200\n"
+"POT-Creation-Date: 2004-10-18 18:50+0200\n"
 "PO-Revision-Date: 2004-07-13 20:38+0200\n"
 "Last-Translator: mikolaj <mikolaj@localhost>\n"
 "Language-Team:  <pl@li.org>\n"
@@ -90,7 +90,7 @@ msgstr ""
 "skończył znajdź coś innego do roboty, np. przeglądanie\n"
 "dokumentów."
 
-#: frontend/gtkmm/src/GUI.cc:710
+#: frontend/gtkmm/src/GUI.cc:732
 msgid "I could not initialize Bonobo"
 msgstr "Nie mogę zainicjować Bonobo"
 
@@ -113,7 +113,7 @@ msgid "Inactive"
 msgstr "Nieaktywny"
 
 #: frontend/common/src/TimerBoxControl.cc:235
-#: frontend/gtkmm/src/TimerBoxGtkView.cc:158
+#: frontend/gtkmm/src/TimerBoxGtkView.cc:161
 msgid "Wait"
 msgstr "Czekaj"
 
