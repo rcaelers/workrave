@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-03-09 17:35+0100\n"
+"POT-Creation-Date: 2003-03-09 22:33+0100\n"
 "PO-Revision-Date: 2003-03-04 22:16+0100\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -13,15 +13,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: gui/BreakControl.cc:682
+#: gui/BreakControl.cc:690
 msgid "Disappears in"
 msgstr "Verdwijnt over"
 
-#: gui/BreakControl.cc:686
+#: gui/BreakControl.cc:694
 msgid "Break in"
 msgstr "Pauze over"
 
-#: gui/BreakControl.cc:690
+#: gui/BreakControl.cc:698
 msgid "Silent in"
 msgstr "Stil over"
 
@@ -162,7 +162,7 @@ msgstr "Overslaan"
 msgid "Postpone"
 msgstr "Uitstellen"
 
-#: gui/gtkmm/GUI.cc:307
+#: gui/gtkmm/GUI.cc:319
 msgid "I could not initialize Bonobo"
 msgstr "Bonobo kon niet geïnitialiseerd worden"
 

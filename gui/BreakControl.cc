@@ -160,7 +160,16 @@ BreakControl::heartbeat()
             else
               {
                 // Snooze break.
-                goto_stage(STAGE_SNOOZED);
+                break_stage = STAGE_PRELUDE; // FIXME: hack to avoid race. will fix later.
+                bool delayed = prelude_window->delayed_stop();
+                if (!delayed)
+                  {
+                    goto_stage(STAGE_SNOOZED);
+                  }
+                else
+                  {
+                    goto_stage(STAGE_DELAYED);
+                  }
               }
           }
         else if (prelude_time == 20)
@@ -268,18 +277,10 @@ BreakControl::goto_stage(BreakStage stage)
       
     case STAGE_SNOOZED:
       {
-        bool delayed = prelude_window->delayed_stop();
-        if (!delayed)
-          {
-            break_window_stop();
-            prelude_window_stop();
-            play_sound(SoundPlayerInterface::SOUND_BREAK_IGNORED);
-            defrost();
-          }
-        else
-          {
-            stage = STAGE_DELAYED;
-          }
+        break_window_stop();
+        prelude_window_stop();
+        play_sound(SoundPlayerInterface::SOUND_BREAK_IGNORED);
+        defrost();
       }
       break;
 
@@ -910,13 +911,17 @@ BreakControl::play_sound(SoundPlayerInterface::Sound snd)
   TRACE_EXIT();
 }
 
+
 void
 BreakControl::prelude_stopped()
 {
-  break_window_stop();
-  prelude_window_stop();
-  play_sound(SoundPlayerInterface::SOUND_BREAK_IGNORED);
-  defrost();
-
-  break_stage = STAGE_SNOOZED;
+  if (break_stage == STAGE_DELAYED)
+    {
+      break_window_stop();
+      prelude_window_stop();
+      play_sound(SoundPlayerInterface::SOUND_BREAK_IGNORED);
+      defrost();
+      
+      goto_stage(STAGE_SNOOZED);
+    }
 }
