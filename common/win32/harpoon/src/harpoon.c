@@ -71,6 +71,38 @@ typedef struct
 } HarpoonKeyboardLLMessage;
 
 
+/**********************************************************************
+ * Misc
+ **********************************************************************/
+
+#ifdef GRAVEYARD
+
+static DWORD
+harpoon_get_service_pack()
+{
+  HKEY hKey;
+  DWORD dwCSDVersion;
+  DWORD dwSize;
+  DWORD ret = 0;
+ 
+  if (RegOpenKeyEx(HKEY_LOCAL_MACHINE,
+      "System\\CurrentControlSet\\Control\\Windows",
+       0, KEY_QUERY_VALUE, &hKey) == ERROR_SUCCESS)
+    {
+      dwSize = sizeof(dwCSDVersion);
+      if (RegQueryValueEx(hKey, "CSDVersion", NULL, NULL,
+                          (unsigned char*)&dwCSDVersion, 
+                           &dwSize) == ERROR_SUCCESS)
+        {
+          ret = (LOWORD(dwCSDVersion));
+        }
+      RegCloseKey(hKey);
+    }
+  return ret;
+}           
+
+#endif
+
 
 /**********************************************************************
  * Blocking
@@ -296,8 +328,11 @@ harpoon_hook(int hook_id, HOOKPROC hf)
       && hook_handles[hook_id] == NULL
       && hook_impl_callbacks[hook_id] != NULL)
     {
-      hook_user_callbacks[hook_id] = hf;
       ret = hook_handles[hook_id] = SetWindowsHookEx(hook_id, hook_impl_callbacks[hook_id], dll_handle, 0);
+      if (ret != NULL)
+        {
+          hook_user_callbacks[hook_id] = hf;
+        }
     }
   return ret;
 }
@@ -309,11 +344,18 @@ harpoon_hook(int hook_id, HOOKPROC hf)
  * Mouse hook
  **********************************************************************/
 
+static BOOL
+harpoon_supports_mouse_hook_struct_ex(void)
+{
+  DWORD dwVersion = GetVersion ();
+  DWORD dwWindowsMajorVersion =  (DWORD) (LOBYTE(LOWORD(dwVersion)));
+  return (dwWindowsMajorVersion >= 5);
+}
+
 LRESULT CALLBACK
 harpoon_mouse_hook (int code, WPARAM wpar, LPARAM lpar)
 {
   HarpoonMouseMessage msg;
-  DWORD dwVersion, dwWindowsMajorVersion;
   PMOUSEHOOKSTRUCT pmhs;
 
   msg.message.code = code;
@@ -324,9 +366,7 @@ harpoon_mouse_hook (int code, WPARAM wpar, LPARAM lpar)
   msg.mouse.MOUSEHOOKSTRUCT = *pmhs;
   msg.mouse.mouseData = 0;
 
-  dwVersion = GetVersion ();
-  dwWindowsMajorVersion =  (DWORD) (LOBYTE(LOWORD(dwVersion)));
-  if (dwWindowsMajorVersion >= 5)
+  if (harpoon_supports_mouse_hook_struct_ex())
     {
       msg.mouse.mouseData = ((PMOUSEHOOKSTRUCTEX) pmhs)->mouseData;
     }
@@ -342,6 +382,30 @@ harpoon_mouse_hook (int code, WPARAM wpar, LPARAM lpar)
 /**********************************************************************
  * Keyboard hook
  **********************************************************************/
+
+#ifdef GRAVEYARD
+static BOOL
+harpoon_supports_keyboard_ll(void)
+{
+  OSVERSIONINFO info;
+  BOOL ret = FALSE;
+  if (GetVersionEx (&info))
+    {
+      if (info.dwPlatformId > VER_PLATFORM_WIN32_NT)
+        {
+          ret = TRUE;
+        }
+      else if (info.dwPlatformId == VER_PLATFORM_WIN32_NT)
+        {
+          /* Check for min. SP3. */
+          DWORD sp = harpoon_get_service_pack();
+          ret = (sp >= 0x300);
+        }
+
+    }
+  return ret;
+}
+#endif
 
 static LRESULT CALLBACK 
 harpoon_keyboard_hook (int code, WPARAM wpar, LPARAM lpar)

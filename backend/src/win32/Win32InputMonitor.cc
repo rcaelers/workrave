@@ -69,8 +69,11 @@ Win32InputMonitor::init(InputMonitorListenerInterface *l)
   assert(b);
 
   harpoon_hook(WH_MOUSE, mouse_hook);
-  harpoon_hook(WH_KEYBOARD, keyboard_hook);
-  harpoon_hook(WH_KEYBOARD_LL, keyboard_ll_hook);
+  if (harpoon_hook(WH_KEYBOARD_LL, keyboard_ll_hook) == NULL)
+    {
+      // Pre NT4 SP3.
+      harpoon_hook(WH_KEYBOARD, keyboard_hook);
+    }
 }
 
 //! Stops the activity monitoring.
@@ -88,10 +91,18 @@ Win32InputMonitor::terminate()
 LRESULT CALLBACK
 Win32InputMonitor::keyboard_ll_hook(int code, WPARAM wparam, LPARAM lparam)
 {
-  // The ll hook has only been added so that keyboard input
-  // from within Exceed works correctly (bug 167). We're not
-  // really interested in what kind of keys in this case...
-  listener->action_notify();
+  KBDLLHOOKSTRUCT *kb = (KBDLLHOOKSTRUCT *) lparam;
+  // We test for keyups, because I could not find a way
+  // to distinguish between key downs, and auto-repeated keydowns.
+  if ((kb->flags & (1<<7)))
+    {
+      // FIXME: supply decent parameters to keyboard_notify()
+      listener->keyboard_notify(0, 0);
+    }
+  else
+    {
+      listener->action_notify();
+    }
 }
 
 LRESULT CALLBACK
