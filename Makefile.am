@@ -9,7 +9,7 @@ MAINTAINERCLEANFILES 	= aclocal.m4 config.h.in configure stamp-h.in Makefile.in 
         install-sh missing mkinstalldirs config.cache config.log config.status \
 	config.guess config.sub depcomp ltmain.sh
 
-SUBDIRS 	= arch gui src images debian
+SUBDIRS 	= arch gui src images debian sounds
 
 EXTRA_DIST	= \
 	config.xml \
