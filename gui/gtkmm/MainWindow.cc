@@ -141,10 +141,11 @@ MainWindow::init()
   // Necessary for popup menu 
   realize_if_needed();
 
+  Glib::RefPtr<Gdk::Window> window = get_window();
+  
 #ifdef HAVE_X
   // HACK. this sets a different group leader in the WM_HINTS....
   // Without this hack, metacity makes ALL windows on-top.
-  Glib::RefPtr<Gdk::Window> window = get_window();
   leader = new Gtk::Window(Gtk::WINDOW_POPUP);
   gtk_widget_realize(GTK_WIDGET(leader->gobj()));
   Glib::RefPtr<Gdk::Window> leader_window = leader->get_window();
