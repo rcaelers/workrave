@@ -790,57 +790,54 @@ BreakControl::set_state_data(const BreakStateData &data)
     {
       active_node = dist_manager->is_active();
     }
-  if (!active_node)
+  if (active_node)
     {
-      return;
-    }
-#endif
-  
-  
-  if (forced_break && data.break_stage == STAGE_TAKING)
-    {
-      TRACE_MSG("User inflicted break");
-
-      prelude_time = 0;
-      goto_stage(STAGE_TAKING);
-    }
-  else if (data.break_stage == STAGE_TAKING) // && !forced_break
-    {
-      TRACE_MSG("Break active");
-
-      // Idle until proven guilty.
-      ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
-      monitor->force_idle();
-      break_timer->stop_timer();
-      
-      goto_stage(STAGE_TAKING);
-    }
-  else if (data.break_stage == STAGE_SNOOZED || data.break_stage == STAGE_PRELUDE)
-    {
-      TRACE_MSG("Snooze/Prelude");
-  
-      forced_break = false;
-      prelude_time = 0;
-      final_prelude = number_of_preludes >= 0 && prelude_count + 1 >= number_of_preludes;
-
-      if (!force_after_prelude && number_of_preludes >= 0 && prelude_count >= number_of_preludes)
+      if (forced_break && data.break_stage == STAGE_TAKING)
         {
-          goto_stage(STAGE_SNOOZED);
+          TRACE_MSG("User inflicted break");
+
+          prelude_time = 0;
+          goto_stage(STAGE_TAKING);
         }
-      else
+      else if (data.break_stage == STAGE_TAKING) // && !forced_break
         {
+          TRACE_MSG("Break active");
+
           // Idle until proven guilty.
           ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
           monitor->force_idle();
           break_timer->stop_timer();
+      
+          goto_stage(STAGE_TAKING);
+        }
+      else if (data.break_stage == STAGE_SNOOZED || data.break_stage == STAGE_PRELUDE)
+        {
+          TRACE_MSG("Snooze/Prelude");
   
-          goto_stage(STAGE_PRELUDE);
+          forced_break = false;
+          prelude_time = 0;
+          final_prelude = number_of_preludes >= 0 && prelude_count + 1 >= number_of_preludes;
+
+          if (!force_after_prelude && number_of_preludes >= 0 && prelude_count >= number_of_preludes)
+            {
+              goto_stage(STAGE_SNOOZED);
+            }
+          else
+            {
+              // Idle until proven guilty.
+              ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
+              monitor->force_idle();
+              break_timer->stop_timer();
+  
+              goto_stage(STAGE_PRELUDE);
+            }
+        }
+      else
+        {
+          goto_stage(STAGE_NONE);
         }
     }
-  else
-    {
-      goto_stage(STAGE_NONE);
-    }
+#endif
   TRACE_EXIT();
 }
 
@@ -848,15 +845,15 @@ BreakControl::set_state_data(const BreakStateData &data)
 void
 BreakControl::get_state_data(BreakStateData &data)
 {
-  if (break_id == GUIControl::BREAK_ID_MICRO_PAUSE)
-    {
-      data.forced_break = false;
-      data.prelude_count = 1;
-      data.break_stage = STAGE_PRELUDE;
-      data.final_prelude = false;
-      data.prelude_time = 10;
-    }
-  else
+//   if (break_id == GUIControl::BREAK_ID_MICRO_PAUSE)
+//     {
+//       data.forced_break = false;
+//       data.prelude_count = 1;
+//       data.break_stage = STAGE_PRELUDE;
+//       data.final_prelude = false;
+//       data.prelude_time = 10;
+//     }
+//   else
     {
       data.forced_break = forced_break;
       data.prelude_count = prelude_count;
