@@ -246,6 +246,11 @@ bool
 Control::create_distribution_manager()
 {
   dist_manager = DistributionManager::get_instance();
+
+  if (dist_manager != NULL)
+    {
+      dist_manager->register_state(DISTR_STATE_TIMER_MP,  this);
+    }
   return dist_manager != NULL;
 }
 #endif
@@ -566,3 +571,38 @@ Control::test_me()
   TRACE_EXIT();
 }
 #endif
+
+
+bool
+Control::get_state(DistributedStateID id, unsigned char **buffer, int *size)
+{
+  TRACE_ENTER("Control::get_state");
+
+  Timer *t = *(timers.begin());
+      
+  string stateStr = t->serialize_state();
+
+  *size = stateStr.size();
+  *buffer = new unsigned char[*size + 1];
+  memcpy(*buffer, stateStr.c_str(), *size + 1);
+
+  TRACE_MSG("got state " << *buffer);
+  
+  TRACE_EXIT();
+  return true;
+}
+
+bool
+Control::set_state(DistributedStateID id, unsigned char *buffer, int size)
+{
+  TRACE_ENTER("Control::set_state");
+
+  Timer *t = *(timers.begin());
+
+  t->deserialize_state(string((char *)buffer));
+
+  TRACE_MSG("got state " << buffer);
+  
+  TRACE_EXIT();
+  return true;
+}

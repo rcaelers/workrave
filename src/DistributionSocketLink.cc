@@ -31,6 +31,7 @@ static const char rcsid[] = "$Id$";
 
 #include <signal.h>
 
+#include "DistributionLink.hh"
 #include "DistributionSocketLink.hh"
 #include "DistributionLinkListener.hh"
 
@@ -153,6 +154,21 @@ DistributionSocketLink::init(gint port)
   return ret;
 }
 
+bool
+DistributionSocketLink::register_state(DistributedStateID id,
+                                       DistributedStateInterface *dist_state)
+{
+  state_map[id] = dist_state;
+  return true;
+}
+
+
+bool
+DistributionSocketLink::unregister_state(DistributedStateID id)
+{
+  return false;
+}
+
 
 bool
 DistributionSocketLink::add_client(gchar *host, gint port)
@@ -193,19 +209,7 @@ DistributionSocketLink::remove_client(Client *client)
     {
       if (client == NULL || *i == client)
         {
-          g_source_remove(client->watch);
-          g_io_channel_unref(client->iochannel);
-          gnet_tcp_socket_delete(client->socket);
-
-          if (client->server_name != NULL)
-            {
-              g_free(client->server_name);
-            }
-          if (client->canonical_name != NULL)
-            {
-              g_free(client->canonical_name);
-            }
-
+          delete *i;
           i = clients.erase(i);
         }
       else
@@ -281,6 +285,7 @@ DistributionSocketLink::set_me_active()
     }
   TRACE_EXIT();
 }
+
 
 
 void
@@ -428,6 +433,10 @@ DistributionSocketLink::process_client_packet(Client *client)
 
         case PACKET_NEW_MASTER:
           handle_new_master(client);
+          break;
+
+        case PACKET_STATEINFO:
+          handle_state(client);
           break;
         }
     }
@@ -687,15 +696,15 @@ DistributionSocketLink::handle_claim(Client *client)
 
   TRACE_MSG("Claim from " << client->canonical_name << ":" << client->server_port);
 
-  active_client = client;
-  active = false;
-
-  if (dist_manager != NULL)
-    {
-      dist_manager->active_changed(false);
-    }
+  bool was_active = active;
   
+  set_active(client);
   send_new_master();
+
+  if (was_active)
+    {
+      send_state();
+    }
   TRACE_EXIT();
 }
 
@@ -762,6 +771,77 @@ DistributionSocketLink::handle_new_master(Client *client)
   
   g_free(cname);
   
+  TRACE_EXIT();
+}
+
+
+void
+DistributionSocketLink::send_state()
+{
+  TRACE_ENTER("DistributionSocketLink:send_state");
+  PacketBuffer packet;
+  packet.create();
+  init_packet(packet, PACKET_STATEINFO);
+
+  packet.pack_ushort(state_map.size());
+  
+  map<DistributedStateID, DistributedStateInterface *>::iterator i = state_map.begin();
+  while (i != state_map.end())
+    {
+      DistributedStateID id = i->first;
+      DistributedStateInterface *itf = i->second;
+
+      guchar *data = NULL;
+      gint size = 0;
+
+      bool ok = itf->get_state(id, &data, &size);
+
+      TRACE_MSG("state " << size << " " << data);
+      if (ok)
+        {
+          packet.pack_ushort(size);
+          packet.pack_ushort(id);
+          packet.pack((char *)data, size);
+        }
+      else
+        {
+          packet.pack_ushort(0);
+          packet.pack_ushort(id);
+        }
+      i++;
+    }
+
+  send_packet_broadcast(packet);
+  TRACE_EXIT();
+}
+
+
+void
+DistributionSocketLink::handle_state(Client *client)
+{
+  TRACE_ENTER("DistributionSocketLink:handle_state");
+  PacketBuffer &packet = client->packet;
+
+  gint size = packet.unpack_ushort();
+  TRACE_MSG("size = " << size);
+  
+  for (int i = 0; i < size; i++)
+    {
+      gint datalen = packet.unpack_ushort();
+      DistributedStateID id = (DistributedStateID) packet.unpack_ushort();
+
+      TRACE_MSG(datalen << " " << id);
+      DistributedStateInterface *itf = state_map[id];
+
+      if (datalen != 0)
+        {
+          guchar *data = NULL;
+          data = (guchar *) packet.unpack();
+
+          itf->set_state(id, data, datalen);
+        }
+    }
+
   TRACE_EXIT();
 }
 
@@ -986,3 +1066,4 @@ DistributionSocketLink::static_async_client_connfunc(GTcpSocket *socket, GInetAd
       client->link->async_client_connfunc(socket, ia, status, client);
     }
 }
+

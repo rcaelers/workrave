@@ -22,21 +22,14 @@
 #include <string>
 
 #include "DistributionLinkListener.hh"
+#include "DistributedStateInterface.hh"
 
 class DistributionLink;
-class DistributedStateInterface;
 
 class DistributionManager : public DistributionLinkListener
 {
 public:
   enum NodeState { NODE_ACTIVE, NODE_PASSIVE, NODE_STANDBY };
-  enum DistributesStateID
-    {
-      DISTR_STATE_TIMER_MP = 0x0010,
-      DISTR_STATE_TIMER_RB = 0x0011,
-      DISTR_STATE_TIMER_DL = 0x0012,
-    };
-
   
   static DistributionManager *get_instance();
   
@@ -48,8 +41,8 @@ public:
   int get_number_of_peers();
   bool claim();
   bool join(string url);
-  bool register_state(DistributesStateID id, DistributedStateInterface *dist_state);
-  void unregister_state(int state_id);
+  bool register_state(DistributedStateID id, DistributedStateInterface *dist_state);
+  bool unregister_state(DistributedStateID id);
 
   //
   virtual void active_changed(bool result);

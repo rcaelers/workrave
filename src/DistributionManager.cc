@@ -116,15 +116,30 @@ DistributionManager::join(string url)
 
 
 bool
-DistributionManager::register_state(DistributesStateID id, DistributedStateInterface *dist_state)
+DistributionManager::register_state(DistributedStateID id, DistributedStateInterface *dist_state)
 {
-  return false;
+  bool ret = false;
+  
+  if (link != NULL)
+    {
+      link->register_state(id, dist_state);
+      ret = true;
+    }
+  return ret;
 }
 
 
-void
-DistributionManager::unregister_state(int state_id)
+bool
+DistributionManager::unregister_state(DistributedStateID id)
 {
+  bool ret = false;
+  
+  if (link != NULL)
+    {
+      link->unregister_state(id);
+      ret = true;
+    }
+  return ret;
 }
   
 

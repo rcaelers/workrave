@@ -1,4 +1,4 @@
-// DistributionLinkListener.hh
+// DistributedStateListener.hh
 //
 // Copyright (C) 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
@@ -16,13 +16,23 @@
 // $Id$
 //
 
-#ifndef DISTRIBUTIONLINKLISTENER_HH
-#define DISTRIBUTIONLINKLISTENER_HH
+#ifndef DISTRIBUTEDSTATEINTERFACE_HH
+#define DISTRIBUTEDSTATEINTERFACE_HH
 
-class DistributionLinkListener
+enum DistributedStateID
+  {
+    DISTR_STATE_TIMER_MP = 0x0010,
+    DISTR_STATE_TIMER_RB = 0x0011,
+    DISTR_STATE_TIMER_DL = 0x0012,
+  };
+
+class DistributedStateInterface
 {
 public:
-  virtual void active_changed(bool result) = 0;
+  DistributedStateInterface() {}
+  virtual ~DistributedStateInterface() {}
+  virtual bool get_state(DistributedStateID id, unsigned char **buffer, int *size) = 0;
+  virtual bool set_state(DistributedStateID id, unsigned char *buffer, int size) = 0;
 };
 
-#endif // DISTRIBUTIONLINKLISTENER_HH
+#endif // DISTRIBUTEDSTATEINTERFACE_HH

@@ -16,12 +16,15 @@
 // $Id$
 //
 
-#ifndef DISTRIBUTIOLINK_HH
-#define DISTRIBUTIOLINK_HH
+#ifndef DISTRIBUTIONLINK_HH
+#define DISTRIBUTIONLINK_HH
 
 #include <string>
 
 class DistributionLinkListener;
+class DistributedStateInterface;
+
+#include "DistributedStateInterface.hh"
 
 class DistributionLink
 {
@@ -31,10 +34,12 @@ public:
 
   virtual int get_number_of_peers() = 0;
   virtual void set_distribution_manager(DistributionLinkListener *dll) = 0;
-  virtual bool init(gint port) = 0;
+  virtual bool init(int port) = 0;
   virtual void set_user(string username, string password) = 0;
   virtual void join(string url) = 0;
   virtual bool claim() = 0;
+  virtual bool register_state(DistributedStateID id, DistributedStateInterface *dist_state) = 0;
+  virtual bool unregister_state(DistributedStateID id) = 0;
 };
 
-#endif // DISTRIBUTIOLINK_HH
+#endif // DISTRIBUTIONLINK_HH

@@ -20,10 +20,12 @@
 #define DISTRIBUTIONSOCKETLINK_HH
 
 #include <list>
+#include <map>
 #include <glib.h>
 #include <gnet/gnet.h>
 
 #include "DistributionLink.hh"
+#include "DistributedStateInterface.hh"
 #include "PacketBuffer.hh"
 
 class DistributionLinkListener;
@@ -37,6 +39,7 @@ private:
     PACKET_CLIENT_LIST	= 0x0003,
     PACKET_WELCOME	= 0x0004,
     PACKET_NEW_MASTER	= 0x0005,
+    PACKET_STATEINFO	= 0x0006,
   };
 
   enum ClientListFlags
@@ -48,6 +51,42 @@ private:
   
   struct Client
   {
+    Client() :
+      canonical_name(NULL),
+      server_name(NULL),
+      server_port(0),
+      socket(NULL),
+      iochannel(NULL),
+      watch_flags(0),
+      watch(0),
+      link(NULL)
+    {
+    }
+
+    ~Client()
+    {
+      if (canonical_name != NULL)
+        {
+          g_free(canonical_name);
+        }
+      if (server_name != NULL)
+        {
+          g_free(server_name);
+        }
+
+      if (iochannel != NULL)
+        {
+          g_io_channel_unref(iochannel);
+        }
+
+      if (socket != NULL)
+        {
+          gnet_tcp_socket_delete(socket);
+        }
+      
+      g_source_remove(watch);
+    }
+    
     //! Canonical IP.
     gchar *canonical_name;
     
@@ -88,6 +127,9 @@ public:
   void join(string url);
   bool claim();
 
+  bool register_state(DistributedStateID id, DistributedStateInterface *dist_state);
+  bool unregister_state(DistributedStateID id);
+  
 private:
   bool add_client(gchar *host, gint port);
   bool remove_client(Client *client);
@@ -97,6 +139,7 @@ private:
   void set_active(gchar *cname, gint port);
   void set_active(Client *client);
   void set_me_active();
+
   
   void init_packet(PacketBuffer &packet, PacketCommand cmd);
   void send_packet_broadcast(PacketBuffer &packet);
@@ -110,12 +153,14 @@ private:
   void handle_client_list(Client *client);
   void handle_claim(Client *client);
   void handle_new_master(Client *client);
+  void handle_state(Client *client);
   
   void send_hello(Client *client);
   void send_welcome(Client *client);
   void send_client_list(Client *client);
   void send_claim(Client *client);
   void send_new_master(Client *client = NULL);
+  void send_state();
   
   bool start_async_server();
   void async_accept(GTcpSocket *server, GTcpSocket *client);
@@ -153,7 +198,10 @@ private:
   GTcpSocket *server_socket;
 
   //!
-  DistributionLinkListener *dist_manager;  
+  DistributionLinkListener *dist_manager;
+
+  //! State
+  map<DistributedStateID, DistributedStateInterface *> state_map;
 };
 
 #endif // DISTRIBUTIONSOCKETLINK_HH

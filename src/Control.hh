@@ -39,6 +39,7 @@
 
 #include "ControlInterface.hh"
 #include "ActivityMonitor.hh"
+#include "DistributedStateInterface.hh"
 
 #include "Timer.hh"
 #include "GUIInterface.hh"
@@ -56,7 +57,8 @@ class DistributionManager;
 class Control :
   public TimeSource,
   public ControlInterface,
-  public ConfiguratorListener
+  public ConfiguratorListener,
+  public DistributedStateInterface
 {
 public:
   typedef std::list<Timer *> Timers;
@@ -116,6 +118,9 @@ private:
   bool create_monitor();
   bool create_timers();
   //bool process_timer_event(Timer *timer, Timer::TimerEvent event);
+
+  bool get_state(DistributedStateID id, unsigned char **buffer, int *size);
+  bool set_state(DistributedStateID id, unsigned char *buffer, int size);
   
 private:
   //! List of timers
