@@ -1,3 +1,9 @@
+workrave (1.6.0) unstable; urgency=low
+
+  * New release
+
+ -- Rob Caelers <robc@krandor.org>  Fri, 30 Apr 2004 22:57:54 +0200
+
 workrave-cvs (1.4.1.99) unstable; urgency=low
 
   * Renamed debian package
