@@ -692,19 +692,21 @@ Menus::on_menu_about()
     "Johannes Rohr <j.rohr@comlink.apc.org>\n"
     "Christian Vejlbo <christian@vejlbo.dk>\n"
     "Mikolaj Machowski <mikmach@wp.pl>\n"
-    "Pablo Rodriguez\n";
+    "Pablo Rodriguez\n"
+    "Rex Tsai <chihchun@linux.org.tw>\n";
   string icon = Util::complete_directory("workrave.png",
                                          Util::SEARCH_PATH_IMAGES);
-  GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(icon.c_str(), NULL); // FIXME: leak
+  GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(icon.c_str(), NULL); 
   gtk_widget_show (gnome_about_new
                    ("Workrave", VERSION,
-                    "Copyright 2001-2003 Rob Caelers & Raymond Penners",
+                    "Copyright 2001-2004 Rob Caelers & Raymond Penners",
                     _("This program assists in the prevention and recovery"
                       " of Repetitive Strain Injury (RSI)."),
                     (const gchar **) authors,
                     (const gchar **) NULL,
                     translators,
                     pixbuf));
+  g_object_unref(pixbuf);
 }
 
 

@@ -1,5 +1,5 @@
 # Johannes Rohr translation of Workrave.
-# Copyright (C) 2003 Rob Caelers & Raymond Penners
+# Copyright (C) 2003, 2004 Rob Caelers & Raymond Penners
 # This file is distributed under the same license as the Workrave package.
 # Johannes Rohr <j.rohr@comlink.apc.org>, 2003.
 # 
@@ -117,7 +117,6 @@ msgstr "Warten"
 #: frontend/gtkmm/src/GtkUtil.cc:117 frontend/gtkmm/src/MicroBreakWindow.cc:48
 #: frontend/gtkmm/src/MicroBreakWindow.cc:110
 #: frontend/gtkmm/src/MicroBreakWindow.cc:146
-#, fuzzy
 msgid "Micro-break"
 msgstr "Mikropause"
 
@@ -326,7 +325,6 @@ msgstr "Blockiermodus:"
 
 # src/app/gtkmm/PreludeWindow.cc:81
 #: frontend/gtkmm/src/PreludeWindow.cc:105
-#, fuzzy
 msgid "Time for a micro-break?"
 msgstr "Zeit für eine Mikropause?"
 
@@ -380,7 +378,6 @@ msgstr "Alle Uhren nebeneinander anzeigen"
 
 # src/app/gtkmm/TimerBoxPreferencePage.cc:94
 #: frontend/gtkmm/src/TimerBoxPreferencePage.cc:98
-#, fuzzy
 msgid "Place micro-break and rest break in one spot"
 msgstr "Mikropause und Ruhepause an einer Stelle anzeigen"
 
@@ -442,19 +439,18 @@ msgstr "Zeit bis zum Wechsel der Anzeige:"
 # src/app/gtkmm/TimerBoxPreferencePage.cc:170
 #. Layout
 #: frontend/gtkmm/src/TimerBoxPreferencePage.cc:172
-#, fuzzy
 msgid "Micro-break:"
-msgstr "Mikropause"
+msgstr "Mikropause:"
 
 # src/app/gtkmm/TimerBoxPreferencePage.cc:171
 #: frontend/gtkmm/src/TimerBoxPreferencePage.cc:173
 msgid "Rest break:"
-msgstr "Ruhepause"
+msgstr "Ruhepause:"
 
 # src/app/gtkmm/TimerBoxPreferencePage.cc:172
 #: frontend/gtkmm/src/TimerBoxPreferencePage.cc:174
 msgid "Daily limit:"
-msgstr "Tägliches Limit"
+msgstr "Tägliches Limit:"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:57
 #. Enabled/Disabled checkbox
@@ -489,7 +485,6 @@ msgstr ""
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:169
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:171
-#, fuzzy
 msgid "Regard micro-breaks as activity"
 msgstr "Mikropausen als Aktivität betrachten"
 
@@ -500,25 +495,21 @@ msgstr "Anzahl der Übungen"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:202
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:210
-#, fuzzy
 msgid "Time before end:"
 msgstr "Zeit bis zur Pause:"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:202
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:211
-#, fuzzy
 msgid "Time between breaks:"
 msgstr "Zeit bis zur Pause:"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:219
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:220
-#, fuzzy
 msgid "Break duration:"
 msgstr "Dauer der Pause:"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:236
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:242
-#, fuzzy
 msgid "Postpone time:"
 msgstr "Dauer des Aufschubs:"
 
@@ -1342,13 +1333,11 @@ msgstr "Übungen beendet"
 # src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/MicroPauseWindow.cc:168
 # src/app/gtkmm/MicroPauseWindow.cc:204
 #: frontend/common/share/sounds/workrave.soundlist.in.h:6
-#, fuzzy
 msgid "Micro-break ended"
-msgstr "Mikropause"
+msgstr "Mikropause beendet"
 
 # src/app/shared/sounds/workrave.soundlist.in.h:7
 #: frontend/common/share/sounds/workrave.soundlist.in.h:7
-#, fuzzy
 msgid "Micro-break started"
 msgstr "Mikropause begonnen"
 

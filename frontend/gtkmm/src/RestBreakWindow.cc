@@ -70,7 +70,7 @@ RestBreakWindow::RestBreakWindow(HeadInfo &head, bool ignorable,
   progress_max_value(0)
 {
   TRACE_ENTER("RestBreakWindow::RestBreakWindow");
-  set_title(_("_Rest break"));
+  set_title(_("Rest break"));
   TRACE_EXIT();
 }
 
