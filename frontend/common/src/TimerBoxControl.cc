@@ -256,8 +256,8 @@ TimerBoxControl::update_widgets()
       view->set_time_bar(BreakId(count), text,
                          primary_color, primary_val, primary_max,
                          secondary_color, secondary_val, secondary_max);
-      view->set_tip(tip);
     }
+  view->set_tip(tip);
 }
 
 void
