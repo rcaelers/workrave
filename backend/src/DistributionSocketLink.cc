@@ -1,6 +1,6 @@
 // DistributionSocketLink.cc
 //
-// Copyright (C) 2002, 2003, 2004 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2004, 2005 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -330,6 +330,7 @@ DistributionSocketLink::set_distribution_manager(DistributionManager *dll)
 bool
 DistributionSocketLink::set_enabled(bool enabled)
 {
+  TRACE_ENTER_MSG("DistributionSocketLink:set_enabled", enabled);
   bool ret = server_enabled;
 
   if (enabled)
@@ -339,6 +340,7 @@ DistributionSocketLink::set_enabled(bool enabled)
       if (myname != NULL)
         {
           myid = g_strdup_printf("%s:%d", myname, server_port);
+          TRACE_MSG(myid);
         }
       else
         {
@@ -372,6 +374,7 @@ DistributionSocketLink::set_enabled(bool enabled)
     }
 
   server_enabled = enabled;
+  TRACE_EXIT();
   return ret;
 }
 

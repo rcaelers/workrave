@@ -1,6 +1,6 @@
 // GnetSocketDriver.cc
 //
-// Copyright (C) 2002, 2003, 2004 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2004, 2005 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -54,7 +54,33 @@ char *
 GNetSocketDriver::get_my_canonical_name()
 {
 #ifdef HAVE_GNET2
-  GInetAddr *ia = gnet_inetaddr_get_host_addr();
+  GInetAddr* ia = gnet_inetaddr_get_host_addr();
+
+  if (gnet_inetaddr_is_reserved(ia) 	||
+      gnet_inetaddr_is_loopback(ia) 	||
+      gnet_inetaddr_is_multicast(ia) 	||
+      gnet_inetaddr_is_broadcast(ia)    ||
+      !gnet_inetaddr_is_ipv4(ia))
+    {
+      GList *interfaces = gnet_inetaddr_list_interfaces();
+      if (interfaces != NULL)
+        {
+          for (GList *i = interfaces; i != NULL; i = i->next)
+            {
+              ia = (GInetAddr*) i->data;
+              
+              if (!gnet_inetaddr_is_reserved(ia) 	&&
+                  !gnet_inetaddr_is_loopback(ia) 	&&
+                  !gnet_inetaddr_is_multicast(ia) 	&&
+                  !gnet_inetaddr_is_broadcast(ia)   &&
+                  gnet_inetaddr_is_ipv4(ia))
+                {
+                  break;
+                }
+            }
+        }
+    }
+  
 #else
   GInetAddr *ia = gnet_inetaddr_gethostaddr();
 #endif
