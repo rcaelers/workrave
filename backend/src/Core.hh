@@ -104,6 +104,7 @@ public:
   void set_freeze_all_breaks(bool freeze);
 
   void stop_prelude(BreakId break_id);
+  void do_force_break(BreakId id);
   
 private:
 
@@ -159,6 +160,7 @@ private:
       BCM_POSTPONE,
       BCM_SKIP,
       BCM_ABORT_PRELUDE,
+      BCM_START_BREAK,
     };
   
   void send_break_control_message(BreakId break_id, BreakControlMessage message);

@@ -182,7 +182,8 @@ TimerBoxControl::update_widgets()
       int primary_val, primary_max;
       TimeBarInterface::ColorId secondary_color;
       int secondary_val, secondary_max;
-      
+
+#ifdef LETS_SEE_HOW_WORKRAVE_BEHAVES_WITHOUT_THIS      
       if (!node_master && num_peers > 0)
         {
           text = _("Inactive");
@@ -194,6 +195,7 @@ TimerBoxControl::update_widgets()
           secondary_max = 60;
         }
       else
+#endif
         {
           if (timer == NULL)
             {
@@ -260,6 +262,7 @@ TimerBoxControl::update_widgets()
   view->set_tip(tip);
 }
 
+
 void
 TimerBoxControl::init_icon()
 {
@@ -281,6 +284,7 @@ TimerBoxControl::init_icon()
       break;
     }
 }
+
 
 //! Initializes the applet.
 void

@@ -244,6 +244,7 @@ Core::init_distribution_manager()
   dist_manager->register_client_message(DCM_TIMERS, DCMT_MASTER, this);
   dist_manager->register_client_message(DCM_MONITOR, DCMT_MASTER, this);
   dist_manager->register_client_message(DCM_IDLELOG, DCMT_SIGNON, this);
+  dist_manager->register_client_message(DCM_BREAKCONTROL, DCMT_PASSIVE, this);
 #ifndef NDEBUG
   dist_manager->register_client_message(DCM_SCRIPT, DCMT_PASSIVE, this);
 #endif
@@ -462,6 +463,16 @@ Core::set_core_events_listener(CoreEventListener *l)
 //! Forces the start of the specified break.
 void
 Core::force_break(BreakId id)
+{
+  do_force_break(id);
+#ifdef HAVE_DISTRIBUTION  
+  send_break_control_message(id, BCM_START_BREAK);
+#endif
+}
+
+//! Forces the start of the specified break.
+void
+Core::do_force_break(BreakId id)
 {
   BreakControl *microbreak_control = breaks[BREAK_ID_MICRO_BREAK].get_break_control();
   if (id == BREAK_ID_REST_BREAK
@@ -1470,6 +1481,10 @@ Core::set_break_control(PacketBuffer &buffer)
 
         case BCM_ABORT_PRELUDE:
           do_stop_prelude(break_id);
+          break;
+
+        case BCM_START_BREAK:
+          do_force_break(break_id);
           break;
         }
     }
