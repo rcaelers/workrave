@@ -681,6 +681,9 @@ GUI::init_gui()
   // Setup the window hints module.
   WindowHints::init();
 
+  tooltips = manage(new Gtk::Tooltips());
+  tooltips->enable();
+
   // The main status window.
   main_window = new MainWindow();
   
@@ -689,9 +692,6 @@ GUI::init_gui()
   applet_window = new AppletWindow();
 #endif
   
-  tooltips = manage(new Gtk::Tooltips());
-  tooltips->enable();
-
   // Periodic timer.
   Glib::signal_timeout().connect(MEMBER_SLOT(*this, &GUI::on_timer), 1000);
 

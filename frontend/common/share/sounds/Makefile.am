@@ -6,7 +6,7 @@
 # $Id$
 #
 
-MAINTAINERCLEANFILES = 	Makefile.in workrave.soundlist.in
+MAINTAINERCLEANFILES = 	Makefile.in workrave.soundlist
 
 soundsdir = 		$(datadir)/sounds/workrave
 sounds_DATA = 		$(wildcard *.wav)

@@ -350,8 +350,6 @@ ActivityMonitor::mouse_notify(int x, int y, int wheel_delta)
 {
   static const int sensitivity = 3;
 
-  TRACE_ENTER_MSG("ActivityMonitor::mouse_notify", x << " " << y << " " << wheel_delta << " " << button_is_pressed);
-  
   lock.lock();
   const int delta_x = x - prev_x;
   const int delta_y = y - prev_y;
@@ -388,8 +386,6 @@ ActivityMonitor::button_notify(int button_mask, bool is_press)
 {
   (void)button_mask;
 
-  TRACE_ENTER_MSG("ActivityMonitor::button_notify", button_mask << " " << is_press);
-  
   lock.lock();
   if (click_x != -1)
     {
@@ -418,8 +414,6 @@ ActivityMonitor::button_notify(int button_mask, bool is_press)
 void
 ActivityMonitor::keyboard_notify(int key_code, int modifier)
 {
-  TRACE_ENTER_MSG("ActivityMonitor::keyboard_notify", key_code << " " << modifier);
-
   (void)key_code;
   (void)modifier;
   

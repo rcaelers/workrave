@@ -442,6 +442,11 @@ BreakControl::force_start_break()
           fake_break_count = break_timer->get_auto_reset();
         }
     }
+
+  if (!break_timer->get_activity_sensitive())
+    {
+      break_timer->force_idle();
+    }
   
   goto_stage(STAGE_TAKING);
 

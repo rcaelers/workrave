@@ -100,6 +100,7 @@ workrave_SOURCES = \
 			GUI.cc \
 			GtkUtil.cc \
 			EventLabel.cc \
+			EventImage.cc \
 			HeadInfo.cc \
 			Hig.cc \
 			IconListNotebook.cc \

@@ -93,6 +93,12 @@ TimerBoxAppletView::set_time_bar(BreakId id,
 }
 
 void
+TimerBoxAppletView::set_tip(string tip)
+{
+}
+
+
+void
 TimerBoxAppletView::update()
 {
   update_time_bars();

@@ -38,6 +38,8 @@ static const char rcsid[] = "$Id$";
 #include "Util.hh"
 #include "Text.hh"
 #include "Menus.hh"
+#include "GUI.hh"
+#include "GtkUtil.hh"
 
 #include "CoreFactory.hh"
 #include "BreakInterface.hh"
@@ -97,7 +99,7 @@ TimerBoxGtkView::init()
   TRACE_ENTER("TimerBoxGtkView::init");
 
   string sheep_file = Util::complete_directory("workrave-icon-medium.png", Util::SEARCH_PATH_IMAGES);
-  sheep = manage(new Gtk::Image(sheep_file));
+  sheep = GtkUtil::create_image_with_tooltip(sheep_file, "Workrave");
   sheep->reference();
 
   init_widgets();
@@ -166,7 +168,6 @@ TimerBoxGtkView::init_table()
 {
   TRACE_ENTER("TimerBoxGtkView::init_table");
 
-  
   // Compute number of visible breaks.
   int number_of_timers = 0;
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -332,6 +333,14 @@ TimerBoxGtkView::set_time_bar(BreakId id,
   bar->set_progress(primary_val, primary_max);
   bar->set_secondary_bar_color(secondary_color);
   bar->set_secondary_progress(secondary_val, secondary_max);
+}
+
+
+void
+TimerBoxGtkView::set_tip(string tip)
+{
+  Gtk::Tooltips *tt = GUI::get_instance()->get_tooltips();
+  tt->set_tip(*sheep, tip.c_str());
 }
 
 void

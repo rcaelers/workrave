@@ -58,6 +58,10 @@ public:
                                      std::string tooltip);
 
   static Gtk::Widget *
+  GtkUtil::create_image_with_tooltip(std::string file,
+                                     std::string tooltip);
+
+  static Gtk::Widget *
   create_label_for_break(BreakId id);
 
   static Glib::RefPtr<Gdk::Pixbuf> 

@@ -671,6 +671,13 @@ MainWindow::win32_add_tray_icon()
   DestroyIcon(win32_tray_icon.hIcon);
 }
 
+void
+MainWindow::win32_set_tray_tooltip(string tip)
+{
+  strcpy(win32_tray_icon.szTip, tip.c_str());
+  Shell_NotifyIcon(NIM_MODIFY, &win32_tray_icon);
+}
+
 LRESULT CALLBACK
 MainWindow::win32_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
                               LPARAM lParam)

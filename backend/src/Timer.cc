@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2004-07-31 20:31:13 robc>
+// Time-stamp: <2004-10-03 10:27:57 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -237,6 +237,17 @@ Timer::set_activity_sensitive(bool a)
         {
           activity_state = ACTIVITY_ACTIVE;
         }
+    }
+}
+
+
+//! Forces a activity insensitive timer to become idle
+void
+Timer::force_idle()
+{
+  if (!activity_sensitive)
+    {
+      activity_state = ACTIVITY_IDLE;
     }
 }
 
@@ -607,6 +618,11 @@ Timer::shift_time(int delta)
       last_reset_time += delta;
     }
 
+  if (last_pred_reset_time > 0)
+    {
+      last_pred_reset_time += delta;
+    }
+
   if (last_stop_time > 0)
     {
       last_stop_time += delta;
@@ -870,8 +886,13 @@ Timer::deserialize_state(std::string state)
      >> llt
      >> lle;
 
+  // Sanoty check...
+  if (lastReset > saveTime)
+    {
+      lastReset = saveTime;
+    }
+  
   TRACE_MSG(si << " " << llt << " " << lle);
-
   TRACE_MSG(snooze_inhibited);
   
   last_pred_reset_time = lastReset;

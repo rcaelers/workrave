@@ -151,6 +151,10 @@ TimerBoxControl::update_widgets()
       num_peers = dist_manager->get_number_of_peers();
     }
 #endif
+
+  //FIXME: duplicate
+  char *labels[] = { _("Micro-break"), _("Rest break"), _("Daily limit") };
+  string tip = "Workrave";
   
   for (int count = 0; count < BREAK_ID_SIZEOF; count++)
     {
@@ -189,7 +193,7 @@ TimerBoxControl::update_widgets()
           time_t breakDuration = timer->get_auto_reset();
           time_t idleTime = timer->get_elapsed_idle_time();
           bool overdue = (maxActiveTime < activeTime);
-          
+
           // Set the text
           if (timer->is_limit_enabled() && maxActiveTime != 0)
             {
@@ -200,6 +204,10 @@ TimerBoxControl::update_widgets()
               text = Text::time_to_string(activeTime);
             }
 
+          tip += "\n";
+          tip += labels[count];
+          tip += ": " + text;
+          
           // And set the bar.
           secondary_val = secondary_max = 0;
           secondary_color = TimeBarInterface::COLOR_ID_INACTIVE;
@@ -233,6 +241,7 @@ TimerBoxControl::update_widgets()
       view->set_time_bar(BreakId(count), text,
                          primary_color, primary_val, primary_max,
                          secondary_color, secondary_val, secondary_max);
+      view->set_tip(tip);
     }
 }
 

@@ -33,6 +33,7 @@
 #include "Util.hh"
 #include "GtkUtil.hh"
 #include "EventLabel.hh"
+#include "EventImage.hh"
 #include "HeadInfo.hh"
 
 bool
@@ -193,6 +194,7 @@ Gtk::Widget *
 GtkUtil::create_label_with_tooltip(string text, string tooltip)
 {
 #if 0
+  // This doesn't (didn't ?) work.
   Gtk::Label *label = Gtk::manage(new Gtk::Label(text));
   Gtk::EventBox *eventbox = Gtk::manage(new Gtk::EventBox());
   eventbox->add(*label);
@@ -205,6 +207,16 @@ GtkUtil::create_label_with_tooltip(string text, string tooltip)
   GUI::get_instance()->get_tooltips()->set_tip(*label, tooltip);
   return label;
 #endif
+}
+
+
+Gtk::Widget *
+GtkUtil::create_image_with_tooltip(string file, string tooltip)
+{
+  EventImage *image = Gtk::manage(new EventImage(file));
+  
+  GUI::get_instance()->get_tooltips()->set_tip(*image, tooltip);
+  return image;
 }
 
 Gtk::Label *
