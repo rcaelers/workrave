@@ -343,12 +343,20 @@ workrave_applet_fire_workrave()
 static void
 verb_about(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
 {
+  /* FIXME: remoe duplicate code... */
   static const char *authors[] =
     {
       "Rob Caelers <robc@krandor.org>",
       "Raymond Penners <raymond@dotsphinx.com>",
       NULL
     };
+
+  const gchar *translators = 
+    "Raymond Penners <raymond@dotsphinx.com>\n"
+    "Johannes Rohr <j.rohr@comlink.apc.org>\n"
+    "Christian Vejlbo <christian@vejlbo.dk>\n"
+    "Mikolaj Machowski <mikmach@wp.pl>\n"
+    "Pablo Rodriguez\n";
 
   GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(WORKRAVE_DATADIR "/images/workrave.png", NULL);  
   gtk_widget_show (gnome_about_new
@@ -358,7 +366,7 @@ verb_about(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
                       " of Repetitive Strain Injury (RSI)."),
                     (const gchar **) authors,
                     (const gchar **) NULL,
-                    NULL,
+                    translators,
                     pixbuf));
 }
 
