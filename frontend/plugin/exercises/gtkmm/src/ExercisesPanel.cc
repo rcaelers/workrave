@@ -336,7 +336,7 @@ ExercisesPanel::start_exercise()
 {
   const Exercise &exercise = *exercise_iterator;
   Glib::RefPtr<Gtk::TextBuffer> buf = description_text.get_buffer();
-  Glib::ustring txt = HigUtil::create_alert_text(exercise.title.c_str(),
+  std::string txt = HigUtil::create_alert_text(exercise.title.c_str(),
                                                  exercise.description.c_str());
   text_buffer_set_markup(buf->gobj(), txt.c_str(), txt.length());
   exercise_time = 0;
