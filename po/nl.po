@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 0.3.0\n"
-"POT-Creation-Date: 2002-10-25 23:58+0200\n"
+"POT-Creation-Date: 2002-10-26 18:21+0200\n"
 "PO-Revision-Date: 2002-10-26 00:04+0200\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -14,19 +14,19 @@ msgstr ""
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: gui/BreakControl.cc:653
+#: gui/BreakControl.cc:660
 msgid "Disappears in"
 msgstr "Verdwijnt over"
 
-#: gui/BreakControl.cc:657
+#: gui/BreakControl.cc:664
 msgid "Break in"
 msgstr "Pauze over"
 
-#: gui/BreakControl.cc:661
+#: gui/BreakControl.cc:668
 msgid "Silent in"
 msgstr "Stil over"
 
-#: gui/GUIControl.cc:85 gui/gtkmm/MicroPauseWindow.cc:164
+#: gui/GUIControl.cc:85 gui/gtkmm/MicroPauseWindow.cc:161
 msgid "Micro-pause"
 msgstr "Micro-pauze"
 
@@ -64,6 +64,30 @@ msgstr "%s%ld:%02ld minuten"
 #, c-format
 msgid "%s%ld seconds"
 msgstr "%s%ld seconden"
+
+#: gui/gtkmm/gnome-about.c:308
+msgid "Credits"
+msgstr "Credits"
+
+#: gui/gtkmm/gnome-about.c:337
+msgid "_Written by"
+msgstr "Geschreven door"
+
+#: gui/gtkmm/gnome-about.c:352
+msgid "_Documented by"
+msgstr "Documentatie door"
+
+#: gui/gtkmm/gnome-about.c:367
+msgid "_Translated by"
+msgstr "Vertaald door"
+
+#: gui/gtkmm/gnome-about.c:424
+msgid "_Credits"
+msgstr "_Credits"
+
+#: gui/gtkmm/gnome-about.c:607
+msgid "About %s"
+msgstr "Over %s"
 
 #: gui/gtkmm/DailyLimitWindow.cc:43
 msgid ""
@@ -145,19 +169,21 @@ msgstr "Info..."
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
-msgstr "Dit programma helpt bij het voorkomen en genezen van Repetitive Strain Injury (RSI)."
+msgstr ""
+"Dit programma helpt bij het voorkomen en genezen van Repetitive Strain "
+"Injury (RSI)."
 
-#: gui/gtkmm/MicroPauseWindow.cc:186
+#: gui/gtkmm/MicroPauseWindow.cc:183
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Rustpauze over %s"
 
-#: gui/gtkmm/MicroPauseWindow.cc:192
+#: gui/gtkmm/MicroPauseWindow.cc:189
 #, c-format
 msgid "Overdue rest break in %s"
 msgstr "Rustpauze %s te laat"
 
-#: gui/gtkmm/MicroPauseWindow.cc:195
+#: gui/gtkmm/MicroPauseWindow.cc:192
 msgid "Please relax for a few seconds"
 msgstr "Ontspan gedurende enkele seconden"
 
@@ -173,11 +199,11 @@ msgstr ""
 "Geef de machine naam en poort nummer van een\n"
 "computer uit het netwerk op."
 
-#: gui/gtkmm/NetworkJoinDialog.cc:58 gui/gtkmm/NetworkPreferencePage.cc:227
+#: gui/gtkmm/NetworkJoinDialog.cc:58 gui/gtkmm/NetworkPreferencePage.cc:228
 msgid "Host name"
 msgstr "Machine naam"
 
-#: gui/gtkmm/NetworkJoinDialog.cc:59 gui/gtkmm/NetworkPreferencePage.cc:235
+#: gui/gtkmm/NetworkJoinDialog.cc:59 gui/gtkmm/NetworkPreferencePage.cc:236
 msgid "Port"
 msgstr "Poort"
 
@@ -193,51 +219,51 @@ msgstr "Interval tussen pogingen"
 msgid "Network log"
 msgstr "Netwerk logboek"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:69
+#: gui/gtkmm/NetworkPreferencePage.cc:70
 msgid "General"
 msgstr "Algemeen"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:78
+#: gui/gtkmm/NetworkPreferencePage.cc:79
 msgid "Enable networking"
 msgstr "Activeer netwerk ondersteuning"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:81
+#: gui/gtkmm/NetworkPreferencePage.cc:82
 msgid "Identity"
 msgstr "Identiteit"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:86
+#: gui/gtkmm/NetworkPreferencePage.cc:87
 msgid "Username"
 msgstr "Gebruikersnaam"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:87
+#: gui/gtkmm/NetworkPreferencePage.cc:88
 msgid "Password"
 msgstr "Wachtwoord"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:122
+#: gui/gtkmm/NetworkPreferencePage.cc:123
 msgid "Advanced"
 msgstr "Geavanceerd"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:130
+#: gui/gtkmm/NetworkPreferencePage.cc:131
 msgid "Server settings"
 msgstr "Server instellingen"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:151
+#: gui/gtkmm/NetworkPreferencePage.cc:152
 msgid "Server port"
 msgstr "Server poort"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:152
+#: gui/gtkmm/NetworkPreferencePage.cc:153
 msgid "Reconnect atttempts"
 msgstr "Aantal pogingen tot verbinding"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:153
+#: gui/gtkmm/NetworkPreferencePage.cc:154
 msgid "Reconnect interval"
 msgstr "Interval tussen pogingen"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:188
+#: gui/gtkmm/NetworkPreferencePage.cc:189
 msgid "Hosts"
 msgstr "Machines"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:198
+#: gui/gtkmm/NetworkPreferencePage.cc:199
 msgid ""
 "The following list specifies the hosts that Workrave connects to on\n"
 "start-up. Click the host name or port number to edit."
@@ -365,21 +391,6 @@ msgstr "Pauze tijdsduur"
 #: gui/gtkmm/TimerPreferencesPanel.cc:215
 msgid "Time before break"
 msgstr "Werktijd"
-
-#~ msgid "Credits"
-#~ msgstr "Credits"
-
-#~ msgid "_Written by"
-#~ msgstr "Geschreven door"
-
-#~ msgid "_Documented by"
-#~ msgstr "Documentatie door"
-
-#~ msgid "_Translated by"
-#~ msgstr "Vertaald door"
-
-#~ msgid "_Credits"
-#~ msgstr "_Credits"
 
 #~ msgid "Monitoring"
 #~ msgstr "Activiteit detectie"

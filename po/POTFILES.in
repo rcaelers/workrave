@@ -1,6 +1,7 @@
 gui/BreakControl.cc
 gui/GUIControl.cc
 gui/Text.cc
+gui/gtkmm/gnome-about.c
 gui/gtkmm/BreakWindow.cc
 gui/gtkmm/DailyLimitWindow.cc
 gui/gtkmm/Frame.cc

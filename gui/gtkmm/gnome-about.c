@@ -604,7 +604,7 @@ gnome_about_set_name (GnomeAbout *about, const gchar *name)
         g_free (about->_priv->name);
         about->_priv->name = g_strdup (name ? name : "");
 
-        title_string = g_strdup_printf ("About %s", name);
+        title_string = g_strdup_printf (_("About %s"), name);
         gtk_window_set_title (GTK_WINDOW (about), title_string);
         g_free (title_string);
 
