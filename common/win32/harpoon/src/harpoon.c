@@ -371,7 +371,7 @@ harpoon_supports_keyboard_ll(void)
 static LRESULT CALLBACK 
 harpoon_keyboard_hook (int code, WPARAM wpar, LPARAM lpar)
 {
-  BOOL forcecallnext = false;
+  BOOL forcecallnext = FALSE;
   if (code == HC_ACTION)
     {
       BOOL pressed = (lpar & (1 << 31)) == 0;
@@ -395,7 +395,7 @@ harpoon_keyboard_hook (int code, WPARAM wpar, LPARAM lpar)
 static LRESULT CALLBACK 
 harpoon_keyboard_ll_hook (int code, WPARAM wpar, LPARAM lpar)
 {
-  BOOL forcecallnext = false;
+  BOOL forcecallnext = FALSE;
   if (code == HC_ACTION)
     {
       KBDLLHOOKSTRUCT *kb = (KBDLLHOOKSTRUCT *) lpar;
