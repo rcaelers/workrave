@@ -115,9 +115,11 @@ PreferencesDialog::create_gui_page()
 #endif
 
   // Options
-  Gtk::VBox *opts_box = new Gtk::VBox(false, 6);
+  Gtk::VBox *opts_box = new Gtk::VBox(false, 0);
   opts_box->pack_start(*ontop_cb, false, false, 0);
+#ifdef WIN32
   opts_box->pack_start(*win32_start_in_tray_cb, false, false, 0);
+#endif
   opts_box->set_border_width(6);
 
   // Page
@@ -284,11 +286,13 @@ PreferencesDialog::on_always_on_top_toggled()
   MainWindow::set_always_on_top(ontop_cb->get_active());
 }
 
+#ifdef WIN32
 void
 PreferencesDialog::win32_on_start_in_tray_toggled()
 {
   MainWindow::win32_set_start_in_tray(win32_start_in_tray_cb->get_active());
 }
+#endif
 
 void
 PreferencesDialog::update_preset()
