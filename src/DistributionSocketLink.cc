@@ -126,34 +126,37 @@ DistributionSocketLink::heartbeat()
 {
   TRACE_ENTER("DistributionSocketLink::heartbeat");
 
-  heartbeat_count++;
-  
-  time_t current_time = time(NULL);
-
-  // See if we have some clients that need reconncting.
-  list<Client *>::iterator i = clients.begin();
-  while (i != clients.end())
+  if (server_enabled)
     {
-      Client *c = *i;
-      if (c->reconnect_count > 0 &&
-          c->reconnect_time != 0 && current_time >= c->reconnect_time &&
-          c->hostname != NULL)
-        {
-          c->reconnect_count--;
-          c->reconnect_time = 0;
-          
-          dist_manager->log(_("Reconnecting to %s:%d."), c->hostname, c->port);
-          socket_driver->connect(c->hostname, c->port, c);
-        }
-      i++;
-    }
+      heartbeat_count++;
+  
+      time_t current_time = time(NULL);
 
-  // Periodically distribute state, in case the master crashes.
-  if (heartbeat_count % 60 == 0 && i_am_master)
-    { 
-      send_state();
+      // See if we have some clients that need reconncting.
+      list<Client *>::iterator i = clients.begin();
+      while (i != clients.end())
+        {
+          Client *c = *i;
+          if (c->reconnect_count > 0 &&
+              c->reconnect_time != 0 && current_time >= c->reconnect_time &&
+              c->hostname != NULL)
+            {
+              c->reconnect_count--;
+              c->reconnect_time = 0;
+          
+              dist_manager->log(_("Reconnecting to %s:%d."), c->hostname, c->port);
+              socket_driver->connect(c->hostname, c->port, c);
+            }
+          i++;
+        }
+
+      // Periodically distribute state, in case the master crashes.
+      if (heartbeat_count % 60 == 0 && i_am_master)
+        { 
+          send_state();
+        }
     }
-                                         
+  
   TRACE_EXIT();
 }
 
@@ -183,14 +186,16 @@ DistributionSocketLink::get_number_of_peers()
 void
 DistributionSocketLink::join(string url)
 {
-  GURL *client_url = gnet_url_new(url.c_str());
-
-  if (client_url != NULL)
+  if (server_enabled)
     {
-      add_client(client_url->hostname, client_url->port);
-    }
+      GURL *client_url = gnet_url_new(url.c_str());
 
-  gnet_url_delete(client_url);
+      if (client_url != NULL)
+        {
+          add_client(client_url->hostname, client_url->port);
+        }
+      gnet_url_delete(client_url);
+    }
 }
 
 

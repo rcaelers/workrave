@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 0.3.0\n"
-"POT-Creation-Date: 2002-10-30 20:14+0100\n"
+"POT-Creation-Date: 2002-10-30 20:20+0100\n"
 "PO-Revision-Date: 2002-10-26 00:04+0200\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -166,7 +166,7 @@ msgstr "Statistieken"
 msgid "About..."
 msgstr "Info..."
 
-#: gui/gtkmm/MainWindow.cc:620
+#: gui/gtkmm/MainWindow.cc:621
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
