@@ -17,11 +17,11 @@
 
 [Setup]
 AppName=Workrave
-AppVerName=Workrave 1.2.2
+AppVerName=Workrave 1.2.3
 AppPublisher=Rob Caelers & Raymond Penners
-AppPublisherURL=http://workrave.sourceforge.net
-AppSupportURL=http://workrave.sourceforge.net
-AppUpdatesURL=http://workrave.sourceforge.net
+AppPublisherURL=http://www.workrave.org
+AppSupportURL=http://www.workrave.org
+AppUpdatesURL=http://www.workrave.org
 DefaultDirName={pf}\Workrave
 DefaultGroupName=Workrave
 LicenseFile=..\..\..\COPYING
