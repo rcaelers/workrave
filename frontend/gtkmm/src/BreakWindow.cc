@@ -238,7 +238,7 @@ Gtk::Button *
 BreakWindow::create_restbreaknow_button()
 {
   Gtk::Button *ret;
-      ret = manage(GtkUtil::create_image_button(_("Restbreak"), "timer-rest-break.png"));
+      ret = manage(GtkUtil::create_image_button(NULL, "timer-rest-break.png"));
   ret->signal_clicked()
     .connect(MEMBER_SLOT(*this, &BreakWindow::on_restbreaknow_button_clicked));
   GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
