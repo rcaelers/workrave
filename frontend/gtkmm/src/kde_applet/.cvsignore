@@ -59,3 +59,15 @@ configure.in
 configure.files
 Makefile.am
 acinclude.m4
+.libs
+kworkraveapplet.kidl
+kworkraveapplet.moc.cpp
+kworkraveapplet_skel.cpp
+kworkraveapplet_stub.cpp
+kworkraveapplet_stub.h
+libkworkraveapplet.la
+libkworkraveapplet_la-kworkraveapplet.lo
+libkworkraveapplet_la-kworkraveapplet.moc.lo
+libkworkraveapplet_la-kworkraveapplet_skel.lo
+libkworkraveapplet_la-kworkraveapplet_stub.lo
+

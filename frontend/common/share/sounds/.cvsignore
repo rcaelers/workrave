@@ -2,3 +2,4 @@ Makefile
 Makefile.in
 workrave.soundlist
 .deps
+eventsrc
