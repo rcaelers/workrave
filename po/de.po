@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
-"POT-Creation-Date: 2003-02-20 20:56+0100\n"
+"POT-Creation-Date: 2003-02-22 09:03+0100\n"
 "PO-Revision-Date: 2003-02-20 21:07+0100\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Johannes Rohr <j.rohr@comlink.apc.org>\n"
@@ -248,6 +248,7 @@ msgid "_Rest break"
 msgstr "_Ruhepause"
 
 #: gui/gtkmm/Menus.cc:219 gui/gtkmm/StatisticsDialog.cc:50
+#: gui/gtkmm/StatisticsDialog.cc:136
 msgid "Statistics"
 msgstr "_Statistik"
 
@@ -277,11 +278,11 @@ msgstr "Ruhepause %s Minuten überfällig"
 msgid "Please relax for a few seconds"
 msgstr "Bitte entspannen Sie sich für ein paar Sekunden"
 
-#: gui/gtkmm/NetworkJoinDialog.cc:41
+#: gui/gtkmm/NetworkJoinDialog.cc:42
 msgid "Network connect"
 msgstr "Netzwerkverbindung"
 
-#: gui/gtkmm/NetworkJoinDialog.cc:46
+#: gui/gtkmm/NetworkJoinDialog.cc:56
 msgid ""
 "Enter the host name and port number of a computer\n"
 "in the network you wish to connect to."
@@ -290,74 +291,70 @@ msgstr ""
 "eines Rechners im Netzwerk ein, zu dem Sie eine\n"
 "Verbindung aufbauen möchten."
 
-#: gui/gtkmm/NetworkJoinDialog.cc:60
+#: gui/gtkmm/NetworkJoinDialog.cc:69
 msgid "Host name:"
 msgstr "Rechnername:"
 
-#: gui/gtkmm/NetworkJoinDialog.cc:61
+#: gui/gtkmm/NetworkJoinDialog.cc:70
 msgid "Port:"
 msgstr "Port:"
 
-#.
-#: gui/gtkmm/NetworkJoinDialog.cc:84
+#: gui/gtkmm/NetworkJoinDialog.cc:72
 msgid "Connect at start-up"
 msgstr "Bei Programmstart verbinden"
-
-#: gui/gtkmm/NetworkJoinDialog.cc:94
-msgid "Connection details"
-msgstr "Verbindungsdetails"
 
 #: gui/gtkmm/NetworkLogDialog.cc:39
 msgid "Network log"
 msgstr "Netzwerkprotokoll"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:70
-msgid "General"
-msgstr "Allgemein"
-
 #. Main switch
-#: gui/gtkmm/NetworkPreferencePage.cc:79
+#: gui/gtkmm/NetworkPreferencePage.cc:43
 msgid "Enable networking"
 msgstr "Netzwerk verwenden"
 
+#: gui/gtkmm/NetworkPreferencePage.cc:75
+msgid "General"
+msgstr "Allgemein"
+
 #. Identity
-#: gui/gtkmm/NetworkPreferencePage.cc:82
+#: gui/gtkmm/NetworkPreferencePage.cc:78
 msgid "Identity"
 msgstr "Identität"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:87
+#: gui/gtkmm/NetworkPreferencePage.cc:82
 msgid "Username:"
 msgstr "Benutzername:"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:88
+#: gui/gtkmm/NetworkPreferencePage.cc:83
 msgid "Password:"
 msgstr "Passwort:"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:123
+#: gui/gtkmm/NetworkPreferencePage.cc:99
 msgid "Advanced"
 msgstr "Erweitert"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:131
+#: gui/gtkmm/NetworkPreferencePage.cc:102
 msgid "Server settings"
 msgstr "Servereinstellungen"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:152
+#: gui/gtkmm/NetworkPreferencePage.cc:124
 msgid "Server port:"
 msgstr "Serverport:"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:154
-msgid "Reconnect atttempts:"
+#: gui/gtkmm/NetworkPreferencePage.cc:125
+#, fuzzy
+msgid "Reconnect attempts:"
 msgstr "Versuche, die Verbindung wieder aufzunehmen:"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:156
+#: gui/gtkmm/NetworkPreferencePage.cc:126
 msgid "Reconnect interval:"
 msgstr "Intervall zwischen den Verbindungsversuchen:"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:192
+#: gui/gtkmm/NetworkPreferencePage.cc:142
 msgid "Hosts"
 msgstr "Rechner im Netwerk"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:202
+#: gui/gtkmm/NetworkPreferencePage.cc:152
 msgid ""
 "The following list specifies the hosts that Workrave connects to on\n"
 "start-up. Click the host name or port number to edit."
@@ -366,57 +363,70 @@ msgstr ""
 "Programmstart eine Verbindung aufnimmt. Klicken Sie zum Bearbeiten auf\n"
 "den Rechnernamen oder die Portnummer."
 
-#: gui/gtkmm/NetworkPreferencePage.cc:231
+#: gui/gtkmm/NetworkPreferencePage.cc:181
 msgid "Host name"
 msgstr "Rechnername"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:239
+#: gui/gtkmm/NetworkPreferencePage.cc:189
 msgid "Port"
 msgstr "Port"
 
-#. Timers frame
-#: gui/gtkmm/PreferencesDialog.cc:70 gui/gtkmm/TimerPreferencesPanel.cc:241
+#: gui/gtkmm/PreferencesDialog.cc:53
+#, fuzzy
+msgid "Preferences"
+msgstr "_Vorlieben"
+
+#: gui/gtkmm/PreferencesDialog.cc:71 gui/gtkmm/TimerPreferencesPanel.cc:173
 msgid "Timers"
 msgstr "Zeitmesser"
 
-#: gui/gtkmm/PreferencesDialog.cc:72
+#: gui/gtkmm/PreferencesDialog.cc:73
 msgid "User interface"
 msgstr "Benutzervorlieben"
 
-#: gui/gtkmm/PreferencesDialog.cc:75
+#: gui/gtkmm/PreferencesDialog.cc:76
 msgid "Applet"
 msgstr "Applet"
 
-#: gui/gtkmm/PreferencesDialog.cc:79
+#: gui/gtkmm/PreferencesDialog.cc:80
 msgid "Network"
 msgstr "Netzwerk"
 
-#: gui/gtkmm/PreferencesDialog.cc:108
+#: gui/gtkmm/PreferencesDialog.cc:109
 msgid "The main window stays always on top of other windows"
 msgstr "Das Hauptfenster bleibt immer über allen anderen Fenstern"
 
-#: gui/gtkmm/PreferencesDialog.cc:117
+#: gui/gtkmm/PreferencesDialog.cc:118
 msgid "No sounds"
 msgstr "Keine Klänge"
 
-#: gui/gtkmm/PreferencesDialog.cc:119
+#: gui/gtkmm/PreferencesDialog.cc:120
 msgid "Play sounds using sound card"
 msgstr "Klänge mittels der Soundkarte abspielen"
 
-#: gui/gtkmm/PreferencesDialog.cc:121
+#: gui/gtkmm/PreferencesDialog.cc:122
 msgid "Play sounds using built-in speaker"
 msgstr "Klänge mit dem PC-Lautsprecher abspielen"
 
-#: gui/gtkmm/PreferencesDialog.cc:137
+#: gui/gtkmm/PreferencesDialog.cc:138
 msgid "Hide main window at start-up"
 msgstr "Verstecke das Hauptfenster beim Start"
+
+#. Options
+#: gui/gtkmm/PreferencesDialog.cc:145 gui/gtkmm/TimerPreferencesPanel.cc:128
+msgid "Options"
+msgstr "Optionen"
+
+#: gui/gtkmm/PreferencesDialog.cc:148
+msgid "Sound:"
+msgstr ""
 
 #: gui/gtkmm/PreferencesDialog.cc:153
 msgid "You can configure the user interface related settings from here."
 msgstr ""
 "Sie können hier die Einstellungen der Benutzeroberfläche konfigurieren."
 
-#: gui/gtkmm/PreferencesDialog.cc:168
+#: gui/gtkmm/PreferencesDialog.cc:166
 msgid ""
 "This dialog allows you to change the settings of the timers.  Each unit\n"
 "of time is broken down into hours, minutes and seconds (also known as\n"
@@ -426,11 +436,11 @@ msgstr ""
 "ändern. Jede Einheit ist in Stunden, Minuten und Sekunden unterteilt\n"
 "(das sog. \"hh:mm:ss\"-Format) und kann indivuell angepasst werden."
 
-#: gui/gtkmm/PreferencesDialog.cc:196
+#: gui/gtkmm/PreferencesDialog.cc:194
 msgid "You can configure the applet related settings from here."
 msgstr "Sie können hier die Einstellungen des Applets konfigurieren."
 
-#: gui/gtkmm/PreferencesDialog.cc:215
+#: gui/gtkmm/PreferencesDialog.cc:213
 msgid ""
 "You can connect several instances of Workrave in a network. All connected\n"
 "instances share the same timer information, meaning you will be reminded\n"
@@ -457,27 +467,27 @@ msgstr ""
 msgid "Rest break for %s"
 msgstr "Ruhepause für %s"
 
-#: gui/gtkmm/StatisticsDialog.cc:119
-msgid "History:"
+#: gui/gtkmm/StatisticsDialog.cc:129
+msgid "Browse history"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:165
-msgid "<b>Start time:</b>"
-msgstr "<b>Startzeit:</b>"
+#: gui/gtkmm/StatisticsDialog.cc:163
+msgid "History"
+msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:167
-msgid "<b>End time:</b>"
-msgstr "<b>Endzeit</b>"
+#: gui/gtkmm/StatisticsDialog.cc:169
+msgid "Date:"
+msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:190
+#: gui/gtkmm/StatisticsDialog.cc:183
 msgid "Breaks"
 msgstr "Pausen"
 
-#: gui/gtkmm/StatisticsDialog.cc:200
+#: gui/gtkmm/StatisticsDialog.cc:193
 msgid "Total breaks"
 msgstr "Ruhepausen insgesamt"
 
-#: gui/gtkmm/StatisticsDialog.cc:201
+#: gui/gtkmm/StatisticsDialog.cc:194
 msgid ""
 "Total number of unique breaks prompted. This equals the number of times the "
 "timer reached zero."
@@ -485,87 +495,87 @@ msgstr ""
 "Gesamtzahl erstmaliger Pausenaufforderungen. Wie viele Male eine der "
 "Pausenuhren die Null erreicht hat."
 
-#: gui/gtkmm/StatisticsDialog.cc:206
+#: gui/gtkmm/StatisticsDialog.cc:199
 msgid "Prompted"
 msgstr "Hinweise ausgegeben"
 
-#: gui/gtkmm/StatisticsDialog.cc:207
+#: gui/gtkmm/StatisticsDialog.cc:200
 msgid "Number of times workrave prompted you to take a break"
 msgstr "Wie oft Workrave Sie darauf hingewiesen hat, eine Pause zu machen"
 
-#: gui/gtkmm/StatisticsDialog.cc:211
+#: gui/gtkmm/StatisticsDialog.cc:204
 msgid "Breaks taken"
 msgstr "Eingehaltene Pausen"
 
-#: gui/gtkmm/StatisticsDialog.cc:212
+#: gui/gtkmm/StatisticsDialog.cc:205
 msgid "Number of times you took a break when prompted"
 msgstr "Wie oft Sie nach einem Hinweis eine Pause gemacht haben"
 
-#: gui/gtkmm/StatisticsDialog.cc:216
+#: gui/gtkmm/StatisticsDialog.cc:209
 msgid "Natural breaks taken"
 msgstr "Natürliche Pausen"
 
-#: gui/gtkmm/StatisticsDialog.cc:217
+#: gui/gtkmm/StatisticsDialog.cc:210
 msgid "Number of times you took a break without being prompted"
 msgstr "Wie oft Sie ohne Aufforderung eine Pause eingelegt haben"
 
-#: gui/gtkmm/StatisticsDialog.cc:221
+#: gui/gtkmm/StatisticsDialog.cc:214
 msgid "Breaks skipped"
 msgstr "Übersprungene Pausen"
 
-#: gui/gtkmm/StatisticsDialog.cc:222
+#: gui/gtkmm/StatisticsDialog.cc:215
 msgid "Number of times you skipped a break"
 msgstr "Wie oft Sie Pausen übersprungen haben"
 
-#: gui/gtkmm/StatisticsDialog.cc:226
+#: gui/gtkmm/StatisticsDialog.cc:219
 msgid "Breaks postponed"
 msgstr "Aufgeschobene Pausen"
 
-#: gui/gtkmm/StatisticsDialog.cc:227
+#: gui/gtkmm/StatisticsDialog.cc:220
 msgid "Number of times you postponed a break"
 msgstr "Wie oft Sie eine Pause aufgeschoben haben"
 
-#: gui/gtkmm/StatisticsDialog.cc:231
+#: gui/gtkmm/StatisticsDialog.cc:224
 msgid "Total overdue time"
 msgstr "Überfällige Zeit insgesamt"
 
-#: gui/gtkmm/StatisticsDialog.cc:232
+#: gui/gtkmm/StatisticsDialog.cc:225
 msgid "The total time this break was overdue"
 msgstr "Gesamte Zeit, die diese Pause überfällig war."
 
-#: gui/gtkmm/StatisticsDialog.cc:236
+#: gui/gtkmm/StatisticsDialog.cc:229
 msgid "Daily usage"
 msgstr "Tägliche Nutzung"
 
-#: gui/gtkmm/StatisticsDialog.cc:237
+#: gui/gtkmm/StatisticsDialog.cc:230
 msgid "Total computer usage"
 msgstr "Gesamte Computernutzung"
 
-#: gui/gtkmm/StatisticsDialog.cc:300
+#: gui/gtkmm/StatisticsDialog.cc:293
 msgid "Activity"
 msgstr "Aktivität"
 
-#: gui/gtkmm/StatisticsDialog.cc:310
+#: gui/gtkmm/StatisticsDialog.cc:303
 msgid "Total mouse time:"
 msgstr "Mausbenutzung insgesamt:"
 
-#: gui/gtkmm/StatisticsDialog.cc:311
+#: gui/gtkmm/StatisticsDialog.cc:304
 msgid "Total time you were using the mouse."
 msgstr "Wie lange Sie die Maus insgesamt genutzt haben."
 
-#: gui/gtkmm/StatisticsDialog.cc:314
+#: gui/gtkmm/StatisticsDialog.cc:307
 msgid "Total mouse movement:"
 msgstr "Mausbewegung insgesamt:"
 
-#: gui/gtkmm/StatisticsDialog.cc:315
+#: gui/gtkmm/StatisticsDialog.cc:308
 msgid "Total mouse movement in number of pixels."
 msgstr "Mausbewegung in Anzahl von Pixeln."
 
-#: gui/gtkmm/StatisticsDialog.cc:318
+#: gui/gtkmm/StatisticsDialog.cc:311
 msgid "Total click-to-click movement:"
 msgstr "Gesamte Mausstrecke zwischen zwei Klickpunkten"
 
-#: gui/gtkmm/StatisticsDialog.cc:319
+#: gui/gtkmm/StatisticsDialog.cc:312
 msgid ""
 "Total mouse movement you would have had if you moved your mouse in straight "
 "lines between clicks."
@@ -573,70 +583,69 @@ msgstr ""
 "Gesamte Strecke, die der Mauszeiger zurückgelegt hätte, wenn Sie Ihre\n"
 "Maus zwischen den Klicks in geraden Linien bewegt hätten."
 
-#: gui/gtkmm/StatisticsDialog.cc:323
+#: gui/gtkmm/StatisticsDialog.cc:316
 msgid "Total mouse button clicks:"
 msgstr "Gesamtanzahl der Mausklicks"
 
-#: gui/gtkmm/StatisticsDialog.cc:324
+#: gui/gtkmm/StatisticsDialog.cc:317
 msgid "Total number of mouse button clicks."
 msgstr "Gesamtzahl der Mausklicks."
 
-#: gui/gtkmm/StatisticsDialog.cc:327
+#: gui/gtkmm/StatisticsDialog.cc:320
 msgid "Total keystrokes:"
 msgstr "Tastenanschläge insgesamt:"
 
-#: gui/gtkmm/StatisticsDialog.cc:328
+#: gui/gtkmm/StatisticsDialog.cc:321
 msgid "Total number of keys pressed."
 msgstr "Gesamtzahl der von Ihnen ausgeführten Tastenanschläge."
 
+#: gui/gtkmm/StatisticsDialog.cc:373
+#, c-format
+msgid "%s, from %s to %s"
+msgstr ""
+
 #. Prelude frame
-#: gui/gtkmm/TimerPreferencesPanel.cc:79
+#: gui/gtkmm/TimerPreferencesPanel.cc:81
 msgid "Break prompting"
 msgstr "Ankündigung der Pause"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:80
+#: gui/gtkmm/TimerPreferencesPanel.cc:83
 msgid "Prompt before breaking"
 msgstr "Vor der Pause Hinweis ausgeben"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:85
+#: gui/gtkmm/TimerPreferencesPanel.cc:88
 msgid "Maximum number of prompts:"
 msgstr "Maximale Anzahl von Hinweisen:"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:92
+#: gui/gtkmm/TimerPreferencesPanel.cc:95
 msgid "Force break after maximum exceeded"
 msgstr "Pause erzwingen, wenn das Maximum überschritten ist"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:128
+#: gui/gtkmm/TimerPreferencesPanel.cc:132
 msgid "Block user input"
 msgstr "Benutzereingaben blockieren"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:139
+#: gui/gtkmm/TimerPreferencesPanel.cc:144
 msgid "Regard micro-pauses as activity"
 msgstr "Mikropausen als Aktivität betrachten"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:153
+#: gui/gtkmm/TimerPreferencesPanel.cc:161
 msgid "Show 'Postpone' and 'Skip' button"
 msgstr "Knöpfe 'Aufschieben' und 'Überspringen' anzeigen"
 
-#. Options frame
-#: gui/gtkmm/TimerPreferencesPanel.cc:175
-msgid "Options"
-msgstr "Optionen"
-
-#: gui/gtkmm/TimerPreferencesPanel.cc:188
+#: gui/gtkmm/TimerPreferencesPanel.cc:181
 msgid "Post-pone time:"
 msgstr "Dauer des Aufschubs:"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:200
+#: gui/gtkmm/TimerPreferencesPanel.cc:188
 msgid "Resets at:"
 msgstr "Zurücksetzen nach:"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:207
+#: gui/gtkmm/TimerPreferencesPanel.cc:195
 msgid "Pause duration:"
 msgstr "Dauer der Pause:"
 
-#. Limit time
-#: gui/gtkmm/TimerPreferencesPanel.cc:219
+#: gui/gtkmm/TimerPreferencesPanel.cc:210
 msgid "Time before break:"
 msgstr "Zeit bis zur Pause:"
 
@@ -691,6 +700,17 @@ msgstr "_Protokoll anzeigen"
 #: gui/gnome/GNOME_WorkraveApplet.xml.in.h:14
 msgid "_Statistics"
 msgstr "_Statistik"
+
+#, fuzzy
+#~ msgid "Start time:"
+#~ msgstr "<b>Startzeit:</b>"
+
+#, fuzzy
+#~ msgid "End time:"
+#~ msgstr "<b>Endzeit</b>"
+
+#~ msgid "Connection details"
+#~ msgstr "Verbindungsdetails"
 
 #~ msgid "Restbreak"
 #~ msgstr "Ruhepause"

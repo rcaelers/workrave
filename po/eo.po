@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-02-20 20:56+0100\n"
+"POT-Creation-Date: 2003-02-22 09:00+0100\n"
 "PO-Revision-Date: 2002-11-05 17:58-0800\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -232,6 +232,7 @@ msgid "_Rest break"
 msgstr "_Ripozon"
 
 #: gui/gtkmm/Menus.cc:219 gui/gtkmm/StatisticsDialog.cc:50
+#: gui/gtkmm/StatisticsDialog.cc:136
 msgid "Statistics"
 msgstr "Statistiko"
 
@@ -261,11 +262,11 @@ msgstr "Ripozo por %s"
 msgid "Please relax for a few seconds"
 msgstr "Bonvolu trankviliĝi por kelkaj sekundoj"
 
-#: gui/gtkmm/NetworkJoinDialog.cc:41
+#: gui/gtkmm/NetworkJoinDialog.cc:42
 msgid "Network connect"
 msgstr "Rete konekti"
 
-#: gui/gtkmm/NetworkJoinDialog.cc:46
+#: gui/gtkmm/NetworkJoinDialog.cc:56
 msgid ""
 "Enter the host name and port number of a computer\n"
 "in the network you wish to connect to."
@@ -273,81 +274,76 @@ msgstr ""
 "Enigu nomo de retnodo kaj numero de pordo de komputilo\n"
 "en la reto vi volas alkonteki."
 
-#: gui/gtkmm/NetworkJoinDialog.cc:60
+#: gui/gtkmm/NetworkJoinDialog.cc:69
 #, fuzzy
 msgid "Host name:"
 msgstr "Nomo de retnodo"
 
-#: gui/gtkmm/NetworkJoinDialog.cc:61
+#: gui/gtkmm/NetworkJoinDialog.cc:70
 #, fuzzy
 msgid "Port:"
 msgstr "Pordo"
 
-#.
-#: gui/gtkmm/NetworkJoinDialog.cc:84
+#: gui/gtkmm/NetworkJoinDialog.cc:72
 msgid "Connect at start-up"
 msgstr "Konektu je startigo"
-
-#: gui/gtkmm/NetworkJoinDialog.cc:94
-msgid "Connection details"
-msgstr "Konektaj detaloj"
 
 #: gui/gtkmm/NetworkLogDialog.cc:39
 msgid "Network log"
 msgstr "Reta protokolo"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:70
-msgid "General"
-msgstr "Ĝenerala"
-
 #. Main switch
-#: gui/gtkmm/NetworkPreferencePage.cc:79
+#: gui/gtkmm/NetworkPreferencePage.cc:43
 msgid "Enable networking"
 msgstr "Validigu retumadon"
 
+#: gui/gtkmm/NetworkPreferencePage.cc:75
+msgid "General"
+msgstr "Ĝenerala"
+
 #. Identity
-#: gui/gtkmm/NetworkPreferencePage.cc:82
+#: gui/gtkmm/NetworkPreferencePage.cc:78
 msgid "Identity"
 msgstr "Identeco"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:87
+#: gui/gtkmm/NetworkPreferencePage.cc:82
 #, fuzzy
 msgid "Username:"
 msgstr "Salutnomo"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:88
+#: gui/gtkmm/NetworkPreferencePage.cc:83
 #, fuzzy
 msgid "Password:"
 msgstr "Pasvorto"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:123
+#: gui/gtkmm/NetworkPreferencePage.cc:99
 msgid "Advanced"
 msgstr "Altgrada"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:131
+#: gui/gtkmm/NetworkPreferencePage.cc:102
 msgid "Server settings"
 msgstr "Servilaj agordoj"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:152
+#: gui/gtkmm/NetworkPreferencePage.cc:124
 #, fuzzy
 msgid "Server port:"
 msgstr "Servila pordo"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:154
+#: gui/gtkmm/NetworkPreferencePage.cc:125
 #, fuzzy
-msgid "Reconnect atttempts:"
+msgid "Reconnect attempts:"
 msgstr "Rekonektaj provoj"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:156
+#: gui/gtkmm/NetworkPreferencePage.cc:126
 #, fuzzy
 msgid "Reconnect interval:"
 msgstr "Rekonekta intertempo"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:192
+#: gui/gtkmm/NetworkPreferencePage.cc:142
 msgid "Hosts"
 msgstr "Retnodoj"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:202
+#: gui/gtkmm/NetworkPreferencePage.cc:152
 msgid ""
 "The following list specifies the hosts that Workrave connects to on\n"
 "start-up. Click the host name or port number to edit."
@@ -355,56 +351,68 @@ msgstr ""
 "La sekvanta listo specifas la retnodoj kiu Workrave alkonektas ĉe\n"
 "startigo.  Klaku nomon de retnodo aŭ numero de pordo por ŝanĝi."
 
-#: gui/gtkmm/NetworkPreferencePage.cc:231
+#: gui/gtkmm/NetworkPreferencePage.cc:181
 msgid "Host name"
 msgstr "Nomo de retnodo"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:239
+#: gui/gtkmm/NetworkPreferencePage.cc:189
 msgid "Port"
 msgstr "Pordo"
 
-#. Timers frame
-#: gui/gtkmm/PreferencesDialog.cc:70 gui/gtkmm/TimerPreferencesPanel.cc:241
+#: gui/gtkmm/PreferencesDialog.cc:53
+msgid "Preferences"
+msgstr ""
+
+#: gui/gtkmm/PreferencesDialog.cc:71 gui/gtkmm/TimerPreferencesPanel.cc:173
 msgid "Timers"
 msgstr "Horloĝoj"
 
-#: gui/gtkmm/PreferencesDialog.cc:72
+#: gui/gtkmm/PreferencesDialog.cc:73
 msgid "User interface"
 msgstr "Uzula inferfaco"
 
-#: gui/gtkmm/PreferencesDialog.cc:75
+#: gui/gtkmm/PreferencesDialog.cc:76
 msgid "Applet"
 msgstr ""
 
-#: gui/gtkmm/PreferencesDialog.cc:79
+#: gui/gtkmm/PreferencesDialog.cc:80
 msgid "Network"
 msgstr "Reto"
 
-#: gui/gtkmm/PreferencesDialog.cc:108
+#: gui/gtkmm/PreferencesDialog.cc:109
 msgid "The main window stays always on top of other windows"
 msgstr "La ĉefa fenestro ĉiam restas antaŭ ol la aliaj fenestroj"
 
-#: gui/gtkmm/PreferencesDialog.cc:117
+#: gui/gtkmm/PreferencesDialog.cc:118
 msgid "No sounds"
 msgstr "Ne sonoj"
 
-#: gui/gtkmm/PreferencesDialog.cc:119
+#: gui/gtkmm/PreferencesDialog.cc:120
 msgid "Play sounds using sound card"
 msgstr "Ludu sonojn uzante sonkarton"
 
-#: gui/gtkmm/PreferencesDialog.cc:121
+#: gui/gtkmm/PreferencesDialog.cc:122
 msgid "Play sounds using built-in speaker"
 msgstr "Ludu sonojn uzante en-komputila laŭtparolilo"
 
-#: gui/gtkmm/PreferencesDialog.cc:137
+#: gui/gtkmm/PreferencesDialog.cc:138
 msgid "Hide main window at start-up"
 msgstr "Kaŝu ĉefan fenestron ĉe startigo"
+
+#. Options
+#: gui/gtkmm/PreferencesDialog.cc:145 gui/gtkmm/TimerPreferencesPanel.cc:128
+msgid "Options"
+msgstr "Opcioj"
+
+#: gui/gtkmm/PreferencesDialog.cc:148
+msgid "Sound:"
+msgstr ""
 
 #: gui/gtkmm/PreferencesDialog.cc:153
 msgid "You can configure the user interface related settings from here."
 msgstr "Vi povas konfiguri la uzulajn inferfacajn agordojn de tie ĉi."
 
-#: gui/gtkmm/PreferencesDialog.cc:168
+#: gui/gtkmm/PreferencesDialog.cc:166
 msgid ""
 "This dialog allows you to change the settings of the timers.  Each unit\n"
 "of time is broken down into hours, minutes and seconds (also known as\n"
@@ -414,12 +422,12 @@ msgstr ""
 "de tempo estas dispecigita al horoj, minutoj, kaj sekundoj (ankaŭ konata\n"
 "kiel \"hh:mm:ss\" formato).  Tiuj ĉi ĉiu povas esti kontrolata individue."
 
-#: gui/gtkmm/PreferencesDialog.cc:196
+#: gui/gtkmm/PreferencesDialog.cc:194
 #, fuzzy
 msgid "You can configure the applet related settings from here."
 msgstr "Vi povas konfiguri la uzulajn inferfacajn agordojn de tie ĉi."
 
-#: gui/gtkmm/PreferencesDialog.cc:215
+#: gui/gtkmm/PreferencesDialog.cc:213
 msgid ""
 "You can connect several instances of Workrave in a network. All connected\n"
 "instances share the same timer information, meaning you will be reminded\n"
@@ -445,196 +453,190 @@ msgstr ""
 msgid "Rest break for %s"
 msgstr "Ripozo por %s"
 
-#: gui/gtkmm/StatisticsDialog.cc:119
-msgid "History:"
+#: gui/gtkmm/StatisticsDialog.cc:129
+msgid "Browse history"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:165
-msgid "<b>Start time:</b>"
+#: gui/gtkmm/StatisticsDialog.cc:163
+msgid "History"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:167
-msgid "<b>End time:</b>"
+#: gui/gtkmm/StatisticsDialog.cc:169
+msgid "Date:"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:190
+#: gui/gtkmm/StatisticsDialog.cc:183
 #, fuzzy
 msgid "Breaks"
 msgstr "Ĉesu en"
 
-#: gui/gtkmm/StatisticsDialog.cc:200
+#: gui/gtkmm/StatisticsDialog.cc:193
 #, fuzzy
 msgid "Total breaks"
 msgstr "Ripozo"
 
-#: gui/gtkmm/StatisticsDialog.cc:201
+#: gui/gtkmm/StatisticsDialog.cc:194
 msgid ""
 "Total number of unique breaks prompted. This equals the number of times the "
 "timer reached zero."
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:206
+#: gui/gtkmm/StatisticsDialog.cc:199
 msgid "Prompted"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:207
+#: gui/gtkmm/StatisticsDialog.cc:200
 msgid "Number of times workrave prompted you to take a break"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:211
+#: gui/gtkmm/StatisticsDialog.cc:204
 #, fuzzy
 msgid "Breaks taken"
 msgstr "Ĉesu en"
 
-#: gui/gtkmm/StatisticsDialog.cc:212
+#: gui/gtkmm/StatisticsDialog.cc:205
 msgid "Number of times you took a break when prompted"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:216
+#: gui/gtkmm/StatisticsDialog.cc:209
 #, fuzzy
 msgid "Natural breaks taken"
 msgstr "Ripozo"
 
-#: gui/gtkmm/StatisticsDialog.cc:217
+#: gui/gtkmm/StatisticsDialog.cc:210
 msgid "Number of times you took a break without being prompted"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:221
+#: gui/gtkmm/StatisticsDialog.cc:214
 #, fuzzy
 msgid "Breaks skipped"
 msgstr "Ĉesu en"
 
-#: gui/gtkmm/StatisticsDialog.cc:222
+#: gui/gtkmm/StatisticsDialog.cc:215
 msgid "Number of times you skipped a break"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:226
+#: gui/gtkmm/StatisticsDialog.cc:219
 #, fuzzy
 msgid "Breaks postponed"
 msgstr "Ripoza instigado"
 
-#: gui/gtkmm/StatisticsDialog.cc:227
+#: gui/gtkmm/StatisticsDialog.cc:220
 msgid "Number of times you postponed a break"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:231
+#: gui/gtkmm/StatisticsDialog.cc:224
 msgid "Total overdue time"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:232
+#: gui/gtkmm/StatisticsDialog.cc:225
 #, fuzzy
 msgid "The total time this break was overdue"
 msgstr "Ripozo por %s"
 
-#: gui/gtkmm/StatisticsDialog.cc:236
+#: gui/gtkmm/StatisticsDialog.cc:229
 msgid "Daily usage"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:237
+#: gui/gtkmm/StatisticsDialog.cc:230
 msgid "Total computer usage"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:300
+#: gui/gtkmm/StatisticsDialog.cc:293
 msgid "Activity"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:310
+#: gui/gtkmm/StatisticsDialog.cc:303
 #, fuzzy
 msgid "Total mouse time:"
 msgstr "Prokrasta tempo"
 
-#: gui/gtkmm/StatisticsDialog.cc:311
+#: gui/gtkmm/StatisticsDialog.cc:304
 msgid "Total time you were using the mouse."
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:314
+#: gui/gtkmm/StatisticsDialog.cc:307
 #, fuzzy
 msgid "Total mouse movement:"
 msgstr "Prokrasta tempo"
 
-#: gui/gtkmm/StatisticsDialog.cc:315
+#: gui/gtkmm/StatisticsDialog.cc:308
 msgid "Total mouse movement in number of pixels."
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:318
+#: gui/gtkmm/StatisticsDialog.cc:311
 msgid "Total click-to-click movement:"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:319
+#: gui/gtkmm/StatisticsDialog.cc:312
 msgid ""
 "Total mouse movement you would have had if you moved your mouse in straight "
 "lines between clicks."
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:323
+#: gui/gtkmm/StatisticsDialog.cc:316
 #, fuzzy
 msgid "Total mouse button clicks:"
 msgstr "Prokrasta tempo"
 
-#: gui/gtkmm/StatisticsDialog.cc:324
+#: gui/gtkmm/StatisticsDialog.cc:317
 msgid "Total number of mouse button clicks."
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:327
+#: gui/gtkmm/StatisticsDialog.cc:320
 #, fuzzy
 msgid "Total keystrokes:"
 msgstr "Ripozo"
 
-#: gui/gtkmm/StatisticsDialog.cc:328
+#: gui/gtkmm/StatisticsDialog.cc:321
 msgid "Total number of keys pressed."
 msgstr ""
 
 #. Prelude frame
-#: gui/gtkmm/TimerPreferencesPanel.cc:79
+#: gui/gtkmm/TimerPreferencesPanel.cc:81
 msgid "Break prompting"
 msgstr "Ripoza instigado"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:80
+#: gui/gtkmm/TimerPreferencesPanel.cc:83
 msgid "Prompt before breaking"
 msgstr "Instigu antaŭ ol ripozi"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:85
+#: gui/gtkmm/TimerPreferencesPanel.cc:88
 msgid "Maximum number of prompts:"
 msgstr "Maksimuma numero da instigoj:"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:92
+#: gui/gtkmm/TimerPreferencesPanel.cc:95
 msgid "Force break after maximum exceeded"
 msgstr "Devigu ripzon post maksimumo superita"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:128
+#: gui/gtkmm/TimerPreferencesPanel.cc:132
 msgid "Block user input"
 msgstr "Bloku uzulan enigon"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:139
+#: gui/gtkmm/TimerPreferencesPanel.cc:144
 msgid "Regard micro-pauses as activity"
 msgstr "Rigardu paŭzetoj kiel agado"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:153
+#: gui/gtkmm/TimerPreferencesPanel.cc:161
 msgid "Show 'Postpone' and 'Skip' button"
 msgstr "Montru 'Proktrastu' kaj 'Transsaltu' butonon"
 
-#. Options frame
-#: gui/gtkmm/TimerPreferencesPanel.cc:175
-msgid "Options"
-msgstr "Opcioj"
-
-#: gui/gtkmm/TimerPreferencesPanel.cc:188
+#: gui/gtkmm/TimerPreferencesPanel.cc:181
 #, fuzzy
 msgid "Post-pone time:"
 msgstr "Prokrasta tempo"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:200
+#: gui/gtkmm/TimerPreferencesPanel.cc:188
 #, fuzzy
 msgid "Resets at:"
 msgstr "Reŝargas je"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:207
+#: gui/gtkmm/TimerPreferencesPanel.cc:195
 #, fuzzy
 msgid "Pause duration:"
 msgstr "Daŭro de paŭzo"
 
-#. Limit time
-#: gui/gtkmm/TimerPreferencesPanel.cc:219
+#: gui/gtkmm/TimerPreferencesPanel.cc:210
 #, fuzzy
 msgid "Time before break:"
 msgstr "Tempo por ripozo"
@@ -697,6 +699,9 @@ msgstr "Montru _protokolon"
 #, fuzzy
 msgid "_Statistics"
 msgstr "Statistiko"
+
+#~ msgid "Connection details"
+#~ msgstr "Konektaj detaloj"
 
 #, fuzzy
 #~ msgid "Break visible:"

@@ -86,7 +86,7 @@ NetworkJoinDialog::NetworkJoinDialog()
   page->pack_start(*img_aln, false, true, 0);
   page->pack_start(*table, false, true, 0);
 
-  add_panel(*page, false, false);
+  get_vbox()->pack_start(*page, false, false, 0);
 
   add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
   add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);

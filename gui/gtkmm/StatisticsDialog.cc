@@ -89,9 +89,6 @@ StatisticsDialog::init_gui()
   Gtk::Notebook *tnotebook = manage(new Gtk::Notebook());
   tnotebook->set_tab_pos(Gtk::POS_TOP);  
 
-  Gtk::HBox *hbox = manage(new Gtk::HBox(false, 12));
-  Gtk::VBox *vbox = manage(new Gtk::VBox(false, 12));
-
   // Calendar
   calendar = manage(new Gtk::Calendar());
   calendar->signal_month_changed().connect(SigC::slot(*this, &StatisticsDialog::on_calendar_month_changed));
@@ -119,35 +116,39 @@ StatisticsDialog::init_gui()
   forward_btn->signal_clicked()
     .connect(SigC::slot(*this, &StatisticsDialog::on_history_go_forward));
   
-  Gtk::Label *nav_label = manage(new Gtk::Label(_("History:")));
-  nav_label->set_alignment(1.0, 0.5);
-  btnbox->pack_start(*nav_label, true, true, 0);
-  btnbox->pack_start(*first_btn, false, false, 0);
-  btnbox->pack_start(*back_btn, false, false, 0);
-  btnbox->pack_start(*forward_btn, false, false, 0);
-  btnbox->pack_start(*last_btn, false, false, 0);
-
-  // Navigation box
-  Gtk::VBox *navbox= manage(new Gtk::VBox(false, 6));
-  navbox->pack_start(*calendar, false, false, 0);
-  navbox->pack_start(*btnbox, false, false, 0);
+  btnbox->pack_start(*first_btn, true, true, 0);
+  btnbox->pack_start(*back_btn, true, true, 0);
+  btnbox->pack_start(*forward_btn, true, true, 0);
+  btnbox->pack_start(*last_btn, true, true, 0);
 
   // Info box
   Gtk::Widget *infobox = manage(create_info_box());
-  
-  hbox->pack_start(*navbox, false, false, 0);
-  hbox->pack_start(*vbox, true, true, 0);
 
-  vbox->pack_start(*infobox, false, false, 0);
-  vbox->pack_start(*tnotebook, true, true, 0);
+  // Navigation box
+  HigCategoryPanel *browsebox
+    = manage(new HigCategoryPanel(_("Browse history")));
+  browsebox->add(*btnbox);
+  browsebox->add(*calendar);
+
+  // Stats box
+  HigCategoriesPanel *navbox = manage(new HigCategoriesPanel());
+  navbox->add(*infobox);
+  HigCategoryPanel *statbox = manage(new HigCategoryPanel(_("Statistics")));
+  statbox->add(*tnotebook);
+  navbox->add(*statbox);
+  
+  Gtk::HBox *hbox = manage(new Gtk::HBox(false, 12));
+  hbox->pack_start(*browsebox, false, false, 0);
+  hbox->pack_start(*navbox, true, true, 0);
   
   create_break_page(tnotebook);
   create_activity_page(tnotebook);
 
-  add_panel(*hbox, true, true);
 
   tnotebook->show_all();
   tnotebook->set_current_page(0);
+
+  get_vbox()->pack_start(*hbox, true, true, 0);
 
   // Dialog
   add_button(Gtk::Stock::CLOSE, Gtk::RESPONSE_CLOSE);
@@ -159,27 +160,17 @@ StatisticsDialog::init_gui()
 Gtk::Widget *
 StatisticsDialog::create_info_box()
 {
-  Gtk::Table *table = new Gtk::Table(2, 2, false);
-  table->set_row_spacings(2);
-  table->set_col_spacings(6);
-
-  Gtk::Label *start_label = manage(new Gtk::Label());
-  start_label->set_markup(_("<b>Start time:</b>"));
-  Gtk::Label *end_label = manage(new Gtk::Label());
-  end_label->set_markup(_("<b>End time:</b>"));
+  HigCategoryPanel *panel = manage(new HigCategoryPanel(_("History")));
+  
   start_time_label = manage(new Gtk::Label);
   end_time_label = manage(new Gtk::Label);
-  
-  start_label->set_alignment(0.0, 0);
-  end_label->set_alignment(0.0, 0);
-  start_time_label->set_alignment(1.0, 0);
-  end_time_label->set_alignment(1.0, 0);
+  date_label = manage(new Gtk::Label);
 
-  table->attach(*start_label, 0, 1, 0, 1, Gtk::FILL, Gtk::SHRINK);
-  table->attach(*start_time_label, 1, 2, 0, 1, Gtk::FILL, Gtk::SHRINK);
-  table->attach(*end_label, 0, 1, 1, 2, Gtk::FILL, Gtk::SHRINK);
-  table->attach(*end_time_label, 1, 2, 1, 2, Gtk::FILL, Gtk::SHRINK);
-  return table;
+  panel->add(_("Date:"), *date_label);
+  //panel->add(_("Start time:"), *start_time_label);
+  //panel->add(_("End time:"), *end_time_label);
+  
+  return panel;
 }
 
 
@@ -364,33 +355,23 @@ StatisticsDialog::display_statistics(Statistics::DailyStats *stats)
       stats = &empty;
     }
   
-  char s[200];
   if (stats->is_empty())
     {
+      date_label->set_text("-");
       start_time_label->set_text("-");
       end_time_label->set_text("-");
     }
   else
     {
-      size_t size = strftime(s, 200, "%X", &stats->start);
-      if (size != 0)
-        {
-          start_time_label->set_text(s);
-        }
-      else
-        {
-          start_time_label->set_text("???");
-        }
-  
-      size = strftime(s, 200, "%X", &stats->stop);
-      if (size != 0)
-        {
-          end_time_label->set_text(s);
-        }
-      else
-        {
-          end_time_label->set_text("???");
-        }
+      char date[100];
+      char start[100];
+      char stop[100];
+      strftime(date, sizeof(date), "%x", &stats->start);
+      strftime(start, sizeof(start), "%X", &stats->start);
+      strftime(stop, sizeof(stop), "%X", &stats->stop);
+      char buf[200];
+      sprintf(buf, _("%s, from %s to %s"), date, start, stop);
+      date_label->set_text(buf);
     }
 
 

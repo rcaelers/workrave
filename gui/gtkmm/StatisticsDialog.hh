@@ -56,6 +56,9 @@ private:
   /** Labels indicating the start time of the visible data. */
   Gtk::Label *start_time_label;
 
+  /** Labels indicating the start time of the visible data. */
+  Gtk::Label *date_label;
+
   /** Labels indicating the end time of the visible data. */
   Gtk::Label *end_time_label;
 

@@ -11,15 +11,19 @@ HigDialog::HigDialog(const Glib::ustring& title, bool modal,
   : Gtk::Dialog(title, modal, use_separator)
 {
   set_hig_defaults();
+  vbox = NULL;
 }
 
-void
-HigDialog::add_panel(Gtk::Widget &panel, bool expand, bool fill)
+Gtk::VBox *
+HigDialog::get_vbox()
 {
-  Gtk::VBox *vb = manage(new Gtk::VBox());
-  vb->pack_start(panel, expand, fill, 0);
-  vb->set_border_width(5);
-  get_vbox()->pack_start(*vb, true, true, 0);
+  if (vbox == NULL)
+    {
+      vbox = manage(new Gtk::VBox());
+      vbox->set_border_width(5);
+      Gtk::Dialog::get_vbox()->pack_start(*vbox, true, true, 0);
+    }
+  return vbox;
 }
 
 void
