@@ -4,21 +4,25 @@ Comment=KWorkrave
 
 [rest_break_started]
 _Name=Rest break started
+_Comment=Rest break started
 default_presentation=1
 default_sound=workrave/rest-break-started.wav
 
 [rest_break_ended]
 _Name=Rest break ended
+_Comment=Rest break ended
 default_presentation=1
 default_sound=workrave/rest-break-ended.wav
 
 [micro_break_started]
 _Name=Micro-break started
+_Comment=Micro-break started
 default_presentation=1
 default_sound=workrave/micro-break-started.wav
 
 [micro_break_ended]
 _Name=Micro-break ended
+_Comment=Micro-break ended
 default_presentation=1
 default_sound=workrave/micro-break-ended.wav
 

@@ -683,7 +683,7 @@ MainWindow::win32_add_tray_icon()
   win32_tray_icon.hIcon = normal_icon;
   strcpy(win32_tray_icon.szTip, "Workrave");
 
-#if 0 // Required new Mingw runtime...
+#if 1 // Requires new Mingw runtime...
   win32_tray_icon.dwInfoFlags = 0; // NIIF_NONE;
   win32_tray_icon.uTimeout = 5 * 1000;
 
@@ -698,7 +698,7 @@ MainWindow::win32_add_tray_icon()
 void
 MainWindow::win32_set_tray_tooltip(string tip)
 {
-#if 0 // Required new Mingw runtime...
+#if 1 // Requires new Mingw runtime...
   strcpy(win32_tray_icon.szInfo, tip.c_str());
   Shell_NotifyIcon(NIM_MODIFY, &win32_tray_icon);
 #endif  

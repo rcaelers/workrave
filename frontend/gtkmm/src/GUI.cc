@@ -64,9 +64,10 @@ static const char rcsid[] = "$Id$";
 #include "libgnomeuimm/wrap_init.h"
 #endif
 
-#ifdef HAVE_GNOME
+#ifdef HAVE_KDE
 #include <dcopclient.h>
 #include <kapp.h>
+#include <knotifyclient.h>
 #endif
 
 #ifdef WIN32
@@ -413,6 +414,10 @@ GUI::init_kde()
   KApplication *a = new KApplication(argc, argv, "Workrave");
   bool rc = kapp->dcopClient()->attach();
   TRACE_MSG(rc);
+
+  int x = KNotifyClient::event("rest_break_started", _("Restbreak"));
+  TRACE_MSG(x);
+  
   TRACE_EXIT();
 }
 #endif
