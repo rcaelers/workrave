@@ -121,6 +121,8 @@ public:
 
   time_t get_total_overdue_time() const;
   void daily_reset_timer();
+
+  void shift_time(int delta);
   
 private:
   //! Activity or Idle timer.

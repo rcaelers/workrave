@@ -135,6 +135,9 @@ private:
   //! The current time.
   time_t current_time;
 
+  //! The time we last processed the timers.
+  time_t last_process_time;
+  
   //! Are we the master node??
   bool master_node;
 };

@@ -60,6 +60,7 @@ Control::Control() :
   timers(NULL),
   configurator(NULL),
   monitor(NULL),
+  last_process_time(0),
   master_node(true)
 {
   current_time = time(NULL);
@@ -170,6 +171,23 @@ Control::process_timers(TimerInfo *infos)
   // Timers
   current_time = time(NULL);
 
+  if (last_process_time != 0)
+    {
+      int gap = current_time - 1 - last_process_time;
+      if (abs(gap) > 5)
+        {
+          TRACE_MSG("Time warp of " << gap << " seconds");
+          
+          monitor->force_idle();
+          for (int i = 0; i < timer_count; i++)
+            {
+              timers[i]->shift_time(gap);
+            }
+          
+          state = ACTIVITY_IDLE;
+        }
+    }
+  
   if (master_node)
     {
       for (int i = 0; i < timer_count; i++)
@@ -193,7 +211,9 @@ Control::process_timers(TimerInfo *infos)
     {
       save_state();
     }
-      
+
+  last_process_time = current_time;
+  
   count++;
   TRACE_EXIT();
 }

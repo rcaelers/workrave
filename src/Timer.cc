@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-03-15 10:32:51 robc>
+// Time-stamp: <2003-04-08 21:38:24 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -528,6 +528,60 @@ Timer::get_total_overdue_time() const
   return ret;
 }
 
+void
+Timer::shift_time(int delta)
+{
+  TRACE_ENTER_MSG("Timer", timer_id << " " << delta);
+  
+  if (last_limit_time > 0)
+    {
+      last_limit_time += delta;
+      TRACE_MSG("1");
+    }
+  
+  if (last_start_time > 0)
+    {
+      last_start_time += delta;
+      TRACE_MSG("2");
+    }
+
+  if (last_reset_time > 0)
+    {
+      last_reset_time += delta;
+      TRACE_MSG("3");
+    }
+
+  if (last_stop_time > 0)
+    {
+      last_stop_time += delta;
+      TRACE_MSG("4");
+    }
+
+  if (next_reset_time > 0)
+    {
+      next_reset_time += delta;
+      TRACE_MSG("5");
+    }
+
+  if (last_pred_reset_time > 0)
+    {
+      last_pred_reset_time += delta;
+      TRACE_MSG("6");
+    }
+
+  if (next_pred_reset_time > 0)
+    {
+      next_pred_reset_time += delta;
+      TRACE_MSG("7");
+    }
+
+  if (next_limit_time > 0)
+    {
+      next_limit_time += delta;
+      TRACE_MSG("8");
+    }
+}
+
 
 //! Activity callback from activity monitor.
 void
@@ -756,3 +810,4 @@ Timer::get_state_data(TimerStateData &data)
   TRACE_MSG("elapsed = " << data.elapsed_time);
   TRACE_EXIT();
 }
+
