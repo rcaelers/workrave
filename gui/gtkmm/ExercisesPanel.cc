@@ -19,16 +19,18 @@
 #include "ExercisesPanel.hh"
 #include "GtkUtil.hh"
 #include "GUI.hh"
+#include "Util.hh"
+#include "Hig.hh"
 
 ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
-  : back_button(Gtk::Stock::GO_BACK),
+  : Gtk::HBox(false, 6), back_button(Gtk::Stock::GO_BACK),
     pause_button(Gtk::Stock::STOP),
     forward_button(Gtk::Stock::GO_FORWARD)
 {
   Exercise::parse_exercises(exercises);
   exercise_iterator = exercises.begin();
 
-  progress_bar.set_orientation(Gtk::PROGRESS_TOP_TO_BOTTOM);
+  progress_bar.set_orientation(Gtk::PROGRESS_BOTTOM_TO_TOP);
 
 
   back_button.signal_clicked()
@@ -42,7 +44,7 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
 
   description_label.set_size_request(250, 250);
   description_label.set_line_wrap(true);
-  
+  description_label.set_alignment(0.0, 0.0);
   image.set_size_request(250, 250);
   image_frame.add(image);
 
@@ -93,9 +95,54 @@ void
 ExercisesPanel::start_exercise()
 {
   const Exercise &exercise = *exercise_iterator;
-  description_label.set_label(exercise.description);
+  description_label.set_markup(HigUtil::create_alert_text(exercise.title.c_str(), exercise.description.c_str()));
   exercise_time = 0;
-  progress_bar.set_fraction(0.);
+  seq_time = 0;
+  image_iterator = exercise.sequence.begin();
+  refresh_progress();
+  refresh_progress();
+}
+
+void
+ExercisesPanel::show_image()
+{
+  const Exercise::Image &img = (*image_iterator);
+  seq_time += img.duration;
+  string file = Util::complete_directory(img.image,
+                                         Util::SEARCH_PATH_EXERCISES);
+  if (! img.mirror_x)
+    {
+      image.set(file);
+    }
+  else
+    {
+      Glib::RefPtr<Gdk::Pixbuf> pixbuf = Gdk::Pixbuf::create_from_file(file);
+      Glib::RefPtr<Gdk::Pixbuf> flip = GtkUtil::flip_pixbuf(pixbuf, true, false);
+      image.set(flip);
+    }
+}
+
+void
+ExercisesPanel::refresh_sequence()
+{
+  if (exercise_time >= seq_time)
+    {
+      image_iterator++;
+      const Exercise &exercise = *exercise_iterator;
+      if (image_iterator == exercise.sequence.end())
+        {
+          image_iterator = exercise.sequence.begin();
+        }
+      show_image();
+    }
+}
+
+void
+ExercisesPanel::refresh_progress()
+{
+  const Exercise &exercise = *exercise_iterator;
+  progress_bar.set_fraction(1.0 - (double) exercise_time
+                            / exercise.duration);
 }
 
 void
@@ -132,13 +179,14 @@ void
 ExercisesPanel::heartbeat()
 {
   const Exercise &exercise = *exercise_iterator;
+  exercise_time++;
   if (exercise_time >= exercise.duration)
     {
       on_go_forward();
     }
   else
     {
-      exercise_time++;
-      progress_bar.set_fraction((double) exercise_time / exercise.duration);
+      refresh_sequence();
+      refresh_progress();
     }
 }

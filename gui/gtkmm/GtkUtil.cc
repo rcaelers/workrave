@@ -140,3 +140,157 @@ GtkUtil::set_wmclass(Gtk::Window &window, string class_postfix)
   
   window.set_wmclass(g_get_prgname(), s);
 }
+
+
+/**
+ * gdk_pixbuf_flip:
+ * @pixbuf: a #GdkPixbuf
+ * @horizontal: Whether to flip in horizontal direction.  If @horizontal is
+ * #TRUE, then flip around in horizontal direction.
+ * @vertical: Whether to flip in vertical direction.  If @vertical is #TRUE,
+ * then flip in vertical direction.  (NOT IMPLEMENTED YET!)
+ * @in_place: If in_place is #TRUE, the original @pixbuf is modified.
+ *
+ * Flips @pixbuf around horizontally and/or vertically.
+ *
+ * Return value: The original @pixbuf is modified and returned, if
+ * in_place is #TRUE.  If in_place is #FALSE, a newly created pixbuf
+ * with a reference count of 1 is returned.
+ **/
+static GdkPixbuf *
+gdk_pixbuf_flip (GdkPixbuf *pixbuf,
+		 gboolean horizontal,
+		 gboolean vertical,
+		 gboolean in_place)
+{
+  GdkPixbuf *dest;
+  gint src_has_alpha;
+  gint width, height, src_rs;
+  gint dst_rs;
+
+  guchar *src_pix, *src_p;
+  guchar *dst_pix, *dst_p;
+
+  gint i, j;
+  gint alpha;
+
+  (void) vertical; // FIXME: not supported yet
+  g_return_val_if_fail (pixbuf != NULL, NULL);
+
+  width = gdk_pixbuf_get_width (pixbuf);
+  height = gdk_pixbuf_get_height (pixbuf);
+  src_has_alpha = gdk_pixbuf_get_has_alpha (pixbuf);
+
+  alpha = src_has_alpha ? 4 : 3;
+	
+  src_rs = gdk_pixbuf_get_rowstride (pixbuf);
+  src_pix = gdk_pixbuf_get_pixels (pixbuf);
+
+  if (in_place) {
+    dest = pixbuf;
+    dst_rs = gdk_pixbuf_get_rowstride (pixbuf);
+    dst_pix = gdk_pixbuf_get_pixels (pixbuf);
+  } else {
+    dest = gdk_pixbuf_new (GDK_COLORSPACE_RGB, src_has_alpha, 8, width, height);
+    dst_rs = gdk_pixbuf_get_rowstride (dest);
+    dst_pix = gdk_pixbuf_get_pixels (dest);
+  }
+
+  if (horizontal==TRUE) {
+    for (i = 0; i < height; i++) {
+      src_p = src_pix + (src_rs * i);
+      dst_p = dst_pix + (dst_rs * i);
+			
+      for (j = 0; j < width; j++) {
+        *(dst_p++) = *(src_p++);
+        *(dst_p++) = *(src_p++);
+        *(dst_p++) = *(src_p++);
+        if (src_has_alpha)
+          *(dst_p) = *(src_p++);
+        dst_p = dst_p - (alpha + 3);
+      }
+    }
+  }
+	
+  return dest;
+}
+
+
+/*
+ * Returns a copy of pixbuf mirrored and or flipped.
+ * TO do a 180 degree rotations set both mirror and flipped TRUE
+ * if mirror and flip are FALSE, result is a simple copy.
+ */
+static GdkPixbuf *pixbuf_copy_mirror(GdkPixbuf *src, gint mirror, gint flip)
+{
+	GdkPixbuf *dest;
+	gint has_alpha;
+	gint w, h, srs;
+	gint drs;
+	guchar *s_pix;
+        guchar *d_pix;
+	guchar *sp;
+        guchar *dp;
+	gint i, j;
+	gint a;
+
+	if (!src) return NULL;
+
+	w = gdk_pixbuf_get_width(src);
+	h = gdk_pixbuf_get_height(src);
+	has_alpha = gdk_pixbuf_get_has_alpha(src);
+	srs = gdk_pixbuf_get_rowstride(src);
+	s_pix = gdk_pixbuf_get_pixels(src);
+
+	dest = gdk_pixbuf_new(GDK_COLORSPACE_RGB, has_alpha, 8, w, h);
+	drs = gdk_pixbuf_get_rowstride(dest);
+	d_pix = gdk_pixbuf_get_pixels(dest);
+
+	a = has_alpha ? 4 : 3;
+
+	for (i = 0; i < h; i++)
+		{
+		sp = s_pix + (i * srs);
+		if (flip)
+			{
+			dp = d_pix + ((h - i - 1) * drs);
+			}
+		else
+			{
+			dp = d_pix + (i * drs);
+			}
+		if (mirror)
+			{
+			dp += (w - 1) * a;
+			for (j = 0; j < w; j++)
+				{
+				*(dp++) = *(sp++);	/* r */
+				*(dp++) = *(sp++);	/* g */
+				*(dp++) = *(sp++);	/* b */
+				if (has_alpha) *(dp) = *(sp++);	/* a */
+				dp -= (a + 3);
+				}
+			}
+		else
+			{
+			for (j = 0; j < w; j++)
+				{
+				*(dp++) = *(sp++);	/* r */
+				*(dp++) = *(sp++);	/* g */
+				*(dp++) = *(sp++);	/* b */
+				if (has_alpha) *(dp++) = *(sp++);	/* a */
+				}
+			}
+		}
+
+	return dest;
+}
+
+
+Glib::RefPtr<Gdk::Pixbuf> 
+GtkUtil::flip_pixbuf(Glib::RefPtr<Gdk::Pixbuf> pixbuf, bool horizontal, bool vertical)
+{
+  GdkPixbuf *pb = pixbuf->gobj();
+  GdkPixbuf *pbflip = pixbuf_copy_mirror(pb, horizontal, vertical);
+  return Glib::wrap(pbflip, false);
+}

@@ -33,8 +33,13 @@ struct Exercise
   {
     std::string image;
     int duration;
-
-    Image(const char *img, int dur) { image = img; duration = dur; }
+    bool mirror_x;
+    Image(const char *img, int dur, bool mx)
+    {
+      image = img;
+      duration = dur;
+      mirror_x = mx;
+    }
   };
   
   std::string title;

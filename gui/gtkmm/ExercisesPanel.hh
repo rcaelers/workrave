@@ -39,7 +39,10 @@ private:
   void on_pause();
   void heartbeat();
   void start_exercise();
-  
+  void show_image();
+  void refresh_progress();
+  void refresh_sequence();
+
   Gtk::Frame image_frame;
   Gtk::Image image;
   Gtk::ProgressBar progress_bar;
@@ -50,8 +53,10 @@ private:
   Gtk::VBox image_box;
   std::list<Exercise> exercises;
   std::list<Exercise>::const_iterator exercise_iterator;
+  std::list<Exercise::Image>::const_iterator image_iterator;
   SigC::Connection heartbeat_signal;
   int exercise_time;
+  int seq_time;
 };
 
 #endif // HAVE_EXERCISES

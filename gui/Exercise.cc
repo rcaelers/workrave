@@ -114,8 +114,10 @@ exercise_parser_start_element  (GMarkupParseContext *,
         }
       const gchar *src = exercise_parse_lookup_attribute
         ("src", attribute_names, attribute_values);
-      
-      ep->exercise->sequence.push_back(Exercise::Image(src, dur));
+      const gchar *mirrorx = exercise_parse_lookup_attribute
+        ("mirrorx", attribute_names, attribute_values);
+      bool mx = mirrorx != NULL && !strcmp(mirrorx, "yes");
+      ep->exercise->sequence.push_back(Exercise::Image(src, dur, mx));
     }
 
   const gchar *value = exercise_parse_lookup_attribute

@@ -42,6 +42,9 @@ public:
   static Gtk::Widget *
   create_label_for_break(GUIControl::BreakId id);
 
+  static Glib::RefPtr<Gdk::Pixbuf> 
+  flip_pixbuf(Glib::RefPtr<Gdk::Pixbuf> pixbuf, bool horizontal, bool vertical);
+
   static void
   table_attach_aligned(Gtk::Table &table, Gtk::Widget &child,
                        guint left_attach, guint top_attach, bool left);
