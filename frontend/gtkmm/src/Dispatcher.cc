@@ -1,4 +1,4 @@
-/ Dispatcher.cc --- Inter-thread dispatcher
+// Dispatcher.cc --- Inter-thread dispatcher
 //
 // Copyright (C) 2003, 2004 Rob Caelers
 // All rights reserved.
