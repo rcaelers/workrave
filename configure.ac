@@ -438,13 +438,15 @@ dnl internationalization macros
 AM_GNU_GETTEXT([external])
 dnl AM_GLIB_GNU_GETTEXT
 
+dnl Hack because windows gettext package is SEVERELY broken...
+if test "x$platform_win32" == "xyes"; then
+        USE_NLS=yes
+        AC_DEFINE(ENABLE_NLS,,[Define to 1 if translation of program messages to the user's native
+   language is requested.])
+fi
+
 GETTEXT_PACKAGE=workrave
 AC_SUBST(GETTEXT_PACKAGE)
-
-dnl Hack because windows gettext package is SEVERELY broken...
-if test "x$platform_win32" != "xyes"; then
-        USE_NLS=yes
-fi
 
 AC_DEFINE(GETTEXT_PACKAGE, "workrave", [Blaat])
 AC_PROG_INTLTOOL
