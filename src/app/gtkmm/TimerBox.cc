@@ -330,7 +330,7 @@ TimerBox::update_widgets()
 void
 TimerBox::init_table()
 {
-  //TRACE_ENTER("TimerBox::init_table");
+  TRACE_ENTER("TimerBox::init_table");
 
   // Determine what breaks to show.
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -361,13 +361,13 @@ TimerBox::init_table()
 
   if (!vertical)
     {
-      //TRACE_MSG("!vertical")
+      TRACE_MSG("!vertical")
       int width, height;
       bars[0]->get_preferred_size(width, height);
       
       rows = size / (height + 1);
 
-      //TRACE_MSG(size << " " << rows);
+      TRACE_MSG(size << " " << rows);
       if (rows <= 0)
         {
           rows = 1;
@@ -415,10 +415,10 @@ TimerBox::init_table()
       visible_count = -1;
     }
 
-  // TRACE_MSG(rows <<" " << table_rows << " " << columns << " " << table_columns);
+  TRACE_MSG(rows <<" " << table_rows << " " << columns << " " << table_columns);
   if (rows != table_rows || columns != table_columns || number_of_timers != visible_count)
     {
-      //TRACE_MSG("resize");
+      TRACE_MSG("resize");
       resize(rows, 2 * columns);
       set_spacings(1);
       show_all();
@@ -446,13 +446,13 @@ TimerBox::init_table()
           int cur_row = i % rows;
           int cur_col = i / rows;
            
-          //TRACE_MSG("size = " << size);
+          TRACE_MSG("size = " << size);
           if (!vertical && size > 0)
             {
               GtkRequisition widget_size;
               size_request(&widget_size);
               
-              //TRACE_MSG("size = " << widget_size.width << " " << widget_size.height);
+              TRACE_MSG("size = " << widget_size.width << " " << widget_size.height);
               //bars[id]->set_size_request(-1, size / rows - (rows + 1) - 2);
             }
           
@@ -471,7 +471,7 @@ TimerBox::init_table()
   visible_count = number_of_timers;
   
   show_all();
-  //TRACE_EXIT();
+  TRACE_EXIT();
 }
 
 
@@ -479,6 +479,7 @@ TimerBox::init_table()
 void
 TimerBox::init_slot(int slot)
 {
+  TRACE_ENTER_MSG("TimerBox::init_slot");
   int count = 0;
   int breaks_id[BREAK_ID_SIZEOF];
   bool stop = false;
@@ -486,13 +487,16 @@ TimerBox::init_slot(int slot)
   // Collect all timers for this slot.
   for (int i = 0; !stop && i < BREAK_ID_SIZEOF; i++)
     {
+      TRACE_MSG("1 " << i);
       CoreInterface *core = CoreFactory::get_core();
       BreakInterface *break_data = core->get_break(BreakId(count));
 
       bool on = break_data->get_break_enabled();
+      TRACE_MSG("2 " << on);
       
       if (on && break_position[i] == slot && !(break_flags[i] & BREAK_HIDE))
         {
+          TRACE_MSG("3");
           breaks_id[count] = i;
           break_flags[i] &= ~BREAK_SKIP;
           count++;
@@ -503,26 +507,34 @@ TimerBox::init_slot(int slot)
   time_t first = 0;
   int first_id = -1;
     
+  TRACE_MSG("4");
   for (int i = 0; i < count; i++)
     {
+      TRACE_MSG("5");
       int id = breaks_id[i];
       int flags = break_flags[id];
 
+      TRACE_MSG("6 " << id << " " << flags);
+      
       CoreInterface *core = CoreFactory::get_core();
       BreakInterface *break_data = core->get_break(BreakId(count));
       TimerInterface *timer = break_data->get_timer();
 
+      TRACE_MSG("7");
+      
       time_t time_left = timer->get_limit() - timer->get_elapsed_time();
         
       // Exclude break if not imminent.
       if (flags & BREAK_WHEN_IMMINENT && time_left > break_imminent_time[id])
         {
+          TRACE_MSG("8");
           break_flags[id] |= BREAK_SKIP;
         }
 
       // update first imminent timer.
       if (!(flags & BREAK_SKIP) && (first_id == -1 || time_left < first))
         {
+          TRACE_MSG("9");
           first_id = id;
           first = time_left;
         }
@@ -532,13 +544,16 @@ TimerBox::init_slot(int slot)
   // Exclude break if not first.
   for (int i = 0; i < count; i++)
     {
+      TRACE_MSG("10 " << i);
       int id = breaks_id[i];
       int flags = break_flags[id];
 
       if (!(flags & BREAK_SKIP))
         {
+          TRACE_MSG("11");
           if (flags & BREAK_WHEN_FIRST && first_id != id)
             {
+              TRACE_MSG("12");
               break_flags[id] |= BREAK_SKIP;
             }
         }
@@ -550,34 +565,43 @@ TimerBox::init_slot(int slot)
   int breaks_left = 0;
   for (int i = 0; i < count; i++)
     {
+      TRACE_MSG("13 " << i);
+
       int id = breaks_id[i];
       int flags = break_flags[id];
 
       if (!(flags & BREAK_SKIP))
         {
+          TRACE_MSG("14");
           if (flags & BREAK_EXCLUSIVE && have_one)
             {
+              TRACE_MSG("15");
               break_flags[id] |= BREAK_SKIP;
             }
 
           have_one = true;
         }
       
+      TRACE_MSG("15");
       if (!(flags & BREAK_SKIP))
         {
+          TRACE_MSG("16");
           breaks_left++;
         }
     }
 
   if (breaks_left == 0)
     {
+      TRACE_MSG("17");
       for (int i = 0; i < count; i++)
         {
+          TRACE_MSG("18");
           int id = breaks_id[i];
           int flags = break_flags[id];
           
           if (flags & BREAK_DEFAULT && flags & BREAK_SKIP)
             {
+              TRACE_MSG("19");
               break_flags[id] &= ~BREAK_SKIP;
               breaks_left = 1;
               break;
@@ -585,11 +609,13 @@ TimerBox::init_slot(int slot)
         }
     }
 
+  TRACE_MSG("20");
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       break_slots[slot][i] = -1;
     }
 
+  TRACE_MSG("21");
   int new_count = 0;
   for (int i = 0; i < count; i++)
     {
@@ -602,6 +628,8 @@ TimerBox::init_slot(int slot)
           new_count++;
         }
     }
+  TRACE_EXIT();
+
 }
 
 
