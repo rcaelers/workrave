@@ -69,6 +69,8 @@ Workrave-Control.server.in: Workrave-Control.server.in.in
 GNOME_WorkraveApplet.xml: GNOME_WorkraveApplet.xml.in
 	sed -e "s|\@PIXDIR\@|$(pkgdatadir)/images|" $< > $@
 
+WorkraveApplet.c: $(IDL_C_GENERATED) $(IDL_A_GENERATED)
+
 @INTLTOOL_SERVER_RULE@
 
 endif

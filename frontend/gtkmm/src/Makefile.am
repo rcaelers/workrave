@@ -71,6 +71,9 @@ if HAVE_APP_GTKMM
 if HAVE_GNOME
 extrasources +=		$(sourcesgnome)
 extranodistsources +=	$(sourcesgnome_idl)
+
+AppletWindow.cc:	$(sourcesgnome_idl)
+GUI.cc:			$(sourcesgnome_idl)
 else
 extrasources +=		$(sourcesnognome)
 endif
