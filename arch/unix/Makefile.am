@@ -2,12 +2,14 @@
 #
 # Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 #
-# Time-stamp: <2002-09-10 18:18:32 robc>
+# Time-stamp: <2002-09-20 18:29:53 robc>
 #
 # $Id$
 #
 
 MAINTAINERCLEANFILES = Makefile.in
+
+if HAVE_ARCH_UNIX
 
 noinst_LIBRARIES = libarchunix.a
 
@@ -16,6 +18,8 @@ libarchunix_a_SOURCES = \
 	Thread.cc
 
 libarchunix_a_LIBADD =
+
+endif
 
 INCLUDES = -W -D_XOPEN_SOURCE=600 -I..
 

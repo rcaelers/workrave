@@ -2,7 +2,7 @@
 #
 # Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 #
-# Time-stamp: <2002-09-01 17:28:18 robc>
+# Time-stamp: <2002-09-20 18:36:57 robc>
 #
 # $Id$
 #
@@ -13,18 +13,20 @@ EXTRA_DIST = \
       Makefile.am \
       README.Debian \
       changelog \
-      conffiles.ex \
       control \
       copyright \
       dirs \
       docs \
-      ex.package.doc-base \
-      manpage.1.ex \
-      manpage.sgml.ex \
-      menu.ex \
-      postinst.ex \
-      postrm.ex \
-      preinst.ex \
-      prerm.ex \
       rules
 
+
+#      conffiles.ex \
+#      ex.package.doc-base
+#      manpage.1.ex \
+#      manpage.sgml.ex \
+#      menu.ex \
+#      postinst.ex \
+#      postrm.ex \
+#      preinst.ex \
+#      prerm.ex \
+#

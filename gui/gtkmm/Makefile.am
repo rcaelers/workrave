@@ -7,6 +7,7 @@
 
 MAINTAINERCLEANFILES = Makefile.in
 
+if HAVE_GUI_GTKMM
 
 noinst_LIBRARIES = libgtkmmgui.a
 
@@ -43,5 +44,7 @@ libgtkmmgui_a_LIBADD =
 libgtkmmgui_a_CXXFLAGS 	= -DDATADIR="\"${pkgdatadir}\"" -W @ARCH_CFLAGS@ -I$(top_srcdir)/src @gnomeui_CFLAGS@ @GTK_CFLAGS@ @GTKMM_CFLAGS@ -D_XOPEN_SOURCE=600
 
 libgtkmmgui_a_CFLAGS	= -DDATADIR="\"${pkgdatadir}\"" -W @ARCH_CFLAGS@ -I$(top_srcdir)/src @gnomeui_CFLAGS@ @GTK_CFLAGS@ @GTKMM_CFLAGS@ -D_XOPEN_SOURCE=600
+
+endif
 
 EXTRA_DIST = $(wildcard *.hh) $(wildcard *.h)  $(wildcard *.icc)
