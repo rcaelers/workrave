@@ -41,9 +41,6 @@
 #include "NetworkPreferencePage.hh"
 #endif
 
-using std::cout;
-using SigC::slot;
-
 struct MonitorPreset
 {
   const char *name;

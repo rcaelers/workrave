@@ -33,10 +33,6 @@
 #include "ControlInterface.hh"
 #include "Configurator.hh"
 
-using std::cout;
-using SigC::slot;
-
-
 TimerPreferencesPanel::TimerPreferencesPanel(GUIControl::TimerId t)
   : Gtk::HBox(false, 6),
     max_prelude_adjustment(0, 1, 100)

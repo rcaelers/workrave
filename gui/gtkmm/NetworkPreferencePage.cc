@@ -33,10 +33,6 @@
 #include "DistributionManager.hh"
 #include "DistributionSocketLink.hh"
 
-using std::cout;
-using SigC::slot;
-
-
 NetworkPreferencePage::NetworkPreferencePage()
   : Gtk::HBox(false, 6)
 {

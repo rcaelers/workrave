@@ -35,10 +35,6 @@
 #include "GUIControl.hh"
 #include "Util.hh"
 
-using std::cout;
-using SigC::slot;
-
-
 NetworkJoinDialog::NetworkJoinDialog()
   : Gtk::Dialog(_("Network connect"), true, false)
 {

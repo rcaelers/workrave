@@ -27,10 +27,6 @@
 #include <unistd.h>
 #include "TimeEntry.hh"
 
-using std::cout;
-using SigC::slot;
-
-
 TimeEntry::TimeEntry(bool millis)
   : hours_adjustment(0, 0, 23),
     mins_adjustment(0, 0, 59),

@@ -58,9 +58,6 @@ static const char rcsid[] = "$Id$";
 #include <gdk/gdkwin32.h>
 #endif
 
-using std::cout;
-using SigC::slot;
-
 #ifdef WIN32
 const char *WIN32_MAIN_CLASS_NAME = "Workrave";
 const UINT MYWM_TRAY_MESSAGE = WM_USER +0x100;
