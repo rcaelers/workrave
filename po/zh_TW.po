@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WorkRave 1.4.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-24 00:08+0200\n"
+"POT-Creation-Date: 2004-04-30 23:11+0200\n"
 "PO-Revision-Date: 2004-04-13 22:07+0800\n"
 "Last-Translator: Rex Tsai <chihchun@linux.org.tw>\n"
 "Language-Team: Chinese/Traditional <zh-l10n@linux.org.tw>\n"
@@ -50,19 +50,19 @@ msgstr "功勳(_C)"
 msgid "About %s"
 msgstr "關於 %s"
 
-#: frontend/gtkmm/src/BreakWindow.cc:178
+#: frontend/gtkmm/src/BreakWindow.cc:181
 msgid "Lock"
 msgstr "鎖定"
 
-#: frontend/gtkmm/src/BreakWindow.cc:197
+#: frontend/gtkmm/src/BreakWindow.cc:200
 msgid "Shut down"
 msgstr "關閉"
 
-#: frontend/gtkmm/src/BreakWindow.cc:214
+#: frontend/gtkmm/src/BreakWindow.cc:217
 msgid "Skip"
 msgstr "略過"
 
-#: frontend/gtkmm/src/BreakWindow.cc:227
+#: frontend/gtkmm/src/BreakWindow.cc:230
 msgid "Postpone"
 msgstr "延後"
 
@@ -81,7 +81,7 @@ msgstr ""
 "您已經達到每日限制量。請停止在電腦前工作工作。\n"
 "如果您尚未下班，找些其他的事情來做，例如檢閱文件。"
 
-#: frontend/gtkmm/src/GUI.cc:721
+#: frontend/gtkmm/src/GUI.cc:725
 msgid "I could not initialize Bonobo"
 msgstr "無法啟動 Bonobo"
 
@@ -270,15 +270,15 @@ msgstr "您需要一個休息..."
 msgid "You should stop for today..."
 msgstr "今天應該到此為止了..."
 
-#: frontend/gtkmm/src/PreludeWindow.cc:253
+#: frontend/gtkmm/src/PreludeWindow.cc:256
 msgid "Break in"
 msgstr "休息"
 
-#: frontend/gtkmm/src/PreludeWindow.cc:257
+#: frontend/gtkmm/src/PreludeWindow.cc:260
 msgid "Disappears in"
 msgstr "自動消失 "
 
-#: frontend/gtkmm/src/PreludeWindow.cc:261
+#: frontend/gtkmm/src/PreludeWindow.cc:264
 msgid "Silent in"
 msgstr "沉默"
 

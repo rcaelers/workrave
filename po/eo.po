@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-24 00:08+0200\n"
+"POT-Creation-Date: 2004-04-30 23:11+0200\n"
 "PO-Revision-Date: 2003-09-08 19:07+0200\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -49,20 +49,20 @@ msgstr "_Kreditoj"
 msgid "About %s"
 msgstr "Pri %s"
 
-#: frontend/gtkmm/src/BreakWindow.cc:178
+#: frontend/gtkmm/src/BreakWindow.cc:181
 msgid "Lock"
 msgstr "Ŝlosu"
 
-#: frontend/gtkmm/src/BreakWindow.cc:197
+#: frontend/gtkmm/src/BreakWindow.cc:200
 #, fuzzy
 msgid "Shut down"
 msgstr "Montru _protokolon"
 
-#: frontend/gtkmm/src/BreakWindow.cc:214
+#: frontend/gtkmm/src/BreakWindow.cc:217
 msgid "Skip"
 msgstr "Transsaltu"
 
-#: frontend/gtkmm/src/BreakWindow.cc:227
+#: frontend/gtkmm/src/BreakWindow.cc:230
 msgid "Postpone"
 msgstr "Prokrastu"
 
@@ -82,7 +82,7 @@ msgstr ""
 "malantaŭ via komputilo.  Se via labortago ne ankoraŭ finiĝis,\n"
 "trovu ion alian por fari, kiel revuado de dokumento."
 
-#: frontend/gtkmm/src/GUI.cc:721
+#: frontend/gtkmm/src/GUI.cc:725
 msgid "I could not initialize Bonobo"
 msgstr ""
 
@@ -276,15 +276,15 @@ msgstr "Vi bezonas ripozon..."
 msgid "You should stop for today..."
 msgstr "Vi devas halti por hodiaŭ..."
 
-#: frontend/gtkmm/src/PreludeWindow.cc:253
+#: frontend/gtkmm/src/PreludeWindow.cc:256
 msgid "Break in"
 msgstr "Ĉesu en"
 
-#: frontend/gtkmm/src/PreludeWindow.cc:257
+#: frontend/gtkmm/src/PreludeWindow.cc:260
 msgid "Disappears in"
 msgstr "Malaperas en"
 
-#: frontend/gtkmm/src/PreludeWindow.cc:261
+#: frontend/gtkmm/src/PreludeWindow.cc:264
 msgid "Silent in"
 msgstr "Silentiĝu en"
 

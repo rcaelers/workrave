@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-24 00:08+0200\n"
+"POT-Creation-Date: 2004-04-30 23:11+0200\n"
 "PO-Revision-Date: 2004-03-21 19:34+0100\n"
 "Last-Translator: mikolaj <mikolaj@localhost>\n"
 "Language-Team:  <pl@li.org>\n"
@@ -50,19 +50,19 @@ msgstr "A_utorzy"
 msgid "About %s"
 msgstr "O %s"
 
-#: frontend/gtkmm/src/BreakWindow.cc:178
+#: frontend/gtkmm/src/BreakWindow.cc:181
 msgid "Lock"
 msgstr "Zablokuj"
 
-#: frontend/gtkmm/src/BreakWindow.cc:197
+#: frontend/gtkmm/src/BreakWindow.cc:200
 msgid "Shut down"
 msgstr "Wyłącz"
 
-#: frontend/gtkmm/src/BreakWindow.cc:214
+#: frontend/gtkmm/src/BreakWindow.cc:217
 msgid "Skip"
 msgstr "Pomiń"
 
-#: frontend/gtkmm/src/BreakWindow.cc:227
+#: frontend/gtkmm/src/BreakWindow.cc:230
 msgid "Postpone"
 msgstr "Opóźnij"
 
@@ -83,7 +83,7 @@ msgstr ""
 "skończył znajdź coś innego do roboty, np. przeglądanie\n"
 "dokumentów."
 
-#: frontend/gtkmm/src/GUI.cc:721
+#: frontend/gtkmm/src/GUI.cc:725
 msgid "I could not initialize Bonobo"
 msgstr "Nie mogę zainicjować Bonobo"
 
@@ -274,15 +274,15 @@ msgstr "Potrzebujesz odpoczynku..."
 msgid "You should stop for today..."
 msgstr "Powninieneś skończyć na dzisiaj..."
 
-#: frontend/gtkmm/src/PreludeWindow.cc:253
+#: frontend/gtkmm/src/PreludeWindow.cc:256
 msgid "Break in"
 msgstr "Przerwa za"
 
-#: frontend/gtkmm/src/PreludeWindow.cc:257
+#: frontend/gtkmm/src/PreludeWindow.cc:260
 msgid "Disappears in"
 msgstr "Znika za"
 
-#: frontend/gtkmm/src/PreludeWindow.cc:261
+#: frontend/gtkmm/src/PreludeWindow.cc:264
 msgid "Silent in"
 msgstr "Cisza za"
 

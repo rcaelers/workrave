@@ -4,12 +4,6 @@ workrave (1.6.0) unstable; urgency=low
 
  -- Rob Caelers <robc@krandor.org>  Fri, 30 Apr 2004 22:57:54 +0200
 
-workrave-cvs (1.4.1.99) unstable; urgency=low
-
-  * Renamed debian package
-
- -- Rob Caelers <robc@krandor.org>  Mon,  3 Nov 2003 21:06:27 +0100
-
 workrave (1.4.1) unstable; urgency=low
 
   * New upstream

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.6.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-24 00:08+0200\n"
+"POT-Creation-Date: 2004-04-30 23:11+0200\n"
 "PO-Revision-Date: 2004-04-08 22:26+0200\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -48,19 +48,19 @@ msgstr "_Credits"
 msgid "About %s"
 msgstr "Over %s"
 
-#: frontend/gtkmm/src/BreakWindow.cc:178
+#: frontend/gtkmm/src/BreakWindow.cc:181
 msgid "Lock"
 msgstr "Vergrendelen"
 
-#: frontend/gtkmm/src/BreakWindow.cc:197
+#: frontend/gtkmm/src/BreakWindow.cc:200
 msgid "Shut down"
 msgstr "Uitschakelen"
 
-#: frontend/gtkmm/src/BreakWindow.cc:214
+#: frontend/gtkmm/src/BreakWindow.cc:217
 msgid "Skip"
 msgstr "Overslaan"
 
-#: frontend/gtkmm/src/BreakWindow.cc:227
+#: frontend/gtkmm/src/BreakWindow.cc:230
 msgid "Postpone"
 msgstr "Uitstellen"
 
@@ -80,7 +80,7 @@ msgstr ""
 "achter de computer. Als je werkdag nog niet voorbij is,\n"
 "ga dan iets anders doen, bv. documenten reviewen."
 
-#: frontend/gtkmm/src/GUI.cc:721
+#: frontend/gtkmm/src/GUI.cc:725
 msgid "I could not initialize Bonobo"
 msgstr "Bonobo kon niet geÃ¯nitialiseerd worden"
 
@@ -271,15 +271,15 @@ msgstr "Je bent toe aan een rustpauze..."
 msgid "You should stop for today..."
 msgstr "Genoeg voor vandaag..."
 
-#: frontend/gtkmm/src/PreludeWindow.cc:253
+#: frontend/gtkmm/src/PreludeWindow.cc:256
 msgid "Break in"
 msgstr "Pauze over"
 
-#: frontend/gtkmm/src/PreludeWindow.cc:257
+#: frontend/gtkmm/src/PreludeWindow.cc:260
 msgid "Disappears in"
 msgstr "Verdwijnt over"
 
-#: frontend/gtkmm/src/PreludeWindow.cc:261
+#: frontend/gtkmm/src/PreludeWindow.cc:264
 msgid "Silent in"
 msgstr "Stil over"
 

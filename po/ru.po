@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.6.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-24 00:08+0200\n"
+"POT-Creation-Date: 2004-04-30 23:11+0200\n"
 "PO-Revision-Date: 2004-04-08 22:33+0200\n"
 "Last-Translator: Sergey Kirkinsky <ksa@pfr.altai.ru>\n"
 "Language-Team: Sergey Kirkinsky <ksa@pfr.altai.ru>\n"
@@ -49,19 +49,19 @@ msgstr "_Список участников"
 msgid "About %s"
 msgstr "О %s"
 
-#: frontend/gtkmm/src/BreakWindow.cc:178
+#: frontend/gtkmm/src/BreakWindow.cc:181
 msgid "Lock"
 msgstr "Блокировать"
 
-#: frontend/gtkmm/src/BreakWindow.cc:197
+#: frontend/gtkmm/src/BreakWindow.cc:200
 msgid "Shut down"
 msgstr "Завершить"
 
-#: frontend/gtkmm/src/BreakWindow.cc:214
+#: frontend/gtkmm/src/BreakWindow.cc:217
 msgid "Skip"
 msgstr "Пропустить"
 
-#: frontend/gtkmm/src/BreakWindow.cc:227
+#: frontend/gtkmm/src/BreakWindow.cc:230
 msgid "Postpone"
 msgstr "Отложить"
 
@@ -81,7 +81,7 @@ msgstr ""
 "возле компьютера. Если Ваш рабочий день ещё не закончился,\n"
 "то найдите себе другое занятие, например, просмотр документов."
 
-#: frontend/gtkmm/src/GUI.cc:721
+#: frontend/gtkmm/src/GUI.cc:725
 msgid "I could not initialize Bonobo"
 msgstr "Не могу инициализировать Bonobo"
 
@@ -272,15 +272,15 @@ msgstr "Вам нужен перерыв..."
 msgid "You should stop for today..."
 msgstr "Вы должны остановиться сегодня..."
 
-#: frontend/gtkmm/src/PreludeWindow.cc:253
+#: frontend/gtkmm/src/PreludeWindow.cc:256
 msgid "Break in"
 msgstr "Перерыв в"
 
-#: frontend/gtkmm/src/PreludeWindow.cc:257
+#: frontend/gtkmm/src/PreludeWindow.cc:260
 msgid "Disappears in"
 msgstr "Исчезнет через"
 
-#: frontend/gtkmm/src/PreludeWindow.cc:261
+#: frontend/gtkmm/src/PreludeWindow.cc:264
 msgid "Silent in"
 msgstr "Тишина через"
 

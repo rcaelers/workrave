@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.6.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-24 00:08+0200\n"
+"POT-Creation-Date: 2004-04-30 23:11+0200\n"
 "PO-Revision-Date: 2004-04-23 19:14+0800\n"
 "Last-Translator: Benjamin Siband <email@wordinfrench.com>\n"
 "Language-Team: Français <thomas.basset@netcourrier.com;email@wordinfrench."
@@ -51,19 +51,19 @@ msgstr "_Crédits"
 msgid "About %s"
 msgstr "À propos de %s"
 
-#: frontend/gtkmm/src/BreakWindow.cc:178
+#: frontend/gtkmm/src/BreakWindow.cc:181
 msgid "Lock"
 msgstr "Verrouiller"
 
-#: frontend/gtkmm/src/BreakWindow.cc:197
+#: frontend/gtkmm/src/BreakWindow.cc:200
 msgid "Shut down"
 msgstr "Éteindre"
 
-#: frontend/gtkmm/src/BreakWindow.cc:214
+#: frontend/gtkmm/src/BreakWindow.cc:217
 msgid "Skip"
 msgstr "Ignorer"
 
-#: frontend/gtkmm/src/BreakWindow.cc:227
+#: frontend/gtkmm/src/BreakWindow.cc:230
 msgid "Postpone"
 msgstr "Reporter"
 
@@ -84,7 +84,7 @@ msgstr ""
 "de travail n'est pas terminée, vous devriez trouver\n"
 "quelque chose d'autre à faire, par exemple relire un document."
 
-#: frontend/gtkmm/src/GUI.cc:721
+#: frontend/gtkmm/src/GUI.cc:725
 msgid "I could not initialize Bonobo"
 msgstr "Impossible d'initialiser Bonobo"
 
@@ -278,15 +278,15 @@ msgstr "Vous devriez prendre une pause prolongée..."
 msgid "You should stop for today..."
 msgstr "Vous devriez vous arrêter pour aujourd'hui..."
 
-#: frontend/gtkmm/src/PreludeWindow.cc:253
+#: frontend/gtkmm/src/PreludeWindow.cc:256
 msgid "Break in"
 msgstr "Pause dans"
 
-#: frontend/gtkmm/src/PreludeWindow.cc:257
+#: frontend/gtkmm/src/PreludeWindow.cc:260
 msgid "Disappears in"
 msgstr "Disparition dans"
 
-#: frontend/gtkmm/src/PreludeWindow.cc:261
+#: frontend/gtkmm/src/PreludeWindow.cc:264
 msgid "Silent in"
 msgstr "Silencieux dans"
 
