@@ -921,11 +921,6 @@ BreakControl::prelude_stopped()
 {
   if (break_stage == STAGE_DELAYED)
     {
-      break_window_stop();
-      prelude_window_stop();
-      play_sound(SoundPlayerInterface::SOUND_BREAK_IGNORED);
-      defrost();
-      
       goto_stage(STAGE_SNOOZED);
     }
 }
