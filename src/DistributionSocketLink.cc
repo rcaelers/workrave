@@ -1,6 +1,6 @@
 // DistributionSocketLink.cc
 //
-// Copyright (C) 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -94,6 +94,10 @@ DistributionSocketLink::~DistributionSocketLink()
   if (password != NULL)
     {
       g_free(password);
+    }
+  if (socket_driver != NULL)
+    {
+      delete socket_driver;
     }
 }
 

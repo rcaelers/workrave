@@ -93,7 +93,8 @@ GUI::main()
   gui_control = new GUIControl(this, core_control);
   gui_control->init();
 
-  while (1)
+  int count = 0;
+  while (count < 4000)
     {
 #if defined(WIN32)
       Sleep(1000);
@@ -104,6 +105,8 @@ GUI::main()
         {
           gui_control->heartbeat();
         }
+
+      count++;
     }
   TRACE_EXIT();
 }

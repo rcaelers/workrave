@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-01-05 00:26:38 robc>
+// Time-stamp: <2003-01-09 22:41:09 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -120,10 +120,10 @@ X11InputMonitor::X11InputMonitor(char *name) :
 #endif
   if (name != NULL)
     {
-      x11_display_name = strdup(name);
+      x11_display_name = strdup(name); // FIXME: LEAK
     }
   
-  monitor_thread = new Thread(this);
+  monitor_thread = new Thread(this); // FIXME: LEAK
 }
 
 

@@ -331,7 +331,7 @@ GUI::create_sound_player()
 #if defined(WIN32)
   snd = new Win32SoundPlayer();
 #elif defined(HAVE_GNOME)
-  snd = new GnomeSoundPlayer();
+  snd = new GnomeSoundPlayer(); // FIXME: LEAK
 #else
 #  warning Sound card support disabled.
 #endif

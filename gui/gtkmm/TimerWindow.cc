@@ -83,7 +83,7 @@ TimerWindow::init_widgets()
   for (int count = 0; count < GUIControl::BREAK_ID_SIZEOF; count++)
     {
       GUIControl::TimerData *timer = &GUIControl::get_instance()->timers[count];
-      Gtk::Image *img = manage(new Gtk::Image(timer->icon));
+      Gtk::Image *img = manage(new Gtk::Image(timer->icon)); // FIXME: LEAK
       Gtk::Widget *w;
       if (count == GUIControl::BREAK_ID_REST_BREAK)
 	{
@@ -102,8 +102,8 @@ TimerWindow::init_widgets()
 	}
       
       timer_names[count] = w;
-      
-      timer_times[count] = manage(new TimeBar);
+
+      timer_times[count] = manage(new TimeBar); // FIXME: LEAK
       timer_times[count]->set_text_alignment(1);
       timer_times[count]->set_progress(0, 60);
       timer_times[count]->set_text(_("Wait"));

@@ -93,7 +93,7 @@ Menus::~Menus()
 Gtk::Menu *
 Menus::create_main_window_menu()
 {
-  Gtk::Menu *menu = manage(create_menu(main_window_check_menus));
+  Gtk::Menu *menu = manage(create_menu(main_window_check_menus)); // FIXME: leak
     
 #ifdef HAVE_DISTRIBUTION
   main_window_check_menus[3]->signal_toggled().connect(SigC::slot(*this,
@@ -131,7 +131,7 @@ Menus::create_menu(Gtk::CheckMenuItem *check_menus[4])
   Gtk::Menu::MenuList &modemenulist = mode_menu->items();
 
   // Mode menu item
-  Gtk::MenuItem *mode_menu_item = manage(new Gtk::MenuItem(_("_Mode"),true));
+  Gtk::MenuItem *mode_menu_item = manage(new Gtk::MenuItem(_("_Mode"),true)); // FIXME: LEAK
   mode_menu_item->set_submenu(*mode_menu);
   mode_menu_item->show();
 
