@@ -91,8 +91,6 @@ struct _WorkraveControlClass
   POA_GNOME_Workrave_WorkraveControl__epv epv;
 };
 
-WR_INIT()
-
 G_END_DECLS
 
 #endif /*__WORKRAVE_CONTROL_H__*/

@@ -29,6 +29,8 @@ static const char rcsid[] = "$Id$";
 
 #include "Menus.hh"
 
+WR_INIT()
+
 RemoteControl   *RemoteControl::instance = NULL;
 WorkraveControl *RemoteControl::workrave_control = NULL;
 

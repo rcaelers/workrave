@@ -78,9 +78,6 @@ TimerBox::~TimerBox()
 {
   TRACE_ENTER("TimerBox::~TimerBox");
 
-  delete [] bars;
-  delete [] labels;
-
   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
     {
       if (labels[i] != NULL)
@@ -88,6 +85,9 @@ TimerBox::~TimerBox()
       if (bars[i] != NULL)
         bars[i]->unreference();
     }
+
+  delete [] bars;
+  delete [] labels;
   
   if (sheep != NULL)
     sheep->unreference();
@@ -181,6 +181,9 @@ TimerBox::init_widgets()
   labels = new Gtk::Widget*[GUIControl::BREAK_ID_SIZEOF];
   bars = new TimeBar*[GUIControl::BREAK_ID_SIZEOF];
 
+  Glib::RefPtr<Gtk::SizeGroup> size_group
+    = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_HORIZONTAL);
+  
   for (int count = 0; count < GUIControl::BREAK_ID_SIZEOF; count++)
     {
       GUIControl::TimerData *timer = &GUIControl::get_instance()->timers[count];
@@ -202,6 +205,7 @@ TimerBox::init_widgets()
 	 w = img;
         }
       
+      size_group->add_widget(*w);
       labels[count] = w;
 
       bars[count] = manage(new TimeBar); // FIXME: LEAK
