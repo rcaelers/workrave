@@ -1,9 +1,0 @@
-
-AUTOMAKE_OPTIONS = foreign 1.5
-DISTCLEANFILES = inst-apps
-MAINTAINERCLEANFILES = subdirs configure.in acinclude.m4 configure.files Makefile.am stamp-h1 Makefile.in Makefile
-
-include admin/deps.am
-
-include admin/Doxyfile.am
-
