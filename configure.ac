@@ -272,6 +272,7 @@ then
 
     AC_SUBST(GNOMEUIMM)
 
+    echo $GNOMEUIMM
     if test "x$GNOMEUIMM" = "x"
     then
         PKG_CHECK_MODULES(GNOMEUIMM, libgnomeuimm-2.6)
