@@ -1,6 +1,6 @@
 // AppletWindow.hh --- Main info Window
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -37,7 +37,8 @@
 #include <gtkmm/plug.h>
 #include <gtkmm/eventbox.h>
 
-class TimerBox;
+class TimerBoxControl;
+class TimerBoxGtkView;
 
 class AppletWindow :
   public ConfiguratorListener,
@@ -69,8 +70,11 @@ public:
   
 private:
   //! Box container all the timers.
-  TimerBox *timers_box;
+  TimerBoxGtkView *timer_box_view;
   
+  //! Box container controller.
+  TimerBoxControl *timer_box_control;
+
   //! Current applet mode.
   AppletMode mode;
 

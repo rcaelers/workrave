@@ -31,7 +31,7 @@ class TimerBoxControl : public ConfiguratorListener
 {
 public:  
   TimerBoxControl(std::string name, TimerBoxView &view);
-  ~TimerBoxControl();
+  virtual ~TimerBoxControl();
 
   void init();
   void update();

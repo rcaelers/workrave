@@ -1,6 +1,6 @@
 // AppletWindow.cc --- Applet info Window
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -28,7 +28,8 @@ static const char rcsid[] = "$Id$";
 
 #include "AppletWindow.hh"
 #include "MainWindow.hh"
-#include "TimerBox.hh"
+#include "TimerBoxGtkView.hh"
+#include "TimerBoxControl.hh"
 #include "GUI.hh"
 #include "Menus.hh"
 
@@ -48,6 +49,8 @@ static const char rcsid[] = "$Id$";
  *  \param control Interface to the controller.
  */
 AppletWindow::AppletWindow() :
+  timer_box_view(NULL),
+  timer_box_control(NULL),
   mode(APPLET_DISABLED),
   plug(NULL),
   container(NULL),
@@ -89,7 +92,7 @@ AppletWindow::init()
   // Read configuration and start monitoring it.
   read_configuration();
   ConfiguratorInterface *config = CoreFactory::get_configurator();
-  config->add_listener(TimerBox::CFG_KEY_TIMERBOX + "applet", this);
+  config->add_listener(TimerBoxControl::CFG_KEY_TIMERBOX + "applet", this);
   
   // Create the applet.
   if (applet_enabled)
@@ -166,8 +169,9 @@ AppletWindow::init_tray_applet()
       eventbox->signal_button_press_event().connect(SigC::slot(*this, &AppletWindow::on_button_press_event));
       container = eventbox;
 
-      timers_box = new TimerBox("applet");
-      container->add(*timers_box);
+      timer_box_view = manage(new TimerBoxGtkView());
+      timer_box_control = new TimerBoxControl("applet", *timer_box_view);
+      container->add(*timer_box_view);
 
       plug->signal_embedded().connect(SigC::slot(*this, &AppletWindow::on_embedded));
       plug->signal_delete_event().connect(SigC::slot(*this, &AppletWindow::delete_event));
@@ -188,7 +192,7 @@ AppletWindow::init_tray_applet()
       plug->size_request(&req);
       applet_size = req.height;
 
-      timers_box->set_geometry(applet_vertical, 24);
+      timer_box_view->set_geometry(applet_vertical, 24);
 
     }
 
@@ -284,11 +288,12 @@ AppletWindow::init_gnome_applet()
       g_signal_connect(G_OBJECT(plug->gobj()), "destroy-event",
                        G_CALLBACK(AppletWindow::destroy_event), this);
       
-      timers_box = new TimerBox("applet");
-      timers_box->set_geometry(applet_vertical, applet_size);
-      timers_box->show_all();
+      timer_box_view = manage(new TimerBoxGtkView());
+      timer_box_control = new TimerBoxControl("applet", *timer_box_view);
+      timer_box_view->set_geometry(applet_vertical, applet_size);
+      timer_box_view->show_all();
       
-      container->add(*timers_box);
+      container->add(*timer_box_view);
       container->show_all();
       plug->show_all();
       
@@ -430,7 +435,7 @@ AppletWindow::update()
         }
       else
         {
-          timers_box->update();
+          timer_box_control->update();
         }
     }
 }
@@ -506,9 +511,9 @@ AppletWindow::set_applet_vertical(bool v)
 
   applet_vertical = v;
 
-  if (timers_box != NULL)
+  if (timer_box_view != NULL)
     {
-      timers_box->set_geometry(applet_vertical, applet_size);
+      timer_box_view->set_geometry(applet_vertical, applet_size);
     }
   
   TRACE_EXIT();
@@ -525,9 +530,9 @@ AppletWindow::set_applet_size(int size)
   
   applet_size = size;
 
-  if (timers_box != NULL)
+  if (timer_box_view != NULL)
     {
-      timers_box->set_geometry(applet_vertical, applet_size);
+      timer_box_view->set_geometry(applet_vertical, applet_size);
     }
   
   TRACE_EXIT();
@@ -599,7 +604,7 @@ AppletWindow::get_applet_mode() const
 void
 AppletWindow::read_configuration()
 {
-  applet_enabled = TimerBox::is_enabled("applet");
+  applet_enabled = TimerBoxControl::is_enabled("applet");
 }
 
 
@@ -627,7 +632,7 @@ AppletWindow::on_embedded()
       plug->size_request(&req);
       applet_size = req.height;
 
-      timers_box->set_geometry(applet_vertical, applet_size);
+      timer_box_view->set_geometry(applet_vertical, applet_size);
       TRACE_MSG(applet_size);
     }
   TRACE_EXIT();

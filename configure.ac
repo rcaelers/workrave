@@ -664,7 +664,6 @@ AC_OUTPUT(Makefile \
           frontend/plugin/exercises/Makefile \
           frontend/plugin/exercises/common/Makefile \
           frontend/plugin/exercises/common/share/Makefile \
-          frontend/plugin/exercises/common/share/exercises.xml \
           frontend/plugin/exercises/common/src/Makefile \
           frontend/plugin/exercises/gtkmm/Makefile \
           frontend/plugin/exercises/gtkmm/src/Makefile \
