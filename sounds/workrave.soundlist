@@ -30,3 +30,8 @@ description[nl]=Pauze genegeerd
 file=workrave/break-prelude.wav
 description=Break prompt
 description[nl]=Verzoek tot pauze
+
+[daily_limit]
+file=workrave/daily-limit.wav
+description=Daily limit
+description[nl]=Dagelijkse limiet

@@ -30,7 +30,8 @@ public:
     SOUND_REST_BREAK_STARTED,
     SOUND_REST_BREAK_ENDED,
     SOUND_MICRO_PAUSE_STARTED,
-    SOUND_MICRO_PAUSE_ENDED
+    SOUND_MICRO_PAUSE_ENDED,
+    SOUND_DAILY_LIMIT
   };
 
   //! Plays sound, returns immediately.

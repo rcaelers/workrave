@@ -93,6 +93,15 @@ static short break_ignore_beeps[][2]=
     { 0, 0 }
 };
 
+static short daily_limit_beeps[][2]=
+{
+    { 80, 200 }, 
+    { 70, 200 },
+    { 60, 200 }, 
+    { 50, 400 },
+    { 0, 0 }
+};
+
 static short (*beep_map[])[2] =
 {
   prelude_beeps,
@@ -100,7 +109,8 @@ static short (*beep_map[])[2] =
   rest_break_start_beeps,
   rest_break_end_beeps,
   micro_pause_start_beeps,
-  micro_pause_end_beeps
+  micro_pause_end_beeps,
+  daily_limit_beeps
 };
 
 

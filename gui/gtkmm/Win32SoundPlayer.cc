@@ -46,6 +46,8 @@ static struct SoundRegistry
     "Micro-pause started" },
   { "WorkraveMicroPauseEnded", "micropause-ended.wav",
     "Micro-pause ended" },
+  { "WorkraveDailyLimit", "daily-limit.wav",
+    "Daily limit" },
 };
 
 static bool
