@@ -85,7 +85,7 @@ binary-arch: build install
 	dh_installman debian/workrave.1
 	dh_installinfo
 #	dh_undocumented
-	dh_installchangelogs ChangeLog
+#	dh_installchangelogs ChangeLog
 	dh_link
 	dh_strip
 	dh_compress

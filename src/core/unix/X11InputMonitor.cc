@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-07-12 21:46:03 robc>
+// Time-stamp: <2003-08-06 13:19:50 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -414,7 +414,6 @@ X11InputMonitor::handle_xrecord_handle_key_event(XRecordInterceptData *data)
   kevent.state = event->u.keyButtonPointer.state;
   kevent.keycode = event->u.u.detail;
   XLookupString(&kevent, buf, sizeof(buf), &keysym, 0);
-
   listener->keyboard_notify(0, 0);
 }
 
@@ -460,7 +459,7 @@ handleXRecordCallback(XPointer closure, XRecordInterceptData * data)
 {
   xEvent *  event;
   X11InputMonitor *monitor = (X11InputMonitor *) closure;
-  
+
   switch (data->category)
     {
     case XRecordStartOfData:

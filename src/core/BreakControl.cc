@@ -351,7 +351,7 @@ BreakControl::update_break_window()
     {
       idle = duration - fake_break_count;
 
-      if (fake_break_count == 0)
+      if (fake_break_count <= 0)
         {
           stop_break();
         }
