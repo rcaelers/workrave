@@ -27,6 +27,8 @@ sourcesxinput = X11InputMonitor.cc
 X11LIBS    = -lXmu
 endif
 
+DEFS = @DEFS@ -DGNOMELOCALEDIR=\""$(datadir)/locale"\" -I($top_srcdir)/intl
+
 
 if PLATFORM_WIN32
 .rc.o:
