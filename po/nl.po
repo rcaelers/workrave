@@ -213,7 +213,7 @@ msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
 msgstr ""
-"Dit programma dient ter voorkoming en revalidatie van en Repetitive Strain "
+"Dit programma dient ter voorkoming en revalidatie van Repetitive Strain "
 "Injury (RSI)."
 
 #: gui/gtkmm/MicroPauseWindow.cc:164
@@ -223,7 +223,7 @@ msgstr "Micro-pauze"
 #: gui/gtkmm/MicroPauseWindow.cc:186
 #, c-format
 msgid "Next rest break in %s"
-msgstr "Volgende rustpauze over %s"
+msgstr "Rustpauze over %s"
 
 #: gui/gtkmm/MicroPauseWindow.cc:192
 #, c-format
@@ -292,7 +292,7 @@ msgstr "Detectie type"
 
 #: gui/gtkmm/PreferencesDialog.cc:232
 msgid "Preset"
-msgstr "Voorinstelling"
+msgstr "Standaard instelling"
 
 #: gui/gtkmm/PreferencesDialog.cc:242
 msgid "Activity time (ms)"
@@ -333,7 +333,7 @@ msgid ""
 "custom settings."
 msgstr ""
 "In dit paneel kun je de activiteit detectie instellen. Je hebt de\n"
-"keuze uit enkele voorinstellingen, of je kunt je eigen instellingen\n"
+"keuze uit enkele standaard instellingen, of je kunt je eigen instellingen\n"
 "kiezen."
 
 #: gui/gtkmm/PreferencesDialog.cc:314

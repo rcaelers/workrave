@@ -40,6 +40,8 @@
 
 #include <glib/gmacros.h>
 
+#include "nls.h"
+
 G_BEGIN_DECLS
 
 /* Macros for defining classes.  Ideas taken from Nautilus and GOB. */
@@ -303,7 +305,7 @@ gnome_about_display_credits_dialog (GnomeAbout *about)
                 return;
         }
         
-        dialog = gtk_dialog_new_with_buttons ("Credits",
+        dialog = gtk_dialog_new_with_buttons (_("Credits"),
                                               GTK_WINDOW (about),
                                               GTK_DIALOG_DESTROY_WITH_PARENT,
                                               GTK_STOCK_OK, GTK_RESPONSE_OK,
@@ -332,7 +334,7 @@ gnome_about_display_credits_dialog (GnomeAbout *about)
                 gtk_viewport_set_shadow_type (GTK_VIEWPORT (GTK_BIN (sw)->child), GTK_SHADOW_NONE);
                 
                 gtk_notebook_append_page (GTK_NOTEBOOK (notebook), sw,
-                                          gtk_label_new_with_mnemonic ("_Written by"));
+                                          gtk_label_new_with_mnemonic (_("_Written by")));
                 gnome_about_update_authors_label (about, label);
         }
 
@@ -347,7 +349,7 @@ gnome_about_display_credits_dialog (GnomeAbout *about)
                 gtk_viewport_set_shadow_type (GTK_VIEWPORT (GTK_BIN (sw)->child), GTK_SHADOW_NONE);
 
                 gtk_notebook_append_page (GTK_NOTEBOOK (notebook), sw,
-                                          gtk_label_new_with_mnemonic ("_Documented by"));
+                                          gtk_label_new_with_mnemonic (_("_Documented by")));
                 gnome_about_update_documenters_label (about, label);
         }
 
@@ -362,7 +364,7 @@ gnome_about_display_credits_dialog (GnomeAbout *about)
                 gtk_viewport_set_shadow_type (GTK_VIEWPORT (GTK_BIN (sw)->child), GTK_SHADOW_NONE);
 
                 gtk_notebook_append_page (GTK_NOTEBOOK (notebook), sw,
-                                          gtk_label_new_with_mnemonic ("_Translated by"));
+                                          gtk_label_new_with_mnemonic (_("_Translated by")));
                 gnome_about_update_translation_information_label (about, label);
         }
         
@@ -419,7 +421,7 @@ gnome_about_instance_init (GnomeAbout *about)
         gtk_dialog_set_default_response (GTK_DIALOG (about), GTK_RESPONSE_OK);
 
         /* Add the credits button */
-        button = gtk_dialog_add_button (GTK_DIALOG (about), "_Credits", GNOME_RESPONSE_CREDITS);
+        button = gtk_dialog_add_button (GTK_DIALOG (about), _("_Credits"), GNOME_RESPONSE_CREDITS);
         gtk_button_box_set_child_secondary (GTK_BUTTON_BOX (GTK_DIALOG (about)->action_area), button, TRUE);
         
         gtk_window_set_resizable (GTK_WINDOW (about), FALSE);

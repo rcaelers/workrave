@@ -9,4 +9,4 @@ gui/gtkmm/MicroPauseWindow.cc
 gui/gtkmm/PreferencesDialog.cc
 gui/gtkmm/RestBreakWindow.cc
 gui/gtkmm/TimerPreferencesPanel.cc
-
+gui/gtkmm/gnome-about.c
