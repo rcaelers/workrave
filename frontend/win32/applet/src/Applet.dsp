@@ -160,5 +160,9 @@ SOURCE=.\TimerBox.cpp
 
 SOURCE=.\TimerBox.h
 # End Source File
+# Begin Source File
+
+SOURCE=..\..\..\common\share\images\win32\workrave.ico
+# End Source File
 # End Target
 # End Project

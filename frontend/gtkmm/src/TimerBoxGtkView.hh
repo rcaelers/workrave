@@ -33,7 +33,7 @@ namespace Gtk
   class Bin;
 }
 
-class TimerBoxGtkView : public TimerBoxView, public Gtk::Table
+class TimerBoxGtkView : public Gtk::Table, public TimerBoxView
 {
 public:  
   TimerBoxGtkView();
@@ -47,8 +47,8 @@ public:
                             int primary_value, int primary_max,
                             TimeBar::ColorId secondary_color,
                             int secondary_value, int secondary_max);
-  void set_enabled(bool enabled);
   void update();
+  void set_enabled(bool enabled);
 
   
 private:
