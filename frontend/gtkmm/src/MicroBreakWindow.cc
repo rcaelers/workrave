@@ -59,7 +59,7 @@ MicroBreakWindow::create_gui()
   label = manage(new Gtk::Label());
 
   // Icon
-  string icon = Util::complete_directory("microbreak.png", Util::SEARCH_PATH_IMAGES);
+  string icon = Util::complete_directory("micro-break.png", Util::SEARCH_PATH_IMAGES);
   Gtk::Image *img = manage(new Gtk::Image(icon));
   img->set_alignment(0.0, 0.0);
   

@@ -65,6 +65,7 @@ static const char rcsid[] = "$Id$";
 
 #ifdef WIN32
 #include "crashlog.h"
+#include "W32Compat.hh"
 #endif
 
 #include <gtkmm/main.h>
@@ -100,8 +101,6 @@ GUI::GUI(int argc, char **argv)  :
   screen_width(-1),
   screen_height(-1),
 #if !defined(HAVE_GTK_MULTIHEAD) && defined(WIN32)
-  enum_monitors(NULL),
-  user_lib(NULL),
   current_monitor(0),
 #endif
 #ifdef HAVE_X
@@ -148,13 +147,6 @@ GUI::~GUI()
   delete applet_window;
 #endif
   
-#if !defined(HAVE_GTK_MULTIHEAD) && defined(WIN32)
-  if (user_lib != NULL)
-    {
-      FreeLibrary(user_lib);
-    }
-#endif
-
   delete [] prelude_windows;
   delete [] break_windows;
   
@@ -594,19 +586,17 @@ GUI::init_gtk_multihead()
 
 
 #if !defined(HAVE_GTK_MULTIHEAD) && defined(WIN32)
-BOOL CALLBACK enum_monitor_callback(HMONITOR monitor, HDC, LPRECT rc, LPARAM dwData)
+BOOL CALLBACK enum_monitor_callback(HMONITOR monitor,
+                                    HDC hdc,
+                                    LPRECT rc,
+                                    LPARAM dwData)
 {
-  (void) monitor;
-  
   GUI *gui = (GUI *) dwData;
-
-  gui->enum_monitor_callback(rc);
-  
-  return TRUE;
+  return gui->enum_monitor_callback(monitor, hdc, rc);
 };
 
 BOOL CALLBACK
-GUI::enum_monitor_callback(LPRECT rc)
+GUI::enum_monitor_callback(HMONITOR monitor, HDC hdc, LPRECT rc)
 {
   TRACE_ENTER("GUI::enum_monitor_callback");
   TRACE_MSG(current_monitor << " " << num_heads);
@@ -619,8 +609,9 @@ GUI::enum_monitor_callback(LPRECT rc)
       
       geometry.set_x(rc->left);
       geometry.set_y(rc->top);
-      geometry.set_width(rc->right - rc->left + 1);
-      geometry.set_height(rc->bottom - rc->top + 1);
+      geometry.set_width(rc->right-rc->left+1);
+      geometry.set_height(rc->bottom-rc->top+1);
+
       heads[current_monitor].valid = true;
       heads[current_monitor].count = current_monitor;
       
@@ -630,44 +621,13 @@ GUI::enum_monitor_callback(LPRECT rc)
   return TRUE;
 };
 
-BOOL EnumDisplayDevices(
-  LPCTSTR lpDevice,                // device name
-  DWORD iDevNum,                   // display device
-  PDISPLAY_DEVICE lpDisplayDevice, // device information
-  DWORD dwFlags                    // reserved
-);
 
 void
 GUI::init_win32_multihead()
 {
   TRACE_ENTER("GUI::init_win32_multihead");
   
-  if (num_heads == -1)
-    {
-      TRACE_MSG("init");
-      if (user_lib == NULL)
-        {
-          user_lib = LoadLibrary("user32.dll");
-        }
-      
-      if (user_lib != NULL)
-        {
-          TRACE_MSG("get num");
-          enum_monitors = (LUENUMDISPLAYMONITORS)GetProcAddress(user_lib,"EnumDisplayMonitors");
-        }
-          
-      if (enum_monitors == NULL)
-        {
-          TRACE_MSG("!enum");
-          if (user_lib != NULL)
-            {
-              FreeLibrary(user_lib);
-              user_lib = NULL;
-            }
-        }
-    }
-
-  if (enum_monitors != NULL)
+  if (! W32Compat::IsWindows95())
     {
       TRACE_MSG("enum");
       int new_num_heads = GetSystemMetrics(SM_CMONITORS);
@@ -678,7 +638,7 @@ GUI::init_win32_multihead()
       if (num_heads > 1)
         {
           current_monitor = 0;
-          (*enum_monitors)(NULL,NULL, ::enum_monitor_callback, (LPARAM)this);
+          W32Compat::EnumDisplayMonitors(NULL,NULL, ::enum_monitor_callback, (LPARAM)this);
         }
       else if (num_heads == 1)
         {

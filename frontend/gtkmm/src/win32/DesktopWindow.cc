@@ -17,6 +17,7 @@
 //
 
 #include "DesktopWindow.hh"
+#include "W32Compat.hh"
 
 const char * const DesktopWindow::WINDOW_CLASS = "WorkraveDesktopWindow";
 
@@ -26,13 +27,35 @@ DesktopWindow::DesktopWindow(const HeadInfo &head)
 {
   init();
   HINSTANCE hinstance = (HINSTANCE) GetModuleHandle(NULL);
+
+  int x = head.get_x(), y = head.get_y();
+  int w = head.get_width(), h = head.get_height();
+
+  if (! W32Compat::IsWindows95())
+    {
+      POINT pt = { x, y };
+      HMONITOR monitor = W32Compat::MonitorFromPoint(pt, MONITOR_DEFAULTTONULL);
+      if (monitor)
+        {
+          MONITORINFO info;
+          info.cbSize = sizeof(MONITORINFO);
+          
+          if (W32Compat::GetMonitorInfo(monitor, &info))
+            {
+              x = info.rcMonitor.left;
+              y = info.rcMonitor.top;
+              w = info.rcMonitor.right - x + 1;
+              h = info.rcMonitor.bottom - y + 1;
+            }
+        }
+    }
+
   
   hwnd = CreateWindowEx(0,
                         WINDOW_CLASS,
                         WINDOW_CLASS,
                         WS_POPUP,
-                        head.get_x(), head.get_y(),
-                        head.get_width(), head.get_height(),
+                        x, y, w, h,
                         (HWND)NULL,
                         (HMENU)NULL,
                         hinstance,

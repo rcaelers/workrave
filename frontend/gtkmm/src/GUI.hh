@@ -44,13 +44,6 @@
 
 #include "WindowHints.hh"
 
-#ifdef WIN32
-#include <windows.h>
-#include <winuser.h>
-typedef BOOL (CALLBACK *LUMONITORENUMPROC)(HMONITOR,HDC,LPRECT,LPARAM);
-typedef BOOL (WINAPI *LUENUMDISPLAYMONITORS)(HDC,LPCRECT,LUMONITORENUMPROC,LPARAM);
-#endif
-
 // GTKMM classes
 class MainWindow;
 class MicroBreakWindow;
@@ -145,7 +138,7 @@ private:
   void init_win32_multihead();
   void update_win32_multihead();
 public:
-  BOOL CALLBACK enum_monitor_callback(LPRECT rc);
+  BOOL CALLBACK enum_monitor_callback(HMONITOR mon, HDC hdc, LPRECT rc);
 private:
 #endif
   
@@ -238,8 +231,6 @@ private:
   int screen_height;
 
 #ifdef WIN32
-  LUENUMDISPLAYMONITORS enum_monitors;
-  HINSTANCE user_lib;
   int current_monitor;
 #endif
 
