@@ -46,7 +46,7 @@ NetworkJoinDialog::NetworkJoinDialog()
   
   // Title
   Gtk::HBox *title_box = manage(new Gtk::HBox(false));
-  string title_icon = Util::complete_directory("collective.png", Util::SEARCH_PATH_IMAGES);
+  string title_icon = Util::complete_directory("network.png", Util::SEARCH_PATH_IMAGES);
   Gtk::Image *title_img = manage(new Gtk::Image(title_icon));
   Gtk::Label *title_lab = manage(new Gtk::Label(text));
   title_box->pack_start(*title_img, false, false, 6);
