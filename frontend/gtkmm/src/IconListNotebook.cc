@@ -25,6 +25,7 @@
 #include "nls.h"
 
 #include <gtkmm/scrolledwindow.h>
+#include <gtk/gtknotebook.h>
 
 #include "IconListNotebook.hh"
 #include "IconListCellRenderer.hh"
