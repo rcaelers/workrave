@@ -63,7 +63,7 @@ workrave_SOURCES 	= ${sources} ${sourcesxinput} ${sourceswin32input} \
 		   	  ${sourcesgdome} ${sourcesgconf} ${sourcesregistry} \
 			  ${sourcesdistribution} ${sourcesgnet}
 
-workrave_CXXFLAGS 	= -W -DDATADIR="\"${pkgdatadir}\"" @ARCH_CFLAGS@ -I$(top_srcdir)/gui $(includesinput) \
+workrave_CXXFLAGS 	= -W -DWORKRAVE_DATADIR="\"${pkgdatadir}\"" @ARCH_CFLAGS@ -I$(top_srcdir)/gui $(includesinput) \
 	 	   	  -D_XOPEN_SOURCE=600 @gnomeui_CFLAGS@ @GTK_CFLAGS@ @GDOME_CFLAGS@ @GCONF_CFLAGS@ @GNET_CFLAGS@
 
 workrave_LDADD 		=  @GUI_LIBS@ @ARCH_LIBS@ @gnomeui_LIBS@ @GTK_LIBS@ @GTKMM_LIBS@ @GNET_LIBS@ \

@@ -23,6 +23,8 @@ static const char rcsid[] = "$Id$";
 #include <stdio.h>
 #include <sstream>
 
+#include <unistd.h>
+
 #ifdef HAVE_SYS_STAT_H
 #include <sys/stat.h>
 #endif
@@ -167,7 +169,7 @@ Util::get_search_path(SearchPathId type)
           searchPath.push_back(home_dir + "/");
           searchPath.push_back(home_dir + "/images");
         }
-      searchPath.push_back(string(DATADIR) + "/images");
+      searchPath.push_back(string(WORKRAVE_DATADIR) + "/images");
       searchPath.push_back("/usr/local/share/workrave/images");
       searchPath.push_back("/usr/share/workrave/images");
 #elif defined(WIN32)
@@ -182,7 +184,7 @@ Util::get_search_path(SearchPathId type)
           searchPath.push_back(home_dir + "/");
           searchPath.push_back(home_dir + "/etc");
         }
-      searchPath.push_back(string(DATADIR) + "/etc");
+      searchPath.push_back(string(WORKRAVE_DATADIR) + "/etc");
       searchPath.push_back("/usr/local/share/workrave/etc");
       searchPath.push_back("/usr/share/workrave/etc");
 #elif defined(WIN32)

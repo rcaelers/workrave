@@ -16,6 +16,14 @@
 // $Id$
 //
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "debug.hh"
+#include "preinclude.h"
+
+
 #include "Frame.hh"
 
 Frame::Frame()

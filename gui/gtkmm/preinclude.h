@@ -3,7 +3,7 @@
 // Copyright (C) 2002 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
-// Time-stamp: <2002-09-14 13:25:47 pennersr>
+// Time-stamp: <2002-10-17 23:54:07 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,7 +20,11 @@
 
 #define NOMINMAX
 #undef THREAD_PRIORITY_NORMAL
+#undef THREAD_PRIORITY_LOW
+#undef THREAD_PRIORITY_HIGH
+#undef THREAD_PRIORITY_URGENT
 #undef DELETE
+#undef ERROR
 #undef OK
 #undef ERROR
 

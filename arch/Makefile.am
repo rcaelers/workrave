@@ -2,7 +2,7 @@
 #
 # Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 #
-# Time-stamp: <2002-09-20 18:27:01 robc>
+# Time-stamp: <2002-10-17 23:33:56 robc>
 #
 # $Id$
 #
@@ -19,6 +19,6 @@ libarch_a_SOURCES = \
 
 libarch_a_LIBADD =
 
-INCLUDES = -W -DDATADIR="\"${pkgdatadir}\"" @ARCH_CFLAGS@ -D_XOPEN_SOURCE=600 @GLIB_CFLAGS@ @GDOME_CFLAGS@
+INCLUDES = -W -DWORKRAVE_DATADIR="\"${pkgdatadir}\"" @ARCH_CFLAGS@ -D_XOPEN_SOURCE=600 @GLIB_CFLAGS@ @GDOME_CFLAGS@
 
 EXTRA_DIST = $(wildcard *.hh) $(wildcard *.h) $(wildcard *.icc)

@@ -64,7 +64,7 @@ Thread::run()
 }
 
 void
-Thread::sleep(long millis, int nanos = 0)
+Thread::sleep(long millis, int nanos)
 {
   Sleep(millis);
 }

@@ -31,7 +31,8 @@ int main(void)
 }
 ],
 ac_cv_cxx_eh=yes,
-ac_cv_cxx_eh=no)
+ac_cv_cxx_eh=no,
+ac_cv_cxx_eh=yes)
 ])
 AC_MSG_RESULT([$ac_cv_cxx_eh])
 if test "x$ac_cv_cxx_eh" = "xyes"
@@ -46,7 +47,7 @@ dnl Macro: AC_CHECK_CXX_NS
 dnl Test if the c++ compiler supports namespaces
 dnl Set $ac_cv_cxx_ns to either yes or no
 dnl Define HAVE_CXX_NS if yes
-
+ss
 AC_DEFUN(AC_CHECK_CXX_NS,
 [
 AC_LANG_SAVE
