@@ -19,10 +19,14 @@
 #ifndef TIMEBAR_HH
 #define TIMEBAR_HH
 
+#include <string>
+
 #include <gtkmm/drawingarea.h>
 #include <gdkmm/colormap.h>
 #include <gdkmm/window.h>
 #include <gtkmm/box.h>
+
+using namespace std;
 
 class TimeBar : public Gtk::DrawingArea
 {

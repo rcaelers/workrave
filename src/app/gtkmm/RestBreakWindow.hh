@@ -26,6 +26,13 @@ class TimeBar;
 #include "BreakWindow.hh"
 #include "BreakWindowInterface.hh"
 
+#include <gtkmm/box.h>
+
+namespace Gtk
+{
+  class HButtonBox;
+}
+
 class RestBreakWindow :
   public BreakWindow,
   public BreakWindowInterface

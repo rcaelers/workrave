@@ -68,6 +68,8 @@ static const char rcsid[] = "$Id$";
 #include "crashlog.h"
 #endif
 
+#include <gtkmm/main.h>
+
 GUI *GUI::instance = NULL;
 
 //! GUI Constructor.

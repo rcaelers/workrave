@@ -21,6 +21,7 @@
 
 #include "preinclude.h"
 
+#include <string>
 #include <gtkmm/table.h>
 
 #include "CoreInterface.hh"
@@ -32,6 +33,8 @@ namespace Gtk
   class Image;
   class Bin;
 }
+
+using namespace std;
 
 class TimerBox :
   public ConfiguratorListener,

@@ -60,6 +60,9 @@ static const char rcsid[] = "$Id$";
 
 #include "Menus.hh"
 
+#include <gtkmm/menu.h>
+#include <gtkmm/stock.h>
+
 const string MainWindow::CFG_KEY_MAIN_WINDOW = "gui/main_window";
 const string MainWindow::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP = "gui/main_window/always_on_top";
 

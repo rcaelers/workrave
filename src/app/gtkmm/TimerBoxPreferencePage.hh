@@ -33,6 +33,8 @@ namespace Gtk
 #include <string>
 #include <gtkmm/box.h>
 
+using namespace std;
+
 class TimerBoxPreferencePage
   : public Gtk::HBox,
     public ConfiguratorListener

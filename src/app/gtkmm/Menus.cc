@@ -28,6 +28,9 @@ static const char rcsid[] = "$Id$";
 #include <unistd.h>
 #include <iostream>
 
+#include <gtkmm/menu.h>
+#include <gtkmm/stock.h>
+
 #include "Menus.hh"
 #include "TimeBar.hh"
 #include "GUI.hh"

@@ -24,7 +24,9 @@
 #include <sigc++/object.h>
 #include <glibmm.h>
 
+#include <gdk/gdkevents.h>
 #include <gtkmm/tooltips.h>
+#include <gdkmm/types.h>
 
 #include "HeadInfo.hh"
 #include "Mutex.hh"

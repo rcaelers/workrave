@@ -22,12 +22,15 @@
 #include <stdio.h>
 
 #include "preinclude.h"
+#include <string>
 
 class TimeEntry;
 
 #include <gtkmm/scrolledwindow.h>
 #include <gtkmm/dialog.h>
 #include <gtkmm/textbuffer.h>
+
+using namespace std;
 
 namespace Gtk
 {

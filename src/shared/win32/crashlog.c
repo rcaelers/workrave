@@ -83,7 +83,7 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
   assert (s);
   *s = '\0';
   // crash_log_name == c:\program files\workrave
-  strcat(crash_log_name, "\\workrave.log");
+  strcat(crash_log_name, "\\workrave-crashlog.txt");
   
   FILE *log = fopen(crash_log_name, "w");
   if (log != NULL)

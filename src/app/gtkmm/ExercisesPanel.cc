@@ -20,6 +20,8 @@
 
 #ifdef HAVE_EXERCISES
 
+#include <gtkmm/stock.h>
+
 #include "ExercisesPanel.hh"
 #include "GtkUtil.hh"
 #include "GUI.hh"

@@ -34,6 +34,11 @@ class TimerBox;
 
 #include "ConfiguratorListener.hh"
 
+namespace Gtk
+{
+  class Menu;
+}
+
 class MainWindow :
   public Gtk::Window,
   public ConfiguratorListener

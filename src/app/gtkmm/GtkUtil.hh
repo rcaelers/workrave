@@ -23,6 +23,9 @@
 #include <gtkmm/stockid.h>
 #include <gtkmm/table.h>
 #include <gtkmm/window.h>
+#include <gtkmm/image.h>
+#include <gtkmm/box.h>
+#include <gtkmm/alignment.h>
 
 #include <string>
 
