@@ -46,7 +46,9 @@ static const char rcsid[] = "$Id$";
 #include "DistributionManager.hh"
 #endif
 
+#ifdef HAVE_GNOME
 #include "RemoteControl.hh"
+#endif
 #include "eggtrayicon.h"
 
 const string AppletWindow::CFG_KEY_APPLET = "gui/applet";
@@ -69,7 +71,9 @@ AppletWindow::AppletWindow(GUI *g, ControlInterface *c) :
   mode(APPLET_DISABLED),
   cycle_time(10),
   retry_init(false),
+#ifdef HAVE_GNOME
   applet_control(NULL),
+#endif
   container(NULL),
   tray_menu(NULL),
   eventbox(NULL),
@@ -91,7 +95,9 @@ AppletWindow::AppletWindow(GUI *g, ControlInterface *c) :
     }
   
   Menus *menus = Menus::get_instance();
+#ifdef HAVE_GNOME
   menus->set_applet_window(this);
+#endif
   
   plug = NULL;
   applet_vertical = false;

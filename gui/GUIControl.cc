@@ -659,6 +659,12 @@ GUIControl::get_configurator()
       string configFile = Util::complete_directory("config.xml", Util::SEARCH_PATH_CONFIG);
 
       configurator = Configurator::create("xml");
+#if defined(HAVE_X)
+      if (configFile == "" || configFile == "config.xml")
+        {
+          configFile = Util::get_home_directory() + "config.xml";
+        }
+#endif
       if (configFile != "")
         {
           configurator->load(configFile);

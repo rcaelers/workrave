@@ -285,5 +285,5 @@ PreferencesDialog::run()
   int id = Gtk::Dialog::run();
   GUIControl::get_instance()->get_configurator()->save();
 
-  //FIXME: no return value. Raymond ???
+  return 0;
 }

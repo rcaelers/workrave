@@ -142,9 +142,11 @@ private:
   //! Applet enabled?
   bool applet_enabled;
 
+#ifdef HAVE_GNOME
   //
   GNOME_Workrave_AppletControl applet_control;
-
+#endif
+  
   //
   bool reconfigure;
   

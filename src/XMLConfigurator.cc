@@ -429,6 +429,7 @@ XMLConfigurator::init(GdomeNode *node)
                 if (key == "id")
                   {
                     setName(value);
+                    xml_node_name = value;
                   }
               }
 
@@ -486,9 +487,19 @@ XMLConfigurator::save_to(GdomeDOMImplementation *impl, GdomeDocument **doc, Gdom
     {
       name = gdome_str_mkref("workrave");
     }
-  else
+  else if (xml_node_name != "")
     {
       name = gdome_str_mkref(xml_node_name.c_str());
+    }
+  else
+    {
+      GdomeDOMString *node_name = gdome_n_nodeName((GdomeNode *)node, &exc);
+
+      if (node_name != NULL)
+        {
+          xml_node_name = node_name->str;
+          gdome_str_unref(node_name);
+        }
     }
 
   if (node == NULL || *doc == NULL)
@@ -665,6 +676,7 @@ XMLConfigurator::create_child(string key)
           XMLConfigurator *n = new XMLConfigurator(this);
       
           n->setName(prefix);
+          n->xml_node_name = prefix;
           node_children[prefix] = n;
 
           TRACE_MSG("|" << node_path << "|" << prefix << "|" << newKey << "|");

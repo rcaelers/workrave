@@ -43,7 +43,7 @@ private:
 #ifdef HAVE_DISTRIBUTION
   Gtk::Widget *create_network_page();
 #endif
-#ifdef HAVE_GNOME
+#ifdef HAVE_X
   Gtk::Widget *create_applet_page();
 #endif
   
