@@ -33,6 +33,9 @@ public:
 private:
   void register_sound_events();
   void play_speaker(int (*beeps)[2]);
+  static DWORD WINAPI thread_proc(LPVOID lpParameter);
+
+  static volatile HANDLE thread_handle;
 };
 
 #endif // WIN32SOUNDPLAYER_HH

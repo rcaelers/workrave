@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+# Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
 #
 # $Id$
 #
@@ -35,7 +35,7 @@ if PLATFORM_WIN32
 includesinput = -I$(top_srcdir)/arch/win32/harpoon/
 sourceswin32input = Win32InputMonitor.cc resource.rc
 WIN32LIBS = $(top_srcdir)/arch/win32/harpoon/Release/harpoon.lib \
-	-lshell32 -lole32
+	-lshell32 -lole32 -lwinmm
 endif
 
 if HAVE_GCONF

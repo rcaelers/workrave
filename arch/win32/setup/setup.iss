@@ -37,6 +37,7 @@ Name: "startupmenu"; Description: "Start Workrave when Windows starts"; GroupDes
 [Files]
 Source: ".\runtime\*.*"; DestDir: "{app}"; CopyMode: alwaysoverwrite; Flags: recursesubdirs
 Source: "..\..\..\images\*.png"; DestDir: "{app}\share\images\"; CopyMode: alwaysoverwrite; Flags: recursesubdirs
+Source: "..\..\..\sounds\*.wav"; DestDir: "{app}\share\sounds\"; CopyMode: alwaysoverwrite; Flags: recursesubdirs
 Source: "..\..\..\COPYING.txt"; DestDir: "{app}"; DestName: "COPYING.txt"; CopyMode: alwaysoverwrite;
 Source: "..\..\..\AUTHORS.txt"; DestDir: "{app}"; DestName: "AUTHORS.txt"; CopyMode: alwaysoverwrite;
 Source: "..\..\..\NEWS.txt"; DestDir: "{app}"; DestName: "NEWS.txt"; CopyMode: alwaysoverwrite;

@@ -22,6 +22,7 @@ static const char rcsid[] = "$Id$";
 
 #include <windows.h>
 #include "Win32SoundPlayer.hh"
+#include "Util.hh"
 
 static int prelude_beeps[][2]=
 {
@@ -55,18 +56,24 @@ static int break_ignore_beeps[][2]=
     { 0, 0 }
 };
 
+volatile HANDLE Win32SoundPlayer::thread_handle = NULL;
 
 static struct SoundRegistry 
 {
   const char *event_label;
   const char *wav_file;
   const char *friendly_name;
+  int (*beeps)[2];
 } sound_registry[] =
 {
-  { "WorkraveBreakPrelude", "wav", "Break prompt" },
-  { "WorkraveBreakIgnored", "wav", "Break ignored" },
-  { "WorkraveBreakStarted", "wav", "Break started" },
-  { "WorkraveBreakEnded", "wav", "Break ended" },
+  { "WorkraveBreakPrelude", "break-prelude.wav",
+    "Break prompt", prelude_beeps },
+  { "WorkraveBreakIgnored", "break-ignored.wav",
+    "Break ignored", break_ignore_beeps },
+  { "WorkraveBreakStarted", "break-started.wav",
+    "Break started", break_start_beeps },
+  { "WorkraveBreakEnded", "break-ended.wav",
+    "Break ended", break_end_beeps },
 };
 
 static bool
@@ -115,6 +122,8 @@ registry_set_value(const char *path, const char *name,
   return rc;
 }
 
+
+
 Win32SoundPlayer::Win32SoundPlayer()
 {
   register_sound_events();
@@ -128,6 +137,8 @@ Win32SoundPlayer::~Win32SoundPlayer()
 void
 Win32SoundPlayer::register_sound_events()
 {
+  string sound_dir  = Util::get_application_directory() + "\\share\\sounds\\";
+  
   for (int i = 0; i < sizeof(sound_registry)/sizeof(sound_registry[0]); i++)
     {
       SoundRegistry *snd = &sound_registry[i];
@@ -143,7 +154,11 @@ Win32SoundPlayer::register_sound_events()
       strcat(key, "\\.default");
       if (! registry_get_value(key, NULL, val))
         {
-          registry_set_value(key, NULL, snd->wav_file);
+          string file = sound_dir + snd->wav_file;
+          registry_set_value(key, NULL, file.c_str());
+          char *def = strrchr(key, '.');
+          strcpy(def, ".current");
+          registry_set_value(key, NULL, file.c_str());
         }
     }
 }
@@ -168,20 +183,28 @@ Win32SoundPlayer::play_speaker(int (*beeps)[2])
 void
 Win32SoundPlayer::play_sound(Sound snd)
 {
-  switch (snd)
+  SoundRegistry *s = &sound_registry[snd];
+  if (! thread_handle)
     {
-    case SOUND_BREAK_PRELUDE:
-      play_speaker(prelude_beeps);
-      break;
-    case SOUND_BREAK_IGNORED:
-      play_speaker(break_ignore_beeps);
-      break;
-    case SOUND_BREAK_STARTED:
-      play_speaker(break_start_beeps);
-      break;
-    case SOUND_BREAK_ENDED:
-      play_speaker(break_end_beeps);
-      break;
+      SECURITY_ATTRIBUTES sa;
+      sa.nLength = sizeof(sa);
+      sa.bInheritHandle = TRUE;
+      sa.lpSecurityDescriptor = NULL;
+      DWORD id;
+      thread_handle = CreateThread(&sa, 0, thread_proc, s, 0, &id);
     }
 }
 
+
+DWORD WINAPI 
+Win32SoundPlayer::thread_proc(LPVOID lpParameter)
+{
+  SoundRegistry *snd = (SoundRegistry*) lpParameter;
+
+  //  play_speaker(snd->beeps);
+  PlaySound(snd->event_label, 0, SND_APPLICATION);
+
+  CloseHandle(thread_handle);
+  thread_handle = NULL;
+  return 0;
+}
