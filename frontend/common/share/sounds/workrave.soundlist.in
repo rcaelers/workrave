@@ -25,6 +25,7 @@ _description=Break ignored
 file=workrave/break-prelude.wav
 _description=Break prompt
 
+[daily_limit]
 file=workrave/daily-limit.wav
 _description=Daily limit
 
