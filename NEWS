@@ -7,6 +7,13 @@ http://www.workrave.org
 
 * Workrave 1.4.1
 
+** Replaced the "Block input" setting (which was available per break)
+by a global "Block mode" setting, located in the GUI preferences. The
+available block modes are "None" (NEW: no input is blocked and break
+windows have a title bar and can be dragged), "Block input" (blocks
+input, break windows are fixed), "Block all" (NEW: blocks input and
+display).
+
 ** The Windows installer now offers the option to install Workrave
 using the standalone Dropline GTK+ runtime. For more information, see
 http://www.dropline.net/gtk/.

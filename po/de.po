@@ -7,14 +7,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.4.0\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-09 16:25+0200\n"
+"POT-Creation-Date: 2003-10-20 21:15+0200\n"
 "PO-Revision-Date: 2003-09-09 16:24+0200\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
 
 # src/app/gtkmm/eggtrayicon.c:118
 #: src/app/gtkmm/eggtrayicon.c:118
@@ -58,34 +58,35 @@ msgstr "_Mitwirkende"
 msgid "About %s"
 msgstr "Über %s"
 
-#: src/app/gtkmm/BreakWindow.cc:329
+#: src/app/gtkmm/BreakWindow.cc:390
 msgid "Lock"
 msgstr "Sperren"
 
 # src/app/gtkmm/TimerBoxPreferencePage.cc:123
-#: src/app/gtkmm/BreakWindow.cc:348
+#: src/app/gtkmm/BreakWindow.cc:409
 msgid "Shut down"
 msgstr "Herunterfahren"
 
 # src/app/gtkmm/BreakWindow.cc:327
-#: src/app/gtkmm/BreakWindow.cc:365
+#: src/app/gtkmm/BreakWindow.cc:426
 msgid "Skip"
 msgstr "Überspringen"
 
 # src/app/gtkmm/BreakWindow.cc:338
-#: src/app/gtkmm/BreakWindow.cc:376
+#: src/app/gtkmm/BreakWindow.cc:439
 msgid "Postpone"
 msgstr "Aufschieben"
 
 # src/app/gtkmm/DailyLimitWindow.cc:47 src/app/gtkmm/GtkUtil.cc:88
 # src/app/shared/sounds/workrave.soundlist.in.h:3
-#: src/app/gtkmm/DailyLimitWindow.cc:47 src/app/gtkmm/GtkUtil.cc:116
+#: src/app/gtkmm/DailyLimitWindow.cc:45 src/app/gtkmm/DailyLimitWindow.cc:53
+#: src/app/gtkmm/GtkUtil.cc:117
 #: src/app/shared/sounds/workrave.soundlist.in.h:3
 msgid "Daily limit"
 msgstr "Tägliches Limit"
 
 # src/app/gtkmm/DailyLimitWindow.cc:48
-#: src/app/gtkmm/DailyLimitWindow.cc:48
+#: src/app/gtkmm/DailyLimitWindow.cc:54
 msgid ""
 "You have reached your daily limit. Please stop working\n"
 "behind the computer. If your working day is not over yet,\n"
@@ -96,119 +97,119 @@ msgstr ""
 "anderen Tätigkeit, z.B. zur Durchsicht von Dokumenten."
 
 # src/app/gtkmm/ExercisesDialog.cc:38 src/app/gtkmm/Menus.cc:234
-#: src/app/gtkmm/ExercisesDialog.cc:38 src/app/gtkmm/Menus.cc:234
+#: src/app/gtkmm/ExercisesDialog.cc:40 src/app/gtkmm/Menus.cc:237
 msgid "Exercises"
 msgstr "Übungen"
 
 # src/app/gtkmm/ExercisesDialog.cc:38 src/app/gtkmm/Menus.cc:234
-#: src/app/gtkmm/ExercisesPanel.cc:75
+#: src/app/gtkmm/ExercisesPanel.cc:77
 msgid "Exercises player"
 msgstr "Übungsabspieler"
 
 # src/app/gtkmm/ExercisesPanel.cc:226
-#: src/app/gtkmm/ExercisesPanel.cc:245
+#: src/app/gtkmm/ExercisesPanel.cc:247
 msgid "Resume"
 msgstr "Wiederaufnehmen"
 
 # src/app/gtkmm/ExercisesPanel.cc:226
-#: src/app/gtkmm/ExercisesPanel.cc:245
+#: src/app/gtkmm/ExercisesPanel.cc:247
 msgid "Pause"
 msgstr "Pause"
 
 # src/app/gtkmm/GUI.cc:676
-#: src/app/gtkmm/GUI.cc:899
+#: src/app/gtkmm/GUI.cc:901
 msgid "I could not initialize Bonobo"
 msgstr "Konnte Bonobo nicht initialisieren"
 
 # src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/MicroPauseWindow.cc:168
 # src/app/gtkmm/MicroPauseWindow.cc:204
-#: src/app/gtkmm/GtkUtil.cc:116 src/app/gtkmm/MicroPauseWindow.cc:172
-#: src/app/gtkmm/MicroPauseWindow.cc:208
+#: src/app/gtkmm/GtkUtil.cc:117 src/app/gtkmm/MicroPauseWindow.cc:48
+#: src/app/gtkmm/MicroPauseWindow.cc:110 src/app/gtkmm/MicroPauseWindow.cc:146
 msgid "Micro-pause"
 msgstr "Mikropause"
 
 # src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/RestBreakWindow.cc:284
-#: src/app/gtkmm/GtkUtil.cc:116 src/app/gtkmm/RestBreakWindow.cc:294
+#: src/app/gtkmm/GtkUtil.cc:117 src/app/gtkmm/RestBreakWindow.cc:177
 msgid "Rest break"
 msgstr "Ruhepause"
 
 # src/app/gtkmm/Menus.cc:143
 # src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
 #. Mode menu item
-#: src/app/gtkmm/Menus.cc:143
+#: src/app/gtkmm/Menus.cc:146
 #: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
 msgid "_Mode"
 msgstr "_Betriebsart"
 
 # src/app/gtkmm/Menus.cc:150
 # src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
-#: src/app/gtkmm/Menus.cc:150
+#: src/app/gtkmm/Menus.cc:153
 #: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
 msgid "_Normal"
 msgstr "_Normal"
 
 # src/app/gtkmm/Menus.cc:157
 # src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
-#: src/app/gtkmm/Menus.cc:157
+#: src/app/gtkmm/Menus.cc:160
 #: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
 msgid "_Suspended"
 msgstr "_Angehalten"
 
 # src/app/gtkmm/Menus.cc:164
-#: src/app/gtkmm/Menus.cc:164
+#: src/app/gtkmm/Menus.cc:167
 msgid "Q_uiet"
 msgstr "St_ill"
 
 # src/app/gtkmm/Menus.cc:178
 # src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
-#: src/app/gtkmm/Menus.cc:178
+#: src/app/gtkmm/Menus.cc:181
 #: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
 msgid "_Network"
 msgstr "N_etzwerk"
 
 # src/app/gtkmm/Menus.cc:182
-#: src/app/gtkmm/Menus.cc:182
+#: src/app/gtkmm/Menus.cc:185
 msgid "_Connect"
 msgstr "_Verbinden"
 
 # src/app/gtkmm/Menus.cc:187
 # src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
-#: src/app/gtkmm/Menus.cc:187
+#: src/app/gtkmm/Menus.cc:190
 #: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
 msgid "_Disconnect"
 msgstr "_Trennen"
 
 # src/app/gtkmm/Menus.cc:192
 # src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
-#: src/app/gtkmm/Menus.cc:192
+#: src/app/gtkmm/Menus.cc:195
 #: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
 msgid "_Reconnect"
 msgstr "Verbindung _Wiederaufnehmen"
 
 # src/app/gtkmm/Menus.cc:197
-#: src/app/gtkmm/Menus.cc:197
+#: src/app/gtkmm/Menus.cc:200
 msgid "Show _log"
 msgstr "_Protokoll anzeigen"
 
 # src/app/gtkmm/Menus.cc:222
-#: src/app/gtkmm/Menus.cc:222
+#: src/app/gtkmm/Menus.cc:225 src/app/gtkmm/RestBreakWindow.cc:71
 msgid "_Rest break"
 msgstr "_Ruhepause"
 
 # src/app/gtkmm/Menus.cc:244 src/app/gtkmm/StatisticsDialog.cc:51
 # src/app/gtkmm/StatisticsDialog.cc:130
-#: src/app/gtkmm/Menus.cc:244 src/app/gtkmm/StatisticsDialog.cc:51
-#: src/app/gtkmm/StatisticsDialog.cc:130
+#: src/app/gtkmm/Menus.cc:247 src/app/gtkmm/StatisticsDialog.cc:58
+#: src/app/gtkmm/StatisticsDialog.cc:137
 msgid "Statistics"
 msgstr "Statistik"
 
 # src/app/gtkmm/Menus.cc:258
-#: src/app/gtkmm/Menus.cc:258
+#: src/app/gtkmm/Menus.cc:261
 msgid "About..."
 msgstr "Über..."
 
 # src/app/gtkmm/Menus.cc:605
-#: src/app/gtkmm/Menus.cc:604
+#: src/app/gtkmm/Menus.cc:607
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -217,29 +218,29 @@ msgstr ""
 "(Repetetive Strain Injury) und unterstützt den Genesungsprozess."
 
 # src/app/gtkmm/MicroPauseWindow.cc:190
-#: src/app/gtkmm/MicroPauseWindow.cc:194
+#: src/app/gtkmm/MicroPauseWindow.cc:132
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Nächste Ruhepause in %s"
 
 # src/app/gtkmm/MicroPauseWindow.cc:196
-#: src/app/gtkmm/MicroPauseWindow.cc:200
+#: src/app/gtkmm/MicroPauseWindow.cc:138
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Ruhepause %s Minuten überfällig"
 
 # src/app/gtkmm/MicroPauseWindow.cc:200
-#: src/app/gtkmm/MicroPauseWindow.cc:204
+#: src/app/gtkmm/MicroPauseWindow.cc:142
 msgid "Please relax for a few seconds"
 msgstr "Bitte entspannen Sie sich für ein paar Sekunden"
 
 # src/app/gtkmm/NetworkJoinDialog.cc:41 src/app/gtkmm/NetworkJoinDialog.cc:59
-#: src/app/gtkmm/NetworkJoinDialog.cc:41 src/app/gtkmm/NetworkJoinDialog.cc:59
+#: src/app/gtkmm/NetworkJoinDialog.cc:48 src/app/gtkmm/NetworkJoinDialog.cc:66
 msgid "Network connect"
 msgstr "Netzwerkverbindung"
 
 # src/app/gtkmm/NetworkJoinDialog.cc:60
-#: src/app/gtkmm/NetworkJoinDialog.cc:60
+#: src/app/gtkmm/NetworkJoinDialog.cc:67
 msgid ""
 "Enter the host name and port number of a computer\n"
 "in the network you wish to connect to."
@@ -249,74 +250,74 @@ msgstr ""
 "Verbindung aufbauen möchten."
 
 # src/app/gtkmm/NetworkJoinDialog.cc:73
-#: src/app/gtkmm/NetworkJoinDialog.cc:73
+#: src/app/gtkmm/NetworkJoinDialog.cc:80
 msgid "Host name:"
 msgstr "Rechnername:"
 
 # src/app/gtkmm/NetworkJoinDialog.cc:74
-#: src/app/gtkmm/NetworkJoinDialog.cc:74
+#: src/app/gtkmm/NetworkJoinDialog.cc:81
 msgid "Port:"
 msgstr "Port:"
 
 # src/app/gtkmm/NetworkJoinDialog.cc:76
-#: src/app/gtkmm/NetworkJoinDialog.cc:76
+#: src/app/gtkmm/NetworkJoinDialog.cc:83
 msgid "Connect at start-up"
 msgstr "Bei Programmstart verbinden"
 
 # src/app/gtkmm/NetworkLogDialog.cc:40
-#: src/app/gtkmm/NetworkLogDialog.cc:40
+#: src/app/gtkmm/NetworkLogDialog.cc:43
 msgid "Network log"
 msgstr "Netzwerkprotokoll"
 
 # src/app/gtkmm/NetworkPreferencePage.cc:79
-#: src/app/gtkmm/NetworkPreferencePage.cc:79
+#: src/app/gtkmm/NetworkPreferencePage.cc:90
 msgid "Enable networking"
 msgstr "Netzwerk verwenden"
 
 # src/app/gtkmm/NetworkPreferencePage.cc:86
-#: src/app/gtkmm/NetworkPreferencePage.cc:86
+#: src/app/gtkmm/NetworkPreferencePage.cc:97
 msgid "Username:"
 msgstr "Benutzername:"
 
 # src/app/gtkmm/NetworkPreferencePage.cc:87
-#: src/app/gtkmm/NetworkPreferencePage.cc:87
+#: src/app/gtkmm/NetworkPreferencePage.cc:98
 msgid "Password:"
 msgstr "Passwort:"
 
 # src/app/gtkmm/NetworkPreferencePage.cc:92
 # src/app/gtkmm/PreferencesDialog.cc:57
-#: src/app/gtkmm/NetworkPreferencePage.cc:92
-#: src/app/gtkmm/PreferencesDialog.cc:57
+#: src/app/gtkmm/NetworkPreferencePage.cc:103
+#: src/app/gtkmm/PreferencesDialog.cc:63
 msgid "General"
 msgstr "Allgemein"
 
 # src/app/gtkmm/NetworkPreferencePage.cc:104
-#: src/app/gtkmm/NetworkPreferencePage.cc:104
+#: src/app/gtkmm/NetworkPreferencePage.cc:115
 msgid "Server settings"
 msgstr "Servereinstellungen"
 
 # src/app/gtkmm/NetworkPreferencePage.cc:126
-#: src/app/gtkmm/NetworkPreferencePage.cc:126
+#: src/app/gtkmm/NetworkPreferencePage.cc:137
 msgid "Server port:"
 msgstr "Serverport:"
 
 # src/app/gtkmm/NetworkPreferencePage.cc:127
-#: src/app/gtkmm/NetworkPreferencePage.cc:127
+#: src/app/gtkmm/NetworkPreferencePage.cc:138
 msgid "Reconnect attempts:"
 msgstr "Versuche zur Verbindungswiederaufnahme:"
 
 # src/app/gtkmm/NetworkPreferencePage.cc:128
-#: src/app/gtkmm/NetworkPreferencePage.cc:128
+#: src/app/gtkmm/NetworkPreferencePage.cc:139
 msgid "Reconnect interval:"
 msgstr "Intervall zwischen den Verbindungsversuchen:"
 
 # src/app/gtkmm/NetworkPreferencePage.cc:131
-#: src/app/gtkmm/NetworkPreferencePage.cc:131
+#: src/app/gtkmm/NetworkPreferencePage.cc:142
 msgid "Advanced"
 msgstr "Erweitert"
 
 # src/app/gtkmm/NetworkPreferencePage.cc:148
-#: src/app/gtkmm/NetworkPreferencePage.cc:148
+#: src/app/gtkmm/NetworkPreferencePage.cc:159
 msgid ""
 "The following list specifies the hosts that Workrave connects to on\n"
 "start-up. Click the host name or port number to edit."
@@ -327,32 +328,32 @@ msgstr ""
 "die Portnummer."
 
 # src/app/gtkmm/NetworkPreferencePage.cc:177
-#: src/app/gtkmm/NetworkPreferencePage.cc:177
+#: src/app/gtkmm/NetworkPreferencePage.cc:188
 msgid "Host name"
 msgstr "Rechnername"
 
 # src/app/gtkmm/NetworkPreferencePage.cc:185
-#: src/app/gtkmm/NetworkPreferencePage.cc:185
+#: src/app/gtkmm/NetworkPreferencePage.cc:196
 msgid "Port"
 msgstr "Port"
 
 # src/app/gtkmm/NetworkPreferencePage.cc:222
-#: src/app/gtkmm/NetworkPreferencePage.cc:222
+#: src/app/gtkmm/NetworkPreferencePage.cc:233
 msgid "Hosts"
 msgstr "Rechner im Netzwerk"
 
 # src/app/gtkmm/PreferencesDialog.cc:49
-#: src/app/gtkmm/PreferencesDialog.cc:49
+#: src/app/gtkmm/PreferencesDialog.cc:55
 msgid "Preferences"
 msgstr "Vorlieben"
 
 # src/app/gtkmm/PreferencesDialog.cc:61
-#: src/app/gtkmm/PreferencesDialog.cc:61
+#: src/app/gtkmm/PreferencesDialog.cc:67
 msgid "Applet"
 msgstr "Applet"
 
 # src/app/gtkmm/PreferencesDialog.cc:64
-#: src/app/gtkmm/PreferencesDialog.cc:64
+#: src/app/gtkmm/PreferencesDialog.cc:70
 msgid "Status Window"
 msgstr "Statusfenster"
 
@@ -360,97 +361,107 @@ msgstr "Statusfenster"
 # src/app/gtkmm/TimerBoxPreferencePage.cc:167
 # src/app/gtkmm/TimerPreferencesPanel.cc:195
 #. Notebook
-#: src/app/gtkmm/PreferencesDialog.cc:71
-#: src/app/gtkmm/TimerBoxPreferencePage.cc:167
-#: src/app/gtkmm/TimerPreferencesPanel.cc:195
+#: src/app/gtkmm/PreferencesDialog.cc:77
+#: src/app/gtkmm/TimerBoxPreferencePage.cc:171
+#: src/app/gtkmm/TimerPreferencesPanel.cc:183
 msgid "Timers"
 msgstr "Zeitmesser"
 
 # src/app/gtkmm/PreferencesDialog.cc:72
-#: src/app/gtkmm/PreferencesDialog.cc:72
+#: src/app/gtkmm/PreferencesDialog.cc:78
 msgid "User interface"
 msgstr "Benutzervorlieben"
 
 # src/app/gtkmm/PreferencesDialog.cc:74
-#: src/app/gtkmm/PreferencesDialog.cc:74
+#: src/app/gtkmm/PreferencesDialog.cc:80
 msgid "Network"
 msgstr "Netzwerk"
 
 #
 # src/app/gtkmm/PreferencesDialog.cc:115
-#: src/app/gtkmm/PreferencesDialog.cc:115
+#: src/app/gtkmm/PreferencesDialog.cc:121
 msgid "No sounds"
 msgstr "Keine Klänge"
 
 # src/app/gtkmm/PreferencesDialog.cc:117
-#: src/app/gtkmm/PreferencesDialog.cc:117
+#: src/app/gtkmm/PreferencesDialog.cc:123
 msgid "Play sounds using sound card"
 msgstr "Klänge mittels der Soundkarte abspielen"
 
 # src/app/gtkmm/PreferencesDialog.cc:119
-#: src/app/gtkmm/PreferencesDialog.cc:119
+#: src/app/gtkmm/PreferencesDialog.cc:125
 msgid "Play sounds using built-in speaker"
 msgstr "Klänge mit dem PC-Lautsprecher abspielen"
 
+#: src/app/gtkmm/PreferencesDialog.cc:153
+msgid "None"
+msgstr ""
+
+# src/app/gtkmm/TimerPreferencesPanel.cc:145
+#: src/app/gtkmm/PreferencesDialog.cc:155
+msgid "Block user input"
+msgstr "Benutzereingaben blockieren"
+
+#: src/app/gtkmm/PreferencesDialog.cc:157
+msgid "Block all"
+msgstr ""
+
 # src/app/gtkmm/PreferencesDialog.cc:142
 # src/app/gtkmm/TimerPreferencesPanel.cc:141
-#. Tray start
-#.   start_in_tray_cb
-#.     = manage(new Gtk::CheckButton(_("Hide main window at start-up")));
-#.   start_in_tray_cb->signal_toggled()
-#.     .connect(SigC::slot(*this,
-#. 			&PreferencesDialog::on_start_in_tray_toggled));
-#.   start_in_tray_cb->set_active(MainWindow::get_start_in_tray());
 #. Options
-#: src/app/gtkmm/PreferencesDialog.cc:142
-#: src/app/gtkmm/TimerPreferencesPanel.cc:141
+#: src/app/gtkmm/PreferencesDialog.cc:176
+#: src/app/gtkmm/TimerPreferencesPanel.cc:137
 msgid "Options"
 msgstr "Optionen"
 
 # src/app/gtkmm/PreferencesDialog.cc:144
 #. panel->add(*start_in_tray_cb);
-#: src/app/gtkmm/PreferencesDialog.cc:144
+#: src/app/gtkmm/PreferencesDialog.cc:178
 msgid "Sound:"
 msgstr "Klang:"
 
+#: src/app/gtkmm/PreferencesDialog.cc:179
+msgid "Block mode:"
+msgstr ""
+
 # src/app/gtkmm/PreludeWindow.cc:81
-#: src/app/gtkmm/PreludeWindow.cc:81
+#: src/app/gtkmm/PreludeWindow.cc:99
 msgid "Time for a micro-pause?"
 msgstr "Zeit für eine Mikropause?"
 
 # src/app/gtkmm/PreludeWindow.cc:85
-#: src/app/gtkmm/PreludeWindow.cc:85
+#: src/app/gtkmm/PreludeWindow.cc:103
 msgid "You need a rest break..."
 msgstr "Sie brauchen eine Ruhepause..."
 
 # src/app/gtkmm/PreludeWindow.cc:89
-#: src/app/gtkmm/PreludeWindow.cc:89
+#: src/app/gtkmm/PreludeWindow.cc:107
 msgid "You should stop for today..."
 msgstr "Sie sollten für heute aufhören..."
 
 # src/app/gtkmm/PreludeWindow.cc:208
-#: src/app/gtkmm/PreludeWindow.cc:208
+#: src/app/gtkmm/PreludeWindow.cc:247
 msgid "Break in"
 msgstr "Pause in"
 
 # src/app/gtkmm/PreludeWindow.cc:212
-#: src/app/gtkmm/PreludeWindow.cc:212
+#: src/app/gtkmm/PreludeWindow.cc:251
 msgid "Disappears in"
 msgstr "Verschwindet in"
 
 # src/app/gtkmm/PreludeWindow.cc:216
-#: src/app/gtkmm/PreludeWindow.cc:216
+#: src/app/gtkmm/PreludeWindow.cc:255
 msgid "Silent in"
 msgstr "Still in"
 
 # src/app/gtkmm/RestBreakWindow.cc:266
-#: src/app/gtkmm/RestBreakWindow.cc:276
+#: src/app/gtkmm/RestBreakWindow.cc:159
 #, c-format
 msgid "Rest break for %s"
 msgstr "Ruhepause für %s"
 
 # src/app/gtkmm/RestBreakWindow.cc:285
-#: src/app/gtkmm/RestBreakWindow.cc:295
+#: src/app/gtkmm/RestBreakWindow.cc:178
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -462,134 +473,134 @@ msgstr ""
 "sich."
 
 # src/app/gtkmm/StatisticsDialog.cc:124
-#: src/app/gtkmm/StatisticsDialog.cc:124
+#: src/app/gtkmm/StatisticsDialog.cc:131
 msgid "Browse history"
 msgstr "Verlauf betrachten"
 
 # src/app/gtkmm/StatisticsDialog.cc:131
-#: src/app/gtkmm/StatisticsDialog.cc:131
+#: src/app/gtkmm/StatisticsDialog.cc:138
 msgid "Date:"
 msgstr "Datum:"
 
 # src/app/gtkmm/StatisticsDialog.cc:166
-#: src/app/gtkmm/StatisticsDialog.cc:166
+#: src/app/gtkmm/StatisticsDialog.cc:173
 msgid "Breaks"
 msgstr "Pausen"
 
 # src/app/gtkmm/StatisticsDialog.cc:176
-#: src/app/gtkmm/StatisticsDialog.cc:176
+#: src/app/gtkmm/StatisticsDialog.cc:183
 msgid "Break prompts"
 msgstr "Pausenhinweise"
 
 # src/app/gtkmm/StatisticsDialog.cc:177
-#: src/app/gtkmm/StatisticsDialog.cc:177
+#: src/app/gtkmm/StatisticsDialog.cc:184
 msgid ""
 "The number of times you were prompted to break, excluding repeated prompts "
 "for the same break"
 msgstr "Wie oft Workrave Sie aufgefordert hat, eine Pause zu machen"
 
 # src/app/gtkmm/StatisticsDialog.cc:182
-#: src/app/gtkmm/StatisticsDialog.cc:182
+#: src/app/gtkmm/StatisticsDialog.cc:189
 msgid "Repeated prompts"
 msgstr "Wiederholte Hinweise"
 
 # src/app/gtkmm/StatisticsDialog.cc:183
-#: src/app/gtkmm/StatisticsDialog.cc:183
+#: src/app/gtkmm/StatisticsDialog.cc:190
 msgid "The number of times you were repeatedly prompted to break"
 msgstr "Wie häufig Sie mehrfach aufgefordert wurden, eine Pause zu einzulegen"
 
 # src/app/gtkmm/StatisticsDialog.cc:187
-#: src/app/gtkmm/StatisticsDialog.cc:187
+#: src/app/gtkmm/StatisticsDialog.cc:194
 msgid "Prompted breaks taken"
 msgstr "Pausen nach vorheriger Aufforderung"
 
 # src/app/gtkmm/StatisticsDialog.cc:188
-#: src/app/gtkmm/StatisticsDialog.cc:188
+#: src/app/gtkmm/StatisticsDialog.cc:195
 msgid "The number of times you took a break when being prompted"
 msgstr "Wie oft Sie nach einem Pausenhinweis eine Pause eingelegt haben"
 
 # src/app/gtkmm/StatisticsDialog.cc:192
-#: src/app/gtkmm/StatisticsDialog.cc:192
+#: src/app/gtkmm/StatisticsDialog.cc:199
 msgid "Natural breaks taken"
 msgstr "Natürliche Pausen"
 
 # src/app/gtkmm/StatisticsDialog.cc:193
-#: src/app/gtkmm/StatisticsDialog.cc:193
+#: src/app/gtkmm/StatisticsDialog.cc:200
 msgid "The number of times you took a break without being prompted"
 msgstr "Wie oft Sie ohne Aufforderung eine Pause eingelegt haben"
 
 # src/app/gtkmm/StatisticsDialog.cc:197
-#: src/app/gtkmm/StatisticsDialog.cc:197
+#: src/app/gtkmm/StatisticsDialog.cc:204
 msgid "Breaks skipped"
 msgstr "Übersprungene Pausen"
 
 # src/app/gtkmm/StatisticsDialog.cc:198
-#: src/app/gtkmm/StatisticsDialog.cc:198
+#: src/app/gtkmm/StatisticsDialog.cc:205
 msgid "The number of breaks you skipped"
 msgstr "Wie oft Sie Pausen übersprungen haben"
 
 # src/app/gtkmm/StatisticsDialog.cc:202
-#: src/app/gtkmm/StatisticsDialog.cc:202
+#: src/app/gtkmm/StatisticsDialog.cc:209
 msgid "Breaks postponed"
 msgstr "Aufgeschobene Pausen"
 
 # src/app/gtkmm/StatisticsDialog.cc:203
-#: src/app/gtkmm/StatisticsDialog.cc:203
+#: src/app/gtkmm/StatisticsDialog.cc:210
 msgid "The number of breaks you postponed"
 msgstr "Anzahl der Pausen, die Sie aufgeschoben haben"
 
 # src/app/gtkmm/StatisticsDialog.cc:207
-#: src/app/gtkmm/StatisticsDialog.cc:207
+#: src/app/gtkmm/StatisticsDialog.cc:214
 msgid "Overdue time"
 msgstr "Überfällige Zeit"
 
 # src/app/gtkmm/StatisticsDialog.cc:208
-#: src/app/gtkmm/StatisticsDialog.cc:208
+#: src/app/gtkmm/StatisticsDialog.cc:215
 msgid "The total time this break was overdue"
 msgstr "Gesamte Zeit, die diese Pause überfällig war."
 
 # src/app/gtkmm/StatisticsDialog.cc:212
-#: src/app/gtkmm/StatisticsDialog.cc:212
+#: src/app/gtkmm/StatisticsDialog.cc:219
 msgid "Daily usage"
 msgstr "Tägliche Nutzung"
 
 # src/app/gtkmm/StatisticsDialog.cc:213
-#: src/app/gtkmm/StatisticsDialog.cc:213
+#: src/app/gtkmm/StatisticsDialog.cc:220
 msgid "The total computer usage"
 msgstr "Gesamte Computernutzung"
 
 # src/app/gtkmm/StatisticsDialog.cc:276
-#: src/app/gtkmm/StatisticsDialog.cc:276
+#: src/app/gtkmm/StatisticsDialog.cc:283
 msgid "Activity"
 msgstr "Aktivität"
 
 # src/app/gtkmm/StatisticsDialog.cc:286
-#: src/app/gtkmm/StatisticsDialog.cc:286
+#: src/app/gtkmm/StatisticsDialog.cc:293
 msgid "Mouse usage:"
 msgstr "Mausnutzung"
 
 # src/app/gtkmm/StatisticsDialog.cc:287
-#: src/app/gtkmm/StatisticsDialog.cc:287
+#: src/app/gtkmm/StatisticsDialog.cc:294
 msgid "The total time you were using the mouse"
 msgstr "Wie lange Sie die Maus insgesamt genutzt haben."
 
 # src/app/gtkmm/StatisticsDialog.cc:290
-#: src/app/gtkmm/StatisticsDialog.cc:290
+#: src/app/gtkmm/StatisticsDialog.cc:297
 msgid "Mouse movement:"
 msgstr "Mausbewegung insgesamt:"
 
 # src/app/gtkmm/StatisticsDialog.cc:291
-#: src/app/gtkmm/StatisticsDialog.cc:291
+#: src/app/gtkmm/StatisticsDialog.cc:298
 msgid "The total on-screen mouse movement"
 msgstr "Gesamte vom Mauszeiger zurückgelegte Strecke"
 
 # src/app/gtkmm/StatisticsDialog.cc:294
-#: src/app/gtkmm/StatisticsDialog.cc:294
+#: src/app/gtkmm/StatisticsDialog.cc:301
 msgid "Effective mouse movement:"
 msgstr "Effektive Mausbewegung:"
 
 # src/app/gtkmm/StatisticsDialog.cc:295
-#: src/app/gtkmm/StatisticsDialog.cc:295
+#: src/app/gtkmm/StatisticsDialog.cc:302
 msgid ""
 "The total mouse movement you would have had if you moved your mouse in "
 "straight lines between clicks"
@@ -598,186 +609,176 @@ msgstr ""
 "Maus zwischen den Klicks in geraden Linien bewegt hätten."
 
 # src/app/gtkmm/StatisticsDialog.cc:299
-#: src/app/gtkmm/StatisticsDialog.cc:299
+#: src/app/gtkmm/StatisticsDialog.cc:306
 msgid "Mouse button clicks:"
 msgstr "Mausklicks:"
 
 # src/app/gtkmm/StatisticsDialog.cc:300
-#: src/app/gtkmm/StatisticsDialog.cc:300
+#: src/app/gtkmm/StatisticsDialog.cc:307
 msgid "The total number of mouse button clicks"
 msgstr "Gesamtzahl der Mausklicks."
 
 # src/app/gtkmm/StatisticsDialog.cc:303
-#: src/app/gtkmm/StatisticsDialog.cc:303
+#: src/app/gtkmm/StatisticsDialog.cc:310
 msgid "Keystrokes:"
 msgstr "Tastenanschläge:"
 
 # src/app/gtkmm/StatisticsDialog.cc:304
-#: src/app/gtkmm/StatisticsDialog.cc:304
+#: src/app/gtkmm/StatisticsDialog.cc:311
 msgid "The total number of keys pressed"
 msgstr "Gesamtzahl der ausgeführten Tastenanschläge."
 
 # src/app/gtkmm/StatisticsDialog.cc:354
-#: src/app/gtkmm/StatisticsDialog.cc:354
+#: src/app/gtkmm/StatisticsDialog.cc:361
 #, c-format
 msgid "%s, from %s to %s"
 msgstr "%s, von %s bis %s"
 
 # src/app/gtkmm/TimerBox.cc:220 src/app/gtkmm/TimerBox.cc:300
-#: src/app/gtkmm/TimerBox.cc:220 src/app/gtkmm/TimerBox.cc:300
+#: src/app/gtkmm/TimerBox.cc:224 src/app/gtkmm/TimerBox.cc:304
 msgid "Wait"
 msgstr "Warten"
 
 # src/app/gtkmm/TimerBox.cc:254
-#: src/app/gtkmm/TimerBox.cc:254
+#: src/app/gtkmm/TimerBox.cc:258
 msgid "Inactive"
 msgstr "Inaktiv"
 
 # src/app/gtkmm/TimerBoxPreferencePage.cc:92
-#: src/app/gtkmm/TimerBoxPreferencePage.cc:92
+#: src/app/gtkmm/TimerBoxPreferencePage.cc:96
 msgid "Place timers next to each other"
 msgstr "Alle Uhren nebeneinander anzeigen"
 
 # src/app/gtkmm/TimerBoxPreferencePage.cc:94
-#: src/app/gtkmm/TimerBoxPreferencePage.cc:94
+#: src/app/gtkmm/TimerBoxPreferencePage.cc:98
 msgid "Place micro-pause and rest break in one spot"
 msgstr "Mikropause und Ruhepause an einer Stelle anzeigen"
 
 # src/app/gtkmm/TimerBoxPreferencePage.cc:96
-#: src/app/gtkmm/TimerBoxPreferencePage.cc:96
+#: src/app/gtkmm/TimerBoxPreferencePage.cc:100
 msgid "Place rest break and daily limit in one spot"
 msgstr "Ruhepause und tägliches Limit an einer Stelle anzeigen"
 
 # src/app/gtkmm/TimerBoxPreferencePage.cc:98
-#: src/app/gtkmm/TimerBoxPreferencePage.cc:98
+#: src/app/gtkmm/TimerBoxPreferencePage.cc:102
 msgid "Place all timers in one spot"
 msgstr "Alle Uhren an einer Stelle anzeigen"
 
 # src/app/gtkmm/TimerBoxPreferencePage.cc:121
-#: src/app/gtkmm/TimerBoxPreferencePage.cc:121
+#: src/app/gtkmm/TimerBoxPreferencePage.cc:125
 msgid "Hide"
 msgstr "Verstecken"
 
 # src/app/gtkmm/TimerBoxPreferencePage.cc:123
-#: src/app/gtkmm/TimerBoxPreferencePage.cc:123
+#: src/app/gtkmm/TimerBoxPreferencePage.cc:127
 msgid "Show"
 msgstr "Anzeigen"
 
 # src/app/gtkmm/TimerBoxPreferencePage.cc:125
-#: src/app/gtkmm/TimerBoxPreferencePage.cc:125
+#: src/app/gtkmm/TimerBoxPreferencePage.cc:129
 msgid "Show only when this timer is first due"
 msgstr "Pause nur anzeigen, wenn als nächstes fällig"
 
 # src/app/gtkmm/TimerBoxPreferencePage.cc:135
-#: src/app/gtkmm/TimerBoxPreferencePage.cc:135
+#: src/app/gtkmm/TimerBoxPreferencePage.cc:139
 msgid "Show status window"
 msgstr "Statusfenster anzeigen"
 
 # src/app/gtkmm/TimerBoxPreferencePage.cc:140
-#: src/app/gtkmm/TimerBoxPreferencePage.cc:140
+#: src/app/gtkmm/TimerBoxPreferencePage.cc:144
 msgid "The status window stays always on top of other windows"
 msgstr "Das Statusfenster bleibt immer über allen anderen Fenstern"
 
 # src/app/gtkmm/TimerBoxPreferencePage.cc:147
-#: src/app/gtkmm/TimerBoxPreferencePage.cc:147
+#: src/app/gtkmm/TimerBoxPreferencePage.cc:151
 msgid "Applet enabled"
 msgstr "Applet aktiviert"
 
 # src/app/gtkmm/TimerBoxPreferencePage.cc:155
-#: src/app/gtkmm/TimerBoxPreferencePage.cc:155
+#: src/app/gtkmm/TimerBoxPreferencePage.cc:159
 msgid "Display"
 msgstr "Anzeige"
 
 # src/app/gtkmm/TimerBoxPreferencePage.cc:164
-#: src/app/gtkmm/TimerBoxPreferencePage.cc:164
+#: src/app/gtkmm/TimerBoxPreferencePage.cc:168
 msgid "Placement:"
 msgstr "Positionierung:"
 
 # src/app/gtkmm/TimerBoxPreferencePage.cc:165
-#: src/app/gtkmm/TimerBoxPreferencePage.cc:165
+#: src/app/gtkmm/TimerBoxPreferencePage.cc:169
 msgid "Cycle time:"
 msgstr "Zeit bis zum Wechsel der Anzeige:"
 
 # src/app/gtkmm/TimerBoxPreferencePage.cc:170
 #. Layout
-#: src/app/gtkmm/TimerBoxPreferencePage.cc:170
+#: src/app/gtkmm/TimerBoxPreferencePage.cc:174
 msgid "Micro-pause:"
 msgstr "Mikropause"
 
 # src/app/gtkmm/TimerBoxPreferencePage.cc:171
-#: src/app/gtkmm/TimerBoxPreferencePage.cc:171
+#: src/app/gtkmm/TimerBoxPreferencePage.cc:175
 msgid "Rest break:"
 msgstr "Ruhepause"
 
 # src/app/gtkmm/TimerBoxPreferencePage.cc:172
-#: src/app/gtkmm/TimerBoxPreferencePage.cc:172
+#: src/app/gtkmm/TimerBoxPreferencePage.cc:176
 msgid "Daily limit:"
 msgstr "Tägliches Limit"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:57
 #. Enabled/Disabled checkbox
-#: src/app/gtkmm/TimerPreferencesPanel.cc:57
+#: src/app/gtkmm/TimerPreferencesPanel.cc:60
 msgid "Enable timer"
 msgstr "Zeitmesser verwenden"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:96
 #. Prelude frame
-#: src/app/gtkmm/TimerPreferencesPanel.cc:96
+#: src/app/gtkmm/TimerPreferencesPanel.cc:100
 msgid "Break prompting"
 msgstr "Ankündigung der Pause"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:98
-#: src/app/gtkmm/TimerPreferencesPanel.cc:98
+#: src/app/gtkmm/TimerPreferencesPanel.cc:102
 msgid "Prompt before breaking"
 msgstr "Vor der Pause Hinweis ausgeben"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:103
-#: src/app/gtkmm/TimerPreferencesPanel.cc:103
+#: src/app/gtkmm/TimerPreferencesPanel.cc:107
 msgid "Maximum number of prompts:"
 msgstr "Maximale Anzahl von Hinweisen:"
 
-# src/app/gtkmm/TimerPreferencesPanel.cc:110
-#: src/app/gtkmm/TimerPreferencesPanel.cc:110
-msgid "Force break after maximum exceeded"
-msgstr "Pause erzwingen, wenn das Maximum überschritten ist"
-
-# src/app/gtkmm/TimerPreferencesPanel.cc:145
-#: src/app/gtkmm/TimerPreferencesPanel.cc:145
-msgid "Block user input"
-msgstr "Benutzereingaben blockieren"
-
 # src/app/gtkmm/TimerPreferencesPanel.cc:154
-#: src/app/gtkmm/TimerPreferencesPanel.cc:154
+#: src/app/gtkmm/TimerPreferencesPanel.cc:142
 msgid "Show 'Postpone' and 'Skip' button"
 msgstr "Knöpfe 'Aufschieben' und 'Überspringen' anzeigen"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:169
-#: src/app/gtkmm/TimerPreferencesPanel.cc:169
+#: src/app/gtkmm/TimerPreferencesPanel.cc:157
 msgid "Regard micro-pauses as activity"
 msgstr "Mikropausen als Aktivität betrachten"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:181
-#: src/app/gtkmm/TimerPreferencesPanel.cc:181
+#: src/app/gtkmm/TimerPreferencesPanel.cc:169
 msgid "Number of exercises:"
 msgstr "Anzahl der Übungen"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:202
-#: src/app/gtkmm/TimerPreferencesPanel.cc:202
+#: src/app/gtkmm/TimerPreferencesPanel.cc:190
 msgid "Time before break:"
 msgstr "Zeit bis zur Pause:"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:209
-#: src/app/gtkmm/TimerPreferencesPanel.cc:209
+#: src/app/gtkmm/TimerPreferencesPanel.cc:197
 msgid "Resets at:"
 msgstr "Zurücksetzen nach:"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:219
-#: src/app/gtkmm/TimerPreferencesPanel.cc:219
+#: src/app/gtkmm/TimerPreferencesPanel.cc:207
 msgid "Pause duration:"
 msgstr "Dauer der Pause:"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:236
-#: src/app/gtkmm/TimerPreferencesPanel.cc:236
+#: src/app/gtkmm/TimerPreferencesPanel.cc:224
 msgid "Post-pone time:"
 msgstr "Dauer des Aufschubs:"
 
@@ -994,37 +995,37 @@ msgid "Client %s is now the new master."
 msgstr "Client %s ist jetzt der neue Master."
 
 # src/core/DistributionSocketLink.cc:1894
-#: src/core/DistributionSocketLink.cc:1894
+#: src/core/DistributionSocketLink.cc:1898
 msgid "Network operation started."
 msgstr "Netzwerkbetrieb gestartet."
 
 # src/core/DistributionSocketLink.cc:1911
-#: src/core/DistributionSocketLink.cc:1911
+#: src/core/DistributionSocketLink.cc:1915
 msgid "Accepted new client."
 msgstr "Akzeptiere neuen Client."
 
 # src/core/DistributionSocketLink.cc:1966
-#: src/core/DistributionSocketLink.cc:1966
+#: src/core/DistributionSocketLink.cc:1970
 #, c-format
 msgid "Client %s:%d read error, closing."
 msgstr "Lesefehler bei Client %s:%d. Schließe Verbindung."
 
 # src/core/DistributionSocketLink.cc:1971
 # src/core/DistributionSocketLink.cc:2042
-#: src/core/DistributionSocketLink.cc:1971
-#: src/core/DistributionSocketLink.cc:2042
+#: src/core/DistributionSocketLink.cc:1975
+#: src/core/DistributionSocketLink.cc:2046
 #, c-format
 msgid "Client %s:%d closed connection."
 msgstr "Client %s:%d hat Verbindung geschlossen."
 
 # src/core/DistributionSocketLink.cc:2011
-#: src/core/DistributionSocketLink.cc:2011
+#: src/core/DistributionSocketLink.cc:2015
 #, c-format
 msgid "Client %s:%d connected."
 msgstr "Client %s:%d verbunden."
 
 # src/core/DistributionSocketLink.cc:2047
-#: src/core/DistributionSocketLink.cc:2047
+#: src/core/DistributionSocketLink.cc:2051
 #, c-format
 msgid "Could not connect to client %s:%d."
 msgstr "Konnte nicht mit Client %s:%d verbinden."
@@ -1334,3 +1335,7 @@ msgstr "Ruhepause beendet"
 #: src/app/shared/sounds/workrave.soundlist.in.h:9
 msgid "Rest break started"
 msgstr "Ruhepause begonnen"
+
+# src/app/gtkmm/TimerPreferencesPanel.cc:110
+#~ msgid "Force break after maximum exceeded"
+#~ msgstr "Pause erzwingen, wenn das Maximum überschritten ist"

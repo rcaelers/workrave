@@ -191,12 +191,15 @@ BreakControl::heartbeat()
         // 2) this is NO forced (user initiated) break, and
         // 3) we don't have number_of_preludes set (i.e. >= 0)
         // 4) we hasn't reached the number_of_preludes
+
+#if 0 // insist_break is no more, so if proven stable the if can be removed.
         if (!is_idle && !forced_break && !final_prelude /*&& !insist_break*/)
           {
             // User is active while taking the break. back to prelude.
             goto_stage(STAGE_PRELUDE);
           }
         else
+#endif
           {
             // refresh the break window.
             update_break_window();
