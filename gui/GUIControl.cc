@@ -272,19 +272,6 @@ GUIControl::init()
 {
   TRACE_ENTER("GUIControl:init");
 
-  // FIXME: get_timer is a hack...will be fixed.
-  BreakControl *micropause_control = new BreakControl(GUIControl::BREAK_ID_MICRO_PAUSE, core_control, gui_factory,
-                                        core_control->get_timer("micro_pause"));
-  micropause_control->set_prelude_text(_("Time for a micro-pause?"));
-
-  BreakControl *restbreak_control = new BreakControl(GUIControl::BREAK_ID_REST_BREAK, core_control, gui_factory,
-                                       core_control->get_timer("rest_break"));
-  restbreak_control->set_prelude_text(_("You need a rest break..."));
-
-  BreakControl *dailybreak_control = new BreakControl(GUIControl::BREAK_ID_DAILY_LIMIT, core_control, gui_factory,
-                                       core_control->get_timer("daily_limit"));
-  dailybreak_control->set_prelude_text(_("You should stop for today..."));
-
   Statistics *stats = Statistics::get_instance();
   stats->init(core_control);
 
@@ -297,11 +284,33 @@ GUIControl::init()
       td->break_id = i;
       td->break_name = tc->id;
       td->label = tc->label;
+      switch (i)
+        {
+        case BREAK_ID_MICRO_PAUSE:
+          td->break_control = new BreakControl
+            (GUIControl::BREAK_ID_MICRO_PAUSE, core_control, gui_factory,
+             core_control->get_timer("micro_pause"));
+          td->break_control->set_prelude_text(_("Time for a micro-pause?"));
+          break;
+          
+        case BREAK_ID_REST_BREAK:
+          td->break_control = new BreakControl
+            (GUIControl::BREAK_ID_REST_BREAK, core_control, gui_factory,
+             core_control->get_timer("rest_break"));
+          td->break_control->set_prelude_text(_("You need a rest break..."));
+          break;
+          
+        case BREAK_ID_DAILY_LIMIT:
+          td->break_control = new BreakControl
+            (GUIControl::BREAK_ID_DAILY_LIMIT, core_control, gui_factory,
+             core_control->get_timer("daily_limit"));
+          td->break_control->set_prelude_text(_("You should stop for today..."));
+          break;
+          
+        default:
+          td->break_control = NULL;
+        }
     }
-
-  timers[BREAK_ID_MICRO_PAUSE].break_control = micropause_control;
-  timers[BREAK_ID_REST_BREAK].break_control = restbreak_control;
-  timers[BREAK_ID_REST_BREAK].break_control = dailybreak_control;
 
   // FIXME: Raymond??
   load_config();
