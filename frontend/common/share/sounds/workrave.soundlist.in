@@ -2,11 +2,11 @@
 _description=Workrave
 
 [rest_break_started]
-file=workrave/restbreak-started.wav
+file=workrave/rest-break-started.wav
 _description=Rest break started
 
 [rest_break_ended]
-file=workrave/restbreak-ended.wav
+file=workrave/rest-break-ended.wav
 _description=Rest break ended
 
 [micro_break_started]
