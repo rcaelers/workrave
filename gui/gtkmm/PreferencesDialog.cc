@@ -81,7 +81,7 @@ PreferencesDialog::PreferencesDialog()
 #endif
   
   // Dialog
-  get_vbox()->pack_start(*notebook, false, false, 0);
+  add_panel(*notebook, false, false);
   add_button(Gtk::Stock::CLOSE, Gtk::RESPONSE_CLOSE);
 
   show_all();

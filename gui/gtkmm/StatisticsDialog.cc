@@ -144,8 +144,7 @@ StatisticsDialog::init_gui()
   create_break_page(tnotebook);
   create_activity_page(tnotebook);
 
-  
-  get_vbox()->pack_start(*hbox, true, true, 0);
+  add_panel(*hbox, true, true);
 
   tnotebook->show_all();
   tnotebook->set_current_page(0);

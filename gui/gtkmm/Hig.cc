@@ -14,9 +14,18 @@ HigDialog::HigDialog(const Glib::ustring& title, bool modal,
 }
 
 void
+HigDialog::add_panel(Gtk::Widget &panel, bool expand, bool fill)
+{
+  Gtk::VBox *vb = manage(new Gtk::VBox());
+  vb->pack_start(panel, expand, fill, 0);
+  vb->set_border_width(5);
+  get_vbox()->pack_start(*vb, true, true, 0);
+}
+
+void
 HigDialog::set_hig_defaults()
 {
-  set_border_width(12);
+  set_border_width(7);
 }
 
 HigCategoryPanel::HigCategoryPanel(const char *lab)

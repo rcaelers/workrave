@@ -27,6 +27,8 @@ public:
   HigDialog();
   HigDialog(const Glib::ustring& title, bool modal=false,
             bool use_separator=false);
+  void add_panel(Gtk::Widget &panel, bool expand, bool fill);
+  
 private:
   void set_hig_defaults();
 };
