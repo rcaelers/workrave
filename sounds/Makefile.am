@@ -8,7 +8,7 @@
 
 MAINTAINERCLEANFILES = Makefile.in
 
-soundsdir = $(pkgdatadir)/sounds
+soundsdir = $(datadir)/sounds/workrave
 sounds_DATA = $(wildcard *.wav)
 
 soundeventsdir = $(sysconfdir)/sound/events

@@ -310,6 +310,7 @@ DistributionManager::set_peers(string peers, bool connect)
   TRACE_ENTER_MSG("DistributionManager::set_peers", peers);
   parse_peers(peers, connect);
   write_peers();
+  TRACE_EXIT();
 }
 
 
@@ -392,6 +393,7 @@ DistributionManager::read_configuration()
 void
 DistributionManager::write_peers()
 {
+  TRACE_ENTER("DistributionManager::write_peers");
   string peers;
 
   for (list<string>::iterator i = peer_urls.begin(); i != peer_urls.end(); i++)
@@ -402,8 +404,9 @@ DistributionManager::write_peers()
         }
       peers += (*i);
     }
-  
+              
   configurator->set_value(CFG_KEY_DISTRIBUTION + CFG_KEY_DISTRIBUTION_PEERS, peers);
+  TRACE_EXIT();
 }
 
 

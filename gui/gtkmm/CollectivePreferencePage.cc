@@ -447,9 +447,35 @@ CollectivePreferencePage::on_attempts_changed()
 void
 CollectivePreferencePage::on_peer_remove()
 {
+  TRACE_ENTER("CollectivePreferencePage::on_peer_remove");
   Glib::RefPtr<Gtk::TreeSelection> selection = peers_list->get_selection();
 
   selection->selected_foreach(SigC::slot(*this, &CollectivePreferencePage::remove_peer));
+
+  Glib::RefPtr<Gtk::ListStore> new_store = Gtk::ListStore::create(peers_columns);
+
+  typedef Gtk::TreeModel::Children type_children;
+  type_children children = peers_store->children();
+  for (type_children::iterator iter = children.begin(); iter != children.end(); ++iter)
+    {
+      Gtk::TreeModel::Row row = *iter;
+
+      
+      string hostname = row[peers_columns.hostname];
+      string port = row[peers_columns.port];
+
+      if (hostname != "" && port != "")
+        {
+          Gtk::TreeRow new_row = *(new_store->append());
+          
+          new_row[peers_columns.hostname]  = hostname;
+          new_row[peers_columns.port]      = port;
+        }
+    }
+
+  peers_store = new_store;
+  peers_list->set_model(peers_store);
+  TRACE_EXIT();
 }
 
 
@@ -470,13 +496,10 @@ void
 CollectivePreferencePage::remove_peer(const Gtk::TreeModel::iterator &iter)
 {
   Gtk::TreeModel::Row row = *iter;
+  string s = row[peers_columns.hostname];
   row[peers_columns.hostname]  = "";
   row[peers_columns.port]      = "";
-
-  create_model();
-  //peers_store->erase(iter);
 }
-
 
 void
 CollectivePreferencePage::on_row_changed(const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& iter)
@@ -490,6 +513,7 @@ CollectivePreferencePage::on_row_deleted(const Gtk::TreeModel::Path& path)
 {
   update_peers();
 }
+
 
 void
 CollectivePreferencePage::on_hostname_edited(const Glib::ustring& path_string, const Glib::ustring& new_text)
