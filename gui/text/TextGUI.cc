@@ -1,9 +1,7 @@
-// GUIFactory.cc
+// TextGUI.cc --- Text GUI Creator
 //
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
-//
-// Time-stamp: <2003-01-06 23:19:50 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,36 +20,11 @@ static const char rcsid[] = "$Id$";
 #include "config.h"
 #endif
 
-#include "GUIFactory.hh"
-
-#ifdef HAVE_GUI_GTK
-#include "gtkmm/GtkmmGUI.hh"
-#endif
-
-#ifdef HAVE_GUI_TEXT
-#include "text/TextGUI.hh"
-#endif
-
+#include "TextGUI.hh"
+#include "GUI.hh"
 
 GUIInterface *
-GUIFactory::create_gui(string type, ControlInterface *c, int argc, char **argv)
+TextGUI::create(ControlInterface *c, int argc, char **argv)
 {
-  GUIInterface *gi =  NULL;
-  
-#ifdef HAVE_GUI_GTK
-  // if (type == "gtkmm")
-    {
-      gi = GtkmmGUI::create(c, argc, argv);
-    }
-#endif 
-#ifdef HAVE_GUI_TEXT
-  //  if (type == "text")
-    {
-      gi = TextGUI::create(c, argc, argv);
-    }
-#endif
- 
-  return gi;
+  return new GUI(c, argc, argv);
 }
-
-  

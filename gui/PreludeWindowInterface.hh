@@ -19,6 +19,8 @@
 #ifndef PRELUDEWINDOWINTERFACE_HH
 #define PRELUDEWINDOWINTERFACE_HH
 
+#include <string>
+
 class PreludeWindowInterface
 {
 public:

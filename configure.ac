@@ -17,6 +17,20 @@ AM_INIT_AUTOMAKE(workrave, 1.0.0)
                                    
 dnl some command line options.                           
 GCONF_LIBS=""
+AC_ARG_ENABLE( gui-gtk,
+  [  --disable-gui-gtk       compile without Gtk/Gnome support],
+       config_with_gtk=$enableval
+       ,
+       config_with_gtk=yes
+    )
+
+AC_ARG_ENABLE( gui-text,
+  [  --enable-gui-text      compile with Dummy text GUI support],
+       config_with_text=$enableval
+       ,
+       config_with_text=no
+    )
+    
 AC_ARG_ENABLE( gconf,
   [  --enable-gconf          compile with Gnome gconf2 support],
        config_with_gconf=$enableval
@@ -200,43 +214,49 @@ AC_CHECK_MEMBER(MOUSEHOOKSTRUCT.hwnd,AC_DEFINE(HAVE_STRUCT_MOUSEHOOKSTRUCT,,[str
 AC_TYPE_SIGNAL
 AC_CHECK_FUNCS([gettimeofday nanosleep select])
 
-PKG_CHECK_MODULES(SIGC, sigc++-1.2)
-
-AC_SUBST(SIGC_LIBS)
-AC_SUBST(SIGC_CFLAGS)
-
 PKG_CHECK_MODULES(GLIB, glib-2.0)
 
 AC_SUBST(GLIB_LIBS)
 AC_SUBST(GLIB_CFLAGS)
 
-PKG_CHECK_MODULES(GTK, gtk+-2.0)
-
-AC_SUBST(GTK_LIBS)
-AC_SUBST(GTK_CFLAGS)
-
-PKG_CHECK_MODULES(GTKMM, gtkmm-2.0)
-
-AC_SUBST(GTKMM_LIBS)
-AC_SUBST(GTKMM_CFLAGS)
-
-if test "x$config_with_gnome" = "xyes"
+if test "x$config_with_gtk" = "xyes"
 then
-  AC_PROG_INTLTOOL
+  PKG_CHECK_MODULES(SIGC, sigc++-1.2)
 
-  PKG_CHECK_MODULES(gnomeui, libgnomeui-2.0)
-  PKG_CHECK_MODULES(APPLET, libpanelapplet-2.0 >= 2.0.10)
-  PKG_CHECK_MODULES(BONOBO, libbonobo-2.0 >= 2.0.0)
+  AC_SUBST(SIGC_LIBS)
+  AC_SUBST(SIGC_CFLAGS)
 
-  AM_PATH_ORBIT2
+  PKG_CHECK_MODULES(GTK, gtk+-2.0)
 
-  AC_MSG_CHECKING(for CORBA include paths)
-  IDL_INCLUDES="-I "`pkg-config --variable=idldir libbonobo-2.0`" -I "`pkg-config --variable=idldir bonobo-activation-2.0`
-  AC_MSG_RESULT($IDL_INCLUDES)
-  AC_SUBST(IDL_INCLUDES)
+  AC_SUBST(GTK_LIBS)
+  AC_SUBST(GTK_CFLAGS)
 
+  PKG_CHECK_MODULES(GTKMM, gtkmm-2.0)
+
+  AC_SUBST(GTKMM_LIBS)
+  AC_SUBST(GTKMM_CFLAGS)
+
+  if test "x$config_with_gnome" = "xyes"
+  then
+    AC_PROG_INTLTOOL
+
+    PKG_CHECK_MODULES(gnomeui, libgnomeui-2.0)
+    PKG_CHECK_MODULES(APPLET, libpanelapplet-2.0 >= 2.0.10)
+    PKG_CHECK_MODULES(BONOBO, libbonobo-2.0 >= 2.0.0)
+
+    AM_PATH_ORBIT2
+
+    AC_MSG_CHECKING(for CORBA include paths)
+    IDL_INCLUDES="-I "`pkg-config --variable=idldir libbonobo-2.0`" -I "`pkg-config --variable=idldir bonobo-activation-2.0`
+    AC_MSG_RESULT($IDL_INCLUDES)
+    AC_SUBST(IDL_INCLUDES)
+
+  fi
 fi
 
+AC_PROG_INTLTOOL
+
+                
 AC_SUBST(gnomeui_LIBS)
 AC_SUBST(gnomeui_CFLAGS)
 
@@ -431,6 +451,11 @@ GUI_CFLAGS="-I \$(top_srcdir)/gui"
 if test "x$GTKMM_LIBS" != "x"; then
    GUI_LIBS="../gui/gtkmm/libgtkmmgui.a $GUI_LIBS"
 fi
+
+if test "x$config_with_text" = "xyes"; then
+   GUI_LIBS="../gui/gtkmm/libtextgui.a $GUI_LIBS"
+fi
+        
 AC_SUBST(GUI_LIBS)
 AC_SUBST(GUI_CFLAGS)
 
@@ -484,7 +509,17 @@ HAVE_GNET=
 if test "x$GNET_LIBS" != "x"; then
    AC_DEFINE(HAVE_GNET,,[Define if GNet is available])
 fi
-                
+
+HAVE_GUI_GTK=
+if test "x$GTKMM_LIBS" != "x"; then
+   AC_DEFINE(HAVE_GUI_GTK,,[Define if Gtk is available])
+fi
+
+HAVE_GUI_TEXT=
+if test "x$config_with_text" = "xyes"; then
+   AC_DEFINE(HAVE_GUI_TEXT,,[Define if Text is available])
+fi
+                                
 WIN32CONSOLE=
 if test "x$config_debug" != "xyes" -a "x$platform_win32" = "xyes" ; then
         WIN32CONSOLE=-mwindows
@@ -501,6 +536,7 @@ AM_CONDITIONAL(NDEBUG, test "x$config_debug" != "xyes")
 AM_CONDITIONAL(HAVE_ARCH_WIN32, test "x$platform_win32" = "xyes")
 AM_CONDITIONAL(HAVE_ARCH_UNIX, test "x$platform_win32" != "xyes")
 AM_CONDITIONAL(HAVE_GUI_GTKMM, test "x$GTKMM_LIBS" != "x")
+AM_CONDITIONAL(HAVE_GUI_TEXT, test "x$config_with_text" = "xyes")
 AM_CONDITIONAL(HAVE_DISTRIBUTION, test "x$config_distribution" = "xyes")
                                                            
-AC_OUTPUT(src/Makefile arch/Makefile arch/unix/Makefile arch/win32/Makefile arch/win32/harpoon/Makefile gui/Makefile gui/gtkmm/Makefile gui/gnome/Makefile images/Makefile sounds/Makefile debian/Makefile Makefile po/Makefile.in m4/Makefile workrave.spec)
+AC_OUTPUT(src/Makefile arch/Makefile arch/unix/Makefile arch/win32/Makefile arch/win32/harpoon/Makefile gui/Makefile gui/gtkmm/Makefile gui/gnome/Makefile images/Makefile sounds/Makefile debian/Makefile Makefile po/Makefile.in m4/Makefile gui/text/Makefile workrave.spec)
