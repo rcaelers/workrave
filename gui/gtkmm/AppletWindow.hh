@@ -30,6 +30,8 @@ class NetworkLogDialog;
 #include <gtkmm.h>
 #include <gtkmm/plug.h>
 
+#include "GUIControl.hh"
+
 using namespace std;
 
 class AppletWindow :
@@ -41,6 +43,15 @@ public:
 
   void update();
 
+  void on_menu_restbreak_now();
+
+public:  
+  static const string CFG_KEY_APPLET;
+  static const string CFG_KEY_APPLET_HORIZONTAL;
+  static const string CFG_KEY_APPLET_SHOW_MICRO_PAUSE;
+  static const string CFG_KEY_APPLET_SHOW_REST_BREAK;
+  static const string CFG_KEY_APPLET_SHOW_DAILY_LIMIT;
+  
 private:
   //! The controller that maintains the data and control over the breaks
   ControlInterface *core_control;
@@ -48,12 +59,28 @@ private:
   //! Interface to the GUI.
   GUI *gui;
 
-  //! Araay of timer value widgets.
-  TimeBar *bar;
+  //! Table containing all timer information
+  Gtk::Table *timers_box;
 
+  //! Array of timer name labels
+  Gtk::Widget **timer_names;
+
+  //! Araay of timer value widgets.
+  TimeBar **timer_times;
+
+  //! Breaks to show in applet.
+  bool show_break[GUIControl::BREAK_ID_SIZEOF];
+
+  //! Allign break horizontally.
+  bool horizontal;
+  
 private:
   //
   void init();
+  void init_widgets();
+  void init_applet();
+  void init_table();
+  void read_configuration();
 
   // Events.
   bool on_delete_event(GdkEventAny*);

@@ -370,7 +370,7 @@ TimerPreferencesPanel::on_monitor_toggled()
   if (monitor_cb->get_active())
     {
       val = GUIControl::get_instance()
-        ->timers[GUIControl::TIMER_ID_MICRO_PAUSE]
+        ->timers[GUIControl::BREAK_ID_MICRO_PAUSE]
         .timer->get_id();
     }
 

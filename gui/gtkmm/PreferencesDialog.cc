@@ -164,7 +164,7 @@ PreferencesDialog::create_timer_page()
      "time.png");
   Gtk::Notebook *tnotebook = manage(new Gtk::Notebook());
   tnotebook->set_tab_pos (Gtk::POS_TOP);  
-  for (int i = 0; i < GUIControl::TIMER_ID_SIZEOF; i++)
+  for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
     {
       // Label
       GUIControl::TimerData *timer = &GUIControl::get_instance()->timers[i];

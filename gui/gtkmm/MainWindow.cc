@@ -133,18 +133,18 @@ MainWindow::init()
   popup_menu = manage(create_menu(popup_check_menus));
 
   set_border_width(2);
-  timers_box = manage(new Gtk::Table(GUIControl::TIMER_ID_SIZEOF, 2, false));
+  timers_box = manage(new Gtk::Table(GUIControl::BREAK_ID_SIZEOF, 2, false));
   timers_box->set_spacings(2);
   
-  timer_names = new Gtk::Widget*[GUIControl::TIMER_ID_SIZEOF];
-  timer_times = new TimeBar*[GUIControl::TIMER_ID_SIZEOF];
+  timer_names = new Gtk::Widget*[GUIControl::BREAK_ID_SIZEOF];
+  timer_times = new TimeBar*[GUIControl::BREAK_ID_SIZEOF];
 
-  for (int count = 0; count < GUIControl::TIMER_ID_SIZEOF; count++)
+  for (int count = 0; count < GUIControl::BREAK_ID_SIZEOF; count++)
     {
       GUIControl::TimerData *timer = &GUIControl::get_instance()->timers[count];
       Gtk::Image *img = manage(new Gtk::Image(timer->icon));
       Gtk::Widget *w;
-      if (count == GUIControl::TIMER_ID_REST_BREAK)
+      if (count == GUIControl::BREAK_ID_REST_BREAK)
 	{
 	  Gtk::Button *b = manage(new Gtk::Button());
           // GTK_WIDGET_UNSET_FLAGS(b->gobj(), GTK_CAN_FOCUS);
@@ -247,7 +247,7 @@ MainWindow::update()
     }
 #endif
   
-  for (unsigned int count = 0; count < GUIControl::TIMER_ID_SIZEOF; count++)
+  for (unsigned int count = 0; count < GUIControl::BREAK_ID_SIZEOF; count++)
     {
       TimerInterface *timer = GUIControl::get_instance()->timers[count].timer;
       TimeBar *bar = timer_times[count];
@@ -421,7 +421,7 @@ MainWindow::create_menu(Gtk::CheckMenuItem *check_menus[4])
                                                       SigC::slot(*this, &MainWindow::on_menu_preferences)));
 
 
-  Gtk::Image *img = manage(new Gtk::Image(GUIControl::get_instance()->timers[GUIControl::TIMER_ID_REST_BREAK].icon));
+  Gtk::Image *img = manage(new Gtk::Image(GUIControl::get_instance()->timers[GUIControl::BREAK_ID_REST_BREAK].icon));
   menulist.push_back(Gtk::Menu_Helpers::ImageMenuElem
                      (_("_Rest break"),
                       Gtk::Menu::AccelKey("<control>r"),
