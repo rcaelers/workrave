@@ -224,6 +224,11 @@ GNetSocketDriver::async_connected(GTcpSocket *socket, GInetAddr *ia,
 
       gnet_tcp_socket_delete(socket);
       con->socket = NULL;
+
+      if (listener != NULL)
+        {
+          listener->socket_closed(con, con->data);
+        }
     }
   else
     {
@@ -316,7 +321,13 @@ GNetSocketConnection::~GNetSocketConnection()
   g_source_remove(watch);
 }
 
-  
+
+char *
+GNetSocketConnection::get_canonical_name()
+{
+  return NULL;
+}
+
 bool
 GNetSocketConnection::read(void *buf, int count, int &bytes_read)
 {

@@ -28,6 +28,7 @@
 class GUI;
 class ControlInterface;
 class TimeBar;
+class NetworkLogDialog;
 
 #include <gtkmm.h>
 #ifdef WIN32
@@ -81,6 +82,14 @@ private:
   
   //! Is the monitoring function suspended?
   bool monitor_suspended;
+
+#ifdef HAVE_DISTRIBUTION
+  //! The log toggle button.
+  Gtk::CheckMenuItem *distr_log_menu_item;
+  
+  //! The log dialog.
+  NetworkLogDialog *network_log_dialog;
+#endif
   
 private:
   //
@@ -107,6 +116,8 @@ private:
   void on_menu_network_join();
   void on_menu_network_leave();
   void on_menu_network_reconnect();
+  void on_menu_network_log();
+  void on_network_log_response(int response);
 #endif
   
 #ifdef WIN32

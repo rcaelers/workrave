@@ -53,6 +53,7 @@ static const char rcsid[] = "$Id$";
 #ifdef HAVE_DISTRIBUTION
 #include "DistributionManager.hh"
 #include "NetworkJoinDialog.hh"
+#include "NetworkLogDialog.hh"
 #endif
 
 #ifdef WIN32
@@ -84,6 +85,10 @@ MainWindow::MainWindow(GUI *g, ControlInterface *c) :
   timer_names(NULL),
   timer_times(NULL),
   monitor_suspended(false)
+#ifdef HAVE_DISTRIBUTION
+  ,network_log_dialog(NULL),
+  distr_log_menu_item(NULL)
+#endif
 {
   init();
 }
@@ -228,14 +233,14 @@ MainWindow::setup()
 void
 MainWindow::update()
 {
-  bool node_active = true;
+  bool node_master = true;
   int num_peers = 0;
 
 #ifdef HAVE_DISTRIBUTION
   DistributionManager *dist_manager = DistributionManager::get_instance();
   if (dist_manager != NULL)
     {
-      node_active = dist_manager->is_active();
+      node_master = dist_manager->is_master();
       num_peers = dist_manager->get_number_of_peers();
     }
 #endif
@@ -245,7 +250,7 @@ MainWindow::update()
       TimerInterface *timer = GUIControl::get_instance()->timers[count].timer;
       TimeBar *bar = timer_times[count];
 
-      if (!node_active && num_peers > 0)
+      if (!node_master && num_peers > 0)
         {
           bar->set_text(_("Inactive"));
           bar->update();
@@ -398,6 +403,11 @@ MainWindow::create_menu(Gtk::RadioMenuItem *mode_menus[3])
   distr_reconnect_menu_item->show();
   distr_reconnect_menu_item->signal_activate().connect(SigC::slot(*this, &MainWindow::on_menu_network_reconnect));
   distr_menu_list.push_back(*distr_reconnect_menu_item);
+
+  distr_log_menu_item = manage(new Gtk::CheckMenuItem(_("Show _log"), true));
+  distr_log_menu_item->show();
+  distr_log_menu_item->signal_toggled().connect(SigC::slot(*this, &MainWindow::on_menu_network_log));
+  distr_menu_list.push_back(*distr_log_menu_item);
 #endif
   
   // FIXME: add separators, etc...
@@ -638,6 +648,34 @@ MainWindow::on_menu_network_reconnect()
     {
       dist_manager->reconnect_all();
     }
+}
+
+void
+MainWindow::on_menu_network_log()
+{
+  bool active = distr_log_menu_item->get_active();
+
+  if (active)
+    {
+      network_log_dialog = new NetworkLogDialog();
+      network_log_dialog->signal_response().connect(SigC::slot(*this, &MainWindow::on_network_log_response));
+  
+      network_log_dialog->run();
+    }
+  else
+    {
+      network_log_dialog->hide_all();
+      delete network_log_dialog;
+    }
+}
+
+void
+MainWindow::on_network_log_response(int response)
+{ 
+  network_log_dialog->hide_all();
+  distr_log_menu_item->set_active(false);
+  //delete network_log_dialog;
+  network_log_dialog = NULL;
 }
 
 #endif

@@ -29,7 +29,7 @@ public:
   SocketConnection();
   virtual ~SocketConnection();
 
-  // virtual char *get_canonical_name() = 0;
+  virtual char *get_canonical_name() = 0;
   virtual bool read(void *buf, int count, int &bytes_read) = 0;
   virtual bool write(void *buf, int count, int &bytes_written) = 0;
   virtual bool close() = 0;

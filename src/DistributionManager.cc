@@ -110,15 +110,15 @@ DistributionManager::get_number_of_peers()
 }
 
 
-//! Returns true if this node is active.
+//! Returns true if this node is master.
 bool
-DistributionManager::is_active() const
+DistributionManager::is_master() const
 {
   return state == NODE_ACTIVE;
 }
 
 
-//! Requests to become active.
+//! Requests to become master.
 /*!
  *  \return true is the claim succeeded.
  */
@@ -137,6 +137,20 @@ DistributionManager::claim()
       state = NODE_ACTIVE;
     }
   
+  return ret;
+}
+
+
+
+bool
+DistributionManager::set_lock_master(bool lock)
+{
+  bool ret = false;
+  
+  if (link != NULL)
+    {
+      ret = link->set_lock_master(lock);
+    }
   return ret;
 }
 
@@ -213,14 +227,14 @@ DistributionManager::unregister_state(DistributedStateID id)
 }
   
 
-//! Event from Link that our 'active' status changed.
+//! Event from Link that our 'master' status changed.
 void
-DistributionManager::active_changed(bool new_active)
+DistributionManager::master_changed(bool new_master)
 {
-  TRACE_ENTER("DistributionManager::active_changed");
-  state = (new_active ? NODE_ACTIVE : NODE_STANDBY);
+  TRACE_ENTER("DistributionManager::master_changed");
+  state = (new_master ? NODE_ACTIVE : NODE_STANDBY);
 
-  if (new_active)
+  if (new_master)
     {
       state_complete = false;
     }
@@ -439,7 +453,7 @@ DistributionManager::log(char *fmt, ...)
 
   char str[256];
   snprintf(str, 255, "[%02d/%02d/%02d %02d:%02d:%02d] ",
-           lt->tm_mday, lt->tm_mon + 1, lt->tm_year,
+           lt->tm_mday, lt->tm_mon + 1, lt->tm_year + 1900,
            lt->tm_hour, lt->tm_min, lt->tm_sec);
 
   char *ptr = str + strlen(str);
@@ -468,7 +482,7 @@ DistributionManager::log(char *fmt, ...)
  *  \retval false listener already added.
  */
 bool
-DistributionManager::add_listener(DistributionLogListener *listener)
+DistributionManager::add_log_listener(DistributionLogListener *listener)
 {
   bool ret = true;
 
@@ -504,7 +518,7 @@ DistributionManager::add_listener(DistributionLogListener *listener)
  *  \retval false listener not found.
  */
 bool
-DistributionManager::remove_listener(DistributionLogListener *listener)
+DistributionManager::remove_log_listener(DistributionLogListener *listener)
 {
   bool ret = false;
 

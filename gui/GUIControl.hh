@@ -137,7 +137,7 @@ private:
 #ifdef HAVE_DISTRIBUTION
   void init_distribution_manager();
   bool get_state(DistributedStateID id, unsigned char **buffer, int *size);
-  bool set_state(DistributedStateID id, bool active, unsigned char *buffer, int size);
+  bool set_state(DistributedStateID id, bool master, unsigned char *buffer, int size);
 #endif
   
 public:
@@ -169,8 +169,8 @@ private:
   //! Mode.
   OperationMode operation_mode;
 
-  //! Are we the active node in the WR network?
-  bool active_node;
+  //! Are we the master node in the WR network?
+  bool master_node;
   
 };
 

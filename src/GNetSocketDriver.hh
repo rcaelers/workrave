@@ -42,6 +42,7 @@ public:
   GNetSocketConnection();
   virtual ~GNetSocketConnection();
 
+  char *get_canonical_name();
   bool read(void *buf, int count, int &bytes_read);
   bool write(void *buf, int count, int &bytes_written);
   bool close();

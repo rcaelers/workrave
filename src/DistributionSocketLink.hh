@@ -69,6 +69,7 @@ private:
     PACKET_NEW_MASTER	= 0x0005,
     PACKET_STATEINFO	= 0x0006,
     PACKET_DUPLICATE	= 0x0007,
+    PACKET_CLAIM_REJECT	= 0x0008,
   };
 
   enum ClientListFlags
@@ -85,7 +86,8 @@ private:
       hostname(NULL),
       port(0),
       reconnect_count(0),
-      reconnect_time(0)
+      reconnect_time(0),
+      next_claim_time(0)
     {
     }
     
@@ -118,6 +120,9 @@ private:
     
     //! Last reconnect attempt time;
     time_t reconnect_time;
+
+    //! Next time we can try to claim from this client;
+    time_t next_claim_time;
   };
 
   
@@ -135,6 +140,7 @@ public:
   bool disconnect_all();
   bool reconnect_all();
   bool claim();
+  bool set_lock_master(bool lock);
 
   bool register_state(DistributedStateID id, DistributedStateInterface *dist_state);
   bool unregister_state(DistributedStateID id);
@@ -152,10 +158,10 @@ private:
   bool exists_client(gchar *host, gint port);
   bool set_canonical(Client *client, gchar *host, gint port);
 
-  bool get_active(gchar **name, gint *port) const;
-  void set_active(gchar *cname, gint port);
-  void set_active(Client *client);
-  void set_me_active();
+  bool get_master(gchar **name, gint *port) const;
+  void set_master(gchar *cname, gint port);
+  void set_master(Client *client);
+  void set_me_master();
 
   void init_packet(PacketBuffer &packet, PacketCommand cmd);
   void send_packet_broadcast(PacketBuffer &packet);
@@ -170,12 +176,14 @@ private:
   void handle_claim(Client *client);
   void handle_new_master(Client *client);
   void handle_state(Client *client);
+  void handle_claim_reject(Client *client);
   void send_hello(Client *client);
   void send_welcome(Client *client);
   void send_duplicate(Client *client);
   void send_client_list(Client *client);
   void send_claim(Client *client);
   void send_new_master(Client *client = NULL);
+  void send_claim_reject(Client *client);
   void send_state();
   
   bool start_async_server();
@@ -203,10 +211,13 @@ private:
   list<Client *> clients;
 
   //! Active client
-  Client *active_client;
+  Client *master_client;
 
   //!
-  bool active;
+  bool i_am_master;
+
+  //!
+  bool master_locked;
   
   //!
   gchar *myname;

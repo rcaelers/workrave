@@ -226,7 +226,7 @@ GUIControl::GUIControl(GUIFactoryInterface *factory, ControlInterface *controlle
   
   configurator = NULL;
 
-  active_node = true;
+  master_node = true;
   operation_mode = OPERATION_MODE_NORMAL;
   gui_factory = factory;
   core_control = controller;
@@ -314,24 +314,24 @@ GUIControl::heartbeat()
   // Distributed  stuff
 
 #ifdef HAVE_DISTRIBUTION
-  bool new_active_node = true;
+  bool new_master_node = true;
   DistributionManager *dist_manager = DistributionManager::get_instance();
   if (dist_manager != NULL)
     {
-      new_active_node = dist_manager->is_active();
+      new_master_node = dist_manager->is_master();
     }
 
-  if (active_node != new_active_node)
+  if (master_node != new_master_node)
     {
-      active_node = new_active_node;
-      if (!active_node)
+      master_node = new_master_node;
+      if (!master_node)
         {
           stop_all_breaks();
         }
     }
 #endif
 
-  if (active_node)
+  if (master_node)
     {
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
@@ -827,7 +827,7 @@ GUIControl::get_state(DistributedStateID id, unsigned char **buffer, int *size)
 }
 
 bool
-GUIControl::set_state(DistributedStateID id, bool active, unsigned char *buffer, int size)
+GUIControl::set_state(DistributedStateID id, bool master, unsigned char *buffer, int size)
 {
   TRACE_ENTER("GUIControl::set_state");
 
@@ -860,7 +860,7 @@ GUIControl::set_state(DistributedStateID id, bool active, unsigned char *buffer,
           state_data.break_stage = state_packet.unpack_ulong();
           state_data.prelude_time = state_packet.unpack_ulong();
 
-          bi->set_state_data(active, state_data);
+          bi->set_state_data(master, state_data);
         }
     }
   

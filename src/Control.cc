@@ -66,7 +66,7 @@ Control::Control()
 #ifdef HAVE_DISTRIBUTION
   dist_manager = NULL;
 #endif  
-  active_node = true;
+  master_node = true;
   configurator = NULL;
   monitor = NULL;
 }
@@ -196,26 +196,28 @@ Control::process_timers(map<string, TimerInfo> &infos)
 
   // Distributed  stuff
 #ifdef HAVE_DISTRIBUTION  
-  bool new_active_node = true;
+  bool new_master_node = true;
   if (dist_manager != NULL)
     {
       dist_manager->heartbeart();
-      
-      new_active_node = dist_manager->is_active();
 
-      if (!new_active_node && state == ACTIVITY_ACTIVE)
+      dist_manager->set_lock_master(state == ACTIVITY_ACTIVE);
+      
+      new_master_node = dist_manager->is_master();
+
+      if (!new_master_node && state == ACTIVITY_ACTIVE)
         {
-          new_active_node = dist_manager->claim();
+          new_master_node = dist_manager->claim();
         }
     }
 
-  if (active_node != new_active_node)
+  if (master_node != new_master_node)
     {
-      active_node = new_active_node;
+      master_node = new_master_node;
       // Enable/Disable timers.
       for (TimerCIter i = timers.begin(); i != timers.end(); i++)
         {
-          if (active_node)
+          if (master_node)
             {
               (*i)->enable();
             }
@@ -249,7 +251,7 @@ Control::process_timers(map<string, TimerInfo> &infos)
   // Timers
   current_time = time(NULL);
 
-  if (active_node)
+  if (master_node)
     {
       // FIXME: quick solution for dependancy probleem if a timer
       // uses a private activity monitor...
@@ -612,7 +614,7 @@ Control::test_me()
         }
       else
         {
-          TRACE_MSG("Setting active");
+          TRACE_MSG("Setting master");
           fake_monitor->set_state(ACTIVITY_ACTIVE);
         }
     }
@@ -663,7 +665,7 @@ Control::get_state(DistributedStateID id, unsigned char **buffer, int *size)
 }
 
 bool
-Control::set_state(DistributedStateID id, bool active, unsigned char *buffer, int size)
+Control::set_state(DistributedStateID id, bool master, unsigned char *buffer, int size)
 {
   TRACE_ENTER("Control::set_state");
 

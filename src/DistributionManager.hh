@@ -49,9 +49,10 @@ public:
   NodeState get_state() const;
   void init(Configurator *conf);
   void heartbeart();
-  bool is_active() const;
+  bool is_master() const;
   int get_number_of_peers();
   bool claim();
+  bool set_lock_master(bool lock);
   bool join(string url);
   bool register_state(DistributedStateID id, DistributedStateInterface *dist_state);
   bool unregister_state(DistributedStateID id);
@@ -62,19 +63,23 @@ public:
   void set_peers(string peers, bool connect = true);
   
   //
-  void active_changed(bool result);
+  void master_changed(bool result);
   void state_transfer_complete();
+  void log(char *fmt, ...);
 
   list<string> get_peers()
   {
     return peer_urls;
   }
 
-  void log(char *fmt, ...);
-  bool add_listener(DistributionLogListener *listener);
-  bool remove_listener(DistributionLogListener *listener);
+  bool add_log_listener(DistributionLogListener *listener);
+  bool remove_log_listener(DistributionLogListener *listener);
   void fire_event(string message);
-           
+  list<string> get_logs() const
+  {
+    return log_messages;
+  }
+  
 private:
   void sanitize_peer(string &peer);
   void parse_peers(string peers, bool connect = true);
@@ -89,7 +94,7 @@ private:
   //! Is distribution operation enabled?
   bool distribution_enabled;
 
-  //! Did we received all state after becoming active?
+  //! Did we received all state after becoming master?
   bool state_complete;
   
   //! The one and only instance

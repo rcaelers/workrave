@@ -24,6 +24,8 @@ static const char rcsid[] = "$Id$";
 #include "debug.hh"
 #include <assert.h>
 
+#include "nls.h"
+
 #define GNET_EXPERIMENTAL
 #include <gnet.h>
 
@@ -55,8 +57,8 @@ const string DistributionSocketLink::CFG_KEY_DISTRIBUTION_TCP_INTERVAL = "/recon
 DistributionSocketLink::DistributionSocketLink(Configurator *conf) :
   dist_manager(NULL),
   configurator(conf),
-  active_client(NULL),
-  active(false),
+  master_client(NULL),
+  i_am_master(false),
   myname(NULL),
   server_port(DEFAULT_PORT),
   server_socket(NULL),
@@ -105,8 +107,8 @@ DistributionSocketLink::init()
   // How am I?
   myname = socket_driver->get_my_canonical_name();
 
-  active_client = NULL;
-  active = true;
+  master_client = NULL;
+  i_am_master = true;
 
   // Read all tcp link configuration.
   read_configuration();
@@ -139,14 +141,14 @@ DistributionSocketLink::heartbeat()
           c->reconnect_count--;
           c->reconnect_time = 0;
           
-          TRACE_MSG("Reconnecting to " << c->hostname << " " <<  c->port);
+          dist_manager->log(_("Reconnecting to %s:%d."), c->hostname, c->port);
           socket_driver->connect(c->hostname, c->port, c);
         }
       i++;
     }
 
   // Periodically distribute state, in case the master crashes.
-  if (heartbeat_count % 60 == 0 && active)
+  if (heartbeat_count % 60 == 0 && i_am_master)
     { 
       send_state();
     }
@@ -197,7 +199,7 @@ DistributionSocketLink::disconnect_all()
   list<Client *>::iterator i = clients.begin();
   bool ret = false;
 
-  active_client = NULL;
+  master_client = NULL;
 
   while (i != clients.end())
     {
@@ -205,6 +207,7 @@ DistributionSocketLink::disconnect_all()
       
       if (c->socket != NULL)
         {
+          dist_manager->log(_("Disconnecting %s:%d."), c->hostname, c->port);
           delete c->socket;
           c->socket = NULL;
         }
@@ -216,7 +219,7 @@ DistributionSocketLink::disconnect_all()
       i++;
     }
 
-  set_me_active();
+  set_me_master();
   
   return ret;
 }
@@ -241,7 +244,7 @@ DistributionSocketLink::reconnect_all()
 }
 
 
-//! Attempt to become the active node.
+//! Attempt to become the master node.
 /*!
  *  \return true if the claim was successfull.
  */
@@ -251,27 +254,36 @@ DistributionSocketLink::claim()
   TRACE_ENTER("DistributionSocketLink::claim");
   bool ret = true;
 
-  if (active_client != NULL)
+  if (master_client != NULL)
     {
-      // Another client is active. Politely request to become
-      // active client.
-      send_claim(active_client);
+      // Another client is master. Politely request to become
+      // master client.
+      send_claim(master_client);
       ret = false;
     }
-  else if (!active && clients.size() > 0)
+  else if (!i_am_master && clients.size() > 0)
     {
-      // No one is active. Just force is to be active
+      // No one is master. Just force is to be master
       // potential problem when more client do this simultaneously...
       send_new_master();
-      active = true;
+      i_am_master = true;
     }
   else
     {
-      // No one active, no other clients. Be happy.
-      active = true;
+      // No one master, no other clients. Be happy.
+      i_am_master = true;
     }
   TRACE_EXIT();
   return ret;
+}
+
+
+bool
+DistributionSocketLink::set_lock_master(bool lock)
+{
+  master_locked = lock;
+
+  return true;
 }
 
 
@@ -316,11 +328,13 @@ DistributionSocketLink::set_enabled(bool enabled)
       // Switching from enabled to disabled.
       if (server_socket != NULL)
         {
+          dist_manager->log(_("Disabling network operation."));
+
           delete server_socket;
         }
       server_socket = NULL;
       disconnect_all();
-      set_me_active();
+      set_me_master();
     }
 
   server_enabled = enabled;
@@ -415,7 +429,7 @@ DistributionSocketLink::add_client(gchar *host, gint port)
       client->port = port;
       
       clients.push_back(client);
-      TRACE_MSG("Connecting to " << host << " " << port);
+      dist_manager->log(_("Connecting to %s:%d."), host, port);
       socket_driver->connect(host, port, client);
     }
 
@@ -501,10 +515,10 @@ DistributionSocketLink::remove_client(Client *client)
   list<Client *>::iterator i = clients.begin();
   bool ret = false;
   
-  if (client == active_client)
+  if (client == master_client)
     {
-      // Client to be removed is active. Unset active client. 
-      active_client = NULL;
+      // Client to be removed is master. Unset master client. 
+      master_client = NULL;
       ret = true;
     }
 
@@ -512,6 +526,7 @@ DistributionSocketLink::remove_client(Client *client)
     {
       if (client == NULL || *i == client)
         {
+          dist_manager->log(_("Removing client %s:%d."), (*i)->hostname, (*i)->port);
           delete *i;
           i = clients.erase(i);
           ret = true;
@@ -545,80 +560,82 @@ DistributionSocketLink::find_client_by_canonicalname(gchar *name, gint port)
 }
 
 
-//! Returns the active client.
+//! Returns the master client.
 bool
-DistributionSocketLink::get_active(gchar **name, gint *port) const
+DistributionSocketLink::get_master(gchar **name, gint *port) const
 {
   bool ret = false;
   
   *name = NULL;
   *port = 0;
   
-  if (active)
+  if (i_am_master)
     {
       *name = g_strdup(myname);
       *port = server_port;
       ret = true;
     }
-  else if (active_client != NULL)
+  else if (master_client != NULL)
     {
-      *name = g_strdup(active_client->hostname);
-      *port = active_client->port;
+      *name = g_strdup(master_client->hostname);
+      *port = master_client->port;
       ret = true;
     }
   return ret;
 }
 
 
-//! Sets the specified remote client as active.
+//! Sets the specified remote client as master.
 void
-DistributionSocketLink::set_active(Client *client)
+DistributionSocketLink::set_master(Client *client)
 {
-  TRACE_ENTER("DistributionSocketLink::set_active")
-  active_client = client;
-  active = false;
+  TRACE_ENTER("DistributionSocketLink::set_master")
+  master_client = client;
+  i_am_master = false;
 
   if (dist_manager != NULL)
     {
-      dist_manager->active_changed(false);
+      dist_manager->master_changed(false);
     }
   TRACE_EXIT();
 }
 
 
-//! Sets the local client as active.
+//! Sets the local client as master.
 void
-DistributionSocketLink::set_me_active()
+DistributionSocketLink::set_me_master()
 {
-  TRACE_ENTER("DistributionSocketLink::set_me_active");
-  active_client = NULL;
-  active = true;
+  TRACE_ENTER("DistributionSocketLink::set_me_master");
+  master_client = NULL;
+  i_am_master = true;
 
   if (dist_manager != NULL)
     {
-      dist_manager->active_changed(true);
+      dist_manager->master_changed(true);
     }
   TRACE_EXIT();
 }
 
 
-//! Sets the specified client active.
+//! Sets the specified client master.
 void
-DistributionSocketLink::set_active(gchar *hostname, gint port)
+DistributionSocketLink::set_master(gchar *hostname, gint port)
 {
-  TRACE_ENTER_MSG("DistributionSocketLink::set_active", hostname << " " << port);
+  TRACE_ENTER_MSG("DistributionSocketLink::set_master", hostname << " " << port);
 
   Client *c = find_client_by_canonicalname(hostname, port);
 
   if (c != NULL)
     {
-      // It's a remote client. mark it active.
-      set_active(c);
+      // It's a remote client. mark it master.
+      dist_manager->log(_("Client %s:%d is now master."), c->hostname, c->port);
+      set_master(c);
     }
   else if (port == server_port && strcmp(hostname, myname) == 0)
     {
       // Its ME!
-      set_me_active();
+      dist_manager->log(_("I'm now master."));
+      set_me_master();
     }
   else
     {
@@ -757,6 +774,10 @@ DistributionSocketLink::process_client_packet(Client *client)
         case PACKET_DUPLICATE:
           handle_duplicate(client);
           break;
+
+        case PACKET_CLAIM_REJECT:
+          handle_claim_reject(client);
+          break;
         }
     }
 
@@ -797,9 +818,9 @@ DistributionSocketLink::handle_hello(Client *client)
   gchar *pass = packet.unpack_string();
   gchar *name = packet.unpack_string();
   gint port = packet.unpack_ushort();
-    
-  TRACE_MSG("Hello from " << name << ":" << port << " " << user);
 
+  dist_manager->log(_("Client %s:%d saying hello."), name, port);
+  
   if ( (username == NULL || (user != NULL && strcmp(username, user) == 0)) &&
        (password == NULL || (pass != NULL && strcmp(password, pass) == 0)))
     {
@@ -809,14 +830,15 @@ DistributionSocketLink::handle_hello(Client *client)
         {
           // Welcome!
           send_welcome(client);
-
+          
           // And send the list of client we are connected to.
           send_client_list(client);
         }
       else
         {
           // Duplicate client. inform client that it's bogus and close.
-          TRACE_MSG("Removing duplicate");
+          dist_manager->log(_("Client %s:%d is duplicate."), name, port);
+
           send_duplicate(client);
           remove_client(client);
         }
@@ -824,7 +846,7 @@ DistributionSocketLink::handle_hello(Client *client)
   else
     {
       // Incorrect password.
-      TRACE_MSG("Client access denied");
+      dist_manager->log(_("Client %s:%d access denied."), name, port);
       remove_client(client);
     }
   
@@ -860,6 +882,7 @@ DistributionSocketLink::handle_duplicate(Client *client)
   TRACE_ENTER("DistributionSocketLink::handle_duplicate");
   PacketBuffer &packet = client->packet;
   
+  dist_manager->log(_("Removing duplicate client %s:%d."), client->hostname, client->port);
   remove_client(client);
 
   TRACE_EXIT();
@@ -896,20 +919,20 @@ DistributionSocketLink::handle_welcome(Client *client)
   gchar *name = packet.unpack_string();
   gint port = packet.unpack_ushort();
 
-  TRACE_MSG("Welcome from " << name << ":" << port);
-
+  dist_manager->log(_("Client %s:%d is welcoming us."), name, port);
+  
   // Change the canonical name in out client list.
   bool ok = set_canonical(client, name, port);
 
   if (ok)
     {
-      // The connected client offers the active client.
+      // The connected client offers the master client.
       // This info will be received in the client list.
-      // So, we no longer know who's active...
-      set_active(NULL);
+      // So, we no longer know who's master...
+      set_master(NULL);
       
       // All, ok. Send list of known client.
-      // WITHOUT info about who's active on out side.
+      // WITHOUT info about who's master on out side.
       send_client_list(client);
     }
   else
@@ -938,16 +961,16 @@ DistributionSocketLink::send_client_list(Client *client)
       // The receiver must forward this to clients it knows.
       int flags = CLIENTLIST_FORWARDABLE;
 
-      if (active)
+      if (i_am_master)
         {
-          TRACE_MSG("I'm active");
-          // The sender of the packet is active.
+          TRACE_MSG("I'm master");
+          // The sender of the packet is master.
           flags |= CLIENTLIST_IAM_ACTIVE;
         }
-      else if (active_client != NULL)
+      else if (master_client != NULL)
         {
-          TRACE_MSG("Someone else is active");
-          // Another client is active. The canonical name/port
+          TRACE_MSG("Someone else is master");
+          // Another client is master. The canonical name/port
           // of the client will be put in the client list.
           flags |= CLIENTLIST_HAS_ACTIVE_REF;
         }
@@ -960,9 +983,9 @@ DistributionSocketLink::send_client_list(Client *client)
 
       if (flags & CLIENTLIST_HAS_ACTIVE_REF)
         {
-          // Put active client in the packet.
-          packet.pack_string(active_client->hostname);
-          packet.pack_ushort(active_client->port);
+          // Put master client in the packet.
+          packet.pack_string(master_client->hostname);
+          packet.pack_ushort(master_client->port);
         }
 
       // Put known client in the list.
@@ -990,6 +1013,7 @@ DistributionSocketLink::send_client_list(Client *client)
         }
 
       // Put packet size in the packet and send.
+      dist_manager->log(_("Sending client-list to %s:%d."), client->hostname, client->port);
       packet.poke_ushort(clients_pos, count);
       send_packet(client, packet);
     }
@@ -1012,23 +1036,25 @@ DistributionSocketLink::handle_client_list(Client *client)
   gint flags = packet.unpack_ushort();
 
   bool forward = flags & CLIENTLIST_FORWARDABLE;
-  bool sender_active = flags & CLIENTLIST_IAM_ACTIVE;
-  bool has_active_ref = flags & CLIENTLIST_HAS_ACTIVE_REF;
-
-  if (sender_active)
+  bool sender_master = flags & CLIENTLIST_IAM_ACTIVE;
+  bool has_master_ref = flags & CLIENTLIST_HAS_ACTIVE_REF;
+  
+  dist_manager->log(_("Received client-list from %s:%d."), client->hostname, client->port);
+  
+  if (sender_master)
     {
-      // Mark the sender as active.
-      TRACE_MSG("Sender is active");
-      set_active(client);
+      // Mark the sender as master.
+      TRACE_MSG("Sender is master");
+      set_master(client);
     }
-  else if (has_active_ref)
+  else if (has_master_ref)
     {
-      // Find out how is active.
+      // Find out how is master.
       gchar *hostname = packet.unpack_string();
       gint port = packet.unpack_ushort();
 
-      set_active(hostname, port);
-      TRACE_MSG(hostname << ":" << port << " is active");
+      set_master(hostname, port);
+      TRACE_MSG(hostname << ":" << port << " is master");
 
       g_free(hostname);
     }
@@ -1070,25 +1096,33 @@ DistributionSocketLink::handle_client_list(Client *client)
 }
 
 
-//! Requests to become active.
+//! Requests to become master.
 void
 DistributionSocketLink::send_claim(Client *client)
 {
   TRACE_ENTER("DistributionSocketLink::send_claim");
-  
-  PacketBuffer packet;
 
-  packet.create();
-  init_packet(packet, PACKET_CLAIM);
+  if (client->next_claim_time == 0 || time(NULL) >= client->next_claim_time)
+    {
+      PacketBuffer packet;
 
-  packet.pack_ushort(0);
+      dist_manager->log(_("Requesting master status from %s:%d."), client->hostname, client->port);
+
+      packet.create();
+      init_packet(packet, PACKET_CLAIM);
+      
+      packet.pack_ushort(0);
+      
+      send_packet(client, packet);
+
+      client->next_claim_time = time(NULL) + 10;
+    }
   
-  send_packet(client, packet);
   TRACE_EXIT();
 }
 
 
-//! Handles a request from a remote client to become active.
+//! Handles a request from a remote client to become master.
 void
 DistributionSocketLink::handle_claim(Client *client)
 {
@@ -1096,26 +1130,80 @@ DistributionSocketLink::handle_claim(Client *client)
   PacketBuffer &packet = client->packet;
   
   gint count = packet.unpack_ushort();
-  bool was_active = active;
-
-  // Marks client as active
-  set_active(client);
-  assert(!active);
-
-  // If I was previously active, distribute state.
-  if (was_active)
-    {
-      send_state();
-    }
   
-  // And tell everyone we have a new master.
-  send_new_master();
+  if (i_am_master && master_locked)
+    {
+      dist_manager->log(_("Rejecting master request from client %s:%d."),
+                        client->hostname, client->port);
+      send_claim_reject(client);
+    }
+  else
+    {
+      dist_manager->log(_("Acknowledging master request from client %s:%d."),
+                        client->hostname, client->port);
+  
+      bool was_master = i_am_master;
+
+      // Marks client as master
+      set_master(client);
+      assert(!i_am_master);
+
+      // If I was previously master, distribute state.
+      if (was_master)
+        {
+          dist_manager->log(_("Transferring state to client %s:%d."),
+                            client->hostname, client->port);
+          send_state();
+        }
+  
+      // And tell everyone we have a new master.
+      send_new_master();
+    }
   
   TRACE_EXIT();
 }
 
 
-//! Informs the specified client (or all remote clients) that a new client is now active.
+
+//! Inform that the claim has been rejected.
+void
+DistributionSocketLink::send_claim_reject(Client *client)
+{
+  TRACE_ENTER("DistributionSocketLink::send_claim_reject");
+  
+  PacketBuffer packet;
+
+  packet.create();
+  init_packet(packet, PACKET_CLAIM_REJECT);
+
+  send_packet(client, packet);
+  TRACE_EXIT();
+}
+
+
+//! Handles a rejection of my claim.
+void
+DistributionSocketLink::handle_claim_reject(Client *client)
+{
+  TRACE_ENTER("DistributionSocketLink::handle_claim");
+  PacketBuffer &packet = client->packet;
+
+  if (client != master_client)
+    {
+      dist_manager->log(_("Non-master client %s:%d rejected master request."),
+                        client->hostname, client->port);
+    }
+  else
+    {
+      dist_manager->log(_("Client %s:%d rejected master request, delaying."),
+                        client->hostname, client->port);
+      client->next_claim_time = time(NULL) + 30;
+    }
+  
+  TRACE_EXIT();
+}
+
+//! Informs the specified client (or all remote clients) that a new client is now master.
 void
 DistributionSocketLink::send_new_master(Client *client)
 {
@@ -1129,17 +1217,17 @@ DistributionSocketLink::send_new_master(Client *client)
   gchar *name = NULL;
   gint port = 0;
   
-  if (active_client == NULL)
+  if (master_client == NULL)
     {
-      // I've become active
+      // I've become master
       name = myname;
       port = server_port;
     }
   else
     {
-      // Another remote client becomes active
-      name = active_client->hostname;
-      port = active_client->port;
+      // Another remote client becomes master
+      name = master_client->hostname;
+      port = master_client->port;
     }
 
   packet.pack_string(name);
@@ -1172,11 +1260,13 @@ DistributionSocketLink::handle_new_master(Client *client)
   gint port = packet.unpack_ushort();
   gint count = packet.unpack_ushort();
 
+  dist_manager->log(_("Client %s:%d is now the new master."), name, port);
+  
   TRACE_MSG("new master from "
             << client->hostname << ":" << client->port << " -> "
             << name << ":" << port);
 
-  set_active(name, port);
+  set_master(name, port);
   
   g_free(name);
   
@@ -1197,7 +1287,7 @@ DistributionSocketLink::send_state()
   gchar *name = NULL;
   gint port = 0;
   
-  bool have_active = get_active(&name, &port);
+  bool have_master = get_master(&name, &port);
   packet.pack_string(name);
   packet.pack_ushort(port);
   g_free(name);
@@ -1239,14 +1329,16 @@ DistributionSocketLink::handle_state(Client *client)
   TRACE_ENTER("DistributionSocketLink:handle_state");
   PacketBuffer &packet = client->packet;
 
-  bool will_i_become_active = false;
+  bool will_i_become_master = false;
+
+  dist_manager->log(_("Reveived state from client %s:%d."), client->hostname, client->port);
   
   gchar *name = packet.unpack_string();
   gint port = packet.unpack_ushort();
 
   if (name != NULL)
     {
-      will_i_become_active = client_is_me(name, port);
+      will_i_become_master = client_is_me(name, port);
       g_free(name);
     }
   
@@ -1262,7 +1354,7 @@ DistributionSocketLink::handle_state(Client *client)
           guint8 *data = NULL;
           if (packet.unpack_raw(&data, datalen) != 0)
             {
-              state_map[id]->set_state(id, will_i_become_active, data, datalen);
+              state_map[id]->set_state(id, will_i_become_master, data, datalen);
             }
           else
             {
@@ -1293,6 +1385,7 @@ DistributionSocketLink::start_async_server()
   server_socket = socket_driver->listen(server_port, NULL);
   if (server_socket != NULL)
     {
+      dist_manager->log(_("Network operation started."));
       ret = true;
     }
 
@@ -1309,7 +1402,7 @@ DistributionSocketLink::socket_accepted(SocketConnection *scon, SocketConnection
   TRACE_ENTER("DistributionSocketLink::socket_accepted");
   if (ccon != NULL)
     {
-      TRACE_MSG("Accepted connection");
+      dist_manager->log(_("Accepted new client."));
 
       Client *client =  new Client;
       client->packet.create();
@@ -1349,12 +1442,12 @@ DistributionSocketLink::socket_io(SocketConnection *con, void *data)
       
   if (!ok)
     {
-      TRACE_MSG("Client read error " << client->hostname << ":" << client->port);
+      dist_manager->log(_("Client %s:%d read error, closing."), client->hostname, client->port);
       ret = false;
     }
   else if (bytes_read == 0)
     {
-      TRACE_MSG("Connection closed from " << client->hostname << ":" << client->port);
+      dist_manager->log(_("Client %s:%d closed connection."), client->hostname, client->port);
       ret = false;
     }
   else
@@ -1383,9 +1476,9 @@ DistributionSocketLink::socket_io(SocketConnection *con, void *data)
       client->reconnect_count = reconnect_attempts;
       client->reconnect_time = time(NULL) + reconnect_interval;
 
-      if (active_client == client)
+      if (master_client == client)
         {
-          set_active(NULL);
+          set_master(NULL);
         }
     }
   
@@ -1403,7 +1496,9 @@ DistributionSocketLink::socket_connected(SocketConnection *con, void *data)
   
   g_assert(client != NULL);
   g_assert(con != NULL);
-      
+
+  dist_manager->log(_("Client %s:%d connected."), client->hostname, client->port);
+  
   client->reconnect_count = 0;
   client->reconnect_time = 0;
   client->socket = con;
@@ -1425,16 +1520,21 @@ DistributionSocketLink::socket_closed(SocketConnection *con, void *data)
   // Socket error. Disable client.
   if (client->socket != NULL)
     {
+      dist_manager->log(_("Client %s:%d closed connection."), client->hostname, client->port);
       delete client->socket;
       client->socket = NULL;
     }
-
+  else
+    {
+      dist_manager->log(_("Could not connect to client %s:%d."), client->hostname, client->port);
+    }
+  
   client->reconnect_count = reconnect_attempts;
   client->reconnect_time = time(NULL) + reconnect_interval;
   
-  if (active_client == client)
+  if (master_client == client)
     {
-      set_active(NULL);
+      set_master(NULL);
     }
   TRACE_EXIT();
 }
@@ -1517,7 +1617,8 @@ void
 DistributionSocketLink::config_changed_notify(string key)
 {
   TRACE_ENTER_MSG("DistributionSocketLink:config_changed_notify", key);
-
+ 
+  dist_manager->log(_("Configuration modified. Reloading."));
   read_configuration();
   
   TRACE_EXIT();

@@ -124,7 +124,7 @@ private:
 #ifdef HAVE_DISTRIBUTION
   bool create_distribution_manager();
   bool get_state(DistributedStateID id, unsigned char **buffer, int *size);
-  bool set_state(DistributedStateID id, bool active, unsigned char *buffer, int size);
+  bool set_state(DistributedStateID id, bool master, unsigned char *buffer, int size);
 #endif
   
 private:
@@ -145,8 +145,8 @@ private:
   DistributionManager *dist_manager;
 #endif
 
-  //! Are we the active node??
-  bool active_node;
+  //! Are we the master node??
+  bool master_node;
   
 #ifndef NDEBUG
   FakeActivityMonitor *fake_monitor;

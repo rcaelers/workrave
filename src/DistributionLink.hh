@@ -40,6 +40,7 @@ public:
   virtual void set_user(string username, string password) = 0;
   virtual void join(string url) = 0;
   virtual bool claim() = 0;
+  virtual bool set_lock_master(bool lock) = 0;
   virtual bool register_state(DistributedStateID id, DistributedStateInterface *dist_state) = 0;
   virtual bool unregister_state(DistributedStateID id) = 0;
   virtual bool disconnect_all() = 0;
