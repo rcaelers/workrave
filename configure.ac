@@ -410,7 +410,7 @@ then
     	fi
     ], `$GDOME_CONFIG --libs`)
 else
-    GDOME_LIB="";
+    GDOME_LIB=""
     GDOME_CFLAGS=""
 fi
 AC_SUBST(GDOME_CFLAGS)
