@@ -144,10 +144,10 @@ WindowHints::set_skip_winlist(GtkWidget *window, bool skip)
 static void
 win32_block_input(BOOL block, HWND *unblocked_windows)
 {
-//   if (block)
-//     harpoon_block_input_except_for(unblocked_windows);
-//   else
-//     harpoon_unblock_input();
+  if (block)
+    harpoon_block_input_except_for(unblocked_windows);
+  else
+    harpoon_unblock_input();
   UINT uPreviousState;
   SystemParametersInfo(SPI_SETSCREENSAVERRUNNING, block, &uPreviousState, 0);
 }
