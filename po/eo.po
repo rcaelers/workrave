@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-03-25 20:12+0100\n"
+"POT-Creation-Date: 2003-03-25 20:23+0100\n"
 "PO-Revision-Date: 2002-11-05 17:58-0800\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -191,7 +191,7 @@ msgstr "S_ilenta"
 msgid "_Network"
 msgstr "_Reto"
 
-#: gui/gtkmm/Menus.cc:179 gui/gtkmm/NetworkJoinDialog.cc:57
+#: gui/gtkmm/Menus.cc:179
 msgid "_Connect"
 msgstr "_Konektu"
 
@@ -242,7 +242,7 @@ msgstr "Ripozo por %s"
 msgid "Please relax for a few seconds"
 msgstr "Bonvolu trankviliĝi por kelkaj sekundoj"
 
-#: gui/gtkmm/NetworkJoinDialog.cc:42
+#: gui/gtkmm/NetworkJoinDialog.cc:42 gui/gtkmm/NetworkJoinDialog.cc:57
 msgid "Network connect"
 msgstr "Rete konekti"
 
