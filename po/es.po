@@ -6,7 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.2.2\n"
-"POT-Creation-Date: 2003-08-04 22:28+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-08-05 16:53+0200\n"
 "PO-Revision-Date: 2003-08-02 18:54+0100\n"
 "Last-Translator:  <>\n"
 "Language-Team:  <>\n"
@@ -93,8 +94,8 @@ msgstr "Pausa"
 msgid "I could not initialize Bonobo"
 msgstr "No se puede inicializar Bonobo"
 
-#: src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/MicroPauseWindow.cc:168
-#: src/app/gtkmm/MicroPauseWindow.cc:204
+#: src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/MicroPauseWindow.cc:170
+#: src/app/gtkmm/MicroPauseWindow.cc:206
 msgid "Micro-pause"
 msgstr "Micropausa"
 
@@ -166,17 +167,17 @@ msgstr ""
 "Este programa le ayuda en la prevención y cura de lesiones por esfuerzo "
 "repetitivo (LER)."
 
-#: src/app/gtkmm/MicroPauseWindow.cc:190
+#: src/app/gtkmm/MicroPauseWindow.cc:192
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Próximo descanso en %s"
 
-#: src/app/gtkmm/MicroPauseWindow.cc:196
+#: src/app/gtkmm/MicroPauseWindow.cc:198
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Descanso retrasado %s minutos"
 
-#: src/app/gtkmm/MicroPauseWindow.cc:200
+#: src/app/gtkmm/MicroPauseWindow.cc:202
 msgid "Please relax for a few seconds"
 msgstr "Por favor, relájese unos segundos"
 

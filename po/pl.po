@@ -6,14 +6,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
-"POT-Creation-Date: 2003-08-04 22:28+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-08-05 16:53+0200\n"
 "PO-Revision-Date: 2003-07-07 18:50+0100\n"
 "Last-Translator: Mikołaj Machowski <mikmach@wp.pl>\n"
 "Language-Team: Mikołaj Machowski <mikmach@wp.pl>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
 
 #: src/app/gtkmm/eggtrayicon.c:118
 #, fuzzy
@@ -95,8 +95,8 @@ msgstr "Pauza"
 msgid "I could not initialize Bonobo"
 msgstr "Nie mogę zainicjalizować Bonobo"
 
-#: src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/MicroPauseWindow.cc:168
-#: src/app/gtkmm/MicroPauseWindow.cc:204
+#: src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/MicroPauseWindow.cc:170
+#: src/app/gtkmm/MicroPauseWindow.cc:206
 msgid "Micro-pause"
 msgstr "Mikropauza"
 
@@ -168,17 +168,17 @@ msgstr ""
 "Program ten zapobiegać RSI (Repetitive Strain Injury)\n"
 "oraz wspomaga rekonwalescencję."
 
-#: src/app/gtkmm/MicroPauseWindow.cc:190
+#: src/app/gtkmm/MicroPauseWindow.cc:192
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Następny odpoczynek za %s"
 
-#: src/app/gtkmm/MicroPauseWindow.cc:196
+#: src/app/gtkmm/MicroPauseWindow.cc:198
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Zalegasz z odpoczynkiem %s"
 
-#: src/app/gtkmm/MicroPauseWindow.cc:200
+#: src/app/gtkmm/MicroPauseWindow.cc:202
 msgid "Please relax for a few seconds"
 msgstr "Zrelaksuj się parę sekund"
 

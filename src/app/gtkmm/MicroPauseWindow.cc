@@ -91,7 +91,9 @@ MicroPauseWindow::MicroPauseWindow(HeadInfo &head, TimerInterface *timer, bool i
   // Set some window hints.
   WindowHints::set_skip_winlist(Gtk::Widget::gobj(), true);
   WindowHints::set_always_on_top(Gtk::Widget::gobj(), true);
-  GTK_WIDGET_UNSET_FLAGS(Gtk::Widget::gobj(), GTK_CAN_FOCUS);
+
+  //GTK_WIDGET_UNSET_FLAGS(Gtk::Widget::gobj(), GTK_CAN_FOCUS);
+  unset_flags(Gtk::CAN_FOCUS);
 
   set_screen(head);
 }
