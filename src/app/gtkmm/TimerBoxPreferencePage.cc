@@ -350,7 +350,10 @@ TimerBoxPreferencePage::enable_buttons(void)
         }
       if (count == 3)
         {
-          TimerBox::set_enabled(name, false);
+          if (TimerBox::is_enabled(name))
+            {
+              TimerBox::set_enabled(name, false);
+            }
           enabled_cb->set_active(false);
         }
       enabled_cb->set_sensitive(count != 3);
