@@ -1,6 +1,6 @@
-// TimerPreferencesPanel.hh --- Preferences widgets for a timer
+// NetworkPreferencesPage.hh --- Preferences for network
 //
-// Copyright (C) 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -29,7 +29,7 @@ class Configurator;
 #include <gtkmm.h>
 
 class NetworkPreferencePage
-  : public Gtk::HBox
+  : public Gtk::VBox
 {
 public:  
   NetworkPreferencePage();

@@ -50,9 +50,9 @@ private:
   void on_preludes_maximum_toggled();
   void on_preludes_maximum_changed();
   void on_preludes_force_toggled();
-  Gtk::Frame *create_prelude_frame();
-  Gtk::Frame *create_options_frame();
-  Gtk::Frame *create_timers_frame();
+  Gtk::Widget *create_prelude_panel();
+  Gtk::Widget *create_options_panel();
+  Gtk::Widget *create_timers_panel();
   void set_prelude_sensitivity();
   
   GUIControl::BreakId break_id;

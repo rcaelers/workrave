@@ -32,14 +32,19 @@
 #include "Configurator.hh"
 #include "DistributionManager.hh"
 #include "DistributionSocketLink.hh"
+#include "Hig.hh"
 
 NetworkPreferencePage::NetworkPreferencePage()
-  : Gtk::HBox(false, 6)
+  : Gtk::VBox(false, 6)
 {
   TRACE_ENTER("NetworkPreferencePage::NetworkPreferencePage");
 
+  // Main switch
+  enabled_cb = manage(new Gtk::CheckButton(_("Enable networking")));
+
   Gtk::Notebook *tnotebook = manage(new Gtk::Notebook());
   tnotebook->set_tab_pos(Gtk::POS_TOP);  
+
 
   create_general_page(tnotebook);
   create_peers_page(tnotebook);
@@ -47,6 +52,7 @@ NetworkPreferencePage::NetworkPreferencePage()
 
   init_page_values();
 
+  pack_start(*enabled_cb, false, false, 0);
   pack_start(*tnotebook, true, true, 0);
 
   tnotebook->show_all();
@@ -66,49 +72,20 @@ NetworkPreferencePage::~NetworkPreferencePage()
 void
 NetworkPreferencePage::create_general_page(Gtk::Notebook *tnotebook)
 {
-  Gtk::HBox *box = manage(new Gtk::HBox(false, 3));
   Gtk::Label *lab = manage(new Gtk::Label(_("General")));
-  // Gtk::Image *img = manage(new Gtk::Image();
-  // box->pack_start(*img, false, false, 0);
-  box->pack_start(*lab, false, false, 0);
-
-  Gtk::VBox *gp = manage(new Gtk::VBox(false, 6));
-  gp->set_border_width(6);
-
-  // Main switch
-  enabled_cb = manage(new Gtk::CheckButton(_("Enable networking")));
 
   // Identity
-  Gtk::Frame *id_frame = manage(new Gtk::Frame(_("Identity")));
-
+  HigCategoryPanel *id_frame = manage(new HigCategoryPanel(_("Identity")));
+  id_frame->set_border_width(12);
   username_entry = manage(new Gtk::Entry());
   password_entry = manage(new Gtk::Entry());
-  
-  Gtk::Label *username_label = manage(new Gtk::Label(_("Username:")));
-  Gtk::Label *password_label = manage(new Gtk::Label(_("Password:")));
-
+  id_frame->add(_("Username:"), *username_entry);
+  id_frame->add(_("Password:"), *password_entry);
   password_entry->set_visibility(false);
   password_entry->set_invisible_char('*');
   
-  Gtk::Table *id_table = manage(new Gtk::Table(3, 2, false));
-  id_table->set_row_spacings(2);
-  id_table->set_col_spacings(6);
-  id_table->set_border_width(6);
-  int y = 0;
-  id_table->attach(*username_label, 0, 1, y, y+1, Gtk::FILL, Gtk::SHRINK);
-  id_table->attach(*username_entry, 1, 2, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
-  y++;
-  id_table->attach(*password_label, 0, 1, y, y+1, Gtk::FILL, Gtk::SHRINK);
-  id_table->attach(*password_entry, 1, 2, y, y+1, Gtk::SHRINK | Gtk::FILL, Gtk::SHRINK);
-  y++;
-
-  id_frame->add(*id_table);
-  
-  gp->pack_start(*enabled_cb, false, false, 0);
-  gp->pack_start(*id_frame, false, false, 0);
-
-  box->show_all();
-  tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*gp, *box));
+  tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem
+                               (*id_frame, *lab));
 
   enabled_cb->signal_toggled().connect(SigC::slot(*this, &NetworkPreferencePage::on_enabled_toggled));
   username_entry->signal_changed().connect(SigC::slot(*this, &NetworkPreferencePage::on_username_changed));
@@ -119,16 +96,11 @@ NetworkPreferencePage::create_general_page(Gtk::Notebook *tnotebook)
 void
 NetworkPreferencePage::create_advanced_page(Gtk::Notebook *tnotebook)
 {
-  Gtk::HBox *box = manage(new Gtk::HBox(false, 3));
   Gtk::Label *lab = manage(new Gtk::Label(_("Advanced")));
-  // Gtk::Image *img = manage(new Gtk::Image();
-  // box->pack_start(*img, false, false, 0);
-  box->pack_start(*lab, false, false, 0);
 
-  Gtk::VBox *gp = manage(new Gtk::VBox(false, 6));
-  gp->set_border_width(6);
-
-  Gtk::Frame *advanced_frame = manage(new Gtk::Frame(_("Server settings")));
+  HigCategoryPanel *advanced_frame
+    = manage(new HigCategoryPanel(_("Server settings")));
+  advanced_frame->set_border_width(12);
 
   port_entry = manage(new Gtk::SpinButton());
   attempts_entry = manage(new Gtk::SpinButton());
@@ -149,34 +121,12 @@ NetworkPreferencePage::create_advanced_page(Gtk::Notebook *tnotebook)
   interval_entry->set_numeric(true);
   interval_entry->set_width_chars(10);
 
-  Gtk::Label *port_label = manage(new Gtk::Label(_("Server port:")));
-  port_label->set_alignment(0.0);
-  Gtk::Label *attempts_label = manage(new Gtk::Label(_("Reconnect atttempts:")));
-  attempts_label->set_alignment(0.0);
-  Gtk::Label *interval_label = manage(new Gtk::Label(_("Reconnect interval:")));
-  interval_label->set_alignment(0.0);
+  advanced_frame->add(_("Server port:"), *port_entry);
+  advanced_frame->add(_("Reconnect attempts:"), *attempts_entry);
+  advanced_frame->add(_("Reconnect interval:"), *interval_entry);
 
-  
-  Gtk::Table *advanced_table = manage(new Gtk::Table(3, 2, false));
-  advanced_table->set_row_spacings(2);
-  advanced_table->set_col_spacings(6);
-  advanced_table->set_border_width(6);
-  int y = 0;
-  advanced_table->attach(*port_label, 0, 1, y, y+1, Gtk::FILL, Gtk::SHRINK);
-  advanced_table->attach(*port_entry, 1, 2, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
-  y++;
-  advanced_table->attach(*attempts_label, 0, 1, y, y+1, Gtk::FILL, Gtk::SHRINK);
-  advanced_table->attach(*attempts_entry, 1, 2, y, y+1, Gtk::SHRINK | Gtk::FILL, Gtk::SHRINK);
-  y++;
-  advanced_table->attach(*interval_label, 0, 1, y, y+1, Gtk::FILL, Gtk::SHRINK);
-  advanced_table->attach(*interval_entry, 1, 2, y, y+1, Gtk::SHRINK | Gtk::FILL, Gtk::SHRINK);
-
-  advanced_frame->add(*advanced_table);
-  
-  gp->pack_start(*advanced_frame, false, false, 0);
-
-  box->show_all();
-  tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*gp, *box));
+  tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem
+                               (*advanced_frame, *lab));
 
   port_entry->signal_changed().connect(SigC::slot(*this, &NetworkPreferencePage::on_port_changed));
   interval_entry->signal_changed().connect(SigC::slot(*this, &NetworkPreferencePage::on_interval_changed));

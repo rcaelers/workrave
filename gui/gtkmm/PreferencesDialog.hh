@@ -23,12 +23,13 @@
 
 #include "preinclude.h"
 #include "GUIControl.hh"
+#include "Hig.hh"
 
 class TimeEntry;
 
 #include <gtkmm.h>
 
-class PreferencesDialog : public Gtk::Dialog
+class PreferencesDialog : public HigDialog
 {
 public:  
   PreferencesDialog();

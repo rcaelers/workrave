@@ -63,6 +63,7 @@ libgtkmmgui_a_SOURCES = \
 	GUI.cc \
 	GtkmmGUI.cc \
 	GtkUtil.cc \
+	Hig.cc \
 	MainWindow.cc \
 	MicroPauseWindow.cc \
 	PreferencesDialog.cc \

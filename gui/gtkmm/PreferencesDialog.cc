@@ -38,6 +38,7 @@
 #include "Util.hh"
 #include "MainWindow.hh"
 #include "GtkUtil.hh"
+#include "Hig.hh"
 
 #ifdef HAVE_DISTRIBUTION
 #include "NetworkPreferencePage.hh"
@@ -49,7 +50,7 @@
 
 
 PreferencesDialog::PreferencesDialog()
-  : Gtk::Dialog("Preferences", false, false)
+  : HigDialog(_("Preferences"), false, false)
 {
   TRACE_ENTER("PreferencesDialog::PreferencesDialog");
 
@@ -141,20 +142,17 @@ PreferencesDialog::create_gui_page()
   start_in_tray_cb->set_active(MainWindow::get_start_in_tray());
 
   // Options
-  Gtk::VBox *opts_box = manage(new Gtk::VBox(false, 0));
-  opts_box->pack_start(*ontop_cb, false, false, 0);
-  opts_box->pack_start(*start_in_tray_cb, false, false, 0);
-  opts_box->pack_start(*sound_button, false, false, 0);
-  opts_box->set_border_width(6);
+  HigCategoryPanel *panel = manage(new HigCategoryPanel(_("Options")));
+  panel->add(*ontop_cb);
+  panel->add(*start_in_tray_cb);
+  panel->add(_("Sound:"), *sound_button);
 
   // Page
   Gtk::VBox *gui_page
     = create_page
     (_("You can configure the user interface related settings from here."),
      "display.png");
-  Gtk::Frame *gui_frame = manage(new Gtk::Frame("Options"));
-  gui_frame->add(*opts_box);
-  gui_page->pack_start(*gui_frame, false, false, 0);
+  gui_page->pack_start(*panel, false, false, 0);
 
   return gui_page;
 }

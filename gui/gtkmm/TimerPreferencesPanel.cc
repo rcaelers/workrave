@@ -34,6 +34,9 @@
 #include "TimerPreferencesPanel.hh"
 #include "ControlInterface.hh"
 #include "Configurator.hh"
+#include "GtkUtil.hh"
+#include "Hig.hh"
+
 
 TimerPreferencesPanel::TimerPreferencesPanel(GUIControl::BreakId t)
   : Gtk::HBox(false, 6),
@@ -43,19 +46,17 @@ TimerPreferencesPanel::TimerPreferencesPanel(GUIControl::BreakId t)
   break_id = t;
   timer = &GUIControl::get_instance()->timers[t];
 
-  // Frames
-  Gtk::Frame *prelude_frame = manage(create_prelude_frame());
-  Gtk::Frame *timers_frame = manage(create_timers_frame());
-  Gtk::Frame *opts_frame = manage(create_options_frame());
-
-  // VBox
-  Gtk::VBox *vbox = manage(new Gtk::VBox(false, 6));
-  vbox->pack_start(*timers_frame, false, false, 0);
-  vbox->pack_start(*opts_frame, false, false, 0);
+  HigCategoriesPanel *categories = manage(new HigCategoriesPanel());;
   
+  Gtk::Widget *prelude_frame = manage(create_prelude_panel());
+  Gtk::Widget *timers_frame = manage(create_timers_panel());
+  Gtk::Widget *opts_frame = manage(create_options_panel());
 
+  categories->add(*timers_frame);
+  categories->add(*opts_frame);
+  
   // Overall box
-  pack_start(*vbox, false, false, 0);
+  pack_start(*categories, false, false, 0);
   pack_start(*prelude_frame, false, false, 0);
 
   set_border_width(6);
@@ -72,11 +73,13 @@ TimerPreferencesPanel::~TimerPreferencesPanel()
 }
 
 
-Gtk::Frame *
-TimerPreferencesPanel::create_prelude_frame()
+
+Gtk::Widget *
+TimerPreferencesPanel::create_prelude_panel()
 {
   // Prelude frame
-  Gtk::Frame *prelude_frame = manage(new Gtk::Frame(_("Break prompting")));
+  HigCategoryPanel *hig = manage(new HigCategoryPanel(_("Break prompting")));
+  
   prelude_cb = manage(new Gtk::CheckButton(_("Prompt before breaking")));
   int max_preludes = timer->get_break_max_preludes();
   prelude_cb->set_active(max_preludes != 0);
@@ -107,21 +110,22 @@ TimerPreferencesPanel::create_prelude_frame()
     .connect(SigC::slot(*this,
                         &TimerPreferencesPanel::on_preludes_maximum_changed));
 
-  Gtk::VBox *prelude_vbox = manage(new Gtk::VBox(false, 0));
-  prelude_vbox->set_border_width(6);
-  prelude_vbox->pack_start(*prelude_cb, false, false, 0);
-  prelude_vbox->pack_start(*has_max_prelude_cb, false, false, 0);
-  prelude_vbox->pack_start(*max_prelude_spin, false, false, 0);
-  prelude_vbox->pack_start(*force_after_prelude_cb, false, false, 0);
-  prelude_frame->add(*prelude_vbox);
+  hig->add(*prelude_cb);
+  Gtk::HBox *max_box = manage(new Gtk::HBox());
+  max_box->pack_start(*has_max_prelude_cb, false, false, 0);
+  max_box->pack_start(*max_prelude_spin, false, false, 0);
+  hig->add(*max_box);
+  hig->add(*force_after_prelude_cb);
 
-  return prelude_frame;
+  return hig;
 }
 
-Gtk::Frame *
-TimerPreferencesPanel::create_options_frame()
+Gtk::Widget *
+TimerPreferencesPanel::create_options_panel()
 {
   TimerInterface *itimer = timer->timer;
+
+  HigCategoryPanel *hig = manage(new HigCategoryPanel(_("Options")));
   
   // Insists option
   bool insists = timer->get_break_insisting();
@@ -129,7 +133,8 @@ TimerPreferencesPanel::create_options_frame()
   insists_cb->set_active(insists);
   insists_cb->signal_toggled()
     .connect(SigC::slot(*this, &TimerPreferencesPanel::on_insists_toggled));
-
+  hig->add(*insists_cb);
+  
   // Monitor
   Configurator *cfg = GUIControl::get_instance()->get_configurator();
   string tpfx = ControlInterface::CFG_KEY_TIMER + itimer->get_id();
@@ -143,9 +148,12 @@ TimerPreferencesPanel::create_options_frame()
       monitor_cb->set_active(b && monitor_name != "");
       monitor_cb->signal_toggled()
         .connect(SigC::slot(*this, &TimerPreferencesPanel::on_monitor_toggled));
+      hig->add(*monitor_cb);
     }
   else
-    monitor_cb = NULL;
+    {
+      monitor_cb = NULL;
+    }
 
   // Ignorable
   bool ignorable = timer->get_break_ignorable();
@@ -154,44 +162,24 @@ TimerPreferencesPanel::create_options_frame()
   ignorable_cb->set_active(ignorable);
   ignorable_cb->signal_toggled()
     .connect(SigC::slot(*this, &TimerPreferencesPanel::on_ignorable_toggled));
+  hig->add(*ignorable_cb);
   
-  // Options table
-  Gtk::Table *opts_table = manage(new Gtk::Table(2,2, false));
-  int y = 0;
-  opts_table->attach(*insists_cb, 1, 2, y, y+1,
-                     Gtk::FILL, Gtk::SHRINK);
-  y++;
-  opts_table->attach(*ignorable_cb, 1, 2, y, y+1,
-                     Gtk::FILL, Gtk::SHRINK);
-  y++;
-  if (monitor_cb)
-    {
-      opts_table->attach(*monitor_cb, 1, 2, y, y+1,
-                         Gtk::FILL, Gtk::SHRINK);
-      y++;
-    }
-
-  // Options frame
-  Gtk::Frame *opts_frame = manage(new Gtk::Frame(_("Options")));
-  opts_table->set_border_width(6);
-  opts_frame->add(*opts_table);
-
-
-  return opts_frame;
+  return hig;
 }
 
-Gtk::Frame *
-TimerPreferencesPanel::create_timers_frame()
+Gtk::Widget *
+TimerPreferencesPanel::create_timers_panel()
 {
+  HigCategoryPanel *hig = manage(new HigCategoryPanel(_("Timers")));
+
   // Snooze time
   TimerInterface *itimer = timer->timer;
-  Gtk::Label *snooze_lab = manage(new Gtk::Label(_("Post-pone time:")));
-  snooze_lab->set_alignment(0.0,0.0);
   snooze_tim = manage(new TimeEntry());
   snooze_tim->set_value (itimer->get_snooze());
   snooze_tim->signal_value_changed()
     .connect(SigC::slot(*this, &TimerPreferencesPanel::on_snooze_changed));
-
+  hig->add(_("Post-pone time:"), *snooze_tim);
+  
   // Auto-reset time
   const char *auto_reset_txt;
   time_t auto_reset_value;
@@ -208,40 +196,20 @@ TimerPreferencesPanel::create_timers_frame()
       auto_reset_value = itimer->get_auto_reset();
     }
   
-  Gtk::Label *auto_reset_lab = manage(new Gtk::Label(auto_reset_txt));
-  auto_reset_lab->set_alignment(0.0,0.0);
   auto_reset_tim = manage(new TimeEntry());
   auto_reset_tim->set_value (auto_reset_value);
   auto_reset_tim->signal_value_changed()
     .connect(SigC::slot(*this, &TimerPreferencesPanel::on_auto_reset_changed));
+  hig->add(auto_reset_txt, *auto_reset_tim);
 
   // Limit time
-  Gtk::Label *limit_lab = manage(new Gtk::Label(_("Time before break:")));
-  limit_lab->set_alignment(0.0,0.0);
   limit_tim = manage(new TimeEntry());
   limit_tim->set_value (itimer->get_limit());
   limit_tim->signal_value_changed()
     .connect(SigC::slot(*this, &TimerPreferencesPanel::on_limit_changed));
+  hig->add(_("Time before break:"), *limit_tim);
 
-  // Timers table
-  Gtk::Table *timers_table = manage(new Gtk::Table(3, 2, false));
-  timers_table->set_row_spacings(2);
-  timers_table->set_col_spacings(6);
-  int y = 0;
-  timers_table->attach(*limit_lab, 0, 1, y, y+1, Gtk::FILL, Gtk::SHRINK);
-  timers_table->attach(*limit_tim, 1, 2, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
-  y++;
-  timers_table->attach(*auto_reset_lab, 0, 1, y, y+1, Gtk::FILL, Gtk::SHRINK);
-  timers_table->attach(*auto_reset_tim, 1, 2, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
-  y++;
-  timers_table->attach(*snooze_lab, 0, 1, y, y+1, Gtk::FILL, Gtk::SHRINK);
-  timers_table->attach(*snooze_tim, 1, 2, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
-
-  // Timers frame
-  Gtk::Frame *timers_frame = manage(new Gtk::Frame(_("Timers")));
-  timers_table->set_border_width(6);
-  timers_frame->add(*timers_table);
-  return timers_frame;
+  return hig;
 }
 
 

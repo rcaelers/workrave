@@ -20,6 +20,7 @@
 #define GTKUTIL_HH
 
 #include <gtkmm.h>
+#include <string>
 #include "GUIControl.hh"
 
 class GtkUtil
@@ -29,10 +30,14 @@ public:
   create_stock_button_without_text(const Gtk::StockID& stock_id);
 
   static Gtk::Widget *
-  create_label_with_icon(const char *text, const char *icon);
+  create_label_with_icon(string text, const char *icon);
+
+  static Gtk::Label *
+  create_label(string text, bool bold);
 
   static Gtk::Widget *
-  GtkUtil::create_label_with_tooltip(const char *text, const char *tooltip);
+  GtkUtil::create_label_with_tooltip(string text,
+                                     string tooltip);
 
   static Gtk::Widget *
   create_label_for_break(GUIControl::BreakId id);

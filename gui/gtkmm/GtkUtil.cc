@@ -32,7 +32,7 @@ GtkUtil::create_stock_button_without_text(const Gtk::StockID& stock_id)
 }
 
 Gtk::Widget *
-GtkUtil::create_label_with_icon(const char *text, const char *icon)
+GtkUtil::create_label_with_icon(string text, const char *icon)
 {
   Gtk::HBox *box = new Gtk::HBox(false, 3);
   Gtk::Label *lab = Gtk::manage(new Gtk::Label(text));
@@ -87,7 +87,7 @@ GtkUtil::table_attach_right_aligned(Gtk::Table &table, Gtk::Widget &child,
 
 
 Gtk::Widget *
-GtkUtil::create_label_with_tooltip(const char *text, const char *tooltip)
+GtkUtil::create_label_with_tooltip(string text, string tooltip)
 {
   Gtk::Label *label = Gtk::manage(new Gtk::Label(text));
   Gtk::EventBox *eventbox = Gtk::manage(new Gtk::EventBox());
@@ -96,4 +96,20 @@ GtkUtil::create_label_with_tooltip(const char *text, const char *tooltip)
 
   GUI::get_instance()->get_tooltips()->set_tip(*eventbox, tooltip);
   return eventbox;
+}
+
+Gtk::Label *
+GtkUtil::create_label(string text, bool bold)
+{
+  Gtk::Label *label
+    = new Gtk::Label();
+  if (bold)
+    {
+      label->set_markup(string("<span weight=\"bold\">") + text + "</span>");
+    }
+  else
+    {
+      label->set_text(text);
+    }
+  return label;
 }
