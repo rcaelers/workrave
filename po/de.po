@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-27 16:16+0200\n"
+"POT-Creation-Date: 2003-07-29 20:49+0200\n"
 "PO-Revision-Date: 2003-03-04 18:50+0100\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Johannes Rohr <j.rohr@comlink.apc.org>\n"
@@ -59,6 +59,7 @@ msgid "Postpone"
 msgstr "Aufschieben"
 
 #: src/app/gtkmm/DailyLimitWindow.cc:47 src/app/gtkmm/GtkUtil.cc:88
+#: src/app/shared/sounds/workrave.soundlist.in.h:3
 msgid "Daily limit"
 msgstr "Tägliches Limit"
 
@@ -154,7 +155,7 @@ msgstr "Statistik"
 msgid "About..."
 msgstr "Über..."
 
-#: src/app/gtkmm/Menus.cc:598
+#: src/app/gtkmm/Menus.cc:605
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -661,6 +662,7 @@ msgid "_Statistics"
 msgstr "_Statistik"
 
 #: src/app/gtkmm/gnome_applet/Workrave-Applet.server.in.in.h:1
+#: src/app/shared/sounds/workrave.soundlist.in.h:10
 msgid "Workrave"
 msgstr "Workrave"
 
@@ -819,6 +821,215 @@ msgstr ""
 #, c-format
 msgid "Could not connect to client %s:%d."
 msgstr ""
+
+#: src/app/shared/exercises/exercises.xml.in.h:1
+msgid "Backward shoulder stretch"
+msgstr ""
+
+#: src/app/shared/exercises/exercises.xml.in.h:2
+msgid ""
+"Close your eyes and breath out as long as you can and try to relax. When "
+"breathing in, again do it as slowly as possible. Try to count slowly to 8 "
+"for each time you breath in and out. To extra relax your eyes, try closing "
+"them in micro pauses too."
+msgstr ""
+
+#: src/app/shared/exercises/exercises.xml.in.h:3
+msgid ""
+"Cover your eyes with your palms in such way that you can still open your "
+"eyelids. Now open your eyes and look into the darkness of your palms. This "
+"exercise gives better relief to your eyes compared to simply closing them."
+msgstr ""
+
+#: src/app/shared/exercises/exercises.xml.in.h:4
+msgid "Finger stretch"
+msgstr ""
+
+#: src/app/shared/exercises/exercises.xml.in.h:5
+msgid ""
+"Go stand face to a wall (or something) and put your hands at shoulder hight "
+"against it with your elbows slightly bended. Push your body to the wall, "
+"without changing the angle of your elbows. Then push your body back from the "
+"wall again without changing the angle of the elbows."
+msgstr ""
+
+#: src/app/shared/exercises/exercises.xml.in.h:6
+msgid ""
+"Interlace your fingers behind your back. Then turn your elbows gently "
+"inward, while straightening your arms. Hold this position for 5 to 15 "
+"seconds, and repeat this exercise twice."
+msgstr ""
+
+#: src/app/shared/exercises/exercises.xml.in.h:7
+msgid ""
+"Keep one arm horizontally stretched in front of your chest. Push this arm "
+"with your other arm towards you until you feel a mild tension in your "
+"shoulder. Hold this position briefly, and repeat the exercise for your other "
+"arm."
+msgstr ""
+
+#: src/app/shared/exercises/exercises.xml.in.h:8
+msgid ""
+"Keep your head straight and your lower jaw parallel to the floor. Move your "
+"head back (making a double chin). Keep this 2 seconds and relax. Move your "
+"head the same way forward, keep this 2 seconds and relax again."
+msgstr ""
+
+#: src/app/shared/exercises/exercises.xml.in.h:9
+msgid ""
+"Look at the upper left corner of the outside border of your monitor. Follow "
+"the border slowly to the upper right corner. Continue to the next corner, "
+"until you got around it two times. Then, reverse the excersise."
+msgstr ""
+
+#: src/app/shared/exercises/exercises.xml.in.h:10
+msgid ""
+"Look for the furthest point you can see behind your monitor. Focus your eyes "
+"on the remote point. After a few seconds focus on your monitor border. "
+"Repeat it. If you can't look very far from your monitor, use a pen for "
+"instance and keep it the same distance as your monitor."
+msgstr ""
+
+#: src/app/shared/exercises/exercises.xml.in.h:11
+msgid "Look into the darkness"
+msgstr ""
+
+#: src/app/shared/exercises/exercises.xml.in.h:12
+msgid "Move the eyes"
+msgstr ""
+
+#: src/app/shared/exercises/exercises.xml.in.h:13
+msgid "Move the shoulderblades"
+msgstr ""
+
+#: src/app/shared/exercises/exercises.xml.in.h:14
+msgid "Move the shoulders"
+msgstr ""
+
+#: src/app/shared/exercises/exercises.xml.in.h:15
+msgid "Move the shoulders up and down"
+msgstr ""
+
+#: src/app/shared/exercises/exercises.xml.in.h:16
+msgid "Neck stretch"
+msgstr ""
+
+#: src/app/shared/exercises/exercises.xml.in.h:17
+msgid "Neck tilt stretch"
+msgstr ""
+
+#: src/app/shared/exercises/exercises.xml.in.h:18
+msgid ""
+"Put your hands on the armrests of your chair when your sitting down and "
+"press your body up until your arms are straight. Try to move your head even "
+"further by lowering your shoulders. Slowly move back into your chair."
+msgstr ""
+
+#: src/app/shared/exercises/exercises.xml.in.h:19
+msgid "Relax the eyes"
+msgstr ""
+
+#: src/app/shared/exercises/exercises.xml.in.h:20
+msgid ""
+"Separate and stretch your fingers until a mild tension is felt, and hold "
+"this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
+"again for 10 seconds. Repeat this exercise once more."
+msgstr ""
+
+#: src/app/shared/exercises/exercises.xml.in.h:21
+msgid "Shoulder-arm stretch"
+msgstr ""
+
+#: src/app/shared/exercises/exercises.xml.in.h:22
+msgid ""
+"Spin your right arm slowly round like a plane propellor beside your body. Do "
+"this 4 times clockwise, 4 times counter clockwise and relax for a few "
+"seconds. Repeat with the left arm."
+msgstr ""
+
+#: src/app/shared/exercises/exercises.xml.in.h:23
+msgid ""
+"Stand by your desk and place both your palms on the desk with the fingers "
+"pointing toward your body. Gently stretch your wrists and lower arms."
+msgstr ""
+
+#: src/app/shared/exercises/exercises.xml.in.h:24
+msgid ""
+"Stand up and try to reach the ceiling with your hands without lifting your "
+"heals. Hold that for a few seconds. Then let your hands slowly go to the "
+"flour, without bending your arms. Keep them moving to the flour by bending "
+"you back slowly until you can (almost) place them in front of your shoes. "
+"Slowly roll your back up straight from your hips up, until it is straight up "
+"again."
+msgstr ""
+
+#: src/app/shared/exercises/exercises.xml.in.h:25
+msgid ""
+"Start with your head in a comfortable straight position. Then, slowly tilt "
+"your head to your right shoulder to gently stretch the muscles on the left "
+"side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
+"the left side to stretch your other side. Do this twice for each side."
+msgstr ""
+
+#: src/app/shared/exercises/exercises.xml.in.h:26
+msgid "Stretch your back"
+msgstr ""
+
+#: src/app/shared/exercises/exercises.xml.in.h:27
+msgid "Train focussing the eyes"
+msgstr ""
+
+#: src/app/shared/exercises/exercises.xml.in.h:28
+msgid "Turn your head"
+msgstr ""
+
+#: src/app/shared/exercises/exercises.xml.in.h:29
+msgid ""
+"Turn your head left and keep it there for 2 seconds. Then turn your head "
+"right and keep it there for 2 seconds."
+msgstr ""
+
+#: src/app/shared/exercises/exercises.xml.in.h:30
+msgid "Wrist and lower arm desk stretch"
+msgstr ""
+
+#: src/app/shared/sounds/workrave.soundlist.in.h:1
+#, fuzzy
+msgid "Break ignored"
+msgstr "Pause in"
+
+#: src/app/shared/sounds/workrave.soundlist.in.h:2
+#, fuzzy
+msgid "Break prompt"
+msgstr "Pausenhinweise"
+
+#: src/app/shared/sounds/workrave.soundlist.in.h:4
+msgid "Exercise ended"
+msgstr ""
+
+#: src/app/shared/sounds/workrave.soundlist.in.h:5
+msgid "Exercises ended"
+msgstr ""
+
+#: src/app/shared/sounds/workrave.soundlist.in.h:6
+#, fuzzy
+msgid "Micro-pause ended"
+msgstr "Mikropause"
+
+#: src/app/shared/sounds/workrave.soundlist.in.h:7
+#, fuzzy
+msgid "Micro-pause started"
+msgstr "Mikropause"
+
+#: src/app/shared/sounds/workrave.soundlist.in.h:8
+#, fuzzy
+msgid "Rest break ended"
+msgstr "Ruhepause"
+
+#: src/app/shared/sounds/workrave.soundlist.in.h:9
+#, fuzzy
+msgid "Rest break started"
+msgstr "Ruhepause %s Minuten überfällig"
 
 #~ msgid "Hide main window at start-up"
 #~ msgstr "Hauptfenster beim Start verstecken"

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.4.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-27 16:16+0200\n"
-"PO-Revision-Date: 2003-07-27 21:20+0200\n"
+"POT-Creation-Date: 2003-07-29 20:49+0200\n"
+"PO-Revision-Date: 2003-07-29 20:57+0200\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
 "MIME-Version: 1.0\n"
@@ -57,6 +57,7 @@ msgid "Postpone"
 msgstr "Uitstellen"
 
 #: src/app/gtkmm/DailyLimitWindow.cc:47 src/app/gtkmm/GtkUtil.cc:88
+#: src/app/shared/sounds/workrave.soundlist.in.h:3
 msgid "Daily limit"
 msgstr "Dagelijkse limiet"
 
@@ -151,7 +152,7 @@ msgstr "Statistieken"
 msgid "About..."
 msgstr "Info..."
 
-#: src/app/gtkmm/Menus.cc:598
+#: src/app/gtkmm/Menus.cc:605
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -465,7 +466,9 @@ msgstr "Effectieve muisbeweging:"
 msgid ""
 "The total mouse movement you would have had if you moved your mouse in "
 "straight lines between clicks"
-msgstr "De totale muisbeweging die je gehad zou hebben als je in rechte lijnen tussen muiskliks zou bewegen"
+msgstr ""
+"De totale muisbeweging die je gehad zou hebben als je in rechte lijnen "
+"tussen muiskliks zou bewegen"
 
 #: src/app/gtkmm/StatisticsDialog.cc:299
 msgid "Mouse button clicks:"
@@ -656,6 +659,7 @@ msgid "_Statistics"
 msgstr "Statistieken"
 
 #: src/app/gtkmm/gnome_applet/Workrave-Applet.server.in.in.h:1
+#: src/app/shared/sounds/workrave.soundlist.in.h:10
 msgid "Workrave"
 msgstr "Workrave"
 
@@ -814,6 +818,264 @@ msgstr "Cliënt %s:%d heeft verbinding gemaakt."
 #, c-format
 msgid "Could not connect to client %s:%d."
 msgstr "Kon niet verbinden met cliënt %s:%d."
+
+#: src/app/shared/exercises/exercises.xml.in.h:1
+msgid "Backward shoulder stretch"
+msgstr "Achterwaarts shouders strekken"
+
+#: src/app/shared/exercises/exercises.xml.in.h:2
+msgid ""
+"Close your eyes and breath out as long as you can and try to relax. When "
+"breathing in, again do it as slowly as possible. Try to count slowly to 8 "
+"for each time you breath in and out. To extra relax your eyes, try closing "
+"them in micro pauses too."
+msgstr ""
+"Sluit je ogen en adem langzaam zo lang mogelijk, maar ontspannen uit. Adem "
+"langzaam in. Probeer voor elke keer in- of uitademen tot 8 te tellen. Om je "
+"ogen vaker te ontspannen kun je de oefening ook in een micropauze doen."
+
+#: src/app/shared/exercises/exercises.xml.in.h:3
+msgid ""
+"Cover your eyes with your palms in such way that you can still open your "
+"eyelids. Now open your eyes and look into the darkness of your palms. This "
+"exercise gives better relief to your eyes compared to simply closing them."
+msgstr ""
+"Bedek je ogen met je handpalmen zodanig dat je wel nog je ogen kunt openen. "
+"Open nu je ogen en kijk in de duisternis van je handpalmen. Deze oefening "
+"geeft meer rust dan dat je je ogen alleen maar sluit."
+
+#: src/app/shared/exercises/exercises.xml.in.h:4
+msgid "Finger stretch"
+msgstr "Vingers strekken"
+
+#: src/app/shared/exercises/exercises.xml.in.h:5
+msgid ""
+"Go stand face to a wall (or something) and put your hands at shoulder hight "
+"against it with your elbows slightly bended. Push your body to the wall, "
+"without changing the angle of your elbows. Then push your body back from the "
+"wall again without changing the angle of the elbows."
+msgstr ""
+"Ga met je gezicht naar de muur staan en plaats je handen op schouder hoogte "
+"tegen de muur met licht gebogen ellebogen. Duw je lichaam naar de muur toe "
+"zonder de hoek van de ellebogen te veranderen. Duw daarna je lichaam van de "
+"muur af zonder de hoek van de ellebogen te veranderen."
+
+#: src/app/shared/exercises/exercises.xml.in.h:6
+msgid ""
+"Interlace your fingers behind your back. Then turn your elbows gently "
+"inward, while straightening your arms. Hold this position for 5 to 15 "
+"seconds, and repeat this exercise twice."
+msgstr ""
+"Kruis je vingers achter je rug. Draai je ellebogen naar binnen toe terwijl "
+"je je armen strekt. Hou deze positie 5 tot 15 seconden vast. Herhaal deze "
+"oefening."
+
+#: src/app/shared/exercises/exercises.xml.in.h:7
+msgid ""
+"Keep one arm horizontally stretched in front of your chest. Push this arm "
+"with your other arm towards you until you feel a mild tension in your "
+"shoulder. Hold this position briefly, and repeat the exercise for your other "
+"arm."
+msgstr ""
+"Hou een arm horizontaal uitgestrekt voor je borstkas. Druk deze met de "
+"andere arm naar je toe totdat je voelt dat je schouder iets gespannen is. "
+"Hou dit even vol, en herhaal daarna de oefening voor de andere arm."
+
+#: src/app/shared/exercises/exercises.xml.in.h:8
+msgid ""
+"Keep your head straight and your lower jaw parallel to the floor. Move your "
+"head back (making a double chin). Keep this 2 seconds and relax. Move your "
+"head the same way forward, keep this 2 seconds and relax again."
+msgstr ""
+"Houd je hoofd recht en je onderkaak evenwijdig aan de vloer. Beweeg je hoofd "
+"naar achteren (maak een dubbele kin). Houd dit 2 seconden vast en ontspan. "
+"Beweeg je hoofd op dezelfde manier naar voren en houd dat 2 seconden vast en "
+"ontspan opnieuw."
+
+#: src/app/shared/exercises/exercises.xml.in.h:9
+msgid ""
+"Look at the upper left corner of the outside border of your monitor. Follow "
+"the border slowly to the upper right corner. Continue to the next corner, "
+"until you got around it two times. Then, reverse the excersise."
+msgstr ""
+"Kijk naar de hoek links-boven van de buitenrand van je monitor. Volg "
+"langzaam met je ogen de buitenrand van de monitor naar de hoek rechts-boven. "
+"Vervolg de beweging naar de volgende hoek, totdat je twee keer rond geweest "
+"bent. Herhaal daarna de beweging in tegengestelde richting."
+
+#: src/app/shared/exercises/exercises.xml.in.h:10
+msgid ""
+"Look for the furthest point you can see behind your monitor. Focus your eyes "
+"on the remote point. After a few seconds focus on your monitor border. "
+"Repeat it. If you can't look very far from your monitor, use a pen for "
+"instance and keep it the same distance as your monitor."
+msgstr ""
+"Zoek naar het verste punt dat je kan zien achter je monitor. Focus je ogen "
+"op dit punt. Na een paar seconden focus je op de rand van je monitor. "
+"Herhaal dit. Als je niet ver achter je monitor kunt kijken, gebruik dan een "
+"pen en zoek een ander punt."
+
+#: src/app/shared/exercises/exercises.xml.in.h:11
+msgid "Look into the darkness"
+msgstr "Kijken in de duisternis"
+
+#: src/app/shared/exercises/exercises.xml.in.h:12
+msgid "Move the eyes"
+msgstr "Beweeg de ogen"
+
+#: src/app/shared/exercises/exercises.xml.in.h:13
+msgid "Move the shoulderblades"
+msgstr "Beweeg de schouderbladen"
+
+#: src/app/shared/exercises/exercises.xml.in.h:14
+msgid "Move the shoulders"
+msgstr "Beweeg de schouders"
+
+#: src/app/shared/exercises/exercises.xml.in.h:15
+msgid "Move the shoulders up and down"
+msgstr "Beweeg de schouders op en neer"
+
+#: src/app/shared/exercises/exercises.xml.in.h:16
+msgid "Neck stretch"
+msgstr "Rekken van de nek"
+
+#: src/app/shared/exercises/exercises.xml.in.h:17
+msgid "Neck tilt stretch"
+msgstr "Nek strekken"
+
+#: src/app/shared/exercises/exercises.xml.in.h:18
+msgid ""
+"Put your hands on the armrests of your chair when your sitting down and "
+"press your body up until your arms are straight. Try to move your head even "
+"further by lowering your shoulders. Slowly move back into your chair."
+msgstr ""
+"Zet je handen op de leuning van je stoel als je zit en duw je lichaam omhoog "
+"totdat je armen gestrekt zijn. Probeer met je hoofd nog verder omhoog te "
+"komen door je schouders te laten zakken. Laat je daarna langzaam weer terug "
+"in je stoel zakken."
+
+#: src/app/shared/exercises/exercises.xml.in.h:19
+msgid "Relax the eyes"
+msgstr "Ontspan de ogen"
+
+#: src/app/shared/exercises/exercises.xml.in.h:20
+msgid ""
+"Separate and stretch your fingers until a mild tension is felt, and hold "
+"this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
+"again for 10 seconds. Repeat this exercise once more."
+msgstr ""
+"Strek je vingers uit elkaar totdat je een lighte spanning voelt, en hou deze "
+"positie 10 seconden vast. Ontspan nu, en buig daarna je vingers bij de "
+"knokkels, en hou dit weer 10 seconden vast. Herhaal deze oefening."
+
+#: src/app/shared/exercises/exercises.xml.in.h:21
+msgid "Shoulder-arm stretch"
+msgstr "Schouder-arm strekken"
+
+#: src/app/shared/exercises/exercises.xml.in.h:22
+msgid ""
+"Spin your right arm slowly round like a plane propellor beside your body. Do "
+"this 4 times clockwise, 4 times counter clockwise and relax for a few "
+"seconds. Repeat with the left arm."
+msgstr ""
+"Draai je rechterarm langzaam rond als een vliegtuig propellor naast je "
+"lichaam. Doe dit 4 keer met de klok mee, 4 keer tegen de klok in en ontspan "
+"een paar seconden. Herhaal dit voor de linkerarm."
+
+#: src/app/shared/exercises/exercises.xml.in.h:23
+msgid ""
+"Stand by your desk and place both your palms on the desk with the fingers "
+"pointing toward your body. Gently stretch your wrists and lower arms."
+msgstr ""
+"Ga naast je bureau staan en plaats beide handpalmen op het bureau zodanig "
+"dat je vingers naar je lichaam toe wijzen. Strek voorzichtig je polsen en je "
+"onderarmen."
+
+#: src/app/shared/exercises/exercises.xml.in.h:24
+msgid ""
+"Stand up and try to reach the ceiling with your hands without lifting your "
+"heals. Hold that for a few seconds. Then let your hands slowly go to the "
+"flour, without bending your arms. Keep them moving to the flour by bending "
+"you back slowly until you can (almost) place them in front of your shoes. "
+"Slowly roll your back up straight from your hips up, until it is straight up "
+"again."
+msgstr ""
+"Ga staan en probeer met je handen het plafond te raken zonder je hakken op "
+"te lichten. Houd dat een paar seconden vast. Laat dan je handen langzaam en "
+"gestrekt naar de grond zakken.  Maak de beweging af door je rug te buigen, "
+"totdat je je handen (bijna) voor je schoenen op de grond kunt plaatsen. Rol "
+"je rug weer langzaam recht, te beginnen bij je heupen, totdat je weer "
+"rechtop staat."
+
+#: src/app/shared/exercises/exercises.xml.in.h:25
+msgid ""
+"Start with your head in a comfortable straight position. Then, slowly tilt "
+"your head to your right shoulder to gently stretch the muscles on the left "
+"side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
+"the left side to stretch your other side. Do this twice for each side."
+msgstr ""
+"Begin met je hoofd in een comfortabele rechte positie. Kantel dan langzaam "
+"je hoofd naar je rechter schouder toe, en strek daarme de spieren aan de "
+"linkerkant van je nek. Hou deze positie 5 seconden vast. Daarna kantel je je "
+"hoofd naar de linker schouder toe om de rechter nekspieren te strekken. "
+"Herhaal deze oefening twee keer voor elke kant."
+
+#: src/app/shared/exercises/exercises.xml.in.h:26
+msgid "Stretch your back"
+msgstr "Rek je rug"
+
+#: src/app/shared/exercises/exercises.xml.in.h:27
+msgid "Train focussing the eyes"
+msgstr "Train het focussen de ogen"
+
+#: src/app/shared/exercises/exercises.xml.in.h:28
+msgid "Turn your head"
+msgstr "Draai je hoofd"
+
+#: src/app/shared/exercises/exercises.xml.in.h:29
+msgid ""
+"Turn your head left and keep it there for 2 seconds. Then turn your head "
+"right and keep it there for 2 seconds."
+msgstr ""
+"Draai je hoofd naar links en houdt dat 2 seconden vast. Draai daarna je "
+"hoofd naar rechts en houdt dat 2 seconden vast."
+
+#: src/app/shared/exercises/exercises.xml.in.h:30
+msgid "Wrist and lower arm desk stretch"
+msgstr "Pols en onderarm strekken"
+
+#: src/app/shared/sounds/workrave.soundlist.in.h:1
+msgid "Break ignored"
+msgstr "Pauze genegeerd"
+
+#: src/app/shared/sounds/workrave.soundlist.in.h:2
+msgid "Break prompt"
+msgstr "Verzoek tot pauze"
+
+#: src/app/shared/sounds/workrave.soundlist.in.h:4
+#, fuzzy
+msgid "Exercise ended"
+msgstr "Einde oefening"
+
+#: src/app/shared/sounds/workrave.soundlist.in.h:5
+msgid "Exercises ended"
+msgstr "Einde oefeningen"
+
+#: src/app/shared/sounds/workrave.soundlist.in.h:6
+msgid "Micro-pause ended"
+msgstr "Einde micro-pauze"
+
+#: src/app/shared/sounds/workrave.soundlist.in.h:7
+msgid "Micro-pause started"
+msgstr "Begin micro-pauze"
+
+#: src/app/shared/sounds/workrave.soundlist.in.h:8
+msgid "Rest break ended"
+msgstr "Einde rustpauze"
+
+#: src/app/shared/sounds/workrave.soundlist.in.h:9
+msgid "Rest break started"
+msgstr "Begin rustpauze"
 
 #~ msgid "Hide main window at start-up"
 #~ msgstr "Verberg het hoofdvenster tijdens het opstarten"

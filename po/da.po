@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-27 18:31+0200\n"
-"PO-Revision-Date: 2003-07-22 21:54+0200\n"
+"POT-Creation-Date: 2003-07-29 20:49+0200\n"
+"PO-Revision-Date: 2003-07-29 21:23+0200\n"
 "Last-Translator: \n"
 "Language-Team:  <C@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -59,6 +59,7 @@ msgid "Postpone"
 msgstr "Udsæt"
 
 #: src/app/gtkmm/DailyLimitWindow.cc:47 src/app/gtkmm/GtkUtil.cc:88
+#: src/app/shared/sounds/workrave.soundlist.in.h:3
 msgid "Daily limit"
 msgstr "Daglig grænse"
 
@@ -99,14 +100,17 @@ msgstr "Hvilepause"
 
 #. Mode menu item
 #: src/app/gtkmm/Menus.cc:143
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
 msgid "_Mode"
 msgstr "_Tilstand"
 
 #: src/app/gtkmm/Menus.cc:150
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
 msgid "_Normal"
 msgstr "_Normal"
 
 #: src/app/gtkmm/Menus.cc:157
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
 msgid "_Suspended"
 msgstr "_Suspenderet"
 
@@ -115,6 +119,7 @@ msgid "Q_uiet"
 msgstr "S_tille"
 
 #: src/app/gtkmm/Menus.cc:178
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
 msgid "_Network"
 msgstr "_Netværk"
 
@@ -123,10 +128,12 @@ msgid "_Connect"
 msgstr "_Forbind"
 
 #: src/app/gtkmm/Menus.cc:187
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
 msgid "_Disconnect"
 msgstr "_Afbryd forbindelse"
 
 #: src/app/gtkmm/Menus.cc:192
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
 msgid "_Reconnect"
 msgstr "_Genopret forbindelse"
 
@@ -147,7 +154,7 @@ msgstr "Statistik"
 msgid "About..."
 msgstr "Om..."
 
-#: src/app/gtkmm/Menus.cc:598
+#: src/app/gtkmm/Menus.cc:605
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -611,6 +618,56 @@ msgstr "Pause længde:"
 msgid "Post-pone time:"
 msgstr "Udsættelses-periode:"
 
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:1
+msgid "_About..."
+msgstr "Om..."
+
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:2
+msgid "_Connect..."
+msgstr "_Opret forbindelse..."
+
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:4
+#, fuzzy
+msgid "_Exercises"
+msgstr "Øvelser"
+
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:8
+msgid "_Open"
+msgstr "Å_ben"
+
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:9
+msgid "_Preferences"
+msgstr "_Indstillinger"
+
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:10
+msgid "_Quiet"
+msgstr "St_ille"
+
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:11
+msgid "_Quit"
+msgstr "_Luk"
+
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:13
+msgid "_Restbreak"
+msgstr "_Hvilepause"
+
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:14
+msgid "_Show Log..."
+msgstr "_Vis historik"
+
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:15
+msgid "_Statistics"
+msgstr "_Statistik"
+
+#: src/app/gtkmm/gnome_applet/Workrave-Applet.server.in.in.h:1
+#: src/app/shared/sounds/workrave.soundlist.in.h:10
+msgid "Workrave"
+msgstr "Workrave"
+
+#: src/app/gtkmm/gnome_applet/Workrave-Applet.server.in.in.h:2
+msgid "Workrave Applet"
+msgstr "Workrave-Applet"
+
 #: src/app/Text.cc:75
 #, c-format
 msgid "%s%d:%02d:%02d hours"
@@ -763,38 +820,208 @@ msgstr "Klient %s:%d tilsluttet."
 msgid "Could not connect to client %s:%d."
 msgstr "Kunne ikke forbinde til klient %s:%d."
 
-#~ msgid "_About..."
-#~ msgstr "Om..."
+#: src/app/shared/exercises/exercises.xml.in.h:1
+msgid "Backward shoulder stretch"
+msgstr "Skulder stræ"
 
-#~ msgid "_Connect..."
-#~ msgstr "_Opret forbindelse..."
+#: src/app/shared/exercises/exercises.xml.in.h:2
+msgid ""
+"Close your eyes and breath out as long as you can and try to relax. When "
+"breathing in, again do it as slowly as possible. Try to count slowly to 8 "
+"for each time you breath in and out. To extra relax your eyes, try closing "
+"them in micro pauses too."
+msgstr "Luk dine øjne og ånd så dybt ud du kan mens du slapper af. Træk vejret ind igen så langsomt som muligt. Forsøg evt. at tælle langsomt til otte for hver gang du trækker vejret og ånder ud igen. For at slappe ekstra af i øjnene, prøv at lukke dem i mikropauser også."
 
-#~ msgid "_Open"
-#~ msgstr "Å_ben"
+#: src/app/shared/exercises/exercises.xml.in.h:3
+msgid ""
+"Cover your eyes with your palms in such way that you can still open your "
+"eyelids. Now open your eyes and look into the darkness of your palms. This "
+"exercise gives better relief to your eyes compared to simply closing them."
+msgstr "Hold dine hænder op foran øjnene således at du stadig kan åbne øjnene. �bn nu øjnene og kig ind i mørket i dine håndflader. �velsen giver bedre afslapning til dine øjne sammenlignet med bare at lukke dem."
 
-#~ msgid "_Preferences"
-#~ msgstr "_Indstillinger"
+#: src/app/shared/exercises/exercises.xml.in.h:4
+msgid "Finger stretch"
+msgstr "Udstrækning af fingre"
 
-#~ msgid "_Quiet"
-#~ msgstr "St_ille"
+#: src/app/shared/exercises/exercises.xml.in.h:5
+msgid ""
+"Go stand face to a wall (or something) and put your hands at shoulder hight "
+"against it with your elbows slightly bended. Push your body to the wall, "
+"without changing the angle of your elbows. Then push your body back from the "
+"wall again without changing the angle of the elbows."
+msgstr "Stil dig med ansigtet mod en væg. Placer hænderne på væggen i skulderhøjde med albuerne let bøjede. Skub kroppen mod væggen uden at ændre vinklen på albuerne. Skub dig tilbage fra væggen igen uden at ændre vinklen på albuerne"
 
-#~ msgid "_Quit"
-#~ msgstr "_Luk"
+#: src/app/shared/exercises/exercises.xml.in.h:6
+msgid ""
+"Interlace your fingers behind your back. Then turn your elbows gently "
+"inward, while straightening your arms. Hold this position for 5 to 15 "
+"seconds, and repeat this exercise twice."
+msgstr "Flet fingrene bag ryggen. Drej albuerne forsigtigt indad, mens du strækker dine arme. Hold stillingen i 5 til 15 sekunder. Gentag øvelsen to gange."
 
-#~ msgid "_Restbreak"
-#~ msgstr "_Hvilepause"
+#: src/app/shared/exercises/exercises.xml.in.h:7
+msgid ""
+"Keep one arm horizontally stretched in front of your chest. Push this arm "
+"with your other arm towards you until you feel a mild tension in your "
+"shoulder. Hold this position briefly, and repeat the exercise for your other "
+"arm."
+msgstr "Hold den ene arm strukket skråt fremad ud i luften foran din brystkasse. Med din anden arm skal du skubbe din fremstrakte arm mod dig, indtil du mærker et let stræk i din skulder. Hold strækket kortvarigt, og gentag øvelsen med den modsatte arm."
 
-#~ msgid "_Show Log..."
-#~ msgstr "_Vis historik"
+#: src/app/shared/exercises/exercises.xml.in.h:8
+msgid ""
+"Keep your head straight and your lower jaw parallel to the floor. Move your "
+"head back (making a double chin). Keep this 2 seconds and relax. Move your "
+"head the same way forward, keep this 2 seconds and relax again."
+msgstr "Hold hovedet fremad med kæben parallel med gulvet. Flyt langsome hovedet tilbage (så du laver dobbelt-hage). Hold positionen i to sekunder. Flyt hovedet forsigtigt fremad og slap af."
 
-#~ msgid "_Statistics"
-#~ msgstr "_Statistik"
+#: src/app/shared/exercises/exercises.xml.in.h:9
+msgid ""
+"Look at the upper left corner of the outside border of your monitor. Follow "
+"the border slowly to the upper right corner. Continue to the next corner, "
+"until you got around it two times. Then, reverse the excersise."
+msgstr "Kig på øverste venstre hjørne af den yderste kant på din skærm. Følg kanten langsomt med øjnene til det øvre højre hjørne. Gentag til du når næste hjørne osv, indtil du er nået hele vejen rundt to gange, Gentag øvelsen den modsatte vej rundt."
 
-#~ msgid "Workrave"
-#~ msgstr "Workrave"
+#: src/app/shared/exercises/exercises.xml.in.h:10
+msgid ""
+"Look for the furthest point you can see behind your monitor. Focus your eyes "
+"on the remote point. After a few seconds focus on your monitor border. "
+"Repeat it. If you can't look very far from your monitor, use a pen for "
+"instance and keep it the same distance as your monitor."
+msgstr "Fokuser på det fjerneste punkt du kan se bagved din skærm. Efter et par sekunder, fokuser på kanten af din skærm. Gentag øvelsen. Brug evt. en kuglepen i stedet for kanten af skærmen i en anden retning end skærmen, hvis du har bedre afstand der."
 
-#~ msgid "Workrave Applet"
-#~ msgstr "Workrave-Applet"
+#: src/app/shared/exercises/exercises.xml.in.h:11
+msgid "Look into the darkness"
+msgstr "Kig ind i mørke"
+
+#: src/app/shared/exercises/exercises.xml.in.h:12
+msgid "Move the eyes"
+msgstr "Bevæg øjnene"
+
+#: src/app/shared/exercises/exercises.xml.in.h:13
+msgid "Move the shoulderblades"
+msgstr "Bevæg skulderbladene"
+
+#: src/app/shared/exercises/exercises.xml.in.h:14
+msgid "Move the shoulders"
+msgstr "Bevæg skuldrene"
+
+#: src/app/shared/exercises/exercises.xml.in.h:15
+msgid "Move the shoulders up and down"
+msgstr "Bevæg skuldrene op og ned"
+
+#: src/app/shared/exercises/exercises.xml.in.h:16
+msgid "Neck stretch"
+msgstr "Nakke stræk"
+
+#: src/app/shared/exercises/exercises.xml.in.h:17
+msgid "Neck tilt stretch"
+msgstr "Udstræk af nakke"
+
+#: src/app/shared/exercises/exercises.xml.in.h:18
+msgid ""
+"Put your hands on the armrests of your chair when your sitting down and "
+"press your body up until your arms are straight. Try to move your head even "
+"further by lowering your shoulders. Slowly move back into your chair."
+msgstr "Tag fat på armlænene på din stol. Pres dig opad i armene indtil de er strækkede. Forsøg at strække hovedet endnu mere opad ved at sænke skuldrene. Bevæg dig forsigtigt tibage på plads."
+
+#: src/app/shared/exercises/exercises.xml.in.h:19
+msgid "Relax the eyes"
+msgstr "Slap af i øjnene"
+
+#: src/app/shared/exercises/exercises.xml.in.h:20
+msgid ""
+"Separate and stretch your fingers until a mild tension is felt, and hold "
+"this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
+"again for 10 seconds. Repeat this exercise once more."
+msgstr "Stræk og spred dine fingre undtil du kan mærke et let stræk. Hold strækket i 10 sekunder. Slap lidt af og bør herefter dine fingre. Hold positionen i 10 sekunder. Gentag øvelsen igen."
+
+#: src/app/shared/exercises/exercises.xml.in.h:21
+msgid "Shoulder-arm stretch"
+msgstr "Skulder/arm udstrækning"
+
+#: src/app/shared/exercises/exercises.xml.in.h:22
+msgid ""
+"Spin your right arm slowly round like a plane propellor beside your body. Do "
+"this 4 times clockwise, 4 times counter clockwise and relax for a few "
+"seconds. Repeat with the left arm."
+msgstr "Sving langsomt højre arm rundt i store cirker helt oppe ved øret. Udfør 4 sving fremad, og 4 sving tilbage og slap af i et par skunder. Gentag øvelsen med venstre arm."
+
+#: src/app/shared/exercises/exercises.xml.in.h:23
+msgid ""
+"Stand by your desk and place both your palms on the desk with the fingers "
+"pointing toward your body. Gently stretch your wrists and lower arms."
+msgstr "Stå ved dit bord og placer begge håndflader på bordfladen, med fingrene pegende mod din krop. Stræk forsigtigt håndled og underarm."
+
+#: src/app/shared/exercises/exercises.xml.in.h:24
+msgid ""
+"Stand up and try to reach the ceiling with your hands without lifting your "
+"heals. Hold that for a few seconds. Then let your hands slowly go to the "
+"flour, without bending your arms. Keep them moving to the flour by bending "
+"you back slowly until you can (almost) place them in front of your shoes. "
+"Slowly roll your back up straight from your hips up, until it is straight up "
+"again."
+msgstr "Stå oprejst og ræk ud efter loftet med hænderne uden at løfte hælene fra gulvet. Hold strækket i et par sekunder. Lad derefter en forover-rulning i ryggen så dine hænder (næsten) rører jorden foran dine fødder. Rul forsigtigt tlbage til oprejst position."
+
+#: src/app/shared/exercises/exercises.xml.in.h:25
+msgid ""
+"Start with your head in a comfortable straight position. Then, slowly tilt "
+"your head to your right shoulder to gently stretch the muscles on the left "
+"side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
+"the left side to stretch your other side. Do this twice for each side."
+msgstr "Se lige frem og find en behagelig position med hovedet. Læg højre øre mod højre skulder, så dine muskler på venstre side af halsen strækker. Hold strækket i 5 sekunder. Gentag derefter øvelsen med venstre øre mod venstre skulder. Udfør øvelsen to gange til hver side."
+
+#: src/app/shared/exercises/exercises.xml.in.h:26
+msgid "Stretch your back"
+msgstr "Stræk ryggen"
+
+#: src/app/shared/exercises/exercises.xml.in.h:27
+msgid "Train focussing the eyes"
+msgstr "Træn øjen-fokusering"
+
+#: src/app/shared/exercises/exercises.xml.in.h:28
+msgid "Turn your head"
+msgstr "Drej hovedet"
+
+#: src/app/shared/exercises/exercises.xml.in.h:29
+msgid ""
+"Turn your head left and keep it there for 2 seconds. Then turn your head "
+"right and keep it there for 2 seconds."
+msgstr "Drej hovedet med venstre og hold det drejet i to sekunder. Drej derefter hovedet mod højre i to sekunder."
+
+#: src/app/shared/exercises/exercises.xml.in.h:30
+msgid "Wrist and lower arm desk stretch"
+msgstr "Udstrækning af håndled og underarm"
+
+#: src/app/shared/sounds/workrave.soundlist.in.h:1
+msgid "Break ignored"
+msgstr "Pause ignoreret"
+
+#: src/app/shared/sounds/workrave.soundlist.in.h:2
+msgid "Break prompt"
+msgstr "Pause pÃ¥mindelse"
+
+#: src/app/shared/sounds/workrave.soundlist.in.h:4
+msgid "Exercise ended"
+msgstr "Ãvelse afsluttet"
+
+#: src/app/shared/sounds/workrave.soundlist.in.h:5
+msgid "Exercises ended"
+msgstr "Ãvelser afsluttet"
+
+#: src/app/shared/sounds/workrave.soundlist.in.h:6
+msgid "Micro-pause ended"
+msgstr "Mikropause afsluttet"
+
+#: src/app/shared/sounds/workrave.soundlist.in.h:7
+msgid "Micro-pause started"
+msgstr "Mikrobause startet"
+
+#: src/app/shared/sounds/workrave.soundlist.in.h:8
+msgid "Rest break ended"
+msgstr "Hvilepause afsluttet"
+
+#: src/app/shared/sounds/workrave.soundlist.in.h:9
+msgid "Rest break started"
+msgstr "Hvilepause startet"
 
 #~ msgid "Hide main window at start-up"
 #~ msgstr "Skjul vindue ved opstart"

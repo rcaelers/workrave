@@ -58,3 +58,5 @@ src/core/IdleLogManager.cc
 src/core/PacketBuffer.cc
 src/core/Statistics.cc
 src/core/XMLConfigurator.cc
+src/app/shared/exercises/exercises.xml.in
+src/app/shared/sounds/workrave.soundlist.in
