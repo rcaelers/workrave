@@ -224,24 +224,23 @@ BreakWindow::avoid_pointer(int px, int py)
 
   int deltax = 0;
   int deltay = 0;
-  const int jump_x = 2*width;
-  const int jump_y = 2*height;
+  const int jump = 2*width;
     
   if (y < (0.2 * height))
-    deltay = jump_y;
+    deltay = jump;
   else if (y > (0.8 * height))
-    deltay = -jump_y;
+    deltay = -jump;
         
   if (x < (0.2 * width))
-    deltax = jump_x;
+    deltax = jump;
   else if (x > 0.8 * width)
-    deltax = -jump_x;
+    deltax = -jump;
   else if (! deltay)
     {
       if (x > 0.5*width)
-        deltax = -jump_x;
+        deltax = -jump;
       else
-        deltax = jump_x;
+        deltax = jump;
     }
 
   int screen_width = gdk_screen_width();
