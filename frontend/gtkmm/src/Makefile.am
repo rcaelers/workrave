@@ -164,7 +164,7 @@ workrave_CXXFLAGS = 	-DWORKRAVE_DATADIR="\"${pkgdatadir}\"" -W \
 			@GNOMEUI_CFLAGS@ @GTK_CFLAGS@ @GTKMM_CFLAGS@ \
 			@GCONF_CFLAGS@ -D_XOPEN_SOURCE=600 @GNET_CFLAGS@ \
 			@KDE_INCLUDES@ @QT_INCLUDES@\
-			$(includeswin32) $(includesinput) \
+			$(includeswin32) $(win32cflags) $(includesinput) \
 			$(includesx) \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
 			-I${STATISTICS_HOME}/gtkmm/src \
