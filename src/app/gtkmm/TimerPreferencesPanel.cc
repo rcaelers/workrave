@@ -73,6 +73,7 @@ TimerPreferencesPanel::TimerPreferencesPanel(BreakId t,Glib::RefPtr<Gtk::SizeGro
   categories->add(*opts_frame);
 
   enable_buttons();
+  set_prelude_sensitivity();
   
   // Overall box
   box->pack_start(*categories, false, false, 0);
