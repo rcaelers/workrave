@@ -25,40 +25,59 @@
 
 #include <gtkmm/window.h>
 
+#include "CoreInterface.hh"
+#include "BreakWindowInterface.hh"
 #include "HeadInfo.hh"
 #include "WindowHints.hh"
 
 class Frame;
+class BreakResponseInterface;
+
 namespace Gtk
 {
   class Button;
+  class HButtonBox;
 }
 
 class BreakWindow :
-  public Gtk::Window
+  public Gtk::Window,
+  public BreakWindowInterface
 {
 public:
-  BreakWindow();
+  BreakWindow(BreakId break_id, HeadInfo &head, bool ignorable, bool insist);
   virtual ~BreakWindow();
 
-  static Gtk::Button *create_skip_button();
-  static Gtk::Button *create_postpone_button();
-  Gtk::Button *create_lock_button();
-  Gtk::Button *create_shutdown_button();
+  void set_response(BreakResponseInterface *bri);
+
+  virtual void start();
+  virtual void stop();
+  virtual void destroy();
+  void refresh();
   
 protected:
+  virtual Gtk::Widget *create_gui() = 0;
+  void init_gui();
+  
   bool grab();
   void ungrab();
   void center();
 
+  Gtk::HButtonBox *create_break_buttons(bool lockable, bool shutdownable);
   void on_lock_button_clicked();
   void on_shutdown_button_clicked();
-  void set_screen(HeadInfo &head);
+  void on_skip_button_clicked();
+  void on_postpone_button_clicked();
+  bool on_delete_event(GdkEventAny *);
   
   //! Information about the (multi)head.
   HeadInfo head;
   
 private:
+  Gtk::Button *create_skip_button();
+  Gtk::Button *create_postpone_button();
+  Gtk::Button *create_lock_button();
+  Gtk::Button *create_shutdown_button();
+
 #if defined(HAVE_X)
   bool on_grab_retry_timer();
 #endif
@@ -69,8 +88,23 @@ private:
   bool grab_wanted;
 #endif
 
+  //! Insist
+  bool insist_break;
+
+  //! Ignorable
+  bool ignorable_break;
+
   //! Grab
   WindowHints::Grab *grab_handle;
+
+  //! Send response to this interface.
+  BreakResponseInterface *break_response;
+
+  //! Break ID
+  BreakId break_id;
+
+  //! GUI
+  Gtk::Widget *gui;
 };
 
 #endif // BREAKWINDOW_HH

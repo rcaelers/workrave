@@ -24,7 +24,6 @@
 class TimeBar;
 
 #include "BreakWindow.hh"
-#include "BreakWindowInterface.hh"
 
 #include <gtkmm/box.h>
 
@@ -34,32 +33,23 @@ namespace Gtk
 }
 
 class RestBreakWindow :
-  public BreakWindow,
-  public BreakWindowInterface
+  public BreakWindow
 {
 public:
   RestBreakWindow(HeadInfo &head, bool ignorable, bool insist);
   virtual ~RestBreakWindow();
   
   void start();
-  void stop();
-  void destroy();
   void set_progress(int value, int max_value);
   void refresh();
-  void set_response(BreakResponseInterface *bri);
   
 protected:
-  //Overridden default signal handlers:
-  virtual bool on_expose_event(GdkEventExpose* event);
-  
-  void on_postpone_button_clicked();
-  void on_skip_button_clicked();
-
+  Gtk::Widget *create_gui();
   void draw_time_bar();
   
 private:
   void suspend_break();
-  Gtk::Widget *RestBreakWindow::create_info_panel();
+  Gtk::Widget *create_info_panel();
   void set_ignore_activity(bool i);
   
 #ifdef HAVE_EXERCISES
@@ -70,41 +60,19 @@ private:
 #endif
 
 private:
-  //!
-  Gtk::HButtonBox *button_box;
-  
-  //! Window width
-  int window_width;
-
-  //! Width height
-  int window_height;
-
   //! The Time
   TimeBar *timebar;
                    
-  //!
+  //! Progress
   int progress_value;
 
-  //!
+  //! Progress
   int progress_max_value;
 
-  //!
-  bool insist_break;
-  
 #ifdef HAVE_EXERCISES
   Gtk::HBox pluggable_panel;
 #endif
-
-  //! Send response to this interface.
-  BreakResponseInterface *break_response;
-
-  HeadInfo &head_info;
 };
 
-inline void
-RestBreakWindow::set_response(BreakResponseInterface *bri)
-{
-  break_response = bri;
-}
 
 #endif // RESTBREAKWINDOW_HH

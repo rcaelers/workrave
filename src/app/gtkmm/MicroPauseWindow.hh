@@ -22,7 +22,6 @@
 #include <stdio.h>
 
 #include "BreakWindow.hh"
-#include "BreakWindowInterface.hh"
 
 class TimerInterface;
 class TimeBar;
@@ -33,23 +32,17 @@ namespace Gtk
 }
 
 class MicroPauseWindow :
-  public BreakWindow,
-  public BreakWindowInterface
+  public BreakWindow
 {
 public:
   MicroPauseWindow(HeadInfo &head, TimerInterface *timer, bool ignorable, bool insist);
   virtual ~MicroPauseWindow();
 
-  void start();
-  void stop();
-  void destroy();
   void set_progress(int value, int max_value);
   void heartbeat();
-  void set_response(BreakResponseInterface *bri);
-  
+
 protected:
-  void on_postpone_button_clicked();
-  void on_skip_button_clicked();
+  Gtk::Widget *create_gui();
   
 private:
   void refresh();
@@ -66,24 +59,13 @@ private:
   // Label
   Gtk::Label *label;
 
-  //!
+  //! Progress
   int progress_value;
 
-  //!
+  //! Progress
   int progress_max_value;
-
-  //!
-  bool insist_break;
-
-  //! Send response to this interface.
-  BreakResponseInterface *break_response;
 };
 
 
-inline void
-MicroPauseWindow::set_response(BreakResponseInterface *bri)
-{
-  break_response = bri;
-}
 
 #endif // MICROPAUSEWINDOW_HH

@@ -61,21 +61,21 @@ const int MARGINY = 8;
  *  \param control The controller.
  */
 RestBreakWindow::RestBreakWindow(HeadInfo &head, bool ignorable, bool insist) :
-  window_width(0),
-  window_height(0),
+  BreakWindow(BREAK_ID_REST_BREAK, head, ignorable, insist),
   timebar(NULL),
   progress_value(0),
-  progress_max_value(0),
-  insist_break(insist),
-  head_info(head)
+  progress_max_value(0)
 {
   TRACE_ENTER("RestBreakWindow::RestBreakWindow");
-
-  // Initialize this window
   set_title(_("_Rest break"));
-  
+  TRACE_EXIT();
+}
+
+Gtk::Widget *
+RestBreakWindow::create_gui()
+{
   // Add other widgets.
-  Gtk::VBox *vbox = manage(new Gtk::VBox(false, 6));
+  Gtk::VBox *vbox = new Gtk::VBox(false, 6);
   vbox->pack_start(
 #ifdef HAVE_EXERCISES
                    pluggable_panel
@@ -87,43 +87,14 @@ RestBreakWindow::RestBreakWindow(HeadInfo &head, bool ignorable, bool insist) :
   // Timebar
   timebar = manage(new TimeBar);
   vbox->pack_start(*timebar, false, false, 6);
-  
-  // Button box at the bottom.
-  if (ignorable)
+
+  Gtk::HButtonBox *button_box
+    = manage(create_break_buttons(TRUE, FALSE));
+  if (button_box)
     {
-      button_box = manage(new Gtk::HButtonBox(Gtk::BUTTONBOX_END, 6));
-      
-      Gtk::Button *lockButton = create_lock_button();
-      if (lockButton != NULL)
-        button_box->pack_end(*manage(lockButton), Gtk::SHRINK, 0);
-
-      Gtk::Button *skipButton = manage(create_skip_button());
-      button_box->pack_end(*skipButton, Gtk::SHRINK, 0);
-
-      Gtk::Button *postponeButton = manage(create_postpone_button());
-      button_box->pack_end(*postponeButton, Gtk::SHRINK, 0);
-      
       vbox->pack_end(*button_box, Gtk::SHRINK, 6);
-  
-      postponeButton->signal_clicked().connect(SigC::slot(*this, &RestBreakWindow::on_postpone_button_clicked));
-      skipButton->signal_clicked().connect(SigC::slot(*this, &RestBreakWindow::on_skip_button_clicked));
     }
-  
-  add(*vbox);
-  
-  show_all_children();
-  stick();
-  
-  // Set window hints.
-  WindowHints::set_skip_winlist(Gtk::Widget::gobj(), true);
-  WindowHints::set_always_on_top(Gtk::Widget::gobj(), true);
-  
-  add_events(Gdk::EXPOSURE_MASK);
-  add_events(Gdk::FOCUS_CHANGE_MASK);
-
-  set_screen(head);
-  
-  TRACE_EXIT();
+  return vbox;
 }
 
 
@@ -131,7 +102,6 @@ RestBreakWindow::RestBreakWindow(HeadInfo &head, bool ignorable, bool insist) :
 RestBreakWindow::~RestBreakWindow()
 {
   TRACE_ENTER("RestBreakWindow::~RestBreakWindow");
-  ungrab();
   TRACE_EXIT();
 }
 
@@ -145,6 +115,7 @@ RestBreakWindow::start()
   set_ignore_activity(false);
   
 #ifdef HAVE_EXERCISES
+  init_gui();
   if (get_exercise_count() > 0)
     {
       install_exercises_panel();
@@ -154,77 +125,10 @@ RestBreakWindow::start()
       install_info_panel();
     }
 #endif
-  center();
-  show_all();
 
-  if (insist_break)
-    {
-      grab();
-    }
+  BreakWindow::start();
 
-#ifdef CAUSES_FVWM_FOCUS_PROBLEMS
-  present(); // After grab() please (Windows)
-#endif
   TRACE_EXIT();
-}
-
-
-//! Stops the restbreak.
-void
-RestBreakWindow::stop()
-{
-  TRACE_ENTER("RestBreakWindow::stop");
-  ungrab();
-  hide_all();
-  TRACE_EXIT();
-}
-
-
-//! Self-Destruct
-/*!
- *  This method MUST be used to destroy the objects through the
- *  BreakWindowInterface. it is NOT possible to do a delete on
- *  this interface...
- */
-void
-RestBreakWindow::destroy()
-{
-  delete this;
-}
-
-//! The postpone button was clicked.
-void
-RestBreakWindow::on_postpone_button_clicked()
-{
-  if (break_response != NULL)
-    {
-      break_response->postpone_break(BREAK_ID_REST_BREAK);
-    }
-}
-
-
-
-//! The skip button was clicked.
-void
-RestBreakWindow::on_skip_button_clicked()
-{
-  if (break_response != NULL)
-    {
-      break_response->skip_break(BREAK_ID_REST_BREAK);
-    }
-}
-
-
-
-//! RestBreak window is exposed.
-bool
-RestBreakWindow::on_expose_event(GdkEventExpose* e)
-{
-  // Send event to parent.
-  Gtk::Window::on_expose_event(e);
-
-  draw_time_bar();
-  return true;
 }
 
 
@@ -248,7 +152,6 @@ RestBreakWindow::set_progress(int value, int max_value)
 void
 RestBreakWindow::draw_time_bar()
 {
-  timebar->set_text_color(Gdk::Color("black"));
   timebar->set_progress(progress_value, progress_max_value);
 
   time_t time = progress_max_value - progress_value;
@@ -310,7 +213,7 @@ RestBreakWindow::get_exercise_count()
 void
 RestBreakWindow::install_exercises_panel()
 {
-  if (head_info.count != 0)
+  if (head.count != 0)
     {
       install_info_panel();
     }

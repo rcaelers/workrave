@@ -39,11 +39,15 @@ static const char rcsid[] = "$Id$";
 
 //! Construct a new Daily limit window.
 DailyLimitWindow::DailyLimitWindow(HeadInfo &head, bool ignorable, bool insist) :
-  insist_break(insist)
+  BreakWindow(BREAK_ID_DAILY_LIMIT, head, ignorable, insist)
 {
   set_title(_("Daily limit"));
+}
 
-  // Label
+Gtk::Widget *
+DailyLimitWindow::create_gui()
+{
+  // label
   Glib::ustring txt = HigUtil::create_alert_text
     (_("Daily limit"),
      _("You have reached your daily limit. Please stop working\n"
@@ -64,47 +68,17 @@ DailyLimitWindow::DailyLimitWindow(HeadInfo &head, bool ignorable, bool insist) 
   hbox->pack_start(*label, Gtk::EXPAND | Gtk::FILL, 0);
 
   // Overall vbox
-  Gtk::VBox *box = manage(new Gtk::VBox(false, 12));
+  Gtk::VBox *box = new Gtk::VBox(false, 12);
   box->pack_start(*hbox, Gtk::EXPAND | Gtk::FILL, 0);
 
   // Button box at the bottom.
-  if (ignorable)
+  Gtk::HButtonBox *button_box
+    = manage(create_break_buttons(true, true));
+  if (button_box)
     {
-      Gtk::HButtonBox *button_box = manage(new Gtk::HButtonBox(Gtk::BUTTONBOX_END, 6));
-      Gtk::Button *shutdownButton = create_shutdown_button();
-      if (shutdownButton != NULL)
-        {
-          button_box->pack_end(*manage(shutdownButton), Gtk::SHRINK, 0);
-        }
-      else
-        {
-          Gtk::Button *lockButton = create_lock_button();
-          if (lockButton != NULL)
-            button_box->pack_end(*manage(lockButton), Gtk::SHRINK, 0);
-        }
-      Gtk::Button *skipButton = manage(create_skip_button());
-      button_box->pack_end(*skipButton, Gtk::SHRINK, 0);
-      Gtk::Button *postponeButton = manage(create_postpone_button());
-      button_box->pack_end(*postponeButton, Gtk::SHRINK, 0);
-      postponeButton->signal_clicked().connect(SigC::slot(*this, &DailyLimitWindow::on_postpone_button_clicked));
-      skipButton->signal_clicked().connect(SigC::slot(*this, &DailyLimitWindow::on_skip_button_clicked));
-
       box->pack_start(*button_box, Gtk::EXPAND | Gtk::FILL, 0);
     }
-
-  add(*box);
-
-  show_all_children();
-  stick();
-  
-  // Set some window hints.
-#ifdef BROKEN  
-  WindowHints::set_skip_winlist(Gtk::Widget::gobj(), true);
-#endif  
-  WindowHints::set_always_on_top(Gtk::Widget::gobj(), true);
-  GTK_WIDGET_UNSET_FLAGS(Gtk::Widget::gobj(), GTK_CAN_FOCUS);
-
-  set_screen(head);
+  return box;
 }
 
 
@@ -112,48 +86,6 @@ DailyLimitWindow::DailyLimitWindow(HeadInfo &head, bool ignorable, bool insist) 
 DailyLimitWindow::~DailyLimitWindow()
 {
 }
-
-
-//! Starts the daily limit.
-void
-DailyLimitWindow::start()
-{
-  center();
-  show_all();
-
-  if (insist_break)
-    {
-      grab();
-    }
-
-#ifdef CAUSES_FVWM_FOCUS_PROBLEMS
-  present(); // After grab() please (Windows)
-#endif
-}
-
-
-//! Stops the daily limit.
-void
-DailyLimitWindow::stop()
-{
-  ungrab();
-  hide_all();
-}
-
-
-//! Self-Destruct
-/*!
- *  This method MUST be used to destroy the objects through the
- *  BreakWindowInterface. it is NOT possible to do a delete on
- *  this interface...
- */
-void
-DailyLimitWindow::destroy()
-{
-  delete this;
-}
-
-
 
 void
 DailyLimitWindow::set_progress(int value, int max_value)
@@ -164,30 +96,3 @@ DailyLimitWindow::set_progress(int value, int max_value)
 }
 
 
-//! The postpone button was clicked.
-void
-DailyLimitWindow::on_postpone_button_clicked()
-{
-  if (break_response != NULL)
-    {
-      break_response->postpone_break(BREAK_ID_DAILY_LIMIT);
-    }
-}
-
-
-//! The skip button was clicked.
-void
-DailyLimitWindow::on_skip_button_clicked()
-{
-  if (break_response != NULL)
-    {
-      break_response->skip_break(BREAK_ID_DAILY_LIMIT);
-    }
-}
-
-
-//! Refreshes the window.
-void
-DailyLimitWindow::refresh()
-{
-}

@@ -40,13 +40,17 @@ static const char rcsid[] = "$Id$";
 
 //! Construct a new Micropause window.
 MicroPauseWindow::MicroPauseWindow(HeadInfo &head, TimerInterface *timer, bool ignorable, bool insist) :
+  BreakWindow(BREAK_ID_MICRO_PAUSE, head, ignorable, insist),
   restbreak_timer(timer),
   progress_value(0),
-  progress_max_value(0),
-  insist_break(insist)
+  progress_max_value(0)
 {
   set_title(_("Micro-pause"));
+}
 
+Gtk::Widget *
+MicroPauseWindow::create_gui()
+{
   // Time bar
   time_bar = manage(new TimeBar);
   time_bar->set_text("Micropause 0:32"); // FIXME
@@ -65,37 +69,19 @@ MicroPauseWindow::MicroPauseWindow(HeadInfo &head, TimerInterface *timer, bool i
   hbox->pack_start(*label, Gtk::EXPAND | Gtk::FILL, 0);
 
   // Overall vbox
-  Gtk::VBox *box = manage(new Gtk::VBox(false, 12));
+  Gtk::VBox *box = new Gtk::VBox(false, 12);
   box->pack_start(*hbox, Gtk::EXPAND | Gtk::FILL, 0);
   box->pack_start(*time_bar, Gtk::EXPAND | Gtk::FILL, 0);
 
   // Button box at the bottom.
-  if (ignorable)
+  Gtk::HButtonBox *button_box
+    = manage(create_break_buttons(false, false));
+  if (button_box != NULL)
     {
-      Gtk::HButtonBox *button_box = manage(new Gtk::HButtonBox(Gtk::BUTTONBOX_END, 6));
-      Gtk::Button *skipButton = manage(create_skip_button());
-      button_box->pack_end(*skipButton, Gtk::SHRINK, 0);
-      Gtk::Button *postponeButton = manage(create_postpone_button());
-      button_box->pack_end(*postponeButton, Gtk::SHRINK, 0);
-      postponeButton->signal_clicked().connect(SigC::slot(*this, &MicroPauseWindow::on_postpone_button_clicked));
-      skipButton->signal_clicked().connect(SigC::slot(*this, &MicroPauseWindow::on_skip_button_clicked));
-
       box->pack_start(*button_box, Gtk::EXPAND | Gtk::FILL, 0);
     }
 
-  add(*box);
-
-  //GTK_WIDGET_UNSET_FLAGS(Gtk::Widget::gobj(), GTK_CAN_FOCUS);
-  unset_flags(Gtk::CAN_FOCUS);
-
-  show_all_children();
-  stick();
-  
-  set_screen(head);
-
-  // Set some window hints.
-  WindowHints::set_skip_winlist(Gtk::Widget::gobj(), true);
-  WindowHints::set_always_on_top(Gtk::Widget::gobj(), true);
+  return box;
 }
 
 
@@ -106,53 +92,6 @@ MicroPauseWindow::~MicroPauseWindow()
   TRACE_EXIT();
 }
 
-
-//! Starts the micropause.
-void
-MicroPauseWindow::start()
-{
-  TRACE_ENTER("MicroPauseWindow::start");
-  refresh();
-  center();
-  show_all();
-
-  if (insist_break)
-    {
-      grab();
-    }
-#ifdef CAUSES_FVWM_FOCUS_PROBLEMS
-  present(); // After grab() please (Windows)
-#endif
-  
-  TRACE_EXIT();
-}
-
-
-//! Stops the micropause.
-void
-MicroPauseWindow::stop()
-{
-  TRACE_ENTER("MicroPauseWindow::stop");
-
-  ungrab();
-  
-  hide_all();
-
-  TRACE_EXIT();
-}
-
-
-//! Self-Destruct
-/*!
- *  This method MUST be used to destroy the objects through the
- *  BreakWindowInterface. it is NOT possible to do a delete on
- *  this interface...
- */
-void
-MicroPauseWindow::destroy()
-{
-  delete this;
-}
 
 
 //! Updates the main window.
@@ -227,23 +166,3 @@ MicroPauseWindow::set_progress(int value, int max_value)
 }
 
 
-//! The postpone button was clicked.
-void
-MicroPauseWindow::on_postpone_button_clicked()
-{
-  if (break_response != NULL)
-    {
-      break_response->postpone_break(BREAK_ID_MICRO_PAUSE);
-    }
-}
-
-
-//! The skip button was clicked.
-void
-MicroPauseWindow::on_skip_button_clicked()
-{
-  if (break_response != NULL)
-    {
-      break_response->skip_break(BREAK_ID_MICRO_PAUSE);
-    }
-}

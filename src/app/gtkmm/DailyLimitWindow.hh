@@ -22,38 +22,19 @@
 #include <stdio.h>
 
 #include "BreakWindow.hh"
-#include "BreakWindowInterface.hh"
 
 class DailyLimitWindow :
-  public BreakWindow,
-  public BreakWindowInterface
+  public BreakWindow
 {
 public:
   DailyLimitWindow(HeadInfo &head, bool ignorable, bool insist);
   virtual ~DailyLimitWindow();
 
-  void start();
-  void stop();
-  void destroy();
   void set_progress(int value, int max_value);
-  void refresh();
-  void set_response(BreakResponseInterface *bri);
-  
-protected:
-  void on_postpone_button_clicked();
-  void on_skip_button_clicked();
-  
-private:
-  bool insist_break;
 
-  //! Send response to this interface.
-  BreakResponseInterface *break_response;
+protected:
+  Gtk::Widget *create_gui();
 };
 
-inline void
-DailyLimitWindow::set_response(BreakResponseInterface *bri)
-{
-  break_response = bri;
-}
 
 #endif // DAILYLIMITWINDOW_HH
