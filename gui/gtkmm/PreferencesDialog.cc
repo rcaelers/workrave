@@ -71,9 +71,6 @@ PreferencesDialog::PreferencesDialog()
   // Notebook
   add_page(_("Timers"), "time.png", *timer_page);
   add_page(_("User interface"), "display.png", *gui_page);
-#ifdef HAVE_X
-  add_page(_("Applet"), "applet.png", *applet_page);
-#endif  
 #ifdef HAVE_DISTRIBUTION
   add_page(_("Network"), "network.png", *network_page);
 #endif
