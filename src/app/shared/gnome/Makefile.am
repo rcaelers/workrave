@@ -17,6 +17,6 @@ libappgnome_a_SOURCES 	= GnomeSoundPlayer.cc
 
 
 libappgnome_a_CXXFLAGS 	= -DWORKRAVE_DATADIR="\"${pkgdatadir}\"" -D_XOPEN_SOURCE=600 \
-			  -W @SHARED_CFLAGS@ @CORE_INTF@ @GNOMEUI_CFLAGS@ @GTK_CFLAGS@ @GLIB_CFLAGS@ 
+			  -W -I.. -I../intf @SHARED_CFLAGS@ @CORE_INTF@ @GNOMEUI_CFLAGS@ @GTK_CFLAGS@ @GLIB_CFLAGS@ 
 
 endif
