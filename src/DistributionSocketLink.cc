@@ -1047,7 +1047,7 @@ DistributionSocketLink::send_client_list(Client *client)
         }
 
       // Put packet size in the packet and send.
-      dist_manager->log(_("Sending client-list to %s:%d."), client->hostname, client->port);
+      // dist_manager->log(_("Sending client-list to %s:%d."), client->hostname, client->port);
       packet.poke_ushort(clients_pos, count);
       send_packet(client, packet);
     }
@@ -1073,7 +1073,7 @@ DistributionSocketLink::handle_client_list(Client *client)
   bool sender_master = flags & CLIENTLIST_IAM_ACTIVE;
   bool has_master_ref = flags & CLIENTLIST_HAS_ACTIVE_REF;
   
-  dist_manager->log(_("Received client-list from %s:%d."), client->hostname, client->port);
+  // dist_manager->log(_("Received client-list from %s:%d."), client->hostname, client->port);
   
   if (sender_master)
     {
@@ -1185,8 +1185,8 @@ DistributionSocketLink::handle_claim(Client *client)
       // If I was previously master, distribute state.
       if (was_master)
         {
-          dist_manager->log(_("Transferring state to client %s:%d."),
-                            client->hostname, client->port);
+          //dist_manager->log(_("Transferring state to client %s:%d."),
+          //                  client->hostname, client->port);
           send_state();
         }
   
@@ -1380,7 +1380,7 @@ DistributionSocketLink::handle_state(Client *client)
 
   bool will_i_become_master = false;
 
-  dist_manager->log(_("Reveived state from client %s:%d."), client->hostname, client->port);
+  // dist_manager->log(_("Reveived state from client %s:%d."), client->hostname, client->port);
   
   gchar *name = packet.unpack_string();
   gint port = packet.unpack_ushort();

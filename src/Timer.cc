@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-10-30 18:17:41 robc>
+// Time-stamp: <2002-11-08 19:52:58 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -99,7 +99,7 @@ Timer::enable()
       stop_timer();
 
       // TODO: new, testing.
-      if (autoreset_enabled && autoreset_interval != 0)
+      if (autoreset_enabled && autoreset_interval != 0 && get_elapsed_time() == 0)
         {
           elapsed_idle_time = autoreset_interval;
         }

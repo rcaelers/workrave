@@ -224,11 +224,15 @@ AC_SUBST(GTKMM_CFLAGS)
 if test "x$config_with_gnome" = "xyes"
 then
   PKG_CHECK_MODULES(gnomeui, libgnomeui-2.0)
+  PKG_CHECK_MODULES(APPLET, libpanelapplet-2.0 >= 1.5.20)
 fi
 
 AC_SUBST(gnomeui_LIBS)
 AC_SUBST(gnomeui_CFLAGS)
-        
+
+AC_SUBST(APPLET_CFLAGS)
+AC_SUBST(APPLET_LIBS)
+                
 PKG_CHECK_MODULES(GMODULE, gmodule-2.0)
 
 AC_SUBST(GMODULE_LIBS)
@@ -362,6 +366,13 @@ LIBS=$LIBS_save
 dnl internationalization macros
 AM_GNU_GETTEXT
 
+GETTEXT_PACKAGE=workrave
+AC_SUBST(GETTEXT_PACKAGE)
+AC_DEFINE(GETTEXT_PACKAGE, "workrave", [Blaat])
+AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE")
+
+dnl AM_GLIB_GNU_GETTEXT
+        
 if test "x$config_with_xml" = "xyes"
 then
     AC_PATH_PROG(GDOME_CONFIG, gdome-config, no)
@@ -484,4 +495,4 @@ AM_CONDITIONAL(HAVE_ARCH_UNIX, test "x$platform_win32" != "xyes")
 AM_CONDITIONAL(HAVE_GUI_GTKMM, test "x$GTKMM_LIBS" != "x")
 AM_CONDITIONAL(HAVE_DISTRIBUTION, test "x$config_distribution" = "xyes")
                                                            
-AC_OUTPUT(src/Makefile arch/Makefile arch/unix/Makefile arch/win32/Makefile arch/win32/harpoon/Makefile gui/Makefile gui/gtkmm/Makefile images/Makefile sounds/Makefile debian/Makefile Makefile intl/Makefile po/Makefile.in m4/Makefile workrave.spec)
+AC_OUTPUT(src/Makefile arch/Makefile arch/unix/Makefile arch/win32/Makefile arch/win32/harpoon/Makefile gui/Makefile gui/gtkmm/Makefile gui/gnome/Makefile images/Makefile sounds/Makefile debian/Makefile Makefile intl/Makefile po/Makefile.in m4/Makefile workrave.spec)

@@ -159,11 +159,8 @@ BreakControl::heartbeat()
 
         if (is_idle)
           {
-            if (prelude_time >= 5)
+            if (prelude_time >= 10)
               {
-                // Show at least 5 s.
-                // FIXME: MUST be at least the noise threshold.. check this
-                
                 goto_stage(STAGE_TAKING);
               }
           }

@@ -7,7 +7,7 @@
 
 MAINTAINERCLEANFILES = Makefile.in
 
-SUBDIRS = gtkmm
+SUBDIRS = gtkmm gnome
 
 noinst_LIBRARIES = libgui.a
 

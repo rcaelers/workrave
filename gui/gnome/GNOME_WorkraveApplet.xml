@@ -1,0 +1,12 @@
+<Root>
+  <popups>
+    <popup name="button3">
+      <menuitem name="Fish Preferences Item" verb="FishPreferences" _label="_Preferences..."
+    		    pixtype="stock" pixname="gtk-properties"/>
+      <menuitem name="Fish Help Item" verb="FishHelp" _label="_Help"
+    		    pixtype="stock" pixname="gtk-help"/>
+      <menuitem name="Fish About Item" verb="FishAbout" _label="_About..."
+    		    pixtype="stock" pixname="gnome-stock-about"/>
+    </popup>
+  </popups>
+</Root>
