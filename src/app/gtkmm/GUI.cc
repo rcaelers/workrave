@@ -1252,7 +1252,7 @@ GUI::get_block_mode()
     ->get_value(CFG_KEY_GUI_BLOCK_MODE, &mode);
   if (! b)
     {
-      mode = BLOCK_MODE_ALL;
+      mode = BLOCK_MODE_INPUT;
     }
   return (BlockMode) mode;
 }
