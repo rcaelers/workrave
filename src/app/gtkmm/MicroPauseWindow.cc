@@ -41,6 +41,10 @@ MicroPauseWindow::MicroPauseWindow(TimerInterface *timer, bool ignorable, bool i
   progress_max_value(0),
   insist_break(insist)
 {
+  // Need to realize window before it is shown
+  // Otherwise, there is not gobj()...
+  realize();
+
   set_border_width(12);
   
   // Time bar
@@ -81,9 +85,7 @@ MicroPauseWindow::MicroPauseWindow(TimerInterface *timer, bool ignorable, bool i
 
   add(*box);
 
-  // Need to realize window before it is shown
-  // Otherwise, there is not gobj()...
-  realize_if_needed();
+  show_all_children();
   stick();
   
   // Set some window hints.

@@ -79,7 +79,6 @@ static const char rcsid[] = "$Id$";
 
 GUI *GUI::instance = NULL;
 
-
 //! GUI Constructor.
 /*!
  *  \param argc number of command line parameters.
@@ -179,7 +178,7 @@ GUI::main()
   init_multihead();
   init_sound_player();
   init_remote_control();
-  
+
   // Enter the event loop
   gdk_threads_enter();
   Gtk::Main::run();

@@ -102,27 +102,18 @@ BreakWindow::set_border_width(guint width)
 void
 BreakWindow::center()
 {
-  TRACE_ENTER("BreakWindow::center");
-
 #ifdef HAVE_GTK_MULTIHEAD
 
   if (!screen.is_null())
     {
-      TRACE_MSG("screen set");
-      
       Gdk::Rectangle geometry;
       screen->get_monitor_geometry(monitor, geometry);
 
-      int winx, winy, width, height, wind;
-      Glib::RefPtr<Gdk::Window> window = get_window();
-      window->get_geometry(winx, winy, width, height, wind);
-
-      TRACE_MSG(geometry.get_x() << " " << geometry.get_y() << " " <<
-                geometry.get_width() << " " << geometry.get_height());
-
-      TRACE_MSG(winx << " " << winy << " " << width << " "<< height);
-      int x = geometry.get_x() + (geometry.get_width() - width) / 2;
-      int y = geometry.get_y() + (geometry.get_height() - height) / 2;
+      GtkRequisition size;
+      size_request(&size);
+      
+      int x = geometry.get_x() + (geometry.get_width() - size.width) / 2;
+      int y = geometry.get_y() + (geometry.get_height() - size.height) / 2;
       
       set_position(Gtk::WIN_POS_NONE);
       move(x, y);
@@ -134,7 +125,6 @@ BreakWindow::center()
     }
 
 #endif  
-  TRACE_EXIT();
 }
 
 
@@ -145,6 +135,7 @@ BreakWindow::set_screen(Glib::RefPtr<Gdk::Screen> screen, int monitor)
 {
   this->screen = screen;
   this->monitor = monitor;
+  Gtk::Window::set_screen(screen);
 }
 #endif
 

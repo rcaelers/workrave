@@ -36,6 +36,10 @@ static const char rcsid[] = "$Id$";
 DailyLimitWindow::DailyLimitWindow(bool ignorable, bool insist MULTIHEAD_PARAMS) :
   insist_break(insist)
 {
+  // Need to realize window before it is shown
+  // Otherwise, there is not gobj()...
+  realize();
+
   set_border_width(12);
   
   // Label
@@ -78,9 +82,7 @@ DailyLimitWindow::DailyLimitWindow(bool ignorable, bool insist MULTIHEAD_PARAMS)
 
   add(*box);
 
-  // Need to realize window before it is shown
-  // Otherwise, there is not gobj()...
-  realize_if_needed();
+  show_all_children();
   stick();
   
   // Set some window hints.

@@ -66,9 +66,13 @@ RestBreakWindow::RestBreakWindow(bool ignorable, bool insist MULTIHEAD_PARAMS) :
   insist_break(insist)
 {
   TRACE_ENTER("RestBreakWindow::RestBreakWindow");
+
+  realize();
+  
   // Initialize this window
   set_border_width(12);
-
+  set_resizable(false);
+  
   // Add other widgets.
   Gtk::VBox *vbox = manage(new Gtk::VBox(false, 6));
   vbox->pack_start(
@@ -87,8 +91,10 @@ RestBreakWindow::RestBreakWindow(bool ignorable, bool insist MULTIHEAD_PARAMS) :
   if (ignorable)
     {
       button_box = manage(new Gtk::HButtonBox(Gtk::BUTTONBOX_END, 6));
+      
       Gtk::Button *skipButton = manage(create_skip_button());
       button_box->pack_end(*skipButton, Gtk::SHRINK, 0);
+
       Gtk::Button *postponeButton = manage(create_postpone_button());
       button_box->pack_end(*postponeButton, Gtk::SHRINK, 0);
       
@@ -99,13 +105,13 @@ RestBreakWindow::RestBreakWindow(bool ignorable, bool insist MULTIHEAD_PARAMS) :
     }
   
   add(*vbox);
-  realize_if_needed();
+  
+  show_all_children();
   stick();
   
   // Set window hints.
   WindowHints::set_skip_winlist(Gtk::Widget::gobj(), true);
   WindowHints::set_always_on_top(Gtk::Widget::gobj(), true);
-  set_resizable(false);
   
   add_events(Gdk::EXPOSURE_MASK);
   add_events(Gdk::FOCUS_CHANGE_MASK);
