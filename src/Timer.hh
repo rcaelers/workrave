@@ -144,6 +144,9 @@ private:
   //! Default snooze time
   time_t snooze_interval;
 
+  //! Snooze on active time instead of on actual time.
+  bool snooze_on_active;
+  
   //! Don't snooze til next reset or changes.
   bool snooze_inhibited;
 
@@ -173,6 +176,9 @@ private:
 
   //! Last time the limit was reached.
   time_t last_limit_time;
+
+  //! The total elapsed time the last time the limit was reached.
+  time_t last_limit_elapsed;
   
   //! Time when the timer was last started.
   time_t last_start_time;

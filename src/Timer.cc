@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-10-26 17:49:04 robc>
+// Time-stamp: <2002-10-27 22:08:29 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -50,6 +50,7 @@ Timer::Timer(TimeSource *timeSource) :
   timer_state(STATE_INVALID),
   previous_timer_state(STATE_INVALID),
   snooze_interval(60),
+  snooze_on_active(true),
   snooze_inhibited(false),
   limit_enabled(true),
   limit_interval(600),
@@ -60,6 +61,7 @@ Timer::Timer(TimeSource *timeSource) :
   elapsed_time(0),
   elapsed_idle_time(0),
   last_limit_time(0),
+  last_limit_elapsed(0),
   last_start_time(0),
   last_reset_time(0),
   last_stop_time(0),
@@ -97,9 +99,9 @@ Timer::enable()
 
       if (get_elapsed_time() >= limit_interval)
         {
-          TRACE_ENTER("overdue");
-      
+          // Break is overdue, force a snooze.
           last_limit_time = time_source->get_time();
+          last_limit_elapsed = 0;
           compute_next_limit_time();
         }
 
@@ -133,7 +135,10 @@ Timer::set_limit(long limitTime)
 
   if (get_elapsed_time() < limitTime)
     {
+      // limit increased, pretend there was no limit-reached yet.
+      // FIXME: Check if the timer would have been overdue with new settings.
       last_limit_time = 0;
+      last_limit_elapsed = 0;
     }
 
   compute_next_limit_time();
@@ -163,10 +168,9 @@ Timer::set_snooze_interval(time_t t)
 void
 Timer::inhibit_snooze()
 {
-  TRACE_ENTER("Timer::inhibit_snooze");
   snooze_inhibited = true;
-  TRACE_EXIT();
 }
+
 
 //! Enable/Disable auto-reset
 /*!
@@ -217,21 +221,15 @@ Timer::compute_next_limit_time()
 {
   TRACE_ENTER_MSG("Timer::compute_next_limit_time", timer_id);
 
-  if (timer_enabled && last_limit_time != 0 && snooze_inhibited)
+  // default action.
+  next_limit_time = 0;
+
+  if (timer_enabled && last_limit_time != 0 && !snooze_on_active)
     {
-      TRACE_MSG("Inhibit snooze");
-    }
-    
-  if (timer_enabled && last_limit_time != 0)
-    {
+      // Timer already reached limit
       if (!snooze_inhibited)
         {
-          // Timer already reached limit
           next_limit_time = last_limit_time + snooze_interval;
-        }
-      else
-        {
-          next_limit_time = 0;
         }
     }
   else if (timer_enabled && timer_state == STATE_RUNNING && last_start_time != 0 &&
@@ -240,16 +238,22 @@ Timer::compute_next_limit_time()
       // We are enabled, running and a limit != 0 was set.
       // So update our current Limit.
 
-      // new limit = last start time + limit - elapsed.
+      if (last_limit_time != 0)
+        {
+          // Limit already reached.
+          if (snooze_on_active && !snooze_inhibited)
+            {
+              next_limit_time = last_start_time - elapsed_time + last_limit_elapsed + snooze_interval;
+            }
+        }
+      else
+        {
+          // new limit = last start time + limit - elapsed.
+          next_limit_time = last_start_time + limit_interval - elapsed_time;
+        }
+    }
       
-      next_limit_time = last_start_time + limit_interval - elapsed_time;
-    }
-  else
-    {
-      // Just in case....
-      next_limit_time = 0;
-    }
-
+    
   TRACE_RETURN(next_limit_time);
 }
 
@@ -315,6 +319,7 @@ Timer::reset_timer()
   // Full reset.
   elapsed_time = 0;
   last_limit_time = 0;
+  last_limit_elapsed = 0;
   last_reset_time = time_source->get_time();
   snooze_inhibited = false;
   
@@ -424,6 +429,7 @@ Timer::snooze_timer()
     {
       // recompute.
       last_limit_time = time_source->get_time();
+      //last_limit_elapsed = get_elapsed_time();
       compute_next_limit_time();
     }
 
@@ -438,6 +444,7 @@ Timer::freeze_timer(bool freeze)
     {
       if (freeze && !timer_frozen)
         {
+          // FIXME: Why does this say "last_limit_time" ??? should it be last_start_time???
           if (last_limit_time != 0 && timer_state == STATE_RUNNING)
             {
               elapsed_time += (time_source->get_time() - last_start_time);
@@ -557,9 +564,9 @@ Timer::process(ActivityState activityState, TimerInfo &info)
   
   activity_state = activityState;
   
-  time_t currentTime= time_source->get_time();
+  time_t current_time= time_source->get_time();
 
-  if (autoreset_interval_predicate && next_pred_reset_time != 0 && currentTime >=  next_pred_reset_time)
+  if (autoreset_interval_predicate && next_pred_reset_time != 0 && current_time >=  next_pred_reset_time)
     {
       // A next reset time was set and the current time >= reset time.
 
@@ -571,11 +578,12 @@ Timer::process(ActivityState activityState, TimerInfo &info)
       compute_next_predicate_reset_time();
       info.event = TIMER_EVENT_RESET;
     }
-  else if (next_limit_time != 0 && currentTime >=  next_limit_time)
+  else if (next_limit_time != 0 && current_time >=  next_limit_time)
     {
       // A next limit time was set and the current time >= limit time.
       next_limit_time = 0;
       last_limit_time = time_source->get_time();
+      last_limit_elapsed = get_elapsed_time();
 
       compute_next_limit_time();
       
@@ -583,7 +591,7 @@ Timer::process(ActivityState activityState, TimerInfo &info)
       // Its very unlikely (but not impossible) that this will overrule
       // the EventStarted. Hey, shit happends.
     }
-  else if (next_reset_time != 0 && currentTime >=  next_reset_time)
+  else if (next_reset_time != 0 && current_time >=  next_reset_time)
     {
       // A next reset time was set and the current time >= reset time.
       
@@ -673,6 +681,8 @@ Timer::deserialize_state(std::string state)
   if (get_elapsed_time() >= limit_interval)
     {
       last_limit_time = time_source->get_time();
+      last_limit_elapsed = 0;
+      
       compute_next_limit_time();
     }
 
