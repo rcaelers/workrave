@@ -48,6 +48,10 @@ public:
   MainWindow();
   ~MainWindow();
 
+  void open_window();
+  void close_window();
+  void toggle_window();
+  
   void update();
   static bool get_always_on_top();
   static void set_always_on_top(bool b);
@@ -71,6 +75,9 @@ private:
   //! Is the monitoring function suspended?
   bool monitor_suspended;
 
+  //! Is the windows iconified?
+  bool iconified;
+  
 private:
   //
   void init();

@@ -122,6 +122,7 @@ WindowHints::set_always_on_top(GtkWidget *window, bool onTop)
     {
       WmSpec::change_state(window, onTop, "_NET_WM_STATE_STAYS_ON_TOP");
       WmSpec::change_state(window, onTop, "_NET_WM_STATE_ABOVE");
+      WmSpec::change_state(window, !onTop, "_NET_WM_STATE_BELOW");
       rc = true;
     }
   

@@ -49,6 +49,7 @@ public:
   WR_METHOD       (void, set_applet_vertical, CORBA_boolean vertical);
   WR_METHOD       (void, set_applet_size, CORBA_long size);
   WR_METHOD       (void, set_applet, const Bonobo_Unknown applet);
+  WR_METHOD       (void, button_clicked, CORBA_long button);
   
 private:  
   //! The one and only instance

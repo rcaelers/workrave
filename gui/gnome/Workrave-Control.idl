@@ -25,6 +25,7 @@ module GNOME
       oneway void set_applet_vertical(in boolean vertical);
       oneway void set_applet_size(in long size);
       oneway void set_applet(in Bonobo::Unknown applet);
+      oneway void button_clicked(in long button);
     };
   };
 };

@@ -600,6 +600,38 @@ plug_added(GtkSocket *socket, void *manager)
 }
 
 
+static gboolean
+button_pressed(GtkWidget *widget, GdkEventButton *event, gpointer data)
+{
+  gboolean ret = FALSE;
+
+  if (event->button == 1)
+    {
+      workrave_applet_connect(FALSE);
+      
+      if (remote_control != NULL)
+        {
+          CORBA_Environment ev;
+          CORBA_exception_init(&ev);
+      
+          GNOME_Workrave_WorkraveControl_button_clicked(remote_control, event->button, &ev);
+
+          if (BONOBO_EX(&ev))
+            {
+              char *err = (char *) bonobo_exception_get_text(&ev);
+              g_warning (_("An exception occured '%s'"), err);
+              g_free(err);
+            }
+          
+          CORBA_exception_free(&ev);
+        }
+      
+      ret = TRUE;
+    }
+  
+  return ret;
+}
+
 static void
 showlog_callback(BonoboUIComponent *ui, const char *path, Bonobo_UIComponent_EventType type,
                  const char *state, gpointer user_data)
@@ -764,6 +796,16 @@ workrave_applet_fill(PanelApplet *applet)
   bonobo_ui_component_add_listener(ui, "Suspended", mode_callback, NULL);
   bonobo_ui_component_add_listener(ui, "Quiet", mode_callback, NULL);
 
+  // Eventbox
+  GtkEventBox *event_box = gtk_event_box_new();
+  applet_control->event_box = event_box;
+  gtk_widget_set_events(event_box, gtk_widget_get_events(event_box) | GDK_BUTTON_PRESS_MASK);
+  gtk_widget_show(GTK_WIDGET(event_box));
+  gtk_container_add(GTK_CONTAINER(applet), event_box);
+
+  g_signal_connect(G_OBJECT(event_box), "button_press_event", G_CALLBACK(button_pressed),
+                   applet_control);
+  
   // Socket.
   applet_control->socket = gtk_socket_new();
   
@@ -780,7 +822,7 @@ workrave_applet_fill(PanelApplet *applet)
 
   // Container.
   hbox = gtk_hbox_new(FALSE, 0);
-  gtk_container_add(GTK_CONTAINER(applet), hbox);
+  gtk_container_add(GTK_CONTAINER(event_box), hbox);
   gtk_box_pack_end(GTK_BOX(hbox), applet_control->socket, FALSE, FALSE, 0);
   gtk_box_pack_end(GTK_BOX(hbox), applet_control->image, FALSE, FALSE, 0);
 

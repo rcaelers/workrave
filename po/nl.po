@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-03-15 13:52+0100\n"
+"POT-Creation-Date: 2003-03-15 20:10+0100\n"
 "PO-Revision-Date: 2003-03-04 22:16+0100\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -13,15 +13,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: gui/BreakControl.cc:690
+#: gui/BreakControl.cc:687
 msgid "Disappears in"
 msgstr "Verdwijnt over"
 
-#: gui/BreakControl.cc:694
+#: gui/BreakControl.cc:691
 msgid "Break in"
 msgstr "Pauze over"
 
-#: gui/BreakControl.cc:698
+#: gui/BreakControl.cc:695
 msgid "Silent in"
 msgstr "Stil over"
 
@@ -106,43 +106,39 @@ msgstr "Plaats rustpauze en dagelijkse limiet op één plek"
 msgid "Place all timers in one spot"
 msgstr "Plaats alle klokken op dezelfde plek"
 
-#: gui/gtkmm/AppletPreferencePage.cc:75
-msgid "No timers visible"
-msgstr ""
-
-#: gui/gtkmm/AppletPreferencePage.cc:101
+#: gui/gtkmm/AppletPreferencePage.cc:99
 msgid "Hide"
 msgstr "Verberg"
 
-#: gui/gtkmm/AppletPreferencePage.cc:103
+#: gui/gtkmm/AppletPreferencePage.cc:101
 msgid "Show"
 msgstr "Toon"
 
-#: gui/gtkmm/AppletPreferencePage.cc:105
+#: gui/gtkmm/AppletPreferencePage.cc:103
 msgid "Show only when this timer is first due"
 msgstr "Toon alleen als deze als eerste afloopt"
 
-#: gui/gtkmm/AppletPreferencePage.cc:113
+#: gui/gtkmm/AppletPreferencePage.cc:111
 msgid "Applet enabled"
 msgstr "Applet actief"
 
-#: gui/gtkmm/AppletPreferencePage.cc:119
+#: gui/gtkmm/AppletPreferencePage.cc:117
 msgid "Placement:"
 msgstr "Plaatsing:"
 
-#: gui/gtkmm/AppletPreferencePage.cc:120
+#: gui/gtkmm/AppletPreferencePage.cc:118
 msgid "Cycle time:"
 msgstr "Tijd tussen pauzewissel:"
 
-#: gui/gtkmm/AppletPreferencePage.cc:121
+#: gui/gtkmm/AppletPreferencePage.cc:119
 msgid "Micro-pause:"
 msgstr "Micro-pauze:"
 
-#: gui/gtkmm/AppletPreferencePage.cc:122
+#: gui/gtkmm/AppletPreferencePage.cc:120
 msgid "Rest break:"
 msgstr "Rustpauze:"
 
-#: gui/gtkmm/AppletPreferencePage.cc:123
+#: gui/gtkmm/AppletPreferencePage.cc:121
 msgid "Daily limit:"
 msgstr "Dagelijkse limiet:"
 
@@ -166,7 +162,7 @@ msgstr "Overslaan"
 msgid "Postpone"
 msgstr "Uitstellen"
 
-#: gui/gtkmm/GUI.cc:334
+#: gui/gtkmm/GUI.cc:356
 msgid "I could not initialize Bonobo"
 msgstr "Bonobo kon niet geïnitialiseerd worden"
 
@@ -207,20 +203,25 @@ msgstr "Opnieuw verbinden"
 msgid "Show _log"
 msgstr "Toon _logboek"
 
-#: gui/gtkmm/Menus.cc:208
+#: gui/gtkmm/Menus.cc:204
+#, fuzzy
+msgid "Open"
+msgstr "_Open"
+
+#: gui/gtkmm/Menus.cc:214
 msgid "_Rest break"
 msgstr "Rustpauze"
 
-#: gui/gtkmm/Menus.cc:219 gui/gtkmm/StatisticsDialog.cc:50
+#: gui/gtkmm/Menus.cc:225 gui/gtkmm/StatisticsDialog.cc:50
 #: gui/gtkmm/StatisticsDialog.cc:134
 msgid "Statistics"
 msgstr "Statistieken"
 
-#: gui/gtkmm/Menus.cc:233
+#: gui/gtkmm/Menus.cc:239
 msgid "About..."
 msgstr "Info..."
 
-#: gui/gtkmm/Menus.cc:543
+#: gui/gtkmm/Menus.cc:549
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."

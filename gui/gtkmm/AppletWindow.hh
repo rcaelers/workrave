@@ -62,6 +62,7 @@ public:
   void config_changed_notify(string key);
   
   void on_menu_restbreak_now();
+  void button_clicked(int button);
 #ifdef HAVE_GNOME
   void set_menu_active(int menu, bool active);
   bool get_menu_active(int menu);
@@ -125,6 +126,9 @@ private:
   //! The system tray menu.
   Gtk::Menu *tray_menu;
 
+  //!
+  Gtk::Image *sheep;
+  
 #ifdef HAVE_GNOME
   // 
   GNOME_Workrave_AppletControl applet_control;

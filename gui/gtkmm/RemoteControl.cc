@@ -251,6 +251,26 @@ WR_METHOD_ARGS1_IMPL(void, set_applet, Bonobo_Unknown, applet_control)
 }
 
 
+WR_METHOD_ARGS1_IMPL(void, button_clicked, CORBA_long, button)
+{
+  TRACE_ENTER_MSG("button_clicked", button);
+
+  GUI *gui = GUI::get_instance();
+  assert(gui != NULL);
+  
+  AppletWindow *applet = NULL;
+  if (gui != NULL)
+    {
+      applet = gui->get_applet_window();
+    }
+
+  if (applet != NULL)
+    {
+      applet->button_clicked(button);
+    }
+  TRACE_EXIT();
+}
+
 
 /************************************************************************/
 /* GNOME::WorkraveControl                                               */
@@ -284,6 +304,7 @@ workrave_control_class_init(WorkraveControlClass *klass)
   WR_METHOD_REGISTER(set_applet_vertical);
   WR_METHOD_REGISTER(set_applet_size);
   WR_METHOD_REGISTER(set_applet);
+  WR_METHOD_REGISTER(button_clicked);
 }
 
 

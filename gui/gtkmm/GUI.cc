@@ -187,10 +187,32 @@ GUI::open_main_window()
 {
   if (main_window != NULL)
     {
-      main_window->deiconify();
-      main_window->raise();
+      main_window->open_window();
     }
 }
+
+
+//! Closes the main window.
+void
+GUI::close_main_window()
+{
+  if (main_window != NULL)
+    {
+      main_window->close_window();
+    }
+}
+
+
+//! Toggles the main window.
+void
+GUI::toggle_main_window()
+{
+  if (main_window != NULL)
+    {
+      main_window->toggle_window();
+    }
+}
+
 
 
 //! Periodic heartbeat.

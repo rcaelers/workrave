@@ -520,7 +520,7 @@ BreakControl::get_break_state()
 void
 BreakControl::postpone_break()
 {
-  if (user_initiated)
+  if (!user_initiated)
     {
       // Snooze the timer.
       // use "normal" snoozing... break_timer->snooze_timer();
@@ -542,26 +542,23 @@ BreakControl::postpone_break()
 void
 BreakControl::skip_break()
 {
-  if (user_initiated)
+  // This is to avoid a skip sound...
+  user_initiated = true;
+
+  // Reset the restbreak timer.
+  if (break_id == GUIControl::BREAK_ID_DAILY_LIMIT)
     {
-      // This is to avoid a skip sound...
-      user_initiated = true;
-      
-      // Reset the restbreak timer.
-      if (break_id == GUIControl::BREAK_ID_DAILY_LIMIT)
-        {
-          break_timer->inhibit_snooze();
-        }
-      else
-        {
-          break_timer->reset_timer();
-        }
-      
-      // Update stats.
-      Statistics *stats = Statistics::get_instance();
-      stats->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_SKIPPED);
+      break_timer->inhibit_snooze();
+    }
+  else
+    {
+      break_timer->reset_timer();
     }
   
+  // Update stats.
+  Statistics *stats = Statistics::get_instance();
+  stats->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_SKIPPED);
+
   // and stop the break.
   stop_break();
 }

@@ -28,6 +28,7 @@ static const char rcsid[] = "$Id$";
 #include "nls.h"
 #include "debug.hh"
 
+#include "Util.hh"
 #include "AppletWindow.hh"
 #include "Configurator.hh"
 #include "GUI.hh"
@@ -65,7 +66,7 @@ AppletWindow::AppletWindow() :
 #ifdef HAVE_GNOME
   applet_control(NULL),
 #endif
-  visible_count(0),
+  visible_count(-1),
   cycle_time(10),
   applet_vertical(false),
   applet_size(0),
@@ -89,6 +90,10 @@ AppletWindow::AppletWindow() :
   Menus *menus = Menus::get_instance();
   menus->set_applet_window(this);
 #endif
+
+  string sheep_file = Util::complete_directory("workrave-icon-medium.png", Util::SEARCH_PATH_IMAGES);
+  sheep = manage(new Gtk::Image(sheep_file));
+  sheep->reference();
   
   init();
 }
@@ -119,6 +124,9 @@ AppletWindow::~AppletWindow()
       if (timer_times[i] != NULL)
         timer_times[i]->unreference();
     }
+
+  if (sheep != NULL)
+    sheep->unreference();
   
   TRACE_EXIT();
 }
@@ -188,6 +196,12 @@ AppletWindow::init_table()
   // Compute table dimensions.
   int rows = number_of_timers;
   int columns = 1;
+
+  if (rows == 0)
+    {
+      // Show sheep.
+      rows = 1;
+    }
   
   if (applet_vertical)
     {
@@ -208,17 +222,7 @@ AppletWindow::init_table()
       plug->set_size_request(-1, applet_size);
     }
 
-  
-  // Create table
-  if (timers_box == NULL)
-    {
-      timers_box = new Gtk::Table(rows, 2 * columns, false);
-      timers_box->set_spacings(2);
-      timers_box->reference();
-      container->add(*timers_box);
-    }
 
-  
   // Compute new content.
   int new_content[GUIControl::BREAK_ID_SIZEOF];
   int slot = 0;
@@ -235,18 +239,56 @@ AppletWindow::init_table()
         }
     }
 
-
-  // Remove old
-  for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
+  if (timers_box != NULL)
     {
-      int id = current_content[i];
-      if (id != -1 && id != new_content[i])
+      bool remove_all = number_of_timers != visible_count;
+      
+      // Remove old
+      for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
         {
-          Gtk::Widget *child = timer_names[id];
-          timers_box->remove(*child);
-          child = timer_times[id];
-          timers_box->remove(*child);
+          int id = current_content[i];
+          if (id != -1 && (id != new_content[i] || remove_all))
+            {
+              TRACE_MSG("remove old " << i << " " << id);
+              Gtk::Widget *child = timer_names[id];
+              timers_box->remove(*child);
+              child = timer_times[id];
+              timers_box->remove(*child);
+
+              current_content[i] = -1;
+            }
         }
+
+      // Remove sheep
+      if ((number_of_timers > 0 || remove_all) && visible_count == 0)
+        {
+          TRACE_MSG("remove sheep ");
+          timers_box->remove(*sheep);
+          visible_count = -1;
+        }
+    }
+  
+  if (number_of_timers != visible_count)
+    {
+      delete timers_box;
+      timers_box = NULL;
+    }
+
+  
+  // Create table
+  if (timers_box == NULL)
+    {
+      timers_box = new Gtk::Table(rows, 2 * columns, false);
+      timers_box->set_spacings(2);
+      timers_box->reference();
+      container->add(*timers_box);
+    }
+
+  
+  // Add sheep.
+  if (number_of_timers == 0 && visible_count != 0)
+    {
+      timers_box->attach(*sheep, 0, 2, 0, 1, Gtk::FILL, Gtk::SHRINK);
     }
   
   // Fill table.
@@ -280,6 +322,8 @@ AppletWindow::init_table()
       current_content[i] = -1;
     }
 
+  visible_count = number_of_timers;
+  
   container->show_all();
   plug->show_all();
   TRACE_EXIT();
@@ -604,6 +648,13 @@ AppletWindow::init_gnome_applet()
       
       Gtk::Alignment *frame = new Gtk::Alignment(1.0, 1.0, 0.0, 0.0);
       frame->set_border_width(2);
+
+//       Gtk::EventBox *eventbox = manage(new Gtk::EventBox);
+//       eventbox->set_events(eventbox->get_events() | Gdk::BUTTON_PRESS_MASK);
+//       eventbox->add(*frame);
+//       eventbox->signal_button_press_event().connect(SigC::slot(*this, &AppletWindow::on_sheep_button_press_event));
+
+
       container = frame;
 
       plug = new Gtk::Plug(id);
@@ -921,13 +972,19 @@ AppletWindow::config_changed_notify(string key)
 bool
 AppletWindow::on_button_press_event(GdkEventButton *event)
 {
+  TRACE_ENTER("AppletWindow::on_button_press_event");
   bool ret = false;
 
-  if (tray_menu != NULL)
+  if (event->type == GDK_BUTTON_PRESS)
     {
-      if ((event->type == GDK_BUTTON_PRESS) && (event->button == 3))
+      if (event->button == 3 && tray_menu != NULL)
         {
           tray_menu->popup(event->button, event->time);
+          ret = true;
+        }
+      if (event->button == 1 && visible_count == 0)
+        {
+          button_clicked(1);
           ret = true;
         }
     }
@@ -935,6 +992,14 @@ AppletWindow::on_button_press_event(GdkEventButton *event)
   return ret;
 }
 
+void
+AppletWindow::button_clicked(int button)
+{
+  GUI *gui = GUI::get_instance();
+  assert(gui != NULL);
+  
+  gui->toggle_main_window();
+}
 
 AppletWindow::AppletMode
 AppletWindow::get_applet_mode() const

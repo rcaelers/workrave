@@ -80,7 +80,8 @@ const string MainWindow::CFG_KEY_MAIN_WINDOW_Y
  */
 MainWindow::MainWindow() :
   timers_box(NULL),
-  monitor_suspended(false)
+  monitor_suspended(false),
+  iconified(false)
 {
   init();
 }
@@ -161,7 +162,7 @@ MainWindow::init()
   show_all();
   if (get_start_in_tray())
     {
-      iconify();
+      close_window();
     }
 #endif
   setup();
@@ -196,6 +197,41 @@ void
 MainWindow::update()
 {
   update_widgets();
+}
+
+
+
+//! Opens the main window.
+void
+MainWindow::open_window()
+{
+  deiconify();
+  raise();
+  iconified = false;
+}
+
+
+//! Closes the main window.
+void
+MainWindow::close_window()
+{
+  iconify();
+  iconified = true;
+}
+
+
+//! Toggles the main window.
+void
+MainWindow::toggle_window()
+{
+  if (iconified)
+    {
+      open_window();
+    }
+  else
+    {
+      close_window();
+    }
 }
 
 

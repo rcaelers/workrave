@@ -91,7 +91,6 @@ GtkUtil::create_label_with_tooltip(string text, string tooltip)
 {
   Gtk::Label *label = Gtk::manage(new Gtk::Label(text));
   Gtk::EventBox *eventbox = Gtk::manage(new Gtk::EventBox());
-
   eventbox->add(*label);
 
   GUI::get_instance()->get_tooltips()->set_tip(*eventbox, tooltip);

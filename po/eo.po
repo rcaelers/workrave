@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-03-15 13:52+0100\n"
+"POT-Creation-Date: 2003-03-15 20:10+0100\n"
 "PO-Revision-Date: 2002-11-05 17:58-0800\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -13,15 +13,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: gui/BreakControl.cc:690
+#: gui/BreakControl.cc:687
 msgid "Disappears in"
 msgstr "Malaperas en"
 
-#: gui/BreakControl.cc:694
+#: gui/BreakControl.cc:691
 msgid "Break in"
 msgstr "Ĉesu en"
 
-#: gui/BreakControl.cc:698
+#: gui/BreakControl.cc:695
 msgid "Silent in"
 msgstr "Silentiĝu en"
 
@@ -106,46 +106,42 @@ msgstr ""
 msgid "Place all timers in one spot"
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:75
-msgid "No timers visible"
-msgstr ""
-
-#: gui/gtkmm/AppletPreferencePage.cc:101
+#: gui/gtkmm/AppletPreferencePage.cc:99
 msgid "Hide"
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:103
+#: gui/gtkmm/AppletPreferencePage.cc:101
 #, fuzzy
 msgid "Show"
 msgstr "Montru _protokolon"
 
-#: gui/gtkmm/AppletPreferencePage.cc:105
+#: gui/gtkmm/AppletPreferencePage.cc:103
 msgid "Show only when this timer is first due"
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:113
+#: gui/gtkmm/AppletPreferencePage.cc:111
 msgid "Applet enabled"
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:119
+#: gui/gtkmm/AppletPreferencePage.cc:117
 msgid "Placement:"
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:120
+#: gui/gtkmm/AppletPreferencePage.cc:118
 msgid "Cycle time:"
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:121
+#: gui/gtkmm/AppletPreferencePage.cc:119
 #, fuzzy
 msgid "Micro-pause:"
 msgstr "Paŭzeto"
 
-#: gui/gtkmm/AppletPreferencePage.cc:122
+#: gui/gtkmm/AppletPreferencePage.cc:120
 #, fuzzy
 msgid "Rest break:"
 msgstr "Ripozo"
 
-#: gui/gtkmm/AppletPreferencePage.cc:123
+#: gui/gtkmm/AppletPreferencePage.cc:121
 #, fuzzy
 msgid "Daily limit:"
 msgstr "Taglimo"
@@ -170,7 +166,7 @@ msgstr "Transsaltu"
 msgid "Postpone"
 msgstr "Prokrastu"
 
-#: gui/gtkmm/GUI.cc:334
+#: gui/gtkmm/GUI.cc:356
 msgid "I could not initialize Bonobo"
 msgstr ""
 
@@ -211,20 +207,24 @@ msgstr "_Rekonektu"
 msgid "Show _log"
 msgstr "Montru _protokolon"
 
-#: gui/gtkmm/Menus.cc:208
+#: gui/gtkmm/Menus.cc:204
+msgid "Open"
+msgstr ""
+
+#: gui/gtkmm/Menus.cc:214
 msgid "_Rest break"
 msgstr "_Ripozon"
 
-#: gui/gtkmm/Menus.cc:219 gui/gtkmm/StatisticsDialog.cc:50
+#: gui/gtkmm/Menus.cc:225 gui/gtkmm/StatisticsDialog.cc:50
 #: gui/gtkmm/StatisticsDialog.cc:134
 msgid "Statistics"
 msgstr "Statistiko"
 
-#: gui/gtkmm/Menus.cc:233
+#: gui/gtkmm/Menus.cc:239
 msgid "About..."
 msgstr "Pri..."
 
-#: gui/gtkmm/Menus.cc:543
+#: gui/gtkmm/Menus.cc:549
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
