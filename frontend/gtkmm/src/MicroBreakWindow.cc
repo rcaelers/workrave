@@ -156,6 +156,8 @@ MicroBreakWindow::refresh_label()
 void
 MicroBreakWindow::refresh()
 {
+  BreakWindow::refresh();
+
   refresh_time_bar();
   refresh_label();
 }

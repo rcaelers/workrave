@@ -395,6 +395,9 @@ BreakWindow::destroy()
 void
 BreakWindow::refresh()
 {
+#ifdef WIN32
+  WindowHints::set_always_on_top(Gtk::Widget::gobj(), true);
+#endif
 }
 
 Glib::RefPtr<Gdk::Window>

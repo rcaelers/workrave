@@ -137,7 +137,9 @@ RestBreakWindow::start()
 //! Period timer callback.
 void
 RestBreakWindow::refresh()
-{
+{ 
+  BreakWindow::refresh();
+
   draw_time_bar();
 }
 
