@@ -31,7 +31,6 @@
 #endif
 
 class GUI;
-class ControlInterface;
 class TimeBar;
 class NetworkLogDialog;
 
@@ -51,13 +50,13 @@ class AppletWindow :
 public:  
   enum AppletMode { APPLET_DISABLED, APPLET_TRAY, APPLET_GNOME };
 
-  AppletWindow(GUI *gui, ControlInterface *controller);
+  AppletWindow();
   ~AppletWindow();
 
   void update();
   void fire();
 
-  // ControlInterface
+  // ConfiguratorListener
   void config_changed_notify(string key);
   
   void on_menu_restbreak_now();

@@ -22,6 +22,7 @@
 class PreludeWindowInterface;
 class BreakWindowInterface;
 class SoundPlayerInterface;
+class Configurator;
 
 #include "GUIControl.hh"
 
@@ -36,6 +37,9 @@ public:
 
   //! Returns a sound player.
   virtual SoundPlayerInterface *create_sound_player() = 0;
+
+  //! Returns a sound player.
+  virtual Configurator *create_configurator() = 0;
 };
 
 #endif // RESTGUIFACTORYINTERFACE_HH

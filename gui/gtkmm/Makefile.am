@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+# Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 #
 # $Id$
 #
@@ -20,6 +20,8 @@ IDL_C_GENERATED = Workrave-Control.h			\
 		  Workrave-Control-stubs.c
 
 MAINTAINERCLEANFILES = Makefile.in ${IDL_A_GENERATED} ${IDL_C_GENERATED}
+
+DEFS = @DEFS@ -DGNOMELOCALEDIR=\""$(datadir)/locale"\" -I$(top_srcdir)/intl
 
 if HAVE_GUI_GTKMM
 
@@ -76,8 +78,6 @@ libgtkmmgui_a_SOURCES = \
 	TimerWindow.cc \
 	Menus.cc \
 	$(sourcesgnome) $(sourcesx) $(sourceswin32) ${sourcesdistribution}
-
-
 
 libgtkmmgui_a_LIBADD = 
 

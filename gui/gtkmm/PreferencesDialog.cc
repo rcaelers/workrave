@@ -1,6 +1,6 @@
 // PreferencesDialog.cc --- Preferences dialog
 //
-// Copyright (C) 2002 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -31,7 +31,6 @@
 #include "PreferencesDialog.hh"
 #include "TimerPreferencesPanel.hh"
 #include "Configurator.hh"
-#include "ControlInterface.hh"
 #include "SoundPlayer.hh"
 #include "TimeEntry.hh"
 #include "Util.hh"
@@ -180,7 +179,7 @@ PreferencesDialog::create_timer_page()
       box->pack_start(*img, false, false, 0);
       box->pack_start(*lab, false, false, 0);
 
-      TimerPreferencesPanel *tp = manage(new TimerPreferencesPanel(GUIControl::TimerId(i)));
+      TimerPreferencesPanel *tp = manage(new TimerPreferencesPanel(GUIControl::BreakId(i)));
       box->show_all();
       tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*tp, *box));
     }

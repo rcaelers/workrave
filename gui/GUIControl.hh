@@ -20,6 +20,7 @@
 #define GUICONTROL_HH
 
 #include "ConfiguratorListener.hh"
+#include "TimerInterface.hh"
 
 #ifdef HAVE_DISTRIBUTION
 #include "DistributedStateInterface.hh"
@@ -29,6 +30,7 @@ class GUIFactoryInterface;
 class BreakWindowInterface;
 class PreludeWindowInterface;
 
+class ActivityMonitor;
 class Configurator;
 class BreakControl;
 class ControlInterface;
@@ -80,17 +82,6 @@ public:
     };
 
   
-  //! ID of a timer.
-  enum TimerId
-    {
-      TIMER_ID_NONE = -1,
-      TIMER_ID_MICRO_PAUSE = 0,
-      TIMER_ID_REST_BREAK,
-      TIMER_ID_DAILY_LIMIT,
-      TIMER_ID_SIZEOF
-    };
-
-
   enum BreakAction
     {
       BREAK_ACTION_NONE,
@@ -127,6 +118,7 @@ public:
 public:
   static GUIControl *get_instance();
   SoundPlayerInterface *get_sound_player();
+
   void heartbeat();
   void init();
   OperationMode set_operation_mode(OperationMode mode);
@@ -136,6 +128,7 @@ public:
   void set_freeze_all_breaks(bool freeze);
   
 private:
+  void timer_action(string timer_id, TimerEvent event);
   void stop_all_breaks();
   void restart_break();
   

@@ -1,9 +1,9 @@
 // GUIInterface.hh --- C++ interface that must be implemented by all GUIs
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-09-13 12:20:56 robc>
+// Time-stamp: <2003-01-05 19:41:17 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -32,10 +32,7 @@ public:
   virtual ~GUIInterface() {}
   
   //! Activate GUI.
-  virtual void run() = 0;
-
-  //! Returns the configurator.
-  virtual Configurator *get_configurator() = 0;
+  virtual void main() = 0;
 };
 
 #endif // GUIINTERFACE_HH

@@ -1,6 +1,6 @@
 // MainWindow.cc --- Main info Window
 //
-// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -16,8 +16,7 @@
 
 static const char rcsid[] = "$Id$";
 
-// TODO: only when needed.
-#define NOMINMAX
+#include "preinclude.h"
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -44,7 +43,6 @@ static const char rcsid[] = "$Id$";
 
 #include "Configurator.hh"
 #include "TimerInterface.hh"
-#include "ControlInterface.hh"
 #include "ActivityMonitorInterface.hh"
 #include "Statistics.hh"
 
@@ -79,8 +77,7 @@ const string MainWindow::CFG_KEY_MAIN_WINDOW_Y
  *  \param gui the main GUI entry point.
  *  \param control Interface to the controller.
  */
-MainWindow::MainWindow(GUI *g, ControlInterface *c) :
-  TimerWindow(g, c),
+MainWindow::MainWindow() :
   timers_box(NULL),
   monitor_suspended(false)
 {
@@ -110,12 +107,8 @@ MainWindow::init()
   set_title("Workrave");
   set_border_width(2);
   
-  Configurator *config = gui->get_configurator();
-  if (config != NULL)
-    {
-      config->add_listener(GUIControl::CFG_KEY_MAIN_WINDOW, this);
-    }
-  
+  Configurator *config = GUIControl::get_instance()->get_configurator();
+  config->add_listener(GUIControl::CFG_KEY_MAIN_WINDOW, this);
 
   Menus *menus = Menus::get_instance();
   menus->set_main_window(this);
@@ -217,6 +210,7 @@ MainWindow::on_delete_event(GdkEventAny *)
 #ifdef WIN32
   win32_show(false);
 #else
+  GUI *gui = GUI::get_instance(); 
   gui->terminate();
 #endif
   

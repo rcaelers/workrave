@@ -24,6 +24,7 @@ static const char rcsid[] = "$Id$";
 
 #include <fstream>
 
+#include "GUIFactory.hh"
 #include "Control.hh"
 
 extern "C" int run(int argc, char **argv);
@@ -31,9 +32,13 @@ extern "C" int run(int argc, char **argv);
 int
 run(int argc, char **argv)
 {
-  Control c;
+  Control *control = new Control();
+  GUIInterface *gui = GUIFactory::create_gui("gtkmm", control, argc, argv);
 
-  return c.main(argc, argv);
+  gui->main();
+
+  delete gui;
+  delete control;
 }
 
 

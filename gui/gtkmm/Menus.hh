@@ -24,7 +24,6 @@
 #endif
 
 class GUI;
-class ControlInterface;
 class TimeBar;
 class NetworkLogDialog;
 class MainWindow;
@@ -88,9 +87,6 @@ public:
   void on_menu_network_log(bool active);
 
 protected:
-  //! The controller that maintains the data and control over the breaks
-  ControlInterface *core_control;
-
   //! Interface to the GUI.
   GUI *gui;
 

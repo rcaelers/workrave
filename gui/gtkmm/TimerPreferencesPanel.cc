@@ -1,6 +1,6 @@
 // TimerPreferencesPanel.cc --- Preferences widgets for a timer
 //
-// Copyright (C) 2002 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -33,12 +33,12 @@
 #include "ControlInterface.hh"
 #include "Configurator.hh"
 
-TimerPreferencesPanel::TimerPreferencesPanel(GUIControl::TimerId t)
+TimerPreferencesPanel::TimerPreferencesPanel(GUIControl::BreakId t)
   : Gtk::HBox(false, 6),
     max_prelude_adjustment(0, 1, 100)
 {
   TRACE_ENTER("TimerPreferencesPanel::TimerPreferencesPanel");
-  timer_id = t;
+  break_id = t;
   timer = &GUIControl::get_instance()->timers[t];
 
   // Frames
@@ -131,7 +131,7 @@ TimerPreferencesPanel::create_options_frame()
   // Monitor
   Configurator *cfg = GUIControl::get_instance()->get_configurator();
   string tpfx = ControlInterface::CFG_KEY_TIMER + itimer->get_id();
-  if (timer_id == GUIControl::TIMER_ID_DAILY_LIMIT)
+  if (break_id == GUIControl::BREAK_ID_DAILY_LIMIT)
     {
       monitor_cb
         = manage(new Gtk::CheckButton(_("Regard micro-pauses as activity")));
@@ -192,7 +192,7 @@ TimerPreferencesPanel::create_timers_frame()
   // Auto-reset time
   const char *auto_reset_txt;
   time_t auto_reset_value;
-  if (timer_id == GUIControl::TIMER_ID_DAILY_LIMIT)
+  if (break_id == GUIControl::BREAK_ID_DAILY_LIMIT)
     {
       auto_reset_txt = _("Resets at");
       DayTimePred *pred = (DayTimePred *) itimer->get_auto_reset_predicate();
@@ -312,7 +312,7 @@ TimerPreferencesPanel::on_auto_reset_changed()
   string key;
   key = ControlInterface::CFG_KEY_TIMER + timer->timer->get_id();
   time_t val = auto_reset_tim->get_value();
-  if (timer_id == GUIControl::TIMER_ID_DAILY_LIMIT)
+  if (break_id == GUIControl::BREAK_ID_DAILY_LIMIT)
     {
       key +=  ControlInterface::CFG_KEY_TIMER_RESET_PRED;
       DayTimePred pred;

@@ -1,6 +1,6 @@
 // Menus.cc --- Timer info Window
 //
-// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -40,7 +40,6 @@ static const char rcsid[] = "$Id$";
 #include "Statistics.hh"
 
 #include "TimerInterface.hh"
-#include "ControlInterface.hh"
 #include "ActivityMonitorInterface.hh"
 #include "Configurator.hh"
 
@@ -74,7 +73,6 @@ Menus::Menus() :
   main_window(NULL)
 {
   gui = GUI::get_instance();
-  core_control = gui->get_core_control();
 
   for (int i = 0; i < MAX_CHECKMENUS; i++)
     {
@@ -309,7 +307,8 @@ Menus::resync_applet()
 #ifdef HAVE_GNOME
   if (applet_window != NULL)
     {
-      GUIControl::OperationMode mode = gui->get_operation_mode();      
+      GUIControl *gui_control = GUIControl::get_instance();
+      GUIControl::OperationMode mode = gui_control->get_operation_mode();      
       switch(mode)
         {
         case GUIControl::OPERATION_MODE_NORMAL:
@@ -342,6 +341,7 @@ Menus::on_menu_open_main_window()
   gui->open_main_window();
 }
 
+
 //! User requested application quit....
 void
 Menus::on_menu_quit()
@@ -368,7 +368,8 @@ Menus::on_menu_quiet()
 {
   TRACE_ENTER("Menus::on_menu_quiet");
 
-  gui->set_operation_mode(GUIControl::OPERATION_MODE_QUIET);
+  GUIControl *gui_control = GUIControl::get_instance();
+  gui_control->set_operation_mode(GUIControl::OPERATION_MODE_QUIET);
   sync_mode_menu(2);
   TRACE_EXIT();
 }
@@ -381,7 +382,8 @@ Menus::on_menu_suspend()
 {
   TRACE_ENTER("Menus::on_menu_suspend");
 
-  gui->set_operation_mode(GUIControl::OPERATION_MODE_SUSPENDED);
+  GUIControl *gui_control = GUIControl::get_instance();
+  gui_control->set_operation_mode(GUIControl::OPERATION_MODE_SUSPENDED);
   sync_mode_menu(1);
   TRACE_EXIT();
 }
@@ -433,7 +435,8 @@ void
 Menus::on_menu_normal()
 {
   TRACE_ENTER("Menus::on_menu_normal");
-  gui->set_operation_mode(GUIControl::OPERATION_MODE_NORMAL);
+  GUIControl *gui_control = GUIControl::get_instance();
+  gui_control->set_operation_mode(GUIControl::OPERATION_MODE_NORMAL);
   sync_mode_menu(0);
   TRACE_EXIT();
 }
@@ -444,8 +447,6 @@ Menus::on_menu_normal()
 void
 Menus::on_test_me()
 {
-  core_control->test_me();
-
   Statistics *stats = Statistics::get_instance();
   stats->dump();
 }
@@ -458,8 +459,8 @@ Menus::on_menu_preferences()
 {
   TRACE_ENTER("Menus::on_menu_preferences");
   GUIControl::OperationMode mode;
-  GUIControl *ctrl = GUIControl::get_instance();
-  mode = ctrl->set_operation_mode(GUIControl::OPERATION_MODE_QUIET);
+  GUIControl *gui_control = GUIControl::get_instance();
+  mode = gui_control->set_operation_mode(GUIControl::OPERATION_MODE_QUIET);
 
   PreferencesDialog *dialog = new PreferencesDialog();
   dialog->run();
@@ -477,7 +478,7 @@ Menus::on_menu_preferences()
       window->win32_remember_position();
     }
 #endif
-  ctrl->set_operation_mode(mode);
+  gui_control->set_operation_mode(mode);
   TRACE_EXIT();
 }
 
@@ -487,14 +488,14 @@ void
 Menus::on_menu_statistics()
 {
   GUIControl::OperationMode mode;
-  GUIControl *ctrl = GUIControl::get_instance();
-  mode = ctrl->set_operation_mode(GUIControl::OPERATION_MODE_QUIET);
+  GUIControl *gui_control = GUIControl::get_instance();
+  mode = gui_control->set_operation_mode(GUIControl::OPERATION_MODE_QUIET);
 
   StatisticsDialog *dialog = new StatisticsDialog();
   dialog->run();
   delete dialog;
 
-  ctrl->set_operation_mode(mode);
+  gui_control->set_operation_mode(mode);
 }
 
 
@@ -528,14 +529,14 @@ Menus::on_menu_network_join()
 {
 #ifdef HAVE_DISTRIBUTION
   GUIControl::OperationMode mode;
-  GUIControl *ctrl = GUIControl::get_instance();
-  mode = ctrl->set_operation_mode(GUIControl::OPERATION_MODE_QUIET);
+  GUIControl *gui_control = GUIControl::get_instance();
+  mode = gui_control->set_operation_mode(GUIControl::OPERATION_MODE_QUIET);
 
   NetworkJoinDialog *dialog = new NetworkJoinDialog();
   dialog->run();
   delete dialog;
 
-  ctrl->set_operation_mode(mode);
+  gui_control->set_operation_mode(mode);
 #endif
 }
 

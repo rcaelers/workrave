@@ -1,6 +1,6 @@
 // TimerWindow.hh --- Main info Window
 //
-// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -27,7 +27,6 @@
 #endif
 
 class GUI;
-class ControlInterface;
 class TimeBar;
 class NetworkLogDialog;
 
@@ -38,7 +37,7 @@ using namespace std;
 class TimerWindow
 {
 public:  
-  TimerWindow(GUI *gui, ControlInterface *controller);
+  TimerWindow();
   ~TimerWindow();
 
   void init_widgets();
@@ -48,12 +47,6 @@ protected:
   virtual bool on_delete_event(GdkEventAny *) = 0;
   
 protected:
-  //! The controller that maintains the data and control over the breaks
-  ControlInterface *core_control;
-
-  //! Interface to the GUI.
-  GUI *gui;
-
   //! Array of timer name labels
   Gtk::Widget **timer_names;
 

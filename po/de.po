@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
-"POT-Creation-Date: 2003-01-05 17:02+0100\n"
+"POT-Creation-Date: 2003-01-05 22:43+0100\n"
 "PO-Revision-Date: 2003-01-04 22:09+0100\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Johannes Rohr <j.rohr@comlink.apc.org>\n"
@@ -28,28 +28,28 @@ msgid "Silent in"
 msgstr "Still in"
 
 #. Labels
-#: gui/GUIControl.cc:85 gui/gtkmm/AppletPreferencePage.cc:64
+#: gui/GUIControl.cc:84 gui/gtkmm/AppletPreferencePage.cc:64
 #: gui/gtkmm/MicroPauseWindow.cc:161
 msgid "Micro-pause"
 msgstr "Mikropause"
 
-#: gui/GUIControl.cc:92
+#: gui/GUIControl.cc:91
 msgid "Rest break"
 msgstr "Ruhepause"
 
-#: gui/GUIControl.cc:99 gui/gtkmm/AppletPreferencePage.cc:66
+#: gui/GUIControl.cc:98 gui/gtkmm/AppletPreferencePage.cc:66
 msgid "Daily limit"
 msgstr "Tägliches Limit"
 
-#: gui/GUIControl.cc:301
+#: gui/GUIControl.cc:299
 msgid "Time for a micro-pause?"
 msgstr "Zeit für eine Mikropause?"
 
-#: gui/GUIControl.cc:308
+#: gui/GUIControl.cc:305
 msgid "You need a rest break..."
 msgstr "Sie brauchen eine Ruhepause..."
 
-#: gui/GUIControl.cc:315
+#: gui/GUIControl.cc:311
 msgid "You should stop for today..."
 msgstr "Sie sollten für heute aufhören..."
 
@@ -189,70 +189,70 @@ msgstr ""
 "Durchsicht von Dokumenten."
 
 #: gui/gtkmm/DailyLimitWindow.cc:65 gui/gtkmm/MicroPauseWindow.cc:69
-#: gui/gtkmm/RestBreakWindow.cc:95
+#: gui/gtkmm/RestBreakWindow.cc:93
 msgid "Skip"
 msgstr "Überspringen"
 
 #: gui/gtkmm/DailyLimitWindow.cc:67 gui/gtkmm/MicroPauseWindow.cc:71
-#: gui/gtkmm/RestBreakWindow.cc:97
+#: gui/gtkmm/RestBreakWindow.cc:95
 msgid "Postpone"
 msgstr "Aufschieben"
 
-#: gui/gtkmm/GUI.cc:83
+#: gui/gtkmm/GUI.cc:281
 msgid "I could not initialize Bonobo"
 msgstr ""
 
 #. Mode menu item
-#: gui/gtkmm/Menus.cc:136 gui/gnome/GNOME_WorkraveApplet.xml.in.h:4
+#: gui/gtkmm/Menus.cc:134 gui/gnome/GNOME_WorkraveApplet.xml.in.h:4
 msgid "_Mode"
 msgstr "_Betriebsart"
 
-#: gui/gtkmm/Menus.cc:143 gui/gnome/GNOME_WorkraveApplet.xml.in.h:6
+#: gui/gtkmm/Menus.cc:141 gui/gnome/GNOME_WorkraveApplet.xml.in.h:6
 msgid "_Normal"
 msgstr "_Normal"
 
-#: gui/gtkmm/Menus.cc:150 gui/gnome/GNOME_WorkraveApplet.xml.in.h:14
+#: gui/gtkmm/Menus.cc:148 gui/gnome/GNOME_WorkraveApplet.xml.in.h:14
 #, fuzzy
 msgid "_Suspended"
 msgstr "_Angehalten"
 
-#: gui/gtkmm/Menus.cc:157
+#: gui/gtkmm/Menus.cc:155
 msgid "Q_uiet"
 msgstr "St_ill"
 
-#: gui/gtkmm/Menus.cc:171 gui/gnome/GNOME_WorkraveApplet.xml.in.h:5
+#: gui/gtkmm/Menus.cc:169 gui/gnome/GNOME_WorkraveApplet.xml.in.h:5
 msgid "_Network"
 msgstr "N_etzwerk"
 
-#: gui/gtkmm/Menus.cc:175
+#: gui/gtkmm/Menus.cc:173
 msgid "_Connect"
 msgstr "_Verbinden"
 
-#: gui/gtkmm/Menus.cc:180 gui/gnome/GNOME_WorkraveApplet.xml.in.h:3
+#: gui/gtkmm/Menus.cc:178 gui/gnome/GNOME_WorkraveApplet.xml.in.h:3
 msgid "_Disconnect"
 msgstr "_Trennen"
 
-#: gui/gtkmm/Menus.cc:185 gui/gnome/GNOME_WorkraveApplet.xml.in.h:11
+#: gui/gtkmm/Menus.cc:183 gui/gnome/GNOME_WorkraveApplet.xml.in.h:11
 msgid "_Reconnect"
 msgstr "Verbindung _Wiederaufnehmen"
 
-#: gui/gtkmm/Menus.cc:190
+#: gui/gtkmm/Menus.cc:188
 msgid "Show _log"
 msgstr "_Protokoll anzeigen"
 
-#: gui/gtkmm/Menus.cc:204
+#: gui/gtkmm/Menus.cc:202
 msgid "_Rest break"
 msgstr "_Ruhepause"
 
-#: gui/gtkmm/Menus.cc:216
+#: gui/gtkmm/Menus.cc:214
 msgid "Statistics"
 msgstr "_Statistik"
 
-#: gui/gtkmm/Menus.cc:229
+#: gui/gtkmm/Menus.cc:227
 msgid "About..."
 msgstr "Über..."
 
-#: gui/gtkmm/Menus.cc:517
+#: gui/gtkmm/Menus.cc:518
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -365,48 +365,48 @@ msgstr ""
 "den Rechnernamen oder die Portnummer."
 
 #. Timers frame
-#: gui/gtkmm/PreferencesDialog.cc:68 gui/gtkmm/TimerPreferencesPanel.cc:236
+#: gui/gtkmm/PreferencesDialog.cc:67 gui/gtkmm/TimerPreferencesPanel.cc:236
 msgid "Timers"
 msgstr "Zeitmesser"
 
-#: gui/gtkmm/PreferencesDialog.cc:70
+#: gui/gtkmm/PreferencesDialog.cc:69
 msgid "User interface"
 msgstr "Benutzervorlieben"
 
-#: gui/gtkmm/PreferencesDialog.cc:73
+#: gui/gtkmm/PreferencesDialog.cc:72
 msgid "Applet"
 msgstr ""
 
-#: gui/gtkmm/PreferencesDialog.cc:77
+#: gui/gtkmm/PreferencesDialog.cc:76
 msgid "Network"
 msgstr "Netzwerk"
 
-#: gui/gtkmm/PreferencesDialog.cc:106
+#: gui/gtkmm/PreferencesDialog.cc:105
 msgid "The main window stays always on top of other windows"
 msgstr "Das Hauptfenster bleibt immer über allen anderen Fenstern"
 
-#: gui/gtkmm/PreferencesDialog.cc:115
+#: gui/gtkmm/PreferencesDialog.cc:114
 msgid "No sounds"
 msgstr "Keine Klänge"
 
-#: gui/gtkmm/PreferencesDialog.cc:117
+#: gui/gtkmm/PreferencesDialog.cc:116
 msgid "Play sounds using sound card"
 msgstr "Klänge mittels der Soundkarte abspielen"
 
-#: gui/gtkmm/PreferencesDialog.cc:119
+#: gui/gtkmm/PreferencesDialog.cc:118
 msgid "Play sounds using built-in speaker"
 msgstr "Klänge mit dem PC-Lautsprecher abspielen"
 
-#: gui/gtkmm/PreferencesDialog.cc:135
+#: gui/gtkmm/PreferencesDialog.cc:134
 msgid "Hide main window at start-up"
 msgstr "Verstecke das Hauptfenster beim Start"
 
-#: gui/gtkmm/PreferencesDialog.cc:151
+#: gui/gtkmm/PreferencesDialog.cc:150
 msgid "You can configure the user interface related settings from here."
 msgstr ""
 "Sie können hier die Einstellungen der Benutzeroberfläche konfigurieren."
 
-#: gui/gtkmm/PreferencesDialog.cc:166
+#: gui/gtkmm/PreferencesDialog.cc:165
 msgid ""
 "This dialog allows you to change the settings of the timers.  Each unit\n"
 "of time is broken down into hours, minutes and seconds (also known as\n"
@@ -416,13 +416,13 @@ msgstr ""
 "ändern. Jede Einheit ist in Stunden, Minuten und Sekunden unterteilt\n"
 "(das sog. \"hh:mm:ss\"-Format) und kann indivuell angepasst werden."
 
-#: gui/gtkmm/PreferencesDialog.cc:200
+#: gui/gtkmm/PreferencesDialog.cc:199
 #, fuzzy
 msgid "You can configure the applet related settings from here."
 msgstr ""
 "Sie können hier die Einstellungen der Benutzeroberfläche konfigurieren."
 
-#: gui/gtkmm/PreferencesDialog.cc:219
+#: gui/gtkmm/PreferencesDialog.cc:218
 msgid ""
 "You can connect several instances of Workrave in a network. All connected\n"
 "instances share the same timer information, meaning you will be reminded\n"
@@ -433,7 +433,7 @@ msgstr ""
 "dieselben Zeitmessungen zurück. Das heißt, dass Sie auch dann an Ihre\n"
 "Pausen erinnert werden, wenn Sie den Computer wechseln."
 
-#: gui/gtkmm/RestBreakWindow.cc:76
+#: gui/gtkmm/RestBreakWindow.cc:74
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -444,7 +444,7 @@ msgstr ""
 "ein paar Minuten umher, machen Sie Dehnübungen und entspannen Sie\n"
 "sich."
 
-#: gui/gtkmm/RestBreakWindow.cc:258
+#: gui/gtkmm/RestBreakWindow.cc:256
 #, c-format
 msgid "Rest break for %s"
 msgstr "Ruhepause für %s"
@@ -500,11 +500,11 @@ msgstr "Dauer der Pause"
 msgid "Time before break"
 msgstr "Zeit bis zur Pause"
 
-#: gui/gtkmm/TimerWindow.cc:112 gui/gtkmm/TimerWindow.cc:179
+#: gui/gtkmm/TimerWindow.cc:109 gui/gtkmm/TimerWindow.cc:176
 msgid "Wait"
 msgstr "Warten"
 
-#: gui/gtkmm/TimerWindow.cc:140
+#: gui/gtkmm/TimerWindow.cc:137
 msgid "Inactive"
 msgstr "Inaktiv"
 

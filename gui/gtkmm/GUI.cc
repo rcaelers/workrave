@@ -1,6 +1,6 @@
 // GUI.cc --- The WorkRave GUI
 //
-// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -28,23 +28,24 @@ static const char rcsid[] = "$Id$";
 #include <assert.h>
 #include <fcntl.h>
 
-#include "Util.hh"
-
 #include "GUI.hh"
-#include "GUIControl.hh"
+
 #include "Configurator.hh"
 #include "ControlInterface.hh"
-#include "TimerInterface.hh"
-
-#include "BreakControl.hh"
-#include "MainWindow.hh"
-#include "PreludeWindow.hh"
 #include "DailyLimitWindow.hh"
+#include "GUIControl.hh"
+#include "MainWindow.hh"
 #include "MicroPauseWindow.hh"
+#include "PreludeWindow.hh"
 #include "RestBreakWindow.hh"
+#include "Util.hh"
 #include "WindowHints.hh"
 
 #include <gtk/gtk.h>
+
+#ifdef HAVE_GCONF
+#include <gconf/gconf-client.h>
+#endif
 
 #ifdef WIN32
 #include "Win32SoundPlayer.hh"
@@ -59,42 +60,29 @@ static const char rcsid[] = "$Id$";
 
 GUI *GUI::instance = NULL;
 
+
 //! GUI Constructor.
 /*!
  *  \param controller interface to the controller.
  *  \param argc number of command line parameters.
  *  \param argv all command line parameters.
  */
-GUI::GUI(ControlInterface *controller, int argc, char **argv)
+GUI::GUI(ControlInterface *controller, int argc, char **argv)  :
+  configurator(NULL),
+  core_control(controller),
+#ifdef HAVE_GNOME
+  applet_window(NULL),
+#endif
+  main_window(NULL)
 {
   TRACE_ENTER("GUI:GUI");
 
   assert(! instance);
   instance = this;
   
-  main_window = NULL;
-  core_control = controller;
   this->argc = argc;
   this->argv = argv;
 
-#ifdef HAVE_GNOME
-  if (!bonobo_init(&argc, argv))
-    {
-      g_error (_("I could not initialize Bonobo"));
-    }
-
-  RemoteControl::get_instance();
-  
-  BonoboGenericFactory *factory;
-  factory = bonobo_generic_factory_new("OAFIID:GNOME_Workrave_Factory", workrave_component_factory, NULL);
-  bonobo_running_context_auto_exit_unref (BONOBO_OBJECT (factory));
-  
-  applet_window = NULL;
-#endif
-  
-  gui_control = new GUIControl(this, controller);
-
-  
   TRACE_EXIT();
 }
 
@@ -111,7 +99,18 @@ GUI::~GUI()
     {
       delete gui_control;
     }
-                          
+
+  if (main_window != NULL)
+    {
+      delete main_window;
+    }
+
+#ifdef GNOME  
+  if (applet_window != NULL)
+    {
+      delete applet_window;
+    }
+#endif  
   TRACE_EXIT();
 }
 
@@ -123,80 +122,39 @@ GUI::restbreak_now()
                             GUIControl::BREAK_ACTION_FORCE_START_BREAK);
 }
 
+
+//! The main entry point.
 void
-GUI::set_operation_mode(GUIControl::OperationMode mode)
+GUI::main()
 {
-  assert(gui_control != NULL);
-  gui_control->set_operation_mode(mode);
-}
-
-
-GUIControl::OperationMode
-GUI::get_operation_mode()
-{
-  assert(gui_control != NULL);
-  return gui_control->get_operation_mode();
-}
-
-//! GUI Thread.
-void
-GUI::run()
-{
-  TRACE_ENTER("GUI:run");
-
-  // Initialize Gtkmm
   Gtk::Main kit(argc, argv);
 
-  //g_thread_init(NULL);
+  TRACE_ENTER("GUI::main");
 
-  // Setup the window hints module.
-  WindowHints::init();
-
-  // Initialize the core.
-#ifdef HAVE_X
-  char *display_name = gdk_get_display();
-#else
-  char *display_name = NULL;
-#endif    
-  core_control->init(display_name);
-  
-  // Create all windows.
-  gui_control->init();
-
-  // The main status window.
-  main_window = new MainWindow(this, core_control);
-
-  
-#ifdef HAVE_GNOME
-  applet_window = new AppletWindow(this, core_control);
-#endif  
-
-  
-  // Periodic timer.
-  Glib::signal_timeout().connect(SigC::slot(*this, &GUI::on_timer),
-#ifdef CRASHTEST // FIXME: bug66
-                                 150
-#else
-                                 1000
-#endif
-                                 );
+  init_nls();
+  init_core_control();
+  init_gui_control();
+  init_gui();
+  init_remote_control();
   
   // Enter the event loop
   gdk_threads_enter();
   Gtk::Main::run(*main_window);
   gdk_threads_leave();
-  TRACE_MSG("end of Gtk::Main::run");
-    
-  delete main_window;
 
+  delete main_window;
+  main_window = NULL;
+  
 #ifdef HAVE_GNOME
   delete applet_window;
+  applet_window = NULL;
 #endif  
   
   TRACE_EXIT();
 }
 
 
+//! Terminates the GUI.
 void
 GUI::terminate()
 {
@@ -206,6 +164,7 @@ GUI::terminate()
 }
 
 
+//! Opens the main window.
 void
 GUI::open_main_window()
 {
@@ -221,94 +180,118 @@ GUI::open_main_window()
 }
 
 
-//! Notication of a timer action.
-/*!
- *  \param timerId ID of the timer that caused the action.
- *  \param action action that is performed by the timer.
-*/
-void
-GUI::timer_action(string timer_id, TimerEvent event)
+//! Periodic heartbeat.
+bool
+GUI::on_timer()
 {
-  TRACE_ENTER_MSG("GUI::timer_action", timer_id << " " << event);
-
-  GUIControl::BreakId id = GUIControl::BREAK_ID_NONE;
-
-  // Parse timer_id
-  if (timer_id == "micro_pause")
+  if (gui_control != NULL)
     {
-      id = GUIControl::BREAK_ID_MICRO_PAUSE;
+      gui_control->heartbeat();
     }
-  else if (timer_id == "rest_break")
-    {
-      id = GUIControl::BREAK_ID_REST_BREAK;
-    }
-  else if (timer_id == "daily_limit")
-    {
-      id = GUIControl::BREAK_ID_DAILY_LIMIT;
-    }
-
-  if (id != GUIControl::BREAK_ID_NONE)
-    {
-      // Parse action.
-      if (event == TIMER_EVENT_LIMIT_REACHED)
-        {
-          gui_control->break_action(id, GUIControl::BREAK_ACTION_START_BREAK);
-        }
-      else if (event == TIMER_EVENT_RESET)
-        {
-          gui_control->break_action(id, GUIControl::BREAK_ACTION_STOP_BREAK);
-        }
-      else if (event == TIMER_EVENT_NATURAL_RESET)
-        {
-          gui_control->break_action(id, GUIControl::BREAK_ACTION_NATURAL_STOP_BREAK);
-        }
-    }
-
-  TRACE_EXIT();
-}
-
-
-//! Update the main window screen.
-void
-GUI::heartbeat()
-{
-  map<string, TimerInfo> infos;
-  core_control->process_timers(infos);
-  for (map<string, TimerInfo>::iterator i = infos.begin(); i != infos.end(); i++)
-    {
-      string id = i->first;
-      TimerInfo &info = i->second;
-
-      timer_action(id, info.event);
-    }
-
+  
   if (main_window != NULL)
     {
       main_window->update();
     }
-
+  
 #ifdef HAVE_GNOME
   if (applet_window != NULL)
     {
       applet_window->update();
     }
 #endif
-  
-  if (gui_control != NULL)
-    {
-      gui_control->heartbeat();
-    }
+
+  return true;
 }
 
 
-//! Returns the configurator.
-Configurator *
-GUI::get_configurator()
+void
+GUI::init_nls()
 {
-  return gui_control->get_configurator();
+#ifdef ENABLE_NLS
+#  ifndef HAVE_GNOME 
+  gtk_set_locale();
+#  endif
+  const char *locale_dir;
+#ifdef WIN32
+  string dir = Util::get_application_directory() + "\\lib\\locale";
+  locale_dir = dir.c_str();
+#else
+  locale_dir = GNOMELOCALEDIR;
+#endif
+  bindtextdomain(PACKAGE, locale_dir);
+  bind_textdomain_codeset(PACKAGE, "UTF-8");
+  textdomain(PACKAGE);
+#endif
 }
 
 
+//! Initializes the core.
+void
+GUI::init_core_control()
+{
+#ifdef HAVE_X
+  char *display_name = gdk_get_display();
+#else
+  char *display_name = NULL;
+#endif
+  Configurator *config = create_configurator();
+  core_control->init(config, display_name);
+}
+
+
+void
+GUI::init_gui_control()
+{
+  gui_control = new GUIControl(this, core_control);
+  gui_control->init();
+}
+
+
+void
+GUI::init_gui()
+{
+  TRACE_ENTER("GUI::init_gui");
+
+  // Setup the window hints module.
+  WindowHints::init();
+
+  // The main status window.
+  main_window = new MainWindow();
+  
+#ifdef HAVE_GNOME
+  // The applet window.
+  applet_window = new AppletWindow();
+#endif  
+
+  // Periodic timer.
+  Glib::signal_timeout().connect(SigC::slot(*this, &GUI::on_timer), 1000);
+
+  TRACE_EXIT();
+}
+
+
+void
+GUI::init_remote_control()
+{
+  TRACE_ENTER("GUI::init_remote_control");
+#ifdef HAVE_GNOME
+  if (!bonobo_init(&argc, argv))
+    {
+      g_error (_("I could not initialize Bonobo"));
+    }
+
+  RemoteControl::get_instance();
+  
+  BonoboGenericFactory *factory;
+  factory = bonobo_generic_factory_new("OAFIID:GNOME_Workrave_Factory", workrave_component_factory, NULL);
+  bonobo_running_context_auto_exit_unref (BONOBO_OBJECT (factory));
+#endif
+  TRACE_EXIT();
+}
+
+
+//! Returns a prelude window.
 PreludeWindowInterface *
 GUI::create_prelude_window()
 {
@@ -316,6 +299,7 @@ GUI::create_prelude_window()
 }
 
 
+//! Returns a break window for the specified break.
 BreakWindowInterface *
 GUI::create_break_window(GUIControl::BreakId break_id, bool ignorable)
 {
@@ -339,14 +323,7 @@ GUI::create_break_window(GUIControl::BreakId break_id, bool ignorable)
 }
 
 
-bool
-GUI::on_timer()
-{
-  heartbeat();
-  return true;
-}
-
-
+//! Returns a sound player object.
 SoundPlayerInterface *
 GUI::create_sound_player()
 {
@@ -359,4 +336,38 @@ GUI::create_sound_player()
 #  warning Sound card support disabled.
 #endif
   return snd;
+}
+
+
+//! Returns the configurator.
+Configurator *
+GUI::create_configurator()
+{
+  if (configurator == NULL)
+    {
+#if defined(HAVE_REGISTRY)
+      configurator = Configurator::create("w32");
+#elif defined(HAVE_GCONF)
+      gconf_init(argc, argv, NULL);
+      g_type_init();
+      configurator = Configurator::create("gconf");
+#elif defined(HAVE_GDOME)
+      string configFile = Util::complete_directory("config.xml", Util::SEARCH_PATH_CONFIG);
+
+      configurator = Configurator::create("xml");
+#if defined(HAVE_X)
+      if (configFile == "" || configFile == "config.xml")
+        {
+          configFile = Util::get_home_directory() + "config.xml";
+        }
+#endif
+      if (configFile != "")
+        {
+          configurator->load(configFile);
+        }
+#else
+#error No configuator configured        
+#endif
+    }
+  return configurator;
 }

@@ -56,8 +56,7 @@ const string AppletWindow::CFG_KEY_APPLET_IMMINENT = "/imminent";
  *  \param gui the main GUI entry point.
  *  \param control Interface to the controller.
  */
-AppletWindow::AppletWindow(GUI *g, ControlInterface *c) :
-  TimerWindow(g, c),
+AppletWindow::AppletWindow() :
   mode(APPLET_DISABLED),
   retry_init(false),
   reconfigure(false),
@@ -129,11 +128,8 @@ AppletWindow::init()
   read_configuration();
 
   // Listen for configugration changes.
-  Configurator *config = gui->get_configurator();
-  if (config != NULL)
-    {
-      config->add_listener(AppletWindow::CFG_KEY_APPLET, this);
-    }
+  Configurator *config = GUIControl::get_instance()->get_configurator();
+  config->add_listener(AppletWindow::CFG_KEY_APPLET, this);
 
   // Create the applet.
   if (applet_enabled)

@@ -1,6 +1,6 @@
 // GUI.hh --- The WorkRave GUI
 //
-// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -27,7 +27,6 @@
 #include "Mutex.hh"
 #include "GUIInterface.hh"
 #include "GUIFactoryInterface.hh"
-#include "TimerInterface.hh"
 
 // GTKMM classes
 class MainWindow;
@@ -59,23 +58,18 @@ public:
   static GUI *get_instance();
 
   // GUIInterface methods
-  void start();
-  void run();
-  Configurator *get_configurator();
+  void main();
 
   // GUIFactoryInterface methods
   PreludeWindowInterface *create_prelude_window();
   BreakWindowInterface *create_break_window(GUIControl::BreakId break_id, bool ignorable);
   SoundPlayerInterface *create_sound_player();
+  Configurator *create_configurator();
   
   // Internal public methods
   void restbreak_now();
-  void set_operation_mode(GUIControl::OperationMode mode);
-  GUIControl::OperationMode get_operation_mode();
   void open_main_window();
   void terminate();
-
-  ControlInterface *get_core_control() const;
   
 #ifdef HAVE_GNOME
   AppletWindow *get_applet_window() const;
@@ -83,14 +77,19 @@ public:
   MainWindow *get_main_window() const;
   
 private:
-  void timer_action(string timer_id, TimerEvent event);
-  void heartbeat();
-  bool inter_thread_call(Glib::IOCondition ioCond);
   bool on_timer();
+  void init_nls();
+  void init_core_control();
+  void init_gui_control();
+  void init_gui();
+  void init_remote_control();
   
 private:
   //! The one and only instance
   static GUI *instance;
+
+  //! The Configurator.
+  Configurator *configurator;
 
   //! The Core controller
   ControlInterface *core_control;
@@ -104,21 +103,26 @@ private:
   //! The command line arguments.
   char **argv;
 
-  //! The main window, shows the timers
+  //! The main window, shows the timers.
   MainWindow *main_window;
 
 #ifdef HAVE_GNOME
+  //! The applet window.
   AppletWindow *applet_window;
 #endif  
 };
 
+
+//! Returns the only instance of GUI
 inline GUI *
 GUI::get_instance()
 {
   return instance;
 }
 
+
 #ifdef HAVE_GNOME
+//! Returns the applet window.
 inline AppletWindow *
 GUI::get_applet_window() const
 {
@@ -126,16 +130,12 @@ GUI::get_applet_window() const
 }
 #endif
 
+
+//! Returns the main window.
 inline MainWindow *
 GUI::get_main_window() const
 {
   return main_window;
-}
-
-inline ControlInterface *
-GUI::get_core_control() const
-{
-  return core_control;
 }
 
 #endif // GUI_HH

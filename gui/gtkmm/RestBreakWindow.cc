@@ -1,6 +1,6 @@
 // RestBreakWindow.cc --- window for the micropause
 //
-// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 //
@@ -48,7 +48,6 @@ const int MARGINY = 8;
 
 #include "ActivityMonitorInterface.hh"
 #include "TimerInterface.hh"
-#include "ControlInterface.hh"
 
 
 //! Constructor
@@ -58,7 +57,6 @@ const int MARGINY = 8;
 RestBreakWindow::RestBreakWindow(bool ignorable) :
   window_width(0),
   window_height(0),
-  core_control(NULL),
   timebar(NULL),
   progress_value(0),
   progress_max_value(0),

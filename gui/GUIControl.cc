@@ -38,7 +38,6 @@ static const char rcsid[] = "$Id$";
 #include "Control.hh"
 #include "ControlInterface.hh"
 #include "GUIFactoryInterface.hh"
-#include "PreludeWindowInterface.hh"
 #include "SoundPlayer.hh"
 #include "SoundPlayerInterface.hh"
 #include "Statistics.hh"
@@ -281,13 +280,13 @@ GUIControl::init()
   TRACE_ENTER("GUIControl:init");
 
   Statistics *stats = Statistics::get_instance();
-  stats->init(core_control);
+  //  stats->init(core_control);
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       ConfigCheck *tc = &configCheck[i];
       TimerData *td = &timers[i];
-      td->timer = core_control->get_timer(tc->id);
+      td->timer = core_control->create_timer(tc->id);
       td->icon = Util::complete_directory(tc->icon, Util::SEARCH_PATH_IMAGES);
       td->break_id = i;
       td->break_name = tc->id;
@@ -296,22 +295,19 @@ GUIControl::init()
         {
         case BREAK_ID_MICRO_PAUSE:
           td->break_control = new BreakControl
-            (GUIControl::BREAK_ID_MICRO_PAUSE, core_control, gui_factory,
-             core_control->get_timer("micro_pause"));
+            (GUIControl::BREAK_ID_MICRO_PAUSE, core_control, gui_factory, td->timer);
           td->break_control->set_prelude_text(_("Time for a micro-pause?"));
           break;
           
         case BREAK_ID_REST_BREAK:
           td->break_control = new BreakControl
-            (GUIControl::BREAK_ID_REST_BREAK, core_control, gui_factory,
-             core_control->get_timer("rest_break"));
+            (GUIControl::BREAK_ID_REST_BREAK, core_control, gui_factory, td->timer);
           td->break_control->set_prelude_text(_("You need a rest break..."));
           break;
           
         case BREAK_ID_DAILY_LIMIT:
           td->break_control = new BreakControl
-            (GUIControl::BREAK_ID_DAILY_LIMIT, core_control, gui_factory,
-             core_control->get_timer("daily_limit"));
+            (GUIControl::BREAK_ID_DAILY_LIMIT, core_control, gui_factory, td->timer);
           td->break_control->set_prelude_text(_("You should stop for today..."));
           break;
           
@@ -319,8 +315,8 @@ GUIControl::init()
           td->break_control = NULL;
         }
     }
-
-  // FIXME: Raymond??
+ 
+  core_control->init_timers();
   load_config();
 
   sound_player = new SoundPlayer(gui_factory->create_sound_player());
@@ -333,10 +329,69 @@ GUIControl::init()
 }
 
 
+//! Notication of a timer action.
+/*!
+ *  \param timerId ID of the timer that caused the action.
+ *  \param action action that is performed by the timer.
+*/
+void
+GUIControl::timer_action(string timer_id, TimerEvent event)
+{
+  TRACE_ENTER_MSG("GUI::timer_action", timer_id << " " << event);
+
+  GUIControl::BreakId id = BREAK_ID_NONE;
+
+  // Parse timer_id
+  if (timer_id == "micro_pause")
+    {
+      id = BREAK_ID_MICRO_PAUSE;
+    }
+  else if (timer_id == "rest_break")
+    {
+      id = BREAK_ID_REST_BREAK;
+    }
+  else if (timer_id == "daily_limit")
+    {
+      id = BREAK_ID_DAILY_LIMIT;
+    }
+
+  if (id != GUIControl::BREAK_ID_NONE)
+    {
+      // Parse action.
+      if (event == TIMER_EVENT_LIMIT_REACHED)
+        {
+          break_action(id, GUIControl::BREAK_ACTION_START_BREAK);
+        }
+      else if (event == TIMER_EVENT_RESET)
+        {
+          break_action(id, GUIControl::BREAK_ACTION_STOP_BREAK);
+        }
+      else if (event == TIMER_EVENT_NATURAL_RESET)
+        {
+          break_action(id, GUIControl::BREAK_ACTION_NATURAL_STOP_BREAK);
+        }
+    }
+
+  TRACE_EXIT();
+}
+
+
+
+
 //! Periodic heartbeat.
 void
 GUIControl::heartbeat()
 {
+  map<string, TimerInfo> infos;
+  core_control->process_timers(infos);
+  for (map<string, TimerInfo>::iterator i = infos.begin(); i != infos.end(); i++)
+    {
+      string id = i->first;
+      TimerInfo &info = i->second;
+
+      timer_action(id, info.event);
+    }
+
   // Distributed  stuff
 
 #ifdef HAVE_DISTRIBUTION
@@ -653,33 +708,12 @@ GUIControl::handle_stop_break(BreakInterface *breaker, BreakId break_id, TimerIn
 }
 
 
-//! Returns the configurator.
 Configurator *
 GUIControl::get_configurator()
 {
   if (configurator == NULL)
     {
-#if defined(HAVE_REGISTRY)
-      configurator = Configurator::create("w32");
-#elif defined(HAVE_GCONF)
-      configurator = Configurator::create("gconf");
-#elif defined(HAVE_GDOME)
-      string configFile = Util::complete_directory("config.xml", Util::SEARCH_PATH_CONFIG);
-
-      configurator = Configurator::create("xml");
-#if defined(HAVE_X)
-      if (configFile == "" || configFile == "config.xml")
-        {
-          configFile = Util::get_home_directory() + "config.xml";
-        }
-#endif
-      if (configFile != "")
-        {
-          configurator->load(configFile);
-        }
-#else
-#error No configuator configured        
-#endif
+      configurator = gui_factory->create_configurator();
       bool changed = verify_config();
 
       if (changed)
@@ -687,7 +721,6 @@ GUIControl::get_configurator()
           configurator->save();
         }
     }
-
   return configurator;
 }
 

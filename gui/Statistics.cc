@@ -1,6 +1,6 @@
 // Statistics.cc
 //
-// Copyright (C) 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -514,7 +514,8 @@ Statistics::update_current_day()
   if (core_control != NULL)
     {
       // Collect total active time from dialy limit timer.
-      TimerInterface *t = core_control->get_timer("daily_limit");
+      GUIControl *gui_control = GUIControl::get_instance();
+      TimerInterface *t = gui_control->timers[GUIControl::BREAK_ID_DAILY_LIMIT].timer;
       assert(t != NULL);
       current_day->misc_stats[STATS_VALUE_TOTAL_ACTIVE_TIME] = t->get_elapsed_time();
 
@@ -654,6 +655,8 @@ Statistics::set_state(DistributedStateID id, bool master, unsigned char *buffer,
 {
   TRACE_ENTER("Statistics::set_state");
 
+  return false;
+  
   PacketBuffer state_packet;
   state_packet.create();
 

@@ -1,6 +1,6 @@
 // TimerPreferencesPanel.hh --- Preferences widgets for a timer
 //
-// Copyright (C) 2002 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -36,7 +36,7 @@ class TimerPreferencesPanel
   : public Gtk::HBox
 {
 public:  
-  TimerPreferencesPanel(GUIControl::TimerId timer);
+  TimerPreferencesPanel(GUIControl::BreakId timer);
   ~TimerPreferencesPanel();
   
 private:
@@ -55,7 +55,7 @@ private:
   Gtk::Frame *create_timers_frame();
   void set_prelude_sensitivity();
   
-  GUIControl::TimerId timer_id;
+  GUIControl::BreakId break_id;
   GUIControl::TimerData *timer;
 
   Gtk::CheckButton *insists_cb;

@@ -1,6 +1,6 @@
 // Control.hh --- The main controller
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -45,7 +45,6 @@
 #endif
 
 #include "Timer.hh"
-#include "GUIInterface.hh"
 #include "TimeSource.hh"
 #include "Configurator.hh"
 #include "ConfiguratorListener.hh"
@@ -76,42 +75,28 @@ public:
   //! Destructor
   virtual ~Control();
 
-  //! The Main Entry point.
-  int main(int argc, char **argv);
-
   // TimeSource methods
   time_t get_time() const;
 
   // ControlInterface methods.
-  void init(char *display_name);
+  void init(Configurator *config, char *display_name);
   void terminate();
   void process_timers(map<string, TimerInfo> &infos);
-
-#ifndef NDEBUG
-  void test_me();
-#endif
-  
-  //! Returns all timers (to be removed as public ??)
-  Timers get_timers() const
-  {
-    return timers;
-  }
+  void init_timers();
+  TimerInterface *create_timer(string id);
 
   ActivityMonitor *get_activity_monitor() const
   {
     return monitor;
   }
 
-  list<string> get_timer_ids() const;
-  TimerInterface *get_timer(string id);
-
   virtual void config_changed_notify(string key);
-
 
 private:
   void save_state() const;
   void load_state();
 
+  Timer *get_timer(string id);
   void configure_timer(string id, Timer *timer);
   void configure_timer_monitor(string id, Timer *timer);
   void load_monitor_config();
@@ -119,7 +104,6 @@ private:
 
   bool create_monitor(char *display_name);
   bool create_timers();
-  //bool process_timer_event(Timer *timer, Timer::TimerEvent event);
 
 #ifdef HAVE_DISTRIBUTION
   bool create_distribution_manager();
@@ -131,7 +115,7 @@ private:
   //! List of timers
   Timers timers;
 
-  // COnfiguration access.
+  //! The Configurator.
   Configurator *configurator;
 
   //! The activity monitor

@@ -1,6 +1,6 @@
 // TimerWindow.cc --- Timer info Window
 //
-// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -36,7 +36,6 @@ static const char rcsid[] = "$Id$";
 #include "Text.hh"
 
 #include "TimerInterface.hh"
-#include "ControlInterface.hh"
 #include "ActivityMonitorInterface.hh"
 #include "Configurator.hh"
 #include "Menus.hh"
@@ -51,9 +50,7 @@ static const char rcsid[] = "$Id$";
  *  \param gui the main GUI entry point.
  *  \param control Interface to the controller.
  */
-TimerWindow::TimerWindow(GUI *g, ControlInterface *c) :
-  core_control(c),
-  gui(g)
+TimerWindow::TimerWindow()
 {
   timer_names = new Gtk::Widget*[GUIControl::BREAK_ID_SIZEOF];
   timer_times = new TimeBar*[GUIControl::BREAK_ID_SIZEOF];

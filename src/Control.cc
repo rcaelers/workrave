@@ -1,6 +1,6 @@
 // Control.cc --- The main controller
 //
-// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -29,10 +29,9 @@ static const char rcsid[] = "$Id$";
 #include <fstream>
 #include <sstream>
 
-#include "Util.hh"
 #include "Control.hh"
-#include "GUIFactory.hh"
 
+#include "Util.hh"
 #include "ActivityMonitor.hh"
 #include "TimerActivityMonitor.hh"
 
@@ -41,19 +40,8 @@ static const char rcsid[] = "$Id$";
 #include "PacketBuffer.hh"
 #endif
 
-#ifdef HAVE_GCONF
-#include "GConfConfigurator.hh"
-#endif
-
 #ifndef NDEBUG
 #include "FakeActivityMonitor.hh"
-#endif
-
-#ifdef ENABLE_NLS
-// I know, this is not very nice, but the documentation says
-// gtk_set_locale & co need to be invoked at the start of the program,
-// which is here.
-#include <gtk/gtk.h>
 #endif
 
 const char *WORKRAVESTATE="WorkRaveState";
@@ -63,12 +51,13 @@ const int SAVESTATETIME = 15;
 Control::Control()
 {
   current_time = time(NULL);
+  master_node = true;
+  monitor = NULL;
+  configurator = NULL;
+
 #ifdef HAVE_DISTRIBUTION
   dist_manager = NULL;
 #endif  
-  master_node = true;
-  configurator = NULL;
-  monitor = NULL;
 }
 
 
@@ -76,8 +65,11 @@ Control::Control()
 Control::~Control()
 {
   TRACE_ENTER("Control::~Control");
-  
-  monitor->terminate();
+
+  if (monitor != NULL)
+    {
+      monitor->terminate();
+    }
 
   TimerCIter ti = timers.begin();
   while (ti != timers.end())
@@ -92,62 +84,24 @@ Control::~Control()
       delete dist_manager;
     }
 #endif
-  
-  delete monitor;
+
+  if (monitor != NULL)
+    {
+      delete monitor;
+    }
   
   TRACE_EXIT();
 }
 
 
 void
-Control::init(char *display_name)
+Control::init(Configurator *config, char *display_name)
 {
+  configurator = config;
 #ifdef HAVE_DISTRIBUTION
   create_distribution_manager();
 #endif  
   create_monitor(display_name);
-  create_timers();
-}
-
-
-//! The main entry point.
-int
-Control::main(int argc, char **argv)
-{
-  // I know, this is not very nice, but the documentation says
-  // gtk_set_locale & co need to be invoked at the start of the program,
-  // which is here.
-#ifdef ENABLE_NLS
-#  ifndef HAVE_GNOME 
-  gtk_set_locale();
-#  endif
-  const char *locale_dir;
-#ifdef WIN32
-  string dir = Util::get_application_directory() + "\\lib\\locale";
-  locale_dir = dir.c_str();
-#else
-  locale_dir = GNOMELOCALEDIR;
-#endif
-  bindtextdomain(PACKAGE, locale_dir);
-  bind_textdomain_codeset(PACKAGE, "UTF-8");
-  textdomain(PACKAGE);
-#endif
-  
-#ifdef HAVE_GCONF
-  gconf_init(argc, argv, NULL);
-  g_type_init();
-#endif
-
-  GUIInterface *gui = GUIFactory::create_gui("gtkmm", this, argc, argv);
-
-  configurator = gui->get_configurator();
-
-  gui->run();
-
-  //FIXME: untested, solves memleak, gui not freed.
-  delete gui;
-  
-  return 0;
 }
 
 
@@ -155,36 +109,6 @@ time_t
 Control::get_time() const
 {
   return current_time;
-}
-
-
-list<string>
-Control::get_timer_ids() const
-{
-  list<string> ret;
-
-  for (TimerCIter i = timers.begin(); i != timers.end(); i++)
-    {
-      ret.push_back((*i)->get_id());
-    }
-  return ret;
-}
-  
-
-TimerInterface *
-Control::get_timer(string id)
-{
-  TimerInterface *timer_itf = NULL;
-  
-  for (TimerCIter i = timers.begin(); i != timers.end(); i++)
-    {
-      if ((*i)->get_id() == id)
-        {
-          timer_itf = *i;
-          break;
-        }
-    }
-  return timer_itf;
 }
 
 
@@ -264,9 +188,6 @@ Control::process_timers(map<string, TimerInfo> &infos)
 
   if (master_node)
     {
-      // FIXME: quick solution for dependancy probleem if a timer
-      // uses a private activity monitor...
-  
       for (TimerCIter i = timers.begin(); i != timers.end(); i++)
         {
           if (!(*i)->has_activity_monitor())
@@ -290,7 +211,6 @@ Control::process_timers(map<string, TimerInfo> &infos)
         }
     }
 
-  
   if (count % SAVESTATETIME == 0)
     {
       save_state();
@@ -317,6 +237,7 @@ Control::create_distribution_manager()
 }
 #endif
 
+
 // Create the monitor based on the specified configuration.
 bool
 Control::create_monitor(char *display_name)
@@ -340,24 +261,28 @@ Control::create_monitor(char *display_name)
 }
 
 
-  // Create the timers based on the specified configuration. 
-bool
-Control::create_timers()
+Timer *
+Control::get_timer(string id)
 {
-  TRACE_ENTER("Control::create_timers");
-
-  list<string> timer_names = configurator->get_all_dirs(CFG_KEY_TIMERS);
-  for (list<string>::iterator i = timer_names.begin(); i != timer_names.end(); i++)
-    {
-      TRACE_MSG("ID=" << *i);
-      Timer *timer = new Timer(this);
-      
-      timer->set_id(*i);
-      configure_timer(*i, timer);
-
-      timers.push_back(timer);
-    }
+  Timer *timer = NULL;
   
+  for (TimerCIter i = timers.begin(); i != timers.end(); i++)
+    {
+      if ((*i)->get_id() == id)
+        {
+          timer = *i;
+          break;
+        }
+    }
+  return timer;
+}
+
+// Create the timers based on the specified configuration. 
+void
+Control::init_timers()
+{
+  TRACE_ENTER("Control::init_timers");
+
   load_state();
 
   for (TimerCIter i = timers.begin(); i != timers.end(); i++)
@@ -370,7 +295,23 @@ Control::create_timers()
   configurator->add_listener(CFG_KEY_TIMERS, this);
   
   TRACE_EXIT();
-  return true;
+}
+
+
+TimerInterface *
+Control::create_timer(string id)
+{
+  TRACE_ENTER_MSG("Control::create_timer", id);
+  
+  Timer *timer = new Timer(this);
+  timer->set_id(id);
+
+  configure_timer(id, timer);
+  configure_timer_monitor(id, timer);
+
+  timers.push_back(timer);
+
+  return timer;
 }
 
 
@@ -378,8 +319,6 @@ void
 Control::configure_timer(string id, Timer *timer)
 {
   TRACE_ENTER_MSG("Control::configure_timer", id);
-  assert(timer != NULL);
-  
   string prefix = CFG_KEY_TIMER + id;
 
   int limit = 0;
@@ -387,7 +326,6 @@ Control::configure_timer(string id, Timer *timer)
   string resetPred, icon;
   int snooze = 0;
   bool countActivity = 0;
-  bool restore = 0;
   
   configurator->get_value(prefix + CFG_KEY_TIMER_LIMIT, &limit);
   timer->set_limit(limit);
@@ -408,10 +346,6 @@ Control::configure_timer(string id, Timer *timer)
   configurator->get_value(prefix + CFG_KEY_TIMER_COUNT_ACTIVITY, &countActivity);
   timer->set_for_activity(countActivity);
 
-  // TODO: not used...yet
-  configurator->get_value(prefix + CFG_KEY_TIMER_RESTORE, &restore);
-
-  configure_timer_monitor(id, timer);
   TRACE_EXIT();
 }
 
@@ -609,29 +543,29 @@ Control::load_state()
 }
 
 #ifndef NDEBUG
-void
-Control::test_me()
-{
-  TRACE_ENTER("Control::test_me");
+// void
+// Control::test_me()
+// {
+//   TRACE_ENTER("Control::test_me");
 
-  if (fake_monitor != NULL)
-    {
-      ActivityState state = fake_monitor->get_current_state();
+//   if (fake_monitor != NULL)
+//     {
+//       ActivityState state = fake_monitor->get_current_state();
 
-      if (state == ACTIVITY_ACTIVE)
-        {
-          TRACE_MSG("Setting idle");
-          fake_monitor->set_state(ACTIVITY_IDLE);
-        }
-      else
-        {
-          TRACE_MSG("Setting master");
-          fake_monitor->set_state(ACTIVITY_ACTIVE);
-        }
-    }
+//       if (state == ACTIVITY_ACTIVE)
+//         {
+//           TRACE_MSG("Setting idle");
+//           fake_monitor->set_state(ACTIVITY_IDLE);
+//         }
+//       else
+//         {
+//           TRACE_MSG("Setting master");
+//           fake_monitor->set_state(ACTIVITY_ACTIVE);
+//         }
+//     }
   
-  TRACE_EXIT();
-}
+//   TRACE_EXIT();
+// }
 #endif
 
 #ifdef HAVE_DISTRIBUTION
@@ -675,6 +609,7 @@ Control::get_state(DistributedStateID id, unsigned char **buffer, int *size)
   TRACE_EXIT();
   return true;
 }
+
 
 bool
 Control::set_state(DistributedStateID id, bool master, unsigned char *buffer, int size)
