@@ -114,12 +114,14 @@ NetworkLogDialog::run()
   
   show_all();
   TRACE_EXIT();
+  return 0;
 }
 
 
 void
 NetworkLogDialog::on_response(int response)
 {
+  (void) response;
   TRACE_ENTER("NetworkLogDialog::on_response")
   DistributionManager *dist_manager = DistributionManager::get_instance();
   if (dist_manager != NULL)

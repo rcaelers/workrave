@@ -134,7 +134,7 @@ Control::main(int argc, char **argv)
 #endif
   
 #ifdef HAVE_GCONF
-  bool x =  gconf_init(argc, argv, NULL);
+  gconf_init(argc, argv, NULL);
   g_type_init();
 #endif
 
@@ -638,6 +638,7 @@ Control::test_me()
 bool
 Control::get_state(DistributedStateID id, unsigned char **buffer, int *size)
 {
+  (void) id;
   TRACE_ENTER("Control::get_state");
 
   PacketBuffer state_packet;
@@ -678,6 +679,7 @@ Control::get_state(DistributedStateID id, unsigned char **buffer, int *size)
 bool
 Control::set_state(DistributedStateID id, bool master, unsigned char *buffer, int size)
 {
+  (void) id;
   TRACE_ENTER("Control::set_state");
 
   PacketBuffer state_packet;

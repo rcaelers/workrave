@@ -144,6 +144,8 @@ WR_METHOD_ARGS1_IMPL(void, set_mode, GNOME_Workrave_WorkraveControl_Mode, mode)
         case GNOME_Workrave_WorkraveControl_MODE_QUIET:
           menus->on_menu_quiet();
           break;
+        default:
+          break;
         }
     }
 }
@@ -226,7 +228,7 @@ BONOBO_TYPE_FUNC_FULL(WorkraveControl,
 static void
 workrave_control_class_init(WorkraveControlClass *klass)
 {
-  GObjectClass *object_class = G_OBJECT_CLASS(klass);
+  //GObjectClass *object_class = G_OBJECT_CLASS(klass);
   POA_GNOME_Workrave_WorkraveControl__epv *epv = &klass->epv;
   parent_class = (BonoboObjectClass *)g_type_class_peek_parent(klass);
 
@@ -251,6 +253,7 @@ workrave_control_class_init(WorkraveControlClass *klass)
 static void
 workrave_control_init(WorkraveControl *control)
 {
+  (void) control;
 }
 
 
@@ -272,6 +275,9 @@ workrave_control_new(void)
 extern "C" BonoboObject*
 workrave_component_factory(BonoboGenericFactory *factory, const char *object_id, void *data)
 {
+  (void) factory;
+  (void) data;
+  
   BonoboObject *object = NULL;
 	  
   g_return_val_if_fail(object_id != NULL, NULL);
@@ -283,7 +289,7 @@ workrave_component_factory(BonoboGenericFactory *factory, const char *object_id,
     }
   else
     {
-      g_warning("Unknown OAFIID 's'", object_id);
+      g_warning("Unknown OAFIID '%s'", object_id);
     }
 
 

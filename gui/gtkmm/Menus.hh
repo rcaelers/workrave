@@ -101,18 +101,18 @@ private:
   //! The one and only instance
   static Menus *instance;
   
+#ifdef HAVE_GNOME  
   //!
-  MainWindow *main_window;
+  AppletWindow *applet_window;
+#endif
 
 #ifdef HAVE_DISTRIBUTION
   //! The log dialog.
   NetworkLogDialog *network_log_dialog;
 #endif
   
-#ifdef HAVE_GNOME  
   //!
-  AppletWindow *applet_window;
-#endif
+  MainWindow *main_window;
 
   //!
   Gtk::CheckMenuItem *tray_check_menus[MAX_CHECKMENUS];

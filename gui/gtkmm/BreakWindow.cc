@@ -39,15 +39,15 @@ static const char rcsid[] = "$Id$";
  */
 BreakWindow::BreakWindow() :
   Gtk::Window (Gtk::WINDOW_POPUP),
+  SCREEN_MARGIN(20),
 #ifdef HAVE_X
   grab_wanted(false),
 #endif
   avoid_wanted(false),
   did_avoid(false),
-  frame(NULL),
-  border_width(0),
   grab_handle(NULL),
-  SCREEN_MARGIN(20)
+  frame(NULL),
+  border_width(0)
 {
   Gtk::Window::set_border_width(0);
 }

@@ -102,7 +102,6 @@ workrave_applet_connect(gboolean start)
 static void
 workrave_applet_control_class_init(AppletControlClass *klass)
 {
-  GObjectClass *object_class = G_OBJECT_CLASS(klass);
   POA_GNOME_Workrave_AppletControl__epv *epv = &klass->epv;
 
   parent_class = g_type_class_peek_parent(klass);
@@ -217,7 +216,6 @@ workrave_applet_control_get_menu_status(PortableServer_Servant servant, const CO
   
   BonoboUIComponent *ui = NULL;
   PanelApplet *applet = NULL;
-  gboolean b;
   CORBA_boolean ret = FALSE;
     
   if (applet_control != NULL)
@@ -244,20 +242,22 @@ workrave_applet_control_get_menu_status(PortableServer_Servant servant, const CO
 
 static CORBA_boolean
 workrave_applet_control_register_control(PortableServer_Servant servant,
-                                         const GNOME_Workrave_WorkraveControl control,
+                                         const Bonobo_Unknown control,
                                          CORBA_Environment *ev)
 {
   AppletControl *applet_control = WR_APPLET_CONTROL(bonobo_object_from_servant(servant));
+  return TRUE;
   
 }
 
 
 static CORBA_boolean
 workrave_applet_control_unregister_control(PortableServer_Servant servant,
-                                           const GNOME_Workrave_WorkraveControl control,
+                                           const Bonobo_Unknown control,
                                            CORBA_Environment *ev)
 {
   AppletControl *applet_control = WR_APPLET_CONTROL(bonobo_object_from_servant(servant));
+  return TRUE;
 } 
 
 
@@ -671,7 +671,6 @@ workrave_applet_fill(PanelApplet *applet)
 {
   GdkPixbuf *pixbuf;
   GtkWidget *hbox;
-  GdkNativeWindow wnd;
   BonoboUIComponent *ui = NULL;
   
   //

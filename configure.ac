@@ -61,8 +61,8 @@ AC_ARG_ENABLE( distribution,
     )
     
 if test "x$config_debug" = "xyes"; then
-   CFLAGS="${CFLAGS} -g"
-   CXXFLAGS="${CXXFLAGS} -g"
+   CFLAGS="${CFLAGS} -g -Wall"
+   CXXFLAGS="${CXXFLAGS} -g -Wall"
    LDFLAGS="${LDFLAGS} -g"
 else
    CFLAGS="${CFLAGS} -O2 -DNDEBUG"

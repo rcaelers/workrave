@@ -255,6 +255,8 @@ BreakControl::goto_stage(BreakStage stage)
                   case GUIControl::BREAK_ID_MICRO_PAUSE:
                     snd = SoundPlayerInterface::SOUND_MICRO_PAUSE_ENDED;
                     break;
+                  default:
+                    break;
                   }
                 play_sound(snd);
               }
@@ -310,6 +312,8 @@ BreakControl::goto_stage(BreakStage stage)
             break;
           case GUIControl::BREAK_ID_DAILY_LIMIT:
             snd = SoundPlayerInterface::SOUND_DAILY_LIMIT;
+            break;
+          default:
             break;
           }
         play_sound(snd);

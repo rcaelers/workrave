@@ -55,7 +55,7 @@ FLAGS				= @APPLET_CFLAGS@ @ARCH_CFLAGS@ \
 
 libexec_PROGRAMS 		= workrave-applet
 
-workrave_applet_SOURCES 	= $(IDL_A_GENERATED) $(IDL_C_GENERATED) WorkraveApplet.c
+workrave_applet_SOURCES 	= $(IDL_C_GENERATED) $(IDL_A_GENERATED) WorkraveApplet.c
 workrave_applet_LDADD 		= @APPLET_LIBS@
 workrave_applet_CXXFLAGS 	= ${FLAGS}
 workrave_applet_CFLAGS 		= ${FLAGS}

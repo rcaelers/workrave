@@ -147,4 +147,5 @@ NetworkJoinDialog::run()
         }
     }
   GUIControl::get_instance()->get_configurator()->save();
+  return id;
 }

@@ -589,6 +589,7 @@ Statistics::get_state(DistributedStateID id, unsigned char **buffer, int *size)
   *buffer = new unsigned char[*size + 1];
   memcpy(*buffer, state_packet.get_buffer(), *size);
 
+  TRACE_EXIT();
   return true;
 }
 

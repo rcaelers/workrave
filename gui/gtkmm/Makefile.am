@@ -27,7 +27,7 @@ noinst_LIBRARIES = libgtkmmgui.a
 
 if HAVE_GNOME
 sourcesgnome = GnomeSoundPlayer.cc RemoteControl.cc
-sourcesidl = ${IDL_A_GENERATED} ${IDL_C_GENERATED}
+sourcesidl = ${IDL_C_GENERATED} ${IDL_A_GENERATED}
 
 ## CORBA stuff
 

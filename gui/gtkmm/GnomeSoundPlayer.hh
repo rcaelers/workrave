@@ -25,7 +25,7 @@ class GnomeSoundPlayer : public SoundPlayerInterface
 {
 public:
   GnomeSoundPlayer();
-  ~GnomeSoundPlayer();
+  virtual ~GnomeSoundPlayer();
   void play_sound(Sound snd);
 };
 

@@ -28,10 +28,10 @@
 #include "TimeEntry.hh"
 
 TimeEntry::TimeEntry(bool millis)
-  : hours_adjustment(0, 0, 23),
+  : Gtk::HBox(false, 1),
+    hours_adjustment(0, 0, 23),
     mins_adjustment(0, 0, 59),
-    secs_adjustment(0, 0, 59),
-    Gtk::HBox(false, 1)
+    secs_adjustment(0, 0, 59)
 {
   TRACE_ENTER("TimeEntry::TimeEntry");
   this->millis = millis;

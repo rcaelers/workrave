@@ -50,5 +50,6 @@ GnomeSoundPlayer::play_sound(Sound snd)
   };
   TRACE_ENTER_MSG("GnomeSoundPlayer::play_sound", map[snd]);
   gnome_triggers_do ("", NULL, "workrave", map[snd], NULL);
+  TRACE_EXIT();
 }
 

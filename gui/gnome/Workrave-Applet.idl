@@ -4,8 +4,6 @@ module GNOME
 {
   module Workrave
   {
-    interface WorkraveControl;
-    
     interface AppletControl : Bonobo::Unknown
     {
       long get_socket_id();
@@ -13,8 +11,8 @@ module GNOME
       boolean get_vertical();
       void set_menu_status(in string menu, in boolean status);
       boolean get_menu_status(in string menu);
-      boolean register_control(in WorkraveControl control);
-      boolean unregister_control(in WorkraveControl control);
+      boolean register_control(in Bonobo::Unknown control);
+      boolean unregister_control(in Bonobo::Unknown control);
     };
   };
 };

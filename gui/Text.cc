@@ -61,22 +61,22 @@ Text::time_to_string(time_t time, bool display_units)
     {
       if (hrs > 0)
         {
-          sprintf(s, "%s%ld:%02ld:%02ld", t, hrs, min, sec);
+          sprintf(s, "%s%d:%02d:%02d", t, hrs, min, sec);
         }
       else
         {
-          sprintf(s, "%s%ld:%02ld", t, min, sec);
+          sprintf(s, "%s%d:%02d", t, min, sec);
         }
     }
   else
     {
       if (hrs > 0)
         {
-          sprintf(s, _("%s%ld:%02ld:%02ld hours"), t, hrs, min, sec);
+          sprintf(s, _("%s%d:%02d:%02d hours"), t, hrs, min, sec);
         }
       else if (min > 0)
         {
-          sprintf(s, _("%s%ld:%02ld minutes"), t, min, sec);
+          sprintf(s, _("%s%d:%02d minutes"), t, min, sec);
         }
       else
         {

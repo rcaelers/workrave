@@ -4,8 +4,6 @@ module GNOME
 {
   module Workrave
   {
-    interface AppletControl;
-    
     interface WorkraveControl : Bonobo::Unknown
     {
       enum Mode { MODE_INVALID, MODE_NORMAL, MODE_SUSPENDED, MODE_QUIET };

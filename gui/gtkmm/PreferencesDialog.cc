@@ -285,5 +285,5 @@ PreferencesDialog::run()
   int id = Gtk::Dialog::run();
   GUIControl::get_instance()->get_configurator()->save();
 
-  return 0;
+  return id;
 }

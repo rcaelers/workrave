@@ -66,8 +66,6 @@ PacketBuffer::create(int size)
 void
 PacketBuffer::pack(const guint8 *data, int size)
 {
-  guint8 *ret = NULL;
-  
   if (write_ptr + size + 2 <= buffer + buffer_size)
   {
     pack_ushort(size);
@@ -82,8 +80,6 @@ PacketBuffer::pack(const guint8 *data, int size)
 void
 PacketBuffer::pack_raw(const guint8 *data, int size)
 {
-  guint8 *ret = NULL;
-  
   if (write_ptr + size <= buffer + buffer_size)
   {
     memcpy(write_ptr, data, size);
@@ -95,8 +91,6 @@ PacketBuffer::pack_raw(const guint8 *data, int size)
 void
 PacketBuffer::pack_string(const gchar *data)
 {
-  gchar *ret = NULL;
-
   int size = 0;  
   if (data != NULL)
     {

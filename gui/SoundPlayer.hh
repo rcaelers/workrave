@@ -31,7 +31,7 @@ public:
   };
   
   SoundPlayer(SoundPlayerInterface *p);
-  ~SoundPlayer();
+  virtual ~SoundPlayer();
   void play_sound(Sound snd);
 
   static bool is_enabled();

@@ -140,6 +140,8 @@ DailyLimitWindow::destroy()
 void
 DailyLimitWindow::set_progress(int value, int max_value)
 {
+  (void) value;
+  (void) max_value;
   // FIXME: show progress until timer restart time?
 }
 

@@ -321,6 +321,8 @@ Menus::resync_applet()
         case GUIControl::OPERATION_MODE_QUIET:
           applet_window->set_menu_active(2, true);
           break;
+        default:
+          break;
         }
     }
 #endif
@@ -627,7 +629,9 @@ Menus::on_menu_network_log_main_window()
 
 void
 Menus::on_network_log_response(int response)
-{ 
+{
+  (void) response;
+  
   network_log_dialog->hide_all();
 
   sync_tray_menu(false);

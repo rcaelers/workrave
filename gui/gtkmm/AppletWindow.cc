@@ -69,16 +69,17 @@ const string AppletWindow::CFG_KEY_APPLET_IMMINENT = "/imminent";
 AppletWindow::AppletWindow(GUI *g, ControlInterface *c) :
   TimerWindow(g, c),
   mode(APPLET_DISABLED),
-  cycle_time(10),
   retry_init(false),
+  container(NULL),
+  timers_box(NULL),
+  tray_menu(NULL),
+  eventbox(NULL),
+  frame(NULL),
+  cycle_time(10),
+  applet_size(0),
 #ifdef HAVE_GNOME
   applet_control(NULL),
 #endif
-  container(NULL),
-  tray_menu(NULL),
-  eventbox(NULL),
-  timers_box(NULL),
-  applet_size(0),
   reconfigure(false)
 {
   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
@@ -604,8 +605,10 @@ AppletWindow::destroy_gnome_applet()
 bool
 AppletWindow::delete_event(GdkEventAny *event)
 {
+  (void) event;
   TRACE_ENTER("AppletWindow::deleted");
   destroy_applet();
+  TRACE_EXIT();
   return true;
 }
     
@@ -622,7 +625,7 @@ AppletWindow::fire()
   
   if (mode == APPLET_DISABLED && applet_enabled)
     {
-      TRACE_ENTER("AppletWindow::retrying");
+      TRACE_MSG("AppletWindow::retrying");
       retry_init = true;
     }
   TRACE_EXIT();
@@ -744,6 +747,7 @@ AppletWindow::get_menu_active(int menu)
       CORBA_exception_free(&ev);
     }
   TRACE_EXIT();
+  return ret;
 }
 
 void
@@ -802,8 +806,6 @@ AppletWindow::on_delete_event(GdkEventAny *)
 void
 AppletWindow::read_configuration()
 {
-  bool b;
-
   Configurator *c = GUIControl::get_instance()->get_configurator();
 
   if (!c->get_value(AppletWindow::CFG_KEY_APPLET_ENABLED, &applet_enabled))
@@ -851,6 +853,7 @@ AppletWindow::read_configuration()
 void
 AppletWindow::config_changed_notify(string key)
 {
+  (void) key;
   read_configuration();
   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
     {

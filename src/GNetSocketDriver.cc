@@ -405,4 +405,5 @@ GNetSocketConnection::close()
       
   watch = 0;
   watch_flags = 0;
+  return true;
 }

@@ -364,6 +364,7 @@ DistributionSocketLink::register_state(DistributedStateID id,
 bool
 DistributionSocketLink::unregister_state(DistributedStateID id)
 {
+  (void) id;
   return false;
 }
 
@@ -391,6 +392,7 @@ DistributionSocketLink::push_state(DistributedStateID id, unsigned char *buffer,
   packet.pack_raw(buffer, size);
 
   send_packet_broadcast(packet);
+  return true;
   TRACE_EXIT();
 }
 
@@ -468,6 +470,7 @@ DistributionSocketLink::add_client(gchar *host, gint port)
     }
 
   g_free(canonical_host);
+  return true;
   TRACE_EXIT();
 }
 
@@ -749,7 +752,7 @@ DistributionSocketLink::send_packet_except(PacketBuffer &packet, Client *client)
           TRACE_MSG("sending to " << c->hostname << ":" << c->port);
           
           int bytes_written = 0;
-          bool ok = c->socket->write(packet.get_buffer(), size, bytes_written);
+          c->socket->write(packet.get_buffer(), size, bytes_written);
         }
       i++;
     }
@@ -772,7 +775,7 @@ DistributionSocketLink::send_packet(Client *client, PacketBuffer &packet)
       packet.poke_ushort(0, size);
       
       int bytes_written = 0;
-      bool ok = client->socket->write(packet.get_buffer(), size, bytes_written);
+      client->socket->write(packet.get_buffer(), size, bytes_written);
     }
   
   TRACE_EXIT();
@@ -934,8 +937,6 @@ void
 DistributionSocketLink::handle_duplicate(Client *client)
 {
   TRACE_ENTER("DistributionSocketLink::handle_duplicate");
-  PacketBuffer &packet = client->packet;
-  
   dist_manager->log(_("Removing duplicate client %s:%d."), client->hostname, client->port);
   remove_client(client);
 
@@ -1240,7 +1241,6 @@ void
 DistributionSocketLink::handle_claim_reject(Client *client)
 {
   TRACE_ENTER("DistributionSocketLink::handle_claim");
-  PacketBuffer &packet = client->packet;
 
   if (client != master_client)
     {
@@ -1466,7 +1466,7 @@ DistributionSocketLink::start_async_server()
 void
 DistributionSocketLink::socket_accepted(SocketConnection *scon, SocketConnection *ccon)
 {
-  (void) server_socket;
+  (void) scon;
   
   TRACE_ENTER("DistributionSocketLink::socket_accepted");
   if (ccon != NULL)
@@ -1596,7 +1596,8 @@ void
 DistributionSocketLink::socket_closed(SocketConnection *con, void *data)
 {
   TRACE_ENTER("DistributionSocketLink::socket_closed");
-
+  (void) con;
+  
   Client *client = (Client *)data;
   assert(client != NULL);
 

@@ -4,7 +4,7 @@
  * Copyright (C) 2002 Rob Caelers <robc@krandor.org>
  * All rights reserved.
  *
- * Time-stamp: <2002-11-13 21:08:02 robc>
+ * Time-stamp: <2002-12-28 00:20:13 robc>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,6 +35,7 @@
 #define WR_METHOD_ARGS0_IMPL(rettype, method) \
 	rettype WR_C_CLASS::static_##method (PortableServer_Servant s, CORBA_Environment *ev)    \
         {                                                                                               \
+                (void) ev; \
                 WR_CLASS *obj = WR_CAST(bonobo_object_from_servant(s));                           \
                 WR_C_CLASS *c = obj->_this;                                                             \
                 c->method ();                                                                     \
@@ -44,6 +45,7 @@
 #define WR_METHOD_ARGS1_IMPL(rettype, method, t1, v1) \
 	rettype WR_C_CLASS::static_##method (PortableServer_Servant s, t1 v1, CORBA_Environment *ev)    \
         {                                                                                               \
+                (void) ev; \
                 WR_CLASS *obj = WR_CAST(bonobo_object_from_servant(s));                           \
                 WR_C_CLASS *c = obj->_this;                                                             \
                 c->method ( v1 );                                                                     \
@@ -53,6 +55,7 @@
 #define WR_METHOD_ARGS2_IMPL(rettype, method, t1, v1, t2, v2) \
 	rettype WR_C_CLASS::static_##method (PortableServer_Servant s,  t1 v1, t2 v2, CORBA_Environment *ev)    \
         {                                                                                               \
+                (void) ev; \
                 WR_CLASS *obj = WR_CAST(bonobo_object_from_servant(s));                           \
                 WR_C_CLASS *c = obj->_this;                                                             \
                 c->method ( v1, v2 );                                                                     \
@@ -63,6 +66,7 @@
 	rettype WR_C_CLASS::static_##method (PortableServer_Servant s, t1 v1, t2 v2, t3 v3 , \
                                              CORBA_Environment *ev)    \
         {                                                                                               \
+                (void) ev; \
                 WR_CLASS *obj = WR_CAST(bonobo_object_from_servant(s));                           \
                 WR_C_CLASS *c = obj->_this;                                                             \
                 c->method ( v1, v2, v3 );                                                               \
@@ -73,6 +77,7 @@
 	rettype WR_C_CLASS::static_##method (PortableServer_Servant s, t1 v1, t2 v2, t3 v3, t4, v4, \
                                              CORBA_Environment *ev)    \
         {                                                                                               \
+                (void) ev; \
                 WR_CLASS *obj = WR_CAST(bonobo_object_from_servant(s));                           \
                 WR_C_CLASS *c = obj->_this;                                                             \
                 c->method ( v1, v2, v3, v4 );                                                           \

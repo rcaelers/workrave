@@ -170,6 +170,7 @@ MainWindow::init()
 #else
   show_all();
 #endif
+  setup();
   TRACE_EXIT();
 }
 

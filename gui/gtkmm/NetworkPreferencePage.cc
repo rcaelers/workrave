@@ -501,6 +501,8 @@ NetworkPreferencePage::remove_peer(const Gtk::TreeModel::iterator &iter)
 void
 NetworkPreferencePage::on_row_changed(const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& iter)
 {
+  (void) path;
+  (void) iter;
   update_peers();
 }
 
@@ -508,6 +510,7 @@ NetworkPreferencePage::on_row_changed(const Gtk::TreeModel::Path& path, const Gt
 void
 NetworkPreferencePage::on_row_deleted(const Gtk::TreeModel::Path& path)
 {
+  (void) path;
   update_peers();
 }
 
