@@ -55,6 +55,7 @@ static const char rcsid[] = "$Id$";
 
 #ifdef WIN32
 #include <gdk/gdkwin32.h>
+#include <pbt.h>
 #endif
 
 #include "Menus.hh"
@@ -131,7 +132,7 @@ MainWindow::init()
       try
         {
           Glib::RefPtr<Gdk::Pixbuf> pixbuf = Gdk::Pixbuf::create_from_file(file);
-      icons.push_back(pixbuf);
+          icons.push_back(pixbuf);
         }
       catch (...)
         {
@@ -570,6 +571,7 @@ LRESULT CALLBACK
 MainWindow::win32_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
                               LPARAM lParam)
 {
+  TRACE_ENTER("MainWindow::win32_window_proc");
   MainWindow *win = (MainWindow *) GetWindowLong(hwnd, GWL_USERDATA);
   if (win != NULL)
     {
@@ -597,7 +599,65 @@ MainWindow::win32_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
               break;
             }
         }
+      else if (uMsg == WM_POWERBROADCAST)
+        {
+          TRACE_MSG("WM_POWERBROADCAST " << wParam << " " << lParam);
+          switch (wParam)
+            {
+            case PBT_APMQUERYSUSPEND:
+              TRACE_MSG("Query Suspend");
+              return TRUE;
+
+            case PBT_APMQUERYSUSPENDFAILED:
+              TRACE_MSG("Query Suspend Failed");
+              break;
+
+              //case PBT_APMRESUMEAUTOMATIC:
+              // This notification would be processed if the app handled 
+              // something like a resume caused by an incoming network 
+              // request, by a modem ring, etc.  We DO NOT want to handle 
+              // this the same way that PBT_APMRESUMESUSPEND is handled
+              // because at this point there is no user interaction. As 
+              // soon as Windows detects user interaction (mouse move, 
+              // keyboard, etc.) it will notify us with a PBT_RESUMESUSPEND
+              // notification.
+//                TRACE_MSG("Resume automatic");
+//                break;
+
+            case PBT_APMRESUMECRITICAL:
+              // This notification means the system was suspended without 
+              // the application receiving any suspend messages. The
+              // application needs to reestablish any network connections
+              // reopen any files and attempt to restore any known 
+              // context. The application should also attempt to detect any 
+              // data loss or corruption and notify the user.
+              TRACE_MSG("Resume critical");
+              break;
+
+            case PBT_APMRESUMESUSPEND:
+              // Reestablish any network connections saved in the suspend 
+              // function or reopen any files and seek to the 
+              // previously saved position(s).
+
+              // If the files are local, then the state of the files will be 
+              // saved. Be aware that this would require that the application 
+              // know which files are local and which are out on the 
+              // network.
+              TRACE_MSG("Resume suspend");
+              break;
+
+            case PBT_APMSUSPEND:
+              // Save the necessary info for reestablishing network 
+              // connections or close all files and save information 
+              // necessary to reestablish the state for each file (file 
+              // path/name, file pointer position, etc.).
+              TRACE_MSG("suspend");
+              break;
+            }
+        }
     }
+  
+  TRACE_EXIT();
   return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 

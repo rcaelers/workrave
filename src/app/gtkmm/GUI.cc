@@ -483,6 +483,8 @@ GUI::init_multihead()
       heads[0].valid = false;
       heads[0].count = 0;
     }
+
+  //init_multihead_desktop();
   TRACE_EXIT();
 }
 
@@ -510,6 +512,68 @@ GUI::init_multihead_mem(int new_num_heads)
   TRACE_EXIT();
 }
 
+void
+GUI::init_multihead_desktop()
+{
+  TRACE_ENTER("GUI::init_multihead_desktop");
+  TRACE_MSG("width x height " << gdk_screen_width() << " " << gdk_screen_height());
+    
+  int width = 0;
+  int height = 0;
+
+  // Use head info to determine screen size. I hope this results
+  // in the same size as the gdk_screen_xxx....
+  for (int i = 0; i < num_heads; i++)
+    {
+      if (!heads[i].valid)
+        {
+          // Not all heads have valid geometry. Use gdk.
+          width = gdk_screen_width();
+          height = gdk_screen_height();
+          break;
+        }
+
+      int w = heads[i].geometry.get_x() + heads[i].geometry.get_width();
+      int h = heads[i].geometry.get_y() + heads[i].geometry.get_width();
+
+      if (w > width)
+        {
+          width = w;
+        }
+      if (h > height)
+        {
+          height = h;
+        }
+    }
+
+  if (screen_width != width || screen_height != height)
+    {
+      relocate_main_window(width, height);
+      screen_width = width;
+      screen_height = height;
+    }
+}
+
+void
+GUI::relocate_main_window(int width, int height)
+{
+  TRACE_ENTER_MSG("GUI::relocate_main_window", width << " " << height);
+  int x, y, w, h;
+
+  // Get main window geometry
+  GtkRequisition size;
+  main_window->size_request(&size);
+  main_window->get_position(x, y);
+  w = size.width;
+  h = size.height;
+
+  TRACE_MSG("main window = " << x << " " << y << " " << w << " " << h);
+
+  if (x + w >= width)
+    {
+      // relocate X.
+    }
+}
 
 #ifdef HAVE_GTK_MULTIHEAD
 void

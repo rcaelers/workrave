@@ -117,6 +117,7 @@ private:
   void init_sound_player();
   void init_multihead();
   void init_multihead_mem(int new_num_heads);
+  void init_multihead_desktop();
   void init_gui();
   void init_remote_control();
 
@@ -141,6 +142,8 @@ private:
 #endif
   void collect_garbage();
   BreakWindowInterface *create_break_window(HeadInfo &head, BreakId break_id, bool ignorable, bool insist);
+
+  void relocate_main_window(int width, int height);
   
 private:
   //! The one and only instance
@@ -202,15 +205,27 @@ private:
   SigC::Connection dispatch_connection;
   Dispatcher *dispatcher;
 
+  //! Information on all heads.
   HeadInfo *heads;
+
+  //! Number of heads
   int num_heads;
 
+  //! Width of the screen.
+  int screen_width;
+  
+  //! Height of the screen.
+  int screen_height;
+
+  //! Location of main window.
+  
 #ifdef WIN32
   LUENUMDISPLAYMONITORS enum_monitors;
   HINSTANCE user_lib;
   int current_monitor;
 #endif
-  
+
+ 
 };
 
 
