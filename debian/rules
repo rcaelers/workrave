@@ -12,20 +12,33 @@
 # from having to guess our platform (since we know it already)
 DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
 DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+ifeq ($(DEB_BUILD_GNU_TYPE), $(DEB_HOST_GNU_TYPE))
+  CONFFLAGS += --build $(DEB_HOST_GNU_TYPE)
+else
+  CONFFLAGS += --build $(DEB_BUILD_GNU_TYPE) --host $(DEB_HOST_GNU_TYPE)
+endif
 
 
 ifneq (,$(findstring debug,$(DEB_BUILD_OPTIONS)))
-	CFLAGS += -g
+  CFLAGS += -g
+endif
+ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+  CFLAGS += -O0
+else
+  CFLAGS += -O2
 endif
 ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
-	INSTALL_PROGRAM += -s
+  INSTALL_PROGRAM += -s
 endif
 
 config.status: configure
 	dh_testdir
-	# Add here commands to configure the package.
-	./configure --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info --libexecdir=\$${prefix}/lib/gnome-applets --sysconfdir=/etc --enable-gconf --enable-gnome --enable-distribution --enable-exercises
 
+	# Add here commands to configure the package.
+	./configure $(CONFFLAGS) --prefix=/usr \
+		--mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info \
+		--libexecdir=\$${prefix}/lib/gnome-applets --sysconfdir=/etc \
+		--enable-gconf --enable-gnome --enable-distribution --enable-exercises \
 
 build: build-stamp
 
@@ -51,7 +64,6 @@ clean:
 	  cp -f /usr/share/misc/config.guess config.guess
 	rm -f po/.intltool-merge-cache po/*.gmo
 
-
 	dh_clean
 
 install: build
@@ -61,7 +73,7 @@ install: build
 	dh_installdirs
 
 	# Add here commands to install the package into debian/workrave.
-	$(MAKE) install prefix=$(CURDIR)/debian/workrave/usr sysconfdir=$(CURDIR)/debian/workrave/etc
+	$(MAKE) install prefix=$(CURDIR)/debian/workrave-cvs/usr sysconfdir=$(CURDIR)/debian/workrave-cvs/etc
 
 
 # Build architecture-independent files here.
@@ -85,7 +97,7 @@ binary-arch: build install
 	dh_installman debian/workrave.1
 	dh_installinfo
 #	dh_undocumented
-#	dh_installchangelogs ChangeLog
+	dh_installchangelogs ChangeLog
 	dh_link
 	dh_strip
 	dh_compress
