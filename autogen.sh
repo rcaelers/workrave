@@ -186,9 +186,6 @@ autoconf --force || {
     exit 1
 }
 
-echo "Configuring KDE applet ..."
-make -C frontend/gtkmm/src/kde_applet -f Makefile.cvs
-
 conf_flags="--enable-maintainer-mode --enable-compile-warnings --enable-debug --enable-gnome --enable-distribution --enable-exercises"
  
 if test x$NOCONFIGURE = x; then

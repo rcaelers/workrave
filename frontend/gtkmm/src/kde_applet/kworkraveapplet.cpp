@@ -99,6 +99,7 @@ KWorkraveApplet::embedded_window_destroyed()
   embed = NULL;
 }
 
+
 long
 KWorkraveApplet::get_size()
 {
@@ -142,18 +143,3 @@ KWorkraveApplet::set_size(int width, int height)
         }
     }
 }
-
-
-// bool KWorkraveApplet::eventFilter( QObject *o, QEvent * e) {
-// 	// when clicking on the combo box, it should gain focus
-// 	if ( e->type() == QEvent::MouseButtonRelease ) {
-// 		emit requestFocus();
-// 	}
-// 	return KPanelApplet::eventFilter( o, e );
-// }
-
-// void KWorkraveApplet::mousePressEvent(QMouseEvent *e) {
-// 	if (e->button() == Qt::LeftButton) {
-// 		emit requestFocus();
-// 	}
-// }

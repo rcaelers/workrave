@@ -144,9 +144,10 @@ AC_PROG_CPP
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
-AC_PROG_RANLIB
+dnl AC_PROG_RANLIB
 AC_ISC_POSIX
-dnl AM_PROG_LIBTOOL
+dnl AC_ARG_PROGRAM
+AM_PROG_LIBTOOL
 
 dnl Checks for programs.
 AC_CHECK_PROGS(M4, gm4 m4, m4)
@@ -316,6 +317,7 @@ then
     dnl for NLS support. Call them in this order!
     dnl WITH_NLS is for the po files
     AM_KDE_WITH_NLS
+    dnl    KDE_PROG_LIBTOOL
 
     KDE_USE_QT(3.0.0)
     AC_PATH_KDE
@@ -686,7 +688,7 @@ AM_CONDITIONAL(HAVE_EXERCISES, test "x$config_exercises" = "xyes")
 AM_CONDITIONAL(HAVE_EXPERIMENTAL, test "x$config_experimental" = "xyes")
 
 
-AC_CONFIG_SUBDIRS(frontend/gtkmm/src/kde_applet)
+
         
 AC_OUTPUT(Makefile \
           backend/Makefile \
@@ -727,6 +729,7 @@ AC_OUTPUT(Makefile \
           frontend/gtkmm/src/win32/Makefile \
           frontend/gtkmm/src/unix/Makefile \
           frontend/gtkmm/src/gnome_applet/Makefile \
+          frontend/gtkmm/src/kde_applet/Makefile \
           frontend/plugin/Makefile \
           frontend/plugin/distribution/Makefile \
           frontend/plugin/distribution/gtkmm/Makefile \
