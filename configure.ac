@@ -650,6 +650,7 @@ AC_OUTPUT(Makefile \
           frontend/gtkmm/Makefile \
           frontend/gtkmm/win32/Makefile \
           frontend/gtkmm/win32/setup/Makefile \
+          frontend/gtkmm/win32/setup/setup.iss \
           frontend/gtkmm/src/Makefile \
           frontend/gtkmm/src/win32/Makefile \
           frontend/gtkmm/src/gnome_applet/Makefile \
@@ -667,5 +668,6 @@ AC_OUTPUT(Makefile \
           frontend/plugin/exercises/gtkmm/Makefile \
           frontend/plugin/exercises/gtkmm/src/Makefile \
           po/Makefile.in \
+          po/Makefile \
           m4/Makefile \
           workrave.spec)

@@ -7,7 +7,7 @@
 # $Id$
 #
 
-MAINTAINERCLEANFILES = Makefile.in setup.iss
+MAINTAINERCLEANFILES = 	Makefile.in setup.iss
 
 
-
+EXTRA_DIST = 		WizModernImage.bmp WizModernSmall.bmp
