@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
 "POT-Creation-Date: 2003-03-03 21:22+0100\n"
-"PO-Revision-Date: 2003-03-03 21:25+0100\n"
+"PO-Revision-Date: 2003-03-04 21:56+0100\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
 "MIME-Version: 1.0\n"
@@ -96,11 +96,11 @@ msgstr "Plaats de klokken naast elkaar"
 
 #: gui/gtkmm/AppletPreferencePage.cc:69
 msgid "Place micro-pause and rest break in one spot"
-msgstr "Plaats micro-pauze en rustpauze op Ã©Ã‚Ã©n plek"
+msgstr "Plaats micro-pauze en rustpauze op één plek"
 
 #: gui/gtkmm/AppletPreferencePage.cc:71
 msgid "Place rest break and daily limit in one spot"
-msgstr "Plaats rustpauze en dagelijkse limiet op Ã©Ã‚Ã©n plek"
+msgstr "Plaats rustpauze en dagelijkse limiet op één plek"
 
 #: gui/gtkmm/AppletPreferencePage.cc:73
 msgid "Place all timers in one spot"
