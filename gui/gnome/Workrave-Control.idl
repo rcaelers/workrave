@@ -1,0 +1,12 @@
+#include <Bonobo.idl>
+
+module GNOME
+{
+  module Workrave
+  {
+    interface WorkraveControl : Bonobo::Unknown
+    {
+      oneway void fire();
+    };
+  };
+};

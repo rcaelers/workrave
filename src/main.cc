@@ -26,6 +26,8 @@ static const char rcsid[] = "$Id$";
 
 #include "Control.hh"
 
+extern "C" int run(int argc, char **argv);
+
 int
 run(int argc, char **argv)
 {

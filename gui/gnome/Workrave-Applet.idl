@@ -6,7 +6,9 @@ module GNOME
   {
     interface AppletControl : Bonobo::Unknown
     {
-      long get_socket_id();        
+      long get_socket_id();
+      long get_size();
+      boolean get_vertical();
     };
   };
 };

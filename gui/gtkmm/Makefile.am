@@ -5,26 +5,37 @@
 # $Id$
 #
 
-IDL_GENERATED =				\
-	Workrave-Applet.h	\
-	Workrave-Applet-common.c	\
-	Workrave-Applet-skels.c	\
-	Workrave-Applet-stubs.c
+IDL_A 		= ../gnome/Workrave-Applet.idl
 
-MAINTAINERCLEANFILES = Makefile.in ${IDL_GENERATED}
+IDL_A_GENERATED = Workrave-Applet.h			\
+		  Workrave-Applet-common.c		\
+	  	  Workrave-Applet-skels.c		\
+		  Workrave-Applet-stubs.c
+
+IDL_C 		= ../gnome/Workrave-Control.idl
+
+IDL_C_GENERATED = Workrave-Control.h			\
+		  Workrave-Control-common.c		\
+	  	  Workrave-Control-skels.c		\
+		  Workrave-Control-stubs.c
+
+MAINTAINERCLEANFILES = Makefile.in ${IDL_A_GENERATED} ${IDL_C_GENERATED}
 
 if HAVE_GUI_GTKMM
 
 noinst_LIBRARIES = libgtkmmgui.a
 
 if HAVE_GNOME
-sourcesgnome = GnomeSoundPlayer.cc AppletWindow.cc eggtrayicon.c
+sourcesgnome = GnomeSoundPlayer.cc AppletWindow.cc WorkraveControl.c eggtrayicon.c
 
 ## CORBA stuff
-IDLS =	../gnome/Workrave-Applet.idl
 
-$(IDL_GENERATED): $(IDLS) 
+$(IDL_A_GENERATED): $(IDL_A) 
 	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl $(IDL_INCLUDES) ../gnome/Workrave-Applet.idl
+
+$(IDL_C_GENERATED): $(IDL_C) 
+	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl $(IDL_INCLUDES) ../gnome/Workrave-Control.idl
+
 ## End CORBA stuff
 else
 sourcesgnome = gnome-about.c
@@ -56,7 +67,7 @@ libgtkmmgui_a_SOURCES = \
 	gnome-winhints.c \
 	Frame.cc \
 	WmSpec.cc \
-	${IDL_GENERATED} \
+	${IDL_A_GENERATED} ${IDL_C_GENERATED} \
 	$(sourcesgnome) $(sourceswin32) ${sourcesdistribution}
 
 
@@ -65,7 +76,7 @@ libgtkmmgui_a_LIBADD =
 
 libgtkmmgui_a_CXXFLAGS 	= -DWORKRAVE_DATADIR="\"${pkgdatadir}\"" -W @ARCH_CFLAGS@ -I$(top_srcdir)/src -I$(top_srcdir)/gui @gnomeui_CFLAGS@ @GTK_CFLAGS@ @GTKMM_CFLAGS@ -D_XOPEN_SOURCE=600 @GNET_CFLAGS@
 
-libgtkmmgui_a_CFLAGS	= -DWORKRAVE_DATADIR="\"${pkgdatadir}\"" -W @ARCH_CFLAGS@ -I$(top_srcdir)/src -I$(top_srcdir)/gui @gnomeui_CFLAGS@ @GTK_CFLAGS@ @GTKMM_CFLAGS@ -D_XOPEN_SOURCE=600
+libgtkmmgui_a_CFLAGS	= -DWORKRAVE_DATADIR="\"${pkgdatadir}\"" @ARCH_CFLAGS@ -I$(top_srcdir)/src -I$(top_srcdir)/gui @gnomeui_CFLAGS@ @GTK_CFLAGS@ @GTKMM_CFLAGS@ -D_XOPEN_SOURCE=600
 
 endif
 

@@ -27,22 +27,9 @@
 	        <oaf_attribute name="panel:icon" type="string" value="gnome-eyes.png"/>
         </oaf_server>
 
-
-        <oaf_server     iid="OAFIID:GNOME_Workrave_AppletControl_Factory"
-		        type="exe"
-		        location="@LIBEXECDIR@/workrave-applet">
-
-        	<oaf_attribute name="repo_ids" type="stringv">
-	                <item value="IDL:Bonobo/GenericFactory:1.0"/>
-		</oaf_attribute>
-
-		<oaf_attribute name="name" type="string" value="Workrave Applet factory"/>
-		<oaf_attribute name="description" type="string" value="Factory"/>
-	</oaf_server>
-
 	<oaf_server     iid="OAFIID:GNOME_Workrave_AppletControl"
 	        	type="factory"
-		        location="OAFIID:GNOME_Workrave_AppletControl_Factory">
+		        location="OAFIID:GNOME_WorkraveApplet_Factory">
 
 		<oaf_attribute name="repo_ids" type="stringv">
 			<item value="IDL:GNOME/Workrave/AppletControl:1.0"/>

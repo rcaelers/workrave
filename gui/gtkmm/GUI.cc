@@ -55,6 +55,7 @@ static const char rcsid[] = "$Id$";
 
 #ifdef HAVE_GNOME
 #include "AppletWindow.hh"
+extern "C" BonoboObject *workrave_component_factory(BonoboGenericFactory *, const char *, void *);
 #endif
 
 GUI *GUI::instance = NULL;
@@ -82,11 +83,13 @@ GUI::GUI(ControlInterface *controller, int argc, char **argv)
     {
       g_error (_("I could not initialize Bonobo"));
     }
-      
+
+  bonobo_generic_factory_main("OAFIID:GNOME_Workrave_Factory", workrave_component_factory, NULL);     
   applet_window = NULL;
 #endif
   
   gui_control = new GUIControl(this, controller);
+
   
   TRACE_EXIT();
 }

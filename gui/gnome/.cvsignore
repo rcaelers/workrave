@@ -45,4 +45,9 @@ stamp-h.in
 stamp.h
 tags
 version.h
+Workrave-Applet.h
+Workrave-Control.h
+*common.c
+*skels.c
+*stubs.c
 
