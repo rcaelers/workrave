@@ -23,7 +23,7 @@
 #include "TimerInterface.hh"
 
 #ifdef HAVE_DISTRIBUTION
-#include "DistributedStateInterface.hh"
+#include "DistributionClientMessageInterface.hh"
 #endif
 
 class GUIFactoryInterface;
@@ -44,7 +44,7 @@ using namespace std;
 class GUIControl :
   public ConfiguratorListener
 #ifdef HAVE_DISTRIBUTION
-  , public DistributedStateInterface
+  , public DistributionClientMessageInterface
 #endif  
 {
 public:
@@ -155,8 +155,8 @@ private:
 
 #ifdef HAVE_DISTRIBUTION
   void init_distribution_manager();
-  bool get_state(DistributedStateID id, unsigned char **buffer, int *size);
-  bool set_state(DistributedStateID id, bool master, unsigned char *buffer, int size);
+  bool request_client_message(DistributionClientMessageID id, unsigned char **buffer, int *size);
+  bool client_message(DistributionClientMessageID id, bool master, char *client_id, unsigned char *buffer, int size);
 #endif
   
 public:

@@ -34,7 +34,7 @@
 #endif
 
 #include "DistributionLink.hh"
-#include "DistributedStateInterface.hh"
+#include "DistributionClientMessageInterface.hh"
 #include "ConfiguratorListener.hh"
 #include "PacketBuffer.hh"
 
@@ -81,7 +81,7 @@ private:
   
   struct StateListener
   {
-    DistributedStateInterface *listener;
+    DistributionClientMessageInterface *listener;
     bool automatic;
 
     StateListener() :
@@ -162,9 +162,9 @@ public:
   bool claim();
   bool set_lock_master(bool lock);
 
-  bool register_state(DistributedStateID id, DistributedStateInterface *dist_state, bool automatic = true);
-  bool unregister_state(DistributedStateID id);
-  bool push_state(DistributedStateID id, unsigned char *buffer, int size);
+  bool register_client_message(DistributionClientMessageID id, DistributionClientMessageInterface *dist_state, bool automatic = true);
+  bool unregister_client_message(DistributionClientMessageID id);
+  bool broadcast_client_message(DistributionClientMessageID id, unsigned char *buffer, int size);
 
   void socket_accepted(SocketConnection *scon, SocketConnection *ccon);
   void socket_connected(SocketConnection *con, void *data);
@@ -254,7 +254,7 @@ private:
   bool server_enabled;
   
   //! State
-  map<DistributedStateID, StateListener> state_map;
+  map<DistributionClientMessageID, StateListener> state_map;
 
   //!
   int reconnect_attempts;

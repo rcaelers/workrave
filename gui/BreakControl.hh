@@ -169,9 +169,6 @@ private:
   //! Destroy prelude window on next heartbeat?
   bool prelude_window_destroy;
 
-  //! Delay the destruct
-  bool delay_window_destroy;
-  
   //! What to do with activity during insisted break?
   InsistPolicy insist_policy;
 

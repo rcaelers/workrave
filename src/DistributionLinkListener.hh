@@ -1,6 +1,6 @@
 // DistributionLinkListener.hh
 //
-// Copyright (C) 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -22,8 +22,9 @@
 class DistributionLinkListener
 {
 public:
-  virtual void master_changed(bool result) = 0;
-  virtual void state_transfer_complete() = 0;
+  virtual void master_changed(bool result, char *id) = 0;
+  virtual void signon_remote_client(char *client_id) = 0;
+  virtual void signoff_remote_client(char *client_id) = 0;
   virtual void log(char *fmt, ...) = 0;
 };
 

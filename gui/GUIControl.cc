@@ -901,13 +901,13 @@ GUIControl::init_distribution_manager()
 
   if (dist_manager != NULL)
     {
-      dist_manager->register_state(DISTR_STATE_BREAKS,  this);
+      dist_manager->register_client_message(DCM_BREAKS, DCMT_MASTER, this);
     }
 }
 
 
 bool
-GUIControl::get_state(DistributedStateID id, unsigned char **buffer, int *size)
+GUIControl::request_client_message(DistributionClientMessageID id, unsigned char **buffer, int *size)
 {
   (void) id;
   PacketBuffer state_packet;
@@ -950,9 +950,10 @@ GUIControl::get_state(DistributedStateID id, unsigned char **buffer, int *size)
 
 
 bool
-GUIControl::set_state(DistributedStateID id, bool master, unsigned char *buffer, int size)
+GUIControl::client_message(DistributionClientMessageID id, bool master, char *client_id, unsigned char *buffer, int size)
 {
   (void) id;
+  (void) client_id;
   PacketBuffer state_packet;
   state_packet.create();
 

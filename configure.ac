@@ -81,7 +81,14 @@ AC_ARG_ENABLE( exercises,
        ,
        config_exercises=no
     )
-    
+
+AC_ARG_ENABLE( experimental,
+  [  --disable-experimental  compile without experimental features],
+       config_experimental=$enableval
+       ,
+       config_experimental==yes
+    )
+
 if test "x$config_debug" = "xyes"; then
    CFLAGS="${CFLAGS} -g -Wall"
    CXXFLAGS="${CXXFLAGS} -g -Wall"
@@ -299,14 +306,19 @@ AC_SUBST(GCONF_CFLAGS)
 
 if test "x$config_distribution" = "xyes"
 then
-AM_PATH_GNET_2_0(2.0.0,[] ,[] )
-GNET2=yes                          
-dnl AM_PATH_GNET(1.1.7,[] ,[] )
+dnl AM_PATH_GNET_2_0(2.0.0,[] ,[] )
+dnl GNET2=yes                          
+AM_PATH_GNET(1.1.7,[] ,[] )
 fi
         
 AC_SUBST(GNET_LIBS)
 AC_SUBST(GNET_CFLAGS)
-	        
+
+        
+if test "x$GNET_LIBS" == "x"; then
+   config_distribution=no
+fi
+
                 
 dnl AC_CHECK_LIB(Xmu,XmuClientWindow,LIBS="$LIBS -lXmu",
 dnl   AC_MSG_ERROR(Xmu library required))
@@ -518,6 +530,11 @@ if test "x$config_exercises" = "xyes"; then
    AC_DEFINE(HAVE_EXERCISES,,[Define if exercises are available])
 fi
 
+HAVE_EXPERIMENTAL=
+if test "x$config_experimental" = "xyes"; then
+   AC_DEFINE(HAVE_EXPERIMENTAL,,[Define if experimental features are available])
+fi
+        
 HAVE_GNET=
 if test "x$GNET_LIBS" != "x"; then
    AC_DEFINE(HAVE_GNET,,[Define if GNet is available])
@@ -557,5 +574,6 @@ AM_CONDITIONAL(HAVE_GUI_GTKMM, test "x$GTKMM_LIBS" != "x")
 AM_CONDITIONAL(HAVE_GUI_TEXT, test "x$config_with_text" = "xyes")
 AM_CONDITIONAL(HAVE_DISTRIBUTION, test "x$config_distribution" = "xyes")
 AM_CONDITIONAL(HAVE_EXERCISES, test "x$config_exercises" = "xyes")
+AM_CONDITIONAL(HAVE_EXPERIMENTAL, test "x$config_experimental" = "xyes")
                                                            
 AC_OUTPUT(src/Makefile arch/Makefile arch/unix/Makefile arch/win32/Makefile arch/win32/harpoon/Makefile gui/Makefile gui/gtkmm/Makefile gui/gnome/Makefile images/Makefile exercises/Makefile sounds/Makefile Makefile po/Makefile.in m4/Makefile gui/text/Makefile workrave.spec)

@@ -73,12 +73,12 @@ private:
   Gtk::CheckButton *force_after_prelude_cb;
   TimeEntry *limit_tim, *auto_reset_tim, *snooze_tim;
   Gtk::SpinButton *max_prelude_spin;
+  Gtk::Adjustment max_prelude_adjustment;
+  Gtk::CheckButton *enabled_cb;
 #ifdef HAVE_EXERCISES
   Gtk::SpinButton *exercises_spin;
   Gtk::Adjustment exercises_adjustment;
 #endif
-  Gtk::Adjustment max_prelude_adjustment;
-  Gtk::CheckButton *enabled_cb;
 };
 
 #endif // TIMERPREFERENCESPANEL_HH

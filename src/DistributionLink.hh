@@ -22,30 +22,58 @@
 #include <string>
 
 class DistributionLinkListener;
-class DistributedStateInterface;
+class DistributionClientMessageInterface;
 
-#include "DistributedStateInterface.hh"
+#include "DistributionClientMessageInterface.hh"
 
 class DistributionLink
 {
 public:
-  DistributionLink() {}
-  virtual ~DistributionLink() {}
+  //! Returns the ID of the node.
+  virtual string get_id() const = 0;
 
+  //! Returns the number of remote peers.
   virtual int get_number_of_peers() = 0;
+
+  //! Sets the callback interface to the distribution manager.
   virtual void set_distribution_manager(DistributionLinkListener *dll) = 0;
+
+  //! Enable/Disable distributed operation.
   virtual bool set_enabled(bool enabled) = 0;
-  virtual void init() = 0;
+
+  //! Periodic heartbeat.
   virtual void heartbeat() = 0;
+
+  //! Sets the username and password.
   virtual void set_user(string username, string password) = 0;
+
+  //! Connects to a certain host.
   virtual void join(string url) = 0;
+
+  //! Request to become master.
   virtual bool claim() = 0;
+
+  //! Locks the current master status.
+  /*! If locked, requests from remote hosts to become master will be denied. */
   virtual bool set_lock_master(bool lock) = 0;
-  virtual bool register_state(DistributedStateID id, DistributedStateInterface *dist_state,
-                              bool automatic = true) = 0;
-  virtual bool unregister_state(DistributedStateID id) = 0;
-  virtual bool push_state(DistributedStateID id, unsigned char *buffer, int size) = 0;
+
+  //! Registers a client message callback.
+  virtual bool register_client_message(DistributionClientMessageID id,
+                                       DistributionClientMessageType type,
+                                       DistributionClientMessageInterface *dist_state) = 0;
+
+  //! Unregisters a client message callback.
+  virtual bool unregister_client_message(DistributionClientMessageID id) = 0;
+
+  //! Sends a client message to all remote hosts.
+  virtual bool broadcast_client_message(DistributionClientMessageID id,
+                                        unsigned char *buffer,
+                                        int size) = 0;
+
+  //! Disconnects from all remote clients.
   virtual bool disconnect_all() = 0;
+
+  //! Reconnects to all remote clients.
   virtual bool reconnect_all() = 0;
 };
 

@@ -34,7 +34,7 @@
 #endif
 
 #include "DistributionLink.hh"
-#include "DistributedStateInterface.hh"
+#include "DistributionClientMessageInterface.hh"
 #include "ConfiguratorListener.hh"
 #include "PacketBuffer.hh"
 
@@ -70,6 +70,7 @@ private:
     PACKET_STATEINFO	= 0x0006,
     PACKET_DUPLICATE	= 0x0007,
     PACKET_CLAIM_REJECT	= 0x0008,
+    PACKET_CLIENT_MESSAGE	= 0x0009,
   };
 
   enum PacketFlags {
@@ -85,12 +86,12 @@ private:
 
   struct StateListener
   {
-    DistributedStateInterface *listener;
-    bool automatic;
+    DistributionClientMessageInterface *listener;
+    DistributionClientMessageType type;
 
     StateListener() :
       listener(NULL),
-      automatic(true)
+      type(DCMT_PASSIVE)
     {
     }
   };
@@ -178,6 +179,7 @@ public:
   DistributionSocketLink(Configurator *conf);
   virtual ~DistributionSocketLink();
   
+  string get_id() const;
   int get_number_of_peers();
   void set_distribution_manager(DistributionLinkListener *dll);
   void init();
@@ -189,10 +191,11 @@ public:
   bool reconnect_all();
   bool claim();
   bool set_lock_master(bool lock);
-
-  bool register_state(DistributedStateID id, DistributedStateInterface *dist_state, bool automatic = true);
-  bool unregister_state(DistributedStateID id);
-  bool push_state(DistributedStateID id, unsigned char *buffer, int size);
+  
+  bool register_client_message(DistributionClientMessageID id, DistributionClientMessageType type,
+                               DistributionClientMessageInterface *dist_state);
+  bool unregister_client_message(DistributionClientMessageID id);
+  bool broadcast_client_message(DistributionClientMessageID id, unsigned char *buffer, int size);
 
   void socket_accepted(SocketConnection *scon, SocketConnection *ccon);
   void socket_connected(SocketConnection *con, void *data);
@@ -232,6 +235,7 @@ private:
   void handle_new_master(PacketBuffer &packet, Client *client);
   void handle_state(PacketBuffer &packet, Client *client);
   void handle_claim_reject(PacketBuffer &packet, Client *client);
+
   void send_hello(Client *client);
   void send_welcome(Client *client);
   void send_duplicate(Client *client);
@@ -239,7 +243,7 @@ private:
   void send_claim(Client *client);
   void send_new_master(Client *client = NULL);
   void send_claim_reject(Client *client);
-  void send_state();
+  void send_state(DistributionClientMessageType type);
   
   bool start_async_server();
 
@@ -290,7 +294,7 @@ private:
   bool server_enabled;
   
   //! State
-  map<DistributedStateID, StateListener> state_map;
+  map<DistributionClientMessageID, StateListener> state_map;
 
   //!
   int reconnect_attempts;

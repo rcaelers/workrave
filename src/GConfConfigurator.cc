@@ -31,6 +31,14 @@ GConfConfigurator::GConfConfigurator()
 {
   gconf_client = gconf_client_get_default();
   gconf_root = "/apps/workrave/";
+  
+#ifndef NDEBUG
+  const char *env = getenv("WORKRAVE_GCONF_ROOT");
+  if (env != NULL)
+    {
+      gconf_root = env;
+    }
+#endif
 }
 
 

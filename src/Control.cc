@@ -53,6 +53,7 @@ Control::Control() :
 #ifdef HAVE_DISTRIBUTION
   dist_manager(NULL),
   monitor_state(ACTIVITY_UNKNOWN),
+  remote_state(ACTIVITY_IDLE),
 #endif
 #ifndef NDEBUG
   fake_monitor(NULL),
@@ -65,6 +66,10 @@ Control::Control() :
   master_node(true)
 {
   current_time = time(NULL);
+
+#ifdef HAVE_DISTRIBUTION
+  my_info.idle_history.push_front(IdleInterval(current_time, current_time));
+#endif
 }
 
 
@@ -135,8 +140,9 @@ Control::process_timers(TimerInfo *infos)
     }
 #endif  
 
-  // Distributed  stuff
 #ifdef HAVE_DISTRIBUTION  
+
+  // Request master status if we are active.
   bool new_master_node = true;
   if (dist_manager != NULL)
     {
@@ -151,10 +157,11 @@ Control::process_timers(TimerInfo *infos)
     }
 
   
+  // Enable or disable timers if we became or lost being master
   if (master_node != new_master_node)
     {
       master_node = new_master_node;
-#ifndef NEW_DISTR      
+#ifndef HAVE_EXPERIMENTAL      
       // Enable/Disable timers.
       for (int i = 0; i < timer_count; i++)
         {
@@ -167,25 +174,40 @@ Control::process_timers(TimerInfo *infos)
               timers[i]->disable();
             }
         }
-#endif // NEW_DISTR
+#endif // HAVE_EXPERIMENTAL
     }
 
+  // 
+  if (!master_node)
+    {
+      state = ACTIVITY_IDLE;
+    }
+
+  TRACE_MSG(master_node << " " << state << " " << monitor_state);
+
+  // Update our idle history.
+  update_idle_history(my_info, state, monitor_state != state);
+
+  // Update remote idle history.
+  update_remote_idle_history();
+
+  // Distribute monitor state if we are master and the
+  // state has changed.
   if (master_node && monitor_state != state)
     {
-      TRACE_MSG("Push state = " << state);
       PacketBuffer state_packet;
       state_packet.create();
 
       state_packet.pack_ushort(1);
       state_packet.pack_ushort(state);
       
-      dist_manager->push_state(DISTR_STATE_MONITOR,
+      dist_manager->broadcast_client_message(DCM_MONITOR,
                                (unsigned char *)state_packet.get_buffer(),
                                state_packet.bytes_written());
-
-      monitor_state = state;
     }
-
+  
+  monitor_state = state;
+  
 #endif // HAVE_DISTRIBUTION
   
   // Timers
@@ -209,14 +231,8 @@ Control::process_timers(TimerInfo *infos)
         }
     }
 
-#ifdef NEW_DISTR  
-  if (!master_node)
-    {
-      state = monitor_state;
-    }
-#endif
   
-#ifndef NEW_DISTR  
+#ifndef HAVE_EXPERIMENTAL
   if (master_node)
 #endif    
     {
@@ -258,6 +274,143 @@ Control::process_timers(TimerInfo *infos)
 
 
 #ifdef HAVE_DISTRIBUTION
+void
+Control::update_remote_idle_history()
+{
+  TRACE_ENTER("Control::update_remote_idle_history");
+
+  string master_id = dist_manager->get_master_id();
+  TRACE_MSG("master = " << master_id);
+
+  for (ClientMapIter i = clients.begin(); i != clients.end(); i++)
+    {
+      string id = i->first;
+      ClientInfo &info = i->second;
+
+      ActivityState state = ACTIVITY_IDLE;
+      bool is_master = false;
+
+      if (id == master_id)
+        {
+          state = remote_state;
+          is_master = true;
+        }
+
+      bool changed = (state != info.last_state || is_master != info.is_master);
+
+      TRACE_MSG(id << " " << master_id);
+      TRACE_MSG(state << " " << info.last_state << " " << is_master << " " << info.is_master);
+
+      update_idle_history(info, state, changed);
+
+      info.is_master = is_master;
+      info.last_state = state;
+    }
+
+  TRACE_EXIT();
+}
+
+void
+Control::update_idle_history(ClientInfo &info, ActivityState state, bool changed)
+{
+  TRACE_ENTER_MSG("Control::update_idle_history", ((int)state) << " " << changed);
+
+  IdleHistoryIter i = info.idle_history.begin();
+  while (i != info.idle_history.end())
+    {
+      IdleInterval &idle = *i;
+
+      struct tm begin_time;
+      localtime_r(&idle.idle_begin, &begin_time);
+      struct tm end_time;
+      localtime_r(&idle.idle_end, &end_time);
+
+      TRACE_MSG(   begin_time.tm_hour << ":"
+                   << begin_time.tm_min << ":"
+                   << begin_time.tm_sec << " - "
+                   << end_time.tm_hour << ":"
+                   << end_time.tm_min << ":" 
+                   << end_time.tm_sec << " "
+                   << idle.elapsed
+                   );
+      i++;
+    }
+  
+  IdleInterval *idle = &(info.idle_history.front());
+
+  if (state == ACTIVITY_IDLE)
+    {
+      if (changed)
+        {
+          if (info.last_active_begin != 0)
+            {
+              idle->elapsed += (current_time - info.last_active_begin);
+
+              info.last_elapsed = 0;
+              info.last_active_begin = 0;
+            }
+
+          info.idle_history.push_front(IdleInterval(current_time, current_time));
+        }
+      else
+        {
+          idle->idle_end = current_time;
+        }
+    }
+  else if (state == ACTIVITY_ACTIVE)
+    {
+      if (changed)
+        {
+          if (idle->idle_begin == 0)
+            {
+              idle->idle_begin = current_time;
+            }
+
+          idle->idle_end = current_time;
+
+          int total_idle = idle->idle_end - idle->idle_begin;
+          if (total_idle < 10 && info.idle_history.size() > 1)
+            {
+              info.idle_history.pop_front();
+            }
+
+          idle = &(info.idle_history.front());
+          
+          info.last_elapsed = 0;
+          info.last_active_begin = current_time;
+        }
+      else
+        {
+          info.last_elapsed = current_time - info.last_active_begin;
+        }
+    }
+
+  TRACE_MSG("last_elapsed " << info.last_elapsed);
+  
+  /*IdleHistoryIter*/ i = info.idle_history.begin();
+  while (i != info.idle_history.end())
+    {
+      IdleInterval &idle = *i;
+
+      struct tm begin_time;
+      localtime_r(&idle.idle_begin, &begin_time);
+      struct tm end_time;
+      localtime_r(&idle.idle_end, &end_time);
+
+      TRACE_MSG(   begin_time.tm_hour << ":"
+                   << begin_time.tm_min << ":"
+                   << begin_time.tm_sec << " - "
+                   << end_time.tm_hour << ":"
+                   << end_time.tm_min << ":" 
+                   << end_time.tm_sec << " "
+                   << idle.elapsed
+                   );
+      i++;
+    }
+  TRACE_EXIT();
+}
+
+
 // Create the monitor based on the specified configuration.
 bool
 Control::create_distribution_manager()
@@ -267,8 +420,10 @@ Control::create_distribution_manager()
   if (dist_manager != NULL)
     {
       dist_manager->init(configurator);
-      dist_manager->register_state(DISTR_STATE_TIMERS,  this);
-      dist_manager->register_state(DISTR_STATE_MONITOR,  this);
+      dist_manager->register_client_message(DCM_TIMERS, DCMT_MASTER, this);
+      dist_manager->register_client_message(DCM_MONITOR, DCMT_MASTER, this);
+      dist_manager->register_client_message(DCM_IDLELOG, DCMT_SIGNON, this);
+      dist_manager->add_listener(this);
     }
   return dist_manager != NULL;
 }
@@ -599,18 +754,22 @@ Control::test_me()
 
 #ifdef HAVE_DISTRIBUTION
 bool
-Control::get_state(DistributedStateID id, unsigned char **buffer, int *size)
+Control::request_client_message(DistributionClientMessageID id, unsigned char **buffer, int *size)
 {
   bool ret = false;
   
   switch (id)
     {
-    case DISTR_STATE_TIMERS:
+    case DCM_TIMERS:
       ret = get_timer_state(buffer, size);
       break;
         
-    case DISTR_STATE_MONITOR:
+    case DCM_MONITOR:
       ret = get_monitor_state(buffer, size);
+      break;
+
+    case DCM_IDLELOG:
+      ret = get_idlelog_state(buffer, size);
       break;
 
     default:
@@ -621,18 +780,22 @@ Control::get_state(DistributedStateID id, unsigned char **buffer, int *size)
 }
 
 bool
-Control::set_state(DistributedStateID id, bool master, unsigned char *buffer, int size)
+Control::client_message(DistributionClientMessageID id, bool master, char *client_id, unsigned char *buffer, int size)
 {
   bool ret = false;
   
   switch (id)
     {
-    case DISTR_STATE_TIMERS:
-      ret = set_timer_state(master, buffer, size);
+    case DCM_TIMERS:
+      ret = set_timer_state(master, client_id, buffer, size);
       break;
         
-    case DISTR_STATE_MONITOR:
-      ret = set_monitor_state(master, buffer, size);
+    case DCM_MONITOR:
+      ret = set_monitor_state(master, client_id, buffer, size);
+      break;
+
+    case DCM_IDLELOG:
+      ret = set_idlelog_state(master, client_id, buffer, size);
       break;
 
     default:
@@ -690,10 +853,11 @@ Control::get_timer_state(unsigned char **buffer, int *size)
 
 
 bool
-Control::set_timer_state(bool master, unsigned char *buffer, int size)
+Control::set_timer_state(bool master, char *client_id, unsigned char *buffer, int size)
 {
+  (void) client_id;
   (void) master;
-  TRACE_ENTER("Control::set_state");
+  TRACE_ENTER("Control::set_timer_state");
 
   PacketBuffer state_packet;
   state_packet.create();
@@ -762,14 +926,15 @@ Control::get_monitor_state(unsigned char **buffer, int *size)
 
 
 bool
-Control::set_monitor_state(bool master, unsigned char *buffer, int size)
+Control::set_monitor_state(bool master, char *client_id, unsigned char *buffer, int size)
 {
   TRACE_ENTER_MSG("Control::set_monitor_state", master << " " << master_node);
 
+  (void) client_id;
   (void) buffer;
   (void) size;
   
-#ifdef NEW_DISTR  
+#ifdef HAVE_EXPERIMENTAL  
   if (!master_node)
     {
       PacketBuffer state_packet;
@@ -778,8 +943,7 @@ Control::set_monitor_state(bool master, unsigned char *buffer, int size)
       state_packet.pack_raw(buffer, size);
   
       state_packet.unpack_ushort();
-      monitor_state = (ActivityState) state_packet.unpack_ushort();
-      TRACE_MSG(monitor_state);
+      remote_state = (ActivityState) state_packet.unpack_ushort();
     }
 #endif
   
@@ -787,4 +951,154 @@ Control::set_monitor_state(bool master, unsigned char *buffer, int size)
   return true;
 }
 
+
+bool
+Control::get_idlelog_state(unsigned char **buffer, int *size)
+{
+  TRACE_ENTER("Control::get_idlelog_state");
+
+  PacketBuffer state_packet;
+
+  int idle_size = my_info.idle_history.size();
+  state_packet.create(1024 + idle_size * 16); // FIXME: 
+
+  state_packet.pack_ushort(idle_size);
+  state_packet.pack_string(dist_manager->get_my_id().c_str());
+  state_packet.pack_ulong(current_time);
+  state_packet.pack_byte(master_node);
+  state_packet.pack_byte(master_node ? monitor_state : ACTIVITY_IDLE);
+
+  bool first = true;
+  IdleHistoryIter i = my_info.idle_history.begin();
+  while (i != my_info.idle_history.end())
+    {
+      IdleInterval &idle = *i;
+
+      int elapsed = idle.elapsed;
+      if (first)
+        {
+          elapsed += my_info.last_elapsed;
+        }
+
+      int pos = state_packet.bytes_written();
+      state_packet.pack_ushort(0);
+
+      state_packet.pack_ulong((guint32)idle.idle_begin);
+      state_packet.pack_ulong((guint32)idle.idle_end);
+      state_packet.pack_ulong((guint32)elapsed);
+      
+      state_packet.poke_ushort(pos, state_packet.bytes_written() - pos);
+      i++;
+    }
+
+
+  *size = state_packet.bytes_written();
+  *buffer = new unsigned char[*size + 1];
+  memcpy(*buffer, state_packet.get_buffer(), *size);
+
+  TRACE_EXIT();
+  return true;
+}
+
+
+bool
+Control::set_idlelog_state(bool master, char *client_id, unsigned char *buffer, int size)
+{
+  (void) client_id;
+  (void) master;
+  TRACE_ENTER("Control::set_idlelog_state");
+
+  PacketBuffer state_packet;
+  state_packet.create(size);
+
+  state_packet.pack_raw(buffer, size);
+  
+  int num_idle = state_packet.unpack_ushort();
+  gchar *id = state_packet.unpack_string();
+  time_t time_diff = state_packet.unpack_ulong() - current_time;
+    
+  TRACE_MSG("id = " << id);
+  TRACE_MSG("numidle = " << num_idle);
+
+  ClientInfo info;
+  info.is_master = (bool) state_packet.unpack_byte();
+  info.last_state = (ActivityState) state_packet.unpack_byte();
+  clients[id] = info;
+
+  TRACE_MSG("master  = " << info.is_master);
+  TRACE_MSG("state = " << info.last_state);
+
+  for (int i = 0; i < num_idle; i++)
+    {
+      state_packet.unpack_ushort();
+
+      IdleInterval idle;
+      
+      idle.idle_begin = state_packet.unpack_ulong() - time_diff;
+      idle.idle_end = state_packet.unpack_ulong() - time_diff;
+      idle.elapsed = state_packet.unpack_ulong();
+
+      TRACE_MSG(id << " " << idle.idle_begin << " " << idle.idle_end << " " << idle.elapsed);
+      clients[id].idle_history.push_back(idle);
+    }
+
+  IdleHistoryIter i = clients[id].idle_history.begin();
+  while (i != clients[id].idle_history.end())
+    {
+      IdleInterval &idle = *i;
+
+      struct tm begin_time;
+      localtime_r(&idle.idle_begin, &begin_time);
+      struct tm end_time;
+      localtime_r(&idle.idle_end, &end_time);
+
+      TRACE_MSG(   begin_time.tm_hour << ":"
+                   << begin_time.tm_min << ":"
+                   << begin_time.tm_sec << " - "
+                   << end_time.tm_hour << ":"
+                   << end_time.tm_min << ":" 
+                   << end_time.tm_sec << " "
+                   << idle.elapsed
+                   );
+      i++;
+    }
+  
+  TRACE_EXIT();
+  return true;
+}
+
+
+//! A remote client has signed on.
+void
+Control::signon_remote_client(string client_id)
+{
+  TRACE_ENTER_MSG("signon_remote_client", client_id);
+
+  ClientInfo info;
+  clients[client_id] = info;
+  clients[client_id].idle_history.push_front(IdleInterval(current_time, current_time));
+
+  TRACE_EXIT();
+}
+
+
+//! A remote client has signed off.
+void
+Control::signoff_remote_client(string client_id)
+{
+  TRACE_ENTER_MSG("signon_remote_client", client_id);
+
+  clients[client_id].last_state = ACTIVITY_IDLE;
+
+  string master_id = dist_manager->get_master_id();
+  if (master_id == client_id)
+    {
+      TRACE_MSG("Master signed off. Setting idle.");
+      remote_state = ACTIVITY_IDLE;
+      clients[client_id].is_master = false;
+    }
+
+  TRACE_EXIT();
+}
 #endif
+

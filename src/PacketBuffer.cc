@@ -13,6 +13,8 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
+// FIXME: add overrun error reporting. or automatically resize.
+//        
 
 static const char rcsid[] = "$Id$";
 
@@ -63,6 +65,43 @@ PacketBuffer::create(int size)
   buffer_size = size;
 }
 
+
+void
+PacketBuffer::resize(int size)
+{
+  TRACE_ENTER_MSG("PacketBuffer::resize", size);
+  if (size == 0)
+    {
+      size = 1024;
+    }
+  
+  if (size != buffer_size && buffer != NULL)
+    {
+      int read_offset = read_ptr - buffer;
+      int write_offset = write_ptr - buffer;
+      
+      if (read_offset >= size)
+        {
+          read_offset = size - 1;
+        }
+      
+      if (write_offset >= size)
+        {
+          write_offset = size - 1;
+        }
+
+      TRACE_MSG(read_offset << " " << write_offset);
+
+      buffer = g_renew(guint8, buffer, size);
+
+      TRACE_MSG(buffer);
+      
+      read_ptr = buffer + read_offset;
+      write_ptr = buffer + write_offset;
+      buffer_size = size;
+    }
+  TRACE_EXIT();
+}
 
 
 void

@@ -26,11 +26,12 @@ using namespace std;
 
 #include "ConfiguratorListener.hh"
 #include "DistributionLinkListener.hh"
-#include "DistributedStateInterface.hh"
+#include "DistributionClientMessageInterface.hh"
 
 class DistributionLink;
 class Configurator;
 class DistributionLogListener;
+class DistributionListener;
 
 class DistributionManager :
   public DistributionLinkListener,
@@ -52,36 +53,31 @@ public:
   void init(Configurator *conf);
   void heartbeart();
   bool is_master() const;
+  string get_master_id() const;
+  string get_my_id() const;
   int get_number_of_peers();
   bool claim();
   bool set_lock_master(bool lock);
   bool join(string url);
-  bool register_state(DistributedStateID id, DistributedStateInterface *dist_state, bool automatic = true);
-  bool unregister_state(DistributedStateID id);
-  bool push_state(DistributedStateID id, unsigned char *buffer, int size);
+  bool register_client_message(DistributionClientMessageID id, DistributionClientMessageType type,
+                               DistributionClientMessageInterface *dist_state);
+  bool unregister_client_message(DistributionClientMessageID id);
+
+  bool add_listener(DistributionListener *listener);
+  bool remove_listener(DistributionListener *listener);
+  
+  bool broadcast_client_message(DistributionClientMessageID id, unsigned char *buffer, int size);
   bool add_peer(string peer);
   bool remove_peer(string peer);
   bool disconnect_all();
   bool reconnect_all();
   void set_peers(string peers, bool connect = true);
+  list<string> get_peers() const;
   
-  //
-  void master_changed(bool result);
-  void state_transfer_complete();
-  void log(char *fmt, ...);
-
-  list<string> get_peers()
-  {
-    return peer_urls;
-  }
-
+  // Logging.
   bool add_log_listener(DistributionLogListener *listener);
   bool remove_log_listener(DistributionLogListener *listener);
-  void fire_event(string message);
-  list<string> get_logs() const
-  {
-    return log_messages;
-  }
+  list<string> get_logs() const;
   
 private:
   void sanitize_peer(string &peer);
@@ -89,19 +85,29 @@ private:
   void write_peers();
   void read_configuration();
   void config_changed_notify(string key);
+
+  void fire_log_event(string message);
+  void fire_signon_client(char *id);
+  void fire_signoff_client(char *id);
+
+  // DistributionLinkListener
+  void master_changed(bool result, char *id);
+  void signon_remote_client(char *client_id);
+  void signoff_remote_client(char *client_id);
+  void log(char *fmt, ...);
   
 private:
-  typedef std::list<DistributionLogListener *> Listeners;
-  typedef std::list<DistributionLogListener *>::iterator ListenerIter;
-  
-  //! Is distribution operation enabled?
-  bool distribution_enabled;
+  typedef std::list<DistributionLogListener *> LogListeners;
+  typedef std::list<DistributionLogListener *>::iterator LogListenerIter;
 
-  //! Did we received all state after becoming master?
-  bool state_complete;
+  typedef std::list<DistributionListener *> Listeners;
+  typedef std::list<DistributionListener *>::iterator ListenerIter;
   
   //! The one and only instance
   static DistributionManager *instance;
+
+  //! Is distribution operation enabled?
+  bool distribution_enabled;
 
   //! Access to the configuration.
   Configurator *configurator;
@@ -109,7 +115,7 @@ private:
   //! Link to other clients
   DistributionLink *link;
 
-  //! State
+  //! Current State
   NodeState state;
 
   //! All peers
@@ -119,11 +125,17 @@ private:
   list<string> log_messages;
 
   //! Log listeners.
+  LogListeners log_listeners;
+
+  //! Event listeners.
   Listeners listeners;
+
+  //! Current master.
+  string current_master;
 };
 
 
-
+//! Returns the singleton distribution manager.
 inline DistributionManager *
 DistributionManager::get_instance()
 {
@@ -132,6 +144,22 @@ DistributionManager::get_instance()
       instance = new DistributionManager;
     }
   return instance;
+}
+
+
+//! Returns log messages.
+inline list<string>
+DistributionManager::get_logs() const
+{
+  return log_messages;
+}
+
+
+//! Returns all peers.
+inline list<string>
+DistributionManager::get_peers() const
+{
+  return peer_urls;
 }
 
 #endif // DISTRIBUTIOMANAGER_HH

@@ -362,8 +362,8 @@ DistributionSocketLink::set_enabled(bool enabled)
 
 //! Register a distributed state.
 bool
-DistributionSocketLink::register_state(DistributedStateID id,
-                                       DistributedStateInterface *dist_state,
+DistributionSocketLink::register_client_message(DistributionClientMessageID id,
+                                       DistributionClientMessageInterface *dist_state,
                                        bool automatic)
 {
   StateListener sl;
@@ -378,7 +378,7 @@ DistributionSocketLink::register_state(DistributedStateID id,
 
 //! Unregister a distributed state.
 bool
-DistributionSocketLink::unregister_state(DistributedStateID id)
+DistributionSocketLink::unregister_client_message(DistributionClientMessageID id)
 {
   (void) id;
   return false;
@@ -387,9 +387,9 @@ DistributionSocketLink::unregister_state(DistributedStateID id)
 
 //! Force is state distribution.
 bool
-DistributionSocketLink::push_state(DistributedStateID id, unsigned char *buffer, int size)
+DistributionSocketLink::broadcast_client_message(DistributionClientMessageID id, unsigned char *buffer, int size)
 {
-  TRACE_ENTER("DistributionSocketLink::push_state");
+  TRACE_ENTER("DistributionSocketLink::broadcast_client_message");
   PacketBuffer packet;
   packet.create();
   init_packet(packet, PACKET_STATEINFO);
@@ -1400,13 +1400,13 @@ DistributionSocketLink::send_state()
   
   packet.pack_ushort(state_map.size());
   
-  map<DistributedStateID, StateListener>::iterator i = state_map.begin();
+  map<DistributionClientMessageID, StateListener>::iterator i = state_map.begin();
   while (i != state_map.end())
     {
-      DistributedStateID id = i->first;
+      DistributionClientMessageID id = i->first;
       StateListener &sl = i->second;
       
-      DistributedStateInterface *itf = sl.listener;
+      DistributionClientMessageInterface *itf = sl.listener;
 
       guint8 *data = NULL;
       gint size = 0;
@@ -1457,14 +1457,14 @@ DistributionSocketLink::handle_state(Client *client)
   for (int i = 0; i < size; i++)
     {
       gint datalen = packet.unpack_ushort();
-      DistributedStateID id = (DistributedStateID) packet.unpack_ushort();
+      DistributionClientMessageID id = (DistributionClientMessageID) packet.unpack_ushort();
 
       if (datalen != 0)
         {
           guint8 *data = NULL;
           if (packet.unpack_raw(&data, datalen) != 0)
             {
-              state_map[id].listener->set_state(id, will_i_become_master, data, datalen);
+              state_map[id].listener->set_state(id, client->id, will_i_become_master, data, datalen);
             }
           else
             {
@@ -1475,12 +1475,6 @@ DistributionSocketLink::handle_state(Client *client)
         }
     }
 
-  if (dist_manager != NULL)
-    {
-      // Inform distribution manager that all state is processed.
-      dist_manager->state_transfer_complete();
-    }
-  
   TRACE_EXIT();
 }
 

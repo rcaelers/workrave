@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-05-02 21:24+0200\n"
+"POT-Creation-Date: 2003-06-08 14:25+0200\n"
 "PO-Revision-Date: 2002-11-05 17:58-0800\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -13,15 +13,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: gui/BreakControl.cc:697
+#: gui/BreakControl.cc:694
 msgid "Disappears in"
 msgstr "Malaperas en"
 
-#: gui/BreakControl.cc:701
+#: gui/BreakControl.cc:698
 msgid "Break in"
 msgstr "Ĉesu en"
 
-#: gui/BreakControl.cc:705
+#: gui/BreakControl.cc:702
 msgid "Silent in"
 msgstr "Silentiĝu en"
 
@@ -60,8 +60,8 @@ msgid "%s%d:%02d minutes"
 msgstr "%s%ld:%02ld minutoj"
 
 #: gui/Text.cc:83
-#, c-format
-msgid "%s%ld seconds"
+#, fuzzy, c-format
+msgid "%s%d seconds"
 msgstr "%s%ld sekundoj"
 
 #: gui/gnome/GNOME_WorkraveApplet.xml.in.h:1
@@ -797,35 +797,35 @@ msgstr ""
 msgid "Client %s:%d is now the new master."
 msgstr ""
 
-#: src/DistributionSocketLink.cc:1498
+#: src/DistributionSocketLink.cc:1492
 msgid "Network operation started."
 msgstr ""
 
-#: src/DistributionSocketLink.cc:1515
+#: src/DistributionSocketLink.cc:1509
 msgid "Accepted new client."
 msgstr ""
 
-#: src/DistributionSocketLink.cc:1561
+#: src/DistributionSocketLink.cc:1555
 #, c-format
 msgid "Client %s:%d read error, closing."
 msgstr ""
 
-#: src/DistributionSocketLink.cc:1566 src/DistributionSocketLink.cc:1650
+#: src/DistributionSocketLink.cc:1560 src/DistributionSocketLink.cc:1644
 #, c-format
 msgid "Client %s:%d closed connection."
 msgstr ""
 
-#: src/DistributionSocketLink.cc:1619
+#: src/DistributionSocketLink.cc:1613
 #, c-format
 msgid "Client %s:%d connected."
 msgstr ""
 
-#: src/DistributionSocketLink.cc:1656
+#: src/DistributionSocketLink.cc:1650
 #, c-format
 msgid "Could not connect to client %s:%d."
 msgstr ""
 
-#: src/DistributionSocketLink.cc:1750
+#: src/DistributionSocketLink.cc:1744
 msgid "Configuration modified. Reloading."
 msgstr ""
 

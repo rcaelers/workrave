@@ -29,12 +29,13 @@ static const char rcsid[] = "$Id$";
 #include <string.h>
 
 #include "DistributionManager.hh"
-#ifdef NEW_DISTR  
+#ifdef HAVE_EXPERIMENTAL  
 #include "DistributionSocketLink2.hh"
 #else
 #include "DistributionSocketLink.hh"
 #endif
 #include "DistributionLogListener.hh"
+#include "DistributionListener.hh"
 #include "Configurator.hh"
 
 #ifdef WIN32
@@ -52,7 +53,6 @@ const string DistributionManager::CFG_KEY_DISTRIBUTION_PEERS = "/peers";
 //! Constructs a new DistributionManager.
 DistributionManager::DistributionManager() :
   distribution_enabled(false),
-  state_complete(true),
   link(NULL),
   state(NODE_ACTIVE)
 {
@@ -63,11 +63,7 @@ DistributionManager::DistributionManager() :
 DistributionManager::~DistributionManager()
 {
   instance = NULL;
-  
-  if (link != NULL)
-    {
-      delete link;
-    }
+  delete link;
 }
 
 
@@ -78,11 +74,8 @@ DistributionManager::init(Configurator *conf)
   configurator = conf;
 
   // Create link to the outside world.
-#ifndef NEW_DISTR  
   DistributionSocketLink *socketlink = new DistributionSocketLink(conf);
-#else
-  DistributionSocketLink *socketlink = new DistributionSocketLink2(conf);
-#endif
+
   socketlink->set_distribution_manager(this);
   socketlink->init();
   link = socketlink;
@@ -90,9 +83,7 @@ DistributionManager::init(Configurator *conf)
   // Read configuration.
   read_configuration();
   configurator->add_listener(CFG_KEY_DISTRIBUTION, this);
-
 }
-
 
 
 //! Periodic heartbeat.
@@ -138,6 +129,29 @@ DistributionManager::is_master() const
 }
 
 
+//! Returns the name of the current master (or "" if requesting node is master)
+string
+DistributionManager::get_master_id() const
+{
+  return current_master;
+}
+
+
+//! Returns the id of this node.
+string
+DistributionManager::get_my_id() const
+{
+  string id;
+  
+  if (link != NULL)
+    {
+      id = link->get_id();
+    }
+
+  return id;
+}
+
+
 //! Requests to become master.
 /*!
  *  \return true is the claim succeeded.
@@ -162,6 +176,11 @@ DistributionManager::claim()
 
 
 
+//! Locks the current master status.
+/*!
+ *  If this node has locked its master status, all requests from remote hosts
+ *  to become master will be denied.
+ */
 bool
 DistributionManager::set_lock_master(bool lock)
 {
@@ -171,6 +190,7 @@ DistributionManager::set_lock_master(bool lock)
     {
       ret = link->set_lock_master(lock);
     }
+  
   return ret;
 }
 
@@ -189,6 +209,8 @@ DistributionManager::join(string url)
   return ret;
 }
 
+
+//! Disconnects from all remote hosts.
 bool
 DistributionManager::disconnect_all()
 {
@@ -203,6 +225,7 @@ DistributionManager::disconnect_all()
 }
 
 
+//! Reconnects to all remote hosts.
 bool
 DistributionManager::reconnect_all()
 {
@@ -219,14 +242,15 @@ DistributionManager::reconnect_all()
 
 //! Register the specified state callback.
 bool
-DistributionManager::register_state(DistributedStateID id, DistributedStateInterface *dist_state,
-                                    bool automatic)
+DistributionManager::register_client_message(DistributionClientMessageID id,
+                                             DistributionClientMessageType type,
+                                             DistributionClientMessageInterface *dist_state)
 {
   bool ret = false;
   
   if (link != NULL)
     {
-      link->register_state(id, dist_state, automatic);
+      link->register_client_message(id, type, dist_state);
       ret = true;
     }
   return ret;
@@ -235,26 +259,85 @@ DistributionManager::register_state(DistributedStateID id, DistributedStateInter
 
 //! Unregister the specified state callback.
 bool
-DistributionManager::unregister_state(DistributedStateID id)
+DistributionManager::unregister_client_message(DistributionClientMessageID id)
 {
   bool ret = false;
   
   if (link != NULL)
     {
-      link->unregister_state(id);
+      link->unregister_client_message(id);
       ret = true;
     }
   return ret;
 }
 
+
+//! Register a control listener.
 bool
-DistributionManager::push_state(DistributedStateID id, unsigned char *buffer, int size)
+DistributionManager::add_listener(DistributionListener *listener)
+{
+  bool ret = true;
+
+  ListenerIter i = listeners.begin();
+  while (ret && i != listeners.end())
+    {
+      DistributionListener *l = *i;
+
+      if (listener == l)
+        {
+          // Already added. Skip
+          ret = false;
+        }
+      
+      i++;
+    }
+  
+  if (ret)
+    {
+      // not found -> add
+      listeners.push_back(listener);
+    }
+
+  return ret;
+}
+
+
+//! Unregister a control listener.
+bool
+DistributionManager::remove_listener(DistributionListener *listener)
+{
+  bool ret = false;
+
+  ListenerIter i = listeners.begin();
+  while (!ret && i != listeners.end())
+    {
+      DistributionListener *l = *i;
+
+      if (listener == l)
+        {
+          // Found. Remove
+          i = listeners.erase(i);
+          ret = true;
+        }
+      else
+        {
+          i++;
+        }
+    }
+
+  return ret;
+}
+
+
+//! Broadcasts a client message to all
+bool
+DistributionManager::broadcast_client_message(DistributionClientMessageID id, unsigned char *buffer, int size)
 {
   bool ret = false;
   
   if (link != NULL)
     {
-      ret = link->push_state(id, buffer, size);
+      ret = link->broadcast_client_message(id, buffer, size);
     }
   return ret;
 }
@@ -262,23 +345,22 @@ DistributionManager::push_state(DistributedStateID id, unsigned char *buffer, in
 
 //! Event from Link that our 'master' status changed.
 void
-DistributionManager::master_changed(bool new_master)
+DistributionManager::master_changed(bool new_master, char *id)
 {
   TRACE_ENTER("DistributionManager::master_changed");
   state = (new_master ? NODE_ACTIVE : NODE_STANDBY);
 
-  if (new_master)
+  if (id != NULL)
     {
-      state_complete = false;
+      // id 
+      current_master = id;
     }
+  else
+    {
+      current_master = "";
+    }
+  
   TRACE_EXIT();
-}
-
-
-void
-DistributionManager::state_transfer_complete()
-{
-  state_complete = true;
 }
 
 
@@ -333,7 +415,7 @@ DistributionManager::add_peer(string peer)
 }
 
 
-//! Removed the specified peer.
+//! Removes the specified peer.
 bool
 DistributionManager::remove_peer(string peer)
 {
@@ -503,7 +585,7 @@ DistributionManager::log(char *fmt, ...)
     {
       log_messages.erase(log_messages.begin());
     }
-  fire_event(str);
+  fire_log_event(str);
 }
 
 
@@ -520,8 +602,8 @@ DistributionManager::add_log_listener(DistributionLogListener *listener)
 {
   bool ret = true;
 
-  ListenerIter i = listeners.begin();
-  while (ret && i != listeners.end())
+  LogListenerIter i = log_listeners.begin();
+  while (ret && i != log_listeners.end())
     {
       DistributionLogListener *l = *i;
 
@@ -537,7 +619,7 @@ DistributionManager::add_log_listener(DistributionLogListener *listener)
   if (ret)
     {
       // not found -> add
-      listeners.push_back(listener);
+      log_listeners.push_back(listener);
     }
 
   return ret;
@@ -556,15 +638,15 @@ DistributionManager::remove_log_listener(DistributionLogListener *listener)
 {
   bool ret = false;
 
-  ListenerIter i = listeners.begin();
-  while (!ret && i != listeners.end())
+  LogListenerIter i = log_listeners.begin();
+  while (!ret && i != log_listeners.end())
     {
       DistributionLogListener *l = *i;
 
       if (listener == l)
         {
           // Found. Remove
-          i = listeners.erase(i);
+          i = log_listeners.erase(i);
           ret = true;
         }
       else
@@ -580,12 +662,12 @@ DistributionManager::remove_log_listener(DistributionLogListener *listener)
 
 //! Fire a log event.
 void
-DistributionManager::fire_event(string message)
+DistributionManager::fire_log_event(string message)
 {
-  TRACE_ENTER_MSG("DistributionManager::fire_event", message);
+  TRACE_ENTER_MSG("DistributionManager::fire_log_event", message);
   
-  ListenerIter i = listeners.begin();
-  while (i != listeners.end())
+  LogListenerIter i = log_listeners.begin();
+  while (i != log_listeners.end())
     {
       DistributionLogListener *l = *i;
       if (l != NULL)
@@ -596,4 +678,57 @@ DistributionManager::fire_event(string message)
     }
   
   TRACE_EXIT();
+}
+
+
+void
+DistributionManager::fire_signon_client(char *id)
+{
+  TRACE_ENTER_MSG("DistributionManager::fire_signon_client", id);
+  
+  ListenerIter i = listeners.begin();
+  while (i != listeners.end())
+    {
+      DistributionListener *l = *i;
+      if (l != NULL)
+        {
+          l->signon_remote_client(id);
+        }
+      i++;
+    }
+  
+  TRACE_EXIT();
+}
+
+void
+DistributionManager::fire_signoff_client(char *id)
+{
+  TRACE_ENTER_MSG("DistributionManager::fire_signoff_client", id);
+  
+  ListenerIter i = listeners.begin();
+  while (i != listeners.end())
+    {
+      DistributionListener *l = *i;
+      if (l != NULL)
+        {
+          l->signoff_remote_client(id);
+        }
+      i++;
+    }
+  
+  TRACE_EXIT();
+}
+
+
+void
+DistributionManager::signon_remote_client(char *client_id)
+{
+  fire_signon_client(client_id);
+}
+
+
+void
+DistributionManager::signoff_remote_client(char *client_id)
+{
+  fire_signoff_client(client_id);
 }

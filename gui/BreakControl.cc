@@ -69,7 +69,6 @@ BreakControl::BreakControl(GUIControl::BreakId id, ControlInterface *c,
   ignorable_break(true),
   break_window_destroy(false),
   prelude_window_destroy(false),
-  delay_window_destroy(false),
   insist_policy(INSIST_POLICY_HALT),
   active_insist_policy(INSIST_POLICY_INVALID)
 {
@@ -85,7 +84,6 @@ BreakControl::~BreakControl()
 {
   prelude_window_stop();
   break_window_stop();
-  delay_window_destroy = false;
   collect_garbage();
 }
 
@@ -667,7 +665,6 @@ BreakControl::break_window_stop()
     {
       break_window->stop();
       break_window_destroy = true;
-      delay_window_destroy = true;
     }
   TRACE_EXIT();
 }
@@ -721,7 +718,6 @@ BreakControl::prelude_window_stop()
     {
       prelude_window->stop();
       prelude_window_destroy = true;
-      delay_window_destroy = true;
     }
   TRACE_EXIT();
 }
@@ -731,25 +727,18 @@ BreakControl::prelude_window_stop()
 void
 BreakControl::collect_garbage()
 {
-  if (delay_window_destroy)
+  if (prelude_window_destroy)
     {
-      delay_window_destroy = false;
+      prelude_window->destroy();
+      prelude_window = NULL;
+      prelude_window_destroy = false;
     }
-  else
-    {
-      if (prelude_window_destroy)
-        {
-          prelude_window->destroy();
-          prelude_window = NULL;
-          prelude_window_destroy = false;
-        }
   
-      if (break_window_destroy)
-        {
-          break_window->destroy();
-          break_window = NULL;
-          break_window_destroy = false;
-        }
+  if (break_window_destroy)
+    {
+      break_window->destroy();
+      break_window = NULL;
+      break_window_destroy = false;
     }
 }
 
@@ -821,6 +810,12 @@ void
 BreakControl::set_state_data(bool active, const BreakStateData &data)
 {
   TRACE_ENTER_MSG("BreakStateData::set_state_data", active);
+
+  TRACE_MSG("forced = " << data.forced_break <<
+            "prelude = " << data.prelude_count <<
+            "stage = " <<  data.break_stage <<
+            "final = " << final_prelude <<
+            "time = " << data.prelude_time);
   
   prelude_window_stop();
   break_window_stop();

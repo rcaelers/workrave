@@ -28,6 +28,7 @@ static const char rcsid[] = "$Id$";
 
 #include "GNetSocketDriver.hh"
 
+
 //! Constructs a new Gnet socket driver.
 GNetSocketDriver::GNetSocketDriver()
 {
@@ -123,17 +124,6 @@ GNetSocketDriver::listen(int port, void *data)
   
   return con;
 }
-
-
-// void
-// GNetSocketDriver::fire_closed(SocketConnection *con)
-// {
-//   if (listener != NULL)
-//     {
-//       listener->socket_closed(con, con->data);
-//       con->close();
-//     }
-// }
 
 
 //! GNet has accepted a new connection.
@@ -358,11 +348,6 @@ GNetSocketConnection::read(void *buf, int count, int &bytes_read)
       if (error != G_IO_ERROR_NONE)
         {
           bytes_read = -1;
-//           if (driver != NULL)
-//             {
-//               driver->fire_closed(this);
-//               close();
-//             }
         }
       else
         {
@@ -388,11 +373,6 @@ GNetSocketConnection::write(void *buf, int count, int &bytes_written)
       if (error != G_IO_ERROR_NONE)
         {
           bytes_written = -1;
-//           if (driver != NULL)
-//             {
-//               driver->fire_closed(this);
-//               close();
-//             }
         }
       else
         {
@@ -429,4 +409,3 @@ GNetSocketConnection::close()
   watch_flags = 0;
   return true;
 }
-

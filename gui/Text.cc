@@ -80,7 +80,7 @@ Text::time_to_string(time_t time, bool display_units)
         }
       else
         {
-          sprintf(s, _("%s%ld seconds"), t, sec);
+          sprintf(s, _("%s%d seconds"), t, sec);
         }
     }
 

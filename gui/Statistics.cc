@@ -168,7 +168,7 @@ Statistics::day_to_remote_history(DailyStats *stats)
       pack_stats(state_packet, stats);
       state_packet.pack_byte(STATS_MARKER_END);
 
-      dist_manager->push_state(DISTR_STATE_STATS,
+      dist_manager->broadcast_client_message(DCM_STATS,
                                (unsigned char *)state_packet.get_buffer(),
                                state_packet.bytes_written());
     }
@@ -713,14 +713,14 @@ Statistics::init_distribution_manager()
 
   if (dist_manager != NULL)
     {
-      dist_manager->register_state(DISTR_STATE_STATS,  this);
+      dist_manager->register_client_message(DCM_STATS, DCMT_MASTER, this);
     }
 }
 
 bool
-Statistics::get_state(DistributedStateID id, unsigned char **buffer, int *size)
+Statistics::request_client_message(DistributionClientMessageID id, unsigned char **buffer, int *size)
 {
-  TRACE_ENTER("Statistics::get_state");
+  TRACE_ENTER("Statistics::request_client_message");
   (void) id;
   
   update_current_day();
@@ -798,12 +798,13 @@ Statistics::pack_stats(PacketBuffer &buf, DailyStats *stats)
 }
 
 bool
-Statistics::set_state(DistributedStateID id, bool master, unsigned char *buffer, int size)
+Statistics::client_message(DistributionClientMessageID id, bool master, char *client_id, unsigned char *buffer, int size)
 {
-  TRACE_ENTER("Statistics::set_state");
+  TRACE_ENTER("Statistics::client_message");
 
   (void) id;
   (void) master;
+  (void) client_id;
 
   return false;
   

@@ -29,6 +29,7 @@ public:
   ~PacketBuffer();
 
   void create(int size = 0);
+  void resize(int size);
   void clear() { write_ptr = read_ptr = buffer; }
   void skip(int size) { read_ptr += size; }
   void insert(int pos, int size);
@@ -68,6 +69,7 @@ public:
   int bytes_read() { return read_ptr - buffer; }
   gchar *get_buffer() { return (gchar *) buffer; }
   gchar *get_write_ptr() { return (gchar *)write_ptr; }
+  int get_buffer_size() { return buffer_size; }
   void restart_read() { read_ptr = buffer; }
   
 public:

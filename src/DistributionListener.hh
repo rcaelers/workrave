@@ -1,4 +1,4 @@
-// DistributionLogListener.hh
+// DistributionListener.hh
 //
 // Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
@@ -16,14 +16,17 @@
 // $Id$
 //
 
-#ifndef DISTRIBUTIONLOGLISTENER_HH
-#define DISTRIBUTIONLOGLISTENER_HH
+#ifndef DISTRIBUTIONLISTENER_HH
+#define DISTRIBUTIONLISTENER_HH
 
-class DistributionLogListener
+class DistributionListener
 {
 public:
-  //! Notofocation that a new log message has arrived.
-  virtual void distribution_log(string msg) = 0;
+  //! A remote client has signed on.
+  virtual void signon_remote_client(string client_id) = 0;
+
+  //! A remote client has signed off.
+  virtual void signoff_remote_client(string client_id) = 0;
 };
 
-#endif // DISTRIBUTIONLOGLISTENER_HH
+#endif // DISTRIBUTIONLISTENER_HH

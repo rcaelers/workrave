@@ -38,7 +38,7 @@ static const char rcsid[] = "$Id$";
 #include "Configurator.hh"
 #include "DistributionManager.hh"
 #include "DistributionLink.hh"
-#include "DistributionSocketLink.hh"
+#include "DistributionSocketLink2.hh"
 #include "DistributionLinkListener.hh"
 #include "GNetSocketDriver.hh"
 
@@ -142,10 +142,25 @@ DistributionSocketLink::heartbeat()
         }
 
       // Periodically distribute state, in case the master crashes.
-      if (heartbeat_count % 60 == 0 && i_am_master)
+      if (heartbeat_count % 30 == 0 && i_am_master)
         { 
-          send_state();
+          send_state(DCMT_MASTER);
         }
+    }
+}
+
+
+//! Returns the id of this node.
+string
+DistributionSocketLink::get_id() const
+{
+  if (myid != NULL)
+    {
+      return myid;
+    }
+  else
+    {
+      return "";
     }
 }
 
@@ -355,13 +370,13 @@ DistributionSocketLink::set_enabled(bool enabled)
 
 //! Register a distributed state.
 bool
-DistributionSocketLink::register_state(DistributedStateID id,
-                                       DistributedStateInterface *dist_state,
-                                       bool automatic)
+DistributionSocketLink::register_client_message(DistributionClientMessageID id,
+                                                DistributionClientMessageType type,
+                                                DistributionClientMessageInterface *dist_state)
 {
   StateListener sl;
   sl.listener = dist_state;
-  sl.automatic = automatic;
+  sl.type = type;
   
   state_map[id] = sl;
   
@@ -371,7 +386,7 @@ DistributionSocketLink::register_state(DistributedStateID id,
 
 //! Unregister a distributed state.
 bool
-DistributionSocketLink::unregister_state(DistributedStateID id)
+DistributionSocketLink::unregister_client_message(DistributionClientMessageID id)
 {
   (void) id;
   return false;
@@ -380,9 +395,9 @@ DistributionSocketLink::unregister_state(DistributedStateID id)
 
 //! Force is state distribution.
 bool
-DistributionSocketLink::push_state(DistributedStateID dsid, unsigned char *buffer, int size)
+DistributionSocketLink::broadcast_client_message(DistributionClientMessageID dsid, unsigned char *buffer, int size)
 {
-  TRACE_ENTER("DistributionSocketLink::push_state");
+  TRACE_ENTER("DistributionSocketLink::broadcast_client_message");
   PacketBuffer packet;
   packet.create();
   init_packet(packet, PACKET_STATEINFO);
@@ -500,16 +515,20 @@ DistributionSocketLink::add_client(gchar *id, gchar *host, gint port, ClientType
       
       clients.push_back(client);
 
+      if (client->id != NULL)
+        {
+          dist_manager->signon_remote_client(client->id);
+        }
+      
       if (type == CLIENTTYPE_DIRECT)
         {
           dist_manager->log(_("Connecting to %s:%d."), host, port);
           socket_driver->connect(host, port, client);
         }
     }
-
   g_free(canonical_host);
-  return true;
   TRACE_EXIT();
+  return true;
 }
 
 
@@ -571,6 +590,11 @@ DistributionSocketLink::set_client_id(Client *client, gchar *id, gchar *name, gi
       client->id = g_strdup(id);
       client->hostname = g_strdup(name);
       client->port = port;
+
+      if (client->id != NULL)
+        {
+          dist_manager->signon_remote_client(client->id);
+        }
     }
 
   TRACE_RETURN(ret);
@@ -707,7 +731,7 @@ DistributionSocketLink::set_master(Client *client)
 
   if (dist_manager != NULL)
     {
-      dist_manager->master_changed(false);
+      dist_manager->master_changed(false, client != NULL ? client->id : NULL);
     }
   TRACE_EXIT();
 }
@@ -723,7 +747,7 @@ DistributionSocketLink::set_me_master()
 
   if (dist_manager != NULL)
     {
-      dist_manager->master_changed(true);
+      dist_manager->master_changed(true, myid);
     }
   TRACE_EXIT();
 }
@@ -993,6 +1017,7 @@ DistributionSocketLink::process_client_packet(Client *client)
     }
 
   packet.clear();
+  packet.resize(0);
   TRACE_EXIT();
 }
 
@@ -1359,6 +1384,8 @@ DistributionSocketLink::handle_client_list(PacketBuffer &packet, Client *client,
           set_master_by_id(master_id);
           TRACE_MSG(master_id << " is now master");
         }
+
+      send_state(DCMT_SIGNON);
     }
   else
     {
@@ -1465,7 +1492,7 @@ DistributionSocketLink::handle_claim(PacketBuffer &packet, Client *client)
         {
           //dist_manager->log(_("Transferring state to client %s:%d."),
           //                  client->hostname, client->port);
-          send_state();
+          send_state(DCMT_MASTER);
         }
   
       // And tell everyone we have a new master.
@@ -1595,7 +1622,7 @@ DistributionSocketLink::handle_new_master(PacketBuffer &packet, Client *client)
 
 // Distributes the current state.
 void
-DistributionSocketLink::send_state()
+DistributionSocketLink::send_state(DistributionClientMessageType type)
 {
   TRACE_ENTER("DistributionSocketLink:send_state");
 
@@ -1611,19 +1638,20 @@ DistributionSocketLink::send_state()
   
   packet.pack_ushort(state_map.size());
   
-  map<DistributedStateID, StateListener>::iterator i = state_map.begin();
+  map<DistributionClientMessageID, StateListener>::iterator i = state_map.begin();
   while (i != state_map.end())
     {
-      DistributedStateID id = i->first;
+      DistributionClientMessageID id = i->first;
       StateListener &sl = i->second;
       
-      DistributedStateInterface *itf = sl.listener;
+      DistributionClientMessageInterface *itf = sl.listener;
 
       guint8 *data = NULL;
       gint size = 0;
-          
-      if (sl.automatic && itf->get_state(id, &data, &size))
+
+      if (((sl.type & type) != 0) && itf->request_client_message(id, &data, &size))
         {
+          TRACE_MSG(id);
           packet.pack_ushort(size);
           packet.pack_ushort(id);
           packet.pack_raw(data, size);
@@ -1667,14 +1695,14 @@ DistributionSocketLink::handle_state(PacketBuffer &packet, Client *client)
   for (int i = 0; i < size; i++)
     {
       gint datalen = packet.unpack_ushort();
-      DistributedStateID id = (DistributedStateID) packet.unpack_ushort();
+      DistributionClientMessageID id = (DistributionClientMessageID) packet.unpack_ushort();
 
       if (datalen != 0)
         {
           guint8 *data = NULL;
           if (packet.unpack_raw(&data, datalen) != 0)
             {
-              state_map[id].listener->set_state(id, will_i_become_master, data, datalen);
+              state_map[id].listener->client_message(id, will_i_become_master, client->id, data, datalen);
             }
           else
             {
@@ -1685,12 +1713,6 @@ DistributionSocketLink::handle_state(PacketBuffer &packet, Client *client)
         }
     }
 
-  if (dist_manager != NULL)
-    {
-      // Inform distribution manager that all state is processed.
-      dist_manager->state_transfer_complete();
-    }
-  
   TRACE_EXIT();
 }
 
@@ -1765,6 +1787,11 @@ DistributionSocketLink::socket_io(SocketConnection *con, void *data)
   if (client->packet.bytes_available() >= 4)
     {
       bytes_to_read = client->packet.peek_ushort(0) - 4;
+      if (bytes_to_read + 4 > client->packet.get_buffer_size())
+        {
+          // FIXME: the 1024 is lame...
+          client->packet.resize(bytes_to_read + 4 + 1024);
+        }
     }
       
   bool ok = con->read(client->packet.get_write_ptr(), bytes_to_read, bytes_read);
@@ -1959,7 +1986,6 @@ DistributionSocketLink::config_changed_notify(string key)
 {
   TRACE_ENTER_MSG("DistributionSocketLink:config_changed_notify", key);
  
-  dist_manager->log(_("Configuration modified. Reloading."));
   read_configuration();
   
   TRACE_EXIT();
