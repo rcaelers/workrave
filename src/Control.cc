@@ -37,6 +37,7 @@ static const char rcsid[] = "$Id$";
 
 #ifdef HAVE_DISTRIBUTION
 #include "DistributionManager.hh"
+#include "IdleLogManager.hh"
 #include "PacketBuffer.hh"
 #endif
 
@@ -70,10 +71,6 @@ Control::Control() :
   master_node(true)
 {
   current_time = time(NULL);
-
-#ifdef HAVE_DISTRIBUTION
-  my_info.idle_history.push_front(IdleInterval(1, current_time));
-#endif
 }
 
 
@@ -188,20 +185,6 @@ Control::process_timers(TimerInfo *infos)
 #endif
     }
 
-  // 
-  if (!master_node)
-    {
-      state = ACTIVITY_IDLE;
-    }
-
-  TRACE_MSG(master_node << " " << state << " " << monitor_state);
-
-  // Update our idle history.
-  update_idle_history(my_info, state, monitor_state != state);
-
-  // Update remote idle history.
-  update_remote_idle_history();
-
   // Distribute monitor state if we are master and the
   // state has changed.
   if (master_node && monitor_state != state)
@@ -218,6 +201,17 @@ Control::process_timers(TimerInfo *infos)
     }
   
   monitor_state = state;
+
+  // 
+  if (!master_node)
+    {
+      state = remote_state;
+    }
+
+  TRACE_MSG(master_node << " " << state << " " << monitor_state << " " << remote_state);
+
+  // Update our idle history.
+  idlelog_manager->update_all_idlelogs(dist_manager->get_master_id(), state);
   
 #endif // HAVE_DISTRIBUTION
   
@@ -285,368 +279,6 @@ Control::process_timers(TimerInfo *infos)
 
 
 #ifdef HAVE_DISTRIBUTION
-void
-Control::update_remote_idle_history()
-{
-  TRACE_ENTER("Control::update_remote_idle_history");
-
-  for (ClientMapIter i = clients.begin(); i != clients.end(); i++)
-    {
-      ClientInfo &info = i->second;
-
-      // Default: remote client is idle and not master
-      ActivityState state = ACTIVITY_IDLE;
-      bool is_master = false;
-
-      if (i->first == dist_manager->get_master_id())
-        {
-          // Correction, remote client IS master.
-          state = remote_state;
-          is_master = true;
-        }
-
-      // Did the state/master status change?
-      bool changed = (state != info.last_state || is_master != info.is_master);
-
-      // Update history.
-      update_idle_history(info, state, changed);
-
-      // Remember current state/master status.
-      info.is_master = is_master;
-      info.last_state = state;
-    }
-
-  TRACE_EXIT();
-}
-
-void
-Control::update_idle_history(ClientInfo &info, ActivityState state, bool changed)
-{
-  TRACE_ENTER_MSG("Control::update_idle_history", ((int)state) << " " << changed);
-
-  IdleInterval *idle = &(info.idle_history.front());
-
-  if (state == ACTIVITY_IDLE)
-    {
-      if (changed)
-        {
-          info.update(current_time);
-          info.idle_history.push_front(IdleInterval(current_time, current_time));
-        }
-      else
-        {
-          idle->idle_end = current_time;
-        }
-    }
-  else if (state == ACTIVITY_ACTIVE)
-    {
-      if (changed)
-        {
-          idle->idle_end = current_time;
-
-          int total_idle = idle->idle_end - idle->idle_begin;
-          if (total_idle < 1 && info.idle_history.size() > 1)
-            {
-              // Idle period too short. remove it
-              info.idle_history.pop_front();
-              idle = &(info.idle_history.front());
-            }
-
-          // Update start time of last active period.
-          info.last_elapsed = 0;
-          info.last_active_begin = current_time;
-        }
-      else
-        {
-          info.last_elapsed = current_time - info.last_active_begin;
-        }
-    }
-
-  TRACE_MSG("last_elapsed " << info.last_elapsed);
-  TRACE_MSG("total_elapsed " << info.total_elapsed);
-#ifndef WIN32  
-  IdleHistoryIter i = info.idle_history.begin();
-  while (i != info.idle_history.end())
-    {
-      IdleInterval &idle = *i;
-
-      struct tm begin_time;
-      localtime_r(&idle.idle_begin, &begin_time);
-      struct tm end_time;
-      localtime_r(&idle.idle_end, &end_time);
-
-      TRACE_MSG(   begin_time.tm_hour << ":"
-                   << begin_time.tm_min << ":"
-                   << begin_time.tm_sec << " - "
-                   << end_time.tm_hour << ":"
-                   << end_time.tm_min << ":" 
-                   << end_time.tm_sec << " "
-                   << idle.elapsed
-                   );
-      i++;
-    }
-#endif  
-  TRACE_EXIT();
-}
-
-
-int
-Control::compute_active_time(int length)
-{
-  TRACE_ENTER("Control::compute_active_time");
-
-  // Number of client, myself included.
-  int size = clients.size() + 1;
-
-  // Data for each client.
-  IdleHistoryIter *iterators = new IdleHistoryIter[size];
-  IdleHistoryIter *end_iterators = new IdleHistoryIter[size];
-  bool *at_end = new bool[size];
-  int *elapsed = new int[size];
-
-  // Init data for me.
-  my_info.update(current_time);
-  iterators[0] = my_info.idle_history.begin();
-  end_iterators[0] = my_info.idle_history.end();
-  at_end[0] = true;
-  elapsed[0] = 0;
-
-  // Init data for remote client.
-  int count = 1;
-  for (ClientMapIter i = clients.begin(); i != clients.end(); i++)
-    {
-      ClientInfo &info = (*i).second;
-      
-      iterators[count] = info.idle_history.begin();
-      end_iterators[count] = info.idle_history.end();
-      elapsed[count] = 0;
-      at_end[count] = true;
-
-      info.update(current_time);
-      count++;
-    }
-
-
-  // Number of simultaneous idle periods.
-  int idle_count = 0;
-
-  // Time of last unprocessed event.
-  time_t last_time = -1;
-
-  // Iterator of last unprocessed event.
-  int last_iter = -1;
-
-  // Stop criterium
-  bool stop = false;
-
-  // Begin and End time of idle perdiod.
-  time_t begin_time = -1;
-  time_t end_time = -1;
-  
-  while (!stop)
-    {
-      // Find latest event.
-      last_time = -1;
-      for (int i = 0; i < size; i ++)
-        {
-          if (iterators[i] != end_iterators[i])
-            {
-              IdleInterval ii = *(iterators[i]);
-              
-              time_t t = at_end[i] ? ii.idle_end : ii.idle_begin;
-              
-              if (last_time == -1 || t > last_time)
-                {
-                  last_time = t;
-                  last_iter = i;
-                }
-            }
-        }
-
-      // Did we found one?
-      if (last_time != -1)
-        {
-          IdleInterval ii = *(iterators[last_iter]);
-#ifndef WIN32          
-          struct tm begin;
-          localtime_r(&ii.idle_begin, &begin);
-          struct tm end;
-          localtime_r(&ii.idle_end, &end);
-#endif          
-          if (at_end[last_iter])
-            {
-              idle_count++;
-              
-#ifndef WIN32
-              TRACE_MSG("New end " << last_iter << " " 
-                        << end.tm_hour << ":"
-                        << end.tm_min << ":" 
-                        << end.tm_sec << " "
-                        << idle_count);
-#endif              
-              at_end[last_iter] = false;
-
-              end_time = ii.idle_end;
-              elapsed[last_iter] += ii.elapsed;
-            }
-          else
-            {
-#ifndef WIN32
-              TRACE_MSG("Begin " << last_iter << " " 
-                        << begin.tm_hour << ":"
-                        << begin.tm_min << ":"
-                        << begin.tm_sec << "  "
-                        << idle_count);
-#endif              
-              at_end[last_iter] = true;
-              iterators[last_iter]++;
-              begin_time = ii.idle_begin;
-                
-              if (idle_count == size)
-                {
-                  TRACE_MSG("Common idle period of " << (end_time - begin_time));
-                  if ((end_time - begin_time) > length)
-                    {
-                      stop = true;
-                    }
-                }
-              idle_count--;
-            }
-        }
-      else
-        {
-          stop = true;
-        }
-    }
-
-  int total_elapsed = 0;
-  for (int i = 0; i < size; i++)
-    {
-      TRACE_MSG(i << " " << elapsed[i]);
-      total_elapsed += elapsed[i];
-    }
-
-  TRACE_MSG("total = " << total_elapsed);
-  
-  delete [] iterators;
-  delete [] end_iterators;
-  delete [] at_end;
-
-  TRACE_EXIT();
-  return total_elapsed;
-}
-
-
-int
-Control::compute_idle_time()
-{
-  TRACE_ENTER("Control::compute_idle_time");
-
-  my_info.update(current_time);
-  IdleInterval &idle = my_info.idle_history.front();
-
-  int count = idle.elapsed == 0 ? 1 : 0;
-  time_t latest_start_time = idle.idle_begin;
-
-  TRACE_MSG(current_time - latest_start_time);
-  TRACE_MSG(latest_start_time);
-  
-  for (ClientMapIter i = clients.begin(); i != clients.end(); i++)
-    {
-      ClientInfo &info = (*i).second;
-      IdleInterval &idle = info.idle_history.front();
-
-      info.update(current_time);
-      if (idle.elapsed == 0)
-        {
-          count++;
-        }
-      if (idle.idle_begin > latest_start_time)
-        {
-          latest_start_time = idle.idle_begin;
-          TRACE_MSG(current_time - latest_start_time);
-        }
-    }
-
-  TRACE_MSG("count = " << count);
-  if (count != clients.size() + 1)
-    {
-      latest_start_time = current_time;
-    }
-
-  TRACE_MSG((current_time - latest_start_time));
-  TRACE_EXIT();
-  
-  return current_time - latest_start_time;
-}
-
-
-void
-Control::save_idle_log(ClientInfo &info)
-{
-}
-
-
-void
-Control::load_idle_log(ClientInfo &info, string filename)
-{
-}
-
-
-void
-Control::load_all_idle_logs()
-{
-}
-
-
-void
-Control::update_idle_log(ClientInfo &info,  IdleInterval)
-{
-}
-
-
-void
-Control::compute_timers()
-{
-  TRACE_ENTER("Control:compute_timers");
-  for (int i = 0; i < timer_count; i++)
-    {
-      int autoreset = timers[i]->get_auto_reset();
-
-      int idle = compute_idle_time();
-          
-      if (autoreset != 0)
-        {
-          int elapsed = compute_active_time(autoreset);
-
-          if (idle > autoreset)
-            {
-              idle = autoreset;
-            }
-          
-          timers[i]->set_values(elapsed, idle);
-        }
-      else
-        {
-          my_info.update(current_time);
-
-          int elapsed = my_info.total_elapsed;
-
-          TRACE_MSG(elapsed << " " << idle);
-          for (ClientMapIter it = clients.begin(); it != clients.end(); it++)
-            {
-              ClientInfo &info = (*it).second;
-              info.update(current_time);
-              elapsed += info.total_elapsed;
-              TRACE_MSG(elapsed);
-            }
-
-          timers[i]->set_values(elapsed, idle);
-        }
-    }
-  TRACE_EXIT();
-}
-
 // Create the monitor based on the specified configuration.
 bool
 Control::create_distribution_manager()
@@ -663,6 +295,9 @@ Control::create_distribution_manager()
       dist_manager->register_client_message(DCM_SCRIPT, DCMT_PASSIVE, this);
 #endif      
       dist_manager->add_listener(this);
+
+      
+      idlelog_manager = new IdleLogManager(dist_manager->get_my_id(), this);
     }
   return dist_manager != NULL;
 }
@@ -727,15 +362,7 @@ void
 Control::daily_reset()
 {
 #ifdef HAVE_DISTRIBUTION
-  my_info.update(current_time);
-  my_info.total_elapsed = 0;
-
-  for (ClientMapIter i = clients.begin(); i != clients.end(); i++)
-    {
-      ClientInfo &info = (*i).second;
-      info.update(current_time);
-      info.total_elapsed = 0;
-    }
+  idlelog_manager->reset();
 #endif
 }
   
@@ -1035,11 +662,11 @@ Control::request_client_message(DistributionClientMessageID id, unsigned char **
       break;
         
     case DCM_MONITOR:
-      ret = get_monitor_state(buffer, size);
+      ret = true;
       break;
 
     case DCM_IDLELOG:
-      ret = get_idlelog_state(buffer, size);
+      ret = idlelog_manager->get_idlelog(buffer, size);
       break;
 
     default:
@@ -1057,16 +684,18 @@ Control::client_message(DistributionClientMessageID id, bool master, char *clien
   switch (id)
     {
     case DCM_TIMERS:
-      ret = set_timer_state(master, client_id, buffer, size);
+      ret = set_timer_state(buffer, size);
       break;
         
     case DCM_MONITOR:
-      ret = set_monitor_state(master, client_id, buffer, size);
+      ret = set_monitor_state(master, buffer, size);
       break;
 
     case DCM_IDLELOG:
-      ret = set_idlelog_state(master, client_id, buffer, size);
+      ret = idlelog_manager->set_idlelog(buffer, size);
+      compute_timers();
       break;
+      
 #ifndef NDEBUG
     case DCM_SCRIPT:
       ret = script_message(master, client_id, buffer, size);
@@ -1088,7 +717,6 @@ Control::get_timer_state(unsigned char **buffer, int *size)
   PacketBuffer state_packet;
 
   state_packet.create();
-
   state_packet.pack_ushort(timer_count);
   
   for (int i = 0; i < timer_count; i++)
@@ -1127,10 +755,8 @@ Control::get_timer_state(unsigned char **buffer, int *size)
 
 
 bool
-Control::set_timer_state(bool master, char *client_id, unsigned char *buffer, int size)
+Control::set_timer_state(unsigned char *buffer, int size)
 {
-  (void) client_id;
-  (void) master;
   TRACE_ENTER("Control::set_timer_state");
 
   PacketBuffer state_packet;
@@ -1187,27 +813,11 @@ Control::set_timer_state(bool master, char *client_id, unsigned char *buffer, in
 }
 
 
-
 bool
-Control::get_monitor_state(unsigned char **buffer, int *size)
-{
-  TRACE_ENTER("Control::get_monitor_state");
-  (void) buffer;
-  (void) size;
-  TRACE_EXIT();
-  return true;
-}
-
-
-bool
-Control::set_monitor_state(bool master, char *client_id, unsigned char *buffer, int size)
+Control::set_monitor_state(bool master, unsigned char *buffer, int size)
 {
   TRACE_ENTER_MSG("Control::set_monitor_state", master << " " << master_node);
 
-  (void) client_id;
-  (void) buffer;
-  (void) size;
-  
   if (!master_node)
     {
       PacketBuffer state_packet;
@@ -1224,121 +834,55 @@ Control::set_monitor_state(bool master, char *client_id, unsigned char *buffer, 
 }
 
 
-bool
-Control::get_idlelog_state(unsigned char **buffer, int *size)
+//! A remote client has signed on.
+void
+Control::signon_remote_client(string client_id)
 {
-  TRACE_ENTER("Control::get_idlelog_state");
-
-  my_info.update(current_time);
-    
-  PacketBuffer state_packet;
-
-  int idle_size = my_info.idle_history.size();
-  state_packet.create(1024 + idle_size * 16); // FIXME: 
-
-  state_packet.pack_ushort(idle_size);
-  state_packet.pack_string(dist_manager->get_my_id().c_str());
-  state_packet.pack_ulong(my_info.total_elapsed);
-  state_packet.pack_ulong(current_time);
-  state_packet.pack_byte(master_node);
-  state_packet.pack_byte(master_node ? monitor_state : ACTIVITY_IDLE);
-
-  IdleHistoryIter i = my_info.idle_history.begin();
-  while (i != my_info.idle_history.end())
-    {
-      IdleInterval &idle = *i;
-
-      int elapsed = idle.elapsed;
-
-      int pos = state_packet.bytes_written();
-      state_packet.pack_ushort(0);
-
-      state_packet.pack_ulong((guint32)idle.idle_begin);
-      state_packet.pack_ulong((guint32)idle.idle_end);
-      state_packet.pack_ulong((guint32)elapsed);
-      
-      state_packet.poke_ushort(pos, state_packet.bytes_written() - pos);
-      i++;
-    }
-
-
-  *size = state_packet.bytes_written();
-  *buffer = new unsigned char[*size + 1];
-  memcpy(*buffer, state_packet.get_buffer(), *size);
-
-  TRACE_EXIT();
-  return true;
+  idlelog_manager->signon_remote_client(client_id);
 }
 
 
-bool
-Control::set_idlelog_state(bool master, char *client_id, unsigned char *buffer, int size)
+//! A remote client has signed off.
+void
+Control::signoff_remote_client(string client_id)
 {
-  TRACE_ENTER("Control::set_idlelog_state");
-
-  (void) master;
-  (void) client_id;
-  
-  PacketBuffer state_packet;
-  state_packet.create(size);
-
-  state_packet.pack_raw(buffer, size);
-  
-  int num_idle = state_packet.unpack_ushort();
-  gchar *id = state_packet.unpack_string();
-  int total_elapsed = state_packet.unpack_ulong();
-  time_t time_diff = state_packet.unpack_ulong() - current_time;
-    
-  ClientInfo info;
-  info.is_master = (bool) state_packet.unpack_byte();
-  info.last_state = (ActivityState) state_packet.unpack_byte();
-  info.total_elapsed = total_elapsed;
-  clients[id] = info;
-
-  TRACE_MSG("id = " << id <<
-            " numidle = " << num_idle <<
-            " master  = " << info.is_master <<
-            " state = " << info.last_state);
-
-  for (int i = 0; i < num_idle; i++)
+  if (client_id == dist_manager->get_master_id())
     {
-      state_packet.unpack_ushort();
-
-      IdleInterval idle;
-      
-      idle.idle_begin = state_packet.unpack_ulong() - time_diff;
-      idle.idle_end = state_packet.unpack_ulong() - time_diff;
-      idle.elapsed = state_packet.unpack_ulong();
-
-      TRACE_MSG(id << " " << idle.idle_begin << " " << idle.idle_end << " " << idle.elapsed);
-      clients[id].idle_history.push_back(idle);
+      remote_state = ACTIVITY_IDLE;
     }
 
-#ifndef WIN32  
-  IdleHistoryIter i = clients[id].idle_history.begin();
-  while (i != clients[id].idle_history.end())
+  idlelog_manager->signoff_remote_client(client_id);
+}
+
+void
+Control::compute_timers()
+{
+  TRACE_ENTER("IdleLogManager:compute_timers");
+
+  for (int i = 0; i < timer_count; i++)
     {
-      IdleInterval &idle = *i;
+      int autoreset = timers[i]->get_auto_reset();
+      int idle = idlelog_manager->compute_idle_time();
+          
+      if (autoreset != 0)
+        {
+          int active_time = idlelog_manager->compute_active_time(autoreset);
 
-      struct tm begin_time;
-      localtime_r(&idle.idle_begin, &begin_time);
-      struct tm end_time;
-      localtime_r(&idle.idle_end, &end_time);
-
-      TRACE_MSG(   begin_time.tm_hour << ":"
-                   << begin_time.tm_min << ":"
-                   << begin_time.tm_sec << " - "
-                   << end_time.tm_hour << ":"
-                   << end_time.tm_min << ":" 
-                   << end_time.tm_sec << " "
-                   << idle.elapsed
-                   );
-      i++;
+          if (idle > autoreset)
+            {
+              idle = autoreset;
+            }
+          
+          timers[i]->set_values(active_time, idle);
+        }
+      else
+        {
+          int active_time = idlelog_manager->compute_total_active_time();
+          timers[i]->set_values(active_time, idle);
+        }
     }
-#endif
-  compute_timers();
+  
   TRACE_EXIT();
-  return true;
 }
 
 
@@ -1357,8 +901,6 @@ Control::script_message(bool master, char *client_id, unsigned char *buffer, int
   packet.pack_raw(buffer, size);
   
   int cmd_size = packet.unpack_ushort();
-  TRACE_MSG("size = " << cmd_size);
-
   for (int i = 0; i < cmd_size; i++)
     {
       ScriptCommand type = (ScriptCommand) packet.unpack_ushort();
@@ -1431,39 +973,6 @@ Control::do_script()
   script_count++;
 }
 
-#endif
-
-//! A remote client has signed on.
-void
-Control::signon_remote_client(string client_id)
-{
-  TRACE_ENTER_MSG("signon_remote_client", client_id);
-
-  ClientInfo info;
-  clients[client_id] = info;
-  clients[client_id].idle_history.push_front(IdleInterval(1, current_time));
-
-  TRACE_EXIT();
-}
-
-
-//! A remote client has signed off.
-void
-Control::signoff_remote_client(string client_id)
-{
-  TRACE_ENTER_MSG("signon_remote_client", client_id);
-
-  clients[client_id].last_state = ACTIVITY_IDLE;
-
-  string master_id = dist_manager->get_master_id();
-  if (master_id == client_id)
-    {
-      TRACE_MSG("Master signed off. Setting idle.");
-      remote_state = ACTIVITY_IDLE;
-      clients[client_id].is_master = false;
-    }
-
-  TRACE_EXIT();
-}
-#endif
+#endif // NDEBUG
+#endif // HAVE_DISTRIBUTION
 

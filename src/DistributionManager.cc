@@ -129,7 +129,7 @@ DistributionManager::is_master() const
 string
 DistributionManager::get_master_id() const
 {
-  return current_master;
+  return state == NODE_ACTIVE ? get_my_id() : current_master;
 }
 
 

@@ -15,6 +15,7 @@ sources = \
       Control.cc \
       ControlInterface.cc \
       DayTimePred.cc \
+      IdleLogManager.cc \
       GUIFactory.cc \
       TimePredFactory.cc \
       Timer.cc \
