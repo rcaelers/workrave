@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-09-21 21:01:04 robc>
+// Time-stamp: <2002-09-26 18:51:00 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -142,16 +142,23 @@ X11InputMonitor::init(InputMonitorListenerInterface *l)
 void
 X11InputMonitor::terminate()
 {
-  TRACE_ENTER("X11InputMonitor::terminate")
+  TRACE_ENTER("X11InputMonitor::terminate");
+
 #ifdef HAVE_XRECORD
-  stop_xrecord();
+  if (use_xrecord)
+    {
+      stop_xrecord();
+    }
 #endif
 
   TRACE_MSG("waiting");
   abort = true;
 
   //FIXME:  stop_xrecord does not seem to work.
-  monitor_thread->stop();
+  if (use_xrecord)
+    {
+      monitor_thread->stop();
+    }
   //  wait_for_terminated_signal.wait();
   TRACE_EXIT();
 }
@@ -167,15 +174,12 @@ X11InputMonitor::run()
       return;
     }
 
-  TRACE_MSG("run1");
-  
 #ifdef HAVE_XRECORD
   run_xrecord();
-#endif
+#else
   run_events();
-      
-  TRACE_MSG("run3");
-    
+#endif
+  
   wait_for_terminated_signal.signal();
   XCloseDisplay(x11_display);
 
@@ -185,6 +189,8 @@ X11InputMonitor::run()
 void
 X11InputMonitor::run_events()
 {
+  TRACE_ENTER("X11InputMonitor::run_events");
+
   root_window = DefaultRootWindow(x11_display);  
 
   set_all_events(root_window);
@@ -205,6 +211,7 @@ X11InputMonitor::run_events()
 
       if (abort)
         {
+          TRACE_EXIT();
           return;
         }
       
@@ -231,15 +238,13 @@ X11InputMonitor::run_events()
       int root_x, root_y, win_x, win_y;
       unsigned mask;
 
-      // FIXME: leak
       XQueryPointer(x11_display, root_window, &root, &child, &root_x, &root_y, &win_x, &win_y, &mask);
 
-      if (root != lastMouseRoot)
-        {
-	  lastMouseRoot = root;
-          listener->mouse_notify(root_x, root_y);
-        }
+      lastMouseRoot = root;
+      listener->mouse_notify(root_x, root_y);
     }
+
+  TRACE_EXIT();
 }
 
 void
@@ -452,7 +457,8 @@ X11InputMonitor::run_xrecord()
   init_xrecord();
 
   TRACE_MSG("enabling context");
-  if (XRecordEnableContext(xrecord_datalink, xrecord_context,  &handleXRecordCallback, (XPointer)this))
+  if (use_xrecord &&
+      XRecordEnableContext(xrecord_datalink, xrecord_context,  &handleXRecordCallback, (XPointer)this))
     {
       TRACE_MSG("end context");
       XRecordFreeContext(x11_display, xrecord_context);

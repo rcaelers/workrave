@@ -465,7 +465,9 @@ MainWindow::on_menu_quiet()
   TRACE_ENTER("MainWindow::on_menu_quiet");
 
   gui->set_operation_mode(GUIControl::OPERATION_MODE_QUIET);
+#ifdef WIN32
   win32_sync_menu(2);
+#endif
 }
 
 
@@ -477,7 +479,9 @@ MainWindow::on_menu_suspend()
   TRACE_ENTER("MainWindow::on_menu_suspend");
 
   gui->set_operation_mode(GUIControl::OPERATION_MODE_SUSPENDED);
+#ifdef WIN32
   win32_sync_menu(1);
+#endif
   TRACE_EXIT();
 }
 
@@ -485,7 +489,9 @@ void
 MainWindow::on_menu_normal()
 {
   gui->set_operation_mode(GUIControl::OPERATION_MODE_NORMAL);
+#ifdef WIN3
   win32_sync_menu(0);
+#endif
 }
 
 
