@@ -369,7 +369,14 @@ BreakWindow::create_postpone_button()
 void
 BreakWindow::on_lock_button_clicked()
 {
-  System::lock();
+  if (System::is_lockable())
+    {
+      GUI *gui = GUI::get_instance();
+      assert(gui != NULL);
+
+      gui->interrupt_grab();
+      System::lock();
+    }
 }
 
 //! The lock button was clicked.

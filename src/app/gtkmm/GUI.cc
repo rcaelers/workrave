@@ -1113,6 +1113,23 @@ GUI::ungrab()
 }
 
 
+void
+GUI::interrupt_grab()
+{
+  if (grab_handle)
+    {
+#ifdef HAVE_X
+      grab_wanted = true;
+#endif
+      
+      WindowHints::ungrab(grab_handle);
+      grab_handle = NULL;
+      Glib::signal_timeout().connect(SigC::slot(*this, &GUI::on_grab_retry_timer), 2000);
+    }
+}
+  
+
+
 #ifdef HAVE_X
 //! Reattempt to get the grab
 bool

@@ -116,6 +116,7 @@ public:
   int get_number_of_heads() const;
   int map_to_head(int &x, int &y);
   void map_from_head(int &x, int &y, int head);
+  void interrupt_grab();
   
 #ifdef HAVE_X  
   AppletWindow *get_applet_window() const;
