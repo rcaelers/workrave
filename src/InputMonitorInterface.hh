@@ -21,7 +21,7 @@
 
 class InputMonitorListenerInterface;
 
-//! Interface that all activity monitors must support.
+//! Interface that all input monitors must support.
 class InputMonitorInterface
 {
 public:

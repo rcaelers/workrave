@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-06-22 18:17+0200\n"
+"POT-Creation-Date: 2003-06-22 21:14+0200\n"
 "PO-Revision-Date: 2003-03-04 22:16+0100\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -664,139 +664,137 @@ msgstr "_Credits"
 msgid "About %s"
 msgstr "Over %s"
 
-#: src/DistributionSocketLink.cc:148
+#: src/DistributionSocketLink.cc:138
 #, fuzzy, c-format
 msgid "Reconnecting to %s:%d."
 msgstr "Aantal pogingen tot verbinding:"
 
-#: src/DistributionSocketLink.cc:227
-#, fuzzy, c-format
-msgid "Disconnecting %s:%d."
-msgstr "Verbreek verbinding"
-
 #. We did not succeed in starting the server. Arghh.
-#: src/DistributionSocketLink.cc:340
+#: src/DistributionSocketLink.cc:352
 msgid "Could not enable network operation."
 msgstr ""
 
-#: src/DistributionSocketLink.cc:349
+#: src/DistributionSocketLink.cc:361
 msgid "Disabling network operation."
 msgstr ""
 
-#: src/DistributionSocketLink.cc:485
+#: src/DistributionSocketLink.cc:516 src/DistributionSocketLink.cc:543
 #, fuzzy, c-format
 msgid "Connecting to %s:%d."
 msgstr "Interval tussen pogingen"
 
-#: src/DistributionSocketLink.cc:583
+#: src/DistributionSocketLink.cc:647 src/DistributionSocketLink.cc:672
 #, c-format
 msgid "Removing client %s:%d."
 msgstr ""
 
+#. Closing direct connection.
+#: src/DistributionSocketLink.cc:715
+#, fuzzy, c-format
+msgid "Disconnecting %s:%d."
+msgstr "Verbreek verbinding"
+
 #. It's a remote client. mark it master.
-#: src/DistributionSocketLink.cc:705
+#: src/DistributionSocketLink.cc:883
 #, c-format
 msgid "Client %s:%d is now master."
 msgstr ""
 
 #. Its ME!
-#: src/DistributionSocketLink.cc:711
+#: src/DistributionSocketLink.cc:889
 msgid "I'm now master."
 msgstr ""
 
-#: src/DistributionSocketLink.cc:898
+#: src/DistributionSocketLink.cc:1218
 #, c-format
 msgid "Client %s:%d saying hello."
 msgstr ""
 
 #. Duplicate client. inform client that it's bogus and close.
-#: src/DistributionSocketLink.cc:916
+#: src/DistributionSocketLink.cc:1233 src/DistributionSocketLink.cc:1350
+#: src/DistributionSocketLink.cc:1586
 #, c-format
 msgid "Client %s:%d is duplicate."
 msgstr ""
 
 #. Incorrect password.
-#: src/DistributionSocketLink.cc:925
+#: src/DistributionSocketLink.cc:1242
 #, c-format
 msgid "Client %s:%d access denied."
 msgstr ""
 
-#: src/DistributionSocketLink.cc:959
+#: src/DistributionSocketLink.cc:1309
 #, c-format
-msgid "Removing duplicate client %s:%d."
+msgid "Client %s:%d signed off."
 msgstr ""
 
-#: src/DistributionSocketLink.cc:996
+#: src/DistributionSocketLink.cc:1388
 #, c-format
 msgid "Client %s:%d is welcoming us."
 msgstr ""
 
-#: src/DistributionSocketLink.cc:1183
+#: src/DistributionSocketLink.cc:1621
 #, c-format
 msgid "Requesting master status from %s:%d."
 msgstr ""
 
-#: src/DistributionSocketLink.cc:1196
+#: src/DistributionSocketLink.cc:1634
 #, c-format
 msgid "Client timeout from %s:%d."
 msgstr ""
 
-#: src/DistributionSocketLink.cc:1231
+#: src/DistributionSocketLink.cc:1655
 #, c-format
 msgid "Rejecting master request from client %s:%d."
 msgstr ""
 
-#: src/DistributionSocketLink.cc:1237
+#: src/DistributionSocketLink.cc:1661
 #, c-format
 msgid "Acknowledging master request from client %s:%d."
 msgstr ""
 
-#: src/DistributionSocketLink.cc:1287
+#: src/DistributionSocketLink.cc:1712
 #, c-format
 msgid "Non-master client %s:%d rejected master request."
 msgstr ""
 
-#: src/DistributionSocketLink.cc:1292
+#: src/DistributionSocketLink.cc:1717
 #, c-format
 msgid "Client %s:%d rejected master request, delaying."
 msgstr ""
 
 #. gint count =
-#: src/DistributionSocketLink.cc:1370
+#: src/DistributionSocketLink.cc:1788
 #, c-format
-msgid "Client %s:%d is now the new master."
+msgid "Client %s is now the new master."
 msgstr ""
 
-#: src/DistributionSocketLink.cc:1493
+#: src/DistributionSocketLink.cc:1907
 msgid "Network operation started."
 msgstr ""
 
-#: src/DistributionSocketLink.cc:1510
+#: src/DistributionSocketLink.cc:1924
 msgid "Accepted new client."
 msgstr ""
 
-#: src/DistributionSocketLink.cc:1556
+#: src/DistributionSocketLink.cc:1973
 #, c-format
 msgid "Client %s:%d read error, closing."
 msgstr ""
 
-#: src/DistributionSocketLink.cc:1561 src/DistributionSocketLink.cc:1645
+#: src/DistributionSocketLink.cc:1978 src/DistributionSocketLink.cc:2048
 #, c-format
 msgid "Client %s:%d closed connection."
 msgstr ""
 
-#: src/DistributionSocketLink.cc:1614
+#: src/DistributionSocketLink.cc:2018
 #, c-format
 msgid "Client %s:%d connected."
 msgstr ""
 
-#: src/DistributionSocketLink.cc:1651
+#: src/DistributionSocketLink.cc:2053
 #, c-format
 msgid "Could not connect to client %s:%d."
-msgstr ""
-
-#: src/DistributionSocketLink.cc:1745
-msgid "Configuration modified. Reloading."
 msgstr ""
 
 #~ msgid "Hide main window at start-up"

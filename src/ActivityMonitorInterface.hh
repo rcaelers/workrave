@@ -31,6 +31,7 @@ enum ActivityState
     ACTIVITY_ACTIVE
   } ;
 
+
 //! Statisticts about user activity.
 class ActivityMonitorStatistics
 {

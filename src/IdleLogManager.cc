@@ -196,9 +196,6 @@ IdleLogManager::update_idlelog(ClientInfo &info, ActivityState state, bool chang
     {
       if (changed)
         {
-          info.update(current_time);
-          update_idlelog(info, *idle);
-          
           info.idlelog.push_front(IdleInterval(current_time, current_time));
         }
       else
@@ -218,6 +215,11 @@ IdleLogManager::update_idlelog(ClientInfo &info, ActivityState state, bool chang
               // Idle period too short. remove it
               info.idlelog.pop_front();
               idle = &(info.idlelog.front());
+            }
+          else
+            {
+              info.update(current_time);
+              update_idlelog(info, *idle);
             }
 
           // Update start time of last active period.

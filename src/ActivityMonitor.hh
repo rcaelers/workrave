@@ -20,7 +20,6 @@
 #define ACTIVITYMONITOR_HH
 
 #include "ActivityMonitorInterface.hh"
-#include "InputMonitorInterface.hh"
 #include "InputMonitorListenerInterface.hh"
 #include "Mutex.hh"
 
