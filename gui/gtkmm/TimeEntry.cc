@@ -136,7 +136,7 @@ TimeEntry::update(Gtk::SpinButton *spin)
   if (txt != NULL && *txt != 0)
     {
       gchar *err = NULL;
-      int new_val = strtold(txt, &err);
+      int new_val = (int) strtod(txt, &err);
       if (err == NULL || *err == 0)
         {
           spin->update();

@@ -77,6 +77,10 @@ private:
 
   //! Is the windows iconified?
   bool iconified;
+
+#ifdef HAVE_X
+  Gtk::Window *leader;
+#endif
   
 private:
   //

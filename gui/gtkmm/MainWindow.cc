@@ -83,6 +83,9 @@ MainWindow::MainWindow() :
   monitor_suspended(false),
   iconified(false)
 {
+#ifdef HAVE_X
+  leader = NULL;
+#endif
   init();
 }
 
@@ -94,6 +97,9 @@ MainWindow::~MainWindow()
 
 #ifdef WIN32
   win32_exit();
+#endif
+#ifdef HAVE_X
+  delete leader;
 #endif
   
   TRACE_EXIT();
@@ -108,7 +114,7 @@ MainWindow::init()
 
   set_title("Workrave");
   set_border_width(2);
-  
+
   Configurator *config = GUIControl::get_instance()->get_configurator();
   config->add_listener(GUIControl::CFG_KEY_MAIN_WINDOW, this);
 
@@ -129,16 +135,27 @@ MainWindow::init()
   
   add(*timers_box);
 
-  // Necessary for popup menu 
   set_events(get_events() | Gdk::BUTTON_PRESS_MASK);
 
+  
+  // Necessary for popup menu 
   realize_if_needed();
+
+#ifdef HAVE_X
+  // HACK. this sets a different group leader in the WM_HINTS....
+  // Without this hack, metacity makes ALL windows on-top.
+  Glib::RefPtr<Gdk::Window> window = get_window();
+  leader = new Gtk::Window(Gtk::WINDOW_POPUP);
+  gtk_widget_realize(GTK_WIDGET(leader->gobj()));
+  Glib::RefPtr<Gdk::Window> leader_window = leader->get_window();
+  window->set_group(leader_window);
+#endif
+  
   set_resizable(false);
   stick();
   setup();
 
 #ifdef WIN32
-  Glib::RefPtr<Gdk::Window> window = get_window();
   window->set_functions(Gdk::FUNC_CLOSE|Gdk::FUNC_MOVE);
 
   win32_init();
