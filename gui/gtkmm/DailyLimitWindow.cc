@@ -38,14 +38,19 @@ DailyLimitWindow::DailyLimitWindow(bool ignorable) :
   set_border_width(5);
   
   // Label
-  Gtk::Label *label = manage(new Gtk::Label("Hello"));
+  Gtk::Label *label = manage
+    (new Gtk::Label
+     (_("You have reached your daily limit. Please stop working\n"
+      "behind the computer. If your working day is not over yet,\n"
+      "find something other to do, such as reviewing a document."
+        )));
 
   // Icon
   string icon = Util::complete_directory("daily-limit.png", Util::SEARCH_PATH_IMAGES);
   Gtk::Image *img = manage(new Gtk::Image(icon));
 
   // HBox
-  Gtk::HBox *hbox = manage(new Gtk::HBox(false, 0));
+  Gtk::HBox *hbox = manage(new Gtk::HBox(false, 6));
   hbox->pack_start(*img, false, false, 0);
   hbox->pack_start(*label, Gtk::EXPAND | Gtk::FILL, 10);
 
