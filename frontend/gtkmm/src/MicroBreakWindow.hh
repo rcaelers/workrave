@@ -44,11 +44,13 @@ public:
 
 protected:
   Gtk::Widget *create_gui();
+  void on_restbreaknow_button_clicked();
   
 private:
   void refresh();
   void refresh_time_bar();
   void refresh_label();
+  Gtk::Button *create_restbreaknow_button(bool label);
   
 private:
   //! Time bar

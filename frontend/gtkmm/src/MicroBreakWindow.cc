@@ -16,11 +16,11 @@
 
 static const char rcsid[] = "$Id$";
 
-#include "preinclude.h"
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
+
+#include "preinclude.h"
 
 #include <gtkmm/label.h>
 #include <gtkmm/box.h>
@@ -36,6 +36,7 @@ static const char rcsid[] = "$Id$";
 #include "TimerInterface.hh"
 #include "BreakResponseInterface.hh"
 #include "Util.hh"
+#include "GtkUtil.hh"
 #include "Text.hh"
 #include "Hig.hh"
 
@@ -74,10 +75,34 @@ MicroBreakWindow::create_gui()
   box->pack_start(*time_bar, Gtk::EXPAND | Gtk::FILL, 0);
 
   // Button box at the bottom.
-  Gtk::HButtonBox *button_box = create_break_buttons(false, false, true);
-  if (button_box != NULL)
+  CoreInterface *core = CoreFactory::get_core();
+  TimerInterface *restbreak_timer =  core->get_timer(BREAK_ID_REST_BREAK);
+  bool has_rb = restbreak_timer->get_state() != TimerInterface::STATE_INVALID;
+  if (ignorable_break || has_rb)
     {
-      box->pack_start(*manage(button_box), Gtk::EXPAND | Gtk::FILL, 0);
+      Gtk::HBox *button_box;
+      if (ignorable_break)
+        {
+          button_box = manage(new Gtk::HBox(false, 6));
+
+          Gtk::HBox *bbox = manage(new Gtk::HBox(true, 6));
+          Gtk::Button *postpone_button = create_postpone_button();
+          bbox->pack_end(*postpone_button, Gtk::EXPAND|Gtk::FILL, 0);
+          Gtk::Button *skip_button = create_skip_button();
+          bbox->pack_end(*skip_button, Gtk::EXPAND|Gtk::FILL, 0);
+
+          button_box->pack_start(*manage(create_restbreaknow_button(false)),
+                                 Gtk::SHRINK, 0);
+          button_box->pack_start(*bbox,
+                                 Gtk::EXPAND|Gtk::FILL, 0);
+        }
+      else
+        {
+          button_box = manage(new Gtk::HBox(false, 6));
+          button_box->pack_end(*manage(create_restbreaknow_button(true)),
+                               Gtk::SHRINK, 0);
+        }
+      box->pack_start(*button_box, Gtk::EXPAND | Gtk::FILL, 0);
     }
 
   return box;
@@ -98,6 +123,32 @@ void
 MicroBreakWindow::heartbeat()
 {
   refresh();
+}
+
+
+Gtk::Button *
+MicroBreakWindow::create_restbreaknow_button(bool label)
+{
+  Gtk::Button *ret;
+      ret = manage(GtkUtil::create_image_button(label
+                                                ? _("Rest break")
+                                                : NULL,
+                                                "timer-rest-break.png"));
+  ret->signal_clicked()
+    .connect(MEMBER_SLOT(*this,
+                         &MicroBreakWindow::on_restbreaknow_button_clicked));
+  GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
+  return ret;
+}
+
+//! The restbreak button was clicked.
+void
+MicroBreakWindow::on_restbreaknow_button_clicked()
+{
+  GUI *gui = GUI::get_instance();
+  assert(gui != NULL);
+
+  gui->restbreak_now();
 }
 
 

@@ -91,7 +91,7 @@ RestBreakWindow::create_gui()
   timebar = manage(new TimeBar);
   vbox->pack_start(*timebar, false, false, 6);
 
-  Gtk::HButtonBox *button_box = create_break_buttons(true, false, false);
+  Gtk::HButtonBox *button_box = create_break_buttons(true, false);
   if (button_box)
     {
       vbox->pack_end(*manage(button_box), Gtk::SHRINK, 6);

@@ -234,16 +234,6 @@ BreakWindow::create_postpone_button()
   return ret;
 }
 
-Gtk::Button *
-BreakWindow::create_restbreaknow_button()
-{
-  Gtk::Button *ret;
-      ret = manage(GtkUtil::create_image_button(NULL, "timer-rest-break.png"));
-  ret->signal_clicked()
-    .connect(MEMBER_SLOT(*this, &BreakWindow::on_restbreaknow_button_clicked));
-  GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
-  return ret;
-}
 
 
 //! The lock button was clicked.
@@ -310,23 +300,11 @@ BreakWindow::on_skip_button_clicked()
 }
 
 
-//! The restbreak button was clicked.
-void
-BreakWindow::on_restbreaknow_button_clicked()
-{
-  GUI *gui = GUI::get_instance();
-  assert(gui != NULL);
-
-  gui->restbreak_now();
-}
-
 
 //! Control buttons.
 Gtk::HButtonBox *
 BreakWindow::create_break_buttons(bool lockable,
-                                  bool shutdownable,
-                                  bool restbreaknow
-                                  )
+                                  bool shutdownable)
 {
   Gtk::HButtonBox *box = NULL;
 
@@ -350,15 +328,6 @@ BreakWindow::create_break_buttons(bool lockable,
           if (lock_button != NULL)
             {
               box->pack_end(*lock_button, Gtk::SHRINK, 0);
-            }
-        }
-
-      if (restbreaknow)
-        {
-          Gtk::Button *restbreaknow_button = create_restbreaknow_button();
-          if (restbreaknow_button != NULL)
-            {
-              box->pack_end(*restbreaknow_button, Gtk::SHRINK, 0);
             }
         }
 
