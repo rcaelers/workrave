@@ -271,7 +271,6 @@ has_wm_state (Display *display, Window xwindow)
 static bool
 look_for_kdesktop_recursive (Display *display, Window xwindow)
 {
-  
   Window ignored1, ignored2;
   Window *children;
   unsigned int n_children;
@@ -295,7 +294,7 @@ look_for_kdesktop_recursive (Display *display, Window xwindow)
       XFree (ch.res_name);
       
     if (ch.res_class) {
-      if (strcmp (ch.res_class, "kdesktop") == 0) {
+      if (strcasecmp (ch.res_class, "kdesktop") == 0) {
         XFree (ch.res_class);
         return true;
       }
