@@ -75,10 +75,10 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
 
   // Need to realize window before it is shown
   // Otherwise, there is not gobj()...
+  set_resizable(false);
   realize();
 
 #ifdef HAVE_BREAK_WINDOW_TITLEBAR
-  set_resizable(false);
   Glib::RefPtr<Gdk::Window> window = get_window();
   window->set_functions(Gdk::FUNC_MOVE);
 #endif
