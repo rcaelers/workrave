@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2002-10-30 20:20+0100\n"
+"POT-Creation-Date: 2002-12-29 18:22+0100\n"
 "PO-Revision-Date: 2002-11-05 17:58-0800\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -13,19 +13,21 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: gui/BreakControl.cc:673
+#: gui/BreakControl.cc:666
 msgid "Disappears in"
 msgstr "Malaperas en"
 
-#: gui/BreakControl.cc:677
+#: gui/BreakControl.cc:670
 msgid "Break in"
 msgstr "Ĉesu en"
 
-#: gui/BreakControl.cc:681
+#: gui/BreakControl.cc:674
 msgid "Silent in"
 msgstr "Silentiĝu en"
 
-#: gui/GUIControl.cc:85 gui/gtkmm/MicroPauseWindow.cc:161
+#. Slot/Position of the break timer.
+#: gui/GUIControl.cc:85 gui/gtkmm/AppletPreferencePage.cc:65
+#: gui/gtkmm/MicroPauseWindow.cc:161
 msgid "Micro-pause"
 msgstr "Paŭzeto"
 
@@ -33,7 +35,7 @@ msgstr "Paŭzeto"
 msgid "Rest break"
 msgstr "Ripozo"
 
-#: gui/GUIControl.cc:99
+#: gui/GUIControl.cc:99 gui/gtkmm/AppletPreferencePage.cc:67
 msgid "Daily limit"
 msgstr "Taglimo"
 
@@ -50,13 +52,13 @@ msgid "You should stop for today..."
 msgstr "Vi devas halti por hodiaŭ..."
 
 #: gui/Text.cc:75
-#, c-format
-msgid "%s%ld:%02ld:%02ld hours"
+#, fuzzy, c-format
+msgid "%s%d:%02d:%02d hours"
 msgstr "%s%ld:%02ld:%02ld horoj"
 
 #: gui/Text.cc:79
-#, c-format
-msgid "%s%ld:%02ld minutes"
+#, fuzzy, c-format
+msgid "%s%d:%02d minutes"
 msgstr "%s%ld:%02ld minutoj"
 
 #: gui/Text.cc:83
@@ -80,6 +82,7 @@ msgstr "_Dokumentita de"
 msgid "_Translated by"
 msgstr "_Tradukita de"
 
+#. Add the credits button
 #: gui/gtkmm/gnome-about.c:424
 msgid "_Credits"
 msgstr "_Kreditoj"
@@ -88,6 +91,50 @@ msgstr "_Kreditoj"
 #, c-format
 msgid "About %s"
 msgstr "Pri %s"
+
+#. Frame
+#: gui/gtkmm/AppletPreferencePage.cc:61
+msgid "Layout"
+msgstr ""
+
+#: gui/gtkmm/AppletPreferencePage.cc:66
+#, fuzzy
+msgid "Restbreak"
+msgstr "Ripozo"
+
+#: gui/gtkmm/AppletPreferencePage.cc:72
+msgid "Cycle time"
+msgstr ""
+
+#: gui/gtkmm/AppletPreferencePage.cc:73
+#, fuzzy
+msgid "Break position"
+msgstr "Ripoza instigado"
+
+#: gui/gtkmm/AppletPreferencePage.cc:74
+msgid "Show only when first"
+msgstr ""
+
+#: gui/gtkmm/AppletPreferencePage.cc:75
+msgid "Show only when imminent"
+msgstr ""
+
+#: gui/gtkmm/AppletPreferencePage.cc:76
+msgid "Show exclusively"
+msgstr ""
+
+#: gui/gtkmm/AppletPreferencePage.cc:77
+msgid "Break is imminent when due in"
+msgstr ""
+
+#: gui/gtkmm/AppletWindow.cc:517
+msgid "Could not contact Workrave Panel"
+msgstr ""
+
+#: gui/gtkmm/AppletWindow.cc:530
+#, c-format
+msgid "An exception occured '%s'"
+msgstr ""
 
 #: gui/gtkmm/DailyLimitWindow.cc:43
 msgid ""
@@ -109,67 +156,66 @@ msgstr "Transsaltu"
 msgid "Postpone"
 msgstr "Prokrastu"
 
-#: gui/gtkmm/MainWindow.cc:168 gui/gtkmm/MainWindow.cc:294
-msgid "Wait"
-msgstr "Atendu"
+#: gui/gtkmm/GUI.cc:83
+msgid "I could not initialize Bonobo"
+msgstr ""
 
-#: gui/gtkmm/MainWindow.cc:257
-msgid "Inactive"
-msgstr "Neaktiva"
-
-#: gui/gtkmm/MainWindow.cc:357
+#. Mode menu item
+#: gui/gtkmm/Menus.cc:136
 msgid "_Mode"
 msgstr "_Modo"
 
-#: gui/gtkmm/MainWindow.cc:364
+#: gui/gtkmm/Menus.cc:143
 msgid "_Normal"
 msgstr "_Normala"
 
-#: gui/gtkmm/MainWindow.cc:371
+#: gui/gtkmm/Menus.cc:150
 msgid "_Suspended"
 msgstr "_Interrompita"
 
-#: gui/gtkmm/MainWindow.cc:378
+#: gui/gtkmm/Menus.cc:157
 msgid "Q_uiet"
 msgstr "S_ilenta"
 
-#: gui/gtkmm/MainWindow.cc:392
+#: gui/gtkmm/Menus.cc:171
 msgid "_Network"
 msgstr "_Reto"
 
-#: gui/gtkmm/MainWindow.cc:396
+#: gui/gtkmm/Menus.cc:175
 msgid "_Connect"
 msgstr "_Konektu"
 
-#: gui/gtkmm/MainWindow.cc:401
+#: gui/gtkmm/Menus.cc:180
 msgid "_Disconnect"
 msgstr "_Malkonektu"
 
-#: gui/gtkmm/MainWindow.cc:406
+#: gui/gtkmm/Menus.cc:185
 msgid "_Reconnect"
 msgstr "_Rekonektu"
 
-#: gui/gtkmm/MainWindow.cc:411
+#: gui/gtkmm/Menus.cc:190
 msgid "Show _log"
 msgstr "Montru _protokolon"
 
-#: gui/gtkmm/MainWindow.cc:426
+#: gui/gtkmm/Menus.cc:204
 msgid "_Rest break"
 msgstr "_Ripozon"
 
-#: gui/gtkmm/MainWindow.cc:438
+#: gui/gtkmm/Menus.cc:216
 msgid "Statistics"
 msgstr "Statistiko"
 
-#: gui/gtkmm/MainWindow.cc:451
+#: gui/gtkmm/Menus.cc:229
 msgid "About..."
 msgstr "Pri..."
 
-#: gui/gtkmm/MainWindow.cc:621
+#: gui/gtkmm/Menus.cc:517
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
-msgstr "Tiu ĉi programo helpas kun la malebligado kaj resaniĝado de Ripetada Trostreĉa Vundo (RSI)."
+msgstr ""
+"Tiu ĉi programo helpas kun la malebligado kaj resaniĝado de Ripetada "
+"Trostreĉa Vundo (RSI)."
 
 #: gui/gtkmm/MicroPauseWindow.cc:183
 #, c-format
@@ -177,9 +223,9 @@ msgid "Next rest break in %s"
 msgstr "Sekvanta ripozo en %s"
 
 #: gui/gtkmm/MicroPauseWindow.cc:189
-#, c-format
-msgid "Overdue rest break in %s"
-msgstr "Malfrua ripozo en %s"
+#, fuzzy, c-format
+msgid "Rest break %s overdue"
+msgstr "Ripozo por %s"
 
 #: gui/gtkmm/MicroPauseWindow.cc:192
 msgid "Please relax for a few seconds"
@@ -205,6 +251,7 @@ msgstr "Nomo de retnodo"
 msgid "Port"
 msgstr "Pordo"
 
+#.
 #: gui/gtkmm/NetworkJoinDialog.cc:82
 msgid "Connect at start-up"
 msgstr "Konektu je startigo"
@@ -221,10 +268,12 @@ msgstr "Reta protokolo"
 msgid "General"
 msgstr "Ĝenerala"
 
+#. Main switch
 #: gui/gtkmm/NetworkPreferencePage.cc:79
 msgid "Enable networking"
 msgstr "Validigu retumadon"
 
+#. Identity
 #: gui/gtkmm/NetworkPreferencePage.cc:82
 msgid "Identity"
 msgstr "Identeco"
@@ -269,43 +318,48 @@ msgstr ""
 "La sekvanta listo specifas la retnodoj kiu Workrave alkonektas ĉe\n"
 "startigo.  Klaku nomon de retnodo aŭ numero de pordo por ŝanĝi."
 
-#: gui/gtkmm/PreferencesDialog.cc:62 gui/gtkmm/TimerPreferencesPanel.cc:236
+#. Timers frame
+#: gui/gtkmm/PreferencesDialog.cc:68 gui/gtkmm/TimerPreferencesPanel.cc:236
 msgid "Timers"
 msgstr "Horloĝoj"
 
-#: gui/gtkmm/PreferencesDialog.cc:64
+#: gui/gtkmm/PreferencesDialog.cc:70
 msgid "User interface"
 msgstr "Uzula inferfaco"
 
-#: gui/gtkmm/PreferencesDialog.cc:67
+#: gui/gtkmm/PreferencesDialog.cc:73
+msgid "Applet"
+msgstr ""
+
+#: gui/gtkmm/PreferencesDialog.cc:77
 msgid "Network"
 msgstr "Reto"
 
-#: gui/gtkmm/PreferencesDialog.cc:96
+#: gui/gtkmm/PreferencesDialog.cc:106
 msgid "The main window stays always on top of other windows"
 msgstr "La ĉefa fenestro ĉiam restas antaŭ ol la aliaj fenestroj"
 
-#: gui/gtkmm/PreferencesDialog.cc:105
+#: gui/gtkmm/PreferencesDialog.cc:115
 msgid "No sounds"
 msgstr "Ne sonoj"
 
-#: gui/gtkmm/PreferencesDialog.cc:107
+#: gui/gtkmm/PreferencesDialog.cc:117
 msgid "Play sounds using sound card"
 msgstr "Ludu sonojn uzante sonkarton"
 
-#: gui/gtkmm/PreferencesDialog.cc:109
+#: gui/gtkmm/PreferencesDialog.cc:119
 msgid "Play sounds using built-in speaker"
 msgstr "Ludu sonojn uzante en-komputila laŭtparolilo"
 
-#: gui/gtkmm/PreferencesDialog.cc:127
+#: gui/gtkmm/PreferencesDialog.cc:135
 msgid "Hide main window at start-up"
 msgstr "Kaŝu ĉefan fenestron ĉe startigo"
 
-#: gui/gtkmm/PreferencesDialog.cc:146
+#: gui/gtkmm/PreferencesDialog.cc:151
 msgid "You can configure the user interface related settings from here."
 msgstr "Vi povas konfiguri la uzulajn inferfacajn agordojn de tie ĉi."
 
-#: gui/gtkmm/PreferencesDialog.cc:161
+#: gui/gtkmm/PreferencesDialog.cc:166
 msgid ""
 "This dialog allows you to change the settings of the timers.  Each unit\n"
 "of time is broken down into hours, minutes and seconds (also known as\n"
@@ -315,7 +369,12 @@ msgstr ""
 "de tempo estas dispecigita al horoj, minutoj, kaj sekundoj (ankaŭ konata\n"
 "kiel \"hh:mm:ss\" formato).  Tiuj ĉi ĉiu povas esti kontrolata individue."
 
-#: gui/gtkmm/PreferencesDialog.cc:195
+#: gui/gtkmm/PreferencesDialog.cc:200
+#, fuzzy
+msgid "You can configure the applet related settings from here."
+msgstr "Vi povas konfiguri la uzulajn inferfacajn agordojn de tie ĉi."
+
+#: gui/gtkmm/PreferencesDialog.cc:219
 msgid ""
 "You can connect several instances of Workrave in a network. All connected\n"
 "instances share the same timer information, meaning you will be reminded\n"
@@ -341,6 +400,7 @@ msgstr ""
 msgid "Rest break for %s"
 msgstr "Ripozo por %s"
 
+#. Prelude frame
 #: gui/gtkmm/TimerPreferencesPanel.cc:77
 msgid "Break prompting"
 msgstr "Ripoza instigado"
@@ -369,6 +429,7 @@ msgstr "Rigardu paŭzetoj kiel agado"
 msgid "Show 'Postpone' and 'Skip' button"
 msgstr "Montru 'Proktrastu' kaj 'Transsaltu' butonon"
 
+#. Options frame
 #: gui/gtkmm/TimerPreferencesPanel.cc:173
 msgid "Options"
 msgstr "Opcioj"
@@ -385,7 +446,18 @@ msgstr "Reŝargas je"
 msgid "Pause duration"
 msgstr "Daŭro de paŭzo"
 
+#. Limit time
 #: gui/gtkmm/TimerPreferencesPanel.cc:215
 msgid "Time before break"
 msgstr "Tempo por ripozo"
 
+#: gui/gtkmm/TimerWindow.cc:109 gui/gtkmm/TimerWindow.cc:176
+msgid "Wait"
+msgstr "Atendu"
+
+#: gui/gtkmm/TimerWindow.cc:137
+msgid "Inactive"
+msgstr "Neaktiva"
+
+#~ msgid "Overdue rest break in %s"
+#~ msgstr "Malfrua ripozo en %s"

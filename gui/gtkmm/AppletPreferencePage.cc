@@ -66,7 +66,8 @@ AppletPreferencePage::create_page()
   Gtk::Label *rb_label = manage(new Gtk::Label(_("Restbreak")));
   Gtk::Label *dl_label = manage(new Gtk::Label(_("Daily limit")));
 
-  enabled_cb = manage(new  Gtk::CheckButton("Applet Enabled"));
+  enabled_cb = manage(new  Gtk::CheckButton("Applet enabled"));
+  enabled_cb->signal_toggled().connect(SigC::slot(*this, &AppletPreferencePage::on_enabled_toggled));
   
   Gtk::Label *cycle_label = manage(new Gtk::Label(_("Cycle time")));
   Gtk::Label *slot_label = manage(new Gtk::Label(_("Break position")));
@@ -76,6 +77,7 @@ AppletPreferencePage::create_page()
   Gtk::Label *time_label = manage(new Gtk::Label(_("Break is imminent when due in")));
 
   cycle_entry = manage(new Gtk::SpinButton());
+  cycle_entry->signal_changed().connect(SigC::slot(*this, &AppletPreferencePage::on_cycle_time_changed));
   
   Gtk::Table *table = manage(new Gtk::Table(5, 4, false));
   table->set_row_spacings(2);
@@ -198,7 +200,8 @@ AppletPreferencePage::on_exclusive_toggled(int break_id)
   set_flag(break_id, AppletWindow::BREAK_EXCLUSIVE, exclusive);
 }
 
-void AppletPreferencePage::on_time_changed(int break_id)
+void
+AppletPreferencePage::on_time_changed(int break_id)
 {
   assert(break_id >= 0 && break_id < GUIControl::BREAK_ID_SIZEOF);
 
@@ -227,6 +230,27 @@ AppletPreferencePage::on_slot_changed(int break_id)
   
 }
 
+
+void
+AppletPreferencePage::on_enabled_toggled()
+{
+  bool on = enabled_cb->get_active();
+  
+  Configurator *c = GUIControl::get_instance()->get_configurator();
+  c->set_value(AppletWindow::CFG_KEY_APPLET_ENABLED, on);
+}
+
+
+void
+AppletPreferencePage::on_cycle_time_changed()
+{
+  int value = (int) cycle_entry->get_value();
+  
+  Configurator *c = GUIControl::get_instance()->get_configurator();
+  c->set_value(AppletWindow::CFG_KEY_APPLET_CYCLE_TIME, value);
+}
+
+
 void
 AppletPreferencePage::init_page_values()
 {
@@ -237,12 +261,14 @@ AppletPreferencePage::init_page_values()
     {
       enabled = false;
     }
-
+  enabled_cb->set_active(enabled);
+  
   int value = 10;
   if (!c->get_value(AppletWindow::CFG_KEY_APPLET_CYCLE_TIME, &value))
     {
       value = 10;
     }
+  cycle_entry->set_value(value);
   
   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
     {

@@ -46,6 +46,9 @@ private:
   void on_exclusive_toggled(int break_id);
   void on_time_changed(int break_id);
   void on_slot_changed(int break_id);
+
+  void on_enabled_toggled();
+  void on_cycle_time_changed();
   
   Gtk::SpinButton *cycle_entry;
   Gtk::CheckButton *enabled_cb;

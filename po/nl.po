@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2002-11-09 22:16+0100\n"
+"POT-Creation-Date: 2002-12-29 18:22+0100\n"
 "PO-Revision-Date: 2002-10-26 00:04+0200\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -14,19 +14,21 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: gui/BreakControl.cc:670
+#: gui/BreakControl.cc:666
 msgid "Disappears in"
 msgstr "Verdwijnt over"
 
-#: gui/BreakControl.cc:674
+#: gui/BreakControl.cc:670
 msgid "Break in"
 msgstr "Pauze over"
 
-#: gui/BreakControl.cc:678
+#: gui/BreakControl.cc:674
 msgid "Silent in"
 msgstr "Stil over"
 
-#: gui/GUIControl.cc:85 gui/gtkmm/MicroPauseWindow.cc:161
+#. Slot/Position of the break timer.
+#: gui/GUIControl.cc:85 gui/gtkmm/AppletPreferencePage.cc:65
+#: gui/gtkmm/MicroPauseWindow.cc:161
 msgid "Micro-pause"
 msgstr "Micro-pauze"
 
@@ -34,7 +36,7 @@ msgstr "Micro-pauze"
 msgid "Rest break"
 msgstr "Rustpauze"
 
-#: gui/GUIControl.cc:99
+#: gui/GUIControl.cc:99 gui/gtkmm/AppletPreferencePage.cc:67
 msgid "Daily limit"
 msgstr "Dagelijkse limiet"
 
@@ -51,13 +53,13 @@ msgid "You should stop for today..."
 msgstr "Genoeg voor vandaag..."
 
 #: gui/Text.cc:75
-#, c-format
-msgid "%s%ld:%02ld:%02ld hours"
+#, fuzzy, c-format
+msgid "%s%d:%02d:%02d hours"
 msgstr "%s%ld:%02ld:%02ld uur"
 
 #: gui/Text.cc:79
-#, c-format
-msgid "%s%ld:%02ld minutes"
+#, fuzzy, c-format
+msgid "%s%d:%02d minutes"
 msgstr "%s%ld:%02ld minuten"
 
 #: gui/Text.cc:83
@@ -91,6 +93,50 @@ msgstr "_Credits"
 msgid "About %s"
 msgstr "Over %s"
 
+#. Frame
+#: gui/gtkmm/AppletPreferencePage.cc:61
+msgid "Layout"
+msgstr ""
+
+#: gui/gtkmm/AppletPreferencePage.cc:66
+#, fuzzy
+msgid "Restbreak"
+msgstr "Rustpauze"
+
+#: gui/gtkmm/AppletPreferencePage.cc:72
+msgid "Cycle time"
+msgstr ""
+
+#: gui/gtkmm/AppletPreferencePage.cc:73
+#, fuzzy
+msgid "Break position"
+msgstr "Verzoek tot pauze"
+
+#: gui/gtkmm/AppletPreferencePage.cc:74
+msgid "Show only when first"
+msgstr ""
+
+#: gui/gtkmm/AppletPreferencePage.cc:75
+msgid "Show only when imminent"
+msgstr ""
+
+#: gui/gtkmm/AppletPreferencePage.cc:76
+msgid "Show exclusively"
+msgstr ""
+
+#: gui/gtkmm/AppletPreferencePage.cc:77
+msgid "Break is imminent when due in"
+msgstr ""
+
+#: gui/gtkmm/AppletWindow.cc:517
+msgid "Could not contact Workrave Panel"
+msgstr ""
+
+#: gui/gtkmm/AppletWindow.cc:530
+#, c-format
+msgid "An exception occured '%s'"
+msgstr ""
+
 #: gui/gtkmm/DailyLimitWindow.cc:43
 msgid ""
 "You have reached your daily limit. Please stop working\n"
@@ -111,64 +157,60 @@ msgstr "Overslaan"
 msgid "Postpone"
 msgstr "Uitstellen"
 
-#: gui/gtkmm/MainWindow.cc:168 gui/gtkmm/MainWindow.cc:294
-msgid "Wait"
-msgstr "Wacht"
-
-#: gui/gtkmm/MainWindow.cc:257
-msgid "Inactive"
-msgstr "Inactief"
+#: gui/gtkmm/GUI.cc:83
+msgid "I could not initialize Bonobo"
+msgstr ""
 
 #. Mode menu item
-#: gui/gtkmm/MainWindow.cc:357
+#: gui/gtkmm/Menus.cc:136
 msgid "_Mode"
 msgstr "_Modus"
 
-#: gui/gtkmm/MainWindow.cc:364
+#: gui/gtkmm/Menus.cc:143
 msgid "_Normal"
 msgstr "_Normaal"
 
-#: gui/gtkmm/MainWindow.cc:371
+#: gui/gtkmm/Menus.cc:150
 msgid "_Suspended"
 msgstr "_Uitgeschakeld"
 
-#: gui/gtkmm/MainWindow.cc:378
+#: gui/gtkmm/Menus.cc:157
 msgid "Q_uiet"
 msgstr "_Stil"
 
-#: gui/gtkmm/MainWindow.cc:392
+#: gui/gtkmm/Menus.cc:171
 msgid "_Network"
 msgstr "_Netwerk"
 
-#: gui/gtkmm/MainWindow.cc:396
+#: gui/gtkmm/Menus.cc:175
 msgid "_Connect"
 msgstr "Maak verbinding"
 
-#: gui/gtkmm/MainWindow.cc:401
+#: gui/gtkmm/Menus.cc:180
 msgid "_Disconnect"
 msgstr "Verbreek verbinding"
 
-#: gui/gtkmm/MainWindow.cc:406
+#: gui/gtkmm/Menus.cc:185
 msgid "_Reconnect"
 msgstr "Opnieuw verbinden"
 
-#: gui/gtkmm/MainWindow.cc:411
+#: gui/gtkmm/Menus.cc:190
 msgid "Show _log"
 msgstr "Toon _logboek"
 
-#: gui/gtkmm/MainWindow.cc:426
+#: gui/gtkmm/Menus.cc:204
 msgid "_Rest break"
 msgstr "Rustpauze"
 
-#: gui/gtkmm/MainWindow.cc:438
+#: gui/gtkmm/Menus.cc:216
 msgid "Statistics"
 msgstr "Statistieken"
 
-#: gui/gtkmm/MainWindow.cc:451
+#: gui/gtkmm/Menus.cc:229
 msgid "About..."
 msgstr "Info..."
 
-#: gui/gtkmm/MainWindow.cc:621
+#: gui/gtkmm/Menus.cc:517
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -279,45 +321,49 @@ msgstr ""
 "of poort nummer om deze te bewerken."
 
 #. Timers frame
-#: gui/gtkmm/PreferencesDialog.cc:62 gui/gtkmm/TimerPreferencesPanel.cc:236
+#: gui/gtkmm/PreferencesDialog.cc:68 gui/gtkmm/TimerPreferencesPanel.cc:236
 msgid "Timers"
 msgstr "Klokken"
 
-#: gui/gtkmm/PreferencesDialog.cc:64
+#: gui/gtkmm/PreferencesDialog.cc:70
 msgid "User interface"
 msgstr "Gebruikers interface"
 
-#: gui/gtkmm/PreferencesDialog.cc:67
+#: gui/gtkmm/PreferencesDialog.cc:73
+msgid "Applet"
+msgstr ""
+
+#: gui/gtkmm/PreferencesDialog.cc:77
 msgid "Network"
 msgstr "Netwerk"
 
-#: gui/gtkmm/PreferencesDialog.cc:96
+#: gui/gtkmm/PreferencesDialog.cc:106
 msgid "The main window stays always on top of other windows"
 msgstr "Het hoofdvenster blijft boven alle andere vensters"
 
-#: gui/gtkmm/PreferencesDialog.cc:105
+#: gui/gtkmm/PreferencesDialog.cc:115
 msgid "No sounds"
 msgstr "Geen geluid"
 
-#: gui/gtkmm/PreferencesDialog.cc:107
+#: gui/gtkmm/PreferencesDialog.cc:117
 msgid "Play sounds using sound card"
 msgstr "Speel geluiden met behulp van de geluidskaart"
 
-#: gui/gtkmm/PreferencesDialog.cc:109
+#: gui/gtkmm/PreferencesDialog.cc:119
 msgid "Play sounds using built-in speaker"
 msgstr "Speel geluiden met behulp van de ingebouwde speaker"
 
-#: gui/gtkmm/PreferencesDialog.cc:127
+#: gui/gtkmm/PreferencesDialog.cc:135
 msgid "Hide main window at start-up"
 msgstr "Verberg het hoofdvenster tijdens het opstarten"
 
-#: gui/gtkmm/PreferencesDialog.cc:146
+#: gui/gtkmm/PreferencesDialog.cc:151
 msgid "You can configure the user interface related settings from here."
 msgstr ""
 "In dit scherm kun je instellingen die betrekking hebben tot het\n"
 "gebruikers interface wijzigen."
 
-#: gui/gtkmm/PreferencesDialog.cc:161
+#: gui/gtkmm/PreferencesDialog.cc:166
 msgid ""
 "This dialog allows you to change the settings of the timers.  Each unit\n"
 "of time is broken down into hours, minutes and seconds (also known as\n"
@@ -327,7 +373,14 @@ msgstr ""
 "wordt gespecificeerd in uren, minuten en seconden (ook wel bekend\n"
 "als het \"uu:mm:ss\" formaat). Deze kunnen afzonderlijk aangepast worden."
 
-#: gui/gtkmm/PreferencesDialog.cc:195
+#: gui/gtkmm/PreferencesDialog.cc:200
+#, fuzzy
+msgid "You can configure the applet related settings from here."
+msgstr ""
+"In dit scherm kun je instellingen die betrekking hebben tot het\n"
+"gebruikers interface wijzigen."
+
+#: gui/gtkmm/PreferencesDialog.cc:219
 msgid ""
 "You can connect several instances of Workrave in a network. All connected\n"
 "instances share the same timer information, meaning you will be reminded\n"
@@ -401,6 +454,14 @@ msgstr "Pauze tijdsduur"
 #: gui/gtkmm/TimerPreferencesPanel.cc:215
 msgid "Time before break"
 msgstr "Werktijd"
+
+#: gui/gtkmm/TimerWindow.cc:109 gui/gtkmm/TimerWindow.cc:176
+msgid "Wait"
+msgstr "Wacht"
+
+#: gui/gtkmm/TimerWindow.cc:137
+msgid "Inactive"
+msgstr "Inactief"
 
 #~ msgid "Monitoring"
 #~ msgstr "Activiteit detectie"

@@ -86,71 +86,65 @@ public:
     };
   
 private:
-      
-  //! Current Applet mode.
+  //! Current applet mode.
   AppletMode mode;
 
-  //! Retry init panel again?
+  //! Retry to initialize the panel again?
   bool retry_init;
 
-  //!
+  //! Reconfigure the panel.
+  bool reconfigure;
+  
+  //! The Gtk+ plug in the panel.
   Gtk::Plug *plug;
 
-  //! Container for applet widget.
+  //! Container to put the timers in..
   Gtk::Bin *container;
   
   //! Table containing all timer information
   Gtk::Table *timers_box;
 
-  //!
+  //! The system tray menu.
   Gtk::Menu *tray_menu;
 
-  Gtk::EventBox *eventbox;
-  Gtk::Alignment *frame;
+#ifdef HAVE_GNOME
+  // 
+  GNOME_Workrave_AppletControl applet_control;
+#endif
 
-  //!
-  int number_of_timers;
-  
   //! Position for the break timer.
   int break_position[GUIControl::BREAK_ID_SIZEOF];
 
   //! Flags for the break timer.
   int break_flags[GUIControl::BREAK_ID_SIZEOF];
 
-  //! Flags for the break timer.
+  //! Imminent threshold for the timers..
   int break_imminent_time[GUIControl::BREAK_ID_SIZEOF];
   
-  //!
+  //! Compute slot contents.
   int break_slots[GUIControl::BREAK_ID_SIZEOF][GUIControl::BREAK_ID_SIZEOF];
 
-  //!
+  //! Current cycle for each slot.
   int break_slot_cycle[GUIControl::BREAK_ID_SIZEOF];
 
-  //!
+  //! Duration of each cycle.
   int cycle_time;
   
   //! Allign break vertically.
   bool applet_vertical;
 
-  //!
+  //! Size of the applet
   int applet_size;
 
-  //!
+  //! Width of the applet.
   int applet_width;
   
-  //!
+  //! Height of the applet.
   int applet_height;
 
   //! Applet enabled?
   bool applet_enabled;
 
-#ifdef HAVE_GNOME
-  //
-  GNOME_Workrave_AppletControl applet_control;
-#endif
-  
-  //
-  bool reconfigure;
   
 private:
   //

@@ -70,17 +70,20 @@ AppletWindow::AppletWindow(GUI *g, ControlInterface *c) :
   TimerWindow(g, c),
   mode(APPLET_DISABLED),
   retry_init(false),
+  reconfigure(false),
+  plug(NULL),
   container(NULL),
   timers_box(NULL),
   tray_menu(NULL),
-  eventbox(NULL),
-  frame(NULL),
-  cycle_time(10),
-  applet_size(0),
 #ifdef HAVE_GNOME
   applet_control(NULL),
 #endif
-  reconfigure(false)
+  cycle_time(10),
+  applet_vertical(false),
+  applet_size(0),
+  applet_width(0),
+  applet_height(0),
+  applet_enabled(true)
 {
   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
     {
@@ -100,9 +103,6 @@ AppletWindow::AppletWindow(GUI *g, ControlInterface *c) :
   menus->set_applet_window(this);
 #endif
   
-  plug = NULL;
-  applet_vertical = false;
-  number_of_timers = 3;
   init();
 }
 
@@ -154,6 +154,8 @@ void
 AppletWindow::init_table()
 {
   TRACE_ENTER("AppletWindow::init_table");
+
+  // Reinitialize widgets and container.
   if (timers_box != NULL)
     {
       container->remove();
@@ -161,11 +163,26 @@ AppletWindow::init_table()
       init_widgets();
     }
 
+  
+  // Determine what breaks to show.
   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
     {
       init_slot(i);
     }
+
   
+  // Compute number of vivisble breaks.
+  int number_of_timers = 0;
+  for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
+    {
+      if (break_slots[i][0] != -1)
+        {
+          number_of_timers++;
+        }
+    }
+
+  
+  // Compute table dimensions.
   int rows = number_of_timers;
   int columns = 1;
   
@@ -188,26 +205,25 @@ AppletWindow::init_table()
       plug->set_size_request(-1, applet_size);
     }
 
-  TRACE_MSG("rows " << rows << " " << columns);
+  
+  // Create table
   timers_box = new Gtk::Table(rows, 2 * columns, false);
   timers_box->set_spacings(2);
-  
   container->add(*timers_box);
 
+  
+  // Fill table.
   int count = 0;
   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
     {
       int cycle = break_slot_cycle[i];
       int id = break_slots[i][cycle];
-
-      
         
       if (id != -1)
         {
           int cur_row = count % rows;
           int cur_col = count / rows;
           
-          TRACE_MSG("row " << cur_row << " " << cur_col);
           if (applet_height != -1)
             {
               timer_times[id]->set_size_request(-1, applet_height / rows - 1 * (rows + 1) - 2);
@@ -429,7 +445,7 @@ AppletWindow::init_tray_applet()
       
   if (tray_icon != NULL)
     {
-      eventbox = new Gtk::EventBox;
+      Gtk::EventBox *eventbox = new Gtk::EventBox;
         
       // Necessary for popup menu 
       eventbox->set_events(eventbox->get_events() | Gdk::BUTTON_PRESS_MASK);
@@ -470,12 +486,13 @@ AppletWindow::destroy_tray_applet()
       if (plug != NULL)
         {
           plug->remove(); // FIXME: free memory
+          delete plug;
           plug = NULL;
         }
-      if (eventbox != NULL)
+      if (container != NULL)
         {
-          eventbox->remove();
-          delete eventbox;
+          container->remove();
+          delete container;
         }
     }
   mode = APPLET_DISABLED;
@@ -589,11 +606,13 @@ AppletWindow::destroy_gnome_applet()
       if (plug != NULL)
         {
           plug->remove(); // FIXME: free memory.
+          delete plug;
+          plug = NULL;
         }
-      if (frame != NULL)
+      if (container != NULL)
         {
-          frame->remove();
-          delete frame;
+          container->remove();
+          delete container;
         }
       applet_control = NULL; // FIXME: free memory.
     }
@@ -638,6 +657,12 @@ AppletWindow::update()
 {
   if (mode == APPLET_DISABLED)
     {
+      if (applet_enabled)
+        {
+          init_widgets();
+          retry_init = true;
+        }
+
       if (retry_init)
         {
           init_applet();
@@ -650,19 +675,27 @@ AppletWindow::update()
     }
   else
     {
-      time_t t = time(NULL);
-      if (t % cycle_time == 0)
+
+      if (!applet_enabled)
         {
-          init_table();
-          cycle_slots();
+          destroy_applet();
         }
+      else
+        {
+          time_t t = time(NULL);
+          if (t % cycle_time == 0)
+            {
+              init_table();
+              cycle_slots();
+            }
       
-      if (reconfigure)
-        {
-          init_table();
-          reconfigure = false;
+          if (reconfigure)
+            {
+              init_table();
+              reconfigure = false;
+            }
+          update_widgets();
         }
-      update_widgets();
     }
 }
 
@@ -854,10 +887,12 @@ void
 AppletWindow::config_changed_notify(string key)
 {
   (void) key;
+
   read_configuration();
   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
     {
       break_slot_cycle[i] = 0;
     }
+
   reconfigure = true;
 }
