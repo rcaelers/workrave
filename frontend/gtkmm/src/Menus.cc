@@ -1,6 +1,6 @@
 // Menus.cc --- Timer info Window
 //
-// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -704,14 +704,15 @@ Menus::on_menu_about()
     "Claudio Ferreira Filho <filhocf@yahoo.com.br>\n"
     "Morten Lunde <morten.lunde@broadpark.no>\n"
     "Juraj Kubelka <Juraj.Kubelka@email.cz>\n"
-    "Artūras Šlajus <x11@h2o.sky.lt>\n";
+    "Artūras Šlajus <x11@h2o.sky.lt>\n"
+    "Haggai Eran <he3@bezeqint.net>\n";
     
   string icon = Util::complete_directory("workrave.png",
                                          Util::SEARCH_PATH_IMAGES);
   GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(icon.c_str(), NULL); 
   gtk_widget_show (gnome_about_new
                    ("Workrave", VERSION,
-                    "Copyright 2001-2004 Rob Caelers & Raymond Penners",
+                    "Copyright 2001-2005 Rob Caelers & Raymond Penners",
                     _("This program assists in the prevention and recovery"
                       " of Repetitive Strain Injury (RSI)."),
                     (const gchar **) authors,

@@ -61,7 +61,9 @@ static const char rcsid[] = "$Id$";
 
 #ifdef HAVE_GNOME
 #include "RemoteControl.hh"
+#ifdef HAVE_GNOMEMM
 #include "libgnomeuimm/wrap_init.h"
+#endif
 #endif
 
 #ifdef HAVE_KDE
@@ -322,6 +324,7 @@ GUI::init_gnome()
   
   gnome_init("workrave", VERSION, argc, argv);
 
+#ifdef HAVE_GNOMEMM
   Gnome::UI::wrap_init();
 
   Gnome::UI::Client *client = Gnome::UI::Client::master_client();
@@ -332,8 +335,10 @@ GUI::init_gnome()
     }
   
   TRACE_EXIT();
+#endif  
 }
 
+#ifdef HAVE_GNOMEMM
 void
 GUI::on_die()
 {
@@ -395,7 +400,8 @@ GUI::on_save_yourself(int phase, Gnome::UI::SaveStyle save_style, bool shutdown,
   return true;  
 }
 
-#endif  
+#endif // defined HAVE_GNOMEMM
+#endif // defined HAVE_GNOME
 
 
 #ifdef HAVE_KDE

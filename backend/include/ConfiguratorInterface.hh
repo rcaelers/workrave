@@ -1,6 +1,6 @@
 // Configurator.hh 
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2005 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -30,9 +30,6 @@ class ConfiguratorListener;
 class ConfiguratorInterface
 {
 public:
-/*   //! Creates a Configurator with the specified type. */
-/*   static Configurator *create(string type); */
-  
   //! Loads the specified file.
   /*!
    *  \param filename file to load.

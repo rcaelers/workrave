@@ -17,7 +17,7 @@ AM_CONFIG_HEADER(config.h)
 AM_INIT_AUTOMAKE(workrave, 1.6.2)
 
 dnl Set of available languages.
-ALL_LINGUAS="nl de eo pl da es zh_TW ru fr pt_BR no lt cs"
+ALL_LINGUAS="nl de eo pl da es zh_TW ru fr pt_BR no lt cs he"
 
 #SETUPLANGS=
 #NL=`echo`
@@ -64,6 +64,13 @@ AC_ARG_ENABLE( gnome,
        config_with_gnome=$enableval
        ,
        config_with_gnome=yes
+    )
+
+AC_ARG_ENABLE( gnomemm,
+  [  --disable-gnomemm       compile without Gnomeuimm support],
+       config_with_gnomemm=$enableval
+       ,
+       config_with_gnomemm=yes
     )
 
 AC_ARG_ENABLE( dbus,
@@ -295,13 +302,17 @@ then
 
   if test "x$config_with_gnome" = "xyes"
   then
-    PKG_CHECK_MODULES(GNOMEUIMM, libgnomeuimm-2.6,,:)
-
-    AC_SUBST(GNOMEUIMM)
-
-    if test "x$GNOMEUIMM_LIBS" = "x"
+    if test "x$config_with_gnomemm" = "xyes"
     then
-        PKG_CHECK_MODULES(GNOMEUIMM, libgnomeuimm-2.0)
+
+      PKG_CHECK_MODULES(GNOMEUIMM, libgnomeuimm-2.6,,:)
+
+      AC_SUBST(GNOMEUIMM)
+
+      if test "x$GNOMEUIMM_LIBS" = "x"
+      then
+          PKG_CHECK_MODULES(GNOMEUIMM, libgnomeuimm-2.0)
+      fi
     fi
 
     PKG_CHECK_MODULES(GNOMEUI, libgnomeui-2.0)
@@ -315,6 +326,8 @@ then
     AC_MSG_RESULT($IDL_INCLUDES)
     AC_SUBST(IDL_INCLUDES)
 
+  else
+    config_with_gnomemm=no
   fi
 
   KDE_MISC_TESTS
@@ -659,6 +672,11 @@ fi
 HAVE_GNOME=
 if test "x$config_with_gnome" = "xyes"; then
    AC_DEFINE(HAVE_GNOME,,[Define if Gnome is available])
+fi
+
+HAVE_GNOMEMM=
+if test "x$config_with_gnomemm" = "xyes"; then
+   AC_DEFINE(HAVE_GNOMEMM,,[Define if Gnomeuimm/Gnomemm is available])
 fi
 
 HAVE_KDE=

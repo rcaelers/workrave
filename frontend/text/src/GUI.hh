@@ -31,6 +31,9 @@
 // Generic GUI
 class BreakControl;
 class SoundPlayerInterface;
+class BreakWindowInterface;
+class PreludeWindow;
+class MainWindow;
 
 // Core interfaces
 class ConfiguratorInterface;
@@ -65,14 +68,25 @@ public:
   SoundPlayerInterface *get_sound_player() const;
 
   static gboolean static_on_timer(gpointer data);
+
+  enum BlockMode { BLOCK_MODE_NONE = 0, BLOCK_MODE_INPUT, BLOCK_MODE_ALL };
   
 private:
   bool on_timer();
+  void init_gui();
   void init_debug();
   void init_nls();
   void init_core();
   void init_sound_player();
- 
+
+  void collect_garbage();
+  BreakWindowInterface *create_break_window(BreakId break_id, bool ignorable);
+
+  // Prefs
+  static const std::string CFG_KEY_GUI_BLOCK_MODE;
+  BlockMode get_block_mode();
+  void set_block_mode(BlockMode mode);
+  
 private:
   //! The one and only instance
   static GUI *instance;
@@ -86,14 +100,23 @@ private:
   //! The sound player
   SoundPlayerInterface *sound_player;
 
-  //! Number of active prelude windows;
-  int active_break_count;
-  
-  //! Number of active prelude windows;
-  int active_prelude_count;
+  //! Interface to the break window.
+  BreakWindowInterface *break_window;
+
+  //! Interface to the prelude windows.
+  PreludeWindow *prelude_window;
+
+  //!
+  MainWindow *main_window;
   
   //! Reponse interface for breaks
   BreakResponseInterface *response;
+
+  //! Destroy break window on next heartbeat?
+  bool break_window_destroy;
+
+  //! Destroy prelude window on next heartbeat?
+  bool prelude_window_destroy;
 
   //! Current active break.
   BreakId active_break_id;
@@ -103,6 +126,13 @@ private:
 
   //! The command line arguments.
   char **argv;
+
+  //! Final prelude
+  string progress_text;
+
+  //! Progress values
+  int progress_value;
+  int progress_max_value;
 };
 
 

@@ -1,6 +1,6 @@
 // GUI.hh --- The WorkRave GUI
 //
-// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -34,7 +34,7 @@
 #include "ActivityMonitorListener.hh"
 #include "AppInterface.hh"
 
-#ifdef HAVE_GNOME
+#ifdef HAVE_GNOMEMM
 #include <libgnomeuimm.h>
 #endif
 #ifdef HAVE_GTK_MULTIHEAD
@@ -140,9 +140,11 @@ private:
   
 #ifdef HAVE_GNOME
   void init_gnome();
+#ifdef HAVE_GNOMEMM
   void on_die();
   bool on_save_yourself(int phase, Gnome::UI::SaveStyle save_style, bool shutdown,
                         Gnome::UI::InteractStyle interact_style, bool fast);
+#endif
 #endif
 #ifdef HAVE_KDE
   void init_kde();

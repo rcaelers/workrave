@@ -46,7 +46,6 @@ public:
   virtual void set_icon(IconType icon) = 0;
   virtual void update() = 0;
   virtual void set_enabled(bool enabled) = 0;
-  
 };
 
 #endif // TIMERBOXVIEW_HH

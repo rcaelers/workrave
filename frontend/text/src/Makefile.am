@@ -16,7 +16,7 @@ if HAVE_X
 X11LIBS = 		-lXmu
 endif
 
-workrave_SOURCES = 	GUI.cc main.cc
+workrave_SOURCES = 	GUI.cc PreludeWindow.cc BreakWindow.cc TimerBoxTextView.cc MainWindow.cc main.cc
 
 workrave_CXXFLAGS = 	-DWORKRAVE_DATADIR="\"${pkgdatadir}\"" -W \
 			@WR_FRONTEND_CFLAGS@ @GLIB_CFLAGS@ @GCONF_CFLAGS@ \
