@@ -198,7 +198,10 @@ MainWindow::init()
   win32_init();
   set_gravity(Gdk::GRAVITY_STATIC); 
   set_position(Gtk::WIN_POS_NONE);
-  if (!enabled) //  || get_start_in_tray())
+
+#ifdef HAVE_PROPER_SIZED_MAIN_WINDOW_ON_STARTUP
+  // This is the proper code, see hacked code below.
+  if (!enabled)
     {
       move(-1024, 0);
       show_all();
@@ -210,6 +213,23 @@ MainWindow::init()
       move(x, y);
       show_all();
     }
+#else
+  // Hack: since GTK+ 2.2.4 the window is too wide, it incorporates room
+  // for the "_ [ ] [X]" buttons somehow. This hack fixes just that.
+  move(-1024, 0); // Move off-screen to reduce wide->narrow flickering
+  show_all();
+  HWND hwnd = (HWND) GDK_WINDOW_HWND(window->gobj());
+  SetWindowPos(hwnd, NULL, 0, 0, 1, 1,
+               SWP_FRAMECHANGED|SWP_NOZORDER|SWP_NOACTIVATE
+               |SWP_NOOWNERZORDER|SWP_NOMOVE);
+  if (! enabled)
+    {
+      win32_show(false);
+    }
+  move(x, y);
+  // (end of hack)
+#endif
+  
 #else
   set_gravity(Gdk::GRAVITY_STATIC); 
   set_position(Gtk::WIN_POS_NONE);
