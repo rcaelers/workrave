@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-10-20 22:57:45 robc>
+// Time-stamp: <2003-01-02 18:38:23 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -364,8 +364,16 @@ X11InputMonitor::handle_button(XEvent *event)
   XSync(x11_display, 0);
   XAllowEvents(x11_display, ReplayPointer, CurrentTime);
   XSync(x11_display, 0);
-  
-  //printf("Button pressed (%d %d)\n", event->xbutton.state, event->xbutton.button);
+
+  if (event != NULL)
+    {
+      int b = event->xbutton.button;
+      listener->button_notify(b);
+    }
+  else
+    {
+      listener->action_notify();
+    }
 }
 
 
@@ -408,6 +416,7 @@ X11InputMonitor::handle_xrecord_handle_motion_event(XRecordInterceptData *data)
       listener->action_notify();
     }
 }
+
 
 void
 X11InputMonitor::handle_xrecord_handle_button_event(XRecordInterceptData *data)
@@ -466,17 +475,14 @@ X11InputMonitor::run_xrecord()
     
   init_xrecord();
 
-  TRACE_MSG("enabling context");
   if (use_xrecord &&
       XRecordEnableContext(xrecord_datalink, xrecord_context,  &handleXRecordCallback, (XPointer)this))
     {
-      TRACE_MSG("end context");
       XRecordFreeContext(x11_display, xrecord_context);
       XCloseDisplay(xrecord_datalink);
     }
   else
     {
-      TRACE_MSG("failed");
       use_xrecord = false;
       run_events();
     }

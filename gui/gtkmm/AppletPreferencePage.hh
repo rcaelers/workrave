@@ -1,6 +1,6 @@
 // AppletPreferencesPanel.hh --- Preferences widgets for a timer
 //
-// Copyright (C) 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -46,12 +46,14 @@ private:
   void on_exclusive_toggled(int break_id);
   void on_time_changed(int break_id);
   void on_slot_changed(int break_id);
+  void on_visible_toggled(int break_id);
 
   void on_enabled_toggled();
   void on_cycle_time_changed();
   
   Gtk::SpinButton *cycle_entry;
   Gtk::CheckButton *enabled_cb;
+  Gtk::CheckButton *visible_cb[GUIControl::BREAK_ID_SIZEOF];  
   Gtk::SpinButton *slot_entry[GUIControl::BREAK_ID_SIZEOF];  
   Gtk::CheckButton *first_cb[GUIControl::BREAK_ID_SIZEOF];  
   Gtk::CheckButton *imminent_cb[GUIControl::BREAK_ID_SIZEOF];  
