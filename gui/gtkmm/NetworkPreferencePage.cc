@@ -33,6 +33,7 @@
 #include "DistributionManager.hh"
 #include "DistributionSocketLink.hh"
 #include "Hig.hh"
+#include "GtkUtil.hh"
 
 NetworkPreferencePage::NetworkPreferencePage()
   : Gtk::VBox(false, 6)
@@ -40,7 +41,10 @@ NetworkPreferencePage::NetworkPreferencePage()
   TRACE_ENTER("NetworkPreferencePage::NetworkPreferencePage");
 
   // Main switch
-  enabled_cb = manage(new Gtk::CheckButton(_("Enable networking")));
+  enabled_cb = manage(new Gtk::CheckButton());
+  Gtk::Label *ena_lab
+    = manage(GtkUtil::create_label(_("Enable networking"), true));
+  enabled_cb->add(*ena_lab);
 
   Gtk::Notebook *tnotebook = manage(new Gtk::Notebook());
   tnotebook->set_tab_pos(Gtk::POS_TOP);  

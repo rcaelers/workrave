@@ -58,7 +58,6 @@ void
 AppletPreferencePage::create_page()
 {
   // Frame
-  Gtk::Frame *frame = manage(new Gtk::Frame(_("Layout")));
   Gtk::VBox *box = manage(new Gtk::VBox());
   
   // Labels
@@ -90,7 +89,10 @@ AppletPreferencePage::create_page()
   cycle_entry->signal_changed().connect(SigC::slot(*this, &AppletPreferencePage::on_cycle_time_changed));
 
   // Enabled/Disabled checkbox
-  enabled_cb = manage(new  Gtk::CheckButton("Applet enabled"));
+  enabled_cb = manage(new  Gtk::CheckButton());
+  Gtk::Label *enabled_lab
+    = manage(GtkUtil::create_label(_("Applet enabled"), true));
+  enabled_cb->add(*enabled_lab);
   enabled_cb->signal_toggled().connect(SigC::slot(*this, &AppletPreferencePage::on_enabled_toggled));
 
   // Table
@@ -101,7 +103,6 @@ AppletPreferencePage::create_page()
 
   // Tooltips;
   Gtk::Tooltips *tips = GUI::get_instance()->get_tooltips();
-  tips->set_tip(*enabled_cb, _("Applet enabled or not."));
   tips->set_tip(*cycle_entry, _("When multiple breaks are shown on a certain position, "
                                 "this value indicates the time each break is shown."));
 
@@ -196,9 +197,10 @@ AppletPreferencePage::create_page()
 
   // And put it all together.
   box->pack_start(*enabled_cb, false, false, 0);
-  box->pack_start(*frame, true, true, 0);
-  frame->add(*table);
+  box->pack_start(*table, true, true, 0);
   pack_end(*box, true, true, 0);
+
+  enable_buttons();
 }
 
 
@@ -348,6 +350,7 @@ AppletPreferencePage::on_enabled_toggled()
   
   Configurator *c = GUIControl::get_instance()->get_configurator();
   c->set_value(AppletWindow::CFG_KEY_APPLET_ENABLED, on);
+  enable_buttons();
 }
 
 
@@ -431,4 +434,23 @@ AppletPreferencePage::init_page_values()
 
       time_entry[i]->set_value(value);
     }
+}
+
+
+void
+AppletPreferencePage::enable_buttons(void)
+{
+  bool ena = enabled_cb->get_active();
+
+  cycle_entry->set_sensitive(ena);
+   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
+     {
+       visible_cb[i]->set_sensitive(ena);
+       slot_entry[i]->set_sensitive(ena);
+       first_cb[i]->set_sensitive(ena);
+       imminent_cb[i]->set_sensitive(ena);
+       exclusive_cb[i]->set_sensitive(ena);
+       default_cb[i]->set_sensitive(ena);
+       time_entry[i]->set_sensitive(ena);
+     }
 }

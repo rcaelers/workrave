@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
-"POT-Creation-Date: 2003-02-22 09:24+0100\n"
+"POT-Creation-Date: 2003-02-23 22:32+0100\n"
 "PO-Revision-Date: 2003-02-20 21:07+0100\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Johannes Rohr <j.rohr@comlink.apc.org>\n"
@@ -91,40 +91,36 @@ msgstr "Mitwirkende"
 msgid "About %s"
 msgstr "Über %s"
 
-#. Frame
-#: gui/gtkmm/AppletPreferencePage.cc:61
-msgid "Layout"
-msgstr "Layout"
-
-#: gui/gtkmm/AppletPreferencePage.cc:71
+#: gui/gtkmm/AppletPreferencePage.cc:70
 msgid "Show break at position:"
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:73
+#: gui/gtkmm/AppletPreferencePage.cc:72
 msgid "Cycle time:"
 msgstr "Zeit bis zum Wechsel der Anzeige:"
 
-#: gui/gtkmm/AppletPreferencePage.cc:75
+#: gui/gtkmm/AppletPreferencePage.cc:74
 msgid "Show only when first:"
 msgstr "Pause nur anzeigen, wenn als nächstes fällig:"
 
-#: gui/gtkmm/AppletPreferencePage.cc:77
+#: gui/gtkmm/AppletPreferencePage.cc:76
 msgid "Show only when imminent in:"
 msgstr "Nur anzeigen, wenn Pause in n Minuten ansteht.:"
 
-#: gui/gtkmm/AppletPreferencePage.cc:79
+#: gui/gtkmm/AppletPreferencePage.cc:78
 msgid "Show exclusively:"
 msgstr "Exklusiv anzeigen:"
 
-#: gui/gtkmm/AppletPreferencePage.cc:81
+#: gui/gtkmm/AppletPreferencePage.cc:80
 msgid "Default break:"
 msgstr "Voreingestellter Pausenanzeiger:"
 
-#: gui/gtkmm/AppletPreferencePage.cc:104
-msgid "Applet enabled or not."
+#: gui/gtkmm/AppletPreferencePage.cc:94
+#, fuzzy
+msgid "Applet enabled"
 msgstr "Applet aktiv oder nicht."
 
-#: gui/gtkmm/AppletPreferencePage.cc:105
+#: gui/gtkmm/AppletPreferencePage.cc:106
 msgid ""
 "When multiple breaks are shown on a certain position, this value indicates "
 "the time each break is shown."
@@ -132,12 +128,12 @@ msgstr ""
 "Falls verschiedene Pausen an einer bestimmten Position angezeigt\n"
 "werden, legt dieser Wert fest, wie lange jede Pause angezeigt wird."
 
-#: gui/gtkmm/AppletPreferencePage.cc:152
+#: gui/gtkmm/AppletPreferencePage.cc:153
 msgid "If set, this break will be shown in the applet."
 msgstr ""
 "Wenn diese Einstellung gewählt ist, wird diese Pause im Applet angezeigt."
 
-#: gui/gtkmm/AppletPreferencePage.cc:154
+#: gui/gtkmm/AppletPreferencePage.cc:155
 msgid ""
 "Position on which the break timer is shown. Three positions are available. "
 "In case multiple breaks have the same position, they will be shown "
@@ -147,7 +143,7 @@ msgstr ""
 "verfügbar. Werden mehrere Anzeiger auf dieselbe Position gesetzt, so\n"
 "werden sie im Wechsel nacheinander angezeigt."
 
-#: gui/gtkmm/AppletPreferencePage.cc:158
+#: gui/gtkmm/AppletPreferencePage.cc:159
 msgid ""
 "If set, this break will be shown if no other breaks are shown on the "
 "selected position"
@@ -156,7 +152,7 @@ msgstr ""
 "keine anderen Pausenanzeiger an der gewählten Position angezeigt\n"
 "werden."
 
-#: gui/gtkmm/AppletPreferencePage.cc:161
+#: gui/gtkmm/AppletPreferencePage.cc:162
 msgid ""
 "If set, the break timer will always be the only break that will be shown on "
 "that position. It will not be shown alternatingly with another break."
@@ -165,7 +161,7 @@ msgstr ""
 "an dieser Position angezeigt. Er wird also nicht im Wechsel mit\n"
 "anderen Pausen angezeigt."
 
-#: gui/gtkmm/AppletPreferencePage.cc:165
+#: gui/gtkmm/AppletPreferencePage.cc:166
 msgid ""
 "If set, the break timer will only be shown if it is the first break that "
 "will reach its limit."
@@ -173,7 +169,7 @@ msgstr ""
 "Wenn diese Einstellung aktiv ist, wird der Pausenanzeiger nur dann "
 "angezeigt, wenn diese Pause als nächstes an der Reihe ist."
 
-#: gui/gtkmm/AppletPreferencePage.cc:168 gui/gtkmm/AppletPreferencePage.cc:171
+#: gui/gtkmm/AppletPreferencePage.cc:169 gui/gtkmm/AppletPreferencePage.cc:172
 msgid ""
 "If set, the break timer will only be shown if it will reach its limit within "
 "the specified time."
@@ -202,7 +198,7 @@ msgstr "Überspringen"
 msgid "Postpone"
 msgstr "Aufschieben"
 
-#: gui/gtkmm/GUI.cc:292
+#: gui/gtkmm/GUI.cc:310
 msgid "I could not initialize Bonobo"
 msgstr "Konnte Bonobo nicht initialisieren"
 
@@ -307,54 +303,53 @@ msgstr "Bei Programmstart verbinden"
 msgid "Network log"
 msgstr "Netzwerkprotokoll"
 
-#. Main switch
-#: gui/gtkmm/NetworkPreferencePage.cc:43
+#: gui/gtkmm/NetworkPreferencePage.cc:46
 msgid "Enable networking"
 msgstr "Netzwerk verwenden"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:75
+#: gui/gtkmm/NetworkPreferencePage.cc:79
 msgid "General"
 msgstr "Allgemein"
 
 #. Identity
-#: gui/gtkmm/NetworkPreferencePage.cc:78
+#: gui/gtkmm/NetworkPreferencePage.cc:82
 msgid "Identity"
 msgstr "Identität"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:82
+#: gui/gtkmm/NetworkPreferencePage.cc:86
 msgid "Username:"
 msgstr "Benutzername:"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:83
+#: gui/gtkmm/NetworkPreferencePage.cc:87
 msgid "Password:"
 msgstr "Passwort:"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:99
+#: gui/gtkmm/NetworkPreferencePage.cc:103
 msgid "Advanced"
 msgstr "Erweitert"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:102
+#: gui/gtkmm/NetworkPreferencePage.cc:106
 msgid "Server settings"
 msgstr "Servereinstellungen"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:124
+#: gui/gtkmm/NetworkPreferencePage.cc:128
 msgid "Server port:"
 msgstr "Serverport:"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:125
+#: gui/gtkmm/NetworkPreferencePage.cc:129
 #, fuzzy
 msgid "Reconnect attempts:"
 msgstr "Versuche, die Verbindung wieder aufzunehmen:"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:126
+#: gui/gtkmm/NetworkPreferencePage.cc:130
 msgid "Reconnect interval:"
 msgstr "Intervall zwischen den Verbindungsversuchen:"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:142
+#: gui/gtkmm/NetworkPreferencePage.cc:146
 msgid "Hosts"
 msgstr "Rechner im Netwerk"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:152
+#: gui/gtkmm/NetworkPreferencePage.cc:156
 msgid ""
 "The following list specifies the hosts that Workrave connects to on\n"
 "start-up. Click the host name or port number to edit."
@@ -363,11 +358,11 @@ msgstr ""
 "Programmstart eine Verbindung aufnimmt. Klicken Sie zum Bearbeiten auf\n"
 "den Rechnernamen oder die Portnummer."
 
-#: gui/gtkmm/NetworkPreferencePage.cc:181
+#: gui/gtkmm/NetworkPreferencePage.cc:185
 msgid "Host name"
 msgstr "Rechnername"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:189
+#: gui/gtkmm/NetworkPreferencePage.cc:193
 msgid "Port"
 msgstr "Port"
 
@@ -696,6 +691,9 @@ msgstr "_Protokoll anzeigen"
 #: gui/gnome/GNOME_WorkraveApplet.xml.in.h:14
 msgid "_Statistics"
 msgstr "_Statistik"
+
+#~ msgid "Layout"
+#~ msgstr "Layout"
 
 #, fuzzy
 #~ msgid "Start time:"

@@ -47,6 +47,7 @@ private:
 
   void on_enabled_toggled();
   void on_cycle_time_changed();
+  void enable_buttons(void);
   
   Gtk::SpinButton *cycle_entry;
   Gtk::CheckButton *enabled_cb;

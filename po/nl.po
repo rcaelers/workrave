@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-02-22 10:19+0100\n"
-"PO-Revision-Date: 2003-02-20 20:46+0100\n"
+"POT-Creation-Date: 2003-02-23 22:32+0100\n"
+"PO-Revision-Date: 2003-02-23 22:32+0100\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
 "MIME-Version: 1.0\n"
@@ -90,40 +90,35 @@ msgstr "_Credits"
 msgid "About %s"
 msgstr "Over %s"
 
-#. Frame
-#: gui/gtkmm/AppletPreferencePage.cc:61
-msgid "Layout"
-msgstr "Layout"
-
-#: gui/gtkmm/AppletPreferencePage.cc:71
+#: gui/gtkmm/AppletPreferencePage.cc:70
 msgid "Show break at position:"
 msgstr "Toon pauze op plek:"
 
-#: gui/gtkmm/AppletPreferencePage.cc:73
+#: gui/gtkmm/AppletPreferencePage.cc:72
 msgid "Cycle time:"
 msgstr "Tijd tussen pauzewissel:"
 
-#: gui/gtkmm/AppletPreferencePage.cc:75
+#: gui/gtkmm/AppletPreferencePage.cc:74
 msgid "Show only when first:"
 msgstr "Toon alleen als eerste pauze:"
 
-#: gui/gtkmm/AppletPreferencePage.cc:77
+#: gui/gtkmm/AppletPreferencePage.cc:76
 msgid "Show only when imminent in:"
 msgstr "Toon alleen als pauze begint binnen:"
 
-#: gui/gtkmm/AppletPreferencePage.cc:79
+#: gui/gtkmm/AppletPreferencePage.cc:78
 msgid "Show exclusively:"
 msgstr "Toon pauze exclusief:"
 
-#: gui/gtkmm/AppletPreferencePage.cc:81
+#: gui/gtkmm/AppletPreferencePage.cc:80
 msgid "Default break:"
 msgstr "Standaard pauze:"
 
-#: gui/gtkmm/AppletPreferencePage.cc:104
-msgid "Applet enabled or not."
+#: gui/gtkmm/AppletPreferencePage.cc:94
+msgid "Applet enabled"
 msgstr "Applet actief"
 
-#: gui/gtkmm/AppletPreferencePage.cc:105
+#: gui/gtkmm/AppletPreferencePage.cc:106
 msgid ""
 "When multiple breaks are shown on a certain position, this value indicates "
 "the time each break is shown."
@@ -131,36 +126,36 @@ msgstr ""
 "De tijdsduur gedurende welke de pauze getoond wordt wanneer meerdere pauzes "
 "dezelfde plek delen."
 
-#: gui/gtkmm/AppletPreferencePage.cc:152
+#: gui/gtkmm/AppletPreferencePage.cc:153
 msgid "If set, this break will be shown in the applet."
 msgstr "Toon de pauze in de applet."
 
-#: gui/gtkmm/AppletPreferencePage.cc:154
+#: gui/gtkmm/AppletPreferencePage.cc:155
 msgid ""
 "Position on which the break timer is shown. Three positions are available. "
 "In case multiple breaks have the same position, they will be shown "
 "alternatingly."
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:158
+#: gui/gtkmm/AppletPreferencePage.cc:159
 msgid ""
 "If set, this break will be shown if no other breaks are shown on the "
 "selected position"
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:161
+#: gui/gtkmm/AppletPreferencePage.cc:162
 msgid ""
 "If set, the break timer will always be the only break that will be shown on "
 "that position. It will not be shown alternatingly with another break."
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:165
+#: gui/gtkmm/AppletPreferencePage.cc:166
 msgid ""
 "If set, the break timer will only be shown if it is the first break that "
 "will reach its limit."
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:168 gui/gtkmm/AppletPreferencePage.cc:171
+#: gui/gtkmm/AppletPreferencePage.cc:169 gui/gtkmm/AppletPreferencePage.cc:172
 msgid ""
 "If set, the break timer will only be shown if it will reach its limit within "
 "the specified time."
@@ -186,7 +181,7 @@ msgstr "Overslaan"
 msgid "Postpone"
 msgstr "Uitstellen"
 
-#: gui/gtkmm/GUI.cc:292
+#: gui/gtkmm/GUI.cc:310
 msgid "I could not initialize Bonobo"
 msgstr ""
 
@@ -290,54 +285,52 @@ msgstr "Maak verbinding bij opstarten"
 msgid "Network log"
 msgstr "Netwerk logboek"
 
-#. Main switch
-#: gui/gtkmm/NetworkPreferencePage.cc:43
+#: gui/gtkmm/NetworkPreferencePage.cc:46
 msgid "Enable networking"
 msgstr "Activeer netwerk ondersteuning"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:75
+#: gui/gtkmm/NetworkPreferencePage.cc:79
 msgid "General"
 msgstr "Algemeen"
 
 #. Identity
-#: gui/gtkmm/NetworkPreferencePage.cc:78
+#: gui/gtkmm/NetworkPreferencePage.cc:82
 msgid "Identity"
 msgstr "Identiteit"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:82
+#: gui/gtkmm/NetworkPreferencePage.cc:86
 msgid "Username:"
 msgstr "Gebruikersnaam:"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:83
+#: gui/gtkmm/NetworkPreferencePage.cc:87
 msgid "Password:"
 msgstr "Wachtwoord:"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:99
+#: gui/gtkmm/NetworkPreferencePage.cc:103
 msgid "Advanced"
 msgstr "Geavanceerd"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:102
+#: gui/gtkmm/NetworkPreferencePage.cc:106
 msgid "Server settings"
 msgstr "Server instellingen"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:124
+#: gui/gtkmm/NetworkPreferencePage.cc:128
 msgid "Server port:"
 msgstr "Server poort:"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:125
-#, fuzzy
+#: gui/gtkmm/NetworkPreferencePage.cc:129
 msgid "Reconnect attempts:"
 msgstr "Aantal pogingen tot verbinding:"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:126
+#: gui/gtkmm/NetworkPreferencePage.cc:130
 msgid "Reconnect interval:"
 msgstr "Interval tussen pogingen:"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:142
+#: gui/gtkmm/NetworkPreferencePage.cc:146
 msgid "Hosts"
 msgstr "Machines"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:152
+#: gui/gtkmm/NetworkPreferencePage.cc:156
 msgid ""
 "The following list specifies the hosts that Workrave connects to on\n"
 "start-up. Click the host name or port number to edit."
@@ -346,16 +339,15 @@ msgstr ""
 "verbinding maakt tijdens het opstarten. Klik op de machine naam\n"
 "of poort nummer om deze te bewerken."
 
-#: gui/gtkmm/NetworkPreferencePage.cc:181
+#: gui/gtkmm/NetworkPreferencePage.cc:185
 msgid "Host name"
 msgstr "Machine naam"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:189
+#: gui/gtkmm/NetworkPreferencePage.cc:193
 msgid "Port"
 msgstr "Poort"
 
 #: gui/gtkmm/PreferencesDialog.cc:53
-#, fuzzy
 msgid "Preferences"
 msgstr "Voorkeuren"
 
@@ -402,7 +394,7 @@ msgstr "Opties"
 
 #: gui/gtkmm/PreferencesDialog.cc:148
 msgid "Sound:"
-msgstr ""
+msgstr "Geluid:"
 
 #: gui/gtkmm/PreferencesDialog.cc:153
 msgid "You can configure the user interface related settings from here."
@@ -452,11 +444,11 @@ msgstr "Rustpauze gedurende %s"
 
 #: gui/gtkmm/StatisticsDialog.cc:128
 msgid "Browse history"
-msgstr ""
+msgstr "Bladeren"
 
 #: gui/gtkmm/StatisticsDialog.cc:135
 msgid "Date:"
-msgstr ""
+msgstr "Datum:"
 
 #: gui/gtkmm/StatisticsDialog.cc:167
 msgid "Breaks"
@@ -522,7 +514,7 @@ msgstr ""
 
 #: gui/gtkmm/StatisticsDialog.cc:213
 msgid "Daily usage"
-msgstr ""
+msgstr "Dagelijks gebruik"
 
 #: gui/gtkmm/StatisticsDialog.cc:214
 msgid "Total computer usage"
@@ -530,11 +522,11 @@ msgstr ""
 
 #: gui/gtkmm/StatisticsDialog.cc:277
 msgid "Activity"
-msgstr ""
+msgstr "Activiteit"
 
 #: gui/gtkmm/StatisticsDialog.cc:287
 msgid "Total mouse time:"
-msgstr ""
+msgstr "Muis gebruik:"
 
 #: gui/gtkmm/StatisticsDialog.cc:288
 msgid "Total time you were using the mouse."
@@ -568,7 +560,7 @@ msgstr ""
 
 #: gui/gtkmm/StatisticsDialog.cc:304
 msgid "Total keystrokes:"
-msgstr ""
+msgstr "Toetsaanslagen:"
 
 #: gui/gtkmm/StatisticsDialog.cc:305
 msgid "Total number of keys pressed."
@@ -577,7 +569,7 @@ msgstr ""
 #: gui/gtkmm/StatisticsDialog.cc:355
 #, c-format
 msgid "%s, from %s to %s"
-msgstr ""
+msgstr "%s, van %s tot %s"
 
 #. Prelude frame
 #: gui/gtkmm/TimerPreferencesPanel.cc:81
@@ -675,6 +667,9 @@ msgstr "Toon _logboek"
 #: gui/gnome/GNOME_WorkraveApplet.xml.in.h:14
 msgid "_Statistics"
 msgstr "Statistieken"
+
+#~ msgid "Layout"
+#~ msgstr "Layout"
 
 #, fuzzy
 #~ msgid "History"
