@@ -110,10 +110,6 @@ TimerPreferencesPanel::create_prelude_panel()
   max_prelude_adjustment.set_value(max_preludes > 0 ? max_preludes : 1);
   max_prelude_spin = manage(new Gtk::SpinButton(max_prelude_adjustment));
   
-  force_after_prelude_cb = manage(new Gtk::CheckButton
-                                  (_("Force break after maximum exceeded")));
-  force_after_prelude_cb->set_active(break_data->get_break_force_after_preludes());
-
   set_prelude_sensitivity();
   
   prelude_cb->signal_toggled()
@@ -122,9 +118,6 @@ TimerPreferencesPanel::create_prelude_panel()
   has_max_prelude_cb->signal_toggled()
     .connect(SigC::slot(*this,
                         &TimerPreferencesPanel::on_preludes_maximum_toggled));
-  force_after_prelude_cb->signal_toggled()
-    .connect(SigC::slot(*this,
-                        &TimerPreferencesPanel::on_preludes_force_toggled));
   max_prelude_adjustment.signal_value_changed()
     .connect(SigC::slot(*this,
                         &TimerPreferencesPanel::on_preludes_maximum_changed));
@@ -134,7 +127,6 @@ TimerPreferencesPanel::create_prelude_panel()
   max_box->pack_start(*has_max_prelude_cb, false, false, 0);
   max_box->pack_start(*max_prelude_spin, false, false, 0);
   hig->add(*max_box);
-  hig->add(*force_after_prelude_cb);
 
   return hig;
 }
@@ -252,7 +244,6 @@ TimerPreferencesPanel::set_prelude_sensitivity()
   bool has_max = has_max_prelude_cb->get_active();
   has_max_prelude_cb->set_sensitive(has_preludes && on);
   max_prelude_spin->set_sensitive(has_preludes && has_max && on);
-  force_after_prelude_cb->set_sensitive(has_preludes && has_max && on);
 }
 
 void
@@ -310,11 +301,6 @@ TimerPreferencesPanel::on_preludes_maximum_toggled()
   set_prelude_sensitivity();
 }
 
-void
-TimerPreferencesPanel::on_preludes_force_toggled()
-{
-  break_data->set_break_force_after_preludes(force_after_prelude_cb->get_active());
-}
 
 
 
@@ -400,7 +386,6 @@ TimerPreferencesPanel::enable_buttons()
     }
   prelude_cb->set_sensitive(on);
   has_max_prelude_cb->set_sensitive(on);
-  force_after_prelude_cb->set_sensitive(on);
   limit_tim->set_sensitive(on);
   auto_reset_tim->set_sensitive(on);
   snooze_tim->set_sensitive(on);

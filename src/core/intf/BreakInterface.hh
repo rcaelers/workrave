@@ -61,8 +61,6 @@ public:
   virtual void set_timer_monitor(string n) = 0;
   virtual int get_break_max_preludes() const = 0;
   virtual void set_break_max_preludes(int n) = 0;
-  virtual bool get_break_force_after_preludes() const = 0;
-  virtual void set_break_force_after_preludes(bool b) = 0;
   virtual bool get_break_ignorable() const = 0;
   virtual void set_break_ignorable(bool b) = 0;
   virtual int get_break_exercises() const = 0;

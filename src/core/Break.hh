@@ -1,6 +1,6 @@
 // Break.hh
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -85,8 +85,6 @@ public:
   void set_timer_monitor(string n);
   int get_break_max_preludes() const;
   void set_break_max_preludes(int n);
-  bool get_break_force_after_preludes() const;
-  void set_break_force_after_preludes(bool b);
   bool get_break_ignorable() const;
   void set_break_ignorable(bool b);
   int get_break_exercises() const;

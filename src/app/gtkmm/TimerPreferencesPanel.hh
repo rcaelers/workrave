@@ -62,7 +62,6 @@ private:
 #ifdef HAVE_EXERCISES
   void on_exercises_changed();
 #endif
-  void on_preludes_force_toggled();
   Gtk::Widget *create_prelude_panel();
   Gtk::Widget *create_options_panel();
   Gtk::Widget *create_timers_panel(Glib::RefPtr<Gtk::SizeGroup> size_group);
@@ -79,7 +78,6 @@ private:
   Gtk::CheckButton *monitor_cb;
   Gtk::CheckButton *prelude_cb;
   Gtk::CheckButton *has_max_prelude_cb;
-  Gtk::CheckButton *force_after_prelude_cb;
   TimeEntry *limit_tim, *auto_reset_tim, *snooze_tim;
   Gtk::SpinButton *max_prelude_spin;
   Gtk::Adjustment max_prelude_adjustment;

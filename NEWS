@@ -7,6 +7,9 @@ http://www.workrave.org
 
 * Workrave 1.4.1
 
+** Removed the "Force break after maximum preludes" option. It is now
+on by default.
+
 ** Some strings in the German translation were too long, fixed.
 
 ** Added multihead support for Windows.

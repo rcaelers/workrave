@@ -61,7 +61,6 @@ BreakControl::BreakControl(BreakId id, Core *c, AppInterface *app, Timer *timer)
   forced_break(false),
   prelude_count(0),
   number_of_preludes(2),
-  force_after_prelude(true),
   insist_break(true),
   ignorable_break(true),
   insist_policy(BreakInterface::INSIST_POLICY_HALT),
@@ -146,7 +145,7 @@ BreakControl::heartbeat()
         else if (prelude_time == 30)
           {
             // User is not idle and the prelude is visible for 30s.
-            if (force_after_prelude && final_prelude)
+            if (final_prelude)
               {
                 // Final prelude, force break.
                 goto_stage(STAGE_TAKING);
@@ -388,17 +387,8 @@ BreakControl::start_break()
 
   if (number_of_preludes >= 0 && prelude_count >= number_of_preludes)
     {
-      // We reached the maximum number of preludes.
-      if (!force_after_prelude && number_of_preludes > 0)
-        {
-          // Ignoring...for good...
-          goto_stage(STAGE_SNOOZED);
-        }
-      else
-        {
-          // Forcing break without prelude.
-          goto_stage(STAGE_TAKING);
-        }
+      // Forcing break without prelude.
+      goto_stage(STAGE_TAKING);
     }
   else
     {
@@ -589,18 +579,6 @@ BreakControl::skip_break()
 }
 
 
-//! Sets the 'force-after-preludes' flags
-/*!
- *  After the maximum number of preludes, the break either stops bothering the
- *  user (force-after-preludes = false), or forces a break (force-after-preludes = true)
- */
-void
-BreakControl::set_force_after_preludes(bool f)
-{
-  force_after_prelude = f;
-}
-
-
 //! Sets the maximum number of preludes. 
 /*!
  *  After the maximum number of preludes, the break either stops bothering the
@@ -697,13 +675,9 @@ BreakControl::prelude_window_start()
     {
       application->set_prelude_progress_text(AppInterface::PROGRESS_TEXT_DISAPPEARS_IN);
     }
-  else if (force_after_prelude) // && final_prelude
+  else 
     {
       application->set_prelude_progress_text(AppInterface::PROGRESS_TEXT_BREAK_IN);
-    }
-  else // final_prelude && ! force_after_prelude
-    {
-      application->set_prelude_progress_text(AppInterface::PROGRESS_TEXT_SILENT_IN);
     }
   
   update_prelude_window();
@@ -847,16 +821,8 @@ BreakControl::set_state_data(bool active, const BreakStateData &data)
 
           if (number_of_preludes >= 0 && prelude_count >= number_of_preludes)
             {
-              if (!force_after_prelude)
-                {
-                  TRACE_MSG("SNOOZED");
-                  goto_stage(STAGE_SNOOZED);
-                }
-              else
-                {
-                  TRACE_MSG("TAKING");
-                  goto_stage(STAGE_TAKING);
-                }
+              TRACE_MSG("TAKING");
+              goto_stage(STAGE_TAKING);
             }
           else
             {
