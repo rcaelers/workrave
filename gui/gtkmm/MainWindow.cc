@@ -40,6 +40,7 @@ static const char rcsid[] = "$Id$";
 #include "TimeBar.hh"
 #include "GUI.hh"
 #include "GUIControl.hh"
+#include "Util.hh"
 
 #include "Configurator.hh"
 #include "TimerInterface.hh"
@@ -537,6 +538,9 @@ MainWindow::on_menu_about()
    "Raymond Penners <raymond@dotsphinx.com>",
    NULL
   };
+  string icon = Util::complete_directory("workrave.png",
+                                         Util::SEARCH_PATH_IMAGES);
+  GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(icon.c_str(), NULL);  
   gtk_widget_show (gnome_about_new
                    ("Workrave", VERSION,
                     "Copyright 2001-2002 Rob Caelers & Raymond Penners",
@@ -545,6 +549,6 @@ MainWindow::on_menu_about()
                     (const gchar **) authors,
                     (const gchar **) NULL,
                     NULL,
-                    NULL));
+                    pixbuf));
 }
 
