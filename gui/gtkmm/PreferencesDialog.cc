@@ -241,8 +241,8 @@ PreferencesDialog::create_monitor_page()
   
   label = manage
     (new Gtk::Label
-     (_("Please regard me as active if the time between two user input\n"
-        "events is within the following range:"
+     (_("Please regard me as active if the time between two user input events is\n"
+        "within the following range, specified in milliseconds:"
       )));
   mon_table->attach(*label, 0, 2, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
   y++;
@@ -253,7 +253,7 @@ PreferencesDialog::create_monitor_page()
   activity_time = manage(new TimeEntry(true));
   from_align->add(*activity_time);
   mon_table->attach(*label, 0, 1, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
-  mon_table->attach(*from_align, 1, 2, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
+  mon_table->attach(*from_align, 1, 2, y, y+1, Gtk::FILL|Gtk::SHRINK, Gtk::SHRINK);
   int val;
   GUIControl::get_instance()->get_configurator()
     ->get_value(ControlInterface::CFG_KEY_MONITOR_ACTIVITY, &val);
@@ -262,8 +262,11 @@ PreferencesDialog::create_monitor_page()
 
   label = manage(new Gtk::Label(_("To (ms)")));
   noise_time = manage(new TimeEntry(true));
+  Gtk::Alignment *to_align
+    = manage(new Gtk::Alignment(Gtk::ALIGN_LEFT, Gtk::ALIGN_BOTTOM, 0.0, 0.0));
+  to_align->add(*noise_time);
   mon_table->attach(*label, 0, 1, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
-  mon_table->attach(*noise_time, 1, 2, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
+  mon_table->attach(*to_align, 1, 2, y, y+1, Gtk::FILL|Gtk::SHRINK, Gtk::SHRINK);
   GUIControl::get_instance()->get_configurator()
     ->get_value(ControlInterface::CFG_KEY_MONITOR_NOISE, &val);
   noise_time->set_value(val);
@@ -271,16 +274,19 @@ PreferencesDialog::create_monitor_page()
   
   label = manage
     (new Gtk::Label
-     (_("Please regard me as idle if there are no user input\n"
-        "events during the specified idle time."
+     (_("Please regard me as idle if there are no user input events during the\n"
+        "specified idle time."
       )));
   mon_table->attach(*label, 0, 2, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
   y++;
 
   label = manage(new Gtk::Label(_("Idle time (ms)")));
   idle_time = manage(new TimeEntry(true));
+  Gtk::Alignment *idle_align
+    = manage(new Gtk::Alignment(Gtk::ALIGN_LEFT, Gtk::ALIGN_BOTTOM, 0.0, 0.0));
+  idle_align->add(*idle_time);
   mon_table->attach(*label, 0, 1, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
-  mon_table->attach(*idle_time, 1, 2, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
+  mon_table->attach(*idle_align, 1, 2, y, y+1, Gtk::FILL|Gtk::SHRINK, Gtk::SHRINK);
   GUIControl::get_instance()->get_configurator()
     ->get_value(ControlInterface::CFG_KEY_MONITOR_IDLE, &val);
   idle_time->set_value(val);
