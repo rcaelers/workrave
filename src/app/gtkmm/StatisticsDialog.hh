@@ -87,6 +87,7 @@ private:
   void on_history_goto_first();
   void display_calendar_date();
   void display_statistics(StatisticsInterface::DailyStats *stats);
+  void clear_display_statistics();
   
   bool on_timer();
 };

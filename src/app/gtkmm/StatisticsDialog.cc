@@ -398,32 +398,56 @@ StatisticsDialog::display_statistics(StatisticsInterface::DailyStats *stats)
       value = stats->break_stats[i][StatisticsInterface::STATS_BREAKVALUE_TOTAL_OVERDUE];
 
       break_labels[i][6]->set_text(Text::time_to_string(value));
+    }
+  
+  stringstream ss;
 
-      value = stats->misc_stats[StatisticsInterface::STATS_VALUE_TOTAL_MOVEMENT_TIME];
-      if (value > 24 * 60 * 60) {
-        value = 0;
-      }
-      activity_labels[0]->set_text(Text::time_to_string(value));
+  value = stats->misc_stats[StatisticsInterface::STATS_VALUE_TOTAL_MOVEMENT_TIME];
+  if (value > 24 * 60 * 60) {
+    value = 0;
+  }
+  activity_labels[0]->set_text(Text::time_to_string(value));
 
-      value = stats->misc_stats[StatisticsInterface::STATS_VALUE_TOTAL_MOUSE_MOVEMENT];
-      ss.str("");
-      stream_distance(ss, value);
-      activity_labels[1]->set_text(ss.str());
+  value = stats->misc_stats[StatisticsInterface::STATS_VALUE_TOTAL_MOUSE_MOVEMENT];
+  ss.str("");
+  stream_distance(ss, value);
+  activity_labels[1]->set_text(ss.str());
       
-      value = stats->misc_stats[StatisticsInterface::STATS_VALUE_TOTAL_CLICK_MOVEMENT];
-      ss.str("");
-      stream_distance(ss, value);
-      activity_labels[2]->set_text(ss.str());
+  value = stats->misc_stats[StatisticsInterface::STATS_VALUE_TOTAL_CLICK_MOVEMENT];
+  ss.str("");
+  stream_distance(ss, value);
+  activity_labels[2]->set_text(ss.str());
 
-      value = stats->misc_stats[StatisticsInterface::STATS_VALUE_TOTAL_CLICKS];
-      ss.str("");
-      ss << value;
-      activity_labels[3]->set_text(ss.str());
+  value = stats->misc_stats[StatisticsInterface::STATS_VALUE_TOTAL_CLICKS];
+  ss.str("");
+  ss << value;
+  activity_labels[3]->set_text(ss.str());
 
-      value = stats->misc_stats[StatisticsInterface::STATS_VALUE_TOTAL_KEYSTROKES];
-      ss.str("");
-      ss << value;
-      activity_labels[4]->set_text(ss.str());
+  value = stats->misc_stats[StatisticsInterface::STATS_VALUE_TOTAL_KEYSTROKES];
+  ss.str("");
+  ss << value;
+  activity_labels[4]->set_text(ss.str());
+    
+}
+
+
+void
+StatisticsDialog::clear_display_statistics()
+{
+  date_label->set_text("");
+  daily_usage_label->set_text("");
+
+  // Put the breaks in table.
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+    {
+      for (int j = 0; j <= 6; j++)
+        {
+          break_labels[i][j]->set_text("");
+        }
+    }
+  for (int i = 0; i <= 4; i++)
+    {
+      activity_labels[i]->set_text("");
     }
 }
 
@@ -469,7 +493,10 @@ StatisticsDialog::display_calendar_date()
       stats = statistics->get_day(idx);
       display_statistics(stats);
     }
-  
+  else
+    {
+      clear_display_statistics();
+    }
   forward_btn->set_sensitive(next >= 0);
   back_btn->set_sensitive(prev >= 0);
   last_btn->set_sensitive(idx != 0);
