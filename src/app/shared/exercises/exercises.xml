@@ -74,8 +74,9 @@
     <title xml:lang="nl">Test het focussen de ogen</title>
     <description xml:lang="en">Look for the furthest point you can see behind your monitor. Focus your eyes on the remote point. After a few seconds focus on your monitor border. Repeat it. If you can't look very far from your monitor, use a pen for instance and keep it the same distance as your monitor.</description>
     <description xml:lang="nl">Zoek naar het verste punt dat je kan zien achter je monitor. Focus je ogen op dit punt. Na een paar seconden focus je op de rand van je monitor. Herhaal dit. Als je niet ver achter je monitor kunt kijken, gebruik dan een pen en zoek een ander punt.</description>
-    <sequence duration="10">
-       <image src="none" duration="5"/>
+    <sequence duration="25">
+       <image src="depth-focus-1.png" duration="5"/>
+       <image src="depth-focus-2.png" duration="5"/>
     </sequence>
   </exercise>
   <exercise>
