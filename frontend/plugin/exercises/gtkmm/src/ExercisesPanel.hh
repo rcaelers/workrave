@@ -1,6 +1,6 @@
 // ExercisesPanel.hh --- Exercises panel
 //
-// Copyright (C) 2002, 2003 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -74,7 +74,7 @@ private:
   Gtk::Button *pause_button;
   Gtk::Button *forward_button;
   Glib::RefPtr<Gtk::SizeGroup> size_group;
-  const std::list<Exercise> &exercises;
+  const std::list<Exercise> exercises;
   std::list<Exercise>::const_iterator exercise_iterator;
   std::list<Exercise::Image>::const_iterator image_iterator;
   SigC::Connection heartbeat_signal;

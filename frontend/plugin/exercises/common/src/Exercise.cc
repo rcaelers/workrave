@@ -1,6 +1,6 @@
 // Exercise.cc --- Exercises
 //
-// Copyright (C) 2002, 2003 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -45,9 +45,6 @@ struct ExerciseParser
   
   const GList *i18n_languages;
 };
-
-std::list<Exercise> Exercise::exercises;
-bool exercises_parsed = false;
 
 static const gchar *
 exercise_parse_lookup_attribute(const gchar *find, const gchar **names,
@@ -333,22 +330,22 @@ Exercise::parse_exercises(const char *file_name,
 }
 
 
-void
-Exercise::parse_exercises(std::list<Exercise> &exercises)
+std::string
+Exercise::get_exercises_file_name()
 {
-  std::string file_name = Util::complete_directory
+  return Util::complete_directory
     ("exercises.xml", Util::SEARCH_PATH_EXERCISES);
-  return parse_exercises(file_name.c_str(), exercises);
-
 }
 
-const std::list<Exercise> &
+
+std::list<Exercise> 
 Exercise::get_exercises()
 {
-  if (! exercises_parsed)
+  std::list<Exercise> exercises;
+  std::string file_name = get_exercises_file_name();
+  if (file_name.length () > 0)
     {
-      parse_exercises(exercises);
-      exercises_parsed = true;
+      parse_exercises(file_name.c_str(), exercises);
     }
   return exercises;
 }
@@ -356,8 +353,8 @@ Exercise::get_exercises()
 bool
 Exercise::has_exercises()
 {
-  const std::list<Exercise> &ex = get_exercises();
-  return ex.size() > 0;
+  std::string file_name = get_exercises_file_name();
+  return file_name.length() > 0;
 }
 
 

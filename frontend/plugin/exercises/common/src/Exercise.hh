@@ -1,6 +1,6 @@
 // Exercise.hh --- Exercises
 //
-// Copyright (C) 2002, 2003 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -50,13 +50,11 @@ public:
   std::list<Image> sequence;
 
 public:
-  static const std::list<Exercise> &get_exercises();
+  static std::list<Exercise> get_exercises();
 
 private:
-  static void parse_exercises(std::list<Exercise>&);
+  static std::string get_exercises_file_name();
   static void parse_exercises(const char *file_name, std::list<Exercise>&);
-
-  static std::list<Exercise> exercises;
 #endif // HAVE_EXERCISES
 };
 

@@ -5,14 +5,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2004-03-04 19:41+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-03-07 21:16+0100\n"
 "PO-Revision-Date: 2003-09-08 19:07+0200\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
 
 #: frontend/gtkmm/src/eggtrayicon.c:118
 #, fuzzy
@@ -49,26 +49,26 @@ msgstr "_Kreditoj"
 msgid "About %s"
 msgstr "Pri %s"
 
-#: frontend/gtkmm/src/BreakWindow.cc:329
+#: frontend/gtkmm/src/BreakWindow.cc:178
 msgid "Lock"
 msgstr "Ŝlosu"
 
-#: frontend/gtkmm/src/BreakWindow.cc:348
+#: frontend/gtkmm/src/BreakWindow.cc:197
 #, fuzzy
 msgid "Shut down"
 msgstr "Montru _protokolon"
 
-#: frontend/gtkmm/src/BreakWindow.cc:365
+#: frontend/gtkmm/src/BreakWindow.cc:214
 msgid "Skip"
 msgstr "Transsaltu"
 
-#: frontend/gtkmm/src/BreakWindow.cc:378
+#: frontend/gtkmm/src/BreakWindow.cc:227
 msgid "Postpone"
 msgstr "Prokrastu"
 
-#: frontend/common/share/sounds/workrave.soundlist.in.h:3
 #: frontend/gtkmm/src/DailyLimitWindow.cc:45
 #: frontend/gtkmm/src/DailyLimitWindow.cc:53 frontend/gtkmm/src/GtkUtil.cc:117
+#: frontend/common/share/sounds/workrave.soundlist.in.h:3
 msgid "Daily limit"
 msgstr "Taglimo"
 
@@ -483,8 +483,8 @@ msgstr "Montru _protokolon"
 msgid "_Statistics"
 msgstr "Statistiko"
 
-#: frontend/common/share/sounds/workrave.soundlist.in.h:10
 #: frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:1
+#: frontend/common/share/sounds/workrave.soundlist.in.h:10
 msgid "Workrave"
 msgstr ""
 
