@@ -40,7 +40,7 @@ private:
   void init();
 
   Gtk::Entry *host_entry;
-  Gtk::Entry *port_entry;
+  Gtk::SpinButton *port_entry;
   Gtk::CheckButton *startup_button;
 };
 

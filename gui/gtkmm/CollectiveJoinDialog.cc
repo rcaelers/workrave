@@ -26,8 +26,10 @@
 #include <unistd.h>
 #include <assert.h>
 
-#include "DistributionManager.hh"
 #include "CollectiveJoinDialog.hh"
+
+#include "DistributionManager.hh"
+#include "DistributionSocketLink.hh"
 #include "Configurator.hh"
 #include "GUIControl.hh"
 #include "Util.hh"
@@ -55,12 +57,16 @@ CollectiveJoinDialog::CollectiveJoinDialog()
 
   // Entry
   host_entry = manage(new Gtk::Entry());
-  port_entry = manage(new Gtk::Entry());
+  port_entry = manage(new Gtk::SpinButton());
   Gtk::Label *host_label = manage(new Gtk::Label("Hostname"));
   Gtk::Label *port_label = manage(new Gtk::Label("Port"));
 
+  port_entry->set_range(1024, 65535);
+  port_entry->set_increments(1, 10);
+  port_entry->set_numeric(true);
+  port_entry->set_width_chars(10);
+  
   host_entry->set_width_chars(40);
-  port_entry->set_width_chars(5);
 
   Gtk::Alignment *port_al = manage(new Gtk::Alignment(Gtk::ALIGN_LEFT, Gtk::ALIGN_BOTTOM, 0.0, 0.0));
   port_al->add(*port_entry);
@@ -106,7 +112,15 @@ CollectiveJoinDialog::~CollectiveJoinDialog()
 void
 CollectiveJoinDialog::init()
 {
-  port_entry->set_text("4224");
+  int value;
+  Configurator *c = GUIControl::get_instance()->get_configurator();
+  bool is_set = c->get_value(DistributionSocketLink::CFG_KEY_DISTRIBUTION_TCP + DistributionSocketLink::CFG_KEY_DISTRIBUTION_TCP_PORT, &value);
+  if (!is_set)
+    {
+      value = DEFAULT_PORT;
+    }
+  
+  port_entry->set_value(value);
 }
 
 int

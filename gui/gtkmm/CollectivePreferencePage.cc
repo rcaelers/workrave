@@ -87,10 +87,12 @@ CollectivePreferencePage::create_general_page(Gtk::Notebook *tnotebook)
   password2_entry = manage(new Gtk::Entry());
   
   Gtk::Label *username_label = manage(new Gtk::Label("Username"));
-  Gtk::Label *password1_label = manage(new Gtk::Label("Pasword"));
-  Gtk::Label *password2_label = manage(new Gtk::Label("Verify"));
+  Gtk::Label *password1_label = manage(new Gtk::Label("Password"));
+  password2_label = manage(new Gtk::Label("Retype"));
 
+  password1_entry->set_visibility(false);
   password1_entry->set_invisible_char('*');
+  password2_entry->set_visibility(false);
   password2_entry->set_invisible_char('*'); 
   
   Gtk::Table *id_table = manage(new Gtk::Table(3, 2, false));
@@ -144,14 +146,17 @@ CollectivePreferencePage::create_advanced_page(Gtk::Notebook *tnotebook)
   port_entry->set_range(1024, 65535);
   port_entry->set_increments(1, 10);
   port_entry->set_numeric(true);
+  port_entry->set_width_chars(10);
   
   attempts_entry->set_range(0, 100);
   attempts_entry->set_increments(1, 10);
   attempts_entry->set_numeric(true);
+  attempts_entry->set_width_chars(10);
 
   interval_entry->set_range(1, 3600);
   interval_entry->set_increments(1, 10);
   interval_entry->set_numeric(true);
+  interval_entry->set_width_chars(10);
 
   Gtk::Label *port_label = manage(new Gtk::Label("Server port"));
   Gtk::Label *attempts_label = manage(new Gtk::Label("Reconnect atttempts"));
@@ -306,6 +311,11 @@ CollectivePreferencePage::on_password_changed()
     {
       Configurator *c = GUIControl::get_instance()->get_configurator();
       c->set_value(DistributionSocketLink::CFG_KEY_DISTRIBUTION_TCP + DistributionSocketLink::CFG_KEY_DISTRIBUTION_TCP_PASSWORD, pw1);
+      password2_label->set_text("Verified");
+    }
+  else
+    {
+      password2_label->set_text("Retype");
     }
 }
 

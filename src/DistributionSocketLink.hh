@@ -29,7 +29,7 @@
 #include "ConfiguratorListener.hh"
 #include "PacketBuffer.hh"
 
-#define DEFAULT_PORT (4224)
+#define DEFAULT_PORT (27273)
 #define DEFAULT_INTERVAL (15)
 #define DEFAULT_ATTEMPTS (5)
 

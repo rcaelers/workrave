@@ -206,8 +206,11 @@ DistributionSocketLink::disconnect_all()
           gnet_tcp_socket_delete(c->socket);
           c->socket = NULL;
         }
-      
-      g_source_remove(c->watch);
+
+      if (c->watch != 0)
+        {
+          g_source_remove(c->watch);
+        }
       c->watch = 0;
       c->watch_flags = 0;
 
@@ -1362,13 +1365,22 @@ DistributionSocketLink::async_io(GIOChannel *iochannel, GIOCondition condition, 
           gnet_tcp_socket_delete(client->socket);
           client->socket = NULL;
         }
+
+      if (client->watch != 0)
+        {
+          g_source_remove(client->watch);
+        }
       
-      g_source_remove(client->watch);
       client->watch = 0;
       client->watch_flags = 0;
 
       client->reconnect_count = reconnect_attempts;
-      client->reconnect_time = time(NULL) + reconnect_interval;          
+      client->reconnect_time = time(NULL) + reconnect_interval;
+
+      if (active_client == client)
+        {
+          set_active(NULL);
+        }
     }
   
   TRACE_EXIT();
@@ -1455,6 +1467,8 @@ DistributionSocketLink::read_configuration()
 {
   bool is_set;
 
+  int old_port = server_port;
+  
   const char *port = getenv("WORKRAVE_PORT");
   if (port != NULL)
     {
@@ -1469,6 +1483,12 @@ DistributionSocketLink::read_configuration()
         {
           server_port = DEFAULT_PORT;
         }
+    }
+
+  if (old_port != server_port && server_enabled)
+    {
+      set_enabled(false);
+      set_enabled(true);
     }
   
   // Reconnect interval
