@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-08 00:38+0200\n"
-"PO-Revision-Date: 2003-07-07 18:50+0100\n"
+"POT-Creation-Date: 2003-09-08 19:04+0200\n"
+"PO-Revision-Date: 2003-09-08 19:09+0200\n"
 "Last-Translator: Mikołaj Machowski <mikmach@wp.pl>\n"
 "Language-Team: Mikołaj Machowski <mikmach@wp.pl>\n"
 "MIME-Version: 1.0\n"
@@ -51,7 +51,7 @@ msgstr "O programie %s"
 
 #: src/app/gtkmm/BreakWindow.cc:329
 msgid "Lock"
-msgstr ""
+msgstr "Zablokuj"
 
 #: src/app/gtkmm/BreakWindow.cc:346
 msgid "Skip"

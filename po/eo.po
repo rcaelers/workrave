@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-08 00:38+0200\n"
-"PO-Revision-Date: 2002-11-05 17:58-0800\n"
+"POT-Creation-Date: 2003-09-08 19:04+0200\n"
+"PO-Revision-Date: 2003-09-08 19:07+0200\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -51,7 +51,7 @@ msgstr "Pri %s"
 
 #: src/app/gtkmm/BreakWindow.cc:329
 msgid "Lock"
-msgstr ""
+msgstr "Ŝlosu"
 
 #: src/app/gtkmm/BreakWindow.cc:346
 msgid "Skip"

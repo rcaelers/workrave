@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.4.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-08 00:38+0200\n"
-"PO-Revision-Date: 2003-08-26 13:40+0200\n"
+"POT-Creation-Date: 2003-09-08 19:18+0200\n"
+"PO-Revision-Date: 2003-09-08 19:04+0200\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -60,7 +60,7 @@ msgstr "Über %s"
 
 #: src/app/gtkmm/BreakWindow.cc:329
 msgid "Lock"
-msgstr ""
+msgstr "Sperren"
 
 # src/app/gtkmm/BreakWindow.cc:327
 #: src/app/gtkmm/BreakWindow.cc:346

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-08 00:38+0200\n"
-"PO-Revision-Date: 2003-08-03 21:46+0200\n"
+"POT-Creation-Date: 2003-09-08 19:04+0200\n"
+"PO-Revision-Date: 2003-09-08 19:08+0200\n"
 "Last-Translator: Christian Vejlbo <translate@vejlbo.dk>\n"
 "Language-Team:  <da@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -52,7 +52,7 @@ msgstr "Om %s"
 
 #: src/app/gtkmm/BreakWindow.cc:329
 msgid "Lock"
-msgstr ""
+msgstr "Lås"
 
 #: src/app/gtkmm/BreakWindow.cc:346
 msgid "Skip"
