@@ -102,15 +102,9 @@ BreakWindow::init_gui()
           window_frame->set_frame_style(Frame::STYLE_BREAK_WINDOW);
           window_frame->add(*gui);
 
-          set_size_request(
-#ifdef HAVE_GTK_MULTIHEAD
-                           head.screen->get_width(),
-                           head.screen->get_height()
-#else
-                           gdk_screen_width(),
-                           gdk_screen_height()
-#endif
-                           );
+          set_size_request(head.geometry.get_width(),
+                           head.geometry.get_height());
+
           set_app_paintable(true);
           set_background_pixmap();
           Gtk::Alignment *align
@@ -213,12 +207,12 @@ BreakWindow::set_background_pixmap()
   tmp_pixbuf = gdk_pixbuf_get_from_drawable (NULL,
                                              gdk_get_default_root_window (),
                                              gdk_colormap_get_system (),
+                                             head.geometry.get_x(),
+                                             head.geometry.get_y(),
                                              0,
                                              0,
-                                             0,
-                                             0,
-                                             gdk_screen_width (),
-                                             gdk_screen_height ());
+                                             head.geometry.get_width (),
+                                             head.geometry.get_height ());
 
   std::string file = Util::complete_directory
     ("ocean-stripes.png", Util::SEARCH_PATH_IMAGES);
