@@ -1,4 +1,4 @@
-// ExercisesDialog.cc --- Exercises dialog
+// Exercise.hh --- Exercises
 //
 // Copyright (C) 2002, 2003 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
@@ -14,51 +14,38 @@
 // GNU General Public License for more details.
 //
 // $Id$
+//
 
-#ifdef HAVE_CONFIG_H
+#ifndef EXERCISE_HH
+#define EXERCISE_HH
+
 #include "config.h"
-#endif
 
 #ifdef HAVE_EXERCISES
 
-#include "preinclude.h"
-
-#include "nls.h"
-#include "debug.hh"
-
-#include <unistd.h>
-#include <assert.h>
-
-#include "ExercisesDialog.hh"
-#include "Exercise.hh"
+#include <list>
+#include <string>
 
 
-
-ExercisesDialog::ExercisesDialog()
-  : HigDialog(_("Exercises"), false, false)
+struct Exercise
 {
-  TRACE_ENTER("ExercisesDialog::ExercisesDialog");
+  struct Image
+  {
+    std::string image;
+    int duration;
+  };
+  
+  std::string title;
+  std::string description;
+  int duration;
+  std::list<Image> sequence;
 
-  std::list<Exercise> exercises;
-  Exercise::parse_exercises(exercises);
-  TRACE_EXIT();
-}
+  static void parse_exercises(std::list<Exercise>&);
+  static void parse_exercises(const char *file_name, std::list<Exercise>&);
+};
 
-
-//! Destructor.
-ExercisesDialog::~ExercisesDialog()
-{
-  TRACE_ENTER("ExercisesDialog::~ExercisesDialog");
-
-  TRACE_EXIT();
-}
-
-int
-ExercisesDialog::run()
-{
-  show_all();
-  return 0;
-}
 
 
 #endif // HAVE_EXERCISES
+
+#endif // EXERCISE_HH
