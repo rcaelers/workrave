@@ -146,3 +146,10 @@ ActivityMonitor::get_parameters(int &noise, int &activity, int &idle)
 { 
   activity_state->get_parameters(noise, activity, idle);
 }
+
+void
+ActivityMonitor::get_statistics(ActivityMonitorStatistics &stats) const
+{
+  stats.total_movement = activity_state->get_mouse_movement();
+  stats.total_click_movement = activity_state->get_mouse_click_movement();
+}

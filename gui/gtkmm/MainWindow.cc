@@ -36,6 +36,7 @@ static const char rcsid[] = "$Id$";
 
 #include "MainWindow.hh"
 #include "PreferencesDialog.hh"
+#include "StatisticsDialog.hh"
 #include "WindowHints.hh"
 #include "TimeBar.hh"
 #include "GUI.hh"
@@ -324,6 +325,9 @@ MainWindow::create_menu()
   menulist.push_back(*mode_menu_item);
 
 #ifndef NDEBUG
+  menulist.push_back(Gtk::Menu_Helpers::MenuElem("Statistics",
+                                                 SigC::slot(*this, &MainWindow::on_menu_statistics)));
+  
   menulist.push_back(Gtk::Menu_Helpers::MenuElem("_Test",
                                                  SigC::slot(*this, &MainWindow::on_test_me)));
 #endif
@@ -522,6 +526,22 @@ MainWindow::on_menu_preferences()
   quiet = ctrl->set_quiet(true);
 
   PreferencesDialog *dialog = new PreferencesDialog();
+  dialog->run();
+  delete dialog;
+
+  ctrl->set_quiet(quiet);
+}
+
+
+//! Preferences Dialog.
+void
+MainWindow::on_menu_statistics()
+{
+  bool quiet;
+  GUIControl *ctrl = GUIControl::get_instance();
+  quiet = ctrl->set_quiet(true);
+
+  StatisticsDialog *dialog = new StatisticsDialog();
   dialog->run();
   delete dialog;
 

@@ -139,9 +139,22 @@ Control::process_timers(map<string, TimerInfo> &infos)
   static int count = 0;
   
   ActivityState state = monitor->get_current_state();
-          
+
+  ActivityMonitorStatistics stats;
+  monitor->get_statistics(stats);
+
+  int ratio = 0;
+  if (stats.total_movement != 0)
+    {
+      ratio = (stats.total_click_movement * 100) / stats.total_movement;
+    }
+  
+  TRACE_MSG("monitor stats "
+            << stats.total_movement << " " 
+            << stats.total_click_movement << " " 
+            << ratio);
+  
   current_time = time(NULL);
-  TRACE_MSG("run");
           
   for (TimerCIter i = timers.begin(); i != timers.end(); i++)
     {

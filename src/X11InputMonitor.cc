@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-09-06 15:25:06 pennersr>
+// Time-stamp: <2002-09-21 21:01:04 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -329,7 +329,8 @@ X11InputMonitor::handle_keypress(XEvent *event)
   
   fflush(stdout);
 #endif
-  listener->action_notify();
+  // FIXME:
+  listener->keyboard_notify(0, 0);
 }
 
 
@@ -372,21 +373,41 @@ X11InputMonitor::handle_xrecord_handle_key_event(XRecordInterceptData *data)
   kevent.keycode = event->u.u.detail;
   XLookupString(&kevent, buf, sizeof(buf), &keysym, 0);
 
-  listener->action_notify();
+  listener->keyboard_notify(0, 0);
 }
 
 void
 X11InputMonitor::handle_xrecord_handle_motion_event(XRecordInterceptData *data)
 {
-  (void) data;
-  listener->action_notify();
+  xEvent *event = (xEvent *)data->data;
+
+  if (event != NULL)
+    {
+      int x = event->u.keyButtonPointer.rootX;
+      int y = event->u.keyButtonPointer.rootY;
+
+      listener->mouse_notify(x, y, 0);
+    }
+  else
+    {
+      listener->action_notify();
+    }
 }
 
 void
 X11InputMonitor::handle_xrecord_handle_button_event(XRecordInterceptData *data)
 {
-  (void) data;
-  listener->action_notify();
+  xEvent *event = (xEvent *)data->data;
+
+  if (event != NULL)
+    {
+      int b = event->u.keyButtonPointer.state;
+      listener->button_notify(b);
+    }
+  else
+    {
+      listener->action_notify();
+    }
 }
 
 

@@ -22,6 +22,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
 #include <map>
 #include <list>
 #include <time.h>
@@ -83,6 +84,10 @@ public:
   void increment_counter(GUIControl::BreakId, StatType st);
   void set_total_active(int active);
 
+  DailyStats *get_current_day() const;
+  DailyStats *get_day(int day) const;
+  int get_history_size() const;
+  
   void dump();
 
 private:
@@ -98,7 +103,7 @@ private:
   DailyStats *current_day;
 
   //! History
-  list<DailyStats *> history;
+  vector<DailyStats *> history;
 };
 
 

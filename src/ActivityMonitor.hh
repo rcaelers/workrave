@@ -44,6 +44,8 @@ public:
   void get_parameters(int &noise, int &activity, int &idle);
   ActivityState get_current_state() const;
 
+  void get_statistics(ActivityMonitorStatistics &stats) const;
+  
 private:
   //! The actual monitoring driver.
   InputMonitorInterface *input_monitor;

@@ -75,6 +75,10 @@ public:
   {
   }
 
+  void get_statistics(ActivityMonitorStatistics &stats) const
+  {
+  }
+  
 private:
   //! Reference timer.
   TimerInterface *timer;

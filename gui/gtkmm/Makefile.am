@@ -28,6 +28,7 @@ libgtkmmgui_a_SOURCES = \
 	PreludeWindow.cc \
 	RestBreakWindow.cc \
 	Statistics.cc \
+	StatisticsDialog.cc \
 	TimeBar.cc \
 	TimeEntry.cc \
 	TimerPreferencesPanel.cc \

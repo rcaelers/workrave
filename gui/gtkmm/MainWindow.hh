@@ -105,6 +105,7 @@ private:
   void on_menu_quit();
   void on_menu_restbreak_now();
   void on_menu_preferences();
+  void on_menu_statistics();
   void on_menu_normal();
   void on_menu_suspend();
   void on_menu_quiet();
