@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-07 23:33+0200\n"
+"POT-Creation-Date: 2004-10-08 21:09+0200\n"
 "PO-Revision-Date: 2003-09-08 19:07+0200\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -68,7 +68,7 @@ msgstr "Prokrastu"
 
 #: frontend/gtkmm/src/DailyLimitWindow.cc:45
 #: frontend/gtkmm/src/DailyLimitWindow.cc:53
-#: frontend/common/src/TimerBoxControl.cc:156
+#: frontend/common/src/TimerBoxControl.cc:171
 #: frontend/gtkmm/src/GtkUtil.cc:154
 #: frontend/common/share/sounds/workrave.soundlist.in.h:3
 msgid "Daily limit"
@@ -89,7 +89,7 @@ msgid "I could not initialize Bonobo"
 msgstr ""
 
 #. FIXME: duplicate
-#: frontend/common/src/TimerBoxControl.cc:156
+#: frontend/common/src/TimerBoxControl.cc:171
 #: frontend/gtkmm/src/GtkUtil.cc:154 frontend/gtkmm/src/MicroBreakWindow.cc:48
 #: frontend/gtkmm/src/MicroBreakWindow.cc:110
 #: frontend/gtkmm/src/MicroBreakWindow.cc:188
@@ -97,17 +97,17 @@ msgstr ""
 msgid "Micro-break"
 msgstr "Paŭzeto"
 
-#: frontend/common/src/TimerBoxControl.cc:156
+#: frontend/common/src/TimerBoxControl.cc:171
 #: frontend/gtkmm/src/GtkUtil.cc:154 frontend/gtkmm/src/RestBreakWindow.cc:73
 #: frontend/gtkmm/src/RestBreakWindow.cc:181
 msgid "Rest break"
 msgstr "Ripozo"
 
-#: frontend/common/src/TimerBoxControl.cc:173
+#: frontend/common/src/TimerBoxControl.cc:188
 msgid "Inactive"
 msgstr "Neaktiva"
 
-#: frontend/common/src/TimerBoxControl.cc:220
+#: frontend/common/src/TimerBoxControl.cc:235
 #: frontend/gtkmm/src/TimerBoxGtkView.cc:158
 msgid "Wait"
 msgstr "Atendu"

@@ -50,6 +50,7 @@ public:
                             TimeBar::ColorId secondary_color,
                             int secondary_value, int secondary_max);
   void set_tip(std::string tip);
+  void set_icon(IconType icon);
   void update();
   void set_enabled(bool enabled);
 

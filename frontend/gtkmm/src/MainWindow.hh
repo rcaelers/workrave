@@ -140,6 +140,7 @@ public:
 #ifdef WIN32
 public:
   void win32_set_tray_tooltip(string tip);
+  void win32_set_tray_icon(string icon);
   
 private:
   void win32_show(bool b);
@@ -156,6 +157,10 @@ private:
   HINSTANCE win32_hinstance;
   NOTIFYICONDATA win32_tray_icon;
   UINT wm_taskbarcreated;
+  HICON normal_icon;
+  HICON suspended_icon;
+  HICON quiet_icon;
+  
   TimerBoxAppletView win32_timer_box_view;
   TimerBoxControl *win32_timer_box_control;
 #endif

@@ -71,7 +71,8 @@ private:
   void config_changed_notify(std::string key);
   void update_widgets();
   void init_table();
- 
+  void init_icon();
+  
   void read_configuration();
  
   void init_slot(int slot);
@@ -105,6 +106,9 @@ private:
 
   //! Name
   std::string name;
+
+  //! Last known operation mode
+  OperationMode operation_mode;
 };
 
 #endif // TIMERBOXCONTROL_HH

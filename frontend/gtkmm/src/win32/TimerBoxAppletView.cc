@@ -104,6 +104,15 @@ TimerBoxAppletView::set_tip(std::string tip)
   main_window->win32_set_tray_tooltip(tip);
 }
 
+void
+TimerBoxAppletView::set_icon(IconType type)
+{
+  GUI *gui = GUI::get_instance();
+  MainWindow *main_window = gui->get_main_window();
+
+  main_window->win32_set_tray_icon(type);
+}
+
 
 void
 TimerBoxAppletView::update()

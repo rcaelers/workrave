@@ -669,6 +669,10 @@ MainWindow::win32_exit()
 void
 MainWindow::win32_add_tray_icon()
 {
+  normal_icon = LoadIcon(win32_hinstance, "workrave");
+  quiet_icon = LoadIcon(win32_hinstance, "workrave-quiet");
+  suspended_icon = LoadIcon(win32_hinstance, "workrave-suspended");
+
   memset(&win32_tray_icon, 0, sizeof(NOTIFYICONDATA));
     
   win32_tray_icon.cbSize = sizeof(NOTIFYICONDATA);
@@ -676,7 +680,7 @@ MainWindow::win32_add_tray_icon()
   win32_tray_icon.uID = 1;
   win32_tray_icon.uFlags = NIF_ICON|NIF_TIP|NIF_MESSAGE|0x00000010; // NIF_INFO;
   win32_tray_icon.uCallbackMessage = MYWM_TRAY_MESSAGE;
-  win32_tray_icon.hIcon = LoadIcon(win32_hinstance, "workrave");
+  win32_tray_icon.hIcon = normal_icon;
 
   win32_tray_icon.dwInfoFlags = 0; // NIIF_NONE;
   win32_tray_icon.uTimeout = 5 * 1000;
@@ -695,6 +699,29 @@ MainWindow::win32_set_tray_tooltip(string tip)
   strcpy(win32_tray_icon.szInfo, tip.c_str());
   Shell_NotifyIcon(NIM_MODIFY, &win32_tray_icon);
 }
+
+
+void
+MainWindow::win32_set_tray_icon(IconType icon)
+{
+  string file;  
+  switch (icon)
+    {
+    case ICON_NORMAL:
+      win32_tray_icon.hIcon = normal_icon;
+      break;
+      
+    case ICON_QUIET:
+      win32_tray_icon.hIcon = quiet_icon;
+      break;
+      
+    case ICON_SUSPENDED:
+      win32_tray_icon.hIcon = suspended_icon;
+    }
+  
+  Shell_NotifyIcon(NIM_MODIFY, &win32_tray_icon);
+}
+
 
 LRESULT CALLBACK
 MainWindow::win32_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,

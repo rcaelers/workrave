@@ -28,14 +28,22 @@
 class TimerBoxView
 {
 public:
+  enum IconType
+    {
+      ICON_NORMAL,
+      ICON_QUIET,
+      ICON_SUSPENDED
+    };
+  
   virtual void set_slot(BreakId  id, int slot) = 0;
   virtual void set_time_bar(BreakId id,
-                            std::string text
-                            , TimeBarInterface::ColorId primary_color,
+                            std::string text,
+                            TimeBarInterface::ColorId primary_color,
                             int primary_value, int primary_max,
                             TimeBarInterface::ColorId secondary_color,
                             int secondary_value, int secondary_max) = 0;
   virtual void set_tip(std::string tip) = 0;
+  virtual void set_icon(IconType icon) = 0;
   virtual void update() = 0;
   virtual void set_enabled(bool enabled) = 0;
   

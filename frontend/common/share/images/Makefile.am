@@ -1,12 +1,14 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2004 Rob Caelers & Raymond Penners
 #
 #
 # $Id$
 #
 
 MAINTAINERCLEANFILES = 	Makefile.in
+
+SUBDIRS = 		win32
 
 imagesdir = 		$(pkgdatadir)/images
 images_DATA = 		$(wildcard *.png) $(wildcard *.ico)

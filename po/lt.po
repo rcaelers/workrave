@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.6.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-07 22:15+0200\n"
+"POT-Creation-Date: 2004-10-08 21:07+0200\n"
 "PO-Revision-Date: 2004-07-14 23:19+0200\n"
 "Last-Translator: Artūras Šlajus <x11@h2o.sky.lt>\n"
 "Language-Team: Artūras Šlajus <x11@h2o.sky.lt>\n"
@@ -68,7 +68,7 @@ msgstr "Atidėti"
 
 #: frontend/gtkmm/src/DailyLimitWindow.cc:45
 #: frontend/gtkmm/src/DailyLimitWindow.cc:53
-#: frontend/common/src/TimerBoxControl.cc:156
+#: frontend/common/src/TimerBoxControl.cc:171
 #: frontend/gtkmm/src/GtkUtil.cc:154
 #: frontend/common/share/sounds/workrave.soundlist.in.h:3
 msgid "Daily limit"
@@ -89,24 +89,24 @@ msgid "I could not initialize Bonobo"
 msgstr "Nepavyko inicializuoti Bonobo"
 
 #. FIXME: duplicate
-#: frontend/common/src/TimerBoxControl.cc:156
+#: frontend/common/src/TimerBoxControl.cc:171
 #: frontend/gtkmm/src/GtkUtil.cc:154 frontend/gtkmm/src/MicroBreakWindow.cc:48
 #: frontend/gtkmm/src/MicroBreakWindow.cc:110
 #: frontend/gtkmm/src/MicroBreakWindow.cc:188
 msgid "Micro-break"
 msgstr "Mikro-pertraukėlė"
 
-#: frontend/common/src/TimerBoxControl.cc:156
+#: frontend/common/src/TimerBoxControl.cc:171
 #: frontend/gtkmm/src/GtkUtil.cc:154 frontend/gtkmm/src/RestBreakWindow.cc:73
 #: frontend/gtkmm/src/RestBreakWindow.cc:181
 msgid "Rest break"
 msgstr "Poilsio pertrauka"
 
-#: frontend/common/src/TimerBoxControl.cc:173
+#: frontend/common/src/TimerBoxControl.cc:188
 msgid "Inactive"
 msgstr "Neaktyvus"
 
-#: frontend/common/src/TimerBoxControl.cc:220
+#: frontend/common/src/TimerBoxControl.cc:235
 #: frontend/gtkmm/src/TimerBoxGtkView.cc:158
 msgid "Wait"
 msgstr "Laukti"

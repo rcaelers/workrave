@@ -40,6 +40,7 @@ public:
                     TimeBarInterface::ColorId secondary_color,
                     int secondary_value, int secondary_max);
   void set_tip(std::string tip);
+  void set_icon(std:string icon);
   void update();
   void update_time_bars();
   void update_menu();

@@ -670,6 +670,7 @@ AC_OUTPUT(Makefile \
           frontend/common/share/Makefile \
           frontend/common/share/sounds/Makefile \
           frontend/common/share/images/Makefile \
+          frontend/common/share/images/win32/Makefile \
           frontend/common/src/Makefile \
           frontend/common/src/gnome/Makefile \
           frontend/common/src/win32/Makefile \

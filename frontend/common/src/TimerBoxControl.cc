@@ -72,10 +72,17 @@ TimerBoxControl::~TimerBoxControl()
 void
 TimerBoxControl::update()
 {
+  CoreInterface *core = CoreFactory::get_core();
+  OperationMode mode = core->get_operation_mode();
+
   if (reconfigure)
     {
       // Configuration was changed. reinit.
       init_table();
+
+      operation_mode = mode;
+      init_icon();
+
       reconfigure = false;
     }
   else
@@ -86,6 +93,13 @@ TimerBoxControl::update()
           init_table();
           cycle_slots();
         }
+    }
+
+  // Update visual feedback of operating mode.
+  if (mode != operation_mode)
+    {
+      operation_mode = mode;
+      init_icon();
     }
   
   // Update the timer widgets.
@@ -100,13 +114,14 @@ TimerBoxControl::init()
 {
   TRACE_ENTER("TimerBoxControl::init");
 
+  CoreInterface *core = CoreFactory::get_core();
+  
   // Listen for configugration changes.
   ConfiguratorInterface *config = CoreFactory::get_configurator();
   config->add_listener(TimerBoxControl::CFG_KEY_TIMERBOX + name, this);
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      CoreInterface *core = CoreFactory::get_core();
       BreakInterface *break_data = core->get_break(BreakId(i));
       config->add_listener("gui/breaks/"
                            + break_data->get_name()
@@ -245,6 +260,24 @@ TimerBoxControl::update_widgets()
     }
 }
 
+void
+TimerBoxControl::init_icon()
+{
+  switch (operation_mode)
+    {
+    case OPERATION_MODE_NORMAL:
+      view->set_icon(TimerBoxView::ICON_NORMAL);
+      break;
+      
+    case OPERATION_MODE_SUSPENDED:
+      view->set_icon(TimerBoxView::ICON_SUSPENDED);
+      break;
+      
+    case OPERATION_MODE_QUIET:
+      view->set_icon(TimerBoxView::ICON_QUIET);
+      break;
+    }
+}
 
 //! Initializes the applet.
 void
@@ -291,16 +324,13 @@ TimerBoxControl::init_slot(int slot)
   // Collect all timers for this slot.
   for (int i = 0; !stop && i < BREAK_ID_SIZEOF; i++)
     {
-      // TRACE_MSG("1 " << i);
       CoreInterface *core = CoreFactory::get_core();
       BreakInterface *break_data = core->get_break(BreakId(i));
 
       bool on = break_data->get_break_enabled();
-      // TRACE_MSG("2 " << on);
       
       if (on && break_position[i] == slot && !(break_flags[i] & BREAK_HIDE))
         {
-          // TRACE_MSG("3");
           breaks_id[count] = i;
           break_flags[i] &= ~BREAK_SKIP;
           count++;
@@ -311,34 +341,26 @@ TimerBoxControl::init_slot(int slot)
   time_t first = 0;
   int first_id = -1;
     
-  // TRACE_MSG("4");
   for (int i = 0; i < count; i++)
     {
-      // TRACE_MSG("5");
       int id = breaks_id[i];
       int flags = break_flags[id];
 
-      // TRACE_MSG("6 " << id << " " << flags);
-      
       CoreInterface *core = CoreFactory::get_core();
       BreakInterface *break_data = core->get_break(BreakId(id));
       TimerInterface *timer = break_data->get_timer();
 
-      // TRACE_MSG("7");
-      
       time_t time_left = timer->get_limit() - timer->get_elapsed_time();
         
       // Exclude break if not imminent.
       if (flags & BREAK_WHEN_IMMINENT && time_left > break_imminent_time[id])
         {
-          // TRACE_MSG("8");
           break_flags[id] |= BREAK_SKIP;
         }
 
       // update first imminent timer.
       if (!(flags & BREAK_SKIP) && (first_id == -1 || time_left < first))
         {
-          // TRACE_MSG("9");
           first_id = id;
           first = time_left;
         }
@@ -348,16 +370,13 @@ TimerBoxControl::init_slot(int slot)
   // Exclude break if not first.
   for (int i = 0; i < count; i++)
     {
-      // TRACE_MSG("10 " << i);
       int id = breaks_id[i];
       int flags = break_flags[id];
 
       if (!(flags & BREAK_SKIP))
         {
-          // TRACE_MSG("11");
           if (flags & BREAK_WHEN_FIRST && first_id != id)
             {
-              // TRACE_MSG("12");
               break_flags[id] |= BREAK_SKIP;
             }
         }
@@ -369,43 +388,34 @@ TimerBoxControl::init_slot(int slot)
   int breaks_left = 0;
   for (int i = 0; i < count; i++)
     {
-      // TRACE_MSG("13 " << i);
-
       int id = breaks_id[i];
       int flags = break_flags[id];
 
       if (!(flags & BREAK_SKIP))
         {
-          // TRACE_MSG("14");
           if (flags & BREAK_EXCLUSIVE && have_one)
             {
-              // TRACE_MSG("15");
               break_flags[id] |= BREAK_SKIP;
             }
 
           have_one = true;
         }
       
-      // TRACE_MSG("15");
       if (!(flags & BREAK_SKIP))
         {
-          // TRACE_MSG("16");
           breaks_left++;
         }
     }
 
   if (breaks_left == 0)
     {
-      // TRACE_MSG("17");
       for (int i = 0; i < count; i++)
         {
-          // TRACE_MSG("18");
           int id = breaks_id[i];
           int flags = break_flags[id];
           
           if (flags & BREAK_DEFAULT && flags & BREAK_SKIP)
             {
-              // TRACE_MSG("19");
               break_flags[id] &= ~BREAK_SKIP;
               breaks_left = 1;
               break;
@@ -413,13 +423,11 @@ TimerBoxControl::init_slot(int slot)
         }
     }
 
-  // TRACE_MSG("20");
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       break_slots[slot][i] = -1;
     }
 
-  // TRACE_MSG("21");
   int new_count = 0;
   for (int i = 0; i < count; i++)
     {
@@ -432,8 +440,6 @@ TimerBoxControl::init_slot(int slot)
           new_count++;
         }
     }
-  // TRACE_EXIT();
-
 }
 
 
