@@ -164,12 +164,12 @@ private:
   
   bool start_async_server();
   void async_accept(GTcpSocket *server, GTcpSocket *client);
-  bool async_server_io(GIOChannel* iochannel, GIOCondition condition, Client *client);
-  void async_client_connfunc(GTcpSocket *socket, GInetAddr *ia, GTcpSocketConnectAsyncStatus status, Client *client);
+  bool async_io(GIOChannel* iochannel, GIOCondition condition, Client *client);
+  void async_connected(GTcpSocket *socket, GInetAddr *ia, GTcpSocketConnectAsyncStatus status, Client *client);
 
   static void static_async_accept(GTcpSocket* server, GTcpSocket* client, gpointer data);
-  static gboolean static_async_server_io(GIOChannel* iochannel, GIOCondition condition, gpointer data);
-  static void static_async_client_connfunc(GTcpSocket *socket, GInetAddr *ia, GTcpSocketConnectAsyncStatus status, gpointer data);
+  static gboolean static_async_io(GIOChannel* iochannel, GIOCondition condition, gpointer data);
+  static void static_async_connected(GTcpSocket *socket, GInetAddr *ia, GTcpSocketConnectAsyncStatus status, gpointer data);
 
   
 private:

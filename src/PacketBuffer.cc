@@ -38,7 +38,7 @@ PacketBuffer::~PacketBuffer()
 {
   if (buffer != NULL)
     {
-      delete [] buffer;
+      g_free(buffer);
     }
 }
 
@@ -47,7 +47,7 @@ PacketBuffer::create(int size)
 {
   if (buffer != NULL)
     {
-      delete [] buffer;
+      g_free(buffer);
     }
   
   if (size == 0)
@@ -55,7 +55,7 @@ PacketBuffer::create(int size)
       size = 1024;
     }
   
-  buffer = new char[size];
+  buffer = g_new(guint8, size);
   read_ptr = buffer;
   write_ptr = buffer;
   buffer_size = size;
@@ -64,9 +64,9 @@ PacketBuffer::create(int size)
 
 
 void
-PacketBuffer::pack(const char *data, int size)
+PacketBuffer::pack(const guint8 *data, int size)
 {
-  char *ret = NULL;
+  guint8 *ret = NULL;
   
   if (write_ptr + size + 2 <= buffer + buffer_size)
   {
@@ -79,9 +79,9 @@ PacketBuffer::pack(const char *data, int size)
 
 
 void
-PacketBuffer::pack_string(const char *data)
+PacketBuffer::pack_string(const gchar *data)
 {
-  char *ret = NULL;
+  gchar *ret = NULL;
 
   int size = strlen(data);
   
@@ -96,11 +96,11 @@ PacketBuffer::pack_string(const char *data)
 
 
 void
-PacketBuffer::pack_ushort(unsigned short data)
+PacketBuffer::pack_ushort(guint16 data)
 {
   if (write_ptr + 2 <= buffer + buffer_size)
     {
-      unsigned char *w = (unsigned char *)write_ptr;
+      guint8 *w = (guint8 *)write_ptr;
       w[0] = ((data & 0x0000ff00) >> 8);
       w[1] = ((data & 0x000000ff));
       
@@ -110,11 +110,11 @@ PacketBuffer::pack_ushort(unsigned short data)
 
 
 void
-PacketBuffer::pack_ulong(unsigned long data)
+PacketBuffer::pack_ulong(guint32 data)
 {
   if (write_ptr + 4 <= buffer + buffer_size)
     {
-      unsigned char *w = (unsigned char *)write_ptr;
+      guint8 *w = (guint8 *)write_ptr;
       w[0] = ((data & 0xff000000) >> 24);
       w[1] = ((data & 0x00ff0000) >> 16);
       w[2] = ((data & 0x0000ff00) >> 8);
@@ -126,7 +126,7 @@ PacketBuffer::pack_ulong(unsigned long data)
 
 
 void
-PacketBuffer::pack_char(char data)
+PacketBuffer::pack_byte(guint8 data)
 {
   if (write_ptr + 1 <= buffer + buffer_size )
     {
@@ -138,11 +138,11 @@ PacketBuffer::pack_char(char data)
 
 
 void
-PacketBuffer::poke_ushort(int pos, unsigned short data)
+PacketBuffer::poke_ushort(int pos, guint16 data)
 {
   if (pos + 2 <= buffer_size )
     {
-      unsigned char *w = (unsigned char *)buffer;
+      guint8 *w = (guint8 *)buffer;
 
       w[pos] = ((data & 0x0000ff00) >> 8);
       w[pos + 1] = ((data & 0x000000ff));
@@ -150,75 +150,80 @@ PacketBuffer::poke_ushort(int pos, unsigned short data)
 }
 
 
-char *
-PacketBuffer::unpack()
+int
+PacketBuffer::unpack(guint8 **data)
 {
-  char *ret = NULL;
+  g_assert(data != NULL);
+  
   int size = unpack_ushort();
 
-  unsigned char *r = (unsigned char *)read_ptr;
+  guint8 *r = (guint8 *)read_ptr;
   
   if (read_ptr + size <= buffer + buffer_size)
-  {
-    ret = new char[size];
-    memcpy(ret, r, size);
-    read_ptr += size;
-  }
+    {
+      *data = g_new(guint8, size);
+      memcpy(*data, r, size);
+      read_ptr += size;
+    }
+  else
+    {
+      size = 0;
+    }
   
-  return ret;
+  return size;
 }
 
 
-char *
+gchar *
 PacketBuffer::unpack_string()
 {
-  char *str = NULL;
+  gchar *str = NULL;
   
   if (read_ptr + 2 <= buffer + buffer_size)
-  {
-    int length = unpack_ushort();
+    {
+      int length = unpack_ushort();
 
-    if (read_ptr + length <= buffer + buffer_size)
-      {
-        str = new char[length + 1];
-        for (int i = 0; i < length; i++)
-          {
-            str[i] = *read_ptr;
-            read_ptr++;
-          }
+      if (read_ptr + length <= buffer + buffer_size)
+        {
+          str = g_new(gchar, length + 1);
+          for (int i = 0; i < length; i++)
+            {
+              str[i] = *read_ptr;
+              read_ptr++;
+            }
         
-        str[length] = '\0';
-      }
-  }
+          str[length] = '\0';
+        }
+    }
   
   return str;
 }
 
 
-unsigned long
+guint32
 PacketBuffer::unpack_ulong()
 {
-  unsigned long ret = 0;
-  unsigned char *r = (unsigned char *)read_ptr;
+  guint32 ret = 0;
+  guint8 *r = (guint8 *)read_ptr;
 
   if (read_ptr + 4 <= buffer + buffer_size)
-  {
-    ret = (((unsigned long)(r[0]) << 24) +
-           ((unsigned long)(r[1]) << 16) +
-           ((unsigned long)(r[2]) << 8) +
-           ((unsigned long)(r[3])));
-    read_ptr +=4;
-  }
+    {
+      ret = (((guint32)(r[0]) << 24) +
+             ((guint32)(r[1]) << 16) +
+             ((guint32)(r[2]) << 8) +
+             ((guint32)(r[3])));
+      read_ptr +=4;
+    }
   
   return ret;
 }
 
 
-unsigned short
+guint16
 PacketBuffer::unpack_ushort()
 {
-  unsigned short ret = 0;
-  unsigned char *r = (unsigned char *)read_ptr;
+  guint16 ret = 0;
+  guint8 *r = (guint8 *)read_ptr;
 
   if (read_ptr + 2 <= write_ptr)
   {
@@ -229,94 +234,100 @@ PacketBuffer::unpack_ushort()
 }
 
 
-char
-PacketBuffer::unpack_char()
+guint8
+PacketBuffer::unpack_byte()
 {
-  char ret = 0;
+  guint8 ret = 0;
 
   if (read_ptr + 1 <= write_ptr)
-  {
-    ret = read_ptr[0];
-    read_ptr ++;
-  }
+    {
+      ret = read_ptr[0];
+      read_ptr ++;
+    }
   return ret;
 }
 
 
 
-char *
-PacketBuffer::peek(int pos)
+int
+PacketBuffer::peek(int pos, guint8 **data)
 {
-  char *ret = NULL;
+  g_assert(data != NULL);
+  
   int size = peek_ushort(pos);
   
   if (read_ptr + 2 + pos + size <= buffer + buffer_size)
-  {
-    ret = new char[size];
-    memcpy(ret, read_ptr + 2 + pos, size);
-  }
+    {
+      *data = g_new(guint8, size);
+      memcpy(*data, read_ptr + 2 + pos, size);
+    }
+  else
+    {
+      size = 0;
+    }
   
-  return ret;
+  return size;
 }
 
 
-char *PacketBuffer::peek_string(int pos)
+gchar *
+PacketBuffer::peek_string(int pos)
 {
-  char *str = NULL;
+  gchar *str = NULL;
   
   if (read_ptr + pos + 2 <= buffer + buffer_size)
-  {
-    int length = peek_ushort(pos);
+    {
+      int length = peek_ushort(pos);
 
-    if (read_ptr + 2 + pos + length <= buffer + buffer_size)
-      {
-        str = new char[length + 1];
-        memcpy(str, read_ptr + pos + 2, length);
-        str[length] = '\0';
-      }
-  }
+      if (read_ptr + 2 + pos + length <= buffer + buffer_size)
+        {
+          str = g_new(gchar, length + 1);
+          memcpy(str, read_ptr + pos + 2, length);
+          str[length] = '\0';
+        }
+    }
   
   return str;
 }
 
 
-unsigned long PacketBuffer::peek_ulong(int pos)
+guint32 PacketBuffer::peek_ulong(int pos)
 {
-  unsigned long ret = 0;
+  guint32 ret = 0;
   if (read_ptr + pos + 4 <= buffer + buffer_size)
-  {
-    unsigned char *r = (unsigned char *)read_ptr;
+    {
+      guint8 *r = (guint8 *)read_ptr;
     
-    ret = (((unsigned long)(r[pos]) << 24) +
-           ((unsigned long)(r[pos + 1]) << 16) +
-           ((unsigned long)(r[pos + 2]) << 8) +
-           ((unsigned long)(r[pos + 3])));
-  }
+      ret = (((guint32)(r[pos]) << 24) +
+             ((guint32)(r[pos + 1]) << 16) +
+             ((guint32)(r[pos + 2]) << 8) +
+             ((guint32)(r[pos + 3])));
+    }
   
   return ret;
 }
 
 
-unsigned short
+guint16
 PacketBuffer::peek_ushort(int pos)
 {
-  unsigned short ret = 0;
+  guint16 ret = 0;
   if (read_ptr + pos + 2 <= write_ptr)
-  {
-    unsigned char *r = (unsigned char *)read_ptr;
-    ret = (r[pos] << 8) + r[pos + 1];
-  }
+    {
+      guint8 *r = (guint8 *)read_ptr;
+      ret = (r[pos] << 8) + r[pos + 1];
+    }
   return ret;
 }
 
 
-char
-PacketBuffer::peek_char(int pos)
+guint8
+PacketBuffer::peek_byte(int pos)
 {
-  char ret = 0;
+  guint8 ret = 0;
   if (read_ptr + pos + 1 <= buffer + buffer_size)
-  {
-    ret = read_ptr[pos];
-  }
+    {
+      ret = read_ptr[pos];
+    }
   return ret;
 }

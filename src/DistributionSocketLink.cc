@@ -190,7 +190,7 @@ DistributionSocketLink::add_client(gchar *host, gint port)
       client->watch = 0;
         
       clients.push_back(client);
-      gnet_tcp_socket_connect_async(host, port, static_async_client_connfunc, client);
+      gnet_tcp_socket_connect_async(host, port, static_async_connected, client);
     }
 }
 
@@ -316,9 +316,9 @@ DistributionSocketLink::init_packet(PacketBuffer &packet, PacketCommand cmd)
   // Length.
   packet.pack_ushort(0);
   // Version
-  packet.pack_char(1);
+  packet.pack_byte(1);
   // Flags
-  packet.pack_char(0);
+  packet.pack_byte(0);
   // Command
   packet.pack_ushort(cmd);
 }
@@ -360,7 +360,7 @@ DistributionSocketLink::send_packet_except(PacketBuffer &packet, Client *client)
           if (iochannel != NULL)
             {
               TRACE_MSG("to " << c->canonical_name << ":" << c->server_port);
-              error = g_io_channel_write(iochannel, packet.buffer, size, &bytes_written);
+              error = g_io_channel_write(iochannel, packet.get_buffer(), size, &bytes_written);
             }
         }
       i++;
@@ -387,7 +387,7 @@ DistributionSocketLink::send_packet(Client *client, PacketBuffer &packet)
       guint bytes_written;
       GIOError error;
       
-      error = g_io_channel_write(iochannel, packet.buffer, size, &bytes_written);
+      error = g_io_channel_write(iochannel, packet.get_buffer(), size, &bytes_written);
     }
   
   TRACE_EXIT();
@@ -403,8 +403,8 @@ DistributionSocketLink::process_client_packet(Client *client)
   gint size = packet.unpack_ushort();
   g_assert(size == packet.bytes_written());
 
-  gint version = packet.unpack_char();
-  gint flags = packet.unpack_char();
+  gint version = packet.unpack_byte();
+  gint flags = packet.unpack_byte();
 
   TRACE_MSG("size = " << size << ", version = " << version << ", flags = " << flags);
   
@@ -488,6 +488,10 @@ DistributionSocketLink::handle_hello(Client *client)
   g_free(uname);
   
   send_welcome(client);
+
+  // FIXME: fake not active...
+  set_active(NULL);
+  
   send_client_list(client);
   TRACE_EXIT();
 }
@@ -533,9 +537,6 @@ DistributionSocketLink::handle_welcome(Client *client)
   client->server_port = port;
   client->canonical_name = name;
 
-  // FIXME: fake not active...
-  set_active(NULL);
-  
   send_client_list(client);
   TRACE_EXIT();
 }
@@ -649,7 +650,7 @@ DistributionSocketLink::handle_client_list(Client *client)
       gchar *cname = packet.unpack_string();
       gchar *sname = packet.unpack_string();
       gint port = packet.unpack_ushort();
-      gint forward = packet.unpack_char();
+      gint forward = packet.unpack_byte();
       
       TRACE_MSG("new client: " << cname << ":" << port);
       if (port != 0 && find_client_by_canonicalname(cname, port) == NULL)
@@ -791,7 +792,7 @@ DistributionSocketLink::send_state()
       DistributedStateID id = i->first;
       DistributedStateInterface *itf = i->second;
 
-      guchar *data = NULL;
+      guint8 *data = NULL;
       gint size = 0;
 
       bool ok = itf->get_state(id, &data, &size);
@@ -801,7 +802,7 @@ DistributionSocketLink::send_state()
         {
           packet.pack_ushort(size);
           packet.pack_ushort(id);
-          packet.pack((char *)data, size);
+          packet.pack(data, size);
         }
       else
         {
@@ -835,8 +836,8 @@ DistributionSocketLink::handle_state(Client *client)
 
       if (datalen != 0)
         {
-          guchar *data = NULL;
-          data = (guchar *) packet.unpack();
+          guint8 *data = NULL;
+          datalen = packet.unpack(&data);
 
           itf->set_state(id, data, datalen);
         }
@@ -908,7 +909,7 @@ DistributionSocketLink::async_accept(GTcpSocket *server, GTcpSocket *client)
       client_state->watch_flags = G_IO_IN | G_IO_ERR | G_IO_HUP | G_IO_NVAL;
       client_state->watch = 
 	g_io_add_watch (client_iochannel, (GIOCondition) client_state->watch_flags,
-			static_async_server_io, client_state);
+			static_async_io, client_state);
 
       clients.push_back(client_state);
     }
@@ -917,9 +918,9 @@ DistributionSocketLink::async_accept(GTcpSocket *server, GTcpSocket *client)
 
 
 bool
-DistributionSocketLink::async_server_io(GIOChannel* iochannel, GIOCondition condition, Client *client)
+DistributionSocketLink::async_io(GIOChannel* iochannel, GIOCondition condition, Client *client)
 {
-  TRACE_ENTER("DistributionSocketLink::async_server_io");
+  TRACE_ENTER("DistributionSocketLink::async_io");
   bool ret = true;
 
   g_assert(client != NULL);
@@ -946,7 +947,7 @@ DistributionSocketLink::async_server_io(GIOChannel* iochannel, GIOCondition cond
           TRACE_MSG("to read " << bytes_to_read);
         }
       
-      error = g_io_channel_read(iochannel, client->packet.write_ptr, bytes_to_read, &bytes_read);
+      error = g_io_channel_read(iochannel, client->packet.get_write_ptr(), bytes_to_read, &bytes_read);
 
       if (error != G_IO_ERROR_NONE)
 	{
@@ -963,7 +964,7 @@ DistributionSocketLink::async_server_io(GIOChannel* iochannel, GIOCondition cond
           TRACE_MSG("Read from " << client->canonical_name << ":" << client->server_port << " " <<  bytes_read);
 	  g_assert(bytes_read > 0);
 
-          TRACE_MSG(((int)client->packet.buffer[0]) << " " << ((int)client->packet.buffer[1]));
+          TRACE_MSG(((int)client->packet.get_buffer()[0]) << " " << ((int)client->packet.get_buffer()[1]));
           
 	  client->packet.write_ptr += bytes_read;
 
@@ -971,7 +972,7 @@ DistributionSocketLink::async_server_io(GIOChannel* iochannel, GIOCondition cond
             {
               for (int i = 0; i < client->packet.bytes_written(); i++)
                 {
-                  int j = (unsigned char)(client->packet.buffer[i]);
+                  int j = (unsigned char)(client->packet.get_buffer()[i]);
                   TRACE_MSG(j);
                 }
              
@@ -996,11 +997,11 @@ DistributionSocketLink::async_server_io(GIOChannel* iochannel, GIOCondition cond
 
 
 void 
-DistributionSocketLink::async_client_connfunc(GTcpSocket *socket, GInetAddr *ia,
+DistributionSocketLink::async_connected(GTcpSocket *socket, GInetAddr *ia,
                                               GTcpSocketConnectAsyncStatus status,
                                               Client *client)
 {
-  TRACE_ENTER("DistributionSocketLink::async_client_connfunc");
+  TRACE_ENTER("DistributionSocketLink::async_connected");
   
   if (status != GTCP_SOCKET_CONNECT_ASYNC_STATUS_OK)
     {
@@ -1017,7 +1018,7 @@ DistributionSocketLink::async_client_connfunc(GTcpSocket *socket, GInetAddr *ia,
       client->watch_flags = G_IO_IN | G_IO_ERR | G_IO_HUP | G_IO_NVAL;
       client->watch = 
 	g_io_add_watch (iochannel, (GIOCondition) client->watch_flags,
-			static_async_server_io, client);
+			static_async_io, client);
       
       gnet_inetaddr_delete(ia);
 
@@ -1040,15 +1041,15 @@ DistributionSocketLink::static_async_accept(GTcpSocket* server, GTcpSocket* clie
 
 
 gboolean
-DistributionSocketLink::static_async_server_io(GIOChannel *iochannel, GIOCondition condition,
-                                                   gpointer data)
+DistributionSocketLink::static_async_io(GIOChannel *iochannel, GIOCondition condition,
+                                        gpointer data)
 {
   Client *client =  (Client *)data;
   gboolean ret = FALSE;
   
   if (client != NULL)
     {
-      ret = client->link->async_server_io(iochannel, condition, client);
+      ret = client->link->async_io(iochannel, condition, client);
     }
 
   return ret;
@@ -1056,14 +1057,14 @@ DistributionSocketLink::static_async_server_io(GIOChannel *iochannel, GIOConditi
 
 
 void 
-DistributionSocketLink::static_async_client_connfunc(GTcpSocket *socket, GInetAddr *ia,
-                                                     GTcpSocketConnectAsyncStatus status, gpointer data)
+DistributionSocketLink::static_async_connected(GTcpSocket *socket, GInetAddr *ia,
+                                               GTcpSocketConnectAsyncStatus status, gpointer data)
 {
   Client *client =  (Client *)data;
 
   if (client != NULL)
     {
-      client->link->async_client_connfunc(socket, ia, status, client);
+      client->link->async_connected(socket, ia, status, client);
     }
 }
 
