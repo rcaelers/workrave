@@ -19,6 +19,7 @@
 #ifndef TIMERBOXAPPLETVIEW_HH
 #define TIMERBOXAPPLETVIEW_HH
 
+#include <windows.h>
 #include <string>
 
 #include "TimerBoxView.hh"
