@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-10-06 22:12:30 robc>
+// Time-stamp: <2002-10-09 17:13:17 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -86,8 +86,24 @@ Timer::~Timer()
 void
 Timer::enable()
 {
-  timer_enabled = true;
-  stop_timer();
+  TRACE_ENTER("Timer::enable");
+
+  if (!timer_enabled)
+    {
+      timer_enabled = true;
+      stop_timer();
+
+      if (get_elapsed_time() >= limit_interval)
+        {
+          TRACE_ENTER("overdue");
+      
+          last_limit_time = time_source->get_time();
+          compute_next_limit_time();
+        }
+
+      compute_next_predicate_reset_time();
+    }
+  TRACE_EXIT();
 }
 
 
@@ -95,8 +111,11 @@ Timer::enable()
 void
 Timer::disable()
 {
-  timer_enabled = false;
-  stop_timer();
+  if (timer_enabled)
+    {
+      timer_enabled = false;
+      stop_timer();
+    }
 }
 
 
@@ -242,6 +261,12 @@ Timer::compute_next_predicate_reset_time()
         
       autoreset_interval_predicate->set_last(last_pred_reset_time);
       next_pred_reset_time = autoreset_interval_predicate->get_next();
+
+      TRACE_MSG("setting next_pred_reset_time "
+                << last_pred_reset_time << " "
+                << next_pred_reset_time << " "
+                << time_source->get_time() << " "
+                << next_pred_reset_time - time_source->get_time());
     }
   
   TRACE_EXIT();

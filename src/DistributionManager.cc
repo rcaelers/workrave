@@ -40,7 +40,7 @@ DistributionManager::DistributionManager() :
   distribution_enabled(false),
   state_complete(true),
   link(NULL),
-  state(NODE_STANDBY)
+  state(NODE_ACTIVE)
 {
 }
 
