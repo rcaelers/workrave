@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
-"POT-Creation-Date: 2004-02-02 22:35+0100\n"
+"POT-Creation-Date: 2004-02-03 22:27+0100\n"
 "PO-Revision-Date: 2003-09-09 16:27+0200\n"
 "Last-Translator: Mikołaj Machowski <mikmach@wp.pl>\n"
 "Language-Team: Mikołaj Machowski <mikmach@wp.pl>\n"
@@ -85,6 +85,15 @@ msgstr ""
 #: frontend/gtkmm/src/GUI.cc:733
 msgid "I could not initialize Bonobo"
 msgstr "Nie mogę zainicjować Bonobo"
+
+#: frontend/common/src/TimerBoxControl.cc:169
+msgid "Inactive"
+msgstr "Nieaktywny"
+
+#: frontend/common/src/TimerBoxControl.cc:212
+#: frontend/gtkmm/src/TimerBoxGtkView.cc:156
+msgid "Wait"
+msgstr "Czekaj"
 
 #: frontend/gtkmm/src/GtkUtil.cc:117 frontend/gtkmm/src/MicroPauseWindow.cc:48
 #: frontend/gtkmm/src/MicroPauseWindow.cc:110
@@ -289,15 +298,6 @@ msgstr ""
 "Czas na odpoczynek. Wstawaj od komputera w regularnych\n"
 "odstępach czasu. Pochodź przez kilka minut, wykonaj\n"
 "kilka prostych ćwiczenń, rozciągnij się, zrelaksuj."
-
-#: frontend/gtkmm/src/TimerBoxControl.cc:213
-#: frontend/gtkmm/src/TimerBoxGtkView.cc:156
-msgid "Wait"
-msgstr "Czekaj"
-
-#: frontend/gtkmm/src/TimerBoxControl.cc:171
-msgid "Inactive"
-msgstr "Nieaktywny"
 
 #: frontend/gtkmm/src/TimerBoxPreferencePage.cc:96
 msgid "Place timers next to each other"

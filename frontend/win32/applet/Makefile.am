@@ -7,5 +7,6 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
-SUBDIRS = 		common gtkmm plugin win32
+SUBDIRS = 		src include
+
 

@@ -14,7 +14,8 @@ SUBDIRS = 		gnome win32
 libworkrave_frontend_common_a_SOURCES = \
 			Text.cc \
 			SoundPlayer.cc \
-			System.cc
+			System.cc \
+			TimerBoxControl.cc
 
 EXTRA_DIST = 		$(wildcard *.hh) $(wildcard *.cc) \
 			$(wildcard *.c) $(wildcard *.h)  $(wildcard *.icc)

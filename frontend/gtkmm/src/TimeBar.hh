@@ -1,6 +1,6 @@
 // TimeBar.hh --- Time Bar
 //
-// Copyright (C) 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -26,22 +26,11 @@
 #include <gdkmm/window.h>
 #include <gtkmm/box.h>
 
-using namespace std;
+#include "TimeBarInterface.hh"
 
-class TimeBar : public Gtk::DrawingArea
+class TimeBar : public Gtk::DrawingArea, public TimeBarInterface
 {
 public:
-  enum ColorId
-    {
-      COLOR_ID_ACTIVE = 0,
-      COLOR_ID_INACTIVE,
-      COLOR_ID_OVERDUE,
-      COLOR_ID_INACTIVE_OVER_ACTIVE,
-      COLOR_ID_INACTIVE_OVER_OVERDUE,
-      COLOR_ID_BG,
-      COLOR_ID_SIZEOF
-    };
-
   TimeBar();
   virtual ~TimeBar();
 
@@ -94,7 +83,7 @@ private:
   int secondary_bar_max_value;
 
   //! Text to show;
-  string bar_text;
+  std::string bar_text;
 
   //! Text alignment
   int bar_text_align;

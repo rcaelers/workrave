@@ -9,6 +9,7 @@ frontend/gtkmm/src/EventLabel.cc
 frontend/gtkmm/src/Frame.cc
 frontend/gtkmm/src/GUI.cc
 frontend/common/src/gnome/GnomeSoundPlayer.cc
+frontend/common/src/TimerBoxControl.cc
 frontend/gtkmm/src/GtkUtil.cc
 frontend/gtkmm/src/Hig.cc
 frontend/gtkmm/src/IconListCellRenderer.cc
@@ -23,7 +24,6 @@ frontend/gtkmm/src/RestBreakWindow.cc
 frontend/gtkmm/src/TimeBar.cc
 frontend/gtkmm/src/TimeEntry.cc
 frontend/gtkmm/src/TimerBoxGtkView.cc
-frontend/gtkmm/src/TimerBoxControl.cc
 frontend/gtkmm/src/TimerBoxPreferencePage.cc
 frontend/gtkmm/src/TimerPreferencesPanel.cc
 frontend/common/src/win32/Win32SoundPlayer.cc

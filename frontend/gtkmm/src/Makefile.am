@@ -55,7 +55,8 @@ endif
 
 if PLATFORM_WIN32
 sourceswin32 = 		resource.rc
-includeswin32 = 	-I$(top_srcdir)/common/win32/harpoon/include -Iwin32/
+includeswin32 = 	-I$(top_srcdir)/common/win32/harpoon/include -Iwin32/ \
+			-I../../win32/applet/include
 workrave_LDFLAGS = 	-Lwin32/
 endif
 
@@ -114,7 +115,6 @@ workrave_SOURCES = \
 			gnome-winhints.c \
 			Frame.cc \
 			WmSpec.cc \
-			TimerBoxControl.cc \
 			TimerBoxGtkView.cc \
 			TimerBoxPreferencePage.cc \
 			Menus.cc \

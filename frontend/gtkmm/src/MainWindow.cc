@@ -111,6 +111,7 @@ MainWindow::~MainWindow()
   TRACE_ENTER("MainWindow::~MainWindow");
   delete timer_box_control;
 #ifdef WIN32
+  delete win32_timer_box_control;
   win32_exit();
 #endif
 #ifdef HAVE_X
@@ -154,6 +155,10 @@ MainWindow::init()
   set_icon_list(icon_list);
     
   enabled = TimerBoxControl::is_enabled("main_window");
+#ifdef WIN32
+  win32_timer_box_control
+    = new TimerBoxControl("applet", win32_timer_box_view);
+#endif
 
   Menus *menus = Menus::get_instance();
   menus->set_main_window(this);
@@ -297,6 +302,9 @@ void
 MainWindow::update()
 {
   timer_box_control->update();
+#ifdef WIN32
+  win32_timer_box_control->update();
+#endif
 }
 
 

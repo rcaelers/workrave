@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.4.0\n"
-"POT-Creation-Date: 2004-02-02 22:35+0100\n"
+"POT-Creation-Date: 2004-02-03 22:27+0100\n"
 "PO-Revision-Date: 2003-09-09 16:26+0200\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -83,6 +83,15 @@ msgstr ""
 #: frontend/gtkmm/src/GUI.cc:733
 msgid "I could not initialize Bonobo"
 msgstr "Bonobo kon niet geÃ¯nitialiseerd worden"
+
+#: frontend/common/src/TimerBoxControl.cc:169
+msgid "Inactive"
+msgstr "Inactief"
+
+#: frontend/common/src/TimerBoxControl.cc:212
+#: frontend/gtkmm/src/TimerBoxGtkView.cc:156
+msgid "Wait"
+msgstr "Wacht"
 
 #: frontend/gtkmm/src/GtkUtil.cc:117 frontend/gtkmm/src/MicroPauseWindow.cc:48
 #: frontend/gtkmm/src/MicroPauseWindow.cc:110
@@ -287,15 +296,6 @@ msgstr ""
 "Dit is je rustpauze. Zorg ervoor dat je regelmatig\n"
 "opstaat en wegloopt van de computer. Wandel enkele\n"
 "minuten rond, strek, en ontspan."
-
-#: frontend/gtkmm/src/TimerBoxControl.cc:213
-#: frontend/gtkmm/src/TimerBoxGtkView.cc:156
-msgid "Wait"
-msgstr "Wacht"
-
-#: frontend/gtkmm/src/TimerBoxControl.cc:171
-msgid "Inactive"
-msgstr "Inactief"
 
 #: frontend/gtkmm/src/TimerBoxPreferencePage.cc:96
 msgid "Place timers next to each other"

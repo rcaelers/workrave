@@ -19,8 +19,6 @@
 #ifndef TIMERBOXCONTROL_HH
 #define TIMERBOXCONTROL_HH
 
-#include "preinclude.h"
-
 #include <string>
 
 #include "CoreInterface.hh"

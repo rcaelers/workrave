@@ -16,8 +16,6 @@
 
 static const char rcsid[] = "$Id$";
 
-#include "preinclude.h"
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -29,7 +27,7 @@ static const char rcsid[] = "$Id$";
 #include "debug.hh"
 
 #include "TimerBoxControl.hh"
-#include "TimeBar.hh"
+#include "TimeBarInterface.hh"
 #include "Util.hh"
 #include "Text.hh"
 
@@ -161,16 +159,16 @@ TimerBoxControl::update_widgets()
       TimerInterface *timer = break_data->get_timer();
 
       std::string text;
-      TimeBar::ColorId primary_color;
+      TimeBarInterface::ColorId primary_color;
       int primary_val, primary_max;
-      TimeBar::ColorId secondary_color;
+      TimeBarInterface::ColorId secondary_color;
       int secondary_val, secondary_max;
       
       if (!node_master && num_peers > 0)
         {
           text = _("Inactive");
-          primary_color = TimeBar::COLOR_ID_INACTIVE;
-          secondary_color = TimeBar::COLOR_ID_INACTIVE;
+          primary_color = TimeBarInterface::COLOR_ID_INACTIVE;
+          secondary_color = TimeBarInterface::COLOR_ID_INACTIVE;
           primary_val = 0;
           primary_max = 60;
           secondary_val = 0;
@@ -204,11 +202,11 @@ TimerBoxControl::update_widgets()
 
           // And set the bar.
           secondary_val = secondary_max = 0;
-          secondary_color = TimeBar::COLOR_ID_INACTIVE;
+          secondary_color = TimeBarInterface::COLOR_ID_INACTIVE;
 
           if (timerState == TimerInterface::STATE_INVALID)
             {
-              primary_color = TimeBar::COLOR_ID_INACTIVE;
+              primary_color = TimeBarInterface::COLOR_ID_INACTIVE;
               primary_val = 0;
               primary_max = 60;
               text = _("Wait");
@@ -220,13 +218,13 @@ TimerBoxControl::update_widgets()
               primary_max = maxActiveTime;
           
               primary_color = overdue
-                ? TimeBar::COLOR_ID_OVERDUE : TimeBar::COLOR_ID_ACTIVE;
+                ? TimeBarInterface::COLOR_ID_OVERDUE : TimeBarInterface::COLOR_ID_ACTIVE;
 
               if (//timerState == TimerInterface::STATE_STOPPED &&
                   timer->is_auto_reset_enabled() && breakDuration != 0)
                 {
                   // resting.
-                  secondary_color = TimeBar::COLOR_ID_INACTIVE;
+                  secondary_color = TimeBarInterface::COLOR_ID_INACTIVE;
                   secondary_val = idleTime;
                   secondary_max = breakDuration;
                 }

@@ -31,6 +31,8 @@ class TimerBoxGtkView;
 
 #ifdef WIN32
 #include <windows.h>
+#include "TimerBoxAppletView.hh"
+#include "TimerBoxControl.hh"
 #endif
 
 #include "ConfiguratorListener.hh"
@@ -149,6 +151,8 @@ private:
   HINSTANCE win32_hinstance;
   NOTIFYICONDATA win32_tray_icon;
   UINT wm_taskbarcreated;
+  TimerBoxAppletView win32_timer_box_view;
+  TimerBoxControl *win32_timer_box_control;
 #endif
 };
 
