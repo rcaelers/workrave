@@ -84,7 +84,7 @@ WINDRES ?= 		"windres"
 	${WINDRES} -o $@ $<
 
 includesinput = 	-I$(top_srcdir)/common/win32/harpoon/include
-WIN32LIBS = 		$(top_srcdir)/common/win32/harpoon/src/Release/harpoon.lib \
+WIN32LIBS = 		-L$(top_srcdir)/common/win32/harpoon/src/Release/ -lharpoon
 			-lworkrave-frontend-gtkmm-win32 \
 			-lshell32 -lole32 -lwinmm
 endif
