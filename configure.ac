@@ -600,6 +600,7 @@ AC_OUTPUT(Makefile \
           src/core/Makefile \
           src/core/unix/Makefile \
           src/core/win32/Makefile \
+          src/core/intf/Makefile \
           src/shared/Makefile \
           src/shared/unix/Makefile \
           src/shared/win32/Makefile \

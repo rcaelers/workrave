@@ -7,7 +7,7 @@
 
 MAINTAINERCLEANFILES 	= Makefile.in
 
-SUBDIRS			= unix win32
+SUBDIRS			= unix win32 intf
 
 noinst_LIBRARIES 	= libcore.a
 
