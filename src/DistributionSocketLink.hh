@@ -156,6 +156,7 @@ public:
   void socket_closed(SocketConnection *con, void *data);
   
 private:
+  bool is_client_valid(Client *client);
   bool add_client(gchar *host, gint port);
   bool remove_client(Client *client);
   Client *find_client_by_canonicalname(gchar *name, gint port);
