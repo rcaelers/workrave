@@ -237,6 +237,10 @@ GUI::init_core_control()
 #endif
   Configurator *config = create_configurator();
   core_control->init(config, display_name);
+
+#ifdef HAVE_X
+  g_free(display_name);
+#endif
 }
 
 
@@ -327,6 +331,7 @@ GUI::create_break_window(GUIControl::BreakId break_id, bool ignorable)
 SoundPlayerInterface *
 GUI::create_sound_player()
 {
+  TRACE_ENTER("GUI::create_sound_player");
   SoundPlayerInterface *snd = NULL;
 #if defined(WIN32)
   snd = new Win32SoundPlayer();
@@ -335,6 +340,7 @@ GUI::create_sound_player()
 #else
 #  warning Sound card support disabled.
 #endif
+  TRACE_EXIT();
   return snd;
 }
 

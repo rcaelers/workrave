@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-01-09 22:41:09 robc>
+// Time-stamp: <2003-01-10 21:41:06 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -129,6 +129,7 @@ X11InputMonitor::X11InputMonitor(char *name) :
 
 X11InputMonitor::~X11InputMonitor()
 {
+  TRACE_ENTER("X11InputMonitor::~X11InputMonitor");
   if (monitor_thread != NULL)
     {
       monitor_thread->stop();
@@ -139,6 +140,7 @@ X11InputMonitor::~X11InputMonitor()
     {
       free(x11_display_name);
     }
+  TRACE_EXIT();
 }
 
 

@@ -70,7 +70,7 @@ workrave_LDADD 		=  @GUI_LIBS@ @ARCH_LIBS@ @gnomeui_LIBS@ @GTK_LIBS@ @GTKMM_LIBS
 		           @PTHREAD_LIBS@ @X_LIBS@ @GCONF_LIBS@ @GDOME_LIB@ \
 			   ${X11LIBS} ${WIN32LIBS} ${WIN32CONSOLE}
 
-#CXXLD=ccmalloc g++
+CXXLD=ccmalloc g++-2.95
 
 $(bin_PROGRAMS): @ARCH_LIBS@ @GUI_LIBS@
 

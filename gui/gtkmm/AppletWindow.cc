@@ -112,6 +112,14 @@ AppletWindow::~AppletWindow()
     {
       delete container;
     }
+
+  for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
+    {
+      if (timer_names[i] != NULL)
+        timer_names[i]->unreference();
+      if (timer_times[i] != NULL)
+        timer_times[i]->unreference();
+    }
   
   TRACE_EXIT();
 }
@@ -131,10 +139,17 @@ AppletWindow::init()
   Configurator *config = GUIControl::get_instance()->get_configurator();
   config->add_listener(AppletWindow::CFG_KEY_APPLET, this);
 
+  init_widgets();
+
+  for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
+    {
+      timer_names[i]->reference();
+      timer_times[i]->reference();
+    }
+  
   // Create the applet.
   if (applet_enabled)
     {
-      init_widgets();
       init_applet();
 
       if (mode != APPLET_DISABLED)
@@ -154,13 +169,13 @@ AppletWindow::init_table()
   TRACE_ENTER("AppletWindow::init_table");
 
   // Reinitialize widgets and container.
-  if (timers_box != NULL)
-    {
-      container->remove();
-      delete timers_box;
-      timers_box = NULL;
-      init_widgets();
-    }
+//   if (timers_box != NULL)
+//     {
+//       container->remove();
+//       delete timers_box;
+//       timers_box = NULL;
+//       init_widgets();
+//     }
 
   
   // Determine what breaks to show.
@@ -206,22 +221,60 @@ AppletWindow::init_table()
 
   
   // Create table
-  timers_box = new Gtk::Table(rows, 2 * columns, false);
-  timers_box->set_spacings(2);
-  container->add(*timers_box);
+  if (timers_box == NULL)
+    {
+      timers_box = new Gtk::Table(rows, 2 * columns, false);
+      timers_box->set_spacings(2);
+      container->add(*timers_box);
+    }
 
   
-  // Fill table.
-  int count = 0;
+  // Compute new content.
+  int new_content[GUIControl::BREAK_ID_SIZEOF];
+  int slot = 0;
   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
     {
+
+      new_content[i] = -1;
       int cycle = break_slot_cycle[i];
-      int id = break_slots[i][cycle];
-        
+      int id = break_slots[i][cycle]; // break id
       if (id != -1)
         {
-          int cur_row = count % rows;
-          int cur_col = count / rows;
+          new_content[slot] = id;
+          TRACE_MSG(slot << " " << id);
+
+          slot++;
+        }
+    }
+
+
+  // Remove old
+  for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
+    {
+      int id = current_content[i];
+      if (id != -1 && id != new_content[i])
+        {
+          TRACE_MSG("remove " << id);
+          Gtk::Widget *child = timer_names[id];
+          timers_box->remove(*child);
+          child = timer_times[id];
+          timers_box->remove(*child);
+        }
+    }
+  
+  // Fill table.
+  for (int i = 0; i < slot; i++)
+    {
+      int id = new_content[i];
+      int cid = current_content[i];
+
+      TRACE_MSG(i << " " << id << " " << cid);
+      if (id != cid)
+        {
+          current_content[i] = id;
+          
+          int cur_row = i % rows;
+          int cur_col = i / rows;
           
           if (!applet_vertical && applet_size != -1)
             {
@@ -233,7 +286,6 @@ AppletWindow::init_table()
           timers_box->attach(*timer_times[id], 2 * cur_col + 1, 2 * cur_col + 2, cur_row, cur_row + 1,
                              Gtk::EXPAND | Gtk::FILL, Gtk::SHRINK);
 
-          count++;
         }
     }
 
@@ -675,7 +727,7 @@ AppletWindow::update()
       if (applet_enabled)
         {
           // Enable applet.
-          init_widgets();
+          //init_widgets();
           retry_init = true;
         }
 
