@@ -473,6 +473,7 @@ CollectivePreferencePage::remove_peer(const Gtk::TreeModel::iterator &iter)
   row[peers_columns.hostname]  = "";
   row[peers_columns.port]      = "";
 
+  create_model();
   //peers_store->erase(iter);
 }
 

@@ -71,6 +71,7 @@ public:
   
 private:
   void sanitize_peer(string &peer);
+  void parse_peers(string peers, bool connect = true);
   void write_peers();
   void read_configuration();
   void config_changed_notify(string key);

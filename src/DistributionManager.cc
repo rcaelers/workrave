@@ -304,11 +304,20 @@ DistributionManager::remove_peer(string peer)
 }
 
 
-//
 void
 DistributionManager::set_peers(string peers, bool connect)
 {
   TRACE_ENTER_MSG("DistributionManager::set_peers", peers);
+  parse_peers(peers, connect);
+  write_peers();
+}
+
+
+//
+void
+DistributionManager::parse_peers(string peers, bool connect)
+{
+  TRACE_ENTER_MSG("DistributionManager::parse_peers", peers);
   peer_urls.clear();
 
   std::string::size_type pos = peers.find(',');
@@ -340,9 +349,6 @@ DistributionManager::set_peers(string peers, bool connect)
           join(peers);
         }
     }
-
-  write_peers();
-  
   TRACE_EXIT();
 }
 
@@ -369,7 +375,7 @@ DistributionManager::read_configuration()
   const char *env = getenv("WORKRAVE_URL");
   if (env != NULL)
     {
-      set_peers(env);
+      parse_peers(env);
     }
   else
     {
@@ -377,7 +383,7 @@ DistributionManager::read_configuration()
       is_set = configurator->get_value(CFG_KEY_DISTRIBUTION + CFG_KEY_DISTRIBUTION_PEERS, &peer);
       if (is_set)
         {
-          set_peers(peer);
+          parse_peers(peer);
         }
     }
 }
