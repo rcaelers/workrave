@@ -308,7 +308,7 @@ BreakWindow::create_lock_button()
   Gtk::Button *ret;
   if (System::is_lockable())
     {
-      ret = GtkUtil::create_image_button(_("Lock"), "lock.png");
+      ret = manage(GtkUtil::create_image_button(_("Lock"), "lock.png"));
       ret->signal_clicked()
         .connect(SigC::slot(*this, &BreakWindow::on_lock_button_clicked));
       GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
@@ -327,7 +327,7 @@ BreakWindow::create_shutdown_button()
   Gtk::Button *ret;
   if (System::is_shutdown_supported())
     {
-      ret = GtkUtil::create_image_button(_("Shut down"), "shutdown.png");
+      ret = manage(GtkUtil::create_image_button(_("Shut down"), "shutdown.png"));
       ret->signal_clicked()
         .connect(SigC::slot(*this, &BreakWindow::on_shutdown_button_clicked));
       GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
@@ -344,7 +344,7 @@ Gtk::Button *
 BreakWindow::create_skip_button()
 {
   Gtk::Button *ret;
-  ret = GtkUtil::create_custom_stock_button(_("Skip"), Gtk::Stock::CLOSE);
+  ret = manage(GtkUtil::create_custom_stock_button(_("Skip"), Gtk::Stock::CLOSE));
   ret->signal_clicked()
     .connect(SigC::slot(*this, &BreakWindow::on_skip_button_clicked));
   GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
@@ -357,7 +357,7 @@ Gtk::Button *
 BreakWindow::create_postpone_button()
 {
   Gtk::Button *ret;
-  ret = GtkUtil::create_custom_stock_button(_("Postpone"), Gtk::Stock::REDO);
+  ret = manage(GtkUtil::create_custom_stock_button(_("Postpone"), Gtk::Stock::REDO));
   ret->signal_clicked()
     .connect(SigC::slot(*this, &BreakWindow::on_postpone_button_clicked));
   GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
@@ -431,7 +431,7 @@ BreakWindow::create_break_buttons(bool lockable,
       Gtk::Button *shutdown_button = NULL;
       if (shutdownable)
         {
-          shutdown_button = manage(create_shutdown_button());
+          shutdown_button = create_shutdown_button();
         }
       if (shutdown_button != NULL)
         {
@@ -439,7 +439,7 @@ BreakWindow::create_break_buttons(bool lockable,
         }
       else if (lockable)
         {
-          Gtk::Button *lock_button = manage(create_lock_button());
+          Gtk::Button *lock_button = create_lock_button();
           if (lock_button != NULL)
             {
               box->pack_end(*lock_button, Gtk::SHRINK, 0);
@@ -448,10 +448,10 @@ BreakWindow::create_break_buttons(bool lockable,
 
       if (ignorable_break)
         {
-          Gtk::Button *skip_button = manage(create_skip_button());
+          Gtk::Button *skip_button = create_skip_button();
           box->pack_end(*skip_button, Gtk::SHRINK, 0);
 
-          Gtk::Button *postpone_button = manage(create_postpone_button());
+          Gtk::Button *postpone_button = create_postpone_button();
           box->pack_end(*postpone_button, Gtk::SHRINK, 0);
         }
     }
