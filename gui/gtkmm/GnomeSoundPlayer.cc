@@ -22,6 +22,9 @@ static const char rcsid[] = "$Id$";
 
 #include "GnomeSoundPlayer.hh"
 #include "Sound.hh"
+#include <debug.hh>
+
+#include <libgnome/gnome-triggers.h>
 
 GnomeSoundPlayer::GnomeSoundPlayer()
 {
@@ -36,5 +39,15 @@ GnomeSoundPlayer::~GnomeSoundPlayer()
 void
 GnomeSoundPlayer::play_sound(Sound snd)
 {
+  char *map[] = {
+    "break_prelude",
+    "break_ignored",
+    "restbreak_started",
+    "restbreak_ended",
+    "micropause_started",
+    "micropause_ended"
+  };
+  TRACE_ENTER_MSG("GnomeSoundPlayer::play_sound", map[snd]);
+  gnome_triggers_do ("", NULL, "workrave", map[snd], NULL);
 }
 
