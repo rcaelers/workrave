@@ -89,7 +89,8 @@ private:
       master(false),
       total_active_time(0),
       last_active_begin_time(0),
-      last_active_time(0)
+      last_active_time(0),
+      last_update_time()
     {
     }
 
@@ -114,8 +115,11 @@ private:
     //! Total active time since last_active_begin_time
     time_t last_active_time;
 
+    //! Last time this idle log was updated.
+    time_t last_update_time;
+
     //! Update the active time of the most recent idle interval.
-    void update(time_t current_time)
+    void update_active_time(time_t current_time)
     {
       if (last_active_begin_time != 0)
         {
@@ -172,7 +176,7 @@ private:
   void unpack_idle_interval(PacketBuffer &buffer, IdleInterval &idle, time_t delta_time) const;
 
   void pack_idlelog(PacketBuffer &buffer, const ClientInfo &ci) const;
-  void unpack_idlelog(PacketBuffer &buffer, ClientInfo &ci,time_t &delta_time, int &num_intervals) const;
+  void unpack_idlelog(PacketBuffer &buffer, ClientInfo &ci, time_t &pack_time, int &num_intervals) const;
 
   void save_index();
   void load_index();
