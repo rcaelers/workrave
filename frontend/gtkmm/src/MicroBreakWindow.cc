@@ -67,12 +67,12 @@ MicroBreakWindow::create_gui()
   // HBox
   Gtk::HBox *hbox = manage(new Gtk::HBox(false, 12));
   hbox->pack_start(*img, false, false, 0);
-  hbox->pack_start(*label, Gtk::EXPAND | Gtk::FILL, 0);
+  hbox->pack_start(*label, Gtk::PACK_EXPAND_PADDING, 0);
 
   // Overall vbox
   Gtk::VBox *box = new Gtk::VBox(false, 12);
-  box->pack_start(*hbox, Gtk::EXPAND | Gtk::FILL, 0);
-  box->pack_start(*time_bar, Gtk::EXPAND | Gtk::FILL, 0);
+  box->pack_start(*hbox, Gtk::PACK_EXPAND_WIDGET, 0);
+  box->pack_start(*time_bar, Gtk::PACK_EXPAND_WIDGET, 0);
 
   // Button box at the bottom.
   CoreInterface *core = CoreFactory::get_core();
@@ -87,22 +87,30 @@ MicroBreakWindow::create_gui()
 
           Gtk::HBox *bbox = manage(new Gtk::HBox(true, 6));
           Gtk::Button *postpone_button = create_postpone_button();
-          bbox->pack_end(*postpone_button, Gtk::EXPAND|Gtk::FILL, 0);
+          bbox->pack_end(*postpone_button, Gtk::PACK_EXPAND_WIDGET, 0);
           Gtk::Button *skip_button = create_skip_button();
-          bbox->pack_end(*skip_button, Gtk::EXPAND|Gtk::FILL, 0);
+          bbox->pack_end(*skip_button, Gtk::PACK_EXPAND_WIDGET, 0);
 
-          button_box->pack_start(*manage(create_restbreaknow_button(false)),
-                                 Gtk::SHRINK, 0);
-          button_box->pack_start(*bbox,
-                                 Gtk::EXPAND|Gtk::FILL, 0);
+          Gtk::Alignment *bboxa =
+            manage(new Gtk::Alignment(1.0, 0.0, 0.0, 0.0));
+          bboxa->add(*bbox);
+
+          if (has_rb)
+            {
+              button_box->pack_start
+                (*manage(create_restbreaknow_button(false)),
+                 Gtk::PACK_SHRINK, 0);
+            }
+          button_box->pack_end(*bboxa,
+                                 Gtk::PACK_EXPAND_WIDGET, 0);
         }
       else
         {
           button_box = manage(new Gtk::HBox(false, 6));
           button_box->pack_end(*manage(create_restbreaknow_button(true)),
-                               Gtk::SHRINK, 0);
+                               Gtk::PACK_SHRINK, 0);
         }
-      box->pack_start(*button_box, Gtk::EXPAND | Gtk::FILL, 0);
+      box->pack_start(*button_box, Gtk::PACK_EXPAND_WIDGET, 0);
     }
 
   return box;
