@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.6.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-08 21:07+0200\n"
+"POT-Creation-Date: 2004-10-08 22:02+0200\n"
 "PO-Revision-Date: 2004-07-14 23:19+0200\n"
 "Last-Translator: Artūras Šlajus <x11@h2o.sky.lt>\n"
 "Language-Team: Artūras Šlajus <x11@h2o.sky.lt>\n"
@@ -65,6 +65,11 @@ msgstr "Praleisti"
 #: frontend/gtkmm/src/BreakWindow.cc:230
 msgid "Postpone"
 msgstr "Atidėti"
+
+#: frontend/gtkmm/src/BreakWindow.cc:241
+#, fuzzy
+msgid "Restbreak"
+msgstr "Poilsio pe_rtrauka"
 
 #: frontend/gtkmm/src/DailyLimitWindow.cc:45
 #: frontend/gtkmm/src/DailyLimitWindow.cc:53

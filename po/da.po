@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-08 21:10+0200\n"
+"POT-Creation-Date: 2004-10-08 22:02+0200\n"
 "PO-Revision-Date: 2004-07-13 20:38+0200\n"
 "Last-Translator: Christian Vejlbo <christian@vejlbo.dk>\n"
 "Language-Team:  <da@li.org>\n"
@@ -65,6 +65,11 @@ msgstr "Spring over"
 #: frontend/gtkmm/src/BreakWindow.cc:230
 msgid "Postpone"
 msgstr "Udsæt"
+
+#: frontend/gtkmm/src/BreakWindow.cc:241
+#, fuzzy
+msgid "Restbreak"
+msgstr "_Hvilepause"
 
 #: frontend/gtkmm/src/DailyLimitWindow.cc:45
 #: frontend/gtkmm/src/DailyLimitWindow.cc:53

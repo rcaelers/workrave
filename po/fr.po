@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.6.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-08 21:10+0200\n"
+"POT-Creation-Date: 2004-10-08 22:02+0200\n"
 "PO-Revision-Date: 2004-07-13 20:38+0200\n"
 "Last-Translator: Benjamin Siband <email@wordinfrench.com>\n"
 "Language-Team: Français <thomas.basset@netcourrier.com;email@wordinfrench."
@@ -66,6 +66,11 @@ msgstr "Ignorer"
 #: frontend/gtkmm/src/BreakWindow.cc:230
 msgid "Postpone"
 msgstr "Reporter"
+
+#: frontend/gtkmm/src/BreakWindow.cc:241
+#, fuzzy
+msgid "Restbreak"
+msgstr "Pause pr_olongée"
 
 #: frontend/gtkmm/src/DailyLimitWindow.cc:45
 #: frontend/gtkmm/src/DailyLimitWindow.cc:53

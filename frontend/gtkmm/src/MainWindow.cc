@@ -702,20 +702,20 @@ MainWindow::win32_set_tray_tooltip(string tip)
 
 
 void
-MainWindow::win32_set_tray_icon(IconType icon)
+MainWindow::win32_set_tray_icon(TimerBoxView::IconType icon)
 {
   string file;  
   switch (icon)
     {
-    case ICON_NORMAL:
+    case TimerBoxView::ICON_NORMAL:
       win32_tray_icon.hIcon = normal_icon;
       break;
       
-    case ICON_QUIET:
+    case TimerBoxView::ICON_QUIET:
       win32_tray_icon.hIcon = quiet_icon;
       break;
       
-    case ICON_SUSPENDED:
+    case TimerBoxView::ICON_SUSPENDED:
       win32_tray_icon.hIcon = suspended_icon;
     }
   

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.4.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-08 21:09+0200\n"
+"POT-Creation-Date: 2004-10-08 22:02+0200\n"
 "PO-Revision-Date: 2004-07-13 20:38+0200\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -76,6 +76,12 @@ msgstr "Überspringen"
 #: frontend/gtkmm/src/BreakWindow.cc:230
 msgid "Postpone"
 msgstr "Aufschieben"
+
+# src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:13
+#: frontend/gtkmm/src/BreakWindow.cc:241
+#, fuzzy
+msgid "Restbreak"
+msgstr "_Ruhepause"
 
 # src/app/gtkmm/DailyLimitWindow.cc:47 src/app/gtkmm/GtkUtil.cc:88
 # src/app/shared/sounds/workrave.soundlist.in.h:3

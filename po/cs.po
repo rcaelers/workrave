@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.6.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-08 21:10+0200\n"
+"POT-Creation-Date: 2004-10-08 22:00+0200\n"
 "PO-Revision-Date: 2004-08-10 21:20+0200\n"
 "Last-Translator: Juraj Kubelka <Juraj.Kubelka@email.cz>\n"
 "Language-Team: Czech <translation-team-cs@lists.sourceforge.net>\n"
@@ -66,6 +66,11 @@ msgstr "Přeskočit"
 #: frontend/gtkmm/src/BreakWindow.cc:230
 msgid "Postpone"
 msgstr "Odložit"
+
+#: frontend/gtkmm/src/BreakWindow.cc:241
+#, fuzzy
+msgid "Restbreak"
+msgstr "_Přestávka"
 
 #: frontend/gtkmm/src/DailyLimitWindow.cc:45
 #: frontend/gtkmm/src/DailyLimitWindow.cc:53

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.6.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-08 21:09+0200\n"
+"POT-Creation-Date: 2004-10-08 22:02+0200\n"
 "PO-Revision-Date: 2004-07-13 20:38+0200\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -63,6 +63,10 @@ msgstr "Overslaan"
 #: frontend/gtkmm/src/BreakWindow.cc:230
 msgid "Postpone"
 msgstr "Uitstellen"
+
+#: frontend/gtkmm/src/BreakWindow.cc:241
+msgid "Restbreak"
+msgstr "Rustpauze"
 
 #: frontend/gtkmm/src/DailyLimitWindow.cc:45
 #: frontend/gtkmm/src/DailyLimitWindow.cc:53
@@ -1219,9 +1223,6 @@ msgstr "Begin rustpauze"
 
 #~ msgid "Break visible:"
 #~ msgstr "Pauze zichtbaar:"
-
-#~ msgid "Restbreak"
-#~ msgstr "Rustpauze"
 
 #, fuzzy
 #~ msgid "Skipped"

@@ -66,10 +66,11 @@ protected:
   
   void center();
 
-  Gtk::HButtonBox *create_break_buttons(bool lockable, bool shutdownable);
+  Gtk::HButtonBox *create_break_buttons(bool lockable, bool shutdownable, bool restbreaknow);
   void on_lock_button_clicked();
   void on_shutdown_button_clicked();
   void on_skip_button_clicked();
+  void on_restbreaknow_button_clicked();
   void on_postpone_button_clicked();
   bool on_delete_event(GdkEventAny *);
   
@@ -87,6 +88,7 @@ private:
   Gtk::Button *create_postpone_button();
   Gtk::Button *create_lock_button();
   Gtk::Button *create_shutdown_button();
+  Gtk::Button *create_restbreaknow_button();
   
 private:
   //! Send response to this interface.

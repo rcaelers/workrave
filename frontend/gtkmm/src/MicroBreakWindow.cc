@@ -74,7 +74,7 @@ MicroBreakWindow::create_gui()
   box->pack_start(*time_bar, Gtk::EXPAND | Gtk::FILL, 0);
 
   // Button box at the bottom.
-  Gtk::HButtonBox *button_box = create_break_buttons(false, false);
+  Gtk::HButtonBox *button_box = create_break_buttons(false, false, true);
   if (button_box != NULL)
     {
       box->pack_start(*manage(button_box), Gtk::EXPAND | Gtk::FILL, 0);

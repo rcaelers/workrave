@@ -1,6 +1,6 @@
 // DailyLimitWindow.cc --- window for the daily limit
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -73,7 +73,7 @@ DailyLimitWindow::create_gui()
   box->pack_start(*hbox, Gtk::EXPAND | Gtk::FILL, 0);
 
   // Button box at the bottom.
-  Gtk::HButtonBox *button_box = create_break_buttons(true, true);
+  Gtk::HButtonBox *button_box = create_break_buttons(true, true, false);
   if (button_box)
     {
       box->pack_start(*manage(button_box), Gtk::EXPAND | Gtk::FILL, 0);

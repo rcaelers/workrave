@@ -140,7 +140,7 @@ public:
 #ifdef WIN32
 public:
   void win32_set_tray_tooltip(string tip);
-  void win32_set_tray_icon(string icon);
+  void win32_set_tray_icon(TimerBoxView::IconType icon);
   
 private:
   void win32_show(bool b);

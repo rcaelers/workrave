@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: no\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-08 21:10+0200\n"
+"POT-Creation-Date: 2004-10-08 22:02+0200\n"
 "PO-Revision-Date: 2004-07-16 14:25+0200\n"
 "Last-Translator: Morten Lunde <morten.lunde@broadpark.no>\n"
 "Language-Team:  >\n"
@@ -66,6 +66,11 @@ msgstr "Hopp over"
 #: frontend/gtkmm/src/BreakWindow.cc:230
 msgid "Postpone"
 msgstr "Utsett"
+
+#: frontend/gtkmm/src/BreakWindow.cc:241
+#, fuzzy
+msgid "Restbreak"
+msgstr "_Hvilepause"
 
 #: frontend/gtkmm/src/DailyLimitWindow.cc:45
 #: frontend/gtkmm/src/DailyLimitWindow.cc:53
