@@ -1,9 +1,9 @@
 // Mutex.hh --- Mutex synchronization
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-09-14 20:51:37 robc>
+// Time-stamp: <2003-01-05 00:41:28 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -45,13 +45,13 @@ public:
     DeleteCriticalSection(&critical_section);
   }
 
-  // Lock the mutex.
+  //! Locks the mutex.
   void lock()
   {
     EnterCriticalSection(&critical_section);
   }
 
-  // Unlock the mutex.
+  //! Unlocks the mutex.
   void unlock()
   {
     LeaveCriticalSection(&critical_section);

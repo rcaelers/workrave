@@ -1,6 +1,6 @@
 // Sound.hh --- Sound class
 //
-// Copyright (C) 2002 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -24,7 +24,11 @@
 class Sound
 {
 public:
+#ifdef HAVE_X
   static void beep(Display *x11, int frequency, int millis);
+#else
+  static void beep(Display *x11, int frequency, int millis);
+#endif
 };
 
 

@@ -1,6 +1,6 @@
 // ActivityStateMonitor.cc --- ActivityMonitor for X11
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -39,7 +39,7 @@ static const char rcsid[] = "$Id$";
 #endif
 
 #include "ActivityStateMonitor.hh"
-#include "util.h"
+#include "timeutil.h"
 
 
 ActivityStateMonitor::ActivityStateMonitor() :

@@ -1,9 +1,9 @@
 // X11InputMonitor.cc --- ActivityMonitor for X11
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-01-02 18:38:23 robc>
+// Time-stamp: <2003-01-05 00:26:38 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -51,7 +51,7 @@ static const char rcsid[] = "$Id$";
 #include "X11InputMonitor.hh"
 #include "InputMonitorListenerInterface.hh"
 
-#include "util.h"
+#include "timeutil.h"
 
 static int
 errorHandler(Display *dpy, XErrorEvent *error)

@@ -1,6 +1,6 @@
 // AppletWindow.hh --- Main info Window
 //
-// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -56,6 +56,9 @@ public:
 
   void update();
   void fire();
+
+  // ControlInterface
+  void config_changed_notify(string key);
   
   void on_menu_restbreak_now();
 #ifdef HAVE_GNOME
@@ -64,9 +67,6 @@ public:
   void set_applet_vertical(bool vertical);
   void set_applet_size(int size);
 #endif
-
-  void config_changed_notify(string key);
-
   
 public:  
   static const string CFG_KEY_APPLET;
@@ -113,21 +113,24 @@ private:
   GNOME_Workrave_AppletControl applet_control;
 #endif
 
-  //! Position for the break timer.
+  //! Positions for the break timers.
   int break_position[GUIControl::BREAK_ID_SIZEOF];
 
-  //! Flags for the break timer.
+  //! Flags for the break timers.
   int break_flags[GUIControl::BREAK_ID_SIZEOF];
 
-  //! Imminent threshold for the timers..
+  //! Imminent threshold for the timers.
   int break_imminent_time[GUIControl::BREAK_ID_SIZEOF];
   
-  //! Compute slot contents.
+  //! Computed slot contents.
   int break_slots[GUIControl::BREAK_ID_SIZEOF][GUIControl::BREAK_ID_SIZEOF];
 
   //! Current cycle for each slot.
   int break_slot_cycle[GUIControl::BREAK_ID_SIZEOF];
 
+  //! Current slot content.
+  int current_content[GUIControl::BREAK_ID_SIZEOF];
+  
   //! Duration of each cycle.
   int cycle_time;
   
@@ -137,18 +140,10 @@ private:
   //! Size of the applet
   int applet_size;
 
-  //! Width of the applet.
-  int applet_width;
-  
-  //! Height of the applet.
-  int applet_height;
-
   //! Applet enabled?
   bool applet_enabled;
-
   
 private:
-  //
   void init();
   void init_applet();
   void init_table();

@@ -1,6 +1,6 @@
 // AppletWindow.cc --- Applet info Window
 //
-// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -13,6 +13,10 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
+//
+// TODO: split system tray and gnome applet.
+// TODO: release CORBA memory.
+// TODO: smoother update of table.
 
 static const char rcsid[] = "$Id$";
 
@@ -25,26 +29,13 @@ static const char rcsid[] = "$Id$";
 #include "nls.h"
 #include "debug.hh"
 
-#include <unistd.h>
-#include <iostream>
-
 #include "AppletWindow.hh"
-#include "TimeBar.hh"
+#include "Configurator.hh"
 #include "GUI.hh"
 #include "GUIControl.hh"
-#include "Util.hh"
-#include "Text.hh"
-
-#include "TimerInterface.hh"
-#include "ControlInterface.hh"
-#include "ActivityMonitorInterface.hh"
-#include "Configurator.hh"
-
 #include "Menus.hh"
-
-#ifdef HAVE_DISTRIBUTION
-#include "DistributionManager.hh"
-#endif
+#include "TimeBar.hh"
+#include "TimerInterface.hh"
 
 #ifdef HAVE_GNOME
 #include "RemoteControl.hh"
@@ -58,7 +49,6 @@ const string AppletWindow::CFG_KEY_APPLET_CYCLE_TIME = "gui/applet/cycle_time";
 const string AppletWindow::CFG_KEY_APPLET_POSITION = "/position";
 const string AppletWindow::CFG_KEY_APPLET_FLAGS = "/flags";
 const string AppletWindow::CFG_KEY_APPLET_IMMINENT = "/imminent";
-
 
 
 //! Constructor.
@@ -81,8 +71,6 @@ AppletWindow::AppletWindow(GUI *g, ControlInterface *c) :
   cycle_time(10),
   applet_vertical(false),
   applet_size(0),
-  applet_width(0),
-  applet_height(0),
   applet_enabled(true)
 {
   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
@@ -90,6 +78,7 @@ AppletWindow::AppletWindow(GUI *g, ControlInterface *c) :
       break_position[i] = i;
       break_flags[i] = 0;
       break_imminent_time[i] = 0;
+      current_content[i] = -1;
       
       for (int j = 0; j < GUIControl::BREAK_ID_SIZEOF; j++)
         {
@@ -98,8 +87,8 @@ AppletWindow::AppletWindow(GUI *g, ControlInterface *c) :
       break_slot_cycle[i] = 0;
     }
   
-  Menus *menus = Menus::get_instance();
 #ifdef HAVE_GNOME
+  Menus *menus = Menus::get_instance();
   menus->set_applet_window(this);
 #endif
   
@@ -116,6 +105,15 @@ AppletWindow::~AppletWindow()
     {
       delete timers_box;
     }
+  if (plug != NULL)
+    {
+      delete plug;
+    }
+  if (container != NULL)
+    {
+      delete container;
+    }
+  
   TRACE_EXIT();
 }
 
@@ -127,14 +125,17 @@ AppletWindow::init()
 {
   TRACE_ENTER("AppletWindow::init");
 
+  // Load the configuration
   read_configuration();
 
+  // Listen for configugration changes.
   Configurator *config = gui->get_configurator();
   if (config != NULL)
     {
       config->add_listener(AppletWindow::CFG_KEY_APPLET, this);
     }
-  
+
+  // Create the applet.
   if (applet_enabled)
     {
       init_widgets();
@@ -150,6 +151,7 @@ AppletWindow::init()
 }
   
 
+//! Initializes the applet.
 void
 AppletWindow::init_table()
 {
@@ -160,6 +162,7 @@ AppletWindow::init_table()
     {
       container->remove();
       delete timers_box;
+      timers_box = NULL;
       init_widgets();
     }
 
@@ -194,7 +197,7 @@ AppletWindow::init_table()
     {
       GtkRequisition size;
       timer_times[0]->size_request(&size);
-      rows = applet_height / size.height;
+      rows = applet_size / size.height;
 
       if (rows <= 0)
         {
@@ -224,9 +227,9 @@ AppletWindow::init_table()
           int cur_row = count % rows;
           int cur_col = count / rows;
           
-          if (applet_height != -1)
+          if (!applet_vertical && applet_size != -1)
             {
-              timer_times[id]->set_size_request(-1, applet_height / rows - 1 * (rows + 1) - 2);
+              timer_times[id]->set_size_request(-1, applet_size / rows - 1 * (rows + 1) - 2);
             }
           
           timers_box->attach(*timer_names[id], 2 * cur_col, 2 * cur_col + 1, cur_row, cur_row + 1,
@@ -244,6 +247,7 @@ AppletWindow::init_table()
 }
 
 
+//! Compute what break to show on the specified location.
 void
 AppletWindow::init_slot(int slot)
 {
@@ -377,6 +381,7 @@ AppletWindow::init_slot(int slot)
 }
 
 
+//! Cycles through the breaks.
 void
 AppletWindow::cycle_slots()
 {
@@ -391,6 +396,8 @@ AppletWindow::cycle_slots()
     }
 }
 
+
+//! Initializes the applet.
 void
 AppletWindow::init_applet()
 {
@@ -416,6 +423,7 @@ AppletWindow::init_applet()
 }
 
 
+//! Destroys the applet.
 void
 AppletWindow::destroy_applet()
 {
@@ -435,6 +443,7 @@ AppletWindow::destroy_applet()
 }
 
 
+//! Initializes the system tray applet.
 bool
 AppletWindow::init_tray_applet()
 {
@@ -452,7 +461,6 @@ AppletWindow::init_tray_applet()
       eventbox->signal_button_press_event().connect(SigC::slot(*this, &AppletWindow::on_button_press_event));
       container = eventbox;
       
-      //eventbox->add(*timer_names[0]);
       plug = Glib::wrap(GTK_PLUG(tray_icon));
       plug->add(*eventbox);
       plug->show_all();
@@ -469,8 +477,6 @@ AppletWindow::init_tray_applet()
       GtkRequisition req;
       plug->size_request(&req);
       applet_size = req.height;
-      applet_height = req.height;
-      applet_width = -1;
     }
 
   TRACE_EXIT();
@@ -478,6 +484,7 @@ AppletWindow::init_tray_applet()
 }
 
 
+//! Destroys the system tray applet.
 void
 AppletWindow::destroy_tray_applet()
 {
@@ -485,7 +492,7 @@ AppletWindow::destroy_tray_applet()
     {
       if (plug != NULL)
         {
-          plug->remove(); // FIXME: free memory
+          plug->remove();
           delete plug;
           plug = NULL;
         }
@@ -498,66 +505,67 @@ AppletWindow::destroy_tray_applet()
   mode = APPLET_DISABLED;
 }
 
+
 #ifdef HAVE_GNOME
+//! Initializes the native gnome applet.
 bool
 AppletWindow::init_gnome_applet()
 {
   TRACE_ENTER("AppletWindow::init_gnome_applet");
-  CORBA_Environment ev;
   bool ok = true;
 
+  // Initialize bonobo activation.
   bonobo_activate();
 
+  CORBA_Environment ev;
   CORBA_exception_init (&ev);
+
+  // Connect to the applet.
   applet_control = bonobo_activation_activate_from_id("OAFIID:GNOME_Workrave_AppletControl",
                                                       Bonobo_ACTIVATION_FLAG_EXISTING_ONLY, NULL, &ev);
-  
-  if (applet_control == NULL || BONOBO_EX (&ev))
-    {
-      g_warning(_("Could not contact Workrave Panel"));
-      ok = false;
-    }
 
+  // Socket ID of the applet.
   long id = 0;
+  if (applet_control != NULL && !BONOBO_EX(&ev))
+    {
+      id = GNOME_Workrave_AppletControl_get_socket_id(applet_control, &ev);
+      ok = !BONOBO_EX(&ev);
+    }
 
   if (ok)
     {
-      id = GNOME_Workrave_AppletControl_get_socket_id(applet_control, &ev);
-
-      if (BONOBO_EX (&ev))
-        {
-          char *err = bonobo_exception_get_text(&ev);
-          g_warning (_("An exception occured '%s'"), err);
-          g_free(err);
-          ok = false;
-        }
-
+      // Retrieve applet size.
       applet_size = GNOME_Workrave_AppletControl_get_size(applet_control, &ev);
+      ok = !BONOBO_EX(&ev);
+    }
+
+  if (ok)
+    {
+      // Retrieve applet orientation.
       applet_vertical =  GNOME_Workrave_AppletControl_get_vertical(applet_control, &ev);
-      
-      if (applet_vertical)
-        {
-          applet_width = applet_size;
-          applet_height = -1;
-        }
-      else
-        {
-          applet_width = -1;
-          applet_height = applet_size;
-        }
-      
+      ok = !BONOBO_EX(&ev);
+    }
+
+  if (ok)
+    {
+      // Register at applet.
       RemoteControl *remote = RemoteControl::get_instance();
       if (remote != NULL)
         {
           WorkraveControl *control = remote->get_remote_control();
 
-          Bonobo_Unknown x = bonobo_object_corba_objref(BONOBO_OBJECT(control));
-          GNOME_Workrave_AppletControl_register_control(applet_control, x, &ev);
+          if (control != NULL)
+            {
+              Bonobo_Unknown x = bonobo_object_corba_objref(BONOBO_OBJECT(control));
+              GNOME_Workrave_AppletControl_register_control(applet_control, x, &ev);
+            }
         }
     }
-
+  
   if (ok)
     {
+      // Initialize applet GUI.
+      
       Gtk::Alignment *frame = new Gtk::Alignment(1.0, 1.0, 0.0, 0.0);
       frame->set_border_width(2);
       container = frame;
@@ -567,6 +575,7 @@ AppletWindow::init_gnome_applet()
       plug->show_all();
       
       plug->signal_delete_event().connect(SigC::slot(*this, &AppletWindow::delete_event));
+
       Menus *menus = Menus::get_instance();
       if (menus != NULL)
         {
@@ -585,6 +594,7 @@ AppletWindow::init_gnome_applet()
 }
 
 
+//! Destroys the native gnome applet.
 void
 AppletWindow::destroy_gnome_applet()
 {
@@ -597,18 +607,24 @@ AppletWindow::destroy_gnome_applet()
           CORBA_exception_init (&ev);
 
           WorkraveControl *control = remote->get_remote_control();
-          Bonobo_Unknown x = bonobo_object_corba_objref(BONOBO_OBJECT(control));
+          if (control != NULL)
+            {
+              // Unregister workrave.
+              Bonobo_Unknown x = bonobo_object_corba_objref(BONOBO_OBJECT(control));
+              GNOME_Workrave_AppletControl_unregister_control(applet_control, x, &ev);
+            }
           
-          GNOME_Workrave_AppletControl_unregister_control(applet_control, x, &ev);
           CORBA_exception_free(&ev);
         }
-      
+
+      // Cleanup Widgets.
       if (plug != NULL)
         {
-          plug->remove(); // FIXME: free memory.
+          plug->remove();
           delete plug;
           plug = NULL;
         }
+      
       if (container != NULL)
         {
           container->remove();
@@ -621,6 +637,7 @@ AppletWindow::destroy_gnome_applet()
 #endif
 
 
+//! Applet window is deleted. Destroy applet.
 bool
 AppletWindow::delete_event(GdkEventAny *event)
 {
@@ -632,7 +649,7 @@ AppletWindow::delete_event(GdkEventAny *event)
 }
     
 
-//! Updates the main window.
+//! Fire up the applet (as requested by the native gnome applet).
 void
 AppletWindow::fire()
 {
@@ -657,14 +674,18 @@ AppletWindow::update()
 {
   if (mode == APPLET_DISABLED)
     {
+      // Applet is disabled.
+      
       if (applet_enabled)
         {
+          // Enable applet.
           init_widgets();
           retry_init = true;
         }
 
       if (retry_init)
         {
+          // Attempt to initialize the applet again.
           init_applet();
           if (mode != APPLET_DISABLED)
             {
@@ -675,53 +696,39 @@ AppletWindow::update()
     }
   else
     {
-
+      // Applet is enabled.
       if (!applet_enabled)
         {
+          // Disable applet.
           destroy_applet();
         }
       else
         {
+          // Cycle through the timers.
           time_t t = time(NULL);
           if (t % cycle_time == 0)
             {
               init_table();
               cycle_slots();
             }
-      
+
+          // Configuration was changed. reinit.
           if (reconfigure)
             {
               init_table();
               reconfigure = false;
             }
+
+          // Update the timer widgets.
           update_widgets();
         }
     }
 }
 
 
-//! Users pressed some mouse button in the main window.
-bool
-AppletWindow::on_button_press_event(GdkEventButton *event)
-{
-  TRACE_ENTER("Applet::on_button_press_event");
-  bool ret = false;
-
-  if (tray_menu != NULL)
-    {
-      if ((event->type == GDK_BUTTON_PRESS) && (event->button == 3))
-        {
-          tray_menu->popup(event->button, event->time);
-          ret = true;
-        }
-    }
-  
-  TRACE_EXIT();
-  return ret;
-}
-
 
 #ifdef HAVE_GNOME
+//! Sets the state of a toggle menu item.
 void
 AppletWindow::set_menu_active(int menu, bool active)
 {
@@ -752,6 +759,7 @@ AppletWindow::set_menu_active(int menu, bool active)
 }
 
 
+//! Retrieves the state of a toggle menu item.
 bool
 AppletWindow::get_menu_active(int menu)
 {
@@ -783,44 +791,29 @@ AppletWindow::get_menu_active(int menu)
   return ret;
 }
 
+
+//! Sets the orientation of the applet.
 void
 AppletWindow::set_applet_vertical(bool v)
 {
   TRACE_ENTER_MSG("AppletWindow::set_applet_vertical", applet_vertical);
-  applet_vertical = v;
-  if (applet_vertical)
-    {
-      applet_width = applet_size;
-      applet_height = -1;
-    }
-  else
-    {
-      applet_width = -1;
-      applet_height = applet_size;
-    }
 
+  applet_vertical = v;
   reconfigure = true;
 
   TRACE_EXIT();
 }
 
 
+//! Sets the size of the applet.
 void
 AppletWindow::set_applet_size(int size)
 {
   TRACE_ENTER_MSG("AppletWindow::set_applet_size", size);
+
   applet_size = size;
-  if (applet_vertical)
-    {
-      applet_width = applet_size;
-      applet_height = -1;
-    }
-  else
-    {
-      applet_width = -1;
-      applet_height = applet_size;
-    }
   reconfigure = true;
+
   TRACE_EXIT();
 }
 #endif
@@ -836,6 +829,7 @@ AppletWindow::on_delete_event(GdkEventAny *)
 }
 
 
+//! Reads the applet configuration.
 void
 AppletWindow::read_configuration()
 {
@@ -883,6 +877,7 @@ AppletWindow::read_configuration()
 }
 
 
+//! Callback that the configuration has changed.
 void
 AppletWindow::config_changed_notify(string key)
 {
@@ -895,4 +890,25 @@ AppletWindow::config_changed_notify(string key)
     }
 
   reconfigure = true;
+}
+
+
+//! Users pressed some mouse button in the main window.
+bool
+AppletWindow::on_button_press_event(GdkEventButton *event)
+{
+  TRACE_ENTER("Applet::on_button_press_event");
+  bool ret = false;
+
+  if (tray_menu != NULL)
+    {
+      if ((event->type == GDK_BUTTON_PRESS) && (event->button == 3))
+        {
+          tray_menu->popup(event->button, event->time);
+          ret = true;
+        }
+    }
+  
+  TRACE_EXIT();
+  return ret;
 }

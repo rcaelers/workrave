@@ -1,6 +1,6 @@
 // Util.hh --- General purpose utility functions
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -28,7 +28,7 @@ class Util
 {
 public:
   // Grmbl. Ideally, this was call just SearchPath, however
-  // Windows feals it is necessary to do a "#define SearchPath SearchPathA"
+  // Windows feels it is necessary to do a "#define SearchPath SearchPathA"
   enum SearchPathId 
   {
     SEARCH_PATH_IMAGES = 0,

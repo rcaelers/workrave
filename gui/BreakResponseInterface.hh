@@ -1,9 +1,9 @@
 // BreakResponseInterface.hh --- Generic Interface for breaks
 //
-// Copyright (C) 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-09-04 22:40:25 robc>
+// Time-stamp: <2003-01-05 00:48:26 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,10 +25,10 @@
 class BreakResponseInterface
 {
 public:
-  //! Postpone the break.
+  //! Request to postpone the break.
   virtual void postpone_break() = 0;
 
-  //! Skip the break.
+  //! Request to skip the break.
   virtual void skip_break() = 0;
 };
 

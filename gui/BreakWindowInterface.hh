@@ -1,6 +1,6 @@
 // BreakWindowInterface.hh --- base class for the break windows
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -32,7 +32,7 @@ public:
   //! Stops (i.e. hides) the break window.
   virtual void stop() = 0;
 
-  //! Refreshed the content of the break window.
+  //! Refreshes the content of the break window.
   virtual void refresh() = 0;
 
   //! Destroys the break window.
@@ -46,13 +46,14 @@ public:
 
   //! Sets the insist-break flags
   /*!
-   *  A break that has 'insist' set, locks the keyboard during the break..
+   *  A break that has 'insist' set, locks the keyboard during the break.
    */
   virtual void set_insist_break(bool insist) = 0;
 
   //! Sets the response callback.
   virtual void set_break_response(BreakResponseInterface *bri)
   {
+    // FIXME: this does not belong in an interface.
     break_response = bri;
   }
 

@@ -1,6 +1,6 @@
 // Util.cc --- General purpose utility functions
 //
-// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -51,6 +51,8 @@ VOID WINAPI CoTaskMemFree(PVOID);
 
 list<string> Util::search_paths[Util::SEARCH_PATH_SIZEOF];
 
+
+//! Returns the user's home directory.
 const string&
 Util::get_home_directory()
 {
@@ -109,6 +111,7 @@ Util::get_home_directory()
 }
 
 
+//! Returns \c true if the specified file exists.
 bool
 Util::file_exists(string path)
 {
@@ -126,7 +129,9 @@ Util::file_exists(string path)
   return ret;
 }
 
+
 #ifdef WIN32
+//! Returns the directory in which workrave is installed.
 string
 Util::get_application_directory()
 {
@@ -145,6 +150,8 @@ Util::get_application_directory()
 }
 #endif
 
+
+//! Returns the searchpath for the specified file type.
 const list<string> &
 Util::get_search_path(SearchPathId type)
 {
@@ -195,6 +202,8 @@ Util::get_search_path(SearchPathId type)
   return searchPath;
 }
 
+
+//! Completes the directory for the specified file and file type.
 string
 Util::complete_directory(string path, Util::SearchPathId type)
 {

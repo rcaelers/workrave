@@ -24,14 +24,16 @@
 #include "nls.h"
 #include "debug.hh"
 
+#include <unistd.h>
 #include <sstream>
 
-#include <unistd.h>
-#include "GUIControl.hh"
 #include "AppletPreferencePage.hh"
+
 #include "Configurator.hh"
 #include "AppletWindow.hh"
 
+
+//! Construct the Applet Preference Notebook page.
 AppletPreferencePage::AppletPreferencePage()
   : Gtk::HBox(false, 6)
 {
@@ -44,6 +46,7 @@ AppletPreferencePage::AppletPreferencePage()
 }
 
 
+//! Destruct the Applet Preference Notebook page.
 AppletPreferencePage::~AppletPreferencePage()
 {
   TRACE_ENTER("AppletPreferencePage::~AppletPreferencePage");
@@ -51,6 +54,7 @@ AppletPreferencePage::~AppletPreferencePage()
 }
 
 
+//! Initializes all widgets.
 void
 AppletPreferencePage::create_page()
 {
@@ -62,7 +66,6 @@ AppletPreferencePage::create_page()
   Gtk::Label *mp_label = manage(new Gtk::Label(_("Micro-pause")));
   Gtk::Label *rb_label = manage(new Gtk::Label(_("Restbreak")));
   Gtk::Label *dl_label = manage(new Gtk::Label(_("Daily limit")));
-
   Gtk::Label *visible_label = manage(new Gtk::Label(_("Break visible")));
   Gtk::Label *cycle_label = manage(new Gtk::Label(_("Cycle time")));
   Gtk::Label *slot_label = manage(new Gtk::Label(_("Break position")));
@@ -71,7 +74,7 @@ AppletPreferencePage::create_page()
   Gtk::Label *exclusive_label = manage(new Gtk::Label(_("Show exclusively")));
   Gtk::Label *default_label = manage(new Gtk::Label(_("Default break")));
 
-  // Cycle time
+  // Cycle time spin button.
   cycle_entry = manage(new Gtk::SpinButton());
   cycle_entry->set_range(1, 999);
   cycle_entry->set_increments(1, 10);
@@ -79,23 +82,24 @@ AppletPreferencePage::create_page()
   cycle_entry->set_width_chars(3);
   cycle_entry->signal_changed().connect(SigC::slot(*this, &AppletPreferencePage::on_cycle_time_changed));
 
-  // Enabled/Disabled
+  // Enabled/Disabled checkbox
   enabled_cb = manage(new  Gtk::CheckButton("Applet enabled"));
   enabled_cb->signal_toggled().connect(SigC::slot(*this, &AppletPreferencePage::on_enabled_toggled));
 
   // Table
-  Gtk::Table *table = manage(new Gtk::Table(5, 4, false));
+  Gtk::Table *table = manage(new Gtk::Table(8, 4, false));
   table->set_row_spacings(2);
   table->set_col_spacings(6);
   table->set_border_width(6);
 
+  // Tooltips;
   Gtk::Tooltips *tips = manage(new Gtk::Tooltips());
   tips->enable();
-  
   tips->set_tip(*enabled_cb, _("Applet enabled or not."));
   tips->set_tip(*cycle_entry, _("When multiple breaks are shown on a certain position, "
                                 "this value indicates the time each break is shown."));
-  
+
+  // Put break in table.
   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
     {
       slot_entry[i] = manage(new Gtk::SpinButton());
@@ -110,18 +114,17 @@ AppletPreferencePage::create_page()
       time_entry[i]->set_numeric(true);
       time_entry[i]->set_width_chars(4);
       
-      visible_cb[i] = manage(new  Gtk::CheckButton());
-      first_cb[i] = manage(new  Gtk::CheckButton());
-      imminent_cb[i] = manage(new  Gtk::CheckButton());
-      default_cb[i] = manage(new  Gtk::CheckButton());
-      exclusive_cb[i] = manage(new  Gtk::CheckButton());
+      visible_cb[i] = manage(new Gtk::CheckButton());
+      first_cb[i] = manage(new Gtk::CheckButton());
+      imminent_cb[i] = manage(new Gtk::CheckButton());
+      default_cb[i] = manage(new Gtk::CheckButton());
+      exclusive_cb[i] = manage(new Gtk::CheckButton());
 
       Gtk::HBox *hbox = manage(new Gtk::HBox());
       hbox->pack_start(*imminent_cb[i], false, false, 0);
       hbox->pack_start(*time_entry[i], false, false, 0);
 
       int y = 2;
-      
       table->attach(*visible_cb[i], i + 1, i + 2, y, y + 1, Gtk::SHRINK, Gtk::SHRINK);
       y++;
       table->attach(*slot_entry[i], i + 1, i + 2, y, y + 1, Gtk::SHRINK, Gtk::SHRINK);
@@ -166,6 +169,7 @@ AppletPreferencePage::create_page()
                                       "reach its limit within the specified time."));
     }
 
+  // Add labels to table.
   int y = 0;
   
   table->attach(*cycle_label, 0, 1, y, y + 1, Gtk::SHRINK, Gtk::SHRINK);
@@ -190,6 +194,7 @@ AppletPreferencePage::create_page()
   table->attach(*imminent_label, 0, 1, y, y + 1, Gtk::SHRINK, Gtk::SHRINK);
   y++;
 
+  // And put it all together.
   box->pack_start(*enabled_cb, false, false, 0);
   box->pack_start(*frame, true, true, 0);
   frame->add(*table);
@@ -197,6 +202,7 @@ AppletPreferencePage::create_page()
 }
 
 
+//! Sets the specified flag for the specified break.
 void
 AppletPreferencePage::set_flag(int break_id, int flag, bool on)
 {
@@ -225,81 +231,7 @@ AppletPreferencePage::set_flag(int break_id, int flag, bool on)
 }
 
 
-void
-AppletPreferencePage::on_first_toggled(int break_id)
-{
-  assert(break_id >= 0 && break_id < GUIControl::BREAK_ID_SIZEOF);
-
-  bool first = first_cb[break_id]->get_active();
-  set_flag(break_id, AppletWindow::BREAK_WHEN_FIRST, first);
-}
-
-
-void
-AppletPreferencePage::on_imminent_toggled(int break_id)
-{
-  assert(break_id >= 0 && break_id < GUIControl::BREAK_ID_SIZEOF);
-
-  bool imminent = imminent_cb[break_id]->get_active();
-  set_flag(break_id, AppletWindow::BREAK_WHEN_IMMINENT, imminent);
-
-  time_entry[break_id]->set_sensitive(imminent);
-}
-
-
-void
-AppletPreferencePage::on_default_toggled(int break_id)
-{
-  assert(break_id >= 0 && break_id < GUIControl::BREAK_ID_SIZEOF);
-
-  bool d = default_cb[break_id]->get_active();
-  set_flag(break_id, AppletWindow::BREAK_DEFAULT, d);
-}
-
-
-void
-AppletPreferencePage::on_exclusive_toggled(int break_id)
-{
-  assert(break_id >= 0 && break_id < GUIControl::BREAK_ID_SIZEOF);
-
-  bool exclusive = exclusive_cb[break_id]->get_active();
-  set_flag(break_id, AppletWindow::BREAK_EXCLUSIVE, exclusive);
-}
-
-
-void
-AppletPreferencePage::on_time_changed(int break_id)
-{
-  assert(break_id >= 0 && break_id < GUIControl::BREAK_ID_SIZEOF);
-
-  int value = (int) time_entry[break_id]->get_value();
-  
-  Configurator *c = GUIControl::get_instance()->get_configurator();
-  GUIControl::TimerData &data = GUIControl::get_instance()->timers[break_id];
-      
-  c->set_value(AppletWindow::CFG_KEY_APPLET + "/" + data.break_name
-               + AppletWindow::CFG_KEY_APPLET_IMMINENT,
-               value);
-  
-}
-
-
-void
-AppletPreferencePage::on_slot_changed(int break_id)
-{
-  assert(break_id >= 0 && break_id < GUIControl::BREAK_ID_SIZEOF);
-
-  int value = (int) slot_entry[break_id]->get_value();
-  
-  Configurator *c = GUIControl::get_instance()->get_configurator();
-  GUIControl::TimerData &data = GUIControl::get_instance()->timers[break_id];
-      
-  c->set_value(AppletWindow::CFG_KEY_APPLET + "/" + data.break_name
-               + AppletWindow::CFG_KEY_APPLET_POSITION,
-               value);
-}
-
-
+//! The 'visible' Checkbox of the specified break is toggled.
 void
 AppletPreferencePage::on_visible_toggled(int break_id)
 {
@@ -327,6 +259,88 @@ AppletPreferencePage::on_visible_toggled(int break_id)
 }
 
 
+//! The 'first' Checkbox of the specified break is toggled.
+void
+AppletPreferencePage::on_first_toggled(int break_id)
+{
+  assert(break_id >= 0 && break_id < GUIControl::BREAK_ID_SIZEOF);
+
+  bool first = first_cb[break_id]->get_active();
+  set_flag(break_id, AppletWindow::BREAK_WHEN_FIRST, first);
+}
+
+
+//! The 'imminent' Checkbox of the specified break is toggled.
+void
+AppletPreferencePage::on_imminent_toggled(int break_id)
+{
+  assert(break_id >= 0 && break_id < GUIControl::BREAK_ID_SIZEOF);
+
+  bool imminent = imminent_cb[break_id]->get_active();
+  set_flag(break_id, AppletWindow::BREAK_WHEN_IMMINENT, imminent);
+
+  time_entry[break_id]->set_sensitive(imminent);
+}
+
+
+//! The 'default' Checkbox of the specified break is toggled.
+void
+AppletPreferencePage::on_default_toggled(int break_id)
+{
+  assert(break_id >= 0 && break_id < GUIControl::BREAK_ID_SIZEOF);
+
+  bool d = default_cb[break_id]->get_active();
+  set_flag(break_id, AppletWindow::BREAK_DEFAULT, d);
+}
+
+
+//! The 'exclusive' Checkbox of the specified break is toggled.
+void
+AppletPreferencePage::on_exclusive_toggled(int break_id)
+{
+  assert(break_id >= 0 && break_id < GUIControl::BREAK_ID_SIZEOF);
+
+  bool exclusive = exclusive_cb[break_id]->get_active();
+  set_flag(break_id, AppletWindow::BREAK_EXCLUSIVE, exclusive);
+}
+
+
+//! The 'imminent time' of the specified break is changed.
+void
+AppletPreferencePage::on_time_changed(int break_id)
+{
+  assert(break_id >= 0 && break_id < GUIControl::BREAK_ID_SIZEOF);
+
+  int value = (int) time_entry[break_id]->get_value();
+  
+  Configurator *c = GUIControl::get_instance()->get_configurator();
+  GUIControl::TimerData &data = GUIControl::get_instance()->timers[break_id];
+      
+  c->set_value(AppletWindow::CFG_KEY_APPLET + "/" + data.break_name
+               + AppletWindow::CFG_KEY_APPLET_IMMINENT,
+               value);
+  
+}
+
+
+//! The 'position' of the specified break is changed.
+void
+AppletPreferencePage::on_slot_changed(int break_id)
+{
+  assert(break_id >= 0 && break_id < GUIControl::BREAK_ID_SIZEOF);
+
+  int value = (int) slot_entry[break_id]->get_value();
+  
+  Configurator *c = GUIControl::get_instance()->get_configurator();
+  GUIControl::TimerData &data = GUIControl::get_instance()->timers[break_id];
+      
+  c->set_value(AppletWindow::CFG_KEY_APPLET + "/" + data.break_name
+               + AppletWindow::CFG_KEY_APPLET_POSITION,
+               value);
+}
+
+
+//! The applet on/off checkbox has been toggled.
 void
 AppletPreferencePage::on_enabled_toggled()
 {
@@ -337,6 +351,7 @@ AppletPreferencePage::on_enabled_toggled()
 }
 
 
+//! The applet cycle time has been changed.
 void
 AppletPreferencePage::on_cycle_time_changed()
 {

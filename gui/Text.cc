@@ -1,6 +1,6 @@
 // Text.cc
 //
-// Copyright (C) 2002 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -37,7 +37,7 @@ static const char rcsid[] = "$Id$";
 #include "Text.hh"
 
 
-//! Time to string
+//! Converts the specified time to a string
 string
 Text::time_to_string(time_t time, bool display_units) 
 {

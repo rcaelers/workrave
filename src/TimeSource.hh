@@ -1,9 +1,9 @@
 // TimeSource.hh --- the time
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-08-26 18:45:54 robc>
+// Time-stamp: <2003-01-05 00:21:25 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -32,7 +32,6 @@
 # endif
 #endif
 
-#include "Time.hh"
 
 //! A source of time.
 class TimeSource

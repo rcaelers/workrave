@@ -1,6 +1,6 @@
 // WmSpec.hh 
 //
-// Copyright (C) 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -27,14 +27,6 @@ public:
   static bool supported();
   static void change_state(GtkWidget *window, bool add, const char *state);
   static void set_window_hint(GtkWidget *gtk_window, const char *type);
-
-private:
-//   enum WmSpecStateChange
-//     {
-//       _NET_WM_STATE_REMOVE = 0,    /* remove/unset property */
-//       _NET_WM_STATE_ADD = 1,       /* add/set property */
-//       _NET_WM_STATE_TOGGLE = 2,    /* toggle property  */  
-//     };
 };
 
 #endif // WINDOWHINTS_HH

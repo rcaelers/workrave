@@ -1,6 +1,6 @@
 // WmSpec.cc 
 //
-// Copyright (C) 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -20,9 +20,9 @@ static const char rcsid[] = "$Id$";
 #include "config.h"
 #endif
 
-#include "debug.hh"
-
 #ifdef HAVE_X
+
+#include "debug.hh"
 
 #include <X11/Xlib.h>
 #include <X11/Xmd.h>
@@ -32,13 +32,13 @@ static const char rcsid[] = "$Id$";
 
 #include "WmSpec.hh"
 
-
 #define XA_NET_SUPPORTING_WM_CHECK	"_NET_SUPPORTING_WM_CHECK"
 #define XA_NET_WM_STATE			"_NET_WM_STATE"
 
 #define _NET_WM_STATE_REMOVE   0
 #define _NET_WM_STATE_ADD      1
 #define _NET_WM_STATE_TOGGLE   2
+
 
 bool
 WmSpec::supported()
@@ -51,8 +51,6 @@ WmSpec::supported()
   unsigned char *prop = NULL, *prop2 = NULL;
   bool ret = false;
 
-  // prev_error = gdk_error_warnings;
-  // gdk_error_warnings = 0;
   support_check = gdk_x11_get_xatom_by_name(XA_NET_SUPPORTING_WM_CHECK);
 
   p = XGetWindowProperty(GDK_DISPLAY(), GDK_ROOT_WINDOW(), support_check,
@@ -76,7 +74,6 @@ WmSpec::supported()
     XFree(prop);
   if (prop2)
     XFree(prop2);
-  //gdk_error_warnings = prev_error;
 
   TRACE_EXIT();
   return ret;
@@ -104,7 +101,6 @@ WmSpec::change_state(GtkWidget *gtk_window, bool add, const char *state)
     {
       XEvent xev;
 
-      TRACE_MSG("mapped");
       xev.type = ClientMessage;
       xev.xclient.type = ClientMessage;
       xev.xclient.serial = 0;

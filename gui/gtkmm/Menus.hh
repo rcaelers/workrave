@@ -1,6 +1,6 @@
 // Menus.hh --- Main info Window
 //
-// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -18,9 +18,6 @@
 
 #ifndef MENUS_HH
 #define MENUS_HH
-
-#include "preinclude.h"
-#include <stdio.h>
 
 #ifdef HAVE_GNOME
 #include <gnome.h>
@@ -102,7 +99,7 @@ private:
   static Menus *instance;
   
 #ifdef HAVE_GNOME  
-  //!
+  //! The applet windows
   AppletWindow *applet_window;
 #endif
 
@@ -111,10 +108,10 @@ private:
   NetworkLogDialog *network_log_dialog;
 #endif
   
-  //!
+  //! The main window.
   MainWindow *main_window;
 
-  //!
+  //! The system tray popup menu items.
   Gtk::CheckMenuItem *tray_check_menus[MAX_CHECKMENUS];
 
   //! The popup mode menu items
@@ -128,6 +125,7 @@ Menus::set_main_window(MainWindow *main)
   main_window = main;
 }
 
+
 #ifdef HAVE_GNOME
 inline void
 Menus::set_applet_window(AppletWindow *applet)
@@ -135,6 +133,7 @@ Menus::set_applet_window(AppletWindow *applet)
   applet_window = applet;
 }
 #endif
+
 
 inline Menus *
 Menus::get_instance()

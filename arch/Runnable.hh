@@ -1,9 +1,9 @@
 // Runnable.hh --- Runnable interface
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-08-11 16:36:44 robc>
+// Time-stamp: <2003-01-05 00:23:08 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

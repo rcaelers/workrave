@@ -1,9 +1,9 @@
 // Timer.cc --- break timer
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-11-11 18:36:34 robc>
+// Time-stamp: <2003-01-05 00:26:39 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ static const char rcsid[] = "$Id$";
 #include "TimePred.hh"
 #include "TimeSource.hh"
 
-#include "util.h"
+#include "timeutil.h"
 
 
 //! Constructs a new break timer.

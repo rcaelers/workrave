@@ -1,9 +1,9 @@
 // Mutex.hh --- Mutex synchronization
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-08-11 16:36:44 robc>
+// Time-stamp: <2003-01-05 00:35:53 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -49,13 +49,13 @@ public:
     pthread_mutex_destroy(&m_mutex);
   }
 
-  // Lock the mutex.
+  //! Locks the mutex.
   void lock()
   {
     pthread_mutex_lock(&m_mutex);
   }
 
-  // Unlock the mutex.
+  //! Unlocks the mutex.
   void unlock()
   {
     pthread_mutex_unlock(&m_mutex);

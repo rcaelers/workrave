@@ -1,6 +1,6 @@
 // Thread.hh --- Thread class
 //
-// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -38,48 +38,47 @@
 class Thread : public Runnable
 {
 public:
-  //! Construct a new thread.
+  //! Constructs a new thread.
   Thread(bool auto_delete = false);
 
-  //! Construct a new thread for the supplied runnable object.
+  //! Constructs a new thread for the supplied runnable object.
   Thread(Runnable *target);
 
-  //! Kill thread.
+  //! Kills the thread.
   virtual ~Thread();
   
-  //! Yield processor to another thread.
+  //! Yields processor to another thread.
   void yield();
 
-  //! Suspend this thread.
+  //! Suspends the thread.
   void suspend()
   {
 #ifdef  _SIG_THREAD_SUSPEND
     pthread_kill(thread_id, _SIG_THREAD_SUSPEND);
 #endif
-    // TODO: win32
   }
 
-  //! Resume this thread.
+  //! Resumes this thread.
   void resume()
   {
 #ifdef  _SIG_THREAD_RESUME
     pthread_kill(thread_id, _SIG_THREAD_RESUME);
 #endif
-    // TODO: win32
   }
 
+  //! Returns \c true if the thread is running.
   bool isRunning() const
   {
     return running;
   }
     
-  //! Start this thread.
+  //! Starts the thread.
   virtual void start();
 
-  //! Stop this thread.
+  //! Stops the thread.
   virtual void stop();
 
-  //! Wait until thread is dead.
+  //! Waits until the thread is dead.
   void wait();
   
   //! thread entry.
@@ -88,7 +87,7 @@ public:
   //! Method that is run by this thread unless a Runnable object is supplied.
   virtual void run();
 
-  //! Let this thread sleep for the specified time. 
+  //! Lets this thread sleep for the specified time. 
   static void sleep(long millis, int nanos = 0);
   
 private:

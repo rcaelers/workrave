@@ -1,5 +1,5 @@
 Workrave NEWS -- history of user-visible changes.  10 October 2002
-Copyright (C) 2001-2002 Rob Caelers & Raymond Penners
+Copyright (C) 2001-2003 Rob Caelers & Raymond Penners
 See the end for copying conditions.
 
 Please report Workrave bug reports. Visit our bug tracker located at:
@@ -10,6 +10,10 @@ http://workrave.sourceforge.net
 ** Thanks to Eric Lesh, Workrave has been translated into Esperanto.
 
 ** Johannes Rohr provided a german translation, thanks!
+
+** Added applet support. Workrave now supports both a native Gnome
+applet, as well as a system tray applet that *should* also work on
+KDE.
 
 * Workrave 1.0.0
 

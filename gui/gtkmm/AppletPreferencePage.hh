@@ -19,12 +19,9 @@
 #ifndef APPLETPREFERENCEPAGE_HH
 #define APPLETPREFERENCEPAGE_HH
 
-#include <stdio.h>
-#include <string>
-
-#include "preinclude.h"
-
 class Configurator;
+
+#include "GUIControl.hh"
 
 #include <gtkmm.h>
 

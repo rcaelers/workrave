@@ -1,6 +1,6 @@
 // Thread.cc --- Thread class
 //
-// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -25,15 +25,15 @@ static const char rcsid[] = "$Id$";
 void *
 Thread::thread_handler(void* arg)
 {
-    Thread *t = (Thread *)arg;
+  Thread *t = (Thread *)arg;
 
-    if (t != NULL)
-      {
-        t->internal_run();
-        if (t->auto_delete)
-          delete t;
-      }
-    return 0;
+  if (t != NULL)
+    {
+      t->internal_run();
+      if (t->auto_delete)
+        delete t;
+    }
+  return 0;
 }
 
 
@@ -69,19 +69,17 @@ void
 Thread::sleep(long millis, int nanos)
 {
 #ifdef HAVE_NANOSLEEP
-    struct timespec tv;
-    tv.tv_sec = millis/1000;
-    tv.tv_nsec = (millis% 1000)*1000000 + nanos;
-    nanosleep(&tv, 0);
+  struct timespec tv;
+  tv.tv_sec = millis/1000;
+  tv.tv_nsec = (millis% 1000)*1000000 + nanos;
+  nanosleep(&tv, 0);
 #endif
-    // TODO: win32?
 }
 
 
 void
 Thread::start()
 {
-  // FIXME: leak
   pthread_create(&thread_id, NULL, thread_handler, this);
 }
 
@@ -108,6 +106,7 @@ Thread::run()
       target->run();
     }
 }
+
 
 void
 Thread::internal_run()

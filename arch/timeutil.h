@@ -1,10 +1,10 @@
 /*
- * util.h --- Utilities 
+ * timeutil.h --- Utilities 
  *
- * Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+ * Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
  * All rights reserved.
  *
- * Time-stamp: <2002-09-14 19:53:46 robc>
+ * Time-stamp: <2003-01-05 00:27:22 robc>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef UTIL_H
-#define UTIL_H
+#ifndef TIMEUTIL_H
+#define TIMEUTIL_H
 
 #include <stdio.h>
 #include <errno.h>
@@ -79,4 +79,4 @@
 #define tvTIMELT0(a)  ((a).tv_sec < 0 || ((a).tv_sec == 0 && (a).tv_usec < 0))
 #define tvTIMEEQ0(a) (((a).tv_sec == 0 && (a).tv_usec == 0))
 
-#endif /* UTIL_H */
+#endif /* TIMEUTIL_H */

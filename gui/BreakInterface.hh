@@ -1,9 +1,9 @@
 // BreakInterface.hh --- Generic Interface for breaks
 //
-// Copyright (C) 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-10-05 21:56:27 robc>
+// Time-stamp: <2003-01-05 00:49:25 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -40,19 +40,19 @@ public:
   BreakInterface() {}
   virtual ~BreakInterface() {}
   
-  //! Start the break.
+  //! Starts the break.
   virtual void start_break() = 0;
 
-  //! Force the start of the break.
+  //! Forces the start of the break.
   virtual void force_start_break() = 0;
 
-  //! Stop the break.
+  //! Stops the break.
   virtual void stop_break() = 0;
 
   //! Is the break active ?
   virtual BreakState get_break_state() = 0;
 
-  //!
+  //! Returns \c true if the break requires a heartbeat.
   virtual bool need_heartbeat() = 0;
   
   //! Period update. 

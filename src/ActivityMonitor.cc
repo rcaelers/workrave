@@ -1,6 +1,6 @@
 // ActivityMonitor.cc --- ActivityMonitor
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -141,17 +141,20 @@ ActivityMonitor::set_parameters(int noise, int activity, int idle)
   activity_state->set_parameters(noise, activity, idle);
 }
 
+
 void
 ActivityMonitor::get_parameters(int &noise, int &activity, int &idle)
 { 
   activity_state->get_parameters(noise, activity, idle);
 }
 
+
 void
 ActivityMonitor::get_statistics(ActivityMonitorStatistics &stats) const
 {
   activity_state->get_statistics(stats);
 }
+
 
 void
 ActivityMonitor::set_statistics(const ActivityMonitorStatistics &stats)
