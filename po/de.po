@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
-"POT-Creation-Date: 2003-01-26 15:45+0100\n"
+"POT-Creation-Date: 2003-01-29 23:13+0100\n"
 "PO-Revision-Date: 2003-01-04 22:09+0100\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Johannes Rohr <j.rohr@comlink.apc.org>\n"
@@ -29,7 +29,7 @@ msgstr "Still in"
 
 #. Labels
 #: gui/GUIControl.cc:84 gui/gtkmm/AppletPreferencePage.cc:64
-#: gui/gtkmm/MicroPauseWindow.cc:161 gui/gtkmm/StatisticsDialog.cc:168
+#: gui/gtkmm/MicroPauseWindow.cc:163 gui/gtkmm/StatisticsDialog.cc:170
 msgid "Micro-pause"
 msgstr "Mikropause"
 
@@ -38,7 +38,7 @@ msgid "Rest break"
 msgstr "Ruhepause"
 
 #: gui/GUIControl.cc:98 gui/gtkmm/AppletPreferencePage.cc:66
-#: gui/gtkmm/StatisticsDialog.cc:170
+#: gui/gtkmm/StatisticsDialog.cc:172
 msgid "Daily limit"
 msgstr "Tägliches Limit"
 
@@ -100,7 +100,7 @@ msgstr "Über %s"
 msgid "Layout"
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:65 gui/gtkmm/StatisticsDialog.cc:169
+#: gui/gtkmm/AppletPreferencePage.cc:65 gui/gtkmm/StatisticsDialog.cc:171
 #, fuzzy
 msgid "Restbreak"
 msgstr "Ruhepause"
@@ -178,7 +178,7 @@ msgid ""
 "the specified time."
 msgstr ""
 
-#: gui/gtkmm/DailyLimitWindow.cc:43
+#: gui/gtkmm/DailyLimitWindow.cc:45
 msgid ""
 "You have reached your daily limit. Please stop working\n"
 "behind the computer. If your working day is not over yet,\n"
@@ -189,17 +189,17 @@ msgstr ""
 "Ende ist, wechseln Sie zu einer anderen Tätigkeit, z.B. zur\n"
 "Durchsicht von Dokumenten."
 
-#: gui/gtkmm/DailyLimitWindow.cc:65 gui/gtkmm/MicroPauseWindow.cc:69
-#: gui/gtkmm/RestBreakWindow.cc:93
+#: gui/gtkmm/DailyLimitWindow.cc:67 gui/gtkmm/MicroPauseWindow.cc:71
+#: gui/gtkmm/RestBreakWindow.cc:95
 msgid "Skip"
 msgstr "Überspringen"
 
-#: gui/gtkmm/DailyLimitWindow.cc:67 gui/gtkmm/MicroPauseWindow.cc:71
-#: gui/gtkmm/RestBreakWindow.cc:95
+#: gui/gtkmm/DailyLimitWindow.cc:69 gui/gtkmm/MicroPauseWindow.cc:73
+#: gui/gtkmm/RestBreakWindow.cc:97
 msgid "Postpone"
 msgstr "Aufschieben"
 
-#: gui/gtkmm/GUI.cc:285
+#: gui/gtkmm/GUI.cc:289
 msgid "I could not initialize Bonobo"
 msgstr ""
 
@@ -261,17 +261,17 @@ msgstr ""
 "Dieses Programm hilft Ihnen bei der Vorbeugung des RSI-Syndroms\n"
 "(Repetetive Strain Injury) und unterstützt den Genesungsprozess."
 
-#: gui/gtkmm/MicroPauseWindow.cc:183
+#: gui/gtkmm/MicroPauseWindow.cc:185
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Nächste Ruhepause in %s"
 
-#: gui/gtkmm/MicroPauseWindow.cc:189
+#: gui/gtkmm/MicroPauseWindow.cc:191
 #, fuzzy, c-format
 msgid "Rest break %s overdue"
 msgstr "Ruhepause für %s"
 
-#: gui/gtkmm/MicroPauseWindow.cc:192
+#: gui/gtkmm/MicroPauseWindow.cc:194
 msgid "Please relax for a few seconds"
 msgstr "Bitte entspannen Sie sich für ein paar Sekunden"
 
@@ -366,48 +366,48 @@ msgstr ""
 "den Rechnernamen oder die Portnummer."
 
 #. Timers frame
-#: gui/gtkmm/PreferencesDialog.cc:67 gui/gtkmm/TimerPreferencesPanel.cc:236
+#: gui/gtkmm/PreferencesDialog.cc:69 gui/gtkmm/TimerPreferencesPanel.cc:238
 msgid "Timers"
 msgstr "Zeitmesser"
 
-#: gui/gtkmm/PreferencesDialog.cc:69
+#: gui/gtkmm/PreferencesDialog.cc:71
 msgid "User interface"
 msgstr "Benutzervorlieben"
 
-#: gui/gtkmm/PreferencesDialog.cc:72
+#: gui/gtkmm/PreferencesDialog.cc:74
 msgid "Applet"
 msgstr ""
 
-#: gui/gtkmm/PreferencesDialog.cc:76
+#: gui/gtkmm/PreferencesDialog.cc:78
 msgid "Network"
 msgstr "Netzwerk"
 
-#: gui/gtkmm/PreferencesDialog.cc:105
+#: gui/gtkmm/PreferencesDialog.cc:107
 msgid "The main window stays always on top of other windows"
 msgstr "Das Hauptfenster bleibt immer über allen anderen Fenstern"
 
-#: gui/gtkmm/PreferencesDialog.cc:114
+#: gui/gtkmm/PreferencesDialog.cc:116
 msgid "No sounds"
 msgstr "Keine Klänge"
 
-#: gui/gtkmm/PreferencesDialog.cc:116
+#: gui/gtkmm/PreferencesDialog.cc:118
 msgid "Play sounds using sound card"
 msgstr "Klänge mittels der Soundkarte abspielen"
 
-#: gui/gtkmm/PreferencesDialog.cc:118
+#: gui/gtkmm/PreferencesDialog.cc:120
 msgid "Play sounds using built-in speaker"
 msgstr "Klänge mit dem PC-Lautsprecher abspielen"
 
-#: gui/gtkmm/PreferencesDialog.cc:134
+#: gui/gtkmm/PreferencesDialog.cc:136
 msgid "Hide main window at start-up"
 msgstr "Verstecke das Hauptfenster beim Start"
 
-#: gui/gtkmm/PreferencesDialog.cc:150
+#: gui/gtkmm/PreferencesDialog.cc:152
 msgid "You can configure the user interface related settings from here."
 msgstr ""
 "Sie können hier die Einstellungen der Benutzeroberfläche konfigurieren."
 
-#: gui/gtkmm/PreferencesDialog.cc:165
+#: gui/gtkmm/PreferencesDialog.cc:167
 msgid ""
 "This dialog allows you to change the settings of the timers.  Each unit\n"
 "of time is broken down into hours, minutes and seconds (also known as\n"
@@ -417,13 +417,13 @@ msgstr ""
 "ändern. Jede Einheit ist in Stunden, Minuten und Sekunden unterteilt\n"
 "(das sog. \"hh:mm:ss\"-Format) und kann indivuell angepasst werden."
 
-#: gui/gtkmm/PreferencesDialog.cc:199
+#: gui/gtkmm/PreferencesDialog.cc:201
 #, fuzzy
 msgid "You can configure the applet related settings from here."
 msgstr ""
 "Sie können hier die Einstellungen der Benutzeroberfläche konfigurieren."
 
-#: gui/gtkmm/PreferencesDialog.cc:218
+#: gui/gtkmm/PreferencesDialog.cc:220
 msgid ""
 "You can connect several instances of Workrave in a network. All connected\n"
 "instances share the same timer information, meaning you will be reminded\n"
@@ -434,7 +434,7 @@ msgstr ""
 "dieselben Zeitmessungen zurück. Das heißt, dass Sie auch dann an Ihre\n"
 "Pausen erinnert werden, wenn Sie den Computer wechseln."
 
-#: gui/gtkmm/RestBreakWindow.cc:74
+#: gui/gtkmm/RestBreakWindow.cc:76
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -445,116 +445,116 @@ msgstr ""
 "ein paar Minuten umher, machen Sie Dehnübungen und entspannen Sie\n"
 "sich."
 
-#: gui/gtkmm/RestBreakWindow.cc:256
+#: gui/gtkmm/RestBreakWindow.cc:258
 #, c-format
 msgid "Rest break for %s"
 msgstr "Ruhepause für %s"
 
-#: gui/gtkmm/StatisticsDialog.cc:126
+#: gui/gtkmm/StatisticsDialog.cc:128
 msgid "Start time:"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:127
+#: gui/gtkmm/StatisticsDialog.cc:129
 msgid "End time:"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:145
+#: gui/gtkmm/StatisticsDialog.cc:147
 #, fuzzy
 msgid "Breaks"
 msgstr "Pause in"
 
-#: gui/gtkmm/StatisticsDialog.cc:153
+#: gui/gtkmm/StatisticsDialog.cc:155
 #, fuzzy
 msgid "Total breaks"
 msgstr "Ruhepause"
 
-#: gui/gtkmm/StatisticsDialog.cc:154
-msgid "Prompted"
-msgstr ""
-
-#: gui/gtkmm/StatisticsDialog.cc:155
-#, fuzzy
-msgid "Breaks Taken"
-msgstr "Pause in"
-
 #: gui/gtkmm/StatisticsDialog.cc:156
-msgid "Natural breaks"
+msgid "Prompted"
 msgstr ""
 
 #: gui/gtkmm/StatisticsDialog.cc:157
 #, fuzzy
-msgid "Breaks skipped"
+msgid "Breaks Taken"
 msgstr "Pause in"
 
 #: gui/gtkmm/StatisticsDialog.cc:158
+msgid "Natural breaks"
+msgstr ""
+
+#: gui/gtkmm/StatisticsDialog.cc:159
+#, fuzzy
+msgid "Breaks skipped"
+msgstr "Pause in"
+
+#: gui/gtkmm/StatisticsDialog.cc:160
 #, fuzzy
 msgid "Breaks postponed"
 msgstr "Ankündigung der Pause"
 
-#: gui/gtkmm/StatisticsDialog.cc:159
+#: gui/gtkmm/StatisticsDialog.cc:161
 msgid "Daily usage"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:220
+#: gui/gtkmm/StatisticsDialog.cc:222
 msgid "Activity"
 msgstr ""
 
 #. Prelude frame
-#: gui/gtkmm/TimerPreferencesPanel.cc:77
+#: gui/gtkmm/TimerPreferencesPanel.cc:79
 msgid "Break prompting"
 msgstr "Ankündigung der Pause"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:78
+#: gui/gtkmm/TimerPreferencesPanel.cc:80
 msgid "Prompt before breaking"
 msgstr "Vor der Pause Hinweis ausgeben"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:83
+#: gui/gtkmm/TimerPreferencesPanel.cc:85
 msgid "Maximum number of prompts:"
 msgstr "Maximale Anzahl von Hinweisen:"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:90
+#: gui/gtkmm/TimerPreferencesPanel.cc:92
 msgid "Force break after maximum exceeded"
 msgstr "Pause erzwingen, wenn das Maximum überschritten ist"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:126
+#: gui/gtkmm/TimerPreferencesPanel.cc:128
 msgid "Block user input"
 msgstr "Benutzereingaben blockieren"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:137
+#: gui/gtkmm/TimerPreferencesPanel.cc:139
 msgid "Regard micro-pauses as activity"
 msgstr "Mikropausen als Aktivität betrachten"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:151
+#: gui/gtkmm/TimerPreferencesPanel.cc:153
 msgid "Show 'Postpone' and 'Skip' button"
 msgstr "Knöpfe 'Aufschieben' und 'Überspringen' anzeigen"
 
 #. Options frame
-#: gui/gtkmm/TimerPreferencesPanel.cc:173
+#: gui/gtkmm/TimerPreferencesPanel.cc:175
 msgid "Options"
 msgstr "Optionen"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:186
+#: gui/gtkmm/TimerPreferencesPanel.cc:188
 msgid "Post-pone time"
 msgstr "Dauer des Aufschubs"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:197
+#: gui/gtkmm/TimerPreferencesPanel.cc:199
 msgid "Resets at"
 msgstr "Zurücksetzen nach"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:204
+#: gui/gtkmm/TimerPreferencesPanel.cc:206
 msgid "Pause duration"
 msgstr "Dauer der Pause"
 
 #. Limit time
-#: gui/gtkmm/TimerPreferencesPanel.cc:215
+#: gui/gtkmm/TimerPreferencesPanel.cc:217
 msgid "Time before break"
 msgstr "Zeit bis zur Pause"
 
-#: gui/gtkmm/TimerWindow.cc:109 gui/gtkmm/TimerWindow.cc:176
+#: gui/gtkmm/TimerWindow.cc:111 gui/gtkmm/TimerWindow.cc:178
 msgid "Wait"
 msgstr "Warten"
 
-#: gui/gtkmm/TimerWindow.cc:137
+#: gui/gtkmm/TimerWindow.cc:139
 msgid "Inactive"
 msgstr "Inaktiv"
 
