@@ -7,23 +7,24 @@
 
 MAINTAINERCLEANFILES = Makefile.in
 
+DEFS 			= @DEFS@ -DGNOMELOCALEDIR=\""$(datadir)/locale"\" -I$(top_srcdir)/intl -I..
+
 if HAVE_APP_TEXT
 
-noinst_LIBRARIES = libapptext.a
+bin_PROGRAMS 		= workrave
 
-libapptext_a_SOURCES = \
-	DailyLimitWindow.cc \
-	APP.cc \
-	Apptext.cc \
-	MicroPauseWindow.cc \
-	PreludeWindow.cc \
-	RestBreakWindow.cc
+workrave_SOURCES =
 
-libapptext_a_LIBADD = 
 
-libapptext_a_CXXFLAGS 	= -DWORKRAVE_DATADIR="\"${pkgdatadir}\"" -W @ARCH_CFLAGS@ -I$(top_srcdir)/src -I$(top_srcdir)/app -D_XOPEN_SOURCE=600 @GCONF_CFLAGS@
+workrave_LDADD 		=  @APP_LIBS@ @GNET_LIBS@ @GTHREAD_LIBS@ \
+		            @PTHREAD_LIBS@ @X_LIBS@ @GCONF_LIBS@ @GDOME_LIB@ \
+			   ${X11LIBS} ${WIN32LIBS} ${WIN32CONSOLE}
 
-libapptext_a_CFLAGS	= -DWORKRAVE_DATADIR="\"${pkgdatadir}\"" @ARCH_CFLAGS@ -I$(top_srcdir)/src -I$(top_srcdir)/app -D_XOPEN_SOURCE=600
+
+workrave_CXXFLAGS 	= -DWORKRAVE_DATADIR="\"${pkgdatadir}\"" -W @ARCH_CFLAGS@ -I$(top_srcdir)/src -I$(top_srcdir)/app -D_XOPEN_SOURCE=600 @GCONF_CFLAGS@
+
+workrave_CFLAGS		= -DWORKRAVE_DATADIR="\"${pkgdatadir}\"" @ARCH_CFLAGS@ -I$(top_srcdir)/src -I$(top_srcdir)/app -D_XOPEN_SOURCE=600
+
 
 endif
 
