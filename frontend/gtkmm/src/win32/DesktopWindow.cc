@@ -18,6 +18,8 @@
 
 #include "DesktopWindow.hh"
 
+const char * const DesktopWindow::WINDOW_CLASS = "WorkraveDesktopWindow";
+
 bool DesktopWindow::initialized = false;
 
 DesktopWindow::DesktopWindow(const HeadInfo &head)

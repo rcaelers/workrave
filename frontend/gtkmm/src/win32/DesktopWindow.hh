@@ -38,7 +38,7 @@ private:
   static LRESULT CALLBACK window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
                                       LPARAM lParam);
   static bool initialized;
-  static const char * const WINDOW_CLASS = "WorkraveDesktopWindow";
+  static const char * const WINDOW_CLASS;
 };
 
 #endif // DESKTOP_WINDOW_HH
