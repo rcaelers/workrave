@@ -1,6 +1,6 @@
 // Statistics.cc
 //
-// Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -499,8 +499,7 @@ Statistics::dump()
 Statistics::DailyStats *
 Statistics::get_current_day() const
 {
-  //FIXME:
-  return NULL;
+  return current_day;
 }
 
 
@@ -531,6 +530,32 @@ Statistics::get_day(int day) const
         }
     }
 
+  return ret;
+}
+
+Statistics::DailyStats *
+Statistics::get_day_by_date(int y, int m, int d) const
+{
+  TRACE_ENTER_MSG("Statistics::get_day_by_date", y << "/" << m << "/" << d);
+  DailyStats *ret = NULL;
+  if (current_day->starts_at_date(y, m, d))
+    {
+      ret = current_day;
+    }
+  else
+    {
+      for (vector<DailyStats *>::const_iterator i = history.begin();
+           i != history.end(); i++)
+        {
+          DailyStats *stats = *i;
+          if (stats->starts_at_date(y, m, d))
+            {
+              ret = stats;
+              break;
+            }
+        }
+    }
+  TRACE_RETURN(ret);
   return ret;
 }
 
@@ -829,6 +854,15 @@ Statistics::set_state(DistributedStateID id, bool master, unsigned char *buffer,
 
   TRACE_EXIT();
   return true;
+}
+
+
+bool
+Statistics::DailyStats::starts_at_date(int y, int m, int d)
+{
+  return (start.tm_year + 1900 == y
+          && start.tm_mon + 1 == m
+          && start.tm_mday == d);
 }
 
 

@@ -1,6 +1,6 @@
 // Statistics.hh
 //
-// Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -102,6 +102,9 @@ public:
         {
           misc_stats[j] = 0;
         }
+
+      // Empty marker.
+      start.tm_year = 0;
     }
 
     //! Start time of this day.
@@ -115,6 +118,12 @@ public:
 
     //! Misc statistics
     MiscStats misc_stats;
+
+    bool starts_at_date(int y, int m, int d);
+    bool is_empty() const
+    {
+      return start.tm_year == 0;
+    }
   };
   
   //! Constructor.
@@ -136,6 +145,8 @@ public:
 
   DailyStats *get_current_day() const;
   DailyStats *get_day(int day) const;
+  DailyStats *get_day_by_date(int y, int m, int d) const;
+  
   int get_history_size() const;
   void set_counter(StatsValueType t, int value);
   int get_counter(StatsValueType t);

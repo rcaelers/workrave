@@ -1,6 +1,6 @@
 // PreferencesDialog.hh --- Statistics Dialog
 //
-// Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -51,9 +51,6 @@ private:
   /** Labels for break stats. */
   Gtk::Label *daily_usage_label;
 
-  /** Day selection adjustment. */
-  Gtk::Adjustment *day_adjust;
-
   /** Labels indicating the start time of the visible data. */
   Gtk::Label *start_time_label;
 
@@ -62,21 +59,26 @@ private:
 
   /** */
   Gtk::Tooltips *tips;
+
+  /** Calendar */
+  Gtk::Calendar *calendar;
   
   void init_gui();
-  void init_page_values();
   void select_day(int day);
   
-  void create_info_box(Gtk::Box *box);
+  Gtk::Widget *create_info_box();
   void create_break_page(Gtk::Notebook *tnotebook);
   void create_activity_page(Gtk::Notebook *tnotebook);
 
   void attach_left(Gtk::Table &table, Widget &child, guint left_attach, guint top_attach);
   void attach_right(Gtk::Table &table, Widget &child, guint left_attach, guint top_attach);
-  Gtk::Widget *createLabel(char *label, char *tooltip);
+  Gtk::Widget *create_label(char *label, char *tooltip);
 
-  void on_scrollbar();
-
+  void on_calendar_month_changed();
+  void on_calendar_day_selected();
+  void display_calendar_date();
+  void display_statistics(Statistics::DailyStats *stats);
+  
   bool on_focus_in_event(GdkEventFocus *event);
   bool on_focus_out_event(GdkEventFocus *event);  
 };
