@@ -15,7 +15,7 @@ thanks to Chung-chieh Shan.
 to reinsert the tray icon in the new Explorer taskbar.
 
 ** On Linux, Workrave now notices when the gnome-panel crashes and
-will to reinsert the applet in the new panel.
+will reinsert the applet in the new panel.
 
 * Workrave 1.2.2
 
