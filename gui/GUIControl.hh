@@ -115,6 +115,10 @@ public:
     void set_break_ignorable(bool b);
     void set_break_insisting(bool b);
     void set_break_enabled(bool b);
+#ifdef HAVE_EXERCISES
+    void set_break_exercises(int n);
+    int get_break_exercises() const;
+#endif
   };
   TimerData timers[BREAK_ID_SIZEOF];
   
@@ -163,6 +167,9 @@ public:
   static const string CFG_KEY_BREAK_IGNORABLE;
   static const string CFG_KEY_BREAK_INSISTING;
   static const string CFG_KEY_BREAK_ENABLED;
+#ifdef HAVE_EXERCISES
+  static const string CFG_KEY_BREAK_EXERCISES;
+#endif
   
 private:
   //! The one and only instance

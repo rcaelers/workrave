@@ -63,9 +63,10 @@ private:
   Gtk::Widget *RestBreakWindow::create_info_panel();
   
 #ifdef HAVE_EXERCISES
-  void exercises_stopped();
-  void start_exercises();
+  void install_exercises_panel();
+  void install_info_panel();
   void clear_pluggable_panel();
+  int get_exercise_count();
 #endif
 
 private:

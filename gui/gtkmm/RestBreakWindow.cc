@@ -131,7 +131,14 @@ RestBreakWindow::start()
   TRACE_ENTER("RestBreakWindow::start");
   refresh();
 #ifdef HAVE_EXERCISES
-  start_exercises();
+  if (get_exercise_count() > 0)
+    {
+      install_exercises_panel();
+    }
+  else
+    {
+      install_info_panel();
+    }
 #endif
   center();
   show_all();
@@ -296,20 +303,33 @@ RestBreakWindow::clear_pluggable_panel()
     }
 }
 
+int
+RestBreakWindow::get_exercise_count()
+{
+  int ret = 0;
+  
+  if (Exercise::has_exercises())
+    {
+      ret = GUIControl::get_instance()->get_timer_data
+        (GUIControl::BREAK_ID_REST_BREAK)->get_break_exercises();
+    }
+  return ret;
+}
+
 void
-RestBreakWindow::start_exercises()
+RestBreakWindow::install_exercises_panel()
 {
   clear_pluggable_panel();
   ExercisesPanel *exercises_panel = manage(new ExercisesPanel(NULL));
   pluggable_panel.pack_start(*exercises_panel, false, false, 0);
-  exercises_panel->set_exercise_count(3);
+  exercises_panel->set_exercise_count(get_exercise_count());
   exercises_panel->signal_stop().connect
-    (SigC::slot(*this, &RestBreakWindow::exercises_stopped));
+    (SigC::slot(*this, &RestBreakWindow::install_info_panel));
   pluggable_panel.show_all();
 }
 
 void
-RestBreakWindow::exercises_stopped()
+RestBreakWindow::install_info_panel()
 {
   clear_pluggable_panel();
   pluggable_panel.pack_start(*(create_info_panel()), false, false, 0);

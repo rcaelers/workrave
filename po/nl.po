@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-03-25 20:25+0100\n"
+"POT-Creation-Date: 2003-04-29 23:04+0200\n"
 "PO-Revision-Date: 2003-03-04 22:16+0100\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -13,39 +13,39 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: gui/BreakControl.cc:687
+#: gui/BreakControl.cc:697
 msgid "Disappears in"
 msgstr "Verdwijnt over"
 
-#: gui/BreakControl.cc:691
+#: gui/BreakControl.cc:701
 msgid "Break in"
 msgstr "Pauze over"
 
-#: gui/BreakControl.cc:695
+#: gui/BreakControl.cc:705
 msgid "Silent in"
 msgstr "Stil over"
 
-#: gui/GUIControl.cc:291
+#: gui/GUIControl.cc:357
 msgid "Time for a micro-pause?"
 msgstr "Tijd voor een micro-pauze?"
 
-#: gui/GUIControl.cc:292 gui/gtkmm/MicroPauseWindow.cc:165
+#: gui/GUIControl.cc:358 gui/gtkmm/MicroPauseWindow.cc:163
 msgid "Micro-pause"
 msgstr "Micro-pauze"
 
-#: gui/GUIControl.cc:298
+#: gui/GUIControl.cc:364
 msgid "You need a rest break..."
 msgstr "Je bent toe aan een rustpauze..."
 
-#: gui/GUIControl.cc:299
+#: gui/GUIControl.cc:365
 msgid "Rest break"
 msgstr "Rustpauze"
 
-#: gui/GUIControl.cc:305
+#: gui/GUIControl.cc:371
 msgid "You should stop for today..."
 msgstr "Genoeg voor vandaag..."
 
-#: gui/GUIControl.cc:306
+#: gui/GUIControl.cc:372
 msgid "Daily limit"
 msgstr "Dagelijkse limiet"
 
@@ -64,83 +64,101 @@ msgstr "%s%d:%02d minuten"
 msgid "%s%ld seconds"
 msgstr "%s%ld seconden"
 
-#: gui/gtkmm/gnome-about.c:308
-msgid "Credits"
-msgstr "Credits"
+#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:1
+msgid "_About..."
+msgstr "Info..."
 
-#: gui/gtkmm/gnome-about.c:341
-msgid "_Written by"
-msgstr "Geschreven door"
+#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:2
+msgid "_Connect..."
+msgstr "Maak verbinding..."
 
-#: gui/gtkmm/gnome-about.c:356
-msgid "_Documented by"
-msgstr "Documentatie door"
+#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:3 gui/gtkmm/Menus.cc:192
+msgid "_Disconnect"
+msgstr "Verbreek verbinding"
 
-#: gui/gtkmm/gnome-about.c:371
-msgid "_Translated by"
-msgstr "Vertaald door"
+#. Mode menu item
+#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:4 gui/gtkmm/Menus.cc:148
+msgid "_Mode"
+msgstr "_Modus"
 
-#. Add the credits button
-#: gui/gtkmm/gnome-about.c:431
-msgid "_Credits"
-msgstr "_Credits"
+#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:5 gui/gtkmm/Menus.cc:183
+msgid "_Network"
+msgstr "_Netwerk"
 
-#: gui/gtkmm/gnome-about.c:614
+#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:6 gui/gtkmm/Menus.cc:155
+msgid "_Normal"
+msgstr "_Normaal"
+
+#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:7
+msgid "_Open"
+msgstr "_Open"
+
+#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:8
+msgid "_Preferences"
+msgstr "Voorkeuren"
+
+#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:9
+msgid "_Quiet"
+msgstr "_Stil"
+
+#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:10
+msgid "_Quit"
+msgstr "_Beeeindigen"
+
+#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:11 gui/gtkmm/Menus.cc:197
+msgid "_Reconnect"
+msgstr "Opnieuw verbinden"
+
+#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:12
+msgid "_Restbreak"
+msgstr "_Rustpauze"
+
+#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:13
+msgid "_Show Log..."
+msgstr "Toon _logboek"
+
+#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:14
+msgid "_Statistics"
+msgstr "Statistieken"
+
+#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:15 gui/gtkmm/Menus.cc:162
+msgid "_Suspended"
+msgstr "_Uitgeschakeld"
+
+#: gui/gnome/Workrave-Applet.server.in.in.h:1
+msgid "Workrave"
+msgstr "Workrave"
+
+#: gui/gnome/Workrave-Applet.server.in.in.h:2
+msgid "Workrave Applet"
+msgstr "Workrave Applet"
+
+#: gui/gnome/WorkraveApplet.c:283 gui/gnome/WorkraveApplet.c:341
+#: gui/gnome/WorkraveApplet.c:365 gui/gnome/WorkraveApplet.c:389
+#: gui/gnome/WorkraveApplet.c:412 gui/gnome/WorkraveApplet.c:436
+#: gui/gnome/WorkraveApplet.c:459 gui/gnome/WorkraveApplet.c:481
+#: gui/gnome/WorkraveApplet.c:505 gui/gnome/WorkraveApplet.c:545
+#: gui/gnome/WorkraveApplet.c:574 gui/gnome/WorkraveApplet.c:622
+#: gui/gnome/WorkraveApplet.c:664 gui/gnome/WorkraveApplet.c:718
 #, c-format
-msgid "About %s"
-msgstr "Over %s"
+msgid "An exception occured '%s'"
+msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:67
-msgid "Place timers next to each other"
-msgstr "Plaats de klokken naast elkaar"
+#: gui/gnome/WorkraveApplet.c:317 gui/gtkmm/Menus.cc:602
+msgid ""
+"This program assists in the prevention and recovery of Repetitive Strain "
+"Injury (RSI)."
+msgstr ""
+"Dit programma helpt bij het voorkomen en genezen van Repetitive Strain "
+"Injury (RSI)."
 
-#: gui/gtkmm/AppletPreferencePage.cc:69
-msgid "Place micro-pause and rest break in one spot"
-msgstr "Plaats micro-pauze en rustpauze op één plek"
+#: gui/gtkmm/BreakWindow.cc:278
+msgid "Skip"
+msgstr "Overslaan"
 
-#: gui/gtkmm/AppletPreferencePage.cc:71
-msgid "Place rest break and daily limit in one spot"
-msgstr "Plaats rustpauze en dagelijkse limiet op één plek"
-
-#: gui/gtkmm/AppletPreferencePage.cc:73
-msgid "Place all timers in one spot"
-msgstr "Plaats alle klokken op dezelfde plek"
-
-#: gui/gtkmm/AppletPreferencePage.cc:99
-msgid "Hide"
-msgstr "Verberg"
-
-#: gui/gtkmm/AppletPreferencePage.cc:101
-msgid "Show"
-msgstr "Toon"
-
-#: gui/gtkmm/AppletPreferencePage.cc:103
-msgid "Show only when this timer is first due"
-msgstr "Toon alleen als deze als eerste afloopt"
-
-#: gui/gtkmm/AppletPreferencePage.cc:111
-msgid "Applet enabled"
-msgstr "Applet actief"
-
-#: gui/gtkmm/AppletPreferencePage.cc:117
-msgid "Placement:"
-msgstr "Plaatsing:"
-
-#: gui/gtkmm/AppletPreferencePage.cc:118
-msgid "Cycle time:"
-msgstr "Tijd tussen pauzewissel:"
-
-#: gui/gtkmm/AppletPreferencePage.cc:119
-msgid "Micro-pause:"
-msgstr "Micro-pauze:"
-
-#: gui/gtkmm/AppletPreferencePage.cc:120
-msgid "Rest break:"
-msgstr "Rustpauze:"
-
-#: gui/gtkmm/AppletPreferencePage.cc:121
-msgid "Daily limit:"
-msgstr "Dagelijkse limiet:"
+#: gui/gtkmm/BreakWindow.cc:287
+msgid "Postpone"
+msgstr "Uitstellen"
 
 #: gui/gtkmm/DailyLimitWindow.cc:48
 msgid ""
@@ -152,89 +170,50 @@ msgstr ""
 "achter de computer. Als je werkdag nog niet voorbij is,\n"
 "ga dan iets anders doen, bv. documenten reviewen."
 
-#: gui/gtkmm/DailyLimitWindow.cc:73 gui/gtkmm/MicroPauseWindow.cc:73
-#: gui/gtkmm/RestBreakWindow.cc:101
-msgid "Skip"
-msgstr "Overslaan"
+#: gui/gtkmm/ExercisesDialog.cc:38 gui/gtkmm/Menus.cc:238
+msgid "Exercises"
+msgstr ""
 
-#: gui/gtkmm/DailyLimitWindow.cc:75 gui/gtkmm/MicroPauseWindow.cc:75
-#: gui/gtkmm/RestBreakWindow.cc:103
-msgid "Postpone"
-msgstr "Uitstellen"
-
-#: gui/gtkmm/GUI.cc:449
+#: gui/gtkmm/GUI.cc:468
 msgid "I could not initialize Bonobo"
 msgstr "Bonobo kon niet geïnitialiseerd worden"
 
-#. Mode menu item
-#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:4 gui/gtkmm/Menus.cc:140
-msgid "_Mode"
-msgstr "_Modus"
-
-#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:6 gui/gtkmm/Menus.cc:147
-msgid "_Normal"
-msgstr "_Normaal"
-
-#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:15 gui/gtkmm/Menus.cc:154
-msgid "_Suspended"
-msgstr "_Uitgeschakeld"
-
-#: gui/gtkmm/Menus.cc:161
+#: gui/gtkmm/Menus.cc:169
 msgid "Q_uiet"
 msgstr "_Stil"
 
-#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:5 gui/gtkmm/Menus.cc:175
-msgid "_Network"
-msgstr "_Netwerk"
-
-#: gui/gtkmm/Menus.cc:179
+#: gui/gtkmm/Menus.cc:187
 msgid "_Connect"
 msgstr "Maak verbinding"
 
-#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:3 gui/gtkmm/Menus.cc:184
-msgid "_Disconnect"
-msgstr "Verbreek verbinding"
-
-#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:11 gui/gtkmm/Menus.cc:189
-msgid "_Reconnect"
-msgstr "Opnieuw verbinden"
-
-#: gui/gtkmm/Menus.cc:194
+#: gui/gtkmm/Menus.cc:202
 msgid "Show _log"
 msgstr "Toon _logboek"
 
-#: gui/gtkmm/Menus.cc:217
+#: gui/gtkmm/Menus.cc:226
 msgid "_Rest break"
 msgstr "Rustpauze"
 
-#: gui/gtkmm/Menus.cc:228 gui/gtkmm/StatisticsDialog.cc:50
+#: gui/gtkmm/Menus.cc:248 gui/gtkmm/StatisticsDialog.cc:50
 #: gui/gtkmm/StatisticsDialog.cc:134
 msgid "Statistics"
 msgstr "Statistieken"
 
-#: gui/gtkmm/Menus.cc:242
+#: gui/gtkmm/Menus.cc:262
 msgid "About..."
 msgstr "Info..."
 
-#: gui/gtkmm/Menus.cc:552
-msgid ""
-"This program assists in the prevention and recovery of Repetitive Strain "
-"Injury (RSI)."
-msgstr ""
-"Dit programma helpt bij het voorkomen en genezen van Repetitive Strain "
-"Injury (RSI)."
-
-#: gui/gtkmm/MicroPauseWindow.cc:187
+#: gui/gtkmm/MicroPauseWindow.cc:185
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Rustpauze over %s"
 
-#: gui/gtkmm/MicroPauseWindow.cc:193
+#: gui/gtkmm/MicroPauseWindow.cc:191
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Rustpauze %s te laat"
 
-#: gui/gtkmm/MicroPauseWindow.cc:197
+#: gui/gtkmm/MicroPauseWindow.cc:195
 msgid "Please relax for a few seconds"
 msgstr "Ontspan gedurende enkele seconden"
 
@@ -278,7 +257,7 @@ msgstr "Gebruikersnaam:"
 msgid "Password:"
 msgstr "Wachtwoord:"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:88 gui/gtkmm/PreferencesDialog.cc:61
+#: gui/gtkmm/NetworkPreferencePage.cc:88 gui/gtkmm/PreferencesDialog.cc:59
 msgid "General"
 msgstr "Algemeen"
 
@@ -323,57 +302,67 @@ msgstr "Poort"
 msgid "Hosts"
 msgstr "Machines"
 
-#: gui/gtkmm/PreferencesDialog.cc:53
+#: gui/gtkmm/PreferencesDialog.cc:51
 msgid "Preferences"
 msgstr "Voorkeuren"
 
-#: gui/gtkmm/PreferencesDialog.cc:65
+#: gui/gtkmm/PreferencesDialog.cc:63
 msgid "Applet"
 msgstr "Applet"
 
+#: gui/gtkmm/PreferencesDialog.cc:66
+msgid "Status Window"
+msgstr ""
+
 #. Notebook
-#: gui/gtkmm/PreferencesDialog.cc:72 gui/gtkmm/TimerPreferencesPanel.cc:174
+#: gui/gtkmm/PreferencesDialog.cc:73 gui/gtkmm/TimerBoxPreferencePage.cc:164
+#: gui/gtkmm/TimerPreferencesPanel.cc:198
 msgid "Timers"
 msgstr "Klokken"
 
-#: gui/gtkmm/PreferencesDialog.cc:73
+#: gui/gtkmm/PreferencesDialog.cc:74
 msgid "User interface"
 msgstr "Gebruikers interface"
 
-#: gui/gtkmm/PreferencesDialog.cc:75
+#: gui/gtkmm/PreferencesDialog.cc:76
 msgid "Network"
 msgstr "Netwerk"
 
-#: gui/gtkmm/PreferencesDialog.cc:114
-msgid "The main window stays always on top of other windows"
-msgstr "Het hoofdvenster blijft boven alle andere vensters"
-
-#: gui/gtkmm/PreferencesDialog.cc:123
+#: gui/gtkmm/PreferencesDialog.cc:117
 msgid "No sounds"
 msgstr "Geen geluid"
 
-#: gui/gtkmm/PreferencesDialog.cc:125
+#: gui/gtkmm/PreferencesDialog.cc:119
 msgid "Play sounds using sound card"
 msgstr "Speel geluiden met behulp van de geluidskaart"
 
-#: gui/gtkmm/PreferencesDialog.cc:127
+#: gui/gtkmm/PreferencesDialog.cc:121
 msgid "Play sounds using built-in speaker"
 msgstr "Speel geluiden met behulp van de ingebouwde speaker"
 
-#: gui/gtkmm/PreferencesDialog.cc:143
-msgid "Hide main window at start-up"
-msgstr "Verberg het hoofdvenster tijdens het opstarten"
-
+#. Tray start
+#.   start_in_tray_cb
+#.     = manage(new Gtk::CheckButton(_("Hide main window at start-up")));
+#.   start_in_tray_cb->signal_toggled()
+#.     .connect(SigC::slot(*this,
+#. 			&PreferencesDialog::on_start_in_tray_toggled));
+#.   start_in_tray_cb->set_active(MainWindow::get_start_in_tray());
 #. Options
-#: gui/gtkmm/PreferencesDialog.cc:150 gui/gtkmm/TimerPreferencesPanel.cc:128
+#: gui/gtkmm/PreferencesDialog.cc:144 gui/gtkmm/TimerPreferencesPanel.cc:142
 msgid "Options"
 msgstr "Opties"
 
-#: gui/gtkmm/PreferencesDialog.cc:153
+#. panel->add(*start_in_tray_cb);
+#: gui/gtkmm/PreferencesDialog.cc:146
 msgid "Sound:"
 msgstr "Geluid:"
 
-#: gui/gtkmm/RestBreakWindow.cc:82
+#: gui/gtkmm/RestBreakWindow.cc:266
+#, c-format
+msgid "Rest break for %s"
+msgstr "Rustpauze gedurende %s"
+
+#: gui/gtkmm/RestBreakWindow.cc:286
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -382,11 +371,6 @@ msgstr ""
 "Dit is je rustpauze. Zorg ervoor dat je regelmatig\n"
 "opstaat en wegloopt van de computer. Wandel enkele\n"
 "minuten rond, strek, en ontspan."
-
-#: gui/gtkmm/RestBreakWindow.cc:264
-#, c-format
-msgid "Rest break for %s"
-msgstr "Rustpauze gedurende %s"
 
 #: gui/gtkmm/StatisticsDialog.cc:128
 msgid "Browse history"
@@ -523,102 +507,298 @@ msgstr "Het totaal aantal toetsen ingedrukt"
 msgid "%s, from %s to %s"
 msgstr "%s, van %s tot %s"
 
-#. Prelude frame
-#: gui/gtkmm/TimerPreferencesPanel.cc:81
-msgid "Break prompting"
-msgstr "Verzoek tot pauze"
-
-#: gui/gtkmm/TimerPreferencesPanel.cc:83
-msgid "Prompt before breaking"
-msgstr "Vraag alvorens te pauzeren"
-
-#: gui/gtkmm/TimerPreferencesPanel.cc:88
-msgid "Maximum number of prompts:"
-msgstr "Max. aantal verzoeken:"
-
-#: gui/gtkmm/TimerPreferencesPanel.cc:95
-msgid "Force break after maximum exceeded"
-msgstr "Forceer pauze na maximum"
-
-#: gui/gtkmm/TimerPreferencesPanel.cc:132
-msgid "Block user input"
-msgstr "Blokkeer invoer"
-
-#: gui/gtkmm/TimerPreferencesPanel.cc:141
-msgid "Show 'Postpone' and 'Skip' button"
-msgstr "Toon 'Uitstellen' en 'Overslaan'"
-
-#: gui/gtkmm/TimerPreferencesPanel.cc:153
-msgid "Regard micro-pauses as activity"
-msgstr "Micro-pauzes tellen als werktijd"
-
-#: gui/gtkmm/TimerPreferencesPanel.cc:182
-msgid "Time before break:"
-msgstr "Werktijd:"
-
-#: gui/gtkmm/TimerPreferencesPanel.cc:189
-msgid "Resets at:"
-msgstr "Herstart om:"
-
-#: gui/gtkmm/TimerPreferencesPanel.cc:196
-msgid "Pause duration:"
-msgstr "Pauze tijdsduur:"
-
-#: gui/gtkmm/TimerPreferencesPanel.cc:213
-msgid "Post-pone time:"
-msgstr "Uitstel tijd:"
-
-#: gui/gtkmm/TimerWindow.cc:111 gui/gtkmm/TimerWindow.cc:178
+#: gui/gtkmm/TimerBox.cc:222 gui/gtkmm/TimerBox.cc:297
 msgid "Wait"
 msgstr "Wacht"
 
-#: gui/gtkmm/TimerWindow.cc:139
+#: gui/gtkmm/TimerBox.cc:251
 msgid "Inactive"
 msgstr "Inactief"
 
-#: gui/gnome/Workrave-Applet.server.in.in.h:1
-msgid "Workrave"
-msgstr "Workrave"
+#: gui/gtkmm/TimerBoxPreferencePage.cc:89
+msgid "Place timers next to each other"
+msgstr "Plaats de klokken naast elkaar"
 
-#: gui/gnome/Workrave-Applet.server.in.in.h:2
-msgid "Workrave Applet"
-msgstr "Workrave Applet"
+#: gui/gtkmm/TimerBoxPreferencePage.cc:91
+msgid "Place micro-pause and rest break in one spot"
+msgstr "Plaats micro-pauze en rustpauze op één plek"
 
-#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:1
-msgid "_About..."
-msgstr "Info..."
+#: gui/gtkmm/TimerBoxPreferencePage.cc:93
+msgid "Place rest break and daily limit in one spot"
+msgstr "Plaats rustpauze en dagelijkse limiet op één plek"
 
-#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:2
-msgid "_Connect..."
-msgstr "Maak verbinding..."
+#: gui/gtkmm/TimerBoxPreferencePage.cc:95
+msgid "Place all timers in one spot"
+msgstr "Plaats alle klokken op dezelfde plek"
 
-#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:7
-msgid "_Open"
-msgstr "_Open"
+#: gui/gtkmm/TimerBoxPreferencePage.cc:118
+msgid "Hide"
+msgstr "Verberg"
 
-#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:8
-msgid "_Preferences"
-msgstr "Voorkeuren"
+#: gui/gtkmm/TimerBoxPreferencePage.cc:120
+msgid "Show"
+msgstr "Toon"
 
-#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:9
-msgid "_Quiet"
-msgstr "_Stil"
+#: gui/gtkmm/TimerBoxPreferencePage.cc:122
+msgid "Show only when this timer is first due"
+msgstr "Toon alleen als deze als eerste afloopt"
 
-#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:10
-msgid "_Quit"
-msgstr "_Beeeindigen"
+#: gui/gtkmm/TimerBoxPreferencePage.cc:132
+msgid "Show status window"
+msgstr ""
 
-#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:12
-msgid "_Restbreak"
-msgstr "_Rustpauze"
+#: gui/gtkmm/TimerBoxPreferencePage.cc:137
+#, fuzzy
+msgid "The status window stays always on top of other windows"
+msgstr "Het hoofdvenster blijft boven alle andere vensters"
 
-#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:13
-msgid "_Show Log..."
-msgstr "Toon _logboek"
+#: gui/gtkmm/TimerBoxPreferencePage.cc:144
+msgid "Applet enabled"
+msgstr "Applet actief"
 
-#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:14
-msgid "_Statistics"
-msgstr "Statistieken"
+#: gui/gtkmm/TimerBoxPreferencePage.cc:152
+msgid "Display"
+msgstr ""
+
+#: gui/gtkmm/TimerBoxPreferencePage.cc:161
+msgid "Placement:"
+msgstr "Plaatsing:"
+
+#: gui/gtkmm/TimerBoxPreferencePage.cc:162
+msgid "Cycle time:"
+msgstr "Tijd tussen pauzewissel:"
+
+#. Layout
+#: gui/gtkmm/TimerBoxPreferencePage.cc:167
+msgid "Micro-pause:"
+msgstr "Micro-pauze:"
+
+#: gui/gtkmm/TimerBoxPreferencePage.cc:168
+msgid "Rest break:"
+msgstr "Rustpauze:"
+
+#: gui/gtkmm/TimerBoxPreferencePage.cc:169
+msgid "Daily limit:"
+msgstr "Dagelijkse limiet:"
+
+#. Enabled/Disabled checkbox
+#: gui/gtkmm/TimerPreferencesPanel.cc:52
+#, fuzzy
+msgid "Enable timer"
+msgstr "<b>Eind tijd:</b>"
+
+#. Prelude frame
+#: gui/gtkmm/TimerPreferencesPanel.cc:95
+msgid "Break prompting"
+msgstr "Verzoek tot pauze"
+
+#: gui/gtkmm/TimerPreferencesPanel.cc:97
+msgid "Prompt before breaking"
+msgstr "Vraag alvorens te pauzeren"
+
+#: gui/gtkmm/TimerPreferencesPanel.cc:102
+msgid "Maximum number of prompts:"
+msgstr "Max. aantal verzoeken:"
+
+#: gui/gtkmm/TimerPreferencesPanel.cc:109
+msgid "Force break after maximum exceeded"
+msgstr "Forceer pauze na maximum"
+
+#: gui/gtkmm/TimerPreferencesPanel.cc:146
+msgid "Block user input"
+msgstr "Blokkeer invoer"
+
+#: gui/gtkmm/TimerPreferencesPanel.cc:155
+msgid "Show 'Postpone' and 'Skip' button"
+msgstr "Toon 'Uitstellen' en 'Overslaan'"
+
+#: gui/gtkmm/TimerPreferencesPanel.cc:171
+msgid "Regard micro-pauses as activity"
+msgstr "Micro-pauzes tellen als werktijd"
+
+#: gui/gtkmm/TimerPreferencesPanel.cc:184
+msgid "Number of exercises:"
+msgstr ""
+
+#: gui/gtkmm/TimerPreferencesPanel.cc:206
+msgid "Time before break:"
+msgstr "Werktijd:"
+
+#: gui/gtkmm/TimerPreferencesPanel.cc:213
+msgid "Resets at:"
+msgstr "Herstart om:"
+
+#: gui/gtkmm/TimerPreferencesPanel.cc:220
+msgid "Pause duration:"
+msgstr "Pauze tijdsduur:"
+
+#: gui/gtkmm/TimerPreferencesPanel.cc:237
+msgid "Post-pone time:"
+msgstr "Uitstel tijd:"
+
+#: gui/gtkmm/gnome-about.c:308
+msgid "Credits"
+msgstr "Credits"
+
+#: gui/gtkmm/gnome-about.c:341
+msgid "_Written by"
+msgstr "Geschreven door"
+
+#: gui/gtkmm/gnome-about.c:356
+msgid "_Documented by"
+msgstr "Documentatie door"
+
+#: gui/gtkmm/gnome-about.c:371
+msgid "_Translated by"
+msgstr "Vertaald door"
+
+#. Add the credits button
+#: gui/gtkmm/gnome-about.c:431
+msgid "_Credits"
+msgstr "_Credits"
+
+#: gui/gtkmm/gnome-about.c:614
+#, c-format
+msgid "About %s"
+msgstr "Over %s"
+
+#: src/DistributionSocketLink.cc:148
+#, fuzzy, c-format
+msgid "Reconnecting to %s:%d."
+msgstr "Aantal pogingen tot verbinding:"
+
+#: src/DistributionSocketLink.cc:227
+#, fuzzy, c-format
+msgid "Disconnecting %s:%d."
+msgstr "Verbreek verbinding"
+
+#. We did not succeed in starting the server. Arghh.
+#: src/DistributionSocketLink.cc:340
+msgid "Could not enable network operation."
+msgstr ""
+
+#: src/DistributionSocketLink.cc:349
+msgid "Disabling network operation."
+msgstr ""
+
+#: src/DistributionSocketLink.cc:484
+#, fuzzy, c-format
+msgid "Connecting to %s:%d."
+msgstr "Interval tussen pogingen"
+
+#: src/DistributionSocketLink.cc:582
+#, c-format
+msgid "Removing client %s:%d."
+msgstr ""
+
+#. It's a remote client. mark it master.
+#: src/DistributionSocketLink.cc:704
+#, c-format
+msgid "Client %s:%d is now master."
+msgstr ""
+
+#. Its ME!
+#: src/DistributionSocketLink.cc:710
+msgid "I'm now master."
+msgstr ""
+
+#: src/DistributionSocketLink.cc:897
+#, c-format
+msgid "Client %s:%d saying hello."
+msgstr ""
+
+#. Duplicate client. inform client that it's bogus and close.
+#: src/DistributionSocketLink.cc:915
+#, c-format
+msgid "Client %s:%d is duplicate."
+msgstr ""
+
+#. Incorrect password.
+#: src/DistributionSocketLink.cc:924
+#, c-format
+msgid "Client %s:%d access denied."
+msgstr ""
+
+#: src/DistributionSocketLink.cc:958
+#, c-format
+msgid "Removing duplicate client %s:%d."
+msgstr ""
+
+#: src/DistributionSocketLink.cc:995
+#, c-format
+msgid "Client %s:%d is welcoming us."
+msgstr ""
+
+#: src/DistributionSocketLink.cc:1182
+#, c-format
+msgid "Requesting master status from %s:%d."
+msgstr ""
+
+#: src/DistributionSocketLink.cc:1195
+#, c-format
+msgid "Client timeout from %s:%d."
+msgstr ""
+
+#: src/DistributionSocketLink.cc:1230
+#, c-format
+msgid "Rejecting master request from client %s:%d."
+msgstr ""
+
+#: src/DistributionSocketLink.cc:1236
+#, c-format
+msgid "Acknowledging master request from client %s:%d."
+msgstr ""
+
+#: src/DistributionSocketLink.cc:1286
+#, c-format
+msgid "Non-master client %s:%d rejected master request."
+msgstr ""
+
+#: src/DistributionSocketLink.cc:1291
+#, c-format
+msgid "Client %s:%d rejected master request, delaying."
+msgstr ""
+
+#. gint count =
+#: src/DistributionSocketLink.cc:1369
+#, c-format
+msgid "Client %s:%d is now the new master."
+msgstr ""
+
+#: src/DistributionSocketLink.cc:1498
+msgid "Network operation started."
+msgstr ""
+
+#: src/DistributionSocketLink.cc:1515
+msgid "Accepted new client."
+msgstr ""
+
+#: src/DistributionSocketLink.cc:1561
+#, c-format
+msgid "Client %s:%d read error, closing."
+msgstr ""
+
+#: src/DistributionSocketLink.cc:1566 src/DistributionSocketLink.cc:1650
+#, c-format
+msgid "Client %s:%d closed connection."
+msgstr ""
+
+#: src/DistributionSocketLink.cc:1619
+#, c-format
+msgid "Client %s:%d connected."
+msgstr ""
+
+#: src/DistributionSocketLink.cc:1656
+#, c-format
+msgid "Could not connect to client %s:%d."
+msgstr ""
+
+#: src/DistributionSocketLink.cc:1750
+msgid "Configuration modified. Reloading."
+msgstr ""
+
+#~ msgid "Hide main window at start-up"
+#~ msgstr "Verberg het hoofdvenster tijdens het opstarten"
 
 #~ msgid "Identity"
 #~ msgstr "Identiteit"
@@ -696,13 +876,6 @@ msgstr "Statistieken"
 #, fuzzy
 #~ msgid "Start time:"
 #~ msgstr "<b>Start tijd:</b>"
-
-#, fuzzy
-#~ msgid "End time:"
-#~ msgstr "<b>Eind tijd:</b>"
-
-#~ msgid "Connection details"
-#~ msgstr "Interval tussen pogingen"
 
 #~ msgid "Break visible:"
 #~ msgstr "Pauze zichtbaar:"

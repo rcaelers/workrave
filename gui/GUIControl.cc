@@ -56,6 +56,9 @@ const string GUIControl::CFG_KEY_BREAK_FORCE_AFTER_PRELUDES = "/force_after_prel
 const string GUIControl::CFG_KEY_BREAK_IGNORABLE = "/ignorable_break";
 const string GUIControl::CFG_KEY_BREAK_INSISTING = "/insist_break";
 const string GUIControl::CFG_KEY_BREAK_ENABLED = "/enabled";
+#ifdef HAVE_EXERCISES
+const string GUIControl::CFG_KEY_BREAK_EXERCISES = "/exercises";
+#endif
 
 GUIControl *GUIControl::instance = NULL;
 
@@ -69,30 +72,41 @@ struct ConfigCheck
   int snooze;
   string icon;
   string resetpred;
-
+  
   int max_preludes;
   bool force_after_preludes;
   bool insist_break;
   bool ignorable_break;
-  
+#ifdef HAVE_EXERCISES
+  int exercises;
+#endif
 } default_config[] =
   {
     { "micro_pause",
       3*60, 30, false,	true,	150,
       "timer-micropause.png", "" ,
       3, true, true, true
+#ifdef HAVE_EXERCISES
+      , 0
+#endif
     },
     {
       "rest_break",
       45*60, 10*60, false,	true, 180,
       "timer-restbreak.png", "",
       3, true, true, true
+#ifdef HAVE_EXERCISES
+      , 3
+#endif
     },
     {
       "daily_limit",
       14400, 0,	false,	true, 20 * 60,
       "timer-daily.png", "day/4:00",
       3, true, true, true
+#ifdef HAVE_EXERCISES
+      , 0
+#endif
     },
   };
 
@@ -154,6 +168,33 @@ GUIControl::TimerData::get_break_ignorable() const
   return rc;
 }
 
+#ifdef HAVE_EXERCISES
+int
+GUIControl::TimerData::get_break_exercises() const
+{
+  bool b;
+  int rc;
+  b = GUIControl::get_instance()->get_configurator()
+    ->get_value(CFG_KEY_BREAK
+                + default_config[break_id].id
+                + CFG_KEY_BREAK_EXERCISES, &rc);
+  if (! b)
+    {
+      rc = default_config[break_id].exercises;
+    }
+  return rc;
+}
+
+void
+GUIControl::TimerData::set_break_exercises(int n)
+{
+  GUIControl::get_instance()->get_configurator()
+    ->set_value(CFG_KEY_BREAK
+                + default_config[break_id].id
+                + CFG_KEY_BREAK_EXERCISES, n);
+}
+
+#endif
 
 bool
 GUIControl::TimerData::get_break_insisting() const

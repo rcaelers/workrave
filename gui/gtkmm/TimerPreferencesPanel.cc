@@ -38,6 +38,9 @@
 TimerPreferencesPanel::TimerPreferencesPanel (GUIControl::BreakId t,Glib::RefPtr<Gtk::SizeGroup> size_group)
   : Gtk::VBox(false, 6),
     max_prelude_adjustment(0, 1, 100)
+#ifdef HAVE_EXERCISES
+  ,exercises_adjustment(0, 0, 10)
+#endif  
 {
   TRACE_ENTER("TimerPreferencesPanel::TimerPreferencesPanel");
   break_id = t;
@@ -155,7 +158,11 @@ TimerPreferencesPanel::create_options_panel()
     .connect(SigC::slot(*this, &TimerPreferencesPanel::on_ignorable_toggled));
   hig->add(*ignorable_cb);
 
-  // Monitor
+  // Break specific options
+  monitor_cb = NULL;
+#ifdef HAVE_EXERCISES
+  exercises_spin = NULL;
+#endif
   Configurator *cfg = GUIControl::get_instance()->get_configurator();
   string tpfx = ControlInterface::CFG_KEY_TIMER + itimer->get_id();
   if (break_id == GUIControl::BREAK_ID_DAILY_LIMIT)
@@ -170,11 +177,17 @@ TimerPreferencesPanel::create_options_panel()
         .connect(SigC::slot(*this, &TimerPreferencesPanel::on_monitor_toggled));
       hig->add(*monitor_cb);
     }
-  else
+#ifdef HAVE_EXERCISES
+  else if (break_id == GUIControl::BREAK_ID_REST_BREAK)
     {
-      monitor_cb = NULL;
+      exercises_spin = manage(new Gtk::SpinButton(exercises_adjustment));
+      hig->add(_("Number of exercises:"), *exercises_spin);
+      exercises_adjustment.set_value(timer->get_break_exercises());
+      exercises_adjustment.signal_value_changed()
+        .connect(SigC::slot(*this,
+                            &TimerPreferencesPanel::on_exercises_changed));
     }
-
+#endif
   
   return hig;
 }
@@ -268,6 +281,15 @@ TimerPreferencesPanel::on_preludes_maximum_changed()
   int mp = (int) max_prelude_adjustment.get_value();
   timer->set_break_max_preludes(mp);
 }
+
+#ifdef HAVE_EXERCISES
+void
+TimerPreferencesPanel::on_exercises_changed()
+{
+  int ex = (int) exercises_adjustment.get_value();
+  timer->set_break_exercises(ex);
+}
+#endif
 
 void
 TimerPreferencesPanel::on_preludes_maximum_toggled()

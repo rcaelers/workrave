@@ -22,6 +22,7 @@
 #include <stdio.h>
 #include <string>
 
+#include "config.h"
 #include "preinclude.h"
 
 class TimerInterface;
@@ -49,6 +50,9 @@ private:
   void on_preludes_active_toggled();
   void on_preludes_maximum_toggled();
   void on_preludes_maximum_changed();
+#ifdef HAVE_EXERCISES
+  void on_exercises_changed();
+#endif
   void on_preludes_force_toggled();
   Gtk::Widget *create_prelude_panel();
   Gtk::Widget *create_options_panel();
@@ -69,6 +73,10 @@ private:
   Gtk::CheckButton *force_after_prelude_cb;
   TimeEntry *limit_tim, *auto_reset_tim, *snooze_tim;
   Gtk::SpinButton *max_prelude_spin;
+#ifdef HAVE_EXERCISES
+  Gtk::SpinButton *exercises_spin;
+  Gtk::Adjustment exercises_adjustment;
+#endif
   Gtk::Adjustment max_prelude_adjustment;
   Gtk::CheckButton *enabled_cb;
 };
