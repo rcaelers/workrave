@@ -1,4 +1,4 @@
-# translation of no.po (Norwegian) for Workrave
+# Translation of no.po (Norwegian) for Workrave
 # Copyright (C) 2003, 2004 Rob Caelers & Raymond Penners
 # This file is distributed under the same license as the Workrave product.
 # Morten Lunde <morten.lunde@broadpark.no> 
@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: no\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-07-14 19:11+0200\n"
-"PO-Revision-Date: 2004-07-14 19:12+0200\n"
+"PO-Revision-Date: 2004-07-15 15:07+0200\n"
 "Last-Translator: Morten Lunde <morten.lunde@broadpark.no>\n"
 "Language-Team:  >\n"
 "MIME-Version: 1.0\n"
@@ -229,11 +229,11 @@ msgstr "Ingen lyd"
 
 #: frontend/gtkmm/src/PreferencesDialog.cc:122
 msgid "Play sounds using sound card"
-msgstr "Spill av lyd via lydkortet"
+msgstr "Spill av lyd gjennom lydkortet"
 
 #: frontend/gtkmm/src/PreferencesDialog.cc:124
 msgid "Play sounds using built-in speaker"
-msgstr "Spill av lyd med den innebyggede høytaleren"
+msgstr "Spill av lyd med den innebygde høytaleren"
 
 #: frontend/gtkmm/src/PreferencesDialog.cc:152
 msgid "No blocking"
@@ -241,12 +241,11 @@ msgstr "Ingen blokkering"
 
 #: frontend/gtkmm/src/PreferencesDialog.cc:154
 msgid "Block input"
-msgstr "Blokker inndata"
+msgstr "Blokker tastatur"
 
 #: frontend/gtkmm/src/PreferencesDialog.cc:156
-#, fuzzy
 msgid "Block input and screen"
-msgstr "Blokker inndata"
+msgstr "Blokker tastatur og skjerm"
 
 #  Options
 #. Options
@@ -1103,3 +1102,4 @@ msgstr "Hvilepause startet"
 
 #~ msgid "Block inndata og skjerm"
 #~ msgstr "Blokker alt"
+
