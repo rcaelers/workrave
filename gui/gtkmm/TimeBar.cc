@@ -35,6 +35,7 @@ static const char rcsid[] = "$Id$";
 #undef ERROR
 
 #include "TimeBar.hh"
+#include "Text.hh"
 
 const int MARGINX = 4;
 const int MARGINY = 3;
@@ -100,7 +101,7 @@ TimeBar::on_size_request(GtkRequisition *requisition)
 
   Glib::RefPtr<Pango::Layout> pl = create_pango_layout(bar_text);
 
-  string min_string = TimeBar::time_to_string(-(59+59*60+23*60*60));;
+  string min_string = Text::time_to_string(-(59+59*60+23*60*60));;
   Glib::RefPtr<Pango::Layout> plmin = create_pango_layout(min_string);
 
   int width, height;
@@ -307,31 +308,4 @@ void TimeBar::update()
   queue_draw();
 }
 
-//! Time to string
-string
-TimeBar::time_to_string(time_t time) 
-{
-  char s[50], t[2];
-  
-  if (time < 0)
-    {
-      t[0] = '-';
-      t[1] = 0;
-      time = -time;
-    }
-  else
-    {
-      t[0] = 0;
-    }
-  if (time >= 60 * 60)
-    {
-      sprintf(s, "%s%ld:%02ld:%02ld", t, time / 3600, (time / 60) % 60, time % 60);
-    }
-  else
-    {
-      sprintf(s, "%s%ld:%02ld", t, time / 60, time % 60);
-    }
-
-  return s;
-}
 

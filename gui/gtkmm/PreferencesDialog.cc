@@ -51,14 +51,13 @@ struct MonitorPreset
 
 static MonitorPreset presets[] =
 {
-  // FIXME: fix bug 75 before applying i18n _()
-  { "Trigger-happy", 0, 1000, 0 },
-  { "Quick", 500, 3000, 20000 },
-  { "Normal", 1000, 5000, 10000 },
-  { "Sluggish", 5000, 10000, 4000 },
-  { "Numb", 10000, 10000, 9000 },
+  { _("Trigger-happy"), 0, 1000, 0 },
+  { _("Quick"), 500, 3000, 20000 },
+  { _("Normal"), 1000, 5000, 10000 },
+  { _("Sluggish"), 5000, 10000, 4000 },
+  { _("Numb"), 10000, 10000, 9000 },
   { NULL, 0, 0, 0 }, 
-  { "Custom settings", -1, -1, -1 },
+  { _("Custom settings"), -1, -1, -1 },
 };
     
 
@@ -315,7 +314,7 @@ PreferencesDialog::create_network_page()
     (_("You can connect several instances of Workrave in a network. All connected\n"
        "instances share the same timer information, meaning you will be reminded\n"
        "of your breaks even if you switch computers."),
-     "collective.png");
+     "network.png");
 
   Gtk::Widget *page = manage(new NetworkPreferencePage());
   

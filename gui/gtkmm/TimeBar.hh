@@ -1,6 +1,6 @@
 // TimeBar.hh --- Time Bar
 //
-// Copyright (C) 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -65,7 +65,6 @@ public:
   void set_text_alignment(int align);
 
   void set_border_size(int size);
-  static string time_to_string(time_t t);
   
 protected:
   //Overridden default signal handlers:

@@ -1,6 +1,7 @@
 gui/BreakControl.cc
-gui/gtkmm/CollectiveJoinDialog.cc
-gui/gtkmm/CollectivePreferencePage.cc
+gui/Text.cc
+gui/gtkmm/NetworkJoinDialog.cc
+gui/gtkmm/NetworkPreferencePage.cc
 gui/gtkmm/DailyLimitWindow.cc
 gui/gtkmm/MainWindow.cc
 gui/gtkmm/MicroPauseWindow.cc

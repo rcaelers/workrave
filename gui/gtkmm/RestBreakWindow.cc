@@ -28,6 +28,7 @@ const int TIMEOUT = 1000;
 
 #include "debug.hh"
 #include "Util.hh"
+#include "Text.hh"
 
 const int MARGINX = 8;
 const int MARGINY = 8;
@@ -254,12 +255,8 @@ RestBreakWindow::draw_time_bar()
   timebar->set_progress(progress_value, progress_max_value);
 
   time_t time = progress_max_value - progress_value;
-  char s[100];
-  // FIXME: use TimeBar::time_to_string() ? In any case,
-  // "avoid duplication of volatile information" :) MicroPauseWindow
-  // has similar functionality.
-  // FIXME: i18n
-  sprintf(s, "Rest break for %02ld:%02ld minutes", time / 60, time % 60);
+  char s[128];
+  sprintf(s, _("Rest break for %s"), Text::time_to_string(time, true).c_str());
   
   timebar->set_text(s);
   timebar->update();

@@ -29,6 +29,7 @@ static const char rcsid[] = "$Id$";
 #include "TimerInterface.hh"
 #include "BreakResponseInterface.hh"
 #include "Util.hh"
+#include "Text.hh"
 
 
 //! Construct a new Micropause window.
@@ -163,7 +164,7 @@ MicroPauseWindow::refresh_time_bar()
   time_t time = progress_max_value - progress_value;
   string s = _("Micro-pause");
   s += ' ';
-  s += TimeBar::time_to_string(time);
+  s += Text::time_to_string(time);
   time_bar->set_progress(progress_value, progress_max_value - 1);
   time_bar->set_text(s);
   time_bar->update();
@@ -178,35 +179,19 @@ MicroPauseWindow::refresh_label()
   TRACE_ENTER("MicroPauseWindow::refresh_label");
   time_t limit = restbreak_timer->get_limit();
   time_t elapsed =  restbreak_timer->get_elapsed_time();
-  char s[80];
+  char s[128];
 
-  // FIXME: use TimeBar::time_to_string() ? In any case, "avoid duplication of volatile information" :)
   if (limit > elapsed)
     {
       time_t rb = limit - elapsed;
-      
-      if (rb >= 60 * 60)
-        {
-          // FIXME: i18n, but fix previous FIXME first!
-          sprintf(s, "Next rest break in %02ld:%02ld hours", rb / 3600, (rb / 60) % 60);
-        }
-      else
-        {
-          sprintf(s, "Next rest break in %02ld:%02ld minutes", rb / 60, rb % 60);
-        }
+      sprintf(s, _("Next rest break in %s"),
+              Text::time_to_string(rb, true).c_str());
     }
   else
     {
       time_t rb = elapsed - limit;
-      
-      if (rb >= 60 * 60)
-        {
-          sprintf(s, "Overdue rest break %02ld:%02ld hours", rb / 3600, (rb / 60) % 60);
-        }
-      else
-        {
-          sprintf(s, "Overdue rest break %02ld:%02ld minutes", rb / 60, rb % 60);
-        }
+      sprintf(s, _("Overdue rest break in %s"),
+              Text::time_to_string(rb, true).c_str());
     }
   label->set_text(string(_("Please relax for a few seconds")) + '\n' + s);
   TRACE_EXIT();

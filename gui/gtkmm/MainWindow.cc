@@ -42,6 +42,7 @@ static const char rcsid[] = "$Id$";
 #include "GUI.hh"
 #include "GUIControl.hh"
 #include "Util.hh"
+#include "Text.hh"
 
 #include "Configurator.hh"
 #include "TimerInterface.hh"
@@ -269,11 +270,11 @@ MainWindow::update()
       // Set the text
       if (timer->is_limit_enabled() && maxActiveTime != 0)
         {
-          bar->set_text(TimeBar::time_to_string(maxActiveTime - activeTime));
+          bar->set_text(Text::time_to_string(maxActiveTime - activeTime));
         }
       else
         {
-          bar->set_text(TimeBar::time_to_string(activeTime));
+          bar->set_text(Text::time_to_string(activeTime));
         }
 
       // And set the bar.
