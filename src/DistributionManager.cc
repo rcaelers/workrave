@@ -33,6 +33,11 @@ static const char rcsid[] = "$Id$";
 #include "DistributionLogListener.hh"
 #include "Configurator.hh"
 
+#ifdef WIN32
+#define snprintf _snprintf
+#define vsnprintf _vsnprintf
+#endif
+
 DistributionManager *DistributionManager::instance = NULL;
 
 const string DistributionManager::CFG_KEY_DISTRIBUTION = "distribution";
@@ -471,12 +476,12 @@ DistributionManager::log(char *fmt, ...)
   struct tm *lt = localtime(&current_time);
 
   char str[256];
-  _snprintf(str, 255, "[%02d/%02d/%02d %02d:%02d:%02d] ",
+  snprintf(str, 255, "[%02d/%02d/%02d %02d:%02d:%02d] ",
           lt->tm_mday, lt->tm_mon + 1, lt->tm_year + 1900,
           lt->tm_hour, lt->tm_min, lt->tm_sec);
 
   char *ptr = str + strlen(str);
-  _vsnprintf(ptr, 255 - strlen(str), fmt, va);
+  vsnprintf(ptr, 255 - strlen(str), fmt, va);
 
   ptr = str + strlen(str);
   ptr[0] = '\n';
