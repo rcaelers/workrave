@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.4.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-08 19:21+0200\n"
-"PO-Revision-Date: 2003-09-08 18:53+0200\n"
+"POT-Creation-Date: 2003-09-09 16:25+0200\n"
+"PO-Revision-Date: 2003-09-09 16:26+0200\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
 "MIME-Version: 1.0\n"
@@ -52,11 +52,15 @@ msgstr "Over %s"
 msgid "Lock"
 msgstr "Vergrendelen"
 
-#: src/app/gtkmm/BreakWindow.cc:346
+#: src/app/gtkmm/BreakWindow.cc:348
+msgid "Shut down"
+msgstr "Uitschakelen"
+
+#: src/app/gtkmm/BreakWindow.cc:365
 msgid "Skip"
 msgstr "Overslaan"
 
-#: src/app/gtkmm/BreakWindow.cc:357
+#: src/app/gtkmm/BreakWindow.cc:376
 msgid "Postpone"
 msgstr "Uitstellen"
 

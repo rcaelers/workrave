@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-08 19:21+0200\n"
+"POT-Creation-Date: 2003-09-09 16:25+0200\n"
 "PO-Revision-Date: 2003-09-08 19:07+0200\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -53,11 +53,16 @@ msgstr "Pri %s"
 msgid "Lock"
 msgstr "Ŝlosu"
 
-#: src/app/gtkmm/BreakWindow.cc:346
+#: src/app/gtkmm/BreakWindow.cc:348
+#, fuzzy
+msgid "Shut down"
+msgstr "Montru _protokolon"
+
+#: src/app/gtkmm/BreakWindow.cc:365
 msgid "Skip"
 msgstr "Transsaltu"
 
-#: src/app/gtkmm/BreakWindow.cc:357
+#: src/app/gtkmm/BreakWindow.cc:376
 msgid "Postpone"
 msgstr "Prokrastu"
 

@@ -22,11 +22,11 @@ moved back to its original location when the monitor returns.
 remove the break window and show the warning windows again.
 
 ** If supported by your system, the daily limit window includes a
-"Shutdown" button.
+"Shut down" button.
 
 ** There now is a "Lock" button on the rest break, so that you can
 safely lock your display while you are taking breaks. If the daily
-limit window does not include the "Shutdown" button, it includes the
+limit window does not include the "Shut down" button, it includes the
 "Lock" button instead.
 
 

@@ -345,7 +345,7 @@ BreakWindow::create_shutdown_button()
   Gtk::Button *ret;
   if (System::is_shutdown_supported())
     {
-      ret = GtkUtil::create_image_button(_("Shutdown"), "shutdown.png");
+      ret = GtkUtil::create_image_button(_("Shut down"), "shutdown.png");
       ret->signal_clicked()
         .connect(SigC::slot(*this, &BreakWindow::on_shutdown_button_clicked));
       GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
