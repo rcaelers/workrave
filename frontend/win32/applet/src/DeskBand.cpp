@@ -386,7 +386,8 @@ CDeskBand::QueryContextMenu( HMENU hMenu,
     {
       AppletMenuItemData *d = &m_AppletMenu.items[m];
       wchar_t textw[APPLET_MENU_TEXT_MAX_LENGTH*2];
-      mbstowcs(textw, d->text, APPLET_MENU_TEXT_MAX_LENGTH);
+      MultiByteToWideChar(CP_UTF8, 0, d->text, -1,
+                          textw, sizeof(textw)/sizeof(textw[0]));
       wchar_t *abbrev = wcschr(textw, '_');
       UINT flags = MF_STRING | MF_BYPOSITION;
       if (d->flags & APPLET_MENU_FLAG_SELECTED)
