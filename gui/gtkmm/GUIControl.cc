@@ -375,11 +375,6 @@ GUIControl::set_operation_mode(OperationMode mode)
           stop_all_breaks();
         }
 
-      if (operation_mode == OPERATION_MODE_NORMAL)
-        {
-          restart_break();
-        }
-
       ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
       assert(monitor != NULL);
 
