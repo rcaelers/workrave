@@ -38,9 +38,9 @@ class TimerInterface;
 #include "GUIControl.hh"
 #include "ActivityMonitorInterface.hh"
 
-class Statistics :
+class Statistics
 #ifdef HAVE_DISTRIBUTION
-  public DistributedStateInterface
+  : public DistributedStateInterface
 #endif  
 {
 public:
