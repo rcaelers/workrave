@@ -17,18 +17,12 @@ INCLUDES =							\
 	$(GNOME_INCLUDEDIR)					\
 	$(WARN_CFLAGS)						\
 	@APPLET_CFLAGS@						\
-	@ARCH_CFLAGS@
-
-#	`orbit2-config --cflags server`
+	@ARCH_CFLAGS@						\
+	`orbit2-config --cflags server`
 
 libexec_PROGRAMS = workrave-applet
 
-#CORBA_GENERATED = \
-#	Bonobo_Sample_Moody-common.c \
-#	Bonobo_Sample_Moody-skels.c \
-#	Bonobo_Sample_Moody.h
-
-workrave_applet_SOURCES = WorkraveApplet.cc ${CORBA_GENERATED}
+workrave_applet_SOURCES = WorkraveApplet.cc
 workrave_applet_LDADD = @APPLET_LIBS@
 
 uidir		= $(datadir)/gnome-2.0/ui
@@ -50,16 +44,5 @@ install-data-local:
 			GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $(top_builddir)/applets/workrave/$$p ; \
 	done \
 	fi
-
-
-
-#bonobo-sample-moody-component: ${CORBA_GENERATED} ${OBJECTS}
-#	gcc -o $@ ${OBJECTS} `orbit2-config --libs server` `pkg-config --libs libbonobo-2.0 gobject-2.0`#
-#
-#.c.o:	
-#	gcc -c $<  `pkg-config --cflags libbonobo-2.0 gobject-2.0` 
-
-# $(CORBA_GENERATED):
-# 	orbit-idl-2 --nostubs x_.idl -I/usr/share/idl
 
 endif
