@@ -311,6 +311,7 @@ AppletWindow::init_gnome_applet()
         {
           menus->resync_applet();
         }
+      set_mainwindow_skipwinlist(true);
     }
 
   if (!ok)
@@ -647,11 +648,13 @@ AppletWindow::on_embedded()
 void
 AppletWindow::set_mainwindow_skipwinlist(bool s)
 {
+  TRACE_ENTER_MSG("AppletWindow::set_mainwindow_skipwinlist", s);
   GUI *gui = GUI::get_instance();
   MainWindow *main = gui->get_main_window();
   if (main != NULL)
     {
       main->set_skipwinlist(s);
     }
+  TRACE_EXIT();
 }
 

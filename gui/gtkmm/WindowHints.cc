@@ -106,6 +106,7 @@ WindowHints::set_always_on_top(GtkWidget *window, bool onTop)
 bool
 WindowHints::set_skip_winlist(GtkWidget *window, bool skip)
 {
+  TRACE_ENTER_MSG("WindowHints:set_skip_winlist", skip);
   bool ret = false;
   
 #ifdef HAVE_X
@@ -122,7 +123,6 @@ WindowHints::set_skip_winlist(GtkWidget *window, bool skip)
           }
             
         gnome_win_hints_set_hints(window, (GnomeWinHints) wh);
-        wh = gnome_win_hints_get_hints(window);
       }
       ret = true;
 
@@ -136,6 +136,7 @@ WindowHints::set_skip_winlist(GtkWidget *window, bool skip)
     }
 
 #endif
+  TRACE_EXIT();
   return ret;
 }
 
