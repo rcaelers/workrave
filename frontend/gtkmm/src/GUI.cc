@@ -561,46 +561,53 @@ GUI::init_gtk_multihead()
   int num_screens = display->get_n_screens();
 
   TRACE_MSG("screens = " << num_screens);
-  for (int i = 0; i < num_screens; i++)
+  if (num_screens > 1)
     {
-      Glib::RefPtr<Gdk::Screen> screen = display->get_screen(i);
-#ifdef HAVE_GTKMM24
-      if (screen)
-#else
-      if (!screen.is_null())
-#endif        
+      for (int i = 0; i < num_screens; i++)
         {
-          new_num_heads += screen->get_n_monitors();
+          Glib::RefPtr<Gdk::Screen> screen = display->get_screen(i);
+#ifdef HAVE_GTKMM24
+          if (screen)
+#else
+            if (!screen.is_null())
+#endif        
+              {
+                new_num_heads += screen->get_n_monitors();
+              }
         }
-    }
 
-  init_multihead_mem(new_num_heads);
+      init_multihead_mem(new_num_heads);
   
-  int count = 0;
-  for (int i = 0; i < num_screens; i++)
-    {
-      Glib::RefPtr<Gdk::Screen> screen = display->get_screen(i);
-#ifdef HAVE_GTKMM24
-      if (screen)
-#else
-      if (!screen.is_null())
-#endif        
+      int count = 0;
+      for (int i = 0; i < num_screens; i++)
         {
-          int num_monitors = screen->get_n_monitors();
-          for (int j = 0; j < num_monitors && count < num_heads; j++)
-            {
-              heads[count].screen = screen;
-              heads[count].monitor = j;
-              heads[count].valid = true;
-              heads[count].count = count;
+          Glib::RefPtr<Gdk::Screen> screen = display->get_screen(i);
+#ifdef HAVE_GTKMM24
+          if (screen)
+#else
+            if (!screen.is_null())
+#endif        
+              {
+                int num_monitors = screen->get_n_monitors();
+                for (int j = 0; j < num_monitors && count < num_heads; j++)
+                  {
+                    heads[count].screen = screen;
+                    heads[count].monitor = j;
+                    heads[count].valid = true;
+                    heads[count].count = count;
               
-              screen->get_monitor_geometry(j, heads[count].geometry);
+                    screen->get_monitor_geometry(j, heads[count].geometry);
 
-              count++;
-            }
+                    count++;
+                  }
+              }
         }
     }
-
+  else
+    {
+      // Use GTK way of centering..
+      num_screens = -1;
+    }
   TRACE_EXIT();
 }
 #endif

@@ -543,6 +543,7 @@ Core::update_statistics()
 void
 Core::heartbeat()
 {
+  TRACE_ENTER("Core::heartbeat");
   assert(application != NULL);
   
   TimerInfo infos[BREAK_ID_SIZEOF];
@@ -582,11 +583,13 @@ Core::heartbeat()
   if (dist_manager != NULL)
     {
       new_master_node = dist_manager->is_master();
+      TRACE_MSG("new_master = " << new_master_node << " " << master_node);
     }
 
   if (master_node != new_master_node)
     {
       master_node = new_master_node;
+      TRACE_MSG("new_master changed = " << new_master_node);
       if (!master_node)
         {
           stop_all_breaks();
@@ -594,7 +597,7 @@ Core::heartbeat()
     }
 #endif
 
-  if (master_node)
+  //TODO: check if this can/must be removed  if (master_node)
     {
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
@@ -607,6 +610,7 @@ Core::heartbeat()
 
       update_statistics();
     }
+  TRACE_EXIT();
 }
 
 
@@ -648,11 +652,11 @@ Core::process_timers(TimerInfo *infos)
     }
 
   
+#if NO_LONGER_USED_I_THINK
   // Enable or disable timers if we became or lost being master
   if (master_node != new_master_node)
     {
       master_node = new_master_node;
-#if 0      
       // Enable/Disable timers.
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
@@ -665,8 +669,8 @@ Core::process_timers(TimerInfo *infos)
               breaks[i].get_timer()->disable();
             }
         }
-#endif
     }
+#endif
 
   // Distribute monitor state if we are master and the
   // state has changed.
@@ -973,6 +977,7 @@ Core::set_freeze_all_breaks(bool freeze)
 void
 Core::stop_all_breaks()
 {
+  TRACE_ENTER("Core::stop_all_breaks");
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       BreakControl *bc = breaks[i].get_break_control();
@@ -981,6 +986,7 @@ Core::stop_all_breaks()
           bc->stop_break(false);
         }
     }
+  TRACE_EXIT();
 }
 
 /********************************************************************************/

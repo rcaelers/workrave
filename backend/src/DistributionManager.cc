@@ -1,6 +1,6 @@
 // DistributionManager.cc
 //
-// Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2004 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -361,7 +361,7 @@ DistributionManager::broadcast_client_message(DistributionClientMessageID id, Pa
 void
 DistributionManager::master_changed(bool new_master, char *id)
 {
-  TRACE_ENTER("DistributionManager::master_changed");
+  TRACE_ENTER_MSG("DistributionManager::master_changed", new_master);
   state = (new_master ? NODE_ACTIVE : NODE_STANDBY);
 
   if (id != NULL)

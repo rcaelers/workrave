@@ -353,6 +353,8 @@ BreakWindow::start()
   present(); // After grab() please (Windows)
 #endif
 
+  // In case the show_all resized the window...
+  center();
   TRACE_EXIT();
 }
 

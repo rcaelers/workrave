@@ -799,7 +799,7 @@ BreakControl::set_state_data(bool active, const BreakStateData &data)
       prelude_count = max_number_of_preludes - 1;
     }
   
-  if (active)
+  //TODO: check if this can/must be removed  if (active)
     {
       if (user_initiated && new_break_stage == STAGE_TAKING)
         {
