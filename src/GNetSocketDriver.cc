@@ -56,6 +56,36 @@ GNetSocketDriver::init()
 }
 
 
+char *
+GNetSocketDriver::get_my_canonical_name()
+{
+  GInetAddr *ia = gnet_inetaddr_gethostaddr();
+  g_assert(ia != NULL);
+  char *cname = gnet_inetaddr_get_canonical_name(ia);
+  gnet_inetaddr_delete(ia);
+
+  // FIXME: strdup ??
+  return cname;
+}
+
+
+char *
+GNetSocketDriver::canonicalize(char *host)
+{
+  char *ret = NULL;
+  
+  GInetAddr *ia =  gnet_inetaddr_new(host, 0);
+  if (ia != NULL)
+    {
+      ret = gnet_inetaddr_get_canonical_name(ia);
+      gnet_inetaddr_delete(ia);
+    }
+
+  // FIXME: strdup ??
+  return ret;
+}
+
+
 SocketConnection *
 GNetSocketDriver::connect(char *host, int port, void *data)
 {

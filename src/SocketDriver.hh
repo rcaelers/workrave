@@ -62,8 +62,8 @@ public:
   SocketDriver();
   virtual ~SocketDriver();
 
-  // virtual char *get_my_canonical_name() = 0;
-  // virtual char *canonicalize(char *) = 0;
+  virtual char *get_my_canonical_name() = 0;
+  virtual char *canonicalize(char *) = 0;
   
   virtual bool init() = 0;
   virtual SocketConnection *connect(char *hostname, int port, void *data) = 0;

@@ -41,7 +41,7 @@ class GNetSocketConnection : public SocketConnection
 public:
   GNetSocketConnection();
   virtual ~GNetSocketConnection();
-  
+
   bool read(void *buf, int count, int &bytes_read);
   bool write(void *buf, int count, int &bytes_written);
   bool close();
@@ -71,11 +71,15 @@ private:
   friend GNetSocketDriver;
 };
 
+
 class GNetSocketDriver : public SocketDriver
 {
 public:
   GNetSocketDriver();
   virtual ~GNetSocketDriver();
+
+  char *get_my_canonical_name();
+  char *canonicalize(char *);
   
   bool init();
   SocketConnection *connect(char *hostname, int port, void *data);
