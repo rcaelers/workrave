@@ -1,0 +1,9 @@
+LIBRARY     WorkraveApplet
+
+DESCRIPTION "Workrave Taskbar Integration"
+
+EXPORTS
+   DllCanUnloadNow   PRIVATE
+   DllGetClassObject PRIVATE
+   DllRegisterServer PRIVATE
+

@@ -647,6 +647,10 @@ AC_OUTPUT(Makefile \
           frontend/common/src/Makefile \
           frontend/common/src/gnome/Makefile \
           frontend/common/src/win32/Makefile \
+          frontend/win32/Makefile \
+          frontend/win32/applet/Makefile \
+          frontend/win32/applet/src/Makefile \
+          frontend/win32/applet/include/Makefile \
           frontend/gtkmm/Makefile \
           frontend/gtkmm/win32/Makefile \
           frontend/gtkmm/win32/setup/Makefile \

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
-"POT-Creation-Date: 2004-02-03 22:26+0100\n"
+"POT-Creation-Date: 2004-02-04 22:42+0100\n"
 "PO-Revision-Date: 2003-09-09 16:25+0200\n"
 "Last-Translator: Christian Vejlbo <translate@vejlbo.dk>\n"
 "Language-Team:  <da@li.org>\n"
@@ -200,12 +200,12 @@ msgid "General"
 msgstr "Generelt"
 
 #: frontend/gtkmm/src/PreferencesDialog.cc:66
-msgid "Applet"
-msgstr "Applet"
-
-#: frontend/gtkmm/src/PreferencesDialog.cc:69
 msgid "Status Window"
 msgstr "Status Vindue"
+
+#: frontend/gtkmm/src/PreferencesDialog.cc:69
+msgid "Applet"
+msgstr "Applet"
 
 #. Notebook
 #: frontend/gtkmm/src/PreferencesDialog.cc:76

@@ -62,11 +62,11 @@ PreferencesDialog::PreferencesDialog()
   Gtk::Notebook *gui_page = manage(new Gtk::Notebook());
   gui_page->append_page(*gui_general_page, _("General"));
   
-  Gtk::Widget *gui_applet_page = manage(create_applet_page());
-  gui_page->append_page(*gui_applet_page, _("Applet"));
-
   Gtk::Widget *gui_mainwindow_page = manage(create_mainwindow_page());
   gui_page->append_page(*gui_mainwindow_page, _("Status Window"));
+
+  Gtk::Widget *gui_applet_page = manage(create_applet_page());
+  gui_page->append_page(*gui_applet_page, _("Applet"));
 
 #ifdef HAVE_DISTRIBUTION
   Gtk::Widget *network_page = manage(create_network_page());

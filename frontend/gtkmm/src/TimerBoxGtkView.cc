@@ -321,8 +321,8 @@ TimerBoxGtkView::set_time_bar(BreakId id,
   bar->set_text(text);
   bar->set_bar_color(primary_color);
   bar->set_progress(primary_val, primary_max);
-  bar->set_bar_color(secondary_color);
-  bar->set_progress(secondary_val, secondary_max);
+  bar->set_secondary_bar_color(secondary_color);
+  bar->set_secondary_progress(secondary_val, secondary_max);
 }
 
 void

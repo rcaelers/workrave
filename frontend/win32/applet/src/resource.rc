@@ -1,0 +1,3 @@
+dailylimit	ICON    DISCARDABLE     "../../../common/share/images/win32/timer-daily.ico"
+micropause	ICON    DISCARDABLE     "../../../common/share/images/win32/timer-micropause.ico"
+restbreak	ICON    DISCARDABLE     "../../../common/share/images/win32/timer-restbreak.ico"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2004-02-03 22:27+0100\n"
+"POT-Creation-Date: 2004-02-04 22:46+0100\n"
 "PO-Revision-Date: 2003-09-08 19:07+0200\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -199,11 +199,11 @@ msgid "General"
 msgstr "Ĝenerala"
 
 #: frontend/gtkmm/src/PreferencesDialog.cc:66
-msgid "Applet"
+msgid "Status Window"
 msgstr ""
 
 #: frontend/gtkmm/src/PreferencesDialog.cc:69
-msgid "Status Window"
+msgid "Applet"
 msgstr ""
 
 #. Notebook

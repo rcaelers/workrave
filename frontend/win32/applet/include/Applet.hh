@@ -21,13 +21,13 @@
 #include "CoreInterface.hh"
 
 #define APPLET_WINDOW_CLASS_NAME "WorkraveApplet"
-
+#define APPLET_BAR_TEXT_MAX_LENGTH 16
 struct AppletData
 {
   bool enabled;
   short slots[BREAK_ID_SIZEOF];
 
-  char bar_text[BREAK_ID_SIZEOF][16];
+  char bar_text[BREAK_ID_SIZEOF][APPLET_BAR_TEXT_MAX_LENGTH];
 
   short bar_secondary_color[BREAK_ID_SIZEOF];
   int bar_secondary_val[BREAK_ID_SIZEOF];

@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.4.0\n"
-"POT-Creation-Date: 2004-02-03 22:27+0100\n"
+"POT-Creation-Date: 2004-02-04 22:46+0100\n"
 "PO-Revision-Date: 2003-10-23 13:04+0200\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -245,15 +245,15 @@ msgstr "Vorlieben"
 msgid "General"
 msgstr "Allgemein"
 
-# src/app/gtkmm/PreferencesDialog.cc:61
-#: frontend/gtkmm/src/PreferencesDialog.cc:66
-msgid "Applet"
-msgstr "Applet"
-
 # src/app/gtkmm/PreferencesDialog.cc:64
-#: frontend/gtkmm/src/PreferencesDialog.cc:69
+#: frontend/gtkmm/src/PreferencesDialog.cc:66
 msgid "Status Window"
 msgstr "Statusfenster"
+
+# src/app/gtkmm/PreferencesDialog.cc:61
+#: frontend/gtkmm/src/PreferencesDialog.cc:69
+msgid "Applet"
+msgstr "Applet"
 
 # src/app/gtkmm/PreferencesDialog.cc:71
 # src/app/gtkmm/TimerBoxPreferencePage.cc:167

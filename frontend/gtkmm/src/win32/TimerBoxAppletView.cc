@@ -81,12 +81,14 @@ TimerBoxAppletView::set_time_bar(BreakId id,
                                  TimeBarInterface::ColorId secondary_color,
                                  int secondary_val, int secondary_max)
 {
-  bar_primary_color[id] = primary_color;
-  bar_primary_val[id] = primary_val;
-  bar_primary_max[id] = primary_max;
-  bar_secondary_color[id] = secondary_color;
-  bar_secondary_val[id] = secondary_val;
-  bar_secondary_max[id] = secondary_max;
+  strncpy(applet_data.bar_text[id], text.c_str(), APPLET_BAR_TEXT_MAX_LENGTH-1);
+  applet_data.bar_text[id][APPLET_BAR_TEXT_MAX_LENGTH-1] = '\0';
+  applet_data.bar_primary_color[id] = primary_color;
+  applet_data.bar_primary_val[id] = primary_val;
+  applet_data.bar_primary_max[id] = primary_max;
+  applet_data.bar_secondary_color[id] = secondary_color;
+  applet_data.bar_secondary_val[id] = secondary_val;
+  applet_data.bar_secondary_max[id] = secondary_max;
 }
 
 void
@@ -110,7 +112,6 @@ TimerBoxAppletView::get_applet_window()
     {
       HWND taskbar = FindWindow("Shell_TrayWnd",NULL);
       applet_window = RecursiveFindWindow(taskbar, APPLET_WINDOW_CLASS_NAME);
-      Beep(8000, 100);
     }
   return applet_window;
 }
