@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-07-02 18:49:08 robc>
+// Time-stamp: <2003-07-07 18:48:30 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -569,25 +569,14 @@ Timer::shift_time(int delta)
       last_stop_time += delta;
     }
 
-  if (next_reset_time > 0)
-    {
-      next_reset_time += delta;
-    }
+//   if (last_pred_reset_time > 0)
+//     {
+//       last_pred_reset_time += delta;
+//     }
 
-  if (last_pred_reset_time > 0)
-    {
-      last_pred_reset_time += delta;
-    }
-
-  if (next_pred_reset_time > 0)
-    {
-      next_pred_reset_time += delta;
-    }
-
-  if (next_limit_time > 0)
-    {
-      next_limit_time += delta;
-    }
+  compute_next_limit_time();
+  compute_next_reset_time();
+  compute_next_predicate_reset_time();
 }
 
 
@@ -631,6 +620,7 @@ Timer::idle_notify()
 void
 Timer::process(ActivityState activityState, TimerInfo &info)
 {
+  //TRACE_ENTER_MSG("Timer::process", timer_id);
   if (activity_monitor != NULL)
     {
       activityState = activity_monitor->get_current_state();
@@ -653,6 +643,7 @@ Timer::process(ActivityState activityState, TimerInfo &info)
   
   time_t current_time= time_source->get_time();
 
+  //TRACE_MSG(next_pred_reset_time << " " << (next_pred_reset_time - current_time));
   if (autoreset_interval_predicate && next_pred_reset_time != 0 && current_time >=  next_pred_reset_time)
     {
       // A next reset time was set and the current time >= reset time.
@@ -721,6 +712,7 @@ Timer::process(ActivityState activityState, TimerInfo &info)
     }
   
   previous_timer_state = timer_state;
+  //TRACE_EXIT();
 }
 
 

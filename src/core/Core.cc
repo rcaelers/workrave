@@ -64,6 +64,27 @@ const string Core::CFG_KEY_MONITOR_NOISE = "monitor/noise";
 const string Core::CFG_KEY_MONITOR_ACTIVITY = "monitor/activity";
 const string Core::CFG_KEY_MONITOR_IDLE = "monitor/idle";
 
+#if 0
+static char *check_config_keys[] =
+  {
+const string Break::CFG_KEY_TIMER_PREFIX = "timers/";
+
+const string Break::CFG_KEY_TIMER_LIMIT = "/limit";
+const string Break::CFG_KEY_TIMER_AUTO_RESET = "/auto_reset";
+const string Break::CFG_KEY_TIMER_RESET_PRED = "/reset_pred";
+const string Break::CFG_KEY_TIMER_SNOOZE = "/snooze";
+const string Break::CFG_KEY_TIMER_MONITOR = "/monitor";
+
+const string Break::CFG_KEY_BREAK_PREFIX = "gui/breaks/";
+
+const string Break::CFG_KEY_BREAK_MAX_PRELUDES = "/max_preludes";
+const string Break::CFG_KEY_BREAK_FORCE_AFTER_PRELUDES = "/force_after_preludes";
+const string Break::CFG_KEY_BREAK_IGNORABLE = "/ignorable_break";
+const string Break::CFG_KEY_BREAK_INSISTING = "/insist_break";
+const string Break::CFG_KEY_BREAK_ENABLED = "/enabled";
+const string Break::CFG_KEY_BREAK_EXERCISES = "/exercises";
+  };
+#endif
 
 //! Constructs a new Core.
 Core::Core() :
@@ -934,6 +955,7 @@ Core::stop_all_breaks()
 void
 Core::daily_reset()
 {
+  TRACE_ENTER("Core::daily_reset");
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       Timer *t = breaks[i].get_timer();
@@ -952,6 +974,7 @@ Core::daily_reset()
 #ifdef HAVE_DISTRIBUTION
   idlelog_manager->reset();
 #endif
+  TRACE_EXIT();
 }
 
 
@@ -1097,13 +1120,17 @@ Core::request_client_message(DistributionClientMessageID id, PacketBuffer &buffe
   switch (id)
     {
     case DCM_BREAKS:
-      ret = get_break_state(buffer);
+      ret = request_break_state(buffer);
       break;
       
     case DCM_TIMERS:
-      ret = get_timer_state(buffer);
+      ret = request_timer_state(buffer);
       break;
         
+    case DCM_CONFIG:
+      ret = request_config(buffer);
+      break;
+
     case DCM_MONITOR:
       ret = true;
       break;
@@ -1120,9 +1147,10 @@ Core::request_client_message(DistributionClientMessageID id, PacketBuffer &buffe
   return ret;
 }
 
+
 bool
 Core::client_message(DistributionClientMessageID id, bool master, const char *client_id,
-                        PacketBuffer &buffer)
+                     PacketBuffer &buffer)
 {
   bool ret = false;
   
@@ -1140,6 +1168,10 @@ Core::client_message(DistributionClientMessageID id, bool master, const char *cl
       ret = set_monitor_state(master, buffer);
       break;
 
+    case DCM_CONFIG:
+      ret = process_remote_config(buffer);
+      break;
+      
     case DCM_IDLELOG:
       idlelog_manager->set_idlelog(buffer);
       compute_timers();
@@ -1160,7 +1192,7 @@ Core::client_message(DistributionClientMessageID id, bool master, const char *cl
 
 
 bool
-Core::get_break_state(PacketBuffer &buffer)
+Core::request_break_state(PacketBuffer &buffer)
 {
   buffer.pack_ushort(BREAK_ID_SIZEOF);
   
@@ -1228,7 +1260,7 @@ Core::set_break_state(bool master, PacketBuffer &buffer)
 }
 
 bool
-Core::get_timer_state(PacketBuffer &buffer) const
+Core::request_timer_state(PacketBuffer &buffer) const
 {
   TRACE_ENTER("Core::get_timer_state");
 
@@ -1333,6 +1365,16 @@ Core::set_monitor_state(bool master, PacketBuffer &buffer)
   return true;
 }
 
+
+bool
+Core::request_config(PacketBuffer &buffer) const
+{
+}
+
+bool
+Core::process_remote_config(PacketBuffer &buffer)
+{
+}
 
 //! A remote client has signed on.
 void

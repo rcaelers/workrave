@@ -151,11 +151,18 @@ private:
   bool request_client_message(DistributionClientMessageID id, PacketBuffer &buffer);
   bool client_message(DistributionClientMessageID id, bool master, const char *client_id,
                       PacketBuffer &buffer);
-  bool get_break_state(PacketBuffer &buffer);
+
+  bool request_break_state(PacketBuffer &buffer);
   bool set_break_state(bool master, PacketBuffer &buffer);
-  bool get_timer_state(PacketBuffer &buffer) const;
+  
+  bool request_timer_state(PacketBuffer &buffer) const;
   bool set_timer_state(PacketBuffer &buffer);
+
   bool set_monitor_state(bool master, PacketBuffer &buffer);
+
+  bool request_config(PacketBuffer &buffer) const;
+  bool process_remote_config(PacketBuffer &buffer);
+  
   void signon_remote_client(string client_id);
   void signoff_remote_client(string client_id);
   void compute_timers();
