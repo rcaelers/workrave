@@ -152,7 +152,10 @@ ActivityMonitor::force_idle()
 {
   TRACE_ENTER_MSG("ActivityMonitor::force_idle", activity_state);
   lock.lock();
-  activity_state = ACTIVITY_IDLE;
+  if (activity_state != ACTIVITY_SUSPENDED)
+    {
+      activity_state = ACTIVITY_IDLE;
+    }
   lock.unlock();
   TRACE_RETURN(activity_state);
 }

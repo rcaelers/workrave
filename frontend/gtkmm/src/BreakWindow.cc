@@ -276,10 +276,12 @@ BreakWindow::set_response(BreakResponseInterface *bri)
 void
 BreakWindow::on_postpone_button_clicked()
 {
+  TRACE_ENTER("BreakWindow::on_postpone_button_clicked");
   if (break_response != NULL)
     {
       break_response->postpone_break(break_id);
     }
+  TRACE_EXIT();
 }
 
 

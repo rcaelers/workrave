@@ -117,6 +117,7 @@ System::is_lockable()
 void
 System::lock()
 {
+  TRACE_ENTER("System::lock");
   if (is_lockable())
     {
 #if defined(HAVE_X)
@@ -128,6 +129,7 @@ System::lock()
       (*lock_func)();
 #endif  
     }
+  TRACE_EXIT();
 }
 
 bool

@@ -17,8 +17,18 @@ AM_CONFIG_HEADER(config.h)
 AM_INIT_AUTOMAKE(workrave, 1.6.2)
 
 dnl Set of available languages.
-ALL_LINGUAS="nl de eo pl da es zh_TW ru fr pt_BR no lt"
+ALL_LINGUAS="nl de eo pl da es zh_TW ru fr pt_BR no lt cs"
 
+#SETUPLANGS=
+#NL=`echo`
+#for a in $ALL_LINGUAS; do
+#    X="Source: \"..\\..\\..\\..\\po\\$a.gmo\"; DestDir: \"{app}\\lib\\locale\\$a\\LC_MESSAGES\"; DestName: \"workrave.mo\"; Flags: ignoreversion;"
+#    SETUPLANGS="$SETUPLANGS $NL $X"
+#done
+#        
+#echo $SETUPLANGS
+#exit;
+        
 dnl some command line options.                           
 GCONF_LIBS=""
 AC_ARG_ENABLE( app-gtk,
@@ -635,7 +645,7 @@ AM_CONDITIONAL(HAVE_APP_TEXT, test "x$config_with_text" = "xyes")
 AM_CONDITIONAL(HAVE_DISTRIBUTION, test "x$config_distribution" = "xyes")
 AM_CONDITIONAL(HAVE_EXERCISES, test "x$config_exercises" = "xyes")
 AM_CONDITIONAL(HAVE_EXPERIMENTAL, test "x$config_experimental" = "xyes")
-                                                           
+
 
 AC_OUTPUT(Makefile \
           backend/Makefile \

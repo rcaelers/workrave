@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2004-07-01 19:48:22 robc>
+// Time-stamp: <2004-07-31 20:31:13 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -384,6 +384,8 @@ Timer::reset_timer()
       if (autoreset_enabled && autoreset_interval != 0)
         {
           elapsed_idle_time = autoreset_interval;
+          // FIXME: experimental
+          last_stop_time = time_source->get_time();
         }
     }
       
