@@ -23,6 +23,11 @@ these have been replaced with an icon shortcut bar.
 appearance of Workrave blend much better into the Windows desktop
 environment (http://gtk-wimp.sourceforge.net).
 
+* Workrave 1.2.1
+
+** Some errors in the build process have been fixed. Only a new source
+tarball is released, as this does not effect binary releases.
+
 * Workrave 1.2.0
 
 ** Johannes Rohr provided a german translation, thanks!
