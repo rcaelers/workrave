@@ -75,7 +75,7 @@ AppletWindow::~AppletWindow()
 {
   delete plug;
   delete container;
-  set_mainwindow_skipwinlist(false);
+  set_mainwindow_applet_active(false);
 }
 
 
@@ -154,7 +154,7 @@ AppletWindow::init_tray_applet()
   TRACE_ENTER("AppletWindow::init_tray_applet");
   bool ret = false;
   
-  set_mainwindow_skipwinlist(false);
+  set_mainwindow_applet_active(false);
   EggTrayIcon *tray_icon = egg_tray_icon_new("Workrave Tray Icon");
       
   if (tray_icon != NULL)
@@ -168,6 +168,9 @@ AppletWindow::init_tray_applet()
 
       timers_box = new TimerBox("applet");
       container->add(*timers_box);
+
+      plug->signal_embedded().connect(SigC::slot(*this, &AppletWindow::on_embedded));
+      plug->signal_delete_event().connect(SigC::slot(*this, &AppletWindow::delete_event));
       
       plug->add(*eventbox);
       plug->show_all();
@@ -187,8 +190,6 @@ AppletWindow::init_tray_applet()
 
       timers_box->set_geometry(applet_vertical, 24);
 
-      plug->signal_embedded().connect(SigC::slot(*this, &AppletWindow::on_embedded));
-      plug->signal_delete_event().connect(SigC::slot(*this, &AppletWindow::delete_event));
     }
 
   TRACE_EXIT();
@@ -202,7 +203,7 @@ AppletWindow::destroy_tray_applet()
 {
   if (mode == APPLET_TRAY)
     {
-      set_mainwindow_skipwinlist(false);
+      set_mainwindow_applet_active(false);
       if (plug != NULL)
         {
           plug->remove();
@@ -276,6 +277,13 @@ AppletWindow::init_gnome_applet()
       plug = new Gtk::Plug(id);
       plug->add(*frame);
 
+      plug->signal_embedded().connect(SigC::slot(*this, &AppletWindow::on_embedded));
+      plug->signal_delete_event().connect(SigC::slot(*this, &AppletWindow::delete_event));
+
+      // Gtkmm does not wrap this event....
+      g_signal_connect(G_OBJECT(plug->gobj()), "destroy-event",
+                       G_CALLBACK(AppletWindow::destroy_event), this);
+      
       timers_box = new TimerBox("applet");
       timers_box->set_geometry(applet_vertical, applet_size);
       timers_box->show_all();
@@ -283,13 +291,6 @@ AppletWindow::init_gnome_applet()
       container->add(*timers_box);
       container->show_all();
       plug->show_all();
-      
-      plug->signal_embedded().connect(SigC::slot(*this, &AppletWindow::on_embedded));
-      plug->signal_delete_event().connect(SigC::slot(*this, &AppletWindow::delete_event));
-
-      // Gtkmm does not wrap this event....
-      g_signal_connect(G_OBJECT(plug->gobj()), "destroy-event",
-                       G_CALLBACK(AppletWindow::destroy_event), this);
       
       Menus *menus = Menus::get_instance();
       if (menus != NULL)
@@ -302,7 +303,10 @@ AppletWindow::init_gnome_applet()
 #endif
 #ifndef HAVE_DISTRIBUTION
       GNOME_Workrave_AppletControl_set_menu_active(applet_control, "/commands/Network", false, &ev);
-#endif      
+#endif
+
+      // somehow, signal_embedded is never triggered...
+      set_mainwindow_applet_active(true);
     }
 
   if (!ok)
@@ -348,7 +352,7 @@ bool
 AppletWindow::delete_event(GdkEventAny *event)
 {
   (void) event;
-  set_mainwindow_skipwinlist(false);
+  set_mainwindow_applet_active(false);
   destroy_applet();
   return true;
 }
@@ -615,7 +619,7 @@ void
 AppletWindow::on_embedded()
 {
   TRACE_ENTER("AppletWindow::on_embedded");
-  set_mainwindow_skipwinlist(true);
+  set_mainwindow_applet_active(true);
 
   if (mode == APPLET_TRAY)
     {
@@ -630,18 +634,16 @@ AppletWindow::on_embedded()
 }
 
 
-//! Sets the skipwinlist window manager hint.
+//! Sets the applet active state.
 void
-AppletWindow::set_mainwindow_skipwinlist(bool s)
+AppletWindow::set_mainwindow_applet_active(bool a)
 {
-  TRACE_ENTER_MSG("AppletWindow::set_mainwindow_skipwinlist", s);
-#ifdef THIS_IS_BROKEN_ON_KDE  
+  TRACE_ENTER_MSG("AppletWindow::set_mainwindow_applet_active", a);
   GUI *gui = GUI::get_instance();
   MainWindow *main = gui->get_main_window();
   if (main != NULL)
     {
-      main->set_skipwinlist(s);
+      main->set_applet_active(a);
     }
-#endif  
   TRACE_EXIT();
 }

@@ -50,8 +50,8 @@ public:
   void open_window();
   void close_window();
   void toggle_window();
-  void set_skipwinlist(bool s);
-  bool get_iconified() const;
+  void set_applet_active(bool a);
+  //bool get_iconified() const;
   
   void update();
   void remember_position();
@@ -81,9 +81,12 @@ private:
   //! Is the monitoring function suspended?
   bool monitor_suspended;
 
-  //! Is the windows iconified?
-  bool iconified;
+  //! Is the visible?
+  bool visible;
 
+  //! Applet active?
+  bool applet_active;
+  
 #ifdef HAVE_X
   Gtk::Window *leader;
 #endif
@@ -138,10 +141,10 @@ private:
 #endif
 };
 
-inline bool
-MainWindow::get_iconified() const
-{
-  return iconified;
-}
+// inline bool
+// MainWindow::get_iconified() const
+// {
+//   return iconified;
+// }
 
 #endif // MAINWINDOW_HH

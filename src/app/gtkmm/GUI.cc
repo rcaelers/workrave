@@ -382,11 +382,11 @@ GUI::on_save_yourself(int phase, Gnome::UI::SaveStyle save_style, bool shutdown,
         }
     }
 
-  if (main_window != NULL)
-    {
-      bool iconified = main_window->get_iconified();
-      TimerBox::set_enabled("main_window", !iconified);
-    }
+//   if (main_window != NULL)
+//     {
+//       bool iconified = main_window->get_iconified();
+//       TimerBox::set_enabled("main_window", !iconified);
+//     }
   
   if (skip)
     {

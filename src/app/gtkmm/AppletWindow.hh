@@ -105,7 +105,7 @@ private:
   bool init_tray_applet();
   void destroy_applet();
   void destroy_tray_applet();
-  void set_mainwindow_skipwinlist(bool s);
+  void set_mainwindow_applet_active(bool a);
     
 #ifdef HAVE_GNOME
   bool init_gnome_applet();

@@ -92,7 +92,8 @@ MainWindow::MainWindow() :
   enabled(true),
   timers_box(NULL),
   monitor_suspended(false),
-  iconified(false)
+  visible(true),
+  applet_active(false)
 {
 #ifdef HAVE_X
   leader = NULL;
@@ -282,6 +283,7 @@ MainWindow::open_window()
 #ifdef WIN32
       win32_show(true);
 #else
+      show_all();
       deiconify();
 #endif
     }
@@ -292,24 +294,20 @@ MainWindow::open_window()
 void
 MainWindow::close_window()
 {
-#ifdef HAVE_GNOME_THIS_IS_BROKEN
-  GUI *gui = GUI::get_instance(); 
-  assert(gui != NULL);
-
-  AppletWindow *applet = gui->get_applet_window();
-  if (applet != NULL)
-    {
-      AppletWindow::AppletMode mode = applet->get_applet_mode();
-      set_skipwinlist(mode != AppletWindow::APPLET_DISABLED);
-    }
-#endif
   // Remember position
   remember_position();
 
 #ifdef WIN32
   win32_show(false);
 #else
-  iconify();
+  if (applet_active)
+    {
+      hide_all();
+    }
+  else
+    {
+      iconify();
+    }
 #endif
 }
 
@@ -318,14 +316,7 @@ MainWindow::close_window()
 void
 MainWindow::toggle_window()
 {
-  if (iconified)
-    {
-      open_window();
-    }
-  else
-    {
-      close_window();
-    }
+  TimerBox::set_enabled("main_window", !enabled);
 }
 
 
@@ -397,7 +388,7 @@ MainWindow::on_window_state_event(GdkEventWindowState *event)
     {
       if (event->changed_mask & GDK_WINDOW_STATE_ICONIFIED)
         {
-          iconified = event->new_window_state & GDK_WINDOW_STATE_ICONIFIED;
+          bool iconified = event->new_window_state & GDK_WINDOW_STATE_ICONIFIED;
           TimerBox::set_enabled("main_window", !iconified);
         }
     }
@@ -721,10 +712,29 @@ MainWindow::remember_position()
 
 
 void
-MainWindow::set_skipwinlist(bool s)
+MainWindow::set_applet_active(bool a)
 {
-  WindowHints::set_skip_winlist(Gtk::Widget::gobj(), s);
+  TRACE_ENTER_MSG("MainWindow::set_applet_active", a);
+  if (applet_active != a)
+    {
+      applet_active = a;
+
+      if (!enabled)
+        {
+          if (applet_active)
+            {
+              hide_all();
+            }
+          else
+            {
+              iconify();
+              show_all();
+            }
+        }
+    }
+  TRACE_EXIT();
 }
+
 
 bool
 MainWindow::on_configure_event(GdkEventConfigure *event)
