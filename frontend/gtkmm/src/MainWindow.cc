@@ -159,7 +159,7 @@ MainWindow::init()
     }
   
   Glib::ListHandle<Glib::RefPtr<Gdk::Pixbuf> > icon_list(icons);
-  set_icon_list(icon_list);
+  Gtk::Window::set_default_icon_list(icon_list);
     
   enabled = TimerBoxControl::is_enabled("main_window");
 #ifdef WIN32
