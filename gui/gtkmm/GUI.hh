@@ -80,6 +80,7 @@ public:
 #ifdef HAVE_GNOME
   AppletWindow *get_applet_window() const;
 #endif
+  MainWindow *get_main_window() const;
   
 private:
   void timer_action(string timer_id, TimerEvent event);
@@ -124,6 +125,12 @@ GUI::get_applet_window() const
   return applet_window;
 }
 #endif
+
+inline MainWindow *
+GUI::get_main_window() const
+{
+  return main_window;
+}
 
 inline ControlInterface *
 GUI::get_core_control() const

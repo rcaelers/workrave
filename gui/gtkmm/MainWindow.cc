@@ -343,7 +343,7 @@ MainWindow::win32_init()
 
   // Tray menu
   Menus *menus = Menus::get_instance();
-  win32_tray_menu = menus->create_win32_tray_menu();
+  win32_tray_menu = menus->create_tray_menu();
 
   Gtk::Menu::MenuList &menulist = win32_tray_menu->items();
   menulist.push_front(Gtk::Menu_Helpers::StockMenuElem

@@ -21,7 +21,10 @@
 
 #include "preinclude.h"
 #include <stdio.h>
+
+#ifdef HAVE_GNOME
 #include <gnome.h>
+#endif
 
 class GUI;
 class ControlInterface;
@@ -50,7 +53,9 @@ public:
   static Menus *get_instance();
 
   void set_main_window(MainWindow *main);
+#ifdef HAVE_GNOME
   void set_applet_window(AppletWindow *applet);
+#endif
   void resync_applet();
   
 private:
@@ -123,13 +128,13 @@ Menus::set_main_window(MainWindow *main)
   main_window = main;
 }
 
-
+#ifdef HAVE_GNOME
 inline void
 Menus::set_applet_window(AppletWindow *applet)
 {
   applet_window = applet;
 }
-
+#endif
 
 inline Menus *
 Menus::get_instance()

@@ -85,6 +85,7 @@ private:
 public:
   static void win32_set_start_in_tray(bool b);
   static bool win32_get_start_in_tray();
+  void win32_remember_position();
 
   static const string CFG_KEY_MAIN_WINDOW_START_IN_TRAY;
   static const string CFG_KEY_MAIN_WINDOW_X;
@@ -95,7 +96,6 @@ private:
   void win32_init();
   void win32_exit();
   void win32_on_tray_open();
-  void win32_remember_position();
   static void win32_get_start_position(int &x, int &y);
   static void win32_set_start_position(int x, int y);
 

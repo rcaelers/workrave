@@ -44,8 +44,6 @@ static const char rcsid[] = "$Id$";
 #include "DistributionManager.hh"
 #endif
 
-#include "eggtrayicon.h"
-
 
 //! Constructor.
 /*!

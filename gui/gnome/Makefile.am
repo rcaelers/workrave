@@ -1,14 +1,7 @@
-uidir		= $(datadir)/gnome-2.0/ui
-ui_DATA		= GNOME_WorkraveApplet.xml
-
-serverdir       = $(libdir)/bonobo/servers
-server_in_files = Workrave-Applet.server.in Workrave-Control.server.in
-server_DATA     = $(server_in_files:.server.in=.server)
-
 EXTRA_DIST 	= Workrave-Applet.server.in.in  		\
 		  Workrave-Control.server.in.in  		\
 	     	  workrave.schemas.in				\
-	     	  $(ui_DATA)					\
+	     	  $(ui_DATA) $(wildcard *.xml)			\
 		  $(wildcard *.hh) $(wildcard *.cc)		\
 		  $(wildcard *.c) $(wildcard *.h)		\
 		  $(wildcard *.icc) $(wildcard *.idl)
@@ -35,6 +28,13 @@ MAINTAINERCLEANFILES =  Workrave-Applet.server.in Workrave-Applet.server \
 SUBDIRS = 
 
 if HAVE_GNOME
+
+uidir		= $(datadir)/gnome-2.0/ui
+ui_DATA		= GNOME_WorkraveApplet.xml
+
+serverdir       = $(libdir)/bonobo/servers
+server_in_files = Workrave-Applet.server.in Workrave-Control.server.in
+server_DATA     = $(server_in_files:.server.in=.server)
 
 ## CORBA stuff
 

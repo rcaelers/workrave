@@ -21,7 +21,10 @@
 
 #include "preinclude.h"
 #include <stdio.h>
+
+#ifdef HAVE_GNOME
 #include <gnome.h>
+#endif
 
 class GUI;
 class ControlInterface;

@@ -51,15 +51,13 @@ static const char rcsid[] = "$Id$";
 #endif
 #ifdef HAVE_GNOME
 #include "AppletWindow.hh"
+#else
+#include "gnome-about.h"
 #endif
-
-
+#include "MainWindow.hh"
 
 Menus *Menus::instance = NULL;
 
-
-
-#include "eggtrayicon.h"
 
 //! Constructor.
 /*!
@@ -469,7 +467,12 @@ Menus::on_menu_preferences()
   // due to current Gtk+ behaviour of exit()'ing on WM_QUIT, we cannot
   // store main window position on shutdown (bug 130).
   // Therefore, this hack.
-  win32_remember_position();
+
+  MainWindow *window = gui->get_main_window();
+  if (window != NULL)
+    {
+      window->win32_remember_position();
+    }
 #endif
   ctrl->set_operation_mode(mode);
 }

@@ -26,7 +26,8 @@ if HAVE_GUI_GTKMM
 noinst_LIBRARIES = libgtkmmgui.a
 
 if HAVE_GNOME
-sourcesgnome = GnomeSoundPlayer.cc AppletWindow.cc RemoteControl.cc eggtrayicon.c
+sourcesgnome = GnomeSoundPlayer.cc AppletWindow.cc RemoteControl.cc eggtrayicon.c 
+sourcesidl = ${IDL_A_GENERATED} ${IDL_C_GENERATED}
 
 ## CORBA stuff
 
@@ -50,7 +51,7 @@ sourcesdistribution = NetworkJoinDialog.cc NetworkLogDialog.cc NetworkPreference
 endif
 
 libgtkmmgui_a_SOURCES = \
-	${IDL_A_GENERATED} ${IDL_C_GENERATED} \
+	$(sourcesidl) \
 	BreakWindow.cc \
 	DailyLimitWindow.cc \
 	GUI.cc \

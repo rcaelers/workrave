@@ -128,3 +128,4 @@ NetworkLogDialog::on_response(int response)
     }
   TRACE_EXIT();
 }
+

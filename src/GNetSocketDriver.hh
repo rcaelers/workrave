@@ -69,7 +69,7 @@ private:
   //! Port connected to.
   gint port;
   
-  friend GNetSocketDriver;
+  friend class GNetSocketDriver;
 };
 
 

@@ -45,7 +45,6 @@ static const char rcsid[] = "$Id$";
 #include "WindowHints.hh"
 
 #include <gtk/gtk.h>
-#include "../gui/gtkmm/eggtrayicon.h"
 
 #ifdef WIN32
 #include "Win32SoundPlayer.hh"
@@ -145,11 +144,6 @@ GUI::run()
 {
   TRACE_ENTER("GUI:run");
 
-
-  GtkWidget *button;
-  EggTrayIcon *tray_icon;
-
-  
   // Initialize Gtkmm
   Gtk::Main kit(argc, argv);
 
