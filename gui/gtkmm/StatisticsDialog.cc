@@ -50,8 +50,7 @@ StatisticsDialog::StatisticsDialog()
   : HigDialog(_("Statistics"), false, false),
     statistics(NULL),
     daily_usage_label(NULL),
-    start_time_label(NULL),
-    end_time_label(NULL)
+    date_label(NULL)
 {
   TRACE_ENTER("StatisticsDialog::StatisticsDialog");
 
@@ -122,7 +121,7 @@ StatisticsDialog::init_gui()
   btnbox->pack_start(*last_btn, true, true, 0);
 
   // Info box
-  Gtk::Widget *infobox = manage(create_info_box());
+  date_label = manage(new Gtk::Label);
 
   // Navigation box
   HigCategoryPanel *browsebox
@@ -132,8 +131,8 @@ StatisticsDialog::init_gui()
 
   // Stats box
   HigCategoriesPanel *navbox = manage(new HigCategoriesPanel());
-  navbox->add(*infobox);
   HigCategoryPanel *statbox = manage(new HigCategoryPanel(_("Statistics")));
+  statbox->add(_("Date:"), *date_label);
   statbox->add(*tnotebook);
   navbox->add(*statbox);
   
@@ -157,21 +156,6 @@ StatisticsDialog::init_gui()
 }
 
 
-Gtk::Widget *
-StatisticsDialog::create_info_box()
-{
-  HigCategoryPanel *panel = manage(new HigCategoryPanel(_("History")));
-  
-  start_time_label = manage(new Gtk::Label);
-  end_time_label = manage(new Gtk::Label);
-  date_label = manage(new Gtk::Label);
-
-  panel->add(_("Date:"), *date_label);
-  //panel->add(_("Start time:"), *start_time_label);
-  //panel->add(_("End time:"), *end_time_label);
-  
-  return panel;
-}
 
 
 
@@ -358,8 +342,6 @@ StatisticsDialog::display_statistics(Statistics::DailyStats *stats)
   if (stats->is_empty())
     {
       date_label->set_text("-");
-      start_time_label->set_text("-");
-      end_time_label->set_text("-");
     }
   else
     {

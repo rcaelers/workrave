@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
-"POT-Creation-Date: 2003-02-22 09:03+0100\n"
+"POT-Creation-Date: 2003-02-22 09:24+0100\n"
 "PO-Revision-Date: 2003-02-20 21:07+0100\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Johannes Rohr <j.rohr@comlink.apc.org>\n"
@@ -248,7 +248,7 @@ msgid "_Rest break"
 msgstr "_Ruhepause"
 
 #: gui/gtkmm/Menus.cc:219 gui/gtkmm/StatisticsDialog.cc:50
-#: gui/gtkmm/StatisticsDialog.cc:136
+#: gui/gtkmm/StatisticsDialog.cc:134
 msgid "Statistics"
 msgstr "_Statistik"
 
@@ -467,27 +467,23 @@ msgstr ""
 msgid "Rest break for %s"
 msgstr "Ruhepause für %s"
 
-#: gui/gtkmm/StatisticsDialog.cc:129
+#: gui/gtkmm/StatisticsDialog.cc:128
 msgid "Browse history"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:163
-msgid "History"
-msgstr ""
-
-#: gui/gtkmm/StatisticsDialog.cc:169
+#: gui/gtkmm/StatisticsDialog.cc:135
 msgid "Date:"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:183
+#: gui/gtkmm/StatisticsDialog.cc:167
 msgid "Breaks"
 msgstr "Pausen"
 
-#: gui/gtkmm/StatisticsDialog.cc:193
+#: gui/gtkmm/StatisticsDialog.cc:177
 msgid "Total breaks"
 msgstr "Ruhepausen insgesamt"
 
-#: gui/gtkmm/StatisticsDialog.cc:194
+#: gui/gtkmm/StatisticsDialog.cc:178
 msgid ""
 "Total number of unique breaks prompted. This equals the number of times the "
 "timer reached zero."
@@ -495,87 +491,87 @@ msgstr ""
 "Gesamtzahl erstmaliger Pausenaufforderungen. Wie viele Male eine der "
 "Pausenuhren die Null erreicht hat."
 
-#: gui/gtkmm/StatisticsDialog.cc:199
+#: gui/gtkmm/StatisticsDialog.cc:183
 msgid "Prompted"
 msgstr "Hinweise ausgegeben"
 
-#: gui/gtkmm/StatisticsDialog.cc:200
+#: gui/gtkmm/StatisticsDialog.cc:184
 msgid "Number of times workrave prompted you to take a break"
 msgstr "Wie oft Workrave Sie darauf hingewiesen hat, eine Pause zu machen"
 
-#: gui/gtkmm/StatisticsDialog.cc:204
+#: gui/gtkmm/StatisticsDialog.cc:188
 msgid "Breaks taken"
 msgstr "Eingehaltene Pausen"
 
-#: gui/gtkmm/StatisticsDialog.cc:205
+#: gui/gtkmm/StatisticsDialog.cc:189
 msgid "Number of times you took a break when prompted"
 msgstr "Wie oft Sie nach einem Hinweis eine Pause gemacht haben"
 
-#: gui/gtkmm/StatisticsDialog.cc:209
+#: gui/gtkmm/StatisticsDialog.cc:193
 msgid "Natural breaks taken"
 msgstr "Natürliche Pausen"
 
-#: gui/gtkmm/StatisticsDialog.cc:210
+#: gui/gtkmm/StatisticsDialog.cc:194
 msgid "Number of times you took a break without being prompted"
 msgstr "Wie oft Sie ohne Aufforderung eine Pause eingelegt haben"
 
-#: gui/gtkmm/StatisticsDialog.cc:214
+#: gui/gtkmm/StatisticsDialog.cc:198
 msgid "Breaks skipped"
 msgstr "Übersprungene Pausen"
 
-#: gui/gtkmm/StatisticsDialog.cc:215
+#: gui/gtkmm/StatisticsDialog.cc:199
 msgid "Number of times you skipped a break"
 msgstr "Wie oft Sie Pausen übersprungen haben"
 
-#: gui/gtkmm/StatisticsDialog.cc:219
+#: gui/gtkmm/StatisticsDialog.cc:203
 msgid "Breaks postponed"
 msgstr "Aufgeschobene Pausen"
 
-#: gui/gtkmm/StatisticsDialog.cc:220
+#: gui/gtkmm/StatisticsDialog.cc:204
 msgid "Number of times you postponed a break"
 msgstr "Wie oft Sie eine Pause aufgeschoben haben"
 
-#: gui/gtkmm/StatisticsDialog.cc:224
+#: gui/gtkmm/StatisticsDialog.cc:208
 msgid "Total overdue time"
 msgstr "Überfällige Zeit insgesamt"
 
-#: gui/gtkmm/StatisticsDialog.cc:225
+#: gui/gtkmm/StatisticsDialog.cc:209
 msgid "The total time this break was overdue"
 msgstr "Gesamte Zeit, die diese Pause überfällig war."
 
-#: gui/gtkmm/StatisticsDialog.cc:229
+#: gui/gtkmm/StatisticsDialog.cc:213
 msgid "Daily usage"
 msgstr "Tägliche Nutzung"
 
-#: gui/gtkmm/StatisticsDialog.cc:230
+#: gui/gtkmm/StatisticsDialog.cc:214
 msgid "Total computer usage"
 msgstr "Gesamte Computernutzung"
 
-#: gui/gtkmm/StatisticsDialog.cc:293
+#: gui/gtkmm/StatisticsDialog.cc:277
 msgid "Activity"
 msgstr "Aktivität"
 
-#: gui/gtkmm/StatisticsDialog.cc:303
+#: gui/gtkmm/StatisticsDialog.cc:287
 msgid "Total mouse time:"
 msgstr "Mausbenutzung insgesamt:"
 
-#: gui/gtkmm/StatisticsDialog.cc:304
+#: gui/gtkmm/StatisticsDialog.cc:288
 msgid "Total time you were using the mouse."
 msgstr "Wie lange Sie die Maus insgesamt genutzt haben."
 
-#: gui/gtkmm/StatisticsDialog.cc:307
+#: gui/gtkmm/StatisticsDialog.cc:291
 msgid "Total mouse movement:"
 msgstr "Mausbewegung insgesamt:"
 
-#: gui/gtkmm/StatisticsDialog.cc:308
+#: gui/gtkmm/StatisticsDialog.cc:292
 msgid "Total mouse movement in number of pixels."
 msgstr "Mausbewegung in Anzahl von Pixeln."
 
-#: gui/gtkmm/StatisticsDialog.cc:311
+#: gui/gtkmm/StatisticsDialog.cc:295
 msgid "Total click-to-click movement:"
 msgstr "Gesamte Mausstrecke zwischen zwei Klickpunkten"
 
-#: gui/gtkmm/StatisticsDialog.cc:312
+#: gui/gtkmm/StatisticsDialog.cc:296
 msgid ""
 "Total mouse movement you would have had if you moved your mouse in straight "
 "lines between clicks."
@@ -583,23 +579,23 @@ msgstr ""
 "Gesamte Strecke, die der Mauszeiger zurückgelegt hätte, wenn Sie Ihre\n"
 "Maus zwischen den Klicks in geraden Linien bewegt hätten."
 
-#: gui/gtkmm/StatisticsDialog.cc:316
+#: gui/gtkmm/StatisticsDialog.cc:300
 msgid "Total mouse button clicks:"
 msgstr "Gesamtanzahl der Mausklicks"
 
-#: gui/gtkmm/StatisticsDialog.cc:317
+#: gui/gtkmm/StatisticsDialog.cc:301
 msgid "Total number of mouse button clicks."
 msgstr "Gesamtzahl der Mausklicks."
 
-#: gui/gtkmm/StatisticsDialog.cc:320
+#: gui/gtkmm/StatisticsDialog.cc:304
 msgid "Total keystrokes:"
 msgstr "Tastenanschläge insgesamt:"
 
-#: gui/gtkmm/StatisticsDialog.cc:321
+#: gui/gtkmm/StatisticsDialog.cc:305
 msgid "Total number of keys pressed."
 msgstr "Gesamtzahl der von Ihnen ausgeführten Tastenanschläge."
 
-#: gui/gtkmm/StatisticsDialog.cc:373
+#: gui/gtkmm/StatisticsDialog.cc:355
 #, c-format
 msgid "%s, from %s to %s"
 msgstr ""

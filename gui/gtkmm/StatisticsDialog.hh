@@ -54,13 +54,7 @@ private:
   Gtk::Label *daily_usage_label;
 
   /** Labels indicating the start time of the visible data. */
-  Gtk::Label *start_time_label;
-
-  /** Labels indicating the start time of the visible data. */
   Gtk::Label *date_label;
-
-  /** Labels indicating the end time of the visible data. */
-  Gtk::Label *end_time_label;
 
   /** Calendar */
   Gtk::Calendar *calendar;
@@ -80,7 +74,6 @@ private:
   void init_gui();
   void select_day(int day);
   
-  Gtk::Widget *create_info_box();
   void create_break_page(Gtk::Notebook *tnotebook);
   void create_activity_page(Gtk::Notebook *tnotebook);
 
