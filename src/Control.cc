@@ -125,7 +125,7 @@ Control::process_timers(TimerInfo *infos)
 {
   TRACE_ENTER("Control::process_timers");
   static int count = 0;
-
+ 
   // Retrieve State.
   ActivityState state = monitor->get_current_state();
 #ifndef NDEBUG
@@ -134,7 +134,6 @@ Control::process_timers(TimerInfo *infos)
       state = fake_monitor->get_current_state();
     }
 #endif  
-
 
   // Distributed  stuff
 #ifdef HAVE_DISTRIBUTION  
@@ -151,6 +150,7 @@ Control::process_timers(TimerInfo *infos)
         }
     }
 
+  
   if (master_node != new_master_node)
     {
       master_node = new_master_node;

@@ -155,6 +155,7 @@ ActivityMonitor::mouse_notify(int x, int y, int wheel_delta)
 {
   static const int sensitivity = 3;
 
+  lock.lock();
   const int delta_x = x - prev_x;
   const int delta_y = y - prev_y;
   prev_x = x;
