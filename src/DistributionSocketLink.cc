@@ -13,6 +13,9 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
+//
+// FIXME: move all GNET stuff to a GnetSocketDriver class.
+//
 
 static const char rcsid[] = "$Id$";
 
