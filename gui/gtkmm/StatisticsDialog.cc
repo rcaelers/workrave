@@ -1,6 +1,6 @@
 // StatisticsDialog.cc --- Statistics dialog
 //
-// Copyright (C) 2002, 2003 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -21,10 +21,23 @@
 
 #include "debug.hh"
 
+#if TIME_WITH_SYS_TIME
+# include <sys/time.h>
+# include <time.h>
+#else
+# if HAVE_SYS_TIME_H
+#  include <sys/time.h>
+# else
+#  include <time.h>
+# endif
+#endif
+
 #include <unistd.h>
 #include <assert.h>
+#include <sstream>
 
 #include "StatisticsDialog.hh"
+#include "Text.hh"
 #include "Util.hh"
 #include "GUIControl.hh"
 
@@ -34,7 +47,12 @@ StatisticsDialog::StatisticsDialog()
   : Gtk::Dialog("Statistics", true, false)
 {
   TRACE_ENTER("StatisticsDialog::StatisticsDialog");
+
+  statistics = Statistics::get_instance();
+  
   init_gui();
+  init_page_values();
+  select_day(0);
   TRACE_EXIT();
 }
 
@@ -65,9 +83,11 @@ StatisticsDialog::init_gui()
   Gtk::VBox *vbox = manage(new Gtk::VBox(false, 3));
 
   // Scrollbar
-  Gtk::Adjustment *adj = manage(new Gtk::Adjustment(1, 1, 100));
-  Gtk::VScrollbar *sb = manage(new Gtk::VScrollbar(*adj));
+  day_adjust = manage(new Gtk::Adjustment(1, 1, 100));
+  Gtk::VScrollbar *sb = manage(new Gtk::VScrollbar(*day_adjust));
 
+  day_adjust->signal_value_changed().connect(SigC::slot(*this, &StatisticsDialog::on_scrollbar));
+  
   // Info box
   Gtk::HBox *infobox = manage(new Gtk::HBox(false, 3));
   create_info_box(infobox);
@@ -106,13 +126,13 @@ StatisticsDialog::create_info_box(Gtk::Box *box)
   Gtk::Label *start_label = manage(new Gtk::Label(_("Start time:")));
   Gtk::Label *end_label = manage(new Gtk::Label(_("End time:")));
 
-  Gtk::Label *start_value_label = manage(new Gtk::Label(_("Sat Jan 25 2003, 4:00")));
-  Gtk::Label *end_value_label = manage(new Gtk::Label(_("Sun Jan 26 2003, 4:00")));
+  start_time_label = manage(new Gtk::Label);
+  end_time_label = manage(new Gtk::Label);
   
   attach_right(*table, *start_label, 0, 0);
-  attach_right(*table, *start_value_label, 1, 0);
+  attach_right(*table, *start_time_label, 1, 0);
   attach_right(*table, *end_label, 2, 0);
-  attach_right(*table, *end_value_label, 3, 0);
+  attach_right(*table, *end_time_label, 3, 0);
 
   box->pack_start(*table, true, true, 0);
 }
@@ -151,17 +171,17 @@ StatisticsDialog::create_break_page(Gtk::Notebook *tnotebook)
   
 
   y = 0;
-  table->attach(*mp_label, 2, 3, y, y + 1, Gtk::SHRINK, Gtk::SHRINK);
-  table->attach(*rb_label, 3, 4, y, y + 1, Gtk::SHRINK, Gtk::SHRINK);
-  table->attach(*dl_label, 4, 5, y, y + 1, Gtk::SHRINK, Gtk::SHRINK);
+  attach_left(*table, *mp_label, 2, y);
+  attach_left(*table, *rb_label, 3, y);
+  attach_left(*table, *dl_label, 4, y);
 
   y = 1;
   table->attach(*hrule, 0, 5, y, y + 1, Gtk::EXPAND | Gtk::FILL, Gtk::SHRINK);
   table->attach(*vrule, 1, 2, 0, 8, Gtk::SHRINK, Gtk::EXPAND | Gtk::FILL);
 
   y = 2;
-  attach_right(*table, *prompted_label, 0, y++);
   attach_right(*table, *unique_label, 0, y++);
+  attach_right(*table, *prompted_label, 0, y++);
   attach_right(*table, *taken_label, 0, y++);
   attach_right(*table, *natural_label, 0, y++);
   attach_right(*table, *skipped_label, 0, y++);
@@ -173,7 +193,7 @@ StatisticsDialog::create_break_page(Gtk::Notebook *tnotebook)
   table->attach(*vrule, 1, 2, 9, 11, Gtk::SHRINK, Gtk::EXPAND | Gtk::FILL);
   y++;
 
-  daily_usage_label = new Gtk::Label("y");
+  daily_usage_label = new Gtk::Label();
   
   attach_right(*table, *usage_label, 0, y);
   attach_left(*table, *daily_usage_label, 2, y++);
@@ -183,8 +203,7 @@ StatisticsDialog::create_break_page(Gtk::Notebook *tnotebook)
     {
       for (int j = 0; j < BREAK_STATS; j++)
         {
-          break_labels[i][j] = new Gtk::Label("x");
-          
+          break_labels[i][j] = new Gtk::Label();
           attach_left(*table, *break_labels[i][j], i + 2, j + 2);
         }
     }
@@ -230,4 +249,97 @@ StatisticsDialog::attach_right(Gtk::Table &table, Widget &child, guint left_atta
   
   table.attach(*a, left_attach, left_attach+1, top_attach, top_attach + 1,
                Gtk::FILL, Gtk::SHRINK);
+}
+
+
+void
+StatisticsDialog::init_page_values()
+{
+  TRACE_ENTER("StatisticsDialog::init_page_values");
+  int size = statistics->get_history_size();
+  TRACE_MSG(size);
+  
+  day_adjust->set_lower(0);
+  day_adjust->set_upper(size - 1);
+  day_adjust->set_value(size - 1);
+  day_adjust->set_step_increment(1);
+  day_adjust->set_page_increment(10);
+  TRACE_EXIT();
+}
+
+void
+StatisticsDialog::select_day(int day)
+{
+  Statistics::DailyStats *stats = statistics->get_day(day);
+
+  char s[200];
+  size_t size = strftime(s, 200, "%c", &stats->start);
+  if (size != 0)
+    {
+      start_time_label->set_text(s);
+    }
+  else
+    {
+      start_time_label->set_text("???");
+    }
+  
+  size = strftime(s, 200, "%c", &stats->stop);
+  if (size != 0)
+    {
+      end_time_label->set_text(s);
+    }
+  else
+    {
+      end_time_label->set_text("???");
+    }
+
+
+  int value = stats->misc_stats[Statistics::STATS_VALUE_TOTAL_ACTIVE_TIME];
+  daily_usage_label->set_text(Text::time_to_string(value));
+  
+  // Put the breaks in table.
+  for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
+    {
+      stringstream ss;
+
+
+      value = stats->break_stats[i][Statistics::STATS_BREAKVALUE_UNIQUE_BREAKS];
+      ss.str("");
+      ss << value;
+      break_labels[i][0]->set_text(ss.str());
+      
+      value = stats->break_stats[i][Statistics::STATS_BREAKVALUE_PROMPTED];
+      ss.str("");
+      ss << value;
+      break_labels[i][1]->set_text(ss.str());
+
+      value = stats->break_stats[i][Statistics::STATS_BREAKVALUE_TAKEN];
+      ss.str("");
+      ss << value;
+      break_labels[i][2]->set_text(ss.str());
+
+      value = stats->break_stats[i][Statistics::STATS_BREAKVALUE_NATURAL_TAKEN];
+      ss.str("");
+      ss << value;
+      break_labels[i][3]->set_text(ss.str());
+
+      value = stats->break_stats[i][Statistics::STATS_BREAKVALUE_SKIPPED];
+      ss.str("");
+      ss << value;
+      break_labels[i][4]->set_text(ss.str());
+
+      value = stats->break_stats[i][Statistics::STATS_BREAKVALUE_POSTPONED];
+      ss.str("");
+      ss << value;
+      break_labels[i][5]->set_text(ss.str());
+    }
+}
+
+void
+StatisticsDialog::on_scrollbar()
+{
+  int size = statistics->get_history_size();
+  int day = (int)day_adjust->get_value();
+
+  select_day(size - day - 1);
 }

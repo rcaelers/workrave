@@ -1,6 +1,6 @@
 // Statistics.hh
 //
-// Copyright (C) 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -86,6 +86,9 @@ public:
   {
     DailyStats()
     {
+      memset((void *)&start, 0, sizeof(start));
+      memset((void *)&stop, 0, sizeof(stop));
+
       for(int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
         {
           for(int j = 0; j < STATS_BREAKVALUE_SIZEOF; j++)

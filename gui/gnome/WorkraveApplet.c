@@ -1,6 +1,6 @@
 // WorkraveApplet.cc
 //
-// Copyright (C) 2002 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -364,6 +364,29 @@ verb_preferences(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
 
 
 static void
+verb_statistics(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
+{
+  workrave_applet_connect(FALSE);
+      
+  if (remote_control != NULL)
+    {
+      CORBA_Environment ev;
+      CORBA_exception_init(&ev);
+     
+      GNOME_Workrave_WorkraveControl_open_statistics(remote_control, &ev);
+
+      if (BONOBO_EX(&ev))
+        {
+          char *err = (char *) bonobo_exception_get_text(&ev);
+          g_warning (_("An exception occured '%s'"), err);
+          g_free(err);
+        }
+      CORBA_exception_free(&ev);
+    }
+
+}
+
+static void
 verb_restbreak(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
 {
   workrave_applet_connect(FALSE);
@@ -488,6 +511,7 @@ workrave_applet_verbs [] =
     BONOBO_UI_VERB("Connect", verb_connect),
     BONOBO_UI_VERB("Disconnect", verb_disconnect),
     BONOBO_UI_VERB("Reconnect", verb_reconnect),
+    BONOBO_UI_VERB("Statistics", verb_statistics),
     BONOBO_UI_VERB("Quit", verb_quit),
     BONOBO_UI_VERB_END
   };

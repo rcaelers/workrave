@@ -37,6 +37,7 @@ public:
 
   WR_METHOD_NOARGS(void, open_main);
   WR_METHOD_NOARGS(void, open_preferences);
+  WR_METHOD_NOARGS(void, open_statistics);
   WR_METHOD_NOARGS(void, open_network_connect);
   WR_METHOD       (void, open_network_log, CORBA_boolean state);
   

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-01-25 23:24+0100\n"
+"POT-Creation-Date: 2003-01-26 15:30+0100\n"
 "PO-Revision-Date: 2003-01-04 22:07+0100\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -27,7 +27,7 @@ msgstr "Stil over"
 
 #. Labels
 #: gui/GUIControl.cc:84 gui/gtkmm/AppletPreferencePage.cc:64
-#: gui/gtkmm/MicroPauseWindow.cc:161 gui/gtkmm/StatisticsDialog.cc:148
+#: gui/gtkmm/MicroPauseWindow.cc:161 gui/gtkmm/StatisticsDialog.cc:168
 msgid "Micro-pause"
 msgstr "Micro-pauze"
 
@@ -36,7 +36,7 @@ msgid "Rest break"
 msgstr "Rustpauze"
 
 #: gui/GUIControl.cc:98 gui/gtkmm/AppletPreferencePage.cc:66
-#: gui/gtkmm/StatisticsDialog.cc:150
+#: gui/gtkmm/StatisticsDialog.cc:170
 msgid "Daily limit"
 msgstr "Dagelijkse limiet"
 
@@ -98,7 +98,7 @@ msgstr "Over %s"
 msgid "Layout"
 msgstr "Layout"
 
-#: gui/gtkmm/AppletPreferencePage.cc:65 gui/gtkmm/StatisticsDialog.cc:149
+#: gui/gtkmm/AppletPreferencePage.cc:65 gui/gtkmm/StatisticsDialog.cc:169
 msgid "Restbreak"
 msgstr "Rustpauze"
 
@@ -208,7 +208,7 @@ msgstr "_Modus"
 msgid "_Normal"
 msgstr "_Normaal"
 
-#: gui/gtkmm/Menus.cc:152 gui/gnome/GNOME_WorkraveApplet.xml.in.h:14
+#: gui/gtkmm/Menus.cc:152 gui/gnome/GNOME_WorkraveApplet.xml.in.h:15
 msgid "_Suspended"
 msgstr "_Uitgeschakeld"
 
@@ -240,7 +240,7 @@ msgstr "Toon _logboek"
 msgid "_Rest break"
 msgstr "Rustpauze"
 
-#: gui/gtkmm/Menus.cc:218
+#: gui/gtkmm/Menus.cc:217
 msgid "Statistics"
 msgstr "Statistieken"
 
@@ -441,61 +441,53 @@ msgstr ""
 msgid "Rest break for %s"
 msgstr "Rustpauze gedurende %s"
 
-#: gui/gtkmm/StatisticsDialog.cc:106
+#: gui/gtkmm/StatisticsDialog.cc:126
 msgid "Start time:"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:107
+#: gui/gtkmm/StatisticsDialog.cc:127
 msgid "End time:"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:109
-msgid "Sat Jan 25 2003, 4:00"
-msgstr ""
-
-#: gui/gtkmm/StatisticsDialog.cc:110
-msgid "Sun Jan 26 2003, 4:00"
-msgstr ""
-
-#: gui/gtkmm/StatisticsDialog.cc:125
+#: gui/gtkmm/StatisticsDialog.cc:145
 #, fuzzy
 msgid "Breaks"
 msgstr "Pauze over"
 
-#: gui/gtkmm/StatisticsDialog.cc:133
+#: gui/gtkmm/StatisticsDialog.cc:153
 #, fuzzy
 msgid "Total breaks"
 msgstr "Standaard pauze"
 
-#: gui/gtkmm/StatisticsDialog.cc:134
+#: gui/gtkmm/StatisticsDialog.cc:154
 msgid "Prompted"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:135
+#: gui/gtkmm/StatisticsDialog.cc:155
 #, fuzzy
 msgid "Breaks Taken"
 msgstr "Pauze over"
 
-#: gui/gtkmm/StatisticsDialog.cc:136
+#: gui/gtkmm/StatisticsDialog.cc:156
 #, fuzzy
 msgid "Natural breaks"
 msgstr "Standaard pauze"
 
-#: gui/gtkmm/StatisticsDialog.cc:137
+#: gui/gtkmm/StatisticsDialog.cc:157
 #, fuzzy
 msgid "Breaks skipped"
 msgstr "Pauze zichtbaar"
 
-#: gui/gtkmm/StatisticsDialog.cc:138
+#: gui/gtkmm/StatisticsDialog.cc:158
 #, fuzzy
 msgid "Breaks postponed"
 msgstr "Positie van de pauze"
 
-#: gui/gtkmm/StatisticsDialog.cc:139
+#: gui/gtkmm/StatisticsDialog.cc:159
 msgid "Daily usage"
 msgstr ""
 
-#: gui/gtkmm/StatisticsDialog.cc:201
+#: gui/gtkmm/StatisticsDialog.cc:220
 #, fuzzy
 msgid "Activity"
 msgstr "Actieve tijd (ms)"
@@ -599,6 +591,11 @@ msgstr "_Rustpauze"
 #: gui/gnome/GNOME_WorkraveApplet.xml.in.h:13
 msgid "_Show Log..."
 msgstr "Toon _logboek"
+
+#: gui/gnome/GNOME_WorkraveApplet.xml.in.h:14
+#, fuzzy
+msgid "_Statistics"
+msgstr "Statistieken"
 
 #, fuzzy
 #~ msgid "Skipped"

@@ -98,6 +98,16 @@ WR_METHOD_ARGS0_IMPL(void, open_preferences)
 }
 
 
+WR_METHOD_ARGS0_IMPL(void, open_statistics)
+{
+  Menus *menus = Menus::get_instance();
+  if (menus != NULL)
+    {
+      menus->on_menu_statistics();
+    }
+}
+
+
 WR_METHOD_ARGS0_IMPL(void, open_network_connect)
 {
   Menus *menus = Menus::get_instance();
@@ -232,6 +242,7 @@ workrave_control_class_init(WorkraveControlClass *klass)
 
   WR_METHOD_REGISTER(open_main);
   WR_METHOD_REGISTER(open_preferences);
+  WR_METHOD_REGISTER(open_statistics);
   WR_METHOD_REGISTER(open_network_connect);
   WR_METHOD_REGISTER(open_network_log);
   

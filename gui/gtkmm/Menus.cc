@@ -214,10 +214,10 @@ Menus::create_menu(Gtk::CheckMenuItem *check_menus[4])
   menulist.push_back(*distr_menu_item);
 #endif
   
-#ifndef NDEBUG
   menulist.push_back(Gtk::Menu_Helpers::MenuElem(_("Statistics"), 
                                                  SigC::slot(*this, &Menus::on_menu_statistics)));
   
+#ifndef NDEBUG
   menulist.push_back(Gtk::Menu_Helpers::MenuElem("_Test",
                                                  SigC::slot(*this, &Menus::on_test_me)));
 #endif

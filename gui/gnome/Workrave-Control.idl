@@ -13,6 +13,7 @@ module GNOME
       oneway void open_main();
       oneway void open_preferences();
       oneway void open_network_connect();
+      oneway void open_statistics();
       oneway void open_network_log(in boolean state);
       
       oneway void restbreak();

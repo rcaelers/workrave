@@ -40,6 +40,8 @@
 
       </submenu>
            
+      <menuitem name="Statistics Item" verb="Statistics" _label="_Statistics"/>
+
       <menuitem name="About Item" verb="About" _label="_About..."
     		pixtype="stock" pixname="gnome-stock-about"/>
 

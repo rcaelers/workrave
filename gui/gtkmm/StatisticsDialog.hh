@@ -24,6 +24,7 @@
 #include "preinclude.h"
 
 #include "GUIControl.hh"
+#include "Statistics.hh"
 
 #include <gtkmm.h>
 
@@ -38,19 +39,34 @@ public:
   int run();
   
 private:
-  /** Labels for break stats */
+  /** Stats */
+  Statistics *statistics;
+  
+  /** Labels for break stats. */
   Gtk::Label *break_labels[GUIControl::BREAK_ID_SIZEOF][8];
 
-  /** Labels for break stats */
+  /** Labels for break stats. */
   Gtk::Label *daily_usage_label;
 
+  /** Day selection adjustment. */
+  Gtk::Adjustment *day_adjust;
+
+  Gtk::Label *start_time_label;
+
+  Gtk::Label *end_time_label;
+  
   void init_gui();
+  void init_page_values();
+  void select_day(int day);
+  
   void create_info_box(Gtk::Box *box);
   void create_break_page(Gtk::Notebook *tnotebook);
   void create_activity_page(Gtk::Notebook *tnotebook);
 
   void attach_left(Gtk::Table &table, Widget &child, guint left_attach, uint top_attach);
   void attach_right(Gtk::Table &table, Widget &child, guint left_attach, uint top_attach);
+
+  void on_scrollbar();
 };
 
 #endif // STATISTICSWINDOW_HH

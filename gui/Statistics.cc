@@ -20,6 +20,7 @@ static const char rcsid[] = "$Id$";
 #include "config.h"
 #endif
 
+
 #include <sstream>
 
 #include "debug.hh"
@@ -74,6 +75,7 @@ Statistics::init(ControlInterface *control)
 {
   core_control = control;
   load_current_day();
+  load_history();
 }
 
 
@@ -252,7 +254,7 @@ Statistics::load_current_day()
       int version;
       stats_file >> version;
 
-      ok = (version == STATSVERSION);
+      ok = (version == STATSVERSION) || (version == 3);
     }
 
   if (ok)
@@ -355,6 +357,8 @@ Statistics::load_day(DailyStats *stats, ifstream &stats_file)
 void
 Statistics::load_history()
 {
+  TRACE_ENTER("Statistics::load_history");
+  
   stringstream ss;
   ss << Util::get_home_directory();
   ss << "historystats" << ends;
@@ -376,16 +380,21 @@ Statistics::load_history()
       int version;
       stats_file >> version;
 
-      ok = (version == STATSVERSION);
+      ok = (version == STATSVERSION) || (version == 3);
     }
 
 
+  bool first = true;
   while (ok && !stats_file.eof())
     {
       string cmd;
-      stats_file >> cmd;
 
-      ok = (cmd == "D");
+      if (first)
+        {
+          stats_file >> cmd;
+          
+          ok = cmd == "D";
+        }
 
       if (ok)
         {
@@ -394,8 +403,10 @@ Statistics::load_history()
           load_day(day, stats_file);
 
           history.push_back(day);
+          first = false;
         }
     }
+  TRACE_EXIT();
 }
 
 
@@ -457,7 +468,6 @@ Statistics::dump()
       ss  << value << " ";
     }
 
-  TRACE_MSG(ss.str());
   TRACE_EXIT();
 }
 
