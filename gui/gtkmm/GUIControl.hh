@@ -81,7 +81,7 @@ public:
   static GUIControl *get_instance();
   void heartbeat();
   void init();
-  void set_quiet(bool quiet);
+  bool set_quiet(bool quiet);
   void break_action(BreakId id, BreakAction action);
   Configurator *get_configurator();
 

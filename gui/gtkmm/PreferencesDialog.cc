@@ -95,11 +95,24 @@ PreferencesDialog::PreferencesDialog()
       "of time is broken down into hours, minutes and seconds (also known as\n"
       "the \"hh:mm:ss\" format).  These can all be controlled individually.",
       "time.png"));
+  Gtk::Notebook *tnotebook = manage(new Gtk::Notebook());
+  tnotebook->set_tab_pos (Gtk::POS_TOP);  
   for (int i = 0; i < GUIControl::TIMER_ID_SIZEOF; i++)
     {
+      // Label
+      GUIControl::TimerData *timer = &GUIControl::get_instance()->timers[i];
+      
+      Gtk::HBox *box = manage(new Gtk::HBox(false, 3));
+      Gtk::Label *lab = manage(new Gtk::Label(timer->name));
+      Gtk::Image *img = manage(new Gtk::Image(timer->icon));
+      box->pack_start(*img, false, false, 0);
+      box->pack_start(*lab, false, false, 0);
+
       TimerPreferencesPanel *tp = manage(new TimerPreferencesPanel(GUIControl::TimerId(i)));
-      timer_page->pack_start(*tp, false, false, 0);
+      box->show_all();
+      tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*tp, *box));
     }
+  timer_page->pack_start(*tnotebook, false, false, 0);
 
 
   

@@ -513,9 +513,15 @@ MainWindow::on_test_me()
 void
 MainWindow::on_menu_preferences()
 {
+  bool quiet;
+  GUIControl *ctrl = GUIControl::get_instance();
+  quiet = ctrl->set_quiet(true);
+
   PreferencesDialog *dialog = new PreferencesDialog();
   dialog->run();
   delete dialog;
+
+  ctrl->set_quiet(quiet);
 }
 
 

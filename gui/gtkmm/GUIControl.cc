@@ -214,10 +214,11 @@ GUIControl::update_statistics()
   count++;
 }
 
-void
+bool
 GUIControl::set_quiet(bool quiet)
 {
   TRACE_ENTER_MSG("GUIControl::set_quiet", quiet);
+  bool rc = be_quiet;
   be_quiet = quiet;
 
   if (quiet)
@@ -242,6 +243,7 @@ GUIControl::set_quiet(bool quiet)
         }
     }
   TRACE_EXIT();
+  return rc;
 }
 
  

@@ -34,7 +34,7 @@ class Configurator;
 class TimeEntry;
 
 class TimerPreferencesPanel
-  : public Gtk::Frame,
+  : public Gtk::HBox,
     public ConfiguratorListener
 {
 public:  
@@ -48,15 +48,27 @@ public:
   void on_ignorable_toggled();
   void on_insists_toggled();
   void on_monitor_toggled();
+  void on_preludes_active_toggled();
+  void on_preludes_maximum_toggled();
+  void on_preludes_force_toggled();
   
 private:
+  Gtk::Frame *create_prelude_frame();
+  Gtk::Frame *create_options_frame();
+  Gtk::Frame *create_timers_frame();
+  
   GUIControl::TimerId timer_id;
   GUIControl::TimerData *timer;
 
   Gtk::CheckButton *insists_cb;
   Gtk::CheckButton *ignorable_cb;
   Gtk::CheckButton *monitor_cb;
+  Gtk::CheckButton *prelude_cb;
+  Gtk::CheckButton *has_max_prelude_cb;
+  Gtk::CheckButton *force_after_prelude_cb;
   TimeEntry *limit_tim, *auto_reset_tim, *snooze_tim;
+  Gtk::SpinButton *max_prelude_spin;
+  Gtk::Adjustment max_prelude_adjustment;
 };
 
 #endif // TIMERPREFERENCESPANEL_HH
