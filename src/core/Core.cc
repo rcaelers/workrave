@@ -1057,10 +1057,13 @@ Core::load_state()
 void
 Core::post_event(CoreEvent event)
 {
+  TRACE_ENTER("Core::post_event");
   if (core_event_listener != NULL)
     {
+      TRACE_MSG("posting");
       core_event_listener->core_event_notify(event);
     }
+  TRACE_EXIT();
 }
 
 

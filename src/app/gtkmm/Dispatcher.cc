@@ -95,11 +95,11 @@ Dispatcher::create_thread_pipe()
   event_handle = CreateEvent (NULL, FALSE, FALSE, NULL);  
   if (event_handle)
     {
+      queue =  g_async_queue_new();
       io_connection = Glib::signal_io().connect(SigC::slot_class(*this, &Dispatcher::io_handler),
                                                 (int)event_handle,
                                                 Glib::IO_IN);
 
-      queue =  g_async_queue_new();
     }
   
   return event_handle != 0;
@@ -108,6 +108,7 @@ Dispatcher::create_thread_pipe()
 void
 Dispatcher::send_notification()
 {
+  TRACE_ENTER("Dispatcher::send_notification");
   DispatchData *data = new DispatchData();
 
   data->tag        = 0xdeadbeef;
@@ -115,6 +116,7 @@ Dispatcher::send_notification()
   g_async_queue_push(queue, data);
 
   SetEvent(event_handle);
+  TRACE_EXIT();
 }
 
 
@@ -122,18 +124,25 @@ Dispatcher::send_notification()
 bool
 Dispatcher::io_handler(Glib::IOCondition)
 {
+  TRACE_ENTER("Dispatcher::io_handler");
   DispatchData *data = NULL;
   
   while ((data = (DispatchData*)g_async_queue_try_pop(queue)))
     {
+      TRACE_MSG("1");
       DispatchData local_data = *data;
       delete data;
+      TRACE_MSG("2");
       
       g_return_val_if_fail(local_data.tag == 0xdeadbeef, true);
+
+      TRACE_MSG("3");
       
       signal();
+      TRACE_MSG("4");
     }
 
+  TRACE_MSG("5");
   return true;
 }
 #endif

@@ -660,6 +660,9 @@ GUI::init_gui()
 
   // Periodic timer.
   Glib::signal_timeout().connect(SigC::slot(*this, &GUI::on_timer), 1000);
+
+  dispatcher = new Dispatcher;
+  dispatch_connection = dispatcher->connect(SigC::slot_class(*this, &GUI::on_activity));
 }
 
 
@@ -723,12 +726,15 @@ GUI::init_sound_player()
 void
 GUI::core_event_notify(CoreEvent event)
 {
+  TRACE_ENTER_MSG("GUI::core_event_notify", event)
   // FIXME: HACK
   SoundPlayerInterface::Sound snd = (SoundPlayerInterface::Sound) event;
   if (sound_player != NULL)
     {
+      TRACE_MSG("play");
       sound_player->play_sound(snd);
     }
+  TRACE_EXIT();
 }
 
 
@@ -758,8 +764,6 @@ GUI::start_prelude_window(BreakId break_id)
 
   active_prelude_count = num_heads;
 
-  dispatcher = new Dispatcher;
-  dispatch_connection = dispatcher->connect(SigC::slot_class(*this, &GUI::on_activity));
 }
 
 
@@ -801,13 +805,6 @@ GUI::hide_break_window()
       prelude_window_destroy = true;
     }
   
-  if (dispatcher != NULL)
-    {
-      dispatch_connection.disconnect();
-      delete dispatcher;
-      dispatcher = NULL;
-    }
-
   for (int i = 0; i < active_break_count; i++)
     {
       if (break_windows[i] != NULL)
@@ -938,10 +935,13 @@ GUI::collect_garbage()
 bool
 GUI::action_notify()
 {
+  TRACE_ENTER("GUI::action_notify");
   if (dispatcher != NULL)
     {
+      TRACE_MSG("notify");
       dispatcher->send_notification();
     }
+  TRACE_EXIT();
   return false; // false: kill listener.
 }
 
@@ -949,8 +949,11 @@ GUI::action_notify()
 void
 GUI::on_activity()
 {
+  TRACE_ENTER("GUI::on_activity");
   if (response != NULL)
     {
+      TRACE_MSG("notify");
       response->stop_prelude(active_break_id);
     }
+  TRACE_EXIT();
 }

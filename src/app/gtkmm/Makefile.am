@@ -51,7 +51,7 @@ sourcesx 		= AppletWindow.cc eggtrayicon.c
 endif
 
 if PLATFORM_WIN32
-sourceswin32 		= Win32SoundPlayer.cc
+sourceswin32 		= Win32SoundPlayer.cc resource.rc
 includeswin32 		= -I$(top_srcdir)/shared/win32/harpoon/
 endif
 
@@ -69,7 +69,6 @@ WINDRES ?= "windres"
 	${WINDRES} -o $@ $<
 
 includesinput 		= -I$(top_srcdir)/src/shared/win32/harpoon/
-sourceswin32input 	= Win32InputMonitor.cc resource.rc
 WIN32LIBS 		= $(top_srcdir)/src/shared/win32/harpoon/Release/harpoon.lib \
 			  -lshell32 -lole32 -lwinmm
 endif
