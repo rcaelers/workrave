@@ -54,7 +54,7 @@ NetworkJoinDialog::NetworkJoinDialog()
 
   Gtk::Label *title_lab = manage(new Gtk::Label());
   Glib::ustring text = HigUtil::create_alert_text
-    (_("_Connect"),
+    (_("Network connect"),
      _("Enter the host name and port number of a computer\n"
        "in the network you wish to connect to."));
   title_lab->set_markup(text);

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
-"POT-Creation-Date: 2003-03-25 19:41+0100\n"
+"POT-Creation-Date: 2003-03-25 20:15+0100\n"
 "PO-Revision-Date: 2003-03-04 18:50+0100\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Johannes Rohr <j.rohr@comlink.apc.org>\n"
@@ -189,7 +189,7 @@ msgstr "St_ill"
 msgid "_Network"
 msgstr "N_etzwerk"
 
-#: gui/gtkmm/Menus.cc:179 gui/gtkmm/NetworkJoinDialog.cc:57
+#: gui/gtkmm/Menus.cc:179
 msgid "_Connect"
 msgstr "_Verbinden"
 
@@ -240,7 +240,7 @@ msgstr "Ruhepause %s Minuten überfällig"
 msgid "Please relax for a few seconds"
 msgstr "Bitte entspannen Sie sich für ein paar Sekunden"
 
-#: gui/gtkmm/NetworkJoinDialog.cc:42
+#: gui/gtkmm/NetworkJoinDialog.cc:42 gui/gtkmm/NetworkJoinDialog.cc:57
 msgid "Network connect"
 msgstr "Netzwerkverbindung"
 

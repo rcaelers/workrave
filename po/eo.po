@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-03-25 19:39+0100\n"
+"POT-Creation-Date: 2003-03-25 20:12+0100\n"
 "PO-Revision-Date: 2002-11-05 17:58-0800\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -342,7 +342,7 @@ msgid "Applet"
 msgstr ""
 
 #. Notebook
-#: gui/gtkmm/PreferencesDialog.cc:72 gui/gtkmm/TimerPreferencesPanel.cc:173
+#: gui/gtkmm/PreferencesDialog.cc:72 gui/gtkmm/TimerPreferencesPanel.cc:174
 msgid "Timers"
 msgstr "Horloĝoj"
 
@@ -564,30 +564,30 @@ msgstr "Devigu ripzon post maksimumo superita"
 msgid "Block user input"
 msgstr "Bloku uzulan enigon"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:144
-msgid "Regard micro-pauses as activity"
-msgstr "Rigardu paŭzetoj kiel agado"
-
-#: gui/gtkmm/TimerPreferencesPanel.cc:161
+#: gui/gtkmm/TimerPreferencesPanel.cc:141
 msgid "Show 'Postpone' and 'Skip' button"
 msgstr "Montru 'Proktrastu' kaj 'Transsaltu' butonon"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:181
+#: gui/gtkmm/TimerPreferencesPanel.cc:153
+msgid "Regard micro-pauses as activity"
+msgstr "Rigardu paŭzetoj kiel agado"
+
+#: gui/gtkmm/TimerPreferencesPanel.cc:182
 #, fuzzy
 msgid "Time before break:"
 msgstr "Tempo por ripozo"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:188
+#: gui/gtkmm/TimerPreferencesPanel.cc:189
 #, fuzzy
 msgid "Resets at:"
 msgstr "Reŝargas je"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:195
+#: gui/gtkmm/TimerPreferencesPanel.cc:196
 #, fuzzy
 msgid "Pause duration:"
 msgstr "Daŭro de paŭzo"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:212
+#: gui/gtkmm/TimerPreferencesPanel.cc:213
 #, fuzzy
 msgid "Post-pone time:"
 msgstr "Prokrasta tempo"

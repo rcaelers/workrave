@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-03-25 19:41+0100\n"
+"POT-Creation-Date: 2003-03-25 20:15+0100\n"
 "PO-Revision-Date: 2003-03-04 22:16+0100\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -187,7 +187,7 @@ msgstr "_Stil"
 msgid "_Network"
 msgstr "_Netwerk"
 
-#: gui/gtkmm/Menus.cc:179 gui/gtkmm/NetworkJoinDialog.cc:57
+#: gui/gtkmm/Menus.cc:179
 msgid "_Connect"
 msgstr "Maak verbinding"
 
@@ -238,7 +238,7 @@ msgstr "Rustpauze %s te laat"
 msgid "Please relax for a few seconds"
 msgstr "Ontspan gedurende enkele seconden"
 
-#: gui/gtkmm/NetworkJoinDialog.cc:42
+#: gui/gtkmm/NetworkJoinDialog.cc:42 gui/gtkmm/NetworkJoinDialog.cc:57
 msgid "Network connect"
 msgstr "Netwerk verbinding"
 
