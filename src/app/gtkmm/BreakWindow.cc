@@ -31,7 +31,7 @@ static const char rcsid[] = "$Id$";
 #include "GtkUtil.hh"
 #include "WindowHints.hh"
 #include "Frame.hh"
-#include "Display.hh"
+#include "System.hh"
 
 
 //! Constructor
@@ -324,11 +324,30 @@ Gtk::Button *
 BreakWindow::create_lock_button()
 {
   Gtk::Button *ret;
-  if (Display::is_lockable())
+  if (System::is_lockable())
     {
       ret = GtkUtil::create_image_button(_("Lock"), "lock.png");
       ret->signal_clicked()
         .connect(SigC::slot(*this, &BreakWindow::on_lock_button_clicked));
+      GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
+    }
+  else
+    {
+      ret = NULL;
+    }
+  return ret;
+}
+
+//! Creates the lock button
+Gtk::Button *
+BreakWindow::create_shutdown_button()
+{
+  Gtk::Button *ret;
+  if (System::is_shutdown_supported())
+    {
+      ret = GtkUtil::create_image_button(_("Shutdown"), "shutdown.png");
+      ret->signal_clicked()
+        .connect(SigC::slot(*this, &BreakWindow::on_shutdown_button_clicked));
       GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
     }
   else
@@ -379,5 +398,12 @@ BreakWindow::on_avoid_pointer_timer()
 void
 BreakWindow::on_lock_button_clicked()
 {
-  Display::lock();
+  System::lock();
+}
+
+//! The lock button was clicked.
+void
+BreakWindow::on_shutdown_button_clicked()
+{
+  System::shutdown();
 }

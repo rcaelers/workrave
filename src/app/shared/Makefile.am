@@ -17,11 +17,11 @@ endif
 
 libapp_a_SOURCES 	= Text.cc \
 			  SoundPlayer.cc \
-			  Display.cc \
+			  System.cc \
 			  $(sourcesexercises)
 
 
 EXTRA_DIST 		= $(wildcard *.hh) $(wildcard *.cc) $(wildcard *.c) $(wildcard *.h)  $(wildcard *.icc)
 
 libapp_a_CXXFLAGS 	= -DWORKRAVE_DATADIR="\"${pkgdatadir}\"" -D_XOPEN_SOURCE=600 \
-			  -W -Iintf -Iwin32 -Ignome @SHARED_CFLAGS@ @CORE_INTF@ @GNOMEUI_CFLAGS@ @GTK_CFLAGS@ @GLIB_CFLAGS@ 
+			  -W -Iintf -Iwin32 -Ignome @SHARED_CFLAGS@ @CORE_INTF@ @GNOMEUI_CFLAGS@ @GTK_CFLAGS@ @GLIB_CFLAGS@ -I$(top_srcdir)/src/shared/win32/harpoon/

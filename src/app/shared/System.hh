@@ -1,4 +1,4 @@
-// Display.hh
+// System.hh
 //
 // Copyright (C) 2002, 2003 Rob Caelers & Raymond Penners
 // All rights reserved.
@@ -16,8 +16,8 @@
 // $Id$
 //
 
-#ifndef DISPLAY_HH
-#define DISPLAY_HH
+#ifndef SYSTEM_HH
+#define SYSTEM_HH
 
 #include "config.h"
 #include <glib.h>
@@ -26,11 +26,13 @@
 #include <windows.h>
 #endif
 
-class Display
+class System
 {
 public:
   static bool is_lockable();
+  static bool is_shutdown_supported();
   static void lock();
+  static void shutdown();
   
 private:
   static void init();
@@ -38,11 +40,14 @@ private:
 #if defined(HAVE_X)
   static gchar *xlock;
 #elif defined(WIN32)
+  static bool shutdown_helper(bool for_real);
+
   typedef HRESULT (FAR PASCAL *LockWorkStationFunc)(void);
   static LockWorkStationFunc lock_func;
   static HINSTANCE user32_dll;
+  static bool shutdown_supported;
 #endif  
   static bool initialized;
 };
 
-#endif // DISPLAY_HH
+#endif // SYSTEM_HH

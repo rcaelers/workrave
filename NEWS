@@ -21,8 +21,14 @@ moved back to its original location when the monitor returns.
 ** Exercises navigation can now be used without causing Workrave to
 remove the break window and show the warning windows again.
 
-** There now is a "Lock" button on the rest break and daily limit, so
-that you can safely lock your display while you are taking breaks.
+** If supported by your system, the daily limit window includes a
+"Shutdown" button.
+
+** There now is a "Lock" button on the rest break, so that you can
+safely lock your display while you are taking breaks. If the daily
+limit window does not include the "Shutdown" button, it includes the
+"Lock" button instead.
+
 
 * Workrave 1.4.0
 
