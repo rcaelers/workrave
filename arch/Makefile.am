@@ -1,8 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
-#
-# Time-stamp: <2002-10-17 23:33:56 robc>
+# Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
 #
 # $Id$
 #
@@ -15,7 +13,8 @@ noinst_LIBRARIES = libarch.a
 
 libarch_a_SOURCES = \
 	debug.cc \
-	Util.cc
+	Util.cc \
+	nls.c
 
 libarch_a_LIBADD =
 

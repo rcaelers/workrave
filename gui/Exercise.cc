@@ -30,9 +30,6 @@
 #include <assert.h>
 
 #include <glib.h>
-#ifdef HAVE_GNOME
-#include <libgnome/gnome-i18n.h>
-#endif
 
 struct ExerciseParser
 {
@@ -232,12 +229,7 @@ ExerciseParser::ExerciseParser(std::list<Exercise> &exe)
   exercise = NULL;
   lang = "";
 
-#ifdef HAVE_GNOME
-  i18n_languages = gnome_i18n_get_language_list("LC_MESSAGES");
-#else
-  // FIXME: todo.
-  i18n_languages = NULL;
-#endif
+  i18n_languages = nls_get_language_list("LC_MESSAGES");
 }
 
 

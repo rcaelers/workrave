@@ -1,7 +1,7 @@
 /*
  * nls.h --- i18n-isation 
  *
- * Copyright (C) 2002 Raymond Penners
+ * Copyright (C) 2002, 2003 Raymond Penners
  * All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -25,6 +25,8 @@
 #ifndef WORKRAVE_NLS_H
 #define WORKRAVE_NLS_H
 
+#include <glib/glist.h>
+
 #ifdef HAVE_GNOME
 #  include <gnome.h>
 #else
@@ -47,6 +49,17 @@
 #      define _(String) (String)
 #      define N_(String) (String)
 #  endif
+#endif
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+const GList *
+nls_get_language_list (const gchar *category_name);
+
+#ifdef __cplusplus
+}
 #endif
 
 #endif // WORKRAVE_NLS_H
