@@ -82,8 +82,9 @@ Name: "{userstartup}\Workrave"; Filename: "{app}\lib\Workrave.exe"; MinVersion: 
 Name: "{app}\Workrave"; Filename: "{app}\lib\Workrave.exe"
 
 
+
 [Run]
-Filename: "{app}\lib\workrave.exe"; Description: "Launch Workrave"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\Workrave.lnk"; Description: "Launch Workrave"; Flags: nowait postinstall skipifsilent shellexec;
 
 [Code]
 function InitializeSetup(): Boolean;
@@ -116,7 +117,7 @@ begin
     Result := i <> 0;
 end;
 
-function GetAppPath(): String;
+function GetAppPath(S: String): String;
 begin
   Result := WizardDirValue + '\lib';
   if (not IsGtkRuntimeToBeInstalled()) then begin
