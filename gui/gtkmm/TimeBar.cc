@@ -74,7 +74,6 @@ void TimeBar::on_realize()
 {
   // We need to call the base on_realize()
   Gtk::DrawingArea::on_realize();
-
   // Now we can allocate any additional resources we need
   Glib::RefPtr<Gdk::Window> window = get_window();
   window_gc = Gdk::GC::create(window);
@@ -83,12 +82,13 @@ void TimeBar::on_realize()
   set_secondary_bar_color(COLOR_ID_INACTIVE);
   set_text_color(Gdk::Color("black"));  //
 
+#if 1 // FIXME: bug66
   Glib::RefPtr<Gdk::Colormap> colormap = get_default_colormap();
   for (int i = 0; i < COLOR_ID_SIZEOF; i++)
     {
       colormap->alloc_color(bar_colors[i]);
     }
-
+#endif
   window->clear();
 }
 
@@ -217,7 +217,6 @@ TimeBar::on_expose_event(GdkEventExpose *e)
   else
     x = (winw - width) / 2;
   window->draw_layout(window_gc, x, (winh - height) / 2, pl1);
-  
   return true;
 }
 

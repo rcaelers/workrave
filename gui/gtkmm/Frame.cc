@@ -66,8 +66,9 @@ Frame::set_frame_color(const Gdk::Color &col )
   frame_color = col;
   if (color_map)
     {
+#if 1 // FIXME: bug66
       color_map->alloc_color(frame_color);
-      
+#endif      
     }
 }
 
@@ -118,10 +119,11 @@ Frame::on_realize()
   Glib::RefPtr<Gdk::Window> window = get_window();
   gc = Gdk::GC::create(window);
 
-  color_map = get_default_colormap();
   color_black.set_rgb(0, 0, 0);
+#if 1 // FIXME: bug66
+  color_map = get_default_colormap();
   color_map->alloc_color(color_black);
-
+#endif
   set_frame_color(frame_color);
 }
 

@@ -26,6 +26,7 @@ DefaultDirName={pf}\Workrave
 DefaultGroupName=Workrave
 LicenseFile=..\..\..\COPYING
 AlwaysCreateUninstallIcon=yes
+AppMutex=WorkraveMutex
 
 ; uncomment the following line if you want your installation to run on NT 3.51 too.
 ; MinVersion=4,3.51

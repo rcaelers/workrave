@@ -89,7 +89,15 @@ int WINAPI WinMain (HINSTANCE hInstance,
                     int iCmdShow) 
 {
   char *argv[] = { szCmdLine };
-  run(sizeof(argv)/sizeof(argv[0]), argv);
+
+  // InnoSetup: [...] requires that you add code to your application
+  // which creates a mutex with the name you specify in this
+  // directive.
+  HANDLE mtx = CreateMutex(NULL, FALSE, "WorkraveMutex");
+  if (mtx != NULL && GetLastError() != ERROR_ALREADY_EXISTS)
+    {
+      run(sizeof(argv)/sizeof(argv[0]), argv);
+    }
   return (0);
 }
 

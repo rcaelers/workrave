@@ -129,7 +129,13 @@ GUI::run()
   main_window = new MainWindow(this, core_control);
 
   // Periodic timer.
-  Glib::signal_timeout().connect(SigC::slot(*this, &GUI::on_timer), 1000);
+  Glib::signal_timeout().connect(SigC::slot(*this, &GUI::on_timer),
+#ifdef CRASHTEST // FIXME: bug66
+                                 150
+#else
+                                 1000
+#endif
+                                 );
   
   // Enter the event loop
   Gtk::Main::run(*main_window);
