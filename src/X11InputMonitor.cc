@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-03-22 14:01:45 robc>
+// Time-stamp: <2003-03-22 14:53:55 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -513,7 +513,7 @@ X11InputMonitor::init_xrecord()
 
   int major, minor;
 
-  if (false && XRecordQueryVersion(x11_display, &major, &minor))
+  if (XRecordQueryVersion(x11_display, &major, &minor))
     {
       xrecord_context = 0;
       xrecord_datalink = NULL;
