@@ -61,6 +61,6 @@ Name: "{app}\Workrave"; Filename: "{app}\lib\Workrave.exe"
 
 
 [Run]
-Filename: "{app}\workrave.exe"; Description: "Launch Workrave"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\lib\workrave.exe"; Description: "Launch Workrave"; Flags: nowait postinstall skipifsilent
 
 
