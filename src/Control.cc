@@ -49,6 +49,13 @@ static const char rcsid[] = "$Id$";
 #include "FakeActivityMonitor.hh"
 #endif
 
+#ifdef ENABLE_NLS
+// I know, this is not very nice, but the documentation says
+// gtk_set_locale & co need to be invoked at the start of the program,
+// which is here.
+#include <gtk/gtk.h>
+#endif
+
 const char *WORKRAVESTATE="WorkRaveState";
 const int SAVESTATETIME = 15;
 
@@ -100,6 +107,9 @@ Control::init(char *display_name)
 int
 Control::main(int argc, char **argv)
 {
+  // I know, this is not very nice, but the documentation says
+  // gtk_set_locale & co need to be invoked at the start of the program,
+  // which is here.
 #ifdef ENABLE_NLS
 #  ifndef HAVE_GNOME 
   gtk_set_locale();
