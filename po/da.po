@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-07-29 20:49+0200\n"
-"PO-Revision-Date: 2003-07-29 21:23+0200\n"
+"PO-Revision-Date: 2003-07-31 20:44+0200\n"
 "Last-Translator: \n"
 "Language-Team:  <C@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -832,12 +832,13 @@ msgid ""
 "them in micro pauses too."
 msgstr "Luk dine øjne og ånd så dybt ud du kan mens du slapper af. Træk vejret ind igen så langsomt som muligt. Forsøg evt. at tælle langsomt til otte for hver gang du trækker vejret og ånder ud igen. For at slappe ekstra af i øjnene, prøv at lukke dem i mikropauser også."
 
+# FIXME: Wrong encoding... Hold dine hænder op foran øjnene således at du stadig kan åbne øjnene. �bn nu øjnene og kig ind i mørket i dine håndflader. �velsen giver bedre afslapning til dine øjne sammenlignet med bare at lukke dem.
 #: src/app/shared/exercises/exercises.xml.in.h:3
 msgid ""
 "Cover your eyes with your palms in such way that you can still open your "
 "eyelids. Now open your eyes and look into the darkness of your palms. This "
 "exercise gives better relief to your eyes compared to simply closing them."
-msgstr "Hold dine hænder op foran øjnene således at du stadig kan åbne øjnene. �bn nu øjnene og kig ind i mørket i dine håndflader. �velsen giver bedre afslapning til dine øjne sammenlignet med bare at lukke dem."
+msgstr "Hold dine hænder...FIXME"
 
 #: src/app/shared/exercises/exercises.xml.in.h:4
 msgid "Finger stretch"
