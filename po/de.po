@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
 "POT-Creation-Date: 2002-11-09 01:27+0100\n"
-"PO-Revision-Date: 2002-11-09 23:28+0100\n"
+"PO-Revision-Date: 2002-11-15 13:17+0100\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "MIME-Version: 1.0\n"
@@ -131,8 +131,9 @@ msgid "_Normal"
 msgstr "_Normal"
 
 #: gui/gtkmm/MainWindow.cc:371
+#, fuzzy
 msgid "_Suspended"
-msgstr "_Aufgeschoben"
+msgstr "_Angehalten"
 
 #: gui/gtkmm/MainWindow.cc:378
 msgid "Q_uiet"
@@ -175,8 +176,8 @@ msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
 msgstr ""
-"Dieses Programm unterstützt Sie in der Vorbeugung und Überwindung der\n"
-"Repetetive Strain Injury (RSI)"
+"Dieses Programm hilft Ihnen bei der Vorbeugung des RSI-Syndroms\n"
+"(Repetetive Strain Injury) und unterstützt den Genesungsprozess."
 
 #: gui/gtkmm/MicroPauseWindow.cc:183
 #, c-format
@@ -279,8 +280,8 @@ msgid ""
 "start-up. Click the host name or port number to edit."
 msgstr ""
 "Die folgende Liste legt die Rechner fest, zu denen Workrave beim\n"
-"Programmstart eine Verbindung aufnimmt. Klicken Sie zum bearbeiten\n"
-"auf den Rechnernamen oder die Portnummer."
+"Programmstart eine Verbindung aufnimmt. Klicken Sie zum Bearbeiten auf\n"
+"den Rechnernamen oder die Portnummer."
 
 #. Timers frame
 #: gui/gtkmm/PreferencesDialog.cc:62 gui/gtkmm/TimerPreferencesPanel.cc:236
@@ -317,8 +318,7 @@ msgstr "Verstecke das Hauptfenster beim Start"
 
 #: gui/gtkmm/PreferencesDialog.cc:146
 msgid "You can configure the user interface related settings from here."
-msgstr ""
-"Sie können hier die Einstellungen der Benutzeroberfläche konfigurieren."
+msgstr "Sie können hier die Einstellungen der Benutzeroberfläche konfigurieren."
 
 #: gui/gtkmm/PreferencesDialog.cc:161
 msgid ""
@@ -336,10 +336,10 @@ msgid ""
 "instances share the same timer information, meaning you will be reminded\n"
 "of your breaks even if you switch computers."
 msgstr ""
-"Sie können mehrere Instanzen von Workrave in einem Netzwerk miteinander\n"
-"verbinden. Alle verbundenen instanzen greifen auf dieselben Zeitmessungen\n"
-"zurück. Das heißt, Sie werden an Ihre Pausen auch dann erinnert, wenn Sie\n"
-"den Computer wechseln."
+"Sie können mehrere Instanzen von Workrave in einem Netzwerk\n"
+"miteinander verbinden. Alle verbundenen Instanzen greifen auf\n"
+"dieselben Zeitmessungen zurück. Das heißt, dass Sie auch dann an Ihre\n"
+"Pausen erinnert werden, wenn Sie den Computer wechseln."
 
 #: gui/gtkmm/RestBreakWindow.cc:76
 msgid ""
@@ -368,7 +368,7 @@ msgstr "Vor der Pause Hinweis ausgeben"
 
 #: gui/gtkmm/TimerPreferencesPanel.cc:83
 msgid "Maximum number of prompts:"
-msgstr "Maximale Anzahl von Hinweisen"
+msgstr "Maximale Anzahl von Hinweisen:"
 
 #: gui/gtkmm/TimerPreferencesPanel.cc:90
 msgid "Force break after maximum exceeded"
@@ -393,7 +393,7 @@ msgstr "Optionen"
 
 #: gui/gtkmm/TimerPreferencesPanel.cc:186
 msgid "Post-pone time"
-msgstr "Länge des Aufschubs"
+msgstr "Dauer des Aufschubs"
 
 #: gui/gtkmm/TimerPreferencesPanel.cc:197
 msgid "Resets at"
