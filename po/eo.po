@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-03-03 20:07+0100\n"
+"POT-Creation-Date: 2003-03-03 21:22+0100\n"
 "PO-Revision-Date: 2002-11-05 17:58-0800\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -447,30 +447,30 @@ msgstr "Ĉesu en"
 
 #: gui/gtkmm/StatisticsDialog.cc:177
 #, fuzzy
-msgid "Total breaks"
-msgstr "Ripozo"
+msgid "Break prompts"
+msgstr "Ripoza instigado"
 
 #: gui/gtkmm/StatisticsDialog.cc:178
 msgid ""
-"Total number of unique breaks prompted. This equals the number of times the "
-"timer reached zero."
+"The number of times you were prompted to break, excluding repeated prompts "
+"for the same break"
 msgstr ""
 
 #: gui/gtkmm/StatisticsDialog.cc:183
-msgid "Prompted"
+msgid "Repeated prompts"
 msgstr ""
 
 #: gui/gtkmm/StatisticsDialog.cc:184
-msgid "Number of times workrave prompted you to take a break"
+msgid "The number of times you were repeatedly prompted to break"
 msgstr ""
 
 #: gui/gtkmm/StatisticsDialog.cc:188
 #, fuzzy
-msgid "Breaks taken"
-msgstr "Ĉesu en"
+msgid "Prompted breaks taken"
+msgstr "Ripozo"
 
 #: gui/gtkmm/StatisticsDialog.cc:189
-msgid "Number of times you took a break when prompted"
+msgid "The number of times you took a break when being prompted"
 msgstr ""
 
 #: gui/gtkmm/StatisticsDialog.cc:193
@@ -479,7 +479,7 @@ msgid "Natural breaks taken"
 msgstr "Ripozo"
 
 #: gui/gtkmm/StatisticsDialog.cc:194
-msgid "Number of times you took a break without being prompted"
+msgid "The number of times you took a break without being prompted"
 msgstr ""
 
 #: gui/gtkmm/StatisticsDialog.cc:198
@@ -488,7 +488,7 @@ msgid "Breaks skipped"
 msgstr "Ĉesu en"
 
 #: gui/gtkmm/StatisticsDialog.cc:199
-msgid "Number of times you skipped a break"
+msgid "The number of breaks you skipped"
 msgstr ""
 
 #: gui/gtkmm/StatisticsDialog.cc:203
@@ -497,11 +497,12 @@ msgid "Breaks postponed"
 msgstr "Ripoza instigado"
 
 #: gui/gtkmm/StatisticsDialog.cc:204
-msgid "Number of times you postponed a break"
-msgstr ""
+#, fuzzy
+msgid "The number of breaks you postponed"
+msgstr "Ripoza instigado"
 
 #: gui/gtkmm/StatisticsDialog.cc:208
-msgid "Total overdue time"
+msgid "Overdue time"
 msgstr ""
 
 #: gui/gtkmm/StatisticsDialog.cc:209
@@ -514,7 +515,7 @@ msgid "Daily usage"
 msgstr ""
 
 #: gui/gtkmm/StatisticsDialog.cc:214
-msgid "Total computer usage"
+msgid "The total computer usage"
 msgstr ""
 
 #: gui/gtkmm/StatisticsDialog.cc:277
@@ -522,49 +523,52 @@ msgid "Activity"
 msgstr ""
 
 #: gui/gtkmm/StatisticsDialog.cc:287
-#, fuzzy
-msgid "Total mouse time:"
-msgstr "Prokrasta tempo"
+msgid "Mouse usage:"
+msgstr ""
 
 #: gui/gtkmm/StatisticsDialog.cc:288
-msgid "Total time you were using the mouse."
-msgstr ""
+#, fuzzy
+msgid "The total time you were using the mouse"
+msgstr "Ripozo por %s"
 
 #: gui/gtkmm/StatisticsDialog.cc:291
 #, fuzzy
-msgid "Total mouse movement:"
+msgid "Mouse movement:"
 msgstr "Prokrasta tempo"
 
 #: gui/gtkmm/StatisticsDialog.cc:292
-msgid "Total mouse movement in number of pixels."
-msgstr ""
+#, fuzzy
+msgid "The total on-screen mouse movement"
+msgstr "Prokrasta tempo"
 
 #: gui/gtkmm/StatisticsDialog.cc:295
-msgid "Total click-to-click movement:"
-msgstr ""
+#, fuzzy
+msgid "Effective mouse movement:"
+msgstr "Prokrasta tempo"
 
 #: gui/gtkmm/StatisticsDialog.cc:296
 msgid ""
-"Total mouse movement you would have had if you moved your mouse in straight "
-"lines between clicks."
+"The total mouse movement you would have had if you moved your mouse in "
+"straight lines between clicks"
 msgstr ""
 
 #: gui/gtkmm/StatisticsDialog.cc:300
 #, fuzzy
-msgid "Total mouse button clicks:"
+msgid "Mouse button clicks:"
 msgstr "Prokrasta tempo"
 
 #: gui/gtkmm/StatisticsDialog.cc:301
-msgid "Total number of mouse button clicks."
-msgstr ""
+#, fuzzy
+msgid "The total number of mouse button clicks"
+msgstr "Prokrasta tempo"
 
 #: gui/gtkmm/StatisticsDialog.cc:304
 #, fuzzy
-msgid "Total keystrokes:"
+msgid "Keystrokes:"
 msgstr "Ripozo"
 
 #: gui/gtkmm/StatisticsDialog.cc:305
-msgid "Total number of keys pressed."
+msgid "The total number of keys pressed"
 msgstr ""
 
 #: gui/gtkmm/StatisticsDialog.cc:355
@@ -679,6 +683,18 @@ msgstr "Montru _protokolon"
 #, fuzzy
 msgid "_Statistics"
 msgstr "Statistiko"
+
+#, fuzzy
+#~ msgid "Breaks taken"
+#~ msgstr "Ĉesu en"
+
+#, fuzzy
+#~ msgid "Total breaks"
+#~ msgstr "Ripozo"
+
+#, fuzzy
+#~ msgid "Total mouse time:"
+#~ msgstr "Prokrasta tempo"
 
 #, fuzzy
 #~ msgid "Show break at position:"

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
-"POT-Creation-Date: 2003-03-03 20:04+0100\n"
+"POT-Creation-Date: 2003-03-03 21:25+0100\n"
 "PO-Revision-Date: 2003-02-20 21:07+0100\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Johannes Rohr <j.rohr@comlink.apc.org>\n"
@@ -121,7 +121,7 @@ msgstr "_Protokoll anzeigen"
 msgid "Show only when this timer is first due"
 msgstr "Pause nur anzeigen, wenn als nächstes fällig:"
 
-#: gui/gtkmm/AppletPreferencePage.cc:111 gui/gtkmm/AppletPreferencePage.cc:304
+#: gui/gtkmm/AppletPreferencePage.cc:111
 #, fuzzy
 msgid "Applet enabled"
 msgstr "Applet aktiv oder nicht."
@@ -130,7 +130,7 @@ msgstr "Applet aktiv oder nicht."
 msgid "Placement:"
 msgstr ""
 
-#: gui/gtkmm/AppletPreferencePage.cc:118 gui/gtkmm/AppletPreferencePage.cc:282
+#: gui/gtkmm/AppletPreferencePage.cc:118
 msgid "Cycle time:"
 msgstr "Zeit bis zum Wechsel der Anzeige:"
 
@@ -148,83 +148,6 @@ msgstr "Ruhepause"
 #, fuzzy
 msgid "Daily limit:"
 msgstr "Tägliches Limit"
-
-#: gui/gtkmm/AppletPreferencePage.cc:280
-msgid "Show break at position:"
-msgstr ""
-
-#: gui/gtkmm/AppletPreferencePage.cc:284
-msgid "Show only when first:"
-msgstr "Pause nur anzeigen, wenn als nächstes fällig:"
-
-#: gui/gtkmm/AppletPreferencePage.cc:286
-msgid "Show only when imminent in:"
-msgstr "Nur anzeigen, wenn Pause in n Minuten ansteht.:"
-
-#: gui/gtkmm/AppletPreferencePage.cc:288
-msgid "Show exclusively:"
-msgstr "Exklusiv anzeigen:"
-
-#: gui/gtkmm/AppletPreferencePage.cc:290
-msgid "Default break:"
-msgstr "Voreingestellter Pausenanzeiger:"
-
-#: gui/gtkmm/AppletPreferencePage.cc:316
-msgid ""
-"When multiple breaks are shown on a certain position, this value indicates "
-"the time each break is shown."
-msgstr ""
-"Falls verschiedene Pausen an einer bestimmten Position angezeigt\n"
-"werden, legt dieser Wert fest, wie lange jede Pause angezeigt wird."
-
-#: gui/gtkmm/AppletPreferencePage.cc:363
-msgid "If set, this break will be shown in the applet."
-msgstr ""
-"Wenn diese Einstellung gewählt ist, wird diese Pause im Applet angezeigt."
-
-#: gui/gtkmm/AppletPreferencePage.cc:365
-msgid ""
-"Position on which the break timer is shown. Three positions are available. "
-"In case multiple breaks have the same position, they will be shown "
-"alternatingly."
-msgstr ""
-"Position, an der die Pausenuhr angezeigt wird. Drei Positionen sind\n"
-"verfügbar. Werden mehrere Anzeiger auf dieselbe Position gesetzt, so\n"
-"werden sie im Wechsel nacheinander angezeigt."
-
-#: gui/gtkmm/AppletPreferencePage.cc:369
-msgid ""
-"If set, this break will be shown if no other breaks are shown on the "
-"selected position"
-msgstr ""
-"Wenn diese Einstellung aktiv ist, wird diese Pause angezeigt, falls\n"
-"keine anderen Pausenanzeiger an der gewählten Position angezeigt\n"
-"werden."
-
-#: gui/gtkmm/AppletPreferencePage.cc:372
-msgid ""
-"If set, the break timer will always be the only break that will be shown on "
-"that position. It will not be shown alternatingly with another break."
-msgstr ""
-"Wenn diese Einstellung aktiv ist, wird der Pausenanzeiger als einziger\n"
-"an dieser Position angezeigt. Er wird also nicht im Wechsel mit\n"
-"anderen Pausen angezeigt."
-
-#: gui/gtkmm/AppletPreferencePage.cc:376
-msgid ""
-"If set, the break timer will only be shown if it is the first break that "
-"will reach its limit."
-msgstr ""
-"Wenn diese Einstellung aktiv ist, wird der Pausenanzeiger nur dann "
-"angezeigt, wenn diese Pause als nächstes an der Reihe ist."
-
-#: gui/gtkmm/AppletPreferencePage.cc:379 gui/gtkmm/AppletPreferencePage.cc:382
-msgid ""
-"If set, the break timer will only be shown if it will reach its limit within "
-"the specified time."
-msgstr ""
-"Wenn aktiv, wird diese Pause nur dann angezeigt, wenn sie innerhalb\n"
-"der festgelegten Zeitspanne fällig wird."
 
 #: gui/gtkmm/DailyLimitWindow.cc:45
 msgid ""
@@ -524,39 +447,43 @@ msgid "Breaks"
 msgstr "Pausen"
 
 #: gui/gtkmm/StatisticsDialog.cc:177
-msgid "Total breaks"
-msgstr "Ruhepausen insgesamt"
+#, fuzzy
+msgid "Break prompts"
+msgstr "Ankündigung der Pause"
 
 #: gui/gtkmm/StatisticsDialog.cc:178
+#, fuzzy
 msgid ""
-"Total number of unique breaks prompted. This equals the number of times the "
-"timer reached zero."
-msgstr ""
-"Gesamtzahl erstmaliger Pausenaufforderungen. Wie viele Male eine der "
-"Pausenuhren die Null erreicht hat."
+"The number of times you were prompted to break, excluding repeated prompts "
+"for the same break"
+msgstr "Wie oft Workrave Sie darauf hingewiesen hat, eine Pause zu machen"
 
 #: gui/gtkmm/StatisticsDialog.cc:183
-msgid "Prompted"
-msgstr "Hinweise ausgegeben"
+msgid "Repeated prompts"
+msgstr ""
 
 #: gui/gtkmm/StatisticsDialog.cc:184
-msgid "Number of times workrave prompted you to take a break"
+#, fuzzy
+msgid "The number of times you were repeatedly prompted to break"
 msgstr "Wie oft Workrave Sie darauf hingewiesen hat, eine Pause zu machen"
 
 #: gui/gtkmm/StatisticsDialog.cc:188
-msgid "Breaks taken"
-msgstr "Eingehaltene Pausen"
+#, fuzzy
+msgid "Prompted breaks taken"
+msgstr "Natürliche Pausen"
 
 #: gui/gtkmm/StatisticsDialog.cc:189
-msgid "Number of times you took a break when prompted"
-msgstr "Wie oft Sie nach einem Hinweis eine Pause gemacht haben"
+#, fuzzy
+msgid "The number of times you took a break when being prompted"
+msgstr "Wie oft Sie ohne Aufforderung eine Pause eingelegt haben"
 
 #: gui/gtkmm/StatisticsDialog.cc:193
 msgid "Natural breaks taken"
 msgstr "Natürliche Pausen"
 
 #: gui/gtkmm/StatisticsDialog.cc:194
-msgid "Number of times you took a break without being prompted"
+#, fuzzy
+msgid "The number of times you took a break without being prompted"
 msgstr "Wie oft Sie ohne Aufforderung eine Pause eingelegt haben"
 
 #: gui/gtkmm/StatisticsDialog.cc:198
@@ -564,7 +491,8 @@ msgid "Breaks skipped"
 msgstr "Übersprungene Pausen"
 
 #: gui/gtkmm/StatisticsDialog.cc:199
-msgid "Number of times you skipped a break"
+#, fuzzy
+msgid "The number of breaks you skipped"
 msgstr "Wie oft Sie Pausen übersprungen haben"
 
 #: gui/gtkmm/StatisticsDialog.cc:203
@@ -572,11 +500,13 @@ msgid "Breaks postponed"
 msgstr "Aufgeschobene Pausen"
 
 #: gui/gtkmm/StatisticsDialog.cc:204
-msgid "Number of times you postponed a break"
+#, fuzzy
+msgid "The number of breaks you postponed"
 msgstr "Wie oft Sie eine Pause aufgeschoben haben"
 
 #: gui/gtkmm/StatisticsDialog.cc:208
-msgid "Total overdue time"
+#, fuzzy
+msgid "Overdue time"
 msgstr "Überfällige Zeit insgesamt"
 
 #: gui/gtkmm/StatisticsDialog.cc:209
@@ -588,7 +518,8 @@ msgid "Daily usage"
 msgstr "Tägliche Nutzung"
 
 #: gui/gtkmm/StatisticsDialog.cc:214
-msgid "Total computer usage"
+#, fuzzy
+msgid "The total computer usage"
 msgstr "Gesamte Computernutzung"
 
 #: gui/gtkmm/StatisticsDialog.cc:277
@@ -596,47 +527,56 @@ msgid "Activity"
 msgstr "Aktivität"
 
 #: gui/gtkmm/StatisticsDialog.cc:287
-msgid "Total mouse time:"
-msgstr "Mausbenutzung insgesamt:"
+msgid "Mouse usage:"
+msgstr ""
 
 #: gui/gtkmm/StatisticsDialog.cc:288
-msgid "Total time you were using the mouse."
+#, fuzzy
+msgid "The total time you were using the mouse"
 msgstr "Wie lange Sie die Maus insgesamt genutzt haben."
 
 #: gui/gtkmm/StatisticsDialog.cc:291
-msgid "Total mouse movement:"
+#, fuzzy
+msgid "Mouse movement:"
 msgstr "Mausbewegung insgesamt:"
 
 #: gui/gtkmm/StatisticsDialog.cc:292
-msgid "Total mouse movement in number of pixels."
-msgstr "Mausbewegung in Anzahl von Pixeln."
+#, fuzzy
+msgid "The total on-screen mouse movement"
+msgstr "Mausbewegung insgesamt:"
 
 #: gui/gtkmm/StatisticsDialog.cc:295
-msgid "Total click-to-click movement:"
-msgstr "Gesamte Mausstrecke zwischen zwei Klickpunkten"
+#, fuzzy
+msgid "Effective mouse movement:"
+msgstr "Mausbewegung insgesamt:"
 
 #: gui/gtkmm/StatisticsDialog.cc:296
+#, fuzzy
 msgid ""
-"Total mouse movement you would have had if you moved your mouse in straight "
-"lines between clicks."
+"The total mouse movement you would have had if you moved your mouse in "
+"straight lines between clicks"
 msgstr ""
 "Gesamte Strecke, die der Mauszeiger zurückgelegt hätte, wenn Sie Ihre\n"
 "Maus zwischen den Klicks in geraden Linien bewegt hätten."
 
 #: gui/gtkmm/StatisticsDialog.cc:300
-msgid "Total mouse button clicks:"
+#, fuzzy
+msgid "Mouse button clicks:"
 msgstr "Gesamtanzahl der Mausklicks"
 
 #: gui/gtkmm/StatisticsDialog.cc:301
-msgid "Total number of mouse button clicks."
+#, fuzzy
+msgid "The total number of mouse button clicks"
 msgstr "Gesamtzahl der Mausklicks."
 
 #: gui/gtkmm/StatisticsDialog.cc:304
-msgid "Total keystrokes:"
+#, fuzzy
+msgid "Keystrokes:"
 msgstr "Tastenanschläge insgesamt:"
 
 #: gui/gtkmm/StatisticsDialog.cc:305
-msgid "Total number of keys pressed."
+#, fuzzy
+msgid "The total number of keys pressed"
 msgstr "Gesamtzahl der von Ihnen ausgeführten Tastenanschläge."
 
 #: gui/gtkmm/StatisticsDialog.cc:355
@@ -740,6 +680,103 @@ msgstr "_Protokoll anzeigen"
 #: gui/gnome/GNOME_WorkraveApplet.xml.in.h:14
 msgid "_Statistics"
 msgstr "_Statistik"
+
+#, fuzzy
+#~ msgid "Prompts"
+#~ msgstr "Hinweise ausgegeben"
+
+#, fuzzy
+#~ msgid ""
+#~ "The number of times you were prompted to break, including repeated "
+#~ "prompts for the same break"
+#~ msgstr "Wie oft Workrave Sie darauf hingewiesen hat, eine Pause zu machen"
+
+#~ msgid "Breaks taken"
+#~ msgstr "Eingehaltene Pausen"
+
+#~ msgid "Total breaks"
+#~ msgstr "Ruhepausen insgesamt"
+
+#~ msgid ""
+#~ "Total number of unique breaks prompted. This equals the number of times "
+#~ "the timer reached zero."
+#~ msgstr ""
+#~ "Gesamtzahl erstmaliger Pausenaufforderungen. Wie viele Male eine der "
+#~ "Pausenuhren die Null erreicht hat."
+
+#~ msgid "Number of times you took a break when prompted"
+#~ msgstr "Wie oft Sie nach einem Hinweis eine Pause gemacht haben"
+
+#~ msgid "Total mouse time:"
+#~ msgstr "Mausbenutzung insgesamt:"
+
+#~ msgid "Total mouse movement in number of pixels."
+#~ msgstr "Mausbewegung in Anzahl von Pixeln."
+
+#~ msgid "Total click-to-click movement:"
+#~ msgstr "Gesamte Mausstrecke zwischen zwei Klickpunkten"
+
+#~ msgid "Show only when first:"
+#~ msgstr "Pause nur anzeigen, wenn als nächstes fällig:"
+
+#~ msgid "Show only when imminent in:"
+#~ msgstr "Nur anzeigen, wenn Pause in n Minuten ansteht.:"
+
+#~ msgid "Show exclusively:"
+#~ msgstr "Exklusiv anzeigen:"
+
+#~ msgid "Default break:"
+#~ msgstr "Voreingestellter Pausenanzeiger:"
+
+#~ msgid ""
+#~ "When multiple breaks are shown on a certain position, this value "
+#~ "indicates the time each break is shown."
+#~ msgstr ""
+#~ "Falls verschiedene Pausen an einer bestimmten Position angezeigt\n"
+#~ "werden, legt dieser Wert fest, wie lange jede Pause angezeigt wird."
+
+#~ msgid "If set, this break will be shown in the applet."
+#~ msgstr ""
+#~ "Wenn diese Einstellung gewählt ist, wird diese Pause im Applet angezeigt."
+
+#~ msgid ""
+#~ "Position on which the break timer is shown. Three positions are "
+#~ "available. In case multiple breaks have the same position, they will be "
+#~ "shown alternatingly."
+#~ msgstr ""
+#~ "Position, an der die Pausenuhr angezeigt wird. Drei Positionen sind\n"
+#~ "verfügbar. Werden mehrere Anzeiger auf dieselbe Position gesetzt, so\n"
+#~ "werden sie im Wechsel nacheinander angezeigt."
+
+#~ msgid ""
+#~ "If set, this break will be shown if no other breaks are shown on the "
+#~ "selected position"
+#~ msgstr ""
+#~ "Wenn diese Einstellung aktiv ist, wird diese Pause angezeigt, falls\n"
+#~ "keine anderen Pausenanzeiger an der gewählten Position angezeigt\n"
+#~ "werden."
+
+#~ msgid ""
+#~ "If set, the break timer will always be the only break that will be shown "
+#~ "on that position. It will not be shown alternatingly with another break."
+#~ msgstr ""
+#~ "Wenn diese Einstellung aktiv ist, wird der Pausenanzeiger als einziger\n"
+#~ "an dieser Position angezeigt. Er wird also nicht im Wechsel mit\n"
+#~ "anderen Pausen angezeigt."
+
+#~ msgid ""
+#~ "If set, the break timer will only be shown if it is the first break that "
+#~ "will reach its limit."
+#~ msgstr ""
+#~ "Wenn diese Einstellung aktiv ist, wird der Pausenanzeiger nur dann "
+#~ "angezeigt, wenn diese Pause als nächstes an der Reihe ist."
+
+#~ msgid ""
+#~ "If set, the break timer will only be shown if it will reach its limit "
+#~ "within the specified time."
+#~ msgstr ""
+#~ "Wenn aktiv, wird diese Pause nur dann angezeigt, wenn sie innerhalb\n"
+#~ "der festgelegten Zeitspanne fällig wird."
 
 #~ msgid "Layout"
 #~ msgstr "Layout"
