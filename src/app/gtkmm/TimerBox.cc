@@ -479,7 +479,7 @@ TimerBox::init_table()
 void
 TimerBox::init_slot(int slot)
 {
-  TRACE_ENTER_MSG("TimerBox::init_slot");
+  TRACE_ENTER_MSG("TimerBox::init_slot", slot);
   int count = 0;
   int breaks_id[BREAK_ID_SIZEOF];
   bool stop = false;
