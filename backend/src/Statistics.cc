@@ -1,6 +1,6 @@
 // Statistics.cc
 //
-// Copyright (C) 2002, 2003, 2004 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -44,7 +44,8 @@ const int STATSVERSION = 4;
 //! Constructor
 Statistics::Statistics() : 
   core(NULL),
-  current_day(NULL)
+  current_day(NULL),
+  been_active(false)
 {
 }
 
@@ -91,8 +92,22 @@ void
 Statistics::update()
 {
   TRACE_ENTER("Statistics::update");
-      
-  update_current_day();
+
+  ActivityMonitorInterface *monitor = core->get_activity_monitor();
+  ActivityState state = monitor->get_current_state();
+  
+  if (state == ACTIVITY_ACTIVE && !been_active)
+    {
+      const time_t now = time(NULL);
+      struct tm *tmnow = localtime(&now);
+
+      current_day->start = *tmnow;
+      current_day->stop = *tmnow;
+
+      been_active = true;
+    }
+  
+  update_current_day(state == ACTIVITY_ACTIVE);
   save_day(current_day);
   TRACE_EXIT();
 }
@@ -123,12 +138,13 @@ Statistics::start_new_day()
         }
 
       current_day = new DailyStatsImpl();
-
+      been_active = false;
+      
       current_day->start = *tmnow;
       current_day->stop = *tmnow;
     }
 
-  update_current_day();
+  update_current_day(false);
   save_day(current_day);
   
   TRACE_EXIT();
@@ -320,6 +336,8 @@ Statistics::load_current_day()
     {
       load_day(current_day, stats_file);
     }
+
+  been_active = true;
   
   TRACE_EXIT();
   return ok;
@@ -529,7 +547,7 @@ Statistics::dump()
 {
   TRACE_ENTER("Statistics::dump");
 
-  update_current_day();
+  update_current_day(false);
   
   stringstream ss;
   for(int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -640,7 +658,7 @@ Statistics::get_history_size() const
 
 
 void
-Statistics::update_current_day()
+Statistics::update_current_day(bool active)
 {
   if (core != NULL)
     {
@@ -649,9 +667,12 @@ Statistics::update_current_day()
       assert(t != NULL);
       current_day->misc_stats[STATS_VALUE_TOTAL_ACTIVE_TIME] = t->get_elapsed_time();
 
-      const time_t now = time(NULL);
-      struct tm *tmnow = localtime(&now);
-      current_day->stop = *tmnow;
+      if (active)
+        {
+          const time_t now = time(NULL);
+          struct tm *tmnow = localtime(&now);
+          current_day->stop = *tmnow;
+        }
       
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
@@ -723,7 +744,7 @@ Statistics::request_client_message(DistributionClientMessageID id, PacketBuffer 
   TRACE_ENTER("Statistics::request_client_message");
   (void) id;
   
-  update_current_day();
+  update_current_day(false);
   dump();
   
   buffer.pack_byte(STATS_MARKER_TODAY);

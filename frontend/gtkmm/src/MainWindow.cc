@@ -749,7 +749,7 @@ MainWindow::win32_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
               }
               break;
             case WM_LBUTTONDBLCLK:
-              win->win32_show(true);
+              win->open_window();
               break;
             }
         }
