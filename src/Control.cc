@@ -33,9 +33,14 @@ static const char rcsid[] = "$Id$";
 
 #include "ActivityMonitor.hh"
 #include "TimerActivityMonitor.hh"
+#include "DistributionManager.hh"
 
 #ifdef HAVE_GCONF
 #include "GConfConfigurator.hh"
+#endif
+
+#ifndef NDEBUG
+#include "FakeActivityMonitor.hh"
 #endif
 
 const char *WORKRAVESTATE="WorkRaveState";
@@ -45,6 +50,9 @@ const int SAVESTATETIME = 15;
 Control::Control()
 {
   current_time = time(NULL);
+  dist_manager = NULL;
+  configurator = NULL;
+  monitor = NULL;
 }
 
 
@@ -71,6 +79,7 @@ Control::~Control()
 void
 Control::init()
 {
+  create_distribution_manager();
   create_monitor();
   create_timers();
 }
@@ -137,9 +146,32 @@ Control::process_timers(map<string, TimerInfo> &infos)
 {
   TRACE_ENTER("Control::process_timers");
   static int count = 0;
+
+  // Retrieve State.
   
   ActivityState state = monitor->get_current_state();
+#ifndef NDEBUG
+  if (fake_monitor != NULL)
+    {
+      state = fake_monitor->get_current_state();
+    }
+#endif  
 
+
+  // Distributed  stuff
+  bool node_active = true;
+  if (dist_manager != NULL)
+    {
+      node_active = dist_manager->is_active();
+
+      if (!node_active && state == ACTIVITY_ACTIVE)
+        {
+          node_active = dist_manager->claim();
+        }
+    }
+
+  
+  // Stats
   ActivityMonitorStatistics stats;
   monitor->get_statistics(stats);
 
@@ -156,35 +188,40 @@ Control::process_timers(map<string, TimerInfo> &infos)
             << stats.total_movement_time << " "
             << stats.total_clicks << " "
             << stats.total_keystrokes
-            )
-
+            );
+  
+  // Timers
   current_time = time(NULL);
 
-  // FIXME: quick solution for dependancy probleem if a timer
-  // uses a private activity monitor...
+  if (node_active)
+    {
+      // FIXME: quick solution for dependancy probleem if a timer
+      // uses a private activity monitor...
   
-  for (TimerCIter i = timers.begin(); i != timers.end(); i++)
-    {
-      if (!(*i)->has_activity_monitor())
+      for (TimerCIter i = timers.begin(); i != timers.end(); i++)
         {
-          TimerInfo info;
-          (*i)->process(state, info);
+          if (!(*i)->has_activity_monitor())
+            {
+              TimerInfo info;
+              (*i)->process(state, info);
 
-          infos[(*i)->get_id()] = info;
+              infos[(*i)->get_id()] = info;
+            }
         }
-    }
 
-  for (TimerCIter i = timers.begin(); i != timers.end(); i++)
-    {
-      if (((*i)->has_activity_monitor()))
+      for (TimerCIter i = timers.begin(); i != timers.end(); i++)
         {
-          TimerInfo info;
-          (*i)->process(state, info);
+          if (((*i)->has_activity_monitor()))
+            {
+              TimerInfo info;
+              (*i)->process(state, info);
           
-          infos[(*i)->get_id()] = info;
+              infos[(*i)->get_id()] = info;
+            }
         }
     }
 
+  
   if (count % SAVESTATETIME == 0)
     {
       save_state();
@@ -194,15 +231,32 @@ Control::process_timers(map<string, TimerInfo> &infos)
   TRACE_EXIT();
 }
 
-  
+
+// Create the monitor based on the specified configuration.
+bool
+Control::create_distribution_manager()
+{
+  dist_manager = DistributionManager::get_instance();
+}
+
+
 // Create the monitor based on the specified configuration.
 bool
 Control::create_monitor()
 {
+#ifndef NDEBUG
+  fake_monitor = NULL;
+  const char *x = getenv("WORKRAVE_FAKE");
+  if (x != NULL)
+    {
+      fake_monitor = new FakeActivityMonitor();
+    }
+#endif
+      
   monitor = new ActivityMonitor();
   load_monitor_config();
   store_monitor_config();
-
+  
   configurator->add_listener(CFG_KEY_MONITOR, this);
   
   return true;
@@ -483,8 +537,22 @@ Control::test_me()
 {
   TRACE_ENTER("Control::test_me");
 
-  //configurator->set_value(CFG_KEY_TIMER + "micro_pause" + CFG_KEY_TIMER_LIMIT, 30);
+  if (fake_monitor != NULL)
+    {
+      ActivityState state = fake_monitor->get_current_state();
 
+      if (state == ACTIVITY_ACTIVE)
+        {
+          TRACE_MSG("Setting idle");
+          fake_monitor->set_state(ACTIVITY_IDLE);
+        }
+      else
+        {
+          TRACE_MSG("Setting active");
+          fake_monitor->set_state(ACTIVITY_ACTIVE);
+        }
+    }
+  
   TRACE_EXIT();
 }
 #endif

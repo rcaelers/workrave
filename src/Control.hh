@@ -46,6 +46,13 @@
 #include "Configurator.hh"
 #include "ConfiguratorListener.hh"
 
+
+#ifndef NDEBUG
+class FakeActivityMonitor;
+#endif
+
+class DistributionManager;
+
 class Control :
   public TimeSource,
   public ControlInterface,
@@ -102,6 +109,8 @@ private:
   void configure_timer_monitor(string id, Timer *timer);
   void load_monitor_config();
   void store_monitor_config();
+
+  bool create_distribution_manager();
   bool create_monitor();
   bool create_timers();
   //bool process_timer_event(Timer *timer, Timer::TimerEvent event);
@@ -118,6 +127,13 @@ private:
 
   //! The current time.
   time_t current_time;
+
+  //! The Distribution Manager
+  DistributionManager *dist_manager;
+  
+#ifndef NDEBUG
+  FakeActivityMonitor *fake_monitor;
+#endif  
 };
 
 #endif // CONTROL_HH

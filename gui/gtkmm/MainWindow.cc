@@ -47,6 +47,7 @@ static const char rcsid[] = "$Id$";
 #include "ControlInterface.hh"
 #include "ActivityMonitorInterface.hh"
 #include "Statistics.hh"
+#include "DistributionManager.hh"
 
 #ifdef WIN32
 #include <gdk/gdkwin32.h>
@@ -224,11 +225,27 @@ MainWindow::setup()
 void
 MainWindow::update()
 {
+  DistributionManager *dist_manager = DistributionManager::get_instance();
+  bool node_active = true;
+  int num_peers = 0;
+  if (dist_manager != NULL)
+    {
+      node_active = dist_manager->is_active();
+      num_peers = dist_manager->get_number_of_peers();
+    }
+
   for (unsigned int count = 0; count < GUIControl::TIMER_ID_SIZEOF; count++)
     {
       TimerInterface *timer = GUIControl::get_instance()->timers[count].timer;
       TimeBar *bar = timer_times[count];
 
+      if (!node_active && num_peers > 0)
+        {
+          bar->set_text("Inactive");
+          bar->update();
+          continue;
+        }
+  
       if (timer == NULL)
         {
           // FIXME: error handling.

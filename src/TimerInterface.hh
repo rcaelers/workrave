@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-09-23 20:04:02 robc>
+// Time-stamp: <2002-09-29 13:53:37 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -99,6 +99,8 @@ public:
   
   // Timer ID
   virtual string get_id() const = 0;
+
+  virtual bool has_activity_monitor() = 0;
 };
 
 #endif // TIMERINTERFACE_HH

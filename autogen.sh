@@ -21,6 +21,6 @@ autoconf --force
 
 rm -f config.cache
 
-./configure --enable-maintainer-mode --enable-debug --enable-gnome "$@"
+./configure --enable-maintainer-mode --enable-debug --enable-gnome --enable-distribution "$@"
 
 echo type \`make\' to build Workrave

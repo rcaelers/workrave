@@ -53,6 +53,13 @@ AC_ARG_ENABLE( debug,
        config_debug=no
     )
 
+AC_ARG_ENABLE( distribution,
+  [  --enable-distribution   compile with support for distributed operation],
+       config_distribution=$enableval
+       ,
+       config_distribution=no
+    )
+    
 if test "x$config_debug" = "xyes"; then
    CFLAGS="${CFLAGS} -g"
    CXXFLAGS="${CXXFLAGS} -g"
@@ -243,6 +250,14 @@ fi
 AC_SUBST(GCONF_LIBS)
 AC_SUBST(GCONF_CFLAGS)
 
+if test "x$config_distribution" = "xyes"
+then           
+AM_PATH_GNET(1.1.4,[] ,[] )
+fi
+                    
+AC_SUBST(GNET_LIBS)
+AC_SUBST(GNET_CFLAGS)
+	        
                 
 dnl AC_ARG_WITH(gtk, AC_HELP_STRING([--with-gtk], [build GTK+ dispatcher]), [
 dnl   PKG_CHECK_MODULES(GTK, gtk+)
@@ -441,6 +456,16 @@ if test "x$config_with_gnome" = "xyes"; then
    AC_DEFINE(HAVE_GNOME,,[Define if Gnome is available])
 fi
 
+HAVE_DISTRIBUTION=
+if test "x$config_distribution" = "xyes"; then
+   AC_DEFINE(HAVE_DISTRIBUTION,,[Define if distributed operation is available])
+fi
+
+HAVE_GNET=
+if test "x$GNET_LIBS" != "x"; then
+   AC_DEFINE(HAVE_GNET,,[Define if GNet is available])
+fi
+                
 WIN32CONSOLE=
 if test "x$config_debug" != "xyes" -a "x$platform_win32" = "xyes" ; then
         WIN32CONSOLE=-mwindows
@@ -451,10 +476,12 @@ AM_CONDITIONAL(HAVE_X, test x$have_x = xyes)
 AM_CONDITIONAL(HAVE_GCONF, test "x$GCONF_LIBS" != "x")
 AM_CONDITIONAL(HAVE_GDOME, test "x$GDOME_LIB" != "x")
 AM_CONDITIONAL(HAVE_GNOME, test "x$config_with_gnome" = "xyes")
+AM_CONDITIONAL(HAVE_GNET, test "x$GNET_LIBS" != "x")
 AM_CONDITIONAL(HAVE_REGISTRY, test "x$config_with_registry" = "xyes")
 AM_CONDITIONAL(NDEBUG, test "x$config_debug" != "xyes")
 AM_CONDITIONAL(HAVE_ARCH_WIN32, test "x$platform_win32" = "xyes")
 AM_CONDITIONAL(HAVE_ARCH_UNIX, test "x$platform_win32" != "xyes")
 AM_CONDITIONAL(HAVE_GUI_GTKMM, test "x$GTKMM_LIBS" != "x")
+AM_CONDITIONAL(HAVE_DISTRIBUTION, test "x$config_distribution" = "xyes")
                                                            
 AC_OUTPUT(src/Makefile arch/Makefile arch/unix/Makefile arch/win32/Makefile arch/win32/harpoon/Makefile gui/Makefile gui/gtkmm/Makefile images/Makefile debian/Makefile Makefile)

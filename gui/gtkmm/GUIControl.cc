@@ -361,7 +361,10 @@ GUIControl::set_freeze_all_breaks(bool freeze)
     {
       TimerInterface *t = timers[i].timer;
       assert(t != NULL);
-      t->freeze_timer(freeze);
+      if (!t->has_activity_monitor())
+        {
+          t->freeze_timer(freeze);
+        }
     }
   TRACE_EXIT();
 }

@@ -50,14 +50,23 @@ if HAVE_REGISTRY
 sourcesregistry = Win32Configurator.cc
 endif
 
+if HAVE_DISTRIBUTION
+sourcesdistribution = DistributionManager.cc
+if HAVE_GNET
+sourcesgnet = DistributionSocketLink.cc PacketBuffer.cc
+endif
+endif
+
 workrave_SOURCES 	= ${sources} ${sourcesxinput} ${sourceswin32input} \
-		   	  ${sourcesgdome} ${sourcesgconf} ${sourcesregistry}
+		   	  ${sourcesgdome} ${sourcesgconf} ${sourcesregistry} \
+			  ${sourcesdistribution} ${sourcesgnet}
 
 workrave_CXXFLAGS 	= -W -DDATADIR="\"${pkgdatadir}\"" @ARCH_CFLAGS@ -I$(top_srcdir)/gui $(includesinput) \
-	 	   	  -D_XOPEN_SOURCE=600 @GTK_CFLAGS@ @GDOME_CFLAGS@ @GCONF_CFLAGS@
+	 	   	  -D_XOPEN_SOURCE=600 @GTK_CFLAGS@ @GDOME_CFLAGS@ @GCONF_CFLAGS@ @GNET_CFLAGS@
 
-workrave_LDADD 		=  @GUI_LIBS@ @ARCH_LIBS@ @gnomeui_LIBS@ @GTK_LIBS@ @GTKMM_LIBS@ @PTHREAD_LIBS@ \
-			   @X_LIBS@ @GCONF_LIBS@ @GDOME_LIB@ ${X11LIBS} ${WIN32LIBS} ${WIN32CONSOLE}
+workrave_LDADD 		=  @GUI_LIBS@ @ARCH_LIBS@ @gnomeui_LIBS@ @GTK_LIBS@ @GTKMM_LIBS@ @GNET_LIBS@ \
+		           @PTHREAD_LIBS@ @X_LIBS@ @GCONF_LIBS@ @GDOME_LIB@ \
+			   ${X11LIBS} ${WIN32LIBS} ${WIN32CONSOLE}
 
 #CXXLD=ccmalloc g++
 
