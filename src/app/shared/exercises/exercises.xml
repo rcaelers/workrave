@@ -94,7 +94,8 @@
     <description xml:lang="en">Spin your right arm slowly round like a plane propellor beside your body. Do this 4 times clockwise, 4 times counter clockwise and relax for a few seconds.  Repeat with the left arm.</description>
     <description xml:lang="nl">Draai je rechterarm langzaam rond als een vliegtuig propellor naast je lichaam. Doe dit 4 keer met de klok mee, 4 keer tegen de klok in en ontspan een paar seconden. Herhaal dit voor de linkerarm.</description>
     <sequence duration="30">
-       <image src="none" duration="15"/>
+       <image src="rotate-arm.png" duration="15"/>
+       <image src="rotate-arm.png" duration="15" mirrorx="yes"/>
     </sequence>
   </exercise>
   <exercise>
