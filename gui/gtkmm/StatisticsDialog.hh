@@ -46,13 +46,18 @@ private:
   Gtk::Label *break_labels[GUIControl::BREAK_ID_SIZEOF][9];
 
   /** Labels for break stats. */
+  Gtk::Label *activity_labels[5];
+  
+  /** Labels for break stats. */
   Gtk::Label *daily_usage_label;
 
   /** Day selection adjustment. */
   Gtk::Adjustment *day_adjust;
 
+  /** Labels indicating the start time of the visible data. */
   Gtk::Label *start_time_label;
 
+  /** Labels indicating the end time of the visible data. */
   Gtk::Label *end_time_label;
 
   /** */
@@ -71,6 +76,9 @@ private:
   Gtk::Widget *createLabel(char *label, char *tooltip);
 
   void on_scrollbar();
+
+  bool on_focus_in_event(GdkEventFocus *event);
+  bool on_focus_out_event(GdkEventFocus *event);  
 };
 
 #endif // STATISTICSWINDOW_HH

@@ -267,6 +267,32 @@ StatisticsDialog::create_activity_page(Gtk::Notebook *tnotebook)
   table->set_row_spacings(2);
   table->set_col_spacings(6);
   table->set_border_width(6);
+
+  Gtk::Widget *mouse_time_label = createLabel(_("Total mouse time:"),
+                                              _("Total time you were using the mouse."));
+  Gtk::Widget *mouse_movement_label = createLabel(_("Total mouse movement:"),
+                                              _("Total mouse movement in number of pixels."));
+  Gtk::Widget *mouse_click_movement_label = createLabel(_("Total click-to-click movement:"),
+                                              _("Total mouse movement you would have had if you moved your "
+                                                "mouse in straight lines between clicks."));
+  Gtk::Widget *mouse_clicks_label = createLabel(_("Total mouse button clicks:"),
+                                              _("Total number of mouse button clicks."));
+  Gtk::Widget *keystrokes_label = createLabel(_("Total keystrokes:"),
+                                              _("Total number of keys pressed."));
+  
+
+  int y = 0;
+  attach_right(*table, *mouse_time_label, 0, y++);
+  attach_right(*table, *mouse_movement_label, 0, y++);
+  attach_right(*table, *mouse_click_movement_label, 0, y++);
+  attach_right(*table, *mouse_clicks_label, 0, y++);
+  attach_right(*table, *keystrokes_label, 0, y++);
+
+  for (int i = 0; i < 5; i++)
+    {
+      activity_labels[i] = new Gtk::Label();
+      attach_left(*table, *activity_labels[i], 1, i);
+    }
   
   box->show_all();
   tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*table, *box));
@@ -354,7 +380,6 @@ StatisticsDialog::select_day(int day)
     {
       stringstream ss;
 
-
       value = stats->break_stats[i][Statistics::STATS_BREAKVALUE_UNIQUE_BREAKS];
       ss.str("");
       ss << value;
@@ -388,6 +413,29 @@ StatisticsDialog::select_day(int day)
       value = stats->break_stats[i][Statistics::STATS_BREAKVALUE_TOTAL_OVERDUE];
 
       break_labels[i][6]->set_text(Text::time_to_string(value));
+
+      value = stats->misc_stats[Statistics::STATS_VALUE_TOTAL_MOVEMENT_TIME];
+      activity_labels[0]->set_text(Text::time_to_string(value));
+
+      value = stats->misc_stats[Statistics::STATS_VALUE_TOTAL_MOUSE_MOVEMENT];
+      ss.str("");
+      ss << value;
+      activity_labels[1]->set_text(ss.str());
+      
+      value = stats->misc_stats[Statistics::STATS_VALUE_TOTAL_CLICK_MOVEMENT];
+      ss.str("");
+      ss << value;
+      activity_labels[2]->set_text(ss.str());
+
+      value = stats->misc_stats[Statistics::STATS_VALUE_TOTAL_CLICKS];
+      ss.str("");
+      ss << value;
+      activity_labels[3]->set_text(ss.str());
+
+      value = stats->misc_stats[Statistics::STATS_VALUE_TOTAL_KEYSTROKES];
+      ss.str("");
+      ss << value;
+      activity_labels[4]->set_text(ss.str());
     }
 }
 
@@ -398,4 +446,20 @@ StatisticsDialog::on_scrollbar()
   int day = (int)day_adjust->get_value();
 
   select_day(size - day - 1);
+}
+
+
+bool
+StatisticsDialog::on_focus_in_event(GdkEventFocus *event)
+{ 
+  TRACE_ENTER("StatisticsDialog::focus_in");
+  TRACE_EXIT();
+}
+
+
+bool
+StatisticsDialog::on_focus_out_event(GdkEventFocus *event)
+{ 
+  TRACE_ENTER("StatisticsDialog::focus_out");
+  TRACE_EXIT();
 }

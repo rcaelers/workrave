@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-02-16 15:48+0100\n"
+"POT-Creation-Date: 2003-02-16 20:10+0100\n"
 "PO-Revision-Date: 2002-11-05 17:58-0800\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -464,7 +464,7 @@ msgstr "Ripozo"
 #: gui/gtkmm/StatisticsDialog.cc:180
 msgid ""
 "Total number of unique breaks prompted. This equals the number of times the "
-"timers reached zero."
+"timer reached zero."
 msgstr ""
 
 #: gui/gtkmm/StatisticsDialog.cc:183
@@ -477,7 +477,7 @@ msgstr ""
 
 #: gui/gtkmm/StatisticsDialog.cc:186
 #, fuzzy
-msgid "Breaks Taken"
+msgid "Breaks taken"
 msgstr "Ĉesu en"
 
 #: gui/gtkmm/StatisticsDialog.cc:187
@@ -486,7 +486,7 @@ msgstr ""
 
 #: gui/gtkmm/StatisticsDialog.cc:189
 #, fuzzy
-msgid "Natural breaks"
+msgid "Natural breaks taken"
 msgstr "Ripozo"
 
 #: gui/gtkmm/StatisticsDialog.cc:190
@@ -530,6 +530,52 @@ msgstr ""
 
 #: gui/gtkmm/StatisticsDialog.cc:263
 msgid "Activity"
+msgstr ""
+
+#: gui/gtkmm/StatisticsDialog.cc:271
+#, fuzzy
+msgid "Total mouse time:"
+msgstr "Prokrasta tempo"
+
+#: gui/gtkmm/StatisticsDialog.cc:272
+msgid "Total time you were using the mouse."
+msgstr ""
+
+#: gui/gtkmm/StatisticsDialog.cc:273
+#, fuzzy
+msgid "Total mouse movement:"
+msgstr "Prokrasta tempo"
+
+#: gui/gtkmm/StatisticsDialog.cc:274
+msgid "Total mouse movement in number of pixels."
+msgstr ""
+
+#: gui/gtkmm/StatisticsDialog.cc:275
+msgid "Total click-to-click movement:"
+msgstr ""
+
+#: gui/gtkmm/StatisticsDialog.cc:276
+msgid ""
+"Total mouse movement you would have had if you moved your mouse in straight "
+"lines between clicks."
+msgstr ""
+
+#: gui/gtkmm/StatisticsDialog.cc:278
+#, fuzzy
+msgid "Total mouse button clicks:"
+msgstr "Prokrasta tempo"
+
+#: gui/gtkmm/StatisticsDialog.cc:279
+msgid "Total number of mouse button clicks."
+msgstr ""
+
+#: gui/gtkmm/StatisticsDialog.cc:280
+#, fuzzy
+msgid "Total keystrokes:"
+msgstr "Ripozo"
+
+#: gui/gtkmm/StatisticsDialog.cc:281
+msgid "Total number of keys pressed."
 msgstr ""
 
 #. Prelude frame

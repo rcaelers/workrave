@@ -127,7 +127,7 @@ ActivityStateMonitor::mouse_notify(int x, int y, int wheel_delta)
       gettimeofday(&now, NULL);
       tvSUBTIME(tv, now, last_mouse_time);
       
-      if (tv.tv_sec < 1)
+      if (!tvTIMEEQ0(last_mouse_time) && tv.tv_sec < 1)
         {
           tvADDTIME(total_mouse_time, total_mouse_time, tv)
         }

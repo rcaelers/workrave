@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-02-16 15:48+0100\n"
+"POT-Creation-Date: 2003-02-16 20:10+0100\n"
 "PO-Revision-Date: 2003-01-04 22:07+0100\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -462,7 +462,7 @@ msgstr "Standaard pauze"
 #: gui/gtkmm/StatisticsDialog.cc:180
 msgid ""
 "Total number of unique breaks prompted. This equals the number of times the "
-"timers reached zero."
+"timer reached zero."
 msgstr ""
 
 #: gui/gtkmm/StatisticsDialog.cc:183
@@ -530,6 +530,52 @@ msgstr ""
 #, fuzzy
 msgid "Activity"
 msgstr "Actieve tijd (ms)"
+
+#: gui/gtkmm/StatisticsDialog.cc:271
+#, fuzzy
+msgid "Total mouse time:"
+msgstr "Uitstel tijd"
+
+#: gui/gtkmm/StatisticsDialog.cc:272
+msgid "Total time you were using the mouse."
+msgstr ""
+
+#: gui/gtkmm/StatisticsDialog.cc:273
+#, fuzzy
+msgid "Total mouse movement:"
+msgstr "Uitstel tijd"
+
+#: gui/gtkmm/StatisticsDialog.cc:274
+msgid "Total mouse movement in number of pixels."
+msgstr ""
+
+#: gui/gtkmm/StatisticsDialog.cc:275
+msgid "Total click-to-click movement:"
+msgstr ""
+
+#: gui/gtkmm/StatisticsDialog.cc:276
+msgid ""
+"Total mouse movement you would have had if you moved your mouse in straight "
+"lines between clicks."
+msgstr ""
+
+#: gui/gtkmm/StatisticsDialog.cc:278
+#, fuzzy
+msgid "Total mouse button clicks:"
+msgstr "Uitstel tijd"
+
+#: gui/gtkmm/StatisticsDialog.cc:279
+msgid "Total number of mouse button clicks."
+msgstr ""
+
+#: gui/gtkmm/StatisticsDialog.cc:280
+#, fuzzy
+msgid "Total keystrokes:"
+msgstr "Standaard pauze"
+
+#: gui/gtkmm/StatisticsDialog.cc:281
+msgid "Total number of keys pressed."
+msgstr ""
 
 #. Prelude frame
 #: gui/gtkmm/TimerPreferencesPanel.cc:79
