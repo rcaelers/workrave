@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-03-25 08:34+0100\n"
+"POT-Creation-Date: 2003-03-25 19:41+0100\n"
 "PO-Revision-Date: 2003-03-04 22:16+0100\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -187,7 +187,7 @@ msgstr "_Stil"
 msgid "_Network"
 msgstr "_Netwerk"
 
-#: gui/gtkmm/Menus.cc:179
+#: gui/gtkmm/Menus.cc:179 gui/gtkmm/NetworkJoinDialog.cc:57
 msgid "_Connect"
 msgstr "Maak verbinding"
 
@@ -242,7 +242,7 @@ msgstr "Ontspan gedurende enkele seconden"
 msgid "Network connect"
 msgstr "Netwerk verbinding"
 
-#: gui/gtkmm/NetworkJoinDialog.cc:56
+#: gui/gtkmm/NetworkJoinDialog.cc:58
 msgid ""
 "Enter the host name and port number of a computer\n"
 "in the network you wish to connect to."
@@ -250,15 +250,15 @@ msgstr ""
 "Geef de machine naam en poort nummer van een\n"
 "computer uit het netwerk op."
 
-#: gui/gtkmm/NetworkJoinDialog.cc:69
+#: gui/gtkmm/NetworkJoinDialog.cc:71
 msgid "Host name:"
 msgstr "Machine naam:"
 
-#: gui/gtkmm/NetworkJoinDialog.cc:70
+#: gui/gtkmm/NetworkJoinDialog.cc:72
 msgid "Port:"
 msgstr "Poort:"
 
-#: gui/gtkmm/NetworkJoinDialog.cc:72
+#: gui/gtkmm/NetworkJoinDialog.cc:74
 msgid "Connect at start-up"
 msgstr "Maak verbinding bij opstarten"
 
@@ -365,7 +365,7 @@ msgid "Hide main window at start-up"
 msgstr "Verberg het hoofdvenster tijdens het opstarten"
 
 #. Options
-#: gui/gtkmm/PreferencesDialog.cc:150 gui/gtkmm/TimerPreferencesPanel.cc:129
+#: gui/gtkmm/PreferencesDialog.cc:150 gui/gtkmm/TimerPreferencesPanel.cc:128
 msgid "Options"
 msgstr "Opties"
 
@@ -524,33 +524,33 @@ msgid "%s, from %s to %s"
 msgstr "%s, van %s tot %s"
 
 #. Prelude frame
-#: gui/gtkmm/TimerPreferencesPanel.cc:82
+#: gui/gtkmm/TimerPreferencesPanel.cc:81
 msgid "Break prompting"
 msgstr "Verzoek tot pauze"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:84
+#: gui/gtkmm/TimerPreferencesPanel.cc:83
 msgid "Prompt before breaking"
 msgstr "Vraag alvorens te pauzeren"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:89
+#: gui/gtkmm/TimerPreferencesPanel.cc:88
 msgid "Maximum number of prompts:"
 msgstr "Max. aantal verzoeken:"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:96
+#: gui/gtkmm/TimerPreferencesPanel.cc:95
 msgid "Force break after maximum exceeded"
 msgstr "Forceer pauze na maximum"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:133
+#: gui/gtkmm/TimerPreferencesPanel.cc:132
 msgid "Block user input"
 msgstr "Blokkeer invoer"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:145
-msgid "Regard micro-pauses as activity"
-msgstr "Micro-pauzes tellen als werktijd"
-
-#: gui/gtkmm/TimerPreferencesPanel.cc:162
+#: gui/gtkmm/TimerPreferencesPanel.cc:141
 msgid "Show 'Postpone' and 'Skip' button"
 msgstr "Toon 'Uitstellen' en 'Overslaan'"
+
+#: gui/gtkmm/TimerPreferencesPanel.cc:153
+msgid "Regard micro-pauses as activity"
+msgstr "Micro-pauzes tellen als werktijd"
 
 #: gui/gtkmm/TimerPreferencesPanel.cc:182
 msgid "Time before break:"
@@ -564,7 +564,7 @@ msgstr "Herstart om:"
 msgid "Pause duration:"
 msgstr "Pauze tijdsduur:"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:211
+#: gui/gtkmm/TimerPreferencesPanel.cc:213
 msgid "Post-pone time:"
 msgstr "Uitstel tijd:"
 

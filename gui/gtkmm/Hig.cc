@@ -65,14 +65,21 @@ void
 HigCategoryPanel::add(const char *text, Gtk::Widget &widget)
 {
   Gtk::Label *lab = manage(new Gtk::Label(text));
-  lab->set_alignment(0.0);
-  size_group->add_widget(*lab);
+  add(*lab, widget);
+}
+
+void
+HigCategoryPanel::add(Gtk::Label &label, Gtk::Widget &widget)
+{
+  label.set_alignment(0.0);
+  size_group->add_widget(label);
   Gtk::HBox *box = manage(new Gtk::HBox());
   box->set_spacing(6);
-  box->pack_start(*lab, false, true, 0);
+  box->pack_start(label, false, true, 0);
   box->pack_start(widget, false, false, 0);
   options_box->pack_start(*box, false, false, 0);
 }
+
 void
 HigCategoryPanel::add(Gtk::Widget &widget)
 {

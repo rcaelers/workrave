@@ -52,11 +52,13 @@ NetworkJoinDialog::NetworkJoinDialog()
                   (Gtk::ALIGN_LEFT, Gtk::ALIGN_TOP, 0.0, 0.0));
   img_aln->add(*title_img);
 
-  const char *text =
-    _("Enter the host name and port number of a computer\n"
-      "in the network you wish to connect to.");
-  Gtk::Label *title_lab = manage(new Gtk::Label(text));
-
+  Gtk::Label *title_lab = manage(new Gtk::Label());
+  Glib::ustring text = HigUtil::create_alert_text
+    (_("_Connect"),
+     _("Enter the host name and port number of a computer\n"
+       "in the network you wish to connect to."));
+  title_lab->set_markup(text);
+  
   host_entry = manage(new Gtk::Entry());
   host_entry->set_width_chars(40);
 

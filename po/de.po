@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
-"POT-Creation-Date: 2003-03-25 08:32+0100\n"
+"POT-Creation-Date: 2003-03-25 19:41+0100\n"
 "PO-Revision-Date: 2003-03-04 18:50+0100\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Johannes Rohr <j.rohr@comlink.apc.org>\n"
@@ -154,12 +154,12 @@ msgstr ""
 "Ende ist, wechseln Sie zu einer anderen Tätigkeit, z.B. zur\n"
 "Durchsicht von Dokumenten."
 
-#: gui/gtkmm/DailyLimitWindow.cc:72 gui/gtkmm/MicroPauseWindow.cc:73
+#: gui/gtkmm/DailyLimitWindow.cc:73 gui/gtkmm/MicroPauseWindow.cc:73
 #: gui/gtkmm/RestBreakWindow.cc:101
 msgid "Skip"
 msgstr "Überspringen"
 
-#: gui/gtkmm/DailyLimitWindow.cc:74 gui/gtkmm/MicroPauseWindow.cc:75
+#: gui/gtkmm/DailyLimitWindow.cc:75 gui/gtkmm/MicroPauseWindow.cc:75
 #: gui/gtkmm/RestBreakWindow.cc:103
 msgid "Postpone"
 msgstr "Aufschieben"
@@ -189,7 +189,7 @@ msgstr "St_ill"
 msgid "_Network"
 msgstr "N_etzwerk"
 
-#: gui/gtkmm/Menus.cc:179
+#: gui/gtkmm/Menus.cc:179 gui/gtkmm/NetworkJoinDialog.cc:57
 msgid "_Connect"
 msgstr "_Verbinden"
 
@@ -244,7 +244,7 @@ msgstr "Bitte entspannen Sie sich für ein paar Sekunden"
 msgid "Network connect"
 msgstr "Netzwerkverbindung"
 
-#: gui/gtkmm/NetworkJoinDialog.cc:56
+#: gui/gtkmm/NetworkJoinDialog.cc:58
 msgid ""
 "Enter the host name and port number of a computer\n"
 "in the network you wish to connect to."
@@ -253,15 +253,15 @@ msgstr ""
 "eines Rechners im Netzwerk ein, zu dem Sie eine\n"
 "Verbindung aufbauen möchten."
 
-#: gui/gtkmm/NetworkJoinDialog.cc:69
+#: gui/gtkmm/NetworkJoinDialog.cc:71
 msgid "Host name:"
 msgstr "Rechnername:"
 
-#: gui/gtkmm/NetworkJoinDialog.cc:70
+#: gui/gtkmm/NetworkJoinDialog.cc:72
 msgid "Port:"
 msgstr "Port:"
 
-#: gui/gtkmm/NetworkJoinDialog.cc:72
+#: gui/gtkmm/NetworkJoinDialog.cc:74
 msgid "Connect at start-up"
 msgstr "Bei Programmstart verbinden"
 
@@ -368,7 +368,7 @@ msgid "Hide main window at start-up"
 msgstr "Hauptfenster beim Start verstecken"
 
 #. Options
-#: gui/gtkmm/PreferencesDialog.cc:150 gui/gtkmm/TimerPreferencesPanel.cc:129
+#: gui/gtkmm/PreferencesDialog.cc:150 gui/gtkmm/TimerPreferencesPanel.cc:128
 msgid "Options"
 msgstr "Optionen"
 
@@ -524,33 +524,33 @@ msgid "%s, from %s to %s"
 msgstr "%s, von %s bis %s"
 
 #. Prelude frame
-#: gui/gtkmm/TimerPreferencesPanel.cc:82
+#: gui/gtkmm/TimerPreferencesPanel.cc:81
 msgid "Break prompting"
 msgstr "Ankündigung der Pause"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:84
+#: gui/gtkmm/TimerPreferencesPanel.cc:83
 msgid "Prompt before breaking"
 msgstr "Vor der Pause Hinweis ausgeben"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:89
+#: gui/gtkmm/TimerPreferencesPanel.cc:88
 msgid "Maximum number of prompts:"
 msgstr "Maximale Anzahl von Hinweisen:"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:96
+#: gui/gtkmm/TimerPreferencesPanel.cc:95
 msgid "Force break after maximum exceeded"
 msgstr "Pause erzwingen, wenn das Maximum überschritten ist"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:133
+#: gui/gtkmm/TimerPreferencesPanel.cc:132
 msgid "Block user input"
 msgstr "Benutzereingaben blockieren"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:145
-msgid "Regard micro-pauses as activity"
-msgstr "Mikropausen als Aktivität betrachten"
-
-#: gui/gtkmm/TimerPreferencesPanel.cc:162
+#: gui/gtkmm/TimerPreferencesPanel.cc:141
 msgid "Show 'Postpone' and 'Skip' button"
 msgstr "Knöpfe 'Aufschieben' und 'Überspringen' anzeigen"
+
+#: gui/gtkmm/TimerPreferencesPanel.cc:153
+msgid "Regard micro-pauses as activity"
+msgstr "Mikropausen als Aktivität betrachten"
 
 #: gui/gtkmm/TimerPreferencesPanel.cc:182
 msgid "Time before break:"
@@ -564,7 +564,7 @@ msgstr "Zurücksetzen nach:"
 msgid "Pause duration:"
 msgstr "Dauer der Pause:"
 
-#: gui/gtkmm/TimerPreferencesPanel.cc:211
+#: gui/gtkmm/TimerPreferencesPanel.cc:213
 msgid "Post-pone time:"
 msgstr "Dauer des Aufschubs:"
 

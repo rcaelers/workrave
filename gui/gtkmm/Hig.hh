@@ -41,6 +41,7 @@ public:
   HigCategoryPanel(Gtk::Widget &lab);
   HigCategoryPanel(const char *lab);
   void add(const char *lab, Gtk::Widget &widget);
+  void add(Gtk::Label &label, Gtk::Widget &widget);
   void add(Gtk::Widget &widget);
 
 private:

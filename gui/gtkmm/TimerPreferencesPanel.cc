@@ -49,7 +49,7 @@ TimerPreferencesPanel::TimerPreferencesPanel (GUIControl::BreakId t,Glib::RefPtr
   HigCategoriesPanel *categories = manage(new HigCategoriesPanel());;
   
   Gtk::Widget *prelude_frame = manage(create_prelude_panel());
-  Gtk::Widget *timers_frame = manage(create_timers_panel());
+  Gtk::Widget *timers_frame = manage(create_timers_panel(size_group));
   Gtk::Widget *opts_frame = manage(create_options_panel());
 
   categories->add(*timers_frame);
@@ -59,7 +59,6 @@ TimerPreferencesPanel::TimerPreferencesPanel (GUIControl::BreakId t,Glib::RefPtr
   pack_start(*categories, false, false, 0);
   pack_start(*prelude_frame, false, false, 0);
 
-  size_group->add_widget(*categories);
   set_border_width(12);
 
   TRACE_EXIT();
@@ -136,6 +135,15 @@ TimerPreferencesPanel::create_options_panel()
     .connect(SigC::slot(*this, &TimerPreferencesPanel::on_insists_toggled));
   hig->add(*insists_cb);
   
+  // Ignorable
+  bool ignorable = timer->get_break_ignorable();
+  ignorable_cb = manage(new Gtk::CheckButton
+                        (_("Show 'Postpone' and 'Skip' button")));
+  ignorable_cb->set_active(ignorable);
+  ignorable_cb->signal_toggled()
+    .connect(SigC::slot(*this, &TimerPreferencesPanel::on_ignorable_toggled));
+  hig->add(*ignorable_cb);
+
   // Monitor
   Configurator *cfg = GUIControl::get_instance()->get_configurator();
   string tpfx = ControlInterface::CFG_KEY_TIMER + itimer->get_id();
@@ -156,20 +164,12 @@ TimerPreferencesPanel::create_options_panel()
       monitor_cb = NULL;
     }
 
-  // Ignorable
-  bool ignorable = timer->get_break_ignorable();
-  ignorable_cb = manage(new Gtk::CheckButton
-                        (_("Show 'Postpone' and 'Skip' button")));
-  ignorable_cb->set_active(ignorable);
-  ignorable_cb->signal_toggled()
-    .connect(SigC::slot(*this, &TimerPreferencesPanel::on_ignorable_toggled));
-  hig->add(*ignorable_cb);
   
   return hig;
 }
 
 Gtk::Widget *
-TimerPreferencesPanel::create_timers_panel()
+TimerPreferencesPanel::create_timers_panel(Glib::RefPtr<Gtk::SizeGroup> size_group)
 {
   HigCategoryPanel *hig = manage(new HigCategoryPanel(_("Timers")));
 
@@ -201,7 +201,9 @@ TimerPreferencesPanel::create_timers_panel()
   auto_reset_tim->set_value (auto_reset_value);
   auto_reset_tim->signal_value_changed()
     .connect(SigC::slot(*this, &TimerPreferencesPanel::on_auto_reset_changed));
-  hig->add(auto_reset_txt, *auto_reset_tim);
+  Gtk::Label *auto_reset_lab = manage(new Gtk::Label(auto_reset_txt));
+  size_group->add_widget(*auto_reset_lab);
+  hig->add(*auto_reset_lab, *auto_reset_tim);
 
   // Snooze time
   snooze_tim = manage(new TimeEntry());

@@ -52,7 +52,7 @@ private:
   void on_preludes_force_toggled();
   Gtk::Widget *create_prelude_panel();
   Gtk::Widget *create_options_panel();
-  Gtk::Widget *create_timers_panel();
+  Gtk::Widget *create_timers_panel(Glib::RefPtr<Gtk::SizeGroup> size_group);
   void set_prelude_sensitivity();
   
   GUIControl::BreakId break_id;
