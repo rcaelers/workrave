@@ -30,7 +30,10 @@
 #include <unistd.h>
 #include <assert.h>
 
-std::list<Exercise> *ExercisesParser::exercises = NULL;
+ExercisesParser::ExercisesParser(std::list<Exercise> &ex)
+  : exercises(&ex), exercise(NULL)
+{
+}
 
 void
 ExercisesParser::on_start_element (Glib::Markup::ParseContext& context,
@@ -38,6 +41,11 @@ ExercisesParser::on_start_element (Glib::Markup::ParseContext& context,
                                    const AttributeMap& attributes)
 {
   TRACE_ENTER_MSG("ExercisesParser::on_start_element", element_name);
+  if (element_name == "exercise")
+    {
+      exercises->push_back(Exercise());
+      exercise = &(*(exercises->end()));
+    }
   TRACE_EXIT();
 }
 
@@ -71,13 +79,12 @@ ExercisesParser::parse_exercises(std::string file_name,
                                  std::list<Exercise> &exe)
 {
   TRACE_ENTER_MSG("ExercisesParser::get_exercises", file_name);
-  exercises = &exe;
   
   // I hate C++ streams.
   FILE *stream = fopen(file_name.c_str(), "rb");
   if (stream)
     {
-      ExercisesParser parser;
+      ExercisesParser parser(exe);
       Glib::Markup::ParseContext context(parser);
 
       char buf[1024];
@@ -102,7 +109,7 @@ ExercisesParser::parse_exercises(std::list<Exercise> &exercises)
 {
   std::string file_name = Util::complete_directory
     ("exercises.xml", Util::SEARCH_PATH_EXERCISES);
-  return get_exercises(file_name, exercises);
+  return parse_exercises(file_name, exercises);
 }
 
 #endif // HAVE_EXERCISES

@@ -39,7 +39,8 @@ ExercisesDialog::ExercisesDialog()
 {
   TRACE_ENTER("ExercisesDialog::ExercisesDialog");
 
-  ExercisesParser::get_exercises();
+  std::list<Exercise> exercises;
+  ExercisesParser::parse_exercises(exercises);
   TRACE_EXIT();
 }
 

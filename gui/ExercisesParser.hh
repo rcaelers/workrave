@@ -45,8 +45,10 @@ struct Exercise
 class ExercisesParser : public Glib::Markup::Parser
 {
 public:
+  ExercisesParser(std::list<Exercise> &ex);
+  
   static void parse_exercises(std::list<Exercise>&);
-  static void parse_exercises(std::string file_name, std::list<Exercises>&);
+  static void parse_exercises(std::string file_name, std::list<Exercise>&);
 
 protected:
   void on_start_element (Glib::Markup::ParseContext& context,
@@ -58,10 +60,11 @@ protected:
                 const Glib::ustring& text);
   void on_passthrough (Glib::Markup::ParseContext& context,
                        const Glib::ustring& passthrough_text);
-
 private:
   std::list<Exercise> *exercises;
+  Exercise *exercise;
 };
+
 
 #endif // HAVE_EXERCISES
 
