@@ -63,6 +63,12 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
 {
   this->break_id = break_id;
   
+#ifdef HAVE_BREAK_WINDOW_TITLEBAR
+      set_border_width(12);
+#else
+      set_border_width(0);
+#endif      
+
 #ifdef HAVE_X
   GtkUtil::set_wmclass(*this, "Break");
 #endif
@@ -89,17 +95,15 @@ BreakWindow::init_gui()
     {
       gui = manage(create_gui());
 
-      //#ifdef HAVE_BREAK_WINDOW_TITLEBAR
-      set_border_width(12);
+#ifdef HAVE_BREAK_WINDOW_TITLEBAR
       add(*gui);
-      //#else
-//      set_border_width(0);
-//      Frame *window_frame = manage(new Frame());
-//      window_frame->set_border_width(12);
-//      window_frame->set_frame_style(Frame::STYLE_BREAK_WINDOW);
-//      window_frame->add(*gui);
-//      add(*window_frame);
-//#endif      
+#else
+      Frame *window_frame = manage(new Frame());
+      window_frame->set_border_width(12);
+      window_frame->set_frame_style(Frame::STYLE_BREAK_WINDOW);
+      window_frame->add(*gui);
+      add(*window_frame);
+#endif      
       show_all_children();
       stick();
   
