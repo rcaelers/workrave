@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
 #
 # $Id$
 #
@@ -114,7 +114,8 @@ workrave_SOURCES = \
 			gnome-winhints.c \
 			Frame.cc \
 			WmSpec.cc \
-			TimerBox.cc \
+			TimerBoxControl.cc \
+			TimerBoxGtkView.cc \
 			TimerBoxPreferencePage.cc \
 			Menus.cc \
 			Dispatcher.cc \

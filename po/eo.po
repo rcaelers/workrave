@@ -5,14 +5,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-01-28 11:56+0100\n"
+"POT-Creation-Date: 2004-02-02 22:33+0100\n"
 "PO-Revision-Date: 2003-09-08 19:07+0200\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
 
 #: frontend/gtkmm/src/eggtrayicon.c:118
 #, fuzzy
@@ -66,9 +66,9 @@ msgstr "Transsaltu"
 msgid "Postpone"
 msgstr "Prokrastu"
 
+#: frontend/common/share/sounds/workrave.soundlist.in.h:3
 #: frontend/gtkmm/src/DailyLimitWindow.cc:45
 #: frontend/gtkmm/src/DailyLimitWindow.cc:53 frontend/gtkmm/src/GtkUtil.cc:117
-#: frontend/common/share/sounds/workrave.soundlist.in.h:3
 msgid "Daily limit"
 msgstr "Taglimo"
 
@@ -82,7 +82,7 @@ msgstr ""
 "malantaŭ via komputilo.  Se via labortago ne ankoraŭ finiĝis,\n"
 "trovu ion alian por fari, kiel revuado de dokumento."
 
-#: frontend/gtkmm/src/GUI.cc:734
+#: frontend/gtkmm/src/GUI.cc:733
 msgid "I could not initialize Bonobo"
 msgstr ""
 
@@ -189,66 +189,66 @@ msgstr ""
 msgid "General"
 msgstr "Ĝenerala"
 
-#: frontend/gtkmm/src/PreferencesDialog.cc:67
+#: frontend/gtkmm/src/PreferencesDialog.cc:66
 msgid "Applet"
 msgstr ""
 
-#: frontend/gtkmm/src/PreferencesDialog.cc:70
+#: frontend/gtkmm/src/PreferencesDialog.cc:69
 msgid "Status Window"
 msgstr ""
 
 #. Notebook
-#: frontend/gtkmm/src/PreferencesDialog.cc:77
-#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:171
+#: frontend/gtkmm/src/PreferencesDialog.cc:76
+#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:169
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:193
 msgid "Timers"
 msgstr "Horloĝoj"
 
-#: frontend/gtkmm/src/PreferencesDialog.cc:78
+#: frontend/gtkmm/src/PreferencesDialog.cc:77
 msgid "User interface"
 msgstr "Uzula inferfaco"
 
-#: frontend/gtkmm/src/PreferencesDialog.cc:80
+#: frontend/gtkmm/src/PreferencesDialog.cc:79
 msgid "Network"
 msgstr "Reto"
 
-#: frontend/gtkmm/src/PreferencesDialog.cc:121
+#: frontend/gtkmm/src/PreferencesDialog.cc:120
 msgid "No sounds"
 msgstr "Ne sonoj"
 
-#: frontend/gtkmm/src/PreferencesDialog.cc:123
+#: frontend/gtkmm/src/PreferencesDialog.cc:122
 msgid "Play sounds using sound card"
 msgstr "Ludu sonojn uzante sonkarton"
 
-#: frontend/gtkmm/src/PreferencesDialog.cc:125
+#: frontend/gtkmm/src/PreferencesDialog.cc:124
 msgid "Play sounds using built-in speaker"
 msgstr "Ludu sonojn uzante en-komputila laŭtparolilo"
 
-#: frontend/gtkmm/src/PreferencesDialog.cc:153
+#: frontend/gtkmm/src/PreferencesDialog.cc:152
 msgid "No blocking"
 msgstr ""
 
-#: frontend/gtkmm/src/PreferencesDialog.cc:155
+#: frontend/gtkmm/src/PreferencesDialog.cc:154
 #, fuzzy
 msgid "Block input"
 msgstr "Bloku uzulan enigon"
 
-#: frontend/gtkmm/src/PreferencesDialog.cc:157
+#: frontend/gtkmm/src/PreferencesDialog.cc:156
 msgid "Block input and screen"
 msgstr ""
 
 #. Options
-#: frontend/gtkmm/src/PreferencesDialog.cc:176
+#: frontend/gtkmm/src/PreferencesDialog.cc:175
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:137
 msgid "Options"
 msgstr "Opcioj"
 
 #. panel->add(*start_in_tray_cb);
-#: frontend/gtkmm/src/PreferencesDialog.cc:178
+#: frontend/gtkmm/src/PreferencesDialog.cc:177
 msgid "Sound:"
 msgstr ""
 
-#: frontend/gtkmm/src/PreferencesDialog.cc:179
+#: frontend/gtkmm/src/PreferencesDialog.cc:178
 msgid "Block mode:"
 msgstr ""
 
@@ -292,11 +292,12 @@ msgstr ""
 "piediru ĉirkaŭe por iom da minutoj, streĉu, kaj\n"
 "trankviliĝu."
 
-#: frontend/gtkmm/src/TimerBox.cc:224 frontend/gtkmm/src/TimerBox.cc:304
+#: frontend/gtkmm/src/TimerBoxControl.cc:212
+#: frontend/gtkmm/src/TimerBoxGtkView.cc:156
 msgid "Wait"
 msgstr "Atendu"
 
-#: frontend/gtkmm/src/TimerBox.cc:258
+#: frontend/gtkmm/src/TimerBoxControl.cc:170
 msgid "Inactive"
 msgstr "Neaktiva"
 
@@ -338,34 +339,34 @@ msgstr ""
 msgid "The status window stays always on top of other windows"
 msgstr "La ĉefa fenestro ĉiam restas antaŭ ol la aliaj fenestroj"
 
-#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:151
+#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:150
 msgid "Applet enabled"
 msgstr ""
 
-#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:159
+#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:157
 msgid "Display"
 msgstr ""
 
-#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:168
+#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:166
 msgid "Placement:"
 msgstr ""
 
-#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:169
+#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:167
 msgid "Cycle time:"
 msgstr ""
 
 #. Layout
-#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:174
+#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:172
 #, fuzzy
 msgid "Micro-pause:"
 msgstr "Paŭzeto"
 
-#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:175
+#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:173
 #, fuzzy
 msgid "Rest break:"
 msgstr "Ripozo"
 
-#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:176
+#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:174
 #, fuzzy
 msgid "Daily limit:"
 msgstr "Taglimo"
@@ -473,8 +474,8 @@ msgstr "Montru _protokolon"
 msgid "_Statistics"
 msgstr "Statistiko"
 
-#: frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:1
 #: frontend/common/share/sounds/workrave.soundlist.in.h:10
+#: frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:1
 msgid "Workrave"
 msgstr ""
 

@@ -1,6 +1,6 @@
 // GUI.cc --- The WorkRave GUI
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -40,7 +40,6 @@ static const char rcsid[] = "$Id$";
 #include "Dispatcher.hh"
 #include "DailyLimitWindow.hh"
 #include "MainWindow.hh"
-#include "TimerBox.hh"
 #include "BreakWindowInterface.hh"
 #include "BreakWindow.hh"
 #include "MicroPauseWindow.hh"

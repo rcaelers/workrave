@@ -1,6 +1,6 @@
 // PreferencesDialog.cc --- Preferences dialog
 //
-// Copyright (C) 2002, 2003 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -62,10 +62,9 @@ PreferencesDialog::PreferencesDialog()
   Gtk::Notebook *gui_page = manage(new Gtk::Notebook());
   gui_page->append_page(*gui_general_page, _("General"));
   
-#ifdef HAVE_X
   Gtk::Widget *gui_applet_page = manage(create_applet_page());
   gui_page->append_page(*gui_applet_page, _("Applet"));
-#endif
+
   Gtk::Widget *gui_mainwindow_page = manage(create_mainwindow_page());
   gui_page->append_page(*gui_mainwindow_page, _("Status Window"));
 
@@ -209,14 +208,12 @@ PreferencesDialog::create_mainwindow_page()
 }
 
 
-#ifdef HAVE_X
 Gtk::Widget *
 PreferencesDialog::create_applet_page()
 {
   // Timers page
   return new TimerBoxPreferencePage("applet");
 }
-#endif
 
 
 #ifdef HAVE_DISTRIBUTION

@@ -1,6 +1,6 @@
 // TimerBoxPreferencePage.cc --- Preferences widgets for a timer
 //
-// Copyright (C) 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -38,7 +38,7 @@
 #include "GtkUtil.hh"
 #include "Hig.hh"
 #include "MainWindow.hh"
-#include "TimerBox.hh"
+#include "TimerBoxControl.hh"
 
 
 //! Constructs the Applet Preference Notebook page.
@@ -54,7 +54,7 @@ TimerBoxPreferencePage::TimerBoxPreferencePage(string n)
   enable_buttons();
 
   ConfiguratorInterface *config = CoreFactory::get_configurator();
-  config->add_listener(TimerBox::CFG_KEY_TIMERBOX + name, this);
+  config->add_listener(TimerBoxControl::CFG_KEY_TIMERBOX + name, this);
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
@@ -145,12 +145,10 @@ TimerBoxPreferencePage::create_page()
       ontop_cb->signal_toggled().connect(SigC::slot(*this, &TimerBoxPreferencePage::on_always_on_top_toggled));
       ontop_cb->set_active(MainWindow::get_always_on_top());
     }
-#ifdef HAVE_X  
   else if (name == "applet")
     {
       enabled_lab = manage(GtkUtil::create_label(_("Applet enabled"), false));
     }
-#endif
   
   enabled_cb = manage(new Gtk::CheckButton());
   enabled_cb->add(*enabled_lab);
@@ -185,9 +183,9 @@ TimerBoxPreferencePage::create_page()
 void
 TimerBoxPreferencePage::init_page_values()
 {
-  int mp_slot = TimerBox::get_timer_slot(name, BREAK_ID_MICRO_PAUSE);
-  int rb_slot = TimerBox::get_timer_slot(name, BREAK_ID_REST_BREAK);
-  int dl_slot = TimerBox::get_timer_slot(name, BREAK_ID_DAILY_LIMIT);
+  int mp_slot = TimerBoxControl::get_timer_slot(name, BREAK_ID_MICRO_PAUSE);
+  int rb_slot = TimerBoxControl::get_timer_slot(name, BREAK_ID_REST_BREAK);
+  int dl_slot = TimerBoxControl::get_timer_slot(name, BREAK_ID_DAILY_LIMIT);
   int place;
   if (mp_slot < rb_slot && rb_slot < dl_slot)
     {
@@ -210,13 +208,13 @@ TimerBoxPreferencePage::init_page_values()
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      int flags = TimerBox::get_timer_flags(name, (BreakId) i);
+      int flags = TimerBoxControl::get_timer_flags(name, (BreakId) i);
       int showhide;
-      if (flags & TimerBox::BREAK_HIDE)
+      if (flags & TimerBoxControl::BREAK_HIDE)
         {
           showhide = 0;
         }
-      else if (flags & TimerBox::BREAK_WHEN_FIRST)
+      else if (flags & TimerBoxControl::BREAK_WHEN_FIRST)
         {
           showhide = 2;
         }
@@ -226,9 +224,9 @@ TimerBoxPreferencePage::init_page_values()
         }
       timer_display_button[i]->set_history(showhide);
     }
-  cycle_entry->set_value(TimerBox::get_cycle_time(name));
+  cycle_entry->set_value(TimerBoxControl::get_cycle_time(name));
 
-  enabled_cb->set_active(TimerBox::is_enabled(name));
+  enabled_cb->set_active(TimerBoxControl::is_enabled(name));
   enable_buttons();
 }
 
@@ -239,7 +237,7 @@ TimerBoxPreferencePage::on_enabled_toggled()
 {
   bool on = enabled_cb->get_active();
 
-  TimerBox::set_enabled(name, on);
+  TimerBoxControl::set_enabled(name, on);
 
   enable_buttons();
 }
@@ -281,7 +279,7 @@ TimerBoxPreferencePage::on_place_changed()
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      TimerBox::set_timer_slot(name, (BreakId) i, slots[i]);
+      TimerBoxControl::set_timer_slot(name, (BreakId) i, slots[i]);
     }
   
 }
@@ -296,16 +294,16 @@ TimerBoxPreferencePage::on_display_changed(int break_id)
   switch (sel)
     {
     case 0:
-      flags |= TimerBox::BREAK_HIDE;
+      flags |= TimerBoxControl::BREAK_HIDE;
       break;
     case 1:
       flags = 0;
       break;
     default:
-      flags = TimerBox::BREAK_WHEN_FIRST;
+      flags = TimerBoxControl::BREAK_WHEN_FIRST;
       break;
     }
-  TimerBox::set_timer_flags(name, (BreakId) break_id, flags);
+  TimerBoxControl::set_timer_flags(name, (BreakId) break_id, flags);
 
   enable_buttons();
 }
@@ -354,9 +352,9 @@ TimerBoxPreferencePage::enable_buttons(void)
         }
       if (count == 3)
         {
-          if (TimerBox::is_enabled(name))
+          if (TimerBoxControl::is_enabled(name))
             {
-              TimerBox::set_enabled(name, false);
+              TimerBoxControl::set_enabled(name, false);
             }
           enabled_cb->set_active(false);
         }
@@ -373,7 +371,7 @@ void
 TimerBoxPreferencePage::on_cycle_time_changed()
 {
   int value = (int) cycle_entry->get_value();
-  TimerBox::set_cycle_time(name, value);
+  TimerBoxControl::set_cycle_time(name, value);
 }
 
 

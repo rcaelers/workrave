@@ -6,14 +6,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-01-28 11:56+0100\n"
+"POT-Creation-Date: 2004-02-02 22:33+0100\n"
 "PO-Revision-Date: 2003-09-09 16:27+0200\n"
 "Last-Translator: Mikołaj Machowski <mikmach@wp.pl>\n"
 "Language-Team: Mikołaj Machowski <mikmach@wp.pl>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
 
 #: frontend/gtkmm/src/eggtrayicon.c:118
 msgid "Orientation"
@@ -65,9 +65,9 @@ msgstr "Pomiń"
 msgid "Postpone"
 msgstr "Opóźnij"
 
+#: frontend/common/share/sounds/workrave.soundlist.in.h:3
 #: frontend/gtkmm/src/DailyLimitWindow.cc:45
 #: frontend/gtkmm/src/DailyLimitWindow.cc:53 frontend/gtkmm/src/GtkUtil.cc:117
-#: frontend/common/share/sounds/workrave.soundlist.in.h:3
 msgid "Daily limit"
 msgstr "Dzienny limit"
 
@@ -82,7 +82,7 @@ msgstr ""
 "skończył znajdź coś innego do roboty, np. przeglądanie,\n"
 "dokumentów."
 
-#: frontend/gtkmm/src/GUI.cc:734
+#: frontend/gtkmm/src/GUI.cc:733
 msgid "I could not initialize Bonobo"
 msgstr "Nie mogę zainicjować Bonobo"
 
@@ -189,65 +189,65 @@ msgstr "Preferencje"
 msgid "General"
 msgstr "Ogólne"
 
-#: frontend/gtkmm/src/PreferencesDialog.cc:67
+#: frontend/gtkmm/src/PreferencesDialog.cc:66
 msgid "Applet"
 msgstr "Aplet"
 
-#: frontend/gtkmm/src/PreferencesDialog.cc:70
+#: frontend/gtkmm/src/PreferencesDialog.cc:69
 msgid "Status Window"
 msgstr "Okno stanu"
 
 #. Notebook
-#: frontend/gtkmm/src/PreferencesDialog.cc:77
-#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:171
+#: frontend/gtkmm/src/PreferencesDialog.cc:76
+#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:169
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:193
 msgid "Timers"
 msgstr "Zegary"
 
-#: frontend/gtkmm/src/PreferencesDialog.cc:78
+#: frontend/gtkmm/src/PreferencesDialog.cc:77
 msgid "User interface"
 msgstr "Interfejs użytkownika"
 
-#: frontend/gtkmm/src/PreferencesDialog.cc:80
+#: frontend/gtkmm/src/PreferencesDialog.cc:79
 msgid "Network"
 msgstr "Sieć"
 
-#: frontend/gtkmm/src/PreferencesDialog.cc:121
+#: frontend/gtkmm/src/PreferencesDialog.cc:120
 msgid "No sounds"
 msgstr "Bez dźwięku"
 
-#: frontend/gtkmm/src/PreferencesDialog.cc:123
+#: frontend/gtkmm/src/PreferencesDialog.cc:122
 msgid "Play sounds using sound card"
 msgstr "przy pomocy karty dźwiękowej"
 
-#: frontend/gtkmm/src/PreferencesDialog.cc:125
+#: frontend/gtkmm/src/PreferencesDialog.cc:124
 msgid "Play sounds using built-in speaker"
 msgstr "za pomocą głośniczka w komputerze"
 
-#: frontend/gtkmm/src/PreferencesDialog.cc:153
+#: frontend/gtkmm/src/PreferencesDialog.cc:152
 msgid "No blocking"
 msgstr "Nic nie blokuj"
 
-#: frontend/gtkmm/src/PreferencesDialog.cc:155
+#: frontend/gtkmm/src/PreferencesDialog.cc:154
 msgid "Block input"
 msgstr "Zablokuj możliwość wprowadzania"
 
-#: frontend/gtkmm/src/PreferencesDialog.cc:157
+#: frontend/gtkmm/src/PreferencesDialog.cc:156
 msgid "Block input and screen"
 msgstr "Blokuj wszystko"
 
 #. Options
-#: frontend/gtkmm/src/PreferencesDialog.cc:176
+#: frontend/gtkmm/src/PreferencesDialog.cc:175
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:137
 msgid "Options"
 msgstr "Opcje"
 
 #. panel->add(*start_in_tray_cb);
-#: frontend/gtkmm/src/PreferencesDialog.cc:178
+#: frontend/gtkmm/src/PreferencesDialog.cc:177
 msgid "Sound:"
 msgstr "Dźwięk:"
 
-#: frontend/gtkmm/src/PreferencesDialog.cc:179
+#: frontend/gtkmm/src/PreferencesDialog.cc:178
 msgid "Block mode:"
 msgstr "Tryb blokowania:"
 
@@ -290,11 +290,12 @@ msgstr ""
 "odstępach czasu. Pochodź przez kilka minut, wykonaj\n"
 "kilka prostych ćwiczenń, rozciągnij się, zrelaksuj."
 
-#: frontend/gtkmm/src/TimerBox.cc:224 frontend/gtkmm/src/TimerBox.cc:304
+#: frontend/gtkmm/src/TimerBoxControl.cc:212
+#: frontend/gtkmm/src/TimerBoxGtkView.cc:156
 msgid "Wait"
 msgstr "Czekaj"
 
-#: frontend/gtkmm/src/TimerBox.cc:258
+#: frontend/gtkmm/src/TimerBoxControl.cc:170
 msgid "Inactive"
 msgstr "Nieaktywny"
 
@@ -334,32 +335,32 @@ msgstr "Pokaż okno stanu"
 msgid "The status window stays always on top of other windows"
 msgstr "Okno stanu zawsze nad innymi oknami"
 
-#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:151
+#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:150
 msgid "Applet enabled"
 msgstr "Uaktywnij aplet"
 
-#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:159
+#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:157
 msgid "Display"
 msgstr "Display"
 
-#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:168
+#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:166
 msgid "Placement:"
 msgstr "Rozmieszczenie:"
 
-#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:169
+#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:167
 msgid "Cycle time:"
 msgstr "Czas cyklu:"
 
 #. Layout
-#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:174
+#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:172
 msgid "Micro-pause:"
 msgstr "Mikropauza:"
 
-#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:175
+#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:173
 msgid "Rest break:"
 msgstr "Odpoczynek:"
 
-#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:176
+#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:174
 msgid "Daily limit:"
 msgstr "Dzienny limit:"
 
@@ -454,8 +455,8 @@ msgstr "_Pokaż log..."
 msgid "_Statistics"
 msgstr "_Statystyki"
 
-#: frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:1
 #: frontend/common/share/sounds/workrave.soundlist.in.h:10
+#: frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:1
 msgid "Workrave"
 msgstr "Workrave"
 

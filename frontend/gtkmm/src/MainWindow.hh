@@ -1,6 +1,6 @@
 // MainWindow.hh --- Main info Window
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -24,7 +24,8 @@
 class GUI;
 class TimeBar;
 class NetworkLogDialog;
-class TimerBox;
+class TimerBoxControl;
+class TimerBoxGtkView;
 
 #include <gtkmm/window.h>
 
@@ -73,7 +74,10 @@ private:
   SigC::Connection timer_connection;
 
   //! Table containing all timer information
-  TimerBox *timers_box;
+  TimerBoxControl *timer_box_control;
+
+  //! Table containing all timer information
+  TimerBoxGtkView *timer_box_view;
 
   //! The popup menu.
   Gtk::Menu *popup_menu;

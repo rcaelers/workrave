@@ -1,6 +1,6 @@
-// TimerBox.cc --- Timers Widgets
+// TimerBoxControl.cc --- Timers Widgets
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -25,19 +25,13 @@ static const char rcsid[] = "$Id$";
 #include <unistd.h>
 #include <iostream>
 
-#include <gtkmm/image.h>
-#include <gtkmm/sizegroup.h>
-#include <gtkmm/button.h>
-
 #include "nls.h"
 #include "debug.hh"
 
-
-#include "TimerBox.hh"
+#include "TimerBoxControl.hh"
 #include "TimeBar.hh"
 #include "Util.hh"
 #include "Text.hh"
-#include "Menus.hh"
 
 #include "CoreFactory.hh"
 #include "TimerInterface.hh"
@@ -49,26 +43,19 @@ static const char rcsid[] = "$Id$";
 #endif
 
 
-const string TimerBox::CFG_KEY_TIMERBOX = "gui/";
-const string TimerBox::CFG_KEY_TIMERBOX_CYCLE_TIME = "/cycle_time";
-const string TimerBox::CFG_KEY_TIMERBOX_ENABLED = "/enabled";
-const string TimerBox::CFG_KEY_TIMERBOX_POSITION = "/position";
-const string TimerBox::CFG_KEY_TIMERBOX_FLAGS = "/flags";
-const string TimerBox::CFG_KEY_TIMERBOX_IMMINENT = "/imminent";
+const std::string TimerBoxControl::CFG_KEY_TIMERBOX = "gui/";
+const std::string TimerBoxControl::CFG_KEY_TIMERBOX_CYCLE_TIME = "/cycle_time";
+const std::string TimerBoxControl::CFG_KEY_TIMERBOX_ENABLED = "/enabled";
+const std::string TimerBoxControl::CFG_KEY_TIMERBOX_POSITION = "/position";
+const std::string TimerBoxControl::CFG_KEY_TIMERBOX_FLAGS = "/flags";
+const std::string TimerBoxControl::CFG_KEY_TIMERBOX_IMMINENT = "/imminent";
 
 
 //! Constructor.
-TimerBox::TimerBox(string n) :
-  labels(NULL),
-  bars(NULL),
-  sheep(NULL),
+TimerBoxControl::TimerBoxControl(std::string n, TimerBoxView &v) :
   cycle_time(10),
-  vertical(false),
-  size(0),
-  table_rows(-1),
-  table_columns(-1),
-  visible_count(-1),
-  name(n)
+  name(n),
+  view(&v)
 {
   init();
 }
@@ -76,22 +63,8 @@ TimerBox::TimerBox(string n) :
 
 
 //! Destructor.
-TimerBox::~TimerBox()
+TimerBoxControl::~TimerBoxControl()
 {
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      if (labels[i] != NULL)
-        labels[i]->unreference();
-      if (bars[i] != NULL)
-        bars[i]->unreference();
-    }
-
-  delete [] bars;
-  delete [] labels;
-  
-  if (sheep != NULL)
-    sheep->unreference();
-
   ConfiguratorInterface *config = CoreFactory::get_configurator();
   config->remove_listener(this);
 }
@@ -99,7 +72,7 @@ TimerBox::~TimerBox()
 
 //! Updates the timerbox.
 void
-TimerBox::update()
+TimerBoxControl::update()
 {
   if (reconfigure)
     {
@@ -122,25 +95,15 @@ TimerBox::update()
 }
 
 
-//! Sets the geometry of the timerbox.
-void
-TimerBox::set_geometry(bool vertical, int size)
-{
-  this->vertical = vertical;
-  this->size = size;
-  init_table();
-}
-
-
 //! Initializes the timerbox.
 void
-TimerBox::init()
+TimerBoxControl::init()
 {
-  TRACE_ENTER("TimerBox::init");
+  TRACE_ENTER("TimerBoxControl::init");
 
   // Listen for configugration changes.
   ConfiguratorInterface *config = CoreFactory::get_configurator();
-  config->add_listener(TimerBox::CFG_KEY_TIMERBOX + name, this);
+  config->add_listener(TimerBoxControl::CFG_KEY_TIMERBOX + name, this);
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
@@ -153,7 +116,6 @@ TimerBox::init()
       break_position[i] = i;
       break_flags[i] = 0;
       break_imminent_time[i] = 0;
-      current_content[i] = -1;
       
       for (int j = 0; j < BREAK_ID_SIZEOF; j++)
         {
@@ -165,70 +127,17 @@ TimerBox::init()
   // Load the configuration
   read_configuration();
 
-  string sheep_file = Util::complete_directory("workrave-icon-medium.png", Util::SEARCH_PATH_IMAGES);
-  sheep = manage(new Gtk::Image(sheep_file));
-  sheep->reference();
-
-  init_widgets();
-
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      labels[i]->reference();
-      bars[i]->reference();
-    }
-
   reconfigure = true;
   
   TRACE_EXIT();
 }
 
 
-//! Initializes the widgets.
-void
-TimerBox::init_widgets()
-{
-  labels = new Gtk::Widget*[BREAK_ID_SIZEOF];
-  bars = new TimeBar*[BREAK_ID_SIZEOF];
-
-  Glib::RefPtr<Gtk::SizeGroup> size_group
-    = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_HORIZONTAL);
-
-  char *icons[] = { "timer-micropause.png", "timer-restbreak.png", "timer-daily.png" };
-  for (int count = 0; count < BREAK_ID_SIZEOF; count++)
-    {
-      string icon = Util::complete_directory(string(icons[count]), Util::SEARCH_PATH_IMAGES);
-      Gtk::Image *img = manage(new Gtk::Image(icon));
-      Gtk::Widget *w;
-      if (count == BREAK_ID_REST_BREAK)
-        {
-          Gtk::Button *b = manage(new Gtk::Button());
-          b->set_relief(Gtk::RELIEF_NONE);
-          b->set_border_width(0);
-          b->add(*img);
-          
-          Menus *menus = Menus::get_instance();
-          b->signal_clicked().connect(SigC::slot(*menus, &Menus::on_menu_restbreak_now));
-          w = b;
-	}
-      else
-        {
-	 w = img;
-        }
-      
-      size_group->add_widget(*w);
-      labels[count] = w;
-
-      bars[count] = manage(new TimeBar); // FIXME: LEAK
-      bars[count]->set_text_alignment(1);
-      bars[count]->set_progress(0, 60);
-      bars[count]->set_text(_("Wait"));
-    }
-}
 
 
 //! Updates the main window.
 void
-TimerBox::update_widgets()
+TimerBoxControl::update_widgets()
 {
   bool node_master = true;
   int num_peers = 0;
@@ -244,97 +153,95 @@ TimerBox::update_widgets()
     }
 #endif
   
-  for (unsigned int count = 0; count < BREAK_ID_SIZEOF; count++)
+  for (int count = 0; count < BREAK_ID_SIZEOF; count++)
     {
       CoreInterface *core = CoreFactory::get_core();
       BreakInterface *break_data = core->get_break(BreakId(count));
       TimerInterface *timer = break_data->get_timer();
-      
-      TimeBar *bar = bars[count];
 
+      std::string text;
+      TimeBar::ColorId primary_color;
+      int primary_val, primary_max;
+      TimeBar::ColorId secondary_color;
+      int secondary_val, secondary_max;
+      
       if (!node_master && num_peers > 0)
         {
-#ifndef NEW_DISTR          
-          bar->set_text(_("Inactive"));
-          bar->set_bar_color(TimeBar::COLOR_ID_INACTIVE);
-          bar->set_progress(0, 60);
-          bar->set_secondary_progress(0, 0);
-          bar->update();
-          continue;
-#else
-          bar->set_text_color(Gdk::Color("white"));
-#endif          
+          text = _("Inactive");
+          primary_color = TimeBar::COLOR_ID_INACTIVE;
+          primary_val = 0;
+          primary_max = 60;
+          secondary_val = 0;
+          secondary_max = 60;
         }
       else
         {
-          bar->set_text_color(Gdk::Color("black"));
-        }
-      
-      if (timer == NULL)
-        {
-          continue;
-        }
-      
-      TimerInterface::TimerState timerState = timer->get_state();
-
-      // Collect some data.
-      time_t maxActiveTime = timer->get_limit();
-      time_t activeTime = timer->get_elapsed_time();
-      time_t breakDuration = timer->get_auto_reset();
-      time_t idleTime = timer->get_elapsed_idle_time();
-      bool overdue = (maxActiveTime < activeTime);
-          
-      // Set the text
-      if (timer->is_limit_enabled() && maxActiveTime != 0)
-        {
-          bar->set_text(Text::time_to_string(maxActiveTime - activeTime));
-        }
-      else
-        {
-          bar->set_text(Text::time_to_string(activeTime));
-        }
-
-      // And set the bar.
-      bar->set_secondary_progress(0, 0);
-
-      if (timerState == TimerInterface::STATE_INVALID)
-        {
-          bar->set_bar_color(TimeBar::COLOR_ID_INACTIVE);
-          bar->set_progress(0, 60);
-          bar->set_text(_("Wait"));
-        }
-      else
-        {
-          // Timer is running, show elapsed time.
-          bar->set_progress(activeTime, maxActiveTime);
-          
-          if (overdue)
+          if (timer == NULL)
             {
-              bar->set_bar_color(TimeBar::COLOR_ID_OVERDUE);
+              continue;
+            }
+      
+          TimerInterface::TimerState timerState = timer->get_state();
+
+          // Collect some data.
+          time_t maxActiveTime = timer->get_limit();
+          time_t activeTime = timer->get_elapsed_time();
+          time_t breakDuration = timer->get_auto_reset();
+          time_t idleTime = timer->get_elapsed_idle_time();
+          bool overdue = (maxActiveTime < activeTime);
+          
+          // Set the text
+          if (timer->is_limit_enabled() && maxActiveTime != 0)
+            {
+              text = Text::time_to_string(maxActiveTime - activeTime);
             }
           else
             {
-              bar->set_bar_color(TimeBar::COLOR_ID_ACTIVE);
+              text = Text::time_to_string(activeTime);
             }
 
-          if (//timerState == TimerInterface::STATE_STOPPED &&
-              timer->is_auto_reset_enabled() && breakDuration != 0)
+          // And set the bar.
+          secondary_val = secondary_max = 0;
+          secondary_color = TimeBar::COLOR_ID_INACTIVE;
+
+          if (timerState == TimerInterface::STATE_INVALID)
             {
-              // resting.
-              bar->set_secondary_bar_color(TimeBar::COLOR_ID_INACTIVE);
-              bar->set_secondary_progress(idleTime, breakDuration);
+              primary_color = TimeBar::COLOR_ID_INACTIVE;
+              primary_val = 0;
+              primary_max = 60;
+              text = _("Wait");
+            }
+          else
+            {
+              // Timer is running, show elapsed time.
+              primary_val = activeTime;
+              primary_max = maxActiveTime;
+          
+              primary_color = overdue
+                ? TimeBar::COLOR_ID_OVERDUE : TimeBar::COLOR_ID_ACTIVE;
+
+              if (//timerState == TimerInterface::STATE_STOPPED &&
+                  timer->is_auto_reset_enabled() && breakDuration != 0)
+                {
+                  // resting.
+                  secondary_color = TimeBar::COLOR_ID_INACTIVE;
+                  secondary_val = idleTime;
+                  secondary_max = breakDuration;
+                }
             }
         }
-      bar->update();
+      view->set_time_bar(BreakId(count), text,
+                         primary_color, primary_val, primary_max,
+                         secondary_color, secondary_val, secondary_max);
     }
 }
 
 
 //! Initializes the applet.
 void
-TimerBox::init_table()
+TimerBoxControl::init_table()
 {
-  TRACE_ENTER("TimerBox::init_table");
+  TRACE_ENTER("TimerBoxControl::init_table");
 
   // Determine what breaks to show.
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -342,155 +249,32 @@ TimerBox::init_table()
       init_slot(i);
     }
 
-  
-  // Compute number of visible breaks.
-  int number_of_timers = 0;
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      if (break_slots[i][0] != -1)
-        {
-          number_of_timers++;
-        }
-    }
-
-  TRACE_MSG("number_of_timers = " << number_of_timers);
-  
-  // Compute table dimensions.
-  int rows = number_of_timers;
-  int columns = 1;
-
-  if (rows == 0)
-    {
-      // Show sheep.
-      rows = 1;
-    }
-
-  if (!vertical)
-    {
-      TRACE_MSG("!vertical")
-      int width, height;
-      bars[0]->get_preferred_size(width, height);
-      
-      rows = size / (height + 1);
-
-      TRACE_MSG(size << " " << rows);
-      if (rows <= 0)
-        {
-          rows = 1;
-        }
-    }
-
-  columns = (number_of_timers + rows - 1) / rows;
-  TRACE_MSG("c/r " << columns << " " << rows);
-
-  // Compute new content.
-  int new_content[BREAK_ID_SIZEOF];
+  // New content.
   int slot = 0;
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      new_content[i] = -1;
       int cycle = break_slot_cycle[i];
       int id = break_slots[i][cycle]; // break id
       if (id != -1)
         {
-          new_content[slot] = id;
+          view->set_slot(BreakId(id), slot);
           slot++;
         }
     }
-
-  bool remove_all = rows != table_rows || columns != table_columns || number_of_timers != visible_count;
-  
-  // Remove old
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      int id = current_content[i];
-      if (id != -1 && (id != new_content[i] || remove_all))
-        {
-          TRACE_MSG("remove " << i << " " << id);
-          Gtk::Widget *child = labels[id];
-          remove(*child);
-          child = bars[id];
-          remove(*child);
-        
-          current_content[i] = -1;
-        }
-    }
-  
-  // Remove sheep
-  if ((number_of_timers > 0 || remove_all) && visible_count == 0)
-    {
-      TRACE_MSG("remove sheep");
-      remove(*sheep);
-      visible_count = -1;
-    }
-
-  TRACE_MSG(rows <<" " << table_rows << " " << columns << " " << table_columns);
-  //  if (rows != table_rows || columns != table_columns || number_of_timers != visible_count)
-    {
-      TRACE_MSG("resize");
-      resize(rows, 2 * columns);
-      //set_spacings(1);
-      //show_all();
-
-      table_columns = columns;
-      table_rows = rows;
-    }
-  
-  // Add sheep.
-  if (number_of_timers == 0 && visible_count != 0)
-    {
-      attach(*sheep, 0, 2, 0, 1, Gtk::FILL, Gtk::SHRINK);
-    }
-  
-  // Fill table.
-  for (int i = 0; i < slot; i++)
-    {
-      int id = new_content[i];
-      int cid = current_content[i];
-
-      if (id != cid)
-        {
-          current_content[i] = id;
-          
-          int cur_row = i % rows;
-          int cur_col = i / rows;
-           
-          TRACE_MSG("size = " << size);
-          if (!vertical && size > 0)
-            {
-              GtkRequisition widget_size;
-              size_request(&widget_size);
-              
-              TRACE_MSG("size = " << widget_size.width << " " << widget_size.height);
-              //bars[id]->set_size_request(-1, size / rows - (rows + 1) - 2);
-            }
-
-          TRACE_MSG("attach " << cur_col << " " << cur_row);
-          
-          attach(*labels[id], 2 * cur_col, 2 * cur_col + 1, cur_row, cur_row + 1,
-                 Gtk::FILL, Gtk::SHRINK);
-          attach(*bars[id], 2 * cur_col + 1, 2 * cur_col + 2, cur_row, cur_row + 1,
-                 Gtk::EXPAND | Gtk::FILL, Gtk::SHRINK);
-        }
-    }
-
   for (int i = slot; i < BREAK_ID_SIZEOF; i++)
     {
-      current_content[i] = -1;
+      view->set_slot(BREAK_ID_NONE, i);
     }
 
-  visible_count = number_of_timers;
-  
-  show_all();
   TRACE_EXIT();
 }
 
 
 //! Compute what break to show on the specified location.
 void
-TimerBox::init_slot(int slot)
+TimerBoxControl::init_slot(int slot)
 {
-  // TRACE_ENTER_MSG("TimerBox::init_slot", slot);
+  // TRACE_ENTER_MSG("TimerBoxControl::init_slot", slot);
   int count = 0;
   int breaks_id[BREAK_ID_SIZEOF];
   bool stop = false;
@@ -646,7 +430,7 @@ TimerBox::init_slot(int slot)
 
 //! Cycles through the breaks.
 void
-TimerBox::cycle_slots()
+TimerBoxControl::cycle_slots()
 {
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
@@ -662,9 +446,9 @@ TimerBox::cycle_slots()
 
 //! Reads the applet configuration.
 void
-TimerBox::read_configuration()
+TimerBoxControl::read_configuration()
 {
-  TRACE_ENTER("TimerBox::read_configuration");
+  TRACE_ENTER("TimerBoxControl::read_configuration");
   cycle_time = get_cycle_time(name);
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
@@ -680,7 +464,7 @@ TimerBox::read_configuration()
 
 //! Callback that the configuration has changed.
 void
-TimerBox::config_changed_notify(string key)
+TimerBoxControl::config_changed_notify(string key)
 {
   (void) key;
 
@@ -695,11 +479,11 @@ TimerBox::config_changed_notify(string key)
 
 
 int
-TimerBox::get_cycle_time(string name)
+TimerBoxControl::get_cycle_time(string name)
 {
   int ret;
   if (! CoreFactory::get_configurator()
-      ->get_value(TimerBox::CFG_KEY_TIMERBOX + name + TimerBox::CFG_KEY_TIMERBOX_CYCLE_TIME, &ret))
+      ->get_value(TimerBoxControl::CFG_KEY_TIMERBOX + name + TimerBoxControl::CFG_KEY_TIMERBOX_CYCLE_TIME, &ret))
     {
       ret = 10;
     }
@@ -708,15 +492,15 @@ TimerBox::get_cycle_time(string name)
 
 
 void
-TimerBox::set_cycle_time(string name, int time)
+TimerBoxControl::set_cycle_time(string name, int time)
 {
   CoreFactory::get_configurator()
-    ->set_value(TimerBox::CFG_KEY_TIMERBOX + name + TimerBox::CFG_KEY_TIMERBOX_CYCLE_TIME, time);
+    ->set_value(TimerBoxControl::CFG_KEY_TIMERBOX + name + TimerBoxControl::CFG_KEY_TIMERBOX_CYCLE_TIME, time);
 }
 
 
 const string
-TimerBox::get_timer_config_key(string name, BreakId timer, const string &key)
+TimerBoxControl::get_timer_config_key(string name, BreakId timer, const string &key)
 {
   CoreInterface *core = CoreFactory::get_core();
   BreakInterface *break_data = core->get_break(BreakId(timer));
@@ -726,7 +510,7 @@ TimerBox::get_timer_config_key(string name, BreakId timer, const string &key)
 
 
 int
-TimerBox::get_timer_imminent_time(string name, BreakId timer)
+TimerBoxControl::get_timer_imminent_time(string name, BreakId timer)
 {
   const string key = get_timer_config_key(name, timer, CFG_KEY_TIMERBOX_IMMINENT);
   int ret;
@@ -740,7 +524,7 @@ TimerBox::get_timer_imminent_time(string name, BreakId timer)
 
 
 void
-TimerBox::set_timer_imminent_time(string name, BreakId timer, int time)
+TimerBoxControl::set_timer_imminent_time(string name, BreakId timer, int time)
 {
   const string key = get_timer_config_key(name, timer, CFG_KEY_TIMERBOX_IMMINENT);
   CoreFactory::get_configurator()->set_value(key, time);
@@ -748,7 +532,7 @@ TimerBox::set_timer_imminent_time(string name, BreakId timer, int time)
 
 
 int
-TimerBox::get_timer_slot(string name, BreakId timer)
+TimerBoxControl::get_timer_slot(string name, BreakId timer)
 {
   const string key = get_timer_config_key(name, timer, CFG_KEY_TIMERBOX_POSITION);
   int ret;
@@ -771,7 +555,7 @@ TimerBox::get_timer_slot(string name, BreakId timer)
 
 
 void
-TimerBox::set_timer_slot(string name, BreakId timer, int slot)
+TimerBoxControl::set_timer_slot(string name, BreakId timer, int slot)
 {
   const string key = get_timer_config_key(name, timer, CFG_KEY_TIMERBOX_POSITION);
   CoreFactory::get_configurator()->set_value(key, slot);
@@ -779,7 +563,7 @@ TimerBox::set_timer_slot(string name, BreakId timer, int slot)
 
 
 int
-TimerBox::get_timer_flags(string name, BreakId timer)
+TimerBoxControl::get_timer_flags(string name, BreakId timer)
 {
   const string key = get_timer_config_key(name, timer, CFG_KEY_TIMERBOX_FLAGS);
   int ret;
@@ -793,7 +577,7 @@ TimerBox::get_timer_flags(string name, BreakId timer)
 
 
 void
-TimerBox::set_timer_flags(string name, BreakId timer, int flags)
+TimerBoxControl::set_timer_flags(string name, BreakId timer, int flags)
 {
   const string key = get_timer_config_key(name, timer, CFG_KEY_TIMERBOX_FLAGS);
   CoreFactory::get_configurator()->set_value(key, flags);
@@ -801,7 +585,7 @@ TimerBox::set_timer_flags(string name, BreakId timer, int flags)
 
 
 bool
-TimerBox::is_enabled(string name)
+TimerBoxControl::is_enabled(string name)
 {
   bool ret = true;
   if (! CoreFactory::get_configurator()
@@ -814,7 +598,7 @@ TimerBox::is_enabled(string name)
 
 
 void
-TimerBox::set_enabled(string name, bool enabled)
+TimerBoxControl::set_enabled(string name, bool enabled)
 {
   CoreFactory::get_configurator()
     ->set_value(CFG_KEY_TIMERBOX + name + CFG_KEY_TIMERBOX_ENABLED, enabled);

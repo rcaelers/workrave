@@ -1,6 +1,6 @@
 // MainWindow.cc --- Main info Window
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -33,7 +33,8 @@ static const char rcsid[] = "$Id$";
 #include "AppletWindow.hh"
 #endif
 
-#include "TimerBox.hh"
+#include "TimerBoxGtkView.hh"
+#include "TimerBoxControl.hh"
 #include "MainWindow.hh"
 #include "PreferencesDialog.hh"
 #include "StatisticsDialog.hh"
@@ -88,7 +89,8 @@ const string MainWindow::CFG_KEY_MAIN_WINDOW_HEAD
  */
 MainWindow::MainWindow() :
   enabled(true),
-  timers_box(NULL),
+  timer_box_control(NULL),
+  timer_box_view(NULL),
   monitor_suspended(false),
   visible(true),
   applet_active(false),
@@ -107,7 +109,7 @@ MainWindow::MainWindow() :
 MainWindow::~MainWindow()
 {
   TRACE_ENTER("MainWindow::~MainWindow");
-
+  delete timer_box_control;
 #ifdef WIN32
   win32_exit();
 #endif
@@ -151,15 +153,16 @@ MainWindow::init()
   Glib::ListHandle<Glib::RefPtr<Gdk::Pixbuf> > icon_list(icons);
   set_icon_list(icon_list);
     
-  enabled = TimerBox::is_enabled("main_window");
+  enabled = TimerBoxControl::is_enabled("main_window");
 
   Menus *menus = Menus::get_instance();
   menus->set_main_window(this);
   popup_menu = menus->create_main_window_menu();
   
-  timers_box = manage(new TimerBox("main_window"));
-  timers_box->set_geometry(true, -1);
-  add(*timers_box);
+  timer_box_view = manage(new TimerBoxGtkView());
+  timer_box_control = new TimerBoxControl("main_window", *timer_box_view);
+  timer_box_view->set_geometry(true, -1);
+  add(*timer_box_view);
 
   set_events(get_events() | Gdk::BUTTON_PRESS_MASK | Gdk::SUBSTRUCTURE_MASK);
   
@@ -246,7 +249,7 @@ MainWindow::init()
   set_title("Workrave");
 
   ConfiguratorInterface *config = CoreFactory::get_configurator();
-  config->add_listener(TimerBox::CFG_KEY_TIMERBOX + "main_window", this);
+  config->add_listener(TimerBoxControl::CFG_KEY_TIMERBOX + "main_window", this);
 
   TRACE_EXIT();
 }
@@ -263,7 +266,7 @@ MainWindow::setup()
   bool always_on_top = get_always_on_top();
   WindowHints::set_always_on_top(Gtk::Widget::gobj(), always_on_top);
 
-  bool new_enabled = TimerBox::is_enabled("main_window");
+  bool new_enabled = TimerBoxControl::is_enabled("main_window");
 
   TRACE_MSG("on top " << always_on_top);
   TRACE_MSG("enabled " << new_enabled);
@@ -293,7 +296,7 @@ MainWindow::setup()
 void
 MainWindow::update()
 {
-  timers_box->update();
+  timer_box_control->update();
 }
 
 
@@ -303,7 +306,7 @@ void
 MainWindow::open_window()
 {
   TRACE_ENTER("MainWindow::open_window");
-  if (timers_box->get_visible_count() > 0)
+  if (timer_box_view->get_visible_count() > 0)
     {
       int x, y, head;
       set_position(Gtk::WIN_POS_NONE);
@@ -348,7 +351,7 @@ MainWindow::close_window()
 void
 MainWindow::toggle_window()
 {
-  TimerBox::set_enabled("main_window", !enabled);
+  TimerBoxControl::set_enabled("main_window", !enabled);
 }
 
 
@@ -381,7 +384,7 @@ MainWindow::on_delete_event(GdkEventAny *)
   else
     {
       close_window();
-      TimerBox::set_enabled("main_window", false);
+      TimerBoxControl::set_enabled("main_window", false);
     }
 #else
   gui->terminate();
@@ -421,7 +424,7 @@ MainWindow::on_window_state_event(GdkEventWindowState *event)
       if (event->changed_mask & GDK_WINDOW_STATE_ICONIFIED)
         {
           bool iconified = event->new_window_state & GDK_WINDOW_STATE_ICONIFIED;
-          TimerBox::set_enabled("main_window", !iconified);
+          TimerBoxControl::set_enabled("main_window", !iconified);
         }
     }
 
