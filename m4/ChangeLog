@@ -1,0 +1,21 @@
+2002-10-14  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* codeset.m4: New file, from gettext-0.11.5.
+	* gettext.m4: New file, from gettext-0.11.5.
+	* glibc21.m4: New file, from gettext-0.11.5.
+	* iconv.m4: New file, from gettext-0.11.5.
+	* intdiv0.m4: New file, from gettext-0.11.5.
+	* inttypes.m4: New file, from gettext-0.11.5.
+	* inttypes_h.m4: New file, from gettext-0.11.5.
+	* inttypes-pri.m4: New file, from gettext-0.11.5.
+	* isc-posix.m4: New file, from gettext-0.11.5.
+	* lcmessage.m4: New file, from gettext-0.11.5.
+	* lib-ld.m4: New file, from gettext-0.11.5.
+	* lib-link.m4: New file, from gettext-0.11.5.
+	* lib-prefix.m4: New file, from gettext-0.11.5.
+	* progtest.m4: New file, from gettext-0.11.5.
+	* stdint_h.m4: New file, from gettext-0.11.5.
+	* uintmax_t.m4: New file, from gettext-0.11.5.
+	* ulonglong.m4: New file, from gettext-0.11.5.
+	* Makefile.am: New file.
+
