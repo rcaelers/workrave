@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.4.0\n"
 "POT-Creation-Date: 2004-03-18 21:28+0100\n"
-"PO-Revision-Date: 2003-10-23 13:04+0200\n"
+"PO-Revision-Date: 2004-03-19 20:15+0100\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
 "MIME-Version: 1.0\n"
@@ -481,7 +481,7 @@ msgstr "Knöpfe 'Aufschieben' und 'Überspringen' anzeigen"
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:155
 msgid "Suspend timer when inactive"
-msgstr ""
+msgstr "Zeitzähler bei Untätigkeit stoppen"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:169
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:171
@@ -875,7 +875,7 @@ msgstr "Wiederaufnahme der Verbindung mit %s:%d:"
 
 #: backend/src/DistributionSocketLink.cc:345
 msgid "Cannot resolve my own hostname. Deactivating distribution."
-msgstr ""
+msgstr "Kann eigenen Rechnernamen nicht auflösen. Netzwerkbetrieb wird deaktiviert."
 
 # src/core/DistributionSocketLink.cc:345
 #. We did not succeed in starting the server. Arghh.
