@@ -612,16 +612,16 @@ MainWindow::win32_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
                 TRACE_MSG("Resume suspend");
                 CoreInterface *core = CoreFactory::get_core();
                 assert(core != NULL);
-                core->set_powersave(true);
+                core->set_powersave(false);
               }
               break;
 
             case PBT_APMSUSPEND:
               {
-                TRACE_MSG("suspend");
+                TRACE_MSG("Suspend");
                 CoreInterface *core = CoreFactory::get_core();
                 assert(core != NULL);
-                core->set_powersave(false);
+                core->set_powersave(true);
               }
               break;
             }
@@ -629,6 +629,8 @@ MainWindow::win32_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
       else if (uMsg == WM_DISPLAYCHANGE)
         {
           TRACE_MSG("WM_DISPLAYCHANGE " << wParam << " " << lParam);
+          GUI *gui = GUI::get_instance(); 
+          assert(gui != NULL);
           gui->init_multihead();
         }
     }
@@ -724,7 +726,7 @@ MainWindow::set_skipwinlist(bool s)
 bool
 MainWindow::on_configure_event(GdkEventConfigure *event)
 {
-  // This methods doesn't seem to do anything. Howener, GUI.cc does not
+  // This method doesn't seem to do anything. Howener, GUI.cc does not
   // receive the configure event signal without this. Donno why....
   (void) event;
   return false;
