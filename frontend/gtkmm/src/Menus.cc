@@ -702,7 +702,10 @@ Menus::on_menu_about()
     "Thomas Basset <thomas.basset@netcourrier.com>\n"
     "Benjamin Siband <translations@wordinfrench.com>\n"
     "Claudio Ferreira Filho <filhocf@yahoo.com.br>\n"
-    "Morten Lunde <morten.lunde@broadpark.no>\n";
+    "Morten Lunde <morten.lunde@broadpark.no>\n"
+    "Juraj Kubelka <Juraj.Kubelka@email.cz>\n"
+    "Artūras Šlajus <x11@h2o.sky.lt>\n";
+    
   string icon = Util::complete_directory("workrave.png",
                                          Util::SEARCH_PATH_IMAGES);
   GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(icon.c_str(), NULL); 
