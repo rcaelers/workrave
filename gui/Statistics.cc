@@ -925,6 +925,7 @@ Statistics::set_state(DistributedStateID id, bool master, unsigned char *buffer,
   TRACE_EXIT();
   return true;
 }
+#endif
 
 
 bool
@@ -946,4 +947,3 @@ Statistics::DailyStats::starts_before_date(int y, int m, int d)
 }
 
 
-#endif
