@@ -649,8 +649,13 @@ MainWindow::win32_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
         switch (lParam)
           {
           case WM_RBUTTONUP:
-	    SetForegroundWindow(hwnd);
-            win->win32_tray_menu->popup(3, 0); 
+            {
+              GtkWidget *window = (GtkWidget*) win->win32_tray_menu->gobj();
+              GdkWindow *gdk_window = window->window;
+              HWND phwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
+              SetForegroundWindow(phwnd);
+              win->win32_tray_menu->popup(3, 0);
+            }
             break;
           case WM_LBUTTONDBLCLK:
             win->win32_show(true);
