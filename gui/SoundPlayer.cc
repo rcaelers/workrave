@@ -25,6 +25,7 @@ static const char rcsid[] = "$Id$";
 #include "Configurator.hh"
 #include "Thread.hh"
 #include "Sound.hh"
+#include "debug.hh"
 
 #ifdef HAVE_GNOME
 #include <gdk/gdk.h>
@@ -192,7 +193,7 @@ SoundPlayer::~SoundPlayer()
 void
 SoundPlayer::play_sound(Sound snd)
 {
- 
+  TRACE_ENTER("SoundPlayer::play_sound");
   if (is_enabled())
     {
       if (get_device() == DEVICE_SOUNDCARD && player != NULL)
@@ -205,6 +206,7 @@ SoundPlayer::play_sound(Sound snd)
           t->start();
         }
     }
+  TRACE_EXIT();
 }
 
 

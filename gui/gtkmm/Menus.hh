@@ -66,10 +66,10 @@ private:
   void on_menu_network_log_main_window();
   void on_menu_network_log_tray();
   void on_network_log_response(int response);
+#endif
   void on_menu_normal_menu(Gtk::CheckMenuItem *);
   void on_menu_suspend_menu(Gtk::CheckMenuItem *);
   void on_menu_quiet_menu(Gtk::CheckMenuItem *);
-#endif
   
 public:  
   // Menu actions.

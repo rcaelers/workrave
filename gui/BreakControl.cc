@@ -246,7 +246,7 @@ BreakControl::goto_stage(BreakStage stage)
                 stats->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_TAKEN);
                 // Play sound
                 SoundPlayerInterface::Sound snd;
-                snd = (SoundPlayerInterface::Sound)0;
+                snd = (SoundPlayerInterface::Sound) -1;
                 switch (break_id)
                   {
                   case GUIControl::BREAK_ID_REST_BREAK:
@@ -256,11 +256,7 @@ BreakControl::goto_stage(BreakStage stage)
                     snd = SoundPlayerInterface::SOUND_MICRO_PAUSE_ENDED;
                     break;
                   }
-                if (snd)
-                  {
-                    GUIControl::get_instance()->get_sound_player()
-                      ->play_sound(snd);
-                  }
+                play_sound(snd);
               }
           }
       }
@@ -270,9 +266,7 @@ BreakControl::goto_stage(BreakStage stage)
       {
         break_window_stop();
         prelude_window_stop();
-        GUIControl::get_instance()->get_sound_player()
-          ->play_sound(SoundPlayerInterface::SOUND_BREAK_IGNORED);
-
+        play_sound(SoundPlayerInterface::SOUND_BREAK_IGNORED);
         defrost();
       }
       break;
@@ -285,8 +279,7 @@ BreakControl::goto_stage(BreakStage stage)
 
         prelude_window_start();
         prelude_window->refresh();
-        GUIControl::get_instance()->get_sound_player()
-          ->play_sound(SoundPlayerInterface::SOUND_BREAK_PRELUDE);
+        play_sound(SoundPlayerInterface::SOUND_BREAK_PRELUDE);
       }
       break;
         
@@ -306,7 +299,7 @@ BreakControl::goto_stage(BreakStage stage)
 
         // Play sound
         SoundPlayerInterface::Sound snd;
-        snd = (SoundPlayerInterface::Sound)0;
+        snd = (SoundPlayerInterface::Sound)-1;
         switch (break_id)
           {
           case GUIControl::BREAK_ID_REST_BREAK:
@@ -319,10 +312,7 @@ BreakControl::goto_stage(BreakStage stage)
             snd = SoundPlayerInterface::SOUND_DAILY_LIMIT;
             break;
           }
-        if (snd)
-          {
-            GUIControl::get_instance()->get_sound_player()->play_sound(snd);
-          }
+        play_sound(snd);
 
         if (insist_break)
           {
@@ -368,7 +358,7 @@ void
 BreakControl::start_break()
 {
   TRACE_ENTER("BreakControl::start_break");
-  
+  user_initiated = false;
   forced_break = false;
   prelude_time = 0;
 
@@ -416,7 +406,7 @@ void
 BreakControl::force_start_break()
 {
   TRACE_ENTER("BreakControl::force_start_break");
-
+  user_initiated = true;
   forced_break = true;
   prelude_time = 0;
 
@@ -533,6 +523,7 @@ BreakControl::postpone_break()
 void
 BreakControl::skip_break()
 {
+  user_initiated = true;
   // Reset the restbreak timer.
   if (break_id == GUIControl::BREAK_ID_DAILY_LIMIT)
     {
@@ -895,4 +886,18 @@ BreakControl::get_state_data(BreakStateData &data)
       data.final_prelude = final_prelude;
       data.prelude_time = prelude_time;
     }
+}
+
+void
+BreakControl::play_sound(SoundPlayerInterface::Sound snd)
+{
+  TRACE_ENTER("BreakControl::play_sound");
+  TRACE_MSG("user_initiated = " << user_initiated);
+  TRACE_MSG("snd = " << snd);
+  if ((!user_initiated) && !(snd < 0) )
+    {
+      GUIControl::get_instance()->get_sound_player()
+        ->play_sound(snd);
+    }
+  TRACE_EXIT();
 }

@@ -268,7 +268,7 @@ WindowHints::set_tool_window(GtkWidget *window, bool istool)
   switch (type)
     {
     case HINTTYPE_NET:
-      //WmSpec::set_window_hint(window, "_NET_WM_WINDOW_TYPE_UTILITY");
+      WmSpec::set_window_hint(window, "_NET_WM_WINDOW_TYPE_UTILITY");
       rc = true;
       
     default:
@@ -276,7 +276,6 @@ WindowHints::set_tool_window(GtkWidget *window, bool istool)
     }
 
 #elif defined(WIN32)
-#if 0
   GdkWindow *gdkWindow = window->window;
 
   HWND hDrawingWind = (HWND) GDK_WINDOW_HWND(gdkWindow);
@@ -295,7 +294,6 @@ WindowHints::set_tool_window(GtkWidget *window, bool istool)
   SetWindowLong(hDrawingWind, GWL_EXSTYLE, dwExStyle);
   SetWindowLong(hDrawingWind, GWL_STYLE, dwStyle);
   rc = true;
-#endif
 #endif
   return rc;
 }

@@ -1,6 +1,6 @@
 // BreakControl.hh --- window for the micropause
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -24,6 +24,7 @@
 #include "BreakInterface.hh"
 #include "BreakResponseInterface.hh"
 #include "GUIControl.hh"
+#include "SoundPlayerInterface.hh"
 
 class PreludeWindow;
 class BreakWindowInterface;
@@ -77,7 +78,8 @@ private:
   void break_window_stop();
   void prelude_window_start();
   void prelude_window_stop();
-
+  void play_sound(SoundPlayerInterface::Sound snd);
+  
   void collect_garbage();
   void freeze();
   void defrost();
@@ -127,6 +129,9 @@ private:
 
   //! (User initiated/seld-inflicted) forced break (i.e. RestBreak now)
   bool forced_break;
+
+  //! User initiated skip/start break.
+  bool user_initiated;
 
   //! How many times have we preluded (since the limit was reached)
   int prelude_count;
