@@ -89,7 +89,7 @@ Win32InputMonitor::terminate()
 LRESULT CALLBACK
 Win32InputMonitor::keyboard_hook(int code, WPARAM wparam, LPARAM lparam)
 {
-  TRACE_ENTER("Win32InputMonitor::keyboard_hook");
+  TRACE_ENTER_MSG("Win32InputMonitor::keyboard_hook", code << ", " << wparam << ", " << lparam);
   bool pressed = (lparam & (1 << 31)) == 0;
   bool prevpressed = (lparam & (1 << 30)) != 0;
   if (pressed && !prevpressed && code == HC_ACTION)
