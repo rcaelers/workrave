@@ -82,6 +82,7 @@ private:
   Gtk::Menu *tray_menu;
 
   Gtk::EventBox *eventbox;
+  Gtk::Alignment *frame;
   
   //! Breaks to show in applet.
   bool show_break[GUIControl::BREAK_ID_SIZEOF];

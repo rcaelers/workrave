@@ -250,7 +250,9 @@ AppletWindow::init_gnome_applet()
   TRACE_ENTER("AppletWindow::init_gnome_applet");
   CORBA_Environment ev;
   bool ok = true;
-  
+
+  int panel_size = -1;
+  bool vertical = false;
   bonobo_activate();
 
   CORBA_exception_init (&ev);
@@ -277,13 +279,19 @@ AppletWindow::init_gnome_applet()
           ok = false;
         }
 
+      panel_size = GNOME_Workrave_AppletControl_get_size(applet_control, &ev);
+      TRACE_MSG("panel size = " << panel_size);
+      vertical =  GNOME_Workrave_AppletControl_get_vertical(applet_control, &ev);
+      TRACE_MSG("panel vertical = " << vertical);
     }
 
   if (ok)
     {
+      Gtk::Alignment *frame = new Gtk::Alignment(0.5, 0.5, 1.0, 1.0);
+      frame->add(*timers_box);
+      
       plug = new Gtk::Plug(id);
-      plug->add(*timers_box);
-      plug->set_border_width(2);
+      plug->add(*frame);
       plug->show_all();
       
       plug->signal_delete_event().connect(SigC::slot(*this, &AppletWindow::delete_event));
@@ -291,6 +299,16 @@ AppletWindow::init_gnome_applet()
       if (menus != NULL)
         {
           menus->resync_applet();
+        }
+
+
+      if (vertical)
+        {
+          plug->set_size_request(panel_size, -1);
+        }
+      else
+        {
+          plug->set_size_request(-1, panel_size);
         }
     }
 
@@ -314,7 +332,11 @@ AppletWindow::destroy_gnome_applet()
         {
           plug->remove(); // FIXME: free memory.
         }
-
+      if (frame != NULL)
+        {
+          frame->remove();
+          delete frame;
+        }
       applet_control = NULL; // FIXME: free memory.
     }
   mode = APPLET_DISABLED;
@@ -326,13 +348,7 @@ bool
 AppletWindow::delete_event(GdkEventAny *event)
 {
   TRACE_ENTER("AppletWindow::deleted");
-  mode = APPLET_DISABLED;
-  if (plug != NULL)
-    {
-      plug->remove();
-      // FIXME: free memory
-    }
-  TRACE_EXIT();
+  destroy_applet();
   return true;
 }
     
