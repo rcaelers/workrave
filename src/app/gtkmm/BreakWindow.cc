@@ -45,16 +45,18 @@ static const char rcsid[] = "$Id$";
  *  \param control The controller.
  */
 BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
-                         bool ignorable, bool insist) :
-         Gtk::Window(insist ? Gtk::WINDOW_POPUP : Gtk::WINDOW_TOPLEVEL),
-         insist_break(insist),
+                         bool ignorable, GUI::BlockMode mode) :
+         Gtk::Window(mode==GUI::BLOCK_MODE_NONE
+                     ? Gtk::WINDOW_TOPLEVEL
+                     : Gtk::WINDOW_POPUP),
          ignorable_break(ignorable),
 #ifdef HAVE_X
          grab_wanted(false),
 #endif
          grab_handle(NULL),
          break_response(NULL),
-         gui(NULL)
+         gui(NULL),
+         block_mode(mode)
 {
   this->break_id = break_id;
   
@@ -68,7 +70,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   // Need to realize window before it is shown
   // Otherwise, there is not gobj()...
   realize();
-  if (! insist)
+  if (mode == GUI::BLOCK_MODE_NONE)
     {
       Glib::RefPtr<Gdk::Window> window = get_window();
       window->set_functions(Gdk::FUNC_MOVE);
@@ -89,7 +91,7 @@ BreakWindow::init_gui()
     {
       gui = manage(create_gui());
 
-      if (! insist_break)
+      if (block_mode == GUI::BLOCK_MODE_NONE)
         {
           set_border_width(12);
           add(*gui);
@@ -101,24 +103,30 @@ BreakWindow::init_gui()
           window_frame->set_border_width(12);
           window_frame->set_frame_style(Frame::STYLE_BREAK_WINDOW);
           window_frame->add(*gui);
-
-          if (head.valid)
+          if (block_mode == GUI::BLOCK_MODE_ALL)
             {
-              set_size_request(head.geometry.get_width(),
-                               head.geometry.get_height());
+              if (head.valid)
+                {
+                  set_size_request(head.geometry.get_width(),
+                                   head.geometry.get_height());
+                }
+              else
+                {
+                  set_size_request(gdk_screen_width(),
+                                   gdk_screen_height());
+                }
+
+              set_app_paintable(true);
+              set_background_pixmap();
+              Gtk::Alignment *align
+                = manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
+              align->add(*window_frame);
+              add(*align);
             }
           else
             {
-              set_size_request(gdk_screen_width(),
-                               gdk_screen_height());
+              add(*window_frame);
             }
-
-          set_app_paintable(true);
-          set_background_pixmap();
-          Gtk::Alignment *align
-            = manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
-          align->add(*window_frame);
-          add(*align);
         }
       show_all_children();
       stick();
@@ -541,7 +549,7 @@ BreakWindow::start()
   center();
   show_all();
 
-  if (insist_break)
+  if (block_mode != GUI::BLOCK_MODE_NONE)
     {
       grab();
     }

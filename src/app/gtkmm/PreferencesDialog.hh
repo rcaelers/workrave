@@ -55,8 +55,10 @@ private:
   bool on_focus_out_event(GdkEventFocus *event);  
   
   void on_sound_changed();
+  void on_block_changed();
   
   Gtk::OptionMenu *sound_button;
+  Gtk::OptionMenu *block_button;
 
   // Mode before focus in.
   OperationMode mode;

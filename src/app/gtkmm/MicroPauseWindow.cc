@@ -39,8 +39,8 @@ static const char rcsid[] = "$Id$";
 #include "Hig.hh"
 
 //! Construct a new Micropause window.
-MicroPauseWindow::MicroPauseWindow(HeadInfo &head, TimerInterface *timer, bool ignorable, bool insist) :
-  BreakWindow(BREAK_ID_MICRO_PAUSE, head, ignorable, insist),
+MicroPauseWindow::MicroPauseWindow(HeadInfo &head, TimerInterface *timer, bool ignorable, GUI::BlockMode mode) :
+  BreakWindow(BREAK_ID_MICRO_PAUSE, head, ignorable, mode),
   restbreak_timer(timer),
   progress_value(0),
   progress_max_value(0)

@@ -48,7 +48,7 @@ public:
   virtual void start_prelude_window(BreakId break_id) = 0;
 
   //! Shows a break window for specified break type.
-  virtual void start_break_window(BreakId break_id, bool ignorable, bool insist) = 0;
+  virtual void start_break_window(BreakId break_id, bool ignorable) = 0;
 
   //! Hides the break or prelude window.
   virtual void hide_break_window() = 0;

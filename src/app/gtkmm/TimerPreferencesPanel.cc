@@ -136,14 +136,6 @@ TimerPreferencesPanel::create_options_panel()
 {
   HigCategoryPanel *hig = manage(new HigCategoryPanel(_("Options")));
   
-  // Insists option
-  bool insists = break_data->get_break_insisting();
-  insists_cb = manage(new Gtk::CheckButton(_("Block user input")));
-  insists_cb->set_active(insists);
-  insists_cb->signal_toggled()
-    .connect(SigC::slot(*this, &TimerPreferencesPanel::on_insists_toggled));
-  hig->add(*insists_cb);
-  
   // Ignorable
   bool ignorable = break_data->get_break_ignorable();
   ignorable_cb = manage(new Gtk::CheckButton
@@ -338,11 +330,6 @@ TimerPreferencesPanel::on_limit_changed()
   TRACE_EXIT();
 }
 
-void
-TimerPreferencesPanel::on_insists_toggled()
-{
-  break_data->set_break_insisting(insists_cb->get_active());
-}
 
 void
 TimerPreferencesPanel::on_monitor_toggled()
@@ -378,7 +365,6 @@ TimerPreferencesPanel::enable_buttons()
 {
   bool on = enabled_cb->get_active();
 
-  insists_cb->set_sensitive(on);
   ignorable_cb->set_sensitive(on);
   if (monitor_cb != NULL)
     {

@@ -83,7 +83,7 @@ public:
   // GUIFactoryInterface methods
   virtual void set_break_response(BreakResponseInterface *rep);
   virtual void start_prelude_window(BreakId break_id);
-  virtual void start_break_window(BreakId break_id, bool ignorable, bool insist);
+  virtual void start_break_window(BreakId break_id, bool ignorable);
   virtual void hide_break_window();
   virtual void refresh_break_window();
   virtual void set_break_progress(int value, int max_value);
@@ -102,8 +102,13 @@ public:
   void terminate();
   void init_multihead();
 
-  // Misc
+  // Prefs
+  static const std::string CFG_KEY_GUI_BLOCK_MODE;
+  enum BlockMode { BLOCK_MODE_NONE = 0, BLOCK_MODE_INPUT, BLOCK_MODE_ALL };
+  BlockMode get_block_mode();
+  void set_block_mode(BlockMode mode);
   
+  // Misc
   SigC::Signal0<void> &signal_heartbeat();
   
 #ifdef HAVE_X  
@@ -144,7 +149,7 @@ private:
                         Gnome::UI::InteractStyle interact_style, bool fast);
 #endif
   void collect_garbage();
-  BreakWindowInterface *create_break_window(HeadInfo &head, BreakId break_id, bool ignorable, bool insist);
+  BreakWindowInterface *create_break_window(HeadInfo &head, BreakId break_id, bool ignorable);
 
   void locate_main_window();
   void relocate_main_window(int width, int height);

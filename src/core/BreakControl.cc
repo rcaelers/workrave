@@ -61,7 +61,6 @@ BreakControl::BreakControl(BreakId id, Core *c, AppInterface *app, Timer *timer)
   forced_break(false),
   prelude_count(0),
   number_of_preludes(2),
-  insist_break(true),
   ignorable_break(true),
   insist_policy(BreakInterface::INSIST_POLICY_HALT),
   active_insist_policy(BreakInterface::INSIST_POLICY_INVALID),
@@ -69,7 +68,6 @@ BreakControl::BreakControl(BreakId id, Core *c, AppInterface *app, Timer *timer)
   fake_break_count(0),
   user_abort(false)
 {
-  set_insist_break(insist_break);
   set_ignorable_break(ignorable_break);
 
   assert(break_timer != NULL);
@@ -193,7 +191,7 @@ BreakControl::heartbeat()
         // 2) this is NO forced (user initiated) break, and
         // 3) we don't have number_of_preludes set (i.e. >= 0)
         // 4) we hasn't reached the number_of_preludes
-        if (!is_idle && !forced_break && !final_prelude && !insist_break)
+        if (!is_idle && !forced_break && !final_prelude /*&& !insist_break*/)
           {
             // User is active while taking the break. back to prelude.
             goto_stage(STAGE_PRELUDE);
@@ -591,15 +589,6 @@ BreakControl::set_max_preludes(int m)
 }
 
 
-//! Sets the insist-break flags
-/*!
- *  A break that has 'insist' set, locks the keyboard during the break.
- */
-void
-BreakControl::set_insist_break(bool i)
-{
-  insist_break = i;
-}
 
 
 //! Sets the ignorable-break flags
@@ -654,8 +643,7 @@ BreakControl::break_window_start()
   TRACE_ENTER_MSG("BreakControl::break_window_start", break_id);
 
   application->start_break_window(break_id,
-                                  forced_break ? true : ignorable_break,
-                                  insist_break);
+                                  forced_break ? true : ignorable_break);
 
   update_break_window();
   TRACE_EXIT();

@@ -89,8 +89,6 @@ public:
   void set_break_ignorable(bool b);
   int get_break_exercises() const;
   void set_break_exercises(int n);
-  bool get_break_insisting() const;
-  void set_break_insisting(bool b);
   bool get_break_enabled() const;
   void set_break_enabled(bool b);
   void config_changed_notify(string key);
@@ -122,7 +120,6 @@ public:
   static const string CFG_KEY_BREAK_MAX_PRELUDES;
   static const string CFG_KEY_BREAK_FORCE_AFTER_PRELUDES;
   static const string CFG_KEY_BREAK_IGNORABLE;
-  static const string CFG_KEY_BREAK_INSISTING;
   static const string CFG_KEY_BREAK_ENABLED;
   static const string CFG_KEY_BREAK_EXERCISES;
 };

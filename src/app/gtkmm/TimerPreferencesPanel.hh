@@ -54,7 +54,6 @@ private:
   void on_auto_reset_changed();
   void on_limit_changed();
   void on_ignorable_toggled();
-  void on_insists_toggled();
   void on_monitor_toggled();
   void on_preludes_active_toggled();
   void on_preludes_maximum_toggled();
@@ -73,7 +72,6 @@ private:
   BreakId break_id;
   BreakInterface *break_data;
 
-  Gtk::CheckButton *insists_cb;
   Gtk::CheckButton *ignorable_cb;
   Gtk::CheckButton *monitor_cb;
   Gtk::CheckButton *prelude_cb;

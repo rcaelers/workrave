@@ -60,8 +60,9 @@ const int MARGINY = 8;
 /*!
  *  \param control The controller.
  */
-RestBreakWindow::RestBreakWindow(HeadInfo &head, bool ignorable, bool insist) :
-  BreakWindow(BREAK_ID_REST_BREAK, head, ignorable, insist),
+RestBreakWindow::RestBreakWindow(HeadInfo &head, bool ignorable,
+                                 GUI::BlockMode mode) :
+  BreakWindow(BREAK_ID_REST_BREAK, head, ignorable, mode),
   timebar(NULL),
   progress_value(0),
   progress_max_value(0)
@@ -252,8 +253,8 @@ RestBreakWindow::set_ignore_activity(bool i)
 
   bi->set_insist_policy(i ?
                         BreakInterface::INSIST_POLICY_IGNORE :
-                        (insist_break ?
-                         BreakInterface::INSIST_POLICY_HALT :
-                         BreakInterface::INSIST_POLICY_RESET));
+                        (block_mode != GUI::BLOCK_MODE_NONE
+                         ? BreakInterface::INSIST_POLICY_HALT
+                         : BreakInterface::INSIST_POLICY_RESET));
 }
 #endif

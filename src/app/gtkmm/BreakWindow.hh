@@ -29,6 +29,7 @@
 #include "BreakWindowInterface.hh"
 #include "HeadInfo.hh"
 #include "WindowHints.hh"
+#include "GUI.hh"
 
 class BreakResponseInterface;
 
@@ -43,7 +44,8 @@ class BreakWindow :
   public BreakWindowInterface
 {
 public:
-  BreakWindow(BreakId break_id, HeadInfo &head, bool ignorable, bool insist);
+  BreakWindow(BreakId break_id, HeadInfo &head, bool ignorable,
+              GUI::BlockMode block_mode);
   virtual ~BreakWindow();
 
   void set_response(BreakResponseInterface *bri);
@@ -72,7 +74,7 @@ protected:
   HeadInfo head;
 
   //! Insist
-  bool insist_break;
+  GUI::BlockMode block_mode;
 
   //! Ignorable
   bool ignorable_break;

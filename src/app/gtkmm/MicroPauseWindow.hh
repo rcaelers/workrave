@@ -22,6 +22,7 @@
 #include <stdio.h>
 
 #include "BreakWindow.hh"
+#include "GUI.hh"
 
 class TimerInterface;
 class TimeBar;
@@ -35,7 +36,8 @@ class MicroPauseWindow :
   public BreakWindow
 {
 public:
-  MicroPauseWindow(HeadInfo &head, TimerInterface *timer, bool ignorable, bool insist);
+  MicroPauseWindow(HeadInfo &head, TimerInterface *timer, bool ignorable,
+                   GUI::BlockMode mode);
   virtual ~MicroPauseWindow();
 
   void set_progress(int value, int max_value);

@@ -38,8 +38,9 @@ static const char rcsid[] = "$Id$";
 
 
 //! Construct a new Daily limit window.
-DailyLimitWindow::DailyLimitWindow(HeadInfo &head, bool ignorable, bool insist) :
-  BreakWindow(BREAK_ID_DAILY_LIMIT, head, ignorable, insist)
+DailyLimitWindow::DailyLimitWindow(HeadInfo &head, bool ignorable,
+                                   GUI::BlockMode mode) :
+  BreakWindow(BREAK_ID_DAILY_LIMIT, head, ignorable, mode)
 {
   set_title(_("Daily limit"));
 }

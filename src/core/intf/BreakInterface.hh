@@ -65,8 +65,6 @@ public:
   virtual void set_break_ignorable(bool b) = 0;
   virtual int get_break_exercises() const = 0;
   virtual void set_break_exercises(int n) = 0;
-  virtual bool get_break_insisting() const = 0;
-  virtual void set_break_insisting(bool b) = 0;
   virtual bool get_break_enabled() const = 0;
   virtual void set_break_enabled(bool b) = 0;
   virtual void set_insist_policy(InsistPolicy p) = 0;

@@ -36,7 +36,7 @@ class RestBreakWindow :
   public BreakWindow
 {
 public:
-  RestBreakWindow(HeadInfo &head, bool ignorable, bool insist);
+  RestBreakWindow(HeadInfo &head, bool ignorable, GUI::BlockMode mode);
   virtual ~RestBreakWindow();
   
   void start();

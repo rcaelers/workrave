@@ -41,6 +41,7 @@
 #include "TimerBoxPreferencePage.hh"
 #include "TimerPreferencesPanel.hh"
 #include "Util.hh"
+#include "GUI.hh"
 
 #include "CoreFactory.hh"
 #include "ConfiguratorInterface.hh"
@@ -143,10 +144,39 @@ PreferencesDialog::create_gui_page()
 // 			&PreferencesDialog::on_start_in_tray_toggled));
 //   start_in_tray_cb->set_active(MainWindow::get_start_in_tray());
 
+
+  // Block types
+  block_button  = manage(new Gtk::OptionMenu());
+  Gtk::Menu *block_menu = manage(new Gtk::Menu());
+  Gtk::Menu::MenuList &block_list = block_menu->items();
+  block_button->set_menu(*block_menu);
+  block_list.push_back(Gtk::Menu_Helpers::MenuElem(_("None")));
+  block_list.push_back(Gtk::Menu_Helpers::MenuElem
+                       (_("Block user input")));
+  block_list.push_back(Gtk::Menu_Helpers::MenuElem
+                       (_("Block all")));
+
+  int block_idx;
+  switch (GUI::get_instance()->get_block_mode())
+    {
+    case GUI::BLOCK_MODE_NONE:
+      block_idx = 0;
+      break;
+    case GUI::BLOCK_MODE_INPUT:
+      block_idx = 1;
+      break;
+    default:
+      block_idx = 2;
+    }
+  block_button->set_history(block_idx);
+  block_button->signal_changed()
+    .connect(SigC::slot(*this, &PreferencesDialog::on_block_changed));
+
   // Options
   HigCategoryPanel *panel = manage(new HigCategoryPanel(_("Options")));
   //panel->add(*start_in_tray_cb);
   panel->add(_("Sound:"), *sound_button);
+  panel->add(_("Block mode:"), *block_button);
   panel->set_border_width(12);
   return panel;
 }
@@ -219,6 +249,26 @@ PreferencesDialog::on_sound_changed()
       SoundPlayer::set_device(dev);
     }
 }
+
+void
+PreferencesDialog::on_block_changed()
+{
+  int idx = block_button->get_history();
+  GUI::BlockMode m;
+  switch (idx)
+    {
+    case 0:
+      m = GUI::BLOCK_MODE_NONE;
+      break;
+    case 1:
+      m = GUI::BLOCK_MODE_INPUT;
+      break;
+    default:
+      m = GUI::BLOCK_MODE_ALL;
+    }
+  GUI::get_instance()->set_block_mode(m);
+}
+  
 
 // void
 // PreferencesDialog::on_start_in_tray_toggled()

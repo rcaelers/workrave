@@ -42,7 +42,6 @@ const string Break::CFG_KEY_BREAK_PREFIX = "gui/breaks/";
 
 const string Break::CFG_KEY_BREAK_MAX_PRELUDES = "/max_preludes";
 const string Break::CFG_KEY_BREAK_IGNORABLE = "/ignorable_break";
-const string Break::CFG_KEY_BREAK_INSISTING = "/insist_break";
 const string Break::CFG_KEY_BREAK_ENABLED = "/enabled";
 const string Break::CFG_KEY_BREAK_EXERCISES = "/exercises";
 
@@ -59,7 +58,6 @@ struct Defaults
   // Break settings
   int max_preludes;
   bool ignorable_break;
-  bool insist_break;
   int exercises;
 
 } default_config[] =
@@ -67,21 +65,21 @@ struct Defaults
     {
       "micro_pause",
       3*60, 30, "", 150,
-      3, true, true, 
+      3, true,  
       0,
     },
 
     {
       "rest_break",
       45*60, 10*60, "", 180,
-      3, true, true, 
+      3, true,
       3
     },
     
     {
       "daily_limit",
       14400, 0, "day/4:00", 20 * 60,
-      3, true, true, 
+      3, true,
       0
     }
   };
@@ -266,7 +264,6 @@ void
 Break::update_break_config()
 {
   set_break_max_preludes(get_break_max_preludes());
-  set_break_insisting(get_break_insisting());
   set_break_ignorable(get_break_ignorable());
   set_break_enabled(get_break_enabled());
   set_break_exercises(get_break_exercises());
@@ -277,7 +274,6 @@ void
 Break::load_break_control_config()
 {
   break_control->set_max_preludes(get_break_max_preludes());
-  break_control->set_insist_break(get_break_insisting());
   break_control->set_ignorable_break(get_break_ignorable());
 
   enabled = get_break_enabled();
@@ -463,24 +459,6 @@ Break::set_break_exercises(int n)
 }
 
 
-bool
-Break::get_break_insisting() const
-{
-  bool b;
-  bool rc;
-  b = configurator->get_value(break_prefix + CFG_KEY_BREAK_INSISTING, &rc);
-  if (! b)
-    {
-      rc = default_config[break_id].insist_break;
-    }
-  return rc;
-}
-
-void
-Break::set_break_insisting(bool b)
-{
-  configurator->set_value(break_prefix + CFG_KEY_BREAK_INSISTING, b);
-}
 
 
 bool

@@ -62,7 +62,6 @@ public:
 
   // Configuration
   void set_max_preludes(int m);
-  void set_insist_break(bool i);
   void set_insist_policy(BreakInterface::InsistPolicy p);
   void set_ignorable_break(bool i);
   BreakInterface::InsistPolicy get_insist_policy() const;
@@ -126,9 +125,6 @@ private:
 
   //! After how many preludes do we force a break or give up?
   int number_of_preludes;
-
-  //! Can the user continue during break?
-  bool insist_break;
 
   //! Can the use explicitly ignore the break?
   bool ignorable_break;

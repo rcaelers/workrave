@@ -72,6 +72,8 @@ static const char rcsid[] = "$Id$";
 
 GUI *GUI::instance = NULL;
 
+const string GUI::CFG_KEY_GUI_BLOCK_MODE =  "gui/breaks/block_mode";
+
 //! GUI Constructor.
 /*!
  *  \param argc number of command line parameters.
@@ -910,21 +912,22 @@ GUI::init_remote_control()
 
 //! Returns a break window for the specified break.
 BreakWindowInterface *
-GUI::create_break_window(HeadInfo &head, BreakId break_id, bool ignorable, bool insist)
+GUI::create_break_window(HeadInfo &head, BreakId break_id, bool ignorable)
 {
   BreakWindowInterface *ret = NULL;
-  
+  BlockMode block_mode = get_block_mode();
   if (break_id == BREAK_ID_MICRO_PAUSE)
     {
-      ret = new MicroPauseWindow(head, core->get_timer(BREAK_ID_REST_BREAK), ignorable, insist);
+      ret = new MicroPauseWindow(head, core->get_timer(BREAK_ID_REST_BREAK),
+                                 ignorable, block_mode);
     }
   else if (break_id == BREAK_ID_REST_BREAK)
     {
-      ret = new RestBreakWindow(head, ignorable, insist); 
+      ret = new RestBreakWindow(head, ignorable, block_mode); 
     }
   else if (break_id == BREAK_ID_DAILY_LIMIT)
     {
-      ret = new DailyLimitWindow(head, ignorable, insist);
+      ret = new DailyLimitWindow(head, ignorable, block_mode);
     }
 
   return ret;
@@ -986,7 +989,7 @@ GUI::start_prelude_window(BreakId break_id)
 
 
 void
-GUI::start_break_window(BreakId break_id, bool ignorable, bool insist)
+GUI::start_break_window(BreakId break_id, bool ignorable)
 {
   TRACE_ENTER_MSG("GUI::start_break_window", num_heads);
   hide_break_window();
@@ -997,7 +1000,7 @@ GUI::start_break_window(BreakId break_id, bool ignorable, bool insist)
 
   for (int i = 0; i < num_heads; i++)
     {
-      BreakWindowInterface *break_window = create_break_window(heads[i], break_id, ignorable, insist);
+      BreakWindowInterface *break_window = create_break_window(heads[i], break_id, ignorable);
 
       break_windows[i] = break_window;
       
@@ -1204,4 +1207,25 @@ GUI::on_mainwindow_configure_event(GdkEventConfigure *event)
   
   TRACE_EXIT();
   return true;
+}
+
+GUI::BlockMode
+GUI::get_block_mode()
+{
+  bool b;
+  int mode;
+  b = CoreFactory::get_configurator()
+    ->get_value(CFG_KEY_GUI_BLOCK_MODE, &mode);
+  if (! b)
+    {
+      mode = BLOCK_MODE_ALL;
+    }
+  return (BlockMode) mode;
+}
+
+void
+GUI::set_block_mode(BlockMode mode)
+{
+  CoreFactory::get_configurator()
+    ->set_value(CFG_KEY_GUI_BLOCK_MODE, int(mode));
 }
