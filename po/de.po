@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
-"POT-Creation-Date: 2003-03-03 21:25+0100\n"
+"POT-Creation-Date: 2003-03-05 22:06+0100\n"
 "PO-Revision-Date: 2003-03-04 18:50+0100\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Johannes Rohr <j.rohr@comlink.apc.org>\n"
@@ -653,109 +653,3 @@ msgstr "_Protokoll anzeigen"
 #: gui/gnome/GNOME_WorkraveApplet.xml.in.h:14
 msgid "_Statistics"
 msgstr "_Statistik"
-
-#, fuzzy
-#~ msgid "Prompts"
-#~ msgstr ""
-
-#, fuzzy
-#~ msgid ""
-#~ "The number of times you were prompted to break, including repeated "
-#~ "prompts for the same break"
-#~ msgstr ""
-
-#~ msgid "Breaks taken"
-#~ msgstr ""
-
-#~ msgid "Total breaks"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Total number of unique breaks prompted. This equals the number of times "
-#~ "the timer reached zero."
-#~ msgstr ""
-
-#~ msgid "Number of times you took a break when prompted"
-#~ msgstr ""
-
-#~ msgid "Total mouse time:"
-#~ msgstr ""
-
-#~ msgid "Total mouse movement in number of pixels."
-#~ msgstr ""
-
-#~ msgid "Total click-to-click movement:"
-#~ msgstr ""
-
-#~ msgid "Show only when first:"
-#~ msgstr ""
-
-#~ msgid "Show only when imminent in:"
-#~ msgstr ""
-
-#~ msgid "Show exclusively:"
-#~ msgstr ""
-
-#~ msgid "Default break:"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "When multiple breaks are shown on a certain position, this value "
-#~ "indicates the time each break is shown."
-#~ msgstr ""
-
-#~ msgid "If set, this break will be shown in the applet."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Position on which the break timer is shown. Three positions are "
-#~ "available. In case multiple breaks have the same position, they will be "
-#~ "shown alternatingly."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "If set, this break will be shown if no other breaks are shown on the "
-#~ "selected position"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "If set, the break timer will always be the only break that will be shown "
-#~ "on that position. It will not be shown alternatingly with another break."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "If set, the break timer will only be shown if it is the first break that "
-#~ "will reach its limit."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "If set, the break timer will only be shown if it will reach its limit "
-#~ "within the specified time."
-#~ msgstr ""
-
-#~ msgid "Layout"
-#~ msgstr ""
-
-#, fuzzy
-#~ msgid "Start time:"
-#~ msgstr ""
-
-#, fuzzy
-#~ msgid "End time:"
-#~ msgstr ""
-
-#~ msgid "Connection details"
-#~ msgstr ""
-
-#~ msgid "Restbreak"
-#~ msgstr ""
-
-#~ msgid "Break visible"
-#~ msgstr ""
-
-#, fuzzy
-#~ msgid "Postponsed"
-#~ msgstr ""
-
-#~ msgid "Overdue rest break in %s"
-#~ msgstr ""

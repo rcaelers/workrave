@@ -12,7 +12,7 @@ MAINTAINERCLEANFILES 	= aclocal.m4 config.h.in configure stamp-h.in Makefile.in 
 	intltool-extract.in intltool-extract workrave.spec config.rpath compile \
 	AUTHORS.txt COPYING.txt ChangeLog.txt NEWS.txt README.txt
 
-SUBDIRS 	= m4 po arch gui src images debian sounds 
+SUBDIRS 	= m4 po arch gui src images sounds 
 
 EXTRA_DIST	= \
 	config.xml \
@@ -22,7 +22,8 @@ EXTRA_DIST	= \
 	depcomp \
 	workrave.spec.in \
 	workrave.spec \
-	intltool-extract.in intltool-merge.in intltool-update.in
+	intltool-extract.in intltool-merge.in intltool-update.in \
+	README.win32
 
 INCLUDES = -I$(top_srcdir)/src -I$(top_builddir)/arch $(GTKMM_CFLAGS) $(GTK_CFLAGS) $(SIGC_CFLAGS)
 

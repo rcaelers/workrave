@@ -529,4 +529,4 @@ AM_CONDITIONAL(HAVE_GUI_GTKMM, test "x$GTKMM_LIBS" != "x")
 AM_CONDITIONAL(HAVE_GUI_TEXT, test "x$config_with_text" = "xyes")
 AM_CONDITIONAL(HAVE_DISTRIBUTION, test "x$config_distribution" = "xyes")
                                                            
-AC_OUTPUT(src/Makefile arch/Makefile arch/unix/Makefile arch/win32/Makefile arch/win32/harpoon/Makefile gui/Makefile gui/gtkmm/Makefile gui/gnome/Makefile images/Makefile sounds/Makefile debian/Makefile Makefile po/Makefile.in m4/Makefile gui/text/Makefile workrave.spec)
+AC_OUTPUT(src/Makefile arch/Makefile arch/unix/Makefile arch/win32/Makefile arch/win32/harpoon/Makefile gui/Makefile gui/gtkmm/Makefile gui/gnome/Makefile images/Makefile sounds/Makefile Makefile po/Makefile.in m4/Makefile gui/text/Makefile workrave.spec)
