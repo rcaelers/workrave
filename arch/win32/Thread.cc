@@ -53,6 +53,7 @@ Thread::wait()
   if (thread_handle != NULL)
     {
       WaitForSingleObject(thread_handle, INFINITE);
+      CloseHandle(thread_handle);
       thread_handle = NULL;
     }
 }
