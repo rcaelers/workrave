@@ -110,7 +110,7 @@ DistributionManager::get_number_of_peers()
 bool
 DistributionManager::is_active() const
 {
-  return state == NODE_ACTIVE && state_complete;
+  return state == NODE_ACTIVE; // FIXME: && state_complete;
 }
 
 

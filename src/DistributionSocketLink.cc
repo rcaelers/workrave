@@ -780,13 +780,7 @@ DistributionSocketLink::handle_hello(Client *client)
           // Welcome!
           send_welcome(client);
 
-          // The connecting client offers the active client.
-          // This info will be received in the client list.
-          // So, we no longer know who's active...
-          set_active(NULL);
-
           // And send the list of client we are connected to.
-          // WITHOUT info about who's active on out side.
           send_client_list(client);
         }
       else
@@ -879,7 +873,13 @@ DistributionSocketLink::handle_welcome(Client *client)
 
   if (ok)
     {
-      // All, ok. Send list of known client.s
+      // The connected client offers the active client.
+      // This info will be received in the client list.
+      // So, we no longer know who's active...
+      set_active(NULL);
+      
+      // All, ok. Send list of known client.
+      // WITHOUT info about who's active on out side.
       send_client_list(client);
     }
   else
