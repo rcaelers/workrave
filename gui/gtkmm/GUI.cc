@@ -128,6 +128,13 @@ GUI::restbreak_now()
 }
 
 
+#ifdef NDEBUG
+void my_log_handler(const gchar *log_domain, GLogLevelFlags log_level,
+                    const gchar *message, gpointer user_data)
+{
+}
+#endif
+
 //! The main entry point.
 void
 GUI::main()
@@ -135,7 +142,18 @@ GUI::main()
   Gtk::Main kit(argc, argv);
 
   TRACE_ENTER("GUI::main");
-
+  
+#ifdef NDEBUG
+  char *domains[] = { NULL, "Gtk", "GLib", "Gdk", "gtkmm" };
+  for (int i = 0; i < sizeof(domains)/sizeof(char *); i++)
+    {
+      g_log_set_handler(domains[i],
+                        (GLogLevelFlags) (G_LOG_LEVEL_MASK | G_LOG_FLAG_FATAL | G_LOG_FLAG_RECURSION),
+                        my_log_handler, NULL);
+    }
+  
+#endif
+  
   init_nls();
   init_core_control();
   init_gui_control();
