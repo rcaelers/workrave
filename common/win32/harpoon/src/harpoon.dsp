@@ -106,7 +106,7 @@ SOURCE=.\harpoon.def
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
-SOURCE=.\harpoon.h
+SOURCE=..\include\harpoon.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"

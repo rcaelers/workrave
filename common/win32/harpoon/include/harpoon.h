@@ -37,11 +37,8 @@ extern "C" {
 HARPOON_API BOOL harpoon_init (void);
 HARPOON_API void harpoon_exit (void);
 
-HARPOON_API void harpoon_unhook_mouse ();
-HARPOON_API void harpoon_hook_mouse (HOOKPROC hf);
-
-HARPOON_API void harpoon_unhook_keyboard ();
-HARPOON_API void harpoon_hook_keyboard (HOOKPROC hf);
+HARPOON_API void harpoon_unhook (HHOOK hook);
+HARPOON_API HHOOK harpoon_hook (int hook_id, HOOKPROC hf);
 
 HARPOON_API void harpoon_block_input_except_for (HWND *unblocked);
 HARPOON_API void harpoon_unblock_input (void);

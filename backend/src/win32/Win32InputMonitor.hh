@@ -1,6 +1,6 @@
 // Win32InputMonitor.hh --- ActivityMonitor for Win32
 //
-// Copyright (C) 2002 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2004 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -49,6 +49,7 @@ public:
 
 private:
   static LRESULT CALLBACK keyboard_hook(int code, WPARAM wparam, LPARAM lparam);
+  static LRESULT CALLBACK keyboard_ll_hook(int code, WPARAM wparam, LPARAM lparam);
   static LRESULT CALLBACK mouse_hook(int code, WPARAM wparam, LPARAM lparam);
   static InputMonitorListenerInterface *listener;
 };

@@ -24,21 +24,25 @@
 
 #include "harpoon.h"
 
+#ifndef WH_KEYBOARD_LL
+#error WH_KEYBOARD_LL not defined.
+#endif
+
+
 #define HARPOON_MAX_UNBLOCKED_WINDOWS 16 /* Fixed, but ought to be enough... */
 #define HARPOON_WINDOW_CLASS "HarpoonNotificationWindow"
 
 #pragma comment(linker, "/SECTION:.shared,RWS")
 #pragma data_seg(".shared")
 HWND notification_window = NULL;
-HHOOK mouse_hook_handle = NULL;
-HHOOK keyboard_hook_handle = NULL;
+HHOOK hook_handles[WH_MAX+1];
 BOOL block_input = FALSE;
 HWND unblocked_windows[HARPOON_MAX_UNBLOCKED_WINDOWS];
 #pragma data_seg()
 
 static HANDLE dll_handle = NULL;
-static volatile HOOKPROC mouse_hook_callback = NULL;
-static volatile HOOKPROC keyboard_hook_callback = NULL;
+static volatile HOOKPROC hook_user_callbacks[WH_MAX+1];
+static HOOKPROC hook_impl_callbacks[WH_MAX+1];
 static ATOM notification_class = 0;
 
 typedef struct
@@ -60,9 +64,16 @@ typedef struct
   MOUSEHOOKSTRUCTEX mouse;
 } HarpoonMouseMessage;
 
+typedef struct
+{
+  HarpoonMessage message;
+  KBDLLHOOKSTRUCT keyboard_ll;
+} HarpoonKeyboardLLMessage;
+
+
 
 /**********************************************************************
- * Misc
+ * Blocking
  **********************************************************************/
 
 static BOOL
@@ -128,7 +139,7 @@ harpoon_block_input_except_for (HWND *unblocked)
  **********************************************************************/
 
 static void
-harpoon_post_message (int hook, HarpoonMessage *msg)
+harpoon_post_message (int hook, HarpoonMessage *msg, DWORD msg_size)
 {
   COPYDATASTRUCT copy;
   WPARAM wparam;
@@ -139,13 +150,12 @@ harpoon_post_message (int hook, HarpoonMessage *msg)
     {
       wparam = (WPARAM) ((HarpoonMouseMessage *) msg)
         ->mouse.MOUSEHOOKSTRUCT.hwnd;
-      copy.cbData = sizeof(HarpoonMouseMessage);
     }
   else
     {
       wparam = 0;
-      copy.cbData = sizeof(HarpoonMessage);
     }
+  copy.cbData = msg_size;
   SendMessage (notification_window, WM_COPYDATA, wparam, (LPARAM) &copy);
 }
 
@@ -156,13 +166,39 @@ harpoon_window_proc (HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     {
       PCOPYDATASTRUCT copy = (PCOPYDATASTRUCT) lParam;
       HarpoonMessage *msg = (HarpoonMessage *) copy->lpData;
-      
-      switch (copy->dwData)
+      DWORD hook_id = copy->dwData;
+      switch (hook_id)
 	{
-	case WH_KEYBOARD:
+	case WH_MOUSE:
+	  {
+            HOOKPROC proc;
+            HarpoonMouseMessage *mmsg = (HarpoonMouseMessage *) msg;
+            
+            proc = hook_user_callbacks[WH_MOUSE];
+            if (proc != NULL)
+              {
+                (*proc)(msg->code, msg->wparam, (LPARAM) &mmsg->mouse);
+              }
+	    break;
+	  }
+
+	case WH_KEYBOARD_LL:
+	  {
+            HOOKPROC proc;
+            HarpoonKeyboardLLMessage *kmsg = (HarpoonKeyboardLLMessage *) msg;
+            
+            proc = hook_user_callbacks[WH_KEYBOARD_LL];
+            if (proc != NULL)
+              {
+                (*proc)(msg->code, msg->wparam, (LPARAM) &kmsg->keyboard_ll);
+              }
+	    break;
+	  }
+
+        default:
           {
             HOOKPROC proc;
-            proc = keyboard_hook_callback;
+            proc = hook_user_callbacks[hook_id];
             if (proc != NULL)
               {
                 (*proc)(msg->code, msg->wparam, msg->lparam);
@@ -170,24 +206,166 @@ harpoon_window_proc (HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	  }
           break;
 
-	case WH_MOUSE:
-	  {
-            HOOKPROC proc;
-            HarpoonMouseMessage *mmsg = (HarpoonMouseMessage *) msg;
-            
-            proc = mouse_hook_callback;
-            if (proc != NULL)
-              {
-                (*proc)(msg->code, msg->wparam, (LPARAM) &mmsg->mouse);
-              }
-	    break;
-	  }
         }
     }
   return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 
 
+
+/**********************************************************************
+ * Generic hook
+ **********************************************************************/
+
+
+static LRESULT
+harpoon_generic_hook_return(int code, WPARAM wpar, LPARAM lpar, int hid)
+{
+  BOOL blocked = FALSE;
+  LRESULT ret;
+  
+  if (block_input && code == HC_ACTION)
+    {
+      HWND target_window;
+      if (hid == WH_MOUSE)
+        {
+          PMOUSEHOOKSTRUCT pmhs = (PMOUSEHOOKSTRUCT) lpar;
+          target_window = pmhs->hwnd;
+        }
+      else
+        {
+          target_window = NULL;
+        }
+      blocked = harpoon_is_window_blocked(target_window);
+    }
+  if (blocked)
+    {
+      ret = -1;
+    }
+  else
+    {
+      ret = CallNextHookEx(hook_handles[hid], code, wpar, lpar);
+    }
+  return ret;
+}
+
+static LRESULT CALLBACK 
+harpoon_generic_hook(int code, WPARAM wpar, LPARAM lpar, int hid)
+{
+  HarpoonMessage msg;
+
+  msg.code = code;
+  msg.wparam = wpar;
+  msg.lparam = lpar;
+  harpoon_post_message (hid, &msg, sizeof(msg));
+  return harpoon_generic_hook_return (code, wpar, lpar, hid);
+}
+  
+
+static void
+harpoon_unhook_by_id(int hook_id)
+{
+  HHOOK handle = hook_handles[hook_id];
+  if (handle != NULL)
+    {
+      UnhookWindowsHookEx(handle);
+      hook_handles[hook_id] = NULL;
+      hook_user_callbacks[hook_id] = NULL;
+    }
+}
+
+void
+harpoon_unhook(HHOOK handle)
+{
+  int hook_id;
+  for (hook_id = 0; hook_id <= WH_MAX; hook_id++)
+    {
+      if (hook_handles[hook_id] == handle)
+        {
+          harpoon_unhook_by_id(hook_id);
+          break;
+        }
+    }
+}
+
+HHOOK
+harpoon_hook(int hook_id, HOOKPROC hf)
+{
+  HHOOK ret = NULL;
+  if (hook_id >= 0 && hook_id <= WH_MAX 
+      && hook_handles[hook_id] == NULL
+      && hook_impl_callbacks[hook_id] != NULL)
+    {
+      hook_user_callbacks[hook_id] = hf;
+      ret = hook_handles[hook_id] = SetWindowsHookEx(hook_id, hook_impl_callbacks[hook_id], dll_handle, 0);
+    }
+  return ret;
+}
+
+
+
+
+/**********************************************************************
+ * Mouse hook
+ **********************************************************************/
+
+static LRESULT CALLBACK
+harpoon_mouse_hook (int code, WPARAM wpar, LPARAM lpar)
+{
+  HarpoonMouseMessage msg;
+  DWORD dwVersion, dwWindowsMajorVersion;
+  PMOUSEHOOKSTRUCT pmhs;
+
+  msg.message.code = code;
+  msg.message.wparam = wpar;
+  msg.message.lparam = 0;
+  
+  pmhs = (PMOUSEHOOKSTRUCT) lpar;
+  msg.mouse.MOUSEHOOKSTRUCT = *pmhs;
+  msg.mouse.mouseData = 0;
+
+  dwVersion = GetVersion ();
+  dwWindowsMajorVersion =  (DWORD) (LOBYTE(LOWORD(dwVersion)));
+  if (dwWindowsMajorVersion >= 5)
+    {
+      msg.mouse.mouseData = ((PMOUSEHOOKSTRUCTEX) pmhs)->mouseData;
+    }
+
+  harpoon_post_message (WH_MOUSE, &msg.message, sizeof(msg));
+
+  return harpoon_generic_hook_return (code, wpar, lpar, WH_MOUSE);
+}
+
+
+
+
+/**********************************************************************
+ * Keyboard hook
+ **********************************************************************/
+
+static LRESULT CALLBACK 
+harpoon_keyboard_hook (int code, WPARAM wpar, LPARAM lpar)
+{
+  return harpoon_generic_hook (code, wpar, lpar, WH_KEYBOARD);
+}
+
+
+static LRESULT CALLBACK 
+harpoon_keyboard_ll_hook (int code, WPARAM wpar, LPARAM lpar)
+{
+  HarpoonKeyboardLLMessage msg;
+
+  msg.message.code = code;
+  msg.message.wparam = wpar;
+  msg.message.lparam = 0;
+  
+  msg.keyboard_ll = *((KBDLLHOOKSTRUCT *) lpar);
+  harpoon_post_message (WH_KEYBOARD_LL, &msg.message, sizeof(msg));
+
+  return harpoon_generic_hook_return (code, wpar, lpar, WH_KEYBOARD_LL);
+}
+
+
 /**********************************************************************
  * Initialisation
  **********************************************************************/
@@ -212,6 +390,13 @@ harpoon_init (void)
     HARPOON_WINDOW_CLASS,
     NULL
   };
+
+  memset(hook_user_callbacks, 0, sizeof(hook_user_callbacks));
+  memset(hook_impl_callbacks, 0, sizeof(hook_impl_callbacks));
+  hook_impl_callbacks[WH_MOUSE] = harpoon_mouse_hook;
+  hook_impl_callbacks[WH_KEYBOARD] = harpoon_keyboard_hook;
+  hook_impl_callbacks[WH_KEYBOARD_LL] = harpoon_keyboard_ll_hook;
+  memset(hook_handles, 0, sizeof(hook_handles));
 
   block_input = FALSE;
   for (i = 0; i < HARPOON_MAX_UNBLOCKED_WINDOWS; i++)
@@ -247,6 +432,12 @@ harpoon_init (void)
 HARPOON_API void
 harpoon_exit (void)
 {
+  int hook_id;
+  for (hook_id = 0; hook_id <= WH_MAX; hook_id++)
+    {
+      harpoon_unhook_by_id(hook_id);
+    }
+
   if (notification_window)
     {
       CloseWindow (notification_window);
@@ -259,150 +450,6 @@ harpoon_exit (void)
     }
 }
 
-
-
-/**********************************************************************
- * Generic hook
- **********************************************************************/
-
-
-static LRESULT
-harpoon_generic_hook_return(int code, WPARAM wpar, LPARAM lpar, HHOOK hhook)
-{
-  BOOL blocked = FALSE;
-  LRESULT ret;
-  
-  if (block_input && code == HC_ACTION)
-    {
-      HWND target_window;
-      if (hhook == mouse_hook_handle)
-        {
-          PMOUSEHOOKSTRUCT pmhs = (PMOUSEHOOKSTRUCT) lpar;
-          target_window = pmhs->hwnd;
-        }
-      else
-        {
-          target_window = NULL;
-        }
-      blocked = harpoon_is_window_blocked(target_window);
-    }
-  if (blocked)
-    {
-      ret = -1;
-    }
-  else
-    {
-      ret = CallNextHookEx(hhook, code, wpar, lpar);
-    }
-  return ret;
-}
-
-static LRESULT CALLBACK 
-harpoon_generic_hook(int code, WPARAM wpar, LPARAM lpar, int hid, HHOOK hhook)
-{
-  HarpoonMessage msg;
-
-  msg.code = code;
-  msg.wparam = wpar;
-  msg.lparam = lpar;
-  harpoon_post_message (hid, &msg);
-  return harpoon_generic_hook_return (code, wpar, lpar, hhook);
-}
-  
-
-
-static void
-harpoon_unhook_generic(HHOOK *handle, volatile HOOKPROC *callback)
-{
-  if (*handle)
-    {
-      UnhookWindowsHookEx(*handle);
-      *handle = NULL;
-      *callback = NULL;
-    }
-}
-
-static void
-harpoon_hook_generic(HOOKPROC hf, HOOKPROC ghf, int hid, HHOOK *handle, 
-		     volatile HOOKPROC *callback)
-{
-  *callback = hf;
-  *handle = SetWindowsHookEx(hid, ghf, dll_handle, 0);
-}
-
-
-
-/**********************************************************************
- * Mouse hook
- **********************************************************************/
-
-static LRESULT CALLBACK
-harpoon_mouse_hook (int code, WPARAM wpar, LPARAM lpar)
-{
-  HarpoonMouseMessage msg;
-  DWORD dwVersion, dwWindowsMajorVersion;
-  PMOUSEHOOKSTRUCT pmhs;
-
-  msg.message.code = code;
-  msg.message.wparam = wpar;
-  msg.message.lparam = 0;
-  
-  pmhs = (PMOUSEHOOKSTRUCT) lpar;
-  msg.mouse.MOUSEHOOKSTRUCT = *pmhs;
-  msg.mouse.mouseData = 0;
-
-  dwVersion = GetVersion ();
-  dwWindowsMajorVersion =  (DWORD) (LOBYTE(LOWORD(dwVersion)));
-  if (dwWindowsMajorVersion >= 5)
-    {
-      msg.mouse.mouseData = ((PMOUSEHOOKSTRUCTEX) pmhs)->mouseData;
-    }
-
-  harpoon_post_message (WH_MOUSE, &msg.message);
-
-  return harpoon_generic_hook_return (code, wpar, lpar, mouse_hook_handle);
-}
-
-HARPOON_API void
-harpoon_unhook_mouse ()
-{
-  harpoon_unhook_generic (&mouse_hook_handle, &mouse_hook_callback);
-}
-
-
-HARPOON_API void
-harpoon_hook_mouse(HOOKPROC hf)
-{
-  harpoon_hook_generic(hf, harpoon_mouse_hook, WH_MOUSE, 
-		       &mouse_hook_handle, &mouse_hook_callback);
-}
-
-
-
-/**********************************************************************
- * Keyboard hook
- **********************************************************************/
-
-static LRESULT CALLBACK 
-harpoon_keyboard_hook (int code, WPARAM wpar, LPARAM lpar)
-{
-  return harpoon_generic_hook (code, wpar, lpar, WH_KEYBOARD,
-                               keyboard_hook_handle);
-}
-
-HARPOON_API void
-harpoon_unhook_keyboard ()
-{
-  harpoon_unhook_generic (&keyboard_hook_handle, &keyboard_hook_callback);
-}
-
-
-HARPOON_API void
-harpoon_hook_keyboard (HOOKPROC hf)
-{
-  harpoon_hook_generic (hf, harpoon_keyboard_hook, WH_KEYBOARD, 
-                        &keyboard_hook_handle, &keyboard_hook_callback);
-}
 
 
 

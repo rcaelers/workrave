@@ -1,6 +1,6 @@
 // Win32InputMonitor.cc --- ActivityMonitor for Win32
 //
-// Copyright (C) 2002, 2003 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -22,6 +22,7 @@ static const char rcsid[] = "$Id$";
 #endif
 
 #include <windows.h>
+#include <winuser.h>
 #include "debug.hh"
 #include "Win32InputMonitor.hh"
 #include "InputMonitorListenerInterface.hh"
@@ -67,8 +68,9 @@ Win32InputMonitor::init(InputMonitorListenerInterface *l)
   BOOL b = harpoon_init();
   assert(b);
 
-  harpoon_hook_mouse(mouse_hook);
-  harpoon_hook_keyboard(keyboard_hook);
+  harpoon_hook(WH_MOUSE, mouse_hook);
+  harpoon_hook(WH_KEYBOARD, keyboard_hook);
+  harpoon_hook(WH_KEYBOARD_LL, keyboard_ll_hook);
 }
 
 //! Stops the activity monitoring.
@@ -77,14 +79,20 @@ Win32InputMonitor::terminate()
 {
   TRACE_ENTER("Win32InputMonitor::terminate");
 
-  harpoon_unhook_mouse();
-  harpoon_unhook_keyboard();
-
   harpoon_exit();
 
   listener = NULL;
 }
 
+
+LRESULT CALLBACK
+Win32InputMonitor::keyboard_ll_hook(int code, WPARAM wparam, LPARAM lparam)
+{
+  // The ll hook has only been added so that keyboard input
+  // from within Exceed works correctly (bug 167). We're not
+  // really interested in what kind of keys in this case...
+  listener->action_notify();
+}
 
 LRESULT CALLBACK
 Win32InputMonitor::keyboard_hook(int code, WPARAM wparam, LPARAM lparam)
