@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-02 14:04+0200\n"
+"POT-Creation-Date: 2004-10-07 21:53+0200\n"
 "PO-Revision-Date: 2003-09-08 19:07+0200\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -67,7 +67,9 @@ msgid "Postpone"
 msgstr "Prokrastu"
 
 #: frontend/gtkmm/src/DailyLimitWindow.cc:45
-#: frontend/gtkmm/src/DailyLimitWindow.cc:53 frontend/gtkmm/src/GtkUtil.cc:153
+#: frontend/gtkmm/src/DailyLimitWindow.cc:53
+#: frontend/common/src/TimerBoxControl.cc:156
+#: frontend/gtkmm/src/GtkUtil.cc:154
 #: frontend/common/share/sounds/workrave.soundlist.in.h:3
 msgid "Daily limit"
 msgstr "Taglimo"
@@ -86,26 +88,29 @@ msgstr ""
 msgid "I could not initialize Bonobo"
 msgstr ""
 
-#: frontend/common/src/TimerBoxControl.cc:169
-msgid "Inactive"
-msgstr "Neaktiva"
-
-#: frontend/common/src/TimerBoxControl.cc:212
-#: frontend/gtkmm/src/TimerBoxGtkView.cc:156
-msgid "Wait"
-msgstr "Atendu"
-
-#: frontend/gtkmm/src/GtkUtil.cc:153 frontend/gtkmm/src/MicroBreakWindow.cc:48
+#. FIXME: duplicate
+#: frontend/common/src/TimerBoxControl.cc:156
+#: frontend/gtkmm/src/GtkUtil.cc:154 frontend/gtkmm/src/MicroBreakWindow.cc:48
 #: frontend/gtkmm/src/MicroBreakWindow.cc:110
-#: frontend/gtkmm/src/MicroBreakWindow.cc:150
+#: frontend/gtkmm/src/MicroBreakWindow.cc:188
 #, fuzzy
 msgid "Micro-break"
 msgstr "Paŭzeto"
 
-#: frontend/gtkmm/src/GtkUtil.cc:153 frontend/gtkmm/src/RestBreakWindow.cc:73
-#: frontend/gtkmm/src/RestBreakWindow.cc:179
+#: frontend/common/src/TimerBoxControl.cc:156
+#: frontend/gtkmm/src/GtkUtil.cc:154 frontend/gtkmm/src/RestBreakWindow.cc:73
+#: frontend/gtkmm/src/RestBreakWindow.cc:181
 msgid "Rest break"
 msgstr "Ripozo"
+
+#: frontend/common/src/TimerBoxControl.cc:173
+msgid "Inactive"
+msgstr "Neaktiva"
+
+#: frontend/common/src/TimerBoxControl.cc:220
+#: frontend/gtkmm/src/TimerBoxGtkView.cc:158
+msgid "Wait"
+msgstr "Atendu"
 
 #. Mode menu item
 #: frontend/gtkmm/src/Menus.cc:169 frontend/gtkmm/src/Menus.cc:430
@@ -181,19 +186,29 @@ msgstr ""
 "Tiu ĉi programo helpas kun la malebligado kaj resaniĝado de Ripetada "
 "Trostreĉa Vundo (RSI)."
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:128
+#: frontend/gtkmm/src/MicroBreakWindow.cc:150
 msgid "Please relax for a few seconds"
 msgstr "Bonvolu trankviliĝi por kelkaj sekundoj"
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:136
+#: frontend/gtkmm/src/MicroBreakWindow.cc:157
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Sekvanta ripozo en %s"
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:142
+#: frontend/gtkmm/src/MicroBreakWindow.cc:162
 #, fuzzy, c-format
 msgid "Rest break %s overdue"
 msgstr "Ripozo por %s"
+
+#: frontend/gtkmm/src/MicroBreakWindow.cc:175
+#, fuzzy, c-format
+msgid "Daily limit in %s"
+msgstr "Taglimo"
+
+#: frontend/gtkmm/src/MicroBreakWindow.cc:180
+#, fuzzy, c-format
+msgid "Daily limit %s overdue"
+msgstr "Taglimo"
 
 #: frontend/gtkmm/src/PreferencesDialog.cc:63
 #: frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:103
@@ -288,12 +303,12 @@ msgstr "Malaperas en"
 msgid "Silent in"
 msgstr "Silentiĝu en"
 
-#: frontend/gtkmm/src/RestBreakWindow.cc:161
+#: frontend/gtkmm/src/RestBreakWindow.cc:163
 #, c-format
 msgid "Rest break for %s"
 msgstr "Ripozo por %s"
 
-#: frontend/gtkmm/src/RestBreakWindow.cc:180
+#: frontend/gtkmm/src/RestBreakWindow.cc:182
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"

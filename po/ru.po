@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.6.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-02 14:04+0200\n"
+"POT-Creation-Date: 2004-10-07 21:53+0200\n"
 "PO-Revision-Date: 2004-07-13 20:39+0200\n"
 "Last-Translator: Sergey Kirkinsky <ksa@pfr.altai.ru>\n"
 "Language-Team: Sergey Kirkinsky <ksa@pfr.altai.ru>\n"
@@ -66,7 +66,9 @@ msgid "Postpone"
 msgstr "Отложить"
 
 #: frontend/gtkmm/src/DailyLimitWindow.cc:45
-#: frontend/gtkmm/src/DailyLimitWindow.cc:53 frontend/gtkmm/src/GtkUtil.cc:153
+#: frontend/gtkmm/src/DailyLimitWindow.cc:53
+#: frontend/common/src/TimerBoxControl.cc:156
+#: frontend/gtkmm/src/GtkUtil.cc:154
 #: frontend/common/share/sounds/workrave.soundlist.in.h:3
 msgid "Daily limit"
 msgstr "Дневной предел"
@@ -85,25 +87,28 @@ msgstr ""
 msgid "I could not initialize Bonobo"
 msgstr "Не могу инициализировать Bonobo"
 
-#: frontend/common/src/TimerBoxControl.cc:169
-msgid "Inactive"
-msgstr "Неактивно"
-
-#: frontend/common/src/TimerBoxControl.cc:212
-#: frontend/gtkmm/src/TimerBoxGtkView.cc:156
-msgid "Wait"
-msgstr "Ожидание"
-
-#: frontend/gtkmm/src/GtkUtil.cc:153 frontend/gtkmm/src/MicroBreakWindow.cc:48
+#. FIXME: duplicate
+#: frontend/common/src/TimerBoxControl.cc:156
+#: frontend/gtkmm/src/GtkUtil.cc:154 frontend/gtkmm/src/MicroBreakWindow.cc:48
 #: frontend/gtkmm/src/MicroBreakWindow.cc:110
-#: frontend/gtkmm/src/MicroBreakWindow.cc:150
+#: frontend/gtkmm/src/MicroBreakWindow.cc:188
 msgid "Micro-break"
 msgstr "Миниотдых"
 
-#: frontend/gtkmm/src/GtkUtil.cc:153 frontend/gtkmm/src/RestBreakWindow.cc:73
-#: frontend/gtkmm/src/RestBreakWindow.cc:179
+#: frontend/common/src/TimerBoxControl.cc:156
+#: frontend/gtkmm/src/GtkUtil.cc:154 frontend/gtkmm/src/RestBreakWindow.cc:73
+#: frontend/gtkmm/src/RestBreakWindow.cc:181
 msgid "Rest break"
 msgstr "Перерыв"
+
+#: frontend/common/src/TimerBoxControl.cc:173
+msgid "Inactive"
+msgstr "Неактивно"
+
+#: frontend/common/src/TimerBoxControl.cc:220
+#: frontend/gtkmm/src/TimerBoxGtkView.cc:158
+msgid "Wait"
+msgstr "Ожидание"
 
 #. Mode menu item
 #: frontend/gtkmm/src/Menus.cc:169 frontend/gtkmm/src/Menus.cc:430
@@ -179,19 +184,29 @@ msgstr ""
 "Эта программа помогает в предупреждении и лечении Туннельного Синдрома "
 "Запястья и снятии общего мышечного напряжения."
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:128
+#: frontend/gtkmm/src/MicroBreakWindow.cc:150
 msgid "Please relax for a few seconds"
 msgstr "Пожалуйста, расслабьтесь на несколько секунд"
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:136
+#: frontend/gtkmm/src/MicroBreakWindow.cc:157
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Следующий перерыв в %s"
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:142
+#: frontend/gtkmm/src/MicroBreakWindow.cc:162
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Перерыв %s запоздал"
+
+#: frontend/gtkmm/src/MicroBreakWindow.cc:175
+#, fuzzy, c-format
+msgid "Daily limit in %s"
+msgstr "Дневной предел"
+
+#: frontend/gtkmm/src/MicroBreakWindow.cc:180
+#, fuzzy, c-format
+msgid "Daily limit %s overdue"
+msgstr "Дневной предел"
 
 #: frontend/gtkmm/src/PreferencesDialog.cc:63
 #: frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:103
@@ -284,12 +299,12 @@ msgstr "Исчезнет через"
 msgid "Silent in"
 msgstr "Тишина через"
 
-#: frontend/gtkmm/src/RestBreakWindow.cc:161
+#: frontend/gtkmm/src/RestBreakWindow.cc:163
 #, c-format
 msgid "Rest break for %s"
 msgstr "Перерыв на %s"
 
-#: frontend/gtkmm/src/RestBreakWindow.cc:180
+#: frontend/gtkmm/src/RestBreakWindow.cc:182
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"

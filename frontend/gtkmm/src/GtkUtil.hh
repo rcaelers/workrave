@@ -57,7 +57,7 @@ public:
   GtkUtil::create_label_with_tooltip(std::string text,
                                      std::string tooltip);
 
-  static Gtk::Widget *
+  static Gtk::EventImage *
   GtkUtil::create_image_with_tooltip(std::string file,
                                      std::string tooltip);
 

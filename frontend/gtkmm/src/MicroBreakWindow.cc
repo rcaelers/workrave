@@ -29,6 +29,7 @@ static const char rcsid[] = "$Id$";
 #include "nls.h"
 #include "debug.hh"
 
+#include "CoreFactory.hh"
 #include "MicroBreakWindow.hh"
 #include "WindowHints.hh"
 #include "TimeBar.hh"
@@ -39,9 +40,8 @@ static const char rcsid[] = "$Id$";
 #include "Hig.hh"
 
 //! Construct a new Microbreak window.
-MicroBreakWindow::MicroBreakWindow(HeadInfo &head, TimerInterface *timer, bool ignorable, GUI::BlockMode mode) :
+MicroBreakWindow::MicroBreakWindow(HeadInfo &head, bool ignorable, GUI::BlockMode mode) :
   BreakWindow(BREAK_ID_MICRO_BREAK, head, ignorable, mode),
-  restbreak_timer(timer),
   progress_value(0),
   progress_max_value(0)
 {
@@ -122,25 +122,63 @@ void
 MicroBreakWindow::refresh_label()
 {
   TRACE_ENTER("MicroBreakWindow::refresh_label");
-  time_t limit = restbreak_timer->get_limit();
-  time_t elapsed =  restbreak_timer->get_elapsed_time();
 
-  Glib::ustring txt(_("Please relax for a few seconds"));
+  CoreInterface *core = CoreFactory::get_core();
+
+  TimerInterface *restbreak_timer =  core->get_timer(BREAK_ID_REST_BREAK);
+  TimerInterface *daily_timer =  core->get_timer(BREAK_ID_DAILY_LIMIT);
+
+  BreakId show_next = BREAK_ID_NONE;
+  
+  time_t rb = restbreak_timer->get_limit() - restbreak_timer->get_elapsed_time();
+  time_t dl = daily_timer->get_limit() - daily_timer->get_elapsed_time();
+
   if (restbreak_timer->get_state() != TimerInterface::STATE_INVALID)
+    {
+      show_next = BREAK_ID_REST_BREAK;
+    }
+
+  if (daily_timer->get_state() != TimerInterface::STATE_INVALID)
+    {
+      if (show_next == BREAK_ID_NONE || dl < rb)
+        {
+          show_next = BREAK_ID_DAILY_LIMIT;
+        }
+    }
+  
+  
+  Glib::ustring txt(_("Please relax for a few seconds"));
+  if (show_next == BREAK_ID_REST_BREAK)
     {
       char s[128];
       
-      if (limit > elapsed)
+      if (rb >= 0)
 	{
-	  time_t rb = limit - elapsed;
 	  sprintf(s, _("Next rest break in %s"),
 		  Text::time_to_string(rb, true).c_str());
 	}
       else
 	{
-	  time_t rb = elapsed - limit;
 	  sprintf(s, _("Rest break %s overdue"),
-		  Text::time_to_string(rb, true).c_str());
+		  Text::time_to_string(-rb, true).c_str());
+	}
+      
+      txt += "\n";
+      txt += s;
+    }
+  else if (show_next == BREAK_ID_DAILY_LIMIT)
+    {
+      char s[128];
+      
+      if (dl >= 0)
+	{
+	  sprintf(s, _("Daily limit in %s"),
+		  Text::time_to_string(dl, true).c_str());
+	}
+      else
+	{
+	  sprintf(s, _("Daily limit %s overdue"),
+		  Text::time_to_string(-dl, true).c_str());
 	}
       
       txt += "\n";

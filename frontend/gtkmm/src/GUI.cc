@@ -727,8 +727,7 @@ GUI::create_break_window(HeadInfo &head, BreakId break_id, bool ignorable)
   BlockMode block_mode = get_block_mode();
   if (break_id == BREAK_ID_MICRO_BREAK)
     {
-      ret = new MicroBreakWindow(head, core->get_timer(BREAK_ID_REST_BREAK),
-                                 ignorable, block_mode);
+      ret = new MicroBreakWindow(head, ignorable, block_mode);
     }
   else if (break_id == BREAK_ID_REST_BREAK)
     {

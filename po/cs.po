@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.6.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-16 22:55+0200\n"
+"POT-Creation-Date: 2004-10-07 21:53+0200\n"
 "PO-Revision-Date: 2004-08-10 21:20+0200\n"
 "Last-Translator: Juraj Kubelka <Juraj.Kubelka@email.cz>\n"
 "Language-Team: Czech <translation-team-cs@lists.sourceforge.net>\n"
@@ -68,7 +68,9 @@ msgid "Postpone"
 msgstr "Odložit"
 
 #: frontend/gtkmm/src/DailyLimitWindow.cc:45
-#: frontend/gtkmm/src/DailyLimitWindow.cc:53 frontend/gtkmm/src/GtkUtil.cc:153
+#: frontend/gtkmm/src/DailyLimitWindow.cc:53
+#: frontend/common/src/TimerBoxControl.cc:156
+#: frontend/gtkmm/src/GtkUtil.cc:154
 #: frontend/common/share/sounds/workrave.soundlist.in.h:3
 msgid "Daily limit"
 msgstr "Denní limit"
@@ -87,25 +89,28 @@ msgstr ""
 msgid "I could not initialize Bonobo"
 msgstr "Nemohu inicializovat Bonobo"
 
-#: frontend/common/src/TimerBoxControl.cc:169
-msgid "Inactive"
-msgstr "Nečinný"
-
-#: frontend/common/src/TimerBoxControl.cc:212
-#: frontend/gtkmm/src/TimerBoxGtkView.cc:156
-msgid "Wait"
-msgstr "Čekat"
-
-#: frontend/gtkmm/src/GtkUtil.cc:153 frontend/gtkmm/src/MicroBreakWindow.cc:48
+#. FIXME: duplicate
+#: frontend/common/src/TimerBoxControl.cc:156
+#: frontend/gtkmm/src/GtkUtil.cc:154 frontend/gtkmm/src/MicroBreakWindow.cc:48
 #: frontend/gtkmm/src/MicroBreakWindow.cc:110
-#: frontend/gtkmm/src/MicroBreakWindow.cc:150
+#: frontend/gtkmm/src/MicroBreakWindow.cc:188
 msgid "Micro-break"
 msgstr "Mikro-pauza"
 
-#: frontend/gtkmm/src/GtkUtil.cc:153 frontend/gtkmm/src/RestBreakWindow.cc:73
-#: frontend/gtkmm/src/RestBreakWindow.cc:179
+#: frontend/common/src/TimerBoxControl.cc:156
+#: frontend/gtkmm/src/GtkUtil.cc:154 frontend/gtkmm/src/RestBreakWindow.cc:73
+#: frontend/gtkmm/src/RestBreakWindow.cc:181
 msgid "Rest break"
 msgstr "Přestávka"
+
+#: frontend/common/src/TimerBoxControl.cc:173
+msgid "Inactive"
+msgstr "Nečinný"
+
+#: frontend/common/src/TimerBoxControl.cc:220
+#: frontend/gtkmm/src/TimerBoxGtkView.cc:158
+msgid "Wait"
+msgstr "Čekat"
 
 #. Mode menu item
 #: frontend/gtkmm/src/Menus.cc:169 frontend/gtkmm/src/Menus.cc:430
@@ -181,19 +186,29 @@ msgstr ""
 "Tento program podporuje prevenci a regeneraci opakovaných bolestivých napětí "
 "(RSI)."
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:128
+#: frontend/gtkmm/src/MicroBreakWindow.cc:150
 msgid "Please relax for a few seconds"
 msgstr "Prosím odpočívejte několik sekund"
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:136
+#: frontend/gtkmm/src/MicroBreakWindow.cc:157
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Další přestávka v %s"
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:142
+#: frontend/gtkmm/src/MicroBreakWindow.cc:162
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Přestávka %s je opožděná"
+
+#: frontend/gtkmm/src/MicroBreakWindow.cc:175
+#, fuzzy, c-format
+msgid "Daily limit in %s"
+msgstr "Denní limit"
+
+#: frontend/gtkmm/src/MicroBreakWindow.cc:180
+#, fuzzy, c-format
+msgid "Daily limit %s overdue"
+msgstr "Denní limit"
 
 #: frontend/gtkmm/src/PreferencesDialog.cc:63
 #: frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:103
@@ -286,12 +301,12 @@ msgstr "Zmizí za"
 msgid "Silent in"
 msgstr "Tichý v"
 
-#: frontend/gtkmm/src/RestBreakWindow.cc:161
+#: frontend/gtkmm/src/RestBreakWindow.cc:163
 #, c-format
 msgid "Rest break for %s"
 msgstr "Přestávka po %s"
 
-#: frontend/gtkmm/src/RestBreakWindow.cc:180
+#: frontend/gtkmm/src/RestBreakWindow.cc:182
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"

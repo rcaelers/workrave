@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-02 14:04+0200\n"
+"POT-Creation-Date: 2004-10-07 21:53+0200\n"
 "PO-Revision-Date: 2004-07-13 20:38+0200\n"
 "Last-Translator: Christian Vejlbo <christian@vejlbo.dk>\n"
 "Language-Team:  <da@li.org>\n"
@@ -67,7 +67,9 @@ msgid "Postpone"
 msgstr "Udsæt"
 
 #: frontend/gtkmm/src/DailyLimitWindow.cc:45
-#: frontend/gtkmm/src/DailyLimitWindow.cc:53 frontend/gtkmm/src/GtkUtil.cc:153
+#: frontend/gtkmm/src/DailyLimitWindow.cc:53
+#: frontend/common/src/TimerBoxControl.cc:156
+#: frontend/gtkmm/src/GtkUtil.cc:154
 #: frontend/common/share/sounds/workrave.soundlist.in.h:3
 msgid "Daily limit"
 msgstr "Daglig grænse"
@@ -86,25 +88,28 @@ msgstr ""
 msgid "I could not initialize Bonobo"
 msgstr "Teknisk besked: Kunne ikke initialisere Bonobo"
 
-#: frontend/common/src/TimerBoxControl.cc:169
-msgid "Inactive"
-msgstr "Inaktiv"
-
-#: frontend/common/src/TimerBoxControl.cc:212
-#: frontend/gtkmm/src/TimerBoxGtkView.cc:156
-msgid "Wait"
-msgstr "Vent"
-
-#: frontend/gtkmm/src/GtkUtil.cc:153 frontend/gtkmm/src/MicroBreakWindow.cc:48
+#. FIXME: duplicate
+#: frontend/common/src/TimerBoxControl.cc:156
+#: frontend/gtkmm/src/GtkUtil.cc:154 frontend/gtkmm/src/MicroBreakWindow.cc:48
 #: frontend/gtkmm/src/MicroBreakWindow.cc:110
-#: frontend/gtkmm/src/MicroBreakWindow.cc:150
+#: frontend/gtkmm/src/MicroBreakWindow.cc:188
 msgid "Micro-break"
 msgstr "Mikropause"
 
-#: frontend/gtkmm/src/GtkUtil.cc:153 frontend/gtkmm/src/RestBreakWindow.cc:73
-#: frontend/gtkmm/src/RestBreakWindow.cc:179
+#: frontend/common/src/TimerBoxControl.cc:156
+#: frontend/gtkmm/src/GtkUtil.cc:154 frontend/gtkmm/src/RestBreakWindow.cc:73
+#: frontend/gtkmm/src/RestBreakWindow.cc:181
 msgid "Rest break"
 msgstr "Hvilepause"
+
+#: frontend/common/src/TimerBoxControl.cc:173
+msgid "Inactive"
+msgstr "Inaktiv"
+
+#: frontend/common/src/TimerBoxControl.cc:220
+#: frontend/gtkmm/src/TimerBoxGtkView.cc:158
+msgid "Wait"
+msgstr "Vent"
 
 #  Mode menu item
 #. Mode menu item
@@ -182,19 +187,29 @@ msgstr ""
 "Injury).\n"
 "Endvidere kan det hjælpe brugere til bedre skærmvaner."
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:128
+#: frontend/gtkmm/src/MicroBreakWindow.cc:150
 msgid "Please relax for a few seconds"
 msgstr "Udnyt den lille pause til at slappe lidt af."
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:136
+#: frontend/gtkmm/src/MicroBreakWindow.cc:157
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Næste hvilepause om %s"
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:142
+#: frontend/gtkmm/src/MicroBreakWindow.cc:162
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Tidspunktet for hvilepause er overskredet med %s minutter"
+
+#: frontend/gtkmm/src/MicroBreakWindow.cc:175
+#, fuzzy, c-format
+msgid "Daily limit in %s"
+msgstr "Daglig grænse"
+
+#: frontend/gtkmm/src/MicroBreakWindow.cc:180
+#, fuzzy, c-format
+msgid "Daily limit %s overdue"
+msgstr "Daglig grænse"
 
 #: frontend/gtkmm/src/PreferencesDialog.cc:63
 #: frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:103
@@ -290,12 +305,12 @@ msgstr "Forsvinder om"
 msgid "Silent in"
 msgstr "Tavs om"
 
-#: frontend/gtkmm/src/RestBreakWindow.cc:161
+#: frontend/gtkmm/src/RestBreakWindow.cc:163
 #, c-format
 msgid "Rest break for %s"
 msgstr "Hvilepause i %s"
 
-#: frontend/gtkmm/src/RestBreakWindow.cc:180
+#: frontend/gtkmm/src/RestBreakWindow.cc:182
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"

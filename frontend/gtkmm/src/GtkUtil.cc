@@ -210,7 +210,7 @@ GtkUtil::create_label_with_tooltip(string text, string tooltip)
 }
 
 
-Gtk::Widget *
+Gtk::EventImage *
 GtkUtil::create_image_with_tooltip(string file, string tooltip)
 {
   EventImage *image = Gtk::manage(new EventImage(file));
@@ -218,6 +218,7 @@ GtkUtil::create_image_with_tooltip(string file, string tooltip)
   GUI::get_instance()->get_tooltips()->set_tip(*image, tooltip);
   return image;
 }
+
 
 Gtk::Label *
 GtkUtil::create_label(string text, bool bold)

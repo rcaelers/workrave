@@ -36,8 +36,7 @@ class MicroBreakWindow :
   public BreakWindow
 {
 public:
-  MicroBreakWindow(HeadInfo &head, TimerInterface *timer, bool ignorable,
-                   GUI::BlockMode mode);
+  MicroBreakWindow(HeadInfo &head, bool ignorable, GUI::BlockMode mode);
   virtual ~MicroBreakWindow();
 
   void set_progress(int value, int max_value);
@@ -52,9 +51,6 @@ private:
   void refresh_label();
   
 private:
-  //!
-  TimerInterface *restbreak_timer;
-  
   //! Time bar
   TimeBar *time_bar;
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WorkRave 1.4.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-02 14:04+0200\n"
+"POT-Creation-Date: 2004-10-07 21:53+0200\n"
 "PO-Revision-Date: 2004-07-13 20:39+0200\n"
 "Last-Translator: Rex Tsai <chihchun@linux.org.tw>\n"
 "Language-Team: Chinese/Traditional <zh-l10n@linux.org.tw>\n"
@@ -67,7 +67,9 @@ msgid "Postpone"
 msgstr "延後"
 
 #: frontend/gtkmm/src/DailyLimitWindow.cc:45
-#: frontend/gtkmm/src/DailyLimitWindow.cc:53 frontend/gtkmm/src/GtkUtil.cc:153
+#: frontend/gtkmm/src/DailyLimitWindow.cc:53
+#: frontend/common/src/TimerBoxControl.cc:156
+#: frontend/gtkmm/src/GtkUtil.cc:154
 #: frontend/common/share/sounds/workrave.soundlist.in.h:3
 msgid "Daily limit"
 msgstr "每日限制"
@@ -85,25 +87,28 @@ msgstr ""
 msgid "I could not initialize Bonobo"
 msgstr "無法啟動 Bonobo"
 
-#: frontend/common/src/TimerBoxControl.cc:169
-msgid "Inactive"
-msgstr "靜止"
-
-#: frontend/common/src/TimerBoxControl.cc:212
-#: frontend/gtkmm/src/TimerBoxGtkView.cc:156
-msgid "Wait"
-msgstr "等待"
-
-#: frontend/gtkmm/src/GtkUtil.cc:153 frontend/gtkmm/src/MicroBreakWindow.cc:48
+#. FIXME: duplicate
+#: frontend/common/src/TimerBoxControl.cc:156
+#: frontend/gtkmm/src/GtkUtil.cc:154 frontend/gtkmm/src/MicroBreakWindow.cc:48
 #: frontend/gtkmm/src/MicroBreakWindow.cc:110
-#: frontend/gtkmm/src/MicroBreakWindow.cc:150
+#: frontend/gtkmm/src/MicroBreakWindow.cc:188
 msgid "Micro-break"
 msgstr "暫停"
 
-#: frontend/gtkmm/src/GtkUtil.cc:153 frontend/gtkmm/src/RestBreakWindow.cc:73
-#: frontend/gtkmm/src/RestBreakWindow.cc:179
+#: frontend/common/src/TimerBoxControl.cc:156
+#: frontend/gtkmm/src/GtkUtil.cc:154 frontend/gtkmm/src/RestBreakWindow.cc:73
+#: frontend/gtkmm/src/RestBreakWindow.cc:181
 msgid "Rest break"
 msgstr "休息"
+
+#: frontend/common/src/TimerBoxControl.cc:173
+msgid "Inactive"
+msgstr "靜止"
+
+#: frontend/common/src/TimerBoxControl.cc:220
+#: frontend/gtkmm/src/TimerBoxGtkView.cc:158
+msgid "Wait"
+msgstr "等待"
 
 #. Mode menu item
 #: frontend/gtkmm/src/Menus.cc:169 frontend/gtkmm/src/Menus.cc:430
@@ -177,19 +182,29 @@ msgid ""
 "Injury (RSI)."
 msgstr "這個軟體是協助預防與復原重複性壓力傷害 (Repetitive Strain Injury RSI)"
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:128
+#: frontend/gtkmm/src/MicroBreakWindow.cc:150
 msgid "Please relax for a few seconds"
 msgstr "請放鬆幾秒"
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:136
+#: frontend/gtkmm/src/MicroBreakWindow.cc:157
 #, c-format
 msgid "Next rest break in %s"
 msgstr "下次休息時間 %s"
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:142
+#: frontend/gtkmm/src/MicroBreakWindow.cc:162
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "休息 %s 逾時"
+
+#: frontend/gtkmm/src/MicroBreakWindow.cc:175
+#, fuzzy, c-format
+msgid "Daily limit in %s"
+msgstr "每日限制"
+
+#: frontend/gtkmm/src/MicroBreakWindow.cc:180
+#, fuzzy, c-format
+msgid "Daily limit %s overdue"
+msgstr "每日限制"
 
 #: frontend/gtkmm/src/PreferencesDialog.cc:63
 #: frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:103
@@ -282,12 +297,12 @@ msgstr "自動消失 "
 msgid "Silent in"
 msgstr "沉默"
 
-#: frontend/gtkmm/src/RestBreakWindow.cc:161
+#: frontend/gtkmm/src/RestBreakWindow.cc:163
 #, c-format
 msgid "Rest break for %s"
 msgstr "休息 %s"
 
-#: frontend/gtkmm/src/RestBreakWindow.cc:180
+#: frontend/gtkmm/src/RestBreakWindow.cc:182
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"

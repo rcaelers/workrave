@@ -1,5 +1,5 @@
 # Makefile for PO directory in any package using GNU gettext.
-# Copyright (C) 1995-1997, 2000-2002 by Ulrich Drepper <drepper@gnu.ai.mit.edu>
+# Copyright (C) 1995-1997, 2000-2002, 2004 by Ulrich Drepper <drepper@gnu.ai.mit.edu>
 #
 # This file can be copied and used freely without restrictions.  It can
 # be used in projects which are not available under the GNU General Public
@@ -90,7 +90,7 @@ all-no:
 # have been downloaded.
 
 $(DOMAIN).pot-update: $(POTFILES) $(srcdir)/POTFILES.in
-	INTLTOOL_EXTRACT=$(INTLTOOL_EXTRACT); \
+	INTLTOOL_EXTRACT=$(INTLTOOL_EXTRACT) \
 	$(INTLTOOL_UPDATE) --pot --gettext-package $(DOMAIN)
 
 $(srcdir)/$(DOMAIN).pot:
@@ -100,7 +100,7 @@ $(POFILES): $(srcdir)/$(DOMAIN).pot
 	@lang=`echo $@ | sed -e 's,.*/,,' -e 's/\.po$$//'`; \
 	test "$(srcdir)" = . && cdcmd="" || cdcmd="cd $(srcdir) && "; \
 	echo "$${cdcmd}$(INTLTOOL_UPDATE) $${lang}.po"; \
-	cd $(srcdir) && $(INTLTOOL_UPDATE) $${lang};
+	cd $(srcdir) && INTLTOOL_EXTRACT=$(INTLTOOL_EXTRACT) $(INTLTOOL_UPDATE) $${lang};
 
 install: install-exec install-data
 install-exec:

@@ -47,7 +47,7 @@ public:
                             int primary_value, int primary_max,
                             TimeBar::ColorId secondary_color,
                             int secondary_value, int secondary_max);
-  void set_tip(string tip);
+  void set_tip(std::string tip);
   void update();
   void set_enabled(bool enabled);
 
@@ -70,7 +70,7 @@ private:
   TimeBar **bars;
 
   //! Sheep
-  Gtk::Widget *sheep;
+  EventImage *sheep;
   
   //! Allign break vertically.
   bool vertical;
