@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-09-24 18:46:03 robc>
+// Time-stamp: <2002-09-24 18:54:14 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -379,7 +379,13 @@ Timer::freeze_timer(bool freeze)
     {
       last_start_time = 0;
     }
-
+  else if (!freeze && timer_frozen)
+    {
+      if (timer_state == STATE_RUNNING)
+        {
+          last_start_time = time_source->get_time();
+        }
+    }
   timer_frozen = freeze;
 
 }
