@@ -39,8 +39,10 @@ static const char rcsid[] = "$Id$";
 #include "System.hh"
 #include "Util.hh"
 
-#ifdef WIN32
+#if defined(WIN32)
 #include "DesktopWindow.hh"
+#elif defined(HAVE_X)
+#include "desktop-window.h"
 #endif
 
 
@@ -117,7 +119,7 @@ BreakWindow::init_gui()
               set_size_request(head.get_width(),
                                head.get_height());
               set_app_paintable(true);
-              set_background_pixmap();
+              set_desktop_background(GTK_WIDGET (gobj())->window);
               Gtk::Alignment *align
                 = manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
               align->add(*window_frame);
@@ -144,160 +146,7 @@ BreakWindow::init_gui()
     }
 }
 
-#ifndef WIN32
 
-//! Courtesy of DrWright
-static GdkPixbuf *
-create_tile_pixbuf (GdkPixbuf    *dest_pixbuf,
-                    GdkPixbuf    *src_pixbuf,
-                    GdkRectangle *field_geom,
-                    guint         alpha,
-                    GdkColor     *bg_color) 
-{
-  gboolean need_composite;
-  gboolean use_simple;
-  int  cx, cy;
-  int  colorv;
-  gint     pwidth, pheight;
-
-  need_composite = (alpha < 255 || gdk_pixbuf_get_has_alpha (src_pixbuf));
-  use_simple = (dest_pixbuf == NULL);
-
-  if (dest_pixbuf == NULL)
-    dest_pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE, 8, field_geom->width, field_geom->height);
-
-  if (need_composite && use_simple)
-    colorv = ((bg_color->red & 0xff00) << 8) |
-      (bg_color->green & 0xff00) |
-      ((bg_color->blue & 0xff00) >> 8);
-  else
-    colorv = 0;
-
-  pwidth = gdk_pixbuf_get_width (src_pixbuf);
-  pheight = gdk_pixbuf_get_height (src_pixbuf);
-
-  for (cy = 0; cy < field_geom->height; cy += pheight) {
-    for (cx = 0; cx < field_geom->width; cx += pwidth) {
-      if (need_composite && !use_simple)
-        gdk_pixbuf_composite
-          (src_pixbuf, dest_pixbuf,
-           cx, cy,
-           MIN (pwidth, field_geom->width - cx), 
-           MIN (pheight, field_geom->height - cy),
-           cx, cy,
-           1.0, 1.0,
-           GDK_INTERP_NEAREST,
-           alpha);
-      else if (need_composite && use_simple)
-        gdk_pixbuf_composite_color
-          (src_pixbuf, dest_pixbuf,
-           cx, cy,
-           MIN (pwidth, field_geom->width - cx), 
-           MIN (pheight, field_geom->height - cy),
-           cx, cy,
-           1.0, 1.0,
-           GDK_INTERP_NEAREST,
-           alpha,
-           65536, 65536, 65536,
-           colorv, colorv);
-      else
-        gdk_pixbuf_copy_area
-          (src_pixbuf,
-           0, 0,
-           MIN (pwidth, field_geom->width - cx),
-           MIN (pheight, field_geom->height - cy),
-           dest_pixbuf,
-           cx, cy);
-    }
-  }
-
-  return dest_pixbuf;
-}
-
-//! Courtesy of DrWright
-void
-BreakWindow::set_background_pixmap()
-{
-  GdkPixbuf          *tmp_pixbuf, *pixbuf, *tile_pixbuf;
-  GdkPixmap          *pixmap;
-  GdkRectangle        rect;
-  GdkColor            color;
-  int screen_x, screen_y, screen_width, screen_height;
-
-  screen_x = head.get_x();
-  screen_y = head.get_y();
-  screen_width = head.get_width();
-  screen_height = head.get_height();
-
-  tmp_pixbuf = gdk_pixbuf_get_from_drawable (NULL,
-                                             gdk_get_default_root_window (),
-                                             gdk_colormap_get_system (),
-                                             screen_x,
-                                             screen_y,
-                                             0,
-                                             0,
-                                             screen_width,
-                                             screen_height);
-
-  std::string file = Util::complete_directory
-    ("ocean-stripes.png", Util::SEARCH_PATH_IMAGES);
-  pixbuf = gdk_pixbuf_new_from_file (file.c_str(), NULL);
-  
-  rect.x = 0;
-  rect.y = 0;
-  rect.width = screen_width;
-  rect.height = screen_height;
-
-  color.red = 0;
-  color.blue = 0;
-  color.green = 0;
-	
-  tile_pixbuf = create_tile_pixbuf (NULL,
-                                    pixbuf,
-                                    &rect,
-                                    155,
-                                    &color);
-
-  g_object_unref (pixbuf);
-
-  gdk_pixbuf_composite (tile_pixbuf,
-                        tmp_pixbuf,
-                        0,
-                        0,
-                        screen_width,
-                        screen_height,
-                        0,
-                        0,
-                        1,
-                        1,
-                        GDK_INTERP_NEAREST,
-                        225);
-
-  g_object_unref (tile_pixbuf);
-
-  pixmap = gdk_pixmap_new (GTK_WIDGET (gobj())->window,
-                           screen_width,
-                           screen_height,
-                           -1);
-  gdk_pixbuf_render_to_drawable_alpha (tmp_pixbuf,
-                                       pixmap,
-                                       0,
-                                       0,
-                                       0,
-                                       0,
-                                       screen_width,
-                                       screen_height,
-                                       GDK_PIXBUF_ALPHA_BILEVEL,
-                                       0,
-                                       GDK_RGB_DITHER_NONE,
-                                       0,
-                                       0);
-  g_object_unref (tmp_pixbuf);
-
-   gdk_window_set_back_pixmap (GTK_WIDGET (gobj())->window, pixmap, FALSE);
-  g_object_unref (pixmap);
-}
-#endif
         
 //! Destructor.
 BreakWindow::~BreakWindow()
@@ -546,4 +395,6 @@ BreakWindow::get_gdk_window()
 {
   return get_window();
 }
+
+
 

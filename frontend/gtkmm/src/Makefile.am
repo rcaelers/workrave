@@ -5,7 +5,7 @@
 # $Id$
 #
 
-SUBDIRS = 		gnome_applet win32
+SUBDIRS = 		gnome_applet win32 unix
 MAINTAINERCLEANFILES = 	Makefile.in ${IDL_A_GENERATED} ${IDL_C_GENERATED}
 
 
@@ -51,6 +51,8 @@ endif
 
 if HAVE_X
 sourcesx = 		AppletWindow.cc eggtrayicon.c
+includesx = 		-Iunix/
+workrave_LDFLAGS = 	-Lunix/
 endif
 
 if PLATFORM_WIN32
@@ -88,7 +90,7 @@ WIN32LIBS = 		$(top_srcdir)/common/win32/harpoon/src/Release/harpoon.lib \
 endif
 
 if HAVE_X
-X11LIBS = 		-lXmu
+X11LIBS = 		-lworkrave-frontend-gtkmm-unix -lXmu
 endif
 
 workrave_SOURCES = \
@@ -132,6 +134,7 @@ workrave_CXXFLAGS = 	-DWORKRAVE_DATADIR="\"${pkgdatadir}\"" -W \
 			@GNOMEUI_CFLAGS@ @GTK_CFLAGS@ @GTKMM_CFLAGS@ \
 			@GCONF_CFLAGS@ -D_XOPEN_SOURCE=600 @GNET_CFLAGS@ \
 			$(includeswin32) $(includesinput) \
+			$(includesx) \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
 			-I${STATISTICS_HOME}/gtkmm/src \
 			-I${EXERCISES_HOME}/gtkmm/src \
