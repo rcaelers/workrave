@@ -120,7 +120,7 @@ MainWindow::init()
       config->add_listener(GUIControl::CFG_KEY_MAIN_WINDOW, this);
     }
   
-  create_menu();
+  popup_menu = manage(create_menu());
 
   set_border_width(2);
   timers_box = manage(new Gtk::Table(GUIControl::TIMER_ID_SIZEOF, 2, false));
@@ -292,12 +292,12 @@ MainWindow::on_delete_event(GdkEventAny *)
 
 
 //! Create the popup-menu
-void
+Gtk::Menu *
 MainWindow::create_menu()
 {
-  popup_menu = manage(new Gtk::Menu());
+  Gtk::Menu *pop_menu = new Gtk::Menu();
   
-  Gtk::Menu::MenuList &menulist = popup_menu->items();
+  Gtk::Menu::MenuList &menulist = pop_menu->items();
 
   Gtk::Menu *mode_menu = manage(new Gtk::Menu());
   Gtk::Menu::MenuList &modemenulist = mode_menu->items();
@@ -309,19 +309,22 @@ MainWindow::create_menu()
 
   Gtk::RadioMenuItem::Group gr;
   // Suspend menu item.
-  normal_menu_item = manage(new Gtk::RadioMenuItem(gr, "_Normal", true));
+  Gtk::RadioMenuItem *normal_menu_item
+    = manage(new Gtk::RadioMenuItem(gr, "_Normal", true));
   normal_menu_item->signal_toggled().connect(SigC::slot(*this, &MainWindow::on_menu_normal));
   normal_menu_item->show();
   modemenulist.push_back(*normal_menu_item);
 
   // Suspend menu item.
-  suspend_menu_item = manage(new Gtk::RadioMenuItem(gr, "_Suspended", true));
+  Gtk::RadioMenuItem *suspend_menu_item
+    = manage(new Gtk::RadioMenuItem(gr, "_Suspended", true));
   suspend_menu_item->signal_toggled().connect(SigC::slot(*this, &MainWindow::on_menu_suspend));
   suspend_menu_item->show();
   modemenulist.push_back(*suspend_menu_item);
 
   // Quiet menu item.
-  quiet_menu_item = manage(new Gtk::RadioMenuItem(gr, "Q_uiet", true));
+  Gtk::RadioMenuItem *quiet_menu_item
+    = manage(new Gtk::RadioMenuItem(gr, "Q_uiet", true));
   quiet_menu_item->signal_toggled().connect(SigC::slot(*this, &MainWindow::on_menu_quiet));
   quiet_menu_item->show();
   modemenulist.push_back(*quiet_menu_item);
@@ -364,6 +367,8 @@ MainWindow::create_menu()
   // And register button callback
   set_events(get_events() | Gdk::BUTTON_PRESS_MASK);
   signal_button_press_event().connect(SigC::slot(*this, &MainWindow::on_button_event));
+
+  return pop_menu;
 }
 
 
@@ -623,6 +628,12 @@ MainWindow::win32_init()
   win32_tray_icon.hIcon = LoadIcon(hinstance, "workrave");
   strcpy(win32_tray_icon.szTip, "Workrave");
   Shell_NotifyIcon(NIM_ADD, &win32_tray_icon);
+
+  win32_tray_menu = manage(create_menu());
+  Gtk::Menu::MenuList &menulist = win32_tray_menu->items();
+  menulist.push_front(Gtk::Menu_Helpers::StockMenuElem
+                     (Gtk::Stock::OPEN,
+                      SigC::slot(*this, &MainWindow::win32_on_tray_open)));
 }
 
 void
@@ -647,7 +658,7 @@ MainWindow::win32_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
           {
           case WM_RBUTTONUP:
 	    SetForegroundWindow(hwnd);
-            win->popup_menu->popup(3, 0); 
+            win->win32_tray_menu->popup(3, 0); 
             break;
           case WM_LBUTTONDBLCLK:
             win->win32_show(true);
@@ -658,5 +669,13 @@ MainWindow::win32_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
     }
   return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
+
+//! User requested immediate restbreak.
+void
+MainWindow::win32_on_tray_open()
+{
+  win32_show(true);
+}
+
 
 #endif

@@ -71,15 +71,6 @@ private:
   //! The popup menu.
   Gtk::Menu *popup_menu;
 
-  //! Normal menu item.
-  Gtk::CheckMenuItem *normal_menu_item;
-
-  //! Suspend menu item.
-  Gtk::CheckMenuItem *suspend_menu_item;
-
-  //! Quiet menu item.
-  Gtk::CheckMenuItem *quiet_menu_item;
-  
   //! Is the monitoring function suspended?
   bool monitor_suspended;
   
@@ -90,7 +81,7 @@ private:
   //
   void init();
   void setup();
-  void create_menu();
+  Gtk::Menu *create_menu();
   void load_config();
   void store_config();
   void config_changed_notify(string key);
@@ -115,8 +106,12 @@ private:
   void win32_show(bool b);
   void win32_init();
   void win32_exit();
+  void win32_on_tray_open();
+
   static LRESULT CALLBACK win32_window_proc(HWND hwnd, UINT uMsg,
                                             WPARAM wParam, LPARAM lParam);
+
+  Gtk::Menu *win32_tray_menu;
   HWND win32_main_hwnd;
   NOTIFYICONDATA win32_tray_icon;
 #endif
