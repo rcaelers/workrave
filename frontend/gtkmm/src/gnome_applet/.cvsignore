@@ -14,3 +14,5 @@ Workrave-Control-stubs.c
 Workrave-Control.h
 Workrave-Control.server
 Workrave-Control.server.in
+GNOME_WorkraveApplet.xml
+workrave-applet

@@ -58,3 +58,4 @@ stamp-h1
 configure.in
 configure.files
 Makefile.am
+acinclude.m4
