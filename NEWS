@@ -1,4 +1,4 @@
-Workrave NEWS -- history of user-visible changes.  26 September 2002
+Workrave NEWS -- history of user-visible changes.  10 October 2002
 Copyright (C) 2001-2002 Rob Caelers & Raymond Penners
 See the end for copying conditions.
 
@@ -7,13 +7,20 @@ http://workrave.sourceforge.net
 
 * Workrave 0.3.0
 
+** Added distribution support, dubbed "The Collective". What this
+means is that you can now create a network of Workrave instances
+running on several computers. All instances that are part of "the
+collective" share the same timer information, meaning that if one
+computer informs you to take a break, it is futile to flee to another
+computer as it will also tell you to take a break.
+
 ** Added sound support. You can configure the samples that are played
 through the standard sound control panel provided by Gnome and
 Windows. For office PCs that do not have a sound card, you can choose
 to play sounds through the internal PC speaker.
 
 ** The window prompting you to brake now moves earlier to the top of
-the screen so that it does not interfere too much. Furtermore, the
+the screen so that it does not interfere too much. Furthermore, the
 window has a new and improved "evasive manouvers" algorithm.
 
 * Workrave 0.2.0
