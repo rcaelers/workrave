@@ -353,6 +353,19 @@ GUIControl::restart_break()
     }
 }
 
+void
+GUIControl::set_freeze_all_breaks(bool freeze)
+{
+  TRACE_ENTER_MSG("GUIControl::set_freeze_all_breaks", freeze);
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+    {
+      TimerInterface *t = timers[i].timer;
+      assert(t != NULL);
+      t->freeze_timer(freeze);
+    }
+  TRACE_EXIT();
+}
+
 
 GUIControl::OperationMode
 GUIControl::set_operation_mode(OperationMode mode)

@@ -107,7 +107,8 @@ public:
   OperationMode set_operation_mode(OperationMode mode);
   void break_action(BreakId id, BreakAction action);
   Configurator *get_configurator();
-
+  void set_freeze_all_breaks(bool freeze);
+  
 private:
   void stop_all_breaks();
   void restart_break();

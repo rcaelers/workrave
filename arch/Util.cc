@@ -23,6 +23,13 @@ static const char rcsid[] = "$Id$";
 #include <stdio.h>
 #include <sstream>
 
+#ifdef HAVE_SYS_STAT_H
+#include <sys/stat.h>
+#endif
+#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
+
 #ifdef WIN32
 #include <windows.h>
 // HACK: #include <shlobj.h>, need -fvtable-thunks.
@@ -59,6 +66,8 @@ Util::get_home_directory()
     {
       ret = home;
       ret += "/.workrave/";
+
+      mkdir(ret.c_str(), 0777);
     }
 #elif defined(WIN32)
   void *pidl; 
@@ -146,9 +155,9 @@ Util::get_search_path(SearchPathId type)
           searchPath.push_back(home_dir + "/");
           searchPath.push_back(home_dir + "/images");
         }
-      searchPath.push_back(string(DATADIR) + "/");
-      searchPath.push_back("/usr/local/share/workrave");
-      searchPath.push_back("/usr/share/workrave");
+      searchPath.push_back(string(DATADIR) + "/images");
+      searchPath.push_back("/usr/local/share/workrave/images");
+      searchPath.push_back("/usr/share/workrave/images");
 #elif defined(WIN32)
       searchPath.push_back(string(app_dir) + "\\share\\images");
 #endif    

@@ -108,6 +108,7 @@ public:
   // Misc
   void set_snooze_interval(time_t time);
   void set_activity_monitor(ActivityMonitorInterface *am);
+  bool has_activity_monitor();
   
 private:
   //! Activity or Idle timer.

@@ -630,7 +630,8 @@ BreakControl::freeze()
     case INSIST_POLICY_HALT:
       {
         TRACE_MSG("freezing timer");
-        break_timer->freeze_timer(true);
+        GUIControl *gui_control = GUIControl::get_instance();
+        gui_control->set_freeze_all_breaks(true);
       }
       break;
     case INSIST_POLICY_RESET:
@@ -657,8 +658,9 @@ BreakControl::defrost()
       break;
     case INSIST_POLICY_HALT:
       {
-        TRACE_MSG("freezing timer");
-        break_timer->freeze_timer(false);
+        TRACE_MSG("defrosting timer");
+        GUIControl *gui_control = GUIControl::get_instance();
+        gui_control->set_freeze_all_breaks(false);
       }
       break;
       

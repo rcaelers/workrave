@@ -158,15 +158,31 @@ Control::process_timers(map<string, TimerInfo> &infos)
             << stats.total_keystrokes
             )
 
-  
   current_time = time(NULL);
-          
+
+  // FIXME: quick solution for dependancy probleem if a timer
+  // uses a private activity monitor...
+  
   for (TimerCIter i = timers.begin(); i != timers.end(); i++)
     {
-      TimerInfo info;
-      (*i)->process(state, info);
+      if (!(*i)->has_activity_monitor())
+        {
+          TimerInfo info;
+          (*i)->process(state, info);
 
-      infos[(*i)->get_id()] = info;
+          infos[(*i)->get_id()] = info;
+        }
+    }
+
+  for (TimerCIter i = timers.begin(); i != timers.end(); i++)
+    {
+      if (((*i)->has_activity_monitor()))
+        {
+          TimerInfo info;
+          (*i)->process(state, info);
+          
+          infos[(*i)->get_id()] = info;
+        }
     }
 
   if (count % SAVESTATETIME == 0)
@@ -175,6 +191,7 @@ Control::process_timers(map<string, TimerInfo> &infos)
     }
       
   count++;
+  TRACE_EXIT();
 }
 
   
