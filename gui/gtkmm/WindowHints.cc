@@ -277,6 +277,7 @@ WindowHints::set_tool_window(GtkWidget *window, bool istool)
     }
 
 #elif defined(WIN32)
+#if 0
   HWND hDrawingWind = (HWND) GDK_WINDOW_HWND(gdkWindow);
   DWORD dwExStyle = GetWindowLong (hDrawingWind, GWL_EXSTYLE);
   DWORD dwStyle = GetWindowLong (hDrawingWind, GWL_STYLE);
@@ -293,6 +294,7 @@ WindowHints::set_tool_window(GtkWidget *window, bool istool)
   SetWindowLong(hDrawingWind, GWL_EXSTYLE, dwExStyle);
   SetWindowLong(hDrawingWind, GWL_STYLE, dwStyle);
   rc = true;
+#endif
 #endif
   return rc;
 }
