@@ -160,7 +160,7 @@ BreakWindow::set_avoid_pointer(bool avoid_pointer)
         {
           avoid_signal = Glib::signal_timeout()
             .connect(SigC::slot(*this, &BreakWindow::on_avoid_pointer_timer),
-                     100);
+                     200);
         }
     }
   else
