@@ -12,10 +12,9 @@ if HAVE_GUI_GTKMM
 noinst_LIBRARIES = libgtkmmgui.a
 
 if HAVE_GNOME
-# FIXME: Raymond. have a look at this...
 sourcesgnome = GnomeSoundPlayer.cc
 else
-sourcesgnome = gnome-about.c GnomeSoundPlayer.cc
+sourcesgnome = gnome-about.c
 endif
 
 if PLATFORM_WIN32

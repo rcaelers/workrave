@@ -5,7 +5,12 @@ See the end for copying conditions.
 Please report Workrave bug reports. Visit our bug tracker located at:
 http://workrave.sourceforge.net
 
-* Workrave 0.x.y
+* Workrave 0.3.0
+
+** Added sound support. You can configure the samples that are played
+through the standard sound control panel provided by Gnome and
+Windows. For office PCs that do not have a sound card, you can choose
+to play sounds through the internal PC speaker.
 
 ** The window prompting you to brake now moves earlier to the top of
 the screen so that it does not interfere too much. Furtermore, the

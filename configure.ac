@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl
-dnl Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+dnl Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
 dnl
 dnl
 dnl $Id$
@@ -12,7 +12,7 @@ dnl Demand at least version 2.50 of autoconf.
 AC_PREREQ(2.50)
 
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(workrave, 0.2.0)
+AM_INIT_AUTOMAKE(workrave, 0.2.99)
 
                                    
 dnl some command line options.                           
