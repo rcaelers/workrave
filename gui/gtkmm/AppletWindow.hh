@@ -56,6 +56,8 @@ public:
   void on_menu_restbreak_now();
   void set_menu_active(int menu, bool active);
   bool get_menu_active(int menu);
+  void set_applet_vertical(bool vertical);
+  void set_applet_size(int size);
   
 public:  
   static const string CFG_KEY_APPLET;
@@ -74,6 +76,9 @@ private:
 
   //!
   Gtk::Plug *plug;
+
+  //! Container for applet widget.
+  Gtk::Bin *container;
   
   //! Table containing all timer information
   Gtk::Table *timers_box;
@@ -87,14 +92,20 @@ private:
   //! Breaks to show in applet.
   bool show_break[GUIControl::BREAK_ID_SIZEOF];
 
-  //! Allign break horizontally.
-  bool horizontal;
+  //! Allign break vertically.
+  bool vertical;
 
+  //!
+  int applet_size;
+  
   //! Applet enabled?
   bool applet_enabled;
 
   //
   GNOME_Workrave_AppletControl applet_control;
+
+  //
+  bool reconfigure;
   
 private:
   //

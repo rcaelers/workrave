@@ -64,8 +64,6 @@ RemoteControl::get_instance()
 
 WR_METHOD_ARGS0_IMPL(void, fire)
 {
-  TRACE_ENTER("RemoteControl::fire");
-
   GUI *gui = GUI::get_instance();
 
   AppletWindow *applet = NULL;
@@ -77,18 +75,16 @@ WR_METHOD_ARGS0_IMPL(void, fire)
     {
       applet->fire();
     }
-  TRACE_EXIT();
 }
+
 
 WR_METHOD_ARGS0_IMPL(void, open_main)
 {
-  TRACE_ENTER("RemoteControl::open_main");
   Menus *menus = Menus::get_instance();
   if (menus != NULL)
     {
       menus->on_menu_open_main_window();
     }
-  TRACE_EXIT();
 }
 
 
@@ -134,7 +130,6 @@ WR_METHOD_ARGS0_IMPL(void, restbreak)
 
 WR_METHOD_ARGS1_IMPL(void, set_mode, GNOME_Workrave_WorkraveControl_Mode, mode)
 {
-  TRACE_ENTER("RemoteControl::set_mode");
   Menus *menus = Menus::get_instance();
   if (menus != NULL)
     {
@@ -151,7 +146,6 @@ WR_METHOD_ARGS1_IMPL(void, set_mode, GNOME_Workrave_WorkraveControl_Mode, mode)
           break;
         }
     }
-  TRACE_EXIT();
 }
 
 
@@ -185,6 +179,41 @@ WR_METHOD_ARGS0_IMPL(void, quit)
 }
 
 
+WR_METHOD_ARGS1_IMPL(void, set_applet_vertical, CORBA_boolean, vertical)
+{
+  TRACE_ENTER("RemoteControl::set_applet_vertical");
+  GUI *gui = GUI::get_instance();
+
+  AppletWindow *applet = NULL;
+  if (gui != NULL)
+    {
+      applet = gui->get_applet_window();
+    }
+  if (applet != NULL)
+    {
+      applet->set_applet_vertical(vertical);
+    }
+  TRACE_EXIT();
+}
+
+
+WR_METHOD_ARGS1_IMPL(void, set_applet_size, CORBA_long, size)
+{
+  TRACE_ENTER("RemoteControl::set_applet_size");
+  GUI *gui = GUI::get_instance();
+
+  AppletWindow *applet = NULL;
+  if (gui != NULL)
+    {
+      applet = gui->get_applet_window();
+    }
+  if (applet != NULL)
+    {
+      applet->set_applet_size(size);
+    }
+  TRACE_EXIT();
+}
+
 
 /************************************************************************/
 /* GNOME::WorkraveControl                                               */
@@ -217,7 +246,11 @@ workrave_control_class_init(WorkraveControlClass *klass)
   WR_METHOD_REGISTER(disconnect_all);
   WR_METHOD_REGISTER(reconnect_all);
   WR_METHOD_REGISTER(quit);
+
+  WR_METHOD_REGISTER(set_applet_vertical);
+  WR_METHOD_REGISTER(set_applet_size);
 }
+
 
 static void
 workrave_control_init(WorkraveControl *control)
@@ -254,10 +287,9 @@ workrave_component_factory(BonoboGenericFactory *factory, const char *object_id,
     }
   else
     {
-      g_warning ("Unknown OAFIID 's'", object_id);
+      g_warning("Unknown OAFIID 's'", object_id);
     }
 
 
   return object;
 }
-

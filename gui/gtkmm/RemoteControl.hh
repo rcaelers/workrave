@@ -31,6 +31,7 @@ public:
   ~RemoteControl();
 
   static RemoteControl *get_instance();
+  WorkraveControl *get_remote_control() const;
   
   WR_METHOD_NOARGS(void, fire);
 
@@ -44,6 +45,8 @@ public:
   WR_METHOD_NOARGS(void, disconnect_all);
   WR_METHOD_NOARGS(void, reconnect_all);
   WR_METHOD_NOARGS(void, quit);
+  WR_METHOD       (void, set_applet_vertical, CORBA_boolean vertical);
+  WR_METHOD       (void, set_applet_size, CORBA_long size);
   
 private:  
   //! The one and only instance
@@ -54,6 +57,13 @@ private:
 
   friend BonoboObject* workrave_component_factory(BonoboGenericFactory *factory, const char *_id, void *);
 };
+
+
+inline WorkraveControl *
+RemoteControl::get_remote_control() const
+{
+  return workrave_control;
+}
 
 
 G_BEGIN_DECLS

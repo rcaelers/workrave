@@ -46,10 +46,11 @@ static const char rcsid[] = "$Id$";
 #include "DistributionManager.hh"
 #endif
 
+#include "RemoteControl.hh"
 #include "eggtrayicon.h"
 
 const string AppletWindow::CFG_KEY_APPLET = "gui/applet";
-const string AppletWindow::CFG_KEY_APPLET_HORIZONTAL = "gui/applet/horizontal";
+const string AppletWindow::CFG_KEY_APPLET_HORIZONTAL = "gui/applet/vertical";
 const string AppletWindow::CFG_KEY_APPLET_ENABLED = "gui/applet/enabled";
 const string AppletWindow::CFG_KEY_APPLET_SHOW_MICRO_PAUSE = "gui/applet/show_micro_pause";
 const string AppletWindow::CFG_KEY_APPLET_SHOW_REST_BREAK = "gui/applet/show_rest_break";
@@ -66,8 +67,12 @@ AppletWindow::AppletWindow(GUI *g, ControlInterface *c) :
   mode(APPLET_DISABLED),
   retry_init(false),
   applet_control(NULL),
+  container(NULL),
   tray_menu(NULL),
-  eventbox(NULL)
+  eventbox(NULL),
+  timers_box(NULL),
+  applet_size(0),
+  reconfigure(false)
 {
   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
     {
@@ -78,7 +83,7 @@ AppletWindow::AppletWindow(GUI *g, ControlInterface *c) :
   menus->set_applet_window(this);
   
   plug = NULL;
-  horizontal = true;
+  vertical = false;
   init();
 }
 
@@ -87,6 +92,11 @@ AppletWindow::AppletWindow(GUI *g, ControlInterface *c) :
 AppletWindow::~AppletWindow()
 {
   TRACE_ENTER("AppletWindow::~AppletWindow");
+
+  if (timers_box != NULL)
+    {
+      delete timers_box;
+    }
   TRACE_EXIT();
 }
 
@@ -103,8 +113,12 @@ AppletWindow::init()
   if (applet_enabled)
     {
       init_widgets();
-      init_table();
       init_applet();
+
+      if (mode != APPLET_DISABLED)
+        {
+          init_table();
+        }
     }
   
   TRACE_EXIT();
@@ -114,14 +128,27 @@ AppletWindow::init()
 void
 AppletWindow::init_table()
 {
-  if (horizontal)
+  TRACE_ENTER("AppletWindow::init_table");
+  if (timers_box != NULL)
     {
-      timers_box = new Gtk::Table(2 * GUIControl::BREAK_ID_SIZEOF, 1, false);
+      container->remove();
+      delete timers_box;
+      init_widgets();
+    }
+
+  
+  if (vertical)
+    {
+      timers_box = new Gtk::Table(GUIControl::BREAK_ID_SIZEOF, 2, false);
+      plug->set_size_request(applet_size, -1);
     }
   else
     {
-      timers_box = new Gtk::Table(GUIControl::BREAK_ID_SIZEOF, 2, false);
+      timers_box = new Gtk::Table(2 * GUIControl::BREAK_ID_SIZEOF, 1, false);
+      plug->set_size_request(-1, applet_size);
     }
+
+  container->add(*timers_box);
 
   timers_box->set_spacings(2);
 
@@ -130,20 +157,23 @@ AppletWindow::init_table()
     {
       if (show_break[i])
         {
-          if (horizontal)
+          if (vertical)
+            {
+              timers_box->attach(*timer_names[i], 0, 1, count, count + 1, Gtk::FILL);
+              timers_box->attach(*timer_times[i], 1, 2, count, count + 1, Gtk::EXPAND | Gtk::FILL);
+            }
+          else
             {
               timers_box->attach(*timer_names[i], 2 * count, 2 * count + 1, 0, 1, Gtk::FILL);
               timers_box->attach(*timer_times[i], 2 * count + 1, 2 * count + 2, 0, 1,
                                  Gtk::EXPAND | Gtk::FILL);
             }
-          else
-            {
-              timers_box->attach(*timer_names[i], 0, 1, count, count + 1, Gtk::FILL);
-              timers_box->attach(*timer_times[i], 1, 2, count, count + 1, Gtk::EXPAND | Gtk::FILL);
-            }
           count++;
         }
     }
+
+  container->show_all();
+  plug->show_all();
 }
 
 
@@ -203,7 +233,8 @@ AppletWindow::init_tray_applet()
       // Necessary for popup menu 
       eventbox->set_events(eventbox->get_events() | Gdk::BUTTON_PRESS_MASK);
       eventbox->signal_button_press_event().connect(SigC::slot(*this, &AppletWindow::on_button_press_event));
-      eventbox->add(*timers_box);
+      container = eventbox;
+      // eventbox->add(*timers_box);
       
       plug = Glib::wrap(GTK_PLUG(tray_icon));
       plug->add(*eventbox);
@@ -251,8 +282,6 @@ AppletWindow::init_gnome_applet()
   CORBA_Environment ev;
   bool ok = true;
 
-  int panel_size = -1;
-  bool vertical = false;
   bonobo_activate();
 
   CORBA_exception_init (&ev);
@@ -279,17 +308,27 @@ AppletWindow::init_gnome_applet()
           ok = false;
         }
 
-      panel_size = GNOME_Workrave_AppletControl_get_size(applet_control, &ev);
-      TRACE_MSG("panel size = " << panel_size);
+      applet_size = GNOME_Workrave_AppletControl_get_size(applet_control, &ev);
+      TRACE_MSG("panel size = " << applet_size);
       vertical =  GNOME_Workrave_AppletControl_get_vertical(applet_control, &ev);
       TRACE_MSG("panel vertical = " << vertical);
+
+      RemoteControl *remote = RemoteControl::get_instance();
+      if (remote != NULL)
+        {
+          WorkraveControl *control = remote->get_remote_control();
+
+          Bonobo_Unknown x = bonobo_object_corba_objref(BONOBO_OBJECT(control));
+          GNOME_Workrave_AppletControl_register_control(applet_control, x, &ev);
+        }
     }
 
   if (ok)
     {
-      Gtk::Alignment *frame = new Gtk::Alignment(0.5, 0.5, 1.0, 1.0);
-      frame->add(*timers_box);
-      
+      Gtk::Alignment *frame = new Gtk::Alignment(1.0, 1.0, 0.0, 0.0);
+      //frame->add(*timers_box);
+      container = frame;
+        
       plug = new Gtk::Plug(id);
       plug->add(*frame);
       plug->show_all();
@@ -299,16 +338,6 @@ AppletWindow::init_gnome_applet()
       if (menus != NULL)
         {
           menus->resync_applet();
-        }
-
-
-      if (vertical)
-        {
-          plug->set_size_request(panel_size, -1);
-        }
-      else
-        {
-          plug->set_size_request(-1, panel_size);
         }
     }
 
@@ -328,6 +357,19 @@ AppletWindow::destroy_gnome_applet()
 {
   if (mode == APPLET_GNOME)
     {
+      RemoteControl *remote = RemoteControl::get_instance();
+      if (remote != NULL && applet_control != NULL)
+        {
+          CORBA_Environment ev;
+          CORBA_exception_init (&ev);
+
+          WorkraveControl *control = remote->get_remote_control();
+          Bonobo_Unknown x = bonobo_object_corba_objref(BONOBO_OBJECT(control));
+          
+          GNOME_Workrave_AppletControl_unregister_control(applet_control, x, &ev);
+          CORBA_exception_free(&ev);
+        }
+      
       if (plug != NULL)
         {
           plug->remove(); // FIXME: free memory.
@@ -381,11 +423,20 @@ AppletWindow::update()
       if (retry_init)
         {
           init_applet();
+          if (mode != APPLET_DISABLED)
+            {
+              init_table();
+            }
           retry_init = false;
         }
     }
   else
     {
+      if (reconfigure)
+        {
+          init_table();
+          reconfigure = false;
+        }
       update_widgets();
     }
 }
@@ -473,6 +524,26 @@ AppletWindow::get_menu_active(int menu)
 }
 
 
+void
+AppletWindow::set_applet_vertical(bool v)
+{
+  TRACE_ENTER_MSG("AppletWindow::set_applet_vertical", vertical);
+  vertical = v;
+  reconfigure = true;
+  TRACE_EXIT();
+}
+
+
+void
+AppletWindow::set_applet_size(int size)
+{
+  TRACE_ENTER_MSG("AppletWindow::set_applet_size", size);
+  applet_size = size;
+  reconfigure = true;
+  TRACE_EXIT();
+}
+  
+
 //! User has closed the main window.
 bool
 AppletWindow::on_delete_event(GdkEventAny *)
@@ -490,10 +561,10 @@ AppletWindow::read_configuration()
 
   Configurator *c = GUIControl::get_instance()->get_configurator();
 
-  if (!c->get_value(AppletWindow::CFG_KEY_APPLET_HORIZONTAL, &horizontal))
+  if (!c->get_value(AppletWindow::CFG_KEY_APPLET_HORIZONTAL, &vertical))
     {
-      horizontal = true;
-      c->set_value(AppletWindow::CFG_KEY_APPLET_HORIZONTAL, horizontal);
+      vertical = true;
+      c->set_value(AppletWindow::CFG_KEY_APPLET_HORIZONTAL, vertical);
     }
 
   if (!c->get_value(AppletWindow::CFG_KEY_APPLET_ENABLED, &applet_enabled))

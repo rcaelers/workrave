@@ -53,6 +53,12 @@ static void             workrave_applet_control_set_menu_status(PortableServer_S
                                                                 const CORBA_boolean, CORBA_Environment *);
 static CORBA_boolean    workrave_applet_control_get_menu_status(PortableServer_Servant, const CORBA_char *,
                                                                 CORBA_Environment *ev);
+static CORBA_boolean    workrave_applet_control_register_control(PortableServer_Servant,
+                                                                 const GNOME_Workrave_WorkraveControl,
+                                                                 CORBA_Environment *ev);
+static CORBA_boolean    workrave_applet_control_unregister_control(PortableServer_Servant,
+                                                                   const GNOME_Workrave_WorkraveControl,
+                                                                   CORBA_Environment *ev);
 
 G_END_DECLS
 

@@ -54,6 +54,8 @@ TimerWindow::TimerWindow(GUI *g, ControlInterface *c) :
   core_control(c),
   gui(g)
 {
+  timer_names = new Gtk::Widget*[GUIControl::BREAK_ID_SIZEOF];
+  timer_times = new TimeBar*[GUIControl::BREAK_ID_SIZEOF];
 }
 
 
@@ -80,9 +82,6 @@ TimerWindow::~TimerWindow()
 void
 TimerWindow::init_widgets()
 {
-  timer_names = new Gtk::Widget*[GUIControl::BREAK_ID_SIZEOF];
-  timer_times = new TimeBar*[GUIControl::BREAK_ID_SIZEOF];
-
   for (int count = 0; count < GUIControl::BREAK_ID_SIZEOF; count++)
     {
       GUIControl::TimerData *timer = &GUIControl::get_instance()->timers[count];

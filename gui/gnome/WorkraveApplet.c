@@ -43,6 +43,7 @@ BONOBO_TYPE_FUNC_FULL(AppletControl,
                       BONOBO_OBJECT_TYPE,
                       workrave_applet_control);
 
+
 static gboolean
 workrave_applet_connect(gboolean start)
 {
@@ -87,7 +88,7 @@ workrave_applet_connect(gboolean start)
       
       if (remote_control == NULL || BONOBO_EX(&ev))
         {
-          g_warning(_("Could not contact Workrave Panel"));
+          g_warning(_("Could not contact Workrave"));
           ok = FALSE;
         }
       
@@ -105,14 +106,14 @@ workrave_applet_control_class_init(AppletControlClass *klass)
   POA_GNOME_Workrave_AppletControl__epv *epv = &klass->epv;
 
   parent_class = g_type_class_peek_parent(klass);
-  
-  // object_class->dispose = pas_book_dispose;
           
   epv->get_socket_id = workrave_applet_control_get_socket_id;
   epv->get_size = workrave_applet_control_get_size;
   epv->get_vertical = workrave_applet_control_get_vertical;
   epv->set_menu_status = workrave_applet_control_set_menu_status;
   epv->get_menu_status = workrave_applet_control_get_menu_status;
+  epv->register_control = workrave_applet_control_register_control;
+  epv->unregister_control = workrave_applet_control_unregister_control;
 }
 
 
@@ -155,6 +156,7 @@ workrave_applet_control_get_socket_id(PortableServer_Servant servant, CORBA_Envi
   return applet_control->socket_id;
 }
 
+
 CORBA_long
 workrave_applet_control_get_size(PortableServer_Servant servant, CORBA_Environment *ev)
 {
@@ -162,6 +164,7 @@ workrave_applet_control_get_size(PortableServer_Servant servant, CORBA_Environme
 
   return applet_control->size;
 }
+
 
 CORBA_boolean
 workrave_applet_control_get_vertical(PortableServer_Servant servant, CORBA_Environment *ev)
@@ -205,6 +208,7 @@ workrave_applet_control_set_menu_status(PortableServer_Servant servant, const CO
     }
 }
 
+
 static CORBA_boolean
 workrave_applet_control_get_menu_status(PortableServer_Servant servant, const CORBA_char *name,
                                         CORBA_Environment *ev)
@@ -238,39 +242,52 @@ workrave_applet_control_get_menu_status(PortableServer_Servant servant, const CO
 
 
 
+static CORBA_boolean
+workrave_applet_control_register_control(PortableServer_Servant servant,
+                                         const GNOME_Workrave_WorkraveControl control,
+                                         CORBA_Environment *ev)
+{
+  AppletControl *applet_control = WR_APPLET_CONTROL(bonobo_object_from_servant(servant));
+  
+}
+
+
+static CORBA_boolean
+workrave_applet_control_unregister_control(PortableServer_Servant servant,
+                                           const GNOME_Workrave_WorkraveControl control,
+                                           CORBA_Environment *ev)
+{
+  AppletControl *applet_control = WR_APPLET_CONTROL(bonobo_object_from_servant(servant));
+} 
+
 
 gboolean
 workrave_applet_fire_workrave()
 {
-  CORBA_Environment ev;
-  gboolean ok = TRUE;
-  
-  bonobo_activate();
-
-  CORBA_exception_init(&ev);
-  remote_control = bonobo_activation_activate_from_id("OAFIID:GNOME_Workrave_WorkraveControl", 0, NULL, &ev);
-  
-  if (remote_control == NULL || BONOBO_EX(&ev))
+  gboolean ok = FALSE;
+  workrave_applet_connect(TRUE);
+      
+  if (remote_control != NULL)
     {
-      g_warning(_("Could not contact Workrave Panel"));
-      ok = FALSE;
-    }
-  
-
-  if (ok)
-    {
+      CORBA_Environment ev;
+      CORBA_exception_init(&ev);
+      
       GNOME_Workrave_WorkraveControl_fire(remote_control, &ev);
 
-      if (BONOBO_EX (&ev))
+      if (BONOBO_EX(&ev))
         {
           char *err = (char *) bonobo_exception_get_text(&ev);
           g_warning (_("An exception occured '%s'"), err);
           g_free(err);
-          ok = FALSE;
         }
+      else
+        {
+          ok = TRUE;
+        }
+      
+      CORBA_exception_free(&ev);
     }
 
-  CORBA_exception_free(&ev);
   return ok;
 }
 
@@ -485,16 +502,61 @@ static void
 change_pixel_size(PanelApplet *applet, gint size, gpointer data)
 {
   applet_control->size = size;
+
+  workrave_applet_connect(FALSE);
+  
+  if (remote_control != NULL)
+    {
+      CORBA_Environment ev;
+      CORBA_exception_init(&ev);
+      
+      GNOME_Workrave_WorkraveControl_set_applet_size(remote_control, size, &ev);
+      
+      if (BONOBO_EX(&ev))
+        {
+          char *err = (char *) bonobo_exception_get_text(&ev);
+          g_warning (_("An exception occured '%s'"), err);
+          g_free(err);
+        }
+      
+      CORBA_exception_free(&ev);
+    }
 }
 
 
 static void
 change_orient(PanelApplet *applet, PanelAppletOrient o, gpointer data)
 {
+  FILE *fp = fopen("/home/robc/wr.txt", "a+");
+  fprintf(fp,"orient\n");
+
   if(o==PANEL_APPLET_ORIENT_UP || o==PANEL_APPLET_ORIENT_DOWN)
     applet_control->vertical = FALSE;
   else
     applet_control->vertical = TRUE;
+
+  workrave_applet_connect(FALSE);
+  fprintf(fp,"orient %p\n", remote_control);
+  
+  if (remote_control != NULL)
+    {
+      CORBA_Environment ev;
+      CORBA_exception_init(&ev);
+      
+      GNOME_Workrave_WorkraveControl_set_applet_vertical(remote_control, applet_control->vertical, &ev);
+      fprintf(fp,"orient2\n");
+      
+      if (BONOBO_EX(&ev))
+        {
+          char *err = (char *) bonobo_exception_get_text(&ev);
+          g_warning (_("An exception occured '%s'"), err);
+          fprintf(fp,"orient3 %s\n", err);
+          g_free(err);
+        }
+      
+      CORBA_exception_free(&ev);
+    }
+  fclose(fp);
 }
 
 static gboolean
@@ -520,13 +582,8 @@ showlog_callback(BonoboUIComponent *ui, const char *path, Bonobo_UIComponent_Eve
                  const char *state, gpointer user_data)
 {
   gboolean new_state;
-  FILE *file = fopen("/home/robc/wr.txt", "a+");
   workrave_applet_connect(FALSE);
 
-
-  fprintf(file, "%s %s\n", path, state);
-  fclose(file);
-  
   if (state == NULL || strcmp(state, "") == 0)
     {
       /* State goes blank when component is removed; ignore this. */
@@ -565,11 +622,6 @@ mode_callback(BonoboUIComponent *ui, const char *path, Bonobo_UIComponent_EventT
                  const char *state, gpointer user_data)
 {
   gboolean new_state;
-  FILE *file = fopen("/home/robc/wr.txt", "a+");
-
-  fprintf(file, "%s %s\n", path, state);
-  fclose(file);
-  
   workrave_applet_connect(FALSE);
 
   if (state == NULL || strcmp(state, "") == 0)
