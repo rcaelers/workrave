@@ -47,7 +47,10 @@ static const char rcsid[] = "$Id$";
 #include "ControlInterface.hh"
 #include "ActivityMonitorInterface.hh"
 #include "Statistics.hh"
+
+#ifdef HAVE_DISTRIBUTION
 #include "DistributionManager.hh"
+#endif
 
 #ifdef WIN32
 #include <gdk/gdkwin32.h>
@@ -225,15 +228,18 @@ MainWindow::setup()
 void
 MainWindow::update()
 {
-  DistributionManager *dist_manager = DistributionManager::get_instance();
   bool node_active = true;
   int num_peers = 0;
+
+#ifdef HAVE_DISTRIBUTION
+  DistributionManager *dist_manager = DistributionManager::get_instance();
   if (dist_manager != NULL)
     {
       node_active = dist_manager->is_active();
       num_peers = dist_manager->get_number_of_peers();
     }
-
+#endif
+  
   for (unsigned int count = 0; count < GUIControl::TIMER_ID_SIZEOF; count++)
     {
       TimerInterface *timer = GUIControl::get_instance()->timers[count].timer;

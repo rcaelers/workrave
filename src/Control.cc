@@ -33,7 +33,10 @@ static const char rcsid[] = "$Id$";
 
 #include "ActivityMonitor.hh"
 #include "TimerActivityMonitor.hh"
+
+#ifdef HAVE_DISTRIBUTION
 #include "DistributionManager.hh"
+#endif
 
 #ifdef HAVE_GCONF
 #include "GConfConfigurator.hh"
@@ -50,7 +53,9 @@ const int SAVESTATETIME = 15;
 Control::Control()
 {
   current_time = time(NULL);
+#ifdef HAVE_DISTRIBUTION
   dist_manager = NULL;
+#endif  
   configurator = NULL;
   monitor = NULL;
 }
@@ -79,7 +84,9 @@ Control::~Control()
 void
 Control::init()
 {
+#ifdef HAVE_DISTRIBUTION
   create_distribution_manager();
+#endif  
   create_monitor();
   create_timers();
 }
@@ -160,6 +167,7 @@ Control::process_timers(map<string, TimerInfo> &infos)
 
   // Distributed  stuff
   bool node_active = true;
+#ifdef HAVE_DISTRIBUTION  
   if (dist_manager != NULL)
     {
       node_active = dist_manager->is_active();
@@ -169,7 +177,7 @@ Control::process_timers(map<string, TimerInfo> &infos)
           node_active = dist_manager->claim();
         }
     }
-
+#endif
   
   // Stats
   ActivityMonitorStatistics stats;
@@ -232,13 +240,15 @@ Control::process_timers(map<string, TimerInfo> &infos)
 }
 
 
+#ifdef HAVE_DISTRIBUTION
 // Create the monitor based on the specified configuration.
 bool
 Control::create_distribution_manager()
 {
   dist_manager = DistributionManager::get_instance();
+  return dist_manager != NULL;
 }
-
+#endif
 
 // Create the monitor based on the specified configuration.
 bool

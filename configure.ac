@@ -10,7 +10,7 @@ AC_INIT(src/Control.cc)
 
 dnl Demand at least version 2.50 of autoconf.
 AC_PREREQ(2.50)
-        
+
 AM_CONFIG_HEADER(config.h)
 AM_INIT_AUTOMAKE(workrave, 0.2.0)
 
@@ -252,7 +252,7 @@ AC_SUBST(GCONF_CFLAGS)
 
 if test "x$config_distribution" = "xyes"
 then           
-AM_PATH_GNET(1.1.4,[] ,[] )
+AM_PATH_GNET(1.1.0,[] ,[] )
 fi
                     
 AC_SUBST(GNET_LIBS)

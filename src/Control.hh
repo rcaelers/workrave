@@ -110,7 +110,9 @@ private:
   void load_monitor_config();
   void store_monitor_config();
 
+#ifdef HAVE_DISTRIBUTION
   bool create_distribution_manager();
+#endif
   bool create_monitor();
   bool create_timers();
   //bool process_timer_event(Timer *timer, Timer::TimerEvent event);
@@ -128,8 +130,10 @@ private:
   //! The current time.
   time_t current_time;
 
+#ifdef HAVE_DISTRIBUTION
   //! The Distribution Manager
   DistributionManager *dist_manager;
+#endif
   
 #ifndef NDEBUG
   FakeActivityMonitor *fake_monitor;
