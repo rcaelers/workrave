@@ -287,7 +287,7 @@ msgstr "Netwerk"
 
 #: gui/gtkmm/PreferencesDialog.cc:96
 msgid "The main window stays always on top of other windows"
-msgstr "Het hoofd window blijft boven alle andere windows"
+msgstr "Het hoofdvenster blijft boven alle andere vensters"
 
 #: gui/gtkmm/PreferencesDialog.cc:105
 msgid "No sounds"
@@ -303,7 +303,7 @@ msgstr "Speel geluiden met behulp van de ingebouwde speaker"
 
 #: gui/gtkmm/PreferencesDialog.cc:127
 msgid "Hide main window at start-up"
-msgstr "Verberg het hoofd window tijdens het opstarten"
+msgstr "Verberg het hoofdvenster tijdens het opstarten"
 
 #: gui/gtkmm/PreferencesDialog.cc:146
 msgid "You can configure the user interface related settings from here."
