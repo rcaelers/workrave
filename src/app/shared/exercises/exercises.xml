@@ -84,8 +84,8 @@
     <title xml:lang="nl">Kijken in de duisternis</title>
     <description xml:lang="en">Cover your eyes with your palms in such way that you can still open your eyelids. Now open your eyes and look into the darkness of your palms. This exercise gives better relief to your eyes compared to simply closing them.</description>
     <description xml:lang="nl">Bedek je ogen met je handpalmen zodanig dat je wel nog je ogen kunt openen. Open nu je ogen en kijk in de duisternis van je handpalmen. Deze oefening geeft meer rust dan dat je je ogen alleen maar sluit.</description>
-    <sequence duration="10">
-       <image src="none" duration="10"/>
+    <sequence duration="20">
+       <image src="eye-darkness.png" duration="20"/>
     </sequence>
   </exercise>
   <exercise>
