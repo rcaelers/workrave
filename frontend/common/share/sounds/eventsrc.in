@@ -1,0 +1,48 @@
+[!Global!]
+IconName=kworkrave
+Comment=KWorkrave
+
+[rest_break_started]
+_Name=Rest break started
+default_presentation=1
+default_sound=workrave/rest-break-started.wav
+
+[rest_break_ended]
+_Name=Rest break ended
+default_presentation=1
+default_sound=workrave/rest-break-ended.wav
+
+[micro_break_started]
+_Name=Micro-break started
+default_presentation=1
+default_sound=workrave/micro-break-started.wav
+
+[micro_break_ended]
+_Name=Micro-break ended
+default_presentation=1
+default_sound=workrave/micro-break-ended.wav
+
+[break_ignored]
+_Name=Break ignored
+default_presentation=1
+default_sound=workrave/break-ignored.wav
+
+[break_prelude]
+_Name=Break prompt
+default_presentation=1
+default_sound=workrave/break-prelude.wav
+
+[daily_limit]
+_Name=Daily limit
+default_presentation=1
+default_sound=workrave/daily-limit.wav
+
+[exercise_ended]
+_Name=Exercise ended
+default_presentation=1
+default_sound=workrave/exercise-ended.wav
+
+[exercises_ended]
+_Name=Exercises ended
+default_presentation=1
+default_sound=workrave/exercises-ended.wav

@@ -17,5 +17,20 @@ utils_DATA = 		$(utils_in_files:.soundlist.in=.soundlist)
 
 @INTLTOOL_SOUNDLIST_RULE@
 
-EXTRA_DIST = 		${sounds_DATA} $(utils_DATA) workrave.soundlist.in
+EXTRA_DIST = 		${sounds_DATA} $(utils_DATA) workrave.soundlist.in eventsrc.in
 
+
+if HAVE_KDE
+
+kdesoundsdir = 		$(kde_sounddir)
+kdesounds_DATA = 	$(wildcard *.wav)
+
+eventsrc: eventsrc.in
+	LC_ALL=C $(INTLTOOL_MERGE) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@
+
+##	$(INTLTOOL_MERGE) $(wildcard $(top_srcdir)/po/*.po)
+
+rcdir = $(kde_datadir)/kworkrave
+rc_DATA = eventsrc
+
+endif
