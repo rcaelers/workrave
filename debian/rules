@@ -24,7 +24,7 @@ endif
 config.status: configure
 	dh_testdir
 	# Add here commands to configure the package.
-	./configure --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info --sysconfdir=/etc --enable-gconf  --enable-gnome --enable-distribution
+	./configure --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info --libexecdir=\$${prefix}/lib/gnome-applets --sysconfdir=/etc --enable-gconf  --enable-gnome --enable-distribution
 
 
 build: build-stamp
@@ -83,7 +83,7 @@ binary-arch: build install
 	dh_installcron
 	dh_installman
 	dh_installinfo
-#	dh_undocumented
+	dh_undocumented
 	dh_installchangelogs ChangeLog
 	dh_link
 	dh_strip

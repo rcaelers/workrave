@@ -35,7 +35,7 @@ class NetworkLogDialog;
 
 using namespace std;
 
-class TimerWindow
+class TimerWindow : public SigC::Object
 {
 public:  
   TimerWindow(GUI *gui, ControlInterface *controller);
@@ -46,6 +46,7 @@ public:
 
 protected:
   virtual bool on_delete_event(GdkEventAny *) = 0;
+  void on_menu_restbreak_now();
   
 protected:
   //! The controller that maintains the data and control over the breaks

@@ -169,7 +169,6 @@ GUI::run()
   
 #ifdef HAVE_GNOME
   applet_window = new AppletWindow(this, core_control);
-  applet_window->show_all();
 #endif  
 
   

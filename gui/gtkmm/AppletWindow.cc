@@ -65,7 +65,9 @@ AppletWindow::AppletWindow(GUI *g, ControlInterface *c) :
   TimerWindow(g, c),
   mode(APPLET_DISABLED),
   retry_init(false),
-  applet_control(NULL)
+  applet_control(NULL),
+  tray_menu(NULL),
+  eventbox(NULL)
 {
   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
     {
@@ -114,11 +116,11 @@ AppletWindow::init_table()
 {
   if (horizontal)
     {
-      timers_box = manage(new Gtk::Table(2 * GUIControl::BREAK_ID_SIZEOF, 1, false));
+      timers_box = new Gtk::Table(2 * GUIControl::BREAK_ID_SIZEOF, 1, false);
     }
   else
     {
-      timers_box = manage(new Gtk::Table(GUIControl::BREAK_ID_SIZEOF, 2, false));
+      timers_box = new Gtk::Table(GUIControl::BREAK_ID_SIZEOF, 2, false);
     }
 
   timers_box->set_spacings(2);
@@ -142,8 +144,6 @@ AppletWindow::init_table()
           count++;
         }
     }
-  
-  add(*timers_box);
 }
 
 
@@ -151,31 +151,103 @@ void
 AppletWindow::init_applet()
 {
   TRACE_ENTER("AppletWindow::init_applet");
-  if (!init_native_applet())
-    {
-      EggTrayIcon *tray_icon = egg_tray_icon_new("Workrave Tray Icon");
-      
-      if (tray_icon != NULL)
-        {
-          plug = Glib::wrap(GTK_PLUG(tray_icon));
-          plug->add(*this);
-          plug->show_all();
 
-          mode = APPLET_TRAY;
-        }
-    }
-  else
+  mode = APPLET_DISABLED;
+
+  if (init_gnome_applet())
     {
       mode = APPLET_GNOME;
     }
-  TRACE_MSG(mode);
+  else
+    {
+      if (init_tray_applet())
+        {
+          mode = APPLET_TRAY;
+        }
+    }
+  
+  TRACE_EXIT();
+}
+
+
+void
+AppletWindow::destroy_applet()
+{
+  TRACE_ENTER("AppletWindow::destroy_applet");
+
+  if (mode == APPLET_GNOME)
+    {
+      destroy_gnome_applet();
+    }
+  else if (mode == APPLET_TRAY)
+    {
+      destroy_tray_applet();
+    }
+  
   TRACE_EXIT();
 }
 
 
 bool
-AppletWindow::init_native_applet()
+AppletWindow::init_tray_applet()
 {
+  TRACE_ENTER("AppletWindow::init_tray_applet");
+  bool ret = false;
+  
+  EggTrayIcon *tray_icon = egg_tray_icon_new("Workrave Tray Icon");
+      
+  if (tray_icon != NULL)
+    {
+      eventbox = new Gtk::EventBox;
+        
+      // Necessary for popup menu 
+      eventbox->set_events(eventbox->get_events() | Gdk::BUTTON_PRESS_MASK);
+      eventbox->signal_button_press_event().connect(SigC::slot(*this, &AppletWindow::on_button_press_event));
+      eventbox->add(*timers_box);
+      
+      plug = Glib::wrap(GTK_PLUG(tray_icon));
+      plug->add(*eventbox);
+      plug->show_all();
+      
+      // Tray menu
+      if (tray_menu == NULL)
+        {
+          Menus *menus = Menus::get_instance();
+          tray_menu = menus->create_tray_menu();
+        }
+
+      ret = true;
+    }
+
+  TRACE_EXIT();
+  return ret;
+}
+
+
+void
+AppletWindow::destroy_tray_applet()
+{
+  if (mode == APPLET_TRAY)
+    {
+      if (plug != NULL)
+        {
+          plug->remove(); // FIXME: free memory
+          plug = NULL;
+        }
+      if (eventbox != NULL)
+        {
+          eventbox->remove();
+          delete eventbox;
+        }
+    }
+  mode = APPLET_DISABLED;
+}
+
+
+bool
+AppletWindow::init_gnome_applet()
+{
+  TRACE_ENTER("AppletWindow::init_gnome_applet");
   CORBA_Environment ev;
   bool ok = true;
   
@@ -183,14 +255,13 @@ AppletWindow::init_native_applet()
 
   CORBA_exception_init (&ev);
   applet_control = bonobo_activation_activate_from_id("OAFIID:GNOME_Workrave_AppletControl",
-                                            Bonobo_ACTIVATION_FLAG_EXISTING_ONLY, NULL, &ev);
+                                                      Bonobo_ACTIVATION_FLAG_EXISTING_ONLY, NULL, &ev);
   
   if (applet_control == NULL || BONOBO_EX (&ev))
     {
       g_warning(_("Could not contact Workrave Panel"));
       ok = false;
     }
-  
 
   long id = 0;
 
@@ -211,8 +282,8 @@ AppletWindow::init_native_applet()
   if (ok)
     {
       plug = new Gtk::Plug(id);
-      plug->add(*this);
-      set_border_width(2);
+      plug->add(*timers_box);
+      plug->set_border_width(2);
       plug->show_all();
       
       plug->signal_delete_event().connect(SigC::slot(*this, &AppletWindow::delete_event));
@@ -229,8 +300,27 @@ AppletWindow::init_native_applet()
     }
   
   CORBA_exception_free(&ev);
+  TRACE_EXIT();
   return ok;
 }
+
+
+void
+AppletWindow::destroy_gnome_applet()
+{
+  if (mode == APPLET_GNOME)
+    {
+      if (plug != NULL)
+        {
+          plug->remove(); // FIXME: free memory.
+        }
+
+      applet_control = NULL; // FIXME: free memory.
+    }
+  mode = APPLET_DISABLED;
+}
+
+
 
 bool
 AppletWindow::delete_event(GdkEventAny *event)
@@ -254,12 +344,7 @@ AppletWindow::fire()
   TRACE_ENTER("AppletWindow::fire");
   if (mode == APPLET_TRAY)
     {
-      if (plug != NULL)
-        {
-          plug->remove();
-          // FIXME: free memory
-        }
-      mode = APPLET_DISABLED;
+      destroy_tray_applet();
     }
   
   if (mode == APPLET_DISABLED && applet_enabled)
@@ -287,6 +372,27 @@ AppletWindow::update()
     {
       update_widgets();
     }
+}
+
+
+//! Users pressed some mouse button in the main window.
+bool
+AppletWindow::on_button_press_event(GdkEventButton *event)
+{
+  TRACE_ENTER("Applet::on_button_press_event");
+  bool ret = false;
+
+  if (tray_menu != NULL)
+    {
+      if ((event->type == GDK_BUTTON_PRESS) && (event->button == 3))
+        {
+          tray_menu->popup(event->button, event->time);
+          ret = true;
+        }
+    }
+  
+  TRACE_EXIT();
+  return ret;
 }
 
 
@@ -349,15 +455,6 @@ AppletWindow::get_menu_active(int menu)
     }
   TRACE_EXIT();
 }
-
-
-//! User requested immediate restbreak.
-void
-AppletWindow::on_menu_restbreak_now()
-{
-  gui->restbreak_now();
-}
-
 
 
 //! User has closed the main window.

@@ -22,9 +22,9 @@
 		        <item value="IDL:Bonobo/Unknown:1.0"/>
 	        </oaf_attribute>
 	        <oaf_attribute name="name" type="string" _value="Workrave"/>
-	        <oaf_attribute name="description" type="string" _value="Workrae applet"/>
+	        <oaf_attribute name="description" type="string" _value="Workrave applet"/>
 	        <oaf_attribute name="panel:category" type="string" value="Utility"/>
-	        <oaf_attribute name="panel:icon" type="string" value="gnome-eyes.png"/>
+	        <oaf_attribute name="panel:icon" type="string" value="workrave/workrave-icon-small.png"/>
         </oaf_server>
 
 	<oaf_server     iid="OAFIID:GNOME_Workrave_AppletControl"

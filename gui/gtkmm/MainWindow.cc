@@ -31,8 +31,6 @@ static const char rcsid[] = "$Id$";
 
 #ifdef HAVE_GNOME
 #include <gnome.h>
-#else
-#include "gnome-about.h"
 #endif
 #include "MainWindow.hh"
 #include "PreferencesDialog.hh"
@@ -227,7 +225,6 @@ MainWindow::on_button_press_event(GdkEventButton *event)
   TRACE_ENTER("MainWindow::on_button_press_event");
   bool ret = false;
 
-  // TODO: magic number.
   if ((event->type == GDK_BUTTON_PRESS) && (event->button == 3))
     {
       popup_menu->popup(event->button, event->time);

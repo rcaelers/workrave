@@ -284,22 +284,22 @@ static void
 verb_about(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
 {
   static const char *authors[] =
-    { "Rob Caelers <robc@krandor.org",
-      "Raymond Penners <raymond@dotsphinx.com",
+    {
+      "Rob Caelers <robc@krandor.org>",
+      "Raymond Penners <raymond@dotsphinx.com>",
       NULL
     };
-  
-  GtkWidget *about_box = NULL;
-  
-  about_box = gnome_about_new( _("Workrave Applet"), VERSION,
-                               _("Copyright 2002 Rob Caelers, Raymond Penners"), 
-                               _("Workrave Applet\n"),
-                               authors,
-                               NULL,
-                               NULL,
-                               NULL);
-  
-  gtk_widget_show(about_box);
+
+  GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(WORKRAVE_DATADIR "/images/workrave.png", NULL);  
+  gtk_widget_show (gnome_about_new
+                   ("Workrave Applet", VERSION,
+                    "Copyright 2001-2002 Rob Caelers & Raymond Penners",
+                    _("This program assists in the prevention and recovery"
+                      " of Repetitive Strain Injury (RSI)."),
+                    (const gchar **) authors,
+                    (const gchar **) NULL,
+                    NULL,
+                    pixbuf));
 }
 
 
@@ -645,7 +645,7 @@ workrave_applet_fill(PanelApplet *applet)
   applet_control->socket = gtk_socket_new();
   
   // Image
-  pixbuf = gdk_pixbuf_new_from_file(WORKRAVE_DATADIR "/images/workrave.png", NULL);  
+  pixbuf = gdk_pixbuf_new_from_file(WORKRAVE_DATADIR "/images/workrave-icon-medium.png", NULL);  
   applet_control->image = gtk_image_new_from_pixbuf(pixbuf);
   gtk_widget_show(GTK_WIDGET(applet_control->image));
 

@@ -1,7 +1,8 @@
 EXTRA_DIST 	= Workrave-Applet.server.in.in  		\
 		  Workrave-Control.server.in.in  		\
 	     	  workrave.schemas.in				\
-	     	  $(ui_DATA) $(wildcard *.xml)			\
+	     	  $(ui_DATA)					\
+		  $(wildcard *.xml.in)				\
 		  $(wildcard *.hh) $(wildcard *.cc)		\
 		  $(wildcard *.c) $(wildcard *.h)		\
 		  $(wildcard *.icc) $(wildcard *.idl)
@@ -64,6 +65,9 @@ Workrave-Applet.server.in: Workrave-Applet.server.in.in
 
 Workrave-Control.server.in: Workrave-Control.server.in.in
 	sed -e "s|\@BINDIR\@|$(bindir)|" $< > $@
+
+GNOME_WorkraveApplet.xml: GNOME_WorkraveApplet.xml.in
+	sed -e "s|\@PIXDIR\@|$(pkgdatadir)/images|" $< > $@
 
 @INTLTOOL_SERVER_RULE@
 

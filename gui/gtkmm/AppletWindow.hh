@@ -42,7 +42,6 @@ class NetworkLogDialog;
 using namespace std;
 
 class AppletWindow :
-  public Gtk::HBox,
   public TimerWindow
 {
 public:  
@@ -79,6 +78,11 @@ private:
   //! Table containing all timer information
   Gtk::Table *timers_box;
 
+  //!
+  Gtk::Menu *tray_menu;
+
+  Gtk::EventBox *eventbox;
+  
   //! Breaks to show in applet.
   bool show_break[GUIControl::BREAK_ID_SIZEOF];
 
@@ -96,9 +100,15 @@ private:
   void init();
   void init_applet();
   void init_table();
-  bool init_native_applet();
+  bool init_tray_applet();
+  bool init_gnome_applet();
+  void destroy_applet();
+  void destroy_tray_applet();
+  void destroy_gnome_applet();
   void read_configuration();
 
+
+  bool on_button_press_event(GdkEventButton *event);
   bool delete_event(GdkEventAny *event);
 
   // Events.

@@ -112,7 +112,7 @@ Menus::create_tray_menu()
   Gtk::Menu *menu = manage(create_menu(tray_check_menus));
 #ifdef HAVE_DISTRIBUTION
   tray_check_menus[3]->signal_toggled().connect(SigC::slot(*this,
-                                                           &Menus::on_menu_network_log_main_window));
+                                                           &Menus::on_menu_network_log_tray));
 #endif
 
   return menu;
@@ -255,9 +255,9 @@ Menus::sync_mode_menu(int mode)
       main_window_check_menus[mode]->set_active(true);
     }
 
-//   if (tray_check_menus[mode] != NULL && !tray_check_menus[mode]->get_active())
-//     tray_check_menus[mode]->set_active(true);
-
+  if (tray_check_menus[mode] != NULL && !tray_check_menus[mode]->get_active())
+    tray_check_menus[mode]->set_active(true);
+  
 #ifdef HAVE_GNOME
   if (applet_window != NULL)
     {
