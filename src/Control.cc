@@ -1,6 +1,6 @@
 // Control.cc --- The main controller
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -19,6 +19,8 @@ static const char rcsid[] = "$Id$";
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
+
+#include "nls.h"
 
 #include "debug.hh"
 #include <assert.h>
@@ -98,6 +100,14 @@ Control::init(char *display_name)
 int
 Control::main(int argc, char **argv)
 {
+#ifdef ENABLE_NLS
+#  ifndef HAVE_GNOME 
+  gtk_set_locale();
+#  endif
+  bindtextdomain(PACKAGE, GNOMELOCALEDIR);
+  textdomain(PACKAGE);
+#endif
+  
 #ifdef HAVE_GCONF
   bool x =  gconf_init(argc, argv, NULL);
   g_type_init();
