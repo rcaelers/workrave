@@ -20,6 +20,7 @@ static const char rcsid[] = "$Id$";
 #include "config.h"
 #endif
 
+#include <time.h>
 #include "Thread.hh"
 
 void *

@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-06-21 22:18:12 robc>
+// Time-stamp: <2003-07-12 21:46:03 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -28,6 +28,10 @@ static const char rcsid[] = "$Id$";
 
 #include <stdio.h>
 #include <sys/types.h>
+
+#ifdef HAVE_SYS_SELECT_H
+#include <sys/select.h>
+#endif
 #if STDC_HEADERS
 # include <stdlib.h>
 # include <stddef.h>
@@ -176,11 +180,13 @@ X11InputMonitor::terminate()
   TRACE_MSG("waiting");
   abort = true;
 
+#ifdef HAVE_XRECORD
   //FIXME:  stop_xrecord does not seem to work.
   if (use_xrecord)
     {
       monitor_thread->stop();
     }
+#endif
   //  wait_for_terminated_signal.wait();
   TRACE_EXIT();
 }

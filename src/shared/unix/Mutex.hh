@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-01-05 00:35:53 robc>
+// Time-stamp: <2003-07-12 21:22:57 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,6 +22,11 @@
 #define MUTEX_HH
 
 #include <pthread.h>
+
+// define this to something freebsd knows
+#ifdef __FreeBSD__
+#define PTHREAD_MUTEX_RECURSIVE_NP PTHREAD_MUTEX_RECURSIVE
+#endif
 
 /*!
  * A Mutex class.

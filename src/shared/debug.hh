@@ -19,6 +19,8 @@
 #ifndef DEBUG_HH
 #define DEBUG_HH
 
+#include <assert.h>
+
 #ifndef CWDEBUG
 
 #define AllocTag1(p)

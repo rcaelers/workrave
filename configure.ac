@@ -192,7 +192,7 @@ AC_PATH_X
 AC_PATH_XTRA
 AC_STDC_HEADERS
 AC_HEADER_STDC
-AC_CHECK_HEADERS([errno.h stdlib.h sys/time.h unistd.h])
+AC_CHECK_HEADERS([errno.h stdlib.h sys/time.h sys/select.h unistd.h])
 AC_CHECK_HEADER(pthread.h,,)
                               
 # Checks for typedefs, structures, and compiler characteristics.
