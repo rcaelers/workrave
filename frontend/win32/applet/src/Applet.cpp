@@ -29,9 +29,8 @@
 #pragma data_seg()
 
 extern "C" BOOL WINAPI DllMain(HINSTANCE, DWORD, LPVOID);
-BOOL RegisterServer(CLSID, LPTSTR);
-BOOL RegisterComCat(CLSID, CATID);
-BOOL RegisterToolBand(CLSID);
+BOOL RegisterServer(CLSID, LPTSTR, BOOL reg);
+BOOL RegisterComCat(CLSID, CATID, BOOL reg);
 
 HINSTANCE   g_hInst;
 UINT        g_DllRefCount;
@@ -89,16 +88,9 @@ DllGetClassObject(  REFCLSID rclsid,
 }
 
 
-STDAPI DllRegisterServer(void)
+static void
+ClearDeskBandCache(void)
 {
-  //Register the desk band object.
-  if(!RegisterServer(CLSID_WorkraveDeskBand, TEXT("Workrave")))
-    return SELFREG_E_CLASS;
-
-//Register the component categories for the desk band object.
-  if(!RegisterComCat(CLSID_WorkraveDeskBand, CATID_DeskBand))
-    return SELFREG_E_CLASS;
-
 /*
 Remove the cache of the deskbands on Windows 2000. This will cause the new 
 deskband to be displayed in the toolbar menu the next time the user brings it 
@@ -132,6 +124,32 @@ up. See KB article Q214842 for more information on this.
       RegDeleteKey(HKEY_CLASSES_ROOT, szSubKey);
     }
 
+
+}
+
+STDAPI DllUnregisterServer(void)
+{
+  RegisterComCat(CLSID_WorkraveDeskBand, CATID_DeskBand, FALSE);
+  RegisterServer(CLSID_WorkraveDeskBand, TEXT("Workrave"), FALSE);
+  ClearDeskBandCache();
+  return S_OK;
+}
+ 
+
+
+
+STDAPI DllRegisterServer(void)
+{
+  //Register the desk band object.
+  if(!RegisterServer(CLSID_WorkraveDeskBand, TEXT("Workrave"), TRUE))
+    return SELFREG_E_CLASS;
+
+//Register the component categories for the desk band object.
+  if(!RegisterComCat(CLSID_WorkraveDeskBand, CATID_DeskBand, TRUE))
+    return SELFREG_E_CLASS;
+
+  ClearDeskBandCache();
+
   return S_OK;
 }
 
@@ -143,8 +161,10 @@ typedef struct{
    LPTSTR szData;//TCHAR szData[MAX_PATH];
 }DOREGSTRUCT, *LPDOREGSTRUCT;
 
+
+// FIXME: Implement 'reg'
 BOOL
-RegisterServer(CLSID clsid, LPTSTR lpszTitle)
+RegisterServer(CLSID clsid, LPTSTR lpszTitle, BOOL reg)
 {
   int      i;
   HKEY     hKey;
@@ -265,7 +285,7 @@ RegisterServer(CLSID clsid, LPTSTR lpszTitle)
 }
 
 BOOL
-RegisterComCat(CLSID clsid, CATID CatID)
+RegisterComCat(CLSID clsid, CATID CatID, BOOL reg)
 {
   ICatRegister   *pcr;
   HRESULT        hr = S_OK ;
@@ -280,7 +300,14 @@ RegisterComCat(CLSID clsid, CATID CatID)
 
   if(SUCCEEDED(hr))
     {
-      hr = pcr->RegisterClassImplCategories(clsid, 1, &CatID);
+      if (reg)
+        {
+          hr = pcr->RegisterClassImplCategories(clsid, 1, &CatID);
+        }
+      else
+        {
+          hr = pcr->UnRegisterClassImplCategories(clsid, 1, &CatID);
+        }
 
       pcr->Release();
     }
@@ -288,65 +315,5 @@ RegisterComCat(CLSID clsid, CATID CatID)
   CoUninitialize();
 
   return SUCCEEDED(hr);
-}
-
-BOOL
-RegisterToolBand(CLSID clsid)
-{
-  HKEY     hKey;
-  LRESULT  lResult;
-  DWORD    dwDisp;
-  TCHAR    szCLSID[MAX_PATH];
-  LPWSTR   pwsz;
-
-  //get the CLSID in string form
-  StringFromIID(clsid, &pwsz);
-
-  if(pwsz)
-    {
-#ifdef UNICODE
-      lstrcpy(szCLSID, pwsz);
-#else
-      WideCharToMultiByte( CP_ACP,
-                           0,
-                           pwsz,
-                           -1,
-                           szCLSID,
-                           ARRAYSIZE(szCLSID),
-                           NULL,
-                           NULL);
-#endif
-
-      //free the string
-      CoTaskMemFree(pwsz);
-    }
-
-  lResult = RegCreateKeyEx(  HKEY_LOCAL_MACHINE,
-                             TEXT("Software\\Microsoft\\Internet Explorer\\Toolbar"),
-                             0,
-                             NULL,
-                             REG_OPTION_NON_VOLATILE,
-                             KEY_WRITE,
-                             NULL,
-                             &hKey,
-                             &dwDisp);
-   
-  if(NOERROR == lResult)
-    {
-      TCHAR szData[] = TEXT("");
-
-      lResult = RegSetValueEx(   hKey,
-                                 szCLSID,
-                                 0,
-                                 REG_SZ,
-                                 (LPBYTE)szData,
-                                 lstrlen(szData) + 1);
-   
-      RegCloseKey(hKey);
-    }
-  else
-    return FALSE;
-
-  return TRUE;
 }
 

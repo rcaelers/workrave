@@ -1,5 +1,5 @@
 # Chinese/Traditional translation of WorkRave.
-# Copyright (C) 2001-2003 Rob Caelers & Raymond Penners
+# Copyright (C) 2001-2004 Rob Caelers & Raymond Penners
 # This file is distributed under the same license as the WorkRave package.
 # Rex Tsai <chihchun@linux.org.tw>, 2004.
 # 
@@ -707,7 +707,7 @@ msgstr "連接到 %s:%d"
 #: src/core/DistributionSocketLink.cc:665
 #, c-format
 msgid "Removing client %s:%d."
-msgstr "移除用戶端 %s:%s"
+msgstr "移除用戶端 %s:%d"
 
 #. Closing direct connection.
 #: src/core/DistributionSocketLink.cc:702
@@ -743,7 +743,7 @@ msgstr "客戶端 %s;%d 重複。"
 #: src/core/DistributionSocketLink.cc:1229
 #, c-format
 msgid "Client %s:%d access denied."
-msgstr "客戶端 %s:%s 拒絕存取。"
+msgstr "客戶端 %s:%d 拒絕存取。"
 
 #: src/core/DistributionSocketLink.cc:1296
 #, c-format
@@ -773,7 +773,7 @@ msgstr "拒絕來自客戶端 %s:%d 的主控要求"
 #: src/core/DistributionSocketLink.cc:1648
 #, c-format
 msgid "Acknowledging master request from client %s:%d."
-msgstr "確認來自客戶端 %s:%s 的主控要求。"
+msgstr "確認來自客戶端 %s:%d 的主控要求。"
 
 #: src/core/DistributionSocketLink.cc:1699
 #, c-format
@@ -783,7 +783,7 @@ msgstr "非主控客戶端 %s:%d 拒絕主控要求。"
 #: src/core/DistributionSocketLink.cc:1704
 #, c-format
 msgid "Client %s:%d rejected master request, delaying."
-msgstr "客戶端 %s:%s 拒絕主控要求，延遲中。"
+msgstr "客戶端 %s:%d 拒絕主控要求，延遲中。"
 
 #. gint count =
 #: src/core/DistributionSocketLink.cc:1775
@@ -813,12 +813,12 @@ msgstr "客戶端 %s:%d 關閉連線。"
 #: src/core/DistributionSocketLink.cc:2015
 #, c-format
 msgid "Client %s:%d connected."
-msgstr "連線到用戶端 %s:%s。"
+msgstr "連線到用戶端 %s:%d。"
 
 #: src/core/DistributionSocketLink.cc:2051
 #, c-format
 msgid "Could not connect to client %s:%d."
-msgstr "無法連線到用戶端 %s:%s。"
+msgstr "無法連線到用戶端 %s:%d。"
 
 #: src/app/shared/exercises/exercises.xml.in.h:1
 msgid "Backward shoulder stretch"

@@ -60,7 +60,7 @@ InputPath=.\Release\workrave-applet.dll
 SOURCE="$(InputPath)"
 
 "$(OUTDIR)\Register.out" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	regsvr32.exe /s /c $(OUTDIR)\Applet.dll
+	regsvr32.exe /s /c $(OUTDIR)\workrave-applet.dll
 
 # End Custom Build
 

@@ -317,7 +317,9 @@ CDeskBand::GetBandInfo(DWORD dwBandID, DWORD dwViewMode, DESKBANDINFO* pdbi)
 
       if(pdbi->dwMask & DBIM_TITLE)
         {
-          lstrcpyW(pdbi->wszTitle, L"");
+          //lstrcpyW(pdbi->wszTitle, L"Workrave");
+          //Use the default background color by removing this flag.
+          pdbi->dwMask &= ~DBIM_TITLE;
         }
 
       if(pdbi->dwMask & DBIM_MODEFLAGS)
