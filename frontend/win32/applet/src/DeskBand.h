@@ -30,7 +30,6 @@
 #define DB_MIN_SIZE_X   10
 #define DB_MIN_SIZE_Y   10
 
-#define IDM_COMMAND  0
 
 
 class TimerBox;
@@ -103,7 +102,6 @@ class CDeskBand : public IDeskBand,
   LRESULT OnKillFocus(void);
   LRESULT OnSetFocus(void);
   static LRESULT CALLBACK WndProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam);
-  LRESULT OnPaint(void);
   LRESULT OnCommand(WPARAM wParam, LPARAM lParam);
   LRESULT OnCopyData(PCOPYDATASTRUCT data);
   LRESULT OnSize(LPARAM);

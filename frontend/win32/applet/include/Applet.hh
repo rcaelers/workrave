@@ -59,6 +59,7 @@ struct AppletMenuItemData
 struct AppletMenuData
 {
   short num_items;
+  HWND command_window;
   AppletMenuItemData items[APPLET_MAX_MENU_ITEMS];
 };
 

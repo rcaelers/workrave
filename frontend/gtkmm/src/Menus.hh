@@ -57,6 +57,7 @@ public:
   void set_applet_window(AppletWindow *applet);
 #elif defined(WIN32)
   void set_applet_window(TimerBoxAppletView *applet);
+  void on_applet_command(short cmd);
 #endif
   void resync_applet();
   

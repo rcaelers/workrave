@@ -64,11 +64,29 @@ static const char rcsid[] = "$Id$";
 #endif
 
 #ifdef WIN32
+#include <gdk/gdkwin32.h>
 #include "TimerBoxAppletView.hh"
 #endif
 
 Menus *Menus::instance = NULL;
 
+#ifdef WIN32
+enum
+{
+  MENU_COMMAND_PREFERENCES,
+  MENU_COMMAND_EXERCISES,
+  MENU_COMMAND_REST_BREAK,
+  MENU_COMMAND_MODE_NORMAL,
+  MENU_COMMAND_MODE_QUIET,
+  MENU_COMMAND_MODE_SUSPENDED,
+  MENU_COMMAND_NETWORK_CONNECT,
+  MENU_COMMAND_NETWORK_DISCONNECT,
+  MENU_COMMAND_NETWORK_LOG,
+  MENU_COMMAND_NETWORK_RECONNECT,
+  MENU_COMMAND_STATISTICS,
+  MENU_COMMAND_ABOUT
+};
+#endif
 
 //! Constructor.
 /*!
@@ -231,8 +249,6 @@ Menus::create_menu(Gtk::CheckMenuItem *check_menus[4])
                       *img,
                       SigC::slot(*this, &Menus::on_menu_restbreak_now)));
 
-  menulist.push_back(*mode_menu_item);
-
 #ifdef HAVE_EXERCISES
   // Exercises
   if (Exercise::has_exercises())
@@ -242,6 +258,8 @@ Menus::create_menu(Gtk::CheckMenuItem *check_menus[4])
                           SigC::slot(*this, &Menus::on_menu_exercises)));
     }
 #endif  
+  menulist.push_back(*mode_menu_item);
+
   
 
 #ifdef HAVE_DISTRIBUTION
@@ -294,11 +312,13 @@ Menus::sync_mode_menu(int mode)
   if (tray_check_menus[mode] != NULL && !tray_check_menus[mode]->get_active())
     tray_check_menus[mode]->set_active(true);
   
-#ifdef HAVE_GNOME
+#if defined(HAVE_GNOME)
   if (applet_window != NULL)
     {
       applet_window->set_menu_active(mode, true);
     }
+#elif defined(WIN32)
+  resync_applet();
 #endif
   
   syncing = false;
@@ -326,11 +346,13 @@ Menus::sync_tray_menu(bool active)
       tray_check_menus[3]->set_active(active);
     }
   
-#ifdef HAVE_GNOME
+#if defined(HAVE_GNOME)
   if (applet_window != NULL)
     {
       applet_window->set_menu_active(3, active);
     }
+#elif defined(WIN32)
+  resync_applet();
 #endif
   
   syncing = false;
@@ -366,29 +388,63 @@ Menus::resync_applet()
 #endif
     }
 #elif defined(WIN32)
-  if (applet_window != NULL)
+  if (applet_window != NULL && main_window != NULL )
     {
-      applet_window->init_menu();
+      CoreInterface *core = CoreFactory::get_core();
 
-      applet_window->add_menu(_("Preferences"), 0, 0);
-      applet_window->add_menu(_("_Rest break"), 0, 0);
+      HWND cmd_win = (HWND) GDK_WINDOW_HWND( main_window
+                                             ->Gtk::Widget::gobj()->window);
+      applet_window->init_menu(cmd_win);
 
-      applet_window->add_menu(_("_Normal"), 0, TimerBoxAppletView::MENU_FLAG_TOGGLE|TimerBoxAppletView::MENU_FLAG_POPUP);
-      applet_window->add_menu(_("_Suspended"), 0, TimerBoxAppletView::MENU_FLAG_TOGGLE|TimerBoxAppletView::MENU_FLAG_POPUP);
-      applet_window->add_menu(_("Q_uiet"), 0, TimerBoxAppletView::MENU_FLAG_TOGGLE|TimerBoxAppletView::MENU_FLAG_SELECTED|TimerBoxAppletView::MENU_FLAG_POPUP);
+      applet_window->add_menu(_("Preferences"), MENU_COMMAND_PREFERENCES, 0);
+      applet_window->add_menu(_("_Rest break"), MENU_COMMAND_REST_BREAK, 0);
+      applet_window->add_menu(_("Exercises"), MENU_COMMAND_EXERCISES, 0);
+
+
+      applet_window->add_menu(_("_Normal"), MENU_COMMAND_MODE_NORMAL,
+                              TimerBoxAppletView::MENU_FLAG_TOGGLE
+                              |TimerBoxAppletView::MENU_FLAG_POPUP
+                              |(core->get_operation_mode()
+                                == OPERATION_MODE_NORMAL
+                                ? TimerBoxAppletView::MENU_FLAG_SELECTED
+                                : 0));
+      applet_window->add_menu(_("_Suspended"), MENU_COMMAND_MODE_SUSPENDED,
+                              TimerBoxAppletView::MENU_FLAG_TOGGLE
+                              |TimerBoxAppletView::MENU_FLAG_POPUP
+                              |(core->get_operation_mode()
+                                == OPERATION_MODE_SUSPENDED
+                                ? TimerBoxAppletView::MENU_FLAG_SELECTED
+                                : 0));
+      applet_window->add_menu(_("Q_uiet"), MENU_COMMAND_MODE_QUIET,
+                              TimerBoxAppletView::MENU_FLAG_TOGGLE
+                              |TimerBoxAppletView::MENU_FLAG_POPUP
+                              |(core->get_operation_mode()
+                                == OPERATION_MODE_QUIET
+                                ? TimerBoxAppletView::MENU_FLAG_SELECTED
+                                : 0));
       applet_window->add_menu(_("_Mode"), 0, 0);
 
-      applet_window->add_menu(_("Exercises"), 0, 0);
-
 #ifdef HAVE_DISTRIBUTION
-      applet_window->add_menu(_("_Connect"), 0, TimerBoxAppletView::MENU_FLAG_TOGGLE|TimerBoxAppletView::MENU_FLAG_POPUP);
-      applet_window->add_menu(_("_Disconnect"), 0, TimerBoxAppletView::MENU_FLAG_TOGGLE|TimerBoxAppletView::MENU_FLAG_POPUP);
-      applet_window->add_menu(_("_Reconnect"), 0, TimerBoxAppletView::MENU_FLAG_TOGGLE|TimerBoxAppletView::MENU_FLAG_SELECTED|TimerBoxAppletView::MENU_FLAG_POPUP);
-      applet_window->add_menu(_("Show _log"), 0, TimerBoxAppletView::MENU_FLAG_TOGGLE|TimerBoxAppletView::MENU_FLAG_SELECTED|TimerBoxAppletView::MENU_FLAG_POPUP);
+      applet_window->add_menu(_("_Connect"), MENU_COMMAND_NETWORK_CONNECT,
+                              TimerBoxAppletView::MENU_FLAG_TOGGLE
+                              |TimerBoxAppletView::MENU_FLAG_POPUP);
+      applet_window->add_menu(_("_Disconnect"),
+                              MENU_COMMAND_NETWORK_DISCONNECT,
+                              TimerBoxAppletView::MENU_FLAG_TOGGLE
+                              |TimerBoxAppletView::MENU_FLAG_POPUP);
+      applet_window->add_menu(_("_Reconnect"), MENU_COMMAND_NETWORK_RECONNECT,
+                              TimerBoxAppletView::MENU_FLAG_TOGGLE
+                              |TimerBoxAppletView::MENU_FLAG_POPUP);
+      applet_window->add_menu(_("Show _log"), MENU_COMMAND_NETWORK_LOG,
+                              TimerBoxAppletView::MENU_FLAG_TOGGLE
+                              |TimerBoxAppletView::MENU_FLAG_POPUP
+                              |(network_log_dialog != NULL
+                                ? TimerBoxAppletView::MENU_FLAG_SELECTED
+                                : 0));
       applet_window->add_menu(_("_Network"), 0, 0);
 #endif
-      applet_window->add_menu(_("Statistics"), 0, 0);
-      applet_window->add_menu(_("About..."), 0, 0);
+      applet_window->add_menu(_("Statistics"), MENU_COMMAND_STATISTICS, 0);
+      applet_window->add_menu(_("About..."), MENU_COMMAND_ABOUT, 0);
     }
 #endif
 
@@ -697,7 +753,7 @@ Menus::on_menu_network_log(bool active)
           network_log_dialog->signal_response().connect(SigC::slot(*this, &Menus::on_network_log_response));
           
           sync_tray_menu(active);
-      
+
           network_log_dialog->run();
         }
 
@@ -788,3 +844,51 @@ Menus::on_preferences_response(int response)
   delete preferences_dialog;
   preferences_dialog = NULL;
 }
+
+#ifdef WIN32
+
+void
+Menus::on_applet_command(short cmd)
+{
+  switch (cmd)
+    {
+    case MENU_COMMAND_PREFERENCES:
+      on_menu_preferences();
+      break;
+    case MENU_COMMAND_EXERCISES:
+      on_menu_exercises();
+      break;
+    case MENU_COMMAND_REST_BREAK:
+      on_menu_restbreak_now();
+      break;
+    case MENU_COMMAND_MODE_NORMAL:
+      on_menu_normal();
+      break;
+    case MENU_COMMAND_MODE_QUIET:
+      on_menu_quiet();
+      break;
+    case MENU_COMMAND_MODE_SUSPENDED:
+      on_menu_suspend();
+      break;
+    case MENU_COMMAND_NETWORK_CONNECT:
+      on_menu_network_join();
+      break;
+    case MENU_COMMAND_NETWORK_DISCONNECT:
+      on_menu_network_leave();
+      break;
+    case MENU_COMMAND_NETWORK_LOG:
+      on_menu_network_log(network_log_dialog==NULL);
+      break;
+    case MENU_COMMAND_NETWORK_RECONNECT:
+      on_menu_network_reconnect();
+      break;
+    case MENU_COMMAND_STATISTICS:
+      on_menu_statistics();
+      break;
+    case MENU_COMMAND_ABOUT:
+      on_menu_about();
+      break;
+    }
+}
+
+#endif

@@ -44,7 +44,7 @@ public:
   void update_menu();
   void set_enabled(bool enabled);
 
-  void init_menu();
+  void init_menu(HWND dest);
   void add_menu(const char *text, short cmd, int flags);
 
   enum MenuFlag

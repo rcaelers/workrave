@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.4.0\n"
-"POT-Creation-Date: 2004-02-15 11:37+0100\n"
+"POT-Creation-Date: 2004-02-15 20:34+0100\n"
 "PO-Revision-Date: 2003-09-09 16:26+0200\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -104,68 +104,73 @@ msgid "Rest break"
 msgstr "Rustpauze"
 
 #. Mode menu item
-#: frontend/gtkmm/src/Menus.cc:150
+#: frontend/gtkmm/src/Menus.cc:167 frontend/gtkmm/src/Menus.cc:403
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
 msgid "_Mode"
 msgstr "_Modus"
 
-#: frontend/gtkmm/src/Menus.cc:157
+#: frontend/gtkmm/src/Menus.cc:174 frontend/gtkmm/src/Menus.cc:393
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
 msgid "_Normal"
 msgstr "_Normaal"
 
-#: frontend/gtkmm/src/Menus.cc:164
+#: frontend/gtkmm/src/Menus.cc:181 frontend/gtkmm/src/Menus.cc:396
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
 msgid "_Suspended"
 msgstr "_Uitgeschakeld"
 
-#: frontend/gtkmm/src/Menus.cc:171
+#: frontend/gtkmm/src/Menus.cc:188 frontend/gtkmm/src/Menus.cc:399
 msgid "Q_uiet"
 msgstr "_Stil"
 
-#: frontend/gtkmm/src/Menus.cc:185
+#: frontend/gtkmm/src/Menus.cc:202 frontend/gtkmm/src/Menus.cc:423
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
 msgid "_Network"
 msgstr "_Netwerk"
 
-#: frontend/gtkmm/src/Menus.cc:189
+#: frontend/gtkmm/src/Menus.cc:206 frontend/gtkmm/src/Menus.cc:408
 msgid "_Connect"
 msgstr "Maak verbinding"
 
-#: frontend/gtkmm/src/Menus.cc:194
+#: frontend/gtkmm/src/Menus.cc:211 frontend/gtkmm/src/Menus.cc:411
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
 msgid "_Disconnect"
 msgstr "Verbreek verbinding"
 
-#: frontend/gtkmm/src/Menus.cc:199
+#: frontend/gtkmm/src/Menus.cc:216 frontend/gtkmm/src/Menus.cc:415
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
 msgid "_Reconnect"
 msgstr "Opnieuw verbinden"
 
-#: frontend/gtkmm/src/Menus.cc:204
+#: frontend/gtkmm/src/Menus.cc:221 frontend/gtkmm/src/Menus.cc:419
 msgid "Show _log"
 msgstr "Toon _logboek"
 
-#: frontend/gtkmm/src/Menus.cc:229 frontend/gtkmm/src/RestBreakWindow.cc:73
+#: frontend/gtkmm/src/Menus.cc:246 frontend/gtkmm/src/Menus.cc:391
+#: frontend/gtkmm/src/RestBreakWindow.cc:73
 msgid "_Rest break"
 msgstr "Rustpauze"
 
-#: frontend/gtkmm/src/Menus.cc:241
+#: frontend/gtkmm/src/Menus.cc:258 frontend/gtkmm/src/Menus.cc:405
 #: frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:40
 msgid "Exercises"
 msgstr "Oefeningen"
 
-#: frontend/gtkmm/src/Menus.cc:251
+#: frontend/gtkmm/src/Menus.cc:268 frontend/gtkmm/src/Menus.cc:425
 #: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:59
 #: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:138
 msgid "Statistics"
 msgstr "Statistieken"
 
-#: frontend/gtkmm/src/Menus.cc:265
+#: frontend/gtkmm/src/Menus.cc:282 frontend/gtkmm/src/Menus.cc:426
 msgid "About..."
 msgstr "Info..."
 
-#: frontend/gtkmm/src/Menus.cc:616
+#: frontend/gtkmm/src/Menus.cc:390 frontend/gtkmm/src/PreferencesDialog.cc:55
+msgid "Preferences"
+msgstr "Voorkeuren"
+
+#: frontend/gtkmm/src/Menus.cc:668
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -186,10 +191,6 @@ msgstr "Rustpauze %s te laat"
 #: frontend/gtkmm/src/MicroPauseWindow.cc:142
 msgid "Please relax for a few seconds"
 msgstr "Ontspan gedurende enkele seconden"
-
-#: frontend/gtkmm/src/PreferencesDialog.cc:55
-msgid "Preferences"
-msgstr "Voorkeuren"
 
 #: frontend/gtkmm/src/PreferencesDialog.cc:63
 #: frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:103

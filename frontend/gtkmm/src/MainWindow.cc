@@ -161,10 +161,6 @@ MainWindow::init()
 #endif
 
   Menus *menus = Menus::get_instance();
-#ifdef WIN32
-  menus->set_applet_window(&win32_timer_box_view);
-  menus->resync_applet();
-#endif
   menus->set_main_window(this);
   popup_menu = menus->create_main_window_menu();
   
@@ -208,6 +204,9 @@ MainWindow::init()
   window->set_functions(Gdk::FUNC_CLOSE|Gdk::FUNC_MOVE);
 
   win32_init();
+  menus->set_applet_window(&win32_timer_box_view);
+  menus->resync_applet();
+
   set_gravity(Gdk::GRAVITY_STATIC); 
   set_position(Gtk::WIN_POS_NONE);
 
@@ -521,6 +520,73 @@ MainWindow::win32_show(bool b)
     }
 }
 
+static GdkFilterReturn
+win32_filter_func (void     *xevent,
+		    GdkEvent *event,
+		    gpointer  data)
+{
+  MSG *msg = (MSG *) xevent;
+  GdkFilterReturn ret = GDK_FILTER_CONTINUE;
+  switch (msg->message)
+    {
+    case WM_POWERBROADCAST:
+      {
+        TRACE_MSG("WM_POWERBROADCAST " << wParam << " " << lParam);
+          switch (msg->wParam)
+            {
+            case PBT_APMQUERYSUSPEND:
+              TRACE_MSG("Query Suspend");
+              break;
+
+            case PBT_APMQUERYSUSPENDFAILED:
+              TRACE_MSG("Query Suspend Failed");
+              break;
+
+            case PBT_APMRESUMESUSPEND:
+              {
+                TRACE_MSG("Resume suspend");
+                CoreInterface *core = CoreFactory::get_core();
+                if (core != NULL)
+                  {
+                    core->set_powersave(false);
+                  }
+              }
+              break;
+
+            case PBT_APMSUSPEND:
+              {
+                TRACE_MSG("Suspend");
+                CoreInterface *core = CoreFactory::get_core();
+                if (core != NULL)
+                  {
+                    core->set_powersave(true);
+                  }
+              }
+              break;
+            }
+      }
+      break;
+
+    case WM_DISPLAYCHANGE:
+      {
+        TRACE_MSG("WM_DISPLAYCHANGE " << msg->wParam << " " << msg->lParam);
+        GUI *gui = GUI::get_instance(); 
+        assert(gui != NULL);
+        gui->init_multihead();
+      }
+      break;
+
+    case WM_USER:
+      {
+        Menus *menus = Menus::get_instance();
+        menus->on_applet_command((short) msg->wParam);
+        ret = GDK_FILTER_REMOVE;
+      }
+    }
+
+  return ret;
+}
+
 void
 MainWindow::win32_init()
 {
@@ -566,6 +632,9 @@ MainWindow::win32_init()
   HWND hwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
   SetWindowLong(hwnd, GWL_HWNDPARENT, (LONG) win32_main_hwnd);
 
+  // Filter
+  gdk_window_add_filter(gdk_window, win32_filter_func, this);
+  
   // Tray icon
   wm_taskbarcreated = RegisterWindowMessage("TaskbarCreated");
   win32_add_tray_icon();
@@ -636,45 +705,6 @@ MainWindow::win32_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
               win->win32_show(true);
               break;
             }
-        }
-      else if (uMsg == WM_POWERBROADCAST)
-        {
-          TRACE_MSG("WM_POWERBROADCAST " << wParam << " " << lParam);
-          switch (wParam)
-            {
-            case PBT_APMQUERYSUSPEND:
-              TRACE_MSG("Query Suspend");
-              return TRUE;
-
-            case PBT_APMQUERYSUSPENDFAILED:
-              TRACE_MSG("Query Suspend Failed");
-              break;
-
-            case PBT_APMRESUMESUSPEND:
-              {
-                TRACE_MSG("Resume suspend");
-                CoreInterface *core = CoreFactory::get_core();
-                assert(core != NULL);
-                core->set_powersave(false);
-              }
-              break;
-
-            case PBT_APMSUSPEND:
-              {
-                TRACE_MSG("Suspend");
-                CoreInterface *core = CoreFactory::get_core();
-                assert(core != NULL);
-                core->set_powersave(true);
-              }
-              break;
-            }
-        }
-      else if (uMsg == WM_DISPLAYCHANGE)
-        {
-          TRACE_MSG("WM_DISPLAYCHANGE " << wParam << " " << lParam);
-          GUI *gui = GUI::get_instance(); 
-          assert(gui != NULL);
-          gui->init_multihead();
         }
     }
   
@@ -867,3 +897,5 @@ MainWindow::relocate_window(int width, int height)
   
   TRACE_EXIT();
 }
+
+

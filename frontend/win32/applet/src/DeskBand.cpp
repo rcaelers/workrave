@@ -377,17 +377,22 @@ CDeskBand::QueryContextMenu( HMENU hMenu,
                                           UINT idCmdLast,
                                           UINT uFlags)
 {
-  if ((!m_HasAppletMenu) || (CMF_DEFAULTONLY & uFlags))
+  if ((!m_HasAppletMenu) || (CMF_DEFAULTONLY & uFlags) || !IsWindow(m_AppletMenu.command_window))
     return MAKE_HRESULT(SEVERITY_SUCCESS, 0, USHORT(0));
 
   int m = 0;
   HMENU popup = NULL;
   while (m < m_AppletMenu.num_items)
     {
-      AppletMenuItemData *d = &m_AppletMenu.items[m++];
+      AppletMenuItemData *d = &m_AppletMenu.items[m];
       wchar_t textw[APPLET_MENU_TEXT_MAX_LENGTH*2];
       mbstowcs(textw, d->text, APPLET_MENU_TEXT_MAX_LENGTH);
       wchar_t *abbrev = wcschr(textw, '_');
+      UINT flags = MF_STRING | MF_BYPOSITION;
+      if (d->flags & APPLET_MENU_FLAG_SELECTED)
+        {
+          flags |= MF_CHECKED;
+        }
       if (abbrev != NULL)
         {
           *abbrev = '&';
@@ -399,7 +404,7 @@ CDeskBand::QueryContextMenu( HMENU hMenu,
               popup = CreatePopupMenu();
             }
           AppendMenuW(popup, 
-                      MF_STRING | MF_BYPOSITION, 
+                      flags, 
                       idCmdFirst + m, 
                       textw);
         }
@@ -409,7 +414,7 @@ CDeskBand::QueryContextMenu( HMENU hMenu,
             {
               InsertMenuW( hMenu, 
                           indexMenu++, 
-                          MF_POPUP | MF_STRING | MF_BYPOSITION, 
+                          MF_POPUP | flags, 
                           (UINT) popup, 
                           textw);
               popup = NULL;
@@ -418,11 +423,12 @@ CDeskBand::QueryContextMenu( HMENU hMenu,
             {
               InsertMenuW( hMenu, 
                           indexMenu++, 
-                          MF_STRING | MF_BYPOSITION, 
+                          flags, 
                           idCmdFirst + m, 
                           textw);
             }
         }
+      m++;
     }
 
   return MAKE_HRESULT(SEVERITY_SUCCESS, 0, USHORT(m_AppletMenu.num_items + 1));
@@ -431,19 +437,19 @@ CDeskBand::QueryContextMenu( HMENU hMenu,
 STDMETHODIMP
 CDeskBand::InvokeCommand(LPCMINVOKECOMMANDINFO lpcmi)
 {
-/*
-  switch (LOWORD(lpcmi->lpVerb))
-    {
-    case IDM_COMMAND:
-      MessageBox(lpcmi->hwnd, TEXT("Desk Band Command selected."), TEXT("Sample Desk Band"), MB_OK | MB_ICONINFORMATION);
-      // RedrawWindow(m_hWnd, NULL, NULL, RDW_ERASE|RDW_ALLCHILDREN|RDW_UPDATENOW);
-      break;
+  int cmd = LOWORD(lpcmi->lpVerb);
+  HRESULT ret;
 
-    default:
-      return E_INVALIDARG;
+  if (m_HasAppletMenu && cmd >= 0 && cmd < m_AppletMenu.num_items && IsWindow(m_AppletMenu.command_window))
+    {
+      SendMessage(m_AppletMenu.command_window, WM_USER, m_AppletMenu.items[cmd].command, NULL);
+      ret = NOERROR;
     }
-*/
-  return NOERROR;
+  else
+    {
+      ret = E_INVALIDARG;
+    }
+  return ret;
 }
 
 STDMETHODIMP
@@ -454,34 +460,6 @@ CDeskBand::GetCommandString( UINT idCommand,
                                           UINT uMaxNameLen)
 {
   HRESULT  hr = E_INVALIDARG;
-/*
-  switch(uFlags)
-    {
-    case GCS_HELPTEXT:
-      switch(idCommand)
-        {
-        case IDM_COMMAND:
-          lstrcpy(lpszName, TEXT("Desk Band command help text"));
-          hr = NOERROR;
-          break;
-        }
-      break;
-   
-    case GCS_VERB:
-      switch(idCommand)
-        {
-        case IDM_COMMAND:
-          lstrcpy(lpszName, TEXT("command"));
-          hr = NOERROR;
-          break;
-        }
-      break;
-   
-    case GCS_VALIDATE:
-      hr = NOERROR;
-      break;
-    }
-*/
   return hr;
 }
 
@@ -503,9 +481,6 @@ CDeskBand::WndProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
         SetTimer(hWnd, 0xdeadf00d, 3000, NULL);
       }
       break;
-   
-      //   case WM_PAINT:
-      //      return pThis->OnPaint();
    
     case WM_COMMAND:
       return pThis->OnCommand(wParam, lParam);
@@ -529,11 +504,6 @@ CDeskBand::WndProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
 }
 
 
-LRESULT
-CDeskBand::OnPaint(void)
-{
-  return 0;
-}
 
 LRESULT
 CDeskBand::OnCommand(WPARAM wParam, LPARAM lParam)
@@ -550,7 +520,6 @@ CDeskBand::OnTimer(WPARAM wParam, LPARAM lParam)
         {
           m_TimerBox->set_enabled(false);
           m_TimerBox->update();
-          m_HasAppletMenu = FALSE;
         }
     }
   return 0;
@@ -563,7 +532,6 @@ CDeskBand::OnCopyData(PCOPYDATASTRUCT copy_data)
     if (copy_data->dwData == APPLET_MESSAGE_MENU
         && copy_data->cbData == sizeof(AppletMenuData))
       {
-      Beep(6000,100);
         m_AppletMenu = *((AppletMenuData *) copy_data->lpData);
         m_HasAppletMenu = TRUE;
       }

@@ -56,7 +56,7 @@ TimerBoxAppletView::TimerBoxAppletView()
 {
   applet_window = NULL;
   heartbeat_data.enabled = false;
-  init_menu();
+  init_menu(NULL);
 }
   
 
@@ -152,10 +152,11 @@ TimerBoxAppletView::set_enabled(bool enabled)
 
 
 void
-TimerBoxAppletView::init_menu()
+TimerBoxAppletView::init_menu(HWND hwnd)
 {
   menu_data.num_items = 0;
   menu_sent = false;
+  menu_data.command_window = hwnd;
 }
 
 void
