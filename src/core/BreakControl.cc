@@ -389,7 +389,7 @@ BreakControl::start_break()
   if (number_of_preludes >= 0 && prelude_count >= number_of_preludes)
     {
       // We reached the maximum number of preludes.
-      if (!force_after_prelude)
+      if (!force_after_prelude && number_of_preludes > 0)
         {
           // Ignoring...for good...
           goto_stage(STAGE_SNOOZED);
