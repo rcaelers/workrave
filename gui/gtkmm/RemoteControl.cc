@@ -181,7 +181,6 @@ WR_METHOD_ARGS0_IMPL(void, quit)
 
 WR_METHOD_ARGS1_IMPL(void, set_applet_vertical, CORBA_boolean, vertical)
 {
-  TRACE_ENTER("RemoteControl::set_applet_vertical");
   GUI *gui = GUI::get_instance();
 
   AppletWindow *applet = NULL;
@@ -193,13 +192,11 @@ WR_METHOD_ARGS1_IMPL(void, set_applet_vertical, CORBA_boolean, vertical)
     {
       applet->set_applet_vertical(vertical);
     }
-  TRACE_EXIT();
 }
 
 
 WR_METHOD_ARGS1_IMPL(void, set_applet_size, CORBA_long, size)
 {
-  TRACE_ENTER("RemoteControl::set_applet_size");
   GUI *gui = GUI::get_instance();
 
   AppletWindow *applet = NULL;
@@ -211,7 +208,6 @@ WR_METHOD_ARGS1_IMPL(void, set_applet_size, CORBA_long, size)
     {
       applet->set_applet_size(size);
     }
-  TRACE_EXIT();
 }
 
 

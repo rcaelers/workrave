@@ -454,6 +454,7 @@ Menus::on_test_me()
 void
 Menus::on_menu_preferences()
 {
+  TRACE_ENTER("Menus::on_menu_preferences");
   GUIControl::OperationMode mode;
   GUIControl *ctrl = GUIControl::get_instance();
   mode = ctrl->set_operation_mode(GUIControl::OPERATION_MODE_QUIET);
@@ -475,6 +476,7 @@ Menus::on_menu_preferences()
     }
 #endif
   ctrl->set_operation_mode(mode);
+  TRACE_EXIT();
 }
 
 

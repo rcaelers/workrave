@@ -488,7 +488,7 @@ workrave_applet_verbs [] =
   {
     BONOBO_UI_VERB("About", verb_about),
     BONOBO_UI_VERB("Open", verb_open),
-    BONOBO_UI_VERB("Prefereces", verb_preferences),
+    BONOBO_UI_VERB("Preferences", verb_preferences),
     BONOBO_UI_VERB("Restbreak", verb_restbreak),
     BONOBO_UI_VERB("Connect", verb_connect),
     BONOBO_UI_VERB("Disconnect", verb_disconnect),
@@ -527,16 +527,12 @@ change_pixel_size(PanelApplet *applet, gint size, gpointer data)
 static void
 change_orient(PanelApplet *applet, PanelAppletOrient o, gpointer data)
 {
-  FILE *fp = fopen("/home/robc/wr.txt", "a+");
-  fprintf(fp,"orient\n");
-
   if(o==PANEL_APPLET_ORIENT_UP || o==PANEL_APPLET_ORIENT_DOWN)
     applet_control->vertical = FALSE;
   else
     applet_control->vertical = TRUE;
 
   workrave_applet_connect(FALSE);
-  fprintf(fp,"orient %p\n", remote_control);
   
   if (remote_control != NULL)
     {
@@ -544,19 +540,16 @@ change_orient(PanelApplet *applet, PanelAppletOrient o, gpointer data)
       CORBA_exception_init(&ev);
       
       GNOME_Workrave_WorkraveControl_set_applet_vertical(remote_control, applet_control->vertical, &ev);
-      fprintf(fp,"orient2\n");
       
       if (BONOBO_EX(&ev))
         {
           char *err = (char *) bonobo_exception_get_text(&ev);
           g_warning (_("An exception occured '%s'"), err);
-          fprintf(fp,"orient3 %s\n", err);
           g_free(err);
         }
       
       CORBA_exception_free(&ev);
     }
-  fclose(fp);
 }
 
 static gboolean
