@@ -1,6 +1,6 @@
 // RestBreakWindow.cc --- window for the micropause
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 //
@@ -23,6 +23,7 @@ const int TIMEOUT = 1000;
 #include "config.h"
 #endif
 
+#include "nls.h"
 #include <unistd.h>
 
 #include "debug.hh"
@@ -71,9 +72,9 @@ RestBreakWindow::RestBreakWindow(bool ignorable) :
   Gtk::Image *info_img = manage(new Gtk::Image(icon));
   Gtk::Label *info_lab =
     manage(new Gtk::Label
-           ("This is your rest break. Make sure you stand up and\n"
-            "walk away from your computer on a regular basis. Just\n"
-            "walk around for a few minutes, stretch, and relax."));
+           (_("This is your rest break. Make sure you stand up and\n"
+              "walk away from your computer on a regular basis. Just\n"
+              "walk around for a few minutes, stretch, and relax.")));
 
   info_box->pack_start(*info_img, false, false, 6);
   info_box->pack_start(*info_lab, false, true, 6);
@@ -90,9 +91,9 @@ RestBreakWindow::RestBreakWindow(bool ignorable) :
   if (ignorable)
     {
       button_box = manage(new Gtk::HButtonBox(Gtk::BUTTONBOX_END, 6));
-      Gtk::Button *skipButton = manage(new Gtk::Button("Skip"));
+      Gtk::Button *skipButton = manage(new Gtk::Button(_("Skip")));
       button_box->pack_end(*skipButton, Gtk::SHRINK, 0);
-      Gtk::Button *postponeButton = manage(new Gtk::Button("Postpone"));
+      Gtk::Button *postponeButton = manage(new Gtk::Button(_("Postpone")));
       button_box->pack_end(*postponeButton, Gtk::SHRINK, 0);
       
       GTK_WIDGET_UNSET_FLAGS(postponeButton->gobj(), GTK_CAN_FOCUS);
@@ -254,6 +255,10 @@ RestBreakWindow::draw_time_bar()
 
   time_t time = progress_max_value - progress_value;
   char s[100];
+  // FIXME: use TimeBar::time_to_string() ? In any case,
+  // "avoid duplication of volatile information" :) MicroPauseWindow
+  // has similar functionality.
+  // FIXME: i18n
   sprintf(s, "Rest break for %02ld:%02ld minutes", time / 60, time % 60);
   
   timebar->set_text(s);

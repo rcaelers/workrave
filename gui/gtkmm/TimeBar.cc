@@ -1,6 +1,6 @@
 // TimeBar.cc --- Time Bar
 //
-// Copyright (C) 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -97,9 +97,21 @@ void
 TimeBar::on_size_request(GtkRequisition *requisition)
 {
   TRACE_ENTER("TimeBar::on_size_request");
+
   Glib::RefPtr<Pango::Layout> pl = create_pango_layout(bar_text);
+
+  string min_string = TimeBar::time_to_string(-(59+59*60+23*60*60));;
+  Glib::RefPtr<Pango::Layout> plmin = create_pango_layout(min_string);
+
   int width, height;
   pl->get_pixel_size(width, height);
+
+  int mwidth, mheight;
+  plmin->get_pixel_size(mwidth, mheight);
+  if (mwidth > width)
+    width = mwidth;
+  if (mheight > height)
+    height = mheight;
 
   requisition->width = width + 2 * MARGINX;
   requisition->height = max(height + 2 * MARGINY, MIN_HORIZONTAL_BAR_HEIGHT);

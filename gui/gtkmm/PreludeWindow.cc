@@ -160,7 +160,7 @@ PreludeWindow::set_progress(int value, int max_value)
   TRACE_ENTER_MSG("PreludeWindow::set_progress", value << " " << max_value);
   time_bar->set_progress(value, max_value);
   string s = progress_text;
-  s += TimeBar::time_to_string(max_value-value);
+  s += " " + TimeBar::time_to_string(max_value-value);
   time_bar->set_text(s);
   TRACE_EXIT()
 }

@@ -21,6 +21,7 @@
 #include "config.h"
 #endif
 
+#include "nls.h"
 #include "debug.hh"
 
 #include <unistd.h>
@@ -44,8 +45,8 @@ CollectiveJoinDialog::CollectiveJoinDialog()
   TRACE_ENTER("CollectiveJoinDialog::CollectiveJoinDialog");
 
   string text =
-    "Enter the host name and port number of a computer\n"
-    "in the collective you want to join.";
+    _("Enter the host name and port number of a computer\n"
+      "in the collective you want to join.");
   
   // Title
   Gtk::HBox *title_box = manage(new Gtk::HBox(false));
@@ -58,8 +59,8 @@ CollectiveJoinDialog::CollectiveJoinDialog()
   // Entry
   host_entry = manage(new Gtk::Entry());
   port_entry = manage(new Gtk::SpinButton());
-  Gtk::Label *host_label = manage(new Gtk::Label("Hostname"));
-  Gtk::Label *port_label = manage(new Gtk::Label("Port"));
+  Gtk::Label *host_label = manage(new Gtk::Label(_("Host name")));
+  Gtk::Label *port_label = manage(new Gtk::Label(_("Port")));
 
   port_entry->set_range(1024, 65535);
   port_entry->set_increments(1, 10);
@@ -82,7 +83,7 @@ CollectiveJoinDialog::CollectiveJoinDialog()
   entry_table->attach(*port_al, 1, 2, y, y+1, Gtk::SHRINK | Gtk::FILL, Gtk::SHRINK);
 
   //
-  startup_button = manage(new Gtk::CheckButton("Connect at startup"));
+  startup_button = manage(new Gtk::CheckButton(_("Connect at start-up")));
   y++;
   entry_table->attach(*startup_button, 1, 2, y, y+1, Gtk::SHRINK | Gtk::FILL, Gtk::SHRINK);
   
@@ -92,7 +93,7 @@ CollectiveJoinDialog::CollectiveJoinDialog()
   page->pack_start(*entry_table, false, true, 0);
   page->set_border_width(6);
 
-  Gtk::Frame *frame = manage(new Gtk::Frame("Join settings"));
+  Gtk::Frame *frame = manage(new Gtk::Frame(_("Join settings")));
   frame->set_border_width(6);
   frame->add(*page);
 

@@ -1,2 +1,10 @@
+gui/BreakControl.cc
+gui/gtkmm/CollectiveJoinDialog.cc
+gui/gtkmm/CollectivePreferencePage.cc
+gui/gtkmm/DailyLimitWindow.cc
 gui/gtkmm/MainWindow.cc
-intl/os2compat.c
+gui/gtkmm/MicroPauseWindow.cc
+gui/gtkmm/PreferencesDialog.cc
+gui/gtkmm/RestBreakWindow.cc
+gui/gtkmm/TimerPreferencesPanel.cc
+

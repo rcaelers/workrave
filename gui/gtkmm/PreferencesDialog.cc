@@ -22,6 +22,7 @@
 #include "config.h"
 #endif
 
+#include "nls.h"
 #include "debug.hh"
 
 #include <unistd.h>
@@ -53,6 +54,7 @@ struct MonitorPreset
 
 static MonitorPreset presets[] =
 {
+  // FIXME: fix bug 75 before applying i18n _()
   { "Trigger-happy", 0, 1000, 0 },
   { "Quick", 1000, 5000, 800 },
   { "Normal", 1000, 5000, 9000 },
@@ -80,11 +82,15 @@ PreferencesDialog::PreferencesDialog()
   // Notebook
   Gtk::Notebook *notebook = manage(new Gtk::Notebook());
   notebook->set_tab_pos (Gtk::POS_TOP);  
-  notebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*timer_page, "Timers"));
-  notebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*monitor_page, "Monitoring"));
-  notebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*gui_page, "User interface"));
+  notebook->pages().push_back(Gtk::Notebook_Helpers::TabElem
+                              (*timer_page, _("Timers")));
+  notebook->pages().push_back(Gtk::Notebook_Helpers::TabElem
+                              (*monitor_page, _("Monitoring")));
+  notebook->pages().push_back(Gtk::Notebook_Helpers::TabElem
+                              (*gui_page, _("User interface")));
 #ifdef HAVE_DISTRIBUTION
-  notebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*collective_page, "Collective"));
+  notebook->pages().push_back(Gtk::Notebook_Helpers::TabElem
+                              (*collective_page, _("Collective")));
 #endif
   
   // Dialog
@@ -111,7 +117,9 @@ Gtk::Widget *
 PreferencesDialog::create_gui_page()
 {
   // Always-on-top
-  ontop_cb = manage(new Gtk::CheckButton("The main window stays always on top of other windows"));
+  ontop_cb = manage
+    (new Gtk::CheckButton
+     (_("The main window stays always on top of other windows")));
   ontop_cb->signal_toggled().connect(SigC::slot(*this, &PreferencesDialog::on_always_on_top_toggled));
   ontop_cb->set_active(MainWindow::get_always_on_top());
 
@@ -120,9 +128,11 @@ PreferencesDialog::create_gui_page()
   Gtk::Menu *sound_menu = manage(new Gtk::Menu());
   Gtk::Menu::MenuList &sound_list = sound_menu->items();
   sound_button->set_menu(*sound_menu);
-  sound_list.push_back(Gtk::Menu_Helpers::MenuElem("No sounds"));
-  sound_list.push_back(Gtk::Menu_Helpers::MenuElem("Play sounds using sound card"));
-  sound_list.push_back(Gtk::Menu_Helpers::MenuElem("Play sounds using built-in speaker"));
+  sound_list.push_back(Gtk::Menu_Helpers::MenuElem(_("No sounds")));
+  sound_list.push_back(Gtk::Menu_Helpers::MenuElem
+                       (_("Play sounds using sound card")));
+  sound_list.push_back(Gtk::Menu_Helpers::MenuElem
+                       (_("Play sounds using built-in speaker")));
   int idx;
   if (! SoundPlayer::is_enabled())
     idx = 0;
@@ -140,7 +150,7 @@ PreferencesDialog::create_gui_page()
 #ifdef WIN32
   // Tray start
   win32_start_in_tray_cb
-    = manage(new Gtk::CheckButton("Hide main window at start-up"));
+    = manage(new Gtk::CheckButton(_("Hide main window at start-up")));
   win32_start_in_tray_cb->signal_toggled()
     .connect(SigC::slot(*this,
 			&PreferencesDialog::win32_on_start_in_tray_toggled));
@@ -159,7 +169,7 @@ PreferencesDialog::create_gui_page()
   // Page
   Gtk::VBox *gui_page
     = create_page
-    ("You can configure the user interface related settings from here.\n",
+    (_("You can configure the user interface related settings from here."),
      "display.png");
   Gtk::Frame *gui_frame = manage(new Gtk::Frame("Options"));
   gui_frame->add(*opts_box);
@@ -174,9 +184,9 @@ PreferencesDialog::create_timer_page()
   // Timers page
   Gtk::VBox *timer_page
     = create_page
-    ("This dialog allows you to change the settings of the timers.  Each unit\n"
+    (_("This dialog allows you to change the settings of the timers.  Each unit\n"
      "of time is broken down into hours, minutes and seconds (also known as\n"
-     "the \"hh:mm:ss\" format).  These can all be controlled individually.",
+     "the \"hh:mm:ss\" format).  These can all be controlled individually."),
      "time.png");
   Gtk::Notebook *tnotebook = manage(new Gtk::Notebook());
   tnotebook->set_tab_pos (Gtk::POS_TOP);  
@@ -219,11 +229,11 @@ PreferencesDialog::create_monitor_page()
 
   Gtk::HBox *mon_pbox = manage(new Gtk::HBox(false, 6));
   mon_pbox->set_border_width(6);
-  Gtk::Label *label = manage(new Gtk::Label("Monitoring preset"));
+  Gtk::Label *label = manage(new Gtk::Label(_("Monitoring preset")));
   mon_pbox->pack_start(*label, false, false, 0);
   mon_pbox->pack_start(*monitor_preset_button, false, false, 0);
 
-  Gtk::Frame *mon_pframe = manage(new Gtk::Frame("Preset"));
+  Gtk::Frame *mon_pframe = manage(new Gtk::Frame(_("Preset")));
   mon_pframe->add(*mon_pbox);
 
   // Monitor table
@@ -233,7 +243,7 @@ PreferencesDialog::create_monitor_page()
   mon_table->set_border_width(6);
   int y = 0;
   
-  label = manage(new Gtk::Label("Activity time (ms)"));
+  label = manage(new Gtk::Label(_("Activity time (ms)")));
   activity_time = manage(new TimeEntry(true));
   mon_table->attach(*label, 0, 1, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
   mon_table->attach(*activity_time, 1, 2, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
@@ -243,7 +253,7 @@ PreferencesDialog::create_monitor_page()
   activity_time->set_value(val);
   y++;
 
-  label = manage(new Gtk::Label("Noise time (ms)"));
+  label = manage(new Gtk::Label(_("Noise time (ms)")));
   noise_time = manage(new TimeEntry(true));
   mon_table->attach(*label, 0, 1, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
   mon_table->attach(*noise_time, 1, 2, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
@@ -252,7 +262,7 @@ PreferencesDialog::create_monitor_page()
   noise_time->set_value(val);
   y++;
   
-  label = manage(new Gtk::Label("Idle time (ms)"));
+  label = manage(new Gtk::Label(_("Idle time (ms)")));
   idle_time = manage(new TimeEntry(true));
   mon_table->attach(*label, 0, 1, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
   mon_table->attach(*idle_time, 1, 2, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
@@ -264,11 +274,11 @@ PreferencesDialog::create_monitor_page()
   Gtk::VSeparator *sep = manage(new Gtk::VSeparator());
   label = manage
     (new Gtk::Label
-     ("The timers are started if, during the 'Activity\n"
-      "time', there was no inactivitiy for longer than\n"
-      "'Noise time'.  When 'Noise time' exceeds 'Activity\n"
-      "time', the timers are started if two consecutive\n"
-      "user input events occur during 'Noise time'."
+     (_("The timers are started if, during the 'Activity\n"
+        "time', there was no inactivitiy for longer than\n"
+        "'Noise time'.  When 'Noise time' exceeds 'Activity\n"
+        "time', the timers are started if two consecutive\n"
+        "user input events occur during 'Noise time'.")
       ));
   mon_table->attach(*sep, 2, 3, 0, 3, Gtk::SHRINK, Gtk::FILL);
   mon_table->attach(*label, 3, 4, 0, 3, Gtk::SHRINK, Gtk::SHRINK);
@@ -282,15 +292,15 @@ PreferencesDialog::create_monitor_page()
   noise_time->signal_value_changed().connect(SigC::slot(*this, &PreferencesDialog::on_noise_time_changed));
   
   // Monitor frame
-  Gtk::Frame *mon_tframe = manage(new Gtk::Frame("Custom settings"));
+  Gtk::Frame *mon_tframe = manage(new Gtk::Frame(_("Custom settings")));
   mon_tframe->add(*mon_table);
 
   // Monitoring page
   Gtk::VBox *monitor_page
     = create_page
-    ("Activity and idle time detection can be fine-tuned by the monitor\n"
+    (_("Activity and idle time detection can be fine-tuned by the monitor\n"
      "settings.  You can choose from various presets, or define your own\n"
-     "custom settings.",
+     "custom settings."),
      "monitoring.png");
   monitor_page->pack_start(*mon_pframe, false, false, 0);
   monitor_page->pack_start(*mon_tframe, false, false, 0);
@@ -304,8 +314,8 @@ PreferencesDialog::create_collective_page()
   // Timers page
   Gtk::VBox *collective_page
     = create_page
-    ("Workrave allows you to run several workrave instances in a collective.\n"
-     "All workraves in the collective will share the same timers.\n",
+    (_("Workrave allows you to run several workrave instances in a collective.\n"
+     "All workraves in the collective will share the same timers.\n"),
      "collective.png");
 
   Gtk::Widget *page = manage(new CollectivePreferencePage());

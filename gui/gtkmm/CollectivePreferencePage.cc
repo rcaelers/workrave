@@ -21,6 +21,7 @@
 #include "config.h"
 #endif
 
+#include "nls.h"
 #include "debug.hh"
 
 #include <sstream>
@@ -69,7 +70,7 @@ void
 CollectivePreferencePage::create_general_page(Gtk::Notebook *tnotebook)
 {
   Gtk::HBox *box = manage(new Gtk::HBox(false, 3));
-  Gtk::Label *lab = manage(new Gtk::Label("General"));
+  Gtk::Label *lab = manage(new Gtk::Label(_("General")));
   // Gtk::Image *img = manage(new Gtk::Image();
   // box->pack_start(*img, false, false, 0);
   box->pack_start(*lab, false, false, 0);
@@ -78,16 +79,16 @@ CollectivePreferencePage::create_general_page(Gtk::Notebook *tnotebook)
   gp->set_border_width(6);
 
   // Main switch
-  enabled_cb = manage(new Gtk::CheckButton("Enable collective"));
+  enabled_cb = manage(new Gtk::CheckButton(_("Enable collective")));
 
   // Identity
-  Gtk::Frame *id_frame = new Gtk::Frame("Identity");
+  Gtk::Frame *id_frame = new Gtk::Frame(_("Identity"));
 
   username_entry = manage(new Gtk::Entry());
   password_entry = manage(new Gtk::Entry());
   
-  Gtk::Label *username_label = manage(new Gtk::Label("Username"));
-  Gtk::Label *password_label = manage(new Gtk::Label("Password"));
+  Gtk::Label *username_label = manage(new Gtk::Label(_("Username")));
+  Gtk::Label *password_label = manage(new Gtk::Label(_("Password")));
 
   password_entry->set_visibility(false);
   password_entry->set_invisible_char('*');
@@ -122,7 +123,7 @@ void
 CollectivePreferencePage::create_advanced_page(Gtk::Notebook *tnotebook)
 {
   Gtk::HBox *box = manage(new Gtk::HBox(false, 3));
-  Gtk::Label *lab = manage(new Gtk::Label("Advanced"));
+  Gtk::Label *lab = manage(new Gtk::Label(_("Advanced")));
   // Gtk::Image *img = manage(new Gtk::Image();
   // box->pack_start(*img, false, false, 0);
   box->pack_start(*lab, false, false, 0);
@@ -130,7 +131,7 @@ CollectivePreferencePage::create_advanced_page(Gtk::Notebook *tnotebook)
   Gtk::VBox *gp = manage(new Gtk::VBox(false, 6));
   gp->set_border_width(6);
 
-  Gtk::Frame *advanced_frame = new Gtk::Frame("Server settings");
+  Gtk::Frame *advanced_frame = new Gtk::Frame(_("Server settings"));
 
   port_entry = manage(new Gtk::SpinButton());
   attempts_entry = manage(new Gtk::SpinButton());
@@ -151,9 +152,9 @@ CollectivePreferencePage::create_advanced_page(Gtk::Notebook *tnotebook)
   interval_entry->set_numeric(true);
   interval_entry->set_width_chars(10);
 
-  Gtk::Label *port_label = manage(new Gtk::Label("Server port"));
-  Gtk::Label *attempts_label = manage(new Gtk::Label("Reconnect atttempts"));
-  Gtk::Label *interval_label = manage(new Gtk::Label("Reconnect interval"));
+  Gtk::Label *port_label = manage(new Gtk::Label(_("Server port")));
+  Gtk::Label *attempts_label = manage(new Gtk::Label(_("Reconnect atttempts")));
+  Gtk::Label *interval_label = manage(new Gtk::Label(_("Reconnect interval")));
 
   
   Gtk::Table *advanced_table = manage(new Gtk::Table(3, 2, false));
@@ -188,7 +189,7 @@ void
 CollectivePreferencePage::create_peers_page(Gtk::Notebook *tnotebook)
 {
   Gtk::HBox *box = manage(new Gtk::HBox(false, 3));
-  Gtk::Label *lab = manage(new Gtk::Label("Hosts"));
+  Gtk::Label *lab = manage(new Gtk::Label(_("Hosts")));
   // Gtk::Image *img = manage(new Gtk::Image();
   // box->pack_start(*img, false, false, 0);
   box->pack_start(*lab, false, false, 0);
@@ -198,8 +199,8 @@ CollectivePreferencePage::create_peers_page(Gtk::Notebook *tnotebook)
 
   // Info text
   const char *label =
-    "The following list specifies the hosts that Workrave connects to on\n"
-    "start-up. Click the host name or port number to edit.";
+    _("The following list specifies the hosts that Workrave connects to on\n"
+      "start-up. Click the host name or port number to edit.");
     
   Gtk::HBox *infohbox = manage(new Gtk::HBox(false, 6));
   Gtk::Label *info_lab = manage(new Gtk::Label(label));
@@ -227,7 +228,7 @@ CollectivePreferencePage::create_peers_page(Gtk::Notebook *tnotebook)
   int cols_count = 0;
   
   renderer = Gtk::manage(new Gtk::CellRendererText());
-  cols_count = peers_list->append_column("Host name", *renderer);
+  cols_count = peers_list->append_column(_("Host name"), *renderer);
   column = peers_list->get_column(cols_count-1);
   column->add_attribute(renderer->property_text(), peers_columns.hostname);
   column->set_resizable(true);
@@ -235,7 +236,7 @@ CollectivePreferencePage::create_peers_page(Gtk::Notebook *tnotebook)
   renderer->signal_edited().connect(SigC::slot(*this, &CollectivePreferencePage::on_hostname_edited));
     
   renderer = Gtk::manage(new Gtk::CellRendererText());
-  cols_count = peers_list->append_column("Port", *renderer);
+  cols_count = peers_list->append_column(_("Port"), *renderer);
   column = peers_list->get_column(cols_count-1);
   column->add_attribute(renderer->property_text(), peers_columns.port);
   column->set_resizable(true);

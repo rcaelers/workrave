@@ -1,6 +1,6 @@
 // MicroPauseWindow.cc --- window for the micropause
 //
-// Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -20,6 +20,7 @@ static const char rcsid[] = "$Id$";
 #include "config.h"
 #endif
 
+#include "nls.h"
 #include "debug.hh"
 
 #include "MicroPauseWindow.hh"
@@ -160,7 +161,8 @@ MicroPauseWindow::refresh_time_bar()
   TRACE_ENTER("MicroPauseWindow::refresh_time_bar");
 
   time_t time = progress_max_value - progress_value;
-  string s = "Micro-pause ";
+  string s = _("Micro-pause");
+  s += ' ';
   s += TimeBar::time_to_string(time);
   time_bar->set_progress(progress_value, progress_max_value - 1);
   time_bar->set_text(s);
@@ -185,6 +187,7 @@ MicroPauseWindow::refresh_label()
       
       if (rb >= 60 * 60)
         {
+          // FIXME: i18n, but fix previous FIXME first!
           sprintf(s, "Next rest break in %02ld:%02ld hours", rb / 3600, (rb / 60) % 60);
         }
       else
@@ -205,7 +208,7 @@ MicroPauseWindow::refresh_label()
           sprintf(s, "Overdue rest break %02ld:%02ld minutes", rb / 60, rb % 60);
         }
     }
-  label->set_text(string("Please relax for a few seconds\n") + s);
+  label->set_text(string(_("Please relax for a few seconds")) + '\n' + s);
   TRACE_EXIT();
 }
 

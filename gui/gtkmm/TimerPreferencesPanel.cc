@@ -22,6 +22,7 @@
 #include "config.h"
 #endif
 
+#include "nls.h"
 #include "debug.hh"
 
 #include <unistd.h>
@@ -77,20 +78,20 @@ Gtk::Frame *
 TimerPreferencesPanel::create_prelude_frame()
 {
   // Prelude frame
-  Gtk::Frame *prelude_frame = new Gtk::Frame("Break prompting");
-  prelude_cb = manage(new Gtk::CheckButton("Prompt before breaking"));
+  Gtk::Frame *prelude_frame = new Gtk::Frame(_("Break prompting"));
+  prelude_cb = manage(new Gtk::CheckButton(_("Prompt before breaking")));
   int max_preludes = timer->get_break_max_preludes();
   prelude_cb->set_active(max_preludes != 0);
 
   has_max_prelude_cb = manage(new Gtk::CheckButton
-                              ("Maximum number of prompts:"));
+                              (_("Maximum number of prompts:")));
   has_max_prelude_cb->set_active(max_preludes > 0);
   
   max_prelude_adjustment.set_value(max_preludes > 0 ? max_preludes : 1);
   max_prelude_spin = manage(new Gtk::SpinButton(max_prelude_adjustment));
   
   force_after_prelude_cb = manage(new Gtk::CheckButton
-                                  ("Force break after maximum exceeded"));
+                                  (_("Force break after maximum exceeded")));
   force_after_prelude_cb->set_active(timer->get_break_force_after_preludes());
 
   set_prelude_sensitivity();
@@ -126,7 +127,7 @@ TimerPreferencesPanel::create_options_frame()
   
   // Insists option
   bool insists = timer->get_break_insisting();
-  insists_cb = manage(new Gtk::CheckButton("Block user input"));
+  insists_cb = manage(new Gtk::CheckButton(_("Block user input")));
   insists_cb->set_active(insists);
   insists_cb->signal_toggled()
     .connect(SigC::slot(*this, &TimerPreferencesPanel::on_insists_toggled));
@@ -137,7 +138,7 @@ TimerPreferencesPanel::create_options_frame()
   if (timer_id == GUIControl::TIMER_ID_DAILY_LIMIT)
     {
       monitor_cb
-        = manage(new Gtk::CheckButton("Regard micro-pauses as activity"));
+        = manage(new Gtk::CheckButton(_("Regard micro-pauses as activity")));
       string monitor_name;
       bool b = cfg->get_value
         (tpfx + ControlInterface::CFG_KEY_TIMER_MONITOR, &monitor_name);
@@ -151,7 +152,7 @@ TimerPreferencesPanel::create_options_frame()
   // Ignorable
   bool ignorable = timer->get_break_ignorable();
   ignorable_cb = manage(new Gtk::CheckButton
-                        ("Show 'Postpone' and 'Skip' button"));
+                        (_("Show 'Postpone' and 'Skip' button")));
   ignorable_cb->set_active(ignorable);
   ignorable_cb->signal_toggled()
     .connect(SigC::slot(*this, &TimerPreferencesPanel::on_ignorable_toggled));
@@ -173,7 +174,7 @@ TimerPreferencesPanel::create_options_frame()
     }
 
   // Options frame
-  Gtk::Frame *opts_frame = new Gtk::Frame("Options");
+  Gtk::Frame *opts_frame = new Gtk::Frame(_("Options"));
   opts_table->set_border_width(6);
   opts_frame->add(*opts_table);
 
@@ -186,7 +187,7 @@ TimerPreferencesPanel::create_timers_frame()
 {
   // Snooze time
   TimerInterface *itimer = timer->timer;
-  Gtk::Label *snooze_lab = manage(new Gtk::Label("Post-pone time"));
+  Gtk::Label *snooze_lab = manage(new Gtk::Label(_("Post-pone time")));
   snooze_tim = manage(new TimeEntry());
   snooze_tim->set_value (itimer->get_snooze());
   snooze_tim->signal_value_changed()
@@ -197,14 +198,14 @@ TimerPreferencesPanel::create_timers_frame()
   time_t auto_reset_value;
   if (timer_id == GUIControl::TIMER_ID_DAILY_LIMIT)
     {
-      auto_reset_txt = "Resets at";
+      auto_reset_txt = _("Resets at");
       DayTimePred *pred = (DayTimePred *) itimer->get_auto_reset_predicate();
       assert(pred);
       auto_reset_value = pred->get_time_offset();
     }
   else
     {
-      auto_reset_txt = "Pause duration";
+      auto_reset_txt = _("Pause duration");
       auto_reset_value = itimer->get_auto_reset();
     }
   
@@ -215,7 +216,7 @@ TimerPreferencesPanel::create_timers_frame()
     .connect(SigC::slot(*this, &TimerPreferencesPanel::on_auto_reset_changed));
 
   // Limit time
-  Gtk::Label *limit_lab = manage(new Gtk::Label("Time before break"));
+  Gtk::Label *limit_lab = manage(new Gtk::Label(_("Time before break")));
   limit_tim = manage(new TimeEntry());
   limit_tim->set_value (itimer->get_limit());
   limit_tim->signal_value_changed()
@@ -236,7 +237,7 @@ TimerPreferencesPanel::create_timers_frame()
   timers_table->attach(*snooze_tim, 1, 2, y, y+1, Gtk::SHRINK, Gtk::SHRINK);
 
   // Timers frame
-  Gtk::Frame *timers_frame = new Gtk::Frame("Timers");
+  Gtk::Frame *timers_frame = new Gtk::Frame(_("Timers"));
   timers_table->set_border_width(6);
   timers_frame->add(*timers_table);
   return timers_frame;

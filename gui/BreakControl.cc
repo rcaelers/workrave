@@ -20,6 +20,7 @@ static const char rcsid[] = "$Id$";
 #include "config.h"
 #endif
 
+#include "nls.h"
 #include "debug.hh"
 
 #include <string>
@@ -643,15 +644,15 @@ BreakControl::prelude_window_start()
 
   if (!final_prelude)
     {
-      prelude_window->set_progress_text("Disappears in ");
+      prelude_window->set_progress_text(_("Disappears in"));
     }
   else if (force_after_prelude) // && final_prelude
     {
-      prelude_window->set_progress_text("Break in ");
+      prelude_window->set_progress_text(_("Break in"));
     }
   else // final_prelude && ! force_after_prelude
     {
-      prelude_window->set_progress_text("SILENT in ");
+      prelude_window->set_progress_text(_("Silent in"));
     }
   
   update_prelude_window();

@@ -163,7 +163,7 @@ MainWindow::init()
       
       timer_times[count]->set_text_alignment(1);
       timer_times[count]->set_progress(0, 60);
-      timer_times[count]->set_text("   Wait   ");
+      timer_times[count]->set_text(_("Wait"));
       
       timers_box->attach(*timer_times[count], 1, 2, count, count + 1, Gtk::EXPAND | Gtk::FILL);
     }
@@ -249,7 +249,7 @@ MainWindow::update()
 
       if (!node_active && num_peers > 0)
         {
-          bar->set_text("Inactive");
+          bar->set_text(_("Inactive"));
           bar->update();
           continue;
         }
@@ -286,7 +286,7 @@ MainWindow::update()
         {
           bar->set_bar_color(TimeBar::COLOR_ID_INACTIVE);
           bar->set_progress(0, 60);
-          bar->set_text("Wait");
+          bar->set_text(_("Wait"));
         }
       else
         {
@@ -347,28 +347,28 @@ MainWindow::create_menu(Gtk::RadioMenuItem *mode_menus[3])
   Gtk::Menu::MenuList &modemenulist = mode_menu->items();
 
   // Mode menu item
-  Gtk::MenuItem *mode_menu_item = manage(new Gtk::MenuItem("_Mode",true));
+  Gtk::MenuItem *mode_menu_item = manage(new Gtk::MenuItem(_("_Mode"),true));
   mode_menu_item->set_submenu(*mode_menu);
   mode_menu_item->show();
 
   Gtk::RadioMenuItem::Group gr;
   // Suspend menu item.
   Gtk::RadioMenuItem *normal_menu_item
-    = manage(new Gtk::RadioMenuItem(gr, "_Normal", true));
+    = manage(new Gtk::RadioMenuItem(gr, _("_Normal"), true));
   normal_menu_item->signal_toggled().connect(SigC::slot(*this, &MainWindow::on_menu_normal));
   normal_menu_item->show();
   modemenulist.push_back(*normal_menu_item);
 
   // Suspend menu item.
   Gtk::RadioMenuItem *suspend_menu_item
-    = manage(new Gtk::RadioMenuItem(gr, "_Suspended", true));
+    = manage(new Gtk::RadioMenuItem(gr, _("_Suspended"), true));
   suspend_menu_item->signal_toggled().connect(SigC::slot(*this, &MainWindow::on_menu_suspend));
   suspend_menu_item->show();
   modemenulist.push_back(*suspend_menu_item);
 
   // Quiet menu item.
   Gtk::RadioMenuItem *quiet_menu_item
-    = manage(new Gtk::RadioMenuItem(gr, "Q_uiet", true));
+    = manage(new Gtk::RadioMenuItem(gr, _("Q_uiet"), true));
   quiet_menu_item->signal_toggled().connect(SigC::slot(*this, &MainWindow::on_menu_quiet));
   quiet_menu_item->show();
   modemenulist.push_back(*quiet_menu_item);
@@ -386,17 +386,17 @@ MainWindow::create_menu(Gtk::RadioMenuItem *mode_menus[3])
   distr_menu_item->set_submenu(*distr_menu);
   distr_menu_item->show();
 
-  Gtk::MenuItem *distr_join_menu_item = manage(new Gtk::MenuItem("_Join",true));
+  Gtk::MenuItem *distr_join_menu_item = manage(new Gtk::MenuItem(_("_Join"),true));
   distr_join_menu_item->show();
   distr_join_menu_item->signal_activate().connect(SigC::slot(*this, &MainWindow::on_menu_collective_join));
   distr_menu_list.push_back(*distr_join_menu_item);
   
-  Gtk::MenuItem *distr_leave_menu_item = manage(new Gtk::MenuItem("_Leave",true));
+  Gtk::MenuItem *distr_leave_menu_item = manage(new Gtk::MenuItem(_("_Leave"),true));
   distr_leave_menu_item->show();
   distr_leave_menu_item->signal_activate().connect(SigC::slot(*this, &MainWindow::on_menu_collective_leave));
   distr_menu_list.push_back(*distr_leave_menu_item);
 
-  Gtk::MenuItem *distr_reconnect_menu_item = manage(new Gtk::MenuItem("_Reconnect",true));
+  Gtk::MenuItem *distr_reconnect_menu_item = manage(new Gtk::MenuItem(_("_Reconnect"),true));
   distr_reconnect_menu_item->show();
   distr_reconnect_menu_item->signal_activate().connect(SigC::slot(*this, &MainWindow::on_menu_collective_reconnect));
   distr_menu_list.push_back(*distr_reconnect_menu_item);
@@ -409,7 +409,7 @@ MainWindow::create_menu(Gtk::RadioMenuItem *mode_menus[3])
 
   Gtk::Image *img = manage(new Gtk::Image(GUIControl::get_instance()->timers[GUIControl::TIMER_ID_REST_BREAK].icon));
   menulist.push_back(Gtk::Menu_Helpers::ImageMenuElem
-                     ("_Rest break",
+                     (_("_Rest break"),
                       Gtk::Menu::AccelKey("<control>r"),
                       *img,
                       SigC::slot(*this, &MainWindow::on_menu_restbreak_now)));
@@ -421,7 +421,7 @@ MainWindow::create_menu(Gtk::RadioMenuItem *mode_menus[3])
 #endif
   
 #ifndef NDEBUG
-  menulist.push_back(Gtk::Menu_Helpers::MenuElem("Statistics",
+  menulist.push_back(Gtk::Menu_Helpers::MenuElem(_("Statistics"),
                                                  SigC::slot(*this, &MainWindow::on_menu_statistics)));
   
   menulist.push_back(Gtk::Menu_Helpers::MenuElem("_Test",
@@ -434,7 +434,7 @@ MainWindow::create_menu(Gtk::RadioMenuItem *mode_menus[3])
 		      SigC::slot(*this, &MainWindow::on_menu_about)));
 #else
   menulist.push_back(Gtk::Menu_Helpers::MenuElem
-		     ("About...",
+		     (_("About..."),
 		      SigC::slot(*this, &MainWindow::on_menu_about)));
 #endif
 
@@ -597,8 +597,8 @@ MainWindow::on_menu_about()
   gtk_widget_show (gnome_about_new
                    ("Workrave", VERSION,
                     "Copyright 2001-2002 Rob Caelers & Raymond Penners",
-                    "This program assists in the prevention and recovery"
-                    " of Repetitive Strain Injury (RSI).",
+                    _("This program assists in the prevention and recovery"
+                      " of Repetitive Strain Injury (RSI)."),
                     (const gchar **) authors,
                     (const gchar **) NULL,
                     NULL,
