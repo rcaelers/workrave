@@ -1,6 +1,6 @@
 // ActivityMonitor.cc --- ActivityMonitor
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -52,10 +52,11 @@ static const char rcsid[] = "$Id$";
 //! Constructor.
 ActivityMonitor::ActivityMonitor(const char *display) :
   activity_state(ACTIVITY_IDLE),
-  prev_x(-1),
-  prev_y(-1),
+  prev_x(-10),
+  prev_y(-10),
   click_x(-1),
   click_y(-1),
+  button_is_pressed(false),
   listener(NULL)
 {
   TRACE_ENTER("ActivityMonitor::ActivityMonitor");
@@ -339,7 +340,7 @@ ActivityMonitor::mouse_notify(int x, int y, int wheel_delta)
   prev_y = y;
   
   if (abs(delta_x) >= sensitivity || abs(delta_y) >= sensitivity
-      || wheel_delta != 0)
+      || wheel_delta != 0 || button_is_pressed)
     {
       statistics.total_movement += int(sqrt((double)(delta_x * delta_x + delta_y * delta_y)));
       
@@ -381,6 +382,8 @@ ActivityMonitor::button_notify(int button_mask, bool is_press)
   click_y = prev_y;
   action_notify();
 
+  button_is_pressed = is_press;
+  
   if (is_press)
     {
       statistics.total_clicks++;

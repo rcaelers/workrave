@@ -1,9 +1,9 @@
 // Timer.cc --- break timer
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-12-30 10:06:44 robc>
+// Time-stamp: <2004-03-08 21:46:52 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -218,7 +218,19 @@ void
 Timer::set_activity_sensitive(bool a)
 {
   activity_sensitive = a;
-  activity_state = ACTIVITY_UNKNOWN;  
+  activity_state = ACTIVITY_UNKNOWN;
+
+  if (!activity_sensitive)
+    {
+      // If timer is made insensitive, start it if
+      // it has some elasped time. Other wise a DL will never
+      // start (well, not until it resets...)
+      int el = get_elapsed_time();
+      if (el > 0 && el < limit_interval)
+        {
+          activity_state = ACTIVITY_ACTIVE;
+        }
+    }
 }
 
 
@@ -645,13 +657,19 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
         {
           TRACE_MSG("as = " << activity_state << " nas = " << new_activity_state << " el=" << get_elapsed_time());
 
+          // When the timer has no elasped time, and it not running ->
+          // use activity_state from activity monitor. This allows the
+          // timer to start when the user becomes active.
+          //
+          // Otherwise, use the previous state: A timer that is running keep
+          // running until it is set to idle below. An idle timer (after limit
+          // was reached) remains idle.
           if (activity_state != ACTIVITY_ACTIVE && get_elapsed_time() == 0)
             {
               TRACE_MSG("new state1 = " << activity_state << " " << new_activity_state);
             }
           else
             {
-              // Initially, assume the state remains the same
               new_activity_state = activity_state;
               TRACE_MSG("new state2 = " << activity_state << " " << new_activity_state);
             }

@@ -1,6 +1,6 @@
 // DistributionSocketLink.cc
 //
-// Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2004 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -97,10 +97,6 @@ DistributionSocketLink::init()
   read_configuration();
   configurator->add_listener(DistributionManager::CFG_KEY_DISTRIBUTION_TCP, this);
 
-  // Who am I?
-  myname = socket_driver->get_my_canonical_name();
-  myid = g_strdup_printf("%s:%d", myname, server_port);
-  
   TRACE_EXIT();
 }
 
@@ -336,6 +332,21 @@ DistributionSocketLink::set_enabled(bool enabled)
 {
   bool ret = server_enabled;
 
+  if (enabled)
+    {
+      // Who am I?
+      myname = socket_driver->get_my_canonical_name();
+      if (myname != NULL)
+        {
+          myid = g_strdup_printf("%s:%d", myname, server_port);
+        }
+      else
+        {
+          dist_manager->log(_("Cannot resolve my own hostname. Deactivating distribution."));
+          enabled = false;
+        }
+    }
+  
   if (!server_enabled && enabled)
     {
       // Switching from disabled to enabled;

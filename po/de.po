@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.4.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-07 21:47+0100\n"
+"POT-Creation-Date: 2004-03-08 22:28+0100\n"
 "PO-Revision-Date: 2003-10-23 13:04+0200\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -263,7 +263,7 @@ msgstr "Applet"
 #. Notebook
 #: frontend/gtkmm/src/PreferencesDialog.cc:76
 #: frontend/gtkmm/src/TimerBoxPreferencePage.cc:169
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:193
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:202
 msgid "Timers"
 msgstr "Zeitmesser"
 
@@ -310,7 +310,7 @@ msgstr "Alles blockieren"
 # src/app/gtkmm/TimerPreferencesPanel.cc:141
 #. Options
 #: frontend/gtkmm/src/PreferencesDialog.cc:175
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:137
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:141
 msgid "Options"
 msgstr "Optionen"
 
@@ -458,71 +458,66 @@ msgstr "Tägliches Limit"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:57
 #. Enabled/Disabled checkbox
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:60
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:63
 msgid "Enable timer"
 msgstr "Zeitmesser verwenden"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:96
 #. Prelude frame
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:100
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:104
 msgid "Break prompting"
 msgstr "Ankündigung der Pause"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:98
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:102
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:106
 msgid "Prompt before breaking"
 msgstr "Vor der Pause Hinweis ausgeben"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:103
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:107
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:111
 msgid "Maximum number of prompts:"
 msgstr "Maximale Anzahl von Hinweisen:"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:154
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:142
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:146
 msgid "Show 'Postpone' and 'Skip' button"
 msgstr "Knöpfe 'Aufschieben' und 'Überspringen' anzeigen"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:151
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:155
 msgid "Suspend timer when inactive"
 msgstr ""
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:169
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:166
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:171
 #, fuzzy
 msgid "Regard micro-breaks as activity"
 msgstr "Mikropausen als Aktivität betrachten"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:181
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:178
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:185
 msgid "Number of exercises:"
 msgstr "Anzahl der Übungen"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:202
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:201
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:210
 #, fuzzy
 msgid "Time before end:"
 msgstr "Zeit bis zur Pause:"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:202
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:202
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:211
 #, fuzzy
 msgid "Time between breaks:"
 msgstr "Zeit bis zur Pause:"
 
-# src/app/gtkmm/TimerPreferencesPanel.cc:209
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:209
-msgid "Resets at:"
-msgstr "Zurücksetzen nach:"
-
 # src/app/gtkmm/TimerPreferencesPanel.cc:219
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:219
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:220
 #, fuzzy
 msgid "Break duration:"
 msgstr "Dauer der Pause:"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:236
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:236
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:242
 #, fuzzy
 msgid "Postpone time:"
 msgstr "Dauer des Aufschubs:"
@@ -887,60 +882,64 @@ msgid "%s%d seconds"
 msgstr "%s%d Sekunden"
 
 # src/core/DistributionSocketLink.cc:131
-#: backend/src/DistributionSocketLink.cc:131
+#: backend/src/DistributionSocketLink.cc:127
 #, c-format
 msgid "Reconnecting to %s:%d."
 msgstr "Wiederaufnahme der Verbindung mit %s:%d:"
 
+#: backend/src/DistributionSocketLink.cc:345
+msgid "Cannot resolve my own hostname. Deactivating distribution."
+msgstr ""
+
 # src/core/DistributionSocketLink.cc:345
 #. We did not succeed in starting the server. Arghh.
-#: backend/src/DistributionSocketLink.cc:345
+#: backend/src/DistributionSocketLink.cc:356
 msgid "Could not enable network operation."
 msgstr "Netzwerkbetrieb konnte nicht aufgenommen werden."
 
 # src/core/DistributionSocketLink.cc:354
-#: backend/src/DistributionSocketLink.cc:354
+#: backend/src/DistributionSocketLink.cc:365
 msgid "Disabling network operation."
 msgstr "Netzwerkbetrieb wird deaktiviert."
 
 # src/core/DistributionSocketLink.cc:509
 # src/core/DistributionSocketLink.cc:536
-#: backend/src/DistributionSocketLink.cc:509
-#: backend/src/DistributionSocketLink.cc:536
+#: backend/src/DistributionSocketLink.cc:520
+#: backend/src/DistributionSocketLink.cc:547
 #, c-format
 msgid "Connecting to %s:%d."
 msgstr "Verbinde mit %s:%d."
 
 # src/core/DistributionSocketLink.cc:640
 # src/core/DistributionSocketLink.cc:665
-#: backend/src/DistributionSocketLink.cc:640
-#: backend/src/DistributionSocketLink.cc:665
+#: backend/src/DistributionSocketLink.cc:651
+#: backend/src/DistributionSocketLink.cc:676
 #, c-format
 msgid "Removing client %s:%d."
 msgstr "Entferne Client %s:%d."
 
 # src/core/DistributionSocketLink.cc:702
 #. Closing direct connection.
-#: backend/src/DistributionSocketLink.cc:702
+#: backend/src/DistributionSocketLink.cc:713
 #, c-format
 msgid "Disconnecting %s:%d."
 msgstr "Trenne Verbindung mit %s:%d."
 
 # src/core/DistributionSocketLink.cc:870
 #. It's a remote client. mark it master.
-#: backend/src/DistributionSocketLink.cc:870
+#: backend/src/DistributionSocketLink.cc:881
 #, c-format
 msgid "Client %s:%d is now master."
 msgstr "Client %s:%d ist jetzt Master."
 
 # src/core/DistributionSocketLink.cc:876
 #. Its ME!
-#: backend/src/DistributionSocketLink.cc:876
+#: backend/src/DistributionSocketLink.cc:887
 msgid "I'm now master."
 msgstr "Ich bin jetzt Master."
 
 # src/core/DistributionSocketLink.cc:1205
-#: backend/src/DistributionSocketLink.cc:1205
+#: backend/src/DistributionSocketLink.cc:1216
 #, c-format
 msgid "Client %s:%d saying hello."
 msgstr "Client %s:%d sagt 'Hallo'."
@@ -949,107 +948,107 @@ msgstr "Client %s:%d sagt 'Hallo'."
 # src/core/DistributionSocketLink.cc:1337
 # src/core/DistributionSocketLink.cc:1573
 #. Duplicate client. inform client that it's bogus and close.
-#: backend/src/DistributionSocketLink.cc:1220
-#: backend/src/DistributionSocketLink.cc:1337
-#: backend/src/DistributionSocketLink.cc:1573
+#: backend/src/DistributionSocketLink.cc:1231
+#: backend/src/DistributionSocketLink.cc:1348
+#: backend/src/DistributionSocketLink.cc:1584
 #, c-format
 msgid "Client %s:%d is duplicate."
 msgstr "Client %s:%d ist doppelt eingetragen."
 
 # src/core/DistributionSocketLink.cc:1229
 #. Incorrect password.
-#: backend/src/DistributionSocketLink.cc:1229
+#: backend/src/DistributionSocketLink.cc:1240
 #, c-format
 msgid "Client %s:%d access denied."
 msgstr "Zugriff für Client %s:%d verweigert."
 
 # src/core/DistributionSocketLink.cc:1296
-#: backend/src/DistributionSocketLink.cc:1296
+#: backend/src/DistributionSocketLink.cc:1307
 #, c-format
 msgid "Client %s:%d signed off."
 msgstr "Client %s:%d hat sich abgemeldet."
 
 # src/core/DistributionSocketLink.cc:1375
-#: backend/src/DistributionSocketLink.cc:1375
+#: backend/src/DistributionSocketLink.cc:1386
 #, c-format
 msgid "Client %s:%d is welcoming us."
 msgstr "Client %s:%d heißt Sie willkommen."
 
 # src/core/DistributionSocketLink.cc:1608
-#: backend/src/DistributionSocketLink.cc:1608
+#: backend/src/DistributionSocketLink.cc:1619
 #, c-format
 msgid "Requesting master status from %s:%d."
 msgstr "Erbitte Master-Status von %s:%d."
 
 # src/core/DistributionSocketLink.cc:1621
-#: backend/src/DistributionSocketLink.cc:1621
+#: backend/src/DistributionSocketLink.cc:1632
 #, c-format
 msgid "Client timeout from %s:%d."
 msgstr "Zeitüberschreitung von Client %s:%d."
 
 # src/core/DistributionSocketLink.cc:1642
-#: backend/src/DistributionSocketLink.cc:1642
+#: backend/src/DistributionSocketLink.cc:1653
 #, c-format
 msgid "Rejecting master request from client %s:%d."
 msgstr "Weise Anfrage nach Master-Status durch Client %s:%d zurück."
 
 # src/core/DistributionSocketLink.cc:1648
-#: backend/src/DistributionSocketLink.cc:1648
+#: backend/src/DistributionSocketLink.cc:1659
 #, c-format
 msgid "Acknowledging master request from client %s:%d."
 msgstr "Bestätige Master-Anfrage von Client %s:%d."
 
 # src/core/DistributionSocketLink.cc:1699
-#: backend/src/DistributionSocketLink.cc:1699
+#: backend/src/DistributionSocketLink.cc:1710
 #, c-format
 msgid "Non-master client %s:%d rejected master request."
 msgstr "Client %s:%d ohne Master-Status hat Master-Anfrage zurückgewiesen."
 
 # src/core/DistributionSocketLink.cc:1704
-#: backend/src/DistributionSocketLink.cc:1704
+#: backend/src/DistributionSocketLink.cc:1715
 #, c-format
 msgid "Client %s:%d rejected master request, delaying."
 msgstr "Client %s:%d hat Master-Anfrage zurückgewiesen. Warte ab."
 
 # src/core/DistributionSocketLink.cc:1775
 #. gint count =
-#: backend/src/DistributionSocketLink.cc:1775
+#: backend/src/DistributionSocketLink.cc:1786
 #, c-format
 msgid "Client %s is now the new master."
 msgstr "Client %s ist jetzt der neue Master."
 
 # src/core/DistributionSocketLink.cc:1894
-#: backend/src/DistributionSocketLink.cc:1898
+#: backend/src/DistributionSocketLink.cc:1909
 msgid "Network operation started."
 msgstr "Netzwerkbetrieb gestartet."
 
 # src/core/DistributionSocketLink.cc:1911
-#: backend/src/DistributionSocketLink.cc:1915
+#: backend/src/DistributionSocketLink.cc:1926
 msgid "Accepted new client."
 msgstr "Akzeptiere neuen Client."
 
 # src/core/DistributionSocketLink.cc:1966
-#: backend/src/DistributionSocketLink.cc:1970
+#: backend/src/DistributionSocketLink.cc:1981
 #, c-format
 msgid "Client %s:%d read error, closing."
 msgstr "Lesefehler bei Client %s:%d. Schließe Verbindung."
 
 # src/core/DistributionSocketLink.cc:1971
 # src/core/DistributionSocketLink.cc:2042
-#: backend/src/DistributionSocketLink.cc:1975
-#: backend/src/DistributionSocketLink.cc:2046
+#: backend/src/DistributionSocketLink.cc:1986
+#: backend/src/DistributionSocketLink.cc:2057
 #, c-format
 msgid "Client %s:%d closed connection."
 msgstr "Client %s:%d hat Verbindung geschlossen."
 
 # src/core/DistributionSocketLink.cc:2011
-#: backend/src/DistributionSocketLink.cc:2015
+#: backend/src/DistributionSocketLink.cc:2026
 #, c-format
 msgid "Client %s:%d connected."
 msgstr "Client %s:%d verbunden."
 
 # src/core/DistributionSocketLink.cc:2047
-#: backend/src/DistributionSocketLink.cc:2051
+#: backend/src/DistributionSocketLink.cc:2062
 #, c-format
 msgid "Could not connect to client %s:%d."
 msgstr "Konnte nicht mit Client %s:%d verbinden."
@@ -1362,6 +1361,10 @@ msgstr "Ruhepause beendet"
 #: frontend/common/share/sounds/workrave.soundlist.in.h:9
 msgid "Rest break started"
 msgstr "Ruhepause begonnen"
+
+# src/app/gtkmm/TimerPreferencesPanel.cc:209
+#~ msgid "Resets at:"
+#~ msgstr "Zurücksetzen nach:"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:169
 #, fuzzy

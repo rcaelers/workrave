@@ -1,6 +1,6 @@
 // ActivityMonitor.hh --- ActivityMonitor functionality
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -94,6 +94,9 @@ private:
   //! Previous Y-click coordinate
   int click_y;
 
+  //! Is the button currently pressed?
+  bool button_is_pressed;
+  
   //! Last time activity was detected
   struct timeval last_action_time;
 

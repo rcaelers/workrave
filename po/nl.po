@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.4.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-07 21:47+0100\n"
+"POT-Creation-Date: 2004-03-08 22:28+0100\n"
 "PO-Revision-Date: 2004-03-07 21:56+0100\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -208,7 +208,7 @@ msgstr "Applet"
 #. Notebook
 #: frontend/gtkmm/src/PreferencesDialog.cc:76
 #: frontend/gtkmm/src/TimerBoxPreferencePage.cc:169
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:193
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:202
 msgid "Timers"
 msgstr "Tijden"
 
@@ -246,7 +246,7 @@ msgstr "Blokkeer invoer en scherm"
 
 #. Options
 #: frontend/gtkmm/src/PreferencesDialog.cc:175
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:137
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:141
 msgid "Options"
 msgstr "Opties"
 
@@ -364,56 +364,52 @@ msgid "Daily limit:"
 msgstr "Dagelijkse limiet:"
 
 #. Enabled/Disabled checkbox
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:60
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:63
 msgid "Enable timer"
 msgstr "Activeer klok"
 
 #. Prelude frame
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:100
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:104
 msgid "Break prompting"
 msgstr "Verzoek tot pauze"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:102
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:106
 msgid "Prompt before breaking"
 msgstr "Vraag alvorens te pauzeren"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:107
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:111
 msgid "Maximum number of prompts:"
 msgstr "Max. aantal verzoeken:"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:142
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:146
 msgid "Show 'Postpone' and 'Skip' button"
 msgstr "Toon 'Uitstellen' en 'Overslaan'"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:151
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:155
 msgid "Suspend timer when inactive"
 msgstr "Stop de klok tijdens inactiviteit"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:166
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:171
 msgid "Regard micro-breaks as activity"
 msgstr "Micro-pauzes tellen als werktijd"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:178
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:185
 msgid "Number of exercises:"
 msgstr "Aantal oefeningen:"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:201
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:210
 msgid "Time before end:"
 msgstr "Werktijd:"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:202
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:211
 msgid "Time between breaks:"
 msgstr "Werktijd:"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:209
-msgid "Resets at:"
-msgstr "Herstart om:"
-
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:219
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:220
 msgid "Break duration:"
 msgstr "Pauze tijdsduur:"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:236
+#: frontend/gtkmm/src/TimerPreferencesPanel.cc:242
 msgid "Postpone time:"
 msgstr "Uitstel tijd:"
 
@@ -710,139 +706,143 @@ msgstr "%s%d:%02d minuten"
 msgid "%s%d seconds"
 msgstr "%s%d seconden"
 
-#: backend/src/DistributionSocketLink.cc:131
+#: backend/src/DistributionSocketLink.cc:127
 #, c-format
 msgid "Reconnecting to %s:%d."
 msgstr "Opnieuw aan het verbinden met cliënt %s:%d."
 
-#. We did not succeed in starting the server. Arghh.
 #: backend/src/DistributionSocketLink.cc:345
+msgid "Cannot resolve my own hostname. Deactivating distribution."
+msgstr ""
+
+#. We did not succeed in starting the server. Arghh.
+#: backend/src/DistributionSocketLink.cc:356
 msgid "Could not enable network operation."
 msgstr "Kon netwerkfuncties niet activeren."
 
-#: backend/src/DistributionSocketLink.cc:354
+#: backend/src/DistributionSocketLink.cc:365
 msgid "Disabling network operation."
 msgstr "Netwerkfuncties uitgezet."
 
-#: backend/src/DistributionSocketLink.cc:509
-#: backend/src/DistributionSocketLink.cc:536
+#: backend/src/DistributionSocketLink.cc:520
+#: backend/src/DistributionSocketLink.cc:547
 #, c-format
 msgid "Connecting to %s:%d."
 msgstr "Aan het verbinden met %s:%d."
 
-#: backend/src/DistributionSocketLink.cc:640
-#: backend/src/DistributionSocketLink.cc:665
+#: backend/src/DistributionSocketLink.cc:651
+#: backend/src/DistributionSocketLink.cc:676
 #, c-format
 msgid "Removing client %s:%d."
 msgstr "Cliënt %s:%d verwijderd."
 
 #. Closing direct connection.
-#: backend/src/DistributionSocketLink.cc:702
+#: backend/src/DistributionSocketLink.cc:713
 #, c-format
 msgid "Disconnecting %s:%d."
 msgstr "Verbinding verbroken met %s:%d."
 
 #. It's a remote client. mark it master.
-#: backend/src/DistributionSocketLink.cc:870
+#: backend/src/DistributionSocketLink.cc:881
 #, c-format
 msgid "Client %s:%d is now master."
 msgstr "Cliënt %s:%d is nu de leider."
 
 #. Its ME!
-#: backend/src/DistributionSocketLink.cc:876
+#: backend/src/DistributionSocketLink.cc:887
 msgid "I'm now master."
 msgstr "Ik ben nu de leider."
 
-#: backend/src/DistributionSocketLink.cc:1205
+#: backend/src/DistributionSocketLink.cc:1216
 #, c-format
 msgid "Client %s:%d saying hello."
 msgstr "Cliënt %s:%d zegt hallo."
 
 #. Duplicate client. inform client that it's bogus and close.
-#: backend/src/DistributionSocketLink.cc:1220
-#: backend/src/DistributionSocketLink.cc:1337
-#: backend/src/DistributionSocketLink.cc:1573
+#: backend/src/DistributionSocketLink.cc:1231
+#: backend/src/DistributionSocketLink.cc:1348
+#: backend/src/DistributionSocketLink.cc:1584
 #, c-format
 msgid "Client %s:%d is duplicate."
 msgstr "Cliënt %s:%d komt vaker voor."
 
 #. Incorrect password.
-#: backend/src/DistributionSocketLink.cc:1229
+#: backend/src/DistributionSocketLink.cc:1240
 #, c-format
 msgid "Client %s:%d access denied."
 msgstr "Cliënt %s:%d krijgt geen toegang."
 
-#: backend/src/DistributionSocketLink.cc:1296
+#: backend/src/DistributionSocketLink.cc:1307
 #, c-format
 msgid "Client %s:%d signed off."
 msgstr "Cliënt %s:%d heeft zich afgemeld."
 
-#: backend/src/DistributionSocketLink.cc:1375
+#: backend/src/DistributionSocketLink.cc:1386
 #, c-format
 msgid "Client %s:%d is welcoming us."
 msgstr "Cliënt %s:%d heet ons welkom."
 
-#: backend/src/DistributionSocketLink.cc:1608
+#: backend/src/DistributionSocketLink.cc:1619
 #, c-format
 msgid "Requesting master status from %s:%d."
 msgstr "Leiderschapsaanvraag ingediend bij %s:%d."
 
-#: backend/src/DistributionSocketLink.cc:1621
+#: backend/src/DistributionSocketLink.cc:1632
 #, c-format
 msgid "Client timeout from %s:%d."
 msgstr "Cliënt reageerde niet op tijd vanaf %s:%d."
 
-#: backend/src/DistributionSocketLink.cc:1642
+#: backend/src/DistributionSocketLink.cc:1653
 #, c-format
 msgid "Rejecting master request from client %s:%d."
 msgstr "Verzoek tot leiderschap van cliënt %s:%d gewijgerd."
 
-#: backend/src/DistributionSocketLink.cc:1648
+#: backend/src/DistributionSocketLink.cc:1659
 #, c-format
 msgid "Acknowledging master request from client %s:%d."
 msgstr "Leiderschapsoverdracht van cliënt %s:%d bevestigd."
 
-#: backend/src/DistributionSocketLink.cc:1699
+#: backend/src/DistributionSocketLink.cc:1710
 #, c-format
 msgid "Non-master client %s:%d rejected master request."
 msgstr "Niet-leidende cliënt %s:%d weigert leiderschapsverzoek."
 
-#: backend/src/DistributionSocketLink.cc:1704
+#: backend/src/DistributionSocketLink.cc:1715
 #, c-format
 msgid "Client %s:%d rejected master request, delaying."
 msgstr "Cliënt %s:%d weigerde leiderschapsverzoek, uitgesteld."
 
 #. gint count =
-#: backend/src/DistributionSocketLink.cc:1775
+#: backend/src/DistributionSocketLink.cc:1786
 #, c-format
 msgid "Client %s is now the new master."
 msgstr "Cliënt %s is nu de nieuwe leider."
 
-#: backend/src/DistributionSocketLink.cc:1898
+#: backend/src/DistributionSocketLink.cc:1909
 msgid "Network operation started."
 msgstr "Netwerkfuncties gestart."
 
-#: backend/src/DistributionSocketLink.cc:1915
+#: backend/src/DistributionSocketLink.cc:1926
 msgid "Accepted new client."
 msgstr "Nieuwe cliënt geaccepteerd."
 
-#: backend/src/DistributionSocketLink.cc:1970
+#: backend/src/DistributionSocketLink.cc:1981
 #, c-format
 msgid "Client %s:%d read error, closing."
 msgstr "Leesfout van cliënt %s:%d, verbinding gesloten."
 
-#: backend/src/DistributionSocketLink.cc:1975
-#: backend/src/DistributionSocketLink.cc:2046
+#: backend/src/DistributionSocketLink.cc:1986
+#: backend/src/DistributionSocketLink.cc:2057
 #, c-format
 msgid "Client %s:%d closed connection."
 msgstr "Cliënt %s:%d heeft de connectie gesloten."
 
-#: backend/src/DistributionSocketLink.cc:2015
+#: backend/src/DistributionSocketLink.cc:2026
 #, c-format
 msgid "Client %s:%d connected."
 msgstr "Cliënt %s:%d heeft verbinding gemaakt."
 
-#: backend/src/DistributionSocketLink.cc:2051
+#: backend/src/DistributionSocketLink.cc:2062
 #, c-format
 msgid "Could not connect to client %s:%d."
 msgstr "Kon niet verbinden met cliënt %s:%d."
@@ -1103,6 +1103,9 @@ msgstr "Einde rustpauze"
 #: frontend/common/share/sounds/workrave.soundlist.in.h:9
 msgid "Rest break started"
 msgstr "Begin rustpauze"
+
+#~ msgid "Resets at:"
+#~ msgstr "Herstart om:"
 
 #~ msgid "Timer ignores activity"
 #~ msgstr "Micro-pauzes tellen als werktijd"
