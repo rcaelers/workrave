@@ -325,6 +325,8 @@ DistributionSocketLink::set_enabled(bool enabled)
           gnet_tcp_socket_delete(server_socket);
         }
       server_socket = NULL;
+      disconnect_all();
+      set_me_active();
     }
 
   server_enabled = enabled;

@@ -47,8 +47,10 @@ private:
   void on_port_changed();
   void on_interval_changed();
   void on_attempts_changed();
+  void on_peers_changed();
 
   Gtk::Label *password2_label;
+  Gtk::Entry *peers_entry;
   Gtk::Entry *username_entry;
   Gtk::Entry *password1_entry;
   Gtk::Entry *password2_entry;

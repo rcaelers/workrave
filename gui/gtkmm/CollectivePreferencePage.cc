@@ -207,6 +207,12 @@ CollectivePreferencePage::create_peers_page(Gtk::Notebook *tnotebook)
   Gtk::Frame *peers_frame = new Gtk::Frame("Peers");
   peers_frame->set_border_width(6);
 
+  peers_entry = manage(new Gtk::Entry());
+  peers_entry->set_width_chars(50);
+  peers_entry->signal_changed().connect(SigC::slot(*this, &CollectivePreferencePage::on_peers_changed));
+
+  peers_frame->add(*peers_entry);
+  
   gp->pack_start(*peers_frame, false, false, 0);
 
   box->show_all();
@@ -278,6 +284,16 @@ CollectivePreferencePage::init_page_values()
     }
   
   interval_entry->set_value(value);
+
+  // Peers
+  is_set = c->get_value(DistributionManager::CFG_KEY_DISTRIBUTION + DistributionManager::CFG_KEY_DISTRIBUTION_PEERS, &str);
+  if (!is_set)
+    {
+      str = "";
+    }
+  
+  peers_entry->set_text(str);
+
 }
 
 
@@ -344,4 +360,12 @@ CollectivePreferencePage::on_attempts_changed()
   int value = (int) attempts_entry->get_value();
   Configurator *c = GUIControl::get_instance()->get_configurator();
   c->set_value(DistributionSocketLink::CFG_KEY_DISTRIBUTION_TCP + DistributionSocketLink::CFG_KEY_DISTRIBUTION_TCP_ATTEMPTS, value);
+}
+
+void
+CollectivePreferencePage::on_peers_changed()
+{
+  string name = peers_entry->get_text();
+  Configurator *c = GUIControl::get_instance()->get_configurator();
+  c->set_value(DistributionManager::CFG_KEY_DISTRIBUTION + DistributionManager::CFG_KEY_DISTRIBUTION_PEERS, name);
 }
