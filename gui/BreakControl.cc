@@ -523,7 +523,14 @@ void
 BreakControl::skip_break()
 {
   // Reset the restbreak timer.
-  break_timer->reset_timer();
+  if (break_id == GUIControl::BREAK_ID_DAILY_LIMIT)
+    {
+      break_timer->inhibit_snooze();
+    }
+  else
+    {
+      break_timer->reset_timer();
+    }
 
   Statistics *stats = Statistics::get_instance();
   stats->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_SKIPPED);

@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-10-26 17:30:51 robc>
+// Time-stamp: <2002-10-26 17:49:04 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -163,7 +163,9 @@ Timer::set_snooze_interval(time_t t)
 void
 Timer::inhibit_snooze()
 {
+  TRACE_ENTER("Timer::inhibit_snooze");
   snooze_inhibited = true;
+  TRACE_EXIT();
 }
 
 //! Enable/Disable auto-reset
@@ -214,16 +216,28 @@ void
 Timer::compute_next_limit_time()
 {
   TRACE_ENTER_MSG("Timer::compute_next_limit_time", timer_id);
-  
-  if (timer_enabled && last_limit_time != 0 && !snooze_inhibited)
+
+  if (timer_enabled && last_limit_time != 0 && snooze_inhibited)
     {
-      // Timer already reached limit
-      next_limit_time = last_limit_time + snooze_interval;
+      TRACE_MSG("Inhibit snooze");
+    }
+    
+  if (timer_enabled && last_limit_time != 0)
+    {
+      if (!snooze_inhibited)
+        {
+          // Timer already reached limit
+          next_limit_time = last_limit_time + snooze_interval;
+        }
+      else
+        {
+          next_limit_time = 0;
+        }
     }
   else if (timer_enabled && timer_state == STATE_RUNNING && last_start_time != 0 &&
            limit_enabled && limit_interval != 0)
     { 
-     // We are enabled, running and a limit != 0 was set.
+      // We are enabled, running and a limit != 0 was set.
       // So update our current Limit.
 
       // new limit = last start time + limit - elapsed.
