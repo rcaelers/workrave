@@ -25,13 +25,22 @@ class IconListNotebook : public Gtk::HBox
 {
 public:
   IconListNotebook();
-  void add_page(const char *name, Gtk::Image &img, Gtk::Widget &widget);
+  void add_page(const char *name, Glib::RefPtr<Gdk::Pixbuf>, Gtk::Widget &widget);
 
 private:
+  struct ModelColumns : public Gtk::TreeModel::ColumnRecord
+  {
+    Gtk::TreeModelColumn<Glib::ustring> text;
+    Gtk::TreeModelColumn<Glib::RefPtr<Gtk::Widget> > page;
+    Gtk::TreeModelColumn<Glib::RefPtr<Gdk::Pixbuf> > pixbuf;
+    
+    ModelColumns() { add(text); add(page); add(pixbuf); }
+  };
+  
   Gtk::Notebook notebook;
   Gtk::TreeView icon_list;
   Glib::RefPtr<Gtk::ListStore> list_store;
-  Gtk::TreeModel::ColumnRecord column_record;
+  ModelColumns model_columns;
 };
 
 
