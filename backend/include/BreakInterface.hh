@@ -1,6 +1,6 @@
 // BreakInterface.hh
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -72,7 +72,6 @@ public:
   virtual bool get_break_enabled() const = 0;
   virtual void set_break_enabled(bool b) = 0;
   virtual void set_insist_policy(InsistPolicy p) = 0;
-
 };
 
 #endif // TIMERDATA_HH

@@ -70,7 +70,8 @@ BreakControl::BreakControl(BreakId id, Core *c, AppInterface *app, Timer *timer)
   active_insist_policy(BreakInterface::INSIST_POLICY_INVALID),
   fake_break(false),
   fake_break_count(0),
-  user_abort(false)
+  user_abort(false),
+  delayed_abort(false)
 {
   set_ignorable_break(ignorable_break);
 
@@ -122,7 +123,12 @@ BreakControl::heartbeat()
 
     case STAGE_DELAYED:
       {
-        if (is_idle)
+        if (delayed_abort)
+          {
+            // User become active during delayed break.
+            goto_stage(STAGE_SNOOZED);
+          }
+        else if (is_idle)
           {
             // User is idle.
             goto_stage(STAGE_TAKING);
@@ -133,6 +139,10 @@ BreakControl::heartbeat()
     case STAGE_PRELUDE:
       {
         assert(application != NULL);
+
+        TRACE_MSG("prelude time = " << prelude_time);
+
+
         update_prelude_window();
         application->refresh_break_window();
 
@@ -155,17 +165,8 @@ BreakControl::heartbeat()
               }
             else
               {
-                // Snooze break.
-                break_stage = STAGE_PRELUDE; // FIXME: hack to avoid race. will fix later.
-                bool delayed = application->delayed_hide_break_window();
-                if (!delayed)
-                  {
-                    goto_stage(STAGE_SNOOZED);
-                  }
-                else
-                  {
-                    goto_stage(STAGE_DELAYED);
-                  }
+                // Delay break.
+                goto_stage(STAGE_DELAYED);
               }
           }
         else if (prelude_time == 20)
@@ -210,6 +211,11 @@ BreakControl::goto_stage(BreakStage stage)
   switch (stage)
     {
     case STAGE_DELAYED:
+      {
+        delayed_abort = false;
+        ActivityMonitorInterface *monitor = core->get_activity_monitor();
+        monitor->set_listener(this);
+      }
       break;
       
     case STAGE_NONE:
@@ -320,10 +326,7 @@ BreakControl::goto_stage(BreakStage stage)
             post_event(event);
           }
 
-        //RC: testing... if (insist_break)
-          {
-            freeze();
-          }
+        freeze();
       }
       break;
     }
@@ -553,16 +556,6 @@ BreakControl::postpone_break()
 }
 
 
-void
-BreakControl::stop_prelude()
-{
-  if (break_stage == STAGE_DELAYED)
-    {
-      goto_stage(STAGE_SNOOZED);
-    }
-}
-
-
 //! Skips the active break.
 /*!
  *  Skipping a break resets the break timer.
@@ -591,6 +584,14 @@ BreakControl::skip_break()
   stop_break(false);
 }
 
+void
+BreakControl::stop_prelude()
+{
+  if (break_stage == STAGE_DELAYED)
+    {
+      delayed_abort = true;
+    }
+}
 
 //! Sets the maximum number of preludes. 
 /*!
@@ -609,7 +610,6 @@ BreakControl::set_max_postpone(int m)
 {
   max_number_of_postpones = m;
 }
-
 
 
 //! Sets the ignorable-break flags
@@ -771,6 +771,16 @@ BreakControl::defrost()
 
   active_insist_policy = BreakInterface::INSIST_POLICY_INVALID;
   TRACE_EXIT();
+}
+
+
+bool
+BreakControl::action_notify()
+{
+  TRACE_ENTER("GUI::action_notify");
+  core->stop_prelude(break_id);
+  TRACE_EXIT();
+  return false;   // false: kill listener.
 }
 
 

@@ -1,6 +1,6 @@
 // BreakResponseInterface.hh --- Generic Interface for breaks
 //
-// Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2004 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -30,9 +30,6 @@ public:
 
   //! Request to skip the break.
   virtual void skip_break(BreakId break_id) = 0;
-
-  //! Request to stop the prelude.
-  virtual void stop_prelude(BreakId break_id) = 0;
 };
 
 #endif // BREAKRESPONSEINTERFACE_HH

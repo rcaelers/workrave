@@ -114,8 +114,10 @@ Frame::set_frame_flashing(int delay)
 bool
 Frame::on_timer()
 {
+  TRACE_ENTER("Frame::on_timer");
   set_frame_visible(! frame_visible);
   flash_signal_src(frame_visible);
+  TRACE_EXIT();
   return true;
 }
 

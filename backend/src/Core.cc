@@ -1,4 +1,4 @@
-// Control.cc --- The main controller
+// Core.cc --- The main controller
 //
 // Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
 // All rights reserved.
@@ -83,8 +83,9 @@ Core::Core() :
 #ifdef HAVE_DISTRIBUTION
   ,
   dist_manager(NULL),
-  monitor_state(ACTIVITY_UNKNOWN),
+  local_state(ACTIVITY_IDLE),
   remote_state(ACTIVITY_IDLE),
+  monitor_state(ACTIVITY_UNKNOWN),
   idlelog_manager(NULL)
 #  ifndef NDEBUG
   ,
@@ -148,7 +149,7 @@ Core::init(int argc, char **argv, AppInterface *app, char *display_name)
 {
   application = app;
   this->argc = argc;
-  this->argv =argv;
+  this->argv = argv;
   
   init_configurator();
   init_monitor(display_name);
@@ -203,8 +204,8 @@ Core::init_monitor(char *display_name)
 #ifdef HAVE_DISTRIBUTION
 #ifndef NDEBUG
   fake_monitor = NULL;
-  const char *x = getenv("WORKRAVE_FAKE");
-  if (x != NULL)
+  const char *env = getenv("WORKRAVE_FAKE");
+  if (env != NULL)
     {
       fake_monitor = new FakeActivityMonitor();
     }
@@ -284,7 +285,8 @@ Core::load_monitor_config()
     activity = 1000;
   if (! configurator->get_value(CFG_KEY_MONITOR_IDLE, &idle))
     idle = 5000;
-  
+
+  // Pre 1.0 compatibility...
   if (noise < 50)
     noise *= 1000;
   
@@ -337,6 +339,7 @@ Core::get_time() const
 /**** Core Interface                                                       ******/
 /********************************************************************************/
 
+//! Returns the specified timer.
 Timer *
 Core::get_timer(BreakId id) const
 {
@@ -351,6 +354,7 @@ Core::get_timer(BreakId id) const
 }
 
 
+//! Returns the specified timer.
 Timer *
 Core::get_timer(string name) const
 {
@@ -365,6 +369,7 @@ Core::get_timer(string name) const
 }
 
 
+//! Returns the configurator.
 Configurator *
 Core::get_configurator() const
 {
@@ -372,6 +377,7 @@ Core::get_configurator() const
 }
 
 
+//! Returns the activity monitor.
 ActivityMonitorInterface *
 Core::get_activity_monitor() const
 {
@@ -379,6 +385,7 @@ Core::get_activity_monitor() const
 }
 
 
+//! Returns the statistics.
 Statistics *
 Core::get_statistics() const
 {
@@ -386,6 +393,7 @@ Core::get_statistics() const
 }
 
 
+//! Returns the specified break controller.
 Break *
 Core::get_break(BreakId id)
 {
@@ -395,12 +403,14 @@ Core::get_break(BreakId id)
 
 
 #ifdef HAVE_DISTRIBUTION
+//! Returns the distribution manager.
 DistributionManager *
 Core::get_distribution_manager() const
 {
   return dist_manager;
 }
 #endif
+
 
 //! Retrieves the operation mode.
 OperationMode
@@ -441,25 +451,30 @@ Core::set_operation_mode(OperationMode mode)
 }
 
 
-void
-Core::set_activity_monitor_listener(ActivityMonitorListener *l)
-{
-  monitor->set_listener(l);
-}
-
-
+//! Sets the listener for core events.
 void
 Core::set_core_events_listener(CoreEventListener *l)
 {
   core_event_listener = l;
 }
 
+
+//! Forces the start of the specified break.
 void
 Core::force_break(BreakId id)
 {
-  break_action(id, BREAK_ACTION_FORCE_START_BREAK);
+  BreakControl *microbreak_control = breaks[BREAK_ID_MICRO_BREAK].get_break_control();
+  if (id == BREAK_ID_REST_BREAK
+      && (microbreak_control->get_break_state() == BreakControl::BREAK_ACTIVE))
+    {
+      microbreak_control->stop_break(false);
+    }
+  BreakControl *breaker = breaks[id].get_break_control();
+  breaker->force_start_break();
 }
 
+
+//! Announces a powersave state.
 void
 Core::set_powersave(bool down)
 {
@@ -494,9 +509,42 @@ Core::set_powersave(bool down)
 /**** Break Resonse                                                        ******/
 /********************************************************************************/
 
-
+//! User postpones the specified break.
 void
 Core::postpone_break(BreakId break_id)
+{
+  do_postpone_break(break_id);
+#ifdef HAVE_DISTRIBUTION  
+  send_break_control_message(break_id, BCM_POSTPONE);
+#endif
+}
+
+
+//! User skips the specified break.
+void
+Core::skip_break(BreakId break_id)
+{
+  do_skip_break(break_id);
+#ifdef HAVE_DISTRIBUTION  
+  send_break_control_message(break_id, BCM_SKIP);
+#endif
+}
+
+
+//! Users stop the prelude.
+void
+Core::stop_prelude(BreakId break_id)
+{
+  do_stop_prelude(break_id);
+#ifdef HAVE_DISTRIBUTION  
+  send_break_control_message(break_id, BCM_ABORT_PRELUDE);
+#endif
+}
+
+
+//! User postpones the specified break.
+void
+Core::do_postpone_break(BreakId break_id)
 {
   if (break_id >= 0 && break_id < BREAK_ID_SIZEOF)
     {
@@ -505,8 +553,10 @@ Core::postpone_break(BreakId break_id)
     }
 }
 
+
+//! User skips the specified break.
 void
-Core::skip_break(BreakId break_id)
+Core::do_skip_break(BreakId break_id)
 {
   if (break_id >= 0 && break_id < BREAK_ID_SIZEOF)
     {
@@ -515,8 +565,10 @@ Core::skip_break(BreakId break_id)
     }
 }
 
+
+//!
 void
-Core::stop_prelude(BreakId break_id)
+Core::do_stop_prelude(BreakId break_id)
 {
   if (break_id >= 0 && break_id < BREAK_ID_SIZEOF)
     {
@@ -525,24 +577,10 @@ Core::stop_prelude(BreakId break_id)
     }
 }
 
+
 /********************************************************************************/
 /**** Break handling                                                       ******/
 /********************************************************************************/
-
-//!
-void
-Core::update_statistics()
-{
-  static int count = 0;
-
-  if (count % 30 == 0)
-    {
-      statistics->update();
-    }
-
-  count++;
-}
-
 
 //! Periodic heartbeat.
 void
@@ -551,141 +589,76 @@ Core::heartbeat()
   TRACE_ENTER("Core::heartbeat");
   assert(application != NULL);
   
-  TimerInfo infos[BREAK_ID_SIZEOF];
+  // Set current time.
+  current_time = time(NULL);
 
+  // Perform distribution processing.
+  process_distribution();
+
+  // Perform state computation.
+  process_state();
+
+  // Performs timewarp checking.
+  process_timewarp();
+  
+  // Perform timer processing.
+  process_timers();
+
+  // Send heartbeats to other components.
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      infos[i].enabled = breaks[i].is_enabled();
-      TRACE_MSG("Break " << i << " " << infos[i].enabled);
-    }
-
-  process_timers(infos);
-
-  for (int i = BREAK_ID_SIZEOF - 1; i >= 0;  i--)
-    {
-      TimerInfo info = infos[i];
-      if (breaks[i].is_enabled())
+      BreakControl *bc = breaks[i].get_break_control();
+      if (bc != NULL && bc->need_heartbeat())
         {
-          timer_action((BreakId)i, info);
-        }
-
-      if (i == BREAK_ID_DAILY_LIMIT)
-        {
-          if (info.event == TIMER_EVENT_NATURAL_RESET ||
-              info.event == TIMER_EVENT_RESET)
-            {
-              statistics->set_counter(Statistics::STATS_VALUE_TOTAL_ACTIVE_TIME, info.elapsed_time);
-              statistics->start_new_day();
-              
-              daily_reset();
-            }
-        }      
-    }
-
-  // Distributed  stuff
-
-#ifdef HAVE_DISTRIBUTION
-  bool new_master_node = true;
-  if (dist_manager != NULL)
-    {
-      new_master_node = dist_manager->is_master();
-      TRACE_MSG("new_master = " << new_master_node << " " << master_node);
-    }
-
-  if (master_node != new_master_node)
-    {
-      master_node = new_master_node;
-      TRACE_MSG("new_master changed = " << new_master_node);
-      if (!master_node)
-        {
-          // TODO: check stop_all_breaks();
+          bc->heartbeat();
         }
     }
-#endif
 
-  //TODO: check if this can/must be removed  if (master_node)
+  // Make state persistent.
+  if (current_time % SAVESTATETIME == 0)
     {
-      for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-        {
-          BreakControl *bc = breaks[i].get_break_control();
-          if (bc != NULL && bc->need_heartbeat())
-            {
-              bc->heartbeat();
-            }
-        }
-
-      update_statistics();
+      statistics->update();
+      save_state();
     }
+
+  // Done.
+  last_process_time = current_time;
+
   TRACE_EXIT();
 }
 
 
+//! Performs all distribution processing.
 void
-Core::process_timers(TimerInfo *infos)
+Core::process_distribution()
 {
-  TRACE_ENTER("Core::process_timers");
-  static int count = 0;
+  // Default
+  master_node = true;
 
-  // Retrieve State.
-  ActivityState state = monitor->get_current_state();
-
-  TRACE_MSG("state = " << state);
-  
-#ifdef HAVE_DISTRIBUTION  
+#ifdef HAVE_DISTRIBUTION
 #ifndef NDEBUG  
   if (script_start_time != -1 && current_time >= script_start_time)
     {
       do_script();
     }
-
-  if (fake_monitor != NULL)
-    {
-      state = fake_monitor->get_current_state();
-    }
 #endif  
 
-  // Request master status if we are active.
-  bool new_master_node = true;
+  // Retrieve State.
+  ActivityState state = monitor->get_current_state();
+
   if (dist_manager != NULL)
     {
       dist_manager->heartbeart();
       dist_manager->set_lock_master(state == ACTIVITY_ACTIVE);
-      new_master_node = dist_manager->is_master();
+      master_node = dist_manager->is_master();
 
-      if (!new_master_node && state == ACTIVITY_ACTIVE)
+      if (!master_node && state == ACTIVITY_ACTIVE)
         {
-          new_master_node = dist_manager->claim();
+          master_node = dist_manager->claim();
         }
     }
 
-  TRACE_MSG("master/new master = " << master_node << " " << new_master_node);
-  
-#if NO_LONGER_USED_I_THINK
-  // Enable or disable timers if we became or lost being master
-  if (master_node != new_master_node)
-    {
-      master_node = new_master_node;
-      // Enable/Disable timers.
-      for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-        {
-          if (master_node && infos[i].enabled)
-            {
-              breaks[i].get_timer()->enable();
-            }
-          else
-            {
-              breaks[i].get_timer()->disable();
-            }
-        }
-    }
-#endif
-
-  // Distribute monitor state if we are master and the
-  // state has changed.
-  TRACE_MSG("state/monitor state/remote_state = "
-            << state << " " << monitor_state << " " << remote_state);
-  
-  if (new_master_node && monitor_state != state)
+  if (master_node && local_state != state)
     {
       PacketBuffer buffer;
       buffer.create();
@@ -694,26 +667,105 @@ Core::process_timers(TimerInfo *infos)
       buffer.pack_ushort(state);
       
       dist_manager->broadcast_client_message(DCM_MONITOR, buffer);
-      monitor_state = state;
     }
   
-  // 
-  if (!new_master_node)
+#endif
+}
+
+
+//! Computes the current state.
+void
+Core::process_state()
+{
+  // Default
+  local_state = monitor->get_current_state();
+  monitor_state = local_state;
+
+#if defined(HAVE_DISTRIBUTION) and !defined(NDEBUG)
+  if (fake_monitor != NULL)
     {
-      state = remote_state;
+      monitor_state = fake_monitor->get_current_state();
+    }
+#endif  
+
+  if (!master_node)
+    {
+      monitor_state = remote_state;
     }
 
-  TRACE_MSG("process master_node/state/monitor_state/remote_state "
-            << master_node << " " << state << " " << monitor_state << " " << remote_state);
-
+#ifdef HAVE_DISTRIBUTION
   // Update our idle history.
-  idlelog_manager->update_all_idlelogs(dist_manager->get_master_id(), state);
-  
-#endif // HAVE_DISTRIBUTION
-  
-  // Timers
-  current_time = time(NULL);
+  idlelog_manager->update_all_idlelogs(dist_manager->get_master_id(), monitor_state);
+#endif
+}
 
+
+//! Processes all timers.
+void
+Core::process_timers()
+{
+  TRACE_ENTER("Core::process_timers");
+
+  TimerInfo infos[BREAK_ID_SIZEOF];
+
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+    {
+      infos[i].enabled = breaks[i].is_enabled();
+      if (infos[i].enabled)
+        {
+          breaks[i].get_timer()->enable();
+        }
+      else
+        {
+          breaks[i].get_timer()->disable();
+        }
+
+      // First process only timer that do not have their
+      // own activity monitor.
+      if (!(breaks[i].get_timer()->has_activity_monitor()))
+        {
+          breaks[i].get_timer()->process(monitor_state, infos[i]);
+        }
+    }
+
+  // And process timer with activity monitor.
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+    {
+      if (breaks[i].get_timer()->has_activity_monitor())
+        {
+          breaks[i].get_timer()->process(monitor_state, infos[i]);
+        }
+    }
+  
+  // Process all timer events.
+  for (int i = BREAK_ID_SIZEOF - 1; i >= 0;  i--)
+    {
+      TimerInfo &info = infos[i];
+      if (breaks[i].is_enabled())
+        {
+          timer_action((BreakId)i, info);
+        }
+
+      if (i == BREAK_ID_DAILY_LIMIT &&
+          (info.event == TIMER_EVENT_NATURAL_RESET ||
+           info.event == TIMER_EVENT_RESET))
+        {
+          statistics->set_counter(Statistics::STATS_VALUE_TOTAL_ACTIVE_TIME, info.elapsed_time);
+          statistics->start_new_day();
+            
+          daily_reset();
+        }      
+    }
+
+  TRACE_EXIT();
+}
+
+
+//! Process a possible timewarp
+void
+Core::process_timewarp()
+{
+  TRACE_ENTER("Core::process_timewarp");
   if (last_process_time != 0)
     {
       int gap = current_time - 1 - last_process_time;
@@ -730,7 +782,7 @@ Core::process_timers(TimerInfo *infos)
                   breaks[i].get_timer()->shift_time(gap);
                 }
               
-              state = ACTIVITY_IDLE;
+              monitor_state = ACTIVITY_IDLE;
             }
           else
             {
@@ -749,51 +801,6 @@ Core::process_timers(TimerInfo *infos)
 
         }
     }
-  
-#if 0
-  if (master_node)
-#endif    
-    {
-      for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-        {
-          if (infos[i].enabled)
-            {
-              breaks[i].get_timer()->enable();
-            }
-          else
-            {
-              breaks[i].get_timer()->disable();
-            }
-          
-          if (!(breaks[i].get_timer()->has_activity_monitor()))
-            {
-              TRACE_MSG("Processing " << i << " without activity monitor " << infos[i].enabled);
-              breaks[i].get_timer()->process(state, infos[i]);
-              TRACE_MSG("Processed " << i << " "
-                        << infos[i].elapsed_time << " " << infos[i].idle_time);
-            }
-        }
-
-      for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-        {
-          if (breaks[i].get_timer()->has_activity_monitor())
-            {
-              TRACE_MSG("Processing " << i << " with activity monitor" << infos[i].enabled);
-              breaks[i].get_timer()->process(state, infos[i]);
-              TRACE_MSG("Processed " << i << " "
-                        << infos[i].elapsed_time << " " << infos[i].idle_time);
-            }
-        }
-    }
-  
-  if (count % SAVESTATETIME == 0)
-    {
-      save_state();
-    }
-
-  last_process_time = current_time;
-  
-  count++;
   TRACE_EXIT();
 }
 
@@ -806,31 +813,8 @@ Core::process_timers(TimerInfo *infos)
 void
 Core::timer_action(BreakId id, TimerInfo info)
 {
-  // Parse action.
-  if (info.event == TIMER_EVENT_LIMIT_REACHED)
-    {
-      break_action(id, BREAK_ACTION_START_BREAK);
-    }
-  else if (info.event == TIMER_EVENT_RESET)
-    {
-      break_action(id, BREAK_ACTION_STOP_BREAK);
-    }
-  else if (info.event == TIMER_EVENT_NATURAL_RESET)
-    {
-      break_action(id, BREAK_ACTION_NATURAL_STOP_BREAK);
-    }
-}
-
-
-//! Handles a timer action.
-/*!
- *  \param break_id ID of the timer that perfomed an action.
- *  \param action action that was performed.
- */
-void
-Core::break_action(BreakId id, BreakAction action)
-{
-  if (operation_mode == OPERATION_MODE_QUIET && action != BREAK_ACTION_FORCE_START_BREAK)
+  // No breaks when mode is quiet.
+  if (operation_mode == OPERATION_MODE_QUIET)
     {
       return;
     }
@@ -838,63 +822,48 @@ Core::break_action(BreakId id, BreakAction action)
   BreakControl *breaker = breaks[id].get_break_control();
   Timer *timer = breaks[id].get_timer();
 
-  if (breaker != NULL && timer != NULL)
+  assert(breaker != NULL && timer != NULL);
+  
+  switch (info.event)
     {
-      switch (action)
+    case TIMER_EVENT_LIMIT_REACHED:
+      if (breaker->get_break_state() == BreakControl::BREAK_INACTIVE)
         {
-        case BREAK_ACTION_START_BREAK:
-          if (breaker->get_break_state() == BreakControl::BREAK_INACTIVE)
-            {
-              handle_start_break(breaker, id, timer);
-            }
-          break;
-        case BREAK_ACTION_STOP_BREAK:
-          if (breaker->get_break_state() == BreakControl::BREAK_ACTIVE)
-            {
-              handle_stop_break(breaker, id, timer);
-            }
-          break;
-      
-        case BREAK_ACTION_NATURAL_STOP_BREAK:
-          {
-            if (breaker->get_break_state() == BreakControl::BREAK_ACTIVE)
-              {
-                handle_stop_break(breaker, id, timer);
-              }
-            statistics->increment_break_counter(id, Statistics::STATS_BREAKVALUE_NATURAL_TAKEN);
-          }
-          break;
-      
-        case BREAK_ACTION_FORCE_START_BREAK:
-          {
-            // quick hack...
-            BreakControl *micropause_control
-              = breaks[BREAK_ID_MICRO_BREAK].get_break_control();
-            if (id == BREAK_ID_REST_BREAK
-                && (micropause_control->get_break_state() == BreakControl::BREAK_ACTIVE))
-              {
-                micropause_control->stop_break(false);
-              }
-            breaker->force_start_break();
-          }
-          break;
-        default:
-          break;
+          start_break(breaker, id, timer);
         }
+      break;
+      
+    case TIMER_EVENT_RESET:
+      if (breaker->get_break_state() == BreakControl::BREAK_ACTIVE)
+        {
+          breaker->stop_break();
+        }
+      break;
+      
+    case TIMER_EVENT_NATURAL_RESET:
+      if (breaker->get_break_state() == BreakControl::BREAK_ACTIVE)
+        {
+          breaker->stop_break();
+        }
+      statistics->increment_break_counter(id, Statistics::STATS_BREAKVALUE_NATURAL_TAKEN);
+      break;
+      
+    default:
+      break;
     }
 }
 
 
-//! Handles requestes to start the specified break.
+//! starts the specified break.
 /*!
  *  \param breaker Interface to the break that must be started.
  *  \param break_id ID of the timer that caused the break.
  *  \param timer Interface to the timer the caused the break.
  */
 void
-Core::handle_start_break(BreakControl *breaker, BreakId break_id, Timer *timer)
+Core::start_break(BreakControl *breaker, BreakId break_id, Timer *timer)
 {
-  // Don't show MP when RB is active, RB when DL is active.
+  // Don't show MB when RB is active, RB when DL is active.
   for (int bi = break_id; bi <= BREAK_ID_DAILY_LIMIT; bi++)
     {
       if (breaks[bi].get_break_control()->get_break_state() == BreakControl::BREAK_ACTIVE)
@@ -903,17 +872,14 @@ Core::handle_start_break(BreakControl *breaker, BreakId break_id, Timer *timer)
         }
     }
   
-
-  // FIXME: how does this relate to daily limit?
-
-  // Advance restbreak if it follows within 30s after the end of a micropause break
+  // Advance restbreak if it follows within 30s after the end of a microbreak
   BreakControl *restbreak_control;
   restbreak_control = breaks[BREAK_ID_REST_BREAK].get_break_control();
 
   if (break_id == BREAK_ID_MICRO_BREAK && breaks[BREAK_ID_REST_BREAK].is_enabled())
     {
-      Timer *rbTimer = breaks[BREAK_ID_REST_BREAK].get_timer();
-      assert(rbTimer != NULL);
+      Timer *rb_timer = breaks[BREAK_ID_REST_BREAK].get_timer();
+      assert(rb_timer != NULL);
 
       bool activity_sensitive = breaks[BREAK_ID_REST_BREAK].get_timer_activity_sensitive();
       
@@ -922,26 +888,25 @@ Core::handle_start_break(BreakControl *breaker, BreakId break_id, Timer *timer)
       // 1. we have a next limit reached time.
       // 2. timer is not yet over its limit. otherwise, it will interfere with snoozing.
       if (activity_sensitive &&
-          rbTimer->get_next_limit_time() > 0
-          /* && rbTimer->get_elapsed_time() < rbTimer->get_limit() */)
+          rb_timer->get_next_limit_time() > 0
+          /* && rb_timer->get_elapsed_time() < rb_timer->get_limit() */)
         {
-          int threshold = 30; // TODO: should be configurable
           time_t duration = timer->get_auto_reset();
           time_t now = get_time();
           
-          if (now + duration + threshold >= rbTimer->get_next_limit_time())
+          if (now + duration + 30 >= rb_timer->get_next_limit_time())
             {
-              handle_start_break(restbreak_control, BREAK_ID_REST_BREAK, rbTimer);
+              start_break(restbreak_control, BREAK_ID_REST_BREAK, rb_timer);
 
               // Snooze timer before the limit was reached. Just to make sure
               // that it doesn't reach its limit again when elapsed == limit
-              rbTimer->snooze_timer();
+              rb_timer->snooze_timer();
               return;
             }
         }
     }
 
-  // Stop micropause when a restbreak starts. should not happend.
+  // Stop microbreak when a restbreak starts. should not happend.
   // restbreak should be advanced.
   for (int bi = BREAK_ID_MICRO_BREAK; bi < break_id; bi++)
     {
@@ -955,24 +920,7 @@ Core::handle_start_break(BreakControl *breaker, BreakId break_id, Timer *timer)
 }
 
 
-//! Handles requests to stop the specified break.
-/*!
- *  \param breaker Interface to the break that must be stopped.
- *  \param break_id ID of the timer that caused the break.
- *  \param timer Interface to the timer the caused the break.
- */
-void
-Core::handle_stop_break(BreakControl *breaker, BreakId break_id, Timer *timer)
-{
-  (void) breaker;
-  (void) break_id;
-  (void) timer;
-  
-  breaker->stop_break();
-}
-
-
-//! Sets the free state of all breaks.
+//! Sets the freeze state of all breaks.
 void
 Core::set_freeze_all_breaks(bool freeze)
 {
@@ -988,28 +936,24 @@ Core::set_freeze_all_breaks(bool freeze)
 }
 
 
-
-
-//!
+//! Stops all breaks.
 void
 Core::stop_all_breaks()
 {
-  TRACE_ENTER("Core::stop_all_breaks");
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       BreakControl *bc = breaks[i].get_break_control();
-      if (bc != NULL)
-        {
-          bc->stop_break(false);
-        }
+      assert(bc != NULL);
+      bc->stop_break(false);
     }
-  TRACE_EXIT();
 }
+
 
 /********************************************************************************/
 /**** Misc                                                                 ******/
 /********************************************************************************/
 
+//! Performs a reset when the dailt limit is reached.
 void
 Core::daily_reset()
 {
@@ -1037,6 +981,7 @@ Core::daily_reset()
 }
 
 
+//! Saves the current state.
 void
 Core::save_state() const
 {
@@ -1060,6 +1005,7 @@ Core::save_state() const
 }
 
 
+//! Loads the current state.
 void
 Core::load_state()
 {
@@ -1113,16 +1059,14 @@ Core::load_state()
 }
 
 
+//! Posts an event.
 void
 Core::post_event(CoreEvent event)
 {
-  TRACE_ENTER("Core::post_event");
   if (core_event_listener != NULL)
     {
-      TRACE_MSG("posting");
       core_event_listener->core_event_notify(event);
     }
-  TRACE_EXIT();
 }
 
 
@@ -1174,6 +1118,7 @@ Core::test_me()
 
 
 #ifdef HAVE_DISTRIBUTION
+//! The distribution manager requests a client message.
 bool
 Core::request_client_message(DistributionClientMessageID id, PacketBuffer &buffer)
 {
@@ -1190,10 +1135,13 @@ Core::request_client_message(DistributionClientMessageID id, PacketBuffer &buffe
       break;
         
     case DCM_CONFIG:
-      ret = request_config(buffer);
       break;
 
     case DCM_MONITOR:
+      ret = true;
+      break;
+
+    case DCM_BREAKCONTROL:
       ret = true;
       break;
 
@@ -1210,6 +1158,7 @@ Core::request_client_message(DistributionClientMessageID id, PacketBuffer &buffe
 }
 
 
+//! The distribution manager delivers a client message.
 bool
 Core::client_message(DistributionClientMessageID id, bool master, const char *client_id,
                      PacketBuffer &buffer)
@@ -1230,8 +1179,11 @@ Core::client_message(DistributionClientMessageID id, bool master, const char *cl
       ret = set_monitor_state(master, buffer);
       break;
 
+    case DCM_BREAKCONTROL:
+      ret = set_break_control(buffer);
+      break;
+
     case DCM_CONFIG:
-      ret = process_remote_config(buffer);
       break;
       
     case DCM_IDLELOG:
@@ -1429,20 +1381,6 @@ Core::set_monitor_state(bool master, PacketBuffer &buffer)
 }
 
 
-bool
-Core::request_config(PacketBuffer &buffer) const
-{
-  (void)buffer;
-  return true;
-}
-
-bool
-Core::process_remote_config(PacketBuffer &buffer)
-{
-  (void) buffer;
-  return true;
-}
-
 //! A remote client has signed on.
 void
 Core::signon_remote_client(string client_id)
@@ -1467,7 +1405,7 @@ Core::signoff_remote_client(string client_id)
 void
 Core::compute_timers()
 {
-  TRACE_ENTER("IdleLogManager:compute_breaks");
+  TRACE_ENTER("IdleLogManager:compute_timers");
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
@@ -1493,6 +1431,50 @@ Core::compute_timers()
     }
   
   TRACE_EXIT();
+}
+
+
+void
+Core::send_break_control_message(BreakId break_id, BreakControlMessage message)
+{
+  PacketBuffer buffer;
+  buffer.create();
+  
+  buffer.pack_ushort(4);
+  buffer.pack_ushort(break_id);
+  buffer.pack_ushort(message);
+  
+  dist_manager->broadcast_client_message(DCM_BREAKCONTROL, buffer);
+}
+
+
+bool
+Core::set_break_control(PacketBuffer &buffer)
+{
+  int data_size = buffer.unpack_ushort();
+
+  if (data_size == 4)
+    {
+      BreakId break_id = (BreakId) buffer.unpack_ushort();
+      BreakControlMessage message = (BreakControlMessage) buffer.unpack_ushort();
+
+      switch (message)
+        {
+        case BCM_POSTPONE:
+          do_postpone_break(break_id);
+          break;
+
+        case BCM_SKIP:
+          do_skip_break(break_id);
+          break;
+
+        case BCM_ABORT_PRELUDE:
+          do_stop_prelude(break_id);
+          break;
+        }
+    }
+
+  return true;
 }
 
 

@@ -64,7 +64,6 @@ class ConfiguratorInterface;
 class GUI :
   public AppInterface,
   public CoreEventListener,
-  public ActivityMonitorListener,
   public SigC::Object
 {
 public:
@@ -82,7 +81,6 @@ public:
   virtual void hide_break_window();
   virtual void refresh_break_window();
   virtual void set_break_progress(int value, int max_value);
-  virtual bool delayed_hide_break_window();
   virtual void set_prelude_stage(PreludeStage stage);
   virtual void set_prelude_progress_text(PreludeProgressText text);
 
@@ -129,9 +127,6 @@ private:
   void init_multihead_desktop();
   void init_gui();
   void init_remote_control();
-
-  bool action_notify();
-  void on_activity();
 
 #if defined(HAVE_GTK_MULTIHEAD)
   void init_gtk_multihead();
@@ -218,9 +213,6 @@ private:
 
   //! Destroy prelude window on next heartbeat?
   bool prelude_window_destroy;
-
-  SigC::Connection dispatch_connection;
-  Dispatcher *dispatcher;
 
   //! Information on all heads.
   HeadInfo *heads;

@@ -1,6 +1,6 @@
 // BreakControl.hh --- controller for a single break
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -23,6 +23,7 @@
 #include "CoreEventListener.hh"
 #include "BreakInterface.hh"
 #include "BreakResponseInterface.hh"
+#include "ActivityMonitorListener.hh"
 
 class ActivityMonitorListenerInterface;
 class Core;
@@ -30,7 +31,8 @@ class AppInterface;
 class PreludeWindow;
 class Timer;
 
-class BreakControl
+class BreakControl :
+  public ActivityMonitorListener
 {
 public:
   enum BreakState { BREAK_ACTIVE, BREAK_INACTIVE, BREAK_SUSPENDED };
@@ -61,6 +63,9 @@ public:
   BreakState get_break_state();
   void set_state_data(bool activate, const BreakStateData &data);
   void get_state_data(BreakStateData &data);
+
+  // ActivityMonitorListener
+  bool action_notify();
 
   // Configuration
   void set_max_preludes(int m);
@@ -158,6 +163,9 @@ private:
 
   //! Break will be stopped because the user pressed postpone/skip.
   bool user_abort;
+
+  //! User became active during delayed break.
+  bool delayed_abort;
 };
 
 #endif // BREAKCONTROL_HH

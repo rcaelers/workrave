@@ -31,6 +31,7 @@ public:
   EventImage(const Glib::ustring& file, bool mnemonic = false) :
     Gtk::Image(file)
   {
+    (void) mnemonic;
   }
   
 private:

@@ -197,12 +197,9 @@ PreludeWindow::add(Gtk::Widget& widget)
 void
 PreludeWindow::destroy()
 {
-  CoreInterface *core = CoreFactory::get_core();
-  assert(core != NULL);
-      
-  core->set_activity_monitor_listener(NULL);
-  
+  TRACE_ENTER("PreludeWindow::destroy");
   delete this;
+  TRACE_EXIT();
 }
 
 
@@ -312,9 +309,11 @@ PreludeWindow::set_stage(AppInterface::PreludeStage stage)
 
 void
 PreludeWindow::on_frame_flash(bool frame_visible)
-{
+{ 
+  TRACE_ENTER("PreludeWindow::on_frame_flash");
   flash_visible = frame_visible;
   refresh();
+  TRACE_EXIT();
 }
 
 // Sets whether the window should run away for the mouse pointer.

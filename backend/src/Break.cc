@@ -227,9 +227,6 @@ Break::load_timer_config()
   // Read the activity insensitive flag
   bool sensitive = get_timer_activity_sensitive();
   timer->set_activity_sensitive(sensitive);
-
-  // Default
-  timer->set_for_activity(true);
 }
 
 

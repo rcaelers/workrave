@@ -1,9 +1,7 @@
 // TimeSource.hh --- the time
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers <robc@krandor.org>
 // All rights reserved.
-//
-// Time-stamp: <2003-01-05 16:03:42 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -36,7 +34,7 @@
 class TimeSource
 {
 public:
-  //! Return the time of this source.
+  //! Returns the time of this source.
   virtual time_t get_time() const = 0;
 };
 

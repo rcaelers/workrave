@@ -138,12 +138,6 @@ GUI::~GUI()
 
   ungrab();
   
-  if (dispatcher != NULL)
-    {
-      dispatch_connection.disconnect();
-      delete dispatcher;
-    }
-
   if (core != NULL)
     {
       // FIXME: cannot delete interface. delete core;
@@ -180,8 +174,6 @@ GUI::main()
   __try1(exception_handler);
 #endif
 
-//    char *x = NULL;
-//    *x = 1;
   Gtk::Main kit(argc, argv);
   
 #ifdef HAVE_GNOME
@@ -598,7 +590,7 @@ GUI::init_gtk_multihead()
 #ifdef HAVE_GTKMM24
           if (screen)
 #else
-            if (!screen.is_null())
+          if (!screen.is_null())
 #endif        
               {
                 new_num_heads += screen->get_n_monitors();
@@ -614,7 +606,7 @@ GUI::init_gtk_multihead()
 #ifdef HAVE_GTKMM24
           if (screen)
 #else
-            if (!screen.is_null())
+          if (!screen.is_null())
 #endif        
               {
                 int num_monitors = screen->get_n_monitors();
@@ -716,9 +708,6 @@ GUI::init_gui()
   
   // Periodic timer.
   Glib::signal_timeout().connect(MEMBER_SLOT(*this, &GUI::on_timer), 1000);
-
-  dispatcher = new Dispatcher;
-  dispatch_connection = dispatcher->connect(SigC::slot_class(*this, &GUI::on_activity));
 }
 
 
@@ -735,7 +724,8 @@ GUI::init_remote_control()
   RemoteControl::get_instance();
   
   BonoboGenericFactory *factory;
-  factory = bonobo_generic_factory_new("OAFIID:GNOME_Workrave_Factory", workrave_component_factory, NULL);
+  factory = bonobo_generic_factory_new("OAFIID:GNOME_Workrave_Factory",
+                                       workrave_component_factory, NULL);
   bonobo_running_context_auto_exit_unref (BONOBO_OBJECT (factory));
 #endif
 }
@@ -771,7 +761,6 @@ GUI::init_sound_player()
   // FIXME: Memory leak.
   sound_player = new SoundPlayer();
 }
-
 
 
 void
@@ -815,7 +804,6 @@ GUI::start_prelude_window(BreakId break_id)
     }
 
   active_prelude_count = num_heads;
-
 }
 
 
@@ -928,19 +916,6 @@ GUI::set_break_progress(int value, int max_value)
 }
 
 
-bool
-GUI::delayed_hide_break_window()
-{
-  bool ret = false;
-  if (active_prelude_count > 0)
-    {
-      core->set_activity_monitor_listener(this);
-      ret = true;
-    }
-  return ret;
-}
-
-
 void
 GUI::set_prelude_stage(PreludeStage stage)
 {
@@ -1009,34 +984,6 @@ GUI::collect_garbage()
     }
   TRACE_EXIT();
 }
-
-
-bool
-GUI::action_notify()
-{
-  TRACE_ENTER("GUI::action_notify");
-  if (dispatcher != NULL)
-    {
-      TRACE_MSG("notify");
-      dispatcher->send_notification();
-    }
-  TRACE_EXIT();
-  return false; // false: kill listener.
-}
-
-
-void
-GUI::on_activity()
-{
-  TRACE_ENTER("GUI::on_activity");
-  if (response != NULL)
-    {
-      TRACE_MSG("notify");
-      response->stop_prelude(active_break_id);
-    }
-  TRACE_EXIT();
-}
-
 
 
 GUI::BlockMode

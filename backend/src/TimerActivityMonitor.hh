@@ -1,6 +1,6 @@
 // TimerActivityMonitor.hh
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -22,9 +22,14 @@
 #include "ActivityMonitorInterface.hh"
 #include "TimerInterface.hh"
 
+//! An Activity Monitor that takes its activity state from a timer.
+/*! This Activity Monitor is 'active' if the timer is running or if
+ *  the timer has its idle time not at maximum, 'idle' otherwise.
+ */
 class TimerActivityMonitor : public ActivityMonitorInterface
 {
 public:
+  //! Constructs an activity monitor that depends on specified timer.
   TimerActivityMonitor(Timer *t) :
     timer(t),
     suspended(false)
@@ -75,20 +80,28 @@ public:
   {
   }
 
+  
+  // Returns the collected statistics.
   void get_statistics(ActivityMonitorStatistics &stats) const
   {
     (void) stats;
   }
 
+
+  //! Sets the statistics.
   void set_statistics(const ActivityMonitorStatistics &stats)
   {
     (void) stats;
   }
 
+
+  //! Resets all collected statistics.
   void reset_statistics()
   {
   }
 
+  
+  //! Sets the activity listener of this monitor.
   void set_listener(ActivityMonitorListener *l)
   {
     (void)l;

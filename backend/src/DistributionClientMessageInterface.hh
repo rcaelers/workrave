@@ -1,6 +1,6 @@
 // DistributionClientMessageInterface.hh
 //
-// Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2004 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -30,6 +30,7 @@ enum DistributionClientMessageID
     DCM_CONFIG  = 0x0014,
     DCM_BREAKS  = 0x0020,
     DCM_STATS   = 0x0030,
+    DCM_BREAKCONTROL = 0x0040,
   };
 
 enum DistributionClientMessageType

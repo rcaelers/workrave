@@ -1,6 +1,6 @@
-// Control.hh --- The main controller
+// Core.hh --- The main controller
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -16,8 +16,8 @@
 // $Id$
 //
 
-#ifndef CONTROL_HH
-#define CONTROL_HH
+#ifndef CORE_HH
+#define CORE_HH
 
 #include <stdio.h>
 #include <sys/types.h>
@@ -63,26 +63,15 @@ class BreakControl;
 #endif
 
 class Core :
+#ifdef HAVE_DISTRIBUTION
+  public DistributionClientMessageInterface,
+  public DistributionListener,
+#endif  
   public TimeSource,
   public CoreInterface,
   public ConfiguratorListener,
   public BreakResponseInterface
-#ifdef HAVE_DISTRIBUTION
-  ,
-  public DistributionClientMessageInterface,
-  public DistributionListener
-#endif  
 {
-private:
-    enum BreakAction
-    {
-      BREAK_ACTION_NONE,
-      BREAK_ACTION_START_BREAK,
-      BREAK_ACTION_STOP_BREAK,
-      BREAK_ACTION_NATURAL_STOP_BREAK,
-      BREAK_ACTION_FORCE_START_BREAK,
-    };
-
 public:
   Core();
   virtual ~Core();
@@ -103,7 +92,6 @@ public:
   DistributionManager *get_distribution_manager() const;
 #endif
   Statistics *get_statistics() const;
-  void set_activity_monitor_listener(ActivityMonitorListener *l);
   void set_core_events_listener(CoreEventListener *l);
   void force_break(BreakId id);
   void set_powersave(bool down);
@@ -115,6 +103,8 @@ public:
   OperationMode set_operation_mode(OperationMode mode);
   void set_freeze_all_breaks(bool freeze);
 
+  void stop_prelude(BreakId break_id);
+  
 private:
 
 #ifndef NDEBUG
@@ -132,17 +122,20 @@ private:
   void init_statistics();
   void load_monitor_config();
   void config_changed_notify(string key);
-  void update_statistics();
   void heartbeat();
   void timer_action(BreakId id, TimerInfo info);
-  void process_timers(TimerInfo *infos);
-  void break_action(BreakId id, BreakAction action);
-  void handle_start_break(BreakControl *breaker, BreakId break_id, Timer *timer);
-  void handle_stop_break(BreakControl *breaker, BreakId break_id, Timer *timer);
+  void process_distribution();
+  void process_state();
+  void process_timewarp();
+  void process_timers();
+  void start_break(BreakControl *breaker, BreakId break_id, Timer *timer);
   void stop_all_breaks();
   void daily_reset();
   void save_state() const;
   void load_state();
+  void do_postpone_break(BreakId break_id);
+  void do_skip_break(BreakId break_id);
+  void do_stop_prelude(BreakId break_id);
 #ifndef NDEBUG
   void test_me();
 #endif
@@ -161,8 +154,15 @@ private:
 
   bool set_monitor_state(bool master, PacketBuffer &buffer);
 
-  bool request_config(PacketBuffer &buffer) const;
-  bool process_remote_config(PacketBuffer &buffer);
+  enum BreakControlMessage
+    {
+      BCM_POSTPONE,
+      BCM_SKIP,
+      BCM_ABORT_PRELUDE,
+    };
+  
+  void send_break_control_message(BreakId break_id, BreakControlMessage message);
+  bool set_break_control(PacketBuffer &buffer);
   
   void signon_remote_client(string client_id);
   void signoff_remote_client(string client_id);
@@ -173,20 +173,18 @@ private:
 #endif // NDEBUG
 #endif // HAVE_DISTRIBUTION
 
-
   // BreakResponseInterface
   void postpone_break(BreakId break_id);
   void skip_break(BreakId break_id);
-  void stop_prelude(BreakId break_id);
   
 private:
   //! The one and only instance
   static Core *instance;
 
-  //!
+  //! Number of command line arguments passed to the program.
   int argc;
 
-  //!
+  //! Command line arguments passed to the program.
   char **argv;
   
   //! The current time.
@@ -198,7 +196,7 @@ private:
   //! Are we the master node??
   bool master_node;
 
-  //! List of timers
+  //! List of breaks.
   Break breaks[BREAK_ID_SIZEOF];
 
   //! The Configurator.
@@ -216,7 +214,7 @@ private:
   //! Current operation mode.
   OperationMode operation_mode;
 
-  //!
+  //! Where to send core events to?
   CoreEventListener *core_event_listener;
 
   //! Did the OS announce a powersave?
@@ -232,26 +230,33 @@ private:
   //! The Distribution Manager
   DistributionManager *dist_manager;
 
-  //! Current monitor state.
-  ActivityState monitor_state;
+  //! Current local monitor state.
+  ActivityState local_state;
 
   //! State of the remote master.
   ActivityState remote_state;
   
-  //! 
+  //! Current overall monitor state.
+  ActivityState monitor_state;
+
+  //! Manager that collects idle times of all clients.
   IdleLogManager *idlelog_manager;
 
 #ifndef NDEBUG
+  //! A fake activity monitor for testing puposes.
   FakeActivityMonitor *fake_monitor;
 
+  //! Program Counter of script execution.
   int script_count;
-  
+
+  //! Time at which script execution started.
   int script_start_time;
 #endif
 #endif
 };
 
 
+//! Returns the singleton Core instance.
 inline Core *
 Core::get_instance()
 {
@@ -263,4 +268,4 @@ Core::get_instance()
   return instance;
 }
 
-#endif // CONTROL_HH
+#endif // CORE_HH

@@ -1,6 +1,6 @@
 // AppInterface.hh
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -58,9 +58,6 @@ public:
 
   //! Sets the progress to the specified value and maximum value.
   virtual void set_break_progress(int value, int max_value) = 0;
-
-  //! Sets the prelude window on hold, returns true if supported.
-  virtual bool delayed_hide_break_window() = 0;
 
   //! Sets the alert stage of the prelude window.
   virtual void set_prelude_stage(PreludeStage stage) = 0;

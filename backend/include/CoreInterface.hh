@@ -91,9 +91,6 @@ public:
   virtual OperationMode set_operation_mode(OperationMode mode) = 0;
 
   //! Sets the callback for activity monitor events.
-  virtual void set_activity_monitor_listener(ActivityMonitorListener *l) = 0;
-
-  //! Sets the callback for activity monitor events.
   virtual void set_core_events_listener(CoreEventListener *l) = 0;
 
   //! Notifies the core that the computer will enter or leave powersave (suspend/hibernate)
