@@ -677,7 +677,7 @@ Menus::on_statistics_response(int response)
   assert(statistics_dialog != NULL);
   statistics_dialog->hide_all();
 
-  // done by gtkmm ??? delete statistics_dialog;
+  delete statistics_dialog;
   statistics_dialog = NULL;
 }
 
@@ -692,6 +692,7 @@ Menus::on_preferences_response(int response)
 
   GUIControl::get_instance()->get_configurator()->save();
 
+  delete preferences_dialog;
   preferences_dialog = NULL;
 
 #ifdef WIN32
