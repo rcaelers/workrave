@@ -87,8 +87,9 @@ private:
   Gtk::Button *create_postpone_button();
   Gtk::Button *create_lock_button();
   Gtk::Button *create_shutdown_button();
+#ifndef WIN32
   void set_background_pixmap();
-
+#endif
   
 private:
   //! Send response to this interface.
