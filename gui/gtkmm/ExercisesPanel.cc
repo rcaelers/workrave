@@ -28,18 +28,19 @@ ExercisesPanel::ExercisesPanel()
   back_button = manage
     (GtkUtil::create_stock_button_without_text(Gtk::Stock::GO_BACK));
   back_button->signal_clicked()
-    .connect(SigC::slot(*this, &StatisticsDialog::on_go_back));
+    .connect(SigC::slot(*this, &ExercisesPanel::on_go_back));
 
   forward_button = manage
     (GtkUtil::create_stock_button_without_text(Gtk::Stock::GO_FORWARD));
   forward_button->signal_clicked()
-    .connect(SigC::slot(*this, &StatisticsDialog::on_go_forward));
+    .connect(SigC::slot(*this, &ExercisesPanel::on_go_forward));
 
   pause_button = manage
     (GtkUtil::create_stock_button_without_text(Gtk::Stock::STOP));
   pause_button->signal_clicked()
-    .connect(SigC::slot(*this, &StatisticsDialog::on_pause));
+    .connect(SigC::slot(*this, &ExercisesPanel::on_pause));
 
+  image.set_size_request(250, 250);
   image_frame.add(image);
 
   button_box.pack_start(*back_button, false, false, 0);
@@ -59,17 +60,17 @@ ExercisesPanel::~ExercisesPanel()
 }
 
 void
-ExercisePanel::on_go_back()
+ExercisesPanel::on_go_back()
 {
 }
 
 void
-ExercisePanel::on_go_forward()
+ExercisesPanel::on_go_forward()
 {
 }
 
 void
-ExercisePanel::on_pause()
+ExercisesPanel::on_pause()
 {
 }
 

@@ -27,6 +27,7 @@
 
 #include "preinclude.h"
 #include "Hig.hh"
+#include "ExercisesPanel.hh"
 
 #include <gtkmm.h>
 
@@ -39,6 +40,7 @@ public:
   int run();
   
 private:
+  ExercisesPanel exercises_panel;
 };
 
 #endif // HAVE_EXERCISES

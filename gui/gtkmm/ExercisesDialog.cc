@@ -39,8 +39,8 @@ ExercisesDialog::ExercisesDialog()
 {
   TRACE_ENTER("ExercisesDialog::ExercisesDialog");
 
-  std::list<Exercise> exercises;
-  Exercise::parse_exercises(exercises);
+  get_vbox()->pack_start(exercises_panel, true, true, 0);
+  add_button(Gtk::Stock::CLOSE, Gtk::RESPONSE_CLOSE);
   TRACE_EXIT();
 }
 

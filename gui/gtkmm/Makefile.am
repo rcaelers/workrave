@@ -58,7 +58,7 @@ sourcesdistribution = NetworkJoinDialog.cc NetworkLogDialog.cc NetworkPreference
 endif
 
 if HAVE_EXERCISES
-sourcesexercises = ExercisesDialog.cc
+sourcesexercises = ExercisesDialog.cc ExercisesPanel.cc
 endif
 
 libgtkmmgui_a_SOURCES = \
