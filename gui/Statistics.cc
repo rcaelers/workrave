@@ -235,13 +235,6 @@ Statistics::save_day(DailyStats *stats)
 void
 Statistics::add_history(DailyStats *stats)
 {
-  TRACE_ENTER("Statistics::add_history");
-
-  if (stats == NULL)
-    {
-      return;
-    }
-  
   if (history.size() == 0)
     {
       history.push_back(stats);
@@ -273,15 +266,10 @@ Statistics::add_history(DailyStats *stats)
               }
             else
               {
-                TRACE_MSG("3b");
                 history.insert(i.base(), stats);
               }
             break;
           }
-          else
-            {
-              TRACE_MSG("4");
-            }
           i++;
         }
     }

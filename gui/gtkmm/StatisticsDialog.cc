@@ -555,11 +555,9 @@ StatisticsDialog::on_history_goto_first()
 bool
 StatisticsDialog::on_timer()
 {
-  TRACE_ENTER("StatisticsDialog:on_timer");
   int idx, next, prev;
   get_calendar_day_index(idx, next, prev);
 
-  TRACE_MSG(idx);
   if (idx == 0)
     {
       Statistics *stats = Statistics::get_instance();
