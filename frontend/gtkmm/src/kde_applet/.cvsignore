@@ -52,3 +52,9 @@ intltool-update.in
 intltool-extract
 intltool-merge
 intltool-update
+subdirs
+.deps
+stamp-h1
+configure.in
+configure.files
+Makefile.am

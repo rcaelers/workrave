@@ -52,3 +52,7 @@ intltool-update.in
 intltool-extract
 intltool-merge
 intltool-update
+compile
+depcomp
+stamp-h1
+subdirs

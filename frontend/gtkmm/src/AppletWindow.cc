@@ -758,10 +758,12 @@ AppletWindow::on_embedded()
       TRACE_MSG("Size = " << req.width << " " << req.height << " " << applet_vertical);
       timer_box_view->set_geometry(applet_vertical, applet_size);
 
+#ifdef HAVE_KDE
       if (mode == APPLET_KDE)
         {
           KdeAppletWindow::set_size(req.width, req.height);
         }
+#endif      
       TRACE_MSG(applet_size);
     }
   TRACE_EXIT();

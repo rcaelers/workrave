@@ -1,5 +1,7 @@
 Makefile
 Makefile.in
+.deps
+.libs
 Workrave-Applet-common.c
 Workrave-Applet-skels.c
 Workrave-Applet-stubs.c

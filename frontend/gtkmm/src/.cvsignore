@@ -1,2 +1,16 @@
 Makefile
 Makefile.in
+.deps
+.libs
+Workrave-Applet-common.c
+Workrave-Applet-skels.c
+Workrave-Applet-stubs.c
+Workrave-Applet.h
+Workrave-Applet.server
+Workrave-Applet.server.in
+Workrave-Control-common.c
+Workrave-Control-skels.c
+Workrave-Control-stubs.c
+Workrave-Control.h
+Workrave-Control.server
+Workrave-Control.server.in
