@@ -305,6 +305,7 @@ GUI::on_save_yourself(int phase, Gnome::UI::SaveStyle save_style, bool shutdown,
   Gnome::UI::Client *client = Gnome::UI::Client::master_client();
 
   vector<string> args;
+  args.push_back(argv[0] != NULL ? argv[0] : "workrave");
 
   bool skip = false;
   if (applet_window != NULL)
@@ -328,7 +329,6 @@ GUI::on_save_yourself(int phase, Gnome::UI::SaveStyle save_style, bool shutdown,
   else
     {
       client->set_restart_style(GNOME_RESTART_IF_RUNNING);
-      args.push_back(argv[0] != NULL ? argv[0] : "workrave");
       
       char *display_name = gdk_get_display();
       if (display_name != NULL)
@@ -339,14 +339,9 @@ GUI::on_save_yourself(int phase, Gnome::UI::SaveStyle save_style, bool shutdown,
         }
     }
 
-  TRACE_MSG("3");
-  
   client->set_clone_command(args);
-  TRACE_MSG("3a");
   client->set_restart_command(args);
 
-  TRACE_MSG("4");
-  
   TRACE_EXIT();
   return true;  
 }
