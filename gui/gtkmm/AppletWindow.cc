@@ -164,6 +164,7 @@ AppletWindow::init()
 void
 AppletWindow::init_table()
 {
+  TRACE_ENTER("AppletWindow::init_table");
   // Determine what breaks to show.
   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
     {
@@ -188,6 +189,7 @@ AppletWindow::init_table()
   
   if (applet_vertical)
     {
+      TRACE_MSG("x2 " << applet_size);
       plug->set_size_request(applet_size, -1);
     }
   else
@@ -202,6 +204,7 @@ AppletWindow::init_table()
         }
       columns = (number_of_timers + rows - 1) / rows;
       
+      TRACE_MSG("x3 " << applet_size);
       plug->set_size_request(-1, applet_size);
     }
 
@@ -259,8 +262,9 @@ AppletWindow::init_table()
           int cur_row = i % rows;
           int cur_col = i / rows;
           
-          if (!applet_vertical && applet_size != -1)
+          if (!applet_vertical && applet_size > 0)
             {
+              TRACE_MSG("x1 " << applet_size << " " << rows);
               timer_times[id]->set_size_request(-1, applet_size / rows - 1 * (rows + 1) - 2);
             }
           
@@ -272,8 +276,14 @@ AppletWindow::init_table()
         }
     }
 
+  for (int i = slot; i < GUIControl::BREAK_ID_SIZEOF; i++)
+    {
+      current_content[i] = -1;
+    }
+
   container->show_all();
   plug->show_all();
+  TRACE_EXIT();
 }
 
 
