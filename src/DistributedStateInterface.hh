@@ -21,9 +21,8 @@
 
 enum DistributedStateID
   {
-    DISTR_STATE_TIMER_MP = 0x0010,
-    DISTR_STATE_TIMER_RB = 0x0011,
-    DISTR_STATE_TIMER_DL = 0x0012,
+    DISTR_STATE_TIMERS = 0x0010,
+    DISTR_STATE_BREAKS = 0x0020,
   };
 
 class DistributedStateInterface

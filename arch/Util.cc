@@ -61,7 +61,13 @@ Util::get_home_directory()
   ret = "./";
 
 #if defined(HAVE_X)  
-  const char *home = getenv("HOME");
+  const char *home = getenv("WORKRAVE_HOME");
+  
+  if (home == NULL)
+    {
+      home = getenv("HOME");
+    }
+  
   if (home != NULL)
     {
       ret = home;

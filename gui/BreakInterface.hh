@@ -3,7 +3,7 @@
 // Copyright (C) 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-09-11 22:27:20 robc>
+// Time-stamp: <2002-10-04 20:45:47 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,6 +25,16 @@
 class BreakInterface
 {
 public:
+  struct BreakStateData
+  {
+    bool forced_break;
+    int prelude_count;
+
+    int break_stage;
+    bool final_prelude;
+    int prelude_time;
+  };
+  
   enum BreakState { BREAK_ACTIVE, BREAK_INACTIVE, BREAK_SUSPENDED };
 
   BreakInterface() {}
@@ -45,8 +55,11 @@ public:
   //!
   virtual bool need_heartbeat() = 0;
   
-  //! Period update. Called when ACTIVE
+  //! Period update. 
   virtual void heartbeat() = 0;
+
+  virtual void set_state_data(const BreakStateData &data) = 0;
+  virtual void get_state_data(BreakStateData &data) = 0;
 };
 
 #endif // BREAKINTERFACE_HH

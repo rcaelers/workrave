@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-09-13 19:12:11 robc>
+// Time-stamp: <2002-10-04 18:46:47 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@
 class ConfiguratorListener
 {
 public:
-  virtual void config_changed_notify(string key) = 0;
+  virtual void config_changed_notify(std::string key) = 0;
 };
 
 #endif // CONFIGURATORLISTENER_HH

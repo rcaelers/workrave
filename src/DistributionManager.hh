@@ -21,12 +21,16 @@
 
 #include <string>
 
+#include "ConfiguratorListener.hh"
 #include "DistributionLinkListener.hh"
 #include "DistributedStateInterface.hh"
 
 class DistributionLink;
+class Configurator;
 
-class DistributionManager : public DistributionLinkListener
+class DistributionManager :
+  public DistributionLinkListener,
+  public ConfiguratorListener
 {
 public:
   enum NodeState { NODE_ACTIVE, NODE_PASSIVE, NODE_STANDBY };
@@ -37,6 +41,7 @@ public:
   virtual ~DistributionManager();
 
   NodeState get_state() const;
+  void init(Configurator *conf);
   bool is_active() const;
   int get_number_of_peers();
   bool claim();
@@ -45,12 +50,26 @@ public:
   bool unregister_state(DistributedStateID id);
 
   //
-  virtual void active_changed(bool result);
+  void active_changed(bool result);
+
+private:
+  void read_configuration();
+  void config_changed_notify(string key);
   
 private:
+  static const string CFG_KEY_DISTRIBUTION;
+  static const string CFG_KEY_DISTRIBUTION_ENABLED;
+  static const string CFG_KEY_DISTRIBUTION_PEERS;
+
+  //! Is distribution operation enabled?
+  bool distribution_enabled;
+
   //! The one and only instance
   static DistributionManager *instance;
 
+  //! Access to the configuration.
+  Configurator *configurator;
+  
   //! Link to other clients
   DistributionLink *link;
 

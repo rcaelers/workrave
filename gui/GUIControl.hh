@@ -21,6 +21,10 @@
 
 #include "ConfiguratorListener.hh"
 
+#ifdef HAVE_DISTRIBUTION
+#include "DistributedStateInterface.hh"
+#endif
+
 class GUIFactoryInterface;
 class BreakWindowInterface;
 class PreludeWindowInterface;
@@ -32,8 +36,13 @@ class BreakInterface;
 class TimerInterface;
 class SoundPlayerInterface;
 
+using namespace std;
+
 class GUIControl :
   public ConfiguratorListener
+#ifdef HAVE_DISTRIBUTION
+  , public DistributedStateInterface
+#endif  
 {
 public:
   //! Constructor.
@@ -124,6 +133,12 @@ private:
   void load_break_control_config(string break_id);
   void load_break_control_config(int break_id);
   void config_changed_notify(string key);
+
+#ifdef HAVE_DISTRIBUTION
+  void init_distribution_manager();
+  bool get_state(DistributedStateID id, unsigned char **buffer, int *size);
+  bool set_state(DistributedStateID id, unsigned char *buffer, int size);
+#endif
   
 public:
   static const string CFG_KEY_BREAKS;

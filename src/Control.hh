@@ -39,7 +39,10 @@
 
 #include "ControlInterface.hh"
 #include "ActivityMonitor.hh"
+
+#ifdef HAVE_DISTRIBUTION
 #include "DistributedStateInterface.hh"
+#endif
 
 #include "Timer.hh"
 #include "GUIInterface.hh"
@@ -141,6 +144,9 @@ private:
   //! The Distribution Manager
   DistributionManager *dist_manager;
 #endif
+
+  //! Are we the active node??
+  bool active_node;
   
 #ifndef NDEBUG
   FakeActivityMonitor *fake_monitor;

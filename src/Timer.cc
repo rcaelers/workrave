@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-10-04 19:12:14 robc>
+// Time-stamp: <2002-10-04 22:08:35 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -177,7 +177,7 @@ Timer::compute_next_limit_time()
 {
   TRACE_ENTER_MSG("Timer::compute_next_limit_time", timer_id);
   
-  if (last_limit_time != 0)
+  if (timer_enabled && last_limit_time != 0)
     {
       // Timer already reached limit
       next_limit_time = last_limit_time + snooze_interval;
@@ -232,7 +232,7 @@ Timer::compute_next_predicate_reset_time()
 {
   TRACE_ENTER_MSG("Timer::compute_next_predicate_reset_time", timer_id);
 
-  if (autoreset_interval_predicate)
+  if (timer_enabled && autoreset_interval_predicate)
     {
       if (last_pred_reset_time == 0)
         {
@@ -361,7 +361,7 @@ Timer::snooze_timer()
 {
   TRACE_ENTER_MSG("Timer::snooze", timer_id);
 
-  if (get_elapsed_time() >= limit_interval)
+  if (timer_enabled && get_elapsed_time() >= limit_interval)
     {
       // recompute.
       last_limit_time = time_source->get_time();
@@ -375,24 +375,26 @@ Timer::snooze_timer()
 void
 Timer::freeze_timer(bool freeze)
 {
-  if (freeze && !timer_frozen )
+  if (timer_enabled)
     {
-      if (last_limit_time != 0)
+      if (freeze && !timer_frozen)
         {
-          elapsed_time += (time_source->get_time() - last_start_time);
-          last_start_time = 0;
+          if (last_limit_time != 0 && timer_state == STATE_RUNNING)
+            {
+              elapsed_time += (time_source->get_time() - last_start_time);
+              last_start_time = 0;
+            }
         }
-    }
-  else if (!freeze && timer_frozen)
-    {
-      if (timer_state == STATE_RUNNING)
+      else if (!freeze && timer_frozen)
         {
-          last_start_time = time_source->get_time();
-          elapsed_idle_time = 0;
+          if (timer_state == STATE_RUNNING)
+            {
+              last_start_time = time_source->get_time();
+              elapsed_idle_time = 0;
+            }
         }
+      timer_frozen = freeze;
     }
-  timer_frozen = freeze;
-
 }
 
 
@@ -402,7 +404,7 @@ Timer::get_elapsed_idle_time() const
 {
   time_t ret = elapsed_idle_time;
   
-  if (last_stop_time != 0)
+  if (timer_enabled && last_stop_time != 0)
     {
       // We are not running.
       
@@ -419,7 +421,7 @@ Timer::get_elapsed_time() const
 {
   time_t ret = elapsed_time;
 
-  if (last_start_time != 0)
+  if (timer_enabled && last_start_time != 0)
     {
       // We are running:
       // total elasped = elapes + (last start time - current time)
@@ -642,7 +644,7 @@ Timer::get_state_data(TimerStateData &data)
 {
   data.current_time = time_source->get_time();
   
-  data.elapsed_time = elapsed_time;
-  data.elapsed_idle_time = elapsed_idle_time;
+  data.elapsed_time = get_elapsed_time();;
+  data.elapsed_idle_time = get_elapsed_idle_time();
   data.last_pred_reset_time = last_pred_reset_time;
 }

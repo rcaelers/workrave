@@ -767,3 +767,25 @@ BreakControl::defrost()
   
   TRACE_EXIT();
 }
+
+
+void
+BreakControl::set_state_data(const BreakStateData &data)
+{
+  prelude_window_stop();
+  break_window_stop();
+
+  forced_break = data.forced_break;
+  prelude_count = data.prelude_count;
+}
+
+
+void
+BreakControl::get_state_data(BreakStateData &data)
+{
+  data.forced_break = forced_break;
+  data.prelude_count = prelude_count;
+  data.break_stage = break_stage;
+  data.final_prelude = final_prelude;
+  data.prelude_time = prelude_time;
+}

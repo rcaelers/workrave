@@ -31,20 +31,31 @@ static const char rcsid[] = "$Id$";
 
 #include <signal.h>
 
+#include "Configurator.hh"
+#include "DistributionManager.hh"
 #include "DistributionLink.hh"
 #include "DistributionSocketLink.hh"
 #include "DistributionLinkListener.hh"
 
-DistributionSocketLink::DistributionSocketLink() :
+const string DistributionSocketLink::CFG_KEY_DISTRIBUTION_TCP = "distribution/tcp/";
+const string DistributionSocketLink::CFG_KEY_DISTRIBUTION_TCP_PORT = "port";
+const string DistributionSocketLink::CFG_KEY_DISTRIBUTION_TCP_USERNAME = "username";
+const string DistributionSocketLink::CFG_KEY_DISTRIBUTION_TCP_PASSWORD = "password";
+
+#define DEFAULT_PORT (4224)
+
+DistributionSocketLink::DistributionSocketLink(Configurator *conf) :
   active_client(NULL),
   active(false),
   canonical_name(NULL),
   server_port(0),
   server_socket(NULL),
-  dist_manager(NULL)
+  server_enabled(false),
+  configurator(conf),
+  dist_manager(NULL),
+  username(NULL),
+  password(NULL)
 {
-  username = g_strdup("Pietje");
-  password = g_strdup("Puk");
 }
 
 
@@ -139,21 +150,50 @@ DistributionSocketLink::set_distribution_manager(DistributionLinkListener *dll)
 
 
 bool
-DistributionSocketLink::init(gint port)
+DistributionSocketLink::init()
 {
   TRACE_ENTER("DistributionSocketLink::init");
-  server_port = port;
+  server_port = DEFAULT_PORT;
 
   GInetAddr *ia = gnet_inetaddr_gethostaddr();
   canonical_name = gnet_inetaddr_get_canonical_name(ia);
   gnet_inetaddr_delete(ia);
 
-  TRACE_MSG("My canonical name is " << canonical_name);
-  bool ret = start_async_server();
-
+  read_configuration();
+  configurator->add_listener(CFG_KEY_DISTRIBUTION_TCP, this);
+  
   TRACE_EXIT();
+  return true;
+}
+
+
+bool
+DistributionSocketLink::set_enabled(bool enabled)
+{
+  bool ret = server_enabled;
+
+  if (!server_enabled && enabled)
+    {
+      bool ok = start_async_server();
+
+      if (!ok)
+        {
+          enabled = false;
+        }
+    }
+  else if (server_enabled && !enabled)
+    {
+      if (server_socket != NULL)
+        {
+          gnet_tcp_socket_delete(server_socket);
+        }
+      server_socket = NULL;
+    }
+
+  server_enabled = enabled;
   return ret;
 }
+
 
 bool
 DistributionSocketLink::register_state(DistributedStateID id,
@@ -793,7 +833,7 @@ DistributionSocketLink::send_state()
         {
           packet.pack_ushort(size);
           packet.pack_ushort(id);
-          packet.pack(data, size);
+          packet.pack_raw(data, size);
         }
       else
         {
@@ -826,9 +866,16 @@ DistributionSocketLink::handle_state(Client *client)
       if (datalen != 0)
         {
           guint8 *data = NULL;
-          datalen = packet.unpack(&data);
-
-          itf->set_state(id, data, datalen);
+          if (packet.unpack_raw(&data, datalen) != 0)
+            {
+              itf->set_state(id, data, datalen);
+            }
+          else
+            {
+              TRACE_MSG("Illegal state packet");
+              break;
+            }
+              
         }
     }
 
@@ -1041,3 +1088,60 @@ DistributionSocketLink::static_async_connected(GTcpSocket *socket, GInetAddr *ia
   client->link->async_connected(socket, ia, status, client);
 }
 
+
+/***********************************************************************/
+
+void
+DistributionSocketLink::read_configuration()
+{
+  bool is_set;
+
+  const char *port = getenv("WORKRAVE_PORT");
+  if (port != NULL)
+    {
+      server_port = atoi(port);
+    }
+  else
+    {
+  
+      // TCP listen port
+      is_set = configurator->get_value(CFG_KEY_DISTRIBUTION_TCP + CFG_KEY_DISTRIBUTION_TCP_PORT, &server_port);
+      if (!is_set)
+        {
+          server_port = DEFAULT_PORT;
+        }
+      // Username
+      string user;
+      is_set = configurator->get_value(CFG_KEY_DISTRIBUTION_TCP + CFG_KEY_DISTRIBUTION_TCP_USERNAME, &user);
+      if (!is_set)
+        {
+          username = NULL;
+        }
+      else
+        {
+          username = g_strdup(user.c_str());
+        }
+      // Password
+      string passwd;
+      is_set = configurator->get_value(CFG_KEY_DISTRIBUTION_TCP + CFG_KEY_DISTRIBUTION_TCP_PASSWORD, &passwd);
+      if (!is_set)
+        {
+          password = NULL;
+        }
+      else
+        {
+          password = g_strdup(passwd.c_str());
+        }
+    }
+}
+
+
+void
+DistributionSocketLink::config_changed_notify(string key)
+{
+  TRACE_ENTER_MSG("DistributionSocketLink:config_changed_notify", key);
+
+  read_configuration();
+  
+  TRACE_EXIT();
+}

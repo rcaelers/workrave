@@ -484,4 +484,4 @@ AM_CONDITIONAL(HAVE_ARCH_UNIX, test "x$platform_win32" != "xyes")
 AM_CONDITIONAL(HAVE_GUI_GTKMM, test "x$GTKMM_LIBS" != "x")
 AM_CONDITIONAL(HAVE_DISTRIBUTION, test "x$config_distribution" = "xyes")
                                                            
-AC_OUTPUT(src/Makefile arch/Makefile arch/unix/Makefile arch/win32/Makefile arch/win32/harpoon/Makefile gui/Makefile gui/gtkmm/Makefile images/Makefile debian/Makefile Makefile)
+AC_OUTPUT(src/Makefile arch/Makefile arch/unix/Makefile arch/win32/Makefile arch/win32/harpoon/Makefile gui/Makefile gui/gtkmm/Makefile images/Makefile sounds/Makefile debian/Makefile Makefile)

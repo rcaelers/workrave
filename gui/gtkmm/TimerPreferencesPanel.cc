@@ -290,7 +290,7 @@ TimerPreferencesPanel::on_preludes_maximum_toggled()
   int mp;
   if (has_max_prelude_cb->get_active())
     {
-      mp = max_prelude_adjustment.get_value();
+      mp = (int)max_prelude_adjustment.get_value();
     }
   else
     {

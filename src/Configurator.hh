@@ -23,6 +23,8 @@
 #include <list>
 #include <map>
 
+using namespace std;
+
 class ConfiguratorListener;
 
 class Configurator

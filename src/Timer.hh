@@ -67,14 +67,10 @@ public:
   // Control
   void enable();
   void disable();
-  void start_timer();
-  void stop_timer();
-  void reset_timer();
   void snooze_timer();
   void freeze_timer(bool f);
 
   // Timer processing.
-  //TimerEvent process(ActivityState activityState);
   void process(ActivityState activityState, TimerInfo &info);
  
   // State inquiry
@@ -208,6 +204,10 @@ private:
   ActivityMonitorInterface *activity_monitor;
   
 private:
+  void start_timer();
+  void stop_timer();
+  void reset_timer();
+
   void compute_next_limit_time();
   void compute_next_reset_time();
   void compute_next_predicate_reset_time();
@@ -215,6 +215,9 @@ private:
   // Implementation of ActivityListener.
   void activity_notify();
   void idle_notify();
+
+
+  
 };
 
 #include "Timer.icc"

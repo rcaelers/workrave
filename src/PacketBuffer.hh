@@ -23,15 +23,6 @@
 
 class PacketBuffer
 {
-private:
-  
-  struct TLV
-  {
-    guint16 type;
-    guint16 len;
-    guint8 *data;
-  };
-
 public:
   PacketBuffer();
   PacketBuffer(int size);

@@ -35,6 +35,8 @@
 #include <gdkmm/window.h>
 #include <gtkmm/box.h>
 
+using namespace std;
+
 class TimeBar : public Gtk::DrawingArea
 {
 public:

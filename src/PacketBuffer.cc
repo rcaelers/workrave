@@ -97,14 +97,21 @@ PacketBuffer::pack_string(const gchar *data)
 {
   gchar *ret = NULL;
 
-  int size = strlen(data);
+  int size = 0;  
+  if (data != NULL)
+    {
+      size = strlen(data);
+    }
   
   if (write_ptr + size + 2 <= buffer + buffer_size)
   {
     pack_ushort(size);
 
-    memcpy(write_ptr, data, size);
-    write_ptr += size;
+    if (size > 0)
+      {
+        memcpy(write_ptr, data, size);
+        write_ptr += size;
+      }
   }
 }
 

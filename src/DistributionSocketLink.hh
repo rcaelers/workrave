@@ -26,11 +26,15 @@
 
 #include "DistributionLink.hh"
 #include "DistributedStateInterface.hh"
+#include "ConfiguratorListener.hh"
 #include "PacketBuffer.hh"
 
 class DistributionLinkListener;
+class Configurator;
 
-class DistributionSocketLink : public DistributionLink
+class DistributionSocketLink :
+  public DistributionLink,
+  public ConfiguratorListener
 {
 private:
   enum PacketCommand {
@@ -117,12 +121,13 @@ private:
 
   
 public:
-  DistributionSocketLink();
+  DistributionSocketLink(Configurator *conf);
   virtual ~DistributionSocketLink();
   
   int get_number_of_peers();
   void set_distribution_manager(DistributionLinkListener *dll);
-  bool init(gint port);
+  bool init();
+  bool set_enabled(bool enabled);
   void set_user(string user, string password);
   void join(string url);
   bool claim();
@@ -140,21 +145,18 @@ private:
   void set_active(Client *client);
   void set_me_active();
 
-  
   void init_packet(PacketBuffer &packet, PacketCommand cmd);
   void send_packet_broadcast(PacketBuffer &packet);
   void send_packet_except(PacketBuffer &packet, Client *client);
   void send_packet(Client *client, PacketBuffer &packet);
 
   void process_client_packet(Client *client);
-
   void handle_hello(Client *client);
   void handle_welcome(Client *client);
   void handle_client_list(Client *client);
   void handle_claim(Client *client);
   void handle_new_master(Client *client);
   void handle_state(Client *client);
-  
   void send_hello(Client *client);
   void send_welcome(Client *client);
   void send_client_list(Client *client);
@@ -171,8 +173,15 @@ private:
   static gboolean static_async_io(GIOChannel* iochannel, GIOCondition condition, gpointer data);
   static void static_async_connected(GTcpSocket *socket, GInetAddr *ia, GTcpSocketConnectAsyncStatus status, gpointer data);
 
+  void read_configuration();
+  void config_changed_notify(string key);
   
 private:
+  static const string CFG_KEY_DISTRIBUTION_TCP;
+  static const string CFG_KEY_DISTRIBUTION_TCP_PORT;
+  static const string CFG_KEY_DISTRIBUTION_TCP_USERNAME;
+  static const string CFG_KEY_DISTRIBUTION_TCP_PASSWORD;
+
   //! Username for client authenication
   gchar *username;
 
@@ -198,8 +207,14 @@ private:
   GTcpSocket *server_socket;
 
   //!
+  bool server_enabled;
+  
+  //!
   DistributionLinkListener *dist_manager;
 
+  //!
+  Configurator *configurator;
+  
   //! State
   map<DistributedStateID, DistributedStateInterface *> state_map;
 };

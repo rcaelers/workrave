@@ -34,7 +34,8 @@ public:
 
   virtual int get_number_of_peers() = 0;
   virtual void set_distribution_manager(DistributionLinkListener *dll) = 0;
-  virtual bool init(int port) = 0;
+  virtual bool set_enabled(bool enabled) = 0;
+  virtual bool init() = 0;
   virtual void set_user(string username, string password) = 0;
   virtual void join(string url) = 0;
   virtual bool claim() = 0;

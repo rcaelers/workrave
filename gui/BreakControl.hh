@@ -58,6 +58,8 @@ public:
   bool need_heartbeat();
   void heartbeat();
   BreakState get_break_state();
+  void set_state_data(const BreakStateData &data);
+  void get_state_data(BreakStateData &data);
 
   // Configuration
   void set_force_after_preludes(bool f);
@@ -70,7 +72,7 @@ public:
   void postpone_break();
   void skip_break();
 
-  //
+private:
   void break_window_start();
   void break_window_stop();
   void prelude_window_start();

@@ -36,6 +36,7 @@ static const char rcsid[] = "$Id$";
 
 #ifdef HAVE_DISTRIBUTION
 #include "DistributionManager.hh"
+#include "PacketBuffer.hh"
 #endif
 
 #ifdef HAVE_GCONF
@@ -46,9 +47,6 @@ static const char rcsid[] = "$Id$";
 #include "FakeActivityMonitor.hh"
 #endif
 
-#ifdef HAVE_DISTRIBUTION
-#include "PacketBuffer.hh"
-#endif
 
 const char *WORKRAVESTATE="WorkRaveState";
 const int SAVESTATETIME = 15;
@@ -60,6 +58,7 @@ Control::Control()
 #ifdef HAVE_DISTRIBUTION
   dist_manager = NULL;
 #endif  
+  active_node = true;
   configurator = NULL;
   monitor = NULL;
 }
@@ -170,15 +169,32 @@ Control::process_timers(map<string, TimerInfo> &infos)
 
 
   // Distributed  stuff
-  bool node_active = true;
 #ifdef HAVE_DISTRIBUTION  
+  bool new_active_node = true;
   if (dist_manager != NULL)
     {
-      node_active = dist_manager->is_active();
+      new_active_node = dist_manager->is_active();
 
-      if (!node_active && state == ACTIVITY_ACTIVE)
+      if (!new_active_node && state == ACTIVITY_ACTIVE)
         {
-          node_active = dist_manager->claim();
+          new_active_node = dist_manager->claim();
+        }
+    }
+
+  if (active_node != new_active_node)
+    {
+      active_node = new_active_node;
+      // Enable/Disable timers.
+      for (TimerCIter i = timers.begin(); i != timers.end(); i++)
+        {
+          if (active_node)
+            {
+              (*i)->enable();
+            }
+          else
+            {
+              (*i)->disable();
+            }
         }
     }
 #endif
@@ -205,7 +221,7 @@ Control::process_timers(map<string, TimerInfo> &infos)
   // Timers
   current_time = time(NULL);
 
-  if (node_active)
+  if (active_node)
     {
       // FIXME: quick solution for dependancy probleem if a timer
       // uses a private activity monitor...
@@ -253,7 +269,8 @@ Control::create_distribution_manager()
 
   if (dist_manager != NULL)
     {
-      dist_manager->register_state(DISTR_STATE_TIMER_MP,  this);
+      dist_manager->init(configurator);
+      dist_manager->register_state(DISTR_STATE_TIMERS,  this);
     }
   return dist_manager != NULL;
 }
@@ -625,11 +642,15 @@ Control::set_state(DistributedStateID id, unsigned char *buffer, int size)
   PacketBuffer state_packet;
   state_packet.create();
 
-  int num_timers = state_packet.unpack_ushort();
+  state_packet.pack_raw(buffer, size);
   
+  int num_timers = state_packet.unpack_ushort();
+
+  TRACE_MSG("numtimer = " << num_timers);
   for (int i = 0; i < num_timers; i++)
     {
       gchar *id = state_packet.unpack_string();
+      TRACE_MSG("id = " << id);
       
       Timer *t = (Timer *)get_timer(id);
       
@@ -641,6 +662,13 @@ Control::set_state(DistributedStateID id, unsigned char *buffer, int size)
       state_data.elapsed_time = state_packet.unpack_ulong();
       state_data.elapsed_idle_time = state_packet.unpack_ulong();
       state_data.last_pred_reset_time = state_packet.unpack_ulong();
+
+      TRACE_MSG("state = "
+                << state_data.current_time << " "
+                << state_data.elapsed_time << " "
+                << state_data.elapsed_idle_time << " "
+                << state_data.last_pred_reset_time 
+                );
 
       t->set_state_data(state_data);
     }

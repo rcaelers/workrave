@@ -36,6 +36,8 @@ class TimeBar;
 
 #include "ConfiguratorListener.hh"
 
+using namespace std;
+
 class MainWindow :
   public Gtk::Window,
   public ConfiguratorListener

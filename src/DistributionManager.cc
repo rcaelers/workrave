@@ -25,34 +25,43 @@ static const char rcsid[] = "$Id$";
 
 #include "DistributionManager.hh"
 #include "DistributionSocketLink.hh"
+#include "Configurator.hh"
 
 DistributionManager *DistributionManager::instance = NULL;
 
+const string DistributionManager::CFG_KEY_DISTRIBUTION = "distribution/";
+const string DistributionManager::CFG_KEY_DISTRIBUTION_ENABLED = "enabled";
+const string DistributionManager::CFG_KEY_DISTRIBUTION_PEERS = "peers";
 
-DistributionManager::DistributionManager()
-  : link(NULL),
-    state(NODE_STANDBY)
+#define DEFAULT_PORT (4224)
+
+
+DistributionManager::DistributionManager() :
+  distribution_enabled(false),
+  link(NULL),
+  state(NODE_STANDBY)
 {
-  link = new DistributionSocketLink();
-  link->set_distribution_manager(this);
-    
-  const char *port = getenv("WORKRAVE_PORT");
-  if (port != NULL)
-    {
-      link->init(atoi(port));
-
-      const char *env = getenv("WORKRAVE_URL");
-      if (env != NULL)
-        {
-          join(env);
-        }
-    }
 }
 
 
 DistributionManager::~DistributionManager()
 {
 }
+
+
+void
+DistributionManager::init(Configurator *conf)
+{
+  configurator = conf;
+
+  DistributionSocketLink *socketlink = new DistributionSocketLink(conf);
+  socketlink->set_distribution_manager(this);
+  link = socketlink;
+
+  read_configuration();
+  configurator->add_listener(CFG_KEY_DISTRIBUTION, this);
+}
+
 
 
 DistributionManager::NodeState
@@ -148,5 +157,46 @@ DistributionManager::active_changed(bool result)
 {
   TRACE_ENTER("DistributionManager::active_changed");
   state = (result ? NODE_ACTIVE : NODE_STANDBY);
+  TRACE_EXIT();
+}
+
+
+void
+DistributionManager::read_configuration()
+{
+  bool is_set;
+
+  // Distributed operation enabled or not.
+  is_set = configurator->get_value(CFG_KEY_DISTRIBUTION + CFG_KEY_DISTRIBUTION_ENABLED, &distribution_enabled);
+  if (!is_set)
+    {
+      distribution_enabled = false;
+    }
+
+  // FIXME: temp
+  const char *env = getenv("WORKRAVE_URL");
+  if (env != NULL)
+    {
+      join(env);
+    }
+  else
+    {
+      string peer;
+      is_set = configurator->get_value(CFG_KEY_DISTRIBUTION + CFG_KEY_DISTRIBUTION_PEERS, &peer);
+      if (is_set)
+        {
+          join(peer);
+        }
+    }
+}
+
+
+void
+DistributionManager::config_changed_notify(string key)
+{
+  TRACE_ENTER_MSG("DistributionManager:config_changed_notify", key);
+
+  read_configuration();
+  
   TRACE_EXIT();
 }
