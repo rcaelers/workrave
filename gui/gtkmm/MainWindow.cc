@@ -459,14 +459,9 @@ MainWindow::win32_set_start_position(int x, int y)
 void
 MainWindow::win32_remember_position()
 {
-  GtkWidget *window = Gtk::Widget::gobj();
-  GdkWindow *gdk_window = window->window;
-  HWND hwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
-  RECT rect;
-  if (GetWindowRect(hwnd, &rect))
-    {
-      win32_set_start_position(rect.left, rect.top);
-    }
+  int x, y;
+  get_position(x, y);
+  win32_set_start_position(x, y);
 }
 
 #endif

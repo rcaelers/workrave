@@ -137,8 +137,8 @@ StatisticsDialog::init_gui()
   // Info box
   Gtk::Widget *infobox = manage(create_info_box());
   
-  hbox->pack_start(*navbox, false, false, 0);
-  hbox->pack_start(*vbox, true, true, 0);
+  hbox->pack_start(*navbox, false, false, 6);
+  hbox->pack_start(*vbox, true, true, 6);
 
   vbox->pack_start(*infobox, false, false, 0);
   vbox->pack_start(*tnotebook, true, true, 0);
@@ -147,7 +147,7 @@ StatisticsDialog::init_gui()
   create_activity_page(tnotebook);
 
   
-  get_vbox()->pack_start(*hbox, true, true, 0);
+  get_vbox()->pack_start(*hbox, true, true, 3);
 
   tnotebook->show_all();
   tnotebook->set_current_page(0);
@@ -165,7 +165,6 @@ StatisticsDialog::create_info_box()
   Gtk::Table *table = new Gtk::Table(2, 2, false);
   table->set_row_spacings(2);
   table->set_col_spacings(6);
-  table->set_border_width(6);
 
   Gtk::Label *start_label = manage(new Gtk::Label());
   start_label->set_markup(_("<b>Start time:</b>"));
@@ -243,10 +242,18 @@ StatisticsDialog::create_break_page(Gtk::Notebook *tnotebook)
   // Add labels to table.
   int y = 0;
 
-  Gtk::Label *mp_label = manage(new Gtk::Label(_("Micro-pause")));
-  Gtk::Label *rb_label = manage(new Gtk::Label(_("Restbreak")));
-  Gtk::Label *dl_label = manage(new Gtk::Label(_("Daily limit")));
-  
+  GUIControl::TimerData *timers = &GUIControl::get_instance()->timers[0];
+  GUIControl::TimerData *timer = timers + GUIControl::BREAK_ID_MICRO_PAUSE;
+  Gtk::Widget *mp_label = manage
+    (GtkUtil::create_label_with_icon (_(timer->label), timer->icon.c_str()));
+
+  timer = timers + GUIControl::BREAK_ID_REST_BREAK;
+  Gtk::Widget *rb_label = manage
+    (GtkUtil::create_label_with_icon (_(timer->label), timer->icon.c_str()));
+
+  timer = timers + GUIControl::BREAK_ID_DAILY_LIMIT;
+  Gtk::Widget *dl_label = manage
+    (GtkUtil::create_label_with_icon (_(timer->label), timer->icon.c_str()));
 
   y = 0;
   attach_left(*table, *mp_label, 2, y);
@@ -275,15 +282,15 @@ StatisticsDialog::create_break_page(Gtk::Notebook *tnotebook)
   daily_usage_label = new Gtk::Label();
   
   attach_right(*table, *usage_label, 0, y);
-  attach_left(*table, *daily_usage_label, 2, y++);
+  attach_right(*table, *daily_usage_label, 2, y++);
   
   // Put the breaks in table.
   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
     {
       for (int j = 0; j < BREAK_STATS; j++)
         {
-          break_labels[i][j] = new Gtk::Label();
-          attach_left(*table, *break_labels[i][j], i + 2, j + 2);
+          break_labels[i][j] = manage(new Gtk::Label());
+          attach_right(*table, *break_labels[i][j], i + 2, j + 2);
         }
     }
   
@@ -327,7 +334,7 @@ StatisticsDialog::create_activity_page(Gtk::Notebook *tnotebook)
   for (int i = 0; i < 5; i++)
     {
       activity_labels[i] = new Gtk::Label();
-      attach_left(*table, *activity_labels[i], 1, i);
+      attach_right(*table, *activity_labels[i], 1, i);
     }
   
   box->show_all();
@@ -380,7 +387,7 @@ StatisticsDialog::display_statistics(Statistics::DailyStats *stats)
     }
   else
     {
-      size_t size = strftime(s, 200, "%c", &stats->start);
+      size_t size = strftime(s, 200, "%X", &stats->start);
       if (size != 0)
         {
           start_time_label->set_text(s);
@@ -390,7 +397,7 @@ StatisticsDialog::display_statistics(Statistics::DailyStats *stats)
           start_time_label->set_text("???");
         }
   
-      size = strftime(s, 200, "%c", &stats->stop);
+      size = strftime(s, 200, "%X", &stats->stop);
       if (size != 0)
         {
           end_time_label->set_text(s);

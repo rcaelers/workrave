@@ -25,8 +25,18 @@ GtkUtil::create_stock_button_without_text(const Gtk::StockID& stock_id)
   Gtk::Button *btn = new Gtk::Button();
   Gtk::Image *img = new Gtk::Image(stock_id, 
                                    Gtk::ICON_SIZE_BUTTON);
-  // FIXME: manage(img) ??
+  Gtk::manage(img);
   btn->add(*img);
   return btn;
 }
 
+Gtk::Widget *
+GtkUtil::create_label_with_icon(const char *text, const char *icon)
+{
+  Gtk::HBox *box = new Gtk::HBox(false, 3);
+  Gtk::Label *lab = Gtk::manage(new Gtk::Label(text));
+  Gtk::Image *img = Gtk::manage(new Gtk::Image(icon));
+  box->pack_start(*img, false, false, 0);
+  box->pack_start(*lab, false, false, 0);
+  return box;
+}

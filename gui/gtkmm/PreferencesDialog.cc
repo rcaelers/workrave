@@ -37,6 +37,7 @@
 #include "TimeEntry.hh"
 #include "Util.hh"
 #include "MainWindow.hh"
+#include "GtkUtil.hh"
 
 #ifdef HAVE_DISTRIBUTION
 #include "NetworkPreferencePage.hh"
@@ -175,12 +176,8 @@ PreferencesDialog::create_timer_page()
       // Label
       GUIControl::TimerData *timer = &GUIControl::get_instance()->timers[i];
       
-      Gtk::HBox *box = manage(new Gtk::HBox(false, 3));
-      Gtk::Label *lab = manage(new Gtk::Label(_(timer->label)));
-      Gtk::Image *img = manage(new Gtk::Image(timer->icon));
-      box->pack_start(*img, false, false, 0);
-      box->pack_start(*lab, false, false, 0);
-
+      Gtk::Widget *box = manage(GtkUtil::create_label_with_icon
+                                (_(timer->label), timer->icon.c_str()));
       TimerPreferencesPanel *tp = manage(new TimerPreferencesPanel(GUIControl::BreakId(i)));
       box->show_all();
       tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*tp, *box));

@@ -26,6 +26,9 @@ class GtkUtil
 public:
   static Gtk::Button *
   create_stock_button_without_text(const Gtk::StockID& stock_id);
+
+  static Gtk::Widget *
+  create_label_with_icon(const char *text, const char *icon);
 };
 
 #endif // GTKMMGUI_HH
