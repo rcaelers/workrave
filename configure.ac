@@ -12,7 +12,7 @@ dnl Demand at least version 2.50 of autoconf.
 AC_PREREQ(2.50)
         
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(workrave, 0.1.99)
+AM_INIT_AUTOMAKE(workrave, 0.2.0)
 
                                    
 dnl some command line options.                           
