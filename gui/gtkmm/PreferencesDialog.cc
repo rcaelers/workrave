@@ -55,10 +55,14 @@ PreferencesDialog::PreferencesDialog()
   TRACE_ENTER("PreferencesDialog::PreferencesDialog");
 
   // Pages
-  Gtk::Widget *gui_page = manage(create_gui_page());
   Gtk::Widget *timer_page = manage(create_timer_page());
+  Gtk::Widget *gui_general_page = manage(create_gui_page());
+  Gtk::Notebook *gui_page = manage(new Gtk::Notebook());
+  gui_page->append_page(*gui_general_page, _("General"));
+  
 #ifdef HAVE_X
-  Gtk::Widget *applet_page = manage(create_applet_page());
+  Gtk::Widget *gui_applet_page = manage(create_applet_page());
+  gui_page->append_page(*gui_applet_page, _("Applet"));
 #endif
 #ifdef HAVE_DISTRIBUTION
   Gtk::Widget *network_page = manage(create_network_page());

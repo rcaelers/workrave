@@ -76,8 +76,7 @@ void
 IconListNotebook::add_page(const char *name, Glib::RefPtr<Gdk::Pixbuf> pixbuf,
                            Gtk::Widget &widget)
 {
-  notebook.pages().push_back(Gtk::Notebook_Helpers::TabElem
-                             (widget, name));
+  notebook.append_page(widget, name);
   Gtk::TreeRow row = *list_store->append();
   row[model_columns.text] = Glib::ustring(name);
   row[model_columns.pixbuf] = pixbuf;

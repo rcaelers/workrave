@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-03-22 00:51+0100\n"
+"POT-Creation-Date: 2003-03-22 20:25+0100\n"
 "PO-Revision-Date: 2002-11-05 17:58-0800\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -166,7 +166,7 @@ msgstr "Transsaltu"
 msgid "Postpone"
 msgstr "Prokrastu"
 
-#: gui/gtkmm/GUI.cc:422
+#: gui/gtkmm/GUI.cc:441
 msgid "I could not initialize Bonobo"
 msgstr ""
 
@@ -272,18 +272,13 @@ msgstr "Konektu je startigo"
 msgid "Network log"
 msgstr "Reta protokolo"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:46
+#: gui/gtkmm/NetworkPreferencePage.cc:75
 msgid "Enable networking"
 msgstr "Validigu retumadon"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:79
+#: gui/gtkmm/NetworkPreferencePage.cc:79 gui/gtkmm/PreferencesDialog.cc:61
 msgid "General"
 msgstr "Ĝenerala"
-
-#. Identity
-#: gui/gtkmm/NetworkPreferencePage.cc:82
-msgid "Identity"
-msgstr "Identeco"
 
 #: gui/gtkmm/NetworkPreferencePage.cc:86
 #, fuzzy
@@ -342,49 +337,49 @@ msgstr "Pordo"
 msgid "Preferences"
 msgstr ""
 
-#. Notebook
-#: gui/gtkmm/PreferencesDialog.cc:68 gui/gtkmm/TimerPreferencesPanel.cc:173
-msgid "Timers"
-msgstr "Horloĝoj"
-
-#: gui/gtkmm/PreferencesDialog.cc:69
-msgid "User interface"
-msgstr "Uzula inferfaco"
-
-#: gui/gtkmm/PreferencesDialog.cc:71
+#: gui/gtkmm/PreferencesDialog.cc:65 gui/gtkmm/PreferencesDialog.cc:75
 msgid "Applet"
 msgstr ""
 
-#: gui/gtkmm/PreferencesDialog.cc:74
+#. Notebook
+#: gui/gtkmm/PreferencesDialog.cc:72 gui/gtkmm/TimerPreferencesPanel.cc:173
+msgid "Timers"
+msgstr "Horloĝoj"
+
+#: gui/gtkmm/PreferencesDialog.cc:73
+msgid "User interface"
+msgstr "Uzula inferfaco"
+
+#: gui/gtkmm/PreferencesDialog.cc:78
 msgid "Network"
 msgstr "Reto"
 
-#: gui/gtkmm/PreferencesDialog.cc:113
+#: gui/gtkmm/PreferencesDialog.cc:117
 msgid "The main window stays always on top of other windows"
 msgstr "La ĉefa fenestro ĉiam restas antaŭ ol la aliaj fenestroj"
 
-#: gui/gtkmm/PreferencesDialog.cc:122
+#: gui/gtkmm/PreferencesDialog.cc:126
 msgid "No sounds"
 msgstr "Ne sonoj"
 
-#: gui/gtkmm/PreferencesDialog.cc:124
+#: gui/gtkmm/PreferencesDialog.cc:128
 msgid "Play sounds using sound card"
 msgstr "Ludu sonojn uzante sonkarton"
 
-#: gui/gtkmm/PreferencesDialog.cc:126
+#: gui/gtkmm/PreferencesDialog.cc:130
 msgid "Play sounds using built-in speaker"
 msgstr "Ludu sonojn uzante en-komputila laŭtparolilo"
 
-#: gui/gtkmm/PreferencesDialog.cc:142
+#: gui/gtkmm/PreferencesDialog.cc:146
 msgid "Hide main window at start-up"
 msgstr "Kaŝu ĉefan fenestron ĉe startigo"
 
 #. Options
-#: gui/gtkmm/PreferencesDialog.cc:149 gui/gtkmm/TimerPreferencesPanel.cc:128
+#: gui/gtkmm/PreferencesDialog.cc:153 gui/gtkmm/TimerPreferencesPanel.cc:128
 msgid "Options"
 msgstr "Opcioj"
 
-#: gui/gtkmm/PreferencesDialog.cc:152
+#: gui/gtkmm/PreferencesDialog.cc:156
 msgid "Sound:"
 msgstr ""
 
@@ -655,6 +650,9 @@ msgstr "Montru _protokolon"
 #, fuzzy
 msgid "_Statistics"
 msgstr "Statistiko"
+
+#~ msgid "Identity"
+#~ msgstr "Identeco"
 
 #~ msgid "You can configure the user interface related settings from here."
 #~ msgstr "Vi povas konfiguri la uzulajn inferfacajn agordojn de tie ĉi."

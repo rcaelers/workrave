@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-03-22 00:53+0100\n"
+"POT-Creation-Date: 2003-03-22 20:26+0100\n"
 "PO-Revision-Date: 2003-03-04 22:16+0100\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -162,7 +162,7 @@ msgstr "Overslaan"
 msgid "Postpone"
 msgstr "Uitstellen"
 
-#: gui/gtkmm/GUI.cc:422
+#: gui/gtkmm/GUI.cc:441
 msgid "I could not initialize Bonobo"
 msgstr "Bonobo kon niet geïnitialiseerd worden"
 
@@ -266,18 +266,13 @@ msgstr "Maak verbinding bij opstarten"
 msgid "Network log"
 msgstr "Netwerk logboek"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:46
+#: gui/gtkmm/NetworkPreferencePage.cc:75
 msgid "Enable networking"
 msgstr "Activeer netwerk ondersteuning"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:79
+#: gui/gtkmm/NetworkPreferencePage.cc:79 gui/gtkmm/PreferencesDialog.cc:61
 msgid "General"
 msgstr "Algemeen"
-
-#. Identity
-#: gui/gtkmm/NetworkPreferencePage.cc:82
-msgid "Identity"
-msgstr "Identiteit"
 
 #: gui/gtkmm/NetworkPreferencePage.cc:86
 msgid "Username:"
@@ -332,49 +327,49 @@ msgstr "Poort"
 msgid "Preferences"
 msgstr "Voorkeuren"
 
-#. Notebook
-#: gui/gtkmm/PreferencesDialog.cc:68 gui/gtkmm/TimerPreferencesPanel.cc:173
-msgid "Timers"
-msgstr "Klokken"
-
-#: gui/gtkmm/PreferencesDialog.cc:69
-msgid "User interface"
-msgstr "Gebruikers interface"
-
-#: gui/gtkmm/PreferencesDialog.cc:71
+#: gui/gtkmm/PreferencesDialog.cc:65 gui/gtkmm/PreferencesDialog.cc:75
 msgid "Applet"
 msgstr "Applet"
 
-#: gui/gtkmm/PreferencesDialog.cc:74
+#. Notebook
+#: gui/gtkmm/PreferencesDialog.cc:72 gui/gtkmm/TimerPreferencesPanel.cc:173
+msgid "Timers"
+msgstr "Klokken"
+
+#: gui/gtkmm/PreferencesDialog.cc:73
+msgid "User interface"
+msgstr "Gebruikers interface"
+
+#: gui/gtkmm/PreferencesDialog.cc:78
 msgid "Network"
 msgstr "Netwerk"
 
-#: gui/gtkmm/PreferencesDialog.cc:113
+#: gui/gtkmm/PreferencesDialog.cc:117
 msgid "The main window stays always on top of other windows"
 msgstr "Het hoofdvenster blijft boven alle andere vensters"
 
-#: gui/gtkmm/PreferencesDialog.cc:122
+#: gui/gtkmm/PreferencesDialog.cc:126
 msgid "No sounds"
 msgstr "Geen geluid"
 
-#: gui/gtkmm/PreferencesDialog.cc:124
+#: gui/gtkmm/PreferencesDialog.cc:128
 msgid "Play sounds using sound card"
 msgstr "Speel geluiden met behulp van de geluidskaart"
 
-#: gui/gtkmm/PreferencesDialog.cc:126
+#: gui/gtkmm/PreferencesDialog.cc:130
 msgid "Play sounds using built-in speaker"
 msgstr "Speel geluiden met behulp van de ingebouwde speaker"
 
-#: gui/gtkmm/PreferencesDialog.cc:142
+#: gui/gtkmm/PreferencesDialog.cc:146
 msgid "Hide main window at start-up"
 msgstr "Verberg het hoofdvenster tijdens het opstarten"
 
 #. Options
-#: gui/gtkmm/PreferencesDialog.cc:149 gui/gtkmm/TimerPreferencesPanel.cc:128
+#: gui/gtkmm/PreferencesDialog.cc:153 gui/gtkmm/TimerPreferencesPanel.cc:128
 msgid "Options"
 msgstr "Opties"
 
-#: gui/gtkmm/PreferencesDialog.cc:152
+#: gui/gtkmm/PreferencesDialog.cc:156
 msgid "Sound:"
 msgstr "Geluid:"
 
@@ -624,6 +619,9 @@ msgstr "Toon _logboek"
 #: gui/gnome/GNOME_WorkraveApplet.xml.in.h:14
 msgid "_Statistics"
 msgstr "Statistieken"
+
+#~ msgid "Identity"
+#~ msgstr "Identiteit"
 
 #~ msgid "You can configure the user interface related settings from here."
 #~ msgstr ""

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
-"POT-Creation-Date: 2003-03-22 00:53+0100\n"
+"POT-Creation-Date: 2003-03-22 20:26+0100\n"
 "PO-Revision-Date: 2003-03-04 18:50+0100\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Johannes Rohr <j.rohr@comlink.apc.org>\n"
@@ -164,7 +164,7 @@ msgstr "Überspringen"
 msgid "Postpone"
 msgstr "Aufschieben"
 
-#: gui/gtkmm/GUI.cc:422
+#: gui/gtkmm/GUI.cc:441
 msgid "I could not initialize Bonobo"
 msgstr "Konnte Bonobo nicht initialisieren"
 
@@ -269,18 +269,13 @@ msgstr "Bei Programmstart verbinden"
 msgid "Network log"
 msgstr "Netzwerkprotokoll"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:46
+#: gui/gtkmm/NetworkPreferencePage.cc:75
 msgid "Enable networking"
 msgstr "Netzwerk verwenden"
 
-#: gui/gtkmm/NetworkPreferencePage.cc:79
+#: gui/gtkmm/NetworkPreferencePage.cc:79 gui/gtkmm/PreferencesDialog.cc:61
 msgid "General"
 msgstr "Allgemein"
-
-#. Identity
-#: gui/gtkmm/NetworkPreferencePage.cc:82
-msgid "Identity"
-msgstr "Identität"
 
 #: gui/gtkmm/NetworkPreferencePage.cc:86
 msgid "Username:"
@@ -335,49 +330,49 @@ msgstr "Port"
 msgid "Preferences"
 msgstr "Vorlieben"
 
-#. Notebook
-#: gui/gtkmm/PreferencesDialog.cc:68 gui/gtkmm/TimerPreferencesPanel.cc:173
-msgid "Timers"
-msgstr "Zeitmesser"
-
-#: gui/gtkmm/PreferencesDialog.cc:69
-msgid "User interface"
-msgstr "Benutzervorlieben"
-
-#: gui/gtkmm/PreferencesDialog.cc:71
+#: gui/gtkmm/PreferencesDialog.cc:65 gui/gtkmm/PreferencesDialog.cc:75
 msgid "Applet"
 msgstr "Applet"
 
-#: gui/gtkmm/PreferencesDialog.cc:74
+#. Notebook
+#: gui/gtkmm/PreferencesDialog.cc:72 gui/gtkmm/TimerPreferencesPanel.cc:173
+msgid "Timers"
+msgstr "Zeitmesser"
+
+#: gui/gtkmm/PreferencesDialog.cc:73
+msgid "User interface"
+msgstr "Benutzervorlieben"
+
+#: gui/gtkmm/PreferencesDialog.cc:78
 msgid "Network"
 msgstr "Netzwerk"
 
-#: gui/gtkmm/PreferencesDialog.cc:113
+#: gui/gtkmm/PreferencesDialog.cc:117
 msgid "The main window stays always on top of other windows"
 msgstr "Das Hauptfenster bleibt immer über allen anderen Fenstern"
 
-#: gui/gtkmm/PreferencesDialog.cc:122
+#: gui/gtkmm/PreferencesDialog.cc:126
 msgid "No sounds"
 msgstr "Keine Klänge"
 
-#: gui/gtkmm/PreferencesDialog.cc:124
+#: gui/gtkmm/PreferencesDialog.cc:128
 msgid "Play sounds using sound card"
 msgstr "Klänge mittels der Soundkarte abspielen"
 
-#: gui/gtkmm/PreferencesDialog.cc:126
+#: gui/gtkmm/PreferencesDialog.cc:130
 msgid "Play sounds using built-in speaker"
 msgstr "Klänge mit dem PC-Lautsprecher abspielen"
 
-#: gui/gtkmm/PreferencesDialog.cc:142
+#: gui/gtkmm/PreferencesDialog.cc:146
 msgid "Hide main window at start-up"
 msgstr "Hauptfenster beim Start verstecken"
 
 #. Options
-#: gui/gtkmm/PreferencesDialog.cc:149 gui/gtkmm/TimerPreferencesPanel.cc:128
+#: gui/gtkmm/PreferencesDialog.cc:153 gui/gtkmm/TimerPreferencesPanel.cc:128
 msgid "Options"
 msgstr "Optionen"
 
-#: gui/gtkmm/PreferencesDialog.cc:152
+#: gui/gtkmm/PreferencesDialog.cc:156
 msgid "Sound:"
 msgstr "Klang:"
 
@@ -624,6 +619,9 @@ msgstr "_Protokoll anzeigen"
 #: gui/gnome/GNOME_WorkraveApplet.xml.in.h:14
 msgid "_Statistics"
 msgstr "_Statistik"
+
+#~ msgid "Identity"
+#~ msgstr "Identität"
 
 #~ msgid "You can configure the user interface related settings from here."
 #~ msgstr ""

@@ -40,12 +40,6 @@ NetworkPreferencePage::NetworkPreferencePage()
 {
   TRACE_ENTER("NetworkPreferencePage::NetworkPreferencePage");
 
-  // Main switch
-  enabled_cb = manage(new Gtk::CheckButton());
-  Gtk::Label *ena_lab
-    = manage(GtkUtil::create_label(_("Enable networking"), true));
-  enabled_cb->add(*ena_lab);
-
   Gtk::Notebook *tnotebook = manage(new Gtk::Notebook());
   tnotebook->set_tab_pos(Gtk::POS_TOP);  
 
@@ -56,7 +50,6 @@ NetworkPreferencePage::NetworkPreferencePage()
 
   init_page_values();
 
-  pack_start(*enabled_cb, false, false, 0);
   pack_start(*tnotebook, true, true, 0);
 
   tnotebook->show_all();
@@ -76,10 +69,17 @@ NetworkPreferencePage::~NetworkPreferencePage()
 void
 NetworkPreferencePage::create_general_page(Gtk::Notebook *tnotebook)
 {
+  // Main switch
+  enabled_cb = manage(new Gtk::CheckButton());
+  Gtk::Label *ena_lab
+    = manage(GtkUtil::create_label(_("Enable networking"), true));
+  enabled_cb->add(*ena_lab);
+
+
   Gtk::Label *lab = manage(new Gtk::Label(_("General")));
 
   // Identity
-  HigCategoryPanel *id_frame = manage(new HigCategoryPanel(_("Identity")));
+  HigCategoryPanel *id_frame = manage(new HigCategoryPanel(*enabled_cb));
   id_frame->set_border_width(12);
   username_entry = manage(new Gtk::Entry());
   password_entry = manage(new Gtk::Entry());
