@@ -390,6 +390,8 @@ GUIControl::heartbeat()
       string id = i->first;
       TimerInfo &info = i->second;
       
+      timer_action(id, info);
+
       if (id == "daily_limit")
         {
           if (info.event == TIMER_EVENT_NATURAL_RESET ||
@@ -402,8 +404,6 @@ GUIControl::heartbeat()
               stats->start_new_day();
             }
         }
-
-      timer_action(id, info);
 
     }
 

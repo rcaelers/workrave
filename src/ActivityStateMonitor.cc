@@ -113,7 +113,7 @@ ActivityStateMonitor::mouse_notify(int x, int y, int wheel_delta)
 {
   lock.lock();
   int sensitivity = 3;
-  if ((abs(x - prev_x) >= sensitivity && abs(y - prev_y) >= sensitivity)
+  if ((abs(x - prev_x) >= sensitivity || abs(y - prev_y) >= sensitivity)
       || wheel_delta != 0)
     {
       int delta_x = x - prev_x;
