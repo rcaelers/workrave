@@ -132,8 +132,8 @@
     <description xml:lang="en">Turn your head left and keep it there for 2 seconds. Then turn your head right and keep it there for 2 seconds.</description>
     <description xml:lang="nl">Draai je hoofd naar links en houdt dat 2 seconden vast. Draai daarna je hoofd naar rechts en houdt dat 2 seconden vast.</description>
     <sequence duration="20">
-       <image src="turn-head.png" duration="2"/>
-       <image src="turn-head.png" duration="2" mirrorx="yes"/>
+       <image src="turn-head-1.png" duration="2"/>
+       <image src="turn-head-2.png" duration="2"/>
     </sequence>
   </exercise>
   <exercise>
