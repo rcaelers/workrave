@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2002, 2003 Rob Caelers & Raymond Penners
+# Copyright (C) 2002, 2003, 2004 Rob Caelers & Raymond Penners
 #
 # $Id$
 #
@@ -21,7 +21,7 @@ libworkrave_frontend_common_win32_a_SOURCES = \
 libworkrave_frontend_common_win32_a_CXXFLAGS = \
 			-DWORKRAVE_DATADIR="\"${pkgdatadir}\"" \
 			-D_XOPEN_SOURCE=600 \
-			-W -I.. -I../../includes @WR_COMMON_CFLAGS@ \
+			-W -I.. -I../../include @WR_COMMON_CFLAGS@ \
 			@WR_BACKEND_INCLUDES@  
 
 endif

@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl
-dnl Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
+dnl Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
 dnl
 dnl
 dnl $Id$
@@ -664,6 +664,7 @@ AC_OUTPUT(Makefile \
           frontend/plugin/exercises/Makefile \
           frontend/plugin/exercises/common/Makefile \
           frontend/plugin/exercises/common/share/Makefile \
+          frontend/plugin/exercises/common/share/exercises.xml \
           frontend/plugin/exercises/common/src/Makefile \
           frontend/plugin/exercises/gtkmm/Makefile \
           frontend/plugin/exercises/gtkmm/src/Makefile \

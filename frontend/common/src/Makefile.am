@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2002, 2003 Rob Caelers & Raymond Penners
+# Copyright (C) 2002, 2003, 2004 Rob Caelers & Raymond Penners
 #
 # $Id$
 #
@@ -26,4 +26,4 @@ libworkrave_frontend_common_a_CXXFLAGS = \
 			@WR_COMMON_CFLAGS@ \
 			@WR_BACKEND_INCLUDES@ @GNOMEUI_CFLAGS@ @GTK_CFLAGS@ \
 			@GLIB_CFLAGS@ \
-			-I$(top_srcdir)/src/shared/win32/harpoon/
+			-I$(top_srcdir)/common/win32/harpoon/include

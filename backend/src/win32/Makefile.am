@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
 #
 # $Id$
 #
@@ -20,7 +20,7 @@ libworkrave_backend_win32_a_CXXFLAGS = \
 			-W -I.. -I../../include \
 			-DWORKRAVE_DATADIR="\"${pkgdatadir}\"" \
 			-D_XOPEN_SOURCE=600 \
-			-I$(top_srcdir)/src/shared/win32/harpoon/ \
+			-I$(top_srcdir)/common/win32/harpoon/include/ \
 		  	@WR_COMMON_CFLAGS@ @GLIB_CFLAGS@
 
 EXTRA_DIST = 		$(wildcard *.cc) $(wildcard *.rc) \

@@ -1,7 +1,7 @@
 /*
  * crashlog.c
  *
- * Copyright (C) 2003 Rob Caelers <robc@krandor.org>
+ * Copyright (C) 2003, 2004 Rob Caelers <robc@krandor.org>
  * All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -30,7 +30,7 @@ static const char rcsid[] = "$Id$";
 #include <assert.h>
 
 #include "crashlog.h"
-#include "harpoon/harpoon.h"
+#include "harpoon.h"
 
 static void unwind_stack(FILE *log, HANDLE process, PCONTEXT context);
 static void dump_registers(FILE *log, PCONTEXT context);
