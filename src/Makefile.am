@@ -31,7 +31,7 @@ DEFS = @DEFS@ -DGNOMELOCALEDIR=\""$(datadir)/locale"\" -I$(top_srcdir)/intl
 
 
 if PLATFORM_WIN32
-WINDRES ?= "winres"
+WINDRES ?= "windres"
 .rc.o:
 	${WINDRES} -o $@ $<
 

@@ -187,7 +187,7 @@ autoconf --force || {
 }
 
 
-conf_flags="--build=i686-pc-mingw32  --host=i686-pc-mingw32 --enable-maintainer-mode --prefix=/local --enable-debug --without-x --enable-distribution"
+conf_flags="--build=i686-pc-mingw32  --host=i686-pc-mingw32 --enable-maintainer-mode --prefix=/local --disable-debug --without-x --enable-distribution"
  
 if test x$NOCONFIGURE = x; then
     

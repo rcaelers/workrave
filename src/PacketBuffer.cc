@@ -21,6 +21,8 @@ static const char rcsid[] = "$Id$";
 #endif
 
 #include "debug.hh"
+
+#include <string.h>
 #include <assert.h>
 
 #include "PacketBuffer.hh"
