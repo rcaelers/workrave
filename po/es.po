@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-21 10:57+0200\n"
+"POT-Creation-Date: 2004-04-23 10:38+0200\n"
 "PO-Revision-Date: 2004-03-20 02:18+0100\n"
 "Last-Translator:  <>\n"
 "Language-Team: \n"
@@ -173,7 +173,7 @@ msgstr "Acerca de..."
 msgid "Preferences"
 msgstr "Preferencias"
 
-#: frontend/gtkmm/src/Menus.cc:707
+#: frontend/gtkmm/src/Menus.cc:710
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -852,9 +852,9 @@ msgstr "Estiramiento hacia atrás de hombros"
 
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:2
 msgid ""
-"Close your eyes and breath out as long as you can and try to relax. When "
+"Close your eyes and breathe out as long as you can and try to relax. When "
 "breathing in, again do it as slowly as possible. Try to count slowly to 8 "
-"for each time you breath in and out. To extra relax your eyes, try closing "
+"for each time you breathe in and out. To extra relax your eyes, try closing "
 "them in micro pauses too."
 msgstr ""
 "Cierre los ojos, expire todo lo que pueda y trate de relajarse. Cuando "
@@ -878,7 +878,7 @@ msgstr "Estiramiento de dedos"
 
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:5
 msgid ""
-"Go stand face to a wall (or something) and put your hands at shoulder hight "
+"Go stand face to a wall (or something) and put your hands at shoulder height "
 "against it with your elbows slightly bended. Push your body to the wall, "
 "without changing the angle of your elbows. Then push your body back from the "
 "wall again without changing the angle of the elbows."
@@ -925,7 +925,7 @@ msgstr ""
 msgid ""
 "Look at the upper left corner of the outside border of your monitor. Follow "
 "the border slowly to the upper right corner. Continue to the next corner, "
-"until you got around it two times. Then, reverse the excersise."
+"until you got around it two times. Then, reverse the exercise."
 msgstr ""
 "Mire a la esquina superior izquierda del borde externo de su monitor. Siga "
 "el borde lentamente hasta la esquina superior derecha. Siga hasta la esquina "
@@ -953,7 +953,7 @@ msgid "Move the eyes"
 msgstr "Movimiento de ojos"
 
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:13
-msgid "Move the shoulderblades"
+msgid "Move the shoulder blades"
 msgstr "Movimiento de omóplatos"
 
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:14
@@ -1004,9 +1004,9 @@ msgstr "Estiramiento de hombros y brazos"
 
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:22
 msgid ""
-"Spin your right arm slowly round like a plane propellor beside your body. Do "
-"this 4 times clockwise, 4 times counter clockwise and relax for a few "
-"seconds. Repeat with the left arm."
+"Spin your right arm slowly round like a plane propeller beside your body. Do "
+"this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
+"with the left arm."
 msgstr ""
 "Gire su brazo derecho lentamente como la hélice de un avión. Hágalo 4 veces "
 "en el sentido de las agujas del reloj, 4 en sentido contrario, y descanse "
@@ -1054,7 +1054,7 @@ msgid "Stretch your back"
 msgstr "Estiramiento de espalda"
 
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:27
-msgid "Train focussing the eyes"
+msgid "Train focusing the eyes"
 msgstr "Entrenamiento de enfoque de ojos"
 
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:28

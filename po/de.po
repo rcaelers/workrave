@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.4.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-21 10:57+0200\n"
+"POT-Creation-Date: 2004-04-23 10:38+0200\n"
 "PO-Revision-Date: 2004-03-19 20:15+0100\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -214,7 +214,7 @@ msgid "Preferences"
 msgstr "Vorlieben"
 
 # src/app/gtkmm/Menus.cc:605
-#: frontend/gtkmm/src/Menus.cc:707
+#: frontend/gtkmm/src/Menus.cc:710
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -1048,9 +1048,9 @@ msgstr "Schultern rückwärts strecken"
 # src/app/shared/exercises/exercises.xml.in.h:2
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:2
 msgid ""
-"Close your eyes and breath out as long as you can and try to relax. When "
+"Close your eyes and breathe out as long as you can and try to relax. When "
 "breathing in, again do it as slowly as possible. Try to count slowly to 8 "
-"for each time you breath in and out. To extra relax your eyes, try closing "
+"for each time you breathe in and out. To extra relax your eyes, try closing "
 "them in micro pauses too."
 msgstr ""
 "Schließen Sie die Augen, atmen Sie so tief aus, wie sie können und versuchen "
@@ -1079,7 +1079,7 @@ msgstr "Finger strecken"
 # src/app/shared/exercises/exercises.xml.in.h:5
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:5
 msgid ""
-"Go stand face to a wall (or something) and put your hands at shoulder hight "
+"Go stand face to a wall (or something) and put your hands at shoulder height "
 "against it with your elbows slightly bended. Push your body to the wall, "
 "without changing the angle of your elbows. Then push your body back from the "
 "wall again without changing the angle of the elbows."
@@ -1131,7 +1131,7 @@ msgstr ""
 msgid ""
 "Look at the upper left corner of the outside border of your monitor. Follow "
 "the border slowly to the upper right corner. Continue to the next corner, "
-"until you got around it two times. Then, reverse the excersise."
+"until you got around it two times. Then, reverse the exercise."
 msgstr ""
 "Schauen Sie auf die obere linke Ecke des Außenrands Ihres Bildschirms. "
 "Folgen Sie dem Rand langsam bis zur oberen rechten Ecke. Setzen Sie bis zur "
@@ -1164,7 +1164,7 @@ msgstr "Die Augen bewegen"
 
 # src/app/shared/exercises/exercises.xml.in.h:13
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:13
-msgid "Move the shoulderblades"
+msgid "Move the shoulder blades"
 msgstr "Die Schulterblätter bewegen"
 
 # src/app/shared/exercises/exercises.xml.in.h:14
@@ -1225,9 +1225,9 @@ msgstr "Schulter-/Armstreckung"
 # src/app/shared/exercises/exercises.xml.in.h:22
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:22
 msgid ""
-"Spin your right arm slowly round like a plane propellor beside your body. Do "
-"this 4 times clockwise, 4 times counter clockwise and relax for a few "
-"seconds. Repeat with the left arm."
+"Spin your right arm slowly round like a plane propeller beside your body. Do "
+"this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
+"with the left arm."
 msgstr ""
 "Rotieren Sie den rechten Arm langsam im Kreis neben dem Körper wie einen "
 "Flugzeugpropeller. Machen Sie dies viermal im Uhrzeigersinn, viermal gegen "
@@ -1283,7 +1283,7 @@ msgstr "Den Rücken dehnen"
 
 # src/app/shared/exercises/exercises.xml.in.h:27
 #: frontend/plugin/exercises/common/share/exercises.xml.in.h:27
-msgid "Train focussing the eyes"
+msgid "Train focusing the eyes"
 msgstr "Das Fokussieren mit den Augen üben"
 
 # src/app/shared/exercises/exercises.xml.in.h:28
