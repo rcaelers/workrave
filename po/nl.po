@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-02-22 09:24+0100\n"
+"POT-Creation-Date: 2003-02-22 10:19+0100\n"
 "PO-Revision-Date: 2003-02-20 20:46+0100\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
