@@ -27,6 +27,10 @@
 class TimerInterface;
 class TimeBar;
 class Frame;
+namespace Gtk
+{
+  class Label;
+}
 
 class MicroPauseWindow :
   public BreakWindow,

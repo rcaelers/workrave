@@ -23,11 +23,13 @@
 
 #include "preinclude.h"
 
-#include "nls.h"
-#include "debug.hh"
-
 #include <unistd.h>
 #include <assert.h>
+
+#include <gtkmm/stock.h>
+
+#include "nls.h"
+#include "debug.hh"
 
 #include "ExercisesDialog.hh"
 #include "Exercise.hh"

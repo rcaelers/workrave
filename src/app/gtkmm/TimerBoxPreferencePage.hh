@@ -20,14 +20,18 @@
 #define TIMERBOXPREFERENCEPAGE_HH
 
 class Configurator;
+namespace Gtk
+{
+  class OptionMenu;
+  class SpinButton;
+  class CheckButton;
+}
 
 #include "CoreInterface.hh"
 #include "ConfiguratorListener.hh"
 
 #include <string>
-#include <gtkmm.h>
-
-using namespace std;
+#include <gtkmm/box.h>
 
 class TimerBoxPreferencePage
   : public Gtk::HBox,

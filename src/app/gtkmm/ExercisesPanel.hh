@@ -27,7 +27,15 @@
 
 #include "preinclude.h"
 #include "Exercise.hh"
-#include <gtkmm.h>
+
+#include <gtkmm/box.h>
+#include <gtkmm/buttonbox.h>
+#include <gtkmm/button.h>
+#include <gtkmm/image.h>
+#include <gtkmm/label.h>
+#include <gtkmm/frame.h>
+#include <gtkmm/progressbar.h>
+#include <gtkmm/sizegroup.h>
 
 class ExercisesPanel : public Gtk::HBox
 {

@@ -21,6 +21,11 @@ static const char rcsid[] = "$Id$";
 #endif
 
 #include "preinclude.h"
+
+#include <gtkmm/label.h>
+#include <gtkmm/image.h>
+#include <gtkmm/box.h>
+
 #include "debug.hh"
 #include "nls.h"
 

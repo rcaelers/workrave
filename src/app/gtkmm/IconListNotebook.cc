@@ -16,7 +16,8 @@
 // $Id$
 //
 
-#include <gtk/gtk.h>
+#include <gtkmm/scrolledwindow.h>
+
 #include "IconListNotebook.hh"
 #include "IconListCellRenderer.hh"
 

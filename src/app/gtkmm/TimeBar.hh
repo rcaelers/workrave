@@ -24,8 +24,6 @@
 #include <gdkmm/window.h>
 #include <gtkmm/box.h>
 
-using namespace std;
-
 class TimeBar : public Gtk::DrawingArea
 {
 public:
@@ -46,7 +44,7 @@ public:
   void set_progress(int value, int max_value);
   void set_secondary_progress(int value, int max_value);
   
-  void set_text(string text);
+  void set_text(std::string text);
 
   void update();
   void set_bar_color(ColorId color);

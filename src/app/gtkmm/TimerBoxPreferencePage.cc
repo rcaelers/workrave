@@ -22,6 +22,10 @@
 #include "config.h"
 #endif
 
+#include <gtkmm/optionmenu.h>
+#include <gtkmm/spinbutton.h>
+#include <gtkmm/checkbutton.h>
+
 #include "nls.h"
 #include "debug.hh"
 

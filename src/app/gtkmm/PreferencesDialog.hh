@@ -27,8 +27,10 @@
 #include "CoreInterface.hh"
 
 class TimeEntry;
-
-#include <gtkmm.h>
+namespace Gtk
+{
+  class OptionMenu;
+}
 
 class PreferencesDialog : public HigDialog
 {

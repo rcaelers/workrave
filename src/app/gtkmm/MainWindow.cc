@@ -731,5 +731,6 @@ MainWindow::on_configure_event(GdkEventConfigure *event)
   // receive the configure event signal without this. Donno why....
   (void) event;
   Widget::on_configure_event(event);
+  TRACE_EXIT();;
   return false;
 }

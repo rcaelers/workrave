@@ -21,21 +21,24 @@
 
 #include "preinclude.h"
 
-class TimeBar;
+#include <gtkmm/table.h>
 
 #include "CoreInterface.hh"
 #include "ConfiguratorListener.hh"
 
-#include <gtkmm.h>
-
-using namespace std;
+class TimeBar;
+namespace Gtk
+{
+  class Image;
+  class Bin;
+}
 
 class TimerBox :
   public ConfiguratorListener,
   public Gtk::Table
 {
 public:  
-  TimerBox(string name);
+  TimerBox(std::string name);
   ~TimerBox();
 
   void set_geometry(bool vertical, int size);

@@ -15,16 +15,19 @@
 //
 // $Id$
 
+#include "preinclude.h"
+
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
 
-#include "preinclude.h"
+#include <unistd.h>
+
+#include <gtkmm/spinbutton.h>
+#include <gtkmm/checkbutton.h>
 
 #include "nls.h"
 #include "debug.hh"
-
-#include <unistd.h>
 
 #include "CoreFactory.hh"
 #include "CoreInterface.hh"

@@ -26,14 +26,13 @@ class TimeBar;
 class NetworkLogDialog;
 class TimerBox;
 
-#include <gtkmm.h>
+#include <gtkmm/window.h>
+
 #ifdef WIN32
 #include <windows.h>
 #endif
 
 #include "ConfiguratorListener.hh"
-
-using namespace std;
 
 class MainWindow :
   public Gtk::Window,
@@ -88,7 +87,7 @@ private:
   //
   void init();
   void setup();
-  void config_changed_notify(string key);
+  void config_changed_notify(std::string key);
 
 
   // Events.
@@ -105,13 +104,13 @@ public:
   static void get_head_start_position(int &x, int &y);
   static void set_head_start_position(int x, int y);
   
-  static const string CFG_KEY_MAIN_WINDOW;
-  static const string CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP;
-  static const string CFG_KEY_MAIN_WINDOW_START_IN_TRAY;
-  static const string CFG_KEY_MAIN_WINDOW_X;
-  static const string CFG_KEY_MAIN_WINDOW_Y;
-  static const string CFG_KEY_MAIN_WINDOW_HEAD_X;
-  static const string CFG_KEY_MAIN_WINDOW_HEAD_Y;
+  static const std::string CFG_KEY_MAIN_WINDOW;
+  static const std::string CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP;
+  static const std::string CFG_KEY_MAIN_WINDOW_START_IN_TRAY;
+  static const std::string CFG_KEY_MAIN_WINDOW_X;
+  static const std::string CFG_KEY_MAIN_WINDOW_Y;
+  static const std::string CFG_KEY_MAIN_WINDOW_HEAD_X;
+  static const std::string CFG_KEY_MAIN_WINDOW_HEAD_Y;
   
 #ifdef WIN32
 public:

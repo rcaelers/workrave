@@ -21,13 +21,16 @@
 #include "config.h"
 #endif
 
-using namespace std;
+#include <unistd.h>
+#include <assert.h>
+
+#include <gtkmm/textview.h>
+#include <gtkmm/textbuffer.h>
+#include <gtkmm/adjustment.h>
+#include <gtkmm/stock.h>
 
 #include "nls.h"
 #include "debug.hh"
-
-#include <unistd.h>
-#include <assert.h>
 
 #include "NetworkLogDialog.hh"
 
@@ -80,7 +83,7 @@ NetworkLogDialog::~NetworkLogDialog()
 
 
 void
-NetworkLogDialog::distribution_log(string msg)
+NetworkLogDialog::distribution_log(std::string msg)
 {
   Gtk::TextIter iter = text_buffer->end();
   iter = text_buffer->insert(iter, msg);

@@ -19,6 +19,10 @@
 #ifndef ICON_LIST_CELL_RENDERER_HH
 #define ICON_LIST_CELL_RENDERER_HH
 
+#include <gtkmm/cellrenderer.h>
+#include <gtkmm/cellrendererpixbuf.h>
+#include <gtkmm/cellrenderertext.h>
+
 class IconListCellRenderer : public Gtk::CellRenderer
 {
 public:

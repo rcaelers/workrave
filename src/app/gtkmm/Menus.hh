@@ -33,9 +33,8 @@ class MainWindow;
 class AppletWindow;
 class ExercisesDialog;
 
-#include <gtkmm.h>
+#include <gtkmm/checkmenuitem.h>
 
-using namespace std;
 
 #define MAX_CHECKMENUS 4
 

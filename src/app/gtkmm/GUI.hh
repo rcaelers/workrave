@@ -23,7 +23,8 @@
 
 #include <sigc++/object.h>
 #include <glibmm.h>
-#include <gtkmm.h>
+
+#include <gtkmm/tooltips.h>
 
 #include "HeadInfo.hh"
 #include "Mutex.hh"

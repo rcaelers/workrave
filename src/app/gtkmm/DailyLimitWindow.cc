@@ -26,6 +26,11 @@ static const char rcsid[] = "$Id$";
 
 #include "DailyLimitWindow.hh"
 
+#include <gtkmm/label.h>
+#include <gtkmm/image.h>
+#include <gtkmm/box.h>
+#include <gtkmm/button.h>
+
 #include "BreakResponseInterface.hh"
 #include "WindowHints.hh"
 #include "Util.hh"

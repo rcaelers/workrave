@@ -22,12 +22,17 @@
 #include <stdio.h>
 
 #include "preinclude.h"
+#include "Hig.hh"
 
 class DistributionManagerInterface;
 class TimeEntry;
 
-#include <gtkmm.h>
-#include "Hig.hh"
+namespace Gtk
+{
+  class SpinButton;
+  class Entry;
+  class CheckButton;
+}
 
 class NetworkJoinDialog : public HigDialog
 {

@@ -53,8 +53,6 @@ static const char rcsid[] = "$Id$";
 #include "AppletWindow.hh"
 #endif
 
-#include <gtk/gtk.h>
-
 #ifdef HAVE_GCONF
 #include <gconf/gconf-client.h>
 #endif

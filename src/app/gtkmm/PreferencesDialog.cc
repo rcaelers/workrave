@@ -27,6 +27,11 @@
 #include <unistd.h>
 #include <assert.h>
 
+#include <gtkmm/notebook.h>
+#include <gtkmm/stock.h>
+#include <gtkmm/menu.h>
+#include <gtkmm/optionmenu.h>
+
 #include "GtkUtil.hh"
 #include "Hig.hh"
 #include "MainWindow.hh"

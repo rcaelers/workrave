@@ -19,7 +19,9 @@
 #ifndef HIG_HH
 #define HIG_HH
 
-#include <gtkmm.h>
+#include <gtkmm/dialog.h>
+#include <gtkmm/box.h>
+#include <gtkmm/sizegroup.h>
 
 class HigDialog : public Gtk::Dialog
 {

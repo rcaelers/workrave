@@ -29,8 +29,6 @@
 #include "Hig.hh"
 #include "ExercisesPanel.hh"
 
-#include <gtkmm.h>
-
 class ExercisesDialog : public HigDialog
 {
 public:  

@@ -19,7 +19,12 @@
 #ifndef ICON_LIST_NOTEBOOK_HH
 #define ICON_LIST_NOTEBOOK_HH
 
-#include <gtkmm.h>
+#include <gtkmm/box.h>
+#include <gtkmm/treemodel.h>
+#include <gtkmm/treemodelcolumn.h>
+#include <gtkmm/treeview.h>
+#include <gtkmm/notebook.h>
+#include <gtkmm/liststore.h>
 
 class IconListNotebook : public Gtk::HBox
 {

@@ -24,12 +24,22 @@
 
 #include "preinclude.h"
 
+#include <gtkmm/liststore.h>
+#include <gtkmm/box.h>
+
 class Configurator;
 class DistributionManagerInterface;
+namespace Gtk
+{
+  class Label;
+  class Entry;
+  class CheckButton;
+  class SpinButton;
+  class Button;
+  class Notebook;
+}
 
-#include <gtkmm.h>
-
-using namespace std;
+#include <gtkmm/box.h>
 
 class NetworkPreferencePage
   : public Gtk::VBox
@@ -78,8 +88,8 @@ private:
   
   struct ModelColumns : public Gtk::TreeModelColumnRecord
   {
-    Gtk::TreeModelColumn<string> hostname;
-    Gtk::TreeModelColumn<string> port;
+    Gtk::TreeModelColumn<std::string> hostname;
+    Gtk::TreeModelColumn<std::string> port;
 
     ModelColumns()
     {

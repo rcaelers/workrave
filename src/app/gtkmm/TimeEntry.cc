@@ -20,6 +20,9 @@
 #endif
 
 #include "preinclude.h"
+
+#include <gtkmm/spinbutton.h>
+
 #include "debug.hh"
 
 #include <unistd.h>

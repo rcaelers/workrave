@@ -22,14 +22,18 @@ static const char rcsid[] = "$Id$";
 #include "config.h"
 #endif
 
-#include "nls.h"
-#include "debug.hh"
-
 #include <unistd.h>
 #include <iostream>
 
-#include "TimerBox.hh"
+#include <gtkmm/image.h>
+#include <gtkmm/sizegroup.h>
+#include <gtkmm/button.h>
 
+#include "nls.h"
+#include "debug.hh"
+
+
+#include "TimerBox.hh"
 #include "TimeBar.hh"
 #include "Util.hh"
 #include "Text.hh"

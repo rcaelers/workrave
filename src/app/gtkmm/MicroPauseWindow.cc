@@ -16,11 +16,15 @@
 
 static const char rcsid[] = "$Id$";
 
+#include "preinclude.h"
+
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
 
-#include "preinclude.h"
+#include <gtkmm/label.h>
+#include <gtkmm/box.h>
+#include <gtkmm/image.h>
 
 #include "nls.h"
 #include "debug.hh"

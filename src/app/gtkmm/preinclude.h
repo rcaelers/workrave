@@ -3,7 +3,7 @@
 // Copyright (C) 2002, 2003 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
-// Time-stamp: <2003-07-05 19:39:53 robc>
+// Time-stamp: <2003-09-24 14:16:20 workrave>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

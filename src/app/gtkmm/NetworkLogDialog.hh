@@ -25,7 +25,15 @@
 
 class TimeEntry;
 
-#include <gtkmm.h>
+#include <gtkmm/scrolledwindow.h>
+#include <gtkmm/dialog.h>
+#include <gtkmm/textbuffer.h>
+
+namespace Gtk
+{
+  class TextView;
+}
+
 #include "DistributionLogListener.hh"
 
 class NetworkLogDialog :

@@ -26,6 +26,12 @@ class TimeBar;
 class Frame;
 class Dispatcher;
 
+namespace Gtk
+{
+  class Image;
+  class Label;
+}
+
 class PreludeWindow :
   public BreakWindow,
   public PreludeWindowInterface

@@ -24,10 +24,15 @@
 
 #include "StatisticsInterface.hh"
 
-#include <gtkmm.h>
-#include "Hig.hh"
+namespace Gtk
+{
+  class Label;
+  class Button;
+  class Calendar;
+  class Notebook;
+}
 
-using namespace std;
+#include "Hig.hh"
 
 class StatisticsDialog : public HigDialog
 {
@@ -76,7 +81,7 @@ private:
   void create_break_page(Gtk::Notebook *tnotebook);
   void create_activity_page(Gtk::Notebook *tnotebook);
 
-  void stream_distance(stringstream &stream, int pixels);
+  void stream_distance(std::stringstream &stream, int pixels);
   void get_calendar_day_index(int &idx, int &next, int &prev);
   void set_calendar_day_index(int idx);
   void on_calendar_month_changed();

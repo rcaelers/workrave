@@ -27,6 +27,17 @@
 #include <sstream>
 #include <unistd.h>
 
+#include <gtkmm/label.h>
+#include <gtkmm/entry.h>
+#include <gtkmm/checkbutton.h>
+#include <gtkmm/spinbutton.h>
+#include <gtkmm/button.h>
+#include <gtkmm/notebook.h>
+#include <gtkmm/treeview.h>
+#include <gtkmm/treeviewcolumn.h>
+#include <gtkmm/scrolledwindow.h>
+#include <gtkmm/stock.h>
+
 #include "NetworkPreferencePage.hh"
 #include "Hig.hh"
 #include "GtkUtil.hh"

@@ -32,12 +32,11 @@
 #include "Workrave-Control.h"
 #endif
 
-#include <gtkmm.h>
+#include <gtkmm/bin.h>
+#include <gtkmm/menu.h>
 #include <gtkmm/plug.h>
 
 class TimerBox;
-
-using namespace std;
 
 class AppletWindow :
   public ConfiguratorListener,
@@ -64,7 +63,7 @@ public:
   void set_applet_control(GNOME_Workrave_AppletControl applet_control);
 #endif
 
-  void config_changed_notify(string key);
+  void config_changed_notify(std::string key);
   void read_configuration();
   
 private:

@@ -1,3 +1,5 @@
+#include <gtkmm/label.h>
+
 #include "Hig.hh"
 #include "GtkUtil.hh"
 
@@ -39,7 +41,7 @@ HigCategoryPanel::HigCategoryPanel(Gtk::Widget &lab)
 
 HigCategoryPanel::HigCategoryPanel(const char *lab)
 {
-  Gtk::Label *widg = manage(GtkUtil::create_label(string(lab), true));
+  Gtk::Label *widg = manage(GtkUtil::create_label(std::string(lab), true));
   widg->set_alignment(0.0);
   init(*widg);
 }
@@ -89,7 +91,7 @@ HigCategoryPanel::add(Gtk::Widget &widget)
 void
 HigCategoryPanel::add_caption(const char *text)
 {
-  Gtk::Label *lab = manage(GtkUtil::create_label(string(text), true));
+  Gtk::Label *lab = manage(GtkUtil::create_label(std::string(text), true));
   lab->set_alignment(0.0);
   add_caption(*lab);
 }

@@ -19,7 +19,7 @@
 #ifndef EVENTLABEL_HH
 #define EVEVTLABEL_HH
 
-#include <gtkmm.h>
+#include <gtkmm/label.h>
 
 class EventLabel : public Gtk::Label
 {

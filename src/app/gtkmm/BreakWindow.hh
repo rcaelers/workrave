@@ -23,12 +23,16 @@
 
 #include "preinclude.h"
 
-#include <gtkmm.h>
+#include <gtkmm/window.h>
 
 #include "HeadInfo.hh"
 #include "WindowHints.hh"
 
 class Frame;
+namespace Gtk
+{
+  class Button;
+}
 
 class BreakWindow :
   public Gtk::Window

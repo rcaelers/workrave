@@ -19,16 +19,19 @@ static const char rcsid[] = "$Id$";
 
 const int TIMEOUT = 1000;
 
+#include "preinclude.h"
+
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
 
-#include "preinclude.h"
+#include <unistd.h>
+
+#include <gtkmm/button.h>
+#include <gtkmm/image.h>
+
 #include "debug.hh"
 #include "nls.h"
-
-#include <unistd.h>
-#include <gtkmm.h>
 
 #include "Hig.hh"
 #include "RestBreakWindow.hh"

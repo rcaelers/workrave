@@ -19,6 +19,8 @@
 #ifndef TIMERPREFERENCESPANEL_HH
 #define TIMERPREFERENCESPANEL_HH
 
+#include "preinclude.h"
+
 #ifdef HAVE_CONFIG
 #include "config.h"
 #endif
@@ -26,12 +28,19 @@
 #include <stdio.h>
 #include <string>
 
-#include "preinclude.h"
+#include <gtkmm/box.h>
+#include <gtkmm/sizegroup.h>
+#include <gtkmm/adjustment.h>
 
-#include <gtkmm.h>
 #include "CoreInterface.hh"
 
 class TimeEntry;
+
+namespace Gtk
+{
+  class CheckButton;
+  class SpinButton;
+}
 
 class TimerPreferencesPanel
   : public Gtk::VBox

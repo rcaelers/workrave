@@ -21,7 +21,13 @@
 
 #include "preinclude.h"
 
-#include <gtkmm.h>
+#include <gtkmm/box.h>
+#include <gtkmm/adjustment.h>
+
+namespace Gtk
+{
+  class SpinButton;
+}
 
 class TimeEntry : public Gtk::HBox
 {

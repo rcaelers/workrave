@@ -19,10 +19,12 @@
 #ifndef GTKUTIL_HH
 #define GTKUTIL_HH
 
-#include <gtkmm.h>
-#include <string>
+#include <gtkmm/button.h>
+#include <gtkmm/stockid.h>
+#include <gtkmm/table.h>
+#include <gtkmm/window.h>
 
-using namespace std;
+#include <string>
 
 #include "CoreInterface.hh"
 
@@ -41,14 +43,14 @@ public:
                              const Gtk::StockID& stock_id);
 
   static Gtk::Widget *
-  create_label_with_icon(string text, const char *icon);
+  create_label_with_icon(std::string text, const char *icon);
 
   static Gtk::Label *
-  create_label(string text, bool bold);
+  create_label(std::string text, bool bold);
 
   static Gtk::Widget *
-  GtkUtil::create_label_with_tooltip(string text,
-                                     string tooltip);
+  GtkUtil::create_label_with_tooltip(std::string text,
+                                     std::string tooltip);
 
   static Gtk::Widget *
   create_label_for_break(BreakId id);
@@ -68,7 +70,7 @@ public:
   table_attach_right_aligned(Gtk::Table &table, Gtk::Widget &child,
                              guint left_attach, guint top_attach);
 
-  static void set_wmclass(Gtk::Window &window, string class_postfix);
+  static void set_wmclass(Gtk::Window &window, std::string class_postfix);
 };
 
 #endif // GTKMMGUI_HH

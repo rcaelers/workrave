@@ -21,8 +21,6 @@
 
 #include "preinclude.h"
 
-#include <gtkmm.h>
-
 #ifdef HAVE_GTK_MULTIHEAD
 #include <gdkmm/display.h>
 #include <gdkmm/screen.h>

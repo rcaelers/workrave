@@ -21,13 +21,20 @@
 #include "config.h"
 #endif
 
-using namespace std;
+#include <unistd.h>
+#include <assert.h>
+
+#include <gtkmm/image.h>
+#include <gtkmm/label.h>
+#include <gtkmm/alignment.h>
+#include <gtkmm/entry.h>
+#include <gtkmm/spinbutton.h>
+#include <gtkmm/checkbutton.h>
+#include <gtkmm/stock.h>
 
 #include "nls.h"
 #include "debug.hh"
 
-#include <unistd.h>
-#include <assert.h>
 
 #include "NetworkJoinDialog.hh"
 
@@ -46,7 +53,7 @@ NetworkJoinDialog::NetworkJoinDialog()
   dist_manager = core->get_distribution_manager();
   
   // Icon
-  string title_icon = Util::complete_directory
+  std::string title_icon = Util::complete_directory
     ("network.png", Util::SEARCH_PATH_IMAGES);
   Gtk::Image *title_img = manage(new Gtk::Image(title_icon));
   Gtk::Alignment *img_aln
@@ -124,7 +131,7 @@ NetworkJoinDialog::run()
 
   if (id == Gtk::RESPONSE_OK)
     {
-      string peer = "tcp://" + host_entry->get_text() + ":" + port_entry->get_text();
+      std::string peer = "tcp://" + host_entry->get_text() + ":" + port_entry->get_text();
       if (startup_button->get_active())
         {
           dist_manager->add_peer(peer);

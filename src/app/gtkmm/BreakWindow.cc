@@ -24,7 +24,9 @@ static const char rcsid[] = "$Id$";
 #include "debug.hh"
 #include "nls.h"
 
-#include <gtkmm.h>
+#include <gtkmm/window.h>
+#include <gtkmm/stock.h>
+
 #include <math.h>
 
 #include "BreakWindow.hh"

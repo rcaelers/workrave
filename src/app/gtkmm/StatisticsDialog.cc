@@ -15,13 +15,11 @@
 //
 // $Id$
 
+#include "preinclude.h"
+
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
-
-#include "preinclude.h"
-#include "debug.hh"
-#include "nls.h"
 
 #if TIME_WITH_SYS_TIME
 # include <sys/time.h>
@@ -38,6 +36,16 @@
 #include <assert.h>
 #include <sstream>
 
+#include <gtkmm/notebook.h>
+#include <gtkmm/calendar.h>
+#include <gtkmm/box.h>
+#include <gtkmm/stock.h>
+#include <gtkmm/label.h>
+#include <gtkmm/separator.h>
+
+#include "debug.hh"
+#include "nls.h"
+
 #include "CoreInterface.hh"
 #include "CoreFactory.hh"
 
@@ -45,7 +53,6 @@
 #include "Text.hh"
 #include "Util.hh"
 #include "GtkUtil.hh"
-
 
 StatisticsDialog::StatisticsDialog()
   : HigDialog(_("Statistics"), false, false),
