@@ -18,7 +18,7 @@
                 pixtype="stock" pixname="gtk-preferences"/>
  
       <menuitem name="Restbreak Item" verb="Restbreak" _label="_Restbreak"
-                pixtype="filename" pixname="@PIXDIR@/timer-restbreak.png"/>
+                pixtype="filename" pixname="/usr/local/share/workrave/images/timer-restbreak.png"/>
 
       <menuitem name="Exercises Item" verb="Exercises" _label="_Exercises"/>
 
