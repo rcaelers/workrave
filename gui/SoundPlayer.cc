@@ -105,6 +105,22 @@ static short daily_limit_beeps[][2]=
     { 0, 0 }
 };
 
+
+static short exercise_ended_beeps[][2]=
+{
+    { 320, 70 },
+    { 350, 70 },
+    { 0, 0 },
+};
+
+
+static short exercises_ended_beeps[][2]=
+{
+    { 350, 70 },
+    { 320, 70 },
+    { 0, 0 },
+};
+
 static short (*beep_map[])[2] =
 {
   prelude_beeps,
@@ -113,7 +129,9 @@ static short (*beep_map[])[2] =
   rest_break_end_beeps,
   micro_pause_start_beeps,
   micro_pause_end_beeps,
-  daily_limit_beeps
+  daily_limit_beeps,
+  exercise_ended_beeps,
+  exercises_ended_beeps
 };
 
 

@@ -26,6 +26,8 @@
 #include "Util.hh"
 #include "Hig.hh"
 #include "nls.h"
+#include "GUIControl.hh"
+#include "SoundPlayerInterface.hh"
 
 ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
   : Gtk::HBox(false, 6)
@@ -243,11 +245,15 @@ ExercisesPanel::heartbeat()
   if (exercise_time >= exercise.duration)
     {
       on_go_forward();
+      SoundPlayerInterface *snd = GUIControl::get_instance()->get_sound_player();
       exercise_num++;
       if (exercise_num == exercise_count)
         {
           on_stop();
         }
+      snd->play_sound(stopped
+                      ? SoundPlayerInterface::SOUND_EXERCISES_ENDED
+                      : SoundPlayerInterface::SOUND_EXERCISE_ENDED);
     }
   else
     {

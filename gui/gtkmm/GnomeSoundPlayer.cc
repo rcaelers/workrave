@@ -50,7 +50,9 @@ GnomeSoundPlayer::play_sound(Sound snd)
     "restbreak_ended",
     "micropause_started",
     "micropause_ended",
-    "daily_limit"
+    "daily_limit",
+    "exercise_ended",
+    "exercises_ended"
   };
   TRACE_ENTER_MSG("GnomeSoundPlayer::play_sound", map[snd]);
   gnome_triggers_do ("", NULL, "workrave", map[snd], NULL);

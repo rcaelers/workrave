@@ -1,6 +1,6 @@
 // SoundPlayerInterface.hh
 //
-// Copyright (C) 2002 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -31,7 +31,9 @@ public:
     SOUND_REST_BREAK_ENDED,
     SOUND_MICRO_PAUSE_STARTED,
     SOUND_MICRO_PAUSE_ENDED,
-    SOUND_DAILY_LIMIT
+    SOUND_DAILY_LIMIT,
+    SOUND_EXERCISE_ENDED,
+    SOUND_EXERCISES_ENDED
   };
 
   //! Plays sound, returns immediately.

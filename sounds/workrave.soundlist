@@ -35,3 +35,13 @@ description[nl]=Verzoek tot pauze
 file=workrave/daily-limit.wav
 description=Daily limit
 description[nl]=Dagelijkse limiet
+
+[exercise_ended]
+file=workrave/exercise-ended.wav
+description=Exercise ended
+description[nl]=Einde oefening
+
+[exercises_ended]
+file=workrave/exercises-ended.wav
+description=Exercises ended
+description[nl]=Einde oefeningen
