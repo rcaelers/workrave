@@ -112,8 +112,8 @@ void
 RestBreakWindow::start()
 {
   TRACE_ENTER("RestBreakWindow::start");
-#ifdef HAVE_EXERCISES
   init_gui();
+#ifdef HAVE_EXERCISES
   if (get_exercise_count() > 0)
     {
       install_exercises_panel();
