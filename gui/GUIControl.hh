@@ -126,6 +126,8 @@ public:
   void break_action(BreakId id, BreakAction action);
   Configurator *get_configurator();
   void set_freeze_all_breaks(bool freeze);
+
+  ControlInterface *get_core();
   
 private:
   void timer_action(string timer_id, TimerEvent event);
@@ -197,6 +199,13 @@ inline SoundPlayerInterface *
 GUIControl::get_sound_player()
 {
   return sound_player;
+}
+
+//! Returns the sound player.
+inline ControlInterface *
+GUIControl::get_core()
+{
+  return core_control;
 }
 
 #endif // GUICONTROL_HH

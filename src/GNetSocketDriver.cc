@@ -126,6 +126,17 @@ GNetSocketDriver::listen(int port, void *data)
 }
 
 
+// void
+// GNetSocketDriver::fire_closed(SocketConnection *con)
+// {
+//   if (listener != NULL)
+//     {
+//       listener->socket_closed(con, con->data);
+//       con->close();
+//     }
+// }
+
+
 //! GNet has accepted a new connection.
 void
 GNetSocketDriver::async_accept(GTcpSocket *server, GTcpSocket *client, GNetSocketConnection *scon)
@@ -169,8 +180,8 @@ GNetSocketDriver::async_io(GIOChannel *iochannel, GIOCondition condition, GNetSo
     {
       if (listener != NULL)
         {
-          listener->socket_closed(con, con->data);
           con->close();
+          listener->socket_closed(con, con->data);
         }
       ret = false;
     }
@@ -328,6 +339,11 @@ GNetSocketConnection::read(void *buf, int count, int &bytes_read)
       if (error != G_IO_ERROR_NONE)
         {
           bytes_read = -1;
+//           if (driver != NULL)
+//             {
+//               driver->fire_closed(this);
+//               close();
+//             }
         }
       else
         {
@@ -343,23 +359,31 @@ GNetSocketConnection::read(void *buf, int count, int &bytes_read)
 bool
 GNetSocketConnection::write(void *buf, int count, int &bytes_written)
 {
+  TRACE_ENTER("GNetSocketConnection::write");
   bool ret = false;
 
   if (iochannel != NULL)
     {
       bytes_written = 0;
       GIOError error = g_io_channel_write(iochannel, (char *)buf, count, (guint *)&bytes_written);
-  
+
+      TRACE_MSG(error);
       if (error != G_IO_ERROR_NONE)
         {
           bytes_written = -1;
+//           if (driver != NULL)
+//             {
+//               driver->fire_closed(this);
+//               close();
+//             }
         }
       else
         {
           ret = true;
         }
     }
-  
+
+  TRACE_EXIT();
   return ret;
 }
 
@@ -389,3 +413,4 @@ GNetSocketConnection::close()
   watch_flags = 0;
   return true;
 }
+

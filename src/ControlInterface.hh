@@ -49,6 +49,10 @@ public:
 
   //! Returns the activity monitor.
   virtual ActivityMonitorInterface *get_activity_monitor() const = 0;
+
+#ifndef NDEBUG
+  virtual void test_me() = 0;
+#endif
   
 public:
   static const string CFG_KEY_TIMERS;

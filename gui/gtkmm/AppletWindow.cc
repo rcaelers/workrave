@@ -231,8 +231,6 @@ AppletWindow::init_table()
       if (id != -1)
         {
           new_content[slot] = id;
-          TRACE_MSG(slot << " " << id);
-
           slot++;
         }
     }
@@ -244,7 +242,6 @@ AppletWindow::init_table()
       int id = current_content[i];
       if (id != -1 && id != new_content[i])
         {
-          TRACE_MSG("remove " << id);
           Gtk::Widget *child = timer_names[id];
           timers_box->remove(*child);
           child = timer_times[id];
@@ -258,7 +255,6 @@ AppletWindow::init_table()
       int id = new_content[i];
       int cid = current_content[i];
 
-      TRACE_MSG(i << " " << id << " " << cid);
       if (id != cid)
         {
           current_content[i] = id;
@@ -301,7 +297,6 @@ AppletWindow::init_slot(int slot)
         {
           breaks_id[count] = i;
           break_flags[count] &= ~BREAK_SKIP;
-          TRACE_MSG("1 " << count << " " << i << " " << break_flags[i]);
           count++;
         }
     }
@@ -322,7 +317,6 @@ AppletWindow::init_slot(int slot)
       if (flags & BREAK_WHEN_IMMINENT && time_left > break_imminent_time[id])
         {
           break_flags[id] |= BREAK_SKIP;
-          TRACE_MSG("2 skipping " <<  i << " " << id);
         }
 
       // update first imminent timer.
@@ -345,7 +339,6 @@ AppletWindow::init_slot(int slot)
           if (flags & BREAK_WHEN_FIRST && first_id != id)
             {
               break_flags[id] |= BREAK_SKIP;
-              TRACE_MSG("3 skipping " << i << " " << id);
             }
         }
     }
@@ -364,7 +357,6 @@ AppletWindow::init_slot(int slot)
           if (flags & BREAK_EXCLUSIVE && have_one)
             {
               break_flags[id] |= BREAK_SKIP;
-              TRACE_MSG("4 skipping " <<  i << " " << id);
             }
 
           have_one = true;
@@ -376,8 +368,6 @@ AppletWindow::init_slot(int slot)
         }
     }
 
-  TRACE_MSG("4a left " <<  breaks_left);
-  
   if (breaks_left == 0)
     {
       for (int i = 0; i < count; i++)
@@ -388,7 +378,6 @@ AppletWindow::init_slot(int slot)
           if (flags & BREAK_DEFAULT && flags & BREAK_SKIP)
             {
               break_flags[id] &= ~BREAK_SKIP;
-              TRACE_MSG("5 unskipping " <<  i << " " << id);
               breaks_left = 1;
               break;
             }
@@ -406,11 +395,9 @@ AppletWindow::init_slot(int slot)
       int id = breaks_id[i];
       int flags = break_flags[id];
           
-      TRACE_MSG("6 slot " <<  slot << " " << count << " " << id);
       if (!(flags & BREAK_SKIP))
         {
           break_slots[slot][new_count] = id;
-          TRACE_MSG("7 slot " <<  slot << " " << new_count << " " << id);
           new_count++;
         }
     }

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
-"POT-Creation-Date: 2003-01-12 14:17+0100\n"
+"POT-Creation-Date: 2003-01-15 20:26+0100\n"
 "PO-Revision-Date: 2003-01-04 22:09+0100\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Johannes Rohr <j.rohr@comlink.apc.org>\n"
@@ -203,56 +203,56 @@ msgid "I could not initialize Bonobo"
 msgstr ""
 
 #. Mode menu item
-#: gui/gtkmm/Menus.cc:134 gui/gnome/GNOME_WorkraveApplet.xml.in.h:4
+#: gui/gtkmm/Menus.cc:138 gui/gnome/GNOME_WorkraveApplet.xml.in.h:4
 msgid "_Mode"
 msgstr "_Betriebsart"
 
-#: gui/gtkmm/Menus.cc:141 gui/gnome/GNOME_WorkraveApplet.xml.in.h:6
+#: gui/gtkmm/Menus.cc:145 gui/gnome/GNOME_WorkraveApplet.xml.in.h:6
 msgid "_Normal"
 msgstr "_Normal"
 
-#: gui/gtkmm/Menus.cc:148 gui/gnome/GNOME_WorkraveApplet.xml.in.h:14
+#: gui/gtkmm/Menus.cc:152 gui/gnome/GNOME_WorkraveApplet.xml.in.h:14
 #, fuzzy
 msgid "_Suspended"
 msgstr "_Angehalten"
 
-#: gui/gtkmm/Menus.cc:155
+#: gui/gtkmm/Menus.cc:159
 msgid "Q_uiet"
 msgstr "St_ill"
 
-#: gui/gtkmm/Menus.cc:169 gui/gnome/GNOME_WorkraveApplet.xml.in.h:5
+#: gui/gtkmm/Menus.cc:173 gui/gnome/GNOME_WorkraveApplet.xml.in.h:5
 msgid "_Network"
 msgstr "N_etzwerk"
 
-#: gui/gtkmm/Menus.cc:173
+#: gui/gtkmm/Menus.cc:177
 msgid "_Connect"
 msgstr "_Verbinden"
 
-#: gui/gtkmm/Menus.cc:178 gui/gnome/GNOME_WorkraveApplet.xml.in.h:3
+#: gui/gtkmm/Menus.cc:182 gui/gnome/GNOME_WorkraveApplet.xml.in.h:3
 msgid "_Disconnect"
 msgstr "_Trennen"
 
-#: gui/gtkmm/Menus.cc:183 gui/gnome/GNOME_WorkraveApplet.xml.in.h:11
+#: gui/gtkmm/Menus.cc:187 gui/gnome/GNOME_WorkraveApplet.xml.in.h:11
 msgid "_Reconnect"
 msgstr "Verbindung _Wiederaufnehmen"
 
-#: gui/gtkmm/Menus.cc:188
+#: gui/gtkmm/Menus.cc:192
 msgid "Show _log"
 msgstr "_Protokoll anzeigen"
 
-#: gui/gtkmm/Menus.cc:202
+#: gui/gtkmm/Menus.cc:206
 msgid "_Rest break"
 msgstr "_Ruhepause"
 
-#: gui/gtkmm/Menus.cc:214
+#: gui/gtkmm/Menus.cc:218
 msgid "Statistics"
 msgstr "_Statistik"
 
-#: gui/gtkmm/Menus.cc:227
+#: gui/gtkmm/Menus.cc:231
 msgid "About..."
 msgstr "Über..."
 
-#: gui/gtkmm/Menus.cc:518
+#: gui/gtkmm/Menus.cc:526
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."

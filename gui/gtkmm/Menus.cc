@@ -55,6 +55,10 @@ static const char rcsid[] = "$Id$";
 #endif
 #include "MainWindow.hh"
 
+#ifndef NDEBUG
+#include "ControlInterface.hh"
+#endif
+
 Menus *Menus::instance = NULL;
 
 
@@ -449,6 +453,10 @@ Menus::on_test_me()
 {
   Statistics *stats = Statistics::get_instance();
   stats->dump();
+
+  GUIControl *gui_control = GUIControl::get_instance();
+  ControlInterface *core = gui_control->get_core();
+  core->test_me();
 }
 #endif
 

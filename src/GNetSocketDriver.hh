@@ -74,8 +74,12 @@ public:
   bool init();
   SocketConnection *connect(char *hostname, int port, void *data);
   SocketConnection *listen(int port, void *data);
+
+  // hack...
+  //void fire_closed(SocketConnection *con);
   
 private:
+
   void async_accept(GTcpSocket *server, GTcpSocket *client, GNetSocketConnection *c);
   bool async_io(GIOChannel* iochannel, GIOCondition condition, GNetSocketConnection *c);
   void async_connected(GTcpSocket *socket, GInetAddr *ia, GTcpSocketConnectAsyncStatus status,

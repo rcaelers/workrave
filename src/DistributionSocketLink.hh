@@ -1,6 +1,6 @@
 // DistributionSocketLink.hh
 //
-// Copyright (C) 2002 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -88,7 +88,8 @@ private:
       reconnect_count(0),
       reconnect_time(0),
       next_claim_time(0),
-      reject_count(0)
+      reject_count(0),
+      claim_count(0)
     {
     }
     
@@ -127,6 +128,9 @@ private:
 
     //! Number of time a claim was rejected.
     int reject_count;
+
+    //! Number of claims send since the last received packet.
+    int claim_count;
   };
 
   

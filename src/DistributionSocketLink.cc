@@ -792,6 +792,8 @@ DistributionSocketLink::process_client_packet(Client *client)
 {
   TRACE_ENTER("DistributionSocketLink::process_client_packet");
   PacketBuffer &packet = client->packet;
+
+  client->claim_count = 0;
   
   gint size = packet.unpack_ushort();
   g_assert(size == packet.bytes_written());
@@ -1172,9 +1174,30 @@ DistributionSocketLink::send_claim(Client *client)
       
       packet.pack_ushort(0);
       
+      client->next_claim_time = time(NULL) + 10;
+
       send_packet(client, packet);
 
-      client->next_claim_time = time(NULL) + 10;
+      if (client->claim_count >= 3)
+        {
+          dist_manager->log(_("Client timeout from %s:%d."), client->hostname, client->port);
+
+          // Socket error. disable client.
+          if (client->socket != NULL)
+            {
+              delete client->socket;
+              client->socket = NULL;
+            }
+
+          client->reconnect_count = reconnect_attempts;
+          client->reconnect_time = time(NULL) + reconnect_interval;
+
+          if (master_client == client)
+            {
+              set_master(NULL);
+            }
+        }
+      client->claim_count++;
     }
   
   TRACE_EXIT();
@@ -1532,7 +1555,7 @@ DistributionSocketLink::socket_io(SocketConnection *con, void *data)
     }
   else
     {
-      TRACE_MSG("Read from " << client->hostname << ":" << client->port << " " <<  bytes_read);
+      // TRACE_MSG("Read from " << client->hostname << ":" << client->port << " " <<  bytes_read);
       g_assert(bytes_read > 0);
       
       client->packet.write_ptr += bytes_read;

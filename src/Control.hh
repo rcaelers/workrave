@@ -92,6 +92,9 @@ public:
 
   virtual void config_changed_notify(string key);
 
+#ifndef NDEBUG
+  void test_me();
+#endif  
 private:
   void save_state() const;
   void load_state();

@@ -543,29 +543,29 @@ Control::load_state()
 }
 
 #ifndef NDEBUG
-// void
-// Control::test_me()
-// {
-//   TRACE_ENTER("Control::test_me");
+void
+Control::test_me()
+{
+  TRACE_ENTER("Control::test_me");
 
-//   if (fake_monitor != NULL)
-//     {
-//       ActivityState state = fake_monitor->get_current_state();
+  if (fake_monitor != NULL)
+    {
+      ActivityState state = fake_monitor->get_current_state();
 
-//       if (state == ACTIVITY_ACTIVE)
-//         {
-//           TRACE_MSG("Setting idle");
-//           fake_monitor->set_state(ACTIVITY_IDLE);
-//         }
-//       else
-//         {
-//           TRACE_MSG("Setting master");
-//           fake_monitor->set_state(ACTIVITY_ACTIVE);
-//         }
-//     }
+      if (state == ACTIVITY_ACTIVE)
+        {
+          TRACE_MSG("Setting idle");
+          fake_monitor->set_state(ACTIVITY_IDLE);
+        }
+      else
+        {
+          TRACE_MSG("Setting master");
+          fake_monitor->set_state(ACTIVITY_ACTIVE);
+        }
+    }
   
-//   TRACE_EXIT();
-// }
+  TRACE_EXIT();
+}
 #endif
 
 #ifdef HAVE_DISTRIBUTION
