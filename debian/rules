@@ -24,7 +24,7 @@ endif
 config.status: configure
 	dh_testdir
 	# Add here commands to configure the package.
-	./configure --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info --sysconfdir=\$${prefix}/etc --enable-gconf  --enable-gnome --enable-distrubution
+	./configure --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info --sysconfdir=/etc --enable-gconf  --enable-gnome --enable-distrubution
 
 
 build: build-stamp
@@ -60,7 +60,7 @@ install: build
 	dh_installdirs
 
 	# Add here commands to install the package into debian/workrave.
-	$(MAKE) install prefix=$(CURDIR)/debian/workrave/usr
+	$(MAKE) install prefix=$(CURDIR)/debian/workrave/usr sysconfdir=$(CURDIR)/debian/workrave/etc
 
 
 # Build architecture-independent files here.
