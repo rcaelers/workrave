@@ -45,7 +45,7 @@ Statistics::Statistics() :
   current_day(NULL)
 {
   start_new_day();
-
+  
 #ifdef HAVE_DISTRIBUTION
   init_distribution_manager();
 #endif
@@ -556,6 +556,19 @@ Statistics::update_current_day()
       assert(t != NULL);
       current_day->misc_stats[STATS_VALUE_TOTAL_ACTIVE_TIME] = t->get_elapsed_time();
 
+
+      for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
+        {
+          TimerInterface *t = gui_control->timers[i].timer;
+          assert(t != NULL);
+      
+          int overdue = t->get_total_overdue_time();
+
+          set_break_counter(((GUIControl::BreakId)i),
+                            Statistics::STATS_BREAKVALUE_TOTAL_OVERDUE, overdue);
+        }
+
+      
       // Collect activity monitor stats.
       ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
       assert(monitor != NULL);
@@ -563,6 +576,7 @@ Statistics::update_current_day()
       ActivityMonitorStatistics ams;
       monitor->get_statistics(ams);
 
+      
       current_day->misc_stats[STATS_VALUE_TOTAL_MOUSE_MOVEMENT] = ams.total_movement;
       current_day->misc_stats[STATS_VALUE_TOTAL_CLICK_MOVEMENT] = ams.total_click_movement;
       current_day->misc_stats[STATS_VALUE_TOTAL_MOVEMENT_TIME] = ams.total_movement_time;

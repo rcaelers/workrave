@@ -474,7 +474,7 @@ Control::save_state() const
 
   ofstream stateFile(ss.str().c_str());
 
-  stateFile << "WorkRaveState 1"  << endl
+  stateFile << "WorkRaveState 2"  << endl
             << get_time() << endl;
   
   for (TimerCIter ti = timers.begin(); ti != timers.end(); ti++)
@@ -499,7 +499,8 @@ Control::load_state()
   ifstream stateFile(ss.str().c_str());
 
   bool ok = stateFile;
-
+  bool version2 = false;
+  
   if (ok)
     {
       string tag;
@@ -513,7 +514,7 @@ Control::load_state()
       int version;
       stateFile >> version;
 
-      ok = (version == 1);
+      ok = (version == 1 || version == 2);
     }
 
   if (ok)
@@ -597,6 +598,7 @@ Control::get_state(DistributedStateID id, unsigned char **buffer, int *size)
       state_packet.pack_ulong((guint32)state_data.elapsed_time);
       state_packet.pack_ulong((guint32)state_data.elapsed_idle_time);
       state_packet.pack_ulong((guint32)state_data.last_pred_reset_time);
+      state_packet.pack_ulong((guint32)state_data.total_overdue_time);
 
       state_packet.poke_ushort(pos, state_packet.bytes_written() - pos);
     }
@@ -646,12 +648,14 @@ Control::set_state(DistributedStateID id, bool master, unsigned char *buffer, in
       state_data.elapsed_time = state_packet.unpack_ulong();
       state_data.elapsed_idle_time = state_packet.unpack_ulong();
       state_data.last_pred_reset_time = state_packet.unpack_ulong();
+      state_data.total_overdue_time = state_packet.unpack_ulong();
 
       TRACE_MSG("state = "
                 << state_data.current_time << " "
                 << state_data.elapsed_time << " "
                 << state_data.elapsed_idle_time << " "
-                << state_data.last_pred_reset_time 
+                << state_data.last_pred_reset_time << " "
+                << state_data.total_overdue_time 
                 );
 
       if (t != NULL)

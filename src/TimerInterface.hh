@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-02-08 20:00:00 robc>
+// Time-stamp: <2003-02-08 21:23:03 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -107,6 +107,8 @@ public:
   virtual string get_id() const = 0;
 
   virtual bool has_activity_monitor() const = 0;
+  virtual time_t get_total_overdue_time() const = 0;
+  virtual void daily_reset_timer() = 0;
 };
 
 #endif // TIMERINTERFACE_HH

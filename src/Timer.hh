@@ -57,6 +57,7 @@ public:
     time_t elapsed_time;
     time_t elapsed_idle_time;
     time_t last_pred_reset_time;
+    time_t total_overdue_time;
   };
   
 public:

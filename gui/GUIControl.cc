@@ -358,21 +358,6 @@ GUIControl::timer_action(string timer_id, TimerInfo info)
   
   if (id != GUIControl::BREAK_ID_NONE)
     {
-      if (info.event == TIMER_EVENT_NATURAL_RESET ||
-          info.event == TIMER_EVENT_RESET)
-        {
-          TimerInterface *t = timers[id].timer;
-          assert(t != NULL);
-
-          if (info.elapsed_time > t->get_limit())
-            {
-              int overdue = info.elapsed_time - t->get_limit();
-
-              Statistics *stats = Statistics::get_instance();
-              stats->add_break_counter(id, Statistics::STATS_BREAKVALUE_TOTAL_OVERDUE, overdue);
-            }
-        }
-
       // Parse action.
       if (info.event == TIMER_EVENT_LIMIT_REACHED)
         {
@@ -410,6 +395,8 @@ GUIControl::heartbeat()
           if (info.event == TIMER_EVENT_NATURAL_RESET ||
               info.event == TIMER_EVENT_RESET)
             {
+              daily_reset();
+              
               Statistics *stats = Statistics::get_instance();
               stats->set_counter(Statistics::STATS_VALUE_TOTAL_ACTIVE_TIME, info.elapsed_time);
               stats->start_new_day();
@@ -457,6 +444,23 @@ GUIControl::heartbeat()
 }
 
 
+void
+GUIControl::daily_reset()
+{
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+    {
+      TimerInterface *t = timers[i].timer;
+      assert(t != NULL);
+      
+      int overdue = t->get_total_overdue_time();
+
+      Statistics *stats = Statistics::get_instance();
+      stats->set_break_counter(((GUIControl::BreakId)i),
+                               Statistics::STATS_BREAKVALUE_TOTAL_OVERDUE, overdue);
+
+      t->daily_reset_timer();
+    }
+}
 
 void
 GUIControl::update_statistics()

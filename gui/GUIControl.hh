@@ -135,6 +135,7 @@ private:
   void restart_break();
   
   void update_statistics();
+  void daily_reset();
   void handle_start_break(BreakInterface *breaker, BreakId break_id, TimerInterface *timer);
   void handle_stop_break(BreakInterface *breaker, BreakId break_id, TimerInterface *timer);
   bool load_config();

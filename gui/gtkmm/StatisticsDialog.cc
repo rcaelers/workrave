@@ -343,19 +343,6 @@ StatisticsDialog::select_day(int day)
 
       value = stats->break_stats[i][Statistics::STATS_BREAKVALUE_TOTAL_OVERDUE];
 
-      if (day == 0)
-        {
-          // HACK
-          TimerInterface *t = gui_control->timers[i].timer;
-          assert(t != NULL);
-          time_t elapsed = t->get_elapsed_time();
-          time_t limit = t->get_limit();
-          if (elapsed > limit)
-            {
-              value += elapsed - limit;
-            }
-        }
-      
       break_labels[i][6]->set_text(Text::time_to_string(value));
     }
 }

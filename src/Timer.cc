@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-02-08 20:00:24 robc>
+// Time-stamp: <2003-02-08 22:38:30 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -69,6 +69,7 @@ Timer::Timer(TimeSource *timeSource) :
   last_pred_reset_time(0),
   next_pred_reset_time(0),
   next_limit_time(0),
+  total_overdue_time(0),
   time_source(timeSource),
   activity_monitor(NULL)
 {
@@ -320,6 +321,13 @@ Timer::compute_next_predicate_reset_time()
   TRACE_EXIT();
 }
 
+//! Daily Reset.
+void
+Timer::daily_reset_timer()
+{
+  total_overdue_time = 0;
+}
+
 
 //! Reset and stop the timer.
 void
@@ -327,6 +335,12 @@ Timer::reset_timer()
 {
   TRACE_ENTER_MSG("Timer::reset_timer", timer_id);
 
+  // Update total overdue.
+  if (elapsed_time > limit_interval)
+    {
+      total_overdue_time += (elapsed_time - limit_interval);
+    }
+  
   // Full reset.
   elapsed_time = 0;
   last_limit_time = 0;
@@ -524,6 +538,19 @@ Timer::get_elapsed_time() const
 }
 
 
+time_t
+Timer::get_total_overdue_time() const
+{
+  time_t ret = total_overdue_time;
+  if (elapsed_time > limit_interval)
+    {
+      ret += (elapsed_time - limit_interval);
+    }
+
+  return ret;
+}
+
+
 //! Activity callback from activity monitor.
 void
 Timer::activity_notify()
@@ -667,7 +694,8 @@ Timer::serialize_state() const
       ss << timer_id << " " 
          << time_source->get_time() << " "
          << get_elapsed_time() << " "
-         << last_pred_reset_time;
+         << last_pred_reset_time << " "
+         << total_overdue_time;
     }
   
   return ss.str();
@@ -679,16 +707,19 @@ Timer::deserialize_state(std::string state)
 {
   istringstream ss(state);
 
-  time_t saveTime;
-  time_t elapsed;
-  time_t lastReset;
+  time_t saveTime = 0;
+  time_t elapsed = 0;
+  time_t lastReset = 0;
+  time_t overdue = 0;
   time_t now = time_source->get_time();
   
   ss >> saveTime
      >> elapsed
-     >> lastReset;
+     >> lastReset
+     >> overdue;
   
   last_pred_reset_time = lastReset;
+  total_overdue_time = overdue;
   elapsed_time = 0;
 
   bool tooOld = ((autoreset_enabled && autoreset_interval != 0) && (now - saveTime >  autoreset_interval));
@@ -723,7 +754,8 @@ Timer::set_state_data(const TimerStateData &data)
   elapsed_time = data.elapsed_time;
   elapsed_idle_time = data.elapsed_idle_time;
   last_pred_reset_time = data.last_pred_reset_time + time_diff;
-
+  total_overdue_time = data.total_overdue_time;
+  
   timer_state = STATE_INVALID;
   previous_timer_state = STATE_INVALID;
   last_start_time = 0;
@@ -744,6 +776,7 @@ Timer::get_state_data(TimerStateData &data)
   data.elapsed_time = get_elapsed_time();
   data.elapsed_idle_time = get_elapsed_idle_time();
   data.last_pred_reset_time = last_pred_reset_time;
+  data.total_overdue_time = total_overdue_time;
 
   TRACE_MSG("elapsed = " << data.elapsed_time);
   TRACE_EXIT();
