@@ -291,23 +291,26 @@ CollectivePreferencePage::create_model()
           string peer = *i;
           string hostname, port;
 
-          std::string::size_type pos = peer.find("tcp://");
-          if (pos != std::string::npos)
+          if (peer != "")
             {
-              hostname = peer.substr(6);
+              std::string::size_type pos = peer.find("tcp://");
+              if (pos != std::string::npos)
+                {
+                  hostname = peer.substr(6);
+                  
+                  pos = hostname.rfind(":");
+                  if (pos != std::string::npos)
+                    {
+                      port = hostname.substr(pos + 1);
+                      hostname = hostname.substr(0, pos);
+                    }
+                  
+                  Gtk::TreeRow row = *(peers_store->append());
+                  
+                  row[peers_columns.hostname]  = hostname;
+                  row[peers_columns.port]      = port;
+                }
             }
-
-          pos = hostname.rfind(":");
-          if (pos != std::string::npos)
-            {
-              port = hostname.substr(pos + 1);
-              hostname = hostname.substr(0, pos);
-            }
-
-          Gtk::TreeRow row = *(peers_store->append());
-          
-          row[peers_columns.hostname]  = hostname;
-          row[peers_columns.port]      = port;
         }
     }
 }
@@ -467,7 +470,10 @@ void
 CollectivePreferencePage::remove_peer(const Gtk::TreeModel::iterator &iter)
 {
   Gtk::TreeModel::Row row = *iter;
-  peers_store->erase(iter);
+  row[peers_columns.hostname]  = "";
+  row[peers_columns.port]      = "";
+
+  //peers_store->erase(iter);
 }
 
 
