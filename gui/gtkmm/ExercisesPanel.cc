@@ -21,10 +21,10 @@
 #include "GUI.hh"
 #include "Util.hh"
 #include "Hig.hh"
+#include "nls.h"
 
 ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
   : Gtk::HBox(false, 6), back_button(Gtk::Stock::GO_BACK),
-    pause_button(Gtk::Stock::STOP),
     forward_button(Gtk::Stock::GO_FORWARD)
 {
   Exercise::parse_exercises(exercises);
@@ -77,6 +77,8 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
   pack_start(progress_bar, false, false, 0);
   pack_start(description_label, false, false, 0);
 
+  paused = false;
+  refresh_pause();
   start_exercise();
   
   heartbeat_signal = GUI::get_instance()->signal_heartbeat()
@@ -171,13 +173,24 @@ ExercisesPanel::on_go_forward()
 }
 
 void
+ExercisesPanel::refresh_pause()
+{
+  pause_button.set_label(paused ? _("Resume") : _("Pause"));
+}
+
+void
 ExercisesPanel::on_pause()
 {
+  paused = ! paused;
+  refresh_pause();
 }
 
 void
 ExercisesPanel::heartbeat()
 {
+  if (paused)
+    return;
+  
   const Exercise &exercise = *exercise_iterator;
   exercise_time++;
   if (exercise_time >= exercise.duration)

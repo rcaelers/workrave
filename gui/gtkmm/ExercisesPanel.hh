@@ -42,6 +42,7 @@ private:
   void show_image();
   void refresh_progress();
   void refresh_sequence();
+  void refresh_pause();
 
   Gtk::Frame image_frame;
   Gtk::Image image;
@@ -57,6 +58,7 @@ private:
   SigC::Connection heartbeat_signal;
   int exercise_time;
   int seq_time;
+  bool paused;
 };
 
 #endif // HAVE_EXERCISES
