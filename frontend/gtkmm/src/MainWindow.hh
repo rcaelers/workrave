@@ -21,11 +21,15 @@
 
 #include "preinclude.h"
 
+#include <string>
+
 class GUI;
 class TimeBar;
 class NetworkLogDialog;
 class TimerBoxControl;
 class TimerBoxGtkView;
+
+using namespace std;
 
 #include <gtkmm/window.h>
 

@@ -30,7 +30,7 @@ class TimerBoxAppletView : public TimerBoxView
 {
 public:  
   TimerBoxAppletView();
-  ~TimerBoxAppletView();
+  virtual ~TimerBoxAppletView();
 
   void set_slot(BreakId  id, int slot);
   void set_time_bar(BreakId id,
