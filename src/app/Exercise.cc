@@ -117,6 +117,7 @@ exercise_parser_start_element  (GMarkupParseContext *,
       const gchar *mirrorx = exercise_parse_lookup_attribute
         ("mirrorx", attribute_names, attribute_values);
       bool mx = mirrorx != NULL && !strcmp(mirrorx, "yes");
+      TRACE_MSG("Image src=" << src);
       ep->exercise->sequence.push_back(Exercise::Image(src, dur, mx));
     }
   else if (! strcmp(element_name, "exercises"))
@@ -172,10 +173,29 @@ exercise_parse_update_i18n_attribute(const GList *languages,
           r++;
         }
 
-      if (r < cur_rank || cur_rank < 0 || (langs == NULL && !strcmp(nl,"en")))
+      if (langs == NULL)
         {
-          cur_rank = r;
+          // Language not found...
+          if (cur_rank < 0)
+            {
+              // ...and no previous value existed, so we're happy with just anything..
+              cur_value = new_value;
+              cur_rank = 9999;
+            }
+          else if (cur_rank == 9999 && !strcmp(nl, "en"))
+            {
+              // ...but we really prefer to default to English
+              cur_value = new_value;
+              cur_rank = 9998;
+            }
+          
+        }
+      else
+        {
+          // Language found
           cur_value = new_value;
+          cur_rank = r;
+          
         }
     }
   else

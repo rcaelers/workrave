@@ -27,6 +27,7 @@
 #include "Hig.hh"
 #include "nls.h"
 #include "SoundPlayerInterface.hh"
+#include "debug.hh"
 
 ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
   : Gtk::HBox(false, 6),
@@ -141,8 +142,10 @@ ExercisesPanel::start_exercise()
 void
 ExercisesPanel::show_image()
 {
+  TRACE_ENTER("ExercisesPanel::show_image");
   const Exercise::Image &img = (*image_iterator);
   seq_time += img.duration;
+  TRACE_MSG("image=" << img.image);
   string file = Util::complete_directory(img.image,
                                          Util::SEARCH_PATH_EXERCISES);
   if (! img.mirror_x)
@@ -155,6 +158,7 @@ ExercisesPanel::show_image()
       Glib::RefPtr<Gdk::Pixbuf> flip = GtkUtil::flip_pixbuf(pixbuf, true, false);
       image.set(flip);
     }
+  TRACE_EXIT();
 }
 
 void

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-29 20:49+0200\n"
+"POT-Creation-Date: 2003-07-31 19:52+0200\n"
 "PO-Revision-Date: 2003-07-07 18:50+0100\n"
 "Last-Translator: Mikołaj Machowski <mikmach@wp.pl>\n"
 "Language-Team: Mikołaj Machowski <mikmach@wp.pl>\n"
@@ -78,11 +78,11 @@ msgstr ""
 msgid "Exercises"
 msgstr "Ćwiczenia"
 
-#: src/app/gtkmm/ExercisesPanel.cc:222
+#: src/app/gtkmm/ExercisesPanel.cc:226
 msgid "Resume"
 msgstr "Przywróć"
 
-#: src/app/gtkmm/ExercisesPanel.cc:222
+#: src/app/gtkmm/ExercisesPanel.cc:226
 msgid "Pause"
 msgstr "Pauza"
 

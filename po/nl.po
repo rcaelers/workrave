@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.4.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-29 20:49+0200\n"
+"POT-Creation-Date: 2003-07-31 19:51+0200\n"
 "PO-Revision-Date: 2003-07-29 20:57+0200\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -75,11 +75,11 @@ msgstr ""
 msgid "Exercises"
 msgstr "Oefeningen"
 
-#: src/app/gtkmm/ExercisesPanel.cc:222
+#: src/app/gtkmm/ExercisesPanel.cc:226
 msgid "Resume"
 msgstr "Ga verder"
 
-#: src/app/gtkmm/ExercisesPanel.cc:222
+#: src/app/gtkmm/ExercisesPanel.cc:226
 msgid "Pause"
 msgstr "Pauzeer"
 
