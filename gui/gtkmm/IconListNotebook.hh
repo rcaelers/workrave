@@ -33,7 +33,7 @@ private:
   struct ModelColumns : public Gtk::TreeModel::ColumnRecord
   {
     Gtk::TreeModelColumn<Glib::ustring> text;
-    Gtk::TreeModelColumn<Glib::RefPtr<Gtk::Widget> > page;
+    Gtk::TreeModelColumn<Gtk::Widget*> page;
     Gtk::TreeModelColumn<Glib::RefPtr<Gdk::Pixbuf> > pixbuf;
     
     ModelColumns() { add(text); add(page); add(pixbuf); }

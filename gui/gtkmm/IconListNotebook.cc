@@ -65,7 +65,7 @@ IconListNotebook::on_page_changed()
   if(const Gtk::TreeModel::iterator selected
      = icon_list.get_selection()->get_selected())
   {
-    Glib::RefPtr<Gtk::Widget> page =  (*selected)[model_columns.page];
+    Gtk::Widget *page =  (*selected)[model_columns.page];
     int page_num = gtk_notebook_page_num(notebook.gobj(), page->gobj());
     notebook.set_current_page(page_num);
     
@@ -80,6 +80,5 @@ IconListNotebook::add_page(const char *name, Glib::RefPtr<Gdk::Pixbuf> pixbuf,
   Gtk::TreeRow row = *list_store->append();
   row[model_columns.text] = Glib::ustring(name);
   row[model_columns.pixbuf] = pixbuf;
-  Glib::RefPtr<Gtk::Widget> page(&widget);
-  row[model_columns.page] = page;
+  row[model_columns.page] = &widget;
 }

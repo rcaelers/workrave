@@ -128,6 +128,7 @@ bool
 TimeBar::on_expose_event(GdkEventExpose *e)
 {
   (void) e;
+  int border_size = 2;
   
   // we need a ref to the gdkmm window
   Glib::RefPtr<Gdk::Window> window = get_window();
@@ -139,13 +140,19 @@ TimeBar::on_expose_event(GdkEventExpose *e)
   // Border
   Gdk::Rectangle area(&e->area);
   Glib::RefPtr<Gtk::Style> style = get_style();
-  style->paint_box(window, Gtk::STATE_PRELIGHT, Gtk::SHADOW_IN, area,
-		       *this, "", 0, 0,
-		       winw, winh);
+
+  //  style->paint_box(window, Gtk::STATE_PRELIGHT, Gtk::SHADOW_IN, area,
+//                       *this, "", 0, 0,
+//                       winw, winh);
+  style->paint_shadow(window, Gtk::STATE_NORMAL, Gtk::SHADOW_IN, area,
+                      *this, "", 0, 0, winw, winh);
+  window->draw_rectangle(style->get_light_gc(Gtk::STATE_NORMAL),
+                         true, e->area.x+border_size, e->area.y+border_size,
+                         e->area.width -2*border_size,
+                         e->area.height -2*border_size);
 
   // Bar
   int bar_width = 0;
-  int border_size = 2;
   if (bar_max_value > 0)
     {
       bar_width = (bar_value * (winw - 2 * border_size)) / bar_max_value;
