@@ -27,6 +27,8 @@
 #include "TimerBoxView.hh"
 #include "TimeBar.hh"
 
+class EventImage;
+
 namespace Gtk
 {
   class Image;

@@ -660,13 +660,21 @@ MainWindow::win32_exit()
 void
 MainWindow::win32_add_tray_icon()
 {
+  memset(&win32_tray_icon, 0, sizeof(NOTIFYICONDATA));
+    
   win32_tray_icon.cbSize = sizeof(NOTIFYICONDATA);
   win32_tray_icon.hWnd = win32_main_hwnd;
   win32_tray_icon.uID = 1;
-  win32_tray_icon.uFlags = NIF_ICON|NIF_TIP|NIF_MESSAGE;
+  win32_tray_icon.uFlags = NIF_ICON|NIF_TIP|NIF_MESSAGE|NIF_INFO;
   win32_tray_icon.uCallbackMessage = MYWM_TRAY_MESSAGE;
   win32_tray_icon.hIcon = LoadIcon(win32_hinstance, "workrave");
+
+  win32_tray_icon.dwInfoFlags = 0; // NIIF_NONE;
+
   strcpy(win32_tray_icon.szTip, "Workrave");
+  strcpy(win32_tray_icon.szInfoTitle, "Workrave");
+  strcpy(win32_tray_icon.szInfo, "Workrave");
+
   Shell_NotifyIcon(NIM_ADD, &win32_tray_icon);
   DestroyIcon(win32_tray_icon.hIcon);
 }
@@ -674,7 +682,7 @@ MainWindow::win32_add_tray_icon()
 void
 MainWindow::win32_set_tray_tooltip(string tip)
 {
-  strcpy(win32_tray_icon.szTip, tip.c_str());
+  strcpy(win32_tray_icon.szInfo, tip.c_str());
   Shell_NotifyIcon(NIM_MODIFY, &win32_tray_icon);
 }
 

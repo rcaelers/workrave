@@ -33,6 +33,8 @@
 
 class HeadInfo;
 
+class EventImage;
+
 class GtkUtil
 {
 public:
@@ -57,7 +59,7 @@ public:
   GtkUtil::create_label_with_tooltip(std::string text,
                                      std::string tooltip);
 
-  static Gtk::EventImage *
+  static EventImage *
   GtkUtil::create_image_with_tooltip(std::string file,
                                      std::string tooltip);
 

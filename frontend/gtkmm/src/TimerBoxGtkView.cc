@@ -32,7 +32,7 @@ static const char rcsid[] = "$Id$";
 #include "nls.h"
 #include "debug.hh"
 
-
+#include "EventImage.hh"
 #include "TimerBoxGtkView.hh"
 #include "TimeBar.hh"
 #include "Util.hh"
