@@ -43,6 +43,7 @@ static const char rcsid[] = "$Id$";
 #include "MicroPauseWindow.hh"
 #include "PreludeWindow.hh"
 #include "RestBreakWindow.hh"
+#include "AppletWindow.hh"
 #include "Util.hh"
 #include "WindowHints.hh"
 
@@ -59,7 +60,6 @@ static const char rcsid[] = "$Id$";
 #endif
 
 #ifdef HAVE_GNOME
-#include "AppletWindow.hh"
 #include "RemoteControl.hh"
 #include "libgnomeuimm/wrap_init.h"
 #endif
@@ -76,9 +76,7 @@ GUI *GUI::instance = NULL;
 GUI::GUI(ControlInterface *controller, int argc, char **argv)  :
   configurator(NULL),
   core_control(controller),
-#ifdef HAVE_GNOME
   applet_window(NULL),
-#endif
   main_window(NULL)
 {
   TRACE_ENTER("GUI:GUI");
@@ -111,12 +109,10 @@ GUI::~GUI()
       delete main_window;
     }
 
-#ifdef GNOME  
   if (applet_window != NULL)
     {
       delete applet_window;
     }
-#endif  
   TRACE_EXIT();
 }
 
@@ -163,10 +159,8 @@ GUI::main()
   delete main_window;
   main_window = NULL;
   
-#ifdef HAVE_GNOME
   delete applet_window;
   applet_window = NULL;
-#endif  
   
   TRACE_EXIT();
 }
@@ -239,12 +233,10 @@ GUI::on_timer()
       main_window->update();
     }
   
-#ifdef HAVE_GNOME
   if (applet_window != NULL)
     {
       applet_window->update();
     }
-#endif
 
   return true;
 }
@@ -420,10 +412,8 @@ GUI::init_gui()
   // The main status window.
   main_window = new MainWindow();
   
-#ifdef HAVE_GNOME
   // The applet window.
   applet_window = new AppletWindow();
-#endif  
 
   tooltips = manage(new Gtk::Tooltips());
   tooltips->enable();

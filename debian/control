@@ -2,8 +2,8 @@ Source: workrave
 Section: x11
 Priority: optional
 Maintainer: Rob Caelers <robc@krandor.org>
-Build-Depends: debhelper (>> 4.1.29), autotools-dev, libgtkmm2.0-dev (>> 2.2.0), libsigc++-1.2-dev (>> 1.2.3), libgconf2-dev (>> 1.2.1), libgnet-dev (>> 1.1.7), automake1.7 (>> 1.7.2), autoconf (>> 2.57), libgnomeui-dev (>> 2.0.6), libpanel-applet2-dev (>> 2.0.11)
-Standards-Version: 3.5.2
+Build-Depends: debhelper (>> 4.1.29), autotools-dev, libgtkmm2.0-dev (>> 2.2.0), libsigc++-1.2-dev (>> 1.2.3), libgconf2-dev (>> 1.2.1), libgnet-dev (>> 1.1.7), automake1.7 (>> 1.7.2), autoconf (>> 2.57), libnomeuimm1.3-dev, libpanel-applet2-dev (>> 2.0.11)
+Standards-Version: 3.5.23
 
 Package: workrave
 Architecture: any
