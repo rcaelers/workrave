@@ -670,7 +670,8 @@ MainWindow::win32_add_tray_icon()
   win32_tray_icon.hIcon = LoadIcon(win32_hinstance, "workrave");
 
   win32_tray_icon.dwInfoFlags = 0; // NIIF_NONE;
-
+  win32_tray_icon.uTimeout = 5 * 1000;
+  
   strcpy(win32_tray_icon.szTip, "Workrave");
   strcpy(win32_tray_icon.szInfoTitle, "Workrave");
   strcpy(win32_tray_icon.szInfo, "Workrave");
