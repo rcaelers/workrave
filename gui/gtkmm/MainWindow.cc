@@ -375,9 +375,10 @@ MainWindow::win32_init()
   win32_tray_menu = menus->create_tray_menu();
 
   Gtk::Menu::MenuList &menulist = win32_tray_menu->items();
+
   menulist.push_front(Gtk::Menu_Helpers::StockMenuElem
-                     (Gtk::Stock::OPEN,
-                      SigC::slot(*((Gtk::Window *)this), &MainWindow::win32_on_tray_open)));
+                      (Gtk::Stock::OPEN,
+                       SigC::slot(*this, &MainWindow::win32_on_tray_open)));
   TRACE_EXIT();
 }
 

@@ -39,6 +39,7 @@ static const char rcsid[] = "$Id$";
 #include "ControlInterface.hh"
 #include "ActivityMonitorInterface.hh"
 #include "Configurator.hh"
+#include "Menus.hh"
 
 #ifdef HAVE_DISTRIBUTION
 #include "DistributionManager.hh"
@@ -93,7 +94,9 @@ TimerWindow::init_widgets()
 	  b->set_relief(Gtk::RELIEF_NONE);
 	  b->set_border_width(0);
 	  b->add(*img);
-	  b->signal_clicked().connect(SigC::slot(*this, &TimerWindow::on_menu_restbreak_now));
+
+          Menus *menus = Menus::get_instance();
+	  b->signal_clicked().connect(SigC::slot(*menus, &Menus::on_menu_restbreak_now));
 	  w = b;
 	}
       else
@@ -199,13 +202,4 @@ TimerWindow::update_widgets()
         }
       bar->update();
     }
-}
-
-
-
-//! User requested immediate restbreak.
-void
-TimerWindow::on_menu_restbreak_now()
-{
-  gui->restbreak_now();
 }

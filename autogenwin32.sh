@@ -24,7 +24,7 @@ autoconf
 
 rm -f config.cache
 
-bash ./configure --build=i686-pc-mingw32  --host=i686-pc-mingw32 --enable-maintainer-mode --prefix=/local --enable-debug --without-x "$@"
+bash ./configure --build=i686-pc-mingw32  --host=i686-pc-mingw32 --enable-maintainer-mode --prefix=/local --enable-debug --without-x --enable-distribution"$@"
 
 make
 
