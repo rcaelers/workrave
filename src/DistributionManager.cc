@@ -23,6 +23,9 @@ static const char rcsid[] = "$Id$";
 #include "debug.hh"
 #include <algorithm>
 #include <assert.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <stdarg.h>
 
 #include "DistributionManager.hh"
 #include "DistributionSocketLink.hh"
@@ -420,3 +423,36 @@ DistributionManager::config_changed_notify(string key)
   
   TRACE_EXIT();
 }
+
+
+//! Notification that the specified configuration key has changed.
+void
+DistributionManager::log(char *fmt, ...)
+{
+  va_list va;
+
+  va_start(va, fmt);
+  
+  time_t current_time = time (NULL);
+  struct tm *lt = localtime(&current_time);
+
+  char str[256];
+  snprintf(str, 255, "[%02d/%02d/%02d %02d:%02d:%02d] ",
+           lt->tm_mday, lt->tm_mon + 1, lt->tm_year,
+           lt->tm_hour, lt->tm_min, lt->tm_sec);
+
+  char *ptr = str + strlen(str);
+  vsnprintf(ptr, 255 - strlen(str), fmt, va);
+
+  ptr = str + strlen(str);
+  ptr[0] = '\n';
+  ptr[1] = 0;
+
+  log_messages.push_back(str);
+
+  if (log_messages.size() > 500)
+    {
+      log_messages.erase(log_messages.begin());
+    }
+}
+  

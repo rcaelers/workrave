@@ -59,11 +59,11 @@ private:
   //! Our Watch
   guint watch;
 
-  //!
+  //! for static methods.
   GNetSocketDriver *driver;
 
   //! Canonical host name.
-  gchar *cname;
+  gchar *name;
 
   //! Port connected to.
   gint port;
@@ -93,8 +93,8 @@ private:
   
   static void static_async_accept(GTcpSocket* server, GTcpSocket* client, gpointer data);
   static gboolean static_async_io(GIOChannel* iochannel, GIOCondition condition, gpointer data);
-  static void static_async_connected(GTcpSocket *socket, GInetAddr *ia, GTcpSocketConnectAsyncStatus status,
-                                     gpointer data);
+  static void static_async_connected(GTcpSocket *socket, GInetAddr *ia,
+                                     GTcpSocketConnectAsyncStatus status, gpointer data);
 };
 
 #endif // GNETSOCKETDRIVER_HH

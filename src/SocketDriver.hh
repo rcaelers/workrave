@@ -49,7 +49,7 @@ public:
 class SocketListener
 {
 public:
-  virtual void socket_accepted(SocketConnection *con) = 0;
+  virtual void socket_accepted(SocketConnection *scon, SocketConnection *ccon) = 0;
   virtual void socket_connected(SocketConnection *con, void *data) = 0;
   virtual void socket_io(SocketConnection *con, void *data) = 0;
   virtual void socket_closed(SocketConnection *con, void *data) = 0;

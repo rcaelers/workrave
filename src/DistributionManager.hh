@@ -68,7 +68,9 @@ public:
   {
     return peer_urls;
   }
-  
+
+  void log(char *fmt, ...);
+           
 private:
   void sanitize_peer(string &peer);
   void parse_peers(string peers, bool connect = true);
@@ -97,6 +99,8 @@ private:
 
   //! All peers
   list<string> peer_urls;
+
+  list<string> log_messages;
 };
 
 

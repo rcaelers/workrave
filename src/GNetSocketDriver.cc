@@ -61,11 +61,10 @@ GNetSocketDriver::get_my_canonical_name()
 {
   GInetAddr *ia = gnet_inetaddr_gethostaddr();
   g_assert(ia != NULL);
-  char *cname = gnet_inetaddr_get_canonical_name(ia);
+  char *name = gnet_inetaddr_get_canonical_name(ia);
   gnet_inetaddr_delete(ia);
 
-  // FIXME: strdup ??
-  return cname;
+  return name;
 }
 
 
@@ -81,7 +80,6 @@ GNetSocketDriver::canonicalize(char *host)
       gnet_inetaddr_delete(ia);
     }
 
-  // FIXME: strdup ??
   return ret;
 }
 
@@ -89,7 +87,7 @@ GNetSocketDriver::canonicalize(char *host)
 SocketConnection *
 GNetSocketDriver::connect(char *host, int port, void *data)
 {
-  TRACE_ENTER("GNetSocketDriver::init");
+  TRACE_ENTER("GNetSocketDriver::connect");
 
   GNetSocketConnection *con = new GNetSocketConnection;
 
@@ -170,7 +168,7 @@ GNetSocketDriver::async_accept(GTcpSocket *server, GTcpSocket *client, GNetSocke
 
       if (listener != NULL)
         {
-          listener->socket_accepted(ccon);
+          listener->socket_accepted(scon, ccon);
         }
     }
   TRACE_EXIT();
@@ -192,6 +190,7 @@ GNetSocketDriver::async_io(GIOChannel *iochannel, GIOCondition condition, GNetSo
       if (listener != NULL)
         {
           listener->socket_closed(con, con->data);
+          con->close();
         }
       ret = false;
     }
@@ -234,7 +233,7 @@ GNetSocketDriver::async_connected(GTcpSocket *socket, GInetAddr *ia,
       g_assert(socket != NULL);
       
       con->socket = socket;
-      con->cname = gnet_inetaddr_get_canonical_name(ia);
+      con->name = gnet_inetaddr_get_canonical_name(ia);
       con->port = gnet_inetaddr_get_port(ia);
       con->iochannel = gnet_tcp_socket_get_iochannel(socket);
       con->watch_flags = G_IO_IN | G_IO_ERR | G_IO_HUP | G_IO_NVAL;
@@ -291,7 +290,7 @@ GNetSocketConnection::GNetSocketConnection() :
   watch_flags(0),
   watch(0),
   driver(NULL),
-  cname(NULL),
+  name(NULL),
   port(0)
 {
 }
@@ -309,9 +308,9 @@ GNetSocketConnection::~GNetSocketConnection()
       gnet_tcp_socket_delete(socket);
     }
 
-  if (cname != NULL)
+  if (name != NULL)
     {
-      g_free(cname);
+      g_free(name);
     }
   
   g_source_remove(watch);

@@ -21,8 +21,6 @@
 
 #include <list>
 #include <map>
-#include <glib.h>
-#include <gnet/gnet.h>
 
 #if TIME_WITH_SYS_TIME
 # include <sys/time.h>
@@ -40,6 +38,8 @@
 #include "ConfiguratorListener.hh"
 #include "PacketBuffer.hh"
 
+#include "SocketDriver.hh"
+
 #define DEFAULT_PORT (27273)
 #define DEFAULT_INTERVAL (15)
 #define DEFAULT_ATTEMPTS (5)
@@ -49,7 +49,8 @@ class Configurator;
 
 class DistributionSocketLink :
   public DistributionLink,
-  public ConfiguratorListener
+  public ConfiguratorListener,
+  public SocketListener
 {
 public:
   static const string CFG_KEY_DISTRIBUTION_TCP;
@@ -80,66 +81,34 @@ private:
   struct Client
   {
     Client() :
-      canonical_name(NULL),
-      server_name(NULL),
-      server_port(0),
       socket(NULL),
-      iochannel(NULL),
-      watch_flags(0),
-      watch(0),
-      link(NULL),
+      hostname(NULL),
+      port(0),
       reconnect_count(0),
       reconnect_time(0)
     {
     }
-
+    
     ~Client()
     {
-      if (canonical_name != NULL)
-        {
-          g_free(canonical_name);
-        }
-      if (server_name != NULL)
-        {
-          g_free(server_name);
-        }
-
-      if (iochannel != NULL)
-        {
-          g_io_channel_unref(iochannel);
-        }
-
       if (socket != NULL)
         {
-          gnet_tcp_socket_delete(socket);
+          delete socket;
         }
-      
-      g_source_remove(watch);
+      if (hostname != NULL)
+        {
+          g_free(hostname);
+        }
     }
+
+    //!
+    SocketConnection *socket;
     
     //! Canonical IP.
-    gchar *canonical_name;
+    gchar *hostname;
     
-    //! Hostname/IP of this client.
-    gchar *server_name;
-
-    //! Local port.
-    gint server_port;
-
-    //! GNet socket
-    GTcpSocket *socket;
-
-    //! Glib IOChannel.
-    GIOChannel *iochannel;
-
-    //! I/O Events we are monitoring.
-    gint watch_flags;
-
-    //! Our Watch
-    guint watch;
-
-    //! For statics...
-    DistributionSocketLink *link;
+    //! port.
+    gint port;
 
     //!
     PacketBuffer packet;
@@ -169,6 +138,11 @@ public:
 
   bool register_state(DistributedStateID id, DistributedStateInterface *dist_state);
   bool unregister_state(DistributedStateID id);
+
+  void socket_accepted(SocketConnection *scon, SocketConnection *ccon);
+  void socket_connected(SocketConnection *con, void *data);
+  void socket_io(SocketConnection *con, void *data);
+  void socket_closed(SocketConnection *con, void *data);
   
 private:
   bool add_client(gchar *host, gint port);
@@ -205,18 +179,20 @@ private:
   void send_state();
   
   bool start_async_server();
-  void async_accept(GTcpSocket *server, GTcpSocket *client);
-  bool async_io(GIOChannel* iochannel, GIOCondition condition, Client *client);
-  void async_connected(GTcpSocket *socket, GInetAddr *ia, GTcpSocketConnectAsyncStatus status, Client *client);
-
-  static void static_async_accept(GTcpSocket* server, GTcpSocket* client, gpointer data);
-  static gboolean static_async_io(GIOChannel* iochannel, GIOCondition condition, gpointer data);
-  static void static_async_connected(GTcpSocket *socket, GInetAddr *ia, GTcpSocketConnectAsyncStatus status, gpointer data);
 
   void read_configuration();
   void config_changed_notify(string key);
   
 private:
+  //! The socket library.
+  SocketDriver *socket_driver;
+  
+  //! The distribution manager
+  DistributionLinkListener *dist_manager;
+
+  //! The configuration access.
+  Configurator *configurator;
+  
   //! Username for client authenication
   gchar *username;
 
@@ -233,22 +209,16 @@ private:
   bool active;
   
   //!
-  gchar *canonical_name;
+  gchar *myname;
   
   //! My server port
   gint server_port;
   
   //! The server socket.
-  GTcpSocket *server_socket;
+  SocketConnection *server_socket;
 
   //!
   bool server_enabled;
-  
-  //!
-  DistributionLinkListener *dist_manager;
-
-  //!
-  Configurator *configurator;
   
   //! State
   map<DistributedStateID, DistributedStateInterface *> state_map;
