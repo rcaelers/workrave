@@ -106,8 +106,7 @@ public:
 
 public:
   void init(Core *core);
-  void set_reset_predicate(TimePred *predicate);
-  bool update();
+  void update();
   void dump();
   void start_new_day();
 
@@ -156,9 +155,6 @@ private:
 
   //! History
   vector<DailyStatsImpl *> history;
-
-  //! Predicate that indicates when the stats need to be reset
-  TimePred *reset_predicate;
 };
 
 #endif // STATISTICS_HH

@@ -71,7 +71,7 @@ public:
   };
   
 public:
-  virtual bool update() = 0;
+  virtual void update() = 0;
   virtual DailyStats *get_current_day() const = 0;
   virtual DailyStats *get_day(int day) const = 0;
   virtual void get_day_index_by_date(int y, int m, int d, int &idx, int &next, int &prev) const = 0;

@@ -44,8 +44,7 @@ const int STATSVERSION = 4;
 //! Constructor
 Statistics::Statistics() : 
   core(NULL),
-  current_day(NULL),
-  reset_predicate(NULL)
+  current_day(NULL)
 {
 }
 
@@ -61,7 +60,6 @@ Statistics::~Statistics()
     }
 
   delete current_day;
-  delete reset_predicate;
 }
 
 
@@ -83,42 +81,15 @@ Statistics::init(Core *control)
 }
 
 
-//! Sets the stats reset predicate
-void
-Statistics::set_reset_predicate(TimePred *predicate)
-{
-  TRACE_ENTER("Statistics::set_reset_predicate");
-  delete reset_predicate;
-  reset_predicate = predicate;
-
-  if (predicate != NULL && current_day != NULL)
-    {
-      time_t t = mktime(&(current_day->start));
-      predicate->set_last(t);
-    }
-  TRACE_EXIT();
-}
-
-
 //! Periodic heartbeat.
-bool
+void
 Statistics::update()
 {
-  bool new_day_started = false;
-  
   TRACE_ENTER("Statistics::update");
-  TRACE_MSG(time(NULL) << " " << reset_predicate->get_next() << " " <<
-            (reset_predicate->get_next() - time(NULL)));
-  if (reset_predicate != NULL && time(NULL) > reset_predicate->get_next())
-    {
-      TRACE_MSG("NEW DAY");
-      new_day_started = true;
-    }
       
   update_current_day();
   save_day(current_day);
   TRACE_EXIT();
-  return new_day_started;
 }
 
 
@@ -150,12 +121,6 @@ Statistics::start_new_day()
 
       current_day->start = *tmnow;
       current_day->stop = *tmnow;
-
-      if (reset_predicate != NULL)
-        {
-          time_t t = mktime(&(current_day->start));
-          reset_predicate->set_last(t);
-        }
     }
 
   update_current_day();
@@ -700,7 +665,6 @@ Statistics::update_current_day()
 
       ActivityMonitorStatistics ams;
       monitor->get_statistics(ams);
-
       
       current_day->misc_stats[STATS_VALUE_TOTAL_MOUSE_MOVEMENT] = ams.total_movement;
       current_day->misc_stats[STATS_VALUE_TOTAL_CLICK_MOVEMENT] = ams.total_click_movement;

@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-07-07 18:48:30 robc>
+// Time-stamp: <2003-11-01 00:07:22 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -304,8 +304,10 @@ void
 Timer::compute_next_predicate_reset_time()
 {
   //TRACE_ENTER_MSG("Timer::compute_next_predicate_reset_time", timer_id);
+
+  // This one ALWAYS send a reset, also when the timer is disabled.
   
-  if (timer_enabled && autoreset_interval_predicate)
+  if (autoreset_interval_predicate)
     {
       if (last_pred_reset_time == 0)
         {
@@ -629,14 +631,17 @@ Timer::process(ActivityState activityState, TimerInfo &info)
   info.event = TIMER_EVENT_NONE;
   info.idle_time = get_elapsed_idle_time();
   info.elapsed_time = get_elapsed_time();
-    
-  if (activityState == ACTIVITY_ACTIVE && timer_state != STATE_RUNNING)
+
+  if (timer_enabled)
     {
-      activity_notify();
-    }
-  else if (activityState != ACTIVITY_ACTIVE && timer_state == STATE_RUNNING)
-    {
-      idle_notify();
+      if (activityState == ACTIVITY_ACTIVE && timer_state != STATE_RUNNING)
+        {
+          activity_notify();
+        }
+      else if (activityState != ACTIVITY_ACTIVE && timer_state == STATE_RUNNING)
+        {
+          idle_notify();
+        }
     }
   
   activity_state = activityState;
@@ -684,7 +689,7 @@ Timer::process(ActivityState activityState, TimerInfo &info)
       info.event = natural ? TIMER_EVENT_NATURAL_RESET : TIMER_EVENT_RESET;
       // Idem, may overrule the EventStopped.
     }
-  else
+  else if (timer_enabled)
     {
       switch (timer_state)
         {

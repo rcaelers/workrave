@@ -260,16 +260,7 @@ void
 Core::init_statistics()
 {
   statistics = new Statistics();
-
-  Break &b = breaks[BREAK_ID_DAILY_LIMIT];
-  TimePred *predicate = TimePredFactory::create_time_pred(b.get_timer_reset_pred());
-
-  configurator->add_listener(Break::CFG_KEY_TIMER_PREFIX +
-                             breaks[BREAK_ID_DAILY_LIMIT].get_name() +
-                             Break::CFG_KEY_TIMER_RESET_PRED, this);
-  
   statistics->init(this);
-  statistics->set_reset_predicate(predicate);
 }
 
 
@@ -312,20 +303,6 @@ Core::config_changed_notify(string key)
   string::size_type pos = key.find('/');
   string path;
 
-  if (key == ( Break::CFG_KEY_TIMER_PREFIX +
-               breaks[BREAK_ID_DAILY_LIMIT].get_name() +
-               Break::CFG_KEY_TIMER_RESET_PRED))
-      {
-
-        Break &b = breaks[BREAK_ID_DAILY_LIMIT];
-        TimePred *predicate = TimePredFactory::create_time_pred(b.get_timer_reset_pred());
-
-        if (statistics != NULL)
-          {
-            statistics->set_reset_predicate(predicate);
-          }
-      }
-      
   if (pos != string::npos)
     {
       path = key.substr(0, pos);
@@ -489,10 +466,7 @@ Core::set_powersave(bool down)
       powersave_operation_mode = set_operation_mode(OPERATION_MODE_SUSPENDED);
       save_state();
 
-      if (statistics->update())
-        {
-          daily_reset();
-        }
+      statistics->update();
     }
   else
     {
@@ -553,10 +527,7 @@ Core::update_statistics()
 
   if (count % 30 == 0)
     {
-      if (statistics->update())
-        {
-          daily_reset();
-        }
+      statistics->update();
     }
 
   count++;
@@ -585,6 +556,18 @@ Core::heartbeat()
         {
           timer_action((BreakId)i, info);
         }
+
+      if (i == BREAK_ID_DAILY_LIMIT)
+        {
+          if (info.event == TIMER_EVENT_NATURAL_RESET ||
+              info.event == TIMER_EVENT_RESET)
+            {
+              statistics->set_counter(Statistics::STATS_VALUE_TOTAL_ACTIVE_TIME, info.elapsed_time);
+              statistics->start_new_day();
+              
+              daily_reset();
+            }
+        }      
     }
 
   // Distributed  stuff
@@ -753,20 +736,21 @@ Core::process_timers(TimerInfo *infos)
           if (infos[i].enabled)
             {
               breaks[i].get_timer()->enable();
-              if (!(breaks[i].get_timer()->has_activity_monitor()))
-                {
-                  breaks[i].get_timer()->process(state, infos[i]);
-                }
             }
           else
             {
               breaks[i].get_timer()->disable();
             }
+          
+          if (!(breaks[i].get_timer()->has_activity_monitor()))
+            {
+              breaks[i].get_timer()->process(state, infos[i]);
+            }
         }
 
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
-          if (infos[i].enabled && breaks[i].get_timer()->has_activity_monitor())
+          if (breaks[i].get_timer()->has_activity_monitor())
             {
               breaks[i].get_timer()->process(state, infos[i]);
             }
@@ -1013,8 +997,6 @@ Core::daily_reset()
 #ifdef HAVE_DISTRIBUTION
   idlelog_manager->reset();
 #endif
-
-  statistics->start_new_day();
 
   TRACE_EXIT();
 }
