@@ -129,17 +129,20 @@ BreakControl::heartbeat()
   ActivityMonitorInterface *monitor = core_control->get_activity_monitor();
   ActivityState activity_state = monitor->get_current_state();
 
-  TRACE_MSG("state = " << activity_state << " " << ACTIVITY_ACTIVE << " " << prelude_time);
-  TRACE_MSG("stage = " << break_stage);
+  bool is_idle = false;
 
-  time_t idle = break_timer->get_elapsed_idle_time();
-  TRACE_MSG("idle = " << idle);
-
-  TimerInterface::TimerState tstate = break_timer->get_state();
-  TRACE_MSG("tstate = " << tstate);
+  if (!break_timer->has_activity_monitor())
+    {
+      // Prefer running state of timer.
+      TimerInterface::TimerState tstate = break_timer->get_state();
+      is_idle = (tstate == TimerInterface::STATE_STOPPED);
+    }
+  else
+    {
+      // Unless the timer has it's own activity monitor.
+      is_idle = (activity_state != ACTIVITY_ACTIVE);
+    }
   
-  bool is_idle = tstate == TimerInterface::STATE_STOPPED;
-
   switch (break_stage)
     {
     case STAGE_NONE:

@@ -37,6 +37,7 @@ Statistics *Statistics::instance = NULL;
 const char *WORKRAVESTATS="WorkRaveStats";
 const int STATSVERSION = 4;
 
+
 //! Constructor
 Statistics::Statistics() : 
   core_control(NULL),

@@ -104,9 +104,10 @@ DistributionSocketLink::init()
 {
   TRACE_ENTER("DistributionSocketLink::init");
 
-  // How am I?
+  // Who am I?
   myname = socket_driver->get_my_canonical_name();
 
+  // I'm master.
   master_client = NULL;
   i_am_master = true;
 
@@ -193,6 +194,7 @@ DistributionSocketLink::join(string url)
 }
 
 
+//! Disconnects all clients.
 bool
 DistributionSocketLink::disconnect_all()
 {
@@ -225,6 +227,7 @@ DistributionSocketLink::disconnect_all()
 }
 
 
+//! Reconnects all clients.
 bool
 DistributionSocketLink::reconnect_all()
 {
@@ -263,7 +266,7 @@ DistributionSocketLink::claim()
     }
   else if (!i_am_master && clients.size() > 0)
     {
-      // No one is master. Just force is to be master
+      // No one is master. Just force to be master
       // potential problem when more client do this simultaneously...
       send_new_master();
       i_am_master = true;
@@ -278,11 +281,11 @@ DistributionSocketLink::claim()
 }
 
 
+//! Lock the master status. Claim will be denied when locked.
 bool
 DistributionSocketLink::set_lock_master(bool lock)
 {
   master_locked = lock;
-
   return true;
 }
 
@@ -319,7 +322,7 @@ DistributionSocketLink::set_enabled(bool enabled)
       if (!start_async_server())
         {
           // We did not succeed in starting the server. Arghh.
-          // FIXME: report to user.
+          dist_manager->log(_("Could not enable network operation."));
           enabled = false;
         }
     }
@@ -360,6 +363,7 @@ DistributionSocketLink::unregister_state(DistributedStateID id)
 }
 
 
+//! Force is state distribution.
 bool
 DistributionSocketLink::push_state(DistributedStateID id, unsigned char *buffer, int size)
 {
@@ -433,7 +437,6 @@ DistributionSocketLink::add_client(gchar *host, gint port)
       // This client doesn't seem to exist. Now try the
       // canonical name of this client.
       canonical_host = socket_driver->canonicalize(host);
-      TRACE_MSG(host << " - " << canonical_host);
       if (canonical_host != NULL)
         {
           skip = exists_client(canonical_host, port);
@@ -1581,6 +1584,7 @@ DistributionSocketLink::socket_closed(SocketConnection *con, void *data)
 }
 
 
+//! Read the configuration from the configurator.
 void
 DistributionSocketLink::read_configuration()
 {
@@ -1654,6 +1658,7 @@ DistributionSocketLink::read_configuration()
 }
 
 
+//! Notification from the configurator that the configuration has changed.
 void
 DistributionSocketLink::config_changed_notify(string key)
 {
