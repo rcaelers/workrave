@@ -18,15 +18,18 @@
  */
 
 #include <windows.h>
+
 #include <stdio.h>
 #include <stdarg.h>
+
 #include "harpoon.h"
 
-#define HARPOON_MAILSLOT_NAME "\\\\.\\mailslot\\harpoon"
 #define HARPOON_MAX_UNBLOCKED_WINDOWS 8 // Fixed, but ought to be enough...
+#define HARPOON_WINDOW_CLASS "HarpoonNotificationWindow"
 
 #pragma comment(linker, "/SECTION:.shared,RWS")
 #pragma data_seg(".shared")
+HWND notification_window = NULL;
 HHOOK mouse_hook_handle = NULL;
 HHOOK keyboard_hook_handle = NULL;
 BOOL block_input = FALSE;
@@ -36,23 +39,26 @@ HWND unblocked_windows[HARPOON_MAX_UNBLOCKED_WINDOWS];
 static HANDLE dll_handle = NULL;
 static volatile HOOKPROC mouse_hook_callback = NULL;
 static volatile HOOKPROC keyboard_hook_callback = NULL;
-static HANDLE thread_handle = NULL;
-static HANDLE mailslot;
+static ATOM notification_class = 0;
 
-
-struct harpoon_mailslot_message
+typedef struct
 {
-  int hook;
-  int code;
-  WPARAM wparam;
-  LPARAM lparam;
-};
-
-typedef struct {
   MOUSEHOOKSTRUCT MOUSEHOOKSTRUCT;
   DWORD mouseData;
 } MOUSEHOOKSTRUCTEX, *PMOUSEHOOKSTRUCTEX;
 
+typedef struct
+{
+  int code;
+  WPARAM wparam;
+  LPARAM lparam;
+} HarpoonMessage;
+
+typedef struct
+{
+  HarpoonMessage message;
+  MOUSEHOOKSTRUCTEX mouse;
+} HarpoonMouseMessage;
 
 
 /**********************************************************************
@@ -60,7 +66,7 @@ typedef struct {
  **********************************************************************/
 
 static BOOL
-harpoon_is_window_blocked(HWND hwnd)
+harpoon_is_window_blocked (HWND hwnd)
 {
   BOOL ret;
 
@@ -75,7 +81,7 @@ harpoon_is_window_blocked(HWND hwnd)
           if (ubw == NULL)
             break;
           // FIXME: GetParent is not enough, traverse all ancestors.
-          if (hwnd == ubw || GetParent(hwnd) == ubw)
+          if (hwnd == ubw || GetParent (hwnd) == ubw)
             {
               ret = FALSE;
               break;
@@ -86,13 +92,13 @@ harpoon_is_window_blocked(HWND hwnd)
 }
 
 HARPOON_API void
-harpoon_unblock_input(void)
+harpoon_unblock_input (void)
 {
   block_input = FALSE;
 }
 
 HARPOON_API void
-harpoon_block_input(HWND unblocked, ...)
+harpoon_block_input (HWND unblocked, ...)
 {
   va_list va;
   int i;
@@ -119,22 +125,42 @@ harpoon_block_input(HWND unblocked, ...)
 }
 
 
-DWORD WINAPI 
-harpoon_thread_proc(LPVOID lpParameter)
+
+/**********************************************************************
+ * Messaging
+ **********************************************************************/
+
+static void
+harpoon_post_message (int hook, HarpoonMessage *msg)
 {
-  BOOL running = TRUE;
-  while (running)
+  COPYDATASTRUCT copy;
+  WPARAM wparam;
+  
+  copy.lpData = msg;
+  copy.dwData = hook;
+  if (hook == WH_MOUSE)
     {
-      struct harpoon_mailslot_message msg;
-      DWORD read;
+      wparam = (WPARAM) ((HarpoonMouseMessage *) msg)
+        ->mouse.MOUSEHOOKSTRUCT.hwnd;
+      copy.cbData = sizeof(HarpoonMouseMessage);
+    }
+  else
+    {
+      wparam = 0;
+      copy.cbData = sizeof(HarpoonMessage);
+    }
+  SendMessage (notification_window, WM_COPYDATA, wparam, (LPARAM) &copy);
+}
 
-      running = ReadFile(mailslot, &msg, sizeof(msg), &read, NULL);
-      if ((! running) || (read != sizeof(msg)))
-        {
-          break;
-        }
-
-      switch (msg.hook)
+static LRESULT CALLBACK
+harpoon_window_proc (HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+  if (uMsg == WM_COPYDATA)
+    {
+      PCOPYDATASTRUCT copy = (PCOPYDATASTRUCT) lParam;
+      HarpoonMessage *msg = (HarpoonMessage *) copy->lpData;
+      
+      switch (copy->dwData)
 	{
 	case WH_KEYBOARD:
           {
@@ -142,61 +168,27 @@ harpoon_thread_proc(LPVOID lpParameter)
             proc = keyboard_hook_callback;
             if (proc != NULL)
               {
-                (*proc)(msg.code, msg.wparam, msg.lparam);
+                (*proc)(msg->code, msg->wparam, msg->lparam);
               }
 	  }
           break;
+
 	case WH_MOUSE:
 	  {
-	    MOUSEHOOKSTRUCTEX mhs;
             HOOKPROC proc;
+            HarpoonMouseMessage *mmsg = (HarpoonMouseMessage *) msg;
             
-	    ReadFile(mailslot, &mhs, sizeof(mhs), &read, NULL);
-	    msg.lparam = (LPARAM) &mhs;
             proc = mouse_hook_callback;
             if (proc != NULL)
               {
-                (*proc)(msg.code, msg.wparam, msg.lparam);
+                (*proc)(msg->code, msg->wparam, (LPARAM) &mmsg->mouse);
               }
 	    break;
 	  }
-	case ~0:
-          running = FALSE;
-          break;
-	}
+        }
     }
-  return 0;
+  return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
-
-
-void
-harpoon_mailslot_send_data(void *buf, int buf_len)
-{
-  HANDLE h = CreateFile(HARPOON_MAILSLOT_NAME, GENERIC_WRITE, 
-			FILE_SHARE_READ, NULL, OPEN_EXISTING,  
-			FILE_ATTRIBUTE_NORMAL, NULL);
-  if (h != INVALID_HANDLE_VALUE)
-    {
-      DWORD written;
-
-      WriteFile(h, buf, buf_len, &written, NULL);
-      CloseHandle(h);
-    }
-}
-
-
-void
-harpoon_mailslot_send_message(int hook, int code, WPARAM wparam, LPARAM lparam)
-{
-  struct harpoon_mailslot_message msg;
-
-  msg.hook = hook;
-  msg.code = code;
-  msg.wparam = wparam;
-  msg.lparam = lparam;
-  harpoon_mailslot_send_data(&msg, sizeof(msg));
-}
-
 
 
 /**********************************************************************
@@ -204,52 +196,69 @@ harpoon_mailslot_send_message(int hook, int code, WPARAM wparam, LPARAM lparam)
  **********************************************************************/
 
 HARPOON_API BOOL
-harpoon_init(void)
+harpoon_init (void)
 {
-  SECURITY_ATTRIBUTES sa;
-  BOOL rc;
+  BOOL rc = FALSE;
   int i;
-  block_input = FALSE;
+  WNDCLASSEX wclass =
+  {
+    sizeof(WNDCLASSEX),
+    0,
+    harpoon_window_proc,
+    0,
+    0,
+    dll_handle,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    HARPOON_WINDOW_CLASS,
+    NULL
+  };
 
+  block_input = FALSE;
   for (i = 0; i < HARPOON_MAX_UNBLOCKED_WINDOWS; i++)
     {
       unblocked_windows[i] = NULL;
     }
 
-  sa.nLength = sizeof(sa);
-  sa.bInheritHandle = TRUE;
-  sa.lpSecurityDescriptor = NULL;
 
-  mailslot = CreateMailslot(HARPOON_MAILSLOT_NAME, 0, MAILSLOT_WAIT_FOREVER,
-			    &sa);
-  rc = (mailslot != INVALID_HANDLE_VALUE);
-  if (rc)
+  notification_class = RegisterClassEx(&wclass);
+  if (notification_class)
     {
-      DWORD id;
-      thread_handle = CreateThread(&sa, 0, harpoon_thread_proc, NULL, 0, &id);
-      rc = (thread_handle != NULL);
+      notification_window = CreateWindowEx
+        (WS_EX_TOOLWINDOW, HARPOON_WINDOW_CLASS,
+         HARPOON_WINDOW_CLASS, WS_OVERLAPPED,
+         CW_USEDEFAULT, CW_USEDEFAULT,
+         CW_USEDEFAULT, CW_USEDEFAULT,
+         (HWND)NULL, (HMENU)NULL,
+         dll_handle, (LPSTR)NULL);
+      if (notification_window)
+        {
+          rc = TRUE;
+        }
     }
 
   if (! rc)
     {
-      harpoon_exit();
+      harpoon_exit ();
     }
+  
   return rc;
 }
 
 HARPOON_API void
-harpoon_exit(void)
+harpoon_exit (void)
 {
-  if (mailslot != INVALID_HANDLE_VALUE)
+  if (notification_window)
     {
-      if (thread_handle)
-        {
-	  harpoon_mailslot_send_message(~0, 0, 0, 0);
-	  WaitForSingleObject(thread_handle, INFINITE);
-	  thread_handle = NULL;
-        }
-      CloseHandle(mailslot);
-      mailslot = NULL;
+      CloseWindow (notification_window);
+      notification_window = NULL;
+    }
+  if (notification_class)
+    {
+      UnregisterClass (HARPOON_WINDOW_CLASS, dll_handle);
+      notification_class = 0;
     }
 }
 
@@ -294,13 +303,18 @@ harpoon_generic_hook_return(int code, WPARAM wpar, LPARAM lpar, HHOOK hhook)
 static LRESULT CALLBACK 
 harpoon_generic_hook(int code, WPARAM wpar, LPARAM lpar, int hid, HHOOK hhook)
 {
-  harpoon_mailslot_send_message(hid, code, wpar, lpar);
-  return harpoon_generic_hook_return(code, wpar, lpar, hhook);
+  HarpoonMessage msg;
+
+  msg.code = code;
+  msg.wparam = wpar;
+  msg.lparam = lpar;
+  harpoon_post_message (hid, &msg);
+  return harpoon_generic_hook_return (code, wpar, lpar, hhook);
 }
   
 
 
-HARPOON_API void
+static void
 harpoon_unhook_generic(HHOOK *handle, volatile HOOKPROC *callback)
 {
   if (*handle)
@@ -311,7 +325,7 @@ harpoon_unhook_generic(HHOOK *handle, volatile HOOKPROC *callback)
     }
 }
 
-HARPOON_API void
+static void
 harpoon_hook_generic(HOOKPROC hf, HOOKPROC ghf, int hid, HHOOK *handle, 
 		     volatile HOOKPROC *callback)
 {
@@ -324,35 +338,38 @@ harpoon_hook_generic(HOOKPROC hf, HOOKPROC ghf, int hid, HHOOK *handle,
 /**********************************************************************
  * Mouse hook
  **********************************************************************/
+
 static LRESULT CALLBACK
-harpoon_mouse_hook(int code, WPARAM wpar, LPARAM lpar)
+harpoon_mouse_hook (int code, WPARAM wpar, LPARAM lpar)
 {
+  HarpoonMouseMessage msg;
   DWORD dwVersion, dwWindowsMajorVersion;
-  MOUSEHOOKSTRUCTEX mhsex;
   PMOUSEHOOKSTRUCT pmhs;
 
-  harpoon_mailslot_send_message(WH_MOUSE, code, wpar, 0L);
-
+  msg.message.code = code;
+  msg.message.wparam = wpar;
+  msg.message.lparam = 0;
+  
   pmhs = (PMOUSEHOOKSTRUCT) lpar;
-  mhsex.MOUSEHOOKSTRUCT = *pmhs;
-  mhsex.mouseData = 0;
+  msg.mouse.MOUSEHOOKSTRUCT = *pmhs;
+  msg.mouse.mouseData = 0;
 
-  dwVersion = GetVersion();
-  dwWindowsMajorVersion =  (DWORD)(LOBYTE(LOWORD(dwVersion)));
+  dwVersion = GetVersion ();
+  dwWindowsMajorVersion =  (DWORD) (LOBYTE(LOWORD(dwVersion)));
   if (dwWindowsMajorVersion >= 5)
     {
-      mhsex.mouseData = ((PMOUSEHOOKSTRUCTEX) pmhs)->mouseData;
+      msg.mouse.mouseData = ((PMOUSEHOOKSTRUCTEX) pmhs)->mouseData;
     }
 
-  harpoon_mailslot_send_data(&mhsex, sizeof(mhsex));
+  harpoon_post_message (WH_MOUSE, &msg.message);
 
-  return harpoon_generic_hook_return(code, wpar, lpar, mouse_hook_handle);
+  return harpoon_generic_hook_return (code, wpar, lpar, mouse_hook_handle);
 }
 
 HARPOON_API void
-harpoon_unhook_mouse()
+harpoon_unhook_mouse ()
 {
-  harpoon_unhook_generic(&mouse_hook_handle, &mouse_hook_callback);
+  harpoon_unhook_generic (&mouse_hook_handle, &mouse_hook_callback);
 }
 
 
@@ -370,23 +387,24 @@ harpoon_hook_mouse(HOOKPROC hf)
  **********************************************************************/
 
 static LRESULT CALLBACK 
-harpoon_keyboard_hook(int code, WPARAM wpar, LPARAM lpar)
+harpoon_keyboard_hook (int code, WPARAM wpar, LPARAM lpar)
 {
-  return harpoon_generic_hook(code, wpar, lpar, WH_KEYBOARD, keyboard_hook_handle);
+  return harpoon_generic_hook (code, wpar, lpar, WH_KEYBOARD,
+                               keyboard_hook_handle);
 }
 
 HARPOON_API void
-harpoon_unhook_keyboard()
+harpoon_unhook_keyboard ()
 {
-  harpoon_unhook_generic(&keyboard_hook_handle, &keyboard_hook_callback);
+  harpoon_unhook_generic (&keyboard_hook_handle, &keyboard_hook_callback);
 }
 
 
 HARPOON_API void
-harpoon_hook_keyboard(HOOKPROC hf)
+harpoon_hook_keyboard (HOOKPROC hf)
 {
-  harpoon_hook_generic(hf, harpoon_keyboard_hook, WH_KEYBOARD, 
-		       &keyboard_hook_handle, &keyboard_hook_callback);
+  harpoon_hook_generic (hf, harpoon_keyboard_hook, WH_KEYBOARD, 
+                        &keyboard_hook_handle, &keyboard_hook_callback);
 }
 
 
@@ -396,10 +414,9 @@ harpoon_hook_keyboard(HOOKPROC hf)
  **********************************************************************/
 
 BOOL APIENTRY 
-DllMain( HANDLE hModule, 
+DllMain (HANDLE hModule, 
 	 DWORD  ul_reason_for_call, 
-	 LPVOID lpReserved
-	 )
+	 LPVOID lpReserved)
 {
   dll_handle = hModule;
   switch (ul_reason_for_call)
