@@ -757,6 +757,7 @@ AppletWindow::fire()
     }
 }
 
+#ifdef HAVE_GNOME
 //! Fire up the applet (as requested by the native gnome applet).
 void
 AppletWindow::set_applet_control(GNOME_Workrave_AppletControl applet_control)
@@ -778,7 +779,7 @@ AppletWindow::set_applet_control(GNOME_Workrave_AppletControl applet_control)
       retry_init = true;
     }
 }
-
+#endif
 
 //! Updates the main window.
 void

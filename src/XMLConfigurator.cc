@@ -104,6 +104,7 @@ XMLConfigurator::load(string filename)
 bool
 XMLConfigurator::save(string filename)
 {
+  TRACE_ENTER_MSG("XMLConfigurator::save", filename);
   string saveStr;
 
   GdomeException exc;
@@ -127,7 +128,8 @@ XMLConfigurator::save(string filename)
   
   gdome_di_unref(domImpl, &exc);
 
-  return false;
+  TRACE_EXIT();
+  return true;
 }
 
 

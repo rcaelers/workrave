@@ -1,2 +1,24 @@
 <?xml version="1.0"?>
-<workrave><><>< force_after_preludes="1" ignorable_break="1" insist_break="1" max_preludes="0"/>< force_after_preludes="1" ignorable_break="0" insist_break="0" max_preludes="3"/>< force_after_preludes="1" ignorable_break="1" insist_break="1" max_preludes="3"/></>< always_on_top="1"/></>< activity="2000" idle="5000" noise="1000"/><>< auto_reset="0" count_activity="1" limit="14400" reset_pred="day/4:00" restore="1" snooze="150"/>< auto_reset="30" count_activity="1" limit="150" restore="1" snooze="150"/>< auto_reset="600" count_activity="1" limit="1200" restore="1" snooze="150"/></></workrave>
+<workrave>
+  <gui>
+    <applet cycle_time="5" enabled="1">
+      <daily_limit flags="2" position="1"/>
+      <micro_pause flags="0" position="0"/>
+      <rest_break flags="0" position="1"/>
+      </applet>
+    <breaks>
+      <daily_limit force_after_preludes="1" ignorable_break="1" insist_break="1" max_preludes="3"/>
+      <micro_pause force_after_preludes="1" ignorable_break="1" insist_break="1" max_preludes="3"/>
+      <rest_break force_after_preludes="1" ignorable_break="1" insist_break="1" max_preludes="3"/>
+    </breaks>
+    <main_window always_on_top="1" start_in_tray="0"/>
+  </gui>
+  <monitor activity="1000" idle="5000" noise="9000"/>
+  <sound device="soundcard" enabled="1"/>
+  <timers>
+    <daily_limit auto_reset="0" count_activity="1" limit="14400" monitor="" reset_pred="day/4:00" restore="1" snooze="1200"/>
+    <micro_pause auto_reset="30" count_activity="1" limit="180" restore="1" snooze="150"/>
+    <rest_break auto_reset="600" count_activity="1" limit="2700" restore="1" snooze="180"/>
+  </timers>
+</workrave>
+

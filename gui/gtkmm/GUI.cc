@@ -148,7 +148,6 @@ GUI::main()
     }
 
   
-
   init_debug();
   init_nls();
   init_core_control();
@@ -179,6 +178,8 @@ GUI::terminate()
 {
   TRACE_ENTER("GUI::terminate");
 
+  GUIControl::get_instance()->get_configurator()->save();
+  
   if (main_window != NULL)
     {
       // Remember position
@@ -282,6 +283,7 @@ GUI::on_die()
 {
   TRACE_ENTER("GUI::on_die");
 
+  GUIControl::get_instance()->get_configurator()->save();
   Gtk::Main::quit();
   
   TRACE_EXIT();
