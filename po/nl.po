@@ -1,0 +1,19 @@
+# Workrave 
+# Copyright (C) 2002 Rob Caelers & Raymond Penners
+# Raymond Penners <raymond@dotsphinx.com>, 2002.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: workrave 0.3.0\n"
+"POT-Creation-Date: 2002-10-14 03:51+0200\n"
+"PO-Revision-Date: 2002-10-14 04:13+0200\n"
+"Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
+"Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: gui/gtkmm/MainWindow.cc:385
+msgid "_Collective"
+msgstr "Netwerk"

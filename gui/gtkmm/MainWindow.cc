@@ -23,6 +23,7 @@ static const char rcsid[] = "$Id$";
 #include "config.h"
 #endif
 
+#include "nls.h"
 #include "debug.hh"
 
 #include <unistd.h>
@@ -381,7 +382,7 @@ MainWindow::create_menu(Gtk::RadioMenuItem *mode_menus[3])
   Gtk::Menu *distr_menu = manage(new Gtk::Menu());
   Gtk::Menu::MenuList &distr_menu_list = distr_menu->items();
 
-  Gtk::MenuItem *distr_menu_item = manage(new Gtk::MenuItem("_Collective",true));
+  Gtk::MenuItem *distr_menu_item = manage(new Gtk::MenuItem(_("_Collective"),true));
   distr_menu_item->set_submenu(*distr_menu);
   distr_menu_item->show();
 

@@ -9,7 +9,7 @@ MAINTAINERCLEANFILES 	= aclocal.m4 config.h.in configure stamp-h.in Makefile.in 
         install-sh missing mkinstalldirs config.cache config.log config.status \
 	config.guess config.sub depcomp ltmain.sh
 
-SUBDIRS 	= arch gui src images debian sounds po intl
+SUBDIRS 	= intl m4 po arch gui src images debian sounds 
 
 EXTRA_DIST	= \
 	config.xml \
@@ -26,6 +26,8 @@ noinst_PROGRAMS =
 if PLATFORM_WIN32
 dist_pkgdata_DATA = README.txt NEWS.txt AUTHORS.txt COPYING.txt ChangeLog.txt
 endif
+
+ACLOCAL_AMFLAGS = -I m4
 
 
 unix2dos = perl -e 'while (<>) { s/$$/\r/; print; }'

@@ -22,7 +22,8 @@
  *
  */
 
-#ifdef WORKRAVE_NLS_H
+#ifndef WORKRAVE_NLS_H
+#define WORKRAVE_NLS_H
 
 #ifdef HAVE_GNOME
 #  include <gnome.h>

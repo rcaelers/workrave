@@ -1,0 +1,2 @@
+gui/gtkmm/MainWindow.cc
+intl/os2compat.c
