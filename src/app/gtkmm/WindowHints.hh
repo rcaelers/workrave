@@ -44,7 +44,7 @@ public:
   static bool set_always_on_top(GtkWidget *window, bool onTop);
   static bool set_skip_winlist(GtkWidget *window, bool skip);
   static bool set_tool_window(GtkWidget *window, bool istool);
-  static Grab *grab(GdkWindow *window);
+  static Grab *grab(int num_windows, GdkWindow **window);
   static void ungrab(Grab *grab);
 #if defined(WIN32)
   static void attach_thread_input(bool enabled);

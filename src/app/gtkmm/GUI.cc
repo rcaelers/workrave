@@ -1269,16 +1269,22 @@ GUI::set_block_mode(BlockMode mode)
 bool
 GUI::grab()
 {
-  if (break_windows != NULL && active_break_count > 0)
+  if (break_windows != NULL)
     {
-      Glib::RefPtr<Gdk::Window> window = break_windows[0]->get_gdk_window();
-      GdkWindow *gdkWindow = window->gobj();
+      GdkWindow *windows[active_break_count];
+      
+      for (int i = 0; i < active_break_count; i++)
+        {
+          Glib::RefPtr<Gdk::Window> window = break_windows[i]->get_gdk_window();
+          windows[i] = window->gobj();
+        }
+      
 #ifdef HAVE_X
       grab_wanted = true;
 #endif
       if (! grab_handle)
         {
-          grab_handle = WindowHints::grab(gdkWindow);
+          grab_handle = WindowHints::grab(active_break_count, windows);
 #ifdef HAVE_X
           if (! grab_handle)
             {

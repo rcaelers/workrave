@@ -155,38 +155,52 @@ win32_block_input(BOOL block, HWND unblocked_window)
 
 //! Grabs the pointer and the keyboard.
 WindowHints::Grab *
-WindowHints::grab(GdkWindow *gdkWindow)
+WindowHints::grab(int num_windows, GdkWindow **windows)
 {
   WindowHints::Grab *handle = NULL;
 #if defined(HAVE_X)
-  // Grab keyboard.
-  GdkGrabStatus keybGrabStatus;
-  keybGrabStatus = gdk_keyboard_grab(gdkWindow, TRUE, GDK_CURRENT_TIME);
-
-  // Grab pointer
-  GdkGrabStatus pointerGrabStatus;
-  pointerGrabStatus = gdk_pointer_grab(gdkWindow,
-                                       TRUE,
-                                       (GdkEventMask) (GDK_BUTTON_RELEASE_MASK |
-                                                       GDK_BUTTON_PRESS_MASK |
-                                                       GDK_POINTER_MOTION_MASK),
-                                       NULL, NULL, GDK_CURRENT_TIME);
-
-  if (pointerGrabStatus == GDK_GRAB_SUCCESS
-      && keybGrabStatus == GDK_GRAB_SUCCESS)
+  if (num_windows > 0)
     {
-      // A bit of a hack, but GTK does not need any data in the handle.
-      // So, let's not waste memory and simply return a bogus non-NULL ptr.
-      handle = (WindowHints::Grab *) 0xdeadf00d;
+      // Only grab first window.
+      
+      // Grab keyboard.
+      GdkGrabStatus keybGrabStatus;
+      keybGrabStatus = gdk_keyboard_grab(windows[0], TRUE, GDK_CURRENT_TIME);
+      
+      // Grab pointer
+      GdkGrabStatus pointerGrabStatus;
+      pointerGrabStatus = gdk_pointer_grab(windows[0],
+                                           TRUE,
+                                           (GdkEventMask) (GDK_BUTTON_RELEASE_MASK |
+                                                           GDK_BUTTON_PRESS_MASK |
+                                                           GDK_POINTER_MOTION_MASK),
+                                           NULL, NULL, GDK_CURRENT_TIME);
+      
+      if (pointerGrabStatus == GDK_GRAB_SUCCESS
+          && keybGrabStatus == GDK_GRAB_SUCCESS)
+        {
+          // A bit of a hack, but GTK does not need any data in the handle.
+          // So, let's not waste memory and simply return a bogus non-NULL ptr.
+          handle = (WindowHints::Grab *) 0xdeadf00d;
+        }
     }
 #elif defined(WIN32)
-  HWND hDrawingWind = (HWND) GDK_WINDOW_HWND(gdkWindow);
-  SetWindowPos(hDrawingWind, HWND_TOPMOST,
-               0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE);
-  BringWindowToTop(hDrawingWind);
+  if (num_windows > 0)
+    {
+      HWND hDrawingWind[num_windows];
+      for (int i = 0; i < num_windows; i++)
+        {
+          hDrawingWind[i] = (HWND) GDK_WINDOW_HWND(windows[i]);
 
-  win32_block_input(TRUE, hDrawingWind);
-  handle = (WindowHints::Grab *) 0xdeadf00d;
+          SetWindowPos(hDrawingWind[i], HWND_TOPMOST,
+                       0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE);
+          BringWindowToTop(hDrawingWind[i]);
+        }
+
+      // FIXME: pass array.
+      win32_block_input(TRUE, hDrawingWind[0]);
+      handle = (WindowHints::Grab *) 0xdeadf00d;
+    }
 #endif
   return handle;
 }
