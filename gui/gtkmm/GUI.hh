@@ -77,8 +77,10 @@ public:
   void close_main_window();
   void toggle_main_window();
   void terminate();
-  
+
+#ifdef HAVE_X  
   AppletWindow *get_applet_window() const;
+#endif  
   MainWindow *get_main_window() const;
   Gtk::Tooltips *get_tooltips() const;
   
@@ -123,8 +125,10 @@ private:
   /** */
   Gtk::Tooltips *tooltips;
 
+#ifdef HAVE_X  
   //! The applet window.
   AppletWindow *applet_window;
+#endif  
 };
 
 
@@ -143,13 +147,14 @@ GUI::get_tooltips() const
 }
 
 
+#ifdef HAVE_X
 //! Returns the applet window.
 inline AppletWindow *
 GUI::get_applet_window() const
 {
   return applet_window;
 }
-
+#endif
 
 //! Returns the main window.
 inline MainWindow *

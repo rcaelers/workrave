@@ -43,9 +43,12 @@ static const char rcsid[] = "$Id$";
 #include "MicroPauseWindow.hh"
 #include "PreludeWindow.hh"
 #include "RestBreakWindow.hh"
-#include "AppletWindow.hh"
 #include "Util.hh"
 #include "WindowHints.hh"
+
+#ifdef HAVE_X
+#include "AppletWindow.hh"
+#endif
 
 #include <gtk/gtk.h>
 
