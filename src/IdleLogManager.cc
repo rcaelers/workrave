@@ -227,7 +227,7 @@ IdleLogManager::update_idlelog(ClientInfo &info, ActivityState state, bool chang
           info.last_active_time = 0;
           info.last_active_begin_time = current_time;
         }
-      else
+      else if (info.last_active_begin_time != 0)
         {
           info.last_active_time = current_time - info.last_active_begin_time;
         }

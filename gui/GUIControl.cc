@@ -313,23 +313,11 @@ GUIControl::~GUIControl()
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      if (timers[i].break_control != NULL)
-        {
-          delete timers[i].break_control;
-        }
+      delete timers[i].break_control;
     }
-  if (configurator != NULL)
-    {
-      delete configurator;
-    }
-  if (sound_player != NULL)
-    {
-      delete sound_player;
-    }
-  if (statistics != NULL)
-    {
-      delete statistics;
-    }
+  delete configurator;
+  delete sound_player;
+  delete statistics;
   TRACE_EXIT();
 }
 

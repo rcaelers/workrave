@@ -22,7 +22,7 @@
 class DistributionLogListener
 {
 public:
-  //! Notofocation that a new log message has arrived.
+  //! Notofication that a new log message has arrived.
   virtual void distribution_log(string msg) = 0;
 };
 

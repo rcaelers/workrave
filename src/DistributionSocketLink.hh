@@ -118,7 +118,8 @@ private:
       reconnect_time(0),
       next_claim_time(0),
       reject_count(0),
-      claim_count(0)
+      claim_count(0),
+      outbound(false)
     {
     }
     
@@ -172,6 +173,9 @@ private:
 
     //! Number of claims send since the last received packet.
     int claim_count;
+
+    //! Is this an outbound connection
+    bool outbound;
   };
 
   

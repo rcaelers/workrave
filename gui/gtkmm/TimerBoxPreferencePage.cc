@@ -173,12 +173,11 @@ TimerBoxPreferencePage::create_page()
   set_border_width(12);
 }
 
+
 //! Retrieves the applet configuration and sets the widgets.
 void
 TimerBoxPreferencePage::init_page_values()
 {
-  enabled_cb->set_active(TimerBox::is_enabled(name));
-
   int mp_slot = TimerBox::get_timer_slot(name, GUIControl::BREAK_ID_MICRO_PAUSE);
   int rb_slot = TimerBox::get_timer_slot(name, GUIControl::BREAK_ID_REST_BREAK);
   int dl_slot = TimerBox::get_timer_slot(name, GUIControl::BREAK_ID_DAILY_LIMIT);
@@ -221,6 +220,8 @@ TimerBoxPreferencePage::init_page_values()
       timer_display_button[i]->set_history(showhide);
     }
   cycle_entry->set_value(TimerBox::get_cycle_time(name));
+
+  enabled_cb->set_active(TimerBox::is_enabled(name));
   enable_buttons();
 }
 

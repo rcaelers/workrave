@@ -757,7 +757,7 @@ TimerBox::set_timer_flags(string name, GUIControl::BreakId timer, int flags)
 bool
 TimerBox::is_enabled(string name)
 {
-  bool ret;
+  bool ret = true;
   if (! GUIControl::get_instance()->get_configurator()
       ->get_value(CFG_KEY_TIMERBOX + name + CFG_KEY_TIMERBOX_ENABLED, &ret))
     {

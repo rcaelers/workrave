@@ -696,12 +696,6 @@ DistributionSocketLink::close_client(Client *client, bool reconnect /* = false*/
 {
   TRACE_ENTER_MSG("DistributionSocketLink::close_client", client->id << " " << reconnect);
 
-  list<Client *>::iterator i = clients.begin();
-  while (i != clients.end())
-    {
-      TRACE_MSG("client " << (*i)->id);
-      i++;
-    }
   if (client == master_client)
     {
       // Client to be closed is master. Unset master client. 
@@ -1633,7 +1627,7 @@ DistributionSocketLink::send_claim(Client *client)
         {
           dist_manager->log(_("Client timeout from %s:%d."), client->hostname, client->port);
 
-          close_client(client, true);
+          close_client(client, client->outbound);
         }
       client->claim_count++;
     }
@@ -1964,6 +1958,12 @@ DistributionSocketLink::socket_io(SocketConnection *con, void *data)
   if (client->packet.bytes_available() >= 4)
     {
       bytes_to_read = client->packet.peek_ushort(0) - 4;
+
+      if (bytes_to_read + 4 > client->packet.get_buffer_size())
+        {
+          // FIXME: the 1024 is lame...
+          client->packet.resize(bytes_to_read + 4 + 1024);
+        }
     }
 
   bool ok = con->read(client->packet.get_write_ptr(), bytes_to_read, bytes_read);
@@ -1991,7 +1991,7 @@ DistributionSocketLink::socket_io(SocketConnection *con, void *data)
 
   if (!ret)
     {
-      close_client(client, true);
+      close_client(client, client->outbound);
     }
   
   TRACE_EXIT();
@@ -2019,6 +2019,7 @@ DistributionSocketLink::socket_connected(SocketConnection *con, void *data)
   
   client->reconnect_count = 0;
   client->reconnect_time = 0;
+  client->outbound = true;
   client->socket = con;
 
   send_hello(client);
@@ -2046,11 +2047,12 @@ DistributionSocketLink::socket_closed(SocketConnection *con, void *data)
   if (client->socket != NULL)
     {
       dist_manager->log(_("Client %s:%d closed connection."), client->hostname, client->port);
-      close_client(client, true);
+      close_client(client, client->outbound);
     }
   else
     {
       dist_manager->log(_("Could not connect to client %s:%d."), client->hostname, client->port);
+      remove_client(client);
     }
   
   TRACE_EXIT();
