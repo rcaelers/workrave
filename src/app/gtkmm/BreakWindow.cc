@@ -77,10 +77,12 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   // Otherwise, there is not gobj()...
   realize();
 
+#ifdef HAVE_BREAK_WINDOW_TITLEBAR
   set_resizable(false);
   Glib::RefPtr<Gdk::Window> window = get_window();
   window->set_functions(Gdk::FUNC_MOVE);
-
+#endif
+  
   this->head = head;
 #ifdef HAVE_GTK_MULTIHEAD  
   Gtk::Window::set_screen(head.screen);

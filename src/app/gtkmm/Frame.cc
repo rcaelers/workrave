@@ -188,16 +188,26 @@ Frame::on_expose_event(GdkEventExpose* e)
       break;
 
     case STYLE_BREAK_WINDOW:
+#ifdef OLD_STYLE_BORDER
       gc->set_foreground(color_black);
       window->draw_rectangle(gc, true, alloc.x, alloc.y,
 			     alloc.width, alloc.height);
       Gdk::Rectangle area(&e->area);
       style->paint_box(window, Gtk::STATE_NORMAL, Gtk::SHADOW_OUT, area,
-		       *this, "", alloc.x+1, alloc.y+1,
-		       alloc.width-1, alloc.height-1);
+                       *this, "", alloc.x+1, alloc.y+1,
+                       alloc.width-1, alloc.height-1);
       style->paint_box(window, Gtk::STATE_NORMAL, Gtk::SHADOW_OUT, area,
-		       *this, "", alloc.x+2, alloc.y+2,
-		       alloc.width-3, alloc.height-3);
+                       *this, "", alloc.x+2, alloc.y+2,
+                       alloc.width-3, alloc.height-3);
+#else
+      Gdk::Rectangle area(&e->area);
+      style->paint_box(window, Gtk::STATE_NORMAL, Gtk::SHADOW_OUT, area,
+                       *this, "base", alloc.x, alloc.y,
+                       alloc.width, alloc.height);
+      style->paint_box(window, Gtk::STATE_NORMAL, Gtk::SHADOW_OUT, area,
+                       *this, "base", alloc.x+1, alloc.y+1,
+                       alloc.width-2, alloc.height-2);
+#endif
       break;
     }
 
