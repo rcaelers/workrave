@@ -1,5 +1,7 @@
 #include <Bonobo.idl>
 
+#include "Workave-Control.h"
+
 module GNOME
 {
   module Workrave
@@ -9,6 +11,7 @@ module GNOME
       long get_socket_id();
       long get_size();
       boolean get_vertical();
+      void set_mode(in long item);
     };
   };
 };

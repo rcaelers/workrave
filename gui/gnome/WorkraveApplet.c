@@ -25,10 +25,12 @@ static const char rcsid[] = "$Id$";
 #include <bonobo/bonobo-object.h>
 #include <panel-applet.h>
 
+#include "Workrave-Control.h"
 #include "WorkraveApplet.h"
 #include "nls.h"
 
 static AppletControl *applet_control = NULL;
+static GNOME_Workrave_AppletControl remote_control = NULL;
 
 /************************************************************************/
 /* GNOME::AppletControl                                                 */
@@ -40,6 +42,60 @@ BONOBO_TYPE_FUNC_FULL(AppletControl,
                       GNOME_Workrave_AppletControl,
                       BONOBO_OBJECT_TYPE,
                       workrave_applet_control);
+
+static gboolean
+workrave_applet_connect(gboolean start)
+{
+  CORBA_Environment ev;
+  gboolean ok = TRUE;
+  Bonobo_ActivationFlags flags = 0;
+
+  if (remote_control != NULL)
+    {
+      // ping.
+      
+      CORBA_exception_init(&ev);
+      Bonobo_Unknown_ref(remote_control, &ev);
+      if (BONOBO_EX(&ev))
+        {
+          remote_control = NULL;
+        }
+      else
+        {
+          Bonobo_Unknown_unref(remote_control, &ev);
+          if (BONOBO_EX(&ev))
+            {
+              remote_control = NULL;
+            }
+        }
+      CORBA_exception_free(&ev);
+    }
+
+  if (remote_control == NULL)
+    {
+      bonobo_activate();
+
+      CORBA_exception_init(&ev);
+      
+      if (start == FALSE)
+        {
+          flags = Bonobo_ACTIVATION_FLAG_EXISTING_ONLY;
+        }
+      
+      remote_control = bonobo_activation_activate_from_id("OAFIID:GNOME_Workrave_WorkraveControl", flags,
+                                                          NULL, &ev);
+      
+      if (remote_control == NULL || BONOBO_EX(&ev))
+        {
+          g_warning(_("Could not contact Workrave Panel"));
+          ok = FALSE;
+        }
+      
+      CORBA_exception_free(&ev);
+    }
+  
+  return ok;
+}
 
 
 static void
@@ -55,7 +111,9 @@ workrave_applet_control_class_init(AppletControlClass *klass)
   epv->get_socket_id = workrave_applet_control_get_socket_id;
   epv->get_size = workrave_applet_control_get_size;
   epv->get_vertical = workrave_applet_control_get_vertical;
+  epv->set_mode = workrave_applet_control_set_mode;
 }
+
 
 static void
 workrave_applet_control_init(AppletControl *applet)
@@ -76,7 +134,7 @@ workrave_applet_control_new(void)
 
   AppletControl *applet_control = g_object_new(workrave_applet_control_get_type(), NULL);
   BonoboObject *object = BONOBO_OBJECT(applet_control);
-    
+
   result = bonobo_activation_active_server_register("OAFIID:GNOME_Workrave_AppletControl",
                                                     bonobo_object_corba_objref(BONOBO_OBJECT(object)));
   
@@ -84,7 +142,7 @@ workrave_applet_control_new(void)
 }
 
 
-CORBA_long     
+CORBA_long
 workrave_applet_control_get_socket_id(PortableServer_Servant servant, CORBA_Environment *ev)
 {
   AppletControl *applet_control = WR_APPLET_CONTROL(bonobo_object_from_servant(servant));
@@ -92,7 +150,7 @@ workrave_applet_control_get_socket_id(PortableServer_Servant servant, CORBA_Envi
   return applet_control->socket_id;
 }
 
-CORBA_long     
+CORBA_long
 workrave_applet_control_get_size(PortableServer_Servant servant, CORBA_Environment *ev)
 {
   AppletControl *applet_control = WR_APPLET_CONTROL(bonobo_object_from_servant(servant));
@@ -108,19 +166,58 @@ workrave_applet_control_get_vertical(PortableServer_Servant servant, CORBA_Envir
   return applet_control->vertical;
 }
 
+void
+workrave_applet_control_set_mode(PortableServer_Servant servant, CORBA_long item,
+                                 CORBA_Environment *ev)
+{
+  AppletControl *applet_control = WR_APPLET_CONTROL(bonobo_object_from_servant(servant));
+
+  BonoboUIComponent *ui = NULL;
+  PanelApplet *applet = NULL;
+  gboolean b;
+
+  if (applet_control != NULL)
+    {
+      applet = applet_control->applet;
+    }
+
+  if (applet != NULL)
+    {
+      ui = panel_applet_get_popup_component(applet);
+    }
+  
+  if (ui != NULL)
+    {
+      switch (item)
+        {
+        case GNOME_Workrave_WorkraveControl_MODE_NORMAL:
+          bonobo_ui_component_set_prop(ui, "/commands/Normal", "state", "1", NULL);
+          break;
+        case GNOME_Workrave_WorkraveControl_MODE_SUSPENDED:
+          bonobo_ui_component_set_prop(ui, "/commands/Suspended", "state", "1", NULL);
+          break;
+        case GNOME_Workrave_WorkraveControl_MODE_QUIET:
+          bonobo_ui_component_set_prop(ui, "/commands/Quiet", "state", "1", NULL);
+          break;
+        }
+    }
+}
+
+
+
+
 gboolean
 workrave_applet_fire_workrave()
 {
-  GNOME_Workrave_AppletControl ctrl;
   CORBA_Environment ev;
   gboolean ok = TRUE;
   
   bonobo_activate();
 
   CORBA_exception_init(&ev);
-  ctrl = bonobo_activation_activate_from_id("OAFIID:GNOME_Workrave_WorkraveControl", 0, NULL, &ev);
+  remote_control = bonobo_activation_activate_from_id("OAFIID:GNOME_Workrave_WorkraveControl", 0, NULL, &ev);
   
-  if (ctrl == NULL || BONOBO_EX (&ev))
+  if (remote_control == NULL || BONOBO_EX(&ev))
     {
       g_warning(_("Could not contact Workrave Panel"));
       ok = FALSE;
@@ -129,7 +226,7 @@ workrave_applet_fire_workrave()
 
   if (ok)
     {
-      GNOME_Workrave_WorkraveControl_fire(ctrl, &ev);
+      GNOME_Workrave_WorkraveControl_fire(remote_control, &ev);
 
       if (BONOBO_EX (&ev))
         {
@@ -149,8 +246,9 @@ workrave_applet_fire_workrave()
 /* GNOME::Applet                                                        */
 /************************************************************************/
 
+
 static void
-about(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
+verb_about(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
 {
   static const char *authors[] =
     { "Rob Caelers <robc@krandor.org",
@@ -171,13 +269,250 @@ about(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
   gtk_widget_show(about_box);
 }
 
+
+static void
+verb_open(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
+{
+  workrave_applet_connect(FALSE);
+      
+  if (remote_control != NULL)
+    {
+      CORBA_Environment ev;
+      CORBA_exception_init(&ev);
+      
+      GNOME_Workrave_WorkraveControl_open_main(remote_control, &ev);
+
+      if (BONOBO_EX(&ev))
+        {
+          char *err = (char *) bonobo_exception_get_text(&ev);
+          g_warning (_("An exception occured '%s'"), err);
+          g_free(err);
+        }
+
+      CORBA_exception_free(&ev);
+    }
+}
+
+
+static void
+verb_preferences(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
+{
+  workrave_applet_connect(FALSE);
+      
+  if (remote_control != NULL)
+    {
+      CORBA_Environment ev;
+      CORBA_exception_init(&ev);
+     
+      GNOME_Workrave_WorkraveControl_open_preferences(remote_control, &ev);
+
+      if (BONOBO_EX(&ev))
+        {
+          char *err = (char *) bonobo_exception_get_text(&ev);
+          g_warning (_("An exception occured '%s'"), err);
+          g_free(err);
+        }
+      CORBA_exception_free(&ev);
+    }
+
+}
+
+
+static void
+verb_restbreak(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
+{
+  workrave_applet_connect(FALSE);
+      
+  if (remote_control != NULL)
+    {
+      CORBA_Environment ev;
+      CORBA_exception_init(&ev);
+      
+      GNOME_Workrave_WorkraveControl_restbreak(remote_control, &ev);
+
+      if (BONOBO_EX(&ev))
+        {
+          char *err = (char *) bonobo_exception_get_text(&ev);
+          g_warning (_("An exception occured '%s'"), err);
+          g_free(err);
+        }
+      CORBA_exception_free(&ev);
+    }
+}
+
+
+static void
+verb_mode(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
+{
+  workrave_applet_connect(FALSE);
+      
+  if (remote_control != NULL && verbname != NULL)
+    {
+      CORBA_Environment ev;
+      GNOME_Workrave_WorkraveControl_Mode mode = GNOME_Workrave_WorkraveControl_MODE_INVALID;
+
+      CORBA_exception_init(&ev);
+        
+      if (g_ascii_strcasecmp(verbname, "Normal") == 0)
+        {
+          mode = GNOME_Workrave_WorkraveControl_MODE_NORMAL;
+        }
+      else if (g_ascii_strcasecmp(verbname, "Suspended") == 0)
+        {
+          mode = GNOME_Workrave_WorkraveControl_MODE_SUSPENDED;
+        }
+      else if (g_ascii_strcasecmp(verbname, "Quiet") == 0)
+        {
+          mode = GNOME_Workrave_WorkraveControl_MODE_QUIET;
+        }
+
+      if (mode != GNOME_Workrave_WorkraveControl_MODE_INVALID)
+        {
+          GNOME_Workrave_WorkraveControl_set_mode(remote_control, mode, &ev);
+          
+          if (BONOBO_EX(&ev))
+            {
+              char *err = (char *) bonobo_exception_get_text(&ev);
+              g_warning (_("An exception occured '%s'"), err);
+              g_free(err);
+            }
+        }
+      
+      CORBA_exception_free(&ev);
+    }
+
+}
+
+
+static void
+verb_connect(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
+{
+  workrave_applet_connect(FALSE);
+      
+  if (remote_control != NULL)
+    {
+      CORBA_Environment ev;
+      CORBA_exception_init(&ev);
+      
+      GNOME_Workrave_WorkraveControl_open_network_connect(remote_control, &ev);
+
+      if (BONOBO_EX(&ev))
+        {
+          char *err = (char *) bonobo_exception_get_text(&ev);
+          g_warning (_("An exception occured '%s'"), err);
+          g_free(err);
+        }
+      CORBA_exception_free(&ev);
+    }
+}
+
+
+static void
+verb_disconnect(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
+{
+  workrave_applet_connect(FALSE);
+      
+  if (remote_control != NULL)
+    {
+      CORBA_Environment ev;
+      CORBA_exception_init(&ev);
+      
+      GNOME_Workrave_WorkraveControl_disconnect_all(remote_control, &ev);
+
+      if (BONOBO_EX(&ev))
+        {
+          char *err = (char *) bonobo_exception_get_text(&ev);
+          g_warning (_("An exception occured '%s'"), err);
+          g_free(err);
+        }
+      CORBA_exception_free(&ev);
+    }
+}
+
+static void
+verb_reconnect(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
+{
+  workrave_applet_connect(FALSE);
+      
+  if (remote_control != NULL)
+    {
+      CORBA_Environment ev;
+      CORBA_exception_init(&ev);
+      
+      GNOME_Workrave_WorkraveControl_reconnect_all(remote_control, &ev);
+
+      if (BONOBO_EX(&ev))
+        {
+          char *err = (char *) bonobo_exception_get_text(&ev);
+          g_warning (_("An exception occured '%s'"), err);
+          g_free(err);
+        }
+      CORBA_exception_free(&ev);
+    }
+}
+
+
+static void
+verb_showlog(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
+{
+  workrave_applet_connect(FALSE);
+      
+  if (remote_control != NULL)
+    {
+      CORBA_Environment ev;
+      CORBA_exception_init(&ev);
+      
+      GNOME_Workrave_WorkraveControl_open_network_log(remote_control, &ev);
+
+      if (BONOBO_EX(&ev))
+        {
+          char *err = (char *) bonobo_exception_get_text(&ev);
+          g_warning (_("An exception occured '%s'"), err);
+          g_free(err);
+        }
+      CORBA_exception_free(&ev);
+    }
+}
+
+static void
+verb_quit(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
+{
+  workrave_applet_connect(FALSE);
+      
+  if (remote_control != NULL)
+    {
+      CORBA_Environment ev;
+      CORBA_exception_init(&ev);
+      
+      GNOME_Workrave_WorkraveControl_quit(remote_control, &ev);
+
+      if (BONOBO_EX(&ev))
+        {
+          char *err = (char *) bonobo_exception_get_text(&ev);
+          g_warning (_("An exception occured '%s'"), err);
+          g_free(err);
+        }
+      CORBA_exception_free(&ev);
+    }
+}
+
 static const BonoboUIVerb
 workrave_applet_verbs [] =
   {
-    BONOBO_UI_VERB("About", about),
+    BONOBO_UI_VERB("About", verb_about),
+    BONOBO_UI_VERB("Open", verb_open),
+    BONOBO_UI_VERB("Prefereces", verb_preferences),
+    BONOBO_UI_VERB("Restbreak", verb_restbreak),
+    BONOBO_UI_VERB("Normal", verb_mode),
+    BONOBO_UI_VERB("Suspended", verb_mode),
+    BONOBO_UI_VERB("Quiet", verb_mode),
+    BONOBO_UI_VERB("Connect", verb_connect),
+    BONOBO_UI_VERB("Disconnect", verb_disconnect),
+    BONOBO_UI_VERB("Reconnect", verb_reconnect),
+    BONOBO_UI_VERB("ShowLog", verb_showlog),
+    BONOBO_UI_VERB("Quit", verb_quit),
     BONOBO_UI_VERB_END
   };
-
 
 
 static void
@@ -249,7 +584,6 @@ workrave_applet_fill(PanelApplet *applet)
   gtk_widget_show(GTK_WIDGET(applet));
 
   applet_control->socket_id = gtk_socket_get_id(GTK_SOCKET(applet_control->socket));
-  
   return TRUE;
 }
 
@@ -260,6 +594,7 @@ workrave_applet_factory(PanelApplet *applet, const gchar *iid, gpointer data)
   gboolean retval = FALSE;
   
   applet_control = workrave_applet_control_new();
+  applet_control->applet = applet;
 
   if (!strcmp(iid, "OAFIID:GNOME_WorkraveApplet"))
     {
@@ -267,7 +602,7 @@ workrave_applet_factory(PanelApplet *applet, const gchar *iid, gpointer data)
     }
 
   workrave_applet_fire_workrave();
-  
+
   return retval;
 }
 

@@ -20,12 +20,23 @@ static const char rcsid[] = "$Id$";
 #include "config.h"
 #endif
 
+#include "debug.hh"
+
 #include "RemoteControl.hh"
+
+#include "GUI.hh"
+#include "AppletWindow.hh"
 
 RemoteControl   *RemoteControl::instance = NULL;
 WorkraveControl *RemoteControl::workrave_control = NULL;
 
 #include "nls.h"
+
+#ifdef HAVE_DISTRIBUTION
+#include "DistributionManager.hh"
+#include "NetworkJoinDialog.hh"
+#include "NetworkLogDialog.hh"
+#endif
 
 /************************************************************************/
 /* GNOME::RemoteControl                                                 */
@@ -41,9 +52,96 @@ RemoteControl::~RemoteControl()
 }
 
 
-WR_METHOD_NOARGS_IMPL(void, fire)
+WR_METHOD_ARGS0_IMPL(void, fire)
+{
+  TRACE_ENTER("RemoteControl::fire");
+
+  GUI *gui = GUI::get_instance();
+
+  AppletWindow *applet = NULL;
+  if (gui != NULL)
+    {
+      applet = gui->get_applet_window();
+    }
+  if (applet != NULL)
+    {
+      applet->fire();
+    }
+  TRACE_EXIT();
+}
+
+WR_METHOD_ARGS0_IMPL(CORBA_boolean, open_main)
+{
+  TRACE_ENTER("RemoteControl::open_main");
+  TRACE_EXIT();
+}
+
+
+WR_METHOD_ARGS0_IMPL(CORBA_boolean, open_preferences)
 {
 }
+
+
+WR_METHOD_ARGS0_IMPL(CORBA_boolean, open_network_connect)
+{
+}
+
+
+WR_METHOD_ARGS0_IMPL(CORBA_boolean, open_network_log)
+{
+}
+
+  
+WR_METHOD_ARGS0_IMPL(CORBA_boolean, restbreak)
+{
+  GUI *gui = GUI::get_instance();
+
+  if (gui != NULL)
+    {
+      gui->restbreak_now();
+    }
+}
+
+
+WR_METHOD_ARGS1_IMPL(CORBA_boolean, set_mode, GNOME_Workrave_WorkraveControl_Mode, mode)
+{
+}
+
+
+WR_METHOD_ARGS0_IMPL(CORBA_boolean, disconnect_all)
+{
+#ifdef HAVE_DISTRIBUTION
+  DistributionManager *dist_manager = DistributionManager::get_instance();
+  if (dist_manager != NULL)
+    {
+      dist_manager->disconnect_all();
+    }
+#endif
+}
+
+
+WR_METHOD_ARGS0_IMPL(CORBA_boolean, reconnect_all)
+{
+#ifdef HAVE_DISTRIBUTION
+  DistributionManager *dist_manager = DistributionManager::get_instance();
+  if (dist_manager != NULL)
+    {
+      dist_manager->reconnect_all();
+    }
+#endif
+}
+
+
+WR_METHOD_ARGS0_IMPL(CORBA_boolean, quit)
+{
+  GUI *gui = GUI::get_instance();
+
+  if (gui != NULL)
+    {
+      gui->terminate();
+    }
+}
+
 
 
 /************************************************************************/
@@ -66,6 +164,17 @@ workrave_control_class_init(WorkraveControlClass *klass)
   parent_class = (BonoboObjectClass *)g_type_class_peek_parent(klass);
 
   WR_METHOD_REGISTER(fire);
+
+  WR_METHOD_REGISTER(open_main);
+  WR_METHOD_REGISTER(open_preferences);
+  WR_METHOD_REGISTER(open_network_connect);
+  WR_METHOD_REGISTER(open_network_log);
+  
+  WR_METHOD_REGISTER(restbreak);
+  WR_METHOD_REGISTER(set_mode);
+  WR_METHOD_REGISTER(disconnect_all);
+  WR_METHOD_REGISTER(reconnect_all);
+  WR_METHOD_REGISTER(quit);
 }
 
 static void

@@ -61,13 +61,16 @@ const string AppletWindow::CFG_KEY_APPLET_SHOW_DAILY_LIMIT = "gui/applet/show_da
  */
 AppletWindow::AppletWindow(GUI *g, ControlInterface *c) :
   core_control(c),
-  gui(g)
+  gui(g),
+  mode(APPLET_DISABLED),
+  retry_init(false)
 {
   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
     {
       show_break[i] = true;
     }
 
+  plug = NULL;
   horizontal = true;
   init();
 }
@@ -178,17 +181,26 @@ AppletWindow::init_widgets()
 void
 AppletWindow::init_applet()
 {
+  TRACE_ENTER("AppletWindow::init_applet");
   if (!init_native_applet())
     {
       EggTrayIcon *tray_icon = egg_tray_icon_new("Workrave Tray Icon");
       
       if (tray_icon != NULL)
         {
-          Gtk::Container *tray = Glib::wrap(GTK_CONTAINER(tray_icon));
-          tray->add(*this);
-          tray->show_all();
+          plug = Glib::wrap(GTK_PLUG(tray_icon));
+          plug->add(*this);
+          plug->show_all();
+
+          mode = APPLET_TRAY;
         }
     }
+  else
+    {
+      mode = APPLET_GNOME;
+    }
+  TRACE_MSG(mode);
+  TRACE_EXIT();
 }
 
 
@@ -225,18 +237,50 @@ AppletWindow::init_native_applet()
           g_free(err);
           ok = false;
         }
+
+      //GNOME_Workrave_AppletControl_set_mode(ctrl, GNOME_Workrave_WorkraveControl_MODE_QUIET, &ev);
     }
 
   if (ok)
     {
-      Gtk::Plug *plug = new Gtk::Plug(id);
+      plug = new Gtk::Plug(id);
       plug->add(*this);
       set_border_width(2);
       plug->show_all();
+      
+      plug->signal_delete_event().connect(SigC::slot(*this, &AppletWindow::delete_event));
     }
-
+  
   CORBA_exception_free(&ev);
   return ok;
+}
+
+bool
+AppletWindow::delete_event(GdkEventAny *event)
+{
+  TRACE_ENTER("AppletWindow::deleted");
+  mode = APPLET_DISABLED;
+  if (plug != NULL)
+    {
+      plug->remove();
+      // FIXME: free memory
+    }
+  TRACE_EXIT();
+  return true;
+}
+    
+
+//! Updates the main window.
+void
+AppletWindow::fire()
+{
+  TRACE_ENTER("AppletWindow::fire");
+  if (mode == APPLET_DISABLED && applet_enabled)
+    {
+      TRACE_ENTER("AppletWindow::retrying");
+      retry_init = true;
+    }
+  TRACE_EXIT();
 }
 
 
@@ -244,93 +288,102 @@ AppletWindow::init_native_applet()
 void
 AppletWindow::update()
 {
-  bool node_master = true;
-  int num_peers = 0;
-
-#ifdef HAVE_DISTRIBUTION
-  DistributionManager *dist_manager = DistributionManager::get_instance();
-  if (dist_manager != NULL)
+  if (mode == APPLET_DISABLED)
     {
-      node_master = dist_manager->is_master();
-      num_peers = dist_manager->get_number_of_peers();
+      if (retry_init)
+        {
+          init_applet();
+          retry_init = false;
+        }
     }
+  else
+    {
+      bool node_master = true;
+      int num_peers = 0;
+  
+#ifdef HAVE_DISTRIBUTION
+      DistributionManager *dist_manager = DistributionManager::get_instance();
+      if (dist_manager != NULL)
+        {
+          node_master = dist_manager->is_master();
+          num_peers = dist_manager->get_number_of_peers();
+        }
 #endif
   
-  for (unsigned int count = 0; count < GUIControl::BREAK_ID_SIZEOF; count++)
-    {
-      TimerInterface *timer = GUIControl::get_instance()->timers[count].timer;
-      TimeBar *bar = timer_times[count];
+      for (unsigned int count = 0; count < GUIControl::BREAK_ID_SIZEOF; count++)
+        {
+          TimerInterface *timer = GUIControl::get_instance()->timers[count].timer;
+          TimeBar *bar = timer_times[count];
 
-      if (!node_master && num_peers > 0)
-        {
-          bar->set_text(_("Inactive"));
-          bar->set_bar_color(TimeBar::COLOR_ID_INACTIVE);
-          bar->set_progress(0, 60);
-          bar->set_secondary_progress(0, 0);
-          bar->update();
-          continue;
-        }
-  
-      if (timer == NULL)
-        {
-          // FIXME: error handling.
-          continue;
-        }
-      
-      TimerInterface::TimerState timerState = timer->get_state();
-
-      // Collect some data.
-      time_t maxActiveTime = timer->get_limit();
-      time_t activeTime = timer->get_elapsed_time();
-      time_t breakDuration = timer->get_auto_reset();
-      time_t idleTime = timer->get_elapsed_idle_time();
-      bool overdue = (maxActiveTime < activeTime);
-          
-      // Set the text
-      if (timer->is_limit_enabled() && maxActiveTime != 0)
-        {
-          bar->set_text(Text::time_to_string(maxActiveTime - activeTime));
-        }
-      else
-        {
-          bar->set_text(Text::time_to_string(activeTime));
-        }
-
-      // And set the bar.
-      bar->set_secondary_progress(0, 0);
-
-      if (timerState == TimerInterface::STATE_INVALID)
-        {
-          bar->set_bar_color(TimeBar::COLOR_ID_INACTIVE);
-          bar->set_progress(0, 60);
-          bar->set_text(_("Wait"));
-        }
-      else
-        {
-          // Timer is running, show elapsed time.
-          bar->set_progress(activeTime, maxActiveTime);
-          
-          if (overdue)
+          if (!node_master && num_peers > 0)
             {
-              bar->set_bar_color(TimeBar::COLOR_ID_OVERDUE);
+              bar->set_text(_("Inactive"));
+              bar->set_bar_color(TimeBar::COLOR_ID_INACTIVE);
+              bar->set_progress(0, 60);
+              bar->set_secondary_progress(0, 0);
+              bar->update();
+              continue;
+            }
+  
+          if (timer == NULL)
+            {
+              // FIXME: error handling.
+              continue;
+            }
+      
+          TimerInterface::TimerState timerState = timer->get_state();
+
+          // Collect some data.
+          time_t maxActiveTime = timer->get_limit();
+          time_t activeTime = timer->get_elapsed_time();
+          time_t breakDuration = timer->get_auto_reset();
+          time_t idleTime = timer->get_elapsed_idle_time();
+          bool overdue = (maxActiveTime < activeTime);
+          
+          // Set the text
+          if (timer->is_limit_enabled() && maxActiveTime != 0)
+            {
+              bar->set_text(Text::time_to_string(maxActiveTime - activeTime));
             }
           else
             {
-              bar->set_bar_color(TimeBar::COLOR_ID_ACTIVE);
+              bar->set_text(Text::time_to_string(activeTime));
             }
 
-	  if (//timerState == TimerInterface::STATE_STOPPED &&
-	      timer->is_auto_reset_enabled() && breakDuration != 0)
-	    {
-	      // resting.
-	      bar->set_secondary_bar_color(TimeBar::COLOR_ID_INACTIVE);
-	      bar->set_secondary_progress(idleTime, breakDuration);
-	    }
-        }
-      bar->update();
-    }
+          // And set the bar.
+          bar->set_secondary_progress(0, 0);
 
-  return;
+          if (timerState == TimerInterface::STATE_INVALID)
+            {
+              bar->set_bar_color(TimeBar::COLOR_ID_INACTIVE);
+              bar->set_progress(0, 60);
+              bar->set_text(_("Wait"));
+            }
+          else
+            {
+              // Timer is running, show elapsed time.
+              bar->set_progress(activeTime, maxActiveTime);
+          
+              if (overdue)
+                {
+                  bar->set_bar_color(TimeBar::COLOR_ID_OVERDUE);
+                }
+              else
+                {
+                  bar->set_bar_color(TimeBar::COLOR_ID_ACTIVE);
+                }
+
+              if (//timerState == TimerInterface::STATE_STOPPED &&
+                  timer->is_auto_reset_enabled() && breakDuration != 0)
+                {
+                  // resting.
+                  bar->set_secondary_bar_color(TimeBar::COLOR_ID_INACTIVE);
+                  bar->set_secondary_progress(idleTime, breakDuration);
+                }
+            }
+          bar->update();
+        }
+    }
 }
 
 

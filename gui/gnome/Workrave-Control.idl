@@ -6,7 +6,20 @@ module GNOME
   {
     interface WorkraveControl : Bonobo::Unknown
     {
+      enum Mode { MODE_INVALID, MODE_NORMAL, MODE_SUSPENDED, MODE_QUIET };
+
       oneway void fire();
+
+      boolean open_main();
+      boolean open_preferences();
+      boolean open_network_connect();
+      boolean open_network_log();
+      
+      boolean restbreak();
+      boolean set_mode(in Mode mode);
+      boolean disconnect_all();
+      boolean reconnect_all();
+      boolean quit();
     };
   };
 };

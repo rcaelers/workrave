@@ -25,7 +25,8 @@ struct _AppletControl
 
   GtkWidget *image;
   GtkWidget *socket;
-
+  PanelApplet *applet;
+  
   long size;
   long socket_id;
   gboolean vertical;
@@ -44,6 +45,8 @@ static AppletControl*	workrave_applet_control_new(void);
 static CORBA_long 	workrave_applet_control_get_socket_id(PortableServer_Servant, CORBA_Environment *);
 static CORBA_long 	workrave_applet_control_get_size(PortableServer_Servant, CORBA_Environment *);
 static CORBA_boolean 	workrave_applet_control_get_vertical(PortableServer_Servant, CORBA_Environment *);
+static void	 	workrave_applet_control_set_mode(PortableServer_Servant, CORBA_long item,
+                                                         CORBA_Environment *);
 
 G_END_DECLS
 

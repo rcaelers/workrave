@@ -71,7 +71,12 @@ public:
   // Internal public methods
   void restbreak_now();
   void set_operation_mode(GUIControl::OperationMode mode);
+  void open_main_window();
   void terminate();
+
+#ifdef HAVE_GNOME
+  AppletWindow *get_applet_window() const;
+#endif
   
 private:
   void timer_action(string timer_id, TimerEvent event);
@@ -108,5 +113,13 @@ GUI::get_instance()
 {
   return instance;
 }
+
+#ifdef HAVE_GNOME
+inline AppletWindow *
+GUI::get_applet_window() const
+{
+  return applet_window;
+}
+#endif
 
 #endif // GUI_HH

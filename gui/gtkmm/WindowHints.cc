@@ -268,7 +268,7 @@ WindowHints::set_tool_window(GtkWidget *window, bool istool)
   switch (type)
     {
     case HINTTYPE_NET:
-      WmSpec::set_window_hint(window, "_NET_WM_WINDOW_TYPE_UTILITY");
+      //WmSpec::set_window_hint(window, "_NET_WM_WINDOW_TYPE_UTILITY");
       rc = true;
       
     default:

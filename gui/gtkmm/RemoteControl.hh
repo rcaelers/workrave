@@ -29,8 +29,19 @@ public:
   ~RemoteControl();
 
   static RemoteControl *get_instance();
-
+  
   WR_METHOD_NOARGS(void, fire);
+
+  WR_METHOD_NOARGS(CORBA_boolean, open_main);
+  WR_METHOD_NOARGS(CORBA_boolean, open_preferences);
+  WR_METHOD_NOARGS(CORBA_boolean, open_network_connect);
+  WR_METHOD_NOARGS(CORBA_boolean, open_network_log);
+  
+  WR_METHOD_NOARGS(CORBA_boolean, restbreak);
+  WR_METHOD       (CORBA_boolean, set_mode, GNOME_Workrave_WorkraveControl_Mode mode);
+  WR_METHOD_NOARGS(CORBA_boolean, disconnect_all);
+  WR_METHOD_NOARGS(CORBA_boolean, reconnect_all);
+  WR_METHOD_NOARGS(CORBA_boolean, quit);
   
 private:  
   //! The one and only instance

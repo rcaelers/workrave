@@ -26,6 +26,7 @@
 #include <bonobo.h>
 #include <bonobo/bonobo-xobject.h>
 #include "Workrave-Applet.h"
+#include "Workrave-Control.h"
 
 class GUI;
 class ControlInterface;
@@ -43,11 +44,14 @@ class AppletWindow :
   public Gtk::HBox
 {
 public:  
+  enum AppletMode { APPLET_DISABLED, APPLET_TRAY, APPLET_GNOME };
+                    
   AppletWindow(GUI *gui, ControlInterface *controller);
   ~AppletWindow();
 
   void update();
-
+  void fire();
+  
   void on_menu_restbreak_now();
 
 public:  
@@ -65,6 +69,15 @@ private:
   //! Interface to the GUI.
   GUI *gui;
 
+  //! Current Applet mode.
+  AppletMode mode;
+
+  //! Retry init panel again?
+  bool retry_init;
+
+  //!
+  Gtk::Plug *plug;
+  
   //! Table containing all timer information
   Gtk::Table *timers_box;
 
@@ -91,6 +104,8 @@ private:
   void init_table();
   bool init_native_applet();
   void read_configuration();
+
+  bool delete_event(GdkEventAny *event);
 
   // Events.
   bool on_delete_event(GdkEventAny*);
