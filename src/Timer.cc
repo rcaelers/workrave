@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2002-10-27 22:08:29 robc>
+// Time-stamp: <2002-10-28 20:37:32 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -97,6 +97,12 @@ Timer::enable()
       snooze_inhibited = false;
       stop_timer();
 
+      // TODO: new, testing.
+      if (autoreset_enabled && autoreset_interval != 0)
+        {
+          elapsed_idle_time = autoreset_interval;
+        }
+           
       if (get_elapsed_time() >= limit_interval)
         {
           // Break is overdue, force a snooze.
@@ -339,6 +345,12 @@ Timer::reset_timer()
       last_start_time = 0;
       next_reset_time = 0;
       next_limit_time = 0;
+
+      // TODO: new:
+      if (autoreset_enabled && autoreset_interval != 0)
+        {
+          elapsed_idle_time = autoreset_interval;
+        }
     }
       
   next_pred_reset_time = 0;
