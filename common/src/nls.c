@@ -1,7 +1,7 @@
 /*
  * nls.h --- i18n-isation 
  *
- * Copyright (C) 2002, 2003 Raymond Penners
+ * Copyright (C) 2002, 2003, 2005 Raymond Penners
  * All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -26,6 +26,7 @@
 
 #include <glib.h>
 #include <stdio.h>
+#include <string.h>
 #include "nls.h"
 
 #if defined(HAVE_GNOME)

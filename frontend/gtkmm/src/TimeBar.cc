@@ -76,7 +76,6 @@ void TimeBar::on_realize()
   // FIXME: for some reason, the timebar get realized EACH TIME
   //        the timerbox is cycled...
   
-  TRACE_ENTER("TimeBar::on_realize");
   // We need to call the base on_realize()
   Gtk::DrawingArea::on_realize();
   // Now we can allocate any additional resources we need
