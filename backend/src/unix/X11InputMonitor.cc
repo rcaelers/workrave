@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2004-07-14 15:13:06 robc>
+// Time-stamp: <2004-07-15 21:34:29 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -499,7 +499,7 @@ X11InputMonitor::run_xrecord()
     
   init_xrecord();
 
-  if (0 && use_xrecord &&
+  if (use_xrecord &&
       XRecordEnableContext(xrecord_datalink, xrecord_context,  &handleXRecordCallback, (XPointer)this))
     {
       XRecordFreeContext(x11_display, xrecord_context);
