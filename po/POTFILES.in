@@ -35,7 +35,7 @@ src/app/gtkmm/Win32SoundPlayer.cc
 src/app/gtkmm/WindowHints.cc
 src/app/gtkmm/WmSpec.cc
 src/app/gtkmm/main.cc
-src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in
+src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in
 src/app/gtkmm/gnome_applet/Workrave-Applet.server.in.in
 src/app/Exercise.cc
 src/app/Text.cc

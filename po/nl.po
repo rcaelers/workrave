@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-27 14:05+0200\n"
+"POT-Creation-Date: 2003-07-27 15:31+0200\n"
 "PO-Revision-Date: 2003-03-04 22:16+0100\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -98,17 +98,17 @@ msgstr "Rustpauze"
 
 #. Mode menu item
 #: src/app/gtkmm/Menus.cc:143
-#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:5
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
 msgid "_Mode"
 msgstr "_Modus"
 
 #: src/app/gtkmm/Menus.cc:150
-#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:7
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
 msgid "_Normal"
 msgstr "_Normaal"
 
 #: src/app/gtkmm/Menus.cc:157
-#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:16
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
 msgid "_Suspended"
 msgstr "_Uitgeschakeld"
 
@@ -117,7 +117,7 @@ msgid "Q_uiet"
 msgstr "_Stil"
 
 #: src/app/gtkmm/Menus.cc:178
-#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:6
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
 msgid "_Network"
 msgstr "_Netwerk"
 
@@ -126,12 +126,12 @@ msgid "_Connect"
 msgstr "Maak verbinding"
 
 #: src/app/gtkmm/Menus.cc:187
-#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:3
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
 msgid "_Disconnect"
 msgstr "Verbreek verbinding"
 
 #: src/app/gtkmm/Menus.cc:192
-#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:12
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
 msgid "_Reconnect"
 msgstr "Opnieuw verbinden"
 
@@ -620,43 +620,43 @@ msgstr "Pauze tijdsduur:"
 msgid "Post-pone time:"
 msgstr "Uitstel tijd:"
 
-#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:1
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:1
 msgid "_About..."
 msgstr "Info..."
 
-#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:2
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:2
 msgid "_Connect..."
 msgstr "Maak verbinding..."
 
-#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:4
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:4
 msgid "_Exercises"
 msgstr ""
 
-#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:8
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:8
 msgid "_Open"
 msgstr "_Open"
 
-#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:9
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:9
 msgid "_Preferences"
 msgstr "Voorkeuren"
 
-#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:10
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:10
 msgid "_Quiet"
 msgstr "_Stil"
 
-#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:11
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:11
 msgid "_Quit"
 msgstr "_Beeeindigen"
 
-#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:13
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:13
 msgid "_Restbreak"
 msgstr "_Rustpauze"
 
-#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:14
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:14
 msgid "_Show Log..."
 msgstr "Toon _logboek"
 
-#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.in.h:15
+#: src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:15
 msgid "_Statistics"
 msgstr "Statistieken"
 

@@ -430,13 +430,6 @@ GUI::init_nls()
 #else
   locale_dir = GNOMELOCALEDIR;
 #endif
-  const char *env = getenv("LC_ALL");
-  FILE *fp = fopen("/home/robc/nls", "w");
-  fprintf(fp, "all = %s\n", env);
-  env = getenv("LANG");
-  fprintf(fp, "all = %s\n", env);
-  fclose(fp);
-  
   bindtextdomain(PACKAGE, locale_dir);
   bind_textdomain_codeset(PACKAGE, "UTF-8");
   textdomain(PACKAGE);
