@@ -126,22 +126,27 @@ MicroBreakWindow::refresh_label()
   time_t elapsed =  restbreak_timer->get_elapsed_time();
   char s[128];
 
-  if (limit > elapsed)
-    {
-      time_t rb = limit - elapsed;
-      sprintf(s, _("Next rest break in %s"),
-              Text::time_to_string(rb, true).c_str());
-    }
-  else
-    {
-      time_t rb = elapsed - limit;
-      sprintf(s, _("Rest break %s overdue"),
-              Text::time_to_string(rb, true).c_str());
-    }
-
   Glib::ustring txt(_("Please relax for a few seconds"));
-  txt += "\n";
-  txt += s;
+  if (restbreak_timer->get_state() != TimerInterface::STATE_INVALID)
+    {
+      char s[128];
+      
+      if (limit > elapsed)
+	{
+	  time_t rb = limit - elapsed;
+	  sprintf(s, _("Next rest break in %s"),
+		  Text::time_to_string(rb, true).c_str());
+	}
+      else
+	{
+	  time_t rb = elapsed - limit;
+	  sprintf(s, _("Rest break %s overdue"),
+		  Text::time_to_string(rb, true).c_str());
+	}
+      
+      txt += "\n";
+      txt += s;
+    }
   
   label->set_markup(HigUtil::create_alert_text(_("Micro-break"), txt.c_str()));
   TRACE_EXIT();
