@@ -27,7 +27,7 @@ AC_ARG_ENABLE( gui-gtk,
     )
 
 AC_ARG_ENABLE( gui-text,
-  [  --enable-gui-text      compile with Dummy text GUI support],
+  [  --enable-gui-text       compile with Dummy text GUI support],
        config_with_text=$enableval
        ,
        config_with_text=no
@@ -48,10 +48,10 @@ AC_ARG_ENABLE( xml,
     )
 
 AC_ARG_ENABLE( gnome,
-  [  --enable-gnome          compile Gnome support],
+  [  --disable-gnome         compile without Gnome support],
        config_with_gnome=$enableval
        ,
-       config_with_gnome=no
+       config_with_gnome=yes
     )
 
 AC_ARG_ENABLE( registry,
@@ -69,10 +69,10 @@ AC_ARG_ENABLE( debug,
     )
 
 AC_ARG_ENABLE( distribution,
-  [  --enable-distribution   compile with support for distributed operation],
+  [  --disable-distribution  compile without support for distributed operation],
        config_distribution=$enableval
        ,
-       config_distribution=no
+       config_distribution=yes
     )
 
 AC_ARG_ENABLE( exercises,

@@ -55,7 +55,7 @@ void
 Frame::set_frame_style(const Style style)
 {
   frame_style = style;
-  int dfw;
+  int dfw = 1;
   switch (style)
     {
     case STYLE_BREAK_WINDOW:

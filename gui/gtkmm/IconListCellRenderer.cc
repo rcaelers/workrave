@@ -41,6 +41,9 @@ IconListCellRenderer::get_size_vfunc(Gtk::Widget& widget,
                                      int* x_offset, int* y_offset,
                                      int* width,    int* height)
 {
+  (void) x_offset;
+  (void) y_offset;
+  
   int text_x_offset;
   int text_y_offset;
   int text_width;

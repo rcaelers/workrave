@@ -284,7 +284,7 @@ void
 TimerBoxPreferencePage::on_display_changed(int break_id)
 {
   int sel = timer_display_button[break_id]->get_history();
-  int flags;
+  int flags = 0;
   switch (sel)
     {
     case 0:

@@ -1,11 +1,11 @@
 # Workrave 
 # Copyright (C) 2002, 2003 Rob Caelers & Raymond Penners
 # Raymond Penners <raymond@dotsphinx.com>, 2002.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
-"POT-Creation-Date: 2003-04-29 23:54+0200\n"
+"POT-Creation-Date: 2003-05-02 21:25+0200\n"
 "PO-Revision-Date: 2003-03-04 22:16+0100\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -133,18 +133,19 @@ msgstr "Workrave"
 msgid "Workrave Applet"
 msgstr "Workrave Applet"
 
-#: gui/gnome/WorkraveApplet.c:283 gui/gnome/WorkraveApplet.c:341
-#: gui/gnome/WorkraveApplet.c:365 gui/gnome/WorkraveApplet.c:389
-#: gui/gnome/WorkraveApplet.c:412 gui/gnome/WorkraveApplet.c:436
-#: gui/gnome/WorkraveApplet.c:459 gui/gnome/WorkraveApplet.c:481
-#: gui/gnome/WorkraveApplet.c:505 gui/gnome/WorkraveApplet.c:545
-#: gui/gnome/WorkraveApplet.c:574 gui/gnome/WorkraveApplet.c:622
-#: gui/gnome/WorkraveApplet.c:664 gui/gnome/WorkraveApplet.c:718
+#: gui/gnome/WorkraveApplet.c:323 gui/gnome/WorkraveApplet.c:381
+#: gui/gnome/WorkraveApplet.c:405 gui/gnome/WorkraveApplet.c:429
+#: gui/gnome/WorkraveApplet.c:452 gui/gnome/WorkraveApplet.c:475
+#: gui/gnome/WorkraveApplet.c:499 gui/gnome/WorkraveApplet.c:522
+#: gui/gnome/WorkraveApplet.c:544 gui/gnome/WorkraveApplet.c:568
+#: gui/gnome/WorkraveApplet.c:609 gui/gnome/WorkraveApplet.c:638
+#: gui/gnome/WorkraveApplet.c:686 gui/gnome/WorkraveApplet.c:728
+#: gui/gnome/WorkraveApplet.c:782
 #, c-format
 msgid "An exception occured '%s'"
 msgstr ""
 
-#: gui/gnome/WorkraveApplet.c:317 gui/gtkmm/Menus.cc:602
+#: gui/gnome/WorkraveApplet.c:357 gui/gtkmm/Menus.cc:602
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."

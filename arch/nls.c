@@ -1,7 +1,7 @@
 /*
  * nls.h --- i18n-isation 
  *
- * Copyright (C) 2002 Raymond Penners
+ * Copyright (C) 2002, 2003 Raymond Penners
  * All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -24,7 +24,8 @@
 
 #include "config.h"
 
-#include <glib/glist.h>
+#include <glib.h>
+#include <stdio.h>
 #include "nls.h"
 
 #if defined(HAVE_GNOME)
@@ -36,6 +37,37 @@
 
 #if !defined(HAVE_GNOME) && !defined(G_OS_WIN32)
 static GHashTable *category_table= NULL;
+static GHashTable *alias_table = NULL;
+
+/*read an alias file for the locales*/
+static void
+read_aliases (char *file)
+{
+  FILE *fp;
+  char buf[256];
+  if (!alias_table)
+    alias_table = g_hash_table_new (g_str_hash, g_str_equal);
+  fp = fopen (file,"r");
+  if (!fp)
+    return;
+  while (fgets (buf,256,fp))
+    {
+      char *p;
+      g_strstrip(buf);
+      if (buf[0]=='#' || buf[0]=='\0')
+        continue;
+      p = strtok (buf,"\t ");
+      if (!p)
+	continue;
+      p = strtok (NULL,"\t ");
+      if(!p)
+	continue;
+      if (!g_hash_table_lookup (alias_table, buf))
+	g_hash_table_insert (alias_table, g_strdup(buf), g_strdup(p));
+    }
+  fclose (fp);
+}
+
 
 /* The following is (partly) taken from the gettext package.
    Copyright (C) 1995, 1996, 1997, 1998 Free Software Foundation, Inc.  */
@@ -71,10 +103,158 @@ guess_category_value (const gchar *categoryname)
 
   return NULL;
 }
+
+
+/*return the un-aliased language as a newly allocated string*/
+static char *
+unalias_lang (char *lang)
+{
+  char *p;
+  int i;
+  if (!alias_table)
+    {
+      read_aliases (LIBGNOME_DATADIR "/locale/locale.alias");
+      read_aliases ("/usr/share/locale/locale.alias");
+      read_aliases ("/usr/local/share/locale/locale.alias");
+      read_aliases ("/usr/lib/X11/locale/locale.alias");
+      read_aliases ("/usr/openwin/lib/locale/locale.alias");
+    }
+  i = 0;
+  while ((p=g_hash_table_lookup(alias_table,lang)) && strcmp(p, lang))
+    {
+      lang = p;
+      if (i++ == 30)
+        {
+          static gboolean said_before = FALSE;
+	  if (!said_before)
+            g_warning (_("Too many alias levels for a locale, "
+			 "may indicate a loop"));
+	  said_before = TRUE;
+	  return lang;
+	}
+    }
+  return lang;
+}
+
+
+/* Mask for components of locale spec. The ordering here is from
+ * least significant to most significant
+ */
+enum
+{
+  COMPONENT_CODESET =   1 << 0,
+  COMPONENT_TERRITORY = 1 << 1,
+  COMPONENT_MODIFIER =  1 << 2
+};
+
+/* Break an X/Open style locale specification into components
+ */
+static guint
+explode_locale (const gchar *locale,
+		gchar **language, 
+		gchar **territory, 
+		gchar **codeset, 
+		gchar **modifier)
+{
+  const gchar *uscore_pos;
+  const gchar *at_pos;
+  const gchar *dot_pos;
+
+  guint mask = 0;
+
+  uscore_pos = strchr (locale, '_');
+  dot_pos = strchr (uscore_pos ? uscore_pos : locale, '.');
+  at_pos = strchr (dot_pos ? dot_pos : (uscore_pos ? uscore_pos : locale), '@');
+
+  if (at_pos)
+    {
+      mask |= COMPONENT_MODIFIER;
+      *modifier = g_strdup (at_pos);
+    }
+  else
+    at_pos = locale + strlen (locale);
+
+  if (dot_pos)
+    {
+      mask |= COMPONENT_CODESET;
+      *codeset = g_new (gchar, 1 + at_pos - dot_pos);
+      strncpy (*codeset, dot_pos, at_pos - dot_pos);
+      (*codeset)[at_pos - dot_pos] = '\0';
+    }
+  else
+    dot_pos = at_pos;
+
+  if (uscore_pos)
+    {
+      mask |= COMPONENT_TERRITORY;
+      *territory = g_new (gchar, 1 + dot_pos - uscore_pos);
+      strncpy (*territory, uscore_pos, dot_pos - uscore_pos);
+      (*territory)[dot_pos - uscore_pos] = '\0';
+    }
+  else
+    uscore_pos = dot_pos;
+
+  *language = g_new (gchar, 1 + uscore_pos - locale);
+  strncpy (*language, locale, uscore_pos - locale);
+  (*language)[uscore_pos - locale] = '\0';
+
+  return mask;
+}
+
+/*
+ * Compute all interesting variants for a given locale name -
+ * by stripping off different components of the value.
+ *
+ * For simplicity, we assume that the locale is in
+ * X/Open format: language[_territory][.codeset][@modifier]
+ *
+ * TODO: Extend this to handle the CEN format (see the GNUlibc docs)
+ *       as well. We could just copy the code from glibc wholesale
+ *       but it is big, ugly, and complicated, so I'm reluctant
+ *       to do so when this should handle 99% of the time...
+ */
+static GList *
+compute_locale_variants (const gchar *locale)
+{
+  GList *retval = NULL;
+
+  gchar *language;
+  gchar *territory;
+  gchar *codeset;
+  gchar *modifier;
+
+  guint mask;
+  guint i;
+
+  g_return_val_if_fail (locale != NULL, NULL);
+
+  mask = explode_locale (locale, &language, &territory, &codeset, &modifier);
+
+  /* Iterate through all possible combinations, from least attractive
+   * to most attractive.
+   */
+  for (i=0; i<=mask; i++)
+    if ((i & ~mask) == 0)
+      {
+	gchar *val = g_strconcat(language,
+				 (i & COMPONENT_TERRITORY) ? territory : "",
+				 (i & COMPONENT_CODESET) ? codeset : "",
+				 (i & COMPONENT_MODIFIER) ? modifier : "",
+				 NULL);
+	retval = g_list_prepend (retval, val);
+      }
+
+  g_free (language);
+  if (mask & COMPONENT_CODESET)
+    g_free (codeset);
+  if (mask & COMPONENT_TERRITORY)
+    g_free (territory);
+  if (mask & COMPONENT_MODIFIER)
+    g_free (modifier);
+
+  return retval;
+}
 #endif
-
-
-
 
 
 /* The following is (partly) taken from the libgnome package.
@@ -84,7 +264,8 @@ const GList *
 nls_get_language_list (const gchar *category_name)
 {
 #if defined(HAVE_GNOME)
-
+  (void) category_name;
+  
   return gnome_i18n_get_language_list("LC_MESSAGES");
 
 #elif defined(G_OS_WIN32)
@@ -144,12 +325,12 @@ nls_get_language_list (const gchar *category_name)
 	      category_memory[0]= '\0'; 
 	      category_memory++;
 	      
-	      cp = unalias_lang(cp);
+	      cp = (char *) unalias_lang(cp);
 	      
 	      if (strcmp (cp, "C") == 0)
 		c_locale_defined= TRUE;
 	      
-	      list= g_list_concat (list, compute_locale_variants (cp));
+	      list= g_list_concat (list, (char *) compute_locale_variants (cp));
 	    }
 	}
       g_free (orig_category_memory);

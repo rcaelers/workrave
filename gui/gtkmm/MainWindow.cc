@@ -125,7 +125,7 @@ MainWindow::init()
                          "workrave-icon-medium.png",
                          "workrave-icon-large.png" };
   
-  for (int i = 0; i < sizeof(icon_files) / sizeof(char *); i++)
+  for (unsigned int i = 0; i < sizeof(icon_files) / sizeof(char *); i++)
     {
       string file = Util::complete_directory(icon_files[i], Util::SEARCH_PATH_IMAGES);
       Glib::RefPtr<Gdk::Pixbuf> pixbuf = Gdk::Pixbuf::create_from_file(file);

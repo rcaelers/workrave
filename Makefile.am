@@ -12,9 +12,9 @@ MAINTAINERCLEANFILES 	= aclocal.m4 config.h.in configure stamp-h.in Makefile.in 
 	intltool-extract.in intltool-extract workrave.spec config.rpath compile \
 	AUTHORS.txt COPYING.txt ChangeLog.txt NEWS.txt README.txt
 
-SUBDIRS 	= m4 po arch gui src images sounds 
+SUBDIRS 	= m4 po arch gui src images exercises sounds 
 
-EXTRA_DIST	= \
+EXTRA_DIST	= config.rpath  \
 	config.xml \
 	autogen.sh \
 	autogenwin32.sh \

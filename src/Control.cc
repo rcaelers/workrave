@@ -209,11 +209,13 @@ Control::process_timers(TimerInfo *infos)
         }
     }
 
+#ifdef NEW_DISTR  
   if (!master_node)
     {
       state = monitor_state;
     }
-
+#endif
+  
 #ifndef NEW_DISTR  
   if (master_node)
 #endif    
@@ -764,6 +766,9 @@ Control::set_monitor_state(bool master, unsigned char *buffer, int size)
 {
   TRACE_ENTER_MSG("Control::set_monitor_state", master << " " << master_node);
 
+  (void) buffer;
+  (void) size;
+  
 #ifdef NEW_DISTR  
   if (!master_node)
     {

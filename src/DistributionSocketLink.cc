@@ -57,10 +57,10 @@ const string DistributionSocketLink::CFG_KEY_DISTRIBUTION_TCP_INTERVAL = "/recon
 DistributionSocketLink::DistributionSocketLink(Configurator *conf) :
   dist_manager(NULL),
   configurator(conf),
-  master_client(NULL),
-  i_am_master(false),
   username(NULL),
   password(NULL),
+  master_client(NULL),
+  i_am_master(false),
   myname(NULL),
   server_port(DEFAULT_PORT),
   server_socket(NULL),

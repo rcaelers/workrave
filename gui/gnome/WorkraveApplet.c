@@ -247,7 +247,7 @@ void
 workrave_applet_control_set_menu_active(PortableServer_Servant servant, const CORBA_char *name,
                                         const CORBA_boolean status, CORBA_Environment *ev)
 {
-  workrave_applet_set_hidden(name, !status); 
+  workrave_applet_set_hidden((char *) name, !status); 
 }
 
 
