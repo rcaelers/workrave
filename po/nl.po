@@ -527,7 +527,7 @@ msgstr "De totale muis beweging gemeten op het scherm"
 
 #: gui/gtkmm/StatisticsDialog.cc:295
 msgid "Effective mouse movement:"
-msgstr "Effectieve muis beweging"
+msgstr "Effectieve muis beweging:"
 
 #: gui/gtkmm/StatisticsDialog.cc:296
 msgid ""
