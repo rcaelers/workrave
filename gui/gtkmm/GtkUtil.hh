@@ -32,7 +32,22 @@ public:
   create_label_with_icon(const char *text, const char *icon);
 
   static Gtk::Widget *
+  GtkUtil::create_label_with_tooltip(const char *text, const char *tooltip);
+
+  static Gtk::Widget *
   create_label_for_break(GUIControl::BreakId id);
+
+  static void
+  table_attach_aligned(Gtk::Table &table, Gtk::Widget &child,
+                       guint left_attach, guint top_attach, bool left);
+
+  static void
+  table_attach_left_aligned(Gtk::Table &table, Gtk::Widget &child,
+                            guint left_attach, guint top_attach);
+
+  static void
+  table_attach_right_aligned(Gtk::Table &table, Gtk::Widget &child,
+                             guint left_attach, guint top_attach);
 };
 
 #endif // GTKMMGUI_HH

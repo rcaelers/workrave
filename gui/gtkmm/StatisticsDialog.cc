@@ -51,8 +51,7 @@ StatisticsDialog::StatisticsDialog()
     statistics(NULL),
     daily_usage_label(NULL),
     start_time_label(NULL),
-    end_time_label(NULL),
-    tips(NULL)
+    end_time_label(NULL)
 {
   TRACE_ENTER("StatisticsDialog::StatisticsDialog");
 
@@ -87,10 +86,6 @@ StatisticsDialog::init_gui()
   Gtk::Notebook *tnotebook = manage(new Gtk::Notebook());
   tnotebook->set_tab_pos(Gtk::POS_TOP);  
 
-  // Init tooltips.
-  tips = manage(new Gtk::Tooltips());
-  tips->enable();
-  
   Gtk::HBox *hbox = manage(new Gtk::HBox(false, 3));
   Gtk::VBox *vbox = manage(new Gtk::VBox(false, 3));
 
@@ -186,17 +181,6 @@ StatisticsDialog::create_info_box()
 }
 
 
-Gtk::Widget *
-StatisticsDialog::create_label(char *text, char *tooltip)
-{
-  Gtk::Label *label = manage(new Gtk::Label(text));
-  Gtk::EventBox *eventbox = manage(new Gtk::EventBox());
-
-  eventbox->add(*label);
-
-  tips->set_tip(*eventbox, tooltip);
-  return eventbox;
-}
 
 
 void
@@ -211,30 +195,46 @@ StatisticsDialog::create_break_page(Gtk::Notebook *tnotebook)
   table->set_col_spacings(6);
   table->set_border_width(6);
 
-  Gtk::Widget *unique_label = create_label(_("Total breaks"),
-                                          _("Total number of unique breaks prompted. This equals "
-                                            "the number of times the timer reached zero."));
+  Gtk::Widget *unique_label
+    = GtkUtil::create_label_with_tooltip
+    (_("Total breaks"),
+     _("Total number of unique breaks prompted. This equals "
+       "the number of times the timer reached zero."));
   
-  Gtk::Widget *prompted_label = create_label(_("Prompted"),
-                                            _("Number of times workrave prompted you to take a break"));
+  Gtk::Widget *prompted_label
+    = GtkUtil::create_label_with_tooltip
+    (_("Prompted"),
+     _("Number of times workrave prompted you to take a break"));
   
-  Gtk::Widget *taken_label = create_label(_("Breaks taken"),
-                                         _("Number of times you took a break when prompted"));
+  Gtk::Widget *taken_label
+    = GtkUtil::create_label_with_tooltip
+    (_("Breaks taken"),
+     _("Number of times you took a break when prompted"));
   
-  Gtk::Widget *natural_label = create_label(_("Natural breaks taken"),
-                                         _("Number of times you took a break without being prompted"));
+  Gtk::Widget *natural_label
+    = GtkUtil::create_label_with_tooltip
+    (_("Natural breaks taken"),
+     _("Number of times you took a break without being prompted"));
   
-  Gtk::Widget *skipped_label = create_label(_("Breaks skipped"),
-                                           _("Number of times you skipped a break"));
+  Gtk::Widget *skipped_label
+    = GtkUtil::create_label_with_tooltip
+    (_("Breaks skipped"),
+     _("Number of times you skipped a break"));
  
-  Gtk::Widget *postponed_label = create_label(_("Breaks postponed"),
-                                             _("Number of times you postponed a break"));
+  Gtk::Widget *postponed_label
+    = GtkUtil::create_label_with_tooltip
+    (_("Breaks postponed"),
+     _("Number of times you postponed a break"));
   
-  Gtk::Widget *overdue_label = create_label(_("Total overdue time"),
-                                           _("The total time this break was overdue"));
+  Gtk::Widget *overdue_label
+    = GtkUtil::create_label_with_tooltip
+    (_("Total overdue time"),
+     _("The total time this break was overdue"));
 
-  Gtk::Widget *usage_label = create_label(_("Daily usage"),
-                                        _("Total computer usage"));
+  Gtk::Widget *usage_label
+    = GtkUtil::create_label_with_tooltip
+    (_("Daily usage"),
+     _("Total computer usage"));
   
   Gtk::HSeparator *hrule = manage(new Gtk::HSeparator());
   Gtk::VSeparator *vrule = manage(new Gtk::VSeparator());
@@ -250,22 +250,22 @@ StatisticsDialog::create_break_page(Gtk::Notebook *tnotebook)
                                  (GUIControl::BREAK_ID_DAILY_LIMIT));
 
   y = 0;
-  attach_left(*table, *mp_label, 2, y);
-  attach_left(*table, *rb_label, 3, y);
-  attach_left(*table, *dl_label, 4, y);
+  GtkUtil::table_attach_left_aligned(*table, *mp_label, 2, y);
+  GtkUtil::table_attach_left_aligned(*table, *rb_label, 3, y);
+  GtkUtil::table_attach_left_aligned(*table, *dl_label, 4, y);
 
   y = 1;
   table->attach(*hrule, 0, 5, y, y + 1, Gtk::EXPAND | Gtk::FILL, Gtk::SHRINK);
   table->attach(*vrule, 1, 2, 0, 9, Gtk::SHRINK, Gtk::EXPAND | Gtk::FILL);
 
   y = 2;
-  attach_right(*table, *unique_label, 0, y++);
-  attach_right(*table, *prompted_label, 0, y++);
-  attach_right(*table, *taken_label, 0, y++);
-  attach_right(*table, *natural_label, 0, y++);
-  attach_right(*table, *skipped_label, 0, y++);
-  attach_right(*table, *postponed_label, 0, y++);
-  attach_right(*table, *overdue_label, 0, y++);
+  GtkUtil::table_attach_right_aligned(*table, *unique_label, 0, y++);
+  GtkUtil::table_attach_right_aligned(*table, *prompted_label, 0, y++);
+  GtkUtil::table_attach_right_aligned(*table, *taken_label, 0, y++);
+  GtkUtil::table_attach_right_aligned(*table, *natural_label, 0, y++);
+  GtkUtil::table_attach_right_aligned(*table, *skipped_label, 0, y++);
+  GtkUtil::table_attach_right_aligned(*table, *postponed_label, 0, y++);
+  GtkUtil::table_attach_right_aligned(*table, *overdue_label, 0, y++);
   
   hrule = manage(new Gtk::HSeparator());
   vrule = manage(new Gtk::VSeparator());
@@ -275,8 +275,8 @@ StatisticsDialog::create_break_page(Gtk::Notebook *tnotebook)
 
   daily_usage_label = new Gtk::Label();
   
-  attach_right(*table, *usage_label, 0, y);
-  attach_right(*table, *daily_usage_label, 2, y++);
+  GtkUtil::table_attach_right_aligned(*table, *usage_label, 0, y);
+  GtkUtil::table_attach_right_aligned(*table, *daily_usage_label, 2, y++);
   
   // Put the breaks in table.
   for (int i = 0; i < GUIControl::BREAK_ID_SIZEOF; i++)
@@ -284,7 +284,7 @@ StatisticsDialog::create_break_page(Gtk::Notebook *tnotebook)
       for (int j = 0; j < BREAK_STATS; j++)
         {
           break_labels[i][j] = manage(new Gtk::Label());
-          attach_right(*table, *break_labels[i][j], i + 2, j + 2);
+          GtkUtil::table_attach_right_aligned(*table, *break_labels[i][j], i + 2, j + 2);
         }
     }
   
@@ -305,57 +305,46 @@ StatisticsDialog::create_activity_page(Gtk::Notebook *tnotebook)
   table->set_col_spacings(6);
   table->set_border_width(6);
 
-  Gtk::Widget *mouse_time_label = create_label(_("Total mouse time:"),
-                                              _("Total time you were using the mouse."));
-  Gtk::Widget *mouse_movement_label = create_label(_("Total mouse movement:"),
-                                              _("Total mouse movement in number of pixels."));
-  Gtk::Widget *mouse_click_movement_label = create_label(_("Total click-to-click movement:"),
-                                              _("Total mouse movement you would have had if you moved your "
-                                                "mouse in straight lines between clicks."));
-  Gtk::Widget *mouse_clicks_label = create_label(_("Total mouse button clicks:"),
-                                              _("Total number of mouse button clicks."));
-  Gtk::Widget *keystrokes_label = create_label(_("Total keystrokes:"),
-                                              _("Total number of keys pressed."));
+  Gtk::Widget *mouse_time_label
+    = GtkUtil::create_label_with_tooltip
+    (_("Total mouse time:"),
+     _("Total time you were using the mouse."));
+  Gtk::Widget *mouse_movement_label
+    = GtkUtil::create_label_with_tooltip
+    (_("Total mouse movement:"),
+     _("Total mouse movement in number of pixels."));
+  Gtk::Widget *mouse_click_movement_label
+    = GtkUtil::create_label_with_tooltip
+    (_("Total click-to-click movement:"),
+     _("Total mouse movement you would have had if you moved your "
+       "mouse in straight lines between clicks."));
+  Gtk::Widget *mouse_clicks_label
+    = GtkUtil::create_label_with_tooltip
+    (_("Total mouse button clicks:"),
+     _("Total number of mouse button clicks."));
+  Gtk::Widget *keystrokes_label
+    = GtkUtil::create_label_with_tooltip
+    (_("Total keystrokes:"),
+     _("Total number of keys pressed."));
   
 
   int y = 0;
-  attach_right(*table, *mouse_time_label, 0, y++);
-  attach_right(*table, *mouse_movement_label, 0, y++);
-  attach_right(*table, *mouse_click_movement_label, 0, y++);
-  attach_right(*table, *mouse_clicks_label, 0, y++);
-  attach_right(*table, *keystrokes_label, 0, y++);
+  GtkUtil::table_attach_right_aligned(*table, *mouse_time_label, 0, y++);
+  GtkUtil::table_attach_right_aligned(*table, *mouse_movement_label, 0, y++);
+  GtkUtil::table_attach_right_aligned(*table, *mouse_click_movement_label, 0, y++);
+  GtkUtil::table_attach_right_aligned(*table, *mouse_clicks_label, 0, y++);
+  GtkUtil::table_attach_right_aligned(*table, *keystrokes_label, 0, y++);
 
   for (int i = 0; i < 5; i++)
     {
       activity_labels[i] = new Gtk::Label();
-      attach_right(*table, *activity_labels[i], 1, i);
+      GtkUtil::table_attach_right_aligned(*table, *activity_labels[i], 1, i);
     }
   
   box->show_all();
   tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*table, *box));
 }
 
-
-void
-StatisticsDialog::attach_left(Gtk::Table &table, Widget &child, guint left_attach, guint top_attach)
-{
-  Gtk::Alignment *a = manage(new Gtk::Alignment(Gtk::ALIGN_LEFT, Gtk::ALIGN_BOTTOM, 0.0, 0.0));
-  a->add(child);
-  
-  table.attach(*a, left_attach, left_attach+1, top_attach, top_attach + 1,
-               Gtk::EXPAND | Gtk::FILL, Gtk::SHRINK);
-}
-
-
-void
-StatisticsDialog::attach_right(Gtk::Table &table, Widget &child, guint left_attach, guint top_attach)
-{
-  Gtk::Alignment *a = manage(new Gtk::Alignment(Gtk::ALIGN_RIGHT, Gtk::ALIGN_BOTTOM, 0.0, 0.0));
-  a->add(child);
-  
-  table.attach(*a, left_attach, left_attach+1, top_attach, top_attach + 1,
-               Gtk::FILL, Gtk::SHRINK);
-}
 
 
 

@@ -57,9 +57,6 @@ private:
   /** Labels indicating the end time of the visible data. */
   Gtk::Label *end_time_label;
 
-  /** */
-  Gtk::Tooltips *tips;
-
   /** Calendar */
   Gtk::Calendar *calendar;
 
@@ -81,10 +78,6 @@ private:
   Gtk::Widget *create_info_box();
   void create_break_page(Gtk::Notebook *tnotebook);
   void create_activity_page(Gtk::Notebook *tnotebook);
-
-  void attach_left(Gtk::Table &table, Widget &child, guint left_attach, guint top_attach);
-  void attach_right(Gtk::Table &table, Widget &child, guint left_attach, guint top_attach);
-  Gtk::Widget *create_label(char *label, char *tooltip);
 
   void get_calendar_day_index(int &idx, int &next, int &prev);
   void set_calendar_day_index(int idx);

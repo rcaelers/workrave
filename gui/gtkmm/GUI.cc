@@ -273,6 +273,8 @@ GUI::init_gui()
   applet_window = new AppletWindow();
 #endif  
 
+  tooltips = manage(new Gtk::Tooltips());
+  tooltips->enable();
   // Periodic timer.
   Glib::signal_timeout().connect(SigC::slot(*this, &GUI::on_timer), 1000);
 

@@ -30,6 +30,7 @@
 #include "Configurator.hh"
 #include "AppletWindow.hh"
 #include "GtkUtil.hh"
+#include "GUI.hh"
 
 //! Constructs the Applet Preference Notebook page.
 AppletPreferencePage::AppletPreferencePage()
@@ -67,12 +68,10 @@ AppletPreferencePage::create_page()
                                  (GUIControl::BREAK_ID_REST_BREAK));
   Gtk::Widget *dl_label = manage(GtkUtil::create_label_for_break
                                  (GUIControl::BREAK_ID_DAILY_LIMIT));
-  Gtk::Label *visible_label = manage(new Gtk::Label(_("Break visible:")));
+  Gtk::Label *visible_label = manage(new Gtk::Label(_("Show break at position:")));
   visible_label->set_alignment(1.0);
   Gtk::Label *cycle_label = manage(new Gtk::Label(_("Cycle time:")));
   cycle_label->set_alignment(1.0);
-  Gtk::Label *slot_label = manage(new Gtk::Label(_("Break position:")));
-  slot_label->set_alignment(1.0);
   Gtk::Label *first_label = manage(new Gtk::Label(_("Show only when first:")));
   first_label->set_alignment(1.0);
   Gtk::Label *imminent_label = manage(new Gtk::Label(_("Show only when imminent in:")));
@@ -101,8 +100,7 @@ AppletPreferencePage::create_page()
   table->set_border_width(6);
 
   // Tooltips;
-  Gtk::Tooltips *tips = manage(new Gtk::Tooltips());
-  tips->enable();
+  Gtk::Tooltips *tips = GUI::get_instance()->get_tooltips();
   tips->set_tip(*enabled_cb, _("Applet enabled or not."));
   tips->set_tip(*cycle_entry, _("When multiple breaks are shown on a certain position, "
                                 "this value indicates the time each break is shown."));
@@ -132,19 +130,16 @@ AppletPreferencePage::create_page()
       hbox->pack_start(*imminent_cb[i], false, false, 0);
       hbox->pack_start(*time_entry[i], false, false, 0);
 
+      Gtk::HBox *slothbox = manage(new Gtk::HBox());
+      slothbox->pack_start(*visible_cb[i], false, false, 0);
+      slothbox->pack_start(*slot_entry[i], false, false, 0);
+
       int y = 2;
-      table->attach(*visible_cb[i], i + 1, i + 2, y, y + 1, Gtk::SHRINK, Gtk::SHRINK);
-      y++;
-      table->attach(*slot_entry[i], i + 1, i + 2, y, y + 1, Gtk::SHRINK, Gtk::SHRINK);
-      y++;
-      table->attach(*default_cb[i], i + 1, i + 2, y, y + 1, Gtk::SHRINK, Gtk::SHRINK);
-      y++;
-      table->attach(*exclusive_cb[i], i + 1, i + 2, y, y + 1, Gtk::SHRINK, Gtk::SHRINK);
-      y++;
-      table->attach(*first_cb[i], i + 1, i + 2, y, y + 1, Gtk::SHRINK, Gtk::SHRINK);
-      y++;
-      table->attach(*hbox, i + 1, i + 2, y, y + 1, Gtk::SHRINK, Gtk::SHRINK);
-      y++;
+      GtkUtil::table_attach_left_aligned(*table, *slothbox, i+1, y++);
+      GtkUtil::table_attach_left_aligned(*table, *default_cb[i], i+1, y++);
+      GtkUtil::table_attach_left_aligned(*table, *exclusive_cb[i], i+1, y++);
+      GtkUtil::table_attach_left_aligned(*table, *first_cb[i], i+1, y++);
+      GtkUtil::table_attach_left_aligned(*table, *hbox, i+1, y++);
 
       visible_cb[i]->signal_toggled().connect(bind(SigC::slot(*this, &AppletPreferencePage::on_visible_toggled), i));
       first_cb[i]->signal_toggled().connect(bind(SigC::slot(*this, &AppletPreferencePage::on_first_toggled), i));
@@ -181,8 +176,7 @@ AppletPreferencePage::create_page()
   int y = 0;
   
   table->attach(*cycle_label, 0, 1, y, y + 1, Gtk::FILL, Gtk::SHRINK);
-  table->attach(*cycle_entry, 1, 2, y, y + 1, Gtk::SHRINK, Gtk::SHRINK);
-  y++;
+  GtkUtil::table_attach_left_aligned(*table, *cycle_entry, 1, y++);
   
   table->attach(*mp_label, 1, 2, y, y + 1, Gtk::FILL, Gtk::SHRINK);
   table->attach(*rb_label, 2, 3, y, y + 1, Gtk::FILL, Gtk::SHRINK);
@@ -190,8 +184,6 @@ AppletPreferencePage::create_page()
   y++;
   
   table->attach(*visible_label, 0, 1, y, y + 1, Gtk::FILL, Gtk::SHRINK);
-  y++;
-  table->attach(*slot_label, 0, 1, y, y + 1, Gtk::FILL, Gtk::SHRINK);
   y++;
   table->attach(*default_label, 0, 1, y, y + 1, Gtk::FILL, Gtk::SHRINK);
   y++;

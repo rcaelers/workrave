@@ -27,6 +27,7 @@
 #include "Mutex.hh"
 #include "GUIInterface.hh"
 #include "GUIFactoryInterface.hh"
+#include <gtkmm.h>
 
 // GTKMM classes
 class MainWindow;
@@ -75,6 +76,7 @@ public:
   AppletWindow *get_applet_window() const;
 #endif
   MainWindow *get_main_window() const;
+  Gtk::Tooltips *get_tooltips() const;
   
 private:
   bool on_timer();
@@ -106,6 +108,9 @@ private:
   //! The main window, shows the timers.
   MainWindow *main_window;
 
+  /** */
+  Gtk::Tooltips *tooltips;
+
 #ifdef HAVE_GNOME
   //! The applet window.
   AppletWindow *applet_window;
@@ -115,9 +120,16 @@ private:
 
 //! Returns the only instance of GUI
 inline GUI *
-GUI::get_instance()
+GUI::get_instance() 
 {
   return instance;
+}
+
+//! Returns tooltips
+inline Gtk::Tooltips *
+GUI::get_tooltips() const
+{
+  return tooltips;
 }
 
 

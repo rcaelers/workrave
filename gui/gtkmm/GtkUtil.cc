@@ -16,6 +16,7 @@
 // $Id$
 //
 
+#include "GUI.hh"
 #include "GtkUtil.hh"
 
 
@@ -53,4 +54,46 @@ GtkUtil::create_label_for_break(GUIControl::BreakId id)
   Gtk::Widget *label = 
     GtkUtil::create_label_with_icon (timer->label, timer->icon.c_str());
   return label;
+}
+
+
+void
+GtkUtil::table_attach_aligned(Gtk::Table &table, Gtk::Widget &child,
+                              guint left_attach, guint top_attach, bool left)
+{
+  Gtk::Alignment *a = Gtk::manage(new Gtk::Alignment
+                                  (left ? Gtk::ALIGN_LEFT : Gtk::ALIGN_RIGHT,
+                                   Gtk::ALIGN_BOTTOM,
+                                   0.0, 0.0));
+  a->add(child);
+  table.attach(*a, left_attach, left_attach+1, top_attach, top_attach + 1,
+               Gtk::FILL, Gtk::SHRINK);
+}
+
+void
+GtkUtil::table_attach_left_aligned(Gtk::Table &table, Gtk::Widget &child,
+                                   guint left_attach, guint top_attach)
+{
+  table_attach_aligned(table, child, left_attach, top_attach, true);
+}
+
+void
+GtkUtil::table_attach_right_aligned(Gtk::Table &table, Gtk::Widget &child,
+                                   guint left_attach, guint top_attach)
+{
+  table_attach_aligned(table, child, left_attach, top_attach, false);
+}
+
+
+
+Gtk::Widget *
+GtkUtil::create_label_with_tooltip(const char *text, const char *tooltip)
+{
+  Gtk::Label *label = Gtk::manage(new Gtk::Label(text));
+  Gtk::EventBox *eventbox = Gtk::manage(new Gtk::EventBox());
+
+  eventbox->add(*label);
+
+  GUI::get_instance()->get_tooltips()->set_tip(*eventbox, tooltip);
+  return eventbox;
 }
