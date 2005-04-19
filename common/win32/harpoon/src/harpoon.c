@@ -1,7 +1,7 @@
 /*
  * harpoon.c
  *
- * Copyright (C) 2002-2004 Raymond Penners <raymond@dotsphinx.com>
+ * Copyright (C) 2002-2005 Raymond Penners <raymond@dotsphinx.com>
  * All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -334,7 +334,13 @@ harpoon_mouse_hook (int code, WPARAM wpar, LPARAM lpar)
         }
       harpoon_post_message (evt, button, MAKELONG(x, y));
     }
-  return harpoon_generic_hook_return (code, wpar, lpar, mouse_hook, FALSE);
+  BOOL forcecallnext = FALSE;
+  if (evt == HARPOON_BUTTON_RELEASE)
+    {
+      forcecallnext = TRUE;
+    }
+  return harpoon_generic_hook_return (code, wpar, lpar, mouse_hook,
+                                      forcecallnext);
 }
 
 
