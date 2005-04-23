@@ -268,6 +268,7 @@ harpoon_supports_mouse_hook_struct_ex(void)
 LRESULT CALLBACK
 harpoon_mouse_hook (int code, WPARAM wpar, LPARAM lpar)
 {
+  BOOL forcecallnext = FALSE;
   if (code == HC_ACTION)
     {
       PMOUSEHOOKSTRUCT pmhs = (PMOUSEHOOKSTRUCT) lpar;
@@ -333,11 +334,11 @@ harpoon_mouse_hook (int code, WPARAM wpar, LPARAM lpar)
           evt = HARPOON_MOUSE_MOVE;
         }
       harpoon_post_message (evt, button, MAKELONG(x, y));
-    }
-  BOOL forcecallnext = FALSE;
-  if (evt == HARPOON_BUTTON_RELEASE)
-    {
-      forcecallnext = TRUE;
+
+      if (evt == HARPOON_BUTTON_RELEASE)
+        {
+          forcecallnext = TRUE;
+        }
     }
   return harpoon_generic_hook_return (code, wpar, lpar, mouse_hook,
                                       forcecallnext);
