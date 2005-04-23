@@ -1890,9 +1890,7 @@ DistributionSocketLink::handle_client_message(PacketBuffer &packet, Client *clie
           packet.narrow(0, -1);
         }
 
-      TRACE_MSG("skip");
       packet.skip_size(pos);
-      TRACE_MSG("skiped");
     }
 
   TRACE_EXIT();

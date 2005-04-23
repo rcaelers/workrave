@@ -209,7 +209,6 @@ BreakControl::goto_stage(BreakStage stage)
     {
     case STAGE_DELAYED:
       {
-        delayed_abort = false;
         ActivityMonitorInterface *monitor = core->get_activity_monitor();
         monitor->set_listener(this);
       }
@@ -383,6 +382,7 @@ BreakControl::start_break()
   user_initiated = false;
   prelude_time = 0;
   user_abort = false;
+  delayed_abort = false;
   
   reached_max_prelude = max_number_of_preludes >= 0 && prelude_count + 1 >= max_number_of_preludes;
   reached_max_postpone = max_number_of_postpones >= 0 && postponable_count + 1 >= max_number_of_postpones;
@@ -429,6 +429,7 @@ BreakControl::force_start_break(bool initiated_by_user)
   user_initiated = initiated_by_user;
   prelude_time = 0;
   user_abort = false;
+  delayed_abort = false;
   
   if (break_timer->is_auto_reset_enabled())
     {
@@ -585,10 +586,7 @@ BreakControl::skip_break()
 void
 BreakControl::stop_prelude()
 {
-  if (break_stage == STAGE_DELAYED)
-    {
-      delayed_abort = true;
-    }
+  delayed_abort = true;
 }
 
 //! Sets the maximum number of preludes. 
