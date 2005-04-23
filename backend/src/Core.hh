@@ -105,6 +105,12 @@ public:
 
   void stop_prelude(BreakId break_id);
   void do_force_break(BreakId id, bool initiated_by_user);
+
+  void freeze();
+  void defrost();
+
+  ActivityState get_current_monitor_state() const;
+  bool is_master() const;
   
 private:
 
@@ -141,6 +147,8 @@ private:
   void test_me();
 #endif
 
+  void set_insist_policy(CoreInterface::InsistPolicy p);
+  CoreInterface::InsistPolicy get_insist_policy() const;
 
 #ifdef HAVE_DISTRIBUTION
   bool request_client_message(DistributionClientMessageID id, PacketBuffer &buffer);
@@ -230,6 +238,12 @@ private:
   //! OperationMode before powersave
   OperationMode powersave_operation_mode;
 
+  //! What to do with activity during insisted break?
+  CoreInterface::InsistPolicy insist_policy;
+
+  //! Policy currently in effect.
+  CoreInterface::InsistPolicy active_insist_policy;
+
   //! Resumes this break if current break ends.
   BreakId resume_break;
   
@@ -273,6 +287,20 @@ Core::get_instance()
     }
        
   return instance;
+}
+
+//!
+inline ActivityState
+Core::get_current_monitor_state() const
+{
+  return monitor_state;
+}
+
+//!
+inline bool
+Core::is_master() const
+{
+  return master_node;
 }
 
 #endif // CORE_HH

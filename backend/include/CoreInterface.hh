@@ -62,6 +62,24 @@ enum BreakId
 class CoreInterface 
 {
 public:
+  enum InsistPolicy
+    {
+      //! Uninitialized policy
+      INSIST_POLICY_INVALID,
+
+      //! Halts the timer on activity.
+      INSIST_POLICY_HALT,
+
+      //! Resets the timer on activity.
+      INSIST_POLICY_RESET,
+
+      //! Ignores all activity.
+      INSIST_POLICY_IGNORE,
+
+      //! Number of policies.
+      INSIST_POLICY_SIZEOF
+    };
+
   //! Initialize the Core Control. Must be called first.
   virtual void init(int argc, char **argv, AppInterface *app, char *display) = 0;
 
@@ -99,10 +117,13 @@ public:
 
   //! Notifies the core that the computer will enter or leave powersave (suspend/hibernate)
   virtual void set_powersave(bool down) = 0;
+
+  virtual void set_insist_policy(InsistPolicy p) = 0;
   
 #ifndef NDEBUG
   virtual void test_me() = 0;
 #endif
+
 };
 
 #endif // CONTROLINTERFACE_HH

@@ -1,14 +1,14 @@
 # Czech translations for Workrave package.
 # Copyright (C) 2004 THE WORKRAVE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the Workrave package.
-# Juraj Kubelka <Juraj.Kubelka@email.cz>, 2004.
+# Juraj Kubelka <Juraj.Kubelka@email.cz>, 2004, 2005.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.6.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-12-04 17:23+0100\n"
-"PO-Revision-Date: 2004-08-10 21:20+0200\n"
+"PO-Revision-Date: 2005-04-23 18:43+0200\n"
 "Last-Translator: Juraj Kubelka <Juraj.Kubelka@email.cz>\n"
 "Language-Team: Czech <translation-team-cs@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -203,14 +203,14 @@ msgid "Rest break %s overdue"
 msgstr "Přestávka %s je opožděná"
 
 #: frontend/gtkmm/src/MicroBreakWindow.cc:234
-#, fuzzy, c-format
+#, c-format
 msgid "Daily limit in %s"
-msgstr "Denní limit"
+msgstr "Denní limit v %s"
 
 #: frontend/gtkmm/src/MicroBreakWindow.cc:239
-#, fuzzy, c-format
+#, c-format
 msgid "Daily limit %s overdue"
-msgstr "Denní limit"
+msgstr "Denní limit %s zpoždění"
 
 #: frontend/gtkmm/src/PreferencesDialog.cc:63
 #: frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:103
@@ -476,7 +476,7 @@ msgstr "_Statistika"
 #: frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:1
 #: frontend/common/share/sounds/workrave.soundlist.in.h:10
 msgid "Workrave"
-msgstr ""
+msgstr "Workrave"
 
 #: frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:2
 msgid "Workrave Applet"
@@ -1114,6 +1114,5 @@ msgstr "Konec přestávky"
 msgid "Rest break started"
 msgstr "Začátek přestávky"
 
-#, fuzzy
 #~ msgid "Restbreak"
-#~ msgstr "_Přestávka"
+#~ msgstr "Přestávka"

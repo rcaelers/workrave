@@ -589,7 +589,7 @@ GUI::init_gtk_multihead()
   int num_screens = display->get_n_screens();
 
   TRACE_MSG("screens = " << num_screens);
-  if (num_screens > 1)
+  if (num_screens >= 1)
     {
       for (int i = 0; i < num_screens; i++)
         {

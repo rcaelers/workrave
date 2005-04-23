@@ -1,6 +1,6 @@
 // Break.cc
 //
-// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -581,20 +581,3 @@ Break::config_changed_notify(string key)
     }
   TRACE_EXIT();
 }
-
-
-//! Sets the insist policy.
-void
-Break::set_insist_policy(BreakInterface::InsistPolicy p)
-{
-  break_control->set_insist_policy(p);
-}
-
-
-//! Gets the insist policy.
-BreakInterface::InsistPolicy
-Break::get_insist_policy() const
-{
-  return break_control->get_insist_policy();
-}
-

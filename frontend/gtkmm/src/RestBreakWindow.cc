@@ -276,12 +276,10 @@ RestBreakWindow::set_ignore_activity(bool i)
 {
   CoreInterface *core = CoreFactory::get_core();
   assert(core != NULL);
-  BreakInterface *bi = core->get_break(BREAK_ID_REST_BREAK);
-  assert(bi != NULL);
-
-  bi->set_insist_policy(i ?
-                        BreakInterface::INSIST_POLICY_IGNORE :
+  
+  core->set_insist_policy(i ?
+                        CoreInterface::INSIST_POLICY_IGNORE :
                         (block_mode != GUI::BLOCK_MODE_NONE
-                         ? BreakInterface::INSIST_POLICY_HALT
-                         : BreakInterface::INSIST_POLICY_RESET));
+                         ? CoreInterface::INSIST_POLICY_HALT
+                         : CoreInterface::INSIST_POLICY_RESET));
 }

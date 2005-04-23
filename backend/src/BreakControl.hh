@@ -70,9 +70,7 @@ public:
   // Configuration
   void set_max_preludes(int m);
   void set_max_postpone(int m);
-  void set_insist_policy(BreakInterface::InsistPolicy p);
   void set_ignorable_break(bool i);
-  BreakInterface::InsistPolicy get_insist_policy() const;
   
   // BreakResponseInterface
   void postpone_break();
@@ -84,9 +82,6 @@ private:
   void prelude_window_start();
   void post_event(CoreEvent event);
   
-  void freeze();
-  void defrost();
-
 private:
   enum BreakStage { STAGE_NONE,
                     STAGE_SNOOZED,
@@ -148,12 +143,6 @@ private:
 
   //! Can the use explicitly ignore the break? (configuration setting)
   bool config_ignorable_break;
-
-  //! What to do with activity during insisted break?
-  BreakInterface::InsistPolicy insist_policy;
-
-  //! Policy currently in effect.
-  BreakInterface::InsistPolicy active_insist_policy;
 
   //! Is this a break that is not controlled by the timer.
   bool fake_break;

@@ -1,6 +1,6 @@
 // IdleLogManager.cc
 //
-// Copyright (C) 2003, 2004 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2003, 2004, 2005 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -33,9 +33,9 @@ static const char rcsid[] = "$Id$";
 #include "TimeSource.hh"
 #include "PacketBuffer.hh"
 
-#define IDLELOG_MAXSIZE 	(4000)
+#define IDLELOG_MAXSIZE 		(4000)
 #define IDLELOG_MAXAGE		(12 * 60 * 60)
-#define IDLELOG_INTERVAL	(30 * 60)
+#define IDLELOG_INTERVAL		(30 * 60)
 #define IDLELOG_OLDVERSION	(1)
 #define IDLELOG_VERSION		(2)
 #define IDLELOG_INTERVAL_SIZE	(17)
@@ -715,7 +715,7 @@ IdleLogManager::load_index()
         }
       else if (version == IDLELOG_OLDVERSION)
         {
-          TRACE_MSG("Version - deleting logs of old version");
+          TRACE_MSG("Old version - deleting logs of old version");
 
           char *id = buffer.unpack_string();
           if (id != NULL)
@@ -1045,7 +1045,10 @@ IdleLogManager::fix_idlelog(ClientInfo &info)
     {
       IdleInterval &idle = *i;
 
-      TRACE_MSG(idle.begin_time << " " << idle.end_idle_time << " " << idle.active_time);
+      TRACE_MSG(idle.begin_time << " "
+                << idle.end_time << " "
+                << idle.end_idle_time << " "
+                << idle.active_time);
 
       if (next_time == -1)
         {

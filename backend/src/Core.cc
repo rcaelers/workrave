@@ -81,6 +81,8 @@ Core::Core() :
   powersave(false),
   powersave_resume_time(0),
   powersave_operation_mode(OPERATION_MODE_NORMAL),
+  insist_policy(CoreInterface::INSIST_POLICY_HALT),
+  active_insist_policy(CoreInterface::INSIST_POLICY_INVALID),
   resume_break(BREAK_ID_NONE)
 #ifdef HAVE_DISTRIBUTION
   ,
@@ -433,12 +435,6 @@ Core::set_operation_mode(OperationMode mode)
     {
       operation_mode = mode;
 
-      if (operation_mode == OPERATION_MODE_SUSPENDED ||
-          operation_mode == OPERATION_MODE_QUIET)
-        {
-          stop_all_breaks();
-        }
-
       if (operation_mode == OPERATION_MODE_SUSPENDED)
         {
           monitor->force_idle();
@@ -447,6 +443,12 @@ Core::set_operation_mode(OperationMode mode)
       else if (previous_mode == OPERATION_MODE_SUSPENDED)
         {
           monitor->resume();
+        }
+
+      if (operation_mode == OPERATION_MODE_SUSPENDED ||
+          operation_mode == OPERATION_MODE_QUIET)
+        {
+          stop_all_breaks();
         }
     }
 
@@ -524,6 +526,42 @@ Core::set_powersave(bool down)
 }
 
 
+//! Sets the insist policy.
+/*!
+ *  The insist policy determines what to do when the user is active while
+ *  taking a break.
+ */
+void
+Core::set_insist_policy(CoreInterface::InsistPolicy p)
+{
+  TRACE_ENTER_MSG("Core::set_insist_policy", p);
+
+  if (active_insist_policy != CoreInterface::INSIST_POLICY_INVALID &&
+      insist_policy != p)
+    {
+      TRACE_MSG("refreeze " << active_insist_policy);
+      defrost();
+      insist_policy = p;
+      freeze();
+    }
+  else
+    {
+      insist_policy = p;
+    }
+  TRACE_EXIT();
+}
+
+
+//! Gets the insist policy.
+CoreInterface::InsistPolicy
+Core::get_insist_policy() const
+{
+  return insist_policy;
+}
+
+
+
+
 /********************************************************************************/
 /**** Break Resonse                                                        ******/
 /********************************************************************************/
@@ -580,10 +618,12 @@ Core::skip_break(BreakId break_id)
 void
 Core::stop_prelude(BreakId break_id)
 {
+  TRACE_ENTER_MSG("Core::stop_prelude", break_id);
   do_stop_prelude(break_id);
 #ifdef HAVE_DISTRIBUTION  
   send_break_control_message(break_id, BCM_ABORT_PRELUDE);
 #endif
+  TRACE_EXIT();
 }
 
 
@@ -615,11 +655,13 @@ Core::do_skip_break(BreakId break_id)
 void
 Core::do_stop_prelude(BreakId break_id)
 {
+  TRACE_ENTER_MSG("Core::do_stop_prelude", break_id);
   if (break_id >= 0 && break_id < BREAK_ID_SIZEOF)
     {
       BreakControl *bc = breaks[break_id].get_break_control();
       bc->stop_prelude();
     }
+  TRACE_EXIT();
 }
 
 
@@ -745,7 +787,16 @@ Core::process_state()
 
   if (!master_node)
     {
-      monitor_state = remote_state;
+      if (active_insist_policy == INSIST_POLICY_IGNORE)
+        {
+          // Our own monitor is suspended, also ignore
+          // activity from remote parties.
+          monitor_state = ACTIVITY_IDLE;
+        }
+      else
+        {
+          monitor_state = remote_state;
+        }
     }
 
 #ifdef HAVE_DISTRIBUTION
@@ -1128,6 +1179,71 @@ Core::post_event(CoreEvent event)
 }
 
 
+//! Excecutes the insist policy.
+void
+Core::freeze()
+{
+  TRACE_ENTER_MSG("BreakControl::freeze", insist_policy);
+  CoreInterface::InsistPolicy policy = insist_policy;
+  
+  switch (policy)
+    {
+    case CoreInterface::INSIST_POLICY_IGNORE:
+      {
+        // Ignore all activity during break by suspending the activity monitor.
+        monitor->suspend();
+      }
+      break;
+    case CoreInterface::INSIST_POLICY_HALT:
+      {
+        // Halt timer when the user is active.
+        set_freeze_all_breaks(true);
+      }
+      break;
+    case CoreInterface::INSIST_POLICY_RESET:
+      // reset the timer when the user becomes active.
+      // default.
+      break;
+      
+    default:
+      break;
+    }
+
+  active_insist_policy = policy;
+  TRACE_EXIT();
+}
+
+
+//! Undoes the insist policy.
+void
+Core::defrost()
+{
+  TRACE_ENTER_MSG("BreakControl::defrost", active_insist_policy);
+  
+  switch (active_insist_policy)
+    {
+    case CoreInterface::INSIST_POLICY_IGNORE:
+      {
+        // Resumes the activity monitor.
+        monitor->resume();
+      }
+      break;
+    case CoreInterface::INSIST_POLICY_HALT:
+      {
+        // Desfrost timers.
+        set_freeze_all_breaks(false);
+      }
+      break;
+      
+    default:
+      break;
+    }
+
+  active_insist_policy = CoreInterface::INSIST_POLICY_INVALID;
+  TRACE_EXIT();
+}
+
+
 /********************************************************************************/
 /**** Distribution                                                         ******/
 /********************************************************************************/
@@ -1506,7 +1622,7 @@ Core::send_break_control_message(BreakId break_id, BreakControlMessage message)
   dist_manager->broadcast_client_message(DCM_BREAKCONTROL, buffer);
 }
 
-//! Sends a break control message with boolena parameter to all workrave clients.
+//! Sends a break control message with boolean parameter to all workrave clients.
 void
 Core::send_break_control_message_bool_param(BreakId break_id, BreakControlMessage message,
                                             bool param)
