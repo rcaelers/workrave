@@ -77,6 +77,7 @@ static const char rcsid[] = "$Id$";
 #endif
 
 #include <gtkmm/main.h>
+#include <gtkmm/messagedialog.h>
 
 #include <glibmm/refptr.h>
 
@@ -728,7 +729,15 @@ GUI::init_remote_control()
       g_error (_("I could not initialize Bonobo"));
     }
 
-  RemoteControl::get_instance();
+  RemoteControl *control = RemoteControl::get_instance();
+  if (control == NULL)
+    {
+      Gtk::MessageDialog dialog("Could not initialize Workrave. Is Workrave already running?",
+                                false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK, true);
+      dialog.show();
+      dialog.run();
+      exit(1);
+    }
   
   BonoboGenericFactory *factory;
   factory = bonobo_generic_factory_new("OAFIID:GNOME_Workrave_Factory",
