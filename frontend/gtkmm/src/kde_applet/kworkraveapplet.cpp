@@ -1,6 +1,6 @@
 // kworkraveapplet.cc --- Workrave applet for KDE
 //
-// Copyright (C) 2004 Rob Caelers
+// Copyright (C) 2004, 2005 Rob Caelers
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -35,6 +35,7 @@ static const char rcsid[] = "$Id$";
 #include <kdebug.h>
 
 #include "kworkraveapplet.h"
+#include "kworkravecontroliface_stub.h"
 
 #include <X11/Xlib.h>
 
@@ -42,6 +43,8 @@ static const char rcsid[] = "$Id$";
 # include <X11/Xlib.h>
 # include <X11/Xutil.h>
 # include <X11/Xatom.h>
+
+
 extern "C"
 {
   KPanelApplet* init(QWidget *parent, const QString configFile)
@@ -68,6 +71,8 @@ KWorkraveApplet::KWorkraveApplet(const QString& configFile, Type type, int actio
     DCOPObject("KWorkrave"),
     embed(NULL)
 {
+  KWorkraveControlIface_stub dcop("kworkravecontrol", "KWorkraveControl"); 
+  dcop.fire();
 }
 
 KWorkraveApplet::~KWorkraveApplet()

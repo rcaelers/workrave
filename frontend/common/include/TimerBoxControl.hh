@@ -34,6 +34,7 @@ public:
   void init();
   void update();
   void force_cycle();
+  void set_force_empty(bool s);
   
   static const std::string get_timer_config_key(std::string name, BreakId timer, const std::string &key);
   static int get_cycle_time(std::string name);
@@ -116,6 +117,9 @@ private:
 
   //!
   int force_duration;
+
+  //! Never show any timers.
+  bool force_empty;
 };
 
 #endif // TIMERBOXCONTROL_HH

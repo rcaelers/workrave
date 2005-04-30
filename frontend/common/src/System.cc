@@ -1,6 +1,6 @@
 // Display.cc
 //
-// Copyright (C) 2002, 2003, 2004 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -26,6 +26,8 @@
 
 #if defined(HAVE_X)
 #include <X11/X.h>
+#include <X11/Xproto.h>
+#include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #endif
 
@@ -289,7 +291,7 @@ look_for_kdesktop_recursive (Display *display, Window xwindow)
       
     XGetClassHint (display, xwindow, &ch);
       
-      
+    printf("XXX %s\n", ch.res_class);
     if (ch.res_name)
       XFree (ch.res_name);
       

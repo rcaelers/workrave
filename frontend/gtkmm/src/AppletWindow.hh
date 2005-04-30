@@ -1,6 +1,6 @@
 // AppletWindow.hh --- Main info Window
 //
-// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -55,7 +55,8 @@ public:
   virtual ~AppletWindow();
 
   void update();
-  void fire();
+  void fire_gnome_applet();
+  void fire_kde_applet();
 
   AppletMode get_applet_mode() const;
   

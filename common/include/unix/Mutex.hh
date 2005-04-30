@@ -1,9 +1,9 @@
 // Mutex.hh --- Mutex synchronization
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2005 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-07-12 21:22:57 robc>
+// Time-stamp: <2005-04-29 20:18:24 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -23,8 +23,7 @@
 
 #include <pthread.h>
 
-// define this to something freebsd knows
-#ifdef __FreeBSD__
+#ifndef PTHREAD_MUTEX_RECURSIVE_NP
 #define PTHREAD_MUTEX_RECURSIVE_NP PTHREAD_MUTEX_RECURSIVE
 #endif
 

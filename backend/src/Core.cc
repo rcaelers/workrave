@@ -83,13 +83,13 @@ Core::Core() :
   powersave_operation_mode(OPERATION_MODE_NORMAL),
   insist_policy(CoreInterface::INSIST_POLICY_HALT),
   active_insist_policy(CoreInterface::INSIST_POLICY_INVALID),
-  resume_break(BREAK_ID_NONE)
+  resume_break(BREAK_ID_NONE),
+  local_state(ACTIVITY_IDLE),
+  monitor_state(ACTIVITY_UNKNOWN)
 #ifdef HAVE_DISTRIBUTION
   ,
   dist_manager(NULL),
-  local_state(ACTIVITY_IDLE),
   remote_state(ACTIVITY_IDLE),
-  monitor_state(ACTIVITY_UNKNOWN),
   idlelog_manager(NULL)
 #  ifndef NDEBUG
   ,
@@ -785,6 +785,7 @@ Core::process_state()
     }
 #endif  
 
+#ifdef HAVE_DISTRIBUTION
   if (!master_node)
     {
       if (active_insist_policy == INSIST_POLICY_IGNORE)
@@ -799,7 +800,6 @@ Core::process_state()
         }
     }
 
-#ifdef HAVE_DISTRIBUTION
   // Update our idle history.
   idlelog_manager->update_all_idlelogs(dist_manager->get_master_id(), monitor_state);
 #endif
@@ -1020,7 +1020,7 @@ Core::start_break(BreakId break_id, BreakId resume_this_break)
         }
     }
 
-  // If break 'break_id' ends, and break 'resume_this_break' if still
+  // If break 'break_id' ends, and break 'resume_this_break' is still
   // active, resume it...
   resume_break = resume_this_break;
   

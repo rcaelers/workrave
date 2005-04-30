@@ -54,7 +54,8 @@ TimerBoxControl::TimerBoxControl(std::string n, TimerBoxView &v) :
   view(&v),
   cycle_time(10),
   name(n),
-  force_duration(0)
+  force_duration(0),
+  force_empty(false)
 {
   init();
 }
@@ -122,6 +123,12 @@ TimerBoxControl::force_cycle()
   force_duration = cycle_time;
   init_table();
   cycle_slots();
+}
+
+void
+TimerBoxControl::set_force_empty(bool s)
+{
+  force_empty = s;
 }
 
 
@@ -309,29 +316,38 @@ TimerBoxControl::init_table()
 {
   TRACE_ENTER("TimerBoxControl::init_table");
 
-  // Determine what breaks to show.
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+  if (force_empty)
     {
-      init_slot(i);
-    }
-
-  // New content.
-  int slot = 0;
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      int cycle = break_slot_cycle[i];
-      int id = break_slots[i][cycle]; // break id
-      if (id != -1)
+      for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
-          view->set_slot(BreakId(id), slot);
-          slot++;
+          view->set_slot(BREAK_ID_NONE, i);
         }
     }
-  for (int i = slot; i < BREAK_ID_SIZEOF; i++)
+  else
     {
-      view->set_slot(BREAK_ID_NONE, i);
+      // Determine what breaks to show.
+      for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+        {
+          init_slot(i);
+        }
+  
+      // New content.
+      int slot = 0;
+      for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+        {
+          int cycle = break_slot_cycle[i];
+          int id = break_slots[i][cycle]; // break id
+          if (id != -1)
+            {
+              view->set_slot(BreakId(id), slot);
+              slot++;
+            }
+        }
+      for (int i = slot; i < BREAK_ID_SIZEOF; i++)
+        {
+          view->set_slot(BREAK_ID_NONE, i);
+        }
     }
-
   TRACE_EXIT();
 }
 

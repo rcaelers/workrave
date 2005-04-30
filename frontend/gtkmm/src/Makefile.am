@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
 #
 # $Id$
 #
@@ -40,8 +40,11 @@ sourcesnognome = 	gnome-about.c
 
 # Additional KDE sources.
 if HAVE_KDE
-sourceskde = 		KdeAppletWindow.cc
-sourcesnodistkde = 	kde_applet/kworkraveapplet_stub.cpp
+sourceskde = 		KdeAppletWindow.cc KdeWorkraveControl.cc \
+sourcesnodistkde = 	kde_applet/kworkraveapplet_stub.cpp \
+			kde_applet/kworkravecontroliface_stub.cpp \
+			kde_applet/kworkravecontroliface_skel.cpp \
+			KdeWorkraveControl.moc
 endif
 
 # Additional X11 sources.
@@ -122,6 +125,23 @@ endif
 if HAVE_WIN32
 win32cflags		= -D_WIN32_IE=0x0500
 endif
+
+#if HAVE_KDE
+#
+#KdeWorkraveControl.kidl: $(srcdir)/KdeWorkraveControl.hh $(DCOP_DEPENDENCIES)
+#	$(DCOPIDL) $(srcdir)/KdeWorkraveControl.hh > KdeWorkraveControl.kidl || ( rm -f KdeWorkraveControl.kidl ; false )
+#KdeWorkraveControl_skel.cpp: KdeWorkraveControl.kidl
+#	$(DCOPIDL2CPP) --c++-suffix cpp --no-signals --no-stub KdeWorkraveControl.kidl
+#KdeWorkraveControl_stub.cpp: KdeWorkraveControl_stub.h 
+#KdeWorkraveControl_stub.h: KdeWorkraveControl.kidl
+#	$(DCOPIDL2CPP) --c++-suffix cpp --no-signals --no-skel KdeWorkraveControl.kidl
+#KdeWorkraveControl.moc.cpp: $(srcdir)/KdeWorkraveControl.hh
+#	$(MOC) $(srcdir)/KdeWorkraveControl.hh -o KdeWorkraveControl.moc.cpp
+#
+#extrasources 	 +=	KdeWorkraveControl.moc.cpp KdeWorkraveControl_skel.cpp KdeWorkraveControl_stub.cpp
+##extranodistsources +=	
+#
+#endif
 
 workrave_SOURCES = \
 			BreakWindow.cc \
@@ -210,10 +230,11 @@ $(IDL_C_GENERATED): $(IDL_C)
 		gnome_applet/Workrave-Control.idl
 
 
-EXTRA_DIST =    ${sourcesgnome} \
+EXTRA_DIST =     ${sourcesgnome} \
 		${sourcesnognome} \
 		${sourceskde} \
 		${sourcesx} \
 		${sourceswin32} \
 		${sourcesdistribution} \
-		${sourcesexercises}
+		${sourcesexercises} \
+		*.hh *.h

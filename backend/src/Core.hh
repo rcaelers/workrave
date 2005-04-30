@@ -247,19 +247,19 @@ private:
   //! Resumes this break if current break ends.
   BreakId resume_break;
   
+  //! Current local monitor state.
+  ActivityState local_state;
+
+  //! Current overall monitor state.
+  ActivityState monitor_state;
+
 #ifdef HAVE_DISTRIBUTION
   //! The Distribution Manager
   DistributionManager *dist_manager;
 
-  //! Current local monitor state.
-  ActivityState local_state;
-
   //! State of the remote master.
   ActivityState remote_state;
   
-  //! Current overall monitor state.
-  ActivityState monitor_state;
-
   //! Manager that collects idle times of all clients.
   IdleLogManager *idlelog_manager;
 

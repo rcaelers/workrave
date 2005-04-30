@@ -462,6 +462,7 @@ GUI::get_block_mode()
   return (BlockMode) mode;
 }
 
+
 void
 GUI::set_block_mode(BlockMode mode)
 {

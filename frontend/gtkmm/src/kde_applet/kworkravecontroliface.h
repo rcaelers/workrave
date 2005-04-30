@@ -1,6 +1,6 @@
-// KdeAppletWindow.hh --- Main info Window
+// KdeWorkraveControl.hh --- KDE Workrave Applet
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
+// Copyright (C) 2004, 2005 Rob Caelers
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -16,19 +16,26 @@
 // $Id$
 //
 
-#ifndef KDEAPPLETWINDOW_HH
-#define KDEAPPLETWINDOW_HH
+#ifndef KWORKRAVECONTROLIFACE_H
+#define KWORKRAVECONTROLIFACE_H
 
-#include "config.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
-class KdeAppletWindow
+#include <dcopobject.h>
+#include <qxembed.h>
+#include <kcmodule.h>
+#include <kconfig.h>
+
+class KWinModule;
+
+class KWorkraveControlIface : virtual public DCOPObject
 {
-public:
-  static void init();
-  static bool plug_window(int w);
-  static bool get_size(int &size);
-  static bool get_vertical(bool &vertical);
-  static bool set_size(int width, int height);
+  K_DCOP
+  
+k_dcop:
+  virtual void fire() = 0; 
 };
 
-#endif // KDEAPPLETWINDOW_HH
+#endif

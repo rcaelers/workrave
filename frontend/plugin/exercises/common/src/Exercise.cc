@@ -1,6 +1,6 @@
 // Exercise.cc --- Exercises
 //
-// Copyright (C) 2002, 2003, 2004 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2005 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -169,6 +169,10 @@ exercise_parse_update_i18n_attribute(const GList *languages,
           if (! strcmp(lang, "pt_PT"))
             {
               lang = "pt_BR";
+            }
+          else if (! strcmp(lang, "pt_BR"))
+            {
+              lang = "pt_PT";
             }
           
           if (! strncmp(lang, nl, nl_len))

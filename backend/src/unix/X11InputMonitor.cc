@@ -1,9 +1,9 @@
 // X11InputMonitor.cc --- ActivityMonitor for X11
 //
-// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2004-07-15 21:34:29 robc>
+// Time-stamp: <2005-04-29 20:17:53 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -43,6 +43,9 @@ static const char rcsid[] = "$Id$";
 #if HAVE_UNISTD_H
 # include <unistd.h>
 #endif
+
+// Solaris needs this...
+#define NEED_EVENTS
 
 #include <X11/X.h>
 #include <X11/Xproto.h>

@@ -82,7 +82,7 @@ WR_METHOD_ARGS0_IMPL(void, fire)
     }
   if (applet != NULL)
     {
-      applet->fire();
+      applet->fire_gnome_applet();
     }
 }
 

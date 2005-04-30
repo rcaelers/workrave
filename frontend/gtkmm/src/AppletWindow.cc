@@ -33,6 +33,7 @@ static const char rcsid[] = "$Id$";
 #include "TimerBoxControl.hh"
 #include "GUI.hh"
 #include "Menus.hh"
+#include "System.hh"
 
 #ifdef HAVE_GNOME
 #include "RemoteControl.hh"
@@ -73,7 +74,10 @@ AppletWindow::AppletWindow() :
   Menus *menus = Menus::get_instance();
   menus->set_applet_window(this);
 #endif
-
+#ifdef HAVE_KDE
+  KdeAppletWindow::init();
+#endif
+  
   init();
 }
 
@@ -98,7 +102,7 @@ AppletWindow::init()
   read_configuration();
   ConfiguratorInterface *config = CoreFactory::get_configurator();
   config->add_listener(TimerBoxControl::CFG_KEY_TIMERBOX + "applet", this);
-  
+
   // Create the applet.
   if (applet_enabled)
     {
@@ -190,6 +194,12 @@ AppletWindow::init_tray_applet()
 
       timer_box_view = manage(new TimerBoxGtkView());
       timer_box_control = new TimerBoxControl("applet", *timer_box_view);
+
+      if (System::is_kde())
+        {
+          timer_box_control->set_force_empty(true);
+        }
+      
       container->add(*timer_box_view);
 
       plug->signal_embedded().connect(MEMBER_SLOT(*this, &AppletWindow::on_embedded));
@@ -486,7 +496,7 @@ AppletWindow::delete_event(GdkEventAny *event)
 
 //! Fires up the applet (as requested by the native gnome applet).
 void
-AppletWindow::fire()
+AppletWindow::fire_gnome_applet()
 {
   if (mode == APPLET_TRAY)
     {
@@ -499,6 +509,21 @@ AppletWindow::fire()
     }
 }
 
+
+//! Fires up the applet (as requested by the native kde applet).
+void
+AppletWindow::fire_kde_applet()
+{
+  if (mode == APPLET_TRAY)
+    {
+      destroy_tray_applet();
+    }
+  
+  if (mode == APPLET_DISABLED && applet_enabled)
+    {
+      retry_init = true;
+    }
+}
 
 #ifdef HAVE_GNOME
 //! Sets the applet control callback interface.
