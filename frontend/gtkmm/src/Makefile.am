@@ -40,11 +40,13 @@ sourcesnognome = 	gnome-about.c
 
 # Additional KDE sources.
 if HAVE_KDE
-sourceskde = 		KdeAppletWindow.cc KdeWorkraveControl.cc \
+sourceskde = 		KdeAppletWindow.cc KdeWorkraveControl.cc
 sourcesnodistkde = 	kde_applet/kworkraveapplet_stub.cpp \
 			kde_applet/kworkravecontroliface_stub.cpp \
 			kde_applet/kworkravecontroliface_skel.cpp \
 			KdeWorkraveControl.moc
+else
+sourcesnodistkde =
 endif
 
 # Additional X11 sources.
@@ -119,7 +121,7 @@ WIN32LIBS = 		-L$(top_srcdir)/common/win32/harpoon/src/Release/ -lharpoon \
 endif
 
 if HAVE_X
-X11LIBS = 		-lworkrave-frontend-gtkmm-unix -lXmu
+X11LIBS = 		-lworkrave-frontend-gtkmm-unix -lX11 -lXmu
 endif
 
 if HAVE_WIN32
@@ -230,7 +232,7 @@ $(IDL_C_GENERATED): $(IDL_C)
 		gnome_applet/Workrave-Control.idl
 
 
-EXTRA_DIST =     ${sourcesgnome} \
+EXTRA_DIST =      ${sourcesgnome} \
 		${sourcesnognome} \
 		${sourceskde} \
 		${sourcesx} \

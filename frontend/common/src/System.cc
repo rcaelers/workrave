@@ -291,7 +291,6 @@ look_for_kdesktop_recursive (Display *display, Window xwindow)
       
     XGetClassHint (display, xwindow, &ch);
       
-    printf("XXX %s\n", ch.res_class);
     if (ch.res_name)
       XFree (ch.res_name);
       

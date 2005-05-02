@@ -506,6 +506,10 @@ if test "x$platform_win32" != "xyes"; then
         	AC_MSG_ERROR([[no working posix thread library]])
         fi
         AC_SUBST(PTHREAD_LIBS)
+
+        AC_SEARCH_LIBS(sem_init, pthread rt posix4) # 'Real Time' functions on Solaris
+ 		  			        # posix4 on Solaris 2.6
+                                                    # pthread (first!) on Linux
 fi        
         
 dnl NOT-QUITE-YET (macro does not exists on win32)        
