@@ -35,6 +35,6 @@ kworkravecontroliface.moc.cpp: $(srcdir)/kworkravecontroliface.h
 
 endif
 
-EXTRA_DIST 	= $(wildcard *.desktop)
+EXTRA_DIST 	= $(wildcard *.desktop) kworkraveapplet.h kworkravecontroliface.h
 
 MAINTAINERCLEANFILES = Makefile Makefile.in
