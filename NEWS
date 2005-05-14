@@ -1,4 +1,4 @@
-Workrave NEWS -- history of user-visible changes.  13 October 2004
+Workrave NEWS -- history of user-visible changes.  xx May 2005
 Copyright (C) 2001-2005 Rob Caelers & Raymond Penners
 See the end for copying conditions.
 
@@ -15,8 +15,11 @@ http://www.workrave.org
 
 ** Haggai Eran translated Workrave into Hebrew.
 
+** Workrave now gives additional feedback when becoming active
+during a break by flashing the break window border.
+
 ** Workrave now uses the system tray icon to visualize the current
-mode (normal, suspended or quiet)
+mode (normal, suspended or quiet).
 
 ** Added "Restbreak now" button to microbreak window.
 
@@ -24,6 +27,9 @@ mode (normal, suspended or quiet)
 supports KDE sound events.
 
 ** Decent tooltips for Workrave system tray icon.
+
+** Miscellaneous distribution improvements.
+
 
 * Workrave 1.6.2
 
@@ -160,6 +166,7 @@ will reinsert the applet in the new panel.
 
 ** Breaks can now be disabled.
 
+
 * Workrave 1.2.2
 
 ** If you stopped working during a prelude just before it was about to
@@ -184,10 +191,12 @@ properly restarted by the gnome session manager.
 ** The applet can now be configured to show only the Workrave sheep.
 Clicking on the sheep will toggle the visibility of the main window.
 
+
 * Workrave 1.2.1
 
 ** Some errors in the build process have been fixed. Only a new source
 tarball is released, as this does not effect binary releases.
+
 
 * Workrave 1.2.0
 
@@ -207,6 +216,7 @@ office.  (http://workrave.sourceforge.net/leaflet/)
 ** Last but absolutely not least: increased sheep size in the about
 window. :)
 
+
 * Workrave 1.0.0
 
 ** Removed the monitoring preferences. Good defaults is all you want
@@ -225,6 +235,7 @@ meaningful to non-geek users.
 ** A network log window has been added. This window shows informational
 messages about the communication between different Workrave instances. 
 
+
 * Workrave 0.3.0
 
 ** Added experimental(!) distribution support, dubbed "The
@@ -242,6 +253,7 @@ to play sounds through the internal PC speaker.
 ** The window prompting you to brake now moves earlier to the top of
 the screen so that it does not interfere too much. Furthermore, the
 window has a new and improved "evasive manouvers" algorithm.
+
 
 * Workrave 0.2.0
 
