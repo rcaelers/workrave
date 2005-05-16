@@ -1,9 +1,9 @@
 #!/usr/bin/python
 
 import os;
+import sys;
 
-options = [ "app-gtk",
-            "gconf",
+options = [ "gconf",
             "xml",
             "gnome",
             "gnomemm",
@@ -11,15 +11,15 @@ options = [ "app-gtk",
             "distribution",
             "exercises"]
 
-for i in range(0, 255) :
+for i in range(0, 127) :
     conf = "./configure ";
-    for j in range(0, 7) :
+    for j in range(0, 6) :
         if i & (1 << j) :
-            conf = conf + "--enable-" + options[j] + " "
-        else :
             conf = conf + "--disable-" + options[j] + " "
+        else :
+            conf = conf + "--enable-" + options[j] + " "
 
-    print conf + "\n";
+    sys.stderr.write(conf + "\n\n\n");
     os.system(conf);
     os.system("make");
     os.system("make distclean");

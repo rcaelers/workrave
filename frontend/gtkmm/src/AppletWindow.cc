@@ -27,6 +27,8 @@ static const char rcsid[] = "$Id$";
 #include "nls.h"
 #include "debug.hh"
 
+#include <gtkmm/alignment.h>
+
 #include "AppletWindow.hh"
 #include "MainWindow.hh"
 #include "TimerBoxGtkView.hh"

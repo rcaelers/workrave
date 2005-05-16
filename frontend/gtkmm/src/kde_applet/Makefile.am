@@ -8,6 +8,8 @@ libkworkraveapplet_la_LIBADD = $(LIB_KDEUI) @all_libraries@
 libkworkraveapplet_la_CXXFLAGS = $(KDE_CXXFLAGS) @all_includes@
 nodist_libkworkraveapplet_la_SOURCES = kworkraveapplet.moc.cpp kworkraveapplet_skel.cpp kworkraveapplet_stub.cpp kworkravecontroliface_skel.cpp kworkravecontroliface_stub.cpp 
 
+kworkraveapplet.cpp: kworkravecontroliface_stub.h
+
 kworkraveapplet_DATA = kworkraveapplet.desktop
 kworkraveappletdir = $(kde_datadir)/kicker/applets
 
