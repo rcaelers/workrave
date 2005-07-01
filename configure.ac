@@ -17,7 +17,7 @@ AM_CONFIG_HEADER(config.h)
 AM_INIT_AUTOMAKE(workrave, 1.8.0)
 
 dnl Set of available languages.
-ALL_LINGUAS="nl de eo pl da es zh_TW ru fr pt_BR no lt cs he"
+ALL_LINGUAS="nl de eo pl da es zh_TW ru fr pt_BR no lt cs he eu"
 
 #SETUPLANGS=
 #NL=`echo`
