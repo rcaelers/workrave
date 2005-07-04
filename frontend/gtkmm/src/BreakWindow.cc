@@ -167,7 +167,10 @@ BreakWindow::~BreakWindow()
 {
   TRACE_ENTER("BreakWindow::~BreakWindow");
 
-  frame->set_frame_flashing(0);
+  if (frame != NULL)
+    {
+      frame->set_frame_flashing(0);
+    }
   
 #ifdef WIN32
   delete desktop_window;
@@ -388,7 +391,10 @@ BreakWindow::stop()
 {
   TRACE_ENTER("BreakWindow::stop");
 
-  frame->set_frame_flashing(0);
+  if (frame != NULL)
+    {
+      frame->set_frame_flashing(0);
+    }
   
   hide_all();
 #ifdef WIN32
