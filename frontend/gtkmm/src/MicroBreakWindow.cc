@@ -179,19 +179,22 @@ MicroBreakWindow::refresh_time_bar()
   CoreInterface *core = CoreFactory::get_core();
   ActivityMonitorInterface *monitor = core->get_activity_monitor();
   ActivityState state = monitor->get_current_state();
-  if (state == ACTIVITY_ACTIVE && !is_flashing)
+  if (frame != NULL)
     {
-      frame->set_frame_color(Gdk::Color("orange"));
-      frame->set_frame_visible(true);
-      frame->set_frame_flashing(500);
-      is_flashing = true;
+      if (state == ACTIVITY_ACTIVE && !is_flashing)
+        {
+          frame->set_frame_color(Gdk::Color("orange"));
+          frame->set_frame_visible(true);
+          frame->set_frame_flashing(500);
+          is_flashing = true;
+        }
+      else if (state == ACTIVITY_IDLE && is_flashing)
+        {
+          frame->set_frame_flashing(0);
+          frame->set_frame_visible(false);
+          is_flashing = false;
+        }
     }
-  else if (state == ACTIVITY_IDLE && is_flashing)
-   {
-      frame->set_frame_flashing(0);
-      frame->set_frame_visible(false);
-      is_flashing = false;
-   }
   time_bar->update();
   TRACE_MSG(progress_value << " " << progress_max_value);
   TRACE_EXIT();
