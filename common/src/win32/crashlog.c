@@ -1,7 +1,7 @@
 /*
  * crashlog.c
  *
- * Copyright (C) 2003, 2004 Rob Caelers <robc@krandor.org>
+ * Copyright (C) 2003, 2004, 2005 Rob Caelers <robc@krandor.org>
  * All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -53,8 +53,7 @@ double_exception_handler(struct _EXCEPTION_RECORD *exception_record,
   MessageBox(NULL,
              "Workrave has unexpectedly crashed and failed to create a crash "
              "log. This is serious. Please report this to workrave-devel@sourceforge.net or "
-             "file a bugreport at: "
-             "http://workrave.org/cgi-bin/bugzilla/enter_bug.cgi. " , "Double exception", MB_OK);
+             "file a bugreport at: http://issues.workrave.org/. " , "Double exception", MB_OK);
 
   exit(1);
 }
@@ -287,8 +286,7 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
   snprintf(crash_text, 1023,
            "Workrave has unexpectedly crashed. A crash log has been saved to "
            "%s. Please mail this file to workrave-devel@sourceforge.net or "
-           "file a bugreport at: "
-           "http://workrave.org/cgi-bin/bugzilla/enter_bug.cgi. "
+           "file a bugreport at: http://issues.workrave.org/. "
            "Thanks.", crash_log_name);
   
   MessageBox(NULL, crash_text, "Exception", MB_OK);

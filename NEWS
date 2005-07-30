@@ -5,6 +5,10 @@ See the end for copying conditions.
 Please report Workrave bug reports. Visit our bug tracker located at:
 http://www.workrave.org
 
+* Workrave 1.8.1
+
+** Fixed a crash when blocking mode is set to 'none'
+
 * Workrave 1.8.0
 
 ** Jon Otegi translated Workrave into Basque.
