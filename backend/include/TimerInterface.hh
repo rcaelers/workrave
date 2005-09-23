@@ -1,9 +1,9 @@
 // TimerInterface.hh --- The Break Timer Query Interface
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2005 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-06-28 23:54:57 robc>
+// Time-stamp: <2005-09-12 19:18:26 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -45,6 +45,8 @@ public:
     };
   
 public:
+  virtual ~TimerInterface() {}
+  
   //! Returns the current time state.
   virtual TimerState get_state() const = 0;
 

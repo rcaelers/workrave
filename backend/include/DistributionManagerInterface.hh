@@ -1,6 +1,6 @@
 // DistributionManagerInterface.hh
 //
-// Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2005 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -27,6 +27,8 @@ class DistributionLogListener;
 class DistributionManagerInterface
 {
 public:
+  virtual ~DistributionManagerInterface() {}
+  
   virtual bool is_master() const = 0;
   virtual int get_number_of_peers() = 0;
   virtual bool connect(string url) = 0;

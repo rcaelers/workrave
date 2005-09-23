@@ -1,6 +1,6 @@
 // FakeActivityMonitor.hh
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2005 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -29,6 +29,8 @@ public:
     state(ACTIVITY_IDLE)
   {
   }
+
+  virtual ~FakeActivityMonitor() {}
   
   //! Stops the activity monitoring.
   void terminate()

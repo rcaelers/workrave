@@ -425,8 +425,8 @@ DistributionSocketLink::broadcast_client_message(DistributionClientMessageID dsi
                   buffer.bytes_written());
 
   send_packet_broadcast(packet);
-  return true;
   TRACE_EXIT();
+  return true;
 }
 
 

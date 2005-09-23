@@ -1,6 +1,6 @@
 // SocketDriver.hh
 //
-// Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2005 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -52,6 +52,8 @@ public:
 class SocketListener
 {
 public:
+  virtual ~SocketListener() {}
+  
   //! The specified server socket connection has accepted a new client connection
   virtual void socket_accepted(SocketConnection *server_con, SocketConnection *client_con) = 0;
 

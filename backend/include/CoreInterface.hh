@@ -62,6 +62,8 @@ enum BreakId
 class CoreInterface 
 {
 public:
+  virtual ~CoreInterface() {}
+  
   enum InsistPolicy
     {
       //! Uninitialized policy

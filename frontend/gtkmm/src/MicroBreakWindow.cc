@@ -141,10 +141,9 @@ Gtk::Button *
 MicroBreakWindow::create_restbreaknow_button(bool label)
 {
   Gtk::Button *ret;
-      ret = manage(GtkUtil::create_image_button(label
-                                                ? _("Rest break")
-                                                : NULL,
-                                                "timer-rest-break.png"));
+  ret = manage(GtkUtil::create_image_button(_("Rest break"),
+                                            "timer-rest-break.png",
+                                            label));
   ret->signal_clicked()
     .connect(MEMBER_SLOT(*this,
                          &MicroBreakWindow::on_restbreaknow_button_clicked));

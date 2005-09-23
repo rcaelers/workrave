@@ -1,6 +1,6 @@
 // ActivityMonitorInterface.hh --- Interface definition for the Activity Monitor
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2005 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -57,6 +57,8 @@ public:
 class ActivityMonitorInterface
 {
 public:
+  virtual ~ActivityMonitorInterface() {}
+  
   //! Stops the activity monitoring.
   virtual void terminate() = 0;
 

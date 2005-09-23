@@ -1,6 +1,6 @@
 // InputMonitorListenInterface.hh
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2005 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -22,6 +22,8 @@
 class InputMonitorListenerInterface
 {
 public:
+  virtual ~InputMonitorListenerInterface() {}
+  
   virtual void action_notify() = 0;
   virtual void mouse_notify(int x, int y, int wheel = 0) = 0;
   virtual void button_notify(int button_mask, bool is_press) = 0;

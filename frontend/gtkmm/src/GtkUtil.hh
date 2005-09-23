@@ -1,6 +1,6 @@
 // GtkUtil.hh --- Gtk utilities
 //
-// Copyright (C) 2003, 2004 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2003, 2004, 2005 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -43,7 +43,7 @@ public:
                              const Gtk::StockID& stock_id);
 
   static Gtk::Button *
-  create_image_button(const char *label_text, const char *image_file);
+  create_image_button(const char *label_text, const char *image_file, bool label = true);
 
   static void
   update_custom_stock_button(Gtk::Button *btn, const char *label_text,

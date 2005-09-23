@@ -1,6 +1,6 @@
 // CoreEventListener.hh
 //
-// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -37,6 +37,8 @@ enum CoreEvent
 class CoreEventListener
 {
 public:
+  virtual ~CoreEventListener() {}
+  
   // Notification of a core event.
   virtual void core_event_notify(CoreEvent event) = 0;
 };

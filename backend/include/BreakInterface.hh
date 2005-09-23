@@ -27,6 +27,8 @@ using namespace std;
 class BreakInterface
 {
 public:
+  virtual ~BreakInterface() {}
+  
   virtual TimerInterface *get_timer() const = 0;
   virtual bool is_enabled() const = 0;
   virtual string get_name() const = 0;

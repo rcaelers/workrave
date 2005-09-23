@@ -1,9 +1,9 @@
 // TimePred.hh --- Time Predicate
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2005 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-06-21 22:22:24 robc>
+// Time-stamp: <2005-09-12 19:19:10 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -45,6 +45,8 @@ using namespace std;
 class TimePred
 {
 public:
+  virtual ~TimePred() {}
+  
   //! Set the last time the predicate matched.
   virtual void set_last(time_t lastTime)
   {

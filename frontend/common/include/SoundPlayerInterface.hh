@@ -1,6 +1,6 @@
 // SoundPlayerInterface.hh
 //
-// Copyright (C) 2002, 2003, 2004 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -36,6 +36,8 @@ public:
     SOUND_EXERCISES_ENDED
   };
 
+  virtual ~SoundPlayerInterface() {}
+  
   //! Plays sound, returns immediately.
   virtual void play_sound(Sound snd) = 0;
 };

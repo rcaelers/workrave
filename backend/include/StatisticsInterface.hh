@@ -71,6 +71,8 @@ public:
   };
   
 public:
+  virtual ~StatisticsInterface() {}
+  
   virtual void update() = 0;
   virtual DailyStats *get_current_day() const = 0;
   virtual DailyStats *get_day(int day) const = 0;

@@ -1,6 +1,6 @@
 // GtkUtil.cc --- Gtk utilities
 //
-// Copyright (C) 2003, 2004 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2003, 2004, 2005 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -100,7 +100,8 @@ GtkUtil::update_custom_stock_button(Gtk::Button *btn,
 
 Gtk::Button *
 GtkUtil::create_image_button(const char *label_text,
-                             const char *image_file)
+                             const char *image_file,
+                             bool label)
 {
   Gtk::Button *btn = new Gtk::Button();
   Gtk::Image *img = NULL;
@@ -110,7 +111,12 @@ GtkUtil::create_image_button(const char *label_text,
                                              Util::SEARCH_PATH_IMAGES);
       img = manage(new Gtk::Image(icon));
     }
-  if (label_text != NULL)
+  else
+    {
+      /* Button witout images must have a label */
+      label = true;
+    }
+  if (label_text != NULL && label)
     {
       Gtk::Label *label = manage(new Gtk::Label(label_text));
       Gtk::HBox *hbox = manage(new Gtk::HBox(false, 2));

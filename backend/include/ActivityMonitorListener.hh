@@ -1,6 +1,6 @@
 // ActivityMonitorListener.hh
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2005 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -22,6 +22,8 @@
 class ActivityMonitorListener
 {
 public:
+  virtual ~ActivityMonitorListener() {}
+  
   // Notification that the user is currently active.
   virtual bool action_notify() = 0;
 };

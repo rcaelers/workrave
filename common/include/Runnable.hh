@@ -1,6 +1,6 @@
 // Runnable.hh --- Runnable interface
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2005 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -22,7 +22,8 @@
 class Runnable
 {
 public:
-    virtual void run() = 0;
+  virtual ~Runnable() {}
+  virtual void run() = 0;
 };
 
 

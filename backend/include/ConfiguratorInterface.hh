@@ -30,6 +30,8 @@ class ConfiguratorListener;
 class ConfiguratorInterface
 {
 public:
+  virtual ~ConfiguratorInterface() {}
+  
   //! Loads the specified file.
   /*!
    *  \param filename file to load.

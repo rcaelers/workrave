@@ -1,6 +1,6 @@
 // DistributionLink.hh
 //
-// Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2005 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -30,6 +30,8 @@ class PacketBuffer;
 class DistributionLink
 {
 public:
+  virtual ~DistributionLink() {}
+  
   //! Returns the ID of the node.
   virtual string get_id() const = 0;
 
