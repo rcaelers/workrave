@@ -19,15 +19,14 @@ AM_INIT_AUTOMAKE(workrave, 1.8.1)
 dnl Set of available languages.
 ALL_LINGUAS="nl de eo pl da es zh_TW ru fr pt_BR no lt cs he eu"
 
-#SETUPLANGS=
-#NL=`echo`
-#for a in $ALL_LINGUAS; do
-#    X="Source: \"..\\..\\..\\..\\po\\$a.gmo\"; DestDir: \"{app}\\lib\\locale\\$a\\LC_MESSAGES\"; DestName: \"workrave.mo\"; Flags: ignoreversion;"
-#    SETUPLANGS="$SETUPLANGS $NL $X"
-#done
-#        
-#echo $SETUPLANGS
-#exit;
+LANGFILE=frontend/gtkmm/win32/setup/lang.iss
+echo -n "; language.iss --- Inno setup file, support languages" > $LANGFILE
+echo -en "\r\n" >> $LANGFILE
+for a in $ALL_LINGUAS; do
+    X="Source: \"..\\..\\..\\..\\po\\$a.gmo\"; DestDir: \"{app}\\lib\\locale\\$a\\LC_MESSAGES\"; DestName: \"workrave.mo\"; Flags: ignoreversion;"
+    echo -n $X     >> $LANGFILE
+    echo -en "\r\n" >> $LANGFILE
+done
         
 dnl some command line options.                           
 GCONF_LIBS=""
@@ -212,8 +211,10 @@ fi
 if test "x$config_with_registry" = "xno" -a "x$config_with_xml" = "xno" -a "x$config_with_gconf" = "xno" ; then
     if test "x$platform_win32" = "xyes" ; then
        config_with_registry=yes
-    else
+    elif test "x$config_with_gnome" = "xyes" ; then
        config_with_gconf=yes
+    else    
+       config_with_xml=yes
     fi
 fi
     
@@ -652,7 +653,7 @@ AC_SUBST(WR_BACKEND_CFLAGS)
 AC_SUBST(WR_BACKEND_INCLUDES)
 
 AC_SUBST(include_ARTS)
-               
+
 HAVE_X=
 if test x$have_x = xyes ; then
    AC_DEFINE(HAVE_X,,[Define if X is available])

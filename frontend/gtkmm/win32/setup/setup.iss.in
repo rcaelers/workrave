@@ -61,21 +61,7 @@ Source: "..\..\..\..\AUTHORS.txt"; DestDir: "{app}"; DestName: "AUTHORS.txt"; Fl
 Source: "..\..\..\..\NEWS.txt"; DestDir: "{app}"; DestName: "NEWS.txt"; Flags: ignoreversion;
 Source: "..\..\..\..\README.txt"; DestDir: "{app}"; DestName: "README.txt"; Flags: ignoreversion;
 Source: "..\..\src\workrave.exe"; DestDir: "{app}\lib"; DestName: "Workrave.exe"; Flags: ignoreversion;
-Source: "..\..\..\..\po\nl.gmo"; DestDir: "{app}\lib\locale\nl\LC_MESSAGES"; DestName: "workrave.mo"; Flags: ignoreversion;
-Source: "..\..\..\..\po\zh_TW.gmo"; DestDir: "{app}\lib\locale\zh_TW\LC_MESSAGES"; DestName: "workrave.mo"; Flags: ignoreversion;
-Source: "..\..\..\..\po\de.gmo"; DestDir: "{app}\lib\locale\de\LC_MESSAGES"; DestName: "workrave.mo"; Flags: ignoreversion;
-Source: "..\..\..\..\po\eo.gmo"; DestDir: "{app}\lib\locale\eo\LC_MESSAGES"; DestName: "workrave.mo"; Flags: ignoreversion;
-Source: "..\..\..\..\po\es.gmo"; DestDir: "{app}\lib\locale\es\LC_MESSAGES"; DestName: "workrave.mo"; Flags: ignoreversion;
-Source: "..\..\..\..\po\da.gmo"; DestDir: "{app}\lib\locale\da\LC_MESSAGES"; DestName: "workrave.mo"; Flags: ignoreversion;
-Source: "..\..\..\..\po\pl.gmo"; DestDir: "{app}\lib\locale\pl\LC_MESSAGES"; DestName: "workrave.mo"; Flags: ignoreversion;
-Source: "..\..\..\..\po\ru.gmo"; DestDir: "{app}\lib\locale\ru\LC_MESSAGES"; DestName: "workrave.mo"; Flags: ignoreversion;
-Source: "..\..\..\..\po\fr.gmo"; DestDir: "{app}\lib\locale\fr\LC_MESSAGES"; DestName: "workrave.mo"; Flags: ignoreversion;
-Source: "..\..\..\..\po\pt_BR.gmo"; DestDir: "{app}\lib\locale\pt_BR\LC_MESSAGES"; DestName: "workrave.mo"; Flags: ignoreversion;
-Source: "..\..\..\..\po\no.gmo"; DestDir: "{app}\lib\locale\no\LC_MESSAGES"; DestName: "workrave.mo"; Flags: ignoreversion;
-Source: "..\..\..\..\po\lt.gmo"; DestDir: "{app}\lib\locale\lt\LC_MESSAGES"; DestName: "workrave.mo"; Flags: ignoreversion;
-Source: "..\..\..\..\po\cs.gmo"; DestDir: "{app}\lib\locale\cs\LC_MESSAGES"; DestName: "workrave.mo"; Flags: ignoreversion;
-Source: "..\..\..\..\po\he.gmo"; DestDir: "{app}\lib\locale\he\LC_MESSAGES"; DestName: "workrave.mo"; Flags: ignoreversion;
-Source: "..\..\..\..\po\eu.gmo"; DestDir: "{app}\lib\locale\eu\LC_MESSAGES"; DestName: "workrave.mo"; Flags: ignoreversion;
+#include "lang.iss"
 
 [Registry]
 Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\Workrave.exe"; ValueType: string; ValueData: "{app}\lib\Workrave.exe"; Flags: uninsdeletekeyifempty

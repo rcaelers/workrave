@@ -164,6 +164,7 @@ exercise_parse_update_i18n_attribute(const GList *languages,
         {
           const gchar *lang = (const gchar *) langs->data;
 
+#if 0          
           // FIXME: this is a hack because MinGW's winnt has
           // wrong sublanguage codes...
           if (! strcmp(lang, "pt_PT"))
@@ -174,6 +175,7 @@ exercise_parse_update_i18n_attribute(const GList *languages,
             {
               lang = "pt_PT";
             }
+#endif
           
           if (! strncmp(lang, nl, nl_len))
             {
