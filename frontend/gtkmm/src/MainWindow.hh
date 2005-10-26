@@ -151,9 +151,9 @@ private:
   void win32_on_tray_open();
   void win32_add_tray_icon();
 
-  bool on_leave_notify(GdkEventCrossing *event);
-  bool on_enter_notify(GdkEventCrossing *event);
-  bool on_hide_timer();
+  bool win32_on_leave_notify(GdkEventCrossing *event);
+  bool win32_on_enter_notify(GdkEventCrossing *event);
+  bool win32_on_hide_timer();
   
   static LRESULT CALLBACK win32_window_proc(HWND hwnd, UINT uMsg,
                                             WPARAM wParam, LPARAM lParam);

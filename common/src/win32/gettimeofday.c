@@ -1,10 +1,10 @@
 /*
  * gettimeofday.c
  *
- * Copyright (C) 2002 Rob Caelers <rcaelers@cistron.nl>
+ * Copyright (C) 2002, 2005 Rob Caelers <rcaelers@cistron.nl>
  * All rights reserved.
  *
- * Time-stamp: <2002-09-10 18:17:19 robc>
+ * Time-stamp: <2005-10-26 20:26:00 robc>
  *
  */
 
@@ -64,6 +64,8 @@ gettimeofday(struct timeval *tv, struct timezone *tz)
 {
   int ret = 1;
 
+  (void) tz;
+  
   if (tv != NULL)
     {
       struct timespec spec;

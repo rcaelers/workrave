@@ -50,6 +50,11 @@ double_exception_handler(struct _EXCEPTION_RECORD *exception_record,
                          struct _CONTEXT *context_record, 
                          void *dispatcher_context)
 {
+  (void) exception_record;
+  (void) establisher_frame;
+  (void) context_record;
+  (void) dispatcher_context;
+  
   MessageBox(NULL,
              "Workrave has unexpectedly crashed and failed to create a crash "
              "log. This is serious. Please report this to workrave-devel@sourceforge.net or "
@@ -68,6 +73,9 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
   TCHAR szModule[MAX_PATH];
   HMODULE hModule;
 
+  (void) establisher_frame;
+  (void) dispatcher_context;
+  
   __try1(double_exception_handler);
 
   harpoon_unblock_input();
@@ -139,10 +147,10 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
               );
       
       fprintf(log, "\n\n");
-      fprintf(log, "code = %x\n", exception_record->ExceptionCode);
-      fprintf(log, "flags = %x\n", exception_record->ExceptionFlags);
-      fprintf(log, "address = %x\n", exception_record->ExceptionAddress);
-      fprintf(log, "params = %d\n", exception_record->NumberParameters);
+      fprintf(log, "code = %x\n", (int) exception_record->ExceptionCode);
+      fprintf(log, "flags = %x\n", (int) exception_record->ExceptionFlags);
+      fprintf(log, "address = %x\n", (int) exception_record->ExceptionAddress);
+      fprintf(log, "params = %d\n", (int) exception_record->NumberParameters);
 
       fprintf(log, "%s caused ",  GetModuleFileName(NULL, szModule, MAX_PATH) ? szModule : "Application");
       switch (exception_record->ExceptionCode)
@@ -264,7 +272,7 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
           break;
         }
 
-      fprintf(log, " at location %08x", (DWORD) exception_record->ExceptionAddress);
+      fprintf(log, " at location %08x", (int) exception_record->ExceptionAddress);
       if ((hModule = (HMODULE) GetModuleBase((DWORD) exception_record->ExceptionAddress) && GetModuleFileName(hModule, szModule, sizeof(szModule))))
         fprintf(log, " in module %s", szModule);
 	
@@ -362,9 +370,9 @@ unwind_stack(FILE *log, HANDLE process, PCONTEXT context)
         break;
      
       fprintf(log, "%08X  %08X  %08X\n",  
-              sf.AddrPC.Offset,
-              sf.AddrFrame.Offset,
-              sf.AddrReturn.Offset);
+              (int) sf.AddrPC.Offset,
+              (int) sf.AddrFrame.Offset,
+              (int) sf.AddrReturn.Offset);
     }
 }
 
@@ -492,6 +500,8 @@ save_key(FILE *log, HKEY key, char *name)
 static void
 dump_registry(FILE *log, HKEY key, char *name)
 {
+  (void) key;
+  
   HKEY handle;
   LONG rc = RegOpenKeyEx(HKEY_CURRENT_USER, name, 0, KEY_ALL_ACCESS, &handle);
 

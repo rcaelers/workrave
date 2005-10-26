@@ -1,6 +1,6 @@
 // Win32SoundPlayer.cc --- Sound player
 //
-// Copyright (C) 2002, 2003, 2004 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -117,7 +117,7 @@ Win32SoundPlayer::register_sound_events()
 {
   string sound_dir  = Util::get_application_directory() + "\\share\\sounds\\";
   
-  for (int i = 0; i < sizeof(sound_registry)/sizeof(sound_registry[0]); i++)
+  for (unsigned int i = 0; i < sizeof(sound_registry)/sizeof(sound_registry[0]); i++)
     {
       SoundRegistry *snd = &sound_registry[i];
       char key[MAX_PATH], val[MAX_PATH];

@@ -1,6 +1,6 @@
 // Dispatcher.cc --- Inter-thread dispatcher
 //
-// Copyright (C) 2003, 2004 Rob Caelers
+// Copyright (C) 2003, 2004, 2005 Rob Caelers
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -128,7 +128,6 @@ Dispatcher::send_notification()
 bool
 Dispatcher::io_handler(Glib::IOCondition)
 {
-  TRACE_ENTER("Dispatcher::io_handler");
   DispatchData *data = NULL;
   
   while ((data = (DispatchData*)g_async_queue_try_pop(queue)))

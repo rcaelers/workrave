@@ -1,6 +1,6 @@
 // Win32InputMonitor.cc --- ActivityMonitor for Win32
 //
-// Copyright (C) 2002, 2003, 2004 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2005 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -58,8 +58,6 @@ Win32InputMonitor::~Win32InputMonitor()
 void
 Win32InputMonitor::init(InputMonitorListenerInterface *l)
 {
-  TRACE_ENTER("Win32InputMonitor::init");
-
   assert(! listener);
   listener = l;
 
@@ -75,8 +73,6 @@ Win32InputMonitor::init(InputMonitorListenerInterface *l)
 void
 Win32InputMonitor::terminate()
 {
-  TRACE_ENTER("Win32InputMonitor::terminate");
-
   harpoon_exit();
 
   listener = NULL;
@@ -115,6 +111,9 @@ Win32InputMonitor::on_harpoon_event(HarpoonEvent *event)
 
     case HARPOON_MOUSE_MOVE:
       listener->mouse_notify(event->mouse.x, event->mouse.y, 0);
+      break;
+
+    default:
       break;
     }
 }

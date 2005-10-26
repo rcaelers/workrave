@@ -527,6 +527,9 @@ win32_filter_func (void     *xevent,
 {
   TRACE_ENTER("MainWindow::win32_filter_func");
 
+  (void) event;
+  (void) data;
+  
   MSG *msg = (MSG *) xevent;
   GdkFilterReturn ret = GDK_FILTER_CONTINUE;
   switch (msg->message)
@@ -662,8 +665,8 @@ MainWindow::win32_init()
   Menus *menus = Menus::get_instance();
   win32_tray_menu = menus->create_tray_menu();
 
-  win32_tray_menu->signal_leave_notify_event().connect(MEMBER_SLOT(*this, &MainWindow::on_leave_notify));
-  win32_tray_menu->signal_enter_notify_event().connect(MEMBER_SLOT(*this, &MainWindow::on_enter_notify));
+  win32_tray_menu->signal_leave_notify_event().connect(MEMBER_SLOT(*this, &MainWindow::win32_on_leave_notify));
+  win32_tray_menu->signal_enter_notify_event().connect(MEMBER_SLOT(*this, &MainWindow::win32_on_enter_notify));
   
   Gtk::Menu::MenuList &menulist = win32_tray_menu->items();
 
@@ -764,7 +767,7 @@ MainWindow::win32_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
                 HWND phwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
                 SetForegroundWindow(phwnd);
 
-                win->win32_tray_menu.show_all();
+                win->win32_tray_menu->show_all();
                 win->win32_tray_menu->popup(0, GetTickCount());
               }
               break;
@@ -797,6 +800,8 @@ MainWindow::win32_on_leave_notify(GdkEventCrossing *event)
                                                                       &MainWindow::win32_on_hide_timer),
                                                           500);
     }
+
+  return false;
 }
 
 
@@ -808,6 +813,7 @@ MainWindow::win32_on_enter_notify(GdkEventCrossing *event)
     {
       timeout_connection.disconnect();
     }
+  return false;
 }
 
 bool

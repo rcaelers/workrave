@@ -1,6 +1,6 @@
 // Thread.hh --- Thread class
 //
-// Copyright (C) 2002 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2005 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -66,6 +66,8 @@ Thread::run()
 void
 Thread::sleep(long millis, int nanos)
 {
+  (void) nanos;
+  
   Sleep(millis);
 }
 
@@ -80,5 +82,7 @@ Thread::thread_handler(LPVOID lpParameter)
       if (t->auto_delete)
         delete t;
     }
+
+  return TRUE;
 }
 

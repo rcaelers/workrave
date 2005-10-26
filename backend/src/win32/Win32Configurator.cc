@@ -1,6 +1,6 @@
 // Win32Configurator.cc --- Configuration Access
 //
-// Copyright (C) 2002 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2005 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -28,20 +28,19 @@ static const char rcsid[] = "$Id$";
 
 Win32Configurator::Win32Configurator()
 {
-  TRACE_ENTER("Win32Configurator::Win32Configurator");
   key_root = "Software/Workrave";
 }
 
 
 Win32Configurator::~Win32Configurator()
 {
-  TRACE_ENTER("Win32Configurator::~Win32Configurator");
 }
 
 
 bool
 Win32Configurator::load(string filename)
 {
+  (void) filename;
   return true;
 }
 
@@ -49,6 +48,7 @@ Win32Configurator::load(string filename)
 bool
 Win32Configurator::save(string filename)
 {
+  (void) filename;
   return true;
 }
 
@@ -68,7 +68,6 @@ Win32Configurator::get_value(string key, string *out) const
   HKEY handle;
   bool rc = false;
   string k, p, p32, c;
-  DWORD disp;
   LONG err;
 
   k = key_add_part(key_root, key);
@@ -88,6 +87,7 @@ Win32Configurator::get_value(string key, string *out) const
         }
       RegCloseKey(handle);
     }
+  TRACE_EXIT();
   return rc;
 }
 
@@ -188,6 +188,7 @@ Win32Configurator::set_value(string key, string v)
 	  fire_configurator_event(key);
 	}
     }
+  TRACE_EXIT();
   return rc;
 }
 
@@ -235,7 +236,6 @@ Win32Configurator::exists_dir(string key) const
   HKEY handle;
   bool rc = false;
   string k, k32;
-  DWORD disp;
   LONG err;
 
   k = key_add_part(key_root, key);
@@ -246,6 +246,7 @@ Win32Configurator::exists_dir(string key) const
       rc = true;
       RegCloseKey(handle);
     }
+  TRACE_EXIT();
   return rc;
 }
 
@@ -323,7 +324,7 @@ Win32Configurator::key_win32ify(string key) const
 {
   string rc = key;
   strip_trailing_slash(rc);
-  for (int i = 0; i < rc.length(); i++)
+  for (unsigned int i = 0; i < rc.length(); i++)
     {
       if (rc[i] == '/')
         {
