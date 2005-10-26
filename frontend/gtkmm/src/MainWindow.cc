@@ -662,6 +662,9 @@ MainWindow::win32_init()
   Menus *menus = Menus::get_instance();
   win32_tray_menu = menus->create_tray_menu();
 
+  win32_tray_menu->signal_leave_notify_event().connect(MEMBER_SLOT(*this, &MainWindow::on_leave_notify));
+  win32_tray_menu->signal_enter_notify_event().connect(MEMBER_SLOT(*this, &MainWindow::on_enter_notify));
+  
   Gtk::Menu::MenuList &menulist = win32_tray_menu->items();
 
   menulist.push_front(Gtk::Menu_Helpers::StockMenuElem
@@ -760,6 +763,8 @@ MainWindow::win32_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
                 GdkWindow *gdk_window = window->window;
                 HWND phwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
                 SetForegroundWindow(phwnd);
+
+                win->win32_tray_menu.show_all();
                 win->win32_tray_menu->popup(0, GetTickCount());
               }
               break;
@@ -781,6 +786,37 @@ MainWindow::win32_on_tray_open()
   win32_show(true);
 }
 
+
+bool
+MainWindow::win32_on_leave_notify(GdkEventCrossing *event)
+{
+  if (event->detail == GDK_NOTIFY_ANCESTOR &&
+      !timeout_connection.connected())
+    {
+      timeout_connection = Glib::signal_timeout().connect(MEMBER_SLOT(*this,
+                                                                      &MainWindow::win32_on_hide_timer),
+                                                          500);
+    }
+}
+
+
+bool
+MainWindow::win32_on_enter_notify(GdkEventCrossing *event)
+{
+  if (event->detail == GDK_NOTIFY_ANCESTOR &&
+      timeout_connection.connected())
+    {
+      timeout_connection.disconnect();
+    }
+}
+
+bool
+MainWindow::win32_on_hide_timer()
+{
+  win32_tray_menu->popdown();
+
+  return false;
+}
 
 #endif
 

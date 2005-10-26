@@ -150,6 +150,10 @@ private:
   void win32_exit();
   void win32_on_tray_open();
   void win32_add_tray_icon();
+
+  bool on_leave_notify(GdkEventCrossing *event);
+  bool on_enter_notify(GdkEventCrossing *event);
+  bool on_hide_timer();
   
   static LRESULT CALLBACK win32_window_proc(HWND hwnd, UINT uMsg,
                                             WPARAM wParam, LPARAM lParam);
@@ -165,6 +169,8 @@ private:
   
   TimerBoxAppletView win32_timer_box_view;
   TimerBoxControl *win32_timer_box_control;
+
+  SigC::Connection timeout_connection;
 #endif
 };
 
