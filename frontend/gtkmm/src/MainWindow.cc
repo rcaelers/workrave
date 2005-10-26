@@ -69,6 +69,9 @@ static const char rcsid[] = "$Id$";
 #include <gtkmm/menu.h>
 #include <gtkmm/stock.h>
 
+#include "gtk/gtkmenu.h"
+
+
 const string MainWindow::CFG_KEY_MAIN_WINDOW = "gui/main_window";
 const string MainWindow::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP = "gui/main_window/always_on_top";
 
@@ -127,7 +130,6 @@ MainWindow::~MainWindow()
   
   TRACE_EXIT();
 }
-
 
 //! Initializes the main window.
 void
@@ -609,13 +611,6 @@ win32_filter_func (void     *xevent,
   return ret;
 }
 
-static gboolean
-docklet_menu_leave_enter(GtkWidget *menu, GdkEventCrossing *event, void *data)
-{
-  TRACE_ENTER("MainWindow::docklet_menu_leave_enter");
-  return false;
-}
-
 void
 MainWindow::win32_init()
 {
@@ -676,10 +671,6 @@ MainWindow::win32_init()
 //   win32_tray_menu->signal_enter_notify_event().connect(MEMBER_SLOT(*this, &MainWindow::win32_on_enter_notify));
 //   win32_tray_menu->add_events(Gdk::ENTER_NOTIFY_MASK | Gdk::LEAVE_NOTIFY_MASK);
 
-//   g_signal_connect(win32_tray_menu, "leave-notify-event", G_CALLBACK(docklet_menu_leave_enter), NULL);
-//   g_signal_connect(win32_tray_menu, "enter-notify-event", G_CALLBACK(docklet_menu_leave_enter), NULL);                
-
-  
   Gtk::Menu::MenuList &menulist = win32_tray_menu->items();
 
   menulist.push_front(Gtk::Menu_Helpers::StockMenuElem
@@ -753,13 +744,47 @@ MainWindow::win32_set_tray_icon(TimerBoxView::IconType icon)
   Shell_NotifyIcon(NIM_MODIFY, &win32_tray_icon);
 }
 
+/* Taken from Gaim. needs to be gtkmm-ified. */
+/* This is a workaround for a bug in windows GTK+. Clicking outside of the
+   menu does not get rid of it, so instead we get rid of it as soon as the
+   pointer leaves the menu. */
+static gboolean 
+win32_hide_menu(gpointer data)
+{
+	if (data != NULL) {
+		gtk_menu_popdown(GTK_MENU(data));
+	}
+	return FALSE;
+}
 
+static gboolean
+win32_menu_leave_enter(GtkWidget *menu, GdkEventCrossing *event, void *data)
+{
+  TRACE_ENTER("win32_menu_leave_enter");
+  static guint hide_docklet_timer = 0;
+  if (event->type == GDK_LEAVE_NOTIFY && event->detail == GDK_NOTIFY_ANCESTOR) {
+    /* Add some slop so that the menu doesn't annoyingly disappear when mousing around */
+    if (hide_docklet_timer == 0) {
+      hide_docklet_timer = g_timeout_add(500, win32_hide_menu, menu);
+    }
+  } else if (event->type == GDK_ENTER_NOTIFY && event->detail == GDK_NOTIFY_ANCESTOR) {
+    if (hide_docklet_timer != 0) {
+      /* Cancel the hiding if we reenter */
+      
+      g_source_remove(hide_docklet_timer);
+      hide_docklet_timer = 0;
+    }
+  }
+  TRACE_EXIT();
+  return FALSE;
+}
 
 LRESULT CALLBACK
 MainWindow::win32_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
                               LPARAM lParam)
 {
   TRACE_ENTER("MainWindow::win32_window_proc");
+  static bool connect_once = false;
   MainWindow *win = (MainWindow *) GetWindowLong(hwnd, GWL_USERDATA);
   if (win != NULL)
     {
@@ -780,6 +805,16 @@ MainWindow::win32_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
                 HWND phwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
                 SetForegroundWindow(phwnd);
 
+                if (!connect_once)
+                  {
+                    // RC: FIXME: remove this c hack HACK 
+                    TRACE_MSG("connect");
+                    g_signal_connect(window, "leave-notify-event", G_CALLBACK(win32_menu_leave_enter), NULL);
+                    g_signal_connect(window, "enter-notify-event", G_CALLBACK(win32_menu_leave_enter), NULL);
+                    connect_once = true;
+                    TRACE_MSG("connect ok");
+                  }
+                
                 win->win32_tray_menu->popup(0,  GetTickCount());
               }
               break;
