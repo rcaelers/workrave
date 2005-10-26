@@ -15,30 +15,32 @@ export PATH="$TOOLS/bin:$TOOLS/$TARGET/bin:$PATH"
 TOPDIR=`pwd`
 SRCDIR="$TOPDIR/source"
 
-SF_URL="http://belnet.dl.sourceforge.net/sourceforge"
+SF_URL="http://surfnet.dl.sourceforge.net/sourceforge"
 GNU_URL="ftp://ftp.gnu.org/gnu"
-GTK_URL="http://www.gimp.org/~tml/gimp/win32/"
+GTK_URL="ftp://ftp.gtk.org/pub/gtk/v2.8/win32/"
 GNETSRC_URL="http://www.gnetlibrary.org/src/"
 GNOME_URL="http://ftp.gnome.org/pub/GNOME/sources/"
+TOR_URL="http://www.gimp.org/~tml/gimp/win32/"
 
 MINGW_URL=$SF_URL/mingw
 GNUWIN_URL=$SF_URL/gnuwin32/
-ICONV_URL=$GTK_URL
-GETTEXT_URL=$GTK_URL
-SIGCPPSRC_URL=$SF_URL/libsigc
+ICONV_URL=$TOR_URL
+GETTEXT_URL=$TOR_URL
 GLIBMMSRC_URL=$GNOME_URL/glibmm/2.4/
 GTKMMSRC_URL=$GNOME_URL/gtkmm/2.4/
 SIGCPP_URL=$GNOME_URL/libsigc++/2.0/
 
-GTK_FILES="glib-2.4.2.zip glib-dev-2.4.2.zip gtk+-2.4.3.zip gtk+-dev-2.4.3.zip atk-1.6.0.zip pango-1.4.0.zip atk-dev-1.6.0.zip pango-dev-1.4.0.zip"
-GNUWIN_FILES="zlib-1.2.1-1-bin.zip zlib-1.2.1-1-lib.zip libpng-1.2.5-1-bin.zip libpng-1.2.5-1-lib.zip"
+GTK_FILES="glib-2.6.6.zip glib-dev-2.6.6.zip gtk+-2.6.9.zip gtk+-dev-2.6.9.zip atk-1.9.0.zip pango-1.8.2.zip atk-dev-1.9.0.zip pango-dev-1.8.2.zip"
+GNUWIN_FILES="zlib-1.2.3-bin.zip zlib-1.2.3-lib.zip libpng-1.2.8-bin.zip libpng-1.2.8-lib.zip"
 ICONV_FILES="libiconv-1.9.1.bin.woe32.zip"
-GETTEXT_FILES="gettext-runtime-0.13.1.zip"
-GTKMM_FILES="gtkmm-2.2.7-mingw32-lib.zip gtkmm-2.2.7-mingw32-bin.zip libsigc++-1.2.5-mingw32-bin.zip libsigc++-1.2.5-mingw32-lib.zip"
+GETTEXT_FILES=" gettext-0.14.5.zip gettext-dev-0.14.5.zip"
 GNETSRC_FILES="gnet-2.0.5.tar.gz"
-GTKMMSRC_FILES="gtkmm-2.4.4.tar.gz"
-GLIBMMSRC_FILES="glibmm-2.4.3.tar.gz"
-SIGCPPSRC_FILES="libsigc++-2.0.3.tar.gz"
+GTKMMSRC_FILES="gtkmm-2.6.5.tar.gz"
+GLIBMMSRC_FILES="glibmm-2.6.1.tar.gz"
+SIGCPPSRC_FILES="libsigc++-2.0.16.tar.gz"
+
+GTKMMSRC_FILES="gtkmm-2.4.11.tar.gz"
+GLIBMMSRC_FILES="glibmm-2.4.8.tar.gz"
 
 download_files()
 {
@@ -118,7 +120,13 @@ fix_pkgconfig()
     cd $PREFIX/lib/pkgconfig
 
     for a in $PREFIX/lib/pkgconfig/*.pc; do
-        sed -e "s|/target|$PREFIX|g" -e "s|
+        sed -e "s|c:/devel/target/.*$|$PREFIX|g" -e "s|
+$||g" < $a > $a.new
+        mv -f $a.new $a
+        sed -e "s|/devel/target/.*$|$PREFIX|g" -e "s|
+$||g" < $a > $a.new
+        mv -f $a.new $a
+        sed -e "s|/target/.*$|$PREFIX|g" -e "s|
 $||g" < $a > $a.new
         mv -f $a.new $a
     done
@@ -128,8 +136,8 @@ $||g" < libpng.pc > libpng.pc.new
     mv -f libpng.pc.new libpng.pc
     
     sed -e "s|c:/progra~1/.*$|$PREFIX|g" -e "s|
-$||g" < libpng12.pc > libpng12.pc.new
-    mv -f libpng12.pc.new libpng12.pc
+$||g" < libpng13.pc > libpng13.pc.new
+    mv -f libpng13.pc.new libpng13.pc
     
     cd "$TOPDIR"
 }
@@ -139,17 +147,25 @@ fix_lib()
     cd $PREFIX/bin
     cp zlib1.dll zlib.dll
 
+    cd $PREFIX/lib
     rm -f intl.lib libintl.dll.a
     rm -f iconv.lib libiconv.dll.a
+    #rm -f atk-1.0.lib libatk-1.0.dll.a
 
     cd "$TOPDIR"
 
     # | sed "s/^\([a-z]\)/_\1/"
     pexports $PREFIX/bin/intl.dll  > intl.def
     pexports $PREFIX/bin/iconv.dll  > iconv.def
+    #pexports $PREFIX/bin/libatk-1.0-0.dll | sed "s/libatk-1.0-0/libatk/" > atk.def
 
+    #echo "atk_relation_set_add_relation_by_type" >> atk.def
+    #echo "atk_relation_add_target" >> atk.def
+    #echo "atk_text_clip_type_get_type" >> atk.def
+        
     i386-mingw32msvc-dlltool -d intl.def -l $PREFIX/lib/libintl.dll.a
     i386-mingw32msvc-dlltool -U -d iconv.def -l $PREFIX/lib/libiconv.dll.a
+    #i386-mingw32msvc-dlltool -d atk.def -l $PREFIX/lib/libatk-1.0.dll.a
     i386-mingw32msvc-ranlib $PREFIX/lib/libintl.dll.a
     i386-mingw32msvc-ranlib $PREFIX/lib/libiconv.dll.a
 }
@@ -376,14 +392,20 @@ unpack
 fix_pkgconfig
 fix_lib
 
-extract_package "libsigc++-2.0.3" "libsigc++-2.0.3.tar.gz"
-build_sigcpp "libsigc++-2.0.3"
+extract_package "libsigc++-2.0.16" "libsigc++-2.0.16.tar.gz"
+build_sigcpp "libsigc++-2.0.16"
 
-extract_package "glibmm-2.4.3" "glibmm-2.4.3.tar.gz"
-build_glibmm "glibmm-2.4.3"
+#extract_package "glibmm-2.6.1" "glibmm-2.6.1.tar.gz"
+#build_glibmm "glibmm-2.6.1"
 
-extract_package "gtkmm-2.4.4" "gtkmm-2.4.4.tar.gz"
-build_gtkmm "gtkmm-2.4.4"
+#extract_package "gtkmm-2.6.5" "gtkmm-2.6.5.tar.gz"
+#build_gtkmm "gtkmm-2.6.5"
+
+extract_package "glibmm-2.4.8" "glibmm-2.4.8.tar.gz"
+build_glibmm "glibmm-2.4.8"
+
+extract_package "gtkmm-2.4.11" "gtkmm-2.4.11.tar.gz"
+build_gtkmm "gtkmm-2.4.11"
 
 extract_package "gnet-2.0.5" "gnet-2.0.5.tar.gz"
 build_gnet "gnet-2.0.5"

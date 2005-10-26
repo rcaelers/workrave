@@ -4,8 +4,8 @@ RUNTIMEDIR="./"
 ALL_LINGUAS="nl de eo pl da es zh_TW ru fr pt_BR"
 
 if [ "x$1" != "x" ]; then
-    if [ -f $1 ]; then
-        ALL_LINGUAS=`grep ALL_LING $1/configure.ac | sed -e 's/^ALL_LINGUAS="\([a-zA-Z_ ]*\)"/\1/g'`
+    if [ -e $1 ]; then
+        ALL_LINGUAS=`grep ALL_LING $1/configure.ac | grep -v "for a in" | sed -e 's/^ALL_LINGUAS="\([a-zA-Z_ ]*\)"/\1/g'`
         echo $ALL_LINGUAS
     fi
 fi
@@ -45,7 +45,8 @@ copy_dir  etc    pango						etc
 copy_dir  bin    zlib1.dll					lib
 copy_dir  bin    iconv.dll					lib
 copy_dir  bin    intl.dll                           		lib
-copy_dir  bin    libpng12.dll                         		lib
+copy_dir  bin    libpng13.dll                         		lib
+#copy_dir  bin    libpng12.dll                         		lib
 copy_dir  bin    libatk-1.0-0.dll                   		lib
 copy_dir  bin    libgdk-win32-2.0-0.dll             		lib
 copy_dir  bin    libgdk_pixbuf-2.0-0.dll            		lib
@@ -57,7 +58,9 @@ copy_dir  bin    libgtk-win32-2.0-0.dll             		lib
 copy_dir  bin    libpango-1.0-0.dll                 		lib
 copy_dir  bin    libpangoft2-1.0-0.dll              		lib
 copy_dir  bin    libpangowin32-1.0-0.dll            		lib
-copy_dir  lib    gtk-2.0/2.4.0/immodules/                       lib
+#copy_dir  bin    libpangocairo-1.0-0.dll                        lib
+#copy_dir  bin    libcairo-2.dll                                 lib
+copy_dir  lib    gtk-2.0/2.4.0/immodules/*.dll                  lib
 copy_dir  lib    gtk-2.0/2.4.0/loaders/libpixbufloader-ico.dll  lib 
 copy_dir  lib    gtk-2.0/2.4.0/loaders/libpixbufloader-png.dll  lib
 copy_dir  lib    gtk-2.0/2.4.0/loaders/libpixbufloader-pnm.dll  lib
