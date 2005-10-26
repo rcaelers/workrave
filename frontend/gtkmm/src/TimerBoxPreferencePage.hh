@@ -1,6 +1,6 @@
 // AppletPreferencesPanel.hh --- Preferences widgets for a timer
 //
-// Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2005 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -44,8 +44,9 @@ public:
   ~TimerBoxPreferencePage();
   
 private:
-  void init_page_values();
   void create_page();
+  void init_page_values();
+  void init_page_callbacks();
   void enable_buttons();
   void on_enabled_toggled();
   void on_place_changed();

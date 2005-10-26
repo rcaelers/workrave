@@ -291,7 +291,6 @@ ActivityMonitor::set_listener(ActivityMonitorListener *l)
 void
 ActivityMonitor::action_notify()
 {
-  TRACE_ENTER_MSG("ActivityMonitor::action_notify", activity_state);
   lock.lock();
   
   struct timeval now;
@@ -342,7 +341,6 @@ ActivityMonitor::action_notify()
   last_action_time = now;
   lock.unlock();
   call_listener();
-  TRACE_EXIT();
 }
 
 

@@ -1,6 +1,6 @@
 // TimerBoxPreferencePage.cc --- Preferences widgets for a timer
 //
-// Copyright (C) 2002, 2003, 2004 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -52,7 +52,8 @@ TimerBoxPreferencePage::TimerBoxPreferencePage(string n)
   create_page();
   init_page_values();
   enable_buttons();
-
+  init_page_callbacks();
+  
   ConfiguratorInterface *config = CoreFactory::get_configurator();
   config->add_listener(TimerBoxControl::CFG_KEY_TIMERBOX + name, this);
 
@@ -100,9 +101,6 @@ TimerBoxPreferencePage::create_page()
                         (_("Place rest break and daily limit in one spot")));
   place_items.push_back(Gtk::Menu_Helpers::MenuElem
                         (_("Place all timers in one spot")));
-  place_button->signal_changed().connect
-    (MEMBER_SLOT(*this, &TimerBoxPreferencePage::on_place_changed));
-  
   // Cycle time spin button.
   cycle_entry = manage(new Gtk::SpinButton());
   cycle_entry->set_range(1, 999);
@@ -127,8 +125,6 @@ TimerBoxPreferencePage::create_page()
                           (_("Show")));
       menu_list.push_back(Gtk::Menu_Helpers::MenuElem
                           (_("Show only when this timer is first due")));
-      display_button->signal_changed().connect
-        (bind(MEMBER_SLOT(*this, &TimerBoxPreferencePage::on_display_changed), i));
     }
 
   // Enabled/Disabled checkbox
@@ -152,7 +148,6 @@ TimerBoxPreferencePage::create_page()
   
   enabled_cb = manage(new Gtk::CheckButton());
   enabled_cb->add(*enabled_lab);
-  enabled_cb->signal_toggled().connect(MEMBER_SLOT(*this, &TimerBoxPreferencePage::on_enabled_toggled));
 
   HigCategoryPanel *hig = manage(new HigCategoryPanel(_("Display")));
 
@@ -230,6 +225,21 @@ TimerBoxPreferencePage::init_page_values()
   enable_buttons();
 }
 
+
+void
+TimerBoxPreferencePage::init_page_callbacks()
+{
+  place_button->signal_changed().connect
+    (MEMBER_SLOT(*this, &TimerBoxPreferencePage::on_place_changed));
+
+  enabled_cb->signal_toggled().connect(MEMBER_SLOT(*this, &TimerBoxPreferencePage::on_enabled_toggled));
+
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+    {
+      timer_display_button[i]->signal_changed().connect
+        (bind(MEMBER_SLOT(*this, &TimerBoxPreferencePage::on_display_changed), i));
+    }
+}
 
 //! The applet on/off checkbox has been toggled.
 void

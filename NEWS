@@ -7,6 +7,13 @@ http://www.workrave.org
 
 * Workrave 1.8.1
 
+** Fixed a crash when a third party gtk runtime is used.
+
+** Fixed bug that caused status windows to be disabled when the
+   microbreak timer was hidden.
+   
+* Workrave 1.8.1
+
 ** Fixed a crash when blocking mode is set to 'none'
 
 * Workrave 1.8.0
