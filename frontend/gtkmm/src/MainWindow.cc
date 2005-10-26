@@ -609,6 +609,13 @@ win32_filter_func (void     *xevent,
   return ret;
 }
 
+static gboolean
+docklet_menu_leave_enter(GtkWidget *menu, GdkEventCrossing *event, void *data)
+{
+  TRACE_ENTER("MainWindow::docklet_menu_leave_enter");
+  return false;
+}
+
 void
 MainWindow::win32_init()
 {
@@ -665,8 +672,13 @@ MainWindow::win32_init()
   Menus *menus = Menus::get_instance();
   win32_tray_menu = menus->create_tray_menu();
 
-  win32_tray_menu->signal_leave_notify_event().connect(MEMBER_SLOT(*this, &MainWindow::win32_on_leave_notify));
-  win32_tray_menu->signal_enter_notify_event().connect(MEMBER_SLOT(*this, &MainWindow::win32_on_enter_notify));
+//   win32_tray_menu->signal_leave_notify_event().connect(MEMBER_SLOT(*this, &MainWindow::win32_on_leave_notify));
+//   win32_tray_menu->signal_enter_notify_event().connect(MEMBER_SLOT(*this, &MainWindow::win32_on_enter_notify));
+//   win32_tray_menu->add_events(Gdk::ENTER_NOTIFY_MASK | Gdk::LEAVE_NOTIFY_MASK);
+
+//   g_signal_connect(win32_tray_menu, "leave-notify-event", G_CALLBACK(docklet_menu_leave_enter), NULL);
+//   g_signal_connect(win32_tray_menu, "enter-notify-event", G_CALLBACK(docklet_menu_leave_enter), NULL);                
+
   
   Gtk::Menu::MenuList &menulist = win32_tray_menu->items();
 
@@ -742,6 +754,7 @@ MainWindow::win32_set_tray_icon(TimerBoxView::IconType icon)
 }
 
 
+
 LRESULT CALLBACK
 MainWindow::win32_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
                               LPARAM lParam)
@@ -767,8 +780,7 @@ MainWindow::win32_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
                 HWND phwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
                 SetForegroundWindow(phwnd);
 
-                win->win32_tray_menu->show_all();
-                win->win32_tray_menu->popup(0, GetTickCount());
+                win->win32_tray_menu->popup(0,  GetTickCount());
               }
               break;
             case WM_LBUTTONDBLCLK:
@@ -793,6 +805,7 @@ MainWindow::win32_on_tray_open()
 bool
 MainWindow::win32_on_leave_notify(GdkEventCrossing *event)
 {
+  TRACE_ENTER("MainWindow:win32_on_leave_notify")
   if (event->detail == GDK_NOTIFY_ANCESTOR &&
       !timeout_connection.connected())
     {
@@ -801,6 +814,7 @@ MainWindow::win32_on_leave_notify(GdkEventCrossing *event)
                                                           500);
     }
 
+  TRACE_EXIT();
   return false;
 }
 
@@ -808,11 +822,13 @@ MainWindow::win32_on_leave_notify(GdkEventCrossing *event)
 bool
 MainWindow::win32_on_enter_notify(GdkEventCrossing *event)
 {
+  TRACE_ENTER("MainWindow:win32_on_enter_notify")
   if (event->detail == GDK_NOTIFY_ANCESTOR &&
       timeout_connection.connected())
     {
       timeout_connection.disconnect();
     }
+  TRACE_EXIT();
   return false;
 }
 

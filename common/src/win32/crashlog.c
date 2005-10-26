@@ -464,7 +464,7 @@ save_key(FILE *log, HKEY key, char *name)
         }
       else if (type == REG_DWORD && data_size==4)
         {
-          fprintf(log, "  dword data = %08lx\n", data);
+          fprintf(log, "  dword data = %08lx\n", (long)data);
         }
       else
         {

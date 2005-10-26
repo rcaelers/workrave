@@ -1,6 +1,6 @@
 // ExercisesPanel.hh --- Exercises panel
 //
-// Copyright (C) 2002, 2003, 2004 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2005 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -66,7 +66,10 @@ private:
   {
     int ret = exercises_pointer;
     exercises_pointer += inc;
-    exercises_pointer %= exercises.size();
+    if (exercises.size() != 0)
+      {
+        exercises_pointer %= exercises.size();
+      }
     return ret;
   }
   
