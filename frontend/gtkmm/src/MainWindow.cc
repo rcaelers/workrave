@@ -718,7 +718,10 @@ MainWindow::win32_add_tray_icon()
 void
 MainWindow::win32_set_tray_tooltip(string tip)
 {
-  strncpy(win32_tray_icon.szTip, tip.c_str(), 127);
+  char *text = NULL;
+  
+  text = g_locale_from_utf8(tip.c_str(), -1, NULL, NULL, NULL);
+  strncpy(win32_tray_icon.szTip, text, 127);
   Shell_NotifyIcon(NIM_MODIFY, &win32_tray_icon);
 }
 
