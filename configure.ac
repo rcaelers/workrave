@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl
-dnl Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
+dnl Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
 dnl
 dnl
 dnl $Id$
@@ -290,9 +290,14 @@ then
         PKG_CHECK_MODULES(SIGC, sigc++-1.2)
         PKG_CHECK_MODULES(GLIBMM, glibmm-2.0)
         PKG_CHECK_MODULES(GTKMM, gtkmm-2.0)
+
+        have_gtkmm24=no
+
   else
         PKG_CHECK_MODULES(SIGC, sigc++-2.0)
         AC_DEFINE(HAVE_GTKMM24,,[Define if gtk2.4 is used])
+
+        have_gtkmm24=yes
   fi
 
   AC_SUBST(GLIBMM_LIBS)
@@ -306,8 +311,13 @@ then
     if test "x$config_with_gnomemm" = "xyes"
     then
 
-      PKG_CHECK_MODULES(GNOMEUIMM, libgnomeuimm-2.6,,:)
-
+      if test "x$have_gtkmm24" = "xyes"
+      then
+          PKG_CHECK_MODULES(GNOMEUIMM, libgnomeuimm-2.6)
+      else
+          PKG_CHECK_MODULES(GNOMEUIMM, libgnomeuimm-2.6,,:)
+      fi
+      
       AC_SUBST(GNOMEUIMM)
 
       if test "x$GNOMEUIMM_LIBS" = "x"
@@ -375,6 +385,11 @@ then
       AC_MSG_RESULT(no)
     fi
   fi
+else
+   KDE_MISC_TESTS
+   build_arts="no"
+   include_ARTS_TRUE='#'
+   include_ARTS_FALSE=
 fi
 
 AC_SUBST(GNOMEUIMM_LIBS)
@@ -748,7 +763,7 @@ AM_CONDITIONAL(HAVE_EXPERIMENTAL, test "x$config_experimental" = "xyes")
 
 dnl somehow, these don't get defined anymore...                                  
 CATOBJEXT=.gmo 
-INSTOBJEXT=.po 
+INSTOBJEXT=.mo 
 AC_SUBST(CATOBJEXT)
 AC_SUBST(INSTOBJEXT)
 

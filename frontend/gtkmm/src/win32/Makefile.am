@@ -1,8 +1,8 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
 #
-# Time-stamp: <2004-03-04 14:27:32 workrave>
+# Time-stamp: <2005-11-03 19:46:15 robc>
 #
 # $Id$
 #
@@ -12,6 +12,7 @@ MAINTAINERCLEANFILES = 	Makefile.in
 EXTRA_DIST = 		$(wildcard *.hh) $(wildcard *.cc) \
 			$(wildcard *.c) $(wildcard *.h)  $(wildcard *.icc)
 
+if HAVE_APP_GTKMM
 if PLATFORM_WIN32
 noinst_LIBRARIES = 	libworkrave-frontend-gtkmm-win32.a
 libworkrave_frontend_gtkmm_win32_a_SOURCES = \
@@ -32,4 +33,5 @@ libworkrave_frontend_gtkmm_win32_a_CFLAGS = \
 libworkrave_frontend_gtkmm_win32_a_CXXFLAGS = \
 			$(libworkrave_frontend_gtkmm_win32_a_CFLAGS)
 
+endif
 endif

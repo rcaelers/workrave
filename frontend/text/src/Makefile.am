@@ -31,5 +31,5 @@ workrave_CFLAGS	= 	-DWORKRAVE_DATADIR="\"${pkgdatadir}\"" \
 $(bin_PROGRAMS): @WR_FRONTEND_LIBS@
 
 workrave_LDADD =  	@WR_FRONTEND_LIBS@ @GLIB_LIBS@ @GNET_LIBS@ @GCONF_LIBS@ @PTHREAD_LIBS@ @X_LIBS@ \
-			${X11LIBS}
+			${X11LIBS} @GDOME_LIB@
 endif

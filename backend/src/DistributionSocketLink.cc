@@ -1,6 +1,6 @@
 // DistributionSocketLink.cc
 //
-// Copyright (C) 2002, 2003, 2004, 2005 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2004, 2005, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -651,7 +651,9 @@ DistributionSocketLink::remove_client(Client *client)
     {
       if (client == NULL || *i == client || (*i)->peer == client)
         {
-          dist_manager->log(_("Removing client %s:%d."), (*i)->hostname, (*i)->port);
+          dist_manager->log(_("Removing client %s:%d."),
+                            (*i)->hostname != NULL ? (*i)->hostname : "Unknown",
+                            (*i)->port);
           delete *i;
           i = clients.erase(i);
         }
@@ -676,7 +678,9 @@ DistributionSocketLink::remove_peer_clients(Client *client)
         {
           TRACE_MSG("Client " << (*i)->peer->id << " is peer of " << client->id);
           
-          dist_manager->log(_("Removing client %s:%d."), (*i)->hostname, (*i)->port);
+          dist_manager->log(_("Removing client %s:%d."),
+                            (*i)->hostname != NULL ? (*i)->hostname : "Unknown",
+                            (*i)->port);
           send_signoff(NULL, *i);
 
           if (client == master_client)
@@ -713,7 +717,9 @@ DistributionSocketLink::close_client(Client *client, bool reconnect /* = false*/
     {
       TRACE_MSG("Is direct");
       // Closing direct connection.
-      dist_manager->log(_("Disconnecting %s:%d."), client->hostname, client->port);
+      dist_manager->log(_("Disconnecting %s:%d."),
+                        client->hostname != NULL ? client->hostname : "Unknown",
+                        client->port);
 
       // Inform the client that we are disconnecting.
       send_signoff(client, NULL);
@@ -1307,7 +1313,9 @@ DistributionSocketLink::handle_signoff(PacketBuffer &packet, Client *client)
 
   if (c != NULL)
     {
-      dist_manager->log(_("Client %s:%d signed off."), c->hostname, c->port);
+      dist_manager->log(_("Client %s:%d signed off."),
+                        c->hostname != NULL ? c->hostname : "Unknown",
+                        c->port);
 
       if (c->type == CLIENTTYPE_DIRECT)
         {
@@ -1348,7 +1356,8 @@ DistributionSocketLink::handle_duplicate(PacketBuffer &packet, Client *client)
 {
   (void) packet;
   TRACE_ENTER("DistributionSocketLink::handle_duplicate");
-  dist_manager->log(_("Client %s:%d is duplicate."), client->hostname, client->port);
+  dist_manager->log(_("Client %s:%d is duplicate."),
+                    client->hostname != NULL ? client->hostname : "Unknown", client->port);
   remove_client(client);
 
   TRACE_EXIT();
@@ -1584,7 +1593,9 @@ DistributionSocketLink::handle_client_list(PacketBuffer &packet, Client *client,
   else
     {
       TRACE_MSG("Dup: ");
-      dist_manager->log(_("Client %s:%d is duplicate."), client->hostname, client->port);
+      dist_manager->log(_("Client %s:%d is duplicate."),
+                        client->hostname != NULL ? client->hostname : "Unknown",
+                        client->port);
 
       send_duplicate(client);
       remove_client(client);
@@ -1979,12 +1990,14 @@ DistributionSocketLink::socket_io(SocketConnection *con, void *data)
       
   if (!ok)
     {
-      dist_manager->log(_("Client %s:%d read error, closing."), client->hostname, client->port);
+      dist_manager->log(_("Client %s:%d read error, closing."),
+                        client->hostname != NULL ? client->hostname : "Unknown", client->port);
       ret = false;
     }
   else if (bytes_read == 0)
     {
-      dist_manager->log(_("Client %s:%d closed connection."), client->hostname, client->port);
+      dist_manager->log(_("Client %s:%d closed connection."),
+                        client->hostname != NULL ? client->hostname : "Unknown", client->port);
       ret = false;
     }
   else
@@ -2024,7 +2037,9 @@ DistributionSocketLink::socket_connected(SocketConnection *con, void *data)
       return;
     }
   
-  dist_manager->log(_("Client %s:%d connected."), client->hostname, client->port);
+  dist_manager->log(_("Client %s:%d connected."),
+                    client->hostname != NULL ? client->hostname : "Unknown",
+                    client->port);
   
   client->reconnect_count = 0;
   client->reconnect_time = 0;
@@ -2055,12 +2070,16 @@ DistributionSocketLink::socket_closed(SocketConnection *con, void *data)
   // Socket error. Disable client.
   if (client->socket != NULL)
     {
-      dist_manager->log(_("Client %s:%d closed connection."), client->hostname, client->port);
+      dist_manager->log(_("Client %s:%d closed connection."),
+                        client->hostname != NULL ? client->hostname : "Unknown",
+                        client->port);
       close_client(client, client->outbound);
     }
   else
     {
-      dist_manager->log(_("Could not connect to client %s:%d."), client->hostname, client->port);
+      dist_manager->log(_("Could not connect to client %s:%d."),
+                        client->hostname != NULL ? client->hostname : "Unknown",
+                        client->port);
       remove_client(client);
     }
   

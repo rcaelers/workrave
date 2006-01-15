@@ -8,7 +8,11 @@
 SUBDIRS = 		gnome_applet kde_applet win32 unix
 MAINTAINERCLEANFILES = 	Makefile.in ${IDL_A_GENERATED} ${IDL_C_GENERATED}
 
+if HAVE_APP_GTKMM
+
 bin_PROGRAMS = 		workrave
+
+endif
 
 # Additional IDL sources.
 IDL_A = 		gnome_applet/Workrave-Applet.idl
