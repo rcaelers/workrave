@@ -14,7 +14,9 @@ http://www.workrave.org
 
 ** Fixed translations.
 
-** Better hibernate/standby support on Unix
+** Better hibernate/standby support on Unix.
+
+** System tray menu on Windows now disappears when focus is lost.
 
 * Workrave 1.8.1
 
