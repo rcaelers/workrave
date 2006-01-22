@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2006-01-22 12:04:38 robc>
+// Time-stamp: <2006-01-22 14:13:40 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -51,7 +51,7 @@ static const char rcsid[] = "$Id$";
 #include <X11/Xproto.h>
 #include <X11/Xlib.h>
 #include <X11/extensions/XInput.h>
-//#include <X11/Intrinsic.h>
+#include <X11/Intrinsic.h>
 #include <X11/Xos.h>
 #include <X11/Xmu/Error.h>
 
