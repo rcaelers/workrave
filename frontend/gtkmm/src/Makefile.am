@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
 #
 # $Id$
 #
@@ -186,7 +186,7 @@ nodist_workrave_SOURCES = \
 
 workrave_CXXFLAGS = 	-DWORKRAVE_DATADIR="\"${pkgdatadir}\"" -W \
 			@WR_FRONTEND_CFLAGS@ -I$(top_srcdir)/src \
-			 -I. @GNOMEUIMM_CFLAGS@ \
+			 -I. @X_CFLAGS@ @GNOMEUIMM_CFLAGS@ \
 			@GNOMEUI_CFLAGS@ @GTK_CFLAGS@ @GTKMM_CFLAGS@ \
 			@GCONF_CFLAGS@ -D_XOPEN_SOURCE=600 @GNET_CFLAGS@ \
 			@KDE_INCLUDES@ @QT_INCLUDES@\
@@ -199,7 +199,7 @@ workrave_CXXFLAGS = 	-DWORKRAVE_DATADIR="\"${pkgdatadir}\"" -W \
 
 workrave_CFLAGS	= 	-DWORKRAVE_DATADIR="\"${pkgdatadir}\"" \
 			@WR_FRONTEND_CFLAGS@ -I$(top_srcdir)/src \
-			-I. @GNOMEUI_CFLAGS@ \
+			-I. @X_CFLAGS@ @GNOMEUI_CFLAGS@ \
 			@GTK_CFLAGS@ @GTKMM_CFLAGS@ -D_XOPEN_SOURCE=600 \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
 			-I${STATISTICS_HOME}/gtkmm/src \
@@ -211,7 +211,7 @@ endif
 
 $(bin_PROGRAMS): @WR_FRONTEND_LIBS@
 
-workrave_LDADD =  	@WR_FRONTEND_LIBS@ @GNOMEUI_LIBS@ @GNOMEUIMM_LIBS@ \
+workrave_LDADD =  	@WR_FRONTEND_LIBS@ @X_LIBS@ @GNOMEUI_LIBS@ @GNOMEUIMM_LIBS@ \
 			@GTK_LIBS@ @GTKMM_LIBS@ @GNET_LIBS@ @GTHREAD_LIBS@ \
 			@PTHREAD_LIBS@ @X_LIBS@ @GCONF_LIBS@ @GDOME_LIB@ \
 			@KDE_LDFLAGS@ @LIB_KDEUI@ @LIB_KDECORE@ \
