@@ -462,8 +462,8 @@ fi
 AM_CONDITIONAL(HAVE_DBUS, test x$have_dbus = xyes)
         
                 
-AC_CHECK_LIB(Xmu,XmuClientWindow,LIBS="$LIBS -lXmu",
-   AC_MSG_ERROR(Xmu library required))
+dnl AC_CHECK_LIB(Xmu,XmuClientWindow,LIBS="$LIBS -lXmu",
+dnl    AC_MSG_ERROR(Xmu library required))
 
 AC_CHECK_HEADER("X11/Xmu/Xmu.h",,)
    
