@@ -21,6 +21,7 @@ libworkrave_frontend_gtkmm_unix_a_SOURCES = \
 
 
 libworkrave_frontend_gtkmm_unix_a_CFLAGS = \
+			@X_CFLAGS@ \
 			-W  -I../../../common/include \
 			-I../../../../backend/include \
 			-I .. @GTK_CFLAGS@ \

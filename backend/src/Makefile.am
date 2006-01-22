@@ -41,7 +41,7 @@ libworkrave_backend_a_SOURCES = \
 
 libworkrave_backend_a_CXXFLAGS = \
 			-W -DWORKRAVE_DATADIR="\"${pkgdatadir}\"" \
-			-D_XOPEN_SOURCE=600 \
+			-D_XOPEN_SOURCE=600 @X_CFLAGS@ \
 			@WR_COMMON_CFLAGS@ @WR_BACKEND_CFLAGS@ @GLIB_CFLAGS@ \
 			@GDOME_CFLAGS@ @GNET_CFLAGS@ \
 			@GCONF_CFLAGS@ @GNOMEUI_CFLAGS@

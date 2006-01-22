@@ -20,6 +20,7 @@
 #include <glib.h>
 #include <stdlib.h>
 #include <string.h>
+#include <strings.h>
 
 #include "System.hh"
 #include "debug.hh"

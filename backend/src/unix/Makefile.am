@@ -11,7 +11,7 @@ noinst_LIBRARIES = 	libworkrave-backend-unix.a
 
 if HAVE_X
 sourcesxinput = 	X11InputMonitor.cc 
-X11LIBS = 		-lXmu
+X11LIBS = 		@X_LIBS@ -lXmu
 endif
 
 if HAVE_GCONF
@@ -22,7 +22,7 @@ libworkrave_backend_unix_a_SOURCES = \
 			${sourcesxinput} ${sourcesgconf}
 
 libworkrave_backend_unix_a_CXXFLAGS = \
-			-W -I.. -I../../include \
+			-W -I.. -I../../include @X_CFLAGS@ \
 			-DWORKRAVE_DATADIR="\"${pkgdatadir}\"" \
 			-D_XOPEN_SOURCE=600 \
 			@WR_COMMON_CFLAGS@ @GLIB_CFLAGS@ @GDOME_CFLAGS@ \
