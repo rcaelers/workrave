@@ -1,6 +1,6 @@
 // Core.cc --- The main controller
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -882,6 +882,8 @@ Core::process_timewarp()
               TRACE_MSG("Time warp of " << gap << " seconds. Correcting");
 
               monitor->force_idle();
+
+#ifdef WIN32              
               monitor->shift_time(gap);
               for (int i = 0; i < BREAK_ID_SIZEOF; i++)
                 {
@@ -889,6 +891,17 @@ Core::process_timewarp()
                 }
               
               monitor_state = ACTIVITY_IDLE;
+#else
+              int save_current_time = current_time;
+              
+              current_time = last_process_time + 1;
+              monitor_state = ACTIVITY_IDLE;
+
+              process_timers();
+
+              current_time = save_current_time;
+#endif
+              
             }
           else
             {
