@@ -1,17 +1,21 @@
-Workrave NEWS -- history of user-visible changes.  xx Jun 2005
-Copyright (C) 2001-2005 Rob Caelers & Raymond Penners
+Workrave NEWS -- history of user-visible changes.  xx Jan 2006
+Copyright (C) 2001-2006 Rob Caelers & Raymond Penners
 See the end for copying conditions.
 
 Please report Workrave bug reports. Visit our bug tracker located at:
 http://www.workrave.org
 
-* Workrave 1.8.1
+* Workrave 1.8.2
 
 ** Fixed a crash when a third party gtk runtime is used.
 
 ** Fixed bug that caused status windows to be disabled when the
    microbreak timer was hidden.
-   
+
+** Fixed translations.
+
+** Better hibernate/standby support on Unix
+
 * Workrave 1.8.1
 
 ** Fixed a crash when blocking mode is set to 'none'
