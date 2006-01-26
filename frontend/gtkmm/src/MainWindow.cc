@@ -1,6 +1,6 @@
 // MainWindow.cc --- Main info Window
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -719,9 +719,18 @@ void
 MainWindow::win32_set_tray_tooltip(string tip)
 {
   char *text = NULL;
+  char *tip_locale = tip.c_str();
   
-  text = g_locale_from_utf8(tip.c_str(), -1, NULL, NULL, NULL);
-  strncpy(win32_tray_icon.szTip, text, 127);
+  text = g_locale_from_utf8(tip_locale, -1, NULL, NULL, NULL);
+  if (text != NULL)
+    {    
+      strncpy(win32_tray_icon.szTip, text, 127);
+    }
+  else
+    {
+      strncpy(win32_tray_icon.szTip, "Workrave", 127);
+    }
+      
   Shell_NotifyIcon(NIM_MODIFY, &win32_tray_icon);
 }
 
