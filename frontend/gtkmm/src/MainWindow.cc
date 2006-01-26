@@ -725,7 +725,7 @@ MainWindow::win32_set_tray_tooltip(string tip)
   
   text = g_locale_from_utf8(tip_locale, -1, NULL, NULL, &error);
 
-  if (err != NULL)
+  if (error != NULL)
     {
       TRACE_ENTER("MainWindow::win32_set_tray_tooltip");
       TRACE_MSG(error->message);
