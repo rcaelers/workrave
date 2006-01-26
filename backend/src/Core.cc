@@ -437,7 +437,7 @@ Core::set_operation_mode(OperationMode mode)
 
       if (operation_mode == OPERATION_MODE_SUSPENDED)
         {
-          monitor->force_idle();
+          force_idle();
           monitor->suspend();
         }
       else if (previous_mode == OPERATION_MODE_SUSPENDED)
@@ -560,6 +560,22 @@ Core::get_insist_policy() const
 }
 
 
+
+// ! Forces all monitors to be idle.
+void
+Core::force_idle()
+{
+  monitor->force_idle();
+
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+    {
+      ActivityMonitorInterface *am = breaks[i].get_timer()->get_activity_monitor();
+      if (am != NULL)
+        {
+          am->force_idle();
+        }
+    }
+}
 
 
 /********************************************************************************/
@@ -881,7 +897,7 @@ Core::process_timewarp()
             {
               TRACE_MSG("Time warp of " << gap << " seconds. Correcting");
 
-              monitor->force_idle();
+              force_idle();
 
 #ifdef WIN32              
               monitor->shift_time(gap);

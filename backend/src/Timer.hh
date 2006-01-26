@@ -1,6 +1,6 @@
 // Timer.hh --- Break Timer
 //
-// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2004, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -158,6 +158,7 @@ public:
   void set_snooze_interval(time_t time);
   void inhibit_snooze();
   void set_activity_monitor(ActivityMonitorInterface *am);
+  ActivityMonitorInterface *get_activity_monitor() const;
   bool has_activity_monitor() const;
 
   time_t get_total_overdue_time() const;

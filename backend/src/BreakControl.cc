@@ -1,6 +1,6 @@
 // BreakControl.cc
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -282,8 +282,7 @@ BreakControl::goto_stage(BreakStage stage)
         application->hide_break_window();
 
         // "Innocent until proven guilty".
-        ActivityMonitorInterface *monitor = core->get_activity_monitor();
-        monitor->force_idle();
+        core->force_idle();
         break_timer->stop_timer();
 
 	// Check if we have reached the maximum number of preludes and force
@@ -398,8 +397,7 @@ BreakControl::start_break()
       // Starting break with prelude.
       
       // Idle until proven guilty.
-      ActivityMonitorInterface *monitor = core->get_activity_monitor();
-      monitor->force_idle();
+      core->force_idle();
       break_timer->stop_timer();
 
       // Update statistics.
@@ -716,8 +714,7 @@ BreakControl::set_state_data(bool active, const BreakStateData &data)
           TRACE_MSG("Break active");
 
           // Idle until proven guilty.
-          ActivityMonitorInterface *monitor = core->get_activity_monitor();
-          monitor->force_idle();
+          core->force_idle();
           break_timer->stop_timer();
       
           goto_stage(STAGE_TAKING);
@@ -740,8 +737,7 @@ BreakControl::set_state_data(bool active, const BreakStateData &data)
               TRACE_MSG("PRELUDE");
 
               // Idle until proven guilty.
-              ActivityMonitorInterface *monitor = core->get_activity_monitor();
-              monitor->force_idle();
+              core->force_idle();
               break_timer->stop_timer();
   
               goto_stage(STAGE_PRELUDE);

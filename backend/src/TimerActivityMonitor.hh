@@ -38,7 +38,7 @@ public:
       
   {
     Core *core =  Core::get_instance();
-    core->get_activity_monitor();
+    monitor = core->get_activity_monitor();
   }
 
   virtual ~TimerActivityMonitor()
@@ -67,12 +67,16 @@ public:
   {
     if (forced_idle)
       {
+        TRACE_ENTER("ActivityState::get_current_state");
         ActivityState local_state = monitor->get_current_state();
 
+        TRACE_MSG(local_state)
         if (local_state != ACTIVITY_IDLE)
           {
             forced_idle = FALSE;
           }
+
+        TRACE_EXIT();
       }
 
     if (forced_idle)
@@ -103,7 +107,9 @@ public:
   //! Force state to be idle.
   void force_idle()
   {
+    TRACE_ENTER("TimerActivityMonitor::force_idle");
     forced_idle = true;
+    TRACE_EXIT();
   }
 
   
