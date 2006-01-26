@@ -719,7 +719,7 @@ void
 MainWindow::win32_set_tray_tooltip(string tip)
 {
   char *text = NULL;
-  char *tip_locale = tip.c_str();
+  const char *tip_locale = tip.c_str();
 
   GError *error = NULL;
   
