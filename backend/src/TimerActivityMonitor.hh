@@ -1,6 +1,6 @@
 // TimerActivityMonitor.hh
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -19,6 +19,7 @@
 #ifndef TIMERACTIVITYMONITOR_HH
 #define TIMERACTIVITYMONITOR_HH
 
+#include "Core.hh"
 #include "ActivityMonitorInterface.hh"
 #include "TimerInterface.hh"
 
@@ -32,8 +33,12 @@ public:
   //! Constructs an activity monitor that depends on specified timer.
   TimerActivityMonitor(Timer *t) :
     timer(t),
-    suspended(false)
+    suspended(false),
+    forced_idle(false)
+      
   {
+    Core *core =  Core::get_instance();
+    core->get_activity_monitor();
   }
 
   virtual ~TimerActivityMonitor()
@@ -60,6 +65,21 @@ public:
   //! Returns the current state
   ActivityState get_current_state()
   {
+    if (forced_idle)
+      {
+        ActivityState local_state = monitor->get_current_state();
+
+        if (local_state != ACTIVITY_IDLE)
+          {
+            forced_idle = FALSE;
+          }
+      }
+
+    if (forced_idle)
+      {
+        return ACTIVITY_IDLE;
+      }
+
     if (suspended)
       {
         return ACTIVITY_SUSPENDED;
@@ -77,11 +97,13 @@ public:
       {
         return ACTIVITY_ACTIVE;
       }
+
   }
 
   //! Force state to be idle.
   void force_idle()
   {
+    forced_idle = true;
   }
 
   
@@ -112,11 +134,17 @@ public:
   }
   
 private:
+  //! Reference monitor
+  ActivityMonitorInterface *monitor;
+  
   //! Reference timer.
   Timer *timer;
 
   //! Monitor suspended?
   bool suspended;
+
+  //! Is this timer forced idle?
+  bool forced_idle;
 };
 
 #endif // TIMERACTIVITYMONITOR_HH
