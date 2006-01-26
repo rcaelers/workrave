@@ -720,8 +720,19 @@ MainWindow::win32_set_tray_tooltip(string tip)
 {
   char *text = NULL;
   char *tip_locale = tip.c_str();
+
+  GError *error = NULL;
   
-  text = g_locale_from_utf8(tip_locale, -1, NULL, NULL, NULL);
+  text = g_locale_from_utf8(tip_locale, -1, NULL, NULL, &error);
+
+  if (err != NULL)
+    {
+      TRACE_ENTER("MainWindow::win32_set_tray_tooltip");
+      TRACE_MSG(error->message);
+      TRACE_EXIT();
+      g_error_free(error);
+    } 
+
   if (text != NULL)
     {    
       strncpy(win32_tray_icon.szTip, text, 127);
