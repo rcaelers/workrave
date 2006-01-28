@@ -34,7 +34,7 @@ GTK_FILES="glib-2.6.6.zip glib-dev-2.6.6.zip gtk+-2.6.9.zip gtk+-dev-2.6.9.zip a
 GNUWIN_FILES="zlib-1.2.3-bin.zip zlib-1.2.3-lib.zip libpng-1.2.8-bin.zip libpng-1.2.8-lib.zip"
 ICONV_FILES="libiconv-1.9.1.bin.woe32.zip"
 GETTEXT_FILES=" gettext-0.14.5.zip gettext-dev-0.14.5.zip"
-GNETSRC_FILES="gnet-2.0.5.tar.gz"
+GNETSRC_FILES="gnet-2.0.7.tar.gz"
 GTKMMSRC_FILES="gtkmm-2.6.5.tar.gz"
 GLIBMMSRC_FILES="glibmm-2.6.1.tar.gz"
 SIGCPPSRC_FILES="libsigc++-2.0.16.tar.gz"
@@ -95,12 +95,12 @@ download()
         download_files $ICONV_URL $ICONV_FILES
         download_files $GETTEXT_URL $GETTEXT_FILES
 
-        #download_files $GTKMM_URL $GTKMM_FILES
+        download_files $GTKMM_URL $GTKMM_FILES
 
         download_files $GNETSRC_URL $GNETSRC_FILES
         download_files $GLIBMMSRC_URL $GLIBMMSRC_FILES
         download_files $GTKMMSRC_URL $GTKMMSRC_FILES
-        download_files $SIGCPPSRC_URL $SIGCPPSRC_FILES
+        download_files $SIGCPP_URL $SIGCPPSRC_FILES
 }
 
 unpack()
@@ -355,6 +355,7 @@ build_gnet()
                 ./configure -v --prefix=$PREFIX \
                 --target=$TARGET --host=$TARGET --build=i386-linux \
 		--with-headers="$PREFIX/$TARGET/include" \
+                --disable-pthreads \
 		--with-gnu-as --with-gnu-ld &> configure.log
         )
 	if test $? -ne 0; then
@@ -395,11 +396,11 @@ fix_lib
 extract_package "libsigc++-2.0.16" "libsigc++-2.0.16.tar.gz"
 build_sigcpp "libsigc++-2.0.16"
 
-#extract_package "glibmm-2.6.1" "glibmm-2.6.1.tar.gz"
-#build_glibmm "glibmm-2.6.1"
+extract_package "glibmm-2.6.1" "glibmm-2.6.1.tar.gz"
+build_glibmm "glibmm-2.6.1"
 
-#extract_package "gtkmm-2.6.5" "gtkmm-2.6.5.tar.gz"
-#build_gtkmm "gtkmm-2.6.5"
+extract_package "gtkmm-2.6.5" "gtkmm-2.6.5.tar.gz"
+build_gtkmm "gtkmm-2.6.5"
 
 extract_package "glibmm-2.4.8" "glibmm-2.4.8.tar.gz"
 build_glibmm "glibmm-2.4.8"
@@ -407,5 +408,5 @@ build_glibmm "glibmm-2.4.8"
 extract_package "gtkmm-2.4.11" "gtkmm-2.4.11.tar.gz"
 build_gtkmm "gtkmm-2.4.11"
 
-extract_package "gnet-2.0.5" "gnet-2.0.5.tar.gz"
-build_gnet "gnet-2.0.5"
+extract_package "gnet-2.0.7" "gnet-2.0.7.tar.gz"
+build_gnet "gnet-2.0.7"
