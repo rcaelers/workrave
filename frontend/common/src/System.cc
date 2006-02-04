@@ -206,6 +206,10 @@ System::init(
       xlock = g_strdup_printf("%s -display \"%s\"",
                               lock, display);
     }
+  else if ((lock = g_find_program_in_path("gnome-screensaver-command")))
+    {
+      xlock = g_strdup_printf("%s --lock", lock);
+    }
   g_free(lock);
   
   if (xlock != NULL)
