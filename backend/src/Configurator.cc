@@ -1,6 +1,6 @@
 // Configurator.cc --- Configuration Access
 //
-// Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -26,6 +26,7 @@ static const char rcsid[] = "$Id$";
 
 #include "Configurator.hh"
 #include "ConfiguratorListener.hh"
+#include "IniConfigurator.hh"
 
 #ifdef HAVE_GDOME
 #include "XMLConfigurator.hh"
@@ -67,6 +68,11 @@ Configurator::create(string type)
     }
   else
 #endif    
+  if (type == "ini")
+    {
+      c = new IniConfigurator();
+    }
+  else
     {
       exit(1);
     }

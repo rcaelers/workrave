@@ -80,7 +80,8 @@ public:
   static const string CFG_KEY_MONITOR_NOISE;
   static const string CFG_KEY_MONITOR_ACTIVITY;
   static const string CFG_KEY_MONITOR_IDLE;
-
+  static const string CFG_KEY_GENERAL_DATADIR;
+  
   static Core *get_instance();
 
   Timer *get_timer(string name) const;

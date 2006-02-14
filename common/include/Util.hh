@@ -1,6 +1,6 @@
 // Util.hh --- General purpose utility functions
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -38,6 +38,8 @@ public:
   };
   
   static const string& get_home_directory();
+  static void set_home_directory(const string &home);
+
 #ifdef WIN32
   static string get_application_directory();
 #endif
@@ -47,6 +49,7 @@ public:
 
 private:
   static list<string> search_paths[SEARCH_PATH_SIZEOF];
+  static string home_directory;
 };
 
 #endif // UTIL_HH

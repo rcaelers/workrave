@@ -66,7 +66,7 @@ const string Core::CFG_KEY_MONITOR = "monitor";
 const string Core::CFG_KEY_MONITOR_NOISE = "monitor/noise";
 const string Core::CFG_KEY_MONITOR_ACTIVITY = "monitor/activity";
 const string Core::CFG_KEY_MONITOR_IDLE = "monitor/idle";
-
+const string Core::CFG_KEY_GENERAL_DATADIR = "general/datadir";
 
 //! Constructs a new Core.
 Core::Core() :
@@ -173,31 +173,47 @@ Core::init(int argc, char **argv, AppInterface *app, char *display_name)
 void
 Core::init_configurator()
 {
+  string ini_file = Util::complete_directory("workrave.ini", Util::SEARCH_PATH_CONFIG);
+
+  if (Util::file_exists(ini_file))
+    {
+      configurator = Configurator::create("ini");
+      configurator->load(ini_file);
+    }
+  else
+    {
 #if defined(HAVE_REGISTRY)
-  configurator = Configurator::create("w32");
+      configurator = Configurator::create("w32");
 
 #elif defined(HAVE_GCONF)
-  gconf_init(argc, argv, NULL);
-  g_type_init();
-  configurator = Configurator::create("gconf");
+      gconf_init(argc, argv, NULL);
+      g_type_init();
+      configurator = Configurator::create("gconf");
 
 #elif defined(HAVE_GDOME)
-  string configFile = Util::complete_directory("config.xml", Util::SEARCH_PATH_CONFIG);
-  configurator = Configurator::create("xml");
+      string configFile = Util::complete_directory("config.xml", Util::SEARCH_PATH_CONFIG);
+      configurator = Configurator::create("xml");
 
 #  if defined(HAVE_X)
-  if (configFile == "" || configFile == "config.xml")
-    {
-      configFile = Util::get_home_directory() + "config.xml";
-    }
+      if (configFile == "" || configFile == "config.xml")
+        {
+          configFile = Util::get_home_directory() + "config.xml";
+        }
 #  endif
-  if (configFile != "")
-    {
-      configurator->load(configFile);
-    }
+      if (configFile != "")
+        {
+          configurator->load(configFile);
+        }
 #else
 #error No configuator configured        
 #endif
+    }
+
+  string home;
+  if (configurator->get_value(CFG_KEY_GENERAL_DATADIR, &home))
+    {
+      Util::set_home_directory(home);
+    }
 }
 
 

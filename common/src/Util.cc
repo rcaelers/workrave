@@ -1,6 +1,6 @@
 // Util.cc --- General purpose utility functions
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -52,7 +52,7 @@ VOID WINAPI CoTaskMemFree(PVOID);
 #include "Util.hh"
 
 list<string> Util::search_paths[Util::SEARCH_PATH_SIZEOF];
-
+string Util::home_directory = "";
 
 //! Returns the user's home directory.
 const string&
@@ -60,58 +60,70 @@ Util::get_home_directory()
 {
   // Already cached?
   static string ret;
-  if (ret.length() > 0)
-    return ret;
 
-  // Default to current directory
-  ret = "./";
-
+  if (home_directory.length() != 0)
+    {
+      ret = home_directory;
+    }
+  else if (ret.length() == 0)
+    {
+      // Default to current directory
+      ret = "./";
+  
 #if defined(HAVE_X)  
-  const char *home = getenv("WORKRAVE_HOME");
+      const char *home = getenv("WORKRAVE_HOME");
   
-  if (home == NULL)
-    {
-      home = getenv("HOME");
-    }
-  
-  if (home != NULL)
-    {
-      ret = home;
-      ret += "/.workrave/";
-
-      mkdir(ret.c_str(), 0777);
-    }
-#elif defined(WIN32)
-  void *pidl; 
-  char buf[MAX_PATH];
-  HRESULT hr = SHGetSpecialFolderLocation(HWND_DESKTOP,
-                                          CSIDL_APPDATA, &pidl);
-  if (SUCCEEDED(hr))
-    {
-      SHGetPathFromIDList(pidl, buf);
-      CoTaskMemFree(pidl);
-
-      strcat (buf, "\\Workrave");
-      bool dirok = false;
-      dirok = CreateDirectory(buf, NULL);
-      if (! dirok)
+      if (home == NULL)
         {
-          if (GetLastError() == ERROR_ALREADY_EXISTS)
-            {
-              dirok = true;
-            }
+          home = getenv("HOME");
         }
       
-      if (dirok)
+      if (home != NULL)
         {
-          ret = string(buf) + "\\";
+          ret = home;
+          ret += "/.workrave/";
+          
+          mkdir(ret.c_str(), 0777);
         }
-    }
+#elif defined(WIN32)
+      void *pidl; 
+      char buf[MAX_PATH];
+      HRESULT hr = SHGetSpecialFolderLocation(HWND_DESKTOP,
+                                              CSIDL_APPDATA, &pidl);
+      if (SUCCEEDED(hr))
+        {
+          SHGetPathFromIDList(pidl, buf);
+          CoTaskMemFree(pidl);
+          
+          strcat (buf, "\\Workrave");
+          bool dirok = false;
+          dirok = CreateDirectory(buf, NULL);
+          if (! dirok)
+            {
+              if (GetLastError() == ERROR_ALREADY_EXISTS)
+                {
+                  dirok = true;
+                }
+            }
+          
+          if (dirok)
+            {
+              ret = string(buf) + "\\";
+            }
+        }
 #endif
-
+    }
+  
   return ret;
 }
 
+
+//! Returns the user's home directory.
+void
+Util::set_home_directory(const string &home)
+{
+  home_directory = home;
+}
 
 //! Returns \c true if the specified file exists.
 bool
