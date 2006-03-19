@@ -1,6 +1,6 @@
 // WorkraveApplet.cc
 //
-// Copyright (C) 2002, 2003, 2005 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2005, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -365,12 +365,13 @@ verb_about(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
     "Morten Lunde <morten.lunde@broadpark.no>\n"
     "Juraj Kubelka <Juraj.Kubelka@email.cz>\n"
     "Artūras Šlajus <x11@h2o.sky.lt>\n"
-    "Haggai Eran <he3@bezeqint.net>\n";
+    "Haggai Eran <he3@bezeqint.net>\n"
+    "Jordi Mallach <jordi@sindominio.net>\n";
 
   GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(WORKRAVE_DATADIR "/images/workrave.png", NULL);  
   gtk_widget_show (gnome_about_new
                    ("Workrave Applet", VERSION,
-                    "Copyright 2001-2005 Rob Caelers & Raymond Penners",
+                    "Copyright 2001-2006 Rob Caelers & Raymond Penners",
                     _("This program assists in the prevention and recovery"
                       " of Repetitive Strain Injury (RSI)."),
                     (const gchar **) authors,

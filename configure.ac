@@ -17,7 +17,7 @@ AM_CONFIG_HEADER(config.h)
 AM_INIT_AUTOMAKE(workrave, 1.8.2)
 
 dnl Set of available languages.
-ALL_LINGUAS="nl de eo pl da es zh_TW ru fr pt_BR no lt cs he eu"
+ALL_LINGUAS="nl de eo pl da es zh_TW ru fr pt_BR no lt cs he eu ca"
 
 LANGFILE=frontend/gtkmm/win32/setup/lang.iss
 echo -n "; language.iss --- Inno setup file, support languages" > $LANGFILE
@@ -121,6 +121,23 @@ AC_ARG_ENABLE( experimental,
        ,
        config_experimental==yes
     )
+
+AC_MSG_CHECKING(whether to link statically)
+AC_ARG_WITH(static-linking,
+[  --with-static-linking   Link binaries statically],
+[ case "$withval" in
+  no)
+        AC_MSG_RESULT(no)
+        LIBTOOL_FLAGS=""
+        ;;
+  *)
+        AC_MSG_RESULT(yes)
+        LIBTOOL_FLAGS="-all-static"
+  esac],
+AC_MSG_RESULT(no)
+)
+
+AC_SUBST(LIBTOOL_FLAGS)
 
 if test "x$config_debug" = "xyes"; then
    CFLAGS="${CFLAGS} -g -Wall"

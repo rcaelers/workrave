@@ -1,3 +1,4 @@
+
 # Process this file with automake to produce Makefile.in
 #
 # Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
@@ -211,7 +212,8 @@ endif
 
 $(bin_PROGRAMS): @WR_FRONTEND_LIBS@
 
-workrave_LDADD =  	@WR_FRONTEND_LIBS@ @X_LIBS@ @GNOMEUI_LIBS@ @GNOMEUIMM_LIBS@ \
+workrave_LDADD =	@LIBTOOL_FLAGS@ \
+			@WR_FRONTEND_LIBS@ @X_LIBS@ @GNOMEUI_LIBS@ @GNOMEUIMM_LIBS@ \
 			@GTK_LIBS@ @GTKMM_LIBS@ @GNET_LIBS@ @GTHREAD_LIBS@ \
 			@PTHREAD_LIBS@ @X_LIBS@ @GCONF_LIBS@ @GDOME_LIB@ \
 			@KDE_LDFLAGS@ @LIB_KDEUI@ @LIB_KDECORE@ \

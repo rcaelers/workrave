@@ -1,0 +1,998 @@
+# Catalan translation of Workrave.
+# Copyright © 2005 Free Software Foundation, Inc.
+# This file is distributed under the same license as the workrave package.
+# Jordi Mallach <jordi@sindominio.net>, 2005.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: workrave 1.8.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2005-11-07 23:14-0500\n"
+"PO-Revision-Date: 2006-03-17 11:37+0000\n"
+"Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
+"Language-Team: Catalan <ca@dodds.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../frontend/gtkmm/src/eggtrayicon.c:118
+msgid "Orientation"
+msgstr "Orientació"
+
+#: ../frontend/gtkmm/src/eggtrayicon.c:119
+msgid "The orientation of the tray."
+msgstr "L'orientació de la safata."
+
+#: ../frontend/gtkmm/src/gnome-about.c:308
+msgid "Credits"
+msgstr "Crèdits"
+
+#: ../frontend/gtkmm/src/gnome-about.c:341
+msgid "_Written by"
+msgstr "_Escrit per"
+
+#: ../frontend/gtkmm/src/gnome-about.c:356
+msgid "_Documented by"
+msgstr "_Documentat per"
+
+#: ../frontend/gtkmm/src/gnome-about.c:371
+msgid "_Translated by"
+msgstr "_Traduït per"
+
+#. Add the credits button
+#: ../frontend/gtkmm/src/gnome-about.c:431
+msgid "_Credits"
+msgstr "_Crèdits"
+
+#: ../frontend/gtkmm/src/gnome-about.c:614
+#, c-format
+msgid "About %s"
+msgstr "Quant al %s"
+
+#: ../frontend/gtkmm/src/BreakWindow.cc:198
+msgid "Lock"
+msgstr "Bloca"
+
+#: ../frontend/gtkmm/src/BreakWindow.cc:217
+msgid "Shut down"
+msgstr "Atura"
+
+#: ../frontend/gtkmm/src/BreakWindow.cc:234
+msgid "Skip"
+msgstr "Omet"
+
+#: ../frontend/gtkmm/src/BreakWindow.cc:247
+msgid "Postpone"
+msgstr "Ajorna"
+
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:45
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:53
+#: ../frontend/common/src/TimerBoxControl.cc:195
+#: ../frontend/gtkmm/src/GtkUtil.cc:154
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
+msgid "Daily limit"
+msgstr "Límit diari"
+
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:54
+msgid ""
+"You have reached your daily limit. Please stop working\n"
+"behind the computer. If your working day is not over yet,\n"
+"find something else to do, such as reviewing a document."
+msgstr ""
+"Heu arribat al vostre límit diari. Deixeu de treballar\n"
+"davant de l'ordinador. Si la vostra jornada laboral no ha\n"
+"acabat encara, trobeu alguna cosa a fer, com revisar un document."
+
+#: ../frontend/gtkmm/src/GUI.cc:729
+msgid "I could not initialize Bonobo"
+msgstr "No s'ha pogut iniciar el Bonobo"
+
+#. FIXME: duplicate
+#: ../frontend/common/src/TimerBoxControl.cc:195
+#: ../frontend/gtkmm/src/GtkUtil.cc:154
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:52
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:172
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:271
+msgid "Micro-break"
+msgstr "Micropausa"
+
+#: ../frontend/common/src/TimerBoxControl.cc:195
+#: ../frontend/gtkmm/src/GtkUtil.cc:154
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:145
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:76
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:206
+msgid "Rest break"
+msgstr "Descans"
+
+#: ../frontend/common/src/TimerBoxControl.cc:213
+msgid "Inactive"
+msgstr "Inactiu"
+
+#: ../frontend/common/src/TimerBoxControl.cc:261
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:161
+msgid "Wait"
+msgstr "Espereu"
+
+#. Mode menu item
+#: ../frontend/gtkmm/src/Menus.cc:169 ../frontend/gtkmm/src/Menus.cc:430
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
+msgid "_Mode"
+msgstr "_Mode"
+
+#: ../frontend/gtkmm/src/Menus.cc:176 ../frontend/gtkmm/src/Menus.cc:409
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
+msgid "_Normal"
+msgstr "_Normal"
+
+#: ../frontend/gtkmm/src/Menus.cc:183 ../frontend/gtkmm/src/Menus.cc:416
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
+msgid "_Suspended"
+msgstr "_Suspés"
+
+#: ../frontend/gtkmm/src/Menus.cc:190 ../frontend/gtkmm/src/Menus.cc:423
+msgid "Q_uiet"
+msgstr "S_ilenciós"
+
+#: ../frontend/gtkmm/src/Menus.cc:204 ../frontend/gtkmm/src/Menus.cc:449
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
+msgid "_Network"
+msgstr "_Xarxa"
+
+#: ../frontend/gtkmm/src/Menus.cc:208 ../frontend/gtkmm/src/Menus.cc:433
+msgid "_Connect"
+msgstr "_Connecta"
+
+#: ../frontend/gtkmm/src/Menus.cc:213 ../frontend/gtkmm/src/Menus.cc:436
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
+msgid "_Disconnect"
+msgstr "_Desconnecta"
+
+#: ../frontend/gtkmm/src/Menus.cc:218 ../frontend/gtkmm/src/Menus.cc:440
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
+msgid "_Reconnect"
+msgstr "_Reconnecta"
+
+#: ../frontend/gtkmm/src/Menus.cc:223 ../frontend/gtkmm/src/Menus.cc:443
+msgid "Show _log"
+msgstr "Mostra el _registre"
+
+#: ../frontend/gtkmm/src/Menus.cc:248 ../frontend/gtkmm/src/Menus.cc:405
+msgid "_Rest break"
+msgstr "_Descans"
+
+#: ../frontend/gtkmm/src/Menus.cc:262 ../frontend/gtkmm/src/Menus.cc:406
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:40
+msgid "Exercises"
+msgstr "Exercicis"
+
+#: ../frontend/gtkmm/src/Menus.cc:274 ../frontend/gtkmm/src/Menus.cc:451
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:59
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:138
+msgid "Statistics"
+msgstr "Estadístiques"
+
+#: ../frontend/gtkmm/src/Menus.cc:288 ../frontend/gtkmm/src/Menus.cc:452
+msgid "About..."
+msgstr "Quant a..."
+
+#: ../frontend/gtkmm/src/Menus.cc:404
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:55
+msgid "Preferences"
+msgstr "Preferències"
+
+#: ../frontend/gtkmm/src/Menus.cc:716
+msgid ""
+"This program assists in the prevention and recovery of Repetitive Strain "
+"Injury (RSI)."
+msgstr "Aquest programa ajuda a la prevenció i recuperació del mal de pressió repetitiva (RSI)."
+
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:233
+msgid "Please relax for a few seconds"
+msgstr "Relaxeu-vos durant uns pocs segons"
+
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:240
+#, c-format
+msgid "Next rest break in %s"
+msgstr "El següent descans és en %s"
+
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:245
+#, c-format
+msgid "Rest break %s overdue"
+msgstr "Fa %s que hauríeu d'haver descansat"
+
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:258
+#, c-format
+msgid "Daily limit in %s"
+msgstr "El límit diari és en %s"
+
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:263
+#, c-format
+msgid "Daily limit %s overdue"
+msgstr "Fa %s que heu arribat al vostre límit diari"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:63
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:103
+msgid "General"
+msgstr "General"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:66
+msgid "Status Window"
+msgstr "Finestra d'estat"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:69
+msgid "Applet"
+msgstr "Miniaplicació"
+
+#. Notebook
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:76
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:169
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:202
+msgid "Timers"
+msgstr "Temporitzadors"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:77
+msgid "User interface"
+msgstr "Interfície d'usuari"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:79
+msgid "Network"
+msgstr "Xarxa"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:120
+msgid "No sounds"
+msgstr "Sense so"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:122
+msgid "Play sounds using sound card"
+msgstr "Reprodueix sons utilitzant la targeta de so"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:124
+msgid "Play sounds using built-in speaker"
+msgstr "Reprodueix sons utilitzant l'altaveu intern"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:152
+msgid "No blocking"
+msgstr "No bloques"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:154
+msgid "Block input"
+msgstr "Bloca l'entrada"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:156
+msgid "Block input and screen"
+msgstr "Bloca l'entrada i la pantalla"
+
+#. Options
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:175
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:141
+msgid "Options"
+msgstr "Opcions"
+
+#. panel->add(*start_in_tray_cb);
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:177
+msgid "Sound:"
+msgstr "So:"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:178
+msgid "Block mode:"
+msgstr "Mode de bloqueig"
+
+#: ../frontend/gtkmm/src/PreludeWindow.cc:105
+msgid "Time for a micro-break?"
+msgstr "És l'hora d'una micropausa?"
+
+#: ../frontend/gtkmm/src/PreludeWindow.cc:109
+msgid "You need a rest break..."
+msgstr "Necessiteu un descans..."
+
+#: ../frontend/gtkmm/src/PreludeWindow.cc:113
+msgid "You should stop for today..."
+msgstr "Hauríeu d'acabar per avui"
+
+#: ../frontend/gtkmm/src/PreludeWindow.cc:253
+msgid "Break in"
+msgstr "Descans en"
+
+#: ../frontend/gtkmm/src/PreludeWindow.cc:257
+msgid "Disappears in"
+msgstr "Desapareix en"
+
+#: ../frontend/gtkmm/src/PreludeWindow.cc:261
+msgid "Silent in"
+msgstr "Silenciós en"
+
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:167
+#, c-format
+msgid "Rest break for %s"
+msgstr "Descans de %s"
+
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:207
+msgid ""
+"This is your rest break. Make sure you stand up and\n"
+"walk away from your computer on a regular basis. Just\n"
+"walk around for a few minutes, stretch, and relax."
+msgstr ""
+"Aquest és el vostre descans. Assegureu-vos que us alceu i\n"
+"us allunyeu de l'ordinador de tant en tant. Simplement\n"
+"camineu durants uns minuts, estireu-vos i relaxeu-vos."
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:96
+msgid "Place timers next to each other"
+msgstr "Posiciona els temporitzadors un al costat de l'altre"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:98
+msgid "Place micro-break and rest break in one spot"
+msgstr "Posiciona la micropausa i el descans en un lloc"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:100
+msgid "Place rest break and daily limit in one spot"
+msgstr "Posiciona el descans i el límit diari en un lloc"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:102
+msgid "Place all timers in one spot"
+msgstr "Posiciona tots els temporitzadors en un lloc"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:125
+msgid "Hide"
+msgstr "Amaga"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:127
+msgid "Show"
+msgstr "Mostra"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:129
+msgid "Show only when this timer is first due"
+msgstr "Mostra"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:139
+msgid "Show status window"
+msgstr "Mostra la finestra d'estat"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:144
+msgid "The status window stays always on top of other windows"
+msgstr "La finestra d'estat es queda sempre per damunt de les altres finestres"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:150
+msgid "Applet enabled"
+msgstr "Miniaplicació habilitada"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:157
+msgid "Display"
+msgstr "Visualizació"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:166
+msgid "Placement:"
+msgstr "Ubicació:"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:167
+msgid "Cycle time:"
+msgstr "Temps del cicle:"
+
+#. Layout
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:172
+msgid "Micro-break:"
+msgstr "Micropausa:"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:173
+msgid "Rest break:"
+msgstr "Descans:"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:174
+msgid "Daily limit:"
+msgstr "Límit diari:"
+
+#. Enabled/Disabled checkbox
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:63
+msgid "Enable timer"
+msgstr "Habilita el temporitzador"
+
+#. Prelude frame
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:104
+msgid "Break prompting"
+msgstr "Preguntes de descansos"
+
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:106
+msgid "Prompt before breaking"
+msgstr "Pregunta abans de descansar"
+
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:111
+msgid "Maximum number of prompts:"
+msgstr "Nombre màxim de preguntes:"
+
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:146
+msgid "Show 'Postpone' and 'Skip' button"
+msgstr "Mostra els botons «Ajorna» i «Omet»"
+
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:155
+msgid "Suspend timer when inactive"
+msgstr "Suspén el temporitzador quan s'està inactiu"
+
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:171
+msgid "Regard micro-breaks as activity"
+msgstr "Compta les micropauses com a activitat"
+
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:185
+msgid "Number of exercises:"
+msgstr "Nombre d'exercicis:"
+
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:210
+msgid "Time before end:"
+msgstr "Temps abans del final:"
+
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:211
+msgid "Time between breaks:"
+msgstr "Temps entre descansos:"
+
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:220
+msgid "Break duration:"
+msgstr "Duració del descans:"
+
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:242
+msgid "Postpone time:"
+msgstr "Temps d'ajornament:"
+
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:1
+msgid "_About..."
+msgstr "_Quant a..."
+
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:2
+msgid "_Connect..."
+msgstr "_Connecta..."
+
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:4
+msgid "_Exercises"
+msgstr "_Exercicis"
+
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:8
+msgid "_Open"
+msgstr "_Obre"
+
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:9
+msgid "_Preferences"
+msgstr "_Preferències"
+
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:10
+msgid "_Quiet"
+msgstr "_Silenciós"
+
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:11
+msgid "_Quit"
+msgstr "_Surt"
+
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:13
+msgid "_Restbreak"
+msgstr "_Descans"
+
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:14
+msgid "_Show Log..."
+msgstr "_Mostra el registre"
+
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:15
+msgid "_Statistics"
+msgstr "_Estadístiques"
+
+#: ../frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:1
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:10
+msgid "Workrave"
+msgstr "Workrave"
+
+#: ../frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:2
+msgid "Workrave Applet"
+msgstr "Miniaplicació del Workrave"
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:253
+msgid "Exercises player"
+msgstr "Reproductor d'exercicis"
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:435
+msgid "Resume"
+msgstr "Reprén"
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:435
+msgid "Pause"
+msgstr "Pausa"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:48
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:67
+msgid "Network connect"
+msgstr "Connexió a la xarxa"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:68
+msgid ""
+"Enter the host name and port number of a computer\n"
+"in the network you wish to connect to."
+msgstr ""
+"Introduïu el nom i el número de port de l'ordinador\n"
+"de la vostra xarxa al qual voleu connectar."
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:80
+msgid "Host name:"
+msgstr "Nom:"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:81
+msgid "Port:"
+msgstr "Port:"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkLogDialog.cc:43
+msgid "Network log"
+msgstr "Registre de xarxa"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:90
+msgid "Enable networking"
+msgstr "Habilita la xarxa"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:97
+msgid "Username:"
+msgstr "Nom d'usuari:"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:98
+msgid "Password:"
+msgstr "Contrasenya:"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:115
+msgid "Server settings"
+msgstr "Paràmetres del servidor"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:137
+msgid "Server port:"
+msgstr "Port del servidor:"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:138
+msgid "Reconnect attempts:"
+msgstr "Intents de reconnexió:"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:139
+msgid "Reconnect interval:"
+msgstr "Interval entre reconnexions:"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:142
+msgid "Advanced"
+msgstr "Avançat"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:159
+msgid ""
+"The following list specifies the hosts that Workrave connects to on\n"
+"start-up. Click the host name or port number to edit."
+msgstr "La llista següent especifica els ordinadors als quals es connecta el Workrave per a iniciar-se. Feu clic en el nom de l'ordinador o el port per a editar-ho."
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:188
+msgid "Host name"
+msgstr "Nom"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:196
+msgid "Port"
+msgstr "Port"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:233
+msgid "Hosts"
+msgstr "Ordinadors"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:132
+msgid "Browse history"
+msgstr "Navega l'historial"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:139
+msgid "Date:"
+msgstr "Data:"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:174
+msgid "Breaks"
+msgstr "Descansos"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:184
+msgid "Break prompts"
+msgstr "Preguntes de descansos"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:185
+msgid ""
+"The number of times you were prompted to break, excluding repeated prompts "
+"for the same break"
+msgstr "El nombre de vegades que se us va demanar descansar, excloent les preguntes repetides per al mateix descans"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:190
+msgid "Repeated prompts"
+msgstr "Preguntes repetides"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:191
+msgid "The number of times you were repeatedly prompted to break"
+msgstr "El nombre de vegades que se us va demanar descansar repetidament"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:195
+msgid "Prompted breaks taken"
+msgstr "Vegades que es va descansar quan es va demanar"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:196
+msgid "The number of times you took a break when being prompted"
+msgstr "El nombre de vegades que us heu pres un descans quan s'us ha demanat"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:200
+msgid "Natural breaks taken"
+msgstr "Descansos naturals presos"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:201
+msgid "The number of times you took a break without being prompted"
+msgstr "El número de vegades que us heu pres un descans sense que se us demanara"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:205
+msgid "Breaks skipped"
+msgstr "Descansos omesos"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:206
+msgid "The number of breaks you skipped"
+msgstr "El número de desansos que heu omés"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:210
+msgid "Breaks postponed"
+msgstr "Descansos ajornats"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:211
+msgid "The number of breaks you postponed"
+msgstr "El número de descansos que heu ajornat"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:215
+msgid "Overdue time"
+msgstr ""
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:216
+msgid "The total time this break was overdue"
+msgstr ""
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:220
+msgid "Daily usage"
+msgstr "Ús diari"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:221
+msgid "The total computer usage"
+msgstr "El temps total d'ús de l'ordinador"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:284
+msgid "Activity"
+msgstr "Activitat"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:294
+msgid "Mouse usage:"
+msgstr "Ús del ratolí:"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:295
+msgid "The total time you were using the mouse"
+msgstr "El temps total que heu utilitzat el ratolí"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:298
+msgid "Mouse movement:"
+msgstr "Moviment del ratolí:"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:299
+msgid "The total on-screen mouse movement"
+msgstr "El moviment total a la pantalla del ratolí"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:302
+msgid "Effective mouse movement:"
+msgstr "Moviment efectiu del ratolí:"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:303
+msgid ""
+"The total mouse movement you would have had if you moved your mouse in "
+"straight lines between clicks"
+msgstr ""
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:307
+msgid "Mouse button clicks:"
+msgstr "Clics de botó del ratolí:"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:308
+msgid "The total number of mouse button clicks"
+msgstr "El nombre total de clics del botó del ratolí"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:311
+msgid "Keystrokes:"
+msgstr "Pulsacions de tecles:"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:312
+msgid "The total number of keys pressed"
+msgstr "El nombre total de pulsacions de tecles"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:362
+#, c-format
+msgid "%s, from %s to %s"
+msgstr "%s, de %s a %s"
+
+#: ../frontend/common/src/Text.cc:75
+#, c-format
+msgid "%s%d:%02d:%02d hours"
+msgstr "%s%d:%02d:%02d hores"
+
+#: ../frontend/common/src/Text.cc:79
+#, c-format
+msgid "%s%d:%02d minutes"
+msgstr "%s%d:%02d minuts"
+
+#: ../frontend/common/src/Text.cc:83
+#, c-format
+msgid "%s%d seconds"
+msgstr "%s%d segons"
+
+#: ../backend/src/DistributionSocketLink.cc:127
+#, c-format
+msgid "Reconnecting to %s:%d."
+msgstr "S'està reconnectant a %s:%d."
+
+#: ../backend/src/DistributionSocketLink.cc:347
+msgid "Cannot resolve my own hostname. Deactivating distribution."
+msgstr "No es pot resoldre el nom propi. S'està inhabilitant la distribució."
+
+#. We did not succeed in starting the server. Arghh.
+#: ../backend/src/DistributionSocketLink.cc:358
+msgid "Could not enable network operation."
+msgstr ""
+
+#: ../backend/src/DistributionSocketLink.cc:367
+msgid "Disabling network operation."
+msgstr ""
+
+#: ../backend/src/DistributionSocketLink.cc:523
+#: ../backend/src/DistributionSocketLink.cc:550
+#, c-format
+msgid "Connecting to %s:%d."
+msgstr ""
+
+#: ../backend/src/DistributionSocketLink.cc:654
+#: ../backend/src/DistributionSocketLink.cc:679
+#, c-format
+msgid "Removing client %s:%d."
+msgstr ""
+
+#. Closing direct connection.
+#: ../backend/src/DistributionSocketLink.cc:716
+#, c-format
+msgid "Disconnecting %s:%d."
+msgstr ""
+
+#. It's a remote client. mark it master.
+#: ../backend/src/DistributionSocketLink.cc:884
+#, c-format
+msgid "Client %s:%d is now master."
+msgstr ""
+
+#. Its ME!
+#: ../backend/src/DistributionSocketLink.cc:890
+msgid "I'm now master."
+msgstr ""
+
+#: ../backend/src/DistributionSocketLink.cc:1219
+#, c-format
+msgid "Client %s:%d saying hello."
+msgstr ""
+
+#. Duplicate client. inform client that it's bogus and close.
+#: ../backend/src/DistributionSocketLink.cc:1234
+#: ../backend/src/DistributionSocketLink.cc:1351
+#: ../backend/src/DistributionSocketLink.cc:1587
+#, c-format
+msgid "Client %s:%d is duplicate."
+msgstr ""
+
+#. Incorrect password.
+#: ../backend/src/DistributionSocketLink.cc:1243
+#, c-format
+msgid "Client %s:%d access denied."
+msgstr ""
+
+#: ../backend/src/DistributionSocketLink.cc:1310
+#, c-format
+msgid "Client %s:%d signed off."
+msgstr ""
+
+#: ../backend/src/DistributionSocketLink.cc:1389
+#, c-format
+msgid "Client %s:%d is welcoming us."
+msgstr ""
+
+#: ../backend/src/DistributionSocketLink.cc:1622
+#, c-format
+msgid "Requesting master status from %s:%d."
+msgstr ""
+
+#: ../backend/src/DistributionSocketLink.cc:1635
+#, c-format
+msgid "Client timeout from %s:%d."
+msgstr ""
+
+#: ../backend/src/DistributionSocketLink.cc:1656
+#, c-format
+msgid "Rejecting master request from client %s:%d."
+msgstr ""
+
+#: ../backend/src/DistributionSocketLink.cc:1662
+#, c-format
+msgid "Acknowledging master request from client %s:%d."
+msgstr ""
+
+#: ../backend/src/DistributionSocketLink.cc:1713
+#, c-format
+msgid "Non-master client %s:%d rejected master request."
+msgstr ""
+
+#: ../backend/src/DistributionSocketLink.cc:1718
+#, c-format
+msgid "Client %s:%d rejected master request, delaying."
+msgstr ""
+
+#. gint count =
+#: ../backend/src/DistributionSocketLink.cc:1789
+#, c-format
+msgid "Client %s is now the new master."
+msgstr ""
+
+#: ../backend/src/DistributionSocketLink.cc:1910
+msgid "Network operation started."
+msgstr ""
+
+#: ../backend/src/DistributionSocketLink.cc:1927
+msgid "Accepted new client."
+msgstr ""
+
+#: ../backend/src/DistributionSocketLink.cc:1982
+#, c-format
+msgid "Client %s:%d read error, closing."
+msgstr ""
+
+#: ../backend/src/DistributionSocketLink.cc:1987
+#: ../backend/src/DistributionSocketLink.cc:2058
+#, c-format
+msgid "Client %s:%d closed connection."
+msgstr ""
+
+#: ../backend/src/DistributionSocketLink.cc:2027
+#, c-format
+msgid "Client %s:%d connected."
+msgstr ""
+
+#: ../backend/src/DistributionSocketLink.cc:2063
+#, c-format
+msgid "Could not connect to client %s:%d."
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:1
+msgid "Backward shoulder stretch"
+msgstr "Estirament de muscles cap enrere"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:2
+msgid ""
+"Cover your eyes with your palms in such way that you can still open your "
+"eyelids. Now open your eyes and look into the darkness of your palms. This "
+"exercise gives better relief to your eyes compared to simply closing them."
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:3
+msgid "Finger stretch"
+msgstr "Estirament de dits"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:4
+msgid ""
+"Interlace your fingers behind your back. Then turn your elbows gently "
+"inward, while straightening your arms. Hold this position for 5 to 15 "
+"seconds, and repeat this exercise twice."
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
+msgid ""
+"Keep one arm horizontally stretched in front of your chest. Push this arm "
+"with your other arm towards you until you feel a mild tension in your "
+"shoulder. Hold this position briefly, and repeat the exercise for your other "
+"arm."
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
+msgid ""
+"Look at the upper left corner of the outside border of your monitor. Follow "
+"the border slowly to the upper right corner. Continue to the next corner, "
+"until you got around it two times. Then, reverse the exercise."
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
+msgid ""
+"Look for the furthest point you can see behind your monitor. Focus your eyes "
+"on the remote point. Then focus on your monitor border. Repeat it. If you "
+"can't look very far from your monitor, face another direction with a longer "
+"view. Then switch your focus between a distant object and a pen held at the "
+"same distance from your eyes as your monitor."
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
+msgid "Look into the darkness"
+msgstr "Mireu l'oscuritat"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:9
+msgid "Move the eyes"
+msgstr "Moveu els ulls"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:10
+msgid "Move the shoulders"
+msgstr "Moveu els muscles"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:11
+msgid "Move the shoulders up and down"
+msgstr "Moveu els muscles amunt i avall"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
+msgid "Neck tilt stretch"
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
+msgid ""
+"Put your hands on the armrests of your chair when you are sitting down and "
+"press your body up until your arms are straight. Try to move your head even "
+"further by lowering your shoulders. Slowly move back into your chair."
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
+msgid ""
+"Separate and stretch your fingers until a mild tension is felt, and hold "
+"this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
+"again for 10 seconds. Repeat this exercise once more."
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
+msgid "Shoulder-arm stretch"
+msgstr "Estirament del muscle i braç"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:16
+msgid ""
+"Spin your right arm slowly round like a plane propeller beside your body. Do "
+"this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
+"with the left arm."
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
+msgid ""
+"Start with your head in a comfortable straight position. Then, slowly tilt "
+"your head to your right shoulder to gently stretch the muscles on the left "
+"side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
+"the left side to stretch your other side. Do this twice for each side."
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
+msgid "Train focusing the eyes"
+msgstr "Entrenament del focus dels ulls"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:19
+msgid "Turn your head"
+msgstr "Gireu el cap"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:20
+msgid ""
+"Turn your head left and keep it there for 2 seconds. Then turn your head "
+"right and keep it there for 2 seconds."
+msgstr ""
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
+msgid "Break ignored"
+msgstr "S'ha omés el descans"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:2
+msgid "Break prompt"
+msgstr "Petició de descans"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:4
+msgid "Exercise ended"
+msgstr "Final de l'exercici"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:5
+msgid "Exercises ended"
+msgstr "Final dels exercicis"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:6
+msgid "Micro-break ended"
+msgstr "Final de la micropausa"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:7
+msgid "Micro-break started"
+msgstr "Inici de la micropausa"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:8
+msgid "Rest break ended"
+msgstr "Final del descans"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:9
+msgid "Rest break started"
+msgstr "Inici del descans"
