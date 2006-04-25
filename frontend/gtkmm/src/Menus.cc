@@ -706,7 +706,8 @@ Menus::on_menu_about()
     "Juraj Kubelka <Juraj.Kubelka@email.cz>\n"
     "Artūras Šlajus <x11@h2o.sky.lt>\n"
     "Haggai Eran <he3@bezeqint.net>\n"
-    "Jordi Mallach <jordi@sindominio.net>\n";
+    "Jordi Mallach <jordi@sindominio.net>\n"
+    "Daniel Nylander <info@danielnylander.se>\n";
 
   string icon = Util::complete_directory("workrave.png",
                                          Util::SEARCH_PATH_IMAGES);
