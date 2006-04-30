@@ -33,6 +33,8 @@ namespace Gtk
 {
   class Image;
   class Bin;
+  class Image;
+  class EventBox;
 }
 
 class TimerBoxGtkView : public Gtk::Table, public TimerBoxView
@@ -73,8 +75,11 @@ private:
   TimeBar **bars;
 
   //! Sheep
-  EventImage *sheep;
+  Gtk::Image *sheep;
   
+  //! Sheep
+  Gtk::EventBox *sheep_eventbox;
+
   //! Allign break vertically.
   bool vertical;
 

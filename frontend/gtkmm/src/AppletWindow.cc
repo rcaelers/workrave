@@ -1,6 +1,6 @@
 // AppletWindow.cc --- Applet info Window
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -317,6 +317,8 @@ AppletWindow::init_gnome_applet()
       plug = new Gtk::Plug(id);
       plug->add(*frame);
 
+      plug->set_events(plug->get_events() | Gdk::BUTTON_PRESS_MASK | Gdk::BUTTON_RELEASE_MASK);
+      
       plug->signal_embedded().connect(MEMBER_SLOT(*this, &AppletWindow::on_embedded));
       plug->signal_delete_event().connect(MEMBER_SLOT(*this, &AppletWindow::delete_event));
 
@@ -328,12 +330,22 @@ AppletWindow::init_gnome_applet()
       timer_box_control = new TimerBoxControl("applet", *timer_box_view);
       timer_box_view->set_geometry(applet_vertical, applet_size);
       timer_box_view->show_all();
+
+      plug->signal_button_press_event().connect(MEMBER_SLOT(*this, &AppletWindow::on_button_press_event));
+      plug->signal_button_release_event().connect(MEMBER_SLOT(*this, &AppletWindow::on_button_press_event));
       
       container->add(*timer_box_view);
       container->show_all();
       plug->show_all();
-      
+
       Menus *menus = Menus::get_instance();
+
+      // Tray menu
+      if (tray_menu == NULL)
+        {
+          tray_menu = menus->create_tray_menu();
+        }
+      
       if (menus != NULL)
         {
           menus->resync_applet();
@@ -727,26 +739,100 @@ AppletWindow::destroy_event(GtkWidget *widget, GdkEvent *event, gpointer user_da
 }
 #endif
 
+
 //! User pressed some mouse button in the main window.
 bool
 AppletWindow::on_button_press_event(GdkEventButton *event)
 {
   bool ret = false;
 
-  if (event->type == GDK_BUTTON_PRESS)
+  if (mode != APPLET_GNOME)
     {
-      if (event->button == 3 && tray_menu != NULL)
+      if (event->type == GDK_BUTTON_PRESS)
         {
-          tray_menu->popup(event->button, event->time);
-          ret = true;
-        }
-      if (event->button == 1) // FIXME:  && visible_count == 0)
-        {
-          button_clicked(1);
-          ret = true;
+          if (event->button == 3 && tray_menu != NULL)
+            {
+              tray_menu->popup(event->button, event->time);
+              ret = true;
+            }
+          if (event->button == 1) // FIXME:  && visible_count == 0)
+            {
+              button_clicked(1);
+              ret = true;
+            }
         }
     }
-  
+  else
+    {
+      /* Taken from:
+       *
+       * bonobo-plug.c: a Gtk plug wrapper.
+       *
+       * Author:
+       *   Martin Baulig     (martin@home-of-linux.org)
+       *   Michael Meeks     (michael@ximian.com)
+       *
+       * Copyright 2001, Ximian, Inc.
+       *                 Martin Baulig.
+       */
+      
+      XEvent xevent;
+      GtkWidget *widget = GTK_WIDGET(plug->gobj());
+      bool ok = false;
+      
+      if (event->type == GDK_BUTTON_PRESS)
+        {
+          xevent.xbutton.type = ButtonPress;
+
+          /* X does an automatic pointer grab on button press
+           * if we have both button press and release events
+           * selected.
+           * We don't want to hog the pointer on our parent.
+           */
+          gdk_display_pointer_ungrab(gtk_widget_get_display (widget),
+                                     GDK_CURRENT_TIME);
+          ok = true;
+	}
+      else if (event->type == GDK_BUTTON_RELEASE)
+        {
+          xevent.xbutton.type = ButtonRelease;
+          ok = true;
+        }
+
+      if (ok)
+        {
+          xevent.xbutton.display     = GDK_WINDOW_XDISPLAY(widget->window);
+          xevent.xbutton.window      = GDK_WINDOW_XWINDOW(GTK_PLUG(widget)->socket_window);
+          xevent.xbutton.root        = GDK_WINDOW_XWINDOW(gdk_screen_get_root_window
+                                                          (gdk_drawable_get_screen(widget->window)));
+          /*
+           * FIXME: the following might cause
+           *        big problems for non-GTK apps
+           */
+          xevent.xbutton.x           = 0;
+          xevent.xbutton.y           = 0;
+          xevent.xbutton.x_root      = 0;
+          xevent.xbutton.y_root      = 0;
+          xevent.xbutton.state       = event->state;
+          xevent.xbutton.button      = event->button;
+          xevent.xbutton.same_screen = TRUE; /* FIXME ? */
+
+          xevent.xbutton.serial      = 0;
+          xevent.xbutton.send_event  = TRUE;
+          xevent.xbutton.subwindow   = 0;
+          xevent.xbutton.time        = event->time;
+
+          gdk_error_trap_push();
+          
+          XSendEvent(GDK_WINDOW_XDISPLAY(widget->window),
+                     GDK_WINDOW_XWINDOW(GTK_PLUG(widget)->socket_window),
+                     False, NoEventMask, &xevent);
+          
+          gdk_flush();
+          gdk_error_trap_pop();
+        }
+    }
+      
   return ret;
 }
 

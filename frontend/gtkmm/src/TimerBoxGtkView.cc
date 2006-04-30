@@ -28,6 +28,7 @@ static const char rcsid[] = "$Id$";
 #include <gtkmm/image.h>
 #include <gtkmm/sizegroup.h>
 #include <gtkmm/button.h>
+#include <gtkmm/eventbox.h>
 
 #include "nls.h"
 #include "debug.hh"
@@ -51,6 +52,7 @@ TimerBoxGtkView::TimerBoxGtkView() :
   labels(NULL),
   bars(NULL),
   sheep(NULL),
+  sheep_eventbox(NULL),
   vertical(false),
   size(0),
   table_rows(-1),
@@ -78,6 +80,9 @@ TimerBoxGtkView::~TimerBoxGtkView()
   
   if (sheep != NULL)
     sheep->unreference();
+
+  if (sheep_eventbox != NULL)
+    sheep_eventbox->unreference();
 }
 
 
@@ -101,10 +106,24 @@ TimerBoxGtkView::init()
 {
   TRACE_ENTER("TimerBoxGtkView::init");
 
-  string sheep_file = Util::complete_directory("workrave-icon-medium.png", Util::SEARCH_PATH_IMAGES);
-  sheep = GtkUtil::create_image_with_tooltip(sheep_file, "Workrave");
-  sheep->reference();
+  if (sheep != NULL)
+    sheep->unreference();
+  if (sheep_eventbox != NULL)
+    sheep_eventbox->unreference();
+  
+  sheep_eventbox = new Gtk::EventBox;
+  sheep_eventbox->set_events(sheep_eventbox->get_events() |
+                             Gdk::BUTTON_PRESS_MASK | Gdk::BUTTON_RELEASE_MASK);
 
+  string sheep_file = Util::complete_directory("workrave-icon-medium.png", Util::SEARCH_PATH_IMAGES);
+  sheep = Gtk::manage(new Gtk::Image(sheep_file));
+  GUI::get_instance()->get_tooltips()->set_tip(*sheep_eventbox, "Workrave");
+
+  sheep_eventbox->add(*sheep);
+
+  sheep->reference();
+  sheep_eventbox->reference();
+  
   init_widgets();
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -231,7 +250,7 @@ TimerBoxGtkView::init_table()
   if ((number_of_timers > 0 || remove_all) && visible_count == 0)
     {
       TRACE_MSG("remove sheep");
-      remove(*sheep);
+      remove(*sheep_eventbox);
       visible_count = -1;
     }
 
@@ -250,7 +269,7 @@ TimerBoxGtkView::init_table()
   // Add sheep.
   if (number_of_timers == 0 && visible_count != 0)
     {
-      attach(*sheep, 0, 2, 0, 1, Gtk::FILL, Gtk::SHRINK);
+      attach(*sheep_eventbox, 0, 2, 0, 1, Gtk::FILL, Gtk::SHRINK);
     }
   
   // Fill table.
@@ -310,11 +329,6 @@ TimerBoxGtkView::init_table()
 }
 
 
-
-
-
-
-
 void
 TimerBoxGtkView::set_slot(BreakId id, int slot)
 {
@@ -351,7 +365,7 @@ void
 TimerBoxGtkView::set_tip(string tip)
 {
   Gtk::Tooltips *tt = GUI::get_instance()->get_tooltips();
-  tt->set_tip(*sheep, tip.c_str());
+  tt->set_tip(*sheep_eventbox, tip.c_str());
 }
 
 
