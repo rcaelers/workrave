@@ -1,6 +1,6 @@
 // Timer.cc --- break timer
 //
-// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2004, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -264,20 +264,31 @@ Timer::force_idle()
 void
 Timer::compute_next_limit_time()
 {
+  TRACE_ENTER_MSG("Timer::compute_next_limit_time", timer_id << timer_state);
+  
   // default action. No next limit.
   next_limit_time = 0;
 
   if (timer_enabled)
     {
+      TRACE_MSG("1 "
+                << timer_state << " "
+                << last_start_time << " "
+                << limit_enabled << " "
+                << limit_interval << " "
+                << last_limit_time << " "
+                << snooze_on_active);
       if (last_limit_time > 0 && !snooze_on_active)
         {
           // The timer already reached its limit. We need to re-send the
           // limit-reached event 'snooze_interval' seconds after the previous
           // event. Unless snoozing is inhibted. This is independent of
           // user activity.
-          
+           
+          TRACE_MSG("2");
           if (!snooze_inhibited)
             {
+              TRACE_MSG("3");
               next_limit_time = last_limit_time + snooze_interval;
             }
         }
@@ -286,6 +297,7 @@ Timer::compute_next_limit_time()
         { 
           // The timer is running and a limit != 0 is set.
 
+          TRACE_MSG("4");
           if (last_limit_time > 0)
             {
               // The timer already reached its limit. We need to re-send the
@@ -294,6 +306,7 @@ Timer::compute_next_limit_time()
               // inhibted. This is dependent of user activity.
               if (snooze_on_active && !snooze_inhibited)
                 {
+                  TRACE_MSG("5");
                   next_limit_time = (last_start_time - elapsed_time +
                                      last_limit_elapsed + snooze_interval);
                 }
@@ -303,9 +316,11 @@ Timer::compute_next_limit_time()
               // The timer did not yet reaches its limit.
               // new limit = last start time + limit - elapsed.
               next_limit_time = last_start_time + limit_interval - elapsed_time;
+              TRACE_MSG("6");
             }
         }
     }
+  TRACE_EXIT();
 }
 
 
@@ -424,6 +439,7 @@ Timer::start_timer()
       // Set last start and stop times.
       if (!timer_frozen)
         {
+          TRACE_MSG("!Frozen");
           // Timer is not frozen, so let's start.
           last_start_time = time_source->get_time();
           elapsed_idle_time = 0;
@@ -431,7 +447,7 @@ Timer::start_timer()
       else
         {
           // The timer is frozen, so we don't start counting 'active' time.
-          // Instead, update the elasped idle time. 
+          // Instead, update the elapsed idle time. 
           if (last_stop_time != 0)
             {
               elapsed_idle_time += (time_source->get_time() - last_stop_time);
@@ -447,6 +463,7 @@ Timer::start_timer()
       timer_state = STATE_RUNNING;
 
       // When to generate a limit-reached-event.
+      TRACE_MSG("Compute");
       compute_next_limit_time();
     }
   TRACE_EXIT();
@@ -544,6 +561,8 @@ Timer::freeze_timer(bool freeze)
             {
               last_start_time = time_source->get_time();
               elapsed_idle_time = 0;
+
+              compute_next_limit_time();
             }
         }
     }
@@ -722,6 +741,12 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
     }
   
   activity_state = new_activity_state;
+          TRACE_MSG("time, next limit "
+                    << current_time << " "
+                    << next_limit_time << " "
+                    << limit_interval << " "
+                    << (next_limit_time - current_time)
+                    );
   TRACE_MSG("activity_state = " << activity_state);
 
   if (autoreset_interval_predicate &&

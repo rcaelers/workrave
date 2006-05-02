@@ -1,6 +1,6 @@
 // GUI.cc --- The WorkRave GUI
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -1045,9 +1045,10 @@ GUI::grab()
         {
           grab_handle = WindowHints::grab(active_break_count, windows);
 #ifdef HAVE_X
-          if (! grab_handle)
+          if (! grab_handle && !grab_retry_connection.connected())
             {
-              Glib::signal_timeout().connect(MEMBER_SLOT(*this, &GUI::on_grab_retry_timer), 2000);
+              grab_retry_connection =
+                Glib::signal_timeout().connect(MEMBER_SLOT(*this, &GUI::on_grab_retry_timer), 2000);
             }
 #endif
         }
@@ -1065,6 +1066,7 @@ GUI::ungrab()
 #endif
   if (grab_handle)
     {
+      grab_retry_connection.disconnect();      
       WindowHints::ungrab(grab_handle);
       grab_handle = NULL;
     }
@@ -1081,7 +1083,10 @@ GUI::interrupt_grab()
       
       WindowHints::ungrab(grab_handle);
       grab_handle = NULL;
-      Glib::signal_timeout().connect(MEMBER_SLOT(*this, &GUI::on_grab_retry_timer), 2000);
+      if (!grab_retry_connection.connected())
+        {
+          Glib::signal_timeout().connect(MEMBER_SLOT(*this, &GUI::on_grab_retry_timer), 2000);
+        }
 #endif
     }
 }
@@ -1093,14 +1098,19 @@ GUI::interrupt_grab()
 bool
 GUI::on_grab_retry_timer()
 {
+  TRACE_ENTER("GUI::on_grab_retry_timer");
+  bool ret = false;
   if (grab_wanted)
     {
-      return !grab();
+      ret = !grab();
     }
   else
     {
-      return false;
+      ret = false;
     }
+  TRACE_MSG(ret);
+  TRACE_EXIT();
+  return ret;
 }
 #endif
 
