@@ -1066,7 +1066,9 @@ GUI::ungrab()
 #endif
   if (grab_handle)
     {
-      grab_retry_connection.disconnect();      
+#ifdef HAVE_X
+      grab_retry_connection.disconnect();
+#endif     
       WindowHints::ungrab(grab_handle);
       grab_handle = NULL;
     }
