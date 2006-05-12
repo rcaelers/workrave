@@ -132,7 +132,7 @@ msgstr "_Zastavený"
 
 #: frontend/gtkmm/src/Menus.cc:190 frontend/gtkmm/src/Menus.cc:423
 msgid "Q_uiet"
-msgstr "Ne_rušený"
+msgstr "Ne_rušící"
 
 #: frontend/gtkmm/src/Menus.cc:204 frontend/gtkmm/src/Menus.cc:449
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
@@ -195,22 +195,22 @@ msgstr "Prosím odpočívejte několik sekund"
 #: frontend/gtkmm/src/MicroBreakWindow.cc:216
 #, c-format
 msgid "Next rest break in %s"
-msgstr "Další přestávka v %s"
+msgstr "Další přestávka za %s"
 
 #: frontend/gtkmm/src/MicroBreakWindow.cc:221
 #, c-format
 msgid "Rest break %s overdue"
-msgstr "Přestávka %s je opožděná"
+msgstr "Přestávka o %s opožděná"
 
 #: frontend/gtkmm/src/MicroBreakWindow.cc:234
 #, c-format
 msgid "Daily limit in %s"
-msgstr "Denní limit v %s"
+msgstr "Denní limit za %s"
 
 #: frontend/gtkmm/src/MicroBreakWindow.cc:239
 #, c-format
 msgid "Daily limit %s overdue"
-msgstr "Denní limit %s zpoždění"
+msgstr "Denní limit o %s překročen"
 
 #: frontend/gtkmm/src/PreferencesDialog.cc:63
 #: frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:103
@@ -309,6 +309,7 @@ msgid "Rest break for %s"
 msgstr "Přestávka po %s"
 
 #: frontend/gtkmm/src/RestBreakWindow.cc:182
+#, fuzzy
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -344,7 +345,7 @@ msgstr "Zobrazit"
 
 #: frontend/gtkmm/src/TimerBoxPreferencePage.cc:129
 msgid "Show only when this timer is first due"
-msgstr "Zobrazit pouze, když časovač bude první u konce odpočítávání"
+msgstr "Zobrazit pouze, když časovač vyprší jako první"
 
 #: frontend/gtkmm/src/TimerBoxPreferencePage.cc:139
 msgid "Show status window"
@@ -411,7 +412,7 @@ msgstr "Zastavit časovač při nečinnosti"
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:171
 msgid "Regard micro-breaks as activity"
-msgstr "Považovat mikro-pauzy jako aktivitu"
+msgstr "Považovat mikro-pauzy za aktivitu"
 
 #: frontend/gtkmm/src/TimerPreferencesPanel.cc:185
 msgid "Number of exercises:"
@@ -455,7 +456,7 @@ msgstr "_Nastavení"
 
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:10
 msgid "_Quiet"
-msgstr "Ne_rušený"
+msgstr "Ne_rušící"
 
 #: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:11
 msgid "_Quit"
@@ -549,7 +550,7 @@ msgstr "Interval obnovení spojení:"
 
 #: frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:142
 msgid "Advanced"
-msgstr "Pokročilý"
+msgstr "Pokročilé"
 
 #: frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:159
 msgid ""

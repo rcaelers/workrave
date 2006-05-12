@@ -24,7 +24,7 @@ WIN32_NMAKE=wineconsole ${HOME}/.wine/fake_windows/Program\ Files/Microsoft\ Vis
 WORKRAVE_VERSION=`cat ${WORKRAVE_CVS_DIR}/configure.ac | grep AM_INIT_AUTOMAKE | cut -d ','  -f2 | cut -d' ' -f2 | cut -d')' -f1`
 WORKRAVE_PREVERSION=`cat ${WORKRAVE_CVS_DIR}/configure.ac | grep AM_INIT_AUTOMAKE | perl -ne ' $$_ =~ /.*([0-9]+).([0-9]+).([0-9]+)/ ; printf "%d.%d.%d.99", $$1, $$2, ($$3 - 1) '`
 
-CVS_FLAGS = -Q -z3 -d:ext:miss-workrave@cvs.sourceforge.net:/cvsroot/workrave
+CVS_FLAGS = -Q -z3 -d:ext:miss-workrave@workrave.cvs.sourceforge.net:/cvsroot/workrave
 
 CONF_FLAGS = --quiet
 
@@ -129,7 +129,7 @@ workrave-win32-all: \
 workrave-source: init
 	$(call copy-cvs-dir,${WORKRAVE_SOURCE_DIR})
 	( cd ${WORKRAVE_SOURCE_DIR}; \
-	  ./autogen.sh \
+	  ./autogen.sh --disable-gnome \
 	  && make dist \
 	  && mv ${WORKRAVE_SOURCE_DIR}/workrave-${WORKRAVE_VERSION}.tar.gz ${TINDERBOX_BIN_DIR}/workrave-src-${BUILD_DATE}.tar.gz )
 

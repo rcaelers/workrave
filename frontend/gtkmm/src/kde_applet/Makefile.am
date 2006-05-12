@@ -39,4 +39,4 @@ endif
 
 EXTRA_DIST 	= $(wildcard *.desktop) kworkraveapplet.h kworkravecontroliface.h
 
-MAINTAINERCLEANFILES = Makefile Makefile.in
+MAINTAINERCLEANFILES = Makefile Makefile.in kworkravecontroliface.kidl kworkravecontroliface_skel.cpp kworkravecontroliface_stub.cpp kworkravecontroliface_stub.h

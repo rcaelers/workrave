@@ -264,20 +264,11 @@ Timer::force_idle()
 void
 Timer::compute_next_limit_time()
 {
-  TRACE_ENTER_MSG("Timer::compute_next_limit_time", timer_id << timer_state);
-  
   // default action. No next limit.
   next_limit_time = 0;
 
   if (timer_enabled)
     {
-      TRACE_MSG("1 "
-                << timer_state << " "
-                << last_start_time << " "
-                << limit_enabled << " "
-                << limit_interval << " "
-                << last_limit_time << " "
-                << snooze_on_active);
       if (last_limit_time > 0 && !snooze_on_active)
         {
           // The timer already reached its limit. We need to re-send the
@@ -285,10 +276,8 @@ Timer::compute_next_limit_time()
           // event. Unless snoozing is inhibted. This is independent of
           // user activity.
            
-          TRACE_MSG("2");
           if (!snooze_inhibited)
             {
-              TRACE_MSG("3");
               next_limit_time = last_limit_time + snooze_interval;
             }
         }
@@ -297,7 +286,6 @@ Timer::compute_next_limit_time()
         { 
           // The timer is running and a limit != 0 is set.
 
-          TRACE_MSG("4");
           if (last_limit_time > 0)
             {
               // The timer already reached its limit. We need to re-send the
@@ -306,7 +294,6 @@ Timer::compute_next_limit_time()
               // inhibted. This is dependent of user activity.
               if (snooze_on_active && !snooze_inhibited)
                 {
-                  TRACE_MSG("5");
                   next_limit_time = (last_start_time - elapsed_time +
                                      last_limit_elapsed + snooze_interval);
                 }
@@ -316,11 +303,9 @@ Timer::compute_next_limit_time()
               // The timer did not yet reaches its limit.
               // new limit = last start time + limit - elapsed.
               next_limit_time = last_start_time + limit_interval - elapsed_time;
-              TRACE_MSG("6");
             }
         }
     }
-  TRACE_EXIT();
 }
 
 

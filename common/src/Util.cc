@@ -174,9 +174,8 @@ Util::get_search_path(SearchPathId type)
   
   list<string> &searchPath = search_paths[type];
 
-#if defined(HAVE_X)
   string home_dir = get_home_directory();
-#elif defined(WIN32)
+#if defined(WIN32)
   string app_dir = get_application_directory();
 #endif
   
@@ -209,6 +208,7 @@ Util::get_search_path(SearchPathId type)
       searchPath.push_back("/usr/local/share/workrave/etc");
       searchPath.push_back("/usr/share/workrave/etc");
 #elif defined(WIN32)
+      searchPath.push_back(home_dir + "/");
       searchPath.push_back(string(app_dir) + "\\etc");
 #endif    
     }

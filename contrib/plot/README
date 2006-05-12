@@ -1,0 +1,21 @@
+Some scripts to graph keyboarding activity over time. There are two parts:
+
+    * workrave-dump extracts the statistics from the workrave
+      historical statistics file. Run it like so:
+
+          % workrave-dump > workrave.out
+
+    * gnuplot-workrave reads in the "workrave.out" file generated
+      above (the filename is fixed) and generates a PNG graph as shown
+      above. Run it like so:
+
+          % gnuplot-workrave
+
+These scripts are completely free for anyone to do whatever they want.
+Let me know if you can figure out a way to eliminate the need for the
+intermediate "workrave.out" file.
+
+http://www.tsaiberspace.net/projects/workrave/
+http://issues.workrave.org/cgi-bin/bugzilla/show_bug.cgi?id=522
+
+Robert Tsai <rtsai@yahoo.com>

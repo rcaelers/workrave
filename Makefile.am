@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
 #
 # $Id$
 #
@@ -18,7 +18,7 @@ MAINTAINERCLEANFILES = 	\
 		NEWS.txt README.txt
 
 SUBDIRS = 	m4 po backend common frontend 
-DIST_SUBDIRS =  $(SUBDIRS) intl
+DIST_SUBDIRS =  $(SUBDIRS) intl build contrib
 
 EXTRA_DIST = 	config.rpath  \
 		config.xml \

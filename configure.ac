@@ -14,7 +14,7 @@ dnl Demand at least version 2.57 of autoconf.
 AC_PREREQ(2.57)
 
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(workrave, 1.8.2)
+AM_INIT_AUTOMAKE(workrave, 1.8.3)
 
 dnl Set of available languages.
 ALL_LINGUAS="nl de eo pl da es zh_TW ru fr pt_BR no lt cs he eu ca sv"
@@ -122,22 +122,22 @@ AC_ARG_ENABLE( experimental,
        config_experimental==yes
     )
 
-AC_MSG_CHECKING(whether to link statically)
-AC_ARG_WITH(static-linking,
-[  --with-static-linking   Link binaries statically],
-[ case "$withval" in
-  no)
-        AC_MSG_RESULT(no)
-        LIBTOOL_FLAGS=""
-        ;;
-  *)
-        AC_MSG_RESULT(yes)
-        LIBTOOL_FLAGS="-all-static"
-  esac],
-AC_MSG_RESULT(no)
-)
-
-AC_SUBST(LIBTOOL_FLAGS)
+dnl AC_MSG_CHECKING(whether to link statically)
+dnl AC_ARG_WITH(static-linking,
+dnl [  --with-static-linking   Link binaries statically],
+dnl [ case "$withval" in
+dnl   no)
+dnl         AC_MSG_RESULT(no)
+dnl         LIBTOOL_FLAGS=""
+dnl         ;;
+dnl   *)
+dnl         AC_MSG_RESULT(yes)
+dnl         LIBTOOL_FLAGS="-all-static"
+dnl   esac],
+dnl AC_MSG_RESULT(no)
+dnl )
+dnl 
+dnl AC_SUBST(LIBTOOL_FLAGS)
 
 if test "x$config_debug" = "xyes"; then
    CFLAGS="${CFLAGS} -g -Wall"
@@ -847,5 +847,8 @@ AC_OUTPUT(Makefile \
           po/POTFILES \
           po/Makefile.in \
           po/Makefile \
+          contrib/Makefile \
+          contrib/plot/Makefile \
+          build/Makefile \
           m4/Makefile \
           workrave.spec)

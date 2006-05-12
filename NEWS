@@ -1,21 +1,38 @@
-Workrave NEWS -- history of user-visible changes.  xx Jan 2006
+Workrave NEWS -- history of user-visible changes.  14 May 2006
 Copyright (C) 2001-2006 Rob Caelers & Raymond Penners
 See the end for copying conditions.
 
 Please report Workrave bug reports. Visit our bug tracker located at:
 http://www.workrave.org
 
-* Workrave 1.8.4
+* Workrave 1.8.3
 
 ** Daniel Nylander translated Workrave into Swedish.
 
+** Jordi Mallach translated Workrave into Catalan.
+
 ** Support for storing configuration in a .ini file
-
+   This feature can be enabled by creating an empty 'workrave.ini'
+   file in '~/.workrave' (on Unix) or in 'c:\Program files\Workrave\etc'
+   (on Window, assuming Workrave is installed in this directory)
+   
 ** Support for configuring the data storage directory.
+   Add the following two lines to your workrave.ini
+     [general]
+     datadir=C:\Workrave
+   This feature can be used to run Workrave from an USB memory stick.
 
-* Workrave 1.8.3
+** Support for Gnome screen saver added (Matt Zimmerman).
 
-** Support for Gnome screen saver added (Matt Zimmerman)
+** Workrave no longer consumes 100% CPU is if a break is started while
+   the screen is locked.
+
+** The applet popup menu is now accessible when all timers hidden.
+
+** Fix czech translation (Jiri Palecek).
+
+** Fixed a bug that could cause breaks to stop running when 'suspend
+   timer while inactive' was disabled.
 
 * Workrave 1.8.2
 
