@@ -1,6 +1,6 @@
 // ExercisesPanel.cc --- Exercises panel
 //
-// Copyright (C) 2002, 2003, 2004 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2006 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -432,7 +432,7 @@ void
 ExercisesPanel::refresh_pause()
 {
   Gtk::StockID stock_id = paused ? Gtk::Stock::EXECUTE : Gtk::Stock::STOP;
-  const char *label = label = paused ? _("Resume") : _("Pause");
+  const char *label = paused ? _("Resume") : _("Pause");
   GtkUtil::update_custom_stock_button(pause_button,
                                       standalone ? label : NULL,
                                       stock_id);
