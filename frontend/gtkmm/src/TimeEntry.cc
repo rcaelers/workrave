@@ -1,6 +1,6 @@
 // TimeEntry.cc --- Entry widget for time
 //
-// Copyright (C) 2002, 2003, 2004 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2006 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -130,7 +130,8 @@ void
 TimeEntry::update(Gtk::SpinButton *spin)
 {
   // Needless to say, this kinda sucks.
-  const gchar *txt = spin->get_text().c_str();
+  Glib::ustring s = spin->get_text();
+  const gchar *txt = s.c_str();
   if (txt != NULL && *txt != 0)
     {
       gchar *err = NULL;

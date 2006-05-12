@@ -1,6 +1,6 @@
 // GConfConfigurator.cc --- Configuration Access
 //
-// Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -394,11 +394,15 @@ GConfConfigurator::remove_listener(string remove_key, ConfiguratorListener *list
   bool ret = false;
 
   IDMapIter i = ids_map.begin();
+  IDMapIter next;
   while (i != ids_map.end())
     {
       pair<string, ConfiguratorListener *> key = i->first;
 
       string key_prefix = key.first;
+
+      next = i;
+      next++;
       
       if ((key.first == remove_key || remove_key == "") && key.second == listener)
         {
@@ -421,7 +425,8 @@ GConfConfigurator::remove_listener(string remove_key, ConfiguratorListener *list
           
           ret = Configurator::remove_listener(key_prefix, listener);
         }
-      i++;
+      
+      i = next;
     }
 
   return ret;
