@@ -17,7 +17,7 @@ AM_CONFIG_HEADER(config.h)
 AM_INIT_AUTOMAKE(workrave, 1.8.3)
 
 dnl Set of available languages.
-ALL_LINGUAS="nl de eo pl da es zh_TW ru fr pt_BR no lt cs he eu ca sv"
+ALL_LINGUAS="nl de eo pl da es zh_TW ru fr pt_BR no lt cs he eu ca sv ja"
 
 LANGFILE=frontend/gtkmm/win32/setup/lang.iss
 echo -n "; language.iss --- Inno setup file, support languages" > $LANGFILE
