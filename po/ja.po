@@ -6,11 +6,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave Japanese\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: Masanobu Yokota <masanobu.yokota@nifty.com>\n"
 "POT-Creation-Date: 2006-07-11 07:21+0200\n"
-"PO-Revision-Date: 2006-07-13 11:27+0900\n"
+"PO-Revision-Date: 2006-07-19 13:06+0900\n"
 "Last-Translator: Masanobu Yokota <masanobu.yokota@nifty.com>\n"
-"Language-Team: M,Yokota <masanobu.yokota@nifty.com>\n"
+"Language-Team: Masanobu Yokota <masanobu.yokota@nifty.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -32,15 +32,15 @@ msgstr "クレジット"
 
 #: ../frontend/gtkmm/src/gnome-about.c:341
 msgid "_Written by"
-msgstr "作成(_W) "
+msgstr "著作者(_W) "
 
 #: ../frontend/gtkmm/src/gnome-about.c:356
 msgid "_Documented by"
-msgstr "ドキュメント(_D) "
+msgstr "ドキュメント作者(_D) "
 
 #: ../frontend/gtkmm/src/gnome-about.c:371
 msgid "_Translated by"
-msgstr "翻訳(_T) "
+msgstr "翻訳者(_T) "
 
 #. Add the credits button
 #: ../frontend/gtkmm/src/gnome-about.c:431
@@ -198,11 +198,11 @@ msgstr "設定"
 
 #: ../frontend/gtkmm/src/Menus.cc:718
 msgid "This program assists in the prevention and recovery of Repetitive Strain Injury (RSI)."
-msgstr "このプログラムは反復運動過多損傷(RSI)の回復を補助し、予防します。"
+msgstr "Workrave(仕事に夢中？)は反復運動過多損傷 (RSI：Repetitive Strain Injury)を予防し回復を促します。"
 
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:232
 msgid "Please relax for a few seconds"
-msgstr "しばらくの間リラックスしてください"
+msgstr "少しの間リラックスしてください"
 
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:239
 #, c-format
@@ -212,17 +212,17 @@ msgstr "次の休憩まで %s"
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:244
 #, c-format
 msgid "Rest break %s overdue"
-msgstr "休憩時間の合計は %s"
+msgstr "休憩時間の遅延は %s"
 
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:257
 #, c-format
 msgid "Daily limit in %s"
-msgstr "一日の制限時間は %s"
+msgstr "一日の制限時間まで %s"
 
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:262
 #, c-format
 msgid "Daily limit %s overdue"
-msgstr "一日の時間合計は %s"
+msgstr "一日の制限時間の超過は %s"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:63
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:103
@@ -266,15 +266,15 @@ msgstr "内蔵スピーカを使って音を出す"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:152
 msgid "No blocking"
-msgstr "ブロッキングなし"
+msgstr "ブロックなし"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:154
 msgid "Block input"
-msgstr "ブロック入力"
+msgstr "インプットをブロック"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:156
 msgid "Block input and screen"
-msgstr "ブロック入力とスクリーン"
+msgstr "インプットとスクリーンをブロック"
 
 #. Options
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:175
@@ -289,7 +289,7 @@ msgstr "サウンド："
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:178
 msgid "Block mode:"
-msgstr "ブロックモード："
+msgstr "ブロック（操作禁止）モード："
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:105
 msgid "Time for a micro-break?"
@@ -297,11 +297,11 @@ msgstr "小休止の時間？"
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:109
 msgid "You need a rest break..."
-msgstr "休憩が必要です"
+msgstr "休憩が必要です..."
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:113
 msgid "You should stop for today..."
-msgstr "今日はもうやめましょう"
+msgstr "今日はもうやめましょう..."
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:253
 msgid "Break in"
@@ -318,7 +318,7 @@ msgstr "音が消えるまで"
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:167
 #, c-format
 msgid "Rest break for %s"
-msgstr "休憩時間残り %s"
+msgstr "休憩時間の残り %s"
 
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:207
 msgid ""
@@ -328,7 +328,7 @@ msgid ""
 msgstr ""
 "残りの休憩時間。\n"
 "コンピュータから離れて歩きましょう。\n"
-"数分間周りを歩き回って、伸びをしてリラックスしましょう。"
+"しばらくの間、周りを歩き回って、伸びをしてリラックスしましょう。"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:97
 msgid "Place timers next to each other"
@@ -645,11 +645,11 @@ msgstr "延期された休憩の数"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:215
 msgid "Overdue time"
-msgstr "合計時間"
+msgstr "遅延(超過)時間"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:216
 msgid "The total time this break was overdue"
-msgstr "この休憩の合計時間"
+msgstr "この休憩の遅延(超過)時間の合計"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:220
 msgid "Daily usage"
@@ -711,12 +711,12 @@ msgstr "%s, %s から %s"
 #: ../frontend/common/src/Text.cc:75
 #, c-format
 msgid "%s%d:%02d:%02d hours"
-msgstr "%s%d:%02d:%02d 時間"
+msgstr "%s%d 時間 %02d 分 %02d 秒"
 
 #: ../frontend/common/src/Text.cc:79
 #, c-format
 msgid "%s%d:%02d minutes"
-msgstr "%s%d:%02d 分"
+msgstr "%s%d 分 %02d 秒"
 
 #: ../frontend/common/src/Text.cc:83
 #, c-format
@@ -886,11 +886,11 @@ msgstr "あなたの胸の前に片方の腕を水平にして伸ばしてくだ
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
 msgid "Look at the upper left corner of the outside border of your monitor. Follow the border slowly to the upper right corner. Continue to the next corner, until you got around it two times. Then, reverse the exercise."
-msgstr "モニターの外側の上左隅を見てください。上右隅までゆっくりと視線を移してください。同じように次の隅まで視線を移し、2回まわってください。次に反対まわりで同じように行ってください。"
+msgstr "モニターの外側の上左隅を見てください。上右隅までゆっくりと視線を移してください。同じように次の隅まで視線を移し、2回転してください。次に反対まわりで同じように行ってください。"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
 msgid "Look for the furthest point you can see behind your monitor. Focus your eyes on the remote point. Then focus on your monitor border. Repeat it. If you can't look very far from your monitor, face another direction with a longer view. Then switch your focus between a distant object and a pen held at the same distance from your eyes as your monitor."
-msgstr "モニターの向こう側で見ることができる最も遠い場所を捜してください。その場所に目の焦点を合わせてください。次に、あなたのモニターの境目を注視してください。それを繰り返してください。モニターの向こう側であまり遠くを見ることができなければ、他の方向で探してください。遠くの場所とあなたのモニターと同じくらいの距離に置いた手とを交互に見てください。"
+msgstr "モニターの向こう側で見ることができる最も遠い場所を捜してください。その場所に目の焦点を合わせてください。次に、モニターの境目を注視してください。それを繰り返してください。モニターの向こう側であまり遠くを見ることができなければ、他の方向で探してください。遠くの場所とモニターと同じくらいの距離に置いた手とを交互に見てください。"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
 msgid "Look into the darkness"
@@ -914,11 +914,11 @@ msgstr "首のストレッチ"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
 msgid "Put your hands on the armrests of your chair when you are sitting down and press your body up until your arms are straight. Try to move your head even further by lowering your shoulders. Slowly move back into your chair."
-msgstr "座ったまま、いすの肘掛に腕を置いて、腕がまっすぐになるまで、身体を押しあげてください。肩を下げて頭をさらにあげてください。ゆっくり椅子に戻ってください。"
+msgstr "座ったまま、いすの肘掛に腕を置いて、腕がまっすぐになるまで、身体を押しあげてください。肩を伸ばして頭をさらに上にあげてください。ゆっくり椅子に戻ってください。"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
 msgid "Separate and stretch your fingers until a mild tension is felt, and hold this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold again for 10 seconds. Repeat this exercise once more."
-msgstr "穏やかなストレッチを感じられるまで、あなたの指を分離し伸ばして、10秒間保持してください。リラックスして、指関節を伸ばして、10秒間保持してください。これをもう一度繰り返してください。"
+msgstr "軽いストレッチを感じられるまで、指を離して伸ばし、10秒間保持してください。リラックスして、指の関節を曲げて、10秒間保持してください。これをもう一度繰り返してください。"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
 msgid "Shoulder-arm stretch"
@@ -930,20 +930,19 @@ msgstr "右腕を身体に沿わせて、プロペラのようにゆっくり円
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
 msgid "Start with your head in a comfortable straight position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side."
-msgstr "先ず、頭をまっすぐにしてください。次に、首の左側の筋肉を伸ばすように、右肩へ頭をゆっくり傾けてください。5秒間保持してください。次に、反対側を伸ばすために左側への頭を傾けてください。各々これを2度してください。"
+msgstr "先ず、頭をまっすぐにしてください。次に、首の左側の筋肉を伸ばすように、右肩へ頭をゆっくり傾けてください。5秒間保持してください。次に、反対側を伸ばすために左側への頭を傾けてください。各々これを2度繰り返してください。"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
 msgid "Train focusing the eyes"
-msgstr "目の焦点合わせの訓練"
+msgstr "目の焦点合わせ運動"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:19
-#, fuzzy
 msgid "Turn your head"
 msgstr "頭を回す"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:20
 msgid "Turn your head left and keep it there for 2 seconds. Then turn your head right and keep it there for 2 seconds."
-msgstr "頭を左に回し２秒保持する。次に、頭を右に回し２秒保持する。"
+msgstr "顔を左に向け2秒保持してください。次に、顔を右に向け2秒保持してください。"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
 msgid "Break ignored"
