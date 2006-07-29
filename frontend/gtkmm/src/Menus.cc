@@ -707,7 +707,9 @@ Menus::on_menu_about()
     "Artūras Šlajus <x11@h2o.sky.lt>\n"
     "Haggai Eran <he3@bezeqint.net>\n"
     "Jordi Mallach <jordi@sindominio.net>\n"
-    "Daniel Nylander <info@danielnylander.se>\n";
+    "Daniel Nylander <info@danielnylander.se>\n"
+    "Masanobu Yokota <masanobu.yokota@nifty.com>\n"
+    "Иван Димов <idimov@users.sourceforge.net>\n";
 
   string icon = Util::complete_directory("workrave.png",
                                          Util::SEARCH_PATH_IMAGES);

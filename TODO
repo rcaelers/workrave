@@ -19,3 +19,15 @@ think it will definitely help others like me who are looking to gain
 independence from the (evil) mouse.
 
 2) Make statistics more robust against corrupt files.
+
+3) idimov@users.sourceforge.net Remo Tex
+
+I think it is good to have "Check for updates/New version(s)" option
+> or at least to have URL for download(s) printed in About/Credits dialog
+> so it would be easy to Cut, Paste and check "manually" for existence of
+> new version(s)
+
+4) idimov@users.sourceforge.net Remo Tex
+
+> - Probably it is a good idea to make it also like Gaim etc. i.e.
+> dblclick opens dilaog if closed and closes if open
