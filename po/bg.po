@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-07-17 21:17+0200\n"
-"PO-Revision-Date: 2006-07-21 15:01+0200\n"
+"POT-Creation-Date: 2006-07-31 18:20+0200\n"
+"PO-Revision-Date: 2006-07-31 18:17+0200\n"
 "Last-Translator: Иван Димов <idimov@users.sourceforge.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -118,77 +118,64 @@ msgstr "Изчакване"
 
 # Меню Режим
 #. Mode menu item
-#: ../frontend/gtkmm/src/Menus.cc:169
-#: ../frontend/gtkmm/src/Menus.cc:430
+#: ../frontend/gtkmm/src/Menus.cc:169 ../frontend/gtkmm/src/Menus.cc:430
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
 msgid "_Mode"
 msgstr "_Режим"
 
-#: ../frontend/gtkmm/src/Menus.cc:176
-#: ../frontend/gtkmm/src/Menus.cc:409
+#: ../frontend/gtkmm/src/Menus.cc:176 ../frontend/gtkmm/src/Menus.cc:409
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
 msgid "_Normal"
 msgstr "_Нормален"
 
-#: ../frontend/gtkmm/src/Menus.cc:183
-#: ../frontend/gtkmm/src/Menus.cc:416
+#: ../frontend/gtkmm/src/Menus.cc:183 ../frontend/gtkmm/src/Menus.cc:416
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
 msgid "_Suspended"
 msgstr "_Летаргичен"
 
-#: ../frontend/gtkmm/src/Menus.cc:190
-#: ../frontend/gtkmm/src/Menus.cc:423
+#: ../frontend/gtkmm/src/Menus.cc:190 ../frontend/gtkmm/src/Menus.cc:423
 msgid "Q_uiet"
 msgstr "Т_их"
 
-#: ../frontend/gtkmm/src/Menus.cc:204
-#: ../frontend/gtkmm/src/Menus.cc:449
+#: ../frontend/gtkmm/src/Menus.cc:204 ../frontend/gtkmm/src/Menus.cc:449
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
 msgid "_Network"
 msgstr "_Мрежа"
 
-#: ../frontend/gtkmm/src/Menus.cc:208
-#: ../frontend/gtkmm/src/Menus.cc:433
+#: ../frontend/gtkmm/src/Menus.cc:208 ../frontend/gtkmm/src/Menus.cc:433
 msgid "_Connect"
 msgstr "_Свързване"
 
-#: ../frontend/gtkmm/src/Menus.cc:213
-#: ../frontend/gtkmm/src/Menus.cc:436
+#: ../frontend/gtkmm/src/Menus.cc:213 ../frontend/gtkmm/src/Menus.cc:436
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
 msgid "_Disconnect"
 msgstr "_Прекъсване"
 
-#: ../frontend/gtkmm/src/Menus.cc:218
-#: ../frontend/gtkmm/src/Menus.cc:440
+#: ../frontend/gtkmm/src/Menus.cc:218 ../frontend/gtkmm/src/Menus.cc:440
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
 msgid "_Reconnect"
 msgstr "_Повторно свързване"
 
-#: ../frontend/gtkmm/src/Menus.cc:223
-#: ../frontend/gtkmm/src/Menus.cc:443
+#: ../frontend/gtkmm/src/Menus.cc:223 ../frontend/gtkmm/src/Menus.cc:443
 msgid "Show _log"
 msgstr "Показване на _дневника"
 
-#: ../frontend/gtkmm/src/Menus.cc:248
-#: ../frontend/gtkmm/src/Menus.cc:405
+#: ../frontend/gtkmm/src/Menus.cc:248 ../frontend/gtkmm/src/Menus.cc:405
 msgid "_Rest break"
 msgstr "_Почивка"
 
-#: ../frontend/gtkmm/src/Menus.cc:262
-#: ../frontend/gtkmm/src/Menus.cc:406
+#: ../frontend/gtkmm/src/Menus.cc:262 ../frontend/gtkmm/src/Menus.cc:406
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:40
 msgid "Exercises"
 msgstr "Упражнения"
 
-#: ../frontend/gtkmm/src/Menus.cc:274
-#: ../frontend/gtkmm/src/Menus.cc:451
+#: ../frontend/gtkmm/src/Menus.cc:274 ../frontend/gtkmm/src/Menus.cc:451
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:59
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:138
 msgid "Statistics"
 msgstr "Статистика"
 
-#: ../frontend/gtkmm/src/Menus.cc:288
-#: ../frontend/gtkmm/src/Menus.cc:452
+#: ../frontend/gtkmm/src/Menus.cc:288 ../frontend/gtkmm/src/Menus.cc:452
 msgid "About..."
 msgstr "Относно..."
 
@@ -197,9 +184,14 @@ msgstr "Относно..."
 msgid "Preferences"
 msgstr "Предпочитания"
 
-#: ../frontend/gtkmm/src/Menus.cc:718
-msgid "This program assists in the prevention and recovery of Repetitive Strain Injury (RSI)."
-msgstr "Тази програма подпомага при предотвратяване и възстановяване от ПИЕД - заболяване свързано с Продължителното Извършване на Еднотипни Движения (Repetitive Strain Injury - RSI)."
+#: ../frontend/gtkmm/src/Menus.cc:721
+msgid ""
+"This program assists in the prevention and recovery of Repetitive Strain "
+"Injury (RSI)."
+msgstr ""
+"Тази програма подпомага при предотвратяване и възстановяване от ПИЕД - "
+"заболяване свързано с Продължителното Извършване на Еднотипни Движения "
+"(Repetitive Strain Injury - RSI)."
 
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:232
 msgid "Please relax for a few seconds"
@@ -307,17 +299,20 @@ msgstr "Вие имате нужда от почивка..."
 msgid "You should stop for today..."
 msgstr "Вие трябва да приключите за днес..."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:253
-msgid "Break in"
-msgstr "Почивка след"
+#: ../frontend/gtkmm/src/PreludeWindow.cc:255
+#, c-format
+msgid "Break in %s"
+msgstr "Почивка след %s"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:257
-msgid "Disappears in"
-msgstr "Изчезва след"
+#: ../frontend/gtkmm/src/PreludeWindow.cc:259
+#, c-format
+msgid "Disappears in %s"
+msgstr "Изчезва след %s"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:261
-msgid "Silent in"
-msgstr "Замлъква след"
+#: ../frontend/gtkmm/src/PreludeWindow.cc:263
+#, c-format
+msgid "Silent in %s"
+msgstr "Замлъква след %s"
 
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:167
 #, c-format
@@ -609,7 +604,9 @@ msgid "Break prompts"
 msgstr "Напомняне за почивки"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:185
-msgid "The number of times you were prompted to break, excluding repeated prompts for the same break"
+msgid ""
+"The number of times you were prompted to break, excluding repeated prompts "
+"for the same break"
 msgstr "Брой напомняния за почивка без повтарящите се за същата почивка"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:190
@@ -693,8 +690,12 @@ msgid "Effective mouse movement:"
 msgstr "Действително придвижване на мишката:"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:303
-msgid "The total mouse movement you would have had if you moved your mouse in straight lines between clicks"
-msgstr "Общо придвижване на мишката което бихте имали ако я движехте по права линия между натискане на бутоните"
+msgid ""
+"The total mouse movement you would have had if you moved your mouse in "
+"straight lines between clicks"
+msgstr ""
+"Общо придвижване на мишката което бихте имали ако я движехте по права линия "
+"между натискане на бутоните"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:307
 msgid "Mouse button clicks:"
@@ -739,7 +740,9 @@ msgstr "Повторно свързване с %s:%d."
 
 #: ../backend/src/DistributionSocketLink.cc:347
 msgid "Cannot resolve my own hostname. Deactivating distribution."
-msgstr "Не може да се определи името на Вашия компютър. Деактивиране на разпръскването."
+msgstr ""
+"Не може да се определи името на Вашия компютър. Деактивиране на "
+"разпръскването."
 
 # Ние не успяхме да пуснем сървъра. А-а-х.
 #. We did not succeed in starting the server. Arghh.
@@ -883,28 +886,66 @@ msgid "Backward shoulder stretch"
 msgstr "Разтягане на рамената назад."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:2
-msgid "Cover your eyes with your palms in such way that you can still open your eyelids. Now open your eyes and look into the darkness of your palms. This exercise gives better relief to your eyes compared to simply closing them."
-msgstr "Закрийте с длани очите си но така, че да можете да държите отворени клепачите си. Сега отворете очите си и се вгледайте в мрака във вашите длани. Това упражнение дава по-добро облекчение на очите Ви отколкото затварянето им."
+msgid ""
+"Cover your eyes with your palms in such way that you can still open your "
+"eyelids. Now open your eyes and look into the darkness of your palms. This "
+"exercise gives better relief to your eyes compared to simply closing them."
+msgstr ""
+"Закрийте с длани очите си но така, че да можете да държите отворени "
+"клепачите си. Сега отворете очите си и се вгледайте в мрака във вашите "
+"длани. Това упражнение дава по-добро облекчение на очите Ви отколкото "
+"затварянето им."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:3
 msgid "Finger stretch"
 msgstr "Протягане на пръстите"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:4
-msgid "Interlace your fingers behind your back. Then turn your elbows gently inward, while straightening your arms. Hold this position for 5 to 15 seconds, and repeat this exercise twice."
-msgstr "Сплетете пръсти зад гърба си. После внимателно завъртете лактите навътре леко изпъвайки ръцете. Задръжте в тази позиция от 5 до 15 секунди и повторете упражнеието."
+msgid ""
+"Interlace your fingers behind your back. Then turn your elbows gently "
+"inward, while straightening your arms. Hold this position for 5 to 15 "
+"seconds, and repeat this exercise twice."
+msgstr ""
+"Сплетете пръсти зад гърба си. После внимателно завъртете лактите навътре "
+"леко изпъвайки ръцете. Задръжте в тази позиция от 5 до 15 секунди и "
+"повторете упражнеието."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
-msgid "Keep one arm horizontally stretched in front of your chest. Push this arm with your other arm towards you until you feel a mild tension in your shoulder. Hold this position briefly, and repeat the exercise for your other arm."
-msgstr "Дръжте едната си ръка изпъната хоризонтално пред гърдите си. Притиснете я с другата ръка към Вас докато почувствате леко напрежение в рамото. Задръжте за кратко тази позиция и после повторете упражнението с другата си ръка."
+msgid ""
+"Keep one arm horizontally stretched in front of your chest. Push this arm "
+"with your other arm towards you until you feel a mild tension in your "
+"shoulder. Hold this position briefly, and repeat the exercise for your other "
+"arm."
+msgstr ""
+"Дръжте едната си ръка изпъната хоризонтално пред гърдите си. Притиснете я с "
+"другата ръка към Вас докато почувствате леко напрежение в рамото. Задръжте "
+"за кратко тази позиция и после повторете упражнението с другата си ръка."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
-msgid "Look at the upper left corner of the outside border of your monitor. Follow the border slowly to the upper right corner. Continue to the next corner, until you got around it two times. Then, reverse the exercise."
-msgstr "Погледнете към външния ръб на горния ляв ъгъл на вашият монитор. Проследете бавно с поглед ръба до горния десен ъгъл. Продължете към следващият ъгъл докато направите две обиколки. После направете упражнението и в обратна посока."
+msgid ""
+"Look at the upper left corner of the outside border of your monitor. Follow "
+"the border slowly to the upper right corner. Continue to the next corner, "
+"until you got around it two times. Then, reverse the exercise."
+msgstr ""
+"Погледнете към външния ръб на горния ляв ъгъл на вашият монитор. Проследете "
+"бавно с поглед ръба до горния десен ъгъл. Продължете към следващият ъгъл "
+"докато направите две обиколки. После направете упражнението и в обратна "
+"посока."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
-msgid "Look for the furthest point you can see behind your monitor. Focus your eyes on the remote point. Then focus on your monitor border. Repeat it. If you can't look very far from your monitor, face another direction with a longer view. Then switch your focus between a distant object and a pen held at the same distance from your eyes as your monitor."
-msgstr "Вгледайте се в най-далечната точка, която можете да видите зад монитора си. Фокусирайте очи в отдалечената точка, после ги фокусирайте върху ръба по монитора. Повторете. Ако нямате достатъчно видима площ зад монитора, обърнете се в друга посока където имате по-далечен изглед и тогава прехвърляйте фокуса между отдалечен обект и писалка която държите на същото разстояние от очите си като монитора."
+msgid ""
+"Look for the furthest point you can see behind your monitor. Focus your eyes "
+"on the remote point. Then focus on your monitor border. Repeat it. If you "
+"can't look very far from your monitor, face another direction with a longer "
+"view. Then switch your focus between a distant object and a pen held at the "
+"same distance from your eyes as your monitor."
+msgstr ""
+"Вгледайте се в най-далечната точка, която можете да видите зад монитора си. "
+"Фокусирайте очи в отдалечената точка, после ги фокусирайте върху ръба по "
+"монитора. Повторете. Ако нямате достатъчно видима площ зад монитора, "
+"обърнете се в друга посока където имате по-далечен изглед и тогава "
+"прехвърляйте фокуса между отдалечен обект и писалка която държите на същото "
+"разстояние от очите си като монитора."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
 msgid "Look into the darkness"
@@ -927,24 +968,51 @@ msgid "Neck tilt stretch"
 msgstr "Накланяне и разтягане врата"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
-msgid "Put your hands on the armrests of your chair when you are sitting down and press your body up until your arms are straight. Try to move your head even further by lowering your shoulders. Slowly move back into your chair."
-msgstr "Седнали поставете ръце на облегалките на стола и повдигнете тялото нагоре докато ръцете Ви се изпънат. Опитайте се да  изпънете глава още по-напред снишавайки раменете. Бавно седнете обратно на стола си."
+msgid ""
+"Put your hands on the armrests of your chair when you are sitting down and "
+"press your body up until your arms are straight. Try to move your head even "
+"further by lowering your shoulders. Slowly move back into your chair."
+msgstr ""
+"Седнали поставете ръце на облегалките на стола и повдигнете тялото нагоре "
+"докато ръцете Ви се изпънат. Опитайте се да  изпънете глава още по-напред "
+"снишавайки раменете. Бавно седнете обратно на стола си."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
-msgid "Separate and stretch your fingers until a mild tension is felt, and hold this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold again for 10 seconds. Repeat this exercise once more."
-msgstr "Разделете и изпънете пръстите на ръцете си докато почувствате леко напрежение и задръжте така за 10 секунди. Отпуснете се, свийте пръсти в кокалчетата и задръжте отново за 10 секунди. Повторете упражнението още веднъж."
+msgid ""
+"Separate and stretch your fingers until a mild tension is felt, and hold "
+"this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
+"again for 10 seconds. Repeat this exercise once more."
+msgstr ""
+"Разделете и изпънете пръстите на ръцете си докато почувствате леко "
+"напрежение и задръжте така за 10 секунди. Отпуснете се, свийте пръсти в "
+"кокалчетата и задръжте отново за 10 секунди. Повторете упражнението още "
+"веднъж."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
 msgid "Shoulder-arm stretch"
 msgstr "Разтягане на рамената"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:16
-msgid "Spin your right arm slowly round like a plane propeller beside your body. Do this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat with the left arm."
-msgstr "Завъртете бавно дясната си ръка в кръг покрай тялото като перка на самолет. Направете това 4 пъти напред, 4 пъти назад и се отпуснете за няколко секунди. Повторете и с лявата ръка."
+msgid ""
+"Spin your right arm slowly round like a plane propeller beside your body. Do "
+"this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
+"with the left arm."
+msgstr ""
+"Завъртете бавно дясната си ръка в кръг покрай тялото като перка на самолет. "
+"Направете това 4 пъти напред, 4 пъти назад и се отпуснете за няколко "
+"секунди. Повторете и с лявата ръка."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
-msgid "Start with your head in a comfortable straight position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side."
-msgstr "Застанете с нормално изправена глава и леко я наклонете към дясното си рамо за да разтегнете леко мускулите отляво на врата. Задръжте тази позиция за 5 секунди. После наклонете глава наляво за да разтегнете и на другата страна. Направете по два пъти за всяка страна."
+msgid ""
+"Start with your head in a comfortable straight position. Then, slowly tilt "
+"your head to your right shoulder to gently stretch the muscles on the left "
+"side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
+"the left side to stretch your other side. Do this twice for each side."
+msgstr ""
+"Застанете с нормално изправена глава и леко я наклонете към дясното си рамо "
+"за да разтегнете леко мускулите отляво на врата. Задръжте тази позиция за 5 "
+"секунди. После наклонете глава наляво за да разтегнете и на другата страна. "
+"Направете по два пъти за всяка страна."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
 msgid "Train focusing the eyes"
@@ -955,8 +1023,12 @@ msgid "Turn your head"
 msgstr "Завъртете глава"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:20
-msgid "Turn your head left and keep it there for 2 seconds. Then turn your head right and keep it there for 2 seconds."
-msgstr "Завъртете глава наляво и задръжте така за 2 секунди. После завъртете глава надясно и я задръжте така за 2 секунди."
+msgid ""
+"Turn your head left and keep it there for 2 seconds. Then turn your head "
+"right and keep it there for 2 seconds."
+msgstr ""
+"Завъртете глава наляво и задръжте така за 2 секунди. После завъртете глава "
+"надясно и я задръжте така за 2 секунди."
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
 msgid "Break ignored"
@@ -989,4 +1061,3 @@ msgstr "Почивката свърши"
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:9
 msgid "Rest break started"
 msgstr "Почивката започна"
-

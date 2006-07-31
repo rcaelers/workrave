@@ -31,7 +31,7 @@ static const char rcsid[] = "$Id$";
 
 KdeSoundPlayer::KdeSoundPlayer()
 {
-  kinstance = new KInstance("Workrave");
+  kinstance = new KInstance("kworkrave");
 }
 
 KdeSoundPlayer::~KdeSoundPlayer()

@@ -369,7 +369,8 @@ verb_about(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
     "Jordi Mallach <jordi@sindominio.net>\n"
     "Daniel Nylander <info@danielnylander.se>\n"
     "Masanobu Yokota <masanobu.yokota@nifty.com>\n"
-    "Иван Димов <idimov@users.sourceforge.net>\n";
+    "Иван Димов <idimov@users.sourceforge.net>\n"
+    "�RY M�t�<orymate@gmail.com>\n";
 
   GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(WORKRAVE_DATADIR "/images/workrave.png", NULL);  
   gtk_widget_show (gnome_about_new

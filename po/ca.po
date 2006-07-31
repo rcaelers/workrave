@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.8.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-11-07 23:14-0500\n"
-"PO-Revision-Date: 2006-03-17 11:37+0000\n"
+"POT-Creation-Date: 2006-07-31 18:20+0200\n"
+"PO-Revision-Date: 2006-07-31 17:56+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
 "MIME-Version: 1.0\n"
@@ -68,7 +68,7 @@ msgstr "Ajorna"
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:45
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:53
 #: ../frontend/common/src/TimerBoxControl.cc:195
-#: ../frontend/gtkmm/src/GtkUtil.cc:154
+#: ../frontend/gtkmm/src/GtkUtil.cc:160
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
 msgid "Daily limit"
 msgstr "Límit diari"
@@ -89,16 +89,16 @@ msgstr "No s'ha pogut iniciar el Bonobo"
 
 #. FIXME: duplicate
 #: ../frontend/common/src/TimerBoxControl.cc:195
-#: ../frontend/gtkmm/src/GtkUtil.cc:154
+#: ../frontend/gtkmm/src/GtkUtil.cc:160
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:52
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:172
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:271
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:171
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:270
 msgid "Micro-break"
 msgstr "Micropausa"
 
 #: ../frontend/common/src/TimerBoxControl.cc:195
-#: ../frontend/gtkmm/src/GtkUtil.cc:154
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:145
+#: ../frontend/gtkmm/src/GtkUtil.cc:160
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:144
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:76
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:206
 msgid "Rest break"
@@ -109,7 +109,7 @@ msgid "Inactive"
 msgstr "Inactiu"
 
 #: ../frontend/common/src/TimerBoxControl.cc:261
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:161
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:180
 msgid "Wait"
 msgstr "Espereu"
 
@@ -180,32 +180,34 @@ msgstr "Quant a..."
 msgid "Preferences"
 msgstr "Preferències"
 
-#: ../frontend/gtkmm/src/Menus.cc:716
+#: ../frontend/gtkmm/src/Menus.cc:721
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
-msgstr "Aquest programa ajuda a la prevenció i recuperació del mal de pressió repetitiva (RSI)."
+msgstr ""
+"Aquest programa ajuda a la prevenció i recuperació del mal de pressió "
+"repetitiva (RSI)."
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:233
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:232
 msgid "Please relax for a few seconds"
 msgstr "Relaxeu-vos durant uns pocs segons"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:240
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:239
 #, c-format
 msgid "Next rest break in %s"
 msgstr "El següent descans és en %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:245
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:244
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Fa %s que hauríeu d'haver descansat"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:258
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:257
 #, c-format
 msgid "Daily limit in %s"
 msgstr "El límit diari és en %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:263
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:262
 #, c-format
 msgid "Daily limit %s overdue"
 msgstr "Fa %s que heu arribat al vostre límit diari"
@@ -225,7 +227,7 @@ msgstr "Miniaplicació"
 
 #. Notebook
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:76
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:169
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:164
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:202
 msgid "Timers"
 msgstr "Temporitzadors"
@@ -289,17 +291,20 @@ msgstr "Necessiteu un descans..."
 msgid "You should stop for today..."
 msgstr "Hauríeu d'acabar per avui"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:253
-msgid "Break in"
-msgstr "Descans en"
+#: ../frontend/gtkmm/src/PreludeWindow.cc:255
+#, c-format
+msgid "Break in %s"
+msgstr "Descans en %s"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:257
-msgid "Disappears in"
-msgstr "Desapareix en"
+#: ../frontend/gtkmm/src/PreludeWindow.cc:259
+#, c-format
+msgid "Disappears in %s"
+msgstr "Desapareix en %s"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:261
-msgid "Silent in"
-msgstr "Silenciós en"
+#: ../frontend/gtkmm/src/PreludeWindow.cc:263
+#, c-format
+msgid "Silent in %s"
+msgstr "Silenciós en %s"
 
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:167
 #, c-format
@@ -316,68 +321,68 @@ msgstr ""
 "us allunyeu de l'ordinador de tant en tant. Simplement\n"
 "camineu durants uns minuts, estireu-vos i relaxeu-vos."
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:96
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:97
 msgid "Place timers next to each other"
 msgstr "Posiciona els temporitzadors un al costat de l'altre"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:98
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:99
 msgid "Place micro-break and rest break in one spot"
 msgstr "Posiciona la micropausa i el descans en un lloc"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:100
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:101
 msgid "Place rest break and daily limit in one spot"
 msgstr "Posiciona el descans i el límit diari en un lloc"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:102
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:103
 msgid "Place all timers in one spot"
 msgstr "Posiciona tots els temporitzadors en un lloc"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:125
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:123
 msgid "Hide"
 msgstr "Amaga"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:127
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:125
 msgid "Show"
 msgstr "Mostra"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:129
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:127
 msgid "Show only when this timer is first due"
 msgstr "Mostra"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:139
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:135
 msgid "Show status window"
 msgstr "Mostra la finestra d'estat"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:144
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:140
 msgid "The status window stays always on top of other windows"
 msgstr "La finestra d'estat es queda sempre per damunt de les altres finestres"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:150
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:146
 msgid "Applet enabled"
 msgstr "Miniaplicació habilitada"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:157
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:152
 msgid "Display"
 msgstr "Visualizació"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:166
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:161
 msgid "Placement:"
 msgstr "Ubicació:"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:167
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:162
 msgid "Cycle time:"
 msgstr "Temps del cicle:"
 
 #. Layout
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:172
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:167
 msgid "Micro-break:"
 msgstr "Micropausa:"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:173
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:168
 msgid "Rest break:"
 msgstr "Descans:"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:174
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:169
 msgid "Daily limit:"
 msgstr "Límit diari:"
 
@@ -553,7 +558,10 @@ msgstr "Avançat"
 msgid ""
 "The following list specifies the hosts that Workrave connects to on\n"
 "start-up. Click the host name or port number to edit."
-msgstr "La llista següent especifica els ordinadors als quals es connecta el Workrave per a iniciar-se. Feu clic en el nom de l'ordinador o el port per a editar-ho."
+msgstr ""
+"La llista següent especifica els ordinadors als quals es connecta el "
+"Workrave per a iniciar-se. Feu clic en el nom de l'ordinador o el port per a "
+"editar-ho."
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:188
 msgid "Host name"
@@ -587,7 +595,9 @@ msgstr "Preguntes de descansos"
 msgid ""
 "The number of times you were prompted to break, excluding repeated prompts "
 "for the same break"
-msgstr "El nombre de vegades que se us va demanar descansar, excloent les preguntes repetides per al mateix descans"
+msgstr ""
+"El nombre de vegades que se us va demanar descansar, excloent les preguntes "
+"repetides per al mateix descans"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:190
 msgid "Repeated prompts"
@@ -611,7 +621,8 @@ msgstr "Descansos naturals presos"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:201
 msgid "The number of times you took a break without being prompted"
-msgstr "El número de vegades que us heu pres un descans sense que se us demanara"
+msgstr ""
+"El número de vegades que us heu pres un descans sense que se us demanara"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:205
 msgid "Breaks skipped"
@@ -736,118 +747,118 @@ msgid "Connecting to %s:%d."
 msgstr ""
 
 #: ../backend/src/DistributionSocketLink.cc:654
-#: ../backend/src/DistributionSocketLink.cc:679
+#: ../backend/src/DistributionSocketLink.cc:681
 #, c-format
 msgid "Removing client %s:%d."
 msgstr ""
 
 #. Closing direct connection.
-#: ../backend/src/DistributionSocketLink.cc:716
+#: ../backend/src/DistributionSocketLink.cc:720
 #, c-format
 msgid "Disconnecting %s:%d."
 msgstr ""
 
 #. It's a remote client. mark it master.
-#: ../backend/src/DistributionSocketLink.cc:884
+#: ../backend/src/DistributionSocketLink.cc:890
 #, c-format
 msgid "Client %s:%d is now master."
 msgstr ""
 
 #. Its ME!
-#: ../backend/src/DistributionSocketLink.cc:890
+#: ../backend/src/DistributionSocketLink.cc:896
 msgid "I'm now master."
 msgstr ""
 
-#: ../backend/src/DistributionSocketLink.cc:1219
+#: ../backend/src/DistributionSocketLink.cc:1225
 #, c-format
 msgid "Client %s:%d saying hello."
 msgstr ""
 
 #. Duplicate client. inform client that it's bogus and close.
-#: ../backend/src/DistributionSocketLink.cc:1234
-#: ../backend/src/DistributionSocketLink.cc:1351
-#: ../backend/src/DistributionSocketLink.cc:1587
+#: ../backend/src/DistributionSocketLink.cc:1240
+#: ../backend/src/DistributionSocketLink.cc:1359
+#: ../backend/src/DistributionSocketLink.cc:1596
 #, c-format
 msgid "Client %s:%d is duplicate."
 msgstr ""
 
 #. Incorrect password.
-#: ../backend/src/DistributionSocketLink.cc:1243
+#: ../backend/src/DistributionSocketLink.cc:1249
 #, c-format
 msgid "Client %s:%d access denied."
 msgstr ""
 
-#: ../backend/src/DistributionSocketLink.cc:1310
+#: ../backend/src/DistributionSocketLink.cc:1316
 #, c-format
 msgid "Client %s:%d signed off."
 msgstr ""
 
-#: ../backend/src/DistributionSocketLink.cc:1389
+#: ../backend/src/DistributionSocketLink.cc:1398
 #, c-format
 msgid "Client %s:%d is welcoming us."
 msgstr ""
 
-#: ../backend/src/DistributionSocketLink.cc:1622
+#: ../backend/src/DistributionSocketLink.cc:1633
 #, c-format
 msgid "Requesting master status from %s:%d."
 msgstr ""
 
-#: ../backend/src/DistributionSocketLink.cc:1635
+#: ../backend/src/DistributionSocketLink.cc:1646
 #, c-format
 msgid "Client timeout from %s:%d."
 msgstr ""
 
-#: ../backend/src/DistributionSocketLink.cc:1656
+#: ../backend/src/DistributionSocketLink.cc:1667
 #, c-format
 msgid "Rejecting master request from client %s:%d."
 msgstr ""
 
-#: ../backend/src/DistributionSocketLink.cc:1662
+#: ../backend/src/DistributionSocketLink.cc:1673
 #, c-format
 msgid "Acknowledging master request from client %s:%d."
 msgstr ""
 
-#: ../backend/src/DistributionSocketLink.cc:1713
+#: ../backend/src/DistributionSocketLink.cc:1724
 #, c-format
 msgid "Non-master client %s:%d rejected master request."
 msgstr ""
 
-#: ../backend/src/DistributionSocketLink.cc:1718
+#: ../backend/src/DistributionSocketLink.cc:1729
 #, c-format
 msgid "Client %s:%d rejected master request, delaying."
 msgstr ""
 
 #. gint count =
-#: ../backend/src/DistributionSocketLink.cc:1789
+#: ../backend/src/DistributionSocketLink.cc:1800
 #, c-format
 msgid "Client %s is now the new master."
 msgstr ""
 
-#: ../backend/src/DistributionSocketLink.cc:1910
+#: ../backend/src/DistributionSocketLink.cc:1921
 msgid "Network operation started."
 msgstr ""
 
-#: ../backend/src/DistributionSocketLink.cc:1927
+#: ../backend/src/DistributionSocketLink.cc:1938
 msgid "Accepted new client."
 msgstr ""
 
-#: ../backend/src/DistributionSocketLink.cc:1982
+#: ../backend/src/DistributionSocketLink.cc:1993
 #, c-format
 msgid "Client %s:%d read error, closing."
 msgstr ""
 
-#: ../backend/src/DistributionSocketLink.cc:1987
-#: ../backend/src/DistributionSocketLink.cc:2058
+#: ../backend/src/DistributionSocketLink.cc:1999
+#: ../backend/src/DistributionSocketLink.cc:2073
 #, c-format
 msgid "Client %s:%d closed connection."
 msgstr ""
 
-#: ../backend/src/DistributionSocketLink.cc:2027
+#: ../backend/src/DistributionSocketLink.cc:2040
 #, c-format
 msgid "Client %s:%d connected."
 msgstr ""
 
-#: ../backend/src/DistributionSocketLink.cc:2063
+#: ../backend/src/DistributionSocketLink.cc:2080
 #, c-format
 msgid "Could not connect to client %s:%d."
 msgstr ""

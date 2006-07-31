@@ -22,7 +22,7 @@ EXTRA_DIST = 		${sounds_DATA} $(utils_DATA) workrave.soundlist.in eventsrc.in
 
 if HAVE_KDE
 
-kdesoundsdir = 		$(kde_sounddir)
+kdesoundsdir = 		$(kde_sounddir)/workrave
 kdesounds_DATA = 	$(wildcard *.wav)
 
 eventsrc: eventsrc.in

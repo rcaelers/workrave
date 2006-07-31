@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-05-12 20:35+0200\n"
-"PO-Revision-Date: 2005-05-11 22:14+0100\n"
+"POT-Creation-Date: 2006-07-31 18:20+0200\n"
+"PO-Revision-Date: 2006-07-31 18:08+0200\n"
 "Last-Translator: Christian Vejlbo <cve@vejlbo.dk>\n"
 "Language-Team:  <da@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -50,26 +50,26 @@ msgstr "_Credits"
 msgid "About %s"
 msgstr "Om %s"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:195
+#: ../frontend/gtkmm/src/BreakWindow.cc:198
 msgid "Lock"
 msgstr "Lås"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:214
+#: ../frontend/gtkmm/src/BreakWindow.cc:217
 msgid "Shut down"
 msgstr "Luk ned"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:231
+#: ../frontend/gtkmm/src/BreakWindow.cc:234
 msgid "Skip"
 msgstr "Spring over"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:244
+#: ../frontend/gtkmm/src/BreakWindow.cc:247
 msgid "Postpone"
 msgstr "Udsæt"
 
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:45
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:53
 #: ../frontend/common/src/TimerBoxControl.cc:195
-#: ../frontend/gtkmm/src/GtkUtil.cc:154
+#: ../frontend/gtkmm/src/GtkUtil.cc:160
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
 msgid "Daily limit"
 msgstr "Daglig grænse"
@@ -90,18 +90,18 @@ msgstr "Teknisk besked: Kunne ikke initialisere Bonobo"
 
 #. FIXME: duplicate
 #: ../frontend/common/src/TimerBoxControl.cc:195
-#: ../frontend/gtkmm/src/GtkUtil.cc:154
+#: ../frontend/gtkmm/src/GtkUtil.cc:160
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:52
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:172
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:268
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:171
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:270
 msgid "Micro-break"
 msgstr "Mikropause"
 
 #: ../frontend/common/src/TimerBoxControl.cc:195
-#: ../frontend/gtkmm/src/GtkUtil.cc:154
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:145
+#: ../frontend/gtkmm/src/GtkUtil.cc:160
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:144
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:76
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:203
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:206
 msgid "Rest break"
 msgstr "Hvilepause"
 
@@ -110,7 +110,7 @@ msgid "Inactive"
 msgstr "Inaktiv"
 
 #: ../frontend/common/src/TimerBoxControl.cc:261
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:161
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:180
 msgid "Wait"
 msgstr "Vent"
 
@@ -182,7 +182,7 @@ msgstr "Om..."
 msgid "Preferences"
 msgstr "Indstillinger"
 
-#: ../frontend/gtkmm/src/Menus.cc:716
+#: ../frontend/gtkmm/src/Menus.cc:721
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -191,26 +191,26 @@ msgstr ""
 "Injury).\n"
 "Endvidere kan det hjælpe brugere til bedre skærmvaner."
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:230
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:232
 msgid "Please relax for a few seconds"
 msgstr "Udnyt den lille pause til at slappe lidt af."
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:237
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:239
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Næste hvilepause om %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:242
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:244
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Tidspunktet for hvilepause er overskredet med %s minutter"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:255
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:257
 #, c-format
 msgid "Daily limit in %s"
 msgstr "Daglig grænse er nået om %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:260
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:262
 #, c-format
 msgid "Daily limit %s overdue"
 msgstr "Daglig grænse overskredet med %s"
@@ -231,7 +231,7 @@ msgstr "Applet"
 #  Notebook
 #. Notebook
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:76
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:169
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:164
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:202
 msgid "Timers"
 msgstr "Tidstællere"
@@ -297,24 +297,27 @@ msgstr "Du har brug for en hvilepause..."
 msgid "You should stop for today..."
 msgstr "Du bør stoppe for i dag."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:253
-msgid "Break in"
-msgstr "Pause om"
+#: ../frontend/gtkmm/src/PreludeWindow.cc:255
+#, c-format
+msgid "Break in %s"
+msgstr "Pause om %s"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:257
-msgid "Disappears in"
-msgstr "Forsvinder om"
+#: ../frontend/gtkmm/src/PreludeWindow.cc:259
+#, c-format
+msgid "Disappears in %s"
+msgstr "Forsvinder om %s"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:261
-msgid "Silent in"
-msgstr "Tavs om"
+#: ../frontend/gtkmm/src/PreludeWindow.cc:263
+#, c-format
+msgid "Silent in %s"
+msgstr "Tavs om %s"
 
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:167
 #, c-format
 msgid "Rest break for %s"
 msgstr "Hvilepause i %s"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:204
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:207
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -324,68 +327,68 @@ msgstr ""
 "væk fra computeren. Slap blot lidt af i et par minutter:\n"
 "stræk ud, slap af, tag lidt kaffe eller lignende. "
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:96
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:97
 msgid "Place timers next to each other"
 msgstr "Placér tiderne ved siden af hinanden"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:98
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:99
 msgid "Place micro-break and rest break in one spot"
 msgstr "Placér mikropauser og hvilepauser på samme tidspunkt"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:100
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:101
 msgid "Place rest break and daily limit in one spot"
 msgstr "Placer hvilepauser og daglig grænse på samme tidspunkt"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:102
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:103
 msgid "Place all timers in one spot"
 msgstr "Placer alle pauser på samme tidspunkt"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:125
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:123
 msgid "Hide"
 msgstr "Skjul"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:127
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:125
 msgid "Show"
 msgstr "Vis"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:129
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:127
 msgid "Show only when this timer is first due"
 msgstr "Vis kun første gang perioden udløber"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:139
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:135
 msgid "Show status window"
 msgstr "Vis status vindue"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:144
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:140
 msgid "The status window stays always on top of other windows"
 msgstr "Statusvinduet er altid øverst"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:150
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:146
 msgid "Applet enabled"
 msgstr "Applet aktiveret"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:157
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:152
 msgid "Display"
 msgstr "Vis"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:166
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:161
 msgid "Placement:"
 msgstr "Placering:"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:167
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:162
 msgid "Cycle time:"
 msgstr "Tidscyklus:"
 
 #. Layout
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:172
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:167
 msgid "Micro-break:"
 msgstr "Mikropause:"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:173
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:168
 msgid "Rest break:"
 msgstr "Hvilepause:"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:174
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:169
 msgid "Daily limit:"
 msgstr "Daglig grænse:"
 
@@ -750,118 +753,118 @@ msgid "Connecting to %s:%d."
 msgstr "Tilslutter til %s:%d."
 
 #: ../backend/src/DistributionSocketLink.cc:654
-#: ../backend/src/DistributionSocketLink.cc:679
+#: ../backend/src/DistributionSocketLink.cc:681
 #, c-format
 msgid "Removing client %s:%d."
 msgstr "Fjerner klient %s:%d."
 
 #. Closing direct connection.
-#: ../backend/src/DistributionSocketLink.cc:716
+#: ../backend/src/DistributionSocketLink.cc:720
 #, c-format
 msgid "Disconnecting %s:%d."
 msgstr "Afbryder %s:%d."
 
 #. It's a remote client. mark it master.
-#: ../backend/src/DistributionSocketLink.cc:884
+#: ../backend/src/DistributionSocketLink.cc:890
 #, c-format
 msgid "Client %s:%d is now master."
 msgstr "Klienten %s:%d er nu 'master'"
 
 #. Its ME!
-#: ../backend/src/DistributionSocketLink.cc:890
+#: ../backend/src/DistributionSocketLink.cc:896
 msgid "I'm now master."
 msgstr "Jeg er nu 'master'"
 
-#: ../backend/src/DistributionSocketLink.cc:1219
+#: ../backend/src/DistributionSocketLink.cc:1225
 #, c-format
 msgid "Client %s:%d saying hello."
 msgstr "Klient %s:%d siger 'hej'."
 
 #. Duplicate client. inform client that it's bogus and close.
-#: ../backend/src/DistributionSocketLink.cc:1234
-#: ../backend/src/DistributionSocketLink.cc:1351
-#: ../backend/src/DistributionSocketLink.cc:1587
+#: ../backend/src/DistributionSocketLink.cc:1240
+#: ../backend/src/DistributionSocketLink.cc:1359
+#: ../backend/src/DistributionSocketLink.cc:1596
 #, c-format
 msgid "Client %s:%d is duplicate."
 msgstr "Klient %s:%d er duplikat."
 
 #. Incorrect password.
-#: ../backend/src/DistributionSocketLink.cc:1243
+#: ../backend/src/DistributionSocketLink.cc:1249
 #, c-format
 msgid "Client %s:%d access denied."
 msgstr "Adgang nægtet til klient %s:%d."
 
-#: ../backend/src/DistributionSocketLink.cc:1310
+#: ../backend/src/DistributionSocketLink.cc:1316
 #, c-format
 msgid "Client %s:%d signed off."
 msgstr "Klient %s:%d lukkede ned."
 
-#: ../backend/src/DistributionSocketLink.cc:1389
+#: ../backend/src/DistributionSocketLink.cc:1398
 #, c-format
 msgid "Client %s:%d is welcoming us."
 msgstr "Klient %s:%d byder os velkommen."
 
-#: ../backend/src/DistributionSocketLink.cc:1622
+#: ../backend/src/DistributionSocketLink.cc:1633
 #, c-format
 msgid "Requesting master status from %s:%d."
 msgstr "Anmoder om master status fra %s:%d."
 
-#: ../backend/src/DistributionSocketLink.cc:1635
+#: ../backend/src/DistributionSocketLink.cc:1646
 #, c-format
 msgid "Client timeout from %s:%d."
 msgstr "Klient timeout fra %s:%d.."
 
-#: ../backend/src/DistributionSocketLink.cc:1656
+#: ../backend/src/DistributionSocketLink.cc:1667
 #, c-format
 msgid "Rejecting master request from client %s:%d."
 msgstr "Afviser master anmodning fra klient %s:%d."
 
-#: ../backend/src/DistributionSocketLink.cc:1662
+#: ../backend/src/DistributionSocketLink.cc:1673
 #, c-format
 msgid "Acknowledging master request from client %s:%d."
 msgstr "Bekræfter master anmodning fra klient %s:%d."
 
-#: ../backend/src/DistributionSocketLink.cc:1713
+#: ../backend/src/DistributionSocketLink.cc:1724
 #, c-format
 msgid "Non-master client %s:%d rejected master request."
 msgstr "Ikke-master klient %s:%d afviste master anmodning."
 
-#: ../backend/src/DistributionSocketLink.cc:1718
+#: ../backend/src/DistributionSocketLink.cc:1729
 #, c-format
 msgid "Client %s:%d rejected master request, delaying."
 msgstr "Klient %s:%d afviste master anmodning, udsætter."
 
 #. gint count =
-#: ../backend/src/DistributionSocketLink.cc:1789
+#: ../backend/src/DistributionSocketLink.cc:1800
 #, c-format
 msgid "Client %s is now the new master."
 msgstr "Klient %s er nu ny master."
 
-#: ../backend/src/DistributionSocketLink.cc:1910
+#: ../backend/src/DistributionSocketLink.cc:1921
 msgid "Network operation started."
 msgstr "Netværkfunktion startet"
 
-#: ../backend/src/DistributionSocketLink.cc:1927
+#: ../backend/src/DistributionSocketLink.cc:1938
 msgid "Accepted new client."
 msgstr "Accepterede ny klient."
 
-#: ../backend/src/DistributionSocketLink.cc:1982
+#: ../backend/src/DistributionSocketLink.cc:1993
 #, c-format
 msgid "Client %s:%d read error, closing."
 msgstr "Klient %s:%d læse-fejl, lukker."
 
-#: ../backend/src/DistributionSocketLink.cc:1987
-#: ../backend/src/DistributionSocketLink.cc:2058
+#: ../backend/src/DistributionSocketLink.cc:1999
+#: ../backend/src/DistributionSocketLink.cc:2073
 #, c-format
 msgid "Client %s:%d closed connection."
 msgstr "Klient %s:%d afbrød forbindelsen."
 
-#: ../backend/src/DistributionSocketLink.cc:2027
+#: ../backend/src/DistributionSocketLink.cc:2040
 #, c-format
 msgid "Client %s:%d connected."
 msgstr "Klient %s:%d tilsluttet."
 
-#: ../backend/src/DistributionSocketLink.cc:2063
+#: ../backend/src/DistributionSocketLink.cc:2080
 #, c-format
 msgid "Could not connect to client %s:%d."
 msgstr "Kunne ikke forbinde til klient %s:%d."
@@ -872,18 +875,6 @@ msgstr "Skulder stræ"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:2
 msgid ""
-"Close your eyes and breathe out as long as you can and try to relax. When "
-"breathing in, again do it as slowly as possible. Try to count slowly to 8 "
-"for each time you breathe in and out. To extra relax your eyes, try closing "
-"them in micro pauses too."
-msgstr ""
-"Luk dine øjne og ånd så dybt ud du kan mens du slapper af. Træk vejret ind "
-"igen så langsomt som muligt. Forsøg evt. at tælle langsomt til otte for hver "
-"gang du trækker vejret og ånder ud igen. For at slappe ekstra af i øjnene, "
-"prøv at lukke dem i mikropauser også."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:3
-msgid ""
 "Cover your eyes with your palms in such way that you can still open your "
 "eyelids. Now open your eyes and look into the darkness of your palms. This "
 "exercise gives better relief to your eyes compared to simply closing them."
@@ -892,22 +883,11 @@ msgstr ""
 "nu øjnene og kig ind i mørket i dine håndflader. Øvelsen giver bedre "
 "afslapning til dine øjne sammenlignet med bare at lukke dem."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:4
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:3
 msgid "Finger stretch"
 msgstr "Udstrækning af fingre"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
-msgid ""
-"Go stand face to a wall (or something) and put your hands at shoulder height "
-"against it with your elbows slightly bended. Push your body to the wall, "
-"without changing the angle of your elbows. Then push your body back from the "
-"wall again without changing the angle of the elbows."
-msgstr ""
-"Stil dig med ansigtet mod en væg. Placer hænderne på væggen i skulderhøjde "
-"med albuerne let bøjede. Skub kroppen mod væggen uden at ændre vinklen på "
-"albuerne. Skub dig tilbage fra væggen igen uden at ændre vinklen på albuerne"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:4
 msgid ""
 "Interlace your fingers behind your back. Then turn your elbows gently "
 "inward, while straightening your arms. Hold this position for 5 to 15 "
@@ -916,7 +896,7 @@ msgstr ""
 "Flet fingrene bag ryggen. Drej albuerne forsigtigt indad, mens du strækker "
 "dine arme. Hold stillingen i 5 til 15 sekunder. Gentag øvelsen to gange."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
 msgid ""
 "Keep one arm horizontally stretched in front of your chest. Push this arm "
 "with your other arm towards you until you feel a mild tension in your "
@@ -928,17 +908,7 @@ msgstr ""
 "et let stræk i din skulder. Hold strækket kortvarigt, og gentag øvelsen med "
 "den modsatte arm."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
-msgid ""
-"Keep your head straight and your lower jaw parallel to the floor. Move your "
-"head back (making a double chin). Keep this 2 seconds and relax. Move your "
-"head the same way forward, keep this 2 seconds and relax again."
-msgstr ""
-"Hold hovedet fremad med kæben parallel med gulvet. Flyt langsome hovedet "
-"tilbage (så du laver dobbelt-hage). Hold positionen i to sekunder. Flyt "
-"hovedet forsigtigt fremad og slap af."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:9
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
 msgid ""
 "Look at the upper left corner of the outside border of your monitor. Follow "
 "the border slowly to the upper right corner. Continue to the next corner, "
@@ -949,7 +919,7 @@ msgstr ""
 "hjørne osv, indtil du er nået hele vejen rundt to gange, Gentag øvelsen den "
 "modsatte vej rundt."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:10
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
 msgid ""
 "Look for the furthest point you can see behind your monitor. Focus your eyes "
 "on the remote point. Then focus on your monitor border. Repeat it. If you "
@@ -962,35 +932,27 @@ msgstr ""
 "kuglepen i stedet for kanten af skærmen i en anden retning end skærmen, hvis "
 "du har bedre afstand der."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:11
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
 msgid "Look into the darkness"
 msgstr "Kig ind i mørke"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:9
 msgid "Move the eyes"
 msgstr "Bevæg øjnene"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
-msgid "Move the shoulder blades"
-msgstr "Bevæg skulderbladene"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:10
 msgid "Move the shoulders"
 msgstr "Bevæg skuldrene"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:11
 msgid "Move the shoulders up and down"
 msgstr "Bevæg skuldrene op og ned"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:16
-msgid "Neck stretch"
-msgstr "Nakke stræk"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
 msgid "Neck tilt stretch"
 msgstr "Udstræk af nakke"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
 msgid ""
 "Put your hands on the armrests of your chair when you are sitting down and "
 "press your body up until your arms are straight. Try to move your head even "
@@ -1000,11 +962,7 @@ msgstr ""
 "strækkede. Forsøg at strække hovedet endnu mere opad ved at sænke skuldrene. "
 "Bevæg dig forsigtigt tibage på plads."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:19
-msgid "Relax the eyes"
-msgstr "Slap af i øjnene"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:20
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
 msgid ""
 "Separate and stretch your fingers until a mild tension is felt, and hold "
 "this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
@@ -1014,11 +972,11 @@ msgstr ""
 "10 sekunder. Slap lidt af og bør herefter dine fingre. Hold positionen i 10 "
 "sekunder. Gentag øvelsen igen."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:21
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
 msgid "Shoulder-arm stretch"
 msgstr "Skulder/arm udstrækning"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:22
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:16
 msgid ""
 "Spin your right arm slowly round like a plane propeller beside your body. Do "
 "this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
@@ -1028,29 +986,7 @@ msgstr ""
 "sving fremad, og 4 sving tilbage og slap af i et par skunder. Gentag øvelsen "
 "med venstre arm."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:23
-msgid ""
-"Stand by your desk and place both your palms on the desk with the fingers "
-"pointing toward your body. Gently stretch your wrists and lower arms."
-msgstr ""
-"Stå ved dit bord og placer begge håndflader på bordfladen, med fingrene "
-"pegende mod din krop. Stræk forsigtigt håndled og underarm."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:24
-msgid ""
-"Stand up and try to reach the ceiling with your hands without lifting your "
-"heels. Hold that for a few seconds. Then let your hands slowly go to the "
-"floor, without bending your arms. Keep them moving to the floor by bending "
-"you back slowly until you can (almost) place them in front of your shoes. "
-"Slowly roll your back up straight from your hips up, until it is straight up "
-"again."
-msgstr ""
-"Stå oprejst og ræk ud efter loftet med hænderne uden at løfte hælene fra "
-"gulvet. Hold strækket i et par sekunder. Lad derefter en forover-rulning i "
-"ryggen så dine hænder (næsten) rører jorden foran dine fødder. Rul "
-"forsigtigt tlbage til oprejst position."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:25
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
 msgid ""
 "Start with your head in a comfortable straight position. Then, slowly tilt "
 "your head to your right shoulder to gently stretch the muscles on the left "
@@ -1062,29 +998,21 @@ msgstr ""
 "strækket i 5 sekunder. Gentag derefter øvelsen med venstre øre mod venstre "
 "skulder. Udfør øvelsen to gange til hver side."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:26
-msgid "Stretch your back"
-msgstr "Stræk ryggen"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:27
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
 msgid "Train focusing the eyes"
 msgstr "Træn øjen-fokusering"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:28
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:19
 msgid "Turn your head"
 msgstr "Drej hovedet"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:29
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:20
 msgid ""
 "Turn your head left and keep it there for 2 seconds. Then turn your head "
 "right and keep it there for 2 seconds."
 msgstr ""
 "Drej hovedet med venstre og hold det drejet i to sekunder. Drej derefter "
 "hovedet mod højre i to sekunder."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:30
-msgid "Wrist and lower arm desk stretch"
-msgstr "Udstrækning af håndled og underarm"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
 msgid "Break ignored"
@@ -1117,6 +1045,72 @@ msgstr "Hvilepause afsluttet"
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:9
 msgid "Rest break started"
 msgstr "Hvilepause startet"
+
+#~ msgid ""
+#~ "Close your eyes and breathe out as long as you can and try to relax. When "
+#~ "breathing in, again do it as slowly as possible. Try to count slowly to 8 "
+#~ "for each time you breathe in and out. To extra relax your eyes, try "
+#~ "closing them in micro pauses too."
+#~ msgstr ""
+#~ "Luk dine øjne og ånd så dybt ud du kan mens du slapper af. Træk vejret "
+#~ "ind igen så langsomt som muligt. Forsøg evt. at tælle langsomt til otte "
+#~ "for hver gang du trækker vejret og ånder ud igen. For at slappe ekstra af "
+#~ "i øjnene, prøv at lukke dem i mikropauser også."
+
+#~ msgid ""
+#~ "Go stand face to a wall (or something) and put your hands at shoulder "
+#~ "height against it with your elbows slightly bended. Push your body to the "
+#~ "wall, without changing the angle of your elbows. Then push your body back "
+#~ "from the wall again without changing the angle of the elbows."
+#~ msgstr ""
+#~ "Stil dig med ansigtet mod en væg. Placer hænderne på væggen i "
+#~ "skulderhøjde med albuerne let bøjede. Skub kroppen mod væggen uden at "
+#~ "ændre vinklen på albuerne. Skub dig tilbage fra væggen igen uden at ændre "
+#~ "vinklen på albuerne"
+
+#~ msgid ""
+#~ "Keep your head straight and your lower jaw parallel to the floor. Move "
+#~ "your head back (making a double chin). Keep this 2 seconds and relax. "
+#~ "Move your head the same way forward, keep this 2 seconds and relax again."
+#~ msgstr ""
+#~ "Hold hovedet fremad med kæben parallel med gulvet. Flyt langsome hovedet "
+#~ "tilbage (så du laver dobbelt-hage). Hold positionen i to sekunder. Flyt "
+#~ "hovedet forsigtigt fremad og slap af."
+
+#~ msgid "Move the shoulder blades"
+#~ msgstr "Bevæg skulderbladene"
+
+#~ msgid "Neck stretch"
+#~ msgstr "Nakke stræk"
+
+#~ msgid "Relax the eyes"
+#~ msgstr "Slap af i øjnene"
+
+#~ msgid ""
+#~ "Stand by your desk and place both your palms on the desk with the fingers "
+#~ "pointing toward your body. Gently stretch your wrists and lower arms."
+#~ msgstr ""
+#~ "Stå ved dit bord og placer begge håndflader på bordfladen, med fingrene "
+#~ "pegende mod din krop. Stræk forsigtigt håndled og underarm."
+
+#~ msgid ""
+#~ "Stand up and try to reach the ceiling with your hands without lifting "
+#~ "your heels. Hold that for a few seconds. Then let your hands slowly go to "
+#~ "the floor, without bending your arms. Keep them moving to the floor by "
+#~ "bending you back slowly until you can (almost) place them in front of "
+#~ "your shoes. Slowly roll your back up straight from your hips up, until it "
+#~ "is straight up again."
+#~ msgstr ""
+#~ "Stå oprejst og ræk ud efter loftet med hænderne uden at løfte hælene fra "
+#~ "gulvet. Hold strækket i et par sekunder. Lad derefter en forover-rulning "
+#~ "i ryggen så dine hænder (næsten) rører jorden foran dine fødder. Rul "
+#~ "forsigtigt tlbage til oprejst position."
+
+#~ msgid "Stretch your back"
+#~ msgstr "Stræk ryggen"
+
+#~ msgid "Wrist and lower arm desk stretch"
+#~ msgstr "Udstrækning af håndled og underarm"
 
 #, fuzzy
 #~ msgid "Restbreak"

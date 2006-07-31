@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.6.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-05-11 20:28+0200\n"
-"PO-Revision-Date: 2005-05-11 00:03+0100\n"
+"POT-Creation-Date: 2006-07-31 18:20+0200\n"
+"PO-Revision-Date: 2006-07-31 18:09+0200\n"
 "Last-Translator: Benjamin Siband <translations@muachi.com>\n"
 "Language-Team: Français <thomas.basset@netcourrier.com;translations@muachi."
 "com>\n"
@@ -46,26 +46,26 @@ msgstr "_Crédits"
 msgid "About %s"
 msgstr "À propos de %s"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:195
+#: ../frontend/gtkmm/src/BreakWindow.cc:198
 msgid "Lock"
 msgstr "Verrouiller"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:214
+#: ../frontend/gtkmm/src/BreakWindow.cc:217
 msgid "Shut down"
 msgstr "Éteindre"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:231
+#: ../frontend/gtkmm/src/BreakWindow.cc:234
 msgid "Skip"
 msgstr "Ignorer"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:244
+#: ../frontend/gtkmm/src/BreakWindow.cc:247
 msgid "Postpone"
 msgstr "Reporter"
 
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:45
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:53
 #: ../frontend/common/src/TimerBoxControl.cc:195
-#: ../frontend/gtkmm/src/GtkUtil.cc:154
+#: ../frontend/gtkmm/src/GtkUtil.cc:160
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
 msgid "Daily limit"
 msgstr "Limite journalière"
@@ -87,18 +87,18 @@ msgstr "Impossible d'initialiser Bonobo"
 
 #. FIXME: duplicate
 #: ../frontend/common/src/TimerBoxControl.cc:195
-#: ../frontend/gtkmm/src/GtkUtil.cc:154
+#: ../frontend/gtkmm/src/GtkUtil.cc:160
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:52
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:172
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:268
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:171
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:270
 msgid "Micro-break"
 msgstr "Micro-pause"
 
 #: ../frontend/common/src/TimerBoxControl.cc:195
-#: ../frontend/gtkmm/src/GtkUtil.cc:154
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:145
+#: ../frontend/gtkmm/src/GtkUtil.cc:160
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:144
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:76
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:203
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:206
 msgid "Rest break"
 msgstr "Pause prolongée"
 
@@ -107,7 +107,7 @@ msgid "Inactive"
 msgstr "Inactif"
 
 #: ../frontend/common/src/TimerBoxControl.cc:261
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:161
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:180
 msgid "Wait"
 msgstr "Veuillez patienter"
 
@@ -178,7 +178,7 @@ msgstr "À propos de..."
 msgid "Preferences"
 msgstr "Préférences"
 
-#: ../frontend/gtkmm/src/Menus.cc:716
+#: ../frontend/gtkmm/src/Menus.cc:721
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -186,26 +186,26 @@ msgstr ""
 "Ce programme aide à éviter les Troubles Musculo-Squelettiques (TMS) ou à "
 "s'en remettre."
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:230
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:232
 msgid "Please relax for a few seconds"
 msgstr "Détendez-vous quelques instants"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:237
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:239
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Prochaine pause prolongée dans %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:242
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:244
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Pause prolongée en retard de %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:255
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:257
 #, c-format
 msgid "Daily limit in %s"
 msgstr "Limite journalière dans %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:260
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:262
 #, c-format
 msgid "Daily limit %s overdue"
 msgstr "Limite journalière en retard de %s"
@@ -226,7 +226,7 @@ msgstr "Applet"
 #  Notebook
 #. Notebook
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:76
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:169
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:164
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:202
 msgid "Timers"
 msgstr "Minuteries"
@@ -292,24 +292,27 @@ msgstr "Vous devriez prendre une pause prolongée..."
 msgid "You should stop for today..."
 msgstr "Vous devriez vous arrêter pour aujourd'hui..."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:253
-msgid "Break in"
-msgstr "Pause dans"
+#: ../frontend/gtkmm/src/PreludeWindow.cc:255
+#, c-format
+msgid "Break in %s"
+msgstr "Pause dans %s"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:257
-msgid "Disappears in"
-msgstr "Disparition dans"
+#: ../frontend/gtkmm/src/PreludeWindow.cc:259
+#, c-format
+msgid "Disappears in %s"
+msgstr "Disparition dans %s"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:261
-msgid "Silent in"
-msgstr "Silencieux dans"
+#: ../frontend/gtkmm/src/PreludeWindow.cc:263
+#, c-format
+msgid "Silent in %s"
+msgstr "Silencieux dans %s"
 
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:167
 #, c-format
 msgid "Rest break for %s"
 msgstr "En pause prolongée pour encore %s"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:204
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:207
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -320,69 +323,69 @@ msgstr ""
 "régulièrement. Marchez quelques minutes, étirez-vous et\n"
 "détendez-vous."
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:96
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:97
 msgid "Place timers next to each other"
 msgstr "Placer les minuteries les unes à côté des autres"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:98
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:99
 msgid "Place micro-break and rest break in one spot"
 msgstr "Regrouper la micro-pause et la pause prolongée"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:100
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:101
 msgid "Place rest break and daily limit in one spot"
 msgstr "Regrouper la pause prolongée et la limite journalière"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:102
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:103
 msgid "Place all timers in one spot"
 msgstr "Regrouper toutes les minuteries"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:125
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:123
 msgid "Hide"
 msgstr "Masquer"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:127
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:125
 msgid "Show"
 msgstr "Afficher"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:129
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:127
 msgid "Show only when this timer is first due"
 msgstr "N'afficher qu'à la première échéance de cette minuterie"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:139
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:135
 msgid "Show status window"
 msgstr "Afficher la fenêtre d'état"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:144
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:140
 msgid "The status window stays always on top of other windows"
 msgstr "La fenêtre d'état reste au-dessus de toutes les autres fenêtres"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:150
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:146
 msgid "Applet enabled"
 msgstr "Applet activée"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:157
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:152
 msgid "Display"
 msgstr "Affichage"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:166
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:161
 msgid "Placement:"
 msgstr "Disposition:"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:167
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:162
 msgid "Cycle time:"
 msgstr "Intervalle de rotation:"
 
 #  Layout
 #. Layout
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:172
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:167
 msgid "Micro-break:"
 msgstr "Micro-pause:"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:173
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:168
 msgid "Rest break:"
 msgstr "Pause prolongée:"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:174
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:169
 msgid "Daily limit:"
 msgstr "Limite journalière:"
 
@@ -757,7 +760,7 @@ msgid "Connecting to %s:%d."
 msgstr "Connexion à %s:%d."
 
 #: ../backend/src/DistributionSocketLink.cc:654
-#: ../backend/src/DistributionSocketLink.cc:679
+#: ../backend/src/DistributionSocketLink.cc:681
 #, c-format
 msgid "Removing client %s:%d."
 msgstr "Retrait du client %s:%d de la liste."
@@ -765,7 +768,7 @@ msgstr "Retrait du client %s:%d de la liste."
 #  Closing direct connection.
 #  Closing direct connection.
 #. Closing direct connection.
-#: ../backend/src/DistributionSocketLink.cc:716
+#: ../backend/src/DistributionSocketLink.cc:720
 #, c-format
 msgid "Disconnecting %s:%d."
 msgstr "Déconnexion de %s:%d."
@@ -773,18 +776,18 @@ msgstr "Déconnexion de %s:%d."
 #  It's a remote client. mark it master.
 #  It's a remote client. mark it master.
 #. It's a remote client. mark it master.
-#: ../backend/src/DistributionSocketLink.cc:884
+#: ../backend/src/DistributionSocketLink.cc:890
 #, c-format
 msgid "Client %s:%d is now master."
 msgstr "Le client %s:%d est maintenant le maître."
 
 #  Its ME!
 #. Its ME!
-#: ../backend/src/DistributionSocketLink.cc:890
+#: ../backend/src/DistributionSocketLink.cc:896
 msgid "I'm now master."
 msgstr "Je suis maintenant le maître."
 
-#: ../backend/src/DistributionSocketLink.cc:1219
+#: ../backend/src/DistributionSocketLink.cc:1225
 #, c-format
 msgid "Client %s:%d saying hello."
 msgstr "Le client %s:%d dit bonjour."
@@ -792,9 +795,9 @@ msgstr "Le client %s:%d dit bonjour."
 #  Duplicate client. inform client that it's bogus and close.
 #  Duplicate client. inform client that it's bogus and close.
 #. Duplicate client. inform client that it's bogus and close.
-#: ../backend/src/DistributionSocketLink.cc:1234
-#: ../backend/src/DistributionSocketLink.cc:1351
-#: ../backend/src/DistributionSocketLink.cc:1587
+#: ../backend/src/DistributionSocketLink.cc:1240
+#: ../backend/src/DistributionSocketLink.cc:1359
+#: ../backend/src/DistributionSocketLink.cc:1596
 #, c-format
 msgid "Client %s:%d is duplicate."
 msgstr "Le client %s:%d existe déjà."
@@ -802,83 +805,83 @@ msgstr "Le client %s:%d existe déjà."
 #  Incorrect password.
 #  Incorrect password.
 #. Incorrect password.
-#: ../backend/src/DistributionSocketLink.cc:1243
+#: ../backend/src/DistributionSocketLink.cc:1249
 #, c-format
 msgid "Client %s:%d access denied."
 msgstr "Accès refusé au client %s:%d."
 
-#: ../backend/src/DistributionSocketLink.cc:1310
+#: ../backend/src/DistributionSocketLink.cc:1316
 #, c-format
 msgid "Client %s:%d signed off."
 msgstr "Le client %s:%d s'est déconnecté."
 
-#: ../backend/src/DistributionSocketLink.cc:1389
+#: ../backend/src/DistributionSocketLink.cc:1398
 #, c-format
 msgid "Client %s:%d is welcoming us."
 msgstr "Le client %s:%d nous souhaite la bienvenue."
 
-#: ../backend/src/DistributionSocketLink.cc:1622
+#: ../backend/src/DistributionSocketLink.cc:1633
 #, c-format
 msgid "Requesting master status from %s:%d."
 msgstr "Requête maître auprès de %s:%d."
 
-#: ../backend/src/DistributionSocketLink.cc:1635
+#: ../backend/src/DistributionSocketLink.cc:1646
 #, c-format
 msgid "Client timeout from %s:%d."
 msgstr "Le client %s:%d ne répond pas."
 
-#: ../backend/src/DistributionSocketLink.cc:1656
+#: ../backend/src/DistributionSocketLink.cc:1667
 #, c-format
 msgid "Rejecting master request from client %s:%d."
 msgstr "Requête maître du client %s:%d refusée."
 
-#: ../backend/src/DistributionSocketLink.cc:1662
+#: ../backend/src/DistributionSocketLink.cc:1673
 #, c-format
 msgid "Acknowledging master request from client %s:%d."
 msgstr "Requête maître du client %s:%d acceptée."
 
-#: ../backend/src/DistributionSocketLink.cc:1713
+#: ../backend/src/DistributionSocketLink.cc:1724
 #, c-format
 msgid "Non-master client %s:%d rejected master request."
 msgstr "Le client non maître %s:%d a refusé la requête maître."
 
-#: ../backend/src/DistributionSocketLink.cc:1718
+#: ../backend/src/DistributionSocketLink.cc:1729
 #, c-format
 msgid "Client %s:%d rejected master request, delaying."
 msgstr "Le client %s:%d a refusé la requête maître, requête reportée."
 
 #  gint count =
 #. gint count =
-#: ../backend/src/DistributionSocketLink.cc:1789
+#: ../backend/src/DistributionSocketLink.cc:1800
 #, c-format
 msgid "Client %s is now the new master."
 msgstr "Le client %s est désormais le nouveau maître."
 
-#: ../backend/src/DistributionSocketLink.cc:1910
+#: ../backend/src/DistributionSocketLink.cc:1921
 msgid "Network operation started."
 msgstr "Fonctionnement en réseau activé."
 
-#: ../backend/src/DistributionSocketLink.cc:1927
+#: ../backend/src/DistributionSocketLink.cc:1938
 msgid "Accepted new client."
 msgstr "Nouveau client accepté."
 
-#: ../backend/src/DistributionSocketLink.cc:1982
+#: ../backend/src/DistributionSocketLink.cc:1993
 #, c-format
 msgid "Client %s:%d read error, closing."
 msgstr "Erreur de lecture client %s:%d, fermeture."
 
-#: ../backend/src/DistributionSocketLink.cc:1987
-#: ../backend/src/DistributionSocketLink.cc:2058
+#: ../backend/src/DistributionSocketLink.cc:1999
+#: ../backend/src/DistributionSocketLink.cc:2073
 #, c-format
 msgid "Client %s:%d closed connection."
 msgstr "Le client %s:%d a fermé la connexion."
 
-#: ../backend/src/DistributionSocketLink.cc:2027
+#: ../backend/src/DistributionSocketLink.cc:2040
 #, c-format
 msgid "Client %s:%d connected."
 msgstr "Client %s:%d connecté."
 
-#: ../backend/src/DistributionSocketLink.cc:2063
+#: ../backend/src/DistributionSocketLink.cc:2080
 #, c-format
 msgid "Could not connect to client %s:%d."
 msgstr "Impossible de se connecter au client %s:%d."
@@ -889,18 +892,6 @@ msgstr "Étirement d'épaule arrière"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:2
 msgid ""
-"Close your eyes and breathe out as long as you can and try to relax. When "
-"breathing in, again do it as slowly as possible. Try to count slowly to 8 "
-"for each time you breathe in and out. To extra relax your eyes, try closing "
-"them in micro pauses too."
-msgstr ""
-"Fermez les yeux, et expirez aussi profondément que possible pour vous "
-"détendre. Inspirez le plus lentement possible. Essayez de compter lentement "
-"jusqu'à 8 sur chaque expiration et inspiration. Pour reposer davantage vos "
-"yeux, essayez de les fermer aussi pendant les micro-pauses."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:3
-msgid ""
 "Cover your eyes with your palms in such way that you can still open your "
 "eyelids. Now open your eyes and look into the darkness of your palms. This "
 "exercise gives better relief to your eyes compared to simply closing them."
@@ -910,23 +901,11 @@ msgstr ""
 "Cet exercice repose davantage les yeux que si vous vous contentez de les "
 "fermer."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:4
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:3
 msgid "Finger stretch"
 msgstr "Étirement des doigts"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
-msgid ""
-"Go stand face to a wall (or something) and put your hands at shoulder height "
-"against it with your elbows slightly bended. Push your body to the wall, "
-"without changing the angle of your elbows. Then push your body back from the "
-"wall again without changing the angle of the elbows."
-msgstr ""
-"Tenez-vous face à un mur (ou autre endroit approprié) et posez les mains à "
-"hauteur d'épaules sur le mur, en pliant légèrement les coudes. Poussez avec "
-"votre corps vers le mur, sans changer l'angle de vos coudes. Poussez ensuite "
-"votre corps loin du mur, toujours sans changer l'angle de vos coudes."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:4
 msgid ""
 "Interlace your fingers behind your back. Then turn your elbows gently "
 "inward, while straightening your arms. Hold this position for 5 to 15 "
@@ -936,7 +915,7 @@ msgstr ""
 "l'intérieur tout en tendant les bras. Maintenez cette position pendant 5 à "
 "15 secondes, puis recommencez."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
 msgid ""
 "Keep one arm horizontally stretched in front of your chest. Push this arm "
 "with your other arm towards you until you feel a mild tension in your "
@@ -947,18 +926,7 @@ msgstr ""
 "vous avec l'autre bras jusqu'à sentir une légère tension dans l'épaule. "
 "Maintenez cette position quelques instants, et recommencez avec l'autre bras."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
-msgid ""
-"Keep your head straight and your lower jaw parallel to the floor. Move your "
-"head back (making a double chin). Keep this 2 seconds and relax. Move your "
-"head the same way forward, keep this 2 seconds and relax again."
-msgstr ""
-"Tenez-vous la tête droite avec la mâchoire inférieure horizontale. Reculez "
-"la tête (de façon à faire un \"double menton\"). Maintenez cette position 2 "
-"secondes, puis relâchez. De la même façon, avancez la tête, maintenez la "
-"position 2 secondes, puis relâchez à nouveau."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:9
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
 msgid ""
 "Look at the upper left corner of the outside border of your monitor. Follow "
 "the border slowly to the upper right corner. Continue to the next corner, "
@@ -969,7 +937,7 @@ msgstr ""
 "Faites le tour complet de l'écran en allant aux autres coins. Faites le tour "
 "de l'écran deux fois dans un sens, puis deux fois dans le sens inverse."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:10
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
 msgid ""
 "Look for the furthest point you can see behind your monitor. Focus your eyes "
 "on the remote point. Then focus on your monitor border. Repeat it. If you "
@@ -983,35 +951,27 @@ msgstr ""
 "moniteur, utilisez un stylo, par exemple, et gardez-le à la même distance "
 "que votre moniteur."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:11
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
 msgid "Look into the darkness"
 msgstr "Regardez dans le noir"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:9
 msgid "Move the eyes"
 msgstr "Bougez les yeux"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
-msgid "Move the shoulder blades"
-msgstr "Bougez les omoplates"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:10
 msgid "Move the shoulders"
 msgstr "Bougez les épaules"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:11
 msgid "Move the shoulders up and down"
 msgstr "Montez et descendez les épaules"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:16
-msgid "Neck stretch"
-msgstr "Étirement du cou"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
 msgid "Neck tilt stretch"
 msgstr "Étirement latéral du cou"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
 msgid ""
 "Put your hands on the armrests of your chair when you are sitting down and "
 "press your body up until your arms are straight. Try to move your head even "
@@ -1022,11 +982,7 @@ msgstr ""
 "davantage en abaissant les épaules. Laissez-vous lentement redescendre dans "
 "votre fauteuil."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:19
-msgid "Relax the eyes"
-msgstr "Relaxez vos yeux"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:20
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
 msgid ""
 "Separate and stretch your fingers until a mild tension is felt, and hold "
 "this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
@@ -1037,11 +993,11 @@ msgstr ""
 "première phalange, et maintenez cette position 10 secondes également. "
 "Répétez l'exercice."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:21
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
 msgid "Shoulder-arm stretch"
 msgstr "Étirement épaules-bras"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:22
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:16
 msgid ""
 "Spin your right arm slowly round like a plane propeller beside your body. Do "
 "this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
@@ -1051,31 +1007,7 @@ msgstr ""
 "tours vers l'avant, puis 4 tours vers l'arrière. Relâchez quelques secondes. "
 "Recommencez avec l'autre bras."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:23
-msgid ""
-"Stand by your desk and place both your palms on the desk with the fingers "
-"pointing toward your body. Gently stretch your wrists and lower arms."
-msgstr ""
-"Tenez-vous debout devant votre bureau, et posez vos deux mains à plat sur le "
-"bureau, les doigts vers vous. Étirez légèrement vos poignets et avants-bras."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:24
-msgid ""
-"Stand up and try to reach the ceiling with your hands without lifting your "
-"heels. Hold that for a few seconds. Then let your hands slowly go to the "
-"floor, without bending your arms. Keep them moving to the floor by bending "
-"you back slowly until you can (almost) place them in front of your shoes. "
-"Slowly roll your back up straight from your hips up, until it is straight up "
-"again."
-msgstr ""
-"Levez-vous et essayez de toucher le plafond sans lever les talons. Maintenez "
-"cette position pendant quelques secondes. Laissez vos mains redescendre "
-"lentement, sans plier les bras. Continuez le mouvement descendant en "
-"arrondissant le dos jusqu'à pouvoir (presque) poser les mains sur le sol "
-"devant vos pieds. Déroulez alors lentement le dos à partir de la taille, "
-"jusqu'à être à nouveau droit."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:25
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
 msgid ""
 "Start with your head in a comfortable straight position. Then, slowly tilt "
 "your head to your right shoulder to gently stretch the muscles on the left "
@@ -1088,29 +1020,21 @@ msgstr ""
 "alors lentement la tête vers votre épaule gauche afin d'étirer gentiment les "
 "muscles de l'autre côté. Recommencez l'exercice deux fois de chaque côté."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:26
-msgid "Stretch your back"
-msgstr "Étirement du dos"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:27
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
 msgid "Train focusing the eyes"
 msgstr "Focalisation"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:28
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:19
 msgid "Turn your head"
 msgstr "Tournez la tête"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:29
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:20
 msgid ""
 "Turn your head left and keep it there for 2 seconds. Then turn your head "
 "right and keep it there for 2 seconds."
 msgstr ""
 "Tournez la tête à gauche et gardez cette position pendant deux secondes. "
 "Puis faites de même en tournant la tête vers la droite."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:30
-msgid "Wrist and lower arm desk stretch"
-msgstr "Étirement poignet-avant-bras sur le bureau"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
 msgid "Break ignored"
@@ -1143,3 +1067,74 @@ msgstr "Fin de la pause prolongée"
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:9
 msgid "Rest break started"
 msgstr "Début de pause prolongée"
+
+#~ msgid ""
+#~ "Close your eyes and breathe out as long as you can and try to relax. When "
+#~ "breathing in, again do it as slowly as possible. Try to count slowly to 8 "
+#~ "for each time you breathe in and out. To extra relax your eyes, try "
+#~ "closing them in micro pauses too."
+#~ msgstr ""
+#~ "Fermez les yeux, et expirez aussi profondément que possible pour vous "
+#~ "détendre. Inspirez le plus lentement possible. Essayez de compter "
+#~ "lentement jusqu'à 8 sur chaque expiration et inspiration. Pour reposer "
+#~ "davantage vos yeux, essayez de les fermer aussi pendant les micro-pauses."
+
+#~ msgid ""
+#~ "Go stand face to a wall (or something) and put your hands at shoulder "
+#~ "height against it with your elbows slightly bended. Push your body to the "
+#~ "wall, without changing the angle of your elbows. Then push your body back "
+#~ "from the wall again without changing the angle of the elbows."
+#~ msgstr ""
+#~ "Tenez-vous face à un mur (ou autre endroit approprié) et posez les mains "
+#~ "à hauteur d'épaules sur le mur, en pliant légèrement les coudes. Poussez "
+#~ "avec votre corps vers le mur, sans changer l'angle de vos coudes. Poussez "
+#~ "ensuite votre corps loin du mur, toujours sans changer l'angle de vos "
+#~ "coudes."
+
+#~ msgid ""
+#~ "Keep your head straight and your lower jaw parallel to the floor. Move "
+#~ "your head back (making a double chin). Keep this 2 seconds and relax. "
+#~ "Move your head the same way forward, keep this 2 seconds and relax again."
+#~ msgstr ""
+#~ "Tenez-vous la tête droite avec la mâchoire inférieure horizontale. "
+#~ "Reculez la tête (de façon à faire un \"double menton\"). Maintenez cette "
+#~ "position 2 secondes, puis relâchez. De la même façon, avancez la tête, "
+#~ "maintenez la position 2 secondes, puis relâchez à nouveau."
+
+#~ msgid "Move the shoulder blades"
+#~ msgstr "Bougez les omoplates"
+
+#~ msgid "Neck stretch"
+#~ msgstr "Étirement du cou"
+
+#~ msgid "Relax the eyes"
+#~ msgstr "Relaxez vos yeux"
+
+#~ msgid ""
+#~ "Stand by your desk and place both your palms on the desk with the fingers "
+#~ "pointing toward your body. Gently stretch your wrists and lower arms."
+#~ msgstr ""
+#~ "Tenez-vous debout devant votre bureau, et posez vos deux mains à plat sur "
+#~ "le bureau, les doigts vers vous. Étirez légèrement vos poignets et avants-"
+#~ "bras."
+
+#~ msgid ""
+#~ "Stand up and try to reach the ceiling with your hands without lifting "
+#~ "your heels. Hold that for a few seconds. Then let your hands slowly go to "
+#~ "the floor, without bending your arms. Keep them moving to the floor by "
+#~ "bending you back slowly until you can (almost) place them in front of "
+#~ "your shoes. Slowly roll your back up straight from your hips up, until it "
+#~ "is straight up again."
+#~ msgstr ""
+#~ "Levez-vous et essayez de toucher le plafond sans lever les talons. "
+#~ "Maintenez cette position pendant quelques secondes. Laissez vos mains "
+#~ "redescendre lentement, sans plier les bras. Continuez le mouvement "
+#~ "descendant en arrondissant le dos jusqu'à pouvoir (presque) poser les "
+#~ "mains sur le sol devant vos pieds. Déroulez alors lentement le dos à "
+#~ "partir de la taille, jusqu'à être à nouveau droit."
+
+#~ msgid "Stretch your back"
+#~ msgstr "Étirement du dos"
+
+#~ msgid "Wrist and lower arm desk stretch"
+#~ msgstr "Étirement poignet-avant-bras sur le bureau"

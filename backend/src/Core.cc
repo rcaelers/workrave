@@ -915,7 +915,7 @@ Core::process_timewarp()
 
               force_idle();
 
-#ifdef WIN32              
+#ifdef WIN32
               monitor->shift_time(gap);
               for (int i = 0; i < BREAK_ID_SIZEOF; i++)
                 {

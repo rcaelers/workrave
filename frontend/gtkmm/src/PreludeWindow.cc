@@ -1,6 +1,6 @@
 // PreludeWindow.cc
 //
-// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -220,15 +220,17 @@ PreludeWindow::stop()
 void
 PreludeWindow::refresh()
 {
+  char s[128];
+      
   time_bar->set_progress(progress_value, progress_max_value);
 
-  string s;
   int tminus = progress_max_value - progress_value;
   if (tminus >= 0 || (tminus < 0 && flash_visible))
     {
       if (tminus < 0)
         tminus = 0;
-      s = progress_text + " " + Text::time_to_string(tminus);
+
+      sprintf(s, progress_text.c_str(), Text::time_to_string(tminus).c_str());
     }
   time_bar->set_text(s);
   time_bar->update();
@@ -250,15 +252,15 @@ PreludeWindow::set_progress_text(AppInterface::PreludeProgressText text)
   switch (text)
     {
     case AppInterface::PROGRESS_TEXT_BREAK_IN:
-      progress_text = _("Break in");
+      progress_text = _("Break in %s");
       break;
       
     case AppInterface::PROGRESS_TEXT_DISAPPEARS_IN:
-      progress_text = _("Disappears in");
+      progress_text = _("Disappears in %s");
       break;
       
     case AppInterface::PROGRESS_TEXT_SILENT_IN:
-      progress_text = _("Silent in");
+      progress_text = _("Silent in %s");
       break;
     }
 }

@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave Japanese\n"
-"Report-Msgid-Bugs-To: Masanobu Yokota <masanobu.yokota@nifty.com>\n"
-"POT-Creation-Date: 2006-07-11 07:21+0200\n"
-"PO-Revision-Date: 2006-07-19 13:06+0900\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-07-31 18:20+0200\n"
+"PO-Revision-Date: 2006-07-31 18:09+0200\n"
 "Last-Translator: Masanobu Yokota <masanobu.yokota@nifty.com>\n"
 "Language-Team: Masanobu Yokota <masanobu.yokota@nifty.com>\n"
 "MIME-Version: 1.0\n"
@@ -117,77 +117,64 @@ msgid "Wait"
 msgstr "ウェイト"
 
 #. Mode menu item
-#: ../frontend/gtkmm/src/Menus.cc:169
-#: ../frontend/gtkmm/src/Menus.cc:430
+#: ../frontend/gtkmm/src/Menus.cc:169 ../frontend/gtkmm/src/Menus.cc:430
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
 msgid "_Mode"
 msgstr "モード(_M)"
 
-#: ../frontend/gtkmm/src/Menus.cc:176
-#: ../frontend/gtkmm/src/Menus.cc:409
+#: ../frontend/gtkmm/src/Menus.cc:176 ../frontend/gtkmm/src/Menus.cc:409
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
 msgid "_Normal"
 msgstr "通常モード(_N)"
 
-#: ../frontend/gtkmm/src/Menus.cc:183
-#: ../frontend/gtkmm/src/Menus.cc:416
+#: ../frontend/gtkmm/src/Menus.cc:183 ../frontend/gtkmm/src/Menus.cc:416
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
 msgid "_Suspended"
 msgstr "一時停止(_S)"
 
-#: ../frontend/gtkmm/src/Menus.cc:190
-#: ../frontend/gtkmm/src/Menus.cc:423
+#: ../frontend/gtkmm/src/Menus.cc:190 ../frontend/gtkmm/src/Menus.cc:423
 msgid "Q_uiet"
 msgstr "静粛モード(_u)"
 
-#: ../frontend/gtkmm/src/Menus.cc:204
-#: ../frontend/gtkmm/src/Menus.cc:449
+#: ../frontend/gtkmm/src/Menus.cc:204 ../frontend/gtkmm/src/Menus.cc:449
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
 msgid "_Network"
 msgstr "ネットワーク(_N)"
 
-#: ../frontend/gtkmm/src/Menus.cc:208
-#: ../frontend/gtkmm/src/Menus.cc:433
+#: ../frontend/gtkmm/src/Menus.cc:208 ../frontend/gtkmm/src/Menus.cc:433
 msgid "_Connect"
 msgstr "接続(_C)"
 
-#: ../frontend/gtkmm/src/Menus.cc:213
-#: ../frontend/gtkmm/src/Menus.cc:436
+#: ../frontend/gtkmm/src/Menus.cc:213 ../frontend/gtkmm/src/Menus.cc:436
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
 msgid "_Disconnect"
 msgstr "切断(_D)"
 
-#: ../frontend/gtkmm/src/Menus.cc:218
-#: ../frontend/gtkmm/src/Menus.cc:440
+#: ../frontend/gtkmm/src/Menus.cc:218 ../frontend/gtkmm/src/Menus.cc:440
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
 msgid "_Reconnect"
 msgstr "再接続(_R)"
 
-#: ../frontend/gtkmm/src/Menus.cc:223
-#: ../frontend/gtkmm/src/Menus.cc:443
+#: ../frontend/gtkmm/src/Menus.cc:223 ../frontend/gtkmm/src/Menus.cc:443
 msgid "Show _log"
 msgstr "ログ(_l)"
 
-#: ../frontend/gtkmm/src/Menus.cc:248
-#: ../frontend/gtkmm/src/Menus.cc:405
+#: ../frontend/gtkmm/src/Menus.cc:248 ../frontend/gtkmm/src/Menus.cc:405
 msgid "_Rest break"
 msgstr "休憩(_R)"
 
-#: ../frontend/gtkmm/src/Menus.cc:262
-#: ../frontend/gtkmm/src/Menus.cc:406
+#: ../frontend/gtkmm/src/Menus.cc:262 ../frontend/gtkmm/src/Menus.cc:406
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:40
 msgid "Exercises"
 msgstr "体操"
 
-#: ../frontend/gtkmm/src/Menus.cc:274
-#: ../frontend/gtkmm/src/Menus.cc:451
+#: ../frontend/gtkmm/src/Menus.cc:274 ../frontend/gtkmm/src/Menus.cc:451
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:59
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:138
 msgid "Statistics"
 msgstr "統計"
 
-#: ../frontend/gtkmm/src/Menus.cc:288
-#: ../frontend/gtkmm/src/Menus.cc:452
+#: ../frontend/gtkmm/src/Menus.cc:288 ../frontend/gtkmm/src/Menus.cc:452
 msgid "About..."
 msgstr "workrave(仕事に夢中?)について"
 
@@ -196,9 +183,13 @@ msgstr "workrave(仕事に夢中?)について"
 msgid "Preferences"
 msgstr "設定"
 
-#: ../frontend/gtkmm/src/Menus.cc:718
-msgid "This program assists in the prevention and recovery of Repetitive Strain Injury (RSI)."
-msgstr "Workrave(仕事に夢中？)は反復運動過多損傷 (RSI：Repetitive Strain Injury)を予防し回復を促します。"
+#: ../frontend/gtkmm/src/Menus.cc:721
+msgid ""
+"This program assists in the prevention and recovery of Repetitive Strain "
+"Injury (RSI)."
+msgstr ""
+"Workrave(仕事に夢中？)は反復運動過多損傷 (RSI：Repetitive Strain Injury)を予"
+"防し回復を促します。"
 
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:232
 msgid "Please relax for a few seconds"
@@ -303,17 +294,20 @@ msgstr "休憩が必要です..."
 msgid "You should stop for today..."
 msgstr "今日はもうやめましょう..."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:253
-msgid "Break in"
-msgstr "休憩まで"
+#: ../frontend/gtkmm/src/PreludeWindow.cc:255
+#, c-format
+msgid "Break in %s"
+msgstr "休憩まで %s"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:257
-msgid "Disappears in"
-msgstr "消えるまで"
+#: ../frontend/gtkmm/src/PreludeWindow.cc:259
+#, c-format
+msgid "Disappears in %s"
+msgstr "消えるまで %s"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:261
-msgid "Silent in"
-msgstr "音が消えるまで"
+#: ../frontend/gtkmm/src/PreludeWindow.cc:263
+#, c-format
+msgid "Silent in %s"
+msgstr "音が消えるまで %s"
 
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:167
 #, c-format
@@ -600,7 +594,9 @@ msgid "Break prompts"
 msgstr "休憩のきっかけ"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:185
-msgid "The number of times you were prompted to break, excluding repeated prompts for the same break"
+msgid ""
+"The number of times you were prompted to break, excluding repeated prompts "
+"for the same break"
 msgstr "同じ休憩のために繰り返されたきっかけを除く、きっかけの回数"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:190
@@ -684,7 +680,9 @@ msgid "Effective mouse movement:"
 msgstr "実効マウス移動距離："
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:303
-msgid "The total mouse movement you would have had if you moved your mouse in straight lines between clicks"
+msgid ""
+"The total mouse movement you would have had if you moved your mouse in "
+"straight lines between clicks"
 msgstr "クリックの間に直線距離を移動したと考えた場合の、マウスの移動距離"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:307
@@ -869,28 +867,62 @@ msgid "Backward shoulder stretch"
 msgstr "肩を後ろにストレッチ"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:2
-msgid "Cover your eyes with your palms in such way that you can still open your eyelids. Now open your eyes and look into the darkness of your palms. This exercise gives better relief to your eyes compared to simply closing them."
-msgstr "まぶたを開けたまま手のひらで目を覆ってください。手のひらの中で目を開けて暗い手のひらの中を見てください。この方法は、まぶたを閉じる方法よりも、より、目を休めることが出来ます。"
+msgid ""
+"Cover your eyes with your palms in such way that you can still open your "
+"eyelids. Now open your eyes and look into the darkness of your palms. This "
+"exercise gives better relief to your eyes compared to simply closing them."
+msgstr ""
+"まぶたを開けたまま手のひらで目を覆ってください。手のひらの中で目を開けて暗い"
+"手のひらの中を見てください。この方法は、まぶたを閉じる方法よりも、より、目を"
+"休めることが出来ます。"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:3
 msgid "Finger stretch"
 msgstr "指を伸ばす"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:4
-msgid "Interlace your fingers behind your back. Then turn your elbows gently inward, while straightening your arms. Hold this position for 5 to 15 seconds, and repeat this exercise twice."
-msgstr "背の後ろで指を組み合わせてください。次に、腕を真っすぐにしたまま、肘をゆっくりと内側に動かしてください。5～15秒間保持します。これを2度繰り返してください"
+msgid ""
+"Interlace your fingers behind your back. Then turn your elbows gently "
+"inward, while straightening your arms. Hold this position for 5 to 15 "
+"seconds, and repeat this exercise twice."
+msgstr ""
+"背の後ろで指を組み合わせてください。次に、腕を真っすぐにしたまま、肘をゆっく"
+"りと内側に動かしてください。5～15秒間保持します。これを2度繰り返してください"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
-msgid "Keep one arm horizontally stretched in front of your chest. Push this arm with your other arm towards you until you feel a mild tension in your shoulder. Hold this position briefly, and repeat the exercise for your other arm."
-msgstr "あなたの胸の前に片方の腕を水平にして伸ばしてください。もう片方の腕で、肩をストレッチするように、胸の方向に押してください。この状態で少し時間を置き、反対の腕も同じように繰り返してください。"
+msgid ""
+"Keep one arm horizontally stretched in front of your chest. Push this arm "
+"with your other arm towards you until you feel a mild tension in your "
+"shoulder. Hold this position briefly, and repeat the exercise for your other "
+"arm."
+msgstr ""
+"あなたの胸の前に片方の腕を水平にして伸ばしてください。もう片方の腕で、肩をス"
+"トレッチするように、胸の方向に押してください。この状態で少し時間を置き、反対"
+"の腕も同じように繰り返してください。"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
-msgid "Look at the upper left corner of the outside border of your monitor. Follow the border slowly to the upper right corner. Continue to the next corner, until you got around it two times. Then, reverse the exercise."
-msgstr "モニターの外側の上左隅を見てください。上右隅までゆっくりと視線を移してください。同じように次の隅まで視線を移し、2回転してください。次に反対まわりで同じように行ってください。"
+msgid ""
+"Look at the upper left corner of the outside border of your monitor. Follow "
+"the border slowly to the upper right corner. Continue to the next corner, "
+"until you got around it two times. Then, reverse the exercise."
+msgstr ""
+"モニターの外側の上左隅を見てください。上右隅までゆっくりと視線を移してくださ"
+"い。同じように次の隅まで視線を移し、2回転してください。次に反対まわりで同じよ"
+"うに行ってください。"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
-msgid "Look for the furthest point you can see behind your monitor. Focus your eyes on the remote point. Then focus on your monitor border. Repeat it. If you can't look very far from your monitor, face another direction with a longer view. Then switch your focus between a distant object and a pen held at the same distance from your eyes as your monitor."
-msgstr "モニターの向こう側で見ることができる最も遠い場所を捜してください。その場所に目の焦点を合わせてください。次に、モニターの境目を注視してください。それを繰り返してください。モニターの向こう側であまり遠くを見ることができなければ、他の方向で探してください。遠くの場所とモニターと同じくらいの距離に置いた手とを交互に見てください。"
+msgid ""
+"Look for the furthest point you can see behind your monitor. Focus your eyes "
+"on the remote point. Then focus on your monitor border. Repeat it. If you "
+"can't look very far from your monitor, face another direction with a longer "
+"view. Then switch your focus between a distant object and a pen held at the "
+"same distance from your eyes as your monitor."
+msgstr ""
+"モニターの向こう側で見ることができる最も遠い場所を捜してください。その場所に"
+"目の焦点を合わせてください。次に、モニターの境目を注視してください。それを繰"
+"り返してください。モニターの向こう側であまり遠くを見ることができなければ、他"
+"の方向で探してください。遠くの場所とモニターと同じくらいの距離に置いた手とを"
+"交互に見てください。"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
 msgid "Look into the darkness"
@@ -913,24 +945,49 @@ msgid "Neck tilt stretch"
 msgstr "首のストレッチ"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
-msgid "Put your hands on the armrests of your chair when you are sitting down and press your body up until your arms are straight. Try to move your head even further by lowering your shoulders. Slowly move back into your chair."
-msgstr "座ったまま、いすの肘掛に腕を置いて、腕がまっすぐになるまで、身体を押しあげてください。肩を伸ばして頭をさらに上にあげてください。ゆっくり椅子に戻ってください。"
+msgid ""
+"Put your hands on the armrests of your chair when you are sitting down and "
+"press your body up until your arms are straight. Try to move your head even "
+"further by lowering your shoulders. Slowly move back into your chair."
+msgstr ""
+"座ったまま、いすの肘掛に腕を置いて、腕がまっすぐになるまで、身体を押しあげて"
+"ください。肩を伸ばして頭をさらに上にあげてください。ゆっくり椅子に戻ってくだ"
+"さい。"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
-msgid "Separate and stretch your fingers until a mild tension is felt, and hold this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold again for 10 seconds. Repeat this exercise once more."
-msgstr "軽いストレッチを感じられるまで、指を離して伸ばし、10秒間保持してください。リラックスして、指の関節を曲げて、10秒間保持してください。これをもう一度繰り返してください。"
+msgid ""
+"Separate and stretch your fingers until a mild tension is felt, and hold "
+"this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
+"again for 10 seconds. Repeat this exercise once more."
+msgstr ""
+"軽いストレッチを感じられるまで、指を離して伸ばし、10秒間保持してください。リ"
+"ラックスして、指の関節を曲げて、10秒間保持してください。これをもう一度繰り返"
+"してください。"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
 msgid "Shoulder-arm stretch"
 msgstr "肩と腕のストレッチ"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:16
-msgid "Spin your right arm slowly round like a plane propeller beside your body. Do this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat with the left arm."
-msgstr "右腕を身体に沿わせて、プロペラのようにゆっくり円形にまわしてください。前に4回、後ろに4回まわしたら、数秒間リラックスしてください。左の腕でも同じように繰り返してください。"
+msgid ""
+"Spin your right arm slowly round like a plane propeller beside your body. Do "
+"this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
+"with the left arm."
+msgstr ""
+"右腕を身体に沿わせて、プロペラのようにゆっくり円形にまわしてください。前に4"
+"回、後ろに4回まわしたら、数秒間リラックスしてください。左の腕でも同じように繰"
+"り返してください。"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
-msgid "Start with your head in a comfortable straight position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side."
-msgstr "先ず、頭をまっすぐにしてください。次に、首の左側の筋肉を伸ばすように、右肩へ頭をゆっくり傾けてください。5秒間保持してください。次に、反対側を伸ばすために左側への頭を傾けてください。各々これを2度繰り返してください。"
+msgid ""
+"Start with your head in a comfortable straight position. Then, slowly tilt "
+"your head to your right shoulder to gently stretch the muscles on the left "
+"side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
+"the left side to stretch your other side. Do this twice for each side."
+msgstr ""
+"先ず、頭をまっすぐにしてください。次に、首の左側の筋肉を伸ばすように、右肩へ"
+"頭をゆっくり傾けてください。5秒間保持してください。次に、反対側を伸ばすために"
+"左側への頭を傾けてください。各々これを2度繰り返してください。"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
 msgid "Train focusing the eyes"
@@ -941,8 +998,11 @@ msgid "Turn your head"
 msgstr "頭を回す"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:20
-msgid "Turn your head left and keep it there for 2 seconds. Then turn your head right and keep it there for 2 seconds."
-msgstr "顔を左に向け2秒保持してください。次に、顔を右に向け2秒保持してください。"
+msgid ""
+"Turn your head left and keep it there for 2 seconds. Then turn your head "
+"right and keep it there for 2 seconds."
+msgstr ""
+"顔を左に向け2秒保持してください。次に、顔を右に向け2秒保持してください。"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
 msgid "Break ignored"
@@ -975,4 +1035,3 @@ msgstr "休憩終了"
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:9
 msgid "Rest break started"
 msgstr "休憩開始"
-

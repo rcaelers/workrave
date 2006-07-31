@@ -7,73 +7,73 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.6.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-12-04 17:23+0100\n"
-"PO-Revision-Date: 2004-07-13 20:39+0200\n"
+"POT-Creation-Date: 2006-07-31 18:20+0200\n"
+"PO-Revision-Date: 2006-07-31 18:10+0200\n"
 "Last-Translator: Sergey Kirkinsky <ksa@pfr.altai.ru>\n"
 "Language-Team: Sergey Kirkinsky <ksa@pfr.altai.ru>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=KOI8-R\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: frontend/gtkmm/src/eggtrayicon.c:118
+#: ../frontend/gtkmm/src/eggtrayicon.c:118
 msgid "Orientation"
 msgstr "Расположение"
 
-#: frontend/gtkmm/src/eggtrayicon.c:119
+#: ../frontend/gtkmm/src/eggtrayicon.c:119
 msgid "The orientation of the tray."
 msgstr "Расположение в системной панеле."
 
-#: frontend/gtkmm/src/gnome-about.c:308
+#: ../frontend/gtkmm/src/gnome-about.c:308
 msgid "Credits"
 msgstr "Список участников"
 
-#: frontend/gtkmm/src/gnome-about.c:341
+#: ../frontend/gtkmm/src/gnome-about.c:341
 msgid "_Written by"
 msgstr "_Разработчики"
 
-#: frontend/gtkmm/src/gnome-about.c:356
+#: ../frontend/gtkmm/src/gnome-about.c:356
 msgid "_Documented by"
 msgstr "_Документация"
 
-#: frontend/gtkmm/src/gnome-about.c:371
+#: ../frontend/gtkmm/src/gnome-about.c:371
 msgid "_Translated by"
 msgstr "_Перевод"
 
 #. Add the credits button
-#: frontend/gtkmm/src/gnome-about.c:431
+#: ../frontend/gtkmm/src/gnome-about.c:431
 msgid "_Credits"
 msgstr "_Список участников"
 
-#: frontend/gtkmm/src/gnome-about.c:614
+#: ../frontend/gtkmm/src/gnome-about.c:614
 #, c-format
 msgid "About %s"
 msgstr "О %s"
 
-#: frontend/gtkmm/src/BreakWindow.cc:181
+#: ../frontend/gtkmm/src/BreakWindow.cc:198
 msgid "Lock"
 msgstr "Блокировать"
 
-#: frontend/gtkmm/src/BreakWindow.cc:200
+#: ../frontend/gtkmm/src/BreakWindow.cc:217
 msgid "Shut down"
 msgstr "Завершить"
 
-#: frontend/gtkmm/src/BreakWindow.cc:217
+#: ../frontend/gtkmm/src/BreakWindow.cc:234
 msgid "Skip"
 msgstr "Пропустить"
 
-#: frontend/gtkmm/src/BreakWindow.cc:230
+#: ../frontend/gtkmm/src/BreakWindow.cc:247
 msgid "Postpone"
 msgstr "Отложить"
 
-#: frontend/gtkmm/src/DailyLimitWindow.cc:45
-#: frontend/gtkmm/src/DailyLimitWindow.cc:53
-#: frontend/common/src/TimerBoxControl.cc:171
-#: frontend/gtkmm/src/GtkUtil.cc:154
-#: frontend/common/share/sounds/workrave.soundlist.in.h:3
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:45
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:53
+#: ../frontend/common/src/TimerBoxControl.cc:195
+#: ../frontend/gtkmm/src/GtkUtil.cc:160
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
 msgid "Daily limit"
 msgstr "Дневной предел"
 
-#: frontend/gtkmm/src/DailyLimitWindow.cc:54
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:54
 msgid ""
 "You have reached your daily limit. Please stop working\n"
 "behind the computer. If your working day is not over yet,\n"
@@ -83,102 +83,104 @@ msgstr ""
 "возле компьютера. Если Ваш рабочий день ещё не закончился,\n"
 "то найдите себе другое занятие, например, просмотр документов."
 
-#: frontend/gtkmm/src/GUI.cc:721
+#: ../frontend/gtkmm/src/GUI.cc:729
 msgid "I could not initialize Bonobo"
 msgstr "Не могу инициализировать Bonobo"
 
 #. FIXME: duplicate
-#: frontend/common/src/TimerBoxControl.cc:171
-#: frontend/gtkmm/src/GtkUtil.cc:154 frontend/gtkmm/src/MicroBreakWindow.cc:49
-#: frontend/gtkmm/src/MicroBreakWindow.cc:169
-#: frontend/gtkmm/src/MicroBreakWindow.cc:247
+#: ../frontend/common/src/TimerBoxControl.cc:195
+#: ../frontend/gtkmm/src/GtkUtil.cc:160
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:52
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:171
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:270
 msgid "Micro-break"
 msgstr "Миниотдых"
 
-#: frontend/common/src/TimerBoxControl.cc:171
-#: frontend/gtkmm/src/GtkUtil.cc:154
-#: frontend/gtkmm/src/MicroBreakWindow.cc:142
-#: frontend/gtkmm/src/RestBreakWindow.cc:73
-#: frontend/gtkmm/src/RestBreakWindow.cc:181
+#: ../frontend/common/src/TimerBoxControl.cc:195
+#: ../frontend/gtkmm/src/GtkUtil.cc:160
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:144
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:76
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:206
 msgid "Rest break"
 msgstr "Перерыв"
 
-#: frontend/common/src/TimerBoxControl.cc:189
+#: ../frontend/common/src/TimerBoxControl.cc:213
 msgid "Inactive"
 msgstr "Неактивно"
 
-#: frontend/common/src/TimerBoxControl.cc:237
-#: frontend/gtkmm/src/TimerBoxGtkView.cc:161
+#: ../frontend/common/src/TimerBoxControl.cc:261
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:180
 msgid "Wait"
 msgstr "Ожидание"
 
 #. Mode menu item
-#: frontend/gtkmm/src/Menus.cc:169 frontend/gtkmm/src/Menus.cc:430
-#: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
+#: ../frontend/gtkmm/src/Menus.cc:169 ../frontend/gtkmm/src/Menus.cc:430
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
 msgid "_Mode"
 msgstr "_Режим"
 
-#: frontend/gtkmm/src/Menus.cc:176 frontend/gtkmm/src/Menus.cc:409
-#: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
+#: ../frontend/gtkmm/src/Menus.cc:176 ../frontend/gtkmm/src/Menus.cc:409
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
 msgid "_Normal"
 msgstr "_Обычный"
 
-#: frontend/gtkmm/src/Menus.cc:183 frontend/gtkmm/src/Menus.cc:416
-#: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
+#: ../frontend/gtkmm/src/Menus.cc:183 ../frontend/gtkmm/src/Menus.cc:416
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
 msgid "_Suspended"
 msgstr "_Приостановлен"
 
-#: frontend/gtkmm/src/Menus.cc:190 frontend/gtkmm/src/Menus.cc:423
+#: ../frontend/gtkmm/src/Menus.cc:190 ../frontend/gtkmm/src/Menus.cc:423
 msgid "Q_uiet"
 msgstr "_Тихо"
 
-#: frontend/gtkmm/src/Menus.cc:204 frontend/gtkmm/src/Menus.cc:449
-#: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
+#: ../frontend/gtkmm/src/Menus.cc:204 ../frontend/gtkmm/src/Menus.cc:449
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
 msgid "_Network"
 msgstr "_Сеть"
 
-#: frontend/gtkmm/src/Menus.cc:208 frontend/gtkmm/src/Menus.cc:433
+#: ../frontend/gtkmm/src/Menus.cc:208 ../frontend/gtkmm/src/Menus.cc:433
 msgid "_Connect"
 msgstr "С_оединить"
 
-#: frontend/gtkmm/src/Menus.cc:213 frontend/gtkmm/src/Menus.cc:436
-#: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
+#: ../frontend/gtkmm/src/Menus.cc:213 ../frontend/gtkmm/src/Menus.cc:436
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
 msgid "_Disconnect"
 msgstr "_Разорвать"
 
-#: frontend/gtkmm/src/Menus.cc:218 frontend/gtkmm/src/Menus.cc:440
-#: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
+#: ../frontend/gtkmm/src/Menus.cc:218 ../frontend/gtkmm/src/Menus.cc:440
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
 msgid "_Reconnect"
 msgstr "_Пересоединиться"
 
-#: frontend/gtkmm/src/Menus.cc:223 frontend/gtkmm/src/Menus.cc:443
+#: ../frontend/gtkmm/src/Menus.cc:223 ../frontend/gtkmm/src/Menus.cc:443
 msgid "Show _log"
 msgstr "Показать _журнал"
 
-#: frontend/gtkmm/src/Menus.cc:248 frontend/gtkmm/src/Menus.cc:405
+#: ../frontend/gtkmm/src/Menus.cc:248 ../frontend/gtkmm/src/Menus.cc:405
 msgid "_Rest break"
 msgstr "_Перерыв"
 
-#: frontend/gtkmm/src/Menus.cc:262 frontend/gtkmm/src/Menus.cc:406
-#: frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:40
+#: ../frontend/gtkmm/src/Menus.cc:262 ../frontend/gtkmm/src/Menus.cc:406
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:40
 msgid "Exercises"
 msgstr "Упражнения"
 
-#: frontend/gtkmm/src/Menus.cc:274 frontend/gtkmm/src/Menus.cc:451
-#: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:59
-#: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:138
+#: ../frontend/gtkmm/src/Menus.cc:274 ../frontend/gtkmm/src/Menus.cc:451
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:59
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:138
 msgid "Statistics"
 msgstr "Статистика"
 
-#: frontend/gtkmm/src/Menus.cc:288 frontend/gtkmm/src/Menus.cc:452
+#: ../frontend/gtkmm/src/Menus.cc:288 ../frontend/gtkmm/src/Menus.cc:452
 msgid "About..."
 msgstr "О программе..."
 
-#: frontend/gtkmm/src/Menus.cc:404 frontend/gtkmm/src/PreferencesDialog.cc:55
+#: ../frontend/gtkmm/src/Menus.cc:404
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:55
 msgid "Preferences"
 msgstr "Настройки"
 
-#: frontend/gtkmm/src/Menus.cc:715
+#: ../frontend/gtkmm/src/Menus.cc:721
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -186,127 +188,130 @@ msgstr ""
 "Эта программа помогает в предупреждении и лечении Туннельного Синдрома "
 "Запястья и снятии общего мышечного напряжения."
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:209
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:232
 msgid "Please relax for a few seconds"
 msgstr "Пожалуйста, расслабьтесь на несколько секунд"
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:216
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:239
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Следующий перерыв в %s"
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:221
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:244
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Перерыв %s запоздал"
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:234
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:257
 #, fuzzy, c-format
 msgid "Daily limit in %s"
-msgstr "Дневной предел"
+msgstr "Дневной предел %s"
 
-#: frontend/gtkmm/src/MicroBreakWindow.cc:239
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:262
 #, fuzzy, c-format
 msgid "Daily limit %s overdue"
-msgstr "Дневной предел"
+msgstr "Дневной предел %s"
 
-#: frontend/gtkmm/src/PreferencesDialog.cc:63
-#: frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:103
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:63
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:103
 msgid "General"
 msgstr "Общие"
 
-#: frontend/gtkmm/src/PreferencesDialog.cc:66
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:66
 msgid "Status Window"
 msgstr "Окно статуса"
 
-#: frontend/gtkmm/src/PreferencesDialog.cc:69
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:69
 msgid "Applet"
 msgstr "Апплет"
 
 #. Notebook
-#: frontend/gtkmm/src/PreferencesDialog.cc:76
-#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:169
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:202
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:76
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:164
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:202
 msgid "Timers"
 msgstr "Таймеры"
 
-#: frontend/gtkmm/src/PreferencesDialog.cc:77
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:77
 msgid "User interface"
 msgstr "Пользовательский интерфейс"
 
-#: frontend/gtkmm/src/PreferencesDialog.cc:79
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:79
 msgid "Network"
 msgstr "Сеть"
 
-#: frontend/gtkmm/src/PreferencesDialog.cc:120
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:120
 msgid "No sounds"
 msgstr "Нет звуков"
 
-#: frontend/gtkmm/src/PreferencesDialog.cc:122
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:122
 msgid "Play sounds using sound card"
 msgstr "Проигрывать звуки, используя звуковую карту"
 
-#: frontend/gtkmm/src/PreferencesDialog.cc:124
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:124
 msgid "Play sounds using built-in speaker"
 msgstr "Проигрывать звуки, используя встроенный динамик"
 
-#: frontend/gtkmm/src/PreferencesDialog.cc:152
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:152
 msgid "No blocking"
 msgstr "Нет блокировки"
 
-#: frontend/gtkmm/src/PreferencesDialog.cc:154
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:154
 msgid "Block input"
 msgstr "Блокировать ввод"
 
-#: frontend/gtkmm/src/PreferencesDialog.cc:156
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:156
 msgid "Block input and screen"
 msgstr "Блокировать ввод и экран"
 
 #. Options
-#: frontend/gtkmm/src/PreferencesDialog.cc:175
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:141
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:175
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:141
 msgid "Options"
 msgstr "Параметры"
 
 #. panel->add(*start_in_tray_cb);
-#: frontend/gtkmm/src/PreferencesDialog.cc:177
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:177
 msgid "Sound:"
 msgstr "Звуки:"
 
-#: frontend/gtkmm/src/PreferencesDialog.cc:178
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:178
 msgid "Block mode:"
 msgstr "Режим блокировки:"
 
-#: frontend/gtkmm/src/PreludeWindow.cc:105
+#: ../frontend/gtkmm/src/PreludeWindow.cc:105
 msgid "Time for a micro-break?"
 msgstr "Время для миниотдыха?"
 
-#: frontend/gtkmm/src/PreludeWindow.cc:109
+#: ../frontend/gtkmm/src/PreludeWindow.cc:109
 msgid "You need a rest break..."
 msgstr "Вам нужен перерыв..."
 
-#: frontend/gtkmm/src/PreludeWindow.cc:113
+#: ../frontend/gtkmm/src/PreludeWindow.cc:113
 msgid "You should stop for today..."
 msgstr "Вы должны остановиться сегодня..."
 
-#: frontend/gtkmm/src/PreludeWindow.cc:253
-msgid "Break in"
-msgstr "Перерыв в"
+#: ../frontend/gtkmm/src/PreludeWindow.cc:255
+#, c-format
+msgid "Break in %s"
+msgstr "Перерыв в %s"
 
-#: frontend/gtkmm/src/PreludeWindow.cc:257
-msgid "Disappears in"
-msgstr "Исчезнет через"
+#: ../frontend/gtkmm/src/PreludeWindow.cc:259
+#, c-format
+msgid "Disappears in %s"
+msgstr "Исчезнет через %s"
 
-#: frontend/gtkmm/src/PreludeWindow.cc:261
-msgid "Silent in"
-msgstr "Тишина через"
+#: ../frontend/gtkmm/src/PreludeWindow.cc:263
+#, c-format
+msgid "Silent in %s"
+msgstr "Тишина через %s"
 
-#: frontend/gtkmm/src/RestBreakWindow.cc:163
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:167
 #, c-format
 msgid "Rest break for %s"
 msgstr "Перерыв на %s"
 
-#: frontend/gtkmm/src/RestBreakWindow.cc:182
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:207
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -315,238 +320,238 @@ msgstr ""
 "Это Ваш перерыв. Встаньте и отойдите ненадолго от компьютера. Просто "
 "прогуляйтесь несколько минут, потянитесь и расслабьтесь."
 
-#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:96
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:97
 msgid "Place timers next to each other"
 msgstr "Разместить таймеры рядом друг с другом"
 
-#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:98
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:99
 msgid "Place micro-break and rest break in one spot"
 msgstr "Разместить миниотдых и перерыв вместе"
 
-#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:100
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:101
 msgid "Place rest break and daily limit in one spot"
 msgstr "Разместить перерыв и дневной предел вместе"
 
-#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:102
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:103
 msgid "Place all timers in one spot"
 msgstr "Разместить все таймеры вместе"
 
-#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:125
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:123
 msgid "Hide"
 msgstr "Скрыть"
 
-#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:127
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:125
 msgid "Show"
 msgstr "Показать"
 
-#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:129
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:127
 msgid "Show only when this timer is first due"
 msgstr "Показывать только когда этот таймер первый на очереди"
 
-#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:139
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:135
 msgid "Show status window"
 msgstr "Показать окно статуса"
 
-#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:144
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:140
 msgid "The status window stays always on top of other windows"
 msgstr "Окно статуса всегда поверх других окон"
 
-#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:150
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:146
 msgid "Applet enabled"
 msgstr "Апплет включён"
 
-#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:157
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:152
 msgid "Display"
 msgstr "Экран"
 
-#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:166
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:161
 msgid "Placement:"
 msgstr "Размещение:"
 
-#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:167
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:162
 msgid "Cycle time:"
 msgstr "Время цикла:"
 
 #. Layout
-#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:172
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:167
 msgid "Micro-break:"
 msgstr "Миниотдых:"
 
-#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:173
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:168
 msgid "Rest break:"
 msgstr "Перерыв:"
 
-#: frontend/gtkmm/src/TimerBoxPreferencePage.cc:174
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:169
 msgid "Daily limit:"
 msgstr "Дневное предел:"
 
 #. Enabled/Disabled checkbox
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:63
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:63
 msgid "Enable timer"
 msgstr "Включить таймер"
 
 #. Prelude frame
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:104
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:104
 msgid "Break prompting"
 msgstr "Напоминание о перерыве"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:106
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:106
 msgid "Prompt before breaking"
 msgstr "Напоминание до перерыва"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:111
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:111
 msgid "Maximum number of prompts:"
 msgstr "Максимальное количество напоминаний:"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:146
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:146
 msgid "Show 'Postpone' and 'Skip' button"
 msgstr "Показывать кнопки 'Отложить' и 'Отменить'"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:155
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:155
 msgid "Suspend timer when inactive"
 msgstr "Приостановить таймер, когда неактивно"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:171
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:171
 msgid "Regard micro-breaks as activity"
 msgstr "Отнести миниотдых к активности"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:185
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:185
 msgid "Number of exercises:"
 msgstr "Количество упражнений:"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:210
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:210
 msgid "Time before end:"
 msgstr "Времени до конца:"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:211
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:211
 msgid "Time between breaks:"
 msgstr "Времени между перерывами:"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:220
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:220
 msgid "Break duration:"
 msgstr "Продолжительность перерыва:"
 
-#: frontend/gtkmm/src/TimerPreferencesPanel.cc:242
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:242
 msgid "Postpone time:"
 msgstr "Отложить на:"
 
-#: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:1
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:1
 msgid "_About..."
 msgstr "_О программе..."
 
-#: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:2
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:2
 msgid "_Connect..."
 msgstr "_Соединить..."
 
-#: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:4
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:4
 msgid "_Exercises"
 msgstr "_Упражнения"
 
-#: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:8
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:8
 msgid "_Open"
 msgstr "_Открыть"
 
-#: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:9
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:9
 msgid "_Preferences"
 msgstr "_Настройки"
 
-#: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:10
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:10
 msgid "_Quiet"
 msgstr "_Тихо"
 
-#: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:11
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:11
 msgid "_Quit"
 msgstr "_Выход"
 
-#: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:13
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:13
 msgid "_Restbreak"
 msgstr "_Перерыв"
 
-#: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:14
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:14
 msgid "_Show Log..."
 msgstr "Показать _журнал..."
 
-#: frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:15
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:15
 msgid "_Statistics"
 msgstr "_Статистика"
 
-#: frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:1
-#: frontend/common/share/sounds/workrave.soundlist.in.h:10
+#: ../frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:1
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:10
 msgid "Workrave"
 msgstr "Workrave"
 
-#: frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:2
+#: ../frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:2
 msgid "Workrave Applet"
 msgstr "Апплет Workrave"
 
-#: frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:253
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:253
 msgid "Exercises player"
 msgstr "Просмотрщик упражнений"
 
-#: frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:435
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:435
 msgid "Resume"
 msgstr "Продолжить"
 
-#: frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:435
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:435
 msgid "Pause"
 msgstr "Пауза"
 
-#: frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:48
-#: frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:67
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:48
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:67
 msgid "Network connect"
 msgstr "Соединение по сети"
 
-#: frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:68
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:68
 msgid ""
 "Enter the host name and port number of a computer\n"
 "in the network you wish to connect to."
 msgstr "Введите имя и порт компьютера в сети, с которым вы хотите соединиться."
 
-#: frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:80
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:80
 msgid "Host name:"
 msgstr "Имя компьютера:"
 
-#: frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:81
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:81
 msgid "Port:"
 msgstr "Порт:"
 
-#: frontend/plugin/distribution/gtkmm/src/NetworkLogDialog.cc:43
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkLogDialog.cc:43
 msgid "Network log"
 msgstr "Сетевой журнал"
 
-#: frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:90
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:90
 msgid "Enable networking"
 msgstr "Сделать сеть доступной"
 
-#: frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:97
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:97
 msgid "Username:"
 msgstr "Имя пользователя:"
 
-#: frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:98
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:98
 msgid "Password:"
 msgstr "Пароль:"
 
-#: frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:115
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:115
 msgid "Server settings"
 msgstr "Параметры сервера"
 
-#: frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:137
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:137
 msgid "Server port:"
 msgstr "Порт сервера:"
 
-#: frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:138
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:138
 msgid "Reconnect attempts:"
 msgstr "Попыток повторного соединения:"
 
-#: frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:139
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:139
 msgid "Reconnect interval:"
 msgstr "Интервал между соединениями:"
 
-#: frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:142
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:142
 msgid "Advanced"
 msgstr "Дополнительно"
 
-#: frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:159
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:159
 msgid ""
 "The following list specifies the hosts that Workrave connects to on\n"
 "start-up. Click the host name or port number to edit."
@@ -555,35 +560,35 @@ msgstr ""
 "загрузке. Щёлкните мышью на имени компьютера или номере порта, чтобы\n"
 "исправить"
 
-#: frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:188
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:188
 msgid "Host name"
 msgstr "Имя компьютера"
 
-#: frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:196
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:196
 msgid "Port"
 msgstr "Порт"
 
-#: frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:233
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:233
 msgid "Hosts"
 msgstr "Компьютеры"
 
-#: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:132
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:132
 msgid "Browse history"
 msgstr "Просмотр истории"
 
-#: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:139
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:139
 msgid "Date:"
 msgstr "Дата:"
 
-#: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:174
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:174
 msgid "Breaks"
 msgstr "Перерывы"
 
-#: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:184
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:184
 msgid "Break prompts"
 msgstr "Напоминания о перерыве"
 
-#: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:185
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:185
 msgid ""
 "The number of times you were prompted to break, excluding repeated prompts "
 "for the same break"
@@ -591,87 +596,87 @@ msgstr ""
 "Количество напоминаний о перерыве, исключая повторные напоминания для одного "
 "перерыва"
 
-#: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:190
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:190
 msgid "Repeated prompts"
 msgstr "Повторенные напоминания"
 
-#: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:191
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:191
 msgid "The number of times you were repeatedly prompted to break"
 msgstr "Количество раз, когда вам напоминали о перерыве"
 
-#: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:195
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:195
 msgid "Prompted breaks taken"
 msgstr "Принятые напоминания о перерывах"
 
-#: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:196
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:196
 msgid "The number of times you took a break when being prompted"
 msgstr "Количество раз, когда вы взяли перерыв после напоминания"
 
-#: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:200
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:200
 msgid "Natural breaks taken"
 msgstr "Естественные взятые перерывы"
 
-#: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:201
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:201
 msgid "The number of times you took a break without being prompted"
 msgstr "Количество раз, когда вы взяли перерыв без напоминания"
 
-#: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:205
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:205
 msgid "Breaks skipped"
 msgstr "Перерывов пропущено"
 
-#: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:206
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:206
 msgid "The number of breaks you skipped"
 msgstr "Количество перерывов, которые вы пропустили"
 
-#: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:210
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:210
 msgid "Breaks postponed"
 msgstr "Перерывов отложено"
 
-#: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:211
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:211
 msgid "The number of breaks you postponed"
 msgstr "Количество перерывов, которые вы пропустили"
 
-#: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:215
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:215
 msgid "Overdue time"
 msgstr "Время опоздания"
 
-#: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:216
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:216
 msgid "The total time this break was overdue"
 msgstr "Общее время запоздания этого перерыва"
 
-#: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:220
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:220
 msgid "Daily usage"
 msgstr "Ежедневное использование"
 
-#: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:221
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:221
 msgid "The total computer usage"
 msgstr "Общее использование компьютера"
 
-#: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:284
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:284
 msgid "Activity"
 msgstr "Активность"
 
-#: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:294
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:294
 msgid "Mouse usage:"
 msgstr "Использование мыши:"
 
-#: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:295
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:295
 msgid "The total time you were using the mouse"
 msgstr "Общее время использования мыши"
 
-#: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:298
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:298
 msgid "Mouse movement:"
 msgstr "Перемещение мыши:"
 
-#: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:299
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:299
 msgid "The total on-screen mouse movement"
 msgstr "Общее время перемещения мыши по экрану"
 
-#: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:302
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:302
 msgid "Effective mouse movement:"
 msgstr "Полезное перемещение мыши:"
 
-#: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:303
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:303
 msgid ""
 "The total mouse movement you would have had if you moved your mouse in "
 "straight lines between clicks"
@@ -679,201 +684,189 @@ msgstr ""
 "Общее перемещение мыши, которое бы было, если бы вы двигали её по прямым "
 "линиям между щелчками"
 
-#: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:307
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:307
 msgid "Mouse button clicks:"
 msgstr "Щелчков кнопкой мыши:"
 
-#: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:308
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:308
 msgid "The total number of mouse button clicks"
 msgstr "Общее количество щелчков кнопкой мыши"
 
-#: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:311
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:311
 msgid "Keystrokes:"
 msgstr "Нажатия клавиш:"
 
-#: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:312
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:312
 msgid "The total number of keys pressed"
 msgstr "Общее количество нажатых клавиш"
 
-#: frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:362
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:362
 #, c-format
 msgid "%s, from %s to %s"
 msgstr "%s, с %s по %s"
 
-#: frontend/common/src/Text.cc:75
+#: ../frontend/common/src/Text.cc:75
 #, c-format
 msgid "%s%d:%02d:%02d hours"
 msgstr "%s%d:%02d:%02d часов"
 
-#: frontend/common/src/Text.cc:79
+#: ../frontend/common/src/Text.cc:79
 #, c-format
 msgid "%s%d:%02d minutes"
 msgstr "%s%d:%02d минут"
 
-#: frontend/common/src/Text.cc:83
+#: ../frontend/common/src/Text.cc:83
 #, c-format
 msgid "%s%d seconds"
 msgstr "%s%d секунд"
 
-#: backend/src/DistributionSocketLink.cc:127
+#: ../backend/src/DistributionSocketLink.cc:127
 #, c-format
 msgid "Reconnecting to %s:%d."
 msgstr "Повторно соединиться с %s:%d."
 
-#: backend/src/DistributionSocketLink.cc:345
+#: ../backend/src/DistributionSocketLink.cc:347
 msgid "Cannot resolve my own hostname. Deactivating distribution."
 msgstr ""
 "Не могу разрешить свое собственное имя компьютера. Выполнение прекращено."
 
 #. We did not succeed in starting the server. Arghh.
-#: backend/src/DistributionSocketLink.cc:356
+#: ../backend/src/DistributionSocketLink.cc:358
 msgid "Could not enable network operation."
 msgstr "Сетевые операции недоступны."
 
-#: backend/src/DistributionSocketLink.cc:365
+#: ../backend/src/DistributionSocketLink.cc:367
 msgid "Disabling network operation."
 msgstr "Отмена сетевых операций"
 
-#: backend/src/DistributionSocketLink.cc:520
-#: backend/src/DistributionSocketLink.cc:547
+#: ../backend/src/DistributionSocketLink.cc:523
+#: ../backend/src/DistributionSocketLink.cc:550
 #, c-format
 msgid "Connecting to %s:%d."
 msgstr "Соединение с %s:%d."
 
-#: backend/src/DistributionSocketLink.cc:651
-#: backend/src/DistributionSocketLink.cc:676
+#: ../backend/src/DistributionSocketLink.cc:654
+#: ../backend/src/DistributionSocketLink.cc:681
 #, c-format
 msgid "Removing client %s:%d."
 msgstr "Удаление клиента %s:%d."
 
 #. Closing direct connection.
-#: backend/src/DistributionSocketLink.cc:713
+#: ../backend/src/DistributionSocketLink.cc:720
 #, c-format
 msgid "Disconnecting %s:%d."
 msgstr "Отсоединение %s:%d."
 
 #. It's a remote client. mark it master.
-#: backend/src/DistributionSocketLink.cc:881
+#: ../backend/src/DistributionSocketLink.cc:890
 #, c-format
 msgid "Client %s:%d is now master."
 msgstr "Клиент %s:%d теперь главный."
 
 #. Its ME!
-#: backend/src/DistributionSocketLink.cc:887
+#: ../backend/src/DistributionSocketLink.cc:896
 msgid "I'm now master."
 msgstr "Я не главный."
 
-#: backend/src/DistributionSocketLink.cc:1216
+#: ../backend/src/DistributionSocketLink.cc:1225
 #, c-format
 msgid "Client %s:%d saying hello."
 msgstr "Клиент %s:%d говорит привет."
 
 #. Duplicate client. inform client that it's bogus and close.
-#: backend/src/DistributionSocketLink.cc:1231
-#: backend/src/DistributionSocketLink.cc:1348
-#: backend/src/DistributionSocketLink.cc:1584
+#: ../backend/src/DistributionSocketLink.cc:1240
+#: ../backend/src/DistributionSocketLink.cc:1359
+#: ../backend/src/DistributionSocketLink.cc:1596
 #, c-format
 msgid "Client %s:%d is duplicate."
 msgstr "Клиент %s:%d не уникален."
 
 #. Incorrect password.
-#: backend/src/DistributionSocketLink.cc:1240
+#: ../backend/src/DistributionSocketLink.cc:1249
 #, c-format
 msgid "Client %s:%d access denied."
 msgstr "Доступ клиенту %s:%d запрещён."
 
-#: backend/src/DistributionSocketLink.cc:1307
+#: ../backend/src/DistributionSocketLink.cc:1316
 #, c-format
 msgid "Client %s:%d signed off."
 msgstr "Клиент %s:%d ушёл."
 
-#: backend/src/DistributionSocketLink.cc:1386
+#: ../backend/src/DistributionSocketLink.cc:1398
 #, c-format
 msgid "Client %s:%d is welcoming us."
 msgstr "Клиент %s:%d приглашает нас."
 
-#: backend/src/DistributionSocketLink.cc:1619
+#: ../backend/src/DistributionSocketLink.cc:1633
 #, c-format
 msgid "Requesting master status from %s:%d."
 msgstr "Запрос состояния ведущего от %s:%d."
 
-#: backend/src/DistributionSocketLink.cc:1632
+#: ../backend/src/DistributionSocketLink.cc:1646
 #, c-format
 msgid "Client timeout from %s:%d."
 msgstr "Клиентский таймаут от %s:%d."
 
-#: backend/src/DistributionSocketLink.cc:1653
+#: ../backend/src/DistributionSocketLink.cc:1667
 #, c-format
 msgid "Rejecting master request from client %s:%d."
 msgstr "Отклонение главного запроса от клиента %s:%d."
 
-#: backend/src/DistributionSocketLink.cc:1659
+#: ../backend/src/DistributionSocketLink.cc:1673
 #, c-format
 msgid "Acknowledging master request from client %s:%d."
 msgstr "Подтверждение главного запроса от клиента %s:%d."
 
-#: backend/src/DistributionSocketLink.cc:1710
+#: ../backend/src/DistributionSocketLink.cc:1724
 #, c-format
 msgid "Non-master client %s:%d rejected master request."
 msgstr "Неглавный клиент %s:%d отклонил главный запрос."
 
-#: backend/src/DistributionSocketLink.cc:1715
+#: ../backend/src/DistributionSocketLink.cc:1729
 #, c-format
 msgid "Client %s:%d rejected master request, delaying."
 msgstr "Клиент %s:%d отклонил главный запрос, задержка."
 
 #. gint count =
-#: backend/src/DistributionSocketLink.cc:1786
+#: ../backend/src/DistributionSocketLink.cc:1800
 #, c-format
 msgid "Client %s is now the new master."
 msgstr "Клиент %s теперь главный."
 
-#: backend/src/DistributionSocketLink.cc:1909
+#: ../backend/src/DistributionSocketLink.cc:1921
 msgid "Network operation started."
 msgstr "Сетевая операция начата."
 
-#: backend/src/DistributionSocketLink.cc:1926
+#: ../backend/src/DistributionSocketLink.cc:1938
 msgid "Accepted new client."
 msgstr "Принят новый клиент."
 
-#: backend/src/DistributionSocketLink.cc:1981
+#: ../backend/src/DistributionSocketLink.cc:1993
 #, c-format
 msgid "Client %s:%d read error, closing."
 msgstr "Ошибка чтения у клиента %s:%d, закрытие."
 
-#: backend/src/DistributionSocketLink.cc:1986
-#: backend/src/DistributionSocketLink.cc:2057
+#: ../backend/src/DistributionSocketLink.cc:1999
+#: ../backend/src/DistributionSocketLink.cc:2073
 #, c-format
 msgid "Client %s:%d closed connection."
 msgstr "Клиент %s:%d разорвал соединение."
 
-#: backend/src/DistributionSocketLink.cc:2026
+#: ../backend/src/DistributionSocketLink.cc:2040
 #, c-format
 msgid "Client %s:%d connected."
 msgstr "Клиент %s:%d соединился."
 
-#: backend/src/DistributionSocketLink.cc:2062
+#: ../backend/src/DistributionSocketLink.cc:2080
 #, c-format
 msgid "Could not connect to client %s:%d."
 msgstr "Не могу соединиться с клиентом %s:%d."
 
-#: frontend/plugin/exercises/common/share/exercises.xml.in.h:1
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:1
 msgid "Backward shoulder stretch"
 msgstr "Обратное потягивание плеча"
 
-#: frontend/plugin/exercises/common/share/exercises.xml.in.h:2
-msgid ""
-"Close your eyes and breathe out as long as you can and try to relax. When "
-"breathing in, again do it as slowly as possible. Try to count slowly to 8 "
-"for each time you breathe in and out. To extra relax your eyes, try closing "
-"them in micro pauses too."
-msgstr ""
-"Закройте ваши глаза и сделайте, насколько можете, долгий выдох. Затем, "
-"вдохните, опять же насколько можете медленно. Попытайтесь считать до 8 "
-"каждый раз, когда вдыхаете и выдыхаете. Для лучшего расслабления глаз, "
-"попытайтесь также закрывать их во время миниотдыха."
-
-#: frontend/plugin/exercises/common/share/exercises.xml.in.h:3
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:2
 msgid ""
 "Cover your eyes with your palms in such way that you can still open your "
 "eyelids. Now open your eyes and look into the darkness of your palms. This "
@@ -883,22 +876,11 @@ msgstr ""
 "глаза и посмотрите в темноту ваших ладоней. Это упражнение лучше помогает "
 "вашим глазам по сравнению с простым их закрытием."
 
-#: frontend/plugin/exercises/common/share/exercises.xml.in.h:4
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:3
 msgid "Finger stretch"
 msgstr "Потягивание пальцев"
 
-#: frontend/plugin/exercises/common/share/exercises.xml.in.h:5
-msgid ""
-"Go stand face to a wall (or something) and put your hands at shoulder height "
-"against it with your elbows slightly bended. Push your body to the wall, "
-"without changing the angle of your elbows. Then push your body back from the "
-"wall again without changing the angle of the elbows."
-msgstr ""
-"Встаньте лицом к стене (или чему-нибудь) и вытяните руки на ширине плеч "
-"немного согнув в локтях. Толкните тело на стену не сгибая локти. Затем, "
-"вернитесь в исходное положение, также не разгибая локти."
-
-#: frontend/plugin/exercises/common/share/exercises.xml.in.h:6
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:4
 msgid ""
 "Interlace your fingers behind your back. Then turn your elbows gently "
 "inward, while straightening your arms. Hold this position for 5 to 15 "
@@ -908,7 +890,7 @@ msgstr ""
 "выпрямляя руки. Задержитесь в таком положении от 5 до 15 секунд и повторите "
 "упражнение дважды."
 
-#: frontend/plugin/exercises/common/share/exercises.xml.in.h:7
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
 msgid ""
 "Keep one arm horizontally stretched in front of your chest. Push this arm "
 "with your other arm towards you until you feel a mild tension in your "
@@ -919,18 +901,7 @@ msgstr ""
 "пока не почувствуете небольшое напряжение в плечах. Немного подержите руки в "
 "таком положении и повторите упражнение для другой руки."
 
-#: frontend/plugin/exercises/common/share/exercises.xml.in.h:8
-msgid ""
-"Keep your head straight and your lower jaw parallel to the floor. Move your "
-"head back (making a double chin). Keep this 2 seconds and relax. Move your "
-"head the same way forward, keep this 2 seconds and relax again."
-msgstr ""
-"Держите голову прямо и нижнюю челюсть параллельно полу. Наклоните голову "
-"вперёд (чтобы получился двойной подбородок). Подержите 2 секунды и "
-"расслабьтесь. Откиньте голову назад, подержите 2 секунды и опять "
-"расслабьтесь."
-
-#: frontend/plugin/exercises/common/share/exercises.xml.in.h:9
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
 msgid ""
 "Look at the upper left corner of the outside border of your monitor. Follow "
 "the border slowly to the upper right corner. Continue to the next corner, "
@@ -941,7 +912,7 @@ msgstr ""
 "взглядом два раза. Повторите упражнения перемещая взгляд в обратном "
 "направлении."
 
-#: frontend/plugin/exercises/common/share/exercises.xml.in.h:10
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
 msgid ""
 "Look for the furthest point you can see behind your monitor. Focus your eyes "
 "on the remote point. Then focus on your monitor border. Repeat it. If you "
@@ -955,35 +926,27 @@ msgstr ""
 "далеко от монитора используйте, например, ручку держа её на том же "
 "расстоянии,что и монитор."
 
-#: frontend/plugin/exercises/common/share/exercises.xml.in.h:11
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
 msgid "Look into the darkness"
 msgstr "Смотреть в темноту"
 
-#: frontend/plugin/exercises/common/share/exercises.xml.in.h:12
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:9
 msgid "Move the eyes"
 msgstr "Движение глазами"
 
-#: frontend/plugin/exercises/common/share/exercises.xml.in.h:13
-msgid "Move the shoulder blades"
-msgstr "Движение лопатками"
-
-#: frontend/plugin/exercises/common/share/exercises.xml.in.h:14
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:10
 msgid "Move the shoulders"
 msgstr "Движение плечами"
 
-#: frontend/plugin/exercises/common/share/exercises.xml.in.h:15
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:11
 msgid "Move the shoulders up and down"
 msgstr "Движение плечами вверх и вниз"
 
-#: frontend/plugin/exercises/common/share/exercises.xml.in.h:16
-msgid "Neck stretch"
-msgstr "Потягивание шеи"
-
-#: frontend/plugin/exercises/common/share/exercises.xml.in.h:17
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
 msgid "Neck tilt stretch"
 msgstr "Потягивание шеи наклонами"
 
-#: frontend/plugin/exercises/common/share/exercises.xml.in.h:18
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
 msgid ""
 "Put your hands on the armrests of your chair when you are sitting down and "
 "press your body up until your arms are straight. Try to move your head even "
@@ -993,11 +956,7 @@ msgstr ""
 "себя, выпрямив руки. Попытайтесь откинуть голову назад опуская плечи. "
 "Медленно сядьте обратно на стул."
 
-#: frontend/plugin/exercises/common/share/exercises.xml.in.h:19
-msgid "Relax the eyes"
-msgstr "Расслабьте глаза"
-
-#: frontend/plugin/exercises/common/share/exercises.xml.in.h:20
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
 msgid ""
 "Separate and stretch your fingers until a mild tension is felt, and hold "
 "this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
@@ -1007,11 +966,11 @@ msgstr ""
 "подержите так 10 секунд. Расслабьтесь, затем согните в суставах и подержите "
 "так 10 секунд. Повторите упражнение ещё раз."
 
-#: frontend/plugin/exercises/common/share/exercises.xml.in.h:21
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
 msgid "Shoulder-arm stretch"
 msgstr "Потягивание предплечья"
 
-#: frontend/plugin/exercises/common/share/exercises.xml.in.h:22
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:16
 msgid ""
 "Spin your right arm slowly round like a plane propeller beside your body. Do "
 "this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
@@ -1021,29 +980,7 @@ msgstr ""
 "часовой стрелке, 4 раза против часовой и расслабьтесь на несколько секунд. "
 "Повторите упражнение с левой рукой."
 
-#: frontend/plugin/exercises/common/share/exercises.xml.in.h:23
-msgid ""
-"Stand by your desk and place both your palms on the desk with the fingers "
-"pointing toward your body. Gently stretch your wrists and lower arms."
-msgstr ""
-"Встаньте возле стола и положите на него обе ладони, чтобы пальцы указывали "
-"на вас. Осторожно потяните ваши запястья и руки."
-
-#: frontend/plugin/exercises/common/share/exercises.xml.in.h:24
-msgid ""
-"Stand up and try to reach the ceiling with your hands without lifting your "
-"heels. Hold that for a few seconds. Then let your hands slowly go to the "
-"floor, without bending your arms. Keep them moving to the floor by bending "
-"you back slowly until you can (almost) place them in front of your shoes. "
-"Slowly roll your back up straight from your hips up, until it is straight up "
-"again."
-msgstr ""
-"Встаньте и попробуйте потянуться руками, не отрывая пятки от пола. Постойте "
-"так несколько секунд. Затем, расслабьте кисти не сгибая руки. Продолжайте их "
-"опускать, медленно сгибаясь, пока Вы не сможете (или почти не сможете) "
-"коснуться ваших ботинок. Медленно выпрямитесь до вертикального положения"
-
-#: frontend/plugin/exercises/common/share/exercises.xml.in.h:25
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
 msgid ""
 "Start with your head in a comfortable straight position. Then, slowly tilt "
 "your head to your right shoulder to gently stretch the muscles on the left "
@@ -1055,19 +992,15 @@ msgstr ""
 "положение в течение 5 секунд. Затем, наклоните голову к левой стороне, чтобы "
 "растянуть мышцы на другой стороне. Сделайте это дважды для каждой стороны."
 
-#: frontend/plugin/exercises/common/share/exercises.xml.in.h:26
-msgid "Stretch your back"
-msgstr "Потяните спину"
-
-#: frontend/plugin/exercises/common/share/exercises.xml.in.h:27
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
 msgid "Train focusing the eyes"
 msgstr "Тренируйтесь фокусировать глаза"
 
-#: frontend/plugin/exercises/common/share/exercises.xml.in.h:28
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:19
 msgid "Turn your head"
 msgstr "Поверните голову"
 
-#: frontend/plugin/exercises/common/share/exercises.xml.in.h:29
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:20
 msgid ""
 "Turn your head left and keep it there for 2 seconds. Then turn your head "
 "right and keep it there for 2 seconds."
@@ -1075,41 +1008,104 @@ msgstr ""
 "Поверните голову налево и подержите так 2 секунды. Затем, поверните голову "
 "направо и подержите так 2 секунды."
 
-#: frontend/plugin/exercises/common/share/exercises.xml.in.h:30
-msgid "Wrist and lower arm desk stretch"
-msgstr "Потягивание запястья"
-
-#: frontend/common/share/sounds/workrave.soundlist.in.h:1
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
 msgid "Break ignored"
 msgstr "Игнорировать перерыв"
 
-#: frontend/common/share/sounds/workrave.soundlist.in.h:2
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:2
 msgid "Break prompt"
 msgstr "Напоминание о перерыве"
 
-#: frontend/common/share/sounds/workrave.soundlist.in.h:4
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:4
 msgid "Exercise ended"
 msgstr "Упражнение закончено"
 
-#: frontend/common/share/sounds/workrave.soundlist.in.h:5
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:5
 msgid "Exercises ended"
 msgstr "Упражнения закончены"
 
-#: frontend/common/share/sounds/workrave.soundlist.in.h:6
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:6
 msgid "Micro-break ended"
 msgstr "Миниотдых закончен"
 
-#: frontend/common/share/sounds/workrave.soundlist.in.h:7
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:7
 msgid "Micro-break started"
 msgstr "Миниотдых начат"
 
-#: frontend/common/share/sounds/workrave.soundlist.in.h:8
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:8
 msgid "Rest break ended"
 msgstr "Перерыв окончен"
 
-#: frontend/common/share/sounds/workrave.soundlist.in.h:9
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:9
 msgid "Rest break started"
 msgstr "Перерыв начат"
+
+#~ msgid ""
+#~ "Close your eyes and breathe out as long as you can and try to relax. When "
+#~ "breathing in, again do it as slowly as possible. Try to count slowly to 8 "
+#~ "for each time you breathe in and out. To extra relax your eyes, try "
+#~ "closing them in micro pauses too."
+#~ msgstr ""
+#~ "Закройте ваши глаза и сделайте, насколько можете, долгий выдох. Затем, "
+#~ "вдохните, опять же насколько можете медленно. Попытайтесь считать до 8 "
+#~ "каждый раз, когда вдыхаете и выдыхаете. Для лучшего расслабления глаз, "
+#~ "попытайтесь также закрывать их во время миниотдыха."
+
+#~ msgid ""
+#~ "Go stand face to a wall (or something) and put your hands at shoulder "
+#~ "height against it with your elbows slightly bended. Push your body to the "
+#~ "wall, without changing the angle of your elbows. Then push your body back "
+#~ "from the wall again without changing the angle of the elbows."
+#~ msgstr ""
+#~ "Встаньте лицом к стене (или чему-нибудь) и вытяните руки на ширине плеч "
+#~ "немного согнув в локтях. Толкните тело на стену не сгибая локти. Затем, "
+#~ "вернитесь в исходное положение, также не разгибая локти."
+
+#~ msgid ""
+#~ "Keep your head straight and your lower jaw parallel to the floor. Move "
+#~ "your head back (making a double chin). Keep this 2 seconds and relax. "
+#~ "Move your head the same way forward, keep this 2 seconds and relax again."
+#~ msgstr ""
+#~ "Держите голову прямо и нижнюю челюсть параллельно полу. Наклоните голову "
+#~ "вперёд (чтобы получился двойной подбородок). Подержите 2 секунды и "
+#~ "расслабьтесь. Откиньте голову назад, подержите 2 секунды и опять "
+#~ "расслабьтесь."
+
+#~ msgid "Move the shoulder blades"
+#~ msgstr "Движение лопатками"
+
+#~ msgid "Neck stretch"
+#~ msgstr "Потягивание шеи"
+
+#~ msgid "Relax the eyes"
+#~ msgstr "Расслабьте глаза"
+
+#~ msgid ""
+#~ "Stand by your desk and place both your palms on the desk with the fingers "
+#~ "pointing toward your body. Gently stretch your wrists and lower arms."
+#~ msgstr ""
+#~ "Встаньте возле стола и положите на него обе ладони, чтобы пальцы "
+#~ "указывали на вас. Осторожно потяните ваши запястья и руки."
+
+#~ msgid ""
+#~ "Stand up and try to reach the ceiling with your hands without lifting "
+#~ "your heels. Hold that for a few seconds. Then let your hands slowly go to "
+#~ "the floor, without bending your arms. Keep them moving to the floor by "
+#~ "bending you back slowly until you can (almost) place them in front of "
+#~ "your shoes. Slowly roll your back up straight from your hips up, until it "
+#~ "is straight up again."
+#~ msgstr ""
+#~ "Встаньте и попробуйте потянуться руками, не отрывая пятки от пола. "
+#~ "Постойте так несколько секунд. Затем, расслабьте кисти не сгибая руки. "
+#~ "Продолжайте их опускать, медленно сгибаясь, пока Вы не сможете (или почти "
+#~ "не сможете) коснуться ваших ботинок. Медленно выпрямитесь до "
+#~ "вертикального положения"
+
+#~ msgid "Stretch your back"
+#~ msgstr "Потяните спину"
+
+#~ msgid "Wrist and lower arm desk stretch"
+#~ msgstr "Потягивание запястья"
 
 #, fuzzy
 #~ msgid "Restbreak"

@@ -1,6 +1,6 @@
 // ActivityMonitor.cc --- ActivityMonitor
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -264,6 +264,7 @@ ActivityMonitor::shift_time(int delta)
 {
   struct timeval d;
 
+  lock.lock();
   tvSETTIME(d, delta, 0)
     
   if (!tvTIMEEQ0(last_action_time))
@@ -274,6 +275,7 @@ ActivityMonitor::shift_time(int delta)
 
   if (!tvTIMEEQ0(last_mouse_time))
     tvADDTIME(last_mouse_time, last_mouse_time, d);
+  lock.unlock();
 }
 
 
@@ -368,7 +370,7 @@ ActivityMonitor::mouse_notify(int x, int y, int wheel_delta)
       gettimeofday(&now, NULL);
       tvSUBTIME(tv, now, last_mouse_time);
       
-      if (!tvTIMEEQ0(last_mouse_time) && tv.tv_sec < 1)
+      if (!tvTIMEEQ0(last_mouse_time) && tv.tv_sec < 1 && tv.tv_sec >= 0 && tv.tv_usec >= 0)
         {
           tvADDTIME(total_mouse_time, total_mouse_time, tv)
         }
