@@ -47,6 +47,7 @@ VOID WINAPI CoTaskMemFree(PVOID);
 #define CSIDL_APPDATA   26
 }
 // (end of hack)
+#include <shlwapi.h>
 #endif
 
 #include "Util.hh"
