@@ -129,7 +129,7 @@ Util::set_home_directory(const string &home)
       char buffer[MAX_PATH];
       
       // Path relative to location of workrave root.
-      appdir = get_application_directory();
+      string appdir = get_application_directory();
 
       home = appdir + home;
 
