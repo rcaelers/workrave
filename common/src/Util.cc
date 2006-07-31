@@ -44,10 +44,10 @@ extern "C" {
 HRESULT WINAPI SHGetSpecialFolderLocation(HWND,int,void**);
 BOOL WINAPI SHGetPathFromIDList(void *,LPSTR);
 VOID WINAPI CoTaskMemFree(PVOID);
+WINSHLWAPI BOOL WINAPI PathCanonicalize(LPSTR,LPCSTR);
 #define CSIDL_APPDATA   26
 }
 // (end of hack)
-#include <shlwapi.h>
 #endif
 
 #include "Util.hh"
