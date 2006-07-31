@@ -122,7 +122,24 @@ Util::get_home_directory()
 void
 Util::set_home_directory(const string &home)
 {
+#ifdef WIN32
+  if (home.substr(0, 2) == ".\\" ||
+      home.substr(0, 3) == "..\\")
+    {
+      char buffer[MAX_PATH];
+      
+      // Path relative to location of workrave root.
+      appdir = get_application_directory();
+
+      home = appdir + home;
+
+      PathCanonicalize(buffer, home.c_str());
+      home = buffer;
+        
+    }
+            
   home_directory = home;
+#endif  
 }
 
 //! Returns \c true if the specified file exists.
