@@ -186,6 +186,7 @@ nodist_workrave_SOURCES = \
 
 
 workrave_CXXFLAGS = 	-DWORKRAVE_DATADIR="\"${pkgdatadir}\"" -W \
+			-DATADIR="\"${datadir}\""  \
 			@WR_FRONTEND_CFLAGS@ -I$(top_srcdir)/src \
 			 -I. @X_CFLAGS@ @GNOMEUIMM_CFLAGS@ \
 			@GNOMEUI_CFLAGS@ @GTK_CFLAGS@ @GTKMM_CFLAGS@ \

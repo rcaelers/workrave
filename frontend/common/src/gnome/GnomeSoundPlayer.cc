@@ -1,6 +1,6 @@
 // GnomeSoundPlayer.cc --- Sound player
 //
-// Copyright (C) 2002, 2003, 2004 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -27,9 +27,12 @@ static const char rcsid[] = "$Id$";
 #include <debug.hh>
 
 #include <libgnome/gnome-triggers.h>
+#include <libgnome/gnome-sound.h>
 
 GnomeSoundPlayer::GnomeSoundPlayer()
 {
+  gnome_sound_init (NULL);
+  gnome_sound_sample_load ("workrave/exercise_ended", DATADIR "/sounds/workrave/exercise-ended.wav");
 }
 
 GnomeSoundPlayer::~GnomeSoundPlayer()
