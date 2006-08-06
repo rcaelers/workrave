@@ -32,7 +32,16 @@ static const char rcsid[] = "$Id$";
 GnomeSoundPlayer::GnomeSoundPlayer()
 {
   gnome_sound_init (NULL);
-  gnome_sound_sample_load ("workrave/exercise_ended", DATADIR "/sounds/workrave/exercise-ended.wav");
+  gnome_sound_sample_load ("workrave/exercise_ended",     DATADIR "/sounds/workrave/exercise-ended.wav");
+  gnome_sound_sample_load ("workrave/break_ignored",      DATADIR "/sounds/workrave/break-ignored.wav");
+  gnome_sound_sample_load ("workrave/break_prelude",      DATADIR "/sounds/workrave/break-prelude.wav");
+  gnome_sound_sample_load ("workrave/daily_limit",        DATADIR "/sounds/workrave/daily-limit.wav");
+  gnome_sound_sample_load ("workrave/exercise_ended",     DATADIR "/sounds/workrave/exercise-ended.wav");
+  gnome_sound_sample_load ("workrave/exercises_ended",    DATADIR "/sounds/workrave/exercises-ended.wav");
+  gnome_sound_sample_load ("workrave/micro_break_ended,", DATADIR "/sounds/workrave/micro-break-ended.wav");
+  gnome_sound_sample_load ("workrave/micro_break_started",DATADIR "/sounds/workrave/micro-break-started.wav");
+  gnome_sound_sample_load ("workrave/rest_break_ended",   DATADIR "/sounds/workrave/rest-break-ended.wav");
+  gnome_sound_sample_load ("workrave/rest_break_started", DATADIR "/sounds/workrave/rest-break-started.wav");
 }
 
 GnomeSoundPlayer::~GnomeSoundPlayer()
