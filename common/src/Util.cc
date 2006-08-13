@@ -44,6 +44,7 @@ extern "C" {
 HRESULT WINAPI SHGetSpecialFolderLocation(HWND,int,void**);
 BOOL WINAPI SHGetPathFromIDList(void *,LPSTR);
 VOID WINAPI CoTaskMemFree(PVOID);
+#define PathCanonicalize PathCanonicalizeA
 BOOL WINAPI PathCanonicalize(LPSTR,LPCSTR);
 #define CSIDL_APPDATA   26
 }
