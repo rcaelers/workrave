@@ -1,6 +1,6 @@
 // BreakWindow.cc --- base class for the break windows
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -83,7 +83,6 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
       window->set_functions(Gdk::FUNC_MOVE);
     }
 
-  
   this->head = head;
 #ifdef HAVE_GTK_MULTIHEAD
   if (head.valid)
@@ -376,6 +375,11 @@ BreakWindow::start()
 #endif  
   show_all();
 
+  // Set window hints.
+  WindowHints::set_skip_winlist(Gtk::Widget::gobj(), true);
+  WindowHints::set_always_on_top(Gtk::Widget::gobj(), true);
+  raise();
+  
 #ifdef CAUSES_FVWM_FOCUS_PROBLEMS
   present(); // After grab() please (Windows)
 #endif
