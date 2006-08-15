@@ -1,6 +1,6 @@
 // Exercise.cc --- Exercises
 //
-// Copyright (C) 2002, 2003, 2004, 2005 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2005, 2006 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -115,8 +115,11 @@ exercise_parser_start_element  (GMarkupParseContext *,
       const gchar *mirrorx = exercise_parse_lookup_attribute
         ("mirrorx", attribute_names, attribute_values);
       bool mx = mirrorx != NULL && !strcmp(mirrorx, "yes");
-      TRACE_MSG("Image src=" << src);
-      ep->exercise->sequence.push_back(Exercise::Image(src, dur, mx));
+      if (src != NULL && strlen(src) > 0)
+        {
+          TRACE_MSG("Image src=" << src);
+          ep->exercise->sequence.push_back(Exercise::Image(src, dur, mx));
+        }
     }
   else if (! strcmp(element_name, "exercises"))
     {

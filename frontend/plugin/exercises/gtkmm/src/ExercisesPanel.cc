@@ -334,22 +334,27 @@ ExercisesPanel::reset()
 void
 ExercisesPanel::start_exercise()
 {
-  const Exercise &exercise = *exercise_iterator;
-  Glib::RefPtr<Gtk::TextBuffer> buf = description_text.get_buffer();
-  std::string txt = HigUtil::create_alert_text(exercise.title.c_str(),
-                                                 exercise.description.c_str());
-  text_buffer_set_markup(buf->gobj(), txt.c_str(), txt.length());
-  exercise_time = 0;
-  seq_time = 0;
-  image_iterator = exercise.sequence.end();
-  refresh_progress();
-  refresh_sequence();
+  if (exercises.size() > 0)
+    {
+      const Exercise &exercise = *exercise_iterator;
+
+      Glib::RefPtr<Gtk::TextBuffer> buf = description_text.get_buffer();
+      std::string txt = HigUtil::create_alert_text(exercise.title.c_str(),
+                                                   exercise.description.c_str());
+      text_buffer_set_markup(buf->gobj(), txt.c_str(), txt.length());
+      exercise_time = 0;
+      seq_time = 0;
+      image_iterator = exercise.sequence.end();
+      refresh_progress();
+      refresh_sequence();
+    }
 }
 
 void
 ExercisesPanel::show_image()
 {
   TRACE_ENTER("ExercisesPanel::show_image");
+
   const Exercise::Image &img = (*image_iterator);
   seq_time += img.duration;
   TRACE_MSG("image=" << img.image);
@@ -365,22 +370,26 @@ ExercisesPanel::show_image()
       Glib::RefPtr<Gdk::Pixbuf> flip = GtkUtil::flip_pixbuf(pixbuf, true, false);
       image.set(flip);
     }
+
   TRACE_EXIT();
 }
 
 void
 ExercisesPanel::refresh_sequence()
 {
-  if (exercise_time >= seq_time)
+  TRACE_ENTER("ExercisesPanel::refresh_sequence");
+  const Exercise &exercise = *exercise_iterator;
+  if (exercise_time >= seq_time && exercise.sequence.size() > 0)
     {
       image_iterator++;
-      const Exercise &exercise = *exercise_iterator;
       if (image_iterator == exercise.sequence.end())
         {
           image_iterator = exercise.sequence.begin();
         }
       show_image();
     }
+
+  TRACE_EXIT();
 }
 
 void
@@ -449,6 +458,9 @@ void
 ExercisesPanel::heartbeat()
 {
   if (paused || stopped)
+    return;
+
+  if (exercises.size() == 0)
     return;
   
   const Exercise &exercise = *exercise_iterator;
