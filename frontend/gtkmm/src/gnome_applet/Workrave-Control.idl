@@ -8,6 +8,14 @@ module GNOME
     {
       enum Mode { MODE_INVALID, MODE_NORMAL, MODE_SUSPENDED, MODE_QUIET };
 
+      struct Color
+      {
+        long pixel;
+        long red;
+        long green;
+        long blue;
+      };
+
       oneway void fire();
       
       oneway void open_main();
@@ -27,6 +35,7 @@ module GNOME
       oneway void set_applet_size(in long size);
       oneway void set_applet(in Bonobo::Unknown applet);
       oneway void button_clicked(in long button);
+      oneway void set_applet_background(in long type, in Color color, in long xid);
     };
   };
 };

@@ -140,10 +140,10 @@ Util::set_home_directory(const string &home)
         
     }
   else
+#endif  
     {
       home_directory = home;
     }
-#endif  
 }
 
 //! Returns \c true if the specified file exists.

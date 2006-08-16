@@ -1,6 +1,6 @@
 // AppletWindow.hh --- Main info Window
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -68,6 +68,7 @@ public:
   void set_applet_vertical(bool vertical);
   void set_applet_size(int size);
   void set_applet_control(GNOME_Workrave_AppletControl applet_control);
+  void set_applet_background(int type, GdkColor &color, long xid);
 #endif
 
   void config_changed_notify(std::string key);
@@ -128,6 +129,11 @@ private:
 #ifdef HAVE_GNOME
   bool init_gnome_applet();
   void destroy_gnome_applet();
+  void setbackground(int type,
+                     GtkRcStyle * rc_style,
+                     GtkWidget * w, 
+                     GdkColor * color,
+                     GdkPixmap * pixmap);
 #endif
 
 #if defined(HAVE_GNOME) || defined(HAVE_KDE)

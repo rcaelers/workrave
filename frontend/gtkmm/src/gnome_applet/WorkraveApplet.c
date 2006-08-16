@@ -25,6 +25,8 @@ static const char rcsid[] = "$Id$";
 #include <bonobo/bonobo-object.h>
 #include <panel-applet.h>
 
+#include <gdk/gdkx.h>
+
 #include "Workrave-Control.h"
 #include "WorkraveApplet.h"
 #include "nls.h"
@@ -665,6 +667,63 @@ change_orient(PanelApplet *applet, PanelAppletOrient o, gpointer data)
     }
 }
 
+static void
+change_background (PanelApplet * widget, 
+                   PanelAppletBackgroundType type,
+                   GdkColor * color,
+                   GdkPixmap * pixmap,
+                   void *data)
+{
+  static GdkPixmap *keep = NULL;
+  long xid = 0;
+  GNOME_Workrave_WorkraveControl_Color c;
+  
+  workrave_applet_connect(FALSE);
+  
+  if (remote_control != NULL)
+    {
+      CORBA_Environment ev;
+      CORBA_exception_init(&ev);
+
+      if (type == PANEL_COLOR_BACKGROUND && color != NULL)
+        {
+          c.pixel = color->pixel;
+          c.red = color->red;
+          c.green = color->green;
+          c.blue = color->blue;
+        }
+      
+      if (type == PANEL_PIXMAP_BACKGROUND)
+        {
+          if (keep != NULL)
+            {
+              gdk_pixmap_unref(keep);
+              keep = pixmap;
+            }
+          if (pixmap != NULL)
+            {
+              gdk_pixmap_ref(pixmap);
+            }
+          
+          xid = GDK_PIXMAP_XID(pixmap);
+        }
+
+      
+      GNOME_Workrave_WorkraveControl_set_applet_background(remote_control,
+                                                           type,
+                                                           &c,
+                                                           (CORBA_long) xid,
+                                                           &ev);
+      if (BONOBO_EX(&ev))
+        {
+          char *err = (char *) bonobo_exception_get_text(&ev);
+          g_warning (_("An exception occured '%s'"), err);
+          g_free(err);
+        }
+      
+      CORBA_exception_free(&ev);
+    }
+}
 
 static gboolean
 plug_removed(GtkSocket *socket, void *manager)
@@ -858,6 +917,28 @@ workrave_applet_hide_menus(gboolean hide)
 }
 
 
+/* stolen from clock applet :) */
+static inline void
+force_no_focus_padding (GtkWidget *widget)
+{
+        gboolean first_time = TRUE;
+
+        if (first_time) {
+                gtk_rc_parse_string ("\n"
+                                     "   style \"hdate-applet-button-style\"\n"
+                                     "   {\n"
+                                     "      GtkWidget::focus-line-width=0\n"
+                                     "      GtkWidget::focus-padding=0\n"
+                                     "   }\n"
+                                     "\n"
+                                     "    widget \"*.hdate-applet-button\" style \"hdate-applet-button-style\"\n"
+                                     "\n");
+                first_time = FALSE;
+        }
+
+        gtk_widget_set_name (widget, "hdate-applet-button");
+}
+
 static gboolean
 workrave_applet_fill(PanelApplet *applet)
 {
@@ -878,11 +959,11 @@ workrave_applet_fill(PanelApplet *applet)
   bonobo_ui_component_add_listener(ui, "Quiet", mode_callback, NULL);
 
   // Eventbox
-  event_box = gtk_event_box_new();
+  event_box = GTK_EVENT_BOX(applet); // OLD: gtk_event_box_new();
   applet_control->event_box = event_box;
   gtk_widget_set_events(event_box, gtk_widget_get_events(event_box) | GDK_BUTTON_PRESS_MASK);
   gtk_widget_show(GTK_WIDGET(event_box));
-  gtk_container_add(GTK_CONTAINER(applet), event_box);
+  // OLD: gtk_container_add(GTK_CONTAINER(applet), event_box);
 
   g_signal_connect(G_OBJECT(event_box), "button_press_event", G_CALLBACK(button_pressed),
                    applet_control);
@@ -900,19 +981,31 @@ workrave_applet_fill(PanelApplet *applet)
   g_signal_connect(applet_control->socket, "plug_added", G_CALLBACK(plug_added), NULL);
   g_signal_connect(G_OBJECT(applet), "change_size", G_CALLBACK(change_pixel_size), NULL);
   g_signal_connect(G_OBJECT(applet), "change_orient", G_CALLBACK(change_orient), NULL);
+  g_signal_connect(G_OBJECT(applet), "change_background", G_CALLBACK(change_background), NULL);
 
+  gtk_container_set_border_width(GTK_CONTAINER(applet), 0);
+  gtk_container_set_border_width(GTK_CONTAINER(event_box), 0);
+  
   // Container.
   hbox = gtk_hbox_new(FALSE, 0);
   gtk_container_add(GTK_CONTAINER(event_box), hbox);
   gtk_box_pack_end(GTK_BOX(hbox), applet_control->socket, FALSE, FALSE, 0);
   gtk_box_pack_end(GTK_BOX(hbox), applet_control->image, FALSE, FALSE, 0);
 
+  gtk_container_set_border_width(GTK_CONTAINER(hbox), 0);
+  gtk_container_set_border_width(GTK_CONTAINER(applet_control->socket), 0);
+
+  force_no_focus_padding(GTK_WIDGET(applet));
+  force_no_focus_padding(GTK_WIDGET(applet_control->socket));
+  
   gtk_widget_show(GTK_WIDGET(hbox));
   gtk_widget_show(GTK_WIDGET(applet));
 
   applet_control->socket_id = gtk_socket_get_id(GTK_SOCKET(applet_control->socket));
   applet_control->size = panel_applet_get_size(applet);
 
+  panel_applet_set_background_widget(applet, GTK_WIDGET(applet));
+  
   workrave_applet_hide_menus(TRUE);
 
   return TRUE;

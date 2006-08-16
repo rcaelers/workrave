@@ -1,6 +1,6 @@
 // WorkraveApplet.cc
 //
-// Copyright (C) 2002, 2003, 2005 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2005, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -228,6 +228,34 @@ WR_METHOD_ARGS1_IMPL(void, set_applet_vertical, CORBA_boolean, vertical)
 }
 
 
+WR_METHOD_ARGS3_IMPL(void, set_applet_background,
+                     CORBA_long, type,
+                     const GNOME_Workrave_WorkraveControl_Color *, color,
+                     CORBA_long, xid)
+{
+  GUI *gui = GUI::get_instance();
+
+  AppletWindow *applet = NULL;
+  if (gui != NULL)
+    {
+      applet = gui->get_applet_window();
+    }
+  if (applet != NULL)
+    {
+      GdkColor gdk_color;
+      
+      if (color != NULL)
+        {
+          gdk_color.pixel = color->pixel;
+          gdk_color.red = color->red;
+          gdk_color.green = color->green;
+          gdk_color.blue = color->blue;
+        }
+        
+      applet->set_applet_background(type, gdk_color, xid);
+    }
+}
+
 WR_METHOD_ARGS1_IMPL(void, set_applet_size, CORBA_long, size)
 {
   GUI *gui = GUI::get_instance();
@@ -326,6 +354,7 @@ workrave_control_class_init(WorkraveControlClass *klass)
   WR_METHOD_REGISTER(set_applet_vertical);
   WR_METHOD_REGISTER(set_applet_size);
   WR_METHOD_REGISTER(set_applet);
+  WR_METHOD_REGISTER(set_applet_background);
   WR_METHOD_REGISTER(button_clicked);
 }
 
