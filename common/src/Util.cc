@@ -133,11 +133,10 @@ Util::set_home_directory(const string &home)
       // Path relative to location of workrave root.
       string appdir = get_application_directory();
 
-      home_directory = appdir + home;
+      home_directory = appdir + "\\" + home;
 
       PathCanonicalize(buffer, home_directory.c_str());
       home_directory = buffer;
-        
     }
   else
 #endif  
