@@ -921,22 +921,23 @@ workrave_applet_hide_menus(gboolean hide)
 static inline void
 force_no_focus_padding (GtkWidget *widget)
 {
-        gboolean first_time = TRUE;
+  static gboolean first = TRUE;
 
-        if (first_time) {
-                gtk_rc_parse_string ("\n"
-                                     "   style \"hdate-applet-button-style\"\n"
-                                     "   {\n"
-                                     "      GtkWidget::focus-line-width=0\n"
-                                     "      GtkWidget::focus-padding=0\n"
-                                     "   }\n"
-                                     "\n"
-                                     "    widget \"*.hdate-applet-button\" style \"hdate-applet-button-style\"\n"
-                                     "\n");
-                first_time = FALSE;
-        }
+  if (first)
+    {
+      gtk_rc_parse_string ("\n"
+                           "   style \"hdate-applet-button-style\"\n"
+                           "   {\n"
+                           "      GtkWidget::focus-line-width=0\n"
+                           "      GtkWidget::focus-padding=0\n"
+                           "   }\n"
+                           "\n"
+                           "    widget \"*.hdate-applet-button\" style \"hdate-applet-button-style\"\n"
+                           "\n");
+      first = FALSE;
+    }
 
-        gtk_widget_set_name (widget, "hdate-applet-button");
+  gtk_widget_set_name (widget, "hdate-applet-button");
 }
 
 static gboolean
@@ -945,7 +946,6 @@ workrave_applet_fill(PanelApplet *applet)
   GdkPixbuf *pixbuf = NULL;
   GtkWidget *hbox = NULL;
   BonoboUIComponent *ui = NULL;
-  GtkWidget *event_box = NULL;
   
   // Create menus.
   panel_applet_setup_menu_from_file(applet, NULL, "GNOME_WorkraveApplet.xml", NULL,
@@ -958,56 +958,54 @@ workrave_applet_fill(PanelApplet *applet)
   bonobo_ui_component_add_listener(ui, "Suspended", mode_callback, NULL);
   bonobo_ui_component_add_listener(ui, "Quiet", mode_callback, NULL);
 
-  // Eventbox
-  event_box = GTK_EVENT_BOX(applet); // OLD: gtk_event_box_new();
-  applet_control->event_box = event_box;
-  gtk_widget_set_events(event_box, gtk_widget_get_events(event_box) | GDK_BUTTON_PRESS_MASK);
-  gtk_widget_show(GTK_WIDGET(event_box));
-  // OLD: gtk_container_add(GTK_CONTAINER(applet), event_box);
+  gtk_container_set_border_width(GTK_CONTAINER(applet), 0);
+  panel_applet_set_background_widget(applet, GTK_WIDGET(applet));
+  gtk_widget_set_events(GTK_WIDGET(applet),
+                        gtk_widget_get_events(GTK_WIDGET(applet)) | GDK_BUTTON_PRESS_MASK);
+  
 
-  g_signal_connect(G_OBJECT(event_box), "button_press_event", G_CALLBACK(button_pressed),
+  g_signal_connect(G_OBJECT(applet), "button_press_event", G_CALLBACK(button_pressed),
                    applet_control);
   
   // Socket.
   applet_control->socket = gtk_socket_new();
+  gtk_container_set_border_width(GTK_CONTAINER(applet_control->socket), 0);
   
   // Image
   pixbuf = gdk_pixbuf_new_from_file(WORKRAVE_DATADIR "/images/workrave-icon-medium.png", NULL);  
   applet_control->image = gtk_image_new_from_pixbuf(pixbuf);
-  gtk_widget_show(GTK_WIDGET(applet_control->image));
 
   // Signals.
   g_signal_connect(applet_control->socket, "plug_removed", G_CALLBACK(plug_removed), NULL);
   g_signal_connect(applet_control->socket, "plug_added", G_CALLBACK(plug_added), NULL);
   g_signal_connect(G_OBJECT(applet), "change_size", G_CALLBACK(change_pixel_size), NULL);
   g_signal_connect(G_OBJECT(applet), "change_orient", G_CALLBACK(change_orient), NULL);
-  g_signal_connect(G_OBJECT(applet), "change_background", G_CALLBACK(change_background), NULL);
 
-  gtk_container_set_border_width(GTK_CONTAINER(applet), 0);
-  gtk_container_set_border_width(GTK_CONTAINER(event_box), 0);
-  
   // Container.
   hbox = gtk_hbox_new(FALSE, 0);
-  gtk_container_add(GTK_CONTAINER(event_box), hbox);
+  gtk_container_add(GTK_CONTAINER(applet), hbox);
   gtk_box_pack_end(GTK_BOX(hbox), applet_control->socket, FALSE, FALSE, 0);
   gtk_box_pack_end(GTK_BOX(hbox), applet_control->image, FALSE, FALSE, 0);
 
   gtk_container_set_border_width(GTK_CONTAINER(hbox), 0);
-  gtk_container_set_border_width(GTK_CONTAINER(applet_control->socket), 0);
-
-  force_no_focus_padding(GTK_WIDGET(applet));
-  force_no_focus_padding(GTK_WIDGET(applet_control->socket));
   
-  gtk_widget_show(GTK_WIDGET(hbox));
-  gtk_widget_show(GTK_WIDGET(applet));
-
   applet_control->socket_id = gtk_socket_get_id(GTK_SOCKET(applet_control->socket));
   applet_control->size = panel_applet_get_size(applet);
 
-  panel_applet_set_background_widget(applet, GTK_WIDGET(applet));
-  
   workrave_applet_hide_menus(TRUE);
 
+  force_no_focus_padding(GTK_WIDGET(applet));
+  force_no_focus_padding(GTK_WIDGET(applet_control->socket));
+  force_no_focus_padding(GTK_WIDGET(applet_control->image));
+  force_no_focus_padding(GTK_WIDGET(hbox));
+
+  gtk_widget_show(GTK_WIDGET(applet_control->image));
+  gtk_widget_show(GTK_WIDGET(applet_control->socket));
+  gtk_widget_show(GTK_WIDGET(hbox));
+  gtk_widget_show(GTK_WIDGET(applet));
+
+  g_signal_connect(G_OBJECT(applet), "change_background", G_CALLBACK(change_background), NULL);
+  
   return TRUE;
 }
 

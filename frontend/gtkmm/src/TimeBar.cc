@@ -1,6 +1,6 @@
 // TimeBar.cc --- Time Bar
 //
-// Copyright (C) 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -268,7 +268,24 @@ TimeBar::on_expose_event(GdkEventExpose *e)
     x = MARGINX;
   else
     x = (winw - width) / 2;
-  window->draw_layout(window_gc, x, (winh - height) / 2, pl1);
+
+  int left_width = (bar_width > sbar_width) ? bar_width : sbar_width;
+  left_width += border_size;
+  
+  Gdk::Rectangle left_rect(0, 0, left_width, winh);
+  Gdk::Rectangle right_rect(left_width, 0, winw - left_width, winh);
+  Gdk::Color textcolor = style->get_text(Gtk::STATE_NORMAL);
+
+  Glib::RefPtr<Gdk::GC> window_gc1 = Gdk::GC::create(window);
+
+  window_gc1->set_clip_origin(0,0);
+  window_gc1->set_clip_rectangle(left_rect);
+  window_gc1->set_foreground(bar_text_color);
+  window->draw_layout(window_gc1, x, (winh - height) / 2, pl1);
+  
+  window_gc1->set_foreground(textcolor);
+  window_gc1->set_clip_rectangle(right_rect);
+  window->draw_layout(window_gc1, x, (winh - height) / 2, pl1);
   return true;
 }
 
