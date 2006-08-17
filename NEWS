@@ -17,6 +17,19 @@ http://www.workrave.org
 
 ** Fixed negative mouse usage when date is changed.
 
+** Fixed text color on Gnome themes with dark backgrounds (i.e. high
+   contrast inverse)
+
+** Gnome applets now support transparency.
+
+** The 'datadir' configuration option can now be a relative path:
+   [general]
+   datadir=.\\Data
+
+   This will store all Workrave data in the 'Data' directory below the
+   Workrave root directory. Useful on USB stick.
+   (Note the double backslash)
+
 * Workrave 1.8.3
 
 ** Daniel Nylander translated Workrave into Swedish.
@@ -31,9 +44,11 @@ http://www.workrave.org
 ** Support for configuring the data storage directory.
    Add the following two lines to your workrave.ini
      [general]
-     datadir=C:\Workrave
+     datadir=C:\\Workrave\\Data
    This feature can be used to run Workrave from an USB memory stick.
-
+   Note: On Windows, you have to use double backslashes like in the
+   example above!
+   
 ** Support for Gnome screen saver added (Matt Zimmerman).
 
 ** Workrave no longer consumes 100% CPU is if a break is started while
