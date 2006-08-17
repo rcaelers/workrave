@@ -22,12 +22,13 @@ http://www.workrave.org
 
 ** Gnome applets now support transparency.
 
-** The 'datadir' configuration option can now be a relative path:
-   [general]
-   datadir=.\\Data
+** The 'datadir' configuration option in workrave.ini can now be a
+   relative path:
+     [general]
+     datadir=.\\Data
 
    This will store all Workrave data in the 'Data' directory below the
-   Workrave root directory. Useful on USB stick.
+   Workrave root directory. 
    (Note the double backslash)
 
 * Workrave 1.8.3

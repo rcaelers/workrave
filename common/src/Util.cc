@@ -137,15 +137,18 @@ Util::set_home_directory(const string &home)
 
       PathCanonicalize(buffer, home_directory.c_str());
       home_directory = buffer;
-
-      CreateDirectory(home_directory.c_str(), NULL);
     }
   else
 #endif  
     {
       home_directory = home + "/";
-      mkdir(home_directory.c_str(), 0777);
     }
+
+#ifdef WIN32
+  CreateDirectory(home_directory.c_str(), NULL);
+#else
+  mkdir(home_directory.c_str(), 0777);
+#endif      
 }
 
 //! Returns \c true if the specified file exists.
