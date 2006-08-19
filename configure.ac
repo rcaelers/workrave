@@ -578,8 +578,8 @@ CFLAGS=$CFLAGS_save
 LIBS=$LIBS_save
 
 dnl internationalization macros
-AM_GNU_GETTEXT([external])
-dnl AM_GLIB_GNU_GETTEXT
+AM_GNU_GETTEXT()
+#AM_GLIB_GNU_GETTEXT
 
 dnl Hack because windows gettext package is SEVERELY broken...
 if test "x$platform_win32" == "xyes"; then

@@ -1,4 +1,4 @@
-/* Copyright (C) 1995-1998, 2000, 2001 Free Software Foundation, Inc.
+/* Copyright (C) 1995-1998, 2000-2001, 2003 Free Software Foundation, Inc.
    Contributed by Ulrich Drepper <drepper@gnu.ai.mit.edu>, 1995.
 
    This program is free software; you can redistribute it and/or modify it
@@ -13,7 +13,7 @@
 
    You should have received a copy of the GNU Library General Public
    License along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
+   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
    USA.  */
 
 #ifdef HAVE_CONFIG_H
@@ -38,8 +38,7 @@
 /* @@ end of prolog @@ */
 
 char *
-_nl_find_language (name)
-     const char *name;
+_nl_find_language (const char *name)
 {
   while (name[0] != '\0' && name[0] != '_' && name[0] != '@'
 	 && name[0] != '+' && name[0] != ',')
@@ -50,17 +49,11 @@ _nl_find_language (name)
 
 
 int
-_nl_explode_name (name, language, modifier, territory, codeset,
-		  normalized_codeset, special, sponsor, revision)
-     char *name;
-     const char **language;
-     const char **modifier;
-     const char **territory;
-     const char **codeset;
-     const char **normalized_codeset;
-     const char **special;
-     const char **sponsor;
-     const char **revision;
+_nl_explode_name (char *name,
+		  const char **language, const char **modifier,
+		  const char **territory, const char **codeset,
+		  const char **normalized_codeset, const char **special,
+		  const char **sponsor, const char **revision)
 {
   enum { undecided, xpg, cen } syntax;
   char *cp;

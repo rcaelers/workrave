@@ -17,8 +17,8 @@ MAINTAINERCLEANFILES = 	\
 		compile AUTHORS.txt COPYING.txt ChangeLog.txt \
 		NEWS.txt README.txt
 
-SUBDIRS = 	m4 po backend common frontend 
-DIST_SUBDIRS =  $(SUBDIRS) intl build contrib
+SUBDIRS = 	m4 intl po backend common frontend 
+DIST_SUBDIRS =  $(SUBDIRS) build contrib
 
 EXTRA_DIST = 	config.rpath  \
 		config.xml \

@@ -1,5 +1,5 @@
 /* Load needed message catalogs.
-   Copyright (C) 1995-1999, 2000-2002 Free Software Foundation, Inc.
+   Copyright (C) 1995-1999, 2000-2004 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify it
    under the terms of the GNU Library General Public License as published
@@ -13,7 +13,7 @@
 
    You should have received a copy of the GNU Library General Public
    License along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
+   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
    USA.  */
 
 /* Tell glibc's <string.h> to provide a prototype for mempcpy().
@@ -34,17 +34,23 @@
 #include <sys/stat.h>
 
 #ifdef __GNUC__
+# undef  alloca
 # define alloca __builtin_alloca
 # define HAVE_ALLOCA 1
 #else
-# if defined HAVE_ALLOCA_H || defined _LIBC
-#  include <alloca.h>
+# ifdef _MSC_VER
+#  include <malloc.h>
+#  define alloca _alloca
 # else
-#  ifdef _AIX
- #pragma alloca
+#  if defined HAVE_ALLOCA_H || defined _LIBC
+#   include <alloca.h>
 #  else
-#   ifndef alloca
+#   ifdef _AIX
+ #pragma alloca
+#   else
+#    ifndef alloca
 char *alloca ();
+#    endif
 #   endif
 #  endif
 # endif
@@ -485,11 +491,6 @@ char *alloca ();
 #endif
 
 
-/* Prototypes for local functions.  Needed to ensure compiler checking of
-   function argument counts despite of K&R C function definition syntax.  */
-static const char *get_sysdep_segment_value PARAMS ((const char *name));
-
-
 /* We need a sign, whether a new catalog was loaded, which can be associated
    with all translations.  This is important if the translations are
    cached by one of GCC's features.  */
@@ -498,8 +499,7 @@ int _nl_msg_cat_cntr;
 
 /* Expand a system dependent string segment.  Return NULL if unsupported.  */
 static const char *
-get_sysdep_segment_value (name)
-     const char *name;
+get_sysdep_segment_value (const char *name)
 {
   /* Test for an ISO C 99 section 7.8.1 format string directive.
      Syntax:
@@ -748,6 +748,18 @@ get_sysdep_segment_value (name)
 	    }
 	}
     }
+  /* Test for a glibc specific printf() format directive flag.  */
+  if (name[0] == 'I' && name[1] == '\0')
+    {
+#if defined _LIBC || __GLIBC__ > 2 || (__GLIBC__ == 2 && __GLIBC_MINOR__ >= 2)
+      /* The 'I' flag, in numeric format directives, replaces ASCII digits
+	 with the 'outdigits' defined in the LC_CTYPE locale facet.  This is
+	 used for Farsi (Persian) and maybe Arabic.  */
+      return "I";
+#else
+      return "";
+#endif
+    }
   /* Other system dependent strings are not valid.  */
   return NULL;
 }
@@ -756,10 +768,9 @@ get_sysdep_segment_value (name)
    Return the header entry.  */
 const char *
 internal_function
-_nl_init_domain_conv (domain_file, domain, domainbinding)
-     struct loaded_l10nfile *domain_file;
-     struct loaded_domain *domain;
-     struct binding *domainbinding;
+_nl_init_domain_conv (struct loaded_l10nfile *domain_file,
+		      struct loaded_domain *domain,
+		      struct binding *domainbinding)
 {
   /* Find out about the character set the file is encoded with.
      This can be found (in textual form) in the entry "".  If this
@@ -820,10 +831,10 @@ _nl_init_domain_conv (domain_file, domain, domainbinding)
 	      if (outcharset == NULL || outcharset[0] == '\0')
 		{
 # ifdef _LIBC
-		  outcharset = (*_nl_current[LC_CTYPE])->values[_NL_ITEM_INDEX (CODESET)].string;
+		  outcharset = _NL_CURRENT (LC_CTYPE, CODESET);
 # else
 #  if HAVE_ICONV
-		  extern const char *locale_charset PARAMS ((void));
+		  extern const char *locale_charset (void);
 		  outcharset = locale_charset ();
 #  endif
 # endif
@@ -875,8 +886,7 @@ _nl_init_domain_conv (domain_file, domain, domainbinding)
 /* Frees the codeset dependent parts of an opened message catalog.  */
 void
 internal_function
-_nl_free_domain_conv (domain)
-     struct loaded_domain *domain;
+_nl_free_domain_conv (struct loaded_domain *domain)
 {
   if (domain->conv_tab != NULL && domain->conv_tab != (char **) -1)
     free (domain->conv_tab);
@@ -896,9 +906,8 @@ _nl_free_domain_conv (domain)
    message catalog do nothing.  */
 void
 internal_function
-_nl_load_domain (domain_file, domainbinding)
-     struct loaded_l10nfile *domain_file;
-     struct binding *domainbinding;
+_nl_load_domain (struct loaded_l10nfile *domain_file,
+		 struct binding *domainbinding)
 {
   int fd;
   size_t size;
@@ -1022,10 +1031,11 @@ _nl_load_domain (domain_file, domainbinding)
 
   /* Fill in the information about the available tables.  */
   revision = W (domain->must_swap, data->revision);
-  /* We support only the major revision 0.  */
+  /* We support only the major revisions 0 and 1.  */
   switch (revision >> 16)
     {
     case 0:
+    case 1:
       domain->nstrings = W (domain->must_swap, data->nstrings);
       domain->orig_tab = (const struct string_desc *)
 	((char *) data + W (domain->must_swap, data->orig_tab_offset));
@@ -1065,12 +1075,13 @@ _nl_load_domain (domain_file, domainbinding)
 		const char **sysdep_segment_values;
 		const nls_uint32 *orig_sysdep_tab;
 		const nls_uint32 *trans_sysdep_tab;
+		nls_uint32 n_inmem_sysdep_strings;
 		size_t memneed;
 		char *mem;
 		struct sysdep_string_desc *inmem_orig_sysdep_tab;
 		struct sysdep_string_desc *inmem_trans_sysdep_tab;
 		nls_uint32 *inmem_hash_tab;
-		unsigned int i;
+		unsigned int i, j;
 
 		/* Get the values of the system dependent segments.  */
 		n_sysdep_segments =
@@ -1105,153 +1116,247 @@ _nl_load_domain (domain_file, domainbinding)
 		   + W (domain->must_swap, data->trans_sysdep_tab_offset));
 
 		/* Compute the amount of additional memory needed for the
-		   system dependent strings and the augmented hash table.  */
-		memneed = 2 * n_sysdep_strings
-			  * sizeof (struct sysdep_string_desc)
-			  + domain->hash_size * sizeof (nls_uint32);
-		for (i = 0; i < 2 * n_sysdep_strings; i++)
-		  {
-		    const struct sysdep_string *sysdep_string =
-		      (const struct sysdep_string *)
-		      ((char *) data
-		       + W (domain->must_swap,
-			    i < n_sysdep_strings
-			    ? orig_sysdep_tab[i]
-			    : trans_sysdep_tab[i - n_sysdep_strings]));
-		    size_t need = 0;
-		    const struct segment_pair *p = sysdep_string->segments;
-
-		    if (W (domain->must_swap, p->sysdepref) != SEGMENTS_END)
-		      for (p = sysdep_string->segments;; p++)
-			{
-			  nls_uint32 sysdepref;
-
-			  need += W (domain->must_swap, p->segsize);
-
-			  sysdepref = W (domain->must_swap, p->sysdepref);
-			  if (sysdepref == SEGMENTS_END)
-			    break;
-
-			  if (sysdepref >= n_sysdep_segments)
-			    {
-			      /* Invalid.  */
-			      freea (sysdep_segment_values);
-			      goto invalid;
-			    }
-
-			  need += strlen (sysdep_segment_values[sysdepref]);
-			}
-
-		    memneed += need;
-		  }
-
-		/* Allocate additional memory.  */
-		mem = (char *) malloc (memneed);
-		if (mem == NULL)
-		  goto invalid;
-
-		domain->malloced = mem;
-		inmem_orig_sysdep_tab = (struct sysdep_string_desc *) mem;
-		mem += n_sysdep_strings * sizeof (struct sysdep_string_desc);
-		inmem_trans_sysdep_tab = (struct sysdep_string_desc *) mem;
-		mem += n_sysdep_strings * sizeof (struct sysdep_string_desc);
-		inmem_hash_tab = (nls_uint32 *) mem;
-		mem += domain->hash_size * sizeof (nls_uint32);
-
-		/* Compute the system dependent strings.  */
-		for (i = 0; i < 2 * n_sysdep_strings; i++)
-		  {
-		    const struct sysdep_string *sysdep_string =
-		      (const struct sysdep_string *)
-		      ((char *) data
-		       + W (domain->must_swap,
-			    i < n_sysdep_strings
-			    ? orig_sysdep_tab[i]
-			    : trans_sysdep_tab[i - n_sysdep_strings]));
-		    const char *static_segments =
-		      (char *) data
-		      + W (domain->must_swap, sysdep_string->offset);
-		    const struct segment_pair *p = sysdep_string->segments;
-
-		    /* Concatenate the segments, and fill
-		       inmem_orig_sysdep_tab[i] (for i < n_sysdep_strings) and
-		       inmem_trans_sysdep_tab[i-n_sysdep_strings] (for
-		       i >= n_sysdep_strings).  */
-
-		    if (W (domain->must_swap, p->sysdepref) == SEGMENTS_END)
-		      {
-			/* Only one static segment.  */
-			inmem_orig_sysdep_tab[i].length =
-			  W (domain->must_swap, p->segsize);
-			inmem_orig_sysdep_tab[i].pointer = static_segments;
-		      }
-		    else
-		      {
-			inmem_orig_sysdep_tab[i].pointer = mem;
-
-			for (p = sysdep_string->segments;; p++)
-			  {
-			    nls_uint32 segsize =
-			      W (domain->must_swap, p->segsize);
-			    nls_uint32 sysdepref =
-			      W (domain->must_swap, p->sysdepref);
-			    size_t n;
-
-			    if (segsize > 0)
-			      {
-				memcpy (mem, static_segments, segsize);
-				mem += segsize;
-				static_segments += segsize;
-			      }
-
-			    if (sysdepref == SEGMENTS_END)
-			      break;
-
-			    n = strlen (sysdep_segment_values[sysdepref]);
-			    memcpy (mem, sysdep_segment_values[sysdepref], n);
-			    mem += n;
-			  }
-
-			inmem_orig_sysdep_tab[i].length =
-			  mem - inmem_orig_sysdep_tab[i].pointer;
-		      }
-		  }
-
-		/* Compute the augmented hash table.  */
-		for (i = 0; i < domain->hash_size; i++)
-		  inmem_hash_tab[i] =
-		    W (domain->must_swap_hash_tab, domain->hash_tab[i]);
+		   system dependent strings and the augmented hash table.
+		   At the same time, also drop string pairs which refer to
+		   an undefined system dependent segment.  */
+		n_inmem_sysdep_strings = 0;
+		memneed = domain->hash_size * sizeof (nls_uint32);
 		for (i = 0; i < n_sysdep_strings; i++)
 		  {
-		    const char *msgid = inmem_orig_sysdep_tab[i].pointer;
-		    nls_uint32 hash_val = hash_string (msgid);
-		    nls_uint32 idx = hash_val % domain->hash_size;
-		    nls_uint32 incr = 1 + (hash_val % (domain->hash_size - 2));
+		    int valid = 1;
+		    size_t needs[2];
 
-		    for (;;)
+		    for (j = 0; j < 2; j++)
 		      {
-			if (inmem_hash_tab[idx] == 0)
+			const struct sysdep_string *sysdep_string =
+			  (const struct sysdep_string *)
+			  ((char *) data
+			   + W (domain->must_swap,
+				j == 0
+				? orig_sysdep_tab[i]
+				: trans_sysdep_tab[i]));
+			size_t need = 0;
+			const struct segment_pair *p = sysdep_string->segments;
+
+			if (W (domain->must_swap, p->sysdepref) != SEGMENTS_END)
+			  for (p = sysdep_string->segments;; p++)
+			    {
+			      nls_uint32 sysdepref;
+
+			      need += W (domain->must_swap, p->segsize);
+
+			      sysdepref = W (domain->must_swap, p->sysdepref);
+			      if (sysdepref == SEGMENTS_END)
+				break;
+
+			      if (sysdepref >= n_sysdep_segments)
+				{
+				  /* Invalid.  */
+				  freea (sysdep_segment_values);
+				  goto invalid;
+				}
+
+			      if (sysdep_segment_values[sysdepref] == NULL)
+				{
+				  /* This particular string pair is invalid.  */
+				  valid = 0;
+				  break;
+				}
+
+			      need += strlen (sysdep_segment_values[sysdepref]);
+			    }
+
+			needs[j] = need;
+			if (!valid)
+			  break;
+		      }
+
+		    if (valid)
+		      {
+			n_inmem_sysdep_strings++;
+			memneed += needs[0] + needs[1];
+		      }
+		  }
+		memneed += 2 * n_inmem_sysdep_strings
+			   * sizeof (struct sysdep_string_desc);
+
+		if (n_inmem_sysdep_strings > 0)
+		  {
+		    unsigned int k;
+
+		    /* Allocate additional memory.  */
+		    mem = (char *) malloc (memneed);
+		    if (mem == NULL)
+		      goto invalid;
+
+		    domain->malloced = mem;
+		    inmem_orig_sysdep_tab = (struct sysdep_string_desc *) mem;
+		    mem += n_inmem_sysdep_strings
+			   * sizeof (struct sysdep_string_desc);
+		    inmem_trans_sysdep_tab = (struct sysdep_string_desc *) mem;
+		    mem += n_inmem_sysdep_strings
+			   * sizeof (struct sysdep_string_desc);
+		    inmem_hash_tab = (nls_uint32 *) mem;
+		    mem += domain->hash_size * sizeof (nls_uint32);
+
+		    /* Compute the system dependent strings.  */
+		    k = 0;
+		    for (i = 0; i < n_sysdep_strings; i++)
+		      {
+			int valid = 1;
+
+			for (j = 0; j < 2; j++)
 			  {
-			    /* Hash table entry is empty.  Use it.  */
-			    inmem_hash_tab[idx] = 1 + domain->nstrings + i;
-			    break;
+			    const struct sysdep_string *sysdep_string =
+			      (const struct sysdep_string *)
+			      ((char *) data
+			       + W (domain->must_swap,
+				    j == 0
+				    ? orig_sysdep_tab[i]
+				    : trans_sysdep_tab[i]));
+			    const struct segment_pair *p =
+			      sysdep_string->segments;
+
+			    if (W (domain->must_swap, p->sysdepref)
+				!= SEGMENTS_END)
+			      for (p = sysdep_string->segments;; p++)
+				{
+				  nls_uint32 sysdepref;
+
+				  sysdepref =
+				    W (domain->must_swap, p->sysdepref);
+				  if (sysdepref == SEGMENTS_END)
+				    break;
+
+				  if (sysdep_segment_values[sysdepref] == NULL)
+				    {
+				      /* This particular string pair is
+					 invalid.  */
+				      valid = 0;
+				      break;
+				    }
+				}
+
+			    if (!valid)
+			      break;
 			  }
 
-			if (idx >= domain->hash_size - incr)
-			  idx -= domain->hash_size - incr;
-			else
-			  idx += incr;
+			if (valid)
+			  {
+			    for (j = 0; j < 2; j++)
+			      {
+				const struct sysdep_string *sysdep_string =
+				  (const struct sysdep_string *)
+				  ((char *) data
+				   + W (domain->must_swap,
+					j == 0
+					? orig_sysdep_tab[i]
+					: trans_sysdep_tab[i]));
+				const char *static_segments =
+				  (char *) data
+				  + W (domain->must_swap, sysdep_string->offset);
+				const struct segment_pair *p =
+				  sysdep_string->segments;
+
+				/* Concatenate the segments, and fill
+				   inmem_orig_sysdep_tab[k] (for j == 0) and
+				   inmem_trans_sysdep_tab[k] (for j == 1).  */
+
+				struct sysdep_string_desc *inmem_tab_entry =
+				  (j == 0
+				   ? inmem_orig_sysdep_tab
+				   : inmem_trans_sysdep_tab)
+				  + k;
+
+				if (W (domain->must_swap, p->sysdepref)
+				    == SEGMENTS_END)
+				  {
+				    /* Only one static segment.  */
+				    inmem_tab_entry->length =
+				      W (domain->must_swap, p->segsize);
+				    inmem_tab_entry->pointer = static_segments;
+				  }
+				else
+				  {
+				    inmem_tab_entry->pointer = mem;
+
+				    for (p = sysdep_string->segments;; p++)
+				      {
+					nls_uint32 segsize =
+					  W (domain->must_swap, p->segsize);
+					nls_uint32 sysdepref =
+					  W (domain->must_swap, p->sysdepref);
+					size_t n;
+
+					if (segsize > 0)
+					  {
+					    memcpy (mem, static_segments, segsize);
+					    mem += segsize;
+					    static_segments += segsize;
+					  }
+
+					if (sysdepref == SEGMENTS_END)
+					  break;
+
+					n = strlen (sysdep_segment_values[sysdepref]);
+					memcpy (mem, sysdep_segment_values[sysdepref], n);
+					mem += n;
+				      }
+
+				    inmem_tab_entry->length =
+				      mem - inmem_tab_entry->pointer;
+				  }
+			      }
+
+			    k++;
+			  }
 		      }
+		    if (k != n_inmem_sysdep_strings)
+		      abort ();
+
+		    /* Compute the augmented hash table.  */
+		    for (i = 0; i < domain->hash_size; i++)
+		      inmem_hash_tab[i] =
+			W (domain->must_swap_hash_tab, domain->hash_tab[i]);
+		    for (i = 0; i < n_inmem_sysdep_strings; i++)
+		      {
+			const char *msgid = inmem_orig_sysdep_tab[i].pointer;
+			nls_uint32 hash_val = hash_string (msgid);
+			nls_uint32 idx = hash_val % domain->hash_size;
+			nls_uint32 incr =
+			  1 + (hash_val % (domain->hash_size - 2));
+
+			for (;;)
+			  {
+			    if (inmem_hash_tab[idx] == 0)
+			      {
+				/* Hash table entry is empty.  Use it.  */
+				inmem_hash_tab[idx] = 1 + domain->nstrings + i;
+				break;
+			      }
+
+			    if (idx >= domain->hash_size - incr)
+			      idx -= domain->hash_size - incr;
+			    else
+			      idx += incr;
+			  }
+		      }
+
+		    domain->n_sysdep_strings = n_inmem_sysdep_strings;
+		    domain->orig_sysdep_tab = inmem_orig_sysdep_tab;
+		    domain->trans_sysdep_tab = inmem_trans_sysdep_tab;
+
+		    domain->hash_tab = inmem_hash_tab;
+		    domain->must_swap_hash_tab = 0;
+		  }
+		else
+		  {
+		    domain->n_sysdep_strings = 0;
+		    domain->orig_sysdep_tab = NULL;
+		    domain->trans_sysdep_tab = NULL;
 		  }
 
 		freea (sysdep_segment_values);
-
-		domain->n_sysdep_strings = n_sysdep_strings;
-		domain->orig_sysdep_tab = inmem_orig_sysdep_tab;
-		domain->trans_sysdep_tab = inmem_trans_sysdep_tab;
-
-		domain->hash_tab = inmem_hash_tab;
-		domain->must_swap_hash_tab = 0;
 	      }
 	    else
 	      {
@@ -1293,8 +1398,7 @@ _nl_load_domain (domain_file, domainbinding)
 #ifdef _LIBC
 void
 internal_function
-_nl_unload_domain (domain)
-     struct loaded_domain *domain;
+_nl_unload_domain (struct loaded_domain *domain)
 {
   if (domain->plural != &__gettext_germanic_plural)
     __gettext_free_exp (domain->plural);

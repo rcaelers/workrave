@@ -1,5 +1,5 @@
 /* Description of GNU message catalog format: general file layout.
-   Copyright (C) 1995, 1997, 2000-2002 Free Software Foundation, Inc.
+   Copyright (C) 1995, 1997, 2000-2002, 2004 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify it
    under the terms of the GNU Library General Public License as published
@@ -13,7 +13,7 @@
 
    You should have received a copy of the GNU Library General Public
    License along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
+   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
    USA.  */
 
 #ifndef _GETTEXT_H
@@ -29,6 +29,7 @@
 
 /* Revision number of the currently used .mo (binary) file format.  */
 #define MO_REVISION_NUMBER 0
+#define MO_REVISION_NUMBER_WITH_SYSDEP_I 1
 
 /* The following contortions are an attempt to use the C preprocessor
    to determine an unsigned integral type that is 32 bits wide.  An
@@ -76,7 +77,7 @@ struct mo_file_header
   /* The revision number of the file format.  */
   nls_uint32 revision;
 
-  /* The following are only used in .mo files with major revision 0.  */
+  /* The following are only used in .mo files with major revision 0 or 1.  */
 
   /* The number of strings pairs.  */
   nls_uint32 nstrings;

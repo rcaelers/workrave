@@ -1,5 +1,5 @@
 /* Implementation of the internal dcigettext function.
-   Copyright (C) 1995-1999, 2000-2002 Free Software Foundation, Inc.
+   Copyright (C) 1995-1999, 2000-2005 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify it
    under the terms of the GNU Library General Public License as published
@@ -13,7 +13,7 @@
 
    You should have received a copy of the GNU Library General Public
    License along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
+   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
    USA.  */
 
 /* Tell glibc's <string.h> to provide a prototype for mempcpy().
@@ -33,14 +33,19 @@
 # define alloca __builtin_alloca
 # define HAVE_ALLOCA 1
 #else
-# if defined HAVE_ALLOCA_H || defined _LIBC
-#  include <alloca.h>
+# ifdef _MSC_VER
+#  include <malloc.h>
+#  define alloca _alloca
 # else
-#  ifdef _AIX
- #pragma alloca
+#  if defined HAVE_ALLOCA_H || defined _LIBC
+#   include <alloca.h>
 #  else
-#   ifndef alloca
+#   ifdef _AIX
+ #pragma alloca
+#   else
+#    ifndef alloca
 char *alloca ();
+#    endif
 #   endif
 #  endif
 # endif
@@ -143,13 +148,17 @@ extern int errno;
 char *getwd ();
 #  define getcwd(buf, max) getwd (buf)
 # else
+#  if VMS
+#   define getcwd(buf, max) (getcwd) (buf, max, 0)
+#  else
 char *getcwd ();
+#  endif
 # endif
 # ifndef HAVE_STPCPY
-static char *stpcpy PARAMS ((char *dest, const char *src));
+static char *stpcpy (char *dest, const char *src);
 # endif
 # ifndef HAVE_MEMPCPY
-static void *mempcpy PARAMS ((void *dest, const void *src, size_t n));
+static void *mempcpy (void *dest, const void *src, size_t n);
 # endif
 #endif
 
@@ -191,8 +200,8 @@ static void *mempcpy PARAMS ((void *dest, const void *src, size_t n));
                         it may be concatenated to a directory pathname.
    IS_PATH_WITH_DIR(P)  tests whether P contains a directory specification.
  */
-#if defined _WIN32 || defined __WIN32__ || defined __EMX__ || defined __DJGPP__
-  /* Win32, OS/2, DOS */
+#if defined _WIN32 || defined __WIN32__ || defined __CYGWIN__ || defined __EMX__ || defined __DJGPP__
+  /* Win32, Cygwin, OS/2, DOS */
 # define ISSLASH(C) ((C) == '/' || (C) == '\\')
 # define HAS_DEVICE(P) \
     ((((P)[0] >= 'A' && (P)[0] <= 'Z') || ((P)[0] >= 'a' && (P)[0] <= 'z')) \
@@ -243,11 +252,8 @@ static void *root;
 # endif
 
 /* Function to compare two entries in the table of known translations.  */
-static int transcmp PARAMS ((const void *p1, const void *p2));
 static int
-transcmp (p1, p2)
-     const void *p1;
-     const void *p2;
+transcmp (const void *p1, const void *p2)
 {
   const struct known_translation_t *s1;
   const struct known_translation_t *s2;
@@ -271,6 +277,13 @@ transcmp (p1, p2)
 }
 #endif
 
+#ifndef INTVARDEF
+# define INTVARDEF(name)
+#endif
+#ifndef INTUSE
+# define INTUSE(name) name
+#endif
+
 /* Name of the default domain used for gettext(3) prior any call to
    textdomain(3).  The default value for this is "messages".  */
 const char _nl_default_default_domain[] attribute_hidden = "messages";
@@ -284,6 +297,7 @@ const char *_nl_current_default_domain attribute_hidden
 extern const char _nl_default_dirname[];
 #else
 const char _nl_default_dirname[] = LOCALEDIR;
+INTVARDEF (_nl_default_dirname)
 #endif
 
 /* List with bindings of specific domains created by bindtextdomain()
@@ -291,15 +305,19 @@ const char _nl_default_dirname[] = LOCALEDIR;
 struct binding *_nl_domain_bindings;
 
 /* Prototypes for local functions.  */
-static char *plural_lookup PARAMS ((struct loaded_l10nfile *domain,
-				    unsigned long int n,
-				    const char *translation,
-				    size_t translation_len))
+static char *plural_lookup (struct loaded_l10nfile *domain,
+			    unsigned long int n,
+			    const char *translation, size_t translation_len)
      internal_function;
-static const char *category_to_name PARAMS ((int category)) internal_function;
-static const char *guess_category_value PARAMS ((int category,
-						 const char *categoryname))
+static const char *guess_category_value (int category,
+					 const char *categoryname)
      internal_function;
+#ifdef _LIBC
+# include "../locale/localeinfo.h"
+# define category_to_name(category)	_nl_category_names[category]
+#else
+static const char *category_to_name (int category) internal_function;
+#endif
 
 
 /* For those loosing systems which don't have `alloca' we have to add
@@ -406,13 +424,8 @@ static int enable_secure;
    CATEGORY locale and, if PLURAL is nonzero, search over string
    depending on the plural form determined by N.  */
 char *
-DCIGETTEXT (domainname, msgid1, msgid2, plural, n, category)
-     const char *domainname;
-     const char *msgid1;
-     const char *msgid2;
-     int plural;
-     unsigned long int n;
-     int category;
+DCIGETTEXT (const char *domainname, const char *msgid1, const char *msgid2,
+	    int plural, unsigned long int n, int category)
 {
 #ifndef HAVE_ALLOCA
   struct block_list *block_list = NULL;
@@ -436,6 +449,15 @@ DCIGETTEXT (domainname, msgid1, msgid2, plural, n, category)
   /* If no real MSGID is given return NULL.  */
   if (msgid1 == NULL)
     return NULL;
+
+#ifdef _LIBC
+  if (category < 0 || category >= __LC_LAST || category == LC_ALL)
+    /* Bogus.  */
+    return (plural == 0
+	    ? (char *) msgid1
+	    /* Use the Germanic plural rule.  */
+	    : n == 1 ? (char *) msgid1 : (char *) msgid2);
+#endif
 
   __libc_rwlock_rdlock (_nl_state_lock);
 
@@ -500,7 +522,7 @@ DCIGETTEXT (domainname, msgid1, msgid2, plural, n, category)
     }
 
   if (binding == NULL)
-    dirname = (char *) _nl_default_dirname;
+    dirname = (char *) INTUSE(_nl_default_dirname);
   else if (IS_ABSOLUTE_PATH (binding->dirname))
     dirname = binding->dirname;
   else
@@ -528,17 +550,9 @@ DCIGETTEXT (domainname, msgid1, msgid2, plural, n, category)
 	}
 
       if (ret == NULL)
-	{
-	  /* We cannot get the current working directory.  Don't signal an
-	     error but simply return the default string.  */
-	  FREE_BLOCKS (block_list);
-	  __libc_rwlock_unlock (_nl_state_lock);
-	  __set_errno (saved_errno);
-	  return (plural == 0
-		  ? (char *) msgid1
-		  /* Use the Germanic plural rule.  */
-		  : n == 1 ? (char *) msgid1 : (char *) msgid2);
-	}
+	/* We cannot get the current working directory.  Don't signal an
+	   error but simply return the default string.  */
+	goto return_untranslated;
 
       stpcpy (stpcpy (strchr (dirname, '\0'), "/"), binding->dirname);
     }
@@ -595,16 +609,7 @@ DCIGETTEXT (domainname, msgid1, msgid2, plural, n, category)
 	 domain.  Return the MSGID.  */
       if (strcmp (single_locale, "C") == 0
 	  || strcmp (single_locale, "POSIX") == 0)
-	{
-	  FREE_BLOCKS (block_list);
-	  __libc_rwlock_unlock (_nl_state_lock);
-	  __set_errno (saved_errno);
-	  return (plural == 0
-		  ? (char *) msgid1
-		  /* Use the Germanic plural rule.  */
-		  : n == 1 ? (char *) msgid1 : (char *) msgid2);
-	}
-
+	break;
 
       /* Find structure describing the message catalog matching the
 	 DOMAINNAME and CATEGORY.  */
@@ -636,7 +641,6 @@ DCIGETTEXT (domainname, msgid1, msgid2, plural, n, category)
 	      /* Found the translation of MSGID1 in domain DOMAIN:
 		 starting at RETVAL, RETLEN bytes.  */
 	      FREE_BLOCKS (block_list);
-	      __set_errno (saved_errno);
 #if defined HAVE_TSEARCH || defined _LIBC
 	      if (foundp == NULL)
 		{
@@ -675,6 +679,8 @@ DCIGETTEXT (domainname, msgid1, msgid2, plural, n, category)
 		  (*foundp)->translation_length = retlen;
 		}
 #endif
+	      __set_errno (saved_errno);
+
 	      /* Now deal with plural.  */
 	      if (plural)
 		retval = plural_lookup (domain, n, retval, retlen);
@@ -684,17 +690,37 @@ DCIGETTEXT (domainname, msgid1, msgid2, plural, n, category)
 	    }
 	}
     }
-  /* NOTREACHED */
+
+ return_untranslated:
+  /* Return the untranslated MSGID.  */
+  FREE_BLOCKS (block_list);
+  __libc_rwlock_unlock (_nl_state_lock);
+#ifndef _LIBC
+  if (!ENABLE_SECURE)
+    {
+      extern void _nl_log_untranslated (const char *logfilename,
+					const char *domainname,
+					const char *msgid1, const char *msgid2,
+					int plural);
+      const char *logfilename = getenv ("GETTEXT_LOG_UNTRANSLATED");
+
+      if (logfilename != NULL && logfilename[0] != '\0')
+	_nl_log_untranslated (logfilename, domainname, msgid1, msgid2, plural);
+    }
+#endif
+  __set_errno (saved_errno);
+  return (plural == 0
+	  ? (char *) msgid1
+	  /* Use the Germanic plural rule.  */
+	  : n == 1 ? (char *) msgid1 : (char *) msgid2);
 }
 
 
 char *
 internal_function
-_nl_find_msg (domain_file, domainbinding, msgid, lengthp)
-     struct loaded_l10nfile *domain_file;
-     struct binding *domainbinding;
-     const char *msgid;
-     size_t *lengthp;
+_nl_find_msg (struct loaded_l10nfile *domain_file,
+	      struct binding *domainbinding, const char *msgid,
+	      size_t *lengthp)
 {
   struct loaded_domain *domain;
   nls_uint32 nstrings;
@@ -1001,11 +1027,8 @@ _nl_find_msg (domain_file, domainbinding, msgid, lengthp)
 /* Look up a plural variant.  */
 static char *
 internal_function
-plural_lookup (domain, n, translation, translation_len)
-     struct loaded_l10nfile *domain;
-     unsigned long int n;
-     const char *translation;
-     size_t translation_len;
+plural_lookup (struct loaded_l10nfile *domain, unsigned long int n,
+	       const char *translation, size_t translation_len)
 {
   struct loaded_domain *domaindata = (struct loaded_domain *) domain->data;
   unsigned long int index;
@@ -1038,12 +1061,11 @@ plural_lookup (domain, n, translation, translation_len)
   return (char *) p;
 }
 
-
+#ifndef _LIBC
 /* Return string representation of locale CATEGORY.  */
 static const char *
 internal_function
-category_to_name (category)
-     int category;
+category_to_name (int category)
 {
   const char *retval;
 
@@ -1098,34 +1120,52 @@ category_to_name (category)
 
   return retval;
 }
+#endif
 
-/* Guess value of current locale from value of the environment variables.  */
+/* Guess value of current locale from value of the environment variables
+   or system-dependent defaults.  */
 static const char *
 internal_function
-guess_category_value (category, categoryname)
-     int category;
-     const char *categoryname;
+guess_category_value (int category, const char *categoryname)
 {
   const char *language;
-  const char *retval;
+  const char *locale;
+#ifndef _LIBC
+  const char *language_default;
+  int locale_defaulted;
+#endif
 
-  /* The highest priority value is the `LANGUAGE' environment
-     variable.  But we don't use the value if the currently selected
-     locale is the C locale.  This is a GNU extension.  */
-  language = getenv ("LANGUAGE");
-  if (language != NULL && language[0] == '\0')
-    language = NULL;
+  /* We use the settings in the following order:
+     1. The value of the environment variable 'LANGUAGE'.  This is a GNU
+        extension.  Its value can be a colon-separated list of locale names.
+     2. The value of the environment variable 'LC_ALL', 'LC_xxx', or 'LANG'.
+        More precisely, the first among these that is set to a non-empty value.
+        This is how POSIX specifies it.  The value is a single locale name.
+     3. A system-dependent preference list of languages.  Its value can be a
+        colon-separated list of locale names.
+     4. A system-dependent default locale name.
+     This way:
+       - System-dependent settings can be overridden by environment variables.
+       - If the system provides both a list of languages and a default locale,
+         the former is used.  */
 
-  /* We have to proceed with the POSIX methods of looking to `LC_ALL',
+  /* Fetch the locale name, through the POSIX method of looking to `LC_ALL',
      `LC_xxx', and `LANG'.  On some systems this can be done by the
      `setlocale' function itself.  */
 #ifdef _LIBC
-  retval = setlocale (category, NULL);
+  locale = __current_locale_name (category);
 #else
-  retval = _nl_locale_name (category, categoryname);
+  locale = _nl_locale_name_posix (category, categoryname);
+  locale_defaulted = 0;
+  if (locale == NULL)
+    {
+      locale = _nl_locale_name_default ();
+      locale_defaulted = 1;
+    }
 #endif
 
-  /* Ignore LANGUAGE if the locale is set to "C" because
+  /* Ignore LANGUAGE and its system-dependent analogon if the locale is set
+     to "C" because
      1. "C" locale usually uses the ASCII encoding, and most international
 	messages use non-ASCII characters. These characters get displayed
 	as question marks (if using glibc's iconv()) or as invalid 8-bit
@@ -1133,8 +1173,28 @@ guess_category_value (category, categoryname)
 	characters to ASCII). In any case, the output is ugly.
      2. The precise output of some programs in the "C" locale is specified
 	by POSIX and should not depend on environment variables like
-	"LANGUAGE".  We allow such programs to use gettext().  */
-  return language != NULL && strcmp (retval, "C") != 0 ? language : retval;
+	"LANGUAGE" or system-dependent information.  We allow such programs
+        to use gettext().  */
+  if (strcmp (locale, "C") == 0)
+    return locale;
+
+  /* The highest priority value is the value of the 'LANGUAGE' environment
+     variable.  */
+  language = getenv ("LANGUAGE");
+  if (language != NULL && language[0] != '\0')
+    return language;
+#ifndef _LIBC
+  /* The next priority value is the locale name, if not defaulted.  */
+  if (locale_defaulted)
+    {
+      /* The next priority value is the default language preferences list. */
+      language_default = _nl_language_preferences_default ();
+      if (language_default != NULL)
+        return language_default;
+    }
+  /* The least priority value is the locale name, if defaulted.  */
+#endif
+  return locale;
 }
 
 /* @@ begin of epilog @@ */
@@ -1145,9 +1205,7 @@ guess_category_value (category, categoryname)
    to be defined.  */
 #if !_LIBC && !HAVE_STPCPY
 static char *
-stpcpy (dest, src)
-     char *dest;
-     const char *src;
+stpcpy (char *dest, const char *src)
 {
   while ((*dest++ = *src++) != '\0')
     /* Do nothing. */ ;
@@ -1157,10 +1215,7 @@ stpcpy (dest, src)
 
 #if !_LIBC && !HAVE_MEMPCPY
 static void *
-mempcpy (dest, src, n)
-     void *dest;
-     const void *src;
-     size_t n;
+mempcpy (void *dest, const void *src, size_t n)
 {
   return (void *) ((char *) memcpy (dest, src, n) + n);
 }
@@ -1170,8 +1225,7 @@ mempcpy (dest, src, n)
 #ifdef _LIBC
 /* If we want to free all resources we have to do some work at
    program's end.  */
-static void __attribute__ ((unused))
-free_mem (void)
+libc_freeres_fn (free_mem)
 {
   void *old;
 
@@ -1179,7 +1233,7 @@ free_mem (void)
     {
       struct binding *oldp = _nl_domain_bindings;
       _nl_domain_bindings = _nl_domain_bindings->next;
-      if (oldp->dirname != _nl_default_dirname)
+      if (oldp->dirname != INTUSE(_nl_default_dirname))
 	/* Yes, this is a pointer comparison.  */
 	free (oldp->dirname);
       free (oldp->codeset);
@@ -1201,6 +1255,4 @@ free_mem (void)
       free (old);
     }
 }
-
-text_set_element (__libc_subfreeres, free_mem);
 #endif

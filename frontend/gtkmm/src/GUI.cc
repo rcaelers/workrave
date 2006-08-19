@@ -627,6 +627,11 @@ GUI::init_gtk_multihead()
               
                     screen->get_monitor_geometry(j, heads[count].geometry);
 
+                    TRACE_MSG("Screen #" << i << " Monitor #" << j << "  "
+                              << heads[count].geometry.get_x() << " "
+                              << heads[count].geometry.get_y() << " "
+                              << heads[count].geometry.get_width() << " "
+                              << heads[count].geometry.get_height());
                     count++;
                   }
               }

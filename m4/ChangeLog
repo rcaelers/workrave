@@ -1,3 +1,36 @@
+2006-08-19  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* codeset.m4: Upgrade to gettext-0.14.6.
+	* gettext.m4: Upgrade to gettext-0.14.6.
+	* glibc2.m4: New file, from gettext-0.14.6.
+	* glibc21.m4: Upgrade to gettext-0.14.6.
+	* iconv.m4: Upgrade to gettext-0.14.6.
+	* intdiv0.m4: Upgrade to gettext-0.14.6.
+	* intmax.m4: New file, from gettext-0.14.6.
+	* inttypes.m4: Upgrade to gettext-0.14.6.
+	* inttypes_h.m4: Upgrade to gettext-0.14.6.
+	* inttypes-pri.m4: Upgrade to gettext-0.14.6.
+	* isc-posix.m4: Upgrade to gettext-0.14.6.
+	* lcmessage.m4: Upgrade to gettext-0.14.6.
+	* lib-ld.m4: Upgrade to gettext-0.14.6.
+	* lib-link.m4: Upgrade to gettext-0.14.6.
+	* lib-prefix.m4: Upgrade to gettext-0.14.6.
+	* longdouble.m4: New file, from gettext-0.14.6.
+	* longlong.m4: New file, from gettext-0.14.6.
+	* nls.m4: New file, from gettext-0.14.6.
+	* po.m4: New file, from gettext-0.14.6.
+	* printf-posix.m4: New file, from gettext-0.14.6.
+	* progtest.m4: Upgrade to gettext-0.14.6.
+	* signed.m4: New file, from gettext-0.14.6.
+	* size_max.m4: New file, from gettext-0.14.6.
+	* stdint_h.m4: Upgrade to gettext-0.14.6.
+	* uintmax_t.m4: Upgrade to gettext-0.14.6.
+	* ulonglong.m4: Upgrade to gettext-0.14.6.
+	* wchar_t.m4: New file, from gettext-0.14.6.
+	* wint_t.m4: New file, from gettext-0.14.6.
+	* xsize.m4: New file, from gettext-0.14.6.
+	* Makefile.am (EXTRA_DIST): Add the new files.
+
 2002-10-14  gettextize  <bug-gnu-gettext@gnu.org>
 
 	* codeset.m4: New file, from gettext-0.11.5.

@@ -1,6 +1,6 @@
 /* Determine a canonical name for the current locale's character encoding.
 
-   Copyright (C) 2000-2002 Free Software Foundation, Inc.
+   Copyright (C) 2000-2004 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify it
    under the terms of the GNU Library General Public License as published
@@ -14,7 +14,7 @@
 
    You should have received a copy of the GNU Library General Public
    License along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
+   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
    USA.  */
 
 /* Written by Bruno Haible <bruno@clisp.org>.  */
@@ -22,6 +22,9 @@
 #ifdef HAVE_CONFIG_H
 # include <config.h>
 #endif
+
+/* Specification.  */
+#include "localcharset.h"
 
 #if HAVE_STDDEF_H
 # include <stddef.h>
@@ -64,8 +67,14 @@
 # include <os2.h>
 #endif
 
-#if defined _WIN32 || defined __WIN32__ || defined __EMX__ || defined __DJGPP__
-  /* Win32, OS/2, DOS */
+#if ENABLE_RELOCATABLE
+# include "relocatable.h"
+#else
+# define relocate(pathname) (pathname)
+#endif
+
+#if defined _WIN32 || defined __WIN32__ || defined __CYGWIN__ || defined __EMX__ || defined __DJGPP__
+  /* Win32, Cygwin, OS/2, DOS */
 # define ISSLASH(C) ((C) == '/' || (C) == '\\')
 #endif
 
@@ -77,14 +86,9 @@
 # define ISSLASH(C) ((C) == DIRECTORY_SEPARATOR)
 #endif
 
-#ifdef HAVE_GETC_UNLOCKED
+#if HAVE_DECL_GETC_UNLOCKED
 # undef getc
 # define getc getc_unlocked
-#endif
-
-#ifdef __cplusplus
-/* When compiling with "gcc -x c++", produce a function with C linkage.  */
-extern "C" const char * locale_charset (void);
 #endif
 
 /* The following static variable is declared 'volatile' to avoid a
@@ -110,11 +114,17 @@ get_charset_aliases ()
   cp = charset_aliases;
   if (cp == NULL)
     {
-#if !defined WIN32
+#if !(defined VMS || defined WIN32)
       FILE *fp;
-      const char *dir = LIBDIR;
+      const char *dir;
       const char *base = "charset.alias";
       char *file_name;
+
+      /* Make it possible to override the charset.alias location.  This is
+	 necessary for running the testsuite before "make install".  */
+      dir = getenv ("CHARSETALIASDIR");
+      if (dir == NULL || dir[0] == '\0')
+	dir = relocate (LIBDIR);
 
       /* Concatenate dir and base into freshly allocated file_name.  */
       {
@@ -137,15 +147,17 @@ get_charset_aliases ()
       else
 	{
 	  /* Parse the file's contents.  */
-	  int c;
-	  char buf1[50+1];
-	  char buf2[50+1];
 	  char *res_ptr = NULL;
 	  size_t res_size = 0;
-	  size_t l1, l2;
 
 	  for (;;)
 	    {
+	      int c;
+	      char buf1[50+1];
+	      char buf2[50+1];
+	      size_t l1, l2;
+	      char *old_res_ptr;
+
 	      c = getc (fp);
 	      if (c == EOF)
 		break;
@@ -166,6 +178,7 @@ get_charset_aliases ()
 		break;
 	      l1 = strlen (buf1);
 	      l2 = strlen (buf2);
+	      old_res_ptr = res_ptr;
 	      if (res_size == 0)
 		{
 		  res_size = l1 + 1 + l2 + 1;
@@ -180,6 +193,8 @@ get_charset_aliases ()
 		{
 		  /* Out of memory. */
 		  res_size = 0;
+		  if (old_res_ptr != NULL)
+		    free (old_res_ptr);
 		  break;
 		}
 	      strcpy (res_ptr + res_size - (l2 + 1) - (l1 + 1), buf1);
@@ -200,11 +215,36 @@ get_charset_aliases ()
 
 #else
 
+# if defined VMS
+      /* To avoid the troubles of an extra file charset.alias_vms in the
+	 sources of many GNU packages, simply inline the aliases here.  */
+      /* The list of encodings is taken from the OpenVMS 7.3-1 documentation
+	 "Compaq C Run-Time Library Reference Manual for OpenVMS systems"
+	 section 10.7 "Handling Different Character Sets".  */
+      cp = "ISO8859-1" "\0" "ISO-8859-1" "\0"
+	   "ISO8859-2" "\0" "ISO-8859-2" "\0"
+	   "ISO8859-5" "\0" "ISO-8859-5" "\0"
+	   "ISO8859-7" "\0" "ISO-8859-7" "\0"
+	   "ISO8859-8" "\0" "ISO-8859-8" "\0"
+	   "ISO8859-9" "\0" "ISO-8859-9" "\0"
+	   /* Japanese */
+	   "eucJP" "\0" "EUC-JP" "\0"
+	   "SJIS" "\0" "SHIFT_JIS" "\0"
+	   "DECKANJI" "\0" "DEC-KANJI" "\0"
+	   "SDECKANJI" "\0" "EUC-JP" "\0"
+	   /* Chinese */
+	   "eucTW" "\0" "EUC-TW" "\0"
+	   "DECHANYU" "\0" "DEC-HANYU" "\0"
+	   "DECHANZI" "\0" "GB2312" "\0"
+	   /* Korean */
+	   "DECKOREAN" "\0" "EUC-KR" "\0";
+# endif
+
+# if defined WIN32
       /* To avoid the troubles of installing a separate file in the same
 	 directory as the DLL and of retrieving the DLL's directory at
 	 runtime, simply inline the aliases here.  */
 
-# if defined WIN32
       cp = "CP936" "\0" "GBK" "\0"
 	   "CP1361" "\0" "JOHAB" "\0"
 	   "CP20127" "\0" "ASCII" "\0"
