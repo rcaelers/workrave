@@ -584,8 +584,9 @@ AM_GNU_GETTEXT()
 dnl Hack because windows gettext package is SEVERELY broken...
 if test "x$platform_win32" == "xyes"; then
         USE_NLS=yes
-        AC_DEFINE(ENABLE_NLS,,[Define to 1 if translation of program messages to the user's native
+        AC_DEFINE(ENABLE_NLS,1,[Define to 1 if translation of program messages to the user's native
    language is requested.])
+        AC_DEFINE(USE_INCLUDED_LIBINTL, "no", [Dont])
 fi
 
 GETTEXT_PACKAGE=workrave

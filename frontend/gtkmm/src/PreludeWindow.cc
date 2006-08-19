@@ -357,10 +357,13 @@ PreludeWindow::on_enter_notify_event(GdkEventCrossing *event)
 void
 PreludeWindow::avoid_pointer(int px, int py)
 {
+  TRACE_ENTER_MSG("PreludeWindow::avoid_pointer" << px << " " << py);
   Glib::RefPtr<Gdk::Window> window = get_window();
     
   int winx, winy, width, height, wind;
   window->get_geometry(winx, winy, width, height, wind);
+
+  TRACE_MSG("geom" << winx << " " << winy << " " << width << " " << height << " ");
 
 #ifdef WIN32
   // This is only necessary for WIN32, since HAVE_X uses GdkEventCrossing.

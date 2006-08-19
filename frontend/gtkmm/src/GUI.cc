@@ -618,6 +618,7 @@ GUI::init_gtk_multihead()
 #endif        
               {
                 int num_monitors = screen->get_n_monitors();
+                TRACE_MSG("monitors = " << num_monitors);
                 for (int j = 0; j < num_monitors && count < num_heads; j++)
                   {
                     heads[count].screen = screen;
