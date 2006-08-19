@@ -415,15 +415,29 @@ PreludeWindow::on_avoid_pointer_timer()
   Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
   Glib::RefPtr<Gdk::Screen> screen;
   Gdk::ModifierType type;
-  int x,y;
+  int x,y, num;
 
-  display->get_pointer(screen, x, y, type);
-  int num = screen->get_monitor_at_point(x,y);
+#ifdef HAVE_GTKMM24
+  if (display)
+#else
+  if (!display.is_null())
+#endif
+    {
+      display->get_pointer(screen, x, y, type);
+    }
 
-  
   Gdk::Rectangle geometry;
-  screen->get_monitor_geometry(num, geometry);
 
+#ifdef HAVE_GTKMM24
+  if (screen)
+#else
+  if (!screen.is_null())
+#endif
+    {
+      num = screen->get_monitor_at_point(x,y);
+      screen->get_monitor_geometry(num, geometry);
+    }
+  
   TRACE_MSG(x << " " << y << " " << num << " "
             << geometry.get_x() << " "
             << geometry.get_y() << " "
@@ -436,6 +450,7 @@ PreludeWindow::on_avoid_pointer_timer()
     {
       avoid_pointer(p.x, p.y);
     }
+  TRACE_EXIT();
   return true;
 }
 
