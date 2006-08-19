@@ -425,10 +425,10 @@ PreludeWindow::on_avoid_pointer_timer()
   screen->get_monitor_geometry(num, geometry);
 
   TRACE_MSG(x << " " << y << " " << num << " "
-            << heads[count].geometry.get_x() << " "
-            << heads[count].geometry.get_y() << " "
-            << heads[count].geometry.get_width() << " "
-            << heads[count].geometry.get_height());
+            << geometry.get_x() << " "
+            << geometry.get_y() << " "
+            << geometry.get_width() << " "
+            << geometry.get_height());
   
   // gdk_window_get_pointer is not reliable.
   POINT p;
