@@ -8,7 +8,7 @@
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
 // 
-// This program is distributed in the hope that it will be useful,
+// This progr`>am is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
@@ -376,6 +376,7 @@ PreludeWindow::avoid_pointer(int px, int py)
   px += winx;
   py += winy;
 #endif  
+  TRACE_MSG("geom2" << winx << " " << winy << " " << width << " " << height << " ");
 
   int screen_height = head.get_height();
   int top_y = SCREEN_MARGIN;
@@ -409,6 +410,26 @@ PreludeWindow::avoid_pointer(int px, int py)
 bool
 PreludeWindow::on_avoid_pointer_timer()
 {
+  TRACE_ENTER("PreludeWindow::on_avoid_pointer_timer");
+  
+  Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
+  Glib::RefPtr<Gdk::Screen> screen;
+  Gdk::ModifierType type;
+  int x,y;
+
+  display->get_pointer(screen, x, y, type);
+  int num = screen->get_monitor_at_point(x,y);
+
+  
+  Gdk::Rectangle geometry;
+  screen->get_monitor_geometry(num, geometry);
+
+  TRACE_MSG(x << " " << y << " " << num << " "
+            << heads[count].geometry.get_x() << " "
+            << heads[count].geometry.get_y() << " "
+            << heads[count].geometry.get_width() << " "
+            << heads[count].geometry.get_height());
+  
   // gdk_window_get_pointer is not reliable.
   POINT p;
   if (GetCursorPos(&p))
