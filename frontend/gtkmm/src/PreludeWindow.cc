@@ -357,7 +357,7 @@ PreludeWindow::on_enter_notify_event(GdkEventCrossing *event)
 void
 PreludeWindow::avoid_pointer(int px, int py)
 {
-  TRACE_ENTER_MSG("PreludeWindow::avoid_pointer" << px << " " << py);
+  TRACE_ENTER_MSG("PreludeWindow::avoid_pointer", px << " " << py);
   Glib::RefPtr<Gdk::Window> window = get_window();
     
   int winx, winy, width, height, wind;
