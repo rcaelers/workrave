@@ -410,11 +410,10 @@ PreludeWindow::avoid_pointer(int px, int py)
 bool
 PreludeWindow::on_avoid_pointer_timer()
 {
-  TRACE_ENTER("PreludeWindow::on_avoid_pointer_timer");
-  
+#if 1  
   Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
   Gdk::ModifierType type;
-  int x,y, num;
+  int x,y;
 
 #ifdef HAVE_GTKMM24
   if (display)
@@ -425,15 +424,17 @@ PreludeWindow::on_avoid_pointer_timer()
       display->get_pointer(x, y, type);
     }
 
-  TRACE_MSG(x << " " << y);
-  
+  avoid_pointer(x, y);
+
+#else
   // gdk_window_get_pointer is not reliable.
   POINT p;
   if (GetCursorPos(&p))
     {
       avoid_pointer(p.x, p.y);
     }
-  TRACE_EXIT();
+#endif
+  
   return true;
 }
 
