@@ -73,7 +73,7 @@ AC_ARG_ENABLE( gnomemm,
     )
 
 AC_ARG_ENABLE( dbus,
-  [  --enable-dbus           compile with d-bus support],
+  [  --enable-dbus           compile with DBus support],
        config_with_dbus=$enableval
        ,
        config_with_dbus=no
@@ -458,7 +458,7 @@ fi
 dnl DBUS
             
 if test "x$config_with_busd" != "xno"; then
-   dbus_pkgconfig="dbus-1 >= 0.22 dbus-glib-1"
+   dbus_pkgconfig="dbus-1 >= 0.62 dbus-glib-1"
    PKG_CHECK_MODULES(DBUS, $dbus_pkgconfig, have_dbus=yes, have_dbus=no)
    if test x$have_dbus = xyes; then
       AC_DEFINE(HAVE_DBUS, 1, d-bus support)

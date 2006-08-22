@@ -141,11 +141,7 @@ GUI::~GUI()
 
   ungrab();
   
-  if (core != NULL)
-    {
-      // FIXME: cannot delete interface. delete core;
-    }
-
+  delete core;
   delete main_window;
 
 #ifdef HAVE_X
@@ -154,6 +150,9 @@ GUI::~GUI()
   
   delete [] prelude_windows;
   delete [] break_windows;
+  delete [] heads;
+  
+  delete sound_player;
   
   TRACE_EXIT();
 }

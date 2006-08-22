@@ -74,6 +74,7 @@ Timer::Timer(TimeSource *time_source) :
 Timer::~Timer()
 {
   delete autoreset_interval_predicate;
+  delete activity_monitor;
 }
 
 
@@ -207,6 +208,7 @@ Timer::set_auto_reset(long reset_time)
 void
 Timer::set_auto_reset(string predicate)
 {
+  delete autoreset_interval_predicate;
   autoreset_interval_predicate = TimePredFactory::create_time_pred(predicate);
   compute_next_predicate_reset_time();
 }

@@ -120,6 +120,7 @@ Timer::get_state() const
 inline void
 Timer::set_activity_monitor(ActivityMonitorInterface *am)
 {
+  delete activity_monitor;
   activity_monitor = am;
 }
 

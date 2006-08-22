@@ -264,6 +264,8 @@ IniConfigurator::set_value(string key, string v)
 
   g_key_file_set_string(config, group.c_str(), inikey.c_str(), v.c_str());
 
+  fire_configurator_event(key);
+
   return true;
 }
 
@@ -279,6 +281,8 @@ IniConfigurator::set_value(string key, int v)
 
   g_key_file_set_integer(config, group.c_str(), inikey.c_str(), v);
 
+  fire_configurator_event(key);
+
   return true;
 }
 
@@ -293,6 +297,8 @@ IniConfigurator::set_value(string key, long v)
 
   g_key_file_set_integer(config, group.c_str(), inikey.c_str(), v);
 
+  fire_configurator_event(key);
+
   return true;
 }
 
@@ -306,6 +312,8 @@ IniConfigurator::set_value(string key, bool v)
   inikey = key_inify(inikey);
 
   g_key_file_set_boolean(config, group.c_str(), inikey.c_str(), v);
+
+  fire_configurator_event(key);
 
   return true;
 }
@@ -324,6 +332,8 @@ IniConfigurator::set_value(string key, double v)
   inikey = key_inify(inikey);
 
   g_key_file_set_string(config, group.c_str(), inikey.c_str(), buf);
+
+  fire_configurator_event(key);
 
   return true;
 }

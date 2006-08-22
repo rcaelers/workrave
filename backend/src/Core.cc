@@ -121,9 +121,9 @@ Core::~Core()
       monitor->terminate();
     }
 
+  delete statistics;
   delete monitor;
   delete configurator;
-  delete statistics;
   
 #ifdef HAVE_DISTRIBUTION
   if (idlelog_manager != NULL)
@@ -464,6 +464,8 @@ Core::set_operation_mode(OperationMode mode)
       if (operation_mode == OPERATION_MODE_SUSPENDED ||
           operation_mode == OPERATION_MODE_QUIET)
         {
+          // FIXME: stop_break call defrost.
+          // FIXME: depending on insist mode, this will resume the monitor
           stop_all_breaks();
         }
     }
