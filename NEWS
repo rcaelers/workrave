@@ -9,11 +9,13 @@ http://www.workrave.org
 
 ** Masanobu Yokota translated Workrave into Japanese.
 
-** Иван Димов (FIXME!!!) translated Workrave into Bulgarian.
+** Ivan Dimov translated Workrave into Bulgarian.
 
-** �RY M�t� translated Workrave into Hungarian.
+** ORY Mate translated Workrave into Hungarian.
 
 ** Fixed KDE sound events (Phuah Yee Keat)
+
+** Fixed Gnome sound events
 
 ** Fixed negative mouse usage when date is changed.
 
@@ -30,6 +32,8 @@ http://www.workrave.org
    This will store all Workrave data in the 'Data' directory below the
    Workrave root directory. 
    (Note the double backslash)
+
+** Daily limit now properly resets when hibernated.
 
 * Workrave 1.8.3
 
