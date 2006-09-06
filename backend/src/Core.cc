@@ -67,6 +67,7 @@ const string Core::CFG_KEY_MONITOR_NOISE = "monitor/noise";
 const string Core::CFG_KEY_MONITOR_ACTIVITY = "monitor/activity";
 const string Core::CFG_KEY_MONITOR_IDLE = "monitor/idle";
 const string Core::CFG_KEY_GENERAL_DATADIR = "general/datadir";
+const string Core::CFG_KEY_OPERATION_MODE = "gui/operation-mode";
 
 //! Constructs a new Core.
 Core::Core() :
@@ -157,7 +158,7 @@ Core::init(int argc, char **argv, AppInterface *app, char *display_name)
   
   init_configurator();
   init_monitor(display_name);
-
+  
 #ifdef HAVE_DISTRIBUTION
   init_distribution_manager();
 #endif
@@ -166,6 +167,7 @@ Core::init(int argc, char **argv, AppInterface *app, char *display_name)
   init_statistics();
 
   load_state();
+  load_misc();
 }
 
 
@@ -468,7 +470,8 @@ Core::set_operation_mode(OperationMode mode)
           // FIXME: depending on insist mode, this will resume the monitor
           stop_all_breaks();
         }
-    }
+      get_configurator()->set_value(CFG_KEY_OPERATION_MODE, mode);
+  }
 
   return previous_mode;
 }
@@ -1158,6 +1161,19 @@ Core::save_state() const
     }
 
   stateFile.close();
+}
+
+
+//! Loads miscellaneous
+void
+Core::load_misc()
+{
+  int mode;
+  if (! get_configurator()->get_value(CFG_KEY_OPERATION_MODE, &mode))
+    {
+      mode = OPERATION_MODE_NORMAL;
+    }
+  set_operation_mode(OperationMode(mode));
 }
 
 

@@ -170,31 +170,47 @@ Menus::create_menu(Gtk::CheckMenuItem *check_menus[4])
   mode_menu_item->set_submenu(*mode_menu);
   mode_menu_item->show();
 
-  Gtk::RadioMenuItem::Group gr;
-  // Suspend menu item.
-  Gtk::RadioMenuItem *normal_menu_item
-    = manage(new Gtk::RadioMenuItem(gr, _("_Normal"), true));
-  normal_menu_item->signal_toggled().connect(bind(MEMBER_SLOT(*this, &Menus::on_menu_normal_menu), normal_menu_item));
-  normal_menu_item->show();
-  modemenulist.push_back(*normal_menu_item);
 
-  // Suspend menu item.
-  Gtk::RadioMenuItem *suspend_menu_item
-    = manage(new Gtk::RadioMenuItem(gr, _("_Suspended"), true));
-  suspend_menu_item->signal_toggled().connect(bind(MEMBER_SLOT(*this, &Menus::on_menu_suspend_menu), suspend_menu_item));
-  suspend_menu_item->show();
-  modemenulist.push_back(*suspend_menu_item);
+  // Operation mode
+  {
+    const char *modes_str[] =
+      {
+        "_Normal",
+        "_Suspended",
+        "Q_uiet",
+      };
+    OperationMode modes[] =
+      {
+        OPERATION_MODE_NORMAL,
+        OPERATION_MODE_SUSPENDED,
+        OPERATION_MODE_QUIET
+      };
+    typedef void (Menus::*ModeFunc)(Gtk::CheckMenuItem *);
+    ModeFunc modes_func[] =
+      {
+        &Menus::on_menu_normal_menu,
+        &Menus::on_menu_suspend_menu,
+        &Menus::on_menu_quiet_menu
+      };
+    
+    CoreInterface *core = CoreFactory::get_core();
+    OperationMode mode = core->get_operation_mode();      
 
-  // Quiet menu item.
-  Gtk::RadioMenuItem *quiet_menu_item
-    = manage(new Gtk::RadioMenuItem(gr, _("Q_uiet"), true));
-  quiet_menu_item->signal_toggled().connect(bind(MEMBER_SLOT(*this, &Menus::on_menu_quiet_menu),quiet_menu_item));
-  quiet_menu_item->show();
-  modemenulist.push_back(*quiet_menu_item);
+    Gtk::RadioMenuItem::Group gr;
 
-  check_menus[0] = normal_menu_item;
-  check_menus[1] = suspend_menu_item;
-  check_menus[2] = quiet_menu_item;
+    for (size_t i = 0; i < sizeof(modes)/sizeof(modes[0]); i++)
+      {
+        Gtk::RadioMenuItem *mode_menu_item
+          = manage(new Gtk::RadioMenuItem(gr, _(modes_str[i]), true));
+        mode_menu_item->signal_toggled()
+          .connect(bind(MEMBER_SLOT(*this, modes_func[i]),
+                        mode_menu_item));
+        mode_menu_item->show();
+        modemenulist.push_back(*mode_menu_item);
+        mode_menu_item->set_active(mode == modes[i]);
+        check_menus[i] = mode_menu_item;
+      }
+  }
 
 #ifdef HAVE_DISTRIBUTION
   // Distribution menu

@@ -1,6 +1,6 @@
 // ControlInterface.hh --- The main controller interface
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -35,7 +35,7 @@ class CoreEventListener;
 enum OperationMode
   {
     //! Breaks are reported to the user when due.
-    OPERATION_MODE_NORMAL,
+    OPERATION_MODE_NORMAL=0,
     
     //! Monitoring is suspended.
     OPERATION_MODE_SUSPENDED,

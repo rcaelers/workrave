@@ -1,5 +1,5 @@
 /* Message catalogs for internationalization.
-   Copyright (C) 1995-1997, 2000-2002 Free Software Foundation, Inc.
+   Copyright (C) 1995-1997, 2000-2004 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify it
    under the terms of the GNU Library General Public License as published
@@ -13,7 +13,7 @@
 
    You should have received a copy of the GNU Library General Public
    License along with this program; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
+   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
    USA.  */
 
 #ifndef _LIBINTL_H
@@ -39,22 +39,12 @@
 /* Provide information about the supported file formats.  Returns the
    maximum minor revision number supported for a given major revision.  */
 #define __GNU_GETTEXT_SUPPORTED_REVISION(major) \
-  ((major) == 0 ? 1 : -1)
+  ((major) == 0 || (major) == 1 ? 1 : -1)
 
 /* Resolve a platform specific conflict on DJGPP.  GNU gettext takes
    precedence over _conio_gettext.  */
 #ifdef __DJGPP__
 # undef gettext
-#endif
-
-/* Use _INTL_PARAMS, not PARAMS, in order to avoid clashes with identifiers
-   used by programs.  Similarly, test __PROTOTYPES, not PROTOTYPES.  */
-#ifndef _INTL_PARAMS
-# if __STDC__ || defined __GNUC__ || defined __SUNPRO_C || defined __cplusplus || __PROTOTYPES
-#  define _INTL_PARAMS(args) args
-# else
-#  define _INTL_PARAMS(args) ()
-# endif
 #endif
 
 #ifdef __cplusplus
@@ -93,7 +83,7 @@ extern "C" {
    If he doesn't, we choose the method.  A third possible method is
    _INTL_REDIRECT_ASM, supported only by GCC.  */
 #if !(defined _INTL_REDIRECT_INLINE || defined _INTL_REDIRECT_MACROS)
-# if __GNUC__ >= 2 && (defined __STDC__ || defined __cplusplus)
+# if __GNUC__ >= 2 && !defined __APPLE_CC__ && !defined __MINGW32__ && !(__GNUC__ == 2 && defined _AIX) && (defined __STDC__ || defined __cplusplus)
 #  define _INTL_REDIRECT_ASM
 # else
 #  ifdef __cplusplus
@@ -125,7 +115,7 @@ static inline char *gettext (const char *__msgid)
 #ifdef _INTL_REDIRECT_MACROS
 # define gettext libintl_gettext
 #endif
-extern char *gettext _INTL_PARAMS ((const char *__msgid))
+extern char *gettext (const char *__msgid)
        _INTL_ASM (libintl_gettext);
 #endif
 
@@ -141,8 +131,7 @@ static inline char *dgettext (const char *__domainname, const char *__msgid)
 #ifdef _INTL_REDIRECT_MACROS
 # define dgettext libintl_dgettext
 #endif
-extern char *dgettext _INTL_PARAMS ((const char *__domainname,
-				     const char *__msgid))
+extern char *dgettext (const char *__domainname, const char *__msgid)
        _INTL_ASM (libintl_dgettext);
 #endif
 
@@ -160,9 +149,8 @@ static inline char *dcgettext (const char *__domainname, const char *__msgid,
 #ifdef _INTL_REDIRECT_MACROS
 # define dcgettext libintl_dcgettext
 #endif
-extern char *dcgettext _INTL_PARAMS ((const char *__domainname,
-				      const char *__msgid,
-				      int __category))
+extern char *dcgettext (const char *__domainname, const char *__msgid,
+			int __category)
        _INTL_ASM (libintl_dcgettext);
 #endif
 
@@ -181,9 +169,8 @@ static inline char *ngettext (const char *__msgid1, const char *__msgid2,
 #ifdef _INTL_REDIRECT_MACROS
 # define ngettext libintl_ngettext
 #endif
-extern char *ngettext _INTL_PARAMS ((const char *__msgid1,
-				     const char *__msgid2,
-				     unsigned long int __n))
+extern char *ngettext (const char *__msgid1, const char *__msgid2,
+		       unsigned long int __n)
        _INTL_ASM (libintl_ngettext);
 #endif
 
@@ -201,10 +188,9 @@ static inline char *dngettext (const char *__domainname, const char *__msgid1,
 #ifdef _INTL_REDIRECT_MACROS
 # define dngettext libintl_dngettext
 #endif
-extern char *dngettext _INTL_PARAMS ((const char *__domainname,
-				      const char *__msgid1,
-				      const char *__msgid2,
-				      unsigned long int __n))
+extern char *dngettext (const char *__domainname,
+			const char *__msgid1, const char *__msgid2,
+			unsigned long int __n)
        _INTL_ASM (libintl_dngettext);
 #endif
 
@@ -224,11 +210,9 @@ static inline char *dcngettext (const char *__domainname,
 #ifdef _INTL_REDIRECT_MACROS
 # define dcngettext libintl_dcngettext
 #endif
-extern char *dcngettext _INTL_PARAMS ((const char *__domainname,
-				       const char *__msgid1,
-				       const char *__msgid2,
-				       unsigned long int __n,
-				       int __category))
+extern char *dcngettext (const char *__domainname,
+			 const char *__msgid1, const char *__msgid2,
+			 unsigned long int __n, int __category)
        _INTL_ASM (libintl_dcngettext);
 #endif
 
@@ -246,7 +230,7 @@ static inline char *textdomain (const char *__domainname)
 #ifdef _INTL_REDIRECT_MACROS
 # define textdomain libintl_textdomain
 #endif
-extern char *textdomain _INTL_PARAMS ((const char *__domainname))
+extern char *textdomain (const char *__domainname)
        _INTL_ASM (libintl_textdomain);
 #endif
 
@@ -264,8 +248,7 @@ static inline char *bindtextdomain (const char *__domainname,
 #ifdef _INTL_REDIRECT_MACROS
 # define bindtextdomain libintl_bindtextdomain
 #endif
-extern char *bindtextdomain _INTL_PARAMS ((const char *__domainname,
-					   const char *__dirname))
+extern char *bindtextdomain (const char *__domainname, const char *__dirname)
        _INTL_ASM (libintl_bindtextdomain);
 #endif
 
@@ -283,10 +266,114 @@ static inline char *bind_textdomain_codeset (const char *__domainname,
 #ifdef _INTL_REDIRECT_MACROS
 # define bind_textdomain_codeset libintl_bind_textdomain_codeset
 #endif
-extern char *bind_textdomain_codeset _INTL_PARAMS ((const char *__domainname,
-						    const char *__codeset))
+extern char *bind_textdomain_codeset (const char *__domainname,
+				      const char *__codeset)
        _INTL_ASM (libintl_bind_textdomain_codeset);
 #endif
+
+
+/* Support for format strings with positions in *printf(), following the
+   POSIX/XSI specification.
+   Note: These replacements for the *printf() functions are visible only
+   in source files that #include <libintl.h> or #include "gettext.h".
+   Packages that use *printf() in source files that don't refer to _()
+   or gettext() but for which the format string could be the return value
+   of _() or gettext() need to add this #include.  Oh well.  */
+
+#if !0
+
+#include <stdio.h>
+#include <stddef.h>
+
+/* Get va_list.  */
+#if __STDC__ || defined __cplusplus || defined _MSC_VER
+# include <stdarg.h>
+#else
+# include <varargs.h>
+#endif
+
+#undef fprintf
+#define fprintf libintl_fprintf
+extern int fprintf (FILE *, const char *, ...);
+#undef vfprintf
+#define vfprintf libintl_vfprintf
+extern int vfprintf (FILE *, const char *, va_list);
+
+#undef printf
+#define printf libintl_printf
+extern int printf (const char *, ...);
+#undef vprintf
+#define vprintf libintl_vprintf
+extern int vprintf (const char *, va_list);
+
+#undef sprintf
+#define sprintf libintl_sprintf
+extern int sprintf (char *, const char *, ...);
+#undef vsprintf
+#define vsprintf libintl_vsprintf
+extern int vsprintf (char *, const char *, va_list);
+
+#if 1
+
+#undef snprintf
+#define snprintf libintl_snprintf
+extern int snprintf (char *, size_t, const char *, ...);
+#undef vsnprintf
+#define vsnprintf libintl_vsnprintf
+extern int vsnprintf (char *, size_t, const char *, va_list);
+
+#endif
+
+#if 0
+
+#undef asprintf
+#define asprintf libintl_asprintf
+extern int asprintf (char **, const char *, ...);
+#undef vasprintf
+#define vasprintf libintl_vasprintf
+extern int vasprintf (char **, const char *, va_list);
+
+#endif
+
+#if 0
+
+#undef fwprintf
+#define fwprintf libintl_fwprintf
+extern int fwprintf (FILE *, const wchar_t *, ...);
+#undef vfwprintf
+#define vfwprintf libintl_vfwprintf
+extern int vfwprintf (FILE *, const wchar_t *, va_list);
+
+#undef wprintf
+#define wprintf libintl_wprintf
+extern int wprintf (const wchar_t *, ...);
+#undef vwprintf
+#define vwprintf libintl_vwprintf
+extern int vwprintf (const wchar_t *, va_list);
+
+#undef swprintf
+#define swprintf libintl_swprintf
+extern int swprintf (wchar_t *, size_t, const wchar_t *, ...);
+#undef vswprintf
+#define vswprintf libintl_vswprintf
+extern int vswprintf (wchar_t *, size_t, const wchar_t *, va_list);
+
+#endif
+
+#endif
+
+
+/* Support for relocatable packages.  */
+
+/* Sets the original and the current installation prefix of the package.
+   Relocation simply replaces a pathname starting with the original prefix
+   by the corresponding pathname with the current prefix instead.  Both
+   prefixes should be directory names without trailing slash (i.e. use ""
+   instead of "/").  */
+#define libintl_set_relocation_prefix libintl_set_relocation_prefix
+extern void
+       libintl_set_relocation_prefix (const char *orig_prefix,
+				      const char *curr_prefix);
 
 
 #ifdef __cplusplus

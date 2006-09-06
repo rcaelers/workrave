@@ -81,6 +81,7 @@ public:
   static const string CFG_KEY_MONITOR_ACTIVITY;
   static const string CFG_KEY_MONITOR_IDLE;
   static const string CFG_KEY_GENERAL_DATADIR;
+  static const string CFG_KEY_OPERATION_MODE;
   
   static Core *get_instance();
 
@@ -143,6 +144,7 @@ private:
   void daily_reset();
   void save_state() const;
   void load_state();
+  void load_misc();
   void do_postpone_break(BreakId break_id);
   void do_skip_break(BreakId break_id);
   void do_stop_prelude(BreakId break_id);
