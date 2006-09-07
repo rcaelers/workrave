@@ -8,20 +8,20 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.8.3\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-08-16 02:19+0300\n"
+"Report-Msgid-Bugs-To: i18n@workrave.org\n"
+"POT-Creation-Date: 2006-09-06 15:16+0000\n"
 "PO-Revision-Date: 2006-08-16 02:24+0300\n"
 "Last-Translator: Enver ALTIN <ealtin@parkyeri.com>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit"
+"Content-Transfer-Encoding: 8bit\n"
 
-#: ../frontend/gtkmm/src/eggtrayicon.c:118
+#: ../frontend/gtkmm/src/eggtrayicon.c:133
 msgid "Orientation"
 msgstr "Yönelim"
 
-#: ../frontend/gtkmm/src/eggtrayicon.c:119
+#: ../frontend/gtkmm/src/eggtrayicon.c:134
 msgid "The orientation of the tray."
 msgstr "Tepsinin yönelimi"
 
@@ -85,7 +85,7 @@ msgstr ""
 "başında çalışmayı bırakın. Eğer çalışma gününüz bitmediyse,\n"
 "yapacak belge incelemek gibi başka bir iş bulun."
 
-#: ../frontend/gtkmm/src/GUI.cc:729
+#: ../frontend/gtkmm/src/GUI.cc:734
 msgid "I could not initialize Bonobo"
 msgstr "Bonobo başlatılamadı"
 
@@ -111,84 +111,84 @@ msgid "Inactive"
 msgstr "Hareketsiz"
 
 #: ../frontend/common/src/TimerBoxControl.cc:261
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:180
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:179
 msgid "Wait"
 msgstr "Bekle"
 
 #. Mode menu item
-#: ../frontend/gtkmm/src/Menus.cc:169 ../frontend/gtkmm/src/Menus.cc:430
+#: ../frontend/gtkmm/src/Menus.cc:169 ../frontend/gtkmm/src/Menus.cc:446
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
 msgid "_Mode"
 msgstr "Çalış_ma biçimi"
 
-#: ../frontend/gtkmm/src/Menus.cc:176 ../frontend/gtkmm/src/Menus.cc:409
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
-msgid "_Normal"
-msgstr "_Normal"
-
-#: ../frontend/gtkmm/src/Menus.cc:183 ../frontend/gtkmm/src/Menus.cc:416
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
-msgid "_Suspended"
-msgstr "_Duraklat"
-
-#: ../frontend/gtkmm/src/Menus.cc:190 ../frontend/gtkmm/src/Menus.cc:423
-msgid "Q_uiet"
-msgstr "_Rahatsız etme"
-
-#: ../frontend/gtkmm/src/Menus.cc:204 ../frontend/gtkmm/src/Menus.cc:449
+#: ../frontend/gtkmm/src/Menus.cc:220 ../frontend/gtkmm/src/Menus.cc:465
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
 msgid "_Network"
 msgstr "_Ağ"
 
-#: ../frontend/gtkmm/src/Menus.cc:208 ../frontend/gtkmm/src/Menus.cc:433
+#: ../frontend/gtkmm/src/Menus.cc:224 ../frontend/gtkmm/src/Menus.cc:449
 msgid "_Connect"
 msgstr "_Bağlan"
 
-#: ../frontend/gtkmm/src/Menus.cc:213 ../frontend/gtkmm/src/Menus.cc:436
+#: ../frontend/gtkmm/src/Menus.cc:229 ../frontend/gtkmm/src/Menus.cc:452
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
 msgid "_Disconnect"
 msgstr "Bağlantıyı _kes"
 
-#: ../frontend/gtkmm/src/Menus.cc:218 ../frontend/gtkmm/src/Menus.cc:440
+#: ../frontend/gtkmm/src/Menus.cc:234 ../frontend/gtkmm/src/Menus.cc:456
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
 msgid "_Reconnect"
 msgstr "_Yeniden bağlan"
 
-#: ../frontend/gtkmm/src/Menus.cc:223 ../frontend/gtkmm/src/Menus.cc:443
+#: ../frontend/gtkmm/src/Menus.cc:239 ../frontend/gtkmm/src/Menus.cc:459
 msgid "Show _log"
 msgstr "_Günlüğü göster"
 
-#: ../frontend/gtkmm/src/Menus.cc:248 ../frontend/gtkmm/src/Menus.cc:405
+#: ../frontend/gtkmm/src/Menus.cc:264 ../frontend/gtkmm/src/Menus.cc:421
 msgid "_Rest break"
 msgstr "_Dinlenme molası"
 
-#: ../frontend/gtkmm/src/Menus.cc:262 ../frontend/gtkmm/src/Menus.cc:406
+#: ../frontend/gtkmm/src/Menus.cc:278 ../frontend/gtkmm/src/Menus.cc:422
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:40
 msgid "Exercises"
 msgstr "Alıştırmalar"
 
-#: ../frontend/gtkmm/src/Menus.cc:274 ../frontend/gtkmm/src/Menus.cc:451
+#: ../frontend/gtkmm/src/Menus.cc:290 ../frontend/gtkmm/src/Menus.cc:467
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:59
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:138
 msgid "Statistics"
 msgstr "İstatistikler"
 
-#: ../frontend/gtkmm/src/Menus.cc:288 ../frontend/gtkmm/src/Menus.cc:452
+#: ../frontend/gtkmm/src/Menus.cc:304 ../frontend/gtkmm/src/Menus.cc:468
 msgid "About..."
 msgstr "Workrave hakkında..."
 
-#: ../frontend/gtkmm/src/Menus.cc:404
+#: ../frontend/gtkmm/src/Menus.cc:420
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:55
 msgid "Preferences"
 msgstr "Tercihler"
 
-#: ../frontend/gtkmm/src/Menus.cc:721
+#: ../frontend/gtkmm/src/Menus.cc:425
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
+msgid "_Normal"
+msgstr "_Normal"
+
+#: ../frontend/gtkmm/src/Menus.cc:432
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
+msgid "_Suspended"
+msgstr "_Duraklat"
+
+#: ../frontend/gtkmm/src/Menus.cc:439
+msgid "Q_uiet"
+msgstr "_Rahatsız etme"
+
+#: ../frontend/gtkmm/src/Menus.cc:737
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
 msgstr ""
-"Bu uygulama tekrar eden eklem incinmesinin (RSI) engellenmesi ve "
-"tedavisine yardımcı olur."
+"Bu uygulama tekrar eden eklem incinmesinin (RSI) engellenmesi ve tedavisine "
+"yardımcı olur."
 
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:232
 msgid "Please relax for a few seconds"
@@ -329,11 +329,13 @@ msgstr "Zamanlayıcıları yanyana yerleştir"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:99
 msgid "Place micro-break and rest break in one spot"
-msgstr "Kısa-mola ve dinlenme molası zamanlayıcılarını tek kutuda sırayla göster"
+msgstr ""
+"Kısa-mola ve dinlenme molası zamanlayıcılarını tek kutuda sırayla göster"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:101
 msgid "Place rest break and daily limit in one spot"
-msgstr "Dinlenme molası ve günlük sınır zamanlayıcılarını tek kutuda sırayla göster"
+msgstr ""
+"Dinlenme molası ve günlük sınır zamanlayıcılarını tek kutuda sırayla göster"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:103
 msgid "Place all timers in one spot"
@@ -607,7 +609,8 @@ msgstr "Tekrarlanan hatırlatmalar"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:191
 msgid "The number of times you were repeatedly prompted to break"
-msgstr "Mola vermeniz için ardarda birkaç kez yapılan hatırlatmaların toplam sayısı"
+msgstr ""
+"Mola vermeniz için ardarda birkaç kez yapılan hatırlatmaların toplam sayısı"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:195
 msgid "Prompted breaks taken"
@@ -686,8 +689,8 @@ msgid ""
 "The total mouse movement you would have had if you moved your mouse in "
 "straight lines between clicks"
 msgstr ""
-"Eğer tıklamalar arasında fareyi düz çizgiler haline hareket ettirmiş"
-"olsaydınız katetmiş olacağınız toplam yol."
+"Eğer tıklamalar arasında fareyi düz çizgiler haline hareket "
+"ettirmişolsaydınız katetmiş olacağınız toplam yol."
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:307
 msgid "Mouse button clicks:"
@@ -732,7 +735,8 @@ msgstr "%s:%d adresine yeniden bağlanılıyor."
 
 #: ../backend/src/DistributionSocketLink.cc:347
 msgid "Cannot resolve my own hostname. Deactivating distribution."
-msgstr "Bu istemci kendi kendisinin adını çözemedi, dağıtım işlevi kapatılıyor."
+msgstr ""
+"Bu istemci kendi kendisinin adını çözemedi, dağıtım işlevi kapatılıyor."
 
 #. We did not succeed in starting the server. Arghh.
 #: ../backend/src/DistributionSocketLink.cc:358
@@ -885,17 +889,20 @@ msgid "Finger stretch"
 msgstr "Parmakları germe"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:4
+msgid "Fist roll"
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
 msgid ""
 "Interlace your fingers behind your back. Then turn your elbows gently "
 "inward, while straightening your arms. Hold this position for 5 to 15 "
 "seconds, and repeat this exercise twice."
 msgstr ""
-"Parmaklarınızı arkanızda kavuşturun, sonra dirseklerinizi yumuşakça "
-"içeriye doğru döndürün ve bu sırada kollarınızı düz biçimde uzatın. "
-"5 ila 15 saniye kadar bu konumda kalın ve alıştırmayı iki kez "
-"tekrarlayın."
+"Parmaklarınızı arkanızda kavuşturun, sonra dirseklerinizi yumuşakça içeriye "
+"doğru döndürün ve bu sırada kollarınızı düz biçimde uzatın. 5 ila 15 saniye "
+"kadar bu konumda kalın ve alıştırmayı iki kez tekrarlayın."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
 msgid ""
 "Keep one arm horizontally stretched in front of your chest. Push this arm "
 "with your other arm towards you until you feel a mild tension in your "
@@ -903,22 +910,21 @@ msgid ""
 "arm."
 msgstr ""
 "Bir kolunuzu göğsünüzün önünde yatay olarak uzatın. Bu kolunuzu diğer "
-"kolunuzla kendinize doğru omzunuzda hafif bir gerilme oluşana kadar "
-"itin. Kısa süre bu konumda kalın, sonra alıştırmayı diğer kolunuz "
-"için tekrarlayın."
+"kolunuzla kendinize doğru omzunuzda hafif bir gerilme oluşana kadar itin. "
+"Kısa süre bu konumda kalın, sonra alıştırmayı diğer kolunuz için tekrarlayın."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
 msgid ""
 "Look at the upper left corner of the outside border of your monitor. Follow "
 "the border slowly to the upper right corner. Continue to the next corner, "
 "until you got around it two times. Then, reverse the exercise."
 msgstr ""
-"Monitörünüzün dış çerçevesinin sol üst köşesine bakın. Çerçeveyi yavaşça "
-"sağ üst köşeye kadar gözünüzle izleyin. Sonra sağ alttaki köşeye ve sonunda "
-"sol alttaki köşeye kadar devam edin. Çerçeve üzerinde iki kez döndükten sonra "
+"Monitörünüzün dış çerçevesinin sol üst köşesine bakın. Çerçeveyi yavaşça sağ "
+"üst köşeye kadar gözünüzle izleyin. Sonra sağ alttaki köşeye ve sonunda sol "
+"alttaki köşeye kadar devam edin. Çerçeve üzerinde iki kez döndükten sonra "
 "aynı alıştırmayı tersi yönünde iki kez daha tekrarlayın."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
 msgid ""
 "Look for the furthest point you can see behind your monitor. Focus your eyes "
 "on the remote point. Then focus on your monitor border. Repeat it. If you "
@@ -926,42 +932,51 @@ msgid ""
 "view. Then switch your focus between a distant object and a pen held at the "
 "same distance from your eyes as your monitor."
 msgstr ""
-"Monitörünüzün arkasında görebildiğiniz en uzak noktaya bakın. Gözlerinizi "
-"en uzaktaki noktaya odaklayın ve sonra bunu tekrarlayın. Eğer monitörünüzden "
+"Monitörünüzün arkasında görebildiğiniz en uzak noktaya bakın. Gözlerinizi en "
+"uzaktaki noktaya odaklayın ve sonra bunu tekrarlayın. Eğer monitörünüzden "
 "çok uzağa bakamıyorsanız daha geniş görüşü olan bir başka yöne dönün ve "
 "gözlerinizi uzaktaki bir nesneye ve sonra monitör uzaklığında tuttuğunuz bir "
 "kaleme odaklamaya çalışın."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:9
 msgid "Look into the darkness"
 msgstr "Karanlığa bakın"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:9
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:10
 msgid "Move the eyes"
 msgstr "Gözleri hareket ettirin"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:10
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:11
 msgid "Move the shoulders"
 msgstr "Omuzları hareket ettirin"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:11
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
 msgid "Move the shoulders up and down"
 msgstr "Omuzlarınızı yukarı ve aşağı hareket ettirin"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
 msgid "Neck tilt stretch"
 msgstr "Boynu eğip uzatma"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
 msgid ""
 "Put your hands on the armrests of your chair when you are sitting down and "
 "press your body up until your arms are straight. Try to move your head even "
 "further by lowering your shoulders. Slowly move back into your chair."
-msgstr "Otururken ellerinizi koltuğunuzun kol desteklerine yerleştirin ve "
-"gövdenizi kollarınız düz olana kadar yukarıya doğru itin. Başınızı daha da "
-"yukarıya kaldırmak için omuzlarınızı indirin. Yavaşça tekrar koltuğunuza oturun."
+msgstr ""
+"Otururken ellerinizi koltuğunuzun kol desteklerine yerleştirin ve gövdenizi "
+"kollarınız düz olana kadar yukarıya doğru itin. Başınızı daha da yukarıya "
+"kaldırmak için omuzlarınızı indirin. Yavaşça tekrar koltuğunuza oturun."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
+msgid ""
+"Put your underarm on a table and make a fist. Roll your fist away from your "
+"body untill it rests on your nuckles. Keep it for 2 seconds and roll it "
+"back. Repeat this 5 times for each hand. If the muscle is stretched to much, "
+"let your fingers rest on the table while rolling."
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:16
 msgid ""
 "Separate and stretch your fingers until a mild tension is felt, and hold "
 "this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
@@ -971,11 +986,11 @@ msgstr ""
 "kadar bu konumda kalın. Rahatlayın, sonra parmak eklemlerinizi bükün ve bu "
 "konumda da 10 saniye kadar kalın. Bu alıştırmayı bir kez daha tekrarlayın."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
 msgid "Shoulder-arm stretch"
 msgstr "Omuz-kol uzatma"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:16
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
 msgid ""
 "Spin your right arm slowly round like a plane propeller beside your body. Do "
 "this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
@@ -985,7 +1000,7 @@ msgstr ""
 "yanında döndürün. Bu hareketi 4 kez öne, 4 kez arkaya doğru tekrarlayın ve "
 "birkaç saniye rahatlayın. Sonra aynı alıştırmayı sol kolunuzla tekrarlayın."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:19
 msgid ""
 "Start with your head in a comfortable straight position. Then, slowly tilt "
 "your head to your right shoulder to gently stretch the muscles on the left "
@@ -993,25 +1008,26 @@ msgid ""
 "the left side to stretch your other side. Do this twice for each side."
 msgstr ""
 "Bu alıştırmaya başınız düz ve rahat bir konumdayken başlayın. Sonra başınızı "
-"sağ omzunuza doğru eğin ve ensenizin sol tarafındaki kasları gerin. Bu konumda "
-" 5 saniye kadar kaldıktan sonra başınızı diğer tarafı germek için sol tarafa "
-"doğru eğin. Bu alıştırmayı her iki taraf için ikişer kez tekrarlayın."
+"sağ omzunuza doğru eğin ve ensenizin sol tarafındaki kasları gerin. Bu "
+"konumda  5 saniye kadar kaldıktan sonra başınızı diğer tarafı germek için "
+"sol tarafa doğru eğin. Bu alıştırmayı her iki taraf için ikişer kez "
+"tekrarlayın."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:20
 msgid "Train focusing the eyes"
 msgstr "Gözleri odaklamaya alıştırın"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:19
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:21
 msgid "Turn your head"
 msgstr "Başınızı çevirin"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:20
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:22
 msgid ""
 "Turn your head left and keep it there for 2 seconds. Then turn your head "
 "right and keep it there for 2 seconds."
 msgstr ""
-"Başınızı sola çevirip 2 saniye bekleyin, sonra başınızı sağa çevirip"
-"iki saniye bekleyin."
+"Başınızı sola çevirip 2 saniye bekleyin, sonra başınızı sağa çeviripiki "
+"saniye bekleyin."
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
 msgid "Break ignored"
@@ -1044,4 +1060,3 @@ msgstr "Dinlenme molası bitti"
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:9
 msgid "Rest break started"
 msgstr "Dinlenme molası başladı"
-

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.6.0\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-07-31 18:20+0200\n"
+"Report-Msgid-Bugs-To: i18n@workrave.org\n"
+"POT-Creation-Date: 2006-09-06 15:16+0000\n"
 "PO-Revision-Date: 2006-07-31 18:09+0200\n"
 "Last-Translator: Benjamin Siband <translations@muachi.com>\n"
 "Language-Team: Français <thomas.basset@netcourrier.com;translations@muachi."
@@ -11,11 +11,11 @@ msgstr ""
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../frontend/gtkmm/src/eggtrayicon.c:118
+#: ../frontend/gtkmm/src/eggtrayicon.c:133
 msgid "Orientation"
 msgstr "Orientation"
 
-#: ../frontend/gtkmm/src/eggtrayicon.c:119
+#: ../frontend/gtkmm/src/eggtrayicon.c:134
 msgid "The orientation of the tray."
 msgstr "L'orientation de la zone de notification."
 
@@ -46,19 +46,19 @@ msgstr "_Crédits"
 msgid "About %s"
 msgstr "À propos de %s"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:198
+#: ../frontend/gtkmm/src/BreakWindow.cc:197
 msgid "Lock"
 msgstr "Verrouiller"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:217
+#: ../frontend/gtkmm/src/BreakWindow.cc:216
 msgid "Shut down"
 msgstr "Éteindre"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:234
+#: ../frontend/gtkmm/src/BreakWindow.cc:233
 msgid "Skip"
 msgstr "Ignorer"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:247
+#: ../frontend/gtkmm/src/BreakWindow.cc:246
 msgid "Postpone"
 msgstr "Reporter"
 
@@ -81,7 +81,7 @@ msgstr ""
 "de travail n'est pas terminée, vous devriez trouver\n"
 "quelque chose d'autre à faire, par exemple relire un document."
 
-#: ../frontend/gtkmm/src/GUI.cc:729
+#: ../frontend/gtkmm/src/GUI.cc:734
 msgid "I could not initialize Bonobo"
 msgstr "Impossible d'initialiser Bonobo"
 
@@ -107,78 +107,78 @@ msgid "Inactive"
 msgstr "Inactif"
 
 #: ../frontend/common/src/TimerBoxControl.cc:261
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:180
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:179
 msgid "Wait"
 msgstr "Veuillez patienter"
 
 #. Mode menu item
-#: ../frontend/gtkmm/src/Menus.cc:169 ../frontend/gtkmm/src/Menus.cc:430
+#: ../frontend/gtkmm/src/Menus.cc:169 ../frontend/gtkmm/src/Menus.cc:446
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
 msgid "_Mode"
 msgstr "_Mode"
 
-#: ../frontend/gtkmm/src/Menus.cc:176 ../frontend/gtkmm/src/Menus.cc:409
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
-msgid "_Normal"
-msgstr "_Normal"
-
-#: ../frontend/gtkmm/src/Menus.cc:183 ../frontend/gtkmm/src/Menus.cc:416
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
-msgid "_Suspended"
-msgstr "_Interrompu"
-
-#: ../frontend/gtkmm/src/Menus.cc:190 ../frontend/gtkmm/src/Menus.cc:423
-msgid "Q_uiet"
-msgstr "S_ilencieux"
-
-#: ../frontend/gtkmm/src/Menus.cc:204 ../frontend/gtkmm/src/Menus.cc:449
+#: ../frontend/gtkmm/src/Menus.cc:220 ../frontend/gtkmm/src/Menus.cc:465
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
 msgid "_Network"
 msgstr "_Réseau"
 
-#: ../frontend/gtkmm/src/Menus.cc:208 ../frontend/gtkmm/src/Menus.cc:433
+#: ../frontend/gtkmm/src/Menus.cc:224 ../frontend/gtkmm/src/Menus.cc:449
 msgid "_Connect"
 msgstr "_Connexion"
 
-#: ../frontend/gtkmm/src/Menus.cc:213 ../frontend/gtkmm/src/Menus.cc:436
+#: ../frontend/gtkmm/src/Menus.cc:229 ../frontend/gtkmm/src/Menus.cc:452
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
 msgid "_Disconnect"
 msgstr "_Déconnexion"
 
-#: ../frontend/gtkmm/src/Menus.cc:218 ../frontend/gtkmm/src/Menus.cc:440
+#: ../frontend/gtkmm/src/Menus.cc:234 ../frontend/gtkmm/src/Menus.cc:456
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
 msgid "_Reconnect"
 msgstr "_Reconnexion"
 
-#: ../frontend/gtkmm/src/Menus.cc:223 ../frontend/gtkmm/src/Menus.cc:443
+#: ../frontend/gtkmm/src/Menus.cc:239 ../frontend/gtkmm/src/Menus.cc:459
 msgid "Show _log"
 msgstr "_Afficher le journal"
 
-#: ../frontend/gtkmm/src/Menus.cc:248 ../frontend/gtkmm/src/Menus.cc:405
+#: ../frontend/gtkmm/src/Menus.cc:264 ../frontend/gtkmm/src/Menus.cc:421
 msgid "_Rest break"
 msgstr "Pause pr_olongée"
 
-#: ../frontend/gtkmm/src/Menus.cc:262 ../frontend/gtkmm/src/Menus.cc:406
+#: ../frontend/gtkmm/src/Menus.cc:278 ../frontend/gtkmm/src/Menus.cc:422
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:40
 msgid "Exercises"
 msgstr "Exercices"
 
-#: ../frontend/gtkmm/src/Menus.cc:274 ../frontend/gtkmm/src/Menus.cc:451
+#: ../frontend/gtkmm/src/Menus.cc:290 ../frontend/gtkmm/src/Menus.cc:467
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:59
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:138
 msgid "Statistics"
 msgstr "Statistiques"
 
-#: ../frontend/gtkmm/src/Menus.cc:288 ../frontend/gtkmm/src/Menus.cc:452
+#: ../frontend/gtkmm/src/Menus.cc:304 ../frontend/gtkmm/src/Menus.cc:468
 msgid "About..."
 msgstr "À propos de..."
 
-#: ../frontend/gtkmm/src/Menus.cc:404
+#: ../frontend/gtkmm/src/Menus.cc:420
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:55
 msgid "Preferences"
 msgstr "Préférences"
 
-#: ../frontend/gtkmm/src/Menus.cc:721
+#: ../frontend/gtkmm/src/Menus.cc:425
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
+msgid "_Normal"
+msgstr "_Normal"
+
+#: ../frontend/gtkmm/src/Menus.cc:432
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
+msgid "_Suspended"
+msgstr "_Interrompu"
+
+#: ../frontend/gtkmm/src/Menus.cc:439
+msgid "Q_uiet"
+msgstr "S_ilencieux"
+
+#: ../frontend/gtkmm/src/Menus.cc:737
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -494,11 +494,11 @@ msgstr "Applet Workrave"
 msgid "Exercises player"
 msgstr "Gestionnaire d'exercices"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:435
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:444
 msgid "Resume"
 msgstr "Reprendre"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:435
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:444
 msgid "Pause"
 msgstr "Pause"
 
@@ -906,6 +906,10 @@ msgid "Finger stretch"
 msgstr "Étirement des doigts"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:4
+msgid "Fist roll"
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
 msgid ""
 "Interlace your fingers behind your back. Then turn your elbows gently "
 "inward, while straightening your arms. Hold this position for 5 to 15 "
@@ -915,7 +919,7 @@ msgstr ""
 "l'intérieur tout en tendant les bras. Maintenez cette position pendant 5 à "
 "15 secondes, puis recommencez."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
 msgid ""
 "Keep one arm horizontally stretched in front of your chest. Push this arm "
 "with your other arm towards you until you feel a mild tension in your "
@@ -926,7 +930,7 @@ msgstr ""
 "vous avec l'autre bras jusqu'à sentir une légère tension dans l'épaule. "
 "Maintenez cette position quelques instants, et recommencez avec l'autre bras."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
 msgid ""
 "Look at the upper left corner of the outside border of your monitor. Follow "
 "the border slowly to the upper right corner. Continue to the next corner, "
@@ -937,7 +941,7 @@ msgstr ""
 "Faites le tour complet de l'écran en allant aux autres coins. Faites le tour "
 "de l'écran deux fois dans un sens, puis deux fois dans le sens inverse."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
 msgid ""
 "Look for the furthest point you can see behind your monitor. Focus your eyes "
 "on the remote point. Then focus on your monitor border. Repeat it. If you "
@@ -951,27 +955,27 @@ msgstr ""
 "moniteur, utilisez un stylo, par exemple, et gardez-le à la même distance "
 "que votre moniteur."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:9
 msgid "Look into the darkness"
 msgstr "Regardez dans le noir"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:9
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:10
 msgid "Move the eyes"
 msgstr "Bougez les yeux"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:10
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:11
 msgid "Move the shoulders"
 msgstr "Bougez les épaules"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:11
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
 msgid "Move the shoulders up and down"
 msgstr "Montez et descendez les épaules"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
 msgid "Neck tilt stretch"
 msgstr "Étirement latéral du cou"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
 msgid ""
 "Put your hands on the armrests of your chair when you are sitting down and "
 "press your body up until your arms are straight. Try to move your head even "
@@ -982,7 +986,15 @@ msgstr ""
 "davantage en abaissant les épaules. Laissez-vous lentement redescendre dans "
 "votre fauteuil."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
+msgid ""
+"Put your underarm on a table and make a fist. Roll your fist away from your "
+"body untill it rests on your nuckles. Keep it for 2 seconds and roll it "
+"back. Repeat this 5 times for each hand. If the muscle is stretched to much, "
+"let your fingers rest on the table while rolling."
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:16
 msgid ""
 "Separate and stretch your fingers until a mild tension is felt, and hold "
 "this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
@@ -993,11 +1005,11 @@ msgstr ""
 "première phalange, et maintenez cette position 10 secondes également. "
 "Répétez l'exercice."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
 msgid "Shoulder-arm stretch"
 msgstr "Étirement épaules-bras"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:16
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
 msgid ""
 "Spin your right arm slowly round like a plane propeller beside your body. Do "
 "this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
@@ -1007,7 +1019,7 @@ msgstr ""
 "tours vers l'avant, puis 4 tours vers l'arrière. Relâchez quelques secondes. "
 "Recommencez avec l'autre bras."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:19
 msgid ""
 "Start with your head in a comfortable straight position. Then, slowly tilt "
 "your head to your right shoulder to gently stretch the muscles on the left "
@@ -1020,15 +1032,15 @@ msgstr ""
 "alors lentement la tête vers votre épaule gauche afin d'étirer gentiment les "
 "muscles de l'autre côté. Recommencez l'exercice deux fois de chaque côté."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:20
 msgid "Train focusing the eyes"
 msgstr "Focalisation"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:19
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:21
 msgid "Turn your head"
 msgstr "Tournez la tête"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:20
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:22
 msgid ""
 "Turn your head left and keep it there for 2 seconds. Then turn your head "
 "right and keep it there for 2 seconds."

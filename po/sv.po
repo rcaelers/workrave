@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.8.2\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-07-31 18:20+0200\n"
+"Report-Msgid-Bugs-To: i18n@workrave.org\n"
+"POT-Creation-Date: 2006-09-06 15:16+0000\n"
 "PO-Revision-Date: 2006-07-31 18:10+0200\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -14,11 +14,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../frontend/gtkmm/src/eggtrayicon.c:118
+#: ../frontend/gtkmm/src/eggtrayicon.c:133
 msgid "Orientation"
 msgstr "Orientering"
 
-#: ../frontend/gtkmm/src/eggtrayicon.c:119
+#: ../frontend/gtkmm/src/eggtrayicon.c:134
 msgid "The orientation of the tray."
 msgstr "Lådans orientering."
 
@@ -48,19 +48,19 @@ msgstr "_Tack till"
 msgid "About %s"
 msgstr "Om %s"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:198
+#: ../frontend/gtkmm/src/BreakWindow.cc:197
 msgid "Lock"
 msgstr "Lås"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:217
+#: ../frontend/gtkmm/src/BreakWindow.cc:216
 msgid "Shut down"
 msgstr "Stäng ner"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:234
+#: ../frontend/gtkmm/src/BreakWindow.cc:233
 msgid "Skip"
 msgstr "Hoppa över"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:247
+#: ../frontend/gtkmm/src/BreakWindow.cc:246
 msgid "Postpone"
 msgstr "Flytta fram"
 
@@ -82,7 +82,7 @@ msgstr ""
 "Om din arbetsdag ännu inte är över, hitta på något\n"
 "annat att göra, såsom granska ett dokument."
 
-#: ../frontend/gtkmm/src/GUI.cc:729
+#: ../frontend/gtkmm/src/GUI.cc:734
 msgid "I could not initialize Bonobo"
 msgstr "Jag kunde inte initiera Bonobo"
 
@@ -108,78 +108,78 @@ msgid "Inactive"
 msgstr "Inaktiv"
 
 #: ../frontend/common/src/TimerBoxControl.cc:261
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:180
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:179
 msgid "Wait"
 msgstr "Vänta"
 
 #. Mode menu item
-#: ../frontend/gtkmm/src/Menus.cc:169 ../frontend/gtkmm/src/Menus.cc:430
+#: ../frontend/gtkmm/src/Menus.cc:169 ../frontend/gtkmm/src/Menus.cc:446
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
 msgid "_Mode"
 msgstr "_Läge"
 
-#: ../frontend/gtkmm/src/Menus.cc:176 ../frontend/gtkmm/src/Menus.cc:409
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
-msgid "_Normal"
-msgstr "_Normal"
-
-#: ../frontend/gtkmm/src/Menus.cc:183 ../frontend/gtkmm/src/Menus.cc:416
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
-msgid "_Suspended"
-msgstr "_Viloläge"
-
-#: ../frontend/gtkmm/src/Menus.cc:190 ../frontend/gtkmm/src/Menus.cc:423
-msgid "Q_uiet"
-msgstr "_Tyst"
-
-#: ../frontend/gtkmm/src/Menus.cc:204 ../frontend/gtkmm/src/Menus.cc:449
+#: ../frontend/gtkmm/src/Menus.cc:220 ../frontend/gtkmm/src/Menus.cc:465
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
 msgid "_Network"
 msgstr "_Nätverk"
 
-#: ../frontend/gtkmm/src/Menus.cc:208 ../frontend/gtkmm/src/Menus.cc:433
+#: ../frontend/gtkmm/src/Menus.cc:224 ../frontend/gtkmm/src/Menus.cc:449
 msgid "_Connect"
 msgstr "_Anslut"
 
-#: ../frontend/gtkmm/src/Menus.cc:213 ../frontend/gtkmm/src/Menus.cc:436
+#: ../frontend/gtkmm/src/Menus.cc:229 ../frontend/gtkmm/src/Menus.cc:452
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
 msgid "_Disconnect"
 msgstr "_Koppla ned"
 
-#: ../frontend/gtkmm/src/Menus.cc:218 ../frontend/gtkmm/src/Menus.cc:440
+#: ../frontend/gtkmm/src/Menus.cc:234 ../frontend/gtkmm/src/Menus.cc:456
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
 msgid "_Reconnect"
 msgstr "_Återanslut"
 
-#: ../frontend/gtkmm/src/Menus.cc:223 ../frontend/gtkmm/src/Menus.cc:443
+#: ../frontend/gtkmm/src/Menus.cc:239 ../frontend/gtkmm/src/Menus.cc:459
 msgid "Show _log"
 msgstr "Visa _logg"
 
-#: ../frontend/gtkmm/src/Menus.cc:248 ../frontend/gtkmm/src/Menus.cc:405
+#: ../frontend/gtkmm/src/Menus.cc:264 ../frontend/gtkmm/src/Menus.cc:421
 msgid "_Rest break"
 msgstr "_Vilopaus"
 
-#: ../frontend/gtkmm/src/Menus.cc:262 ../frontend/gtkmm/src/Menus.cc:406
+#: ../frontend/gtkmm/src/Menus.cc:278 ../frontend/gtkmm/src/Menus.cc:422
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:40
 msgid "Exercises"
 msgstr "Övningar"
 
-#: ../frontend/gtkmm/src/Menus.cc:274 ../frontend/gtkmm/src/Menus.cc:451
+#: ../frontend/gtkmm/src/Menus.cc:290 ../frontend/gtkmm/src/Menus.cc:467
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:59
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:138
 msgid "Statistics"
 msgstr "Statistik"
 
-#: ../frontend/gtkmm/src/Menus.cc:288 ../frontend/gtkmm/src/Menus.cc:452
+#: ../frontend/gtkmm/src/Menus.cc:304 ../frontend/gtkmm/src/Menus.cc:468
 msgid "About..."
 msgstr "Om..."
 
-#: ../frontend/gtkmm/src/Menus.cc:404
+#: ../frontend/gtkmm/src/Menus.cc:420
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:55
 msgid "Preferences"
 msgstr "Inställningar"
 
-#: ../frontend/gtkmm/src/Menus.cc:721
+#: ../frontend/gtkmm/src/Menus.cc:425
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
+msgid "_Normal"
+msgstr "_Normal"
+
+#: ../frontend/gtkmm/src/Menus.cc:432
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
+msgid "_Suspended"
+msgstr "_Viloläge"
+
+#: ../frontend/gtkmm/src/Menus.cc:439
+msgid "Q_uiet"
+msgstr "_Tyst"
+
+#: ../frontend/gtkmm/src/Menus.cc:737
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -487,11 +487,11 @@ msgstr "Workrave-panelprogram"
 msgid "Exercises player"
 msgstr "Övningar"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:435
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:444
 msgid "Resume"
 msgstr "Fortsätt"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:435
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:444
 msgid "Pause"
 msgstr "Paus"
 
@@ -881,6 +881,10 @@ msgid "Finger stretch"
 msgstr "Sträck ut fingrarna"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:4
+msgid "Fist roll"
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
 msgid ""
 "Interlace your fingers behind your back. Then turn your elbows gently "
 "inward, while straightening your arms. Hold this position for 5 to 15 "
@@ -890,7 +894,7 @@ msgstr ""
 "som du sträcker på armarna. Håll kvar i denna position mellan 5 och 15 "
 "sekunder, och upprepa denna övning två gånger."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
 msgid ""
 "Keep one arm horizontally stretched in front of your chest. Push this arm "
 "with your other arm towards you until you feel a mild tension in your "
@@ -901,7 +905,7 @@ msgstr ""
 "andra arm mot dig tills du känner en lätt sträckning i skuldran. Håll kvar i "
 "denna position en kort stund och upprepa övningen för din andra arm."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
 msgid ""
 "Look at the upper left corner of the outside border of your monitor. Follow "
 "the border slowly to the upper right corner. Continue to the next corner, "
@@ -912,7 +916,7 @@ msgstr ""
 "hörna tills du har gått runt två gånger. Upprepa övningen fast det motsatta "
 "hållet."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
 msgid ""
 "Look for the furthest point you can see behind your monitor. Focus your eyes "
 "on the remote point. Then focus on your monitor border. Repeat it. If you "
@@ -926,27 +930,27 @@ msgstr ""
 "längre utsikt. Byt fokus mellan en objekt långt bort och en penna som hålls "
 "på samma avstånd från dina ögon som din skärm."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:9
 msgid "Look into the darkness"
 msgstr "Se in i mörkret"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:9
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:10
 msgid "Move the eyes"
 msgstr "Rör på ögonen"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:10
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:11
 msgid "Move the shoulders"
 msgstr "Rör på skuldrorna"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:11
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
 msgid "Move the shoulders up and down"
 msgstr "Rör på skuldrorna upp och ner"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
 msgid "Neck tilt stretch"
 msgstr "Utsträckning av nacken"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
 msgid ""
 "Put your hands on the armrests of your chair when you are sitting down and "
 "press your body up until your arms are straight. Try to move your head even "
@@ -956,7 +960,15 @@ msgstr ""
 "tills dina armar är raka. Försök att flytta ditt huvud längre genom att "
 "sänka skuldrorna. Rör dig sakta tillbaka till stolen."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
+msgid ""
+"Put your underarm on a table and make a fist. Roll your fist away from your "
+"body untill it rests on your nuckles. Keep it for 2 seconds and roll it "
+"back. Repeat this 5 times for each hand. If the muscle is stretched to much, "
+"let your fingers rest on the table while rolling."
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:16
 msgid ""
 "Separate and stretch your fingers until a mild tension is felt, and hold "
 "this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
@@ -966,11 +978,11 @@ msgstr ""
 "kvar i 10 sekunder. Slappna av och knyt fingrarna och håll kvar i 10 "
 "sekunder. Upprepa övningen en gång till."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
 msgid "Shoulder-arm stretch"
 msgstr "Utsträckning av skuldror och armar"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:16
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
 msgid ""
 "Spin your right arm slowly round like a plane propeller beside your body. Do "
 "this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
@@ -980,7 +992,7 @@ msgstr ""
 "gånger framåt, 4 gånger bakåt och slappna av ett par sekunder. Upprepa med "
 "vänstra armen."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:19
 msgid ""
 "Start with your head in a comfortable straight position. Then, slowly tilt "
 "your head to your right shoulder to gently stretch the muscles on the left "
@@ -992,15 +1004,15 @@ msgstr ""
 "sidan av nacken. Håll kvar i 5 sekunder. Upprepa hela övningen med vänster "
 "öra mot vänster skuldra. Upprepa båda övningarna 2 gånger till på varje sida."
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:20
 msgid "Train focusing the eyes"
 msgstr "Träna fokusering med ögonen"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:19
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:21
 msgid "Turn your head"
 msgstr "Vrid på huvudet"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:20
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:22
 msgid ""
 "Turn your head left and keep it there for 2 seconds. Then turn your head "
 "right and keep it there for 2 seconds."

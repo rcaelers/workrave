@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WorkRave 1.8\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-07-31 18:20+0200\n"
+"Report-Msgid-Bugs-To: i18n@workrave.org\n"
+"POT-Creation-Date: 2006-09-06 15:16+0000\n"
 "PO-Revision-Date: 2006-07-31 18:11+0200\n"
 "Last-Translator: Rex Tsai <chihchun@linux.org.tw>\n"
 "Language-Team: Chinese/Traditional <zh-l10n@linux.org.tw>\n"
@@ -16,11 +16,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../frontend/gtkmm/src/eggtrayicon.c:118
+#: ../frontend/gtkmm/src/eggtrayicon.c:133
 msgid "Orientation"
 msgstr "方向"
 
-#: ../frontend/gtkmm/src/eggtrayicon.c:119
+#: ../frontend/gtkmm/src/eggtrayicon.c:134
 msgid "The orientation of the tray."
 msgstr "托盤方向"
 
@@ -50,19 +50,19 @@ msgstr "功勳(_C)"
 msgid "About %s"
 msgstr "關於 %s"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:198
+#: ../frontend/gtkmm/src/BreakWindow.cc:197
 msgid "Lock"
 msgstr "鎖定"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:217
+#: ../frontend/gtkmm/src/BreakWindow.cc:216
 msgid "Shut down"
 msgstr "關閉"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:234
+#: ../frontend/gtkmm/src/BreakWindow.cc:233
 msgid "Skip"
 msgstr "略過"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:247
+#: ../frontend/gtkmm/src/BreakWindow.cc:246
 msgid "Postpone"
 msgstr "延後"
 
@@ -83,7 +83,7 @@ msgstr ""
 "您已經達到每日限制量。請停止在電腦前工作工作。\n"
 "如果您尚未下班，找些其他的事情來做，例如檢閱文件。"
 
-#: ../frontend/gtkmm/src/GUI.cc:729
+#: ../frontend/gtkmm/src/GUI.cc:734
 msgid "I could not initialize Bonobo"
 msgstr "無法啟動 Bonobo"
 
@@ -109,78 +109,78 @@ msgid "Inactive"
 msgstr "靜止"
 
 #: ../frontend/common/src/TimerBoxControl.cc:261
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:180
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:179
 msgid "Wait"
 msgstr "等待"
 
 #. Mode menu item
-#: ../frontend/gtkmm/src/Menus.cc:169 ../frontend/gtkmm/src/Menus.cc:430
+#: ../frontend/gtkmm/src/Menus.cc:169 ../frontend/gtkmm/src/Menus.cc:446
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
 msgid "_Mode"
 msgstr "模式(_M)"
 
-#: ../frontend/gtkmm/src/Menus.cc:176 ../frontend/gtkmm/src/Menus.cc:409
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
-msgid "_Normal"
-msgstr "一般(_N)"
-
-#: ../frontend/gtkmm/src/Menus.cc:183 ../frontend/gtkmm/src/Menus.cc:416
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
-msgid "_Suspended"
-msgstr "暫停(_S)"
-
-#: ../frontend/gtkmm/src/Menus.cc:190 ../frontend/gtkmm/src/Menus.cc:423
-msgid "Q_uiet"
-msgstr "離開(_u)"
-
-#: ../frontend/gtkmm/src/Menus.cc:204 ../frontend/gtkmm/src/Menus.cc:449
+#: ../frontend/gtkmm/src/Menus.cc:220 ../frontend/gtkmm/src/Menus.cc:465
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
 msgid "_Network"
 msgstr "網路(_N)"
 
-#: ../frontend/gtkmm/src/Menus.cc:208 ../frontend/gtkmm/src/Menus.cc:433
+#: ../frontend/gtkmm/src/Menus.cc:224 ../frontend/gtkmm/src/Menus.cc:449
 msgid "_Connect"
 msgstr "連線(_C)"
 
-#: ../frontend/gtkmm/src/Menus.cc:213 ../frontend/gtkmm/src/Menus.cc:436
+#: ../frontend/gtkmm/src/Menus.cc:229 ../frontend/gtkmm/src/Menus.cc:452
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
 msgid "_Disconnect"
 msgstr "中斷連線(_D)"
 
-#: ../frontend/gtkmm/src/Menus.cc:218 ../frontend/gtkmm/src/Menus.cc:440
+#: ../frontend/gtkmm/src/Menus.cc:234 ../frontend/gtkmm/src/Menus.cc:456
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
 msgid "_Reconnect"
 msgstr "重新連線(_R)"
 
-#: ../frontend/gtkmm/src/Menus.cc:223 ../frontend/gtkmm/src/Menus.cc:443
+#: ../frontend/gtkmm/src/Menus.cc:239 ../frontend/gtkmm/src/Menus.cc:459
 msgid "Show _log"
 msgstr "顯示紀錄(_l)"
 
-#: ../frontend/gtkmm/src/Menus.cc:248 ../frontend/gtkmm/src/Menus.cc:405
+#: ../frontend/gtkmm/src/Menus.cc:264 ../frontend/gtkmm/src/Menus.cc:421
 msgid "_Rest break"
 msgstr "休息(_R)"
 
-#: ../frontend/gtkmm/src/Menus.cc:262 ../frontend/gtkmm/src/Menus.cc:406
+#: ../frontend/gtkmm/src/Menus.cc:278 ../frontend/gtkmm/src/Menus.cc:422
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:40
 msgid "Exercises"
 msgstr "體操"
 
-#: ../frontend/gtkmm/src/Menus.cc:274 ../frontend/gtkmm/src/Menus.cc:451
+#: ../frontend/gtkmm/src/Menus.cc:290 ../frontend/gtkmm/src/Menus.cc:467
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:59
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:138
 msgid "Statistics"
 msgstr "統計"
 
-#: ../frontend/gtkmm/src/Menus.cc:288 ../frontend/gtkmm/src/Menus.cc:452
+#: ../frontend/gtkmm/src/Menus.cc:304 ../frontend/gtkmm/src/Menus.cc:468
 msgid "About..."
 msgstr "關於..."
 
-#: ../frontend/gtkmm/src/Menus.cc:404
+#: ../frontend/gtkmm/src/Menus.cc:420
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:55
 msgid "Preferences"
 msgstr "偏好"
 
-#: ../frontend/gtkmm/src/Menus.cc:721
+#: ../frontend/gtkmm/src/Menus.cc:425
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
+msgid "_Normal"
+msgstr "一般(_N)"
+
+#: ../frontend/gtkmm/src/Menus.cc:432
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
+msgid "_Suspended"
+msgstr "暫停(_S)"
+
+#: ../frontend/gtkmm/src/Menus.cc:439
+msgid "Q_uiet"
+msgstr "離開(_u)"
+
+#: ../frontend/gtkmm/src/Menus.cc:737
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -486,11 +486,11 @@ msgstr "Workrave Applet"
 msgid "Exercises player"
 msgstr "體操播放"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:435
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:444
 msgid "Resume"
 msgstr "回復"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:435
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:444
 msgid "Pause"
 msgstr "暫停"
 
@@ -870,6 +870,10 @@ msgid "Finger stretch"
 msgstr "指頭伸展"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:4
+msgid "Fist roll"
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
 msgid ""
 "Interlace your fingers behind your back. Then turn your elbows gently "
 "inward, while straightening your arms. Hold this position for 5 to 15 "
@@ -878,7 +882,7 @@ msgstr ""
 "在您的背後交叉手指頭。然後將胳膊輕微的往前，以弄直手臂。保持這個姿勢五到十五"
 "秒。然後重複這個動作兩次。"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
 msgid ""
 "Keep one arm horizontally stretched in front of your chest. Push this arm "
 "with your other arm towards you until you feel a mild tension in your "
@@ -888,7 +892,7 @@ msgstr ""
 "保持一隻手水平伸直於胸前。將另外一隻手放在這隻手上，直到您在肩膀上感覺輕微的"
 "壓力。稍微保持這個姿勢，然後在另外一隻手重複這個動作。"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
 msgid ""
 "Look at the upper left corner of the outside border of your monitor. Follow "
 "the border slowly to the upper right corner. Continue to the next corner, "
@@ -897,7 +901,7 @@ msgstr ""
 "注視您的螢幕左上角落的邊框。沿著邊框注視到右上腳略。繼續到下個角落直到重複兩"
 "次。然後反向進行。"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
 msgid ""
 "Look for the furthest point you can see behind your monitor. Focus your eyes "
 "on the remote point. Then focus on your monitor border. Repeat it. If you "
@@ -909,27 +913,27 @@ msgstr ""
 "重複這個動作。如果您無法注視螢幕之後遙遠的距離，可以用一枝筆取代，並讓它保持"
 "與螢幕一樣遠的距離。"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:9
 msgid "Look into the darkness"
 msgstr "注視黑暗"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:9
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:10
 msgid "Move the eyes"
 msgstr "眼球運動"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:10
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:11
 msgid "Move the shoulders"
 msgstr "肩膀運動"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:11
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
 msgid "Move the shoulders up and down"
 msgstr "上下運動肩膀"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
 msgid "Neck tilt stretch"
 msgstr "傾斜脖子運動"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
 msgid ""
 "Put your hands on the armrests of your chair when you are sitting down and "
 "press your body up until your arms are straight. Try to move your head even "
@@ -938,7 +942,15 @@ msgstr ""
 "坐在椅子上時將您的手放在椅子的扶手上，並使力舉起身體，直到您的手臂 挺直。試著"
 "讓您的頭不低於肩膀。緩緩的坐回椅子。"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
+msgid ""
+"Put your underarm on a table and make a fist. Roll your fist away from your "
+"body untill it rests on your nuckles. Keep it for 2 seconds and roll it "
+"back. Repeat this 5 times for each hand. If the muscle is stretched to much, "
+"let your fingers rest on the table while rolling."
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:16
 msgid ""
 "Separate and stretch your fingers until a mild tension is felt, and hold "
 "this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
@@ -947,11 +959,11 @@ msgstr ""
 "分開並伸展您的手指頭，直到感受到張力，然後保持這個姿勢十秒鐘。放鬆，然後彎曲"
 "手指頭關節，保持姿勢十秒鐘。重複這個動作。"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
 msgid "Shoulder-arm stretch"
 msgstr "肩膀肌肉延伸運動"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:16
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
 msgid ""
 "Spin your right arm slowly round like a plane propeller beside your body. Do "
 "this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
@@ -960,7 +972,7 @@ msgstr ""
 "慢慢像螺旋槳一樣在身體旋轉您的右手。順時針做四次，逆時針做四次然後放鬆幾秒。"
 "用左手重複做一次。"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:19
 msgid ""
 "Start with your head in a comfortable straight position. Then, slowly tilt "
 "your head to your right shoulder to gently stretch the muscles on the left "
@@ -971,15 +983,15 @@ msgstr ""
 "左邊脖子，保持這個姿勢五秒鐘。然後，慢慢的將頭傾斜到左肩，以伸展另外一邊的脖"
 "子。每邊各做兩次。"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:20
 msgid "Train focusing the eyes"
 msgstr "訓練眼球焦點"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:19
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:21
 msgid "Turn your head"
 msgstr "轉動您的頭"
 
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:20
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:22
 msgid ""
 "Turn your head left and keep it there for 2 seconds. Then turn your head "
 "right and keep it there for 2 seconds."

@@ -7,6 +7,8 @@ http://www.workrave.org
 
 * Workrave 1.8.4
 
+** Herman Suijs contributed a new exercise named "Fist roll", thanks.
+
 ** The operation mode (normal/quiet/suspended) now persists across
    Workrave sessions.
 

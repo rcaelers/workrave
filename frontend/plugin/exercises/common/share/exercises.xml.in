@@ -92,6 +92,14 @@
        <image src="chair-pushup-2.png" duration="10"/>
     </sequence>
   </exercise>
+  <exercise>
+     <_title>Fist roll</_title>
+     <_description>Put your underarm on a table and make a fist. Roll your fist away from your body untill it rests on your nuckles. Keep it for 2 seconds and roll it back. Repeat this 5 times for each hand. If the muscle is stretched to much, let your fingers rest on the table while rolling.</_description>
+     <sequence duration="20">
+       <image src="fist-roll-1.png" duration="2"/>
+       <image src="fist-roll-2.png" duration="2"/>
+     </sequence>
+  </exercise>
 <!--
   <exercise>
     <_title>Move the shoulder blades</_title>
