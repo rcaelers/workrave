@@ -779,7 +779,6 @@ GUI::create_break_window(HeadInfo &head, BreakId break_id, bool ignorable)
 void
 GUI::init_sound_player()
 {
-  // FIXME: Memory leak.
   sound_player = new SoundPlayer();
 }
 
@@ -845,8 +844,6 @@ GUI::start_break_window(BreakId break_id, bool ignorable)
       break_windows[i] = break_window;
       
       break_window->set_response(response);
-
-      
       break_window->start();
     }
 

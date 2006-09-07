@@ -5,7 +5,7 @@ See the end for copying conditions.
 Please report Workrave bug reports. Visit our bug tracker located at:
 http://www.workrave.org
 
-* Workrave x.y.z
+* Workrave 1.8.4
 
 ** The operation mode (normal/quiet/suspended) now persists across
    Workrave sessions.

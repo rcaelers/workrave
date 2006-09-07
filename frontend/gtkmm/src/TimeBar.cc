@@ -58,6 +58,7 @@ TimeBar::TimeBar() :
   bar_text_align(0)
 {
   add_events(Gdk::EXPOSURE_MASK);
+  add_events(Gdk::BUTTON_PRESS_MASK);
 
   set_bar_color(COLOR_ID_INACTIVE);
   set_secondary_bar_color(COLOR_ID_INACTIVE);
