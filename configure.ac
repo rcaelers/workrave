@@ -587,6 +587,9 @@ if test "x$platform_win32" == "xyes"; then
         AC_DEFINE(ENABLE_NLS,1,[Define to 1 if translation of program messages to the user's native
    language is requested.])
         AC_DEFINE(USE_INCLUDED_LIBINTL, "no", [Dont])
+        AC_DEFINE(BUILD_INCLUDED_LIBINTL, "no", [Dont])
+        USE_INCLUDED_LIBINTL=no
+        BUILD_INCLUDED_LIBINTL=no
 fi
 
 GETTEXT_PACKAGE=workrave
