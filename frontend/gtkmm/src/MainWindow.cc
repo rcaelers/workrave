@@ -184,6 +184,15 @@ MainWindow::init()
   realize_if_needed();
 
   Glib::RefPtr<Gdk::Window> window = get_window();
+
+  // Window decorators
+  window->set_decorations(Gdk::DECOR_BORDER
+                          |Gdk::DECOR_TITLE
+                          |Gdk::DECOR_MENU);
+  // This used to be W32 only:
+  //   window->set_functions(Gdk::FUNC_CLOSE|Gdk::FUNC_MOVE);
+  
+  // (end window decorators)
   
 #ifdef HAVE_X
   // HACK. this sets a different group leader in the WM_HINTS....
@@ -198,7 +207,6 @@ MainWindow::init()
   setup();
   
 #ifdef WIN32
-  window->set_functions(Gdk::FUNC_CLOSE|Gdk::FUNC_MOVE);
 
   win32_init();
   menus->set_applet_window(&win32_timer_box_view);
