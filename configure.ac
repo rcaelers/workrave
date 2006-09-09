@@ -204,7 +204,7 @@ PLATFORM_WIN32=
 if test "$platform_win32" = "yes"; then
    AC_DEFINE(PLATFORM_WIN32,,[Define if this is compiled for some Win32 platform])
    if test "x$config_debug" = "xyes"; then
-      LDFLAGS="${LDFLAGS} -lbfd -liberty -lintl -lduma"
+      LDFLAGS="${LDFLAGS} -lduma -lbfd -liberty -lintl"
    fi
 fi
 
