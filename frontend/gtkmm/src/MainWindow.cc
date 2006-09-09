@@ -215,7 +215,7 @@ MainWindow::init()
   set_gravity(Gdk::GRAVITY_STATIC); 
   set_position(Gtk::WIN_POS_NONE);
 
-#ifdef HAVE_PROPER_SIZED_MAIN_WINDOW_ON_STARTUP
+#ifndef HAVE_NOT_PROPER_SIZED_MAIN_WINDOW_ON_STARTUP 
   // This is the proper code, see hacked code below.
   if (!enabled)
     {
@@ -229,7 +229,8 @@ MainWindow::init()
       move_to_start_position();;
       show_all();
     }
-#else
+#else // Hack deprecated: Since GTK+ 2.10 no longer necessary
+  
   // Hack: since GTK+ 2.2.4 the window is too wide, it incorporates room
   // for the "_ [ ] [X]" buttons somehow. This hack fixes just that.
   move(-1024, 0); // Move off-screen to reduce wide->narrow flickering
