@@ -120,6 +120,7 @@ public:
   SoundPlayerInterface *get_sound_player() const;
 
 private:
+  std::string get_tooltip();
   bool on_timer();
   void init_debug();
   void init_nls();

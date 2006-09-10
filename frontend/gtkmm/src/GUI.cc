@@ -41,6 +41,8 @@ static const char rcsid[] = "$Id$";
 #include "DailyLimitWindow.hh"
 #include "MainWindow.hh"
 #include "BreakWindowInterface.hh"
+#include "BreakInterface.hh"
+#include "TimerInterface.hh"
 #include "BreakWindow.hh"
 #include "MicroBreakWindow.hh"
 #include "PreludeWindow.hh"
@@ -48,6 +50,7 @@ static const char rcsid[] = "$Id$";
 #include "Util.hh"
 #include "WindowHints.hh"
 #include "System.hh"
+#include "Text.hh"
 #include "StatusIcon.hh"
 
 #ifdef HAVE_X
@@ -286,6 +289,8 @@ GUI::toggle_main_window()
 bool
 GUI::on_timer()
 {
+  std::string tip = get_tooltip();
+  
   if (core != NULL)
     {
       core->heartbeat();
@@ -303,6 +308,11 @@ GUI::on_timer()
     }
 #endif
 
+  if (status_icon)
+    {
+      status_icon->set_tooltip(tip);
+    }
+  
   heartbeat_signal();
 
   collect_garbage();
@@ -1241,4 +1251,54 @@ GUI::bound_head(int &x, int &y, int width, int height, int head)
     }
 
   return ret;
+}
+
+
+std::string
+GUI::get_tooltip()
+{
+  //FIXME: duplicate
+  char *labels[] = { _("Micro-break"), _("Rest break"), _("Daily limit") };
+  string tip = "Workrave";
+  
+  CoreInterface *core = CoreFactory::get_core();
+  for (int count = 0; count < BREAK_ID_SIZEOF; count++)
+    {
+      BreakInterface *break_data = core->get_break(BreakId(count));
+      TimerInterface *timer = break_data->get_timer();
+
+#ifdef LETS_SEE_HOW_WORKRAVE_BEHAVES_WITHOUT_THIS      
+      if (!node_master && num_peers > 0)
+        {
+        }
+      else
+#endif
+        {
+          std::string text;
+
+          if (timer == NULL)
+            {
+              continue;
+            }
+
+          // Collect some data.
+          time_t maxActiveTime = timer->get_limit();
+          time_t activeTime = timer->get_elapsed_time();
+
+          // Set the text
+          if (timer->is_limit_enabled() && maxActiveTime != 0)
+            {
+              text = Text::time_to_string(maxActiveTime - activeTime);
+            }
+          else
+            {
+              text = Text::time_to_string(activeTime);
+            }
+
+          tip += "\n";
+          tip += labels[count];
+          tip += ": " + text;
+        }
+    }
+  return tip;
 }

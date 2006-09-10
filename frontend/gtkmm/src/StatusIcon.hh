@@ -33,6 +33,7 @@ public:
   ~StatusIcon();
 
   void set_operation_mode(OperationMode m);
+  void set_tooltip(std::string& tip);
   
 private:
   void on_activate();

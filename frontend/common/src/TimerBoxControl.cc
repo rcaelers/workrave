@@ -1,6 +1,6 @@
 // TimerBoxControl.cc --- Timers Widgets
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -283,6 +283,7 @@ TimerBoxControl::update_widgets()
                          primary_color, primary_val, primary_max,
                          secondary_color, secondary_val, secondary_max);
     }
+#waring FIXME: Tooltip code moved to GUI::get_tooltip(), still to be removed here
   view->set_tip(tip);
 }
 
