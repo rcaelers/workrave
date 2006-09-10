@@ -166,6 +166,7 @@ workrave_SOURCES = \
 			PreferencesDialog.cc \
 			PreludeWindow.cc \
 			RestBreakWindow.cc \
+			StatusIcon.cc \
 			${STATISTICS_HOME}/gtkmm/src/StatisticsDialog.cc \
 			TimeBar.cc \
 			TimeEntry.cc \

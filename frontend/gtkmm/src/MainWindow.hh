@@ -46,6 +46,7 @@ namespace Gtk
   class Menu;
 }
 
+
 class MainWindow :
   public Gtk::Window,
   public ConfiguratorListener
@@ -62,6 +63,9 @@ public:
   
   void update();
   void relocate_window(int width, int height);
+
+  void on_activate();
+  void on_popup_menu(guint button, guint activate_time);
   
   static bool get_always_on_top();
   static void set_always_on_top(bool b);

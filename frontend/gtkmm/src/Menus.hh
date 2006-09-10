@@ -1,6 +1,6 @@
 // Menus.hh --- Main info Window
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -28,6 +28,8 @@
 #ifdef HAVE_GNOME
 #include <gnome.h>
 #endif
+
+#include "CoreInterface.hh"
 
 class GUI;
 class TimeBar;
@@ -70,6 +72,7 @@ public:
 private:
   void sync_mode_menu(int mode);
   void sync_tray_menu(bool active);
+  void set_operation_mode(OperationMode m);
   
 #ifdef HAVE_DISTRIBUTION
   void on_menu_network_log_main_window();

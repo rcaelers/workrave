@@ -198,17 +198,21 @@ Menus::create_menu(Gtk::CheckMenuItem *check_menus[4])
 
     Gtk::RadioMenuItem::Group gr;
 
-    for (size_t i = 0; i < sizeof(modes)/sizeof(modes[0]); i++)
+    assert(sizeof(modes)/sizeof(modes[0]) == OPERATION_MODE_SIZEOF);
+    for (size_t i = 0; i < OPERATION_MODE_SIZEOF; i++)
       {
         Gtk::RadioMenuItem *mode_menu_item
           = manage(new Gtk::RadioMenuItem(gr, _(modes_str[i]), true));
-        mode_menu_item->signal_toggled()
-          .connect(bind(MEMBER_SLOT(*this, modes_func[i]),
-                        mode_menu_item));
         mode_menu_item->show();
         modemenulist.push_back(*mode_menu_item);
         mode_menu_item->set_active(mode == modes[i]);
         check_menus[i] = mode_menu_item;
+      }
+    for (size_t i = 0; i < OPERATION_MODE_SIZEOF; i++)
+      {
+        check_menus[i]->signal_toggled()
+          .connect(bind(MEMBER_SLOT(*this, modes_func[i]),
+                        check_menus[i]));
       }
   }
 
@@ -498,16 +502,22 @@ Menus::on_menu_restbreak_now()
   gui->restbreak_now();
 }
 
+void
+Menus::set_operation_mode(OperationMode m)
+{
+  CoreInterface *core = CoreFactory::get_core();
+  core->set_operation_mode(m);
+  sync_mode_menu(m);
+  gui->set_operation_mode(m);
+}
+
 
 //! User requested immediate restbreak.
 void
 Menus::on_menu_quiet()
 {
   TRACE_ENTER("Menus::on_menu_quiet");
-
-  CoreInterface *core = CoreFactory::get_core();
-  core->set_operation_mode(OPERATION_MODE_QUIET);
-  sync_mode_menu(2);
+  set_operation_mode(OPERATION_MODE_QUIET);
   TRACE_EXIT();
 }
 
@@ -518,10 +528,7 @@ void
 Menus::on_menu_suspend()
 {
   TRACE_ENTER("Menus::on_menu_suspend");
-
-  CoreInterface *core = CoreFactory::get_core();
-  core->set_operation_mode(OPERATION_MODE_SUSPENDED);
-  sync_mode_menu(1);
+  set_operation_mode(OPERATION_MODE_SUSPENDED);
   TRACE_EXIT();
 }
 
@@ -572,9 +579,7 @@ void
 Menus::on_menu_normal()
 {
   TRACE_ENTER("Menus::on_menu_normal");
-  CoreInterface *core = CoreFactory::get_core();
-  core->set_operation_mode(OPERATION_MODE_NORMAL);
-  sync_mode_menu(0);
+  set_operation_mode(OPERATION_MODE_NORMAL);
   TRACE_EXIT();
 }
 

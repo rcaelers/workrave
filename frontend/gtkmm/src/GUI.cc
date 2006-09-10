@@ -48,6 +48,7 @@ static const char rcsid[] = "$Id$";
 #include "Util.hh"
 #include "WindowHints.hh"
 #include "System.hh"
+#include "StatusIcon.hh"
 
 #ifdef HAVE_X
 #include "AppletWindow.hh"
@@ -117,7 +118,8 @@ GUI::GUI(int argc, char **argv)  :
 #ifdef HAVE_X
   grab_wanted(false),
 #endif
-  grab_handle(NULL)
+  grab_handle(NULL),
+  status_icon(0)
 {
   TRACE_ENTER("GUI:GUI");
 
@@ -713,6 +715,9 @@ GUI::init_gui()
 
   // The main status window.
   main_window = new MainWindow();
+
+  // Status icon
+  status_icon = new StatusIcon(*main_window);
   
 #ifdef HAVE_X  
   // The applet window.
@@ -804,6 +809,13 @@ GUI::set_break_response(BreakResponseInterface *rep)
   response = rep;
 }
 
+
+void
+GUI::set_operation_mode(OperationMode m)
+{
+  if (status_icon)
+    status_icon->set_operation_mode(m);
+}
 
 void
 GUI::start_prelude_window(BreakId break_id)

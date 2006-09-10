@@ -51,6 +51,7 @@ static const char rcsid[] = "$Id$";
 #include "TimeBar.hh"
 #include "GUI.hh"
 #include "Util.hh"
+#include "StatusIcon.hh"
 #include "Text.hh"
 
 #include "CoreFactory.hh"
@@ -265,6 +266,7 @@ MainWindow::init()
   ConfiguratorInterface *config = CoreFactory::get_configurator();
   config->add_listener(TimerBoxControl::CFG_KEY_TIMERBOX + "main_window", this);
 
+
   TRACE_EXIT();
 }
 
@@ -316,6 +318,16 @@ MainWindow::update()
 #endif
 }
 
+
+void MainWindow::on_activate()
+{
+  open_window();
+}
+
+void MainWindow::on_popup_menu(guint button, guint activate_time)
+{
+  popup_menu->popup(button, activate_time);
+}
 
 
 //! Opens the main window.
@@ -435,6 +447,7 @@ MainWindow::on_button_press_event(GdkEventButton *event)
   TRACE_EXIT();
   return ret;
 }
+
 
 
 bool

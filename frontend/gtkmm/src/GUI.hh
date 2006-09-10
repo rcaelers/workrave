@@ -53,6 +53,7 @@ class PreludeWindow;
 class BreakWindowInterface;
 class BreakResponseInterface;
 class Dispatcher;
+class StatusIcon;
 
 // Generic GUI
 class BreakControl;
@@ -94,6 +95,7 @@ public:
   void toggle_main_window();
   void terminate();
   void init_multihead();
+  void set_operation_mode(OperationMode m);
 
   // Prefs
   static const std::string CFG_KEY_GUI_BLOCK_MODE;
@@ -242,6 +244,9 @@ private:
 
   //! Grab
   WindowHints::Grab *grab_handle;
+
+  //! Status icon
+  StatusIcon *status_icon;
 };
 
 
