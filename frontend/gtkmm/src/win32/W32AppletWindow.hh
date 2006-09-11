@@ -1,6 +1,6 @@
-// TimerBoxtGtkView.hh --- All timers
+// AppletWindow.hh --- Applet window
 //
-// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -16,21 +16,25 @@
 // $Id$
 //
 
-#ifndef TIMERBOXAPPLETVIEW_HH
-#define TIMERBOXAPPLETVIEW_HH
+#ifndef W32APPLETWINDOW_HH
+#define W32APPLETWINDOW_HH
 
+#include "preinclude.h"
 #include <windows.h>
 #include <string>
 
 #include "TimerBoxView.hh"
 #include "TimeBarInterface.hh"
 #include "Applet.hh"
+#include "AppletWindow.hh"
 
-class TimerBoxAppletView : public TimerBoxView
+class W32AppletWindow : public AppletWindow, public TimerBoxView
 {
 public:  
-  TimerBoxAppletView();
-  virtual ~TimerBoxAppletView();
+  W32AppletWindow();
+  virtual ~W32AppletWindow();
+
+  virtual AppletMode get_applet_mode() const;
 
   void set_slot(BreakId  id, int slot);
   void set_time_bar(BreakId id,
@@ -41,7 +45,7 @@ public:
                     int secondary_value, int secondary_max);
   void set_tip(std::string tip);
   void set_icon(IconType icon);
-  void update();
+  void update_view();
   void update_time_bars();
   void update_menu();
   void set_enabled(bool enabled);
@@ -55,7 +59,7 @@ public:
     MENU_FLAG_SELECTED = APPLET_MENU_FLAG_SELECTED,
     MENU_FLAG_POPUP = APPLET_MENU_FLAG_POPUP
   };
-  
+
 private:
   HWND get_applet_window();
 
@@ -63,8 +67,7 @@ private:
   bool menu_sent;
   AppletHeartbeatData heartbeat_data;
   AppletMenuData menu_data;
+  
 };
 
-
-
-#endif // TIMERBOXAPPLETVIEW_HH
+#endif // W32APPLETWINDOW_HH

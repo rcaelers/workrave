@@ -1,6 +1,6 @@
-// TimerBoxGtkView.cc --- Timers Widgets
+// AppletWindow.cc --- Applet info Window
 //
-// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -12,19 +12,48 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//
 
 static const char rcsid[] = "$Id$";
+
+#include "preinclude.h"
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
 
-#include "TimerBoxAppletView.hh"
-#include "Applet.hh"
+#include "nls.h"
+#include "debug.hh"
 
+#include "W32AppletWindow.hh"
+#include "TimerBoxControl.hh"
+#include "Applet.hh"
 #include "GUI.hh"
 #include "MainWindow.hh"
+
+W32AppletWindow::W32AppletWindow()
+{
+  timer_box_view = this;
+  timer_box_control
+    = new TimerBoxControl("applet", *this);
+  applet_window = NULL;
+  heartbeat_data.enabled = false;
+  init_menu(NULL);
+}
+
+W32AppletWindow::~W32AppletWindow()
+{
+}
+
+
+AppletWindow::AppletMode
+W32AppletWindow::get_applet_mode() const
+{
+  return APPLET_W32;
+}
+
+
+
+
 
 static HWND
 RecursiveFindWindow(HWND hwnd, LPCTSTR lpClassName)
@@ -54,31 +83,16 @@ RecursiveFindWindow(HWND hwnd, LPCTSTR lpClassName)
   return ret;
 }
                                 
-//! Constructor.
-TimerBoxAppletView::TimerBoxAppletView()
-{
-  applet_window = NULL;
-  heartbeat_data.enabled = false;
-  init_menu(NULL);
-}
-  
-
-
-//! Destructor.
-TimerBoxAppletView::~TimerBoxAppletView()
-{
-}
-
 
 
 void
-TimerBoxAppletView::set_slot(BreakId id, int slot)
+W32AppletWindow::set_slot(BreakId id, int slot)
 {
   heartbeat_data.slots[slot] = (short) id;
 }
 
 void
-TimerBoxAppletView::set_time_bar(BreakId id,
+W32AppletWindow::set_time_bar(BreakId id,
                                  std::string text,
                                  TimeBarInterface::ColorId primary_color,
                                  int primary_val, int primary_max,
@@ -96,7 +110,7 @@ TimerBoxAppletView::set_time_bar(BreakId id,
 }
 
 void
-TimerBoxAppletView::set_tip(std::string tip)
+W32AppletWindow::set_tip(std::string tip)
 {
   GUI *gui = GUI::get_instance();
   MainWindow *main_window = gui->get_main_window();
@@ -105,7 +119,7 @@ TimerBoxAppletView::set_tip(std::string tip)
 }
 
 void
-TimerBoxAppletView::set_icon(IconType type)
+W32AppletWindow::set_icon(IconType type)
 {
   GUI *gui = GUI::get_instance();
   MainWindow *main_window = gui->get_main_window();
@@ -115,14 +129,14 @@ TimerBoxAppletView::set_icon(IconType type)
 
 
 void
-TimerBoxAppletView::update()
+W32AppletWindow::update_view()
 {
   update_time_bars();
   update_menu();
 }
 
 void
-TimerBoxAppletView::update_menu()
+W32AppletWindow::update_menu()
 {
   if (menu_sent)
     return;
@@ -141,7 +155,7 @@ TimerBoxAppletView::update_menu()
 }
 
 void
-TimerBoxAppletView::update_time_bars()
+W32AppletWindow::update_time_bars()
 {
   HWND hwnd = get_applet_window();
   if (hwnd != NULL)
@@ -155,7 +169,7 @@ TimerBoxAppletView::update_time_bars()
 }
   
 HWND
-TimerBoxAppletView::get_applet_window()
+W32AppletWindow::get_applet_window()
 {
   if (applet_window == NULL || !IsWindow(applet_window))
     {
@@ -167,14 +181,14 @@ TimerBoxAppletView::get_applet_window()
 }
 
 void
-TimerBoxAppletView::set_enabled(bool enabled)
+W32AppletWindow::set_enabled(bool enabled)
 {
   heartbeat_data.enabled = enabled;
 }
 
 
 void
-TimerBoxAppletView::init_menu(HWND hwnd)
+W32AppletWindow::init_menu(HWND hwnd)
 {
   menu_data.num_items = 0;
   menu_sent = false;
@@ -182,7 +196,7 @@ TimerBoxAppletView::init_menu(HWND hwnd)
 }
 
 void
-TimerBoxAppletView::add_menu(const char *text, short cmd, int flags)
+W32AppletWindow::add_menu(const char *text, short cmd, int flags)
 {
   AppletMenuItemData *d = &menu_data.items[menu_data.num_items++];
   d->command = cmd;
