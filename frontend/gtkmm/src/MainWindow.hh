@@ -35,7 +35,6 @@ using namespace std;
 
 #ifdef WIN32
 #include <windows.h>
-#include "TimerBoxAppletView.hh"
 #include "TimerBoxControl.hh"
 #endif
 

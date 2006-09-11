@@ -428,44 +428,44 @@ Menus::resync_applet()
 
 
       w32aw->add_menu(_("_Normal"), MENU_COMMAND_MODE_NORMAL,
-                              TimerBoxAppletView::MENU_FLAG_TOGGLE
-                              |TimerBoxAppletView::MENU_FLAG_POPUP
+                              W32AppletWindow::MENU_FLAG_TOGGLE
+                              |W32AppletWindow::MENU_FLAG_POPUP
                               |(core->get_operation_mode()
                                 == OPERATION_MODE_NORMAL
-                                ? TimerBoxAppletView::MENU_FLAG_SELECTED
+                                ? W32AppletWindow::MENU_FLAG_SELECTED
                                 : 0));
       w32aw->add_menu(_("_Suspended"), MENU_COMMAND_MODE_SUSPENDED,
-                              TimerBoxAppletView::MENU_FLAG_TOGGLE
-                              |TimerBoxAppletView::MENU_FLAG_POPUP
+                              W32AppletWindow::MENU_FLAG_TOGGLE
+                              |W32AppletWindow::MENU_FLAG_POPUP
                               |(core->get_operation_mode()
                                 == OPERATION_MODE_SUSPENDED
-                                ? TimerBoxAppletView::MENU_FLAG_SELECTED
+                                ? W32AppletWindow::MENU_FLAG_SELECTED
                                 : 0));
       w32aw->add_menu(_("Q_uiet"), MENU_COMMAND_MODE_QUIET,
-                              TimerBoxAppletView::MENU_FLAG_TOGGLE
-                              |TimerBoxAppletView::MENU_FLAG_POPUP
+                              W32AppletWindow::MENU_FLAG_TOGGLE
+                              |W32AppletWindow::MENU_FLAG_POPUP
                               |(core->get_operation_mode()
                                 == OPERATION_MODE_QUIET
-                                ? TimerBoxAppletView::MENU_FLAG_SELECTED
+                                ? W32AppletWindow::MENU_FLAG_SELECTED
                                 : 0));
       w32aw->add_menu(_("_Mode"), 0, 0);
 
 #ifdef HAVE_DISTRIBUTION
       w32aw->add_menu(_("_Connect"), MENU_COMMAND_NETWORK_CONNECT,
-                              TimerBoxAppletView::MENU_FLAG_TOGGLE
-                              |TimerBoxAppletView::MENU_FLAG_POPUP);
+                              W32AppletWindow::MENU_FLAG_TOGGLE
+                              |W32AppletWindow::MENU_FLAG_POPUP);
       w32aw->add_menu(_("_Disconnect"),
                               MENU_COMMAND_NETWORK_DISCONNECT,
-                              TimerBoxAppletView::MENU_FLAG_TOGGLE
-                              |TimerBoxAppletView::MENU_FLAG_POPUP);
+                              W32AppletWindow::MENU_FLAG_TOGGLE
+                              |W32AppletWindow::MENU_FLAG_POPUP);
       w32aw->add_menu(_("_Reconnect"), MENU_COMMAND_NETWORK_RECONNECT,
-                              TimerBoxAppletView::MENU_FLAG_TOGGLE
-                              |TimerBoxAppletView::MENU_FLAG_POPUP);
+                              W32AppletWindow::MENU_FLAG_TOGGLE
+                              |W32AppletWindow::MENU_FLAG_POPUP);
       w32aw->add_menu(_("Show _log"), MENU_COMMAND_NETWORK_LOG,
-                              TimerBoxAppletView::MENU_FLAG_TOGGLE
-                              |TimerBoxAppletView::MENU_FLAG_POPUP
+                              W32AppletWindow::MENU_FLAG_TOGGLE
+                              |W32AppletWindow::MENU_FLAG_POPUP
                               |(network_log_dialog != NULL
-                                ? TimerBoxAppletView::MENU_FLAG_SELECTED
+                                ? W32AppletWindow::MENU_FLAG_SELECTED
                                 : 0));
       w32aw->add_menu(_("_Network"), 0, 0);
 #endif
