@@ -1,6 +1,6 @@
 // TimerBoxView.hh --- All timers
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -46,7 +46,7 @@ public:
                             int secondary_value, int secondary_max) = 0;
   virtual void set_tip(std::string tip) = 0;
   virtual void set_icon(IconType icon) = 0;
-  virtual void update() = 0;
+  virtual void update_view() = 0;
   virtual void set_enabled(bool enabled) = 0;
 };
 

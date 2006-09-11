@@ -65,7 +65,7 @@ static const char rcsid[] = "$Id$";
 
 #ifdef WIN32
 #include <gdk/gdkwin32.h>
-#include "TimerBoxAppletView.hh"
+#include "W32AppletWindow.hh"
 #endif
 
 Menus *Menus::instance = NULL;
@@ -94,7 +94,7 @@ enum
  *  \param control Interface to the controller.
  */
 Menus::Menus() :
-#ifdef HAVE_GNOME  
+#if defined(HAVE_GNOME) || defined(WIN32)
   applet_window(NULL),
 #endif
 #ifdef HAVE_DISTRIBUTION
@@ -419,57 +419,58 @@ Menus::resync_applet()
 
       HWND cmd_win = (HWND) GDK_WINDOW_HWND( main_window
                                              ->Gtk::Widget::gobj()->window);
-      applet_window->init_menu(cmd_win);
+      W32AppletWindow *w32aw = static_cast<W32AppletWindow*>(applet_window);
+      w32aw->init_menu(cmd_win);
 
-      applet_window->add_menu(_("Preferences"), MENU_COMMAND_PREFERENCES, 0);
-      applet_window->add_menu(_("_Rest break"), MENU_COMMAND_REST_BREAK, 0);
-      applet_window->add_menu(_("Exercises"), MENU_COMMAND_EXERCISES, 0);
+      w32aw->add_menu(_("Preferences"), MENU_COMMAND_PREFERENCES, 0);
+      w32aw->add_menu(_("_Rest break"), MENU_COMMAND_REST_BREAK, 0);
+      w32aw->add_menu(_("Exercises"), MENU_COMMAND_EXERCISES, 0);
 
 
-      applet_window->add_menu(_("_Normal"), MENU_COMMAND_MODE_NORMAL,
+      w32aw->add_menu(_("_Normal"), MENU_COMMAND_MODE_NORMAL,
                               TimerBoxAppletView::MENU_FLAG_TOGGLE
                               |TimerBoxAppletView::MENU_FLAG_POPUP
                               |(core->get_operation_mode()
                                 == OPERATION_MODE_NORMAL
                                 ? TimerBoxAppletView::MENU_FLAG_SELECTED
                                 : 0));
-      applet_window->add_menu(_("_Suspended"), MENU_COMMAND_MODE_SUSPENDED,
+      w32aw->add_menu(_("_Suspended"), MENU_COMMAND_MODE_SUSPENDED,
                               TimerBoxAppletView::MENU_FLAG_TOGGLE
                               |TimerBoxAppletView::MENU_FLAG_POPUP
                               |(core->get_operation_mode()
                                 == OPERATION_MODE_SUSPENDED
                                 ? TimerBoxAppletView::MENU_FLAG_SELECTED
                                 : 0));
-      applet_window->add_menu(_("Q_uiet"), MENU_COMMAND_MODE_QUIET,
+      w32aw->add_menu(_("Q_uiet"), MENU_COMMAND_MODE_QUIET,
                               TimerBoxAppletView::MENU_FLAG_TOGGLE
                               |TimerBoxAppletView::MENU_FLAG_POPUP
                               |(core->get_operation_mode()
                                 == OPERATION_MODE_QUIET
                                 ? TimerBoxAppletView::MENU_FLAG_SELECTED
                                 : 0));
-      applet_window->add_menu(_("_Mode"), 0, 0);
+      w32aw->add_menu(_("_Mode"), 0, 0);
 
 #ifdef HAVE_DISTRIBUTION
-      applet_window->add_menu(_("_Connect"), MENU_COMMAND_NETWORK_CONNECT,
+      w32aw->add_menu(_("_Connect"), MENU_COMMAND_NETWORK_CONNECT,
                               TimerBoxAppletView::MENU_FLAG_TOGGLE
                               |TimerBoxAppletView::MENU_FLAG_POPUP);
-      applet_window->add_menu(_("_Disconnect"),
+      w32aw->add_menu(_("_Disconnect"),
                               MENU_COMMAND_NETWORK_DISCONNECT,
                               TimerBoxAppletView::MENU_FLAG_TOGGLE
                               |TimerBoxAppletView::MENU_FLAG_POPUP);
-      applet_window->add_menu(_("_Reconnect"), MENU_COMMAND_NETWORK_RECONNECT,
+      w32aw->add_menu(_("_Reconnect"), MENU_COMMAND_NETWORK_RECONNECT,
                               TimerBoxAppletView::MENU_FLAG_TOGGLE
                               |TimerBoxAppletView::MENU_FLAG_POPUP);
-      applet_window->add_menu(_("Show _log"), MENU_COMMAND_NETWORK_LOG,
+      w32aw->add_menu(_("Show _log"), MENU_COMMAND_NETWORK_LOG,
                               TimerBoxAppletView::MENU_FLAG_TOGGLE
                               |TimerBoxAppletView::MENU_FLAG_POPUP
                               |(network_log_dialog != NULL
                                 ? TimerBoxAppletView::MENU_FLAG_SELECTED
                                 : 0));
-      applet_window->add_menu(_("_Network"), 0, 0);
+      w32aw->add_menu(_("_Network"), 0, 0);
 #endif
-      applet_window->add_menu(_("Statistics"), MENU_COMMAND_STATISTICS, 0);
-      applet_window->add_menu(_("About..."), MENU_COMMAND_ABOUT, 0);
+      w32aw->add_menu(_("Statistics"), MENU_COMMAND_STATISTICS, 0);
+      w32aw->add_menu(_("About..."), MENU_COMMAND_ABOUT, 0);
     }
 #endif
 

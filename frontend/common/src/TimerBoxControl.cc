@@ -113,7 +113,7 @@ TimerBoxControl::update()
   
   // Update the timer widgets.
   update_widgets();
-  view->update();
+  view->update_view();
 }
 
 

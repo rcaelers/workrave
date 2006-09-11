@@ -397,7 +397,7 @@ TimerBoxGtkView::set_icon(IconType icon)
 }
 
 void
-TimerBoxGtkView::update()
+TimerBoxGtkView::update_view()
 {
   if (reconfigure)
     {

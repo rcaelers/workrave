@@ -61,10 +61,10 @@ public:
   static Menus *get_instance();
 
   void set_main_window(MainWindow *main);
-#if defined(HAVE_GNOME)
+#if defined(HAVE_GNOME) || defined(WIN32)
   void set_applet_window(AppletWindow *applet);
-#elif defined(WIN32)
-  void set_applet_window(TimerBoxAppletView *applet);
+#endif  
+#if defined(WIN32)
   void on_applet_command(short cmd);
 #endif
   void resync_applet();
@@ -119,12 +119,9 @@ private:
   //! The one and only instance
   static Menus *instance;
   
-#if defined(HAVE_GNOME)
+#if defined(HAVE_GNOME) || defined(WIN32)
   //! The applet windows
   AppletWindow *applet_window;
-#elif defined(WIN32)
-  //! The applet windows
-  TimerBoxAppletView *applet_window;
 #endif
 
 #ifdef HAVE_DISTRIBUTION
@@ -160,15 +157,9 @@ Menus::set_main_window(MainWindow *main)
 }
 
 
-#if defined(HAVE_GNOME)
+#if defined(HAVE_GNOME) || defined(WIN32)
 inline void
 Menus::set_applet_window(AppletWindow *applet)
-{
-  applet_window = applet;
-}
-#elif defined(WIN32)
-inline void
-Menus::set_applet_window(TimerBoxAppletView *applet)
 {
   applet_window = applet;
 }

@@ -299,7 +299,7 @@ GUI::on_timer()
   if (applet_window != NULL)
     {
       applet_window->set_timers_tooltip(tip);
-      applet_window->update();
+      applet_window->update_applet();
     }
 
   if (status_icon)
