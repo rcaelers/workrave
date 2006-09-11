@@ -55,7 +55,7 @@ sourcesnodistkde =
 endif
 
 # Additional X11 sources.
-sourcesx = 		AppletWindow.cc eggtrayicon.c
+sourcesx = 		X11AppletWindow.cc eggtrayicon.c
 
 # Additional Win32 sources.
 sourceswin32 = 		resource.rc
@@ -82,7 +82,7 @@ if HAVE_GNOME
 extrasources +=		$(sourcesgnome)
 extranodistsources +=	$(sourcesgnome_idl)
 
-AppletWindow.cc:	$(sourcesgnome_idl)
+X11AppletWindow.cc:	$(sourcesgnome_idl)
 GUI.cc:			$(sourcesgnome_idl)
 else
 extrasources +=		$(sourcesnognome)
@@ -151,6 +151,7 @@ endif
 #endif
 
 workrave_SOURCES = \
+			AppletWindow.cc \
 			BreakWindow.cc \
 			DailyLimitWindow.cc \
 			GUI.cc \

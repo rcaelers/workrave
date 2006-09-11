@@ -112,15 +112,13 @@ public:
   bool bound_head(int &x, int &y, int width, int height, int head);
   void interrupt_grab();
   
-#ifdef HAVE_X  
   AppletWindow *get_applet_window() const;
-#endif  
   MainWindow *get_main_window() const;
   Gtk::Tooltips *get_tooltips() const;
   SoundPlayerInterface *get_sound_player() const;
 
 private:
-  std::string get_tooltip();
+  std::string get_timers_tooltip();
   bool on_timer();
   void init_debug();
   void init_nls();
@@ -199,10 +197,8 @@ private:
   //! The command line arguments.
   char **argv;
 
-#ifdef HAVE_X  
   //! The applet window.
   AppletWindow *applet_window;
-#endif  
 
   //! The main window, shows the timers.
   MainWindow *main_window;
@@ -267,14 +263,12 @@ GUI::get_tooltips() const
 }
 
 
-#ifdef HAVE_X
 //! Returns the applet window.
 inline AppletWindow *
 GUI::get_applet_window() const
 {
   return applet_window;
 }
-#endif
 
 
 //! Returns the main window.

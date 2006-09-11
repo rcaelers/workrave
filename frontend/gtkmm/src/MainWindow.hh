@@ -146,8 +146,6 @@ public:
   void win32_set_tray_tooltip(string tip);
   void win32_set_tray_icon(TimerBoxView::IconType icon);
 
-  TimerBoxControl *get_win32_timer_box_control() const;
-  
 private:
   void win32_show(bool b);
   void win32_init();
@@ -171,20 +169,10 @@ private:
   HICON suspended_icon;
   HICON quiet_icon;
   
-  TimerBoxAppletView win32_timer_box_view;
-  TimerBoxControl *win32_timer_box_control;
-
   SigC::Connection timeout_connection;
 #endif
 };
 
-#ifdef WIN32
-inline TimerBoxControl *
-MainWindow::get_win32_timer_box_control() const
-{
-  return win32_timer_box_control;
-}
-#endif
 
 // inline bool
 // MainWindow::get_iconified() const

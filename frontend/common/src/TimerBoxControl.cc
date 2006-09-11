@@ -193,7 +193,6 @@ TimerBoxControl::update_widgets()
 
   //FIXME: duplicate
   char *labels[] = { _("Micro-break"), _("Rest break"), _("Daily limit") };
-  string tip = "Workrave";
   
   for (int count = 0; count < BREAK_ID_SIZEOF; count++)
     {
@@ -244,11 +243,6 @@ TimerBoxControl::update_widgets()
             {
               text = Text::time_to_string(activeTime);
             }
-
-          tip += "\n";
-          tip += labels[count];
-          tip += ": " + text;
-          
           // And set the bar.
           secondary_val = secondary_max = 0;
           secondary_color = TimeBarInterface::COLOR_ID_INACTIVE;
@@ -283,8 +277,6 @@ TimerBoxControl::update_widgets()
                          primary_color, primary_val, primary_max,
                          secondary_color, secondary_val, secondary_max);
     }
-#waring FIXME: Tooltip code moved to GUI::get_tooltip(), still to be removed here
-  view->set_tip(tip);
 }
 
 

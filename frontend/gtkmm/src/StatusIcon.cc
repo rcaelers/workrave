@@ -96,7 +96,7 @@ void StatusIcon::popup_menu_callback(GtkStatusIcon *,
   static_cast<StatusIcon*>(callback_data)->on_popup_menu(button, activate_time);
 }
 
-void StatusIcon::set_tooltip(std::string& tip)
+void StatusIcon::set_timers_tooltip(std::string& tip)
 {
   status_icon->set_tooltip(tip);
 }

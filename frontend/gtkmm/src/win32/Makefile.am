@@ -1,8 +1,8 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
 #
-# Time-stamp: <2005-11-03 19:46:15 robc>
+# Time-stamp: <2006-09-11 22:33:58 workrave>
 #
 # $Id$
 #
@@ -19,6 +19,7 @@ libworkrave_frontend_gtkmm_win32_a_SOURCES = \
 			dll_hell.c \
 			TimerBoxAppletView.cc \
 			DesktopWindow.cc \
+			W32AppletWindow.cc \
 			W32Compat.cc
 
 libworkrave_frontend_gtkmm_win32_a_CFLAGS = \

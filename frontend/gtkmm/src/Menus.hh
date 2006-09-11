@@ -45,7 +45,7 @@ class TimerBoxAppletView;
 #include <gtkmm/checkmenuitem.h>
 
 
-#define MAX_CHECKMENUS 4
+#define MAX_CHECKMENUS (OPERATION_MODE_SIZEOF+1)
 
 class Menus :
   public SigC::Object
@@ -71,7 +71,7 @@ public:
   
 private:
   void sync_mode_menu(int mode);
-  void sync_tray_menu(bool active);
+  void sync_log_menu(bool active);
   void set_operation_mode(OperationMode m);
   
 #ifdef HAVE_DISTRIBUTION

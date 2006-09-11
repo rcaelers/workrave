@@ -352,9 +352,9 @@ Menus::sync_mode_menu(int mode)
 }
 
 void
-Menus::sync_tray_menu(bool active)
+Menus::sync_log_menu(bool active)
 {
-  TRACE_ENTER("sync_tray_menu");
+  TRACE_ENTER("sync_log_menu");
 
   static bool syncing = false;
   if (syncing)
@@ -829,7 +829,7 @@ Menus::on_menu_network_log(bool active)
           network_log_dialog = new NetworkLogDialog();
           network_log_dialog->signal_response().connect(MEMBER_SLOT(*this, &Menus::on_network_log_response));
           
-          sync_tray_menu(active);
+          sync_log_menu(active);
 
           network_log_dialog->run();
         }
@@ -840,7 +840,7 @@ Menus::on_menu_network_log(bool active)
       network_log_dialog->hide_all();
       delete network_log_dialog;
       network_log_dialog = NULL;
-      sync_tray_menu(active);
+      sync_log_menu(active);
     }
 
 
@@ -888,7 +888,7 @@ Menus::on_network_log_response(int response)
   
   network_log_dialog->hide_all();
 
-  sync_tray_menu(false);
+  sync_log_menu(false);
   // done by gtkmm ??? delete network_log_dialog;
   network_log_dialog = NULL;
 }

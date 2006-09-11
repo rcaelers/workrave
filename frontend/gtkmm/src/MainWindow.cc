@@ -122,7 +122,6 @@ MainWindow::~MainWindow()
   TRACE_ENTER("MainWindow::~MainWindow");
   delete timer_box_control;
 #ifdef WIN32
-  delete win32_timer_box_control;
   win32_exit();
 #endif
 #ifdef HAVE_X
@@ -165,10 +164,6 @@ MainWindow::init()
   Gtk::Window::set_default_icon_list(icon_list);
     
   enabled = TimerBoxControl::is_enabled("main_window");
-#ifdef WIN32
-  win32_timer_box_control
-    = new TimerBoxControl("applet", win32_timer_box_view);
-#endif
 
   Menus *menus = Menus::get_instance();
   menus->set_main_window(this);
@@ -210,9 +205,6 @@ MainWindow::init()
 #ifdef WIN32
 
   win32_init();
-  menus->set_applet_window(&win32_timer_box_view);
-  menus->resync_applet();
-
   set_gravity(Gdk::GRAVITY_STATIC); 
   set_position(Gtk::WIN_POS_NONE);
 
@@ -313,9 +305,6 @@ void
 MainWindow::update()
 {
   timer_box_control->update();
-#ifdef WIN32
-  win32_timer_box_control->update();
-#endif
 }
 
 
@@ -605,6 +594,7 @@ win32_filter_func (void     *xevent,
       }
       break;
 
+#warning FIXME: This code to be moved to W32AppletWindow somehow
     case WM_USER:
       {
         Menus *menus = Menus::get_instance();
@@ -613,6 +603,8 @@ win32_filter_func (void     *xevent,
       }
       break;
 
+#warning FIXME: This code to be moved to W32AppletWindow somehow
+#if 0
     case WM_USER + 1:
       {
         GUI *gui = GUI::get_instance(); 
@@ -627,6 +619,7 @@ win32_filter_func (void     *xevent,
         ret = GDK_FILTER_REMOVE;
       }
       break;
+#endif
     }
 
   TRACE_EXIT();

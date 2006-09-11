@@ -54,7 +54,7 @@ static const char rcsid[] = "$Id$";
 #include "StatusIcon.hh"
 
 #ifdef HAVE_X
-#include "AppletWindow.hh"
+#include "X11AppletWindow.hh"
 #endif
 
 #ifdef HAVE_GCONF
@@ -78,6 +78,7 @@ static const char rcsid[] = "$Id$";
 #ifdef WIN32
 #include "crashlog.h"
 #include "W32Compat.hh"
+#include "W32AppletWindow.hh"
 #endif
 
 #include <gtkmm/main.h>
@@ -104,9 +105,7 @@ GUI::GUI(int argc, char **argv)  :
   active_prelude_count(0),
   response(NULL),
   active_break_id(BREAK_ID_NONE),
-#ifdef HAVE_X
   applet_window(NULL),
-#endif  
   main_window(NULL),
   tooltips(NULL),
   break_window_destroy(false),
@@ -149,9 +148,7 @@ GUI::~GUI()
   delete core;
   delete main_window;
 
-#ifdef HAVE_X
   delete applet_window;
-#endif
   
   delete [] prelude_windows;
   delete [] break_windows;
@@ -223,10 +220,8 @@ GUI::main()
   delete main_window;
   main_window = NULL;
 
-#ifdef HAVE_X
   delete applet_window;
   applet_window = NULL;
-#endif  
 
 #ifdef WIN32
   // Disable Windows structural exception handling.
@@ -289,7 +284,7 @@ GUI::toggle_main_window()
 bool
 GUI::on_timer()
 {
-  std::string tip = get_tooltip();
+  std::string tip = get_timers_tooltip();
   
   if (core != NULL)
     {
@@ -301,16 +296,15 @@ GUI::on_timer()
       main_window->update();
     }
 
-#ifdef HAVE_X
   if (applet_window != NULL)
     {
+      applet_window->set_timers_tooltip(tip);
       applet_window->update();
     }
-#endif
 
   if (status_icon)
     {
-      status_icon->set_tooltip(tip);
+      status_icon->set_timers_tooltip(tip);
     }
   
   heartbeat_signal();
@@ -729,10 +723,14 @@ GUI::init_gui()
   // Status icon
   status_icon = new StatusIcon(*main_window);
   
-#ifdef HAVE_X  
   // The applet window.
-  applet_window = new AppletWindow();
+  applet_window = new
+#ifdef HAVE_X  
+    X11AppletWindow
+#else
+    W32AppletWindow
 #endif
+    ();
   
   // Periodic timer.
   Glib::signal_timeout().connect(MEMBER_SLOT(*this, &GUI::on_timer), 1000);
@@ -1255,7 +1253,7 @@ GUI::bound_head(int &x, int &y, int width, int height, int head)
 
 
 std::string
-GUI::get_tooltip()
+GUI::get_timers_tooltip()
 {
   //FIXME: duplicate
   char *labels[] = { _("Micro-break"), _("Rest break"), _("Daily limit") };

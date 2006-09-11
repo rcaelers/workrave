@@ -1,4 +1,4 @@
-// AppletWindow.hh --- Main info Window
+// AppletWindow.hh --- Applet window
 //
 // Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
@@ -20,135 +20,37 @@
 #define APPLETWINDOW_HH
 
 #include "preinclude.h"
-#include <stdio.h>
-
-#ifdef HAVE_GTKMM24
-#include <sigc++/compatibility.h>
-#endif
-
-#include "ConfiguratorListener.hh"
-
-#ifdef HAVE_GNOME
-#include <gnome.h>
-#include <bonobo.h>
-#include <bonobo/bonobo-xobject.h>
-#include "Workrave-Applet.h"
-#include "Workrave-Control.h"
-#endif
-
-#include <gtkmm/bin.h>
-#include <gtkmm/menu.h>
-#include <gtkmm/plug.h>
-#include <gtkmm/eventbox.h>
 
 class TimerBoxControl;
-class TimerBoxGtkView;
+class TimerBoxView;
 
-class AppletWindow :
-  public ConfiguratorListener,
-  public SigC::Object
+class AppletWindow 
 {
 public:  
-  enum AppletMode { APPLET_DISABLED, APPLET_TRAY, APPLET_GNOME, APPLET_KDE };
+  enum AppletMode
+    {
+      APPLET_DISABLED,
+      APPLET_TRAY,
+      APPLET_GNOME,
+      APPLET_KDE,
+      APPLET_W32
+    };
 
   AppletWindow();
   virtual ~AppletWindow();
 
-  void update();
-  void fire_gnome_applet();
-  void fire_kde_applet();
+  virtual void update();
 
-  AppletMode get_applet_mode() const;
+  virtual AppletMode get_applet_mode() const = 0;
+  virtual void set_timers_tooltip(std::string& tip);
   
-  void on_menu_restbreak_now();
-  void button_clicked(int button);
-#ifdef HAVE_GNOME
-  void set_menu_active(int menu, bool active);
-  bool get_menu_active(int menu);
-  void set_applet_vertical(bool vertical);
-  void set_applet_size(int size);
-  void set_applet_control(GNOME_Workrave_AppletControl applet_control);
-  void set_applet_background(int type, GdkColor &color, long xid);
-#endif
-
-  void config_changed_notify(std::string key);
-  void read_configuration();
-  
-private:
+protected:
   //! Box container all the timers.
-  TimerBoxGtkView *timer_box_view;
+  TimerBoxView *timer_box_view;
   
   //! Box container controller.
   TimerBoxControl *timer_box_control;
 
-  //! Current applet mode.
-  AppletMode mode;
-
-  //! The Gtk+ plug in the panel.
-  Gtk::Plug *plug;
-
-  //! Container to put the timers in..
-  Gtk::Bin *container;
-  
-  //! The system tray menu.
-  Gtk::Menu *tray_menu;
-
-#ifdef HAVE_GNOME
-  // 
-  GNOME_Workrave_AppletControl applet_control;
-#endif
-
-  //! Retry to initialize the panel again?
-  bool retry_init;
-
-  //! Allign break vertically.
-  bool applet_vertical;
-
-  //! Size of the applet
-  int applet_size;
-
-  //! Applet enabled?
-  bool applet_enabled;
-
-#ifdef HAVE_KDE
-#ifdef HAVE_GTKMM24
-  Gtk::Requisition last_size;
-#else
-  GtkRequisition last_size;
-#endif
-#endif
-  
-private:
-  void init();
-  void init_applet();
-  bool init_tray_applet();
-  void destroy_applet();
-  void destroy_tray_applet();
-  void set_mainwindow_applet_active(bool a);
-    
-#ifdef HAVE_GNOME
-  bool init_gnome_applet();
-  void destroy_gnome_applet();
-  void setbackground(int type,
-                     GtkRcStyle * rc_style,
-                     GtkWidget * w, 
-                     GdkColor * color,
-                     GdkPixmap * pixmap);
-#endif
-
-#if defined(HAVE_GNOME) || defined(HAVE_KDE)
-  static gboolean destroy_event(GtkWidget *widget, GdkEvent *event, gpointer user_data);
-#endif
-  
-#ifdef HAVE_KDE
-  bool init_kde_applet();
-  void destroy_kde_applet();
-#endif
-  // Events.
-  void on_embedded();
-  bool on_button_press_event(GdkEventButton *event);
-  bool on_delete_event(GdkEventAny*);
-  bool delete_event(GdkEventAny *event);
 };
 
 #endif // APPLETWINDOW_HH
