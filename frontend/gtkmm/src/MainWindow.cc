@@ -396,7 +396,7 @@ MainWindow::on_delete_event(GdkEventAny *)
   AppletControl *applet_control = gui->get_applet_control();
   if (applet_control != NULL)
     {
-      terminate = applet_control->is_visible();
+      terminate = !applet_control->is_visible();
     }
   
   if (terminate)

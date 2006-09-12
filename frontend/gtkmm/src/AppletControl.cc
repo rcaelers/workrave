@@ -51,7 +51,8 @@ static const char rcsid[] = "$Id$";
 #include "ConfiguratorInterface.hh"
 
 AppletControl::AppletControl()
-  : enabled(false)
+  : enabled(false),
+    delayed_show(-1)
 {
   for (int i = 0; i < APPLET_SIZE; i++)
     {
@@ -70,6 +71,7 @@ AppletControl::~AppletControl()
           applets[i]->deactivate_applet();
           applets[i]->cleanup_applet();
           delete applets[i];
+          applets[i] = NULL;
         }
     }
 }
@@ -77,11 +79,6 @@ AppletControl::~AppletControl()
 void
 AppletControl::init()
 {
-  // Read configuration and start monitoring it.
-  read_configuration();
-  ConfiguratorInterface *config = CoreFactory::get_configurator();
-  config->add_listener(TimerBoxControl::CFG_KEY_TIMERBOX + "applet", this);
-
 #ifdef HAVE_KDE
   applets[APPLET_KDE] = new KdeAppletWindow(this);
 #endif
@@ -106,11 +103,11 @@ AppletControl::init()
         }
     }
   
+  // Read configuration and start monitoring it.
+  ConfiguratorInterface *config = CoreFactory::get_configurator();
+  config->add_listener(TimerBoxControl::CFG_KEY_TIMERBOX + "applet", this);
+
   read_configuration();
-  if (enabled)
-    {
-      show();
-    }
 }
 
 
@@ -147,13 +144,16 @@ AppletControl::show()
     }
   
 #ifdef HAVE_X
-  if (specific)
+  if (applets[APPLET_TRAY] != NULL)
     {
-      applets[APPLET_TRAY]->deactivate_applet();
-    }
-  else
-    {
-      applets[APPLET_TRAY]->activate_applet();
+      if (specific)
+        {
+          applets[APPLET_TRAY]->deactivate_applet();
+        }
+      else
+        {
+          applets[APPLET_TRAY]->activate_applet();
+        }
     }
 #endif
   check_visible();
@@ -175,14 +175,18 @@ AppletControl::show(AppletType type)
     }
 
 #ifdef HAVE_X
-  if ((type == APPLET_KDE || type == APPLET_GNOME)
-      && specific)
+  if (applets[APPLET_TRAY] != NULL)
     {
-      applets[APPLET_TRAY]->deactivate_applet();
-    }
-  else
-    {
-      applets[APPLET_TRAY]->activate_applet();
+      if ((type == APPLET_KDE || type == APPLET_GNOME)
+          && specific)
+        
+        {
+          applets[APPLET_TRAY]->deactivate_applet();
+        }
+      else
+        {
+          applets[APPLET_TRAY]->activate_applet();
+        }
     }
 #endif
   
@@ -218,9 +222,12 @@ AppletControl::activated(AppletType type)
   visible[type] = true;
 
 #ifdef HAVE_X
-  if (type == APPLET_KDE || type == APPLET_GNOME)
+  if (applets[APPLET_TRAY] != NULL)
     {
-      applets[APPLET_TRAY]->deactivate_applet();
+      if (type == APPLET_KDE || type == APPLET_GNOME)
+        {
+          applets[APPLET_TRAY]->deactivate_applet();
+        }
     }
 #endif
 
@@ -234,13 +241,11 @@ AppletControl::deactivated(AppletType type)
 {
   visible[type] = false;
 
-#ifdef HAVE_X
-  if (type == APPLET_TRAY)
+  if (!is_visible())
     {
-      show();
+      delayed_show = 5;
     }
-#endif
-
+  
   check_visible();
 }
 
@@ -269,6 +274,16 @@ AppletControl::is_visible()
 void
 AppletControl::heartbeat()
 {
+  if (delayed_show > 0)
+    {
+      delayed_show--;
+    }
+  else if (delayed_show == 0)
+    {
+      delayed_show = -1;
+      show();
+    }
+  
   for (int i = 0; i < APPLET_SIZE; i++)
     {
       if (applets[i] != NULL && visible[i])

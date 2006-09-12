@@ -96,108 +96,113 @@ GnomeAppletWindow::activate_applet()
   TRACE_ENTER("GnomeAppletWindow::init_gnome_applet");
   bool ok = true;
 
-  // Initialize bonobo activation.
-  bonobo_activate();
-
-  CORBA_Environment ev;
-  CORBA_exception_init (&ev);
-
-  // Connect to the applet.
-  // FIXME: leak
-  if (applet_control == NULL)
+  if (!applet_active)
     {
-      applet_control = bonobo_activation_activate_from_id("OAFIID:GNOME_Workrave_AppletControl",
-                                                          Bonobo_ACTIVATION_FLAG_EXISTING_ONLY, NULL, &ev);
-    }
+
+      // Initialize bonobo activation.
+      bonobo_activate();
+
+      CORBA_Environment ev;
+      CORBA_exception_init (&ev);
+
+      // Connect to the applet.
+      // FIXME: leak
+      if (applet_control == NULL)
+        {
+          applet_control = bonobo_activation_activate_from_id("OAFIID:GNOME_Workrave_AppletControl",
+                                                              Bonobo_ACTIVATION_FLAG_EXISTING_ONLY, NULL, &ev);
+        }
   
-  // Socket ID of the applet.
-  long id = 0;
-  if (applet_control != NULL && !BONOBO_EX(&ev))
-    {
-      id = GNOME_Workrave_AppletControl_get_socket_id(applet_control, &ev);
-      ok = !BONOBO_EX(&ev);
-    }
-
-  if (ok)
-    {
-      // Retrieve applet size.
-      applet_size = GNOME_Workrave_AppletControl_get_size(applet_control, &ev);
-      ok = !BONOBO_EX(&ev);
-    }
-
-  if (ok)
-    {
-      // Retrieve applet orientation.
-      applet_vertical =  GNOME_Workrave_AppletControl_get_vertical(applet_control, &ev);
-      ok = !BONOBO_EX(&ev);
-    }
-
-
-  if (ok)
-    {
-      // Initialize applet GUI.
-      
-      Gtk::Alignment *frame = new Gtk::Alignment(1.0, 1.0, 0.0, 0.0);
-      frame->set_border_width(2);
-
-      container = frame;
-
-      plug = new Gtk::Plug(id);
-      plug->add(*frame);
-
-      plug->set_events(plug->get_events() | Gdk::BUTTON_PRESS_MASK | Gdk::BUTTON_RELEASE_MASK);
-      
-      plug->signal_embedded().connect(MEMBER_SLOT(*this, &GnomeAppletWindow::on_embedded));
-      plug->signal_delete_event().connect(MEMBER_SLOT(*this, &GnomeAppletWindow::delete_event));
-
-      // Gtkmm does not wrap this event....
-      g_signal_connect(G_OBJECT(plug->gobj()), "destroy-event",
-                       G_CALLBACK(GnomeAppletWindow::destroy_event), this);
-      
-      view = manage(new TimerBoxGtkView());
-      timer_box_view = view;
-      timer_box_control = new TimerBoxControl("applet", *timer_box_view);
-      
-      view->set_geometry(applet_vertical, applet_size);
-      view->show_all();
-      
-      plug->signal_button_press_event().connect(MEMBER_SLOT(*this, &GnomeAppletWindow::on_button_press_event));
-      plug->signal_button_release_event().connect(MEMBER_SLOT(*this, &GnomeAppletWindow::on_button_press_event));
-      
-      container->add(*view);
-      container->show_all();
-      plug->show_all();
-
-      Menus *menus = Menus::get_instance();
-
-      // Tray menu
-      if (tray_menu == NULL)
+      // Socket ID of the applet.
+      long id = 0;
+      if (applet_control != NULL && !BONOBO_EX(&ev))
         {
-          tray_menu = menus->create_tray_menu();
+          id = GNOME_Workrave_AppletControl_get_socket_id(applet_control, &ev);
+          ok = !BONOBO_EX(&ev);
         }
-      
-      if (menus != NULL)
+
+      if (ok)
         {
-          menus->resync_applet();
+          // Retrieve applet size.
+          applet_size = GNOME_Workrave_AppletControl_get_size(applet_control, &ev);
+          ok = !BONOBO_EX(&ev);
         }
+
+      if (ok)
+        {
+          // Retrieve applet orientation.
+          applet_vertical =  GNOME_Workrave_AppletControl_get_vertical(applet_control, &ev);
+          ok = !BONOBO_EX(&ev);
+        }
+
+
+      if (ok)
+        {
+          // Initialize applet GUI.
+      
+          Gtk::Alignment *frame = new Gtk::Alignment(1.0, 1.0, 0.0, 0.0);
+          frame->set_border_width(2);
+
+          container = frame;
+
+          plug = new Gtk::Plug(id);
+          plug->add(*frame);
+
+          plug->set_events(plug->get_events() | Gdk::BUTTON_PRESS_MASK | Gdk::BUTTON_RELEASE_MASK);
+      
+          plug->signal_embedded().connect(MEMBER_SLOT(*this, &GnomeAppletWindow::on_embedded));
+          plug->signal_delete_event().connect(MEMBER_SLOT(*this, &GnomeAppletWindow::delete_event));
+
+          // Gtkmm does not wrap this event....
+          g_signal_connect(G_OBJECT(plug->gobj()), "destroy-event",
+                           G_CALLBACK(GnomeAppletWindow::destroy_event), this);
+      
+          view = manage(new TimerBoxGtkView());
+          timer_box_view = view;
+          timer_box_control = new TimerBoxControl("applet", *timer_box_view);
+      
+          view->set_geometry(applet_vertical, applet_size);
+          view->show_all();
+      
+          plug->signal_button_press_event().connect(MEMBER_SLOT(*this, &GnomeAppletWindow::on_button_press_event));
+          plug->signal_button_release_event().connect(MEMBER_SLOT(*this, &GnomeAppletWindow::on_button_press_event));
+      
+          container->add(*view);
+          container->show_all();
+          plug->show_all();
+
+          Menus *menus = Menus::get_instance();
+
+          // Tray menu
+          if (tray_menu == NULL)
+            {
+              tray_menu = menus->create_tray_menu();
+            }
+      
+          if (menus != NULL)
+            {
+              menus->resync_applet();
+            }
 
 #ifndef HAVE_EXERCISES
-      GNOME_Workrave_AppletControl_set_menu_active(applet_control, "/commands/Exercises", false, &ev);
+          GNOME_Workrave_AppletControl_set_menu_active(applet_control, "/commands/Exercises", false, &ev);
 #endif
 #ifndef HAVE_DISTRIBUTION
-      GNOME_Workrave_AppletControl_set_menu_active(applet_control, "/commands/Network", false, &ev);
+          GNOME_Workrave_AppletControl_set_menu_active(applet_control, "/commands/Network", false, &ev);
 #endif
 
-      // somehow, signal_embedded is never triggered...
-      control->activated(AppletControl::APPLET_GNOME);
-    }
+          // somehow, signal_embedded is never triggered...
+          control->activated(AppletControl::APPLET_GNOME);
+        }
 
-  if (!ok)
-    {
-      applet_control = NULL;
+      if (!ok)
+        {
+          applet_control = NULL;
+        }
+  
+      CORBA_exception_free(&ev);
     }
   
-  CORBA_exception_free(&ev);
   TRACE_EXIT();
   return ok;
 }
@@ -226,8 +231,8 @@ GnomeAppletWindow::deactivate_applet()
       applet_control = NULL; // FIXME: free memory.
     }
         
-  control->deactivated(AppletControl::APPLET_KDE);
   applet_active = false;
+  control->deactivated(AppletControl::APPLET_GNOME);
 }
 
 
@@ -237,7 +242,6 @@ GnomeAppletWindow::delete_event(GdkEventAny *event)
 {
   (void) event;
   deactivate_applet();
-  control->deactivated(AppletControl::APPLET_GNOME);
   return true;
 }
     

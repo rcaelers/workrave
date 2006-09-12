@@ -64,6 +64,8 @@ private:
 
   //!
   bool enabled;
+
+  int delayed_show;
   
 private:
   void config_changed_notify(std::string key);

@@ -245,6 +245,19 @@ AC_C_CONST
 # Checks for header files.
 AC_PATH_X
 AC_PATH_XTRA
+
+AC_CHECK_HEADER("X11/Xmu/Xmu.h",,)
+   
+LIBS_save=$LIBS
+if test -n "$ac_x_libraries"; then
+   LIBS="$LIBS -L $ac_x_libraries"
+fi
+AC_CHECK_LIB(Xtst, XRecordEnableContext,
+                   X_LIBS="$X_LIBS -lXtst" AC_DEFINE(HAVE_XRECORD,,[Define if the RECORD extension is available]),
+)
+LIBS=$LIBS_save
+
+
 AC_STDC_HEADERS
 AC_HEADER_STDC
 AC_CHECK_HEADERS([errno.h stdlib.h sys/time.h sys/select.h unistd.h])
@@ -484,15 +497,6 @@ AM_CONDITIONAL(HAVE_DBUS, test x$have_dbus = xyes)
                 
 dnl AC_CHECK_LIB(Xmu,XmuClientWindow,LIBS="$LIBS -lXmu",
 dnl    AC_MSG_ERROR(Xmu library required))
-
-AC_CHECK_HEADER("X11/Xmu/Xmu.h",,)
-   
-LIBS_save=$LIBS
-LIBS="$LIBS -L $ac_x_libraries"
-AC_CHECK_LIB(Xtst, XRecordEnableContext,
-                   X_LIBS="$X_LIBS -lXtst" AC_DEFINE(HAVE_XRECORD,,[Define if the RECORD extension is available]),
-)
-LIBS=$LIBS_save
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_CHECK_CXX_EH
