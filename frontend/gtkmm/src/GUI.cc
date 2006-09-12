@@ -51,12 +51,14 @@ static const char rcsid[] = "$Id$";
 #include "WindowHints.hh"
 #include "System.hh"
 #include "Text.hh"
-#include "StatusIcon.hh"
-#include "Menus.hh"
+#include "AppletControl.hh"
+#include "AppletWindow.hh"
 
-#ifdef HAVE_X
-#include "X11AppletWindow.hh"
+#ifdef WIN32
+#include "StatusIcon.hh"
 #endif
+
+#include "Menus.hh"
 
 #ifdef HAVE_GCONF
 #include <gconf/gconf-client.h>
@@ -66,6 +68,8 @@ static const char rcsid[] = "$Id$";
 
 #ifdef HAVE_GNOME
 #include "RemoteControl.hh"
+#include <bonobo.h>
+#include <bonobo/bonobo-xobject.h>
 #ifdef HAVE_GNOMEMM
 #include "libgnomeuimm/wrap_init.h"
 #endif
@@ -79,7 +83,6 @@ static const char rcsid[] = "$Id$";
 #ifdef WIN32
 #include "crashlog.h"
 #include "W32Compat.hh"
-#include "W32AppletWindow.hh"
 #endif
 
 #include <gtkmm/main.h>
@@ -106,7 +109,6 @@ GUI::GUI(int argc, char **argv)  :
   active_prelude_count(0),
   response(NULL),
   active_break_id(BREAK_ID_NONE),
-  applet_window(NULL),
   main_window(NULL),
   menus(0),
   tooltips(NULL),
@@ -123,7 +125,8 @@ GUI::GUI(int argc, char **argv)  :
   grab_wanted(false),
 #endif
   grab_handle(NULL),
-  status_icon(0)
+  status_icon(0),
+  applet_control(NULL)  
 {
   TRACE_ENTER("GUI:GUI");
 
@@ -150,7 +153,7 @@ GUI::~GUI()
   delete core;
   delete main_window;
 
-  delete applet_window;
+  delete applet_control;
   
   delete [] prelude_windows;
   delete [] break_windows;
@@ -222,8 +225,8 @@ GUI::main()
   delete main_window;
   main_window = NULL;
 
-  delete applet_window;
-  applet_window = NULL;
+  delete applet_control;
+  applet_control = NULL;
 
 #ifdef WIN32
   // Disable Windows structural exception handling.
@@ -298,17 +301,18 @@ GUI::on_timer()
       main_window->update();
     }
 
-  if (applet_window != NULL)
+  if (applet_control != NULL)
     {
-      applet_window->set_timers_tooltip(tip);
-      applet_window->update_applet();
+      applet_control->heartbeat();
+      applet_control->set_timers_tooltip(tip);
     }
-
+  
+#ifdef WIN32  
   if (status_icon)
     {
       status_icon->set_timers_tooltip(tip);
     }
-  
+#endif  
   heartbeat_signal();
 
   collect_garbage();
@@ -377,9 +381,10 @@ GUI::on_save_yourself(int phase, Gnome::UI::SaveStyle save_style, bool shutdown,
   args.push_back(argv[0] != NULL ? argv[0] : "workrave");
   
   bool skip = false;
-  if (applet_window != NULL)
+
+  if (applet_control != NULL)
     {
-      if (applet_window->get_applet_mode() == AppletWindow::APPLET_GNOME)
+      if (applet_control->is_visible(AppletControl::APPLET_GNOME))
         {
           skip = true;
         }
@@ -724,18 +729,24 @@ GUI::init_gui()
   // The main status window.
   main_window = new MainWindow();
 
+#ifdef WIN32  
   // Status icon
   status_icon = new StatusIcon(*main_window);
+#endif
   
   // The applet window.
-  applet_window = new
-#ifdef HAVE_X  
-    X11AppletWindow
-#else
-    W32AppletWindow
-#endif
-    ();
+  applet_control = new AppletControl();
+  applet_control->init();
+  
+#ifdef HAVE_GNOME
+  AppletWindow *applet_window = applet_control->get_applet_window(AppletControl::APPLET_GNOME);
   menus->set_applet_window(applet_window);
+#endif
+#ifdef HAVE_WIN32
+  AppletWindow *applet_window = applet_control->get_applet_window(AppletControl::APPLET_W32);
+  menus->set_applet_window(applet_window);
+#endif
+  
   
   // Periodic timer.
   Glib::signal_timeout().connect(MEMBER_SLOT(*this, &GUI::on_timer), 1000);
@@ -826,8 +837,11 @@ GUI::set_break_response(BreakResponseInterface *rep)
 void
 GUI::set_operation_mode(OperationMode m)
 {
+  (void)m;
+#ifdef WIN32  
   if (status_icon)
     status_icon->set_operation_mode(m);
+#endif  
 }
 
 void

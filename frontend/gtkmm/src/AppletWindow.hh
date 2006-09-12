@@ -39,9 +39,13 @@ public:
   AppletWindow();
   virtual ~AppletWindow();
 
+  virtual void init_applet() = 0;
+  virtual void cleanup_applet() = 0;
+  virtual bool activate_applet() = 0;
+  virtual void deactivate_applet() = 0;
+  
   virtual void update_applet();
 
-  virtual AppletMode get_applet_mode() const = 0;
   virtual void set_timers_tooltip(std::string& tip);
   
 protected:

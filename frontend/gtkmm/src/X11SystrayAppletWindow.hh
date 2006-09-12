@@ -1,4 +1,4 @@
-// KdeAppletWindow.hh --- X11 Applet Window
+// X11SystrayAppletWindow.hh --- X11 Applet Window
 //
 // Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
@@ -16,8 +16,8 @@
 // $Id$
 //
 
-#ifndef KDEAPPLETWINDOW_HH
-#define KDEAPPLETWINDOW_HH
+#ifndef X11SYSTRAYAPPLETWINDOW_HH
+#define X11SYSTRAYAPPLETWINDOW_HH
 
 #include "preinclude.h"
 #include <stdio.h>
@@ -37,21 +37,21 @@ class TimerBoxControl;
 class TimerBoxGtkView;
 class AppletControl;
 
-class KdeAppletWindow :
+class X11SystrayAppletWindow :
   public SigC::Object,
   public AppletWindow
 {
 public:  
-  KdeAppletWindow(AppletControl *control);
-  virtual ~KdeAppletWindow();
-
-  void update();
-  void fire_kde_applet();
+  X11SystrayAppletWindow(AppletControl *control);
+  virtual ~X11SystrayAppletWindow();
 
   void on_menu_restbreak_now();
   void button_clicked(int button);
 
 private:
+  //! Gtk timerbox viewer
+  TimerBoxGtkView *view;
+
   //! The Gtk+ plug in the panel.
   Gtk::Plug *plug;
 
@@ -61,19 +61,16 @@ private:
   //! The system tray menu.
   Gtk::Menu *tray_menu;
 
-  //! Allign break vertically.
+  //! Align break vertically.
   bool applet_vertical;
 
   //! Size of the applet
   int applet_size;
 
-#ifdef HAVE_GTKMM24
-  Gtk::Requisition last_size;
-#else
-  GtkRequisition last_size;
-#endif
+  //! Applet currently visible?
+  bool applet_active;
 
-  //!
+  //! Controller
   AppletControl *control;
   
 private:
@@ -82,18 +79,11 @@ private:
   bool activate_applet();
   void deactivate_applet();
     
-  static gboolean destroy_event(GtkWidget *widget, GdkEvent *event, gpointer user_data);
-  
-  // Events.
+  // Evenyts.
   void on_embedded();
   bool on_button_press_event(GdkEventButton *event);
   bool on_delete_event(GdkEventAny*);
   bool delete_event(GdkEventAny *event);
-
-  bool plug_window(int w);
-  bool get_size(int &size);
-  bool get_vertical(bool &vertical);
-  bool set_size(int width, int height);
 };
 
-#endif // KDEAPPLETWINDOW_HH
+#endif // X11SYSTRAYAPPLETWINDOW_HH

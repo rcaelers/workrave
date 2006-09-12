@@ -48,12 +48,12 @@
 class MainWindow;
 class MicroBreakWindow;
 class RestBreakWindow;
-class AppletWindow;
 class PreludeWindow;
 class BreakWindowInterface;
 class BreakResponseInterface;
 class Dispatcher;
 class StatusIcon;
+class AppletControl;
 class Menus;
 
 // Generic GUI
@@ -113,7 +113,7 @@ public:
   bool bound_head(int &x, int &y, int width, int height, int head);
   void interrupt_grab();
   
-  AppletWindow *get_applet_window() const;
+  AppletControl *get_applet_control() const;
   MainWindow *get_main_window() const;
   Gtk::Tooltips *get_tooltips() const;
   SoundPlayerInterface *get_sound_player() const;
@@ -198,9 +198,6 @@ private:
   //! The command line arguments.
   char **argv;
 
-  //! The applet window.
-  AppletWindow *applet_window;
-
   //! The main window, shows the timers.
   MainWindow *main_window;
 
@@ -248,6 +245,9 @@ private:
 
   //! Status icon
   StatusIcon *status_icon;
+
+  //! The applet controller
+  AppletControl *applet_control;
 };
 
 
@@ -266,14 +266,12 @@ GUI::get_tooltips() const
   return tooltips;
 }
 
-
 //! Returns the applet window.
-inline AppletWindow *
-GUI::get_applet_window() const
+inline AppletControl *
+GUI::get_applet_control() const
 {
-  return applet_window;
+  return applet_control;
 }
-
 
 //! Returns the main window.
 inline MainWindow *

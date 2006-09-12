@@ -25,7 +25,8 @@ static const char rcsid[] = "$Id$";
 #include "RemoteControl.hh"
 
 #include "GUI.hh"
-#include "AppletWindow.hh"
+#include "AppletControl.hh"
+#include "GnomeAppletWindow.hh"
 
 #include "Menus.hh"
 
@@ -73,16 +74,17 @@ RemoteControl::get_instance()
 
 WR_METHOD_ARGS0_IMPL(void, fire)
 {
-  GUI *gui = GUI::get_instance();
+  AppletControl *applet_control; 
+  GnomeAppletWindow *applet_window;
+  GUI *gui;
 
-  AppletWindow *applet = NULL;
-  if (gui != NULL)
+  gui = GUI::get_instance();
+  applet_control = gui->get_applet_control();
+  applet_window = (GnomeAppletWindow *) applet_control->get_applet_window(AppletControl::APPLET_GNOME);
+  
+  if (applet_window != NULL)
     {
-      applet = gui->get_applet_window();
-    }
-  if (applet != NULL)
-    {
-      applet->fire_gnome_applet();
+      applet_window->fire_gnome_applet();
     }
 }
 
@@ -214,16 +216,17 @@ WR_METHOD_ARGS0_IMPL(void, quit)
 
 WR_METHOD_ARGS1_IMPL(void, set_applet_vertical, CORBA_boolean, vertical)
 {
-  GUI *gui = GUI::get_instance();
+  AppletControl *applet_control; 
+  GnomeAppletWindow *applet_window;
+  GUI *gui;
 
-  AppletWindow *applet = NULL;
-  if (gui != NULL)
+  gui = GUI::get_instance();
+  applet_control = gui->get_applet_control();
+  applet_window = (GnomeAppletWindow *) applet_control->get_applet_window(AppletControl::APPLET_GNOME);
+
+  if (applet_window != NULL)
     {
-      applet = gui->get_applet_window();
-    }
-  if (applet != NULL)
-    {
-      applet->set_applet_vertical(vertical);
+      applet_window->set_applet_vertical(vertical);
     }
 }
 
@@ -233,14 +236,15 @@ WR_METHOD_ARGS3_IMPL(void, set_applet_background,
                      const GNOME_Workrave_WorkraveControl_Color *, color,
                      CORBA_long, xid)
 {
-  GUI *gui = GUI::get_instance();
+  AppletControl *applet_control; 
+  GnomeAppletWindow *applet_window;
+  GUI *gui;
 
-  AppletWindow *applet = NULL;
-  if (gui != NULL)
-    {
-      applet = gui->get_applet_window();
-    }
-  if (applet != NULL)
+  gui = GUI::get_instance();
+  applet_control = gui->get_applet_control();
+  applet_window = (GnomeAppletWindow *) applet_control->get_applet_window(AppletControl::APPLET_GNOME);
+  
+  if (applet_window != NULL)
     {
       GdkColor gdk_color;
       
@@ -252,47 +256,48 @@ WR_METHOD_ARGS3_IMPL(void, set_applet_background,
           gdk_color.blue = color->blue;
         }
         
-      applet->set_applet_background(type, gdk_color, xid);
+      applet_window->set_applet_background(type, gdk_color, xid);
     }
 }
 
 WR_METHOD_ARGS1_IMPL(void, set_applet_size, CORBA_long, size)
 {
-  GUI *gui = GUI::get_instance();
+  AppletControl *applet_control; 
+  GnomeAppletWindow *applet_window;
+  GUI *gui;
 
-  AppletWindow *applet = NULL;
-  if (gui != NULL)
+  gui = GUI::get_instance();
+  applet_control = gui->get_applet_control();
+  applet_window = (GnomeAppletWindow *) applet_control->get_applet_window(AppletControl::APPLET_GNOME);
+  
+  if (applet_window != NULL)
     {
-      applet = gui->get_applet_window();
-    }
-  if (applet != NULL)
-    {
-      applet->set_applet_size(size);
+      applet_window->set_applet_size(size);
     }
 }
 
 
-WR_METHOD_ARGS1_IMPL(void, set_applet, Bonobo_Unknown, applet_control)
+WR_METHOD_ARGS1_IMPL(void, set_applet, Bonobo_Unknown, bonobo_applet_control)
 {
   TRACE_ENTER("set_applet");
-  GUI *gui = GUI::get_instance();
+  AppletControl *applet_control; 
+  GnomeAppletWindow *applet_window;
+  GUI *gui;
 
-  AppletWindow *applet = NULL;
-  if (gui != NULL)
-    {
-      applet = gui->get_applet_window();
-    }
-
-  if (applet != NULL)
+  gui = GUI::get_instance();
+  applet_control = gui->get_applet_control();
+  applet_window = (GnomeAppletWindow *) applet_control->get_applet_window(AppletControl::APPLET_GNOME);
+  
+  if (applet_window != NULL)
     {
       GNOME_Workrave_AppletControl c =
-        Bonobo_Unknown_queryInterface(applet_control,
+        Bonobo_Unknown_queryInterface(bonobo_applet_control,
                                       "IDL:GNOME/Workrave/AppletControl:1.0",
                                       NULL);
       
       if (c != CORBA_OBJECT_NIL)
         {
-          applet->set_applet_control(c);
+          applet_window->set_applet_control(c);
         }
       TRACE_MSG(c);
     }
@@ -303,19 +308,17 @@ WR_METHOD_ARGS1_IMPL(void, set_applet, Bonobo_Unknown, applet_control)
 WR_METHOD_ARGS1_IMPL(void, button_clicked, CORBA_long, button)
 {
   TRACE_ENTER_MSG("button_clicked", button);
+  AppletControl *applet_control; 
+  GnomeAppletWindow *applet_window;
+  GUI *gui;
 
-  GUI *gui = GUI::get_instance();
-  assert(gui != NULL);
+  gui = GUI::get_instance();
+  applet_control = gui->get_applet_control();
+  applet_window = (GnomeAppletWindow *) applet_control->get_applet_window(AppletControl::APPLET_GNOME);
   
-  AppletWindow *applet = NULL;
-  if (gui != NULL)
+  if (applet_window != NULL)
     {
-      applet = gui->get_applet_window();
-    }
-
-  if (applet != NULL)
-    {
-      applet->button_clicked(button);
+      applet_window->button_clicked(button);
     }
   TRACE_EXIT();
 }

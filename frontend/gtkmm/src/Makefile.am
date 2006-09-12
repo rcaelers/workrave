@@ -37,7 +37,7 @@ extrasources =
 extranodistsources = 
 
 # Additional Gnome sources
-sourcesgnome = 		RemoteControl.cc
+sourcesgnome = 		RemoteControl.cc GnomeAppletWindow.cc
 sourcesgnome_idl = 	${IDL_C_GENERATED} ${IDL_A_GENERATED}
 
 # Additional non-Gnome sources.
@@ -55,10 +55,10 @@ sourcesnodistkde =
 endif
 
 # Additional X11 sources.
-sourcesx = 		X11AppletWindow.cc eggtrayicon.c
+sourcesx = 		X11SystrayAppletWindow.cc eggtrayicon.c
 
 # Additional Win32 sources.
-sourceswin32 = 		resource.rc
+sourceswin32 = 		resource.rc StatusIcon.cc
 
 # Additional distribution sources.
 DISTRIBUTION_HOME = 	../../plugin/distribution
@@ -152,6 +152,7 @@ endif
 
 workrave_SOURCES = \
 			AppletWindow.cc \
+			AppletControl.cc \
 			BreakWindow.cc \
 			DailyLimitWindow.cc \
 			GUI.cc \
@@ -167,7 +168,6 @@ workrave_SOURCES = \
 			PreferencesDialog.cc \
 			PreludeWindow.cc \
 			RestBreakWindow.cc \
-			StatusIcon.cc \
 			${STATISTICS_HOME}/gtkmm/src/StatisticsDialog.cc \
 			TimeBar.cc \
 			TimeEntry.cc \

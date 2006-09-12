@@ -38,9 +38,7 @@ static const char rcsid[] = "$Id$";
 #include <gnome.h>
 #endif
 
-#if defined(HAVE_GNOME) || defined(HAVE_KDE)
-#include "AppletWindow.hh"
-#endif
+#include "AppletControl.hh"
 
 #include "TimerBoxGtkView.hh"
 #include "TimerBoxControl.hh"
@@ -51,7 +49,9 @@ static const char rcsid[] = "$Id$";
 #include "TimeBar.hh"
 #include "GUI.hh"
 #include "Util.hh"
+#ifdef WIN32
 #include "StatusIcon.hh"
+#endif
 #include "Text.hh"
 
 #include "CoreFactory.hh"
@@ -393,11 +393,10 @@ MainWindow::on_delete_event(GdkEventAny *)
   
 #if defined(HAVE_GNOME) || defined(HAVE_KDE)
   bool terminate = true;
-  AppletWindow *applet = gui->get_applet_window();
-  if (applet != NULL)
+  AppletControl *applet_control = gui->get_applet_control();
+  if (applet_control != NULL)
     {
-      AppletWindow::AppletMode mode = applet->get_applet_mode();
-      terminate = mode == AppletWindow::APPLET_DISABLED;
+      terminate = applet_control->is_visible();
     }
   
   if (terminate)
