@@ -88,7 +88,14 @@ KdeAppletWindow::init_applet()
   TRACE_ENTER("KdeAppletWindow::init");
   TRACE_EXIT();
 }
-  
+
+
+//! Cleanup the applet window.
+void
+KdeAppletWindow::cleanup_applet()
+{
+}
+
 
 //! Initializes the native kde applet.
 void

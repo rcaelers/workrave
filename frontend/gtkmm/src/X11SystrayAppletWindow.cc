@@ -72,6 +72,11 @@ X11SystrayAppletWindow::init_applet()
   TRACE_EXIT();
 }
   
+//! Cleanup the applet window.
+void
+X11SystrayAppletWindow::cleanup_applet()
+{
+}
 
 //! Initializes the applet.
 bool

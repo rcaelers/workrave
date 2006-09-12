@@ -82,7 +82,13 @@ GnomeAppletWindow::init_applet()
   TRACE_ENTER("GnomeAppletWindow::init");
   TRACE_EXIT();
 }
-  
+
+//! Cleanup the applet window.
+void
+GnomeAppletWindow::cleanup_applet()
+{
+}
+
 //! Initializes the native gnome applet.
 bool
 GnomeAppletWindow::activate_applet()
