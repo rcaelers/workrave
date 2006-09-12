@@ -38,6 +38,18 @@ find $TARGETDIR -name "*.dll" -print | xargs $STRIP
 
 ## Gtk runtime
 
+if [ -d $CROSSROOT/lib/gtk-2.0/2.4.0 ]; then
+    GTKVER=2.4.0
+elif [ -d $CROSSROOT/lib/gtk-2.0/2.10.0 ]; then
+    GTKVER=2.10.0
+fi
+
+if [ -d $CROSSROOT/lib/pango/1.4.0 ]; then
+    PANVER=1.4.0
+elif [ -d $CROSSROOT/lib/pango/1.5.0 ]; then
+    PANVER=1.5.0
+fi
+
 TARGETDIR=$RUNTIMEDIR/runtime-gtk
 
 copy_dir  etc    gtk-2.0                                        etc
@@ -58,13 +70,21 @@ copy_dir  bin    libgtk-win32-2.0-0.dll             		lib
 copy_dir  bin    libpango-1.0-0.dll                 		lib
 copy_dir  bin    libpangoft2-1.0-0.dll              		lib
 copy_dir  bin    libpangowin32-1.0-0.dll            		lib
-#copy_dir  bin    libpangocairo-1.0-0.dll                        lib
-#copy_dir  bin    libcairo-2.dll                                 lib
-copy_dir  lib    gtk-2.0/2.4.0/immodules/*.dll                  lib
-copy_dir  lib    gtk-2.0/2.4.0/loaders/libpixbufloader-ico.dll  lib 
-copy_dir  lib    gtk-2.0/2.4.0/loaders/libpixbufloader-png.dll  lib
-copy_dir  lib    gtk-2.0/2.4.0/loaders/libpixbufloader-pnm.dll  lib
-copy_dir  lib    pango/1.4.0/modules      			lib
+copy_dir  bin    libpangocairo-1.0-0.dll                        lib
+copy_dir  bin    libcairo-2.dll                                 lib
+
+copy_dir  lib    gtk-2.0/$GTKVER/immodules/*.dll                   lib
+copy_dir  lib    gtk-2.0/$GTKVER/loaders/libpixbufloader-ico.dll   lib 
+copy_dir  lib    gtk-2.0/$GTKVER/loaders/libpixbufloader-png.dll   lib
+copy_dir  lib    gtk-2.0/$GTKVER/loaders/libpixbufloader-pnm.dll   lib
+
+if [ -f $CROSSROOT/lib/gtk-2.0/$GTKVER/engines/libwimp.dll ]; then
+    copy_dir  lib    gtk-2.0/$GTKVER/engines/libwimp.dll        lib
+    copy_dir  share  themes/*   share
+fi
+
+copy_dir  lib    pango/$PANVER/modules      			lib
+
 for lang in $ALL_LINGUAS; do
     copy_dir lib locale/$lang lib  
 done

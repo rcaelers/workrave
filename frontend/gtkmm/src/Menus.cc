@@ -341,10 +341,10 @@ Menus::sync_mode_menu(int mode)
     tray_check_menus[mode]->set_active(true);
   
 #if defined(HAVE_GNOME)
-  if (applet_window != NULL)
-    {
-      applet_window->set_menu_active(mode, true);
-    }
+//   if (applet_window != NULL)
+//     {
+//       applet_window->set_menu_active(mode, true);
+//     }
 #elif defined(WIN32)
   resync_applet();
 #endif
@@ -375,10 +375,10 @@ Menus::sync_log_menu(bool active)
     }
   
 #if defined(HAVE_GNOME)
-  if (applet_window != NULL)
-    {
-      applet_window->set_menu_active(3, active);
-    }
+//   if (applet_window != NULL)
+//     {
+//       applet_window->set_menu_active(3, active);
+//     }
 #elif defined(WIN32)
   resync_applet();
 #endif
@@ -393,28 +393,28 @@ void
 Menus::resync_applet()
 {
 #if defined(HAVE_GNOME)
-  if (applet_window != NULL)
-    {
-      CoreInterface *core = CoreFactory::get_core();
-      OperationMode mode = core->get_operation_mode();      
-      switch(mode)
-        {
-        case OPERATION_MODE_NORMAL:
-          applet_window->set_menu_active(0, true);
-          break;
-        case OPERATION_MODE_SUSPENDED:
-          applet_window->set_menu_active(1, true);
-          break;
-        case OPERATION_MODE_QUIET:
-          applet_window->set_menu_active(2, true);
-          break;
-        default:
-          break;
-        }
+//   if (applet_window != NULL)
+//     {
+//       CoreInterface *core = CoreFactory::get_core();
+//       OperationMode mode = core->get_operation_mode();      
+//       switch(mode)
+//         {
+//         case OPERATION_MODE_NORMAL:
+//           applet_window->set_menu_active(0, true);
+//           break;
+//         case OPERATION_MODE_SUSPENDED:
+//           applet_window->set_menu_active(1, true);
+//           break;
+//         case OPERATION_MODE_QUIET:
+//           applet_window->set_menu_active(2, true);
+//           break;
+//         default:
+//           break;
+//         }
 #if defined(HAVE_DISTRIBUTION)
-      applet_window->set_menu_active(3, network_log_dialog != NULL);
+//       applet_window->set_menu_active(3, network_log_dialog != NULL);
 #endif
-    }
+//     }
 #elif defined(WIN32)
   if (applet_window != NULL && main_window != NULL )
     {

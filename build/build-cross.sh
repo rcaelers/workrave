@@ -25,16 +25,22 @@ SRCDIR="$TOPDIR/source"
 
 # These are the files from the MinGW 1.1 release
 
-MINGW_URL=http://heanet.dl.sourceforge.net/sourceforge/mingw
-GCC=gcc-3.3.3-200402017-1
-GCC_ARCHIVE=gcc-core-3.3.3-200402017-1-src.tar.gz
-GCC_PATCH="gcc.patch"
-GXX_ARCHIVE=gcc-g++-3.3.3-200402017-1-src.tar.gz
-BINUTILS=binutils-2.15.90-20040222-1
+
+
+MINGW_URL=http://surfnet.dl.sourceforge.net/sourceforge/mingw
+#GCC=gcc-3.4.4-20050522-1
+#GCC_ARCHIVE=gcc-core-3.4.4-20050522-1-src.tar.gz
+#GCC_PATCH="gcc.patch"
+#GXX_ARCHIVE=gcc-g++-3.4.4-20050522-1-src.tar.gz
+GCC=gcc-3.4.5-20060117-1
+GCC_ARCHIVE=gcc-core-3.4.5-20060117-1-src.tar.gz
+GXX_ARCHIVE=gcc-g++-3.4.5-20060117-1-src.tar.gz
+
+BINUTILS=binutils-2.16.91-20060119-1
 BINUTILS_ARCHIVE=$BINUTILS-src.tar.gz
-MINGW=mingw-runtime-3.3
+MINGW=mingw-runtime-3.9
 MINGW_ARCHIVE=$MINGW.tar.gz
-W32API=w32api-2.5
+W32API=w32api-3.6
 W32API_ARCHIVE=$W32API.tar.gz
 UTILS=mingw-utils-0.3
 UTILS_ARCHIVE=mingw-utils-0.3-src.tar.gz
@@ -213,7 +219,7 @@ configure_utils()
 	mkdir "utils-$TARGET"
 	cd "utils-$TARGET"
 	echo "Configuring utils"
-	"$SRCDIR/$UTILS/configure" --prefix="$PREFIX" --target=$TARGET &> configure.log
+	"$SRCDIR/$UTILS/configure" --prefix="$PREFIX" --target=$TARGET --enable-install-libiberty &> configure.log
 	cd "$TOPDIR"
 }
 
@@ -273,28 +279,29 @@ final_tweaks()
 
         cp -a mingw32 $PREFIX/bin
         
+        # i386-mingw32msvc-dlltool --as=i386-mingw32msvc-as -k --dllname crtdll.dll --output-lib libcrtdll.a --def crtdll.def        
 	echo "Installation complete!"
 }
 
-download_files
+#download_files
 
-install_libs
+#install_libs
 
-extract_binutils
+#extract_binutils
 configure_binutils
 build_binutils
 install_binutils
 
-extract_gcc
-patch_gcc
-configure_gcc
-build_gcc
-install_gcc
-
-extract_utils
-configure_utils
-build_utils
-install_utils
-
-final_tweaks
+#extract_gcc
+#patch_gcc
+#configure_gcc
+#build_gcc
+#install_gcc
+#
+#extract_utils
+#configure_utils
+#build_utils
+#install_utils
+#
+#final_tweaks
 

@@ -1,14 +1,15 @@
-export CROSSROOT="/usr/local/cross-packages"
+export CROSSROOT="/usr/local/cross-packages$1"
 export TOOLSROOT="/usr/local/cross-tools"
 
-export CFLAGS="-I$CROSSROOT/include"
-export CXXFLAGS="-I$CROSSROOT/include"
+export CFLAGS="-I$CROSSROOT/include -g -O2"
+export CXXFLAGS="-I$CROSSROOT/include -g -O2"
 export CPPFLAGS="-I$CROSSROOT/include"
-export LDFLAGS="-L$CROSSROOT/lib"
+export LDFLAGS="-L$CROSSROOT/lib -g"
 
-export CC='i386-mingw32msvc-gcc -mms-bitfields -mno-cygwin'
-export CXX='i386-mingw32msvc-g++ -mms-bitfields -mno-cygwin'
+#export CC='i386-mingw32msvc-gcc -mms-bitfields -mno-cygwin'
+#export CXX='i386-mingw32msvc-g++ -mms-bitfields -mno-cygwin'
 export DLLTOOL="i386-mingw32msvc-dlltool"
+export RANLIB="i386-mingw32msvc-ranlib"
 export OBJDUMP="i386-mingw32msvc-objdump"
 export STRIP="i386-mingw32msvc-strip"
 export WINDRES="i386-mingw32msvc-windres"
