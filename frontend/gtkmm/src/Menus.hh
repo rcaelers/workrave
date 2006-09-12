@@ -169,11 +169,7 @@ Menus::set_applet_window(AppletWindow *applet)
 inline Menus *
 Menus::get_instance()
 {
-  if (instance == NULL)
-    {
-      instance = new Menus();
-    }
-       
+  assert(instance != 0);
   return instance;
 }
 

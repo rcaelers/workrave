@@ -54,6 +54,7 @@ class BreakWindowInterface;
 class BreakResponseInterface;
 class Dispatcher;
 class StatusIcon;
+class Menus;
 
 // Generic GUI
 class BreakControl;
@@ -202,6 +203,9 @@ private:
 
   //! The main window, shows the timers.
   MainWindow *main_window;
+
+  //! Menus
+  Menus *menus;
 
   //! Tooptip manager.
   Gtk::Tooltips *tooltips;

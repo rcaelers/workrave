@@ -52,6 +52,7 @@ static const char rcsid[] = "$Id$";
 #include "System.hh"
 #include "Text.hh"
 #include "StatusIcon.hh"
+#include "Menus.hh"
 
 #ifdef HAVE_X
 #include "X11AppletWindow.hh"
@@ -107,6 +108,7 @@ GUI::GUI(int argc, char **argv)  :
   active_break_id(BREAK_ID_NONE),
   applet_window(NULL),
   main_window(NULL),
+  menus(0),
   tooltips(NULL),
   break_window_destroy(false),
   prelude_window_destroy(false),
@@ -717,6 +719,8 @@ GUI::init_gui()
   tooltips = manage(new Gtk::Tooltips());
   tooltips->enable();
 
+  menus = new Menus();
+  
   // The main status window.
   main_window = new MainWindow();
 
@@ -731,6 +735,7 @@ GUI::init_gui()
     W32AppletWindow
 #endif
     ();
+  menus->set_applet_window(applet_window);
   
   // Periodic timer.
   Glib::signal_timeout().connect(MEMBER_SLOT(*this, &GUI::on_timer), 1000);

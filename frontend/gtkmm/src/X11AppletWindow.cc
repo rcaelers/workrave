@@ -72,11 +72,6 @@ X11AppletWindow::X11AppletWindow() :
   applet_size(0),
   applet_enabled(true)
 {
-  
-#ifdef HAVE_GNOME
-  Menus *menus = Menus::get_instance();
-  menus->set_applet_window(this);
-#endif
 #ifdef HAVE_KDE
   KdeAppletWindow::init();
 #endif

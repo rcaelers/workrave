@@ -68,7 +68,7 @@ static const char rcsid[] = "$Id$";
 #include "W32AppletWindow.hh"
 #endif
 
-Menus *Menus::instance = NULL;
+Menus *Menus::instance = 0;
 
 #ifdef WIN32
 enum
@@ -108,6 +108,8 @@ Menus::Menus() :
 #endif
   main_window(NULL)
 {
+  assert(instance == 0);
+  instance = this;
   gui = GUI::get_instance();
 
   for (int i = 0; i < MAX_CHECKMENUS; i++)
@@ -122,6 +124,7 @@ Menus::Menus() :
 Menus::~Menus()
 {
   TRACE_ENTER("Menus::~Menus");
+  instance = 0;
   TRACE_EXIT();
 }
 
