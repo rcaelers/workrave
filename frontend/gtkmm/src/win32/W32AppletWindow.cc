@@ -89,7 +89,9 @@ RecursiveFindWindow(HWND hwnd, LPCTSTR lpClassName)
 void
 W32AppletWindow::set_slot(BreakId id, int slot)
 {
+  TRACE_ENTER("W32AppletWindow::set_slot");
   heartbeat_data.slots[slot] = (short) id;
+  TRACE_EXIT();
 }
 
 void
@@ -100,6 +102,7 @@ W32AppletWindow::set_time_bar(BreakId id,
                                  TimeBarInterface::ColorId secondary_color,
                                  int secondary_val, int secondary_max)
 {
+  TRACE_ENTER("W32AppletWindow::set_time_bar");
   strncpy(heartbeat_data.bar_text[id], text.c_str(), APPLET_BAR_TEXT_MAX_LENGTH-1);
   heartbeat_data.bar_text[id][APPLET_BAR_TEXT_MAX_LENGTH-1] = '\0';
   heartbeat_data.bar_primary_color[id] = primary_color;
@@ -108,6 +111,7 @@ W32AppletWindow::set_time_bar(BreakId id,
   heartbeat_data.bar_secondary_color[id] = secondary_color;
   heartbeat_data.bar_secondary_val[id] = secondary_val;
   heartbeat_data.bar_secondary_max[id] = secondary_max;
+  TRACE_EXIT();
 }
 
 void
@@ -174,19 +178,23 @@ W32AppletWindow::update_time_bars()
 HWND
 W32AppletWindow::get_applet_window()
 {
+  TRACE_ENTER("W32AppletWindow::get_applet_window");
   if (applet_window == NULL || !IsWindow(applet_window))
     {
       HWND taskbar = FindWindow("Shell_TrayWnd",NULL);
       applet_window = RecursiveFindWindow(taskbar, APPLET_WINDOW_CLASS_NAME);
       menu_sent = false;
     }
+  TRACE_RETURN((applet_window ? "Applet found" : "Applet not found"));
   return applet_window;
 }
 
 void
 W32AppletWindow::set_enabled(bool enabled)
 {
+  TRACE_ENTER_MSG("W32AppletWindow::set_enabled", enabled);
   heartbeat_data.enabled = enabled;
+  TRACE_EXIT();
 }
 
 
