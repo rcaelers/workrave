@@ -70,7 +70,9 @@ private:
 
 private:
   typedef AppletWindow::AppletActivateResult AppletActivateResult;
+
   AppletActivateResult activate_applet(AppletType type);
+  void deactivate_applet(AppletType type);
   
   void config_changed_notify(std::string key);
   void read_configuration();

@@ -159,12 +159,14 @@ KdeAppletWindow::activate_applet()
       plug_window(plug->get_id());
 
       // somehow, signal_embedded is never triggered...
-      control->activated(AppletControl::APPLET_KDE);
       applet_active = true;
     }
 
   TRACE_EXIT();
-  return ok;
+
+  return ok ?
+    AppletWindow::APPLET_ACTIVATE_VISIBLE :
+    AppletWindow::APPLET_ACTIVATE_FAILED;
 }
 
 

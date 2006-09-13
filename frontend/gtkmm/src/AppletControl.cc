@@ -71,7 +71,7 @@ AppletControl::~AppletControl()
     {
       if (applets[i] != NULL)
         {
-          applets[i]->deactivate_applet();
+          deactivate_applet((AppletType)i);
           delete applets[i];
           applets[i] = NULL;
         }
@@ -135,16 +135,13 @@ AppletControl::show()
     }
 
 #ifdef HAVE_X
-  if (applets[APPLET_TRAY] != NULL)
+  if (specific)
     {
-      if (specific)
-        {
-          applets[APPLET_TRAY]->deactivate_applet();
-        }
-      else
-        {
-          applets[APPLET_TRAY]->activate_applet();
-        }
+      deactivate_applet(APPLET_TRAY);
+    }
+  else
+    { 
+      activate_applet(APPLET_TRAY);
     }
 #endif
   check_visible();
@@ -157,13 +154,12 @@ AppletControl::show(AppletType type)
 {
   bool specific = false;
       
-  if (applets[type] != NULL)
+  AppletActivateResult rc = activate_applet(type);
+  if (rc != AppletWindow::APPLET_ACTIVATE_FAILED)
     {
-      bool rc = applets[type]->activate_applet();
-      if (rc)
-        {
-          specific = true;
-        }
+      // Applet now visible or pending.
+      // Don't try to activate generic applet (systray)
+      specific = true;
     }
 
 #ifdef HAVE_X
@@ -173,11 +169,11 @@ AppletControl::show(AppletType type)
           && specific)
         
         {
-          applets[APPLET_TRAY]->deactivate_applet();
+          deactivate_applet(APPLET_TRAY);
         }
       else
         {
-          applets[APPLET_TRAY]->activate_applet();
+          activate_applet(APPLET_TRAY);
         }
     }
 #endif
@@ -192,10 +188,7 @@ AppletControl::hide()
 {
   for (int i = 0; i < APPLET_SIZE; i++)
     {
-      if (applets[i] != NULL)
-        {
-          applets[i]->deactivate_applet();
-        }
+      deactivate_applet((AppletType)i);
     }
 }
 
@@ -204,10 +197,7 @@ AppletControl::hide()
 void
 AppletControl::hide(AppletType type)
 {
-  if (applets[type] != NULL)
-    {
-      applets[type]->deactivate_applet();
-    }
+  deactivate_applet(type);
 }
 
 
@@ -222,7 +212,7 @@ AppletControl::activated(AppletType type)
     {
       if (type == APPLET_KDE || type == APPLET_GNOME)
         {
-          applets[APPLET_TRAY]->deactivate_applet();
+          deactivate_applet(type);
         }
     }
 #endif
@@ -380,5 +370,14 @@ AppletControl::activate_applet(AppletType type)
     }
   
   return r;
-      
 }
+
+void
+AppletControl::deactivate_applet(AppletType type)
+{
+ if (applets[type] != NULL)
+    {
+      applets[type]->deactivate_applet();
+      visible[type] = false;
+    }
+ }

@@ -230,7 +230,6 @@ GnomeAppletWindow::deactivate_applet()
     }
         
   applet_active = false;
-  control->deactivated(AppletControl::APPLET_GNOME);
 }
 
 
@@ -240,6 +239,7 @@ GnomeAppletWindow::delete_event(GdkEventAny *event)
 {
   (void) event;
   deactivate_applet();
+  control->deactivated(AppletControl::APPLET_GNOME);
   return true;
 }
     

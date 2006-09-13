@@ -30,7 +30,8 @@ public:
   enum AppletMode
     {
       APPLET_DISABLED,
-      APPLET_TRAY,
+      APPLET_FIRST,
+      APPLET_TRAY = APPLET_FIRST,
       APPLET_GNOME,
       APPLET_KDE,
       APPLET_W32
