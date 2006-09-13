@@ -192,7 +192,6 @@ KdeAppletWindow::deactivate_applet()
         }
     }
   applet_active = false;
-  control->deactivated(AppletControl::APPLET_KDE);
 }
 
 
