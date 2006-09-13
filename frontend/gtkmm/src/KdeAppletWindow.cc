@@ -28,22 +28,18 @@ static const char rcsid[] = "$Id$";
 #include <gtkmm/alignment.h>
 
 #include "KdeAppletWindow.hh"
-#include "MainWindow.hh"
+#include "AppletControl.hh"
+
 #include "TimerBoxGtkView.hh"
 #include "TimerBoxControl.hh"
-#include "GUI.hh"
 #include "Menus.hh"
 #include "System.hh"
 
-#include "KdeAppletWindow.hh"
-
-#include "ConfiguratorInterface.hh"
 #include "CoreInterface.hh"
 #include "CoreFactory.hh"
 
 #include <gdk/gdkcolor.h>
 
-#include "KdeAppletWindow.hh"
 #include "KdeWorkraveControl.hh"
 
 #ifdef HAVE_KDE
@@ -55,18 +51,16 @@ static const char rcsid[] = "$Id$";
 
 //! Constructor.
 /*!
- *  \param gui the main GUI entry point.
  *  \param control Interface to the controller.
  */
 KdeAppletWindow::KdeAppletWindow(AppletControl *control) :
-  timer_box_view(NULL),
-  timer_box_control(NULL),
   plug(NULL),
   container(NULL),
   tray_menu(NULL),
   applet_vertical(false),
   applet_size(0),
-  control(control)
+  control(control),
+  applet_active(false)
 {
   KdeWorkraveControl::init();
   init_applet();
@@ -98,7 +92,7 @@ KdeAppletWindow::cleanup_applet()
 
 
 //! Initializes the native kde applet.
-void
+bool
 KdeAppletWindow::activate_applet()
 {
   TRACE_ENTER("KdeAppletWindow::activate_applet");
@@ -106,7 +100,7 @@ KdeAppletWindow::activate_applet()
   if (applet_active)
     {
       TRACE_EXIT();
-      return;
+      return true;
       
     }
   bool ok = true;
@@ -120,8 +114,6 @@ KdeAppletWindow::activate_applet()
   
   if (ok)
     {
-      // Initialize applet GUI.
-      
       // Gtk::Alignment *frame = new Gtk::Alignment(1.0, 1.0, 0.0, 0.0);
       // frame->set_border_width(2);
 
@@ -142,12 +134,14 @@ KdeAppletWindow::activate_applet()
       g_signal_connect(G_OBJECT(plug->gobj()), "destroy-event",
                        G_CALLBACK(KdeAppletWindow::destroy_event), this);
       
-      timer_box_view = manage(new TimerBoxGtkView());
-      timer_box_control = new TimerBoxControl("applet", *timer_box_view);
-      timer_box_view->set_geometry(applet_vertical, applet_size);
-      timer_box_view->show_all();
+      view = manage(new TimerBoxGtkView());
+      timer_box_view = view;
       
-      container->add(*timer_box_view);
+      timer_box_control = new TimerBoxControl("applet", *timer_box_view);
+      view->set_geometry(applet_vertical, applet_size);
+      view->show_all();
+      
+      container->add(*view);
       container->show_all();
       plug->show_all();
 
@@ -165,9 +159,8 @@ KdeAppletWindow::activate_applet()
       plug_window(plug->get_id());
 
       // somehow, signal_embedded is never triggered...
-      set_mainwindow_applet_active(true);
-
-      applet_active = true
+      control->activated(AppletControl::APPLET_KDE);
+      applet_active = true;
     }
 
   TRACE_EXIT();
@@ -294,11 +287,6 @@ void
 KdeAppletWindow::button_clicked(int button)
 {
   (void) button;
-  
-  //   GUI *gui = GUI::get_instance();
-  //   assert(gui != NULL);
-  //   gui->toggle_main_window();
-
   timer_box_control->force_cycle();
 }
 
@@ -318,7 +306,7 @@ KdeAppletWindow::on_embedded()
 #endif
 
       TRACE_MSG("Size = " << last_size.width << " " << last_size.height << " " << applet_vertical);
-      timer_box_view->set_geometry(applet_vertical, applet_size);
+      view->set_geometry(applet_vertical, applet_size);
 
       TRACE_MSG(applet_size);
       KdeAppletWindow::set_size(last_size.width, last_size.height);

@@ -423,7 +423,7 @@ GUI::init_kde()
 {
   // FIXME: memory leaks in here.
   TRACE_ENTER("GUI::init_kde");
-  KApplication *a = new KApplication(argc, argv, "Workrave");
+  new KApplication(argc, argv, "Workrave");
   bool rc = kapp->dcopClient()->attach();
   TRACE_MSG(rc);
 

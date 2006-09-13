@@ -191,9 +191,6 @@ TimerBoxControl::update_widgets()
     }
 #endif
 
-  //FIXME: duplicate
-  char *labels[] = { _("Micro-break"), _("Rest break"), _("Daily limit") };
-  
   for (int count = 0; count < BREAK_ID_SIZEOF; count++)
     {
       CoreInterface *core = CoreFactory::get_core();

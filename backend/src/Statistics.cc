@@ -81,9 +81,6 @@ Statistics::init(Core *control)
       current_day = NULL;
     }
 
-  // Always try to start a new day, just in case...
-  start_new_day();
-  
   update_enviromnent();
   load_history();
 }
@@ -156,7 +153,7 @@ Statistics::start_new_day()
 void
 Statistics::day_to_history(DailyStatsImpl *stats)
 {
-  history.push_back(stats);
+  add_history(stats);
   
   stringstream ss;
   ss << Util::get_home_directory();
@@ -263,6 +260,7 @@ Statistics::add_history(DailyStatsImpl *stats)
     }
   else
     {
+      bool found = false;
       HistoryRIter i = history.rbegin();
       while (i != history.rend())
         {
@@ -273,6 +271,7 @@ Statistics::add_history(DailyStatsImpl *stats)
               stats->start.tm_mday == ref->start.tm_mday)
             {
               *i = stats;
+              found = true;
               break;
             }
 
@@ -290,9 +289,15 @@ Statistics::add_history(DailyStatsImpl *stats)
               {
                 history.insert(i.base(), stats);
               }
+            found = true;
             break;
           }
           i++;
+        }
+      
+      if (!found)
+        {
+          history.insert(history.begin(), stats);
         }
     }
 }
@@ -445,6 +450,8 @@ Statistics::load_history()
 
   ifstream stats_file(ss.str().c_str());
 
+  TRACE_MSG(ss.str().c_str());
+  
   bool ok = stats_file;
 
   if (ok)

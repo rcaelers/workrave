@@ -52,6 +52,9 @@ public:
   void button_clicked(int button);
 
 private:
+  //! Gtk timerbox viewer
+  TimerBoxGtkView *view;
+   
   //! The Gtk+ plug in the panel.
   Gtk::Plug *plug;
 
@@ -75,6 +78,8 @@ private:
 
   //!
   AppletControl *control;
+
+  bool applet_active;
   
 private:
   void init_applet();

@@ -1,6 +1,6 @@
 // kworkraveapplet.cc --- Workrave applet for KDE
 //
-// Copyright (C) 2004, 2005 Rob Caelers
+// Copyright (C) 2004, 2005, 2006 Rob Caelers
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -27,7 +27,8 @@ static const char rcsid[] = "$Id$";
 #include <sigc++/object.h>
 
 #include "GUI.hh"
-#include "AppletWindow.hh"
+#include "KdeAppletWindow.hh"
+#include "AppletControl.hh"
 
 #include "KdeWorkraveControl.hh"
 #include "kde_applet/kworkravecontroliface.h"
@@ -102,16 +103,17 @@ void
 KdeWorkraveControl::fire()
 {
   TRACE_ENTER("KdeWorkraveControl::fire");
-  GUI *gui = GUI::get_instance();
+  AppletControl *applet_control; 
+  KdeAppletWindow *applet_window;
+  GUI *gui;
 
-  AppletWindow *applet = NULL;
-  if (gui != NULL)
+  gui = GUI::get_instance();
+  applet_control = gui->get_applet_control();
+  applet_window = (KdeAppletWindow *) applet_control->get_applet_window(AppletControl::APPLET_KDE);
+  
+  if (applet_window != NULL)
     {
-      applet = gui->get_applet_window();
-    }
-  if (applet != NULL)
-    {
-      applet->fire_kde_applet();
+      applet_window->fire_kde_applet();
     }
   TRACE_EXIT();
 }

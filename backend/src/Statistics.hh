@@ -157,7 +157,7 @@ private:
   bool been_active;
   
   //! History
-  vector<DailyStatsImpl *> history;
+  History history;
 };
 
 #endif // STATISTICS_HH

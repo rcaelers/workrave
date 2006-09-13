@@ -734,8 +734,9 @@ Menus::on_menu_about()
     "Jordi Mallach <jordi@sindominio.net>\n"
     "Daniel Nylander <info@danielnylander.se>\n"
     "Masanobu Yokota <masanobu.yokota@nifty.com>\n"
+    "ORY Mate <orymate@gmail.com>\n"
     "Иван Димов <idimov@users.sourceforge.net>\n"
-    "�RY M�t�<orymate@gmail.com>\n";
+    "Enver ALTIN <ealtin@parkyeri.com>";
 
   string icon = Util::complete_directory("workrave.png",
                                          Util::SEARCH_PATH_IMAGES);
