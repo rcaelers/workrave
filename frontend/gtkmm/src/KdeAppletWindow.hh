@@ -84,7 +84,7 @@ private:
 private:
   void init_applet();
   void cleanup_applet();
-  bool activate_applet();
+  AppletActivateResult activate_applet();
   void deactivate_applet();
     
   static gboolean destroy_event(GtkWidget *widget, GdkEvent *event, gpointer user_data);

@@ -90,15 +90,14 @@ GnomeAppletWindow::cleanup_applet()
 }
 
 //! Initializes the native gnome applet.
-bool
+AppletWindow::AppletActivateResult
 GnomeAppletWindow::activate_applet()
 {
   TRACE_ENTER("GnomeAppletWindow::init_gnome_applet");
   bool ok = true;
-
+  
   if (!applet_active)
     {
-
       // Initialize bonobo activation.
       bonobo_activate();
 
@@ -190,9 +189,6 @@ GnomeAppletWindow::activate_applet()
 #ifndef HAVE_DISTRIBUTION
           GNOME_Workrave_AppletControl_set_menu_active(applet_control, "/commands/Network", false, &ev);
 #endif
-
-          // somehow, signal_embedded is never triggered...
-          control->activated(AppletControl::APPLET_GNOME);
         }
 
       if (!ok)
@@ -204,7 +200,9 @@ GnomeAppletWindow::activate_applet()
     }
   
   TRACE_EXIT();
-  return ok;
+  return ok ?
+    AppletWindow::APPLET_ACTIVATE_VISIBLE :
+    AppletWindow::APPLET_ACTIVATE_FAILED;
 }
 
 

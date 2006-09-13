@@ -21,8 +21,7 @@
 
 #include "preinclude.h"
 #include "ConfiguratorListener.hh"
-
-class AppletWindow;
+#include "AppletWindow.hh"
 
 class AppletControl :
   public ConfiguratorListener
@@ -54,7 +53,9 @@ public:
   void heartbeat();
   void set_timers_tooltip(std::string& tip);
   AppletWindow *get_applet_window(AppletType type);
-  
+
+protected:
+
 private:
   //! All known applets
   AppletWindow *applets[APPLET_SIZE];
@@ -66,13 +67,17 @@ private:
   bool enabled;
 
   int delayed_show;
-  
+
 private:
+  typedef AppletWindow::AppletActivateResult AppletActivateResult;
+  AppletActivateResult activate_applet(AppletType type);
+  
   void config_changed_notify(std::string key);
   void read_configuration();
   void check_visible();
 };
 
+//! Return the specified applet.
 inline AppletWindow *
 AppletControl::get_applet_window(AppletType type)
 {

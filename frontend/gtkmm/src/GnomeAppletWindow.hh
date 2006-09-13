@@ -97,7 +97,7 @@ private:
   void init_applet();
   void cleanup_applet();
   void deactivate_applet();
-  bool activate_applet();
+  AppletActivateResult activate_applet();
     
   bool init_gnome_applet();
   void destroy_gnome_applet();

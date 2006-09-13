@@ -50,6 +50,8 @@ static const char rcsid[] = "$Id$";
 #include "CoreFactory.hh"
 #include "ConfiguratorInterface.hh"
 
+
+//! Constructor.
 AppletControl::AppletControl()
   : enabled(false),
     delayed_show(-1)
@@ -62,6 +64,7 @@ AppletControl::AppletControl()
 }
 
 
+//! Destructor
 AppletControl::~AppletControl()
 {
   for (int i = 0; i < APPLET_SIZE; i++)
@@ -75,6 +78,8 @@ AppletControl::~AppletControl()
     }
 }
 
+
+//! Initializes the Applet Controller.
 void
 AppletControl::init()
 {
@@ -102,38 +107,33 @@ AppletControl::init()
 }
 
 
+//! Show the best possible applet.
 void
 AppletControl::show()
 {
   bool specific = false;
-      
-  if (applets[APPLET_GNOME] != NULL)
+  AppletActivateResult rc;
+
+  rc = activate_applet(APPLET_GNOME);
+  if (rc != AppletWindow::APPLET_ACTIVATE_FAILED)
     {
-      bool rc = applets[APPLET_GNOME]->activate_applet();
-      if (rc)
-        {
-          specific = true;
-        }
+      // Applet now visible or pending.
+      // Don't try to activate generic applet (systray)
+      specific = true;
     }
 
-  if (applets[APPLET_KDE] != NULL)
+  rc = activate_applet(APPLET_KDE);
+  if (rc != AppletWindow::APPLET_ACTIVATE_FAILED)
     {
-      bool rc = applets[APPLET_KDE]->activate_applet();
-      if (rc)
-        {
-          specific = true;
-        }
+      specific = true;
     }
 
-  if (applets[APPLET_W32] != NULL)
+  rc = activate_applet(APPLET_W32);
+  if (rc != AppletWindow::APPLET_ACTIVATE_FAILED)
     {
-      bool rc = applets[APPLET_W32]->activate_applet();
-      if (rc)
-        {
-          specific = true;
-        }
+      specific = true;
     }
-  
+
 #ifdef HAVE_X
   if (applets[APPLET_TRAY] != NULL)
     {
@@ -151,6 +151,7 @@ AppletControl::show()
 }
 
 
+//! Show the specified applet.
 void
 AppletControl::show(AppletType type)
 {
@@ -185,6 +186,7 @@ AppletControl::show(AppletType type)
 }
 
 
+//! Hide all applets.
 void
 AppletControl::hide()
 {
@@ -197,6 +199,8 @@ AppletControl::hide()
     }
 }
 
+
+//! Hide a specific applet.
 void
 AppletControl::hide(AppletType type)
 {
@@ -206,7 +210,8 @@ AppletControl::hide(AppletType type)
     }
 }
 
-//! Request to activate specific applet
+
+//! The specified applet is not active.
 void
 AppletControl::activated(AppletType type)
 {
@@ -226,7 +231,7 @@ AppletControl::activated(AppletType type)
 }
 
 
-//! Request to activate specific applet
+//! The specified applet is longer active.
 void
 AppletControl::deactivated(AppletType type)
 {
@@ -241,12 +246,15 @@ AppletControl::deactivated(AppletType type)
 }
 
 
+//! Is at least a single applet visible.
 bool
 AppletControl::is_visible(AppletType type)
 {
   return visible[type];
 }
 
+
+//! Is the specified applet visible.
 bool
 AppletControl::is_visible()
 {
@@ -262,6 +270,8 @@ AppletControl::is_visible()
     return ret;
 }
 
+
+//! Periodic heartbeat.
 void
 AppletControl::heartbeat()
 {
@@ -286,6 +296,8 @@ AppletControl::heartbeat()
   TRACE_EXIT();
 }
 
+
+//! Sets the tooltip of all visible applets.
 void
 AppletControl::set_timers_tooltip(std::string& tip)
 {
@@ -327,7 +339,8 @@ AppletControl::config_changed_notify(string key)
   TRACE_EXIT();
 }
 
-//! 
+
+//! Make sure the main window is visible when no applets are.
 void
 AppletControl::check_visible()
 {
@@ -350,4 +363,22 @@ AppletControl::check_visible()
     }
 
   TRACE_EXIT();
+}
+
+AppletWindow::AppletActivateResult
+AppletControl::activate_applet(AppletType type)
+{
+  AppletActivateResult r = AppletWindow::APPLET_ACTIVATE_FAILED;
+  
+  if (applets[type] != NULL)
+    {
+      r = applets[type]->activate_applet();
+      if (r == AppletWindow::APPLET_ACTIVATE_VISIBLE)
+        {
+          visible[type] = true;
+        }
+    }
+  
+  return r;
+      
 }

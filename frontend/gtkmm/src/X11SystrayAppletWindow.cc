@@ -79,7 +79,7 @@ X11SystrayAppletWindow::cleanup_applet()
 }
 
 //! Initializes the applet.
-bool
+AppletWindow::AppletActivateResult
 X11SystrayAppletWindow::activate_applet()
 {
   TRACE_ENTER("X11SystrayAppletWindow::activate_applet");
@@ -87,11 +87,11 @@ X11SystrayAppletWindow::activate_applet()
   if (applet_active)
     {
       TRACE_EXIT();
-      return true;
+      return APPLET_ACTIVATE_VISIBLE;
     }
   
   EggTrayIcon *tray_icon = egg_tray_icon_new("Workrave Tray Icon");
-  bool ret = false;
+  AppletActivateResult ret =  APPLET_ACTIVATE_FAILED;
   
   if (tray_icon != NULL)
     {
@@ -128,7 +128,7 @@ X11SystrayAppletWindow::activate_applet()
           tray_menu = menus->create_tray_menu();
         }
       
-      ret = true;
+      ret = AppletWindow::APPLET_ACTIVATE_VISIBLE;
       applet_vertical = false;
       
 #ifdef HAVE_GTKMM24
@@ -143,7 +143,7 @@ X11SystrayAppletWindow::activate_applet()
       view->set_geometry(applet_vertical, 24);
 
       applet_active = true;
-      ret = true;
+      ret = APPLET_ACTIVATE_VISIBLE;
     }
   
   TRACE_EXIT();

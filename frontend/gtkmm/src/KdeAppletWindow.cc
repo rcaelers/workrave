@@ -92,7 +92,7 @@ KdeAppletWindow::cleanup_applet()
 
 
 //! Initializes the native kde applet.
-bool
+AppletWindow::AppletActivateResult
 KdeAppletWindow::activate_applet()
 {
   TRACE_ENTER("KdeAppletWindow::activate_applet");
@@ -100,7 +100,7 @@ KdeAppletWindow::activate_applet()
   if (applet_active)
     {
       TRACE_EXIT();
-      return true;
+      return AppletWindow::APPLET_ACTIVATE_VISIBLE;
       
     }
   bool ok = true;
