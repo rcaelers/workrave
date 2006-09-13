@@ -38,7 +38,7 @@ public:
   virtual AppletMode get_applet_mode() const;
 
 
-  virtual bool activate_applet();
+  virtual AppletActivateResult activate_applet();
   virtual void deactivate_applet();
 
   void set_slot(BreakId  id, int slot);
