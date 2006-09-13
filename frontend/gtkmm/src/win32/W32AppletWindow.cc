@@ -29,6 +29,7 @@ static const char rcsid[] = "$Id$";
 #include "Applet.hh"
 #include "GUI.hh"
 #include "MainWindow.hh"
+#include "Menus.hh"
 
 W32AppletWindow::W32AppletWindow()
 {
@@ -202,4 +203,44 @@ W32AppletWindow::add_menu(const char *text, short cmd, int flags)
   d->command = cmd;
   strcpy(d->text, text);
   d->flags = flags;
+}
+
+
+bool
+W32AppletWindow::activate_applet()
+{
+  return true;
+}
+
+void
+W32AppletWindow::deactivate_applet()
+{
+}
+
+GdkFilterReturn
+W32AppletWindow::win32_filter_func (void     *xevent,
+                                    GdkEvent *event)
+{
+  (void) event;
+  MSG *msg = (MSG *) xevent;
+  GdkFilterReturn ret = GDK_FILTER_CONTINUE;
+  switch (msg->message)
+    {
+    case WM_USER:
+      {
+        Menus *menus = Menus::get_instance();
+        menus->on_applet_command((short) msg->wParam);
+        ret = GDK_FILTER_REMOVE;
+      }
+      break;
+
+
+    case WM_USER + 1:
+      {
+        timer_box_control->force_cycle();
+        ret = GDK_FILTER_REMOVE;
+      }
+      break;
+    }
+  return ret;
 }

@@ -1,3 +1,15 @@
+@ Fist roll image is wrong, to be fixed
+@ Phase out home grown status icon
+@ Reenable popup-menu time-out for tray menu
+@ Clean up runtime (remove raleigh themes, ...)
+@ Reenable force_cycle() for w32 applet
+@ Reenable non-persistent operation mode while prefs window is open
+? Investigate startup performance: a lot of config keys are ready twice++
+? Main window now initially appears empty, only to be filled 10ms later
+
+
+--8<--8<--8<--8<--8<--8<--8<--8<--8<--8<--8<--8<
+
 1) patrick.clery@gmail.com
 
 Hi,

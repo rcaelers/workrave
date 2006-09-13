@@ -69,7 +69,6 @@ AppletControl::~AppletControl()
       if (applets[i] != NULL)
         {
           applets[i]->deactivate_applet();
-          applets[i]->cleanup_applet();
           delete applets[i];
           applets[i] = NULL;
         }
@@ -94,14 +93,6 @@ AppletControl::init()
 #ifdef WIN32  
   applets[APPLET_W32] = new W32AppletWindow();
 #endif
-  
-  for (int i = 0; i < APPLET_SIZE; i++)
-    {
-      if (applets[i] != NULL)
-        {
-          applets[i]->init_applet();
-        }
-    }
   
   // Read configuration and start monitoring it.
   ConfiguratorInterface *config = CoreFactory::get_configurator();

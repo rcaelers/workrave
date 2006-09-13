@@ -55,7 +55,10 @@ static const char rcsid[] = "$Id$";
 #include "AppletWindow.hh"
 
 #ifdef WIN32
+#include "W32AppletWindow.hh"
 #include "StatusIcon.hh"
+#include <gdk/gdkwin32.h>
+#include <pbt.h>
 #endif
 
 #include "Menus.hh"
@@ -742,11 +745,14 @@ GUI::init_gui()
   AppletWindow *applet_window = applet_control->get_applet_window(AppletControl::APPLET_GNOME);
   menus->set_applet_window(applet_window);
 #endif
-#ifdef HAVE_WIN32
+#ifdef WIN32
   AppletWindow *applet_window = applet_control->get_applet_window(AppletControl::APPLET_W32);
   menus->set_applet_window(applet_window);
 #endif
   
+#ifdef WIN32
+  win32_init_filter();
+#endif
   
   // Periodic timer.
   Glib::signal_timeout().connect(MEMBER_SLOT(*this, &GUI::on_timer), 1000);
@@ -1319,3 +1325,88 @@ GUI::get_timers_tooltip()
     }
   return tip;
 }
+
+
+#ifdef WIN32
+void
+GUI::win32_init_filter()
+{
+  GtkWidget *window = main_window->Gtk::Widget::gobj();
+  GdkWindow *gdk_window = window->window;
+  gdk_window_add_filter(gdk_window, win32_filter_func, this);
+}
+
+GdkFilterReturn
+GUI::win32_filter_func (void     *xevent,
+                        GdkEvent *event,
+                        gpointer  data)
+{
+  TRACE_ENTER("GUI::win32_filter_func");
+  (void) event;
+  GUI *gui = static_cast<GUI*>(data);
+  
+  MSG *msg = (MSG *) xevent;
+  GdkFilterReturn ret = GDK_FILTER_CONTINUE;
+  switch (msg->message)
+    {
+    case WM_POWERBROADCAST:
+      {
+        TRACE_MSG("WM_POWERBROADCAST " << msg->wParam << " " << msg->lParam);
+          switch (msg->wParam)
+            {
+            case PBT_APMQUERYSUSPEND:
+              TRACE_MSG("Query Suspend");
+              break;
+
+            case PBT_APMQUERYSUSPENDFAILED:
+              TRACE_MSG("Query Suspend Failed");
+              break;
+
+            case PBT_APMRESUMESUSPEND:
+              {
+                TRACE_MSG("Resume suspend");
+                CoreInterface *core = CoreFactory::get_core();
+                if (core != NULL)
+                  {
+                    core->set_powersave(false);
+                  }
+              }
+              break;
+
+            case PBT_APMSUSPEND:
+              {
+                TRACE_MSG("Suspend");
+                CoreInterface *core = CoreFactory::get_core();
+                if (core != NULL)
+                  {
+                    core->set_powersave(true);
+                  }
+              }
+              break;
+            }
+      }
+      break;
+
+    case WM_DISPLAYCHANGE:
+      {
+        TRACE_MSG("WM_DISPLAYCHANGE " << msg->wParam << " " << msg->lParam);
+        gui->init_multihead();
+      }
+      break;
+
+    default:
+      W32AppletWindow *applet_window =
+        static_cast<W32AppletWindow*>
+        (gui->applet_control->get_applet_window(AppletControl::APPLET_W32));
+      if (applet_window)
+        {
+          ret = applet_window->win32_filter_func(xevent, event);
+        }
+    }
+
+  TRACE_EXIT();
+  return ret;
+}
+
+
+#endif

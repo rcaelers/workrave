@@ -22,6 +22,7 @@
 #include "preinclude.h"
 #include <windows.h>
 #include <string>
+#include <gdk/gdkwin32.h>
 
 #include "TimerBoxView.hh"
 #include "TimeBarInterface.hh"
@@ -35,6 +36,10 @@ public:
   virtual ~W32AppletWindow();
 
   virtual AppletMode get_applet_mode() const;
+
+
+  virtual bool activate_applet();
+  virtual void deactivate_applet();
 
   void set_slot(BreakId  id, int slot);
   void set_time_bar(BreakId id,
@@ -53,6 +58,8 @@ public:
   void init_menu(HWND dest);
   void add_menu(const char *text, short cmd, int flags);
 
+  GdkFilterReturn win32_filter_func (void *xevent, GdkEvent *event);
+  
   enum MenuFlag
   {
     MENU_FLAG_TOGGLE = APPLET_MENU_FLAG_TOGGLE,

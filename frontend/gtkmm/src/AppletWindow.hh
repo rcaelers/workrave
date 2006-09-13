@@ -39,8 +39,6 @@ public:
   AppletWindow();
   virtual ~AppletWindow();
 
-  virtual void init_applet() = 0;
-  virtual void cleanup_applet() = 0;
   virtual bool activate_applet() = 0;
   virtual void deactivate_applet() = 0;
   

@@ -160,6 +160,13 @@ private:
 #if defined(HAVE_X)
   bool on_grab_retry_timer();
 #endif
+
+#if defined(WIN32)
+  void win32_init_filter();
+  static GdkFilterReturn win32_filter_func (void     *xevent,
+                                            GdkEvent *event,
+                                            gpointer  data);
+#endif
   
 private:
   //! The one and only instance

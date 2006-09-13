@@ -25,7 +25,6 @@ static const char rcsid[] = "$Id$";
 #ifdef WIN32
 #include <gdk/gdkwin32.h>
 #include <shellapi.h>
-#include <pbt.h>
 #endif
 
 #include "nls.h"
@@ -532,98 +531,6 @@ MainWindow::win32_show(bool b)
     }
 }
 
-static GdkFilterReturn
-win32_filter_func (void     *xevent,
-		    GdkEvent *event,
-		    gpointer  data)
-{
-  TRACE_ENTER("MainWindow::win32_filter_func");
-
-  (void) event;
-  (void) data;
-  
-  MSG *msg = (MSG *) xevent;
-  GdkFilterReturn ret = GDK_FILTER_CONTINUE;
-  switch (msg->message)
-    {
-    case WM_POWERBROADCAST:
-      {
-        TRACE_MSG("WM_POWERBROADCAST " << msg->wParam << " " << msg->lParam);
-          switch (msg->wParam)
-            {
-            case PBT_APMQUERYSUSPEND:
-              TRACE_MSG("Query Suspend");
-              break;
-
-            case PBT_APMQUERYSUSPENDFAILED:
-              TRACE_MSG("Query Suspend Failed");
-              break;
-
-            case PBT_APMRESUMESUSPEND:
-              {
-                TRACE_MSG("Resume suspend");
-                CoreInterface *core = CoreFactory::get_core();
-                if (core != NULL)
-                  {
-                    core->set_powersave(false);
-                  }
-              }
-              break;
-
-            case PBT_APMSUSPEND:
-              {
-                TRACE_MSG("Suspend");
-                CoreInterface *core = CoreFactory::get_core();
-                if (core != NULL)
-                  {
-                    core->set_powersave(true);
-                  }
-              }
-              break;
-            }
-      }
-      break;
-
-    case WM_DISPLAYCHANGE:
-      {
-        TRACE_MSG("WM_DISPLAYCHANGE " << msg->wParam << " " << msg->lParam);
-        GUI *gui = GUI::get_instance(); 
-        assert(gui != NULL);
-        gui->init_multihead();
-      }
-      break;
-
-#warning FIXME: This code to be moved to W32AppletWindow somehow
-    case WM_USER:
-      {
-        Menus *menus = Menus::get_instance();
-        menus->on_applet_command((short) msg->wParam);
-        ret = GDK_FILTER_REMOVE;
-      }
-      break;
-
-#warning FIXME: This code to be moved to W32AppletWindow somehow
-#if 0
-    case WM_USER + 1:
-      {
-        GUI *gui = GUI::get_instance(); 
-        assert(gui != NULL);
-
-        MainWindow *main_window = gui->get_main_window();
-        assert(main_window != NULL);
-        
-        TimerBoxControl *win32_timer_box_control = main_window->get_win32_timer_box_control();
-        win32_timer_box_control->force_cycle();
-        
-        ret = GDK_FILTER_REMOVE;
-      }
-      break;
-#endif
-    }
-
-  TRACE_EXIT();
-  return ret;
-}
 
 void
 MainWindow::win32_init()
@@ -670,9 +577,6 @@ MainWindow::win32_init()
   HWND hwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
   SetWindowLong(hwnd, GWL_HWNDPARENT, (LONG) win32_main_hwnd);
 
-  // Filter
-  gdk_window_add_filter(gdk_window, win32_filter_func, this);
-  
   // Tray icon
   wm_taskbarcreated = RegisterWindowMessage("TaskbarCreated");
   win32_add_tray_icon();
