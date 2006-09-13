@@ -45,10 +45,11 @@ public:
   void show(AppletType type);
   void hide();
   void hide(AppletType type);
-  void activated(AppletType type);
-  void deactivated(AppletType type);
   bool is_visible(AppletType type);
   bool is_visible();
+
+  // callback from appletwindow
+  void set_applet_state(AppletType type, AppletWindow::AppletState);
 
   void heartbeat();
   void set_timers_tooltip(std::string& tip);
@@ -69,9 +70,9 @@ private:
   int delayed_show;
 
 private:
-  typedef AppletWindow::AppletActivateResult AppletActivateResult;
+  typedef AppletWindow::AppletState AppletState;
 
-  AppletActivateResult activate_applet(AppletType type);
+  AppletState activate_applet(AppletType type);
   void deactivate_applet(AppletType type);
   
   void config_changed_notify(std::string key);

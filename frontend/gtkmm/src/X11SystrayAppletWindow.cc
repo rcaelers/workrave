@@ -79,7 +79,7 @@ X11SystrayAppletWindow::cleanup_applet()
 }
 
 //! Initializes the applet.
-AppletWindow::AppletActivateResult
+AppletWindow::AppletState
 X11SystrayAppletWindow::activate_applet()
 {
   TRACE_ENTER("X11SystrayAppletWindow::activate_applet");
@@ -87,11 +87,11 @@ X11SystrayAppletWindow::activate_applet()
   if (applet_active)
     {
       TRACE_EXIT();
-      return APPLET_ACTIVATE_VISIBLE;
+      return APPLET_STATE_VISIBLE;
     }
   
   EggTrayIcon *tray_icon = egg_tray_icon_new("Workrave Tray Icon");
-  AppletActivateResult ret =  APPLET_ACTIVATE_FAILED;
+  AppletState ret =  APPLET_STATE_DISABLED;
   
   if (tray_icon != NULL)
     {
@@ -128,7 +128,7 @@ X11SystrayAppletWindow::activate_applet()
           tray_menu = menus->create_tray_menu();
         }
       
-      ret = AppletWindow::APPLET_ACTIVATE_VISIBLE;
+      ret = AppletWindow::APPLET_STATE_VISIBLE;
       applet_vertical = false;
       
 #ifdef HAVE_GTKMM24
@@ -143,7 +143,7 @@ X11SystrayAppletWindow::activate_applet()
       view->set_geometry(applet_vertical, 24);
 
       applet_active = true;
-      ret = APPLET_ACTIVATE_VISIBLE;
+      ret = APPLET_STATE_VISIBLE;
     }
   
   TRACE_EXIT();
@@ -171,7 +171,8 @@ X11SystrayAppletWindow::deactivate_applet()
           delete container;
           container = NULL;
         }
-      control->deactivated(AppletControl::APPLET_TRAY);
+      control->set_applet_state(AppletControl::APPLET_TRAY,
+                                AppletWindow::APPLET_STATE_DISABLED);
     }
   
   applet_active = false;
@@ -186,7 +187,8 @@ X11SystrayAppletWindow::delete_event(GdkEventAny *event)
 {
   (void) event;
   deactivate_applet();
-  control->deactivated(AppletControl::APPLET_TRAY);
+  control->set_applet_state(AppletControl::APPLET_TRAY,
+                            AppletWindow::APPLET_STATE_DISABLED);
   return true;
 }
 
@@ -215,7 +217,8 @@ X11SystrayAppletWindow::on_embedded()
       TRACE_MSG(applet_size);
     }
 
-  control->activated(AppletControl::APPLET_TRAY);
+  control->set_applet_state(AppletControl::APPLET_TRAY,
+                            AppletWindow::APPLET_STATE_VISIBLE);
 
   TRACE_EXIT();
 }

@@ -112,10 +112,10 @@ void
 AppletControl::show()
 {
   bool specific = false;
-  AppletActivateResult rc;
+  AppletState rc;
 
   rc = activate_applet(APPLET_GNOME);
-  if (rc != AppletWindow::APPLET_ACTIVATE_FAILED)
+  if (rc != AppletWindow::APPLET_STATE_DISABLED)
     {
       // Applet now visible or pending.
       // Don't try to activate generic applet (systray)
@@ -123,13 +123,13 @@ AppletControl::show()
     }
 
   rc = activate_applet(APPLET_KDE);
-  if (rc != AppletWindow::APPLET_ACTIVATE_FAILED)
+  if (rc != AppletWindow::APPLET_STATE_DISABLED)
     {
       specific = true;
     }
 
   rc = activate_applet(APPLET_W32);
-  if (rc != AppletWindow::APPLET_ACTIVATE_FAILED)
+  if (rc != AppletWindow::APPLET_STATE_DISABLED)
     {
       specific = true;
     }
@@ -154,8 +154,8 @@ AppletControl::show(AppletType type)
 {
   bool specific = false;
       
-  AppletActivateResult rc = activate_applet(type);
-  if (rc != AppletWindow::APPLET_ACTIVATE_FAILED)
+  AppletState rc = activate_applet(type);
+  if (rc != AppletWindow::APPLET_STATE_DISABLED)
     {
       // Applet now visible or pending.
       // Don't try to activate generic applet (systray)
@@ -203,35 +203,36 @@ AppletControl::hide(AppletType type)
 
 //! The specified applet is not active.
 void
-AppletControl::activated(AppletType type)
+AppletControl::set_applet_state(AppletType type, AppletWindow::AppletState state)
 {
-  visible[type] = true;
+  switch (state)
+    {
+    case AppletWindow::APPLET_STATE_DISABLED:
+      visible[type] = false;
+      break;
+
+    case AppletWindow::APPLET_STATE_VISIBLE:
+      visible[type] = true;
+      break;
+
+    case AppletWindow::APPLET_STATE_PENDING:
+      visible[type] = false;
+      break;
+    }
 
 #ifdef HAVE_X
-  if (applets[APPLET_TRAY] != NULL)
+  if (visible[type] &&
+      (type == APPLET_KDE || type == APPLET_GNOME))
     {
-      if (type == APPLET_KDE || type == APPLET_GNOME)
-        {
-          deactivate_applet(type);
-        }
+      deactivate_applet(APPLET_TRAY);
     }
 #endif
-
-  check_visible();
-}
-
-
-//! The specified applet is longer active.
-void
-AppletControl::deactivated(AppletType type)
-{
-  visible[type] = false;
 
   if (!is_visible())
     {
       delayed_show = 5;
     }
-  
+
   check_visible();
 }
 
@@ -355,15 +356,15 @@ AppletControl::check_visible()
   TRACE_EXIT();
 }
 
-AppletWindow::AppletActivateResult
+AppletWindow::AppletState
 AppletControl::activate_applet(AppletType type)
 {
-  AppletActivateResult r = AppletWindow::APPLET_ACTIVATE_FAILED;
+  AppletState r = AppletWindow::APPLET_STATE_DISABLED;
   
   if (applets[type] != NULL)
     {
       r = applets[type]->activate_applet();
-      if (r == AppletWindow::APPLET_ACTIVATE_VISIBLE)
+      if (r == AppletWindow::APPLET_STATE_VISIBLE)
         {
           visible[type] = true;
         }

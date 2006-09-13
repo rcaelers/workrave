@@ -90,7 +90,7 @@ GnomeAppletWindow::cleanup_applet()
 }
 
 //! Initializes the native gnome applet.
-AppletWindow::AppletActivateResult
+AppletWindow::AppletState
 GnomeAppletWindow::activate_applet()
 {
   TRACE_ENTER("GnomeAppletWindow::init_gnome_applet");
@@ -201,8 +201,8 @@ GnomeAppletWindow::activate_applet()
   
   TRACE_EXIT();
   return ok ?
-    AppletWindow::APPLET_ACTIVATE_VISIBLE :
-    AppletWindow::APPLET_ACTIVATE_FAILED;
+    AppletWindow::APPLET_STATE_VISIBLE :
+    AppletWindow::APPLET_STATE_DISABLED;
 }
 
 
@@ -239,7 +239,8 @@ GnomeAppletWindow::delete_event(GdkEventAny *event)
 {
   (void) event;
   deactivate_applet();
-  control->deactivated(AppletControl::APPLET_GNOME);
+  control->set_applet_state(AppletControl::APPLET_GNOME,
+                            AppletWindow::APPLET_STATE_DISABLED);
   return true;
 }
     
@@ -558,11 +559,6 @@ void
 GnomeAppletWindow::button_clicked(int button)
 {
   (void) button;
-  
-  //   GUI *gui = GUI::get_instance();
-  //   assert(gui != NULL);
-  //   gui->toggle_main_window();
-
   timer_box_control->force_cycle();
 }
 
@@ -572,6 +568,7 @@ void
 GnomeAppletWindow::on_embedded()
 {
   TRACE_ENTER("GnomeAppletWindow::on_embedded");
-  control->activated(AppletControl::APPLET_GNOME);
+  control->set_applet_state(AppletControl::APPLET_GNOME,
+                            AppletWindow::APPLET_STATE_VISIBLE);
   TRACE_EXIT();
 }

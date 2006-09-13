@@ -76,7 +76,7 @@ private:
 private:
   void init_applet();
   void cleanup_applet();
-  AppletActivateResult activate_applet();
+  AppletState activate_applet();
   void deactivate_applet();
     
   // Evenyts.

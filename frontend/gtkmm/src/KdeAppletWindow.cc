@@ -92,7 +92,7 @@ KdeAppletWindow::cleanup_applet()
 
 
 //! Initializes the native kde applet.
-AppletWindow::AppletActivateResult
+AppletWindow::AppletState
 KdeAppletWindow::activate_applet()
 {
   TRACE_ENTER("KdeAppletWindow::activate_applet");
@@ -100,7 +100,7 @@ KdeAppletWindow::activate_applet()
   if (applet_active)
     {
       TRACE_EXIT();
-      return AppletWindow::APPLET_ACTIVATE_VISIBLE;
+      return AppletWindow::APPLET_STATE_VISIBLE;
       
     }
   bool ok = true;
@@ -165,8 +165,8 @@ KdeAppletWindow::activate_applet()
   TRACE_EXIT();
 
   return ok ?
-    AppletWindow::APPLET_ACTIVATE_VISIBLE :
-    AppletWindow::APPLET_ACTIVATE_FAILED;
+    AppletWindow::APPLET_STATE_VISIBLE :
+    AppletWindow::APPLET_STATE_DISABLED;
 }
 
 
@@ -201,7 +201,8 @@ KdeAppletWindow::delete_event(GdkEventAny *event)
 {
   (void) event;
   deactivate_applet();
-  control->deactivated(AppletControl::APPLET_KDE);
+  control->set_applet_state(AppletControl::APPLET_KDE,
+                            AppletWindow::APPLET_STATE_DISABLED);
   return true;
 }
     
@@ -313,7 +314,8 @@ KdeAppletWindow::on_embedded()
       KdeAppletWindow::set_size(last_size.width, last_size.height);
     }
 
-  control->activated(AppletControl::APPLET_KDE);
+  control->set_applet_state(AppletControl::APPLET_KDE,
+                            AppletWindow::APPLET_STATE_VISIBLE);
 
   TRACE_EXIT();
 }

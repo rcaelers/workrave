@@ -208,10 +208,10 @@ W32AppletWindow::add_menu(const char *text, short cmd, int flags)
 }
 
 
-AppletWindow::AppletActivateResult
+AppletWindow::AppletState
 W32AppletWindow::activate_applet()
 {
-  return APPLET_ACTIVATE_VISIBLE;
+  return APPLET_STATE_VISIBLE;
 }
 
 void

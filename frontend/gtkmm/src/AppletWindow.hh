@@ -37,17 +37,17 @@ public:
       APPLET_W32
     };
 
-  enum AppletActivateResult
+  enum AppletState
     {
-      APPLET_ACTIVATE_FAILED,
-      APPLET_ACTIVATE_VISIBLE,
-      APPLET_ACTIVATE_PENDING
+      APPLET_STATE_DISABLED,
+      APPLET_STATE_VISIBLE,
+      APPLET_STATE_PENDING
     };
 
   AppletWindow();
   virtual ~AppletWindow();
 
-  virtual AppletActivateResult activate_applet() = 0;
+  virtual AppletState activate_applet() = 0;
   virtual void deactivate_applet() = 0;
   
   virtual void update_applet();
