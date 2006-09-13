@@ -265,6 +265,7 @@ AppletControl::is_visible()
 void
 AppletControl::heartbeat()
 {
+  TRACE_ENTER("AppletControl::heartbeat");
   if (delayed_show > 0)
     {
       delayed_show--;
@@ -282,6 +283,7 @@ AppletControl::heartbeat()
           applets[i]->update_applet();
         }
     }
+  TRACE_EXIT();
 }
 
 void

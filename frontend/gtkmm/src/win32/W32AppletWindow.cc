@@ -132,8 +132,10 @@ W32AppletWindow::set_icon(IconType type)
 void
 W32AppletWindow::update_view()
 {
+  TRACE_ENTER("W32AppletWindow::update_view");
   update_time_bars();
   update_menu();
+  TRACE_EXIT();
 }
 
 void

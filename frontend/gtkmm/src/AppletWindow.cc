@@ -54,8 +54,10 @@ AppletWindow::set_timers_tooltip(std::string& tip)
 void
 AppletWindow::update_applet()
 {
+  TRACE_ENTER("AppletWindow::update_applet");
   if (timer_box_control)
     {
       timer_box_control->update();
     }
+  TRACE_EXIT();
 }
