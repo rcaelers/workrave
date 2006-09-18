@@ -175,7 +175,7 @@ GnomeAppletWindow::activate_applet()
           // Tray menu
           if (tray_menu == NULL)
             {
-              tray_menu = menus->create_tray_menu();
+              tray_menu = menus->create_menu(Menus::MENU_APPLET);
             }
       
           if (menus != NULL)
@@ -283,6 +283,7 @@ GnomeAppletWindow::update()
 void
 GnomeAppletWindow::set_menu_active(int menu, bool active)
 {
+  TRACE_ENTER_MSG("GnomeAppletWindow::set_menu_active", menu << " " << active);
   CORBA_Environment ev;
 
   if (applet_control != NULL)
@@ -290,21 +291,25 @@ GnomeAppletWindow::set_menu_active(int menu, bool active)
       CORBA_exception_init (&ev);
       switch (menu)
         {
-        case 0:
-          GNOME_Workrave_AppletControl_set_menu_status(applet_control, "/commands/Normal", active, &ev);
+        case Menus::MENUSYNC_MODE_NORMAL:
+          GNOME_Workrave_AppletControl_set_menu_status(applet_control, "/commands/Normal",
+                                                       active, &ev);
           break;
-        case 1:
-          GNOME_Workrave_AppletControl_set_menu_status(applet_control, "/commands/Suspended", active, &ev);
+        case Menus::MENUSYNC_MODE_SUSPENDED:
+          GNOME_Workrave_AppletControl_set_menu_status(applet_control, "/commands/Suspended",
+                                                       active, &ev);
           break;
-        case 2:
-          GNOME_Workrave_AppletControl_set_menu_status(applet_control, "/commands/Quiet", active, &ev);
+        case Menus::MENUSYNC_MODE_QUIET:
+          GNOME_Workrave_AppletControl_set_menu_status(applet_control, "/commands/Quiet",
+                                                       active, &ev);
           break;
-        case 3:
+        case Menus::MENUSYNC_SHOW_LOG:
           GNOME_Workrave_AppletControl_set_menu_status(applet_control, "/commands/ShowLog", active, &ev);
           break;
         }
       CORBA_exception_free(&ev);
     }
+  TRACE_EXIT();
 }
 
 
@@ -320,17 +325,21 @@ GnomeAppletWindow::get_menu_active(int menu)
       CORBA_exception_init (&ev);
       switch (menu)
         {
-        case 0:
-          ret = GNOME_Workrave_AppletControl_get_menu_status(applet_control, "/commands/Normal", &ev);
+        case Menus::MENUSYNC_MODE_NORMAL:
+          ret = GNOME_Workrave_AppletControl_get_menu_status(applet_control, "/commands/Normal",
+                                                             &ev);
           break;
-        case 1:
-          ret = GNOME_Workrave_AppletControl_get_menu_status(applet_control, "/commands/Suspended", &ev);
+        case Menus::MENUSYNC_MODE_SUSPENDED:
+          ret = GNOME_Workrave_AppletControl_get_menu_status(applet_control, "/commands/Suspended",
+                                                             &ev);
           break;
-        case 2:
-          ret = GNOME_Workrave_AppletControl_get_menu_status(applet_control, "/commands/Quiet", &ev);
+        case Menus::MENUSYNC_MODE_QUIET:
+          ret = GNOME_Workrave_AppletControl_get_menu_status(applet_control, "/commands/Quiet",
+                                                             &ev);
           break;
-        case 3:
-          ret = GNOME_Workrave_AppletControl_get_menu_status(applet_control, "/commands/ShowLog", &ev);
+        case Menus::MENUSYNC_SHOW_LOG:
+          ret = GNOME_Workrave_AppletControl_get_menu_status(applet_control, "/commands/ShowLog",
+                                                             &ev);
           break;
         }
       CORBA_exception_free(&ev);

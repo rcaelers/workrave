@@ -166,7 +166,7 @@ MainWindow::init()
 
   Menus *menus = Menus::get_instance();
   menus->set_main_window(this);
-  popup_menu = menus->create_main_window_menu();
+  popup_menu = menus->create_menu(Menus::MENU_MAINWINDOW);
   
   timer_box_view = manage(new TimerBoxGtkView());
   timer_box_control = new TimerBoxControl("main_window", *timer_box_view);
@@ -583,7 +583,7 @@ MainWindow::win32_init()
 
   // Tray menu
   Menus *menus = Menus::get_instance();
-  win32_tray_menu = menus->create_tray_menu();
+  win32_tray_menu = menus->create_menu(Menus::MENU_APPLET);
 
 //   win32_tray_menu->signal_leave_notify_event().connect(MEMBER_SLOT(*this, &MainWindow::win32_on_leave_notify));
 //   win32_tray_menu->signal_enter_notify_event().connect(MEMBER_SLOT(*this, &MainWindow::win32_on_enter_notify));

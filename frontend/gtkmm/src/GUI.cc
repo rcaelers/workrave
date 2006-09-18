@@ -157,6 +157,7 @@ GUI::~GUI()
   delete main_window;
 
   delete applet_control;
+  delete menus;
   
   delete [] prelude_windows;
   delete [] break_windows;
@@ -849,7 +850,8 @@ GUI::core_event_operation_mode_changed(const OperationMode m)
     status_icon->set_operation_mode(m);
 #else
   (void) m;
-#endif  
+#endif
+  menus->resync_applet();
 }
 
 

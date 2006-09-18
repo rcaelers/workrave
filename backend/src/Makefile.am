@@ -61,8 +61,12 @@ workrave-server-bindings.h:  workrave-service.xml
 workrave-client-bindings.h:  workrave-service.xml
 	dbus-binding-tool --prefix=workrave --mode=glib-client $<> $@
 
-dbussources=DBus.c
+#dbussources=DBus.cc
 
+# HACK
+libworkrave_backend_dbus_a_SOURCES=DBus.cc
+noinst_LIBRARIES+=libworkrave-backend-dbus.a
+libworkrave_backend_a_LIBADD=${libworkrave_backend_dbus_a_OBJECTS}
 endif
 
 libworkrave_backend_a_SOURCES = \
@@ -81,7 +85,13 @@ libworkrave_backend_a_CXXFLAGS = \
 			-D_XOPEN_SOURCE=600 @X_CFLAGS@ \
 			@WR_COMMON_CFLAGS@ @WR_BACKEND_CFLAGS@ @GLIB_CFLAGS@ \
 			@GDOME_CFLAGS@ @GNET_CFLAGS@ @DBUS_CFLAGS@ \
-			@GCONF_CFLAGS@ @GNOMEUI_CFLAGS@
+			@GCONF_CFLAGS@ @GNOMEUI_CFLAGS@ 
+
+if HAVE_DBUS
+## HACK
+libworkrave_backend_dbus_a_CXXFLAGS=-fpermissive ${libworkrave_backend_a_CXXFLAGS}
+endif
+
 
 EXTRA_DIST = 		$(wildcard *.cc) $(wildcard *.rc) $(wildcard *.hh) \
-			$(wildcard *.h) $(wildcard *.icc) workrave-infos.xml
+			$(wildcard *.h) $(wildcard *.icc) workrave-service.xml

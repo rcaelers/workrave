@@ -44,9 +44,6 @@ class TimerBoxAppletView;
 
 #include <gtkmm/checkmenuitem.h>
 
-
-#define MAX_CHECKMENUS (OPERATION_MODE_SIZEOF+1)
-
 class Menus :
   public SigC::Object
 {
@@ -54,22 +51,40 @@ public:
   Menus();
   ~Menus();
 
-  Gtk::Menu *create_menu(Gtk::CheckMenuItem *check_menus[4]);
-  Gtk::Menu *create_main_window_menu();
-  Gtk::Menu *create_tray_menu();
+  //! Menus items to be synced.
+  enum MenuSyncs
+    {
+      MENUSYNC_MODE_NORMAL,
+      MENUSYNC_MODE_SUSPENDED,
+      MENUSYNC_MODE_QUIET,
+      MENUSYNC_SHOW_LOG,
+      MENUSYNC_SIZEOF
+    };
+
+  //! Menus items to be synced.
+  enum MenuKind
+    {
+      MENU_MAINWINDOW,
+      MENU_APPLET,
+      MENU_SIZEOF
+    };
+
+  Gtk::Menu *create_menu(MenuKind kind);
   
   static Menus *get_instance();
 
   void set_main_window(MainWindow *main);
 #if defined(HAVE_GNOME) || defined(WIN32)
   void set_applet_window(AppletWindow *applet);
-#endif  
+#endif
 #if defined(WIN32)
   void on_applet_command(short cmd);
 #endif
   void resync_applet();
   
 private:
+  Gtk::Menu *create_menu(MenuKind kind, Gtk::CheckMenuItem *check_menus[MENUSYNC_SIZEOF]);
+
   void sync_mode_menu(int mode);
   void sync_log_menu(bool active);
   void set_operation_mode(OperationMode m);
@@ -118,6 +133,9 @@ protected:
 private:
   //! The one and only instance
   static Menus *instance;
+
+  //! 
+  Gtk::Menu *menus[MENU_SIZEOF];
   
 #if defined(HAVE_GNOME) || defined(WIN32)
   //! The applet windows
@@ -143,10 +161,7 @@ private:
   MainWindow *main_window;
 
   //! The system tray popup menu items.
-  Gtk::CheckMenuItem *tray_check_menus[MAX_CHECKMENUS];
-
-  //! The popup mode menu items
-  Gtk::CheckMenuItem *main_window_check_menus[MAX_CHECKMENUS];
+  Gtk::CheckMenuItem *sync_menus[MENU_SIZEOF][MENUSYNC_SIZEOF];
 };
 
 

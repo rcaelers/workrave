@@ -41,6 +41,9 @@ static const char rcsid[] = "$Id$";
 #include "DistributionManager.hh"
 #endif
 
+#ifdef HAVE_DBUS
+#include "DBus.hh"
+#endif
 
 //! Construct a new Break Controller.
 /*!
@@ -205,6 +208,9 @@ void
 BreakControl::goto_stage(BreakStage stage)
 {
   TRACE_ENTER_MSG("BreakControl::goto_stage", break_id << " " << stage);
+
+  send_signal(stage);
+  
   switch (stage)
     {
     case STAGE_DELAYED:
@@ -778,4 +784,43 @@ BreakControl::post_event(CoreEvent event)
       core->post_event(event);
     }
   TRACE_EXIT();
+}
+
+
+//! Send DBus signal when break stage changes.
+void
+BreakControl::send_signal(BreakStage stage)
+{
+#ifdef HAVE_DBUS
+  char *progress = NULL;
+  
+  switch (stage)
+    {
+    case STAGE_NONE:
+      progress = "none";
+      break;
+      
+    case STAGE_SNOOZED:
+      progress = "none";
+      break;
+
+    case STAGE_DELAYED:
+      // Do not send this stage.
+      break;
+        
+    case STAGE_PRELUDE:
+      progress = "prelude";
+      break;
+      
+    case STAGE_TAKING:
+      progress = "break";
+      break;
+    }
+
+  if (progress != NULL)
+    {
+      workrave_service_send_break_stage_signal(break_id, progress);
+    }
+  
+#endif
 }

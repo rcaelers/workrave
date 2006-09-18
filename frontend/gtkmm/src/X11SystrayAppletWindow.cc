@@ -125,7 +125,7 @@ X11SystrayAppletWindow::activate_applet()
       if (tray_menu == NULL)
         {
           Menus *menus = Menus::get_instance();
-          tray_menu = menus->create_tray_menu();
+          tray_menu = menus->create_menu(Menus::MENU_APPLET);
         }
       
       ret = AppletWindow::APPLET_STATE_VISIBLE;

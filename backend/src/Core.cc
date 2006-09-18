@@ -57,6 +57,10 @@ static const char rcsid[] = "$Id$";
 #include <gconf/gconf-client.h>
 #endif
 
+#ifdef HAVE_DBUS
+#include "DBus.hh"
+#endif
+
 Core *Core::instance = NULL;
 
 const char *WORKRAVESTATE="WorkRaveState";
@@ -168,6 +172,11 @@ Core::init(int argc, char **argv, AppInterface *app, char *display_name)
 
   load_state();
   load_misc();
+
+#ifdef HAVE_DBUS
+  // FIXME: move..
+  workrave_dbus_server_init(this);
+#endif
 }
 
 

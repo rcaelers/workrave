@@ -52,7 +52,7 @@ static const char rcsid[] = "$Id$";
 #include "NetworkLogDialog.hh"
 #endif
 #ifdef HAVE_GNOME
-#include "AppletWindow.hh"
+#include "GnomeAppletWindow.hh"
 #else
 #include "gnome-about.h"
 #endif
@@ -88,6 +88,7 @@ enum
 };
 #endif
 
+
 //! Constructor.
 /*!
  *  \param gui the main GUI entry point.
@@ -112,10 +113,13 @@ Menus::Menus() :
   instance = this;
   gui = GUI::get_instance();
 
-  for (int i = 0; i < MAX_CHECKMENUS; i++)
+  for (int k = 0; k < MENU_SIZEOF; k++)
     {
-      main_window_check_menus[i] = NULL;
-      tray_check_menus[i] = NULL;
+      menus[k] = NULL;
+      for (int i = 0; i < MENUSYNC_SIZEOF; i++)
+        {
+          sync_menus[k][i] = NULL;
+        }
     }
 }
 
@@ -125,42 +129,56 @@ Menus::~Menus()
 {
   TRACE_ENTER("Menus::~Menus");
   instance = 0;
+
+  for (int k = 0; k < MENU_SIZEOF; k++)
+    {
+      delete menus[k];
+      menus[k] = NULL;
+    }
+  
   TRACE_EXIT();
 }
 
 
 Gtk::Menu *
-Menus::create_main_window_menu()
+Menus::create_menu(MenuKind kind)
 {
-  Gtk::Menu *menu = manage(create_menu(main_window_check_menus)); // FIXME: leak
-    
+  Gtk::Menu *menu = menus[kind];
+
+  if (menu == NULL)
+    {
+      menu = manage(create_menu(kind, sync_menus[kind]));
+
 #ifdef HAVE_DISTRIBUTION
-  main_window_check_menus[3]->signal_toggled().connect(MEMBER_SLOT(*this,
-                                                                  &Menus::on_menu_network_log_main_window));
-#endif  
 
-  return menu;
-}
+      switch (kind)
+        {
+        case MENU_MAINWINDOW:
+          sync_menus[kind][MENUSYNC_SHOW_LOG]->signal_toggled().
+            connect(MEMBER_SLOT(*this, &Menus::on_menu_network_log_main_window));
+          break;
+      
+        case MENU_APPLET:
+          sync_menus[kind][MENUSYNC_SHOW_LOG]->signal_toggled().
+            connect(MEMBER_SLOT(*this, &Menus::on_menu_network_log_tray));
+          break;
 
-
-Gtk::Menu *
-Menus::create_tray_menu()
-{
-  Gtk::Menu *menu = manage(create_menu(tray_check_menus));
-#ifdef HAVE_DISTRIBUTION
-  tray_check_menus[3]->signal_toggled().connect(MEMBER_SLOT(*this,
-                                                           &Menus::on_menu_network_log_tray));
+        default:
+          break;
+        }
 #endif
 
+      menus[kind] = menu;
+    }
+  
   return menu;
 }
-
 
 //! Create the popup-menu
 Gtk::Menu *
-Menus::create_menu(Gtk::CheckMenuItem *check_menus[4])
+Menus::create_menu(MenuKind kind, Gtk::CheckMenuItem *check_menus[MENUSYNC_SIZEOF])
 {
-  TRACE_ENTER("Menus::create_menu");
+  TRACE_ENTER_MSG("Menus::create_menu", kind);
   Gtk::Menu *pop_menu = manage(new Gtk::Menu());
   
   Gtk::Menu::MenuList &menulist = pop_menu->items();
@@ -247,12 +265,12 @@ Menus::create_menu(Gtk::CheckMenuItem *check_menus[4])
   distr_log_menu_item->show();
   distr_menu_list.push_back(*distr_log_menu_item);
 
-  check_menus[3] = distr_log_menu_item;
+  check_menus[MENUSYNC_SHOW_LOG] = distr_log_menu_item;
 #endif
   
   // FIXME: add separators, etc...
 #ifndef WIN32
-  if (check_menus == tray_check_menus)
+  if (kind == MENU_APPLET)
     {
       menulist.push_front(Gtk::Menu_Helpers::StockMenuElem
                           (Gtk::Stock::OPEN,
@@ -323,28 +341,31 @@ Menus::create_menu(Gtk::CheckMenuItem *check_menus[4])
 void
 Menus::sync_mode_menu(int mode)
 {
-  TRACE_ENTER("sync_mode_menu");
-
   // Ugh, isn't there an other way to prevent endless signal loops?
   static bool syncing = false;
+
+  TRACE_ENTER_MSG("Menus::sync_mode_menu", mode << " " << syncing);
   if (syncing)
     return;
   syncing = true;
 
-  if (main_window_check_menus[mode] != NULL && !main_window_check_menus[mode]->get_active())
+  for (int k = MENU_MAINWINDOW; k < MENU_SIZEOF; k++)
     {
-      TRACE_MSG("setting active");
-      main_window_check_menus[mode]->set_active(true);
+      if (sync_menus[k][mode] != NULL && !sync_menus[k][mode]->get_active())
+        {
+          TRACE_MSG("setting active " << k <<" " << mode);
+          sync_menus[k][mode]->set_active(true);
+        }
+ 
     }
-
-  if (tray_check_menus[mode] != NULL && !tray_check_menus[mode]->get_active())
-    tray_check_menus[mode]->set_active(true);
   
 #if defined(HAVE_GNOME)
-//   if (applet_window != NULL)
-//     {
-//       applet_window->set_menu_active(mode, true);
-//     }
+  GnomeAppletWindow *aw = static_cast<GnomeAppletWindow*>(applet_window);
+  if (aw != NULL)
+    {
+      TRACE_MSG("setting gnome active " << mode);
+      aw->set_menu_active(mode, true);
+    }
 #elif defined(WIN32)
   resync_applet();
 #endif
@@ -357,28 +378,27 @@ Menus::sync_mode_menu(int mode)
 void
 Menus::sync_log_menu(bool active)
 {
-  TRACE_ENTER("sync_log_menu");
+  TRACE_ENTER("Menus::sync_log_menu");
 
   static bool syncing = false;
   if (syncing)
     return;
   syncing = true;
 
-  if (main_window_check_menus[3] != NULL)
+  for (int k = 0; k < MENU_SIZEOF; k++)
     {
-      main_window_check_menus[3]->set_active(active);
-    }
-
-  if (tray_check_menus[3] != NULL)
-    {
-      tray_check_menus[3]->set_active(active);
+      if (sync_menus[k][MENUSYNC_SHOW_LOG] != NULL)
+        {
+          sync_menus[k][MENUSYNC_SHOW_LOG]->set_active(active);
+        }
     }
   
 #if defined(HAVE_GNOME)
-//   if (applet_window != NULL)
-//     {
-//       applet_window->set_menu_active(3, active);
-//     }
+  GnomeAppletWindow *aw = static_cast<GnomeAppletWindow*>(applet_window);
+  if (aw != NULL)
+    {
+      aw->set_menu_active(MENUSYNC_SHOW_LOG, active);
+    }
 #elif defined(WIN32)
   resync_applet();
 #endif
@@ -392,34 +412,56 @@ Menus::sync_log_menu(bool active)
 void
 Menus::resync_applet()
 {
-#if defined(HAVE_GNOME)
-//   if (applet_window != NULL)
-//     {
-//       CoreInterface *core = CoreFactory::get_core();
-//       OperationMode mode = core->get_operation_mode();      
-//       switch(mode)
-//         {
-//         case OPERATION_MODE_NORMAL:
-//           applet_window->set_menu_active(0, true);
-//           break;
-//         case OPERATION_MODE_SUSPENDED:
-//           applet_window->set_menu_active(1, true);
-//           break;
-//         case OPERATION_MODE_QUIET:
-//           applet_window->set_menu_active(2, true);
-//           break;
-//         default:
-//           break;
-//         }
-#if defined(HAVE_DISTRIBUTION)
-//       applet_window->set_menu_active(3, network_log_dialog != NULL);
-#endif
-//     }
-#elif defined(WIN32)
-  if (applet_window != NULL && main_window != NULL )
+  CoreInterface *core = CoreFactory::get_core();
+  OperationMode mode = core->get_operation_mode();
+  
+  for (int k = MENU_MAINWINDOW; k < MENU_SIZEOF; k++)
     {
-      CoreInterface *core = CoreFactory::get_core();
+      if (sync_menus[k][mode] != NULL && !sync_menus[k][mode]->get_active())
+        {
+          sync_menus[k][mode]->set_active(true);
+        }
+    }
+  
+#if defined(HAVE_DISTRIBUTION)
+  bool network_log_active = network_log_dialog != NULL;
+  for (int k = 0; k < MENU_SIZEOF; k++)
+    {
+      if (sync_menus[k][MENUSYNC_SHOW_LOG] != NULL)
+        {
+          sync_menus[k][MENUSYNC_SHOW_LOG]->set_active(network_log_active);
+        }
+    }
+#endif
+      
+#if defined(HAVE_GNOME)
+  GnomeAppletWindow *aw = static_cast<GnomeAppletWindow*>(applet_window);
+  if (aw != NULL)
+    {
+      switch(mode)
+        {
+        case OPERATION_MODE_NORMAL:
+          aw->set_menu_active(MENUSYNC_MODE_NORMAL, true);
+          break;
+        case OPERATION_MODE_SUSPENDED:
+          aw->set_menu_active(MENUSYNC_MODE_SUSPENDED, true);
+          break;
+        case OPERATION_MODE_QUIET:
+          aw->set_menu_active(MENUSYNC_MODE_QUIET, true);
+          break;
+        default:
+          break;
+        }
+#if defined(HAVE_DISTRIBUTION)
+      bool network_log_active = network_log_dialog != NULL;
+      aw->set_menu_active(MENUSYNC_SHOW_LOG, network_log_dialog);
+      
+#endif
+    }
 
+#elif defined(WIN32)
+  if (applet_window != NULL && main_window != NULL)
+    {
       HWND cmd_win = (HWND) GDK_WINDOW_HWND( main_window
                                              ->Gtk::Widget::gobj()->window);
       W32AppletWindow *w32aw = static_cast<W32AppletWindow*>(applet_window);
@@ -431,45 +473,45 @@ Menus::resync_applet()
 
 
       w32aw->add_menu(_("_Normal"), MENU_COMMAND_MODE_NORMAL,
-                              W32AppletWindow::MENU_FLAG_TOGGLE
-                              |W32AppletWindow::MENU_FLAG_POPUP
-                              |(core->get_operation_mode()
-                                == OPERATION_MODE_NORMAL
-                                ? W32AppletWindow::MENU_FLAG_SELECTED
-                                : 0));
+                      W32AppletWindow::MENU_FLAG_TOGGLE
+                      |W32AppletWindow::MENU_FLAG_POPUP
+                      |(core->get_operation_mode()
+                        == OPERATION_MODE_NORMAL
+                        ? W32AppletWindow::MENU_FLAG_SELECTED
+                        : 0));
       w32aw->add_menu(_("_Suspended"), MENU_COMMAND_MODE_SUSPENDED,
-                              W32AppletWindow::MENU_FLAG_TOGGLE
-                              |W32AppletWindow::MENU_FLAG_POPUP
-                              |(core->get_operation_mode()
-                                == OPERATION_MODE_SUSPENDED
-                                ? W32AppletWindow::MENU_FLAG_SELECTED
-                                : 0));
+                      W32AppletWindow::MENU_FLAG_TOGGLE
+                      |W32AppletWindow::MENU_FLAG_POPUP
+                      |(core->get_operation_mode()
+                        == OPERATION_MODE_SUSPENDED
+                        ? W32AppletWindow::MENU_FLAG_SELECTED
+                        : 0));
       w32aw->add_menu(_("Q_uiet"), MENU_COMMAND_MODE_QUIET,
-                              W32AppletWindow::MENU_FLAG_TOGGLE
-                              |W32AppletWindow::MENU_FLAG_POPUP
-                              |(core->get_operation_mode()
-                                == OPERATION_MODE_QUIET
-                                ? W32AppletWindow::MENU_FLAG_SELECTED
-                                : 0));
+                      W32AppletWindow::MENU_FLAG_TOGGLE
+                      |W32AppletWindow::MENU_FLAG_POPUP
+                      |(core->get_operation_mode()
+                        == OPERATION_MODE_QUIET
+                        ? W32AppletWindow::MENU_FLAG_SELECTED
+                        : 0));
       w32aw->add_menu(_("_Mode"), 0, 0);
 
 #ifdef HAVE_DISTRIBUTION
       w32aw->add_menu(_("_Connect"), MENU_COMMAND_NETWORK_CONNECT,
-                              W32AppletWindow::MENU_FLAG_TOGGLE
-                              |W32AppletWindow::MENU_FLAG_POPUP);
+                      W32AppletWindow::MENU_FLAG_TOGGLE
+                      |W32AppletWindow::MENU_FLAG_POPUP);
       w32aw->add_menu(_("_Disconnect"),
-                              MENU_COMMAND_NETWORK_DISCONNECT,
-                              W32AppletWindow::MENU_FLAG_TOGGLE
-                              |W32AppletWindow::MENU_FLAG_POPUP);
+                      MENU_COMMAND_NETWORK_DISCONNECT,
+                      W32AppletWindow::MENU_FLAG_TOGGLE
+                      |W32AppletWindow::MENU_FLAG_POPUP);
       w32aw->add_menu(_("_Reconnect"), MENU_COMMAND_NETWORK_RECONNECT,
-                              W32AppletWindow::MENU_FLAG_TOGGLE
-                              |W32AppletWindow::MENU_FLAG_POPUP);
+                      W32AppletWindow::MENU_FLAG_TOGGLE
+                      |W32AppletWindow::MENU_FLAG_POPUP);
       w32aw->add_menu(_("Show _log"), MENU_COMMAND_NETWORK_LOG,
-                              W32AppletWindow::MENU_FLAG_TOGGLE
-                              |W32AppletWindow::MENU_FLAG_POPUP
-                              |(network_log_dialog != NULL
-                                ? W32AppletWindow::MENU_FLAG_SELECTED
-                                : 0));
+                      W32AppletWindow::MENU_FLAG_TOGGLE
+                      |W32AppletWindow::MENU_FLAG_POPUP
+                      |(network_log_dialog != NULL
+                        ? W32AppletWindow::MENU_FLAG_SELECTED
+                        : 0));
       w32aw->add_menu(_("_Network"), 0, 0);
 #endif
       w32aw->add_menu(_("Statistics"), MENU_COMMAND_STATISTICS, 0);
@@ -478,7 +520,6 @@ Menus::resync_applet()
 #endif
 
 }
-
 
 void
 Menus::on_menu_open_main_window()
@@ -492,9 +533,9 @@ void
 Menus::on_menu_quit()
 {
   TRACE_ENTER("Menus::on_menu_quit");
-
+  
   gui->terminate();
-
+  
   TRACE_EXIT();
 }
 
@@ -505,6 +546,7 @@ Menus::on_menu_restbreak_now()
 {
   gui->restbreak_now();
 }
+
 
 void
 Menus::set_operation_mode(OperationMode m)
@@ -539,9 +581,10 @@ Menus::on_menu_suspend()
 void
 Menus::on_menu_normal_menu(Gtk::CheckMenuItem *menu)
 {
-  TRACE_ENTER("Menus::on_menu_normal");
+  TRACE_ENTER("Menus::on_menu_normal_menu");
   if (menu != NULL && menu->get_active())
     {
+      TRACE_MSG("active");
       on_menu_normal();
     }
   TRACE_EXIT();
@@ -552,10 +595,11 @@ Menus::on_menu_normal_menu(Gtk::CheckMenuItem *menu)
 void
 Menus::on_menu_quiet_menu(Gtk::CheckMenuItem *menu)
 {
-  TRACE_ENTER("Menus::on_menu_quiet");
-
+  TRACE_ENTER("Menus::on_menu_quiet_menu");
+  
   if (menu != NULL && menu->get_active())
     {
+      TRACE_MSG("active");
       on_menu_quiet();
     }
   TRACE_EXIT();
@@ -567,13 +611,14 @@ Menus::on_menu_quiet_menu(Gtk::CheckMenuItem *menu)
 void
 Menus::on_menu_suspend_menu(Gtk::CheckMenuItem *menu)
 {
-  TRACE_ENTER("Menus::on_menu_suspend");
-
+  TRACE_ENTER("Menus::on_menu_suspend_menu");
+  
   if (menu != NULL && menu->get_active())
     {
+      TRACE_MSG("active");
       on_menu_suspend();
     }
-
+  
   TRACE_EXIT();
 }
 
@@ -595,7 +640,7 @@ Menus::on_test_me()
   CoreInterface *core = CoreFactory::get_core();
   StatisticsInterface *stats = core->get_statistics();
   stats->dump();
-
+  
   core->test_me();
 }
 #endif
@@ -639,7 +684,7 @@ Menus::on_menu_preferences()
     {
       preferences_dialog = new PreferencesDialog();
       preferences_dialog->signal_response().connect(MEMBER_SLOT(*this, &Menus::on_preferences_response));
-          
+      
       preferences_dialog->run();
     }
   else
@@ -658,7 +703,7 @@ Menus::on_menu_exercises()
     {
       exercises_dialog = new ExercisesDialog();
       exercises_dialog->signal_response().connect(MEMBER_SLOT(*this, &Menus::on_exercises_response));
-          
+      
       exercises_dialog->run();
     }
   else
@@ -675,7 +720,7 @@ Menus::on_exercises_response(int response)
   
   assert(exercises_dialog != NULL);
   exercises_dialog->hide_all();
-
+  
   delete exercises_dialog;
   exercises_dialog = NULL;
 }
@@ -695,7 +740,7 @@ Menus::on_menu_statistics()
       
       statistics_dialog = new StatisticsDialog();
       statistics_dialog->signal_response().connect(MEMBER_SLOT(*this, &Menus::on_statistics_response));
-          
+      
       statistics_dialog->run();
     }
   else
@@ -711,9 +756,9 @@ void
 Menus::on_menu_about()
 {
   const gchar *authors[] = {
-   "Rob Caelers <robc@krandor.org>",
-   "Raymond Penners <raymond@dotsphinx.com>",
-   NULL
+    "Rob Caelers <robc@krandor.org>",
+    "Raymond Penners <raymond@dotsphinx.com>",
+    NULL
   };
   const gchar *translators = 
     "Raymond Penners <raymond@dotsphinx.com>\n"
@@ -736,7 +781,7 @@ Menus::on_menu_about()
     "ORY Mate <orymate@gmail.com>\n"
     "Иван Димов <idimov@users.sourceforge.net>\n"
     "Enver ALTIN <ealtin@parkyeri.com>";
-
+  
   string icon = Util::complete_directory("workrave.png",
                                          Util::SEARCH_PATH_IMAGES);
   GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(icon.c_str(), NULL); 
@@ -778,7 +823,7 @@ Menus::on_network_join_response(int response)
   
   assert(network_join_dialog != NULL);
   network_join_dialog->hide_all();
-
+  
   if (response == Gtk::RESPONSE_OK)
     {
       CoreInterface *core = CoreFactory::get_core();
@@ -788,7 +833,7 @@ Menus::on_network_join_response(int response)
       dist_manager->connect(peer);
       CoreFactory::get_configurator()->save();
     }
-
+  
   delete network_join_dialog;
   network_join_dialog = NULL;
 }
@@ -825,19 +870,19 @@ Menus::on_menu_network_log(bool active)
 {
 #ifdef HAVE_DISTRIBUTION
   TRACE_ENTER("Menus::on_menu_network_log");
-
+  
   if (active)
     {
       if (network_log_dialog == NULL)
         {
           network_log_dialog = new NetworkLogDialog();
-          network_log_dialog->signal_response().connect(MEMBER_SLOT(*this, &Menus::on_network_log_response));
+          network_log_dialog->signal_response().
+            connect(MEMBER_SLOT(*this, &Menus::on_network_log_response));
           
           sync_log_menu(active);
-
+          
           network_log_dialog->run();
         }
-
     }
   else if (network_log_dialog != NULL)
     {
@@ -846,8 +891,8 @@ Menus::on_menu_network_log(bool active)
       network_log_dialog = NULL;
       sync_log_menu(active);
     }
-
-
+  
+  
   TRACE_EXIT();
 #endif
 }
@@ -859,13 +904,13 @@ void
 Menus::on_menu_network_log_tray()
 {
   TRACE_ENTER("Menus::on_menu_network_log_tray");
-
-  if (tray_check_menus[3] != NULL)
+  
+  if (sync_menus[MENU_APPLET][MENUSYNC_SHOW_LOG] != NULL)
     {
-      bool active = tray_check_menus[3]->get_active();
+      bool active = sync_menus[MENU_APPLET][MENUSYNC_SHOW_LOG]->get_active();
       on_menu_network_log(active);
     }
-
+  
   TRACE_EXIT();
 }
 
@@ -873,13 +918,13 @@ void
 Menus::on_menu_network_log_main_window()
 {
   TRACE_ENTER("Menus::on_menu_network_log");
-
-  if (main_window_check_menus[3] != NULL)
+  
+  if (sync_menus[MENU_MAINWINDOW][MENUSYNC_SHOW_LOG] != NULL)
     {
-      bool active = main_window_check_menus[3]->get_active();
+      bool active = sync_menus[MENU_MAINWINDOW][MENUSYNC_SHOW_LOG]->get_active();
       on_menu_network_log(active);
     }
-
+  
   TRACE_EXIT();
 }
 
@@ -887,11 +932,11 @@ void
 Menus::on_network_log_response(int response)
 {
   (void) response;
-
+  
   assert(network_log_dialog != NULL);
   
   network_log_dialog->hide_all();
-
+  
   sync_log_menu(false);
   // done by gtkmm ??? delete network_log_dialog;
   network_log_dialog = NULL;
@@ -906,7 +951,7 @@ Menus::on_statistics_response(int response)
   
   assert(statistics_dialog != NULL);
   statistics_dialog->hide_all();
-
+  
   delete statistics_dialog;
   statistics_dialog = NULL;
 }
@@ -919,9 +964,9 @@ Menus::on_preferences_response(int response)
   
   assert(preferences_dialog != NULL);
   preferences_dialog->hide_all();
-
+  
   CoreFactory::get_configurator()->save();
-
+  
   delete preferences_dialog;
   preferences_dialog = NULL;
 }

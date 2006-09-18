@@ -793,7 +793,7 @@ showlog_callback(BonoboUIComponent *ui, const char *path, Bonobo_UIComponent_Eve
 
   new_state = strcmp (state, "0") != 0;
 
-  if (applet_control->last_showlog_state != new_state)
+  if (1) /* FIXME: applet_control->last_showlog_state != new_state) */
     {
       applet_control->last_showlog_state = new_state;
       
@@ -850,8 +850,10 @@ mode_callback(BonoboUIComponent *ui, const char *path, Bonobo_UIComponent_EventT
           mode = GNOME_Workrave_WorkraveControl_MODE_QUIET;
         }
 
-      if (mode != GNOME_Workrave_WorkraveControl_MODE_INVALID &&
-          mode != applet_control->last_mode)
+      if (mode != GNOME_Workrave_WorkraveControl_MODE_INVALID /* FIXME: &&
+                                                                 mode !=
+                                                                 applet_control->last_mode*/
+          ) 
         {
           applet_control->last_mode = mode;
 

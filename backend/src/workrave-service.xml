@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<node name="/org/workrave/Workrave">
+
+  <interface name="org.workrave.WorkraveInterface">
+    <annotation name="org.freedesktop.DBus.GLib.CSymbol" value="workrave_service"/>
+    
+    <method name="SetOperationMode">
+      <annotation name="org.freedesktop.DBus.GLib.CSymbol" 
+                  value="workrave_service_set_operation_mode"/>
+      <arg type="s" name="mode" direction="in" />
+    </method>
+
+    <method name="GetOperationMode">
+      <annotation name="org.freedesktop.DBus.GLib.CSymbol" 
+                  value="workrave_service_get_operation_mode"/>
+      <arg type="s" name="mode" direction="out" />
+    </method>
+
+    <method name="ReportActivity">
+      <annotation name="org.freedesktop.DBus.GLib.CSymbol" 
+                  value="workrave_service_report_activity"/>
+      <arg type="s" name="who" direction="in" />
+      <arg type="s" name="who" direction="in" />
+    </method>
+    
+    <signal name="MicrobreakChanged">
+      <arg type="s" name="progress" direction="out"/>
+    </signal>
+    <signal name="RestbreakChanged">
+      <arg type="s" name="progress" direction="out"/>
+    </signal>
+    <signal name="DailylimitChanged">
+      <arg type="s" name="progress" direction="out"/>
+    </signal>
+    
+  </interface>
+
+</node>

@@ -164,6 +164,7 @@ WR_METHOD_ARGS0_IMPL(void, restbreak)
 WR_METHOD_ARGS1_IMPL(void, set_mode, GNOME_Workrave_WorkraveControl_Mode, mode)
 {
   Menus *menus = Menus::get_instance();
+  TRACE_ENTER_MSG("RemoteControl::set_mode", mode);
   if (menus != NULL)
     {
       switch (mode)
@@ -181,6 +182,7 @@ WR_METHOD_ARGS1_IMPL(void, set_mode, GNOME_Workrave_WorkraveControl_Mode, mode)
           break;
         }
     }
+  TRACE_EXIT();
 }
 
 
