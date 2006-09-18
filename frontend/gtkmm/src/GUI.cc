@@ -1404,6 +1404,13 @@ GUI::win32_filter_func (void     *xevent,
         }
     }
 
+#ifdef WIN32  
+  if (ret != GDK_FILTER_REMOVE && gui->status_icon)
+    {
+      ret = gui->status_icon->win32_filter_func(xevent, event);
+    }
+#endif  
+
   TRACE_EXIT();
   return ret;
 }

@@ -47,8 +47,21 @@ StatusIcon::StatusIcon(MainWindow& mw)
                                                   Util::SEARCH_PATH_IMAGES);
       mode_icons[i] = Gdk::Pixbuf::create_from_file(file);
     }
-  
 
+#ifdef WIN32
+  wm_taskbarcreated = RegisterWindowMessage("TaskbarCreated");
+#endif
+
+  insert_icon();
+}
+
+StatusIcon::~StatusIcon()
+{
+}
+
+void
+StatusIcon::insert_icon()
+{
   // Create status icon
   CoreInterface *core = CoreFactory::get_core();
   OperationMode mode = core->get_operation_mode();      
@@ -61,10 +74,7 @@ StatusIcon::StatusIcon(MainWindow& mw)
                    reinterpret_cast<GCallback>(activate_callback), this);
   g_signal_connect(gobj, "popup-menu",
                    reinterpret_cast<GCallback>(popup_menu_callback), this);
-}
-
-StatusIcon::~StatusIcon()
-{
+  
 }
 
 void StatusIcon::set_operation_mode(OperationMode m)
@@ -101,3 +111,19 @@ void StatusIcon::set_timers_tooltip(std::string& tip)
   status_icon->set_tooltip(tip);
 }
 
+#ifdef WIN32
+GdkFilterReturn
+StatusIcon::win32_filter_func (void     *xevent,
+                               GdkEvent *event)
+{
+  (void) event;
+  MSG *msg = (MSG *) xevent;
+  GdkFilterReturn ret = GDK_FILTER_CONTINUE;
+  if (msg->message == wm_taskbarcreated)
+    {
+      insert_icon();
+      ret = GDK_FILTER_REMOVE;
+    }
+  return ret;
+}
+#endif
