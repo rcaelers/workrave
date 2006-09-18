@@ -291,3 +291,62 @@ Configurator::add_trailing_slash(string &key) const
         }
     }
 }
+
+void
+Configurator::get_value_default(string key, int *out, const int def) const
+{
+  bool b = get_value(key, out);
+  if (! b)
+    {
+      *out = def;
+      b = true;
+    }
+}
+
+
+
+void
+Configurator::get_value_default(string key, bool *out, const bool def) const
+{
+  bool b = get_value(key, out);
+  if (! b)
+    {
+      *out = def;
+    }
+}
+
+void
+Configurator::get_value_default(string key, string *out,
+                                const string def) const
+{
+  bool b = get_value(key, out);
+  if (! b)
+    {
+      *out = def;
+    }
+}
+
+
+void
+Configurator::get_value_default(string key, long *out,
+                                const long def) const
+{
+  bool b = get_value(key, out);
+  if (! b)
+    {
+      *out = def;
+    }
+}
+
+
+void
+Configurator::get_value_default(string key, double *out,
+                                const double def) const
+{
+  bool b = get_value(key, out);
+  if (! b)
+    {
+      *out = def;
+    }
+}
+

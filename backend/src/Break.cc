@@ -1,6 +1,6 @@
 // Break.cc
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -293,12 +293,8 @@ int
 Break::get_timer_limit() const
 {
   int rc;
-  bool b = configurator->get_value(timer_prefix + CFG_KEY_TIMER_LIMIT, &rc);
-  if (! b)
-    {
-      rc = default_config[break_id].limit;
-    }
-  
+  configurator->get_value_default(timer_prefix + CFG_KEY_TIMER_LIMIT, &rc,
+                                  default_config[break_id].limit);
   return rc;
 }
 
@@ -316,12 +312,8 @@ int
 Break::get_timer_auto_reset() const
 {
   int rc;
-  bool b = configurator->get_value(timer_prefix + CFG_KEY_TIMER_AUTO_RESET, &rc);
-  if (! b)
-    {
-      rc = default_config[break_id].auto_reset;
-    }
-  
+  configurator->get_value_default(timer_prefix + CFG_KEY_TIMER_AUTO_RESET, &rc,
+                                  default_config[break_id].auto_reset);
   return rc;
 }
 
@@ -339,12 +331,8 @@ string
 Break::get_timer_reset_pred() const
 {
   string rc;
-  bool b = configurator->get_value(timer_prefix + CFG_KEY_TIMER_RESET_PRED, &rc);
-  if (! b)
-    {
-      rc = default_config[break_id].resetpred;
-    }
-  
+  configurator->get_value_default(timer_prefix + CFG_KEY_TIMER_RESET_PRED, &rc,
+                                  default_config[break_id].resetpred);
   return rc;
 }
 
@@ -362,12 +350,8 @@ int
 Break::get_timer_snooze() const
 {
   int rc;
-  bool b = configurator->get_value(timer_prefix + CFG_KEY_TIMER_SNOOZE, &rc);
-  if (! b)
-    {
-      rc = default_config[break_id].snooze;
-    }
-  
+  configurator->get_value_default(timer_prefix + CFG_KEY_TIMER_SNOOZE, &rc,
+                                  default_config[break_id].snooze);
   return rc;
 }
 
@@ -403,14 +387,10 @@ Break::set_timer_monitor(string n)
 bool
 Break::get_timer_activity_sensitive() const
 {
-  bool b;
   bool rc = true;
-  b = configurator->get_value(timer_prefix + CFG_KEY_TIMER_ACTIVITY_SENSITIVE, &rc);
-  if (! b)
-    {
-      rc = true;
-    }
-
+  configurator->get_value_default(timer_prefix
+                                  +CFG_KEY_TIMER_ACTIVITY_SENSITIVE,
+                                  &rc, true);
   return rc;
 }
 
@@ -426,12 +406,9 @@ int
 Break::get_break_max_preludes() const
 {
   int rc;
-  bool b = configurator->get_value(break_prefix + CFG_KEY_BREAK_MAX_PRELUDES, &rc);
-  if (! b)
-    {
-      rc = default_config[break_id].max_preludes;
-    }
-  
+  configurator->get_value_default(break_prefix + CFG_KEY_BREAK_MAX_PRELUDES,
+                                  &rc,
+                                  default_config[break_id].max_preludes);
   return rc;
 }
 
@@ -448,12 +425,9 @@ int
 Break::get_break_max_postpone() const
 {
   int rc;
-  bool b = configurator->get_value(break_prefix + CFG_KEY_BREAK_MAX_POSTPONE, &rc);
-  if (! b)
-    {
-      rc = default_config[break_id].max_postpone;
-    }
-  
+  configurator->get_value_default(break_prefix + CFG_KEY_BREAK_MAX_POSTPONE,
+                                  &rc,
+                                  default_config[break_id].max_postpone);
   return rc;
 }
 
@@ -469,13 +443,10 @@ Break::set_break_max_postpone(int n)
 bool
 Break::get_break_ignorable() const
 {
-  bool b;
   bool rc;
-  b = configurator->get_value(break_prefix + CFG_KEY_BREAK_IGNORABLE, &rc);
-  if (! b)
-    {
-      rc = default_config[break_id].ignorable_break;
-    }
+  configurator->get_value_default(break_prefix + CFG_KEY_BREAK_IGNORABLE,
+                                  &rc,
+                                  default_config[break_id].ignorable_break);
   return rc;
 }
 
@@ -492,13 +463,9 @@ Break::set_break_ignorable(bool b)
 int
 Break::get_break_exercises() const
 {
-  bool b;
   int rc;
-  b = configurator->get_value(break_prefix + CFG_KEY_BREAK_EXERCISES, &rc);
-  if (! b)
-    {
-      rc = default_config[break_id].exercises;
-    }
+  configurator->get_value_default(break_prefix + CFG_KEY_BREAK_EXERCISES, &rc,
+                                  default_config[break_id].exercises);
   return rc;
 }
 
@@ -514,13 +481,9 @@ Break::set_break_exercises(int n)
 bool
 Break::get_break_enabled() const
 {
-  bool b;
   bool rc;
-  b = configurator->get_value(break_prefix + CFG_KEY_BREAK_ENABLED, &rc);
-  if (! b)
-    {
-      rc = true;
-    }
+  configurator->get_value_default(break_prefix + CFG_KEY_BREAK_ENABLED, &rc,
+                                  true);
   return rc;
 }
 

@@ -1,6 +1,6 @@
 // Configurator.hh 
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -68,6 +68,7 @@ public:
    *  \retval false attribute not found.
    */
   virtual bool get_value(string key, string *out) const = 0;
+  void get_value_default(string key, string *out, string s) const;
 
   //! Returns the value of the specified attribute
   /*!
@@ -75,6 +76,7 @@ public:
    *  \retval false attribute not found.
    */
   virtual bool get_value(string key, bool *out) const = 0;
+  void get_value_default(string key, bool *out, const bool def) const;
 
   //! Returns the value of the specified attribute
   /*!
@@ -82,6 +84,7 @@ public:
    *  \retval false attribute not found.
    */
   virtual bool get_value(string key, int *out) const = 0;
+  void get_value_default(string key, int *out, const int def) const;
 
   //! Returns the value of the specified attribute
   /*!
@@ -89,6 +92,7 @@ public:
    *  \retval false attribute not found.
    */
   virtual bool get_value(string key, long *out) const = 0;
+  void get_value_default(string key, long *out, const long def) const;
 
   //! Returns the value of the specified attribute
   /*!
@@ -96,6 +100,7 @@ public:
    *  \retval false attribute not found.
    */
   virtual bool get_value(string key, double *out) const = 0;
+  void get_value_default(string key, double *out, const double def) const;
 
   //! Sets the value of the specified attribute.
   /*!

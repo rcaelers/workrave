@@ -1,6 +1,6 @@
 // Win32Configurator.cc --- Configuration Access
 //
-// Copyright (C) 2002, 2005 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2005, 2006 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -154,7 +154,7 @@ Win32Configurator::get_value(string key, double *out) const
   bool rc = get_value(key, &s);
   if (rc)
     {
-      int f = sscanf(s.c_str(), "%f", out);
+      int f = sscanf(s.c_str(), "%lf", out);
       rc = (f == 1);
     }
   return rc;
