@@ -33,16 +33,23 @@ static const char rcsid[] = "$Id$";
 
 W32AppletWindow::W32AppletWindow()
 {
+  TRACE_ENTER("W32AppletWindow::W32AppletWindow");
+
   timer_box_view = this;
-  timer_box_control
-    = new TimerBoxControl("applet", *this);
   applet_window = NULL;
   heartbeat_data.enabled = false;
   init_menu(NULL);
+
+  // Intentionally last line, as this one calls W32AW::set_enabled(), e.g.
+  timer_box_control = new TimerBoxControl("applet", *this);
+
+  TRACE_EXIT();
 }
 
 W32AppletWindow::~W32AppletWindow()
 {
+  TRACE_ENTER("W32AppletWindow::~W32AppletWindow");
+  TRACE_EXIT();
 }
 
 
@@ -89,7 +96,7 @@ RecursiveFindWindow(HWND hwnd, LPCTSTR lpClassName)
 void
 W32AppletWindow::set_slot(BreakId id, int slot)
 {
-  TRACE_ENTER("W32AppletWindow::set_slot");
+  TRACE_ENTER_MSG("W32AppletWindow::set_slot", int(id) << ", " << slot);
   heartbeat_data.slots[slot] = (short) id;
   TRACE_EXIT();
 }
@@ -102,7 +109,7 @@ W32AppletWindow::set_time_bar(BreakId id,
                                  TimeBarInterface::ColorId secondary_color,
                                  int secondary_val, int secondary_max)
 {
-  TRACE_ENTER("W32AppletWindow::set_time_bar");
+  TRACE_ENTER_MSG("W32AppletWindow::set_time_bar", int(id) << "=" << text);
   strncpy(heartbeat_data.bar_text[id], text.c_str(), APPLET_BAR_TEXT_MAX_LENGTH-1);
   heartbeat_data.bar_text[id][APPLET_BAR_TEXT_MAX_LENGTH-1] = '\0';
   heartbeat_data.bar_primary_color[id] = primary_color;
@@ -164,6 +171,7 @@ W32AppletWindow::update_menu()
 void
 W32AppletWindow::update_time_bars()
 {
+  TRACE_ENTER("W32AppletWindow::update_time_bars");
   HWND hwnd = get_applet_window();
   if (hwnd != NULL)
     {
@@ -171,8 +179,14 @@ W32AppletWindow::update_time_bars()
       msg.dwData = APPLET_MESSAGE_HEARTBEAT;
       msg.cbData = sizeof(AppletHeartbeatData);
       msg.lpData = &heartbeat_data;
+      TRACE_MSG("sending: enabled=" << heartbeat_data.enabled);
+      for (size_t i = 0; i < BREAK_ID_SIZEOF; i++)
+        {
+          TRACE_MSG("sending: slots[]=" << heartbeat_data.slots[i]);
+        }
       SendMessage(hwnd, WM_COPYDATA, 0, (LPARAM) &msg);
     }
+  TRACE_EXIT();
 }
   
 HWND
