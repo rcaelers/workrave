@@ -832,6 +832,17 @@ GUI::core_event_notify(CoreEvent event)
   TRACE_EXIT();
 }
 
+void
+GUI::core_event_operation_mode_changed(const OperationMode m)
+{
+#ifdef WIN32  
+  if (status_icon)
+    status_icon->set_operation_mode(m);
+#else
+  (void) m;
+#endif  
+}
+
 
 void
 GUI::set_break_response(BreakResponseInterface *rep)
@@ -840,15 +851,6 @@ GUI::set_break_response(BreakResponseInterface *rep)
 }
 
 
-void
-GUI::set_operation_mode(OperationMode m)
-{
-  (void)m;
-#ifdef WIN32  
-  if (status_icon)
-    status_icon->set_operation_mode(m);
-#endif  
-}
 
 void
 GUI::start_prelude_window(BreakId break_id)

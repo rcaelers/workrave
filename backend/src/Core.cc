@@ -471,7 +471,11 @@ Core::set_operation_mode(OperationMode mode)
           stop_all_breaks();
         }
       get_configurator()->set_value(CFG_KEY_OPERATION_MODE, mode);
-  }
+      if (core_event_listener != NULL)
+        {
+          core_event_listener->core_event_operation_mode_changed(mode);
+        }
+    }
 
   return previous_mode;
 }

@@ -512,7 +512,6 @@ Menus::set_operation_mode(OperationMode m)
   CoreInterface *core = CoreFactory::get_core();
   core->set_operation_mode(m);
   sync_mode_menu(m);
-  gui->set_operation_mode(m);
 }
 
 

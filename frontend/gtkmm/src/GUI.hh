@@ -88,6 +88,7 @@ public:
 
   //
   void core_event_notify(CoreEvent event);
+  void core_event_operation_mode_changed(const OperationMode m);
   
   // Internal public methods
   void restbreak_now();
@@ -96,7 +97,6 @@ public:
   void toggle_main_window();
   void terminate();
   void init_multihead();
-  void set_operation_mode(OperationMode m);
 
   // Prefs
   static const std::string CFG_KEY_GUI_BLOCK_MODE;
