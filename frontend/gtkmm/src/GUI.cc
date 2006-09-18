@@ -246,6 +246,15 @@ GUI::terminate()
 {
   TRACE_ENTER("GUI::terminate");
 
+#ifdef WIN32
+  // HACK: Without it status icon keeps on dangling in tray
+  // Nicer solution: nicely cleanup complete gui ~GUI()
+  if (status_icon)
+    {
+      delete status_icon;
+      status_icon = 0;
+    }
+#endif
   CoreFactory::get_configurator()->save();
   
   collect_garbage();
