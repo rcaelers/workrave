@@ -1,7 +1,6 @@
 @ W32 applet to default to all in one spot
 @ W32 window location: window goes down each time (due to decorations)
 @ Fist roll image is wrong, to be fixed
-@ Phase out home grown status icon
 @ Reenable popup-menu time-out for tray menu
 @ Clean up runtime (remove raleigh themes, ...)
 @ Reenable force_cycle() for w32 applet

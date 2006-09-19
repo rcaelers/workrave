@@ -166,7 +166,7 @@ MainWindow::init()
 
   Menus *menus = Menus::get_instance();
   menus->set_main_window(this);
-  popup_menu = menus->create_menu(Menus::MENU_MAINWINDOW);
+  menus->create_menu(Menus::MENU_MAINWINDOW);
   
   timer_box_view = manage(new TimerBoxGtkView());
   timer_box_control = new TimerBoxControl("main_window", *timer_box_view);
@@ -312,10 +312,6 @@ void MainWindow::on_activate()
   open_window();
 }
 
-void MainWindow::on_popup_menu(guint button, guint activate_time)
-{
-  popup_menu->popup(button, activate_time);
-}
 
 
 //! Opens the main window.
@@ -427,7 +423,8 @@ MainWindow::on_button_press_event(GdkEventButton *event)
 
   if ((event->type == GDK_BUTTON_PRESS) && (event->button == 3))
     {
-      popup_menu->popup(event->button, event->time);
+      Menus::get_instance()->popup(Menus::MENU_MAINWINDOW,
+                                   event->button, event->time);
       ret = true;
     }
 
@@ -577,243 +574,14 @@ MainWindow::win32_init()
   HWND hwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
   SetWindowLong(hwnd, GWL_HWNDPARENT, (LONG) win32_main_hwnd);
 
-  // Tray icon
-  wm_taskbarcreated = RegisterWindowMessage("TaskbarCreated");
-  win32_add_tray_icon();
-
-  // Tray menu
-  Menus *menus = Menus::get_instance();
-  win32_tray_menu = menus->create_menu(Menus::MENU_APPLET);
-
-//   win32_tray_menu->signal_leave_notify_event().connect(MEMBER_SLOT(*this, &MainWindow::win32_on_leave_notify));
-//   win32_tray_menu->signal_enter_notify_event().connect(MEMBER_SLOT(*this, &MainWindow::win32_on_enter_notify));
-//   win32_tray_menu->add_events(Gdk::ENTER_NOTIFY_MASK | Gdk::LEAVE_NOTIFY_MASK);
-
-  Gtk::Menu::MenuList &menulist = win32_tray_menu->items();
-
-  menulist.push_front(Gtk::Menu_Helpers::StockMenuElem
-                      (Gtk::Stock::OPEN,
-                       MEMBER_SLOT(*this, &MainWindow::win32_on_tray_open)));
   TRACE_EXIT();
 }
 
 void
 MainWindow::win32_exit()
 {
-  // Destroy tray
-  Shell_NotifyIcon(NIM_DELETE, &win32_tray_icon);
   DestroyWindow(win32_main_hwnd);
   UnregisterClass(WIN32_MAIN_CLASS_NAME, GetModuleHandle(NULL));
-}
-
-void
-MainWindow::win32_add_tray_icon()
-{
-  normal_icon = LoadIcon(win32_hinstance, "workrave");
-  quiet_icon = LoadIcon(win32_hinstance, "workravequiet");
-  suspended_icon = LoadIcon(win32_hinstance, "workravesusp");
-
-  memset(&win32_tray_icon, 0, sizeof(NOTIFYICONDATA));
-    
-  win32_tray_icon.cbSize = sizeof(NOTIFYICONDATA);
-  win32_tray_icon.hWnd = win32_main_hwnd;
-  win32_tray_icon.uID = 1;
-  win32_tray_icon.uFlags = NIF_ICON|NIF_TIP|NIF_MESSAGE; //|0x00000010; // NIF_INFO;
-  win32_tray_icon.uCallbackMessage = MYWM_TRAY_MESSAGE;
-  win32_tray_icon.hIcon = normal_icon;
-  strcpy(win32_tray_icon.szTip, "Workrave");
-
-  // Balloon: not used.
-  //win32_tray_icon.dwInfoFlags = 0; // NIIF_NONE;
-  //win32_tray_icon.uTimeout = 0; // 5 * 1000;
-  //strcpy(win32_tray_icon.szInfoTitle, "Workrave");
-  //strncpy(win32_tray_icon.szInfo, "Workrave", 255);
-
-  Shell_NotifyIcon(NIM_ADD, &win32_tray_icon);
-  DestroyIcon(win32_tray_icon.hIcon);
-}
-
-void
-MainWindow::win32_set_tray_tooltip(string tip)
-{
-  char *text = NULL;
-  const char *tip_locale = tip.c_str();
-
-  GError *error = NULL;
-  
-  text = g_locale_from_utf8(tip_locale, -1, NULL, NULL, &error);
-
-  if (error != NULL)
-    {
-      TRACE_ENTER("MainWindow::win32_set_tray_tooltip");
-      TRACE_MSG(error->message);
-      TRACE_EXIT();
-      g_error_free(error);
-    } 
-
-  if (text != NULL)
-    {    
-      strncpy(win32_tray_icon.szTip, text, 127);
-    }
-  else
-    {
-      strncpy(win32_tray_icon.szTip, "Workrave", 127);
-    }
-      
-  Shell_NotifyIcon(NIM_MODIFY, &win32_tray_icon);
-}
-
-
-void
-MainWindow::win32_set_tray_icon(TimerBoxView::IconType icon)
-{
-  string file;  
-  switch (icon)
-    {
-    case TimerBoxView::ICON_NORMAL:
-      win32_tray_icon.hIcon = normal_icon;
-      break;
-      
-    case TimerBoxView::ICON_QUIET:
-      win32_tray_icon.hIcon = quiet_icon;
-      break;
-      
-    case TimerBoxView::ICON_SUSPENDED:
-      win32_tray_icon.hIcon = suspended_icon;
-    }
-  
-  Shell_NotifyIcon(NIM_MODIFY, &win32_tray_icon);
-}
-
-/* Taken from Gaim. needs to be gtkmm-ified. */
-/* This is a workaround for a bug in windows GTK+. Clicking outside of the
-   menu does not get rid of it, so instead we get rid of it as soon as the
-   pointer leaves the menu. */
-static gboolean 
-win32_hide_menu(gpointer data)
-{
-	if (data != NULL) {
-		gtk_menu_popdown(GTK_MENU(data));
-	}
-	return FALSE;
-}
-
-static gboolean
-win32_menu_leave_enter(GtkWidget *menu, GdkEventCrossing *event, void *data)
-{
-  TRACE_ENTER("win32_menu_leave_enter");
-  static guint hide_docklet_timer = 0;
-  if (event->type == GDK_LEAVE_NOTIFY && event->detail == GDK_NOTIFY_ANCESTOR) {
-    /* Add some slop so that the menu doesn't annoyingly disappear when mousing around */
-    if (hide_docklet_timer == 0) {
-      hide_docklet_timer = g_timeout_add(500, win32_hide_menu, menu);
-    }
-  } else if (event->type == GDK_ENTER_NOTIFY && event->detail == GDK_NOTIFY_ANCESTOR) {
-    if (hide_docklet_timer != 0) {
-      /* Cancel the hiding if we reenter */
-      
-      g_source_remove(hide_docklet_timer);
-      hide_docklet_timer = 0;
-    }
-  }
-  TRACE_EXIT();
-  return FALSE;
-}
-
-LRESULT CALLBACK
-MainWindow::win32_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
-                              LPARAM lParam)
-{
-  TRACE_ENTER("MainWindow::win32_window_proc");
-  static bool connect_once = false;
-  MainWindow *win = (MainWindow *) GetWindowLong(hwnd, GWL_USERDATA);
-  if (win != NULL)
-    {
-      if (uMsg == win->wm_taskbarcreated)
-        {
-          win->win32_add_tray_icon();
-        }
-      else if (uMsg == MYWM_TRAY_MESSAGE)
-        {
-          MainWindow *win;
-          win = (MainWindow *) GetWindowLong(hwnd, GWL_USERDATA);
-          switch (lParam)
-            {
-            case WM_RBUTTONUP:
-              {
-                GtkWidget *window = (GtkWidget*) win->win32_tray_menu->gobj();
-                GdkWindow *gdk_window = window->window;
-                HWND phwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
-                SetForegroundWindow(phwnd);
-
-                if (!connect_once)
-                  {
-                    // RC: FIXME: remove this c hack HACK 
-                    TRACE_MSG("connect");
-                    g_signal_connect(window, "leave-notify-event", G_CALLBACK(win32_menu_leave_enter), NULL);
-                    g_signal_connect(window, "enter-notify-event", G_CALLBACK(win32_menu_leave_enter), NULL);
-                    connect_once = true;
-                    TRACE_MSG("connect ok");
-                  }
-                
-                win->win32_tray_menu->popup(0,  GetTickCount());
-              }
-              break;
-            case WM_LBUTTONDBLCLK:
-              win->open_window();
-              break;
-            }
-        }
-    }
-  
-  TRACE_EXIT();
-  return DefWindowProc(hwnd, uMsg, wParam, lParam);
-}
-
-//! User requested immediate restbreak.
-void
-MainWindow::win32_on_tray_open()
-{
-  win32_show(true);
-}
-
-
-bool
-MainWindow::win32_on_leave_notify(GdkEventCrossing *event)
-{
-  TRACE_ENTER("MainWindow:win32_on_leave_notify")
-  if (event->detail == GDK_NOTIFY_ANCESTOR &&
-      !timeout_connection.connected())
-    {
-      timeout_connection = Glib::signal_timeout().connect(MEMBER_SLOT(*this,
-                                                                      &MainWindow::win32_on_hide_timer),
-                                                          500);
-    }
-
-  TRACE_EXIT();
-  return false;
-}
-
-
-bool
-MainWindow::win32_on_enter_notify(GdkEventCrossing *event)
-{
-  TRACE_ENTER("MainWindow:win32_on_enter_notify")
-  if (event->detail == GDK_NOTIFY_ANCESTOR &&
-      timeout_connection.connected())
-    {
-      timeout_connection.disconnect();
-    }
-  TRACE_EXIT();
-  return false;
-}
-
-bool
-MainWindow::win32_on_hide_timer()
-{
-  win32_tray_menu->popdown();
-
-  return false;
 }
 
 #endif
@@ -1049,3 +817,15 @@ MainWindow::relocate_window(int width, int height)
   
   TRACE_EXIT();
 }
+
+#ifdef WIN32
+
+LRESULT CALLBACK
+MainWindow::win32_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
+                              LPARAM lParam)
+{
+  TRACE_ENTER("MainWindow::win32_window_proc");
+  TRACE_EXIT();
+  return DefWindowProc(hwnd, uMsg, wParam, lParam);
+}
+#endif

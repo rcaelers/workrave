@@ -140,14 +140,12 @@ Menus::~Menus()
 }
 
 
-Gtk::Menu *
+void
 Menus::create_menu(MenuKind kind)
 {
-  Gtk::Menu *menu = menus[kind];
-
-  if (menu == NULL)
+  if (! menus[kind])
     {
-      menu = manage(create_menu(kind, sync_menus[kind]));
+      menus[kind] = manage(create_menu(kind, sync_menus[kind]));
 
 #ifdef HAVE_DISTRIBUTION
 
@@ -167,16 +165,23 @@ Menus::create_menu(MenuKind kind)
           break;
         }
 #endif
-
-      menus[kind] = menu;
-
       if (kind == MENU_APPLET)
         {
           resync_applet();
         }
     }
-  
-  return menu;
+}
+
+void
+Menus::popup(const MenuKind kind,
+             const guint button,
+             const guint activate_time)
+{
+  Gtk::Menu *pop_menu = menus[kind];
+  if (pop_menu)
+    {
+      pop_menu->popup(button, activate_time);
+    }
 }
 
 //! Create the popup-menu
@@ -274,14 +279,12 @@ Menus::create_menu(MenuKind kind, Gtk::CheckMenuItem *check_menus[MENUSYNC_SIZEO
 #endif
   
   // FIXME: add separators, etc...
-#ifndef WIN32
   if (kind == MENU_APPLET)
     {
       menulist.push_front(Gtk::Menu_Helpers::StockMenuElem
                           (Gtk::Stock::OPEN,
                            MEMBER_SLOT(*this, &Menus::on_menu_open_main_window)));
     }
-#endif
   
   menulist.push_back(Gtk::Menu_Helpers::StockMenuElem(Gtk::Stock::PREFERENCES,
                                                       MEMBER_SLOT(*this, &Menus::on_menu_preferences)));
@@ -1023,3 +1026,65 @@ Menus::on_applet_command(short cmd)
 }
 
 #endif
+
+#if defined(HAVE_GNOME) || defined(WIN32)
+void
+Menus::set_applet_window(AppletWindow *applet)
+{
+  applet_window = applet;
+  resync_applet();
+}
+#endif
+
+
+
+// FIXME: Reinstate this code (once located in MainWindow)
+
+//
+//
+//                if (!connect_once)
+//                  {
+//                    // RC: FIXME: remove this c hack HACK 
+//                    TRACE_MSG("connect");
+//                    g_signal_connect(window, "leave-notify-event", G_CALLBACK(win32_menu_leave_enter), NULL);
+//                    g_signal_connect(window, "enter-notify-event", G_CALLBACK(win32_menu_leave_enter), NULL);
+//                    connect_once = true;
+//                    TRACE_MSG("connect ok");
+//                  }
+
+
+// /* Taken from Gaim. needs to be gtkmm-ified. */
+// /* This is a workaround for a bug in windows GTK+. Clicking outside of the
+//    menu does not get rid of it, so instead we get rid of it as soon as the
+//    pointer leaves the menu. */
+// static gboolean 
+// win32_hide_menu(gpointer data)
+// {
+// 	if (data != NULL) {
+// 		gtk_menu_popdown(GTK_MENU(data));
+// 	}
+// 	return FALSE;
+// }
+
+
+// static gboolean
+// win32_menu_leave_enter(GtkWidget *menu, GdkEventCrossing *event, void *data)
+// {
+//   TRACE_ENTER("win32_menu_leave_enter");
+//   static guint hide_docklet_timer = 0;
+//   if (event->type == GDK_LEAVE_NOTIFY && event->detail == GDK_NOTIFY_ANCESTOR) {
+//     /* Add some slop so that the menu doesn't annoyingly disappear when mousing around */
+//     if (hide_docklet_timer == 0) {
+//       hide_docklet_timer = g_timeout_add(500, win32_hide_menu, menu);
+//     }
+//   } else if (event->type == GDK_ENTER_NOTIFY && event->detail == GDK_NOTIFY_ANCESTOR) {
+//     if (hide_docklet_timer != 0) {
+//       /* Cancel the hiding if we reenter */
+//       
+//       g_source_remove(hide_docklet_timer);
+//       hide_docklet_timer = 0;
+//     }
+//   }
+//   TRACE_EXIT();
+//   return FALSE;
+// }

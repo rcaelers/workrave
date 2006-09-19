@@ -64,7 +64,6 @@ public:
   void relocate_window(int width, int height);
 
   void on_activate();
-  void on_popup_menu(guint button, guint activate_time);
   
   static bool get_always_on_top();
   static void set_always_on_top(bool b);
@@ -87,9 +86,6 @@ private:
 
   //! Table containing all timer information
   TimerBoxGtkView *timer_box_view;
-
-  //! The popup menu.
-  Gtk::Menu *popup_menu;
 
   //! Is the monitoring function suspended?
   bool monitor_suspended;
@@ -141,32 +137,16 @@ public:
   static const std::string CFG_KEY_MAIN_WINDOW_HEAD;
   
 #ifdef WIN32
-public:
-  void win32_set_tray_tooltip(string tip);
-  void win32_set_tray_icon(TimerBoxView::IconType icon);
-
 private:
   void win32_show(bool b);
   void win32_init();
   void win32_exit();
-  void win32_on_tray_open();
-  void win32_add_tray_icon();
 
-  bool win32_on_leave_notify(GdkEventCrossing *event);
-  bool win32_on_enter_notify(GdkEventCrossing *event);
-  bool win32_on_hide_timer();
-  
   static LRESULT CALLBACK win32_window_proc(HWND hwnd, UINT uMsg,
                                             WPARAM wParam, LPARAM lParam);
 
-  Gtk::Menu *win32_tray_menu;
   HWND win32_main_hwnd;
   HINSTANCE win32_hinstance;
-  NOTIFYICONDATA win32_tray_icon;
-  UINT wm_taskbarcreated;
-  HICON normal_icon;
-  HICON suspended_icon;
-  HICON quiet_icon;
   
   SigC::Connection timeout_connection;
 #endif

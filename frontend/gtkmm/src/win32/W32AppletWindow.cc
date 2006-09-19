@@ -28,7 +28,6 @@ static const char rcsid[] = "$Id$";
 #include "TimerBoxControl.hh"
 #include "Applet.hh"
 #include "GUI.hh"
-#include "MainWindow.hh"
 #include "Menus.hh"
 
 W32AppletWindow::W32AppletWindow()
@@ -124,19 +123,13 @@ W32AppletWindow::set_time_bar(BreakId id,
 void
 W32AppletWindow::set_tip(std::string tip)
 {
-  GUI *gui = GUI::get_instance();
-  MainWindow *main_window = gui->get_main_window();
-
-  main_window->win32_set_tray_tooltip(tip);
+  (void) tip;
 }
 
 void
 W32AppletWindow::set_icon(IconType type)
 {
-  GUI *gui = GUI::get_instance();
-  MainWindow *main_window = gui->get_main_window();
-
-  main_window->win32_set_tray_icon(type);
+  (void) type;
 }
 
 

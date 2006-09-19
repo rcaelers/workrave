@@ -69,8 +69,12 @@ public:
       MENU_SIZEOF
     };
 
-  Gtk::Menu *create_menu(MenuKind kind);
+  void create_menu(MenuKind kind);
   
+  void popup(const MenuKind kind,
+             const guint button,
+             const guint activate_time);
+
   static Menus *get_instance();
 
   void set_main_window(MainWindow *main);
@@ -173,19 +177,12 @@ Menus::set_main_window(MainWindow *main)
 
 
 #if defined(HAVE_GNOME) || defined(WIN32)
-inline void
-Menus::set_applet_window(AppletWindow *applet)
-{
-  applet_window = applet;
-}
-#endif
-
-
 inline Menus *
 Menus::get_instance()
 {
   assert(instance != 0);
   return instance;
 }
+#endif
 
 #endif // MENUS_HH

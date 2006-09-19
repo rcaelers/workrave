@@ -28,6 +28,7 @@ static const char rcsid[] = "$Id$";
 #include "MainWindow.hh"
 #include "CoreFactory.hh"
 #include "StatusIcon.hh"
+#include "Menus.hh"
 #include "Util.hh"
 
 StatusIcon::StatusIcon(MainWindow& mw)
@@ -53,6 +54,7 @@ StatusIcon::StatusIcon(MainWindow& mw)
 #endif
 
   insert_icon();
+  Menus::get_instance()->create_menu(Menus::MENU_APPLET);
 }
 
 StatusIcon::~StatusIcon()
@@ -89,7 +91,7 @@ void StatusIcon::on_activate()
 
 void StatusIcon::on_popup_menu(guint button, guint activate_time)
 {
-  main_window.on_popup_menu(button, activate_time);
+  Menus::get_instance()->popup(Menus::MENU_APPLET, button, activate_time);
 }
 
 void StatusIcon::activate_callback(GtkStatusIcon *,
