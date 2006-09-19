@@ -169,6 +169,11 @@ Menus::create_menu(MenuKind kind)
 #endif
 
       menus[kind] = menu;
+
+      if (kind == MENU_APPLET)
+        {
+          resync_applet();
+        }
     }
   
   return menu;
