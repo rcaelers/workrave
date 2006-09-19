@@ -54,6 +54,7 @@ public:
   //! Menus items to be synced.
   enum MenuSyncs
     {
+      // Note: First 3 elements MUST be same as OperatingMode!!!
       MENUSYNC_MODE_NORMAL,
       MENUSYNC_MODE_SUSPENDED,
       MENUSYNC_MODE_QUIET,

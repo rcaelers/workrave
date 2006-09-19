@@ -122,11 +122,8 @@ X11SystrayAppletWindow::activate_applet()
       plug->show_all();
       
       // Tray menu
-      if (tray_menu == NULL)
-        {
-          Menus *menus = Menus::get_instance();
-          tray_menu = menus->create_menu(Menus::MENU_APPLET);
-        }
+      Menus *menus = Menus::get_instance();
+      menus->create_menu(Menus::MENU_APPLET);
       
       ret = AppletWindow::APPLET_STATE_VISIBLE;
       applet_vertical = false;
@@ -234,7 +231,8 @@ X11SystrayAppletWindow::on_button_press_event(GdkEventButton *event)
     {
       if (event->button == 3 && tray_menu != NULL)
         {
-          tray_menu->popup(event->button, event->time);
+          Menus::get_instance()->popup(Menus::MENU_APPLET,
+                                       event->button, event->time);
           ret = true;
         }
       if (event->button == 1)

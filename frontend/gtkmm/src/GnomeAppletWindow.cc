@@ -173,10 +173,7 @@ GnomeAppletWindow::activate_applet()
           Menus *menus = Menus::get_instance();
 
           // Tray menu
-          if (tray_menu == NULL)
-            {
-              tray_menu = menus->create_menu(Menus::MENU_APPLET);
-            }
+          menus->create_menu(Menus::MENU_APPLET);
       
 #ifndef HAVE_EXERCISES
           GNOME_Workrave_AppletControl_set_menu_active(applet_control, "/commands/Exercises", false, &ev);

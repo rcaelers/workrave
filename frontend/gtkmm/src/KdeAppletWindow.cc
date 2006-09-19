@@ -150,11 +150,8 @@ KdeAppletWindow::activate_applet()
       TRACE_MSG("Size = " << req.width << " " << req.height << " " << applet_vertical);
       
       // Tray menu
-      if (tray_menu == NULL)
-        {
-          Menus *menus = Menus::get_instance();
-          tray_menu = menus->create_menu(Menus::MENU_APPLET);
-        }
+      Menus *menus = Menus::get_instance();
+      menus->create_menu(Menus::MENU_APPLET);
 
       plug_window(plug->get_id());
 
@@ -270,7 +267,8 @@ KdeAppletWindow::on_button_press_event(GdkEventButton *event)
     {
       if (event->button == 3 && tray_menu != NULL)
         {
-          tray_menu->popup(event->button, event->time);
+          Menus::get_instance()->popup(Menus::MENU_APPLET,
+                                       event->button, event->time);
           ret = true;
         }
       if (event->button == 1) // FIXME:  && visible_count == 0)
