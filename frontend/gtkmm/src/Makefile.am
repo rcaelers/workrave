@@ -82,6 +82,7 @@ if HAVE_GNOME
 extrasources +=		$(sourcesgnome)
 extranodistsources +=	$(sourcesgnome_idl)
 
+AppletControl.cc:       $(sourcesgnome_idl)
 X11AppletWindow.cc:	$(sourcesgnome_idl)
 GUI.cc:			$(sourcesgnome_idl)
 else
