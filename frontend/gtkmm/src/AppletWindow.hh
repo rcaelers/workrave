@@ -21,6 +21,8 @@
 
 #include "preinclude.h"
 
+#include <iostream>
+
 class TimerBoxControl;
 class TimerBoxView;
 

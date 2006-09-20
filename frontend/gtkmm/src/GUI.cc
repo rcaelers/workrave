@@ -205,11 +205,13 @@ GUI::main()
     }
 #endif
 
-  System::init(
 #ifdef HAVE_X
-               gdk_get_display()
+  char *display = gdk_get_display();
+  System::init(display);
+  g_free(display);
+#else
+  System::init()
 #endif
-               );
   
   init_debug();
   init_nls();

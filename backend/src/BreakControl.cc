@@ -791,6 +791,8 @@ BreakControl::post_event(CoreEvent event)
 void
 BreakControl::send_signal(BreakStage stage)
 {
+  (void) stage;
+  
 #ifdef HAVE_DBUS
   char *progress = NULL;
   
