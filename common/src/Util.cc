@@ -219,7 +219,7 @@ Util::get_search_path(SearchPathId type)
       searchPath.push_back("/usr/local/share/workrave/images");
       searchPath.push_back("/usr/share/workrave/images");
 #elif defined(WIN32)
-      searchPath.push_back(string(app_dir) + "\\share\\images");
+      searchPath.push_back(app_dir + "\\share\\images");
 #endif    
     }
   else if (type == SEARCH_PATH_CONFIG)
@@ -234,8 +234,8 @@ Util::get_search_path(SearchPathId type)
       searchPath.push_back("/usr/local/share/workrave/etc");
       searchPath.push_back("/usr/share/workrave/etc");
 #elif defined(WIN32)
-      searchPath.push_back(home_dir + "/");
-      searchPath.push_back(string(app_dir) + "\\etc");
+      searchPath.push_back(home_dir + "\\");
+      searchPath.push_back(app_dir + "\\etc");
 #endif    
     }
   else if (type == SEARCH_PATH_EXERCISES)
@@ -243,7 +243,7 @@ Util::get_search_path(SearchPathId type)
 #if defined(HAVE_X)
       searchPath.push_back(string(WORKRAVE_DATADIR) + "/exercises");
 #elif defined(WIN32)
-      searchPath.push_back(string(app_dir) + "\\share\\exercises");
+      searchPath.push_back(app_dir + "\\share\\exercises");
 #else
 #error Not properly ported.
 #endif    

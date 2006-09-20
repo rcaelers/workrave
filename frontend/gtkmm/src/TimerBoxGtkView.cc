@@ -82,7 +82,11 @@ TimerBoxGtkView::~TimerBoxGtkView()
     sheep->unreference();
 
   if (sheep_eventbox != NULL)
-    sheep_eventbox->unreference();
+    {
+      sheep_eventbox->unreference();
+      // FIXME: check if this is needed/Okay.
+      delete sheep_eventbox;
+    }
 }
 
 

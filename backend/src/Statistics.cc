@@ -132,10 +132,18 @@ Statistics::start_new_day()
       if (current_day != NULL)
         {
           TRACE_MSG("Save old day");
-          day_to_history(current_day);
-          day_to_remote_history(current_day);
+          bool ok = day_to_history(current_day);
+          if (ok)
+            {
+              day_to_remote_history(current_day);
+            }
+          else
+            {
+              delete current_day;
+              current_day = NULL;
+            }
         }
-
+      
       current_day = new DailyStatsImpl();
       been_active = false;
       
@@ -150,26 +158,32 @@ Statistics::start_new_day()
 }
 
 
-void
+bool
 Statistics::day_to_history(DailyStatsImpl *stats)
 {
-  add_history(stats);
-  
-  stringstream ss;
-  ss << Util::get_home_directory();
-  ss << "historystats" << ends;
+  bool ok = add_history(stats);
 
-  bool exists = Util::file_exists(ss.str());
-  ofstream stats_file(ss.str().c_str(), ios::app);
-
-  if (!exists)
+  if (ok)
     {
-      stats_file << WORKRAVESTATS << " " << STATSVERSION  << endl;
+      // Only add to file when day was added to history.
+  
+      stringstream ss;
+      ss << Util::get_home_directory();
+      ss << "historystats" << ends;
+      
+      bool exists = Util::file_exists(ss.str());
+      ofstream stats_file(ss.str().c_str(), ios::app);
+      
+      if (!exists)
+        {
+          stats_file << WORKRAVESTATS << " " << STATSVERSION  << endl;
+        }
+      
+      save_day(stats, stats_file);
+      stats_file.close();
     }
 
-  save_day(stats, stats_file);
-  stats_file.close();
-
+  return ok;
 }
 
 
@@ -251,12 +265,15 @@ Statistics::save_day(DailyStatsImpl *stats)
 
 
 //! Add the stats the the history list.
-void
+bool
 Statistics::add_history(DailyStatsImpl *stats)
 {
+  bool added = false;
+  
   if (history.size() == 0)
     {
       history.push_back(stats);
+      added = true;
     }
   else
     {
@@ -290,6 +307,7 @@ Statistics::add_history(DailyStatsImpl *stats)
                 history.insert(i.base(), stats);
               }
             found = true;
+            added = true;
             break;
           }
           i++;
@@ -298,8 +316,11 @@ Statistics::add_history(DailyStatsImpl *stats)
       if (!found)
         {
           history.insert(history.begin(), stats);
+          added = true;
         }
     }
+
+  return added;
 }
 
 //! Load the statistics of the current day.
@@ -485,11 +506,15 @@ Statistics::load_history()
 
       if (ok)
         {
-          DailyStatsImpl *day = new DailyStatsImpl(); // FIXME: leak
+          DailyStatsImpl *day = new DailyStatsImpl();
           
           load_day(day, stats_file);
 
-          add_history(day);
+          if (!add_history(day))
+            {
+              // Day not added to history. free mem
+              delete day;
+            }
           first = false;
         }
     }
@@ -925,7 +950,11 @@ Statistics::client_message(DistributionClientMessageID id, bool master, const ch
           if (stats_to_history)
             {
               TRACE_MSG("Save to history");
-              day_to_history(stats);
+              if (!day_to_history(stats))
+                {
+                  delete stats;
+                  stats = NULL;
+                }
               stats_to_history = false;
             }
           break;
@@ -944,7 +973,10 @@ Statistics::client_message(DistributionClientMessageID id, bool master, const ch
     {
       // this should not happend. but just to avoid a potential memory leak...
       TRACE_MSG("Save to history");
-      day_to_history(stats);
+      if (!day_to_history(stats))
+        {
+          delete stats;
+        }
       stats_to_history = false;
     }
   

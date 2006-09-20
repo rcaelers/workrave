@@ -53,44 +53,7 @@ run(int argc, char **argv)
 int
 main(int argc, char **argv)
 {
-  // Don't show allocations that are allocated before main()
-  Debug(make_all_allocations_invisible_except(NULL));
-
-  std::ios::sync_with_stdio(false);
-
-  // This will warn you when you are using header files that do not belong to the
-  // shared libcwd object that you linked with.
-  Debug(check_configuration());
-
-  // Turn on debug object `libcw_do'.
-  Debug(libcw_do.on());
-  Debug(dc::trace.on());
-  
-  // Turn on all debug channels that are off.
-  //ForAllDebugChannels(
-  //  if (!debugChannel.is_on())
-  //    debugChannel.on();
-  //);
-
-#ifdef CWDEBUG
-  std::ofstream file;
-  file.open("workrave.log");
-#endif
-
-  // Set the ostream related with libcw_do to `file':  
-  //Debug(libcw_do.set_ostream(&file));
-
   int ret = run(argc, argv);
-  
-  Dout(dc::trace, "=====");
-  Debug(dc::malloc.on());
-  Debug(dc::bfd.on());
-  Debug(list_allocations_on(libcw_do));
-
-#ifdef CWDEBUG
-  file.close();
-#endif
-  
   return ret;
 }
 

@@ -48,6 +48,7 @@ W32AppletWindow::W32AppletWindow()
 W32AppletWindow::~W32AppletWindow()
 {
   TRACE_ENTER("W32AppletWindow::~W32AppletWindow");
+  delete timer_box_control;
   TRACE_EXIT();
 }
 
