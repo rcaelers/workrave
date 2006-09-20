@@ -164,6 +164,11 @@ GUI::~GUI()
   delete [] heads;
   
   delete sound_player;
+
+#ifdef HAVE_GNOME
+  RemoteControl *control = RemoteControl::get_instance();
+  delete control;
+#endif
   
   TRACE_EXIT();
 }
@@ -210,7 +215,7 @@ GUI::main()
   System::init(display);
   g_free(display);
 #else
-  System::init()
+  System::init();
 #endif
   
   init_debug();

@@ -48,6 +48,9 @@ RemoteControl::RemoteControl()
 
 RemoteControl::~RemoteControl()
 {
+  g_object_unref(workrave_control);
+  workrave_control = NULL;
+  instance = NULL;
 }
 
 
