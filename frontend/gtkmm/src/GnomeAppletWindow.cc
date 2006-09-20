@@ -71,23 +71,10 @@ GnomeAppletWindow::~GnomeAppletWindow()
 {
   delete plug;
   delete container;
+  delete timer_box_control;
+  delete timer_box_view;
 }
 
-
-
-//! Initializes the applet window.
-void
-GnomeAppletWindow::init_applet()
-{
-  TRACE_ENTER("GnomeAppletWindow::init");
-  TRACE_EXIT();
-}
-
-//! Cleanup the applet window.
-void
-GnomeAppletWindow::cleanup_applet()
-{
-}
 
 //! Initializes the native gnome applet.
 AppletWindow::AppletState
@@ -156,7 +143,7 @@ GnomeAppletWindow::activate_applet()
           g_signal_connect(G_OBJECT(plug->gobj()), "destroy-event",
                            G_CALLBACK(GnomeAppletWindow::destroy_event), this);
       
-          view = manage(new TimerBoxGtkView());
+          view = new TimerBoxGtkView();
           timer_box_view = view;
           timer_box_control = new TimerBoxControl("applet", *timer_box_view);
       
@@ -218,6 +205,13 @@ GnomeAppletWindow::deactivate_applet()
           delete container;
           container = NULL;
         }
+
+      delete timer_box_control;
+      timer_box_control = NULL;
+      
+      delete timer_box_view;
+      timer_box_view = NULL;
+
       applet_control = NULL; // FIXME: free memory.
     }
         

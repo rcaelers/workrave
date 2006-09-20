@@ -63,7 +63,6 @@ KdeAppletWindow::KdeAppletWindow(AppletControl *control) :
   applet_active(false)
 {
   KdeWorkraveControl::init();
-  init_applet();
 }
 
 
@@ -72,22 +71,8 @@ KdeAppletWindow::~KdeAppletWindow()
 {
   delete plug;
   delete container;
-}
-
-
-//! Initializes the applet window.
-void
-KdeAppletWindow::init_applet()
-{
-  TRACE_ENTER("KdeAppletWindow::init");
-  TRACE_EXIT();
-}
-
-
-//! Cleanup the applet window.
-void
-KdeAppletWindow::cleanup_applet()
-{
+  delete timer_box_control;
+  delete timer_box_view;
 }
 
 
@@ -134,7 +119,7 @@ KdeAppletWindow::activate_applet()
       g_signal_connect(G_OBJECT(plug->gobj()), "destroy-event",
                        G_CALLBACK(KdeAppletWindow::destroy_event), this);
       
-      view = manage(new TimerBoxGtkView());
+      view = new TimerBoxGtkView();
       timer_box_view = view;
       
       timer_box_control = new TimerBoxControl("applet", *timer_box_view);
@@ -187,6 +172,12 @@ KdeAppletWindow::deactivate_applet()
           delete container;
           container = NULL;
         }
+
+      delete timer_box_control;
+      timer_box_control = NULL;
+      
+      delete timer_box_view;
+      timer_box_view = NULL;
     }
   applet_active = false;
 }

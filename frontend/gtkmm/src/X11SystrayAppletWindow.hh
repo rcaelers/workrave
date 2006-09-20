@@ -74,8 +74,6 @@ private:
   AppletControl *control;
   
 private:
-  void init_applet();
-  void cleanup_applet();
   AppletState activate_applet();
   void deactivate_applet();
     

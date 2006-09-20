@@ -94,8 +94,6 @@ private:
   bool applet_active;
   
 private:
-  void init_applet();
-  void cleanup_applet();
   void deactivate_applet();
   AppletState activate_applet();
     

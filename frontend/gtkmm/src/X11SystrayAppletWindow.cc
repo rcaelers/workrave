@@ -60,23 +60,11 @@ X11SystrayAppletWindow::~X11SystrayAppletWindow()
 {
   delete plug;
   delete container;
+  delete timer_box_control;
+  delete timer_box_view;
 }
 
 
-
-//! Initializes the applet window.
-void
-X11SystrayAppletWindow::init_applet()
-{
-  TRACE_ENTER("X11SystrayAppletWindow::init_applet");
-  TRACE_EXIT();
-}
-  
-//! Cleanup the applet window.
-void
-X11SystrayAppletWindow::cleanup_applet()
-{
-}
 
 //! Initializes the applet.
 AppletWindow::AppletState
@@ -104,7 +92,7 @@ X11SystrayAppletWindow::activate_applet()
                                                                 &X11SystrayAppletWindow::on_button_press_event));
       container = eventbox;
           
-      view = manage(new TimerBoxGtkView());
+      view = new TimerBoxGtkView();
       timer_box_view = view;
       timer_box_control = new TimerBoxControl("applet", *timer_box_view);
       
@@ -168,6 +156,13 @@ X11SystrayAppletWindow::deactivate_applet()
           delete container;
           container = NULL;
         }
+
+      delete timer_box_control;
+      timer_box_control = NULL;
+      
+      delete timer_box_view;
+      timer_box_view = NULL;
+
       control->set_applet_state(AppletControl::APPLET_TRAY,
                                 AppletWindow::APPLET_STATE_DISABLED);
     }

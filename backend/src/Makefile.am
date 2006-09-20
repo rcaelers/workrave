@@ -36,6 +36,14 @@ sourcesgnet = 		DistributionSocketLink.cc PacketBuffer.cc \
 endif
 endif
 
+DBUS_HEADER_SOURCES=workrave-server-bindings.h workrave-client-bindings.h
+
+# We don't want to install this header
+noinst_HEADERS = $(DBUS_HEADER_SOURCES)
+
+# Correctly clean the generated headers, but keep the xml description
+CLEANFILES = $(DBUS_HEADER_SOURCES)
+
 # DBus service file
 if HAVE_DBUS
 servicedir = $(DBUS_SERVICES_DIR)
@@ -47,12 +55,6 @@ $(service_DATA): $(service_in_files) Makefile
 	@sed -e "s|@bindir@|$(bindir)|" $<> $@
 
 BUILT_SOURCES=workrave-server-bindings.h workrave-client-bindings.h
-
-# We don't want to install this header
-noinst_HEADERS = $(BUILT_SOURCES)
-
-# Correctly clean the generated headers, but keep the xml description
-CLEANFILES = $(BUILT_SOURCES)
 
 #Rule to generate the binding headers
 workrave-server-bindings.h:  workrave-service.xml
