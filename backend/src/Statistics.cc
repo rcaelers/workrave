@@ -139,8 +139,8 @@ Statistics::start_new_day()
             }
           else
             {
-              delete current_day;
-              current_day = NULL;
+              // FIXME: delete current_day;
+              // current_day = NULL;
             }
         }
       
@@ -513,7 +513,7 @@ Statistics::load_history()
           if (!add_history(day))
             {
               // Day not added to history. free mem
-              delete day;
+              // FIXME: delete day;
             }
           first = false;
         }
@@ -952,8 +952,8 @@ Statistics::client_message(DistributionClientMessageID id, bool master, const ch
               TRACE_MSG("Save to history");
               if (!day_to_history(stats))
                 {
-                  delete stats;
-                  stats = NULL;
+                  // FIXME: delete stats;
+                  // stats = NULL;
                 }
               stats_to_history = false;
             }
@@ -975,7 +975,7 @@ Statistics::client_message(DistributionClientMessageID id, bool master, const ch
       TRACE_MSG("Save to history");
       if (!day_to_history(stats))
         {
-          delete stats;
+          // FIXME: delete stats;
         }
       stats_to_history = false;
     }
