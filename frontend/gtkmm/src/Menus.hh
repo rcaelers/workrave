@@ -90,6 +90,15 @@ public:
 private:
   Gtk::Menu *create_menu(MenuKind kind, Gtk::CheckMenuItem *check_menus[MENUSYNC_SIZEOF]);
 
+#ifdef WIN32
+  void win32_popup_hack_connect(Gtk::Menu *menu);
+  static gboolean win32_popup_hack_hide(gpointer data);
+  static gboolean win32_popup_hack_leave_enter(GtkWidget *menu,
+                                               GdkEventCrossing *event,
+                                               void *data);
+#endif  
+  
+
   void sync_mode_menu(int mode);
   void sync_log_menu(bool active);
   void set_operation_mode(OperationMode m);
