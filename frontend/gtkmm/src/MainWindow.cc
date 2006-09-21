@@ -468,14 +468,11 @@ MainWindow::config_changed_notify(string key)
 bool
 MainWindow::get_always_on_top() 
 {
-  bool b;
   bool rc;
-  b = CoreFactory::get_configurator()
-    ->get_value(MainWindow::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP, &rc);
-  if (! b)
-    {
-      rc = false;
-    }
+  CoreFactory::get_configurator()
+    ->get_value_default(MainWindow::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP,
+                        &rc,
+                        false);
   return rc;
 }
 
@@ -491,14 +488,9 @@ MainWindow::set_always_on_top(bool b)
 bool
 MainWindow::get_start_in_tray() 
 {
-  bool b;
   bool rc;
-  b = CoreFactory::get_configurator()
-    ->get_value(CFG_KEY_MAIN_WINDOW_START_IN_TRAY, &rc);
-  if (! b)
-    {
-      rc = false;
-    }
+  CoreFactory::get_configurator()
+    ->get_value_default(CFG_KEY_MAIN_WINDOW_START_IN_TRAY, &rc, false);
   return rc;
 }
 
@@ -590,32 +582,16 @@ void
 MainWindow::get_start_position(int &x, int &y, int &head)
 {
   TRACE_ENTER("MainWindow::get_start_position");
-  bool b;
   // FIXME: Default to right-bottom instead of 256x256
   ConfiguratorInterface *cfg = CoreFactory::get_configurator();
-  b = cfg->get_value(CFG_KEY_MAIN_WINDOW_X, &x);
-  if (! b)
-    {
-      x = 256;
-    }
-  b = cfg->get_value(CFG_KEY_MAIN_WINDOW_Y, &y);
-  if (! b)
-    {
-      y = 256;
-    }
-  b = cfg->get_value(CFG_KEY_MAIN_WINDOW_HEAD, &head);
-  if (! b)
-    {
-      head = 0;
-    }
-
+  cfg->get_value_default(CFG_KEY_MAIN_WINDOW_X, &x, 256);
+  cfg->get_value_default(CFG_KEY_MAIN_WINDOW_Y, &y, 256);
+  cfg->get_value_default(CFG_KEY_MAIN_WINDOW_HEAD, &head, 0);
   if (head < 0)
     {
       head = 0;
     }
-        
   TRACE_MSG(x << " " << y << " " << head);
-
   TRACE_EXIT();
 }
 

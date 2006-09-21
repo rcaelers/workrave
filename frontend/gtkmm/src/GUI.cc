@@ -1072,14 +1072,9 @@ GUI::collect_garbage()
 GUI::BlockMode
 GUI::get_block_mode()
 {
-  bool b;
   int mode;
-  b = CoreFactory::get_configurator()
-    ->get_value(CFG_KEY_GUI_BLOCK_MODE, &mode);
-  if (! b)
-    {
-      mode = BLOCK_MODE_INPUT;
-    }
+  CoreFactory::get_configurator()
+    ->get_value_default(CFG_KEY_GUI_BLOCK_MODE, &mode, BLOCK_MODE_INPUT);
   return (BlockMode) mode;
 }
 
