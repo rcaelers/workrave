@@ -140,23 +140,15 @@ dnl
 dnl AC_SUBST(LIBTOOL_FLAGS)
 
 if test "x$config_debug" = "xyes"; then
-   CFLAGS="${CFLAGS} -g -Wall"
-   CXXFLAGS="${CXXFLAGS} -g -Wall"
+   CFLAGS="${CFLAGS} -g -Wall -DNDEBUG -DGLIBCXX_FORCE_NEW -DGLIBCPP_FORCE_NEW"
+   CXXFLAGS="${CXXFLAGS} -g -Wall -DNDEBUG -DGLIBCXX_FORCE_NEW -DGLIBCPP_FORCE_NEW"
    LDFLAGS="${LDFLAGS} -g"
 else
-   CFLAGS="${CFLAGS} -Os -g -DNDEBUG"
-   CXXFLAGS="${CXXFLAGS} -Os -g -DNDEBUG"
+   CFLAGS="${CFLAGS} -Os -g"
+   CXXFLAGS="${CXXFLAGS} -Os -g"
    LDFLAGS="${LDFLAGS} -g"
 fi
 
-dnl This hasn't been used for a long while...
-dnl AC_ARG_ENABLE( cwd,
-dnl   [  --enable-cwd            compile with libcwd],
-dnl        config_cwd_debug=$enableval
-dnl        ,
-dnl        config_cwd_debug=no
-dnl     )
-                               
 dnl Include --enable-maintainer-mode option.
 AM_MAINTAINER_MODE
                                                       

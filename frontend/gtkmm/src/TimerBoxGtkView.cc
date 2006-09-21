@@ -177,7 +177,7 @@ TimerBoxGtkView::init_widgets()
       size_group->add_widget(*w);
       labels[count] = w;
 
-      bars[count] = manage(new TimeBar); // FIXME: LEAK
+      bars[count] = manage(new TimeBar);
       bars[count]->set_text_alignment(1);
       bars[count]->set_progress(0, 60);
       bars[count]->set_text(_("Wait"));

@@ -48,7 +48,8 @@ RemoteControl::RemoteControl()
 
 RemoteControl::~RemoteControl()
 {
-  g_object_unref(workrave_control);
+  // FIXME: this causes sme vague error.
+  // g_object_unref(workrave_control);
   workrave_control = NULL;
   instance = NULL;
 }
@@ -63,7 +64,6 @@ RemoteControl::get_instance()
 
       if (control != NULL)
         {
-          // FIXME: Memory leak.
           instance = new RemoteControl();
           
           instance->workrave_control = control;

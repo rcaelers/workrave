@@ -36,40 +36,38 @@ sourcesgnet = 		DistributionSocketLink.cc PacketBuffer.cc \
 endif
 endif
 
-#### DBus service file
-###if HAVE_DBUS
-###servicedir = $(DBUS_SERVICES_DIR)
-###service_in_files = org.workrave.Workrave.service.in
-###service_DATA = $(service_in_files:.service.in=.service)
-###
-#### Rule to make the service file with bindir expanded
-###$(service_DATA): $(service_in_files) Makefile
-###	@sed -e "s|@bindir@|$(bindir)|" $<> $@
-###
-###BUILT_SOURCES=workrave-server-bindings.h workrave-client-bindings.h
-###
-###DBUS_HEADER_SOURCES=workrave-server-bindings.h workrave-client-bindings.h
-###
-#### We don't want to install this header
-###noinst_HEADERS = $(DBUS_HEADER_SOURCES)
-###
-#### Correctly clean the generated headers, but keep the xml description
-###CLEANFILES = $(DBUS_HEADER_SOURCES)
-###
-####Rule to generate the binding headers
-###workrave-server-bindings.h:  workrave-service.xml
-###	dbus-binding-tool --prefix=workrave --mode=glib-server $<> $@
-###
-###workrave-client-bindings.h:  workrave-service.xml
-###	dbus-binding-tool --prefix=workrave --mode=glib-client $<> $@
-###
-####dbussources=DBus.cc
-###
-#### HACK
-###libworkrave_backend_dbus_a_SOURCES=DBus.cc
-###noinst_LIBRARIES+=libworkrave-backend-dbus.a
-###libworkrave_backend_a_LIBADD=${libworkrave_backend_dbus_a_OBJECTS}
-###endif
+# DBus service file
+if HAVE_DBUS
+servicedir = $(DBUS_SERVICES_DIR)
+service_in_files = org.workrave.Workrave.service.in
+service_DATA = $(service_in_files:.service.in=.service)
+
+# Rule to make the service file with bindir expanded
+$(service_DATA): $(service_in_files) Makefile
+	@sed -e "s|@bindir@|$(bindir)|" $<> $@
+
+BUILT_SOURCES=workrave-server-bindings.h workrave-client-bindings.h
+
+# We don't want to install this header
+#noinst_HEADERS = $(DBUS_HEADER_SOURCES)
+
+# Correctly clean the generated headers, but keep the xml description
+CLEANFILES = $(BUILT_SOURCES)
+
+#Rule to generate the binding headers
+workrave-server-bindings.h:  workrave-service.xml
+	dbus-binding-tool --prefix=workrave --mode=glib-server $<> $@
+
+workrave-client-bindings.h:  workrave-service.xml
+	dbus-binding-tool --prefix=workrave --mode=glib-client $<> $@
+
+#dbussources=DBus.cc
+
+# HACK
+libworkrave_backend_dbus_a_SOURCES=DBus.cc
+noinst_LIBRARIES+=libworkrave-backend-dbus.a
+libworkrave_backend_a_LIBADD=${libworkrave_backend_dbus_a_OBJECTS}
+endif
 
 libworkrave_backend_a_SOURCES = \
 			${sources} ${sourcesgdome} ${sourcesdistribution} \
