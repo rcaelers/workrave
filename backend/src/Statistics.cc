@@ -132,16 +132,8 @@ Statistics::start_new_day()
       if (current_day != NULL)
         {
           TRACE_MSG("Save old day");
-          bool ok = day_to_history(current_day);
-          if (ok)
-            {
-              day_to_remote_history(current_day);
-            }
-          else
-            {
-              // FIXME: delete current_day;
-              // current_day = NULL;
-            }
+          day_to_history(current_day);
+          day_to_remote_history(current_day);
         }
       
       current_day = new DailyStatsImpl();
@@ -158,32 +150,26 @@ Statistics::start_new_day()
 }
 
 
-bool
+void
 Statistics::day_to_history(DailyStatsImpl *stats)
 {
-  bool ok = add_history(stats);
+  add_history(stats);
 
-  if (ok)
+  stringstream ss;
+  ss << Util::get_home_directory();
+  ss << "historystats" << ends;
+      
+  bool exists = Util::file_exists(ss.str());
+  ofstream stats_file(ss.str().c_str(), ios::app);
+      
+  if (!exists)
     {
-      // Only add to file when day was added to history.
-  
-      stringstream ss;
-      ss << Util::get_home_directory();
-      ss << "historystats" << ends;
-      
-      bool exists = Util::file_exists(ss.str());
-      ofstream stats_file(ss.str().c_str(), ios::app);
-      
-      if (!exists)
-        {
-          stats_file << WORKRAVESTATS << " " << STATSVERSION  << endl;
-        }
-      
-      save_day(stats, stats_file);
-      stats_file.close();
+      stats_file << WORKRAVESTATS << " " << STATSVERSION  << endl;
     }
+      
+  save_day(stats, stats_file);
+  stats_file.close();
 
-  return ok;
 }
 
 
@@ -265,15 +251,12 @@ Statistics::save_day(DailyStatsImpl *stats)
 
 
 //! Add the stats the the history list.
-bool
+void
 Statistics::add_history(DailyStatsImpl *stats)
 {
-  bool added = false;
-  
   if (history.size() == 0)
     {
       history.push_back(stats);
-      added = true;
     }
   else
     {
@@ -287,6 +270,7 @@ Statistics::add_history(DailyStatsImpl *stats)
               stats->start.tm_mon == ref->start.tm_mon &&
               stats->start.tm_mday == ref->start.tm_mday)
             {
+              delete *i;
               *i = stats;
               found = true;
               break;
@@ -307,7 +291,6 @@ Statistics::add_history(DailyStatsImpl *stats)
                 history.insert(i.base(), stats);
               }
             found = true;
-            added = true;
             break;
           }
           i++;
@@ -316,11 +299,8 @@ Statistics::add_history(DailyStatsImpl *stats)
       if (!found)
         {
           history.insert(history.begin(), stats);
-          added = true;
         }
     }
-
-  return added;
 }
 
 //! Load the statistics of the current day.
@@ -510,11 +490,7 @@ Statistics::load_history()
           
           load_day(day, stats_file);
 
-          if (!add_history(day))
-            {
-              // Day not added to history. free mem
-              // FIXME: delete day;
-            }
+          add_history(day);
           first = false;
         }
     }
@@ -950,11 +926,7 @@ Statistics::client_message(DistributionClientMessageID id, bool master, const ch
           if (stats_to_history)
             {
               TRACE_MSG("Save to history");
-              if (!day_to_history(stats))
-                {
-                  // FIXME: delete stats;
-                  // stats = NULL;
-                }
+              day_to_history(stats);
               stats_to_history = false;
             }
           break;
@@ -973,10 +945,7 @@ Statistics::client_message(DistributionClientMessageID id, bool master, const ch
     {
       // this should not happend. but just to avoid a potential memory leak...
       TRACE_MSG("Save to history");
-      if (!day_to_history(stats))
-        {
-          // FIXME: delete stats;
-        }
+      day_to_history(stats);
       stats_to_history = false;
     }
   

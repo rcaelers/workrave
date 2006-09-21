@@ -132,11 +132,11 @@ private:
   void save_day(DailyStatsImpl *stats);
   void save_day(DailyStatsImpl *stats, ofstream &stats_file);
 
-  bool day_to_history(DailyStatsImpl *stats);
+  void day_to_history(DailyStatsImpl *stats);
   void day_to_remote_history(DailyStatsImpl *stats);
   void update_enviromnent();
 
-  bool add_history(DailyStatsImpl *stats);
+  void add_history(DailyStatsImpl *stats);
   
 #ifdef HAVE_DISTRIBUTION
   void init_distribution_manager();
