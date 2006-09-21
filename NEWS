@@ -7,6 +7,10 @@ http://www.workrave.org
 
 * Workrave 1.8.4
 
+** The status window used to appear empty, only to be resized and
+   filled with the timers shortly thereafter. Now it appears right
+   away in the proper size.
+
 ** Herman Suijs contributed a new exercise named "Fist roll", thanks.
 
 ** The operation mode (normal/quiet/suspended) now persists across

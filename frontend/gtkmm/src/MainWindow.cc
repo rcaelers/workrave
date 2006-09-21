@@ -171,6 +171,7 @@ MainWindow::init()
   timer_box_view = manage(new TimerBoxGtkView());
   timer_box_control = new TimerBoxControl("main_window", *timer_box_view);
   timer_box_view->set_geometry(true, -1);
+  timer_box_control->update();
   add(*timer_box_view);
 
   set_events(get_events() | Gdk::BUTTON_PRESS_MASK | Gdk::SUBSTRUCTURE_MASK);
