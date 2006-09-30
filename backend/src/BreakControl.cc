@@ -20,7 +20,6 @@ static const char rcsid[] = "$Id$";
 #include "config.h"
 #endif
 
-#include "nls.h"
 #include "debug.hh"
 
 #include <assert.h>

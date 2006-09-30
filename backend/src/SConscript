@@ -1,0 +1,19 @@
+Import('env')
+src = ['ActivityMonitor.cc',
+       'Break.cc',
+       'BreakControl.cc',
+       'Configurator.cc',
+       'Core.cc',
+       'CoreFactory.cc',
+       'DistributionManager.cc',
+       'DistributionSocketLink.cc',
+       'IdleLogManager.cc',
+       'IniConfigurator.cc',
+       'PacketBuffer.cc',
+       'QtIniConfigurator.cc',
+       'QtNativeConfigurator.cc',
+       'QtSettingsConfigurator.cc',
+       'Statistics.cc',
+       'Timer.cc']
+env.Append(CPPPATH=['$WR_ARCH'])
+env.Library('backend', src)

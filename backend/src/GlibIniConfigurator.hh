@@ -16,8 +16,8 @@
 // $Id$
 //
 
-#ifndef INICONFIGURATOR_HH
-#define INICONFIGURATOR_HH
+#ifndef GLIBINICONFIGURATOR_HH
+#define GLIBINICONFIGURATOR_HH
 
 #include <string>
 #include <list>
@@ -27,14 +27,12 @@
 
 #include "Configurator.hh"
 
-class ConfigurationListener;
-
-class IniConfigurator :
+class GlibIniConfigurator :
   public Configurator
 {
 public:
-  IniConfigurator();
-  virtual ~IniConfigurator();
+  GlibIniConfigurator();
+  virtual ~GlibIniConfigurator();
 
   virtual bool load(string filename);
   virtual bool save(string filename);
@@ -64,4 +62,4 @@ private:
   string last_filename;
 };
 
-#endif // INICONFIGURATOR_HH
+#endif // GLIBINICONFIGURATOR_HH

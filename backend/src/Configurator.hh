@@ -32,10 +32,16 @@ class ConfiguratorListener;
 class Configurator : public ConfiguratorInterface
 {
 public:
+  typedef enum Format
+    {
+      FormatIni,
+      FormatXml,
+      FormatNative
+    };
   virtual ~Configurator();
 
   //! Creates a Configurator with the specified type.
-  static Configurator *create(string type);
+  static Configurator *create(Format);
   
   //! Loads the specified file.
   /*!

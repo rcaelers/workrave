@@ -26,8 +26,14 @@ static const char rcsid[] = "$Id$";
 
 #include "Configurator.hh"
 #include "ConfiguratorListener.hh"
-#include "IniConfigurator.hh"
 
+#ifdef HAVE_GLIB
+#include "GlibIniConfigurator.hh"
+#endif
+#ifdef HAVE_QT
+#include "QtIniConfigurator.hh"
+#include "QtNativeConfigurator.hh"
+#endif
 #ifdef HAVE_GDOME
 #include "XMLConfigurator.hh"
 #endif
@@ -41,12 +47,12 @@ static const char rcsid[] = "$Id$";
 
 //! Creates a configurator of the specified type.
 Configurator *
-Configurator::create(string type)
+Configurator::create(Format fmt)
 {
   Configurator *c =  NULL;
 
 #ifdef HAVE_GDOME  
-  if (type == "xml")
+  if (fmt == FormatXml)
     {
       c = new XMLConfigurator();
     }
@@ -54,7 +60,7 @@ Configurator::create(string type)
 #endif
     
 #ifdef HAVE_GCONF
-  if (type == "gconf")
+  if (fmt == FormatNative)
     {
       c = new GConfConfigurator();
     }
@@ -62,15 +68,30 @@ Configurator::create(string type)
 #endif
     
 #ifdef HAVE_REGISTRY
-  if (type == "w32")
+  if (fmt == FormatNative)
     {
       c = new Win32Configurator();
     }
   else
 #endif    
-  if (type == "ini")
+
+#ifdef HAVE_QT
+  if (fmt == FormatNative)
     {
-      c = new IniConfigurator();
+      c = new QtNativeConfigurator();
+    }
+  else
+#endif    
+
+  if (fmt == FormatIni)
+    {
+#ifdef HAVE_GLIB
+      c = new GlibIniConfigurator();
+#elif defined(HAVE_QT)
+      c = new QtIniConfigurator();
+#else
+#error Not ported
+#endif      
     }
   else
     {

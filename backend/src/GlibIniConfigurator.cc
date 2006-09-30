@@ -27,16 +27,16 @@ static const char rcsid[] = "$Id$";
 #include <iostream>
 #include <fstream>
 
-#include "IniConfigurator.hh"
+#include "GlibIniConfigurator.hh"
 #include <glib.h>
 
-IniConfigurator::IniConfigurator()
+GlibIniConfigurator::GlibIniConfigurator()
   : config(NULL)
 {
 }
 
 
-IniConfigurator::~IniConfigurator()
+GlibIniConfigurator::~GlibIniConfigurator()
 {
   if (config != NULL)
     {
@@ -46,14 +46,14 @@ IniConfigurator::~IniConfigurator()
 
 
 bool
-IniConfigurator::load(string filename)
+GlibIniConfigurator::load(string filename)
 {
   GError *error = NULL;
   gboolean r = TRUE;
 
   last_filename = filename;
   
-  TRACE_ENTER_MSG("IniConfigurator::load", filename)
+  TRACE_ENTER_MSG("GlibIniConfigurator::load", filename)
   config = g_key_file_new();
 
   r = g_key_file_load_from_file(config, filename.c_str(),
@@ -74,12 +74,12 @@ IniConfigurator::load(string filename)
 
 
 bool
-IniConfigurator::save(string filename)
+GlibIniConfigurator::save(string filename)
 {
   GError *error = NULL;
   char *str = g_key_file_to_data(config, NULL, &error);
 
-  TRACE_ENTER_MSG("IniConfigurator::save", filename);
+  TRACE_ENTER_MSG("GlibIniConfigurator::save", filename);
   if (error != NULL)
     {
       g_error_free(error);
@@ -99,7 +99,7 @@ IniConfigurator::save(string filename)
 
 
 bool
-IniConfigurator::save()
+GlibIniConfigurator::save()
 {
   return save(last_filename);
 }
@@ -111,14 +111,14 @@ IniConfigurator::save()
  *  \retval false attribute not found.
  */
 bool
-IniConfigurator::get_value(string key, string *out) const
+GlibIniConfigurator::get_value(string key, string *out) const
 {
   GError *error = NULL;
   string group;
   string inikey;
   gchar *value;
 
-  TRACE_ENTER_MSG("IniConfigurator::get_value", key);
+  TRACE_ENTER_MSG("GlibIniConfigurator::get_value", key);
   split_key(key, group, inikey);
   inikey = key_inify(inikey);
 
@@ -147,7 +147,7 @@ IniConfigurator::get_value(string key, string *out) const
  *  \retval false attribute not found.
  */
 bool
-IniConfigurator::get_value(string key, bool *out) const
+GlibIniConfigurator::get_value(string key, bool *out) const
 {
   GError *error = NULL;
   string group;
@@ -179,7 +179,7 @@ IniConfigurator::get_value(string key, bool *out) const
  *  \retval false attribute not found.
  */
 bool
-IniConfigurator::get_value(string key, int *out) const
+GlibIniConfigurator::get_value(string key, int *out) const
 {
   GError *error = NULL;
   string group;
@@ -211,7 +211,7 @@ IniConfigurator::get_value(string key, int *out) const
  *  \retval false attribute not found.
  */
 bool
-IniConfigurator::get_value(string key, long *out) const
+GlibIniConfigurator::get_value(string key, long *out) const
 {
   int value = 0;
   bool ret = get_value(key, &value);
@@ -227,7 +227,7 @@ IniConfigurator::get_value(string key, long *out) const
  *  \retval false attribute not found.
  */
 bool
-IniConfigurator::get_value(string key, double *out) const
+GlibIniConfigurator::get_value(string key, double *out) const
 {
   GError *error = NULL;
   string group;
@@ -254,7 +254,7 @@ IniConfigurator::get_value(string key, double *out) const
 
 
 bool
-IniConfigurator::set_value(string key, string v)
+GlibIniConfigurator::set_value(string key, string v)
 {
   string group;
   string inikey;
@@ -271,7 +271,7 @@ IniConfigurator::set_value(string key, string v)
 
 
 bool
-IniConfigurator::set_value(string key, int v)
+GlibIniConfigurator::set_value(string key, int v)
 {
   string group;
   string inikey;
@@ -287,7 +287,7 @@ IniConfigurator::set_value(string key, int v)
 }
 
 bool
-IniConfigurator::set_value(string key, long v)
+GlibIniConfigurator::set_value(string key, long v)
 {
   string group;
   string inikey;
@@ -303,7 +303,7 @@ IniConfigurator::set_value(string key, long v)
 }
 
 bool
-IniConfigurator::set_value(string key, bool v)
+GlibIniConfigurator::set_value(string key, bool v)
 {
   string group;
   string inikey;
@@ -320,7 +320,7 @@ IniConfigurator::set_value(string key, bool v)
 
 
 bool
-IniConfigurator::set_value(string key, double v)
+GlibIniConfigurator::set_value(string key, double v)
 {
   string group;
   string inikey;
@@ -341,7 +341,7 @@ IniConfigurator::set_value(string key, double v)
 
 
 bool
-IniConfigurator::exists_dir(string key) const
+GlibIniConfigurator::exists_dir(string key) const
 {
   (void) key;
   return false;
@@ -349,7 +349,7 @@ IniConfigurator::exists_dir(string key) const
 
 
 list<string>
-IniConfigurator::get_all_dirs(string key) const
+GlibIniConfigurator::get_all_dirs(string key) const
 {
   list<string> l;
   
@@ -360,7 +360,7 @@ IniConfigurator::get_all_dirs(string key) const
 
 
 void
-IniConfigurator::split_key(const string key, string &group, string &out_key) const
+GlibIniConfigurator::split_key(const string key, string &group, string &out_key) const
 {
   const char *s = key.c_str();
   char *slash = strchr(s, '/');
@@ -378,7 +378,7 @@ IniConfigurator::split_key(const string key, string &group, string &out_key) con
 
 
 string
-IniConfigurator::key_inify(string key) const
+GlibIniConfigurator::key_inify(string key) const
 {
   string rc = key;
   strip_trailing_slash(rc);

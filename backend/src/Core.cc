@@ -20,7 +20,6 @@ static const char rcsid[] = "$Id$";
 #include "config.h"
 #endif
 
-#include "nls.h"
 #include "debug.hh"
 
 #include <assert.h>
@@ -188,22 +187,22 @@ Core::init_configurator()
 
   if (Util::file_exists(ini_file))
     {
-      configurator = Configurator::create("ini");
+      configurator = Configurator::create(Configurator::FormatIni);
       configurator->load(ini_file);
     }
   else
     {
 #if defined(HAVE_REGISTRY)
-      configurator = Configurator::create("w32");
+      configurator = Configurator::create(Configurator::FormatNative);
 
 #elif defined(HAVE_GCONF)
       gconf_init(argc, argv, NULL);
       g_type_init();
-      configurator = Configurator::create("gconf");
+      configurator = Configurator::create(Configurator::FormatNative);
 
 #elif defined(HAVE_GDOME)
       string configFile = Util::complete_directory("config.xml", Util::SEARCH_PATH_CONFIG);
-      configurator = Configurator::create("xml");
+      configurator = Configurator::create(Configurator::FormatXml);
 
 #  if defined(HAVE_X)
       if (configFile == "" || configFile == "config.xml")
@@ -215,6 +214,8 @@ Core::init_configurator()
         {
           configurator->load(configFile);
         }
+#elif defined(HAVE_QT)
+      configurator = Configurator::create(Configurator::FormatNative);
 #else
 #error No configuator configured        
 #endif
