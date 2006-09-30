@@ -1,7 +1,7 @@
 /*
  * harpoon.c
  *
- * Copyright (C) 2002-2005 Raymond Penners <raymond@dotsphinx.com>
+ * Copyright (C) 2002-2006 Raymond Penners <raymond@dotsphinx.com>
  * All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -32,15 +32,23 @@
 #define HARPOON_MAX_UNBLOCKED_WINDOWS 16 /* Fixed, but ought to be enough... */
 #define HARPOON_WINDOW_CLASS "HarpoonNotificationWindow"
 
+#if defined(__GNUC__)
+#define DLLSHARE(v) v __attribute__((section (".shared"), shared))
+#else
+#define DLLSHARE(v) v
 #pragma comment(linker, "/SECTION:.shared,RWS")
 #pragma data_seg(".shared")
-HWND notification_window = NULL;
-HHOOK mouse_hook = NULL;
-HHOOK keyboard_hook = NULL;
-HHOOK keyboard_ll_hook = NULL;
-BOOL block_input = FALSE;
-HWND unblocked_windows[HARPOON_MAX_UNBLOCKED_WINDOWS];
+#endif
+HWND DLLSHARE(notification_window) = NULL;
+HHOOK DLLSHARE(mouse_hook) = NULL;
+HHOOK DLLSHARE(keyboard_hook) = NULL;
+HHOOK DLLSHARE(keyboard_ll_hook) = NULL;
+BOOL DLLSHARE(block_input) = FALSE;
+HWND DLLSHARE(unblocked_windows[HARPOON_MAX_UNBLOCKED_WINDOWS]);
+
+#if !defined(__GNUC__)
 #pragma data_seg()
+#endif
 
 static HANDLE dll_handle = NULL;
 static volatile HarpoonHookFunc user_callback = NULL;
