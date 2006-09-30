@@ -1,0 +1,8 @@
+Import('env')
+env = env.Copy()
+src = ['DayTimePred.cc',
+       'TimePredFactory.cc',
+       'WeekTimePred.cc',
+       'debug.cc',
+       'nls.c']
+env.Library('common', src)

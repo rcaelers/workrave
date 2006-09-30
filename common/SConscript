@@ -1,0 +1,3 @@
+Import('env')
+env.SConscript(['src/SConscript',
+                'win32/SConscript'], exports='env')

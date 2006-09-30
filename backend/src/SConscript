@@ -1,4 +1,8 @@
 Import('env')
+
+env = env.Copy()
+env.Append(CPPPATH=['../include'])
+
 src = ['ActivityMonitor.cc',
        'Break.cc',
        'BreakControl.cc',

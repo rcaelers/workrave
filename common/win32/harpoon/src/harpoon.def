@@ -1,3 +1,7 @@
-SECTIONS
-	.shared   READ WRITE SHARED
-
+EXPORTS
+    harpoon_block_input_except_for @1
+    harpoon_exit @2
+    harpoon_hook @3
+    harpoon_init @4
+    harpoon_unblock_input @5
+    harpoon_unhook @6
