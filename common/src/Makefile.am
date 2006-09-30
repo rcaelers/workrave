@@ -17,7 +17,7 @@ libworkrave_common_a_SOURCES = \
 			DayTimePred.cc \
 			WeekTimePred.cc \
 			TimePredFactory.cc \
-			nls.c
+			glibnls.c
 
 
 libworkrave_common_a_LIBADD =

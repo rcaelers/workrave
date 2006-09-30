@@ -18,7 +18,7 @@ sources = 		ActivityMonitor.cc \
 			Core.cc \
 			CoreFactory.cc \
 			IdleLogManager.cc \
-			IniConfigurator.cc \
+			GlibIniConfigurator.cc \
 			Statistics.cc \
 			Timer.cc
 
