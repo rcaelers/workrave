@@ -16,9 +16,11 @@
 // $Id: IniConfigurator.hh 558 2006-02-23 19:42:12Z rcaelers $
 //
 
+#include "QtNativeConfigurator.hh"
+
 QtNativeConfigurator::QtNativeConfigurator()
 {
-  settings = neq QSettings("Workrave");
+  settings = new QSettings("Workrave");
 }
 
 

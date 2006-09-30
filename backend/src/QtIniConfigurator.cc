@@ -18,11 +18,11 @@
 
 #include "QtIniConfigurator.hh"
 
-QtIniConfigurator::IniConfigurator()
+QtIniConfigurator::QtIniConfigurator()
 {
 }
 
-QtIniConfigurator::~IniConfigurator()
+QtIniConfigurator::~QtIniConfigurator()
 {
 }
 
@@ -30,7 +30,7 @@ bool
 QtIniConfigurator::load(string filename)
 {
   dispose();
-  settings = new QSettings(filename, QSettings::IniFormat);
+  settings = new QSettings(filename.c_str(), QSettings::IniFormat);
 #warning FIXME: Really check if something was loaded
   return true;
 }

@@ -16,6 +16,7 @@
 // $Id: IniConfigurator.hh 558 2006-02-23 19:42:12Z rcaelers $
 //
 
+#include "QtSettingsConfigurator.hh"
 
 QtSettingsConfigurator::QtSettingsConfigurator(QSettings *s)
 {
