@@ -1,0 +1,11 @@
+Import('env')
+env = env.Copy()
+
+src = ['GUI.cc', 'main.cc']
+env.Append(CPPPATH=['#backend/include',
+                    '#common/include'])
+env.Append(LIBPATH=['#backend/src',
+                    '#common/src'])
+env.Append(LIBS=['backend', 'common'])
+#env.Append(LINKFLAGS = '-mwindows')
+env.Program('workrave', src)

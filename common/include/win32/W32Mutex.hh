@@ -1,9 +1,9 @@
-// Mutex.hh --- Mutex synchronization
+// W32Mutex.hh --- Mutex synchronization
 //
-// Copyright (C) 2001, 2002, 2003, 2005 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2005-04-29 20:18:24 robc>
+// Time-stamp: <2006-10-01 00:13:58 nly99050>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,14 +18,10 @@
 // $Id$
 //
 
-#ifndef MUTEX_HH
-#define MUTEX_HH
+#ifndef W32MUTEX_HH
+#define W32MUTEX_HH
 
-#include <pthread.h>
-
-#ifndef PTHREAD_MUTEX_RECURSIVE_NP
-#define PTHREAD_MUTEX_RECURSIVE_NP PTHREAD_MUTEX_RECURSIVE
-#endif
+#include <windows.h>
 
 /*!
  * A Mutex class.
@@ -33,38 +29,34 @@
 class Mutex 
 {
 protected:
-  //! The POSIX Threads mutex.
-  pthread_mutex_t m_mutex;
+  //! The window critical section.
+  CRITICAL_SECTION critical_section;
 
 public:
   //! Constructor.
   Mutex()
   {
-    pthread_mutexattr_t attr;
-
-    pthread_mutexattr_init(&attr);
-    pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE_NP);
-    pthread_mutex_init(&m_mutex, &attr);
+    InitializeCriticalSection(&critical_section);
   }
 
   //! Destructor
   ~Mutex()
   {
-    pthread_mutex_destroy(&m_mutex);
+    DeleteCriticalSection(&critical_section);
   }
 
   //! Locks the mutex.
   void lock()
   {
-    pthread_mutex_lock(&m_mutex);
+    EnterCriticalSection(&critical_section);
   }
 
   //! Unlocks the mutex.
   void unlock()
   {
-    pthread_mutex_unlock(&m_mutex);
+    LeaveCriticalSection(&critical_section);
   }
 };
 
 
-#endif // MUTEX_HH
+#endif // W32MUTEX_HH
