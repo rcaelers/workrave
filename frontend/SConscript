@@ -1,0 +1,2 @@
+Import('env')
+env.SConscript(['qt/SConscript'], exports='env')
