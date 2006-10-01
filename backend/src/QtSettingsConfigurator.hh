@@ -28,8 +28,6 @@ public:
   QtSettingsConfigurator(QSettings *settings = 0);
   virtual ~QtSettingsConfigurator();
 
-  virtual bool load(string filename);
-  virtual bool save(string filename);
   virtual bool save();
 
   virtual bool get_value(string key, string *out) const;
@@ -47,6 +45,8 @@ public:
   virtual bool exists_dir(string key) const;
 
 protected:
+  QVariant qt_get_value(const string key, bool& exists) const;
+  QString qt_key(const string key) const;
   void dispose();
   
   QSettings *settings;

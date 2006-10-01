@@ -28,3 +28,18 @@ QtNativeConfigurator::~QtNativeConfigurator()
 {
 }
 
+
+bool
+QtNativeConfigurator::load(string filename)
+{
+}
+
+bool
+QtNativeConfigurator::save(string filename)
+{
+}
+
+bool
+QtNativeConfigurator::save()
+{
+}

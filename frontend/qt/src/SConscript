@@ -5,7 +5,10 @@ src = ['GUI.cc', 'main.cc']
 env.Append(CPPPATH=['#backend/include',
                     '#common/include'])
 env.Append(LIBPATH=['#backend/src',
-                    '#common/src'])
-env.Append(LIBS=['backend', 'common'])
+                    '#common/src',
+                    '$QTDIR/lib'])
+env.Append(LIBS=['backend', 'common',
+                 'QtGui4','QtCore4'])
+
 #env.Append(LINKFLAGS = '-mwindows')
 env.Program('workrave', src)

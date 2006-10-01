@@ -27,6 +27,10 @@ class QtNativeConfigurator :
 public:
   QtNativeConfigurator();
   virtual ~QtNativeConfigurator();
+
+  virtual bool load(string filename);
+  virtual bool save(string filename);
+  virtual bool save();
 };
 
 #endif // QTNATIVECONFIGURATOR_HH
