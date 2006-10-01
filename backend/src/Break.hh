@@ -1,6 +1,6 @@
 // Break.hh
 //
-// Copyright (C) 2001, 2002, 2003, 2005 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2005, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -19,19 +19,19 @@
 #ifndef BREAK_HH
 #define BREAK_HH
 
-#include "CoreInterface.hh"
+#include "ICore.hh"
 #include "ConfiguratorListener.hh"
-#include "BreakInterface.hh"
+#include "IBreak.hh"
 #include "Timer.hh"
 
 class Configurator;
-class AppInterface;
+class IApp;
 class BreakControl;
 
 using namespace std;
 
 class Break :
-  public BreakInterface,
+  public IBreak,
   public ConfiguratorListener
 {
 private:
@@ -51,7 +51,7 @@ private:
   Configurator *configurator;
 
   //!
-  AppInterface *application;
+  IApp *application;
   
   //! Interface pointer to the timer.
   Timer *timer;
@@ -66,7 +66,7 @@ public:
   Break();
   virtual ~Break();
 
-  void init(BreakId id, AppInterface *app);
+  void init(BreakId id, IApp *app);
 
   bool is_enabled() const;
   string get_name() const;

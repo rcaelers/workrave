@@ -1,6 +1,6 @@
 // SoundPlayer.hh
 //
-// Copyright (C) 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -19,9 +19,9 @@
 #ifndef SOUNDPLAYER_HH
 #define SOUNDPLAYER_HH
 
-#include "SoundPlayerInterface.hh"
+#include "ISoundPlayer.hh"
 
-class SoundPlayer : public SoundPlayerInterface
+class SoundPlayer : public ISoundPlayer
 {
 public:
   enum Device
@@ -43,7 +43,7 @@ private:
   static const char *CFG_KEY_SOUND_ENABLED;
   static const char *CFG_KEY_SOUND_DEVICE;
 
-  SoundPlayerInterface *player;
+  ISoundPlayer *player;
 };
 
 #endif // SOUNDPLAYER_HH

@@ -1,2 +1,3 @@
 Import('env')
-env.SConscript(['qt/SConscript'], exports='env')
+env.SConscript(['common/SConscript',
+                'qt/SConscript'], exports='env')

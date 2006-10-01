@@ -27,14 +27,14 @@ static const char rcsid[] = "$Id$";
 #include "Configurator.hh"
 #include "Core.hh"
 
-CoreInterface *
+ICore *
 CoreFactory::get_core()
 {
   return Core::get_instance();
 }
 
 
-ConfiguratorInterface *
+IConfigurator *
 CoreFactory::get_configurator()
 {
   Core *core = Core::get_instance();

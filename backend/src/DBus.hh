@@ -24,7 +24,7 @@
 #include <glib/gerror.h>
 #include <glib-object.h>
 
-#include "CoreInterface.hh"
+#include "ICore.hh"
 
 G_BEGIN_DECLS
 
@@ -54,7 +54,7 @@ struct _WorkraveServiceClass {
   void (*dailylimit)(WorkraveService *svc, const gchar *progress);
 };
 
-void workrave_dbus_server_init(CoreInterface *core);
+void workrave_dbus_server_init(ICore *core);
 GType workrave_service_get_type(void);
 
 gboolean workrave_service_set_operation_mode(WorkraveService *svc, gchar *mode, GError **error);

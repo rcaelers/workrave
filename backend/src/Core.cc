@@ -30,7 +30,7 @@ static const char rcsid[] = "$Id$";
 #include "Core.hh"
 
 #include "Util.hh"
-#include "AppInterface.hh"
+#include "IApp.hh"
 #include "CoreEventListener.hh"
 #include "ActivityMonitor.hh"
 #include "TimerActivityMonitor.hh"
@@ -85,8 +85,8 @@ Core::Core() :
   powersave(false),
   powersave_resume_time(0),
   powersave_operation_mode(OPERATION_MODE_NORMAL),
-  insist_policy(CoreInterface::INSIST_POLICY_HALT),
-  active_insist_policy(CoreInterface::INSIST_POLICY_INVALID),
+  insist_policy(ICore::INSIST_POLICY_HALT),
+  active_insist_policy(ICore::INSIST_POLICY_INVALID),
   resume_break(BREAK_ID_NONE),
   local_state(ACTIVITY_IDLE),
   monitor_state(ACTIVITY_UNKNOWN)
@@ -153,7 +153,7 @@ Core::~Core()
 
 //! Initializes the core.
 void
-Core::init(int argc, char **argv, AppInterface *app, char *display_name)
+Core::init(int argc, char **argv, IApp *app, char *display_name)
 {
   application = app;
   this->argc = argc;
@@ -411,7 +411,7 @@ Core::get_configurator() const
 
 
 //! Returns the activity monitor.
-ActivityMonitorInterface *
+IActivityMonitor *
 Core::get_activity_monitor() const
 {
   return monitor;
@@ -567,11 +567,11 @@ Core::set_powersave(bool down)
  *  taking a break.
  */
 void
-Core::set_insist_policy(CoreInterface::InsistPolicy p)
+Core::set_insist_policy(ICore::InsistPolicy p)
 {
   TRACE_ENTER_MSG("Core::set_insist_policy", p);
 
-  if (active_insist_policy != CoreInterface::INSIST_POLICY_INVALID &&
+  if (active_insist_policy != ICore::INSIST_POLICY_INVALID &&
       insist_policy != p)
     {
       TRACE_MSG("refreeze " << active_insist_policy);
@@ -588,7 +588,7 @@ Core::set_insist_policy(CoreInterface::InsistPolicy p)
 
 
 //! Gets the insist policy.
-CoreInterface::InsistPolicy
+ICore::InsistPolicy
 Core::get_insist_policy() const
 {
   return insist_policy;
@@ -604,7 +604,7 @@ Core::force_idle()
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      ActivityMonitorInterface *am = breaks[i].get_timer()->get_activity_monitor();
+      IActivityMonitor *am = breaks[i].get_timer()->get_activity_monitor();
       if (am != NULL)
         {
           am->force_idle();
@@ -1261,23 +1261,23 @@ void
 Core::freeze()
 {
   TRACE_ENTER_MSG("BreakControl::freeze", insist_policy);
-  CoreInterface::InsistPolicy policy = insist_policy;
+  ICore::InsistPolicy policy = insist_policy;
   
   switch (policy)
     {
-    case CoreInterface::INSIST_POLICY_IGNORE:
+    case ICore::INSIST_POLICY_IGNORE:
       {
         // Ignore all activity during break by suspending the activity monitor.
         monitor->suspend();
       }
       break;
-    case CoreInterface::INSIST_POLICY_HALT:
+    case ICore::INSIST_POLICY_HALT:
       {
         // Halt timer when the user is active.
         set_freeze_all_breaks(true);
       }
       break;
-    case CoreInterface::INSIST_POLICY_RESET:
+    case ICore::INSIST_POLICY_RESET:
       // reset the timer when the user becomes active.
       // default.
       break;
@@ -1299,13 +1299,13 @@ Core::defrost()
   
   switch (active_insist_policy)
     {
-    case CoreInterface::INSIST_POLICY_IGNORE:
+    case ICore::INSIST_POLICY_IGNORE:
       {
         // Resumes the activity monitor.
         monitor->resume();
       }
       break;
-    case CoreInterface::INSIST_POLICY_HALT:
+    case ICore::INSIST_POLICY_HALT:
       {
         // Desfrost timers.
         set_freeze_all_breaks(false);
@@ -1316,7 +1316,7 @@ Core::defrost()
       break;
     }
 
-  active_insist_policy = CoreInterface::INSIST_POLICY_INVALID;
+  active_insist_policy = ICore::INSIST_POLICY_INVALID;
   TRACE_EXIT();
 }
 

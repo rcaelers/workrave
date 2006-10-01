@@ -1,6 +1,6 @@
-// DistributionClientMessageInterface.hh
+// IDistributionClientMessage.hh
 //
-// Copyright (C) 2002, 2003, 2004, 2005 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2004, 2005, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -16,8 +16,8 @@
 // $Id$
 //
 
-#ifndef DISTRIBUTIONCLIENTMESSAGEINTERFACE_HH
-#define DISTRIBUTIONCLIENTMESSAGEINTERFACE_HH
+#ifndef IDISTRIBUTIONCLIENTMESSAGE_HH
+#define IDISTRIBUTIONCLIENTMESSAGE_HH
 
 class PacketBuffer;
 
@@ -41,10 +41,10 @@ enum DistributionClientMessageType
   };
 
 
-class DistributionClientMessageInterface
+class IDistributionClientMessage
 {
 public:
-  virtual ~DistributionClientMessageInterface() {}
+  virtual ~IDistributionClientMessage() {}
   
   virtual bool request_client_message(DistributionClientMessageID id,
                                       PacketBuffer &buffer) = 0;
@@ -56,4 +56,4 @@ public:
                               PacketBuffer &buffer) = 0;
 };
 
-#endif // DISTRIBUTIONCLIENTMESSAGEINTERFACE_HH
+#endif // IDISTRIBUTIONCLIENTMESSAGE_HH

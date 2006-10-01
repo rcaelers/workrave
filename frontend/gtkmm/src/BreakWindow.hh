@@ -1,6 +1,6 @@
 // BreakWindow.hh --- base class for the break windows
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -25,8 +25,8 @@
 
 #include <gtkmm/window.h>
 
-#include "CoreInterface.hh"
-#include "BreakWindowInterface.hh"
+#include "ICore.hh"
+#include "IBreakWindow.hh"
 #include "HeadInfo.hh"
 #include "WindowHints.hh"
 #include "GUI.hh"
@@ -35,7 +35,7 @@
 class DesktopWindow;
 #endif
 
-class BreakResponseInterface;
+class IBreakResponse;
 class Frame;
 
 namespace Gtk
@@ -46,14 +46,14 @@ namespace Gtk
 
 class BreakWindow :
   public Gtk::Window,
-  public BreakWindowInterface
+  public IBreakWindow
 {
 public:
   BreakWindow(BreakId break_id, HeadInfo &head, bool ignorable,
               GUI::BlockMode block_mode);
   virtual ~BreakWindow();
 
-  void set_response(BreakResponseInterface *bri);
+  void set_response(IBreakResponse *bri);
 
   virtual void start();
   virtual void stop();
@@ -94,7 +94,7 @@ protected:
   
 private:
   //! Send response to this interface.
-  BreakResponseInterface *break_response;
+  IBreakResponse *break_response;
 
   //! Break ID
   BreakId break_id;

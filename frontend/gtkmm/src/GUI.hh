@@ -32,7 +32,7 @@
 #include "Mutex.hh"
 #include "CoreEventListener.hh"
 #include "ActivityMonitorListener.hh"
-#include "AppInterface.hh"
+#include "IApp.hh"
 
 #ifdef HAVE_GNOMEMM
 #include <libgnomeuimm.h>
@@ -49,8 +49,8 @@ class MainWindow;
 class MicroBreakWindow;
 class RestBreakWindow;
 class PreludeWindow;
-class BreakWindowInterface;
-class BreakResponseInterface;
+class IBreakWindow;
+class IBreakResponse;
 class Dispatcher;
 class StatusIcon;
 class AppletControl;
@@ -58,13 +58,13 @@ class Menus;
 
 // Generic GUI
 class BreakControl;
-class SoundPlayerInterface;
+class ISoundPlayer;
 
 // Core interfaces
-class ConfiguratorInterface;
+class IConfigurator;
 
 class GUI :
-  public AppInterface,
+  public IApp,
   public CoreEventListener,
   public SigC::Object
 {
@@ -77,7 +77,7 @@ public:
   void main();
 
   // GUIFactoryInterface methods
-  virtual void set_break_response(BreakResponseInterface *rep);
+  virtual void set_break_response(IBreakResponse *rep);
   virtual void start_prelude_window(BreakId break_id);
   virtual void start_break_window(BreakId break_id, bool ignorable);
   virtual void hide_break_window();
@@ -116,7 +116,7 @@ public:
   AppletControl *get_applet_control() const;
   MainWindow *get_main_window() const;
   Gtk::Tooltips *get_tooltips() const;
-  SoundPlayerInterface *get_sound_player() const;
+  ISoundPlayer *get_sound_player() const;
 
 private:
   std::string get_timers_tooltip();
@@ -152,7 +152,7 @@ private:
   void init_kde();
 #endif
   void collect_garbage();
-  BreakWindowInterface *create_break_window(HeadInfo &head, BreakId break_id, bool ignorable);
+  IBreakWindow *create_break_window(HeadInfo &head, BreakId break_id, bool ignorable);
 
   bool grab();
   void ungrab();
@@ -173,16 +173,16 @@ private:
   static GUI *instance;
 
   //! The Configurator.
-  ConfiguratorInterface *configurator;
+  IConfigurator *configurator;
 
   //! The Core controller
-  CoreInterface *core;
+  ICore *core;
 
   //! The sound player
-  SoundPlayerInterface *sound_player;
+  ISoundPlayer *sound_player;
 
   //! Interface to the break window.
-  BreakWindowInterface **break_windows;
+  IBreakWindow **break_windows;
 
   //! Interface to the prelude windows.
   PreludeWindow **prelude_windows;
@@ -194,7 +194,7 @@ private:
   int active_prelude_count;
   
   //! Reponse interface for breaks
-  BreakResponseInterface *response;
+  IBreakResponse *response;
 
   //! Current active break.
   BreakId active_break_id;
@@ -289,7 +289,7 @@ GUI::get_main_window() const
 
 
 //! Returns the sound player
-inline SoundPlayerInterface *
+inline ISoundPlayer *
 GUI::get_sound_player() const
 {
   return sound_player;

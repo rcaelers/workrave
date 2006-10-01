@@ -33,16 +33,16 @@ static const char rcsid[] = "$Id$";
 #include "GUI.hh"
 
 #include "CoreFactory.hh"
-#include "CoreInterface.hh"
-#include "ConfiguratorInterface.hh"
+#include "ICore.hh"
+#include "IConfigurator.hh"
 
-#include "BreakResponseInterface.hh"
+#include "IBreakResponse.hh"
 #include "Dispatcher.hh"
 #include "DailyLimitWindow.hh"
 #include "MainWindow.hh"
-#include "BreakWindowInterface.hh"
-#include "BreakInterface.hh"
-#include "TimerInterface.hh"
+#include "IBreakWindow.hh"
+#include "IBreak.hh"
+#include "ITimer.hh"
 #include "BreakWindow.hh"
 #include "MicroBreakWindow.hh"
 #include "PreludeWindow.hh"
@@ -558,7 +558,7 @@ GUI::init_multihead_mem(int new_num_heads)
       delete [] prelude_windows;
       delete [] break_windows;
       prelude_windows = new PreludeWindow*[num_heads];
-      break_windows = new BreakWindowInterface*[num_heads];
+      break_windows = new IBreakWindow*[num_heads];
     }
   TRACE_EXIT();
 }
@@ -805,10 +805,10 @@ GUI::init_remote_control()
 
 
 //! Returns a break window for the specified break.
-BreakWindowInterface *
+IBreakWindow *
 GUI::create_break_window(HeadInfo &head, BreakId break_id, bool ignorable)
 {
-  BreakWindowInterface *ret = NULL;
+  IBreakWindow *ret = NULL;
   BlockMode block_mode = get_block_mode();
   if (break_id == BREAK_ID_MICRO_BREAK)
     {
@@ -840,7 +840,7 @@ GUI::core_event_notify(CoreEvent event)
 {
   TRACE_ENTER_MSG("GUI::core_event_notify", event)
   // FIXME: HACK
-  SoundPlayerInterface::Sound snd = (SoundPlayerInterface::Sound) event;
+  ISoundPlayer::Sound snd = (ISoundPlayer::Sound) event;
   if (sound_player != NULL)
     {
       TRACE_MSG("play");
@@ -863,7 +863,7 @@ GUI::core_event_operation_mode_changed(const OperationMode m)
 
 
 void
-GUI::set_break_response(BreakResponseInterface *rep)
+GUI::set_break_response(IBreakResponse *rep)
 {
   response = rep;
 }
@@ -904,7 +904,7 @@ GUI::start_break_window(BreakId break_id, bool ignorable)
 
   for (int i = 0; i < num_heads; i++)
     {
-      BreakWindowInterface *break_window = create_break_window(heads[i], break_id, ignorable);
+      IBreakWindow *break_window = create_break_window(heads[i], break_id, ignorable);
 
       break_windows[i] = break_window;
       
@@ -1299,11 +1299,11 @@ GUI::get_timers_tooltip()
   char *labels[] = { _("Micro-break"), _("Rest break"), _("Daily limit") };
   string tip = "Workrave";
   
-  CoreInterface *core = CoreFactory::get_core();
+  ICore *core = CoreFactory::get_core();
   for (int count = 0; count < BREAK_ID_SIZEOF; count++)
     {
-      BreakInterface *break_data = core->get_break(BreakId(count));
-      TimerInterface *timer = break_data->get_timer();
+      IBreak *break_data = core->get_break(BreakId(count));
+      ITimer *timer = break_data->get_timer();
 
 #ifdef LETS_SEE_HOW_WORKRAVE_BEHAVES_WITHOUT_THIS      
       if (!node_master && num_peers > 0)
@@ -1380,7 +1380,7 @@ GUI::win32_filter_func (void     *xevent,
             case PBT_APMRESUMESUSPEND:
               {
                 TRACE_MSG("Resume suspend");
-                CoreInterface *core = CoreFactory::get_core();
+                ICore *core = CoreFactory::get_core();
                 if (core != NULL)
                   {
                     core->set_powersave(false);
@@ -1391,7 +1391,7 @@ GUI::win32_filter_func (void     *xevent,
             case PBT_APMSUSPEND:
               {
                 TRACE_MSG("Suspend");
-                CoreInterface *core = CoreFactory::get_core();
+                ICore *core = CoreFactory::get_core();
                 if (core != NULL)
                   {
                     core->set_powersave(true);

@@ -105,7 +105,7 @@ Break::Break() :
 
 //! Initializes the break.
 void
-Break::init(BreakId id, AppInterface *app)
+Break::init(BreakId id, IApp *app)
 {
   TRACE_ENTER("Break::init");
 

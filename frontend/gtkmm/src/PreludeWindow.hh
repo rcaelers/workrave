@@ -1,6 +1,6 @@
 // PreludeWindow.hh --- window for the microbreak
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -20,7 +20,7 @@
 #define PRELUDEWINDOW_HH
 
 #include "BreakWindow.hh"
-#include "PreludeWindowInterface.hh"
+#include "IPreludeWindow.hh"
 
 class TimeBar;
 class Frame;
@@ -34,7 +34,7 @@ namespace Gtk
 
 class PreludeWindow :
   public Gtk::Window,
-  public PreludeWindowInterface
+  public IPreludeWindow
 {
 public:
   PreludeWindow(HeadInfo &head, BreakId break_id);
@@ -45,9 +45,9 @@ public:
   void destroy();
   void refresh();
   void set_progress(int value, int max_value);
-  void set_stage(AppInterface::PreludeStage stage);
-  void set_progress_text(AppInterface::PreludeProgressText text);
-  void set_response(BreakResponseInterface *pri);
+  void set_stage(IApp::PreludeStage stage);
+  void set_progress_text(IApp::PreludeProgressText text);
+  void set_response(IBreakResponse *pri);
   
 private:
   void on_frame_flash(bool frame_visible);
@@ -111,12 +111,12 @@ private:
   HeadInfo head;
 
   //! Send response to this interface.
-  BreakResponseInterface *prelude_response;
+  IBreakResponse *prelude_response;
 };
 
 
 inline void
-PreludeWindow::set_response(BreakResponseInterface *pri)
+PreludeWindow::set_response(IBreakResponse *pri)
 {
   prelude_response = pri;
 }

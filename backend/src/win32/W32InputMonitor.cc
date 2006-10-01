@@ -25,7 +25,7 @@ static const char rcsid[] = "$Id$";
 #include <winuser.h>
 #include "debug.hh"
 #include "W32InputMonitor.hh"
-#include "InputMonitorListenerInterface.hh"
+#include "IInputMonitorListener.hh"
 #include "timeutil.h"
 #include "harpoon.h"
 
@@ -44,7 +44,7 @@ typedef struct {
 } MOUSEHOOKSTRUCTEX, *PMOUSEHOOKSTRUCTEX;
 
 
-InputMonitorListenerInterface *W32InputMonitor::listener = NULL;
+IInputMonitorListener *W32InputMonitor::listener = NULL;
 
 W32InputMonitor::W32InputMonitor()
 {
@@ -56,12 +56,12 @@ W32InputMonitor::~W32InputMonitor()
 }
 
 void
-W32InputMonitor::init(InputMonitorListenerInterface *l)
+W32InputMonitor::init(IInputMonitorListener *l)
 {
   assert(! listener);
   listener = l;
 
-  // FIXME: should InputMonitorListenerInterface::init() have a
+  // FIXME: should IInputMonitorListener::init() have a
   // return value?
   BOOL b = harpoon_init();
   assert(b);

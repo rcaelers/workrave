@@ -31,13 +31,13 @@
 #endif
 
 #include <windows.h>
-#include "InputMonitorInterface.hh"
+#include "IInputMonitor.hh"
 
 typedef union HarpoonEventUnion HarpoonEvent;
 
 //! Activity monitor for a local X server.
 class W32InputMonitor :
-  public InputMonitorInterface
+  public IInputMonitor
 {
 public:
   //! Constructor.
@@ -46,12 +46,12 @@ public:
   //! Destructor.
   virtual ~W32InputMonitor();
 
-  void init(InputMonitorListenerInterface *);
+  void init(IInputMonitorListener *);
   void terminate() ;
 
 private:
   static void on_harpoon_event(HarpoonEvent *event);
-  static InputMonitorListenerInterface *listener;
+  static IInputMonitorListener *listener;
 };
 
 #endif // W32INPUTMONITOR_HH

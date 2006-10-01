@@ -92,7 +92,7 @@ Statistics::update()
 {
   TRACE_ENTER("Statistics::update");
 
-  ActivityMonitorInterface *monitor = core->get_activity_monitor();
+  IActivityMonitor *monitor = core->get_activity_monitor();
   ActivityState state = monitor->get_current_state();
   
   if (state == ACTIVITY_ACTIVE && !been_active)
@@ -697,7 +697,7 @@ Statistics::update_current_day(bool active)
 
       
       // Collect activity monitor stats.
-      ActivityMonitorInterface *monitor = core->get_activity_monitor();
+      IActivityMonitor *monitor = core->get_activity_monitor();
       assert(monitor != NULL);
 
       ActivityMonitorStatistics ams;
@@ -718,7 +718,7 @@ Statistics::update_enviromnent()
   if (core != NULL)
     {
       // Collect activity monitor stats.
-      ActivityMonitorInterface *monitor = core->get_activity_monitor();
+      IActivityMonitor *monitor = core->get_activity_monitor();
       assert(monitor != NULL);
 
       ActivityMonitorStatistics ams;

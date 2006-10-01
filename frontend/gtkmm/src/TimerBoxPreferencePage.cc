@@ -1,6 +1,6 @@
 // TimerBoxPreferencePage.cc --- Preferences widgets for a timer
 //
-// Copyright (C) 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -31,10 +31,10 @@
 
 #include "TimerBoxPreferencePage.hh"
 
-#include "BreakInterface.hh"
-#include "ConfiguratorInterface.hh"
+#include "IBreak.hh"
+#include "IConfigurator.hh"
 #include "CoreFactory.hh"
-#include "CoreInterface.hh"
+#include "ICore.hh"
 #include "GtkUtil.hh"
 #include "Hig.hh"
 #include "MainWindow.hh"
@@ -54,15 +54,15 @@ TimerBoxPreferencePage::TimerBoxPreferencePage(string n)
   enable_buttons();
   init_page_callbacks();
   
-  ConfiguratorInterface *config = CoreFactory::get_configurator();
+  IConfigurator *config = CoreFactory::get_configurator();
   config->add_listener(TimerBoxControl::CFG_KEY_TIMERBOX + name, this);
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      CoreInterface *core = CoreFactory::get_core();
+      ICore *core = CoreFactory::get_core();
       assert(core != NULL);
 
-      BreakInterface *b = core->get_break(BreakId(i));
+      IBreak *b = core->get_break(BreakId(i));
       config->add_listener("gui/breaks/"
                            + b->get_name()
                            + "/enabled", this);
@@ -77,7 +77,7 @@ TimerBoxPreferencePage::~TimerBoxPreferencePage()
 {
   TRACE_ENTER("TimerBoxPreferencePage::~TimerBoxPreferencePage");
 
-  ConfiguratorInterface *config = CoreFactory::get_configurator();
+  IConfigurator *config = CoreFactory::get_configurator();
   config->remove_listener(this);
   
   TRACE_EXIT();
@@ -339,10 +339,10 @@ TimerBoxPreferencePage::enable_buttons(void)
       place_button->set_sensitive(on && count != 3);
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
-          CoreInterface *core = CoreFactory::get_core();
+          ICore *core = CoreFactory::get_core();
           assert(core != NULL);
 
-          BreakInterface *b = core->get_break(BreakId(i));
+          IBreak *b = core->get_break(BreakId(i));
 
           bool timer_on = b->get_break_enabled();
           timer_display_button[i]->set_sensitive(on && timer_on);
@@ -354,10 +354,10 @@ TimerBoxPreferencePage::enable_buttons(void)
     {
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
-          CoreInterface *core = CoreFactory::get_core();
+          ICore *core = CoreFactory::get_core();
           assert(core != NULL);
 
-          BreakInterface *b = core->get_break(BreakId(i));
+          IBreak *b = core->get_break(BreakId(i));
           timer_display_button[i]->set_sensitive(b->get_break_enabled());
         }
       if (count == 3)

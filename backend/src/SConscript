@@ -17,4 +17,4 @@ src = ['ActivityMonitor.cc',
        'Timer.cc',
        'win32/W32InputMonitor.cc']
 env.Append(CPPPATH=['$WR_ARCH'])
-env.Library('backend', src)
+env.Library('workrave-backend', src)

@@ -1,6 +1,6 @@
-// TimeBarInterface.hh --- Time Bar
+// ITimeBar.hh --- Time Bar
 //
-// Copyright (C) 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -16,13 +16,13 @@
 // $Id$
 //
 
-#ifndef TIMEBARINTERFACE_HH
-#define TIMEBARINTERFACE_HH
+#ifndef ITIMEBAR_HH
+#define ITIMEBAR_HH
 
 #include <string>
 
 
-class TimeBarInterface
+class ITimeBar
 {
 public:
   enum ColorId
@@ -38,7 +38,7 @@ public:
       COLOR_ID_SIZEOF
     };
 
-  virtual ~TimeBarInterface() {}
+  virtual ~ITimeBar() {}
   
   virtual void set_progress(int value, int max_value) = 0;
   virtual void set_secondary_progress(int value, int max_value) = 0;
@@ -51,4 +51,4 @@ public:
 };
 
 
-#endif // TIMEBARINTERFACE_HH
+#endif // ITIMEBAR_HH

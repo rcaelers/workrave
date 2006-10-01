@@ -33,9 +33,9 @@ static const char rcsid[] = "$Id$";
 #include "Util.hh"
 
 #include "CoreFactory.hh"
-#include "CoreInterface.hh"
+#include "ICore.hh"
 
-#include "BreakResponseInterface.hh"
+#include "IBreakResponse.hh"
 #include "PreludeWindow.hh"
 #include "WindowHints.hh"
 #include "Frame.hh"
@@ -191,7 +191,7 @@ PreludeWindow::add(Gtk::Widget& widget)
 //! Self-Destruct
 /*!
  *  This method MUST be used to destroy the objects through the
- *  PreludeWindowInterface. it is NOT possible to do a delete on
+ *  IPreludeWindow. it is NOT possible to do a delete on
  *  this interface...
  */
 void
@@ -247,19 +247,19 @@ PreludeWindow::set_progress(int value, int max_value)
 
 
 void
-PreludeWindow::set_progress_text(AppInterface::PreludeProgressText text)
+PreludeWindow::set_progress_text(IApp::PreludeProgressText text)
 {
   switch (text)
     {
-    case AppInterface::PROGRESS_TEXT_BREAK_IN:
+    case IApp::PROGRESS_TEXT_BREAK_IN:
       progress_text = _("Break in %s");
       break;
       
-    case AppInterface::PROGRESS_TEXT_DISAPPEARS_IN:
+    case IApp::PROGRESS_TEXT_DISAPPEARS_IN:
       progress_text = _("Disappears in %s");
       break;
       
-    case AppInterface::PROGRESS_TEXT_SILENT_IN:
+    case IApp::PROGRESS_TEXT_SILENT_IN:
       progress_text = _("Silent in %s");
       break;
     }
@@ -267,31 +267,31 @@ PreludeWindow::set_progress_text(AppInterface::PreludeProgressText text)
 
 
 void
-PreludeWindow::set_stage(AppInterface::PreludeStage stage)
+PreludeWindow::set_stage(IApp::PreludeStage stage)
 {
   const char *icon = NULL;
   switch(stage)
     {
-    case AppInterface::STAGE_INITIAL:
+    case IApp::STAGE_INITIAL:
       frame->set_frame_flashing(0);
       frame->set_frame_visible(false);
       icon = "prelude-hint.png";
       break;
       
-    case AppInterface::STAGE_WARN:
+    case IApp::STAGE_WARN:
       frame->set_frame_visible(true);
       frame->set_frame_flashing(500);
       frame->set_frame_color(color_warn);
       icon = "prelude-hint-sad.png";
       break;
       
-    case AppInterface::STAGE_ALERT:
+    case IApp::STAGE_ALERT:
       frame->set_frame_flashing(500);
       frame->set_frame_color(color_alert);
       icon = "prelude-hint-sad.png";
       break;
 
-    case AppInterface::STAGE_MOVE_OUT:
+    case IApp::STAGE_MOVE_OUT:
       if (! did_avoid)
         {
           int winx, winy;

@@ -38,9 +38,9 @@
 #include <string>
 
 #include "Break.hh"
-#include "BreakResponseInterface.hh"
-#include "ActivityMonitorInterface.hh"
-#include "CoreInterface.hh"
+#include "IBreakResponse.hh"
+#include "IActivityMonitor.hh"
+#include "ICore.hh"
 #include "CoreEventListener.hh"
 #include "ConfiguratorListener.hh"
 #include "TimeSource.hh"
@@ -50,27 +50,27 @@
 class ActivityMonitor;
 class Configurator;
 class Statistics;
-class SoundPlayerInterface;
-class AppInterface;
+class ISoundPlayer;
+class IApp;
 class FakeActivityMonitor;
 class IdleLogManager;
 class BreakControl;
 
 #ifdef HAVE_DISTRIBUTION
 #include "DistributionManager.hh"
-#include "DistributionClientMessageInterface.hh"
+#include "IDistributionClientMessage.hh"
 #include "DistributionListener.hh"
 #endif
 
 class Core :
 #ifdef HAVE_DISTRIBUTION
-  public DistributionClientMessageInterface,
+  public IDistributionClientMessage,
   public DistributionListener,
 #endif  
   public TimeSource,
-  public CoreInterface,
+  public ICore,
   public ConfiguratorListener,
-  public BreakResponseInterface
+  public IBreakResponse
 {
 public:
   Core();
@@ -89,7 +89,7 @@ public:
   Timer *get_timer(BreakId id) const;
   Break *get_break(BreakId id);
   Configurator *get_configurator() const;
-  ActivityMonitorInterface *get_activity_monitor() const;
+  IActivityMonitor *get_activity_monitor() const;
 #ifdef HAVE_DISTRIBUTION
   DistributionManager *get_distribution_manager() const;
 #endif
@@ -125,7 +125,7 @@ private:
     };
 #endif  
   
-  void init(int argc, char **argv, AppInterface *application, char *display_name);
+  void init(int argc, char **argv, IApp *application, char *display_name);
   void init_breaks();
   void init_configurator();
   void init_monitor(char *display_name);
@@ -152,8 +152,8 @@ private:
   void test_me();
 #endif
 
-  void set_insist_policy(CoreInterface::InsistPolicy p);
-  CoreInterface::InsistPolicy get_insist_policy() const;
+  void set_insist_policy(ICore::InsistPolicy p);
+  ICore::InsistPolicy get_insist_policy() const;
 
 #ifdef HAVE_DISTRIBUTION
   bool request_client_message(DistributionClientMessageID id, PacketBuffer &buffer);
@@ -223,7 +223,7 @@ private:
   ActivityMonitor *monitor;
 
   //! GUI Widget factory.
-  AppInterface *application;
+  IApp *application;
   
   //! The statistics collector.
   Statistics *statistics;
@@ -244,10 +244,10 @@ private:
   OperationMode powersave_operation_mode;
 
   //! What to do with activity during insisted break?
-  CoreInterface::InsistPolicy insist_policy;
+  ICore::InsistPolicy insist_policy;
 
   //! Policy currently in effect.
-  CoreInterface::InsistPolicy active_insist_policy;
+  ICore::InsistPolicy active_insist_policy;
 
   //! Resumes this break if current break ends.
   BreakId resume_break;

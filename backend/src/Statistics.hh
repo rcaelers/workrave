@@ -25,27 +25,27 @@
 #include <time.h>
 
 class TimePred;
-class BreakInterface;
-class TimerInterface;
+class IBreak;
+class ITimer;
 class PacketBuffer;
 class Core;
 
 using namespace std;
 
-#include "StatisticsInterface.hh"
+#include "IStatistics.hh"
 
 #ifdef HAVE_DISTRIBUTION
-#include "DistributionClientMessageInterface.hh"
+#include "IDistributionClientMessage.hh"
 #include "PacketBuffer.hh"
 #endif
 
-#include "StatisticsInterface.hh"
+#include "IStatistics.hh"
 
 class Statistics :
-  public StatisticsInterface
+  public IStatistics
 #ifdef HAVE_DISTRIBUTION
   ,
-  public DistributionClientMessageInterface
+  public IDistributionClientMessage
 #endif  
 {
 private:

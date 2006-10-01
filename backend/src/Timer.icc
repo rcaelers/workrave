@@ -118,7 +118,7 @@ Timer::get_state() const
 
 //! Sets the activity monitor to be used for this timer.
 inline void
-Timer::set_activity_monitor(ActivityMonitorInterface *am)
+Timer::set_activity_monitor(IActivityMonitor *am)
 {
   delete activity_monitor;
   activity_monitor = am;
@@ -126,7 +126,7 @@ Timer::set_activity_monitor(ActivityMonitorInterface *am)
 
 
 //! Returns the activity monitor to be used for this timer.
-inline ActivityMonitorInterface *
+inline IActivityMonitor *
 Timer::get_activity_monitor() const
 {
   return activity_monitor;

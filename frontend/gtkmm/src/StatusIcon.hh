@@ -25,7 +25,7 @@
 #include <gdk/gdkwin32.h>
 #endif
 #include <gtkmm/statusicon.h>
-#include "CoreInterface.hh"
+#include "ICore.hh"
 
 class MainWindow;
 

@@ -1,6 +1,6 @@
 // DistributionSocketLink.hh
 //
-// Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -34,7 +34,7 @@
 #endif
 
 #include "DistributionLink.hh"
-#include "DistributionClientMessageInterface.hh"
+#include "IDistributionClientMessage.hh"
 #include "ConfiguratorListener.hh"
 #include "PacketBuffer.hh"
 
@@ -78,7 +78,7 @@ private:
 
   struct ClientMessageListener
   {
-    DistributionClientMessageInterface *listener;
+    IDistributionClientMessage *listener;
     DistributionClientMessageType type;
 
     ClientMessageListener() :
@@ -190,7 +190,7 @@ public:
   bool set_lock_master(bool lock);
   
   bool register_client_message(DistributionClientMessageID id, DistributionClientMessageType type,
-                               DistributionClientMessageInterface *callback);
+                               IDistributionClientMessage *callback);
   bool unregister_client_message(DistributionClientMessageID id);
   bool broadcast_client_message(DistributionClientMessageID id, PacketBuffer &buffer);
 

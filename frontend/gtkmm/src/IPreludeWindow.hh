@@ -1,6 +1,6 @@
-// PreludeWindowInterface.hh --- base class for the break windows
+// IPreludeWindow.hh --- base class for the break windows
 //
-// Copyright (C) 2001, 2002, 2003, 2005 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2005, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -16,16 +16,16 @@
 // $Id$
 //
 
-#ifndef PRELUDEWINDOWINTERFACE_HH
-#define PRELUDEWINDOWINTERFACE_HH
+#ifndef IPRELUDEWINDOW_HH
+#define IPRELUDEWINDOW_HH
 
 #include <string>
-#include "AppInterface.hh"
+#include "IApp.hh"
 
-class PreludeWindowInterface
+class IPreludeWindow
 {
 public:
-  virtual ~PreludeWindowInterface() {}
+  virtual ~IPreludeWindow() {}
   
   //! Starts (i.e. shows) the prelude window.
   virtual void start() = 0;
@@ -45,13 +45,13 @@ public:
   virtual void set_progress(int value, int max_value) = 0;
 
   //! Sets the alert stage of the prelude window.
-  virtual void set_stage(AppInterface::PreludeStage stage) = 0;
+  virtual void set_stage(IApp::PreludeStage stage) = 0;
 
   //! Sets the progress text of the prelude window.
-  virtual void set_progress_text(AppInterface::PreludeProgressText text) = 0;
+  virtual void set_progress_text(IApp::PreludeProgressText text) = 0;
 
   //! Sets the response callback.
-  virtual void set_response(BreakResponseInterface *pri) = 0;
+  virtual void set_response(IBreakResponse *pri) = 0;
 };
 
-#endif // RESTPRELUDEWINDOWINTERFACE_HH
+#endif // IRESTPRELUDEWINDOW_HH

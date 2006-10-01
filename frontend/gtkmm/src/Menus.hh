@@ -29,7 +29,7 @@
 #include <gnome.h>
 #endif
 
-#include "CoreInterface.hh"
+#include "ICore.hh"
 
 class GUI;
 class TimeBar;

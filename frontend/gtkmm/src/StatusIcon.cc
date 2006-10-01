@@ -65,7 +65,7 @@ void
 StatusIcon::insert_icon()
 {
   // Create status icon
-  CoreInterface *core = CoreFactory::get_core();
+  ICore *core = CoreFactory::get_core();
   OperationMode mode = core->get_operation_mode();      
   status_icon = Gtk::StatusIcon::create(mode_icons[mode]);
 

@@ -1,6 +1,6 @@
 // SoundPlayer.cc --- Sound player
 //
-// Copyright (C) 2002, 2003, 2004 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -25,7 +25,7 @@ static const char rcsid[] = "$Id$";
 #include "Sound.hh"
 #include "debug.hh"
 
-#include "ConfiguratorInterface.hh"
+#include "IConfigurator.hh"
 #include "CoreFactory.hh"
 
 #ifdef HAVE_GNOME
@@ -39,7 +39,7 @@ static const char rcsid[] = "$Id$";
 #include <X11/Xlib.h>
 #endif
 #ifdef WIN32
-#include "Win32SoundPlayer.hh"
+#include "W32SoundPlayer.hh"
 #endif
 
 const char *SoundPlayer::CFG_KEY_SOUND_ENABLED = "sound/enabled";
@@ -211,7 +211,7 @@ SoundPlayer::SoundPlayer()
 {
   player =
 #if defined(WIN32)
-     new Win32SoundPlayer()
+     new W32SoundPlayer()
 #elif defined(HAVE_GNOME)
      new GnomeSoundPlayer()
 #elif defined(HAVE_KDE)

@@ -1,6 +1,6 @@
 // PreferencesDialog.hh --- Preferences Dialog
 //
-// Copyright (C) 2002, 2003, 2004 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2006 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -24,7 +24,7 @@
 #include "preinclude.h"
 #include "Hig.hh"
 #include "IconListNotebook.hh"
-#include "CoreInterface.hh"
+#include "ICore.hh"
 
 class TimeEntry;
 namespace Gtk

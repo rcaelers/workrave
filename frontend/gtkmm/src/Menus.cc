@@ -40,15 +40,15 @@ static const char rcsid[] = "$Id$";
 
 #include "PreferencesDialog.hh"
 #include "StatisticsDialog.hh"
-#include "StatisticsInterface.hh"
+#include "IStatistics.hh"
 
 #include "CoreFactory.hh"
-#include "CoreInterface.hh"
-#include "TimerInterface.hh"
-#include "ConfiguratorInterface.hh"
+#include "ICore.hh"
+#include "ITimer.hh"
+#include "IConfigurator.hh"
 
 #ifdef HAVE_DISTRIBUTION
-#include "DistributionManagerInterface.hh"
+#include "IDistributionManager.hh"
 #include "NetworkJoinDialog.hh"
 #include "NetworkLogDialog.hh"
 #endif
@@ -225,7 +225,7 @@ Menus::create_menu(MenuKind kind, Gtk::CheckMenuItem *check_menus[MENUSYNC_SIZEO
         &Menus::on_menu_quiet_menu
       };
     
-    CoreInterface *core = CoreFactory::get_core();
+    ICore *core = CoreFactory::get_core();
     OperationMode mode = core->get_operation_mode();      
 
     Gtk::RadioMenuItem::Group gr;
@@ -429,7 +429,7 @@ Menus::sync_log_menu(bool active)
 void
 Menus::resync_applet()
 {
-  CoreInterface *core = CoreFactory::get_core();
+  ICore *core = CoreFactory::get_core();
   OperationMode mode = core->get_operation_mode();
   
   for (int k = MENU_MAINWINDOW; k < MENU_SIZEOF; k++)
@@ -568,7 +568,7 @@ Menus::on_menu_restbreak_now()
 void
 Menus::set_operation_mode(OperationMode m)
 {
-  CoreInterface *core = CoreFactory::get_core();
+  ICore *core = CoreFactory::get_core();
   core->set_operation_mode(m);
   sync_mode_menu(m);
 }
@@ -654,8 +654,8 @@ Menus::on_menu_normal()
 void
 Menus::on_test_me()
 { 
-  CoreInterface *core = CoreFactory::get_core();
-  StatisticsInterface *stats = core->get_statistics();
+  ICore *core = CoreFactory::get_core();
+  IStatistics *stats = core->get_statistics();
   stats->dump();
   
   core->test_me();
@@ -751,8 +751,8 @@ Menus::on_menu_statistics()
 {
   if (statistics_dialog == NULL)
     {
-      CoreInterface *core = CoreFactory::get_core();
-      StatisticsInterface *stats = core->get_statistics();
+      ICore *core = CoreFactory::get_core();
+      IStatistics *stats = core->get_statistics();
       stats->update();
       
       statistics_dialog = new StatisticsDialog();
@@ -843,8 +843,8 @@ Menus::on_network_join_response(int response)
   
   if (response == Gtk::RESPONSE_OK)
     {
-      CoreInterface *core = CoreFactory::get_core();
-      DistributionManagerInterface *dist_manager
+      ICore *core = CoreFactory::get_core();
+      IDistributionManager *dist_manager
         = core->get_distribution_manager();
       std::string peer = network_join_dialog->get_connect_url();
       dist_manager->connect(peer);
@@ -860,8 +860,8 @@ void
 Menus::on_menu_network_leave()
 {
 #ifdef HAVE_DISTRIBUTION
-  CoreInterface *core = CoreFactory::get_core();
-  DistributionManagerInterface *dist_manager = core->get_distribution_manager();
+  ICore *core = CoreFactory::get_core();
+  IDistributionManager *dist_manager = core->get_distribution_manager();
   if (dist_manager != NULL)
     {
       dist_manager->disconnect_all();
@@ -873,8 +873,8 @@ void
 Menus::on_menu_network_reconnect()
 {
 #ifdef HAVE_DISTRIBUTION
-  CoreInterface *core = CoreFactory::get_core();
-  DistributionManagerInterface *dist_manager = core->get_distribution_manager();
+  ICore *core = CoreFactory::get_core();
+  IDistributionManager *dist_manager = core->get_distribution_manager();
   if (dist_manager != NULL)
     {
       dist_manager->reconnect_all();

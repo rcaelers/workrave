@@ -53,7 +53,7 @@ GUI::on_timer()
 }
 
 void
-GUI::set_break_response(BreakResponseInterface *rep)
+GUI::set_break_response(IBreakResponse *rep)
 {
 }
 

@@ -6,4 +6,4 @@ src = ['DayTimePred.cc',
        'debug.cc',
        'Util.cc',
        'win32/gettimeofday.c']
-env.Library('common', src)
+env.Library('workrave-common', src)

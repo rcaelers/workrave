@@ -1,6 +1,6 @@
 // TimerBoxControl.hh --- All timers
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -21,14 +21,14 @@
 
 #include <string>
 
-#include "CoreInterface.hh"
+#include "ICore.hh"
 #include "ConfiguratorListener.hh"
-#include "TimerBoxView.hh"
+#include "ITimerBoxView.hh"
 
 class TimerBoxControl : public ConfiguratorListener
 {
 public:  
-  TimerBoxControl(std::string name, TimerBoxView &view);
+  TimerBoxControl(std::string name, ITimerBoxView &view);
   virtual ~TimerBoxControl();
 
   void init();
@@ -83,7 +83,7 @@ private:
  
 private:
   //! View
-  TimerBoxView *view;
+  ITimerBoxView *view;
   
   //! Reconfigure the panel.
   bool reconfigure;

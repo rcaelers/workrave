@@ -1,6 +1,6 @@
 // RestBreakWindow.cc --- window for the microbreak
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 //
@@ -41,15 +41,15 @@ const int TIMEOUT = 1000;
 #include "Util.hh"
 #include "WindowHints.hh"
 
-#include "TimerInterface.hh"
-#include "BreakInterface.hh"
-#include "BreakResponseInterface.hh"
+#include "ITimer.hh"
+#include "IBreak.hh"
+#include "IBreakResponse.hh"
 #include "GtkUtil.hh"
 #include "Frame.hh"
 
-#include "CoreInterface.hh"
+#include "ICore.hh"
 #include "CoreFactory.hh"
-#include "ActivityMonitorInterface.hh"
+#include "IActivityMonitor.hh"
 
 #ifdef HAVE_EXERCISES
 #include "Exercise.hh"
@@ -168,8 +168,8 @@ RestBreakWindow::draw_time_bar()
   
   timebar->set_text(s);
 
-  CoreInterface *core = CoreFactory::get_core();
-  ActivityMonitorInterface *monitor = core->get_activity_monitor();
+  ICore *core = CoreFactory::get_core();
+  IActivityMonitor *monitor = core->get_activity_monitor();
   ActivityState state = monitor->get_current_state();
   if (frame != NULL)
     {
@@ -231,7 +231,7 @@ RestBreakWindow::get_exercise_count()
   
   if (Exercise::has_exercises())
     {
-      CoreInterface *core = CoreFactory::get_core();
+      ICore *core = CoreFactory::get_core();
       assert(core != NULL);
       
       ret = core->get_break(BREAK_ID_REST_BREAK)->get_break_exercises();
@@ -277,12 +277,12 @@ RestBreakWindow::install_info_panel()
 void
 RestBreakWindow::set_ignore_activity(bool i)
 {
-  CoreInterface *core = CoreFactory::get_core();
+  ICore *core = CoreFactory::get_core();
   assert(core != NULL);
   
   core->set_insist_policy(i ?
-                        CoreInterface::INSIST_POLICY_IGNORE :
+                        ICore::INSIST_POLICY_IGNORE :
                         (block_mode != GUI::BLOCK_MODE_NONE
-                         ? CoreInterface::INSIST_POLICY_HALT
-                         : CoreInterface::INSIST_POLICY_RESET));
+                         ? ICore::INSIST_POLICY_HALT
+                         : ICore::INSIST_POLICY_RESET));
 }

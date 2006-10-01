@@ -22,11 +22,11 @@
 #include <QApplication>
 #include <QTimer>
 
-#include "CoreInterface.hh"
-#include "AppInterface.hh"
+#include "ICore.hh"
+#include "IApp.hh"
 #include "StatusWindow.hh"
 
-class GUI : public QApplication, AppInterface
+class GUI : public QApplication, IApp
 {
   Q_OBJECT
   
@@ -37,7 +37,7 @@ public:
 public slots:
   void on_timer();
 
-  virtual void set_break_response(BreakResponseInterface *rep);
+  virtual void set_break_response(IBreakResponse *rep);
   virtual void start_prelude_window(BreakId break_id);
   virtual void start_break_window(BreakId break_id, bool ignorable);
   virtual void hide_break_window();
@@ -48,7 +48,7 @@ public slots:
   
 private:
   QTimer *heartbeat_timer;
-  CoreInterface *core;
+  ICore *core;
   StatusWindow status_window;
 };
 

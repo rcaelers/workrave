@@ -43,7 +43,7 @@ static const char rcsid[] = "$Id$";
 #include "GtkUtil.hh"
 
 #include "CoreFactory.hh"
-#include "BreakInterface.hh"
+#include "IBreak.hh"
 
 
 //! Constructor.

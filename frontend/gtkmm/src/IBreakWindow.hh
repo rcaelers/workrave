@@ -1,6 +1,6 @@
-// BreakWindowInterface.hh --- base class for the break windows
+// IBreakWindow.hh --- base class for the break windows
 //
-// Copyright (C) 2001, 2002, 2003, 2005 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2005, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -16,17 +16,17 @@
 // $Id$
 //
 
-#ifndef BREAKWINDOWINTERFACE_HH
-#define BREAKWINDOWINTERFACE_HH
+#ifndef IBREAKWINDOW_HH
+#define IBREAKWINDOW_HH
 
 #include <stdio.h>
 
-class BreakResponseInterface;
+class IBreakResponse;
 
-class BreakWindowInterface
+class IBreakWindow
 {
 public:
-  virtual ~BreakWindowInterface() {}
+  virtual ~IBreakWindow() {}
   
   //! Starts (i.e. shows) the break window.
   virtual void start() = 0;
@@ -39,7 +39,7 @@ public:
 
   //! Destroys the break window.
   /*! \warn this will 'delete' the window, so all pointers to the
-   *        BreakWindowInterface will become invalid.
+   *        IBreakWindow will become invalid.
    */
   virtual void destroy() = 0;
 
@@ -47,10 +47,10 @@ public:
   virtual void set_progress(int value, int max_value) = 0;
 
   //! Sets the response callback.
-  virtual void set_response(BreakResponseInterface *bri) = 0;
+  virtual void set_response(IBreakResponse *bri) = 0;
 
   //
   virtual Glib::RefPtr<Gdk::Window> get_gdk_window() = 0;
 };
 
-#endif // RESTBREAKWINDOWINTERFACE_HH
+#endif // RESTBREAKWINDOW_HH

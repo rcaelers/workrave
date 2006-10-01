@@ -1,6 +1,6 @@
-// StatisticsInterface.hh
+// IStatistics.hh
 //
-// Copyright (C) 2002, 2003, 2005 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2005, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -16,17 +16,17 @@
 // $Id$
 //
 
-#ifndef STATISTICSINTERFACE_HH
-#define STATISTICSINTERFACE_HH
+#ifndef ISTATISTICS_HH
+#define ISTATISTICS_HH
 
 #include <iostream>
 #include <fstream>
 #include <vector>
 #include <time.h>
 
-#include "CoreInterface.hh"
+#include "ICore.hh"
 
-class StatisticsInterface
+class IStatistics
 {
 public:
   enum StatsBreakValueType
@@ -71,7 +71,7 @@ public:
   };
   
 public:
-  virtual ~StatisticsInterface() {}
+  virtual ~IStatistics() {}
   
   virtual void update() = 0;
   virtual DailyStats *get_current_day() const = 0;
@@ -81,4 +81,4 @@ public:
   virtual void dump() = 0;
 };
 
-#endif // STATISTICSINTERFACE_HH
+#endif // ISTATISTICS_HH

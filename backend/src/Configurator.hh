@@ -25,11 +25,11 @@
 
 using namespace std;
 
-#include "ConfiguratorInterface.hh"
+#include "IConfigurator.hh"
 
 class ConfiguratorListener;
 
-class Configurator : public ConfiguratorInterface
+class Configurator : public IConfigurator
 {
 public:
   typedef enum Format

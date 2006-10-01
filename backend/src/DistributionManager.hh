@@ -1,6 +1,6 @@
 // DistributionManager.hh
 //
-// Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -25,8 +25,8 @@
 using namespace std;
 
 #include "ConfiguratorListener.hh"
-#include "DistributionClientMessageInterface.hh"
-#include "DistributionManagerInterface.hh"
+#include "IDistributionClientMessage.hh"
+#include "IDistributionManager.hh"
 
 class DistributionLink;
 class Configurator;
@@ -35,7 +35,7 @@ class DistributionListener;
 class PacketBuffer;
 
 class DistributionManager :
-  public DistributionManagerInterface,
+  public IDistributionManager,
   public ConfiguratorListener
 {
 public:
@@ -66,7 +66,7 @@ public:
   bool connect(string url);
   bool disconnect(string id);
   bool register_client_message(DistributionClientMessageID id, DistributionClientMessageType type,
-                               DistributionClientMessageInterface *callback);
+                               IDistributionClientMessage *callback);
   bool unregister_client_message(DistributionClientMessageID id);
 
   bool add_listener(DistributionListener *listener);

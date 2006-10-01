@@ -1,6 +1,6 @@
 // TimerPreferencesPanel.hh --- Preferences widgets for a timer
 //
-// Copyright (C) 2002, 2003, 2004 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2006 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -32,7 +32,7 @@
 #include <gtkmm/sizegroup.h>
 #include <gtkmm/adjustment.h>
 
-#include "CoreInterface.hh"
+#include "ICore.hh"
 
 #define HAVE_MICRO_BREAK_ACTIVITY 1
 
@@ -78,7 +78,7 @@ private:
   void enable_buttons();
   
   BreakId break_id;
-  BreakInterface *break_data;
+  IBreak *break_data;
 
   Gtk::CheckButton *ignorable_cb;
   Gtk::CheckButton *activity_sensitive_cb;

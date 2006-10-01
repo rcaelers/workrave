@@ -1,6 +1,6 @@
-// BreakResponseInterface.hh --- Generic Interface for breaks
+// W32SoundPlayer.hh
 //
-// Copyright (C) 2002, 2003, 2004, 2005 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -16,22 +16,24 @@
 // $Id$
 //
 
-#ifndef BREAKRESPONSEINTERFACE_HH
-#define BREAKRESPONSEINTERFACE_HH
+#ifndef W32SOUNDPLAYER_HH
+#define W32SOUNDPLAYER_HH
 
-#include "CoreInterface.hh"
+#include "ISoundPlayer.hh"
 
-//! Response Interface for a Break.
-class BreakResponseInterface
+class W32SoundPlayer : public ISoundPlayer
 {
 public:
-  virtual ~BreakResponseInterface() {}
+  W32SoundPlayer();
+  virtual ~W32SoundPlayer();
   
-  //! Request to postpone the break.
-  virtual void postpone_break(BreakId break_id) = 0;
+  void play_sound(Sound snd);
 
-  //! Request to skip the break.
-  virtual void skip_break(BreakId break_id) = 0;
+private:
+  void register_sound_events();
+  static DWORD WINAPI thread_proc(LPVOID lpParameter);
+
+  static volatile HANDLE thread_handle;
 };
 
-#endif // BREAKRESPONSEINTERFACE_HH
+#endif // W32SOUNDPLAYER_HH

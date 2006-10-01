@@ -1,6 +1,6 @@
 // FakeActivityMonitor.hh
 //
-// Copyright (C) 2001, 2002, 2003, 2005 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2005, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -19,9 +19,9 @@
 #ifndef FAKEACTIVITYMONITOR_HH
 #define FAKEACTIVITYMONITOR_HH
 
-#include "ActivityMonitorInterface.hh"
+#include "IActivityMonitor.hh"
 
-class FakeActivityMonitor : public ActivityMonitorInterface
+class FakeActivityMonitor : public IActivityMonitor
 {
 public:
   FakeActivityMonitor() :

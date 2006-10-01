@@ -1,6 +1,6 @@
 // ActivityMonitor.hh --- ActivityMonitor functionality
 //
-// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2004, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -19,8 +19,8 @@
 #ifndef ACTIVITYMONITOR_HH
 #define ACTIVITYMONITOR_HH
 
-#include "ActivityMonitorInterface.hh"
-#include "InputMonitorListenerInterface.hh"
+#include "IActivityMonitor.hh"
+#include "IInputMonitorListener.hh"
 #include "Mutex.hh"
 
 #if TIME_WITH_SYS_TIME
@@ -35,13 +35,13 @@
 #endif
 
 class ActivityListener;
-class InputMonitorInterface;
+class IInputMonitor;
 class Thread;
 
 
 class ActivityMonitor :
-  public InputMonitorListenerInterface,
-  public ActivityMonitorInterface
+  public IInputMonitorListener,
+  public IActivityMonitor
 {
 public:
   ActivityMonitor(const char *display);
@@ -74,7 +74,7 @@ private:
   
 private:
   //! The actual monitoring driver.
-  InputMonitorInterface *input_monitor;
+  IInputMonitor *input_monitor;
 
   //! the current state.
   ActivityState activity_state;

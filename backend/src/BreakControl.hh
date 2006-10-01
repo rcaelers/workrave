@@ -19,15 +19,15 @@
 #ifndef BREAKCONTROL_HH
 #define BREAKCONTROL_HH
 
-#include "CoreInterface.hh"
+#include "ICore.hh"
 #include "CoreEventListener.hh"
-#include "BreakInterface.hh"
-#include "BreakResponseInterface.hh"
+#include "IBreak.hh"
+#include "IBreakResponse.hh"
 #include "ActivityMonitorListener.hh"
 
-class ActivityMonitorListenerInterface;
+class IActivityMonitorListener;
 class Core;
-class AppInterface;
+class IApp;
 class PreludeWindow;
 class Timer;
 
@@ -51,7 +51,7 @@ public:
     bool reached_max_postpone;
   };
   
-  BreakControl(BreakId id, Core *core, AppInterface *app, Timer *timer);
+  BreakControl(BreakId id, Core *core, IApp *app, Timer *timer);
   virtual ~BreakControl();
 
   // BreakInterface
@@ -104,7 +104,7 @@ private:
   Core *core;
 
   //! GUI Factory used to create the break/prelude windows.
-  AppInterface *application;
+  IApp *application;
   
   //! Interface to the timer controlling the break.
   Timer *break_timer;

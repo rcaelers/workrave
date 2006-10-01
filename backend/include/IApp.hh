@@ -1,6 +1,6 @@
-// AppInterface.hh
+// IApp.hh
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -16,14 +16,14 @@
 // $Id$
 //
 
-#ifndef APPINTERFACE_HH
-#define APPINTERFACE_HH
+#ifndef IAPP_HH
+#define IAPP_HH
 
-#include "CoreInterface.hh"
+#include "ICore.hh"
 
-class BreakResponseInterface;
+class IBreakResponse;
 
-class AppInterface
+class IApp
 {
 public:
   enum PreludeStage
@@ -41,10 +41,10 @@ public:
       PROGRESS_TEXT_SILENT_IN,
     };
 
-  virtual ~AppInterface() {}
+  virtual ~IApp() {}
   
   //! Sets the response interface.
-  virtual void set_break_response(BreakResponseInterface *rep) = 0;
+  virtual void set_break_response(IBreakResponse *rep) = 0;
   
   //! Shows a prelude window for specified break type.
   virtual void start_prelude_window(BreakId break_id) = 0;
@@ -68,4 +68,4 @@ public:
   virtual void set_prelude_progress_text(PreludeProgressText text) = 0;
 };
 
-#endif // RESTAPPINTERFACE_HH
+#endif // IAPP_HH

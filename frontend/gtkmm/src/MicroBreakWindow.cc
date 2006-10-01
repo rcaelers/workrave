@@ -1,6 +1,6 @@
 // MicroBreakWindow.cc --- window for the microbreak
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -33,13 +33,13 @@ static const char rcsid[] = "$Id$";
 #include "MicroBreakWindow.hh"
 #include "WindowHints.hh"
 #include "TimeBar.hh"
-#include "TimerInterface.hh"
-#include "BreakResponseInterface.hh"
+#include "ITimer.hh"
+#include "IBreakResponse.hh"
 #include "Util.hh"
 #include "GtkUtil.hh"
 #include "Text.hh"
 #include "Hig.hh"
-#include "ActivityMonitorInterface.hh"
+#include "IActivityMonitor.hh"
 #include "Frame.hh"
 
 //! Construct a new Microbreak window.
@@ -78,9 +78,9 @@ MicroBreakWindow::create_gui()
   box->pack_start(*time_bar, Gtk::PACK_EXPAND_WIDGET, 0);
 
   // Button box at the bottom.
-  CoreInterface *core = CoreFactory::get_core();
-  TimerInterface *restbreak_timer =  core->get_timer(BREAK_ID_REST_BREAK);
-  bool has_rb = restbreak_timer->get_state() != TimerInterface::STATE_INVALID;
+  ICore *core = CoreFactory::get_core();
+  ITimer *restbreak_timer =  core->get_timer(BREAK_ID_REST_BREAK);
+  bool has_rb = restbreak_timer->get_state() != ITimer::STATE_INVALID;
   if (ignorable_break || has_rb)
     {
       Gtk::HBox *button_box;
@@ -175,8 +175,8 @@ MicroBreakWindow::refresh_time_bar()
   time_bar->set_progress(progress_value, progress_max_value - 1);
   time_bar->set_text(s);
 
-  CoreInterface *core = CoreFactory::get_core();
-  ActivityMonitorInterface *monitor = core->get_activity_monitor();
+  ICore *core = CoreFactory::get_core();
+  IActivityMonitor *monitor = core->get_activity_monitor();
   ActivityState state = monitor->get_current_state();
   if (frame != NULL)
     {
@@ -205,22 +205,22 @@ MicroBreakWindow::refresh_label()
 {
   TRACE_ENTER("MicroBreakWindow::refresh_label");
 
-  CoreInterface *core = CoreFactory::get_core();
+  ICore *core = CoreFactory::get_core();
 
-  TimerInterface *restbreak_timer =  core->get_timer(BREAK_ID_REST_BREAK);
-  TimerInterface *daily_timer =  core->get_timer(BREAK_ID_DAILY_LIMIT);
+  ITimer *restbreak_timer =  core->get_timer(BREAK_ID_REST_BREAK);
+  ITimer *daily_timer =  core->get_timer(BREAK_ID_DAILY_LIMIT);
 
   BreakId show_next = BREAK_ID_NONE;
   
   time_t rb = restbreak_timer->get_limit() - restbreak_timer->get_elapsed_time();
   time_t dl = daily_timer->get_limit() - daily_timer->get_elapsed_time();
 
-  if (restbreak_timer->get_state() != TimerInterface::STATE_INVALID)
+  if (restbreak_timer->get_state() != ITimer::STATE_INVALID)
     {
       show_next = BREAK_ID_REST_BREAK;
     }
 
-  if (daily_timer->get_state() != TimerInterface::STATE_INVALID)
+  if (daily_timer->get_state() != ITimer::STATE_INVALID)
     {
       if (show_next == BREAK_ID_NONE || dl < rb)
         {

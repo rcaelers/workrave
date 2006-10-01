@@ -1,6 +1,6 @@
-// DistributionManagerInterface.hh
+// IDistributionManager.hh
 //
-// Copyright (C) 2002, 2003, 2005 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2005, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -16,18 +16,18 @@
 // $Id$
 //
 
-#ifndef DISTRIBUTIOMANAGERINTERFACE_HH
-#define DISTRIBUTIOMANAGERINTERFACE_HH
+#ifndef IDISTRIBUTIOMANAGER_HH
+#define IDISTRIBUTIOMANAGER_HH
 
 #include <string>
 using namespace std;
 
 class DistributionLogListener;
 
-class DistributionManagerInterface
+class IDistributionManager
 {
 public:
-  virtual ~DistributionManagerInterface() {}
+  virtual ~IDistributionManager() {}
   
   virtual bool is_master() const = 0;
   virtual int get_number_of_peers() = 0;
@@ -65,4 +65,4 @@ public:
   virtual void set_reconnect_interval(int v) = 0;
 };
 
-#endif // DISTRIBUTIOMANAGERINTERFACE_HH
+#endif // IDISTRIBUTIOMANAGER_HH

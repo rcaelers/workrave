@@ -1,6 +1,6 @@
-// ActivityMonitorInterface.hh --- Interface definition for the Activity Monitor
+// IActivityMonitor.hh --- Interface definition for the Activity Monitor
 //
-// Copyright (C) 2001, 2002, 2003, 2005 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2005, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -16,8 +16,8 @@
 // $Id$
 //
 
-#ifndef ACTIVITYMONITORINTERFACE_HH
-#define ACTIVITYMONITORINTERFACE_HH
+#ifndef IACTIVITYMONITOR_HH
+#define IACTIVITYMONITOR_HH
 
 class ActivityListener;
 class ActivityMonitorListener;
@@ -54,10 +54,10 @@ public:
 
 
 //! Interface that all activity monitor implements.
-class ActivityMonitorInterface
+class IActivityMonitor
 {
 public:
-  virtual ~ActivityMonitorInterface() {}
+  virtual ~IActivityMonitor() {}
   
   //! Stops the activity monitoring.
   virtual void terminate() = 0;
@@ -87,4 +87,4 @@ public:
   virtual void set_listener(ActivityMonitorListener *l) = 0;
 };
 
-#endif // ACTIVITYMONITORINTERFACE_HH
+#endif // IACTIVITYMONITOR_HH

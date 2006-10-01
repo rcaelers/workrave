@@ -1,6 +1,6 @@
-// Win32SoundPlayer.cc --- Sound player
+// W32SoundPlayer.cc --- Sound player
 //
-// Copyright (C) 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -21,12 +21,12 @@ static const char rcsid[] = "$Id$";
 #endif
 
 #include <windows.h>
-#include "Win32SoundPlayer.hh"
+#include "W32SoundPlayer.hh"
 #include "SoundPlayer.hh"
 #include "Util.hh"
 #include "debug.hh"
 
-volatile HANDLE Win32SoundPlayer::thread_handle = NULL;
+volatile HANDLE W32SoundPlayer::thread_handle = NULL;
 
 static struct SoundRegistry 
 {
@@ -102,18 +102,18 @@ registry_set_value(const char *path, const char *name,
 
 
 
-Win32SoundPlayer::Win32SoundPlayer()
+W32SoundPlayer::W32SoundPlayer()
 {
   register_sound_events();
 }
 
-Win32SoundPlayer::~Win32SoundPlayer()
+W32SoundPlayer::~W32SoundPlayer()
 {
 }
 
 
 void
-Win32SoundPlayer::register_sound_events()
+W32SoundPlayer::register_sound_events()
 {
   string sound_dir  = Util::get_application_directory() + "\\share\\sounds\\";
   
@@ -144,9 +144,9 @@ Win32SoundPlayer::register_sound_events()
 
 
 void
-Win32SoundPlayer::play_sound(Sound snd)
+W32SoundPlayer::play_sound(Sound snd)
 {
-  TRACE_ENTER("Win32SoundPlayer::play_sound");
+  TRACE_ENTER("W32SoundPlayer::play_sound");
   SoundRegistry *s = &sound_registry[snd];
   if (! thread_handle)
     {
@@ -162,7 +162,7 @@ Win32SoundPlayer::play_sound(Sound snd)
 
 
 DWORD WINAPI 
-Win32SoundPlayer::thread_proc(LPVOID lpParameter)
+W32SoundPlayer::thread_proc(LPVOID lpParameter)
 {
   SoundRegistry *snd = (SoundRegistry*) lpParameter;
 

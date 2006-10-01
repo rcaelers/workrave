@@ -1,6 +1,6 @@
 // DistributionLink.hh
 //
-// Copyright (C) 2002, 2003, 2005 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2005, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -22,10 +22,10 @@
 #include <string>
 
 class DistributionLinkListener;
-class DistributionClientMessageInterface;
+class IDistributionClientMessage;
 class PacketBuffer;
 
-#include "DistributionClientMessageInterface.hh"
+#include "IDistributionClientMessage.hh"
 
 class DistributionLink
 {
@@ -66,7 +66,7 @@ public:
   //! Registers a client message callback.
   virtual bool register_client_message(DistributionClientMessageID id,
                                        DistributionClientMessageType type,
-                                       DistributionClientMessageInterface *callback) = 0;
+                                       IDistributionClientMessage *callback) = 0;
 
   //! Unregisters a client message callback.
   virtual bool unregister_client_message(DistributionClientMessageID id) = 0;

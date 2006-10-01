@@ -35,7 +35,7 @@ static const char rcsid[] = "$Id$";
 #include "Menus.hh"
 #include "System.hh"
 
-#include "CoreInterface.hh"
+#include "ICore.hh"
 #include "CoreFactory.hh"
 
 #include <gdk/gdkcolor.h>

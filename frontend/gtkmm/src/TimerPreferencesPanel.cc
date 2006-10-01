@@ -1,6 +1,6 @@
 // TimerPreferencesPanel.cc --- Preferences widgets for a timer
 //
-// Copyright (C) 2002, 2003, 2004 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2006 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -30,9 +30,9 @@
 #include "debug.hh"
 
 #include "CoreFactory.hh"
-#include "CoreInterface.hh"
-#include "BreakInterface.hh"
-#include "TimerInterface.hh"
+#include "ICore.hh"
+#include "IBreak.hh"
+#include "ITimer.hh"
 #include "DayTimePred.hh"
 #include "TimePredFactory.hh"
 
@@ -54,7 +54,7 @@ TimerPreferencesPanel::TimerPreferencesPanel
 {
   break_id = t;
 
-  CoreInterface *core = CoreFactory::get_core();
+  ICore *core = CoreFactory::get_core();
   break_data = core->get_break(BreakId(break_id));
 
   Gtk::HBox *box = manage(new Gtk::HBox(false, 6));
@@ -352,8 +352,8 @@ TimerPreferencesPanel::on_monitor_toggled()
 
   if (monitor_cb->get_active())
     {
-      CoreInterface *core = CoreFactory::get_core();
-      BreakInterface *mp_break = core->get_break(BREAK_ID_MICRO_BREAK);
+      ICore *core = CoreFactory::get_core();
+      IBreak *mp_break = core->get_break(BREAK_ID_MICRO_BREAK);
       val = mp_break->get_name();
     }
 

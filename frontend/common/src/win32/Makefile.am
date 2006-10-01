@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2002, 2003, 2004 Rob Caelers & Raymond Penners
+# Copyright (C) 2002, 2003, 2004, 2006 Rob Caelers & Raymond Penners
 #
 # $Id$
 #
@@ -15,7 +15,7 @@ if PLATFORM_WIN32
 noinst_LIBRARIES = 	libworkrave-frontend-common-win32.a
 
 libworkrave_frontend_common_win32_a_SOURCES = \
-			Win32SoundPlayer.cc
+			W2SoundPlayer.cc
 
 
 libworkrave_frontend_common_win32_a_CXXFLAGS = \

@@ -1,6 +1,6 @@
-// SoundPlayerInterface.hh
+// ISoundPlayer.hh
 //
-// Copyright (C) 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -16,11 +16,11 @@
 // $Id$
 //
 
-#ifndef SOUNDPLAYERINTERFACE_HH
-#define SOUNDPLAYERINTERFACE_HH
+#ifndef ISOUNDPLAYER_HH
+#define ISOUNDPLAYER_HH
 
 
-class SoundPlayerInterface
+class ISoundPlayer
 {
 public:
   enum Sound
@@ -36,10 +36,10 @@ public:
     SOUND_EXERCISES_ENDED
   };
 
-  virtual ~SoundPlayerInterface() {}
+  virtual ~ISoundPlayer() {}
   
   //! Plays sound, returns immediately.
   virtual void play_sound(Sound snd) = 0;
 };
 
-#endif // SOUNDPLAYERINTERFACE_HH
+#endif // ISOUNDPLAYER_HH

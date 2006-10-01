@@ -16,8 +16,8 @@
 // $Id$
 //
 
-#ifndef CONFIGURATORINTERFACE
-#define CONFIGURATORINTERFACE_HH
+#ifndef ICONFIGURATOR_HH
+#define ICONFIGURATOR_HH
 
 #include <string>
 #include <list>
@@ -27,10 +27,10 @@ using namespace std;
 
 class ConfiguratorListener;
 
-class ConfiguratorInterface
+class IConfigurator
 {
 public:
-  virtual ~ConfiguratorInterface() {}
+  virtual ~IConfigurator() {}
   
   //! Loads the specified file.
   /*!
@@ -174,4 +174,4 @@ public:
   
 };
 
-#endif // CONFIGURATORINTERFACE_HH
+#endif // ICONFIGURATOR_HH

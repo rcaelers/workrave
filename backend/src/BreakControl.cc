@@ -27,11 +27,11 @@ static const char rcsid[] = "$Id$";
 
 #include "BreakControl.hh"
 
-#include "BreakInterface.hh"
+#include "IBreak.hh"
 #include "Core.hh"
 #include "Statistics.hh"
-#include "AppInterface.hh"
-#include "ActivityMonitorInterface.hh"
+#include "IApp.hh"
+#include "IActivityMonitor.hh"
 #include "ActivityMonitorListener.hh"
 #include "Timer.hh"
 #include "Statistics.hh"
@@ -52,7 +52,7 @@ static const char rcsid[] = "$Id$";
  *          windows.
  *  \param timer pointer to the interface of the timer that belongs to this break.
  */
-BreakControl::BreakControl(BreakId id, Core *c, AppInterface *app, Timer *timer) :
+BreakControl::BreakControl(BreakId id, Core *c, IApp *app, Timer *timer) :
   break_id(id),
   core(c),
   application(app),
@@ -101,8 +101,8 @@ BreakControl::heartbeat()
     {
       // Prefer the running state of the break timer as input for
       // our current activity.
-      TimerInterface::TimerState tstate = break_timer->get_state();
-      is_idle = (tstate == TimerInterface::STATE_STOPPED);
+      ITimer::TimerState tstate = break_timer->get_state();
+      is_idle = (tstate == ITimer::STATE_STOPPED);
     }
   else
     {
@@ -171,20 +171,20 @@ BreakControl::heartbeat()
         else if (prelude_time == 20)
           {
             // Still not idle after 20s. Red alert.
-            application->set_prelude_stage(AppInterface::STAGE_ALERT);
+            application->set_prelude_stage(IApp::STAGE_ALERT);
             application->refresh_break_window();
           }
         else if (prelude_time == 10)
           {
             // Still not idle after 10s. Yellow alert.
-            application->set_prelude_stage(AppInterface::STAGE_WARN);
+            application->set_prelude_stage(IApp::STAGE_WARN);
             application->refresh_break_window();
           }
 
         if (prelude_time == 4)
           {
             // Move prelude window to top of screen after 4s.
-            application->set_prelude_stage(AppInterface::STAGE_MOVE_OUT);
+            application->set_prelude_stage(IApp::STAGE_MOVE_OUT);
           }
       } 
       break;
@@ -214,7 +214,7 @@ BreakControl::goto_stage(BreakStage stage)
     {
     case STAGE_DELAYED:
       {
-        ActivityMonitorInterface *monitor = core->get_activity_monitor();
+        IActivityMonitor *monitor = core->get_activity_monitor();
         monitor->set_listener(this);
       }
       break;
@@ -643,15 +643,15 @@ BreakControl::prelude_window_start()
 
   application->start_prelude_window(break_id);
 
-  application->set_prelude_stage(AppInterface::STAGE_INITIAL);
+  application->set_prelude_stage(IApp::STAGE_INITIAL);
 
   if (!reached_max_prelude)
     {
-      application->set_prelude_progress_text(AppInterface::PROGRESS_TEXT_DISAPPEARS_IN);
+      application->set_prelude_progress_text(IApp::PROGRESS_TEXT_DISAPPEARS_IN);
     }
   else 
     {
-      application->set_prelude_progress_text(AppInterface::PROGRESS_TEXT_BREAK_IN);
+      application->set_prelude_progress_text(IApp::PROGRESS_TEXT_BREAK_IN);
     }
   
   update_prelude_window();

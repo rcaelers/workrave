@@ -32,7 +32,7 @@ static const char rcsid[] = "$Id$";
 #include <math.h>
 
 #include "BreakWindow.hh"
-#include "BreakResponseInterface.hh"
+#include "IBreakResponse.hh"
 #include "GtkUtil.hh"
 #include "WindowHints.hh"
 #include "Frame.hh"
@@ -285,7 +285,7 @@ BreakWindow::on_delete_event(GdkEventAny *)
 
 //! Break response
 inline void
-BreakWindow::set_response(BreakResponseInterface *bri)
+BreakWindow::set_response(IBreakResponse *bri)
 {
   break_response = bri;
 }
@@ -413,7 +413,7 @@ BreakWindow::stop()
 //! Self-Destruct
 /*!
  *  This method MUST be used to destroy the objects through the
- *  BreakWindowInterface. it is NOT possible to do a delete on
+ *  IBreakWindow. it is NOT possible to do a delete on
  *  this interface...
  */
 void

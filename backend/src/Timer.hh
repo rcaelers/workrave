@@ -33,8 +33,8 @@
 #include <string>
 #include <list>
 
-#include "TimerInterface.hh"
-#include "ActivityMonitorInterface.hh"
+#include "ITimer.hh"
+#include "IActivityMonitor.hh"
 
 using namespace std;
 
@@ -89,7 +89,7 @@ struct TimerInfo
  *
  */
 class Timer :
-  public TimerInterface
+  public ITimer
 {
 public:
   struct TimerStateData
@@ -157,8 +157,8 @@ public:
   time_t get_snooze() const;
   void set_snooze_interval(time_t time);
   void inhibit_snooze();
-  void set_activity_monitor(ActivityMonitorInterface *am);
-  ActivityMonitorInterface *get_activity_monitor() const;
+  void set_activity_monitor(IActivityMonitor *am);
+  IActivityMonitor *get_activity_monitor() const;
   bool has_activity_monitor() const;
 
   time_t get_total_overdue_time() const;
@@ -257,7 +257,7 @@ private:
   TimeSource *time_source;
 
   //! Activity Mobnitor to use.
-  ActivityMonitorInterface *activity_monitor;
+  IActivityMonitor *activity_monitor;
 
   //!  Is this timer sensitive for activity
   bool activity_sensitive;

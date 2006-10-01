@@ -20,14 +20,14 @@
 #define TIMERACTIVITYMONITOR_HH
 
 #include "Core.hh"
-#include "ActivityMonitorInterface.hh"
-#include "TimerInterface.hh"
+#include "IActivityMonitor.hh"
+#include "ITimer.hh"
 
 //! An Activity Monitor that takes its activity state from a timer.
 /*! This Activity Monitor is 'active' if the timer is running or if
  *  the timer has its idle time not at maximum, 'idle' otherwise.
  */
-class TimerActivityMonitor : public ActivityMonitorInterface
+class TimerActivityMonitor : public IActivityMonitor
 {
 public:
   //! Constructs an activity monitor that depends on specified timer.
@@ -94,7 +94,7 @@ public:
     time_t idle = timer->get_elapsed_idle_time();
     time_t reset = timer->get_auto_reset();
 
-    if (state == TimerInterface::STATE_STOPPED && idle >= reset)
+    if (state == ITimer::STATE_STOPPED && idle >= reset)
       {
         return ACTIVITY_IDLE;
       }
@@ -141,7 +141,7 @@ public:
   
 private:
   //! Reference monitor
-  ActivityMonitorInterface *monitor;
+  IActivityMonitor *monitor;
   
   //! Reference timer.
   Timer *timer;

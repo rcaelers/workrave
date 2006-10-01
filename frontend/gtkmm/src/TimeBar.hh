@@ -1,6 +1,6 @@
 // TimeBar.hh --- Time Bar
 //
-// Copyright (C) 2002, 2003, 2004 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -26,9 +26,9 @@
 #include <gdkmm/window.h>
 #include <gtkmm/box.h>
 
-#include "TimeBarInterface.hh"
+#include "ITimeBar.hh"
 
-class TimeBar : public Gtk::DrawingArea, public TimeBarInterface
+class TimeBar : public Gtk::DrawingArea, public ITimeBar
 {
 public:
   TimeBar();

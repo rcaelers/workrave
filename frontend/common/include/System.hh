@@ -1,6 +1,6 @@
 // System.hh
 //
-// Copyright (C) 2002, 2003, 2004 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -19,8 +19,13 @@
 #ifndef SYSTEM_HH
 #define SYSTEM_HH
 
+#ifdef HAVE_CONFIG_H_
 #include "config.h"
+#endif
+
+#ifdef HAVE_GLIB
 #include <glib.h>
+#endif
 
 #if defined(WIN32)
 #include <windows.h>

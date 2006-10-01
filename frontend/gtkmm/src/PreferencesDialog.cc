@@ -1,6 +1,6 @@
 // PreferencesDialog.cc --- Preferences dialog
 //
-// Copyright (C) 2002, 2003, 2004 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2006 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -44,7 +44,7 @@
 #include "GUI.hh"
 
 #include "CoreFactory.hh"
-#include "ConfiguratorInterface.hh"
+#include "IConfigurator.hh"
 
 #ifdef HAVE_DISTRIBUTION
 #include "NetworkPreferencePage.hh"
@@ -83,7 +83,7 @@ PreferencesDialog::PreferencesDialog()
   get_vbox()->pack_start(notebook, true, true, 0);
   add_button(Gtk::Stock::CLOSE, Gtk::RESPONSE_CLOSE);
 
-  CoreInterface *core = CoreFactory::get_core();
+  ICore *core = CoreFactory::get_core();
   mode = core->get_operation_mode();
 
 #ifdef HAVE_X
@@ -101,7 +101,7 @@ PreferencesDialog::~PreferencesDialog()
 {
   TRACE_ENTER("PreferencesDialog::~PreferencesDialog");
 
-  CoreInterface *core = CoreFactory::get_core();
+  ICore *core = CoreFactory::get_core();
   core->set_operation_mode(mode);
 
   TRACE_EXIT();
@@ -290,7 +290,7 @@ PreferencesDialog::on_focus_in_event(GdkEventFocus *event)
 { 
   TRACE_ENTER("PreferencesDialog::focus_in");
 
-  CoreInterface *core = CoreFactory::get_core();
+  ICore *core = CoreFactory::get_core();
   mode = core->set_operation_mode(OPERATION_MODE_QUIET);
   TRACE_EXIT();
   return HigDialog::on_focus_in_event(event);
@@ -301,7 +301,7 @@ bool
 PreferencesDialog::on_focus_out_event(GdkEventFocus *event)
 { 
   TRACE_ENTER("PreferencesDialog::focus_out");
-  CoreInterface *core = CoreFactory::get_core();
+  ICore *core = CoreFactory::get_core();
   core->set_operation_mode(mode);
   TRACE_EXIT();
   return HigDialog::on_focus_out_event(event);

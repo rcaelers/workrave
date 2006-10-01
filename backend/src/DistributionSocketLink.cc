@@ -383,7 +383,7 @@ DistributionSocketLink::set_enabled(bool enabled)
 bool
 DistributionSocketLink::register_client_message(DistributionClientMessageID id,
                                                 DistributionClientMessageType type,
-                                                DistributionClientMessageInterface *callback)
+                                                IDistributionClientMessage *callback)
 {
   ClientMessageListener sl;
   sl.listener = callback;
@@ -1833,7 +1833,7 @@ DistributionSocketLink::send_client_message(DistributionClientMessageType type)
       DistributionClientMessageID id = i->first;
       ClientMessageListener &sl = i->second;
       
-      DistributionClientMessageInterface *itf = sl.listener;
+      IDistributionClientMessage *itf = sl.listener;
 
       int pos = 0;
       packet.pack_ushort(id);

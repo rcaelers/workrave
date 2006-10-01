@@ -1,6 +1,6 @@
 // CoreFactory.hh --- The main controller interface
 //
-// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2004, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -21,17 +21,17 @@
 
 #include <string>
 
-class CoreInterface;
-class ConfiguratorInterface;
+class ICore;
+class IConfigurator;
 
 class CoreFactory
 {
 public:
   //! Returns the interface to the core.
-  static CoreInterface *get_core();
+  static ICore *get_core();
 
   //! Returns the interface to the core's configurator.
-  static ConfiguratorInterface *get_configurator();
+  static IConfigurator *get_configurator();
 };
 
 #endif // COREFACTORY_HH

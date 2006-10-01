@@ -30,7 +30,7 @@ static const char rcsid[] = "$Id$";
 #include "DBus.hh"
 #include "workrave-server-bindings.h"
 
-#include "CoreInterface.hh"
+#include "ICore.hh"
 
 //! Signals
 enum {
@@ -46,7 +46,7 @@ static guint signals[LAST_SIGNAL] = { 0 };
 /* The main service objects */
 static WorkraveService *the_service = NULL;
 static DBusGConnection *connection = NULL;
-static CoreInterface *the_core = NULL;
+static ICore *the_core = NULL;
 
 /* -----------------------------------------------------------------------------
  * PUBLIC METHODS
@@ -60,7 +60,7 @@ workrave_service_new()
 
 
 void 
-workrave_dbus_server_init(CoreInterface *core)
+workrave_dbus_server_init(ICore *core)
 {
   DBusGProxy *driver_proxy;
   GError *err = NULL;

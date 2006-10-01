@@ -1,9 +1,9 @@
-// TimerInterface.hh --- The Break Timer Query Interface
+// ITimer.hh --- The Break Timer Query Interface
 //
-// Copyright (C) 2001, 2002, 2003, 2005 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2005, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2005-09-12 19:18:26 robc>
+// Time-stamp: <2006-10-01 22:27:20 nly99050>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
 // $Id$
 //
 
-#ifndef TIMERINTERFACE_HH
-#define TIMERINTERFACE_HH
+#ifndef ITIMER_HH
+#define ITIMER_HH
 
 #if TIME_WITH_SYS_TIME
 # include <sys/time.h>
@@ -34,7 +34,7 @@
 
 
 //! The Timer interface.
-class TimerInterface
+class ITimer
 {
 public:
   enum TimerState
@@ -45,7 +45,7 @@ public:
     };
   
 public:
-  virtual ~TimerInterface() {}
+  virtual ~ITimer() {}
   
   //! Returns the current time state.
   virtual TimerState get_state() const = 0;
@@ -69,4 +69,4 @@ public:
   virtual bool is_limit_enabled() const = 0;
 };
 
-#endif // TIMERINTERFACE_HH
+#endif // ITIMER_HH

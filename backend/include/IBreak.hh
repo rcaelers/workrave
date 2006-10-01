@@ -1,6 +1,6 @@
-// BreakInterface.hh
+// IBreak.hh
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -16,20 +16,20 @@
 // $Id$%
 //
 
-#ifndef BREAKINTERFACE_HH
-#define BREAKINTERFACE_HH
+#ifndef IBREAK_HH
+#define IBREAK_HH
 
-#include "CoreInterface.hh"
+#include "ICore.hh"
 
 #include <string.h>
 using namespace std;
 
-class BreakInterface
+class IBreak
 {
 public:
-  virtual ~BreakInterface() {}
+  virtual ~IBreak() {}
   
-  virtual TimerInterface *get_timer() const = 0;
+  virtual ITimer *get_timer() const = 0;
   virtual bool is_enabled() const = 0;
   virtual string get_name() const = 0;
   

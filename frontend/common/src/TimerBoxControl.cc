@@ -27,17 +27,17 @@ static const char rcsid[] = "$Id$";
 #include "debug.hh"
 
 #include "TimerBoxControl.hh"
-#include "TimeBarInterface.hh"
+#include "ITimeBar.hh"
 #include "Util.hh"
 #include "Text.hh"
 
 #include "CoreFactory.hh"
-#include "TimerInterface.hh"
-#include "BreakInterface.hh"
-#include "ConfiguratorInterface.hh"
+#include "ITimer.hh"
+#include "IBreak.hh"
+#include "IConfigurator.hh"
 
 #ifdef HAVE_DISTRIBUTION
-#include "DistributionManagerInterface.hh"
+#include "IDistributionManager.hh"
 #endif
 
 
@@ -50,7 +50,7 @@ const std::string TimerBoxControl::CFG_KEY_TIMERBOX_IMMINENT = "/imminent";
 
 
 //! Constructor.
-TimerBoxControl::TimerBoxControl(std::string n, TimerBoxView &v) :
+TimerBoxControl::TimerBoxControl(std::string n, ITimerBoxView &v) :
   view(&v),
   cycle_time(10),
   name(n),
@@ -65,7 +65,7 @@ TimerBoxControl::TimerBoxControl(std::string n, TimerBoxView &v) :
 //! Destructor.
 TimerBoxControl::~TimerBoxControl()
 {
-  ConfiguratorInterface *config = CoreFactory::get_configurator();
+  IConfigurator *config = CoreFactory::get_configurator();
   config->remove_listener(this);
 }
 
@@ -74,7 +74,7 @@ TimerBoxControl::~TimerBoxControl()
 void
 TimerBoxControl::update()
 {
-  CoreInterface *core = CoreFactory::get_core();
+  ICore *core = CoreFactory::get_core();
   OperationMode mode = core->get_operation_mode();
 
   if (reconfigure)
@@ -138,15 +138,15 @@ TimerBoxControl::init()
 {
   TRACE_ENTER("TimerBoxControl::init");
 
-  CoreInterface *core = CoreFactory::get_core();
+  ICore *core = CoreFactory::get_core();
   
   // Listen for configugration changes.
-  ConfiguratorInterface *config = CoreFactory::get_configurator();
+  IConfigurator *config = CoreFactory::get_configurator();
   config->add_listener(TimerBoxControl::CFG_KEY_TIMERBOX + name, this);
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      BreakInterface *break_data = core->get_break(BreakId(i));
+      IBreak *break_data = core->get_break(BreakId(i));
       config->add_listener("gui/breaks/"
                            + break_data->get_name()
                            + "/enabled", this);
@@ -181,8 +181,8 @@ TimerBoxControl::update_widgets()
   int num_peers = 0;
   
 #ifdef HAVE_DISTRIBUTION
-  CoreInterface *core = CoreFactory::get_core();
-  DistributionManagerInterface *dist_manager = core->get_distribution_manager();
+  ICore *core = CoreFactory::get_core();
+  IDistributionManager *dist_manager = core->get_distribution_manager();
   
   if (dist_manager != NULL)
     {
@@ -193,22 +193,22 @@ TimerBoxControl::update_widgets()
 
   for (int count = 0; count < BREAK_ID_SIZEOF; count++)
     {
-      CoreInterface *core = CoreFactory::get_core();
-      BreakInterface *break_data = core->get_break(BreakId(count));
-      TimerInterface *timer = break_data->get_timer();
+      ICore *core = CoreFactory::get_core();
+      IBreak *break_data = core->get_break(BreakId(count));
+      ITimer *timer = break_data->get_timer();
 
       std::string text;
-      TimeBarInterface::ColorId primary_color;
+      ITimeBar::ColorId primary_color;
       int primary_val, primary_max;
-      TimeBarInterface::ColorId secondary_color;
+      ITimeBar::ColorId secondary_color;
       int secondary_val, secondary_max;
 
 #ifdef LETS_SEE_HOW_WORKRAVE_BEHAVES_WITHOUT_THIS      
       if (!node_master && num_peers > 0)
         {
           text = _("Inactive");
-          primary_color = TimeBarInterface::COLOR_ID_INACTIVE;
-          secondary_color = TimeBarInterface::COLOR_ID_INACTIVE;
+          primary_color = ITimeBar::COLOR_ID_INACTIVE;
+          secondary_color = ITimeBar::COLOR_ID_INACTIVE;
           primary_val = 0;
           primary_max = 60;
           secondary_val = 0;
@@ -222,7 +222,7 @@ TimerBoxControl::update_widgets()
               continue;
             }
       
-          TimerInterface::TimerState timerState = timer->get_state();
+          ITimer::TimerState timerState = timer->get_state();
 
           // Collect some data.
           time_t maxActiveTime = timer->get_limit();
@@ -242,11 +242,11 @@ TimerBoxControl::update_widgets()
             }
           // And set the bar.
           secondary_val = secondary_max = 0;
-          secondary_color = TimeBarInterface::COLOR_ID_INACTIVE;
+          secondary_color = ITimeBar::COLOR_ID_INACTIVE;
 
-          if (timerState == TimerInterface::STATE_INVALID)
+          if (timerState == ITimer::STATE_INVALID)
             {
-              primary_color = TimeBarInterface::COLOR_ID_INACTIVE;
+              primary_color = ITimeBar::COLOR_ID_INACTIVE;
               primary_val = 0;
               primary_max = 60;
               text = _("Wait");
@@ -258,13 +258,13 @@ TimerBoxControl::update_widgets()
               primary_max = maxActiveTime;
           
               primary_color = overdue
-                ? TimeBarInterface::COLOR_ID_OVERDUE : TimeBarInterface::COLOR_ID_ACTIVE;
+                ? ITimeBar::COLOR_ID_OVERDUE : ITimeBar::COLOR_ID_ACTIVE;
 
-              if (//timerState == TimerInterface::STATE_STOPPED &&
+              if (//timerState == ITimer::STATE_STOPPED &&
                   timer->is_auto_reset_enabled() && breakDuration != 0)
                 {
                   // resting.
-                  secondary_color = TimeBarInterface::COLOR_ID_INACTIVE;
+                  secondary_color = ITimeBar::COLOR_ID_INACTIVE;
                   secondary_val = idleTime;
                   secondary_max = breakDuration;
                 }
@@ -283,15 +283,15 @@ TimerBoxControl::init_icon()
   switch (operation_mode)
     {
     case OPERATION_MODE_NORMAL:
-      view->set_icon(TimerBoxView::ICON_NORMAL);
+      view->set_icon(ITimerBoxView::ICON_NORMAL);
       break;
       
     case OPERATION_MODE_SUSPENDED:
-      view->set_icon(TimerBoxView::ICON_SUSPENDED);
+      view->set_icon(ITimerBoxView::ICON_SUSPENDED);
       break;
       
     case OPERATION_MODE_QUIET:
-      view->set_icon(TimerBoxView::ICON_QUIET);
+      view->set_icon(ITimerBoxView::ICON_QUIET);
       break;
 
     default:
@@ -353,8 +353,8 @@ TimerBoxControl::init_slot(int slot)
   // Collect all timers for this slot.
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      CoreInterface *core = CoreFactory::get_core();
-      BreakInterface *break_data = core->get_break(BreakId(i));
+      ICore *core = CoreFactory::get_core();
+      IBreak *break_data = core->get_break(BreakId(i));
 
       bool on = break_data->get_break_enabled();
       
@@ -375,9 +375,9 @@ TimerBoxControl::init_slot(int slot)
       int id = breaks_id[i];
       int flags = break_flags[id];
 
-      CoreInterface *core = CoreFactory::get_core();
-      BreakInterface *break_data = core->get_break(BreakId(id));
-      TimerInterface *timer = break_data->get_timer();
+      ICore *core = CoreFactory::get_core();
+      IBreak *break_data = core->get_break(BreakId(id));
+      ITimer *timer = break_data->get_timer();
 
       time_t time_left = timer->get_limit() - timer->get_elapsed_time();
         
@@ -548,8 +548,8 @@ TimerBoxControl::set_cycle_time(string name, int time)
 const string
 TimerBoxControl::get_timer_config_key(string name, BreakId timer, const string &key)
 {
-  CoreInterface *core = CoreFactory::get_core();
-  BreakInterface *break_data = core->get_break(BreakId(timer));
+  ICore *core = CoreFactory::get_core();
+  IBreak *break_data = core->get_break(BreakId(timer));
 
   return string(CFG_KEY_TIMERBOX) + name + "/" + break_data->get_name() + key;
 }

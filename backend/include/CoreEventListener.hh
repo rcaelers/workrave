@@ -19,7 +19,7 @@
 #ifndef COREEVENTLISTENER_HH
 #define COREEVENTLISTENER_HH
 
-#include "CoreInterface.hh"
+#include "ICore.hh"
 
 enum CoreEvent
   {

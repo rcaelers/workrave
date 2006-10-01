@@ -1,6 +1,6 @@
 // DistributionManager.cc
 //
-// Copyright (C) 2002, 2003, 2004 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2004, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -258,7 +258,7 @@ DistributionManager::reconnect_all()
 bool
 DistributionManager::register_client_message(DistributionClientMessageID id,
                                              DistributionClientMessageType type,
-                                             DistributionClientMessageInterface *callback)
+                                             IDistributionClientMessage *callback)
 {
   bool ret = false;
   

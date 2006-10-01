@@ -1,4 +1,4 @@
-// TimerBoxView.hh --- All timers
+// ITimerBoxView.hh --- All timers
 //
 // Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
@@ -16,16 +16,16 @@
 // $Id$
 //
 
-#ifndef TIMERBOXVIEW_HH
-#define TIMERBOXVIEW_HH
+#ifndef ITIMERBOXVIEW_HH
+#define ITIMERBOXVIEW_HH
 
 #include <string>
 
-#include "TimeBarInterface.hh"
-#include "CoreInterface.hh"
+#include "ITimeBar.hh"
+#include "ICore.hh"
 
 
-class TimerBoxView
+class ITimerBoxView
 {
 public:
   enum IconType
@@ -35,14 +35,14 @@ public:
       ICON_SUSPENDED
     };
 
-  virtual ~TimerBoxView() {}
+  virtual ~ITimerBoxView() {}
   
   virtual void set_slot(BreakId  id, int slot) = 0;
   virtual void set_time_bar(BreakId id,
                             std::string text,
-                            TimeBarInterface::ColorId primary_color,
+                            ITimeBar::ColorId primary_color,
                             int primary_value, int primary_max,
-                            TimeBarInterface::ColorId secondary_color,
+                            ITimeBar::ColorId secondary_color,
                             int secondary_value, int secondary_max) = 0;
   virtual void set_tip(std::string tip) = 0;
   virtual void set_icon(IconType icon) = 0;
@@ -50,4 +50,4 @@ public:
   virtual void set_enabled(bool enabled) = 0;
 };
 
-#endif // TIMERBOXVIEW_HH
+#endif // ITIMERBOXVIEW_HH

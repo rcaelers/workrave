@@ -1,4 +1,4 @@
-// ControlInterface.hh --- The main controller interface
+// ICore.hh --- The main controller interface
 //
 // Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
@@ -16,19 +16,19 @@
 // $Id$
 //
 
-#ifndef CONTROLINTERFACE_HH
-#define CONTROLINTERFACE_HH
+#ifndef ICORE_HH
+#define ICORE_HH
 
 #include <string>
 
-class BreakInterface;
-class TimerInterface;
-class ActivityMonitorInterface;
+class IBreak;
+class ITimer;
+class IActivityMonitor;
 class ActivityMonitorListener;
 class Configurator;
-class AppInterface;
-class StatisticsInterface;
-class DistributionManagerInterface;
+class IApp;
+class IStatistics;
+class IDistributionManager;
 class CoreEventListener;
 
 //! Mode
@@ -59,10 +59,10 @@ enum BreakId
   };
 
   
-class CoreInterface 
+class ICore
 {
 public:
-  virtual ~CoreInterface() {}
+  virtual ~ICore() {}
   
   enum InsistPolicy
     {
@@ -83,7 +83,7 @@ public:
     };
 
   //! Initialize the Core Control. Must be called first.
-  virtual void init(int argc, char **argv, AppInterface *app, char *display) = 0;
+  virtual void init(int argc, char **argv, IApp *app, char *display) = 0;
 
   //! Periodic heartbeat. The GUI *MUST* call this method every second.
   virtual void heartbeat() = 0;
@@ -92,20 +92,20 @@ public:
   virtual void force_break(BreakId id, bool initiated_by_user) = 0;
  
   //! Returns the break interface of the specified type.
-  virtual BreakInterface *get_break(BreakId id) = 0;
+  virtual IBreak *get_break(BreakId id) = 0;
 
   //! Returns the timer interface of the specified break.
-  virtual TimerInterface *get_timer(BreakId id) const = 0;
+  virtual ITimer *get_timer(BreakId id) const = 0;
 
   //! Returns the statistics interface.
-  virtual StatisticsInterface *get_statistics() const = 0;
+  virtual IStatistics *get_statistics() const = 0;
 
   //! Returns the activity monitor interface
-  virtual ActivityMonitorInterface *get_activity_monitor() const = 0;
+  virtual IActivityMonitor *get_activity_monitor() const = 0;
 
 #ifdef HAVE_DISTRIBUTION
   //! Returns the distribution manager (if available).
-  virtual DistributionManagerInterface *get_distribution_manager() const = 0;
+  virtual IDistributionManager *get_distribution_manager() const = 0;
 #endif
   
   //! Returns the current operational mode.
@@ -128,4 +128,4 @@ public:
 
 };
 
-#endif // CONTROLINTERFACE_HH
+#endif // ICORE_HH
