@@ -1,6 +1,6 @@
-// Win32Configurator.hh
+// W32Configurator.hh
 //
-// Copyright (C) 2002 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2006 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -16,8 +16,8 @@
 // $Id$
 //
 
-#ifndef WIN32CONFIGURATOR_HH
-#define WIN32CONFIGURATOR_HH
+#ifndef W32CONFIGURATOR_HH
+#define W32CONFIGURATOR_HH
 
 #include <string>
 #include <list>
@@ -28,12 +28,12 @@
 
 class ConfigurationListener;
 
-class Win32Configurator :
+class W32Configurator :
   public Configurator
 {
 public:
-  Win32Configurator();
-  virtual ~Win32Configurator();
+  W32Configurator();
+  virtual ~W32Configurator();
 
   virtual bool load(string filename);
   virtual bool save(string filename);
@@ -60,4 +60,4 @@ private:
   PHKEY key_root_handle;
 };
 
-#endif // WIN32CONFIGURATOR_HH
+#endif // W32CONFIGURATOR_HH

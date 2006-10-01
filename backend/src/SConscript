@@ -15,6 +15,6 @@ src = ['ActivityMonitor.cc',
        'QtSettingsConfigurator.cc',
        'Statistics.cc',
        'Timer.cc',
-       'win32/Win32InputMonitor.cc']
+       'win32/W32InputMonitor.cc']
 env.Append(CPPPATH=['$WR_ARCH'])
 env.Library('backend', src)

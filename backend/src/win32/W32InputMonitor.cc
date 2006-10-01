@@ -1,6 +1,6 @@
-// Win32InputMonitor.cc --- ActivityMonitor for Win32
+// W32InputMonitor.cc --- ActivityMonitor for W32
 //
-// Copyright (C) 2002, 2003, 2004, 2005 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2005, 2006 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -24,7 +24,7 @@ static const char rcsid[] = "$Id$";
 #include <windows.h>
 #include <winuser.h>
 #include "debug.hh"
-#include "Win32InputMonitor.hh"
+#include "W32InputMonitor.hh"
 #include "InputMonitorListenerInterface.hh"
 #include "timeutil.h"
 #include "harpoon.h"
@@ -44,19 +44,19 @@ typedef struct {
 } MOUSEHOOKSTRUCTEX, *PMOUSEHOOKSTRUCTEX;
 
 
-InputMonitorListenerInterface *Win32InputMonitor::listener = NULL;
+InputMonitorListenerInterface *W32InputMonitor::listener = NULL;
 
-Win32InputMonitor::Win32InputMonitor()
+W32InputMonitor::W32InputMonitor()
 {
 }
 
 
-Win32InputMonitor::~Win32InputMonitor()
+W32InputMonitor::~W32InputMonitor()
 {
 }
 
 void
-Win32InputMonitor::init(InputMonitorListenerInterface *l)
+W32InputMonitor::init(InputMonitorListenerInterface *l)
 {
   assert(! listener);
   listener = l;
@@ -71,7 +71,7 @@ Win32InputMonitor::init(InputMonitorListenerInterface *l)
 
 //! Stops the activity monitoring.
 void
-Win32InputMonitor::terminate()
+W32InputMonitor::terminate()
 {
   harpoon_exit();
 
@@ -83,7 +83,7 @@ Win32InputMonitor::terminate()
 
 
 void
-Win32InputMonitor::on_harpoon_event(HarpoonEvent *event)
+W32InputMonitor::on_harpoon_event(HarpoonEvent *event)
 {
   switch (event->type)
     {

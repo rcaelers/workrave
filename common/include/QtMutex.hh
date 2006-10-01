@@ -21,6 +21,15 @@
 
 #include <QMutex>
 
-#define Mutex QMutex
+class Mutex
+{
+public:
+  Mutex() : qmutex(QMutex::Recursive) {};
+  void lock() { qmutex.lock(); }
+  void unlock() { qmutex.unlock(); }
+
+private:
+  QMutex qmutex;
+};
 
 #endif // QTMUTEX_HH

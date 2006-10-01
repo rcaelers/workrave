@@ -1,4 +1,4 @@
-// Win32Configurator.cc --- Configuration Access
+// W32Configurator.cc --- Configuration Access
 //
 // Copyright (C) 2002, 2005, 2006 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
@@ -24,21 +24,21 @@ static const char rcsid[] = "$Id$";
 #include <stdlib.h>
 
 #include "debug.hh"
-#include "Win32Configurator.hh"
+#include "W32Configurator.hh"
 
-Win32Configurator::Win32Configurator()
+W32Configurator::W32Configurator()
 {
   key_root = "Software/Workrave";
 }
 
 
-Win32Configurator::~Win32Configurator()
+W32Configurator::~W32Configurator()
 {
 }
 
 
 bool
-Win32Configurator::load(string filename)
+W32Configurator::load(string filename)
 {
   (void) filename;
   return true;
@@ -46,7 +46,7 @@ Win32Configurator::load(string filename)
 
 
 bool
-Win32Configurator::save(string filename)
+W32Configurator::save(string filename)
 {
   (void) filename;
   return true;
@@ -54,16 +54,16 @@ Win32Configurator::save(string filename)
 
 
 bool
-Win32Configurator::save()
+W32Configurator::save()
 {
   return true;
 }
 
 
 bool
-Win32Configurator::get_value(string key, string *out) const
+W32Configurator::get_value(string key, string *out) const
 {
-  TRACE_ENTER_MSG("Win32Configurator::get_value", key << "," << out);
+  TRACE_ENTER_MSG("W32Configurator::get_value", key << "," << out);
 
   HKEY handle;
   bool rc = false;
@@ -93,7 +93,7 @@ Win32Configurator::get_value(string key, string *out) const
 
 
 bool
-Win32Configurator::get_value(string key, bool *out) const
+W32Configurator::get_value(string key, bool *out) const
 {
   long l;
   bool rc = get_value(key, &l);
@@ -111,7 +111,7 @@ Win32Configurator::get_value(string key, bool *out) const
  *  \retval false attribute not found.
  */
 bool
-Win32Configurator::get_value(string key, int *out) const
+W32Configurator::get_value(string key, int *out) const
 {
   long l;
   bool rc = get_value(key, &l);
@@ -129,7 +129,7 @@ Win32Configurator::get_value(string key, int *out) const
  *  \retval false attribute not found.
  */
 bool
-Win32Configurator::get_value(string key, long *out) const
+W32Configurator::get_value(string key, long *out) const
 {
   string s;
   bool rc = get_value(key, &s);
@@ -148,7 +148,7 @@ Win32Configurator::get_value(string key, long *out) const
  *  \retval false attribute not found.
  */
 bool
-Win32Configurator::get_value(string key, double *out) const
+W32Configurator::get_value(string key, double *out) const
 {
   string s;
   bool rc = get_value(key, &s);
@@ -162,9 +162,9 @@ Win32Configurator::get_value(string key, double *out) const
 
 
 bool
-Win32Configurator::set_value(string key, string v)
+W32Configurator::set_value(string key, string v)
 {
-  TRACE_ENTER_MSG("Win32Configurator::set_value", key << "," << v);
+  TRACE_ENTER_MSG("W32Configurator::set_value", key << "," << v);
 
   HKEY handle;
   bool rc = false;
@@ -196,7 +196,7 @@ Win32Configurator::set_value(string key, string v)
 
 
 bool
-Win32Configurator::set_value(string key, int v)
+W32Configurator::set_value(string key, int v)
 {
   char buf[32];
   sprintf(buf, "%d", v);
@@ -204,7 +204,7 @@ Win32Configurator::set_value(string key, int v)
 }
 
 bool
-Win32Configurator::set_value(string key, long v)
+W32Configurator::set_value(string key, long v)
 {
   char buf[32];
   sprintf(buf, "%ld", v);
@@ -212,7 +212,7 @@ Win32Configurator::set_value(string key, long v)
 }
 
 bool
-Win32Configurator::set_value(string key, bool v)
+W32Configurator::set_value(string key, bool v)
 {
   char buf[32];
   sprintf(buf, "%d", v ? 1 : 0);
@@ -221,7 +221,7 @@ Win32Configurator::set_value(string key, bool v)
 
 
 bool
-Win32Configurator::set_value(string key, double v)
+W32Configurator::set_value(string key, double v)
 {
   char buf[32];
   sprintf(buf, "%f", v);
@@ -230,9 +230,9 @@ Win32Configurator::set_value(string key, double v)
 
 
 bool
-Win32Configurator::exists_dir(string key) const
+W32Configurator::exists_dir(string key) const
 {
-  TRACE_ENTER_MSG("Win32Configurator::exists_dir", key);
+  TRACE_ENTER_MSG("W32Configurator::exists_dir", key);
   HKEY handle;
   bool rc = false;
   string k, k32;
@@ -256,9 +256,9 @@ Win32Configurator::exists_dir(string key) const
 
 
 list<string>
-Win32Configurator::get_all_dirs(string key) const
+W32Configurator::get_all_dirs(string key) const
 {
-  TRACE_ENTER_MSG("Win32Configurator::get_all_dirs", key);
+  TRACE_ENTER_MSG("W32Configurator::get_all_dirs", key);
   list<std::string> ret;
   LONG err;
   HKEY handle;
@@ -295,7 +295,7 @@ Win32Configurator::get_all_dirs(string key) const
 
 
 string
-Win32Configurator::key_add_part(string s, string t) const
+W32Configurator::key_add_part(string s, string t) const
 {
   string ret = s;
   add_trailing_slash(ret);
@@ -303,7 +303,7 @@ Win32Configurator::key_add_part(string s, string t) const
 }
 
 void
-Win32Configurator::key_split(string key, string &parent, string &child) const
+W32Configurator::key_split(string key, string &parent, string &child) const
 {
   const char *s = key.c_str();
   char *slash = strrchr(s, '/');
@@ -320,7 +320,7 @@ Win32Configurator::key_split(string key, string &parent, string &child) const
 }
 
 string
-Win32Configurator::key_win32ify(string key) const
+W32Configurator::key_win32ify(string key) const
 {
   string rc = key;
   strip_trailing_slash(rc);

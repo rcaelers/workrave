@@ -6,9 +6,13 @@ env.Append(CPPPATH=['#backend/include',
                     '#common/include'])
 env.Append(LIBPATH=['#backend/src',
                     '#common/src',
-                    '$QTDIR/lib'])
+                    '$QTDIR/lib',
+                    '#common/win32/harpoon/src'])
 env.Append(LIBS=['backend', 'common',
-                 'QtGui4','QtCore4'])
+                 'QtGui4','QtCore4',
+                 'harpoon',
+                 'ole32',
+                 'shlwapi'])
 
 #env.Append(LINKFLAGS = '-mwindows')
 env.Program('workrave', src)

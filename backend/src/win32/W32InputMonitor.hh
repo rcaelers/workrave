@@ -1,6 +1,6 @@
-// Win32InputMonitor.hh --- ActivityMonitor for Win32
+// W32InputMonitor.hh --- ActivityMonitor for W32
 //
-// Copyright (C) 2002, 2004 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2004, 2006 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -16,8 +16,8 @@
 // $Id$
 //
 
-#ifndef WIN32INPUTMONITOR_HH
-#define WIN32INPUTMONITOR_HH
+#ifndef W32INPUTMONITOR_HH
+#define W32INPUTMONITOR_HH
 
 #if TIME_WITH_SYS_TIME
 # include <sys/time.h>
@@ -36,15 +36,15 @@
 typedef union HarpoonEventUnion HarpoonEvent;
 
 //! Activity monitor for a local X server.
-class Win32InputMonitor :
+class W32InputMonitor :
   public InputMonitorInterface
 {
 public:
   //! Constructor.
-  Win32InputMonitor();
+  W32InputMonitor();
 
   //! Destructor.
-  virtual ~Win32InputMonitor();
+  virtual ~W32InputMonitor();
 
   void init(InputMonitorListenerInterface *);
   void terminate() ;
@@ -54,4 +54,4 @@ private:
   static InputMonitorListenerInterface *listener;
 };
 
-#endif // WIN32INPUTMONITOR_HH
+#endif // W32INPUTMONITOR_HH

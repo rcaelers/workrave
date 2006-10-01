@@ -45,7 +45,7 @@ static const char rcsid[] = "$Id$";
 #if defined(HAVE_X)
 #include "X11InputMonitor.hh"
 #elif defined(WIN32)
-#include "Win32InputMonitor.hh"
+#include "W32InputMonitor.hh"
 #endif
 
 
@@ -92,7 +92,7 @@ ActivityMonitor::ActivityMonitor(const char *display) :
 #if defined(HAVE_X)
   input_monitor = new X11InputMonitor(display);
 #elif defined(WIN32)
-  input_monitor = new Win32InputMonitor();
+  input_monitor = new W32InputMonitor();
 #endif
 
   input_monitor->init(this);

@@ -4,5 +4,6 @@ src = ['DayTimePred.cc',
        'TimePredFactory.cc',
        'WeekTimePred.cc',
        'debug.cc',
-       'Util.cc']
+       'Util.cc',
+       'win32/gettimeofday.c']
 env.Library('common', src)

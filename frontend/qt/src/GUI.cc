@@ -45,6 +45,7 @@ GUI::~GUI()
 void
 GUI::on_timer()
 {
+  core->heartbeat();
 }
 
 void
