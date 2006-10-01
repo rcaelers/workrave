@@ -22,9 +22,12 @@ StatusWindow::StatusWindow()
   : QDialog(0, Qt::WindowTitleHint
             | Qt::WindowSystemMenuHint)
 {
+  timer_box_view = new TimerBoxView(this);
+  setLayout(timer_box_view);
   setFixedSize(minimumSize());
 }
 
 StatusWindow::~StatusWindow()
 {
+  delete timer_box_view;
 }

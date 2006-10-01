@@ -20,6 +20,7 @@
 #define STATUSWINDOW_HH
 
 #include <QDialog>
+#include "TimerBoxView.hh"
 
 class StatusWindow : public QDialog
 {
@@ -29,6 +30,8 @@ public:
   StatusWindow();
   ~StatusWindow();
 
+private:
+  TimerBoxView *timer_box_view;
 };
 
 #endif // STATUSWINDOW_HH

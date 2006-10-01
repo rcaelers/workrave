@@ -3,10 +3,12 @@ env = env.Copy()
 
 src = ['GUI.cc',
        'main.cc',
-       'StatusWindow.cc']
+       'StatusWindow.cc',
+       'TimerBoxView.cc']
 
 env.Append(CPPPATH=['#backend/include',
-                    '#common/include'])
+                    '#common/include',
+                    '#frontend/common/include'])
 env.Append(LIBPATH=['#backend/src',
                     '#common/src',
                     '$QTDIR/lib',
