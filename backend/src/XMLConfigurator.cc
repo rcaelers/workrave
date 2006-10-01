@@ -1,6 +1,6 @@
 // XMLConfigurator.cc --- Configuration Access
 //
-// Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -319,31 +319,6 @@ XMLConfigurator::set_value(string key, double v)
 
 
 
-bool
-XMLConfigurator::exists_dir(string key) const
-{
-  return get_child(key);
-}
-
-
-list<std::string>
-XMLConfigurator::get_all_dirs(string key) const
-{
-  list<std::string> ret;
-  XMLConfigurator *child = get_child(key);
-
-  if (child != NULL)
-    {
-      list<XMLConfigurator *> children = child->get_all_children();
-      
-      list<XMLConfigurator *>::const_iterator i;
-      for (i = children.begin(); i != children.end(); i++)
-        {
-          ret.push_back((*i)->getName());
-        }
-    }
-  return ret;
-}
 
 
 //! Informs all interested parties that the specified key has changed.

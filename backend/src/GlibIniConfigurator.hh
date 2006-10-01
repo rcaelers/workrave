@@ -49,9 +49,6 @@ public:
   virtual bool set_value(string key, bool v);
   virtual bool set_value(string key, double v);
 
-  virtual list<string> get_all_dirs(string key) const;
-  virtual bool exists_dir(string key) const;
-
 private:
   void split_key(const string key, string &group, string &out_key) const;
   string key_inify(string key) const;

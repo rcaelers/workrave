@@ -1,6 +1,6 @@
 // GConfConfigurator.hh
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -57,8 +57,7 @@ public:
   virtual bool set_value(string key, long v);
   virtual bool set_value(string key, bool v);
   virtual bool set_value(string key, double v);
-  virtual list<string> get_all_dirs(string key) const;
-  virtual bool exists_dir(string key) const;
+
   virtual bool add_listener(string key_prefix, ConfiguratorListener *listener);
   virtual bool remove_listener(ConfiguratorListener *listener);
   virtual bool remove_listener(string key_prefix, ConfiguratorListener *listener);

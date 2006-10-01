@@ -48,8 +48,6 @@ public:
   virtual bool set_value(string key, long v);
   virtual bool set_value(string key, bool v);
   virtual bool set_value(string key, double v);
-  virtual list<string> get_all_dirs(string key) const;
-  virtual bool exists_dir(string key) const;
 
 private:
   string key_win32ify(string key) const;

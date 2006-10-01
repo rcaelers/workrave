@@ -340,23 +340,6 @@ GlibIniConfigurator::set_value(string key, double v)
 
 
 
-bool
-GlibIniConfigurator::exists_dir(string key) const
-{
-  (void) key;
-  return false;
-}
-
-
-list<string>
-GlibIniConfigurator::get_all_dirs(string key) const
-{
-  list<string> l;
-  
-  (void) key;
-  
-  return l;
-}
 
 
 void

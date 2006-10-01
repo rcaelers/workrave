@@ -172,11 +172,6 @@ public:
    */
   virtual bool find_listener(ConfiguratorListener *listener, string &key) const = 0;
   
-  //! Returns all configuration directories below the specified path.
-  virtual list<string> get_all_dirs(string key) const = 0;
-
-  //! Does the specified directory exist ?
-  virtual bool exists_dir(string key) const = 0;
 };
 
 #endif // CONFIGURATORINTERFACE_HH

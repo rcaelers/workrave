@@ -41,9 +41,6 @@ public:
   virtual bool set_value(string key, bool v);
   virtual bool set_value(string key, double v);
 
-  virtual list<string> get_all_dirs(string key) const;
-  virtual bool exists_dir(string key) const;
-
 protected:
   QVariant qt_get_value(const string key, bool& exists) const;
   QString qt_key(const string key) const;

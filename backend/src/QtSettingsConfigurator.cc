@@ -213,19 +213,3 @@ QtSettingsConfigurator::set_value(string key, double v)
     }
   return ok;
 }
-
-
-list<string>
-QtSettingsConfigurator::get_all_dirs(string key) const
-{
-}
-
-
-bool
-QtSettingsConfigurator::exists_dir(string key) const
-{
-#warning FIXME
-  return false;
-}
-
-

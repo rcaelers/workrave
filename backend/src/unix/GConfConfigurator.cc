@@ -319,20 +319,6 @@ GConfConfigurator::set_value(string key, double v)
 }
 
 
-bool
-GConfConfigurator::exists_dir(string key) const
-{
-  string full_key = gconf_root + key;
-  strip_trailing_slash(full_key);
-
-  GError *error = NULL;
-  bool ret = gconf_client_dir_exists(gconf_client, full_key.c_str(), &error);
-  if (error != NULL)
-    {
-      ret = false;
-    }
-  return ret;
-}
 
 bool
 GConfConfigurator::add_listener(string key_prefix, ConfiguratorListener *listener)
@@ -434,43 +420,6 @@ GConfConfigurator::remove_listener(string remove_key, ConfiguratorListener *list
 
 
 
-list<string>
-GConfConfigurator::get_all_dirs(string key) const
-{
-  TRACE_ENTER("GConfConfigurator::get_all_dirs");
-  list<std::string> ret;
-  GError *error = NULL;
-  
-  string full_key = gconf_root + key;
-  strip_trailing_slash(full_key);
-
-  GSList *dir_list = gconf_client_all_dirs(gconf_client, full_key.c_str(), &error);
-
-  GSList *dir_iter = dir_list;
-  while (dir_iter)
-    {
-      gchar *value = (gchar *)(dir_iter->data);
-      if (value != NULL)
-        {
-          string name = value;
-          if (name.substr(0, full_key.length()) == full_key)
-            {
-              name = name.substr(full_key.length() + 1);
-            }
-          
-          ret.push_back(name);
-          g_free(value);
-          dir_iter->data = 0;
-        }
-
-      dir_iter = g_slist_next(dir_iter);
-    }
-
-  g_slist_free(dir_list);
-  
-  TRACE_EXIT();
-  return ret;  
-}
 
 
 void
