@@ -17,6 +17,7 @@
 //
 
 #include <QApplication>
+#include <QDialog>
 #include <stdio.h>
 
 #include "GUI.hh"
@@ -35,6 +36,9 @@ GUI::GUI(int argc, char *argv[])
   char *display_name = 0;
   core->init(argc, argv, this, display_name);
   //core->set_core_events_listener(this);
+
+  status_window.show();
+  status_window.raise();
 }
 
 GUI::~GUI()

@@ -24,6 +24,7 @@
 
 #include "CoreInterface.hh"
 #include "AppInterface.hh"
+#include "StatusWindow.hh"
 
 class GUI : public QApplication, AppInterface
 {
@@ -48,6 +49,7 @@ public slots:
 private:
   QTimer *heartbeat_timer;
   CoreInterface *core;
+  StatusWindow status_window;
 };
 
 #endif // GUI_HH
