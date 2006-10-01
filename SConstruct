@@ -7,7 +7,8 @@ env.Replace(LIBS=[])
 env.Tool('mingw')
 env.Replace(WR_ARCH='win32')
 env.Append(CPPDEFINES={'HAVE_QT':None,
-                       'TIME_WITH_SYS_TIME':None})
+                       'TIME_WITH_SYS_TIME':None,
+                       'HAVE_STRUCT_MOUSEHOOKSTRUCT':None})
 env.Append(CPPPATH=['.',
                     '#common/include',
                     '#common/include/$WR_ARCH',
