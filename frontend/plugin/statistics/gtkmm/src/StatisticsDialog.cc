@@ -1,6 +1,6 @@
 // StatisticsDialog.cc --- Statistics dialog
 //
-// Copyright (C) 2002, 2003, 2004, 2005 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2004, 2005, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -47,7 +47,7 @@
 #include "debug.hh"
 #include "nls.h"
 
-#include "CoreInterface.hh"
+#include "ICore.hh"
 #include "CoreFactory.hh"
 
 #include "StatisticsDialog.hh"
@@ -61,7 +61,7 @@ StatisticsDialog::StatisticsDialog()
     daily_usage_label(NULL),
     date_label(NULL)
 {
-  CoreInterface *core = CoreFactory::get_core();
+  ICore *core = CoreFactory::get_core();
   statistics = core->get_statistics();
   
   init_gui();
@@ -335,9 +335,9 @@ StatisticsDialog::create_activity_page(Gtk::Notebook *tnotebook)
 
 
 void
-StatisticsDialog::display_statistics(StatisticsInterface::DailyStats *stats)
+StatisticsDialog::display_statistics(IStatistics::DailyStats *stats)
 {
-  StatisticsInterface::DailyStats empty;
+  IStatistics::DailyStats empty;
   bool is_empty;
 
   is_empty = stats == NULL;
@@ -364,7 +364,7 @@ StatisticsDialog::display_statistics(StatisticsInterface::DailyStats *stats)
     }
 
 
-  int value = stats->misc_stats[StatisticsInterface::STATS_VALUE_TOTAL_ACTIVE_TIME];
+  int value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_ACTIVE_TIME];
   daily_usage_label->set_text(Text::time_to_string(value));
 
   // Put the breaks in table.
@@ -372,66 +372,66 @@ StatisticsDialog::display_statistics(StatisticsInterface::DailyStats *stats)
     {
       stringstream ss;
 
-      value = stats->break_stats[i][StatisticsInterface::STATS_BREAKVALUE_UNIQUE_BREAKS];
+      value = stats->break_stats[i][IStatistics::STATS_BREAKVALUE_UNIQUE_BREAKS];
       ss.str("");
       ss << value;
       break_labels[i][0]->set_text(ss.str());
       
-      value = stats->break_stats[i][StatisticsInterface::STATS_BREAKVALUE_PROMPTED]
+      value = stats->break_stats[i][IStatistics::STATS_BREAKVALUE_PROMPTED]
         - value;
       ss.str("");
       ss << value;
       break_labels[i][1]->set_text(ss.str());
 
-      value = stats->break_stats[i][StatisticsInterface::STATS_BREAKVALUE_TAKEN];
+      value = stats->break_stats[i][IStatistics::STATS_BREAKVALUE_TAKEN];
       ss.str("");
       ss << value;
       break_labels[i][2]->set_text(ss.str());
 
-      value = stats->break_stats[i][StatisticsInterface::STATS_BREAKVALUE_NATURAL_TAKEN];
+      value = stats->break_stats[i][IStatistics::STATS_BREAKVALUE_NATURAL_TAKEN];
       ss.str("");
       ss << value;
       break_labels[i][3]->set_text(ss.str());
 
-      value = stats->break_stats[i][StatisticsInterface::STATS_BREAKVALUE_SKIPPED];
+      value = stats->break_stats[i][IStatistics::STATS_BREAKVALUE_SKIPPED];
       ss.str("");
       ss << value;
       break_labels[i][4]->set_text(ss.str());
 
-      value = stats->break_stats[i][StatisticsInterface::STATS_BREAKVALUE_POSTPONED];
+      value = stats->break_stats[i][IStatistics::STATS_BREAKVALUE_POSTPONED];
       ss.str("");
       ss << value;
       break_labels[i][5]->set_text(ss.str());
 
-      value = stats->break_stats[i][StatisticsInterface::STATS_BREAKVALUE_TOTAL_OVERDUE];
+      value = stats->break_stats[i][IStatistics::STATS_BREAKVALUE_TOTAL_OVERDUE];
 
       break_labels[i][6]->set_text(Text::time_to_string(value));
     }
   
   stringstream ss;
 
-  value = stats->misc_stats[StatisticsInterface::STATS_VALUE_TOTAL_MOVEMENT_TIME];
+  value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_MOVEMENT_TIME];
   if (value > 24 * 60 * 60) {
     value = 0;
   }
   activity_labels[0]->set_text(Text::time_to_string(value));
 
-  value = stats->misc_stats[StatisticsInterface::STATS_VALUE_TOTAL_MOUSE_MOVEMENT];
+  value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_MOUSE_MOVEMENT];
   ss.str("");
   stream_distance(ss, value);
   activity_labels[1]->set_text(ss.str());
       
-  value = stats->misc_stats[StatisticsInterface::STATS_VALUE_TOTAL_CLICK_MOVEMENT];
+  value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_CLICK_MOVEMENT];
   ss.str("");
   stream_distance(ss, value);
   activity_labels[2]->set_text(ss.str());
 
-  value = stats->misc_stats[StatisticsInterface::STATS_VALUE_TOTAL_CLICKS];
+  value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_CLICKS];
   ss.str("");
   ss << value;
   activity_labels[3]->set_text(ss.str());
 
-  value = stats->misc_stats[StatisticsInterface::STATS_VALUE_TOTAL_KEYSTROKES];
+  value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_KEYSTROKES];
   ss.str("");
   ss << value;
   activity_labels[4]->set_text(ss.str());
@@ -483,7 +483,7 @@ void
 StatisticsDialog::set_calendar_day_index(int idx)
 {
   calendar->freeze();
-  StatisticsInterface::DailyStats *stats = statistics->get_day(idx);
+  IStatistics::DailyStats *stats = statistics->get_day(idx);
   calendar->select_month(stats->start.tm_mon, stats->start.tm_year+1900);
   calendar->select_day(stats->start.tm_mday);
   calendar->thaw();
@@ -495,7 +495,7 @@ StatisticsDialog::display_calendar_date()
 {
   int idx, next, prev;
   get_calendar_day_index(idx, next, prev);
-  StatisticsInterface::DailyStats *stats = NULL;
+  IStatistics::DailyStats *stats = NULL;
   if (idx >= 0)
     {
       stats = statistics->get_day(idx);

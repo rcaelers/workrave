@@ -24,7 +24,7 @@
 #include <iostream>
 
 class TimerBoxControl;
-class TimerBoxView;
+class ITimerBoxView;
 
 class AppletWindow 
 {
@@ -58,7 +58,7 @@ public:
   
 protected:
   //! Box container all the timers.
-  TimerBoxView *timer_box_view;
+  ITimerBoxView *timer_box_view;
   
   //! Box container controller.
   TimerBoxControl *timer_box_control;

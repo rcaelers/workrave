@@ -30,7 +30,7 @@
 #include "Util.hh"
 #include "Hig.hh"
 #include "nls.h"
-#include "SoundPlayerInterface.hh"
+#include "ISoundPlayer.hh"
 #include "debug.hh"
 
 // This code can be removed once the following bug is closed:
@@ -468,15 +468,15 @@ ExercisesPanel::heartbeat()
   if (exercise_time >= exercise.duration)
     {
       on_go_forward();
-      SoundPlayerInterface *snd = GUI::get_instance()->get_sound_player();
+      ISoundPlayer *snd = GUI::get_instance()->get_sound_player();
       exercise_num++;
       if (exercise_num == exercise_count)
         {
           on_stop();
         }
       snd->play_sound(stopped
-                      ? SoundPlayerInterface::SOUND_EXERCISES_ENDED
-                      : SoundPlayerInterface::SOUND_EXERCISE_ENDED);
+                      ? ISoundPlayer::SOUND_EXERCISES_ENDED
+                      : ISoundPlayer::SOUND_EXERCISE_ENDED);
     }
   else
     {

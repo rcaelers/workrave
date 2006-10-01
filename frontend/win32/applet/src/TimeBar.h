@@ -1,6 +1,6 @@
 // TimeBar.h --- Time bar
 //
-// Copyright (C) 2004, 2005 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2004, 2005, 2006 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -21,7 +21,7 @@
 #include <windows.h>
 #include <time.h>
 
-#include "TimeBarInterface.hh"
+#include "ITimeBar.hh"
 #include "Applet.hh"
 
 class CDeskBand;
@@ -38,8 +38,8 @@ public:
   void set_text(const char *text);
 
   void update();
-  void set_bar_color(TimeBarInterface::ColorId color);
-  void set_secondary_bar_color(TimeBarInterface::ColorId color);
+  void set_bar_color(ITimeBar::ColorId color);
+  void set_secondary_bar_color(ITimeBar::ColorId color);
 
   void get_size(int &width, int &height);
   HWND get_handle() const { return hwnd; };
@@ -52,12 +52,12 @@ private:
   int bar_value;
   int secondary_bar_max_value;
   int secondary_bar_value;
-  TimeBarInterface::ColorId secondary_bar_color;
-  TimeBarInterface::ColorId bar_color;
+  ITimeBar::ColorId secondary_bar_color;
+  ITimeBar::ColorId bar_color;
   char bar_text[APPLET_BAR_TEXT_MAX_LENGTH];
     
   static HFONT bar_font;
-  static HBRUSH bar_colors[TimeBarInterface::COLOR_ID_SIZEOF];
+  static HBRUSH bar_colors[ITimeBar::COLOR_ID_SIZEOF];
   static void init(HINSTANCE hinst);
   static LRESULT CALLBACK wnd_proc(HWND hWnd, UINT uMessage, WPARAM wParam,
                                    LPARAM lParam);

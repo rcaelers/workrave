@@ -28,7 +28,7 @@ static const char rcsid[] = "$Id$";
 #include "debug.hh"
 
 #include "AppletWindow.hh"
-#include "TimerBoxView.hh"
+#include "ITimerBoxView.hh"
 #include "TimerBoxControl.hh"
 
 AppletWindow::AppletWindow()

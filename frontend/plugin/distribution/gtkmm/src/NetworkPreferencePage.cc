@@ -1,6 +1,6 @@
 // NetworkPreferencePage.cc --- Preferences widgets for a timer
 //
-// Copyright (C) 2002, 2003, 2004 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -42,10 +42,10 @@
 #include "Hig.hh"
 #include "GtkUtil.hh"
 
-#include "CoreInterface.hh"
+#include "ICore.hh"
 #include "CoreFactory.hh"
-#include "ConfiguratorInterface.hh"
-#include "DistributionManagerInterface.hh"
+#include "IConfigurator.hh"
+#include "IDistributionManager.hh"
 
 NetworkPreferencePage::NetworkPreferencePage()
   : Gtk::VBox(false, 6)
@@ -55,7 +55,7 @@ NetworkPreferencePage::NetworkPreferencePage()
   Gtk::Notebook *tnotebook = manage(new Gtk::Notebook());
   tnotebook->set_tab_pos(Gtk::POS_TOP);  
 
-  CoreInterface *core = CoreFactory::get_core();
+  ICore *core = CoreFactory::get_core();
   dist_manager = core->get_distribution_manager();
   assert(dist_manager != NULL);
   

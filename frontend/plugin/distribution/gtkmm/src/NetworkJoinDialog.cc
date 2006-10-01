@@ -1,6 +1,6 @@
 // NetworkJoinDialog.cc --- NetworkJoin dialog
 //
-// Copyright (C) 2002, 2003, 2004 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -39,8 +39,8 @@
 #include "NetworkJoinDialog.hh"
 
 #include "CoreFactory.hh"
-#include "DistributionManagerInterface.hh"
-#include "ConfiguratorInterface.hh"
+#include "IDistributionManager.hh"
+#include "IConfigurator.hh"
 #include "Util.hh"
 #include "GtkUtil.hh"
 
@@ -49,8 +49,8 @@ NetworkJoinDialog::NetworkJoinDialog()
 {
   TRACE_ENTER("NetworkJoinDialog::NetworkJoinDialog");
 
-  CoreInterface *core = CoreFactory::get_core();
-  DistributionManagerInterface *dist_manager
+  ICore *core = CoreFactory::get_core();
+  IDistributionManager *dist_manager
     = core->get_distribution_manager();
   
   // Icon

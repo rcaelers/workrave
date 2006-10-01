@@ -24,12 +24,12 @@
 #include <string>
 #include <gdk/gdkwin32.h>
 
-#include "TimerBoxView.hh"
-#include "TimeBarInterface.hh"
+#include "ITimerBoxView.hh"
+#include "ITimeBar.hh"
 #include "Applet.hh"
 #include "AppletWindow.hh"
 
-class W32AppletWindow : public AppletWindow, public TimerBoxView
+class W32AppletWindow : public AppletWindow, public ITimerBoxView
 {
 public:  
   W32AppletWindow();
@@ -44,9 +44,9 @@ public:
   void set_slot(BreakId  id, int slot);
   void set_time_bar(BreakId id,
                     std::string text,
-                    TimeBarInterface::ColorId primary_color,
+                    ITimeBar::ColorId primary_color,
                     int primary_value, int primary_max,
-                    TimeBarInterface::ColorId secondary_color,
+                    ITimeBar::ColorId secondary_color,
                     int secondary_value, int secondary_max);
   void set_tip(std::string tip);
   void set_icon(IconType icon);

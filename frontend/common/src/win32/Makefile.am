@@ -15,7 +15,7 @@ if PLATFORM_WIN32
 noinst_LIBRARIES = 	libworkrave-frontend-common-win32.a
 
 libworkrave_frontend_common_win32_a_SOURCES = \
-			W2SoundPlayer.cc
+			W32SoundPlayer.cc
 
 
 libworkrave_frontend_common_win32_a_CXXFLAGS = \

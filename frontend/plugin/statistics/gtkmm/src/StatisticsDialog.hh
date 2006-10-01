@@ -1,6 +1,6 @@
 // PreferencesDialog.hh --- Statistics Dialog
 //
-// Copyright (C) 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -22,7 +22,7 @@
 #include "preinclude.h"
 #include <sstream>
 
-#include "StatisticsInterface.hh"
+#include "IStatistics.hh"
 
 namespace Gtk
 {
@@ -46,7 +46,7 @@ public:
   
 private:
   /** Stats */
-  StatisticsInterface *statistics;
+  IStatistics *statistics;
   
   /** Labels for break stats. */
   Gtk::Label *break_labels[BREAK_ID_SIZEOF][9];
@@ -91,7 +91,7 @@ private:
   void on_history_goto_last();
   void on_history_goto_first();
   void display_calendar_date();
-  void display_statistics(StatisticsInterface::DailyStats *stats);
+  void display_statistics(IStatistics::DailyStats *stats);
   void clear_display_statistics();
   
   bool on_timer();

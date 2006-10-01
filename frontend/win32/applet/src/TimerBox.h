@@ -1,6 +1,6 @@
 // TimerBox.h --- Timer box
 //
-// Copyright (C) 2004, 2005 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2004, 2005, 2006 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -21,7 +21,7 @@
 #include <windows.h>
 #include <time.h>
 
-#include "CoreInterface.hh"
+#include "ICore.hh"
 #include "Util.h"
 
 class TimeBar;

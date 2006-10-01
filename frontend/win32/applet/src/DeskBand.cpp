@@ -1,6 +1,6 @@
 // DeskBand.cpp --- CDeskBand implementation
 //
-// Copyright (C) 2004, 2005 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2004, 2005, 2006 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -560,8 +560,8 @@ CDeskBand::OnCopyData(PCOPYDATASTRUCT copy_data)
             if (bar != NULL)
             {
                 bar->set_text(data->bar_text[b]);
-                bar->set_bar_color((TimeBarInterface::ColorId) data->bar_primary_color[b]);
-                bar->set_secondary_bar_color((TimeBarInterface::ColorId) data->bar_secondary_color[b]);
+                bar->set_bar_color((ITimeBar::ColorId) data->bar_primary_color[b]);
+                bar->set_secondary_bar_color((ITimeBar::ColorId) data->bar_secondary_color[b]);
                 bar->set_progress(data->bar_primary_val[b], data->bar_primary_max[b]);
                 bar->set_secondary_progress(data->bar_secondary_val[b], data->bar_secondary_max[b]);
             }

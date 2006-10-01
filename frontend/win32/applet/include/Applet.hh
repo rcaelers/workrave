@@ -1,6 +1,6 @@
 // Applet.h --- Applet 
 //
-// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -18,7 +18,7 @@
 #ifndef APPLET_H
 #define APPLET_H
 
-#include "CoreInterface.hh"
+#include "ICore.hh"
 
 #define APPLET_WINDOW_CLASS_NAME "WorkraveApplet"
 #define APPLET_BAR_TEXT_MAX_LENGTH 16

@@ -1,6 +1,6 @@
 // NetworkLogDialog.cc --- NetworkLog dialog
 //
-// Copyright (C) 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -34,9 +34,9 @@
 
 #include "NetworkLogDialog.hh"
 
-#include "CoreInterface.hh"
+#include "ICore.hh"
 #include "CoreFactory.hh"
-#include "DistributionManagerInterface.hh"
+#include "IDistributionManager.hh"
 #include "Util.hh"
 
 NetworkLogDialog::NetworkLogDialog()
@@ -72,8 +72,8 @@ NetworkLogDialog::NetworkLogDialog()
 NetworkLogDialog::~NetworkLogDialog()
 {
   TRACE_ENTER("NetworkLogDialog::~NetworkLogDialog");
-  CoreInterface *core = CoreFactory::get_core();
-  DistributionManagerInterface *dist_manager = core->get_distribution_manager();
+  ICore *core = CoreFactory::get_core();
+  IDistributionManager *dist_manager = core->get_distribution_manager();
   if (dist_manager != NULL)
     {
       dist_manager->remove_log_listener(this);
@@ -94,8 +94,8 @@ NetworkLogDialog::distribution_log(std::string msg)
 void
 NetworkLogDialog::init()
 {
-  CoreInterface *core = CoreFactory::get_core();
-  DistributionManagerInterface *dist_manager = core->get_distribution_manager();
+  ICore *core = CoreFactory::get_core();
+  IDistributionManager *dist_manager = core->get_distribution_manager();
 
   Gtk::TextIter iter = text_buffer->end();
 
@@ -131,8 +131,8 @@ NetworkLogDialog::on_response(int response)
 {
   (void) response;
   TRACE_ENTER("NetworkLogDialog::on_response")
-  CoreInterface *core = CoreFactory::get_core();
-  DistributionManagerInterface *dist_manager = core->get_distribution_manager();
+  ICore *core = CoreFactory::get_core();
+  IDistributionManager *dist_manager = core->get_distribution_manager();
   if (dist_manager != NULL)
     {
       dist_manager->remove_log_listener(this);

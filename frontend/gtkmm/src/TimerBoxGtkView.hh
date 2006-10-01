@@ -24,7 +24,7 @@
 #include <string>
 #include <gtkmm/table.h>
 
-#include "TimerBoxView.hh"
+#include "ITimerBoxView.hh"
 #include "TimeBar.hh"
 
 class EventImage;
@@ -37,7 +37,7 @@ namespace Gtk
   class EventBox;
 }
 
-class TimerBoxGtkView : public Gtk::Table, public TimerBoxView
+class TimerBoxGtkView : public Gtk::Table, public ITimerBoxView
 {
 public:  
   TimerBoxGtkView();

@@ -1,6 +1,6 @@
 // NetworkJoinDialog.hh --- NetworkJoin Dialog
 //
-// Copyright (C) 2002, 2003, 2004 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2006 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -28,7 +28,7 @@
 #include <gtkmm/entry.h>
 #include <gtkmm/spinbutton.h>
 
-class DistributionManagerInterface;
+class IDistributionManager;
 class TimeEntry;
 
 class NetworkJoinDialog : public HigDialog

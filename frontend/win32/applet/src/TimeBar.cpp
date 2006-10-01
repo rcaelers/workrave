@@ -1,6 +1,6 @@
 // TimeBar.cpp --- Time bar
 //
-// Copyright (C) 2004, 2005 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2004, 2005, 2006 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -28,7 +28,7 @@ const int MINIMAL_HEIGHT = 16;
 #define TIME_BAR_CLASS_NAME "WorkraveTimeBar"
 #define GDK_TO_COLORREF(r, g, b) (((r)>>8) | (((g)>>8) <<8) | (((b)>>8) << 16))
 
-HBRUSH TimeBar::bar_colors[TimeBarInterface::COLOR_ID_SIZEOF];
+HBRUSH TimeBar::bar_colors[ITimeBar::COLOR_ID_SIZEOF];
 HFONT TimeBar::bar_font = NULL;
 
 TimeBar::TimeBar(HWND parent, HINSTANCE hinst, CDeskBand *deskband)
@@ -41,8 +41,8 @@ TimeBar::TimeBar(HWND parent, HINSTANCE hinst, CDeskBand *deskband)
   bar_value = 0;
   secondary_bar_max_value = 0;
   secondary_bar_value = 100;
-  secondary_bar_color = TimeBarInterface::COLOR_ID_INACTIVE;
-  bar_color = TimeBarInterface::COLOR_ID_ACTIVE;
+  secondary_bar_color = ITimeBar::COLOR_ID_INACTIVE;
+  bar_color = ITimeBar::COLOR_ID_ACTIVE;
 
   hwnd = CreateWindowEx(0, TIME_BAR_CLASS_NAME, "",
                         WS_CHILD | WS_CLIPSIBLINGS, 0, 0, 56, 16, parent, NULL, hinst, NULL);
@@ -154,14 +154,14 @@ TimeBar::on_paint(void)
     {
       // Overlap
       //assert(secondary_bar_color == COLOR_ID_INACTIVE);
-      TimeBarInterface::ColorId overlap_color;
+      ITimeBar::ColorId overlap_color;
       switch (bar_color)
         {
-        case TimeBarInterface::COLOR_ID_ACTIVE:
+        case ITimeBar::COLOR_ID_ACTIVE:
           overlap_color = TimeBarInterface::COLOR_ID_INACTIVE_OVER_ACTIVE;
           break;
-        case TimeBarInterface::COLOR_ID_OVERDUE:
-          overlap_color = TimeBarInterface::COLOR_ID_INACTIVE_OVER_OVERDUE;
+        case ITimeBar::COLOR_ID_OVERDUE:
+          overlap_color = ITimeBar::COLOR_ID_INACTIVE_OVER_OVERDUE;
           break;
         default:
           abort();
@@ -214,7 +214,7 @@ TimeBar::on_paint(void)
   r.top = winy + border_size;
   r.right = winx + winw - border_size;
   r.bottom = r.top + bar_h;
-  FillRect(dc, &r, bar_colors[TimeBarInterface::COLOR_ID_BG]);     
+  FillRect(dc, &r, bar_colors[ITimeBar::COLOR_ID_BG]);     
 
 
   r.left = winx;
@@ -261,12 +261,12 @@ TimeBar::init(HINSTANCE hinst)
       HBRUSH light_blue = CreateSolidBrush(GDK_TO_COLORREF(44461, 55512, 59110));
       HBRUSH bg = CreateSolidBrush(GetSysColor(COLOR_3DLIGHT));
 
-      bar_colors[TimeBarInterface::COLOR_ID_ACTIVE] = light_blue;
-      bar_colors[TimeBarInterface::COLOR_ID_INACTIVE] = light_green;
-      bar_colors[TimeBarInterface::COLOR_ID_OVERDUE] = orange;
-      bar_colors[TimeBarInterface::COLOR_ID_INACTIVE_OVER_ACTIVE] = green_mix_blue;
-      bar_colors[TimeBarInterface::COLOR_ID_INACTIVE_OVER_OVERDUE] = light_green;
-      bar_colors[TimeBarInterface::COLOR_ID_BG] = bg;
+      bar_colors[ITimeBar::COLOR_ID_ACTIVE] = light_blue;
+      bar_colors[ITimeBar::COLOR_ID_INACTIVE] = light_green;
+      bar_colors[ITimeBar::COLOR_ID_OVERDUE] = orange;
+      bar_colors[ITimeBar::COLOR_ID_INACTIVE_OVER_ACTIVE] = green_mix_blue;
+      bar_colors[ITimeBar::COLOR_ID_INACTIVE_OVER_OVERDUE] = light_green;
+      bar_colors[ITimeBar::COLOR_ID_BG] = bg;
 
       NONCLIENTMETRICS ncm;
       ncm.cbSize = sizeof(NONCLIENTMETRICS);
@@ -342,13 +342,13 @@ TimeBar::update()
 }
 
 void 
-TimeBar::set_bar_color(TimeBarInterface::ColorId color)
+TimeBar::set_bar_color(ITimeBar::ColorId color)
 {
   bar_color = color;
 }
 
 void 
-TimeBar::set_secondary_bar_color(TimeBarInterface::ColorId color)
+TimeBar::set_secondary_bar_color(ITimeBar::ColorId color)
 {
   secondary_bar_color = color;
 }
