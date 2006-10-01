@@ -32,6 +32,7 @@
 
 #include <windows.h>
 #include "IInputMonitor.hh"
+#include "IInputMonitorListener.hh"
 
 typedef union HarpoonEventUnion HarpoonEvent;
 
