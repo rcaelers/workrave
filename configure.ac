@@ -717,6 +717,11 @@ if test "x$config_with_registry" = "xyes"; then
    AC_DEFINE(HAVE_REGISTRY,,[Define if registry is available])
 fi
 
+HAVE_GLIB=
+if test "x$GTKMM_LIBS" != "x"; then
+   AC_DEFINE(HAVE_GLIB,,[Define if glib is available])
+fi
+
 HAVE_GNOME=
 if test "x$config_with_gnome" = "xyes"; then
    AC_DEFINE(HAVE_GNOME,,[Define if Gnome is available])
