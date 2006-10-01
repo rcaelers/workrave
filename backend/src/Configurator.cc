@@ -41,7 +41,7 @@ static const char rcsid[] = "$Id$";
 #include "GConfConfigurator.hh"
 #endif
 #ifdef HAVE_REGISTRY
-#include "Win32Configurator.hh"
+#include "W32Configurator.hh"
 #endif
 
 
@@ -70,7 +70,7 @@ Configurator::create(Format fmt)
 #ifdef HAVE_REGISTRY
   if (fmt == FormatNative)
     {
-      c = new Win32Configurator();
+      c = new W32Configurator();
     }
   else
 #endif    
