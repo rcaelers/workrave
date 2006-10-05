@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2006-01-22 14:13:40 robc>
+// Time-stamp: <2006-10-05 21:09:22 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -56,7 +56,7 @@ static const char rcsid[] = "$Id$";
 #include <X11/Xmu/Error.h>
 
 #include "X11InputMonitor.hh"
-#include "InputMonitorListenerInterface.hh"
+#include "IInputMonitorListener.hh"
 
 #include "timeutil.h"
 
@@ -162,7 +162,7 @@ X11InputMonitor::~X11InputMonitor()
 
 
 void
-X11InputMonitor::init(InputMonitorListenerInterface *l)
+X11InputMonitor::init(IInputMonitorListener *l)
 {
   this->listener = l;
   monitor_thread->start();

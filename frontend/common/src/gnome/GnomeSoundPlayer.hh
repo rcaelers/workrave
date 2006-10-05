@@ -1,6 +1,6 @@
 // GnomeSoundPlayer.hh
 //
-// Copyright (C) 2002 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -19,9 +19,9 @@
 #ifndef GNOMESOUNDPLAYER_HH
 #define GNOMESOUNDPLAYER_HH
 
-#include <SoundPlayerInterface.hh>
+#include <ISoundPlayer.hh>
 
-class GnomeSoundPlayer : public SoundPlayerInterface
+class GnomeSoundPlayer : public ISoundPlayer
 {
 public:
   GnomeSoundPlayer();

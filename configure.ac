@@ -778,6 +778,12 @@ if test "x$config_debug" != "xyes" -a "x$platform_win32" = "xyes" ; then
 fi
 AC_SUBST(WIN32CONSOLE)
 
+HAVE_UNIX=
+if test "x$platform_win32" != "xyes" ; then
+   AC_DEFINE(HAVE_UNIX,,[Define if we are compiling for unix])
+fi
+AC_SUBST(HAVE_UNIX)
+
 AM_CONDITIONAL(HAVE_X, test x$have_x = xyes)
 AM_CONDITIONAL(HAVE_GCONF, test "x$GCONF_LIBS" != "x" -a "x$config_with_gconf" = "xyes")
 AM_CONDITIONAL(HAVE_GDOME, test "x$GDOME_LIB" != "x" -a "x$config_with_xml" = "xyes")

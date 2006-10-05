@@ -1,9 +1,9 @@
 // X11InputMonitor.hh --- ActivityMonitor for X11
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-06-21 22:16:56 robc>
+// Time-stamp: <2006-10-05 21:09:25 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@
 #include <X11/extensions/record.h>
 #endif
 
-#include "InputMonitorInterface.hh"
+#include "IInputMonitor.hh"
 
 #include "Signal.hh"
 #include "Thread.hh"
@@ -47,7 +47,7 @@
 
 //! Activity monitor for a local X server.
 class X11InputMonitor :
-  public InputMonitorInterface,
+  public IInputMonitor,
   public Runnable
 {
 public:
@@ -58,7 +58,7 @@ public:
   virtual ~X11InputMonitor();
 
   //! Initialize
-  virtual void init(InputMonitorListenerInterface *l);
+  virtual void init(IInputMonitorListener *l);
 
   //! Terminate the monitor.
   virtual void terminate();
@@ -122,7 +122,7 @@ private:
   Signal wait_for_terminated_signal;
 
   //! Where to deliver action events.
-  InputMonitorListenerInterface *listener;
+  IInputMonitorListener *listener;
   
 #ifdef HAVE_XRECORD
   //! Is the X Record extension used ?

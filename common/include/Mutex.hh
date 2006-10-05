@@ -19,6 +19,10 @@
 #ifndef MUTEX_HH
 #define MUTEX_HH
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #ifdef HAVE_QT
 #include "QtMutex.hh"
 #elif defined(WIN32)
