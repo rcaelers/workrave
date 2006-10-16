@@ -56,7 +56,6 @@ GnomeAppletWindow::GnomeAppletWindow(AppletControl *control) :
   view(NULL),
   plug(NULL),
   container(NULL),
-  tray_menu(NULL),
   applet_control(NULL),
   applet_vertical(false),
   applet_size(0),

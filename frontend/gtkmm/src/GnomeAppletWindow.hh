@@ -75,9 +75,6 @@ private:
   //! Container to put the timers in..
   Gtk::Bin *container;
   
-  //! The system tray menu.
-  Gtk::Menu *tray_menu;
-
   // 
   GNOME_Workrave_AppletControl applet_control;
 

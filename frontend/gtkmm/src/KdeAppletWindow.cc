@@ -56,7 +56,6 @@ static const char rcsid[] = "$Id$";
 KdeAppletWindow::KdeAppletWindow(AppletControl *control) :
   plug(NULL),
   container(NULL),
-  tray_menu(NULL),
   applet_vertical(false),
   applet_size(0),
   control(control),
@@ -256,7 +255,7 @@ KdeAppletWindow::on_button_press_event(GdkEventButton *event)
 
   if (event->type == GDK_BUTTON_PRESS)
     {
-      if (event->button == 3 && tray_menu != NULL)
+      if (event->button == 3)
         {
           Menus::get_instance()->popup(Menus::MENU_APPLET,
                                        event->button, event->time);

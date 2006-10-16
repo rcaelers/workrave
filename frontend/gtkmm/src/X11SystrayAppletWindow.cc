@@ -46,7 +46,6 @@ X11SystrayAppletWindow::X11SystrayAppletWindow(AppletControl *control) :
   view(NULL),
   plug(NULL),
   container(NULL),
-  tray_menu(NULL),
   applet_vertical(false),
   applet_size(0),
   applet_active(false),
@@ -224,7 +223,7 @@ X11SystrayAppletWindow::on_button_press_event(GdkEventButton *event)
   if (applet_active &&
       event->type == GDK_BUTTON_PRESS)
     {
-      if (event->button == 3 && tray_menu != NULL)
+      if (event->button == 3)
         {
           Menus::get_instance()->popup(Menus::MENU_APPLET,
                                        event->button, event->time);

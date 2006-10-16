@@ -797,7 +797,8 @@ Menus::on_menu_about()
     "Masanobu Yokota <masanobu.yokota@nifty.com>\n"
     "ORY Mate <orymate@gmail.com>\n"
     "Иван Димов <idimov@users.sourceforge.net>\n"
-    "Enver ALTIN <ealtin@parkyeri.com>";
+    "Enver ALTIN <ealtin@parkyeri.com>"
+    "Prokopis Prokopidis <prokopidis@gmail.com>";
   
   string icon = Util::complete_directory("workrave.png",
                                          Util::SEARCH_PATH_IMAGES);
