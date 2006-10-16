@@ -22,12 +22,21 @@ StatusWindow::StatusWindow()
   : QDialog(0, Qt::WindowTitleHint
             | Qt::WindowSystemMenuHint)
 {
-  timer_box_view = new TimerBoxView(this);
-  setLayout(timer_box_view);
+  timer_box_view = new TimerBoxView();
+  layout = new QVBoxLayout();
+  layout->addWidget(timer_box_view);
   setFixedSize(minimumSize());
+  setLayout(layout);
+
+  timer_box_control = new TimerBoxControl("applet", *timer_box_view);
 }
 
 StatusWindow::~StatusWindow()
 {
-  delete timer_box_view;
+  delete timer_box_control;
+}
+
+void StatusWindow::on_heartbeat()
+{
+  timer_box_control->update();
 }

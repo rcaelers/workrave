@@ -25,11 +25,12 @@
 
 #include "ITimerBoxView.hh"
 #include "ICore.hh"
+#include "TimeBar.hh"
 
-class TimerBoxView : public QGridLayout, public ITimerBoxView
+class TimerBoxView : public QWidget, public ITimerBoxView
 {
 public:
-  TimerBoxView(QWidget *parent);
+  TimerBoxView();
   ~TimerBoxView();
   
   virtual void set_slot(BreakId  id, int slot);
@@ -45,8 +46,9 @@ public:
   virtual void set_enabled(bool enabled);
 
 private:
+  QGridLayout *layout;
   QLabel *break_labels[BREAK_ID_SIZEOF];
-  QProgressBar *break_bars[BREAK_ID_SIZEOF];
+  TimeBar *break_bars[BREAK_ID_SIZEOF];
 };
 
 #endif // ITIMERBOXVIEW_HH

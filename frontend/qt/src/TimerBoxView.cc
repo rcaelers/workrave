@@ -18,24 +18,22 @@
 
 #include "TimerBoxView.hh"
 
-TimerBoxView::TimerBoxView(QWidget *parent)
-  : QGridLayout(parent)
+TimerBoxView::TimerBoxView()
 {
+  layout = new QGridLayout();
   for (size_t i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       QString s = "brk";
-      break_labels[i] = new QLabel(s, parent);
-      break_bars[i] = new QProgressBar(parent);
+      break_labels[i] = new QLabel(s);
+      break_bars[i] = new TimeBar();
+      layout->addWidget(break_labels[i]);
+      layout->addWidget(break_bars[i]);
     }
+  setLayout(layout);
 }
 
 TimerBoxView::~TimerBoxView()
 {
-  for (size_t i = 0; i < BREAK_ID_SIZEOF; i++)
-    {
-      delete break_labels[i];
-      delete break_bars[i];
-    }
 }
 
 void
@@ -51,6 +49,11 @@ TimerBoxView::set_time_bar(BreakId id,
                            ITimeBar::ColorId secondary_color,
                            int secondary_value, int secondary_max)
 {
+  QString s = text.c_str();
+  //QProgressBar *b = break_bars[id];
+  //b->setMaximum(primary_max);
+  //b->setMinimum(0);
+  //b->setValue(primary_value);
 }
 
 void

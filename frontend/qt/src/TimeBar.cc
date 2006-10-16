@@ -1,4 +1,4 @@
-// StatusWindow.hh
+// TimeBar.cc
 //
 // Copyright (C) 2006 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
@@ -16,28 +16,28 @@
 // $Id: IniConfigurator.hh 558 2006-02-23 19:42:12Z rcaelers $
 //
 
-#ifndef STATUSWINDOW_HH
-#define STATUSWINDOW_HH
+#include <QStylePainter>
+#include <QStyleOptionProgressBar>
+#include "TimeBar.hh"
+#include "debug.hh"
 
-#include <QDialog>
-#include <QVBoxLayout>
-#include "TimerBoxView.hh"
-#include "TimerBoxControl.hh"
-
-class StatusWindow : public QDialog
+TimeBar::TimeBar(QWidget *parent)
+  : QWidget(parent)
 {
-  Q_OBJECT
-  
-public:
-  StatusWindow();
-  ~StatusWindow();
+  resize(200, 30);
+  setFixedSize(200, 30);
+}
 
-  void on_heartbeat();
-  
-private:
-  TimerBoxView *timer_box_view;
-  TimerBoxControl *timer_box_control;
-  QVBoxLayout *layout;
-};
+TimeBar::~TimeBar()
+{
+}
 
-#endif // STATUSWINDOW_HH
+void TimeBar::paintEvent(QPaintEvent *event)
+{
+  QStylePainter paint(this);
+  QStyleOptionProgressBar opt;
+  opt.initFrom(this);
+  opt.rect.setWidth(opt.rect.width()/2);
+  paint.drawPrimitive(QStyle::PE_IndicatorProgressChunk, opt); 
+}
+   

@@ -37,12 +37,14 @@ GUI::GUI(int argc, char *argv[])
   core->init(argc, argv, this, display_name);
   //core->set_core_events_listener(this);
 
-  status_window.show();
-  status_window.raise();
+  status_window = new StatusWindow();
+  status_window->show();
+  status_window->raise();
 }
 
 GUI::~GUI()
 {
+  delete status_window;
   delete heartbeat_timer;
 }
 
@@ -50,6 +52,7 @@ void
 GUI::on_timer()
 {
   core->heartbeat();
+  status_window->on_heartbeat();
 }
 
 void

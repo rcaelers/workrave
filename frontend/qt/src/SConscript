@@ -4,6 +4,7 @@ env = env.Copy()
 src = ['GUI.cc',
        'main.cc',
        'StatusWindow.cc',
+       'TimeBar.cc',
        'TimerBoxView.cc']
 
 env.Append(CPPPATH=['#backend/include',

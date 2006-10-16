@@ -49,7 +49,7 @@ public slots:
 private:
   QTimer *heartbeat_timer;
   ICore *core;
-  StatusWindow status_window;
+  StatusWindow *status_window;
 };
 
 #endif // GUI_HH

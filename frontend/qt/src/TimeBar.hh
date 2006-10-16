@@ -1,4 +1,4 @@
-// StatusWindow.hh
+// TimeBar.hh
 //
 // Copyright (C) 2006 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
@@ -16,28 +16,21 @@
 // $Id: IniConfigurator.hh 558 2006-02-23 19:42:12Z rcaelers $
 //
 
-#ifndef STATUSWINDOW_HH
-#define STATUSWINDOW_HH
+#ifndef TIMEBAR_HH
+#define TIMEBAR_HH
 
-#include <QDialog>
-#include <QVBoxLayout>
-#include "TimerBoxView.hh"
-#include "TimerBoxControl.hh"
+#include <QWidget>
 
-class StatusWindow : public QDialog
+class TimeBar : public QWidget
 {
   Q_OBJECT
   
 public:
-  StatusWindow();
-  ~StatusWindow();
+  TimeBar(QWidget *parent = 0);
+  ~TimeBar();
 
-  void on_heartbeat();
-  
-private:
-  TimerBoxView *timer_box_view;
-  TimerBoxControl *timer_box_control;
-  QVBoxLayout *layout;
+protected:
+  void paintEvent(QPaintEvent *event);
 };
 
-#endif // STATUSWINDOW_HH
+#endif // TIMEBAR_HH
