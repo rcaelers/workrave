@@ -158,7 +158,7 @@ TimeBar::on_paint(void)
       switch (bar_color)
         {
         case ITimeBar::COLOR_ID_ACTIVE:
-          overlap_color = TimeBarInterface::COLOR_ID_INACTIVE_OVER_ACTIVE;
+          overlap_color = ITimeBar::COLOR_ID_INACTIVE_OVER_ACTIVE;
           break;
         case ITimeBar::COLOR_ID_OVERDUE:
           overlap_color = ITimeBar::COLOR_ID_INACTIVE_OVER_OVERDUE;
