@@ -74,11 +74,11 @@ Statistics::init(Core *control)
   init_distribution_manager();
 #endif
 
-  current_day = new DailyStatsImpl();
+  current_day = NULL;
   bool ok = load_current_day();
   if (!ok)
     {
-      current_day = NULL;
+      start_new_day();
     }
 
   update_enviromnent();
