@@ -121,16 +121,17 @@ public:
   int get_history_size() const;
   void set_counter(StatsValueType t, int value);
   int get_counter(StatsValueType t);
-  
+ 
+ 
 private:  
   bool load_current_day();
   void update_current_day(bool active);
   void load_history();
 
 private:
-  void load_day(DailyStatsImpl *stats, ifstream &stats_file);
   void save_day(DailyStatsImpl *stats);
   void save_day(DailyStatsImpl *stats, ofstream &stats_file);
+  void load(ifstream &infile, bool history);
 
   void day_to_history(DailyStatsImpl *stats);
   void day_to_remote_history(DailyStatsImpl *stats);

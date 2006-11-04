@@ -314,128 +314,12 @@ Statistics::load_current_day()
 
   ifstream stats_file(ss.str().c_str());
 
-  bool ok = stats_file;
-
-  if (ok)
-    {
-      string tag;
-      stats_file >> tag;
-      
-      ok = (tag == WORKRAVESTATS);
-    }
-
-  if (ok)
-    {
-      int version;
-      stats_file >> version;
-
-      ok = (version == STATSVERSION) || (version == 3);
-    }
-
-  if (ok)
-    { 
-      string cmd;
-      stats_file >> cmd;
-
-      ok = (cmd == "D");
-    }
-
-  if (ok)
-    {
-      load_day(current_day, stats_file);
-    }
+  load(stats_file, false);
 
   been_active = true;
   
   TRACE_EXIT();
-  return ok;
-}
-
-
-//! Loads the statistics of a single day from the specified stream.
-void
-Statistics::load_day(DailyStatsImpl *stats, ifstream &stats_file)
-{
-  bool ok = stats_file;
-
-  if (ok)
-    {
-      stats_file >> stats->start.tm_mday 
-                 >> stats->start.tm_mon
-                 >> stats->start.tm_year
-                 >> stats->start.tm_hour
-                 >> stats->start.tm_min
-                 >> stats->stop.tm_mday 
-                 >> stats->stop.tm_mon
-                 >> stats->stop.tm_year
-                 >> stats->stop.tm_hour
-                 >> stats->stop.tm_min;
-        }
-  
-  while (ok && !stats_file.eof())
-    {
-      string cmd;
-      stats_file >> cmd;
-
-      if (cmd == "B")
-        {
-          int bt, size;
-          stats_file >> bt;
-          stats_file >> size;
-          
-          BreakStats &bs = stats->break_stats[bt];
-
-          if (size > STATS_BREAKVALUE_SIZEOF)
-            {
-              size = STATS_BREAKVALUE_SIZEOF;
-            }
-          
-          for(int j = 0; j < size; j++)
-            {
-              int value;
-              stats_file >> value;
-
-              bs[j] = value;
-            }
-        }
-      else if (cmd == "M" || cmd == "m")
-        {
-          int size;
-          stats_file >> size;
-          
-          if (size > STATS_VALUE_SIZEOF)
-            {
-             size = STATS_VALUE_SIZEOF;
-            }
-          
-          for(int j = 0; j < size; j++)
-            {
-              int value;
-              stats_file >> value;
-
-              if (cmd == "m")
-                {
-                  // Ignore older 'M' stats. they are broken....
-                  stats->misc_stats[j] = value;
-                }
-              else
-                {
-                  stats->misc_stats[j] = 0;
-                }
-            }
-        }
-      else if (cmd == "G")
-        {
-          int total_active;
-          stats_file >> total_active;
-
-          stats->misc_stats[STATS_VALUE_TOTAL_ACTIVE_TIME] = total_active;
-        }
-      else if (cmd == "D")
-        {
-          ok = false;
-        }
-    }
+  return current_day != NULL;
 }
 
 
@@ -451,14 +335,25 @@ Statistics::load_history()
 
   ifstream stats_file(ss.str().c_str());
 
-  TRACE_MSG(ss.str().c_str());
+  load(stats_file, true);
+  TRACE_EXIT();
+}
+
+
+//! Loads the statistics.
+void
+Statistics::load(ifstream &infile, bool history)
+{
+  TRACE_ENTER("Statistics::load");
+
+  DailyStatsImpl *stats = NULL;
   
-  bool ok = stats_file;
+  bool ok = infile;
 
   if (ok)
     {
       string tag;
-      stats_file >> tag;
+      infile >> tag;
 
       ok = (tag == WORKRAVESTATS);
     }
@@ -466,37 +361,113 @@ Statistics::load_history()
   if (ok)
     {
       int version;
-      stats_file >> version;
+      infile >> version;
 
       ok = (version == STATSVERSION) || (version == 3);
     }
 
 
-  bool first = true;
-  while (ok && !stats_file.eof())
+  while (ok && !infile.eof())
     {
-      string cmd;
+      char line[BUFSIZ];
+      char cmd;
 
-      if (first)
+      infile.getline(line, BUFSIZ);
+      cmd = line[0];
+
+      stringstream ss(line+1);
+
+      if (cmd == 'D')
         {
-          stats_file >> cmd;
+          if (history && stats != NULL)
+            {
+              add_history(stats);
+              stats = NULL;
+            }
+          else if (!history && stats != NULL)
+            {
+              /* Corrupt today stats */
+              return;
+            }
+            
+          stats = new DailyStatsImpl();
           
-          ok = cmd == "D";
+          ss >> stats->start.tm_mday 
+             >> stats->start.tm_mon
+             >> stats->start.tm_year
+             >> stats->start.tm_hour
+             >> stats->start.tm_min
+             >> stats->stop.tm_mday 
+             >> stats->stop.tm_mon
+             >> stats->stop.tm_year
+             >> stats->stop.tm_hour
+             >> stats->stop.tm_min;
+
+          if (!history)
+            {
+              current_day = stats;
+            }
         }
-
-      if (ok)
+      else if (stats != NULL)
         {
-          DailyStatsImpl *day = new DailyStatsImpl();
+          if (cmd == 'B')
+            {
+              int bt, size;
+              ss >> bt;
+              ss >> size;
           
-          load_day(day, stats_file);
+              BreakStats &bs = stats->break_stats[bt];
+          
+              if (size > STATS_BREAKVALUE_SIZEOF)
+                {
+                  size = STATS_BREAKVALUE_SIZEOF;
+                }
+          
+              for(int j = 0; j < size; j++)
+                {
+                  int value;
+                  ss >> value;
+              
+                  bs[j] = value;
+                }
+            }
+          else if (cmd == 'M' || cmd == 'm')
+            {
+              int size;
+              ss >> size;
+          
+              if (size > STATS_VALUE_SIZEOF)
+                {
+                  size = STATS_VALUE_SIZEOF;
+                }
+          
+              for(int j = 0; j < size; j++)
+                {
+                  int value;
+                  ss >> value;
 
-          add_history(day);
-          first = false;
+                  if (cmd == 'm')
+                    {
+                      // Ignore older 'M' stats. they are broken....
+                      stats->misc_stats[j] = value;
+                    }
+                  else
+                    {
+                      stats->misc_stats[j] = 0;
+                    }
+                }
+            }
+          else if (cmd == 'G')
+            {
+              int total_active;
+              ss >> total_active;
+              
+              stats->misc_stats[STATS_VALUE_TOTAL_ACTIVE_TIME] = total_active;
+            }
         }
     }
   TRACE_EXIT();
 }
-
 
 
 //! Increment the specified statistics counter of the current day.
