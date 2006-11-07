@@ -26,6 +26,7 @@ static const char rcsid[] = "$Id$";
 
 #include <sstream>
 #include <unistd.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
 #include <fcntl.h>
@@ -440,8 +441,13 @@ GUI::init_debug()
 void
 GUI::init_nls()
 {
+#ifdef HAVE_CHIROPRAKTIK
+  putenv("LC_ALL=de");
+  putenv("LANG=de");
+#endif  
+
 #ifdef ENABLE_NLS
-#  ifndef HAVE_GNOME 
+#  ifndef HAVE_GNOME
   gtk_set_locale();
 #  endif
   const char *locale_dir;

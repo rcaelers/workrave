@@ -1,7 +1,7 @@
 /*
  * nls.h --- i18n-isation 
  *
- * Copyright (C) 2002, 2003, 2005 Raymond Penners
+ * Copyright (C) 2002, 2003, 2005, 2006 Raymond Penners
  * All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -277,6 +277,17 @@ nls_get_language_list (const gchar *category_name)
   
   return gnome_i18n_get_language_list("LC_MESSAGES");
 
+#elif defined(HAVE_CHIROPRAKTIK)
+  static GList *language_list = NULL;
+  (void) category_name;
+  if (! language_list)
+    {
+      gchar *locale = "de";
+      /* This list is never freed, I know.. */
+      language_list = g_list_append(NULL, locale);
+    }
+  return language_list;
+  
 #elif defined(G_OS_WIN32)
 
   static GList *language_list = NULL;

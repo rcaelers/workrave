@@ -733,6 +733,8 @@ if test "x$config_exercises" = "xyes"; then
    AC_DEFINE(HAVE_EXERCISES,,[Define if exercises are available])
 fi
 
+AC_DEFINE(HAVE_CHIROPRAKTIK,,[Define if branded for Chiropraktik Hirschengraben])
+                                             
 HAVE_EXPERIMENTAL=
 if test "x$config_experimental" = "xyes"; then
    AC_DEFINE(HAVE_EXPERIMENTAL,,[Define if experimental features are available])
