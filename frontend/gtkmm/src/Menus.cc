@@ -237,9 +237,10 @@ Menus::create_menu(Gtk::CheckMenuItem *check_menus[4])
     }
 #endif
   
+#ifndef HAVE_CHIROPRAKTIK
   menulist.push_back(Gtk::Menu_Helpers::StockMenuElem(Gtk::Stock::PREFERENCES,
                                                       MEMBER_SLOT(*this, &Menus::on_menu_preferences)));
-
+#endif
 
   // Rest break
   string rb_icon = Util::complete_directory("timer-rest-break.png", Util::SEARCH_PATH_IMAGES);
@@ -401,7 +402,9 @@ Menus::resync_applet()
                                              ->Gtk::Widget::gobj()->window);
       applet_window->init_menu(cmd_win);
 
+#ifndef HAVE_CHIROPRAKTIK
       applet_window->add_menu(_("Preferences"), MENU_COMMAND_PREFERENCES, 0);
+#endif
       applet_window->add_menu(_("_Rest break"), MENU_COMMAND_REST_BREAK, 0);
       applet_window->add_menu(_("Exercises"), MENU_COMMAND_EXERCISES, 0);
 

@@ -1011,11 +1011,13 @@ GUI::collect_garbage()
 GUI::BlockMode
 GUI::get_block_mode()
 {
-  bool b;
   int mode;
+#ifndef HAVE_CHIROPRAKTIK
+  bool b;
   b = CoreFactory::get_configurator()
     ->get_value(CFG_KEY_GUI_BLOCK_MODE, &mode);
   if (! b)
+#endif
     {
       mode = BLOCK_MODE_INPUT;
     }

@@ -75,9 +75,15 @@ struct Defaults
 
     {
       "rest_break",
+#ifdef HAVE_CHIROPRAKTIK
+      20*60, 45, "", 5*60,
+      3, -1, true,
+      3
+#else
       45*60, 10*60, "", 180,
       3, -1, true,
       3
+#endif
     },
     
     {
@@ -293,8 +299,10 @@ int
 Break::get_timer_limit() const
 {
   int rc;
+#ifndef HAVE_CHIROPRAKTIK
   bool b = configurator->get_value(timer_prefix + CFG_KEY_TIMER_LIMIT, &rc);
   if (! b)
+#endif
     {
       rc = default_config[break_id].limit;
     }
@@ -316,8 +324,10 @@ int
 Break::get_timer_auto_reset() const
 {
   int rc;
+#ifndef HAVE_CHIROPRAKTIK
   bool b = configurator->get_value(timer_prefix + CFG_KEY_TIMER_AUTO_RESET, &rc);
   if (! b)
+#endif
     {
       rc = default_config[break_id].auto_reset;
     }
@@ -339,8 +349,10 @@ string
 Break::get_timer_reset_pred() const
 {
   string rc;
+#ifndef HAVE_CHIROPRAKTIK
   bool b = configurator->get_value(timer_prefix + CFG_KEY_TIMER_RESET_PRED, &rc);
   if (! b)
+#endif
     {
       rc = default_config[break_id].resetpred;
     }
@@ -362,8 +374,10 @@ int
 Break::get_timer_snooze() const
 {
   int rc;
+#ifndef HAVE_CHIROPRAKTIK
   bool b = configurator->get_value(timer_prefix + CFG_KEY_TIMER_SNOOZE, &rc);
   if (! b)
+#endif
     {
       rc = default_config[break_id].snooze;
     }
@@ -403,6 +417,9 @@ Break::set_timer_monitor(string n)
 bool
 Break::get_timer_activity_sensitive() const
 {
+#ifdef HAVE_CHIROPRAKTIK
+  return false;
+#else  
   bool b;
   bool rc = true;
   b = configurator->get_value(timer_prefix + CFG_KEY_TIMER_ACTIVITY_SENSITIVE, &rc);
@@ -412,6 +429,7 @@ Break::get_timer_activity_sensitive() const
     }
 
   return rc;
+#endif
 }
 
 
@@ -426,8 +444,10 @@ int
 Break::get_break_max_preludes() const
 {
   int rc;
+#ifndef HAVE_CHIROPRAKTIK
   bool b = configurator->get_value(break_prefix + CFG_KEY_BREAK_MAX_PRELUDES, &rc);
   if (! b)
+#endif
     {
       rc = default_config[break_id].max_preludes;
     }
@@ -448,8 +468,10 @@ int
 Break::get_break_max_postpone() const
 {
   int rc;
+#ifndef HAVE_CHIROPRAKTIK
   bool b = configurator->get_value(break_prefix + CFG_KEY_BREAK_MAX_POSTPONE, &rc);
   if (! b)
+#endif
     {
       rc = default_config[break_id].max_postpone;
     }
@@ -469,10 +491,12 @@ Break::set_break_max_postpone(int n)
 bool
 Break::get_break_ignorable() const
 {
-  bool b;
   bool rc;
+#ifndef HAVE_CHIROPRAKTIK
+  bool b;
   b = configurator->get_value(break_prefix + CFG_KEY_BREAK_IGNORABLE, &rc);
   if (! b)
+#endif
     {
       rc = default_config[break_id].ignorable_break;
     }
@@ -494,8 +518,10 @@ Break::get_break_exercises() const
 {
   bool b;
   int rc;
+#ifndef HAVE_CHIROPRAKTIK
   b = configurator->get_value(break_prefix + CFG_KEY_BREAK_EXERCISES, &rc);
   if (! b)
+#endif
     {
       rc = default_config[break_id].exercises;
     }
@@ -514,6 +540,9 @@ Break::set_break_exercises(int n)
 bool
 Break::get_break_enabled() const
 {
+#ifdef HAVE_CHIROPRAKTIK
+  return break_id == BREAK_ID_REST_BREAK;
+#else
   bool b;
   bool rc;
   b = configurator->get_value(break_prefix + CFG_KEY_BREAK_ENABLED, &rc);
@@ -522,6 +551,7 @@ Break::get_break_enabled() const
       rc = true;
     }
   return rc;
+#endif
 }
 
 
