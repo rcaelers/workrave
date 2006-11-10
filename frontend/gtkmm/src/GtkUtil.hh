@@ -49,6 +49,14 @@ public:
   update_custom_stock_button(Gtk::Button *btn, const char *label_text,
                              const Gtk::StockID& stock_id);
 
+
+#ifdef HAVE_CHIROPRAKTIK
+  static void update_image_button(Gtk::Button *btn,
+                                  const char *label_text,
+                                  const char *image_file,
+                                  bool label);
+#endif
+  
   static Gtk::Widget *
   create_label_with_icon(std::string text, const char *icon);
 

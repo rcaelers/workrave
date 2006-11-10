@@ -85,6 +85,9 @@ static const char rcsid[] = "$Id$";
 GUI *GUI::instance = NULL;
 
 const string GUI::CFG_KEY_GUI_BLOCK_MODE =  "gui/breaks/block_mode";
+#ifdef HAVE_CHIROPRAKTIK
+const string GUI::CFG_KEY_GUI_SPOKEN_EXERCISES="bgui/breaks/spoken_exercises";
+#endif
 
 //! GUI Constructor.
 /*!
@@ -1236,3 +1239,25 @@ GUI::bound_head(int &x, int &y, int width, int height, int head)
 
   return ret;
 }
+
+#ifdef HAVE_CHIROPRAKTIK
+bool GUI::get_spoken_exercises()
+{
+  bool speak;
+  bool b;
+  b = CoreFactory::get_configurator()
+    ->get_value(CFG_KEY_GUI_SPOKEN_EXERCISES, &speak);
+  if (! b)
+    {
+      speak = true;
+    }
+  return speak;
+}
+
+void GUI::set_spoken_exercises(bool on)
+{
+  CoreFactory::get_configurator()
+    ->set_value(CFG_KEY_GUI_SPOKEN_EXERCISES, on);
+}
+
+#endif

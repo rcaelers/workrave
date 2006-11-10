@@ -7,6 +7,8 @@ http://www.workrave.org
 
 * Workrave 1.8.3 -- Branded for Chiropraktik Hirschengraben
 
+** Added button to exercises to toggle spoken (audio) exercises
+
 ** Adding ad to rest break window
 
 ** Disabled preferences. Fixed settings (rest break only, 45s every 20m)

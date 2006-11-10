@@ -224,7 +224,11 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
 
   pause_button =  manage(new Gtk::Button());
   Gtk::Widget *description_widget;
-  
+
+#ifdef HAVE_CHIROPRAKTIK
+  speak_button = manage(new Gtk::Button());
+  refresh_speak();
+#endif
   if (dialog_action_area != NULL)
     {
       back_button =  manage(new Gtk::Button(Gtk::Stock::GO_BACK));
@@ -233,6 +237,7 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
       dialog_action_area->pack_start(*back_button, false, false, 0);
       dialog_action_area->pack_start(*pause_button, false, false, 0);
       dialog_action_area->pack_start(*forward_button, false, false, 0);
+      dialog_action_area->pack_start(*speak_button, false, false, 0);
       description_widget = &description_scroll;
     }
   else
@@ -241,7 +246,6 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
         (NULL, Gtk::Stock::GO_BACK);
       forward_button =  GtkUtil::create_custom_stock_button
         (NULL, Gtk::Stock::GO_FORWARD);
-      
       Gtk::Button *stop_button =  GtkUtil::create_custom_stock_button
         (NULL, Gtk::Stock::CLOSE);
       stop_button->signal_clicked()
@@ -258,6 +262,9 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
       button_box->pack_start(*pause_button, false, false, 0);
       button_box->pack_start(*forward_button, false, false, 0);
       button_box->pack_start(*stop_button, false, false, 0);
+#ifdef HAVE_CHIROPRAKTIK
+      button_box->pack_start(*speak_button, false, false, 0);
+#endif
       Gtk::Alignment *button_align
         = manage(new Gtk::Alignment(1.0, 0.0, 0.0, 0.0));
       button_align->add(*button_box);
@@ -284,6 +291,10 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
   pause_button->signal_clicked()
     .connect(MEMBER_SLOT(*this, &ExercisesPanel::on_pause));
 
+#ifdef HAVE_CHIROPRAKTIK
+  speak_button->signal_clicked()
+    .connect(MEMBER_SLOT(*this, &ExercisesPanel::on_speak));
+#endif
   
   pack_start(image_frame, false, false, 0);
   pack_start(progress_bar, false, false, 0);
@@ -437,6 +448,30 @@ ExercisesPanel::refresh_pause()
                                       standalone ? label : NULL,
                                       stock_id);
 }
+
+#ifdef HAVE_CHIROPRAKTIK
+void
+ExercisesPanel::on_speak()
+{
+  GUI *gui = GUI::get_instance();
+  bool on = ! gui->get_spoken_exercises();
+  gui->set_spoken_exercises(on);
+  refresh_speak();
+}
+
+void
+ExercisesPanel::refresh_speak()
+{
+  GUI *gui = GUI::get_instance();
+  bool on = gui->get_spoken_exercises();
+  
+  string speak_img = Util::complete_directory
+    (on ? "speak-on.png" : "speak-off.png",
+     Util::SEARCH_PATH_IMAGES);
+  GtkUtil::update_image_button(speak_button, NULL,
+                               speak_img.c_str(), false);
+}
+#endif
 
 void
 ExercisesPanel::on_pause()

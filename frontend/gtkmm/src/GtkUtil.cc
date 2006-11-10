@@ -1,6 +1,6 @@
 // GtkUtil.cc --- Gtk utilities
 //
-// Copyright (C) 2003, 2004, 2005 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2003, 2004, 2005, 2006 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -62,6 +62,48 @@ GtkUtil::create_custom_stock_button(const char *label_text,
   return ret;
 }
 
+
+#ifdef HAVE_CHIROPRAKTIK
+void
+GtkUtil::update_image_button(Gtk::Button *btn,
+                             const char *label_text,
+                             const char *image_file,
+                             bool label)
+{
+  Gtk::Image *img = NULL;
+  if (has_button_images())
+    {
+      string icon = Util::complete_directory(image_file,
+                                             Util::SEARCH_PATH_IMAGES);
+      img = manage(new Gtk::Image(icon));
+    }
+  else
+    {
+      /* Button witout images must have a label */
+      label = true;
+    }
+  btn->remove();
+  if (label_text != NULL && label)
+    {
+      Gtk::Label *label = manage(new Gtk::Label(label_text));
+      Gtk::HBox *hbox = manage(new Gtk::HBox(false, 2));
+      Gtk::Alignment *align = manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
+      if (img != NULL)
+        {
+          hbox->pack_start(*img, false, false, 0);
+        }
+      hbox->pack_end(*label, false, false, 0);
+      btn->add(*align);
+      align->add(*hbox);
+      align->show_all();
+    }
+  else
+    {
+      btn->add(*img);
+      img->show_all();
+    }
+}
+#endif
 
 void
 GtkUtil::update_custom_stock_button(Gtk::Button *btn,

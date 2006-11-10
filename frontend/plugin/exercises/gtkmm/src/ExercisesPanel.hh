@@ -1,6 +1,6 @@
 // ExercisesPanel.hh --- Exercises panel
 //
-// Copyright (C) 2002, 2003, 2004, 2005 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2005, 2006 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -56,6 +56,11 @@ private:
   void on_go_forward();
   void on_pause();
   void on_stop();
+#ifdef HAVE_CHIROPRAKTIK
+  void on_speak();
+  void refresh_speak();
+#endif
+  
   void heartbeat();
   void start_exercise();
   void show_image();
@@ -81,6 +86,9 @@ private:
   Gtk::Button *back_button;
   Gtk::Button *pause_button;
   Gtk::Button *forward_button;
+#ifdef HAVE_CHIROPRAKTIK
+  Gtk::Button *speak_button;
+#endif
   Glib::RefPtr<Gtk::SizeGroup> size_group;
   const std::list<Exercise> exercises;
   std::list<Exercise>::const_iterator exercise_iterator;
