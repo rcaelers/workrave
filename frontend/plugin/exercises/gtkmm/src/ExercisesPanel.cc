@@ -33,6 +33,7 @@
 #include "SoundPlayerInterface.hh"
 #include "debug.hh"
 
+
 // This code can be removed once the following bug is closed:
 // http://bugzilla.gnome.org/show_bug.cgi?id=59390
 
@@ -346,6 +347,18 @@ void
 ExercisesPanel::start_exercise()
 {
   const Exercise &exercise = *exercise_iterator;
+#ifdef HAVE_CHIROPRAKTIK
+  mp3_player.unload();
+  GUI *gui = GUI::get_instance();
+  if (exercise.audio != "" && gui->get_spoken_exercises())
+    {
+      string file = Util::complete_directory(exercise.audio,
+                                             Util::SEARCH_PATH_EXERCISES);
+      mp3_player.load(file.c_str());
+      mp3_player.play();
+    }
+#endif
+
   Glib::RefPtr<Gtk::TextBuffer> buf = description_text.get_buffer();
   std::string txt = HigUtil::create_alert_text(exercise.title.c_str(),
                                                  exercise.description.c_str());
@@ -408,6 +421,9 @@ ExercisesPanel::on_stop()
   if (! stopped)
     {
       stopped = true;
+#ifdef HAVE_CHIROPRAKTIK
+      mp3_player.unload();
+#endif
       stop_signal();
     }
 }
@@ -457,6 +473,10 @@ ExercisesPanel::on_speak()
   bool on = ! gui->get_spoken_exercises();
   gui->set_spoken_exercises(on);
   refresh_speak();
+  if (! on)
+    {
+      mp3_player.unload();
+    }
 }
 
 void
@@ -478,6 +498,16 @@ ExercisesPanel::on_pause()
 {
   paused = ! paused;
   refresh_pause();
+#ifdef HAVE_CHIROPRAKTIK
+  if (paused)
+    {
+      mp3_player.pause();
+    }
+  else
+    {
+      mp3_player.resume();
+    }
+#endif
 }
 
 void

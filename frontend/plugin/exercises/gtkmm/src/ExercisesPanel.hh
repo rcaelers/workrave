@@ -38,6 +38,10 @@
 #include <gtkmm/textview.h>
 #include <gtkmm/scrolledwindow.h>
 
+#ifdef HAVE_CHIROPRAKTIK
+#include "W32Mp3Player.hh"
+#endif
+
 class ExercisesPanel : public Gtk::HBox
 {
 public:  
@@ -88,6 +92,7 @@ private:
   Gtk::Button *forward_button;
 #ifdef HAVE_CHIROPRAKTIK
   Gtk::Button *speak_button;
+  W32Mp3Player mp3_player;
 #endif
   Glib::RefPtr<Gtk::SizeGroup> size_group;
   const std::list<Exercise> exercises;

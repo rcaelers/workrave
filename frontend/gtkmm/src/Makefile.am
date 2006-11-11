@@ -196,7 +196,8 @@ workrave_CXXFLAGS = 	-DWORKRAVE_DATADIR="\"${pkgdatadir}\"" -W \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
 			-I${STATISTICS_HOME}/gtkmm/src \
 			-I${EXERCISES_HOME}/gtkmm/src \
-			-I${EXERCISES_HOME}/common/src 
+			-I${EXERCISES_HOME}/common/src \
+			-I$(top_srcdir)/frontend/common/src/win32 #HAVE_CHIROPRAKTIK
 
 workrave_CFLAGS	= 	-DWORKRAVE_DATADIR="\"${pkgdatadir}\"" \
 			@WR_FRONTEND_CFLAGS@ -I$(top_srcdir)/src \

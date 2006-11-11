@@ -1,6 +1,6 @@
 // Exercise.cc --- Exercises
 //
-// Copyright (C) 2002, 2003, 2004, 2005 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2005, 2006 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -118,6 +118,15 @@ exercise_parser_start_element  (GMarkupParseContext *,
       TRACE_MSG("Image src=" << src);
       ep->exercise->sequence.push_back(Exercise::Image(src, dur, mx));
     }
+#ifdef HAVE_CHIROPRAKTIK
+  else if (! strcmp(element_name, "audio"))
+    {
+      const gchar *src = exercise_parse_lookup_attribute
+        ("src", attribute_names, attribute_values);
+      TRACE_MSG("Audio src=" << src);
+      ep->exercise->audio = src;
+    }
+#endif
   else if (! strcmp(element_name, "exercises"))
     {
     }

@@ -926,6 +926,7 @@ Menus::on_applet_command(short cmd)
     case MENU_COMMAND_MODE_SUSPENDED:
       on_menu_suspend();
       break;
+#ifdef HAVE_DISTRIBUTION
     case MENU_COMMAND_NETWORK_CONNECT:
       on_menu_network_join();
       break;
@@ -938,6 +939,7 @@ Menus::on_applet_command(short cmd)
     case MENU_COMMAND_NETWORK_RECONNECT:
       on_menu_network_reconnect();
       break;
+#endif
     case MENU_COMMAND_STATISTICS:
       on_menu_statistics();
       break;

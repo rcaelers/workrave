@@ -1,6 +1,6 @@
 // Exercise.hh --- Exercises
 //
-// Copyright (C) 2002, 2003, 2004 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2006 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -48,6 +48,7 @@ public:
   std::string description;
   int duration;
   std::list<Image> sequence;
+  std::string audio;
 
 public:
   static std::list<Exercise> get_exercises();

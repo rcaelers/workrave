@@ -2,6 +2,7 @@
 <exercises>
 <exercise>
 <title>Schultern rückwärts drehen</title>
+<audio src="ex1.mp3"/>
 <description>Setzen Sie sich entspannt hin und strecken Sie den Rücken. Legen Sie hinter der Rückenlehne die Finger ineinander. Drücken Sie die Ellbogen sanft gegeneinander, und strecken Sie gleichzeitig die Arme. Halten Sie die Position und atmen Sie ruhig durch. Lösen Sie die Hände und schütteln Sie die Arme aus.</description>
     <sequence duration="45">
        <image src="ex1a.png" duration="5"/>
