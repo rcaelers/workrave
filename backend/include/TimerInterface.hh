@@ -1,9 +1,9 @@
 // TimerInterface.hh --- The Break Timer Query Interface
 //
-// Copyright (C) 2001, 2002, 2003, 2005 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2005, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2005-09-12 19:18:26 robc>
+// Time-stamp: <2006-11-13 00:41:21 ubuntu>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -43,6 +43,12 @@ public:
       STATE_RUNNING,
       STATE_STOPPED
     };
+
+  enum InsensitiveMode
+    {
+      MODE_FOLLOW_IDLE,
+      MODE_IDLE_ON_LIMIT_REACHED,
+    };
   
 public:
   virtual ~TimerInterface() {}
@@ -67,6 +73,9 @@ public:
 
   //! Is the limit enabled.
   virtual bool is_limit_enabled() const = 0;
+
+  //! Sets the activity insensitive mode
+  virtual void set_insensitive_mode(InsensitiveMode mode) = 0;
 };
 
 #endif // TIMERINTERFACE_HH
