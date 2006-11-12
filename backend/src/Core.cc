@@ -81,7 +81,13 @@ Core::Core() :
   powersave(false),
   powersave_resume_time(0),
   powersave_operation_mode(OPERATION_MODE_NORMAL),
-  insist_policy(CoreInterface::INSIST_POLICY_HALT),
+  insist_policy(
+#ifdef HAVE_CHIROPRAKTIK
+                CoreInterface::INSIST_POLICY_IGNORE
+#else
+                CoreInterface::INSIST_POLICY_HALT
+#endif
+                ),
   active_insist_policy(CoreInterface::INSIST_POLICY_INVALID),
   resume_break(BREAK_ID_NONE),
   local_state(ACTIVITY_IDLE),

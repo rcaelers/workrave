@@ -205,7 +205,7 @@ text_buffer_set_markup (GtkTextBuffer *buffer,
 }
 // (end code to be removed)
 
-int ExercisesPanel::exercises_pointer = 0;
+int ExercisesPanel::exercises_pointer = -1;
 
 ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
   : Gtk::HBox(false, 6),
@@ -520,6 +520,10 @@ ExercisesPanel::heartbeat()
   exercise_time++;
   if (exercise_time >= exercise.duration)
     {
+#ifdef HAVE_CHIROPRAKTIK
+      // Bypass sound, en make sure no exercise is displayed (for only 1s)
+      stopped = true;
+#else
       on_go_forward();
       SoundPlayerInterface *snd = GUI::get_instance()->get_sound_player();
       exercise_num++;
@@ -530,6 +534,7 @@ ExercisesPanel::heartbeat()
       snd->play_sound(stopped
                       ? SoundPlayerInterface::SOUND_EXERCISES_ENDED
                       : SoundPlayerInterface::SOUND_EXERCISE_ENDED);
+#endif
     }
   else
     {

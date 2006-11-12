@@ -461,7 +461,9 @@ Timer::stop_timer()
 {
   TRACE_ENTER_MSG("Timer::stop_timer", timer_id << timer_state);
   
+#ifndef HAVE_CHIROPRAKTIK
   if (timer_state != STATE_STOPPED)
+#endif
     {
       TRACE_MSG("last_start_time = " <<  last_start_time);
 
@@ -477,7 +479,9 @@ Timer::stop_timer()
   
       // Reset last start time.
       last_start_time = 0;
-  
+#ifdef HAVE_CHIROPRAKTIK
+      elapsed_idle_time = 0;
+#endif
       // Update state.
       timer_state = STATE_STOPPED;
 
@@ -692,7 +696,9 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
           // Otherwise, use the previous state: A timer that is running keep
           // running until it is set to idle below. An idle timer (after limit
           // was reached) remains idle.
-          if (activity_state != ACTIVITY_ACTIVE && get_elapsed_time() == 0)
+          if (activity_state != ACTIVITY_ACTIVE
+              && get_elapsed_time() == 0
+              )
             {
               TRACE_MSG("new state1 = " << activity_state << " " << new_activity_state);
             }

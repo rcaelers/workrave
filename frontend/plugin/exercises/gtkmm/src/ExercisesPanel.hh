@@ -74,6 +74,9 @@ private:
   int adjust_exercises_pointer(int inc)
   {
     int ret = exercises_pointer;
+#ifdef HAVE_CHIROPRAKTIK
+    if (ret < 0) { ret = exercises_pointer = time(NULL) % exercises.size();}
+#endif
     exercises_pointer += inc;
     if (exercises.size() != 0)
       {

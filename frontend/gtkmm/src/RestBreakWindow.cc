@@ -1,6 +1,6 @@
 // RestBreakWindow.cc --- window for the microbreak
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 //
@@ -283,6 +283,11 @@ RestBreakWindow::set_ignore_activity(bool i)
   core->set_insist_policy(i ?
                         CoreInterface::INSIST_POLICY_IGNORE :
                         (block_mode != GUI::BLOCK_MODE_NONE
-                         ? CoreInterface::INSIST_POLICY_HALT
+                         ?
+#ifdef HAVE_CHIROPRAKTIK
+                         CoreInterface::INSIST_POLICY_IGNORE
+#else
+                         CoreInterface::INSIST_POLICY_HALT
+#endif
                          : CoreInterface::INSIST_POLICY_RESET));
 }
