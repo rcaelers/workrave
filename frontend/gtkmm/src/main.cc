@@ -1,6 +1,6 @@
 // main.cc --- Main
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -38,6 +38,12 @@ run(int argc, char **argv)
   GUI *gui = new GUI(argc, argv);
 
 #ifdef WIN32
+#ifdef HAVE_CHIROPRAKTIK
+  MessageBox(NULL, "Workrave branded for Chiropraktik Hirschengraben\n"
+             "Development version for testing purposes\n"
+             "Dated " __DATE__,
+             "Workrave", MB_OK);
+#endif
   dll_hell_check();
 #endif
   

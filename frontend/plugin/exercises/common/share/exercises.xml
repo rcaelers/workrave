@@ -5,28 +5,37 @@
 <audio src="ex1.mp3"/>
 <description>Setzen Sie sich entspannt hin und strecken Sie den Rücken. Legen Sie hinter der Rückenlehne die Finger ineinander. Drücken Sie die Ellbogen sanft gegeneinander, und strecken Sie gleichzeitig die Arme. Halten Sie die Position und atmen Sie ruhig durch. Lösen Sie die Hände und schütteln Sie die Arme aus.</description>
     <sequence duration="45">
-       <image src="ex1a.png" duration="5"/>
-       <image src="ex1b.png" duration="5"/>
+       <image src="ex1a.png" duration="16"/>
+       <image src="ex1b.png" duration="14"/>
     </sequence>
 </exercise> 
 <exercise>
 <title>Fokussieren mit den Augen</title>
+<audio src="ex2.mp3"/>
 <description>Setzen Sie sich entspannt hin und schauen Sie hinter Ihrem Bildschirm auf den entferntesten Punkt, den Sie sehen können. Fixieren Sie den Punkt. Schauen Sie nun auf den Bildschirmrand. Fixieren Sie wieder den Punkt hinten. Und schauen Sie wieder auf den Bildschirmrand. Schliessen Sie kurz die Augen... und öffnen Sie sie wieder.</description>
     <sequence duration="45">
-       <image src="depth-focus-1.png" duration="5"/>
-       <image src="depth-focus-2.png" duration="5"/>
+       <image src="depth-focus-2.png" duration="22"/>
+       <image src="depth-focus-1.png" duration="6"/>
+       <image src="depth-focus-2.png" duration="6"/>
+       <image src="depth-focus-1.png" duration="8"/>
+       <image src="depth-focus-3.png" duration="2"/>
+       <image src="depth-focus-1.png" duration="10"/>
     </sequence>
 </exercise> 
 <exercise>
 <title>In die Dunkelheit schauen</title>
+<audio src="ex3.mp3"/>
 <description>Setzen Sie sich entspannt hin und bedecken Sie mit den Handflächen die Augen. Behalten Sie die Augen offen und schauen Sie in die Dunkelheit Ihrer Handflächen. Entspannen Sie die Schultern und atmen Sie ruhig durch den Mund. Schliessen Sie die Augen. Nehmen Sie die Hände weg, und öffnen Sie die Augen wieder.</description>
     <sequence duration="45">
-       <image src="ex3a.png" duration="5"/>
-       <image src="ex3b.png" duration="5"/>
+       <image src="ex3b.png" duration="10"/>
+       <image src="ex3a.png" duration="22"/>
+       <image src="ex3c.png" duration="6"/>
+       <image src="ex3b.png" duration="10"/>
     </sequence>
 </exercise> 
 <exercise>
 <title>Finger strecken</title>
+<audio src="ex4.mp3"/>
 <description>Setzen Sie sich entspannt hin und strecken Sie die Arme gerade vor sich hin. Strecken Sie nundie Finger und spreizen Sie sie, so dass Sie eine leichte Spannung in den Händen verspüren. Atmen Sie ruhig durch. Lösen Sie die Spannung in den Händen, und strecken Sie die Finger nochmals richtig durch. Schütteln Sie die Arme und die Hände aus.</description>
     <sequence duration="45">
        <image src="ex4ab.png" duration="5"/>
@@ -34,71 +43,85 @@
 </exercise> 
 <exercise>
 <title>Augen bewegen</title>
+<audio src="ex5.mp3"/>
 <description>Setzen Sie sich entspannt hin und schauen Sie auf Ihrem Bildschirm an die linke obere Ecke. Folgen Sie mit den Augen dem Bildschirmrand langsam bis zur rechten Ecke. Fahren Sie mit dem Blick nach unten bis zur unteren, rechten Ecke. Verfolgen Sie den Bildschirmrand weiter nach links. Und dann nach oben, zurück zum Anfang. Schliessen Sie kurz die Augen und atmen Sie tief durch.
  </description>
     <sequence duration="45">
-       <image src="monitor-border-1.png" duration="4"/>
-       <image src="monitor-border-2.png" duration="4"/>
-       <image src="monitor-border-3.png" duration="4"/>
-       <image src="monitor-border-4.png" duration="4"/>
+       <image src="monitor-border-1.png" duration="18"/>
+       <image src="monitor-border-2.png" duration="6"/>
+       <image src="monitor-border-3.png" duration="7"/>
+       <image src="monitor-border-4.png" duration="6"/>
+       <image src="monitor-border-1.png" duration="8"/>
     </sequence>
 </exercise> 
 <exercise>
 <title>Halsmuskeln dehnen</title>
+<audio src="ex6.mp3"/>
 <description>Setzen Sie sich entspannt hin. Neigen Sie den Kopf langsam zur Seite und dehnen Sie dabei die Halsmuskeln. Atmen Sie ruhig durch. Neigen Sie den Kopf zur  anderen Seite und dehnen Sie wieder die seitlichen Halsmuskeln. Atmen ganz ruhig. Bringen Sie den Kopf in die Mitte und lockern Sie die Schultern.
  </description>
     <sequence duration="45">
-       <image src="ex6a.png" duration="5"/>
-       <image src="ex6b.png" duration="5"/>
+       <image src="ex6a.png" duration="26"/>
+       <image src="ex6b.png" duration="23"/>
     </sequence>
 </exercise> 
 <exercise>
 <title>Schulter-/Armstreckung</title>
+<audio src="ex7.mp3"/>
 <description>Setzen Sie sich entspannt hin und legen Sie eine Hand auf die entgegengesetzte Schulter. Ziehen Sie mit der anderen Hand den Ellbogen gegen diese Schulter bis Sie eine Spannung spüren. Wechseln Sie die Seite und wiederholen Sie die Übung. Atmen Sie tief durch. Schütteln Sie die Arme aus und lockern Sie die Schultern.
  </description>
     <sequence duration="45">
-       <image src="ex7a.png" duration="5"/>
-       <image src="ex7b.png" duration="5"/>
+       <image src="ex7a.png" duration="15"/>
+       <image src="ex7b.png" duration="12"/>
+       <image src="ex7a.png" mirrorx="yes" duration="5"/>
+       <image src="ex7b.png" mirrorx="yes" duration="13"/>
     </sequence>
 </exercise> 
 <exercise>
 <title>Kopf drehen</title>
+<audio src="ex8.mp3"/>
 <description>Setzen Sie sich entspannt hin. Drehen Sie den Kopf möglichst weit zur einen Seite, bis Sie eine leichte Spannung in den Halsmuskeln verspüren. Atmen Sie ruhig durch. Drehen Sie den Kopf langsam zur anderen Seite. Halten Sie ihn dort und atmen Sie ruhig durch. Bringen Sie den Kopf in die Mitte und lockern Sie die Schultern.</description>
     <sequence duration="45">
-       <image src="ex8a.png" duration="5"/>
-       <image src="ex8b.png" duration="5"/>
+       <image src="ex8a.png" duration="24"/>
+       <image src="ex8b.png" duration="22"/>
     </sequence>
 </exercise> 
 <exercise>
 <title>Brustkorb dehnen</title>
+<audio src="ex9.mp3"/>
 <description>Setzen Sie sich entspannt hin und verschränken Sie die Hände hinter dem Kopf. Pressen Sie die Ellbogen nach hinten. Atmen Sie ruhig durch. Lösen Sie die Spannung und drücken Sie noch einmal nach hinten. Atmen Sie tief durch. Lösen Sie die Spannung wieder, schütteln Sie die Arme aus und lockern Sie die Schultern.</description>
     <sequence duration="45">
-       <image src="ex9a.png" duration="5"/>
-       <image src="ex9b.png" duration="5"/>
+       <image src="ex9a.png" duration="14"/>
+       <image src="ex9b.png" duration="11"/>
+       <image src="ex9a.png" duration="3"/>
+       <image src="ex9b.png" duration="12"/>
+       <image src="ex9a.png" duration="27"/>
     </sequence>
 </exercise> 
 <exercise>
 <title>Arme strecken</title>
+<audio src="ex10.mp3"/>
 <description>Setzen Sie sich entspannt hin und verschränken Sie die Hände. Drehen Sie die Handflächen so verschränkt nach vorne. Drücken Sie die Arme und die Handflächen nach vorne... und machen Sie einen runden Rücken. Atmen Sie ganz ruhig. Schütteln Sie die Arme und die Hände aus.</description>
     <sequence duration="45">
-       <image src="ex10a.png" duration="5"/>
-       <image src="ex10b.png" duration="5"/>
+       <image src="ex10a.png" duration="24"/>
+       <image src="ex10b.png" duration="25"/>
     </sequence>
 </exercise> 
 <exercise>
 <title>Schultern kreisen</title>
+<audio src="ex11.mp3"/>
 <description>Setzen Sie sich entspannt hin. Beginnen Sie mit den Schultern zu kreisen. Machen Sie möglichst grosse Kreise und atmen Sie ganz ruhig. Halten Sie an und wechseln Sie die Richtung. Schütteln Sie die Arme aus und lockern Sie die Schultern.</description>
     <sequence duration="45">
-       <image src="ex11a.png" duration="5"/>
-       <image src="ex11b.png" duration="5"/>
+       <image src="ex11a.png" duration="30"/>
+       <image src="ex11b.png" duration="27"/>
     </sequence>
 </exercise> 
 <exercise>
 <title>Kreuz strecken</title>
+<audio src="ex12.mp3"/>
 <description>Stehen Sie auf und legen Sie Ihre Handflächen ins Kreuz. Neigen Sie sich langsam nach hinten und blicken Sie dabei nach oben. Halten Sie die Position und atmen Sie ruhig durch... und kommen Sie langsam nach vorne. Schütteln Sie die Beine aus und setzen Sie sich wieder.</description>
     <sequence duration="45">
-       <image src="ex12a.png" duration="5"/>
-       <image src="ex12b.png" mirrox="yes" duration="5"/>
+       <image src="ex12b.png" mirrorx="yes" duration="16"/>
+       <image src="ex12a.png" duration="19"/>
     </sequence>
 </exercise>
 

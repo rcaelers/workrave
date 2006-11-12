@@ -697,6 +697,7 @@ Menus::on_menu_about()
   const gchar *translators = 
     "Raymond Penners <raymond@dotsphinx.com>\n"
     "Johannes Rohr <j.rohr@comlink.apc.org>\n"
+#ifndef HAVE_CHIROPRAKTIK
     "Christian Vejlbo <christian@vejlbo.dk>\n"
     "Mikolaj Machowski <mikmach@wp.pl>\n"
     "Pablo Rodriguez\n"
@@ -710,7 +711,9 @@ Menus::on_menu_about()
     "Artūras Šlajus <x11@h2o.sky.lt>\n"
     "Haggai Eran <he3@bezeqint.net>\n"
     "Jordi Mallach <jordi@sindominio.net>\n"
-    "Daniel Nylander <info@danielnylander.se>\n";
+    "Daniel Nylander <info@danielnylander.se>\n"
+#endif
+    ;
 
   string icon = Util::complete_directory("workrave.png",
                                          Util::SEARCH_PATH_IMAGES);

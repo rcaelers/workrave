@@ -86,7 +86,7 @@ GUI *GUI::instance = NULL;
 
 const string GUI::CFG_KEY_GUI_BLOCK_MODE =  "gui/breaks/block_mode";
 #ifdef HAVE_CHIROPRAKTIK
-const string GUI::CFG_KEY_GUI_SPOKEN_EXERCISES="bgui/breaks/spoken_exercises";
+const string GUI::CFG_KEY_GUI_SPOKEN_EXERCISES="gui/breaks/spoken_exercises";
 #endif
 
 //! GUI Constructor.

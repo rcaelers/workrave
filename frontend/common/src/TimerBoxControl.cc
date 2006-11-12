@@ -1,6 +1,6 @@
 // TimerBoxControl.cc --- Timers Widgets
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -245,9 +245,15 @@ TimerBoxControl::update_widgets()
               text = Text::time_to_string(activeTime);
             }
 
+#ifdef HAVE_CHIROPRAKTIK
+          if (count == BREAK_ID_REST_BREAK) {
+#endif
           tip += "\n";
           tip += labels[count];
           tip += ": " + text;
+#ifdef HAVE_CHIROPRAKTIK
+          }
+#endif
           
           // And set the bar.
           secondary_val = secondary_max = 0;
