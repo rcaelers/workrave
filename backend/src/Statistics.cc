@@ -369,100 +369,104 @@ Statistics::load(ifstream &infile, bool history)
 
   while (ok && !infile.eof())
     {
-      char line[BUFSIZ];
+      char line[BUFSIZ] = "";
       char cmd;
 
       infile.getline(line, BUFSIZ);
-      cmd = line[0];
 
-      stringstream ss(line+1);
-
-      if (cmd == 'D')
+      if (strlen(line) > 1)
         {
-          if (history && stats != NULL)
+          cmd = line[0];
+
+          stringstream ss(line+1);
+
+          if (cmd == 'D')
             {
-              add_history(stats);
-              stats = NULL;
-            }
-          else if (!history && stats != NULL)
-            {
-              /* Corrupt today stats */
-              return;
-            }
+              if (history && stats != NULL)
+                {
+                  add_history(stats);
+                  stats = NULL;
+                }
+              else if (!history && stats != NULL)
+                {
+                  /* Corrupt today stats */
+                  return;
+                }
             
-          stats = new DailyStatsImpl();
+              stats = new DailyStatsImpl();
           
-          ss >> stats->start.tm_mday 
-             >> stats->start.tm_mon
-             >> stats->start.tm_year
-             >> stats->start.tm_hour
-             >> stats->start.tm_min
-             >> stats->stop.tm_mday 
-             >> stats->stop.tm_mon
-             >> stats->stop.tm_year
-             >> stats->stop.tm_hour
-             >> stats->stop.tm_min;
+              ss >> stats->start.tm_mday 
+                 >> stats->start.tm_mon
+                 >> stats->start.tm_year
+                 >> stats->start.tm_hour
+                 >> stats->start.tm_min
+                 >> stats->stop.tm_mday 
+                 >> stats->stop.tm_mon
+                 >> stats->stop.tm_year
+                 >> stats->stop.tm_hour
+                 >> stats->stop.tm_min;
 
-          if (!history)
-            {
-              current_day = stats;
-            }
-        }
-      else if (stats != NULL)
-        {
-          if (cmd == 'B')
-            {
-              int bt, size;
-              ss >> bt;
-              ss >> size;
-          
-              BreakStats &bs = stats->break_stats[bt];
-          
-              if (size > STATS_BREAKVALUE_SIZEOF)
+              if (!history)
                 {
-                  size = STATS_BREAKVALUE_SIZEOF;
-                }
-          
-              for(int j = 0; j < size; j++)
-                {
-                  int value;
-                  ss >> value;
-              
-                  bs[j] = value;
+                  current_day = stats;
                 }
             }
-          else if (cmd == 'M' || cmd == 'm')
+          else if (stats != NULL)
             {
-              int size;
-              ss >> size;
-          
-              if (size > STATS_VALUE_SIZEOF)
+              if (cmd == 'B')
                 {
-                  size = STATS_VALUE_SIZEOF;
-                }
+                  int bt, size;
+                  ss >> bt;
+                  ss >> size;
           
-              for(int j = 0; j < size; j++)
-                {
-                  int value;
-                  ss >> value;
-
-                  if (cmd == 'm')
+                  BreakStats &bs = stats->break_stats[bt];
+          
+                  if (size > STATS_BREAKVALUE_SIZEOF)
                     {
-                      // Ignore older 'M' stats. they are broken....
-                      stats->misc_stats[j] = value;
+                      size = STATS_BREAKVALUE_SIZEOF;
                     }
-                  else
+          
+                  for(int j = 0; j < size; j++)
                     {
-                      stats->misc_stats[j] = 0;
+                      int value;
+                      ss >> value;
+              
+                      bs[j] = value;
                     }
                 }
-            }
-          else if (cmd == 'G')
-            {
-              int total_active;
-              ss >> total_active;
+              else if (cmd == 'M' || cmd == 'm')
+                {
+                  int size;
+                  ss >> size;
+          
+                  if (size > STATS_VALUE_SIZEOF)
+                    {
+                      size = STATS_VALUE_SIZEOF;
+                    }
+          
+                  for(int j = 0; j < size; j++)
+                    {
+                      int value;
+                      ss >> value;
+
+                      if (cmd == 'm')
+                        {
+                          // Ignore older 'M' stats. they are broken....
+                          stats->misc_stats[j] = value;
+                        }
+                      else
+                        {
+                          stats->misc_stats[j] = 0;
+                        }
+                    }
+                }
+              else if (cmd == 'G')
+                {
+                  int total_active;
+                  ss >> total_active;
               
-              stats->misc_stats[STATS_VALUE_TOTAL_ACTIVE_TIME] = total_active;
+                  stats->misc_stats[STATS_VALUE_TOTAL_ACTIVE_TIME] = total_active;
+                }
             }
         }
     }

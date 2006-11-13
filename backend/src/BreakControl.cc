@@ -216,12 +216,15 @@ BreakControl::goto_stage(BreakStage stage)
       {
         IActivityMonitor *monitor = core->get_activity_monitor();
         monitor->set_listener(this);
+
+        break_timer->set_insensitive_mode(ITimer::MODE_IDLE_ON_LIMIT_REACHED);
       }
       break;
       
     case STAGE_NONE:
       {
         // Teminate the break.
+        break_timer->set_insensitive_mode(ITimer::MODE_IDLE_ON_LIMIT_REACHED);
         application->hide_break_window();
         core->defrost();
 
@@ -270,6 +273,8 @@ BreakControl::goto_stage(BreakStage stage)
 
     case STAGE_PRELUDE:
       {
+        break_timer->set_insensitive_mode(ITimer::MODE_FOLLOW_IDLE);
+                                    
         prelude_count++;
         postponable_count++;
         prelude_time = 0;
@@ -283,6 +288,8 @@ BreakControl::goto_stage(BreakStage stage)
         
     case STAGE_TAKING:
       {
+        break_timer->set_insensitive_mode(ITimer::MODE_IDLE_ON_LIMIT_REACHED);
+
         // Remove the prelude window, if necessary.
         application->hide_break_window();
 

@@ -335,6 +335,17 @@ DistributionSocketLink::set_enabled(bool enabled)
 
   if (enabled)
     {
+      if (myname != NULL)
+        {
+          g_free(myname);
+          myname = NULL;
+        }
+      if (myid != NULL)
+        {
+          g_free(myid);
+          myid= NULL;
+        }
+      
       // Who am I?
       myname = socket_driver->get_my_canonical_name();
       if (myname != NULL)

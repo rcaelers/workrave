@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003, 2005, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2006-10-01 22:27:20 nly99050>
+// Time-stamp: <2006-11-13 00:27:22 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -43,6 +43,12 @@ public:
       STATE_RUNNING,
       STATE_STOPPED
     };
+
+  enum InsensitiveMode
+    {
+      MODE_FOLLOW_IDLE,
+      MODE_IDLE_ON_LIMIT_REACHED,
+    };
   
 public:
   virtual ~ITimer() {}
@@ -67,6 +73,9 @@ public:
 
   //! Is the limit enabled.
   virtual bool is_limit_enabled() const = 0;
+
+  //! Sets the activity insensitive mode
+  virtual void set_insensitive_mode(InsensitiveMode mode) = 0;
 };
 
 #endif // ITIMER_HH

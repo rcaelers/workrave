@@ -67,12 +67,16 @@ TimerBoxGtkView::TimerBoxGtkView() :
 //! Destructor.
 TimerBoxGtkView::~TimerBoxGtkView()
 {
+  TRACE_ENTER("TimerBoxGtkView::~TimerBoxGtkView");
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       if (labels[i] != NULL)
         labels[i]->unreference();
+      delete labels[i];
+      
       if (bars[i] != NULL)
         bars[i]->unreference();
+      delete bars[i];
     }
 
   delete [] bars;
@@ -87,6 +91,7 @@ TimerBoxGtkView::~TimerBoxGtkView()
       // FIXME: check if this is needed/Okay.
       delete sheep_eventbox;
     }
+  TRACE_EXIT();
 }
 
 
@@ -156,14 +161,14 @@ TimerBoxGtkView::init_widgets()
   for (int count = 0; count < BREAK_ID_SIZEOF; count++)
     {
       string icon = Util::complete_directory(string(icons[count]), Util::SEARCH_PATH_IMAGES);
-      Gtk::Image *img = manage(new Gtk::Image(icon));
+      Gtk::Image *img = new Gtk::Image(icon);
       Gtk::Widget *w;
       if (count == BREAK_ID_REST_BREAK)
         {
-          Gtk::Button *b = manage(new Gtk::Button());
+          Gtk::Button *b = new Gtk::Button();
           b->set_relief(Gtk::RELIEF_NONE);
           b->set_border_width(0);
-          b->add(*img);
+          b->add(*manage(img));
           
           Menus *menus = Menus::get_instance();
           b->signal_clicked().connect(MEMBER_SLOT(*menus, &Menus::on_menu_restbreak_now));
@@ -177,7 +182,7 @@ TimerBoxGtkView::init_widgets()
       size_group->add_widget(*w);
       labels[count] = w;
 
-      bars[count] = manage(new TimeBar);
+      bars[count] = new TimeBar;
       bars[count]->set_text_alignment(1);
       bars[count]->set_progress(0, 60);
       bars[count]->set_text(_("Wait"));

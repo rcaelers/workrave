@@ -173,6 +173,8 @@ public:
   bool get_activity_sensitive();
   void set_activity_sensitive(bool a);
   void force_idle();
+
+  void set_insensitive_mode(InsensitiveMode mode);
   
 private:
   //! Is this timer enabled ?
@@ -261,6 +263,9 @@ private:
 
   //!  Is this timer sensitive for activity
   bool activity_sensitive;
+
+  //!
+  InsensitiveMode insensitive_mode;
   
 private:
   void compute_next_limit_time();

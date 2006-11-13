@@ -65,7 +65,8 @@ Timer::Timer(TimeSource *time_source) :
   total_overdue_time(0),
   time_source(time_source),
   activity_monitor(NULL),
-  activity_sensitive(true)
+  activity_sensitive(true),
+  insensitive_mode(MODE_IDLE_ON_LIMIT_REACHED)
 {
 }
 
@@ -248,6 +249,13 @@ Timer::set_activity_sensitive(bool a)
           activity_state = ACTIVITY_ACTIVE;
         }
     }
+}
+
+//! Sets the activity insensitive mode
+void
+Timer::set_insensitive_mode(InsensitiveMode mode)
+{
+  insensitive_mode = mode;
 }
 
 
@@ -476,7 +484,9 @@ Timer::stop_timer()
           // But only if we are running...
           elapsed_time += (last_stop_time - last_start_time);
         }
-  
+
+      TRACE_MSG(elapsed_idle_time);
+      
       // Reset last start time.
       last_start_time = 0;
   
@@ -694,13 +704,18 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
           // Otherwise, use the previous state: A timer that is running keep
           // running until it is set to idle below. An idle timer (after limit
           // was reached) remains idle.
-          if (activity_state != ACTIVITY_ACTIVE && get_elapsed_time() == 0)
+          if (activity_state != ACTIVITY_ACTIVE) // RC: removed && get_elapsed_time() == 0)
             {
-              TRACE_MSG("new state1 = " << activity_state << " " << new_activity_state);
+              TRACE_MSG("new state1 = " << activity_state << " " << new_activity_state
+                        << last_limit_time);
             }
           else
             {
-              new_activity_state = activity_state;
+              if (insensitive_mode == MODE_IDLE_ON_LIMIT_REACHED)
+                {
+                  new_activity_state = activity_state;
+                }
+
               TRACE_MSG("new state2 = " << activity_state << " " << new_activity_state);
             }
 

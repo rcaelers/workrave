@@ -237,13 +237,13 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
     }
   else
     {
-      back_button =  GtkUtil::create_custom_stock_button
-        (NULL, Gtk::Stock::GO_BACK);
-      forward_button =  GtkUtil::create_custom_stock_button
-        (NULL, Gtk::Stock::GO_FORWARD);
+      back_button = manage(GtkUtil::create_custom_stock_button
+                           (NULL, Gtk::Stock::GO_BACK));
+      forward_button =  manage(GtkUtil::create_custom_stock_button
+                               (NULL, Gtk::Stock::GO_FORWARD));
       
-      Gtk::Button *stop_button =  GtkUtil::create_custom_stock_button
-        (NULL, Gtk::Stock::CLOSE);
+      Gtk::Button *stop_button =  manage(GtkUtil::create_custom_stock_button
+                                         (NULL, Gtk::Stock::CLOSE));
       stop_button->signal_clicked()
         .connect(MEMBER_SLOT(*this, &ExercisesPanel::on_stop));
 
@@ -308,10 +308,12 @@ ExercisesPanel::on_realize()
 
 ExercisesPanel::~ExercisesPanel()
 {
+  TRACE_ENTER("ExercisesPanel::~ExercisesPanel");
   if (heartbeat_signal.connected())
     {
       heartbeat_signal.disconnect();
     }
+  TRACE_EXIT();
 }
 
 void

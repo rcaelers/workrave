@@ -101,7 +101,6 @@ void TimeBar::on_realize()
 }
 
 
-// FIXME: Gtk::Requisition
 void 
 TimeBar::on_size_request(GtkRequisition *requisition)
 {

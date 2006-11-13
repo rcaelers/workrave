@@ -1,6 +1,6 @@
 // RestBreakWindow.hh --- window for the microbreak
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -25,11 +25,10 @@ class TimeBar;
 
 #include "BreakWindow.hh"
 
-#include <gtkmm/box.h>
-
 namespace Gtk
 {
   class HButtonBox;
+  class HBox;
 }
 
 class RestBreakWindow :
@@ -70,7 +69,7 @@ private:
   int progress_max_value;
 
 #ifdef HAVE_EXERCISES
-  Gtk::HBox pluggable_panel;
+  Gtk::HBox *pluggable_panel;
 #endif
 
   //! Is currently flashing because user is active?

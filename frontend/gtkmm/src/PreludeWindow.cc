@@ -220,7 +220,7 @@ PreludeWindow::stop()
 void
 PreludeWindow::refresh()
 {
-  char s[128];
+  char s[128] = "";
       
   time_bar->set_progress(progress_value, progress_max_value);
 

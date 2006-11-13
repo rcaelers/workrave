@@ -82,9 +82,14 @@ RestBreakWindow::create_gui()
 {
   // Add other widgets.
   Gtk::VBox *vbox = new Gtk::VBox(false, 6);
+
+#ifdef HAVE_EXERCISES
+  pluggable_panel = manage(new Gtk::HBox);
+#endif
+  
   vbox->pack_start(
 #ifdef HAVE_EXERCISES
-                   pluggable_panel
+                   *pluggable_panel
 #else
                    *create_info_panel()
 #endif
@@ -217,11 +222,14 @@ RestBreakWindow::create_info_panel()
 void
 RestBreakWindow::clear_pluggable_panel()
 {
-  Glib::ListHandle<Gtk::Widget *> children = pluggable_panel.get_children();
+  TRACE_ENTER("RestBreakWindow::clear_pluggable_panel");
+  Glib::ListHandle<Gtk::Widget *> children = pluggable_panel->get_children();
   if (children.size() > 0)
     {
-      pluggable_panel.remove(*(*(children.begin())));
+      TRACE_MSG("Clearing");
+      pluggable_panel->remove(*(*(children.begin())));
     }
+  TRACE_EXIT();
 }
 
 int
@@ -251,12 +259,12 @@ RestBreakWindow::install_exercises_panel()
       set_ignore_activity(true);
       clear_pluggable_panel();
       ExercisesPanel *exercises_panel = manage(new ExercisesPanel(NULL));
-      pluggable_panel.pack_start(*exercises_panel, false, false, 0);
+      pluggable_panel->pack_start(*exercises_panel, false, false, 0);
       exercises_panel->set_exercise_count(get_exercise_count());
       exercises_panel->signal_stop().connect
         (MEMBER_SLOT(*this, &RestBreakWindow::install_info_panel));
-      pluggable_panel.show_all();
-      pluggable_panel.queue_resize();
+      pluggable_panel->show_all();
+      pluggable_panel->queue_resize();
       center();
     }
 }
@@ -266,9 +274,9 @@ RestBreakWindow::install_info_panel()
 {
   set_ignore_activity(false);
   clear_pluggable_panel();
-  pluggable_panel.pack_start(*(create_info_panel()), false, false, 0);
-  pluggable_panel.show_all();
-  pluggable_panel.queue_resize();
+  pluggable_panel->pack_start(*(create_info_panel()), false, false, 0);
+  pluggable_panel->show_all();
+  pluggable_panel->queue_resize();
   center();
 }
 
