@@ -16,8 +16,7 @@ noinst_LIBRARIES = 	libworkrave-frontend-common-win32.a
 
 libworkrave_frontend_common_win32_a_SOURCES = \
 			Win32SoundPlayer.cc \
-			W32Mp3Player.cc
-
+			W32Mp3Player.cc 
 
 libworkrave_frontend_common_win32_a_CXXFLAGS = \
 			-DWORKRAVE_DATADIR="\"${pkgdatadir}\"" \

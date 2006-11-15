@@ -24,6 +24,11 @@
 
 #include <gtkmm/stock.h>
 
+#ifdef HAVE_CHIROPRAKTIK
+#include <gtkmm/eventbox.h>
+#include "Core.hh"
+#endif
+
 #include "ExercisesPanel.hh"
 #include "GtkUtil.hh"
 #include "GUI.hh"
@@ -208,7 +213,12 @@ text_buffer_set_markup (GtkTextBuffer *buffer,
 int ExercisesPanel::exercises_pointer = -1;
 
 ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
-  : Gtk::HBox(false, 6),
+  :
+#ifdef HAVE_CHIROPRAKTIK
+  Gtk::VBox(false, 12),
+#else
+  Gtk::HBox(false, 6),
+#endif
          exercises(Exercise::get_exercises())
 {
   standalone = dialog_action_area != NULL;
@@ -247,11 +257,13 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
         (NULL, Gtk::Stock::GO_BACK);
       forward_button =  GtkUtil::create_custom_stock_button
         (NULL, Gtk::Stock::GO_FORWARD);
+#ifndef HAVE_CHIROPRAKTIK
       Gtk::Button *stop_button =  GtkUtil::create_custom_stock_button
         (NULL, Gtk::Stock::CLOSE);
       stop_button->signal_clicked()
         .connect(MEMBER_SLOT(*this, &ExercisesPanel::on_stop));
-
+#endif
+      
       Gtk::HBox *button_box = manage(new Gtk::HBox());
       Gtk::Label *browse_label = manage(new Gtk::Label());
       string browse_label_text = "<b>";
@@ -262,7 +274,9 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
       button_box->pack_start(*back_button, false, false, 0);
       button_box->pack_start(*pause_button, false, false, 0);
       button_box->pack_start(*forward_button, false, false, 0);
+#ifndef HAVE_CHIROPRAKTIK
       button_box->pack_start(*stop_button, false, false, 0);
+#endif
 #ifdef HAVE_CHIROPRAKTIK
       button_box->pack_start(*speak_button, false, false, 0);
 #endif
@@ -297,9 +311,29 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
     .connect(MEMBER_SLOT(*this, &ExercisesPanel::on_speak));
 #endif
   
+#ifdef HAVE_CHIROPRAKTIK
+  string heading = Util::complete_directory
+    ("chiropraktik-rest-break-ad.png", Util::SEARCH_PATH_IMAGES);
+  Gtk::Image *img = manage(new Gtk::Image(heading));
+  Gtk::EventBox *bimg = manage(new Gtk::EventBox());
+  bimg->set_events(bimg->get_events() | Gdk::BUTTON_PRESS_MASK);
+  bimg->signal_button_press_event()
+    .connect(MEMBER_SLOT(*this, &ExercisesPanel::on_ad_clicked));
+
+  Gtk::HBox *hb = manage(new Gtk::HBox(false, 6));
+  hb->pack_start(image_frame, false, false, 0);
+  hb->pack_start(progress_bar, false, false, 0);
+  hb->pack_start(*description_widget, false, false, 0);
+  bimg->add(*img);
+  add(*bimg);
+  add(*hb);
+#else
   pack_start(image_frame, false, false, 0);
   pack_start(progress_bar, false, false, 0);
   pack_start(*description_widget, false, false, 0);
+#endif
+  
+
 
   heartbeat_signal = GUI::get_instance()->signal_heartbeat()
     .connect(MEMBER_SLOT(*this, &ExercisesPanel::heartbeat));
@@ -312,7 +346,12 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
 void
 ExercisesPanel::on_realize()
 {
-  Gtk::HBox::on_realize();
+#ifdef HAVE_CHIROPRAKTIK
+  Gtk::VBox::
+#else
+  Gtk::HBox::
+#endif
+    on_realize();
   description_text.modify_base
     (Gtk::STATE_NORMAL, get_style()->get_background(Gtk::STATE_NORMAL));
 } 
@@ -348,6 +387,10 @@ ExercisesPanel::start_exercise()
 {
   const Exercise &exercise = *exercise_iterator;
 #ifdef HAVE_CHIROPRAKTIK
+  Core *core = Core::get_instance();
+  Timer *timer = core->get_timer(BREAK_ID_REST_BREAK);
+  timer->stop_timer();  
+  
   mp3_player.unload();
   GUI *gui = GUI::get_instance();
   if (exercise.audio != "" && gui->get_spoken_exercises())
@@ -549,5 +592,18 @@ ExercisesPanel::set_exercise_count(int num)
 {
   exercise_count = num;
 }
+
+
+
+#ifdef HAVE_CHIROPRAKTIK
+bool
+ExercisesPanel::on_ad_clicked(GdkEventButton *event)
+{
+  on_stop();
+  ShellExecute(NULL, "open", "http://www.chiro-hirschengraben.ch", NULL,
+               NULL,SW_SHOWNORMAL);
+  return true;
+}
+#endif
 
 #endif // HAVE_EXERCISES

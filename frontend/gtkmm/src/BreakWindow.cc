@@ -122,24 +122,7 @@ BreakWindow::init_gui()
           frame->set_frame_visible(false);
 
           window_frame->add(*frame);
-#ifdef HAVE_CHIROPRAKTIK
-          if (break_id == BREAK_ID_REST_BREAK)
-            {
-              string heading = Util::complete_directory
-                ("chiropraktik-rest-break-ad.png", Util::SEARCH_PATH_IMAGES);
-              Gtk::Image *img = manage(new Gtk::Image(heading));
-              Gtk::VBox *vb = manage(new Gtk::VBox(false, 12));
-              vb->add(*img);
-              vb->add(*gui);
-              frame->add(*vb);
-            }
-          else
-            {
-              frame->add(*gui);
-            }
-#else
           frame->add(*gui);
-#endif          
 
           if (block_mode == GUI::BLOCK_MODE_ALL)
             {
@@ -449,6 +432,4 @@ BreakWindow::get_gdk_window()
 {
   return get_window();
 }
-
-
 

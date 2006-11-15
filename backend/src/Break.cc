@@ -76,7 +76,7 @@ struct Defaults
     {
       "rest_break",
 #ifdef HAVE_CHIROPRAKTIK
-      1*60, 45, "", 5*60,
+      30*60, 45, "", 3*60,
       3, -1, true,
       1
 #else

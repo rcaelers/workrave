@@ -264,12 +264,16 @@ RestBreakWindow::install_exercises_panel()
 void
 RestBreakWindow::install_info_panel()
 {
+#ifdef HAVE_CHIROPRAKTIK
+  on_skip_button_clicked();  
+#else  
   set_ignore_activity(false);
   clear_pluggable_panel();
   pluggable_panel.pack_start(*(create_info_panel()), false, false, 0);
   pluggable_panel.show_all();
   pluggable_panel.queue_resize();
   center();
+#endif
 }
 
 #endif

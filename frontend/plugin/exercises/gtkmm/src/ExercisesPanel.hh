@@ -42,7 +42,13 @@
 #include "W32Mp3Player.hh"
 #endif
 
-class ExercisesPanel : public Gtk::HBox
+class ExercisesPanel :
+  public
+#ifdef HAVE_CHIROPRAKTIK
+Gtk::VBox
+#else
+Gtk::HBox
+#endif
 {
 public:  
   ExercisesPanel(Gtk::HButtonBox *dialog_action_area);
@@ -63,6 +69,7 @@ private:
 #ifdef HAVE_CHIROPRAKTIK
   void on_speak();
   void refresh_speak();
+  bool on_ad_clicked(GdkEventButton *event);
 #endif
   
   void heartbeat();

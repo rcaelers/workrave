@@ -51,7 +51,8 @@
        <image src="monitor-border-2.png" duration="6"/>
        <image src="monitor-border-3.png" duration="7"/>
        <image src="monitor-border-4.png" duration="6"/>
-       <image src="monitor-border-1.png" duration="8"/>
+       <image src="monitor-border-1.png" duration="2"/>
+       <image src="monitor-border-5.png" duration="8"/>
     </sequence>
 </exercise> 
 <exercise>
@@ -102,8 +103,8 @@
 <audio src="ex10.mp3"/>
 <description>Setzen Sie sich entspannt hin und verschränken Sie die Hände. Drehen Sie die Handflächen so verschränkt nach vorne. Drücken Sie die Arme und die Handflächen nach vorne... und machen Sie einen runden Rücken. Atmen Sie ganz ruhig. Schütteln Sie die Arme und die Hände aus.</description>
     <sequence duration="45">
-       <image src="ex10a.png" duration="24"/>
-       <image src="ex10b.png" duration="25"/>
+       <image src="ex10b.png" duration="20"/>
+       <image src="ex10a.png" duration="30"/>
     </sequence>
 </exercise> 
 <exercise>
