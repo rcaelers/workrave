@@ -1,6 +1,6 @@
 // StatisticsDialog.cc --- Statistics dialog
 //
-// Copyright (C) 2002, 2003, 2004, 2005 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2004, 2005, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -226,17 +226,25 @@ StatisticsDialog::create_break_page(Gtk::Notebook *tnotebook)
   // Add labels to table.
   int y = 0;
 
+#ifndef HAVE_CHIROPRAKTIK
   Gtk::Widget *mp_label = manage(GtkUtil::create_label_for_break
                                  (BREAK_ID_MICRO_BREAK));
+#endif
   Gtk::Widget *rb_label = manage(GtkUtil::create_label_for_break
                                  (BREAK_ID_REST_BREAK));
+#ifndef HAVE_CHIROPRAKTIK
   Gtk::Widget *dl_label = manage(GtkUtil::create_label_for_break
                                  (BREAK_ID_DAILY_LIMIT));
-
+#endif
+  
   y = 0;
+#ifndef HAVE_CHIROPRAKTIK
   GtkUtil::table_attach_left_aligned(*table, *mp_label, 2, y);
+#endif
   GtkUtil::table_attach_left_aligned(*table, *rb_label, 3, y);
+#ifndef HAVE_CHIROPRAKTIK
   GtkUtil::table_attach_left_aligned(*table, *dl_label, 4, y);
+#endif
 
   y = 1;
   table->attach(*hrule, 0, 5, y, y + 1, Gtk::EXPAND | Gtk::FILL, Gtk::SHRINK);
@@ -260,13 +268,22 @@ StatisticsDialog::create_break_page(Gtk::Notebook *tnotebook)
   daily_usage_label = manage(new Gtk::Label());
   
   GtkUtil::table_attach_left_aligned(*table, *usage_label, 0, y);
-  GtkUtil::table_attach_right_aligned(*table, *daily_usage_label, 2, y++);
+  GtkUtil::table_attach_right_aligned(*table, *daily_usage_label,
+#ifdef HAVE_CHIROPRAKTIK
+                                      3
+#else
+                                      2
+#endif                                      
+                                      , y++);
   
   // Put the breaks in table.
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       for (int j = 0; j < BREAK_STATS; j++)
         {
+#ifdef HAVE_CHIROPRAKTIK
+          if ( i != BREAK_ID_REST_BREAK) continue;
+#endif            
           break_labels[i][j] = manage(new Gtk::Label());
           GtkUtil::table_attach_right_aligned(*table, *break_labels[i][j], i + 2, j + 2);
         }
@@ -370,6 +387,9 @@ StatisticsDialog::display_statistics(StatisticsInterface::DailyStats *stats)
   // Put the breaks in table.
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
+#ifdef HAVE_CHIROPRAKTIK
+      if (i != BREAK_ID_REST_BREAK) continue;
+#endif
       stringstream ss;
 
       value = stats->break_stats[i][StatisticsInterface::STATS_BREAKVALUE_UNIQUE_BREAKS];
@@ -448,6 +468,9 @@ StatisticsDialog::clear_display_statistics()
   // Put the breaks in table.
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
+#ifdef HAVE_CHIROPRAKTIK
+      if (i != BREAK_ID_REST_BREAK) continue;
+#endif
       for (int j = 0; j <= 6; j++)
         {
           break_labels[i][j]->set_text("");

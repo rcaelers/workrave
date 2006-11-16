@@ -67,9 +67,10 @@ private:
   void on_pause();
   void on_stop();
 #ifdef HAVE_CHIROPRAKTIK
-  void on_speak();
-  void refresh_speak();
+  void on_speak_volume();
+  void refresh_speak_volume();
   bool on_ad_clicked(GdkEventButton *event);
+  bool on_ad_leave_enter(GdkEventCrossing *event);
 #endif
   
   void heartbeat();
@@ -101,7 +102,7 @@ private:
   Gtk::Button *pause_button;
   Gtk::Button *forward_button;
 #ifdef HAVE_CHIROPRAKTIK
-  Gtk::Button *speak_button;
+  Gtk::Button *speak_volume_button;
   W32Mp3Player mp3_player;
 #endif
   Glib::RefPtr<Gtk::SizeGroup> size_group;

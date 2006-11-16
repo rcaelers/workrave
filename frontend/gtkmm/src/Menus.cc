@@ -246,7 +246,14 @@ Menus::create_menu(Gtk::CheckMenuItem *check_menus[4])
   string rb_icon = Util::complete_directory("timer-rest-break.png", Util::SEARCH_PATH_IMAGES);
   Gtk::Image *img = manage(new Gtk::Image(rb_icon));
   menulist.push_back(Gtk::Menu_Helpers::ImageMenuElem
-                     (_("_Rest break"),
+                     (
+
+#ifdef HAVE_CHIROPRAKTIK
+                      _("Micro-break"),
+#else
+                      _("Rest break"),
+#endif
+
 #ifdef HAVE_GTKMM24
                       Gtk::AccelKey("<control>r"),
 #else

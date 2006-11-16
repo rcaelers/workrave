@@ -1,6 +1,6 @@
 // PreludeWindow.cc
 //
-// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -102,13 +102,16 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
   switch (break_id)
     {
     case BREAK_ID_MICRO_BREAK:
+#ifdef HAVE_CHIROPRAKTIK
+    case BREAK_ID_REST_BREAK:
+#endif
       label->set_markup(HigUtil::create_alert_text(_("Time for a micro-break?"), NULL));
       break;
-        
+#ifndef HAVE_CHIROPRAKTIK        
     case BREAK_ID_REST_BREAK:
       label->set_markup(HigUtil::create_alert_text(_("You need a rest break..."), NULL));
       break;
-          
+#endif          
     case BREAK_ID_DAILY_LIMIT:
       label->set_markup(HigUtil::create_alert_text(_("You should stop for today..."), NULL));
       break;

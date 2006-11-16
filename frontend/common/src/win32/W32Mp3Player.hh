@@ -35,7 +35,8 @@ public:
   void pause();
   void resume();
   void unload();
-
+  void volume(int mill);
+  
 private:
   void exec_mci_command(const char *cmd);
   std::string get_mci_command(const char *cmd);

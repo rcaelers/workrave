@@ -86,7 +86,7 @@ GUI *GUI::instance = NULL;
 
 const string GUI::CFG_KEY_GUI_BLOCK_MODE =  "gui/breaks/block_mode";
 #ifdef HAVE_CHIROPRAKTIK
-const string GUI::CFG_KEY_GUI_SPOKEN_EXERCISES="gui/breaks/spoken_exercises";
+const string GUI::CFG_KEY_GUI_SPOKEN_EXERCISES_VOLUME="gui/breaks/spoken_exercises_volume";
 #endif
 
 //! GUI Constructor.
@@ -1241,23 +1241,23 @@ GUI::bound_head(int &x, int &y, int width, int height, int head)
 }
 
 #ifdef HAVE_CHIROPRAKTIK
-bool GUI::get_spoken_exercises()
+int GUI::get_spoken_exercises_volume()
 {
-  bool speak;
+  int vol;
   bool b;
   b = CoreFactory::get_configurator()
-    ->get_value(CFG_KEY_GUI_SPOKEN_EXERCISES, &speak);
+    ->get_value(CFG_KEY_GUI_SPOKEN_EXERCISES_VOLUME, &vol);
   if (! b)
     {
-      speak = true;
+      vol = 1000;
     }
-  return speak;
+  return vol;
 }
 
-void GUI::set_spoken_exercises(bool on)
+void GUI::set_spoken_exercises_volume(int vol)
 {
   CoreFactory::get_configurator()
-    ->set_value(CFG_KEY_GUI_SPOKEN_EXERCISES, on);
+    ->set_value(CFG_KEY_GUI_SPOKEN_EXERCISES_VOLUME, vol);
 }
 
 #endif

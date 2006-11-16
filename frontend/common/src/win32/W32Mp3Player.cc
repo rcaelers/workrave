@@ -16,10 +16,11 @@
 // $Id$
 //
 
+#include <sstream>
 #include "W32Mp3Player.hh"
 
 W32Mp3Player::W32Mp3Player()
-: paused(false)
+  : paused(false)
 {
 }
 
@@ -118,3 +119,12 @@ W32Mp3Player::load()
   mciSendString(cmd.c_str(), NULL, 0, 0);
 }
 
+void
+W32Mp3Player::volume(int m)
+{
+  std::ostringstream s;
+  s << get_mci_command("setaudio");
+  s << " volume to ";
+  s << m;
+  mciSendString(s.str().c_str(), NULL, 0, 0);
+}

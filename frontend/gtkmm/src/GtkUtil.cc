@@ -199,7 +199,13 @@ GtkUtil::create_label_for_break(BreakId id)
 {
   // FIXME: duplicate:
   char *icons[] = { "timer-micro-break.png", "timer-rest-break.png", "timer-daily.png" };
-  char *labels[] = { _("Micro-break"), _("Rest break"), _("Daily limit") };
+  char *labels[] = { _("Micro-break"),
+#ifdef HAVE_CHIROPRAKTIK
+                     _("Micro-break"),
+#else
+                     _("Rest break"),
+#endif
+                     _("Daily limit") };
 
   string icon = Util::complete_directory(string(icons[id]), Util::SEARCH_PATH_IMAGES);
   

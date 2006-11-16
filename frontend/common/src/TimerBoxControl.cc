@@ -192,7 +192,14 @@ TimerBoxControl::update_widgets()
 #endif
 
   //FIXME: duplicate
-  char *labels[] = { _("Micro-break"), _("Rest break"), _("Daily limit") };
+  char *labels[] = {
+    _("Micro-break"),
+#ifdef HAVE_CHIROPRAKTIK
+    _("Micro-break"),
+#else
+    _("Rest break"),
+#endif    
+    _("Daily limit") };
   string tip = "Workrave";
   
   for (int count = 0; count < BREAK_ID_SIZEOF; count++)

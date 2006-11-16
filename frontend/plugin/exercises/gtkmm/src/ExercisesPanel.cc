@@ -237,8 +237,8 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
   Gtk::Widget *description_widget;
 
 #ifdef HAVE_CHIROPRAKTIK
-  speak_button = manage(new Gtk::Button());
-  refresh_speak();
+  speak_volume_button = manage(new Gtk::Button());
+  refresh_speak_volume();
 #endif
   if (dialog_action_area != NULL)
     {
@@ -248,7 +248,7 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
       dialog_action_area->pack_start(*back_button, false, false, 0);
       dialog_action_area->pack_start(*pause_button, false, false, 0);
       dialog_action_area->pack_start(*forward_button, false, false, 0);
-      dialog_action_area->pack_start(*speak_button, false, false, 0);
+      dialog_action_area->pack_start(*speak_volume_button, false, false, 0);
       description_widget = &description_scroll;
     }
   else
@@ -278,7 +278,7 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
       button_box->pack_start(*stop_button, false, false, 0);
 #endif
 #ifdef HAVE_CHIROPRAKTIK
-      button_box->pack_start(*speak_button, false, false, 0);
+      button_box->pack_start(*speak_volume_button, false, false, 0);
 #endif
       Gtk::Alignment *button_align
         = manage(new Gtk::Alignment(1.0, 0.0, 0.0, 0.0));
@@ -307,8 +307,8 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
     .connect(MEMBER_SLOT(*this, &ExercisesPanel::on_pause));
 
 #ifdef HAVE_CHIROPRAKTIK
-  speak_button->signal_clicked()
-    .connect(MEMBER_SLOT(*this, &ExercisesPanel::on_speak));
+  speak_volume_button->signal_clicked()
+    .connect(MEMBER_SLOT(*this, &ExercisesPanel::on_speak_volume));
 #endif
   
 #ifdef HAVE_CHIROPRAKTIK
@@ -316,9 +316,16 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
     ("chiropraktik-rest-break-ad.png", Util::SEARCH_PATH_IMAGES);
   Gtk::Image *img = manage(new Gtk::Image(heading));
   Gtk::EventBox *bimg = manage(new Gtk::EventBox());
-  bimg->set_events(bimg->get_events() | Gdk::BUTTON_PRESS_MASK);
+  
+  bimg->set_events(bimg->get_events() | Gdk::BUTTON_PRESS_MASK
+                   | Gdk::ENTER_NOTIFY_MASK
+                   | Gdk::LEAVE_NOTIFY_MASK);
   bimg->signal_button_press_event()
     .connect(MEMBER_SLOT(*this, &ExercisesPanel::on_ad_clicked));
+  bimg->signal_leave_notify_event()
+    .connect(MEMBER_SLOT(*this, &ExercisesPanel::on_ad_leave_enter));  
+  bimg->signal_enter_notify_event()
+    .connect(MEMBER_SLOT(*this, &ExercisesPanel::on_ad_leave_enter));  
 
   Gtk::HBox *hb = manage(new Gtk::HBox(false, 6));
   hb->pack_start(image_frame, false, false, 0);
@@ -363,6 +370,9 @@ ExercisesPanel::~ExercisesPanel()
     {
       heartbeat_signal.disconnect();
     }
+  Core *core = Core::get_instance();
+  Timer *timer = core->get_timer(BREAK_ID_REST_BREAK);
+  timer->freeze_timer(false);
 }
 
 void
@@ -393,12 +403,13 @@ ExercisesPanel::start_exercise()
   
   mp3_player.unload();
   GUI *gui = GUI::get_instance();
-  if (exercise.audio != "" && gui->get_spoken_exercises())
+  if (exercise.audio != "")
     {
       string file = Util::complete_directory(exercise.audio,
                                              Util::SEARCH_PATH_EXERCISES);
       mp3_player.load(file.c_str());
       mp3_player.play();
+      mp3_player.volume(gui->get_spoken_exercises_volume());
     }
 #endif
 
@@ -502,36 +513,74 @@ void
 ExercisesPanel::refresh_pause()
 {
   Gtk::StockID stock_id = paused ? Gtk::Stock::EXECUTE : Gtk::Stock::STOP;
+#ifdef HAVE_CHIROPRAKTIK
+  const char *label = _("Pause");
+#else
   const char *label = paused ? _("Resume") : _("Pause");
+#endif
   GtkUtil::update_custom_stock_button(pause_button,
                                       standalone ? label : NULL,
                                       stock_id);
 }
 
 #ifdef HAVE_CHIROPRAKTIK
-void
-ExercisesPanel::on_speak()
+#define NUM_VOLUMES ((sizeof(speak_vols)/sizeof(speak_vols[0])))
+static const char *speak_imgs[] =
+  {
+    "audio-volume-high.png",
+    "audio-volume-medium.png",
+    "audio-volume-low.png",
+    "audio-volume-lowest.png",
+    "audio-volume-muted.png"
+  };
+static const int speak_vols[] =
+  {
+    1000,
+    750,
+    500,
+    250,
+    0
+  };
+
+static int
+speak_volume_index(int vol)
 {
-  GUI *gui = GUI::get_instance();
-  bool on = ! gui->get_spoken_exercises();
-  gui->set_spoken_exercises(on);
-  refresh_speak();
-  if (! on)
+  int vol_idx;
+  for (vol_idx = NUM_VOLUMES-1;
+       vol_idx >= 0;
+       vol_idx--)
     {
-      mp3_player.unload();
+      if (speak_vols[vol_idx] == vol)
+        break;
     }
+  if (vol_idx < 0)
+    vol_idx =0;
+  return vol_idx;
 }
 
 void
-ExercisesPanel::refresh_speak()
+ExercisesPanel::on_speak_volume()
 {
   GUI *gui = GUI::get_instance();
-  bool on = gui->get_spoken_exercises();
+  int vol = gui->get_spoken_exercises_volume();
+  int vol_idx = speak_volume_index(vol);
+  vol_idx = (vol_idx + 1) % NUM_VOLUMES;
+  vol = speak_vols[vol_idx];
+  gui->set_spoken_exercises_volume(vol);
+  refresh_speak_volume();
+  mp3_player.volume(vol);
+}
+
+void
+ExercisesPanel::refresh_speak_volume()
+{
+  GUI *gui = GUI::get_instance();
+  int vol = gui->get_spoken_exercises_volume();
+  int vol_idx = speak_volume_index(vol);
   
   string speak_img = Util::complete_directory
-    (on ? "speak-on.png" : "speak-off.png",
-     Util::SEARCH_PATH_IMAGES);
-  GtkUtil::update_image_button(speak_button, NULL,
+    (speak_imgs[vol_idx], Util::SEARCH_PATH_IMAGES);
+  GtkUtil::update_image_button(speak_volume_button, NULL,
                                speak_img.c_str(), false);
 }
 #endif
@@ -542,13 +591,17 @@ ExercisesPanel::on_pause()
   paused = ! paused;
   refresh_pause();
 #ifdef HAVE_CHIROPRAKTIK
+  Core *core = Core::get_instance();
+  Timer *timer = core->get_timer(BREAK_ID_REST_BREAK);
   if (paused)
     {
       mp3_player.pause();
+      timer->freeze_timer(true);  
     }
   else
     {
       mp3_player.resume();
+      timer->freeze_timer(false);  
     }
 #endif
 }
@@ -604,6 +657,16 @@ ExercisesPanel::on_ad_clicked(GdkEventButton *event)
                NULL,SW_SHOWNORMAL);
   return true;
 }
+
+bool
+ExercisesPanel::on_ad_leave_enter(GdkEventCrossing *event)
+{
+  GdkCursor *curs = gdk_cursor_new(event->type == GDK_LEAVE_NOTIFY
+                                   ? GDK_ARROW : GDK_HAND2);
+  gdk_window_set_cursor(event->window, curs);
+  gdk_cursor_unref(curs);
+}
+
 #endif
 
 #endif // HAVE_EXERCISES

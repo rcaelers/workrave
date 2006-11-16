@@ -26,6 +26,7 @@ AppUpdatesURL=http://www.workrave.org
 DefaultDirName={pf}\Workrave
 DefaultGroupName=Workrave
 LicenseFile=..\..\..\..\COPYING
+InfoBeforeFile=chiropraktik_info.txt
 AppMutex=WorkraveMutex
 WizardImageFile=WizModernImage.bmp
 WizardSmallImageFile=WizModernSmall.bmp

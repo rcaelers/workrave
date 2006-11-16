@@ -98,9 +98,9 @@ public:
   // Prefs
   static const std::string CFG_KEY_GUI_BLOCK_MODE;
 #ifdef HAVE_CHIROPRAKTIK
-  static const std::string GUI::CFG_KEY_GUI_SPOKEN_EXERCISES;
-  bool get_spoken_exercises();
-  void set_spoken_exercises(bool on);
+  static const std::string GUI::CFG_KEY_GUI_SPOKEN_EXERCISES_VOLUME;
+  int get_spoken_exercises_volume();
+  void set_spoken_exercises_volume(int vol);
 #endif
 
   enum BlockMode { BLOCK_MODE_NONE = 0, BLOCK_MODE_INPUT, BLOCK_MODE_ALL };
