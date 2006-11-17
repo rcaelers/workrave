@@ -370,9 +370,6 @@ ExercisesPanel::~ExercisesPanel()
     {
       heartbeat_signal.disconnect();
     }
-  Core *core = Core::get_instance();
-  Timer *timer = core->get_timer(BREAK_ID_REST_BREAK);
-  timer->freeze_timer(false);
 }
 
 void
@@ -591,17 +588,13 @@ ExercisesPanel::on_pause()
   paused = ! paused;
   refresh_pause();
 #ifdef HAVE_CHIROPRAKTIK
-  Core *core = Core::get_instance();
-  Timer *timer = core->get_timer(BREAK_ID_REST_BREAK);
   if (paused)
     {
       mp3_player.pause();
-      timer->freeze_timer(true);  
     }
   else
     {
       mp3_player.resume();
-      timer->freeze_timer(false);  
     }
 #endif
 }
@@ -609,6 +602,15 @@ ExercisesPanel::on_pause()
 void
 ExercisesPanel::heartbeat()
 {
+#ifdef HAVE_CHIROPRAKTIK
+  if (paused)
+    {
+      Core *core = Core::get_instance();
+      Timer *timer = core->get_timer(BREAK_ID_REST_BREAK);
+      timer->shift_time(1);
+    }
+#endif  
+  
   if (paused || stopped)
     return;
   

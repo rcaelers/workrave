@@ -92,6 +92,7 @@ const string MainWindow::CFG_KEY_MAIN_WINDOW_HEAD
 
 
 
+
 //! Constructor.
 /*!
  *  \param gui the main GUI entry point.
@@ -1006,9 +1007,13 @@ MainWindow::set_applet_active(bool a)
 bool
 MainWindow::on_configure_event(GdkEventConfigure *event)
 {
+  static bool blerk = false;
+  
   TRACE_ENTER_MSG("MainWindow::on_configure_event",
                   event->x << " " << event->y);
-  locate_window(event);
+  if (blerk)
+    locate_window(event);
+  blerk = true;
   bool ret =  Widget::on_configure_event(event);
   TRACE_EXIT();
   return ret;

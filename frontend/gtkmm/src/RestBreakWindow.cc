@@ -92,8 +92,10 @@ RestBreakWindow::create_gui()
 
   // Timebar
   timebar = manage(new TimeBar);
+#ifndef HAVE_CHIROPRAKTIK
   vbox->pack_start(*timebar, false, false, 6);
-
+#endif
+  
   Gtk::HButtonBox *button_box = create_break_buttons(true, false);
   if (button_box)
     {
