@@ -38,7 +38,7 @@ run(int argc, char **argv)
   GUI *gui = new GUI(argc, argv);
 
 #ifdef WIN32
-#ifdef HAVE_CHIROPRAKTIK
+#ifdef HAVE_CHIROPRAKTIK_DEV
   MessageBox(NULL, "Workrave branded for Chiropraktik Hirschengraben\n"
              "Development version for testing purposes\n"
              "Dated " __DATE__,

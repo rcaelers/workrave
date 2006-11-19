@@ -1,6 +1,6 @@
 // Display.cc
 //
-// Copyright (C) 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -109,7 +109,7 @@ System::is_lockable()
   bool ret;
 #if defined(HAVE_X)
   ret = xlock != NULL;
-#elif defined(WIN32)
+#elif defined(WIN32) && !defined(HAVE_CHIROPRAKTIK)
   ret = lock_func != NULL;
 #else
   ret = false;

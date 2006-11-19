@@ -262,7 +262,7 @@ Menus::create_menu(Gtk::CheckMenuItem *check_menus[4])
                       *img,
                       MEMBER_SLOT(*this, &Menus::on_menu_restbreak_now)));
 
-#ifdef HAVE_EXERCISES
+#if defined(HAVE_EXERCISES) && !defined(HAVE_CHIROPRAKTIK)
   // Exercises
   if (Exercise::has_exercises())
     {

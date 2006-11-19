@@ -62,6 +62,10 @@ public:
     suspended = false;
   }
 
+#ifdef HAVE_CHIROPRAKTIK
+  bool is_away() { return monitor->is_away(); }
+#endif
+  
   //! Returns the current state
   ActivityState get_current_state()
   {

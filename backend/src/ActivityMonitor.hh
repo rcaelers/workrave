@@ -1,6 +1,6 @@
 // ActivityMonitor.hh --- ActivityMonitor functionality
 //
-// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2004, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -53,6 +53,10 @@ public:
   void force_idle();
   void shift_time(int delta);
 
+#ifdef HAVE_CHIROPRAKTIK
+  bool is_away();
+#endif
+  
   ActivityState get_current_state();
 
   void set_parameters(int noise, int activity, int idle);
@@ -99,7 +103,10 @@ private:
   
   //! Last time activity was detected
   struct timeval last_action_time;
-
+#ifdef HAVE_CHIROPRAKTIK
+  struct timeval last_action_time_in_active;
+#endif
+  
   //! First time the \c ACTIVITY_IDLE state was left.
   struct timeval first_action_time;
 

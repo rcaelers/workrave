@@ -1,6 +1,6 @@
 // ActivityMonitor.cc --- ActivityMonitor
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -68,6 +68,9 @@ ActivityMonitor::ActivityMonitor(const char *display) :
 
   last_action_time.tv_sec = 0;
   last_action_time.tv_usec = 0;
+#ifdef HAVE_CHIROPRAKTIK
+  last_action_time_in_active = last_action_time;
+#endif
   
   noise_threshold.tv_sec = 1;
   noise_threshold.tv_usec = 0;
@@ -161,6 +164,21 @@ ActivityMonitor::force_idle()
   lock.unlock();
   TRACE_RETURN(activity_state);
 }
+
+#ifdef HAVE_CHIROPRAKTIK
+bool
+ActivityMonitor::is_away()
+{
+  struct timeval away_threshold;
+  struct timeval now, tv;
+  away_threshold.tv_sec = 60*3;
+  away_threshold.tv_usec = 0;
+  gettimeofday(&now, NULL);
+
+  tvSUBTIME(tv, now, last_action_time_in_active);
+  return (tvTIMEGT(tv, away_threshold));
+}
+#endif
 
 
 //! Returns the current state
@@ -268,7 +286,10 @@ ActivityMonitor::shift_time(int delta)
     
   if (!tvTIMEEQ0(last_action_time))
     tvADDTIME(last_action_time, last_action_time, d);
-
+#ifdef HAVE_CHIROPRAKTIK
+  last_action_time_in_active = last_action_time;
+#endif
+  
   if (!tvTIMEEQ0(first_action_time))
     tvADDTIME(first_action_time, first_action_time, d);
 
@@ -339,6 +360,12 @@ ActivityMonitor::action_notify()
     }
 
   last_action_time = now;
+#ifdef HAVE_CHIROPRAKTIK
+  if (activity_state == ACTIVITY_ACTIVE)
+    {
+      last_action_time_in_active = last_action_time;
+    }
+#endif  
   lock.unlock();
   call_listener();
 }

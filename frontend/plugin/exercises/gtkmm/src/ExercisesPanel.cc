@@ -394,6 +394,8 @@ ExercisesPanel::start_exercise()
 {
   const Exercise &exercise = *exercise_iterator;
 #ifdef HAVE_CHIROPRAKTIK
+  paused = false;
+  refresh_pause();
   Core *core = Core::get_instance();
   Timer *timer = core->get_timer(BREAK_ID_REST_BREAK);
   timer->stop_timer();  

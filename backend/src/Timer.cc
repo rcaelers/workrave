@@ -32,6 +32,10 @@ static const char rcsid[] = "$Id$";
 #include "TimeSource.hh"
 #include "timeutil.h"
 
+#ifdef HAVE_CHIROPRAKTIK
+#include "Core.hh"
+#endif
+
 
 //! Constructs a new break timer.
 /*!
@@ -708,10 +712,14 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
               )
             {
               TRACE_MSG("new state1 = " << activity_state << " " << new_activity_state);
+
             }
           else
             {
-              if (insensitive_mode == MODE_IDLE_ON_LIMIT_REACHED)
+              if (insensitive_mode == MODE_IDLE_ON_LIMIT_REACHED
+#ifdef HAVE_CHIROPRAKTIK
+                  && !Core::get_instance()->get_activity_monitor()->is_away())
+#endif
                 {
                   new_activity_state = activity_state;
                 }
