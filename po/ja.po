@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Workrave Japanese\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
 "POT-Creation-Date: 2006-09-06 15:16+0000\n"
-"PO-Revision-Date: 2006-09-27 12:04+0900\n"
+"PO-Revision-Date: 2006-09-20 13:42+0900\n"
 "Last-Translator: Masanobu Yokota <masanobu.yokota@nifty.com>\n"
 "Language-Team: Masanobu Yokota <masanobu.yokota@nifty.com>\n"
 "MIME-Version: 1.0\n"
@@ -336,11 +336,11 @@ msgstr "タイマーを並べて表示"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:99
 msgid "Place micro-break and rest break in one spot"
-msgstr "小休止と休憩を一箇所に交互に表示"
+msgstr "小休止と休憩を交互に表示"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:101
 msgid "Place rest break and daily limit in one spot"
-msgstr "休憩と一日の制限時間を一箇所に交互に表示"
+msgstr "休憩と一日の制限時間を交互に表示"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:103
 msgid "Place all timers in one spot"
