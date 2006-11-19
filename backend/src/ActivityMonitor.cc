@@ -171,7 +171,7 @@ ActivityMonitor::is_away()
 {
   struct timeval away_threshold;
   struct timeval now, tv;
-  away_threshold.tv_sec = 60*3;
+  away_threshold.tv_sec = 60*5;
   away_threshold.tv_usec = 0;
   gettimeofday(&now, NULL);
 
