@@ -63,7 +63,7 @@ static const char rcsid[] = "$Id$";
 Core *Core::instance = NULL;
 
 const char *WORKRAVESTATE="WorkRaveState";
-const int SAVESTATETIME = 15;
+const int SAVESTATETIME = 60;
 
 const string Core::CFG_KEY_MONITOR = "monitor";
 const string Core::CFG_KEY_MONITOR_NOISE = "monitor/noise";

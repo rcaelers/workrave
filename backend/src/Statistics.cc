@@ -392,7 +392,8 @@ Statistics::load(ifstream &infile, bool history)
                   /* Corrupt today stats */
                   return;
                 }
-            
+
+              // FIXME: leak
               stats = new DailyStatsImpl();
           
               ss >> stats->start.tm_mday 
