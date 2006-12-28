@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2006-09-06 15:16+0000\n"
+"POT-Creation-Date: 2006-12-28 19:10+0100\n"
 "PO-Revision-Date: 2003-09-08 19:07+0200\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -14,40 +14,220 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../frontend/gtkmm/src/eggtrayicon.c:133
-#, fuzzy
-msgid "Orientation"
-msgstr "Silentiĝu en"
+#: ../backend/src/DistributionSocketLink.cc:127
+#, fuzzy, c-format
+msgid "Reconnecting to %s:%d."
+msgstr "Rekonektaj provoj"
 
-#: ../frontend/gtkmm/src/eggtrayicon.c:134
-msgid "The orientation of the tray."
+#: ../backend/src/DistributionSocketLink.cc:358
+msgid "Cannot resolve my own hostname. Deactivating distribution."
 msgstr ""
 
-#: ../frontend/gtkmm/src/gnome-about.c:308
-msgid "Credits"
-msgstr "Kreditoj"
+#. We did not succeed in starting the server. Arghh.
+#: ../backend/src/DistributionSocketLink.cc:369
+msgid "Could not enable network operation."
+msgstr ""
 
-#: ../frontend/gtkmm/src/gnome-about.c:341
-msgid "_Written by"
-msgstr "_Verkita de"
+#: ../backend/src/DistributionSocketLink.cc:378
+msgid "Disabling network operation."
+msgstr ""
 
-#: ../frontend/gtkmm/src/gnome-about.c:356
-msgid "_Documented by"
-msgstr "_Dokumentita de"
+#: ../backend/src/DistributionSocketLink.cc:534
+#: ../backend/src/DistributionSocketLink.cc:561
+#, fuzzy, c-format
+msgid "Connecting to %s:%d."
+msgstr "Konektaj detaloj"
 
-#: ../frontend/gtkmm/src/gnome-about.c:371
-msgid "_Translated by"
-msgstr "_Tradukita de"
-
-#. Add the credits button
-#: ../frontend/gtkmm/src/gnome-about.c:431
-msgid "_Credits"
-msgstr "_Kreditoj"
-
-#: ../frontend/gtkmm/src/gnome-about.c:614
+#: ../backend/src/DistributionSocketLink.cc:665
+#: ../backend/src/DistributionSocketLink.cc:692
 #, c-format
-msgid "About %s"
-msgstr "Pri %s"
+msgid "Removing client %s:%d."
+msgstr ""
+
+#. Closing direct connection.
+#: ../backend/src/DistributionSocketLink.cc:731
+#, fuzzy, c-format
+msgid "Disconnecting %s:%d."
+msgstr "_Malkonektu"
+
+#. It's a remote client. mark it master.
+#: ../backend/src/DistributionSocketLink.cc:901
+#, c-format
+msgid "Client %s:%d is now master."
+msgstr ""
+
+#. Its ME!
+#: ../backend/src/DistributionSocketLink.cc:907
+msgid "I'm now master."
+msgstr ""
+
+#: ../backend/src/DistributionSocketLink.cc:1236
+#, c-format
+msgid "Client %s:%d saying hello."
+msgstr ""
+
+#. Duplicate client. inform client that it's bogus and close.
+#: ../backend/src/DistributionSocketLink.cc:1251
+#: ../backend/src/DistributionSocketLink.cc:1370
+#: ../backend/src/DistributionSocketLink.cc:1607
+#, c-format
+msgid "Client %s:%d is duplicate."
+msgstr ""
+
+#. Incorrect password.
+#: ../backend/src/DistributionSocketLink.cc:1260
+#, c-format
+msgid "Client %s:%d access denied."
+msgstr ""
+
+#: ../backend/src/DistributionSocketLink.cc:1327
+#, c-format
+msgid "Client %s:%d signed off."
+msgstr ""
+
+#: ../backend/src/DistributionSocketLink.cc:1409
+#, c-format
+msgid "Client %s:%d is welcoming us."
+msgstr ""
+
+#: ../backend/src/DistributionSocketLink.cc:1644
+#, c-format
+msgid "Requesting master status from %s:%d."
+msgstr ""
+
+#: ../backend/src/DistributionSocketLink.cc:1657
+#, c-format
+msgid "Client timeout from %s:%d."
+msgstr ""
+
+#: ../backend/src/DistributionSocketLink.cc:1678
+#, c-format
+msgid "Rejecting master request from client %s:%d."
+msgstr ""
+
+#: ../backend/src/DistributionSocketLink.cc:1684
+#, c-format
+msgid "Acknowledging master request from client %s:%d."
+msgstr ""
+
+#: ../backend/src/DistributionSocketLink.cc:1735
+#, c-format
+msgid "Non-master client %s:%d rejected master request."
+msgstr ""
+
+#: ../backend/src/DistributionSocketLink.cc:1740
+#, c-format
+msgid "Client %s:%d rejected master request, delaying."
+msgstr ""
+
+#. gint count =
+#: ../backend/src/DistributionSocketLink.cc:1811
+#, c-format
+msgid "Client %s is now the new master."
+msgstr ""
+
+#: ../backend/src/DistributionSocketLink.cc:1932
+msgid "Network operation started."
+msgstr ""
+
+#: ../backend/src/DistributionSocketLink.cc:1949
+msgid "Accepted new client."
+msgstr ""
+
+#: ../backend/src/DistributionSocketLink.cc:2004
+#, c-format
+msgid "Client %s:%d read error, closing."
+msgstr ""
+
+#: ../backend/src/DistributionSocketLink.cc:2010
+#: ../backend/src/DistributionSocketLink.cc:2084
+#, c-format
+msgid "Client %s:%d closed connection."
+msgstr ""
+
+#: ../backend/src/DistributionSocketLink.cc:2051
+#, c-format
+msgid "Client %s:%d connected."
+msgstr ""
+
+#: ../backend/src/DistributionSocketLink.cc:2091
+#, c-format
+msgid "Could not connect to client %s:%d."
+msgstr ""
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
+#, fuzzy
+msgid "Break ignored"
+msgstr "Ĉesu en"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:2
+#, fuzzy
+msgid "Break prompt"
+msgstr "Ripoza instigado"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:45
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:53
+#: ../frontend/gtkmm/src/GUI.cc:1299 ../frontend/gtkmm/src/GtkUtil.cc:160
+msgid "Daily limit"
+msgstr "Taglimo"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:4
+msgid "Exercise ended"
+msgstr ""
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:5
+msgid "Exercises ended"
+msgstr ""
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:6
+#, fuzzy
+msgid "Micro-break ended"
+msgstr "Paŭzeto"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:7
+#, fuzzy
+msgid "Micro-break started"
+msgstr "Paŭzeto"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:8
+#, fuzzy
+msgid "Rest break ended"
+msgstr "Ripozo"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:9
+#, fuzzy
+msgid "Rest break started"
+msgstr "Ripozo por %s"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:10
+#: ../frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:1
+msgid "Workrave"
+msgstr ""
+
+#: ../frontend/common/src/Text.cc:75
+#, fuzzy, c-format
+msgid "%s%d:%02d:%02d hours"
+msgstr "%s%ld:%02ld:%02ld horoj"
+
+#: ../frontend/common/src/Text.cc:79
+#, fuzzy, c-format
+msgid "%s%d:%02d minutes"
+msgstr "%s%ld:%02ld minutoj"
+
+#: ../frontend/common/src/Text.cc:83
+#, fuzzy, c-format
+msgid "%s%d seconds"
+msgstr "%s%ld sekundoj"
+
+#: ../frontend/common/src/TimerBoxControl.cc:209
+msgid "Inactive"
+msgstr "Neaktiva"
+
+#: ../frontend/common/src/TimerBoxControl.cc:252
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:188
+msgid "Wait"
+msgstr "Atendu"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:197
 msgid "Lock"
@@ -66,14 +246,6 @@ msgstr "Transsaltu"
 msgid "Postpone"
 msgstr "Prokrastu"
 
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:45
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:53
-#: ../frontend/common/src/TimerBoxControl.cc:195
-#: ../frontend/gtkmm/src/GtkUtil.cc:160
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
-msgid "Daily limit"
-msgstr "Taglimo"
-
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:54
 msgid ""
 "You have reached your daily limit. Please stop working\n"
@@ -84,13 +256,12 @@ msgstr ""
 "malantaŭ via komputilo.  Se via labortago ne ankoraŭ finiĝis,\n"
 "trovu ion alian por fari, kiel revuado de dokumento."
 
-#: ../frontend/gtkmm/src/GUI.cc:734
+#: ../frontend/gtkmm/src/GUI.cc:786
 msgid "I could not initialize Bonobo"
 msgstr ""
 
 #. FIXME: duplicate
-#: ../frontend/common/src/TimerBoxControl.cc:195
-#: ../frontend/gtkmm/src/GtkUtil.cc:160
+#: ../frontend/gtkmm/src/GUI.cc:1299 ../frontend/gtkmm/src/GtkUtil.cc:160
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:52
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:171
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:270
@@ -98,91 +269,81 @@ msgstr ""
 msgid "Micro-break"
 msgstr "Paŭzeto"
 
-#: ../frontend/common/src/TimerBoxControl.cc:195
-#: ../frontend/gtkmm/src/GtkUtil.cc:160
+#: ../frontend/gtkmm/src/GUI.cc:1299 ../frontend/gtkmm/src/GtkUtil.cc:160
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:144
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:76
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:206
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:211
 msgid "Rest break"
 msgstr "Ripozo"
 
-#: ../frontend/common/src/TimerBoxControl.cc:213
-msgid "Inactive"
-msgstr "Neaktiva"
-
-#: ../frontend/common/src/TimerBoxControl.cc:261
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:179
-msgid "Wait"
-msgstr "Atendu"
-
 #. Mode menu item
-#: ../frontend/gtkmm/src/Menus.cc:169 ../frontend/gtkmm/src/Menus.cc:446
+#: ../frontend/gtkmm/src/Menus.cc:201 ../frontend/gtkmm/src/Menus.cc:513
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
 msgid "_Mode"
 msgstr "_Modo"
 
-#: ../frontend/gtkmm/src/Menus.cc:220 ../frontend/gtkmm/src/Menus.cc:465
+#: ../frontend/gtkmm/src/Menus.cc:256 ../frontend/gtkmm/src/Menus.cc:532
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
 msgid "_Network"
 msgstr "_Reto"
 
-#: ../frontend/gtkmm/src/Menus.cc:224 ../frontend/gtkmm/src/Menus.cc:449
+#: ../frontend/gtkmm/src/Menus.cc:260 ../frontend/gtkmm/src/Menus.cc:516
 msgid "_Connect"
 msgstr "_Konektu"
 
-#: ../frontend/gtkmm/src/Menus.cc:229 ../frontend/gtkmm/src/Menus.cc:452
+#: ../frontend/gtkmm/src/Menus.cc:265 ../frontend/gtkmm/src/Menus.cc:519
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
 msgid "_Disconnect"
 msgstr "_Malkonektu"
 
-#: ../frontend/gtkmm/src/Menus.cc:234 ../frontend/gtkmm/src/Menus.cc:456
+#: ../frontend/gtkmm/src/Menus.cc:270 ../frontend/gtkmm/src/Menus.cc:523
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
 msgid "_Reconnect"
 msgstr "_Rekonektu"
 
-#: ../frontend/gtkmm/src/Menus.cc:239 ../frontend/gtkmm/src/Menus.cc:459
+#: ../frontend/gtkmm/src/Menus.cc:275 ../frontend/gtkmm/src/Menus.cc:526
 msgid "Show _log"
 msgstr "Montru _protokolon"
 
-#: ../frontend/gtkmm/src/Menus.cc:264 ../frontend/gtkmm/src/Menus.cc:421
+#: ../frontend/gtkmm/src/Menus.cc:298 ../frontend/gtkmm/src/Menus.cc:488
 msgid "_Rest break"
 msgstr "_Ripozon"
 
-#: ../frontend/gtkmm/src/Menus.cc:278 ../frontend/gtkmm/src/Menus.cc:422
+#: ../frontend/gtkmm/src/Menus.cc:312 ../frontend/gtkmm/src/Menus.cc:489
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:40
 msgid "Exercises"
 msgstr ""
 
-#: ../frontend/gtkmm/src/Menus.cc:290 ../frontend/gtkmm/src/Menus.cc:467
+#: ../frontend/gtkmm/src/Menus.cc:324 ../frontend/gtkmm/src/Menus.cc:534
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:59
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:138
 msgid "Statistics"
 msgstr "Statistiko"
 
-#: ../frontend/gtkmm/src/Menus.cc:304 ../frontend/gtkmm/src/Menus.cc:468
+#: ../frontend/gtkmm/src/Menus.cc:338 ../frontend/gtkmm/src/Menus.cc:535
 msgid "About..."
 msgstr "Pri..."
 
-#: ../frontend/gtkmm/src/Menus.cc:420
+#: ../frontend/gtkmm/src/Menus.cc:487
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:55
 msgid "Preferences"
 msgstr ""
 
-#: ../frontend/gtkmm/src/Menus.cc:425
+#: ../frontend/gtkmm/src/Menus.cc:492
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
 msgid "_Normal"
 msgstr "_Normala"
 
-#: ../frontend/gtkmm/src/Menus.cc:432
+#: ../frontend/gtkmm/src/Menus.cc:499
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
 msgid "_Suspended"
 msgstr "_Interrompita"
 
-#: ../frontend/gtkmm/src/Menus.cc:439
+#: ../frontend/gtkmm/src/Menus.cc:506
 msgid "Q_uiet"
 msgstr "S_ilenta"
 
-#: ../frontend/gtkmm/src/Menus.cc:737
+#: ../frontend/gtkmm/src/Menus.cc:809
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -283,15 +444,18 @@ msgid "Block mode:"
 msgstr ""
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:105
+#: ../frontend/text/src/PreludeWindow.cc:50
 #, fuzzy
 msgid "Time for a micro-break?"
 msgstr "Ĉu horo por paŭzeto?"
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:109
+#: ../frontend/text/src/PreludeWindow.cc:54
 msgid "You need a rest break..."
 msgstr "Vi bezonas ripozon..."
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:113
+#: ../frontend/text/src/PreludeWindow.cc:58
 msgid "You should stop for today..."
 msgstr "Vi devas halti por hodiaŭ..."
 
@@ -310,12 +474,12 @@ msgstr "Malaperas en"
 msgid "Silent in %s"
 msgstr "Silentiĝu en"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:167
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:172
 #, c-format
 msgid "Rest break for %s"
 msgstr "Ripozo por %s"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:207
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:212
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -452,6 +616,41 @@ msgstr "Daŭro de paŭzo"
 msgid "Postpone time:"
 msgstr "Prokrasta tempo"
 
+#: ../frontend/gtkmm/src/eggtrayicon.c:133
+#, fuzzy
+msgid "Orientation"
+msgstr "Silentiĝu en"
+
+#: ../frontend/gtkmm/src/eggtrayicon.c:134
+msgid "The orientation of the tray."
+msgstr ""
+
+#: ../frontend/gtkmm/src/gnome-about.c:308
+msgid "Credits"
+msgstr "Kreditoj"
+
+#: ../frontend/gtkmm/src/gnome-about.c:341
+msgid "_Written by"
+msgstr "_Verkita de"
+
+#: ../frontend/gtkmm/src/gnome-about.c:356
+msgid "_Documented by"
+msgstr "_Dokumentita de"
+
+#: ../frontend/gtkmm/src/gnome-about.c:371
+msgid "_Translated by"
+msgstr "_Tradukita de"
+
+#. Add the credits button
+#: ../frontend/gtkmm/src/gnome-about.c:431
+msgid "_Credits"
+msgstr "_Kreditoj"
+
+#: ../frontend/gtkmm/src/gnome-about.c:614
+#, c-format
+msgid "About %s"
+msgstr "Pri %s"
+
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:1
 #, fuzzy
 msgid "_About..."
@@ -499,25 +698,8 @@ msgstr "Montru _protokolon"
 msgid "_Statistics"
 msgstr "Statistiko"
 
-#: ../frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:1
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:10
-msgid "Workrave"
-msgstr ""
-
 #: ../frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:2
 msgid "Workrave Applet"
-msgstr ""
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:253
-msgid "Exercises player"
-msgstr ""
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:444
-msgid "Resume"
-msgstr ""
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:444
-msgid "Pause"
 msgstr ""
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:48
@@ -603,6 +785,143 @@ msgstr "Pordo"
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:233
 msgid "Hosts"
 msgstr "Retnodoj"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:1
+msgid "Backward shoulder stretch"
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:2
+msgid ""
+"Cover your eyes with your palms in such way that you can still open your "
+"eyelids. Now open your eyes and look into the darkness of your palms. This "
+"exercise gives better relief to your eyes compared to simply closing them."
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:3
+msgid "Finger stretch"
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:4
+msgid "Fist roll"
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
+msgid ""
+"Interlace your fingers behind your back. Then turn your elbows gently "
+"inward, while straightening your arms. Hold this position for 5 to 15 "
+"seconds, and repeat this exercise twice."
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
+msgid ""
+"Keep one arm horizontally stretched in front of your chest. Push this arm "
+"with your other arm towards you until you feel a mild tension in your "
+"shoulder. Hold this position briefly, and repeat the exercise for your other "
+"arm."
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
+msgid ""
+"Look at the upper left corner of the outside border of your monitor. Follow "
+"the border slowly to the upper right corner. Continue to the next corner, "
+"until you got around it two times. Then, reverse the exercise."
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
+msgid ""
+"Look for the furthest point you can see behind your monitor. Focus your eyes "
+"on the remote point. Then focus on your monitor border. Repeat it. If you "
+"can't look very far from your monitor, face another direction with a longer "
+"view. Then switch your focus between a distant object and a pen held at the "
+"same distance from your eyes as your monitor."
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:9
+msgid "Look into the darkness"
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:10
+msgid "Move the eyes"
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:11
+msgid "Move the shoulders"
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
+msgid "Move the shoulders up and down"
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
+msgid "Neck tilt stretch"
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
+msgid ""
+"Put your hands on the armrests of your chair when you are sitting down and "
+"press your body up until your arms are straight. Try to move your head even "
+"further by lowering your shoulders. Slowly move back into your chair."
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
+msgid ""
+"Put your underarm on a table and make a fist. Roll your fist away from your "
+"body untill it rests on your nuckles. Keep it for 2 seconds and roll it "
+"back. Repeat this 5 times for each hand. If the muscle is stretched to much, "
+"let your fingers rest on the table while rolling."
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:16
+msgid ""
+"Separate and stretch your fingers until a mild tension is felt, and hold "
+"this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
+"again for 10 seconds. Repeat this exercise once more."
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
+msgid "Shoulder-arm stretch"
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
+msgid ""
+"Spin your right arm slowly round like a plane propeller beside your body. Do "
+"this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
+"with the left arm."
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:19
+msgid ""
+"Start with your head in a comfortable straight position. Then, slowly tilt "
+"your head to your right shoulder to gently stretch the muscles on the left "
+"side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
+"the left side to stretch your other side. Do this twice for each side."
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:20
+msgid "Train focusing the eyes"
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:21
+msgid "Turn your head"
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:22
+msgid ""
+"Turn your head left and keep it there for 2 seconds. Then turn your head "
+"right and keep it there for 2 seconds."
+msgstr ""
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:253
+msgid "Exercises player"
+msgstr ""
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:446
+msgid "Resume"
+msgstr ""
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:446
+msgid "Pause"
+msgstr ""
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:132
 msgid "Browse history"
@@ -748,324 +1067,20 @@ msgstr ""
 msgid "%s, from %s to %s"
 msgstr ""
 
-#: ../frontend/common/src/Text.cc:75
-#, fuzzy, c-format
-msgid "%s%d:%02d:%02d hours"
-msgstr "%s%ld:%02ld:%02ld horoj"
-
-#: ../frontend/common/src/Text.cc:79
-#, fuzzy, c-format
-msgid "%s%d:%02d minutes"
-msgstr "%s%ld:%02ld minutoj"
-
-#: ../frontend/common/src/Text.cc:83
-#, fuzzy, c-format
-msgid "%s%d seconds"
-msgstr "%s%ld sekundoj"
-
-#: ../backend/src/DistributionSocketLink.cc:127
-#, fuzzy, c-format
-msgid "Reconnecting to %s:%d."
-msgstr "Rekonektaj provoj"
-
-#: ../backend/src/DistributionSocketLink.cc:347
-msgid "Cannot resolve my own hostname. Deactivating distribution."
-msgstr ""
-
-#. We did not succeed in starting the server. Arghh.
-#: ../backend/src/DistributionSocketLink.cc:358
-msgid "Could not enable network operation."
-msgstr ""
-
-#: ../backend/src/DistributionSocketLink.cc:367
-msgid "Disabling network operation."
-msgstr ""
-
-#: ../backend/src/DistributionSocketLink.cc:523
-#: ../backend/src/DistributionSocketLink.cc:550
-#, fuzzy, c-format
-msgid "Connecting to %s:%d."
-msgstr "Konektaj detaloj"
-
-#: ../backend/src/DistributionSocketLink.cc:654
-#: ../backend/src/DistributionSocketLink.cc:681
-#, c-format
-msgid "Removing client %s:%d."
-msgstr ""
-
-#. Closing direct connection.
-#: ../backend/src/DistributionSocketLink.cc:720
-#, fuzzy, c-format
-msgid "Disconnecting %s:%d."
-msgstr "_Malkonektu"
-
-#. It's a remote client. mark it master.
-#: ../backend/src/DistributionSocketLink.cc:890
-#, c-format
-msgid "Client %s:%d is now master."
-msgstr ""
-
-#. Its ME!
-#: ../backend/src/DistributionSocketLink.cc:896
-msgid "I'm now master."
-msgstr ""
-
-#: ../backend/src/DistributionSocketLink.cc:1225
-#, c-format
-msgid "Client %s:%d saying hello."
-msgstr ""
-
-#. Duplicate client. inform client that it's bogus and close.
-#: ../backend/src/DistributionSocketLink.cc:1240
-#: ../backend/src/DistributionSocketLink.cc:1359
-#: ../backend/src/DistributionSocketLink.cc:1596
-#, c-format
-msgid "Client %s:%d is duplicate."
-msgstr ""
-
-#. Incorrect password.
-#: ../backend/src/DistributionSocketLink.cc:1249
-#, c-format
-msgid "Client %s:%d access denied."
-msgstr ""
-
-#: ../backend/src/DistributionSocketLink.cc:1316
-#, c-format
-msgid "Client %s:%d signed off."
-msgstr ""
-
-#: ../backend/src/DistributionSocketLink.cc:1398
-#, c-format
-msgid "Client %s:%d is welcoming us."
-msgstr ""
-
-#: ../backend/src/DistributionSocketLink.cc:1633
-#, c-format
-msgid "Requesting master status from %s:%d."
-msgstr ""
-
-#: ../backend/src/DistributionSocketLink.cc:1646
-#, c-format
-msgid "Client timeout from %s:%d."
-msgstr ""
-
-#: ../backend/src/DistributionSocketLink.cc:1667
-#, c-format
-msgid "Rejecting master request from client %s:%d."
-msgstr ""
-
-#: ../backend/src/DistributionSocketLink.cc:1673
-#, c-format
-msgid "Acknowledging master request from client %s:%d."
-msgstr ""
-
-#: ../backend/src/DistributionSocketLink.cc:1724
-#, c-format
-msgid "Non-master client %s:%d rejected master request."
-msgstr ""
-
-#: ../backend/src/DistributionSocketLink.cc:1729
-#, c-format
-msgid "Client %s:%d rejected master request, delaying."
-msgstr ""
-
-#. gint count =
-#: ../backend/src/DistributionSocketLink.cc:1800
-#, c-format
-msgid "Client %s is now the new master."
-msgstr ""
-
-#: ../backend/src/DistributionSocketLink.cc:1921
-msgid "Network operation started."
-msgstr ""
-
-#: ../backend/src/DistributionSocketLink.cc:1938
-msgid "Accepted new client."
-msgstr ""
-
-#: ../backend/src/DistributionSocketLink.cc:1993
-#, c-format
-msgid "Client %s:%d read error, closing."
-msgstr ""
-
-#: ../backend/src/DistributionSocketLink.cc:1999
-#: ../backend/src/DistributionSocketLink.cc:2073
-#, c-format
-msgid "Client %s:%d closed connection."
-msgstr ""
-
-#: ../backend/src/DistributionSocketLink.cc:2040
-#, c-format
-msgid "Client %s:%d connected."
-msgstr ""
-
-#: ../backend/src/DistributionSocketLink.cc:2080
-#, c-format
-msgid "Could not connect to client %s:%d."
-msgstr ""
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:1
-msgid "Backward shoulder stretch"
-msgstr ""
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:2
-msgid ""
-"Cover your eyes with your palms in such way that you can still open your "
-"eyelids. Now open your eyes and look into the darkness of your palms. This "
-"exercise gives better relief to your eyes compared to simply closing them."
-msgstr ""
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:3
-msgid "Finger stretch"
-msgstr ""
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:4
-msgid "Fist roll"
-msgstr ""
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
-msgid ""
-"Interlace your fingers behind your back. Then turn your elbows gently "
-"inward, while straightening your arms. Hold this position for 5 to 15 "
-"seconds, and repeat this exercise twice."
-msgstr ""
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
-msgid ""
-"Keep one arm horizontally stretched in front of your chest. Push this arm "
-"with your other arm towards you until you feel a mild tension in your "
-"shoulder. Hold this position briefly, and repeat the exercise for your other "
-"arm."
-msgstr ""
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
-msgid ""
-"Look at the upper left corner of the outside border of your monitor. Follow "
-"the border slowly to the upper right corner. Continue to the next corner, "
-"until you got around it two times. Then, reverse the exercise."
-msgstr ""
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
-msgid ""
-"Look for the furthest point you can see behind your monitor. Focus your eyes "
-"on the remote point. Then focus on your monitor border. Repeat it. If you "
-"can't look very far from your monitor, face another direction with a longer "
-"view. Then switch your focus between a distant object and a pen held at the "
-"same distance from your eyes as your monitor."
-msgstr ""
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:9
-msgid "Look into the darkness"
-msgstr ""
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:10
-msgid "Move the eyes"
-msgstr ""
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:11
-msgid "Move the shoulders"
-msgstr ""
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
-msgid "Move the shoulders up and down"
-msgstr ""
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
-msgid "Neck tilt stretch"
-msgstr ""
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
-msgid ""
-"Put your hands on the armrests of your chair when you are sitting down and "
-"press your body up until your arms are straight. Try to move your head even "
-"further by lowering your shoulders. Slowly move back into your chair."
-msgstr ""
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
-msgid ""
-"Put your underarm on a table and make a fist. Roll your fist away from your "
-"body untill it rests on your nuckles. Keep it for 2 seconds and roll it "
-"back. Repeat this 5 times for each hand. If the muscle is stretched to much, "
-"let your fingers rest on the table while rolling."
-msgstr ""
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:16
-msgid ""
-"Separate and stretch your fingers until a mild tension is felt, and hold "
-"this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
-"again for 10 seconds. Repeat this exercise once more."
-msgstr ""
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
-msgid "Shoulder-arm stretch"
-msgstr ""
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
-msgid ""
-"Spin your right arm slowly round like a plane propeller beside your body. Do "
-"this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
-"with the left arm."
-msgstr ""
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:19
-msgid ""
-"Start with your head in a comfortable straight position. Then, slowly tilt "
-"your head to your right shoulder to gently stretch the muscles on the left "
-"side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
-"the left side to stretch your other side. Do this twice for each side."
-msgstr ""
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:20
-msgid "Train focusing the eyes"
-msgstr ""
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:21
-msgid "Turn your head"
-msgstr ""
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:22
-msgid ""
-"Turn your head left and keep it there for 2 seconds. Then turn your head "
-"right and keep it there for 2 seconds."
-msgstr ""
-
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
+#: ../frontend/text/src/PreludeWindow.cc:152
 #, fuzzy
-msgid "Break ignored"
+msgid "Break in"
 msgstr "Ĉesu en"
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:2
+#: ../frontend/text/src/PreludeWindow.cc:157
 #, fuzzy
-msgid "Break prompt"
-msgstr "Ripoza instigado"
+msgid "Disappears in"
+msgstr "Malaperas en"
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:4
-msgid "Exercise ended"
-msgstr ""
-
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:5
-msgid "Exercises ended"
-msgstr ""
-
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:6
+#: ../frontend/text/src/PreludeWindow.cc:163
 #, fuzzy
-msgid "Micro-break ended"
-msgstr "Paŭzeto"
-
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:7
-#, fuzzy
-msgid "Micro-break started"
-msgstr "Paŭzeto"
-
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:8
-#, fuzzy
-msgid "Rest break ended"
-msgstr "Ripozo"
-
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:9
-#, fuzzy
-msgid "Rest break started"
-msgstr "Ripozo por %s"
+msgid "Silent in"
+msgstr "Silentiĝu en"
 
 #, fuzzy
 #~ msgid "Restbreak"

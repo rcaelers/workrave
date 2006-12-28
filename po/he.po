@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave cvs\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2006-09-06 15:16+0000\n"
+"POT-Creation-Date: 2006-12-28 19:10+0100\n"
 "PO-Revision-Date: 2006-07-31 18:09+0200\n"
 "Last-Translator: Haggai Eran <he3@bezeqint.net>\n"
 "Language-Team: Hebrew <en@li.org>\n"
@@ -16,39 +16,214 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../frontend/gtkmm/src/eggtrayicon.c:133
-msgid "Orientation"
-msgstr "כיוון"
-
-#: ../frontend/gtkmm/src/eggtrayicon.c:134
-msgid "The orientation of the tray."
-msgstr "כיוון המגש"
-
-#: ../frontend/gtkmm/src/gnome-about.c:308
-msgid "Credits"
-msgstr "תודות"
-
-#: ../frontend/gtkmm/src/gnome-about.c:341
-msgid "_Written by"
-msgstr "_נכתב ע\"י"
-
-#: ../frontend/gtkmm/src/gnome-about.c:356
-msgid "_Documented by"
-msgstr "_תועד ע\"י"
-
-#: ../frontend/gtkmm/src/gnome-about.c:371
-msgid "_Translated by"
-msgstr "_תורגם ע\"י"
-
-#. Add the credits button
-#: ../frontend/gtkmm/src/gnome-about.c:431
-msgid "_Credits"
-msgstr "תו_דות"
-
-#: ../frontend/gtkmm/src/gnome-about.c:614
+#: ../backend/src/DistributionSocketLink.cc:127
 #, c-format
-msgid "About %s"
-msgstr "אודות %s"
+msgid "Reconnecting to %s:%d."
+msgstr "התחבר מחדש ל-%s:%d."
+
+#: ../backend/src/DistributionSocketLink.cc:358
+msgid "Cannot resolve my own hostname. Deactivating distribution."
+msgstr "לא יכול לתרגם את שם המחשב שלי. מבטל הפצה."
+
+#. We did not succeed in starting the server. Arghh.
+#: ../backend/src/DistributionSocketLink.cc:369
+msgid "Could not enable network operation."
+msgstr "לא ניתן להפעיל פעילות רשת."
+
+#: ../backend/src/DistributionSocketLink.cc:378
+msgid "Disabling network operation."
+msgstr "מבטל פעילות רשת."
+
+#: ../backend/src/DistributionSocketLink.cc:534
+#: ../backend/src/DistributionSocketLink.cc:561
+#, c-format
+msgid "Connecting to %s:%d."
+msgstr "מתחבר אל %s:%d."
+
+#: ../backend/src/DistributionSocketLink.cc:665
+#: ../backend/src/DistributionSocketLink.cc:692
+#, c-format
+msgid "Removing client %s:%d."
+msgstr "מסיר לקוח %s:%d."
+
+#. Closing direct connection.
+#: ../backend/src/DistributionSocketLink.cc:731
+#, c-format
+msgid "Disconnecting %s:%d."
+msgstr "מנתק %s:%d."
+
+#. It's a remote client. mark it master.
+#: ../backend/src/DistributionSocketLink.cc:901
+#, c-format
+msgid "Client %s:%d is now master."
+msgstr "הלקוח .%s:%d הוא כעת השליט."
+
+#. Its ME!
+#: ../backend/src/DistributionSocketLink.cc:907
+msgid "I'm now master."
+msgstr "כעת אני השליט."
+
+#: ../backend/src/DistributionSocketLink.cc:1236
+#, c-format
+msgid "Client %s:%d saying hello."
+msgstr "הלקוח %s:%d אומר שלום."
+
+#. Duplicate client. inform client that it's bogus and close.
+#: ../backend/src/DistributionSocketLink.cc:1251
+#: ../backend/src/DistributionSocketLink.cc:1370
+#: ../backend/src/DistributionSocketLink.cc:1607
+#, c-format
+msgid "Client %s:%d is duplicate."
+msgstr "הלקוח %s:%d הוא כפיל."
+
+#. Incorrect password.
+#: ../backend/src/DistributionSocketLink.cc:1260
+#, c-format
+msgid "Client %s:%d access denied."
+msgstr "גישה נדחתה ללקוח %s:%d."
+
+#: ../backend/src/DistributionSocketLink.cc:1327
+#, c-format
+msgid "Client %s:%d signed off."
+msgstr "הלקוח %s:%d התנתק."
+
+#: ../backend/src/DistributionSocketLink.cc:1409
+#, c-format
+msgid "Client %s:%d is welcoming us."
+msgstr "הלקוח %s:%d מברך אותנו."
+
+#: ../backend/src/DistributionSocketLink.cc:1644
+#, c-format
+msgid "Requesting master status from %s:%d."
+msgstr "מבקש מצב שליט מ-%s:%d."
+
+#: ../backend/src/DistributionSocketLink.cc:1657
+#, c-format
+msgid "Client timeout from %s:%d."
+msgstr "זמן ההמתנה ללקוח %s:%d עבר."
+
+#: ../backend/src/DistributionSocketLink.cc:1678
+#, c-format
+msgid "Rejecting master request from client %s:%d."
+msgstr "דוחה בקשת שליט מלקוח %s:%d."
+
+#: ../backend/src/DistributionSocketLink.cc:1684
+#, c-format
+msgid "Acknowledging master request from client %s:%d."
+msgstr "מאשר בקשת שליט מלקוח %s:%d."
+
+#: ../backend/src/DistributionSocketLink.cc:1735
+#, c-format
+msgid "Non-master client %s:%d rejected master request."
+msgstr "לקוח שאינו שליט %s:%d דחה את בקשת השליט."
+
+#: ../backend/src/DistributionSocketLink.cc:1740
+#, c-format
+msgid "Client %s:%d rejected master request, delaying."
+msgstr "הלקוח %s:%d דחה את בקשת השליט, ממתין."
+
+#. gint count =
+#: ../backend/src/DistributionSocketLink.cc:1811
+#, c-format
+msgid "Client %s is now the new master."
+msgstr "הלקוח %s:%d הוא השליט החדש."
+
+#: ../backend/src/DistributionSocketLink.cc:1932
+msgid "Network operation started."
+msgstr "פעולת רשת התחילה."
+
+#: ../backend/src/DistributionSocketLink.cc:1949
+msgid "Accepted new client."
+msgstr "התקבל לקוח חדש."
+
+#: ../backend/src/DistributionSocketLink.cc:2004
+#, c-format
+msgid "Client %s:%d read error, closing."
+msgstr "שגיאה בקריאה מן הלקוח %s:%d, סוגר."
+
+#: ../backend/src/DistributionSocketLink.cc:2010
+#: ../backend/src/DistributionSocketLink.cc:2084
+#, c-format
+msgid "Client %s:%d closed connection."
+msgstr "הלקוח %s:%d סגר את החיבור."
+
+#: ../backend/src/DistributionSocketLink.cc:2051
+#, c-format
+msgid "Client %s:%d connected."
+msgstr "הלקוח %s:%d התחבר."
+
+#: ../backend/src/DistributionSocketLink.cc:2091
+#, c-format
+msgid "Could not connect to client %s:%d."
+msgstr "לא ניתן להתחבר ללקוח %s:%d."
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
+msgid "Break ignored"
+msgstr "התעלמת מן ההפסקה"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:2
+msgid "Break prompt"
+msgstr "שאלה לפני הפסקה"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:45
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:53
+#: ../frontend/gtkmm/src/GUI.cc:1299 ../frontend/gtkmm/src/GtkUtil.cc:160
+msgid "Daily limit"
+msgstr "מגבלה יומית"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:4
+msgid "Exercise ended"
+msgstr "סוף התרגיל"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:5
+msgid "Exercises ended"
+msgstr "סוף התרגילים"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:6
+msgid "Micro-break ended"
+msgstr "סוף ההפסקה הזעירה"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:7
+msgid "Micro-break started"
+msgstr "התחלה הפסקה זעירה"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:8
+msgid "Rest break ended"
+msgstr "סוף הפסקת מנוחה"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:9
+msgid "Rest break started"
+msgstr "התחלת הפסקת מנוחה"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:10
+#: ../frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:1
+msgid "Workrave"
+msgstr "Workrave"
+
+#: ../frontend/common/src/Text.cc:75
+#, c-format
+msgid "%s%d:%02d:%02d hours"
+msgstr "%s%d:%02d:%02d שעות"
+
+#: ../frontend/common/src/Text.cc:79
+#, c-format
+msgid "%s%d:%02d minutes"
+msgstr "%s%d:%02d דקות"
+
+#: ../frontend/common/src/Text.cc:83
+#, c-format
+msgid "%s%d seconds"
+msgstr "%s%d שניות"
+
+#: ../frontend/common/src/TimerBoxControl.cc:209
+msgid "Inactive"
+msgstr "לא פעיל"
+
+#: ../frontend/common/src/TimerBoxControl.cc:252
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:188
+msgid "Wait"
+msgstr "המתנה"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:197
 msgid "Lock"
@@ -66,14 +241,6 @@ msgstr "דילוג"
 msgid "Postpone"
 msgstr "דחייה"
 
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:45
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:53
-#: ../frontend/common/src/TimerBoxControl.cc:195
-#: ../frontend/gtkmm/src/GtkUtil.cc:160
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
-msgid "Daily limit"
-msgstr "מגבלה יומית"
-
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:54
 msgid ""
 "You have reached your daily limit. Please stop working\n"
@@ -84,104 +251,93 @@ msgstr ""
 "לפני המחשב. אם יום העבודה שלך עוד לא הסתיים\n"
 "מצא דבר אחר לעשות, כמו למשל לסקור מסמך כלשהו."
 
-#: ../frontend/gtkmm/src/GUI.cc:734
+#: ../frontend/gtkmm/src/GUI.cc:786
 msgid "I could not initialize Bonobo"
 msgstr "לא ניתן לאתחל את Bonobo"
 
 #. FIXME: duplicate
-#: ../frontend/common/src/TimerBoxControl.cc:195
-#: ../frontend/gtkmm/src/GtkUtil.cc:160
+#: ../frontend/gtkmm/src/GUI.cc:1299 ../frontend/gtkmm/src/GtkUtil.cc:160
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:52
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:171
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:270
 msgid "Micro-break"
 msgstr "הפסקה זעירה"
 
-#: ../frontend/common/src/TimerBoxControl.cc:195
-#: ../frontend/gtkmm/src/GtkUtil.cc:160
+#: ../frontend/gtkmm/src/GUI.cc:1299 ../frontend/gtkmm/src/GtkUtil.cc:160
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:144
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:76
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:206
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:211
 msgid "Rest break"
 msgstr "הפסקת מנוחה"
 
-#: ../frontend/common/src/TimerBoxControl.cc:213
-msgid "Inactive"
-msgstr "לא פעיל"
-
-#: ../frontend/common/src/TimerBoxControl.cc:261
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:179
-msgid "Wait"
-msgstr "המתנה"
-
 #. Mode menu item
-#: ../frontend/gtkmm/src/Menus.cc:169 ../frontend/gtkmm/src/Menus.cc:446
+#: ../frontend/gtkmm/src/Menus.cc:201 ../frontend/gtkmm/src/Menus.cc:513
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
 msgid "_Mode"
 msgstr "_מצב"
 
-#: ../frontend/gtkmm/src/Menus.cc:220 ../frontend/gtkmm/src/Menus.cc:465
+#: ../frontend/gtkmm/src/Menus.cc:256 ../frontend/gtkmm/src/Menus.cc:532
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
 msgid "_Network"
 msgstr "_רשת"
 
-#: ../frontend/gtkmm/src/Menus.cc:224 ../frontend/gtkmm/src/Menus.cc:449
+#: ../frontend/gtkmm/src/Menus.cc:260 ../frontend/gtkmm/src/Menus.cc:516
 msgid "_Connect"
 msgstr "_התחבר"
 
-#: ../frontend/gtkmm/src/Menus.cc:229 ../frontend/gtkmm/src/Menus.cc:452
+#: ../frontend/gtkmm/src/Menus.cc:265 ../frontend/gtkmm/src/Menus.cc:519
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
 msgid "_Disconnect"
 msgstr "_התנתק"
 
-#: ../frontend/gtkmm/src/Menus.cc:234 ../frontend/gtkmm/src/Menus.cc:456
+#: ../frontend/gtkmm/src/Menus.cc:270 ../frontend/gtkmm/src/Menus.cc:523
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
 msgid "_Reconnect"
 msgstr "_התחבר מחדש"
 
-#: ../frontend/gtkmm/src/Menus.cc:239 ../frontend/gtkmm/src/Menus.cc:459
+#: ../frontend/gtkmm/src/Menus.cc:275 ../frontend/gtkmm/src/Menus.cc:526
 msgid "Show _log"
 msgstr "הצגת _יומן"
 
-#: ../frontend/gtkmm/src/Menus.cc:264 ../frontend/gtkmm/src/Menus.cc:421
+#: ../frontend/gtkmm/src/Menus.cc:298 ../frontend/gtkmm/src/Menus.cc:488
 msgid "_Rest break"
 msgstr "הפסקת _מנוחה"
 
-#: ../frontend/gtkmm/src/Menus.cc:278 ../frontend/gtkmm/src/Menus.cc:422
+#: ../frontend/gtkmm/src/Menus.cc:312 ../frontend/gtkmm/src/Menus.cc:489
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:40
 msgid "Exercises"
 msgstr "תרגילים"
 
-#: ../frontend/gtkmm/src/Menus.cc:290 ../frontend/gtkmm/src/Menus.cc:467
+#: ../frontend/gtkmm/src/Menus.cc:324 ../frontend/gtkmm/src/Menus.cc:534
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:59
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:138
 msgid "Statistics"
 msgstr "סטטיסטיקה"
 
-#: ../frontend/gtkmm/src/Menus.cc:304 ../frontend/gtkmm/src/Menus.cc:468
+#: ../frontend/gtkmm/src/Menus.cc:338 ../frontend/gtkmm/src/Menus.cc:535
 msgid "About..."
 msgstr "אודות ..."
 
-#: ../frontend/gtkmm/src/Menus.cc:420
+#: ../frontend/gtkmm/src/Menus.cc:487
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:55
 msgid "Preferences"
 msgstr "העדפות"
 
-#: ../frontend/gtkmm/src/Menus.cc:425
+#: ../frontend/gtkmm/src/Menus.cc:492
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
 msgid "_Normal"
 msgstr "_רגיל"
 
-#: ../frontend/gtkmm/src/Menus.cc:432
+#: ../frontend/gtkmm/src/Menus.cc:499
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
 msgid "_Suspended"
 msgstr "_השעיה"
 
-#: ../frontend/gtkmm/src/Menus.cc:439
+#: ../frontend/gtkmm/src/Menus.cc:506
 msgid "Q_uiet"
 msgstr "_שקט"
 
-#: ../frontend/gtkmm/src/Menus.cc:737
+#: ../frontend/gtkmm/src/Menus.cc:809
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -281,14 +437,17 @@ msgid "Block mode:"
 msgstr "מצב חסימה:"
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:105
+#: ../frontend/text/src/PreludeWindow.cc:50
 msgid "Time for a micro-break?"
 msgstr "זמן להפסקה זעירה?"
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:109
+#: ../frontend/text/src/PreludeWindow.cc:54
 msgid "You need a rest break..."
 msgstr "אתה זקוק להפסקת מנוחה..."
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:113
+#: ../frontend/text/src/PreludeWindow.cc:58
 msgid "You should stop for today..."
 msgstr "אתה צריך להפסיק להיום..."
 
@@ -307,12 +466,12 @@ msgstr "יעלם בעוד %s"
 msgid "Silent in %s"
 msgstr "שקט בעוד %s"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:167
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:172
 #, c-format
 msgid "Rest break for %s"
 msgstr "הפסקת מנוחה ל-%s"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:207
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:212
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -437,6 +596,40 @@ msgstr "משך ההפסקה:"
 msgid "Postpone time:"
 msgstr "זמן הדחיה:"
 
+#: ../frontend/gtkmm/src/eggtrayicon.c:133
+msgid "Orientation"
+msgstr "כיוון"
+
+#: ../frontend/gtkmm/src/eggtrayicon.c:134
+msgid "The orientation of the tray."
+msgstr "כיוון המגש"
+
+#: ../frontend/gtkmm/src/gnome-about.c:308
+msgid "Credits"
+msgstr "תודות"
+
+#: ../frontend/gtkmm/src/gnome-about.c:341
+msgid "_Written by"
+msgstr "_נכתב ע\"י"
+
+#: ../frontend/gtkmm/src/gnome-about.c:356
+msgid "_Documented by"
+msgstr "_תועד ע\"י"
+
+#: ../frontend/gtkmm/src/gnome-about.c:371
+msgid "_Translated by"
+msgstr "_תורגם ע\"י"
+
+#. Add the credits button
+#: ../frontend/gtkmm/src/gnome-about.c:431
+msgid "_Credits"
+msgstr "תו_דות"
+
+#: ../frontend/gtkmm/src/gnome-about.c:614
+#, c-format
+msgid "About %s"
+msgstr "אודות %s"
+
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:1
 msgid "_About..."
 msgstr "_אודות..."
@@ -477,26 +670,9 @@ msgstr "_הצגת היומן..."
 msgid "_Statistics"
 msgstr "_סטטיסטיקה"
 
-#: ../frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:1
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:10
-msgid "Workrave"
-msgstr "Workrave"
-
 #: ../frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:2
 msgid "Workrave Applet"
 msgstr "ישומון Workrave"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:253
-msgid "Exercises player"
-msgstr "מציג התרגילים"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:444
-msgid "Resume"
-msgstr "המשך"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:444
-msgid "Pause"
-msgstr "הפסק"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:48
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:67
@@ -572,291 +748,6 @@ msgstr "פורט"
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:233
 msgid "Hosts"
 msgstr "מחשבים"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:132
-msgid "Browse history"
-msgstr "עיון בהיסטוריה"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:139
-msgid "Date:"
-msgstr "תאריך:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:174
-msgid "Breaks"
-msgstr "הפסקות"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:184
-msgid "Break prompts"
-msgstr "שאלות לפני הפסקה"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:185
-msgid ""
-"The number of times you were prompted to break, excluding repeated prompts "
-"for the same break"
-msgstr "מספר הפעמים בהם נשאלת לפני הפסקה, פרט לשאלות חוזרות לגבי אותה הפסקה"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:190
-msgid "Repeated prompts"
-msgstr "שאלות חוזרות"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:191
-msgid "The number of times you were repeatedly prompted to break"
-msgstr "מספר הפעמים בהם נשאלת באופן חוזר לפני הפסקה"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:195
-msgid "Prompted breaks taken"
-msgstr "הפסקות שנלקחו"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:196
-msgid "The number of times you took a break when being prompted"
-msgstr "מספר הפעמים שלקחת הפסקה לאחר שנשאלת"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:200
-msgid "Natural breaks taken"
-msgstr "הפסקות טבעיות"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:201
-msgid "The number of times you took a break without being prompted"
-msgstr "מספר הפעמים בהן לקחת הפסקה מבלי שנשאלת לכך"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:205
-msgid "Breaks skipped"
-msgstr "הפסקות שדולגו"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:206
-msgid "The number of breaks you skipped"
-msgstr "מספר ההפסקות עליהן דילגת"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:210
-msgid "Breaks postponed"
-msgstr "הפסקות שנדחו"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:211
-msgid "The number of breaks you postponed"
-msgstr "מספר ההפסקות שדחית"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:215
-msgid "Overdue time"
-msgstr "זמן איחור"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:216
-msgid "The total time this break was overdue"
-msgstr "הזמן הכולל של דחיית הפסקה זו"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:220
-msgid "Daily usage"
-msgstr "שימוש יומי"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:221
-msgid "The total computer usage"
-msgstr "השימוש הכולל במחשב"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:284
-msgid "Activity"
-msgstr "פעילות"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:294
-msgid "Mouse usage:"
-msgstr "שימוש בעכבר:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:295
-msgid "The total time you were using the mouse"
-msgstr "הזמן הכולל בו השתמשת בעכבר"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:298
-msgid "Mouse movement:"
-msgstr "תזוזת עכבר:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:299
-msgid "The total on-screen mouse movement"
-msgstr "סך התנועות של העכבר על המסך"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:302
-msgid "Effective mouse movement:"
-msgstr "תזוזת עכבר אפקטיבית:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:303
-msgid ""
-"The total mouse movement you would have had if you moved your mouse in "
-"straight lines between clicks"
-msgstr "סך התזוזת של העכבר שהיית עושה לו הזזת את העכבר בקווים ישרים בין לחיצות"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:307
-msgid "Mouse button clicks:"
-msgstr "לחיצות עכבר"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:308
-msgid "The total number of mouse button clicks"
-msgstr "מספר הפעמים הכולל של לחיצות על כפתורי העכבר"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:311
-msgid "Keystrokes:"
-msgstr "הקשות מקשים:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:312
-msgid "The total number of keys pressed"
-msgstr "המספר הכולל של המקשים שהוקשו"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:362
-#, c-format
-msgid "%s, from %s to %s"
-msgstr "%s, מתוך %s עד %s"
-
-#: ../frontend/common/src/Text.cc:75
-#, c-format
-msgid "%s%d:%02d:%02d hours"
-msgstr "%s%d:%02d:%02d שעות"
-
-#: ../frontend/common/src/Text.cc:79
-#, c-format
-msgid "%s%d:%02d minutes"
-msgstr "%s%d:%02d דקות"
-
-#: ../frontend/common/src/Text.cc:83
-#, c-format
-msgid "%s%d seconds"
-msgstr "%s%d שניות"
-
-#: ../backend/src/DistributionSocketLink.cc:127
-#, c-format
-msgid "Reconnecting to %s:%d."
-msgstr "התחבר מחדש ל-%s:%d."
-
-#: ../backend/src/DistributionSocketLink.cc:347
-msgid "Cannot resolve my own hostname. Deactivating distribution."
-msgstr "לא יכול לתרגם את שם המחשב שלי. מבטל הפצה."
-
-#. We did not succeed in starting the server. Arghh.
-#: ../backend/src/DistributionSocketLink.cc:358
-msgid "Could not enable network operation."
-msgstr "לא ניתן להפעיל פעילות רשת."
-
-#: ../backend/src/DistributionSocketLink.cc:367
-msgid "Disabling network operation."
-msgstr "מבטל פעילות רשת."
-
-#: ../backend/src/DistributionSocketLink.cc:523
-#: ../backend/src/DistributionSocketLink.cc:550
-#, c-format
-msgid "Connecting to %s:%d."
-msgstr "מתחבר אל %s:%d."
-
-#: ../backend/src/DistributionSocketLink.cc:654
-#: ../backend/src/DistributionSocketLink.cc:681
-#, c-format
-msgid "Removing client %s:%d."
-msgstr "מסיר לקוח %s:%d."
-
-#. Closing direct connection.
-#: ../backend/src/DistributionSocketLink.cc:720
-#, c-format
-msgid "Disconnecting %s:%d."
-msgstr "מנתק %s:%d."
-
-#. It's a remote client. mark it master.
-#: ../backend/src/DistributionSocketLink.cc:890
-#, c-format
-msgid "Client %s:%d is now master."
-msgstr "הלקוח .%s:%d הוא כעת השליט."
-
-#. Its ME!
-#: ../backend/src/DistributionSocketLink.cc:896
-msgid "I'm now master."
-msgstr "כעת אני השליט."
-
-#: ../backend/src/DistributionSocketLink.cc:1225
-#, c-format
-msgid "Client %s:%d saying hello."
-msgstr "הלקוח %s:%d אומר שלום."
-
-#. Duplicate client. inform client that it's bogus and close.
-#: ../backend/src/DistributionSocketLink.cc:1240
-#: ../backend/src/DistributionSocketLink.cc:1359
-#: ../backend/src/DistributionSocketLink.cc:1596
-#, c-format
-msgid "Client %s:%d is duplicate."
-msgstr "הלקוח %s:%d הוא כפיל."
-
-#. Incorrect password.
-#: ../backend/src/DistributionSocketLink.cc:1249
-#, c-format
-msgid "Client %s:%d access denied."
-msgstr "גישה נדחתה ללקוח %s:%d."
-
-#: ../backend/src/DistributionSocketLink.cc:1316
-#, c-format
-msgid "Client %s:%d signed off."
-msgstr "הלקוח %s:%d התנתק."
-
-#: ../backend/src/DistributionSocketLink.cc:1398
-#, c-format
-msgid "Client %s:%d is welcoming us."
-msgstr "הלקוח %s:%d מברך אותנו."
-
-#: ../backend/src/DistributionSocketLink.cc:1633
-#, c-format
-msgid "Requesting master status from %s:%d."
-msgstr "מבקש מצב שליט מ-%s:%d."
-
-#: ../backend/src/DistributionSocketLink.cc:1646
-#, c-format
-msgid "Client timeout from %s:%d."
-msgstr "זמן ההמתנה ללקוח %s:%d עבר."
-
-#: ../backend/src/DistributionSocketLink.cc:1667
-#, c-format
-msgid "Rejecting master request from client %s:%d."
-msgstr "דוחה בקשת שליט מלקוח %s:%d."
-
-#: ../backend/src/DistributionSocketLink.cc:1673
-#, c-format
-msgid "Acknowledging master request from client %s:%d."
-msgstr "מאשר בקשת שליט מלקוח %s:%d."
-
-#: ../backend/src/DistributionSocketLink.cc:1724
-#, c-format
-msgid "Non-master client %s:%d rejected master request."
-msgstr "לקוח שאינו שליט %s:%d דחה את בקשת השליט."
-
-#: ../backend/src/DistributionSocketLink.cc:1729
-#, c-format
-msgid "Client %s:%d rejected master request, delaying."
-msgstr "הלקוח %s:%d דחה את בקשת השליט, ממתין."
-
-#. gint count =
-#: ../backend/src/DistributionSocketLink.cc:1800
-#, c-format
-msgid "Client %s is now the new master."
-msgstr "הלקוח %s:%d הוא השליט החדש."
-
-#: ../backend/src/DistributionSocketLink.cc:1921
-msgid "Network operation started."
-msgstr "פעולת רשת התחילה."
-
-#: ../backend/src/DistributionSocketLink.cc:1938
-msgid "Accepted new client."
-msgstr "התקבל לקוח חדש."
-
-#: ../backend/src/DistributionSocketLink.cc:1993
-#, c-format
-msgid "Client %s:%d read error, closing."
-msgstr "שגיאה בקריאה מן הלקוח %s:%d, סוגר."
-
-#: ../backend/src/DistributionSocketLink.cc:1999
-#: ../backend/src/DistributionSocketLink.cc:2073
-#, c-format
-msgid "Client %s:%d closed connection."
-msgstr "הלקוח %s:%d סגר את החיבור."
-
-#: ../backend/src/DistributionSocketLink.cc:2040
-#, c-format
-msgid "Client %s:%d connected."
-msgstr "הלקוח %s:%d התחבר."
-
-#: ../backend/src/DistributionSocketLink.cc:2080
-#, c-format
-msgid "Could not connect to client %s:%d."
-msgstr "לא ניתן להתחבר ללקוח %s:%d."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:1
 msgid "Backward shoulder stretch"
@@ -1008,37 +899,161 @@ msgstr ""
 "סובב את הראש שמאלה והשאר כך למשך 2 שניות. לאחר מכך סובב את הראש ימינה והשאר "
 "כך למשך 2 שניות."
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
-msgid "Break ignored"
-msgstr "התעלמת מן ההפסקה"
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:253
+msgid "Exercises player"
+msgstr "מציג התרגילים"
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:2
-msgid "Break prompt"
-msgstr "שאלה לפני הפסקה"
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:446
+msgid "Resume"
+msgstr "המשך"
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:4
-msgid "Exercise ended"
-msgstr "סוף התרגיל"
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:446
+msgid "Pause"
+msgstr "הפסק"
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:5
-msgid "Exercises ended"
-msgstr "סוף התרגילים"
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:132
+msgid "Browse history"
+msgstr "עיון בהיסטוריה"
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:6
-msgid "Micro-break ended"
-msgstr "סוף ההפסקה הזעירה"
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:139
+msgid "Date:"
+msgstr "תאריך:"
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:7
-msgid "Micro-break started"
-msgstr "התחלה הפסקה זעירה"
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:174
+msgid "Breaks"
+msgstr "הפסקות"
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:8
-msgid "Rest break ended"
-msgstr "סוף הפסקת מנוחה"
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:184
+msgid "Break prompts"
+msgstr "שאלות לפני הפסקה"
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:9
-msgid "Rest break started"
-msgstr "התחלת הפסקת מנוחה"
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:185
+msgid ""
+"The number of times you were prompted to break, excluding repeated prompts "
+"for the same break"
+msgstr "מספר הפעמים בהם נשאלת לפני הפסקה, פרט לשאלות חוזרות לגבי אותה הפסקה"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:190
+msgid "Repeated prompts"
+msgstr "שאלות חוזרות"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:191
+msgid "The number of times you were repeatedly prompted to break"
+msgstr "מספר הפעמים בהם נשאלת באופן חוזר לפני הפסקה"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:195
+msgid "Prompted breaks taken"
+msgstr "הפסקות שנלקחו"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:196
+msgid "The number of times you took a break when being prompted"
+msgstr "מספר הפעמים שלקחת הפסקה לאחר שנשאלת"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:200
+msgid "Natural breaks taken"
+msgstr "הפסקות טבעיות"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:201
+msgid "The number of times you took a break without being prompted"
+msgstr "מספר הפעמים בהן לקחת הפסקה מבלי שנשאלת לכך"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:205
+msgid "Breaks skipped"
+msgstr "הפסקות שדולגו"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:206
+msgid "The number of breaks you skipped"
+msgstr "מספר ההפסקות עליהן דילגת"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:210
+msgid "Breaks postponed"
+msgstr "הפסקות שנדחו"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:211
+msgid "The number of breaks you postponed"
+msgstr "מספר ההפסקות שדחית"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:215
+msgid "Overdue time"
+msgstr "זמן איחור"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:216
+msgid "The total time this break was overdue"
+msgstr "הזמן הכולל של דחיית הפסקה זו"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:220
+msgid "Daily usage"
+msgstr "שימוש יומי"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:221
+msgid "The total computer usage"
+msgstr "השימוש הכולל במחשב"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:284
+msgid "Activity"
+msgstr "פעילות"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:294
+msgid "Mouse usage:"
+msgstr "שימוש בעכבר:"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:295
+msgid "The total time you were using the mouse"
+msgstr "הזמן הכולל בו השתמשת בעכבר"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:298
+msgid "Mouse movement:"
+msgstr "תזוזת עכבר:"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:299
+msgid "The total on-screen mouse movement"
+msgstr "סך התנועות של העכבר על המסך"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:302
+msgid "Effective mouse movement:"
+msgstr "תזוזת עכבר אפקטיבית:"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:303
+msgid ""
+"The total mouse movement you would have had if you moved your mouse in "
+"straight lines between clicks"
+msgstr "סך התזוזת של העכבר שהיית עושה לו הזזת את העכבר בקווים ישרים בין לחיצות"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:307
+msgid "Mouse button clicks:"
+msgstr "לחיצות עכבר"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:308
+msgid "The total number of mouse button clicks"
+msgstr "מספר הפעמים הכולל של לחיצות על כפתורי העכבר"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:311
+msgid "Keystrokes:"
+msgstr "הקשות מקשים:"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:312
+msgid "The total number of keys pressed"
+msgstr "המספר הכולל של המקשים שהוקשו"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:362
+#, c-format
+msgid "%s, from %s to %s"
+msgstr "%s, מתוך %s עד %s"
+
+#: ../frontend/text/src/PreludeWindow.cc:152
+#, fuzzy
+msgid "Break in"
+msgstr "הפסקה בעוד %s"
+
+#: ../frontend/text/src/PreludeWindow.cc:157
+#, fuzzy
+msgid "Disappears in"
+msgstr "יעלם בעוד %s"
+
+#: ../frontend/text/src/PreludeWindow.cc:163
+#, fuzzy
+msgid "Silent in"
+msgstr "שקט בעוד %s"
 
 #~ msgid ""
 #~ "Close your eyes and breathe out as long as you can and try to relax. When "

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.8.3\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2006-09-06 15:16+0000\n"
+"POT-Creation-Date: 2006-12-28 19:10+0100\n"
 "PO-Revision-Date: 2006-08-16 02:24+0300\n"
 "Last-Translator: Enver ALTIN <ealtin@parkyeri.com>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
@@ -17,39 +17,215 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../frontend/gtkmm/src/eggtrayicon.c:133
-msgid "Orientation"
-msgstr "Yönelim"
-
-#: ../frontend/gtkmm/src/eggtrayicon.c:134
-msgid "The orientation of the tray."
-msgstr "Tepsinin yönelimi"
-
-#: ../frontend/gtkmm/src/gnome-about.c:308
-msgid "Credits"
-msgstr "Katkıda bulunanlar"
-
-#: ../frontend/gtkmm/src/gnome-about.c:341
-msgid "_Written by"
-msgstr "_Geliştirenler"
-
-#: ../frontend/gtkmm/src/gnome-about.c:356
-msgid "_Documented by"
-msgstr "_Belgeleyenler"
-
-#: ../frontend/gtkmm/src/gnome-about.c:371
-msgid "_Translated by"
-msgstr "_Yerelleştirenler"
-
-#. Add the credits button
-#: ../frontend/gtkmm/src/gnome-about.c:431
-msgid "_Credits"
-msgstr "_Katkıda bulunanlar"
-
-#: ../frontend/gtkmm/src/gnome-about.c:614
+#: ../backend/src/DistributionSocketLink.cc:127
 #, c-format
-msgid "About %s"
-msgstr "%s hakkında"
+msgid "Reconnecting to %s:%d."
+msgstr "%s:%d adresine yeniden bağlanılıyor."
+
+#: ../backend/src/DistributionSocketLink.cc:358
+msgid "Cannot resolve my own hostname. Deactivating distribution."
+msgstr ""
+"Bu istemci kendi kendisinin adını çözemedi, dağıtım işlevi kapatılıyor."
+
+#. We did not succeed in starting the server. Arghh.
+#: ../backend/src/DistributionSocketLink.cc:369
+msgid "Could not enable network operation."
+msgstr "Ağ işlevi etkinleştirilemedi."
+
+#: ../backend/src/DistributionSocketLink.cc:378
+msgid "Disabling network operation."
+msgstr "Ağ işlevi hizmet dışı bırakılıyor."
+
+#: ../backend/src/DistributionSocketLink.cc:534
+#: ../backend/src/DistributionSocketLink.cc:561
+#, c-format
+msgid "Connecting to %s:%d."
+msgstr "%s:%d adresine bağlanılıyor."
+
+#: ../backend/src/DistributionSocketLink.cc:665
+#: ../backend/src/DistributionSocketLink.cc:692
+#, c-format
+msgid "Removing client %s:%d."
+msgstr "%s:%d istemcisi listeden çıkarılıyor."
+
+#. Closing direct connection.
+#: ../backend/src/DistributionSocketLink.cc:731
+#, c-format
+msgid "Disconnecting %s:%d."
+msgstr "%s:%d bağlantısı kesiliyor."
+
+#. It's a remote client. mark it master.
+#: ../backend/src/DistributionSocketLink.cc:901
+#, c-format
+msgid "Client %s:%d is now master."
+msgstr "%s:%d istemcisi asıl sunucu oldu."
+
+#. Its ME!
+#: ../backend/src/DistributionSocketLink.cc:907
+msgid "I'm now master."
+msgstr "Bu istemci şimdi asıl sunucu oldu."
+
+#: ../backend/src/DistributionSocketLink.cc:1236
+#, c-format
+msgid "Client %s:%d saying hello."
+msgstr "%s:%d istemcisi merhaba diyor."
+
+#. Duplicate client. inform client that it's bogus and close.
+#: ../backend/src/DistributionSocketLink.cc:1251
+#: ../backend/src/DistributionSocketLink.cc:1370
+#: ../backend/src/DistributionSocketLink.cc:1607
+#, c-format
+msgid "Client %s:%d is duplicate."
+msgstr "%s:%d istemcisi bir kopya."
+
+#. Incorrect password.
+#: ../backend/src/DistributionSocketLink.cc:1260
+#, c-format
+msgid "Client %s:%d access denied."
+msgstr "%s:%s istemcisinin erişimi reddedildi."
+
+#: ../backend/src/DistributionSocketLink.cc:1327
+#, c-format
+msgid "Client %s:%d signed off."
+msgstr "%s:%d istemcisi bağlantıyı kesti."
+
+#: ../backend/src/DistributionSocketLink.cc:1409
+#, c-format
+msgid "Client %s:%d is welcoming us."
+msgstr "%s:%d istemcisi bağlantıya davet ediyor."
+
+#: ../backend/src/DistributionSocketLink.cc:1644
+#, c-format
+msgid "Requesting master status from %s:%d."
+msgstr "%s:%d adresinden asıl sunucu durumu isteniyor."
+
+#: ../backend/src/DistributionSocketLink.cc:1657
+#, c-format
+msgid "Client timeout from %s:%d."
+msgstr "%s:%d istemcisinin bağlantısı zaman aşımına uğradı."
+
+#: ../backend/src/DistributionSocketLink.cc:1678
+#, c-format
+msgid "Rejecting master request from client %s:%d."
+msgstr "%s:%d istemcisinden gelen asıl sunucu isteği reddedildi."
+
+#: ../backend/src/DistributionSocketLink.cc:1684
+#, c-format
+msgid "Acknowledging master request from client %s:%d."
+msgstr "%s:%d istemcisinin asıl sunucu isteği yanıtlanıyor."
+
+#: ../backend/src/DistributionSocketLink.cc:1735
+#, c-format
+msgid "Non-master client %s:%d rejected master request."
+msgstr "Asıl olmayan istemci %s:%d asıl sunucu isteğini reddetti."
+
+#: ../backend/src/DistributionSocketLink.cc:1740
+#, c-format
+msgid "Client %s:%d rejected master request, delaying."
+msgstr "%s:%d istemcisi asıl sunucu isteğini reddetti, bekleniyor."
+
+#. gint count =
+#: ../backend/src/DistributionSocketLink.cc:1811
+#, c-format
+msgid "Client %s is now the new master."
+msgstr "%s istemcisi yeni asıl sunucu oldu."
+
+#: ../backend/src/DistributionSocketLink.cc:1932
+msgid "Network operation started."
+msgstr "Ağ işlemi başlatıldı."
+
+#: ../backend/src/DistributionSocketLink.cc:1949
+msgid "Accepted new client."
+msgstr "Yeni istemci kabul edildi."
+
+#: ../backend/src/DistributionSocketLink.cc:2004
+#, c-format
+msgid "Client %s:%d read error, closing."
+msgstr "%s:%d istemcisinden veri okunurken hatası oluştu, bağlantı kesiliyor."
+
+#: ../backend/src/DistributionSocketLink.cc:2010
+#: ../backend/src/DistributionSocketLink.cc:2084
+#, c-format
+msgid "Client %s:%d closed connection."
+msgstr "%s:%d istemcisi bağlantıyı kesti."
+
+#: ../backend/src/DistributionSocketLink.cc:2051
+#, c-format
+msgid "Client %s:%d connected."
+msgstr "%s:%s istemcisi bağlandı."
+
+#: ../backend/src/DistributionSocketLink.cc:2091
+#, c-format
+msgid "Could not connect to client %s:%d."
+msgstr "%s:%d istemcisine bağlanılamadı."
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
+msgid "Break ignored"
+msgstr "Mola gözardı edildi"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:2
+msgid "Break prompt"
+msgstr "Mola istemi"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:45
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:53
+#: ../frontend/gtkmm/src/GUI.cc:1299 ../frontend/gtkmm/src/GtkUtil.cc:160
+msgid "Daily limit"
+msgstr "Günlük sınır"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:4
+msgid "Exercise ended"
+msgstr "Alıştırma bitti"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:5
+msgid "Exercises ended"
+msgstr "Alıştırma hareketleri bitti"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:6
+msgid "Micro-break ended"
+msgstr "Kısa-mola bitti"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:7
+msgid "Micro-break started"
+msgstr "Kısa-mola başladı"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:8
+msgid "Rest break ended"
+msgstr "Dinlenme molası bitti"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:9
+msgid "Rest break started"
+msgstr "Dinlenme molası başladı"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:10
+#: ../frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:1
+msgid "Workrave"
+msgstr "Workrave"
+
+#: ../frontend/common/src/Text.cc:75
+#, c-format
+msgid "%s%d:%02d:%02d hours"
+msgstr "%s%d:%02d:%02d saat"
+
+#: ../frontend/common/src/Text.cc:79
+#, c-format
+msgid "%s%d:%02d minutes"
+msgstr "%s%d:%02d dakika"
+
+#: ../frontend/common/src/Text.cc:83
+#, c-format
+msgid "%s%d seconds"
+msgstr "%s%d saniye"
+
+#: ../frontend/common/src/TimerBoxControl.cc:209
+msgid "Inactive"
+msgstr "Hareketsiz"
+
+#: ../frontend/common/src/TimerBoxControl.cc:252
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:188
+msgid "Wait"
+msgstr "Bekle"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:197
 msgid "Lock"
@@ -67,14 +243,6 @@ msgstr "Atla"
 msgid "Postpone"
 msgstr "Ertele"
 
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:45
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:53
-#: ../frontend/common/src/TimerBoxControl.cc:195
-#: ../frontend/gtkmm/src/GtkUtil.cc:160
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
-msgid "Daily limit"
-msgstr "Günlük sınır"
-
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:54
 msgid ""
 "You have reached your daily limit. Please stop working\n"
@@ -85,104 +253,93 @@ msgstr ""
 "başında çalışmayı bırakın. Eğer çalışma gününüz bitmediyse,\n"
 "yapacak belge incelemek gibi başka bir iş bulun."
 
-#: ../frontend/gtkmm/src/GUI.cc:734
+#: ../frontend/gtkmm/src/GUI.cc:786
 msgid "I could not initialize Bonobo"
 msgstr "Bonobo başlatılamadı"
 
 #. FIXME: duplicate
-#: ../frontend/common/src/TimerBoxControl.cc:195
-#: ../frontend/gtkmm/src/GtkUtil.cc:160
+#: ../frontend/gtkmm/src/GUI.cc:1299 ../frontend/gtkmm/src/GtkUtil.cc:160
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:52
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:171
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:270
 msgid "Micro-break"
 msgstr "Kısa-mola"
 
-#: ../frontend/common/src/TimerBoxControl.cc:195
-#: ../frontend/gtkmm/src/GtkUtil.cc:160
+#: ../frontend/gtkmm/src/GUI.cc:1299 ../frontend/gtkmm/src/GtkUtil.cc:160
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:144
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:76
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:206
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:211
 msgid "Rest break"
 msgstr "Dinlenme molası"
 
-#: ../frontend/common/src/TimerBoxControl.cc:213
-msgid "Inactive"
-msgstr "Hareketsiz"
-
-#: ../frontend/common/src/TimerBoxControl.cc:261
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:179
-msgid "Wait"
-msgstr "Bekle"
-
 #. Mode menu item
-#: ../frontend/gtkmm/src/Menus.cc:169 ../frontend/gtkmm/src/Menus.cc:446
+#: ../frontend/gtkmm/src/Menus.cc:201 ../frontend/gtkmm/src/Menus.cc:513
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
 msgid "_Mode"
 msgstr "Çalış_ma biçimi"
 
-#: ../frontend/gtkmm/src/Menus.cc:220 ../frontend/gtkmm/src/Menus.cc:465
+#: ../frontend/gtkmm/src/Menus.cc:256 ../frontend/gtkmm/src/Menus.cc:532
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
 msgid "_Network"
 msgstr "_Ağ"
 
-#: ../frontend/gtkmm/src/Menus.cc:224 ../frontend/gtkmm/src/Menus.cc:449
+#: ../frontend/gtkmm/src/Menus.cc:260 ../frontend/gtkmm/src/Menus.cc:516
 msgid "_Connect"
 msgstr "_Bağlan"
 
-#: ../frontend/gtkmm/src/Menus.cc:229 ../frontend/gtkmm/src/Menus.cc:452
+#: ../frontend/gtkmm/src/Menus.cc:265 ../frontend/gtkmm/src/Menus.cc:519
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
 msgid "_Disconnect"
 msgstr "Bağlantıyı _kes"
 
-#: ../frontend/gtkmm/src/Menus.cc:234 ../frontend/gtkmm/src/Menus.cc:456
+#: ../frontend/gtkmm/src/Menus.cc:270 ../frontend/gtkmm/src/Menus.cc:523
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
 msgid "_Reconnect"
 msgstr "_Yeniden bağlan"
 
-#: ../frontend/gtkmm/src/Menus.cc:239 ../frontend/gtkmm/src/Menus.cc:459
+#: ../frontend/gtkmm/src/Menus.cc:275 ../frontend/gtkmm/src/Menus.cc:526
 msgid "Show _log"
 msgstr "_Günlüğü göster"
 
-#: ../frontend/gtkmm/src/Menus.cc:264 ../frontend/gtkmm/src/Menus.cc:421
+#: ../frontend/gtkmm/src/Menus.cc:298 ../frontend/gtkmm/src/Menus.cc:488
 msgid "_Rest break"
 msgstr "_Dinlenme molası"
 
-#: ../frontend/gtkmm/src/Menus.cc:278 ../frontend/gtkmm/src/Menus.cc:422
+#: ../frontend/gtkmm/src/Menus.cc:312 ../frontend/gtkmm/src/Menus.cc:489
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:40
 msgid "Exercises"
 msgstr "Alıştırmalar"
 
-#: ../frontend/gtkmm/src/Menus.cc:290 ../frontend/gtkmm/src/Menus.cc:467
+#: ../frontend/gtkmm/src/Menus.cc:324 ../frontend/gtkmm/src/Menus.cc:534
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:59
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:138
 msgid "Statistics"
 msgstr "İstatistikler"
 
-#: ../frontend/gtkmm/src/Menus.cc:304 ../frontend/gtkmm/src/Menus.cc:468
+#: ../frontend/gtkmm/src/Menus.cc:338 ../frontend/gtkmm/src/Menus.cc:535
 msgid "About..."
 msgstr "Workrave hakkında..."
 
-#: ../frontend/gtkmm/src/Menus.cc:420
+#: ../frontend/gtkmm/src/Menus.cc:487
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:55
 msgid "Preferences"
 msgstr "Tercihler"
 
-#: ../frontend/gtkmm/src/Menus.cc:425
+#: ../frontend/gtkmm/src/Menus.cc:492
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
 msgid "_Normal"
 msgstr "_Normal"
 
-#: ../frontend/gtkmm/src/Menus.cc:432
+#: ../frontend/gtkmm/src/Menus.cc:499
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
 msgid "_Suspended"
 msgstr "_Duraklat"
 
-#: ../frontend/gtkmm/src/Menus.cc:439
+#: ../frontend/gtkmm/src/Menus.cc:506
 msgid "Q_uiet"
 msgstr "_Rahatsız etme"
 
-#: ../frontend/gtkmm/src/Menus.cc:737
+#: ../frontend/gtkmm/src/Menus.cc:809
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -282,14 +439,17 @@ msgid "Block mode:"
 msgstr "Engelleme kipi:"
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:105
+#: ../frontend/text/src/PreludeWindow.cc:50
 msgid "Time for a micro-break?"
 msgstr "Kısa bir mola verelim mi?"
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:109
+#: ../frontend/text/src/PreludeWindow.cc:54
 msgid "You need a rest break..."
 msgstr "Bir dinlenme molasına ihtiyacınız var..."
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:113
+#: ../frontend/text/src/PreludeWindow.cc:58
 msgid "You should stop for today..."
 msgstr "Bugün için artık durmalısınız..."
 
@@ -308,12 +468,12 @@ msgstr "%s sonra kaybolacak"
 msgid "Silent in %s"
 msgstr "%s sonra sessiz olacak."
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:167
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:172
 #, c-format
 msgid "Rest break for %s"
 msgstr "%s için dinlenme molası"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:207
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:212
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -440,6 +600,40 @@ msgstr "Mola süresi:"
 msgid "Postpone time:"
 msgstr "Erteleme süresi:"
 
+#: ../frontend/gtkmm/src/eggtrayicon.c:133
+msgid "Orientation"
+msgstr "Yönelim"
+
+#: ../frontend/gtkmm/src/eggtrayicon.c:134
+msgid "The orientation of the tray."
+msgstr "Tepsinin yönelimi"
+
+#: ../frontend/gtkmm/src/gnome-about.c:308
+msgid "Credits"
+msgstr "Katkıda bulunanlar"
+
+#: ../frontend/gtkmm/src/gnome-about.c:341
+msgid "_Written by"
+msgstr "_Geliştirenler"
+
+#: ../frontend/gtkmm/src/gnome-about.c:356
+msgid "_Documented by"
+msgstr "_Belgeleyenler"
+
+#: ../frontend/gtkmm/src/gnome-about.c:371
+msgid "_Translated by"
+msgstr "_Yerelleştirenler"
+
+#. Add the credits button
+#: ../frontend/gtkmm/src/gnome-about.c:431
+msgid "_Credits"
+msgstr "_Katkıda bulunanlar"
+
+#: ../frontend/gtkmm/src/gnome-about.c:614
+#, c-format
+msgid "About %s"
+msgstr "%s hakkında"
+
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:1
 msgid "_About..."
 msgstr "_Hakkında..."
@@ -480,26 +674,9 @@ msgstr "_Günlüğü göster"
 msgid "_Statistics"
 msgstr "İ_statistikler"
 
-#: ../frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:1
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:10
-msgid "Workrave"
-msgstr "Workrave"
-
 #: ../frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:2
 msgid "Workrave Applet"
 msgstr "Workrave panel takısı"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:253
-msgid "Exercises player"
-msgstr "Alıştırma öğretici"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:444
-msgid "Resume"
-msgstr "Sürdür"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:444
-msgid "Pause"
-msgstr "Duraklat"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:48
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:67
@@ -578,297 +755,6 @@ msgstr "Bağlantı noktası"
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:233
 msgid "Hosts"
 msgstr "Sunucular"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:132
-msgid "Browse history"
-msgstr "Gözatma geçmişi"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:139
-msgid "Date:"
-msgstr "Tarih:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:174
-msgid "Breaks"
-msgstr "Molalar"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:184
-msgid "Break prompts"
-msgstr "Mola hatırlatmaları"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:185
-msgid ""
-"The number of times you were prompted to break, excluding repeated prompts "
-"for the same break"
-msgstr ""
-"Tekrarlanan hatırlatmalar hariç mola vermeniz için yapılan hatırlatmaların "
-"toplam sayısı"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:190
-msgid "Repeated prompts"
-msgstr "Tekrarlanan hatırlatmalar"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:191
-msgid "The number of times you were repeatedly prompted to break"
-msgstr ""
-"Mola vermeniz için ardarda birkaç kez yapılan hatırlatmaların toplam sayısı"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:195
-msgid "Prompted breaks taken"
-msgstr "Hatırlatılarak verdiğiniz molalar"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:196
-msgid "The number of times you took a break when being prompted"
-msgstr "Hatırlatılarak verdiğiniz molaların toplam sayısı"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:200
-msgid "Natural breaks taken"
-msgstr "Kendiliğinden verilen molalar"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:201
-msgid "The number of times you took a break without being prompted"
-msgstr "Hatırlatmaya gerek kalmadan kendi verdiğiniz molaların sayısı"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:205
-msgid "Breaks skipped"
-msgstr "Atlanan molalar"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:206
-msgid "The number of breaks you skipped"
-msgstr "Atladığınız molaların toplam sayısı"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:210
-msgid "Breaks postponed"
-msgstr "Ertelenen molalar"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:211
-msgid "The number of breaks you postponed"
-msgstr "Ertelediğiniz molaların sayısı"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:215
-msgid "Overdue time"
-msgstr "Gecikme süresi"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:216
-msgid "The total time this break was overdue"
-msgstr "Bu molanın geciktiği toplam süre"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:220
-msgid "Daily usage"
-msgstr "Günlük kullanım"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:221
-msgid "The total computer usage"
-msgstr "Toplam bilgisayar kullanımı"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:284
-msgid "Activity"
-msgstr "Etkinlik"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:294
-msgid "Mouse usage:"
-msgstr "Fare kullanımı:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:295
-msgid "The total time you were using the mouse"
-msgstr "Fare kullandığınız toplam süre"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:298
-msgid "Mouse movement:"
-msgstr "Fare hareketi:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:299
-msgid "The total on-screen mouse movement"
-msgstr "Toplam ekran-üzerindeki fare hareketi"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:302
-msgid "Effective mouse movement:"
-msgstr "Etkin fare hareketi:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:303
-msgid ""
-"The total mouse movement you would have had if you moved your mouse in "
-"straight lines between clicks"
-msgstr ""
-"Eğer tıklamalar arasında fareyi düz çizgiler haline hareket "
-"ettirmişolsaydınız katetmiş olacağınız toplam yol."
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:307
-msgid "Mouse button clicks:"
-msgstr "Fare düğmesi tıklaması:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:308
-msgid "The total number of mouse button clicks"
-msgstr "Toplam fare düğmesi tıklaması sayısı"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:311
-msgid "Keystrokes:"
-msgstr "Tuş vuruşları:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:312
-msgid "The total number of keys pressed"
-msgstr "Toplam tuş vuruşu sayısı"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:362
-#, c-format
-msgid "%s, from %s to %s"
-msgstr "%2$s'den %3$s'ye kadar %s."
-
-#: ../frontend/common/src/Text.cc:75
-#, c-format
-msgid "%s%d:%02d:%02d hours"
-msgstr "%s%d:%02d:%02d saat"
-
-#: ../frontend/common/src/Text.cc:79
-#, c-format
-msgid "%s%d:%02d minutes"
-msgstr "%s%d:%02d dakika"
-
-#: ../frontend/common/src/Text.cc:83
-#, c-format
-msgid "%s%d seconds"
-msgstr "%s%d saniye"
-
-#: ../backend/src/DistributionSocketLink.cc:127
-#, c-format
-msgid "Reconnecting to %s:%d."
-msgstr "%s:%d adresine yeniden bağlanılıyor."
-
-#: ../backend/src/DistributionSocketLink.cc:347
-msgid "Cannot resolve my own hostname. Deactivating distribution."
-msgstr ""
-"Bu istemci kendi kendisinin adını çözemedi, dağıtım işlevi kapatılıyor."
-
-#. We did not succeed in starting the server. Arghh.
-#: ../backend/src/DistributionSocketLink.cc:358
-msgid "Could not enable network operation."
-msgstr "Ağ işlevi etkinleştirilemedi."
-
-#: ../backend/src/DistributionSocketLink.cc:367
-msgid "Disabling network operation."
-msgstr "Ağ işlevi hizmet dışı bırakılıyor."
-
-#: ../backend/src/DistributionSocketLink.cc:523
-#: ../backend/src/DistributionSocketLink.cc:550
-#, c-format
-msgid "Connecting to %s:%d."
-msgstr "%s:%d adresine bağlanılıyor."
-
-#: ../backend/src/DistributionSocketLink.cc:654
-#: ../backend/src/DistributionSocketLink.cc:681
-#, c-format
-msgid "Removing client %s:%d."
-msgstr "%s:%d istemcisi listeden çıkarılıyor."
-
-#. Closing direct connection.
-#: ../backend/src/DistributionSocketLink.cc:720
-#, c-format
-msgid "Disconnecting %s:%d."
-msgstr "%s:%d bağlantısı kesiliyor."
-
-#. It's a remote client. mark it master.
-#: ../backend/src/DistributionSocketLink.cc:890
-#, c-format
-msgid "Client %s:%d is now master."
-msgstr "%s:%d istemcisi asıl sunucu oldu."
-
-#. Its ME!
-#: ../backend/src/DistributionSocketLink.cc:896
-msgid "I'm now master."
-msgstr "Bu istemci şimdi asıl sunucu oldu."
-
-#: ../backend/src/DistributionSocketLink.cc:1225
-#, c-format
-msgid "Client %s:%d saying hello."
-msgstr "%s:%d istemcisi merhaba diyor."
-
-#. Duplicate client. inform client that it's bogus and close.
-#: ../backend/src/DistributionSocketLink.cc:1240
-#: ../backend/src/DistributionSocketLink.cc:1359
-#: ../backend/src/DistributionSocketLink.cc:1596
-#, c-format
-msgid "Client %s:%d is duplicate."
-msgstr "%s:%d istemcisi bir kopya."
-
-#. Incorrect password.
-#: ../backend/src/DistributionSocketLink.cc:1249
-#, c-format
-msgid "Client %s:%d access denied."
-msgstr "%s:%s istemcisinin erişimi reddedildi."
-
-#: ../backend/src/DistributionSocketLink.cc:1316
-#, c-format
-msgid "Client %s:%d signed off."
-msgstr "%s:%d istemcisi bağlantıyı kesti."
-
-#: ../backend/src/DistributionSocketLink.cc:1398
-#, c-format
-msgid "Client %s:%d is welcoming us."
-msgstr "%s:%d istemcisi bağlantıya davet ediyor."
-
-#: ../backend/src/DistributionSocketLink.cc:1633
-#, c-format
-msgid "Requesting master status from %s:%d."
-msgstr "%s:%d adresinden asıl sunucu durumu isteniyor."
-
-#: ../backend/src/DistributionSocketLink.cc:1646
-#, c-format
-msgid "Client timeout from %s:%d."
-msgstr "%s:%d istemcisinin bağlantısı zaman aşımına uğradı."
-
-#: ../backend/src/DistributionSocketLink.cc:1667
-#, c-format
-msgid "Rejecting master request from client %s:%d."
-msgstr "%s:%d istemcisinden gelen asıl sunucu isteği reddedildi."
-
-#: ../backend/src/DistributionSocketLink.cc:1673
-#, c-format
-msgid "Acknowledging master request from client %s:%d."
-msgstr "%s:%d istemcisinin asıl sunucu isteği yanıtlanıyor."
-
-#: ../backend/src/DistributionSocketLink.cc:1724
-#, c-format
-msgid "Non-master client %s:%d rejected master request."
-msgstr "Asıl olmayan istemci %s:%d asıl sunucu isteğini reddetti."
-
-#: ../backend/src/DistributionSocketLink.cc:1729
-#, c-format
-msgid "Client %s:%d rejected master request, delaying."
-msgstr "%s:%d istemcisi asıl sunucu isteğini reddetti, bekleniyor."
-
-#. gint count =
-#: ../backend/src/DistributionSocketLink.cc:1800
-#, c-format
-msgid "Client %s is now the new master."
-msgstr "%s istemcisi yeni asıl sunucu oldu."
-
-#: ../backend/src/DistributionSocketLink.cc:1921
-msgid "Network operation started."
-msgstr "Ağ işlemi başlatıldı."
-
-#: ../backend/src/DistributionSocketLink.cc:1938
-msgid "Accepted new client."
-msgstr "Yeni istemci kabul edildi."
-
-#: ../backend/src/DistributionSocketLink.cc:1993
-#, c-format
-msgid "Client %s:%d read error, closing."
-msgstr "%s:%d istemcisinden veri okunurken hatası oluştu, bağlantı kesiliyor."
-
-#: ../backend/src/DistributionSocketLink.cc:1999
-#: ../backend/src/DistributionSocketLink.cc:2073
-#, c-format
-msgid "Client %s:%d closed connection."
-msgstr "%s:%d istemcisi bağlantıyı kesti."
-
-#: ../backend/src/DistributionSocketLink.cc:2040
-#, c-format
-msgid "Client %s:%d connected."
-msgstr "%s:%s istemcisi bağlandı."
-
-#: ../backend/src/DistributionSocketLink.cc:2080
-#, c-format
-msgid "Could not connect to client %s:%d."
-msgstr "%s:%d istemcisine bağlanılamadı."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:1
 msgid "Backward shoulder stretch"
@@ -1029,34 +915,163 @@ msgstr ""
 "Başınızı sola çevirip 2 saniye bekleyin, sonra başınızı sağa çeviripiki "
 "saniye bekleyin."
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
-msgid "Break ignored"
-msgstr "Mola gözardı edildi"
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:253
+msgid "Exercises player"
+msgstr "Alıştırma öğretici"
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:2
-msgid "Break prompt"
-msgstr "Mola istemi"
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:446
+msgid "Resume"
+msgstr "Sürdür"
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:4
-msgid "Exercise ended"
-msgstr "Alıştırma bitti"
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:446
+msgid "Pause"
+msgstr "Duraklat"
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:5
-msgid "Exercises ended"
-msgstr "Alıştırma hareketleri bitti"
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:132
+msgid "Browse history"
+msgstr "Gözatma geçmişi"
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:6
-msgid "Micro-break ended"
-msgstr "Kısa-mola bitti"
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:139
+msgid "Date:"
+msgstr "Tarih:"
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:7
-msgid "Micro-break started"
-msgstr "Kısa-mola başladı"
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:174
+msgid "Breaks"
+msgstr "Molalar"
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:8
-msgid "Rest break ended"
-msgstr "Dinlenme molası bitti"
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:184
+msgid "Break prompts"
+msgstr "Mola hatırlatmaları"
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:9
-msgid "Rest break started"
-msgstr "Dinlenme molası başladı"
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:185
+msgid ""
+"The number of times you were prompted to break, excluding repeated prompts "
+"for the same break"
+msgstr ""
+"Tekrarlanan hatırlatmalar hariç mola vermeniz için yapılan hatırlatmaların "
+"toplam sayısı"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:190
+msgid "Repeated prompts"
+msgstr "Tekrarlanan hatırlatmalar"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:191
+msgid "The number of times you were repeatedly prompted to break"
+msgstr ""
+"Mola vermeniz için ardarda birkaç kez yapılan hatırlatmaların toplam sayısı"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:195
+msgid "Prompted breaks taken"
+msgstr "Hatırlatılarak verdiğiniz molalar"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:196
+msgid "The number of times you took a break when being prompted"
+msgstr "Hatırlatılarak verdiğiniz molaların toplam sayısı"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:200
+msgid "Natural breaks taken"
+msgstr "Kendiliğinden verilen molalar"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:201
+msgid "The number of times you took a break without being prompted"
+msgstr "Hatırlatmaya gerek kalmadan kendi verdiğiniz molaların sayısı"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:205
+msgid "Breaks skipped"
+msgstr "Atlanan molalar"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:206
+msgid "The number of breaks you skipped"
+msgstr "Atladığınız molaların toplam sayısı"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:210
+msgid "Breaks postponed"
+msgstr "Ertelenen molalar"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:211
+msgid "The number of breaks you postponed"
+msgstr "Ertelediğiniz molaların sayısı"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:215
+msgid "Overdue time"
+msgstr "Gecikme süresi"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:216
+msgid "The total time this break was overdue"
+msgstr "Bu molanın geciktiği toplam süre"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:220
+msgid "Daily usage"
+msgstr "Günlük kullanım"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:221
+msgid "The total computer usage"
+msgstr "Toplam bilgisayar kullanımı"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:284
+msgid "Activity"
+msgstr "Etkinlik"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:294
+msgid "Mouse usage:"
+msgstr "Fare kullanımı:"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:295
+msgid "The total time you were using the mouse"
+msgstr "Fare kullandığınız toplam süre"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:298
+msgid "Mouse movement:"
+msgstr "Fare hareketi:"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:299
+msgid "The total on-screen mouse movement"
+msgstr "Toplam ekran-üzerindeki fare hareketi"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:302
+msgid "Effective mouse movement:"
+msgstr "Etkin fare hareketi:"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:303
+msgid ""
+"The total mouse movement you would have had if you moved your mouse in "
+"straight lines between clicks"
+msgstr ""
+"Eğer tıklamalar arasında fareyi düz çizgiler haline hareket "
+"ettirmişolsaydınız katetmiş olacağınız toplam yol."
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:307
+msgid "Mouse button clicks:"
+msgstr "Fare düğmesi tıklaması:"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:308
+msgid "The total number of mouse button clicks"
+msgstr "Toplam fare düğmesi tıklaması sayısı"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:311
+msgid "Keystrokes:"
+msgstr "Tuş vuruşları:"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:312
+msgid "The total number of keys pressed"
+msgstr "Toplam tuş vuruşu sayısı"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:362
+#, c-format
+msgid "%s, from %s to %s"
+msgstr "%2$s'den %3$s'ye kadar %s."
+
+#: ../frontend/text/src/PreludeWindow.cc:152
+#, fuzzy
+msgid "Break in"
+msgstr "%s sonra ara."
+
+#: ../frontend/text/src/PreludeWindow.cc:157
+#, fuzzy
+msgid "Disappears in"
+msgstr "%s sonra kaybolacak"
+
+#: ../frontend/text/src/PreludeWindow.cc:163
+#, fuzzy
+msgid "Silent in"
+msgstr "%s sonra sessiz olacak."

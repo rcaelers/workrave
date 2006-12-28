@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.8\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2006-09-06 15:16+0000\n"
+"POT-Creation-Date: 2006-12-28 19:10+0100\n"
 "PO-Revision-Date: 2006-07-31 18:08+0200\n"
 "Last-Translator:  <>\n"
 "Language-Team: \n"
@@ -16,39 +16,215 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../frontend/gtkmm/src/eggtrayicon.c:133
-msgid "Orientation"
-msgstr "Orientación"
-
-#: ../frontend/gtkmm/src/eggtrayicon.c:134
-msgid "The orientation of the tray."
-msgstr "Orientación de la ventana de aviso"
-
-#: ../frontend/gtkmm/src/gnome-about.c:308
-msgid "Credits"
-msgstr "Colaboradores"
-
-#: ../frontend/gtkmm/src/gnome-about.c:341
-msgid "_Written by"
-msgstr "_Autores:"
-
-#: ../frontend/gtkmm/src/gnome-about.c:356
-msgid "_Documented by"
-msgstr "_Documentación:"
-
-#: ../frontend/gtkmm/src/gnome-about.c:371
-msgid "_Translated by"
-msgstr "_Traductores:"
-
-#. Add the credits button
-#: ../frontend/gtkmm/src/gnome-about.c:431
-msgid "_Credits"
-msgstr "_Colaboradores:"
-
-#: ../frontend/gtkmm/src/gnome-about.c:614
+#: ../backend/src/DistributionSocketLink.cc:127
 #, c-format
-msgid "About %s"
-msgstr "Acerca de %s"
+msgid "Reconnecting to %s:%d."
+msgstr "Volviendo a conectar con %s:%d:"
+
+#: ../backend/src/DistributionSocketLink.cc:358
+msgid "Cannot resolve my own hostname. Deactivating distribution."
+msgstr "No puedo resolver el nombre de mi servidor. Desactivando distribución."
+
+#. We did not succeed in starting the server. Arghh.
+#: ../backend/src/DistributionSocketLink.cc:369
+msgid "Could not enable network operation."
+msgstr "No se ha podido realizar la conexión de red."
+
+#: ../backend/src/DistributionSocketLink.cc:378
+msgid "Disabling network operation."
+msgstr "Desactivando la conexión de red."
+
+#: ../backend/src/DistributionSocketLink.cc:534
+#: ../backend/src/DistributionSocketLink.cc:561
+#, c-format
+msgid "Connecting to %s:%d."
+msgstr "Conectando con %s:%d."
+
+#: ../backend/src/DistributionSocketLink.cc:665
+#: ../backend/src/DistributionSocketLink.cc:692
+#, c-format
+msgid "Removing client %s:%d."
+msgstr "Borrando cliente %s:%d."
+
+#. Closing direct connection.
+#: ../backend/src/DistributionSocketLink.cc:731
+#, c-format
+msgid "Disconnecting %s:%d."
+msgstr "Desconectando de %s:%d."
+
+#. It's a remote client. mark it master.
+#: ../backend/src/DistributionSocketLink.cc:901
+#, c-format
+msgid "Client %s:%d is now master."
+msgstr "El cliente %s:%d es ahora amo."
+
+#. Its ME!
+#: ../backend/src/DistributionSocketLink.cc:907
+msgid "I'm now master."
+msgstr "Ahora soy yo amo."
+
+#: ../backend/src/DistributionSocketLink.cc:1236
+#, c-format
+msgid "Client %s:%d saying hello."
+msgstr "El cliente %s:%d dice 'Hola'."
+
+#. Duplicate client. inform client that it's bogus and close.
+#: ../backend/src/DistributionSocketLink.cc:1251
+#: ../backend/src/DistributionSocketLink.cc:1370
+#: ../backend/src/DistributionSocketLink.cc:1607
+#, c-format
+msgid "Client %s:%d is duplicate."
+msgstr "El cliente %s:%d está duplicado."
+
+#. Incorrect password.
+#: ../backend/src/DistributionSocketLink.cc:1260
+#, c-format
+msgid "Client %s:%d access denied."
+msgstr "Acceso denegado al cliente %s:%d."
+
+#: ../backend/src/DistributionSocketLink.cc:1327
+#, c-format
+msgid "Client %s:%d signed off."
+msgstr "El cliente %s:%d se ha dado de baja."
+
+#: ../backend/src/DistributionSocketLink.cc:1409
+#, c-format
+msgid "Client %s:%d is welcoming us."
+msgstr "El cliente %s:%d le da la bienvenida."
+
+#: ../backend/src/DistributionSocketLink.cc:1644
+#, c-format
+msgid "Requesting master status from %s:%d."
+msgstr "Solicitando el estatuo de amo a %s:%d."
+
+#: ../backend/src/DistributionSocketLink.cc:1657
+#, c-format
+msgid "Client timeout from %s:%d."
+msgstr "Tiempo sobrepasado del cliente %s:%d."
+
+#: ../backend/src/DistributionSocketLink.cc:1678
+#, c-format
+msgid "Rejecting master request from client %s:%d."
+msgstr "Denegada la solicitud del cliente %s:%d de estatuto de amo."
+
+#: ../backend/src/DistributionSocketLink.cc:1684
+#, c-format
+msgid "Acknowledging master request from client %s:%d."
+msgstr "Confirmado estatuto de amo del cliente %s:%d."
+
+#: ../backend/src/DistributionSocketLink.cc:1735
+#, c-format
+msgid "Non-master client %s:%d rejected master request."
+msgstr ""
+"El cliente %s:%d sin estatuto de amo ha rechazado la solicitud del amo."
+
+#: ../backend/src/DistributionSocketLink.cc:1740
+#, c-format
+msgid "Client %s:%d rejected master request, delaying."
+msgstr "El cliente %s:%d ha rechazado la petición del amo. Aguarde."
+
+#. gint count =
+#: ../backend/src/DistributionSocketLink.cc:1811
+#, c-format
+msgid "Client %s is now the new master."
+msgstr "El cliente %s es ahora el nuevo amo."
+
+#: ../backend/src/DistributionSocketLink.cc:1932
+msgid "Network operation started."
+msgstr "Inicializada la actividad en red."
+
+#: ../backend/src/DistributionSocketLink.cc:1949
+msgid "Accepted new client."
+msgstr "Nuevo cliente aceptado."
+
+#: ../backend/src/DistributionSocketLink.cc:2004
+#, c-format
+msgid "Client %s:%d read error, closing."
+msgstr "Error de lectura en el cliente %s:%d, cerrando conexión."
+
+#: ../backend/src/DistributionSocketLink.cc:2010
+#: ../backend/src/DistributionSocketLink.cc:2084
+#, c-format
+msgid "Client %s:%d closed connection."
+msgstr "Conexión cerrada por el cliente %s:%d."
+
+#: ../backend/src/DistributionSocketLink.cc:2051
+#, c-format
+msgid "Client %s:%d connected."
+msgstr "Cliente %s:%d conectado"
+
+#: ../backend/src/DistributionSocketLink.cc:2091
+#, c-format
+msgid "Could not connect to client %s:%d."
+msgstr "No se ha podido conectar al cliente %s:%d."
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
+msgid "Break ignored"
+msgstr "Descanso ignorado"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:2
+msgid "Break prompt"
+msgstr "Aviso de descanso"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:45
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:53
+#: ../frontend/gtkmm/src/GUI.cc:1299 ../frontend/gtkmm/src/GtkUtil.cc:160
+msgid "Daily limit"
+msgstr "Límite diario"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:4
+msgid "Exercise ended"
+msgstr "Fin del ejercicio"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:5
+msgid "Exercises ended"
+msgstr "Fin de los ejercicios"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:6
+msgid "Micro-break ended"
+msgstr "Fin de la micropausa"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:7
+msgid "Micro-break started"
+msgstr "Micropausa comenzada"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:8
+msgid "Rest break ended"
+msgstr "Fin del descanso"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:9
+msgid "Rest break started"
+msgstr "Comienzo del descanso"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:10
+#: ../frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:1
+msgid "Workrave"
+msgstr "Workrave"
+
+#: ../frontend/common/src/Text.cc:75
+#, c-format
+msgid "%s%d:%02d:%02d hours"
+msgstr "%s%d:%02d:%02d horas"
+
+#: ../frontend/common/src/Text.cc:79
+#, c-format
+msgid "%s%d:%02d minutes"
+msgstr "%s%d:%02d minutos"
+
+#: ../frontend/common/src/Text.cc:83
+#, c-format
+msgid "%s%d seconds"
+msgstr "%s%d segundos"
+
+#: ../frontend/common/src/TimerBoxControl.cc:209
+msgid "Inactive"
+msgstr "Inactivo"
+
+#: ../frontend/common/src/TimerBoxControl.cc:252
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:188
+msgid "Wait"
+msgstr "Espere"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:197
 msgid "Lock"
@@ -66,14 +242,6 @@ msgstr "Saltar"
 msgid "Postpone"
 msgstr "Aplazar"
 
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:45
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:53
-#: ../frontend/common/src/TimerBoxControl.cc:195
-#: ../frontend/gtkmm/src/GtkUtil.cc:160
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
-msgid "Daily limit"
-msgstr "Límite diario"
-
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:54
 msgid ""
 "You have reached your daily limit. Please stop working\n"
@@ -85,104 +253,93 @@ msgstr ""
 "no haya terminado, cambie de actividad, como por ejemplo,\n"
 "revisar documentos."
 
-#: ../frontend/gtkmm/src/GUI.cc:734
+#: ../frontend/gtkmm/src/GUI.cc:786
 msgid "I could not initialize Bonobo"
 msgstr "No se puede inicializar Bonobo"
 
 #. FIXME: duplicate
-#: ../frontend/common/src/TimerBoxControl.cc:195
-#: ../frontend/gtkmm/src/GtkUtil.cc:160
+#: ../frontend/gtkmm/src/GUI.cc:1299 ../frontend/gtkmm/src/GtkUtil.cc:160
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:52
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:171
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:270
 msgid "Micro-break"
 msgstr "Micropausa"
 
-#: ../frontend/common/src/TimerBoxControl.cc:195
-#: ../frontend/gtkmm/src/GtkUtil.cc:160
+#: ../frontend/gtkmm/src/GUI.cc:1299 ../frontend/gtkmm/src/GtkUtil.cc:160
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:144
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:76
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:206
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:211
 msgid "Rest break"
 msgstr "Descanso"
 
-#: ../frontend/common/src/TimerBoxControl.cc:213
-msgid "Inactive"
-msgstr "Inactivo"
-
-#: ../frontend/common/src/TimerBoxControl.cc:261
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:179
-msgid "Wait"
-msgstr "Espere"
-
 #. Mode menu item
-#: ../frontend/gtkmm/src/Menus.cc:169 ../frontend/gtkmm/src/Menus.cc:446
+#: ../frontend/gtkmm/src/Menus.cc:201 ../frontend/gtkmm/src/Menus.cc:513
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
 msgid "_Mode"
 msgstr "_Modo"
 
-#: ../frontend/gtkmm/src/Menus.cc:220 ../frontend/gtkmm/src/Menus.cc:465
+#: ../frontend/gtkmm/src/Menus.cc:256 ../frontend/gtkmm/src/Menus.cc:532
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
 msgid "_Network"
 msgstr "_Red"
 
-#: ../frontend/gtkmm/src/Menus.cc:224 ../frontend/gtkmm/src/Menus.cc:449
+#: ../frontend/gtkmm/src/Menus.cc:260 ../frontend/gtkmm/src/Menus.cc:516
 msgid "_Connect"
 msgstr "_Conectar"
 
-#: ../frontend/gtkmm/src/Menus.cc:229 ../frontend/gtkmm/src/Menus.cc:452
+#: ../frontend/gtkmm/src/Menus.cc:265 ../frontend/gtkmm/src/Menus.cc:519
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
 msgid "_Disconnect"
 msgstr "_Desconectar"
 
-#: ../frontend/gtkmm/src/Menus.cc:234 ../frontend/gtkmm/src/Menus.cc:456
+#: ../frontend/gtkmm/src/Menus.cc:270 ../frontend/gtkmm/src/Menus.cc:523
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
 msgid "_Reconnect"
 msgstr "_Volver a conectar"
 
-#: ../frontend/gtkmm/src/Menus.cc:239 ../frontend/gtkmm/src/Menus.cc:459
+#: ../frontend/gtkmm/src/Menus.cc:275 ../frontend/gtkmm/src/Menus.cc:526
 msgid "Show _log"
 msgstr "_Mostrar bitácora"
 
-#: ../frontend/gtkmm/src/Menus.cc:264 ../frontend/gtkmm/src/Menus.cc:421
+#: ../frontend/gtkmm/src/Menus.cc:298 ../frontend/gtkmm/src/Menus.cc:488
 msgid "_Rest break"
 msgstr "_Descanso"
 
-#: ../frontend/gtkmm/src/Menus.cc:278 ../frontend/gtkmm/src/Menus.cc:422
+#: ../frontend/gtkmm/src/Menus.cc:312 ../frontend/gtkmm/src/Menus.cc:489
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:40
 msgid "Exercises"
 msgstr "Ejercicios"
 
-#: ../frontend/gtkmm/src/Menus.cc:290 ../frontend/gtkmm/src/Menus.cc:467
+#: ../frontend/gtkmm/src/Menus.cc:324 ../frontend/gtkmm/src/Menus.cc:534
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:59
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:138
 msgid "Statistics"
 msgstr "Estadística"
 
-#: ../frontend/gtkmm/src/Menus.cc:304 ../frontend/gtkmm/src/Menus.cc:468
+#: ../frontend/gtkmm/src/Menus.cc:338 ../frontend/gtkmm/src/Menus.cc:535
 msgid "About..."
 msgstr "Acerca de..."
 
-#: ../frontend/gtkmm/src/Menus.cc:420
+#: ../frontend/gtkmm/src/Menus.cc:487
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:55
 msgid "Preferences"
 msgstr "Preferencias"
 
-#: ../frontend/gtkmm/src/Menus.cc:425
+#: ../frontend/gtkmm/src/Menus.cc:492
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
 msgid "_Normal"
 msgstr "_Normal"
 
-#: ../frontend/gtkmm/src/Menus.cc:432
+#: ../frontend/gtkmm/src/Menus.cc:499
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
 msgid "_Suspended"
 msgstr "_Suspendido"
 
-#: ../frontend/gtkmm/src/Menus.cc:439
+#: ../frontend/gtkmm/src/Menus.cc:506
 msgid "Q_uiet"
 msgstr "_Parado"
 
-#: ../frontend/gtkmm/src/Menus.cc:737
+#: ../frontend/gtkmm/src/Menus.cc:809
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -282,14 +439,17 @@ msgid "Block mode:"
 msgstr "Modo de impedimento"
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:105
+#: ../frontend/text/src/PreludeWindow.cc:50
 msgid "Time for a micro-break?"
 msgstr "¿Una micropausa?"
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:109
+#: ../frontend/text/src/PreludeWindow.cc:54
 msgid "You need a rest break..."
 msgstr "Necesita un descanso..."
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:113
+#: ../frontend/text/src/PreludeWindow.cc:58
 msgid "You should stop for today..."
 msgstr "Debería terminar por hoy..."
 
@@ -308,12 +468,12 @@ msgstr "Desaparece en %s"
 msgid "Silent in %s"
 msgstr "Silencioso en %s"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:167
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:172
 #, c-format
 msgid "Rest break for %s"
 msgstr "Descanso de %s"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:207
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:212
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -438,6 +598,40 @@ msgstr "Duración de la interrupción:"
 msgid "Postpone time:"
 msgstr "Duración del aplazamiento:"
 
+#: ../frontend/gtkmm/src/eggtrayicon.c:133
+msgid "Orientation"
+msgstr "Orientación"
+
+#: ../frontend/gtkmm/src/eggtrayicon.c:134
+msgid "The orientation of the tray."
+msgstr "Orientación de la ventana de aviso"
+
+#: ../frontend/gtkmm/src/gnome-about.c:308
+msgid "Credits"
+msgstr "Colaboradores"
+
+#: ../frontend/gtkmm/src/gnome-about.c:341
+msgid "_Written by"
+msgstr "_Autores:"
+
+#: ../frontend/gtkmm/src/gnome-about.c:356
+msgid "_Documented by"
+msgstr "_Documentación:"
+
+#: ../frontend/gtkmm/src/gnome-about.c:371
+msgid "_Translated by"
+msgstr "_Traductores:"
+
+#. Add the credits button
+#: ../frontend/gtkmm/src/gnome-about.c:431
+msgid "_Credits"
+msgstr "_Colaboradores:"
+
+#: ../frontend/gtkmm/src/gnome-about.c:614
+#, c-format
+msgid "About %s"
+msgstr "Acerca de %s"
+
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:1
 msgid "_About..."
 msgstr "Acerca de..."
@@ -478,26 +672,9 @@ msgstr "_Mostrar bitácora"
 msgid "_Statistics"
 msgstr "_Estadística"
 
-#: ../frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:1
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:10
-msgid "Workrave"
-msgstr "Workrave"
-
 #: ../frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:2
 msgid "Workrave Applet"
 msgstr "Applet de Workrave"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:253
-msgid "Exercises player"
-msgstr "Tanda de ejercicios"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:444
-msgid "Resume"
-msgstr "Retomar"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:444
-msgid "Pause"
-msgstr "Pausa"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:48
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:67
@@ -576,297 +753,6 @@ msgstr "Puerto"
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:233
 msgid "Hosts"
 msgstr "Servidores en red"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:132
-msgid "Browse history"
-msgstr "Ver historial"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:139
-msgid "Date:"
-msgstr "Fecha:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:174
-msgid "Breaks"
-msgstr "Interrupciones"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:184
-msgid "Break prompts"
-msgstr "Avisos de interrupción"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:185
-msgid ""
-"The number of times you were prompted to break, excluding repeated prompts "
-"for the same break"
-msgstr ""
-"Número de veces que fue avisado, sin contar avisos repetidos para la misma "
-"interrupción, "
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:190
-msgid "Repeated prompts"
-msgstr "Avisos repetidos"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:191
-msgid "The number of times you were repeatedly prompted to break"
-msgstr ""
-"Número de veces que se le avisó repetidamente para hacer una interrupción"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:195
-msgid "Prompted breaks taken"
-msgstr "Interrupciones realizadas"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:196
-msgid "The number of times you took a break when being prompted"
-msgstr "Número de veces que hizo una interrupción al ser avisado"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:200
-msgid "Natural breaks taken"
-msgstr "Interrupciones espontáneas"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:201
-msgid "The number of times you took a break without being prompted"
-msgstr "Número de veces que hizo una interrupción sin que hubiese aviso"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:205
-msgid "Breaks skipped"
-msgstr "Interrupciones saltadas"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:206
-msgid "The number of breaks you skipped"
-msgstr "Número de interrupciones que se ha saltado"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:210
-msgid "Breaks postponed"
-msgstr "Interrupciones aplazadas"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:211
-msgid "The number of breaks you postponed"
-msgstr "Número de interrupciones que ha aplazado"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:215
-msgid "Overdue time"
-msgstr "Tiempo de retraso"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:216
-msgid "The total time this break was overdue"
-msgstr "Tiempo total de retraso de este descanso"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:220
-msgid "Daily usage"
-msgstr "Uso diario"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:221
-msgid "The total computer usage"
-msgstr "Uso total del ordenador"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:284
-msgid "Activity"
-msgstr "Actividad"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:294
-msgid "Mouse usage:"
-msgstr "Uso del ratón:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:295
-msgid "The total time you were using the mouse"
-msgstr "Tiempo total de uso del ratón"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:298
-msgid "Mouse movement:"
-msgstr "Movimiento del ratón:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:299
-msgid "The total on-screen mouse movement"
-msgstr "Distancia total recorrida con el ratón"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:302
-msgid "Effective mouse movement:"
-msgstr "Movimiento efectivo del ratón:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:303
-msgid ""
-"The total mouse movement you would have had if you moved your mouse in "
-"straight lines between clicks"
-msgstr ""
-"Distancia total que el ratón habría recorrido, si hubiese trazado líneas "
-"rectas entre la pulsación de los botones"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:307
-msgid "Mouse button clicks:"
-msgstr "Pulsaciones del ratón:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:308
-msgid "The total number of mouse button clicks"
-msgstr "Número total de pulsaciones de los botones del ratón"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:311
-msgid "Keystrokes:"
-msgstr "Pulsaciones de telclas:"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:312
-msgid "The total number of keys pressed"
-msgstr "Número total de teclas pulsadas"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:362
-#, c-format
-msgid "%s, from %s to %s"
-msgstr "%s, de %s a %s"
-
-#: ../frontend/common/src/Text.cc:75
-#, c-format
-msgid "%s%d:%02d:%02d hours"
-msgstr "%s%d:%02d:%02d horas"
-
-#: ../frontend/common/src/Text.cc:79
-#, c-format
-msgid "%s%d:%02d minutes"
-msgstr "%s%d:%02d minutos"
-
-#: ../frontend/common/src/Text.cc:83
-#, c-format
-msgid "%s%d seconds"
-msgstr "%s%d segundos"
-
-#: ../backend/src/DistributionSocketLink.cc:127
-#, c-format
-msgid "Reconnecting to %s:%d."
-msgstr "Volviendo a conectar con %s:%d:"
-
-#: ../backend/src/DistributionSocketLink.cc:347
-msgid "Cannot resolve my own hostname. Deactivating distribution."
-msgstr "No puedo resolver el nombre de mi servidor. Desactivando distribución."
-
-#. We did not succeed in starting the server. Arghh.
-#: ../backend/src/DistributionSocketLink.cc:358
-msgid "Could not enable network operation."
-msgstr "No se ha podido realizar la conexión de red."
-
-#: ../backend/src/DistributionSocketLink.cc:367
-msgid "Disabling network operation."
-msgstr "Desactivando la conexión de red."
-
-#: ../backend/src/DistributionSocketLink.cc:523
-#: ../backend/src/DistributionSocketLink.cc:550
-#, c-format
-msgid "Connecting to %s:%d."
-msgstr "Conectando con %s:%d."
-
-#: ../backend/src/DistributionSocketLink.cc:654
-#: ../backend/src/DistributionSocketLink.cc:681
-#, c-format
-msgid "Removing client %s:%d."
-msgstr "Borrando cliente %s:%d."
-
-#. Closing direct connection.
-#: ../backend/src/DistributionSocketLink.cc:720
-#, c-format
-msgid "Disconnecting %s:%d."
-msgstr "Desconectando de %s:%d."
-
-#. It's a remote client. mark it master.
-#: ../backend/src/DistributionSocketLink.cc:890
-#, c-format
-msgid "Client %s:%d is now master."
-msgstr "El cliente %s:%d es ahora amo."
-
-#. Its ME!
-#: ../backend/src/DistributionSocketLink.cc:896
-msgid "I'm now master."
-msgstr "Ahora soy yo amo."
-
-#: ../backend/src/DistributionSocketLink.cc:1225
-#, c-format
-msgid "Client %s:%d saying hello."
-msgstr "El cliente %s:%d dice 'Hola'."
-
-#. Duplicate client. inform client that it's bogus and close.
-#: ../backend/src/DistributionSocketLink.cc:1240
-#: ../backend/src/DistributionSocketLink.cc:1359
-#: ../backend/src/DistributionSocketLink.cc:1596
-#, c-format
-msgid "Client %s:%d is duplicate."
-msgstr "El cliente %s:%d está duplicado."
-
-#. Incorrect password.
-#: ../backend/src/DistributionSocketLink.cc:1249
-#, c-format
-msgid "Client %s:%d access denied."
-msgstr "Acceso denegado al cliente %s:%d."
-
-#: ../backend/src/DistributionSocketLink.cc:1316
-#, c-format
-msgid "Client %s:%d signed off."
-msgstr "El cliente %s:%d se ha dado de baja."
-
-#: ../backend/src/DistributionSocketLink.cc:1398
-#, c-format
-msgid "Client %s:%d is welcoming us."
-msgstr "El cliente %s:%d le da la bienvenida."
-
-#: ../backend/src/DistributionSocketLink.cc:1633
-#, c-format
-msgid "Requesting master status from %s:%d."
-msgstr "Solicitando el estatuo de amo a %s:%d."
-
-#: ../backend/src/DistributionSocketLink.cc:1646
-#, c-format
-msgid "Client timeout from %s:%d."
-msgstr "Tiempo sobrepasado del cliente %s:%d."
-
-#: ../backend/src/DistributionSocketLink.cc:1667
-#, c-format
-msgid "Rejecting master request from client %s:%d."
-msgstr "Denegada la solicitud del cliente %s:%d de estatuto de amo."
-
-#: ../backend/src/DistributionSocketLink.cc:1673
-#, c-format
-msgid "Acknowledging master request from client %s:%d."
-msgstr "Confirmado estatuto de amo del cliente %s:%d."
-
-#: ../backend/src/DistributionSocketLink.cc:1724
-#, c-format
-msgid "Non-master client %s:%d rejected master request."
-msgstr ""
-"El cliente %s:%d sin estatuto de amo ha rechazado la solicitud del amo."
-
-#: ../backend/src/DistributionSocketLink.cc:1729
-#, c-format
-msgid "Client %s:%d rejected master request, delaying."
-msgstr "El cliente %s:%d ha rechazado la petición del amo. Aguarde."
-
-#. gint count =
-#: ../backend/src/DistributionSocketLink.cc:1800
-#, c-format
-msgid "Client %s is now the new master."
-msgstr "El cliente %s es ahora el nuevo amo."
-
-#: ../backend/src/DistributionSocketLink.cc:1921
-msgid "Network operation started."
-msgstr "Inicializada la actividad en red."
-
-#: ../backend/src/DistributionSocketLink.cc:1938
-msgid "Accepted new client."
-msgstr "Nuevo cliente aceptado."
-
-#: ../backend/src/DistributionSocketLink.cc:1993
-#, c-format
-msgid "Client %s:%d read error, closing."
-msgstr "Error de lectura en el cliente %s:%d, cerrando conexión."
-
-#: ../backend/src/DistributionSocketLink.cc:1999
-#: ../backend/src/DistributionSocketLink.cc:2073
-#, c-format
-msgid "Client %s:%d closed connection."
-msgstr "Conexión cerrada por el cliente %s:%d."
-
-#: ../backend/src/DistributionSocketLink.cc:2040
-#, c-format
-msgid "Client %s:%d connected."
-msgstr "Cliente %s:%d conectado"
-
-#: ../backend/src/DistributionSocketLink.cc:2080
-#, c-format
-msgid "Could not connect to client %s:%d."
-msgstr "No se ha podido conectar al cliente %s:%d."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:1
 msgid "Backward shoulder stretch"
@@ -1028,37 +914,166 @@ msgstr ""
 "Gire la cabeza a la izquierda y déjela en esa posición durante 2 segundos. "
 "Entonces gire la cabeza hacia la derecha y manténgala así 2 segundos."
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
-msgid "Break ignored"
-msgstr "Descanso ignorado"
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:253
+msgid "Exercises player"
+msgstr "Tanda de ejercicios"
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:2
-msgid "Break prompt"
-msgstr "Aviso de descanso"
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:446
+msgid "Resume"
+msgstr "Retomar"
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:4
-msgid "Exercise ended"
-msgstr "Fin del ejercicio"
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:446
+msgid "Pause"
+msgstr "Pausa"
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:5
-msgid "Exercises ended"
-msgstr "Fin de los ejercicios"
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:132
+msgid "Browse history"
+msgstr "Ver historial"
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:6
-msgid "Micro-break ended"
-msgstr "Fin de la micropausa"
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:139
+msgid "Date:"
+msgstr "Fecha:"
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:7
-msgid "Micro-break started"
-msgstr "Micropausa comenzada"
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:174
+msgid "Breaks"
+msgstr "Interrupciones"
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:8
-msgid "Rest break ended"
-msgstr "Fin del descanso"
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:184
+msgid "Break prompts"
+msgstr "Avisos de interrupción"
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:9
-msgid "Rest break started"
-msgstr "Comienzo del descanso"
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:185
+msgid ""
+"The number of times you were prompted to break, excluding repeated prompts "
+"for the same break"
+msgstr ""
+"Número de veces que fue avisado, sin contar avisos repetidos para la misma "
+"interrupción, "
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:190
+msgid "Repeated prompts"
+msgstr "Avisos repetidos"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:191
+msgid "The number of times you were repeatedly prompted to break"
+msgstr ""
+"Número de veces que se le avisó repetidamente para hacer una interrupción"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:195
+msgid "Prompted breaks taken"
+msgstr "Interrupciones realizadas"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:196
+msgid "The number of times you took a break when being prompted"
+msgstr "Número de veces que hizo una interrupción al ser avisado"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:200
+msgid "Natural breaks taken"
+msgstr "Interrupciones espontáneas"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:201
+msgid "The number of times you took a break without being prompted"
+msgstr "Número de veces que hizo una interrupción sin que hubiese aviso"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:205
+msgid "Breaks skipped"
+msgstr "Interrupciones saltadas"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:206
+msgid "The number of breaks you skipped"
+msgstr "Número de interrupciones que se ha saltado"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:210
+msgid "Breaks postponed"
+msgstr "Interrupciones aplazadas"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:211
+msgid "The number of breaks you postponed"
+msgstr "Número de interrupciones que ha aplazado"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:215
+msgid "Overdue time"
+msgstr "Tiempo de retraso"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:216
+msgid "The total time this break was overdue"
+msgstr "Tiempo total de retraso de este descanso"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:220
+msgid "Daily usage"
+msgstr "Uso diario"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:221
+msgid "The total computer usage"
+msgstr "Uso total del ordenador"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:284
+msgid "Activity"
+msgstr "Actividad"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:294
+msgid "Mouse usage:"
+msgstr "Uso del ratón:"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:295
+msgid "The total time you were using the mouse"
+msgstr "Tiempo total de uso del ratón"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:298
+msgid "Mouse movement:"
+msgstr "Movimiento del ratón:"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:299
+msgid "The total on-screen mouse movement"
+msgstr "Distancia total recorrida con el ratón"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:302
+msgid "Effective mouse movement:"
+msgstr "Movimiento efectivo del ratón:"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:303
+msgid ""
+"The total mouse movement you would have had if you moved your mouse in "
+"straight lines between clicks"
+msgstr ""
+"Distancia total que el ratón habría recorrido, si hubiese trazado líneas "
+"rectas entre la pulsación de los botones"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:307
+msgid "Mouse button clicks:"
+msgstr "Pulsaciones del ratón:"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:308
+msgid "The total number of mouse button clicks"
+msgstr "Número total de pulsaciones de los botones del ratón"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:311
+msgid "Keystrokes:"
+msgstr "Pulsaciones de telclas:"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:312
+msgid "The total number of keys pressed"
+msgstr "Número total de teclas pulsadas"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:362
+#, c-format
+msgid "%s, from %s to %s"
+msgstr "%s, de %s a %s"
+
+#: ../frontend/text/src/PreludeWindow.cc:152
+#, fuzzy
+msgid "Break in"
+msgstr "Descanso en %s"
+
+#: ../frontend/text/src/PreludeWindow.cc:157
+#, fuzzy
+msgid "Disappears in"
+msgstr "Desaparece en %s"
+
+#: ../frontend/text/src/PreludeWindow.cc:163
+#, fuzzy
+msgid "Silent in"
+msgstr "Silencioso en %s"
 
 #~ msgid ""
 #~ "Close your eyes and breathe out as long as you can and try to relax. When "

@@ -798,7 +798,8 @@ Menus::on_menu_about()
     "ORY Mate <orymate@gmail.com>\n"
     "Иван Димов <idimov@users.sourceforge.net>\n"
     "Enver ALTIN <ealtin@parkyeri.com>\n"
-    "Prokopis Prokopidis <prokopidis@gmail.com>";
+    "Prokopis Prokopidis <prokopidis@gmail.com>\n"
+    "Peter Tuharsky <Peter.Tuharsky@banskabystrica.sk>";
   
   string icon = Util::complete_directory("workrave.png",
                                          Util::SEARCH_PATH_IMAGES);

@@ -1,72 +1,73 @@
-# Translation of no.po (Norwegian) for Workrave
-# Copyright (C) 2003, 2004, 2005 Rob Caelers & Raymond Penners
-# This file is distributed under the same license as the Workrave product.
-# Translation by Morten Lunde <morten.lunde@broadpark.no> 
-# Last updated 2005-05-12 (translation version #3)
-# 
+# Slovak translations for Workrave package.
+# Copyright (C) 2004 THE WORKRAVE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the Workrave package.
+# Peter Tuharsky <Peter.Tuharsky@banskabystrica.sk>, 2004, 2005, 2006.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: no\n"
+"Project-Id-Version: Workrave 1.6.2\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
 "POT-Creation-Date: 2006-12-28 19:10+0100\n"
-"PO-Revision-Date: 2006-07-31 18:10+0200\n"
-"Last-Translator: Morten Lunde <morten.lunde@broadpark.no>\n"
-"Language-Team:  >\n"
+"PO-Revision-Date: 2006-12-28 19:05+0100\n"
+"Last-Translator: Peter Tuharsky <peter.tuharsky@banskabystrica.sk>\n"
+"Language-Team: Slovak \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: ../backend/src/DistributionSocketLink.cc:127
 #, c-format
 msgid "Reconnecting to %s:%d."
-msgstr "Gjenopprett tilkobling til %s:%d."
+msgstr "Obnovujem spojenie ku %s:%d."
 
 #: ../backend/src/DistributionSocketLink.cc:358
 msgid "Cannot resolve my own hostname. Deactivating distribution."
-msgstr "Kan ikke finne maskinens nettverksnavn. Deaktiverer distribusjon."
+msgstr "Neviem zistiť môj vlastný názov počítača. Deaktivujem distribúciu."
 
 #. We did not succeed in starting the server. Arghh.
 #: ../backend/src/DistributionSocketLink.cc:369
 msgid "Could not enable network operation."
-msgstr "Kunne ikke aktivere nettverksfunksjonen."
+msgstr "Nepodarilo sa zapnúť sieťové operácie."
 
 #: ../backend/src/DistributionSocketLink.cc:378
 msgid "Disabling network operation."
-msgstr "Avbryter nettverksfunksjonen."
+msgstr "Vypínam sieťové operácie."
 
 #: ../backend/src/DistributionSocketLink.cc:534
 #: ../backend/src/DistributionSocketLink.cc:561
 #, c-format
 msgid "Connecting to %s:%d."
-msgstr "Kobler til %s:%d."
+msgstr "Pripájam sa k %s:%d."
 
 #: ../backend/src/DistributionSocketLink.cc:665
 #: ../backend/src/DistributionSocketLink.cc:692
 #, c-format
 msgid "Removing client %s:%d."
-msgstr "Fjerner klient %s:%d."
+msgstr "Odstraňujem klienta %s:%d."
 
 #. Closing direct connection.
 #: ../backend/src/DistributionSocketLink.cc:731
 #, c-format
 msgid "Disconnecting %s:%d."
-msgstr "Avbryter %s:%d."
+msgstr "Odpájam %s:%d."
 
 #. It's a remote client. mark it master.
 #: ../backend/src/DistributionSocketLink.cc:901
 #, c-format
 msgid "Client %s:%d is now master."
-msgstr "Klienten %s:%d er nå 'master'"
+msgstr "Klient %s:%d je teraz vedúci."
 
 #. Its ME!
 #: ../backend/src/DistributionSocketLink.cc:907
 msgid "I'm now master."
-msgstr "Jeg er nå 'master'"
+msgstr "Teraz som vedúci."
 
 #: ../backend/src/DistributionSocketLink.cc:1236
 #, c-format
 msgid "Client %s:%d saying hello."
-msgstr "Klient %s:%d sier 'hei'."
+msgstr "Klient %s:%d zdraví."
 
 #. Duplicate client. inform client that it's bogus and close.
 #: ../backend/src/DistributionSocketLink.cc:1251
@@ -74,127 +75,127 @@ msgstr "Klient %s:%d sier 'hei'."
 #: ../backend/src/DistributionSocketLink.cc:1607
 #, c-format
 msgid "Client %s:%d is duplicate."
-msgstr "Klient %s:%d er duplikat."
+msgstr "Klient %s:%d je duplikovaný."
 
 #. Incorrect password.
 #: ../backend/src/DistributionSocketLink.cc:1260
 #, c-format
 msgid "Client %s:%d access denied."
-msgstr "Klient %s:%d nektet adgang."
+msgstr "Klient %s:%d odmietol prístup."
 
 #: ../backend/src/DistributionSocketLink.cc:1327
 #, c-format
 msgid "Client %s:%d signed off."
-msgstr "Klient %s:%d logget av."
+msgstr "Klient %s:%d sa odhlásil."
 
 #: ../backend/src/DistributionSocketLink.cc:1409
 #, c-format
 msgid "Client %s:%d is welcoming us."
-msgstr "Klient %s:%d ønsker oss velkommen."
+msgstr "Klient %s:%d nás víta."
 
 #: ../backend/src/DistributionSocketLink.cc:1644
 #, c-format
 msgid "Requesting master status from %s:%d."
-msgstr "Anmodning om master status fra %s:%d."
+msgstr "Požiadavka vedúceho stavu od %s:%d."
 
 #: ../backend/src/DistributionSocketLink.cc:1657
 #, c-format
 msgid "Client timeout from %s:%d."
-msgstr "Klient tidsavbrudd fra %s:%d.."
+msgstr "Vypršal čas klienta %s:%d."
 
 #: ../backend/src/DistributionSocketLink.cc:1678
 #, c-format
 msgid "Rejecting master request from client %s:%d."
-msgstr "Avviser master anmodning fra klient %s:%d."
+msgstr "Zamieta sa požiadavka vedúceho stavu od klienta %s:%d."
 
 #: ../backend/src/DistributionSocketLink.cc:1684
 #, c-format
 msgid "Acknowledging master request from client %s:%d."
-msgstr "Bekrefter master anmodning fra klient %s:%d."
+msgstr "Uznáva sa požiadavka vedúceho stavu od klienta %s:%d."
 
 #: ../backend/src/DistributionSocketLink.cc:1735
 #, c-format
 msgid "Non-master client %s:%d rejected master request."
-msgstr "Ikke-master klient %s:%d avviste master anmodning."
+msgstr "Klient %s:%d nie je vedúci a odmietol požiadavku na vedúci stav."
 
 #: ../backend/src/DistributionSocketLink.cc:1740
 #, c-format
 msgid "Client %s:%d rejected master request, delaying."
-msgstr "Klient %s:%d avviste master anmodning, utsetter."
+msgstr "Klient %s:%d odmietol požiadavku na vedúci stav, čakám."
 
 #. gint count =
 #: ../backend/src/DistributionSocketLink.cc:1811
 #, c-format
 msgid "Client %s is now the new master."
-msgstr "Klient %s er nå ny master."
+msgstr "Klient %s je teraz vedúci."
 
 #: ../backend/src/DistributionSocketLink.cc:1932
 msgid "Network operation started."
-msgstr "Nettverksfunksjon startet"
+msgstr "Začali sieťové operácie."
 
 #: ../backend/src/DistributionSocketLink.cc:1949
 msgid "Accepted new client."
-msgstr "Aksepterte ny klient."
+msgstr "Akceptovaný nový klient."
 
 #: ../backend/src/DistributionSocketLink.cc:2004
 #, c-format
 msgid "Client %s:%d read error, closing."
-msgstr "Klient %s:%d lesefeil, lukker."
+msgstr "Chyba pri čitania s klientom %s:%d, ukončujem."
 
 #: ../backend/src/DistributionSocketLink.cc:2010
 #: ../backend/src/DistributionSocketLink.cc:2084
 #, c-format
 msgid "Client %s:%d closed connection."
-msgstr "Klient %s:%d avbrøt forbindelsen."
+msgstr "Klient %s:%d ukončil spojenie."
 
 #: ../backend/src/DistributionSocketLink.cc:2051
 #, c-format
 msgid "Client %s:%d connected."
-msgstr "Klient %s:%d tilkoblet."
+msgstr "Klient %s:%d sa pripojil."
 
 #: ../backend/src/DistributionSocketLink.cc:2091
 #, c-format
 msgid "Could not connect to client %s:%d."
-msgstr "Kunne ikke koble til klient %s:%d."
+msgstr "Nepodarilo sa pripojiť ku klientovi %s:%d."
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
 msgid "Break ignored"
-msgstr "Pause ignoreret"
+msgstr "Pauza ignorovaná"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:2
 msgid "Break prompt"
-msgstr "Pause påminnelse"
+msgstr "Upozornenie na pauzu"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:45
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:53
 #: ../frontend/gtkmm/src/GUI.cc:1299 ../frontend/gtkmm/src/GtkUtil.cc:160
 msgid "Daily limit"
-msgstr "Daglig grense"
+msgstr "Denný limit"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:4
 msgid "Exercise ended"
-msgstr "Øvelse avsluttet"
+msgstr "Koniec cviku"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:5
 msgid "Exercises ended"
-msgstr "Øvelser avsluttet"
+msgstr "Koniec cvičenia"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:6
 msgid "Micro-break ended"
-msgstr "Mikropause avsluttet"
+msgstr "Koniec Mikro-pauzy"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:7
 msgid "Micro-break started"
-msgstr "Mikropause startet"
+msgstr "Začiatok mikro-pauzy"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:8
 msgid "Rest break ended"
-msgstr "Hvilepause avsluttet"
+msgstr "Koniec prestávky"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:9
 msgid "Rest break started"
-msgstr "Hvilepause startet"
+msgstr "Začiatok prestávky"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:10
 #: ../frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:1
@@ -204,42 +205,42 @@ msgstr "Workrave"
 #: ../frontend/common/src/Text.cc:75
 #, c-format
 msgid "%s%d:%02d:%02d hours"
-msgstr "%s%d:%02d:%02d timer"
+msgstr "%s%d:%02d:%02d hodín"
 
 #: ../frontend/common/src/Text.cc:79
 #, c-format
 msgid "%s%d:%02d minutes"
-msgstr "%s%d:%02d minutter"
+msgstr "%s%d:%02d minút"
 
 #: ../frontend/common/src/Text.cc:83
 #, c-format
 msgid "%s%d seconds"
-msgstr "%s%d sekunder"
+msgstr "%s%d sekúnd"
 
 #: ../frontend/common/src/TimerBoxControl.cc:209
 msgid "Inactive"
-msgstr "Inaktiv"
+msgstr "Nečinný"
 
 #: ../frontend/common/src/TimerBoxControl.cc:252
 #: ../frontend/gtkmm/src/TimerBoxGtkView.cc:188
 msgid "Wait"
-msgstr "Vent"
+msgstr "Čakať"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:197
 msgid "Lock"
-msgstr "Lås"
+msgstr "Zámka"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:216
 msgid "Shut down"
-msgstr "Steng"
+msgstr "Vypnúť"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:233
 msgid "Skip"
-msgstr "Hopp over"
+msgstr "Preskočiť"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:246
 msgid "Postpone"
-msgstr "Utsett"
+msgstr "Odložiť"
 
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:54
 msgid ""
@@ -247,13 +248,13 @@ msgid ""
 "behind the computer. If your working day is not over yet,\n"
 "find something else to do, such as reviewing a document."
 msgstr ""
-"Du har nådd din daglige grense. Vennligst stopp arbeidet \n"
-"ved datamaskinen. Hvis din arbeidsdag ikke er slutt, finn \n"
-"på noe annet å gjøre, som gjennomlesning av et dokument."
+"Dosiahli ste svoj denný limit. Prosím prestaňte pracovať \n"
+"na počítači. Ak sa Váš pracovný deň ešte nekončí, nájdite si\n"
+"nejakú inú pracovnú činnosť, napríklad kontrolu dokumentov."
 
 #: ../frontend/gtkmm/src/GUI.cc:786
 msgid "I could not initialize Bonobo"
-msgstr "Feil: Kunne ikke initialisere Bonobo"
+msgstr "Nepodarilo sa inicializovať Bonobo"
 
 #. FIXME: duplicate
 #: ../frontend/gtkmm/src/GUI.cc:1299 ../frontend/gtkmm/src/GtkUtil.cc:160
@@ -261,440 +262,436 @@ msgstr "Feil: Kunne ikke initialisere Bonobo"
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:171
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:270
 msgid "Micro-break"
-msgstr "Mikropause"
+msgstr "Mikro-pauza"
 
 #: ../frontend/gtkmm/src/GUI.cc:1299 ../frontend/gtkmm/src/GtkUtil.cc:160
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:144
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:76
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:211
 msgid "Rest break"
-msgstr "Hvilepause"
+msgstr "Prestávka"
 
-#  Mode menu item
 #. Mode menu item
 #: ../frontend/gtkmm/src/Menus.cc:201 ../frontend/gtkmm/src/Menus.cc:513
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
 msgid "_Mode"
-msgstr "_Modus"
+msgstr "_Režim"
 
 #: ../frontend/gtkmm/src/Menus.cc:256 ../frontend/gtkmm/src/Menus.cc:532
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
 msgid "_Network"
-msgstr "_Nettverk"
+msgstr "_Sieť"
 
 #: ../frontend/gtkmm/src/Menus.cc:260 ../frontend/gtkmm/src/Menus.cc:516
 msgid "_Connect"
-msgstr "_Tilkoble"
+msgstr "_Pripojiť"
 
 #: ../frontend/gtkmm/src/Menus.cc:265 ../frontend/gtkmm/src/Menus.cc:519
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
 msgid "_Disconnect"
-msgstr "_Frakoble"
+msgstr "_Odpojiť"
 
 #: ../frontend/gtkmm/src/Menus.cc:270 ../frontend/gtkmm/src/Menus.cc:523
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
 msgid "_Reconnect"
-msgstr "_Gjenopprett forbindelse"
+msgstr "_Obnovit spojenie"
 
 #: ../frontend/gtkmm/src/Menus.cc:275 ../frontend/gtkmm/src/Menus.cc:526
 msgid "Show _log"
-msgstr "_Vis loggfil"
+msgstr "Zobraziť _záznam"
 
 #: ../frontend/gtkmm/src/Menus.cc:298 ../frontend/gtkmm/src/Menus.cc:488
 msgid "_Rest break"
-msgstr "_Hvilepause"
+msgstr "_Prestávka"
 
 #: ../frontend/gtkmm/src/Menus.cc:312 ../frontend/gtkmm/src/Menus.cc:489
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:40
 msgid "Exercises"
-msgstr "Øvelser"
+msgstr "Cvičenia"
 
 #: ../frontend/gtkmm/src/Menus.cc:324 ../frontend/gtkmm/src/Menus.cc:534
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:59
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:138
 msgid "Statistics"
-msgstr "Statistikk"
+msgstr "Štatistika"
 
 #: ../frontend/gtkmm/src/Menus.cc:338 ../frontend/gtkmm/src/Menus.cc:535
 msgid "About..."
-msgstr "Om..."
+msgstr "O..."
 
 #: ../frontend/gtkmm/src/Menus.cc:487
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:55
 msgid "Preferences"
-msgstr "Innstillinger"
+msgstr "Nastavenia"
 
 #: ../frontend/gtkmm/src/Menus.cc:492
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
 msgid "_Normal"
-msgstr "_Normal"
+msgstr "_Normálny"
 
 #: ../frontend/gtkmm/src/Menus.cc:499
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
 msgid "_Suspended"
-msgstr "_Suspendert"
+msgstr "_Zastavený"
 
 #: ../frontend/gtkmm/src/Menus.cc:506
 msgid "Q_uiet"
-msgstr "St_ille"
+msgstr "T_ichý"
 
 #: ../frontend/gtkmm/src/Menus.cc:809
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
 msgstr ""
-"Dette programmet hjelper til med å forebygge RSI syndrom (Repetetive Strain "
-"Injury)."
+"Tento program pomáha pri prevencii a regenerácii opakovaných bolestivých "
+"napätí (RSI)."
 
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:232
 msgid "Please relax for a few seconds"
-msgstr "Benytt denne pausen til å slappe av litt."
+msgstr "Prosím oddýchnite si niekoľko sekúnd"
 
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:239
 #, c-format
 msgid "Next rest break in %s"
-msgstr "Neste hvilepause om %s"
+msgstr "Ďalšia prestávka bude o %s"
 
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:244
 #, c-format
 msgid "Rest break %s overdue"
-msgstr "Tidspunktet for hvilepause er overskredet med %s minutter"
+msgstr "Prestávka o %s sa oneskoruje"
 
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:257
 #, c-format
 msgid "Daily limit in %s"
-msgstr "Daglig grense om %s"
+msgstr "Denný limit o %s"
 
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:262
 #, c-format
 msgid "Daily limit %s overdue"
-msgstr "Daglig grense overskredet med %s"
+msgstr "Prekračujete denný limit o %s"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:63
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:103
 msgid "General"
-msgstr "Generelt"
+msgstr "Všeobecné"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:66
 msgid "Status Window"
-msgstr "Statusvindu"
+msgstr "Stavové okno"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:69
 msgid "Applet"
-msgstr "Tilleggsprogram"
+msgstr "Aplet"
 
-#  Notebook
 #. Notebook
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:76
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:164
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:202
 msgid "Timers"
-msgstr "Tidtakere"
+msgstr "Časovače"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:77
 msgid "User interface"
-msgstr "Brukergrensesnitt"
+msgstr "Používateľské rozhranie"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:79
 msgid "Network"
-msgstr "Nettverk"
+msgstr "Sieť"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:120
 msgid "No sounds"
-msgstr "Ingen lyd"
+msgstr "Bez zvukov"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:122
 msgid "Play sounds using sound card"
-msgstr "Spill av lyd gjennom lydkortet"
+msgstr "Prehrávať zvuky pomocou zvukovej karty"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:124
 msgid "Play sounds using built-in speaker"
-msgstr "Spill av lyd med den innebygde høytaleren"
+msgstr "Prehrávať zvuky pomocou zabudovaného reproduktoru"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:152
 msgid "No blocking"
-msgstr "Ingen blokkering"
+msgstr "Neblokovať"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:154
 msgid "Block input"
-msgstr "Blokker tastatur/mus"
+msgstr "Blokovať vstupné zariadenia"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:156
 msgid "Block input and screen"
-msgstr "Blokker tastatur/mus og skjerm"
+msgstr "Blokovať vstupné zariadenia a obrazovku"
 
-#  Options
 #. Options
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:175
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:141
 msgid "Options"
-msgstr "Alternativer"
+msgstr "Možnosti"
 
-#  panel->add(*start_in_tray_cb);
 #. panel->add(*start_in_tray_cb);
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:177
 msgid "Sound:"
-msgstr "Lyd:"
+msgstr "Zvuk:"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:178
 msgid "Block mode:"
-msgstr "Blokkering:"
+msgstr "Blokovací režim:"
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:105
 #: ../frontend/text/src/PreludeWindow.cc:50
 msgid "Time for a micro-break?"
-msgstr "Tid til en mikropause?"
+msgstr "Čas na mikro-pauzu?"
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:109
 #: ../frontend/text/src/PreludeWindow.cc:54
 msgid "You need a rest break..."
-msgstr "Du trenger en hvilepause..."
+msgstr "Potrebujete prestávku..."
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:113
 #: ../frontend/text/src/PreludeWindow.cc:58
 msgid "You should stop for today..."
-msgstr "Du bør stoppe for i dag..."
+msgstr "Na dnes už stačilo..."
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:255
-#, c-format
+#, fuzzy, c-format
 msgid "Break in %s"
-msgstr "Pause om %s"
+msgstr "Pauza o"
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:259
-#, c-format
+#, fuzzy, c-format
 msgid "Disappears in %s"
-msgstr "Forsvinner om %s"
+msgstr "Zmizne o"
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:263
-#, c-format
+#, fuzzy, c-format
 msgid "Silent in %s"
-msgstr "Stille om %s"
+msgstr "Tichý v"
 
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:172
 #, c-format
 msgid "Rest break for %s"
-msgstr "Hvilepause i %s"
+msgstr "Prestávka po %s"
 
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:212
+#, fuzzy
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
 "walk around for a few minutes, stretch, and relax."
 msgstr ""
-"Du har nå hvilepause. Husk å reise deg opp og gå vekk \n"
-"fra datamaskinen regelmessig. Bare gå litt rundt i et \n"
-"par minutter, strekk ut og slapp av."
+"Nadišiel čas Vašej prestávky. Rozhodne nezostaňte\n"
+"sedieť -vstaňte, rozhýbte sa, choďte na chvíľu preč\n"
+"od počítača. Venujte niekoľko minút oddychu."
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:97
 msgid "Place timers next to each other"
-msgstr "Plasser tidene ved siden av hverandre"
+msgstr "Umiestniť časovače vedľa seba"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:99
 msgid "Place micro-break and rest break in one spot"
-msgstr "Plasser mikropauser og hvilepauser på samme sted"
+msgstr "Umiestniť mikro-pauzu a prestávku dohromady"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:101
 msgid "Place rest break and daily limit in one spot"
-msgstr "Plasser hvilepauser og daglig grense på samme sted"
+msgstr "Umiestniť prestávku a denný limit dohromady"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:103
 msgid "Place all timers in one spot"
-msgstr "Plasser alle pauser på samme sted"
+msgstr "Umiestniť všetky časovače dohromady"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:123
 msgid "Hide"
-msgstr "Skjul"
+msgstr "Skryť"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:125
 msgid "Show"
-msgstr "Vis"
+msgstr "Zobraziť"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:127
 msgid "Show only when this timer is first due"
-msgstr "Vis kun første gang perioden utløper"
+msgstr "Zobraziť len ak tento časovač vyprší ako prvý"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:135
 msgid "Show status window"
-msgstr "Vis statusvindu"
+msgstr "Zobraziť stavové okno"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:140
 msgid "The status window stays always on top of other windows"
-msgstr "Statusvinduet er altid øverst"
+msgstr "Stavové okno vždy umiestniť nad ostatné okná"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:146
 msgid "Applet enabled"
-msgstr "Tilleggsprogram aktiveret"
+msgstr "Povoliť aplet"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:152
 msgid "Display"
-msgstr "Vis"
+msgstr "Zobraziť"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:161
 msgid "Placement:"
-msgstr "Plassering:"
+msgstr "Umiestnenie:"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:162
 msgid "Cycle time:"
-msgstr "Tidssyklus:"
+msgstr "Trvanie cyklu:"
 
 #. Layout
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:167
 msgid "Micro-break:"
-msgstr "Mikropause:"
+msgstr "Mikro-pauza:"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:168
 msgid "Rest break:"
-msgstr "Hvilepause:"
+msgstr "Prestávka:"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:169
 msgid "Daily limit:"
-msgstr "Daglig grense:"
+msgstr "Denný limit:"
 
 #. Enabled/Disabled checkbox
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:63
 msgid "Enable timer"
-msgstr "Aktiver tidtaker"
+msgstr "Povoliť časovač"
 
 #. Prelude frame
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:104
 msgid "Break prompting"
-msgstr "Pausepåminnelser"
+msgstr "Pripomenutie pauzy"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:106
 msgid "Prompt before breaking"
-msgstr "Påminnelse før pauser"
+msgstr "Pripomenúť pred pauzou"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:111
 msgid "Maximum number of prompts:"
-msgstr "Maks antall påminnelser:"
+msgstr "Maximálny počet pripomenutí:"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:146
 msgid "Show 'Postpone' and 'Skip' button"
-msgstr "Vis knappene 'Utsett' og 'Hopp over'"
+msgstr "Zobraziť tlačítka 'Odložiť' a 'Preskočiť'"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:155
 msgid "Suspend timer when inactive"
-msgstr "Utsett tidtakere ved inaktivitet"
+msgstr "Zastaviť časovač pri nečinnosti"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:171
 msgid "Regard micro-breaks as activity"
-msgstr "Anse mikropauser som aktiviteter"
+msgstr "Považovať mikro-pauzy za aktivitu"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:185
 msgid "Number of exercises:"
-msgstr "Antall øvelser:"
+msgstr "Počet cvičení:"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:210
 msgid "Time before end:"
-msgstr "Tid før slutt:"
+msgstr "Čas pred koncom:"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:211
 msgid "Time between breaks:"
-msgstr "Tid mellom pauser:"
+msgstr "Čas mezi pauzami:"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:220
 msgid "Break duration:"
-msgstr "Pauselengde:"
+msgstr "Dĺžka pauzy:"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:242
 msgid "Postpone time:"
-msgstr "Utsettetelsesperiode:"
+msgstr "Čas odloženia:"
 
 #: ../frontend/gtkmm/src/eggtrayicon.c:133
 msgid "Orientation"
-msgstr "Orientering"
+msgstr "Orientácia"
 
 #: ../frontend/gtkmm/src/eggtrayicon.c:134
 msgid "The orientation of the tray."
-msgstr "Orienteringen av systemområdet"
+msgstr "Orientácia oznamovacej ikony"
 
 #: ../frontend/gtkmm/src/gnome-about.c:308
 msgid "Credits"
-msgstr "Utviklere"
+msgstr "Kredity"
 
 #: ../frontend/gtkmm/src/gnome-about.c:341
 msgid "_Written by"
-msgstr "_Skrevet av"
+msgstr "_Napísali"
 
 #: ../frontend/gtkmm/src/gnome-about.c:356
 msgid "_Documented by"
-msgstr "_Dokumentasjon av:"
+msgstr "_Zdokumentovali"
 
 #: ../frontend/gtkmm/src/gnome-about.c:371
 msgid "_Translated by"
-msgstr "_Oversatt av"
+msgstr "Preložili"
 
-#  Add the credits button
 #. Add the credits button
 #: ../frontend/gtkmm/src/gnome-about.c:431
 msgid "_Credits"
-msgstr "_Krediteringer"
+msgstr "_Kredity"
 
 #: ../frontend/gtkmm/src/gnome-about.c:614
 #, c-format
 msgid "About %s"
-msgstr "Om %s"
+msgstr "O %s"
 
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:1
 msgid "_About..."
-msgstr "Om..."
+msgstr "_O..."
 
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:2
 msgid "_Connect..."
-msgstr "_Koble til..."
+msgstr "_Pripojiť..."
 
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:4
 msgid "_Exercises"
-msgstr "_Øvelser"
+msgstr "_Cvičenia"
 
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:8
 msgid "_Open"
-msgstr "Å_pne"
+msgstr "_Otvoriť"
 
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:9
 msgid "_Preferences"
-msgstr "_Innstillinger"
+msgstr "_Nastavenia"
 
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:10
 msgid "_Quiet"
-msgstr "St_ille"
+msgstr "_Tichý"
 
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:11
 msgid "_Quit"
-msgstr "_Avslutt"
+msgstr "_Koniec"
 
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:13
 msgid "_Restbreak"
-msgstr "_Hvilepause"
+msgstr "_Prestávka"
 
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:14
 msgid "_Show Log..."
-msgstr "_Vis historikk"
+msgstr "_Zobraziť záznam..."
 
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:15
 msgid "_Statistics"
-msgstr "_Statistikk"
+msgstr "_Štatistika"
 
 #: ../frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:2
 msgid "Workrave Applet"
-msgstr "Workrave-Tilleggsprogram"
+msgstr "Workrave aplet"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:48
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:67
 msgid "Network connect"
-msgstr "Nettverksforbindelse"
+msgstr "Sieťové pripojenie"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:68
 msgid ""
 "Enter the host name and port number of a computer\n"
 "in the network you wish to connect to."
 msgstr ""
-"Oppgi navn og portnummer til en datamaskin i \n"
-"nettverket som du ønsker å koble deg til."
+"Zadajte názov počítača v sieti, ku ktorému sa chcete pripojiť, \n"
+"a jeho číslo portu."
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:80
 msgid "Host name:"
-msgstr "Vertsnavn:"
+msgstr "Názov počítača:"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:81
 msgid "Port:"
@@ -702,51 +699,51 @@ msgstr "Port:"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkLogDialog.cc:43
 msgid "Network log"
-msgstr "Netteverkslogg"
+msgstr "Sieťový záznam"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:90
 msgid "Enable networking"
-msgstr "Aktiver nettverk"
+msgstr "Povoliť sieťové pripojenie"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:97
 msgid "Username:"
-msgstr "Brukernavn:"
+msgstr "Meno:"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:98
 msgid "Password:"
-msgstr "Passord:"
+msgstr "Heslo:"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:115
 msgid "Server settings"
-msgstr "Server innstillinger"
+msgstr "Nastavenia serveru"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:137
 msgid "Server port:"
-msgstr "Serverport:"
+msgstr "Port serveru:"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:138
 msgid "Reconnect attempts:"
-msgstr "Tilknytningsforsøk:"
+msgstr "Pokusov o obnovu spojenia:"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:139
 msgid "Reconnect interval:"
-msgstr "Tilknytningsintervall:"
+msgstr "Interval obnovy spojenia:"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:142
 msgid "Advanced"
-msgstr "Avansert"
+msgstr "Pokročilé"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:159
 msgid ""
 "The following list specifies the hosts that Workrave connects to on\n"
 "start-up. Click the host name or port number to edit."
 msgstr ""
-"Følgende liste viser de vertsnavnene Workrave kobler seg til ved \n"
-"oppstart. Klikk på vertsnavn eller portnummer for å redigere."
+"Nasledujúci zoznam určuje počítače, ku ktorým sa Workrave pripojí\n"
+"počas štartu. Ak chcete niektorý upraviť, kliknite na názov alebo port."
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:188
 msgid "Host name"
-msgstr "Vertsnavn"
+msgstr "Názov počítača"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:196
 msgid "Port"
@@ -754,11 +751,11 @@ msgstr "Port"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:233
 msgid "Hosts"
-msgstr "Vertssystem"
+msgstr "Počítače"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:1
 msgid "Backward shoulder stretch"
-msgstr "Bakover skulderstrekk"
+msgstr "Zadné ponaťahovanie pliec"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:2
 msgid ""
@@ -766,13 +763,13 @@ msgid ""
 "eyelids. Now open your eyes and look into the darkness of your palms. This "
 "exercise gives better relief to your eyes compared to simply closing them."
 msgstr ""
-"Skjul øynene dine med håndflatene slik at du fortsatt kan åpne øyelokkene. "
-"Åpne nå øynene og se inn i mørket i håndflatene. Denne øvelsen gir bedre "
-"avlastning for øyene sammenlignet med bare å lukke de."
+"Zakryte si oči dlaňami tak, aby ste oči mohli ešte stále otvárať. Potom "
+"otvorte oči a dívajte sa do tmy vašich dlaní. Toto cvičenie uľaví Vašim "
+"očiam viac, než obyčajné zatvorenie."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:3
 msgid "Finger stretch"
-msgstr "Fingerutstrekning"
+msgstr "Ponaťahovanie prstov"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:4
 msgid "Fist roll"
@@ -784,8 +781,8 @@ msgid ""
 "inward, while straightening your arms. Hold this position for 5 to 15 "
 "seconds, and repeat this exercise twice."
 msgstr ""
-"Flett fingrene bak ryggen. Drei albuene forsiktig innover, mens du strekker "
-"armene. Hold denne stillingen i 5 til 15 sekunder. Gjenta øvelsen 2 ganger."
+"Prepleťte si prsty za chrbtom. Otočte si lakte zľahka dovnútra až po "
+"narovnanie rúk. Zostaňte tak 5 až 15 sekúnd. Opakujte cvik 2x."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
 msgid ""
@@ -794,9 +791,9 @@ msgid ""
 "shoulder. Hold this position briefly, and repeat the exercise for your other "
 "arm."
 msgstr ""
-"Strekk ut en arm rett ut foran brystkassen. Dytt denne armen med den andre "
-"mot deg inntil du merker en lett strekk i skulderen. Hold denne posisjonen "
-"en kort stund og gjenta hele øvelsen med den andre armen."
+"Držte jednu ruku predpaženú pred sebou vo výške hrudníka. Tlačte túto ruku k "
+"sebe pomocou druhej ruky, pokým nepocítite mierne pnutie v pleci. Chvíľu "
+"vydržte v tejto pozícii, potom zopakujte toto cvičenie s druhou rukou."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
 msgid ""
@@ -804,10 +801,9 @@ msgid ""
 "the border slowly to the upper right corner. Continue to the next corner, "
 "until you got around it two times. Then, reverse the exercise."
 msgstr ""
-"Se på øverste venstre hjørne av den ytterste kanten på skjermen din. Følg "
-"kanten langsomt med øynene til det øvre høyre hjørnet. Gjenta til du når "
-"neste hjørne osv, inntil du har nådd rundt hele veien to ganger. Gjenta "
-"øvelsen den motsatte veien rundt."
+"Dívejte sa na ľavý horný roh monitora, vonkajší okraj. Sledujte okraj pomaly "
+"doprava až do pravého horného rohu. Pokračujte do ďalšieho rohu, až kým celý "
+"monitor neobídete 2x. Potom cvik zopakujte v opačnom smere."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
 msgid ""
@@ -817,31 +813,31 @@ msgid ""
 "view. Then switch your focus between a distant object and a pen held at the "
 "same distance from your eyes as your monitor."
 msgstr ""
-"Fokuser på det fjerneste punktet du kan se bak skjermen din. Etter et par "
-"sekunder, fokuser på kanten av skjermen. Hvis du ikke kan se noe særlig bak "
-"skjermen din, snu deg i en annen retning med bedre utsikt og bytt fokus "
-"mellom et fjernt objekt og en penn holdt i samme avstand som mellom øynene "
-"og skjermen din."
+"Pozrite sa na najvzdialenejší bod za Vaším monitorom. Na tento bod zaostrite "
+"svoj zrak. Potom zaostrite na rám monitoru. Opakujte to. Ak za monitorom "
+"nemáte dosť vzdialený bod, najdite si iný smer, kde môžete zaostrovať do "
+"diaľky. Potom zaostrujte medzi vzdialeným objektom, a perom ktoré podržíte v "
+"rovnakej vzdialenosti od očí ako je váš monitor."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:9
 msgid "Look into the darkness"
-msgstr "Se inn i mørket"
+msgstr "Pohľad do tmy"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:10
 msgid "Move the eyes"
-msgstr "Beveg øynene"
+msgstr "Pohyb očí"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:11
 msgid "Move the shoulders"
-msgstr "Beveg skuldrene"
+msgstr "Pohyb ramien"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
 msgid "Move the shoulders up and down"
-msgstr "Beveg skuldrene opp og ned"
+msgstr "Pohyb pliec hore a dole"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
 msgid "Neck tilt stretch"
-msgstr "Utstrekking av nakken"
+msgstr "Ponaťahovanie krku bočným úklonom"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
 msgid ""
@@ -849,9 +845,9 @@ msgid ""
 "press your body up until your arms are straight. Try to move your head even "
 "further by lowering your shoulders. Slowly move back into your chair."
 msgstr ""
-"Ta tak i armlenene på stolen din mens du sitter og press kroppen opp inntil "
-"armene er strukket. Forsøk å flytte hodet enda lenger ved å senke skuldrene. "
-"Beveg deg sakte tilbake på plass i stolen."
+"V sede položte ruky na bočné opierky kresla a vytlačte telo hore až kým sú "
+"Vaše ruky vystreté. Skúste zdvihnúť hlavu ešte vyššie tým, že stlačíte "
+"plecia dole. Pomaly se vráťte do kresla."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
 msgid ""
@@ -867,13 +863,13 @@ msgid ""
 "this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
 "again for 10 seconds. Repeat this exercise once more."
 msgstr ""
-"Strekk ut og spre fingrene til du merker en lett strekk. Hold i 10 sekunder. "
-"Slapp av og knyt så sammen fingrene og hold igjen for 10 sekunder. Gjenta "
-"øvelsen en gang til."
+"Roztiahnite a napnite prsty, pokým začnete cítiť mierne pnutie. Vydržte "
+"takto 10 sekúnd. Odpočiňte si a ohnite prsty v kĺboch. Potom znovu vystrite "
+"na 10 sekúnd. Cvičenie ešte raz zopakujte."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
 msgid "Shoulder-arm stretch"
-msgstr "Skulder-/arm-utstrekking"
+msgstr "Ponaťahovanie pliec a ramien"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
 msgid ""
@@ -881,9 +877,8 @@ msgid ""
 "this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
 "with the left arm."
 msgstr ""
-"Sving langsomt høyre arm rundt i store sirkler som en propell på et fly. "
-"Gjørdette 4 ganger forover, 4 ganger bakover og slapp av i noen sekunder. "
-"Gjenta så det hele med venstre arm."
+"Otáčajte pravou rukou pomaly vedľa tela, ako vrtuľa na lietadle.4x dopredu, "
+"4x dozadu, potom chvíľu oddychujte. Opakujte s ľavou rukou."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:19
 msgid ""
@@ -892,186 +887,183 @@ msgid ""
 "side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
 "the left side to stretch your other side. Do this twice for each side."
 msgstr ""
-"Se rett frem og finn en behagelig posisjon med hodet. Legg så høyre øre "
-"sakte mot høyre skulder slik at du forsiktig strekker musklene på venstre "
-"side av nakken. Hold i 5 sekunder. Gjenta så hele øvelsen med venstre øre "
-"mot venstre skulder. Gjenta begge øvelsene 2 ganger til hver side."
+"Začnite s hlavou pohodlne vzpriamenou. Pomaly ju nakláňajte k pravému plecu, "
+"aby ste mierne natiahli svaly na ľavej strane krku. Vydržte takto 5 sekúnd. "
+"Potom nakláňajte hlavu k ľavému plecu, čím natiahnete svaly napravo. Urobte "
+"to 2x pre obe strany."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:20
 msgid "Train focusing the eyes"
-msgstr "Tren øye fokusering"
+msgstr "Cvik pre zaostrovanie očí"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:21
 msgid "Turn your head"
-msgstr "Snu hodet"
+msgstr "Otáčanie hlavy"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:22
 msgid ""
 "Turn your head left and keep it there for 2 seconds. Then turn your head "
 "right and keep it there for 2 seconds."
 msgstr ""
-"Snu hodet mot venstre og hold det der i 2 sekunder. Snu deretter hodet mot "
-"høyre og hold det der i 2 sekunder."
+"Otočte hlavu doľava a vydržte 2 sekundy. Potom ju otočte doprava a vydržte 2 "
+"sekundy."
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:253
 msgid "Exercises player"
-msgstr "Øvelser"
+msgstr "Cvičiteľ"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:446
 msgid "Resume"
-msgstr "Fortsett"
+msgstr "Obnoviť"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:446
 msgid "Pause"
-msgstr "Pause"
+msgstr "Pauza"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:132
 msgid "Browse history"
-msgstr "Se gjennom historikk"
+msgstr "Prehliadať históriu"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:139
 msgid "Date:"
-msgstr "Dato:"
+msgstr "Dátum:"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:174
 msgid "Breaks"
-msgstr "Pauser"
+msgstr "Pauzy"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:184
 msgid "Break prompts"
-msgstr "Pause anmodninger"
+msgstr "Pripomenutých páuz"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:185
 msgid ""
 "The number of times you were prompted to break, excluding repeated prompts "
 "for the same break"
 msgstr ""
-"Antall ganger du ble anmodet om å ta hvilepauser, untatt repeterende "
-"anmodninger for den samme pausen"
+"Počet upozornení na pauzu, okrem opakovaných upozornení \n"
+"na tú istú pauzu"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:190
 msgid "Repeated prompts"
-msgstr "Repeterende anmodninger"
+msgstr "Opakovaných upozornení"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:191
 msgid "The number of times you were repeatedly prompted to break"
-msgstr "Antall ganger anmodninger om pauser ble repetert"
+msgstr "Počet opakovaných upozornení na pauzu"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:195
 msgid "Prompted breaks taken"
-msgstr "Anmodede pauser avhold"
+msgstr "Upozornených a vykonaných páuz"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:196
 msgid "The number of times you took a break when being prompted"
-msgstr "Antall ganger pauser ble avholdt ved anmoding"
+msgstr "Počet páuz, na ktoré ste boli upozornení, a ktoré jste mali"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:200
 msgid "Natural breaks taken"
-msgstr "Naturlige pauser avholdt"
+msgstr "Prirodzene vykonaných páuz"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:201
 msgid "The number of times you took a break without being prompted"
-msgstr "Antall ganger pauser ble avholdt uten anmodning"
+msgstr "Počet páuz, ktoré jste vykonali bez upozornenia"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:205
 msgid "Breaks skipped"
-msgstr "Pauser hoppet over"
+msgstr "Preskočených páuz"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:206
 msgid "The number of breaks you skipped"
-msgstr "Antall pauser som ble hoppet over"
+msgstr "Počet páuz, ktoré ste preskočili"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:210
 msgid "Breaks postponed"
-msgstr "Pauser utsatt"
+msgstr "Odložených páuz"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:211
 msgid "The number of breaks you postponed"
-msgstr "Antall pauser du har utsatt"
+msgstr "Počet páuz, ktoré ste odložili"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:215
 msgid "Overdue time"
-msgstr "Overskredet tid"
+msgstr "Čas meškania"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:216
 msgid "The total time this break was overdue"
-msgstr "Den totale tiden denne pausen har vært forsinket"
+msgstr "Celkový čas, o ktorý pauza meškala"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:220
 msgid "Daily usage"
-msgstr "Daglig bruk"
+msgstr "Denné použitie"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:221
 msgid "The total computer usage"
-msgstr "Total datamaskinbruk"
+msgstr "Celkový čas používania počítača"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:284
 msgid "Activity"
-msgstr "Aktivitet"
+msgstr "Aktivita"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:294
 msgid "Mouse usage:"
-msgstr "Bruk av mus:"
+msgstr "Použitie myši:"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:295
 msgid "The total time you were using the mouse"
-msgstr "Den totale tiden du har brukt musen"
+msgstr "Celkový čas používania myši"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:298
 msgid "Mouse movement:"
-msgstr "Musbevegelser:"
+msgstr "Pohyb myši:"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:299
 msgid "The total on-screen mouse movement"
-msgstr "Den totale bevegelse av musen på skjermen"
+msgstr "Celkový pohyb myši po obrazovke"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:302
 msgid "Effective mouse movement:"
-msgstr "Effektiv musbeveglese:"
+msgstr "Užitočný pohyb myši:"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:303
 msgid ""
 "The total mouse movement you would have had if you moved your mouse in "
 "straight lines between clicks"
 msgstr ""
-"Den totale musbevegelse du ville hatt dersom du hadde flyttet musen  i en "
-"rett linje mellom klikkene"
+"Celkový pohyb myši, ktorý by ste vykonali, keby ste medzi \n"
+"dvoma kliknutiami vždy presúvali myš po rovnej dráhe"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:307
 msgid "Mouse button clicks:"
-msgstr "Klikk på musknapper:"
+msgstr "Počet kliknutí myši:"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:308
 msgid "The total number of mouse button clicks"
-msgstr "Totalt antall klikk på musknapper"
+msgstr "Celkový počet kliknutí myši"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:311
 msgid "Keystrokes:"
-msgstr "Tastetrykk:"
+msgstr "Stlačení kláves:"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:312
 msgid "The total number of keys pressed"
-msgstr "Totalt antall tastetrykk"
+msgstr "Celkový počet stlačení kláves"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:362
 #, c-format
 msgid "%s, from %s to %s"
-msgstr "%s, fra %s til %s"
+msgstr "%s, od %s do %s"
 
 #: ../frontend/text/src/PreludeWindow.cc:152
-#, fuzzy
 msgid "Break in"
-msgstr "Pause om %s"
+msgstr "Pauza o"
 
 #: ../frontend/text/src/PreludeWindow.cc:157
-#, fuzzy
 msgid "Disappears in"
-msgstr "Forsvinner om %s"
+msgstr "Zmizne o"
 
 #: ../frontend/text/src/PreludeWindow.cc:163
-#, fuzzy
 msgid "Silent in"
-msgstr "Stille om %s"
+msgstr "Tichý v"
 
 #~ msgid ""
 #~ "Close your eyes and breathe out as long as you can and try to relax. When "
@@ -1079,10 +1071,10 @@ msgstr "Stille om %s"
 #~ "for each time you breathe in and out. To extra relax your eyes, try "
 #~ "closing them in micro pauses too."
 #~ msgstr ""
-#~ "Lukk øynene og pust ut så lenge du kan og forsøk å slappe av. Når du "
-#~ "puster inn igjen, gjør det så sakte som mulig. Forsøk å telle sakte til 8 "
-#~ "for hver gang du puster ut og inn. For å slappe ekstra av i øynene, "
-#~ "forsøk å lukke dem i mikropauser også."
+#~ "Zatvorte oči a vydychujte tak dlho ako dokážete a skúste relaxovať. "
+#~ "Nadychujte sa tak pomaly, ako dokážete. Skúste počítať pomaly do 8 vždy, "
+#~ "keď sa nadychujete a vydychujete. Pro ešte lepší odpočinok, zatvárajte "
+#~ "oči aj pri mikro pauzách."
 
 #~ msgid ""
 #~ "Go stand face to a wall (or something) and put your hands at shoulder "
@@ -1090,37 +1082,35 @@ msgstr "Stille om %s"
 #~ "wall, without changing the angle of your elbows. Then push your body back "
 #~ "from the wall again without changing the angle of the elbows."
 #~ msgstr ""
-#~ "Still deg med ansiktet mot en vegg. Plasser hendene på veggen i "
-#~ "skulderhøyde med albuene lett bøyd. Skyv kroppem mot veggen uten å endre "
-#~ "vinkel på albuene. Skyv deg tilbake fra veggen igjen uten å endre vinkel "
-#~ "på albuene"
+#~ "Postavte sa tvárou ku stene (alebo niečomu) a položte ruky do výšky pliec "
+#~ "proti stene, lakte sú mierne ohnuté. Zatlačte telom proti stene, bez "
+#~ "zmeny uhla lakťov. Potom odstrčte telo naspäť od steny, bez zmeny uhla "
+#~ "lakťov."
 
 #~ msgid ""
 #~ "Keep your head straight and your lower jaw parallel to the floor. Move "
 #~ "your head back (making a double chin). Keep this 2 seconds and relax. "
 #~ "Move your head the same way forward, keep this 2 seconds and relax again."
 #~ msgstr ""
-#~ "Hold hodet fremover og kjeven parallelt med gulvet. Flytt langsomt hodet "
-#~ "tilbake (så du lager dobbelthake). Hold posisjonen i 2 sekunder og slapp "
-#~ "av. Flytt hodet rolig samme vei forover, hold posisjonen i 2 sekunder og "
-#~ "slapp av igjen."
+#~ "Držte hlavu rovno, spodnú čeľusť rovnobežne s podlahou. Zakloňte hlavu "
+#~ "dozadu, vydržte 2 sekundy a uvolnite sa. Predkloňte hlavu dopredu, opäť "
+#~ "vydržte 2 sekundy a uvolnite sa."
 
 #~ msgid "Move the shoulder blades"
-#~ msgstr "Beveg skulderbladene"
+#~ msgstr "Pohyb lopatkami"
 
 #~ msgid "Neck stretch"
-#~ msgstr "Strekk nakken"
+#~ msgstr "Ponaťahovanie krku"
 
 #~ msgid "Relax the eyes"
-#~ msgstr "Slapp av i øynene"
+#~ msgstr "Uvolnenie očí"
 
 #~ msgid ""
 #~ "Stand by your desk and place both your palms on the desk with the fingers "
 #~ "pointing toward your body. Gently stretch your wrists and lower arms."
 #~ msgstr ""
-#~ "Still deg ved skrivebordet og plasser begge håndflatene på bordplaten, "
-#~ "med fingrene pekende mot kroppen. Strekk forsiktig håndleddene og "
-#~ "underarmene."
+#~ "Postavte sa ku stolu a položte naň svoje dlane tak, aby prsty smerovalik "
+#~ "telu. Jemne napínajte zápästia a dolnú časť rúk."
 
 #~ msgid ""
 #~ "Stand up and try to reach the ceiling with your hands without lifting "
@@ -1130,21 +1120,17 @@ msgstr "Stille om %s"
 #~ "your shoes. Slowly roll your back up straight from your hips up, until it "
 #~ "is straight up again."
 #~ msgstr ""
-#~ "Stå oppreist og forsøk å ta i taket med hendene uten å løfte hælene fra "
-#~ "gulvet. Hold i noen sekunder. La så hendene synke sakte mot gulvet uten å "
-#~ "bøye armene. Fortsett å la hendene synke mot gulvet ved å sakte bøye "
-#~ "ryggen forover helt til du (nesten) kan plassere de foran skoene dine. "
-#~ "Rett sakte opp ryggen fra hoften til du står oppreist igjen."
+#~ "Vstaňte a skúste rukami dosiahnuť na strop, päty nezdvíhajte. Vydržte "
+#~ "niekoľko sekúnd. Potom pomaly spustite ruky k telu, ale neohýbajte ich v "
+#~ "lakti. Pokračujete v pohybu smerom k podlahe ohýbaním chrbta, a ak "
+#~ "môžete, dotknite sa rukami podlahy. Pomaly sa vystierajte späť do "
+#~ "vzpriamenej polohy."
 
 #~ msgid "Stretch your back"
-#~ msgstr "Strekk ryggen"
+#~ msgstr "Ponaťahovanie chrbta"
 
 #~ msgid "Wrist and lower arm desk stretch"
-#~ msgstr "Utstrekking av håndledd og underarm"
+#~ msgstr "Ponaťahovanie zápästí a predlaktí"
 
-#, fuzzy
 #~ msgid "Restbreak"
-#~ msgstr "_Hvilepause"
-
-#~ msgid "Block inndata og skjerm"
-#~ msgstr "Blokker alt"
+#~ msgstr "Přestávka"

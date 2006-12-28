@@ -3,74 +3,256 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-05-11 20:28+0200\n"
+"Report-Msgid-Bugs-To: i18n@workrave.org\n"
+"POT-Creation-Date: 2006-12-28 19:10+0100\n"
 "PO-Revision-Date: 2006-10-15 10:02+0200\n"
 "Last-Translator: Prokopis Prokopidis <prokopidis@gmail.com>\n"
+"Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language-Team:  <en@li.org>\n"
 "X-Generator: KBabel 1.11.1\n"
 
-#: ../frontend/gtkmm/src/eggtrayicon.c:118
-msgid "Orientation"
-msgstr "Προσανατολισμός"
-
-#: ../frontend/gtkmm/src/eggtrayicon.c:119
-msgid "The orientation of the tray."
-msgstr "Ο προσανατολισμός του συρταριού."
-
-#: ../frontend/gtkmm/src/gnome-about.c:308
-msgid "Credits"
-msgstr "Μνεία"
-
-#: ../frontend/gtkmm/src/gnome-about.c:341
-msgid "_Written by"
-msgstr "_Ανάπτυξη:"
-
-#: ../frontend/gtkmm/src/gnome-about.c:356
-msgid "_Documented by"
-msgstr "_Τεκμηρίωση:"
-
-#: ../frontend/gtkmm/src/gnome-about.c:371
-msgid "_Translated by"
-msgstr "_Μετάφραση: "
-
-#  Add the credits button
-#. Add the credits button
-#: ../frontend/gtkmm/src/gnome-about.c:431
-msgid "_Credits"
-msgstr "Μνεία"
-
-#: ../frontend/gtkmm/src/gnome-about.c:614
+#: ../backend/src/DistributionSocketLink.cc:127
 #, c-format
-msgid "About %s"
-msgstr "Περί %s"
+msgid "Reconnecting to %s:%d."
+msgstr "Επανασύνδεση σε %s:%d."
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:195
+#: ../backend/src/DistributionSocketLink.cc:358
+msgid "Cannot resolve my own hostname. Deactivating distribution."
+msgstr ""
+"Δεν μπορώ να διαγνώσω το όνομα του συστήματός μου. Απενεργοποίηση δικτυακής "
+"λειτουργίας."
+
+#  We did not succeed in starting the server. Arghh.
+#. We did not succeed in starting the server. Arghh.
+#: ../backend/src/DistributionSocketLink.cc:369
+msgid "Could not enable network operation."
+msgstr "Ενεργοποίηση του δικτύου αδύνατη."
+
+#: ../backend/src/DistributionSocketLink.cc:378
+msgid "Disabling network operation."
+msgstr "Απενεργοποίηση του δικτύου."
+
+#: ../backend/src/DistributionSocketLink.cc:534
+#: ../backend/src/DistributionSocketLink.cc:561
+#, c-format
+msgid "Connecting to %s:%d."
+msgstr "Σύνδεση σε %s:%d."
+
+#: ../backend/src/DistributionSocketLink.cc:665
+#: ../backend/src/DistributionSocketLink.cc:692
+#, c-format
+msgid "Removing client %s:%d."
+msgstr "Αφαίρεση του πελάτη %s:%d."
+
+#  Closing direct connection.
+#  Closing direct connection.
+#. Closing direct connection.
+#: ../backend/src/DistributionSocketLink.cc:731
+#, c-format
+msgid "Disconnecting %s:%d."
+msgstr "Αποσύνδεση του %s:%d."
+
+#  It's a remote client. mark it master.
+#  It's a remote client. mark it master.
+#. It's a remote client. mark it master.
+#: ../backend/src/DistributionSocketLink.cc:901
+#, c-format
+msgid "Client %s:%d is now master."
+msgstr "Ο πελάτης %s:%d είναι τώρα ο κύριος υπολογιστής."
+
+#  Its ME!
+#. Its ME!
+#: ../backend/src/DistributionSocketLink.cc:907
+msgid "I'm now master."
+msgstr "Εγώ είμαι τώρα ο κύριος υπολογιστής."
+
+#: ../backend/src/DistributionSocketLink.cc:1236
+#, c-format
+msgid "Client %s:%d saying hello."
+msgstr "Χαιρετισμός από τον πελάτη %s:%d."
+
+#  Duplicate client. inform client that it's bogus and close.
+#  Duplicate client. inform client that it's bogus and close.
+#. Duplicate client. inform client that it's bogus and close.
+#: ../backend/src/DistributionSocketLink.cc:1251
+#: ../backend/src/DistributionSocketLink.cc:1370
+#: ../backend/src/DistributionSocketLink.cc:1607
+#, c-format
+msgid "Client %s:%d is duplicate."
+msgstr "Ο πελάτης %s:%d υπάρχει δύο φορές στη λίστα."
+
+#  Incorrect password.
+#  Incorrect password.
+#. Incorrect password.
+#: ../backend/src/DistributionSocketLink.cc:1260
+#, c-format
+msgid "Client %s:%d access denied."
+msgstr "Άρνηση πρόσβασης στον πελάτη %s:%d."
+
+#: ../backend/src/DistributionSocketLink.cc:1327
+#, c-format
+msgid "Client %s:%d signed off."
+msgstr "Ο πελάτης %s:%d αποσυνδέθηκε."
+
+#: ../backend/src/DistributionSocketLink.cc:1409
+#, c-format
+msgid "Client %s:%d is welcoming us."
+msgstr "Καλωσόρισμα από τον πελάτη %s:%d."
+
+#: ../backend/src/DistributionSocketLink.cc:1644
+#, c-format
+msgid "Requesting master status from %s:%d."
+msgstr "Αίτηση για ανάληψη ρόλου κύριου υπολογιστή από τον πελάτη %s:%d."
+
+#: ../backend/src/DistributionSocketLink.cc:1657
+#, c-format
+msgid "Client timeout from %s:%d."
+msgstr "Αποσύνδεση πελάτη από %s:%d "
+
+#: ../backend/src/DistributionSocketLink.cc:1678
+#, c-format
+msgid "Rejecting master request from client %s:%d."
+msgstr "Άρνηση αίτησης ρόλου κύριου υπολογιστή από τον πελάτη %s:%d."
+
+#: ../backend/src/DistributionSocketLink.cc:1684
+#, c-format
+msgid "Acknowledging master request from client %s:%d."
+msgstr "Άναγνώριση αίτησης κύριου υπολογιστή από τον πελάτη %s:%d."
+
+#: ../backend/src/DistributionSocketLink.cc:1735
+#, c-format
+msgid "Non-master client %s:%d rejected master request."
+msgstr ""
+"Άπόρριψη αίτησης ρόλου κύριου υπολογιστή από τον μη-κύριο πελάτη %s:%d."
+
+#: ../backend/src/DistributionSocketLink.cc:1740
+#, c-format
+msgid "Client %s:%d rejected master request, delaying."
+msgstr ""
+"Η αίτηση ρόλου κύριου υπολογιστή απορρίφθηκε από τον πελάτη %s:%d. "
+"Καθυστέρηση."
+
+#  gint count =
+#. gint count =
+#: ../backend/src/DistributionSocketLink.cc:1811
+#, c-format
+msgid "Client %s is now the new master."
+msgstr "Ο πελάτης %s είναι τώρα ο νέος κύριος υπολογιστής."
+
+#: ../backend/src/DistributionSocketLink.cc:1932
+msgid "Network operation started."
+msgstr "Ενεργοποίηση λειτουργίας δικτύου."
+
+#: ../backend/src/DistributionSocketLink.cc:1949
+msgid "Accepted new client."
+msgstr "Αποδοχή νέου πελάτη."
+
+#: ../backend/src/DistributionSocketLink.cc:2004
+#, c-format
+msgid "Client %s:%d read error, closing."
+msgstr "Σφάλμα ανάγνωσης στον πελάτη %s:%d. Διακοπή σύνδεσης."
+
+#: ../backend/src/DistributionSocketLink.cc:2010
+#: ../backend/src/DistributionSocketLink.cc:2084
+#, c-format
+msgid "Client %s:%d closed connection."
+msgstr "Ο πελάτης %s:%d διέκοψε τη σύνδεση."
+
+#: ../backend/src/DistributionSocketLink.cc:2051
+#, c-format
+msgid "Client %s:%d connected."
+msgstr "Ο πελάτης %s:%d συνδέθηκε."
+
+#: ../backend/src/DistributionSocketLink.cc:2091
+#, c-format
+msgid "Could not connect to client %s:%d."
+msgstr "Σύνδεση με τον πελάτη %s:%d αδύνατη."
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
+msgid "Break ignored"
+msgstr "Διάλειμμα που αγνοήθηκε"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:2
+msgid "Break prompt"
+msgstr "Προτροπή σε διάλειμμα"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:45
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:53
+#: ../frontend/gtkmm/src/GUI.cc:1299 ../frontend/gtkmm/src/GtkUtil.cc:160
+msgid "Daily limit"
+msgstr "Ημερήσιο όριο"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:4
+msgid "Exercise ended"
+msgstr "Τέλος άσκησης"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:5
+msgid "Exercises ended"
+msgstr "Τέλος ασκήσεων"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:6
+msgid "Micro-break ended"
+msgstr "Τέλος μικρο-παύσης"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:7
+msgid "Micro-break started"
+msgstr "Αρχή μικρο-παύσης"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:8
+msgid "Rest break ended"
+msgstr "Τέλος διαλείμματος"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:9
+msgid "Rest break started"
+msgstr "Αρχή διαλείμματος"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:10
+#: ../frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:1
+msgid "Workrave"
+msgstr "Workrave"
+
+#: ../frontend/common/src/Text.cc:75
+#, c-format
+msgid "%s%d:%02d:%02d hours"
+msgstr "%s%d:%02d:%02d ώρες"
+
+#: ../frontend/common/src/Text.cc:79
+#, c-format
+msgid "%s%d:%02d minutes"
+msgstr "%s%d:%02d λεπτά"
+
+#: ../frontend/common/src/Text.cc:83
+#, c-format
+msgid "%s%d seconds"
+msgstr "%s%d δευτερόλεπτα"
+
+#: ../frontend/common/src/TimerBoxControl.cc:209
+msgid "Inactive"
+msgstr "Ανενεργό"
+
+#: ../frontend/common/src/TimerBoxControl.cc:252
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:188
+msgid "Wait"
+msgstr "Περιμένετε"
+
+#: ../frontend/gtkmm/src/BreakWindow.cc:197
 msgid "Lock"
 msgstr "Κλείδωμα"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:214
+#: ../frontend/gtkmm/src/BreakWindow.cc:216
 msgid "Shut down"
 msgstr "Κλείσιμο"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:231
+#: ../frontend/gtkmm/src/BreakWindow.cc:233
 msgid "Skip"
 msgstr "Παράλειψη"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:244
+#: ../frontend/gtkmm/src/BreakWindow.cc:246
 msgid "Postpone"
 msgstr "Αναβολή"
-
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:45
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:53
-#: ../frontend/common/src/TimerBoxControl.cc:195
-#: ../frontend/gtkmm/src/GtkUtil.cc:154
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
-msgid "Daily limit"
-msgstr "Ημερήσιο όριο"
 
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:54
 msgid ""
@@ -83,132 +265,120 @@ msgstr ""
 "δεν έχει ακόμη λήξει, βρείτε κάτι άλλο να κάνατε, π.χ. \n"
 "να διαβάσετε ή να διορθώσετε ένα κείμενο."
 
-#: ../frontend/gtkmm/src/GUI.cc:729
+#: ../frontend/gtkmm/src/GUI.cc:786
 msgid "I could not initialize Bonobo"
 msgstr "Ανεπιτυχής προσπάθεια αρχικοποίησης του Μπονόμπο"
 
 #. FIXME: duplicate
-#: ../frontend/common/src/TimerBoxControl.cc:195
-#: ../frontend/gtkmm/src/GtkUtil.cc:154
+#: ../frontend/gtkmm/src/GUI.cc:1299 ../frontend/gtkmm/src/GtkUtil.cc:160
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:52
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:172
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:268
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:171
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:270
 msgid "Micro-break"
 msgstr "Μικρο-παύση"
 
-#: ../frontend/common/src/TimerBoxControl.cc:195
-#: ../frontend/gtkmm/src/GtkUtil.cc:154
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:145
+#: ../frontend/gtkmm/src/GUI.cc:1299 ../frontend/gtkmm/src/GtkUtil.cc:160
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:144
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:76
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:203
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:211
 msgid "Rest break"
 msgstr "Διάλειμμα"
 
-#: ../frontend/common/src/TimerBoxControl.cc:213
-msgid "Inactive"
-msgstr "Ανενεργό"
-
-#: ../frontend/common/src/TimerBoxControl.cc:261
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:161
-msgid "Wait"
-msgstr "Περιμένετε"
-
 #. Mode menu item
-#: ../frontend/gtkmm/src/Menus.cc:169 ../frontend/gtkmm/src/Menus.cc:430
+#: ../frontend/gtkmm/src/Menus.cc:201 ../frontend/gtkmm/src/Menus.cc:513
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
 msgid "_Mode"
 msgstr "_Λειτουργία"
 
-#: ../frontend/gtkmm/src/Menus.cc:176 ../frontend/gtkmm/src/Menus.cc:409
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
-msgid "_Normal"
-msgstr "_Κανονικό"
-
-#: ../frontend/gtkmm/src/Menus.cc:183 ../frontend/gtkmm/src/Menus.cc:416
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
-msgid "_Suspended"
-msgstr "_Απενεργοποιημένο"
-
-#: ../frontend/gtkmm/src/Menus.cc:190 ../frontend/gtkmm/src/Menus.cc:423
-msgid "Q_uiet"
-msgstr "Σ_ιωπηλό"
-
-#: ../frontend/gtkmm/src/Menus.cc:204 ../frontend/gtkmm/src/Menus.cc:449
+#: ../frontend/gtkmm/src/Menus.cc:256 ../frontend/gtkmm/src/Menus.cc:532
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
 msgid "_Network"
 msgstr "_Δίκτυο"
 
-#: ../frontend/gtkmm/src/Menus.cc:208 ../frontend/gtkmm/src/Menus.cc:433
+#: ../frontend/gtkmm/src/Menus.cc:260 ../frontend/gtkmm/src/Menus.cc:516
 msgid "_Connect"
 msgstr "Σύν_δεση"
 
-#: ../frontend/gtkmm/src/Menus.cc:213 ../frontend/gtkmm/src/Menus.cc:436
+#: ../frontend/gtkmm/src/Menus.cc:265 ../frontend/gtkmm/src/Menus.cc:519
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
 msgid "_Disconnect"
 msgstr "Α_ποσύνδεση"
 
-#: ../frontend/gtkmm/src/Menus.cc:218 ../frontend/gtkmm/src/Menus.cc:440
+#: ../frontend/gtkmm/src/Menus.cc:270 ../frontend/gtkmm/src/Menus.cc:523
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
 msgid "_Reconnect"
 msgstr "_Επανασύνδεση"
 
-#: ../frontend/gtkmm/src/Menus.cc:223 ../frontend/gtkmm/src/Menus.cc:443
+#: ../frontend/gtkmm/src/Menus.cc:275 ../frontend/gtkmm/src/Menus.cc:526
 msgid "Show _log"
 msgstr "Εμφάνιση _ημερολογίου"
 
-#: ../frontend/gtkmm/src/Menus.cc:248 ../frontend/gtkmm/src/Menus.cc:405
+#: ../frontend/gtkmm/src/Menus.cc:298 ../frontend/gtkmm/src/Menus.cc:488
 msgid "_Rest break"
 msgstr "_Διάλειμμα"
 
-#: ../frontend/gtkmm/src/Menus.cc:262 ../frontend/gtkmm/src/Menus.cc:406
+#: ../frontend/gtkmm/src/Menus.cc:312 ../frontend/gtkmm/src/Menus.cc:489
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:40
 msgid "Exercises"
 msgstr "Ασκήσεις"
 
-#: ../frontend/gtkmm/src/Menus.cc:274 ../frontend/gtkmm/src/Menus.cc:451
+#: ../frontend/gtkmm/src/Menus.cc:324 ../frontend/gtkmm/src/Menus.cc:534
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:59
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:138
 msgid "Statistics"
 msgstr "Στατιστικά"
 
-#: ../frontend/gtkmm/src/Menus.cc:288 ../frontend/gtkmm/src/Menus.cc:452
+#: ../frontend/gtkmm/src/Menus.cc:338 ../frontend/gtkmm/src/Menus.cc:535
 msgid "About..."
 msgstr "Περί..."
 
-#: ../frontend/gtkmm/src/Menus.cc:404
+#: ../frontend/gtkmm/src/Menus.cc:487
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:55
 msgid "Preferences"
 msgstr "Προτιμήσεις"
 
-#: ../frontend/gtkmm/src/Menus.cc:716
+#: ../frontend/gtkmm/src/Menus.cc:492
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
+msgid "_Normal"
+msgstr "_Κανονικό"
+
+#: ../frontend/gtkmm/src/Menus.cc:499
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
+msgid "_Suspended"
+msgstr "_Απενεργοποιημένο"
+
+#: ../frontend/gtkmm/src/Menus.cc:506
+msgid "Q_uiet"
+msgstr "Σ_ιωπηλό"
+
+#: ../frontend/gtkmm/src/Menus.cc:809
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
 msgstr ""
-"Αυτό το πρόγραμμα βοηθά στην πρόληψη και την θεραπεία των "
-"Κακώσεων λόγω Επαναλαμβανόμενης Καταπόνησης (Repetitive "
-"Strain Injury, RSI)"
+"Αυτό το πρόγραμμα βοηθά στην πρόληψη και την θεραπεία των Κακώσεων λόγω "
+"Επαναλαμβανόμενης Καταπόνησης (Repetitive Strain Injury, RSI)"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:230
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:232
 msgid "Please relax for a few seconds"
 msgstr "Χαλαρώστε για μερικά δευτερόλεπτα"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:237
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:239
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Το επόμενο διάλειμμα είναι σε %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:242
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:244
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Το διάλειμμα έχει καθυστερήσει κατά %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:255
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:257
 #, c-format
 msgid "Daily limit in %s"
 msgstr "Ημερήσιο όριο σε %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:260
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:262
 #, c-format
 msgid "Daily limit %s overdue"
 msgstr "Υπέρβαση του ημερήσιου ορίου κατά %s"
@@ -229,7 +399,7 @@ msgstr "Applet"
 #  Notebook
 #. Notebook
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:76
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:169
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:164
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:202
 msgid "Timers"
 msgstr "Χρονόμετρα"
@@ -284,35 +454,41 @@ msgid "Block mode:"
 msgstr "Λειτουργία κλειδώματος:"
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:105
+#: ../frontend/text/src/PreludeWindow.cc:50
 msgid "Time for a micro-break?"
 msgstr "Ώρα για μια μικρο-παύση;"
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:109
+#: ../frontend/text/src/PreludeWindow.cc:54
 msgid "You need a rest break..."
 msgstr "Χρειάζεστε διάλειμμα..."
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:113
+#: ../frontend/text/src/PreludeWindow.cc:58
 msgid "You should stop for today..."
 msgstr "Θα πρέπει να σταματήσετε για σήμερα..."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:253
-msgid "Break in"
+#: ../frontend/gtkmm/src/PreludeWindow.cc:255
+#, fuzzy, c-format
+msgid "Break in %s"
 msgstr "Διάλειμμα σε"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:257
-msgid "Disappears in"
+#: ../frontend/gtkmm/src/PreludeWindow.cc:259
+#, fuzzy, c-format
+msgid "Disappears in %s"
 msgstr "Απόκρυψη σε"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:261
-msgid "Silent in"
+#: ../frontend/gtkmm/src/PreludeWindow.cc:263
+#, fuzzy, c-format
+msgid "Silent in %s"
 msgstr "Σίγηση σε"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:167
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:172
 #, c-format
 msgid "Rest break for %s"
 msgstr "Διάλειμμα σε %s"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:204
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:212
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -322,69 +498,69 @@ msgstr ""
 "κάθισμα και απομακρυνθείτε από τον υπολογιστή.\n"
 "Περπατήστε μερικά λεπτά, τεντωθείτε και χαλαρώστε."
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:96
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:97
 msgid "Place timers next to each other"
 msgstr "Παράθεση του ενός χρονομέτρου δίπλα στο άλλο"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:98
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:99
 msgid "Place micro-break and rest break in one spot"
 msgstr "Τοποθέτηση μικρο-παύσεων και διαλειμμάτων στο ίδιο σημείο"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:100
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:101
 msgid "Place rest break and daily limit in one spot"
 msgstr "Τοποθέτηση διαλειμμάτων και ημερήσιου ορίου στο ίδιο σημείο"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:102
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:103
 msgid "Place all timers in one spot"
 msgstr "Τοποθέτηση όλων των χρονομέτρων μαζί"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:125
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:123
 msgid "Hide"
 msgstr "Απόκρυψη"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:127
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:125
 msgid "Show"
 msgstr "Εμφάνιση"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:129
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:127
 msgid "Show only when this timer is first due"
 msgstr "Απόκρυψη εκτός από την πρώτη εμφάνιση αυτού του χρονομέτρου"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:139
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:135
 msgid "Show status window"
 msgstr "Εμφάνιση παράθυρου κατάστασης"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:144
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:140
 msgid "The status window stays always on top of other windows"
 msgstr "Το παράθυρο κατάστασης πάντοτε πάνω από τα άλλα παράθυρα"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:150
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:146
 msgid "Applet enabled"
 msgstr "Applet ενεργό"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:157
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:152
 msgid "Display"
 msgstr "Εμφάνιση"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:166
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:161
 msgid "Placement:"
 msgstr "Τοποθέτηση:"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:167
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:162
 msgid "Cycle time:"
 msgstr "Περίοδος εναλλαγής:"
 
 #  Layout
 #. Layout
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:172
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:167
 msgid "Micro-break:"
 msgstr "Μικρο-παύση:"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:173
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:168
 msgid "Rest break:"
 msgstr "Διάλειμμα:"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:174
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:169
 msgid "Daily limit:"
 msgstr "Ημερήσιο όριο:"
 
@@ -440,6 +616,41 @@ msgstr "Διάρκεια διαλειμμάτων:"
 msgid "Postpone time:"
 msgstr "Διάρκεια αναβολών:"
 
+#: ../frontend/gtkmm/src/eggtrayicon.c:133
+msgid "Orientation"
+msgstr "Προσανατολισμός"
+
+#: ../frontend/gtkmm/src/eggtrayicon.c:134
+msgid "The orientation of the tray."
+msgstr "Ο προσανατολισμός του συρταριού."
+
+#: ../frontend/gtkmm/src/gnome-about.c:308
+msgid "Credits"
+msgstr "Μνεία"
+
+#: ../frontend/gtkmm/src/gnome-about.c:341
+msgid "_Written by"
+msgstr "_Ανάπτυξη:"
+
+#: ../frontend/gtkmm/src/gnome-about.c:356
+msgid "_Documented by"
+msgstr "_Τεκμηρίωση:"
+
+#: ../frontend/gtkmm/src/gnome-about.c:371
+msgid "_Translated by"
+msgstr "_Μετάφραση: "
+
+#  Add the credits button
+#. Add the credits button
+#: ../frontend/gtkmm/src/gnome-about.c:431
+msgid "_Credits"
+msgstr "Μνεία"
+
+#: ../frontend/gtkmm/src/gnome-about.c:614
+#, c-format
+msgid "About %s"
+msgstr "Περί %s"
+
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:1
 msgid "_About..."
 msgstr "_Περί......"
@@ -480,26 +691,9 @@ msgstr "Εμφάνιση ημερολογίου..."
 msgid "_Statistics"
 msgstr "_Στατιστικά"
 
-#: ../frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:1
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:10
-msgid "Workrave"
-msgstr "Workrave"
-
 #: ../frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:2
 msgid "Workrave Applet"
 msgstr "Workrave Applet"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:253
-msgid "Exercises player"
-msgstr "Οδηγός ασκήσεων"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:435
-msgid "Resume"
-msgstr "Επαναφορά"
-
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:435
-msgid "Pause"
-msgstr "Παύση"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:48
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:67
@@ -511,8 +705,8 @@ msgid ""
 "Enter the host name and port number of a computer\n"
 "in the network you wish to connect to."
 msgstr ""
-"Δώστε το όνομα και μια θύρα ενός συστήματος\n "
-"στο δίκτυο στο οποίο επιθυμείτε να συνδεθείτε"
+"Δώστε το όνομα και μια θύρα ενός συστήματος\n"
+" στο δίκτυο στο οποίο επιθυμείτε να συνδεθείτε"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:80
 msgid "Host name:"
@@ -579,6 +773,181 @@ msgstr "Θύρα"
 msgid "Hosts"
 msgstr "Συστήματα"
 
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:1
+msgid "Backward shoulder stretch"
+msgstr "Τέντωμα των ώμων προς τα πίσω"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:2
+msgid ""
+"Cover your eyes with your palms in such way that you can still open your "
+"eyelids. Now open your eyes and look into the darkness of your palms. This "
+"exercise gives better relief to your eyes compared to simply closing them."
+msgstr ""
+"Καλύψτε με τις παλάμες το πρόσωπό σας έτσι ώστε να μπορείτε να ανοίγετε τα "
+"μάτια σας. Ανοίξτε τα και κοιτάξτε μέσα στο σκοτάδι της κοιλότητας που έχουν "
+"σχηματίσει οι παλάμες σας. Με την άσκηση αυτή τα μάτια χαλαρώνουν καλύτερα "
+"από ό,τι αν τα κλείσετε απλώς."
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:3
+msgid "Finger stretch"
+msgstr "Τεντώστε τα δάκτυλα"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:4
+msgid "Fist roll"
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
+msgid ""
+"Interlace your fingers behind your back. Then turn your elbows gently "
+"inward, while straightening your arms. Hold this position for 5 to 15 "
+"seconds, and repeat this exercise twice."
+msgstr ""
+"Ενώστε τα δάχτυλά σας πίσω από την πλάτη. Ύστερα σπρώξτε απαλά τους ώμους "
+"προς τα μέσα, τεντώνοντας συγχρόνως τα χέρια. Κρατήστε αυτή τη στάση για "
+"περίπου 5 με 15 δευτερόλεπτα, και επαναλάβετε την άσκηση δύο φορές."
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
+msgid ""
+"Keep one arm horizontally stretched in front of your chest. Push this arm "
+"with your other arm towards you until you feel a mild tension in your "
+"shoulder. Hold this position briefly, and repeat the exercise for your other "
+"arm."
+msgstr ""
+"Κρατήστε το ένα χέρι τεντωμένο οριζόντια μπροστά από το στήθος σας. Σπρώξτε "
+"το τεντωμένο χέρι προς το σώμα σας με το άλλο σας χέρι, μέχρι να νιώσετε μια "
+"ελαφρά πίεση στον ώμο σας. Κρατήστε αυτή τη θέση για λίγο, και επαναλάβετε "
+"την άσκηση με το άλλο σας χέρι."
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
+msgid ""
+"Look at the upper left corner of the outside border of your monitor. Follow "
+"the border slowly to the upper right corner. Continue to the next corner, "
+"until you got around it two times. Then, reverse the exercise."
+msgstr ""
+"Κοιτάξτε την άνω αριστερή γωνία του πλαισίου της οθόνης σας. Ακολουθήστε με "
+"το βλέμμα σας το πλαίσιο μέχρι τη δεξιά γωνία. Συνεχίστε με τον ίδιο τρόπο, "
+"μέχρι να \"γυρίσετε\" το πλαίσιο δύο φορές. Επαναλάβετε την άσκηση από τα "
+"δεξιά προς τα αριστερά."
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
+msgid ""
+"Look for the furthest point you can see behind your monitor. Focus your eyes "
+"on the remote point. Then focus on your monitor border. Repeat it. If you "
+"can't look very far from your monitor, face another direction with a longer "
+"view. Then switch your focus between a distant object and a pen held at the "
+"same distance from your eyes as your monitor."
+msgstr ""
+"Κοιτάξτε το πιο απομακρυσμένο σημείο πίσω από την οθόνη σας. Εστιάστε το "
+"βλέμμα σας πάνω του. Ύστερα εστιάστε στο πλαίσιο της οθόνης. Επαναλάβετε. Αν "
+"δεν μπορείτε να δείτε πολύ μακριά από την οθόνη, γυρίστε προς μια κατεύθυνση "
+"με πιο ανοιχτή θέα, εστιάζοντας μια στο μακρινό αντικείμενο και μια σε ένα "
+"στυλό που θα απέχει από τα μάτια σας όσο και η οθόνη σας όταν εργάζεστε."
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:9
+msgid "Look into the darkness"
+msgstr "Κοιτάξτε στο σκοτάδι"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:10
+msgid "Move the eyes"
+msgstr "Κινήστε τα μάτια"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:11
+msgid "Move the shoulders"
+msgstr "Κινήστε τους ώμους"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
+msgid "Move the shoulders up and down"
+msgstr "Κινήστε τους ώμους πάνω κάτω"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
+msgid "Neck tilt stretch"
+msgstr "Τέντωμα του λαιμού προς τα πλάγια"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
+msgid ""
+"Put your hands on the armrests of your chair when you are sitting down and "
+"press your body up until your arms are straight. Try to move your head even "
+"further by lowering your shoulders. Slowly move back into your chair."
+msgstr ""
+"Ακουμπήστε τα χέρια σας στα μπράτσα της καρέκλας σας ενώ κάθεστε και πιέστε "
+"το σώμα σας προς τα πάνω μέχρι να τεντώσετε τα μπράτσα. Προσπαθήστε να "
+"σηκώσετε το κεφάλι σας ακόμα περισσότερο χαμηλώνοντας τους ώμους. "
+"Ξανακαθήστε σιγά σιγά στην καρέκλα σας."
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
+msgid ""
+"Put your underarm on a table and make a fist. Roll your fist away from your "
+"body untill it rests on your nuckles. Keep it for 2 seconds and roll it "
+"back. Repeat this 5 times for each hand. If the muscle is stretched to much, "
+"let your fingers rest on the table while rolling."
+msgstr ""
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:16
+msgid ""
+"Separate and stretch your fingers until a mild tension is felt, and hold "
+"this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
+"again for 10 seconds. Repeat this exercise once more."
+msgstr ""
+"Χωρίστε και τεντώστε τα δάχτυλά σας μέχρι να νιώσετε μια ελαφριά πίεση, και "
+"διατηρήστε τα σε αυτή τη θέση για 10 δευτερόλεπτα. Χαλαρώστε, λυγίστε τις "
+"αρθρώσεις και περιμένετε και πάλι για 10 δευτερόλεπτα. Επαναλάβετε την "
+"άσκηση άλλη μία φορά."
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
+msgid "Shoulder-arm stretch"
+msgstr "Τέντωμα ώμων και χεριών"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
+msgid ""
+"Spin your right arm slowly round like a plane propeller beside your body. Do "
+"this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
+"with the left arm."
+msgstr ""
+"Περιστρέψτε αργά το δεξιό σας μπράτσο σαν έλικα αεροπλάνου, κρατώντας το "
+"κοντά στο σώμα σας. Επαναλάβετε 4 φορές προς τα μπροστά, 4 φορές προς τα "
+"πίσω και χαλαρώστε για μερικά δευτερόλεπτα. Επαναλάβετε με το αριστερό χέρι."
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:19
+msgid ""
+"Start with your head in a comfortable straight position. Then, slowly tilt "
+"your head to your right shoulder to gently stretch the muscles on the left "
+"side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
+"the left side to stretch your other side. Do this twice for each side."
+msgstr ""
+"Αρχίστε με το κεφάλι χαλαρό και όρθιο. Ύστερα περιστρέψτε το αργά προς το "
+"δεξιό ώμο, για να τεντώσετε απαλά τους μύες στην αριστερή πλευρά του αυχένα. "
+"Κρατήστε αυτή τη θέση για περίπου 5 δευτερόλεπτα. Ύστερα περιστρέψτε το "
+"κεφάλι προς το αριστερό ώμο, για να τεντώσετε τους μύες στην δεξιά πλευρά. "
+"Επαναλάβετε δύο φορές για κάθε πλευρά."
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:20
+msgid "Train focusing the eyes"
+msgstr "Εστιάζοντας σε διαφορετικά σημεία"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:21
+msgid "Turn your head"
+msgstr "Γυρίστε το κεφάλι"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:22
+msgid ""
+"Turn your head left and keep it there for 2 seconds. Then turn your head "
+"right and keep it there for 2 seconds."
+msgstr ""
+"Γυρίστε το κεφάλι αριστερά και κρατήστε το σε αυτή τη θέση για 2 "
+"δευτερόλεπτα. Επαναλάβετε με το κεφάλι δεξιά."
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:253
+msgid "Exercises player"
+msgstr "Οδηγός ασκήσεων"
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:446
+msgid "Resume"
+msgstr "Επαναφορά"
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:446
+msgid "Pause"
+msgstr "Παύση"
+
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:132
 msgid "Browse history"
 msgstr "Ιστορικό περιήγησης"
@@ -600,8 +969,8 @@ msgid ""
 "The number of times you were prompted to break, excluding repeated prompts "
 "for the same break"
 msgstr ""
-"Ο αριθμός των προτροπών του Workrave σε διάλειμμα, εξαιρουμένων "
-"των επαναλαμβανόμενων προτροπών για το ίδιο διάλειμμα"
+"Ο αριθμός των προτροπών του Workrave σε διάλειμμα, εξαιρουμένων των "
+"επαναλαμβανόμενων προτροπών για το ίδιο διάλειμμα"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:190
 msgid "Repeated prompts"
@@ -712,437 +1081,87 @@ msgstr "Συνολικός αριθμός πληκτρισμών"
 msgid "%s, from %s to %s"
 msgstr "%s, από %s μέχρι %s"
 
-#: ../frontend/common/src/Text.cc:75
-#, c-format
-msgid "%s%d:%02d:%02d hours"
-msgstr "%s%d:%02d:%02d ώρες"
-
-#: ../frontend/common/src/Text.cc:79
-#, c-format
-msgid "%s%d:%02d minutes"
-msgstr "%s%d:%02d λεπτά"
-
-#: ../frontend/common/src/Text.cc:83
-#, c-format
-msgid "%s%d seconds"
-msgstr "%s%d δευτερόλεπτα"
-
-#: ../backend/src/DistributionSocketLink.cc:127
-#, c-format
-msgid "Reconnecting to %s:%d."
-msgstr "Επανασύνδεση σε %s:%d."
-
-#: ../backend/src/DistributionSocketLink.cc:347
-msgid "Cannot resolve my own hostname. Deactivating distribution."
-msgstr "Δεν μπορώ να διαγνώσω το όνομα του συστήματός μου. Απενεργοποίηση δικτυακής λειτουργίας."
-
-#  We did not succeed in starting the server. Arghh.
-#. We did not succeed in starting the server. Arghh.
-#: ../backend/src/DistributionSocketLink.cc:358
-msgid "Could not enable network operation."
-msgstr "Ενεργοποίηση του δικτύου αδύνατη."
-
-#: ../backend/src/DistributionSocketLink.cc:367
-msgid "Disabling network operation."
-msgstr "Απενεργοποίηση του δικτύου."
-
-#: ../backend/src/DistributionSocketLink.cc:523
-#: ../backend/src/DistributionSocketLink.cc:550
-#, c-format
-msgid "Connecting to %s:%d."
-msgstr "Σύνδεση σε %s:%d."
-
-#: ../backend/src/DistributionSocketLink.cc:654
-#: ../backend/src/DistributionSocketLink.cc:679
-#, c-format
-msgid "Removing client %s:%d."
-msgstr "Αφαίρεση του πελάτη %s:%d."
-
-#  Closing direct connection.
-#  Closing direct connection.
-#. Closing direct connection.
-#: ../backend/src/DistributionSocketLink.cc:716
-#, c-format
-msgid "Disconnecting %s:%d."
-msgstr "Αποσύνδεση του %s:%d."
-
-#  It's a remote client. mark it master.
-#  It's a remote client. mark it master.
-#. It's a remote client. mark it master.
-#: ../backend/src/DistributionSocketLink.cc:884
-#, c-format
-msgid "Client %s:%d is now master."
-msgstr "Ο πελάτης %s:%d είναι τώρα ο κύριος υπολογιστής."
-
-#  Its ME!
-#. Its ME!
-#: ../backend/src/DistributionSocketLink.cc:890
-msgid "I'm now master."
-msgstr "Εγώ είμαι τώρα ο κύριος υπολογιστής."
-
-#: ../backend/src/DistributionSocketLink.cc:1219
-#, c-format
-msgid "Client %s:%d saying hello."
-msgstr "Χαιρετισμός από τον πελάτη %s:%d."
-
-#  Duplicate client. inform client that it's bogus and close.
-#  Duplicate client. inform client that it's bogus and close.
-#. Duplicate client. inform client that it's bogus and close.
-#: ../backend/src/DistributionSocketLink.cc:1234
-#: ../backend/src/DistributionSocketLink.cc:1351
-#: ../backend/src/DistributionSocketLink.cc:1587
-#, c-format
-msgid "Client %s:%d is duplicate."
-msgstr "Ο πελάτης %s:%d υπάρχει δύο φορές στη λίστα."
-
-#  Incorrect password.
-#  Incorrect password.
-#. Incorrect password.
-#: ../backend/src/DistributionSocketLink.cc:1243
-#, c-format
-msgid "Client %s:%d access denied."
-msgstr "Άρνηση πρόσβασης στον πελάτη %s:%d."
-
-#: ../backend/src/DistributionSocketLink.cc:1310
-#, c-format
-msgid "Client %s:%d signed off."
-msgstr "Ο πελάτης %s:%d αποσυνδέθηκε."
-
-#: ../backend/src/DistributionSocketLink.cc:1389
-#, c-format
-msgid "Client %s:%d is welcoming us."
-msgstr "Καλωσόρισμα από τον πελάτη %s:%d."
-
-#: ../backend/src/DistributionSocketLink.cc:1622
-#, c-format
-msgid "Requesting master status from %s:%d."
-msgstr "Αίτηση για ανάληψη ρόλου κύριου υπολογιστή από τον πελάτη %s:%d."
-
-#: ../backend/src/DistributionSocketLink.cc:1635
-#, c-format
-msgid "Client timeout from %s:%d."
-msgstr "Αποσύνδεση πελάτη από %s:%d "
-
-#: ../backend/src/DistributionSocketLink.cc:1656
-#, c-format
-msgid "Rejecting master request from client %s:%d."
-msgstr "Άρνηση αίτησης ρόλου κύριου υπολογιστή από τον πελάτη %s:%d."
-
-#: ../backend/src/DistributionSocketLink.cc:1662
-#, c-format
-msgid "Acknowledging master request from client %s:%d."
-msgstr "Άναγνώριση αίτησης κύριου υπολογιστή από τον πελάτη %s:%d."
-
-#: ../backend/src/DistributionSocketLink.cc:1713
-#, c-format
-msgid "Non-master client %s:%d rejected master request."
-msgstr "Άπόρριψη αίτησης ρόλου κύριου υπολογιστή από τον μη-κύριο πελάτη %s:%d."
-
-#: ../backend/src/DistributionSocketLink.cc:1718
-#, c-format
-msgid "Client %s:%d rejected master request, delaying."
-msgstr "Η αίτηση ρόλου κύριου υπολογιστή απορρίφθηκε από τον πελάτη %s:%d. Καθυστέρηση."
-
-#  gint count =
-#. gint count =
-#: ../backend/src/DistributionSocketLink.cc:1789
-#, c-format
-msgid "Client %s is now the new master."
-msgstr "Ο πελάτης %s είναι τώρα ο νέος κύριος υπολογιστής."
-
-#: ../backend/src/DistributionSocketLink.cc:1910
-msgid "Network operation started."
-msgstr "Ενεργοποίηση λειτουργίας δικτύου."
-
-#: ../backend/src/DistributionSocketLink.cc:1927
-msgid "Accepted new client."
-msgstr "Αποδοχή νέου πελάτη."
-
-#: ../backend/src/DistributionSocketLink.cc:1982
-#, c-format
-msgid "Client %s:%d read error, closing."
-msgstr "Σφάλμα ανάγνωσης στον πελάτη %s:%d. Διακοπή σύνδεσης."
-
-#: ../backend/src/DistributionSocketLink.cc:1987
-#: ../backend/src/DistributionSocketLink.cc:2058
-#, c-format
-msgid "Client %s:%d closed connection."
-msgstr "Ο πελάτης %s:%d διέκοψε τη σύνδεση."
-
-#: ../backend/src/DistributionSocketLink.cc:2027
-#, c-format
-msgid "Client %s:%d connected."
-msgstr "Ο πελάτης %s:%d συνδέθηκε."
-
-#: ../backend/src/DistributionSocketLink.cc:2063
-#, c-format
-msgid "Could not connect to client %s:%d."
-msgstr "Σύνδεση με τον πελάτη %s:%d αδύνατη."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:1
-msgid "Backward shoulder stretch"
-msgstr "Τέντωμα των ώμων προς τα πίσω"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:2
-msgid ""
-"Close your eyes and breathe out as long as you can and try to relax. When "
-"breathing in, again do it as slowly as possible. Try to count slowly to 8 "
-"for each time you breathe in and out. To extra relax your eyes, try closing "
-"them in micro pauses too."
-msgstr ""
-"Κλείστε τα μάτια, εκπνεύστε όσο πιο πολύ μπορείτε και προσπαθήστε να χαλαρώσετε. "
-"Εισπνεύστε όσο πιο αργά μπορείτε. Προσπαθήστε να μετρήσετε αργά μέχρι το 8 μετά "
-"από κάθε εισπνοή-εκπνοή. Για περαιτέρω χαλάρωση των ματιών προσπαθήστε να τα "
-" κρατάτε κλειστά και κατά τη διάρκεια των μικρο-παύσεων."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:3
-msgid ""
-"Cover your eyes with your palms in such way that you can still open your "
-"eyelids. Now open your eyes and look into the darkness of your palms. This "
-"exercise gives better relief to your eyes compared to simply closing them."
-msgstr ""
-"Καλύψτε με τις παλάμες το πρόσωπό σας έτσι ώστε να μπορείτε να ανοίγετε "
-"τα μάτια σας. Ανοίξτε τα και κοιτάξτε μέσα στο σκοτάδι της κοιλότητας που έχουν "
-"σχηματίσει οι παλάμες σας. Με την άσκηση αυτή τα μάτια χαλαρώνουν καλύτερα "
-"από ό,τι αν τα κλείσετε απλώς."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:4
-msgid "Finger stretch"
-msgstr "Τεντώστε τα δάκτυλα"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
-msgid ""
-"Go stand face to a wall (or something) and put your hands at shoulder height "
-"against it with your elbows slightly bended. Push your body to the wall, "
-"without changing the angle of your elbows. Then push your body back from the "
-"wall again without changing the angle of the elbows."
-msgstr ""
-"Σταθείτε μπροστά σε έναν τοίχο και ακουμπήστε πάνω του έχοντας τα χέρια "
-"στο ύψος των ώμων και τους αγκώνες ελαφρά λυγισμένους. Σπρώξτε το σώμα "
-"σας προς τον τοίχο χωρίς να αλλάξετε τη γωνία των αγκώνων. Ύστερα σπρώξτε "
-"ξανά το σώμα σας, αλλά αυτή τη φορά προς τα πίσω, χωρίς να αλλάξετε τη γωνία "
-"των αγκώνων."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
-msgid ""
-"Interlace your fingers behind your back. Then turn your elbows gently "
-"inward, while straightening your arms. Hold this position for 5 to 15 "
-"seconds, and repeat this exercise twice."
-msgstr ""
-"Ενώστε τα δάχτυλά σας πίσω από την πλάτη. Ύστερα σπρώξτε απαλά "
-"τους ώμους προς τα μέσα, τεντώνοντας συγχρόνως τα χέρια. Κρατήστε "
-"αυτή τη στάση για περίπου 5 με 15 δευτερόλεπτα, και επαναλάβετε "
-"την άσκηση δύο φορές."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
-msgid ""
-"Keep one arm horizontally stretched in front of your chest. Push this arm "
-"with your other arm towards you until you feel a mild tension in your "
-"shoulder. Hold this position briefly, and repeat the exercise for your other "
-"arm."
-msgstr ""
-"Κρατήστε το ένα χέρι τεντωμένο οριζόντια μπροστά από το στήθος σας. "
-"Σπρώξτε το τεντωμένο χέρι προς το σώμα σας με το άλλο σας χέρι, "
-"μέχρι να νιώσετε μια ελαφρά πίεση στον ώμο σας. Κρατήστε αυτή τη θέση "
-"για λίγο, και επαναλάβετε την άσκηση με το άλλο σας χέρι."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
-msgid ""
-"Keep your head straight and your lower jaw parallel to the floor. Move your "
-"head back (making a double chin). Keep this 2 seconds and relax. Move your "
-"head the same way forward, keep this 2 seconds and relax again."
-msgstr ""
-"Κρατήστε το κεφάλι σας όρθιο με το σαγώνι σας παράλληλο προς το έδαφος. "
-"Μετακινήστε το κεφάλι σας προς τα πίσω (για να κάνετε \"διπλό σαγώνι\"). "
-"Κρατήστε αυτή τη στάση για 2 δευτερόλεπτα και χαλαρώστε. Μετακινήστε το "
-"κεφάλι σας προς τα μπροστά με τον ίδιο τρόπο, κρατήστε αυτή τη στάση "
-"για 2 δευτερόλεπτα και χαλαρώστε πάλι."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:9
-msgid ""
-"Look at the upper left corner of the outside border of your monitor. Follow "
-"the border slowly to the upper right corner. Continue to the next corner, "
-"until you got around it two times. Then, reverse the exercise."
-msgstr ""
-"Κοιτάξτε την άνω αριστερή γωνία του πλαισίου της οθόνης σας. Ακολουθήστε "
-"με το βλέμμα σας το πλαίσιο μέχρι τη δεξιά γωνία. Συνεχίστε με τον ίδιο τρόπο, "
-"μέχρι να \"γυρίσετε\" το πλαίσιο δύο φορές. Επαναλάβετε την άσκηση από "
-"τα δεξιά προς τα αριστερά."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:10
-msgid ""
-"Look for the furthest point you can see behind your monitor. Focus your eyes "
-"on the remote point. Then focus on your monitor border. Repeat it. If you "
-"can't look very far from your monitor, face another direction with a longer "
-"view. Then switch your focus between a distant object and a pen held at the "
-"same distance from your eyes as your monitor."
-msgstr ""
-"Κοιτάξτε το πιο απομακρυσμένο σημείο πίσω από την οθόνη σας. Εστιάστε το "
-"βλέμμα σας πάνω του. Ύστερα εστιάστε στο πλαίσιο της οθόνης. Επαναλάβετε. "
-"Αν δεν μπορείτε να δείτε πολύ μακριά από την οθόνη, γυρίστε προς μια "
-"κατεύθυνση με πιο ανοιχτή θέα, εστιάζοντας μια στο μακρινό αντικείμενο και "
-"μια σε ένα στυλό που θα απέχει από τα μάτια σας όσο και η οθόνη σας όταν "
-"εργάζεστε."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:11
-msgid "Look into the darkness"
-msgstr "Κοιτάξτε στο σκοτάδι"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
-msgid "Move the eyes"
-msgstr "Κινήστε τα μάτια"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
-msgid "Move the shoulder blades"
-msgstr "Κινήστε τις ωμοπλάτες"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
-msgid "Move the shoulders"
-msgstr "Κινήστε τους ώμους"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
-msgid "Move the shoulders up and down"
-msgstr "Κινήστε τους ώμους πάνω κάτω"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:16
-msgid "Neck stretch"
-msgstr "Τέντωμα του λαιμού"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
-msgid "Neck tilt stretch"
-msgstr "Τέντωμα του λαιμού προς τα πλάγια"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
-msgid ""
-"Put your hands on the armrests of your chair when you are sitting down and "
-"press your body up until your arms are straight. Try to move your head even "
-"further by lowering your shoulders. Slowly move back into your chair."
-msgstr ""
-"Ακουμπήστε τα χέρια σας στα μπράτσα της καρέκλας σας ενώ κάθεστε και "
-"πιέστε το σώμα σας προς τα πάνω μέχρι να τεντώσετε τα μπράτσα. Προσπαθήστε "
-"να σηκώσετε το κεφάλι σας ακόμα περισσότερο χαμηλώνοντας τους ώμους. "
-"Ξανακαθήστε σιγά σιγά στην καρέκλα σας."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:19
-msgid "Relax the eyes"
-msgstr "Χαλαρώστε τα μάτια σας"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:20
-msgid ""
-"Separate and stretch your fingers until a mild tension is felt, and hold "
-"this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
-"again for 10 seconds. Repeat this exercise once more."
-msgstr ""
-"Χωρίστε και τεντώστε τα δάχτυλά σας μέχρι να νιώσετε μια ελαφριά πίεση, "
-"και διατηρήστε τα σε αυτή τη θέση για 10 δευτερόλεπτα. Χαλαρώστε, λυγίστε "
-"τις αρθρώσεις και περιμένετε και πάλι για 10 δευτερόλεπτα. Επαναλάβετε "
-"την άσκηση άλλη μία φορά."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:21
-msgid "Shoulder-arm stretch"
-msgstr "Τέντωμα ώμων και χεριών"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:22
-msgid ""
-"Spin your right arm slowly round like a plane propeller beside your body. Do "
-"this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
-"with the left arm."
-msgstr ""
-"Περιστρέψτε αργά το δεξιό σας μπράτσο σαν έλικα αεροπλάνου, κρατώντας το "
-"κοντά στο σώμα σας. Επαναλάβετε 4 φορές προς τα μπροστά, 4 φορές προς τα "
-"πίσω και χαλαρώστε για μερικά δευτερόλεπτα. Επαναλάβετε με το αριστερό χέρι."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:23
-msgid ""
-"Stand by your desk and place both your palms on the desk with the fingers "
-"pointing toward your body. Gently stretch your wrists and lower arms."
-msgstr ""
-"Σηκωθείτε και τοποθετήστε και τις δύο παλάμες πάνω στο γραφείο με τα "
-"δάχτυλα να δείχνουν προς το σώμα σας. Τεντώστε απαλά τους καρπούς και "
-"τα κάτω μπράτσα σας."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:24
-msgid ""
-"Stand up and try to reach the ceiling with your hands without lifting your "
-"heels. Hold that for a few seconds. Then let your hands slowly go to the "
-"floor, without bending your arms. Keep them moving to the floor by bending "
-"you back slowly until you can (almost) place them in front of your shoes. "
-"Slowly roll your back up straight from your hips up, until it is straight up "
-"again."
-msgstr ""
-"Σηκωθείτε και προσπαθήστε να \"πιάσετε\" το ταβάνι χωρίς να σηκώσετε τις "
-"φτέρνες. Κρατήστε αυτή τη στάση για μερικά δευτερόλεπτα. Αφήστε τα χέρια "
-"σας να πέσουν αργά χωρίς να λυγίστε τα μπράτσα σας. Συνεχίστε να τα κινείτε "
-" προς το πάτωμα, λυγίζοντας την πλάτη αργά μέχρι να μπορέσετε να τα φέρετε "
-"(σχεδόν) μπροστά στα παπούτσια σας. Σηκώστε αργά την πλάτη σας, μέχρι να "
-"έρθει και πάλι σε όρθια στάση."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:25
-msgid ""
-"Start with your head in a comfortable straight position. Then, slowly tilt "
-"your head to your right shoulder to gently stretch the muscles on the left "
-"side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
-"the left side to stretch your other side. Do this twice for each side."
-msgstr ""
-"Αρχίστε με το κεφάλι χαλαρό και όρθιο. Ύστερα περιστρέψτε το αργά προς "
-"το δεξιό ώμο, για να τεντώσετε απαλά τους μύες στην αριστερή πλευρά "
-"του αυχένα. Κρατήστε αυτή τη θέση για περίπου 5 δευτερόλεπτα. Ύστερα "
-"περιστρέψτε το κεφάλι προς το αριστερό ώμο, για να τεντώσετε τους μύες "
-"στην δεξιά πλευρά. Επαναλάβετε δύο φορές για κάθε πλευρά."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:26
-msgid "Stretch your back"
-msgstr "Τεντώστε την πλάτη σας"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:27
-msgid "Train focusing the eyes"
-msgstr "Εστιάζοντας σε διαφορετικά σημεία"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:28
-msgid "Turn your head"
-msgstr "Γυρίστε το κεφάλι"
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:29
-msgid ""
-"Turn your head left and keep it there for 2 seconds. Then turn your head "
-"right and keep it there for 2 seconds."
-msgstr ""
-"Γυρίστε το κεφάλι αριστερά και κρατήστε το σε αυτή τη θέση για "
-"2 δευτερόλεπτα. Επαναλάβετε με το κεφάλι δεξιά."
-
-#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:30
-msgid "Wrist and lower arm desk stretch"
-msgstr "Τέντωμα του καρπού και του κάτω βραχίονα πάνω στο γραφείο"
-
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
-msgid "Break ignored"
-msgstr "Διάλειμμα που αγνοήθηκε"
-
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:2
-msgid "Break prompt"
-msgstr "Προτροπή σε διάλειμμα"
-
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:4
-msgid "Exercise ended"
-msgstr "Τέλος άσκησης"
-
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:5
-msgid "Exercises ended"
-msgstr "Τέλος ασκήσεων"
-
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:6
-msgid "Micro-break ended"
-msgstr "Τέλος μικρο-παύσης"
-
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:7
-msgid "Micro-break started"
-msgstr "Αρχή μικρο-παύσης"
-
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:8
-msgid "Rest break ended"
-msgstr "Τέλος διαλείμματος"
-
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:9
-msgid "Rest break started"
-msgstr "Αρχή διαλείμματος"
-
+#: ../frontend/text/src/PreludeWindow.cc:152
+msgid "Break in"
+msgstr "Διάλειμμα σε"
+
+#: ../frontend/text/src/PreludeWindow.cc:157
+msgid "Disappears in"
+msgstr "Απόκρυψη σε"
+
+#: ../frontend/text/src/PreludeWindow.cc:163
+msgid "Silent in"
+msgstr "Σίγηση σε"
+
+#~ msgid ""
+#~ "Close your eyes and breathe out as long as you can and try to relax. When "
+#~ "breathing in, again do it as slowly as possible. Try to count slowly to 8 "
+#~ "for each time you breathe in and out. To extra relax your eyes, try "
+#~ "closing them in micro pauses too."
+#~ msgstr ""
+#~ "Κλείστε τα μάτια, εκπνεύστε όσο πιο πολύ μπορείτε και προσπαθήστε να "
+#~ "χαλαρώσετε. Εισπνεύστε όσο πιο αργά μπορείτε. Προσπαθήστε να μετρήσετε "
+#~ "αργά μέχρι το 8 μετά από κάθε εισπνοή-εκπνοή. Για περαιτέρω χαλάρωση των "
+#~ "ματιών προσπαθήστε να τα  κρατάτε κλειστά και κατά τη διάρκεια των μικρο-"
+#~ "παύσεων."
+
+#~ msgid ""
+#~ "Go stand face to a wall (or something) and put your hands at shoulder "
+#~ "height against it with your elbows slightly bended. Push your body to the "
+#~ "wall, without changing the angle of your elbows. Then push your body back "
+#~ "from the wall again without changing the angle of the elbows."
+#~ msgstr ""
+#~ "Σταθείτε μπροστά σε έναν τοίχο και ακουμπήστε πάνω του έχοντας τα χέρια "
+#~ "στο ύψος των ώμων και τους αγκώνες ελαφρά λυγισμένους. Σπρώξτε το σώμα "
+#~ "σας προς τον τοίχο χωρίς να αλλάξετε τη γωνία των αγκώνων. Ύστερα σπρώξτε "
+#~ "ξανά το σώμα σας, αλλά αυτή τη φορά προς τα πίσω, χωρίς να αλλάξετε τη "
+#~ "γωνία των αγκώνων."
+
+#~ msgid ""
+#~ "Keep your head straight and your lower jaw parallel to the floor. Move "
+#~ "your head back (making a double chin). Keep this 2 seconds and relax. "
+#~ "Move your head the same way forward, keep this 2 seconds and relax again."
+#~ msgstr ""
+#~ "Κρατήστε το κεφάλι σας όρθιο με το σαγώνι σας παράλληλο προς το έδαφος. "
+#~ "Μετακινήστε το κεφάλι σας προς τα πίσω (για να κάνετε \"διπλό σαγώνι\"). "
+#~ "Κρατήστε αυτή τη στάση για 2 δευτερόλεπτα και χαλαρώστε. Μετακινήστε το "
+#~ "κεφάλι σας προς τα μπροστά με τον ίδιο τρόπο, κρατήστε αυτή τη στάση για "
+#~ "2 δευτερόλεπτα και χαλαρώστε πάλι."
+
+#~ msgid "Move the shoulder blades"
+#~ msgstr "Κινήστε τις ωμοπλάτες"
+
+#~ msgid "Neck stretch"
+#~ msgstr "Τέντωμα του λαιμού"
+
+#~ msgid "Relax the eyes"
+#~ msgstr "Χαλαρώστε τα μάτια σας"
+
+#~ msgid ""
+#~ "Stand by your desk and place both your palms on the desk with the fingers "
+#~ "pointing toward your body. Gently stretch your wrists and lower arms."
+#~ msgstr ""
+#~ "Σηκωθείτε και τοποθετήστε και τις δύο παλάμες πάνω στο γραφείο με τα "
+#~ "δάχτυλα να δείχνουν προς το σώμα σας. Τεντώστε απαλά τους καρπούς και τα "
+#~ "κάτω μπράτσα σας."
+
+#~ msgid ""
+#~ "Stand up and try to reach the ceiling with your hands without lifting "
+#~ "your heels. Hold that for a few seconds. Then let your hands slowly go to "
+#~ "the floor, without bending your arms. Keep them moving to the floor by "
+#~ "bending you back slowly until you can (almost) place them in front of "
+#~ "your shoes. Slowly roll your back up straight from your hips up, until it "
+#~ "is straight up again."
+#~ msgstr ""
+#~ "Σηκωθείτε και προσπαθήστε να \"πιάσετε\" το ταβάνι χωρίς να σηκώσετε τις "
+#~ "φτέρνες. Κρατήστε αυτή τη στάση για μερικά δευτερόλεπτα. Αφήστε τα χέρια "
+#~ "σας να πέσουν αργά χωρίς να λυγίστε τα μπράτσα σας. Συνεχίστε να τα "
+#~ "κινείτε  προς το πάτωμα, λυγίζοντας την πλάτη αργά μέχρι να μπορέσετε να "
+#~ "τα φέρετε (σχεδόν) μπροστά στα παπούτσια σας. Σηκώστε αργά την πλάτη σας, "
+#~ "μέχρι να έρθει και πάλι σε όρθια στάση."
+
+#~ msgid "Stretch your back"
+#~ msgstr "Τεντώστε την πλάτη σας"
+
+#~ msgid "Wrist and lower arm desk stretch"
+#~ msgstr "Τέντωμα του καρπού και του κάτω βραχίονα πάνω στο γραφείο"
