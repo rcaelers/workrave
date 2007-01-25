@@ -1,7 +1,7 @@
 
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
 #
 # $Id$
 #
@@ -41,7 +41,7 @@ sourcesgnome = 		RemoteControl.cc GnomeAppletWindow.cc
 sourcesgnome_idl = 	${IDL_C_GENERATED} ${IDL_A_GENERATED}
 
 # Additional non-Gnome sources.
-sourcesnognome = 	gnome-about.c
+sourcesnognome =
 
 # Additional KDE sources.
 if HAVE_KDE

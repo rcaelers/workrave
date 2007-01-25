@@ -1,6 +1,6 @@
 // Menus.cc --- Timer info Window
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -24,6 +24,7 @@ static const char rcsid[] = "$Id$";
 
 #include "nls.h"
 #include "debug.hh"
+#include "credits.h"
 
 #include <unistd.h>
 #include <iostream>
@@ -772,48 +773,43 @@ Menus::on_menu_statistics()
 void
 Menus::on_menu_about()
 {
-  const gchar *authors[] = {
-    "Rob Caelers <robc@krandor.org>",
-    "Raymond Penners <raymond@dotsphinx.com>",
-    NULL
-  };
-  const gchar *translators = 
-    "Raymond Penners <raymond@dotsphinx.com>\n"
-    "Johannes Rohr <j.rohr@comlink.apc.org>\n"
-    "Christian Vejlbo <christian@vejlbo.dk>\n"
-    "Mikolaj Machowski <mikmach@wp.pl>\n"
-    "Pablo Rodriguez\n"
-    "Rex Tsai <chihchun@linux.org.tw>\n"
-    "Sergey Kirkinsky <ksa@pfr.altai.ru>\n"
-    "Thomas Basset <thomas.basset@netcourrier.com>\n"
-    "Benjamin Siband <translations@wordinfrench.com>\n"
-    "Claudio Ferreira Filho <filhocf@yahoo.com.br>\n"
-    "Morten Lunde <morten.lunde@broadpark.no>\n"
-    "Juraj Kubelka <Juraj.Kubelka@email.cz>\n"
-    "Artūras Šlajus <x11@h2o.sky.lt>\n"
-    "Haggai Eran <he3@bezeqint.net>\n"
-    "Jordi Mallach <jordi@sindominio.net>\n"
-    "Daniel Nylander <info@danielnylander.se>\n"
-    "Masanobu Yokota <masanobu.yokota@nifty.com>\n"
-    "ORY Mate <orymate@gmail.com>\n"
-    "Иван Димов <idimov@users.sourceforge.net>\n"
-    "Enver ALTIN <ealtin@parkyeri.com>\n"
-    "Prokopis Prokopidis <prokopidis@gmail.com>\n"
-    "Peter Tuharsky <Peter.Tuharsky@banskabystrica.sk>";
-  
   string icon = Util::complete_directory("workrave.png",
                                          Util::SEARCH_PATH_IMAGES);
-  GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(icon.c_str(), NULL); 
-  gtk_widget_show (gnome_about_new
-                   ("Workrave", VERSION,
-                    "Copyright 2001-2006 Rob Caelers & Raymond Penners",
-                    _("This program assists in the prevention and recovery"
-                      " of Repetitive Strain Injury (RSI)."),
-                    (const gchar **) authors,
-                    (const gchar **) NULL,
-                    translators,
-                    pixbuf));
-  g_object_unref(pixbuf);
+  Glib::RefPtr<Gdk::Pixbuf> pixbuf;
+  
+  try
+    {
+      pixbuf = Gdk::Pixbuf::create_from_file(icon);
+    }
+  catch (...)
+    {
+    }
+  
+  Gtk::AboutDialog about;
+
+  about.set_name("Workrave");
+  about.set_authors(workrave_authors);
+  about.set_copyright(workrave_copyright);
+  about.set_comments(_("This program assists in the prevention and recovery"
+                       " of Repetitive Strain Injury (RSI)."));
+  about.set_logo(pixbuf);
+  about.set_translator_credits(workrave_translators);
+  about.set_version(VERSION);
+  about.set_website("http://www.workrave.org/");
+  about.set_website_label("www.workrave.org");
+
+  about.run();
+  
+//   gtk_widget_show (gnome_about_new
+//                    ("Workrave", VERSION,
+//                     "Copyright 2001-2006 Rob Caelers & Raymond Penners",
+//                     _("This program assists in the prevention and recovery"
+//                       " of Repetitive Strain Injury (RSI)."),
+//                     (const gchar **) authors,
+//                     (const gchar **) NULL,
+//                     translators,
+//                     pixbuf));
+//   g_object_unref(pixbuf);
 }
 
 

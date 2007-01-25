@@ -48,9 +48,10 @@ $(IDL_C_GENERATED): $(IDL_C)
 
 INCLUDES 			= -I$(srcdir)
 
-FLAGS				= @APPLET_CFLAGS@ @WR_COMMON_CFLAGS@ \
+FLAGS				= @APPLET_CFLAGS@ @WR_COMMON_CFLAGS@ @WR_FRONTEND_CFLAGS@ \
 	  	  		  -DWORKRAVE_DATADIR="\"${pkgdatadir}\"" \
-	 		 	  -DGNOMELOCALEDIR="\"$(datadir)/locale\""
+	  	  		  -DWORKRAVE_UIDATADIR="\"${uidir}\"" \
+	 		 	  -DGNOMELOCALEDIR="\"$(datadir)/locale\"" 
 
 libexec_PROGRAMS 		= workrave-applet
 

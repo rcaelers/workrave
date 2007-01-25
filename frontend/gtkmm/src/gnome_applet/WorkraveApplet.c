@@ -1,6 +1,6 @@
 // WorkraveApplet.cc
 //
-// Copyright (C) 2002, 2003, 2005, 2006 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2005, 2006, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -20,11 +20,14 @@ static const char rcsid[] = "$Id$";
 #include "config.h"
 #endif
 
+#include "credits.h"
+
 #include <gnome.h>
 #include <bonobo.h>
 #include <bonobo/bonobo-object.h>
 #include <panel-applet.h>
 
+#include <gtk/gtkaboutdialog.h>
 #include <gdk/gdkx.h>
 
 #include "Workrave-Control.h"
@@ -345,48 +348,37 @@ workrave_applet_fire_workrave()
 static void
 verb_about(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
 {
-  /* FIXME: remoe duplicate code... */
-  static const char *authors[] =
-    {
-      "Rob Caelers <robc@krandor.org>",
-      "Raymond Penners <raymond@dotsphinx.com>",
-      NULL
-    };
-
-  const gchar *translators = 
-    "Raymond Penners <raymond@dotsphinx.com>\n"
-    "Johannes Rohr <j.rohr@comlink.apc.org>\n"
-    "Christian Vejlbo <christian@vejlbo.dk>\n"
-    "Mikolaj Machowski <mikmach@wp.pl>\n"
-    "Pablo Rodriguez\n"
-    "Rex Tsai <chihchun@linux.org.tw>\n"
-    "Sergey Kirkinsky <ksa@pfr.altai.ru>\n"
-    "Thomas Basset <thomas.basset@netcourrier.com>\n"
-    "Benjamin Siband <translations@wordinfrench.com>\n"
-    "Claudio Ferreira Filho <filhocf@yahoo.com.br>\n"
-    "Morten Lunde <morten.lunde@broadpark.no>\n"
-    "Juraj Kubelka <Juraj.Kubelka@email.cz>\n"
-    "Artūras Šlajus <x11@h2o.sky.lt>\n"
-    "Haggai Eran <he3@bezeqint.net>\n"
-    "Jordi Mallach <jordi@sindominio.net>\n"
-    "Daniel Nylander <info@danielnylander.se>\n"
-    "Masanobu Yokota <masanobu.yokota@nifty.com>\n"
-    "ORY Mate <orymate@gmail.com>\n"
-    "Иван Димов <idimov@users.sourceforge.net>\n"
-    "Enver ALTIN <ealtin@parkyeri.com>\n"
-    "Prokopis Prokopidis <prokopidis@gmail.com>\n"
-    "Peter Tuharsky <Peter.Tuharsky@banskabystrica.sk>";
-
   GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(WORKRAVE_DATADIR "/images/workrave.png", NULL);  
-  gtk_widget_show (gnome_about_new
-                   ("Workrave Applet", VERSION,
-                    "Copyright 2001-2006 Rob Caelers & Raymond Penners",
-                    _("This program assists in the prevention and recovery"
-                      " of Repetitive Strain Injury (RSI)."),
-                    (const gchar **) authors,
-                    (const gchar **) NULL,
-                    translators,
-                    pixbuf));
+  GtkAboutDialog *about = GTK_ABOUT_DIALOG(gtk_about_dialog_new());
+  
+  gtk_container_set_border_width(GTK_CONTAINER(about), 5);
+
+
+  gtk_show_about_dialog (NULL,
+			 "name", "Workrave",
+			 "version", VERSION,
+			 "copyright", workrave_copyright,
+			 "website", "http://www.workrave.org",
+			 "website_label", "www.workrave.org",
+			 "comments", _("This program assists in the prevention and recovery"
+                                  " of Repetitive Strain Injury (RSI)."),
+                         "translator-credits", workrave_translators,
+			 "authors", workrave_authors,
+			 "logo", pixbuf,
+			 NULL);
+  g_object_unref(pixbuf);
+
+  
+  
+/*   gtk_widget_show (gnome_about_new */
+/*                    ("Workrave Applet", VERSION, */
+/*                     "Copyright 2001-2006 Rob Caelers & Raymond Penners", */
+/*                     _("This program assists in the prevention and recovery" */
+/*                       " of Repetitive Strain Injury (RSI)."), */
+/*                     (const gchar **) authors, */
+/*                     (const gchar **) NULL, */
+/*                     translators, */
+/*                     pixbuf)); */
 }
 
 
@@ -953,7 +945,7 @@ workrave_applet_fill(PanelApplet *applet)
   BonoboUIComponent *ui = NULL;
   
   // Create menus.
-  panel_applet_setup_menu_from_file(applet, NULL, "GNOME_WorkraveApplet.xml", NULL,
+  panel_applet_setup_menu_from_file(applet, WORKRAVE_UIDATADIR, "GNOME_WorkraveApplet.xml", NULL,
                                     workrave_applet_verbs, applet);
 
   // Add listeners for menu toggle-items.

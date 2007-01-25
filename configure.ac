@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl
-dnl Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
+dnl Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
 dnl
 dnl
 dnl $Id$
@@ -17,7 +17,7 @@ AM_CONFIG_HEADER(config.h)
 AM_INIT_AUTOMAKE(workrave, 1.8.3)
 
 dnl Set of available languages.
-ALL_LINGUAS="nl de eo pl da es zh_TW ru fr pt_BR no lt cs he eu ca sv ja bg hu tr el sk"
+ALL_LINGUAS="nl de eo pl da es zh_TW ru fr pt_BR no lt cs he eu ca sv ja bg hu tr el sk zh_CN"
 
 LANGFILE=frontend/gtkmm/win32/setup/lang.iss
 echo -n "; language.iss --- Inno setup file, support languages" > $LANGFILE
