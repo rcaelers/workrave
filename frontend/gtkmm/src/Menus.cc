@@ -32,6 +32,7 @@ static const char rcsid[] = "$Id$";
 #include <gtk/gtkmenu.h>
 #include <gtkmm/menu.h>
 #include <gtkmm/stock.h>
+#include <gtkmm/aboutdialog.h>
 
 #include "Menus.hh"
 #include "TimeBar.hh"
@@ -55,8 +56,6 @@ static const char rcsid[] = "$Id$";
 #endif
 #ifdef HAVE_GNOME
 #include "GnomeAppletWindow.hh"
-#else
-#include "gnome-about.h"
 #endif
 #include "MainWindow.hh"
 
