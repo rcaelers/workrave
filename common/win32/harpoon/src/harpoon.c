@@ -620,10 +620,10 @@ harpoon_hook (HarpoonHookFunc func)
   harpoon_unhook();
   user_callback = func;
   mouse_ll_hook = SetWindowsHookEx(WH_MOUSE_LL, harpoon_mouse_ll_hook, dll_handle, 0);
-  if (mouse_ll_hook == NULL)
-    {
+/*   if (mouse_ll_hook == NULL) */
+/*     { */
       mouse_hook = SetWindowsHookEx(WH_MOUSE, harpoon_mouse_hook, dll_handle, 0);
-    }
+/*     } */
   
   keyboard_ll_hook = SetWindowsHookEx(WH_KEYBOARD_LL, harpoon_keyboard_ll_hook, dll_handle, 0);
   if (keyboard_ll_hook == NULL)
