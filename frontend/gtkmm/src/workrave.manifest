@@ -11,7 +11,7 @@
       <requestedPrivileges>
         <requestedExecutionLevel
           level="requireAdministrator"
-          uiAccess="false"/>
+          uiAccess="true"/>
         </requestedPrivileges>
        </security>
   </trustInfo>
