@@ -1,6 +1,6 @@
 // GUI.cc --- The WorkRave GUI
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -1304,24 +1304,14 @@ GUI::get_timers_tooltip()
     {
       IBreak *break_data = core->get_break(BreakId(count));
       ITimer *timer = break_data->get_timer();
+      bool on = break_data->get_break_enabled();
 
-#ifdef LETS_SEE_HOW_WORKRAVE_BEHAVES_WITHOUT_THIS      
-      if (!node_master && num_peers > 0)
+      if (timer != NULL && on)
         {
-        }
-      else
-#endif
-        {
-          std::string text;
-
-          if (timer == NULL)
-            {
-              continue;
-            }
-
           // Collect some data.
           time_t maxActiveTime = timer->get_limit();
           time_t activeTime = timer->get_elapsed_time();
+          std::string text;
 
           // Set the text
           if (timer->is_limit_enabled() && maxActiveTime != 0)
@@ -1338,6 +1328,7 @@ GUI::get_timers_tooltip()
           tip += ": " + text;
         }
     }
+
   return tip;
 }
 
