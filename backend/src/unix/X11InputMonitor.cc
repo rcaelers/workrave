@@ -1,9 +1,7 @@
 // X11InputMonitor.cc --- ActivityMonitor for X11
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001-2007 Rob Caelers <robc@krandor.org>
 // All rights reserved.
-//
-// Time-stamp: <2007-02-10 22:50:13 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -59,6 +57,10 @@ static const char rcsid[] = "$Id$";
 #include "IInputMonitorListener.hh"
 
 #include "timeutil.h"
+
+#ifdef HAVE_APP_GTK
+#include <gdk/gdk.h>
+#endif
 
 //! Intercepts X11 protocol errors.
 static int
@@ -226,14 +228,23 @@ X11InputMonitor::run_events()
 
   set_all_events(root_window);
 
+#ifdef HAVE_APP_GTK  
+  gdk_error_trap_push();
+#else
   int (*old_handler)(Display *dpy, XErrorEvent *error);
-
   old_handler = XSetErrorHandler(&errorHandler);
+#endif
+  
   XGrabButton(x11_display, AnyButton, AnyModifier, root_window, True,
               ButtonPressMask, GrabModeSync, GrabModeAsync, None, None);
   XSync(x11_display,False);
-  XSetErrorHandler(old_handler);
 
+#ifdef HAVE_APP_GTK  
+  gdk_error_trap_pop();
+#else
+  XSetErrorHandler(old_handler);
+#endif
+  
   Window lastMouseRoot = 0;
   while (1)
     {
@@ -325,18 +336,22 @@ X11InputMonitor::set_event_mask(Window window)
 void
 X11InputMonitor::set_all_events(Window window)
 {
-  int (*old_handler)(Display *dpy, XErrorEvent *error);
 
+#ifdef HAVE_APP_GTK  
   gdk_error_trap_push();
-          
-  
+#else          
+  int (*old_handler)(Display *dpy, XErrorEvent *error);
   old_handler = XSetErrorHandler(&errorHandler);
+#endif
 
-      gdk_error_trap_pop();
-  
   set_event_mask(window);
   XSync(x11_display,False);
+
+#ifdef HAVE_APP_GTK  
+  gdk_error_trap_pop();
+#else
   XSetErrorHandler(old_handler);
+#endif
 }
 
 
@@ -507,7 +522,7 @@ X11InputMonitor::run_xrecord()
     
   init_xrecord();
 
-  if (0 && use_xrecord &&
+  if (use_xrecord &&
       XRecordEnableContext(xrecord_datalink, xrecord_context,  &handleXRecordCallback, (XPointer)this))
     {
       XRecordFreeContext(x11_display, xrecord_context);
