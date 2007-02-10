@@ -1,6 +1,6 @@
 // BreakControl.cc
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -228,7 +228,7 @@ BreakControl::goto_stage(BreakStage stage)
         application->hide_break_window();
         core->defrost();
 
-        if (break_stage == STAGE_TAKING)
+        if (break_stage == STAGE_TAKING && !fake_break)
           {
             // Update statistics and play sound if the break end
             // was "natural"
@@ -362,7 +362,6 @@ BreakControl::update_break_window()
   if (fake_break)
     {
       idle = duration - fake_break_count;
-
       if (fake_break_count <= 0)
         {
           stop_break(false);
