@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2006-10-05 21:09:22 robc>
+// Time-stamp: <2007-02-10 22:50:13 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -327,8 +327,13 @@ X11InputMonitor::set_all_events(Window window)
 {
   int (*old_handler)(Display *dpy, XErrorEvent *error);
 
+  gdk_error_trap_push();
+          
+  
   old_handler = XSetErrorHandler(&errorHandler);
 
+      gdk_error_trap_pop();
+  
   set_event_mask(window);
   XSync(x11_display,False);
   XSetErrorHandler(old_handler);
@@ -502,7 +507,7 @@ X11InputMonitor::run_xrecord()
     
   init_xrecord();
 
-  if (use_xrecord &&
+  if (0 && use_xrecord &&
       XRecordEnableContext(xrecord_datalink, xrecord_context,  &handleXRecordCallback, (XPointer)this))
     {
       XRecordFreeContext(x11_display, xrecord_context);

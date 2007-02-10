@@ -61,7 +61,7 @@ msgstr "Клиент %s:%d теперь главный."
 #. Its ME!
 #: ../backend/src/DistributionSocketLink.cc:907
 msgid "I'm now master."
-msgstr "Я не главный."
+msgstr "Теперь я главный."
 
 #: ../backend/src/DistributionSocketLink.cc:1236
 #, c-format
@@ -342,8 +342,8 @@ msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
 msgstr ""
-"Эта программа помогает в предупреждении и лечении Туннельного Синдрома "
-"Запястья и снятии общего мышечного напряжения."
+"Эта программа помогает в предупреждении и лечении туннельного синдрома "
+"запястья и снятии общего мышечного напряжения."
 
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:232
 msgid "Please relax for a few seconds"
@@ -352,22 +352,22 @@ msgstr "Пожалуйста, расслабьтесь на несколько секунд"
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:239
 #, c-format
 msgid "Next rest break in %s"
-msgstr "Следующий перерыв в %s"
+msgstr "Следующий перерыв через %s"
 
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:244
 #, c-format
 msgid "Rest break %s overdue"
-msgstr "Перерыв %s запоздал"
+msgstr "Перерыв запоздал на %s"
 
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:257
-#, fuzzy, c-format
+#, c-format
 msgid "Daily limit in %s"
 msgstr "Дневной предел %s"
 
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:262
-#, fuzzy, c-format
+#, c-format
 msgid "Daily limit %s overdue"
-msgstr "Дневной предел %s"
+msgstr "Дневной предел превышен на %s"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:63
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:103
@@ -454,7 +454,7 @@ msgstr "Вы должны остановиться сегодня..."
 #: ../frontend/gtkmm/src/PreludeWindow.cc:255
 #, c-format
 msgid "Break in %s"
-msgstr "Перерыв в %s"
+msgstr "Перерыв через %s"
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:259
 #, c-format
@@ -543,7 +543,7 @@ msgstr "Перерыв:"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:169
 msgid "Daily limit:"
-msgstr "Дневное предел:"
+msgstr "Дневной предел:"
 
 #. Enabled/Disabled checkbox
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:63
@@ -601,7 +601,7 @@ msgstr "Расположение"
 
 #: ../frontend/gtkmm/src/eggtrayicon.c:134
 msgid "The orientation of the tray."
-msgstr "Расположение в системной панеле."
+msgstr "Расположение в системной панели."
 
 #: ../frontend/gtkmm/src/gnome-about.c:308
 msgid "Credits"
