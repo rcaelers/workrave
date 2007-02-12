@@ -1,6 +1,6 @@
-// KdeSoundPlayer.hh
+// Orientation.hh 
 //
-// Copyright (C) 2002, 2004, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2007 Rob Caelers
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -16,22 +16,18 @@
 // $Id$
 //
 
-#ifndef KDESOUNDPLAYER_HH
-#define KDESOUNDPLAYER_HH
+#ifndef ORIENTATION_HH
+#define ORIENTATION_HH
 
-#include <ISoundPlayer.hh>
-
-class KInstance;
-
-class KdeSoundPlayer : public ISoundPlayer
+namespace Workrave
 {
-public:
-  KdeSoundPlayer();
-  virtual ~KdeSoundPlayer();
-  void play_sound(Sound snd);
-
-private:
-  KInstance *kinstance;
+  enum Orientation
+    {
+      ORIENTATION_UP,
+      ORIENTATION_RIGHT,
+      ORIENTATION_DOWN,
+      ORIENTATION_LEFT,
+    };
 };
 
-#endif // KDESOUNDPLAYER_HH
+#endif // ORIENTATION_HH

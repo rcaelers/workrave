@@ -1,6 +1,6 @@
 // X11SystrayAppletWindow.cc --- Applet info Window
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -46,10 +46,11 @@ X11SystrayAppletWindow::X11SystrayAppletWindow(AppletControl *control) :
   view(NULL),
   plug(NULL),
   container(NULL),
-  applet_vertical(false),
+  applet_orientation(ORIENTATION_UP),
   applet_size(0),
   applet_active(false),
-  control(control)
+  control(control),
+  tray_icon(NULL)
 {
 }
 
@@ -63,7 +64,45 @@ X11SystrayAppletWindow::~X11SystrayAppletWindow()
   delete timer_box_view;
 }
 
+void
+X11SystrayAppletWindow::static_notify_callback(GObject    *gobject,
+                                               GParamSpec *arg,
+                                               gpointer    user_data)
+{
+  (void) gobject;
+  (void) arg;
+  X11SystrayAppletWindow *applet = (X11SystrayAppletWindow *)user_data;
+  applet->notify_callback();
+}
 
+
+void
+X11SystrayAppletWindow::notify_callback()
+{
+  TRACE_ENTER("X11SystrayAppletWindow::notify_callback");
+  if (tray_icon != NULL)
+    {
+      GtkOrientation o = egg_tray_icon_get_orientation(tray_icon);
+      Orientation orientation;
+
+      if (o == GTK_ORIENTATION_VERTICAL)
+        {
+          orientation = ORIENTATION_UP;
+        }
+      else
+        {
+          orientation = ORIENTATION_LEFT;
+        }
+
+      if (applet_orientation != orientation)
+        {
+          applet_orientation = orientation;
+          view->set_geometry(applet_orientation, applet_size);
+          TRACE_MSG("orientation " << applet_orientation);
+        }
+    }
+  TRACE_EXIT();
+}
 
 //! Initializes the applet.
 AppletWindow::AppletState
@@ -77,12 +116,17 @@ X11SystrayAppletWindow::activate_applet()
       return APPLET_STATE_VISIBLE;
     }
   
-  EggTrayIcon *tray_icon = egg_tray_icon_new("Workrave Tray Icon");
+  tray_icon = egg_tray_icon_new("Workrave Tray Icon");
   AppletState ret =  APPLET_STATE_DISABLED;
   
   if (tray_icon != NULL)
     {
+      g_signal_connect(tray_icon, "notify",
+                       G_CALLBACK (static_notify_callback),
+                       this);
+      
       plug = Glib::wrap(GTK_PLUG(tray_icon));
+
       
       Gtk::EventBox *eventbox = new Gtk::EventBox;
       eventbox->set_visible_window(false);
@@ -113,7 +157,7 @@ X11SystrayAppletWindow::activate_applet()
       menus->create_menu(Menus::MENU_APPLET);
       
       ret = AppletWindow::APPLET_STATE_VISIBLE;
-      applet_vertical = false;
+      applet_orientation = ORIENTATION_UP;
       
 #ifdef HAVE_GTKMM24
       Gtk::Requisition req;
@@ -124,7 +168,7 @@ X11SystrayAppletWindow::activate_applet()
       plug->size_request(&req);
       applet_size = req.height;
 #endif      
-      view->set_geometry(applet_vertical, 24);
+      view->set_geometry(applet_orientation, 24);
 
       applet_active = true;
       ret = APPLET_STATE_VISIBLE;
@@ -195,16 +239,36 @@ X11SystrayAppletWindow::on_embedded()
 #ifdef HAVE_GTKMM24
       Gtk::Requisition req;
       plug->size_request(req);
-      applet_size = req.height;
 #else
       GtkRequisition req;
       plug->size_request(&req);
-      applet_size = req.height;
 #endif
 
-      TRACE_MSG("Size = " << req.width << " " << req.height << " " << applet_vertical);
-      view->set_geometry(applet_vertical, applet_size);
-  
+      GtkOrientation o = egg_tray_icon_get_orientation(tray_icon);
+      Orientation orientation;
+
+      if (o == GTK_ORIENTATION_VERTICAL)
+        {
+          orientation = ORIENTATION_UP;
+        }
+      else
+        {
+          orientation = ORIENTATION_LEFT;
+        }
+
+      if (orientation == ORIENTATION_UP ||
+          orientation == ORIENTATION_DOWN)
+        {
+          applet_size = req.width;
+        }
+      else
+        {
+          applet_size = req.height;
+        }
+        
+      TRACE_MSG("Size = " << req.width << " " << req.height << " " << applet_orientation);
+      view->set_geometry(applet_orientation, applet_size);
+      
       TRACE_MSG(applet_size);
     }
 

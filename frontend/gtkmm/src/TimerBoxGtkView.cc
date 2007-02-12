@@ -1,6 +1,6 @@
 // TimerBoxGtkView.cc --- Timers Widgets
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -53,11 +53,13 @@ TimerBoxGtkView::TimerBoxGtkView() :
   bars(NULL),
   sheep(NULL),
   sheep_eventbox(NULL),
-  vertical(false),
+  orientation(ORIENTATION_UP),
   size(0),
   table_rows(-1),
   table_columns(-1),
-  visible_count(-1)
+  table_reverse(false),
+  visible_count(-1),
+  rotation(0)
 {
   init();
 }
@@ -98,11 +100,17 @@ TimerBoxGtkView::~TimerBoxGtkView()
 
 //! Sets the geometry of the timerbox.
 void
-TimerBoxGtkView::set_geometry(bool vertical, int size)
+TimerBoxGtkView::set_geometry(Orientation orientation, int size)
 {
-  TRACE_ENTER_MSG("TimerBoxGtkView::set_geometry", vertical << " " << size);
-  this->vertical = vertical;
+  TRACE_ENTER_MSG("TimerBoxGtkView::set_geometry", orientation << " " << size);
+  this->orientation = orientation;
   this->size = size;
+
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+    {
+      bars[i]->queue_resize();
+    }
+
   init_table();
   TRACE_EXIT();
 
@@ -165,6 +173,8 @@ TimerBoxGtkView::init_widgets()
       Gtk::Widget *w;
       if (count == BREAK_ID_REST_BREAK)
         {
+          img->set_padding(0,0);
+
           Gtk::Button *b = new Gtk::Button();
           b->set_relief(Gtk::RELIEF_NONE);
           b->set_border_width(0);
@@ -177,6 +187,7 @@ TimerBoxGtkView::init_widgets()
       else
         {
           w = img;
+          img->set_padding(0,2);
         }
       
       size_group->add_widget(*w);
@@ -195,7 +206,7 @@ void
 TimerBoxGtkView::init_table()
 {
   TRACE_ENTER("TimerBoxGtkView::init_table");
-
+  
   // Compute number of visible breaks.
   int number_of_timers = 0;
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -210,33 +221,117 @@ TimerBoxGtkView::init_table()
   // Compute table dimensions.
   int rows = number_of_timers;
   int columns = 1;
-
+  int reverse = false;
+  
+  rotation = 0;
+  
   if (rows == 0)
     {
       // Show sheep.
       rows = 1;
     }
 
-  if (!vertical)
-    {
-      TRACE_MSG("!vertical")
-      int width, height;
-      bars[0]->get_preferred_size(width, height);
-      
-      rows = size / (height + 4);
+#ifdef HAVE_GTKMM24
+  Gtk::Requisition label_size;
+  Gtk::Requisition bar_size;
 
-      TRACE_MSG(size << " " << height << " " << rows);
+  labels[0]->size_request(label_size);
+#else
+  GtkRequisition label_size;
+  GtkRequisition bar_size;
+
+  labels[0]->size_request(&label_size);
+#endif
+
+  Gtk::Requisition my_size;
+  size_request(my_size);
+
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+    {
+      bars[i]->set_rotation(0);
+    }
+  
+  bars[0]->get_preferred_size(bar_size.width, bar_size.height);
+  
+  if (size == -1 && (orientation == ORIENTATION_LEFT))
+    {
+      size = label_size.width + bar_size.width + 9;
+    }
+
+  if (size != -1)
+    {
+      if ((orientation == ORIENTATION_LEFT || orientation == ORIENTATION_RIGHT))
+        {
+          set_size_request(size, -1);
+        }
+      else
+        {
+          set_size_request(-1, size);
+        }
+    }
+  
+  TRACE_MSG("s v w/h bw/bh lw/lb "
+            << size << " " << orientation << " " 
+            << my_size.width << " " << my_size.height << " " 
+            << bar_size.width << " " << bar_size.height << " " 
+            << label_size.width << " " << label_size.height);
+  
+  if (orientation == ORIENTATION_LEFT || orientation == ORIENTATION_RIGHT)
+    {
+      if (size > bar_size.width + label_size.width + 8)
+        {
+          columns = 2;
+          rows = number_of_timers;
+        }
+      else if (size > bar_size.width + 2)
+        {
+          columns = 1;
+          rows = 2 * number_of_timers;
+        }
+      else
+        {
+          columns = 1;
+          rows = 2 * number_of_timers;
+
+          if (orientation == ORIENTATION_LEFT)
+            {
+              rotation = 90;
+            }
+          else
+            {
+              rotation = 270;
+              reverse = true;
+            }
+        }
       if (rows <= 0)
         {
           rows = 1;
         }
     }
+  else
+    {
+      rows = size / (bar_size.height + 4);
+      if (rows <= 0)
+        {
+          rows = 1;
+        }
+  
+      columns = 2 * ((number_of_timers + rows - 1) / rows);
 
-  columns = (number_of_timers + rows - 1) / rows;
-  TRACE_MSG("c/r " << columns << " " << rows);
+      if (columns <= 0)
+        {
+          columns = 1;
+        }
+    }
 
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+    {
+      bars[i]->set_rotation(rotation);
+    }
+  
+  TRACE_MSG("c/r " << columns << " " << rows << " " << rotation);
 
-  bool remove_all = rows != table_rows || columns != table_columns || number_of_timers != visible_count;
+  bool remove_all = rows != table_rows || columns != table_columns || number_of_timers != visible_count || reverse != table_reverse;
   
   // Remove old
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -264,22 +359,24 @@ TimerBoxGtkView::init_table()
 
   TRACE_MSG(rows <<" " << table_rows << " " << columns << " " << table_columns);
   //  if (rows != table_rows || columns != table_columns || number_of_timers != visible_count)
-    {
-      TRACE_MSG("resize");
-      resize(rows, 2 * columns);
-      //set_spacings(1);
-      //show_all();
+  {
+    TRACE_MSG("resize");
+    resize(rows, columns);
+    //set_spacings(1);
+    //show_all();
 
-      table_columns = columns;
-      table_rows = rows;
-    }
+    table_columns = columns;
+    table_rows = rows;
+    table_reverse = reverse;
+  }
   
   // Add sheep.
   if (number_of_timers == 0 && visible_count != 0)
     {
       attach(*sheep_eventbox, 0, 2, 0, 1, Gtk::FILL, Gtk::SHRINK);
     }
-  
+
+    
   // Fill table.
   for (int i = 0; i < number_of_timers; i++)
     {
@@ -288,35 +385,32 @@ TimerBoxGtkView::init_table()
 
       if (id != cid)
         {
-          current_content[i] = id;
-          
-          int cur_row = i % rows;
-          int cur_col = i / rows;
-           
-          TRACE_MSG("size = " << size);
-          if (!vertical && size > 0)
+          int item = i;
+
+          if (reverse)
             {
-#ifdef HAVE_GTKMM24
-              Gtk::Requisition widget_size;
-              size_request(widget_size);
-              
-              TRACE_MSG("size = " << widget_size.width << " " << widget_size.height);
-              // bars[id]->set_size_request(-1, size / rows - (rows + 1) - 2);
-#else
-              GtkRequisition widget_size;
-              size_request(&widget_size);
-              
-              TRACE_MSG("size = " << widget_size.width << " " << widget_size.height);
-              //bars[id]->set_size_request(-1, size / rows - (rows + 1) - 2);
-#endif
+              item = number_of_timers - i + 1;
             }
 
-          TRACE_MSG("attach " << cur_col << " " << cur_row);
+          current_content[i] = id;
           
-          attach(*labels[id], 2 * cur_col, 2 * cur_col + 1, cur_row, cur_row + 1,
+          int cur_row = (2 * item) / columns;
+          int cur_col = (2 * item) % columns;
+          
+          attach(*labels[id], cur_col, cur_col + 1, cur_row, cur_row + 1,
+                 Gtk::SHRINK, Gtk::SHRINK);
+
+          int bias = 1;
+          if (reverse)
+            {
+              bias = -1;
+            }
+          
+          cur_row = (2 * item + bias) / columns;
+          cur_col = (2 * item + bias) % columns;
+
+          attach(*bars[id], cur_col, cur_col + 1, cur_row, cur_row + 1,
                  Gtk::FILL | Gtk::EXPAND, Gtk::SHRINK);
-          attach(*bars[id], 2 * cur_col + 1, 2 * cur_col + 2, cur_row, cur_row + 1,
-                 Gtk::EXPAND | Gtk::FILL, Gtk::SHRINK);
         }
     }
 
@@ -325,11 +419,6 @@ TimerBoxGtkView::init_table()
       current_content[i] = -1;
     }
 
-  //FIXME: remove
-  Gtk::Requisition widget_size;
-  size_request(widget_size);
-  TRACE_MSG("size = " << widget_size.width << " " << widget_size.height);
-  
   visible_count = number_of_timers;
   
   show_all();

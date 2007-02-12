@@ -1,6 +1,6 @@
 // GnomeAppletWindow.hh --- X11 Applet Window
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -60,7 +60,7 @@ public:
 
   void set_menu_active(int menu, bool active);
   bool get_menu_active(int menu);
-  void set_applet_vertical(bool vertical);
+  void set_applet_orientation(Orientation orientation);
   void set_applet_size(int size);
   void set_applet_control(GNOME_Workrave_AppletControl applet_control);
   void set_applet_background(int type, GdkColor &color, long xid);
@@ -78,8 +78,8 @@ private:
   // 
   GNOME_Workrave_AppletControl applet_control;
 
-  //! Allign break vertically.
-  bool applet_vertical;
+  //! Allign break orientationly.
+  Orientation applet_orientation;
 
   //! Size of the applet
   int applet_size;

@@ -1,6 +1,6 @@
 // KdeAppletWindow.cc --- Applet info Window
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -56,7 +56,7 @@ static const char rcsid[] = "$Id$";
 KdeAppletWindow::KdeAppletWindow(AppletControl *control) :
   plug(NULL),
   container(NULL),
-  applet_vertical(false),
+  applet_orientation(ORIENTATION_UP),
   applet_size(0),
   control(control),
   applet_active(false)
@@ -89,7 +89,7 @@ KdeAppletWindow::activate_applet()
     }
   bool ok = true;
 
-  ok = get_vertical(applet_vertical);
+  ok = get_orientation(applet_orientation);
 
   if (ok)
     {
@@ -122,7 +122,7 @@ KdeAppletWindow::activate_applet()
       timer_box_view = view;
       
       timer_box_control = new TimerBoxControl("applet", *timer_box_view);
-      view->set_geometry(applet_vertical, applet_size);
+      view->set_geometry(applet_orientation, applet_size);
       view->show_all();
       
       container->add(*view);
@@ -131,7 +131,7 @@ KdeAppletWindow::activate_applet()
 
       Gtk::Requisition req;
       container->size_request(req);
-      TRACE_MSG("Size = " << req.width << " " << req.height << " " << applet_vertical);
+      TRACE_MSG("Size = " << req.width << " " << req.height << " " << applet_orientation);
       
       // Tray menu
       Menus *menus = Menus::get_instance();
@@ -219,7 +219,7 @@ KdeAppletWindow::update()
       container->size_request(&req);
 #endif
 
-      TRACE_MSG("Size = " << req.width << " " << req.height << " " << applet_vertical);
+      TRACE_MSG("Size = " << req.width << " " << req.height << " " << applet_orientation);
       if (req.width != last_size.width || req.height != last_size.height)
         {
           last_size = req;
@@ -295,8 +295,8 @@ KdeAppletWindow::on_embedded()
       container->size_request(&last_size);
 #endif
 
-      TRACE_MSG("Size = " << last_size.width << " " << last_size.height << " " << applet_vertical);
-      view->set_geometry(applet_vertical, applet_size);
+      TRACE_MSG("Size = " << last_size.width << " " << last_size.height << " " << applet_orientation);
+      view->set_geometry(applet_orientation, applet_size);
 
       TRACE_MSG(applet_size);
       KdeAppletWindow::set_size(last_size.width, last_size.height);
@@ -334,12 +334,12 @@ KdeAppletWindow::get_size(int &size)
 }
 
 bool
-KdeAppletWindow::get_vertical(bool &vertical)
+KdeAppletWindow::get_orientation(Orientation &orientation)
 {
-  TRACE_ENTER("KdeAppletWindow::get_vertical");
+  TRACE_ENTER("KdeAppletWindow::get_orientation");
   KWorkraveApplet_stub dcop("kworkrave", "KWorkrave"); 
-  vertical = dcop.get_vertical();
-  TRACE_MSG(dcop.ok() << " " << vertical);
+  orientation = (Orientation) dcop.get_orientation();
+  TRACE_MSG(dcop.ok() << " " << orientation);
   TRACE_EXIT();
 
   return dcop.ok();

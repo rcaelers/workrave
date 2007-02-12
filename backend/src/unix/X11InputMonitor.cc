@@ -62,6 +62,7 @@ static const char rcsid[] = "$Id$";
 #include <gdk/gdk.h>
 #endif
 
+#ifndef HAVE_APP_GTK  
 //! Intercepts X11 protocol errors.
 static int
 errorHandler(Display *dpy, XErrorEvent *error)
@@ -71,7 +72,7 @@ errorHandler(Display *dpy, XErrorEvent *error)
   XmuPrintDefaultErrorMessage(dpy,error,stderr);
   return 0;
 }
-
+#endif
 
 //! Obtains the next X11 event with specified timeout.
 static Bool

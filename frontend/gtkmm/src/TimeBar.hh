@@ -1,6 +1,6 @@
 // TimeBar.hh --- Time Bar
 //
-// Copyright (C) 2002, 2003, 2004, 2006 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2006, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -46,15 +46,24 @@ public:
   void set_text_alignment(int align);
 
   void set_border_size(int size);
+  void set_rotation(int r);
 
+  void get_minimum_size(int &width, int &height);
   void get_preferred_size(int &width, int &height);
+
+private:
+  void draw_bar(Glib::RefPtr<Gdk::Window> &window,
+                const Glib::RefPtr<Gdk::GC> &gc,
+                bool filled, int x, int y, int width, int height,
+                int winw, int winh);
   
 protected:
   //Overridden default signal handlers:
   virtual void on_realize();
   virtual bool on_expose_event(GdkEventExpose *event);
   virtual void on_size_request(GtkRequisition *requisition);
-
+  virtual void on_size_allocate(Gtk::Allocation& allocation);
+  
 private:
   static Gdk::Color bar_colors[COLOR_ID_SIZEOF];
   
@@ -87,6 +96,9 @@ private:
 
   //! Text alignment
   int bar_text_align;
+
+  //! Bar rotation (clockwise degrees)
+  int rotation;
 };
 
 

@@ -1,6 +1,6 @@
 // ITimerBoxView.hh --- All timers
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -23,7 +23,9 @@
 
 #include "ITimeBar.hh"
 #include "ICore.hh"
+#include "Orientation.hh"
 
+using namespace Workrave;
 
 class ITimerBoxView
 {
@@ -48,6 +50,7 @@ public:
   virtual void set_icon(IconType icon) = 0;
   virtual void update_view() = 0;
   virtual void set_enabled(bool enabled) = 0;
+  virtual void set_geometry(Orientation orientation, int size) = 0;
 };
 
 #endif // ITIMERBOXVIEW_HH

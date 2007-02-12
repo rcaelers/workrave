@@ -47,7 +47,7 @@ public:
   WR_METHOD_NOARGS(void, disconnect_all);
   WR_METHOD_NOARGS(void, reconnect_all);
   WR_METHOD_NOARGS(void, quit);
-  WR_METHOD       (void, set_applet_vertical, CORBA_boolean vertical);
+  WR_METHOD       (void, set_applet_orientation, CORBA_long orientation);
   WR_METHOD       (void, set_applet_size, CORBA_long size);
   WR_METHOD       (void, set_applet, const Bonobo_Unknown applet);
   WR_METHOD       (void, set_applet_background, CORBA_long type,

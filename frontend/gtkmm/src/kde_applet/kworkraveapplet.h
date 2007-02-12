@@ -1,6 +1,6 @@
 // KWorkraveApplet.hh --- KDE Workrave Applet
 //
-// Copyright (C) 2004 Rob Caelers
+// Copyright (C) 2004, 2007 Rob Caelers
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -40,7 +40,7 @@ k_dcop:
   void embed_window(int window_id);
   void set_size(int width, int height);
   long get_size();
-  bool get_vertical();
+  int get_orientation();
 
 public:
   KWorkraveApplet(const QString& configFile, Type t = Normal, int actions = 0,

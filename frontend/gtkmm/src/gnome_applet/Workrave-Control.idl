@@ -31,7 +31,7 @@ module GNOME
       oneway void reconnect_all();
       oneway void quit();
 
-      oneway void set_applet_vertical(in boolean vertical);
+      oneway void set_applet_orientation(in long orientation);
       oneway void set_applet_size(in long size);
       oneway void set_applet(in Bonobo::Unknown applet);
       oneway void button_clicked(in long button);

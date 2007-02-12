@@ -1,6 +1,6 @@
 // kworkraveapplet.cc --- Workrave applet for KDE
 //
-// Copyright (C) 2004, 2005 Rob Caelers
+// Copyright (C) 2004, 2005, 2007 Rob Caelers
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -43,7 +43,6 @@ static const char rcsid[] = "$Id$";
 # include <X11/Xlib.h>
 # include <X11/Xutil.h>
 # include <X11/Xatom.h>
-
 
 extern "C"
 {
@@ -121,12 +120,13 @@ KWorkraveApplet::get_size()
 }
 
 
-bool
-KWorkraveApplet::get_vertical()
+int
+KWorkraveApplet::get_orientation()
 {
   Orientation o = orientation();
-  
-  return o == Qt::Vertical;
+
+  // FIXME: return o == Qt::Vertical ? ORIENTATION_RIGHT : ORIENTATION_UP;
+  return o == Qt::Vertical ? 1 : 0;
 }
 
 

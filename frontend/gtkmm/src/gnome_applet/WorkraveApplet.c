@@ -117,7 +117,7 @@ workrave_applet_control_class_init(AppletControlClass *klass)
 
   epv->get_socket_id = workrave_applet_control_get_socket_id;
   epv->get_size = workrave_applet_control_get_size;
-  epv->get_vertical = workrave_applet_control_get_vertical;
+  epv->get_orientation = workrave_applet_control_get_orientation;
   epv->set_menu_status = workrave_applet_control_set_menu_status;
   epv->get_menu_status = workrave_applet_control_get_menu_status;
   epv->set_menu_active = workrave_applet_control_set_menu_active;
@@ -133,7 +133,7 @@ workrave_applet_control_init(AppletControl *applet)
 
   applet->size = 48;
   applet->socket_id = 0;
-  applet->vertical = FALSE;
+  applet->orientation = 0;
 
   applet->last_showlog_state = FALSE;
   applet->last_mode = GNOME_Workrave_WorkraveControl_MODE_INVALID;
@@ -174,12 +174,12 @@ workrave_applet_control_get_size(PortableServer_Servant servant, CORBA_Environme
 }
 
 
-CORBA_boolean
-workrave_applet_control_get_vertical(PortableServer_Servant servant, CORBA_Environment *ev)
+CORBA_long
+workrave_applet_control_get_orientation(PortableServer_Servant servant, CORBA_Environment *ev)
 {
   AppletControl *applet_control = WR_APPLET_CONTROL(bonobo_object_from_servant(servant));
 
-  return applet_control->vertical;
+  return applet_control->orientation;
 }
 
 
@@ -608,6 +608,8 @@ workrave_applet_verbs [] =
   };
 
 
+
+#if UNRELIABLE__
 static void
 change_pixel_size(PanelApplet *applet, gint size, gpointer data)
 {
@@ -632,15 +634,26 @@ change_pixel_size(PanelApplet *applet, gint size, gpointer data)
       CORBA_exception_free(&ev);
     }
 }
-
+#endif
 
 static void
 change_orient(PanelApplet *applet, PanelAppletOrient o, gpointer data)
 {
-  if(o==PANEL_APPLET_ORIENT_UP || o==PANEL_APPLET_ORIENT_DOWN)
-    applet_control->vertical = FALSE;
-  else
-    applet_control->vertical = TRUE;
+  switch (o)
+    {
+    case PANEL_APPLET_ORIENT_UP:
+      applet_control->orientation = 0;
+      break;
+    case PANEL_APPLET_ORIENT_RIGHT:
+      applet_control->orientation = 1;
+      break;
+    case PANEL_APPLET_ORIENT_DOWN:
+      applet_control->orientation = 2;
+      break;
+    case PANEL_APPLET_ORIENT_LEFT:
+      applet_control->orientation = 3;
+      break;
+    }      
 
   workrave_applet_connect(FALSE);
   
@@ -649,7 +662,7 @@ change_orient(PanelApplet *applet, PanelAppletOrient o, gpointer data)
       CORBA_Environment ev;
       CORBA_exception_init(&ev);
       
-      GNOME_Workrave_WorkraveControl_set_applet_vertical(remote_control, applet_control->vertical, &ev);
+      GNOME_Workrave_WorkraveControl_set_applet_orientation(remote_control, applet_control->orientation, &ev);
       
       if (BONOBO_EX(&ev))
         {
@@ -937,13 +950,60 @@ force_no_focus_padding (GtkWidget *widget)
   gtk_widget_set_name (widget, "hdate-applet-button");
 }
 
+void size_allocate(GtkWidget     *widget,
+                   GtkAllocation *allocation,
+                   gpointer       user_data)
+{
+  static int prev_width = -1;
+  static int prev_height = -1;
+
+  if (prev_height == -1 || prev_width == -1 ||
+      allocation->width != prev_width ||
+      allocation->height != prev_height)
+    {
+      prev_height = allocation->height;
+      prev_width = allocation->width;
+
+      if (applet_control->orientation == 1 ||
+          applet_control->orientation == 3)
+        {
+          applet_control->size = allocation->width;
+        }
+      else
+        {
+          applet_control->size = allocation->height;
+        }
+
+      workrave_applet_connect(FALSE);
+  
+      if (remote_control != NULL)
+        {
+          CORBA_Environment ev;
+          CORBA_exception_init(&ev);
+      
+          GNOME_Workrave_WorkraveControl_set_applet_size(remote_control, applet_control->size, &ev);
+      
+          if (BONOBO_EX(&ev))
+            {
+              char *err = (char *) bonobo_exception_get_text(&ev);
+              g_warning (_("An exception occured '%s'"), err);
+              g_free(err);
+            }
+      
+          CORBA_exception_free(&ev);
+        }
+    }
+
+}
+
 static gboolean
 workrave_applet_fill(PanelApplet *applet)
 {
   GdkPixbuf *pixbuf = NULL;
   GtkWidget *hbox = NULL;
   BonoboUIComponent *ui = NULL;
-  
+  PanelAppletOrient orient;
+
   // Create menus.
   panel_applet_setup_menu_from_file(applet, WORKRAVE_UIDATADIR, "GNOME_WorkraveApplet.xml", NULL,
                                     workrave_applet_verbs, applet);
@@ -955,6 +1015,9 @@ workrave_applet_fill(PanelApplet *applet)
   bonobo_ui_component_add_listener(ui, "Suspended", mode_callback, NULL);
   bonobo_ui_component_add_listener(ui, "Quiet", mode_callback, NULL);
 
+  panel_applet_set_flags (PANEL_APPLET (applet),
+                          PANEL_APPLET_EXPAND_MINOR);
+  
   gtk_container_set_border_width(GTK_CONTAINER(applet), 0);
   panel_applet_set_background_widget(applet, GTK_WIDGET(applet));
   gtk_widget_set_events(GTK_WIDGET(applet),
@@ -975,21 +1038,37 @@ workrave_applet_fill(PanelApplet *applet)
   // Signals.
   g_signal_connect(applet_control->socket, "plug_removed", G_CALLBACK(plug_removed), NULL);
   g_signal_connect(applet_control->socket, "plug_added", G_CALLBACK(plug_added), NULL);
-  g_signal_connect(G_OBJECT(applet), "change_size", G_CALLBACK(change_pixel_size), NULL);
+  /* g_signal_connect(G_OBJECT(applet), "change_size", G_CALLBACK(change_pixel_size), NULL); */
   g_signal_connect(G_OBJECT(applet), "change_orient", G_CALLBACK(change_orient), NULL);
 
   // Container.
-  hbox = gtk_hbox_new(FALSE, 0);
+  hbox = gtk_vbox_new(FALSE, 0);
   gtk_container_add(GTK_CONTAINER(applet), hbox);
-  gtk_box_pack_end(GTK_BOX(hbox), applet_control->socket, FALSE, FALSE, 0);
-  gtk_box_pack_end(GTK_BOX(hbox), applet_control->image, FALSE, FALSE, 0);
+  gtk_box_pack_end(GTK_BOX(hbox), applet_control->socket, TRUE, TRUE, 0);
+  gtk_box_pack_end(GTK_BOX(hbox), applet_control->image, TRUE, TRUE, 0);
 
   gtk_container_set_border_width(GTK_CONTAINER(hbox), 0);
   
   applet_control->socket_id = gtk_socket_get_id(GTK_SOCKET(applet_control->socket));
   applet_control->size = panel_applet_get_size(applet);
 
-  workrave_applet_hide_menus(TRUE);
+  orient = panel_applet_get_orient(applet);
+  
+  switch (orient)
+    {
+    case PANEL_APPLET_ORIENT_UP:
+      applet_control->orientation = 0;
+      break;
+    case PANEL_APPLET_ORIENT_RIGHT:
+      applet_control->orientation = 1;
+      break;
+    case PANEL_APPLET_ORIENT_DOWN:
+      applet_control->orientation = 2;
+      break;
+    case PANEL_APPLET_ORIENT_LEFT:
+      applet_control->orientation = 3;
+      break;
+    }      
 
   force_no_focus_padding(GTK_WIDGET(applet));
   force_no_focus_padding(GTK_WIDGET(applet_control->socket));
@@ -1000,7 +1079,8 @@ workrave_applet_fill(PanelApplet *applet)
   gtk_widget_show(GTK_WIDGET(applet_control->socket));
   gtk_widget_show(GTK_WIDGET(hbox));
   gtk_widget_show(GTK_WIDGET(applet));
-
+  
+  g_signal_connect(G_OBJECT(applet), "size-allocate", G_CALLBACK(size_allocate), NULL);
   g_signal_connect(G_OBJECT(applet), "change_background", G_CALLBACK(change_background), NULL);
   
   return TRUE;

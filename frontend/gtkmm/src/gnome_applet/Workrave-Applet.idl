@@ -8,7 +8,7 @@ module GNOME
     {
       long get_socket_id();
       long get_size();
-      boolean get_vertical();
+      long get_orientation();
 
       void set_menu_status(in string menu, in boolean status);
       boolean get_menu_status(in string menu);

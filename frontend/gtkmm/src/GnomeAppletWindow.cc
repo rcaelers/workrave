@@ -1,6 +1,6 @@
 // GnomeAppletWindow.cc --- Applet info Window
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -57,7 +57,7 @@ GnomeAppletWindow::GnomeAppletWindow(AppletControl *control) :
   plug(NULL),
   container(NULL),
   applet_control(NULL),
-  applet_vertical(false),
+  applet_orientation(ORIENTATION_UP),
   applet_size(0),
   control(control),
   applet_active(false)
@@ -116,7 +116,8 @@ GnomeAppletWindow::activate_applet()
       if (ok)
         {
           // Retrieve applet orientation.
-          applet_vertical =  GNOME_Workrave_AppletControl_get_vertical(applet_control, &ev);
+          applet_orientation =  (Orientation)
+            GNOME_Workrave_AppletControl_get_orientation(applet_control, &ev);
           ok = !BONOBO_EX(&ev);
         }
 
@@ -125,8 +126,8 @@ GnomeAppletWindow::activate_applet()
         {
           // Initialize applet GUI.
       
-          Gtk::Alignment *frame = new Gtk::Alignment(1.0, 1.0, 0.0, 0.0);
-          frame->set_border_width(2);
+          Gtk::Alignment *frame = new Gtk::Alignment(0.0, 0.0, 0.0, 0.0);
+          frame->set_border_width(0);
 
           container = frame;
 
@@ -145,8 +146,8 @@ GnomeAppletWindow::activate_applet()
           view = new TimerBoxGtkView();
           timer_box_view = view;
           timer_box_control = new TimerBoxControl("applet", *timer_box_view);
-      
-          view->set_geometry(applet_vertical, applet_size);
+            
+          view->set_geometry(applet_orientation, applet_size);
           view->show_all();
       
           plug->signal_button_press_event().connect(MEMBER_SLOT(*this, &GnomeAppletWindow::on_button_press_event));
@@ -258,7 +259,10 @@ void
 GnomeAppletWindow::update()
 {
   TRACE_ENTER("GnomeAppletWindow::update");
-  timer_box_control->update();
+  if (timer_box_control != NULL)
+    {
+      timer_box_control->update();
+    }
   TRACE_EXIT();
 }
 
@@ -335,15 +339,15 @@ GnomeAppletWindow::get_menu_active(int menu)
 
 //! Sets the orientation of the applet.
 void
-GnomeAppletWindow::set_applet_vertical(bool v)
+GnomeAppletWindow::set_applet_orientation(Orientation o)
 {
-  TRACE_ENTER_MSG("GnomeAppletWindow::set_applet_vertical", applet_vertical);
+  TRACE_ENTER_MSG("GnomeAppletWindow::set_applet_orientation", o);
 
-  applet_vertical = v;
+  applet_orientation = o;
 
   if (view != NULL)
     {
-      view->set_geometry(applet_vertical, applet_size);
+      view->set_geometry(applet_orientation, applet_size);
     }
   
   TRACE_EXIT();
@@ -356,13 +360,16 @@ GnomeAppletWindow::set_applet_size(int size)
 {
   TRACE_ENTER_MSG("GnomeAppletWindow::set_applet_size", size);
 
-  plug->queue_resize();
+  if (plug != NULL)
+    {
+      plug->queue_resize();
+    }
   
   applet_size = size;
 
   if (view != NULL)
     {
-      view->set_geometry(applet_vertical, applet_size);
+      view->set_geometry(applet_orientation, applet_size);
     }
   
   TRACE_EXIT();
@@ -553,7 +560,10 @@ void
 GnomeAppletWindow::button_clicked(int button)
 {
   (void) button;
-  timer_box_control->force_cycle();
+  if (timer_box_control != NULL)
+    {
+      timer_box_control->force_cycle();
+    }
 }
 
 

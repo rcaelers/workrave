@@ -1,6 +1,6 @@
 // X11SystrayAppletWindow.hh --- X11 Applet Window
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -37,6 +37,8 @@ class TimerBoxControl;
 class TimerBoxGtkView;
 class AppletControl;
 
+#include "eggtrayicon.h"
+
 class X11SystrayAppletWindow :
   public SigC::Object,
   public AppletWindow
@@ -58,8 +60,8 @@ private:
   //! Container to put the timers in..
   Gtk::Bin *container;
   
-  //! Align break vertically.
-  bool applet_vertical;
+  //! Align break orientationly.
+  Orientation applet_orientation;
 
   //! Size of the applet
   int applet_size;
@@ -69,11 +71,19 @@ private:
 
   //! Controller
   AppletControl *control;
+
+  //! The tray icon
+  EggTrayIcon *tray_icon;
   
 private:
   AppletState activate_applet();
   void deactivate_applet();
-    
+
+  static void static_notify_callback(GObject    *gobject,
+                                     GParamSpec *arg,
+                                     gpointer    user_data);
+  void notify_callback();
+  
   // Evenyts.
   void on_embedded();
   bool on_button_press_event(GdkEventButton *event);

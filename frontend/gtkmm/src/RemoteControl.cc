@@ -1,6 +1,6 @@
 // WorkraveApplet.cc
 //
-// Copyright (C) 2002, 2003, 2005, 2006 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2005, 2006, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -219,7 +219,7 @@ WR_METHOD_ARGS0_IMPL(void, quit)
 }
 
 
-WR_METHOD_ARGS1_IMPL(void, set_applet_vertical, CORBA_boolean, vertical)
+WR_METHOD_ARGS1_IMPL(void, set_applet_orientation, CORBA_long, orientation)
 {
   AppletControl *applet_control; 
   GnomeAppletWindow *applet_window;
@@ -231,7 +231,7 @@ WR_METHOD_ARGS1_IMPL(void, set_applet_vertical, CORBA_boolean, vertical)
 
   if (applet_window != NULL)
     {
-      applet_window->set_applet_vertical(vertical);
+      applet_window->set_applet_orientation((Orientation)orientation);
     }
 }
 
@@ -359,7 +359,7 @@ workrave_control_class_init(WorkraveControlClass *klass)
   WR_METHOD_REGISTER(reconnect_all);
   WR_METHOD_REGISTER(quit);
 
-  WR_METHOD_REGISTER(set_applet_vertical);
+  WR_METHOD_REGISTER(set_applet_orientation);
   WR_METHOD_REGISTER(set_applet_size);
   WR_METHOD_REGISTER(set_applet);
   WR_METHOD_REGISTER(set_applet_background);

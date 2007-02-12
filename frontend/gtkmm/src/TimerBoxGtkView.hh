@@ -1,6 +1,6 @@
 // TimerBoxtGtkView.hh --- All timers
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2006 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -43,7 +43,7 @@ public:
   TimerBoxGtkView();
   ~TimerBoxGtkView();
 
-  void set_geometry(bool vertical, int size);
+  void set_geometry(Orientation orientation, int size);
   int get_visible_count() const;
   void set_slot(BreakId  id, int slot);
   void set_time_bar(BreakId id,
@@ -80,8 +80,8 @@ private:
   //! Sheep
   Gtk::EventBox *sheep_eventbox;
 
-  //! Allign break vertically.
-  bool vertical;
+  //! orientation.
+  Orientation orientation;
 
   //! Size
   int size;
@@ -91,7 +91,10 @@ private:
 
   //! Columns
   int table_columns;
-  
+
+  //! Reverse
+  int table_reverse;
+
   //! Current slot content.
   int current_content[BREAK_ID_SIZEOF];
 
@@ -100,6 +103,9 @@ private:
 
   //! Number of visible breaks.
   int visible_count;
+
+  //! Rotation (clockwise in degress)
+  int rotation;
 };
 
 

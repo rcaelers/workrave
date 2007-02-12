@@ -1,6 +1,6 @@
 // GtkUtil.cc --- Gtk utilities
 //
-// Copyright (C) 2003, 2004, 2005 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2003, 2004, 2005, 2007 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
