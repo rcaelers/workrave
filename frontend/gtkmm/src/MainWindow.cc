@@ -683,8 +683,20 @@ MainWindow::locate_window(GdkEventConfigure *event)
   TRACE_ENTER("MainWindow::locate_window");
   int x, y;
   int width, height;
-  
-  if (event == NULL)
+
+#ifndef WIN32
+  // Return bogus results on windows...sometime.
+  if (event != NULL)
+    {
+      x = event->x;
+      y = event->y;
+      width = event->width;
+      height = event->height;
+
+      TRACE_MSG("main window2 = " << x << " " << y);
+    }
+  else
+#endif    
     {
       get_position(x, y);
 
@@ -692,15 +704,11 @@ MainWindow::locate_window(GdkEventConfigure *event)
       on_size_request(&req);
       width = req.width;
       height = req.height;
-    }
-  else
-    {
-      x = event->x;
-      y = event->y;
-      width = event->width;
-      height = event->height;
+
+      TRACE_MSG("main window1 = " << x << " " << y);
     }
 
+ 
   TRACE_MSG("main window = " << x << " " << y);
 
   if (x <= 0 && y <= 0)
