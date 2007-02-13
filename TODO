@@ -1,10 +1,12 @@
 @ W32 applet to default to all in one spot
-@ W32 window location: window goes down each time (due to decorations)
 @ Fist roll image is wrong, to be fixed
 @ Clean up runtime (remove raleigh themes, ...)
 ? Investigate startup performance: a lot of config keys are ready twice++
 @ Main window icon to reflect operation mode
 @ Tooltip on GtkStatusIcon seems to have too limited fixed length (truncated)
+
+Done:
+- W32 window location: window goes down each time (due to decorations)
 
 --8<--8<--8<--8<--8<--8<--8<--8<--8<--8<--8<--8<
 
