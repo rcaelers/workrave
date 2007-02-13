@@ -1,6 +1,6 @@
 // AppletWindow.hh --- Applet window
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -54,6 +54,7 @@ public:
   void update_time_bars();
   void update_menu();
   void set_enabled(bool enabled);
+  void set_geometry(Orientation orientation, int size);
 
   void init_menu(HWND dest);
   void add_menu(const char *text, short cmd, int flags);

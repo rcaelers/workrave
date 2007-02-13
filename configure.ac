@@ -195,9 +195,9 @@ AM_CONDITIONAL(PLATFORM_WIN32, test "$platform_win32" = "yes")
 PLATFORM_WIN32=
 if test "$platform_win32" = "yes"; then
    AC_DEFINE(PLATFORM_WIN32,,[Define if this is compiled for some Win32 platform])
-   if test "x$config_debug" = "xyes"; then
-      LDFLAGS="${LDFLAGS} -lduma -lbfd -liberty -lintl"
-   fi
+   #if test "x$config_debug" = "xyes"; then
+   #   LDFLAGS="${LDFLAGS} -lduma -lbfd -liberty -lintl"
+   #fi
 fi
 
 AC_MSG_CHECKING([for native Win32])
