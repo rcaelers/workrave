@@ -1,9 +1,9 @@
 // X11InputMonitor.hh --- ActivityMonitor for X11
 //
-// Copyright (C) 2001, 2002, 2003, 2006 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2006, 2007 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2006-10-05 21:09:25 robc>
+// Time-stamp: <2007-02-13 19:01:52 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

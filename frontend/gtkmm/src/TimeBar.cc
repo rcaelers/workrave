@@ -142,7 +142,6 @@ TimeBar::on_size_allocate(Gtk::Allocation &allocation)
 void
 TimeBar::get_preferred_size(int &width, int &height) 
 {
-  TRACE_ENTER("TimeBar::get_preferred_size");
   Glib::RefPtr<Pango::Layout> pl = create_pango_layout(bar_text);
 
   string min_string = Text::time_to_string(-(59+59*60+9*60*60));;
@@ -168,8 +167,6 @@ TimeBar::get_preferred_size(int &width, int &height)
 
   width = width + 2 * MARGINX;
   height = max(height + 2 * MARGINY, MIN_HORIZONTAL_BAR_HEIGHT);
-  TRACE_EXIT();
-
 }
 
 
@@ -177,8 +174,6 @@ TimeBar::get_preferred_size(int &width, int &height)
 bool
 TimeBar::on_expose_event(GdkEventExpose *e)
 {
-  TRACE_ENTER("TimeBar::on_expose_event");
-
   const int border_size = 2;
   Gtk::Allocation allocation = get_allocation();
 
@@ -393,8 +388,6 @@ TimeBar::on_expose_event(GdkEventExpose *e)
   window_gc1->set_foreground(textcolor);
   window_gc1->set_clip_rectangle(rect2);
   window->draw_layout(window_gc1, text_x, text_y, pl1);
-
-  TRACE_EXIT();
   return true;
 }
 

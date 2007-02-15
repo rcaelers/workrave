@@ -653,22 +653,39 @@ GUI::init_gtk_multihead()
                 TRACE_MSG("monitors = " << num_monitors);
                 for (int j = 0; j < num_monitors && count < num_heads; j++)
                   {
-                    heads[count].screen = screen;
-                    heads[count].monitor = j;
-                    heads[count].valid = true;
-                    heads[count].count = count;
-              
-                    screen->get_monitor_geometry(j, heads[count].geometry);
+                    Gdk::Rectangle rect;
+                    screen->get_monitor_geometry(j, rect);
 
+                    bool overlap = false;
+                    for (int k = 0; !overlap && k < count; k++)
+                      {
+                        Gdk::Rectangle irect = rect;
+                        irect.intersect(heads[k].geometry, overlap);
+                      }
+
+                    if (!overlap)
+                      {
+                        heads[count].screen = screen;
+                        heads[count].monitor = j;
+                        heads[count].valid = true;
+                        heads[count].count = count;
+
+                        heads[count].geometry = rect;
+                      }
+                    
                     TRACE_MSG("Screen #" << i << " Monitor #" << j << "  "
                               << heads[count].geometry.get_x() << " "
                               << heads[count].geometry.get_y() << " "
                               << heads[count].geometry.get_width() << " "
-                              << heads[count].geometry.get_height());
+                              << heads[count].geometry.get_height() << " "
+                              << " intersects " << overlap);
+                      
                     count++;
                   }
               }
         }
+      num_heads = count;
+      TRACE_MSG("# Heads = " << num_heads);
     }
   TRACE_EXIT();
 }

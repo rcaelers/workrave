@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # This is my script for building a complete cross-compiler toolchain.
 # It is based partly on Ray Kelm's script, which in turn was built on
@@ -28,21 +28,19 @@ SRCDIR="$TOPDIR/source"
 
 
 MINGW_URL=http://surfnet.dl.sourceforge.net/sourceforge/mingw
-#GCC=gcc-3.4.4-20050522-1
-#GCC_ARCHIVE=gcc-core-3.4.4-20050522-1-src.tar.gz
-#GCC_PATCH="gcc.patch"
-#GXX_ARCHIVE=gcc-g++-3.4.4-20050522-1-src.tar.gz
 GCC=gcc-3.4.5-20060117-1
 GCC_ARCHIVE=gcc-core-3.4.5-20060117-1-src.tar.gz
 GXX_ARCHIVE=gcc-g++-3.4.5-20060117-1-src.tar.gz
 
-BINUTILS=binutils-2.16.91-20060119-1
-BINUTILS_ARCHIVE=$BINUTILS-src.tar.gz
-MINGW=mingw-runtime-3.9
+#BINUTILS=binutils-2.16.91-20060119-1
+BINUTILS=binutils-2.17.50-20070129-1-src
+BINUTILS_ARCHIVE=$BINUTILS.tar.gz
+MINGW=mingw-runtime-3.11
 MINGW_ARCHIVE=$MINGW.tar.gz
-W32API=w32api-3.6
+W32API=w32api-3.8
 W32API_ARCHIVE=$W32API.tar.gz
 UTILS=mingw-utils-0.3
+UTILS_PATCH=mingw-utils-0.3.diff
 UTILS_ARCHIVE=mingw-utils-0.3-src.tar.gz
 
 
@@ -212,6 +210,16 @@ extract_utils()
 	cd "$TOPDIR"
 }
 
+patch_utils()
+{
+	if [ "$UTILS_PATCH" != "" ]; then
+		echo "Patching mingw-utils"
+		cd "$SRCDIR/$UTILS"
+		patch -p1 < "$TOPDIR/$UTILS_PATCH"
+		cd "$TOPDIR"
+	fi
+}
+
 configure_utils()
 {
 	cd "$TOPDIR"
@@ -283,25 +291,25 @@ final_tweaks()
 	echo "Installation complete!"
 }
 
-#download_files
+download_files
 
 #install_libs
 
 #extract_binutils
-configure_binutils
-build_binutils
-install_binutils
-
+#configure_binutils
+#build_binutils
+#install_binutils
+#
 #extract_gcc
 #patch_gcc
 #configure_gcc
 #build_gcc
 #install_gcc
-#
-#extract_utils
-#configure_utils
-#build_utils
-#install_utils
-#
-#final_tweaks
 
+extract_utils
+patch_utils
+configure_utils
+build_utils
+install_utils
+
+final_tweaks

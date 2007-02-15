@@ -360,34 +360,6 @@ void
 X11InputMonitor::handle_keypress(XEvent *event)
 {
   (void) event;
-  //printf("Key pressed ");
-
-#if 0
-  char *key;
-
-  key = XKeysymToString(XKeycodeToKeysym(x11_display, event->xkey.keycode, event->xkey.state));
-
-  if (key != 0)
-    {
-      printf("%s\n",key);
-    }
-  else
-    {
-      key = XKeysymToString(XKeycodeToKeysym(x11_display, event->xkey.keycode, 0));
-      
-      if (key != 0)
-        {
-          printf("'%s'\n",key);
-        }
-      else
-        {
-          printf("(%u,%u)\n", event->xkey.state, event->xkey.keycode);
-        }
-    }
-  
-  fflush(stdout);
-#endif
-  // FIXME:
   listener->keyboard_notify(0, 0);
 }
 
