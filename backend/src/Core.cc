@@ -476,10 +476,9 @@ Core::set_operation_mode(OperationMode mode)
       if (operation_mode == OPERATION_MODE_SUSPENDED ||
           operation_mode == OPERATION_MODE_QUIET)
         {
-          // FIXME: stop_break call defrost.
-          // FIXME: depending on insist mode, this will resume the monitor
           stop_all_breaks();
         }
+      
       get_configurator()->set_value(CFG_KEY_OPERATION_MODE, mode);
       if (core_event_listener != NULL)
         {
@@ -541,8 +540,8 @@ Core::set_powersave(bool down)
       powersave_operation_mode = set_operation_mode(OPERATION_MODE_SUSPENDED);
       powersave_resume_time = 0;
       powersave = true;
-      save_state();
 
+      save_state();
       statistics->update();
     }
   else
@@ -943,6 +942,7 @@ Core::process_timewarp()
               
               monitor_state = ACTIVITY_IDLE;
 #else
+              /* Assume it is a powersave... */
               int save_current_time = current_time;
               
               current_time = last_process_time + 1;
@@ -952,7 +952,6 @@ Core::process_timewarp()
 
               current_time = save_current_time;
 #endif
-              
             }
           else
             {
@@ -1302,8 +1301,11 @@ Core::defrost()
     {
     case ICore::INSIST_POLICY_IGNORE:
       {
-        // Resumes the activity monitor.
-        monitor->resume();
+        // Resumes the activity monitor, if not suspended.
+        if (operation_mode != OPERATION_MODE_SUSPENDED)
+          {
+            monitor->resume();
+          }
       }
       break;
     case ICore::INSIST_POLICY_HALT:

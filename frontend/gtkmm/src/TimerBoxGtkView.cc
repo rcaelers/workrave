@@ -222,6 +222,7 @@ TimerBoxGtkView::init_table()
   int rows = number_of_timers;
   int columns = 1;
   int reverse = false;
+  int tsize = size;
   
   rotation = 0;
   
@@ -252,38 +253,38 @@ TimerBoxGtkView::init_table()
     }
   
   bars[0]->get_preferred_size(bar_size.width, bar_size.height);
-  
+
   if (size == -1 && (orientation == ORIENTATION_LEFT))
     {
-      size = label_size.width + bar_size.width + 9;
+      tsize = label_size.width + bar_size.width + 9;
     }
-
-  if (size != -1)
+ 
+  if (tsize != -1)
     {
       if ((orientation == ORIENTATION_LEFT || orientation == ORIENTATION_RIGHT))
         {
-          set_size_request(size, -1);
+          set_size_request(tsize, -1);
         }
       else
         {
-          set_size_request(-1, size);
+          set_size_request(-1, tsize);
         }
     }
   
-  TRACE_MSG("s v w/h bw/bh lw/lb "
-            << size << " " << orientation << " " 
-            << my_size.width << " " << my_size.height << " " 
-            << bar_size.width << " " << bar_size.height << " " 
+  TRACE_MSG("s "
+            << size << " ts " << tsize << " o " << orientation << " my " 
+            << my_size.width << " " << my_size.height << " bar" 
+            << bar_size.width << " " << bar_size.height << " label " 
             << label_size.width << " " << label_size.height);
   
   if (orientation == ORIENTATION_LEFT || orientation == ORIENTATION_RIGHT)
     {
-      if (size > bar_size.width + label_size.width + 8)
+      if (tsize > bar_size.width + label_size.width + 8)
         {
           columns = 2;
           rows = number_of_timers;
         }
-      else if (size > bar_size.width + 2)
+      else if (tsize > bar_size.width + 2)
         {
           columns = 1;
           rows = 2 * number_of_timers;
@@ -310,7 +311,7 @@ TimerBoxGtkView::init_table()
     }
   else
     {
-      rows = size / (bar_size.height + 4);
+      rows = tsize / (bar_size.height + 4);
       if (rows <= 0)
         {
           rows = 1;
