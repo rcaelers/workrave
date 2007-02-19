@@ -1314,7 +1314,7 @@ GUI::get_timers_tooltip()
 {
   //FIXME: duplicate
   char *labels[] = { _("Micro-break"), _("Rest break"), _("Daily limit") };
-  string tip = "Workrave";
+  string tip = "";
   
   ICore *core = CoreFactory::get_core();
   for (int count = 0; count < BREAK_ID_SIZEOF; count++)
@@ -1340,6 +1340,13 @@ GUI::get_timers_tooltip()
               text = Text::time_to_string(activeTime);
             }
 
+#ifndef WIN32
+          // Win32 tip is limited in length
+          if (tip == "")
+            {
+              tip = "Workrave";
+            }
+#endif          
           tip += "\n";
           tip += labels[count];
           tip += ": " + text;
