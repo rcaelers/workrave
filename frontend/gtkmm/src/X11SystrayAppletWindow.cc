@@ -85,7 +85,7 @@ X11SystrayAppletWindow::notify_callback()
       GtkOrientation o = egg_tray_icon_get_orientation(tray_icon);
       Orientation orientation;
 
-      if (o == GTK_ORIENTATION_VERTICAL)
+      if (o != GTK_ORIENTATION_VERTICAL)
         {
           orientation = ORIENTATION_UP;
         }
