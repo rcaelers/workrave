@@ -1346,8 +1346,12 @@ GUI::get_timers_tooltip()
             {
               tip = "Workrave";
             }
-#endif          
-          tip += "\n";
+#endif
+          if (tip != "")
+            {
+              tip += "\n";
+            }
+          
           tip += labels[count];
           tip += ": " + text;
         }
