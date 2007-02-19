@@ -685,7 +685,7 @@ MainWindow::locate_window(GdkEventConfigure *event)
   int width, height;
 
 #ifndef WIN32
-  // Return bogus results on windows...sometime.
+  // Returns bogus results on windows...sometime.
   if (event != NULL)
     {
       x = event->x;

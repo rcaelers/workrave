@@ -7,7 +7,9 @@ http://www.workrave.org
 
 * Workrave 1.8.4
 
-** Better support for vertical applet on Unix.
+** Eraldo Girardi translated Workrave into Italian.
+
+** Better support for vertical applets on Unix.
 
 ** Tao WEI translated Workrave into simplified Chinese.
 
@@ -18,8 +20,6 @@ http://www.workrave.org
 ** The status window used to appear empty, only to be resized and
    filled with the timers shortly thereafter. Now it appears right
    away in the proper size.
-
-** Herman Suijs contributed a new exercise named "Fist roll", thanks.
 
 ** The operation mode (normal/quiet/suspended) now persists across
    Workrave sessions.

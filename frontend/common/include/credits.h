@@ -52,6 +52,7 @@ const char *workrave_translators =
   "Enver ALTIN <ealtin@parkyeri.com>\n"
   "Prokopis Prokopidis <prokopidis@gmail.com>\n"
   "Peter Tuharsky <Peter.Tuharsky@banskabystrica.sk>\n"
-  "Tao WEI <weitao1979@gmail.com>";
+  "Tao WEI <weitao1979@gmail.com>\n"
+  "Eraldo Girardi <eraldster@katamail.com>\n";
 
 #endif /* CREDITS_H */
