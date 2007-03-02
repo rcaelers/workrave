@@ -1,6 +1,6 @@
 // DistributionSocketLink.cc
 //
-// Copyright (C) 2002, 2003, 2004, 2005, 2006 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -251,9 +251,7 @@ DistributionSocketLink::reconnect_all()
     {
       if ((*i)->type == CLIENTTYPE_DIRECT)
         {
-          (*i)->reconnect_count = reconnect_attempts;
-          (*i)->reconnect_time = time(NULL) - 1;          
-
+          close_client(*i, true);
           ret = true;
         }
       i++;
@@ -595,12 +593,14 @@ DistributionSocketLink::set_client_id(Client *client, gchar *id, gchar *name, gi
         }
       else if (old_client != client)
         {
+          TRACE_MSG("It's not me " << old_client->type << " " << old_client->socket);
           // It's a remote client, but not the same one.
 
           bool reuse = ((old_client->type == CLIENTTYPE_DIRECT ||
                          old_client->type == CLIENTTYPE_SIGNEDOFF)
                         && old_client->socket == NULL);
-          
+
+          TRACE_MSG("reuse " << reuse);
           if (reuse)
             {
               // Client exist, but is not connected.
@@ -746,7 +746,7 @@ DistributionSocketLink::close_client(Client *client, bool reconnect /* = false*/
             {
               TRACE_MSG("must reconnected");
               client->reconnect_count = reconnect_attempts;
-              client->reconnect_time = time(NULL) + reconnect_interval;
+              client->reconnect_time = time(NULL) + 5;
             }
           else
             {
@@ -1333,6 +1333,13 @@ DistributionSocketLink::handle_signoff(PacketBuffer &packet, Client *client)
           TRACE_MSG("Direct connection. setting signedoff");
           c->type = CLIENTTYPE_SIGNEDOFF;
           remove_peer_clients(c);
+
+          if (c->socket != NULL)
+            {
+              TRACE_MSG("Remove connection");
+              delete c->socket;
+              c->socket = NULL;
+            }
         }
       else
         {
@@ -1975,7 +1982,9 @@ DistributionSocketLink::socket_io(SocketConnection *con, void *data)
 
   Client *client = (Client *)data;
   g_assert(client != NULL);
-
+ 
+  TRACE_MSG("1");
+ 
   if (!is_client_valid(client) && client->type == CLIENTTYPE_DIRECT)
     {
       TRACE_RETURN("Invalid client");
@@ -1986,18 +1995,27 @@ DistributionSocketLink::socket_io(SocketConnection *con, void *data)
   int bytes_read = 0;
   int bytes_to_read = 4;
 
+  TRACE_MSG("2 " << client->packet.read_ptr);
+
   if (client->packet.bytes_available() >= 4)
     {
+      TRACE_MSG("3");
+
       bytes_to_read = client->packet.peek_ushort(0) - 4;
+
+      TRACE_MSG("4 " << bytes_to_read);
 
       if (bytes_to_read + 4 > client->packet.get_buffer_size())
         {
+          TRACE_MSG("5 " << bytes_to_read << " " << client->packet.get_buffer_size());
           // FIXME: the 1024 is lame...
           client->packet.resize(bytes_to_read + 4 + 1024);
         }
     }
 
+  TRACE_MSG("5");
   bool ok = con->read(client->packet.get_write_ptr(), bytes_to_read, bytes_read);
+  TRACE_MSG("6 " << ok);
       
   if (!ok)
     {

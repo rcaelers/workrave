@@ -1640,6 +1640,21 @@ void
 Core::signon_remote_client(string client_id)
 {
   idlelog_manager->signon_remote_client(client_id);
+
+  if (master_node)
+    {
+      PacketBuffer buffer;
+      buffer.create();
+
+      ActivityState state = monitor->get_current_state();
+
+      buffer.pack_ushort(1);
+      buffer.pack_ushort(state);
+      
+      dist_manager->broadcast_client_message(DCM_MONITOR, buffer);
+
+      buffer.clear();
+    }
 }
 
 
