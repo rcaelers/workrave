@@ -32,9 +32,9 @@ GCC=gcc-3.4.5-20060117-1
 GCC_ARCHIVE=gcc-core-3.4.5-20060117-1-src.tar.gz
 GXX_ARCHIVE=gcc-g++-3.4.5-20060117-1-src.tar.gz
 
-#BINUTILS=binutils-2.16.91-20060119-1
-BINUTILS=binutils-2.17.50-20070129-1-src
-BINUTILS_ARCHIVE=$BINUTILS.tar.gz
+BINUTILS=binutils-2.16.91-20060119-1
+#BINUTILS=binutils-2.17.50-20070129-1-src
+BINUTILS_ARCHIVE=$BINUTILS-src.tar.gz
 MINGW=mingw-runtime-3.11
 MINGW_ARCHIVE=$MINGW.tar.gz
 W32API=w32api-3.8
@@ -293,18 +293,18 @@ final_tweaks()
 
 download_files
 
-#install_libs
+install_libs
 
-#extract_binutils
-#configure_binutils
-#build_binutils
-#install_binutils
-#
-#extract_gcc
-#patch_gcc
-#configure_gcc
-#build_gcc
-#install_gcc
+extract_binutils
+configure_binutils
+build_binutils
+install_binutils
+
+extract_gcc
+patch_gcc
+configure_gcc
+build_gcc
+install_gcc
 
 extract_utils
 patch_utils

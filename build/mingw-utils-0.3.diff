@@ -1,0 +1,187 @@
+diff -ur mingw-utils-0.3/pexports/pe.h mingw-utils-0.3.fix/pexports/pe.h
+--- mingw-utils-0.3/pexports/pe.h	2002-04-10 15:39:06.000000000 +0200
++++ mingw-utils-0.3.fix/pexports/pe.h	2007-02-13 20:55:30.000000000 +0100
+@@ -117,7 +117,7 @@
+   char f_opthdr[2];		/* sizeof(optional hdr)		*/
+   char f_flags[2];		/* flags			*/
+ 
+-};
++} __attribute__ ((packed));
+ 
+ 
+ #define FILHDR struct external_PE_filehdr
+@@ -155,7 +155,7 @@
+   /* IMAGE_DATA_DIRECTORY DataDirectory[IMAGE_NUMBEROF_DIRECTORY_ENTRIES]; */
+   char  DataDirectory[16][2][4]; /* 16 entries, 2 elements/entry, 4 chars */
+ 
+-} PEAOUTHDR;
++} __attribute__ ((packed)) PEAOUTHDR;
+ 
+ 
+ #undef AOUTSZ
+Only in mingw-utils-0.3.fix/pexports: pe.h~
+diff -ur mingw-utils-0.3/pexports/pexports.c mingw-utils-0.3.fix/pexports/pexports.c
+--- mingw-utils-0.3/pexports/pexports.c	2003-11-25 16:23:09.000000000 +0100
++++ mingw-utils-0.3.fix/pexports/pexports.c	2007-02-13 21:33:54.000000000 +0100
+@@ -19,13 +19,13 @@
+ #endif
+ 
+ /* get pointer to section header n */
+-#define IMAGE_SECTION_HDR(n) ((PIMAGE_SECTION_HEADER) ((DWORD) nt_hdr + \
++#define IMAGE_SECTION_HDR(n) ((PIMAGE_SECTION_HEADER) ((void *) nt_hdr + \
+                                     4 + sizeof(IMAGE_FILE_HEADER) + \
+                                     nt_hdr->FileHeader.SizeOfOptionalHeader + \
+                                     n * sizeof(IMAGE_SECTION_HEADER)))
+ 
+ /* convert relative virtual address to a useable pointer */
+-#define RVA_TO_PTR(rva,type) ((type) rva_to_ptr((DWORD) rva))
++#define RVA_TO_PTR(rva,type) ((type) rva_to_ptr(rva))
+ 
+ typedef struct str_list {
+   char *s;
+@@ -146,7 +146,7 @@
+       return 1;
+     }
+ 
+-  nt_hdr = (PIMAGE_NT_HEADERS) ((DWORD) dos_hdr + dos_hdr->e_lfanew);
++  nt_hdr = (PIMAGE_NT_HEADERS) ((void *)dos_hdr + dos_hdr->e_lfanew);
+   
+   exp_rva = nt_hdr->OptionalHeader.DataDirectory[0].VirtualAddress;
+ 
+@@ -181,7 +181,7 @@
+   PIMAGE_EXPORT_DIRECTORY exports;
+   char *export_name;
+   PWORD ordinal_table;
+-  char **name_table;
++  DWORD *name_table;
+   DWORD *function_table;
+   int i;
+   static int first = 1;
+@@ -203,8 +203,8 @@
+   /* set up various pointers */
+   export_name = RVA_TO_PTR(exports->Name,char*);
+   ordinal_table = RVA_TO_PTR(exports->AddressOfNameOrdinals,PWORD);
+-  name_table = RVA_TO_PTR(exports->AddressOfNames,char**);
+-  function_table = RVA_TO_PTR(exports->AddressOfFunctions,void*);
++  name_table = RVA_TO_PTR(exports->AddressOfNames, DWORD *);
++  function_table = RVA_TO_PTR(exports->AddressOfFunctions,DWORD*);
+ 
+   if (verbose)
+     {
+@@ -297,14 +297,14 @@
+ }
+ 
+ /* convert rva to pointer into loaded file */
+-DWORD
++void *
+ rva_to_ptr(DWORD rva)
+ {
+   PIMAGE_SECTION_HEADER section = find_section(rva);
+   if (section->PointerToRawData == 0)
+     return 0;
+   else
+-    return ((DWORD) dos_hdr + (DWORD) rva - (section->VirtualAddress - section->PointerToRawData));
++    return (((void *) dos_hdr) + (DWORD) rva - (section->VirtualAddress - section->PointerToRawData));
+ }
+ 
+ /* Load a portable executable into memory */
+Only in mingw-utils-0.3.fix/pexports: pexports.c~
+diff -ur mingw-utils-0.3/pexports/pexports.h mingw-utils-0.3.fix/pexports/pexports.h
+--- mingw-utils-0.3/pexports/pexports.h	2002-05-26 12:13:58.000000000 +0200
++++ mingw-utils-0.3.fix/pexports/pexports.h	2007-02-13 21:39:01.000000000 +0100
+@@ -2,7 +2,7 @@
+  pexports - a program to extract exported symbols from a Portable
+  Executable (PE) file.
+ 
+- Copyright (C) 1998 Anders Norlander
++ Copyright (C) 1998, 2007 Anders Norlander
+ 
+  pexports is distributed under the GNU General Public License and
+  has absolutely NO WARRANTY.
+@@ -24,7 +24,7 @@
+ typedef unsigned short WORD;
+ typedef unsigned int DWORD;
+ typedef unsigned char BYTE;
+-typedef long LONG;
++typedef int LONG;
+ typedef WORD *PWORD;
+ typedef DWORD *PDWORD;
+ 
+@@ -32,7 +32,7 @@
+ typedef struct _IMAGE_DATA_DIRECTORY {
+   DWORD   VirtualAddress;
+   DWORD   Size;
+-} IMAGE_DATA_DIRECTORY, *PIMAGE_DATA_DIRECTORY;
++} __attribute__ ((packed)) IMAGE_DATA_DIRECTORY, *PIMAGE_DATA_DIRECTORY;
+ 
+ typedef struct _IMAGE_FILE_HEADER {
+   WORD    Machine;
+@@ -42,7 +42,7 @@
+   DWORD   NumberOfSymbols;
+   WORD    SizeOfOptionalHeader;
+   WORD    Characteristics;
+-} IMAGE_FILE_HEADER, *PIMAGE_FILE_HEADER;
++} __attribute__ ((packed)) IMAGE_FILE_HEADER, *PIMAGE_FILE_HEADER;
+ 
+ typedef struct _IMAGE_OPTIONAL_HEADER {
+   WORD    Magic;
+@@ -77,14 +77,14 @@
+   DWORD   LoaderFlags;
+   DWORD   NumberOfRvaAndSizes;
+   IMAGE_DATA_DIRECTORY DataDirectory[16];
+-} IMAGE_OPTIONAL_HEADER, *PIMAGE_OPTIONAL_HEADER;
++} __attribute__ ((packed)) IMAGE_OPTIONAL_HEADER, *PIMAGE_OPTIONAL_HEADER;
+ 
+ 
+ typedef struct _IMAGE_NT_HEADERS {
+   char Signature[4];
+   IMAGE_FILE_HEADER FileHeader;
+   IMAGE_OPTIONAL_HEADER OptionalHeader;
+-} IMAGE_NT_HEADERS, *PIMAGE_NT_HEADERS;
++} __attribute__ ((packed)) IMAGE_NT_HEADERS, *PIMAGE_NT_HEADERS;
+ 
+ typedef struct _IMAGE_SECTION_HEADER {
+   BYTE    Name[8];
+@@ -100,7 +100,7 @@
+   WORD    NumberOfRelocations;
+   WORD    NumberOfLinenumbers;
+   DWORD   Characteristics;
+-} IMAGE_SECTION_HEADER, *PIMAGE_SECTION_HEADER;
++} __attribute__ ((packed)) IMAGE_SECTION_HEADER, *PIMAGE_SECTION_HEADER;
+ 
+ typedef struct _IMAGE_EXPORT_DIRECTORY {
+   DWORD   Characteristics;
+@@ -111,10 +111,10 @@
+   DWORD   Base;
+   DWORD   NumberOfFunctions;
+   DWORD   NumberOfNames;
+-  PDWORD  *AddressOfFunctions;
+-  PDWORD  *AddressOfNames;
+-  PWORD   *AddressOfNameOrdinals;
+-} IMAGE_EXPORT_DIRECTORY, *PIMAGE_EXPORT_DIRECTORY;
++  DWORD   AddressOfFunctions;
++  DWORD   AddressOfNames;
++  DWORD   AddressOfNameOrdinals;
++} __attribute__ ((packed)) IMAGE_EXPORT_DIRECTORY, *PIMAGE_EXPORT_DIRECTORY;
+ 
+ typedef struct _IMAGE_DOS_HEADER {
+   WORD   e_magic;
+@@ -136,7 +136,7 @@
+   WORD   e_oeminfo; 
+   WORD   e_res2[10];
+   LONG   e_lfanew;  
+-} IMAGE_DOS_HEADER, *PIMAGE_DOS_HEADER;
++} __attribute__ ((packed)) IMAGE_DOS_HEADER, *PIMAGE_DOS_HEADER;
+ 
+ PIMAGE_SECTION_HEADER
+ find_section(DWORD rva);
+@@ -144,7 +144,7 @@
+ PIMAGE_DOS_HEADER
+ load_pe_image(const char *filename);
+ 
+-DWORD
++void *
+ rva_to_ptr(DWORD rva);
+ 
+ void
+Only in mingw-utils-0.3.fix/pexports: pexports.h~
