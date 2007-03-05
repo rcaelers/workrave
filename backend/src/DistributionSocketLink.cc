@@ -1081,6 +1081,7 @@ DistributionSocketLink::process_client_packet(Client *client)
 //           send_duplicate(client);
 //           remove_client(client);
         }
+      g_free(id);
     }
 
   if (flags & PACKETFLAG_DEST)
@@ -1100,6 +1101,7 @@ DistributionSocketLink::process_client_packet(Client *client)
 
           source = NULL;
         }
+        g_free(id);
     }
   
   TRACE_MSG("size = " << size << ", version = " << version << ", flags = " << flags);
@@ -1263,8 +1265,9 @@ DistributionSocketLink::handle_hello(PacketBuffer &packet, Client *client)
   
   g_free(name);
   g_free(user);
+  g_free(id); 
   g_free(pass);
-    
+   
   TRACE_EXIT();
 }
 
@@ -1320,6 +1323,7 @@ DistributionSocketLink::handle_signoff(PacketBuffer &packet, Client *client)
   if (id != NULL)
     {
       c = find_client_by_id(id);
+      g_free(id);
     }
 
   if (c != NULL)
@@ -1434,6 +1438,9 @@ DistributionSocketLink::handle_welcome(PacketBuffer &packet, Client *client)
       send_duplicate(client);
       remove_client(client);
     }
+
+  g_free(id);
+  g_free(name);
   
   TRACE_EXIT();
 }

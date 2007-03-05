@@ -37,19 +37,19 @@ GLIBMMSRC_URL=$GNOME_URL/glibmm/2.12/
 GTKMMSRC_URL=$GNOME_URL/gtkmm/2.10/
 CAIROMMSRC_URL=http://cairographics.org/releases/
 
-GLIB_FILES="glib-2.12.3.zip glib-dev-2.12.3.zip"
-GTK_FILES="gtk+-2.10.3.zip gtk+-dev-2.10.3.zip"
-GTK_DEP_FILES="atk-1.10.3.zip atk-dev-1.10.3.zip"
-CAIRO_FILES="cairo-1.2.4.zip cairo-dev-1.2.4.zip"
-PANGO_FILES="pango-1.14.0.zip pango-1.14.3.zip pango-dev-1.14.3.zip"
+GLIB_FILES="glib-2.12.7.zip glib-dev-2.12.7.zip"
+GTK_FILES="gtk+-2.10.9.zip gtk+-dev-2.10.9.zip"
+GTK_DEP_FILES="atk-1.12.2.zip atk-dev-1.12.2.zip"
+CAIRO_FILES="cairo-1.2.6.zip cairo-dev-1.2.6.zip"
+PANGO_FILES="pango-1.14.9.zip pango-1.14.9.zip pango-dev-1.14.9.zip"
 GNUWIN_FILES="zlib-1.2.3-bin.zip zlib-1.2.3-lib.zip libpng-1.2.8-bin.zip libpng-1.2.8-lib.zip"
 ICONV_FILES="libiconv-1.9.1.bin.woe32.zip"
-GETTEXT_FILES=" gettext-0.14.5.zip gettext-dev-0.14.5.zip"
+GETTEXT_FILES="gettext-0.14.5.zip gettext-dev-0.14.5.zip"
 GNETSRC_FILES="gnet-2.0.7.tar.gz"
-GTKMMSRC_FILES="gtkmm-2.8.8.tar.bz2"
-GLIBMMSRC_FILES="glibmm-2.12.0.tar.bz2"
+GTKMMSRC_FILES="gtkmm-2.10.7.tar.bz2"
+GLIBMMSRC_FILES="glibmm-2.12.5.tar.bz2"
 SIGCPPSRC_FILES="libsigc++-2.0.17.tar.gz"
-CAIROMMSRC_FILES="cairomm-1.2.2.tar.gz"
+CAIROMMSRC_FILES="cairomm-1.2.4.tar.gz"
 
 BINUTILS=binutils-2.16.91-20060119-1
 BINUTILS_ARCHIVE=$BINUTILS-src.tar.gz
@@ -116,8 +116,6 @@ download()
         download_files $GTKMMSRC_URL $GTKMMSRC_FILES
         download_files $SIGCPPSRC_URL $SIGCPPSRC_FILES
         download_files $CAIROMMSRC_URL $CAIROMMSRC_FILES
-
-	download_file "$BINUTILS_ARCHIVE" "$MINGW_URL"
 }
 
 unpack()
@@ -141,23 +139,18 @@ fix_pkgconfig()
     cd $PREFIX/lib/pkgconfig
 
     for a in $PREFIX/lib/pkgconfig/*.pc; do
-        sed -e "s|c:/devel/target/.*$|$PREFIX|g" -e "s|
-$||g" < $a > $a.new
+        sed -e "s|c:/devel/target/.*$|$PREFIX|g" -e "s|$||g" < $a > $a.new
         mv -f $a.new $a
-        sed -e "s|/devel/target/.*$|$PREFIX|g" -e "s|
-$||g" < $a > $a.new
+        sed -e "s|/devel/target/.*$|$PREFIX|g" -e "s|$||g" < $a > $a.new
         mv -f $a.new $a
-        sed -e "s|/target/.*$|$PREFIX|g" -e "s|
-$||g" < $a > $a.new
+        sed -e "s|/target/.*$|$PREFIX|g" -e "s|$||g" < $a > $a.new
         mv -f $a.new $a
     done
 
-    sed -e "s|c:/progra~1/.*$|$PREFIX|g" -e "s|
-$||g" < libpng.pc > libpng.pc.new
+    sed -e "s|c:/progra~1/.*$|$PREFIX|g" -e "s|$||g" < libpng.pc > libpng.pc.new
     mv -f libpng.pc.new libpng.pc
     
-    sed -e "s|c:/progra~1/.*$|$PREFIX|g" -e "s|
-$||g" < libpng13.pc > libpng13.pc.new
+    sed -e "s|c:/progra~1/.*$|$PREFIX|g" -e "s|$||g" < libpng13.pc > libpng13.pc.new
     mv -f libpng13.pc.new libpng13.pc
     
     cd "$TOPDIR"
@@ -195,16 +188,16 @@ extract_package()
 	echo "Extracting $1"
         case $2 in
             *.tar.gz)
-                 tar xzvf $SRCDIR/$2
+                 tar xzf $SRCDIR/$2
                  ;;
             *.tgz)
-                 tar xzvf $SRCDIR/$2
+                 tar xzf $SRCDIR/$2
                  ;;
             *.tar.bz2)
-                 tar xjvf $SRCDIR/$2
+                 tar xjf $SRCDIR/$2
                  ;;
             *.tar)
-                 tar xvf $SRCDIR/$2
+                 tar xf $SRCDIR/$2
                  ;;
             *.gz)
                  gunzip $SRCDIR/$2
@@ -531,29 +524,29 @@ install_bfd()
 	cd "$TOPDIR"
 }
 
-#download
-#unpack
-#
-#fix_pkgconfig
-#fix_lib
-#
+download
+unpack
+
+fix_pkgconfig
+fix_lib
+
 extract_package "libsigc++-2.0.17" "libsigc++-2.0.17.tar.gz"
 build_sigcpp "libsigc++-2.0.17"
 
-extract_package "glibmm-2.12.0" "glibmm-2.12.0.tar.bz2"
-build_glibmm "glibmm-2.12.0"
+extract_package "glibmm-2.12.5" "glibmm-2.12.5.tar.bz2"
+build_glibmm "glibmm-2.12.5"
 
-extract_package "cairomm-1.2.2" "cairomm-1.2.2.tar.gz"
-build_cairomm "cairomm-1.2.2"
+extract_package "cairomm-1.2.4" "cairomm-1.2.4.tar.gz"
+build_cairomm "cairomm-1.2.4"
 
-extract_package "gtkmm-2.10.1" "gtkmm-2.10.1.tar.bz2"
-build_gtkmm "gtkmm-2.10.1"
+extract_package "gtkmm-2.10.7" "gtkmm-2.10.7.tar.bz2"
+build_gtkmm "gtkmm-2.10.7"
 
 extract_package "gnet-2.0.7" "gnet-2.0.7.tar.gz"
 build_gnet "gnet-2.0.7"
 
-#extract_bfd
-#configure_bfd
-#build_bfd
-#install_bfd
+extract_bfd
+configure_bfd
+build_bfd
+install_bfd
 

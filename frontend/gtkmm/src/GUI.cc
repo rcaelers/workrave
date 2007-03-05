@@ -557,8 +557,8 @@ GUI::init_multihead_mem(int new_num_heads)
 
       delete [] prelude_windows;
       delete [] break_windows;
-      prelude_windows = new PreludeWindow*[num_heads];
-      break_windows = new IBreakWindow*[num_heads];
+      prelude_windows = new PreludeWindow*[num_heads];/* LEAK */
+      break_windows = new IBreakWindow*[num_heads]; /* LEAK */
     }
   TRACE_EXIT();
 }
@@ -848,7 +848,7 @@ GUI::create_break_window(HeadInfo &head, BreakId break_id, bool ignorable)
 void
 GUI::init_sound_player()
 {
-  sound_player = new SoundPlayer();
+  sound_player = new SoundPlayer(); /* LEAK */
 }
 
 
