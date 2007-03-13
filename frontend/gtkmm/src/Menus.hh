@@ -186,13 +186,11 @@ Menus::set_main_window(MainWindow *main)
 }
 
 
-#if defined(HAVE_GNOME) || defined(WIN32)
 inline Menus *
 Menus::get_instance()
 {
   assert(instance != 0);
   return instance;
 }
-#endif
 
 #endif // MENUS_HH

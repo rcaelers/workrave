@@ -664,36 +664,6 @@ Menus::on_test_me()
 
 
 //! Preferences Dialog.
-// void
-// Menus::on_menu_preferences()
-// {
-//   TRACE_ENTER("Menus::on_menu_preferences");
-//   GUIControl::OperationMode mode;
-//   GUIControl *gui_control = GUIControl::get_instance();
-//   mode = gui_control->set_operation_mode(GUIControl::OPERATION_MODE_QUIET);
-
-//   PreferencesDialog *dialog = new PreferencesDialog();
-//   dialog->run();
-//   delete dialog;
-
-// #ifdef WIN32
-//   // FIXME: bug 130:
-//   // due to current Gtk+ behaviour of exit()'ing on WM_QUIT, we cannot
-//   // store main window position on shutdown (bug 130).
-//   // Therefore, this hack.
-
-//   MainWindow *window = gui->get_main_window();
-//   if (window != NULL)
-//     {
-//       window->win32_remember_position();
-//     }
-// #endif
-//   gui_control->set_operation_mode(mode);
-//   TRACE_EXIT();
-// }
-
-
-//! Preferences Dialog.
 void
 Menus::on_menu_preferences()
 {
@@ -798,17 +768,6 @@ Menus::on_menu_about()
   about.set_website_label("www.workrave.org");
 
   about.run();
-  
-//   gtk_widget_show (gnome_about_new
-//                    ("Workrave", VERSION,
-//                     "Copyright 2001-2006 Rob Caelers & Raymond Penners",
-//                     _("This program assists in the prevention and recovery"
-//                       " of Repetitive Strain Injury (RSI)."),
-//                     (const gchar **) authors,
-//                     (const gchar **) NULL,
-//                     translators,
-//                     pixbuf));
-//   g_object_unref(pixbuf);
 }
 
 
