@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2006 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2006, 2007 Rob Caelers & Raymond Penners
 #
 # $Id$
 #
@@ -94,4 +94,5 @@ endif
 
 
 EXTRA_DIST = 		$(wildcard *.cc) $(wildcard *.rc) $(wildcard *.hh) \
-			$(wildcard *.h) $(wildcard *.icc) workrave-service.xml
+			$(wildcard *.h) $(wildcard *.icc) workrave-service.xml \
+			org.workrave.Workrave.service.in
