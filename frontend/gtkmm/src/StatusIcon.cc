@@ -91,7 +91,7 @@ void StatusIcon::on_activate()
 
 void StatusIcon::on_popup_menu(guint button, guint activate_time)
 {
-  Menus::get_instance()->popup(Menus::MENU_APPLET, button, activate_time);
+  Menus::get_instance()->popup(Menus::MENU_APPLET, 1 , activate_time);
 }
 
 void StatusIcon::activate_callback(GtkStatusIcon *,
