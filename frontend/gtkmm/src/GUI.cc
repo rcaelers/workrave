@@ -223,8 +223,8 @@ GUI::main()
   init_core();
   init_sound_player();
   init_multihead();
-  init_remote_control();
   init_gui();
+  init_remote_control();
 
   on_timer();
   
