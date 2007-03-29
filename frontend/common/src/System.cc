@@ -1,6 +1,6 @@
 // Display.cc
 //
-// Copyright (C) 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -285,9 +285,9 @@ static bool
 look_for_kdesktop_recursive (Display *display, Window xwindow)
 {
   Window ignored1, ignored2;
-  Window *children;
-  unsigned int n_children;
-  unsigned int i;
+  Window *children = NULL;
+  unsigned int n_children = 0;
+  unsigned int i = 0;
   bool retval;
   
   /* If WM_STATE is set, this is a managed client, so look
@@ -317,22 +317,24 @@ look_for_kdesktop_recursive (Display *display, Window xwindow)
   }
   retval = false;
   
-  XQueryTree (display,
-              xwindow,
-              &ignored1, &ignored2, &children, &n_children);
+  Status status = XQueryTree(display,
+                             xwindow,
+                             &ignored1, &ignored2, &children, &n_children);
+  if (status)
+    {
+      i = 0;
+      while (i < n_children) {
+        if (look_for_kdesktop_recursive (display, children[i])) {
+          retval = true;
+          break;
+        }
+        
+        ++i;
+      }
 
-  i = 0;
-  while (i < n_children) {
-    if (look_for_kdesktop_recursive (display, children[i])) {
-      retval = true;
-      break;
+      if (children)
+        XFree (children);
     }
-      
-    ++i;
-  }
-  
-  if (children)
-    XFree (children);
 
   return retval;
 }
