@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave Japanese\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2007-02-19 19:30+0100\n"
+"POT-Creation-Date: 2007-04-04 21:13+0200\n"
 "PO-Revision-Date: 2006-09-20 13:42+0900\n"
 "Last-Translator: Masanobu Yokota <masanobu.yokota@nifty.com>\n"
 "Language-Team: Masanobu Yokota <masanobu.yokota@nifty.com>\n"
@@ -23,21 +23,21 @@ msgstr ""
 msgid "Reconnecting to %s:%d."
 msgstr "%s:%d に再接続中。"
 
-#: ../backend/src/DistributionSocketLink.cc:358
+#: ../backend/src/DistributionSocketLink.cc:356
 msgid "Cannot resolve my own hostname. Deactivating distribution."
 msgstr "自分のホスト名が解決できません。分配を停止します。"
 
 #. We did not succeed in starting the server. Arghh.
-#: ../backend/src/DistributionSocketLink.cc:369
+#: ../backend/src/DistributionSocketLink.cc:367
 msgid "Could not enable network operation."
 msgstr "ネットワークオペレーションを起動できません。"
 
-#: ../backend/src/DistributionSocketLink.cc:378
+#: ../backend/src/DistributionSocketLink.cc:376
 msgid "Disabling network operation."
 msgstr "ネットワークオペレーションを停止中。"
 
-#: ../backend/src/DistributionSocketLink.cc:534
-#: ../backend/src/DistributionSocketLink.cc:561
+#: ../backend/src/DistributionSocketLink.cc:532
+#: ../backend/src/DistributionSocketLink.cc:559
 #, c-format
 msgid "Connecting to %s:%d."
 msgstr "%s:%d に接続中。"
@@ -65,96 +65,96 @@ msgstr "クライアント %s:%d がマスター。"
 msgid "I'm now master."
 msgstr "私がマスター。"
 
-#: ../backend/src/DistributionSocketLink.cc:1236
+#: ../backend/src/DistributionSocketLink.cc:1238
 #, c-format
 msgid "Client %s:%d saying hello."
 msgstr "クライアント %s:%d が呼んでいる。"
 
 #. Duplicate client. inform client that it's bogus and close.
-#: ../backend/src/DistributionSocketLink.cc:1251
-#: ../backend/src/DistributionSocketLink.cc:1370
-#: ../backend/src/DistributionSocketLink.cc:1607
+#: ../backend/src/DistributionSocketLink.cc:1253
+#: ../backend/src/DistributionSocketLink.cc:1381
+#: ../backend/src/DistributionSocketLink.cc:1621
 #, c-format
 msgid "Client %s:%d is duplicate."
 msgstr "クライアント %s:%d が重複。"
 
 #. Incorrect password.
-#: ../backend/src/DistributionSocketLink.cc:1260
+#: ../backend/src/DistributionSocketLink.cc:1262
 #, c-format
 msgid "Client %s:%d access denied."
 msgstr "クライアント %s:%d 接続拒否。"
 
-#: ../backend/src/DistributionSocketLink.cc:1327
+#: ../backend/src/DistributionSocketLink.cc:1331
 #, c-format
 msgid "Client %s:%d signed off."
 msgstr "クライアント %s:%d サインオフ。"
 
-#: ../backend/src/DistributionSocketLink.cc:1409
+#: ../backend/src/DistributionSocketLink.cc:1420
 #, c-format
 msgid "Client %s:%d is welcoming us."
 msgstr "クライアント %s:%d 応答。"
 
-#: ../backend/src/DistributionSocketLink.cc:1644
+#: ../backend/src/DistributionSocketLink.cc:1658
 #, c-format
 msgid "Requesting master status from %s:%d."
 msgstr "%s:%d からマスターステータスの要求。"
 
-#: ../backend/src/DistributionSocketLink.cc:1657
+#: ../backend/src/DistributionSocketLink.cc:1671
 #, c-format
 msgid "Client timeout from %s:%d."
 msgstr "%s:%d からクライアントタイムアウト。"
 
-#: ../backend/src/DistributionSocketLink.cc:1678
+#: ../backend/src/DistributionSocketLink.cc:1692
 #, c-format
 msgid "Rejecting master request from client %s:%d."
 msgstr "クライアント %s:%d からマスターリクエスト拒否。"
 
-#: ../backend/src/DistributionSocketLink.cc:1684
+#: ../backend/src/DistributionSocketLink.cc:1698
 #, c-format
 msgid "Acknowledging master request from client %s:%d."
 msgstr "クライアント %s:%d から マスターリクエスト承認"
 
-#: ../backend/src/DistributionSocketLink.cc:1735
+#: ../backend/src/DistributionSocketLink.cc:1749
 #, c-format
 msgid "Non-master client %s:%d rejected master request."
 msgstr "マスターでないクライアント %s:%d のマスターリクエストは拒否。"
 
-#: ../backend/src/DistributionSocketLink.cc:1740
+#: ../backend/src/DistributionSocketLink.cc:1754
 #, c-format
 msgid "Client %s:%d rejected master request, delaying."
 msgstr "クライアント %s:%d のマスターリクエスト拒否、延期中。"
 
 #. gint count =
-#: ../backend/src/DistributionSocketLink.cc:1811
+#: ../backend/src/DistributionSocketLink.cc:1825
 #, c-format
 msgid "Client %s is now the new master."
 msgstr "クライアント %s が新しいマスターになった。"
 
-#: ../backend/src/DistributionSocketLink.cc:1932
+#: ../backend/src/DistributionSocketLink.cc:1946
 msgid "Network operation started."
 msgstr "ネットワークオペレーション開始。"
 
-#: ../backend/src/DistributionSocketLink.cc:1949
+#: ../backend/src/DistributionSocketLink.cc:1963
 msgid "Accepted new client."
 msgstr "新しいクライアント承認。"
 
-#: ../backend/src/DistributionSocketLink.cc:2004
+#: ../backend/src/DistributionSocketLink.cc:2029
 #, c-format
 msgid "Client %s:%d read error, closing."
 msgstr "クライアント %s:%d 読み取りエラー、終了中。"
 
-#: ../backend/src/DistributionSocketLink.cc:2010
-#: ../backend/src/DistributionSocketLink.cc:2084
+#: ../backend/src/DistributionSocketLink.cc:2035
+#: ../backend/src/DistributionSocketLink.cc:2109
 #, c-format
 msgid "Client %s:%d closed connection."
 msgstr "クライアント %s:%d 接続終了。"
 
-#: ../backend/src/DistributionSocketLink.cc:2051
+#: ../backend/src/DistributionSocketLink.cc:2076
 #, c-format
 msgid "Client %s:%d connected."
 msgstr "クライアント %s:%d 接続。"
 
-#: ../backend/src/DistributionSocketLink.cc:2091
+#: ../backend/src/DistributionSocketLink.cc:2116
 #, c-format
 msgid "Could not connect to client %s:%d."
 msgstr "クライアント %s:%d 接続不可。"
@@ -339,7 +339,7 @@ msgstr "一時停止(_S)"
 msgid "Q_uiet"
 msgstr "静粛モード(_u)"
 
-#: ../frontend/gtkmm/src/Menus.cc:792
+#: ../frontend/gtkmm/src/Menus.cc:762
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."

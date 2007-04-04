@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2007-03-24 16:03+0000\n"
+"Report-Msgid-Bugs-To: i18n@workrave.org\n"
+"POT-Creation-Date: 2007-04-04 21:13+0200\n"
 "PO-Revision-Date: 2007-03-28 09:31+0000\n"
 "Last-Translator: Vanja Cvelbar <cvelbar@gmail.com>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
@@ -28,6 +28,7 @@ msgstr ""
 "Ni mogoče spoznati lastnega gostiteljskega imena. Razdeljevanje je "
 "onemogočeno."
 
+#. We did not succeed in starting the server. Arghh.
 #: ../backend/src/DistributionSocketLink.cc:367
 msgid "Could not enable network operation."
 msgstr "Ni mogoče omogočiti omrežnih dejavnosti."
@@ -48,16 +49,19 @@ msgstr "Povezujem se z %s:%d."
 msgid "Removing client %s:%d."
 msgstr "Odstanjujem odjemalca %s:%d."
 
+#. Closing direct connection.
 #: ../backend/src/DistributionSocketLink.cc:731
 #, c-format
 msgid "Disconnecting %s:%d."
 msgstr "Prekinjam povezavo %s:%d."
 
+#. It's a remote client. mark it master.
 #: ../backend/src/DistributionSocketLink.cc:901
 #, c-format
 msgid "Client %s:%d is now master."
 msgstr "Odjemalec %s:%d je zdaj gospodar."
 
+#. Its ME!
 #: ../backend/src/DistributionSocketLink.cc:907
 msgid "I'm now master."
 msgstr "Jaz sem zdaj gospodar."
@@ -67,6 +71,7 @@ msgstr "Jaz sem zdaj gospodar."
 msgid "Client %s:%d saying hello."
 msgstr "Odjemalec %s:%d pozdravlja."
 
+#. Duplicate client. inform client that it's bogus and close.
 #: ../backend/src/DistributionSocketLink.cc:1253
 #: ../backend/src/DistributionSocketLink.cc:1381
 #: ../backend/src/DistributionSocketLink.cc:1621
@@ -74,6 +79,7 @@ msgstr "Odjemalec %s:%d pozdravlja."
 msgid "Client %s:%d is duplicate."
 msgstr "Odjemalec %s:%d je dvojnik."
 
+#. Incorrect password.
 #: ../backend/src/DistributionSocketLink.cc:1262
 #, c-format
 msgid "Client %s:%d access denied."
@@ -120,6 +126,7 @@ msgstr ""
 msgid "Client %s:%d rejected master request, delaying."
 msgstr "Odjemalec %s:%d je odbil prošnjo po statusu gospodarja, zakasnjujem."
 
+#. gint count =
 #: ../backend/src/DistributionSocketLink.cc:1825
 #, c-format
 msgid "Client %s is now the new master."
@@ -153,10 +160,6 @@ msgstr "Odjemalec %s:%d se je povezal."
 #, c-format
 msgid "Could not connect to client %s:%d."
 msgstr "Z odjemalcem %s:%d se ni mogoče povezati."
-
-#: ../common/src/glibnls.c:131
-msgid "Too many alias levels for a locale, may indicate a loop"
-msgstr "Preveč stopenj vzdevkov za locale, lahko kaže na zanko"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
 msgid "Break ignored"
@@ -257,6 +260,7 @@ msgstr ""
 msgid "I could not initialize Bonobo"
 msgstr "Ni mogoče inicializirati Bonoba"
 
+#. FIXME: duplicate
 #: ../frontend/gtkmm/src/GUI.cc:1316 ../frontend/gtkmm/src/GtkUtil.cc:160
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:52
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:171
@@ -271,6 +275,7 @@ msgstr "Odmor"
 msgid "Rest break"
 msgstr "Počitek"
 
+#. Mode menu item
 #: ../frontend/gtkmm/src/Menus.cc:201 ../frontend/gtkmm/src/Menus.cc:513
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
 msgid "_Mode"
@@ -337,8 +342,7 @@ msgstr "_Zaustavljeno"
 msgid "Q_uiet"
 msgstr "_Tiho"
 
-#: ../frontend/gtkmm/src/Menus.cc:792
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:363
+#: ../frontend/gtkmm/src/Menus.cc:762
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -381,6 +385,7 @@ msgstr "Statusno okno"
 msgid "Applet"
 msgstr "Vstavek"
 
+#. Notebook
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:76
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:164
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:202
@@ -419,11 +424,13 @@ msgstr "Onemogoči vnos"
 msgid "Block input and screen"
 msgstr "Onemogoči vnos in zaslon"
 
+#. Options
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:175
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:141
 msgid "Options"
 msgstr "Možnosti"
 
+#. panel->add(*start_in_tray_cb);
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:177
 msgid "Sound:"
 msgstr "Zvok:"
@@ -529,6 +536,7 @@ msgstr "Postavitev:"
 msgid "Cycle time:"
 msgstr "Takt:"
 
+#. Layout
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:167
 msgid "Micro-break:"
 msgstr "Odmor:"
@@ -541,10 +549,12 @@ msgstr "Počitek:"
 msgid "Daily limit:"
 msgstr "Dnevna omejitev"
 
+#. Enabled/Disabled checkbox
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:63
 msgid "Enable timer"
 msgstr "Vključi uro"
 
+#. Prelude frame
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:104
 msgid "Break prompting"
 msgstr "Pozivanje k premoru"
@@ -589,27 +599,6 @@ msgstr "Trajanje premora:"
 msgid "Postpone time:"
 msgstr "Odloži za:"
 
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:328
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:400
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:424
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:448
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:471
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:494
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:518
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:541
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:563
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:587
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:630
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:670
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:728
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:775
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:817
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:873
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:989
-#, c-format
-msgid "An exception occured '%s'"
-msgstr "Prišlo je do napake '%s'"
-
 #: ../frontend/gtkmm/src/eggtrayicon.c:133
 msgid "Orientation"
 msgstr "Postavitev"
@@ -617,6 +606,32 @@ msgstr "Postavitev"
 #: ../frontend/gtkmm/src/eggtrayicon.c:134
 msgid "The orientation of the tray."
 msgstr "Postavitev pladnja"
+
+#: ../frontend/gtkmm/src/gnome-about.c:308
+msgid "Credits"
+msgstr ""
+
+#: ../frontend/gtkmm/src/gnome-about.c:341
+msgid "_Written by"
+msgstr ""
+
+#: ../frontend/gtkmm/src/gnome-about.c:356
+msgid "_Documented by"
+msgstr ""
+
+#: ../frontend/gtkmm/src/gnome-about.c:371
+msgid "_Translated by"
+msgstr ""
+
+#. Add the credits button
+#: ../frontend/gtkmm/src/gnome-about.c:431
+msgid "_Credits"
+msgstr ""
+
+#: ../frontend/gtkmm/src/gnome-about.c:614
+#, fuzzy, c-format
+msgid "About %s"
+msgstr "O programu..."
 
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:1
 msgid "_About..."
@@ -1039,3 +1054,9 @@ msgstr "Izgine čez"
 #: ../frontend/text/src/PreludeWindow.cc:163
 msgid "Silent in"
 msgstr "Tiho čez"
+
+#~ msgid "Too many alias levels for a locale, may indicate a loop"
+#~ msgstr "Preveč stopenj vzdevkov za locale, lahko kaže na zanko"
+
+#~ msgid "An exception occured '%s'"
+#~ msgstr "Prišlo je do napake '%s'"

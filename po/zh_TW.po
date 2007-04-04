@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WorkRave 1.8\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2007-02-19 19:30+0100\n"
+"POT-Creation-Date: 2007-04-04 21:13+0200\n"
 "PO-Revision-Date: 2006-07-31 18:11+0200\n"
 "Last-Translator: Rex Tsai <chihchun@linux.org.tw>\n"
 "Language-Team: Chinese/Traditional <zh-l10n@linux.org.tw>\n"
@@ -21,21 +21,21 @@ msgstr ""
 msgid "Reconnecting to %s:%d."
 msgstr "重新連接到 %s:%d"
 
-#: ../backend/src/DistributionSocketLink.cc:358
+#: ../backend/src/DistributionSocketLink.cc:356
 msgid "Cannot resolve my own hostname. Deactivating distribution."
 msgstr "無法解析本身主機名稱。停止分散式計算。"
 
 #. We did not succeed in starting the server. Arghh.
-#: ../backend/src/DistributionSocketLink.cc:369
+#: ../backend/src/DistributionSocketLink.cc:367
 msgid "Could not enable network operation."
 msgstr "無法啟用網路功能"
 
-#: ../backend/src/DistributionSocketLink.cc:378
+#: ../backend/src/DistributionSocketLink.cc:376
 msgid "Disabling network operation."
 msgstr "停用網路功能。"
 
-#: ../backend/src/DistributionSocketLink.cc:534
-#: ../backend/src/DistributionSocketLink.cc:561
+#: ../backend/src/DistributionSocketLink.cc:532
+#: ../backend/src/DistributionSocketLink.cc:559
 #, c-format
 msgid "Connecting to %s:%d."
 msgstr "連接到 %s:%d"
@@ -63,96 +63,96 @@ msgstr "客戶端 %s:%d 現在是主控。"
 msgid "I'm now master."
 msgstr "我是新主控端。"
 
-#: ../backend/src/DistributionSocketLink.cc:1236
+#: ../backend/src/DistributionSocketLink.cc:1238
 #, c-format
 msgid "Client %s:%d saying hello."
 msgstr "客戶端 %s;%d 說嗨。"
 
 #. Duplicate client. inform client that it's bogus and close.
-#: ../backend/src/DistributionSocketLink.cc:1251
-#: ../backend/src/DistributionSocketLink.cc:1370
-#: ../backend/src/DistributionSocketLink.cc:1607
+#: ../backend/src/DistributionSocketLink.cc:1253
+#: ../backend/src/DistributionSocketLink.cc:1381
+#: ../backend/src/DistributionSocketLink.cc:1621
 #, c-format
 msgid "Client %s:%d is duplicate."
 msgstr "客戶端 %s;%d 重複。"
 
 #. Incorrect password.
-#: ../backend/src/DistributionSocketLink.cc:1260
+#: ../backend/src/DistributionSocketLink.cc:1262
 #, c-format
 msgid "Client %s:%d access denied."
 msgstr "客戶端 %s:%d 拒絕存取。"
 
-#: ../backend/src/DistributionSocketLink.cc:1327
+#: ../backend/src/DistributionSocketLink.cc:1331
 #, c-format
 msgid "Client %s:%d signed off."
 msgstr "客戶端 %s:%d 離線。"
 
-#: ../backend/src/DistributionSocketLink.cc:1409
+#: ../backend/src/DistributionSocketLink.cc:1420
 #, c-format
 msgid "Client %s:%d is welcoming us."
 msgstr "客戶端 %s:%d 歡迎我們。"
 
-#: ../backend/src/DistributionSocketLink.cc:1644
+#: ../backend/src/DistributionSocketLink.cc:1658
 #, c-format
 msgid "Requesting master status from %s:%d."
 msgstr "向 %s:%d 要求主控端狀態。"
 
-#: ../backend/src/DistributionSocketLink.cc:1657
+#: ../backend/src/DistributionSocketLink.cc:1671
 #, c-format
 msgid "Client timeout from %s:%d."
 msgstr "客戶端 %s:%d 逾時。"
 
-#: ../backend/src/DistributionSocketLink.cc:1678
+#: ../backend/src/DistributionSocketLink.cc:1692
 #, c-format
 msgid "Rejecting master request from client %s:%d."
 msgstr "拒絕來自客戶端 %s:%d 的主控要求"
 
-#: ../backend/src/DistributionSocketLink.cc:1684
+#: ../backend/src/DistributionSocketLink.cc:1698
 #, c-format
 msgid "Acknowledging master request from client %s:%d."
 msgstr "確認來自客戶端 %s:%d 的主控要求。"
 
-#: ../backend/src/DistributionSocketLink.cc:1735
+#: ../backend/src/DistributionSocketLink.cc:1749
 #, c-format
 msgid "Non-master client %s:%d rejected master request."
 msgstr "非主控客戶端 %s:%d 拒絕主控要求。"
 
-#: ../backend/src/DistributionSocketLink.cc:1740
+#: ../backend/src/DistributionSocketLink.cc:1754
 #, c-format
 msgid "Client %s:%d rejected master request, delaying."
 msgstr "客戶端 %s:%d 拒絕主控要求，延遲中。"
 
 #. gint count =
-#: ../backend/src/DistributionSocketLink.cc:1811
+#: ../backend/src/DistributionSocketLink.cc:1825
 #, c-format
 msgid "Client %s is now the new master."
 msgstr "客戶端 %s 現在是新的主控端。"
 
-#: ../backend/src/DistributionSocketLink.cc:1932
+#: ../backend/src/DistributionSocketLink.cc:1946
 msgid "Network operation started."
 msgstr "網路功能啟動"
 
-#: ../backend/src/DistributionSocketLink.cc:1949
+#: ../backend/src/DistributionSocketLink.cc:1963
 msgid "Accepted new client."
 msgstr "接受新客戶端"
 
-#: ../backend/src/DistributionSocketLink.cc:2004
+#: ../backend/src/DistributionSocketLink.cc:2029
 #, c-format
 msgid "Client %s:%d read error, closing."
 msgstr "客戶端 %s:%d 讀取錯誤，關閉中。"
 
-#: ../backend/src/DistributionSocketLink.cc:2010
-#: ../backend/src/DistributionSocketLink.cc:2084
+#: ../backend/src/DistributionSocketLink.cc:2035
+#: ../backend/src/DistributionSocketLink.cc:2109
 #, c-format
 msgid "Client %s:%d closed connection."
 msgstr "客戶端 %s:%d 關閉連線。"
 
-#: ../backend/src/DistributionSocketLink.cc:2051
+#: ../backend/src/DistributionSocketLink.cc:2076
 #, c-format
 msgid "Client %s:%d connected."
 msgstr "連線到用戶端 %s:%d。"
 
-#: ../backend/src/DistributionSocketLink.cc:2091
+#: ../backend/src/DistributionSocketLink.cc:2116
 #, c-format
 msgid "Could not connect to client %s:%d."
 msgstr "無法連線到用戶端 %s:%d。"
@@ -336,7 +336,7 @@ msgstr "暫停(_S)"
 msgid "Q_uiet"
 msgstr "離開(_u)"
 
-#: ../frontend/gtkmm/src/Menus.cc:792
+#: ../frontend/gtkmm/src/Menus.cc:762
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.6.0\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2007-02-19 19:30+0100\n"
+"POT-Creation-Date: 2007-04-04 21:13+0200\n"
 "PO-Revision-Date: 2006-07-31 18:10+0200\n"
 "Last-Translator: Sergey Kirkinsky <ksa@pfr.altai.ru>\n"
 "Language-Team: Sergey Kirkinsky <ksa@pfr.altai.ru>\n"
@@ -20,22 +20,22 @@ msgstr ""
 msgid "Reconnecting to %s:%d."
 msgstr "Повторно соединиться с %s:%d."
 
-#: ../backend/src/DistributionSocketLink.cc:358
+#: ../backend/src/DistributionSocketLink.cc:356
 msgid "Cannot resolve my own hostname. Deactivating distribution."
 msgstr ""
 "Не могу разрешить свое собственное имя компьютера. Выполнение прекращено."
 
 #. We did not succeed in starting the server. Arghh.
-#: ../backend/src/DistributionSocketLink.cc:369
+#: ../backend/src/DistributionSocketLink.cc:367
 msgid "Could not enable network operation."
 msgstr "Сетевые операции недоступны."
 
-#: ../backend/src/DistributionSocketLink.cc:378
+#: ../backend/src/DistributionSocketLink.cc:376
 msgid "Disabling network operation."
 msgstr "Отмена сетевых операций"
 
-#: ../backend/src/DistributionSocketLink.cc:534
-#: ../backend/src/DistributionSocketLink.cc:561
+#: ../backend/src/DistributionSocketLink.cc:532
+#: ../backend/src/DistributionSocketLink.cc:559
 #, c-format
 msgid "Connecting to %s:%d."
 msgstr "Соединение с %s:%d."
@@ -63,96 +63,96 @@ msgstr "Клиент %s:%d теперь главный."
 msgid "I'm now master."
 msgstr "Теперь я главный."
 
-#: ../backend/src/DistributionSocketLink.cc:1236
+#: ../backend/src/DistributionSocketLink.cc:1238
 #, c-format
 msgid "Client %s:%d saying hello."
 msgstr "Клиент %s:%d говорит привет."
 
 #. Duplicate client. inform client that it's bogus and close.
-#: ../backend/src/DistributionSocketLink.cc:1251
-#: ../backend/src/DistributionSocketLink.cc:1370
-#: ../backend/src/DistributionSocketLink.cc:1607
+#: ../backend/src/DistributionSocketLink.cc:1253
+#: ../backend/src/DistributionSocketLink.cc:1381
+#: ../backend/src/DistributionSocketLink.cc:1621
 #, c-format
 msgid "Client %s:%d is duplicate."
 msgstr "Клиент %s:%d не уникален."
 
 #. Incorrect password.
-#: ../backend/src/DistributionSocketLink.cc:1260
+#: ../backend/src/DistributionSocketLink.cc:1262
 #, c-format
 msgid "Client %s:%d access denied."
 msgstr "Доступ клиенту %s:%d запрещён."
 
-#: ../backend/src/DistributionSocketLink.cc:1327
+#: ../backend/src/DistributionSocketLink.cc:1331
 #, c-format
 msgid "Client %s:%d signed off."
 msgstr "Клиент %s:%d ушёл."
 
-#: ../backend/src/DistributionSocketLink.cc:1409
+#: ../backend/src/DistributionSocketLink.cc:1420
 #, c-format
 msgid "Client %s:%d is welcoming us."
 msgstr "Клиент %s:%d приглашает нас."
 
-#: ../backend/src/DistributionSocketLink.cc:1644
+#: ../backend/src/DistributionSocketLink.cc:1658
 #, c-format
 msgid "Requesting master status from %s:%d."
 msgstr "Запрос состояния ведущего от %s:%d."
 
-#: ../backend/src/DistributionSocketLink.cc:1657
+#: ../backend/src/DistributionSocketLink.cc:1671
 #, c-format
 msgid "Client timeout from %s:%d."
 msgstr "Клиентский таймаут от %s:%d."
 
-#: ../backend/src/DistributionSocketLink.cc:1678
+#: ../backend/src/DistributionSocketLink.cc:1692
 #, c-format
 msgid "Rejecting master request from client %s:%d."
 msgstr "Отклонение главного запроса от клиента %s:%d."
 
-#: ../backend/src/DistributionSocketLink.cc:1684
+#: ../backend/src/DistributionSocketLink.cc:1698
 #, c-format
 msgid "Acknowledging master request from client %s:%d."
 msgstr "Подтверждение главного запроса от клиента %s:%d."
 
-#: ../backend/src/DistributionSocketLink.cc:1735
+#: ../backend/src/DistributionSocketLink.cc:1749
 #, c-format
 msgid "Non-master client %s:%d rejected master request."
 msgstr "Неглавный клиент %s:%d отклонил главный запрос."
 
-#: ../backend/src/DistributionSocketLink.cc:1740
+#: ../backend/src/DistributionSocketLink.cc:1754
 #, c-format
 msgid "Client %s:%d rejected master request, delaying."
 msgstr "Клиент %s:%d отклонил главный запрос, задержка."
 
 #. gint count =
-#: ../backend/src/DistributionSocketLink.cc:1811
+#: ../backend/src/DistributionSocketLink.cc:1825
 #, c-format
 msgid "Client %s is now the new master."
 msgstr "Клиент %s теперь главный."
 
-#: ../backend/src/DistributionSocketLink.cc:1932
+#: ../backend/src/DistributionSocketLink.cc:1946
 msgid "Network operation started."
 msgstr "Сетевая операция начата."
 
-#: ../backend/src/DistributionSocketLink.cc:1949
+#: ../backend/src/DistributionSocketLink.cc:1963
 msgid "Accepted new client."
 msgstr "Принят новый клиент."
 
-#: ../backend/src/DistributionSocketLink.cc:2004
+#: ../backend/src/DistributionSocketLink.cc:2029
 #, c-format
 msgid "Client %s:%d read error, closing."
 msgstr "Ошибка чтения у клиента %s:%d, закрытие."
 
-#: ../backend/src/DistributionSocketLink.cc:2010
-#: ../backend/src/DistributionSocketLink.cc:2084
+#: ../backend/src/DistributionSocketLink.cc:2035
+#: ../backend/src/DistributionSocketLink.cc:2109
 #, c-format
 msgid "Client %s:%d closed connection."
 msgstr "Клиент %s:%d разорвал соединение."
 
-#: ../backend/src/DistributionSocketLink.cc:2051
+#: ../backend/src/DistributionSocketLink.cc:2076
 #, c-format
 msgid "Client %s:%d connected."
 msgstr "Клиент %s:%d соединился."
 
-#: ../backend/src/DistributionSocketLink.cc:2091
+#: ../backend/src/DistributionSocketLink.cc:2116
 #, c-format
 msgid "Could not connect to client %s:%d."
 msgstr "Не могу соединиться с клиентом %s:%d."
@@ -337,7 +337,7 @@ msgstr "_Приостановлен"
 msgid "Q_uiet"
 msgstr "_Тихо"
 
-#: ../frontend/gtkmm/src/Menus.cc:792
+#: ../frontend/gtkmm/src/Menus.cc:762
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."

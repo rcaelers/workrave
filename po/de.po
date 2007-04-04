@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.4.0\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2007-02-19 19:30+0100\n"
+"POT-Creation-Date: 2007-04-04 21:13+0200\n"
 "PO-Revision-Date: 2006-07-31 18:08+0200\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -22,26 +22,26 @@ msgstr ""
 msgid "Reconnecting to %s:%d."
 msgstr "Wiederaufnahme der Verbindung mit %s:%d:"
 
-#: ../backend/src/DistributionSocketLink.cc:358
+#: ../backend/src/DistributionSocketLink.cc:356
 msgid "Cannot resolve my own hostname. Deactivating distribution."
 msgstr ""
 "Kann eigenen Rechnernamen nicht auflösen. Netzwerkbetrieb wird deaktiviert."
 
 # src/core/DistributionSocketLink.cc:345
 #. We did not succeed in starting the server. Arghh.
-#: ../backend/src/DistributionSocketLink.cc:369
+#: ../backend/src/DistributionSocketLink.cc:367
 msgid "Could not enable network operation."
 msgstr "Netzwerkbetrieb konnte nicht aufgenommen werden."
 
 # src/core/DistributionSocketLink.cc:354
-#: ../backend/src/DistributionSocketLink.cc:378
+#: ../backend/src/DistributionSocketLink.cc:376
 msgid "Disabling network operation."
 msgstr "Netzwerkbetrieb wird deaktiviert."
 
 # src/core/DistributionSocketLink.cc:509
 # src/core/DistributionSocketLink.cc:536
-#: ../backend/src/DistributionSocketLink.cc:534
-#: ../backend/src/DistributionSocketLink.cc:561
+#: ../backend/src/DistributionSocketLink.cc:532
+#: ../backend/src/DistributionSocketLink.cc:559
 #, c-format
 msgid "Connecting to %s:%d."
 msgstr "Verbinde mit %s:%d."
@@ -75,7 +75,7 @@ msgid "I'm now master."
 msgstr "Ich bin jetzt Master."
 
 # src/core/DistributionSocketLink.cc:1205
-#: ../backend/src/DistributionSocketLink.cc:1236
+#: ../backend/src/DistributionSocketLink.cc:1238
 #, c-format
 msgid "Client %s:%d saying hello."
 msgstr "Client %s:%d sagt 'Hallo'."
@@ -84,107 +84,107 @@ msgstr "Client %s:%d sagt 'Hallo'."
 # src/core/DistributionSocketLink.cc:1337
 # src/core/DistributionSocketLink.cc:1573
 #. Duplicate client. inform client that it's bogus and close.
-#: ../backend/src/DistributionSocketLink.cc:1251
-#: ../backend/src/DistributionSocketLink.cc:1370
-#: ../backend/src/DistributionSocketLink.cc:1607
+#: ../backend/src/DistributionSocketLink.cc:1253
+#: ../backend/src/DistributionSocketLink.cc:1381
+#: ../backend/src/DistributionSocketLink.cc:1621
 #, c-format
 msgid "Client %s:%d is duplicate."
 msgstr "Client %s:%d ist doppelt eingetragen."
 
 # src/core/DistributionSocketLink.cc:1229
 #. Incorrect password.
-#: ../backend/src/DistributionSocketLink.cc:1260
+#: ../backend/src/DistributionSocketLink.cc:1262
 #, c-format
 msgid "Client %s:%d access denied."
 msgstr "Zugriff für Client %s:%d verweigert."
 
 # src/core/DistributionSocketLink.cc:1296
-#: ../backend/src/DistributionSocketLink.cc:1327
+#: ../backend/src/DistributionSocketLink.cc:1331
 #, c-format
 msgid "Client %s:%d signed off."
 msgstr "Client %s:%d hat sich abgemeldet."
 
 # src/core/DistributionSocketLink.cc:1375
-#: ../backend/src/DistributionSocketLink.cc:1409
+#: ../backend/src/DistributionSocketLink.cc:1420
 #, c-format
 msgid "Client %s:%d is welcoming us."
 msgstr "Client %s:%d heißt Sie willkommen."
 
 # src/core/DistributionSocketLink.cc:1608
-#: ../backend/src/DistributionSocketLink.cc:1644
+#: ../backend/src/DistributionSocketLink.cc:1658
 #, c-format
 msgid "Requesting master status from %s:%d."
 msgstr "Erbitte Master-Status von %s:%d."
 
 # src/core/DistributionSocketLink.cc:1621
-#: ../backend/src/DistributionSocketLink.cc:1657
+#: ../backend/src/DistributionSocketLink.cc:1671
 #, c-format
 msgid "Client timeout from %s:%d."
 msgstr "Zeitüberschreitung von Client %s:%d."
 
 # src/core/DistributionSocketLink.cc:1642
-#: ../backend/src/DistributionSocketLink.cc:1678
+#: ../backend/src/DistributionSocketLink.cc:1692
 #, c-format
 msgid "Rejecting master request from client %s:%d."
 msgstr "Weise Anfrage nach Master-Status durch Client %s:%d zurück."
 
 # src/core/DistributionSocketLink.cc:1648
-#: ../backend/src/DistributionSocketLink.cc:1684
+#: ../backend/src/DistributionSocketLink.cc:1698
 #, c-format
 msgid "Acknowledging master request from client %s:%d."
 msgstr "Bestätige Master-Anfrage von Client %s:%d."
 
 # src/core/DistributionSocketLink.cc:1699
-#: ../backend/src/DistributionSocketLink.cc:1735
+#: ../backend/src/DistributionSocketLink.cc:1749
 #, c-format
 msgid "Non-master client %s:%d rejected master request."
 msgstr "Client %s:%d ohne Master-Status hat Master-Anfrage zurückgewiesen."
 
 # src/core/DistributionSocketLink.cc:1704
-#: ../backend/src/DistributionSocketLink.cc:1740
+#: ../backend/src/DistributionSocketLink.cc:1754
 #, c-format
 msgid "Client %s:%d rejected master request, delaying."
 msgstr "Client %s:%d hat Master-Anfrage zurückgewiesen. Warte ab."
 
 # src/core/DistributionSocketLink.cc:1775
 #. gint count =
-#: ../backend/src/DistributionSocketLink.cc:1811
+#: ../backend/src/DistributionSocketLink.cc:1825
 #, c-format
 msgid "Client %s is now the new master."
 msgstr "Client %s ist jetzt der neue Master."
 
 # src/core/DistributionSocketLink.cc:1894
-#: ../backend/src/DistributionSocketLink.cc:1932
+#: ../backend/src/DistributionSocketLink.cc:1946
 msgid "Network operation started."
 msgstr "Netzwerkbetrieb gestartet."
 
 # src/core/DistributionSocketLink.cc:1911
-#: ../backend/src/DistributionSocketLink.cc:1949
+#: ../backend/src/DistributionSocketLink.cc:1963
 msgid "Accepted new client."
 msgstr "Akzeptiere neuen Client."
 
 # src/core/DistributionSocketLink.cc:1966
-#: ../backend/src/DistributionSocketLink.cc:2004
+#: ../backend/src/DistributionSocketLink.cc:2029
 #, c-format
 msgid "Client %s:%d read error, closing."
 msgstr "Lesefehler bei Client %s:%d. Schließe Verbindung."
 
 # src/core/DistributionSocketLink.cc:1971
 # src/core/DistributionSocketLink.cc:2042
-#: ../backend/src/DistributionSocketLink.cc:2010
-#: ../backend/src/DistributionSocketLink.cc:2084
+#: ../backend/src/DistributionSocketLink.cc:2035
+#: ../backend/src/DistributionSocketLink.cc:2109
 #, c-format
 msgid "Client %s:%d closed connection."
 msgstr "Client %s:%d hat Verbindung geschlossen."
 
 # src/core/DistributionSocketLink.cc:2011
-#: ../backend/src/DistributionSocketLink.cc:2051
+#: ../backend/src/DistributionSocketLink.cc:2076
 #, c-format
 msgid "Client %s:%d connected."
 msgstr "Client %s:%d verbunden."
 
 # src/core/DistributionSocketLink.cc:2047
-#: ../backend/src/DistributionSocketLink.cc:2091
+#: ../backend/src/DistributionSocketLink.cc:2116
 #, c-format
 msgid "Could not connect to client %s:%d."
 msgstr "Konnte nicht mit Client %s:%d verbinden."
@@ -417,7 +417,7 @@ msgid "Q_uiet"
 msgstr "St_ill"
 
 # src/app/gtkmm/Menus.cc:605
-#: ../frontend/gtkmm/src/Menus.cc:792
+#: ../frontend/gtkmm/src/Menus.cc:762
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
