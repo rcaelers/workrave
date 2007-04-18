@@ -22,6 +22,7 @@ static const char rcsid[] = "$Id$";
 #endif
 
 #include "debug.hh"
+#include <cstdlib>
 #include <sstream>
 
 #include "Configurator.hh"
