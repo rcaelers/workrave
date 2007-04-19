@@ -671,15 +671,17 @@ GUI::init_gtk_multihead()
                         heads[count].count = count;
 
                         heads[count].geometry = rect;
+                        
+                        
+                        TRACE_MSG("Screen #" << i << " Monitor #" << j << "  "
+                                  << heads[count].geometry.get_x() << " "
+                                  << heads[count].geometry.get_y() << " "
+                                  << heads[count].geometry.get_width() << " "
+                                  << heads[count].geometry.get_height() << " "
+                                  << " intersects " << overlap);
 
+                        count++;
                       }
-                    
-                    TRACE_MSG("Screen #" << i << " Monitor #" << j << "  "
-                              << heads[count].geometry.get_x() << " "
-                              << heads[count].geometry.get_y() << " "
-                              << heads[count].geometry.get_width() << " "
-                              << heads[count].geometry.get_height() << " "
-                              << " intersects " << overlap);
                       
                   }
               }
