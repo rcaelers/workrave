@@ -655,7 +655,7 @@ GUI::init_gtk_multihead()
                   {
                     Gdk::Rectangle rect;
                     screen->get_monitor_geometry(j, rect);
-
+                    
                     bool overlap = false;
                     for (int k = 0; !overlap && k < count; k++)
                       {
@@ -671,6 +671,7 @@ GUI::init_gtk_multihead()
                         heads[count].count = count;
 
                         heads[count].geometry = rect;
+
                       }
                     
                     TRACE_MSG("Screen #" << i << " Monitor #" << j << "  "
@@ -680,7 +681,6 @@ GUI::init_gtk_multihead()
                               << heads[count].geometry.get_height() << " "
                               << " intersects " << overlap);
                       
-                    count++;
                   }
               }
         }
