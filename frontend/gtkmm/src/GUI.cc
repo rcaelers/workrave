@@ -630,13 +630,27 @@ GUI::init_gtk_multihead()
 #ifdef HAVE_GTKMM24
           if (screen)
 #else
-          if (!screen.is_null())
+            if (!screen.is_null())
 #endif        
               {
                 new_num_heads += screen->get_n_monitors();
+                TRACE_MSG("num monitors on screen " << i << " = " << screen->get_n_monitors());
               }
         }
 
+      for (int i = 0; i < num_screens; i++)
+        {
+          Glib::RefPtr<Gdk::Screen> screen = display->get_screen(i);
+#ifdef HAVE_GTKMM24
+          if (screen)
+#else
+          if (!screen.is_null())
+#endif        
+              {
+                TRACE_MSG("num monitors on screen " << i << " = " << screen->get_n_monitors());
+              }
+        }
+      
       init_multihead_mem(new_num_heads);
   
       int count = 0;
@@ -660,7 +674,11 @@ GUI::init_gtk_multihead()
                     for (int k = 0; !overlap && k < count; k++)
                       {
                         Gdk::Rectangle irect = rect;
-                        irect.intersect(heads[k].geometry, overlap);
+
+                        if (heads[k].screen->get_number() == i)
+                          {
+                            irect.intersect(heads[k].geometry, overlap);
+                          }
                       }
 
                     if (!overlap)
@@ -671,18 +689,15 @@ GUI::init_gtk_multihead()
                         heads[count].count = count;
 
                         heads[count].geometry = rect;
-                        
-                        
-                        TRACE_MSG("Screen #" << i << " Monitor #" << j << "  "
-                                  << heads[count].geometry.get_x() << " "
-                                  << heads[count].geometry.get_y() << " "
-                                  << heads[count].geometry.get_width() << " "
-                                  << heads[count].geometry.get_height() << " "
-                                  << " intersects " << overlap);
-
                         count++;
                       }
-                      
+                    
+                    TRACE_MSG("Screen #" << i << " Monitor #" << j << "  "
+                              << rect.get_x() << " "
+                              << rect.get_y() << " "
+                              << rect.get_width() << " "
+                              << rect.get_height() << " "
+                              << " intersects " << overlap);
                   }
               }
         }
