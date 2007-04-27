@@ -1,7 +1,7 @@
 /*
  * crashlog.c
  *
- * Copyright (C) 2003, 2004, 2005 Rob Caelers <robc@krandor.org>
+ * Copyright (C) 2003, 2004, 2005, 2007 Rob Caelers <robc@krandor.org>
  * All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -16,7 +16,7 @@
  *
  * $Id$
  *
- * Based on Dr. Mingw.
+ * Based on Dr. Mingw. and OpenTTD
  */
 
 static const char rcsid[] = "$Id$";
@@ -35,6 +35,7 @@ static const char rcsid[] = "$Id$";
 static void unwind_stack(FILE *log, HANDLE process, PCONTEXT context);
 static void dump_registers(FILE *log, PCONTEXT context);
 static void dump_registry(FILE *log, HKEY key, char *name);
+static void print_module_list(FILE *log);
 
 static 
 DWORD GetModuleBase(DWORD dwAddress)
@@ -285,6 +286,9 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
 
       dump_registers(log, context_record);
       unwind_stack(log, process, context_record);
+
+      print_module_list(log);
+
       fprintf(log, "\nRegistry dump:\n\n");
       dump_registry(log, HKEY_CURRENT_USER, "Software\\Workrave");
       
@@ -374,6 +378,70 @@ unwind_stack(FILE *log, HANDLE process, PCONTEXT context)
               (int) sf.AddrFrame.Offset,
               (int) sf.AddrReturn.Offset);
     }
+}
+
+
+static void
+print_module_info(FILE *log, HMODULE mod)
+{
+  TCHAR buffer[MAX_PATH];
+  DebugFileInfo dfi;
+
+  GetModuleFileName(mod, buffer, MAX_PATH);
+  GetFileInfo(&dfi, buffer);
+  fprintf(log, " %-20s handle: %p size: %d crc: %.8X date: %d-%.2d-%.2d %.2d:%.2d:%.2d\r\n",
+          WIDE_TO_MB(buffer),
+          mod,
+          dfi.size,
+          dfi.crc32,
+          dfi.file_time.wYear,
+          dfi.file_time.wMonth,
+          dfi.file_time.wDay,
+          dfi.file_time.wHour,
+          dfi.file_time.wMinute,
+          dfi.file_time.wSecond
+          );
+}
+
+static void
+print_module_list(FILE *log)
+{
+  HMODULE lib;
+  BOOL (WINAPI *EnumProcessModules)(HANDLE, HMODULE*, DWORD, LPDWORD);
+
+  EnumProcessModules = NULL;
+  lib = LoadLibrary("psapi.dll");
+  if (lib != NULL)
+    {
+      EnumProcessModules = GetProcAddress(lib, "EnumProcessModules");
+    }
+  
+  if (EnumProcessModules != NULL)
+    {
+      HMODULE modules[100];
+      DWORD needed;
+      BOOL res;
+      int count, i;
+    
+      HANDLE proc = OpenProcess(PROCESS_ALL_ACCESS, FALSE, GetCurrentProcessId());
+      if (proc != NULL)
+        {
+          res = EnumProcessModules(proc, modules, sizeof(modules), &needed);
+          CloseHandle(proc);
+          if (res)
+            {
+              count = min(needed / sizeof(HMODULE), lengthof(modules));
+
+              for (i = 0; i != count; i++)
+                {
+                  print_module_info(log, modules[i]);
+                }
+              return;
+            }
+        }
+    }
+
+  print_module_info(log, NULL);
 }
 
 static void
