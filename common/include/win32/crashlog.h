@@ -14,6 +14,9 @@ extern "C"
 #include <stdio.h>
 #include <imagehlp.h>
 
+void
+print_module_list(FILE *log);
+  
 EXCEPTION_DISPOSITION __cdecl 
 exception_handler(struct _EXCEPTION_RECORD *exception_record, 
                   void *establisher_frame, 

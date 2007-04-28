@@ -191,6 +191,9 @@ GUI::main()
 #ifdef WIN32
   // Enable Windows structural exception handling.
   __try1(exception_handler);
+
+  print_module_list(stderr);
+  
 #endif
 
   Gtk::Main kit(argc, argv);

@@ -35,7 +35,7 @@ static const char rcsid[] = "$Id$";
 static void unwind_stack(FILE *log, HANDLE process, PCONTEXT context);
 static void dump_registers(FILE *log, PCONTEXT context);
 static void dump_registry(FILE *log, HKEY key, char *name);
-static void print_module_list(FILE *log);
+/* static void print_module_list(FILE *log); */
 
 static 
 DWORD GetModuleBase(DWORD dwAddress)
@@ -380,30 +380,39 @@ unwind_stack(FILE *log, HANDLE process, PCONTEXT context)
     }
 }
 
-
 static void
 print_module_info(FILE *log, HMODULE mod)
 {
   TCHAR buffer[MAX_PATH];
-  DebugFileInfo dfi;
-
+  HANDLE file;
+  SYSTEMTIME file_time;
+  FILETIME write_time;
+  
   GetModuleFileName(mod, buffer, MAX_PATH);
-  GetFileInfo(&dfi, buffer);
-  fprintf(log, " %-20s handle: %p size: %d crc: %.8X date: %d-%.2d-%.2d %.2d:%.2d:%.2d\r\n",
-          WIDE_TO_MB(buffer),
+
+  file = CreateFile(buffer, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, 0);
+  if (file != INVALID_HANDLE_VALUE)
+    {
+      if (GetFileTime(file, NULL, NULL, &write_time))
+        {
+          FileTimeToSystemTime(&write_time, &file_time);
+        }
+      CloseHandle(file);
+    }
+
+  fprintf(log, " %-20s handle: %p date: %d-%.2d-%.2d %.2d:%.2d:%.2d\n",
+          buffer,
           mod,
-          dfi.size,
-          dfi.crc32,
-          dfi.file_time.wYear,
-          dfi.file_time.wMonth,
-          dfi.file_time.wDay,
-          dfi.file_time.wHour,
-          dfi.file_time.wMinute,
-          dfi.file_time.wSecond
+          file_time.wYear,
+          file_time.wMonth,
+          file_time.wDay,
+          file_time.wHour,
+          file_time.wMinute,
+          file_time.wSecond
           );
 }
 
-static void
+void
 print_module_list(FILE *log)
 {
   HMODULE lib;
@@ -430,7 +439,7 @@ print_module_list(FILE *log)
           CloseHandle(proc);
           if (res)
             {
-              count = min(needed / sizeof(HMODULE), lengthof(modules));
+              count = min(needed / sizeof(HMODULE), 100);
 
               for (i = 0; i != count; i++)
                 {
