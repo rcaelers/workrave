@@ -52,7 +52,6 @@ public:
   GnomeAppletWindow(AppletControl *control);
   virtual ~GnomeAppletWindow();
 
-  void update();
   void fire_gnome_applet();
 
   void on_menu_restbreak_now();

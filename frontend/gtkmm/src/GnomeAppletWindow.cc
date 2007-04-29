@@ -254,20 +254,6 @@ GnomeAppletWindow::set_applet_control(GNOME_Workrave_AppletControl applet_contro
 }
 
 
-//! Updates the applet window.
-void
-GnomeAppletWindow::update()
-{
-  TRACE_ENTER("GnomeAppletWindow::update");
-  if (timer_box_control != NULL)
-    {
-      timer_box_control->update();
-    }
-  TRACE_EXIT();
-}
-
-
-
 //! Sets the state of a toggle menu item.
 void
 GnomeAppletWindow::set_menu_active(int menu, bool active)

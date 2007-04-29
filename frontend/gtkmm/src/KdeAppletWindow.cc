@@ -204,7 +204,7 @@ KdeAppletWindow::fire_kde_applet()
 
 //! Updates the applet window.
 void
-KdeAppletWindow::update()
+KdeAppletWindow::update_applet()
 {
   TRACE_ENTER("KdeAppletWindow::update");
   if (applet_active)

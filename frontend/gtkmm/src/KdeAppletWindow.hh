@@ -45,7 +45,7 @@ public:
   KdeAppletWindow(AppletControl *control);
   virtual ~KdeAppletWindow();
 
-  void update();
+  void update_applet();
   void fire_kde_applet();
 
   void on_menu_restbreak_now();
