@@ -1,6 +1,6 @@
 // Exercise.cc --- Exercises
 //
-// Copyright (C) 2002, 2003, 2004, 2005, 2006 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -166,19 +166,6 @@ exercise_parse_update_i18n_attribute(const GList *languages,
       while (langs)
         {
           const gchar *lang = (const gchar *) langs->data;
-
-#if 1         
-          // FIXME: this is a hack because MinGW's winnt has
-          // wrong sublanguage codes...
-          if (! strcmp(lang, "pt_PT"))
-            {
-              lang = "pt_BR";
-            }
-          else if (! strcmp(lang, "pt_BR"))
-            {
-              lang = "pt_PT";
-            }
-#endif
           
           if (! strncmp(lang, nl, nl_len))
             {

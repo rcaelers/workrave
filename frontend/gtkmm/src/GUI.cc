@@ -476,20 +476,28 @@ void
 GUI::init_nls()
 {
 #ifdef ENABLE_NLS
+
 #  ifndef HAVE_GNOME 
   gtk_set_locale();
 #  endif
+
   const char *locale_dir;
-#ifdef WIN32
+
+#  ifdef WIN32
   string dir = Util::get_application_directory() + "\\lib\\locale";
   locale_dir = dir.c_str();
-#else
+#  else
   locale_dir = GNOMELOCALEDIR;
-#endif
+#  endif
+  
+#  ifdef HAVE_SETLOCALE
+  setlocale(LC_ALL, "");
+#  endif
+  
   bindtextdomain(PACKAGE, locale_dir);
   bind_textdomain_codeset(PACKAGE, "UTF-8");
   textdomain(PACKAGE);
-#endif
+#endif 
 }
 
 

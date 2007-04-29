@@ -289,7 +289,7 @@ AC_CHECK_MEMBER(MOUSEHOOKSTRUCT.hwnd,AC_DEFINE(HAVE_STRUCT_MOUSEHOOKSTRUCT,,[str
 
 # Checks for library functions.
 AC_TYPE_SIGNAL
-AC_CHECK_FUNCS([gettimeofday nanosleep select])
+AC_CHECK_FUNCS([gettimeofday nanosleep select setlocale])
 
 PKG_CHECK_MODULES(GLIB, glib-2.0)
 
