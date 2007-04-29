@@ -446,16 +446,6 @@ TimerBoxGtkView::set_time_bar(BreakId id,
 {
   TRACE_ENTER_MSG("TimerBoxGtkView::set_time_bar", id);
 
-  char str[100];
-  static int xx = 0;
-
-  if (id == 0)
-    {
-      xx++;
-      sprintf(str, "%d", xx);
-      text = string(str);
-    }
-  
   TRACE_MSG(text);
   TRACE_MSG(primary_val << " " << primary_max << " " << int(primary_color));
   TRACE_MSG(secondary_val << " " << secondary_max <<" " << int(secondary_color));
