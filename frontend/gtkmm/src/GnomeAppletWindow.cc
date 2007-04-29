@@ -177,6 +177,11 @@ GnomeAppletWindow::activate_applet()
   
       CORBA_exception_free(&ev);
     }
+
+  if (ok)
+    {
+      applet_active = true;
+    }
   
   TRACE_EXIT();
   return ok ?
@@ -243,6 +248,7 @@ GnomeAppletWindow::fire_gnome_applet()
 void
 GnomeAppletWindow::set_applet_control(GNOME_Workrave_AppletControl applet_control)
 {
+  TRACE_ENTER("GnomeAppletWindow::set_applet_control");
   if (this->applet_control != NULL)
     {
       // FIXME: free old interface
@@ -251,6 +257,7 @@ GnomeAppletWindow::set_applet_control(GNOME_Workrave_AppletControl applet_contro
   this->applet_control = applet_control;
 
   control->show(AppletControl::APPLET_GNOME);
+  TRACE_EXIT();
 }
 
 

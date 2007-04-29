@@ -88,7 +88,7 @@ Util::get_home_directory()
           ret = home;
           ret += "/.workrave/";
           
-          mkdir(ret.c_str(), 0777);
+          mkdir(ret.c_str(), 0700);
         }
 #elif defined(WIN32)
       void *pidl; 

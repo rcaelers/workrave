@@ -325,7 +325,7 @@ workrave_applet_fire_workrave()
       if (BONOBO_EX(&ev))
         {
           char *err = (char *) bonobo_exception_get_text(&ev);
-          g_warning (_("An exception occured '%s'"), err);
+          g_warning (_("An exception occurred '%s'"), err);
           g_free(err);
         }
       else
@@ -397,7 +397,7 @@ verb_open(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
       if (BONOBO_EX(&ev))
         {
           char *err = (char *) bonobo_exception_get_text(&ev);
-          g_warning (_("An exception occured '%s'"), err);
+          g_warning (_("An exception occurred '%s'"), err);
           g_free(err);
         }
 
@@ -421,7 +421,7 @@ verb_preferences(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
       if (BONOBO_EX(&ev))
         {
           char *err = (char *) bonobo_exception_get_text(&ev);
-          g_warning (_("An exception occured '%s'"), err);
+          g_warning (_("An exception occurred '%s'"), err);
           g_free(err);
         }
       CORBA_exception_free(&ev);
@@ -445,7 +445,7 @@ verb_exercises(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
       if (BONOBO_EX(&ev))
         {
           char *err = (char *) bonobo_exception_get_text(&ev);
-          g_warning (_("An exception occured '%s'"), err);
+          g_warning (_("An exception occurred '%s'"), err);
           g_free(err);
         }
       CORBA_exception_free(&ev);
@@ -468,7 +468,7 @@ verb_statistics(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
       if (BONOBO_EX(&ev))
         {
           char *err = (char *) bonobo_exception_get_text(&ev);
-          g_warning (_("An exception occured '%s'"), err);
+          g_warning (_("An exception occurred '%s'"), err);
           g_free(err);
         }
       CORBA_exception_free(&ev);
@@ -491,7 +491,7 @@ verb_restbreak(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
       if (BONOBO_EX(&ev))
         {
           char *err = (char *) bonobo_exception_get_text(&ev);
-          g_warning (_("An exception occured '%s'"), err);
+          g_warning (_("An exception occurred '%s'"), err);
           g_free(err);
         }
       CORBA_exception_free(&ev);
@@ -515,7 +515,7 @@ verb_connect(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
       if (BONOBO_EX(&ev))
         {
           char *err = (char *) bonobo_exception_get_text(&ev);
-          g_warning (_("An exception occured '%s'"), err);
+          g_warning (_("An exception occurred '%s'"), err);
           g_free(err);
         }
       CORBA_exception_free(&ev);
@@ -538,7 +538,7 @@ verb_disconnect(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
       if (BONOBO_EX(&ev))
         {
           char *err = (char *) bonobo_exception_get_text(&ev);
-          g_warning (_("An exception occured '%s'"), err);
+          g_warning (_("An exception occurred '%s'"), err);
           g_free(err);
         }
       CORBA_exception_free(&ev);
@@ -560,7 +560,7 @@ verb_reconnect(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
       if (BONOBO_EX(&ev))
         {
           char *err = (char *) bonobo_exception_get_text(&ev);
-          g_warning (_("An exception occured '%s'"), err);
+          g_warning (_("An exception occurred '%s'"), err);
           g_free(err);
         }
       CORBA_exception_free(&ev);
@@ -584,7 +584,7 @@ verb_quit(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
       if (BONOBO_EX(&ev))
         {
           char *err = (char *) bonobo_exception_get_text(&ev);
-          g_warning (_("An exception occured '%s'"), err);
+          g_warning (_("An exception occurred '%s'"), err);
           g_free(err);
         }
       CORBA_exception_free(&ev);
@@ -627,7 +627,7 @@ change_pixel_size(PanelApplet *applet, gint size, gpointer data)
       if (BONOBO_EX(&ev))
         {
           char *err = (char *) bonobo_exception_get_text(&ev);
-          g_warning (_("An exception occured '%s'"), err);
+          g_warning (_("An exception occurred '%s'"), err);
           g_free(err);
         }
       
@@ -667,7 +667,7 @@ change_orient(PanelApplet *applet, PanelAppletOrient o, gpointer data)
       if (BONOBO_EX(&ev))
         {
           char *err = (char *) bonobo_exception_get_text(&ev);
-          g_warning (_("An exception occured '%s'"), err);
+          g_warning (_("An exception occurred '%s'"), err);
           g_free(err);
         }
       
@@ -725,7 +725,7 @@ change_background (PanelApplet * widget,
       if (BONOBO_EX(&ev))
         {
           char *err = (char *) bonobo_exception_get_text(&ev);
-          g_warning (_("An exception occured '%s'"), err);
+          g_warning (_("An exception occurred '%s'"), err);
           g_free(err);
         }
       
@@ -772,7 +772,7 @@ button_pressed(GtkWidget *widget, GdkEventButton *event, gpointer data)
           if (BONOBO_EX(&ev))
             {
               char *err = (char *) bonobo_exception_get_text(&ev);
-              g_warning (_("An exception occured '%s'"), err);
+              g_warning (_("An exception occurred '%s'"), err);
               g_free(err);
             }
           
@@ -814,7 +814,7 @@ showlog_callback(BonoboUIComponent *ui, const char *path, Bonobo_UIComponent_Eve
           if (BONOBO_EX(&ev))
             {
               char *err = (char *) bonobo_exception_get_text(&ev);
-              g_warning (_("An exception occured '%s'"), err);
+              g_warning (_("An exception occurred '%s'"), err);
               g_free(err);
             }
           
@@ -870,7 +870,7 @@ mode_callback(BonoboUIComponent *ui, const char *path, Bonobo_UIComponent_EventT
           if (BONOBO_EX(&ev))
             {
               char *err = (char *) bonobo_exception_get_text(&ev);
-              g_warning (_("An exception occured '%s'"), err);
+              g_warning (_("An exception occurred '%s'"), err);
               g_free(err);
             }
           
@@ -986,7 +986,7 @@ void size_allocate(GtkWidget     *widget,
           if (BONOBO_EX(&ev))
             {
               char *err = (char *) bonobo_exception_get_text(&ev);
-              g_warning (_("An exception occured '%s'"), err);
+              g_warning (_("An exception occurred '%s'"), err);
               g_free(err);
             }
       
