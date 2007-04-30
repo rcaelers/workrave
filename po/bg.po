@@ -3,6 +3,9 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+# <idimov@users.sourceforge.net>
+# Renato Botelho <renato@galle.com.br>
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
