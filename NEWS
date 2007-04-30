@@ -1,4 +1,4 @@
-Workrave NEWS -- history of user-visible changes.  4 March 2007
+Workrave NEWS -- history of user-visible changes.  4 May 2007
 Copyright (C) 2001-2007 Rob Caelers & Raymond Penners
 See the end for copying conditions.
 
@@ -7,8 +7,21 @@ http://www.workrave.org
 
 * Workrave 1.8.5
 
-** Mode menu fixed
+** Many bug fixes:
 
+*** Mode menu fixed.
+
+*** Gnome applet no longer 'hangs'.
+
+*** Gnome applet no longer crashes Workrave.
+
+*** Fixed crashes during startup on Windows.
+
+*** Fixed 'end-of-microbreak' sound.
+
+*** Fixed bug in multi-head support where Workrave showed
+    multiple windows on a single screen.
+    
 ** Vanja Cvelbar translated Workrave into Slovenian.
 
 * Workrave 1.8.4
@@ -112,7 +125,7 @@ http://www.workrave.org
 
 ** Jon Otegi translated Workrave into Basque.
 
-** Artūras Šlajus translated Workrave into Added Lithuanian.
+** Artūras Šlajus translated Workrave into Lithuanian.
 
 ** Morten Lunde translated Workrave into Norwegian.
 
