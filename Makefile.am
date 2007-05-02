@@ -59,7 +59,7 @@ COPYING.txt: COPYING
 	$(unix2dos) <$^ >$@
 
 changelog:
-	svn2cl --group-by-day -i --authors=./build/authors.xml
+	svn2cl --group-by-day --authors=./build/authors.xml
 
 win32:
 	( . build/vcvars32.sh; \
