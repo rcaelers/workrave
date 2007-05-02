@@ -194,6 +194,7 @@ GnomeAppletWindow::activate_applet()
 void
 GnomeAppletWindow::deactivate_applet()
 {
+  TRACE_ENTER("GnomeAppletWindow::deactivate_applet");
   if (applet_active)
     {
       // Cleanup Widgets.
@@ -216,11 +217,13 @@ GnomeAppletWindow::deactivate_applet()
       
       delete timer_box_view;
       timer_box_view = NULL;
-
+      view = NULL;
+      
       applet_control = NULL; // FIXME: free memory.
     }
         
   applet_active = false;
+  TRACE_EXIT();
 }
 
 
@@ -228,10 +231,12 @@ GnomeAppletWindow::deactivate_applet()
 bool
 GnomeAppletWindow::delete_event(GdkEventAny *event)
 {
+  TRACE_ENTER("GnomeAppletWindow::delete_event");
   (void) event;
   deactivate_applet();
   control->set_applet_state(AppletControl::APPLET_GNOME,
                             AppletWindow::APPLET_STATE_DISABLED);
+  TRACE_EXIT();
   return true;
 }
     

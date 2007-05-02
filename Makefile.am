@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
 #
 # $Id$
 #
@@ -35,7 +35,7 @@ WIN32_NMAKE=wineconsole ~/.wine/fake_windows/Program\ Files/Microsoft\ Visual\ C
 noinst_PROGRAMS =
 
 if PLATFORM_WIN32
-dist_pkgdata_DATA = README.txt NEWS.txt AUTHORS.txt COPYING.txt ChangeLog.txt
+dist_pkgdata_DATA = README.txt NEWS.txt AUTHORS.txt COPYING.txt
 endif
 
 ACLOCAL_AMFLAGS = -I m4
@@ -51,12 +51,15 @@ NEWS.txt: NEWS
 AUTHORS.txt: AUTHORS
 	$(unix2dos) <$^ >$@
 
+# Removed from build, because our ChangeLog is empty.
 ChangeLog.txt: ChangeLog
 	$(unix2dos) <$^ >$@
 
 COPYING.txt: COPYING
 	$(unix2dos) <$^ >$@
 
+changelog:
+	svn2cl --group-by-day -i --authors=./build/authors.xml
 
 win32:
 	( . build/vcvars32.sh; \

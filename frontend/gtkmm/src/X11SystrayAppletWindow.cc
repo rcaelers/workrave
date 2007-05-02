@@ -205,6 +205,7 @@ X11SystrayAppletWindow::deactivate_applet()
       
       delete timer_box_view;
       timer_box_view = NULL;
+      view = NULL;
 
       control->set_applet_state(AppletControl::APPLET_TRAY,
                                 AppletWindow::APPLET_STATE_DISABLED);

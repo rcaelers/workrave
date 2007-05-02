@@ -177,6 +177,7 @@ KdeAppletWindow::deactivate_applet()
       
       delete timer_box_view;
       timer_box_view = NULL;
+      view = NULL;
     }
   applet_active = false;
 }
