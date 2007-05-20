@@ -14,7 +14,7 @@ MAINTAINERCLEANFILES = 	\
 		build-stamp intltool-update.in intltool-update \
 		intltool-merge.in intltool-merge \
 		intltool-extract.in intltool-extract workrave.spec \
-		compile AUTHORS.txt COPYING.txt ChangeLog.txt \
+		compile AUTHORS.txt COPYING.txt \
 		NEWS.txt README.txt
 
 SUBDIRS = 	m4 intl po backend common frontend 
@@ -51,15 +51,8 @@ NEWS.txt: NEWS
 AUTHORS.txt: AUTHORS
 	$(unix2dos) <$^ >$@
 
-# Removed from build, because our ChangeLog is empty.
-ChangeLog.txt: ChangeLog
-	$(unix2dos) <$^ >$@
-
 COPYING.txt: COPYING
 	$(unix2dos) <$^ >$@
-
-changelog:
-	svn2cl --group-by-day --authors=./build/authors.xml
 
 win32:
 	( . build/vcvars32.sh; \

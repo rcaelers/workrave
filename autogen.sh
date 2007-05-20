@@ -174,8 +174,8 @@ if grep "^AM_CONFIG_HEADER" configure.ac >/dev/null; then
     }
 fi
 
-echo "Running automake --gnu $am_opt ..."
-automake --add-missing --gnu --copy $am_opt || {
+echo "Running automake --foreign $am_opt ..."
+automake --add-missing --foreign --copy $am_opt || {
     echo "**Error**: automake failed.";
     exit 1;
 }

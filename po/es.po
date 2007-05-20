@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
 "POT-Creation-Date: 2007-04-04 21:13+0200\n"
 "PO-Revision-Date: 2006-07-31 18:08+0200\n"
-"Last-Translator:  <>\n"
+"Last-Translator:  Diego Guerrero<>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -95,7 +95,7 @@ msgstr "El cliente %s:%d le da la bienvenida."
 #: ../backend/src/DistributionSocketLink.cc:1658
 #, c-format
 msgid "Requesting master status from %s:%d."
-msgstr "Solicitando el estatuo de amo a %s:%d."
+msgstr "Solicitando el estatus de amo a %s:%d."
 
 #: ../backend/src/DistributionSocketLink.cc:1671
 #, c-format
@@ -105,18 +105,18 @@ msgstr "Tiempo sobrepasado del cliente %s:%d."
 #: ../backend/src/DistributionSocketLink.cc:1692
 #, c-format
 msgid "Rejecting master request from client %s:%d."
-msgstr "Denegada la solicitud del cliente %s:%d de estatuto de amo."
+msgstr "Denegada la solicitud del cliente %s:%d para ser amo."
 
 #: ../backend/src/DistributionSocketLink.cc:1698
 #, c-format
 msgid "Acknowledging master request from client %s:%d."
-msgstr "Confirmado estatuto de amo del cliente %s:%d."
+msgstr "Confirmado estatus de amo del cliente %s:%d."
 
 #: ../backend/src/DistributionSocketLink.cc:1749
 #, c-format
 msgid "Non-master client %s:%d rejected master request."
 msgstr ""
-"El cliente %s:%d sin estatuto de amo ha rechazado la solicitud del amo."
+"El cliente %s:%d sin estatus de amo ha rechazado la solicitud del amo."
 
 #: ../backend/src/DistributionSocketLink.cc:1754
 #, c-format
@@ -248,7 +248,7 @@ msgid ""
 "behind the computer. If your working day is not over yet,\n"
 "find something else to do, such as reviewing a document."
 msgstr ""
-"Ha alcanzado su llímite diario. Por favor, no siga trabajando\n"
+"Ha alcanzado su límite diario. Por favor, no siga trabajando\n"
 "con el ordenador. En caso de que su horario de trabajo todavía\n"
 "no haya terminado, cambie de actividad, como por ejemplo,\n"
 "revisar documentos."
@@ -479,7 +479,7 @@ msgid ""
 "walk away from your computer on a regular basis. Just\n"
 "walk around for a few minutes, stretch, and relax."
 msgstr ""
-"Éste es su ttiempo de descanso. Debe levantarse, caminar\n"
+"Éste es su tiempo de descanso. Debe levantarse, caminar\n"
 "y alejarse un rato del lugar del ordenador. Sencillamente\n"
 "ande unos minutos, realice estiramientos y relájese."
 
@@ -588,7 +588,7 @@ msgstr "Tiempo hasta la interrupción:"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:211
 msgid "Time between breaks:"
-msgstr "Tiempo hasta la interrupción:"
+msgstr "Tiempo entre interrupciones:"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:220
 msgid "Break duration:"
@@ -739,7 +739,7 @@ msgid ""
 "start-up. Click the host name or port number to edit."
 msgstr ""
 "La siguiente lista especifica los servidores a los que Workrave se conecta\n"
-"al inicio del programa. Pinchando en nombre del servidor o el número de\n"
+"al inicio del programa. Pinchando en el nombre del servidor o número de\n"
 "puerto, puede cambiarlos."
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:188
@@ -765,7 +765,7 @@ msgid ""
 "exercise gives better relief to your eyes compared to simply closing them."
 msgstr ""
 "Cubra los ojos con las palmas de la manos de manera que pueda abrir los "
-"parpádos. Abra los ojos y mire la oscuridad de sus palmas. Este ejercicio "
+"párpados. Abra los ojos y mire la oscuridad de sus palmas. Este ejercicio "
 "alivia más sus ojos que sólo cerrarlos."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:3
@@ -835,7 +835,7 @@ msgstr "Movimiento de hombros arriba y abajo"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
 msgid "Neck tilt stretch"
-msgstr "Estirammiento inclinado de cuello"
+msgstr "Estiramiento inclinado de cuello"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
 msgid ""
@@ -871,7 +871,7 @@ msgid ""
 msgstr ""
 "Gire su brazo derecho lentamente como la hélice de un avión. Hágalo 4 veces "
 "en el sentido de las agujas del reloj, 4 en sentido contrario, y descanse "
-"unos segundos Repítalo con el brazo izquierdo."
+"unos segundos. Repítalo con el brazo izquierdo."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
 msgid ""
@@ -880,8 +880,8 @@ msgid ""
 "side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
 "the left side to stretch your other side. Do this twice for each side."
 msgstr ""
-"Comiece poniendo la cabeza cómodamente en posición erguida. Incline su "
-"cabeza letamente hacia el hombro derecho, estirando suavemente los músculos "
+"Comience poniendo la cabeza cómodamente en posición erguida. Incline su "
+"cabeza lentamente hacia el hombro derecho, estirando suavemente los músculos "
 "del lado izquierdo del cuello. Mantenga esa posición durante 5 segundos. "
 "Incline entonces la cabeza hacia el lado izquierdo para estirar el lado "
 "derecho. Haga esto dos veces en cada lado."
@@ -1037,7 +1037,7 @@ msgstr "Número total de pulsaciones de los botones del ratón"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:311
 msgid "Keystrokes:"
-msgstr "Pulsaciones de telclas:"
+msgstr "Pulsaciones de teclas:"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:312
 msgid "The total number of keys pressed"
