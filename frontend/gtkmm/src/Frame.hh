@@ -1,9 +1,9 @@
 // FrameWindow.hh --- Gtk::Frame like widget 
 //
-// Copyright (C) 2001, 2002, 2003, 2004 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2001, 2002, 2003, 2004, 2007 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
-// Time-stamp: <2004-04-03 13:15:05 robc>
+// Time-stamp: <2007-06-28 19:59:30 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -38,7 +38,7 @@ public:
   void set_frame_flashing(int delay);
   void set_frame_visible(bool visible);
   SigC::Signal1<void,bool> &signal_flash();
-
+  
 protected:
   bool on_timer();
 #ifdef HAVE_GTKMM24

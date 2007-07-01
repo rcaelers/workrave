@@ -440,7 +440,7 @@ msgstr "Nächste Ruhepause in %s"
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:244
 #, c-format
 msgid "Rest break %s overdue"
-msgstr "Ruhepause %s Minuten überfällig"
+msgstr "Ruhepause %s überfällig"
 
 # src/app/gtkmm/DailyLimitWindow.cc:47 src/app/gtkmm/GtkUtil.cc:88
 # src/app/shared/sounds/workrave.soundlist.in.h:3

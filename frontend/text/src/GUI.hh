@@ -22,8 +22,6 @@
 #include "preinclude.h"
 #include <glib.h>
 
-
-#include "Mutex.hh"
 #include "CoreEventListener.hh"
 #include "ActivityMonitorListener.hh"
 #include "AppInterface.hh"

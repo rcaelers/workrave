@@ -33,8 +33,6 @@
 #include "ICore.hh"
 #include "IBreak.hh"
 #include "ITimer.hh"
-#include "DayTimePred.hh"
-#include "TimePredFactory.hh"
 
 #include "TimeEntry.hh"
 #include "TimerPreferencesPanel.hh"

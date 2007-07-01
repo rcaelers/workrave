@@ -29,7 +29,6 @@
 #include <gdkmm/types.h>
 
 #include "HeadInfo.hh"
-#include "Mutex.hh"
 #include "CoreEventListener.hh"
 #include "ActivityMonitorListener.hh"
 #include "IApp.hh"

@@ -37,7 +37,6 @@ static const char rcsid[] = "$Id$";
 #include "IConfigurator.hh"
 
 #include "IBreakResponse.hh"
-#include "Dispatcher.hh"
 #include "DailyLimitWindow.hh"
 #include "MainWindow.hh"
 #include "IBreakWindow.hh"
