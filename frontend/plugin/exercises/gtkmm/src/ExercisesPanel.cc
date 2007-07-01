@@ -1,6 +1,6 @@
 // ExercisesPanel.cc --- Exercises panel
 //
-// Copyright (C) 2002, 2003, 2004, 2006 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2006, 2007 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -242,7 +242,7 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
       forward_button =  manage(GtkUtil::create_custom_stock_button
                                (NULL, Gtk::Stock::GO_FORWARD));
       
-      Gtk::Button *stop_button =  manage(GtkUtil::create_custom_stock_button
+      stop_button =  manage(GtkUtil::create_custom_stock_button
                                          (NULL, Gtk::Stock::CLOSE));
       stop_button->signal_clicked()
         .connect(MEMBER_SLOT(*this, &ExercisesPanel::on_stop));
@@ -284,6 +284,12 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
   pause_button->signal_clicked()
     .connect(MEMBER_SLOT(*this, &ExercisesPanel::on_pause));
 
+	tooltips = manage( new Gtk::Tooltips() );
+	tooltips->set_tip( *back_button, _("Previous exercise") );
+	tooltips->set_tip( *forward_button, _("Next exercise") );
+	tooltips->set_tip( *pause_button, _("Pause exercises") );
+	tooltips->set_tip( *stop_button, _("End exercises") );
+	tooltips->enable();
   
   pack_start(image_frame, false, false, 0);
   pack_start(progress_bar, false, false, 0);
@@ -447,6 +453,10 @@ ExercisesPanel::refresh_pause()
   GtkUtil::update_custom_stock_button(pause_button,
                                       standalone ? label : NULL,
                                       stock_id);
+  if (paused)
+    tooltips->set_tip( *pause_button, _("Resume exercises"));
+  else
+    tooltips->set_tip( *pause_button, _("Pause exercises"));
 }
 
 void

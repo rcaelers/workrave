@@ -513,11 +513,36 @@ MainWindow::win32_show(bool b)
   GdkWindow *gdk_window = window->window;
   HWND hwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
   ShowWindow(hwnd, b ? SW_SHOWNORMAL : SW_HIDE);
-  if (b)
+
+  if( b )
+    // jay satiro, workrave project, june 2007
+    // redistribute under GNU terms.
     {
-      WindowHints::attach_thread_input(TRUE);
-      present();
-      WindowHints::attach_thread_input(FALSE);
+      SetWindowPos( hwnd, 0, 0, 0, 0, 0, 
+                    SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_SHOWWINDOW );
+      {
+        HWND hFore = GetForegroundWindow();
+        DWORD dThisThread, dForeThread, dForePID;
+	
+        dThisThread = GetCurrentThreadId();
+        dForeThread = GetWindowThreadProcessId( hFore, &dForePID );
+		
+        AttachThreadInput( dThisThread, dForeThread, TRUE );
+        /**/
+        present();
+        /**/
+        hFore = GetForegroundWindow();
+        if( hwnd != hFore )
+          {
+            BringWindowToTop( hwnd );
+            SetForegroundWindow( hwnd );
+          }
+        AttachThreadInput( dThisThread, dForeThread, FALSE );
+      }
+    }
+  else
+    {
+      ShowWindow( hwnd, SW_HIDE );
     }
 }
 

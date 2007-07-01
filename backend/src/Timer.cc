@@ -670,7 +670,13 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
   TRACE_MSG("enabled = " << timer_enabled);
   TRACE_MSG("last_start_time " << last_start_time);
   
-  if (activity_sensitive)
+	if( insensitive_mode == MODE_IDLE_ALWAYS )
+	// Forces ACTIVITY_IDLE every time, regardless of sensitivity
+	{
+		TRACE_MSG("MODE_IDLE_ALWAYS: Forcing ACTIVITY_IDLE");
+		new_activity_state = activity_state = ACTIVITY_IDLE;
+	}
+	else if (activity_sensitive)
     {
       TRACE_MSG("is activity sensitive");
       

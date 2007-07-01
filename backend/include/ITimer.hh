@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003, 2005, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2006-11-13 00:27:22 robc>
+// Time-stamp: <2007-07-01 23:42:44 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -48,6 +48,7 @@ public:
     {
       MODE_FOLLOW_IDLE,
       MODE_IDLE_ON_LIMIT_REACHED,
+      MODE_IDLE_ALWAYS
     };
   
 public:

@@ -7,7 +7,21 @@ http://www.workrave.org
 
 * Workrave 1.8.5
 
-** Many bug fixes:
+** Lots of changes by Ray Satiro.
+
+** Fixed breaks that have 'suspend timer when inactive' disabled (Ray Satiro)
+
+** Additional tooltips (Ray Satiro)
+
+** New activity moniting (Ray Satiro)
+   -> to be patched
+
+** Workaround for focus loss on Vista
+   -> to be patched
+   
+** Vanja Cvelbar translated Workrave into Slovenian.
+
+** Many bug fixes, the most visible ones:
 
 *** Mode menu fixed.
 
@@ -21,8 +35,6 @@ http://www.workrave.org
 
 *** Fixed bug in multi-head support where Workrave showed
     multiple windows on a single screen.
-    
-** Vanja Cvelbar translated Workrave into Slovenian.
 
 * Workrave 1.8.4
 

@@ -179,6 +179,10 @@ TimerBoxGtkView::init_widgets()
           b->set_relief(Gtk::RELIEF_NONE);
           b->set_border_width(0);
           b->add(*manage(img));
+		  
+          tooltips = manage( new Gtk::Tooltips() );
+          tooltips->set_tip( *b, _("Take rest break now") );
+          tooltips->enable();
           
           Menus *menus = Menus::get_instance();
           b->signal_clicked().connect(MEMBER_SLOT(*menus, &Menus::on_menu_restbreak_now));

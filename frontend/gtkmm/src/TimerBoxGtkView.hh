@@ -23,6 +23,7 @@
 
 #include <string>
 #include <gtkmm/table.h>
+#include <gtkmm/tooltips.h>
 
 #include "ITimerBoxView.hh"
 #include "TimeBar.hh"
@@ -67,6 +68,9 @@ private:
 
   //! Parent container
   Gtk::Bin *parent;
+  
+  //! Tooltips
+  Gtk::Tooltips *tooltips;
   
   //! Array of time labels
   Gtk::Widget **labels;

@@ -1,6 +1,6 @@
 // WindowHints.cc 
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -266,6 +266,8 @@ WindowHints::set_tool_window(GtkWidget *window, bool istool)
 }
 
 
+// Rewritten by Ray Satiro
+#if 0
 #if defined(WIN32)
 void
 WindowHints::attach_thread_input(bool enabled)
@@ -275,4 +277,5 @@ WindowHints::attach_thread_input(bool enabled)
      GetCurrentThreadId(),enabled);
   
 }
+#endif
 #endif

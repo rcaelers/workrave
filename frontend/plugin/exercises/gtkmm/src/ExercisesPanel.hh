@@ -37,6 +37,7 @@
 #include <gtkmm/sizegroup.h>
 #include <gtkmm/textview.h>
 #include <gtkmm/scrolledwindow.h>
+#include <gtkmm/tooltips.h>
 
 class ExercisesPanel : public Gtk::HBox
 {
@@ -81,6 +82,8 @@ private:
   Gtk::Button *back_button;
   Gtk::Button *pause_button;
   Gtk::Button *forward_button;
+  Gtk::Button *stop_button;
+  Gtk::Tooltips *tooltips;
   Glib::RefPtr<Gtk::SizeGroup> size_group;
   const std::list<Exercise> exercises;
   std::list<Exercise>::const_iterator exercise_iterator;

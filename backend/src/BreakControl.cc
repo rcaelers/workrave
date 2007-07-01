@@ -288,7 +288,9 @@ BreakControl::goto_stage(BreakStage stage)
         
     case STAGE_TAKING:
       {
-        break_timer->set_insensitive_mode(ITimer::MODE_IDLE_ON_LIMIT_REACHED);
+        // Break timer should always idle.
+        // Previous revisions set ITimer::MODE_IDLE_ON_LIMIT_REACHED
+        break_timer->set_insensitive_mode( ITimer::MODE_IDLE_ALWAYS );
 
         // Remove the prelude window, if necessary.
         application->hide_break_window();
