@@ -1,6 +1,6 @@
 // W32SoundPlayer.cc --- Sound player
 //
-// Copyright (C) 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
+// Copyright (C) 2002 - 2007 Raymond Penners & Ray Satiro
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -26,7 +26,7 @@ static const char rcsid[] = "$Id$";
 #include "Util.hh"
 #include "debug.hh"
 
-volatile HANDLE W32SoundPlayer::thread_handle = NULL;
+//volatile HANDLE W32SoundPlayer::thread_handle = NULL;
 
 static struct SoundRegistry 
 {
@@ -54,6 +54,9 @@ static struct SoundRegistry
   { "WorkraveExercisesEnded", "exercises-ended.wav",
     "Exercises ended" },
 };
+
+static SoundRegistry *sound = NULL;
+
 
 static bool
 registry_get_value(const char *path, const char *name,
@@ -105,12 +108,12 @@ registry_set_value(const char *path, const char *name,
 W32SoundPlayer::W32SoundPlayer()
 {
   register_sound_events();
+  sound = NULL;
 }
 
 W32SoundPlayer::~W32SoundPlayer()
 {
 }
-
 
 void
 W32SoundPlayer::register_sound_events()
@@ -143,32 +146,48 @@ W32SoundPlayer::register_sound_events()
 
 
 
-void
-W32SoundPlayer::play_sound(Sound snd)
+/*
+thread routine changed
+jay satiro, workrave project, june 2007
+redistribute under GNU terms.
+*/
+
+void W32SoundPlayer::play_sound( Sound snd )
 {
-  TRACE_ENTER("W32SoundPlayer::play_sound");
-  SoundRegistry *s = &sound_registry[snd];
-  if (! thread_handle)
+  TRACE_ENTER_MSG( "W32SoundPlayer::play_sound", sound_registry[snd] );
+
+  if ( sound == &sound_registry[snd] )
     {
-      SECURITY_ATTRIBUTES sa;
-      sa.nLength = sizeof(sa);
-      sa.bInheritHandle = TRUE;
-      sa.lpSecurityDescriptor = NULL;
+      TRACE_MSG( "Sound already queued: sound == &sound_registry[snd]" );
+    }
+  else if( sound == NULL )
+    {
       DWORD id;
-      thread_handle = CreateThread(&sa, 0, thread_proc, s, 0, &id);
+      sound = &sound_registry[snd];
+      CloseHandle( CreateThread( NULL, 0, thread_Play, this, 0, &id ) );
+    }
+  else
+    {
+      TRACE_MSG( "Failed: sound != NULL && sound != &sound_registry[snd]" );
     }
   TRACE_EXIT();
 }
 
-
-DWORD WINAPI 
-W32SoundPlayer::thread_proc(LPVOID lpParameter)
+DWORD WINAPI W32SoundPlayer::thread_Play( LPVOID lpParam )
 {
-  SoundRegistry *snd = (SoundRegistry*) lpParameter;
+  W32SoundPlayer *pThis = (W32SoundPlayer *) lpParam;
+  pThis->Play();
+}
 
-  PlaySound(snd->event_label, 0, SND_APPLICATION);
-
-  CloseHandle(thread_handle);
-  thread_handle = NULL;
-  return 0;
+void W32SoundPlayer::Play()
+{
+  TRACE_ENTER("W32SoundPlayer::Play");
+	
+  if( sound )
+    {
+      PlaySoundA( sound->event_label, 0, SND_APPLICATION | SND_ASYNC );
+      sound = NULL;
+    }
+	
+  TRACE_EXIT();
 }
