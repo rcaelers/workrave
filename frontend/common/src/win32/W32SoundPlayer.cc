@@ -155,7 +155,7 @@ redistribute under GNU terms.
 
 void W32SoundPlayer::play_sound( Sound snd )
 {
-  TRACE_ENTER_MSG( "W32SoundPlayer::play_sound", sound_registry[snd]->friendly_name );
+  TRACE_ENTER_MSG( "W32SoundPlayer::play_sound", sound_registry[snd].friendly_name );
 
   if ( sound == &sound_registry[snd] )
     {
