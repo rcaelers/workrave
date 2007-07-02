@@ -1,7 +1,7 @@
 /*
  * harpoon.c
  *
- * Copyright (C) 2002-2007 Raymond Penners <raymond@dotsphinx.com>
+ * Copyright (C) 2002-2006 Raymond Penners <raymond@dotsphinx.com>
  * All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -41,7 +41,6 @@
 #endif
 HWND DLLSHARE(notification_window) = NULL;
 HHOOK DLLSHARE(mouse_hook) = NULL;
-HHOOK DLLSHARE(mouse_ll_hook) = NULL;
 HHOOK DLLSHARE(keyboard_hook) = NULL;
 HHOOK DLLSHARE(keyboard_ll_hook) = NULL;
 BOOL DLLSHARE(block_input) = FALSE;
@@ -342,7 +341,7 @@ harpoon_mouse_hook (int code, WPARAM wpar, LPARAM lpar)
         default:
           evt = HARPOON_MOUSE_MOVE;
         }
-/*       harpoon_post_message (evt, button, MAKELONG(x, y)); */
+      harpoon_post_message (evt, button, MAKELONG(x, y));
 
       if (evt == HARPOON_BUTTON_RELEASE)
         {
@@ -353,87 +352,6 @@ harpoon_mouse_hook (int code, WPARAM wpar, LPARAM lpar)
                                       forcecallnext);
 }
 
-
-LRESULT CALLBACK
-harpoon_mouse_ll_hook (int code, WPARAM wpar, LPARAM lpar)
-{
-/*   BOOL forcecallnext = FALSE; */
-  if (code == HC_ACTION)
-    {
-      PMSLLHOOKSTRUCT pmhs = (PMSLLHOOKSTRUCT) lpar;
-      DWORD mouse_data = 0;
-      HarpoonEventType evt = HARPOON_NOTHING;
-      int button = -1;
-      int x = pmhs->pt.x;
-      int y = pmhs->pt.y;
-
-      if (harpoon_supports_mouse_hook_struct_ex())
-        {
-          mouse_data = pmhs->mouseData;
-        }
-
-
-      switch (wpar)
-        {
-        case WM_LBUTTONDOWN:
-          button = 0;
-          evt = HARPOON_BUTTON_PRESS;
-          break;
-        case WM_MBUTTONDOWN:
-          button = 1;
-          evt = HARPOON_BUTTON_PRESS;
-          break;
-        case WM_RBUTTONDOWN:
-          button = 2;
-          evt = HARPOON_BUTTON_PRESS;
-          break;
-  
-        case WM_LBUTTONUP:
-          button = 0;
-          evt = HARPOON_BUTTON_RELEASE;
-          break;
-        case WM_MBUTTONUP:
-          button = 1;
-          evt = HARPOON_BUTTON_RELEASE;
-          break;
-        case WM_RBUTTONUP:
-          button = 2;
-          evt = HARPOON_BUTTON_RELEASE;
-          break;
-
-        case WM_LBUTTONDBLCLK:
-          button = 0;
-          evt = HARPOON_2BUTTON_PRESS;
-          break;
-        case WM_MBUTTONDBLCLK:
-          button = 1;
-          evt = HARPOON_2BUTTON_PRESS;
-          break;
-        case WM_RBUTTONDBLCLK:
-          button = 2;
-          evt = HARPOON_2BUTTON_PRESS;
-          break;
-
-        case WM_MOUSEWHEEL:
-          evt = HARPOON_MOUSE_WHEEL;
-          button = mouse_data;
-          break;
-
-        default:
-          evt = HARPOON_MOUSE_MOVE;
-        }
-      harpoon_post_message (evt, button, MAKELONG(x, y));
-
-/*       if (evt == HARPOON_BUTTON_RELEASE) */
-/*         { */
-/*           forcecallnext = TRUE; */
-/*         } */
-    }
-/*   return harpoon_generic_hook_return (code, wpar, lpar, mouse_ll_hook, */
-/*                                       forcecallnext); */
-  return harpoon_generic_hook_return (code, wpar, lpar, mouse_ll_hook,
-                                      TRUE);
-}
 
 
 
@@ -596,11 +514,6 @@ harpoon_unhook ()
       UnhookWindowsHookEx(mouse_hook);
       mouse_hook = NULL;
     }
-  if (mouse_ll_hook)
-    {
-      UnhookWindowsHookEx(mouse_ll_hook);
-      mouse_ll_hook = NULL;
-    }
   if (keyboard_hook)
     {
       UnhookWindowsHookEx(keyboard_hook);
@@ -619,12 +532,7 @@ harpoon_hook (HarpoonHookFunc func)
 {
   harpoon_unhook();
   user_callback = func;
-  mouse_ll_hook = SetWindowsHookEx(WH_MOUSE_LL, harpoon_mouse_ll_hook, dll_handle, 0);
-/*   if (mouse_ll_hook == NULL) */
-/*     { */
-      mouse_hook = SetWindowsHookEx(WH_MOUSE, harpoon_mouse_hook, dll_handle, 0);
-/*     } */
-  
+  mouse_hook = SetWindowsHookEx(WH_MOUSE, harpoon_mouse_hook, dll_handle, 0);
   keyboard_ll_hook = SetWindowsHookEx(WH_KEYBOARD_LL, harpoon_keyboard_ll_hook, dll_handle, 0);
   if (keyboard_ll_hook == NULL)
     {
