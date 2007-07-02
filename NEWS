@@ -1,4 +1,4 @@
-Workrave NEWS -- history of user-visible changes.  4 May 2007
+Workrave NEWS -- history of user-visible changes.  14 Jul 2007
 Copyright (C) 2001-2007 Rob Caelers & Raymond Penners
 See the end for copying conditions.
 
@@ -22,6 +22,9 @@ http://www.workrave.org
 ** Vanja Cvelbar translated Workrave into Slovenian.
 
 ** Many bug fixes, the most visible ones:
+
+*** Improved Windows responsiveness under high load.
+    (by reverting a 1.8.4 changes)
 
 *** Mode menu fixed.
 
