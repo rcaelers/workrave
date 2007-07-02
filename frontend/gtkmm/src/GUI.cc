@@ -525,8 +525,6 @@ GUI::init_multihead()
 {
   TRACE_ENTER("GUI::init_multihead");
 
-  num_heads = -1;
-  
 #if defined(HAVE_GTK_MULTIHEAD)
   init_gtk_multihead();
 #elif defined(WIN32)
@@ -555,20 +553,65 @@ GUI::init_multihead_mem(int new_num_heads)
   TRACE_ENTER("GUI::init_multihead_mem");
   if (new_num_heads != num_heads || num_heads <= 0)
     {
-      num_heads = new_num_heads;
-                                  
       delete [] heads;
-      heads = new HeadInfo[num_heads];
+      heads = new HeadInfo[new_num_heads];
 
-      TRACE_MSG("prelude_window_destroy = true");
-      prelude_window_destroy = true;
-      break_window_destroy = true;
-      collect_garbage();
+      PreludeWindow **old_prelude_windows = prelude_windows;
+      IBreakWindow **old_break_windows = break_windows;
+      
+      prelude_windows = new PreludeWindow*[new_num_heads];/* LEAK */
+      break_windows = new IBreakWindow*[new_num_heads]; /* LEAK */
 
-      delete [] prelude_windows;
-      delete [] break_windows;
-      prelude_windows = new PreludeWindow*[num_heads];/* LEAK */
-      break_windows = new IBreakWindow*[num_heads]; /* LEAK */
+      int max_heads = new_num_heads > num_heads ? new_num_heads : num_heads;
+      
+      // Copy existing breaks windows.
+      for (int i = 0; i < max_heads; i++)
+        {
+          if (i < new_num_heads)
+            {
+              if (i < num_heads)
+                {
+                  prelude_windows[i] = old_prelude_windows[i];
+                  break_windows[i] = old_break_windows[i];
+                }
+              else
+                {
+                  prelude_windows[i] = NULL;
+                  break_windows[i] = NULL;
+                }
+            }
+          
+          if (new_num_heads < num_heads && i >= new_num_heads)
+            {
+              // Number of heads get smaller, 
+              // destroy breaks/preludes
+              if (old_prelude_windows != NULL &&
+                  old_prelude_windows[i] != NULL)
+                {
+                  old_prelude_windows[i]->destroy();
+                }
+              if (old_break_windows != NULL &&
+                  old_break_windows[i] != NULL)
+                {
+                  old_break_windows[i]->destroy();
+                }
+            }
+        }
+
+      if (active_prelude_count > new_num_heads)
+        {
+          active_prelude_count = new_num_heads;
+        }
+
+      if (active_break_count > new_num_heads)
+        {
+          active_break_count = new_num_heads;
+        }
+      
+      delete [] old_prelude_windows;
+      delete [] old_break_windows;
+
+      num_heads = new_num_heads;
     }
   TRACE_EXIT();
 }
@@ -675,7 +718,7 @@ GUI::init_gtk_multihead()
               {
                 int num_monitors = screen->get_n_monitors();
                 TRACE_MSG("monitors = " << num_monitors);
-                for (int j = 0; j < num_monitors && count < num_heads; j++)
+                for (int j = 0; j < num_monitors && count < new_num_heads; j++)
                   {
                     Gdk::Rectangle rect;
                     screen->get_monitor_geometry(j, rect);
