@@ -20,11 +20,12 @@ static const char rcsid[] = "$Id$";
 #include "config.h"
 #endif
 
+#include "debug.hh"
+
 #include <windows.h>
 #include "W32SoundPlayer.hh"
 #include "SoundPlayer.hh"
 #include "Util.hh"
-#include "debug.hh"
 
 //volatile HANDLE W32SoundPlayer::thread_handle = NULL;
 
@@ -154,7 +155,7 @@ redistribute under GNU terms.
 
 void W32SoundPlayer::play_sound( Sound snd )
 {
-  TRACE_ENTER_MSG( "W32SoundPlayer::play_sound", sound_registry[snd] );
+  TRACE_ENTER_MSG( "W32SoundPlayer::play_sound", sound_registry[snd]->friendly_name );
 
   if ( sound == &sound_registry[snd] )
     {
