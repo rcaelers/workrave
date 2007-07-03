@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WorkRave 1.8\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2007-04-04 21:13+0200\n"
+"POT-Creation-Date: 2007-07-03 13:55+0200\n"
 "PO-Revision-Date: 2007-01-02 18:38+0100\n"
 "Last-Translator: Tao WEI; <weitao1979@gmail.com>\n"
 "Language-Team: \n"
@@ -169,7 +169,7 @@ msgstr "休息提示"
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:45
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:53
-#: ../frontend/gtkmm/src/GUI.cc:1316 ../frontend/gtkmm/src/GtkUtil.cc:160
+#: ../frontend/gtkmm/src/GUI.cc:1380 ../frontend/gtkmm/src/GtkUtil.cc:160
 msgid "Daily limit"
 msgstr "每日限制"
 
@@ -222,7 +222,7 @@ msgid "Inactive"
 msgstr "静止"
 
 #: ../frontend/common/src/TimerBoxControl.cc:252
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:199
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:203
 msgid "Wait"
 msgstr "等待"
 
@@ -251,19 +251,19 @@ msgstr ""
 "您已经达到每日限制量。请停止在电脑前工作工作。\n"
 "如果您尚未下班，找些其他的事情来做，例如检阅文件。"
 
-#: ../frontend/gtkmm/src/GUI.cc:803
+#: ../frontend/gtkmm/src/GUI.cc:867
 msgid "I could not initialize Bonobo"
 msgstr "无法启动 Bonobo"
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1316 ../frontend/gtkmm/src/GtkUtil.cc:160
+#: ../frontend/gtkmm/src/GUI.cc:1380 ../frontend/gtkmm/src/GtkUtil.cc:160
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:52
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:171
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:270
 msgid "Micro-break"
 msgstr "暂停"
 
-#: ../frontend/gtkmm/src/GUI.cc:1316 ../frontend/gtkmm/src/GtkUtil.cc:160
+#: ../frontend/gtkmm/src/GUI.cc:1380 ../frontend/gtkmm/src/GtkUtil.cc:160
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:144
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:76
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:211
@@ -383,7 +383,7 @@ msgstr "Applet"
 #. Notebook
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:76
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:164
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:202
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:200
 msgid "Timers"
 msgstr "计时器"
 
@@ -421,7 +421,7 @@ msgstr "屏蔽输入和屏幕"
 
 #. Options
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:175
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:141
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:139
 msgid "Options"
 msgstr "选项"
 
@@ -477,6 +477,11 @@ msgid ""
 msgstr ""
 "这是您的休息时间。确认您至少站起来，并走离您的电脑。\n"
 "只要稍微走一走，伸展筋骨并放松几分钟。"
+
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:184
+#, fuzzy
+msgid "Take rest break now"
+msgstr "下次休息时间 %s"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:97
 msgid "Place timers next to each other"
@@ -544,52 +549,52 @@ msgid "Daily limit:"
 msgstr "每日限制"
 
 #. Enabled/Disabled checkbox
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:63
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:61
 msgid "Enable timer"
 msgstr "启动计时器"
 
 #. Prelude frame
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:104
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:102
 msgid "Break prompting"
 msgstr "休息提示"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:106
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:104
 msgid "Prompt before breaking"
 msgstr "休息前显示提示"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:111
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:109
 msgid "Maximum number of prompts:"
 msgstr "最多提示次数"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:146
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:144
 msgid "Show 'Postpone' and 'Skip' button"
 msgstr "显示 '延后' 与 '略过' 按钮"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:155
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:153
 msgid "Suspend timer when inactive"
 msgstr "未活动时暂停计时器"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:171
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:169
 msgid "Regard micro-breaks as activity"
 msgstr "将暂停视为活动"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:185
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:183
 msgid "Number of exercises:"
 msgstr "体操次数"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:210
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:208
 msgid "Time before end:"
 msgstr "结束时限"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:211
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:209
 msgid "Time between breaks:"
 msgstr "休息间隔"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:220
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:218
 msgid "Break duration:"
 msgstr "休息耗时："
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:242
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:240
 msgid "Postpone time:"
 msgstr "延后时间："
 
@@ -883,13 +888,38 @@ msgstr ""
 msgid "Exercises player"
 msgstr "体操播放"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:446
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:289
+msgid "Previous exercise"
+msgstr ""
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:290
+#, fuzzy
+msgid "Next exercise"
+msgstr "体操次数"
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:291
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:462
+#, fuzzy
+msgid "Pause exercises"
+msgstr "体操次数"
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:292
+#, fuzzy
+msgid "End exercises"
+msgstr "体操"
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:454
 msgid "Resume"
 msgstr "恢复"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:446
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:454
 msgid "Pause"
 msgstr "暂停"
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:460
+#, fuzzy
+msgid "Resume exercises"
+msgstr "体操次数"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:132
 msgid "Browse history"

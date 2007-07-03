@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.4.0\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2007-04-04 21:13+0200\n"
+"POT-Creation-Date: 2007-07-03 13:55+0200\n"
 "PO-Revision-Date: 2006-07-31 18:08+0200\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -204,7 +204,7 @@ msgstr "Pausenhinweise"
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:45
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:53
-#: ../frontend/gtkmm/src/GUI.cc:1316 ../frontend/gtkmm/src/GtkUtil.cc:160
+#: ../frontend/gtkmm/src/GUI.cc:1380 ../frontend/gtkmm/src/GtkUtil.cc:160
 msgid "Daily limit"
 msgstr "Tägliches Limit"
 
@@ -271,7 +271,7 @@ msgstr "Inaktiv"
 
 # src/app/gtkmm/TimerBox.cc:220 src/app/gtkmm/TimerBox.cc:300
 #: ../frontend/common/src/TimerBoxControl.cc:252
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:199
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:203
 msgid "Wait"
 msgstr "Warten"
 
@@ -306,14 +306,14 @@ msgstr ""
 "zu einer anderen Tätigkeit, z.B. zur Durchsicht von Dokumenten."
 
 # src/app/gtkmm/GUI.cc:676
-#: ../frontend/gtkmm/src/GUI.cc:803
+#: ../frontend/gtkmm/src/GUI.cc:867
 msgid "I could not initialize Bonobo"
 msgstr "Konnte Bonobo nicht initialisieren"
 
 # src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/MicroPauseWindow.cc:168
 # src/app/gtkmm/MicroPauseWindow.cc:204
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1316 ../frontend/gtkmm/src/GtkUtil.cc:160
+#: ../frontend/gtkmm/src/GUI.cc:1380 ../frontend/gtkmm/src/GtkUtil.cc:160
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:52
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:171
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:270
@@ -321,7 +321,7 @@ msgid "Micro-break"
 msgstr "Mikropause"
 
 # src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/RestBreakWindow.cc:284
-#: ../frontend/gtkmm/src/GUI.cc:1316 ../frontend/gtkmm/src/GtkUtil.cc:160
+#: ../frontend/gtkmm/src/GUI.cc:1380 ../frontend/gtkmm/src/GtkUtil.cc:160
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:144
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:76
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:211
@@ -479,7 +479,7 @@ msgstr "Applet"
 #. Notebook
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:76
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:164
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:202
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:200
 msgid "Timers"
 msgstr "Zeitmesser"
 
@@ -526,7 +526,7 @@ msgstr "Alles blockieren"
 # src/app/gtkmm/TimerPreferencesPanel.cc:141
 #. Options
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:175
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:141
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:139
 msgid "Options"
 msgstr "Optionen"
 
@@ -593,6 +593,12 @@ msgstr ""
 "aufstehen und Ihren Computerarbeitsplatz verlassen. Gehen Sie einfach\n"
 "ein paar Minuten umher, strecken sie sich aus und entspannen Sie\n"
 "sich."
+
+# src/app/gtkmm/MicroPauseWindow.cc:190
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:184
+#, fuzzy
+msgid "Take rest break now"
+msgstr "Nächste Ruhepause in %s"
 
 # src/app/gtkmm/TimerBoxPreferencePage.cc:92
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:97
@@ -677,62 +683,62 @@ msgstr "Tägliches Limit:"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:57
 #. Enabled/Disabled checkbox
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:63
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:61
 msgid "Enable timer"
 msgstr "Zeitmesser verwenden"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:96
 #. Prelude frame
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:104
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:102
 msgid "Break prompting"
 msgstr "Ankündigung der Pause"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:98
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:106
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:104
 msgid "Prompt before breaking"
 msgstr "Vor der Pause Hinweis ausgeben"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:103
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:111
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:109
 msgid "Maximum number of prompts:"
 msgstr "Maximale Anzahl von Hinweisen:"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:154
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:146
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:144
 msgid "Show 'Postpone' and 'Skip' button"
 msgstr "Knöpfe 'Aufschieben' und 'Überspringen' anzeigen"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:155
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:153
 msgid "Suspend timer when inactive"
 msgstr "Zeitzähler bei Untätigkeit stoppen"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:169
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:171
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:169
 msgid "Regard micro-breaks as activity"
 msgstr "Mikropausen als Aktivität betrachten"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:181
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:185
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:183
 msgid "Number of exercises:"
 msgstr "Anzahl der Übungen"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:202
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:210
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:208
 msgid "Time before end:"
 msgstr "Zeit bis zur Pause:"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:202
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:211
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:209
 msgid "Time between breaks:"
 msgstr "Zeit bis zur Pause:"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:219
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:220
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:218
 msgid "Break duration:"
 msgstr "Dauer der Pause:"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:236
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:242
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:240
 msgid "Postpone time:"
 msgstr "Dauer des Aufschubs:"
 
@@ -1109,15 +1115,44 @@ msgstr ""
 msgid "Exercises player"
 msgstr "Übungsabspieler"
 
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:289
+msgid "Previous exercise"
+msgstr ""
+
+# src/app/gtkmm/TimerPreferencesPanel.cc:181
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:290
+#, fuzzy
+msgid "Next exercise"
+msgstr "Anzahl der Übungen"
+
+# src/app/gtkmm/TimerPreferencesPanel.cc:181
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:291
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:462
+#, fuzzy
+msgid "Pause exercises"
+msgstr "Anzahl der Übungen"
+
+# src/app/gtkmm/ExercisesDialog.cc:38 src/app/gtkmm/Menus.cc:234
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:292
+#, fuzzy
+msgid "End exercises"
+msgstr "Übungen"
+
 # src/app/gtkmm/ExercisesPanel.cc:226
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:446
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:454
 msgid "Resume"
 msgstr "Wiederaufnehmen"
 
 # src/app/gtkmm/ExercisesPanel.cc:226
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:446
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:454
 msgid "Pause"
 msgstr "Pause"
+
+# src/app/gtkmm/TimerPreferencesPanel.cc:181
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:460
+#, fuzzy
+msgid "Resume exercises"
+msgstr "Anzahl der Übungen"
 
 # src/app/gtkmm/StatisticsDialog.cc:124
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:132

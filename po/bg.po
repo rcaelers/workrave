@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2007-04-04 21:13+0200\n"
+"POT-Creation-Date: 2007-07-03 13:55+0200\n"
 "PO-Revision-Date: 2007-04-30 19:55+0200\n"
 "Last-Translator: Иван Димов <idimov@users.sourceforge.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -176,7 +176,7 @@ msgstr "Напомняне за почивка"
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:45
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:53
-#: ../frontend/gtkmm/src/GUI.cc:1316 ../frontend/gtkmm/src/GtkUtil.cc:160
+#: ../frontend/gtkmm/src/GUI.cc:1380 ../frontend/gtkmm/src/GtkUtil.cc:160
 msgid "Daily limit"
 msgstr "Дневен лимит"
 
@@ -229,7 +229,7 @@ msgid "Inactive"
 msgstr "Неактивен"
 
 #: ../frontend/common/src/TimerBoxControl.cc:252
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:199
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:203
 msgid "Wait"
 msgstr "Изчакване"
 
@@ -260,20 +260,20 @@ msgstr ""
 "не е свършил намерете си друго занимание напр.\n"
 "преглеждане на документи."
 
-#: ../frontend/gtkmm/src/GUI.cc:803
+#: ../frontend/gtkmm/src/GUI.cc:867
 msgid "I could not initialize Bonobo"
 msgstr "Невъзможно инициализирането на Bonobo"
 
 # ОПРАВИМЕ: повтарящ се
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1316 ../frontend/gtkmm/src/GtkUtil.cc:160
+#: ../frontend/gtkmm/src/GUI.cc:1380 ../frontend/gtkmm/src/GtkUtil.cc:160
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:52
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:171
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:270
 msgid "Micro-break"
 msgstr "Микро-почивка"
 
-#: ../frontend/gtkmm/src/GUI.cc:1316 ../frontend/gtkmm/src/GtkUtil.cc:160
+#: ../frontend/gtkmm/src/GUI.cc:1380 ../frontend/gtkmm/src/GtkUtil.cc:160
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:144
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:76
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:211
@@ -398,7 +398,7 @@ msgstr "Аплет"
 #. Notebook
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:76
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:164
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:202
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:200
 msgid "Timers"
 msgstr "Таймери"
 
@@ -437,7 +437,7 @@ msgstr "Блокиране на вход и екран"
 # Настройки
 #. Options
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:175
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:141
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:139
 msgid "Options"
 msgstr "Конфигуриране"
 
@@ -496,6 +496,11 @@ msgstr ""
 "се изправяте и се разхождате встрани от компютъра.\n"
 "Просто се поразходете наоколо за няколко минути,\n"
 "протегнете се, отпуснете се и си починете."
+
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:184
+#, fuzzy
+msgid "Take rest break now"
+msgstr "Следващата почивка е след %s"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:97
 msgid "Place timers next to each other"
@@ -565,53 +570,53 @@ msgstr "Дневен лимит:"
 
 # Поле за отметка разрешен/забранен
 #. Enabled/Disabled checkbox
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:63
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:61
 msgid "Enable timer"
 msgstr "Разрешаване на таймер"
 
 # Встъпителен кадър
 #. Prelude frame
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:104
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:102
 msgid "Break prompting"
 msgstr "Напомняне за почивка"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:106
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:104
 msgid "Prompt before breaking"
 msgstr "Напомняне преди почивка"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:111
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:109
 msgid "Maximum number of prompts:"
 msgstr "Максимален брой напомняния:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:146
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:144
 msgid "Show 'Postpone' and 'Skip' button"
 msgstr "Показване на бутоните 'Отлагане' и 'Пропускане'"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:155
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:153
 msgid "Suspend timer when inactive"
 msgstr "Спиране на таймера при неактивност"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:171
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:169
 msgid "Regard micro-breaks as activity"
 msgstr "Зачитане на микро-почивките като дейност"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:185
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:183
 msgid "Number of exercises:"
 msgstr "Брой упражнения:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:210
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:208
 msgid "Time before end:"
 msgstr "Време преди завършване:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:211
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:209
 msgid "Time between breaks:"
 msgstr "Време между почиките:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:220
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:218
 msgid "Break duration:"
 msgstr "Продължителност на почивка:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:242
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:240
 msgid "Postpone time:"
 msgstr "Време за отлагане:"
 
@@ -925,13 +930,38 @@ msgstr ""
 msgid "Exercises player"
 msgstr "Демонстратор на упражненията"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:446
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:289
+msgid "Previous exercise"
+msgstr ""
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:290
+#, fuzzy
+msgid "Next exercise"
+msgstr "Брой упражнения:"
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:291
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:462
+#, fuzzy
+msgid "Pause exercises"
+msgstr "Брой упражнения:"
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:292
+#, fuzzy
+msgid "End exercises"
+msgstr "Упражнения"
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:454
 msgid "Resume"
 msgstr "Продължаване"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:446
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:454
 msgid "Pause"
 msgstr "Пауза"
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:460
+#, fuzzy
+msgid "Resume exercises"
+msgstr "Брой упражнения:"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:132
 msgid "Browse history"

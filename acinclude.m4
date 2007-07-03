@@ -167,4 +167,4 @@ AC_DEFUN([AS_AC_EXPAND],
   dnl restore prefix and exec_prefix
   prefix=$prefix_save
   exec_prefix=$exec_prefix_save
-])w
+])

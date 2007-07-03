@@ -7,9 +7,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.6\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2007-04-04 21:13+0200\n"
+"POT-Creation-Date: 2007-07-03 13:55+0200\n"
 "PO-Revision-Date: 2007-04-30 19:55+0200\n"
-"Last-Translator:  <Claudio Ferreira Filho <filhocf@yahoo.com.br>, Renato Botelho <renato@galle.com.br>\n"
+"Last-Translator:  <Claudio Ferreira Filho <filhocf@yahoo.com.br>, Renato "
+"Botelho <renato@galle.com.br>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -167,7 +168,7 @@ msgstr "Aviso de descanso"
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:45
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:53
-#: ../frontend/gtkmm/src/GUI.cc:1316 ../frontend/gtkmm/src/GtkUtil.cc:160
+#: ../frontend/gtkmm/src/GUI.cc:1380 ../frontend/gtkmm/src/GtkUtil.cc:160
 msgid "Daily limit"
 msgstr "Limíte diário"
 
@@ -220,7 +221,7 @@ msgid "Inactive"
 msgstr "Inativo"
 
 #: ../frontend/common/src/TimerBoxControl.cc:252
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:199
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:203
 msgid "Wait"
 msgstr "Espere"
 
@@ -251,19 +252,19 @@ msgstr ""
 "terminado, troque de atividade, como por exemplo,\n"
 "revisar documentos."
 
-#: ../frontend/gtkmm/src/GUI.cc:803
+#: ../frontend/gtkmm/src/GUI.cc:867
 msgid "I could not initialize Bonobo"
 msgstr "Não foi possível inicializar o Bonobo"
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1316 ../frontend/gtkmm/src/GtkUtil.cc:160
+#: ../frontend/gtkmm/src/GUI.cc:1380 ../frontend/gtkmm/src/GtkUtil.cc:160
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:52
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:171
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:270
 msgid "Micro-break"
 msgstr "Micropausa"
 
-#: ../frontend/gtkmm/src/GUI.cc:1316 ../frontend/gtkmm/src/GtkUtil.cc:160
+#: ../frontend/gtkmm/src/GUI.cc:1380 ../frontend/gtkmm/src/GtkUtil.cc:160
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:144
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:76
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:211
@@ -385,7 +386,7 @@ msgstr "Applet"
 #. Notebook
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:76
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:164
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:202
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:200
 msgid "Timers"
 msgstr "Temporizadores"
 
@@ -423,7 +424,7 @@ msgstr "Impedir tudo"
 
 #. Options
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:175
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:141
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:139
 msgid "Options"
 msgstr "Opções"
 
@@ -480,6 +481,11 @@ msgstr ""
 "Este é seu tempo de descanso. Deve levantar-se, caminhar\n"
 "e caminhar um pouco do lugar do computador. Realmente\n"
 "ande uns minutos, estique-se e relaxe-se."
+
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:184
+#, fuzzy
+msgid "Take rest break now"
+msgstr "Próximo descanso em %s"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:97
 msgid "Place timers next to each other"
@@ -547,52 +553,52 @@ msgid "Daily limit:"
 msgstr "Limite diário:"
 
 #. Enabled/Disabled checkbox
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:63
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:61
 msgid "Enable timer"
 msgstr "Usar temporizador"
 
 #. Prelude frame
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:104
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:102
 msgid "Break prompting"
 msgstr "Aviso de interrupção"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:106
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:104
 msgid "Prompt before breaking"
 msgstr "Avisar antes da interrupção"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:111
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:109
 msgid "Maximum number of prompts:"
 msgstr "Número máximo de avisos:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:146
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:144
 msgid "Show 'Postpone' and 'Skip' button"
 msgstr "Mostrar botões de 'Atrasar' e 'Pular'"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:155
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:153
 msgid "Suspend timer when inactive"
 msgstr "Suspender o relógio quando estiver inativo"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:171
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:169
 msgid "Regard micro-breaks as activity"
 msgstr "Considerar as micropausas como atividade"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:185
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:183
 msgid "Number of exercises:"
 msgstr "Número de exercícios:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:210
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:208
 msgid "Time before end:"
 msgstr "Tempo até a interrupção:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:211
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:209
 msgid "Time between breaks:"
 msgstr "Tempo até a interrupção:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:220
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:218
 msgid "Break duration:"
 msgstr "Duração da interrupção:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:242
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:240
 msgid "Postpone time:"
 msgstr "Duração do atraso:"
 
@@ -902,13 +908,38 @@ msgstr ""
 msgid "Exercises player"
 msgstr "Mostrador de exercícios"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:446
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:289
+msgid "Previous exercise"
+msgstr ""
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:290
+#, fuzzy
+msgid "Next exercise"
+msgstr "Número de exercícios:"
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:291
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:462
+#, fuzzy
+msgid "Pause exercises"
+msgstr "Número de exercícios:"
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:292
+#, fuzzy
+msgid "End exercises"
+msgstr "Exercícios"
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:454
 msgid "Resume"
 msgstr "Retomar"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:446
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:454
 msgid "Pause"
 msgstr "Pausa"
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:460
+#, fuzzy
+msgid "Resume exercises"
+msgstr "Número de exercícios:"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:132
 msgid "Browse history"

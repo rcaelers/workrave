@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.6.2\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2007-04-04 21:13+0200\n"
+"POT-Creation-Date: 2007-07-03 13:55+0200\n"
 "PO-Revision-Date: 2006-12-28 19:05+0100\n"
 "Last-Translator: Peter Tuharsky <peter.tuharsky@banskabystrica.sk>\n"
 "Language-Team: Slovak \n"
@@ -169,7 +169,7 @@ msgstr "Upozornenie na pauzu"
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:45
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:53
-#: ../frontend/gtkmm/src/GUI.cc:1316 ../frontend/gtkmm/src/GtkUtil.cc:160
+#: ../frontend/gtkmm/src/GUI.cc:1380 ../frontend/gtkmm/src/GtkUtil.cc:160
 msgid "Daily limit"
 msgstr "Denný limit"
 
@@ -222,7 +222,7 @@ msgid "Inactive"
 msgstr "Nečinný"
 
 #: ../frontend/common/src/TimerBoxControl.cc:252
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:199
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:203
 msgid "Wait"
 msgstr "Čakať"
 
@@ -252,19 +252,19 @@ msgstr ""
 "na počítači. Ak sa Váš pracovný deň ešte nekončí, nájdite si\n"
 "nejakú inú pracovnú činnosť, napríklad kontrolu dokumentov."
 
-#: ../frontend/gtkmm/src/GUI.cc:803
+#: ../frontend/gtkmm/src/GUI.cc:867
 msgid "I could not initialize Bonobo"
 msgstr "Nepodarilo sa inicializovať Bonobo"
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1316 ../frontend/gtkmm/src/GtkUtil.cc:160
+#: ../frontend/gtkmm/src/GUI.cc:1380 ../frontend/gtkmm/src/GtkUtil.cc:160
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:52
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:171
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:270
 msgid "Micro-break"
 msgstr "Mikro-pauza"
 
-#: ../frontend/gtkmm/src/GUI.cc:1316 ../frontend/gtkmm/src/GtkUtil.cc:160
+#: ../frontend/gtkmm/src/GUI.cc:1380 ../frontend/gtkmm/src/GtkUtil.cc:160
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:144
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:76
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:211
@@ -386,7 +386,7 @@ msgstr "Aplet"
 #. Notebook
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:76
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:164
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:202
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:200
 msgid "Timers"
 msgstr "Časovače"
 
@@ -424,7 +424,7 @@ msgstr "Blokovať vstupné zariadenia a obrazovku"
 
 #. Options
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:175
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:141
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:139
 msgid "Options"
 msgstr "Možnosti"
 
@@ -482,6 +482,11 @@ msgstr ""
 "Nadišiel čas Vašej prestávky. Rozhodne nezostaňte\n"
 "sedieť -vstaňte, rozhýbte sa, choďte na chvíľu preč\n"
 "od počítača. Venujte niekoľko minút oddychu."
+
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:184
+#, fuzzy
+msgid "Take rest break now"
+msgstr "Ďalšia prestávka bude o %s"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:97
 msgid "Place timers next to each other"
@@ -549,52 +554,52 @@ msgid "Daily limit:"
 msgstr "Denný limit:"
 
 #. Enabled/Disabled checkbox
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:63
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:61
 msgid "Enable timer"
 msgstr "Povoliť časovač"
 
 #. Prelude frame
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:104
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:102
 msgid "Break prompting"
 msgstr "Pripomenutie pauzy"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:106
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:104
 msgid "Prompt before breaking"
 msgstr "Pripomenúť pred pauzou"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:111
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:109
 msgid "Maximum number of prompts:"
 msgstr "Maximálny počet pripomenutí:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:146
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:144
 msgid "Show 'Postpone' and 'Skip' button"
 msgstr "Zobraziť tlačítka 'Odložiť' a 'Preskočiť'"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:155
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:153
 msgid "Suspend timer when inactive"
 msgstr "Zastaviť časovač pri nečinnosti"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:171
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:169
 msgid "Regard micro-breaks as activity"
 msgstr "Považovať mikro-pauzy za aktivitu"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:185
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:183
 msgid "Number of exercises:"
 msgstr "Počet cvičení:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:210
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:208
 msgid "Time before end:"
 msgstr "Čas pred koncom:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:211
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:209
 msgid "Time between breaks:"
 msgstr "Čas mezi pauzami:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:220
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:218
 msgid "Break duration:"
 msgstr "Dĺžka pauzy:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:242
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:240
 msgid "Postpone time:"
 msgstr "Čas odloženia:"
 
@@ -900,13 +905,38 @@ msgstr ""
 msgid "Exercises player"
 msgstr "Cvičiteľ"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:446
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:289
+msgid "Previous exercise"
+msgstr ""
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:290
+#, fuzzy
+msgid "Next exercise"
+msgstr "Počet cvičení:"
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:291
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:462
+#, fuzzy
+msgid "Pause exercises"
+msgstr "Počet cvičení:"
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:292
+#, fuzzy
+msgid "End exercises"
+msgstr "Cvičenia"
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:454
 msgid "Resume"
 msgstr "Obnoviť"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:446
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:454
 msgid "Pause"
 msgstr "Pauza"
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:460
+#, fuzzy
+msgid "Resume exercises"
+msgstr "Počet cvičení:"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:132
 msgid "Browse history"

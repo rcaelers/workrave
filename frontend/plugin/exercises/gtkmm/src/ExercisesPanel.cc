@@ -284,12 +284,14 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
   pause_button->signal_clicked()
     .connect(MEMBER_SLOT(*this, &ExercisesPanel::on_pause));
 
-	tooltips = manage( new Gtk::Tooltips() );
-	tooltips->set_tip( *back_button, _("Previous exercise") );
-	tooltips->set_tip( *forward_button, _("Next exercise") );
-	tooltips->set_tip( *pause_button, _("Pause exercises") );
-	tooltips->set_tip( *stop_button, _("End exercises") );
-	tooltips->enable();
+#ifdef FIXME // Causes fuzzy translations...  
+  tooltips = manage( new Gtk::Tooltips() );
+  tooltips->set_tip( *back_button, _("Previous exercise") );
+  tooltips->set_tip( *forward_button, _("Next exercise") );
+  tooltips->set_tip( *pause_button, _("Pause exercises") );
+  tooltips->set_tip( *stop_button, _("End exercises") );
+  tooltips->enable();
+#endif
   
   pack_start(image_frame, false, false, 0);
   pack_start(progress_bar, false, false, 0);
@@ -453,10 +455,12 @@ ExercisesPanel::refresh_pause()
   GtkUtil::update_custom_stock_button(pause_button,
                                       standalone ? label : NULL,
                                       stock_id);
+#ifdef FIXME // Causes fuzzy translations...  
   if (paused)
     tooltips->set_tip( *pause_button, _("Resume exercises"));
   else
     tooltips->set_tip( *pause_button, _("Pause exercises"));
+#endif
 }
 
 void
