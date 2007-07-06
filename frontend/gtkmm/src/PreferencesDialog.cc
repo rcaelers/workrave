@@ -50,6 +50,8 @@
 #include "NetworkPreferencePage.hh"
 #endif
 
+#include "AdvancedPreferencePage.hh"
+
 
 PreferencesDialog::PreferencesDialog()
   : HigDialog(_("Preferences"), false, false)
@@ -78,7 +80,14 @@ PreferencesDialog::PreferencesDialog()
 #ifdef HAVE_DISTRIBUTION
   add_page(_("Network"), "network.png", *network_page);
 #endif
+	
+#ifdef WIN32
+  // For now, Advance options are only available on windows
   
+  Gtk::Widget *advanced_page = manage( new AdvancedPreferencePage() );
+  add_page( _("Advanced"), "workrave-icon-huge.png", *advanced_page );
+#endif
+	
   // Dialog
   get_vbox()->pack_start(notebook, true, true, 0);
   add_button(Gtk::Stock::CLOSE, Gtk::RESPONSE_CLOSE);

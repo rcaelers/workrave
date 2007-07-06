@@ -177,7 +177,9 @@ System::shutdown_helper(bool for_real)
       ret = true;
       if (for_real)
         {
-          harpoon_unblock_input();
+          if( HARPOON_ENABLED )
+            harpoon_unblock_input();
+
           pShellDispatch->ShutdownWindows();
         }
       pShellDispatch->Release();

@@ -1,6 +1,6 @@
 // BreakWindow.cc --- base class for the break windows
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -38,6 +38,8 @@ static const char rcsid[] = "$Id$";
 #include "Frame.hh"
 #include "System.hh"
 #include "Util.hh"
+#include "ICore.hh"
+#include "CoreFactory.hh"
 
 #if defined(WIN32)
 #include "DesktopWindow.hh"
@@ -90,6 +92,22 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
       Gtk::Window::set_screen(head.screen);
     }
 #endif
+
+  bool initial_ignore_activity = false;
+  ;
+#ifdef WIN32
+  if( !CoreFactory::get_configurator()->get_value( "advanced/force_focus", &force_focus ))
+    initial_ignore_activity = true;
+
+#endif
+  
+  ICore *core = CoreFactory::get_core();
+  assert(core != NULL);
+  core->set_insist_policy(initial_ignore_activity ?
+                        ICore::INSIST_POLICY_IGNORE :
+                        (block_mode != GUI::BLOCK_MODE_NONE
+                         ? ICore::INSIST_POLICY_HALT
+                         : ICore::INSIST_POLICY_RESET));
 }
 
 

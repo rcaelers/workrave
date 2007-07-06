@@ -4,7 +4,7 @@
  * Copyright (C) 2002, 2003 Raymond Penners <raymond@dotsphinx.com>
  * All rights reserved.
  *
- * Time-stamp: <2003-10-22 21:10:03 pennersr>
+ * Time-stamp: <2007-07-06 17:30:44 robc>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,6 +22,15 @@
 #define HARPOON_H
 
 #include <windows.h>
+
+#ifndef FALSE
+#define FALSE 0
+#endif
+#ifndef TRUE
+#define TRUE 1
+#endif
+
+extern volatile int HARPOON_ENABLED;
 
 #ifdef __cplusplus
 extern "C" {

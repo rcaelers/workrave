@@ -145,10 +145,14 @@ WindowHints::set_skip_winlist(GtkWidget *window, bool skip)
 static void
 win32_block_input(BOOL block, HWND *unblocked_windows)
 {
-  if (block)
-    harpoon_block_input_except_for(unblocked_windows);
-  else
-    harpoon_unblock_input();
+  if (HARPOON_ENABLED)
+    {
+      if (block)
+        harpoon_block_input_except_for(unblocked_windows);
+      else
+        harpoon_unblock_input();
+    }
+
   UINT uPreviousState;
   SystemParametersInfo(SPI_SETSCREENSAVERRUNNING, block, &uPreviousState, 0);
 }
@@ -192,7 +196,6 @@ WindowHints::grab(int num_windows, GdkWindow **windows)
       for (int i = 0; i < num_windows; i++)
         {
           unblocked_windows[i] = (HWND) GDK_WINDOW_HWND(windows[i]);
-
           SetWindowPos(unblocked_windows[i], HWND_TOPMOST,
                        0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE);
           BringWindowToTop(unblocked_windows[i]);

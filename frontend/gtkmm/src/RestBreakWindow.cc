@@ -287,6 +287,11 @@ RestBreakWindow::set_ignore_activity(bool i)
 {
   ICore *core = CoreFactory::get_core();
   assert(core != NULL);
+
+#ifdef WIN32
+  if( !CoreFactory::get_configurator()->get_value( "advanced/force_focus", &force_focus ))
+    i = true;
+#endif
   
   core->set_insist_policy(i ?
                         ICore::INSIST_POLICY_IGNORE :

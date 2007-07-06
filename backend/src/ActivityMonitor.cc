@@ -1,6 +1,6 @@
 // ActivityMonitor.cc --- ActivityMonitor
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001 - 2007 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -45,7 +45,10 @@ static const char rcsid[] = "$Id$";
 #if defined(HAVE_X)
 #include "X11InputMonitor.hh"
 #elif defined(WIN32)
+extern volatile int HARPOON_ENABLED;
+
 #include "W32InputMonitor.hh"
+#include "W32AlternateMonitor.hh"
 #endif
 
 
@@ -92,7 +95,15 @@ ActivityMonitor::ActivityMonitor(const char *display) :
 #if defined(HAVE_X)
   input_monitor = new X11InputMonitor(display);
 #elif defined(WIN32)
-  input_monitor = new W32InputMonitor();
+	
+  if( HARPOON_ENABLED )
+    {
+      input_monitor = new W32InputMonitor();
+    }
+  else //if( LOBYTE( LOWORD( GetVersion() ) ) >= 5 )
+    {
+      input_monitor = new W32AlternateMonitor();
+    }
 #endif
 
   input_monitor->init(this);

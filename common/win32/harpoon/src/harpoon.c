@@ -1,7 +1,7 @@
 /*
  * harpoon.c
  *
- * Copyright (C) 2002-2006 Raymond Penners <raymond@dotsphinx.com>
+ * Copyright (C) 2002-2007 Raymond Penners <raymond@dotsphinx.com>
  * All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -28,6 +28,14 @@
 #error WH_KEYBOARD_LL not defined.
 #endif
 
+#ifndef FALSE
+#define FALSE 0
+#endif
+#ifndef TRUE
+#define TRUE 1
+#endif
+
+volatile int HARPOON_ENABLED = TRUE;
 
 #define HARPOON_MAX_UNBLOCKED_WINDOWS 16 /* Fixed, but ought to be enough... */
 #define HARPOON_WINDOW_CLASS "HarpoonNotificationWindow"
