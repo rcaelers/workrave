@@ -234,6 +234,8 @@ void
 Core::init_monitor(char *display_name)
 {
 #if defined(WIN32)
+  extern volatile int HARPOON_ENABLED;
+  
   /*
     Check for advanced preference to disable hooks, and set 
     global variable that must be checked before calling any 
