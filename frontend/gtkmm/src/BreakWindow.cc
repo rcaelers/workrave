@@ -39,6 +39,7 @@ static const char rcsid[] = "$Id$";
 #include "System.hh"
 #include "Util.hh"
 #include "ICore.hh"
+#include "IConfigurator.hh"
 #include "CoreFactory.hh"
 
 #if defined(WIN32)
@@ -96,7 +97,8 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   bool initial_ignore_activity = false;
   ;
 #ifdef WIN32
-  if( !CoreFactory::get_configurator()->get_value( "advanced/force_focus", &force_focus ))
+  if( !CoreFactory::get_configurator()->get_value( "advanced/force_focus",
+                                                   &initial_ignore_activity ))
     initial_ignore_activity = true;
 
 #endif
