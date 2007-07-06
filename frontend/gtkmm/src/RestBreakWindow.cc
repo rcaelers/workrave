@@ -1,6 +1,6 @@
 // RestBreakWindow.cc --- window for the microbreak
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 //
@@ -48,6 +48,7 @@ const int TIMEOUT = 1000;
 #include "Frame.hh"
 
 #include "ICore.hh"
+#include "IConfigurator.hh"
 #include "CoreFactory.hh"
 #include "IActivityMonitor.hh"
 
@@ -289,8 +290,12 @@ RestBreakWindow::set_ignore_activity(bool i)
   assert(core != NULL);
 
 #ifdef WIN32
-  if( !CoreFactory::get_configurator()->get_value( "advanced/force_focus", &force_focus ))
-    i = true;
+  bool force_focus = false;
+  CoreFactory::get_configurator()->get_value_default( "advanced/force_focus", &force_focus, false);
+  if (force_focus)
+    {
+      i = true;
+    }
 #endif
   
   core->set_insist_policy(i ?
