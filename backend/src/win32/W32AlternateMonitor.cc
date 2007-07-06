@@ -61,7 +61,7 @@ void W32AlternateMonitor::init( IInputMonitorListener *l )
 {
 	TRACE_ENTER( "W32AlternateMonitor::init" );
 	
-	DWORD i, id, dwError;
+	DWORD id;
 	HANDLE hThread;
 	
 	if( listener != NULL )
@@ -167,7 +167,7 @@ inline void W32AlternateMonitor::Update( LASTINPUTINFO *p )
 	When will this ever happen though?
 	*/
 	{
-		TRACE_MSG( "GetLastInputInfo() failed." );
+          // TRACE_MSG( "GetLastInputInfo() failed." );
 		Sleep( interval + rand() % 1000 );
 	}
 }

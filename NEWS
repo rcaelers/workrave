@@ -11,20 +11,16 @@ http://www.workrave.org
 
 ** Fixed breaks that have 'suspend timer when inactive' disabled (Ray Satiro)
 
-** Additional tooltips (Ray Satiro)
+** New alternate activity moniting for Windows (Ray Satiro)
 
-** New activity moniting (Ray Satiro)
-   -> to be patched
-
-** Workaround for focus loss on Vista
-   -> to be patched
+** Workaround for focus loss on Vista (Ray Satiro)
    
 ** Vanja Cvelbar translated Workrave into Slovenian.
 
 ** Many bug fixes, the most visible ones:
 
 *** Improved Windows responsiveness under high load.
-    (by reverting a 1.8.4 changes)
+    (by reverting a 1.8.4 change)
 
 *** Mode menu fixed.
 
