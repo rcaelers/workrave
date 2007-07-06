@@ -87,7 +87,7 @@ AdvancedPreferencePage::AdvancedPreferencePage()
           &AdvancedPreferencePage::forcebox_signal_focus_out_event ) );
   HigCategoryPanel *forcebox_panel = manage( new HigCategoryPanel( *forcebox ) );
   Gtk::Label *forcebox_label = manage( new Gtk::Label(
-          _( "A break window can lose focus due to either an operating system or application compatibility issue. If you enable this option, your input to other applications is disrupted during your breaks." ) ) );
+          _( "A break window can lose focus due to either an operating system or application compatibility issue. If you enable this option, your input to other applications is disrupted during your breaks. Workrave has to be restarted when this options if changed." ) ) );
   forcebox_label->set_line_wrap( true );
   //forcebox_label->set_max_width_chars( 100 );
   forcebox_panel->add( *forcebox_label );
@@ -99,7 +99,7 @@ AdvancedPreferencePage::AdvancedPreferencePage()
           &AdvancedPreferencePage::nohooksbox_signal_toggled ) );
   HigCategoryPanel *nohooksbox_panel = manage( new HigCategoryPanel( *nohooksbox ) );
   Gtk::Label *nohooksbox_label = manage( new Gtk::Label(
-          _( "Some applications aren't compatible with the default keyboard/mouse monitor because it uses global hooks. If you enable this option, an alternate monitor is enabled. Mouse & keyboard statistics are unavailable when the alternate monitor is enabled." ) ) );
+          _( "Some applications aren't compatible with the default keyboard/mouse monitor because it uses global hooks. If you enable this option, an alternate monitor is enabled. Mouse & keyboard statistics are unavailable when the alternate monitor is enabled. Workrave has to be restarted when this options if changed." ) ) );
   nohooksbox_label->set_line_wrap( true );
   nohooksbox_panel->add( *nohooksbox_label );
   main_panel->add( *nohooksbox_panel );
