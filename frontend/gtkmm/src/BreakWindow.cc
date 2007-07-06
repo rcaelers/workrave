@@ -97,9 +97,9 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   bool initial_ignore_activity = false;
 #ifdef WIN32
   bool force_focus = false;
-  CoreFactory::get_configurator()->get_value( "advanced/force_focus",
-                                              &force_focus,
-                                              false);
+  CoreFactory::get_configurator()->get_value_default( "advanced/force_focus",
+                                                      &force_focus,
+                                                      false);
   if (force_focus)
     {
       initial_ignore_activity = true;
