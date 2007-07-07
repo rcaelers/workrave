@@ -35,8 +35,6 @@
 #define TRUE 1
 #endif
 
-volatile int HARPOON_ENABLED = TRUE;
-
 #define HARPOON_MAX_UNBLOCKED_WINDOWS 16 /* Fixed, but ought to be enough... */
 #define HARPOON_WINDOW_CLASS "HarpoonNotificationWindow"
 

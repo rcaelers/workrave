@@ -228,31 +228,10 @@ Core::init_configurator()
     }
 }
 
-
 //! Initializes the activity monitor.
 void
 Core::init_monitor(char *display_name)
 {
-#if defined(WIN32)
-  extern volatile int HARPOON_ENABLED;
-  
-  /*
-    Check for advanced preference to disable hooks, and set 
-    global variable that must be checked before calling any 
-    harpoon function. System Safety Monitor heuristics 
-    interpret _any_ call to harpoon as an attempt to hook.
-    .
-    This check must be before init_monitor()
-  */
-  bool nohooks;
-	
-  if( configurator->get_value( "advanced/nohooks", &nohooks ) == 0 )
-    nohooks = false;
-	
-  if( nohooks )
-    HARPOON_ENABLED = FALSE;
-#endif
-  
 #ifdef HAVE_DISTRIBUTION
 #ifndef NDEBUG
   fake_monitor = NULL;

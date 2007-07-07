@@ -45,8 +45,8 @@ static const char rcsid[] = "$Id$";
 #if defined(HAVE_X)
 #include "X11InputMonitor.hh"
 #elif defined(WIN32)
-extern volatile int HARPOON_ENABLED;
-
+#include "CoreFactory.hh"
+#include "IConfigurator.hh"
 #include "W32InputMonitor.hh"
 #include "W32AlternateMonitor.hh"
 #endif
@@ -95,8 +95,11 @@ ActivityMonitor::ActivityMonitor(const char *display) :
 #if defined(HAVE_X)
   input_monitor = new X11InputMonitor(display);
 #elif defined(WIN32)
+
+  bool nohooks;
+  CoreFactory::get_configurator()->get_value_default( "advanced/nohooks", &nohooks, false);
 	
-  if( HARPOON_ENABLED )
+  if (!nohooks)
     {
       input_monitor = new W32InputMonitor();
     }

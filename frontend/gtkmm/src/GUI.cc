@@ -94,6 +94,8 @@ static const char rcsid[] = "$Id$";
 
 GUI *GUI::instance = NULL;
 
+volatile bool HARPOON_ENABLED = true;
+
 const string GUI::CFG_KEY_GUI_BLOCK_MODE =  "gui/breaks/block_mode";
 
 //! GUI Constructor.
@@ -507,6 +509,7 @@ GUI::init_core()
   core = CoreFactory::get_core();
   core->init(argc, argv, this, display_name);
   core->set_core_events_listener(this);
+
   
 // #ifdef HAVE_X
 //    g_free(display_name);
@@ -854,6 +857,24 @@ GUI::init_gui()
   
   // Periodic timer.
   Glib::signal_timeout().connect(MEMBER_SLOT(*this, &GUI::on_timer), 1000);
+
+#if defined(WIN32)
+  /*
+    Check for advanced preference to disable hooks, and set 
+    global variable that must be checked before calling any 
+    harpoon function. System Safety Monitor heuristics 
+    interpret _any_ call to harpoon as an attempt to hook.
+    .
+    This check must be before init_monitor()
+  */
+  bool nohooks;
+	
+  if( configurator->get_value( "advanced/nohooks", &nohooks ) == 0 )
+    nohooks = false;
+	
+  if( nohooks )
+    HARPOON_ENABLED = FALSE;
+#endif
 }
 
 

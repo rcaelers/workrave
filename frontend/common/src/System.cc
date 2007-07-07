@@ -42,6 +42,9 @@
 #include <shlobj.h>
 #include "harpoon.h"
 
+#include "CoreFactory.hh"
+#include "IConfigurator.hh"
+
 /* MinGW does not have this one yet */
 #undef INTERFACE
 #define INTERFACE IShellDispatch
@@ -177,8 +180,13 @@ System::shutdown_helper(bool for_real)
       ret = true;
       if (for_real)
         {
-          if( HARPOON_ENABLED )
-            harpoon_unblock_input();
+          bool nohooks;
+	
+          CoreFactory::get_configurator()->get_value_default( "advanced/nohooks", &nohooks, false);
+          if (!nohooks)
+            {
+              harpoon_unblock_input();
+            }
 
           pShellDispatch->ShutdownWindows();
         }

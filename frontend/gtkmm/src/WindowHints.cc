@@ -36,6 +36,7 @@ static const char rcsid[] = "$Id$";
 #include <gdk/gdkwin32.h>
 #include "harpoon.h"
 #include "W32Compat.hh"
+extern volatile bool HARPOON_ENABLED;
 #endif
 
 #if defined(HAVE_X)

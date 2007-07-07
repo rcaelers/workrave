@@ -48,7 +48,6 @@ IInputMonitorListener *W32InputMonitor::listener = NULL;
 
 W32InputMonitor::W32InputMonitor()
 {
-	assert( HARPOON_ENABLED );
 }
 
 
