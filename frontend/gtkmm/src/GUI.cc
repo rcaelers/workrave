@@ -869,9 +869,9 @@ GUI::init_gui()
   */
   bool nohooks;
 	
-  if( configurator->get_value( "advanced/nohooks", &nohooks ) == 0 )
+  if( CoreFactory::get_configurator()->get_value( "advanced/nohooks", &nohooks ) == 0 )
     nohooks = false;
-	
+  
   if( nohooks )
     HARPOON_ENABLED = FALSE;
 #endif

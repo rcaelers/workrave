@@ -41,11 +41,7 @@ W32AlternateMonitor::W32AlternateMonitor()
 	
 	listener = NULL;
 	
-	if( !CoreFactory::get_configurator()->get_value( "advanced/interval", &interval ) )
-	{
-		interval = 1000;
-		//msg( " no interval found " );
-	}
+	CoreFactory::get_configurator()->get_value_default( "advanced/interval", &interval, 500);
 	
 	TRACE_EXIT();
 }
