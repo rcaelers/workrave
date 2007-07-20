@@ -375,7 +375,7 @@ Core::get_time() const
 Timer *
 Core::get_timer(BreakId id) const
 {
-  if (id > 0 && id < BREAK_ID_SIZEOF)
+  if (id >= 0 && id < BREAK_ID_SIZEOF)
     {
       return breaks[id].get_timer();
     }

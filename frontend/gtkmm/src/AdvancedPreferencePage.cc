@@ -57,7 +57,6 @@
 #include "ICore.hh"
 #include "CoreFactory.hh"
 #include "IConfigurator.hh"
-#include "IDistributionManager.hh"
 
 
 

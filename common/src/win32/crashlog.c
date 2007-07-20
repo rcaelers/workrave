@@ -58,7 +58,7 @@ double_exception_handler(struct _EXCEPTION_RECORD *exception_record,
   
   MessageBox(NULL,
              "Workrave has unexpectedly crashed and failed to create a crash "
-             "log. This is serious. Please report this to workrave-devel@sourceforge.net or "
+             "log. This is serious. Please report this to crashes@workrave.org or "
              "file a bugreport at: http://issues.workrave.org/. " , "Double exception", MB_OK);
 
   exit(1);

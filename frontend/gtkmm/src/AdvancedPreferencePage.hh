@@ -32,7 +32,6 @@
 #include <gtkmm/box.h>
 
 class Configurator;
-class IDistributionManager;
 namespace Gtk
 {
   class Label;

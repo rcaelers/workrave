@@ -1,8 +1,12 @@
 /*
  * gettimeofday.c
  *
- * Copyright (C) 2002, 2005 Rob Caelers <rcaelers@cistron.nl>
+ * Copyright (C) 2002, 2005 Rob Caelers <robc@krandor.nl>
  * All rights reserved.
+ *
+ * Probably (...) copied from Pthreads-win32 (POSIX Threads Library for Win32)
+ * Copyright(C) 1998 John E. Bossom
+ * Copyright(C) 1999,2005 Pthreads-win32 contributors
  *
  * Time-stamp: <2005-10-26 20:26:00 robc>
  *
