@@ -119,6 +119,7 @@ DWORD WINAPI W32AlternateMonitor::thread_Monitor( LPVOID lpParam )
 {
 	W32AlternateMonitor *pThis = (W32AlternateMonitor *) lpParam;
 	pThis->Monitor();
+	return (DWORD) 0;
 }
 
 void W32AlternateMonitor::Monitor()

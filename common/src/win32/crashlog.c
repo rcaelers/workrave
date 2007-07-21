@@ -2,6 +2,7 @@
  * crashlog.c
  *
  * Copyright (C) 2003, 2004, 2005, 2007 Rob Caelers <robc@krandor.org>
+ * Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
  * All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -31,6 +32,16 @@ static const char rcsid[] = "$Id$";
 
 #include "crashlog.h"
 #include "harpoon.h"
+
+#include <fcntl.h>
+
+#ifndef _O_APPEND
+#define _O_APPEND       0x0008
+#endif
+#ifndef _O_TEXT
+#define _O_TEXT         0x4000
+#endif
+
 
 static void unwind_stack(FILE *log, HANDLE process, PCONTEXT context);
 static void dump_registers(FILE *log, PCONTEXT context);
@@ -73,236 +84,347 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
   char crash_text[1024];
   TCHAR szModule[MAX_PATH];
   HMODULE hModule;
-
+  
+  FILE *log;
+  
   (void) establisher_frame;
   (void) dispatcher_context;
   
   __try1(double_exception_handler);
-
-  harpoon_unblock_input();
-
-  GetModuleFileName(GetModuleHandle(NULL), crash_log_name, sizeof(crash_log_name));
-  // crash_log_name == c:\program files\workrave\lib\workrave.exe
-  char *s = strrchr(crash_log_name, '\\');
-  assert (s);
-  *s = '\0';
-  // crash_log_name == c:\program files\workrave\lib
-  s = strrchr(crash_log_name, '\\');
-  assert (s);
-  *s = '\0';
-  // crash_log_name == c:\program files\workrave
-  strcat(crash_log_name, "\\workrave-crashlog.txt");
   
-  FILE *log = fopen(crash_log_name, "w");
-  if (log != NULL)
+  harpoon_unblock_input();
+  
+/*
+ Modified for Unicode >= WinNT. No UnicoWS check for Me/98/95.
+ jay satiro, workrave project, july 2007
+*/
+  WCHAR buffer[32767] = L"\\\\?\\";
+  WCHAR *p_buffer = buffer + 4;
+  
+  DWORD ( WINAPI *GetEnvironmentVariableW ) ( LPCWSTR, LPWSTR, DWORD );
+  HANDLE ( WINAPI *CreateFileW ) ( LPCWSTR, DWORD, DWORD, 
+    LPSECURITY_ATTRIBUTES, DWORD, DWORD, HANDLE );
+  
+  GetEnvironmentVariableW = ( DWORD ( WINAPI * ) ( LPCWSTR, LPWSTR, DWORD ) )
+    GetProcAddress( GetModuleHandleA( "kernel32.dll" ), "GetEnvironmentVariableW" );
+  CreateFileW = ( HANDLE ( WINAPI * ) ( LPCWSTR, DWORD, DWORD, 
+    LPSECURITY_ATTRIBUTES, DWORD, DWORD, HANDLE ) )
+      GetProcAddress( GetModuleHandleA( "kernel32.dll" ), "CreateFileW" );
+  
+  if( GetEnvironmentVariableW && CreateFileW )
+  // >= WinNT
     {
-      SYSTEMTIME SystemTime;
+      DWORD ret;
+      HANDLE handle;
+      
+      ret = ( *GetEnvironmentVariableW ) ( L"APPDATA", p_buffer, (DWORD) 32700 );
+      
+      if( ret == 0 || ret > 32700 )
+      // If %appdata% is unsuitable, try temp:
+          ret = ( *GetEnvironmentVariableW ) ( L"TEMP", p_buffer, (DWORD) 32700 );
+      
+      if( ret == 0 || ret > 32700 )
+      // Environment unsuitable, notify & terminate.
+        {
+          snprintf(crash_text, 1023,
+            "Workrave has unexpectedly crashed. The environment is "
+            "unsuitable to create a crash log. Please file a bug report:\n"
+            "http://issues.workrave.org/\n"
+            "Thanks.");
+          MessageBoxA( NULL, crash_text, "Exception", MB_OK );
+          __except1;
+          exit( 1 );
+        }
+      
+      //last wchar
+      p_buffer = buffer + wcslen(buffer) - 1;
+      
+      while( *p_buffer == L'\\' )
+      // remove trailing slashes
+        {
+          *p_buffer-- = L'\0';
+        }
+      
+      // append filename to end of string
+      wcscpy( ++p_buffer, L"\\workrave-crashlog.txt" );
+      
+      
+      // compare first wchar of returned environment string
+      if( buffer[ 4 ] == L'\\' )
+      /*
+      If possible network path, don't include literal \\?\
+      \\?\\\1.2.3.4\workrave-crashlog.txt should be
+      \\1.2.3.4\workrave-crashlog.txt
+     */
+          p_buffer = buffer + 4;
+      else
+      // Point to start of buffer:
+          p_buffer = buffer;
+      
+      
+      handle = ( *CreateFileW ) (
+        p_buffer, 
+        GENERIC_READ | GENERIC_WRITE, 
+        FILE_SHARE_READ, 
+        NULL, 
+        CREATE_ALWAYS, 
+        FILE_ATTRIBUTE_NORMAL, 
+        NULL );
+      
+      int fd = _open_osfhandle( (intptr_t) handle, _O_APPEND | _O_TEXT );
+      log = _fdopen( fd, "w" );
+    }
+  else  // if( GetVersion() & (DWORD) 0x80000000 )
+  // Windows Me/98/95
+    {
+      GetModuleFileName(GetModuleHandle(NULL), crash_log_name, sizeof(crash_log_name));
+      // crash_log_name == c:\program files\workrave\lib\workrave.exe
+      char *s = strrchr(crash_log_name, '\\');
+      assert (s);
+      *s = '\0';
+      // crash_log_name == c:\program files\workrave\lib
+      s = strrchr(crash_log_name, '\\');
+      assert (s);
+      *s = '\0';
+      // crash_log_name == c:\program files\workrave
+      strcat(crash_log_name, "\\workrave-crashlog.txt");
+      
+      log = fopen(crash_log_name, "w");
+    }
+    
+    if( log == NULL )
+      // workrave-crashlog.txt wasn't created.
+      {
+        snprintf(crash_text, 1023,
+          "Workrave has unexpectedly crashed. An attempt to create "
+          "a crashlog has failed. Please file a bug report:\n"
+          "http://issues.workrave.org/\n"
+          "Thanks.");
+        MessageBoxA( NULL, crash_text, "Exception", MB_OK );
+        __except1;
+        exit( 1 );
+      }
 
-      GetLocalTime(&SystemTime);	
-      fprintf(log, "Crash log created on %02d/%02d/%04d at %02d:%02d:%02d.\n\n",
-              SystemTime.wDay,
-              SystemTime.wMonth,
-              SystemTime.wYear,
-              SystemTime.wHour,
-              SystemTime.wMinute,
-              SystemTime.wSecond);
+  SYSTEMTIME SystemTime;
 
-      fprintf(log, "version = %s\n", VERSION);
-      fprintf(log, "compile date = %s\n", __DATE__);
-      fprintf(log, "compile time = %s\n", __TIME__);
-      fprintf(log, "features = "
+  GetLocalTime(&SystemTime);    
+  fprintf(log, "Crash log created on %02d/%02d/%04d at %02d:%02d:%02d.\n\n",
+          SystemTime.wDay,
+          SystemTime.wMonth,
+          SystemTime.wYear,
+          SystemTime.wHour,
+          SystemTime.wMinute,
+          SystemTime.wSecond);
+
+  fprintf(log, "version = %s\n", VERSION);
+  fprintf(log, "compile date = %s\n", __DATE__);
+  fprintf(log, "compile time = %s\n", __TIME__);
+  fprintf(log, "features = "
 #ifdef HAVE_DISTRIBUTION
-              "DISTRIBUTION "
+          "DISTRIBUTION "
 #endif
 #ifdef HAVE_EXERCISES
-              "EXERCISES "
+          "EXERCISES "
 #endif
 #ifdef HAVE_EXPERIMENTAL
-              "EXPERIMENTAL "
+          "EXPERIMENTAL "
 #endif
 #ifdef HAVE_GCONF
-              "GCONF?? "
+          "GCONF?? "
 #endif
 #ifdef HAVE_GDOME
-              "GDOME "
+          "GDOME "
 #endif
 #ifdef HAVE_GNET
-              "GNET "
+          "GNET "
 #endif
 #ifdef HAVE_GNET2
-              "GNET2 "
+          "GNET2 "
 #endif
 #ifdef HAVE_GNOME
-              "GNOME?? "
+          "GNOME?? "
 #endif
 #ifdef HAVE_GTK_MULTIHEAD
-              "GTK_MULTIHEAD "
+          "GTK_MULTIHEAD "
 #endif
 #ifdef HAVE_XRECORD
-              "XRECORD?? "
+          "XRECORD?? "
 #endif
 #ifndef NDEBUG
-              "DEBUG "
+          "DEBUG "
 #endif
-              "\n"
-              );
-      
-      fprintf(log, "\n\n");
-      fprintf(log, "code = %x\n", (int) exception_record->ExceptionCode);
-      fprintf(log, "flags = %x\n", (int) exception_record->ExceptionFlags);
-      fprintf(log, "address = %x\n", (int) exception_record->ExceptionAddress);
-      fprintf(log, "params = %d\n", (int) exception_record->NumberParameters);
-
-      fprintf(log, "%s caused ",  GetModuleFileName(NULL, szModule, MAX_PATH) ? szModule : "Application");
-      switch (exception_record->ExceptionCode)
-        {
-        case EXCEPTION_ACCESS_VIOLATION:
-          fprintf(log, "an Access Violation");
-          break;
-	
-        case EXCEPTION_ARRAY_BOUNDS_EXCEEDED:
-          fprintf(log, "an Array Bound Exceeded");
-          break;
-	
-        case EXCEPTION_BREAKPOINT:
-          fprintf(log, "a Breakpoint");
-          break;
-	
-        case EXCEPTION_DATATYPE_MISALIGNMENT:
-          fprintf(log, "a Datatype Misalignment");
-          break;
-	
-        case EXCEPTION_FLT_DENORMAL_OPERAND:
-          fprintf(log, "a Float Denormal Operand");
-          break;
-	
-        case EXCEPTION_FLT_DIVIDE_BY_ZERO:
-          fprintf(log, "a Float Divide By Zero");
-          break;
-	
-        case EXCEPTION_FLT_INEXACT_RESULT:
-          fprintf(log, "a Float Inexact Result");
-          break;
-	
-        case EXCEPTION_FLT_INVALID_OPERATION:
-          fprintf(log, "a Float Invalid Operation");
-          break;
-	
-        case EXCEPTION_FLT_OVERFLOW:
-          fprintf(log, "a Float Overflow");
-          break;
-	
-        case EXCEPTION_FLT_STACK_CHECK:
-          fprintf(log, "a Float Stack Check");
-          break;
-	
-        case EXCEPTION_FLT_UNDERFLOW:
-          fprintf(log, "a Float Underflow");
-          break;
-	
-        case EXCEPTION_GUARD_PAGE:
-          fprintf(log, "a Guard Page");
-          break;
-
-        case EXCEPTION_ILLEGAL_INSTRUCTION:
-          fprintf(log, "an Illegal Instruction");
-          break;
-	
-        case EXCEPTION_IN_PAGE_ERROR:
-          fprintf(log, "an In Page Error");
-          break;
-	
-        case EXCEPTION_INT_DIVIDE_BY_ZERO:
-          fprintf(log, "an Integer Divide By Zero");
-          break;
-	
-        case EXCEPTION_INT_OVERFLOW:
-          fprintf(log, "an Integer Overflow");
-          break;
-	
-        case EXCEPTION_INVALID_DISPOSITION:
-          fprintf(log, "an Invalid Disposition");
-          break;
-	
-        case EXCEPTION_INVALID_HANDLE:
-          fprintf(log, "an Invalid Handle");
-          break;
-
-        case EXCEPTION_NONCONTINUABLE_EXCEPTION:
-          fprintf(log, "a Noncontinuable Exception");
-          break;
-
-        case EXCEPTION_PRIV_INSTRUCTION:
-          fprintf(log, "a Privileged Instruction");
-          break;
-	
-        case EXCEPTION_SINGLE_STEP:
-          fprintf(log, "a Single Step");
-          break;
-	
-        case EXCEPTION_STACK_OVERFLOW:
-          fprintf(log, "a Stack Overflow");
-          break;
-
-        case DBG_CONTROL_C:
-          fprintf(log, "a Control+C");
-          break;
-	
-        case DBG_CONTROL_BREAK:
-          fprintf(log, "a Control+Break");
-          break;
-	
-        case DBG_TERMINATE_THREAD:
-          fprintf(log, "a Terminate Thread");
-          break;
-	
-        case DBG_TERMINATE_PROCESS:
-          fprintf(log, "a Terminate Process");
-          break;
-	
-        case RPC_S_UNKNOWN_IF:
-          fprintf(log, "an Unknown Interface");
-          break;
-	
-        case RPC_S_SERVER_UNAVAILABLE:
-          fprintf(log, "a Server Unavailable");
-          break;
-	
-        default:
-          fprintf(log, "an Unknown [0x%lX] Exception", exception_record->ExceptionCode);
-          break;
-        }
-
-      fprintf(log, " at location %08x", (int) exception_record->ExceptionAddress);
-      if ((hModule = (HMODULE) GetModuleBase((DWORD) exception_record->ExceptionAddress) && GetModuleFileName(hModule, szModule, sizeof(szModule))))
-        fprintf(log, " in module %s", szModule);
-	
-      // If the exception was an access violation, print out some additional information, to the error log and the debugger.
-      if(exception_record->ExceptionCode == EXCEPTION_ACCESS_VIOLATION && exception_record->NumberParameters >= 2)
-        fprintf(log, " %s location %08x\n\n", exception_record->ExceptionInformation[0] ? "writing to" : "reading from", exception_record->ExceptionInformation[1]);
+          "\n"
+          );
   
-      DWORD pid = GetCurrentProcessId();
-      HANDLE process = OpenProcess(PROCESS_ALL_ACCESS, TRUE, pid);
+  fprintf(log, "\n\n");
+  fprintf(log, "code = %x\n", (int) exception_record->ExceptionCode);
+  fprintf(log, "flags = %x\n", (int) exception_record->ExceptionFlags);
+  fprintf(log, "address = %x\n", (int) exception_record->ExceptionAddress);
+  fprintf(log, "params = %d\n", (int) exception_record->NumberParameters);
 
-      dump_registers(log, context_record);
-      unwind_stack(log, process, context_record);
+  fprintf(log, "%s caused ",  GetModuleFileName(NULL, szModule, MAX_PATH) ? szModule : "Application");
+  switch (exception_record->ExceptionCode)
+    {
+    case EXCEPTION_ACCESS_VIOLATION:
+      fprintf(log, "an Access Violation");
+      break;
+    
+    case EXCEPTION_ARRAY_BOUNDS_EXCEEDED:
+      fprintf(log, "an Array Bound Exceeded");
+      break;
+    
+    case EXCEPTION_BREAKPOINT:
+      fprintf(log, "a Breakpoint");
+      break;
+    
+    case EXCEPTION_DATATYPE_MISALIGNMENT:
+      fprintf(log, "a Datatype Misalignment");
+      break;
+    
+    case EXCEPTION_FLT_DENORMAL_OPERAND:
+      fprintf(log, "a Float Denormal Operand");
+      break;
+    
+    case EXCEPTION_FLT_DIVIDE_BY_ZERO:
+      fprintf(log, "a Float Divide By Zero");
+      break;
+    
+    case EXCEPTION_FLT_INEXACT_RESULT:
+      fprintf(log, "a Float Inexact Result");
+      break;
+    
+    case EXCEPTION_FLT_INVALID_OPERATION:
+      fprintf(log, "a Float Invalid Operation");
+      break;
+    
+    case EXCEPTION_FLT_OVERFLOW:
+      fprintf(log, "a Float Overflow");
+      break;
+    
+    case EXCEPTION_FLT_STACK_CHECK:
+      fprintf(log, "a Float Stack Check");
+      break;
+    
+    case EXCEPTION_FLT_UNDERFLOW:
+      fprintf(log, "a Float Underflow");
+      break;
+    
+    case EXCEPTION_GUARD_PAGE:
+      fprintf(log, "a Guard Page");
+      break;
 
-      print_module_list(log);
+    case EXCEPTION_ILLEGAL_INSTRUCTION:
+      fprintf(log, "an Illegal Instruction");
+      break;
+    
+    case EXCEPTION_IN_PAGE_ERROR:
+      fprintf(log, "an In Page Error");
+      break;
+    
+    case EXCEPTION_INT_DIVIDE_BY_ZERO:
+      fprintf(log, "an Integer Divide By Zero");
+      break;
+    
+    case EXCEPTION_INT_OVERFLOW:
+      fprintf(log, "an Integer Overflow");
+      break;
+    
+    case EXCEPTION_INVALID_DISPOSITION:
+      fprintf(log, "an Invalid Disposition");
+      break;
+    
+    case EXCEPTION_INVALID_HANDLE:
+      fprintf(log, "an Invalid Handle");
+      break;
 
-      fprintf(log, "\nRegistry dump:\n\n");
-      dump_registry(log, HKEY_CURRENT_USER, "Software\\Workrave");
-      
-      fclose(log);
+    case EXCEPTION_NONCONTINUABLE_EXCEPTION:
+      fprintf(log, "a Noncontinuable Exception");
+      break;
+
+    case EXCEPTION_PRIV_INSTRUCTION:
+      fprintf(log, "a Privileged Instruction");
+      break;
+    
+    case EXCEPTION_SINGLE_STEP:
+      fprintf(log, "a Single Step");
+      break;
+    
+    case EXCEPTION_STACK_OVERFLOW:
+      fprintf(log, "a Stack Overflow");
+      break;
+
+    case DBG_CONTROL_C:
+      fprintf(log, "a Control+C");
+      break;
+    
+    case DBG_CONTROL_BREAK:
+      fprintf(log, "a Control+Break");
+      break;
+    
+    case DBG_TERMINATE_THREAD:
+      fprintf(log, "a Terminate Thread");
+      break;
+    
+    case DBG_TERMINATE_PROCESS:
+      fprintf(log, "a Terminate Process");
+      break;
+    
+    case RPC_S_UNKNOWN_IF:
+      fprintf(log, "an Unknown Interface");
+      break;
+    
+    case RPC_S_SERVER_UNAVAILABLE:
+      fprintf(log, "a Server Unavailable");
+      break;
+    
+    default:
+      fprintf(log, "an Unknown [0x%lX] Exception", exception_record->ExceptionCode);
+      break;
     }
 
-  snprintf(crash_text, 1023,
-           "Workrave has unexpectedly crashed. A crash log has been saved to "
-           "%s. Please mail this file to workrave-devel@sourceforge.net or "
-           "file a bugreport at: http://issues.workrave.org/. "
-           "Thanks.", crash_log_name);
+  fprintf(log, " at location %08x", (int) exception_record->ExceptionAddress);
+  if ((hModule = (HMODULE) GetModuleBase((DWORD) exception_record->ExceptionAddress) && GetModuleFileName(hModule, szModule, sizeof(szModule))))
+    fprintf(log, " in module %s", szModule);
+    
+  // If the exception was an access violation, print out some additional information, to the error log and the debugger.
+  if(exception_record->ExceptionCode == EXCEPTION_ACCESS_VIOLATION && exception_record->NumberParameters >= 2)
+    fprintf(log, " %s location %08x\n\n", exception_record->ExceptionInformation[0] ? "writing to" : "reading from", exception_record->ExceptionInformation[1]);
   
-  MessageBox(NULL, crash_text, "Exception", MB_OK);
+  DWORD pid = GetCurrentProcessId();
+  HANDLE process = OpenProcess(PROCESS_ALL_ACCESS, TRUE, pid);
 
+  dump_registers(log, context_record);
+  unwind_stack(log, process, context_record);
+
+  print_module_list(log);
+
+  fprintf(log, "\nRegistry dump:\n\n");
+  dump_registry(log, HKEY_CURRENT_USER, "Software\\Workrave");
+  
+  fclose(log);
+
+  if( GetEnvironmentVariableW && CreateFileW )
+  // >= WinNT
+    {
+      WCHAR message[33000];
+      snwprintf( message, 32999, 
+        L"Workrave has unexpectedly crashed. A crash log has been saved to:\n"
+        L"%ws\n"
+        L"Please file a bug report: http://issues.workrave.org/\n"
+        L"Thanks.", p_buffer );
+      message[32999] = L'\0';
+      MessageBoxW( NULL, message, L"Exception", MB_OK );
+    }
+  else
+    {
+      snprintf(crash_text, 1023,
+        "Workrave has unexpectedly crashed. A crash log has been saved to "
+        "%s. Please mail this file to crashes@workrave.org or "
+        "file a bugreport at: http://issues.workrave.org/. "
+        "Thanks.", crash_log_name);
+      MessageBoxA(NULL, crash_text, "Exception", MB_OK);
+    }
+  
   __except1;
   
   exit(1);

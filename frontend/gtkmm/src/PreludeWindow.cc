@@ -8,7 +8,7 @@
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
 // 
-// This progr`>am is distributed in the hope that it will be useful,
+// This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
@@ -42,6 +42,10 @@ static const char rcsid[] = "$Id$";
 #include "TimeBar.hh"
 #include "Hig.hh"
 #include "GtkUtil.hh"
+
+#ifdef WIN32
+#include <gdk/gdkwin32.h>
+#endif
 
 
 //! Construct a new Microbreak window.
@@ -158,9 +162,10 @@ PreludeWindow::start()
   // Set some window hints.
   WindowHints::set_skip_winlist(Gtk::Widget::gobj(), true);
 
-  // Under Windows, Gtk::WINDOW_POPUP is always on top.
-  // An additional always on top seems to give it focus, so don't do this.
-#ifndef WIN32
+#ifdef WIN32
+  SetWindowPos( (HWND) GDK_WINDOW_HWND( Gtk::Widget::gobj()->window ), 
+      HWND_TOPMOST, 0, 0, 0, 0, SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE );
+#else
   WindowHints::set_always_on_top(Gtk::Widget::gobj(), true);
 #endif
   
@@ -234,6 +239,11 @@ PreludeWindow::refresh()
     }
   time_bar->set_text(s);
   time_bar->update();
+#ifdef WIN32
+  HWND hwnd = (HWND) GDK_WINDOW_HWND( Gtk::Widget::gobj()->window );
+  SetWindowPos( hwnd, HWND_TOPMOST, 0, 0, 0, 0, 
+    SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE );
+#endif
 }
 
 

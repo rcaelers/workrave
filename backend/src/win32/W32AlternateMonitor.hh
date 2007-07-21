@@ -1,4 +1,4 @@
-// W32AlternateMonitor.cc --- Alternate Activity monitor for win32
+// W32AlternateMonitor.hh --- Alternate Activity monitor for win32
 //
 // Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
 // All rights reserved.
