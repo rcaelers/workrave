@@ -124,8 +124,10 @@ AdvancedPreferencePage::~AdvancedPreferencePage()
 #if defined(WIN32)
 void AdvancedPreferencePage::forcebox_signal_toggled()
 {
-  bool enabled = forcebox->get_active();
-  CoreFactory::get_configurator()->set_value( "advanced/force_focus", enabled );
+  forcebox->set_sensitive( false );
+  CoreFactory::get_configurator()->
+      set_value_on_quit( "advanced/force_focus", forcebox->get_active() );
+  forcebox->set_sensitive( true );
 }
 
 bool AdvancedPreferencePage::
@@ -144,28 +146,40 @@ forcebox_signal_focus_out_event(GdkEventFocus *test)
 bool AdvancedPreferencePage::forcebox_get_config() 
 {
   bool enabled;
-  if( CoreFactory::get_configurator()->get_value( "advanced/force_focus", &enabled ) == 0 )
-    enabled = false;
+  
+  // if force_focus has a value that will be set on quit, 
+  // that value will be returned, not the actual value.
+  if( CoreFactory::get_configurator()->
+      get_value_on_quit( "advanced/force_focus", &enabled ) == true )
+          return enabled;
+  
+  CoreFactory::get_configurator()->
+      get_value_default( "advanced/force_focus", &enabled, false );
+  
   return enabled;
 }
 
 void AdvancedPreferencePage::nohooksbox_signal_toggled()
 {
-  bool enabled = nohooksbox->get_active();
-
-  if( LOBYTE( LOWORD( GetVersion() ) ) < 5 )
-    {
-      enabled = false;
-      nohooksbox->set_active( false );
-    }
-  CoreFactory::get_configurator()->set_value( "advanced/nohooks", enabled );
+  nohooksbox->set_sensitive( false );
+  CoreFactory::get_configurator()->
+      set_value_on_quit( "advanced/nohooks", nohooksbox->get_active() );
+  nohooksbox->set_sensitive( true );
 }
 
 bool AdvancedPreferencePage::nohooksbox_get_config() 
 {
   bool enabled;
-  if( CoreFactory::get_configurator()->get_value( "advanced/nohooks", &enabled ) == 0 )
-    enabled = false;
+  
+  // if nohooks has a value that will be set on quit, 
+  // that value will be returned, not the actual value.
+  if( CoreFactory::get_configurator()->
+      get_value_on_quit( "advanced/nohooks", &enabled ) == true )
+          return enabled;
+  
+  CoreFactory::get_configurator()->
+      get_value_default( "advanced/nohooks", &enabled, false );
+  
   return enabled;
 }
 #endif
@@ -174,6 +188,8 @@ bool AdvancedPreferencePage::nohooksbox_get_config()
 void AdvancedPreferencePage::init()
 {
 #if defined(WIN32)
+  forcebox->set_focus_on_click( false );
+  nohooksbox->set_focus_on_click( false );
   forcebox->set_active( forcebox_get_config() );
   nohooksbox->set_active( nohooksbox_get_config() );
   if( LOBYTE( LOWORD( GetVersion() ) ) < 5 )

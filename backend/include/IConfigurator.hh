@@ -64,6 +64,7 @@ public:
    */
   virtual bool get_value(string key, string *out) const = 0;
   virtual void get_value_default(string key, string *out, string s) const = 0;
+  virtual bool get_value_on_quit( string key, string *out ) const = 0;
 
   //! Returns the value of the specified attribute
   /*!
@@ -73,6 +74,7 @@ public:
   virtual bool get_value(string key, bool *out) const = 0;
   virtual void get_value_default(string key, bool *out, const bool def)
     const = 0;
+  virtual bool get_value_on_quit( string key, bool *out ) const = 0;
 
   //! Returns the value of the specified attribute
   /*!
@@ -82,6 +84,7 @@ public:
   virtual bool get_value(string key, int *out) const = 0;
   virtual void get_value_default(string key, int *out, const int def)
     const = 0;
+  virtual bool get_value_on_quit( string key, int *out ) const = 0;
 
   //! Returns the value of the specified attribute
   /*!
@@ -91,6 +94,7 @@ public:
   virtual bool get_value(string key, long *out) const = 0;
   virtual void get_value_default(string key, long *out, const long def)
     const = 0;
+  virtual bool get_value_on_quit( string key, long *out ) const = 0;
 
   //! Returns the value of the specified attribute
   /*!
@@ -100,6 +104,7 @@ public:
   virtual bool get_value(string key, double *out) const = 0;
   virtual void get_value_default(string key, double *out, const double def)
     const = 0;
+  virtual bool get_value_on_quit( string key, double *out ) const = 0;
 
   //! Sets the value of the specified attribute.
   /*!
@@ -107,6 +112,7 @@ public:
    *  \retval false attribute could not be set..
    */
   virtual bool set_value(string key, string v) = 0;
+  virtual void set_value_on_quit( string key, string v ) = 0;
 
   //! Sets the value of the specified attribute.
   /*!
@@ -114,6 +120,7 @@ public:
    *  \retval false attribute could not be set..
    */
   virtual bool set_value(string key, int v) = 0;
+  virtual void set_value_on_quit( string key, int v ) = 0;
 
   //! Sets the value of the specified attribute.
   /*!
@@ -121,6 +128,7 @@ public:
    *  \retval false attribute could not be set..
    */
   virtual bool set_value(string key, long v) = 0;
+  virtual void set_value_on_quit( string key, long v ) = 0;
 
   //! Sets the value of the specified attribute.
   /*!
@@ -128,6 +136,7 @@ public:
    *  \retval false attribute could not be set..
    */
   virtual bool set_value(string key, bool v) = 0;
+  virtual void set_value_on_quit( string key, bool v ) = 0;
 
   //! Sets the value of the specified attribute.
   /*!
@@ -135,6 +144,7 @@ public:
    *  \retval false attribute could not be set..
    */
   virtual bool set_value(string key, double v) = 0;
+  virtual void set_value_on_quit( string key, double v ) = 0;
 
   //! Adds the specified configuration change listener.
   /*!

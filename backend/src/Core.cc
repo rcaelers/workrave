@@ -127,6 +127,9 @@ Core::~Core()
 
   delete statistics;
   delete monitor;
+  
+  // Set whatever values need to be set before quitting.
+  configurator->set_values_now_we_are_quitting();
   delete configurator;
   
 #ifdef HAVE_DISTRIBUTION

@@ -1,6 +1,6 @@
 // Configurator.cc --- Configuration Access
 //
-// Copyright (C) 2002, 2003, 2006 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2006, 2007 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -105,12 +105,16 @@ Configurator::create(Format fmt)
 // Constructs a new configurator.
 Configurator::Configurator()
 {
+  head = new keylist;
+  mutex = new Mutex;
 }
 
 
 // Destructs the configurator.
 Configurator::~Configurator()
 {
+  delete head;
+  delete mutex;
 }
 
 
@@ -372,3 +376,203 @@ Configurator::get_value_default(string key, double *out,
     }
 }
 
+
+// func overloads bool/int/long/double copied from W32Config:
+bool 
+Configurator::get_value_on_quit( string key, bool *out ) const
+{
+  long l;
+  bool rc = get_value_on_quit( key, &l );
+  if ( rc )
+    {
+      *out = ( bool ) l;
+    }
+  return rc;
+}
+
+bool 
+Configurator::get_value_on_quit( string key, int *out ) const
+{
+  long l;
+  bool rc = get_value_on_quit( key, &l );
+  if ( rc )
+    {
+      *out = ( int ) l;
+    }
+  return rc;
+}
+
+bool 
+Configurator::get_value_on_quit( string key, long *out ) const
+{
+  string s;
+  bool rc = get_value_on_quit( key, &s );
+  if ( rc )
+    {
+      int f = sscanf( s.c_str(), "%ld", out );
+      rc = ( f == 1 );
+    }
+  return rc;
+}
+
+bool 
+Configurator::get_value_on_quit( string key, double *out ) const
+{
+  string s;
+  bool rc = get_value_on_quit( key, &s );
+  if ( rc )
+    {
+      int f = sscanf( s.c_str(), "%lf", out );
+      rc = ( f == 1 );
+    }
+  return rc;
+}
+
+bool 
+Configurator::get_value_on_quit( string key, string *out ) const
+{
+#if defined(HAVE_QT) || defined(WIN32) || defined(HAVE_UNIX)
+  mutex->lock();
+#endif
+  
+  keylist *temp = head;
+  
+  while( 1 )
+    {
+      if( temp->key == key )
+      // Key found, assign value to out
+	    {
+	      *out = temp->v;
+          return true;
+        }
+      
+      // Step through the list:
+      if( temp->next )
+        temp = temp->next;
+      else
+        return false;
+    }
+  
+#if defined(HAVE_QT) || defined(WIN32) || defined(HAVE_UNIX)
+  mutex->unlock();
+#endif
+}
+
+
+// func overloads bool/int/long/double copied from W32Config:
+void 
+Configurator::set_value_on_quit( string key, bool v )
+{
+  char buf[32];
+  sprintf( buf, "%d", v ? 1 : 0 );
+  set_value_on_quit( key, string( buf ) );
+}
+
+void 
+Configurator::set_value_on_quit( string key, int v )
+{
+  char buf[32];
+  sprintf( buf, "%d", v );
+  set_value_on_quit( key, string( buf ) );
+}
+
+void 
+Configurator::set_value_on_quit( string key, long v )
+{
+  char buf[32];
+  sprintf( buf, "%ld", v );
+  set_value_on_quit( key, string( buf ) );
+}
+
+void 
+Configurator::set_value_on_quit( string key, double v )
+{
+  char buf[32];
+  sprintf( buf, "%f", v );
+  set_value_on_quit( key, string( buf ) );
+}
+
+void 
+Configurator::set_value_on_quit( string key, string v )
+{
+#if defined(HAVE_QT) || defined(WIN32) || defined(HAVE_UNIX)
+  mutex->lock();
+#endif
+  
+  keylist *temp = head;
+  
+  while( 1 )
+    {
+      if( temp->key == key )
+      // If the key is already in the list, update its value.
+        {
+          temp->v = v;
+          return;
+        }
+      
+      // Step through the list:
+      if( temp->next )
+        temp = temp->next;
+      else
+        break;
+    }
+  
+  if( temp->key != "" )
+    {
+      temp->next = new keylist;
+      temp = temp->next;
+    }
+  
+  temp->key = key;
+  temp->v = v;
+  
+#if defined(HAVE_QT) || defined(WIN32) || defined(HAVE_UNIX)
+  mutex->unlock();
+#endif
+}
+
+
+void 
+Configurator::set_values_now_we_are_quitting()
+// This function should be called only from the Core destructor!
+// Do not call from Configurator destructor, because the virtual 
+// functions will have already been destroyed.
+{
+#if defined(HAVE_QT) || defined(WIN32) || defined(HAVE_UNIX)
+  mutex->lock();
+#endif
+  
+  keylist *temp = head;
+  
+  while( 1 )
+    {
+      if( temp->key != "" )
+        set_value( temp->key, temp->v );
+      
+      // Step through the list:
+      if( temp->next )
+        temp = temp->next;
+      else
+        break;
+    }
+  
+/*
+  Maybe this function is called, and the program 
+  isn't terminating... so cleanup.
+*/
+  keylist *temp2 = head->next;
+  // delete all members except for the head:
+  while( temp = temp2 )
+    {
+      temp2 = temp->next;
+      delete temp;
+    }
+  
+  head->key = "";
+  head->v = "";
+  head->next = NULL;
+  
+#if defined(HAVE_QT) || defined(WIN32) || defined(HAVE_UNIX)
+  mutex->unlock();
+#endif
+}

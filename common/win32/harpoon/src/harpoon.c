@@ -512,7 +512,7 @@ harpoon_exit (void)
 }
 
 
-void
+HARPOON_API void
 harpoon_unhook ()
 {
   if (mouse_hook)
@@ -533,7 +533,7 @@ harpoon_unhook ()
   user_callback = NULL;
 }
 
-void 
+HARPOON_API void 
 harpoon_hook (HarpoonHookFunc func)
 {
   harpoon_unhook();

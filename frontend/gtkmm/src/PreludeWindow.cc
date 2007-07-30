@@ -420,7 +420,11 @@ PreludeWindow::avoid_pointer(int px, int py)
 bool
 PreludeWindow::on_avoid_pointer_timer()
 {
-#if 1  
+#if 0  
+/*
+get_pointer reads low-level keyboard state, and that's a 
+problem for anti-hook monitors. use GetCursorPos() instead.
+*/
   Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
   Gdk::ModifierType type;
   int x,y;
