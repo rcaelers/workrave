@@ -482,9 +482,8 @@ msgstr ""
 "סביב לכמה דקות, התמתח והרגע."
 
 #: ../frontend/gtkmm/src/TimerBoxGtkView.cc:184
-#, fuzzy
 msgid "Take rest break now"
-msgstr "הפסקת המנוחה הבאה בעוד %s"
+msgstr "צא להפסקת מנוחה עכשיו"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:97
 msgid "Place timers next to each other"
@@ -1056,7 +1055,7 @@ msgstr "המספר הכולל של המקשים שהוקשו"
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:362
 #, c-format
 msgid "%s, from %s to %s"
-msgstr "%s, מתוך %s עד %s"
+msgstr "%s, מ- %s עד %s"
 
 #: ../frontend/text/src/PreludeWindow.cc:152
 #, fuzzy
