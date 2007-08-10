@@ -75,7 +75,6 @@ frontend/gtkmm/src/WindowHints.cc
 frontend/gtkmm/src/WmSpec.cc
 frontend/gtkmm/src/X11SystrayAppletWindow.cc
 frontend/gtkmm/src/eggtrayicon.c
-frontend/gtkmm/src/gnome-about.c
 frontend/gtkmm/src/gnome-winhints.c
 frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in
 frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in
@@ -93,11 +92,6 @@ frontend/plugin/exercises/common/src/Exercise.cc
 frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc
 frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc
 frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc
-frontend/qt/src/GUI.cc
-frontend/qt/src/StatusWindow.cc
-frontend/qt/src/TimeBar.cc
-frontend/qt/src/TimerBoxView.cc
-frontend/qt/src/main.cc
 frontend/text/src/BreakWindow.cc
 frontend/text/src/GUI.cc
 frontend/text/src/MainWindow.cc

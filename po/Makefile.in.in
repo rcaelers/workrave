@@ -133,7 +133,7 @@ install-data-yes: all
 dvi info tags TAGS ID:
 
 # Define this as empty until I found a useful application.
-installcheck:
+install-exec installcheck:
 
 uninstall:
 	linguas="$(USE_LINGUAS)"; \

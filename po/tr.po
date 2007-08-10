@@ -82,7 +82,7 @@ msgstr "%s:%d istemcisi bir kopya."
 #: ../backend/src/DistributionSocketLink.cc:1262
 #, c-format
 msgid "Client %s:%d access denied."
-msgstr "%s:%s istemcisinin erişimi reddedildi."
+msgstr "%s:%d istemcisinin erişimi reddedildi."
 
 #: ../backend/src/DistributionSocketLink.cc:1331
 #, c-format
@@ -152,7 +152,7 @@ msgstr "%s:%d istemcisi bağlantıyı kesti."
 #: ../backend/src/DistributionSocketLink.cc:2076
 #, c-format
 msgid "Client %s:%d connected."
-msgstr "%s:%s istemcisi bağlandı."
+msgstr "%s:%d istemcisi bağlandı."
 
 #: ../backend/src/DistributionSocketLink.cc:2116
 #, c-format
@@ -1077,7 +1077,7 @@ msgstr "Toplam tuş vuruşu sayısı"
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:362
 #, c-format
 msgid "%s, from %s to %s"
-msgstr "%2$s'den %3$s'ye kadar %s."
+msgstr "%2$s'den %3$s'ye kadar %1$s."
 
 #: ../frontend/text/src/PreludeWindow.cc:152
 #, fuzzy

@@ -126,7 +126,7 @@ msgstr "הלקוח %s:%d דחה את בקשת השליט, ממתין."
 #: ../backend/src/DistributionSocketLink.cc:1825
 #, c-format
 msgid "Client %s is now the new master."
-msgstr "הלקוח %s:%d הוא השליט החדש."
+msgstr "הלקוח %s הוא השליט החדש."
 
 #: ../backend/src/DistributionSocketLink.cc:1946
 msgid "Network operation started."

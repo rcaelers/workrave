@@ -801,13 +801,6 @@ AM_CONDITIONAL(HAVE_DISTRIBUTION, test "x$config_distribution" = "xyes")
 AM_CONDITIONAL(HAVE_EXERCISES, test "x$config_exercises" = "xyes")
 AM_CONDITIONAL(HAVE_EXPERIMENTAL, test "x$config_experimental" = "xyes")
 
-dnl somehow, these don't get defined anymore...                                  
-CATOBJEXT=.gmo 
-INSTOBJEXT=.mo 
-AC_SUBST(CATOBJEXT)
-AC_SUBST(INSTOBJEXT)
-
-        
 AC_OUTPUT(Makefile \
           backend/Makefile \
           backend/src/Makefile \
@@ -865,9 +858,7 @@ AC_OUTPUT(Makefile \
           frontend/plugin/exercises/gtkmm/Makefile \
           frontend/plugin/exercises/gtkmm/src/Makefile \
           intl/Makefile \
-          po/POTFILES \
           po/Makefile.in \
-          po/Makefile \
           contrib/Makefile \
           contrib/plot/Makefile \
           build/Makefile \
