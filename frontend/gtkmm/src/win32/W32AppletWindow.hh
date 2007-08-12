@@ -60,6 +60,7 @@ public:
   void add_menu(const char *text, short cmd, int flags);
 
   GdkFilterReturn win32_filter_func (void *xevent, GdkEvent *event);
+  bool on_applet_command(int command);
   
   enum MenuFlag
   {

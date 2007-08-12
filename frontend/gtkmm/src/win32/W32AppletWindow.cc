@@ -243,6 +243,16 @@ W32AppletWindow::set_geometry(Orientation orientation, int size)
 }
 
 
+bool
+W32AppletWindow::on_applet_command(int command)
+{
+  Menus *menus = Menus::get_instance();
+  menus->on_applet_command(command);
+
+  return false;
+}
+
+
 GdkFilterReturn
 W32AppletWindow::win32_filter_func (void     *xevent,
                                     GdkEvent *event)
@@ -254,13 +264,14 @@ W32AppletWindow::win32_filter_func (void     *xevent,
     {
     case WM_USER:
       {
-        Menus *menus = Menus::get_instance();
-        menus->on_applet_command((short) msg->wParam);
+        sigc::slot<bool> my_slot = sigc::bind(sigc::mem_fun(*this, &W32AppletWindow::on_applet_command),
+                                              (int) msg->wParam);
+        Glib::signal_idle().connect(my_slot);
+
         ret = GDK_FILTER_REMOVE;
       }
       break;
-
-
+  
     case WM_USER + 1:
       {
         timer_box_control->force_cycle();
