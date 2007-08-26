@@ -193,7 +193,6 @@ X11InputMonitor::terminate()
       monitor_thread->stop();
     }
 #endif
-  //  wait_for_terminated_signal.wait();
   TRACE_EXIT();
 }
 
@@ -212,10 +211,8 @@ X11InputMonitor::run()
   run_xrecord();
 #else
   run_events();
-#endif
-  
-  wait_for_terminated_signal.signal();
   XCloseDisplay(x11_display);
+#endif
 
   TRACE_EXIT();
 }
@@ -399,8 +396,6 @@ X11InputMonitor::handle_button(XEvent *event)
 
 #ifdef HAVE_XRECORD
 
-static void handleXRecordCallback(XPointer closure, XRecordInterceptData * data);
-
 void
 X11InputMonitor::handle_xrecord_handle_key_event(XRecordInterceptData *data)
 {
@@ -454,8 +449,8 @@ X11InputMonitor::handle_xrecord_handle_button_event(XRecordInterceptData *data)
 }
 
 
-static void
-handleXRecordCallback(XPointer closure, XRecordInterceptData * data)
+void
+X11InputMonitor::handle_xrecord_callback(XPointer closure, XRecordInterceptData * data)
 {
   xEvent *  event;
   X11InputMonitor *monitor = (X11InputMonitor *) closure;
@@ -496,10 +491,8 @@ X11InputMonitor::run_xrecord()
   init_xrecord();
 
   if (use_xrecord &&
-      XRecordEnableContext(xrecord_datalink, xrecord_context,  &handleXRecordCallback, (XPointer)this))
+      XRecordEnableContext(xrecord_datalink, xrecord_context,  &handle_xrecord_callback, (XPointer)this))
     {
-      XRecordFreeContext(x11_display, xrecord_context);
-      XCloseDisplay(xrecord_datalink);
       xrecord_datalink = NULL;
     }
   else
@@ -508,8 +501,8 @@ X11InputMonitor::run_xrecord()
       use_xrecord = false;
       run_events();
     }
-  TRACE_EXIT()
-    }
+  TRACE_EXIT();
+}
 
 
 //! Initialize the XRecord monitoring.
@@ -570,11 +563,13 @@ X11InputMonitor::init_xrecord()
 bool
 X11InputMonitor::stop_xrecord()
 {
-  TRACE_ENTER("X11InputMonitor::stop_xrecord")
+  TRACE_ENTER("X11InputMonitor::stop_xrecord");
   if (use_xrecord)
     {
-      int ret = XRecordDisableContext(xrecord_datalink, xrecord_context);
-      TRACE_MSG(ret);
+      XRecordDisableContext(xrecord_datalink, xrecord_context);
+      XRecordFreeContext(x11_display, xrecord_context);
+      XFlush(xrecord_datalink);
+      XCloseDisplay(x11_display);
     }
   
   TRACE_EXIT();

@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003, 2006, 2007 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2007-02-13 19:01:52 robc>
+// Time-stamp: <2007-08-26 21:13:45 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -84,6 +84,8 @@ public:
   void handle_xrecord_handle_key_event(XRecordInterceptData *data);
   void handle_xrecord_handle_motion_event(XRecordInterceptData *data);
   void handle_xrecord_handle_button_event(XRecordInterceptData *data);
+
+  static void handle_xrecord_callback(XPointer closure, XRecordInterceptData * data);
 #endif
   
 private:
