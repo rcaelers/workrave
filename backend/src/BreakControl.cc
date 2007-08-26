@@ -67,7 +67,6 @@ BreakControl::BreakControl(BreakId id, Core *c, IApp *app, Timer *timer) :
   max_number_of_preludes(2),
   max_number_of_postpones(2),
   ignorable_break(true),
-  config_ignorable_break(true),
   fake_break(false),
   fake_break_count(0),
   user_abort(false),
@@ -615,7 +614,7 @@ BreakControl::set_max_postpone(int m)
 void
 BreakControl::set_ignorable_break(bool i)
 {
-  config_ignorable_break = i;
+  ignorable_break = i;
 }
 
 
