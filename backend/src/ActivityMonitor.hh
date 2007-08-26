@@ -36,8 +36,6 @@
 
 class ActivityListener;
 class IInputMonitor;
-class Thread;
-
 
 class ActivityMonitor :
   public IInputMonitorListener,

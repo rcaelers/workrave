@@ -145,8 +145,7 @@ X11InputMonitor::~X11InputMonitor()
   TRACE_ENTER("X11InputMonitor::~X11InputMonitor");
   if (monitor_thread != NULL)
     {
-      monitor_thread->stop();
-      delete monitor_thread;
+      monitor_thread->wait();
     }
 
   if (x11_display_name != NULL)
@@ -183,14 +182,13 @@ X11InputMonitor::terminate()
     }
 #endif
 
-  TRACE_MSG("waiting");
   abort = true;
 
 #ifdef HAVE_XRECORD
   //FIXME:  stop_xrecord does not seem to work.
   if (use_xrecord)
     {
-      monitor_thread->stop();
+      monitor_thread->wait();
     }
 #endif
   TRACE_EXIT();
