@@ -299,17 +299,6 @@ BreakControl::goto_stage(BreakStage stage)
         core->force_idle();
         break_timer->stop_timer();
 
-	// Check if we have reached the maximum number of preludes and force
-	// break
-	if (reached_max_postpone)
-	  {
-	    ignorable_break = false;
-	  }
-	else
-	  {
-	    ignorable_break = config_ignorable_break;
-	  }
-
         // Start the break.
         break_window_start();
         application->refresh_break_window();
