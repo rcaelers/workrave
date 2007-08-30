@@ -29,11 +29,18 @@
 #endif
 
 #if defined(__GNUC__)
-#define DLLSHARE(v) v __attribute__((section (".shared"), shared))
+# define DLLSHARE(v) v __attribute__((section (".shared"), shared))
+# ifndef INLINE
+#  define INLINE inline
+# endif
 #else
-#define DLLSHARE(v) v
-#pragma comment(linker, "/SECTION:.shared,RWS")
-#pragma data_seg(".shared")
+# define DLLSHARE(v) v
+# pragma comment(linker, "/SECTION:.shared,RWS")
+# pragma data_seg(".shared")
+# ifndef INLINE
+#  define INLINE
+# endif
+# define snprintf _snprintf
 #endif
 HWND DLLSHARE(notification_window) = NULL;
 HHOOK DLLSHARE(mouse_hook) = NULL;
@@ -63,7 +70,7 @@ static void _get_exec_filename( void );
 static DWORD exec_process_id = 0;
 
 static void debug_send_message( const char * );
-inline void if_debug_send_message( const char * );
+static INLINE void if_debug_send_message( const char * );
 static void debug_process_menu_selection( WORD );
 static void debug_save_data();
 static HMENU menu = NULL;
@@ -168,7 +175,7 @@ static int is_app_blocked()
       return TRUE;
 }
 
-inline LRESULT
+static INLINE LRESULT
 harpoon_generic_hook_return(
     int code, WPARAM wpar, LPARAM lpar, HHOOK hook, BOOL forcecallnext )
 {
@@ -187,7 +194,7 @@ harpoon_generic_hook_return(
  * Messaging
  **********************************************************************/
 
-inline void
+static INLINE void
 harpoon_post_message(HarpoonEventType evt, int par1, int par2)
 {
   PostMessage (notification_window, WM_USER + evt, (WPARAM) par1, (LPARAM) par2);
@@ -348,7 +355,7 @@ harpoon_mouse_hook (int code, WPARAM wpar, LPARAM lpar)
 
         case WM_MOUSEWHEEL:
           evt = HARPOON_MOUSE_WHEEL;
-          button = mouse_data;
+          button = 1;
           if( debug && !mouse_ll_hook )
               debug_send_message( "WH_MOUSE: WM_MOUSEWHEEL" );
           break;
@@ -383,17 +390,10 @@ harpoon_mouse_ll_hook (int code, WPARAM wpar, LPARAM lpar)
   if (code == HC_ACTION)
     {
       PMSLLHOOKSTRUCT pmhs = (PMSLLHOOKSTRUCT) lpar;
-      DWORD mouse_data = 1;
       HarpoonEventType evt = HARPOON_NOTHING;
       int button = -1;
       int x = pmhs->pt.x;
       int y = pmhs->pt.y;
-/*not needed at this time
-      if ( harpoon_supports_mouse_hook_struct_ex )
-        {
-          mouse_data = pmhs->mouseData;
-        }
-*/
 
       switch (wpar)
         {
@@ -447,7 +447,7 @@ harpoon_mouse_ll_hook (int code, WPARAM wpar, LPARAM lpar)
 
         case WM_MOUSEWHEEL:
           evt = HARPOON_MOUSE_WHEEL;
-          button = mouse_data;
+          button = 1;
           if_debug_send_message( "WH_MOUSE_LL: WM_MOUSEWHEEL" );
           break;
 
@@ -1042,7 +1042,7 @@ buffer len is 1024 - 540 = ~480 max str len
   */
 }
 
-inline void if_debug_send_message( const char *str )
+static INLINE void if_debug_send_message( const char *str )
 {
   if( debug )
       debug_send_message( str );
