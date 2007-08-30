@@ -63,7 +63,7 @@ static void _get_exec_filename( void );
 static DWORD exec_process_id = 0;
 
 static void debug_send_message( const char * );
-static inline void if_debug_send_message( const char * );
+inline void if_debug_send_message( const char * );
 static void debug_process_menu_selection( WORD );
 static void debug_save_data();
 static HMENU menu = NULL;
@@ -168,7 +168,7 @@ static int is_app_blocked()
       return TRUE;
 }
 
-static inline LRESULT
+inline LRESULT
 harpoon_generic_hook_return(
     int code, WPARAM wpar, LPARAM lpar, HHOOK hook, BOOL forcecallnext )
 {
@@ -187,7 +187,7 @@ harpoon_generic_hook_return(
  * Messaging
  **********************************************************************/
 
-static inline void
+inline void
 harpoon_post_message(HarpoonEventType evt, int par1, int par2)
 {
   PostMessage (notification_window, WM_USER + evt, (WPARAM) par1, (LPARAM) par2);
@@ -1042,7 +1042,7 @@ buffer len is 1024 - 540 = ~480 max str len
   */
 }
 
-static inline void if_debug_send_message( const char *str )
+inline void if_debug_send_message( const char *str )
 {
   if( debug )
       debug_send_message( str );
