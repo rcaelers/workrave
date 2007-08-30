@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -66,7 +66,7 @@ public:
   static Gtk::Widget *
   create_label_for_break(BreakId id);
 
-  static Glib::RefPtr<Gdk::Pixbuf> 
+  static Glib::RefPtr<Gdk::Pixbuf>
   flip_pixbuf(Glib::RefPtr<Gdk::Pixbuf> pixbuf, bool horizontal, bool vertical);
 
   static void

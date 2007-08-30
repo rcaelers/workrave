@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -74,24 +74,24 @@ Util::get_home_directory()
     {
       // Default to current directory
       ret = "./";
-  
-#if defined(HAVE_X)  
+
+#if defined(HAVE_X)
       const char *home = getenv("WORKRAVE_HOME");
-  
+
       if (home == NULL)
         {
           home = getenv("HOME");
         }
-      
+
       if (home != NULL)
         {
           ret = home;
           ret += "/.workrave/";
-          
+
           mkdir(ret.c_str(), 0700);
         }
 #elif defined(WIN32)
-      void *pidl; 
+      void *pidl;
       char buf[MAX_PATH];
       HRESULT hr = SHGetSpecialFolderLocation(HWND_DESKTOP,
                                               CSIDL_APPDATA, &pidl);
@@ -99,7 +99,7 @@ Util::get_home_directory()
         {
           SHGetPathFromIDList(pidl, buf);
           CoTaskMemFree(pidl);
-          
+
           strcat (buf, "\\Workrave");
           bool dirok = false;
           dirok = CreateDirectory(buf, NULL);
@@ -110,7 +110,7 @@ Util::get_home_directory()
                   dirok = true;
                 }
             }
-          
+
           if (dirok)
             {
               ret = string(buf) + "\\";
@@ -118,7 +118,7 @@ Util::get_home_directory()
         }
 #endif
     }
-  
+
   return ret;
 }
 
@@ -132,7 +132,7 @@ Util::set_home_directory(const string &home)
       home.substr(0, 3) == "..\\")
     {
       char buffer[MAX_PATH];
-      
+
       // Path relative to location of workrave root.
       string appdir = get_application_directory();
 
@@ -142,7 +142,7 @@ Util::set_home_directory(const string &home)
       home_directory = buffer;
     }
   else
-#endif  
+#endif
     {
       home_directory = home + "/";
     }
@@ -151,7 +151,7 @@ Util::set_home_directory(const string &home)
   CreateDirectory(home_directory.c_str(), NULL);
 #else
   mkdir(home_directory.c_str(), 0777);
-#endif      
+#endif
 }
 
 //! Returns \c true if the specified file exists.
@@ -161,7 +161,7 @@ Util::file_exists(string path)
   // 'stat' might be faster. but this is portable..
   FILE *f = NULL;
   bool ret = false;
-  
+
   f = fopen(path.c_str(), "r");
   if (f != NULL)
     {
@@ -200,7 +200,7 @@ Util::get_search_path(SearchPathId type)
 {
   if (search_paths[type].size() > 0)
     return search_paths[type];
-  
+
   list<string> &searchPath = search_paths[type];
 
   string home_dir = get_home_directory();
@@ -214,7 +214,7 @@ Util::get_search_path(SearchPathId type)
       searchPath.push_back(string(cwd) + "/");
       g_free(cwd);
     }
-  
+
   if (type == SEARCH_PATH_IMAGES)
     {
 #if defined(HAVE_X)
@@ -228,7 +228,7 @@ Util::get_search_path(SearchPathId type)
       searchPath.push_back("/usr/share/workrave/images");
 #elif defined(WIN32)
       searchPath.push_back(app_dir + "\\share\\images");
-#endif    
+#endif
     }
   else if (type == SEARCH_PATH_CONFIG)
     {
@@ -244,7 +244,7 @@ Util::get_search_path(SearchPathId type)
 #elif defined(WIN32)
       searchPath.push_back(home_dir + "\\");
       searchPath.push_back(app_dir + "\\etc");
-#endif    
+#endif
     }
   else if (type == SEARCH_PATH_EXERCISES)
     {
@@ -254,7 +254,7 @@ Util::get_search_path(SearchPathId type)
       searchPath.push_back(app_dir + "\\share\\exercises");
 #else
 #error Not properly ported.
-#endif    
+#endif
     }
 
   return searchPath;

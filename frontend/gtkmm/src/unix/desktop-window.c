@@ -16,30 +16,30 @@ get_desktop_window (Window the_window)
   unsigned char *data;
   unsigned int nchildren;
   Window w, root, *children, parent;
-  
+
   prop = XInternAtom(GDK_DISPLAY(), "_XROOTPMAP_ID", True);
   prop2 = XInternAtom(GDK_DISPLAY(), "_XROOTCOLOR_PIXEL", True);
-  
+
   if (prop == None && prop2 == None)
     return None;
-  
+
   for (w = the_window; w; w = parent) {
-    if ((XQueryTree(GDK_DISPLAY(), w, &root, &parent, &children, &nchildren)) == False) 
+    if ((XQueryTree(GDK_DISPLAY(), w, &root, &parent, &children, &nchildren)) == False)
       return None;
-      
-    if (nchildren) 
+
+    if (nchildren)
       XFree(children);
 
     if (prop != None) {
       XGetWindowProperty(GDK_DISPLAY(), w, prop, 0L, 1L, False, AnyPropertyType,
-			 &type, &format, &length, &after, &data);
+       &type, &format, &length, &after, &data);
     } else if (prop2 != None) {
       XGetWindowProperty(GDK_DISPLAY(), w, prop2, 0L, 1L, False, AnyPropertyType,
-			 &type, &format, &length, &after, &data);
+       &type, &format, &length, &after, &data);
     } else  {
       continue;
     }
-    
+
     if (type != None) {
       return w;
     }
@@ -57,18 +57,18 @@ get_pixmap_prop (Window the_window, char *prop_id)
 
 
   Window desktop_window = get_desktop_window(the_window);
-  
+
   if(desktop_window == None)
     desktop_window = GDK_ROOT_WINDOW();
-  
+
   prop = XInternAtom(GDK_DISPLAY(), prop_id, True);
-  
+
   if (prop == None)
     return None;
-  
+
   XGetWindowProperty(GDK_DISPLAY(), desktop_window, prop, 0L, 1L, False,
-		     AnyPropertyType, &type, &format, &length, &after,
-		     &data);
+         AnyPropertyType, &type, &format, &length, &after,
+         &data);
 
   if (type == XA_PIXMAP)
     return *((Pixmap *)data);

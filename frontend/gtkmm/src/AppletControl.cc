@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -95,10 +95,10 @@ AppletControl::init()
   applets[APPLET_TRAY] = new X11SystrayAppletWindow(this);
 #endif
 
-#ifdef WIN32  
+#ifdef WIN32
   applets[APPLET_W32] = new W32AppletWindow();
 #endif
-  
+
   // Read configuration and start monitoring it.
   IConfigurator *config = CoreFactory::get_configurator();
   config->add_listener(TimerBoxControl::CFG_KEY_TIMERBOX + "applet", this);
@@ -140,7 +140,7 @@ AppletControl::show()
       deactivate_applet(APPLET_TRAY);
     }
   else
-    { 
+    {
       activate_applet(APPLET_TRAY);
     }
 #endif
@@ -153,7 +153,7 @@ void
 AppletControl::show(AppletType type)
 {
   bool specific = false;
-      
+
   AppletState rc = activate_applet(type);
   if (rc != AppletWindow::APPLET_STATE_DISABLED)
     {
@@ -167,7 +167,7 @@ AppletControl::show(AppletType type)
     {
       if ((type == APPLET_KDE || type == APPLET_GNOME)
           && specific)
-        
+
         {
           deactivate_applet(APPLET_TRAY);
         }
@@ -177,7 +177,7 @@ AppletControl::show(AppletType type)
         }
     }
 #endif
-  
+
   check_visible();
 }
 
@@ -276,7 +276,7 @@ AppletControl::heartbeat()
       delayed_show = -1;
       show();
     }
-  
+
   for (int i = 0; i < APPLET_SIZE; i++)
     {
       if (applets[i] != NULL && visible[i])
@@ -360,7 +360,7 @@ AppletWindow::AppletState
 AppletControl::activate_applet(AppletType type)
 {
   AppletState r = AppletWindow::APPLET_STATE_DISABLED;
-  
+
   if (applets[type] != NULL)
     {
       r = applets[type]->activate_applet();
@@ -369,7 +369,7 @@ AppletControl::activate_applet(AppletType type)
           visible[type] = true;
         }
     }
-  
+
   return r;
 }
 

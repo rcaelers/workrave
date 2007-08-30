@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -68,7 +68,7 @@ EventLabel::on_unrealize()
       gdk_window_destroy(event_window);
       event_window = NULL;
     }
-  
+
   Gtk::Label::on_unrealize();
 }
 
@@ -77,7 +77,7 @@ bool
 EventLabel::on_map_event(GdkEventAny *event)
 {
   bool ret = Gtk::Label::on_map_event(event);
-  
+
   if (event_window)
     {
       gdk_window_show(event_window);
@@ -94,7 +94,7 @@ EventLabel::on_unmap_event(GdkEventAny *event)
     {
       gdk_window_hide(event_window);
     }
-  
+
   return Gtk::Label::on_unmap_event(event);
 }
 
@@ -103,7 +103,7 @@ void
 EventLabel::on_size_allocate(Gtk::Allocation &allocation)
 {
   Gtk::Label::on_size_allocate(allocation);
-  
+
   GtkWidget *widget = GTK_WIDGET(gobj());
 
   if (GTK_WIDGET_REALIZED(widget))
@@ -121,7 +121,7 @@ void
 EventLabel::on_size_allocate(GtkAllocation *allocation)
 {
   Gtk::Label::on_size_allocate(allocation);
-  
+
   GtkWidget *widget = GTK_WIDGET(gobj());
 
   if (GTK_WIDGET_REALIZED(widget))

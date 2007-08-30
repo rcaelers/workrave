@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -63,7 +63,7 @@ StatisticsDialog::StatisticsDialog()
 {
   ICore *core = CoreFactory::get_core();
   statistics = core->get_statistics();
-  
+
   init_gui();
   display_calendar_date();
 }
@@ -90,7 +90,7 @@ void
 StatisticsDialog::init_gui()
 {
   Gtk::Notebook *tnotebook = manage(new Gtk::Notebook());
-  tnotebook->set_tab_pos(Gtk::POS_TOP);  
+  tnotebook->set_tab_pos(Gtk::POS_TOP);
 
   // Calendar
   calendar = manage(new Gtk::Calendar());
@@ -102,7 +102,7 @@ StatisticsDialog::init_gui()
 
   // Button box.
   Gtk::HBox *btnbox= manage(new Gtk::HBox(false, 6));
-  first_btn  
+  first_btn
     = manage(GtkUtil::create_custom_stock_button(NULL,Gtk::Stock::GOTO_FIRST));
   first_btn->signal_clicked()
     .connect(MEMBER_SLOT(*this, &StatisticsDialog::on_history_goto_first));
@@ -118,7 +118,7 @@ StatisticsDialog::init_gui()
     = manage(GtkUtil::create_custom_stock_button(NULL,Gtk::Stock::GO_FORWARD));
   forward_btn->signal_clicked()
     .connect(MEMBER_SLOT(*this, &StatisticsDialog::on_history_go_forward));
-  
+
   btnbox->pack_start(*first_btn, true, true, 0);
   btnbox->pack_start(*back_btn, true, true, 0);
   btnbox->pack_start(*forward_btn, true, true, 0);
@@ -139,11 +139,11 @@ StatisticsDialog::init_gui()
   statbox->add(_("Date:"), *date_label);
   statbox->add(*tnotebook);
   navbox->add(*statbox);
-  
+
   Gtk::HBox *hbox = manage(new Gtk::HBox(false, 12));
   hbox->pack_start(*browsebox, false, false, 0);
   hbox->pack_start(*navbox, true, true, 0);
-  
+
   create_break_page(tnotebook);
   create_activity_page(tnotebook);
 
@@ -156,7 +156,7 @@ StatisticsDialog::init_gui()
 #ifdef HAVE_X
   GtkUtil::set_wmclass(*this, "Statistics");
 #endif
-  
+
   // Dialog
   add_button(Gtk::Stock::CLOSE, Gtk::RESPONSE_CLOSE);
   show_all();
@@ -184,32 +184,32 @@ StatisticsDialog::create_break_page(Gtk::Notebook *tnotebook)
     (_("Break prompts"),
      _("The number of times you were prompted to break, excluding"
        " repeated prompts for the same break"));
-  
+
   Gtk::Widget *prompted_label
     = GtkUtil::create_label_with_tooltip
     (_("Repeated prompts"),
      _("The number of times you were repeatedly prompted to break"));
-  
+
   Gtk::Widget *taken_label
     = GtkUtil::create_label_with_tooltip
     (_("Prompted breaks taken"),
      _("The number of times you took a break when being prompted"));
-  
+
   Gtk::Widget *natural_label
     = GtkUtil::create_label_with_tooltip
     (_("Natural breaks taken"),
      _("The number of times you took a break without being prompted"));
-  
+
   Gtk::Widget *skipped_label
     = GtkUtil::create_label_with_tooltip
     (_("Breaks skipped"),
      _("The number of breaks you skipped"));
- 
+
   Gtk::Widget *postponed_label
     = GtkUtil::create_label_with_tooltip
     (_("Breaks postponed"),
      _("The number of breaks you postponed"));
-  
+
   Gtk::Widget *overdue_label
     = GtkUtil::create_label_with_tooltip
     (_("Overdue time"),
@@ -219,10 +219,10 @@ StatisticsDialog::create_break_page(Gtk::Notebook *tnotebook)
     = GtkUtil::create_label_with_tooltip
     (_("Daily usage"),
      _("The total computer usage"));
-  
+
   Gtk::HSeparator *hrule = manage(new Gtk::HSeparator());
   Gtk::VSeparator *vrule = manage(new Gtk::VSeparator());
-  
+
   // Add labels to table.
   int y = 0;
 
@@ -250,7 +250,7 @@ StatisticsDialog::create_break_page(Gtk::Notebook *tnotebook)
   GtkUtil::table_attach_left_aligned(*table, *skipped_label, 0, y++);
   GtkUtil::table_attach_left_aligned(*table, *postponed_label, 0, y++);
   GtkUtil::table_attach_left_aligned(*table, *overdue_label, 0, y++);
-  
+
   hrule = manage(new Gtk::HSeparator());
   vrule = manage(new Gtk::VSeparator());
   table->attach(*hrule, 0, 5, y, y + 1, Gtk::EXPAND | Gtk::FILL, Gtk::SHRINK);
@@ -258,10 +258,10 @@ StatisticsDialog::create_break_page(Gtk::Notebook *tnotebook)
   y++;
 
   daily_usage_label = manage(new Gtk::Label());
-  
+
   GtkUtil::table_attach_left_aligned(*table, *usage_label, 0, y);
   GtkUtil::table_attach_right_aligned(*table, *daily_usage_label, 2, y++);
-  
+
   // Put the breaks in table.
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
@@ -271,7 +271,7 @@ StatisticsDialog::create_break_page(Gtk::Notebook *tnotebook)
           GtkUtil::table_attach_right_aligned(*table, *break_labels[i][j], i + 2, j + 2);
         }
     }
-  
+
   box->show_all();
   tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*table, *box));
 }
@@ -310,7 +310,7 @@ StatisticsDialog::create_activity_page(Gtk::Notebook *tnotebook)
     = GtkUtil::create_label_with_tooltip
     (_("Keystrokes:"),
      _("The total number of keys pressed"));
-  
+
 
   int y = 0;
   GtkUtil::table_attach_left_aligned(*table, *mouse_time_label, 0, y++);
@@ -324,7 +324,7 @@ StatisticsDialog::create_activity_page(Gtk::Notebook *tnotebook)
       activity_labels[i] = manage(new Gtk::Label());
       GtkUtil::table_attach_right_aligned(*table, *activity_labels[i], 1, i);
     }
-  
+
   box->show_all();
   tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*table, *box));
 }
@@ -345,7 +345,7 @@ StatisticsDialog::display_statistics(IStatistics::DailyStats *stats)
     {
       stats = &empty;
     }
-  
+
   if (stats->start.tm_year == 0 /*stats->is_empty() */)
     {
       date_label->set_text("-");
@@ -376,7 +376,7 @@ StatisticsDialog::display_statistics(IStatistics::DailyStats *stats)
       ss.str("");
       ss << value;
       break_labels[i][0]->set_text(ss.str());
-      
+
       value = stats->break_stats[i][IStatistics::STATS_BREAKVALUE_PROMPTED]
         - value;
       ss.str("");
@@ -407,7 +407,7 @@ StatisticsDialog::display_statistics(IStatistics::DailyStats *stats)
 
       break_labels[i][6]->set_text(Text::time_to_string(value));
     }
-  
+
   stringstream ss;
 
   value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_MOVEMENT_TIME];
@@ -420,7 +420,7 @@ StatisticsDialog::display_statistics(IStatistics::DailyStats *stats)
   ss.str("");
   stream_distance(ss, value);
   activity_labels[1]->set_text(ss.str());
-      
+
   value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_CLICK_MOVEMENT];
   ss.str("");
   stream_distance(ss, value);
@@ -435,7 +435,7 @@ StatisticsDialog::display_statistics(IStatistics::DailyStats *stats)
   ss.str("");
   ss << value;
   activity_labels[4]->set_text(ss.str());
-    
+
 }
 
 

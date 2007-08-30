@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -126,7 +126,7 @@ MainWindow::~MainWindow()
 #ifdef HAVE_X
   delete leader;
 #endif
-  
+
   TRACE_EXIT();
 }
 
@@ -144,7 +144,7 @@ MainWindow::init()
   char *icon_files[] = { "workrave-icon-small.png",
                          "workrave-icon-medium.png",
                          "workrave-icon-large.png" };
-  
+
   for (unsigned int i = 0; i < sizeof(icon_files) / sizeof(char *); i++)
     {
       string file = Util::complete_directory(icon_files[i], Util::SEARCH_PATH_IMAGES);
@@ -158,16 +158,16 @@ MainWindow::init()
         {
         }
     }
-  
+
   Glib::ListHandle<Glib::RefPtr<Gdk::Pixbuf> > icon_list(icons);
   Gtk::Window::set_default_icon_list(icon_list);
-    
+
   enabled = TimerBoxControl::is_enabled("main_window");
 
   Menus *menus = Menus::get_instance();
   menus->set_main_window(this);
   menus->create_menu(Menus::MENU_MAINWINDOW);
-  
+
   timer_box_view = manage(new TimerBoxGtkView());
   timer_box_control = new TimerBoxControl("main_window", *timer_box_view);
   timer_box_view->set_geometry(ORIENTATION_LEFT, -1);
@@ -175,8 +175,8 @@ MainWindow::init()
   add(*timer_box_view);
 
   set_events(get_events() | Gdk::BUTTON_PRESS_MASK | Gdk::SUBSTRUCTURE_MASK);
-  
-  // Necessary for popup menu 
+
+  // Necessary for popup menu
   realize_if_needed();
 
   Glib::RefPtr<Gdk::Window> window = get_window();
@@ -187,9 +187,9 @@ MainWindow::init()
                           |Gdk::DECOR_MENU);
   // This used to be W32 only:
   //   window->set_functions(Gdk::FUNC_CLOSE|Gdk::FUNC_MOVE);
-  
+
   // (end window decorators)
-  
+
 #ifdef HAVE_X
   // HACK. this sets a different group leader in the WM_HINTS....
   // Without this hack, metacity makes ALL windows on-top.
@@ -201,14 +201,14 @@ MainWindow::init()
 
   stick();
   setup();
-  
+
 #ifdef WIN32
 
   win32_init();
-  set_gravity(Gdk::GRAVITY_STATIC); 
+  set_gravity(Gdk::GRAVITY_STATIC);
   set_position(Gtk::WIN_POS_NONE);
 
-#ifndef HAVE_NOT_PROPER_SIZED_MAIN_WINDOW_ON_STARTUP 
+#ifndef HAVE_NOT_PROPER_SIZED_MAIN_WINDOW_ON_STARTUP
   // This is the proper code, see hacked code below.
   if (!enabled)
     {
@@ -223,7 +223,7 @@ MainWindow::init()
       show_all();
     }
 #else // Hack deprecated: Since GTK+ 2.10 no longer necessary
-  
+
   // Hack: since GTK+ 2.2.4 the window is too wide, it incorporates room
   // for the "_ [ ] [X]" buttons somehow. This hack fixes just that.
   move(-1024, 0); // Move off-screen to reduce wide->narrow flickering
@@ -239,13 +239,13 @@ MainWindow::init()
   move_to_start_position();
   // (end of hack)
 #endif
-  
+
 #else
-  set_gravity(Gdk::GRAVITY_STATIC); 
+  set_gravity(Gdk::GRAVITY_STATIC);
   set_position(Gtk::WIN_POS_NONE);
   show_all();
   move_to_start_position();
-  
+
   if (!enabled) //  || get_start_in_tray())
     {
       iconify();
@@ -384,9 +384,9 @@ MainWindow::on_delete_event(GdkEventAny *)
 #ifdef WIN32
   win32_show(false);
 #else
-  GUI *gui = GUI::get_instance(); 
+  GUI *gui = GUI::get_instance();
   assert(gui != NULL);
-  
+
 #if defined(HAVE_GNOME) || defined(HAVE_KDE)
   bool terminate = true;
   AppletControl *applet_control = gui->get_applet_control();
@@ -394,7 +394,7 @@ MainWindow::on_delete_event(GdkEventAny *)
     {
       terminate = !applet_control->is_visible();
     }
-  
+
   if (terminate)
     {
       gui->terminate();
@@ -408,7 +408,7 @@ MainWindow::on_delete_event(GdkEventAny *)
   gui->terminate();
 #endif // HAVE_GNOME || HAVE_KDE
 #endif // WIN32
-  
+
   TRACE_EXIT();
   return true;
 }
@@ -467,7 +467,7 @@ MainWindow::config_changed_notify(string key)
 }
 
 bool
-MainWindow::get_always_on_top() 
+MainWindow::get_always_on_top()
 {
   bool rc;
   CoreFactory::get_configurator()
@@ -487,7 +487,7 @@ MainWindow::set_always_on_top(bool b)
 
 
 bool
-MainWindow::get_start_in_tray() 
+MainWindow::get_start_in_tray()
 {
   bool rc;
   CoreFactory::get_configurator()
@@ -518,15 +518,15 @@ MainWindow::win32_show(bool b)
     // jay satiro, workrave project, june 2007
     // redistribute under GNU terms.
     {
-      SetWindowPos( hwnd, 0, 0, 0, 0, 0, 
+      SetWindowPos( hwnd, 0, 0, 0, 0, 0,
                     SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_SHOWWINDOW );
       {
         HWND hFore = GetForegroundWindow();
         DWORD dThisThread, dForeThread, dForePID;
-	
+  
         dThisThread = GetCurrentThreadId();
         dForeThread = GetWindowThreadProcessId( hFore, &dForePID );
-		
+    
         AttachThreadInput( dThisThread, dForeThread, TRUE );
         /**/
         present();
@@ -551,9 +551,9 @@ void
 MainWindow::win32_init()
 {
   TRACE_ENTER("MainWindow::win32_init");
-  
+
   win32_hinstance = (HINSTANCE) GetModuleHandle(NULL);
-  
+
   WNDCLASSEX wclass =
     {
       sizeof(WNDCLASSEX),
@@ -582,10 +582,10 @@ MainWindow::win32_init()
                                    win32_hinstance,
                                    (LPSTR)NULL);
   ShowWindow(win32_main_hwnd, SW_HIDE);
-  
+
   // User data
   SetWindowLong(win32_main_hwnd, GWL_USERDATA, (LONG) this);
-  
+
   // Reassign ownership
   GtkWidget *window = Gtk::Widget::gobj();
   GdkWindow *gdk_window = window->window;
@@ -648,7 +648,7 @@ MainWindow::move_to_start_position()
   on_size_request(&req);
 
   GUI::get_instance()->bound_head(x, y, req.width, req.height, head);
-  
+
   window_head_location.set_x(x);
   window_head_location.set_y(y);
 
@@ -709,6 +709,8 @@ MainWindow::locate_window(GdkEventConfigure *event)
   int x, y;
   int width, height;
 
+  (void) event;
+
 #ifndef WIN32
   // Returns bogus results on windows...sometime.
   if (event != NULL)
@@ -721,7 +723,7 @@ MainWindow::locate_window(GdkEventConfigure *event)
       TRACE_MSG("main window2 = " << x << " " << y);
     }
   else
-#endif    
+#endif
     {
       get_position(x, y);
 
@@ -733,7 +735,7 @@ MainWindow::locate_window(GdkEventConfigure *event)
       TRACE_MSG("main window1 = " << x << " " << y);
     }
 
- 
+
   TRACE_MSG("main window = " << x << " " << y);
 
   if (x <= 0 && y <= 0)
@@ -742,7 +744,7 @@ MainWindow::locate_window(GdkEventConfigure *event)
       TRACE_EXIT();
       return;
     }
-  
+
   if (x != window_relocated_location.get_x() ||
       y != window_relocated_location.get_y())
     {
@@ -802,7 +804,7 @@ MainWindow::relocate_window(int width, int height)
               GtkRequisition req;
               on_size_request(&req);
               GUI::get_instance()->bound_head(x, y, req.width, req.height, i);
-              
+
               gui->map_from_head(x, y, i);
               break;
             }
@@ -816,7 +818,7 @@ MainWindow::relocate_window(int width, int height)
         {
           y = 0;
         }
-      
+
       TRACE_MSG("moving to " << x << " " << y);
       window_relocated_location.set_x(x);
       window_relocated_location.set_y(y);
@@ -824,7 +826,7 @@ MainWindow::relocate_window(int width, int height)
       set_position(Gtk::WIN_POS_NONE);
       move(x, y);
     }
-  
+
   TRACE_EXIT();
 }
 

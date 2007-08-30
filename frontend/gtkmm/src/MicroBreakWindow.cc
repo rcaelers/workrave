@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -58,7 +58,7 @@ MicroBreakWindow::create_gui()
   // Time bar
   time_bar = manage(new TimeBar);
   time_bar->set_text("Microbreak 0:32"); // FIXME
-  
+
   // Label
   label = manage(new Gtk::Label());
 
@@ -66,7 +66,7 @@ MicroBreakWindow::create_gui()
   string icon = Util::complete_directory("micro-break.png", Util::SEARCH_PATH_IMAGES);
   Gtk::Image *img = manage(new Gtk::Image(icon));
   img->set_alignment(0.0, 0.0);
-  
+
   // HBox
   Gtk::HBox *hbox = manage(new Gtk::HBox(false, 12));
   hbox->pack_start(*img, false, false, 0);
@@ -171,7 +171,7 @@ MicroBreakWindow::refresh_time_bar()
   string s = _("Micro-break");
   s += ' ';
   s += Text::time_to_string(time);
- 
+
   time_bar->set_progress(progress_value, progress_max_value - 1);
   time_bar->set_text(s);
 
@@ -211,7 +211,7 @@ MicroBreakWindow::refresh_label()
   ITimer *daily_timer =  core->get_timer(BREAK_ID_DAILY_LIMIT);
 
   BreakId show_next = BREAK_ID_NONE;
-  
+
   time_t rb = restbreak_timer->get_limit() - restbreak_timer->get_elapsed_time();
   time_t dl = daily_timer->get_limit() - daily_timer->get_elapsed_time();
 
@@ -227,46 +227,46 @@ MicroBreakWindow::refresh_label()
           show_next = BREAK_ID_DAILY_LIMIT;
         }
     }
-  
-  
+
+
   Glib::ustring txt(_("Please relax for a few seconds"));
   if (show_next == BREAK_ID_REST_BREAK)
     {
       char s[128];
-      
+
       if (rb >= 0)
-	{
-	  sprintf(s, _("Next rest break in %s"),
-		  Text::time_to_string(rb, true).c_str());
-	}
+        {
+          sprintf(s, _("Next rest break in %s"),
+                  Text::time_to_string(rb, true).c_str());
+        }
       else
-	{
-	  sprintf(s, _("Rest break %s overdue"),
-		  Text::time_to_string(-rb, true).c_str());
-	}
-      
+        {
+          sprintf(s, _("Rest break %s overdue"),
+                  Text::time_to_string(-rb, true).c_str());
+        }
+
       txt += "\n";
       txt += s;
     }
   else if (show_next == BREAK_ID_DAILY_LIMIT)
     {
       char s[128];
-      
+
       if (dl >= 0)
-	{
-	  sprintf(s, _("Daily limit in %s"),
-		  Text::time_to_string(dl, true).c_str());
-	}
+        {
+          sprintf(s, _("Daily limit in %s"),
+                  Text::time_to_string(dl, true).c_str());
+        }
       else
-	{
-	  sprintf(s, _("Daily limit %s overdue"),
-		  Text::time_to_string(-dl, true).c_str());
-	}
-      
+        {
+          sprintf(s, _("Daily limit %s overdue"),
+                  Text::time_to_string(-dl, true).c_str());
+        }
+
       txt += "\n";
       txt += s;
     }
-  
+
   label->set_markup(HigUtil::create_alert_text(_("Micro-break"), txt.c_str()));
   TRACE_EXIT();
 }

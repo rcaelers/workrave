@@ -1,7 +1,8 @@
 EXPORTS
-    harpoon_block_input_except_for @1
-    harpoon_exit @2
-    harpoon_hook @3
-    harpoon_init @4
-    harpoon_unblock_input @5
-    harpoon_unhook @6
+    harpoon_unblock_input @1
+    harpoon_block_input @2
+    harpoon_init @3
+    harpoon_exit @4
+    harpoon_unhook @5
+    harpoon_hook @6
+    _mbstrncpy_lowercase @7

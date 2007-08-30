@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -29,7 +29,7 @@
 class GUI : public QApplication, IApp
 {
   Q_OBJECT
-  
+
 public:
   GUI(int argc, char *argv[]);
   ~GUI();
@@ -45,7 +45,7 @@ public slots:
   virtual void set_break_progress(int value, int max_value);
   virtual void set_prelude_stage(PreludeStage stage);
   virtual void set_prelude_progress_text(PreludeProgressText text);
-  
+
 private:
   QTimer *heartbeat_timer;
   ICore *core;

@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -37,7 +37,7 @@ class BreakControl :
 public:
   enum BreakState { BREAK_ACTIVE, BREAK_INACTIVE, BREAK_SUSPENDED };
 
-  
+
   //! Defines what to do when the user is active during a break.
   struct BreakStateData
   {
@@ -50,7 +50,7 @@ public:
     int prelude_time;
     bool reached_max_postpone;
   };
-  
+
   BreakControl(BreakId id, Core *core, IApp *app, Timer *timer);
   virtual ~BreakControl();
 
@@ -71,17 +71,17 @@ public:
   void set_max_preludes(int m);
   void set_max_postpone(int m);
   void set_ignorable_break(bool i);
-  
+
   // BreakResponseInterface
   void postpone_break();
   void skip_break();
   void stop_prelude();
-  
+
 private:
   void break_window_start();
   void prelude_window_start();
   void post_event(CoreEvent event);
-  
+
 private:
   enum BreakStage { STAGE_NONE,
                     STAGE_SNOOZED,
@@ -97,24 +97,24 @@ private:
   void send_signal(BreakStage stage);
 
 private:
-  //! ID of the break controlled by this BreakControl. 
+  //! ID of the break controlled by this BreakControl.
   BreakId break_id;
-  
+
   //! The Controller.
   Core *core;
 
   //! GUI Factory used to create the break/prelude windows.
   IApp *application;
-  
+
   //! Interface to the timer controlling the break.
   Timer *break_timer;
-  
+
   //! Current stage in the break.
   BreakStage break_stage;
 
   //! This is a final prelude prompt, forcing break after this prelude
   bool reached_max_prelude;
-  
+
   //! How long is the prelude active.
   int prelude_time;
 

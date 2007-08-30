@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -62,7 +62,7 @@ workrave_applet_connect(gboolean start)
   if (remote_control != NULL)
     {
       // ping.
-      
+
       CORBA_exception_init(&ev);
       Bonobo_Unknown_ref(remote_control, &ev);
       if (BONOBO_EX(&ev))
@@ -87,25 +87,25 @@ workrave_applet_connect(gboolean start)
       bonobo_activate();
 
       CORBA_exception_init(&ev);
-      
+
       if (start == FALSE)
         {
           flags = Bonobo_ACTIVATION_FLAG_EXISTING_ONLY;
         }
-      
+
       remote_control = bonobo_activation_activate_from_id("OAFIID:GNOME_Workrave_WorkraveControl",
                                                           flags, NULL, &ev);
-      
+
       if (remote_control == NULL || BONOBO_EX(&ev))
         {
           ok = FALSE;
         }
-      
+
       CORBA_exception_free(&ev);
     }
 
   //workrave_applet_hide_menus(!ok);
-  
+
   return ok;
 }
 
@@ -137,7 +137,7 @@ workrave_applet_control_init(AppletControl *applet)
 
   applet->last_showlog_state = FALSE;
   applet->last_mode = GNOME_Workrave_WorkraveControl_MODE_INVALID;
-  
+
 }
 
 
@@ -151,7 +151,7 @@ workrave_applet_control_new(void)
 
   result = bonobo_activation_active_server_register("OAFIID:GNOME_Workrave_AppletControl",
                                                     bonobo_object_corba_objref(BONOBO_OBJECT(object)));
-  
+
   return applet_control;
 }
 
@@ -188,11 +188,11 @@ workrave_applet_control_set_menu_status(PortableServer_Servant servant, const CO
                                         const CORBA_boolean status, CORBA_Environment *ev)
 {
   AppletControl *applet_control = WR_APPLET_CONTROL(bonobo_object_from_servant(servant));
-  
+
   BonoboUIComponent *ui = NULL;
   PanelApplet *applet = NULL;
   gboolean set = FALSE;
-  
+
   if (applet_control != NULL)
     {
       applet = applet_control->applet;
@@ -202,13 +202,13 @@ workrave_applet_control_set_menu_status(PortableServer_Servant servant, const CO
     {
       ui = panel_applet_get_popup_component(applet);
     }
-  
+
   if (ui != NULL)
     {
       const char *s = bonobo_ui_component_get_prop(ui, name, "state", NULL);
 
       set = (s != NULL && atoi(s) != 0);
- 
+
       if ((status && !set) || (!status && set))
         {
           bonobo_ui_component_set_prop(ui, name, "state", status ? "1" : "0", NULL);
@@ -222,11 +222,11 @@ workrave_applet_control_get_menu_status(PortableServer_Servant servant, const CO
                                         CORBA_Environment *ev)
 {
   AppletControl *applet_control = WR_APPLET_CONTROL(bonobo_object_from_servant(servant));
-  
+
   BonoboUIComponent *ui = NULL;
   PanelApplet *applet = NULL;
   CORBA_boolean ret = FALSE;
-    
+
   if (applet_control != NULL)
     {
       applet = applet_control->applet;
@@ -236,7 +236,7 @@ workrave_applet_control_get_menu_status(PortableServer_Servant servant, const CO
     {
       ui = panel_applet_get_popup_component(applet);
     }
-  
+
   if (ui != NULL)
     {
       const char *s = bonobo_ui_component_get_prop(ui, name, "state", NULL);
@@ -252,7 +252,7 @@ void
 workrave_applet_control_set_menu_active(PortableServer_Servant servant, const CORBA_char *name,
                                         const CORBA_boolean status, CORBA_Environment *ev)
 {
-  workrave_applet_set_hidden((char *) name, !status); 
+  workrave_applet_set_hidden((char *) name, !status);
 }
 
 
@@ -261,11 +261,11 @@ workrave_applet_control_get_menu_active(PortableServer_Servant servant, const CO
                                         CORBA_Environment *ev)
 {
   AppletControl *applet_control = WR_APPLET_CONTROL(bonobo_object_from_servant(servant));
-  
+
   BonoboUIComponent *ui = NULL;
   PanelApplet *applet = NULL;
   CORBA_boolean ret = FALSE;
-    
+
   if (applet_control != NULL)
     {
       applet = applet_control->applet;
@@ -275,7 +275,7 @@ workrave_applet_control_get_menu_active(PortableServer_Servant servant, const CO
     {
       ui = panel_applet_get_popup_component(applet);
     }
-  
+
   if (ui != NULL)
     {
       const char *s = bonobo_ui_component_get_prop(ui, name, "hidden", NULL);
@@ -312,12 +312,12 @@ workrave_applet_fire_workrave()
 {
   gboolean ok = FALSE;
   workrave_applet_connect(TRUE);
-      
+
   if (remote_control != NULL)
     {
       CORBA_Environment ev;
       CORBA_exception_init(&ev);
-      
+
       GNOME_Workrave_WorkraveControl_set_applet(remote_control,
                                                 bonobo_object_corba_objref(BONOBO_OBJECT(applet_control)),
                                                 &ev);
@@ -332,7 +332,7 @@ workrave_applet_fire_workrave()
         {
           ok = TRUE;
         }
-      
+
       CORBA_exception_free(&ev);
     }
 
@@ -348,28 +348,28 @@ workrave_applet_fire_workrave()
 static void
 verb_about(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
 {
-  GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(WORKRAVE_DATADIR "/images/workrave.png", NULL);  
+  GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(WORKRAVE_DATADIR "/images/workrave.png", NULL);
   GtkAboutDialog *about = GTK_ABOUT_DIALOG(gtk_about_dialog_new());
-  
+
   gtk_container_set_border_width(GTK_CONTAINER(about), 5);
 
 
   gtk_show_about_dialog (NULL,
-			 "name", "Workrave",
-			 "version", VERSION,
-			 "copyright", workrave_copyright,
-			 "website", "http://www.workrave.org",
-			 "website_label", "www.workrave.org",
-			 "comments", _("This program assists in the prevention and recovery"
+       "name", "Workrave",
+       "version", VERSION,
+       "copyright", workrave_copyright,
+       "website", "http://www.workrave.org",
+       "website_label", "www.workrave.org",
+       "comments", _("This program assists in the prevention and recovery"
                                   " of Repetitive Strain Injury (RSI)."),
                          "translator-credits", workrave_translators,
-			 "authors", workrave_authors,
-			 "logo", pixbuf,
-			 NULL);
+       "authors", workrave_authors,
+       "logo", pixbuf,
+       NULL);
   g_object_unref(pixbuf);
 
-  
-  
+
+
 /*   gtk_widget_show (gnome_about_new */
 /*                    ("Workrave Applet", VERSION, */
 /*                     "Copyright 2001-2006 Rob Caelers & Raymond Penners", */
@@ -386,12 +386,12 @@ static void
 verb_open(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
 {
   workrave_applet_connect(TRUE);
-      
+
   if (remote_control != NULL)
     {
       CORBA_Environment ev;
       CORBA_exception_init(&ev);
-      
+
       GNOME_Workrave_WorkraveControl_open_main(remote_control, &ev);
 
       if (BONOBO_EX(&ev))
@@ -410,12 +410,12 @@ static void
 verb_preferences(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
 {
   workrave_applet_connect(FALSE);
-      
+
   if (remote_control != NULL)
     {
       CORBA_Environment ev;
       CORBA_exception_init(&ev);
-     
+
       GNOME_Workrave_WorkraveControl_open_preferences(remote_control, &ev);
 
       if (BONOBO_EX(&ev))
@@ -434,12 +434,12 @@ static void
 verb_exercises(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
 {
   workrave_applet_connect(FALSE);
-      
+
   if (remote_control != NULL)
     {
       CORBA_Environment ev;
       CORBA_exception_init(&ev);
-     
+
       GNOME_Workrave_WorkraveControl_open_exercises(remote_control, &ev);
 
       if (BONOBO_EX(&ev))
@@ -457,12 +457,12 @@ static void
 verb_statistics(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
 {
   workrave_applet_connect(FALSE);
-      
+
   if (remote_control != NULL)
     {
       CORBA_Environment ev;
       CORBA_exception_init(&ev);
-     
+
       GNOME_Workrave_WorkraveControl_open_statistics(remote_control, &ev);
 
       if (BONOBO_EX(&ev))
@@ -480,12 +480,12 @@ static void
 verb_restbreak(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
 {
   workrave_applet_connect(FALSE);
-      
+
   if (remote_control != NULL)
     {
       CORBA_Environment ev;
       CORBA_exception_init(&ev);
-      
+
       GNOME_Workrave_WorkraveControl_restbreak(remote_control, &ev);
 
       if (BONOBO_EX(&ev))
@@ -504,12 +504,12 @@ static void
 verb_connect(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
 {
   workrave_applet_connect(FALSE);
-      
+
   if (remote_control != NULL)
     {
       CORBA_Environment ev;
       CORBA_exception_init(&ev);
-      
+
       GNOME_Workrave_WorkraveControl_open_network_connect(remote_control, &ev);
 
       if (BONOBO_EX(&ev))
@@ -527,12 +527,12 @@ static void
 verb_disconnect(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
 {
   workrave_applet_connect(FALSE);
-      
+
   if (remote_control != NULL)
     {
       CORBA_Environment ev;
       CORBA_exception_init(&ev);
-      
+
       GNOME_Workrave_WorkraveControl_disconnect_all(remote_control, &ev);
 
       if (BONOBO_EX(&ev))
@@ -549,12 +549,12 @@ static void
 verb_reconnect(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
 {
   workrave_applet_connect(FALSE);
-      
+
   if (remote_control != NULL)
     {
       CORBA_Environment ev;
       CORBA_exception_init(&ev);
-      
+
       GNOME_Workrave_WorkraveControl_reconnect_all(remote_control, &ev);
 
       if (BONOBO_EX(&ev))
@@ -573,12 +573,12 @@ static void
 verb_quit(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
 {
   workrave_applet_connect(FALSE);
-      
+
   if (remote_control != NULL)
     {
       CORBA_Environment ev;
       CORBA_exception_init(&ev);
-      
+
       GNOME_Workrave_WorkraveControl_quit(remote_control, &ev);
 
       if (BONOBO_EX(&ev))
@@ -616,21 +616,21 @@ change_pixel_size(PanelApplet *applet, gint size, gpointer data)
   applet_control->size = size;
 
   workrave_applet_connect(FALSE);
-  
+
   if (remote_control != NULL)
     {
       CORBA_Environment ev;
       CORBA_exception_init(&ev);
-      
+
       GNOME_Workrave_WorkraveControl_set_applet_size(remote_control, size, &ev);
-      
+
       if (BONOBO_EX(&ev))
         {
           char *err = (char *) bonobo_exception_get_text(&ev);
           g_warning (_("An exception occurred '%s'"), err);
           g_free(err);
         }
-      
+
       CORBA_exception_free(&ev);
     }
 }
@@ -653,30 +653,30 @@ change_orient(PanelApplet *applet, PanelAppletOrient o, gpointer data)
     case PANEL_APPLET_ORIENT_LEFT:
       applet_control->orientation = 3;
       break;
-    }      
+    }
 
   workrave_applet_connect(FALSE);
-  
+
   if (remote_control != NULL)
     {
       CORBA_Environment ev;
       CORBA_exception_init(&ev);
-      
+
       GNOME_Workrave_WorkraveControl_set_applet_orientation(remote_control, applet_control->orientation, &ev);
-      
+
       if (BONOBO_EX(&ev))
         {
           char *err = (char *) bonobo_exception_get_text(&ev);
           g_warning (_("An exception occurred '%s'"), err);
           g_free(err);
         }
-      
+
       CORBA_exception_free(&ev);
     }
 }
 
 static void
-change_background (PanelApplet * widget, 
+change_background (PanelApplet * widget,
                    PanelAppletBackgroundType type,
                    GdkColor * color,
                    GdkPixmap * pixmap,
@@ -685,9 +685,9 @@ change_background (PanelApplet * widget,
   static GdkPixmap *keep = NULL;
   long xid = 0;
   GNOME_Workrave_WorkraveControl_Color c;
-  
+
   workrave_applet_connect(FALSE);
-  
+
   if (remote_control != NULL)
     {
       CORBA_Environment ev;
@@ -700,7 +700,7 @@ change_background (PanelApplet * widget,
           c.green = color->green;
           c.blue = color->blue;
         }
-      
+
       if (type == PANEL_PIXMAP_BACKGROUND)
         {
           if (keep != NULL)
@@ -712,11 +712,11 @@ change_background (PanelApplet * widget,
             {
               gdk_pixmap_ref(pixmap);
             }
-          
+
           xid = GDK_PIXMAP_XID(pixmap);
         }
 
-      
+
       GNOME_Workrave_WorkraveControl_set_applet_background(remote_control,
                                                            type,
                                                            &c,
@@ -728,7 +728,7 @@ change_background (PanelApplet * widget,
           g_warning (_("An exception occurred '%s'"), err);
           g_free(err);
         }
-      
+
       CORBA_exception_free(&ev);
     }
 }
@@ -761,12 +761,12 @@ button_pressed(GtkWidget *widget, GdkEventButton *event, gpointer data)
   if (event->button == 1)
     {
       workrave_applet_connect(FALSE);
-      
+
       if (remote_control != NULL)
         {
           CORBA_Environment ev;
           CORBA_exception_init(&ev);
-      
+
           GNOME_Workrave_WorkraveControl_button_clicked(remote_control, event->button, &ev);
 
           if (BONOBO_EX(&ev))
@@ -775,13 +775,13 @@ button_pressed(GtkWidget *widget, GdkEventButton *event, gpointer data)
               g_warning (_("An exception occurred '%s'"), err);
               g_free(err);
             }
-          
+
           CORBA_exception_free(&ev);
         }
-      
+
       ret = TRUE;
     }
-  
+
   return ret;
 }
 
@@ -803,21 +803,21 @@ showlog_callback(BonoboUIComponent *ui, const char *path, Bonobo_UIComponent_Eve
   if (1) /* FIXME: applet_control->last_showlog_state != new_state) */
     {
       applet_control->last_showlog_state = new_state;
-      
+
       if (remote_control != NULL)
         {
           CORBA_Environment ev;
           CORBA_exception_init(&ev);
-          
+
           GNOME_Workrave_WorkraveControl_open_network_log(remote_control, new_state, &ev);
-          
+
           if (BONOBO_EX(&ev))
             {
               char *err = (char *) bonobo_exception_get_text(&ev);
               g_warning (_("An exception occurred '%s'"), err);
               g_free(err);
             }
-          
+
           CORBA_exception_free(&ev);
         }
     }
@@ -838,12 +838,12 @@ mode_callback(BonoboUIComponent *ui, const char *path, Bonobo_UIComponent_EventT
     }
 
   new_state = strcmp (state, "0") != 0;
-      
+
   if (remote_control != NULL && path != NULL && new_state)
     {
       CORBA_Environment ev;
       GNOME_Workrave_WorkraveControl_Mode mode = GNOME_Workrave_WorkraveControl_MODE_INVALID;
-        
+
       if (g_ascii_strcasecmp(path, "Normal") == 0)
         {
           mode = GNOME_Workrave_WorkraveControl_MODE_NORMAL;
@@ -860,7 +860,7 @@ mode_callback(BonoboUIComponent *ui, const char *path, Bonobo_UIComponent_EventT
       if (mode != GNOME_Workrave_WorkraveControl_MODE_INVALID /* FIXME: &&
                                                                  mode !=
                                                                  applet_control->last_mode*/
-          ) 
+          )
         {
           applet_control->last_mode = mode;
 
@@ -873,7 +873,7 @@ mode_callback(BonoboUIComponent *ui, const char *path, Bonobo_UIComponent_EventT
               g_warning (_("An exception occurred '%s'"), err);
               g_free(err);
             }
-          
+
           CORBA_exception_free(&ev);
         }
     }
@@ -886,7 +886,7 @@ workrave_applet_set_hidden(gchar *name, gboolean hidden)
   BonoboUIComponent *ui = NULL;
   PanelApplet *applet = NULL;
   gboolean set = FALSE;
-  
+
   if (applet_control != NULL)
     {
       applet = applet_control->applet;
@@ -896,7 +896,7 @@ workrave_applet_set_hidden(gchar *name, gboolean hidden)
     {
       ui = panel_applet_get_popup_component(applet);
     }
-  
+
   if (ui != NULL)
     {
       const char *s = bonobo_ui_component_get_prop(ui, name, "hidden", NULL);
@@ -975,21 +975,21 @@ void size_allocate(GtkWidget     *widget,
         }
 
       workrave_applet_connect(FALSE);
-  
+
       if (remote_control != NULL)
         {
           CORBA_Environment ev;
           CORBA_exception_init(&ev);
-      
+
           GNOME_Workrave_WorkraveControl_set_applet_size(remote_control, applet_control->size, &ev);
-      
+
           if (BONOBO_EX(&ev))
             {
               char *err = (char *) bonobo_exception_get_text(&ev);
               g_warning (_("An exception occurred '%s'"), err);
               g_free(err);
             }
-      
+
           CORBA_exception_free(&ev);
         }
     }
@@ -1017,22 +1017,22 @@ workrave_applet_fill(PanelApplet *applet)
 
   panel_applet_set_flags (PANEL_APPLET (applet),
                           PANEL_APPLET_EXPAND_MINOR);
-  
+
   gtk_container_set_border_width(GTK_CONTAINER(applet), 0);
   panel_applet_set_background_widget(applet, GTK_WIDGET(applet));
   gtk_widget_set_events(GTK_WIDGET(applet),
                         gtk_widget_get_events(GTK_WIDGET(applet)) | GDK_BUTTON_PRESS_MASK);
-  
+
 
   g_signal_connect(G_OBJECT(applet), "button_press_event", G_CALLBACK(button_pressed),
                    applet_control);
-  
+
   // Socket.
   applet_control->socket = gtk_socket_new();
   gtk_container_set_border_width(GTK_CONTAINER(applet_control->socket), 0);
-  
+
   // Image
-  pixbuf = gdk_pixbuf_new_from_file(WORKRAVE_DATADIR "/images/workrave-icon-medium.png", NULL);  
+  pixbuf = gdk_pixbuf_new_from_file(WORKRAVE_DATADIR "/images/workrave-icon-medium.png", NULL);
   applet_control->image = gtk_image_new_from_pixbuf(pixbuf);
 
   // Signals.
@@ -1048,12 +1048,12 @@ workrave_applet_fill(PanelApplet *applet)
   gtk_box_pack_end(GTK_BOX(hbox), applet_control->image, TRUE, TRUE, 0);
 
   gtk_container_set_border_width(GTK_CONTAINER(hbox), 0);
-  
+
   applet_control->socket_id = gtk_socket_get_id(GTK_SOCKET(applet_control->socket));
   applet_control->size = panel_applet_get_size(applet);
 
   orient = panel_applet_get_orient(applet);
-  
+
   switch (orient)
     {
     case PANEL_APPLET_ORIENT_UP:
@@ -1068,7 +1068,7 @@ workrave_applet_fill(PanelApplet *applet)
     case PANEL_APPLET_ORIENT_LEFT:
       applet_control->orientation = 3;
       break;
-    }      
+    }
 
   force_no_focus_padding(GTK_WIDGET(applet));
   force_no_focus_padding(GTK_WIDGET(applet_control->socket));
@@ -1079,10 +1079,10 @@ workrave_applet_fill(PanelApplet *applet)
   gtk_widget_show(GTK_WIDGET(applet_control->socket));
   gtk_widget_show(GTK_WIDGET(hbox));
   gtk_widget_show(GTK_WIDGET(applet));
-  
+
   g_signal_connect(G_OBJECT(applet), "size-allocate", G_CALLBACK(size_allocate), NULL);
   g_signal_connect(G_OBJECT(applet), "change_background", G_CALLBACK(change_background), NULL);
-  
+
   return TRUE;
 }
 
@@ -1091,13 +1091,13 @@ static gboolean
 workrave_applet_factory(PanelApplet *applet, const gchar *iid, gpointer data)
 {
   gboolean retval = FALSE;
-  
+
   if (!strcmp(iid, "OAFIID:GNOME_WorkraveApplet"))
     {
       applet_control = workrave_applet_control_new();
       applet_control->applet = applet;
 
-      retval = workrave_applet_fill(applet); 
+      retval = workrave_applet_fill(applet);
 
       workrave_applet_fire_workrave();
     }

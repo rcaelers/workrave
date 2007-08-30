@@ -27,7 +27,7 @@ static const char rcsid[] = "$Id$";
  * time between jan 1, 1601 and jan 1, 1970 in units of 100 nanoseconds
  */
 #define TIMESPEC_TO_FILETIME_OFFSET \
-	  ( ((LONGLONG) 27111902 << 32) + (LONGLONG) 3577643008 )
+    ( ((LONGLONG) 27111902 << 32) + (LONGLONG) 3577643008 )
 
 
 inline void
@@ -41,7 +41,7 @@ timespec_to_filetime(const struct timespec *ts, FILETIME *ft)
       * -------------------------------------------------------------------
       */
 {
-	*(LONGLONG *)ft = ts->tv_sec * 10000000
+  *(LONGLONG *)ft = ts->tv_sec * 10000000
           + (ts->tv_nsec + 50) / 100
           + TIMESPEC_TO_FILETIME_OFFSET;
 }
@@ -57,8 +57,8 @@ filetime_to_timespec(const FILETIME *ft, struct timespec *ts)
       * -------------------------------------------------------------------
       */
 {
-	ts->tv_sec = (int)((*(LONGLONG *)ft - TIMESPEC_TO_FILETIME_OFFSET) / 10000000);
-	ts->tv_nsec = (int)((*(LONGLONG *)ft - TIMESPEC_TO_FILETIME_OFFSET - ((LONGLONG)ts->tv_sec * (LONGLONG)10000000)) * 100);
+  ts->tv_sec = (int)((*(LONGLONG *)ft - TIMESPEC_TO_FILETIME_OFFSET) / 10000000);
+  ts->tv_nsec = (int)((*(LONGLONG *)ft - TIMESPEC_TO_FILETIME_OFFSET - ((LONGLONG)ts->tv_sec * (LONGLONG)10000000)) * 100);
 }
 
 
@@ -69,13 +69,13 @@ gettimeofday(struct timeval *tv, struct timezone *tz)
   int ret = 1;
 
   (void) tz;
-  
+
   if (tv != NULL)
     {
       struct timespec spec;
       FILETIME ft;
       SYSTEMTIME st;
-      
+
       GetSystemTime(&st);
       SystemTimeToFileTime(&st, &ft);
       filetime_to_timespec(&ft, &spec);

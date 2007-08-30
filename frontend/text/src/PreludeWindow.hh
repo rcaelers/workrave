@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -38,11 +38,11 @@ public:
   void set_stage(AppInterface::PreludeStage stage);
   void set_progress_text(AppInterface::PreludeProgressText text);
   void set_response(BreakResponseInterface *pri);
-  
+
 private:
   //!
   BreakId break_id;
-  
+
   //! Final prelude
   string progress_text;
 

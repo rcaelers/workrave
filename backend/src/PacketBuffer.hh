@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -21,7 +21,7 @@
 
 #include "glib.h"
 
-#define GROW_SIZE	(4096)
+#define GROW_SIZE (4096)
 
 class PacketBuffer
 {
@@ -34,11 +34,11 @@ public:
   void resize(int size);
   void grow(int size);
   void narrow(int pos, int size);
-  
+
   void clear() { narrow(0, -1); write_ptr = read_ptr = buffer; }
   void skip(int size) { read_ptr += size; }
   void insert(int pos, int size);
-  
+
   void pack(const guint8 *data, int size);
   void pack_raw(const guint8 *data, int size);
   void pack_raw(PacketBuffer &buffer);
@@ -50,7 +50,7 @@ public:
   void poke_byte(int pos, guint8 data);
   void poke_ushort(int pos, guint16 data);
   void poke_string(int pos, const gchar *data);
-  
+
   int unpack(guint8 **data);
   int unpack_raw(guint8 **data, int size);
   gchar *unpack_string();
@@ -68,7 +68,7 @@ public:
   void update_size(int pos);
   int read_size(int &pos);
   void skip_size(int &pos);
-  
+
   int bytes_available() { return write_ptr - read_ptr; }
   int bytes_written() { return write_ptr - buffer; }
   int bytes_read() { return read_ptr - buffer; }
@@ -76,7 +76,7 @@ public:
   gchar *get_write_ptr() { return (gchar *)write_ptr; }
   int get_buffer_size() { return buffer_size; }
   void restart_read() { read_ptr = buffer; }
-  
+
 public:
   guint8 *buffer;
   guint8 *read_ptr;

@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -16,8 +16,8 @@
 // $Id$
 //
 // This is the GTK setup for the Advanced Preference Page.
-// If someone wants to expand this and add troubleshooting 
-// options for operating systems other than Windows, I can 
+// If someone wants to expand this and add troubleshooting
+// options for operating systems other than Windows, I can
 // move Win32 specific to a separate file.
 //
 
@@ -64,26 +64,24 @@ AdvancedPreferencePage::AdvancedPreferencePage()
   : Gtk::VBox( false, 6 )
 {
   TRACE_ENTER( "AdvancedPreferencePage::AdvancedPreferencePage" );
-  
+
   Gtk::Notebook *notebook = manage( new Gtk::Notebook() );
   //notebook->set_tab_pos( Gtk::POS_TOP );
-  
+
   Gtk::ScrolledWindow *scroller = manage( new Gtk::ScrolledWindow() );
   scroller->set_shadow_type( Gtk::SHADOW_ETCHED_OUT );
   scroller->set_policy( Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC );
   scroller->set_border_width( 4 );
-  
+
   HigCategoriesPanel *main_panel = manage( new HigCategoriesPanel() );
   main_panel->set_border_width( 12 );
-  
-  
+
+
 #if defined(WIN32)
-  forcebox = manage(new Gtk::CheckButton( 
+  forcebox = manage(new Gtk::CheckButton(
           _( "Force Break Window Focus (experimental, restart required)" ) ) );
-  forcebox->signal_toggled().connect( MEMBER_SLOT( *this, 
+  forcebox->signal_toggled().connect( MEMBER_SLOT( *this,
           &AdvancedPreferencePage::forcebox_signal_toggled ) );
-  forcebox->signal_focus_out_event().connect( MEMBER_SLOT( *this, 
-          &AdvancedPreferencePage::forcebox_signal_focus_out_event ) );
   HigCategoryPanel *forcebox_panel = manage( new HigCategoryPanel( *forcebox ) );
   Gtk::Label *forcebox_label = manage( new Gtk::Label(
           _( "A break window can lose focus due to either an operating system or application compatibility issue. If you enable this option, your input to other applications is disrupted during your breaks." ) ) );
@@ -91,10 +89,10 @@ AdvancedPreferencePage::AdvancedPreferencePage()
   //forcebox_label->set_max_width_chars( 100 );
   forcebox_panel->add( *forcebox_label );
   main_panel->add( *forcebox_panel );
-  
-  nohooksbox = manage( new Gtk::CheckButton( 
+
+  nohooksbox = manage( new Gtk::CheckButton(
           _( "Enable Alternate Activity Monitor (experimental, restart required)" ) ) );
-  nohooksbox->signal_toggled().connect( MEMBER_SLOT( *this, 
+  nohooksbox->signal_toggled().connect( MEMBER_SLOT( *this,
           &AdvancedPreferencePage::nohooksbox_signal_toggled ) );
   HigCategoryPanel *nohooksbox_panel = manage( new HigCategoryPanel( *nohooksbox ) );
   Gtk::Label *nohooksbox_label = manage( new Gtk::Label(
@@ -103,14 +101,14 @@ AdvancedPreferencePage::AdvancedPreferencePage()
   nohooksbox_panel->add( *nohooksbox_label );
   main_panel->add( *nohooksbox_panel );
 #endif
-  
+
   scroller->add( *main_panel );
   notebook->append_page( *scroller, _( "Troubleshooting" ) );
   pack_start( *notebook, true, true, 0 );
-  
+
   notebook->show_all();
   notebook->set_current_page( 0 );
-  
+
   init();
   TRACE_EXIT();
 }
@@ -130,32 +128,20 @@ void AdvancedPreferencePage::forcebox_signal_toggled()
   forcebox->set_sensitive( true );
 }
 
-bool AdvancedPreferencePage::
-forcebox_signal_focus_out_event(GdkEventFocus *test)
-{
-  /*
-    The value returned from the signal handler indicates whether it 
-    has fully "handled" the event. If the value is false then gtkmm 
-    will pass the event on to the next signal handler. If the value 
-    is true then no other signal handlers will need to be called.
-    http://www.gtkmm.org/docs/gtkmm-2.4/docs/tutorial/html/apbs06.html
-  */
-  return false;
-}
 
-bool AdvancedPreferencePage::forcebox_get_config() 
+bool AdvancedPreferencePage::forcebox_get_config()
 {
   bool enabled;
-  
-  // if force_focus has a value that will be set on quit, 
+
+  // if force_focus has a value that will be set on quit,
   // that value will be returned, not the actual value.
   if( CoreFactory::get_configurator()->
       get_value_on_quit( "advanced/force_focus", &enabled ) == true )
           return enabled;
-  
+
   CoreFactory::get_configurator()->
       get_value_default( "advanced/force_focus", &enabled, false );
-  
+
   return enabled;
 }
 
@@ -167,19 +153,19 @@ void AdvancedPreferencePage::nohooksbox_signal_toggled()
   nohooksbox->set_sensitive( true );
 }
 
-bool AdvancedPreferencePage::nohooksbox_get_config() 
+bool AdvancedPreferencePage::nohooksbox_get_config()
 {
   bool enabled;
-  
-  // if nohooks has a value that will be set on quit, 
+
+  // if nohooks has a value that will be set on quit,
   // that value will be returned, not the actual value.
   if( CoreFactory::get_configurator()->
       get_value_on_quit( "advanced/nohooks", &enabled ) == true )
           return enabled;
-  
+
   CoreFactory::get_configurator()->
       get_value_default( "advanced/nohooks", &enabled, false );
-  
+
   return enabled;
 }
 #endif

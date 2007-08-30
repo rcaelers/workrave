@@ -3,13 +3,13 @@
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-01-05 16:06:00 robc>
+// Time-stamp: <2007-08-30 16:03:06 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -33,7 +33,7 @@ void
 WeekTimePred::set_last(time_t lastTime)
 {
   last_time = lastTime;
-  
+
   time_t now = time(NULL);
 
   if (last_time == 0)
@@ -66,7 +66,7 @@ WeekTimePred::init(int day, int hour, int min)
   pred_day = day;
   pred_hour = hour;
   pred_min = min;
-  
+
   return true;
 }
 
@@ -86,16 +86,16 @@ WeekTimePred::init(std::string spec)
           std::string day;
           std::string hours;
           std::string minutes;
-  
+
           day = spec.substr(0, pos1);
           minutes = spec.substr(pos1 + 1, pos2);
           hours = spec.substr(pos2 + 1);
 
           ret = init(atoi(day.c_str()), atoi(hours.c_str()), atoi(minutes.c_str()));
-          
+
         }
     }
-  
+
   return ret;
 }
 
@@ -131,7 +131,7 @@ WeekTimePred::get_next()
   struct tm *ret;
 
   ret = localtime(&last_time);
-  
+
   if (ret != NULL)
     {
       int wdayDiff = pred_day - ret->tm_wday;
@@ -143,7 +143,7 @@ WeekTimePred::get_next()
 
       ret->tm_mday += wdayDiff;
       ret->tm_wday = pred_day;
-        
+
       ret->tm_sec = 0;
       ret->tm_min = pred_min;
       ret->tm_hour = pred_hour;

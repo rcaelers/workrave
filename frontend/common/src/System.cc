@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -50,36 +50,36 @@
 #define INTERFACE IShellDispatch
 DECLARE_INTERFACE_(IShellDispatch, IUnknown)
 {
-	STDMETHOD(QueryInterface)(THIS_ REFIID,PVOID*) PURE;
-	STDMETHOD_(ULONG,AddRef)(THIS) PURE;
-	STDMETHOD_(ULONG,Release)(THIS) PURE;
-	STDMETHOD_(ULONG,dummy1)(THIS) PURE;
-	STDMETHOD_(ULONG,dummy2)(THIS) PURE;
-	STDMETHOD_(ULONG,dummy3)(THIS) PURE;
-	STDMETHOD_(ULONG,dummy4)(THIS) PURE;
-	STDMETHOD_(ULONG,dummy5)(THIS) PURE;
-	STDMETHOD_(ULONG,dummy6)(THIS) PURE;
-	STDMETHOD_(ULONG,dummy7)(THIS) PURE;
-	STDMETHOD_(ULONG,dummy8)(THIS) PURE;
-	STDMETHOD_(ULONG,dummy9)(THIS) PURE;
-	STDMETHOD_(ULONG,dummya)(THIS) PURE;
-	STDMETHOD_(ULONG,dummyb)(THIS) PURE;
-	STDMETHOD_(ULONG,dummyc)(THIS) PURE;
-	STDMETHOD_(ULONG,dummyd)(THIS) PURE;
-	STDMETHOD_(ULONG,dummye)(THIS) PURE;
-	STDMETHOD_(ULONG,dummyf)(THIS) PURE;
-	STDMETHOD_(ULONG,dummyg)(THIS) PURE;
-	STDMETHOD_(ULONG,dummyh)(THIS) PURE;
+  STDMETHOD(QueryInterface)(THIS_ REFIID,PVOID*) PURE;
+  STDMETHOD_(ULONG,AddRef)(THIS) PURE;
+  STDMETHOD_(ULONG,Release)(THIS) PURE;
+  STDMETHOD_(ULONG,dummy1)(THIS) PURE;
+  STDMETHOD_(ULONG,dummy2)(THIS) PURE;
+  STDMETHOD_(ULONG,dummy3)(THIS) PURE;
+  STDMETHOD_(ULONG,dummy4)(THIS) PURE;
+  STDMETHOD_(ULONG,dummy5)(THIS) PURE;
+  STDMETHOD_(ULONG,dummy6)(THIS) PURE;
+  STDMETHOD_(ULONG,dummy7)(THIS) PURE;
+  STDMETHOD_(ULONG,dummy8)(THIS) PURE;
+  STDMETHOD_(ULONG,dummy9)(THIS) PURE;
+  STDMETHOD_(ULONG,dummya)(THIS) PURE;
+  STDMETHOD_(ULONG,dummyb)(THIS) PURE;
+  STDMETHOD_(ULONG,dummyc)(THIS) PURE;
+  STDMETHOD_(ULONG,dummyd)(THIS) PURE;
+  STDMETHOD_(ULONG,dummye)(THIS) PURE;
+  STDMETHOD_(ULONG,dummyf)(THIS) PURE;
+  STDMETHOD_(ULONG,dummyg)(THIS) PURE;
+  STDMETHOD_(ULONG,dummyh)(THIS) PURE;
         STDMETHOD(ShutdownWindows)(THIS) PURE;
-	STDMETHOD_(ULONG,dummyi)(THIS) PURE;
-	STDMETHOD_(ULONG,dummyj)(THIS) PURE;
-	STDMETHOD_(ULONG,dummyk)(THIS) PURE;
-	STDMETHOD_(ULONG,dummyl)(THIS) PURE;
-	STDMETHOD_(ULONG,dummym)(THIS) PURE;
-	STDMETHOD_(ULONG,dummyn)(THIS) PURE;
-	STDMETHOD_(ULONG,dummyo)(THIS) PURE;
-	STDMETHOD_(ULONG,dummyp)(THIS) PURE;
-	STDMETHOD_(ULONG,dummyq)(THIS) PURE;
+  STDMETHOD_(ULONG,dummyi)(THIS) PURE;
+  STDMETHOD_(ULONG,dummyj)(THIS) PURE;
+  STDMETHOD_(ULONG,dummyk)(THIS) PURE;
+  STDMETHOD_(ULONG,dummyl)(THIS) PURE;
+  STDMETHOD_(ULONG,dummym)(THIS) PURE;
+  STDMETHOD_(ULONG,dummyn)(THIS) PURE;
+  STDMETHOD_(ULONG,dummyo)(THIS) PURE;
+  STDMETHOD_(ULONG,dummyp)(THIS) PURE;
+  STDMETHOD_(ULONG,dummyq)(THIS) PURE;
 END_INTERFACE
 };
 typedef IShellDispatch *LPSHELLDISPATCH;
@@ -139,7 +139,7 @@ System::lock()
       g_string_free(cmd, true);
 #elif defined(WIN32)
       (*lock_func)();
-#endif  
+#endif
     }
   TRACE_EXIT();
 }
@@ -164,7 +164,7 @@ System::shutdown()
 #if defined(HAVE_X)
 #elif defined(WIN32)
   shutdown_helper(true);
-#endif  
+#endif
 }
 
 #ifdef WIN32
@@ -180,14 +180,7 @@ System::shutdown_helper(bool for_real)
       ret = true;
       if (for_real)
         {
-          bool nohooks;
-	
-          CoreFactory::get_configurator()->get_value_default( "advanced/nohooks", &nohooks, false);
-          if (!nohooks)
-            {
-              harpoon_unblock_input();
-            }
-
+          harpoon_unblock_input();
           pShellDispatch->ShutdownWindows();
         }
       pShellDispatch->Release();
@@ -227,7 +220,7 @@ System::init(
       xlock = g_strdup_printf("%s --lock", lock);
     }
   g_free(lock);
-  
+
   if (xlock != NULL)
     {
       TRACE_MSG("Locking enabled: " << xlock);
@@ -256,20 +249,20 @@ get_self_typed_prop (Display *display,
                      Window      xwindow,
                      Atom        atom,
                      unsigned long     *val)
-{  
+{
   Atom type;
   int format;
   unsigned long nitems;
   unsigned long bytes_after;
   unsigned long *num;
-  
+
   type = None;
   XGetWindowProperty (display,
                       xwindow,
                       atom,
                       0, 100000,
                       False, atom, &type, &format, &nitems,
-                      &bytes_after, (unsigned char **)&num);  
+                      &bytes_after, (unsigned char **)&num);
 
   if (type != atom) {
     return false;
@@ -277,7 +270,7 @@ get_self_typed_prop (Display *display,
 
   if (val)
     *val = *num;
-  
+
   XFree (num);
 
   return true;
@@ -299,22 +292,22 @@ look_for_kdesktop_recursive (Display *display, Window xwindow)
   unsigned int n_children = 0;
   unsigned int i = 0;
   bool retval;
-  
+
   /* If WM_STATE is set, this is a managed client, so look
    * for the class hint and end recursion. Otherwise,
    * this is probably just a WM frame, so keep recursing.
    */
-  if (has_wm_state (display, xwindow)) {      
+  if (has_wm_state (display, xwindow)) {
     XClassHint ch;
-      
+
     ch.res_name = NULL;
     ch.res_class = NULL;
-      
+
     XGetClassHint (display, xwindow, &ch);
-      
+
     if (ch.res_name)
       XFree (ch.res_name);
-      
+
     if (ch.res_class) {
       if (strcasecmp (ch.res_class, "kdesktop") == 0) {
         XFree (ch.res_class);
@@ -326,7 +319,7 @@ look_for_kdesktop_recursive (Display *display, Window xwindow)
     return false;
   }
   retval = false;
-  
+
   Status status = XQueryTree(display,
                              xwindow,
                              &ignored1, &ignored2, &children, &n_children);
@@ -338,7 +331,7 @@ look_for_kdesktop_recursive (Display *display, Window xwindow)
           retval = true;
           break;
         }
-        
+
         ++i;
       }
 

@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -53,12 +53,12 @@ NetworkPreferencePage::NetworkPreferencePage()
   TRACE_ENTER("NetworkPreferencePage::NetworkPreferencePage");
 
   Gtk::Notebook *tnotebook = manage(new Gtk::Notebook());
-  tnotebook->set_tab_pos(Gtk::POS_TOP);  
+  tnotebook->set_tab_pos(Gtk::POS_TOP);
 
   ICore *core = CoreFactory::get_core();
   dist_manager = core->get_distribution_manager();
   assert(dist_manager != NULL);
-  
+
   create_general_page(tnotebook);
   create_peers_page(tnotebook);
   create_advanced_page(tnotebook);
@@ -98,7 +98,7 @@ NetworkPreferencePage::create_general_page(Gtk::Notebook *tnotebook)
   id_frame->add(_("Password:"), *password_entry);
   password_entry->set_visibility(false);
   password_entry->set_invisible_char('*');
-  
+
   id_frame->set_border_width(12);
   tnotebook->append_page(*id_frame, _("General"));
 
@@ -123,7 +123,7 @@ NetworkPreferencePage::create_advanced_page(Gtk::Notebook *tnotebook)
   port_entry->set_increments(1, 10);
   port_entry->set_numeric(true);
   port_entry->set_width_chars(10);
-  
+
   attempts_entry->set_range(0, 100);
   attempts_entry->set_increments(1, 10);
   attempts_entry->set_numeric(true);
@@ -144,7 +144,7 @@ NetworkPreferencePage::create_advanced_page(Gtk::Notebook *tnotebook)
   port_entry->signal_changed().connect(MEMBER_SLOT(*this, &NetworkPreferencePage::on_port_changed));
   interval_entry->signal_changed().connect(MEMBER_SLOT(*this, &NetworkPreferencePage::on_interval_changed));
   attempts_entry->signal_changed().connect(MEMBER_SLOT(*this, &NetworkPreferencePage::on_attempts_changed));
-  
+
 }
 
 
@@ -158,14 +158,14 @@ NetworkPreferencePage::create_peers_page(Gtk::Notebook *tnotebook)
   const char *label =
     _("The following list specifies the hosts that Workrave connects to on\n"
       "start-up. Click the host name or port number to edit.");
-    
+
   Gtk::HBox *infohbox = manage(new Gtk::HBox(false, 6));
   Gtk::Label *info_lab = manage(new Gtk::Label(label));
 
   infohbox->pack_start(*info_lab, false, false, 0);
   gp->pack_start(*infohbox, false, false, 0);
-  
-  
+
+
   //
   Gtk::HBox *hbox = manage(new Gtk::HBox(false, 6));
 
@@ -183,7 +183,7 @@ NetworkPreferencePage::create_peers_page(Gtk::Notebook *tnotebook)
   Gtk::CellRendererText *renderer = NULL;
   Gtk::TreeViewColumn *column = NULL;
   int cols_count = 0;
-  
+
   renderer = Gtk::manage(new Gtk::CellRendererText());
   cols_count = peers_list->append_column(_("Host name"), *renderer);
   column = peers_list->get_column(cols_count-1);
@@ -191,7 +191,7 @@ NetworkPreferencePage::create_peers_page(Gtk::Notebook *tnotebook)
   column->set_resizable(true);
   renderer->property_editable().set_value(true);
   renderer->signal_edited().connect(MEMBER_SLOT(*this, &NetworkPreferencePage::on_hostname_edited));
-    
+
   renderer = Gtk::manage(new Gtk::CellRendererText());
   cols_count = peers_list->append_column(_("Port"), *renderer);
   column = peers_list->get_column(cols_count-1);
@@ -202,7 +202,7 @@ NetworkPreferencePage::create_peers_page(Gtk::Notebook *tnotebook)
 
   Gtk::ScrolledWindow *peers_scroll = manage(new Gtk::ScrolledWindow());
   peers_scroll->add(*peers_list);
-  
+
   Gtk::VBox *peersvbox = manage(new Gtk::VBox(true, 6));
   peersvbox->pack_start(*peers_scroll, true, true, 0);
 
@@ -212,7 +212,7 @@ NetworkPreferencePage::create_peers_page(Gtk::Notebook *tnotebook)
   peers_store->signal_row_inserted().connect(MEMBER_SLOT(*this, &NetworkPreferencePage::on_row_changed));
   peers_store->signal_row_deleted().connect(MEMBER_SLOT(*this, &NetworkPreferencePage::on_row_deleted));
 
-                                    
+
   // Buttons
   remove_btn = manage(new Gtk::Button(Gtk::Stock::REMOVE));
   remove_btn->signal_clicked().connect(MEMBER_SLOT(*this, &NetworkPreferencePage::on_peer_remove));
@@ -222,13 +222,13 @@ NetworkPreferencePage::create_peers_page(Gtk::Notebook *tnotebook)
   Gtk::VBox *btnbox= manage(new Gtk::VBox(false, 6));
   btnbox->pack_start(*add_btn, false, false, 0);
   btnbox->pack_start(*remove_btn, false, false, 0);
-  
+
   hbox->pack_start(*btnbox, false, false, 0);
-  
+
   gp->pack_start(*hbox, true, true, 0);
-  
+
   gp->show_all();
-  
+
   gp->set_border_width(12);
   tnotebook->append_page(*gp, _("Hosts"));
 }
@@ -251,16 +251,16 @@ NetworkPreferencePage::create_model()
           if (pos != std::string::npos)
             {
               hostname = peer.substr(6);
-                  
+
               pos = hostname.rfind(":");
               if (pos != std::string::npos)
                 {
                   port = hostname.substr(pos + 1);
                   hostname = hostname.substr(0, pos);
                 }
-                  
+
               Gtk::TreeRow row = *(peers_store->append());
-                  
+
               row[peers_columns.hostname]  = hostname;
               row[peers_columns.port]      = port;
             }
@@ -268,7 +268,7 @@ NetworkPreferencePage::create_model()
     }
 
 }
-  
+
 
 void
 NetworkPreferencePage::init_page_values()
@@ -361,7 +361,7 @@ NetworkPreferencePage::on_peer_remove()
 #else
   selection->selected_foreach(SigC::slot(*this, &NetworkPreferencePage::remove_peer));
 #endif
-  
+
   Glib::RefPtr<Gtk::ListStore> new_store = Gtk::ListStore::create(peers_columns);
 
   typedef Gtk::TreeModel::Children type_children;
@@ -369,14 +369,14 @@ NetworkPreferencePage::on_peer_remove()
   for (type_children::iterator iter = children.begin(); iter != children.end(); ++iter)
     {
       Gtk::TreeModel::Row row = *iter;
-      
+
       string hostname = row[peers_columns.hostname];
       string port = row[peers_columns.port];
 
       if (hostname != "" || port != "")
         {
           Gtk::TreeRow new_row = *(new_store->append());
-          
+
           new_row[peers_columns.hostname]  = hostname;
           new_row[peers_columns.port]      = port;
         }
@@ -393,10 +393,10 @@ NetworkPreferencePage::on_peer_add()
 {
   Gtk::TreeRow row = *(peers_store->append());
   int port = (int) port_entry->get_value();
-  
+
   stringstream ss;
   ss << port;
-  
+
   row[peers_columns.hostname]  = "";
   row[peers_columns.port]      = ss.str();
 }
@@ -458,7 +458,7 @@ NetworkPreferencePage::update_peers()
 {
   string peers;
   bool first = true;
-  
+
   typedef Gtk::TreeModel::Children type_children;
   type_children children = peers_store->children();
   for (type_children::iterator iter = children.begin(); iter != children.end(); ++iter)

@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -59,7 +59,7 @@ DistributionManager::DistributionManager() :
 }
 
 
-//! Destructs this DistributionManager. 
+//! Destructs this DistributionManager.
 DistributionManager::~DistributionManager()
 {
   delete link;
@@ -110,7 +110,7 @@ int
 DistributionManager::get_number_of_peers()
 {
   int ret = 0;
-  
+
   if (link != NULL)
     {
       ret = link->get_number_of_peers();
@@ -141,7 +141,7 @@ string
 DistributionManager::get_my_id() const
 {
   string id;
-  
+
   if (link != NULL)
     {
       id = link->get_id();
@@ -159,7 +159,7 @@ bool
 DistributionManager::claim()
 {
   bool ret = false;
-  
+
   if (link != NULL)
     {
       ret = link->claim();
@@ -169,7 +169,7 @@ DistributionManager::claim()
     {
       state = NODE_ACTIVE;
     }
-  
+
   return ret;
 }
 
@@ -184,12 +184,12 @@ bool
 DistributionManager::set_lock_master(bool lock)
 {
   bool ret = false;
-  
+
   if (link != NULL)
     {
       ret = link->set_lock_master(lock);
     }
-  
+
   return ret;
 }
 
@@ -199,7 +199,7 @@ bool
 DistributionManager::connect(string url)
 {
   bool ret = false;
-  
+
   if (link != NULL)
     {
       link->connect(url);
@@ -214,7 +214,7 @@ bool
 DistributionManager::disconnect(string id)
 {
   bool ret = false;
-  
+
   if (link != NULL)
     {
       link->disconnect(id);
@@ -229,7 +229,7 @@ bool
 DistributionManager::disconnect_all()
 {
   bool ret = false;
-  
+
   if (link != NULL)
     {
       link->disconnect_all();
@@ -244,7 +244,7 @@ bool
 DistributionManager::reconnect_all()
 {
   bool ret = false;
-  
+
   if (link != NULL)
     {
       link->reconnect_all();
@@ -261,7 +261,7 @@ DistributionManager::register_client_message(DistributionClientMessageID id,
                                              IDistributionClientMessage *callback)
 {
   bool ret = false;
-  
+
   if (link != NULL)
     {
       link->register_client_message(id, type, callback);
@@ -276,7 +276,7 @@ bool
 DistributionManager::unregister_client_message(DistributionClientMessageID id)
 {
   bool ret = false;
-  
+
   if (link != NULL)
     {
       link->unregister_client_message(id);
@@ -302,10 +302,10 @@ DistributionManager::add_listener(DistributionListener *listener)
           // Already added. Skip
           ret = false;
         }
-      
+
       i++;
     }
-  
+
   if (ret)
     {
       // not found -> add
@@ -348,7 +348,7 @@ bool
 DistributionManager::broadcast_client_message(DistributionClientMessageID id, PacketBuffer &buffer)
 {
   bool ret = false;
-  
+
   if (link != NULL)
     {
       ret = link->broadcast_client_message(id, buffer);
@@ -366,14 +366,14 @@ DistributionManager::master_changed(bool new_master, char *id)
 
   if (id != NULL)
     {
-      // id 
+      // id
       current_master = id;
     }
   else
     {
       current_master = "";
     }
-  
+
   TRACE_EXIT();
 }
 
@@ -388,7 +388,7 @@ DistributionManager::sanitize_peer(string &peer)
       peer = peer.substr(1, len - 1);
       len--;
     }
-  
+
   while (len > 1 && (peer[len - 1] == ' '))
     {
       peer = peer.substr(0, len - 1);
@@ -396,7 +396,7 @@ DistributionManager::sanitize_peer(string &peer)
     }
 
   std::string::size_type pos = peer.find("://");
-  
+
   if (pos == std::string::npos)
     {
       peer = "tcp://" + peer;
@@ -410,7 +410,7 @@ DistributionManager::add_peer(string peer)
 {
   TRACE_ENTER_MSG("DistributionManager:add_peer", peer);
   bool ret = false;
-  
+
   sanitize_peer(peer);
 
   list<string>::iterator i = find(peer_urls.begin(), peer_urls.end(), peer);
@@ -435,7 +435,7 @@ DistributionManager::remove_peer(string peer)
 {
   TRACE_ENTER_MSG("DistributionManager:remove_peer", peer);
   bool ret = false;
-  
+
   sanitize_peer(peer);
   list<string>::iterator i = find(peer_urls.begin(), peer_urls.end(), peer);
 
@@ -446,7 +446,7 @@ DistributionManager::remove_peer(string peer)
     }
 
   write_peers();
-  
+
   TRACE_EXIT();
   return ret;
 }
@@ -485,7 +485,7 @@ DistributionManager::parse_peers(string peers, bool doconnect)
               connect(peer);
             }
         }
-      
+
       pos = peers.find(',');
     }
 
@@ -547,7 +547,7 @@ DistributionManager::write_peers()
         }
       peers += (*i);
     }
-              
+
   configurator->set_value(CFG_KEY_DISTRIBUTION + CFG_KEY_DISTRIBUTION_PEERS, peers);
   TRACE_EXIT();
 }
@@ -560,7 +560,7 @@ DistributionManager::config_changed_notify(string key)
   TRACE_ENTER_MSG("DistributionManager:config_changed_notify", key);
 
   read_configuration();
-  
+
   TRACE_EXIT();
 }
 
@@ -572,7 +572,7 @@ DistributionManager::log(char *fmt, ...)
   va_list va;
 
   va_start(va, fmt);
-  
+
   time_t current_time = time (NULL);
   struct tm *lt = localtime(&current_time);
 
@@ -621,10 +621,10 @@ DistributionManager::add_log_listener(DistributionLogListener *listener)
           // Already added. Skip
           ret = false;
         }
-      
+
       i++;
     }
-  
+
   if (ret)
     {
       // not found -> add
@@ -674,7 +674,7 @@ void
 DistributionManager::fire_log_event(string message)
 {
   TRACE_ENTER_MSG("DistributionManager::fire_log_event", message);
-  
+
   LogListenerIter i = log_listeners.begin();
   while (i != log_listeners.end())
     {
@@ -685,7 +685,7 @@ DistributionManager::fire_log_event(string message)
         }
       i++;
     }
-  
+
   TRACE_EXIT();
 }
 
@@ -694,7 +694,7 @@ void
 DistributionManager::fire_signon_client(char *id)
 {
   TRACE_ENTER_MSG("DistributionManager::fire_signon_client", id);
-  
+
   ListenerIter i = listeners.begin();
   while (i != listeners.end())
     {
@@ -705,7 +705,7 @@ DistributionManager::fire_signon_client(char *id)
         }
       i++;
     }
-  
+
   TRACE_EXIT();
 }
 
@@ -713,7 +713,7 @@ void
 DistributionManager::fire_signoff_client(char *id)
 {
   TRACE_ENTER_MSG("DistributionManager::fire_signoff_client", id);
-  
+
   ListenerIter i = listeners.begin();
   while (i != listeners.end())
     {
@@ -724,7 +724,7 @@ DistributionManager::fire_signoff_client(char *id)
         }
       i++;
     }
-  
+
   TRACE_EXIT();
 }
 

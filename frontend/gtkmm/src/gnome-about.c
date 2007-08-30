@@ -49,81 +49,81 @@ G_BEGIN_DECLS
 /* Define the boilerplate type stuff to reduce typos and code size.  Defines
  * the get_type method and the parent_class static variable. */
 
-#define BONOBO_BOILERPLATE(type, type_as_function, corba_type,		\
-			   parent_type, parent_type_macro,		\
-			   register_type_macro)				\
-static void type_as_function ## _class_init    (type ## Class *klass);	\
-static void type_as_function ## _instance_init (type          *object);	\
-static parent_type ## Class *parent_class = NULL;			\
-static void								\
-type_as_function ## _class_init_trampoline (gpointer klass,		\
-					    gpointer data)		\
-{									\
-	parent_class = g_type_class_ref (parent_type_macro);		\
-	type_as_function ## _class_init (klass);			\
-}									\
-GType									\
-type_as_function ## _get_type (void)					\
-{									\
-	static GType object_type = 0;					\
-	if (object_type == 0) {						\
-		static const GTypeInfo object_info = {			\
-		    sizeof (type ## Class),				\
-		    NULL,		/* base_init */			\
-		    NULL,		/* base_finalize */		\
-		    type_as_function ## _class_init_trampoline,		\
-		    NULL,		/* class_finalize */		\
-		    NULL,               /* class_data */		\
-		    sizeof (type),					\
-		    0,                  /* n_preallocs */		\
-		    (GInstanceInitFunc) type_as_function ## _instance_init \
-		};							\
-		object_type = register_type_macro			\
-			(type, type_as_function, corba_type,		\
-			 parent_type, parent_type_macro);		\
-	}								\
-	return object_type;						\
+#define BONOBO_BOILERPLATE(type, type_as_function, corba_type,          \
+                           parent_type, parent_type_macro,              \
+                           register_type_macro)                         \
+static void type_as_function ## _class_init    (type ## Class *klass);  \
+static void type_as_function ## _instance_init (type          *object); \
+static parent_type ## Class *parent_class = NULL;                       \
+static void                                                             \
+type_as_function ## _class_init_trampoline (gpointer klass,             \
+                                            gpointer data)              \
+{                                                                       \
+        parent_class = g_type_class_ref (parent_type_macro);            \
+        type_as_function ## _class_init (klass);                        \
+}                                                                       \
+GType                                                                   \
+type_as_function ## _get_type (void)                                    \
+{                                                                       \
+        static GType object_type = 0;                                   \
+        if (object_type == 0) {                                         \
+                static const GTypeInfo object_info = {                  \
+                    sizeof (type ## Class),                             \
+                    NULL,               /* base_init */                 \
+                    NULL,               /* base_finalize */             \
+                    type_as_function ## _class_init_trampoline,         \
+                    NULL,               /* class_finalize */            \
+                    NULL,               /* class_data */                \
+                    sizeof (type),                                      \
+                    0,                  /* n_preallocs */               \
+                    (GInstanceInitFunc) type_as_function ## _instance_init \
+                };                                                      \
+                object_type = register_type_macro                       \
+                        (type, type_as_function, corba_type,            \
+                         parent_type, parent_type_macro);               \
+        }                                                               \
+        return object_type;                                             \
 }
 
 /* Just call the parent handler.  This assumes that there is a variable
  * named parent_class that points to the (duh!) parent class.  Note that
  * this macro is not to be used with things that return something, use
  * the _WITH_DEFAULT version for that */
-#define BONOBO_CALL_PARENT(parent_class_cast, name, args)		\
-	((parent_class_cast(parent_class)->name != NULL) ?		\
-	 parent_class_cast(parent_class)->name args : (void)0)
+#define BONOBO_CALL_PARENT(parent_class_cast, name, args)               \
+        ((parent_class_cast(parent_class)->name != NULL) ?              \
+         parent_class_cast(parent_class)->name args : (void)0)
 
 /* Same as above, but in case there is no implementation, it evaluates
  * to def_return */
-#define BONOBO_CALL_PARENT_WITH_DEFAULT(parent_class_cast,		\
-					name, args, def_return)		\
-	((parent_class_cast(parent_class)->name != NULL) ?		\
-	 parent_class_cast(parent_class)->name args : def_return)
+#define BONOBO_CALL_PARENT_WITH_DEFAULT(parent_class_cast,              \
+                                        name, args, def_return)         \
+        ((parent_class_cast(parent_class)->name != NULL) ?              \
+         parent_class_cast(parent_class)->name args : def_return)
 
 
-#define BONOBO_CLASS_BOILERPLATE(type, type_as_function,		\
-				 parent_type, parent_type_macro)	\
-	BONOBO_BOILERPLATE(type, type_as_function, type,		\
-			   parent_type, parent_type_macro,		\
-			   BONOBO_REGISTER_TYPE)
-#define BONOBO_REGISTER_TYPE(type, type_as_function, corba_type,	\
-			     parent_type, parent_type_macro)		\
-	bonobo_type_unique (parent_type_macro, NULL, NULL, 0,		\
-			    &object_info, #type)
+#define BONOBO_CLASS_BOILERPLATE(type, type_as_function,                \
+                                 parent_type, parent_type_macro)        \
+        BONOBO_BOILERPLATE(type, type_as_function, type,                \
+                           parent_type, parent_type_macro,              \
+                           BONOBO_REGISTER_TYPE)
+#define BONOBO_REGISTER_TYPE(type, type_as_function, corba_type,        \
+                             parent_type, parent_type_macro)            \
+        bonobo_type_unique (parent_type_macro, NULL, NULL, 0,           \
+                            &object_info, #type)
 
-#define BONOBO_CLASS_BOILERPLATE_FULL(type, type_as_function,		\
-				      corba_type,			\
-				      parent_type, parent_type_macro)	\
-	BONOBO_BOILERPLATE(type, type_as_function, corba_type,		\
-			   parent_type, parent_type_macro,		\
-			   BONOBO_REGISTER_TYPE_FULL)
-#define BONOBO_REGISTER_TYPE_FULL(type, type_as_function, corba_type,	\
-				  parent_type, parent_type_macro)	\
-	bonobo_type_unique (parent_type_macro,				\
-			    POA_##corba_type##__init,			\
-			    POA_##corba_type##__fini,			\
-			    G_STRUCT_OFFSET (type##Class, epv),		\
-			    &object_info, #type)
+#define BONOBO_CLASS_BOILERPLATE_FULL(type, type_as_function,           \
+                                      corba_type,                       \
+                                      parent_type, parent_type_macro)   \
+        BONOBO_BOILERPLATE(type, type_as_function, corba_type,          \
+                           parent_type, parent_type_macro,              \
+                           BONOBO_REGISTER_TYPE_FULL)
+#define BONOBO_REGISTER_TYPE_FULL(type, type_as_function, corba_type,   \
+                                  parent_type, parent_type_macro)       \
+        bonobo_type_unique (parent_type_macro,                          \
+                            POA_##corba_type##__init,                   \
+                            POA_##corba_type##__fini,                   \
+                            G_STRUCT_OFFSET (type##Class, epv),         \
+                            &object_info, #type)
 
 G_END_DECLS
 
@@ -131,28 +131,28 @@ G_END_DECLS
 
 /* Define the boilerplate type stuff to reduce typos and code size.  Defines
  * the get_type method and the parent_class static variable. */
-#define GNOME_CLASS_BOILERPLATE(type, type_as_function,			\
-				parent_type, parent_type_macro)		\
-	BONOBO_BOILERPLATE(type, type_as_function, type,		\
-			  parent_type, parent_type_macro,		\
-			  GNOME_REGISTER_TYPE)
-#define GNOME_REGISTER_TYPE(type, type_as_function, corba_type,		\
-			    parent_type, parent_type_macro)		\
-	g_type_register_static (parent_type_macro, #type, &object_info, 0)
+#define GNOME_CLASS_BOILERPLATE(type, type_as_function,                 \
+                                parent_type, parent_type_macro)         \
+        BONOBO_BOILERPLATE(type, type_as_function, type,                \
+                          parent_type, parent_type_macro,               \
+                          GNOME_REGISTER_TYPE)
+#define GNOME_REGISTER_TYPE(type, type_as_function, corba_type,         \
+                            parent_type, parent_type_macro)             \
+        g_type_register_static (parent_type_macro, #type, &object_info, 0)
 
 /* Just call the parent handler.  This assumes that there is a variable
  * named parent_class that points to the (duh!) parent class.  Note that
  * this macro is not to be used with things that return something, use
  * the _WITH_DEFAULT version for that */
-#define GNOME_CALL_PARENT(parent_class_cast, name, args)		\
-	BONOBO_CALL_PARENT (parent_class_cast, name, args)
+#define GNOME_CALL_PARENT(parent_class_cast, name, args)                \
+        BONOBO_CALL_PARENT (parent_class_cast, name, args)
 
 /* Same as above, but in case there is no implementation, it evaluates
  * to def_return */
-#define GNOME_CALL_PARENT_WITH_DEFAULT(parent_class_cast,		\
-				       name, args, def_return)		\
-	BONOBO_CALL_PARENT_WITH_DEFAULT (				\
-		parent_class_cast, name, args, def_return)
+#define GNOME_CALL_PARENT_WITH_DEFAULT(parent_class_cast,               \
+                                       name, args, def_return)          \
+        BONOBO_CALL_PARENT_WITH_DEFAULT (                               \
+                parent_class_cast, name, args, def_return)
 
 
 /* FIXME: More includes! */
@@ -163,10 +163,10 @@ struct _GnomeAboutPrivate {
         gchar *copyright;
         gchar *comments;
         gchar *translator_credits;
-        
+
         GSList *authors;
         GSList *documenters;
-        
+
         GtkWidget *logo_image;
         GtkWidget *name_label;
         GtkWidget *comments_label;
@@ -202,7 +202,7 @@ gnome_about_update_authors_label (GnomeAbout *about, GtkWidget *label)
         GString *string;
         GSList *list;
         gchar *tmp;
-        
+
         if (about->_priv->authors == NULL) {
                 gtk_widget_hide (label);
                 return;
@@ -221,7 +221,7 @@ gnome_about_update_authors_label (GnomeAbout *about, GtkWidget *label)
                         g_string_append (string, "\n");
                 g_free (tmp);
         }
-        
+
         gtk_label_set_markup (GTK_LABEL (label), string->str);
         g_string_free (string, TRUE);
 }
@@ -232,7 +232,7 @@ gnome_about_update_documenters_label (GnomeAbout *about, GtkWidget *label)
         GString *string;
         GSList *list;
         gchar *tmp;
-                
+
         if (about->_priv->documenters == NULL) {
                 gtk_widget_hide (label);
                 return;
@@ -251,7 +251,7 @@ gnome_about_update_documenters_label (GnomeAbout *about, GtkWidget *label)
                         g_string_append (string, "\n");
                 g_free (tmp);
         }
-        
+
         gtk_label_set_markup (GTK_LABEL (label), string->str);
         g_string_free (string, TRUE);
 }
@@ -261,7 +261,7 @@ gnome_about_update_translation_information_label (GnomeAbout *about, GtkWidget *
 {
         GString *string;
         gchar *tmp;
-        
+
         if (about->_priv->translator_credits == NULL) {
                 gtk_widget_hide (label);
                 return;
@@ -275,7 +275,7 @@ gnome_about_update_translation_information_label (GnomeAbout *about, GtkWidget *
         tmp = g_markup_escape_text (about->_priv->translator_credits, -1);
         g_string_append (string, tmp);
         g_free (tmp);
-        
+
         gtk_label_set_markup (GTK_LABEL (label), string->str);
         g_string_free (string, TRUE);
 }
@@ -284,7 +284,7 @@ static GtkWidget *
 create_label (void)
 {
         GtkWidget *label;
-        
+
         label = gtk_label_new ("");
         gtk_label_set_selectable (GTK_LABEL (label), TRUE);
         gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.0);
@@ -304,11 +304,11 @@ gnome_about_display_credits_dialog (GnomeAbout *about)
                 gtk_window_present (GTK_WINDOW (about->_priv->credits_dialog));
                 return;
         }
-        
+
         dialog = gtk_dialog_new_with_buttons (_("Credits"),
                                               GTK_WINDOW (about),
                                               GTK_DIALOG_DESTROY_WITH_PARENT|
-					      GTK_DIALOG_NO_SEPARATOR,
+                                              GTK_DIALOG_NO_SEPARATOR,
                                               GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
                                               NULL);
         about->_priv->credits_dialog = dialog;
@@ -336,7 +336,7 @@ gnome_about_display_credits_dialog (GnomeAbout *about)
                                                 GTK_POLICY_AUTOMATIC);
                 gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (sw), label);
                 gtk_viewport_set_shadow_type (GTK_VIEWPORT (GTK_BIN (sw)->child), GTK_SHADOW_NONE);
-                
+
                 gtk_notebook_append_page (GTK_NOTEBOOK (notebook), sw,
                                           gtk_label_new_with_mnemonic (_("_Written by")));
                 gnome_about_update_authors_label (about, label);
@@ -344,7 +344,7 @@ gnome_about_display_credits_dialog (GnomeAbout *about)
 
         if (about->_priv->documenters != NULL) {
                 label = create_label ();
-                
+
                 sw = gtk_scrolled_window_new (NULL, NULL);
                 gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
                                                 GTK_POLICY_AUTOMATIC,
@@ -359,7 +359,7 @@ gnome_about_display_credits_dialog (GnomeAbout *about)
 
         if (about->_priv->translator_credits != NULL) {
                 label = create_label ();
-                
+
                 sw = gtk_scrolled_window_new (NULL, NULL);
                 gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
                                                 GTK_POLICY_AUTOMATIC,
@@ -371,7 +371,7 @@ gnome_about_display_credits_dialog (GnomeAbout *about)
                                           gtk_label_new_with_mnemonic (_("_Translated by")));
                 gnome_about_update_translation_information_label (about, label);
         }
-        
+
         gtk_widget_show_all (dialog);
 }
 
@@ -382,7 +382,7 @@ gnome_about_instance_init (GnomeAbout *about)
         GtkWidget *vbox, *button;
 
         /* Data */
-        
+
         priv = g_new0 (GnomeAboutPrivate, 1);
         about->_priv = priv;
 
@@ -394,8 +394,8 @@ gnome_about_instance_init (GnomeAbout *about)
         priv->authors = NULL;
         priv->documenters = NULL;
 
-	gtk_dialog_set_has_separator (GTK_DIALOG (about), FALSE);
-	
+        gtk_dialog_set_has_separator (GTK_DIALOG (about), FALSE);
+        
         /* Widgets */
         vbox = gtk_vbox_new (FALSE, 12);
         gtk_container_set_border_width (GTK_CONTAINER (vbox), 6);
@@ -417,12 +417,12 @@ gnome_about_instance_init (GnomeAbout *about)
         gtk_box_pack_start (GTK_BOX (vbox), priv->comments_label, FALSE, FALSE, 0);
 
         priv->copyright_label = gtk_label_new (NULL);
-        gtk_label_set_selectable (GTK_LABEL (priv->copyright_label), TRUE);     
+        gtk_label_set_selectable (GTK_LABEL (priv->copyright_label), TRUE);
         gtk_label_set_justify (GTK_LABEL (priv->copyright_label), GTK_JUSTIFY_CENTER);
         gtk_box_pack_start (GTK_BOX (vbox), priv->copyright_label, FALSE, FALSE, 0);
 
         gtk_widget_show_all (vbox);
-        
+
         /* Add the OK button */
         gtk_dialog_add_button (GTK_DIALOG (about), GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
         gtk_dialog_set_default_response (GTK_DIALOG (about), GTK_RESPONSE_CLOSE);
@@ -430,7 +430,7 @@ gnome_about_instance_init (GnomeAbout *about)
         /* Add the credits button */
         button = gtk_dialog_add_button (GTK_DIALOG (about), _("_Credits"), GNOME_RESPONSE_CREDITS);
         gtk_button_box_set_child_secondary (GTK_BUTTON_BOX (GTK_DIALOG (about)->action_area), button, TRUE);
-        
+
         gtk_window_set_resizable (GTK_WINDOW (about), FALSE);
 
         priv->credits_dialog = NULL;
@@ -455,18 +455,18 @@ gnome_about_class_init (GnomeAboutClass *klass)
         GObjectClass *object_class;
         GtkWidgetClass *widget_class;
         GtkDialogClass *dialog_class;
-        
+
         object_class = (GObjectClass *)klass;
         widget_class = (GtkWidgetClass *)klass;
         dialog_class = (GtkDialogClass *)klass;
-        
+
         object_class->set_property = gnome_about_set_property;
         object_class->get_property = gnome_about_get_property;
 
         object_class->finalize = gnome_about_finalize;
 
         dialog_class->response = gnome_about_response;
-        
+
         g_object_class_install_property (object_class,
                                          PROP_NAME,
                                          g_param_spec_string ("name",
@@ -489,7 +489,7 @@ gnome_about_class_init (GnomeAboutClass *klass)
                                                               "Copyright information for the program",
                                                               NULL,
                                                               G_PARAM_READWRITE));
-        
+
         g_object_class_install_property (object_class,
                                          PROP_COMMENTS,
                                          g_param_spec_string ("comments",
@@ -527,7 +527,7 @@ gnome_about_class_init (GnomeAboutClass *klass)
                                                               "Credits to the translators. This string should be marked as translatable",
                                                               NULL,
                                                               G_PARAM_READWRITE));
-        
+
         g_object_class_install_property (object_class,
                                          PROP_LOGO,
                                          g_param_spec_object ("logo",
@@ -559,7 +559,7 @@ static void
 gnome_about_set_copyright (GnomeAbout *about, const gchar *copyright)
 {
         char *copyright_string, *tmp;
-        
+
         g_free (about->_priv->copyright);
         about->_priv->copyright = copyright ? g_strdup (copyright) : NULL;
 
@@ -581,12 +581,12 @@ static void
 gnome_about_set_version (GnomeAbout *about, const gchar *version)
 {
         gchar *name_string, *tmp_name, *tmp_version;
-        
+
         g_free (about->_priv->version);
         about->_priv->version = version ? g_strdup (version) : NULL;
 
         tmp_name = g_markup_escape_text (about->_priv->name, -1);
-        
+
         if (about->_priv->version != NULL) {
                 tmp_version = g_markup_escape_text (about->_priv->version, -1);
                 name_string = g_strdup_printf ("<span size=\"xx-large\" weight=\"bold\">%s %s</span>", tmp_name, tmp_version);
@@ -607,7 +607,7 @@ gnome_about_set_name (GnomeAbout *about, const gchar *name)
         gchar *title_string;
         gchar *name_string;
         gchar *tmp_name, *tmp_version;
-        
+
         g_free (about->_priv->name);
         about->_priv->name = g_strdup (name ? name : "");
 
@@ -636,7 +636,7 @@ gnome_about_free_person_list (GSList *list)
 {
         if (list == NULL)
                 return;
-        
+
         g_slist_foreach (list, (GFunc) g_free, NULL);
         g_slist_free (list);
 }
@@ -684,19 +684,19 @@ gnome_about_set_persons (GnomeAbout *about, guint prop_id, const GValue *persons
 
         gnome_about_free_person_list (list);
         list = NULL;
-        
+
         value_array = g_value_get_boxed (persons);
 
         if (value_array == NULL) {
                 return;
         }
-        
+
         for (i = 0; i < value_array->n_values; i++) {
                 list = g_slist_prepend (list, g_value_dup_string (&value_array->values[i]));
         }
 
         list = g_slist_reverse (list);
-        
+
         switch (prop_id) {
         case PROP_AUTHORS:
                 about->_priv->authors = list;
@@ -722,7 +722,7 @@ set_value_array_from_list (GValue *value, GSList *list)
 
         for (tmp = list; tmp; tmp = tmp->next) {
                 char *str = tmp->data;
-                
+
                 g_value_init (&tmp_value, G_TYPE_STRING);
                 g_value_set_string (&tmp_value, str);
                 g_value_array_append (array, &tmp_value);
@@ -779,7 +779,7 @@ gnome_about_get_property (GObject *object, guint prop_id, GValue *value, GParamS
         GnomeAbout *about;
 
         about = GNOME_ABOUT (object);
-        
+
         switch (prop_id) {
         case PROP_NAME:
                 g_value_set_string (value, about->_priv->name);
@@ -839,13 +839,13 @@ gnome_about_new (const gchar  *name,
                  GdkPixbuf    *logo_pixbuf)
 {
         GnomeAbout *about;
-        
+
         g_return_val_if_fail (authors != NULL, NULL);
-        
+
         about = g_object_new (GNOME_TYPE_ABOUT, NULL);
-        gnome_about_construct(about, 
-                              name, version, copyright, 
-                              comments, authors, documenters, 
+        gnome_about_construct(about,
+                              name, version, copyright,
+                              comments, authors, documenters,
                               translator_credits, logo_pixbuf);
 
         return GTK_WIDGET(about);
@@ -884,10 +884,10 @@ gnome_about_construct (GnomeAbout *about,
         gint i;
 
         authors_array = g_value_array_new (0);
-        
+
         for (i = 0; authors[i] != NULL; i++) {
                 GValue value = {0, };
-                
+
                 g_value_init (&value, G_TYPE_STRING);
                         g_value_set_static_string (&value, authors[i]);
                         authors_array = g_value_array_append (authors_array, &value);
@@ -898,7 +898,7 @@ gnome_about_construct (GnomeAbout *about,
 
                 for (i = 0; documenters[i] != NULL; i++) {
                         GValue value = {0, };
-                        
+
                         g_value_init (&value, G_TYPE_STRING);
                         g_value_set_static_string (&value, documenters[i]);
                         documenters_array = g_value_array_append (documenters_array, &value);

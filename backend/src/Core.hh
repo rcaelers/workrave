@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -66,7 +66,7 @@ class Core :
 #ifdef HAVE_DISTRIBUTION
   public IDistributionClientMessage,
   public DistributionListener,
-#endif  
+#endif
   public TimeSource,
   public ICore,
   public ConfiguratorListener,
@@ -75,14 +75,14 @@ class Core :
 public:
   Core();
   virtual ~Core();
-    
+
   static const string CFG_KEY_MONITOR;
   static const string CFG_KEY_MONITOR_NOISE;
   static const string CFG_KEY_MONITOR_ACTIVITY;
   static const string CFG_KEY_MONITOR_IDLE;
   static const string CFG_KEY_GENERAL_DATADIR;
   static const string CFG_KEY_OPERATION_MODE;
-  
+
   static Core *get_instance();
 
   Timer *get_timer(string name) const;
@@ -97,7 +97,7 @@ public:
   void set_core_events_listener(CoreEventListener *l);
   void force_break(BreakId id, bool initiated_by_user);
   void set_powersave(bool down);
- 
+
   time_t get_time() const;
   void post_event(CoreEvent event);
 
@@ -112,10 +112,10 @@ public:
   void defrost();
 
   void force_idle();
-  
+
   ActivityState get_current_monitor_state() const;
   bool is_master() const;
-  
+
 private:
 
 #ifndef NDEBUG
@@ -123,8 +123,8 @@ private:
     {
       SCRIPT_START = 1,
     };
-#endif  
-  
+#endif
+
   void init(int argc, char **argv, IApp *application, char *display_name);
   void init_breaks();
   void init_configurator();
@@ -162,7 +162,7 @@ private:
 
   bool request_break_state(PacketBuffer &buffer);
   bool set_break_state(bool master, PacketBuffer &buffer);
-  
+
   bool request_timer_state(PacketBuffer &buffer) const;
   bool set_timer_state(PacketBuffer &buffer);
 
@@ -175,12 +175,12 @@ private:
       BCM_ABORT_PRELUDE,
       BCM_START_BREAK,
     };
-  
+
   void send_break_control_message(BreakId break_id, BreakControlMessage message);
   void send_break_control_message_bool_param(BreakId break_id, BreakControlMessage message,
                                              bool param);
   bool set_break_control(PacketBuffer &buffer);
-  
+
   void signon_remote_client(string client_id);
   void signoff_remote_client(string client_id);
   void compute_timers();
@@ -193,7 +193,7 @@ private:
   // BreakResponseInterface
   void postpone_break(BreakId break_id);
   void skip_break(BreakId break_id);
-  
+
 private:
   //! The one and only instance
   static Core *instance;
@@ -203,13 +203,13 @@ private:
 
   //! Command line arguments passed to the program.
   char **argv;
-  
+
   //! The current time.
   time_t current_time;
 
   //! The time we last processed the timers.
   time_t last_process_time;
-  
+
   //! Are we the master node??
   bool master_node;
 
@@ -224,10 +224,10 @@ private:
 
   //! GUI Widget factory.
   IApp *application;
-  
+
   //! The statistics collector.
   Statistics *statistics;
-  
+
   //! Current operation mode.
   OperationMode operation_mode;
 
@@ -251,7 +251,7 @@ private:
 
   //! Resumes this break if current break ends.
   BreakId resume_break;
-  
+
   //! Current local monitor state.
   ActivityState local_state;
 
@@ -264,7 +264,7 @@ private:
 
   //! State of the remote master.
   ActivityState remote_state;
-  
+
   //! Manager that collects idle times of all clients.
   IdleLogManager *idlelog_manager;
 
@@ -290,7 +290,7 @@ Core::get_instance()
     {
       instance = new Core();
     }
-       
+
   return instance;
 }
 

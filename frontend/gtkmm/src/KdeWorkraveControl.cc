@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -68,7 +68,7 @@ KdeWorkraveControl::init()
     client->attach();
     client->registerAs("kworkravecontrol", false);
   }
-    
+
   KGlobal::locale()->insertCatalogue("KdeWorkraveControl");
   new KdeWorkraveControl();
 
@@ -87,9 +87,9 @@ KdeWorkraveControl::KdeWorkraveControl()
     Glib::IOChannel::create_from_fd(client->socket());
   const Glib::RefPtr<Glib::IOSource> io_source =
     Glib::IOSource::create(channel, Glib::IO_IN | Glib::IO_HUP);
-  
+
   io_source->connect(sigc::mem_fun(*this, &KdeWorkraveControl::io_handler));
-  io_source->attach(context);    
+  io_source->attach(context);
 }
 
 
@@ -103,14 +103,14 @@ void
 KdeWorkraveControl::fire()
 {
   TRACE_ENTER("KdeWorkraveControl::fire");
-  AppletControl *applet_control; 
+  AppletControl *applet_control;
   KdeAppletWindow *applet_window;
   GUI *gui;
 
   gui = GUI::get_instance();
   applet_control = gui->get_applet_control();
   applet_window = (KdeAppletWindow *) applet_control->get_applet_window(AppletControl::APPLET_KDE);
-  
+
   if (applet_window != NULL)
     {
       applet_window->fire_kde_applet();
@@ -125,4 +125,4 @@ KdeWorkraveControl::io_handler(Glib::IOCondition ioc)
   kapp->eventLoop()->processEvents(QEventLoop::ExcludeUserInput);
   return true;
 }
-  
+

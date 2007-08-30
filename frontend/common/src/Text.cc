@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -39,10 +39,10 @@ static const char rcsid[] = "$Id$";
 
 //! Converts the specified time to a string
 string
-Text::time_to_string(time_t time, bool display_units) 
+Text::time_to_string(time_t time, bool display_units)
 {
   char s[128], t[2];
-  
+
   if (time < 0)
     {
       t[0] = '-';
@@ -56,7 +56,7 @@ Text::time_to_string(time_t time, bool display_units)
   int hrs = time/3600;
   int min = (time / 60) % 60;
   int sec = time % 60;
-  
+
   if (! display_units)
     {
       if (hrs > 0)

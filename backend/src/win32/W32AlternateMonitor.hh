@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -29,27 +29,27 @@
 #include "IInputMonitor.hh"
 #include "IInputMonitorListener.hh"
 
-class W32AlternateMonitor : 
-	public IInputMonitor
+class W32AlternateMonitor :
+  public IInputMonitor
 {
 public:
-	W32AlternateMonitor();
-	virtual ~W32AlternateMonitor(); //really?
-	void init( IInputMonitorListener * );
-	void terminate();
+  W32AlternateMonitor();
+  virtual ~W32AlternateMonitor();
+  bool init( IInputMonitorListener * );
+  void terminate();
 
 protected:
-	static DWORD WINAPI thread_Monitor( LPVOID );
+  static DWORD WINAPI thread_Monitor( LPVOID );
 
 private:
-	void Monitor();
-	void Update( LASTINPUTINFO * );
-	void msg( char * );
-	void exitmsg( char * );
-	
-	BOOL ( WINAPI *GetLastInputInfo ) ( LASTINPUTINFO * );
-	IInputMonitorListener *listener; //volatile?
-	int interval;
+  void Monitor();
+  void Update( LASTINPUTINFO * );
+  void msg( char * );
+  void exitmsg( char * );
+  
+  BOOL ( WINAPI *GetLastInputInfo ) ( LASTINPUTINFO * );
+  IInputMonitorListener *listener; //volatile?
+  int interval;
 };
 
 #endif // W32ALTERNATEMONITOR_HH

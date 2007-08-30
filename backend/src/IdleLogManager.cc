@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -33,12 +33,12 @@ static const char rcsid[] = "$Id$";
 #include "TimeSource.hh"
 #include "PacketBuffer.hh"
 
-#define IDLELOG_MAXSIZE 		(4000)
-#define IDLELOG_MAXAGE		(12 * 60 * 60)
-#define IDLELOG_INTERVAL		(30 * 60)
-#define IDLELOG_OLDVERSION	(1)
-#define IDLELOG_VERSION		(2)
-#define IDLELOG_INTERVAL_SIZE	(17)
+#define IDLELOG_MAXSIZE     (4000)
+#define IDLELOG_MAXAGE    (12 * 60 * 60)
+#define IDLELOG_INTERVAL    (30 * 60)
+#define IDLELOG_OLDVERSION  (1)
+#define IDLELOG_VERSION   (2)
+#define IDLELOG_INTERVAL_SIZE (17)
 
 
 //! Constructs a new idlelog manager.

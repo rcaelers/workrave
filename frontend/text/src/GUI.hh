@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -43,7 +43,7 @@ class GUI :
 public:
   GUI(int argc, char **argv);
   virtual ~GUI();
-  
+
   static GUI *get_instance();
 
   void main();
@@ -62,13 +62,13 @@ public:
 
   //
   void core_event_notify(CoreEvent event);
-  
+
   SoundPlayerInterface *get_sound_player() const;
 
   static gboolean static_on_timer(gpointer data);
 
   enum BlockMode { BLOCK_MODE_NONE = 0, BLOCK_MODE_INPUT, BLOCK_MODE_ALL };
-  
+
 private:
   bool on_timer();
   void init_gui();
@@ -84,7 +84,7 @@ private:
   static const std::string CFG_KEY_GUI_BLOCK_MODE;
   BlockMode get_block_mode();
   void set_block_mode(BlockMode mode);
-  
+
 private:
   //! The one and only instance
   static GUI *instance;
@@ -106,7 +106,7 @@ private:
 
   //!
   MainWindow *main_window;
-  
+
   //! Reponse interface for breaks
   BreakResponseInterface *response;
 
@@ -118,7 +118,7 @@ private:
 
   //! Current active break.
   BreakId active_break_id;
-  
+
   //! The number of command line arguments.
   int argc;
 
@@ -136,7 +136,7 @@ private:
 
 //! Returns the only instance of GUI
 inline GUI *
-GUI::get_instance() 
+GUI::get_instance()
 {
   return instance;
 }

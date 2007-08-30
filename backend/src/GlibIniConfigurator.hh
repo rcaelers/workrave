@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -52,7 +52,7 @@ public:
 private:
   void split_key(const string key, string &group, string &out_key) const;
   string key_inify(string key) const;
-  
+
 private:
   GKeyFile *config;
 

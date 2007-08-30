@@ -1,4 +1,4 @@
-// XMLConfigurator.hh 
+// XMLConfigurator.hh
 //
 // Copyright (C) 2001, 2002, 2006 Rob Caelers <robc@krandor.org>
 // All rights reserved.
@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -52,7 +52,7 @@ public:
   virtual bool set_value(string key, long v);
   virtual bool set_value(string key, bool v);
   virtual bool set_value(string key, double v);
-  
+
 private:
   void init(GdomeNode *node);
   void save_to(GdomeDOMImplementation *impl, GdomeDocument **doc, GdomeElement *node);
@@ -60,7 +60,7 @@ private:
   XMLConfigurator *get_child(string key) const;
   list<XMLConfigurator *> get_all_children() const;
   void changed(string key);
-  
+
   string getName() const
   {
     return node_name;
@@ -75,7 +75,7 @@ private:
         node_path = parent->getPath() + node_name + "/";
       }
   }
-  
+
   string getPath() const
   {
     return node_path;
@@ -99,7 +99,7 @@ private:
 
   //! My path (absolute name);
   string node_path;
-  
+
   //! All child nodes.
   Children node_children;
 

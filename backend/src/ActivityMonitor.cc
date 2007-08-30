@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -65,13 +65,13 @@ ActivityMonitor::ActivityMonitor(const char *display) :
   TRACE_ENTER("ActivityMonitor::ActivityMonitor");
 
   (void) display;
-  
+
   first_action_time.tv_sec = 0;
   first_action_time.tv_usec = 0;
 
   last_action_time.tv_sec = 0;
   last_action_time.tv_usec = 0;
-  
+
   noise_threshold.tv_sec = 1;
   noise_threshold.tv_usec = 0;
 
@@ -83,7 +83,7 @@ ActivityMonitor::ActivityMonitor(const char *display) :
 
   last_mouse_time.tv_sec = 0;
   last_mouse_time.tv_usec = 0;
-  
+
   total_mouse_time.tv_sec = 0;
   total_mouse_time.tv_usec = 0;
 
@@ -91,25 +91,145 @@ ActivityMonitor::ActivityMonitor(const char *display) :
   statistics.total_click_movement = 0;
   statistics.total_clicks = 0;
   statistics.total_keystrokes = 0;
-  
+
 #if defined(HAVE_X)
+
   input_monitor = new X11InputMonitor(display);
+  input_monitor->init( this );
+
 #elif defined(WIN32)
 
   bool nohooks;
-  CoreFactory::get_configurator()->get_value_default( "advanced/nohooks", &nohooks, false);
-	
+  CoreFactory::get_configurator()->get_value_default( "advanced/nohooks", &nohooks, false );
+
   if (!nohooks)
     {
       input_monitor = new W32InputMonitor();
+
+      if( !input_monitor->init( this ) )
+        {
+          TRACE_MSG( "W32InputMonitor failed to initialize." );
+
+          if( LOBYTE( LOWORD( GetVersion() ) ) < 5 )
+            // If < Win2k, there is no alternate monitor available.
+            {
+              MessageBoxA( NULL,
+                           "Workrave must be able to monitor certain system "
+                           "events in order to determine when you are idle.\n\n"
+
+                           "An attempt was made to hook into your system, but it "
+                           "was unsuccessful.\n\n"
+                           "Workrave must exit now.\n",
+                           "Workrave: Debug Message",
+                           MB_OK | MB_ICONERROR | MB_TOPMOST );
+              /*
+                We want the current input monitor destructor called
+                at this point, after the user responds to the messagebox.
+                This way, if debugging, debug output can be viewed before
+                the user responds to the message box.
+              */
+              delete input_monitor;
+
+              CoreFactory::get_configurator()->save();
+              TRACE_EXIT();
+              exit( 0 );
+            }
+          else
+            // request to start the alternate monitor
+            {
+              int ret = MessageBoxA( NULL,
+                                     "Workrave must be able to monitor certain system "
+                                     "events in order to determine when you are idle.\n\n"
+
+                                     "An attempt was made to hook into your system, but it "
+                                     "was unsuccessful.\n\n"
+
+                                     "You might have system safety software that blocks "
+                                     "Workrave from installing global hooks on your system.\n\n"
+
+                                     "You can instead run Workrave using the alternate monitor, "
+                                     "which doesn't require global hooks.\n\n"
+
+                                     "Click 'OK' to run the alternate monitor, or 'Cancel' to exit.\n",
+                                     "Workrave: Debug Message",
+                                     MB_OKCANCEL | MB_ICONSTOP | MB_TOPMOST );
+              /*
+                We want the current input monitor destructor called
+                at this point, after the user responds to the messagebox.
+                This way, if debugging, debug output can be viewed before
+                the user responds to the message box.
+              */
+              delete input_monitor;
+
+              if( ret == IDCANCEL )
+                {
+                  CoreFactory::get_configurator()->save();
+                  TRACE_EXIT();
+                  exit( 0 );
+                }
+              else
+                {
+                  nohooks = true;
+                  CoreFactory::get_configurator()->set_value( "advanced/nohooks", true );
+                }
+            }
+        }
     }
-  else //if( LOBYTE( LOWORD( GetVersion() ) ) >= 5 )
+
+  if( nohooks )
     {
       input_monitor = new W32AlternateMonitor();
+
+      if( !input_monitor->init( this ) )
+        {
+          TRACE_MSG( "W32AlternateMonitor failed to initialize." );
+
+          delete input_monitor;
+
+          if( LOBYTE( LOWORD( GetVersion() ) ) < 5 )
+            {
+              MessageBoxA( NULL,
+                           "Workrave's alternate activity monitor failed to initialize.\n\n"
+
+                           "The alternate activity monitor is not compatible with your "
+                           "version of Windows.\n\n"
+
+                           "Workrave will use the regular activity monitor from now on.\n\n"
+
+                           "Workrave must exit now. Restart it for changes to take effect.\n",
+                           "Workrave: Debug Message",
+                           MB_OK | MB_ICONERROR | MB_TOPMOST );
+
+              CoreFactory::get_configurator()->set_value( "advanced/nohooks", false );
+
+              CoreFactory::get_configurator()->save();
+              TRACE_EXIT();
+              exit( 0 );
+            }
+          else
+            {
+              int ret = MessageBoxA( NULL,
+                                     "Workrave's alternate activity monitor failed to initialize.\n\n"
+
+                                     "Workrave must exit now.\n\n"
+
+                                     "The next time you start Workrave it can use the regular "
+                                     "activity monitor instead.\n\n"
+
+                                     "Click 'OK' to use the regular activity monitor next time.\n",
+                                     "Workrave: Debug Message",
+                                     MB_OKCANCEL | MB_ICONERROR | MB_TOPMOST );
+
+              if( ret == IDOK )
+                CoreFactory::get_configurator()->set_value( "advanced/nohooks", false );
+
+              CoreFactory::get_configurator()->save();
+              TRACE_EXIT();
+              exit( 0 );
+            }
+        }
     }
 #endif
-
-  input_monitor->init(this);
 
   TRACE_EXIT();
 }
@@ -124,7 +244,7 @@ ActivityMonitor::~ActivityMonitor()
 
   TRACE_EXIT();
 }
- 
+
 
 //! Terminates the monitor.
 void
@@ -279,8 +399,8 @@ ActivityMonitor::shift_time(int delta)
   struct timeval d;
 
   lock.lock();
-  tvSETTIME(d, delta, 0)
-    
+  tvSETTIME(d, delta, 0);
+
   if (!tvTIMEEQ0(last_action_time))
     tvADDTIME(last_action_time, last_action_time, d);
 
@@ -308,7 +428,7 @@ void
 ActivityMonitor::action_notify()
 {
   lock.lock();
-  
+
   struct timeval now;
   gettimeofday(&now, NULL);
 
@@ -329,11 +449,11 @@ ActivityMonitor::action_notify()
           }
       }
       break;
-      
+
     case ACTIVITY_NOISE:
       {
         struct timeval tv;
-        
+
         tvSUBTIME(tv, now, last_action_time);
         if (tvTIMEGT(tv, noise_threshold))
           {
@@ -371,26 +491,26 @@ ActivityMonitor::mouse_notify(int x, int y, int wheel_delta)
   const int delta_y = y - prev_y;
   prev_x = x;
   prev_y = y;
-  
+
   if (abs(delta_x) >= sensitivity || abs(delta_y) >= sensitivity
       || wheel_delta != 0 || button_is_pressed)
     {
       statistics.total_movement += int(sqrt((double)(delta_x * delta_x + delta_y * delta_y)));
-      
+
       action_notify();
 
       struct timeval now, tv;
 
       gettimeofday(&now, NULL);
       tvSUBTIME(tv, now, last_mouse_time);
-      
+
       if (!tvTIMEEQ0(last_mouse_time) && tv.tv_sec < 1 && tv.tv_sec >= 0 && tv.tv_usec >= 0)
         {
-          tvADDTIME(total_mouse_time, total_mouse_time, tv)
+          tvADDTIME(total_mouse_time, total_mouse_time, tv);
         }
 
       last_mouse_time = now;
-      
+
     }
   lock.unlock();
 }
@@ -407,21 +527,21 @@ ActivityMonitor::button_notify(int button_mask, bool is_press)
     {
       int delta_x = click_x - prev_x;
       int delta_y = click_y - prev_y;
-     
+
       statistics.total_click_movement += int(sqrt((double)(delta_x * delta_x + delta_y * delta_y)));
     }
-  
+
   click_x = prev_x;
   click_y = prev_y;
 
   button_is_pressed = is_press;
-  
+
   if (is_press)
     {
       action_notify();
       statistics.total_clicks++;
     }
-  
+
   lock.unlock();
 }
 
@@ -432,7 +552,7 @@ ActivityMonitor::keyboard_notify(int key_code, int modifier)
 {
   (void)key_code;
   (void)modifier;
-  
+
   lock.lock();
   action_notify();
   statistics.total_keystrokes++;

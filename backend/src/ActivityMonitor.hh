@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -61,15 +61,15 @@ public:
   void reset_statistics();
 
   void set_listener(ActivityMonitorListener *l);
-  
+
   void action_notify();
   void mouse_notify(int x, int y, int wheel = 0);
   void button_notify(int button_mask, bool is_press);
   void keyboard_notify(int key_code, int modifier);
-  
+
 private:
   void call_listener();
-  
+
 private:
   //! The actual monitoring driver.
   IInputMonitor *input_monitor;
@@ -82,19 +82,19 @@ private:
 
   //! Previous X coordinate
   int prev_x;
-  
+
   //! Previous Y coordinate
   int prev_y;
 
   //! Previous X-click coordinate
   int click_x;
-  
+
   //! Previous Y-click coordinate
   int click_y;
 
   //! Is the button currently pressed?
   bool button_is_pressed;
-  
+
   //! Last time activity was detected
   struct timeval last_action_time;
 

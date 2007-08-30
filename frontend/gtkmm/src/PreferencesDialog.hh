@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -34,12 +34,12 @@ namespace Gtk
 
 class PreferencesDialog : public HigDialog
 {
-public:  
+public:
   PreferencesDialog();
   ~PreferencesDialog();
 
   int run();
-  
+
 private:
   void add_page(const char *label, const char *image, Gtk::Widget &widget);
   Gtk::Widget *create_gui_page();
@@ -50,11 +50,11 @@ private:
   Gtk::Widget *create_applet_page();
   Gtk::Widget *create_mainwindow_page();
   bool on_focus_in_event(GdkEventFocus *event);
-  bool on_focus_out_event(GdkEventFocus *event);  
-  
+  bool on_focus_out_event(GdkEventFocus *event);
+
   void on_sound_changed();
   void on_block_changed();
-  
+
   Gtk::OptionMenu *sound_button;
   Gtk::OptionMenu *block_button;
 

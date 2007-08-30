@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -36,8 +36,8 @@ BOOL RegisterComCat(CLSID, CATID, BOOL reg);
 HINSTANCE   g_hInst;
 UINT        g_DllRefCount;
 
-extern "C" BOOL WINAPI DllMain(  HINSTANCE hInstance, 
-                                 DWORD dwReason, 
+extern "C" BOOL WINAPI DllMain(  HINSTANCE hInstance,
+                                 DWORD dwReason,
                                  LPVOID lpReserved)
 {
 switch(dwReason)
@@ -49,9 +49,9 @@ switch(dwReason)
    case DLL_PROCESS_DETACH:
       break;
    }
-   
+
 return TRUE;
-}                                 
+}
 
 STDAPI
 DllCanUnloadNow(void)
@@ -61,8 +61,8 @@ return (g_DllRefCount ? S_FALSE : S_OK);
 
 
 STDAPI
-DllGetClassObject(  REFCLSID rclsid, 
-                    REFIID riid, 
+DllGetClassObject(  REFCLSID rclsid,
+                    REFIID riid,
                     LPVOID *ppReturn)
 {
   *ppReturn = NULL;
@@ -70,17 +70,17 @@ DllGetClassObject(  REFCLSID rclsid,
   //if we don't support this classid, return the proper error code
   if(   !IsEqualCLSID(rclsid, CLSID_WorkraveDeskBand))
     return CLASS_E_CLASSNOTAVAILABLE;
-   
+
   //create a CClassFactory object and check it for validity
   CClassFactory *pClassFactory = new CClassFactory(rclsid);
   if(NULL == pClassFactory)
     return E_OUTOFMEMORY;
-   
+
   //get the QueryInterface return for our return value
   HRESULT hResult = pClassFactory->QueryInterface(riid, ppReturn);
 
-  //call Release to decement the ref count - creating the object set it to one 
-  //and QueryInterface incremented it - since its being used externally (not by 
+  //call Release to decement the ref count - creating the object set it to one
+  //and QueryInterface incremented it - since its being used externally (not by
   //us), we only want the ref count to be 1
   pClassFactory->Release();
 
@@ -93,8 +93,8 @@ static void
 ClearDeskBandCache(void)
 {
 /*
-Remove the cache of the deskbands on Windows 2000. This will cause the new 
-deskband to be displayed in the toolbar menu the next time the user brings it 
+Remove the cache of the deskbands on Windows 2000. This will cause the new
+deskband to be displayed in the toolbar menu the next time the user brings it
 up. See KB article Q214842 for more information on this.
 */
   TCHAR    szSubKey[MAX_PATH];
@@ -135,7 +135,7 @@ STDAPI DllUnregisterServer(void)
   ClearDeskBandCache();
   return S_OK;
 }
- 
+
 
 
 
@@ -222,21 +222,21 @@ RegisterServer(CLSID clsid, LPTSTR lpszTitle, BOOL reg)
                                      NULL,
                                      &hKey,
                                      &dwDisp);
-   
+
           if(NOERROR == lResult)
             {
               TCHAR szData[MAX_PATH];
 
               //if necessary, create the value string
               wsprintf(szData, ClsidEntries[i].szData, szModule);
-   
+
               lResult = RegSetValueEx(   hKey,
                                          ClsidEntries[i].lpszValueName,
                                          0,
                                          REG_SZ,
                                          (LPBYTE)szData,
                                          lstrlen(szData) + 1);
-      
+
               RegCloseKey(hKey);
             }
           else
@@ -291,7 +291,7 @@ RegisterServer(CLSID clsid, LPTSTR lpszTitle, BOOL reg)
             {
               lResult = RegDeleteValue(hKey, szCLSID);
             }
-      
+
           RegCloseKey(hKey);
         }
       else
@@ -306,13 +306,13 @@ RegisterComCat(CLSID clsid, CATID CatID, BOOL reg)
 {
   ICatRegister   *pcr;
   HRESULT        hr = S_OK ;
-    
+
   CoInitialize(NULL);
 
-  hr = CoCreateInstance(  CLSID_StdComponentCategoriesMgr, 
-                          NULL, 
-                          CLSCTX_INPROC_SERVER, 
-                          IID_ICatRegister, 
+  hr = CoCreateInstance(  CLSID_StdComponentCategoriesMgr,
+                          NULL,
+                          CLSCTX_INPROC_SERVER,
+                          IID_ICatRegister,
                           (LPVOID*)&pcr);
 
   if(SUCCEEDED(hr))
@@ -328,7 +328,7 @@ RegisterComCat(CLSID clsid, CATID CatID, BOOL reg)
 
       pcr->Release();
     }
-        
+
   CoUninitialize();
 
   return SUCCEEDED(hr);

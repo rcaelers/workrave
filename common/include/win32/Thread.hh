@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -31,13 +31,13 @@ class Thread : public Runnable
 public:
   Thread(bool auto_delete = false);
   virtual ~Thread();
-  
+
   virtual void start();
   void wait();
   virtual void run();
 
   static void sleep(long millis, int nanos = 0);
-  
+
 private:
   static DWORD WINAPI thread_handler(LPVOID lpParameter);
 

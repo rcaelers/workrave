@@ -1,13 +1,13 @@
 // Timer.hh --- Break Timer
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2006 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -103,7 +103,14 @@ public:
     time_t last_limit_elapsed;
     time_t snooze_inhibited;
   };
-  
+
+  enum InsensitiveMode
+    {
+      MODE_FOLLOW_IDLE,
+      MODE_IDLE_ON_LIMIT_REACHED,
+      MODE_IDLE_ALWAYS
+    };
+
 public:
   // Construction/Destruction.
   Timer(TimeSource *timeSource);
@@ -117,7 +124,7 @@ public:
 
   // Timer processing.
   void process(ActivityState activityState, TimerInfo &info);
- 
+
   // State inquiry
   time_t get_elapsed_time() const;
   time_t get_elapsed_idle_time() const;
@@ -126,21 +133,21 @@ public:
 
   // Auto-resetting.
   void set_auto_reset(long t);
-  void set_auto_reset(TimePred *predicate); 
+  void set_auto_reset(TimePred *predicate);
   void set_auto_reset(string predicate);
   void set_auto_reset_enabled(bool b);
   bool is_auto_reset_enabled() const;
   time_t get_auto_reset() const;
   TimePred *get_auto_reset_predicate() const;
   time_t get_next_reset_time() const;
-  
+
   // Limiting.
   void set_limit(long t);
   void set_limit_enabled(bool b);
   bool is_limit_enabled() const;
   time_t get_limit() const;
   time_t get_next_limit_time() const;
-    
+
   // Timer ID
   void set_id(string id);
   string get_id() const;
@@ -152,7 +159,7 @@ public:
   void set_state_data(const TimerStateData &data);
   void get_state_data(TimerStateData &data);
   void set_values(int elapsed, int idle);
-  
+
   // Misc
   time_t get_snooze() const;
   void set_snooze_interval(time_t time);
@@ -175,14 +182,14 @@ public:
   void force_idle();
 
   void set_insensitive_mode(InsensitiveMode mode);
-  
+
 private:
   //! Is this timer enabled ?
   bool timer_enabled;
 
   //! Is the timer frozen? A frozen timer only counts idle time.
   bool timer_frozen;
-  
+
   //! State of the state monitor.
   ActivityState activity_state;
 
@@ -197,13 +204,13 @@ private:
 
   //! Snooze on active time instead of on actual time.
   bool snooze_on_active;
-  
+
   //! Don't snooze til next reset or changes.
   bool snooze_inhibited;
 
   //! Is the timer limit enabled?
   bool limit_enabled;
-  
+
   //! Timer limit interval.
   time_t limit_interval;
 
@@ -227,10 +234,10 @@ private:
 
   //! The total elapsed time the last time the limit was reached.
   time_t last_limit_elapsed;
-  
+
   //! Time when the timer was last started.
   time_t last_start_time;
-  
+
   //! Time when the timer was last reset.
   time_t last_reset_time;
 
@@ -251,7 +258,7 @@ private:
 
   //! Total overdue time.
   time_t total_overdue_time;
-  
+
   //! Id of the timer.
   string timer_id;
 
@@ -266,7 +273,7 @@ private:
 
   //!
   InsensitiveMode insensitive_mode;
-  
+
 private:
   void compute_next_limit_time();
   void compute_next_reset_time();

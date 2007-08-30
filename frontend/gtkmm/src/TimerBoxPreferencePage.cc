@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -53,7 +53,7 @@ TimerBoxPreferencePage::TimerBoxPreferencePage(string n)
   init_page_values();
   enable_buttons();
   init_page_callbacks();
-  
+
   IConfigurator *config = CoreFactory::get_configurator();
   config->add_listener(TimerBoxControl::CFG_KEY_TIMERBOX + name, this);
 
@@ -67,7 +67,7 @@ TimerBoxPreferencePage::TimerBoxPreferencePage(string n)
                            + b->get_name()
                            + "/enabled", this);
     }
-      
+
   TRACE_EXIT();
 }
 
@@ -79,7 +79,7 @@ TimerBoxPreferencePage::~TimerBoxPreferencePage()
 
   IConfigurator *config = CoreFactory::get_configurator();
   config->remove_listener(this);
-  
+
   TRACE_EXIT();
 }
 
@@ -115,7 +115,7 @@ TimerBoxPreferencePage::create_page()
     {
       Gtk::OptionMenu *display_button  = manage(new Gtk::OptionMenu());
       timer_display_button[i] = display_button;
-      
+
       Gtk::Menu *menu = manage(new Gtk::Menu());
       Gtk::Menu::MenuList &menu_list = menu->items();
       display_button->set_menu(*menu);
@@ -145,7 +145,7 @@ TimerBoxPreferencePage::create_page()
     {
       enabled_lab = manage(GtkUtil::create_label(_("Applet enabled"), false));
     }
-  
+
   enabled_cb = manage(new Gtk::CheckButton());
   enabled_cb->add(*enabled_lab);
 
@@ -157,19 +157,19 @@ TimerBoxPreferencePage::create_page()
     {
       hig->add(*ontop_cb);
     }
-  
+
   hig->add(_("Placement:"), *place_button);
   hig->add(_("Cycle time:"), *cycle_entry);
 
   hig->add_caption(_("Timers"));
-  
+
   // Layout
   hig->add(_("Micro-break:"), *timer_display_button[0]);
   hig->add(_("Rest break:"), *timer_display_button[1]);
   hig->add(_("Daily limit:"), *timer_display_button[2]);
 
   pack_end(*hig, true, true, 0);
-  
+
   set_border_width(12);
 }
 
@@ -291,7 +291,7 @@ TimerBoxPreferencePage::on_place_changed()
     {
       TimerBoxControl::set_timer_slot(name, (BreakId) i, slots[i]);
     }
-  
+
 }
 
 

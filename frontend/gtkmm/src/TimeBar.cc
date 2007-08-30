@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -78,7 +78,7 @@ void TimeBar::on_realize()
 {
   // FIXME: for some reason, the timebar get realized EACH TIME
   //        the timerbox is cycled...
-  
+
   // We need to call the base on_realize()
   Gtk::DrawingArea::on_realize();
   // Now we can allocate any additional resources we need
@@ -103,7 +103,7 @@ void TimeBar::on_realize()
 }
 
 
-void 
+void
 TimeBar::on_size_request(GtkRequisition *requisition)
 {
   int width, height;
@@ -140,7 +140,7 @@ TimeBar::on_size_allocate(Gtk::Allocation &allocation)
 
 //! Returns the preferred size.
 void
-TimeBar::get_preferred_size(int &width, int &height) 
+TimeBar::get_preferred_size(int &width, int &height)
 {
   Glib::RefPtr<Pango::Layout> pl = create_pango_layout(bar_text);
 
@@ -150,12 +150,12 @@ TimeBar::get_preferred_size(int &width, int &height)
   Glib::RefPtr<Pango::Context> pcl = pl->get_context();
   Glib::RefPtr<Pango::Context> pcmin = plmin->get_context();
   Pango::Matrix matrix = PANGO_MATRIX_INIT;
-  
+
   pango_matrix_rotate(&matrix, 360 - rotation);
 
   pcl->set_matrix(matrix);
   pcmin->set_matrix(matrix);
-  
+
   pl->get_pixel_size(width, height);
 
   int mwidth, mheight;
@@ -227,11 +227,11 @@ TimeBar::on_expose_event(GdkEventExpose *e)
     }
 
   int bar_height = win_lh - 2 * border_size;
-  
+
   if (sbar_width > 0)
     {
       // Overlap
-      
+
       // We should assert() because this is not supported
       // but there are some weird boundary cases
       // in which this still happens.. need to check
@@ -298,27 +298,27 @@ TimeBar::on_expose_event(GdkEventExpose *e)
                border_size, border_size,
                bar_width, bar_height, win_lw, win_lh);
     }
-      
-  
+
+
   // Text
   window_gc->set_foreground(bar_text_color);
   Glib::RefPtr<Pango::Layout> pl1 = create_pango_layout(bar_text);
   Glib::RefPtr<Pango::Context> pc1 = pl1->get_context();
 
   Pango::Matrix matrix = PANGO_MATRIX_INIT;
-	  
+  
   pango_matrix_rotate(&matrix, 360 - rotation);
   pc1->set_matrix(matrix);
-  
+
   int text_width, text_height;
   pl1->get_pixel_size(text_width, text_height);
 
   int text_x, text_y;
 
   Gdk::Rectangle rect1, rect2;
-  
+
   if (rotation == 0 || rotation == 180)
-    {  
+    {
       if (win_w - text_width - MARGINX > 0)
         {
           if (bar_text_align > 0)
@@ -375,7 +375,7 @@ TimeBar::on_expose_event(GdkEventExpose *e)
       rect1 = up_rect;
       rect2 = down_rect;
     }
-  
+
   Gdk::Color textcolor = style->get_text(Gtk::STATE_NORMAL);
 
   Glib::RefPtr<Gdk::GC> window_gc1 = Gdk::GC::create(window);
@@ -384,7 +384,7 @@ TimeBar::on_expose_event(GdkEventExpose *e)
   window_gc1->set_clip_rectangle(rect1);
   window_gc1->set_foreground(bar_text_color);
   window->draw_layout(window_gc1, text_x, text_y, pl1);
-  
+
   window_gc1->set_foreground(textcolor);
   window_gc1->set_clip_rectangle(rect2);
   window->draw_layout(window_gc1, text_x, text_y, pl1);
@@ -400,7 +400,7 @@ TimeBar::set_progress(int value, int max_value)
     {
       value = max_value;
     }
-  
+
   bar_value = value;
   bar_max_value = max_value;
 }
@@ -414,7 +414,7 @@ TimeBar::set_secondary_progress(int value, int max_value)
     {
       value = max_value;
     }
-  
+
   secondary_bar_value = value;
   secondary_bar_max_value = max_value;
 }
@@ -482,7 +482,7 @@ TimeBar::draw_bar(Glib::RefPtr<Gdk::Window> &window,
                   int winw, int winh)
 {
   (void) winh;
-  
+
   if (rotation == 0 || rotation == 180)
     {
       window->draw_rectangle(gc, filled, x, y, width, height);

@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -29,14 +29,14 @@ class Util
 public:
   // Grmbl. Ideally, this was call just SearchPath, however
   // Windows feels it is necessary to do a "#define SearchPath SearchPathA"
-  enum SearchPathId 
+  enum SearchPathId
   {
     SEARCH_PATH_IMAGES = 0,
     SEARCH_PATH_CONFIG,
     SEARCH_PATH_EXERCISES,
     SEARCH_PATH_SIZEOF
   };
-  
+
   static const string& get_home_directory();
   static void set_home_directory(const string &home);
 

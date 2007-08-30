@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -115,50 +115,50 @@ X11SystrayAppletWindow::activate_applet()
       TRACE_EXIT();
       return APPLET_STATE_VISIBLE;
     }
-  
+
   tray_icon = egg_tray_icon_new("Workrave Tray Icon");
   AppletState ret =  APPLET_STATE_DISABLED;
-  
+
   if (tray_icon != NULL)
     {
       g_signal_connect(tray_icon, "notify",
                        G_CALLBACK (static_notify_callback),
                        this);
-      
+
       plug = Glib::wrap(GTK_PLUG(tray_icon));
 
-      
+
       Gtk::EventBox *eventbox = new Gtk::EventBox;
       eventbox->set_visible_window(false);
       eventbox->set_events(eventbox->get_events() | Gdk::BUTTON_PRESS_MASK);
       eventbox->signal_button_press_event().connect(MEMBER_SLOT(*this,
                                                                 &X11SystrayAppletWindow::on_button_press_event));
       container = eventbox;
-          
+
       view = new TimerBoxGtkView();
       timer_box_view = view;
       timer_box_control = new TimerBoxControl("applet", *timer_box_view);
-      
+
       if (System::is_kde())
         {
           timer_box_control->set_force_empty(true);
         }
-      
+
       container->add(*view);
-      
+
       plug->signal_embedded().connect(MEMBER_SLOT(*this, &X11SystrayAppletWindow::on_embedded));
       plug->signal_delete_event().connect(MEMBER_SLOT(*this, &X11SystrayAppletWindow::delete_event));
-      
+
       plug->add(*container);
       plug->show_all();
-      
+
       // Tray menu
       Menus *menus = Menus::get_instance();
       menus->create_menu(Menus::MENU_APPLET);
-      
+
       ret = AppletWindow::APPLET_STATE_VISIBLE;
       applet_orientation = ORIENTATION_UP;
-      
+
 #ifdef HAVE_GTKMM24
       Gtk::Requisition req;
       plug->size_request(req);
@@ -167,13 +167,13 @@ X11SystrayAppletWindow::activate_applet()
       GtkRequisition req;
       plug->size_request(&req);
       applet_size = req.height;
-#endif      
+#endif
       view->set_geometry(applet_orientation, 24);
 
       applet_active = true;
       ret = APPLET_STATE_VISIBLE;
     }
-  
+
   TRACE_EXIT();
   return ret;
 }
@@ -202,7 +202,7 @@ X11SystrayAppletWindow::deactivate_applet()
 
       delete timer_box_control;
       timer_box_control = NULL;
-      
+
       delete timer_box_view;
       timer_box_view = NULL;
       view = NULL;
@@ -210,9 +210,9 @@ X11SystrayAppletWindow::deactivate_applet()
       control->set_applet_state(AppletControl::APPLET_TRAY,
                                 AppletWindow::APPLET_STATE_DISABLED);
     }
-  
+
   applet_active = false;
-  
+
   TRACE_EXIT();
 }
 
@@ -266,10 +266,10 @@ X11SystrayAppletWindow::on_embedded()
         {
           applet_size = req.height;
         }
-        
+
       TRACE_MSG("Size = " << req.width << " " << req.height << " " << applet_orientation);
       view->set_geometry(applet_orientation, applet_size);
-      
+
       TRACE_MSG(applet_size);
     }
 
@@ -300,7 +300,7 @@ X11SystrayAppletWindow::on_button_press_event(GdkEventButton *event)
           ret = true;
         }
     }
-      
+
   return ret;
 }
 

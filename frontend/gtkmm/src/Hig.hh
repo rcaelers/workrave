@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -30,7 +30,7 @@ public:
   HigDialog(const Glib::ustring& title, bool modal=false,
             bool use_separator=false);
   Gtk::VBox *get_vbox();
-  
+
 private:
   void set_hig_defaults();
 
@@ -48,10 +48,10 @@ public:
 
   void add_caption(Gtk::Widget &lab);
   void add_caption(const char *lab);
-  
+
 private:
   void init(Gtk::Widget &lab);
-  
+
   Gtk::VBox *options_box;
   Glib::RefPtr<Gtk::SizeGroup> size_group;
 };

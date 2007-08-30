@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -31,7 +31,7 @@
 
 class W32AppletWindow : public AppletWindow, public ITimerBoxView
 {
-public:  
+public:
   W32AppletWindow();
   virtual ~W32AppletWindow();
 
@@ -61,7 +61,7 @@ public:
 
   GdkFilterReturn win32_filter_func (void *xevent, GdkEvent *event);
   bool on_applet_command(int command);
-  
+
   enum MenuFlag
   {
     MENU_FLAG_TOGGLE = APPLET_MENU_FLAG_TOGGLE,
@@ -76,7 +76,7 @@ private:
   bool menu_sent;
   AppletHeartbeatData heartbeat_data;
   AppletMenuData menu_data;
-  
+
 };
 
 #endif // W32APPLETWINDOW_HH

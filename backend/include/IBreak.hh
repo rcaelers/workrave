@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -28,11 +28,11 @@ class IBreak
 {
 public:
   virtual ~IBreak() {}
-  
+
   virtual ITimer *get_timer() const = 0;
   virtual bool is_enabled() const = 0;
   virtual string get_name() const = 0;
-  
+
   virtual int get_timer_limit() const = 0;
   virtual void set_timer_limit(int n) = 0;
   virtual int get_timer_auto_reset() const = 0;

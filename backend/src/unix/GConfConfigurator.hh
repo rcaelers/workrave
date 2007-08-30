@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -62,35 +62,35 @@ public:
   virtual bool remove_listener(ConfiguratorListener *listener);
   virtual bool remove_listener(string key_prefix, ConfiguratorListener *listener);
 
-  
-  
+
+
 private:
   // void key_changed(guint id, Gnome::Conf::Entry entry);
-  
+
 private:
   typedef map<guint, string> ListenerIDs;
   typedef ListenerIDs::iterator ListenerIDsIter;
 
   typedef map<pair<string, ConfiguratorListener *>, guint> IDMap;
   typedef IDMap::iterator IDMapIter;
-  
+
   //! GConf IDs to paths map.
   ListenerIDs id2key_map;
 
   //! key/itf to id map.
   IDMap ids_map;
-  
+
   //! GConf thingy
   GConfClient *gconf_client;
 
   //! GConf Root of workrave
   string gconf_root;
-  
+
   //! Callback.
-  static void static_key_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer user_data);  
+  static void static_key_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer user_data);
 
   //!
-  void key_changed(guint cnxn_id, GConfEntry *entry);  
+  void key_changed(guint cnxn_id, GConfEntry *entry);
 };
 
 #endif // GCONFCONFIGURATOR_HH

@@ -8,13 +8,13 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
  * any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
- 
+
 #include <windows.h>
 #include <stdlib.h>
 #include <string.h>
@@ -82,7 +82,7 @@ dll_hell_check_path (char* gtkpath)
   HANDLE myHandle;
   WIN32_FIND_DATA fd;
   char* srchstr = (char*)malloc(strlen(gtkpath) + 8);
-        
+
   sprintf(srchstr, "%s%s", gtkpath, "\\*.dll");
   myHandle = FindFirstFile(srchstr, &fd );
   if(myHandle != INVALID_HANDLE_VALUE) {
@@ -101,8 +101,8 @@ read_reg_string(HKEY key, char* sub_key, char* val_name, LPBYTE data, LPDWORD da
   BOOL ret = FALSE;
   int retv;
 
-  if(ERROR_SUCCESS == RegOpenKeyEx(key, 
-                                   sub_key, 
+  if(ERROR_SUCCESS == RegOpenKeyEx(key,
+                                   sub_key,
                                    0,  KEY_QUERY_VALUE, &hkey)) {
     if(ERROR_SUCCESS == (retv=RegQueryValueEx(hkey, val_name, 0, NULL, data, data_len)))
       ret = TRUE;
@@ -121,7 +121,7 @@ dll_hell_check ()
   DWORD plen = MAX_PATH;
   int common_gtk = FALSE;
   BOOL gotreg;
-  
+
   if (read_reg_string(HKEY_LOCAL_MACHINE, "SOFTWARE\\Workrave", "CommonGTK", (LPBYTE)&path, &plen))
     {
       common_gtk = strcasecmp(path, "true")==0;

@@ -7,12 +7,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 
 static const char rcsid[] = "$Id$";
 
@@ -52,7 +52,7 @@ GlibIniConfigurator::load(string filename)
   gboolean r = TRUE;
 
   last_filename = filename;
-  
+
   TRACE_ENTER_MSG("GlibIniConfigurator::load", filename)
   config = g_key_file_new();
 
@@ -87,9 +87,9 @@ GlibIniConfigurator::save(string filename)
   else
     {
       ofstream config_file(filename.c_str());
-      
+
       config_file << str;
-      
+
       config_file.close();
     }
 
@@ -128,7 +128,7 @@ GlibIniConfigurator::get_value(string key, string *out) const
     {
       *out = value;
     }
-  
+
   if (error != NULL)
     {
       TRACE_MSG("error");
@@ -153,7 +153,7 @@ GlibIniConfigurator::get_value(string key, bool *out) const
   string group;
   string inikey;
   gboolean value;
-  
+
   split_key(key, group, inikey);
   inikey = key_inify(inikey);
 
@@ -185,12 +185,12 @@ GlibIniConfigurator::get_value(string key, int *out) const
   string group;
   string inikey;
   gint value;
-  
+
   split_key(key, group, inikey);
   inikey = key_inify(inikey);
 
   value = g_key_file_get_integer(config, group.c_str(), inikey.c_str(), &error);
-  
+
   if (error != NULL)
     {
       g_error_free(error);
@@ -233,12 +233,12 @@ GlibIniConfigurator::get_value(string key, double *out) const
   string group;
   string inikey;
   char *value;
-  
+
   split_key(key, group, inikey);
   inikey = key_inify(inikey);
 
   value = g_key_file_get_string(config, group.c_str(), inikey.c_str(), &error);
-  
+
   if (error != NULL)
     {
       g_error_free(error);
@@ -258,7 +258,7 @@ GlibIniConfigurator::set_value(string key, string v)
 {
   string group;
   string inikey;
-  
+
   split_key(key, group, inikey);
   inikey = key_inify(inikey);
 
@@ -275,7 +275,7 @@ GlibIniConfigurator::set_value(string key, int v)
 {
   string group;
   string inikey;
-  
+
   split_key(key, group, inikey);
   inikey = key_inify(inikey);
 
@@ -291,7 +291,7 @@ GlibIniConfigurator::set_value(string key, long v)
 {
   string group;
   string inikey;
-  
+
   split_key(key, group, inikey);
   inikey = key_inify(inikey);
 
@@ -307,7 +307,7 @@ GlibIniConfigurator::set_value(string key, bool v)
 {
   string group;
   string inikey;
-  
+
   split_key(key, group, inikey);
   inikey = key_inify(inikey);
 
@@ -327,7 +327,7 @@ GlibIniConfigurator::set_value(string key, double v)
 
   char buf[32];
   sprintf(buf, "%f", v);
-  
+
   split_key(key, group, inikey);
   inikey = key_inify(inikey);
 

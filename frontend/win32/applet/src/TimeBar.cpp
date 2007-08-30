@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -192,13 +192,13 @@ TimeBar::on_paint(void)
               r.top = winy+ border_size ;
               r.right = r.left + sbar_width;
               r.bottom = r.top + bar_h;
-              FillRect(dc, &r, bar_colors[overlap_color]);   
+              FillRect(dc, &r, bar_colors[overlap_color]);
             }
           r.left = winx + border_size + sbar_width;
           r.top = winy + border_size ;
           r.right = r.left + bar_width - sbar_width;
           r.bottom = r.top + bar_h;
-          FillRect(dc, &r, bar_colors[bar_color]);   
+          FillRect(dc, &r, bar_colors[bar_color]);
         }
     }
   else
@@ -209,12 +209,12 @@ TimeBar::on_paint(void)
       r.right = r.left + bar_width;
       r.bottom = r.top + bar_h;
       FillRect(dc, &r, bar_colors[bar_color]);       }
-    
+
   r.left = winx + border_size + __max(bar_width, sbar_width);
   r.top = winy + border_size;
   r.right = winx + winw - border_size;
   r.bottom = r.top + bar_h;
-  FillRect(dc, &r, bar_colors[ITimeBar::COLOR_ID_BG]);     
+  FillRect(dc, &r, bar_colors[ITimeBar::COLOR_ID_BG]);
 
 
   r.left = winx;
@@ -252,7 +252,7 @@ TimeBar::init(HINSTANCE hinst)
       wc.hbrBackground  = (HBRUSH)CreateSolidBrush(RGB(192, 0, 0));
       wc.lpszMenuName   = NULL;
       wc.lpszClassName  = TIME_BAR_CLASS_NAME;
-      
+
       RegisterClass(&wc);
 
       HBRUSH green_mix_blue = CreateSolidBrush(0x00b2d400);
@@ -287,7 +287,7 @@ TimeBar::time_to_string(time_t time, char *buf, int len)
 {
   // FIXME: Should validate len.
   char t[2];
-  
+
   if (time < 0)
     {
       t[0] = '-';
@@ -301,7 +301,7 @@ TimeBar::time_to_string(time_t time, char *buf, int len)
   int hrs = time/3600;
   int min = (time / 60) % 60;
   int sec = time % 60;
-  
+
   if (hrs > 0)
     {
       sprintf(buf, "%s%d:%02d:%02d", t, hrs, min, sec);
@@ -313,21 +313,21 @@ TimeBar::time_to_string(time_t time, char *buf, int len)
 }
 
 
-void 
+void
 TimeBar::set_progress(int value, int max_value)
 {
   bar_value = value;
   bar_max_value = max_value;
 }
 
-void 
+void
 TimeBar::set_secondary_progress(int value, int max_value)
 {
   secondary_bar_value = value;
   secondary_bar_max_value = max_value;
 }
-  
-void 
+
+void
 TimeBar::set_text(const char *text)
 {
   strncpy(bar_text, text, APPLET_BAR_TEXT_MAX_LENGTH-1);
@@ -335,19 +335,19 @@ TimeBar::set_text(const char *text)
 
 }
 
-void 
+void
 TimeBar::update()
 {
   RedrawWindow(hwnd, NULL, NULL, RDW_INTERNALPAINT);
 }
 
-void 
+void
 TimeBar::set_bar_color(ITimeBar::ColorId color)
 {
   bar_color = color;
 }
 
-void 
+void
 TimeBar::set_secondary_bar_color(ITimeBar::ColorId color)
 {
   secondary_bar_color = color;

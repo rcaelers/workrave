@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -28,7 +28,7 @@ class IDistributionManager
 {
 public:
   virtual ~IDistributionManager() {}
-  
+
   virtual bool is_master() const = 0;
   virtual int get_number_of_peers() = 0;
   virtual bool connect(string url) = 0;
@@ -42,7 +42,7 @@ public:
 
   virtual bool add_peer(string peer) = 0;
   virtual bool remove_peer(string peer) = 0;
-  
+
   virtual void set_peers(string peers, bool connect = true) = 0;
   virtual list<string> get_peers() const = 0;
 

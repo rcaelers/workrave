@@ -1,5 +1,5 @@
 /*
- * nls.h --- i18n-isation 
+ * nls.h --- i18n-isation
  *
  * Copyright (C) 2002, 2003, 2005 Raymond Penners
  * All rights reserved.
@@ -8,16 +8,16 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
  * any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
- * 
+ *
  * $Id$
  *
  */
@@ -88,7 +88,7 @@ guess_category_value (const gchar *categoryname)
      systems this can be done by the `setlocale' function itself.  */
 
   /* Setting of LC_ALL overwrites all other.  */
-  retval = g_getenv ("LC_ALL");  
+  retval = g_getenv ("LC_ALL");
   if (retval != NULL && retval[0] != '\0')
     return retval;
 
@@ -150,15 +150,15 @@ enum
 
 
 /* The following is (partly) taken from the libgnome package.
- * Copyright (C) 1997, 1998, 1999, 2000 Free Software Foundation, Inc.  
+ * Copyright (C) 1997, 1998, 1999, 2000 Free Software Foundation, Inc.
  */
 /* Break an X/Open style locale specification into components
  */
 static guint
 explode_locale (const gchar *locale,
-		gchar **language, 
-		gchar **territory, 
-		gchar **codeset, 
+		gchar **language,
+		gchar **territory,
+		gchar **codeset,
 		gchar **modifier)
 {
   const gchar *uscore_pos;
@@ -208,7 +208,7 @@ explode_locale (const gchar *locale,
 
 
 /* The following is (partly) taken from the libgnome package.
- * Copyright (C) 1997, 1998, 1999, 2000 Free Software Foundation, Inc.  
+ * Copyright (C) 1997, 1998, 1999, 2000 Free Software Foundation, Inc.
  */
 /*
  * Compute all interesting variants for a given locale name -
@@ -267,14 +267,14 @@ compute_locale_variants (const gchar *locale)
 
 
 /* The following is (partly) taken from the libgnome package.
- * Copyright (C) 1997, 1998, 1999, 2000 Free Software Foundation, Inc.  
+ * Copyright (C) 1997, 1998, 1999, 2000 Free Software Foundation, Inc.
  */
 const GList *
 nls_get_language_list (const gchar *category_name)
 {
 #if defined(HAVE_GNOME)
   (void) category_name;
-  
+
   return gnome_i18n_get_language_list("LC_MESSAGES");
 
 #elif defined(G_OS_WIN32)
@@ -309,7 +309,7 @@ nls_get_language_list (const gchar *category_name)
   if (!list)
     {
       gint c_locale_defined= FALSE;
-  
+
       const gchar *category_value;
       gchar *category_memory, *orig_category_memory;
 
@@ -318,32 +318,32 @@ nls_get_language_list (const gchar *category_name)
 	category_value = "C";
       orig_category_memory = category_memory =
 	g_malloc (strlen (category_value)+1);
-      
+
       while (category_value[0] != '\0')
 	{
 	  while (category_value[0] != '\0' && category_value[0] == ':')
 	    ++category_value;
-	  
+	
 	  if (category_value[0] != '\0')
 	    {
 	      char *cp= category_memory;
-	      
+	
 	      while (category_value[0] != '\0' && category_value[0] != ':')
 		*category_memory++= *category_value++;
-	      
-	      category_memory[0]= '\0'; 
+	
+	      category_memory[0]= '\0';
 	      category_memory++;
-	      
+	
 	      cp = (char *) unalias_lang(cp);
-	      
+	
 	      if (strcmp (cp, "C") == 0)
 		c_locale_defined= TRUE;
-	      
+	
 	      list= g_list_concat (list, (char *) compute_locale_variants (cp));
 	    }
 	}
       g_free (orig_category_memory);
-      
+
       if (!c_locale_defined)
 	list= g_list_append (list, "C");
 

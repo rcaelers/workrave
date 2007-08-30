@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -54,7 +54,7 @@ extern "C"
       client->attach();
       client->registerAs("kworkrave", false);
     }
-    
+
     KGlobal::locale()->insertCatalogue("KWorkraveApplet");
     return new KWorkraveApplet(configFile,
                                KPanelApplet::Stretch,
@@ -70,7 +70,7 @@ KWorkraveApplet::KWorkraveApplet(const QString& configFile, Type type, int actio
     DCOPObject("KWorkrave"),
     embed(NULL)
 {
-  KWorkraveControlIface_stub dcop("kworkravecontrol", "KWorkraveControl"); 
+  KWorkraveControlIface_stub dcop("kworkravecontrol", "KWorkraveControl");
   dcop.fire();
 }
 
@@ -108,7 +108,7 @@ long
 KWorkraveApplet::get_size()
 {
   Orientation o = orientation();
-  
+
   if (o == Qt::Vertical)
     {
       return size().width();

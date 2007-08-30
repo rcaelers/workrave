@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -75,43 +75,43 @@ STDMETHODIMP CDeskBand::QueryInterface(REFIID riid, LPVOID *ppReturn)
   else if(IsEqualIID(riid, IID_IDockingWindow))
     {
       *ppReturn = (IDockingWindow*)this;
-    }   
+    }
 
   //IInputObject
   else if(IsEqualIID(riid, IID_IInputObject))
     {
       *ppReturn = (IInputObject*)this;
-    }   
+    }
 
   //IObjectWithSite
   else if(IsEqualIID(riid, IID_IObjectWithSite))
     {
       *ppReturn = (IObjectWithSite*)this;
-    }   
+    }
 
   //IDeskBand
   else if(IsEqualIID(riid, IID_IDeskBand))
     {
       *ppReturn = (IDeskBand*)this;
-    }   
+    }
 
   //IPersist
   else if(IsEqualIID(riid, IID_IPersist))
     {
       *ppReturn = (IPersist*)this;
-    }   
+    }
 
   //IPersistStream
   else if(IsEqualIID(riid, IID_IPersistStream))
     {
       *ppReturn = (IPersistStream*)this;
-    }   
+    }
 
   //IContextMenu
   else if(IsEqualIID(riid, IID_IContextMenu))
     {
       *ppReturn = (IContextMenu*)this;
-    }   
+    }
 
   if(*ppReturn)
     {
@@ -120,7 +120,7 @@ STDMETHODIMP CDeskBand::QueryInterface(REFIID riid, LPVOID *ppReturn)
     }
 
   return E_NOINTERFACE;
-}                                             
+}
 
 STDMETHODIMP_(DWORD) CDeskBand::AddRef()
 {
@@ -136,7 +136,7 @@ STDMETHODIMP_(DWORD)
       delete this;
       return 0;
     }
-   
+
   return m_ObjRefCount;
 }
 
@@ -181,18 +181,18 @@ CDeskBand::CloseDW(DWORD dwReserved)
 
   delete m_TimerBox;
   m_TimerBox = NULL;
-  
+
   if(IsWindow(m_hWnd))
     DestroyWindow(m_hWnd);
 
   m_hWnd = NULL;
-   
+
   return S_OK;
 }
 
 STDMETHODIMP
-CDeskBand::ResizeBorderDW(   LPCRECT prcBorder, 
-                                          IUnknown* punkSite, 
+CDeskBand::ResizeBorderDW(   LPCRECT prcBorder,
+                                          IUnknown* punkSite,
                                           BOOL fReserved)
 {
   return E_NOTIMPL;
@@ -239,7 +239,7 @@ CDeskBand::SetSite(IUnknown* punkSite)
       IOleWindow  *pOleWindow;
 
       m_hwndParent = NULL;
-   
+
       if(SUCCEEDED(punkSite->QueryInterface(IID_IOleWindow, (LPVOID*)&pOleWindow)))
         {
           pOleWindow->GetWindow(&m_hwndParent);
@@ -257,7 +257,7 @@ CDeskBand::SetSite(IUnknown* punkSite)
         {
           return S_OK;
         }
-   
+
       return E_FAIL;
     }
 
@@ -326,7 +326,7 @@ CDeskBand::GetBandInfo(DWORD dwBandID, DWORD dwViewMode, DESKBANDINFO* pdbi)
 
           pdbi->dwModeFlags |= DBIMF_VARIABLEHEIGHT;
         }
-   
+
       if(pdbi->dwMask & DBIM_BKCOLOR)
         {
           //Use the default background color by removing this flag.
@@ -400,32 +400,32 @@ CDeskBand::QueryContextMenu( HMENU hMenu,
         }
       if (d->flags & APPLET_MENU_FLAG_POPUP)
         {
-          if (popup == NULL) 
+          if (popup == NULL)
             {
               popup = CreatePopupMenu();
             }
-          AppendMenuW(popup, 
-                      flags, 
-                      idCmdFirst + m, 
+          AppendMenuW(popup,
+                      flags,
+                      idCmdFirst + m,
                       textw);
         }
       else
         {
           if (popup != NULL)
             {
-              InsertMenuW( hMenu, 
-                          indexMenu++, 
-                          MF_POPUP | flags, 
-                          (UINT) popup, 
+              InsertMenuW( hMenu,
+                          indexMenu++,
+                          MF_POPUP | flags,
+                          (UINT) popup,
                           textw);
               popup = NULL;
             }
           else
             {
-              InsertMenuW( hMenu, 
-                          indexMenu++, 
-                          flags, 
-                          idCmdFirst + m, 
+              InsertMenuW( hMenu,
+                          indexMenu++,
+                          flags,
+                          idCmdFirst + m,
                           textw);
             }
         }
@@ -482,10 +482,10 @@ CDeskBand::WndProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
         SetTimer(hWnd, 0xdeadf00d, 3000, NULL);
       }
       break;
-   
+
     case WM_COMMAND:
       return pThis->OnCommand(wParam, lParam);
-   
+
     case WM_TIMER:
       return pThis->OnTimer(wParam, lParam);
 
@@ -497,7 +497,7 @@ CDeskBand::WndProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
 
     case WM_KILLFOCUS:
       return pThis->OnKillFocus();
-   
+
     case WM_SIZE:
       return pThis->OnSize(lParam);
 
@@ -508,7 +508,7 @@ CDeskBand::WndProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
     case WM_LBUTTONUP:
       SendMessage(pThis->m_AppletMenu.command_window, WM_USER + 1, 0, NULL);
       break;
-    }    
+    }
   return DefWindowProc(hWnd, uMessage, wParam, lParam);
 }
 
@@ -550,11 +550,11 @@ CDeskBand::OnCopyData(PCOPYDATASTRUCT copy_data)
       {
         AppletHeartbeatData *data = (AppletHeartbeatData *) copy_data->lpData;
         m_TimerBox->set_enabled(data->enabled);
-        for (int s = 0; s < BREAK_ID_SIZEOF; s++) 
+        for (int s = 0; s < BREAK_ID_SIZEOF; s++)
         {
             m_TimerBox->set_slot(s, (BreakId) data->slots[s]);
         }
-        for (int b = 0; b < BREAK_ID_SIZEOF; b++) 
+        for (int b = 0; b < BREAK_ID_SIZEOF; b++)
         {
             TimeBar *bar = m_TimerBox->get_time_bar(BreakId(b));
             if (bar != NULL)
@@ -568,7 +568,7 @@ CDeskBand::OnCopyData(PCOPYDATASTRUCT copy_data)
         }
 
         m_TimerBox->update(false);
-      }   
+      }
     return 0;
 }
 
@@ -580,7 +580,7 @@ CDeskBand::OnSize(LPARAM lParam)
 
   cx = LOWORD(lParam);
   cy = HIWORD(lParam);
-  if (m_TimerBox != NULL) 
+  if (m_TimerBox != NULL)
     {
       m_TimerBox->set_size(cx, cy);
       m_TimerBox->update(true);
@@ -648,7 +648,7 @@ CDeskBand::RegisterAndCreateWindow(void)
           wc.hbrBackground  = NULL;//(HBRUSH)(COLOR_WINDOWFRAME+1);
           wc.lpszMenuName   = NULL;
           wc.lpszClassName  = DB_CLASS_NAME;
-      
+
           if(!RegisterClass(&wc))
             {
               //If RegisterClass fails, CreateWindow below will fail.
@@ -681,7 +681,7 @@ CDeskBand::RegisterAndCreateWindow(void)
 
 
 
-LRESULT 
+LRESULT
 CDeskBand::OnWindowPosChanging(WPARAM wParam, LPARAM lParam)
 {
   if (m_TimerBox != NULL)

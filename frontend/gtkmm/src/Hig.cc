@@ -55,7 +55,7 @@ HigCategoryPanel::init(Gtk::Widget &lab)
 
   Gtk::HBox *ibox = manage(new Gtk::HBox());
   pack_start(*ibox, false, false, 0);
-  
+
   Gtk::Label *indent_lab = manage(new Gtk::Label("    "));
   ibox->pack_start(*indent_lab, false, false, 0);
   options_box = manage(new Gtk::VBox());
@@ -104,7 +104,7 @@ HigCategoryPanel::add_caption(Gtk::Widget &lab)
 
   Gtk::HBox *ibox = manage(new Gtk::HBox());
   pack_start(*ibox, false, false, 0);
-  
+
   Gtk::Label *indent_lab = manage(new Gtk::Label("    "));
   ibox->pack_start(*indent_lab, false, false, 0);
   options_box = manage(new Gtk::VBox());

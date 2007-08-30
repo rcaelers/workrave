@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -36,13 +36,13 @@ public:
 
   void set_progress(int value, int max_value);
   void set_secondary_progress(int value, int max_value);
-  
+
   void set_text(std::string text);
 
   void update();
   void set_bar_color(ColorId color);
   void set_secondary_bar_color(ColorId color);
-  void set_text_color(Gdk::Color color); 
+  void set_text_color(Gdk::Color color);
   void set_text_alignment(int align);
 
   void set_border_size(int size);
@@ -56,17 +56,17 @@ private:
                 const Glib::RefPtr<Gdk::GC> &gc,
                 bool filled, int x, int y, int width, int height,
                 int winw, int winh);
-  
+
 protected:
   //Overridden default signal handlers:
   virtual void on_realize();
   virtual bool on_expose_event(GdkEventExpose *event);
   virtual void on_size_request(GtkRequisition *requisition);
   virtual void on_size_allocate(Gtk::Allocation& allocation);
-  
+
 private:
   static Gdk::Color bar_colors[COLOR_ID_SIZEOF];
-  
+
   //! Graphic context.
   Glib::RefPtr<Gdk::GC> window_gc;
 
@@ -75,7 +75,7 @@ private:
 
   //! Color of the time-bar.
   ColorId secondary_bar_color;
-  
+
   //! Color of the text.
   Gdk::Color bar_text_color;
 

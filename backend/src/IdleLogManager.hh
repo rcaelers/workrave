@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -85,7 +85,7 @@ private:
     //! Yet to be saved
     bool to_be_saved;
   };
-  
+
 
   typedef list<IdleInterval> IdleLog;
   typedef IdleLog::iterator IdleLogIter;
@@ -106,13 +106,13 @@ private:
 
     //! ID
     string client_id;
-    
+
     //! List of idle period of this client.
     IdleLog idlelog;
 
     //! Current interval
     IdleInterval current_interval;
-    
+
     //! Last known state
     ActivityState state;
 
@@ -144,7 +144,7 @@ private:
         }
     }
   };
-  
+
   typedef map<string, ClientInfo> ClientMap;
   typedef ClientMap::iterator ClientMapIter;
 
@@ -160,7 +160,7 @@ private:
 
   //! Last time we performed an expiration run.
   time_t last_expiration_time;
-  
+
 public:
   IdleLogManager(string myid, const TimeSource *control);
 

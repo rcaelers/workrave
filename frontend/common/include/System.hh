@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -48,14 +48,14 @@ public:
 #if defined(HAVE_X)
   static bool is_kde() { return kde; }
 #endif
-  
+
 private:
 #if defined(HAVE_X)
   static void init_kde(const char *display);
-  
+
   static gchar *xlock;
   static bool kde;
-  
+
 #elif defined(WIN32)
   static bool shutdown_helper(bool for_real);
 
@@ -63,7 +63,7 @@ private:
   static LockWorkStationFunc lock_func;
   static HINSTANCE user32_dll;
   static bool shutdown_supported;
-#endif  
+#endif
 };
 
 #endif // SYSTEM_HH

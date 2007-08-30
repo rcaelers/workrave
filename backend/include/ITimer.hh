@@ -1,15 +1,15 @@
 // ITimer.hh --- The Break Timer Query Interface
 //
-// Copyright (C) 2001, 2002, 2003, 2005, 2006 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2007-07-01 23:42:44 robc>
+// Time-stamp: <2007-08-30 16:03:12 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -44,16 +44,9 @@ public:
       STATE_STOPPED
     };
 
-  enum InsensitiveMode
-    {
-      MODE_FOLLOW_IDLE,
-      MODE_IDLE_ON_LIMIT_REACHED,
-      MODE_IDLE_ALWAYS
-    };
-  
 public:
   virtual ~ITimer() {}
-  
+
   //! Returns the current time state.
   virtual TimerState get_state() const = 0;
 
@@ -68,15 +61,12 @@ public:
 
   //! Is the auto-reset enabled?
   virtual bool is_auto_reset_enabled() const = 0;
-  
+
   //! Returns the break limit (i.e. time before break)
   virtual time_t get_limit() const = 0;
 
   //! Is the limit enabled.
   virtual bool is_limit_enabled() const = 0;
-
-  //! Sets the activity insensitive mode
-  virtual void set_insensitive_mode(InsensitiveMode mode) = 0;
 };
 
 #endif // ITIMER_HH

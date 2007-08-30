@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -27,7 +27,7 @@
 
 class TimerBoxControl : public ConfiguratorListener
 {
-public:  
+public:
   TimerBoxControl(std::string name, ITimerBoxView &view);
   virtual ~TimerBoxControl();
 
@@ -35,7 +35,7 @@ public:
   void update();
   void force_cycle();
   void set_force_empty(bool s);
-  
+
   static const std::string get_timer_config_key(std::string name, BreakId timer, const std::string &key);
   static int get_cycle_time(std::string name);
   static void set_cycle_time(std::string name, int time);
@@ -47,7 +47,7 @@ public:
   static void set_timer_flags(std::string name, BreakId timer, int flags);
   static bool is_enabled(std::string name);
   static void set_enabled(std::string name, bool enabled);
-  
+
 public:
   static const std::string CFG_KEY_TIMERBOX;
   static const std::string CFG_KEY_TIMERBOX_HORIZONTAL;
@@ -66,25 +66,25 @@ public:
       BREAK_DEFAULT = 16,
       BREAK_HIDE = 32
     };
-  
-  
+
+
 private:
   // ConfiguratorListener
   void config_changed_notify(std::string key);
   void update_widgets();
   void init_table();
   void init_icon();
-  
+
   void read_configuration();
- 
+
   void init_slot(int slot);
   void cycle_slots();
-  
- 
+
+
 private:
   //! View
   ITimerBoxView *view;
-  
+
   //! Reconfigure the panel.
   bool reconfigure;
 
@@ -99,7 +99,7 @@ private:
 
   //! Imminent threshold for the timers.
   int break_imminent_time[BREAK_ID_SIZEOF];
-  
+
   //! Computed slot contents.
   int break_slots[BREAK_ID_SIZEOF][BREAK_ID_SIZEOF];
 
@@ -112,7 +112,7 @@ private:
   //! Last known operation mode
   OperationMode operation_mode;
 
-  //! 
+  //!
   int forced_cycle;
 
   //!

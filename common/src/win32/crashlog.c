@@ -9,7 +9,7 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
  * any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -48,25 +48,25 @@ static void dump_registers(FILE *log, PCONTEXT context);
 static void dump_registry(FILE *log, HKEY key, char *name);
 /* static void print_module_list(FILE *log); */
 
-static 
+static
 DWORD GetModuleBase(DWORD dwAddress)
 {
   MEMORY_BASIC_INFORMATION Buffer;
-	
+  
   return VirtualQuery((LPCVOID) dwAddress, &Buffer, sizeof(Buffer)) ? (DWORD) Buffer.AllocationBase : 0;
 }
 
-static EXCEPTION_DISPOSITION __cdecl 
-double_exception_handler(struct _EXCEPTION_RECORD *exception_record, 
-                         void *establisher_frame, 
-                         struct _CONTEXT *context_record, 
+static EXCEPTION_DISPOSITION __cdecl
+double_exception_handler(struct _EXCEPTION_RECORD *exception_record,
+                         void *establisher_frame,
+                         struct _CONTEXT *context_record,
                          void *dispatcher_context)
 {
   (void) exception_record;
   (void) establisher_frame;
   (void) context_record;
   (void) dispatcher_context;
-  
+
   MessageBox(NULL,
              "Workrave has unexpectedly crashed and failed to create a crash "
              "log. This is serious. Please report this to crashes@workrave.org or "
@@ -74,55 +74,55 @@ double_exception_handler(struct _EXCEPTION_RECORD *exception_record,
 
   exit(1);
 }
-EXCEPTION_DISPOSITION __cdecl 
-exception_handler(struct _EXCEPTION_RECORD *exception_record, 
-                  void *establisher_frame, 
-                  struct _CONTEXT *context_record, 
+EXCEPTION_DISPOSITION __cdecl
+exception_handler(struct _EXCEPTION_RECORD *exception_record,
+                  void *establisher_frame,
+                  struct _CONTEXT *context_record,
                   void *dispatcher_context)
 {
   char crash_log_name[MAX_PATH];
   char crash_text[1024];
   TCHAR szModule[MAX_PATH];
   HMODULE hModule;
-  
+
   FILE *log;
-  
+
   (void) establisher_frame;
   (void) dispatcher_context;
-  
+
   __try1(double_exception_handler);
-  
+
   harpoon_unblock_input();
-  
+
 /*
  Modified for Unicode >= WinNT. No UnicoWS check for Me/98/95.
  jay satiro, workrave project, july 2007
 */
   WCHAR buffer[32767] = L"\\\\?\\";
   WCHAR *p_buffer = buffer + 4;
-  
+
   DWORD ( WINAPI *GetEnvironmentVariableW ) ( LPCWSTR, LPWSTR, DWORD );
-  HANDLE ( WINAPI *CreateFileW ) ( LPCWSTR, DWORD, DWORD, 
+  HANDLE ( WINAPI *CreateFileW ) ( LPCWSTR, DWORD, DWORD,
     LPSECURITY_ATTRIBUTES, DWORD, DWORD, HANDLE );
-  
+
   GetEnvironmentVariableW = ( DWORD ( WINAPI * ) ( LPCWSTR, LPWSTR, DWORD ) )
     GetProcAddress( GetModuleHandleA( "kernel32.dll" ), "GetEnvironmentVariableW" );
-  CreateFileW = ( HANDLE ( WINAPI * ) ( LPCWSTR, DWORD, DWORD, 
+  CreateFileW = ( HANDLE ( WINAPI * ) ( LPCWSTR, DWORD, DWORD,
     LPSECURITY_ATTRIBUTES, DWORD, DWORD, HANDLE ) )
       GetProcAddress( GetModuleHandleA( "kernel32.dll" ), "CreateFileW" );
-  
+
   if( GetEnvironmentVariableW && CreateFileW )
   // >= WinNT
     {
       DWORD ret;
       HANDLE handle;
-      
+
       ret = ( *GetEnvironmentVariableW ) ( L"APPDATA", p_buffer, (DWORD) 32700 );
-      
+
       if( ret == 0 || ret > 32700 )
       // If %appdata% is unsuitable, try temp:
           ret = ( *GetEnvironmentVariableW ) ( L"TEMP", p_buffer, (DWORD) 32700 );
-      
+
       if( ret == 0 || ret > 32700 )
       // Environment unsuitable, notify & terminate.
         {
@@ -135,20 +135,20 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
           __except1;
           exit( 1 );
         }
-      
+
       //last wchar
       p_buffer = buffer + wcslen(buffer) - 1;
-      
+
       while( *p_buffer == L'\\' )
       // remove trailing slashes
         {
           *p_buffer-- = L'\0';
         }
-      
+
       // append filename to end of string
       wcscpy( ++p_buffer, L"\\workrave-crashlog.txt" );
-      
-      
+
+
       // compare first wchar of returned environment string
       if( buffer[ 4 ] == L'\\' )
       /*
@@ -160,17 +160,17 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
       else
       // Point to start of buffer:
           p_buffer = buffer;
-      
-      
+
+
       handle = ( *CreateFileW ) (
-        p_buffer, 
-        GENERIC_READ | GENERIC_WRITE, 
-        FILE_SHARE_READ, 
-        NULL, 
-        CREATE_ALWAYS, 
-        FILE_ATTRIBUTE_NORMAL, 
+        p_buffer,
+        GENERIC_READ | GENERIC_WRITE,
+        FILE_SHARE_READ,
+        NULL,
+        CREATE_ALWAYS,
+        FILE_ATTRIBUTE_NORMAL,
         NULL );
-      
+
       int fd = _open_osfhandle( (intptr_t) handle, _O_APPEND | _O_TEXT );
       log = _fdopen( fd, "w" );
     }
@@ -188,10 +188,10 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
       *s = '\0';
       // crash_log_name == c:\program files\workrave
       strcat(crash_log_name, "\\workrave-crashlog.txt");
-      
+
       log = fopen(crash_log_name, "w");
     }
-    
+
     if( log == NULL )
       // workrave-crashlog.txt wasn't created.
       {
@@ -207,7 +207,7 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
 
   SYSTEMTIME SystemTime;
 
-  GetLocalTime(&SystemTime);    
+  GetLocalTime(&SystemTime);
   fprintf(log, "Crash log created on %02d/%02d/%04d at %02d:%02d:%02d.\n\n",
           SystemTime.wDay,
           SystemTime.wMonth,
@@ -255,7 +255,7 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
 #endif
           "\n"
           );
-  
+
   fprintf(log, "\n\n");
   fprintf(log, "code = %x\n", (int) exception_record->ExceptionCode);
   fprintf(log, "flags = %x\n", (int) exception_record->ExceptionFlags);
@@ -268,47 +268,47 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
     case EXCEPTION_ACCESS_VIOLATION:
       fprintf(log, "an Access Violation");
       break;
-    
+
     case EXCEPTION_ARRAY_BOUNDS_EXCEEDED:
       fprintf(log, "an Array Bound Exceeded");
       break;
-    
+
     case EXCEPTION_BREAKPOINT:
       fprintf(log, "a Breakpoint");
       break;
-    
+
     case EXCEPTION_DATATYPE_MISALIGNMENT:
       fprintf(log, "a Datatype Misalignment");
       break;
-    
+
     case EXCEPTION_FLT_DENORMAL_OPERAND:
       fprintf(log, "a Float Denormal Operand");
       break;
-    
+
     case EXCEPTION_FLT_DIVIDE_BY_ZERO:
       fprintf(log, "a Float Divide By Zero");
       break;
-    
+
     case EXCEPTION_FLT_INEXACT_RESULT:
       fprintf(log, "a Float Inexact Result");
       break;
-    
+
     case EXCEPTION_FLT_INVALID_OPERATION:
       fprintf(log, "a Float Invalid Operation");
       break;
-    
+
     case EXCEPTION_FLT_OVERFLOW:
       fprintf(log, "a Float Overflow");
       break;
-    
+
     case EXCEPTION_FLT_STACK_CHECK:
       fprintf(log, "a Float Stack Check");
       break;
-    
+
     case EXCEPTION_FLT_UNDERFLOW:
       fprintf(log, "a Float Underflow");
       break;
-    
+
     case EXCEPTION_GUARD_PAGE:
       fprintf(log, "a Guard Page");
       break;
@@ -316,23 +316,23 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
     case EXCEPTION_ILLEGAL_INSTRUCTION:
       fprintf(log, "an Illegal Instruction");
       break;
-    
+
     case EXCEPTION_IN_PAGE_ERROR:
       fprintf(log, "an In Page Error");
       break;
-    
+
     case EXCEPTION_INT_DIVIDE_BY_ZERO:
       fprintf(log, "an Integer Divide By Zero");
       break;
-    
+
     case EXCEPTION_INT_OVERFLOW:
       fprintf(log, "an Integer Overflow");
       break;
-    
+
     case EXCEPTION_INVALID_DISPOSITION:
       fprintf(log, "an Invalid Disposition");
       break;
-    
+
     case EXCEPTION_INVALID_HANDLE:
       fprintf(log, "an Invalid Handle");
       break;
@@ -344,11 +344,11 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
     case EXCEPTION_PRIV_INSTRUCTION:
       fprintf(log, "a Privileged Instruction");
       break;
-    
+
     case EXCEPTION_SINGLE_STEP:
       fprintf(log, "a Single Step");
       break;
-    
+
     case EXCEPTION_STACK_OVERFLOW:
       fprintf(log, "a Stack Overflow");
       break;
@@ -356,27 +356,27 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
     case DBG_CONTROL_C:
       fprintf(log, "a Control+C");
       break;
-    
+
     case DBG_CONTROL_BREAK:
       fprintf(log, "a Control+Break");
       break;
-    
+
     case DBG_TERMINATE_THREAD:
       fprintf(log, "a Terminate Thread");
       break;
-    
+
     case DBG_TERMINATE_PROCESS:
       fprintf(log, "a Terminate Process");
       break;
-    
+
     case RPC_S_UNKNOWN_IF:
       fprintf(log, "an Unknown Interface");
       break;
-    
+
     case RPC_S_SERVER_UNAVAILABLE:
       fprintf(log, "a Server Unavailable");
       break;
-    
+
     default:
       fprintf(log, "an Unknown [0x%lX] Exception", exception_record->ExceptionCode);
       break;
@@ -385,11 +385,11 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
   fprintf(log, " at location %08x", (int) exception_record->ExceptionAddress);
   if ((hModule = (HMODULE) GetModuleBase((DWORD) exception_record->ExceptionAddress) && GetModuleFileName(hModule, szModule, sizeof(szModule))))
     fprintf(log, " in module %s", szModule);
-    
+
   // If the exception was an access violation, print out some additional information, to the error log and the debugger.
   if(exception_record->ExceptionCode == EXCEPTION_ACCESS_VIOLATION && exception_record->NumberParameters >= 2)
     fprintf(log, " %s location %08x\n\n", exception_record->ExceptionInformation[0] ? "writing to" : "reading from", exception_record->ExceptionInformation[1]);
-  
+
   DWORD pid = GetCurrentProcessId();
   HANDLE process = OpenProcess(PROCESS_ALL_ACCESS, TRUE, pid);
 
@@ -400,14 +400,14 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
 
   fprintf(log, "\nRegistry dump:\n\n");
   dump_registry(log, HKEY_CURRENT_USER, "Software\\Workrave");
-  
+
   fclose(log);
 
   if( GetEnvironmentVariableW && CreateFileW )
   // >= WinNT
     {
       WCHAR message[33000];
-      snwprintf( message, 32999, 
+      snwprintf( message, 32999,
         L"Workrave has unexpectedly crashed. A crash log has been saved to:\n"
         L"%ws\n"
         L"Please file a bug report: http://issues.workrave.org/\n"
@@ -424,9 +424,9 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
         "Thanks.", crash_log_name);
       MessageBoxA(NULL, crash_text, "Exception", MB_OK);
     }
-  
+
   __except1;
-  
+
   exit(1);
 }
 
@@ -437,14 +437,14 @@ BOOL WINAPI stack_walk(HANDLE process, LPSTACKFRAME stack_frame, PCONTEXT contex
   if (!stack_frame->Reserved[0])
     {
       stack_frame->Reserved[0] = 1;
-		
+    
       stack_frame->AddrPC.Mode = AddrModeFlat;
       stack_frame->AddrPC.Offset = context_record->Eip;
       stack_frame->AddrStack.Mode = AddrModeFlat;
       stack_frame->AddrStack.Offset = context_record->Esp;
       stack_frame->AddrFrame.Mode = AddrModeFlat;
       stack_frame->AddrFrame.Offset = context_record->Ebp;
-      
+
       stack_frame->AddrReturn.Mode = AddrModeFlat;
       if (!ReadProcessMemory(process,
                              (LPCVOID) (stack_frame->AddrFrame.Offset + sizeof(DWORD)),
@@ -458,7 +458,7 @@ BOOL WINAPI stack_walk(HANDLE process, LPSTACKFRAME stack_frame, PCONTEXT contex
       if (!ReadProcessMemory(process, (LPCVOID) stack_frame->AddrFrame.Offset,
                             &stack_frame->AddrFrame.Offset, sizeof(DWORD), NULL))
         return FALSE;
-                
+
       if (!ReadProcessMemory(process, (LPCVOID) (stack_frame->AddrFrame.Offset + sizeof(DWORD)),
                              &stack_frame->AddrReturn.Offset, sizeof(DWORD), NULL))
         return FALSE;
@@ -466,8 +466,8 @@ BOOL WINAPI stack_walk(HANDLE process, LPSTACKFRAME stack_frame, PCONTEXT contex
 
   ReadProcessMemory(process, (LPCVOID) (stack_frame->AddrFrame.Offset + 2*sizeof(DWORD)),
                     stack_frame->Params, sizeof(stack_frame->Params), NULL);
-	
-  return TRUE;	
+  
+  return TRUE;  
 }
 
 static void
@@ -486,16 +486,16 @@ unwind_stack(FILE *log, HANDLE process, PCONTEXT context)
   sf.AddrFrame.Mode   = AddrModeFlat;
 
   fprintf(log, "PC        Frame     Ret\n");
-  
+
   while (TRUE)
     {
       if (!stack_walk(process, &sf, context))
         break;
-     
+
       if (sf.AddrFrame.Offset == 0)
         break;
-     
-      fprintf(log, "%08X  %08X  %08X\n",  
+
+      fprintf(log, "%08X  %08X  %08X\n",
               (int) sf.AddrPC.Offset,
               (int) sf.AddrFrame.Offset,
               (int) sf.AddrReturn.Offset);
@@ -509,7 +509,7 @@ print_module_info(FILE *log, HMODULE mod)
   HANDLE file;
   SYSTEMTIME file_time;
   FILETIME write_time;
-  
+
   GetModuleFileName(mod, buffer, MAX_PATH);
 
   file = CreateFile(buffer, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, 0);
@@ -546,14 +546,14 @@ print_module_list(FILE *log)
     {
       EnumProcessModules = GetProcAddress(lib, "EnumProcessModules");
     }
-  
+
   if (EnumProcessModules != NULL)
     {
       HMODULE modules[100];
       DWORD needed;
       BOOL res;
       int count, i;
-    
+
       HANDLE proc = OpenProcess(PROCESS_ALL_ACCESS, FALSE, GetCurrentProcessId());
       if (proc != NULL)
         {
@@ -586,25 +586,25 @@ dump_registers(FILE *log, PCONTEXT context)
               context->Eax, context->Ebx, context->Ecx, context->Edx,
               context->Esi, context->Edi);
     }
-  
+
   if (context->ContextFlags & CONTEXT_CONTROL)
     {
       fprintf(log, "eip=%08lx esp=%08lx ebp=%08lx iopl=%1lx %s %s %s %s %s %s %s %s %s %s\n",
               context->Eip, context->Esp, context->Ebp,
-              (context->EFlags >> 12) & 3,	//  IOPL level value
-              context->EFlags & 0x00100000 ? "vip" : "   ",	//  VIP (virtual interrupt pending)
-              context->EFlags & 0x00080000 ? "vif" : "   ",	//  VIF (virtual interrupt flag)
-              context->EFlags & 0x00000800 ? "ov" : "nv",	//  VIF (virtual interrupt flag)
-              context->EFlags & 0x00000400 ? "dn" : "up",	//  OF (overflow flag)
-              context->EFlags & 0x00000200 ? "ei" : "di",	//  IF (interrupt enable flag)
-              context->EFlags & 0x00000080 ? "ng" : "pl",	//  SF (sign flag)
-              context->EFlags & 0x00000040 ? "zr" : "nz",	//  ZF (zero flag)
-              context->EFlags & 0x00000010 ? "ac" : "na",	//  AF (aux carry flag)
-              context->EFlags & 0x00000004 ? "po" : "pe",	//  PF (parity flag)
-              context->EFlags & 0x00000001 ? "cy" : "nc"	//  CF (carry flag)
+              (context->EFlags >> 12) & 3,  //  IOPL level value
+              context->EFlags & 0x00100000 ? "vip" : "   ", //  VIP (virtual interrupt pending)
+              context->EFlags & 0x00080000 ? "vif" : "   ", //  VIF (virtual interrupt flag)
+              context->EFlags & 0x00000800 ? "ov" : "nv", //  VIF (virtual interrupt flag)
+              context->EFlags & 0x00000400 ? "dn" : "up", //  OF (overflow flag)
+              context->EFlags & 0x00000200 ? "ei" : "di", //  IF (interrupt enable flag)
+              context->EFlags & 0x00000080 ? "ng" : "pl", //  SF (sign flag)
+              context->EFlags & 0x00000040 ? "zr" : "nz", //  ZF (zero flag)
+              context->EFlags & 0x00000010 ? "ac" : "na", //  AF (aux carry flag)
+              context->EFlags & 0x00000004 ? "po" : "pe", //  PF (parity flag)
+              context->EFlags & 0x00000001 ? "cy" : "nc"  //  CF (carry flag)
               );
     }
-  
+
   if (context->ContextFlags & CONTEXT_SEGMENTS)
     {
       fprintf(log, "cs=%04lx  ss=%04lx  ds=%04lx  es=%04lx  fs=%04lx  gs=%04lx",
@@ -624,7 +624,7 @@ dump_registers(FILE *log, PCONTEXT context)
                   context->EFlags);
         }
     }
-  
+
   fprintf(log, "\n\n");
 }
 
@@ -636,7 +636,7 @@ save_key(FILE *log, HKEY key, char *name)
   int keyname_len = strlen(keyname);
 
   fprintf(log, "key = %s\n", name);
-  
+
   for (i = 0; ; i++)
     {
       char val[256];
@@ -644,7 +644,7 @@ save_key(FILE *log, HKEY key, char *name)
       BYTE data[0x4000];
       DWORD data_size = sizeof(data);
       DWORD type;
-  
+
       LONG rc = RegEnumValue(key, i, val, &val_size, 0, &type, data, &data_size);
 
       if (rc != ERROR_SUCCESS)
@@ -676,7 +676,7 @@ save_key(FILE *log, HKEY key, char *name)
   strcpy(keyname, name);
   strcat(keyname, "\\");
   keyname_len = strlen(keyname);
-  
+
   for (i = 0; ; i++)
     {
       HKEY subkey;
@@ -700,7 +700,7 @@ static void
 dump_registry(FILE *log, HKEY key, char *name)
 {
   (void) key;
-  
+
   HKEY handle;
   LONG rc = RegOpenKeyEx(HKEY_CURRENT_USER, name, 0, KEY_ALL_ACCESS, &handle);
 

@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -51,7 +51,7 @@ NetworkLogDialog::NetworkLogDialog()
   text_view = Gtk::manage(new Gtk::TextView(text_buffer));
   text_view->set_cursor_visible(false);
   text_view->set_editable(false);
-  
+
   scrolled_window.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
   scrolled_window.add(*text_view);
 
@@ -119,7 +119,7 @@ NetworkLogDialog::run()
 {
   TRACE_ENTER("NetworkLogDialog::run")
   init();
-  
+
   show_all();
   TRACE_EXIT();
   return 0;

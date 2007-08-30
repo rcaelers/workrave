@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -43,17 +43,17 @@ PreludeWindow::PreludeWindow(BreakId break_id)
 {
 
   // XXX: Add window initialization.
-  
+
   switch (break_id)
     {
     case BREAK_ID_MICRO_BREAK:
       cout << _("Time for a micro-break?") << endl;
       break;
-        
+
     case BREAK_ID_REST_BREAK:
       cout << _("You need a rest break...") << endl;
       break;
-          
+
     case BREAK_ID_DAILY_LIMIT:
       cout << _("You should stop for today...") << endl;
       break;
@@ -179,7 +179,7 @@ PreludeWindow::set_stage(AppInterface::PreludeStage stage)
       // Move prelude window out-of-the-way. e.g. to top of screen.
     case AppInterface::STAGE_MOVE_OUT:
       break;
-      
+
       // Less friendly prelude
     case AppInterface::STAGE_WARN:
       break;

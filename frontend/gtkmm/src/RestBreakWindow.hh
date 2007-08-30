@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -37,20 +37,20 @@ class RestBreakWindow :
 public:
   RestBreakWindow(HeadInfo &head, bool ignorable, GUI::BlockMode mode);
   virtual ~RestBreakWindow();
-  
+
   void start();
   void set_progress(int value, int max_value);
   void refresh();
-  
+
 protected:
   Gtk::Widget *create_gui();
   void draw_time_bar();
-  
+
 private:
   void suspend_break();
   Gtk::Widget *create_info_panel();
   void set_ignore_activity(bool i);
-  
+
 #ifdef HAVE_EXERCISES
   void install_exercises_panel();
   void install_info_panel();
@@ -61,7 +61,7 @@ private:
 private:
   //! The Time
   TimeBar *timebar;
-                   
+
   //! Progress
   int progress_value;
 

@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -51,26 +51,26 @@ static ICore *the_core = NULL;
 /* -----------------------------------------------------------------------------
  * PUBLIC METHODS
  */
- 
-WorkraveService* 
+
+WorkraveService*
 workrave_service_new()
 {
   return (WorkraveService *)g_object_new(WORKRAVE_TYPE_SERVICE, NULL);
 }
 
 
-void 
+void
 workrave_dbus_server_init(ICore *core)
 {
   DBusGProxy *driver_proxy;
   GError *err = NULL;
   guint request_name_result;
-    
+
   g_return_if_fail(connection == NULL);
   g_return_if_fail(the_service == NULL);
 
   the_core = core;
-  
+
   connection = dbus_g_bus_get(DBUS_BUS_SESSION, &err);
   if (connection == NULL)
     {
@@ -78,7 +78,7 @@ workrave_dbus_server_init(ICore *core)
       g_error_free(err);
       return;
     }
-    
+
   dbus_connection_set_exit_on_disconnect(dbus_g_connection_get_connection(connection), FALSE);
 
   driver_proxy = dbus_g_proxy_new_for_name(connection,
@@ -101,25 +101,25 @@ workrave_dbus_server_init(ICore *core)
       g_warning ("DBUS Service already started elsewhere");
       return;
     }
-       
-  dbus_g_object_type_install_info(WORKRAVE_TYPE_SERVICE, 
+
+  dbus_g_object_type_install_info(WORKRAVE_TYPE_SERVICE,
                                   &dbus_glib_workrave_object_info);
-    
+
   the_service = (WorkraveService *)g_object_new(WORKRAVE_TYPE_SERVICE, NULL);
   dbus_g_connection_register_g_object(connection,
                                       "/org/workrave/Workrave",
                                       G_OBJECT(the_service));
 }
 
-void 
+void
 workrave_dbus_server_cleanup ()
 {
-    /* The DBUS Glib bindings (apparently) note when this goes 
+    /* The DBUS Glib bindings (apparently) note when this goes
        away and unregister it for incoming calls */
     if (the_service)
         g_object_unref (the_service);
     the_service = NULL;
-    
+
     if (connection)
         dbus_g_connection_unref (connection);
     connection = NULL;
@@ -127,12 +127,12 @@ workrave_dbus_server_cleanup ()
 
 
 /* -----------------------------------------------------------------------------
- * HELPERS 
+ * HELPERS
  */
 
 
 /* -----------------------------------------------------------------------------
- * DBUS METHODS 
+ * DBUS METHODS
  */
 
 gboolean
@@ -166,7 +166,7 @@ workrave_service_set_operation_mode(WorkraveService *svc, gchar *mode, GError **
     }
 
   the_core->set_operation_mode(coremode);
-  
+
   return TRUE;
 }
 
@@ -176,10 +176,10 @@ workrave_service_get_operation_mode(WorkraveService *svc, gchar **mode, GError *
 {
   (void) svc;
   (void) error;
-  
+
   OperationMode coremode = the_core->get_operation_mode();
   char *ret = NULL;
-  
+
   switch(coremode)
     {
     case OPERATION_MODE_NORMAL:
@@ -215,12 +215,12 @@ workrave_service_report_activity(WorkraveService *svc, gchar *who, gchar *act, G
   (void) who;
   (void) act;
   (void) error;
-  
+
   return FALSE;
 }
 
 /* -----------------------------------------------------------------------------
- * DBUS SIGNALS 
+ * DBUS SIGNALS
  */
 
 void
@@ -244,7 +244,7 @@ workrave_service_send_break_stage_signal(BreakId break_id, gchar *progress)
 
 
 /* -----------------------------------------------------------------------------
- * OBJECT 
+ * OBJECT
  */
 
 static void
@@ -260,9 +260,9 @@ workrave_service_class_init(WorkraveServiceClass *klass)
   GObjectClass *gclass;
 
   gclass = G_OBJECT_CLASS(klass);
-    
+
   signals[MICROBREAK] =
-    g_signal_new ("microbreak_changed", WORKRAVE_TYPE_SERVICE, 
+    g_signal_new ("microbreak_changed", WORKRAVE_TYPE_SERVICE,
                   (GSignalFlags) (G_SIGNAL_RUN_LAST | G_SIGNAL_DETAILED),
                   G_STRUCT_OFFSET (WorkraveServiceClass, microbreak),
                   NULL, NULL,
@@ -270,9 +270,9 @@ workrave_service_class_init(WorkraveServiceClass *klass)
                   G_TYPE_NONE,
                   1,
                   (GSignalFlags)G_TYPE_STRING);
-  
+
   signals[RESTBREAK] =
-    g_signal_new ("restbreak_changed", WORKRAVE_TYPE_SERVICE, 
+    g_signal_new ("restbreak_changed", WORKRAVE_TYPE_SERVICE,
                   (GSignalFlags)(G_SIGNAL_RUN_LAST | G_SIGNAL_DETAILED),
                   G_STRUCT_OFFSET (WorkraveServiceClass, restbreak),
                   NULL, NULL,
@@ -280,9 +280,9 @@ workrave_service_class_init(WorkraveServiceClass *klass)
                   G_TYPE_NONE,
                   1,
                   G_TYPE_STRING);
-  
+
   signals[DAILYLIMIT] =
-    g_signal_new ("dailylimit_changed", WORKRAVE_TYPE_SERVICE, 
+    g_signal_new ("dailylimit_changed", WORKRAVE_TYPE_SERVICE,
                   (GSignalFlags)(G_SIGNAL_RUN_LAST | G_SIGNAL_DETAILED),
                   G_STRUCT_OFFSET (WorkraveServiceClass, dailylimit),
                   NULL, NULL,

@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -73,7 +73,7 @@ IconListCellRenderer::get_size_vfunc(Gtk::Widget& widget,
 {
   (void) x_offset;
   (void) y_offset;
-  
+
   int text_x_offset;
   int text_y_offset;
   int text_width;
@@ -85,8 +85,8 @@ IconListCellRenderer::get_size_vfunc(Gtk::Widget& widget,
     {
       rect = (GdkRectangle *) cell_area->gobj();
     }
-    
-  
+
+
   GtkCellRenderer *rend = GTK_CELL_RENDERER(text_renderer.gobj());
   gtk_cell_renderer_get_size (rend, widget.gobj(), rect,
                               NULL, NULL, width, height);
@@ -113,7 +113,7 @@ IconListCellRenderer::render_vfunc(
                                    const Glib::RefPtr<Gdk::Drawable>& window,
 #else
                                    const Glib::RefPtr<Gdk::Window>& window,
-#endif                                   
+#endif
                                    Gtk::Widget& widget,
                                    const Gdk::Rectangle& bg_area,
                                    const Gdk::Rectangle& cell_area,
@@ -130,33 +130,33 @@ IconListCellRenderer::render_vfunc(
   GtkWidget *widg = widget.gobj();
   GdkWindow *wind = window->gobj();
   GtkCellRenderer *prend = GTK_CELL_RENDERER(pixbuf_renderer.gobj());
-  gtk_cell_renderer_get_size (prend, widg, ca, 
+  gtk_cell_renderer_get_size (prend, widg, ca,
                               NULL, NULL, &width, &height);
-  	
+    
   pixbuf_area.y = ca->y;
   pixbuf_area.x = ca->x;
   pixbuf_area.height = height;
   pixbuf_area.width = ca->width;
-  
+
   GtkCellRenderer *trend = GTK_CELL_RENDERER(text_renderer.gobj());
-  gtk_cell_renderer_get_size (trend, widg, ca, 
+  gtk_cell_renderer_get_size (trend, widg, ca,
                               NULL, NULL, &width, &height);
-  
+
   text_area.x = ca->x + (ca->width - width) / 2;
   text_area.y = ca->y + (pixbuf_area.height + PAD);
   text_area.height = height;
   text_area.width = width;
-  
-  gtk_cell_renderer_render (prend, wind, widg, 
+
+  gtk_cell_renderer_render (prend, wind, widg,
                             (GdkRectangle*)bg_area.gobj(), &pixbuf_area,
                             (GdkRectangle*)expose_area.gobj(),
                             (GtkCellRendererState) flags);
-  
+
   gtk_cell_renderer_render (trend, wind, widg,
                             (GdkRectangle*)bg_area.gobj(),
                             &text_area,
                             (GdkRectangle*)expose_area.gobj(),
-                            (GtkCellRendererState)  flags);  
+                            (GtkCellRendererState)  flags);
 #endif
 #if 0
   const unsigned int cell_xpad = property_xpad();

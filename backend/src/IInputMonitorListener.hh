@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -23,7 +23,7 @@ class IInputMonitorListener
 {
 public:
   virtual ~IInputMonitorListener() {}
-  
+
   virtual void action_notify() = 0;
   virtual void mouse_notify(int x, int y, int wheel = 0) = 0;
   virtual void button_notify(int button_mask, bool is_press) = 0;

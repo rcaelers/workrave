@@ -7,12 +7,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 
 static const char rcsid[] = "$Id$";
 
@@ -73,20 +73,43 @@ W32Configurator::get_value(string key, string *out) const
   k = key_add_part(key_root, key);
   key_split(k, p, c);
   p32 = key_win32ify(p);
+
   err = RegOpenKeyEx(HKEY_CURRENT_USER, p32.c_str(), 0, KEY_ALL_ACCESS, &handle);
+
   if (err == ERROR_SUCCESS)
     {
-      DWORD type, size;
-      char buf[256]; // FIXME: yuck, should be dynamic.
-      size = sizeof(buf);
-      err = RegQueryValueEx(handle, c.c_str(), 0, &type, (LPBYTE) buf, &size);
-      if (err == ERROR_SUCCESS)
+      DWORD size, type;
+      char *buffer;
+
+      // get the size, in bytes, required for buffer
+      err = RegQueryValueExA( handle, c.c_str(), NULL, NULL, NULL, &size );
+
+      if (err != ERROR_SUCCESS || !size)
         {
-          *out = buf;
+          RegCloseKey( handle );
+          TRACE_EXIT();
+          return false;
+        }
+      else if( !( buffer = (char *)malloc( size + 1 ) ) )
+        {
+          RegCloseKey( handle );
+          TRACE_EXIT();
+          return false;
+        }
+
+      err = RegQueryValueExA( handle, c.c_str(), NULL, &type, (LPBYTE)buffer, &size );
+      buffer[ size ] = '\0';
+
+      if ( err == ERROR_SUCCESS && type == REG_SZ )
+        {
+          *out = buffer;
           rc = true;
         }
-      RegCloseKey(handle);
+
+      RegCloseKey( handle );
+      free( buffer );
     }
+
   TRACE_EXIT();
   return rc;
 }
@@ -184,9 +207,9 @@ W32Configurator::set_value(string key, string v)
       RegCloseKey(handle);
       rc = (err == ERROR_SUCCESS);
       if (rc)
-	{
-	  fire_configurator_event(key);
-	}
+  {
+    fire_configurator_event(key);
+  }
     }
   TRACE_EXIT();
   return rc;

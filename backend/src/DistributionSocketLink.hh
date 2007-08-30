@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -54,26 +54,26 @@ class DistributionSocketLink :
 public:
 private:
   enum PacketCommand {
-    PACKET_HELLO 	= 0x0001,
-    PACKET_CLAIM 	= 0x0002,
-    PACKET_CLIENT_LIST	= 0x0003,
-    PACKET_WELCOME	= 0x0004,
-    PACKET_NEW_MASTER	= 0x0005,
-    PACKET_CLIENTMSG	= 0x0006,
-    PACKET_DUPLICATE	= 0x0007,
-    PACKET_CLAIM_REJECT	= 0x0008,
-    PACKET_SIGNOFF	= 0x0009,
+    PACKET_HELLO        = 0x0001,
+    PACKET_CLAIM        = 0x0002,
+    PACKET_CLIENT_LIST  = 0x0003,
+    PACKET_WELCOME      = 0x0004,
+    PACKET_NEW_MASTER   = 0x0005,
+    PACKET_CLIENTMSG    = 0x0006,
+    PACKET_DUPLICATE    = 0x0007,
+    PACKET_CLAIM_REJECT = 0x0008,
+    PACKET_SIGNOFF      = 0x0009,
   };
 
   enum PacketFlags {
-    PACKETFLAG_SOURCE 	= 0x0001,
-    PACKETFLAG_DEST 	= 0x0002,
+    PACKETFLAG_SOURCE   = 0x0001,
+    PACKETFLAG_DEST     = 0x0002,
   };
-  
+
   enum ClientListFlags
     {
-      CLIENTLIST_ME  	= 1,
-      CLIENTLIST_MASTER	= 2,
+      CLIENTLIST_ME     = 1,
+      CLIENTLIST_MASTER = 2,
     };
 
   struct ClientMessageListener
@@ -90,12 +90,12 @@ private:
 
   enum ClientType
     {
-      CLIENTTYPE_UNKNOWN	= 1,
-      CLIENTTYPE_DIRECT 	= 2,
-      CLIENTTYPE_ROUTED 	= 3,
-      CLIENTTYPE_SIGNEDOFF 	= 4,
+      CLIENTTYPE_UNKNOWN    = 1,
+      CLIENTTYPE_DIRECT     = 2,
+      CLIENTTYPE_ROUTED     = 3,
+      CLIENTTYPE_SIGNEDOFF  = 4,
     };
-  
+
   struct Client
   {
     Client() :
@@ -114,7 +114,7 @@ private:
       outbound(false)
     {
     }
-    
+
     ~Client()
     {
       if (socket != NULL)
@@ -132,16 +132,16 @@ private:
 
     //! Peer client for remote clients.
     Client *peer;
-    
+
     //!
     SocketConnection *socket;
 
     //! ID
     gchar *id;
-    
+
     //! Canonical IP.
     gchar *hostname;
-    
+
     //! port.
     gint port;
 
@@ -153,7 +153,7 @@ private:
 
     //! Reconnect counter;
     int reconnect_count;
-    
+
     //! Last reconnect attempt time;
     time_t reconnect_time;
 
@@ -170,11 +170,11 @@ private:
     bool outbound;
   };
 
-  
+
 public:
   DistributionSocketLink(Configurator *conf);
   virtual ~DistributionSocketLink();
-  
+
   string get_id() const;
   int get_number_of_peers();
   void set_distribution_manager(DistributionManager *dll);
@@ -188,7 +188,7 @@ public:
   bool reconnect_all();
   bool claim();
   bool set_lock_master(bool lock);
-  
+
   bool register_client_message(DistributionClientMessageID id, DistributionClientMessageType type,
                                IDistributionClientMessage *callback);
   bool unregister_client_message(DistributionClientMessageID id);
@@ -198,7 +198,7 @@ public:
   void socket_connected(SocketConnection *con, void *data);
   void socket_io(SocketConnection *con, void *data);
   void socket_closed(SocketConnection *con, void *data);
-  
+
 private:
   bool is_client_valid(Client *client);
   bool add_client(gchar *id, gchar *host, gint port, ClientType type, Client *peer = NULL);
@@ -210,9 +210,9 @@ private:
   bool client_is_me(gchar *id);
   bool exists_client(gchar *host, gint port);
   bool exists_client(gchar *id);
-  
+
   bool set_client_id(Client *client, gchar *id, gchar *name, gint port);
-  
+
   char *get_master() const;
   void set_master_by_id(gchar *id);
   void set_master(Client *client);
@@ -224,7 +224,7 @@ private:
   void send_packet(Client *client, PacketBuffer &packet);
   void forward_packet_except(PacketBuffer &packet, Client *client, Client *source);
   void forward_packet(PacketBuffer &packet, Client *dest, Client *source);
-  
+
   void process_client_packet(Client *client);
   void handle_hello(PacketBuffer &packet, Client *client);
   void handle_signoff(PacketBuffer &packet, Client *client);
@@ -245,24 +245,24 @@ private:
   void send_new_master(Client *client = NULL);
   void send_claim_reject(Client *client);
   void send_client_message(DistributionClientMessageType type);
-  
+
   bool start_async_server();
 
   void read_configuration();
   void config_changed_notify(string key);
-  
+
 private:
   typedef map<DistributionClientMessageID, ClientMessageListener> ClientMessageMap;
-  
+
   //! The socket library.
   SocketDriver *socket_driver;
-  
+
   //! The distribution manager.
   DistributionManager *dist_manager;
 
   //! The configuration access.
   Configurator *configurator;
-  
+
   //! Username for client authentication
   gchar *username;
 
@@ -280,22 +280,22 @@ private:
 
   //! Whether the master status is locked by me.
   bool master_locked;
-  
+
   //! My name
   gchar *myname;
 
   //! My ID accross the network.
   gchar *myid;
-  
+
   //! My server port
   gint server_port;
-  
+
   //! The server socket.
   SocketConnection *server_socket;
 
   //! Whether distribution is enabled.
   bool server_enabled;
-  
+
   //! ClientMessage listeners
   ClientMessageMap client_message_map;
 

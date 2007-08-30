@@ -7,12 +7,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 
 static const char rcsid[] = "$Id$";
 
@@ -35,7 +35,7 @@ GConfConfigurator::GConfConfigurator()
 {
   gconf_client = gconf_client_get_default();
   gconf_root = "/apps/workrave/";
-  
+
 #ifndef NDEBUG
   const char *env = getenv("WORKRAVE_GCONF_ROOT");
   if (env != NULL)
@@ -94,10 +94,10 @@ GConfConfigurator::get_value(string key, GConfValue **value) const
           *value = NULL;
         }
     }
-  
+
   return ret;
 }
-  
+
 
 
 //! Returns the value of the specified attribute
@@ -240,10 +240,10 @@ GConfConfigurator::set_value(string key, string v)
 {
   bool ret = true;
   GError *error = NULL;
-  
+
   string full_key = gconf_root + key;
   ret = gconf_client_set_string(gconf_client, full_key.c_str(), v.c_str(), &error);
-  
+
   if (error != NULL)
     {
       ret = false;
@@ -257,10 +257,10 @@ GConfConfigurator::set_value(string key, int v)
 {
   bool ret = true;
   GError *error = NULL;
-  
+
   string full_key = gconf_root + key;
   ret = gconf_client_set_int(gconf_client, full_key.c_str(), v, &error);
-  
+
   if (error != NULL)
     {
       ret = false;
@@ -274,10 +274,10 @@ GConfConfigurator::set_value(string key, long v)
 {
   bool ret = true;
   GError *error = NULL;
-  
+
   string full_key = gconf_root + key;
   ret = gconf_client_set_int(gconf_client, full_key.c_str(), v, &error);
-  
+
   if (error != NULL)
     {
       ret = false;
@@ -290,10 +290,10 @@ GConfConfigurator::set_value(string key, bool v)
 {
   bool ret = true;
   GError *error = NULL;
-  
+
   string full_key = gconf_root + key;
   ret = gconf_client_set_bool(gconf_client, full_key.c_str(), v, &error);
-  
+
   if (error != NULL)
     {
       ret = false;
@@ -307,10 +307,10 @@ GConfConfigurator::set_value(string key, double v)
 {
   bool ret = true;
   GError *error = NULL;
-  
+
   string full_key = gconf_root + key;
   ret = gconf_client_set_float(gconf_client, full_key.c_str(), v, &error);
-  
+
   if (error != NULL)
     {
       ret = false;
@@ -343,7 +343,7 @@ GConfConfigurator::add_listener(string key_prefix, ConfiguratorListener *listene
       id = gconf_client_notify_add(gconf_client,
                                    full_key.c_str(),
                                    &GConfConfigurator::static_key_changed,
-                                   (gpointer)this, 
+                                   (gpointer)this,
                                    NULL,
                                    &error);
 
@@ -362,7 +362,7 @@ GConfConfigurator::add_listener(string key_prefix, ConfiguratorListener *listene
     }
 
   // FIXME: cleanup.
-  
+
   TRACE_EXIT();
   return ret;
 }
@@ -389,18 +389,18 @@ GConfConfigurator::remove_listener(string remove_key, ConfiguratorListener *list
 
       next = i;
       next++;
-      
+
       if ((key.first == remove_key || remove_key == "") && key.second == listener)
         {
           guint id = i->second;
 
           gconf_client_notify_remove(gconf_client, id);
-          
+
           string full_key = gconf_root + key_prefix;
           GError *error = NULL;
-          
+
           gconf_client_remove_dir(gconf_client, full_key.c_str(), &error);
-          
+
           ids_map.erase(i);
 
           ListenerIDsIter i2 = id2key_map.find(id);
@@ -408,10 +408,10 @@ GConfConfigurator::remove_listener(string remove_key, ConfiguratorListener *list
             {
               id2key_map.erase(i2);
             }
-          
+
           ret = Configurator::remove_listener(key_prefix, listener);
         }
-      
+
       i = next;
     }
 
@@ -447,6 +447,6 @@ GConfConfigurator::key_changed(guint id, GConfEntry *entry)
 
   TRACE_MSG(full_key);
   fire_configurator_event(full_key);
-  
+
   TRACE_EXIT();
 }

@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -32,7 +32,7 @@ class TimerBoxView : public QWidget, public ITimerBoxView
 public:
   TimerBoxView();
   ~TimerBoxView();
-  
+
   virtual void set_slot(BreakId  id, int slot);
   virtual void set_time_bar(BreakId id,
                             std::string text,

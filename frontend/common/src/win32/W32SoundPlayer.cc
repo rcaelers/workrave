@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -27,9 +27,7 @@ static const char rcsid[] = "$Id$";
 #include "SoundPlayer.hh"
 #include "Util.hh"
 
-//volatile HANDLE W32SoundPlayer::thread_handle = NULL;
-
-static struct SoundRegistry 
+static struct SoundRegistry
 {
   const char *event_label;
   const char *wav_file;
@@ -61,7 +59,7 @@ static SoundRegistry *sound = NULL;
 
 static bool
 registry_get_value(const char *path, const char *name,
-                   char *out) 
+                   char *out)
 {
   HKEY handle;
   bool rc = false;
@@ -120,7 +118,7 @@ void
 W32SoundPlayer::register_sound_events()
 {
   string sound_dir  = Util::get_application_directory() + "\\share\\sounds\\";
-  
+
   for (unsigned int i = 0; i < sizeof(sound_registry)/sizeof(sound_registry[0]); i++)
     {
       SoundRegistry *snd = &sound_registry[i];
@@ -184,12 +182,12 @@ DWORD WINAPI W32SoundPlayer::thread_Play( LPVOID lpParam )
 void W32SoundPlayer::Play()
 {
   TRACE_ENTER("W32SoundPlayer::Play");
-	
+  
   if( sound )
     {
       PlaySoundA( sound->event_label, 0, SND_APPLICATION | SND_ASYNC );
       sound = NULL;
     }
-	
+  
   TRACE_EXIT();
 }

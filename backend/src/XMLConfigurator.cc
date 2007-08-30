@@ -7,12 +7,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 
 static const char rcsid[] = "$Id$";
 
@@ -63,7 +63,7 @@ XMLConfigurator::load(string filename)
   TRACE_ENTER("XMLConfigurator::load");
 
   last_file_name = filename;
-  
+
   GdomeException exc;
 
   // First get a DOMImplementation reference
@@ -72,7 +72,7 @@ XMLConfigurator::load(string filename)
 
   // Create URI from filename
   string uri = "file:///" + filename;
-  
+
   // Load XML from file.
   GdomeDocument *doc = NULL;
   doc = gdome_di_createDocFromURI(domImpl, uri.c_str(), GDOME_LOAD_PARSING, &exc);
@@ -88,9 +88,9 @@ XMLConfigurator::load(string filename)
           GdomeNode *node = GDOME_N(root);
           init(node);
 
-          gdome_el_unref(root, &exc);      
+          gdome_el_unref(root, &exc);
         }
-      
+
       gdome_di_freeDoc(domImpl, doc, &exc);
     }
 
@@ -116,7 +116,7 @@ XMLConfigurator::save(string filename)
   // Create Doc
   GdomeDocument *doc = NULL;
   GdomeElement *root = NULL;
-  
+
   save_to(domImpl, &doc, root);
 
   if (doc != NULL)
@@ -125,7 +125,7 @@ XMLConfigurator::save(string filename)
       gdome_di_saveDocToFile(domImpl, doc, filename.c_str(), GDOME_SAVE_STANDARD, &exc);
       gdome_di_freeDoc(domImpl, doc, &exc);
     }
-  
+
   gdome_di_unref(domImpl, &exc);
 
   TRACE_EXIT();
@@ -158,14 +158,14 @@ XMLConfigurator::get_value(string key, string *out) const
   else
     {
       Attributes::const_iterator i = node_attributes.find(key);
-  
+
       if (i != node_attributes.end())
         {
           *out = (*i).second;
           ret = true;
         }
     }
-  
+
   TRACE_RETURN(*out);
   return ret;
 }
@@ -176,7 +176,7 @@ XMLConfigurator::get_value(string key, bool *out) const
 {
   string s;
   bool ret = get_value(key, &s);
-    
+
   if (ret)
     {
       if (s == "true" || s == "yes" || s == "TRUE" || s == "1")
@@ -193,7 +193,7 @@ XMLConfigurator::get_value(string key, int *out) const
 {
   string s;
   bool ret = get_value(key, &s);
-    
+
   if (ret)
     {
       *out = atoi(s.c_str());
@@ -207,7 +207,7 @@ XMLConfigurator::get_value(string key, long *out) const
 {
   string s;
   bool ret = get_value(key, &s);
-    
+
   if (ret)
     {
       *out = atol(s.c_str());
@@ -221,7 +221,7 @@ XMLConfigurator::get_value(string key, double *out) const
 {
   string s;
   bool ret = get_value(key, &s);
-    
+
   if (ret)
     {
       *out = atof(s.c_str());
@@ -299,7 +299,7 @@ XMLConfigurator::set_value(string key, bool v)
   else
     {
       ss << "0";
-    }      
+    }
   set_value(key, ss.str());
 
   return true;
@@ -326,7 +326,7 @@ void
 XMLConfigurator::changed(string key)
 {
   TRACE_ENTER_MSG("XMLConfigurator::changed", key << " " << node_path);
-  
+
   if (parent != NULL)
     {
       // Inform parent. Only the top-level XMLConfigurator registers listeners...
@@ -347,7 +347,7 @@ XMLConfigurator::changed(string key)
  */
 void
 XMLConfigurator::init(GdomeNode *node)
-{ 
+{
   TRACE_ENTER("XMLConfigurator::init");
   GdomeException exc;
 
@@ -359,7 +359,7 @@ XMLConfigurator::init(GdomeNode *node)
       setName(nodeName->str);
       xml_node_name = nodeName->str;
   }
-  
+
   GdomeNodeType nodeType = (GdomeNodeType) gdome_n_nodeType(node, &exc);
   switch (nodeType)
     {
@@ -371,14 +371,14 @@ XMLConfigurator::init(GdomeNode *node)
     case GDOME_DOCUMENT_NODE:
       {
         GdomeNode *child = gdome_n_firstChild(node, &exc);
-        
+
         while (child != NULL)
           {
             if (gdome_n_nodeType(child, &exc) == GDOME_ELEMENT_NODE)
               {
                 XMLConfigurator *n = new XMLConfigurator(this);
                 n->init(child);
-                  
+
                 node_children[n->getName()] = n;
               }
 
@@ -386,11 +386,11 @@ XMLConfigurator::init(GdomeNode *node)
           }
       }
       break;
-    
+
     case GDOME_ELEMENT_NODE:
       {
         GdomeNamedNodeMap *attributes = gdome_n_attributes(node, &exc);
-          
+
         int attrCount = gdome_nnm_length(attributes, &exc);
         for (int i = 0; i < attrCount; i++)
           {
@@ -403,9 +403,9 @@ XMLConfigurator::init(GdomeNode *node)
               {
                 string key = k->str;
                 string value = v->str;
-                
+
                 node_attributes[key] = value;
-                
+
                 if (key == "id")
                   {
                     setName(value);
@@ -418,18 +418,18 @@ XMLConfigurator::init(GdomeNode *node)
 
             if (v != NULL)
               gdome_str_unref(v);
-            
+
           }
 
         GdomeNode *child = gdome_n_firstChild(node, &exc);
-        
+
         while (child != NULL)
           {
             if (gdome_n_nodeType(child, &exc) == GDOME_ELEMENT_NODE)
               {
                 XMLConfigurator *n = new XMLConfigurator(this);
                 n->init(child);
-                  
+
                 node_children[n->getName()] = n;
               }
 
@@ -457,7 +457,7 @@ XMLConfigurator::save_to(GdomeDOMImplementation *impl, GdomeDocument **doc, Gdom
 {
   TRACE_ENTER_MSG("XMLConfigurator::save_to", node_name);
 
-  GdomeException exc; 
+  GdomeException exc;
   GdomeElement *elem = NULL;
 
   /* Create a new element */
@@ -486,7 +486,7 @@ XMLConfigurator::save_to(GdomeDOMImplementation *impl, GdomeDocument **doc, Gdom
     {
       // Top level node -> Create Doc
       *doc = gdome_di_createDocument(impl, NULL, name, NULL, &exc);
-  
+
       if (doc != NULL)
         {
           // Get root element
@@ -496,22 +496,22 @@ XMLConfigurator::save_to(GdomeDOMImplementation *impl, GdomeDocument **doc, Gdom
   else
     {
       elem = gdome_doc_createElement(*doc, name, &exc);
-  
+
       /* append the element to the childs list of the root element */
       gdome_el_appendChild(node, (GdomeNode *)elem, &exc);
     }
-  
+
   gdome_str_unref (name);
-  
+
   // Add Text Node.
   // if (m_text != "")
   //   {
   //     GdomeDOMString *value = NULL;
   //     value = gdome_str_mkref(m_text.c_str());
-  // 
+  //
   //     GdomeText *textNode = gdome_doc_createTextNode(*doc, value, &exc);
   //     gdome_str_unref(value);
-  // 
+  //
   //     gdome_el_appendChild (elem, (GdomeNode *)textNode, &exc);
   //     gdome_t_unref(textNode, &exc);
   //   }
@@ -521,18 +521,18 @@ XMLConfigurator::save_to(GdomeDOMImplementation *impl, GdomeDocument **doc, Gdom
     {
       GdomeDOMString *name = NULL;
       GdomeDOMString *value = NULL;
-      
+
       name = gdome_str_mkref((*i).first.c_str());
       value = gdome_str_mkref((*i).second.c_str());
-      
+
       gdome_el_setAttribute(elem, name, value, &exc);
-      
+
       gdome_str_unref(name);
       gdome_str_unref(value);
-      
+
       i++;
     }
-  
+
   Children::iterator ic = node_children.begin();
   while (ic != node_children.end())
     {
@@ -552,7 +552,7 @@ XMLConfigurator::strip_path(string &key) const
   std::string::size_type pos = key.rfind('/');
 
   string path;
-  
+
   if (pos != std::string::npos)
     {
       path = key.substr(0, pos);
@@ -575,7 +575,7 @@ XMLConfigurator::get_child(string key) const
 
   string prefix;
   string newKey;
-  
+
   if (pos != std::string::npos)
     {
       prefix = key.substr(0, pos);
@@ -586,14 +586,14 @@ XMLConfigurator::get_child(string key) const
       prefix = key;
       newKey = "";
     }
-  
+
   TRACE_MSG("new = |" << prefix << "|" << newKey << "|");
 
   Children::const_iterator i = node_children.find(prefix);
   if (i != node_children.end())
     {
       TRACE_MSG("found");
-      
+
       if (newKey != "")
         {
           TRACE_MSG("recursing");
@@ -629,7 +629,7 @@ XMLConfigurator::create_child(string key)
 
       string prefix;
       string newKey;
-  
+
       if (pos != std::string::npos)
         {
           prefix = key.substr(0, pos);
@@ -640,12 +640,12 @@ XMLConfigurator::create_child(string key)
           prefix = key;
           newKey = "";
         }
-  
-  
+
+
       TRACE_MSG("new = " << prefix << " " << newKey);
 
       Children::const_iterator i = node_children.find(prefix);
-  
+
       if (i != node_children.end())
         {
           TRACE_MSG("found " << newKey);
@@ -654,18 +654,18 @@ XMLConfigurator::create_child(string key)
       else
         {
           XMLConfigurator *n = new XMLConfigurator(this);
-      
+
           n->setName(prefix);
           n->xml_node_name = prefix;
           node_children[prefix] = n;
 
           TRACE_MSG("|" << node_path << "|" << prefix << "|" << newKey << "|");
           changed(node_path + prefix);
-          
+
           n->create_child(newKey);
         }
     }
-  
+
   TRACE_EXIT();
   return ret;
 }
@@ -676,7 +676,7 @@ list<XMLConfigurator *>
 XMLConfigurator::get_all_children() const
 {
   list<XMLConfigurator *> ret;
-  
+
   Children::const_iterator i;
   for (i = node_children.begin(); i != node_children.end(); i++)
     {

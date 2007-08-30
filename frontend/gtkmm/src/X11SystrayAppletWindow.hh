@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -43,7 +43,7 @@ class X11SystrayAppletWindow :
   public SigC::Object,
   public AppletWindow
 {
-public:  
+public:
   X11SystrayAppletWindow(AppletControl *control);
   virtual ~X11SystrayAppletWindow();
 
@@ -59,7 +59,7 @@ private:
 
   //! Container to put the timers in..
   Gtk::Bin *container;
-  
+
   //! Align break orientationly.
   Orientation applet_orientation;
 
@@ -74,7 +74,7 @@ private:
 
   //! The tray icon
   EggTrayIcon *tray_icon;
-  
+
 private:
   AppletState activate_applet();
   void deactivate_applet();
@@ -83,7 +83,7 @@ private:
                                      GParamSpec *arg,
                                      gpointer    user_data);
   void notify_callback();
-  
+
   // Evenyts.
   void on_embedded();
   bool on_button_press_event(GdkEventButton *event);

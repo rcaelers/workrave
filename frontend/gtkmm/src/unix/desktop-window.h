@@ -14,7 +14,7 @@ extern "C" {
 #endif
 
   void set_desktop_background(GdkWindow *window);
-  
+
 #ifdef __cplusplus
 }
 #endif

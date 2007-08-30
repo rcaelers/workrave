@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -77,7 +77,7 @@ Dispatcher::~Dispatcher()
   }
 
   g_async_queue_unref(queue);
-  
+
 #else
   if (send_fd != -1)
     {
@@ -89,14 +89,14 @@ Dispatcher::~Dispatcher()
     }
 #endif
 }
-  
+
 
 #ifdef WIN32
 //! Creates a new inter-thread pipe
 bool
 Dispatcher::create_thread_pipe()
 {
-  event_handle = CreateEvent (NULL, FALSE, FALSE, NULL);  
+  event_handle = CreateEvent (NULL, FALSE, FALSE, NULL);
   if (event_handle)
     {
       queue =  g_async_queue_new();
@@ -105,7 +105,7 @@ Dispatcher::create_thread_pipe()
                                                 Glib::IO_IN);
 
     }
-  
+
   return event_handle != 0;
 }
 
@@ -129,12 +129,12 @@ bool
 Dispatcher::io_handler(Glib::IOCondition)
 {
   DispatchData *data = NULL;
-  
+
   while ((data = (DispatchData*)g_async_queue_try_pop(queue)))
     {
       DispatchData local_data = *data;
       delete data;
-      
+
       g_return_val_if_fail(local_data.tag == 0xdeadbeef, true);
 
       signal();
@@ -167,10 +167,10 @@ Dispatcher::create_thread_pipe()
   {
     receive_fd = filedes[0];
     send_fd  = filedes[1];
-    
+
     fd_set_close_on_exec(receive_fd);
     fd_set_close_on_exec(send_fd);
-    
+
     io_connection = Glib::signal_io().connect(SigC::slot_class(*this, &Dispatcher::io_handler),
                                               (int)receive_fd,
                                               Glib::IO_IN);
@@ -235,7 +235,7 @@ Dispatcher::io_handler(Glib::IOCondition)
   g_return_val_if_fail(data.tag == 0xdeadbeef, true);
 
   signal();
-  
+
   return true;
 }
 

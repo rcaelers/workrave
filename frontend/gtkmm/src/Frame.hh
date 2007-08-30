@@ -1,15 +1,15 @@
-// FrameWindow.hh --- Gtk::Frame like widget 
+// FrameWindow.hh --- Gtk::Frame like widget
 //
 // Copyright (C) 2001, 2002, 2003, 2004, 2007 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
-// Time-stamp: <2007-06-28 19:59:30 robc>
+// Time-stamp: <2007-08-30 16:03:04 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -28,7 +28,7 @@ public:
     STYLE_SOLID,
     STYLE_BREAK_WINDOW
   };
-  
+
   Frame();
   virtual ~Frame();
 
@@ -38,7 +38,7 @@ public:
   void set_frame_flashing(int delay);
   void set_frame_visible(bool visible);
   SigC::Signal1<void,bool> &signal_flash();
-  
+
 protected:
   bool on_timer();
 #ifdef HAVE_GTKMM24
@@ -55,13 +55,13 @@ protected:
 private:
   //! Frame border width
   guint frame_width;
-  
+
   //! Graphic context.
   Glib::RefPtr<Gdk::GC> gc;
 
   //! Color map
   Glib::RefPtr<Gdk::Colormap> color_map;
-  
+
   //! Color of the frame.
   Gdk::Color frame_color;
 

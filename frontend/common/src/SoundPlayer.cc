@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -54,7 +54,7 @@ static short prelude_beeps[][2]=
     { 300, 50},
     { 0, 0 }
 };
-    
+
 static short micro_break_start_beeps[][2]=
 {
     { 320, 70 },
@@ -71,42 +71,42 @@ static short micro_break_end_beeps[][2]=
 
 static short rest_break_start_beeps[][2]=
 {
-  { 160, 70 }, 
-  { 180, 70 }, 
-  { 200, 70 }, 
-  { 230, 70 }, 
-  { 260, 70 }, 
-  { 290, 70 }, 
-  { 320, 70 }, 
+  { 160, 70 },
+  { 180, 70 },
+  { 200, 70 },
+  { 230, 70 },
+  { 260, 70 },
+  { 290, 70 },
+  { 320, 70 },
   { 350, 70 },
   { 0, 0 }
 };
 
 static short rest_break_end_beeps[][2]=
 {
-  { 350, 70 }, 
-  { 320, 70 }, 
-  { 290, 70 }, 
-  { 260, 70 }, 
-  { 230, 70 }, 
-  { 200, 70 }, 
-  { 180, 70 }, 
-  { 160, 70 }, 
+  { 350, 70 },
+  { 320, 70 },
+  { 290, 70 },
+  { 260, 70 },
+  { 230, 70 },
+  { 200, 70 },
+  { 180, 70 },
+  { 160, 70 },
   { 0, 0 }
 };
 
 static short break_ignore_beeps[][2]=
 {
-    { 60, 250 }, 
+    { 60, 250 },
     { 50, 400 },
     { 0, 0 }
 };
 
 static short daily_limit_beeps[][2]=
 {
-    { 80, 200 }, 
+    { 80, 200 },
     { 70, 200 },
-    { 60, 200 }, 
+    { 60, 200 },
     { 50, 400 },
     { 0, 0 }
 };
@@ -175,7 +175,7 @@ SpeakerPlayer::run()
     return;
   }
 #endif
-  
+
   short (*b)[2];
   b = beeps;
 #ifdef HAVE_X
@@ -184,14 +184,14 @@ SpeakerPlayer::run()
   display = XOpenDisplay(gdk_get_display());
 #  endif
   if (display) {
-#endif  
+#endif
   while (b[0][0])
     {
 #ifdef HAVE_X
       Sound::beep(display, b[0][0], b[0][1]);
 #else
       Sound::beep(b[0][0], b[0][1]);
-#endif      
+#endif
       b++;
     }
 #ifdef HAVE_X
@@ -200,7 +200,7 @@ SpeakerPlayer::run()
 #endif
   TRACE_EXIT();
 }
-  
+
 
 /**********************************************************************
  * SoundPlayer
@@ -249,7 +249,7 @@ SoundPlayer::play_sound(Sound snd)
 
 
 bool
-SoundPlayer::is_enabled() 
+SoundPlayer::is_enabled()
 {
   bool b;
   bool rc;
@@ -270,7 +270,7 @@ SoundPlayer::set_enabled(bool b)
 }
 
 SoundPlayer::Device
-SoundPlayer::get_device() 
+SoundPlayer::get_device()
 {
   bool b;
   Device dev = DEVICE_SOUNDCARD;

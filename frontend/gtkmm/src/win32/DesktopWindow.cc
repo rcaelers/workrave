@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -42,7 +42,7 @@ DesktopWindow::DesktopWindow(const HeadInfo &head)
           TRACE_MSG("Monitor found");
           MONITORINFO info;
           info.cbSize = sizeof(MONITORINFO);
-          
+
           if (W32Compat::GetMonitorInfo(monitor, &info))
             {
               x = info.rcMonitor.left;
@@ -54,7 +54,7 @@ DesktopWindow::DesktopWindow(const HeadInfo &head)
         }
     }
 
-  
+
   hwnd = CreateWindowEx(WS_EX_TOOLWINDOW,
                         WINDOW_CLASS,
                         WINDOW_CLASS,
@@ -84,12 +84,12 @@ DesktopWindow::window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
     case WM_WINDOWPOSCHANGED:
       InvalidateRect(self->hwnd, NULL, TRUE);
       return 0;
-      
+
     case WM_ERASEBKGND:
       PaintDesktop((HDC) wParam);
       return 1;
     }
-  
+
   return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 
@@ -99,9 +99,9 @@ DesktopWindow::init()
 {
   if (initialized)
     return;
-  
+
   HINSTANCE win32_hinstance = (HINSTANCE) GetModuleHandle(NULL);
-  
+
   WNDCLASSEX wclass =
     {
       sizeof(WNDCLASSEX),

@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -48,9 +48,9 @@ public:
   static const string CFG_KEY_DISTRIBUTION_TCP_PASSWORD;
   static const string CFG_KEY_DISTRIBUTION_TCP_INTERVAL;
   static const string CFG_KEY_DISTRIBUTION_TCP_ATTEMPTS;
-  
+
   enum NodeState { NODE_ACTIVE, NODE_PASSIVE, NODE_STANDBY };
-  
+
   DistributionManager();
   virtual ~DistributionManager();
 
@@ -71,7 +71,7 @@ public:
 
   bool add_listener(DistributionListener *listener);
   bool remove_listener(DistributionListener *listener);
-  
+
   bool broadcast_client_message(DistributionClientMessageID id, PacketBuffer &buffer);
   bool add_peer(string peer);
   bool remove_peer(string peer);
@@ -79,7 +79,7 @@ public:
   bool reconnect_all();
   void set_peers(string peers, bool connect = true);
   list<string> get_peers() const;
-  
+
   // Logging.
   bool add_log_listener(DistributionLogListener *listener);
   bool remove_log_listener(DistributionLogListener *listener);
@@ -108,7 +108,7 @@ public:
   void signon_remote_client(char *client_id);
   void signoff_remote_client(char *client_id);
   void log(char *fmt, ...);
-  
+
 private:
   void sanitize_peer(string &peer);
   void parse_peers(string peers, bool connect = true);
@@ -120,20 +120,20 @@ private:
   void fire_signon_client(char *id);
   void fire_signoff_client(char *id);
 
-  
+
 private:
   typedef std::list<DistributionLogListener *> LogListeners;
   typedef std::list<DistributionLogListener *>::iterator LogListenerIter;
 
   typedef std::list<DistributionListener *> Listeners;
   typedef std::list<DistributionListener *>::iterator ListenerIter;
-  
+
   //! Is distribution operation enabled?
   bool distribution_enabled;
 
   //! Access to the configuration.
   Configurator *configurator;
-  
+
   //! Link to other clients
   DistributionLink *link;
 

@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -38,11 +38,11 @@ if(IsEqualIID(riid, IID_IUnknown))
    {
    *ppReturn = this;
    }
-   
+
 else if(IsEqualIID(riid, IID_IClassFactory))
    {
    *ppReturn = (IClassFactory*)this;
-   }   
+   }
 
 if(*ppReturn)
    {
@@ -51,7 +51,7 @@ if(*ppReturn)
    }
 
 return E_NOINTERFACE;
-}                                             
+}
 
 
 STDMETHODIMP_(DWORD) CClassFactory::AddRef()
@@ -68,12 +68,12 @@ if(--m_ObjRefCount == 0)
    delete this;
    return 0;
    }
-   
+
 return m_ObjRefCount;
 }
 
-STDMETHODIMP CClassFactory::CreateInstance(  LPUNKNOWN pUnknown, 
-                                             REFIID riid, 
+STDMETHODIMP CClassFactory::CreateInstance(  LPUNKNOWN pUnknown,
+                                             REFIID riid,
                                              LPVOID *ppObject)
 {
 HRESULT  hResult = E_FAIL;
@@ -90,10 +90,10 @@ if(IsEqualCLSID(m_clsidObject, CLSID_WorkraveDeskBand))
    CDeskBand *pDeskBand = new CDeskBand();
    if(NULL == pDeskBand)
       return E_OUTOFMEMORY;
-   
+
    pTemp = pDeskBand;
    }
-  
+
 if(pTemp)
    {
    //get the QueryInterface return for our return value

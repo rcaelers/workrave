@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -32,7 +32,7 @@ G_BEGIN_DECLS
 
 typedef struct _WorkraveService WorkraveService;
 typedef struct _WorkraveServiceClass WorkraveServiceClass;
-    
+
 #define WORKRAVE_TYPE_SERVICE               (workrave_service_get_type ())
 #define WORKRAVE_SERVICE(object)            (G_TYPE_CHECK_INSTANCE_CAST((object), WORKRAVE_TYPE_SERVICE, WorkraveService))
 #define WORKRAVE_SERVICE_CLASS(klass)       (G_TYPE_CHACK_CLASS_CAST((klass), WORKRAVE_TYPE_SERVICE, WorkraveServiceClass))
@@ -42,7 +42,7 @@ typedef struct _WorkraveServiceClass WorkraveServiceClass;
 
 struct _WorkraveService {
   GObject base;
-    
+
   /* <public> */
 };
 
@@ -60,7 +60,7 @@ GType workrave_service_get_type(void);
 gboolean workrave_service_set_operation_mode(WorkraveService *svc, gchar *mode, GError **error);
 gboolean workrave_service_get_operation_mode(WorkraveService *svc, gchar **mode, GError **error);
 gboolean workrave_service_report_activity(WorkraveService *svc, gchar *who, gchar *act, GError **error);
- 
+
 void workrave_service_send_break_stage_signal(BreakId break_id, gchar *progress);
 
 G_END_DECLS

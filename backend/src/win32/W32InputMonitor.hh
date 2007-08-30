@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -47,10 +47,12 @@ public:
   //! Destructor.
   virtual ~W32InputMonitor();
 
-  void init(IInputMonitorListener *);
+  bool init(IInputMonitorListener *);
   void terminate() ;
 
 private:
+  void init_critical_filename_list();
+  bool check_for_taskmgr_debugger( char *out );
   static void on_harpoon_event(HarpoonEvent *event);
   static IInputMonitorListener *listener;
 };

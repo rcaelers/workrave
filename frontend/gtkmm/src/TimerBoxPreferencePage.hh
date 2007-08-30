@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -39,10 +39,10 @@ class TimerBoxPreferencePage
   : public Gtk::HBox,
     public ConfiguratorListener
 {
-public:  
+public:
   TimerBoxPreferencePage(string name);
   ~TimerBoxPreferencePage();
-  
+
 private:
   void create_page();
   void init_page_values();
@@ -55,9 +55,9 @@ private:
   void on_always_on_top_toggled();
 
   void config_changed_notify(string key);
-  
+
   string name;
-  
+
   Gtk::CheckButton *ontop_cb;
   Gtk::CheckButton *enabled_cb;
   Gtk::OptionMenu *place_button;

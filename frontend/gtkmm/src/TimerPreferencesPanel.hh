@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -47,12 +47,12 @@ namespace Gtk
 class TimerPreferencesPanel
   : public Gtk::VBox
 {
-public:  
+public:
   TimerPreferencesPanel(BreakId timer,
                         Glib::RefPtr<Gtk::SizeGroup> hsize_group,
                         Glib::RefPtr<Gtk::SizeGroup> vsize_group);
   ~TimerPreferencesPanel();
-  
+
 private:
   void on_snooze_changed();
   void on_auto_reset_changed();
@@ -76,7 +76,7 @@ private:
 
   void on_enabled_toggled();
   void enable_buttons();
-  
+
   BreakId break_id;
   IBreak *break_data;
 

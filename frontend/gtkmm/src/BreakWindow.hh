@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -60,11 +60,11 @@ public:
   virtual void destroy();
   void refresh();
   Glib::RefPtr<Gdk::Window> get_gdk_window();
-  
+
 protected:
   virtual Gtk::Widget *create_gui() = 0;
   void init_gui();
-  
+
   void center();
 
   Gtk::HButtonBox *create_break_buttons(bool lockable, bool shutdownable);
@@ -73,7 +73,7 @@ protected:
   void on_skip_button_clicked();
   bool on_delete_event(GdkEventAny *);
   void on_postpone_button_clicked();
-  
+
   //! Information about the (multi)head.
   HeadInfo head;
 
@@ -85,13 +85,13 @@ protected:
 
   //! Flash frame
   Frame *frame;
-  
+
 protected:
   Gtk::Button *create_skip_button();
   Gtk::Button *create_postpone_button();
   Gtk::Button *create_lock_button();
   Gtk::Button *create_shutdown_button();
-  
+
 private:
   //! Send response to this interface.
   IBreakResponse *break_response;

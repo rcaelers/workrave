@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -27,7 +27,7 @@ Sound::beep(Display *x11, int freq, int millis)
 {
   XKeyboardState state;
   XGetKeyboardControl(x11, &state);
-  
+
   XKeyboardControl values;
   values.bell_pitch = freq;
   // FIXME: why /2 ? The spec claims bell_duration is in millis!!

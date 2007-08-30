@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -26,7 +26,7 @@
 
 class CDeskBand;
 
-class TimeBar 
+class TimeBar
 {
 public:
   TimeBar(HWND hwnd, HINSTANCE hinst, CDeskBand *deskband);
@@ -34,7 +34,7 @@ public:
 
   void set_progress(int value, int max_value);
   void set_secondary_progress(int value, int max_value);
-  
+
   void set_text(const char *text);
 
   void update();
@@ -55,7 +55,7 @@ private:
   ITimeBar::ColorId secondary_bar_color;
   ITimeBar::ColorId bar_color;
   char bar_text[APPLET_BAR_TEXT_MAX_LENGTH];
-    
+
   static HFONT bar_font;
   static HBRUSH bar_colors[ITimeBar::COLOR_ID_SIZEOF];
   static void init(HINSTANCE hinst);

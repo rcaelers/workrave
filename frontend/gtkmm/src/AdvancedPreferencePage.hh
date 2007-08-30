@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -43,7 +43,7 @@ namespace Gtk
   class TextView;
 }
 
-class AdvancedPreferencePage : 
+class AdvancedPreferencePage :
   public Gtk::VBox
 {
 public:
@@ -51,12 +51,11 @@ public:
   ~AdvancedPreferencePage();
 
 private:
-  
+
 #if 1 // defined(WIN32)
   Gtk::CheckButton *forcebox;
   Gtk::CheckButton *nohooksbox;
 
-  bool forcebox_signal_focus_out_event(GdkEventFocus*);
   void forcebox_signal_toggled();
   bool forcebox_get_config();
   void nohooksbox_signal_toggled();

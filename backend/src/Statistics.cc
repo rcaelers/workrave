@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -42,7 +42,7 @@ const int STATSVERSION = 4;
 
 
 //! Constructor
-Statistics::Statistics() : 
+Statistics::Statistics() :
   core(NULL),
   current_day(NULL),
   been_active(false)
@@ -54,7 +54,7 @@ Statistics::Statistics() :
 Statistics::~Statistics()
 {
   update();
-  
+
   for (vector<DailyStatsImpl *>::iterator i = history.begin(); i != history.end(); i++)
     {
       delete *i;
@@ -94,7 +94,7 @@ Statistics::update()
 
   IActivityMonitor *monitor = core->get_activity_monitor();
   ActivityState state = monitor->get_current_state();
-  
+
   if (state == ACTIVITY_ACTIVE && !been_active)
     {
       const time_t now = time(NULL);
@@ -105,7 +105,7 @@ Statistics::update()
 
       been_active = true;
     }
-  
+
   update_current_day(state == ACTIVITY_ACTIVE);
   save_day(current_day);
   TRACE_EXIT();
@@ -135,17 +135,17 @@ Statistics::start_new_day()
           day_to_history(current_day);
           day_to_remote_history(current_day);
         }
-      
+
       current_day = new DailyStatsImpl();
       been_active = false;
-      
+
       current_day->start = *tmnow;
       current_day->stop = *tmnow;
     }
 
   update_current_day(false);
   save_day(current_day);
-  
+
   TRACE_EXIT();
 }
 
@@ -158,15 +158,15 @@ Statistics::day_to_history(DailyStatsImpl *stats)
   stringstream ss;
   ss << Util::get_home_directory();
   ss << "historystats" << ends;
-      
+
   bool exists = Util::file_exists(ss.str());
   ofstream stats_file(ss.str().c_str(), ios::app);
-      
+
   if (!exists)
     {
       stats_file << WORKRAVESTATS << " " << STATSVERSION  << endl;
     }
-      
+
   save_day(stats, stats_file);
   stats_file.close();
 
@@ -202,15 +202,15 @@ Statistics::save_day(DailyStatsImpl *stats, ofstream &stats_file)
   stats_file << "D "
              << stats->start.tm_mday << " "
              << stats->start.tm_mon << " "
-             << stats->start.tm_year << " " 
+             << stats->start.tm_year << " "
              << stats->start.tm_hour << " "
              << stats->start.tm_min << " "
              << stats->stop.tm_mday << " "
              << stats->stop.tm_mon << " "
-             << stats->stop.tm_year << " " 
+             << stats->stop.tm_year << " "
              << stats->stop.tm_hour << " "
              << stats->stop.tm_min <<  endl;
-    
+
   for(int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       BreakStats &bs = stats->break_stats[i];
@@ -229,7 +229,7 @@ Statistics::save_day(DailyStatsImpl *stats, ofstream &stats_file)
       stats_file << stats->misc_stats[j] << " ";
     }
   stats_file << endl;
-  
+
   stats_file.close();
 }
 
@@ -295,7 +295,7 @@ Statistics::add_history(DailyStatsImpl *stats)
           }
           i++;
         }
-      
+
       if (!found)
         {
           history.insert(history.begin(), stats);
@@ -317,7 +317,7 @@ Statistics::load_current_day()
   load(stats_file, false);
 
   been_active = true;
-  
+
   TRACE_EXIT();
   return current_day != NULL;
 }
@@ -328,7 +328,7 @@ void
 Statistics::load_history()
 {
   TRACE_ENTER("Statistics::load_history");
-  
+
   stringstream ss;
   ss << Util::get_home_directory();
   ss << "historystats" << ends;
@@ -347,7 +347,7 @@ Statistics::load(ifstream &infile, bool history)
   TRACE_ENTER("Statistics::load");
 
   DailyStatsImpl *stats = NULL;
-  
+
   bool ok = infile;
 
   if (ok)
@@ -395,13 +395,13 @@ Statistics::load(ifstream &infile, bool history)
 
               // FIXME: leak
               stats = new DailyStatsImpl();
-          
-              ss >> stats->start.tm_mday 
+
+              ss >> stats->start.tm_mday
                  >> stats->start.tm_mon
                  >> stats->start.tm_year
                  >> stats->start.tm_hour
                  >> stats->start.tm_min
-                 >> stats->stop.tm_mday 
+                 >> stats->stop.tm_mday
                  >> stats->stop.tm_mon
                  >> stats->stop.tm_year
                  >> stats->stop.tm_hour
@@ -419,19 +419,19 @@ Statistics::load(ifstream &infile, bool history)
                   int bt, size;
                   ss >> bt;
                   ss >> size;
-          
+
                   BreakStats &bs = stats->break_stats[bt];
-          
+
                   if (size > STATS_BREAKVALUE_SIZEOF)
                     {
                       size = STATS_BREAKVALUE_SIZEOF;
                     }
-          
+
                   for(int j = 0; j < size; j++)
                     {
                       int value;
                       ss >> value;
-              
+
                       bs[j] = value;
                     }
                 }
@@ -439,12 +439,12 @@ Statistics::load(ifstream &infile, bool history)
                 {
                   int size;
                   ss >> size;
-          
+
                   if (size > STATS_VALUE_SIZEOF)
                     {
                       size = STATS_VALUE_SIZEOF;
                     }
-          
+
                   for(int j = 0; j < size; j++)
                     {
                       int value;
@@ -465,7 +465,7 @@ Statistics::load(ifstream &infile, bool history)
                 {
                   int total_active;
                   ss >> total_active;
-              
+
                   stats->misc_stats[STATS_VALUE_TOTAL_ACTIVE_TIME] = total_active;
                 }
             }
@@ -534,7 +534,7 @@ Statistics::dump()
   TRACE_ENTER("Statistics::dump");
 
   update_current_day(false);
-  
+
   stringstream ss;
   for(int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
@@ -553,7 +553,7 @@ Statistics::dump()
   for(int j = 0; j < STATS_VALUE_SIZEOF; j++)
     {
       int value = current_day->misc_stats[j];
-      
+
       ss  << value << " ";
     }
 
@@ -572,7 +572,7 @@ Statistics::DailyStatsImpl *
 Statistics::get_day(int day) const
 {
   DailyStatsImpl *ret = NULL;
-  
+
   if (day == 0)
     {
       ret = current_day;
@@ -659,26 +659,26 @@ Statistics::update_current_day(bool active)
           struct tm *tmnow = localtime(&now);
           current_day->stop = *tmnow;
         }
-      
+
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
           Timer *t = core->get_break(BreakId(i))->get_timer();
           assert(t != NULL);
-      
+
           int overdue = t->get_total_overdue_time();
 
           set_break_counter(((BreakId)i),
                             Statistics::STATS_BREAKVALUE_TOTAL_OVERDUE, overdue);
         }
 
-      
+
       // Collect activity monitor stats.
       IActivityMonitor *monitor = core->get_activity_monitor();
       assert(monitor != NULL);
 
       ActivityMonitorStatistics ams;
       monitor->get_statistics(ams);
-      
+
       current_day->misc_stats[STATS_VALUE_TOTAL_MOUSE_MOVEMENT] = ams.total_movement;
       current_day->misc_stats[STATS_VALUE_TOTAL_CLICK_MOVEMENT] = ams.total_click_movement;
       current_day->misc_stats[STATS_VALUE_TOTAL_MOVEMENT_TIME] = ams.total_movement_time;
@@ -698,7 +698,7 @@ Statistics::update_enviromnent()
       assert(monitor != NULL);
 
       ActivityMonitorStatistics ams;
-      
+
       ams.total_movement = current_day->misc_stats[STATS_VALUE_TOTAL_MOUSE_MOVEMENT];
       ams.total_click_movement = current_day->misc_stats[STATS_VALUE_TOTAL_CLICK_MOVEMENT];
       ams.total_movement_time = current_day->misc_stats[STATS_VALUE_TOTAL_MOVEMENT_TIME];
@@ -729,10 +729,10 @@ Statistics::request_client_message(DistributionClientMessageID id, PacketBuffer 
 {
   TRACE_ENTER("Statistics::request_client_message");
   (void) id;
-  
+
   update_current_day(false);
   dump();
-  
+
   buffer.pack_byte(STATS_MARKER_TODAY);
   pack_stats(buffer, current_day);
   buffer.pack_byte(STATS_MARKER_END);
@@ -766,7 +766,7 @@ Statistics::pack_stats(PacketBuffer &buf, const DailyStatsImpl *stats)
   buf.pack_byte(stats->stop.tm_hour);
   buf.pack_byte(stats->stop.tm_min);
   buf.update_size(pos);
-  
+
   for(int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       BreakStats &bs = current_day->break_stats[i];
@@ -775,7 +775,7 @@ Statistics::pack_stats(PacketBuffer &buf, const DailyStatsImpl *stats)
       buf.reserve_size(pos);
       buf.pack_byte(i);
       buf.pack_ushort(STATS_BREAKVALUE_SIZEOF);
-      
+
       for(int j = 0; j < STATS_BREAKVALUE_SIZEOF; j++)
         {
           buf.pack_ulong(bs[j]);
@@ -786,13 +786,13 @@ Statistics::pack_stats(PacketBuffer &buf, const DailyStatsImpl *stats)
   buf.pack_byte(STATS_MARKER_MISC_STATS);
   buf.reserve_size(pos);
   buf.pack_ushort(STATS_VALUE_SIZEOF);
-  
+
   for(int j = 0; j < STATS_VALUE_SIZEOF; j++)
     {
       buf.pack_ulong(current_day->misc_stats[j]);
     }
   buf.update_size(pos);
-  
+
   TRACE_EXIT();
   return true;
 }
@@ -808,11 +808,11 @@ Statistics::client_message(DistributionClientMessageID id, bool master, const ch
   (void) client_id;
 
   return false;
-  
+
   DailyStatsImpl *stats = NULL;
   int pos = 0;
   bool stats_to_history = false;
-  
+
   while (buffer.bytes_available() > 0)
     {
       StatsMarker marker = (StatsMarker) buffer.unpack_byte();
@@ -822,17 +822,17 @@ Statistics::client_message(DistributionClientMessageID id, bool master, const ch
         case STATS_MARKER_TODAY:
           stats = current_day;
           break;
-          
+
         case STATS_MARKER_HISTORY:
           stats = new DailyStatsImpl();
           stats_to_history = true;
           break;
-          
+
         case STATS_MARKER_STARTTIME:
           {
             int size = buffer.unpack_ushort();
             (void) size;
-            
+
             stats->start.tm_mday = buffer.unpack_byte();
             stats->start.tm_mon = buffer.unpack_byte();
             stats->start.tm_year = buffer.unpack_ushort();
@@ -840,12 +840,12 @@ Statistics::client_message(DistributionClientMessageID id, bool master, const ch
             stats->start.tm_min = buffer.unpack_byte();
           }
           break;
-          
+
         case STATS_MARKER_STOPTIME:
           {
             int size = buffer.unpack_ushort();
             (void) size;
-            
+
             stats->stop.tm_mday = buffer.unpack_byte();
             stats->stop.tm_mon = buffer.unpack_byte();
             stats->stop.tm_year = buffer.unpack_ushort();
@@ -868,7 +868,7 @@ Statistics::client_message(DistributionClientMessageID id, bool master, const ch
               {
                 count = STATS_BREAKVALUE_SIZEOF;
               }
-            
+
             for(int j = 0; j < count; j++)
               {
                 bs[j] = buffer.unpack_ulong();
@@ -877,7 +877,7 @@ Statistics::client_message(DistributionClientMessageID id, bool master, const ch
             buffer.skip_size(pos);
           }
           break;
-          
+
         case STATS_MARKER_MISC_STATS:
           {
             int size = buffer.read_size(pos);
@@ -888,7 +888,7 @@ Statistics::client_message(DistributionClientMessageID id, bool master, const ch
               {
                 count = STATS_VALUE_SIZEOF;
               }
-            
+
             for(int j = 0; j < count; j++)
               {
                 stats->misc_stats[j] = buffer.unpack_ulong();
@@ -897,7 +897,7 @@ Statistics::client_message(DistributionClientMessageID id, bool master, const ch
             buffer.skip_size(pos);
           }
           break;
-          
+
         case STATS_MARKER_END:
           if (stats_to_history)
             {
@@ -924,7 +924,7 @@ Statistics::client_message(DistributionClientMessageID id, bool master, const ch
       day_to_history(stats);
       stats_to_history = false;
     }
-  
+
   update_enviromnent();
   dump();
 

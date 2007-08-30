@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -34,7 +34,7 @@ using namespace std;
 class MainWindow :
   public ConfiguratorListener
 {
-public:  
+public:
   MainWindow();
   virtual ~MainWindow();
 
@@ -42,11 +42,11 @@ public:
   static void set_always_on_top(bool b);
 
   void update();
-  
+
 private:
   //! Window enabled
   bool enabled;
-  
+
   //! Table containing all timer information
   TimerBoxControl *timer_box_control;
 
@@ -61,21 +61,21 @@ private:
   void init();
   void setup();
   void config_changed_notify(std::string key);
-  
-public:  
+
+public:
   static void set_start_in_tray(bool b);
   static bool get_start_in_tray();
 
   static void get_start_position(int &x, int &y, int &head);
   static void set_start_position(int x, int y, int head);
-  
+
   static const std::string CFG_KEY_MAIN_WINDOW;
   static const std::string CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP;
   static const std::string CFG_KEY_MAIN_WINDOW_START_IN_TRAY;
   static const std::string CFG_KEY_MAIN_WINDOW_X;
   static const std::string CFG_KEY_MAIN_WINDOW_Y;
   static const std::string CFG_KEY_MAIN_WINDOW_HEAD;
-  
+
 };
 
 #endif // MAINWINDOW_HH

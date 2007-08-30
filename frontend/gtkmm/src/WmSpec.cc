@@ -1,4 +1,4 @@
-// WmSpec.cc 
+// WmSpec.cc
 //
 // Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -32,8 +32,8 @@ static const char rcsid[] = "$Id$";
 
 #include "WmSpec.hh"
 
-#define XA_NET_SUPPORTING_WM_CHECK	"_NET_SUPPORTING_WM_CHECK"
-#define XA_NET_WM_STATE			"_NET_WM_STATE"
+#define XA_NET_SUPPORTING_WM_CHECK  "_NET_SUPPORTING_WM_CHECK"
+#define XA_NET_WM_STATE     "_NET_WM_STATE"
 
 #define _NET_WM_STATE_REMOVE   0
 #define _NET_WM_STATE_ADD      1
@@ -58,11 +58,11 @@ WmSpec::supported()
   if (p == Success && prop && r_type == XA_WINDOW && r_format == 32 && count == 1)
     {
       Window n = *(Window *) prop;
-      
+
       p = XGetWindowProperty(GDK_DISPLAY(), n, support_check, 0, 1,
                              False, XA_WINDOW, &r_type, &r_format,
                              &count, &bytes_remain, &prop2);
-      
+
       if (p == Success && prop2 && *prop2 == *prop &&
           r_type == XA_WINDOW && r_format == 32 && count == 1)
         ret = true;
@@ -82,7 +82,7 @@ WmSpec::change_state(GtkWidget *gtk_window, bool add, const char *state)
 {
   GdkWindow *window = GTK_WIDGET(gtk_window)->window;
   g_return_if_fail (GDK_IS_WINDOW(window));
-  
+
   if (GDK_WINDOW_DESTROYED(window))
     return;
 
@@ -104,7 +104,7 @@ WmSpec::change_state(GtkWidget *gtk_window, bool add, const char *state)
       xev.xclient.data.l[0] = add ? _NET_WM_STATE_ADD : _NET_WM_STATE_REMOVE;
       xev.xclient.data.l[1] = wm_value_atom;
       xev.xclient.data.l[2] = 0;
-      
+
       XSendEvent (GDK_DISPLAY(), GDK_ROOT_WINDOW(), False,
                   SubstructureRedirectMask | SubstructureNotifyMask,
                   &xev);
@@ -128,19 +128,19 @@ WmSpec::set_window_hint(GtkWidget *gtk_window, const char *type)
   g_return_if_fail (gtk_window != NULL);
 
   GdkWindow *window = GTK_WIDGET(gtk_window)->window;
-  
+
   g_return_if_fail (GDK_IS_WINDOW (window));
-  
+
   if (GDK_WINDOW_DESTROYED (window))
     return;
 
   Atom type_atom = gdk_x11_get_xatom_by_name(type);
 
   XChangeProperty (GDK_WINDOW_XDISPLAY (window),
-		   GDK_WINDOW_XID (window),
-		   gdk_x11_get_xatom_by_name ("_NET_WM_WINDOW_TYPE"),
-		   XA_ATOM, 32, PropModeReplace,
-		   (guchar *)&type_atom, 1);
+       GDK_WINDOW_XID (window),
+       gdk_x11_get_xatom_by_name ("_NET_WM_WINDOW_TYPE"),
+       XA_ATOM, 32, PropModeReplace,
+       (guchar *)&type_atom, 1);
 }
 
 #endif

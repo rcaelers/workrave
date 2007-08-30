@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -35,7 +35,7 @@ public:
     timer(t),
     suspended(false),
     forced_idle(false)
-      
+
   {
     Core *core =  Core::get_instance();
     monitor = core->get_activity_monitor();
@@ -44,7 +44,7 @@ public:
   virtual ~TimerActivityMonitor()
   {
   }
-  
+
   //! Stops the activity monitoring.
   void terminate()
   {
@@ -89,7 +89,7 @@ public:
       {
         return ACTIVITY_SUSPENDED;
       }
-    
+
     Timer::TimerState state = timer->get_state();
     time_t idle = timer->get_elapsed_idle_time();
     time_t reset = timer->get_auto_reset();
@@ -112,7 +112,7 @@ public:
     TRACE_EXIT();
   }
 
-  
+
   // Returns the collected statistics.
   void get_statistics(ActivityMonitorStatistics &stats) const
   {
@@ -132,17 +132,17 @@ public:
   {
   }
 
-  
+
   //! Sets the activity listener of this monitor.
   void set_listener(ActivityMonitorListener *l)
   {
     (void)l;
   }
-  
+
 private:
   //! Reference monitor
   IActivityMonitor *monitor;
-  
+
   //! Reference timer.
   Timer *timer;
 

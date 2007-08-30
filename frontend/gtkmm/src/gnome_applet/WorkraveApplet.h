@@ -27,11 +27,11 @@ struct _AppletControl
   GtkWidget *image;
   GtkWidget *socket;
   PanelApplet *applet;
-  
+
   long size;
   long socket_id;
   CORBA_long orientation;
-  
+
   gboolean last_showlog_state;
   GNOME_Workrave_WorkraveControl_Mode last_mode;
 };
@@ -43,12 +43,12 @@ struct _AppletControlClass
 };
 
 
-static void 		workrave_applet_control_class_init(AppletControlClass *);
-static void 		workrave_applet_control_init(AppletControl *);
-static AppletControl*	workrave_applet_control_new(void);
-static CORBA_long 	workrave_applet_control_get_socket_id(PortableServer_Servant, CORBA_Environment *);
-static CORBA_long 	workrave_applet_control_get_size(PortableServer_Servant, CORBA_Environment *);
-static CORBA_long 	workrave_applet_control_get_orientation(PortableServer_Servant, CORBA_Environment *);
+static void     workrave_applet_control_class_init(AppletControlClass *);
+static void     workrave_applet_control_init(AppletControl *);
+static AppletControl* workrave_applet_control_new(void);
+static CORBA_long   workrave_applet_control_get_socket_id(PortableServer_Servant, CORBA_Environment *);
+static CORBA_long   workrave_applet_control_get_size(PortableServer_Servant, CORBA_Environment *);
+static CORBA_long   workrave_applet_control_get_orientation(PortableServer_Servant, CORBA_Environment *);
 
 static void             workrave_applet_control_set_menu_status(PortableServer_Servant, const CORBA_char *,
                                                                 const CORBA_boolean, CORBA_Environment *);

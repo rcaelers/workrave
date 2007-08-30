@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -43,20 +43,20 @@ class NetworkLogDialog :
   public Gtk::Dialog,
   public DistributionLogListener
 {
-public:  
+public:
   NetworkLogDialog();
   ~NetworkLogDialog();
 
   int run();
-  
+
 private:
   void init();
   void distribution_log(string msg);
   void on_response(int response);
-  
+
   Gtk::TextView *text_view;
   Gtk::ScrolledWindow scrolled_window;
-  Glib::RefPtr<Gtk::TextBuffer> text_buffer;  
+  Glib::RefPtr<Gtk::TextBuffer> text_buffer;
 };
 
 #endif // NETWORKLOGWINDOW_HH

@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -48,7 +48,7 @@ class GnomeAppletWindow :
   public SigC::Object,
   public AppletWindow
 {
-public:  
+public:
   GnomeAppletWindow(AppletControl *control);
   virtual ~GnomeAppletWindow();
 
@@ -67,14 +67,14 @@ public:
 private:
   //! Gtk timerbox viewer
   TimerBoxGtkView *view;
-   
+
   //! The Gtk+ plug in the panel.
   Gtk::Plug *plug;
 
   //! Container to put the timers in..
   Gtk::Bin *container;
-  
-  // 
+
+  //
   GNOME_Workrave_AppletControl applet_control;
 
   //! Allign break orientationly.
@@ -88,16 +88,16 @@ private:
 
   //!
   bool applet_active;
-  
+
 private:
   void deactivate_applet();
   AppletState activate_applet();
-    
+
   bool init_gnome_applet();
   void destroy_gnome_applet();
   void setbackground(int type,
                      GtkRcStyle * rc_style,
-                     GtkWidget * w, 
+                     GtkWidget * w,
                      GdkColor * color,
                      GdkPixmap * pixmap);
 

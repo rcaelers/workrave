@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -50,7 +50,7 @@ class MainWindow :
   public Gtk::Window,
   public ConfiguratorListener
 {
-public:  
+public:
   MainWindow();
   ~MainWindow();
 
@@ -59,12 +59,12 @@ public:
   void toggle_window();
   void set_applet_active(bool a);
   //bool get_iconified() const;
-  
+
   void update();
   void relocate_window(int width, int height);
 
   void on_activate();
-  
+
   static bool get_always_on_top();
   static void set_always_on_top(bool b);
 
@@ -74,7 +74,7 @@ protected:
 private:
   //! Window enabled
   bool enabled;
-  
+
   //! Connection to the delete_event signal.
   // SigC::Connection delete_connection;
 
@@ -95,20 +95,20 @@ private:
 
   //! Applet active?
   bool applet_active;
-  
+
 #ifdef HAVE_X
   Gtk::Window *leader;
 #endif
-  
+
   //! Location of main window.
   Gdk::Point window_location;
-  
+
   //! Location of main window relative to current head
   Gdk::Point window_head_location;
 
   //! Relocated location of main window
   Gdk::Point window_relocated_location;
-  
+
 private:
   //
   void init();
@@ -116,26 +116,26 @@ private:
   void config_changed_notify(std::string key);
   void locate_window(GdkEventConfigure *event);
   void move_to_start_position();
-  
+
   // Events.
   bool on_delete_event(GdkEventAny*);
   bool on_window_state_event(GdkEventWindowState *event);
   bool on_configure_event(GdkEventConfigure *event);
-  
-public:  
+
+public:
   static void set_start_in_tray(bool b);
   static bool get_start_in_tray();
 
   static void get_start_position(int &x, int &y, int &head);
   static void set_start_position(int x, int y, int head);
-  
+
   static const std::string CFG_KEY_MAIN_WINDOW;
   static const std::string CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP;
   static const std::string CFG_KEY_MAIN_WINDOW_START_IN_TRAY;
   static const std::string CFG_KEY_MAIN_WINDOW_X;
   static const std::string CFG_KEY_MAIN_WINDOW_Y;
   static const std::string CFG_KEY_MAIN_WINDOW_HEAD;
-  
+
 #ifdef WIN32
 private:
   void win32_show(bool b);
@@ -147,7 +147,7 @@ private:
 
   HWND win32_main_hwnd;
   HINSTANCE win32_hinstance;
-  
+
   SigC::Connection timeout_connection;
 #endif
 };

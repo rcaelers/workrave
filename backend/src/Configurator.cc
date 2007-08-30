@@ -7,12 +7,12 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 
 static const char rcsid[] = "$Id$";
 
@@ -52,14 +52,14 @@ Configurator::create(Format fmt)
 {
   Configurator *c =  NULL;
 
-#ifdef HAVE_GDOME  
+#ifdef HAVE_GDOME
   if (fmt == FormatXml)
     {
       c = new XMLConfigurator();
     }
   else
 #endif
-    
+
 #ifdef HAVE_GCONF
   if (fmt == FormatNative)
     {
@@ -67,14 +67,14 @@ Configurator::create(Format fmt)
     }
   else
 #endif
-    
+
 #ifdef HAVE_REGISTRY
   if (fmt == FormatNative)
     {
       c = new W32Configurator();
     }
   else
-#endif    
+#endif
 
 #ifdef HAVE_QT
   if (fmt == FormatNative)
@@ -82,7 +82,7 @@ Configurator::create(Format fmt)
       c = new QtNativeConfigurator();
     }
   else
-#endif    
+#endif
 
   if (fmt == FormatIni)
     {
@@ -92,7 +92,7 @@ Configurator::create(Format fmt)
       c = new QtIniConfigurator();
 #else
 #error Not ported
-#endif      
+#endif
     }
   else
     {
@@ -131,7 +131,7 @@ Configurator::add_listener(string key_prefix, ConfiguratorListener *listener)
   bool ret = true;
 
   strip_leading_slash(key_prefix);
-  
+
   ListenerIter i = listeners.begin();
   while (ret && i != listeners.end())
     {
@@ -140,10 +140,10 @@ Configurator::add_listener(string key_prefix, ConfiguratorListener *listener)
           // Already added. Skip
           ret = false;
         }
-      
+
       i++;
     }
-  
+
   if (ret)
     {
       // not found -> add
@@ -253,7 +253,7 @@ Configurator::fire_configurator_event(string key)
 {
   TRACE_ENTER_MSG("Configurator::fire_configurator_event", key);
   strip_leading_slash(key);
-  
+
   ListenerIter i = listeners.begin();
   while (i != listeners.end())
     {
@@ -378,7 +378,7 @@ Configurator::get_value_default(string key, double *out,
 
 
 // func overloads bool/int/long/double copied from W32Config:
-bool 
+bool
 Configurator::get_value_on_quit( string key, bool *out ) const
 {
   long l;
@@ -390,7 +390,7 @@ Configurator::get_value_on_quit( string key, bool *out ) const
   return rc;
 }
 
-bool 
+bool
 Configurator::get_value_on_quit( string key, int *out ) const
 {
   long l;
@@ -402,7 +402,7 @@ Configurator::get_value_on_quit( string key, int *out ) const
   return rc;
 }
 
-bool 
+bool
 Configurator::get_value_on_quit( string key, long *out ) const
 {
   string s;
@@ -415,7 +415,7 @@ Configurator::get_value_on_quit( string key, long *out ) const
   return rc;
 }
 
-bool 
+bool
 Configurator::get_value_on_quit( string key, double *out ) const
 {
   string s;
@@ -428,39 +428,35 @@ Configurator::get_value_on_quit( string key, double *out ) const
   return rc;
 }
 
-bool 
+bool
 Configurator::get_value_on_quit( string key, string *out ) const
 {
-#if defined(HAVE_QT) || defined(WIN32) || defined(HAVE_UNIX)
   mutex->lock();
-#endif
-  
+
   keylist *temp = head;
-  
+
   while( 1 )
     {
       if( temp->key == key )
-      // Key found, assign value to out
-	    {
-	      *out = temp->v;
+        // Key found, assign value to out
+        {
+          *out = temp->v;
           return true;
         }
-      
+
       // Step through the list:
       if( temp->next )
         temp = temp->next;
       else
         return false;
     }
-  
-#if defined(HAVE_QT) || defined(WIN32) || defined(HAVE_UNIX)
+
   mutex->unlock();
-#endif
 }
 
 
 // func overloads bool/int/long/double copied from W32Config:
-void 
+void
 Configurator::set_value_on_quit( string key, bool v )
 {
   char buf[32];
@@ -468,7 +464,7 @@ Configurator::set_value_on_quit( string key, bool v )
   set_value_on_quit( key, string( buf ) );
 }
 
-void 
+void
 Configurator::set_value_on_quit( string key, int v )
 {
   char buf[32];
@@ -476,7 +472,7 @@ Configurator::set_value_on_quit( string key, int v )
   set_value_on_quit( key, string( buf ) );
 }
 
-void 
+void
 Configurator::set_value_on_quit( string key, long v )
 {
   char buf[32];
@@ -484,7 +480,7 @@ Configurator::set_value_on_quit( string key, long v )
   set_value_on_quit( key, string( buf ) );
 }
 
-void 
+void
 Configurator::set_value_on_quit( string key, double v )
 {
   char buf[32];
@@ -492,15 +488,13 @@ Configurator::set_value_on_quit( string key, double v )
   set_value_on_quit( key, string( buf ) );
 }
 
-void 
+void
 Configurator::set_value_on_quit( string key, string v )
 {
-#if defined(HAVE_QT) || defined(WIN32) || defined(HAVE_UNIX)
   mutex->lock();
-#endif
-  
+
   keylist *temp = head;
-  
+
   while( 1 )
     {
       if( temp->key == key )
@@ -509,70 +503,64 @@ Configurator::set_value_on_quit( string key, string v )
           temp->v = v;
           return;
         }
-      
+
       // Step through the list:
       if( temp->next )
         temp = temp->next;
       else
         break;
     }
-  
+
   if( temp->key != "" )
     {
       temp->next = new keylist;
       temp = temp->next;
     }
-  
+
   temp->key = key;
   temp->v = v;
-  
-#if defined(HAVE_QT) || defined(WIN32) || defined(HAVE_UNIX)
+
   mutex->unlock();
-#endif
 }
 
 
-void 
+void
 Configurator::set_values_now_we_are_quitting()
 // This function should be called only from the Core destructor!
-// Do not call from Configurator destructor, because the virtual 
+// Do not call from Configurator destructor, because the virtual
 // functions will have already been destroyed.
 {
-#if defined(HAVE_QT) || defined(WIN32) || defined(HAVE_UNIX)
   mutex->lock();
-#endif
-  
+
   keylist *temp = head;
-  
+
   while( 1 )
     {
       if( temp->key != "" )
         set_value( temp->key, temp->v );
-      
+
       // Step through the list:
       if( temp->next )
         temp = temp->next;
       else
         break;
     }
-  
+
 /*
-  Maybe this function is called, and the program 
+  Maybe this function is called, and the program
   isn't terminating... so cleanup.
 */
   keylist *temp2 = head->next;
   // delete all members except for the head:
-  while( temp = temp2 )
+  while( (temp = temp2) != NULL )
     {
       temp2 = temp->next;
       delete temp;
     }
-  
+
   head->key = "";
   head->v = "";
   head->next = NULL;
-  
-#if defined(HAVE_QT) || defined(WIN32) || defined(HAVE_UNIX)
+
   mutex->unlock();
-#endif
 }

@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -40,7 +40,7 @@ namespace Gtk
 
 class TimerBoxGtkView : public Gtk::Table, public ITimerBoxView
 {
-public:  
+public:
   TimerBoxGtkView();
   ~TimerBoxGtkView();
 
@@ -57,21 +57,21 @@ public:
   void update_view();
   void set_enabled(bool enabled);
 
-  
+
 private:
   void init_widgets();
   void init_table();
   void init();
-  
+
   //! Reconfigure the panel.
   bool reconfigure;
 
   //! Parent container
   Gtk::Bin *parent;
-  
+
   //! Tooltips
   Gtk::Tooltips *tooltips;
-  
+
   //! Array of time labels
   Gtk::Widget **labels;
 
@@ -80,7 +80,7 @@ private:
 
   //! Sheep
   Gtk::Image *sheep;
-  
+
   //! Sheep
   Gtk::EventBox *sheep_eventbox;
 

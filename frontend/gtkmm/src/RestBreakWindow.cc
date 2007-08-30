@@ -8,7 +8,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -87,7 +87,7 @@ RestBreakWindow::create_gui()
 #ifdef HAVE_EXERCISES
   pluggable_panel = manage(new Gtk::HBox);
 #endif
-  
+
   vbox->pack_start(
 #ifdef HAVE_EXERCISES
                    *pluggable_panel
@@ -147,7 +147,7 @@ RestBreakWindow::start()
 //! Period timer callback.
 void
 RestBreakWindow::refresh()
-{ 
+{
   BreakWindow::refresh();
 
   draw_time_bar();
@@ -171,7 +171,7 @@ RestBreakWindow::draw_time_bar()
   time_t time = progress_max_value - progress_value;
   char s[128];
   sprintf(s, _("Rest break for %s"), Text::time_to_string(time, true).c_str());
-  
+
   timebar->set_text(s);
 
   ICore *core = CoreFactory::get_core();
@@ -193,7 +193,7 @@ RestBreakWindow::draw_time_bar()
           is_flashing = false;
         }
     }
-  
+
   timebar->update();
 }
 
@@ -202,7 +202,7 @@ Gtk::Widget *
 RestBreakWindow::create_info_panel()
 {
   Gtk::HBox *info_box = manage(new Gtk::HBox(false, 12));
-  
+
   string icon = Util::complete_directory("rest-break.png", Util::SEARCH_PATH_IMAGES);
   Gtk::Image *info_img = manage(new Gtk::Image(icon));
   info_img->set_alignment(0.0, 0.0);
@@ -237,12 +237,12 @@ int
 RestBreakWindow::get_exercise_count()
 {
   int ret = 0;
-  
+
   if (Exercise::has_exercises())
     {
       ICore *core = CoreFactory::get_core();
       assert(core != NULL);
-      
+
       ret = core->get_break(BREAK_ID_REST_BREAK)->get_break_exercises();
     }
   return ret;
@@ -297,7 +297,7 @@ RestBreakWindow::set_ignore_activity(bool i)
       i = true;
     }
 #endif
-  
+
   core->set_insist_policy(i ?
                         ICore::INSIST_POLICY_IGNORE :
                         (block_mode != GUI::BLOCK_MODE_NONE

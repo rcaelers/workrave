@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -39,7 +39,7 @@ TimeEntry::TimeEntry(bool millis)
     secs_adjustment(0, 0, 59)
 {
   this->millis = millis;
-  
+
   secs = manage(new Gtk::SpinButton(secs_adjustment));
   secs->set_numeric(true);
   secs->signal_changed().connect(MEMBER_SLOT(*this, &TimeEntry::on_changed));
@@ -73,10 +73,10 @@ TimeEntry::TimeEntry(bool millis)
       mins->set_width_chars(2);
       mins->signal_changed().connect(MEMBER_SLOT(*this, &TimeEntry::on_changed));
       mins->signal_value_changed().connect(MEMBER_SLOT(*this, &TimeEntry::on_value_changed));
-	
+  
       Gtk::Label *semi1 = manage(new Gtk::Label(":"));
       Gtk::Label *semi2 = manage(new Gtk::Label(":"));
-	
+  
       pack_start(*hrs, 0, 0);
       pack_start(*semi1, 0, 0);
       pack_start(*mins, 0, 0);

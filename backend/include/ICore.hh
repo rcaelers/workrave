@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -36,7 +36,7 @@ enum OperationMode
   {
     //! Breaks are reported to the user when due.
     OPERATION_MODE_NORMAL=0,
-    
+
     //! Monitoring is suspended.
     OPERATION_MODE_SUSPENDED,
 
@@ -47,7 +47,7 @@ enum OperationMode
     OPERATION_MODE_SIZEOF
   };
 
-  
+
 //! ID of a break.
 enum BreakId
   {
@@ -58,12 +58,12 @@ enum BreakId
     BREAK_ID_SIZEOF
   };
 
-  
+
 class ICore
 {
 public:
   virtual ~ICore() {}
-  
+
   enum InsistPolicy
     {
       //! Uninitialized policy
@@ -90,7 +90,7 @@ public:
 
   //! Forces a break of the specified type.
   virtual void force_break(BreakId id, bool initiated_by_user) = 0;
- 
+
   //! Returns the break interface of the specified type.
   virtual IBreak *get_break(BreakId id) = 0;
 
@@ -107,7 +107,7 @@ public:
   //! Returns the distribution manager (if available).
   virtual IDistributionManager *get_distribution_manager() const = 0;
 #endif
-  
+
   //! Returns the current operational mode.
   virtual OperationMode get_operation_mode() = 0;
 
@@ -121,7 +121,7 @@ public:
   virtual void set_powersave(bool down) = 0;
 
   virtual void set_insist_policy(InsistPolicy p) = 0;
-  
+
 #ifndef NDEBUG
   virtual void test_me() = 0;
 #endif

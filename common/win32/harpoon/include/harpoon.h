@@ -1,16 +1,16 @@
 /*
- * harpoon.h 
+ * harpoon.h
  *
  * Copyright (C) 2002, 2003 Raymond Penners <raymond@dotsphinx.com>
  * All rights reserved.
  *
- * Time-stamp: <2007-07-07 11:28:35 robc>
+ * Time-stamp: <2007-08-30 16:03:06 robc>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
  * any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -22,6 +22,7 @@
 #define HARPOON_H
 
 #include <windows.h>
+#include <mbstring.h>
 
 #ifndef FALSE
 #define FALSE 0
@@ -29,6 +30,10 @@
 #ifndef TRUE
 #define TRUE 1
 #endif
+
+#define HARPOON_MAX_UNBLOCKED_APPS 3
+#define HARPOON_WINDOW_CLASS "HarpoonNotificationWindow"
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -40,7 +45,7 @@ extern "C" {
 #define HARPOON_API __declspec(dllimport)
 #endif
 
-typedef enum 
+typedef enum
 {
   HARPOON_NOTHING = -1,
   HARPOON_BUTTON_PRESS = 0,
@@ -79,21 +84,25 @@ typedef union HarpoonEventUnion
   HarpoonEventMouse mouse;
   HarpoonEventKeyboard keyboard;
 } HarpoonEvent;
-  
+
 
 
 
 typedef void (* HarpoonHookFunc) (HarpoonEvent *event);
 
 
-HARPOON_API BOOL harpoon_init (void);
+HARPOON_API BOOL harpoon_init(
+    char imported_critical_filename_list[][ 511 ], BOOL debug );
 HARPOON_API void harpoon_exit (void);
 
-HARPOON_API void harpoon_unhook ();
-HARPOON_API void harpoon_hook (HarpoonHookFunc func);
+HARPOON_API void harpoon_unhook();
+HARPOON_API BOOL harpoon_hook(
+    HarpoonHookFunc func, BOOL keyboard_lowlevel, BOOL mouse_lowlevel );
 
-HARPOON_API void harpoon_block_input_except_for (HWND *unblocked);
-HARPOON_API void harpoon_unblock_input (void);
+HARPOON_API void harpoon_block_input(void);
+HARPOON_API void harpoon_unblock_input(void);
+
+HARPOON_API char *_mbstrncpy_lowercase( const char *, const char *, int );
 
 #ifdef __cplusplus
 }

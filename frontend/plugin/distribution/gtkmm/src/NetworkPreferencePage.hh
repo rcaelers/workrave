@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -44,10 +44,10 @@ namespace Gtk
 class NetworkPreferencePage
   : public Gtk::VBox
 {
-public:  
+public:
   NetworkPreferencePage();
   ~NetworkPreferencePage();
-  
+
 private:
   void init_page_values();
   void create_general_page(Gtk::Notebook *tnotebook);
@@ -68,13 +68,13 @@ private:
   void on_row_deleted(const Gtk::TreeModel::Path& path);
   void on_hostname_edited(const Glib::ustring& path_string, const Glib::ustring& new_text);
   void on_port_edited(const Glib::ustring& path_string, const Glib::ustring& new_text);
-  
+
   void update_peers();
 
   void remove_peer(const Gtk::TreeModel::iterator &iter);
 
   IDistributionManager *dist_manager;
-  
+
   Gtk::Label *password2_label;
   Gtk::Entry *peers_entry;
   Gtk::Entry *username_entry;
@@ -86,7 +86,7 @@ private:
 
   Gtk::Button *remove_btn;
   Gtk::Button *add_btn;
-  
+
   struct ModelColumns : public Gtk::TreeModelColumnRecord
   {
     Gtk::TreeModelColumn<std::string> hostname;

@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -34,8 +34,8 @@
 
 class TimerBox;
 
-class CDeskBand : public IDeskBand, 
-                  public IInputObject, 
+class CDeskBand : public IDeskBand,
+                  public IInputObject,
                   public IObjectWithSite,
                   public IPersistStream,
                   public IContextMenu
@@ -86,7 +86,7 @@ public:
   STDMETHOD (GetCommandString)(UINT, UINT, LPUINT, LPSTR, UINT);
 
   HWND get_command_window() const;
-  
+
 private:
   BOOL m_bFocus;
   HWND m_hwndParent;

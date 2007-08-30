@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -118,7 +118,7 @@ MainWindow::config_changed_notify(string key)
 
 
 bool
-MainWindow::get_always_on_top() 
+MainWindow::get_always_on_top()
 {
   bool b;
   bool rc;
@@ -141,7 +141,7 @@ MainWindow::set_always_on_top(bool b)
 
 
 bool
-MainWindow::get_start_in_tray() 
+MainWindow::get_start_in_tray()
 {
   bool b;
   bool rc;

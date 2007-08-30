@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -46,7 +46,7 @@ public:
 
   //! Kills the thread.
   virtual ~Thread();
-  
+
   //! Yields processor to another thread.
   void yield();
 
@@ -71,7 +71,7 @@ public:
   {
     return running;
   }
-    
+
   //! Starts the thread.
   virtual void start();
 
@@ -80,16 +80,16 @@ public:
 
   //! Waits until the thread is dead.
   void wait();
-  
+
   //! thread entry.
   void internal_run();
 
   //! Method that is run by this thread unless a Runnable object is supplied.
   virtual void run();
 
-  //! Lets this thread sleep for the specified time. 
+  //! Lets this thread sleep for the specified time.
   static void sleep(long millis, int nanos = 0);
-  
+
 private:
   static void *thread_handler(void* arg);
 

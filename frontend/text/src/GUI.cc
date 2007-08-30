@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -76,7 +76,7 @@ GUI::GUI(int argc, char **argv)  :
 
   assert(! instance);
   instance = this;
-  
+
   this->argc = argc;
   this->argv = argv;
 
@@ -139,7 +139,7 @@ GUI::main()
 
   // The main status window.
   main_window = new MainWindow();
-  
+
   GMainLoop *main_loop = g_main_loop_new(NULL, FALSE);
 
   g_timeout_add(1000, static_on_timer, this);
@@ -154,7 +154,7 @@ GUI::main()
   // Disable Windows structural exception handling.
   __except1;
 #endif
-  
+
   TRACE_EXIT();
 }
 
@@ -168,7 +168,7 @@ GUI::terminate()
   CoreFactory::get_configurator()->save();
 
   collect_garbage();
-  
+
   // g_main_loop_quit(main_loop);
   TRACE_EXIT();
 }
@@ -189,7 +189,7 @@ GUI::on_timer()
     }
 
   collect_garbage();
-  
+
   return true;
 }
 
@@ -221,7 +221,7 @@ GUI::init_debug()
                         (GLogLevelFlags) (G_LOG_LEVEL_MASK | G_LOG_FLAG_FATAL | G_LOG_FLAG_RECURSION),
                         my_log_handler, NULL);
     }
-  
+
 #endif
 }
 
@@ -293,7 +293,7 @@ GUI::create_break_window(BreakId break_id, bool ignorable)
     }
   else if (break_id == BREAK_ID_REST_BREAK)
     {
-      ret = new BreakWindow(break_id, ignorable, block_mode); 
+      ret = new BreakWindow(break_id, ignorable, block_mode);
     }
   else if (break_id == BREAK_ID_DAILY_LIMIT)
     {
@@ -316,7 +316,7 @@ GUI::start_prelude_window(BreakId break_id)
 {
   hide_break_window();
   collect_garbage();
-  
+
   active_break_id = break_id;
 
   prelude_window = new PreludeWindow(break_id);
@@ -332,7 +332,7 @@ GUI::start_break_window(BreakId break_id, bool ignorable)
 
   hide_break_window();
   collect_garbage();
-  
+
   active_break_id = break_id;
 
   break_window = create_break_window(break_id, ignorable);
@@ -343,7 +343,7 @@ GUI::start_break_window(BreakId break_id, bool ignorable)
     {
       /// XXX: grab keyboard and mouse
     }
-  
+
   TRACE_EXIT();
 }
 
@@ -358,7 +358,7 @@ GUI::hide_break_window()
       prelude_window->stop();
       prelude_window_destroy = true;
     }
-  
+
   if (break_window != NULL)
     {
       break_window->stop();
@@ -366,7 +366,7 @@ GUI::hide_break_window()
     }
 
   // XXX: release the mouse/keyboard grab
-  
+
   TRACE_EXIT();
 }
 
@@ -413,7 +413,7 @@ GUI::set_prelude_stage(PreludeStage stage)
 
 void
 GUI::set_prelude_progress_text(PreludeProgressText text)
-{ 
+{
   if (prelude_window != NULL)
     {
       prelude_window->set_progress_text(text);
@@ -434,7 +434,7 @@ GUI::collect_garbage()
         }
       prelude_window_destroy = false;
     }
-  
+
   if (break_window_destroy)
     {
       if (break_window != NULL)

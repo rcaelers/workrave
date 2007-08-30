@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -62,7 +62,7 @@ static const char rcsid[] = "$Id$";
 #include <gdk/gdk.h>
 #endif
 
-#ifndef HAVE_APP_GTK  
+#ifndef HAVE_APP_GTK
 //! Intercepts X11 protocol errors.
 static int
 errorHandler(Display *dpy, XErrorEvent *error)
@@ -134,7 +134,7 @@ X11InputMonitor::X11InputMonitor(const char *name) :
     {
       x11_display_name = strdup(name); // FIXME: LEAK
     }
-  
+
   monitor_thread = new Thread(this); // FIXME: LEAK
 }
 
@@ -163,11 +163,12 @@ X11InputMonitor::~X11InputMonitor()
 }
 
 
-void
+bool
 X11InputMonitor::init(IInputMonitorListener *l)
 {
   this->listener = l;
   monitor_thread->start();
+  return true;
 }
 
 void
@@ -220,27 +221,27 @@ X11InputMonitor::run_events()
 {
   TRACE_ENTER("X11InputMonitor::run_events");
 
-  root_window = DefaultRootWindow(x11_display);  
+  root_window = DefaultRootWindow(x11_display);
 
   set_all_events(root_window);
 
-#ifdef HAVE_APP_GTK  
+#ifdef HAVE_APP_GTK
   gdk_error_trap_push();
 #else
   int (*old_handler)(Display *dpy, XErrorEvent *error);
   old_handler = XSetErrorHandler(&errorHandler);
 #endif
-  
+
   XGrabButton(x11_display, AnyButton, AnyModifier, root_window, True,
               ButtonPressMask, GrabModeSync, GrabModeAsync, None, None);
   XSync(x11_display,False);
 
-#ifdef HAVE_APP_GTK  
+#ifdef HAVE_APP_GTK
   gdk_error_trap_pop();
 #else
   XSetErrorHandler(old_handler);
 #endif
-  
+
   Window lastMouseRoot = 0;
   while (1)
     {
@@ -252,7 +253,7 @@ X11InputMonitor::run_events()
           TRACE_EXIT();
           return;
         }
-      
+
       if (gotEvent)
         {
           switch (event.xany.type)
@@ -260,7 +261,7 @@ X11InputMonitor::run_events()
             case KeyPress:
               handle_keypress(&event);
               break;
-            
+
             case CreateNotify:
               handle_create(&event);
               break;
@@ -289,15 +290,15 @@ X11InputMonitor::run_events()
 void
 X11InputMonitor::set_event_mask(Window window)
 {
-  XWindowAttributes 	attrs;
-  unsigned long 	events;
-  Window 		root,parent,*children;
-  unsigned int 		nchildren;
-  char			*name;
+  XWindowAttributes   attrs;
+  unsigned long   events;
+  Window    root,parent,*children;
+  unsigned int    nchildren;
+  char      *name;
 
   if (!XQueryTree(x11_display, window, &root, &parent, &children, &nchildren))
     return;
-  
+
   if (XFetchName(x11_display, window, &name))
     {
       //printf("Watching: %s\n", name);
@@ -306,14 +307,14 @@ X11InputMonitor::set_event_mask(Window window)
 
   if (parent == None)
     {
-      attrs.all_event_masks = 
+      attrs.all_event_masks =
       attrs.do_not_propagate_mask = KeyPressMask;
     }
   else
     {
       XGetWindowAttributes(x11_display, window, &attrs);
     }
-  
+
   events=((attrs.all_event_masks | attrs.do_not_propagate_mask) & KeyPressMask);
 
   XSelectInput(x11_display, window, SubstructureNotifyMask|PropertyChangeMask|EnterWindowMask|events);
@@ -333,9 +334,9 @@ void
 X11InputMonitor::set_all_events(Window window)
 {
 
-#ifdef HAVE_APP_GTK  
+#ifdef HAVE_APP_GTK
   gdk_error_trap_push();
-#else          
+#else
   int (*old_handler)(Display *dpy, XErrorEvent *error);
   old_handler = XSetErrorHandler(&errorHandler);
 #endif
@@ -343,7 +344,7 @@ X11InputMonitor::set_all_events(Window window)
   set_event_mask(window);
   XSync(x11_display,False);
 
-#ifdef HAVE_APP_GTK  
+#ifdef HAVE_APP_GTK
   gdk_error_trap_pop();
 #else
   XSetErrorHandler(old_handler);
@@ -370,7 +371,7 @@ void
 X11InputMonitor::handle_button(XEvent *event)
 {
   (void) event;
-  
+
   XSync(x11_display, 0);
   XAllowEvents(x11_display, ReplayPointer, CurrentTime);
   XSync(x11_display, 0);
@@ -380,7 +381,7 @@ X11InputMonitor::handle_button(XEvent *event)
       int b = event->xbutton.button;
       // FIXME: this is a hack. XGrabButton does not generate a button release
       // event...
-      
+
       listener->button_notify(b, true);
       listener->button_notify(b, false);
     }
@@ -461,7 +462,7 @@ X11InputMonitor::handle_xrecord_callback(XPointer closure, XRecordInterceptData 
     case XRecordClientDied:
     case XRecordEndOfData:
       break;
-      
+
     case XRecordFromServer:
       event = (xEvent *)data->data;
 
@@ -485,7 +486,7 @@ void
 X11InputMonitor::run_xrecord()
 {
   TRACE_ENTER("X11InputMonitor::run_xrecord");
-    
+
   init_xrecord();
 
   if (use_xrecord &&
@@ -569,9 +570,9 @@ X11InputMonitor::stop_xrecord()
       XFlush(xrecord_datalink);
       XCloseDisplay(x11_display);
     }
-  
+
   TRACE_EXIT();
   return true;
 }
- 
+
 #endif

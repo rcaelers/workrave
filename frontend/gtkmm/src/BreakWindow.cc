@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -55,9 +55,19 @@ static const char rcsid[] = "$Id$";
  */
 BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
                          bool ignorable, GUI::BlockMode mode) :
+#ifdef WIN32
+/*
+ Windows will have a gtk toplevel window regardless of mode.
+ Hopefully this takes care of the phantom parent problem.
+ Also, the break window title now appears on the taskbar, and
+ it will show up in Windows Task Manager's application list.
+*/
+         Gtk::Window( Gtk::WINDOW_TOPLEVEL ),
+#else
          Gtk::Window(mode==GUI::BLOCK_MODE_NONE
                      ? Gtk::WINDOW_TOPLEVEL
                      : Gtk::WINDOW_POPUP),
+#endif
          block_mode(mode),
          ignorable_break(ignorable),
          frame(NULL),
@@ -68,15 +78,21 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
 
 #ifdef WIN32
   desktop_window = NULL;
+
+  if( mode != GUI::BLOCK_MODE_NONE )
+  {
+    // Disable titlebar to appear like a popup
+    set_decorated( false );
+  }
 #endif
-  
+
 #ifdef HAVE_X
   GtkUtil::set_wmclass(*this, "Break");
 #endif
 
   // On W32, must be *before* realize, otherwise a border is drawn.
   set_resizable(false);
-  
+
   // Need to realize window before it is shown
   // Otherwise, there is not gobj()...
   realize();
@@ -106,7 +122,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
     }
 
 #endif
-  
+
   ICore *core = CoreFactory::get_core();
   assert(core != NULL);
   core->set_insist_policy(initial_ignore_activity ?
@@ -170,7 +186,7 @@ BreakWindow::init_gui()
         }
       show_all_children();
       stick();
-  
+
       // Set window hints.
       WindowHints::set_skip_winlist(Gtk::Widget::gobj(), true);
       WindowHints::set_always_on_top(Gtk::Widget::gobj(), true);
@@ -184,7 +200,7 @@ BreakWindow::init_gui()
 }
 
 
-        
+
 //! Destructor.
 BreakWindow::~BreakWindow()
 {
@@ -194,7 +210,7 @@ BreakWindow::~BreakWindow()
     {
       frame->set_frame_flashing(0);
     }
-  
+
 #ifdef WIN32
   delete desktop_window;
 #endif
@@ -396,14 +412,14 @@ BreakWindow::start()
 #ifdef WIN32
   if (desktop_window)
     desktop_window->set_visible(true);
-#endif  
+#endif
   show_all();
 
   // Set window hints.
   WindowHints::set_skip_winlist(Gtk::Widget::gobj(), true);
   WindowHints::set_always_on_top(Gtk::Widget::gobj(), true);
   raise();
-  
+
 #ifdef CAUSES_FVWM_FOCUS_PROBLEMS
   present(); // After grab() please (Windows)
 #endif
@@ -423,12 +439,12 @@ BreakWindow::stop()
     {
       frame->set_frame_flashing(0);
     }
-  
+
   hide_all();
 #ifdef WIN32
   if (desktop_window)
     desktop_window->set_visible(false);
-#endif  
+#endif
 
   TRACE_EXIT();
 }

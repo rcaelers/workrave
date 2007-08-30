@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -28,7 +28,7 @@ TimerBox::TimerBox(HWND parent, HINSTANCE hinst, CDeskBand *deskband)
   const char *icon_ids[] = { "micropause", "restbreak", "dailylimit" };
   sheep_icon = new Icon(parent, hinst, "workrave", deskband);
 
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++) 
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       slot_to_time_bar[i] = new TimeBar(parent, hinst, deskband);
       break_to_icon[i] = new Icon(parent, hinst, icon_ids[i], deskband);
@@ -43,9 +43,9 @@ TimerBox::TimerBox(HWND parent, HINSTANCE hinst, CDeskBand *deskband)
 }
 
 
-TimerBox::~TimerBox() 
+TimerBox::~TimerBox()
 {
-  for (int i = 0; i < BREAK_ID_SIZEOF; i++) 
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       delete break_to_icon[i];
       delete slot_to_time_bar[i];
@@ -54,7 +54,7 @@ TimerBox::~TimerBox()
 }
 
 
-void 
+void
 TimerBox::set_slot(int slot, BreakId brk)
 {
   BreakId old_brk = slot_to_break[slot];
@@ -85,7 +85,7 @@ TimerBox::set_slot(int slot, BreakId brk)
 }
 
 
-void 
+void
 TimerBox::set_size(int w, int h)
 {
   width = w;
@@ -93,7 +93,7 @@ TimerBox::set_size(int w, int h)
 }
 
 
-void 
+void
 TimerBox::update(bool repaint)
 {
   TransparentDamageControl ctrl;
@@ -104,14 +104,14 @@ TimerBox::update(bool repaint)
 }
 
 
-void 
+void
 TimerBox::update_sheep(TransparentDamageControl &ctrl)
 {
   if (enabled && (filled_slots != 0))
     {
       ctrl.HideWindow(sheep_icon->get_handle());
     }
-  else 
+  else
     {
       int w, h;
       sheep_icon->get_size(w, h);
@@ -122,7 +122,7 @@ TimerBox::update_sheep(TransparentDamageControl &ctrl)
 }
 
 
-void 
+void
 TimerBox::update_time_bars(TransparentDamageControl &ctrl)
 {
   if (enabled)
@@ -139,11 +139,11 @@ TimerBox::update_time_bars(TransparentDamageControl &ctrl)
       int box_h = rows * __max(icon_height, bar_h) + (rows -1) * PADDING_Y;
       y = __max(0, (height - box_h)/2);
 
-      for (int i = 0; i < BREAK_ID_SIZEOF; i++) 
+      for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
           BreakId bid = slot_to_break[i];
 
-          if (bid != BREAK_ID_NONE) 
+          if (bid != BREAK_ID_NONE)
             {
               TimeBar *bar = get_time_bar(bid);
 
@@ -168,7 +168,7 @@ TimerBox::update_time_bars(TransparentDamageControl &ctrl)
           ctrl.HideWindow(break_to_icon[h]->get_handle());
         }
     }
-  for (int j = enabled ? filled_slots : 0; j < BREAK_ID_SIZEOF; j++) 
+  for (int j = enabled ? filled_slots : 0; j < BREAK_ID_SIZEOF; j++)
     {
       ctrl.HideWindow(slot_to_time_bar[j]->get_handle());
     }

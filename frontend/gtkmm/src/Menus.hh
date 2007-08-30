@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -47,7 +47,7 @@ class TimerBoxAppletView;
 class Menus :
   public SigC::Object
 {
-public:  
+public:
   Menus();
   ~Menus();
 
@@ -71,7 +71,7 @@ public:
     };
 
   void create_menu(MenuKind kind);
-  
+
   void popup(const MenuKind kind,
              const guint button,
              const guint activate_time);
@@ -96,13 +96,13 @@ private:
   static gboolean win32_popup_hack_leave_enter(GtkWidget *menu,
                                                GdkEventCrossing *event,
                                                void *data);
-#endif  
-  
+#endif
+
 
   void sync_mode_menu(int mode);
   void sync_log_menu(bool active);
   void set_operation_mode(OperationMode m);
-  
+
 #ifdef HAVE_DISTRIBUTION
   void on_menu_network_log_main_window();
   void on_menu_network_log_tray();
@@ -113,19 +113,19 @@ private:
   void on_preferences_response(int response);
 #ifdef HAVE_EXERCISES
   void on_exercises_response(int response);
-#endif  
+#endif
   void on_menu_normal_menu(Gtk::CheckMenuItem *);
   void on_menu_suspend_menu(Gtk::CheckMenuItem *);
   void on_menu_quiet_menu(Gtk::CheckMenuItem *);
-  
-public:  
+
+public:
   // Menu actions.
   void on_menu_open_main_window();
   void on_menu_restbreak_now();
   void on_menu_about();
   void on_menu_quit();
   void on_menu_preferences();
-#ifdef HAVE_EXERCISES  
+#ifdef HAVE_EXERCISES
   void on_menu_exercises();
 #endif
   void on_menu_statistics();
@@ -148,9 +148,9 @@ private:
   //! The one and only instance
   static Menus *instance;
 
-  //! 
+  //!
   Gtk::Menu *menus[MENU_SIZEOF];
-  
+
 #if defined(HAVE_GNOME) || defined(WIN32)
   //! The applet windows
   AppletWindow *applet_window;
@@ -163,7 +163,7 @@ private:
 
   // The Statistics dialog.
   StatisticsDialog *statistics_dialog;
-  
+
   // The Statistics dialog.
   PreferencesDialog *preferences_dialog;
 

@@ -4,18 +4,18 @@
  * Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
  * All rights reserved.
  *
- * Time-stamp: <2003-04-08 20:30:07 robc>
+ * Time-stamp: <2007-08-30 16:03:01 robc>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2, or (at your option)
  * any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * $Id$
  *
  */
@@ -93,12 +93,12 @@
         static void x ## _init(y *) ;                                        		\
         static GType x ## _get_type() ;                                        		\
         static WR_CLASS * x ## _new(void) ;                                        \
-         
+
 #define WR_INIT2(x,y) WR_INIT1(x,y)
 #define WR_INIT3() WR_INIT2(WR_PREFIX, WR_CLASS)
 
 
 #define WR_METHOD_REGISTER(x) WR_REG_METHOD3(x)
 #define WR_INIT() WR_INIT3()
-     
+
 #endif /* MACROS_H */

@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -81,7 +81,7 @@ GnomeAppletWindow::activate_applet()
 {
   TRACE_ENTER("GnomeAppletWindow::init_gnome_applet");
   bool ok = true;
-  
+
   if (!applet_active)
     {
       // Initialize bonobo activation.
@@ -97,7 +97,7 @@ GnomeAppletWindow::activate_applet()
           applet_control = bonobo_activation_activate_from_id("OAFIID:GNOME_Workrave_AppletControl",
                                                               Bonobo_ACTIVATION_FLAG_EXISTING_ONLY, NULL, &ev);
         }
-  
+
       // Socket ID of the applet.
       long id = 0;
       if (applet_control != NULL && !BONOBO_EX(&ev))
@@ -125,7 +125,7 @@ GnomeAppletWindow::activate_applet()
       if (ok)
         {
           // Initialize applet GUI.
-      
+
           Gtk::Alignment *frame = new Gtk::Alignment(0.0, 0.0, 0.0, 0.0);
           frame->set_border_width(0);
 
@@ -135,24 +135,24 @@ GnomeAppletWindow::activate_applet()
           plug->add(*frame);
 
           plug->set_events(plug->get_events() | Gdk::BUTTON_PRESS_MASK | Gdk::BUTTON_RELEASE_MASK);
-      
+
           plug->signal_embedded().connect(MEMBER_SLOT(*this, &GnomeAppletWindow::on_embedded));
           plug->signal_delete_event().connect(MEMBER_SLOT(*this, &GnomeAppletWindow::delete_event));
 
           // Gtkmm does not wrap this event....
           g_signal_connect(G_OBJECT(plug->gobj()), "destroy-event",
                            G_CALLBACK(GnomeAppletWindow::destroy_event), this);
-      
+
           view = new TimerBoxGtkView();
           timer_box_view = view;
           timer_box_control = new TimerBoxControl("applet", *timer_box_view);
-            
+
           view->set_geometry(applet_orientation, applet_size);
           view->show_all();
-      
+
           plug->signal_button_press_event().connect(MEMBER_SLOT(*this, &GnomeAppletWindow::on_button_press_event));
           plug->signal_button_release_event().connect(MEMBER_SLOT(*this, &GnomeAppletWindow::on_button_press_event));
-      
+
           container->add(*view);
           container->show_all();
           plug->show_all();
@@ -161,7 +161,7 @@ GnomeAppletWindow::activate_applet()
 
           // Tray menu
           menus->create_menu(Menus::MENU_APPLET);
-      
+
 #ifndef HAVE_EXERCISES
           GNOME_Workrave_AppletControl_set_menu_active(applet_control, "/commands/Exercises", false, &ev);
 #endif
@@ -174,7 +174,7 @@ GnomeAppletWindow::activate_applet()
         {
           applet_control = NULL;
         }
-  
+
       CORBA_exception_free(&ev);
     }
 
@@ -182,7 +182,7 @@ GnomeAppletWindow::activate_applet()
     {
       applet_active = true;
     }
-  
+
   TRACE_EXIT();
   return ok ?
     AppletWindow::APPLET_STATE_VISIBLE :
@@ -204,7 +204,7 @@ GnomeAppletWindow::deactivate_applet()
           delete plug;
           plug = NULL;
         }
-      
+
       if (container != NULL)
         {
           container->remove();
@@ -214,14 +214,14 @@ GnomeAppletWindow::deactivate_applet()
 
       delete timer_box_control;
       timer_box_control = NULL;
-      
+
       delete timer_box_view;
       timer_box_view = NULL;
       view = NULL;
-      
+
       applet_control = NULL; // FIXME: free memory.
     }
-        
+
   applet_active = false;
   TRACE_EXIT();
 }
@@ -239,7 +239,7 @@ GnomeAppletWindow::delete_event(GdkEventAny *event)
   TRACE_EXIT();
   return true;
 }
-    
+
 
 //! Fires up the applet (as requested by the native gnome applet).
 void
@@ -258,7 +258,7 @@ GnomeAppletWindow::set_applet_control(GNOME_Workrave_AppletControl applet_contro
     {
       // FIXME: free old interface
     }
-  
+
   this->applet_control = applet_control;
 
   control->show(AppletControl::APPLET_GNOME);
@@ -347,7 +347,7 @@ GnomeAppletWindow::set_applet_orientation(Orientation o)
     {
       view->set_geometry(applet_orientation, applet_size);
     }
-  
+
   TRACE_EXIT();
 }
 
@@ -362,14 +362,14 @@ GnomeAppletWindow::set_applet_size(int size)
     {
       plug->queue_resize();
     }
-  
+
   applet_size = size;
 
   if (view != NULL)
     {
       view->set_geometry(applet_orientation, applet_size);
     }
-  
+
   TRACE_EXIT();
 }
 
@@ -388,11 +388,11 @@ GnomeAppletWindow::set_applet_background(int type, GdkColor &color, long xid)
   // FIXME: convert to Gtkmm and check for memory leaks.
   GtkWidget *widget = GTK_WIDGET(plug->gobj());
   GdkPixmap *pixmap = NULL;
-  
+
   if (type == 2)
     {
       int width, height;
-      
+
       gdk_error_trap_push();
       GdkPixmap *orig_pixmap = gdk_pixmap_foreign_new(xid);
 
@@ -403,7 +403,7 @@ GnomeAppletWindow::set_applet_background(int type, GdkColor &color, long xid)
           GdkPixbuf *pbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, FALSE, 8, width, height);
           GdkWindow *rootwin = gdk_get_default_root_window ();
           GdkColormap *cmap = gdk_drawable_get_colormap(GDK_DRAWABLE(rootwin));
-                
+
           gdk_pixbuf_get_from_drawable (pbuf, orig_pixmap, cmap, 0, 0,
                                         0, 0, width , height);
 
@@ -418,20 +418,20 @@ GnomeAppletWindow::set_applet_background(int type, GdkColor &color, long xid)
               gdk_drawable_set_colormap(GDK_DRAWABLE(pixmap),
                                         gdk_drawable_get_colormap(
                                                                   gdk_get_default_root_window()));
-              
+
             }
 
           g_object_unref(G_OBJECT(orig_pixmap));
           g_object_unref(G_OBJECT(pbuf));
         }
     }
-  
+
   GtkRcStyle *rc_style = gtk_rc_style_new();
   GtkStyle *style = NULL;
-  
+
   gtk_widget_set_style (widget, NULL);
   gtk_widget_modify_style (widget, rc_style);
-  
+
   switch (type)
     {
     case 0: //PANEL_NO_BACKGROUND:
@@ -456,10 +456,10 @@ GnomeAppletWindow::set_applet_background(int type, GdkColor &color, long xid)
     {
       g_object_unref(G_OBJECT(pixmap));
     }
-  
+
   TRACE_EXIT();
 }
-  
+
 //! Destroy notification.
 gboolean
 GnomeAppletWindow::destroy_event(GtkWidget *widget, GdkEvent *event, gpointer user_data)
@@ -492,11 +492,11 @@ GnomeAppletWindow::on_button_press_event(GdkEventButton *event)
    * Copyright 2001, Ximian, Inc.
    *                 Martin Baulig.
    */
-      
+
   XEvent xevent;
   GtkWidget *widget = GTK_WIDGET(plug->gobj());
   bool ok = false;
-      
+
   if (event->type == GDK_BUTTON_PRESS)
     {
       xevent.xbutton.type = ButtonPress;
@@ -540,15 +540,15 @@ GnomeAppletWindow::on_button_press_event(GdkEventButton *event)
       xevent.xbutton.time        = event->time;
 
       gdk_error_trap_push();
-          
+
       XSendEvent(GDK_WINDOW_XDISPLAY(widget->window),
                  GDK_WINDOW_XWINDOW(GTK_PLUG(widget)->socket_window),
                  False, NoEventMask, &xevent);
-          
+
       gdk_flush();
       gdk_error_trap_pop();
     }
-      
+
   return ret;
 }
 

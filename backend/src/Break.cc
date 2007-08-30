@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -49,7 +49,7 @@ const string Break::CFG_KEY_BREAK_EXERCISES = "/exercises";
 struct Defaults
 {
   string name;
-  
+
   // Timer settings.
   int limit;
   int auto_reset;
@@ -68,7 +68,7 @@ struct Defaults
       // FIXME: Rename to micro_break, but in a backwards compatible manner.
       "micro_pause",
       3*60, 30, "", 150,
-      3, -1, true,  
+      3, -1, true,
       0,
     },
 
@@ -78,7 +78,7 @@ struct Defaults
       3, -1, true,
       3
     },
-    
+
     {
       "daily_limit",
       14400, 0, "day/4:00", 20 * 60,
@@ -179,10 +179,10 @@ Break::init_timer()
   update_timer_config();
   load_timer_config();
   load_timer_monitor_config();
-  
+
   timer->enable();
   timer->stop_timer();
-  
+
   configurator->add_listener(CFG_KEY_TIMER_PREFIX + break_name, this);
 }
 
@@ -195,7 +195,7 @@ Break::update_timer_config()
   set_timer_reset_pred(get_timer_reset_pred());
   set_timer_snooze(get_timer_snooze());
   set_timer_activity_sensitive(get_timer_activity_sensitive());
-  
+
 }
 
 //! Load the configuration of the timer.
@@ -369,7 +369,7 @@ Break::get_timer_monitor() const
 {
   string rc;
   configurator->get_value(timer_prefix + CFG_KEY_TIMER_MONITOR, &rc);
-  
+
   return rc;
 }
 
@@ -499,10 +499,10 @@ Break::starts_with(string &key, string prefix, string &name)
 {
   TRACE_ENTER_MSG("Break::starts_with", key << " " << prefix);
   bool ret = false;
-  
+
   // Search prefix (just in case some Configurator added a leading /)
   string::size_type pos = key.rfind(prefix);
-  
+
   if (pos != string::npos)
     {
       TRACE_MSG(pos);

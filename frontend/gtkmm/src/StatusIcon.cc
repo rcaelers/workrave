@@ -1,13 +1,13 @@
 // StatusIcon.cc --- Status icon
 //
-// Copyright (C) 2006 Rob Caelers & Raymond Penners
+// Copyright (C) 2006, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -66,7 +66,7 @@ StatusIcon::insert_icon()
 {
   // Create status icon
   ICore *core = CoreFactory::get_core();
-  OperationMode mode = core->get_operation_mode();      
+  OperationMode mode = core->get_operation_mode();
   status_icon = Gtk::StatusIcon::create(mode_icons[mode]);
 
   // Hook up signals, missing from gtkmm
@@ -76,7 +76,7 @@ StatusIcon::insert_icon()
                    reinterpret_cast<GCallback>(activate_callback), this);
   g_signal_connect(gobj, "popup-menu",
                    reinterpret_cast<GCallback>(popup_menu_callback), this);
-  
+
 }
 
 void StatusIcon::set_operation_mode(OperationMode m)
@@ -91,6 +91,9 @@ void StatusIcon::on_activate()
 
 void StatusIcon::on_popup_menu(guint button, guint activate_time)
 {
+  (void) button;
+
+  // Note the 1 is a hack. It used to be button. See bugzilla 598
   Menus::get_instance()->popup(Menus::MENU_APPLET, 1 , activate_time);
 }
 

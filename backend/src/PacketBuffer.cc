@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -57,12 +57,12 @@ PacketBuffer::create(int size)
     {
       g_free(buffer);
     }
-  
+
   if (size == 0)
     {
       size = 1024;
     }
-  
+
   buffer = g_new(guint8, size);
   read_ptr = buffer;
   write_ptr = buffer;
@@ -80,17 +80,17 @@ PacketBuffer::resize(int size)
     {
       size = 1024;
     }
-  
+
   if (size != buffer_size && buffer != NULL)
     {
       int read_offset = read_ptr - buffer;
       int write_offset = write_ptr - buffer;
-      
+
       if (read_offset >= size)
         {
           read_offset = size - 1;
         }
-      
+
       if (write_offset >= size)
         {
           write_offset = size - 1;
@@ -101,7 +101,7 @@ PacketBuffer::resize(int size)
       buffer = g_renew(guint8, buffer, size);
 
       //TRACE_MSG(buffer);
-      
+
       read_ptr = buffer + read_offset;
       write_ptr = buffer + write_offset;
       buffer_size = size;
@@ -131,7 +131,7 @@ PacketBuffer::pack(const guint8 *data, int size)
   {
     grow(size + 2);
   }
-  
+
   pack_ushort(size);
   memcpy(write_ptr, data, size);
   write_ptr += size;
@@ -155,19 +155,19 @@ PacketBuffer::pack_raw(const guint8 *data, int size)
 void
 PacketBuffer::pack_string(const gchar *data)
 {
-  int size = 0;  
+  int size = 0;
   if (data != NULL)
     {
       size = strlen(data);
     }
-  
+
   if (write_ptr + size + 2 >= buffer + buffer_size)
   {
     grow(size + 2);
   }
 
   pack_ushort(size);
-  
+
   if (size > 0)
     {
       memcpy(write_ptr, data, size);
@@ -178,19 +178,19 @@ PacketBuffer::pack_string(const gchar *data)
 void
 PacketBuffer::poke_string(int pos, const gchar *data)
 {
-  int size = 0;  
+  int size = 0;
   if (data != NULL)
     {
       size = strlen(data);
     }
-  
+
   if (pos + size + 2 >= buffer_size)
   {
     grow(size + 2);
   }
 
   poke_ushort(pos, size);
-  
+
   if (size > 0)
     {
       memcpy(buffer + pos + 2, data, size);
@@ -209,7 +209,7 @@ PacketBuffer::pack_ushort(guint16 data)
   guint8 *w = (guint8 *)write_ptr;
   w[0] = ((data & 0x0000ff00) >> 8);
   w[1] = ((data & 0x000000ff));
-  
+
   write_ptr += 2;
 }
 
@@ -227,7 +227,7 @@ PacketBuffer::pack_ulong(guint32 data)
   w[1] = ((data & 0x00ff0000) >> 16);
   w[2] = ((data & 0x0000ff00) >> 8);
   w[3] = ((data & 0x000000ff));
-  
+
   write_ptr += 4;
 }
 
@@ -252,7 +252,7 @@ PacketBuffer::poke_byte(int pos, guint8 data)
     {
       grow(pos + 1 - buffer_size);
     }
-  
+
   buffer[pos] = data;
 }
 
@@ -263,12 +263,12 @@ PacketBuffer::poke_ushort(int pos, guint16 data)
     {
       grow(pos + 2 - buffer_size);
     }
-  
+
   guint8 *w = (guint8 *)buffer;
 
   w[pos] = ((data & 0x0000ff00) >> 8);
   w[pos + 1] = ((data & 0x000000ff));
-    
+
 }
 
 
@@ -276,11 +276,11 @@ int
 PacketBuffer::unpack(guint8 **data)
 {
   g_assert(data != NULL);
-  
+
   int size = unpack_ushort();
 
   guint8 *r = (guint8 *)read_ptr;
-  
+
   if (read_ptr + size <= buffer + buffer_size)
     {
       *data = g_new(guint8, size);
@@ -291,7 +291,7 @@ PacketBuffer::unpack(guint8 **data)
     {
       size = 0;
     }
-  
+
   return size;
 }
 
@@ -300,9 +300,9 @@ int
 PacketBuffer::unpack_raw(guint8 **data, int size)
 {
   g_assert(data != NULL);
-  
+
   guint8 *r = (guint8 *)read_ptr;
-  
+
   if (read_ptr + size <= buffer + buffer_size)
     {
       *data = g_new(guint8, size);
@@ -313,7 +313,7 @@ PacketBuffer::unpack_raw(guint8 **data, int size)
     {
       size = 0;
     }
-  
+
   return size;
 }
 
@@ -322,7 +322,7 @@ gchar *
 PacketBuffer::unpack_string()
 {
   gchar *str = NULL;
-  
+
   if (read_ptr + 2 <= buffer + buffer_size)
     {
       int length = unpack_ushort();
@@ -335,11 +335,11 @@ PacketBuffer::unpack_string()
               str[i] = *read_ptr;
               read_ptr++;
             }
-        
+
           str[length] = '\0';
         }
     }
-  
+
   return str;
 }
 
@@ -358,7 +358,7 @@ PacketBuffer::unpack_ulong()
              ((guint32)(r[3])));
       read_ptr +=4;
     }
-  
+
   return ret;
 }
 
@@ -396,9 +396,9 @@ int
 PacketBuffer::peek(int pos, guint8 **data)
 {
   g_assert(data != NULL);
-  
+
   int size = peek_ushort(pos);
-  
+
   if (read_ptr + 2 + pos + size <= buffer + buffer_size)
     {
       *data = g_new(guint8, size);
@@ -408,7 +408,7 @@ PacketBuffer::peek(int pos, guint8 **data)
     {
       size = 0;
     }
-  
+
   return size;
 }
 
@@ -417,7 +417,7 @@ gchar *
 PacketBuffer::peek_string(int pos)
 {
   gchar *str = NULL;
-  
+
   if (read_ptr + pos + 2 <= buffer + buffer_size)
     {
       int length = peek_ushort(pos);
@@ -429,7 +429,7 @@ PacketBuffer::peek_string(int pos)
           str[length] = '\0';
         }
     }
-  
+
   return str;
 }
 
@@ -440,13 +440,13 @@ guint32 PacketBuffer::peek_ulong(int pos)
   if (read_ptr + pos + 4 <= buffer + buffer_size)
     {
       guint8 *r = (guint8 *)read_ptr;
-    
+
       ret = (((guint32)(r[pos]) << 24) +
              ((guint32)(r[pos + 1]) << 16) +
              ((guint32)(r[pos + 2]) << 8) +
              ((guint32)(r[pos + 3])));
     }
-  
+
   return ret;
 }
 
@@ -484,7 +484,7 @@ PacketBuffer::reserve_size(int &pos)
 }
 
 
-void 
+void
 PacketBuffer::update_size(int pos)
 {
   poke_ushort(pos, bytes_written() - pos - 2);
@@ -516,7 +516,7 @@ PacketBuffer::insert(int pos, int size)
   if (pos < bytes_written())
     {
       int move = bytes_written() - pos;
-      
+
       memmove(buffer + pos + size, buffer + pos, move);
 
       write_ptr += size;
@@ -545,7 +545,7 @@ PacketBuffer::narrow(int pos, int size)
         {
           pos = bytes_read();
         }
-      
+
       if (original_buffer == NULL)
         {
           original_buffer = buffer;

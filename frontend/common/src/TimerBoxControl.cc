@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -59,7 +59,7 @@ TimerBoxControl::TimerBoxControl(std::string n, ITimerBoxView &v) :
 {
   init();
 }
-  
+
 
 
 //! Destructor.
@@ -110,7 +110,7 @@ TimerBoxControl::update()
       operation_mode = mode;
       init_icon();
     }
-  
+
   // Update the timer widgets.
   update_widgets();
   view->update_view();
@@ -139,7 +139,7 @@ TimerBoxControl::init()
   TRACE_ENTER("TimerBoxControl::init");
 
   ICore *core = CoreFactory::get_core();
-  
+
   // Listen for configugration changes.
   IConfigurator *config = CoreFactory::get_configurator();
   config->add_listener(TimerBoxControl::CFG_KEY_TIMERBOX + name, this);
@@ -154,7 +154,7 @@ TimerBoxControl::init()
       break_position[i] = i;
       break_flags[i] = 0;
       break_imminent_time[i] = 0;
-      
+
       for (int j = 0; j < BREAK_ID_SIZEOF; j++)
         {
           break_slots[i][j] = -1;
@@ -166,7 +166,7 @@ TimerBoxControl::init()
   read_configuration();
 
   reconfigure = true;
-  
+
   TRACE_EXIT();
 }
 
@@ -179,11 +179,11 @@ TimerBoxControl::update_widgets()
 {
   bool node_master = true;
   int num_peers = 0;
-  
+
 #ifdef HAVE_DISTRIBUTION
   ICore *core = CoreFactory::get_core();
   IDistributionManager *dist_manager = core->get_distribution_manager();
-  
+
   if (dist_manager != NULL)
     {
       node_master = dist_manager->is_master();
@@ -203,7 +203,7 @@ TimerBoxControl::update_widgets()
       ITimeBar::ColorId secondary_color;
       int secondary_val, secondary_max;
 
-#ifdef LETS_SEE_HOW_WORKRAVE_BEHAVES_WITHOUT_THIS      
+#ifdef LETS_SEE_HOW_WORKRAVE_BEHAVES_WITHOUT_THIS
       if (!node_master && num_peers > 0)
         {
           text = _("Inactive");
@@ -221,7 +221,7 @@ TimerBoxControl::update_widgets()
             {
               continue;
             }
-      
+
           ITimer::TimerState timerState = timer->get_state();
 
           // Collect some data.
@@ -256,7 +256,7 @@ TimerBoxControl::update_widgets()
               // Timer is running, show elapsed time.
               primary_val = activeTime;
               primary_max = maxActiveTime;
-          
+
               primary_color = overdue
                 ? ITimeBar::COLOR_ID_OVERDUE : ITimeBar::COLOR_ID_ACTIVE;
 
@@ -285,11 +285,11 @@ TimerBoxControl::init_icon()
     case OPERATION_MODE_NORMAL:
       view->set_icon(ITimerBoxView::ICON_NORMAL);
       break;
-      
+
     case OPERATION_MODE_SUSPENDED:
       view->set_icon(ITimerBoxView::ICON_SUSPENDED);
       break;
-      
+
     case OPERATION_MODE_QUIET:
       view->set_icon(ITimerBoxView::ICON_QUIET);
       break;
@@ -320,7 +320,7 @@ TimerBoxControl::init_table()
         {
           init_slot(i);
         }
-  
+
       // New content.
       int slot = 0;
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -357,7 +357,7 @@ TimerBoxControl::init_slot(int slot)
       IBreak *break_data = core->get_break(BreakId(i));
 
       bool on = break_data->get_break_enabled();
-      
+
       if (on && break_position[i] == slot && !(break_flags[i] & BREAK_HIDE))
         {
           breaks_id[count] = i;
@@ -369,7 +369,7 @@ TimerBoxControl::init_slot(int slot)
   // Compute timer that will elapse first.
   time_t first = 0;
   int first_id = -1;
-    
+
   for (int i = 0; i < count; i++)
     {
       int id = breaks_id[i];
@@ -380,7 +380,7 @@ TimerBoxControl::init_slot(int slot)
       ITimer *timer = break_data->get_timer();
 
       time_t time_left = timer->get_limit() - timer->get_elapsed_time();
-        
+
       // Exclude break if not imminent.
       if (flags & BREAK_WHEN_IMMINENT && time_left > break_imminent_time[id] &&
           force_duration == 0)
@@ -396,7 +396,7 @@ TimerBoxControl::init_slot(int slot)
         }
     }
 
-  
+
   // Exclude break if not first.
   for (int i = 0; i < count; i++)
     {
@@ -412,7 +412,7 @@ TimerBoxControl::init_slot(int slot)
         }
     }
 
-  
+
   // Exclude breaks if not exclusive.
   bool have_one = false;
   int breaks_left = 0;
@@ -430,7 +430,7 @@ TimerBoxControl::init_slot(int slot)
 
           have_one = true;
         }
-      
+
       if (!(flags & BREAK_SKIP))
         {
           breaks_left++;
@@ -443,7 +443,7 @@ TimerBoxControl::init_slot(int slot)
         {
           int id = breaks_id[i];
           int flags = break_flags[id];
-          
+
           if (flags & BREAK_DEFAULT && flags & BREAK_SKIP)
             {
               break_flags[id] &= ~BREAK_SKIP;
@@ -463,7 +463,7 @@ TimerBoxControl::init_slot(int slot)
     {
       int id = breaks_id[i];
       int flags = break_flags[id];
-          
+
       if (!(flags & BREAK_SKIP))
         {
           break_slots[slot][new_count] = id;
@@ -498,7 +498,7 @@ TimerBoxControl::read_configuration()
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       BreakId bid = (BreakId) i;
-      
+
       break_position[i] = get_timer_slot(name, bid);;
       break_flags[i] = get_timer_flags(name, bid);
       break_imminent_time[i] = get_timer_imminent_time(name, bid);

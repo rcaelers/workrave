@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -70,7 +70,7 @@ class GUI :
 public:
   GUI(int argc, char **argv);
   virtual ~GUI();
-  
+
   static GUI *get_instance();
 
   void main();
@@ -88,7 +88,7 @@ public:
   //
   void core_event_notify(CoreEvent event);
   void core_event_operation_mode_changed(const OperationMode m);
-  
+
   // Internal public methods
   void restbreak_now();
   void open_main_window();
@@ -102,7 +102,7 @@ public:
   enum BlockMode { BLOCK_MODE_NONE = 0, BLOCK_MODE_INPUT, BLOCK_MODE_ALL };
   BlockMode get_block_mode();
   void set_block_mode(BlockMode mode);
-  
+
   // Misc
   SigC::Signal0<void> &signal_heartbeat();
   HeadInfo &get_head(int head);
@@ -111,7 +111,7 @@ public:
   void map_from_head(int &x, int &y, int head);
   bool bound_head(int &x, int &y, int width, int height, int head);
   void interrupt_grab();
-  
+
   AppletControl *get_applet_control() const;
   MainWindow *get_main_window() const;
   Gtk::Tooltips *get_tooltips() const;
@@ -138,7 +138,7 @@ public:
   BOOL CALLBACK enum_monitor_callback(HMONITOR mon, HDC hdc, LPRECT rc);
 private:
 #endif
-  
+
 #ifdef HAVE_GNOME
   void init_gnome();
 #ifdef HAVE_GNOMEMM
@@ -166,7 +166,7 @@ private:
                                             GdkEvent *event,
                                             gpointer  data);
 #endif
-  
+
 private:
   //! The one and only instance
   static GUI *instance;
@@ -188,16 +188,16 @@ private:
 
   //! Number of active prelude windows;
   int active_break_count;
-  
+
   //! Number of active prelude windows;
   int active_prelude_count;
-  
+
   //! Reponse interface for breaks
   IBreakResponse *response;
 
   //! Current active break.
   BreakId active_break_id;
-  
+
   //! The number of command line arguments.
   int argc;
 
@@ -230,7 +230,7 @@ private:
 
   //! Width of the screen.
   int screen_width;
-  
+
   //! Height of the screen.
   int screen_height;
 
@@ -259,7 +259,7 @@ private:
 
 //! Returns the only instance of GUI
 inline GUI *
-GUI::get_instance() 
+GUI::get_instance()
 {
   return instance;
 }
@@ -307,7 +307,5 @@ GUI::get_number_of_heads() const
 {
   return num_heads;
 }
-
-extern volatile bool HARPOON_ENABLED;
 
 #endif // GUI_HH

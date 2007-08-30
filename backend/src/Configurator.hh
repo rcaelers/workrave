@@ -1,4 +1,4 @@
-// Configurator.hh 
+// Configurator.hh
 //
 // Copyright (C) 2001, 2002, 2003, 2006, 2007 Rob Caelers <robc@krandor.org>
 // All rights reserved.
@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -23,9 +23,7 @@
 #include <list>
 #include <map>
 
-#if defined(HAVE_QT) || defined(WIN32) || defined(HAVE_UNIX)
 #include "Mutex.hh"
-#endif
 
 using namespace std;
 
@@ -46,7 +44,7 @@ public:
 
   //! Creates a Configurator with the specified type.
   static Configurator *create(Format);
-  
+
   //! Loads the specified file.
   /*!
    *  \param filename file to load.
@@ -185,19 +183,19 @@ public:
    *  \retval false listener not found.
    */
   virtual bool remove_listener(string key_prefix, ConfiguratorListener *listener);
-  
+
   //! Finds the key monitored by the the specified configuration change listener.
   /*!
    *  \param listener listener to find the key of.
    *
    */
-  virtual bool find_listener(ConfiguratorListener *listener, string &key) const;  
-  
+  virtual bool find_listener(ConfiguratorListener *listener, string &key) const;
+
   //! Sets keys/values that are in the set_value_on_quit keylist.
   //! Call from the Core destructor before deleting configurator.
   void set_values_now_we_are_quitting();
-  
-  
+
+
 protected:
   void fire_configurator_event(string key);
   void strip_leading_slash(string &key) const;
@@ -205,23 +203,21 @@ protected:
   void add_trailing_slash(string &key) const;
 
   Configurator();
-  
+
 protected:
   typedef std::list<std::pair<string, ConfiguratorListener *> > Listeners;
   typedef std::list<std::pair<string, ConfiguratorListener *> >::iterator ListenerIter;
   typedef std::list<std::pair<string, ConfiguratorListener *> >::const_iterator ListenerCIter;
-  
+
   //! Configuration change listeners.
   Listeners listeners;
-  
-  
+
+
 private:
-  
-#if defined(HAVE_QT) || defined(WIN32) || defined(HAVE_UNIX)
+
   //! Internal locking
   Mutex *mutex;
-#endif
-  
+
   //! struct of a list member
   //! list will contain keys/values to set on quit
   typedef struct keylist
@@ -236,10 +232,10 @@ private:
           next = NULL;
         }
     };
-  
+
   //! pointer to the head of the list
   keylist *head;
-  
+
 };
 
 #endif // CONFIGURATOR_HH

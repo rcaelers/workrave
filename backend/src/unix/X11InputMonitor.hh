@@ -3,13 +3,13 @@
 // Copyright (C) 2001, 2002, 2003, 2006, 2007 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2007-08-26 21:13:45 robc>
+// Time-stamp: <2007-08-30 16:03:08 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -58,7 +58,7 @@ public:
   virtual ~X11InputMonitor();
 
   //! Initialize
-  virtual void init(IInputMonitorListener *l);
+  virtual bool init(IInputMonitorListener *l);
 
   //! Terminate the monitor.
   virtual void terminate();
@@ -72,14 +72,14 @@ public:
 #ifdef HAVE_XRECORD
   //! Initialize
   bool init_xrecord();
-  
+
   //! the XRecord execution thread.
   void run_xrecord();
 
   //! Stop the capturing.
   bool stop_xrecord();
 #endif
-  
+
 #ifdef HAVE_XRECORD
   void handle_xrecord_handle_key_event(XRecordInterceptData *data);
   void handle_xrecord_handle_motion_event(XRecordInterceptData *data);
@@ -87,7 +87,7 @@ public:
 
   static void handle_xrecord_callback(XPointer closure, XRecordInterceptData * data);
 #endif
-  
+
 private:
   //! Internal X magic
   void set_event_mask(Window window);
@@ -119,13 +119,13 @@ private:
 
   //! Abort the main loop
   bool abort;
-  
+
   //! Termination signal.
   Signal wait_for_terminated_signal;
 
   //! Where to deliver action events.
   IInputMonitorListener *listener;
-  
+
 #ifdef HAVE_XRECORD
   //! Is the X Record extension used ?
   bool use_xrecord;

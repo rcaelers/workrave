@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -49,7 +49,7 @@ TimerBoxTextView::TimerBoxTextView()
 
   TRACE_EXIT();
 }
-  
+
 
 
 //! Destructor.
@@ -87,7 +87,7 @@ TimerBoxTextView::set_time_bar(BreakId id,
 
   // Amount of time the user is idle
   TRACE_MSG(secondary_val << " " << secondary_max <<" " << int(secondary_color));
-  
+
   TRACE_EXIT();
 }
 
@@ -112,12 +112,12 @@ TimerBoxTextView::set_icon(IconType icon)
       file = Util::complete_directory("workrave-icon-medium.png",
                                       Util::SEARCH_PATH_IMAGES);
       break;
-      
+
     case ICON_QUIET:
       file = Util::complete_directory("workrave-quiet-icon-medium.png",
                                              Util::SEARCH_PATH_IMAGES);
       break;
-      
+
     case ICON_SUSPENDED:
       file = Util::complete_directory("workrave-suspended-icon-medium.png",
                                       Util::SEARCH_PATH_IMAGES);
@@ -133,7 +133,7 @@ TimerBoxTextView::update()
 {
   // XXX: Update the GUI.
 }
-  
+
 void
 TimerBoxTextView::set_enabled(bool enabled)
 {

@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -41,7 +41,7 @@ class KdeAppletWindow :
   public SigC::Object,
   public AppletWindow
 {
-public:  
+public:
   KdeAppletWindow(AppletControl *control);
   virtual ~KdeAppletWindow();
 
@@ -54,13 +54,13 @@ public:
 private:
   //! Gtk timerbox viewer
   TimerBoxGtkView *view;
-   
+
   //! The Gtk+ plug in the panel.
   Gtk::Plug *plug;
 
   //! Container to put the timers in..
   Gtk::Bin *container;
-  
+
   //! Allign break orientationly.
   Orientation applet_orientation;
 
@@ -77,13 +77,13 @@ private:
   AppletControl *control;
 
   bool applet_active;
-  
+
 private:
   AppletState activate_applet();
   void deactivate_applet();
-    
+
   static gboolean destroy_event(GtkWidget *widget, GdkEvent *event, gpointer user_data);
-  
+
   // Events.
   void on_embedded();
   bool on_button_press_event(GdkEventButton *event);

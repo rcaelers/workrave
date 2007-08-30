@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -36,24 +36,24 @@ namespace Gtk
 
 class StatisticsDialog : public HigDialog
 {
-public:  
+public:
   StatisticsDialog();
   ~StatisticsDialog();
 
   static const int BREAK_STATS = 7;
-  
+
   int run();
-  
+
 private:
   /** Stats */
   IStatistics *statistics;
-  
+
   /** Labels for break stats. */
   Gtk::Label *break_labels[BREAK_ID_SIZEOF][9];
 
   /** Labels for break stats. */
   Gtk::Label *activity_labels[5];
-  
+
   /** Labels for break stats. */
   Gtk::Label *daily_usage_label;
 
@@ -77,7 +77,7 @@ private:
 
   void init_gui();
   void select_day(int day);
-  
+
   void create_break_page(Gtk::Notebook *tnotebook);
   void create_activity_page(Gtk::Notebook *tnotebook);
 
@@ -93,7 +93,7 @@ private:
   void display_calendar_date();
   void display_statistics(IStatistics::DailyStats *stats);
   void clear_display_statistics();
-  
+
   bool on_timer();
 };
 

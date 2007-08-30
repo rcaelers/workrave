@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -42,7 +42,7 @@ struct ExerciseParser
   int description_lang_rank;
   std::string cdata;
   ExerciseParser(std::list<Exercise> &exe);
-  
+
   const GList *i18n_languages;
 };
 
@@ -57,7 +57,7 @@ exercise_parse_lookup_attribute(const gchar *find, const gchar **names,
         {
           if (! names[i])
             break;
-          
+
           if (! strcmp(names[i], find))
             {
               ret = values[i];
@@ -67,7 +67,7 @@ exercise_parse_lookup_attribute(const gchar *find, const gchar **names,
     }
   return ret;
 }
-                                
+
 /* Called for open tags <foo bar="baz"> */
 static void
 exercise_parser_start_element  (GMarkupParseContext *,
@@ -79,7 +79,7 @@ exercise_parser_start_element  (GMarkupParseContext *,
 {
   TRACE_ENTER_MSG("exercise_parser_start_element", element_name);
   ExerciseParser *ep = (ExerciseParser *) user_data;
-  
+
   if (! strcmp(element_name, "exercise"))
     {
       ep->exercises->push_back(Exercise());
@@ -160,13 +160,13 @@ exercise_parse_update_i18n_attribute(const GList *languages,
           nl = "en";
           nl_len = 2;
         }
-      
+
       const GList *langs = languages;
       r = 0;
       while (langs)
         {
           const gchar *lang = (const gchar *) langs->data;
-          
+
           if (! strncmp(lang, nl, nl_len))
             {
               break;
@@ -190,14 +190,14 @@ exercise_parse_update_i18n_attribute(const GList *languages,
               cur_value = new_value;
               cur_rank = 9998;
             }
-          
+
         }
       else
         {
           // Language found
           cur_value = new_value;
           cur_rank = r;
-          
+
         }
     }
   else
@@ -249,7 +249,7 @@ exercise_parser_end_element (GMarkupParseContext *,
 static void
 exercise_parser_text (GMarkupParseContext *,
                       const gchar         *text,
-                      gsize                text_len,  
+                      gsize                text_len,
                       gpointer             user_data,
                       GError             **)
 {
@@ -276,7 +276,7 @@ Exercise::parse_exercises(const char *file_name,
 {
   FILE *stream = NULL;
   TRACE_ENTER_MSG("ExercisesParser::get_exercises", file_name);
-  
+
   stream = fopen(file_name, "rb");
   if (stream)
     {
@@ -288,7 +288,7 @@ Exercise::parse_exercises(const char *file_name,
       parser.text = exercise_parser_text;
       parser.passthrough = NULL;
       parser.error = NULL;
-        
+
       ExerciseParser eparser(exe);
       GMarkupParseContext *context
         = g_markup_parse_context_new(&parser, (GMarkupParseFlags) 0,
@@ -314,7 +314,7 @@ Exercise::parse_exercises(const char *file_name,
   for (std::list<Exercise>::iterator it = exe.begin(); it != exe.end(); it++)
     {
       Exercise &ex = *it;
-      
+
       TRACE_MSG("exercise title=" << ex.title);
       TRACE_MSG("exercise desc=" << ex.description);
       TRACE_MSG("exercise duration=" << ex.duration);
@@ -328,8 +328,8 @@ Exercise::parse_exercises(const char *file_name,
         }
       TRACE_MSG("exercise end seq");
     }
-#endif    
-  
+#endif
+
   TRACE_EXIT();
 }
 
@@ -342,7 +342,7 @@ Exercise::get_exercises_file_name()
 }
 
 
-std::list<Exercise> 
+std::list<Exercise>
 Exercise::get_exercises()
 {
   std::list<Exercise> exercises;

@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -38,6 +38,6 @@ void TimeBar::paintEvent(QPaintEvent *event)
   QStyleOptionProgressBar opt;
   opt.initFrom(this);
   opt.rect.setWidth(opt.rect.width()/2);
-  paint.drawPrimitive(QStyle::PE_IndicatorProgressChunk, opt); 
+  paint.drawPrimitive(QStyle::PE_IndicatorProgressChunk, opt);
 }
-   
+

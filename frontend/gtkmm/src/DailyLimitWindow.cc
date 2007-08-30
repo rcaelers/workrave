@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -54,7 +54,7 @@ DailyLimitWindow::create_gui()
      _("You have reached your daily limit. Please stop working\n"
        "behind the computer. If your working day is not over yet,\n"
        "find something else to do, such as reviewing a document."));
-  
+
   Gtk::Label *label = manage(new Gtk::Label());
   label->set_markup(txt);
 

@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -46,13 +46,13 @@ private:
 
   //! Break config prefix
   string break_prefix;
-  
+
   //! The Configurator
   Configurator *configurator;
 
   //!
   IApp *application;
-  
+
   //! Interface pointer to the timer.
   Timer *timer;
 
@@ -72,7 +72,7 @@ public:
   string get_name() const;
   Timer *get_timer() const;
   BreakControl *get_break_control();
-  
+
   int get_timer_limit() const;
   void set_timer_limit(int n);
   int get_timer_auto_reset() const;
@@ -107,10 +107,10 @@ private:
   void load_break_control_config();
 
   bool starts_with(string &key, string prefix, string &timer_name);
-  
+
 public:
   static const string CFG_KEY_TIMER_PREFIX;
-  
+
   static const string CFG_KEY_TIMER_LIMIT;
   static const string CFG_KEY_TIMER_AUTO_RESET;
   static const string CFG_KEY_TIMER_RESET_PRED;
@@ -119,7 +119,7 @@ public:
   static const string CFG_KEY_TIMER_ACTIVITY_SENSITIVE;
 
   static const string CFG_KEY_BREAK_PREFIX;
-  
+
   static const string CFG_KEY_BREAK_MAX_PRELUDES;
   static const string CFG_KEY_BREAK_MAX_POSTPONE;
   static const string CFG_KEY_BREAK_FORCE_AFTER_PRELUDES;

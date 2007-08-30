@@ -1,4 +1,4 @@
-// FrameWindow.hh --- Gtk::Frame like widget 
+// FrameWindow.hh --- Gtk::Frame like widget
 //
 // Copyright (C) 2001, 2002, 2003, 2004 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -75,7 +75,7 @@ Frame::set_frame_color(const Gdk::Color &col )
     {
 #if 1 // FIXME: bug66
       color_map->alloc_color(frame_color);
-#endif      
+#endif
     }
 }
 
@@ -138,7 +138,7 @@ Frame::on_realize()
 }
 
 #ifdef HAVE_GTKMM24
-void 
+void
 Frame::on_size_request(Gtk::Requisition *requisition)
 {
   Gtk::Widget *widget = get_child();
@@ -148,7 +148,7 @@ Frame::on_size_request(Gtk::Requisition *requisition)
   requisition->height += d;
 }
 #else
-void 
+void
 Frame::on_size_request(GtkRequisition *requisition)
 {
   Gtk::Widget *widget = get_child();
@@ -164,7 +164,7 @@ void
 Frame::on_size_allocate(Gtk::Allocation &allocation)
 {
   Gtk::Bin::on_size_allocate(allocation);
-  
+
   Gtk::Widget *widget = get_child();
   guint b = get_border_width() + frame_width;
 
@@ -180,7 +180,7 @@ void
 Frame::on_size_allocate(GtkAllocation* allocation)
 {
   Gtk::Bin::on_size_allocate(allocation);
-  
+
   Gtk::Widget *widget = get_child();
   guint b = get_border_width() + frame_width;
 
@@ -212,28 +212,28 @@ Frame::on_expose_event(GdkEventExpose* e)
 #else
   GtkAllocation alloc = get_allocation();
 #endif
-  
+
   switch (frame_style)
     {
     case STYLE_SOLID:
       gc->set_foreground(frame_visible ? frame_color : bgCol);
 
       window->draw_rectangle(gc, true, alloc.x, alloc.y,
-			     frame_width, alloc.height);
+           frame_width, alloc.height);
       window->draw_rectangle(gc, true, alloc.x+alloc.width-frame_width,
-			     alloc.y, frame_width, alloc.height);
+           alloc.y, frame_width, alloc.height);
       window->draw_rectangle(gc, true, alloc.x+frame_width, alloc.y,
-			     alloc.width-2*frame_width, frame_width);
+           alloc.width-2*frame_width, frame_width);
       window->draw_rectangle(gc, true, alloc.x+frame_width,
-			     alloc.y+alloc.height-frame_width,
-			     alloc.width-2*frame_width, frame_width);
+           alloc.y+alloc.height-frame_width,
+           alloc.width-2*frame_width, frame_width);
       break;
 
     case STYLE_BREAK_WINDOW:
 #ifdef OLD_STYLE_BORDER
       gc->set_foreground(color_black);
       window->draw_rectangle(gc, true, alloc.x, alloc.y,
-			     alloc.width, alloc.height);
+           alloc.width, alloc.height);
       Gdk::Rectangle area(&e->area);
       style->paint_box(window, Gtk::STATE_NORMAL, Gtk::SHADOW_OUT, area,
                        *this, "", alloc.x+1, alloc.y+1,

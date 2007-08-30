@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -74,7 +74,7 @@ private:
 
   AppletState activate_applet(AppletType type);
   void deactivate_applet(AppletType type);
-  
+
   void config_changed_notify(std::string key);
   void read_configuration();
   void check_visible();

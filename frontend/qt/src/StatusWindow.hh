@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -27,13 +27,13 @@
 class StatusWindow : public QDialog
 {
   Q_OBJECT
-  
+
 public:
   StatusWindow();
   ~StatusWindow();
 
   void on_heartbeat();
-  
+
 private:
   TimerBoxView *timer_box_view;
   TimerBoxControl *timer_box_control;

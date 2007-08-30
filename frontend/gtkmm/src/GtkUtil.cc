@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -72,7 +72,7 @@ GtkUtil::update_custom_stock_button(Gtk::Button *btn,
 
   if (has_button_images() || !label_text)
     {
-      img = manage(new Gtk::Image(stock_id, 
+      img = manage(new Gtk::Image(stock_id,
                                   Gtk::ICON_SIZE_BUTTON));
     }
   btn->remove();
@@ -160,8 +160,8 @@ GtkUtil::create_label_for_break(BreakId id)
   char *labels[] = { _("Micro-break"), _("Rest break"), _("Daily limit") };
 
   string icon = Util::complete_directory(string(icons[id]), Util::SEARCH_PATH_IMAGES);
-  
-  Gtk::Widget *label = 
+
+  Gtk::Widget *label =
     GtkUtil::create_label_with_icon(labels[id], icon.c_str());
   return label;
 }
@@ -209,7 +209,7 @@ GtkUtil::create_label_with_tooltip(string text, string tooltip)
   return eventbox;
 #else
   EventLabel *label = Gtk::manage(new EventLabel(text));
-  
+
   GUI::get_instance()->get_tooltips()->set_tip(*label, tooltip);
   return label;
 #endif
@@ -220,7 +220,7 @@ EventImage *
 GtkUtil::create_image_with_tooltip(string file, string tooltip)
 {
   EventImage *image = Gtk::manage(new EventImage(file));
-  
+
   GUI::get_instance()->get_tooltips()->set_tip(*image, tooltip);
   return image;
 }
@@ -249,7 +249,7 @@ GtkUtil::set_wmclass(Gtk::Window &window, string class_postfix)
 {
   string s = gdk_get_program_class();
   s += class_postfix;
-  
+
   window.set_wmclass(g_get_prgname(), s);
 }
 
@@ -303,10 +303,10 @@ pixbuf_copy_mirror(GdkPixbuf *src, gint mirror, gint flip)
           dp += (w - 1) * a;
           for (j = 0; j < w; j++)
             {
-              *(dp++) = *(sp++);	/* r */
-              *(dp++) = *(sp++);	/* g */
-              *(dp++) = *(sp++);	/* b */
-              if (has_alpha) *(dp) = *(sp++);	/* a */
+              *(dp++) = *(sp++);  /* r */
+              *(dp++) = *(sp++);  /* g */
+              *(dp++) = *(sp++);  /* b */
+              if (has_alpha) *(dp) = *(sp++); /* a */
               dp -= (a + 3);
             }
         }
@@ -314,10 +314,10 @@ pixbuf_copy_mirror(GdkPixbuf *src, gint mirror, gint flip)
         {
           for (j = 0; j < w; j++)
             {
-              *(dp++) = *(sp++);	/* r */
-              *(dp++) = *(sp++);	/* g */
-              *(dp++) = *(sp++);	/* b */
-              if (has_alpha) *(dp++) = *(sp++);	/* a */
+              *(dp++) = *(sp++);  /* r */
+              *(dp++) = *(sp++);  /* g */
+              *(dp++) = *(sp++);  /* b */
+              if (has_alpha) *(dp++) = *(sp++); /* a */
             }
         }
     }
@@ -326,7 +326,7 @@ pixbuf_copy_mirror(GdkPixbuf *src, gint mirror, gint flip)
 }
 
 
-Glib::RefPtr<Gdk::Pixbuf> 
+Glib::RefPtr<Gdk::Pixbuf>
 GtkUtil::flip_pixbuf(Glib::RefPtr<Gdk::Pixbuf> pixbuf, bool horizontal, bool vertical)
 {
   GdkPixbuf *pb = pixbuf->gobj();
@@ -343,13 +343,13 @@ GtkUtil::center_window(Gtk::Window &window, HeadInfo &head)
 
   if (head.valid)
     {
-#ifdef HAVE_GTKMM24      
+#ifdef HAVE_GTKMM24
       Gtk::Requisition size;
       window.size_request(size);
 #else
       GtkRequisition size;
       window.size_request(&size);
-#endif      
+#endif
 
 #ifdef WIN32
       TRACE_MSG(
@@ -362,11 +362,11 @@ GtkUtil::center_window(Gtk::Window &window, HeadInfo &head)
                 head.geometry.get_width() << "x" << head.geometry.get_height() << " +" <<
                 head.geometry.get_x() << "+" << head.geometry.get_y() << " " <<
                 size.width << " " << size.height);
-#endif                
-      
+#endif
+
       int x = head.geometry.get_x() + (head.geometry.get_width() - size.width) / 2;
       int y = head.geometry.get_y() + (head.geometry.get_height() - size.height) / 2;
-      
+
       window.set_position(Gtk::WIN_POS_NONE);
       window.move(x, y);
     }

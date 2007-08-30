@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -29,7 +29,7 @@ public:
     DEVICE_SPEAKER = 0,
     DEVICE_SOUNDCARD
   };
-  
+
   SoundPlayer();
   virtual ~SoundPlayer();
   void play_sound(Sound snd);
@@ -38,7 +38,7 @@ public:
   static void set_enabled(bool enabled);
   static Device get_device();
   static void set_device(Device dev);
-  
+
 private:
   static const char *CFG_KEY_SOUND_ENABLED;
   static const char *CFG_KEY_SOUND_DEVICE;

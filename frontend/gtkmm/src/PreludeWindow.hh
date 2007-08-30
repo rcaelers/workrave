@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -48,19 +48,19 @@ public:
   void set_stage(IApp::PreludeStage stage);
   void set_progress_text(IApp::PreludeProgressText text);
   void set_response(IBreakResponse *pri);
-  
+
 private:
   void on_frame_flash(bool frame_visible);
   void init_avoid_pointer();
   void add(Gtk::Widget& widget);
-  
+
 #ifdef WIN32
   bool on_avoid_pointer_timer();
 #else
   bool on_enter_notify_event(GdkEventCrossing* event);
 #endif
   void avoid_pointer(int x, int y);
-  
+
 private:
 #ifdef WIN32
   //! Avoid time signal
@@ -72,10 +72,10 @@ private:
 
   //! Did we avoid the pointer?
   bool did_avoid;
-  
+
   //!
   BreakId break_id;
-  
+
   //! Time bar
   TimeBar *time_bar;
 

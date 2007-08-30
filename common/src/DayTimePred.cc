@@ -3,13 +3,13 @@
 // Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2003-01-05 16:05:29 robc>
+// Time-stamp: <2007-08-30 16:03:07 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -33,7 +33,7 @@ void
 DayTimePred::set_last(time_t lastTime)
 {
   last_time = lastTime;
-  
+
   time_t now = time(NULL);
 
   if (last_time == 0)
@@ -65,7 +65,7 @@ DayTimePred::init(int hour, int min)
 {
   pred_hour = hour;
   pred_min = min;
-  
+
   return true;
 }
 
@@ -80,13 +80,13 @@ DayTimePred::init(std::string spec)
     {
       std::string hours;
       std::string minutes;
-  
+
       hours = spec.substr(0, pos);
       minutes = spec.substr(pos + 1);
 
       ret = init(atoi(hours.c_str()), atoi(minutes.c_str()));
     }
-  
+
   return ret;
 }
 
@@ -129,7 +129,7 @@ DayTimePred::get_next()
   struct tm *ret;
 
   ret = localtime(&last_time);
-  
+
   if (ret != NULL)
     {
       if (time_cmp(ret->tm_hour, ret->tm_min, pred_hour, pred_min) >= 0)

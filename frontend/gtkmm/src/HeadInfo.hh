@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -40,17 +40,17 @@ public:
     valid = false;
     count = 0;
   }
-  
+
   int get_width() const;
   int get_height() const;
   int get_x() const;
   int get_y() const;
-  
+
 #ifdef HAVE_GTK_MULTIHEAD
   Glib::RefPtr<Gdk::Screen> screen;
   int monitor;
 #endif
-  
+
   int count;
   bool valid;
   Gdk::Rectangle geometry;

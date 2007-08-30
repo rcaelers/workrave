@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -63,7 +63,7 @@ PreferencesDialog::PreferencesDialog()
   Gtk::Widget *gui_general_page = manage(create_gui_page());
   Gtk::Notebook *gui_page = manage(new Gtk::Notebook());
   gui_page->append_page(*gui_general_page, _("General"));
-  
+
   Gtk::Widget *gui_mainwindow_page = manage(create_mainwindow_page());
   gui_page->append_page(*gui_mainwindow_page, _("Status Window"));
 
@@ -80,14 +80,14 @@ PreferencesDialog::PreferencesDialog()
 #ifdef HAVE_DISTRIBUTION
   add_page(_("Network"), "network.png", *network_page);
 #endif
-	
+  
 #ifdef WIN32
   // For now, Advance options are only available on windows
-  
+
   Gtk::Widget *advanced_page = manage( new AdvancedPreferencePage() );
   add_page( _("Advanced"), "workrave-icon-huge.png", *advanced_page );
 #endif
-	
+  
   // Dialog
   get_vbox()->pack_start(notebook, true, true, 0);
   add_button(Gtk::Stock::CLOSE, Gtk::RESPONSE_CLOSE);
@@ -98,7 +98,7 @@ PreferencesDialog::PreferencesDialog()
 #ifdef HAVE_X
   GtkUtil::set_wmclass(*this, "Preferences");
 #endif
-  
+
   show_all();
 
   TRACE_EXIT();
@@ -143,13 +143,13 @@ PreferencesDialog::create_gui_page()
     }
   sound_button->set_history(idx);
   sound_button->signal_changed().connect(MEMBER_SLOT(*this, &PreferencesDialog::on_sound_changed));
-  
+
   // Tray start
 //   start_in_tray_cb
 //     = manage(new Gtk::CheckButton(_("Hide main window at start-up")));
 //   start_in_tray_cb->signal_toggled()
 //     .connect(MEMBER_SLOT(*this,
-// 			&PreferencesDialog::on_start_in_tray_toggled));
+//      &PreferencesDialog::on_start_in_tray_toggled));
 //   start_in_tray_cb->set_active(MainWindow::get_start_in_tray());
 
 
@@ -276,7 +276,7 @@ PreferencesDialog::on_block_changed()
     }
   GUI::get_instance()->set_block_mode(m);
 }
-  
+
 
 // void
 // PreferencesDialog::on_start_in_tray_toggled()
@@ -296,7 +296,7 @@ PreferencesDialog::run()
 
 bool
 PreferencesDialog::on_focus_in_event(GdkEventFocus *event)
-{ 
+{
   TRACE_ENTER("PreferencesDialog::focus_in");
 
   ICore *core = CoreFactory::get_core();
@@ -313,7 +313,7 @@ PreferencesDialog::on_focus_in_event(GdkEventFocus *event)
 
 bool
 PreferencesDialog::on_focus_out_event(GdkEventFocus *event)
-{ 
+{
   TRACE_ENTER("PreferencesDialog::focus_out");
   ICore *core = CoreFactory::get_core();
 

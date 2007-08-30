@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -65,26 +65,26 @@ RemoteControl::get_instance()
       if (control != NULL)
         {
           instance = new RemoteControl();
-          
+
           instance->workrave_control = control;
           instance->workrave_control->_this = instance;
         }
     }
-  
+
   return instance;
 }
 
 
 WR_METHOD_ARGS0_IMPL(void, fire)
 {
-  AppletControl *applet_control; 
+  AppletControl *applet_control;
   GnomeAppletWindow *applet_window;
   GUI *gui;
 
   gui = GUI::get_instance();
   applet_control = gui->get_applet_control();
   applet_window = (GnomeAppletWindow *) applet_control->get_applet_window(AppletControl::APPLET_GNOME);
-  
+
   if (applet_window != NULL)
     {
       applet_window->fire_gnome_applet();
@@ -153,7 +153,7 @@ WR_METHOD_ARGS1_IMPL(void, open_network_log, CORBA_boolean, state)
     }
 }
 
-  
+
 WR_METHOD_ARGS0_IMPL(void, restbreak)
 {
   Menus *menus = Menus::get_instance();
@@ -221,7 +221,7 @@ WR_METHOD_ARGS0_IMPL(void, quit)
 
 WR_METHOD_ARGS1_IMPL(void, set_applet_orientation, CORBA_long, orientation)
 {
-  AppletControl *applet_control; 
+  AppletControl *applet_control;
   GnomeAppletWindow *applet_window;
   GUI *gui;
 
@@ -241,18 +241,18 @@ WR_METHOD_ARGS3_IMPL(void, set_applet_background,
                      const GNOME_Workrave_WorkraveControl_Color *, color,
                      CORBA_long, xid)
 {
-  AppletControl *applet_control; 
+  AppletControl *applet_control;
   GnomeAppletWindow *applet_window;
   GUI *gui;
 
   gui = GUI::get_instance();
   applet_control = gui->get_applet_control();
   applet_window = (GnomeAppletWindow *) applet_control->get_applet_window(AppletControl::APPLET_GNOME);
-  
+
   if (applet_window != NULL)
     {
       GdkColor gdk_color;
-      
+
       if (color != NULL)
         {
           gdk_color.pixel = color->pixel;
@@ -260,21 +260,21 @@ WR_METHOD_ARGS3_IMPL(void, set_applet_background,
           gdk_color.green = color->green;
           gdk_color.blue = color->blue;
         }
-        
+
       applet_window->set_applet_background(type, gdk_color, xid);
     }
 }
 
 WR_METHOD_ARGS1_IMPL(void, set_applet_size, CORBA_long, size)
 {
-  AppletControl *applet_control; 
+  AppletControl *applet_control;
   GnomeAppletWindow *applet_window;
   GUI *gui;
 
   gui = GUI::get_instance();
   applet_control = gui->get_applet_control();
   applet_window = (GnomeAppletWindow *) applet_control->get_applet_window(AppletControl::APPLET_GNOME);
-  
+
   if (applet_window != NULL)
     {
       applet_window->set_applet_size(size);
@@ -285,21 +285,21 @@ WR_METHOD_ARGS1_IMPL(void, set_applet_size, CORBA_long, size)
 WR_METHOD_ARGS1_IMPL(void, set_applet, Bonobo_Unknown, bonobo_applet_control)
 {
   TRACE_ENTER("set_applet");
-  AppletControl *applet_control; 
+  AppletControl *applet_control;
   GnomeAppletWindow *applet_window;
   GUI *gui;
 
   gui = GUI::get_instance();
   applet_control = gui->get_applet_control();
   applet_window = (GnomeAppletWindow *) applet_control->get_applet_window(AppletControl::APPLET_GNOME);
-  
+
   if (applet_window != NULL)
     {
       GNOME_Workrave_AppletControl c =
         Bonobo_Unknown_queryInterface(bonobo_applet_control,
                                       "IDL:GNOME/Workrave/AppletControl:1.0",
                                       NULL);
-      
+
       if (c != CORBA_OBJECT_NIL)
         {
           applet_window->set_applet_control(c);
@@ -313,14 +313,14 @@ WR_METHOD_ARGS1_IMPL(void, set_applet, Bonobo_Unknown, bonobo_applet_control)
 WR_METHOD_ARGS1_IMPL(void, button_clicked, CORBA_long, button)
 {
   TRACE_ENTER_MSG("button_clicked", button);
-  AppletControl *applet_control; 
+  AppletControl *applet_control;
   GnomeAppletWindow *applet_window;
   GUI *gui;
 
   gui = GUI::get_instance();
   applet_control = gui->get_applet_control();
   applet_window = (GnomeAppletWindow *) applet_control->get_applet_window(AppletControl::APPLET_GNOME);
-  
+
   if (applet_window != NULL)
     {
       applet_window->button_clicked(button);
@@ -352,7 +352,7 @@ workrave_control_class_init(WorkraveControlClass *klass)
   WR_METHOD_REGISTER(open_statistics);
   WR_METHOD_REGISTER(open_network_connect);
   WR_METHOD_REGISTER(open_network_log);
-  
+
   WR_METHOD_REGISTER(restbreak);
   WR_METHOD_REGISTER(set_mode);
   WR_METHOD_REGISTER(disconnect_all);
@@ -381,7 +381,7 @@ workrave_control_new(void)
 
   WorkraveControl *control = (WorkraveControl *)g_object_new(workrave_control_get_type(), NULL);
   BonoboObject *object = BONOBO_OBJECT(control);
-    
+
   result = bonobo_activation_active_server_register("OAFIID:GNOME_Workrave_WorkraveControl",
                                                     bonobo_object_corba_objref(BONOBO_OBJECT(object)));
 
@@ -389,7 +389,7 @@ workrave_control_new(void)
     {
       control = NULL;
     }
-  
+
   return control;
 }
 
@@ -399,9 +399,9 @@ workrave_component_factory(BonoboGenericFactory *factory, const char *object_id,
 {
   (void) factory;
   (void) data;
-  
+
   BonoboObject *object = NULL;
-	  
+  
   g_return_val_if_fail(object_id != NULL, NULL);
 
   if (!strcmp(object_id, "OAFIID:GNOME_Workrave_WorkraveControl"))

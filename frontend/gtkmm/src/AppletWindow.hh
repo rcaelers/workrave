@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -29,9 +29,9 @@ using namespace Workrave;
 class TimerBoxControl;
 class ITimerBoxView;
 
-class AppletWindow 
+class AppletWindow
 {
-public:  
+public:
   enum AppletMode
     {
       APPLET_DISABLED,
@@ -54,15 +54,15 @@ public:
 
   virtual AppletState activate_applet() = 0;
   virtual void deactivate_applet() = 0;
-  
+
   virtual void update_applet();
 
   virtual void set_timers_tooltip(std::string& tip);
-  
+
 protected:
   //! Box container all the timers.
   ITimerBoxView *timer_box_view;
-  
+
   //! Box container controller.
   TimerBoxControl *timer_box_control;
 

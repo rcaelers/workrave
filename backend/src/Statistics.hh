@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -46,7 +46,7 @@ class Statistics :
 #ifdef HAVE_DISTRIBUTION
   ,
   public IDistributionClientMessage
-#endif  
+#endif
 {
 private:
   enum StatsMarker
@@ -59,7 +59,7 @@ private:
       STATS_MARKER_BREAK_STATS,
       STATS_MARKER_MISC_STATS,
     };
-  
+
 
   struct DailyStatsImpl : public DailyStats
   {
@@ -74,7 +74,7 @@ private:
             {
               break_stats[i][j] = 0;
             }
-        } 
+        }
 
       for(int j = 0; j < STATS_VALUE_SIZEOF; j++)
         {
@@ -117,13 +117,13 @@ public:
   DailyStatsImpl *get_current_day() const;
   DailyStatsImpl *get_day(int day) const;
   void get_day_index_by_date(int y, int m, int d, int &idx, int &next, int &prev) const;
-  
+
   int get_history_size() const;
   void set_counter(StatsValueType t, int value);
   int get_counter(StatsValueType t);
- 
- 
-private:  
+
+
+private:
   bool load_current_day();
   void update_current_day(bool active);
   void load_history();
@@ -138,7 +138,7 @@ private:
   void update_enviromnent();
 
   void add_history(DailyStatsImpl *stats);
-  
+
 #ifdef HAVE_DISTRIBUTION
   void init_distribution_manager();
   bool request_client_message(DistributionClientMessageID id, PacketBuffer &buffer);
@@ -146,17 +146,17 @@ private:
                       PacketBuffer &buffer);
   bool pack_stats(PacketBuffer &buffer, const DailyStatsImpl *stats);
 #endif
-  
+
 private:
   //! Interface to the core_control.
   Core *core;
-  
+
   //! Statistics of current day.
   DailyStatsImpl *current_day;
 
   //! Has the user been active on the current day?
   bool been_active;
-  
+
   //! History
   History history;
 };

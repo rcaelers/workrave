@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -85,7 +85,7 @@ KdeAppletWindow::activate_applet()
     {
       TRACE_EXIT();
       return AppletWindow::APPLET_STATE_VISIBLE;
-      
+
     }
   bool ok = true;
 
@@ -95,7 +95,7 @@ KdeAppletWindow::activate_applet()
     {
       ok = get_size(applet_size);
     }
-  
+
   if (ok)
     {
       // Gtk::Alignment *frame = new Gtk::Alignment(1.0, 1.0, 0.0, 0.0);
@@ -105,7 +105,7 @@ KdeAppletWindow::activate_applet()
       eventbox->set_events(eventbox->get_events() | Gdk::BUTTON_PRESS_MASK | Gdk::BUTTON_RELEASE_MASK);
       eventbox->signal_button_press_event().connect(MEMBER_SLOT(*this, &KdeAppletWindow::on_button_press_event));
       container = eventbox;
-      
+
       // container = frame;
 
       plug = new Gtk::Plug((unsigned int)0);
@@ -117,14 +117,14 @@ KdeAppletWindow::activate_applet()
       // Gtkmm does not wrap this event....
       g_signal_connect(G_OBJECT(plug->gobj()), "destroy-event",
                        G_CALLBACK(KdeAppletWindow::destroy_event), this);
-      
+
       view = new TimerBoxGtkView();
       timer_box_view = view;
-      
+
       timer_box_control = new TimerBoxControl("applet", *timer_box_view);
       view->set_geometry(applet_orientation, applet_size);
       view->show_all();
-      
+
       container->add(*view);
       container->show_all();
       plug->show_all();
@@ -132,7 +132,7 @@ KdeAppletWindow::activate_applet()
       Gtk::Requisition req;
       container->size_request(req);
       TRACE_MSG("Size = " << req.width << " " << req.height << " " << applet_orientation);
-      
+
       // Tray menu
       Menus *menus = Menus::get_instance();
       menus->create_menu(Menus::MENU_APPLET);
@@ -164,7 +164,7 @@ KdeAppletWindow::deactivate_applet()
           delete plug;
           plug = NULL;
         }
-      
+
       if (container != NULL)
         {
           container->remove();
@@ -174,7 +174,7 @@ KdeAppletWindow::deactivate_applet()
 
       delete timer_box_control;
       timer_box_control = NULL;
-      
+
       delete timer_box_view;
       timer_box_view = NULL;
       view = NULL;
@@ -193,7 +193,7 @@ KdeAppletWindow::delete_event(GdkEventAny *event)
                             AppletWindow::APPLET_STATE_DISABLED);
   return true;
 }
-    
+
 
 //! Fires up the applet (as requested by the native kde applet).
 void
@@ -227,11 +227,11 @@ KdeAppletWindow::update_applet()
           KdeAppletWindow::set_size(last_size.width, last_size.height);
         }
     }
-  
+
   TRACE_EXIT();
 }
 
-  
+
 //! Destroy notification.
 gboolean
 KdeAppletWindow::destroy_event(GtkWidget *widget, GdkEvent *event, gpointer user_data)
@@ -268,7 +268,7 @@ KdeAppletWindow::on_button_press_event(GdkEventButton *event)
           ret = true;
         }
     }
-  
+
   return ret;
 }
 
@@ -313,7 +313,7 @@ bool
 KdeAppletWindow::plug_window(int w)
 {
   TRACE_ENTER("KdeAppletWindow::plug_window");
-  KWorkraveApplet_stub dcop("kworkrave", "KWorkrave"); 
+  KWorkraveApplet_stub dcop("kworkrave", "KWorkrave");
   dcop.embed_window(w);
   TRACE_MSG(dcop.ok());
   TRACE_EXIT();
@@ -326,7 +326,7 @@ bool
 KdeAppletWindow::get_size(int &size)
 {
   TRACE_ENTER("KdeAppletWindow::get_size");
-  KWorkraveApplet_stub dcop("kworkrave", "KWorkrave"); 
+  KWorkraveApplet_stub dcop("kworkrave", "KWorkrave");
   size = dcop.get_size();
   TRACE_MSG(dcop.ok() << " " << size);
   TRACE_EXIT();
@@ -338,7 +338,7 @@ bool
 KdeAppletWindow::get_orientation(Orientation &orientation)
 {
   TRACE_ENTER("KdeAppletWindow::get_orientation");
-  KWorkraveApplet_stub dcop("kworkrave", "KWorkrave"); 
+  KWorkraveApplet_stub dcop("kworkrave", "KWorkrave");
   orientation = (Orientation) dcop.get_orientation();
   TRACE_MSG(dcop.ok() << " " << orientation);
   TRACE_EXIT();
@@ -350,7 +350,7 @@ bool
 KdeAppletWindow::set_size(int width, int height)
 {
   TRACE_ENTER_MSG("KdeAppletWindow::set_size", width << " " << height);
-  KWorkraveApplet_stub dcop("kworkrave", "KWorkrave"); 
+  KWorkraveApplet_stub dcop("kworkrave", "KWorkrave");
   dcop.set_size(width, height);
   TRACE_MSG(dcop.ok());
   TRACE_EXIT();

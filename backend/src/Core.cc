@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -119,7 +119,7 @@ Core::~Core()
   TRACE_ENTER("Core::~Core");
 
   save_state();
-  
+
   if (monitor != NULL)
     {
       monitor->terminate();
@@ -127,24 +127,24 @@ Core::~Core()
 
   delete statistics;
   delete monitor;
-  
+
   // Set whatever values need to be set before quitting.
   configurator->set_values_now_we_are_quitting();
   delete configurator;
-  
+
 #ifdef HAVE_DISTRIBUTION
   if (idlelog_manager != NULL)
     {
       idlelog_manager->terminate();
       delete idlelog_manager;
     }
-  
+
   delete dist_manager;
-#ifndef NDEBUG  
+#ifndef NDEBUG
   delete fake_monitor;
-#endif  
 #endif
-  
+#endif
+
   TRACE_EXIT();
 }
 
@@ -161,10 +161,10 @@ Core::init(int argc, char **argv, IApp *app, char *display_name)
   application = app;
   this->argc = argc;
   this->argv = argv;
-  
+
   init_configurator();
   init_monitor(display_name);
-  
+
 #ifdef HAVE_DISTRIBUTION
   init_distribution_manager();
 #endif
@@ -220,7 +220,7 @@ Core::init_configurator()
 #elif defined(HAVE_QT)
       configurator = Configurator::create(Configurator::FormatNative);
 #else
-#error No configuator configured        
+#error No configuator configured
 #endif
     }
 
@@ -248,7 +248,7 @@ Core::init_monitor(char *display_name)
 
   monitor = new ActivityMonitor(display_name);
   load_monitor_config();
-  
+
   configurator->add_listener(CFG_KEY_MONITOR, this);
 }
 
@@ -284,7 +284,7 @@ Core::init_distribution_manager()
 #endif
 
   dist_manager->add_listener(this);
-      
+
   idlelog_manager = new IdleLogManager(dist_manager->get_my_id(), this);
   idlelog_manager->init();
 }
@@ -313,7 +313,7 @@ Core::load_monitor_config()
 
   assert(configurator != NULL);
   assert(monitor != NULL);
-  
+
   if (! configurator->get_value(CFG_KEY_MONITOR_NOISE, &noise))
     noise = 9000;
   if (! configurator->get_value(CFG_KEY_MONITOR_ACTIVITY, &activity))
@@ -324,15 +324,15 @@ Core::load_monitor_config()
   // Pre 1.0 compatibility...
   if (noise < 50)
     noise *= 1000;
-  
+
   if (activity < 50)
     activity *= 1000;
-  
+
   if (idle < 50)
     idle *= 1000;
 
   TRACE_MSG("Monitor config = " << noise << " " << activity << " " << idle);
-            
+
   monitor->set_parameters(noise, activity, idle);
   TRACE_EXIT();
 }
@@ -459,7 +459,7 @@ Core::get_operation_mode()
 OperationMode
 Core::set_operation_mode(OperationMode mode)
 {
-  OperationMode previous_mode = operation_mode;  
+  OperationMode previous_mode = operation_mode;
 
   if (operation_mode != mode)
     {
@@ -480,7 +480,7 @@ Core::set_operation_mode(OperationMode mode)
         {
           stop_all_breaks();
         }
-      
+
       get_configurator()->set_value(CFG_KEY_OPERATION_MODE, mode);
       if (core_event_listener != NULL)
         {
@@ -505,7 +505,7 @@ void
 Core::force_break(BreakId id, bool initiated_by_user)
 {
   do_force_break(id, initiated_by_user);
-#ifdef HAVE_DISTRIBUTION  
+#ifdef HAVE_DISTRIBUTION
   send_break_control_message_bool_param(id, BCM_START_BREAK, initiated_by_user);
 #endif
 }
@@ -555,7 +555,7 @@ Core::set_powersave(bool down)
         {
           powersave_resume_time = current_time;
         }
-          
+
       set_operation_mode(powersave_operation_mode);
     }
   TRACE_EXIT();
@@ -623,7 +623,7 @@ void
 Core::postpone_break(BreakId break_id)
 {
   do_postpone_break(break_id);
-#ifdef HAVE_DISTRIBUTION  
+#ifdef HAVE_DISTRIBUTION
   send_break_control_message(break_id, BCM_POSTPONE);
 #endif
 
@@ -647,10 +647,10 @@ void
 Core::skip_break(BreakId break_id)
 {
   do_skip_break(break_id);
-#ifdef HAVE_DISTRIBUTION  
+#ifdef HAVE_DISTRIBUTION
   send_break_control_message(break_id, BCM_SKIP);
 #endif
-      
+
   if (resume_break != BREAK_ID_NONE &&
       !breaks[resume_break].get_break_ignorable())
     {
@@ -672,7 +672,7 @@ Core::stop_prelude(BreakId break_id)
 {
   TRACE_ENTER_MSG("Core::stop_prelude", break_id);
   do_stop_prelude(break_id);
-#ifdef HAVE_DISTRIBUTION  
+#ifdef HAVE_DISTRIBUTION
   send_break_control_message(break_id, BCM_ABORT_PRELUDE);
 #endif
   TRACE_EXIT();
@@ -727,7 +727,7 @@ Core::heartbeat()
 {
   TRACE_ENTER("Core::heartbeat");
   assert(application != NULL);
-  
+
   // Set current time.
   current_time = time(NULL);
 
@@ -739,7 +739,7 @@ Core::heartbeat()
 
   // Performs timewarp checking.
   process_timewarp();
-  
+
   // Perform timer processing.
   process_timers();
 
@@ -777,12 +777,12 @@ Core::process_distribution()
   master_node = true;
 
 #ifdef HAVE_DISTRIBUTION
-#ifndef NDEBUG  
+#ifndef NDEBUG
   if (script_start_time != -1 && current_time >= script_start_time)
     {
       do_script();
     }
-#endif  
+#endif
 
   // Retrieve State.
   ActivityState state = monitor->get_current_state();
@@ -807,7 +807,7 @@ Core::process_distribution()
 
       buffer.pack_ushort(1);
       buffer.pack_ushort(state);
-      
+
       dist_manager->broadcast_client_message(DCM_MONITOR, buffer);
 
       buffer.clear();
@@ -817,7 +817,7 @@ Core::process_distribution()
           dist_manager->broadcast_client_message(DCM_TIMERS, buffer);
         }
     }
-  
+
 #endif
 }
 
@@ -835,7 +835,7 @@ Core::process_state()
     {
       monitor_state = fake_monitor->get_current_state();
     }
-#endif  
+#endif
 
 #ifdef HAVE_DISTRIBUTION
   if (!master_node)
@@ -894,7 +894,7 @@ Core::process_timers()
           breaks[i].get_timer()->process(monitor_state, infos[i]);
         }
     }
-  
+
   // Process all timer events.
   for (int i = BREAK_ID_SIZEOF - 1; i >= 0;  i--)
     {
@@ -910,9 +910,9 @@ Core::process_timers()
         {
           statistics->set_counter(Statistics::STATS_VALUE_TOTAL_ACTIVE_TIME, info.elapsed_time);
           statistics->start_new_day();
-            
+
           daily_reset();
-        }      
+        }
     }
 
   TRACE_EXIT();
@@ -941,12 +941,12 @@ Core::process_timewarp()
                 {
                   breaks[i].get_timer()->shift_time(gap);
                 }
-              
+
               monitor_state = ACTIVITY_IDLE;
 #else
               /* Assume it is a powersave... */
               int save_current_time = current_time;
-              
+
               current_time = last_process_time + 1;
               monitor_state = ACTIVITY_IDLE;
 
@@ -990,12 +990,12 @@ Core::timer_action(BreakId id, TimerInfo info)
     {
       return;
     }
-  
+
   BreakControl *breaker = breaks[id].get_break_control();
   Timer *timer = breaks[id].get_timer();
 
   assert(breaker != NULL && timer != NULL);
-  
+
   switch (info.event)
     {
     case TIMER_EVENT_LIMIT_REACHED:
@@ -1004,14 +1004,14 @@ Core::timer_action(BreakId id, TimerInfo info)
           start_break(id);
         }
       break;
-      
+
     case TIMER_EVENT_RESET:
       if (breaker->get_break_state() == BreakControl::BREAK_ACTIVE)
         {
           breaker->stop_break();
         }
       break;
-      
+
     case TIMER_EVENT_NATURAL_RESET:
       if (breaker->get_break_state() == BreakControl::BREAK_ACTIVE)
         {
@@ -1019,7 +1019,7 @@ Core::timer_action(BreakId id, TimerInfo info)
         }
       statistics->increment_break_counter(id, Statistics::STATS_BREAKVALUE_NATURAL_TAKEN);
       break;
-      
+
     default:
       break;
     }
@@ -1041,7 +1041,7 @@ Core::start_break(BreakId break_id, BreakId resume_this_break)
           return;
         }
     }
-  
+
   // Advance restbreak if it follows within 30s after the end of a microbreak
   BreakControl *restbreak_control;
   restbreak_control = breaks[BREAK_ID_REST_BREAK].get_break_control();
@@ -1052,7 +1052,7 @@ Core::start_break(BreakId break_id, BreakId resume_this_break)
       assert(rb_timer != NULL);
 
       bool activity_sensitive = breaks[BREAK_ID_REST_BREAK].get_timer_activity_sensitive();
-      
+
       // Only advance when
       // 0. It is activity sensitive
       // 1. we have a next limit reached time.
@@ -1063,7 +1063,7 @@ Core::start_break(BreakId break_id, BreakId resume_this_break)
 
           time_t duration = timer->get_auto_reset();
           time_t now = get_time();
-          
+
           if (now + duration + 30 >= rb_timer->get_next_limit_time())
             {
               start_break(BREAK_ID_REST_BREAK, BREAK_ID_MICRO_BREAK);
@@ -1089,7 +1089,7 @@ Core::start_break(BreakId break_id, BreakId resume_this_break)
   // If break 'break_id' ends, and break 'resume_this_break' is still
   // active, resume it...
   resume_break = resume_this_break;
-  
+
   BreakControl *breaker = breaks[break_id].get_break_control();
   breaker->start_break();
 }
@@ -1137,7 +1137,7 @@ Core::daily_reset()
     {
       Timer *t = breaks[i].get_timer();
       assert(t != NULL);
-      
+
       int overdue = t->get_total_overdue_time();
 
       statistics->set_break_counter(((BreakId)i),
@@ -1168,7 +1168,7 @@ Core::save_state() const
 
   stateFile << "WorkRaveState 2"  << endl
             << get_time() << endl;
-  
+
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       string stateStr = breaks[i].get_timer()->serialize_state();
@@ -1204,7 +1204,7 @@ Core::load_state()
   ifstream stateFile(ss.str().c_str());
 
   bool ok = stateFile;
-  
+
   if (ok)
     {
       string tag;
@@ -1226,7 +1226,7 @@ Core::load_state()
       time_t saveTime;
       stateFile >> saveTime;
     }
-  
+
   while (ok && !stateFile.eof())
     {
       string id;
@@ -1264,7 +1264,7 @@ Core::freeze()
 {
   TRACE_ENTER_MSG("BreakControl::freeze", insist_policy);
   ICore::InsistPolicy policy = insist_policy;
-  
+
   switch (policy)
     {
     case ICore::INSIST_POLICY_IGNORE:
@@ -1283,7 +1283,7 @@ Core::freeze()
       // reset the timer when the user becomes active.
       // default.
       break;
-      
+
     default:
       break;
     }
@@ -1298,7 +1298,7 @@ void
 Core::defrost()
 {
   TRACE_ENTER_MSG("BreakControl::defrost", active_insist_policy);
-  
+
   switch (active_insist_policy)
     {
     case ICore::INSIST_POLICY_IGNORE:
@@ -1316,7 +1316,7 @@ Core::defrost()
         set_freeze_all_breaks(false);
       }
       break;
-      
+
     default:
       break;
     }
@@ -1350,7 +1350,7 @@ Core::test_me()
   dist_manager->broadcast_client_message(DCM_SCRIPT, buffer);
 
 #else
-#ifdef HAVE_DISTRIBUTION  
+#ifdef HAVE_DISTRIBUTION
   if (fake_monitor != NULL)
     {
       ActivityState state = fake_monitor->get_current_state();
@@ -1379,17 +1379,17 @@ bool
 Core::request_client_message(DistributionClientMessageID id, PacketBuffer &buffer)
 {
   bool ret = false;
-  
+
   switch (id)
     {
     case DCM_BREAKS:
       ret = request_break_state(buffer);
       break;
-      
+
     case DCM_TIMERS:
       ret = request_timer_state(buffer);
       break;
-        
+
     case DCM_CONFIG:
       break;
 
@@ -1420,17 +1420,17 @@ Core::client_message(DistributionClientMessageID id, bool master, const char *cl
                      PacketBuffer &buffer)
 {
   bool ret = false;
-  
+
   switch (id)
     {
     case DCM_BREAKS:
       ret = set_break_state(master, buffer);
       break;
-      
+
     case DCM_TIMERS:
       ret = set_timer_state(buffer);
       break;
-        
+
     case DCM_MONITOR:
       ret = set_monitor_state(master, buffer);
       break;
@@ -1441,13 +1441,13 @@ Core::client_message(DistributionClientMessageID id, bool master, const char *cl
 
     case DCM_CONFIG:
       break;
-      
+
     case DCM_IDLELOG:
       idlelog_manager->set_idlelog(buffer);
       compute_timers();
       ret = true;
       break;
-      
+
 #ifndef NDEBUG
     case DCM_SCRIPT:
       ret = script_message(master, client_id, buffer);
@@ -1465,7 +1465,7 @@ bool
 Core::request_break_state(PacketBuffer &buffer)
 {
   buffer.pack_ushort(BREAK_ID_SIZEOF);
-  
+
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       BreakControl *bi = breaks[i].get_break_control();
@@ -1474,7 +1474,7 @@ Core::request_break_state(PacketBuffer &buffer)
         {
           BreakControl::BreakStateData state_data;
           bi->get_state_data(state_data);
-      
+
           int pos = buffer.bytes_written();
 
           buffer.pack_ushort(0);
@@ -1483,7 +1483,7 @@ Core::request_break_state(PacketBuffer &buffer)
           buffer.pack_ulong((guint32)state_data.prelude_count);
           buffer.pack_ulong((guint32)state_data.break_stage);
           buffer.pack_ulong((guint32)state_data.prelude_time);
-      
+
           buffer.poke_ushort(pos, buffer.bytes_written() - pos);
         }
       else
@@ -1505,11 +1505,11 @@ Core::set_break_state(bool master, PacketBuffer &buffer)
     {
       num_breaks = BREAK_ID_SIZEOF;
     }
-      
+
   for (int i = 0; i < num_breaks; i++)
     {
       BreakControl *bi = breaks[i].get_break_control();
-      
+
       BreakControl::BreakStateData state_data;
 
       int data_size = buffer.unpack_ushort();
@@ -1525,7 +1525,7 @@ Core::set_break_state(bool master, PacketBuffer &buffer)
           bi->set_state_data(master, state_data);
         }
     }
-  
+
   return true;
 }
 
@@ -1535,16 +1535,16 @@ Core::request_timer_state(PacketBuffer &buffer) const
   TRACE_ENTER("Core::get_timer_state");
 
   buffer.pack_ushort(BREAK_ID_SIZEOF);
-  
+
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       Timer *t = breaks[i].get_timer();
       buffer.pack_string(t->get_id().c_str());
 
       Timer::TimerStateData state_data;
-      
+
       t->get_state_data(state_data);
-      
+
       int pos = buffer.bytes_written();
 
       buffer.pack_ushort(0);
@@ -1557,7 +1557,7 @@ Core::request_timer_state(PacketBuffer &buffer) const
       buffer.pack_ulong((guint32)state_data.last_limit_time);
       buffer.pack_ulong((guint32)state_data.last_limit_elapsed);
       buffer.pack_ushort((guint16)state_data.snooze_inhibited);
-      
+
       buffer.poke_ushort(pos, buffer.bytes_written() - pos);
     }
 
@@ -1584,13 +1584,13 @@ Core::set_timer_state(PacketBuffer &buffer)
           TRACE_EXIT();
           return false;
         }
-      
+
       Timer *t = (Timer *)get_timer(id);
 
       Timer::TimerStateData state_data;
 
       buffer.unpack_ushort();
-      
+
       state_data.current_time = buffer.unpack_ulong();
       state_data.elapsed_time = buffer.unpack_ulong();
       state_data.elapsed_idle_time = buffer.unpack_ulong();
@@ -1600,13 +1600,13 @@ Core::set_timer_state(PacketBuffer &buffer)
       state_data.last_limit_time = buffer.unpack_ulong();
       state_data.last_limit_elapsed = buffer.unpack_ulong();
       state_data.snooze_inhibited = buffer.unpack_ushort();
-      
+
       TRACE_MSG("state = "
                 << state_data.current_time << " "
                 << state_data.elapsed_time << " "
                 << state_data.elapsed_idle_time << " "
                 << state_data.last_pred_reset_time << " "
-                << state_data.total_overdue_time 
+                << state_data.total_overdue_time
                 );
 
       if (t != NULL)
@@ -1614,7 +1614,7 @@ Core::set_timer_state(PacketBuffer &buffer)
           t->set_state_data(state_data);
         }
     }
-  
+
   TRACE_EXIT();
   return true;
 }
@@ -1631,7 +1631,7 @@ Core::set_monitor_state(bool master, PacketBuffer &buffer)
       remote_state = (ActivityState) buffer.unpack_ushort();
       TRACE_MSG(remote_state);
     }
-  
+
   TRACE_EXIT();
   return true;
 }
@@ -1652,7 +1652,7 @@ Core::signon_remote_client(string client_id)
 
       buffer.pack_ushort(1);
       buffer.pack_ushort(state);
-      
+
       dist_manager->broadcast_client_message(DCM_MONITOR, buffer);
 
       buffer.clear();
@@ -1682,7 +1682,7 @@ Core::compute_timers()
     {
       int autoreset = breaks[i].get_timer()->get_auto_reset();
       int idle = idlelog_manager->compute_idle_time();
-          
+
       if (autoreset != 0)
         {
           int active_time = idlelog_manager->compute_active_time(autoreset);
@@ -1691,7 +1691,7 @@ Core::compute_timers()
             {
               idle = autoreset;
             }
-          
+
           breaks[i].get_timer()->set_values(active_time, idle);
         }
       else
@@ -1700,7 +1700,7 @@ Core::compute_timers()
           breaks[i].get_timer()->set_values(active_time, idle);
         }
     }
-  
+
   TRACE_EXIT();
 }
 
@@ -1711,11 +1711,11 @@ Core::send_break_control_message(BreakId break_id, BreakControlMessage message)
 {
   PacketBuffer buffer;
   buffer.create();
-  
+
   buffer.pack_ushort(4);
   buffer.pack_ushort(break_id);
   buffer.pack_ushort(message);
-  
+
   dist_manager->broadcast_client_message(DCM_BREAKCONTROL, buffer);
 }
 
@@ -1726,12 +1726,12 @@ Core::send_break_control_message_bool_param(BreakId break_id, BreakControlMessag
 {
   PacketBuffer buffer;
   buffer.create();
-  
+
   buffer.pack_ushort(5);
   buffer.pack_ushort(break_id);
   buffer.pack_ushort(message);
   buffer.pack_byte(param);
-  
+
   dist_manager->broadcast_client_message(DCM_BREAKCONTROL, buffer);
 }
 
@@ -1787,7 +1787,7 @@ Core::script_message(bool master, const char *client_id, PacketBuffer &buffer)
 
   (void) master;
   (void) client_id;
-  
+
   int cmd_size = buffer.unpack_ushort();
   for (int i = 0; i < cmd_size; i++)
     {
@@ -1797,7 +1797,7 @@ Core::script_message(bool master, const char *client_id, PacketBuffer &buffer)
         {
         case SCRIPT_START:
           {
-            script_start_time = buffer.unpack_ulong();            
+            script_start_time = buffer.unpack_ulong();
             script_count = 0;
           }
           break;
@@ -1819,7 +1819,7 @@ Core::do_script()
     {
       if (script_count == 0)
         {
-          fake_monitor->set_state(ACTIVITY_ACTIVE);      
+          fake_monitor->set_state(ACTIVITY_ACTIVE);
         }
       else if (script_count == 5)
         {
@@ -1827,7 +1827,7 @@ Core::do_script()
         }
       else if (script_count == 40)
         {
-          fake_monitor->set_state(ACTIVITY_ACTIVE);      
+          fake_monitor->set_state(ACTIVITY_ACTIVE);
         }
       else if (script_count == 50)
         {

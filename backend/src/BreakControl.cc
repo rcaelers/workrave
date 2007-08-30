@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -115,7 +115,7 @@ BreakControl::heartbeat()
     {
     case STAGE_NONE:
       break;
-      
+
     case STAGE_SNOOZED:
       break;
 
@@ -133,7 +133,7 @@ BreakControl::heartbeat()
           }
       }
       break;
-        
+
     case STAGE_PRELUDE:
       {
         assert(application != NULL);
@@ -161,7 +161,7 @@ BreakControl::heartbeat()
                 // Final prelude, force break.
                 goto_stage(STAGE_TAKING);
               }
-            else 
+            else
               {
                 // Delay break.
                 goto_stage(STAGE_DELAYED);
@@ -185,9 +185,9 @@ BreakControl::heartbeat()
             // Move prelude window to top of screen after 4s.
             application->set_prelude_stage(IApp::STAGE_MOVE_OUT);
           }
-      } 
+      }
       break;
-        
+
     case STAGE_TAKING:
       {
         // refresh the break window.
@@ -199,7 +199,7 @@ BreakControl::heartbeat()
 
   TRACE_EXIT();
 }
-  
+
 
 //! Initiates the specified break stage.
 void
@@ -208,7 +208,7 @@ BreakControl::goto_stage(BreakStage stage)
   TRACE_ENTER_MSG("BreakControl::goto_stage", break_id << " " << stage);
 
   send_signal(stage);
-  
+
   switch (stage)
     {
     case STAGE_DELAYED:
@@ -216,14 +216,14 @@ BreakControl::goto_stage(BreakStage stage)
         IActivityMonitor *monitor = core->get_activity_monitor();
         monitor->set_listener(this);
 
-        break_timer->set_insensitive_mode(ITimer::MODE_IDLE_ON_LIMIT_REACHED);
+        break_timer->set_insensitive_mode(Timer::MODE_IDLE_ON_LIMIT_REACHED);
       }
       break;
-      
+
     case STAGE_NONE:
       {
         // Teminate the break.
-        break_timer->set_insensitive_mode(ITimer::MODE_IDLE_ON_LIMIT_REACHED);
+        break_timer->set_insensitive_mode(Timer::MODE_IDLE_ON_LIMIT_REACHED);
         application->hide_break_window();
         core->defrost();
 
@@ -258,7 +258,7 @@ BreakControl::goto_stage(BreakStage stage)
           }
       }
       break;
-      
+
     case STAGE_SNOOZED:
       {
         application->hide_break_window();
@@ -272,8 +272,8 @@ BreakControl::goto_stage(BreakStage stage)
 
     case STAGE_PRELUDE:
       {
-        break_timer->set_insensitive_mode(ITimer::MODE_FOLLOW_IDLE);
-                                    
+        break_timer->set_insensitive_mode(Timer::MODE_FOLLOW_IDLE);
+
         prelude_count++;
         postponable_count++;
         prelude_time = 0;
@@ -284,12 +284,12 @@ BreakControl::goto_stage(BreakStage stage)
         post_event(CORE_EVENT_SOUND_BREAK_PRELUDE);
       }
       break;
-        
+
     case STAGE_TAKING:
       {
         // Break timer should always idle.
         // Previous revisions set ITimer::MODE_IDLE_ON_LIMIT_REACHED
-        break_timer->set_insensitive_mode( ITimer::MODE_IDLE_ALWAYS );
+        break_timer->set_insensitive_mode(Timer::MODE_IDLE_ALWAYS );
 
         // Remove the prelude window, if necessary.
         application->hide_break_window();
@@ -348,7 +348,7 @@ BreakControl::update_break_window()
   assert(break_timer != NULL);
   time_t duration = break_timer->get_auto_reset();
   time_t idle = 0;
-  
+
   if (fake_break)
     {
       idle = duration - fake_break_count;
@@ -383,7 +383,7 @@ BreakControl::start_break()
   prelude_time = 0;
   user_abort = false;
   delayed_abort = false;
-  
+
   reached_max_prelude = max_number_of_preludes >= 0 && prelude_count + 1 >= max_number_of_preludes;
   reached_max_postpone = max_number_of_postpones >= 0 && postponable_count + 1 >= max_number_of_postpones;
 
@@ -396,7 +396,7 @@ BreakControl::start_break()
   else
     {
       // Starting break with prelude.
-      
+
       // Idle until proven guilty.
       core->force_idle();
       break_timer->stop_timer();
@@ -404,7 +404,7 @@ BreakControl::start_break()
       // Update statistics.
       Statistics *stats = core->get_statistics();
       stats->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_PROMPTED);
-      
+
       if (prelude_count == 0)
         {
           stats->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_UNIQUE_BREAKS);
@@ -429,7 +429,7 @@ BreakControl::force_start_break(bool initiated_by_user)
   prelude_time = 0;
   user_abort = false;
   delayed_abort = false;
-  
+
   if (break_timer->is_auto_reset_enabled())
     {
       TRACE_MSG("auto reset enabled");
@@ -447,7 +447,7 @@ BreakControl::force_start_break(bool initiated_by_user)
     {
       break_timer->force_idle();
     }
-  
+
   goto_stage(STAGE_TAKING);
 
   TRACE_EXIT();
@@ -489,7 +489,7 @@ BreakControl::suspend_break()
 
   goto_stage(STAGE_NONE);
   core->defrost();
-  
+
   TRACE_EXIT();
 }
 
@@ -539,7 +539,7 @@ BreakControl::postpone_break()
           // Snooze the timer.
           break_timer->snooze_timer();
         }
-      
+
       // Update stats.
       Statistics *stats = core->get_statistics();
       stats->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_POSTPONED);
@@ -573,7 +573,7 @@ BreakControl::skip_break()
       // Reset the restbreak timer.
       break_timer->reset_timer();
     }
-  
+
   // Update stats.
   Statistics *stats = core->get_statistics();
   stats->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_SKIPPED);
@@ -588,7 +588,7 @@ BreakControl::stop_prelude()
   delayed_abort = true;
 }
 
-//! Sets the maximum number of preludes. 
+//! Sets the maximum number of preludes.
 /*!
  *  After the maximum number of preludes, the break either stops bothering the
  *  user, or forces a break. This can be set with set_force_after_preludes.
@@ -645,13 +645,13 @@ BreakControl::prelude_window_start()
     {
       application->set_prelude_progress_text(IApp::PROGRESS_TEXT_DISAPPEARS_IN);
     }
-  else 
+  else
     {
       application->set_prelude_progress_text(IApp::PROGRESS_TEXT_BREAK_IN);
     }
-  
+
   update_prelude_window();
-  
+
   TRACE_EXIT();
 }
 
@@ -678,10 +678,10 @@ BreakControl::set_state_data(bool active, const BreakStateData &data)
             " prelude = " << data.prelude_count <<
             " stage = " <<  data.break_stage <<
             " final = " << reached_max_prelude <<
-	    " total preludes = " << postponable_count <<
-	    " force ignorable break = " << reached_max_postpone <<
+            " total preludes = " << postponable_count <<
+            " force ignorable break = " << reached_max_postpone <<
             " time = " << data.prelude_time);
-  
+
   // TODO: check application->hide_break_window();
 
   user_initiated = data.user_initiated;
@@ -691,65 +691,65 @@ BreakControl::set_state_data(bool active, const BreakStateData &data)
 
   //TODO:
   return;
-    
+
   BreakStage new_break_stage = (BreakStage) data.break_stage;
-  
+
   if (new_break_stage == STAGE_TAKING)
     {
       TRACE_MSG("TAKING -> PRELUDE");
       new_break_stage = STAGE_PRELUDE;
       prelude_count = max_number_of_preludes - 1;
     }
-  
+
   //TODO: check if this can/must be removed  if (active)
-    {
-      if (user_initiated && new_break_stage == STAGE_TAKING)
-        {
-          TRACE_MSG("User inflicted break -> TAKING");
+  {
+    if (user_initiated && new_break_stage == STAGE_TAKING)
+      {
+        TRACE_MSG("User inflicted break -> TAKING");
 
-          prelude_time = 0;
-          goto_stage(STAGE_TAKING);
-        }
-      else if (new_break_stage == STAGE_TAKING) // && !user_initiated
-        {
-          TRACE_MSG("Break active");
+        prelude_time = 0;
+        goto_stage(STAGE_TAKING);
+      }
+    else if (new_break_stage == STAGE_TAKING) // && !user_initiated
+      {
+        TRACE_MSG("Break active");
 
-          // Idle until proven guilty.
-          core->force_idle();
-          break_timer->stop_timer();
-      
-          goto_stage(STAGE_TAKING);
-        }
-      else if (new_break_stage == STAGE_SNOOZED || new_break_stage == STAGE_PRELUDE)
-        {
-          TRACE_MSG("Snooze/Prelude");
-  
-          user_initiated = false;
-          prelude_time = 0;
-          reached_max_prelude = max_number_of_preludes >= 0 && prelude_count + 1 >= max_number_of_preludes;
+        // Idle until proven guilty.
+        core->force_idle();
+        break_timer->stop_timer();
 
-          if (max_number_of_preludes >= 0 && prelude_count >= max_number_of_preludes)
-            {
-              TRACE_MSG("TAKING");
-              goto_stage(STAGE_TAKING);
-            }
-          else
-            {
-              TRACE_MSG("PRELUDE");
+        goto_stage(STAGE_TAKING);
+      }
+    else if (new_break_stage == STAGE_SNOOZED || new_break_stage == STAGE_PRELUDE)
+      {
+        TRACE_MSG("Snooze/Prelude");
 
-              // Idle until proven guilty.
-              core->force_idle();
-              break_timer->stop_timer();
-  
-              goto_stage(STAGE_PRELUDE);
-            }
-        }
-      else
-        {
-          TRACE_MSG("NONE");
-          goto_stage(STAGE_NONE);
-        }
-    }
+        user_initiated = false;
+        prelude_time = 0;
+        reached_max_prelude = max_number_of_preludes >= 0 && prelude_count + 1 >= max_number_of_preludes;
+
+        if (max_number_of_preludes >= 0 && prelude_count >= max_number_of_preludes)
+          {
+            TRACE_MSG("TAKING");
+            goto_stage(STAGE_TAKING);
+          }
+        else
+          {
+            TRACE_MSG("PRELUDE");
+
+            // Idle until proven guilty.
+            core->force_idle();
+            break_timer->stop_timer();
+
+            goto_stage(STAGE_PRELUDE);
+          }
+      }
+    else
+      {
+        TRACE_MSG("NONE");
+        goto_stage(STAGE_NONE);
+      }
+  }
 
   TRACE_EXIT();
 }
@@ -787,16 +787,16 @@ void
 BreakControl::send_signal(BreakStage stage)
 {
   (void) stage;
-  
+
 #ifdef HAVE_DBUS
   char *progress = NULL;
-  
+
   switch (stage)
     {
     case STAGE_NONE:
       progress = "none";
       break;
-      
+
     case STAGE_SNOOZED:
       progress = "none";
       break;
@@ -804,11 +804,11 @@ BreakControl::send_signal(BreakStage stage)
     case STAGE_DELAYED:
       // Do not send this stage.
       break;
-        
+
     case STAGE_PRELUDE:
       progress = "prelude";
       break;
-      
+
     case STAGE_TAKING:
       progress = "break";
       break;
@@ -818,6 +818,6 @@ BreakControl::send_signal(BreakStage stage)
     {
       workrave_service_send_break_stage_signal(break_id, progress);
     }
-  
+
 #endif
 }

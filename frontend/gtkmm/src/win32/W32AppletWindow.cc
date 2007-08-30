@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -70,7 +70,7 @@ RecursiveFindWindow(HWND hwnd, LPCTSTR lpClassName)
   int num = GetClassName(hwnd, buf, sizeof(buf)-1);
   buf[num] = 0;
   HWND ret = NULL;
-  
+
   if (! stricmp(lpClassName, buf))
     {
       ret =  hwnd;
@@ -90,7 +90,7 @@ RecursiveFindWindow(HWND hwnd, LPCTSTR lpClassName)
     }
   return ret;
 }
-                                
+
 
 
 void
@@ -182,7 +182,7 @@ W32AppletWindow::update_time_bars()
     }
   TRACE_EXIT();
 }
-  
+
 HWND
 W32AppletWindow::get_applet_window()
 {
@@ -271,7 +271,7 @@ W32AppletWindow::win32_filter_func (void     *xevent,
         ret = GDK_FILTER_REMOVE;
       }
       break;
-  
+
     case WM_USER + 1:
       {
         timer_box_control->force_cycle();

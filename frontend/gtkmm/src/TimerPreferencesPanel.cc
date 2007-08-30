@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -48,7 +48,7 @@ TimerPreferencesPanel::TimerPreferencesPanel
          max_prelude_adjustment(0, 1, 100)
 #ifdef HAVE_EXERCISES
   ,exercises_adjustment(0, 0, 10)
-#endif  
+#endif
 {
   break_id = t;
 
@@ -63,9 +63,9 @@ TimerPreferencesPanel::TimerPreferencesPanel
   enabled_cb->add(*enabled_lab);
   enabled_cb->set_active(break_data->get_break_enabled());
   enabled_cb->signal_toggled().connect(MEMBER_SLOT(*this, &TimerPreferencesPanel::on_enabled_toggled));
-  
+
   HigCategoriesPanel *categories = manage(new HigCategoriesPanel());;
-  
+
   Gtk::Widget *prelude_frame = manage(create_prelude_panel());
   Gtk::Widget *timers_frame = manage(create_timers_panel
                                      (hsize_group, vsize_group));
@@ -76,14 +76,14 @@ TimerPreferencesPanel::TimerPreferencesPanel
 
   enable_buttons();
   set_prelude_sensitivity();
-  
+
   // Overall box
   box->pack_start(*categories, false, false, 0);
   box->pack_start(*prelude_frame, false, false, 0);
 
   pack_start(*enabled_cb, false, false, 0);
   pack_start(*box, false, false, 0);
-  
+
   set_border_width(12);
 }
 
@@ -100,7 +100,7 @@ TimerPreferencesPanel::create_prelude_panel()
 {
   // Prelude frame
   HigCategoryPanel *hig = manage(new HigCategoryPanel(_("Break prompting")));
-  
+
   prelude_cb = manage(new Gtk::CheckButton(_("Prompt before breaking")));
   int max_preludes = break_data->get_break_max_preludes();
   prelude_cb->set_active(max_preludes != 0);
@@ -108,12 +108,12 @@ TimerPreferencesPanel::create_prelude_panel()
   has_max_prelude_cb = manage(new Gtk::CheckButton
                               (_("Maximum number of prompts:")));
   has_max_prelude_cb->set_active(max_preludes > 0);
-  
+
   max_prelude_adjustment.set_value(max_preludes > 0 ? max_preludes : 1);
   max_prelude_spin = manage(new Gtk::SpinButton(max_prelude_adjustment));
-  
+
   set_prelude_sensitivity();
-  
+
   prelude_cb->signal_toggled()
     .connect(MEMBER_SLOT(*this,
                         &TimerPreferencesPanel::on_preludes_active_toggled));
@@ -137,7 +137,7 @@ Gtk::Widget *
 TimerPreferencesPanel::create_options_panel()
 {
   HigCategoryPanel *hig = manage(new HigCategoryPanel(_("Options")));
-  
+
   // Ignorable
   bool ignorable = break_data->get_break_ignorable();
   ignorable_cb = manage(new Gtk::CheckButton
@@ -175,7 +175,7 @@ TimerPreferencesPanel::create_options_panel()
       hig->add(*monitor_cb);
     }
 #endif
-  
+
 #ifdef HAVE_EXERCISES
   if (break_id == BREAK_ID_REST_BREAK)
     {
@@ -188,7 +188,7 @@ TimerPreferencesPanel::create_options_panel()
     }
 #endif
 
-  
+
   return hig;
 }
 
@@ -214,10 +214,10 @@ TimerPreferencesPanel::create_timers_panel
     {
       const char *auto_reset_txt;
       time_t auto_reset_value;
-      
+
       auto_reset_txt = _("Break duration:");
       auto_reset_value = break_data->get_timer_auto_reset();
-  
+
       auto_reset_tim = manage(new TimeEntry());
       auto_reset_tim->set_value (auto_reset_value);
       auto_reset_tim->signal_value_changed()
@@ -386,7 +386,7 @@ TimerPreferencesPanel::enable_buttons()
 
   ignorable_cb->set_sensitive(on);
   activity_sensitive_cb->set_sensitive(on);
-  
+
 #ifdef HAVE_MICRO_BREAK_ACTIVITY
   if (monitor_cb != NULL)
     {

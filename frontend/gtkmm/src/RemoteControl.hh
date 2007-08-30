@@ -32,7 +32,7 @@ public:
 
   static RemoteControl *get_instance();
   WorkraveControl *get_remote_control() const;
-  
+
   WR_METHOD_NOARGS(void, fire);
 
   WR_METHOD_NOARGS(void, open_main);
@@ -41,7 +41,7 @@ public:
   WR_METHOD_NOARGS(void, open_exercises);
   WR_METHOD_NOARGS(void, open_network_connect);
   WR_METHOD       (void, open_network_log, CORBA_boolean state);
-  
+
   WR_METHOD_NOARGS(void, restbreak);
   WR_METHOD       (void, set_mode, GNOME_Workrave_WorkraveControl_Mode mode);
   WR_METHOD_NOARGS(void, disconnect_all);
@@ -53,8 +53,8 @@ public:
   WR_METHOD       (void, set_applet_background, CORBA_long type,
                    const GNOME_Workrave_WorkraveControl_Color *color, CORBA_long xid);
   WR_METHOD       (void, button_clicked, CORBA_long button);
-  
-private:  
+
+private:
   //! The one and only instance
   static RemoteControl *instance;
 

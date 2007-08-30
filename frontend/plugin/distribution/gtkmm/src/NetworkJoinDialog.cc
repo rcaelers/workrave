@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -52,7 +52,7 @@ NetworkJoinDialog::NetworkJoinDialog()
   ICore *core = CoreFactory::get_core();
   IDistributionManager *dist_manager
     = core->get_distribution_manager();
-  
+
   // Icon
   std::string title_icon = Util::complete_directory
     ("network.png", Util::SEARCH_PATH_IMAGES);
@@ -68,7 +68,7 @@ NetworkJoinDialog::NetworkJoinDialog()
      _("Enter the host name and port number of a computer\n"
        "in the network you wish to connect to."));
   title_lab->set_markup(text);
-  
+
   host_entry.set_width_chars(40);
 
   port_entry.set_range(1024, 65535);
@@ -86,7 +86,7 @@ NetworkJoinDialog::NetworkJoinDialog()
   title_lab->set_alignment(0.0);
   table->attach(*title_lab, 0, 2, 0, 1, Gtk::FILL, Gtk::SHRINK, 0, 6);
   GtkUtil::table_attach_left_aligned(*table, *host_lab, 0, 1);
-  GtkUtil::table_attach_left_aligned(*table, host_entry, 1, 1); 
+  GtkUtil::table_attach_left_aligned(*table, host_entry, 1, 1);
   GtkUtil::table_attach_left_aligned(*table, *port_lab, 0, 2);
   GtkUtil::table_attach_left_aligned(*table, port_entry, 1, 2);
 

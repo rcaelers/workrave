@@ -1,13 +1,13 @@
 // PreludeWindow.cc
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2006 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -71,13 +71,13 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
 
   init_avoid_pointer();
   realize();
-  
+
   // Time bar
   time_bar = manage(new TimeBar);
 
   // Label
   label = manage(new Gtk::Label());
-  
+
   // Box
   Gtk::VBox *vbox = manage(new Gtk::VBox(false, 6));
   vbox->pack_start(*label, false, false, 0);
@@ -85,7 +85,7 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
 
   // Icon
   image_icon = manage(new Gtk::Image());
-  
+
   // Box
   Gtk::HBox *hbox = manage(new Gtk::HBox(false, 6));
   hbox->pack_start(*image_icon, false, false, 0);
@@ -108,11 +108,11 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
     case BREAK_ID_MICRO_BREAK:
       label->set_markup(HigUtil::create_alert_text(_("Time for a micro-break?"), NULL));
       break;
-        
+
     case BREAK_ID_REST_BREAK:
       label->set_markup(HigUtil::create_alert_text(_("You need a rest break..."), NULL));
       break;
-          
+
     case BREAK_ID_DAILY_LIMIT:
       label->set_markup(HigUtil::create_alert_text(_("You should stop for today..."), NULL));
       break;
@@ -120,14 +120,14 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
     default:
       break;
     }
-  
+
   unset_flags(Gtk::CAN_FOCUS);
 
   show_all_children();
   stick();
 
   this->head = head;
-#ifdef HAVE_GTK_MULTIHEAD  
+#ifdef HAVE_GTK_MULTIHEAD
   if (head.valid)
     {
       Gtk::Window::set_screen(head.screen);
@@ -154,7 +154,7 @@ void
 PreludeWindow::start()
 {
   TRACE_ENTER("PreludeWindow::start");
-  
+
   // Need to realize window before it is shown
   // Otherwise, there is not gobj()...
   realize_if_needed();
@@ -163,12 +163,12 @@ PreludeWindow::start()
   WindowHints::set_skip_winlist(Gtk::Widget::gobj(), true);
 
 #ifdef WIN32
-  SetWindowPos( (HWND) GDK_WINDOW_HWND( Gtk::Widget::gobj()->window ), 
+  SetWindowPos( (HWND) GDK_WINDOW_HWND( Gtk::Widget::gobj()->window ),
       HWND_TOPMOST, 0, 0, 0, 0, SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE );
 #else
   WindowHints::set_always_on_top(Gtk::Widget::gobj(), true);
 #endif
-  
+
   refresh();
   GtkUtil::center_window(*this, head);
   show_all();
@@ -226,7 +226,7 @@ void
 PreludeWindow::refresh()
 {
   char s[128] = "";
-      
+
   time_bar->set_progress(progress_value, progress_max_value);
 
   int tminus = progress_max_value - progress_value;
@@ -241,7 +241,7 @@ PreludeWindow::refresh()
   time_bar->update();
 #ifdef WIN32
   HWND hwnd = (HWND) GDK_WINDOW_HWND( Gtk::Widget::gobj()->window );
-  SetWindowPos( hwnd, HWND_TOPMOST, 0, 0, 0, 0, 
+  SetWindowPos( hwnd, HWND_TOPMOST, 0, 0, 0, 0,
     SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE );
 #endif
 }
@@ -264,11 +264,11 @@ PreludeWindow::set_progress_text(IApp::PreludeProgressText text)
     case IApp::PROGRESS_TEXT_BREAK_IN:
       progress_text = _("Break in %s");
       break;
-      
+
     case IApp::PROGRESS_TEXT_DISAPPEARS_IN:
       progress_text = _("Disappears in %s");
       break;
-      
+
     case IApp::PROGRESS_TEXT_SILENT_IN:
       progress_text = _("Silent in %s");
       break;
@@ -287,14 +287,14 @@ PreludeWindow::set_stage(IApp::PreludeStage stage)
       frame->set_frame_visible(false);
       icon = "prelude-hint.png";
       break;
-      
+
     case IApp::STAGE_WARN:
       frame->set_frame_visible(true);
       frame->set_frame_flashing(500);
       frame->set_frame_color(color_warn);
       icon = "prelude-hint-sad.png";
       break;
-      
+
     case IApp::STAGE_ALERT:
       frame->set_frame_flashing(500);
       frame->set_frame_color(color_alert);
@@ -321,7 +321,7 @@ PreludeWindow::set_stage(IApp::PreludeStage stage)
 
 void
 PreludeWindow::on_frame_flash(bool frame_visible)
-{ 
+{
   TRACE_ENTER("PreludeWindow::on_frame_flash");
   flash_visible = frame_visible;
   refresh();
@@ -343,7 +343,7 @@ PreludeWindow::init_avoid_pointer()
   if (! is_realized())
     {
       Gdk::EventMask events;
-      
+
       events = Gdk::ENTER_NOTIFY_MASK;
       add_events(events);
     }
@@ -369,7 +369,7 @@ PreludeWindow::avoid_pointer(int px, int py)
 {
   TRACE_ENTER_MSG("PreludeWindow::avoid_pointer", px << " " << py);
   Glib::RefPtr<Gdk::Window> window = get_window();
-    
+
   int winx, winy, width, height, wind;
   window->get_geometry(winx, winy, width, height, wind);
 
@@ -378,14 +378,14 @@ PreludeWindow::avoid_pointer(int px, int py)
 #ifdef WIN32
   // This is only necessary for WIN32, since HAVE_X uses GdkEventCrossing.
   // Set gravitiy, otherwise, get_position() returns weird winy.
-  set_gravity(Gdk::GRAVITY_STATIC); 
+  set_gravity(Gdk::GRAVITY_STATIC);
   get_position(winx, winy);
   if (px < winx || px > winx+width || py < winy || py > winy+height)
     return;
 #else
   px += winx;
   py += winy;
-#endif  
+#endif
   TRACE_MSG("geom2" << winx << " " << winy << " " << width << " " << height << " ");
 
   int screen_height = head.get_height();
@@ -420,36 +420,16 @@ PreludeWindow::avoid_pointer(int px, int py)
 bool
 PreludeWindow::on_avoid_pointer_timer()
 {
-#if 0  
-/*
-get_pointer reads low-level keyboard state, and that's a 
-problem for anti-hook monitors. use GetCursorPos() instead.
-*/
-  Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
-  Gdk::ModifierType type;
-  int x,y;
-
-#ifdef HAVE_GTKMM24
-  if (display)
-#else
-  if (!display.is_null())
-#endif
-    {
-      display->get_pointer(x, y, type);
-    }
-
-  avoid_pointer(x, y);
-
-#else
-  // gdk_window_get_pointer is not reliable.
+  /*
+    display->get_pointer reads low-level keyboard state, and that's a
+    problem for anti-hook monitors. use GetCursorPos() instead.
+  */
   POINT p;
   if (GetCursorPos(&p))
     {
       avoid_pointer(p.x, p.y);
     }
-#endif
-  
+
   return true;
 }
-
 #endif

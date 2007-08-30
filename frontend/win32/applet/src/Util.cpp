@@ -7,7 +7,7 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation; either version 2, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -24,7 +24,7 @@ MapWindowRect(HWND hwnd, HWND parent, RECT *rect)
   MapWindowPoints(hwnd, parent, (LPPOINT) rect, 2);
 }
 
-static void 
+static void
 TransparentHideWindow(HWND hwnd)
 {
   if (IsWindowVisible(hwnd))
@@ -42,7 +42,7 @@ TransparentHideWindow(HWND hwnd)
 static void
 TransparentPrepareShowWindow(HWND hwnd, int x, int y, BOOL repaint)
 {
-  
+
   if (IsWindowVisible(hwnd))
     {
       RECT r;
@@ -59,7 +59,7 @@ TransparentPrepareShowWindow(HWND hwnd, int x, int y, BOOL repaint)
 }
 
 
-void 
+void
 TransparentDamageControl::BeginPaint(BOOL rp)
 {
   hide_windows_num = 0;
@@ -67,13 +67,13 @@ TransparentDamageControl::BeginPaint(BOOL rp)
   repaint = rp;
 }
 
-void 
+void
 TransparentDamageControl::HideWindow(HWND hwnd)
 {
   hide_windows[hide_windows_num++] = hwnd;
 }
 
-void 
+void
 TransparentDamageControl::ShowWindow(HWND hwnd, int x, int y)
 {
   ShowWindowData *d = &show_windows[show_windows_num++];
@@ -82,7 +82,7 @@ TransparentDamageControl::ShowWindow(HWND hwnd, int x, int y)
   d->y = y;
 }
 
-void 
+void
 TransparentDamageControl::EndPaint()
 {
   for (int h = 0; h < hide_windows_num; h++)
