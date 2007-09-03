@@ -82,7 +82,8 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   if( mode != GUI::BLOCK_MODE_NONE )
   {
     // Disable titlebar to appear like a popup
-    set_decorated( false );
+    set_decorated(false);
+    set_skip_taskbar_hint(true);
   }
 #endif
 
