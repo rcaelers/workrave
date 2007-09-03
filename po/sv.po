@@ -1,13 +1,14 @@
 # Swedish translation of Workrave.
+# Copyright (C) 2006, 2007 Free Software Foundation, Inc.
 # This file is distributed under the same license as the workrave package.
-# Daniel Nylander <po@danielnylander.se>, 2006.
+# Daniel Nylander <po@danielnylander.se>, 2006, 2007.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: workrave 1.8.2\n"
+"Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2007-07-03 13:55+0200\n"
-"PO-Revision-Date: 2006-11-27 23:23+0100\n"
+"POT-Creation-Date: 2007-09-02 22:39+0200\n"
+"PO-Revision-Date: 2007-09-02 22:49+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -166,7 +167,8 @@ msgstr "Pausuppmaning"
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:45
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:53
-#: ../frontend/gtkmm/src/GUI.cc:1380 ../frontend/gtkmm/src/GtkUtil.cc:160
+#: ../frontend/gtkmm/src/GUI.cc:1382
+#: ../frontend/gtkmm/src/GtkUtil.cc:160
 msgid "Daily limit"
 msgstr "Daglig gräns"
 
@@ -223,19 +225,19 @@ msgstr "Inaktiv"
 msgid "Wait"
 msgstr "Vänta"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:197
+#: ../frontend/gtkmm/src/BreakWindow.cc:237
 msgid "Lock"
 msgstr "Lås"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:216
+#: ../frontend/gtkmm/src/BreakWindow.cc:256
 msgid "Shut down"
 msgstr "Stäng ner"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:233
+#: ../frontend/gtkmm/src/BreakWindow.cc:273
 msgid "Skip"
 msgstr "Hoppa över"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:246
+#: ../frontend/gtkmm/src/BreakWindow.cc:286
 msgid "Postpone"
 msgstr "Flytta fram"
 
@@ -249,98 +251,108 @@ msgstr ""
 "Om din arbetsdag ännu inte är över, hitta på något\n"
 "annat att göra, såsom granska ett dokument."
 
-#: ../frontend/gtkmm/src/GUI.cc:867
+#: ../frontend/gtkmm/src/GUI.cc:869
 msgid "I could not initialize Bonobo"
 msgstr "Jag kunde inte initiera Bonobo"
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1380 ../frontend/gtkmm/src/GtkUtil.cc:160
+#: ../frontend/gtkmm/src/GUI.cc:1382
+#: ../frontend/gtkmm/src/GtkUtil.cc:160
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:52
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:171
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:270
 msgid "Micro-break"
 msgstr "Mikropaus"
 
-#: ../frontend/gtkmm/src/GUI.cc:1380 ../frontend/gtkmm/src/GtkUtil.cc:160
+#: ../frontend/gtkmm/src/GUI.cc:1382
+#: ../frontend/gtkmm/src/GtkUtil.cc:160
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:144
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:76
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:211
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:77
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:212
 msgid "Rest break"
 msgstr "Vilopaus"
 
 #. Mode menu item
-#: ../frontend/gtkmm/src/Menus.cc:201 ../frontend/gtkmm/src/Menus.cc:513
+#: ../frontend/gtkmm/src/Menus.cc:209
+#: ../frontend/gtkmm/src/Menus.cc:521
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
 msgid "_Mode"
 msgstr "_Läge"
 
-#: ../frontend/gtkmm/src/Menus.cc:256 ../frontend/gtkmm/src/Menus.cc:532
+#: ../frontend/gtkmm/src/Menus.cc:264
+#: ../frontend/gtkmm/src/Menus.cc:540
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
 msgid "_Network"
 msgstr "_Nätverk"
 
-#: ../frontend/gtkmm/src/Menus.cc:260 ../frontend/gtkmm/src/Menus.cc:516
+#: ../frontend/gtkmm/src/Menus.cc:268
+#: ../frontend/gtkmm/src/Menus.cc:524
 msgid "_Connect"
 msgstr "_Anslut"
 
-#: ../frontend/gtkmm/src/Menus.cc:265 ../frontend/gtkmm/src/Menus.cc:519
+#: ../frontend/gtkmm/src/Menus.cc:273
+#: ../frontend/gtkmm/src/Menus.cc:527
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
 msgid "_Disconnect"
 msgstr "_Koppla ned"
 
-#: ../frontend/gtkmm/src/Menus.cc:270 ../frontend/gtkmm/src/Menus.cc:523
+#: ../frontend/gtkmm/src/Menus.cc:278
+#: ../frontend/gtkmm/src/Menus.cc:531
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
 msgid "_Reconnect"
 msgstr "_Återanslut"
 
-#: ../frontend/gtkmm/src/Menus.cc:275 ../frontend/gtkmm/src/Menus.cc:526
+#: ../frontend/gtkmm/src/Menus.cc:283
+#: ../frontend/gtkmm/src/Menus.cc:534
 msgid "Show _log"
 msgstr "Visa _logg"
 
-#: ../frontend/gtkmm/src/Menus.cc:298 ../frontend/gtkmm/src/Menus.cc:488
+#: ../frontend/gtkmm/src/Menus.cc:306
+#: ../frontend/gtkmm/src/Menus.cc:496
 msgid "_Rest break"
 msgstr "_Vilopaus"
 
-#: ../frontend/gtkmm/src/Menus.cc:312 ../frontend/gtkmm/src/Menus.cc:489
+#: ../frontend/gtkmm/src/Menus.cc:320
+#: ../frontend/gtkmm/src/Menus.cc:497
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:40
 msgid "Exercises"
 msgstr "Övningar"
 
-#: ../frontend/gtkmm/src/Menus.cc:324 ../frontend/gtkmm/src/Menus.cc:534
+#: ../frontend/gtkmm/src/Menus.cc:332
+#: ../frontend/gtkmm/src/Menus.cc:542
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:59
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:138
 msgid "Statistics"
 msgstr "Statistik"
 
-#: ../frontend/gtkmm/src/Menus.cc:338 ../frontend/gtkmm/src/Menus.cc:535
+#: ../frontend/gtkmm/src/Menus.cc:346
+#: ../frontend/gtkmm/src/Menus.cc:543
 msgid "About..."
 msgstr "Om..."
 
-#: ../frontend/gtkmm/src/Menus.cc:487
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:55
+#: ../frontend/gtkmm/src/Menus.cc:495
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:57
 msgid "Preferences"
 msgstr "Inställningar"
 
-#: ../frontend/gtkmm/src/Menus.cc:492
+#: ../frontend/gtkmm/src/Menus.cc:500
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
 msgid "_Normal"
 msgstr "_Normal"
 
-#: ../frontend/gtkmm/src/Menus.cc:499
+#: ../frontend/gtkmm/src/Menus.cc:507
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
 msgid "_Suspended"
 msgstr "_Viloläge"
 
-#: ../frontend/gtkmm/src/Menus.cc:506
+#: ../frontend/gtkmm/src/Menus.cc:514
 msgid "Q_uiet"
 msgstr "_Tyst"
 
-#: ../frontend/gtkmm/src/Menus.cc:762
-msgid ""
-"This program assists in the prevention and recovery of Repetitive Strain "
-"Injury (RSI)."
-msgstr ""
-"Detta program hjälper till att förebygga och återhämta sig från musarm (RSI)."
+#: ../frontend/gtkmm/src/Menus.cc:769
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:363
+msgid "This program assists in the prevention and recovery of Repetitive Strain Injury (RSI)."
+msgstr "Detta program hjälper till att förebygga och återhämta sig från musarm (RSI)."
 
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:232
 msgid "Please relax for a few seconds"
@@ -366,109 +378,114 @@ msgstr "Daglig gräns på %s"
 msgid "Daily limit %s overdue"
 msgstr "Daglig gräns överskriden med %s"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:63
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:65
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:103
 msgid "General"
 msgstr "Allmänt"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:66
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:68
 msgid "Status Window"
 msgstr "Statusfönster"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:69
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:71
 msgid "Applet"
 msgstr "Panelprogram"
 
 #. Notebook
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:76
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:78
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:164
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:200
 msgid "Timers"
 msgstr "Tidtagare"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:77
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:79
 msgid "User interface"
 msgstr "Användargränssnitt"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:79
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:81
 msgid "Network"
 msgstr "Nätverk"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:120
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:88
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:142
+msgid "Advanced"
+msgstr "Avancerat"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:129
 msgid "No sounds"
 msgstr "Inga ljud"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:122
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:131
 msgid "Play sounds using sound card"
 msgstr "Spela upp ljud med ljudkort"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:124
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:133
 msgid "Play sounds using built-in speaker"
 msgstr "Spela upp ljud med den inbyggda högtalaren"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:152
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:161
 msgid "No blocking"
 msgstr "Ingen blockering"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:154
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:163
 msgid "Block input"
 msgstr "Blockera tangentbord/mus"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:156
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:165
 msgid "Block input and screen"
 msgstr "Blockera tangentbord/mus och skärm"
 
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:175
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:184
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:139
 msgid "Options"
 msgstr "Alternativ"
 
 #. panel->add(*start_in_tray_cb);
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:177
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:186
 msgid "Sound:"
 msgstr "Ljud:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:178
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:187
 msgid "Block mode:"
 msgstr "Blockeringsläge:"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:105
+#: ../frontend/gtkmm/src/PreludeWindow.cc:109
 #: ../frontend/text/src/PreludeWindow.cc:50
 msgid "Time for a micro-break?"
 msgstr "Dags för en mikropaus?"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:109
+#: ../frontend/gtkmm/src/PreludeWindow.cc:113
 #: ../frontend/text/src/PreludeWindow.cc:54
 msgid "You need a rest break..."
 msgstr "Du behöver ta en vilopaus..."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:113
+#: ../frontend/gtkmm/src/PreludeWindow.cc:117
 #: ../frontend/text/src/PreludeWindow.cc:58
 msgid "You should stop for today..."
 msgstr "Du bör sluta för idag..."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:255
+#: ../frontend/gtkmm/src/PreludeWindow.cc:265
 #, c-format
 msgid "Break in %s"
 msgstr "Paus om %s"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:259
+#: ../frontend/gtkmm/src/PreludeWindow.cc:269
 #, c-format
 msgid "Disappears in %s"
 msgstr "Försvinner om %s"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:263
+#: ../frontend/gtkmm/src/PreludeWindow.cc:273
 #, c-format
 msgid "Silent in %s"
 msgstr "Tyst om %s"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:172
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:173
 #, c-format
 msgid "Rest break for %s"
 msgstr "Vilopaus för %s"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:212
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:213
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -479,9 +496,8 @@ msgstr ""
 "runt i några minuter, stretcha och slappna av."
 
 #: ../frontend/gtkmm/src/TimerBoxGtkView.cc:184
-#, fuzzy
 msgid "Take rest break now"
-msgstr "Nästa vilopaus om %s"
+msgstr "Ta en vilopaus nu"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:97
 msgid "Place timers next to each other"
@@ -606,32 +622,6 @@ msgstr "Orientering"
 msgid "The orientation of the tray."
 msgstr "Lådans orientering."
 
-#: ../frontend/gtkmm/src/gnome-about.c:308
-msgid "Credits"
-msgstr "Tack till"
-
-#: ../frontend/gtkmm/src/gnome-about.c:341
-msgid "_Written by"
-msgstr "_Skrivet av"
-
-#: ../frontend/gtkmm/src/gnome-about.c:356
-msgid "_Documented by"
-msgstr "_Dokumenterat av"
-
-#: ../frontend/gtkmm/src/gnome-about.c:371
-msgid "_Translated by"
-msgstr "_Översatt av"
-
-#. Add the credits button
-#: ../frontend/gtkmm/src/gnome-about.c:431
-msgid "_Credits"
-msgstr "_Tack till"
-
-#: ../frontend/gtkmm/src/gnome-about.c:614
-#, c-format
-msgid "About %s"
-msgstr "Om %s"
-
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:1
 msgid "_About..."
 msgstr "_Om..."
@@ -729,10 +719,6 @@ msgstr "Återanslutningsförsök:"
 msgid "Reconnect interval:"
 msgstr "Återanslutningsintervall:"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:142
-msgid "Advanced"
-msgstr "Avancerat"
-
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:159
 msgid ""
 "The following list specifies the hosts that Workrave connects to on\n"
@@ -758,65 +744,28 @@ msgid "Backward shoulder stretch"
 msgstr "Sträck ut skuldrorna bakåt"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:2
-msgid ""
-"Cover your eyes with your palms in such way that you can still open your "
-"eyelids. Now open your eyes and look into the darkness of your palms. This "
-"exercise gives better relief to your eyes compared to simply closing them."
-msgstr ""
-"Täck för dina ögon med dina handflator på så sätt att du fortfarande kan "
-"öppna dina ögonlock. Öppna nu ögonen och se in i mörkret i handflatorna. "
-"Denna övning ger bättre avlastning för ögonen jämfört med att bara stänga "
-"dem."
+msgid "Cover your eyes with your palms in such way that you can still open your eyelids. Now open your eyes and look into the darkness of your palms. This exercise gives better relief to your eyes compared to simply closing them."
+msgstr "Täck för dina ögon med dina handflator på så sätt att du fortfarande kan öppna dina ögonlock. Öppna nu ögonen och se in i mörkret i handflatorna. Denna övning ger bättre avlastning för ögonen jämfört med att bara stänga dem."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:3
 msgid "Finger stretch"
 msgstr "Sträck ut fingrarna"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:4
-msgid ""
-"Interlace your fingers behind your back. Then turn your elbows gently "
-"inward, while straightening your arms. Hold this position for 5 to 15 "
-"seconds, and repeat this exercise twice."
-msgstr ""
-"Fläta fingrarna bakom ryggen. Vrid dina armbågar försiktigt innåt, samtidigt "
-"som du sträcker på armarna. Håll kvar i denna position mellan 5 och 15 "
-"sekunder, och upprepa denna övning två gånger."
+msgid "Interlace your fingers behind your back. Then turn your elbows gently inward, while straightening your arms. Hold this position for 5 to 15 seconds, and repeat this exercise twice."
+msgstr "Fläta fingrarna bakom ryggen. Vrid dina armbågar försiktigt innåt, samtidigt som du sträcker på armarna. Håll kvar i denna position mellan 5 och 15 sekunder, och upprepa denna övning två gånger."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
-msgid ""
-"Keep one arm horizontally stretched in front of your chest. Push this arm "
-"with your other arm towards you until you feel a mild tension in your "
-"shoulder. Hold this position briefly, and repeat the exercise for your other "
-"arm."
-msgstr ""
-"Sträck ut en arm horisonellt framför bröstkorgen. Tryck denna arm med din "
-"andra arm mot dig tills du känner en lätt sträckning i skuldran. Håll kvar i "
-"denna position en kort stund och upprepa övningen för din andra arm."
+msgid "Keep one arm horizontally stretched in front of your chest. Push this arm with your other arm towards you until you feel a mild tension in your shoulder. Hold this position briefly, and repeat the exercise for your other arm."
+msgstr "Sträck ut en arm horisonellt framför bröstkorgen. Tryck denna arm med din andra arm mot dig tills du känner en lätt sträckning i skuldran. Håll kvar i denna position en kort stund och upprepa övningen för din andra arm."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
-msgid ""
-"Look at the upper left corner of the outside border of your monitor. Follow "
-"the border slowly to the upper right corner. Continue to the next corner, "
-"until you got around it two times. Then, reverse the exercise."
-msgstr ""
-"Se på översta vänstra hörnet på den yttersta kanten på din skärm. Följ "
-"kanten långsamt med ögonen till det övre högra hörnet. Fortsätt till nästa "
-"hörna tills du har gått runt två gånger. Upprepa övningen fast det motsatta "
-"hållet."
+msgid "Look at the upper left corner of the outside border of your monitor. Follow the border slowly to the upper right corner. Continue to the next corner, until you got around it two times. Then, reverse the exercise."
+msgstr "Se på översta vänstra hörnet på den yttersta kanten på din skärm. Följ kanten långsamt med ögonen till det övre högra hörnet. Fortsätt till nästa hörna tills du har gått runt två gånger. Upprepa övningen fast det motsatta hållet."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
-msgid ""
-"Look for the furthest point you can see behind your monitor. Focus your eyes "
-"on the remote point. Then focus on your monitor border. Repeat it. If you "
-"can't look very far from your monitor, face another direction with a longer "
-"view. Then switch your focus between a distant object and a pen held at the "
-"same distance from your eyes as your monitor."
-msgstr ""
-"Se på den punkt som är längst bort bakom din skärm. Fokusera dina ögon på "
-"punkten. Fokusera sedan på kanten av din skärm. Upprepa det. Om du inte kan "
-"se speciellt långt bakom din skärm, vänd dig mot en annan riktning med "
-"längre utsikt. Byt fokus mellan en objekt långt bort och en penna som hålls "
-"på samma avstånd från dina ögon som din skärm."
+msgid "Look for the furthest point you can see behind your monitor. Focus your eyes on the remote point. Then focus on your monitor border. Repeat it. If you can't look very far from your monitor, face another direction with a longer view. Then switch your focus between a distant object and a pen held at the same distance from your eyes as your monitor."
+msgstr "Se på den punkt som är längst bort bakom din skärm. Fokusera dina ögon på punkten. Fokusera sedan på kanten av din skärm. Upprepa det. Om du inte kan se speciellt långt bakom din skärm, vänd dig mot en annan riktning med längre utsikt. Byt fokus mellan en objekt långt bort och en penna som hålls på samma avstånd från dina ögon som din skärm."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
 msgid "Look into the darkness"
@@ -839,50 +788,24 @@ msgid "Neck tilt stretch"
 msgstr "Utsträckning av nacken"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
-msgid ""
-"Put your hands on the armrests of your chair when you are sitting down and "
-"press your body up until your arms are straight. Try to move your head even "
-"further by lowering your shoulders. Slowly move back into your chair."
-msgstr ""
-"Ta tag i armstöden på din stol när du sitter ner och tryck din kropp uppåt "
-"tills dina armar är raka. Försök att flytta ditt huvud längre genom att "
-"sänka skuldrorna. Rör dig sakta tillbaka till stolen."
+msgid "Put your hands on the armrests of your chair when you are sitting down and press your body up until your arms are straight. Try to move your head even further by lowering your shoulders. Slowly move back into your chair."
+msgstr "Ta tag i armstöden på din stol när du sitter ner och tryck din kropp uppåt tills dina armar är raka. Försök att flytta ditt huvud längre genom att sänka skuldrorna. Rör dig sakta tillbaka till stolen."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
-msgid ""
-"Separate and stretch your fingers until a mild tension is felt, and hold "
-"this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
-"again for 10 seconds. Repeat this exercise once more."
-msgstr ""
-"Sträck ut och räta på fingrarna tills du märker en lätt sträckning. Håll "
-"kvar i 10 sekunder. Slappna av och knyt fingrarna och håll kvar i 10 "
-"sekunder. Upprepa övningen en gång till."
+msgid "Separate and stretch your fingers until a mild tension is felt, and hold this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold again for 10 seconds. Repeat this exercise once more."
+msgstr "Sträck ut och räta på fingrarna tills du märker en lätt sträckning. Håll kvar i 10 sekunder. Slappna av och knyt fingrarna och håll kvar i 10 sekunder. Upprepa övningen en gång till."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
 msgid "Shoulder-arm stretch"
 msgstr "Utsträckning av skuldror och armar"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:16
-msgid ""
-"Spin your right arm slowly round like a plane propeller beside your body. Do "
-"this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
-"with the left arm."
-msgstr ""
-"Pendla din högra arm långsamt runt som en flygplanspropeller. Gör detta 4 "
-"gånger framåt, 4 gånger bakåt och slappna av ett par sekunder. Upprepa med "
-"vänstra armen."
+msgid "Spin your right arm slowly round like a plane propeller beside your body. Do this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat with the left arm."
+msgstr "Pendla din högra arm långsamt runt som en flygplanspropeller. Gör detta 4 gånger framåt, 4 gånger bakåt och slappna av ett par sekunder. Upprepa med vänstra armen."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
-msgid ""
-"Start with your head in a comfortable straight position. Then, slowly tilt "
-"your head to your right shoulder to gently stretch the muscles on the left "
-"side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
-"the left side to stretch your other side. Do this twice for each side."
-msgstr ""
-"Se rakt fram och hitta en behaglig position med huvudet. Lägg sedan högra "
-"örat mot högra skuldran så att du försiktigt sträcker musklerna på vänstra "
-"sidan av nacken. Håll kvar i 5 sekunder. Upprepa hela övningen med vänster "
-"öra mot vänster skuldra. Upprepa båda övningarna 2 gånger till på varje sida."
+msgid "Start with your head in a comfortable straight position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side."
+msgstr "Se rakt fram och hitta en behaglig position med huvudet. Lägg sedan högra örat mot högra skuldran så att du försiktigt sträcker musklerna på vänstra sidan av nacken. Håll kvar i 5 sekunder. Upprepa hela övningen med vänster öra mot vänster skuldra. Upprepa båda övningarna 2 gånger till på varje sida."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
 msgid "Train focusing the eyes"
@@ -893,12 +816,8 @@ msgid "Turn your head"
 msgstr "Vrid på huvudet"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:20
-msgid ""
-"Turn your head left and keep it there for 2 seconds. Then turn your head "
-"right and keep it there for 2 seconds."
-msgstr ""
-"Vrid på huvudet åt vänster och håll det kvar där i 2 sekunder. Vrid sedan "
-"ditt huvud åt höger och håll det där i 2 sekunder."
+msgid "Turn your head left and keep it there for 2 seconds. Then turn your head right and keep it there for 2 seconds."
+msgstr "Vrid på huvudet åt vänster och håll det kvar där i 2 sekunder. Vrid sedan ditt huvud åt höger och håll det där i 2 sekunder."
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:253
 msgid "Exercises player"
@@ -906,36 +825,32 @@ msgstr "Övningar"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:289
 msgid "Previous exercise"
-msgstr ""
+msgstr "Föregående övning"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:290
-#, fuzzy
 msgid "Next exercise"
-msgstr "Antal övningar:"
+msgstr "Nästa övning"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:291
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:462
-#, fuzzy
 msgid "Pause exercises"
-msgstr "Antal övningar:"
+msgstr "Pausa övningar"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:292
-#, fuzzy
 msgid "End exercises"
-msgstr "Övningar"
+msgstr "Avsluta övningar"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:454
 msgid "Resume"
-msgstr "Fortsätt"
+msgstr "Återuppta"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:454
 msgid "Pause"
 msgstr "Paus"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:460
-#, fuzzy
 msgid "Resume exercises"
-msgstr "Antal övningar:"
+msgstr "Återuppta övningar"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:132
 msgid "Browse history"
@@ -954,12 +869,8 @@ msgid "Break prompts"
 msgstr "Uppmanade pauser"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:185
-msgid ""
-"The number of times you were prompted to break, excluding repeated prompts "
-"for the same break"
-msgstr ""
-"Antalet gånger du blev uppmanad att ta en paus, undantaget upprepade "
-"uppmaningar för samma paus"
+msgid "The number of times you were prompted to break, excluding repeated prompts for the same break"
+msgstr "Antalet gånger du blev uppmanad att ta en paus, undantaget upprepade uppmaningar för samma paus"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:190
 msgid "Repeated prompts"
@@ -1042,12 +953,8 @@ msgid "Effective mouse movement:"
 msgstr "Effektiva musrörelser:"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:303
-msgid ""
-"The total mouse movement you would have had if you moved your mouse in "
-"straight lines between clicks"
-msgstr ""
-"De totala musrörelserna du skulle haft om du har rört musen i en rak linje "
-"mellan olika klick"
+msgid "The total mouse movement you would have had if you moved your mouse in straight lines between clicks"
+msgstr "De totala musrörelserna du skulle haft om du har rört musen i en rak linje mellan olika klick"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:307
 msgid "Mouse button clicks:"
@@ -1071,23 +978,70 @@ msgid "%s, from %s to %s"
 msgstr "%s, från %s till %s"
 
 #: ../frontend/text/src/PreludeWindow.cc:152
-#, fuzzy
 msgid "Break in"
-msgstr "Paus om %s"
+msgstr "Paus om"
 
 #: ../frontend/text/src/PreludeWindow.cc:157
-#, fuzzy
 msgid "Disappears in"
-msgstr "Försvinner om %s"
+msgstr "Försvinner om"
 
 #: ../frontend/text/src/PreludeWindow.cc:163
-#, fuzzy
 msgid "Silent in"
-msgstr "Tyst om %s"
+msgstr "Tyst om"
+
+#: ../common/src/glibnls.c:131
+msgid "Too many alias levels for a locale, may indicate a loop"
+msgstr "För många aliasnivåer för en lokal, kan indikera en slinga"
+
+#: ../frontend/gtkmm/src/gnome-about.c:308
+msgid "Credits"
+msgstr "Tack till"
+
+#: ../frontend/gtkmm/src/gnome-about.c:341
+msgid "_Written by"
+msgstr "_Skrivet av"
+
+#: ../frontend/gtkmm/src/gnome-about.c:356
+msgid "_Documented by"
+msgstr "_Dokumenterat av"
+
+#: ../frontend/gtkmm/src/gnome-about.c:371
+msgid "_Translated by"
+msgstr "_Översatt av"
+
+#. Add the credits button
+#: ../frontend/gtkmm/src/gnome-about.c:431
+msgid "_Credits"
+msgstr "_Tack till"
+
+#: ../frontend/gtkmm/src/gnome-about.c:614
+#, c-format
+msgid "About %s"
+msgstr "Om %s"
+
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:328
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:400
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:424
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:448
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:471
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:494
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:518
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:541
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:563
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:587
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:630
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:670
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:728
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:775
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:817
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:873
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:989
+#, c-format
+msgid "An exception occurred '%s'"
+msgstr "Ett undantag inträffade \"%s\""
 
 #~ msgid "Fist roll"
 #~ msgstr "Vrid handen"
-
 #~ msgid ""
 #~ "Put your underarm on a table and make a fist. Roll your fist away from "
 #~ "your body untill it rests on your nuckles. Keep it for 2 seconds and roll "
@@ -1099,7 +1053,6 @@ msgstr "Tyst om %s"
 #~ "vrid den tillbaka. Upprepa denna övning 5 gånger för varje hand. Om "
 #~ "muskeln sträcks ut för mycket, låt din fingrar vila på bordet under tiden "
 #~ "du vrider."
-
 #~ msgid ""
 #~ "Close your eyes and breathe out as long as you can and try to relax. When "
 #~ "breathing in, again do it as slowly as possible. Try to count slowly to 8 "
@@ -1110,7 +1063,6 @@ msgstr "Tyst om %s"
 #~ "När du andas in igen, gör det så sakta som möjligt. Försök att räkna "
 #~ "sakta till 8 för varje gång du andas ut och in. För att slappna av extra "
 #~ "mycket i ögonen, försök att stänga dem i mikropauser."
-
 #~ msgid ""
 #~ "Go stand face to a wall (or something) and put your hands at shoulder "
 #~ "height against it with your elbows slightly bended. Push your body to the "
@@ -1121,7 +1073,6 @@ msgstr "Tyst om %s"
 #~ "väggen i skulderhöjd med armbågarna lätt böjda. Tryck kroppen mot väggen "
 #~ "utan att ändra vinkel på armbågarna. Tryck dig tillbaka från väggen igen "
 #~ "utan att ändra vinkel på armbågarna."
-
 #~ msgid ""
 #~ "Keep your head straight and your lower jaw parallel to the floor. Move "
 #~ "your head back (making a double chin). Keep this 2 seconds and relax. "
@@ -1131,16 +1082,12 @@ msgstr "Tyst om %s"
 #~ "huvudet bakåt (så att du skapar en dubbelhaka). Håll kvar denna position "
 #~ "i 2 sekunder och slappna av. Flytta huvudet på samma sätt framåt, håll "
 #~ "kvar i 2 sekunder och slappna av igen."
-
 #~ msgid "Move the shoulder blades"
 #~ msgstr "Rör på skulderbladen"
-
 #~ msgid "Neck stretch"
 #~ msgstr "Utsträckning av nacken"
-
 #~ msgid "Relax the eyes"
 #~ msgstr "Slappna av med ögonen"
-
 #~ msgid ""
 #~ "Stand by your desk and place both your palms on the desk with the fingers "
 #~ "pointing toward your body. Gently stretch your wrists and lower arms."
@@ -1148,7 +1095,6 @@ msgstr "Tyst om %s"
 #~ "Ställ dig vid skrivbordet och placera båda handflatorna på bordet med "
 #~ "fingrarna pekandes mot din kropp. Sträck försiktigt handlederna och "
 #~ "underarmarna."
-
 #~ msgid ""
 #~ "Stand up and try to reach the ceiling with your hands without lifting "
 #~ "your heels. Hold that for a few seconds. Then let your hands slowly go to "
@@ -1163,12 +1109,10 @@ msgstr "Tyst om %s"
 #~ "mot golvet genom att sakta böja på ryggen framåt helt tills du (nästan) "
 #~ "kan placera de framför dina skor. Räta sakta upp ryggen från höften tills "
 #~ "du står upprest igen."
-
 #~ msgid "Stretch your back"
 #~ msgstr "Strekk ryggen"
-
 #~ msgid "Wrist and lower arm desk stretch"
 #~ msgstr "Sträck ut handled och underarm"
-
 #~ msgid "Restbreak"
 #~ msgstr "Vilopaus"
+
