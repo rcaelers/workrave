@@ -68,11 +68,6 @@ AdvancedPreferencePage::AdvancedPreferencePage()
   Gtk::Notebook *notebook = manage( new Gtk::Notebook() );
   //notebook->set_tab_pos( Gtk::POS_TOP );
 
-  Gtk::ScrolledWindow *scroller = manage( new Gtk::ScrolledWindow() );
-  scroller->set_shadow_type( Gtk::SHADOW_ETCHED_OUT );
-  scroller->set_policy( Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC );
-  scroller->set_border_width( 4 );
-
   HigCategoriesPanel *main_panel = manage( new HigCategoriesPanel() );
   main_panel->set_border_width( 12 );
 
@@ -102,8 +97,7 @@ AdvancedPreferencePage::AdvancedPreferencePage()
   main_panel->add( *nohooksbox_panel );
 #endif
 
-  scroller->add( *main_panel );
-  notebook->append_page( *scroller, _( "Troubleshooting" ) );
+  notebook->append_page( *main_panel, _( "Troubleshooting" ) );
   pack_start( *notebook, true, true, 0 );
 
   notebook->show_all();
@@ -173,7 +167,7 @@ bool AdvancedPreferencePage::nohooksbox_get_config()
 
 void AdvancedPreferencePage::init()
 {
-#if defined(WIN32)
+  #if defined(WIN32)
   forcebox->set_focus_on_click( false );
   nohooksbox->set_focus_on_click( false );
   forcebox->set_active( forcebox_get_config() );

@@ -802,7 +802,7 @@ harpoon_hook( HarpoonHookFunc func, BOOL keyboard_lowlevel, BOOL mouse_lowlevel 
           if_debug_send_message( "SetWindowsHookEx: WH_KEYBOARD_LL (failure)" );
     }
 
-  if( keyboard_ll_hook == NULL )
+  // RC: always hook if( keyboard_ll_hook == NULL )
   // Either the low-level hook function failed or was never called.
     {
       keyboard_hook = SetWindowsHookEx(

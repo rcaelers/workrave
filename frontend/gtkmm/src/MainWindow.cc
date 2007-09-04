@@ -291,7 +291,7 @@ MainWindow::setup()
           close_window();
         }
     }
-  if (always_on_top)
+  if (enabled && always_on_top)
     {
       raise();
     }

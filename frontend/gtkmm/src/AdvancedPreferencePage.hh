@@ -52,7 +52,7 @@ public:
 
 private:
 
-#if 1 // defined(WIN32)
+#if defined(WIN32)
   Gtk::CheckButton *forcebox;
   Gtk::CheckButton *nohooksbox;
 
