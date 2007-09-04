@@ -273,7 +273,6 @@ MainWindow::setup()
 
   bool new_enabled = TimerBoxControl::is_enabled("main_window");
 
-  TRACE_MSG("on top " << always_on_top);
   TRACE_MSG("enabled " << new_enabled);
 
   if (enabled != new_enabled)
@@ -296,6 +295,7 @@ MainWindow::setup()
         }
 
       bool always_on_top = get_always_on_top();
+      TRACE_MSG("on top " << always_on_top);
       WindowHints::set_always_on_top(Gtk::Widget::gobj(), always_on_top);
     }
   
