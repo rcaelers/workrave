@@ -289,13 +289,14 @@ MainWindow::setup()
     }
   if (enabled)
     {
+      bool always_on_top = get_always_on_top();
+      TRACE_MSG("on top " << always_on_top);
+
       if (always_on_top)
         {
           raise();
         }
 
-      bool always_on_top = get_always_on_top();
-      TRACE_MSG("on top " << always_on_top);
       WindowHints::set_always_on_top(Gtk::Widget::gobj(), always_on_top);
     }
   
