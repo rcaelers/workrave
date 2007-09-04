@@ -272,8 +272,10 @@ MainWindow::setup()
   TRACE_ENTER("MainWindow::setup");
 
   bool new_enabled = TimerBoxControl::is_enabled("main_window");
+  bool always_on_top = get_always_on_top();
 
   TRACE_MSG("enabled " << new_enabled);
+  TRACE_MSG("on top " << always_on_top);
 
   if (enabled != new_enabled)
     {
@@ -281,26 +283,21 @@ MainWindow::setup()
       if (enabled)
         {
           open_window();
+ 
+
+          WindowHints::set_always_on_top(Gtk::Widget::gobj(), always_on_top);
         }
       else
         {
           close_window();
         }
     }
-  if (enabled)
+  if (enabled && always_on_top)
     {
-      bool always_on_top = get_always_on_top();
-      TRACE_MSG("on top " << always_on_top);
-
-      if (always_on_top)
-        {
-          raise();
-        }
-
-      WindowHints::set_always_on_top(Gtk::Widget::gobj(), always_on_top);
+      raise();
     }
   
-  TRACE_EXIT()
+  TRACE_EXIT();
 }
 
 
