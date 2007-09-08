@@ -887,11 +887,6 @@ harpoon_hook_block_only(void)
       
       if (mouse_hook == NULL)
         {
-          /*
-            WH_MOUSE is always hooked. It's needed to determine which
-            applications to block. There is no way to determine the
-            destination window/application when using only LL hooks.
-          */
           mouse_hook = SetWindowsHookEx(WH_MOUSE,
                                         harpoon_mouse_block_hook,
                                         dll_handle,
@@ -899,7 +894,10 @@ harpoon_hook_block_only(void)
           if( mouse_hook )
             if_debug_send_message( "SetWindowsHookEx: WH_MOUSE (success)" );
           else
-            if_debug_send_message( "SetWindowsHookEx: WH_MOUSE (failure)" );
+            {
+              if_debug_send_message( "SetWindowsHookEx: WH_MOUSE (failure)" );
+              harpoon_exit();
+            }
         }
 
       if (keyboard_hook == NULL)
@@ -911,7 +909,10 @@ harpoon_hook_block_only(void)
           if (keyboard_hook)
             if_debug_send_message( "SetWindowsHookEx: WH_KEYBOARD (success)" );
           else
-            if_debug_send_message( "SetWindowsHookEx: WH_KEYBOARD (failure)" );
+            {
+              if_debug_send_message( "SetWindowsHookEx: WH_KEYBOARD (failure)" );
+              harpoon_exit();
+            }
         }
     }
 }

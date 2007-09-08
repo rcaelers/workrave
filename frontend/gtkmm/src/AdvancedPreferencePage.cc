@@ -66,6 +66,12 @@ AdvancedPreferencePage::AdvancedPreferencePage()
   HigCategoriesPanel *main_panel = manage( new HigCategoriesPanel() );
   main_panel->set_border_width( 12 );
   
+  Gtk::Label *exp_label = manage( new Gtk::Label(
+          _( "<b>Experimental preferences.</b>" ) ) );
+  exp_label->set_line_wrap( true );
+  exp_label->set_use_markup( true );
+  main_panel->add( *exp_label );
+
   Gtk::Label *restart_required_label = manage( new Gtk::Label(
           _( "<b>Restart required for all preferences.</b>" ) ) );
   restart_required_label->set_line_wrap( true );
@@ -74,7 +80,7 @@ AdvancedPreferencePage::AdvancedPreferencePage()
   
 #if defined(WIN32)
   forcebox = manage(new Gtk::CheckButton(
-          _( "Force Break Window Focus (experimental)" ) ) );
+          _( "Force Break Window Focus" ) ) );
   forcebox->signal_toggled().connect( MEMBER_SLOT( *this,
           &AdvancedPreferencePage::forcebox_signal_toggled ) );
   main_panel->add( *forcebox );
