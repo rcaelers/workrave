@@ -1,4 +1,4 @@
->/*
+/*
  * harpoon.c
  *
  * Copyright (C) 2002-2007 Raymond Penners <raymond@dotsphinx.com>
