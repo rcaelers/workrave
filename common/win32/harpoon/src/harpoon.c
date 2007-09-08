@@ -49,6 +49,7 @@ HHOOK DLLSHARE(mouse_ll_hook) = NULL;
 HHOOK DLLSHARE(keyboard_hook) = NULL;
 HHOOK DLLSHARE(keyboard_ll_hook) = NULL;
 BOOL DLLSHARE(block_input) = FALSE;
+BOOL DLLSHARE(initialized) = FALSE;
 char DLLSHARE( critical_file_list[ HARPOON_MAX_UNBLOCKED_APPS ][ 511 ] ) = { 0, };
 HWND DLLSHARE( debug_hwnd ) = NULL;
 int DLLSHARE( debug ) = FALSE;
@@ -131,7 +132,8 @@ harpoon_unblock_input(void)
 {
   block_input = FALSE;
   if_debug_send_message( "block_input = FALSE" );
-  if (user_callback == NULL)
+
+  if (user_callback == NULL && initialized)
     {
       harpoon_unhook();
     }
@@ -143,7 +145,7 @@ harpoon_block_input(void)
   block_input = TRUE;
   if_debug_send_message( "block_input = TRUE" );
 
-  if (user_callback == NULL)
+  if (user_callback == NULL && initialized)
     {
       harpoon_hook_block_only();
     }
@@ -730,6 +732,8 @@ harpoon_init ( char imported_critical_file_list[][511], BOOL debug_harpoon )
 
   if_debug_send_message( "harpoon_init() success" );
 
+  initialized = TRUE;
+  
   return TRUE;
 }
 
@@ -740,6 +744,7 @@ harpoon_exit (void)
 
   harpoon_unhook();
 
+  initialized = FALSE;
   block_input = FALSE;
   debug = FALSE;
   debug_hwnd = NULL;
