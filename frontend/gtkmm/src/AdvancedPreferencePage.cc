@@ -69,7 +69,7 @@ AdvancedPreferencePage::AdvancedPreferencePage()
   //notebook->set_tab_pos( Gtk::POS_TOP );
 
   Gtk::ScrolledWindow *scroller = manage( new Gtk::ScrolledWindow() );
-  scroller->set_shadow_type( Gtk::SHADOW_ETCHED_OUT );
+  scroller->set_shadow_type( Gtk::SHADOW_NONE );
   scroller->set_policy( Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC );
   scroller->set_border_width( 4 );
 
