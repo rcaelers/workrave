@@ -129,7 +129,7 @@ AdvancedPreferencePage::AdvancedPreferencePage()
       "\n"
       "The second one does not use any hooks at all. This method also\n"
       "allows monitoring of administrative applications on Vista but\n"
-      "mouse &amp; keyboard statistics are unavailable when this\n"
+      "mouse & keyboard statistics are unavailable when this\n"
       "monitor is selected.\n"
       "\n"
       "Vista users: By default, Workrave does not monitor your\n"
