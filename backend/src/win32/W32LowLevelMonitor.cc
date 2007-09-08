@@ -119,6 +119,8 @@ W32LowLevelMonitor::~W32LowLevelMonitor()
 
 bool W32LowLevelMonitor::check_api()
 {
+  TRACE_ENTER( "W32LowLevelMonitor::check_api" );
+  
   process_handle = GetModuleHandle( NULL );
   HMODULE user32_handle = GetModuleHandleA( "user32.dll" );
   
@@ -207,7 +209,7 @@ bool W32LowLevelMonitor::init( IInputMonitorListener *l )
 
 bool W32LowLevelMonitor::wait_for_thread_queue( thread_struct *thread )
 {
-  TRACE_ENTER( "W32LowLevelMonitor::wait_for_thread_queue : " << thread->name );
+  TRACE_ENTER_MSG( "W32LowLevelMonitor::wait_for_thread_queue : ", thread->name);
   
   if( !thread->handle || !thread->id )
     {
