@@ -1,6 +1,7 @@
 // ActivityMonitor.cc --- ActivityMonitor
 //
 // Copyright (C) 2001 - 2007 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -105,6 +106,7 @@ ActivityMonitor::ActivityMonitor(const char *display) :
   CoreFactory::get_configurator()->get_value_default("advanced/monitor",
                                                      &monitor_method,
                                                      "normal");
+
   
   if (monitor_method == "lowlevel")
     {
@@ -113,7 +115,19 @@ ActivityMonitor::ActivityMonitor(const char *display) :
       
       if (!initialized)
         {
+          int ret = MessageBoxA( NULL, 
+             "Workrave's alternate low-level activity monitor failed to initialize.\n\n"
+             "Click 'OK' to try using the regular activity monitor instead.\n",
+             "Workrave: Debug Message", 
+             MB_OKCANCEL | MB_ICONERROR | MB_TOPMOST );
+              
           delete input_monitor;
+          if( ret != IDOK )
+            {
+              TRACE_EXIT();
+              exit(0);
+            }
+          
           monitor_method = "normal";
           CoreFactory::get_configurator()->set_value("advanced/monitor", monitor_method);
           CoreFactory::get_configurator()->save();
@@ -121,14 +135,27 @@ ActivityMonitor::ActivityMonitor(const char *display) :
     }
   
 
-  if (monitor_method == "nohooks")
+  if (monitor_method == "nohook")
     {
       input_monitor = new W32AlternateMonitor();
       initialized = input_monitor->init(this);
 
       if (!initialized)
         {
+          int ret = MessageBoxA( NULL, 
+             "Workrave's alternate activity monitor failed to initialize.\n\n"
+             "Click 'OK' to try using the regular activity monitor instead.\n"
+             "Workrave must exit now.\n",
+             "Workrave: Debug Message", 
+             MB_OKCANCEL | MB_ICONERROR | MB_TOPMOST );
+              
           delete input_monitor;
+          if( ret != IDOK )
+            {
+              TRACE_EXIT();
+              exit(0);
+            }
+          
           monitor_method = "normal";
           CoreFactory::get_configurator()->set_value("advanced/monitor", monitor_method);
           CoreFactory::get_configurator()->save();
@@ -142,17 +169,70 @@ ActivityMonitor::ActivityMonitor(const char *display) :
 
       if (!initialized)
         {
+          int ret = MessageBoxA( NULL,
+              "Workrave must be able to monitor certain system "
+              "events in order to determine when you are idle.\n\n"
+
+              "An attempt was made to hook into your system, but it "
+              "was unsuccessful.\n\n"
+
+              "You might have system safety software that blocks "
+              "Workrave from installing global hooks on your system.\n\n",
+
+
+              "Workrave: Debug Message",
+              MB_OKCANCEL | MB_ICONSTOP | MB_TOPMOST );
+
+          /*
+          We want the current input monitor destructor called
+          at this point, after the user responds to the messagebox.
+          This way, if debugging, debug output can be viewed before
+          the user responds to the message box.
+          */
           delete input_monitor;
-          MessageBoxA( NULL,
-                       "Workrave must be able to monitor certain system "
-                       "events in order to determine when you are idle.\n\n"
-                  
-                       "An attempt was made to hook into your system, but it "
-                       "was unsuccessful.\n\n"
-                       "Workrave must exit now.\n",
-                       "Workrave: Debug Message",
-                       MB_OK | MB_ICONERROR | MB_TOPMOST );
+
+          if( ret == IDCANCEL )
+            {
+              CoreFactory::get_configurator()->save();
+              TRACE_EXIT();
+              exit( 0 );
+            }
+          else
+            {
+              monitor_method = "nohook";
+              CoreFactory::get_configurator()->set_value("advanced/monitor", monitor_method);
+              CoreFactory::get_configurator()->save();
+            }
         }
+    }
+
+  if (monitor_method == "nohook" && !initialized)
+    {
+      input_monitor = new W32AlternateMonitor();
+      initialized = input_monitor->init(this);
+
+      if (!initialized)
+        {
+          MessageBoxA( NULL,
+                "Workrave must be able to monitor certain system "
+                "events in order to determine when you are idle.\n\n"
+                
+                "An attempt was made to hook into your system, but it "
+                "was unsuccessful.\n\n"
+                
+                "You might have system safety software that blocks "
+                "Workrave from installing global hooks on your system.\n\n"
+                
+                "You can instead run Workrave using the alternate monitor, "
+                "which doesn't require global hooks.\n\n"
+                
+                "Click 'OK' to run the alternate monitor, or 'Cancel' to exit.\n",
+                "Workrave: Debug Message",
+                MB_OKCANCEL | MB_ICONSTOP | MB_TOPMOST );        }
+
+      monitor_method = "normal";
+      CoreFactory::get_configurator()->set_value("advanced/monitor", monitor_method);
+      CoreFactory::get_configurator()->save();
     }
   
 #endif

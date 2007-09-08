@@ -1,3 +1,19 @@
+// W32LowLevelMonitor.cc --- ActivityMonitor for W32
+//
+// Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
+// All rights reserved.
+//
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2, or (at your option)
+// any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+
 /*
 Alternate low-level activity monitor.
 
@@ -34,6 +50,9 @@ http://msdn2.microsoft.com/en-us/library/ms685100.aspx
 
 jay satiro, workrave project, september 2007
 */
+
+static const char rcsid[] = "$Id: W32InputMonitor.cc 1317 2007-09-08 18:18:06Z rcaelers $";
+
 
 #include <assert.h>
 #ifdef HAVE_CONFIG_H
@@ -90,8 +109,6 @@ W32LowLevelMonitor::W32LowLevelMonitor()
   
   listener = NULL;
 
-  Harpoon::init(NULL);
-  
   TRACE_EXIT();
 }
 
@@ -205,6 +222,8 @@ bool W32LowLevelMonitor::init( IInputMonitorListener *l )
       return false;
     }
   
+  Harpoon::init(NULL);
+  
   TRACE_EXIT();
   return true;
 }
@@ -246,7 +265,7 @@ bool W32LowLevelMonitor::wait_for_thread_queue( thread_struct *thread )
       TRACE_EXIT();
       return false;
     }
-  
+
   TRACE_EXIT();
   return true;
 }

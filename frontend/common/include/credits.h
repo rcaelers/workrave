@@ -24,8 +24,12 @@ const char *workrave_copyright =
   "Copyright 2001-2007 Rob Caelers & Raymond Penners";
 
 const char *workrave_authors[] = {
+  "Core developers:",
   "Rob Caelers <robc@krandor.org>",
   "Raymond Penners <raymond@dotsphinx.com>",
+  "",
+  "Contributors:",
+  "Ray Satiro <raysatiro@yahoo.com>",
   NULL
 };
 

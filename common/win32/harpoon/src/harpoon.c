@@ -2,6 +2,7 @@
  * harpoon.c
  *
  * Copyright (C) 2002-2007 Raymond Penners <raymond@dotsphinx.com>
+ * Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
  * All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -34,13 +35,13 @@
 #  define INLINE inline
 # endif
 #else
-# define DLLSHARE(v) v
-# pragma comment(linker, "/SECTION:.shared,RWS")
-# pragma data_seg(".shared")
 # ifndef INLINE
 #  define INLINE
 # endif
 # define snprintf _snprintf
+# define DLLSHARE(v) v
+# pragma comment(linker, "/SECTION:.shared,RWS")
+# pragma data_seg(".shared")
 #endif
 HWND DLLSHARE(notification_window) = NULL;
 HHOOK DLLSHARE(mouse_hook) = NULL;
@@ -48,7 +49,7 @@ HHOOK DLLSHARE(mouse_ll_hook) = NULL;
 HHOOK DLLSHARE(keyboard_hook) = NULL;
 HHOOK DLLSHARE(keyboard_ll_hook) = NULL;
 BOOL DLLSHARE(block_input) = FALSE;
-char DLLSHARE( critical_file_list[ HARPOON_MAX_UNBLOCKED_APPS ][ 511 ] );
+char DLLSHARE( critical_file_list[ HARPOON_MAX_UNBLOCKED_APPS ][ 511 ] ) = { 0, };
 HWND DLLSHARE( debug_hwnd ) = NULL;
 int DLLSHARE( debug ) = FALSE;
 //int DLLSHARE( harpoon_supports_mouse_hook_struct_ex ) = FALSE;

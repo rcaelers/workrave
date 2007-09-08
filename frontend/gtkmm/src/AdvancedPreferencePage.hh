@@ -66,14 +66,17 @@ private:
     Gtk::TreeModelColumn<Glib::ustring> col_name;
   };
 
-  Gtk::CheckButton *force_focus_cb;
-  Gtk::ComboBox monitor_combo;
+  Gtk::CheckButton *forcebox;
+  Gtk::ComboBox *monitor_combo;
   Glib::RefPtr<Gtk::ListStore> monitor_model;
   ModelColumns monitor_columns;
 
+  void forcebox_signal_toggled();
+  bool forcebox_get_config();
+  void monitor_signal_changed();
+  std::string monitor_get_config();
+
   void init();
-  void on_monitor_changed();
-  void on_force_focus_changed();
 #endif
 };
 

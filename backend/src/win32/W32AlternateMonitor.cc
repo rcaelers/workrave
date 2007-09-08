@@ -43,8 +43,6 @@ W32AlternateMonitor::W32AlternateMonitor()
   listener = NULL;
   
   CoreFactory::get_configurator()->get_value_default( "advanced/interval", &interval, 500);
-  Harpoon::init(NULL);
-  
   TRACE_EXIT();
 }
 
@@ -61,7 +59,7 @@ bool W32AlternateMonitor::init( IInputMonitorListener *l )
   
   DWORD id;
   HANDLE hThread;
-  
+
   if( listener != NULL )
   /*
   Calling terminate (listener = NULL), will cause the
@@ -106,7 +104,8 @@ bool W32AlternateMonitor::init( IInputMonitorListener *l )
   CloseHandle( hThread );
   
   TRACE_EXIT();
-  
+
+  Harpoon::init(NULL);
   return true;
 }
 
