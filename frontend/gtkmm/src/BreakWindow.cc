@@ -468,7 +468,10 @@ void
 BreakWindow::refresh()
 {
 #ifdef WIN32
-  WindowHints::set_always_on_top(Gtk::Widget::gobj(), true);
+  if (block_mode != GUI::BLOCK_MODE_NONE)
+    {
+      WindowHints::set_always_on_top(Gtk::Widget::gobj(), true);
+    }
 #endif
 }
 

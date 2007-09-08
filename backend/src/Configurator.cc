@@ -105,16 +105,12 @@ Configurator::create(Format fmt)
 // Constructs a new configurator.
 Configurator::Configurator()
 {
-  head = new keylist;
-  mutex = new Mutex;
 }
 
 
 // Destructs the configurator.
 Configurator::~Configurator()
 {
-  delete head;
-  delete mutex;
 }
 
 
@@ -379,79 +375,90 @@ Configurator::get_value_default(string key, double *out,
 
 // func overloads bool/int/long/double copied from W32Config:
 bool
-Configurator::get_value_on_quit( string key, bool *out ) const
+Configurator::get_value_on_quit( string key, bool *out) const
 {
-  long l;
-  bool rc = get_value_on_quit( key, &l );
-  if ( rc )
+  bool ret = false;
+  map<string, Variant>::const_iterator it = saveonquit_list.find(key);
+  if (it != saveonquit_list.end())
     {
-      *out = ( bool ) l;
+      const Variant &v = it->second;
+      if (v.type == VARIANT_TYPE_BOOL)
+        {
+          *out = v.bool_value;
+          ret = true;
+        }
     }
-  return rc;
+  return ret;
 }
+
 
 bool
 Configurator::get_value_on_quit( string key, int *out ) const
 {
-  long l;
-  bool rc = get_value_on_quit( key, &l );
-  if ( rc )
+  bool ret = false;
+  map<string, Variant>::const_iterator it = saveonquit_list.find(key);
+  if (it != saveonquit_list.end())
     {
-      *out = ( int ) l;
+      const Variant &v = it->second;
+      if (v.type == VARIANT_TYPE_INT)
+        {
+          *out = v.int_value;
+          ret = true;
+        }
     }
-  return rc;
+  return ret;
 }
 
 bool
 Configurator::get_value_on_quit( string key, long *out ) const
 {
-  string s;
-  bool rc = get_value_on_quit( key, &s );
-  if ( rc )
+  bool ret = false;
+  map<string, Variant>::const_iterator it = saveonquit_list.find(key);
+  if (it != saveonquit_list.end())
     {
-      int f = sscanf( s.c_str(), "%ld", out );
-      rc = ( f == 1 );
+      const Variant &v = it->second;
+      if (v.type == VARIANT_TYPE_LONG)
+        {
+          *out = v.long_value;
+          ret = true;
+        }
     }
-  return rc;
+  return ret;
 }
 
 bool
 Configurator::get_value_on_quit( string key, double *out ) const
 {
-  string s;
-  bool rc = get_value_on_quit( key, &s );
-  if ( rc )
+  bool ret = false;
+  map<string, Variant>::const_iterator it = saveonquit_list.find(key);
+  if (it != saveonquit_list.end())
     {
-      int f = sscanf( s.c_str(), "%lf", out );
-      rc = ( f == 1 );
+      const Variant &v = it->second;
+      if (v.type == VARIANT_TYPE_DOUBLE)
+        {
+          *out = v.double_value;
+          ret = true;
+        }
     }
-  return rc;
+  return ret;
 }
+
 
 bool
 Configurator::get_value_on_quit( string key, string *out ) const
 {
-  mutex->lock();
-
-  keylist *temp = head;
-
-  while( 1 )
+  bool ret = false;
+  map<string, Variant>::const_iterator it = saveonquit_list.find(key);
+  if (it != saveonquit_list.end())
     {
-      if( temp->key == key )
-        // Key found, assign value to out
+      const Variant &v = it->second;
+      if (v.type == VARIANT_TYPE_STRING)
         {
-          *out = temp->v;
-          return true;
+          *out = v.string_value;
+          ret = true;
         }
-
-      // Step through the list:
-      if( temp->next )
-        temp = temp->next;
-      else
-        return false;
     }
-
-  mutex->unlock();
+  return ret;
 }
 
 
@@ -459,68 +466,31 @@ Configurator::get_value_on_quit( string key, string *out ) const
 void
 Configurator::set_value_on_quit( string key, bool v )
 {
-  char buf[32];
-  sprintf( buf, "%d", v ? 1 : 0 );
-  set_value_on_quit( key, string( buf ) );
+  saveonquit_list[key] = Variant(v);
 }
 
 void
 Configurator::set_value_on_quit( string key, int v )
 {
-  char buf[32];
-  sprintf( buf, "%d", v );
-  set_value_on_quit( key, string( buf ) );
+  saveonquit_list[key] = Variant(v);
 }
 
 void
 Configurator::set_value_on_quit( string key, long v )
 {
-  char buf[32];
-  sprintf( buf, "%ld", v );
-  set_value_on_quit( key, string( buf ) );
+  saveonquit_list[key] = Variant(v);
 }
 
 void
 Configurator::set_value_on_quit( string key, double v )
 {
-  char buf[32];
-  sprintf( buf, "%f", v );
-  set_value_on_quit( key, string( buf ) );
+  saveonquit_list[key] = Variant(v);
 }
 
 void
 Configurator::set_value_on_quit( string key, string v )
 {
-  mutex->lock();
-
-  keylist *temp = head;
-
-  while( 1 )
-    {
-      if( temp->key == key )
-      // If the key is already in the list, update its value.
-        {
-          temp->v = v;
-          return;
-        }
-
-      // Step through the list:
-      if( temp->next )
-        temp = temp->next;
-      else
-        break;
-    }
-
-  if( temp->key != "" )
-    {
-      temp->next = new keylist;
-      temp = temp->next;
-    }
-
-  temp->key = key;
-  temp->v = v;
-
-  mutex->unlock();
+  saveonquit_list[key] = Variant(v);
 }
 
 
@@ -530,37 +500,42 @@ Configurator::set_values_now_we_are_quitting()
 // Do not call from Configurator destructor, because the virtual
 // functions will have already been destroyed.
 {
-  mutex->lock();
-
-  keylist *temp = head;
-
-  while( 1 )
+  map<string, Variant>::const_iterator it = saveonquit_list.begin();
+  while (it != saveonquit_list.end())
     {
-      if( temp->key != "" )
-        set_value( temp->key, temp->v );
+      const Variant &v = it->second;
+      const string key = it->first;
+      
+      switch(v.type)
+        {
+        case VARIANT_TYPE_NONE:
+          break;
 
-      // Step through the list:
-      if( temp->next )
-        temp = temp->next;
-      else
-        break;
+        case VARIANT_TYPE_INT:
+          set_value(key, v.int_value);
+          break;
+
+        case VARIANT_TYPE_LONG:
+          set_value(key, v.long_value);
+          break;
+
+        case VARIANT_TYPE_BOOL:
+          set_value(key, v.bool_value);
+          break;
+
+        case VARIANT_TYPE_DOUBLE:
+          set_value(key, v.double_value);
+          break;
+
+        case VARIANT_TYPE_STRING:
+          set_value(key, v.string_value);
+          break;
+
+        default:
+          break;
+        }
+      it++;
     }
-
-/*
-  Maybe this function is called, and the program
-  isn't terminating... so cleanup.
-*/
-  keylist *temp2 = head->next;
-  // delete all members except for the head:
-  while( (temp = temp2) != NULL )
-    {
-      temp2 = temp->next;
-      delete temp;
-    }
-
-  head->key = "";
-  head->v = "";
-  head->next = NULL;
-
-  mutex->unlock();
+  
+  saveonquit_list.clear();
 }

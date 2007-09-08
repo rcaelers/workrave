@@ -291,7 +291,7 @@ RestBreakWindow::set_ignore_activity(bool i)
 
 #ifdef WIN32
   bool force_focus = false;
-  CoreFactory::get_configurator()->get_value_default( "advanced/force_focus", &force_focus, false);
+  CoreFactory::get_configurator()->get_value_default("advanced/force_focus", &force_focus, false);
   if (force_focus)
     {
       i = true;

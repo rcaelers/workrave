@@ -28,6 +28,7 @@
 #include <stdio.h>
 #include <string>
 
+#include <gtkmm/combobox.h>
 #include <gtkmm/liststore.h>
 #include <gtkmm/box.h>
 
@@ -51,21 +52,29 @@ public:
   ~AdvancedPreferencePage();
 
 private:
+#if defined(WIN32)
+  class ModelColumns : public Gtk::TreeModel::ColumnRecord
+  {
+  public:
+    ModelColumns()
+    {
+      add(col_id);
+      add(col_name);
+    }
 
-#if 1 // defined(WIN32)
-  Gtk::CheckButton *forcebox;
-  Gtk::CheckButton *nohooksbox;
-  Gtk::CheckButton *llhooksbox;
+    Gtk::TreeModelColumn<Glib::ustring> col_id;
+    Gtk::TreeModelColumn<Glib::ustring> col_name;
+  };
 
-  void forcebox_signal_toggled();
-  bool forcebox_get_config();
-  void nohooksbox_signal_toggled();
-  bool nohooksbox_get_config();
-  void llhooksbox_signal_toggled();
-  bool llhooksbox_get_config();
-#endif
+  Gtk::CheckButton *force_focus_cb;
+  Gtk::ComboBox monitor_combo;
+  Glib::RefPtr<Gtk::ListStore> monitor_model;
+  ModelColumns monitor_columns;
 
   void init();
+  void on_monitor_changed();
+  void on_force_focus_changed();
+#endif
 };
 
 #endif // ADVANCEDPREFERENCEPAGE_HH

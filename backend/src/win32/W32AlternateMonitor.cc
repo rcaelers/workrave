@@ -84,7 +84,6 @@ bool W32AlternateMonitor::init( IInputMonitorListener *l )
     GetVersion(), so it shouldn't come to this.
   */
   {
-    CoreFactory::get_configurator()->set_value( "advanced/nohooks", false );
     //msg( "GetLastInputInfo() address not found in user32.dll" );
     TRACE_MSG( "GetLastInputInfo() address not found in user32.dll" );
     TRACE_EXIT();

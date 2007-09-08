@@ -28,6 +28,7 @@
 using namespace std;
 
 #include "IConfigurator.hh"
+#include "Variant.hh"
 
 class ConfiguratorListener;
 
@@ -214,28 +215,9 @@ protected:
 
 
 private:
-
-  //! Internal locking
-  Mutex *mutex;
-
-  //! struct of a list member
-  //! list will contain keys/values to set on quit
-  typedef struct keylist
-    {
-      string key;
-      string v;
-      keylist *next;
-      keylist()
-        {
-          key = "";
-          v = "";
-          next = NULL;
-        }
-    };
-
+  
   //! pointer to the head of the list
-  keylist *head;
-
+  std::map<std::string, Variant> saveonquit_list;
 };
 
 #endif // CONFIGURATOR_HH
