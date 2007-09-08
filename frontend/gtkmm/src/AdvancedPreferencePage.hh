@@ -52,14 +52,17 @@ public:
 
 private:
 
-#if defined(WIN32)
+#if 1 // defined(WIN32)
   Gtk::CheckButton *forcebox;
   Gtk::CheckButton *nohooksbox;
+  Gtk::CheckButton *llhooksbox;
 
   void forcebox_signal_toggled();
   bool forcebox_get_config();
   void nohooksbox_signal_toggled();
   bool nohooksbox_get_config();
+  void llhooksbox_signal_toggled();
+  bool llhooksbox_get_config();
 #endif
 
   void init();

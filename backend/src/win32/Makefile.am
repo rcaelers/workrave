@@ -10,7 +10,7 @@ MAINTAINERCLEANFILES =	Makefile.in
 noinst_LIBRARIES = 	libworkrave-backend-win32.a
 
 if HAVE_WIN32
-sources = 		W32Configurator.cc W32InputMonitor.cc W32AlternateMonitor.cc
+sources = 		W32Configurator.cc W32InputMonitor.cc W32AlternateMonitor.cc W32LowLevelMonitor.cc
 endif
 
 libworkrave_backend_win32_a_SOURCES = \

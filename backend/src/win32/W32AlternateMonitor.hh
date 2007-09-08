@@ -48,7 +48,7 @@ private:
   void exitmsg( char * );
   
   BOOL ( WINAPI *GetLastInputInfo ) ( LASTINPUTINFO * );
-  IInputMonitorListener *listener; //volatile?
+  static volatile IInputMonitorListener *listener;
   int interval;
 };
 

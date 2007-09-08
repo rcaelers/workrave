@@ -49,6 +49,7 @@ static const char rcsid[] = "$Id$";
 #include "IConfigurator.hh"
 #include "W32InputMonitor.hh"
 #include "W32AlternateMonitor.hh"
+#include "W32LowLevelMonitor.hh"
 #endif
 
 
@@ -98,38 +99,74 @@ ActivityMonitor::ActivityMonitor(const char *display) :
   input_monitor->init( this );
 
 #elif defined(WIN32)
-
-  bool nohooks;
-  CoreFactory::get_configurator()->get_value_default( "advanced/nohooks", &nohooks, false );
-
-  if (!nohooks)
+  
+  bool nohooks, lowlevel_monitor;
+  
+  CoreFactory::get_configurator()->get_value_default( 
+      "advanced/nohooks", &nohooks, false );
+  
+  CoreFactory::get_configurator()->get_value_default( 
+      "advanced/lowlevel_monitor", &lowlevel_monitor, false );
+  
+  if( nohooks == false )
     {
-      input_monitor = new W32InputMonitor();
-
-      if( !input_monitor->init( this ) )
+      bool initialized = false;
+      
+      // nohooks takes precedence:
+      // if nohooks == true, lowlevel_monitor will not be checked.
+      if( lowlevel_monitor == true )
+        {
+          input_monitor = new W32LowLevelMonitor();
+          
+          if( !( initialized = input_monitor->init( this ) ) )
+            {
+              TRACE_MSG( "W32LowLevelMonitor failed to initialize." );
+              int ret = MessageBoxA( NULL, 
+                "Workrave's alternate low-level activity monitor failed to initialize.\n\n"
+                "Click 'OK' to try using the regular activity monitor instead.\n",
+                "Workrave: Debug Message", 
+                MB_OKCANCEL | MB_ICONERROR | MB_TOPMOST );
+              
+              delete input_monitor;
+              if( ret != IDOK )
+                {
+                  delete CoreFactory::get_configurator();
+                  TRACE_EXIT();
+                  exit( 0 );
+                }
+            }
+        }
+      
+      if( !initialized )
+        {
+          input_monitor = new W32InputMonitor();
+          initialized = input_monitor->init( this );
+        }
+      
+      if( !initialized )
         {
           TRACE_MSG( "W32InputMonitor failed to initialize." );
-
+          
           if( LOBYTE( LOWORD( GetVersion() ) ) < 5 )
             // If < Win2k, there is no alternate monitor available.
             {
               MessageBoxA( NULL,
-                           "Workrave must be able to monitor certain system "
-                           "events in order to determine when you are idle.\n\n"
-
-                           "An attempt was made to hook into your system, but it "
-                           "was unsuccessful.\n\n"
-                           "Workrave must exit now.\n",
-                           "Workrave: Debug Message",
-                           MB_OK | MB_ICONERROR | MB_TOPMOST );
+                  "Workrave must be able to monitor certain system "
+                  "events in order to determine when you are idle.\n\n"
+                  
+                  "An attempt was made to hook into your system, but it "
+                  "was unsuccessful.\n\n"
+                  "Workrave must exit now.\n",
+                  "Workrave: Debug Message",
+                  MB_OK | MB_ICONERROR | MB_TOPMOST );
               /*
-                We want the current input monitor destructor called
-                at this point, after the user responds to the messagebox.
-                This way, if debugging, debug output can be viewed before
-                the user responds to the message box.
+              We want the current input monitor destructor called
+              at this point, after the user responds to the messagebox.
+              This way, if debugging, debug output can be viewed before
+              the user responds to the message box.
               */
               delete input_monitor;
-
+              
               CoreFactory::get_configurator()->save();
               TRACE_EXIT();
               exit( 0 );
@@ -138,29 +175,29 @@ ActivityMonitor::ActivityMonitor(const char *display) :
             // request to start the alternate monitor
             {
               int ret = MessageBoxA( NULL,
-                                     "Workrave must be able to monitor certain system "
-                                     "events in order to determine when you are idle.\n\n"
-
-                                     "An attempt was made to hook into your system, but it "
-                                     "was unsuccessful.\n\n"
-
-                                     "You might have system safety software that blocks "
-                                     "Workrave from installing global hooks on your system.\n\n"
-
-                                     "You can instead run Workrave using the alternate monitor, "
-                                     "which doesn't require global hooks.\n\n"
-
-                                     "Click 'OK' to run the alternate monitor, or 'Cancel' to exit.\n",
-                                     "Workrave: Debug Message",
-                                     MB_OKCANCEL | MB_ICONSTOP | MB_TOPMOST );
+                  "Workrave must be able to monitor certain system "
+                  "events in order to determine when you are idle.\n\n"
+                  
+                  "An attempt was made to hook into your system, but it "
+                  "was unsuccessful.\n\n"
+                  
+                  "You might have system safety software that blocks "
+                  "Workrave from installing global hooks on your system.\n\n"
+                  
+                  "You can instead run Workrave using the alternate monitor, "
+                  "which doesn't require global hooks.\n\n"
+                  
+                  "Click 'OK' to run the alternate monitor, or 'Cancel' to exit.\n",
+                  "Workrave: Debug Message",
+                  MB_OKCANCEL | MB_ICONSTOP | MB_TOPMOST );
               /*
-                We want the current input monitor destructor called
-                at this point, after the user responds to the messagebox.
-                This way, if debugging, debug output can be viewed before
-                the user responds to the message box.
+              We want the current input monitor destructor called
+              at this point, after the user responds to the messagebox.
+              This way, if debugging, debug output can be viewed before
+              the user responds to the message box.
               */
               delete input_monitor;
-
+              
               if( ret == IDCANCEL )
                 {
                   CoreFactory::get_configurator()->save();
@@ -189,19 +226,19 @@ ActivityMonitor::ActivityMonitor(const char *display) :
           if( LOBYTE( LOWORD( GetVersion() ) ) < 5 )
             {
               MessageBoxA( NULL,
-                           "Workrave's alternate activity monitor failed to initialize.\n\n"
-
-                           "The alternate activity monitor is not compatible with your "
-                           "version of Windows.\n\n"
-
-                           "Workrave will use the regular activity monitor from now on.\n\n"
-
-                           "Workrave must exit now. Restart it for changes to take effect.\n",
-                           "Workrave: Debug Message",
-                           MB_OK | MB_ICONERROR | MB_TOPMOST );
-
+                  "Workrave's alternate activity monitor failed to initialize.\n\n"
+                  
+                  "The alternate activity monitor is not compatible with your "
+                  "version of Windows.\n\n"
+                  
+                  "Workrave will use the regular activity monitor from now on.\n\n"
+                  
+                  "Workrave must exit now. Restart it for changes to take effect.\n",
+                  "Workrave: Debug Message",
+                  MB_OK | MB_ICONERROR | MB_TOPMOST );
+              
               CoreFactory::get_configurator()->set_value( "advanced/nohooks", false );
-
+              
               CoreFactory::get_configurator()->save();
               TRACE_EXIT();
               exit( 0 );
@@ -209,20 +246,20 @@ ActivityMonitor::ActivityMonitor(const char *display) :
           else
             {
               int ret = MessageBoxA( NULL,
-                                     "Workrave's alternate activity monitor failed to initialize.\n\n"
-
-                                     "Workrave must exit now.\n\n"
-
-                                     "The next time you start Workrave it can use the regular "
-                                     "activity monitor instead.\n\n"
-
-                                     "Click 'OK' to use the regular activity monitor next time.\n",
-                                     "Workrave: Debug Message",
-                                     MB_OKCANCEL | MB_ICONERROR | MB_TOPMOST );
-
+                  "Workrave's alternate activity monitor failed to initialize.\n\n"
+                  
+                  "Workrave must exit now.\n\n"
+                  
+                  "The next time you start Workrave it can use the regular "
+                  "activity monitor instead.\n\n"
+                  
+                  "Click 'OK' to use the regular activity monitor next time.\n",
+                  "Workrave: Debug Message",
+                  MB_OKCANCEL | MB_ICONERROR | MB_TOPMOST );
+              
               if( ret == IDOK )
                 CoreFactory::get_configurator()->set_value( "advanced/nohooks", false );
-
+              
               CoreFactory::get_configurator()->save();
               TRACE_EXIT();
               exit( 0 );

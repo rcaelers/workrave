@@ -68,13 +68,23 @@ AdvancedPreferencePage::AdvancedPreferencePage()
   Gtk::Notebook *notebook = manage( new Gtk::Notebook() );
   //notebook->set_tab_pos( Gtk::POS_TOP );
 
+  Gtk::ScrolledWindow *scroller = manage( new Gtk::ScrolledWindow() );
+  scroller->set_shadow_type( Gtk::SHADOW_ETCHED_OUT );
+  scroller->set_policy( Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC );
+  scroller->set_border_width( 4 );
+
   HigCategoriesPanel *main_panel = manage( new HigCategoriesPanel() );
   main_panel->set_border_width( 12 );
-
-
+  
+  Gtk::Label *restart_required_label = manage( new Gtk::Label(
+          _( "<b>Restart required for all preferences.</b>" ) ) );
+  restart_required_label->set_line_wrap( true );
+  restart_required_label->set_use_markup( true );
+  main_panel->add( *restart_required_label );
+  
 #if defined(WIN32)
   forcebox = manage(new Gtk::CheckButton(
-          _( "Force Break Window Focus (experimental, restart required)" ) ) );
+          _( "Force Break Window Focus (experimental)" ) ) );
   forcebox->signal_toggled().connect( MEMBER_SLOT( *this,
           &AdvancedPreferencePage::forcebox_signal_toggled ) );
   HigCategoryPanel *forcebox_panel = manage( new HigCategoryPanel( *forcebox ) );
@@ -84,9 +94,20 @@ AdvancedPreferencePage::AdvancedPreferencePage()
   //forcebox_label->set_max_width_chars( 100 );
   forcebox_panel->add( *forcebox_label );
   main_panel->add( *forcebox_panel );
-
+  
+  llhooksbox = manage( new Gtk::CheckButton(
+          _( "Enable Alternate Low-Level Hook Activity Monitor (experimental)" ) ) );
+  llhooksbox->signal_toggled().connect( MEMBER_SLOT( *this,
+          &AdvancedPreferencePage::llhooksbox_signal_toggled ) );
+  HigCategoryPanel *llhooksbox_panel = manage( new HigCategoryPanel( *llhooksbox ) );
+  Gtk::Label *llhooksbox_label = manage( new Gtk::Label(
+          _( "The default keyboard/mouse monitor uses global hooks. On rare occasion, you might notice very slight mouse or keyboard lag. This alternate monitor uses low-level hooks exclusively, and processes information with a higher priority." ) ) );
+  llhooksbox_label->set_line_wrap( true );
+  llhooksbox_panel->add( *llhooksbox_label );
+  main_panel->add( *llhooksbox_panel );
+  
   nohooksbox = manage( new Gtk::CheckButton(
-          _( "Enable Alternate Activity Monitor (experimental, restart required)" ) ) );
+          _( "Enable Alternate Activity Monitor (recommended for gamers)" ) ) );
   nohooksbox->signal_toggled().connect( MEMBER_SLOT( *this,
           &AdvancedPreferencePage::nohooksbox_signal_toggled ) );
   HigCategoryPanel *nohooksbox_panel = manage( new HigCategoryPanel( *nohooksbox ) );
@@ -95,9 +116,16 @@ AdvancedPreferencePage::AdvancedPreferencePage()
   nohooksbox_label->set_line_wrap( true );
   nohooksbox_panel->add( *nohooksbox_label );
   main_panel->add( *nohooksbox_panel );
+  
+  Gtk::Label *more_information_label = manage( new Gtk::Label(
+          _( "<b>Vista users:</b> By default, Workrave does not monitor your interaction with administrative applications. This is due to security restrictions in Vista. If you would like Workrave to monitor your interaction with these applications, please enable the alternate activity monitor that's recommended for gamers." ) ) );
+  more_information_label->set_line_wrap( true );
+  more_information_label->set_use_markup( true );
+  main_panel->add( *more_information_label );
 #endif
 
-  notebook->append_page( *main_panel, _( "Troubleshooting" ) );
+  scroller->add( *main_panel );
+  notebook->append_page( *scroller, _( "Troubleshooting" ) );
   pack_start( *notebook, true, true, 0 );
 
   notebook->show_all();
@@ -139,11 +167,23 @@ bool AdvancedPreferencePage::forcebox_get_config()
   return enabled;
 }
 
+
 void AdvancedPreferencePage::nohooksbox_signal_toggled()
 {
+  llhooksbox->set_sensitive( false );
   nohooksbox->set_sensitive( false );
+  
+  bool enabled = nohooksbox->get_active();
+  
   CoreFactory::get_configurator()->
-      set_value_on_quit( "advanced/nohooks", nohooksbox->get_active() );
+      set_value_on_quit( "advanced/nohooks", enabled );
+  
+  // enable only one alternate monitor, not both...
+  if( enabled && llhooksbox->get_active() )
+      llhooksbox->set_active( false );
+      //llhooksbox->toggled();
+  
+  llhooksbox->set_sensitive( true );
   nohooksbox->set_sensitive( true );
 }
 
@@ -162,16 +202,54 @@ bool AdvancedPreferencePage::nohooksbox_get_config()
 
   return enabled;
 }
+
+
+void AdvancedPreferencePage::llhooksbox_signal_toggled()
+{
+  nohooksbox->set_sensitive( false );
+  llhooksbox->set_sensitive( false );
+  
+  bool enabled = llhooksbox->get_active();
+  
+  CoreFactory::get_configurator()->
+      set_value_on_quit( "advanced/lowlevel_monitor", enabled );
+  
+  // enable only one alternate monitor, not both...
+  if( enabled && nohooksbox->get_active() )
+      nohooksbox->set_active( false );
+      //nohooksbox->toggled();
+  
+  nohooksbox->set_sensitive( true );
+  llhooksbox->set_sensitive( true );
+}
+
+bool AdvancedPreferencePage::llhooksbox_get_config()
+{
+  bool enabled;
+  
+  // if lowlevel_monitor has a value that will be set on quit,
+  // that value will be returned, not the actual value.
+  if( CoreFactory::get_configurator()->
+      get_value_on_quit( "advanced/lowlevel_monitor", &enabled ) == true )
+          return enabled;
+  
+  CoreFactory::get_configurator()->
+      get_value_default( "advanced/lowlevel_monitor", &enabled, false );
+  
+  return enabled;
+}
 #endif
 
 
 void AdvancedPreferencePage::init()
 {
-  #if defined(WIN32)
+#if defined(WIN32)
   forcebox->set_focus_on_click( false );
   nohooksbox->set_focus_on_click( false );
+  llhooksbox->set_focus_on_click( false );
   forcebox->set_active( forcebox_get_config() );
   nohooksbox->set_active( nohooksbox_get_config() );
+  llhooksbox->set_active( llhooksbox_get_config() );
   if( LOBYTE( LOWORD( GetVersion() ) ) < 5 )
     // Alternate monitor can't be used if OS < Win2000.
     nohooksbox->set_sensitive( false );

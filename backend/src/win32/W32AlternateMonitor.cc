@@ -33,7 +33,7 @@
 
 #include "W32AlternateMonitor.hh"
 
-//IInputMonitorListener *W32AlternateMonitor::listener = NULL;
+volatile IInputMonitorListener *W32AlternateMonitor::listener = NULL;
 
 W32AlternateMonitor::W32AlternateMonitor()
 {
@@ -147,7 +147,7 @@ void W32AlternateMonitor::Monitor()
     /* User session has received input */
     {
       /* Notify the activity monitor */
-      listener->action_notify();
+       const_cast<IInputMonitorListener *>( listener )->action_notify();
     }
     
     Sleep( interval );
