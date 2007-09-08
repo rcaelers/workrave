@@ -1,4 +1,4 @@
-/*
+>/*
  * harpoon.c
  *
  * Copyright (C) 2002-2007 Raymond Penners <raymond@dotsphinx.com>
@@ -86,6 +86,7 @@ typedef struct
 } MOUSEHOOKSTRUCTEX, *PMOUSEHOOKSTRUCTEX;
 
 
+static HARPOON_API void harpoon_hook_block_only(void);
 
 /**********************************************************************
  * Misc
@@ -129,6 +130,10 @@ harpoon_unblock_input(void)
 {
   block_input = FALSE;
   if_debug_send_message( "block_input = FALSE" );
+  if (user_callback == NULL)
+    {
+      harpoon_unhook();
+    }
 }
 
 HARPOON_API void
@@ -136,6 +141,11 @@ harpoon_block_input(void)
 {
   block_input = TRUE;
   if_debug_send_message( "block_input = TRUE" );
+
+  if (user_callback == NULL)
+    {
+      harpoon_hook_block_only();
+    }
 }
 
 static int is_app_blocked()
@@ -461,6 +471,27 @@ harpoon_mouse_ll_hook (int code, WPARAM wpar, LPARAM lpar)
   return harpoon_generic_hook_return (code, wpar, lpar, mouse_ll_hook, TRUE);
 }
 
+
+LRESULT CALLBACK
+harpoon_mouse_block_hook (int code, WPARAM wpar, LPARAM lpar)
+{
+  BOOL forcecallnext = FALSE;
+
+  if (code == HC_ACTION)
+    {
+      switch (wpar)
+        {
+        case WM_LBUTTONUP:
+        case WM_MBUTTONUP:
+        case WM_RBUTTONUP:
+          forcecallnext = TRUE;
+        }
+    }
+  
+  return harpoon_generic_hook_return (code, wpar, lpar, mouse_hook,
+                                      forcecallnext);
+}
+
 
 /**********************************************************************
  * Keyboard hook
@@ -537,6 +568,21 @@ harpoon_keyboard_ll_hook (int code, WPARAM wpar, LPARAM lpar)
         }
     }
   return harpoon_generic_hook_return (code, wpar, lpar, keyboard_ll_hook,
+                                      forcecallnext);
+}
+
+
+static LRESULT CALLBACK
+harpoon_keyboard_block_hook (int code, WPARAM wpar, LPARAM lpar)
+{
+  BOOL forcecallnext = FALSE;
+  if (code == HC_ACTION)
+    {
+      BOOL pressed = (lpar & (1 << 31)) == 0;
+      forcecallnext = !pressed;
+      if_debug_send_message( "WH_KEYBOARD" );
+    }
+  return harpoon_generic_hook_return (code, wpar, lpar, keyboard_hook,
                                       forcecallnext);
 }
 
@@ -760,12 +806,7 @@ harpoon_hook( HarpoonHookFunc func, BOOL keyboard_lowlevel, BOOL mouse_lowlevel 
       if_debug_send_message( "harpoon hook initialization failure" );
       return FALSE;
     }
-/*not needed at this time
-  if( LOBYTE( LOWORD( GetVersion() ) ) >= 5 )
-      harpoon_supports_mouse_hook_struct_ex = TRUE;
-  else
-      harpoon_supports_mouse_hook_struct_ex = FALSE;
-*/
+
   harpoon_unhook();
   user_callback = func;
 
@@ -802,16 +843,12 @@ harpoon_hook( HarpoonHookFunc func, BOOL keyboard_lowlevel, BOOL mouse_lowlevel 
           if_debug_send_message( "SetWindowsHookEx: WH_KEYBOARD_LL (failure)" );
     }
 
-  // RC: always hook if( keyboard_ll_hook == NULL )
-  // Either the low-level hook function failed or was never called.
-    {
-      keyboard_hook = SetWindowsHookEx(
-          WH_KEYBOARD, harpoon_keyboard_hook, dll_handle, 0 );
-      if( keyboard_hook )
-          if_debug_send_message( "SetWindowsHookEx: WH_KEYBOARD (success)" );
-      else
-          if_debug_send_message( "SetWindowsHookEx: WH_KEYBOARD (failure)" );
-    }
+  keyboard_hook = SetWindowsHookEx(
+       WH_KEYBOARD, harpoon_keyboard_hook, dll_handle, 0 );
+  if( keyboard_hook )
+    if_debug_send_message( "SetWindowsHookEx: WH_KEYBOARD (success)" );
+  else
+    if_debug_send_message( "SetWindowsHookEx: WH_KEYBOARD (failure)" );
 
   if( ( !keyboard_hook && !keyboard_ll_hook ) || !mouse_hook )
     {
@@ -824,6 +861,55 @@ harpoon_hook( HarpoonHookFunc func, BOOL keyboard_lowlevel, BOOL mouse_lowlevel 
       return TRUE;
     }
 }
+
+
+static HARPOON_API void
+harpoon_hook_block_only(void)
+{
+  if_debug_send_message( "harpoon_hook_block_only() called" );
+
+  /*
+    This hook init function is only called from workrave
+    Set exec_filename_workrave/critical TRUE
+  */
+  exec_filename_workrave = TRUE;
+  exec_filename_critical = TRUE;
+
+  if (user_callback == NULL)
+    {
+      harpoon_unhook();
+      
+      if (mouse_hook == NULL)
+        {
+          /*
+            WH_MOUSE is always hooked. It's needed to determine which
+            applications to block. There is no way to determine the
+            destination window/application when using only LL hooks.
+          */
+          mouse_hook = SetWindowsHookEx(WH_MOUSE,
+                                        harpoon_mouse_block_hook,
+                                        dll_handle,
+                                        0);
+          if( mouse_hook )
+            if_debug_send_message( "SetWindowsHookEx: WH_MOUSE (success)" );
+          else
+            if_debug_send_message( "SetWindowsHookEx: WH_MOUSE (failure)" );
+        }
+
+      if (keyboard_hook == NULL)
+        {
+          keyboard_hook = SetWindowsHookEx(WH_KEYBOARD,
+                                           harpoon_keyboard_block_hook,
+                                           dll_handle,
+                                           0);
+          if (keyboard_hook)
+            if_debug_send_message( "SetWindowsHookEx: WH_KEYBOARD (success)" );
+          else
+            if_debug_send_message( "SetWindowsHookEx: WH_KEYBOARD (failure)" );
+        }
+    }
+}
+
 
 static void _get_exec_filename()
 {

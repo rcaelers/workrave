@@ -32,6 +32,7 @@
 #include <unistd.h>
 
 #include "W32AlternateMonitor.hh"
+#include "Harpoon.hh"
 
 volatile IInputMonitorListener *W32AlternateMonitor::listener = NULL;
 
@@ -42,6 +43,7 @@ W32AlternateMonitor::W32AlternateMonitor()
   listener = NULL;
   
   CoreFactory::get_configurator()->get_value_default( "advanced/interval", &interval, 500);
+  Harpoon::init(NULL);
   
   TRACE_EXIT();
 }

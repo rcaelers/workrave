@@ -1,4 +1,4 @@
-// W32InputMonitor.hh --- ActivityMonitor for W32
+// Harpoon.hh --- ActivityMonitor for W32
 //
 // Copyright (C) 2002, 2004, 2006, 2007 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
@@ -13,11 +13,11 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
-// $Id$
+// $Id: Harpoon.hh 1298 2007-08-30 14:18:04Z rcaelers $
 //
 
-#ifndef W32INPUTMONITOR_HH
-#define W32INPUTMONITOR_HH
+#ifndef HARPOON_HH
+#define HARPOON_HH
 
 #if TIME_WITH_SYS_TIME
 # include <sys/time.h>
@@ -31,28 +31,27 @@
 #endif
 
 #include <windows.h>
-#include "IInputMonitor.hh"
-#include "IInputMonitorListener.hh"
+#include "harpoon.h"
 
 typedef union HarpoonEventUnion HarpoonEvent;
 
 //! Activity monitor for a local X server.
-class W32InputMonitor :
-  public IInputMonitor
+class Harpoon
 {
 public:
   //! Constructor.
-  W32InputMonitor();
+  Harpoon();
 
   //! Destructor.
-  virtual ~W32InputMonitor();
+  virtual ~Harpoon();
 
-  bool init(IInputMonitorListener *);
-  void terminate() ;
+  static bool init(HarpoonHookFunc func);
+  static void terminate();
 
 private:
+  static void init_critical_filename_list();
+  static bool check_for_taskmgr_debugger( char *out );
   static void on_harpoon_event(HarpoonEvent *event);
-  static IInputMonitorListener *listener;
 };
 
-#endif // W32INPUTMONITOR_HH
+#endif // HARPOON_HH

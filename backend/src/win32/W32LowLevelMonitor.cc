@@ -44,6 +44,7 @@ jay satiro, workrave project, september 2007
 
 #include "debug.hh"
 #include "W32LowLevelMonitor.hh"
+#include "Harpoon.hh"
 
 
 W32LowLevelMonitor *W32LowLevelMonitor::singleton = NULL;
@@ -88,6 +89,8 @@ W32LowLevelMonitor::W32LowLevelMonitor()
   m_hook = NULL;
   
   listener = NULL;
+
+  Harpoon::init(NULL);
   
   TRACE_EXIT();
 }

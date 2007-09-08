@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2004, 2006 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007 Rob Caelers & Raymond Penners
 #
 # $Id$
 #
@@ -10,7 +10,7 @@ MAINTAINERCLEANFILES =	Makefile.in
 noinst_LIBRARIES = 	libworkrave-backend-win32.a
 
 if HAVE_WIN32
-sources = 		W32Configurator.cc W32InputMonitor.cc W32AlternateMonitor.cc W32LowLevelMonitor.cc
+sources = 		W32Configurator.cc W32InputMonitor.cc W32AlternateMonitor.cc W32LowLevelMonitor.cc Harpoon.cc
 endif
 
 libworkrave_backend_win32_a_SOURCES = \
