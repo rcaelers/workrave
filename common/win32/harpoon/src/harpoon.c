@@ -86,7 +86,7 @@ typedef struct
 } MOUSEHOOKSTRUCTEX, *PMOUSEHOOKSTRUCTEX;
 
 
-static HARPOON_API void harpoon_hook_block_only(void);
+static void harpoon_hook_block_only(void);
 
 /**********************************************************************
  * Misc
@@ -863,7 +863,7 @@ harpoon_hook( HarpoonHookFunc func, BOOL keyboard_lowlevel, BOOL mouse_lowlevel 
 }
 
 
-static HARPOON_API void
+static void
 harpoon_hook_block_only(void)
 {
   if_debug_send_message( "harpoon_hook_block_only() called" );

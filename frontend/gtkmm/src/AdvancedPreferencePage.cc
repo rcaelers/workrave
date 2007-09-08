@@ -55,9 +55,9 @@
 AdvancedPreferencePage::AdvancedPreferencePage()
   : Gtk::VBox( false, 6 )
 {
+#ifdef WIN32  
   TRACE_ENTER( "AdvancedPreferencePage::AdvancedPreferencePage" );
 
-#ifdef WIN32  
   Gtk::Notebook *notebook = manage(new Gtk::Notebook());
 
   // Force focus
