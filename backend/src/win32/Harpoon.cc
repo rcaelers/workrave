@@ -1,6 +1,7 @@
 // Harpoon.cc --- ActivityMonitor for W32
 //
-// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
+// Copyright (C) 2007 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -58,8 +59,16 @@ Harpoon::init(HarpoonHookFunc func)
 
   CoreFactory::get_configurator()->
       get_value_default( "advanced/harpoon/debug", &debug, false );
+
+  bool default_mouse_lowlevel = false;
+  if ( LOBYTE( LOWORD( GetVersion() ) ) >= 6)
+    {
+      default_mouse_lowlevel = true;
+    }
+  
   CoreFactory::get_configurator()->
-      get_value_default( "advanced/harpoon/mouse_lowlevel", &mouse_lowlevel, false );
+      get_value_default( "advanced/harpoon/mouse_lowlevel", &mouse_lowlevel, default_mouse_lowlevel );
+
   CoreFactory::get_configurator()->
       get_value_default( "advanced/harpoon/keyboard_lowlevel", &keyboard_lowlevel, true );
 

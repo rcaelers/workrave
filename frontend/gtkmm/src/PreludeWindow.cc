@@ -240,9 +240,18 @@ PreludeWindow::refresh()
   time_bar->set_text(s);
   time_bar->update();
 #ifdef WIN32
+// Vista GTK phantom toplevel parent kludge:
   HWND hwnd = (HWND) GDK_WINDOW_HWND( Gtk::Widget::gobj()->window );
-  SetWindowPos( hwnd, HWND_TOPMOST, 0, 0, 0, 0,
-    SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE );
+  if( hwnd )
+    {
+      HWND hAncestor = GetAncestor( hwnd, GA_ROOT );
+      HWND hDesktop = GetDesktopWindow();
+      if( hAncestor && hDesktop && hAncestor != hDesktop )
+          hwnd = hAncestor;
+      // Set toplevel window topmost!
+      SetWindowPos( hwnd, HWND_TOPMOST, 0, 0, 0, 0, 
+          SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE );
+    }
 #endif
 }
 

@@ -60,6 +60,8 @@ AdvancedPreferencePage::AdvancedPreferencePage()
 {
   TRACE_ENTER( "AdvancedPreferencePage::AdvancedPreferencePage" );
 
+#if 1 // defined(WIN32)
+
   Gtk::Notebook *notebook = manage( new Gtk::Notebook() );
   //notebook->set_tab_pos( Gtk::POS_TOP );
 
@@ -67,30 +69,20 @@ AdvancedPreferencePage::AdvancedPreferencePage()
   main_panel->set_border_width( 12 );
   
   Gtk::Label *exp_label = manage( new Gtk::Label(
-          _( "<b>Experimental preferences.</b>" ) ) );
-  exp_label->set_line_wrap( true );
+                _( "<b>Experimental preferences. Restart required for changes to take effect</b>" ) ) );
   exp_label->set_use_markup( true );
   main_panel->add( *exp_label );
 
-  Gtk::Label *restart_required_label = manage( new Gtk::Label(
-          _( "<b>Restart required for all preferences.</b>" ) ) );
-  restart_required_label->set_line_wrap( true );
-  restart_required_label->set_use_markup( true );
-  main_panel->add( *restart_required_label );
-  
-#if defined(WIN32)
-  forcebox = manage(new Gtk::CheckButton(
-          _( "Force Break Window Focus" ) ) );
-  forcebox->signal_toggled().connect( MEMBER_SLOT( *this,
-          &AdvancedPreferencePage::forcebox_signal_toggled ) );
+  forcebox = manage(new Gtk::CheckButton(_("Force Break Window Focus")));
+  forcebox->signal_toggled().connect(MEMBER_SLOT(*this,
+                                                 &AdvancedPreferencePage::forcebox_signal_toggled));
   main_panel->add( *forcebox );
   
   string force_focus_tip =
     _("A break window can lose focus due to either an operating\n"
-      "system or application compatibility issue. As a result,\n"
-      "the user can no longer skip or postpone the break.\n"
-      "This option makes sure that break windows\n"
-      "automatically regain focus.");
+      "system or application compatibility issue. As a result, the\n"
+      "user can no longer skip or postpone the break. This option\n"
+      "make sure that break windows automatically regain focus.");
   GUI::get_instance()->get_tooltips()->set_tip(*forcebox, force_focus_tip);
   
   // Monitoring
@@ -104,39 +96,44 @@ AdvancedPreferencePage::AdvancedPreferencePage()
 
   row = *(monitor_model->append());
   row[monitor_columns.col_id] = "lowlevel";
-  row[monitor_columns.col_name] = _("Alternate monitor using low-level global hook");
+  row[monitor_columns.col_name] = _("Alternate monitor using low-level global hooks");
 
-  if (LOBYTE( LOWORD( GetVersion() ) ) >= 5)
+  if (1) // FIXME: LOBYTE( LOWORD( GetVersion() ) ) >= 5)
     {
       row = *(monitor_model->append());
       row[monitor_columns.col_id] = "nohook";
-      row[monitor_columns.col_name] = _("Alternate monitor without global hooks");
+      row[monitor_columns.col_name] = _("Alternate monitor -- no hooks");
     }
   
   monitor_combo->pack_start(monitor_columns.col_name);
   monitor_combo->signal_changed().connect(MEMBER_SLOT(*this,
-            &AdvancedPreferencePage::monitor_signal_changed));
+                &AdvancedPreferencePage::monitor_signal_changed));
 
   string info_text =
-    _("Some applications are incompatible with the default keyboard\n"
-      "and mouse monitoring (because it uses global hooks). Workrave\n"
-      "offers two experimental alternate monitoring methods.\n"
+
+    _("Workrave's default keyboard/mouse monitor uses global hooks.\n"
+      "This monitoring method is not compatible with all applications.\n"
+      "Workrave might not be able to monitor your activity in certain\n"
+      "applications if you are using the default monitor.\n"
       "\n"
-      "The first alternate method uses low-level hooks exclusively.\n"
-      "This method allows monitoring of administrative applications on\n"
-      "Vista. On rare occasions, you might notice very slight mouse or\n"
-      "keyboard lag.\n"
+      "You can try enabling an alternate monitor instead:\n"
       "\n"
-      "The second one does not use any hooks at all. This method also\n"
-      "allows monitoring of administrative applications on Vista but\n"
-      "mouse & keyboard statistics are unavailable when this\n"
-      "monitor is selected.\n"
+      "The alternate low-level hook monitor is experimental. It processes\n"
+      "information faster to avoid any mouse or keyboard lag that may\n"
+      "(rarely) occur when using the default monitor. It is 64-bit\n"
+      "compatible and can properly monitor your mouse & keyboard activity\n"
+      "in Internet Explorer on Vista.\n"
       "\n"
-      "Vista users: By default, Workrave does not monitor your\n"
-      "interaction with administrative applications. This is due to\n"
-      "security restrictions in Vista. If you would like Workrave to\n"
-      "monitor your interaction with these applications,\n"
-      "please enable the second alternate activity monitor.");
+      "The other alternate monitor does not use any hooks at all to monitor\n"
+      "your activity, instead relying on the OS to determine when you are\n"
+      "active. This monitor is stable, and it is also 64-bit compatible.\n"
+      "It is recommended for gamers, and Vista users. On some computers,\n"
+      "Workrave might enable this monitor automatically. There are no mouse\n"
+      "or keyboard statistics available when this monitor is enabled.\n"
+      "\n"
+      "Please note: To disable hooks completely, you must also disable\n"
+      "block input: User interface > Block mode: > No blocking\n"
+      );
 
   EventLabel *label = manage(new EventLabel("Monitoring method:"));
   label->set_alignment(0.0);
@@ -146,8 +143,8 @@ AdvancedPreferencePage::AdvancedPreferencePage()
   box->set_spacing(6);
   box->pack_start(*label, false, true, 0);
   box->pack_start(*monitor_combo, false, false, 0);
+
   main_panel->add( *box );
-#endif
   
   notebook->append_page( *main_panel, _( "Troubleshooting" ) );
   pack_start( *notebook, true, true, 0 );
@@ -158,6 +155,8 @@ AdvancedPreferencePage::AdvancedPreferencePage()
   init();
 
   show_all();
+
+#endif
   
   TRACE_EXIT();
 }
@@ -168,7 +167,7 @@ AdvancedPreferencePage::~AdvancedPreferencePage()
   TRACE_EXIT();
 }
 
-#if defined(WIN32)
+#if 1 //defined(WIN32)
 void AdvancedPreferencePage::forcebox_signal_toggled()
 {
   forcebox->set_sensitive( false );
@@ -222,7 +221,7 @@ string AdvancedPreferencePage::monitor_get_config()
 {
   string monitor;
 
-  // if lowlevel_monitor has a value that will be set on quit,
+  // if monitor has a value that will be set on quit,
   // that value will be returned, not the actual value.
   if( CoreFactory::get_configurator()->
       get_value_on_quit( "advanced/monitor", &monitor ) == true )
@@ -233,7 +232,6 @@ string AdvancedPreferencePage::monitor_get_config()
   
   return monitor;
 }
-#endif
 
 
 void AdvancedPreferencePage::init()
@@ -257,3 +255,5 @@ void AdvancedPreferencePage::init()
 
   forcebox->set_active(forcebox_get_config());
 }
+
+#endif

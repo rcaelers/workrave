@@ -103,10 +103,9 @@ ActivityMonitor::ActivityMonitor(const char *display) :
 
   bool initialized = false;
   string monitor_method;
-  CoreFactory::get_configurator()->get_value_default("advanced/monitor",
-                                                     &monitor_method,
-                                                     "normal");
 
+  
+  CoreFactory::get_configurator()->get_value_default("advanced/monitor", &monitor_method, "normal");
   
   if (monitor_method == "lowlevel")
     {
@@ -124,6 +123,7 @@ ActivityMonitor::ActivityMonitor(const char *display) :
           delete input_monitor;
           if( ret != IDOK )
             {
+              delete CoreFactory::get_configurator();
               TRACE_EXIT();
               exit(0);
             }
@@ -144,14 +144,14 @@ ActivityMonitor::ActivityMonitor(const char *display) :
         {
           int ret = MessageBoxA( NULL, 
              "Workrave's alternate activity monitor failed to initialize.\n\n"
-             "Click 'OK' to try using the regular activity monitor instead.\n"
-             "Workrave must exit now.\n",
+             "Click 'OK' to try using the regular activity monitor instead.\n",
              "Workrave: Debug Message", 
              MB_OKCANCEL | MB_ICONERROR | MB_TOPMOST );
               
           delete input_monitor;
           if( ret != IDOK )
             {
+              delete CoreFactory::get_configurator();
               TRACE_EXIT();
               exit(0);
             }
@@ -177,8 +177,12 @@ ActivityMonitor::ActivityMonitor(const char *display) :
               "was unsuccessful.\n\n"
 
               "You might have system safety software that blocks "
-              "Workrave from installing global hooks on your system.\n\n",
+              "Workrave from installing global hooks on your system.\n\n"
 
+              "You can instead run Workrave using the alternate monitor, "
+              "which doesn't require global hooks.\n\n"
+
+              "Click 'OK' to run the alternate monitor, or 'Cancel' to exit.\n",
 
               "Workrave: Debug Message",
               MB_OKCANCEL | MB_ICONSTOP | MB_TOPMOST );
@@ -193,7 +197,7 @@ ActivityMonitor::ActivityMonitor(const char *display) :
 
           if( ret == IDCANCEL )
             {
-              CoreFactory::get_configurator()->save();
+              delete CoreFactory::get_configurator();
               TRACE_EXIT();
               exit( 0 );
             }
@@ -206,7 +210,8 @@ ActivityMonitor::ActivityMonitor(const char *display) :
         }
     }
 
-  if (monitor_method == "nohook" && !initialized)
+// Final try:
+  if (monitor_method == "nohook" || !initialized)
     {
       input_monitor = new W32AlternateMonitor();
       initialized = input_monitor->init(this);
@@ -217,22 +222,30 @@ ActivityMonitor::ActivityMonitor(const char *display) :
                 "Workrave must be able to monitor certain system "
                 "events in order to determine when you are idle.\n\n"
                 
-                "An attempt was made to hook into your system, but it "
-                "was unsuccessful.\n\n"
+                "Attempts were made to monitor your system, "
+                "but they were unsuccessful.\n\n"
                 
-                "You might have system safety software that blocks "
-                "Workrave from installing global hooks on your system.\n\n"
+                "Workrave has reset itself to use its default monitor."
+                "Please run Workrave again. If you see this message "
+                "again, please file a bug report:\n\n"
                 
-                "You can instead run Workrave using the alternate monitor, "
-                "which doesn't require global hooks.\n\n"
+                "http://issues.workrave.org/\n\n"
                 
-                "Click 'OK' to run the alternate monitor, or 'Cancel' to exit.\n",
+                "Workrave must exit now.\n",
                 "Workrave: Debug Message",
-                MB_OKCANCEL | MB_ICONSTOP | MB_TOPMOST );        }
-
-      monitor_method = "normal";
-      CoreFactory::get_configurator()->set_value("advanced/monitor", monitor_method);
-      CoreFactory::get_configurator()->save();
+                MB_OK );
+          
+          delete input_monitor;
+          
+          monitor_method = "normal";
+          CoreFactory::get_configurator()->set_value("advanced/monitor", monitor_method);
+          CoreFactory::get_configurator()->save();
+          
+          delete CoreFactory::get_configurator();
+          
+          TRACE_EXIT();
+          exit( 0 );
+        }
     }
   
 #endif

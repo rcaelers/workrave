@@ -154,7 +154,6 @@ endif
 #endif
 
 workrave_SOURCES = \
-			AdvancedPreferencePage.cc \
 			AppletWindow.cc \
 			AppletControl.cc \
 			BreakWindow.cc \

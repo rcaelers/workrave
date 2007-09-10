@@ -75,6 +75,11 @@ volatile HHOOK W32LowLevelMonitor::k_hook = NULL;
 volatile HHOOK W32LowLevelMonitor::m_hook = NULL;
 
 HMODULE W32LowLevelMonitor::process_handle = NULL;
+/* FYI:
+MS type BOOL is type int.
+Therefore BOOL functions can return -1.
+MSDN notes GetMessage BOOL return is not only 0,1 but also -1.
+*/
 BOOL ( WINAPI *W32LowLevelMonitor::GetMessageW ) 
     ( LPMSG, HWND, UINT, UINT ) = NULL;
 BOOL ( WINAPI *W32LowLevelMonitor::PeekMessageW )
@@ -334,7 +339,7 @@ DWORD W32LowLevelMonitor::dispatch_thread()
 {
   dispatch->active = false;
   
-  BOOL ret = 0;
+  bool ret = 0;
   MSG msg;
   
   // It's good practice to force creation of the thread 
@@ -391,12 +396,6 @@ DWORD W32LowLevelMonitor::dispatch_thread()
     }
   
   dispatch->active = false;
-  
-  // MS type BOOL is type int.
-  // Therefore BOOL functions can return -1.
-  // MSDN notes GetMessage BOOL return is not only 0,1 but also -1.
-  if( ret == -1 || ret == STILL_ACTIVE )
-      ret = 0;
   
   // Always return a value != STILL_ACTIVE (259)
   return (DWORD) ret;

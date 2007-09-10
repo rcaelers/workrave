@@ -52,7 +52,7 @@ public:
   ~AdvancedPreferencePage();
 
 private:
-#if defined(WIN32)
+#if 1 //defined(WIN32)
   class ModelColumns : public Gtk::TreeModel::ColumnRecord
   {
   public:

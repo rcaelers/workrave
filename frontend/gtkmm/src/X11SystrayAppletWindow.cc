@@ -291,7 +291,7 @@ X11SystrayAppletWindow::on_button_press_event(GdkEventButton *event)
       if (event->button == 3)
         {
           Menus::get_instance()->popup(Menus::MENU_APPLET,
-                                       event->button, event->time);
+                                       0 /*event->button */, event->time);
           ret = true;
         }
       if (event->button == 1)

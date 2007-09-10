@@ -50,7 +50,7 @@
 #include "NetworkPreferencePage.hh"
 #endif
 
-#include "AdvancedPreferencePage.hh"
+#include "PluginsPreferencePage.hh"
 
 
 PreferencesDialog::PreferencesDialog()
@@ -80,12 +80,10 @@ PreferencesDialog::PreferencesDialog()
 #ifdef HAVE_DISTRIBUTION
   add_page(_("Network"), "network.png", *network_page);
 #endif
-  
-#ifdef WIN32
-  // For now, Advance options are only available on windows
 
-  Gtk::Widget *advanced_page = manage( new AdvancedPreferencePage() );
-  add_page( _("Advanced"), "workrave-icon-huge.png", *advanced_page );
+#if 0  
+  Gtk::Widget *plugins_page = manage( new PluginsPreferencePage() );
+  add_page( _("Plugins"), "workrave-icon-huge.png", *plugins_page );
 #endif
   
   // Dialog
