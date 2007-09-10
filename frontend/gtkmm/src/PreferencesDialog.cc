@@ -50,7 +50,7 @@
 #include "NetworkPreferencePage.hh"
 #endif
 
-#include "PluginsPreferencePage.hh"
+// #include "PluginsPreferencePage.hh"
 
 
 PreferencesDialog::PreferencesDialog()
