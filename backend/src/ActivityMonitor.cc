@@ -103,7 +103,6 @@ ActivityMonitor::ActivityMonitor(const char *display) :
 
   bool initialized = false;
   string monitor_method;
-
   
   CoreFactory::get_configurator()->get_value_default("advanced/monitor", &monitor_method, "normal");
   
