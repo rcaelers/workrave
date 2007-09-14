@@ -190,7 +190,8 @@ BreakWindow::init_gui()
 
       // Set window hints.
       WindowHints::set_skip_winlist(Gtk::Widget::gobj(), true);
-      WindowHints::set_always_on_top(Gtk::Widget::gobj(), true);
+      // causes windows to display on win32
+      // WindowHints::set_always_on_top(Gtk::Widget::gobj(), true);
 
       // FIXME: check if it was intentionally not unset for RB
       if (break_id != BREAK_ID_REST_BREAK)
