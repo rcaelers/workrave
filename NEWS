@@ -1,4 +1,4 @@
-Workrave NEWS -- history of user-visible changes.  8 Sep 2007
+Workrave NEWS -- history of user-visible changes.  15 Sep 2007
 Copyright (C) 2001-2007 Rob Caelers & Raymond Penners
 See the end for copying conditions.
 
@@ -34,6 +34,8 @@ http://www.workrave.org
 
 *** Fixed bug in multi-head support where Workrave showed
     multiple windows on a single screen.
+
+*** Fixed locking on Gnome with xscreensaver installed (Philipp Kern)
 
 * Workrave 1.8.4
 

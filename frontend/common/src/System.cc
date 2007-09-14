@@ -1,4 +1,4 @@
-// Display.cc
+// System.cc
 //
 // Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
@@ -25,6 +25,7 @@
 #endif
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include <strings.h>
 
@@ -101,8 +102,9 @@ const GUID CLSID_Shell =
 
 #if defined(HAVE_X)
 
-gchar *System::xlock = NULL;
 bool System::kde = false;
+bool System::lockable = false;
+std::string System::lock_display;
 
 #elif defined(WIN32)
 
@@ -117,13 +119,41 @@ System::is_lockable()
 {
   bool ret;
 #if defined(HAVE_X)
-  ret = xlock != NULL;
+  ret = lockable;
 #elif defined(WIN32)
   ret = lock_func != NULL;
 #else
   ret = false;
 #endif
   return ret;
+}
+
+static bool
+invoke(const gchar* command, bool async = false)
+{
+  GError *error = NULL;
+
+  if(!async)
+    {
+      // synchronised call
+      gint exit_code;
+      if (!g_spawn_command_line_sync(command, NULL, NULL, &exit_code, &error) )
+        {
+          g_error_free(error);
+          return false;
+        }
+      return WEXITSTATUS(exit_code) == 0;
+    }
+  else
+    {
+      // asynchronous call
+      if (!g_spawn_command_line_async(command, &error) )
+        {
+          g_error_free(error);
+          return false;
+        }
+      return true;
+    }
 }
 
 void
@@ -133,10 +163,36 @@ System::lock()
   if (is_lockable())
     {
 #if defined(HAVE_X)
-      GString *cmd = g_string_new(xlock);
-      cmd = g_string_append_c(cmd, '&');
-      system(cmd->str);
-      g_string_free(cmd, true);
+      gchar *program = NULL, *cmd = NULL;
+      if (is_kde() && (program = g_find_program_in_path("kdesktop_lock")))
+        {
+          cmd = g_strdup_printf("%s --display \"%s\" --forcelock",
+                                program, lock_display.c_str() );
+          invoke(cmd, true);
+          goto end;
+        }
+      if ((program = g_find_program_in_path("xscreensaver-command")))
+        {
+          cmd = g_strdup_printf("%s --display \"%s\" -lock",
+                                program, lock_display.c_str() );
+          if(invoke(cmd, false) )
+            goto end;
+        }
+      if ((program = g_find_program_in_path("gnome-screensaver-command")))
+        {
+          cmd = g_strdup_printf("%s --lock", program);
+          if(invoke(cmd, false) )
+            goto end;
+        }
+      if ((program = g_find_program_in_path("xlock")))
+        {
+          cmd = g_strdup_printf("%s -display \"%s\"",
+                                program, lock_display.c_str() );
+          invoke(cmd, true);
+        }
+end:  // cleanup of created strings, jump to avoid duplication
+      g_free(program);
+      g_free(cmd);
 #elif defined(WIN32)
       (*lock_func)();
 #endif
@@ -199,31 +255,22 @@ System::init(
   TRACE_ENTER("System::init");
 #if defined(HAVE_X)
   init_kde(display);
-  gchar *lock = NULL;
-  if (is_kde() && (lock = g_find_program_in_path("kdesktop_lock")))
+ 
+  gchar *program;
+  if (is_kde() && (program = g_find_program_in_path("kdesktop_lock")))
+    lockable = true;
+  else if (program = g_find_program_in_path("xscreensaver-command"))
+    lockable = true;
+  else if (program = g_find_program_in_path("gnome-screensaver-command"))
+    lockable = true;
+  else if (program = g_find_program_in_path("xlock"))
+    lockable = true;
+ 
+  if (lockable)
     {
-      xlock = g_strdup_printf("%s --display \"%s\" --forcelock",
-                              lock, display);
-    }
-  else if ((lock = g_find_program_in_path("xscreensaver-command")))
-    {
-      xlock = g_strdup_printf("%s --display \"%s\" -lock",
-                              lock, display);
-    }
-  else if ((lock = g_find_program_in_path("xlock")))
-    {
-      xlock = g_strdup_printf("%s -display \"%s\"",
-                              lock, display);
-    }
-  else if ((lock = g_find_program_in_path("gnome-screensaver-command")))
-    {
-      xlock = g_strdup_printf("%s --lock", lock);
-    }
-  g_free(lock);
-
-  if (xlock != NULL)
-    {
-      TRACE_MSG("Locking enabled: " << xlock);
+      g_free(program);
+      lock_display = display;
+      TRACE_MSG("Locking enabled");
     }
   else
     {
@@ -341,7 +388,6 @@ look_for_kdesktop_recursive (Display *display, Window xwindow)
 
   return retval;
 }
-
 
 
 void

@@ -31,6 +31,10 @@
 #include <windows.h>
 #endif
 
+#if defined(HAVE_X)
+#include <string>
+#endif
+
 class System
 {
 public:
@@ -53,8 +57,9 @@ private:
 #if defined(HAVE_X)
   static void init_kde(const char *display);
 
-  static gchar *xlock;
   static bool kde;
+  static bool lockable;
+  static std::string lock_display;
 
 #elif defined(WIN32)
   static bool shutdown_helper(bool for_real);
