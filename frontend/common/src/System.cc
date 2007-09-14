@@ -128,6 +128,7 @@ System::is_lockable()
   return ret;
 }
 
+#ifdef HAVE_X
 static bool
 invoke(const gchar* command, bool async = false)
 {
@@ -155,6 +156,7 @@ invoke(const gchar* command, bool async = false)
       return true;
     }
 }
+#endif
 
 void
 System::lock()
@@ -257,13 +259,13 @@ System::init(
   init_kde(display);
  
   gchar *program;
-  if (is_kde() && (program = g_find_program_in_path("kdesktop_lock")))
+  if (is_kde() && (program = g_find_program_in_path("kdesktop_lock")) != NULL)
     lockable = true;
-  else if (program = g_find_program_in_path("xscreensaver-command"))
+  else if ((program = g_find_program_in_path("xscreensaver-command")) != NULL)
     lockable = true;
-  else if (program = g_find_program_in_path("gnome-screensaver-command"))
+  else if ((program = g_find_program_in_path("gnome-screensaver-command")) != NULL)
     lockable = true;
-  else if (program = g_find_program_in_path("xlock"))
+  else if ((program = g_find_program_in_path("xlock")) != NULL)
     lockable = true;
  
   if (lockable)
