@@ -98,8 +98,10 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
  Modified for Unicode >= WinNT. No UnicoWS check for Me/98/95.
  jay satiro, workrave project, july 2007
 */
-  WCHAR buffer[32767] = L"\\\\?\\";
-  WCHAR *p_buffer = buffer + 4;
+  WCHAR env_var[ 20 ] = { 0, };
+  WCHAR crashlog[] = L"\\workrave-crashlog.txt";
+  WCHAR *wbuffer = NULL;
+  WCHAR *p_wbuffer = NULL;
 
   DWORD ( WINAPI *GetEnvironmentVariableW ) ( LPCWSTR, LPWSTR, DWORD );
   HANDLE ( WINAPI *CreateFileW ) ( LPCWSTR, DWORD, DWORD,
@@ -114,18 +116,40 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
   if( GetEnvironmentVariableW && CreateFileW )
   // >= WinNT
     {
-      DWORD ret;
       HANDLE handle;
-
-      ret = ( *GetEnvironmentVariableW ) ( L"APPDATA", p_buffer, (DWORD) 32700 );
-
-      if( ret == 0 || ret > 32700 )
+      DWORD bufsize, ret;
+      
+      wcsncpy( env_var, L"APPDATA", 19 );
+      env_var[ 19 ] = '\0';
+      bufsize = ( *GetEnvironmentVariableW ) ( env_var, NULL, 0 );
+      // bufsize is size in wide chars, including null
+      
+      if( !bufsize )
       // If %appdata% is unsuitable, try temp:
-          ret = ( *GetEnvironmentVariableW ) ( L"TEMP", p_buffer, (DWORD) 32700 );
-
-      if( ret == 0 || ret > 32700 )
+      {
+          wcsncpy( env_var, L"TEMP", 19 );
+          env_var[ 19 ] = '\0';
+          bufsize = ( *GetEnvironmentVariableW ) ( env_var, NULL, 0 );
+      }
+      
+      ret = 0;
+      wbuffer = NULL;
+      
+      if( bufsize )
+        {
+          // We will need room for \\?\ so add 4
+          if( wbuffer = (WCHAR *)calloc( 4 + bufsize + wcslen( crashlog ), sizeof( WCHAR ) ) )
+            {
+              wcscpy( wbuffer, L"\\\\?\\" );
+              p_wbuffer = wbuffer + 4;
+              ret = ( *GetEnvironmentVariableW ) ( env_var, p_wbuffer, bufsize );
+            }
+        }
+      
+      if( !ret )
       // Environment unsuitable, notify & terminate.
         {
+          free( wbuffer );
           snprintf(crash_text, 1023,
             "Workrave has unexpectedly crashed. The environment is "
             "unsuitable to create a crash log. Please file a bug report:\n"
@@ -135,42 +159,43 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
           __except1;
           exit( 1 );
         }
-
+      
       //last wchar
-      p_buffer = buffer + wcslen(buffer) - 1;
-
-      while( *p_buffer == L'\\' )
+      p_wbuffer = wbuffer + wcslen(wbuffer) - 1;
+      
+      while( *p_wbuffer == L'\\' )
       // remove trailing slashes
         {
-          *p_buffer-- = L'\0';
+          *p_wbuffer-- = L'\0';
         }
-
+      
       // append filename to end of string
-      wcscpy( ++p_buffer, L"\\workrave-crashlog.txt" );
-
-
+      wcscpy( ++p_wbuffer, crashlog );
+      
+      
       // compare first wchar of returned environment string
-      if( buffer[ 4 ] == L'\\' )
+      if( wbuffer[ 4 ] == L'\\' )
       /*
       If possible network path, don't include literal \\?\
       \\?\\\1.2.3.4\workrave-crashlog.txt should be
       \\1.2.3.4\workrave-crashlog.txt
-     */
-          p_buffer = buffer + 4;
+      */
+          p_wbuffer = wbuffer + 4;
       else
-      // Point to start of buffer:
-          p_buffer = buffer;
-
-
+      // Point to start of wbuffer:
+          p_wbuffer = wbuffer;
+      
+      
       handle = ( *CreateFileW ) (
-        p_buffer,
-        GENERIC_READ | GENERIC_WRITE,
-        FILE_SHARE_READ,
-        NULL,
-        CREATE_ALWAYS,
-        FILE_ATTRIBUTE_NORMAL,
-        NULL );
-
+          p_wbuffer,
+          GENERIC_READ | GENERIC_WRITE,
+          FILE_SHARE_READ,
+          NULL,
+          CREATE_ALWAYS,
+          FILE_ATTRIBUTE_NORMAL,
+          NULL
+        );
+      
       int fd = _open_osfhandle( (intptr_t) handle, _O_APPEND | _O_TEXT );
       log = _fdopen( fd, "w" );
     }
@@ -256,6 +281,22 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
           "\n"
           );
 
+// write locale info:
+  char *buffer = NULL;
+  int bufsize = 
+      GetLocaleInfoA( LOCALE_USER_DEFAULT, LOCALE_SENGLANGUAGE, buffer, 0);
+  
+  if( bufsize )
+      buffer = (char *)calloc( bufsize + 1, 1 );
+  
+  if( buffer )
+    {
+      GetLocaleInfoA( LOCALE_USER_DEFAULT, LOCALE_SENGLANGUAGE, buffer, bufsize);
+      buffer[ bufsize ] = '\0';
+      fprintf( log, "locale = %s\n", buffer );
+      free( buffer );
+    }
+  
   fprintf(log, "\n\n");
   fprintf(log, "code = %x\n", (int) exception_record->ExceptionCode);
   fprintf(log, "flags = %x\n", (int) exception_record->ExceptionFlags);
@@ -406,13 +447,42 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
   if( GetEnvironmentVariableW && CreateFileW )
   // >= WinNT
     {
-      WCHAR message[33000];
-      snwprintf( message, 32999,
-        L"Workrave has unexpectedly crashed. A crash log has been saved to:\n"
-        L"%ws\n"
-        L"Please file a bug report: http://issues.workrave.org/\n"
-        L"Thanks.", p_buffer );
-      message[32999] = L'\0';
+      WCHAR *one = 
+          L"Workrave has unexpectedly crashed. A crash log has been saved to:\n";
+      
+      WCHAR *two = 
+          L"\nPlease file a bug report: http://issues.workrave.org/\n"
+          L"Thanks.";
+      
+      WCHAR *nomem =
+          L"Workrave is out of memory!";
+      
+      int size = wcslen( one ) + wcslen( p_wbuffer ) + wcslen( two ) + 1;
+      
+      WCHAR *message = (WCHAR *)calloc( size, sizeof( WCHAR ) );
+      if( !message )
+      // Low memory...
+        {
+          // % + % + null = 3 extra
+          size = wcslen( one ) + wcslen( env_var ) + wcslen( crashlog ) + wcslen( two ) + 3;
+          message = (WCHAR *)calloc( size, sizeof( WCHAR ) );
+          if( message )
+            {
+              snwprintf( message, size - 1, L"%ws%%%ws%%%ws%ws", 
+                  one, env_var, crashlog, two );
+              message[ size - 1 ] = L'\0';
+            }
+           else
+           // No memory...
+              message = nomem;
+        }
+      else
+      // A buffer was allocated with enough memory to hold p_wbuffer
+        {
+          snwprintf( message, size - 1, L"%ws%ws%ws", one, p_wbuffer, two );
+          message[ size - 1 ] = L'\0';
+        }
+      
       MessageBoxW( NULL, message, L"Exception", MB_OK );
     }
   else

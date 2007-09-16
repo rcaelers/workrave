@@ -306,78 +306,145 @@ harpoon_mouse_hook (int code, WPARAM wpar, LPARAM lpar)
       int button = -1;
       int x = pmhs->pt.x;
       int y = pmhs->pt.y;
-
+      
+      // If WH_MOUSE_LL is hooked, 
+      // WH_MOUSE messages are not appended to the debug window.
+      // This is mainly to avoid overflow.
       switch (wpar)
         {
-        case WM_LBUTTONDOWN:
-          button = 0;
-          evt = HARPOON_BUTTON_PRESS;
-          if( debug && !mouse_ll_hook )
-              debug_send_message( "WH_MOUSE: WM_LBUTTONDOWN" );
-          break;
-        case WM_MBUTTONDOWN:
-          button = 1;
-          evt = HARPOON_BUTTON_PRESS;
-          if( debug && !mouse_ll_hook )
-              debug_send_message( "WH_MOUSE: WM_MBUTTONDOWN" );
-          break;
-        case WM_RBUTTONDOWN:
-          button = 2;
-          evt = HARPOON_BUTTON_PRESS;
-          if( debug && !mouse_ll_hook )
-              debug_send_message( "WH_MOUSE: WM_RBUTTONDOWN" );
-          break;
-
-        case WM_LBUTTONUP:
-          button = 0;
-          evt = HARPOON_BUTTON_RELEASE;
-          if( debug && !mouse_ll_hook )
-              debug_send_message( "WH_MOUSE: WM_LBUTTONUP" );
-          break;
-        case WM_MBUTTONUP:
-          button = 1;
-          evt = HARPOON_BUTTON_RELEASE;
-          if( debug && !mouse_ll_hook )
-              debug_send_message( "WH_MOUSE: WM_MBUTTONUP" );
-          break;
-        case WM_RBUTTONUP:
-          button = 2;
-          evt = HARPOON_BUTTON_RELEASE;
-          if( debug && !mouse_ll_hook )
-              debug_send_message( "WH_MOUSE: WM_RBUTTONUP" );
-          break;
-
-        case WM_LBUTTONDBLCLK:
-          button = 0;
-          evt = HARPOON_2BUTTON_PRESS;
-          if( debug && !mouse_ll_hook )
-              debug_send_message( "WH_MOUSE: WM_LBUTTONDBLCLK" );
-          break;
-        case WM_MBUTTONDBLCLK:
-          button = 1;
-          evt = HARPOON_2BUTTON_PRESS;
-          if( debug && !mouse_ll_hook )
-              debug_send_message( "WH_MOUSE: WM_MBUTTONDBLCLK" );
-          break;
-        case WM_RBUTTONDBLCLK:
-          button = 2;
-          evt = HARPOON_2BUTTON_PRESS;
-          if( debug && !mouse_ll_hook )
-              debug_send_message( "WH_MOUSE: WM_RBUTTONDBLCLK" );
-          break;
-
-        case WM_MOUSEWHEEL:
-          evt = HARPOON_MOUSE_WHEEL;
-          button = 1;
-          if( debug && !mouse_ll_hook )
-              debug_send_message( "WH_MOUSE: WM_MOUSEWHEEL" );
-          break;
-
-        default:
-          evt = HARPOON_MOUSE_MOVE;
-          if( debug && !mouse_ll_hook )
-              debug_send_message( "WH_MOUSE: HARPOON_MOUSE_MOVE" );
-        }
+          case WM_NCLBUTTONDOWN:
+              if( debug && !mouse_ll_hook )
+                  debug_send_message( "WH_MOUSE: WM_NCLBUTTONDOWN" );
+          case WM_LBUTTONDOWN:
+              button = 0;
+              evt = HARPOON_BUTTON_PRESS;
+              if( debug && !mouse_ll_hook && wpar == WM_LBUTTONDOWN )
+                  debug_send_message( "WH_MOUSE: WM_LBUTTONDOWN" );
+              break;
+          case WM_NCMBUTTONDOWN:
+              if( debug && !mouse_ll_hook )
+                  debug_send_message( "WH_MOUSE: WM_NCMBUTTONDOWN" );
+          case WM_MBUTTONDOWN:
+              button = 1;
+              evt = HARPOON_BUTTON_PRESS;
+              if( debug && !mouse_ll_hook && wpar == WM_MBUTTONDOWN )
+                  debug_send_message( "WH_MOUSE: WM_MBUTTONDOWN" );
+              break;
+          case WM_NCRBUTTONDOWN:
+              if( debug && !mouse_ll_hook )
+                  debug_send_message( "WH_MOUSE: WM_NCRBUTTONDOWN" );
+          case WM_RBUTTONDOWN:
+              button = 2;
+              evt = HARPOON_BUTTON_PRESS;
+              if( debug && !mouse_ll_hook && wpar == WM_RBUTTONDOWN )
+                  debug_send_message( "WH_MOUSE: WM_RBUTTONDOWN" );
+              break;
+          case WM_NCXBUTTONDOWN:
+              if( debug && !mouse_ll_hook )
+                  debug_send_message( "WH_MOUSE: WM_NCXBUTTONDOWN" );
+          case WM_XBUTTONDOWN:
+              button = ( HIWORD( wpar ) == XBUTTON1 ) ? 3 : 4;
+              evt = HARPOON_BUTTON_PRESS;
+              if( debug && !mouse_ll_hook && wpar == WM_XBUTTONDOWN )
+                  debug_send_message( "WH_MOUSE: WM_XBUTTONDOWN" );
+              break;
+          
+          case WM_NCLBUTTONUP:
+              if( debug && !mouse_ll_hook )
+                  debug_send_message( "WH_MOUSE: WM_NCLBUTTONUP" );
+          case WM_LBUTTONUP:
+              button = 0;
+              evt = HARPOON_BUTTON_RELEASE;
+              if( debug && !mouse_ll_hook && wpar == WM_LBUTTONUP )
+                  debug_send_message( "WH_MOUSE: WM_LBUTTONUP" );
+              break;
+          case WM_NCMBUTTONUP:
+              if( debug && !mouse_ll_hook )
+                  debug_send_message( "WH_MOUSE: WM_NCMBUTTONUP" );
+          case WM_MBUTTONUP:
+              button = 1;
+              evt = HARPOON_BUTTON_RELEASE;
+              if( debug && !mouse_ll_hook && wpar == WM_MBUTTONUP )
+                  debug_send_message( "WH_MOUSE: WM_MBUTTONUP" );
+              break;
+          case WM_NCRBUTTONUP:
+              if( debug && !mouse_ll_hook )
+                  debug_send_message( "WH_MOUSE: WM_NCRBUTTONUP" );
+          case WM_RBUTTONUP:
+              button = 2;
+              evt = HARPOON_BUTTON_RELEASE;
+              if( debug && !mouse_ll_hook && wpar == WM_RBUTTONUP )
+                  debug_send_message( "WH_MOUSE: WM_RBUTTONUP" );
+              break;
+          case WM_NCXBUTTONUP:
+              if( debug && !mouse_ll_hook )
+                  debug_send_message( "WH_MOUSE: WM_NCXBUTTONUP" );
+          case WM_XBUTTONUP:
+              button = ( HIWORD( wpar ) == XBUTTON1 ) ? 3 : 4;
+              evt = HARPOON_BUTTON_RELEASE;
+              if( debug && !mouse_ll_hook && wpar == WM_XBUTTONUP )
+                  debug_send_message( "WH_MOUSE: WM_XBUTTONUP" );
+              break;
+          
+          case WM_NCLBUTTONDBLCLK:
+              if( debug && !mouse_ll_hook )
+                  debug_send_message( "WH_MOUSE: WM_NCLBUTTONDBLCLK" );
+          case WM_LBUTTONDBLCLK:
+              button = 0;
+              evt = HARPOON_2BUTTON_PRESS;
+              if( debug && !mouse_ll_hook && wpar == WM_LBUTTONDBLCLK )
+                  debug_send_message( "WH_MOUSE: WM_LBUTTONDBLCLK" );
+              break;
+          case WM_NCMBUTTONDBLCLK:
+              if( debug && !mouse_ll_hook )
+                  debug_send_message( "WH_MOUSE: WM_NCMBUTTONDBLCLK" );
+          case WM_MBUTTONDBLCLK:
+              button = 1;
+              evt = HARPOON_2BUTTON_PRESS;
+              if( debug && !mouse_ll_hook && wpar == WM_MBUTTONDBLCLK )
+                  debug_send_message( "WH_MOUSE: WM_MBUTTONDBLCLK" );
+              break;
+          case WM_NCRBUTTONDBLCLK:
+              if( debug && !mouse_ll_hook )
+                  debug_send_message( "WH_MOUSE: WM_NCRBUTTONDBLCLK" );
+          case WM_RBUTTONDBLCLK:
+              button = 2;
+              evt = HARPOON_2BUTTON_PRESS;
+              if( debug && !mouse_ll_hook && wpar == WM_RBUTTONDBLCLK )
+                  debug_send_message( "WH_MOUSE: WM_RBUTTONDBLCLK" );
+              break;
+          case WM_NCXBUTTONDBLCLK:
+              if( debug && !mouse_ll_hook )
+                  debug_send_message( "WH_MOUSE: WM_NCXBUTTONDBLCLK" );
+          case WM_XBUTTONDBLCLK:
+              button = ( HIWORD( wpar ) == XBUTTON1 ) ? 3 : 4;
+              evt = HARPOON_2BUTTON_PRESS;
+              if( debug && !mouse_ll_hook && wpar == WM_XBUTTONDBLCLK )
+                  debug_send_message( "WH_MOUSE: WM_XBUTTONDBLCLK" );
+              break;
+          
+          case WM_MOUSEWHEEL:
+              evt = HARPOON_MOUSE_WHEEL;
+              button = 1;
+              if( debug && !mouse_ll_hook )
+                  debug_send_message( "WH_MOUSE: WM_MOUSEWHEEL" );
+              break;
+          case WM_MOUSEHWHEEL:
+              evt = HARPOON_MOUSE_WHEEL;
+              button = 2;
+              if( debug && !mouse_ll_hook )
+                  debug_send_message( "WH_MOUSE: WM_MOUSEHWHEEL" );
+              break;
+          
+          case WM_NCMOUSEMOVE:
+              if( debug && !mouse_ll_hook )
+                  debug_send_message( "WH_MOUSE: WM_NCMOUSEMOVE" );
+          case WM_MOUSEMOVE:
+              evt = HARPOON_MOUSE_MOVE;
+              if( debug && !mouse_ll_hook && wpar == WM_MOUSEMOVE )
+                  debug_send_message( "WH_MOUSE: WM_MOUSEMOVE" );
+            }
+      
       /*
    The low-level mouse hook is always preferred over the
    regular mouse hook. The low-level hook posts its own
@@ -385,9 +452,9 @@ harpoon_mouse_hook (int code, WPARAM wpar, LPARAM lpar)
    see if there is a low-level hook. If not, we post our
    own message.
    */
-      if( !mouse_ll_hook )
+      if( !mouse_ll_hook && evt != HARPOON_NOTHING )
           harpoon_post_message (evt, button, MAKELONG(x, y));
-  
+      
       if (evt == HARPOON_BUTTON_RELEASE)
         {
           forcecallnext = TRUE;
@@ -407,68 +474,69 @@ harpoon_mouse_ll_hook (int code, WPARAM wpar, LPARAM lpar)
       int button = -1;
       int x = pmhs->pt.x;
       int y = pmhs->pt.y;
-
+      
       switch (wpar)
         {
-        case WM_LBUTTONDOWN:
-          button = 0;
-          evt = HARPOON_BUTTON_PRESS;
-          if_debug_send_message( "WH_MOUSE_LL: WM_LBUTTONDOWN" );
-          break;
-        case WM_MBUTTONDOWN:
-          button = 1;
-          evt = HARPOON_BUTTON_PRESS;
-          if_debug_send_message( "WH_MOUSE_LL: WM_MBUTTONDOWN" );
-          break;
-        case WM_RBUTTONDOWN:
-          button = 2;
-          evt = HARPOON_BUTTON_PRESS;
-          if_debug_send_message( "WH_MOUSE_LL: WM_RBUTTONDOWN" );
-          break;
-
-        case WM_LBUTTONUP:
-          button = 0;
-          evt = HARPOON_BUTTON_RELEASE;
-          if_debug_send_message( "WH_MOUSE_LL: WM_LBUTTONUP" );
-          break;
-        case WM_MBUTTONUP:
-          button = 1;
-          evt = HARPOON_BUTTON_RELEASE;
-          if_debug_send_message( "WH_MOUSE_LL: WM_MBUTTONUP" );
-          break;
-        case WM_RBUTTONUP:
-          button = 2;
-          evt = HARPOON_BUTTON_RELEASE;
-          if_debug_send_message( "WH_MOUSE_LL: WM_RBUTTONUP" );
-          break;
-
-        case WM_LBUTTONDBLCLK:
-          button = 0;
-          evt = HARPOON_2BUTTON_PRESS;
-          if_debug_send_message( "WH_MOUSE_LL: WM_LBUTTONDBLCLK" );
-          break;
-        case WM_MBUTTONDBLCLK:
-          button = 1;
-          evt = HARPOON_2BUTTON_PRESS;
-          if_debug_send_message( "WH_MOUSE_LL: WM_MBUTTONDBLCLK" );
-          break;
-        case WM_RBUTTONDBLCLK:
-          button = 2;
-          evt = HARPOON_2BUTTON_PRESS;
-           if_debug_send_message( "WH_MOUSE_LL: WM_RBUTTONDBLCLK" );
-         break;
-
-        case WM_MOUSEWHEEL:
-          evt = HARPOON_MOUSE_WHEEL;
-          button = 1;
-          if_debug_send_message( "WH_MOUSE_LL: WM_MOUSEWHEEL" );
-          break;
-
-        default:
-          evt = HARPOON_MOUSE_MOVE;
-          if_debug_send_message( "WH_MOUSE_LL: HARPOON_MOUSE_MOVE" );
+          case WM_LBUTTONDOWN:
+              button = 0;
+              evt = HARPOON_BUTTON_PRESS;
+              if_debug_send_message( "WH_MOUSE_LL: WM_LBUTTONDOWN" );
+              break;
+          case WM_MBUTTONDOWN:
+              button = 1;
+              evt = HARPOON_BUTTON_PRESS;
+              if_debug_send_message( "WH_MOUSE_LL: WM_MBUTTONDOWN" );
+              break;
+          case WM_RBUTTONDOWN:
+              button = 2;
+              evt = HARPOON_BUTTON_PRESS;
+              if_debug_send_message( "WH_MOUSE_LL: WM_RBUTTONDOWN" );
+              break;
+          case WM_XBUTTONDOWN:
+              button = ( HIWORD( wpar ) == XBUTTON1 ) ? 3 : 4;
+              evt = HARPOON_BUTTON_PRESS;
+              if_debug_send_message( "WH_MOUSE_LL: WM_XBUTTONDOWN" );
+              break;
+          
+          case WM_LBUTTONUP:
+              button = 0;
+              evt = HARPOON_BUTTON_RELEASE;
+              if_debug_send_message( "WH_MOUSE_LL: WM_LBUTTONUP" );
+              break;
+          case WM_MBUTTONUP:
+              button = 1;
+              evt = HARPOON_BUTTON_RELEASE;
+              if_debug_send_message( "WH_MOUSE_LL: WM_MBUTTONUP" );
+              break;
+          case WM_RBUTTONUP:
+              button = 2;
+              evt = HARPOON_BUTTON_RELEASE;
+              if_debug_send_message( "WH_MOUSE_LL: WM_RBUTTONUP" );
+              break;
+          case WM_XBUTTONUP:
+              button = ( HIWORD( wpar ) == XBUTTON1 ) ? 3 : 4;
+              evt = HARPOON_BUTTON_RELEASE;
+              if_debug_send_message( "WH_MOUSE_LL: WM_XBUTTONUP" );
+              break;
+          
+          case WM_MOUSEWHEEL:
+              evt = HARPOON_MOUSE_WHEEL;
+              button = 1;
+              if_debug_send_message( "WH_MOUSE_LL: WM_MOUSEWHEEL" );
+              break;
+          case WM_MOUSEHWHEEL:
+              evt = HARPOON_MOUSE_WHEEL;
+              button = 2;
+              if_debug_send_message( "WH_MOUSE_LL: WM_MOUSEHWHEEL" );
+              break;
+          
+          case WM_MOUSEMOVE:
+              evt = HARPOON_MOUSE_MOVE;
+              if_debug_send_message( "WH_MOUSE_LL: WM_MOUSEMOVE" );
         }
-      harpoon_post_message (evt, button, MAKELONG(x, y));
+      
+      if( evt != HARPOON_NOTHING )
+          harpoon_post_message (evt, button, MAKELONG(x, y));
     }
 
   return harpoon_generic_hook_return (code, wpar, lpar, mouse_ll_hook, TRUE);
@@ -487,6 +555,7 @@ harpoon_mouse_block_hook (int code, WPARAM wpar, LPARAM lpar)
         case WM_LBUTTONUP:
         case WM_MBUTTONUP:
         case WM_RBUTTONUP:
+        case WM_XBUTTONUP:
           forcecallnext = TRUE;
         }
     }
@@ -541,7 +610,17 @@ harpoon_keyboard_hook (int code, WPARAM wpar, LPARAM lpar)
 
       evt = pressed ? HARPOON_KEY_PRESS : HARPOON_KEY_RELEASE;
       forcecallnext = !pressed;
-      harpoon_post_message (evt, 0, flags);
+      
+      /*
+      The low-level keyboard hook is always preferred over the
+      regular keyboard hook. The low-level hook posts its own
+      message to the notification window. Here, we check to
+      see if there is a low-level hook. If not, we post our
+      own message.
+      */
+      if( !keyboard_ll_hook )
+          harpoon_post_message (evt, 0, flags);
+      
       if_debug_send_message( "WH_KEYBOARD" );
     }
   return harpoon_generic_hook_return (code, wpar, lpar, keyboard_hook,
@@ -711,6 +790,12 @@ harpoon_init ( char imported_critical_file_list[][511], BOOL debug_harpoon )
           SendMessage( debug_hwnd, EM_SETLIMITTEXT, 0x7FFFFFFE, 0 );
           // Assign debug flag global.
           debug = debug_harpoon;
+          debug_send_message( 
+              "Note: If both WH_MOUSE and WH_MOUSE_LL are hooked, "
+              "WH_MOUSE messages are not appended to the debug window. "
+              "This is done mainly to avoid overflow."
+            );
+          debug_send_message( "Initializing..." );
         }
       else
         {
