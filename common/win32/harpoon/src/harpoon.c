@@ -260,8 +260,15 @@ harpoon_window_proc (HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
             case HARPOON_2BUTTON_PRESS:
             case HARPOON_MOUSE_WHEEL:
             case HARPOON_MOUSE_MOVE:
-              evt.mouse.x = LOWORD(lParam);
-              evt.mouse.y = HIWORD(lParam);
+       /*
+       The x and y mouse coordinates are packed into lParam.
+       Here we separate x and y. It's important to cast as 
+       signed, because the coordinate(s) could be negative.
+       Casting to the signed type allows the compiler to 
+       properly promote the signed short to a signed int.
+       */
+              evt.mouse.x = (short)LOWORD( lParam );
+              evt.mouse.y = (short)HIWORD( lParam );
               if (evt.type == HARPOON_MOUSE_WHEEL)
                 {
                   evt.mouse.button = -1;
@@ -1105,13 +1112,13 @@ _mbstrncpy_lowercase( const char *out, const char *in, int bytes )
 // keep this code out of dllmain. don't call from dllmain.
 {
   int mb = 0;
-  char *src = (char *)in;
-  char *dest = (char *)out;
+  unsigned char *src = (unsigned char *)in;
+  unsigned char *dest = (unsigned char *)out;
 
   if( bytes <= 0 || !in || !out )
       return NULL;
 
-  while( mb = _mbsnextc( src ) )
+  while( ( mb = _mbsnextc( src ) ) > 0 )
   // This makes a lowercase copy of the filename.
     {
       // Point to next (mb) character:
