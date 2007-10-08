@@ -83,7 +83,7 @@ public:
   //IContextMenu methods
   STDMETHOD (QueryContextMenu)(HMENU, UINT, UINT, UINT, UINT);
   STDMETHOD (InvokeCommand)(LPCMINVOKECOMMANDINFO);
-  STDMETHOD (GetCommandString)(UINT, UINT, LPUINT, LPSTR, UINT);
+  STDMETHOD (GetCommandString)(UINT_PTR, UINT, LPUINT, LPSTR, UINT);
 
   HWND get_command_window() const;
 
@@ -115,7 +115,7 @@ private:
 inline HWND
 CDeskBand::get_command_window() const
 {
-  return m_AppletMenu.command_window;
+  return (HWND)LongToHandle( m_AppletMenu.command_window );
 }
 
 #endif   //DESKBAND_H

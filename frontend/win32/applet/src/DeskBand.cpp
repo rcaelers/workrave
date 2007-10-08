@@ -377,7 +377,7 @@ CDeskBand::QueryContextMenu( HMENU hMenu,
                                           UINT idCmdLast,
                                           UINT uFlags)
 {
-  if ((!m_HasAppletMenu) || (CMF_DEFAULTONLY & uFlags) || !IsWindow(m_AppletMenu.command_window))
+  if ((!m_HasAppletMenu) || (CMF_DEFAULTONLY & uFlags) || !IsWindow( get_command_window() ))
     return MAKE_HRESULT(SEVERITY_SUCCESS, 0, USHORT(0));
 
   int m = 0;
@@ -441,9 +441,9 @@ CDeskBand::InvokeCommand(LPCMINVOKECOMMANDINFO lpcmi)
   int cmd = LOWORD(lpcmi->lpVerb);
   HRESULT ret;
 
-  if (m_HasAppletMenu && cmd >= 0 && cmd < m_AppletMenu.num_items && IsWindow(m_AppletMenu.command_window))
+  if (m_HasAppletMenu && cmd >= 0 && cmd < m_AppletMenu.num_items && IsWindow( get_command_window() ))
     {
-      SendMessage(m_AppletMenu.command_window, WM_USER, m_AppletMenu.items[cmd].command, NULL);
+      SendMessage( get_command_window(), WM_USER, m_AppletMenu.items[cmd].command, NULL );
       ret = NOERROR;
     }
   else
@@ -454,7 +454,7 @@ CDeskBand::InvokeCommand(LPCMINVOKECOMMANDINFO lpcmi)
 }
 
 STDMETHODIMP
-CDeskBand::GetCommandString( UINT idCommand,
+CDeskBand::GetCommandString( UINT_PTR idCommand,
                                           UINT uFlags,
                                           LPUINT lpReserved,
                                           LPSTR lpszName,
@@ -467,7 +467,7 @@ CDeskBand::GetCommandString( UINT idCommand,
 LRESULT CALLBACK
 CDeskBand::WndProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
 {
-  CDeskBand  *pThis = (CDeskBand*)GetWindowLong(hWnd, GWL_USERDATA);
+  CDeskBand  *pThis = (CDeskBand*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 
   switch (uMessage)
     {
@@ -475,7 +475,7 @@ CDeskBand::WndProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
       {
         LPCREATESTRUCT lpcs = (LPCREATESTRUCT)lParam;
         pThis = (CDeskBand*)(lpcs->lpCreateParams);
-        SetWindowLong(hWnd, GWL_USERDATA, (LONG)pThis);
+        SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG)pThis);
 
         //set the window handle
         pThis->m_hWnd = hWnd;
@@ -506,7 +506,8 @@ CDeskBand::WndProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
       break;
 
     case WM_LBUTTONUP:
-      SendMessage(pThis->m_AppletMenu.command_window, WM_USER + 1, 0, NULL);
+      SendMessage( (HWND)LongToHandle( pThis->m_AppletMenu.command_window ),
+          WM_USER + 1, 0, NULL );
       break;
     }
   return DefWindowProc(hWnd, uMessage, wParam, lParam);

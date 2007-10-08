@@ -18,5 +18,5 @@
 extern HINSTANCE  g_hInst;
 extern UINT       g_DllRefCount;
 
+#undef ARRAYSIZE
 #define ARRAYSIZE(a)    (sizeof(a)/sizeof(a[0]))
-

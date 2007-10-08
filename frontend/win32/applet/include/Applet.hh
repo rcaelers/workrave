@@ -26,6 +26,20 @@
 #define APPLET_MESSAGE_HEARTBEAT 0
 #define APPLET_MESSAGE_MENU 1
 
+
+/*!!!!!!!!!!!!!!!!!!!
+On Windows x64, the installed Applet will be 64-bit. 
+
+Therefore Workrave (32-bit) could be passing structures to a 
+64-bit applet. And so we must ensure that all members of any 
+passed structure have types that are the same size on both 
+32 and 64 bit Windows.
+
+All structures declared in this file are used by both 
+Workrave (x86) and the applet (x86 & x64).
+*/
+
+
 struct AppletHeartbeatData
 {
   bool enabled;
@@ -59,7 +73,18 @@ struct AppletMenuItemData
 struct AppletMenuData
 {
   short num_items;
-  HWND command_window;
+  
+  /*
+  MSDN notes:
+  Handles have 32 significant bits on 64-bit Windows
+  .
+  We must ensure that our types are the same size 
+  on both 64 and 32 bit systems (see x64 comment).
+  
+  We will pass the command_window HWND as a LONG:
+  */
+  LONG command_window;
+  
   AppletMenuItemData items[APPLET_MAX_MENU_ITEMS];
 };
 

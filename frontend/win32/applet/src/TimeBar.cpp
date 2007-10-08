@@ -46,7 +46,7 @@ TimeBar::TimeBar(HWND parent, HINSTANCE hinst, CDeskBand *deskband)
 
   hwnd = CreateWindowEx(0, TIME_BAR_CLASS_NAME, "",
                         WS_CHILD | WS_CLIPSIBLINGS, 0, 0, 56, 16, parent, NULL, hinst, NULL);
-  SetWindowLong(hwnd, GWL_USERDATA, (LONG)this);
+  SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG)this);
 
   compute_size(width, height);
   SetWindowPos(hwnd, NULL, 0, 0, width, height, SWP_NOZORDER|SWP_NOMOVE|SWP_NOACTIVATE);
@@ -60,7 +60,7 @@ TimeBar::~TimeBar()
 LRESULT CALLBACK
 TimeBar::wnd_proc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
 {
-  TimeBar  *pThis = (TimeBar*)GetWindowLong(hWnd, GWL_USERDATA);
+  TimeBar  *pThis = (TimeBar*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 
   switch (uMessage)
     {
@@ -96,7 +96,7 @@ TimeBar::compute_size(int &w, int &h)
   rect.top = 0;
   rect.bottom = 0;
   rect.right = 0;
-  h= DrawText(dc, buf, strlen(buf), &rect, DT_CALCRECT);
+  h= DrawText(dc, buf, (int)strlen( buf ), &rect, DT_CALCRECT);
   if (! h)
     {
       w = 32;
@@ -226,7 +226,7 @@ TimeBar::on_paint(void)
   SetBkMode(dc, TRANSPARENT);
   r.right -= border_size + MARGINX;
   r.left += border_size + MARGINX;
-  DrawText(dc, bar_text, strlen(bar_text), &r, DT_SINGLELINE|DT_VCENTER|DT_RIGHT);
+  DrawText(dc, bar_text, (int)strlen( bar_text ), &r, DT_SINGLELINE|DT_VCENTER|DT_RIGHT);
 
   ReleaseDC(hwnd, dc);
   EndPaint(hwnd, &ps);
