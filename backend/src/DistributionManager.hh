@@ -28,9 +28,15 @@ using namespace std;
 #include "IDistributionClientMessage.hh"
 #include "IDistributionManager.hh"
 
+using namespace workrave;
+namespace workrave
+{
+  class IDistributionManager;
+  class DistributionLogListener;
+}
+
 class DistributionLink;
 class Configurator;
-class DistributionLogListener;
 class DistributionListener;
 class PacketBuffer;
 

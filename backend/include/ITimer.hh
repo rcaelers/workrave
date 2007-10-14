@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2007-08-30 16:03:12 robc>
+// Time-stamp: <2007-10-14 21:34:10 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -32,41 +32,43 @@
 # endif
 #endif
 
-
-//! The Timer interface.
-class ITimer
+namespace workrave
 {
-public:
-  enum TimerState
-    {
-      STATE_INVALID,
-      STATE_RUNNING,
-      STATE_STOPPED
-    };
+  //! The Timer interface.
+  class ITimer
+  {
+  public:
+    enum TimerState
+      {
+        STATE_INVALID,
+        STATE_RUNNING,
+        STATE_STOPPED
+      };
 
-public:
-  virtual ~ITimer() {}
+  public:
+    virtual ~ITimer() {}
 
-  //! Returns the current time state.
-  virtual TimerState get_state() const = 0;
+    //! Returns the current time state.
+    virtual TimerState get_state() const = 0;
 
-  //! Returns the elasped active time.
-  virtual time_t get_elapsed_time() const = 0;
+    //! Returns the elasped active time.
+    virtual time_t get_elapsed_time() const = 0;
 
-  //! Returns the elasped idle time.
-  virtual time_t get_elapsed_idle_time() const = 0;
+    //! Returns the elasped idle time.
+    virtual time_t get_elapsed_idle_time() const = 0;
 
-  //! Returns the auto-reset interval (i.e. break duration)
-  virtual time_t get_auto_reset() const = 0;
+    //! Returns the auto-reset interval (i.e. break duration)
+    virtual time_t get_auto_reset() const = 0;
 
-  //! Is the auto-reset enabled?
-  virtual bool is_auto_reset_enabled() const = 0;
+    //! Is the auto-reset enabled?
+    virtual bool is_auto_reset_enabled() const = 0;
 
-  //! Returns the break limit (i.e. time before break)
-  virtual time_t get_limit() const = 0;
+    //! Returns the break limit (i.e. time before break)
+    virtual time_t get_limit() const = 0;
 
-  //! Is the limit enabled.
-  virtual bool is_limit_enabled() const = 0;
+    //! Is the limit enabled.
+    virtual bool is_limit_enabled() const = 0;
+  };
 };
 
 #endif // ITIMER_HH

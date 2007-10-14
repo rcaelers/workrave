@@ -2,7 +2,6 @@
 #
 # Copyright (C) 2001, 2002, 2003, 2004, 2005, 2007 Rob Caelers & Raymond Penners
 #
-# Time-stamp: <2007-10-08 20:25:09 robc>
 #
 # $Id$
 #

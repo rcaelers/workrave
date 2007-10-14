@@ -36,6 +36,9 @@ static const char rcsid[] = "$Id: Harpoon.cc 1298 2007-08-30 14:18:04Z rcaelers 
 #include "timeutil.h"
 #include "harpoon.h"
 
+using namespace workrave;
+using namespace std;
+
 static char critical_filename_list[ HARPOON_MAX_UNBLOCKED_APPS ][ 511 ];
 
 Harpoon::Harpoon()

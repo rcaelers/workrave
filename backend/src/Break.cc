@@ -1,17 +1,20 @@
 // Break.cc
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
-// This program is free software; you can redistribute it and/or modify
+// This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
-// the Free Software Foundation; either version 2, or (at your option)
-// any later version.
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
 static const char rcsid[] = "$Id$";
@@ -28,6 +31,8 @@ static const char rcsid[] = "$Id$";
 #include "Timer.hh"
 #include "Break.hh"
 #include "TimerActivityMonitor.hh"
+
+using namespace std;
 
 const string Break::CFG_KEY_TIMER_PREFIX = "timers/";
 
@@ -117,9 +122,9 @@ Break::init(BreakId id, IApp *app)
   Defaults &def = default_config[break_id];
 
   break_name = def.name;
-  timer = new Timer(core);
+  timer = new Timer();
   timer->set_id(break_name);
-  break_control = new BreakControl(break_id, core, app, timer);
+  break_control = new BreakControl(break_id, app, timer);
 
   init_timer();
   init_break_control();
@@ -280,9 +285,6 @@ void
 Break::load_break_control_config()
 {
   break_control->set_max_preludes(get_break_max_preludes());
-  break_control->set_max_postpone(get_break_max_postpone());
-  break_control->set_ignorable_break(get_break_ignorable());
-
   enabled = get_break_enabled();
 }
 

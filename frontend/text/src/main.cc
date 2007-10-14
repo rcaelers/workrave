@@ -1,17 +1,20 @@
 // main.cc --- Main
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
-// This program is free software; you can redistribute it and/or modify
+// This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
-// the Free Software Foundation; either version 2, or (at your option)
-// any later version.
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
 static const char rcsid[] = "$Id$";
@@ -27,7 +30,7 @@ static const char rcsid[] = "$Id$";
 
 #include "GUI.hh"
 #ifdef WIN32
-#include "dll_hell.h"
+// FIXME: #include "dll_hell.h"
 #endif
 
 extern "C" int run(int argc, char **argv);
@@ -53,43 +56,7 @@ run(int argc, char **argv)
 int
 main(int argc, char **argv)
 {
-  // Don't show allocations that are allocated before main()
-  Debug(make_all_allocations_invisible_except(NULL));
-
-  std::ios::sync_with_stdio(false);
-
-  // This will warn you when you are using header files that do not belong to the
-  // shared libcwd object that you linked with.
-  Debug(check_configuration());
-
-  // Turn on debug object `libcw_do'.
-  Debug(libcw_do.on());
-  Debug(dc::trace.on());
-
-  // Turn on all debug channels that are off.
-  //ForAllDebugChannels(
-  //  if (!debugChannel.is_on())
-  //    debugChannel.on();
-  //);
-
-#ifdef CWDEBUG
-  std::ofstream file;
-  file.open("workrave.log");
-#endif
-
-  // Set the ostream related with libcw_do to `file':
-  //Debug(libcw_do.set_ostream(&file));
-
   int ret = run(argc, argv);
-
-  Dout(dc::trace, "=====");
-  Debug(dc::malloc.on());
-  Debug(dc::bfd.on());
-  Debug(list_allocations_on(libcw_do));
-
-#ifdef CWDEBUG
-  file.close();
-#endif
 
   return ret;
 }

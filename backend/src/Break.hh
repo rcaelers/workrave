@@ -3,15 +3,18 @@
 // Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
-// This program is free software; you can redistribute it and/or modify
+// This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
-// the Free Software Foundation; either version 2, or (at your option)
-// any later version.
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 // $Id$%
 //
@@ -24,11 +27,16 @@
 #include "IBreak.hh"
 #include "Timer.hh"
 
-class Configurator;
-class IApp;
-class BreakControl;
+using namespace workrave;
 
-using namespace std;
+// Forward declarion of external interface.
+namespace workrave {
+  class IApp;
+  class IConfigurator;
+  class IBreak;
+}
+
+class BreakControl;
 
 class Break :
   public IBreak,
@@ -39,16 +47,16 @@ private:
   BreakId break_id;
 
   //! Name of the break (used in configuration)
-  string break_name;
+  std::string break_name;
 
   //! Timer config prefix
-  string timer_prefix;
+  std::string timer_prefix;
 
   //! Break config prefix
-  string break_prefix;
+  std::string break_prefix;
 
   //! The Configurator
-  Configurator *configurator;
+  IConfigurator *configurator;
 
   //!
   IApp *application;
@@ -69,7 +77,7 @@ public:
   void init(BreakId id, IApp *app);
 
   bool is_enabled() const;
-  string get_name() const;
+  std::string get_name() const;
   Timer *get_timer() const;
   BreakControl *get_break_control();
 
@@ -77,12 +85,12 @@ public:
   void set_timer_limit(int n);
   int get_timer_auto_reset() const;
   void set_timer_auto_reset(int n);
-  string get_timer_reset_pred() const;
-  void set_timer_reset_pred(string n);
+  std::string get_timer_reset_pred() const;
+  void set_timer_reset_pred(std::string n);
   int get_timer_snooze() const;
   void set_timer_snooze(int n);
-  string get_timer_monitor() const;
-  void set_timer_monitor(string n);
+  std::string get_timer_monitor() const;
+  void set_timer_monitor(std::string n);
   bool get_timer_activity_sensitive() const;
   void set_timer_activity_sensitive(bool b);
   int get_break_max_preludes() const;
@@ -95,7 +103,7 @@ public:
   void set_break_exercises(int n);
   bool get_break_enabled() const;
   void set_break_enabled(bool b);
-  void config_changed_notify(const string &key);
+  void config_changed_notify(const std::string &key);
 
 private:
   void init_timer();
@@ -106,26 +114,26 @@ private:
   void update_break_config();
   void load_break_control_config();
 
-  bool starts_with(const string &key, string prefix, string &timer_name);
+  bool starts_with(const std::string &key, std::string prefix, std::string &timer_name);
 
 public:
-  static const string CFG_KEY_TIMER_PREFIX;
+  static const std::string CFG_KEY_TIMER_PREFIX;
 
-  static const string CFG_KEY_TIMER_LIMIT;
-  static const string CFG_KEY_TIMER_AUTO_RESET;
-  static const string CFG_KEY_TIMER_RESET_PRED;
-  static const string CFG_KEY_TIMER_SNOOZE;
-  static const string CFG_KEY_TIMER_MONITOR;
-  static const string CFG_KEY_TIMER_ACTIVITY_SENSITIVE;
+  static const std::string CFG_KEY_TIMER_LIMIT;
+  static const std::string CFG_KEY_TIMER_AUTO_RESET;
+  static const std::string CFG_KEY_TIMER_RESET_PRED;
+  static const std::string CFG_KEY_TIMER_SNOOZE;
+  static const std::string CFG_KEY_TIMER_MONITOR;
+  static const std::string CFG_KEY_TIMER_ACTIVITY_SENSITIVE;
 
-  static const string CFG_KEY_BREAK_PREFIX;
+  static const std::string CFG_KEY_BREAK_PREFIX;
 
-  static const string CFG_KEY_BREAK_MAX_PRELUDES;
-  static const string CFG_KEY_BREAK_MAX_POSTPONE;
-  static const string CFG_KEY_BREAK_FORCE_AFTER_PRELUDES;
-  static const string CFG_KEY_BREAK_IGNORABLE;
-  static const string CFG_KEY_BREAK_ENABLED;
-  static const string CFG_KEY_BREAK_EXERCISES;
+  static const std::string CFG_KEY_BREAK_MAX_PRELUDES;
+  static const std::string CFG_KEY_BREAK_MAX_POSTPONE;
+  static const std::string CFG_KEY_BREAK_FORCE_AFTER_PRELUDES;
+  static const std::string CFG_KEY_BREAK_IGNORABLE;
+  static const std::string CFG_KEY_BREAK_ENABLED;
+  static const std::string CFG_KEY_BREAK_EXERCISES;
 };
 
 

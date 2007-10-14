@@ -56,5 +56,5 @@ The programs are documented fully by
 .IR "The Rise and Fall of a Fooish Bar" ,
 available via the Info system.
 .SH AUTHOR
-This manual page was written by Rob Caelers <robc@krandor.org>,
+This manual page was written by Rob Caelers <robc@krandor.nl>,
 for the Debian GNU/Linux system (but may be used by others).

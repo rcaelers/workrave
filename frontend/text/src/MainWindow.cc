@@ -3,15 +3,18 @@
 // Copyright (C) 2001, 2002, 2003, 2004, 2005, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
-// This program is free software; you can redistribute it and/or modify
+// This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
-// the Free Software Foundation; either version 2, or (at your option)
-// any later version.
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
 static const char rcsid[] = "$Id$";
@@ -36,9 +39,8 @@ static const char rcsid[] = "$Id$";
 #include "Text.hh"
 
 #include "CoreFactory.hh"
-#include "ConfiguratorInterface.hh"
-#include "TimerInterface.hh"
-#include "StatisticsInterface.hh"
+#include "IConfigurator.hh"
+#include "IStatistics.hh"
 
 const string MainWindow::CFG_KEY_MAIN_WINDOW = "gui/main_window";
 const string MainWindow::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP = "gui/main_window/always_on_top";
@@ -88,7 +90,7 @@ MainWindow::init()
   timer_box_view = new TimerBoxTextView();
   timer_box_control = new TimerBoxControl("main_window", *timer_box_view);
 
-  ConfiguratorInterface *config = CoreFactory::get_configurator();
+  IConfigurator *config = CoreFactory::get_configurator();
   config->add_listener(TimerBoxControl::CFG_KEY_TIMERBOX + "main_window", this);
 
   TRACE_EXIT();
@@ -123,7 +125,7 @@ MainWindow::get_always_on_top()
   bool b;
   bool rc;
   b = CoreFactory::get_configurator()
-    ->get_value(MainWindow::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP, &rc);
+    ->get_value(MainWindow::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP, rc);
   if (! b)
     {
       rc = false;
@@ -146,7 +148,7 @@ MainWindow::get_start_in_tray()
   bool b;
   bool rc;
   b = CoreFactory::get_configurator()
-    ->get_value(CFG_KEY_MAIN_WINDOW_START_IN_TRAY, &rc);
+    ->get_value(CFG_KEY_MAIN_WINDOW_START_IN_TRAY, rc);
   if (! b)
     {
       rc = false;

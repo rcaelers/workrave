@@ -1,8 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2007 Rob Caelers <robc@krandor.org>
-#
-# Time-stamp: <2007-10-08 19:38:54 robc>
+# Copyright (C) 2001, 2002, 2003, 2007 Rob Caelers <robc@krandor.nl>
 #
 # $Id$
 #

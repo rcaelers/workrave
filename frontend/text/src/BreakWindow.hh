@@ -1,17 +1,20 @@
 // BreakWindow.hh --- base class for the break windows
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
-// This program is free software; you can redistribute it and/or modify
+// This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
-// the Free Software Foundation; either version 2, or (at your option)
-// any later version.
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 // $Id$
 //
@@ -23,20 +26,25 @@
 
 #include "preinclude.h"
 
-#include "CoreInterface.hh"
-#include "BreakWindowInterface.hh"
+#include "ICore.hh"
+#include "IBreakWindow.hh"
 #include "GUI.hh"
 
-class BreakResponseInterface;
+namespace workrave
+{
+  class IBreakResponse;
+}
+
+using namespace workrave;
 
 class BreakWindow :
-  public BreakWindowInterface
+  public IBreakWindow
 {
 public:
   BreakWindow(BreakId break_id, bool ignorable, GUI::BlockMode block_mode);
   virtual ~BreakWindow();
 
-  void set_response(BreakResponseInterface *bri);
+  void set_response(IBreakResponse *bri);
 
   virtual void start();
   virtual void stop();
@@ -53,7 +61,7 @@ protected:
 
 private:
   //! Send response to this interface.
-  BreakResponseInterface *break_response;
+  IBreakResponse *break_response;
 
   //! Break ID
   BreakId break_id;

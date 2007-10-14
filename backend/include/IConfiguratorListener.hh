@@ -1,6 +1,6 @@
 // IConfiguratorListener.hh
 //
-// Copyright (C) 2001, 2002, 2003, 2005, 2007 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2005, 2007 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -21,14 +21,17 @@
 
 #include <string>
 
-//! Configurator listener interface.
-class IConfiguratorListener
+namespace workrave
 {
-public:
-  virtual ~IConfiguratorListener() {}
+  //! Listener to receive notifications of changed configuration.
+  class IConfiguratorListener
+  {
+  public:
+    virtual ~IConfiguratorListener() {}
 
-  //! The configuration item with specified key has changed.
-  virtual void config_changed_notify(const std::string &key) = 0;
+    //! The configuration item with specified key has changed.
+    virtual void config_changed_notify(const std::string &key) = 0;
+  };
 };
 
 #endif // ICONFIGURATORLISTENER_HH

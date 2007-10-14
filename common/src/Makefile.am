@@ -16,8 +16,7 @@ libworkrave_common_a_SOURCES = \
 			GlibThread.cc \
 			Util.cc \
 			StringUtil.cc \
-			glibnls.c 
-
+			glibnls.c
 
 libworkrave_common_a_LIBADD =
 

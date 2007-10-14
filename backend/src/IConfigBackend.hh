@@ -24,7 +24,12 @@
 
 #include <string>
 
-class IConfiguratorListener;
+namespace workrave
+{
+  class IConfiguratorListener;
+}
+
+using namespace workrave;
 
 #include "Variant.hh"
 

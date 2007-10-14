@@ -3,15 +3,18 @@
 // Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
-// This program is free software; you can redistribute it and/or modify
+// This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
-// the Free Software Foundation; either version 2, or (at your option)
-// any later version.
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
 static const char rcsid[] = "$Id$";
@@ -44,6 +47,8 @@ static const char rcsid[] = "$Id$";
 #include "DBus.hh"
 #endif
 
+using namespace std;
+
 //! Construct a new Break Controller.
 /*!
  *  \param id ID of the break this BreakControl controls.
@@ -52,9 +57,8 @@ static const char rcsid[] = "$Id$";
  *          windows.
  *  \param timer pointer to the interface of the timer that belongs to this break.
  */
-BreakControl::BreakControl(BreakId id, Core *c, IApp *app, Timer *timer) :
+BreakControl::BreakControl(BreakId id, IApp *app, Timer *timer) :
   break_id(id),
-  core(c),
   application(app),
   break_timer(timer),
   break_stage(STAGE_NONE),
@@ -63,19 +67,16 @@ BreakControl::BreakControl(BreakId id, Core *c, IApp *app, Timer *timer) :
   user_initiated(false),
   prelude_count(0),
   postponable_count(0),
-  reached_max_postpone(false),
   max_number_of_preludes(2),
-  max_number_of_postpones(2),
-  ignorable_break(true),
   fake_break(false),
   fake_break_count(0),
   user_abort(false),
   delayed_abort(false)
 {
-  set_ignorable_break(ignorable_break);
-
   assert(break_timer != NULL);
   assert(application != NULL);
+
+  core = Core::get_instance();
 }
 
 
@@ -385,10 +386,8 @@ BreakControl::start_break()
   delayed_abort = false;
 
   reached_max_prelude = max_number_of_preludes >= 0 && prelude_count + 1 >= max_number_of_preludes;
-  reached_max_postpone = max_number_of_postpones >= 0 && postponable_count + 1 >= max_number_of_postpones;
 
-  if ((max_number_of_preludes >= 0 && prelude_count >= max_number_of_preludes) ||
-      (max_number_of_postpones >= 0 && postponable_count >= max_number_of_postpones))
+  if (max_number_of_preludes >= 0 && prelude_count >= max_number_of_preludes)
     {
       // Forcing break without prelude.
       goto_stage(STAGE_TAKING);
@@ -599,33 +598,13 @@ BreakControl::set_max_preludes(int m)
   max_number_of_preludes = m;
 }
 
-//! Sets the maximum number of preludes before making the break not ignorable
-void
-BreakControl::set_max_postpone(int m)
-{
-  max_number_of_postpones = m;
-}
-
-
-//! Sets the ignorable-break flags
-/*!
- *  A break that is ignorable has a skip/postpone button.
- */
-void
-BreakControl::set_ignorable_break(bool i)
-{
-  ignorable_break = i;
-}
-
-
 //! Creates and shows the break window.
 void
 BreakControl::break_window_start()
 {
   TRACE_ENTER_MSG("BreakControl::break_window_start", break_id);
 
-  application->start_break_window(break_id,
-                                  user_initiated ? true : ignorable_break);
+  application->start_break_window(break_id, user_initiated);
 
   update_break_window();
   TRACE_EXIT();
@@ -679,7 +658,6 @@ BreakControl::set_state_data(bool active, const BreakStateData &data)
             " stage = " <<  data.break_stage <<
             " final = " << reached_max_prelude <<
             " total preludes = " << postponable_count <<
-            " force ignorable break = " << reached_max_postpone <<
             " time = " << data.prelude_time);
 
   // TODO: check application->hide_break_window();
@@ -765,7 +743,6 @@ BreakControl::get_state_data(BreakStateData &data)
   data.reached_max_prelude = reached_max_prelude;
   data.prelude_time = prelude_time;
   data.postponable_count = postponable_count;
-  data.reached_max_postpone = reached_max_postpone;
 }
 
 

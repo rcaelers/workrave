@@ -1,17 +1,20 @@
 // PreludeWindow.cc
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
-// This program is free software; you can redistribute it and/or modify
+// This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
-// the Free Software Foundation; either version 2, or (at your option)
-// any later version.
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
 static const char rcsid[] = "$Id$";
@@ -29,9 +32,9 @@ static const char rcsid[] = "$Id$";
 #include "Util.hh"
 
 #include "CoreFactory.hh"
-#include "CoreInterface.hh"
+#include "ICore.hh"
 
-#include "BreakResponseInterface.hh"
+#include "IBreakResponse.hh"
 #include "PreludeWindow.hh"
 
 //! Construct a new Microbreak window.
@@ -87,7 +90,7 @@ PreludeWindow::start()
 //! Self-Destruct
 /*!
  *  This method MUST be used to destroy the objects through the
- *  PreludeWindowInterface. it is NOT possible to do a delete on
+ *  IPreludeWindow. it is NOT possible to do a delete on
  *  this interface...
  */
 void
@@ -142,24 +145,24 @@ PreludeWindow::set_progress(int value, int max_value)
 
 //! Set the progress text.
 void
-PreludeWindow::set_progress_text(AppInterface::PreludeProgressText text)
+PreludeWindow::set_progress_text(IApp::PreludeProgressText text)
 {
   switch (text)
     {
       // Workrave will force a break when the prelude window is removed.
       // This is done after 'maximum number of prompts' in the preferences.
-    case AppInterface::PROGRESS_TEXT_BREAK_IN:
+    case IApp::PROGRESS_TEXT_BREAK_IN:
       progress_text = _("Break in");
       break;
 
       // Workrave will remove the prelude window and try again later.
-    case AppInterface::PROGRESS_TEXT_DISAPPEARS_IN:
+    case IApp::PROGRESS_TEXT_DISAPPEARS_IN:
       progress_text = _("Disappears in");
       break;
 
       // Workrave will remove the prelude windows and will NOT try again.
       // I wonder if it is still possible to configure this using the GUI.
-    case AppInterface::PROGRESS_TEXT_SILENT_IN:
+    case IApp::PROGRESS_TEXT_SILENT_IN:
       progress_text = _("Silent in");
       break;
     }
@@ -168,24 +171,24 @@ PreludeWindow::set_progress_text(AppInterface::PreludeProgressText text)
 
 //! Sets the prelude stage.
 void
-PreludeWindow::set_stage(AppInterface::PreludeStage stage)
+PreludeWindow::set_stage(IApp::PreludeStage stage)
 {
   switch(stage)
     {
       // Initial stage, 'friendly prelude'
-    case AppInterface::STAGE_INITIAL:
+    case IApp::STAGE_INITIAL:
       break;
 
       // Move prelude window out-of-the-way. e.g. to top of screen.
-    case AppInterface::STAGE_MOVE_OUT:
+    case IApp::STAGE_MOVE_OUT:
       break;
 
       // Less friendly prelude
-    case AppInterface::STAGE_WARN:
+    case IApp::STAGE_WARN:
       break;
 
       // Even less friendly prelude.
-    case AppInterface::STAGE_ALERT:
+    case IApp::STAGE_ALERT:
       break;
     }
 }

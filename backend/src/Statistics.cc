@@ -1,17 +1,20 @@
 // Statistics.cc
 //
-// Copyright (C) 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
-// This program is free software; you can redistribute it and/or modify
+// This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
-// the Free Software Foundation; either version 2, or (at your option)
-// any later version.
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
 static const char rcsid[] = "$Id$";
@@ -97,7 +100,7 @@ Statistics::update()
 
   if (state == ACTIVITY_ACTIVE && !been_active)
     {
-      const time_t now = time(NULL);
+      const time_t now = core->get_time();
       struct tm *tmnow = localtime(&now);
 
       current_day->start = *tmnow;
@@ -117,7 +120,7 @@ void
 Statistics::start_new_day()
 {
   TRACE_ENTER("Statistics::start_new_day");
-  const time_t now = time(NULL);
+  const time_t now = core->get_time();
   struct tm *tmnow = localtime(&now);
 
   if (current_day == NULL ||
@@ -655,7 +658,7 @@ Statistics::update_current_day(bool active)
 
       if (active)
         {
-          const time_t now = time(NULL);
+          const time_t now = core->get_time();
           struct tm *tmnow = localtime(&now);
           current_day->stop = *tmnow;
         }
@@ -951,4 +954,3 @@ Statistics::DailyStatsImpl::starts_before_date(int y, int m, int d)
                   || (start.tm_mon + 1 == m
                       && start.tm_mday < d))));
 }
-

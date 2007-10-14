@@ -1,9 +1,9 @@
 // TimePred.hh --- Time Predicate
 //
-// Copyright (C) 2001, 2002, 2003, 2005 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2005, 2007 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
-// Time-stamp: <2007-08-30 16:03:08 robc>
+// Time-stamp: <2007-10-14 21:31:05 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -32,7 +32,6 @@
 # endif
 #endif
 
-using namespace std;
 
 //! A time predicate.
 /*! Given a previous time that matched, it computes the next time that matches
@@ -57,7 +56,7 @@ public:
   virtual time_t get_next() = 0;
 
   //! Returns the string representation of this predicate.
-  virtual string to_string() const = 0;
+  virtual std::string to_string() const = 0;
 
 protected:
   //! Last time the predicate matched.

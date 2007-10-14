@@ -1,6 +1,6 @@
 // IDistributionManager.hh
 //
-// Copyright (C) 2002, 2003, 2005, 2006 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2005, 2006, 2007 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -22,47 +22,50 @@
 #include <string>
 using namespace std;
 
-class DistributionLogListener;
-
-class IDistributionManager
+namespace workrave
 {
-public:
-  virtual ~IDistributionManager() {}
+  class DistributionLogListener;
+  
+  class IDistributionManager
+  {
+  public:
+    virtual ~IDistributionManager() {}
 
-  virtual bool is_master() const = 0;
-  virtual int get_number_of_peers() = 0;
-  virtual bool connect(string url) = 0;
+    virtual bool is_master() const = 0;
+    virtual int get_number_of_peers() = 0;
+    virtual bool connect(string url) = 0;
 
-  virtual bool disconnect_all() = 0;
-  virtual bool reconnect_all() = 0;
+    virtual bool disconnect_all() = 0;
+    virtual bool reconnect_all() = 0;
 
-  virtual bool add_log_listener(DistributionLogListener *listener) = 0;
-  virtual bool remove_log_listener(DistributionLogListener *listener) = 0;
-  virtual list<string> get_logs() const = 0;
+    virtual bool add_log_listener(DistributionLogListener *listener) = 0;
+    virtual bool remove_log_listener(DistributionLogListener *listener) = 0;
+    virtual list<string> get_logs() const = 0;
 
-  virtual bool add_peer(string peer) = 0;
-  virtual bool remove_peer(string peer) = 0;
+    virtual bool add_peer(string peer) = 0;
+    virtual bool remove_peer(string peer) = 0;
 
-  virtual void set_peers(string peers, bool connect = true) = 0;
-  virtual list<string> get_peers() const = 0;
+    virtual void set_peers(string peers, bool connect = true) = 0;
+    virtual list<string> get_peers() const = 0;
 
-  virtual bool get_enabled() const = 0;
-  virtual void set_enabled(bool b) = 0;
+    virtual bool get_enabled() const = 0;
+    virtual void set_enabled(bool b) = 0;
 
-  virtual string get_username() const = 0;
-  virtual void set_username(string name) = 0;
+    virtual string get_username() const = 0;
+    virtual void set_username(string name) = 0;
 
-  virtual string get_password() const = 0;
-  virtual void set_password(string name) = 0;
+    virtual string get_password() const = 0;
+    virtual void set_password(string name) = 0;
 
-  virtual int get_port() const = 0;
-  virtual void set_port(int v) = 0;
+    virtual int get_port() const = 0;
+    virtual void set_port(int v) = 0;
 
-  virtual int get_reconnect_attempts() const = 0;
-  virtual void set_reconnect_attempts(int v) = 0;
+    virtual int get_reconnect_attempts() const = 0;
+    virtual void set_reconnect_attempts(int v) = 0;
 
-  virtual int get_reconnect_interval() const = 0;
-  virtual void set_reconnect_interval(int v) = 0;
-};
+    virtual int get_reconnect_interval() const = 0;
+    virtual void set_reconnect_interval(int v) = 0;
+  };
+}
 
 #endif // IDISTRIBUTIOMANAGER_HH

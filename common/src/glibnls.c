@@ -1,22 +1,21 @@
 /*
  * nls.h --- i18n-isation
  *
- * Copyright (C) 2002, 2003, 2005 Raymond Penners
+ * Copyright (C) 2002, 2003, 2005, 2007 Raymond Penners
  * All rights reserved.
  *
- * This program is free software; you can redistribute it and/or modify
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2, or (at your option)
- * any later version.
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License along
- * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * $Id$
  *
@@ -59,12 +58,12 @@ read_aliases (char *file)
         continue;
       p = strtok (buf,"\t ");
       if (!p)
-	continue;
+  continue;
       p = strtok (NULL,"\t ");
       if(!p)
-	continue;
+  continue;
       if (!g_hash_table_lookup (alias_table, buf))
-	g_hash_table_insert (alias_table, g_strdup(buf), g_strdup(p));
+  g_hash_table_insert (alias_table, g_strdup(buf), g_strdup(p));
     }
   fclose (fp);
 }
@@ -114,7 +113,9 @@ unalias_lang (char *lang)
   int i;
   if (!alias_table)
     {
+#ifdef LIBGNOME_DATADIR
       read_aliases (LIBGNOME_DATADIR "/locale/locale.alias");
+#endif
       read_aliases ("/usr/share/locale/locale.alias");
       read_aliases ("/usr/local/share/locale/locale.alias");
       read_aliases ("/usr/lib/X11/locale/locale.alias");
@@ -127,12 +128,12 @@ unalias_lang (char *lang)
       if (i++ == 30)
         {
           static gboolean said_before = FALSE;
-	  if (!said_before)
+    if (!said_before)
             g_warning (_("Too many alias levels for a locale, "
-			 "may indicate a loop"));
-	  said_before = TRUE;
-	  return lang;
-	}
+       "may indicate a loop"));
+    said_before = TRUE;
+    return lang;
+  }
     }
   return lang;
 }
@@ -156,10 +157,10 @@ enum
  */
 static guint
 explode_locale (const gchar *locale,
-		gchar **language,
-		gchar **territory,
-		gchar **codeset,
-		gchar **modifier)
+    gchar **language,
+    gchar **territory,
+    gchar **codeset,
+    gchar **modifier)
 {
   const gchar *uscore_pos;
   const gchar *at_pos;
@@ -245,12 +246,12 @@ compute_locale_variants (const gchar *locale)
   for (i=0; i<=mask; i++)
     if ((i & ~mask) == 0)
       {
-	gchar *val = g_strconcat(language,
-				 (i & COMPONENT_TERRITORY) ? territory : "",
-				 (i & COMPONENT_CODESET) ? codeset : "",
-				 (i & COMPONENT_MODIFIER) ? modifier : "",
-				 NULL);
-	retval = g_list_prepend (retval, val);
+  gchar *val = g_strconcat(language,
+         (i & COMPONENT_TERRITORY) ? territory : "",
+         (i & COMPONENT_CODESET) ? codeset : "",
+         (i & COMPONENT_MODIFIER) ? modifier : "",
+         NULL);
+  retval = g_list_prepend (retval, val);
       }
 
   g_free (language);
@@ -315,9 +316,9 @@ nls_get_language_list (const gchar *category_name)
 
       category_value = guess_category_value (category_name);
       if (! category_value)
-	category_value = "C";
+        category_value = "C";
       orig_category_memory = category_memory =
-	g_malloc (strlen (category_value)+1);
+        g_malloc (strlen (category_value)+1);
 
       while (category_value[0] != '\0')
 	{

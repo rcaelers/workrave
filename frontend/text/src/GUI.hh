@@ -1,17 +1,20 @@
 // GUI.hh --- The WorkRave GUI
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
-// This program is free software; you can redistribute it and/or modify
+// This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
-// the Free Software Foundation; either version 2, or (at your option)
-// any later version.
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 // $Id$
 //
@@ -23,21 +26,26 @@
 #include <glib.h>
 
 #include "CoreEventListener.hh"
-#include "ActivityMonitorListener.hh"
-#include "AppInterface.hh"
+#include "ILinkEventListener.hh"
+#include "IApp.hh"
 
 // Generic GUI
 class BreakControl;
-class SoundPlayerInterface;
-class BreakWindowInterface;
+class ISoundPlayer;
+class IBreakWindow;
 class PreludeWindow;
 class MainWindow;
 
-// Core interfaces
-class ConfiguratorInterface;
+using namespace workrave;
+
+namespace workrave
+{
+  // Core interfaces
+  class IConfigurator;
+}
 
 class GUI :
-  public AppInterface,
+  public IApp,
   public CoreEventListener
 {
 public:
@@ -50,8 +58,8 @@ public:
   void restbreak_now();
   void terminate();
 
-  // GUIFactoryInterface methods
-  virtual void set_break_response(BreakResponseInterface *rep);
+  // IGUIFactory methods
+  virtual void set_break_response(IBreakResponse *rep);
   virtual void start_prelude_window(BreakId break_id);
   virtual void start_break_window(BreakId break_id, bool ignorable);
   virtual void hide_break_window();
@@ -62,6 +70,7 @@ public:
 
   //
   void core_event_notify(CoreEvent event);
+  void core_event_operation_mode_changed(const OperationMode m);
 
   SoundPlayerInterface *get_sound_player() const;
 
@@ -78,7 +87,7 @@ private:
   void init_sound_player();
 
   void collect_garbage();
-  BreakWindowInterface *create_break_window(BreakId break_id, bool ignorable);
+  IBreakWindow *create_break_window(BreakId break_id, bool ignorable);
 
   // Prefs
   static const std::string CFG_KEY_GUI_BLOCK_MODE;
@@ -86,20 +95,22 @@ private:
   void set_block_mode(BlockMode mode);
 
 private:
+  GMainLoop *main_loop;
+
   //! The one and only instance
   static GUI *instance;
 
   //! The Configurator.
-  ConfiguratorInterface *configurator;
+  IConfigurator *configurator;
 
   //! The Core controller
-  CoreInterface *core;
+  ICore *core;
 
   //! The sound player
-  SoundPlayerInterface *sound_player;
+  ISoundPlayer *sound_player;
 
   //! Interface to the break window.
-  BreakWindowInterface *break_window;
+  IBreakWindow *break_window;
 
   //! Interface to the prelude windows.
   PreludeWindow *prelude_window;
@@ -108,7 +119,7 @@ private:
   MainWindow *main_window;
 
   //! Reponse interface for breaks
-  BreakResponseInterface *response;
+  IBreakResponse *response;
 
   //! Destroy break window on next heartbeat?
   bool break_window_destroy;
@@ -126,7 +137,7 @@ private:
   char **argv;
 
   //! Final prelude
-  string progress_text;
+  std::string progress_text;
 
   //! Progress values
   int progress_value;
@@ -142,7 +153,7 @@ GUI::get_instance()
 }
 
 //! Returns the sound player
-inline SoundPlayerInterface *
+inline ISoundPlayer *
 GUI::get_sound_player() const
 {
   return sound_player;

@@ -1,31 +1,41 @@
-// BreakWindowInterface.hh --- base class for the break windows
+// IBreakWindow.hh --- base class for the break windows
 //
-// Copyright (C) 2001, 2002, 2003, 2005 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2005, 2007 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
-// This program is free software; you can redistribute it and/or modify
+// This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
-// the Free Software Foundation; either version 2, or (at your option)
-// any later version.
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
 // $Id$
 //
 
-#ifndef BREAKWINDOWINTERFACE_HH
-#define BREAKWINDOWINTERFACE_HH
+#ifndef IBREAKWINDOW_HH
+#define IBREAKWINDOW_HH
 
 #include <stdio.h>
 
-class BreakResponseInterface;
+namespace workrave
+{
+  class IBreakResponse;
+}
 
-class BreakWindowInterface
+using namespace workrave;
+
+class IBreakWindow
 {
 public:
+  virtual ~IBreakWindow() {}
+
   //! Starts (i.e. shows) the break window.
   virtual void start() = 0;
 
@@ -37,7 +47,7 @@ public:
 
   //! Destroys the break window.
   /*! \warn this will 'delete' the window, so all pointers to the
-   *        BreakWindowInterface will become invalid.
+   *        IBreakWindow will become invalid.
    */
   virtual void destroy() = 0;
 
@@ -45,7 +55,7 @@ public:
   virtual void set_progress(int value, int max_value) = 0;
 
   //! Sets the response callback.
-  virtual void set_response(BreakResponseInterface *bri) = 0;
+  virtual void set_response(IBreakResponse *bri) = 0;
 };
 
-#endif // RESTBREAKWINDOWINTERFACE_HH
+#endif // IBREAKWINDOW_HH

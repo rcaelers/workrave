@@ -2,6 +2,8 @@
 #include "CoreFactory.hh"
 #include "IConfigurator.hh"
 
+using namespace workrave;
+
 BOOL W32Compat::initialized = false;
 BOOL W32Compat::is_w95 = false;
 W32Compat::ENUMDISPLAYMONITORSPROC W32Compat::enum_display_monitors_proc = NULL;

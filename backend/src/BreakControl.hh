@@ -1,17 +1,20 @@
 // BreakControl.hh --- controller for a single break
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
-// This program is free software; you can redistribute it and/or modify
+// This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
-// the Free Software Foundation; either version 2, or (at your option)
-// any later version.
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 // $Id$
 //
@@ -25,9 +28,15 @@
 #include "IBreakResponse.hh"
 #include "ActivityMonitorListener.hh"
 
-class IActivityMonitorListener;
+using namespace workrave;
+
+// Forward declarion of external interface.
+namespace workrave {
+  class IActivityMonitorListener;
+  class IApp;
+}
+
 class Core;
-class IApp;
 class PreludeWindow;
 class Timer;
 
@@ -36,7 +45,6 @@ class BreakControl :
 {
 public:
   enum BreakState { BREAK_ACTIVE, BREAK_INACTIVE, BREAK_SUSPENDED };
-
 
   //! Defines what to do when the user is active during a break.
   struct BreakStateData
@@ -48,10 +56,9 @@ public:
     int break_stage;
     bool reached_max_prelude;
     int prelude_time;
-    bool reached_max_postpone;
   };
 
-  BreakControl(BreakId id, Core *core, IApp *app, Timer *timer);
+  BreakControl(BreakId id, IApp *app, Timer *timer);
   virtual ~BreakControl();
 
   // BreakInterface
@@ -69,8 +76,6 @@ public:
 
   // Configuration
   void set_max_preludes(int m);
-  void set_max_postpone(int m);
-  void set_ignorable_break(bool i);
 
   // BreakResponseInterface
   void postpone_break();
@@ -130,20 +135,8 @@ private:
    */
   int postponable_count;
 
-  //! Have we seen too many preludes and need to make the break non-ignorable
-  bool reached_max_postpone;
-
   //! After how many preludes do we force a break or give up?
   int max_number_of_preludes;
-
-  //! After how many preludes do we make the break not ignorable?
-  int max_number_of_postpones;
-
-  //! Can the use explicitly ignore the break? (window setting)
-  bool ignorable_break;
-
-  //! Can the use explicitly ignore the break? (configuration setting)
-  bool config_ignorable_break;
 
   //! Is this a break that is not controlled by the timer.
   bool fake_break;

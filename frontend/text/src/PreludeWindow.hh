@@ -1,17 +1,20 @@
 // PreludeWindow.hh --- window for the microbreak
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
-// This program is free software; you can redistribute it and/or modify
+// This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
-// the Free Software Foundation; either version 2, or (at your option)
-// any later version.
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 // $Id$
 //
@@ -19,12 +22,14 @@
 #ifndef PRELUDEWINDOW_HH
 #define PRELUDEWINDOW_HH
 
-#include "PreludeWindowInterface.hh"
+#include "IPreludeWindow.hh"
 
 class Dispatcher;
 
+using namespace workrave;
+
 class PreludeWindow :
-  public PreludeWindowInterface
+  public IPreludeWindow
 {
 public:
   PreludeWindow(BreakId break_id);
@@ -35,28 +40,28 @@ public:
   void destroy();
   void refresh();
   void set_progress(int value, int max_value);
-  void set_stage(AppInterface::PreludeStage stage);
-  void set_progress_text(AppInterface::PreludeProgressText text);
-  void set_response(BreakResponseInterface *pri);
+  void set_stage(IApp::PreludeStage stage);
+  void set_progress_text(IApp::PreludeProgressText text);
+  void set_response(IBreakResponse *pri);
 
 private:
   //!
   BreakId break_id;
 
   //! Final prelude
-  string progress_text;
+  std::string progress_text;
 
   //! Progress values
   int progress_value;
   int progress_max_value;
 
   //! Send response to this interface.
-  BreakResponseInterface *prelude_response;
+  IBreakResponse *prelude_response;
 };
 
 
 inline void
-PreludeWindow::set_response(BreakResponseInterface *pri)
+PreludeWindow::set_response(IBreakResponse *pri)
 {
   prelude_response = pri;
 }

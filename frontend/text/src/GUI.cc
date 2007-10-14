@@ -1,17 +1,20 @@
 // TextGUI.cc --- The WorkRave GUI
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
-// This program is free software; you can redistribute it and/or modify
+// This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
-// the Free Software Foundation; either version 2, or (at your option)
-// any later version.
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
 static const char rcsid[] = "$Id$";
@@ -34,16 +37,18 @@ static const char rcsid[] = "$Id$";
 #include "GUI.hh"
 #include "PreludeWindow.hh"
 #include "BreakWindow.hh"
-#include "BreakWindowInterface.hh"
+#include "IBreakWindow.hh"
 #include "MainWindow.hh"
 
 #include "CoreFactory.hh"
-#include "CoreInterface.hh"
-#include "ConfiguratorInterface.hh"
+#include "ICore.hh"
+#include "IConfigurator.hh"
 
 #include "System.hh"
-#include "BreakResponseInterface.hh"
+#include "IBreakResponse.hh"
 #include "SoundPlayer.hh"
+
+#include "Util.hh"
 
 #ifdef WIN32
 #include "crashlog.h"
@@ -131,7 +136,13 @@ GUI::main()
   __try1(exception_handler);
 #endif
 
+#ifdef WIN32
+  System::init();
+#else
   System::init(NULL);
+#endif
+
+  g_type_init();
 
   init_debug();
   init_core();
@@ -140,9 +151,13 @@ GUI::main()
   // The main status window.
   main_window = new MainWindow();
 
-  GMainLoop *main_loop = g_main_loop_new(NULL, FALSE);
+  main_loop = g_main_loop_new(NULL, FALSE);
 
-  g_timeout_add(1000, static_on_timer, this);
+  const char *env = getenv("WORKRAVE_TEST");
+  if (env == NULL)
+    {
+      g_timeout_add(1000, static_on_timer, this);
+    }
 
   g_main_loop_run(main_loop);
   g_main_loop_unref(main_loop);
@@ -169,7 +184,7 @@ GUI::terminate()
 
   collect_garbage();
 
-  // g_main_loop_quit(main_loop);
+  g_main_loop_quit(main_loop);
   TRACE_EXIT();
 }
 
@@ -282,11 +297,13 @@ GUI::core_event_notify(CoreEvent event)
 
 
 //! Returns a break window for the specified break.
-BreakWindowInterface *
-GUI::create_break_window(BreakId break_id, bool ignorable)
+IBreakWindow *
+GUI::create_break_window(BreakId break_id, bool user_initiated)
 {
-  BreakWindowInterface *ret = NULL;
+  IBreakWindow *ret = NULL;
   BlockMode block_mode = get_block_mode();
+  bool ignorable = true;
+
   if (break_id == BREAK_ID_MICRO_BREAK)
     {
       ret = new BreakWindow(break_id, ignorable, block_mode);
@@ -305,7 +322,7 @@ GUI::create_break_window(BreakId break_id, bool ignorable)
 
 
 void
-GUI::set_break_response(BreakResponseInterface *rep)
+GUI::set_break_response(IBreakResponse *rep)
 {
   response = rep;
 }
@@ -454,7 +471,7 @@ GUI::get_block_mode()
   bool b;
   int mode;
   b = CoreFactory::get_configurator()
-    ->get_value(CFG_KEY_GUI_BLOCK_MODE, &mode);
+    ->get_value(CFG_KEY_GUI_BLOCK_MODE, mode);
   if (! b)
     {
       mode = BLOCK_MODE_INPUT;
@@ -468,4 +485,48 @@ GUI::set_block_mode(BlockMode mode)
 {
   CoreFactory::get_configurator()
     ->set_value(CFG_KEY_GUI_BLOCK_MODE, int(mode));
+}
+
+
+void
+GUI::event_received(LinkEvent *event)
+{
+  TRACE_ENTER_MSG("GUI::event_received", event->str());
+
+  INetwork *network = CoreFactory::get_networking();
+
+  ResolveConfigurationLinkEvent *resolve = dynamic_cast<ResolveConfigurationLinkEvent *>(event);
+  if (resolve == NULL)
+    {
+      return;
+    }
+
+  map<string, string> changes = resolve->get_changes();
+
+  if (changes.size() == 0)
+    {
+      TRACE_MSG("All changes resolved");
+    }
+
+  char *wr = getenv("WORKRAVE_DBUS_NAME");
+  if (strcmp(wr, "org.workrave.Workrave2") == 0)
+    {
+      map<string, string>::iterator i;
+
+      for (i = changes.begin(); i != changes.end(); i++)
+        {
+          TRACE_MSG("taking " << i->first);
+          if (i->first == "internal/dontchange")
+            {
+              network->resolve_config(i->first, "string:workrave X");
+            }
+          else if (i->first == "internal/self-destruct")
+            {
+              network->resolve_config(i->first, "int:666");
+            }
+        }
+    }
+
+
+  TRACE_EXIT();
 }
