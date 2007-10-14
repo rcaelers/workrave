@@ -24,200 +24,117 @@
 #include <map>
 
 #include "Mutex.hh"
+#include "IConfigurator.hh"
+#include "IConfiguratorListener.hh"
+#include "IConfigBackend.hh"
 
 using namespace std;
 
-#include "IConfigurator.hh"
+// Forward declarion of external interface.
+class IConfiguratorListener;
+
 #include "Variant.hh"
 
-class ConfiguratorListener;
+class IConfigBackend;
 
-class Configurator : public IConfigurator
+class Configurator : public IConfigurator, public IConfiguratorListener
 {
 public:
-  typedef enum Format
-    {
-      FormatIni,
-      FormatXml,
-      FormatNative
-    };
+  Configurator(IConfigBackend *backend);
   virtual ~Configurator();
 
-  //! Creates a Configurator with the specified type.
-  static Configurator *create(Format);
+  void heartbeat();
 
-  //! Loads the specified file.
-  /*!
-   *  \param filename file to load.
-   *
-   *  \retval true load succeeded.
-   *  \retval false load failed.
-   */
-  virtual bool load(string filename) = 0;
+  // IConfigurator
+  virtual void set_delay(const std::string &name, int delay);
 
-  //! Saves the configuration to the specified file.
-  /*!
-   *  \param filename file to save.
-   *
-   *  \retval true save succeeded.
-   *  \retval false save failed.
-   */
-  virtual bool save(string filename) = 0;
+  virtual bool load(std::string filename);
+  virtual bool save(std::string filename);
+  virtual bool save();
 
-  //! Saves the configuration.
-  /*!
-   *  \retval true save succeeded.
-   *  \retval false save failed.
-   */
-  virtual bool save() = 0;
+  virtual bool remove_key(const std::string &key) const;
+  virtual bool rename_key(const std::string &key, const std::string &new_key);
 
-  //! Returns the value of the specified attribute
-  /*!
-   *  \retval true value successfully returned.
-   *  \retval false attribute not found.
-   */
-  virtual bool get_value(string key, string *out) const = 0;
-  void get_value_default(string key, string *out, string s) const;
-  bool get_value_on_quit( string key, string *out ) const;
+  virtual bool get_value(const std::string &key, std::string &out) const;
+  virtual bool get_value(const std::string &key, bool &out) const;
+  virtual bool get_value(const std::string &key, int &out) const;
+  virtual bool get_value(const std::string &key, double &out) const;
 
-  //! Returns the value of the specified attribute
-  /*!
-   *  \retval true value successfully returned.
-   *  \retval false attribute not found.
-   */
-  virtual bool get_value(string key, bool *out) const = 0;
-  void get_value_default(string key, bool *out, const bool def) const;
-  bool get_value_on_quit( string key, bool *out ) const;
+  virtual void get_value_with_default(const std::string & key, std::string &out, string s) const;
+  virtual void get_value_with_default(const std::string & key, bool &out, const bool def) const;
+  virtual void get_value_with_default(const std::string & key, int &out, const int def) const;
+  virtual void get_value_with_default(const std::string & key, double &out, const double def) const;
 
-  //! Returns the value of the specified attribute
-  /*!
-   *  \retval true value successfully returned.
-   *  \retval false attribute not found.
-   */
-  virtual bool get_value(string key, int *out) const = 0;
-  void get_value_default(string key, int *out, const int def) const;
-  bool get_value_on_quit( string key, int *out ) const;
+  virtual bool set_value(const std::string &key, const std::string &v, ConfigFlags flags = CONFIG_FLAG_NONE);
+  virtual bool set_value(const std::string &key, const char *v, ConfigFlags flags = CONFIG_FLAG_NONE);
+  virtual bool set_value(const std::string &key, int v, ConfigFlags flags = CONFIG_FLAG_NONE);
+  virtual bool set_value(const std::string &key, bool v, ConfigFlags flags = CONFIG_FLAG_NONE);
+  virtual bool set_value(const std::string &key, double v, ConfigFlags flags = CONFIG_FLAG_NONE);
 
-  //! Returns the value of the specified attribute
-  /*!
-   *  \retval true value successfully returned.
-   *  \retval false attribute not found.
-   */
-  virtual bool get_value(string key, long *out) const = 0;
-  void get_value_default(string key, long *out, const long def) const;
-  bool get_value_on_quit( string key, long *out ) const;
+  virtual bool get_typed_value(const std::string &key, std::string &t) const;
+  virtual bool set_typed_value(const std::string &key, const std::string &t);
 
-  //! Returns the value of the specified attribute
-  /*!
-   *  \retval true value successfully returned.
-   *  \retval false attribute not found.
-   */
-  virtual bool get_value(string key, double *out) const = 0;
-  void get_value_default(string key, double *out, const double def) const;
-  bool get_value_on_quit( string key, double *out ) const;
+  virtual bool add_listener(const std::string &key_prefix, IConfiguratorListener *listener);
+  virtual bool remove_listener(IConfiguratorListener *listener);
+  virtual bool remove_listener(const std::string &key_prefix, IConfiguratorListener *listener);
+  virtual bool find_listener(IConfiguratorListener *listener, std::string &key) const;
 
-  //! Sets the value of the specified attribute.
-  /*!
-   *  \retval true attribute successfully set.
-   *  \retval false attribute could not be set..
-   */
-  virtual bool set_value(string key, string v) = 0;
-  void set_value_on_quit( string key, string v );
-
-  //! Sets the value of the specified attribute.
-  /*!
-   *  \retval true attribute successfully set.
-   *  \retval false attribute could not be set..
-   */
-  virtual bool set_value(string key, int v) = 0;
-  void set_value_on_quit( string key, int v );
-
-  //! Sets the value of the specified attribute.
-  /*!
-   *  \retval true attribute successfully set.
-   *  \retval false attribute could not be set..
-   */
-  virtual bool set_value(string key, long v) = 0;
-  void set_value_on_quit( string key, long v );
-
-  //! Sets the value of the specified attribute.
-  /*!
-   *  \retval true attribute successfully set.
-   *  \retval false attribute could not be set..
-   */
-  virtual bool set_value(string key, bool v) = 0;
-  void set_value_on_quit( string key, bool v );
-
-  //! Sets the value of the specified attribute.
-  /*!
-   *  \retval true attribute successfully set.
-   *  \retval false attribute could not be set..
-   */
-  virtual bool set_value(string key, double v) = 0;
-  void set_value_on_quit( string key, double v );
-
-  //! Adds the specified configuration change listener.
-  /*!
-   *  \param key_prefix configuration path to monitor.
-   *  \param listener listener to add.
-   *
-   *  \retval true listener successfully added.
-   *  \retval false listener already added.
-   */
-  virtual bool add_listener(string key_prefix, ConfiguratorListener *listener);
-
-  //! Removes the specified configuration change listener.
-  /*!
-   *  \param listener listener to stop monitoring.
-   *
-   *  \retval true listener successfully removed.
-   *  \retval false listener not found.
-   */
-  virtual bool remove_listener(ConfiguratorListener *listener);
-
-  //! Removes the specified configuration change listener.
-  /*!
-   *  \param key_prefix configuration path to monitor.
-   *  \param listener listener to stop monitoring.
-   *
-   *  \retval true listener successfully removed.
-   *  \retval false listener not found.
-   */
-  virtual bool remove_listener(string key_prefix, ConfiguratorListener *listener);
-
-  //! Finds the key monitored by the the specified configuration change listener.
-  /*!
-   *  \param listener listener to find the key of.
-   *
-   */
-  virtual bool find_listener(ConfiguratorListener *listener, string &key) const;
-
-  //! Sets keys/values that are in the set_value_on_quit keylist.
-  //! Call from the Core destructor before deleting configurator.
-  void set_values_now_we_are_quitting();
-
-
-protected:
-  void fire_configurator_event(string key);
-  void strip_leading_slash(string &key) const;
-  void strip_trailing_slash(string &key) const;
-  void add_trailing_slash(string &key) const;
-
-  Configurator();
-
-protected:
-  typedef std::list<std::pair<string, ConfiguratorListener *> > Listeners;
-  typedef std::list<std::pair<string, ConfiguratorListener *> >::iterator ListenerIter;
-  typedef std::list<std::pair<string, ConfiguratorListener *> >::const_iterator ListenerCIter;
+private:
+  typedef std::list<std::pair<std::string, IConfiguratorListener *> > Listeners;
+  typedef std::list<std::pair<std::string, IConfiguratorListener *> >::iterator ListenerIter;
+  typedef std::list<std::pair<std::string, IConfiguratorListener *> >::const_iterator ListenerCIter;
 
   //! Configuration change listeners.
   Listeners listeners;
 
+private:
+  struct DelayedConfig
+  {
+    std::string key;
+    Variant value;
+    time_t until;
+  };
+
+  struct Setting
+  {
+    std::string key;
+    int delay;
+  };
+
+  typedef std::map<std::string, DelayedConfig> DelayedList;
+  typedef DelayedList::iterator DelayedListIter;
+  typedef DelayedList::const_iterator DelayedListCIter;
+
+  typedef std::map<std::string, Setting> Settings;
+  typedef std::map<std::string, Setting>::iterator SettingIter;
+  typedef std::map<std::string, Setting>::const_iterator SettingCIter;
+
 
 private:
+  bool find_setting(const string &name, Setting &setting) const;
+  bool set_value(const std::string &key, Variant &value, bool force_now = false);
+  bool get_value(const std::string &key, VariantType type, Variant &value) const;
+
+  void fire_configurator_event(const std::string &key);
+  void strip_leading_slash(std::string &key) const;
+  void strip_trailing_slash(std::string &key) const;
+  void add_trailing_slash(std::string &key) const;
+
+  void config_changed_notify(const std::string &key);
   
-  //! pointer to the head of the list
-  std::map<std::string, Variant> saveonquit_list;
+private:
+  //! Registered settings.
+  Settings settings;
+
+  //! Delayed settings
+  DelayedList delayed_config;
+
+  //! The backend in use.
+  IConfigBackend *backend;
+
+  //! Next auto save time.
+  time_t auto_save_time;
 };
+
 
 #endif // CONFIGURATOR_HH

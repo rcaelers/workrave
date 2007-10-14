@@ -140,13 +140,13 @@ PreferencesDialog::create_gui_page()
         idx = 1;
     }
   sound_button->set_history(idx);
-  sound_button->signal_changed().connect(MEMBER_SLOT(*this, &PreferencesDialog::on_sound_changed));
+  sound_button->signal_changed().connect(sigc::mem_fun(*this, &PreferencesDialog::on_sound_changed));
 
   // Tray start
 //   start_in_tray_cb
 //     = manage(new Gtk::CheckButton(_("Hide main window at start-up")));
 //   start_in_tray_cb->signal_toggled()
-//     .connect(MEMBER_SLOT(*this,
+//     .connect(sigc::mem_fun(*this,
 //      &PreferencesDialog::on_start_in_tray_toggled));
 //   start_in_tray_cb->set_active(MainWindow::get_start_in_tray());
 
@@ -176,7 +176,7 @@ PreferencesDialog::create_gui_page()
     }
   block_button->set_history(block_idx);
   block_button->signal_changed()
-    .connect(MEMBER_SLOT(*this, &PreferencesDialog::on_block_changed));
+    .connect(sigc::mem_fun(*this, &PreferencesDialog::on_block_changed));
 
   // Options
   HigCategoryPanel *panel = manage(new HigCategoryPanel(_("Options")));

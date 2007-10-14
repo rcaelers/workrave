@@ -188,7 +188,7 @@ bool AdvancedPreferencePage::forcebox_get_config()
           return enabled;
 
   CoreFactory::get_configurator()->
-      get_value_default( "advanced/force_focus", &enabled, false );
+      get_value_with_default( "advanced/force_focus", &enabled, false );
 
   return enabled;
 }
@@ -228,7 +228,7 @@ string AdvancedPreferencePage::monitor_get_config()
           return monitor;
   
   CoreFactory::get_configurator()->
-      get_value_default( "advanced/monitor", &monitor, "normal" );
+      get_value_with_default( "advanced/monitor", &monitor, "normal" );
   
   return monitor;
 }

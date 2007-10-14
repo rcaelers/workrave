@@ -1,6 +1,6 @@
 // MicroBreakWindow.cc --- window for the microbreak
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -39,7 +39,6 @@ static const char rcsid[] = "$Id$";
 #include "GtkUtil.hh"
 #include "Text.hh"
 #include "Hig.hh"
-#include "IActivityMonitor.hh"
 #include "Frame.hh"
 
 //! Construct a new Microbreak window.
@@ -145,7 +144,7 @@ MicroBreakWindow::create_restbreaknow_button(bool label)
                                             "timer-rest-break.png",
                                             label));
   ret->signal_clicked()
-    .connect(MEMBER_SLOT(*this,
+    .connect(sigc::mem_fun(*this,
                          &MicroBreakWindow::on_restbreaknow_button_clicked));
   GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
   return ret;
@@ -176,18 +175,17 @@ MicroBreakWindow::refresh_time_bar()
   time_bar->set_text(s);
 
   ICore *core = CoreFactory::get_core();
-  IActivityMonitor *monitor = core->get_activity_monitor();
-  ActivityState state = monitor->get_current_state();
+  bool user_active = core->is_user_active();
   if (frame != NULL)
     {
-      if (state == ACTIVITY_ACTIVE && !is_flashing)
+      if (user_active && !is_flashing)
         {
           frame->set_frame_color(Gdk::Color("orange"));
           frame->set_frame_visible(true);
           frame->set_frame_flashing(500);
           is_flashing = true;
         }
-      else if (state == ACTIVITY_IDLE && is_flashing)
+      else if (!user_active && is_flashing)
         {
           frame->set_frame_flashing(0);
           frame->set_frame_visible(false);

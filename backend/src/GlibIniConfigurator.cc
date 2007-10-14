@@ -1,6 +1,6 @@
 // IniConfigurator.cc --- Configuration Access
 //
-// Copyright (C) 2005, 2006 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2005, 2006, 2007 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -30,6 +30,8 @@ static const char rcsid[] = "$Id$";
 #include "GlibIniConfigurator.hh"
 #include <glib.h>
 
+using namespace std;
+
 GlibIniConfigurator::GlibIniConfigurator()
   : config(NULL)
 {
@@ -54,7 +56,7 @@ GlibIniConfigurator::load(string filename)
   last_filename = filename;
 
   TRACE_ENTER_MSG("GlibIniConfigurator::load", filename)
-  config = g_key_file_new();
+    config = g_key_file_new();
 
   r = g_key_file_load_from_file(config, filename.c_str(),
                                 G_KEY_FILE_KEEP_COMMENTS, &error);
@@ -105,14 +107,36 @@ GlibIniConfigurator::save()
 }
 
 
-//! Returns the value of the specified attribute
-/*!
- *  \retval true value successfully returned.
- *  \retval false attribute not found.
- */
 bool
-GlibIniConfigurator::get_value(string key, string *out) const
+GlibIniConfigurator::remove_key(const std::string &key)
 {
+  bool ret = true;
+  GError *error = NULL;
+  string group;
+  string inikey;
+
+  TRACE_ENTER_MSG("GlibIniConfigurator::remove_key", key);
+  split_key(key, group, inikey);
+  inikey = key_inify(inikey);
+
+  g_key_file_remove_key(config, group.c_str(), inikey.c_str(), &error);
+
+  if (error != NULL)
+    {
+      g_error_free(error);
+      ret = false;
+    }
+
+  TRACE_EXIT();
+  return ret;
+}
+
+
+bool
+GlibIniConfigurator::get_value(const std::string &key, VariantType type,
+                               Variant &out) const
+{
+  bool ret = true;
   GError *error = NULL;
   string group;
   string inikey;
@@ -122,228 +146,103 @@ GlibIniConfigurator::get_value(string key, string *out) const
   split_key(key, group, inikey);
   inikey = key_inify(inikey);
 
-  value = g_key_file_get_string(config, group.c_str(), inikey.c_str(), &error);
+  out.type = type;
 
-  if (value != NULL)
+  switch(type)
     {
-      *out = value;
+    case VARIANT_TYPE_INT:
+      out.int_value = g_key_file_get_integer(config, group.c_str(), inikey.c_str(), &error);
+      break;
+
+    case VARIANT_TYPE_BOOL:
+      out.bool_value = g_key_file_get_boolean(config, group.c_str(), inikey.c_str(), &error);
+      break;
+
+    case VARIANT_TYPE_DOUBLE:
+      {
+        char *s = g_key_file_get_string(config, group.c_str(), inikey.c_str(), &error);
+        if (error == NULL && s != NULL)
+          {
+            sscanf(value, "%lf", &out.double_value);
+          }
+        break;
+      }
+
+    case VARIANT_TYPE_NONE:
+      out.type = VARIANT_TYPE_STRING;
+      // FALLTHROUGH
+
+    case VARIANT_TYPE_STRING:
+      {
+        char *s = g_key_file_get_string(config, group.c_str(), inikey.c_str(), &error);
+        if (error == NULL && s != NULL)
+          {
+            out.string_value = s;
+          }
+      }
+      break;
+
+    default:
+      ret = false;
     }
 
   if (error != NULL)
     {
-      TRACE_MSG("error");
       g_error_free(error);
+      ret = false;
     }
 
-  TRACE_MSG(*out);
   TRACE_EXIT();
-  return (error == NULL);
+  return ret;
 }
 
-
-//! Returns the value of the specified attribute
-/*!
- *  \retval true value successfully returned.
- *  \retval false attribute not found.
- */
 bool
-GlibIniConfigurator::get_value(string key, bool *out) const
+GlibIniConfigurator::set_value(const std::string &key, Variant &value)
 {
-  GError *error = NULL;
+  bool ret = true;
   string group;
   string inikey;
-  gboolean value;
 
   split_key(key, group, inikey);
   inikey = key_inify(inikey);
 
-  value = g_key_file_get_boolean(config, group.c_str(), inikey.c_str(), &error);
-
-  if (error != NULL)
+  switch(value.type)
     {
-      g_error_free(error);
-    }
-  else
-    {
-      *out = value;
-    }
+    case VARIANT_TYPE_INT:
+      g_key_file_set_integer(config, group.c_str(), inikey.c_str(), value.int_value);
+      break;
 
-  return (error == NULL);
-}
+    case VARIANT_TYPE_BOOL:
+      g_key_file_set_boolean(config, group.c_str(), inikey.c_str(), value.bool_value);
+      break;
 
+    case VARIANT_TYPE_DOUBLE:
+      {
+        char buf[32];
+        sprintf(buf, "%f", value.double_value);
 
+        split_key(key, group, inikey);
+        inikey = key_inify(inikey);
 
-//! Returns the value of the specified attribute
-/*!
- *  \retval true value successfully returned.
- *  \retval false attribute not found.
- */
-bool
-GlibIniConfigurator::get_value(string key, int *out) const
-{
-  GError *error = NULL;
-  string group;
-  string inikey;
-  gint value;
+        g_key_file_set_string(config, group.c_str(), inikey.c_str(), buf);
+      }
+      break;
 
-  split_key(key, group, inikey);
-  inikey = key_inify(inikey);
+    case VARIANT_TYPE_NONE:
+    case VARIANT_TYPE_STRING:
+      g_key_file_set_string(config, group.c_str(), inikey.c_str(), value.string_value.c_str());
+      break;
 
-  value = g_key_file_get_integer(config, group.c_str(), inikey.c_str(), &error);
-
-  if (error != NULL)
-    {
-      g_error_free(error);
-      *out = 0;
-    }
-  else
-    {
-      *out = value;
+    default:
+      ret = false;
     }
 
-  return (error == NULL);
-}
-
-
-//! Returns the value of the specified attribute
-/*!
- *  \retval true value successfully returned.
- *  \retval false attribute not found.
- */
-bool
-GlibIniConfigurator::get_value(string key, long *out) const
-{
-  int value = 0;
-  bool ret = get_value(key, &value);
-
-  *out = value;
   return ret;
 }
 
 
-//! Returns the value of the specified attribute
-/*!
- *  \retval true value successfully returned.
- *  \retval false attribute not found.
- */
-bool
-GlibIniConfigurator::get_value(string key, double *out) const
-{
-  GError *error = NULL;
-  string group;
-  string inikey;
-  char *value;
-
-  split_key(key, group, inikey);
-  inikey = key_inify(inikey);
-
-  value = g_key_file_get_string(config, group.c_str(), inikey.c_str(), &error);
-
-  if (error != NULL)
-    {
-      g_error_free(error);
-    }
-  else
-    {
-      int f = sscanf(value, "%lf", out);
-      (void) f;
-    }
-
-  return (error == NULL);
-}
-
-
-bool
-GlibIniConfigurator::set_value(string key, string v)
-{
-  string group;
-  string inikey;
-
-  split_key(key, group, inikey);
-  inikey = key_inify(inikey);
-
-  g_key_file_set_string(config, group.c_str(), inikey.c_str(), v.c_str());
-
-  fire_configurator_event(key);
-
-  return true;
-}
-
-
-bool
-GlibIniConfigurator::set_value(string key, int v)
-{
-  string group;
-  string inikey;
-
-  split_key(key, group, inikey);
-  inikey = key_inify(inikey);
-
-  g_key_file_set_integer(config, group.c_str(), inikey.c_str(), v);
-
-  fire_configurator_event(key);
-
-  return true;
-}
-
-bool
-GlibIniConfigurator::set_value(string key, long v)
-{
-  string group;
-  string inikey;
-
-  split_key(key, group, inikey);
-  inikey = key_inify(inikey);
-
-  g_key_file_set_integer(config, group.c_str(), inikey.c_str(), v);
-
-  fire_configurator_event(key);
-
-  return true;
-}
-
-bool
-GlibIniConfigurator::set_value(string key, bool v)
-{
-  string group;
-  string inikey;
-
-  split_key(key, group, inikey);
-  inikey = key_inify(inikey);
-
-  g_key_file_set_boolean(config, group.c_str(), inikey.c_str(), v);
-
-  fire_configurator_event(key);
-
-  return true;
-}
-
-
-bool
-GlibIniConfigurator::set_value(string key, double v)
-{
-  string group;
-  string inikey;
-
-  char buf[32];
-  sprintf(buf, "%f", v);
-
-  split_key(key, group, inikey);
-  inikey = key_inify(inikey);
-
-  g_key_file_set_string(config, group.c_str(), inikey.c_str(), buf);
-
-  fire_configurator_event(key);
-
-  return true;
-}
-
-
-
-
-
 void
-GlibIniConfigurator::split_key(const string key, string &group, string &out_key) const
+GlibIniConfigurator::split_key(const string &key, string &group, string &out_key) const
 {
   const char *s = key.c_str();
   char *slash = strchr(s, '/');
@@ -361,10 +260,9 @@ GlibIniConfigurator::split_key(const string key, string &group, string &out_key)
 
 
 string
-GlibIniConfigurator::key_inify(string key) const
+GlibIniConfigurator::key_inify(const string &key) const
 {
   string rc = key;
-  strip_trailing_slash(rc);
   for (unsigned int i = 0; i < rc.length(); i++)
     {
       if (rc[i] == '/')

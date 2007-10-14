@@ -1,6 +1,6 @@
 // XMLConfigurator.hh
 //
-// Copyright (C) 2001, 2002, 2006 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2006, 2007 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -26,47 +26,50 @@
 #undef interface
 #include <gdome.h>
 
-#include "Configurator.hh"
+#include "IConfigBackend.hh"
+#include "ConfigBackendAdapter.hh"
 
-class ConfigurationListener;
-
-class XMLConfigurator : public Configurator
+class XMLConfigurator : public virtual IConfigBackend, public virtual ConfigBackendAdapter
 {
 public:
   XMLConfigurator();
   XMLConfigurator(XMLConfigurator *parent);
   virtual ~XMLConfigurator();
 
+
   // Pure virtuals from Configurator
-  virtual bool load(string filename);
-  virtual bool save(string filename);
+  virtual bool load(std::string filename);
+  virtual bool save(std::string filename);
   virtual bool save();
-  virtual bool get_value(string key, string *out) const;
-  virtual bool get_value(string key, bool *out) const;
-  virtual bool get_value(string key, int *out) const;
-  virtual bool get_value(string key, long *out) const;
-  virtual bool get_value(string key, double *out) const;
-  virtual bool create_child(string key);
-  virtual bool set_value(string key, string v);
-  virtual bool set_value(string key, int v);
-  virtual bool set_value(string key, long v);
-  virtual bool set_value(string key, bool v);
-  virtual bool set_value(string key, double v);
+
+  virtual bool remove_key(const std::string &key);
+
+  virtual bool get_value(const std::string &key, std::string &out) const;
+  virtual bool get_value(const std::string &key, bool &out) const;
+  virtual bool get_value(const std::string &key, int &out) const;
+  virtual bool get_value(const std::string &key, long &out) const;
+  virtual bool get_value(const std::string &key, double &out) const;
+
+  virtual bool set_value(const std::string &key, std::string v);
+  virtual bool set_value(const std::string &key, int v);
+  virtual bool set_value(const std::string &key, long v);
+  virtual bool set_value(const std::string &key, bool v);
+  virtual bool set_value(const std::string &key, double v);
 
 private:
   void init(GdomeNode *node);
   void save_to(GdomeDOMImplementation *impl, GdomeDocument **doc, GdomeElement *node);
-  string strip_path(string &key) const;
-  XMLConfigurator *get_child(string key) const;
-  list<XMLConfigurator *> get_all_children() const;
-  void changed(string key);
+  std::string strip_path(std::string &key) const;
+  XMLConfigurator *get_child(const std::string &key) const;
+  std::list<XMLConfigurator *> get_all_children() const;
+  virtual bool create_child(const std::string &key);
 
-  string getName() const
+  std::string getName() const
   {
     return node_name;
   }
 
-  void setName(string name)
+  void setName(std::string name)
   {
     node_name = name;
 
@@ -76,29 +79,29 @@ private:
       }
   }
 
-  string getPath() const
+  std::string getPath() const
   {
     return node_path;
   }
 
 private:
-  typedef map<string, string> Attributes;
-  typedef map<string, XMLConfigurator *> Children;
+  typedef std::map<std::string, std::string> Attributes;
+  typedef std::map<std::string, XMLConfigurator *> Children;
 
   //! Parent
   XMLConfigurator *parent;
 
   //! File name of the last 'load'.
-  string last_file_name;
+  std::string last_file_name;
 
   //! Name in XML file.
-  string xml_node_name;
+  std::string xml_node_name;
 
   //! My name (relative to parent)
-  string node_name;
+  std::string node_name;
 
   //! My path (absolute name);
-  string node_path;
+  std::string node_path;
 
   //! All child nodes.
   Children node_children;

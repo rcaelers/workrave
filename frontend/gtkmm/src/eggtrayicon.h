@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* eggtrayicon.h
- * Copyright (C) 2002 Anders Carlsson <andersca@gnu.org>
+ * Copyright (C) 2002, 2007 Anders Carlsson <andersca@gnu.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -74,7 +74,7 @@ void         egg_tray_icon_cancel_message (EggTrayIcon *icon,
                                            guint        id);
 
 GtkOrientation egg_tray_icon_get_orientation (EggTrayIcon *icon);
-                                        
+					
 G_END_DECLS
 
 #endif /* __EGG_TRAY_ICON_H__ */

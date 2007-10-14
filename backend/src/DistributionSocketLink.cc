@@ -2159,7 +2159,7 @@ DistributionSocketLink::read_configuration()
 
 //! Notification from the configurator that the configuration has changed.
 void
-DistributionSocketLink::config_changed_notify(string key)
+DistributionSocketLink::config_changed_notify(const string &key)
 {
   (void) key;
   read_configuration();

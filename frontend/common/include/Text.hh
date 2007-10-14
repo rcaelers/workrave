@@ -1,6 +1,6 @@
 // Text.hh
 //
-// Copyright (C) 2002 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2007 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -22,12 +22,10 @@
 #include <string>
 #include <time.h>
 
-using namespace std;
-
 class Text
 {
 public:
-  static string time_to_string(time_t t, bool display_units = false);
+  static std::string time_to_string(time_t t, bool display_units = false);
 };
 
 #endif // TEXT_HH

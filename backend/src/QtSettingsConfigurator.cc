@@ -1,6 +1,6 @@
 // QtSettingsConfigurator.cc
 //
-// Copyright (C) 2006 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2006, 2007 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -50,7 +50,7 @@ QtSettingsConfigurator::save()
 
 
 QString
-QtSettingsConfigurator::qt_key(const string key) const
+QtSettingsConfigurator::qt_key(const const string &key) const
 {
   QString qkey(key.c_str());
   return qkey.prepend('/');
@@ -75,73 +75,80 @@ QtSettingsConfigurator::qt_get_value(const string key, bool& exists) const
 }
 
 bool
-QtSettingsConfigurator::get_value(string key, string *out) const
+QtSettingsConfigurator::remove_key(const std::string &key)
+{
+  // TODO:
+}
+
+
+bool
+QtSettingsConfigurator::get_value(string key, string &out) const
 {
   bool exists;
   QVariant var = qt_get_value(key, exists);
   if (exists)
     {
       QString qout = var.toString();
-      *out = qout.toStdString();
+      out = qout.toStdString();
     }
   return exists;
 }
 
 
 bool
-QtSettingsConfigurator::get_value(string key, bool *out) const
+QtSettingsConfigurator::get_value(const string &key, bool &out) const
 {
   bool exists;
   QVariant var = qt_get_value(key, exists);
   if (exists)
     {
-      *out = var.toBool();
+      out = var.toBool();
     }
   return exists;
 }
 
 
 bool
-QtSettingsConfigurator::get_value(string key, int *out) const
+QtSettingsConfigurator::get_value(const string &key, int &out) const
 {
   bool exists;
   QVariant var = qt_get_value(key, exists);
   if (exists)
     {
-      *out = var.toInt();
+      out = var.toInt();
     }
   return exists;
 }
 
 
 bool
-QtSettingsConfigurator::get_value(string key, long *out) const
+QtSettingsConfigurator::get_value(const string &key, long &out) const
 {
   bool exists;
   QVariant var = qt_get_value(key, exists);
   if (exists)
     {
-      *out = static_cast<long>(var.toInt());  // Why doesn't Qt have toLong?
+      out = static_cast<long>(var.toInt());  // Why doesn't Qt have toLong?
     }
   return exists;
 }
 
 
 bool
-QtSettingsConfigurator::get_value(string key, double *out) const
+QtSettingsConfigurator::get_value(const string &key, double &out) const
 {
   bool exists;
   QVariant var = qt_get_value(key, exists);
   if (exists)
     {
-      *out = var.toDouble();
+      out = var.toDouble();
     }
   return exists;
 }
 
 
 bool
-QtSettingsConfigurator::set_value(string key, string v)
+QtSettingsConfigurator::set_value(const string &key, string v)
 {
   bool ok = false;
   if (settings)
@@ -156,7 +163,7 @@ QtSettingsConfigurator::set_value(string key, string v)
 
 
 bool
-QtSettingsConfigurator::set_value(string key, int v)
+QtSettingsConfigurator::set_value(const string &key, int v)
 {
   bool ok = false;
   if (settings)
@@ -171,7 +178,7 @@ QtSettingsConfigurator::set_value(string key, int v)
 
 
 bool
-QtSettingsConfigurator::set_value(string key, long v)
+QtSettingsConfigurator::set_value(const string &key, long v)
 {
   bool ok = false;
   if (settings)
@@ -186,7 +193,7 @@ QtSettingsConfigurator::set_value(string key, long v)
 
 
 bool
-QtSettingsConfigurator::set_value(string key, bool v)
+QtSettingsConfigurator::set_value(const string &key, bool v)
 {
   bool ok = false;
   if (settings)
@@ -201,7 +208,7 @@ QtSettingsConfigurator::set_value(string key, bool v)
 
 
 bool
-QtSettingsConfigurator::set_value(string key, double v)
+QtSettingsConfigurator::set_value(const string &key, double v)
 {
   bool ok = false;
   if (settings)

@@ -48,8 +48,8 @@ $(IDL_C_GENERATED): $(IDL_C)
 
 INCLUDES 			= -I$(srcdir)
 
-FLAGS				= @APPLET_CFLAGS@ @WR_COMMON_CFLAGS@ @WR_FRONTEND_CFLAGS@ \
-	  	  		  -DWORKRAVE_DATADIR="\"${pkgdatadir}\"" \
+FLAGS				= @GNOME_CFLAGS@ @WR_COMMON_CFLAGS@ @WR_FRONTEND_CFLAGS@ \
+	  	  		  -DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 	  	  		  -DWORKRAVE_UIDATADIR="\"${uidir}\"" \
 	 		 	  -DGNOMELOCALEDIR="\"$(datadir)/locale\"" 
 
@@ -57,7 +57,7 @@ libexec_PROGRAMS 		= workrave-applet
 
 workrave_applet_SOURCES 	= WorkraveApplet.c
 nodist_workrave_applet_SOURCES 	= $(IDL_C_GENERATED) $(IDL_A_GENERATED)
-workrave_applet_LDADD 		= @APPLET_LIBS@
+workrave_applet_LDADD 		= @GNOME_LIBS@
 workrave_applet_CXXFLAGS 	= ${FLAGS}
 workrave_applet_CFLAGS 		= ${FLAGS}
 

@@ -789,7 +789,7 @@ BreakControl::send_signal(BreakStage stage)
   (void) stage;
 
 #ifdef HAVE_DBUS
-  char *progress = NULL;
+  const char *progress = NULL;
 
   switch (stage)
     {
@@ -816,7 +816,7 @@ BreakControl::send_signal(BreakStage stage)
 
   if (progress != NULL)
     {
-      workrave_service_send_break_stage_signal(break_id, progress);
+      workrave_core_send_break_stage_signal(break_id, progress);
     }
 
 #endif

@@ -156,8 +156,8 @@ Gtk::Widget *
 GtkUtil::create_label_for_break(BreakId id)
 {
   // FIXME: duplicate:
-  char *icons[] = { "timer-micro-break.png", "timer-rest-break.png", "timer-daily.png" };
-  char *labels[] = { _("Micro-break"), _("Rest break"), _("Daily limit") };
+  const char *icons[] = { "timer-micro-break.png", "timer-rest-break.png", "timer-daily.png" };
+  const char *labels[] = { _("Micro-break"), _("Rest break"), _("Daily limit") };
 
   string icon = Util::complete_directory(string(icons[id]), Util::SEARCH_PATH_IMAGES);
 
@@ -343,13 +343,8 @@ GtkUtil::center_window(Gtk::Window &window, HeadInfo &head)
 
   if (head.valid)
     {
-#ifdef HAVE_GTKMM24
       Gtk::Requisition size;
       window.size_request(size);
-#else
-      GtkRequisition size;
-      window.size_request(&size);
-#endif
 
 #ifdef WIN32
       TRACE_MSG(

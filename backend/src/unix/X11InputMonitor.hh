@@ -1,9 +1,9 @@
 // X11InputMonitor.hh --- ActivityMonitor for X11
 //
-// Copyright (C) 2001, 2002, 2003, 2006, 2007 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2006, 2007 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
-// Time-stamp: <2007-08-30 16:03:08 robc>
+// Time-stamp: <2007-10-08 20:49:55 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -41,9 +41,8 @@
 
 #include "IInputMonitor.hh"
 
-#include "Signal.hh"
+#include "Runnable.hh"
 #include "Thread.hh"
-
 
 //! Activity monitor for a local X server.
 class X11InputMonitor :
@@ -62,6 +61,8 @@ public:
 
   //! Terminate the monitor.
   virtual void terminate();
+
+private:
 
   //! The monitor's execution thread.
   virtual void run();
@@ -119,9 +120,6 @@ private:
 
   //! Abort the main loop
   bool abort;
-
-  //! Termination signal.
-  Signal wait_for_terminated_signal;
 
   //! Where to deliver action events.
   IInputMonitorListener *listener;

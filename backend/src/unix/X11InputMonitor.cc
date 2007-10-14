@@ -1,6 +1,6 @@
 // X11InputMonitor.cc --- ActivityMonitor for X11
 //
-// Copyright (C) 2001-2007 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001-2007 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -61,6 +61,10 @@ static const char rcsid[] = "$Id$";
 #ifdef HAVE_APP_GTK
 #include <gdk/gdk.h>
 #endif
+
+#include "Thread.hh"
+
+using namespace std;
 
 #ifndef HAVE_APP_GTK
 //! Intercepts X11 protocol errors.
@@ -146,6 +150,7 @@ X11InputMonitor::~X11InputMonitor()
   if (monitor_thread != NULL)
     {
       monitor_thread->wait();
+      delete monitor_thread;
     }
 
   if (x11_display_name != NULL)
@@ -556,7 +561,6 @@ X11InputMonitor::init_xrecord()
   TRACE_EXIT();
   return use_xrecord;
 }
-
 
 //! Stop the XRecord activity monitoring.
 bool

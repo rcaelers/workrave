@@ -1,6 +1,6 @@
 // PreferencesDialog.hh --- Statistics Dialog
 //
-// Copyright (C) 2002, 2003, 2006 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2006, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -23,6 +23,7 @@
 #include <sstream>
 
 #include "IStatistics.hh"
+#include "Hig.hh"
 
 namespace Gtk
 {
@@ -31,8 +32,6 @@ namespace Gtk
   class Calendar;
   class Notebook;
 }
-
-#include "Hig.hh"
 
 class StatisticsDialog : public HigDialog
 {

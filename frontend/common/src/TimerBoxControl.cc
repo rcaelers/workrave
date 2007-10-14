@@ -1,6 +1,6 @@
 // TimerBoxControl.cc --- Timers Widgets
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -510,7 +510,7 @@ TimerBoxControl::read_configuration()
 
 //! Callback that the configuration has changed.
 void
-TimerBoxControl::config_changed_notify(string key)
+TimerBoxControl::config_changed_notify(const string &key)
 {
   (void) key;
 
@@ -529,7 +529,7 @@ TimerBoxControl::get_cycle_time(string name)
 {
   int ret;
   if (! CoreFactory::get_configurator()
-      ->get_value(TimerBoxControl::CFG_KEY_TIMERBOX + name + TimerBoxControl::CFG_KEY_TIMERBOX_CYCLE_TIME, &ret))
+      ->get_value(TimerBoxControl::CFG_KEY_TIMERBOX + name + TimerBoxControl::CFG_KEY_TIMERBOX_CYCLE_TIME, ret))
     {
       ret = 10;
     }
@@ -561,7 +561,7 @@ TimerBoxControl::get_timer_imminent_time(string name, BreakId timer)
   const string key = get_timer_config_key(name, timer, CFG_KEY_TIMERBOX_IMMINENT);
   int ret;
   if (! CoreFactory::get_configurator()
-      ->get_value(key, &ret))
+      ->get_value(key, ret))
     {
       ret = 30;
     }
@@ -583,7 +583,7 @@ TimerBoxControl::get_timer_slot(string name, BreakId timer)
   const string key = get_timer_config_key(name, timer, CFG_KEY_TIMERBOX_POSITION);
   int ret;
   if (! CoreFactory::get_configurator()
-      ->get_value(key, &ret))
+      ->get_value(key, ret))
     {
       if (name == "applet")
         {
@@ -614,7 +614,7 @@ TimerBoxControl::get_timer_flags(string name, BreakId timer)
   const string key = get_timer_config_key(name, timer, CFG_KEY_TIMERBOX_FLAGS);
   int ret;
   if (! CoreFactory::get_configurator()
-      ->get_value(key, &ret))
+      ->get_value(key, ret))
     {
       ret = 0;
     }
@@ -635,7 +635,7 @@ TimerBoxControl::is_enabled(string name)
 {
   bool ret = true;
   if (! CoreFactory::get_configurator()
-      ->get_value(CFG_KEY_TIMERBOX + name + CFG_KEY_TIMERBOX_ENABLED, &ret))
+      ->get_value(CFG_KEY_TIMERBOX + name + CFG_KEY_TIMERBOX_ENABLED, ret))
     {
       ret = true;
     }

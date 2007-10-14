@@ -48,7 +48,6 @@ static const char rcsid[] = "$Id$";
 #include "desktop-window.h"
 #endif
 
-
 //! Constructor
 /*!
  *  \param control The controller.
@@ -104,18 +103,16 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
     }
 
   this->head = head;
-#ifdef HAVE_GTK_MULTIHEAD
   if (head.valid)
     {
       Gtk::Window::set_screen(head.screen);
     }
-#endif
 
   bool initial_ignore_activity = false;
 #ifdef WIN32
   bool force_focus = false;
-  CoreFactory::get_configurator()->get_value_default( "advanced/force_focus",
-                                                      &force_focus,
+  CoreFactory::get_configurator()->get_value_with_default( "advanced/force_focus",
+                                                      force_focus,
                                                       false);
   if (force_focus)
     {
@@ -169,7 +166,7 @@ BreakWindow::init_gui()
 #ifdef WIN32
               desktop_window = new DesktopWindow(head);
               add(*window_frame);
-#else
+#elif defined(HAVE_X11)
               set_size_request(head.get_width(),
                                head.get_height());
               set_app_paintable(true);
@@ -189,9 +186,9 @@ BreakWindow::init_gui()
       stick();
 
       // Set window hints.
-      WindowHints::set_skip_winlist(Gtk::Widget::gobj(), true);
+      WindowHints::set_skip_winlist(this, true);
       // causes windows to display on win32
-      // WindowHints::set_always_on_top(Gtk::Widget::gobj(), true);
+      // WindowHints::set_always_on_top(this, true);
 
       // FIXME: check if it was intentionally not unset for RB
       if (break_id != BREAK_ID_REST_BREAK)
@@ -238,7 +235,7 @@ BreakWindow::create_lock_button()
     {
       ret = manage(GtkUtil::create_image_button(_("Lock"), "lock.png"));
       ret->signal_clicked()
-        .connect(MEMBER_SLOT(*this, &BreakWindow::on_lock_button_clicked));
+        .connect(sigc::mem_fun(*this, &BreakWindow::on_lock_button_clicked));
       GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
     }
   else
@@ -257,7 +254,7 @@ BreakWindow::create_shutdown_button()
     {
       ret = manage(GtkUtil::create_image_button(_("Shut down"), "shutdown.png"));
       ret->signal_clicked()
-        .connect(MEMBER_SLOT(*this, &BreakWindow::on_shutdown_button_clicked));
+        .connect(sigc::mem_fun(*this, &BreakWindow::on_shutdown_button_clicked));
       GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
     }
   else
@@ -274,7 +271,7 @@ BreakWindow::create_skip_button()
   Gtk::Button *ret;
   ret = manage(GtkUtil::create_custom_stock_button(_("Skip"), Gtk::Stock::CLOSE));
   ret->signal_clicked()
-    .connect(MEMBER_SLOT(*this, &BreakWindow::on_skip_button_clicked));
+    .connect(sigc::mem_fun(*this, &BreakWindow::on_skip_button_clicked));
   GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
   return ret;
 }
@@ -287,7 +284,7 @@ BreakWindow::create_postpone_button()
   Gtk::Button *ret;
   ret = manage(GtkUtil::create_custom_stock_button(_("Postpone"), Gtk::Stock::REDO));
   ret->signal_clicked()
-    .connect(MEMBER_SLOT(*this, &BreakWindow::on_postpone_button_clicked));
+    .connect(sigc::mem_fun(*this, &BreakWindow::on_postpone_button_clicked));
   GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
   return ret;
 }
@@ -418,8 +415,8 @@ BreakWindow::start()
   show_all();
 
   // Set window hints.
-  WindowHints::set_skip_winlist(Gtk::Widget::gobj(), true);
-  WindowHints::set_always_on_top(Gtk::Widget::gobj(), true);
+  WindowHints::set_skip_winlist(this, true);
+  WindowHints::set_always_on_top(this, true);
   raise();
 
 #ifdef CAUSES_FVWM_FOCUS_PROBLEMS
@@ -471,7 +468,7 @@ BreakWindow::refresh()
 #ifdef WIN32
   if (block_mode != GUI::BLOCK_MODE_NONE)
     {
-      WindowHints::set_always_on_top(Gtk::Widget::gobj(), true);
+      WindowHints::set_always_on_top(this, true);
     }
 #endif
 }

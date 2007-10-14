@@ -1,6 +1,6 @@
-// Thread.hh --- Thread class
+// ActivityMonitorListener.hh
 //
-// Copyright (C) 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -16,34 +16,17 @@
 // $Id$
 //
 
-#ifndef THREAD_HH
-#define THREAD_HH
+#ifndef ACTIVITYMONITORLISTENER_HH
+#define ACTIVITYMONITORLISTENER_HH
 
-#include <windows.h>
-#include "Runnable.hh"
-
-
-/*!
- * Thread class.
- */
-class Thread : public Runnable
+//! Listener for user activity from the Activity Monitor
+class ActivityMonitorListener
 {
 public:
-  Thread(bool auto_delete = false);
-  virtual ~Thread();
+  virtual ~ActivityMonitorListener() {}
 
-  virtual void start();
-  void wait();
-  virtual void run();
-
-  static void sleep(long millis, int nanos = 0);
-
-private:
-  static DWORD WINAPI thread_handler(LPVOID lpParameter);
-
-  HANDLE thread_handle;
-  bool auto_delete;
+  // Notification that the user is currently active.
+  virtual bool action_notify() = 0;
 };
 
-
-#endif // THREAD_HH
+#endif // ACTIVITYMONITORLISTENER_HH

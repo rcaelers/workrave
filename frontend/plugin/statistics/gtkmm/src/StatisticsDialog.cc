@@ -79,7 +79,7 @@ int
 StatisticsDialog::run()
 {
   // Periodic timer.
-  Glib::signal_timeout().connect(MEMBER_SLOT(*this, &StatisticsDialog::on_timer), 1000);
+  Glib::signal_timeout().connect(sigc::mem_fun(*this, &StatisticsDialog::on_timer), 1000);
 
   show_all();
   return 0;
@@ -94,8 +94,8 @@ StatisticsDialog::init_gui()
 
   // Calendar
   calendar = manage(new Gtk::Calendar());
-  calendar->signal_month_changed().connect(MEMBER_SLOT(*this, &StatisticsDialog::on_calendar_month_changed));
-  calendar->signal_day_selected().connect(MEMBER_SLOT(*this, &StatisticsDialog::on_calendar_day_selected));
+  calendar->signal_month_changed().connect(sigc::mem_fun(*this, &StatisticsDialog::on_calendar_month_changed));
+  calendar->signal_day_selected().connect(sigc::mem_fun(*this, &StatisticsDialog::on_calendar_day_selected));
   calendar->display_options(Gtk::CALENDAR_SHOW_WEEK_NUMBERS
                             |Gtk::CALENDAR_SHOW_DAY_NAMES
                             |Gtk::CALENDAR_SHOW_HEADING);
@@ -105,19 +105,19 @@ StatisticsDialog::init_gui()
   first_btn
     = manage(GtkUtil::create_custom_stock_button(NULL,Gtk::Stock::GOTO_FIRST));
   first_btn->signal_clicked()
-    .connect(MEMBER_SLOT(*this, &StatisticsDialog::on_history_goto_first));
+    .connect(sigc::mem_fun(*this, &StatisticsDialog::on_history_goto_first));
   last_btn
     = manage(GtkUtil::create_custom_stock_button(NULL,Gtk::Stock::GOTO_LAST));
   last_btn->signal_clicked()
-    .connect(MEMBER_SLOT(*this, &StatisticsDialog::on_history_goto_last));
+    .connect(sigc::mem_fun(*this, &StatisticsDialog::on_history_goto_last));
   back_btn
     = manage(GtkUtil::create_custom_stock_button(NULL,Gtk::Stock::GO_BACK));
   back_btn->signal_clicked()
-    .connect(MEMBER_SLOT(*this, &StatisticsDialog::on_history_go_back));
+    .connect(sigc::mem_fun(*this, &StatisticsDialog::on_history_go_back));
   forward_btn
     = manage(GtkUtil::create_custom_stock_button(NULL,Gtk::Stock::GO_FORWARD));
   forward_btn->signal_clicked()
-    .connect(MEMBER_SLOT(*this, &StatisticsDialog::on_history_go_forward));
+    .connect(sigc::mem_fun(*this, &StatisticsDialog::on_history_go_forward));
 
   btnbox->pack_start(*first_btn, true, true, 0);
   btnbox->pack_start(*back_btn, true, true, 0);

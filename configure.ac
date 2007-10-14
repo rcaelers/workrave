@@ -1,147 +1,136 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl
-dnl Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
+dnl Copyright (C) 2001 - 2007 Rob Caelers & Raymond Penners
 dnl
 dnl
 dnl $Id$
 dnl
 
-AC_INIT(backend/src/Core.cc)
+AC_INIT(workrave, [1.8.6-preview1],
+        [http://issues.workrave.org/cgi-bin/bugzilla/enter_bug.cgi])
 
-dnl m4_pattern_allow(AM_PATH_ORBIT2)
+dnl Demand at least version 2.61 of autoconf.
+AC_PREREQ(2.61)
 
-dnl Demand at least version 2.57 of autoconf.
-AC_PREREQ(2.57)
-
+dnl Automake
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(workrave, 1.8.6-pre)
+AM_INIT_AUTOMAKE(workrave, 1.8.6-preview1)
+AM_MAINTAINER_MODE
+
 
 dnl Set of available languages.
 ALL_LINGUAS="nl de eo pl da es zh_TW ru fr pt_BR no lt cs he eu ca sv ja bg hu tr el sk zh_CN it sl"
 
-LANGFILE=frontend/gtkmm/win32/setup/lang.iss
-echo -n "; language.iss --- Inno setup file, support languages" > $LANGFILE
-echo -en "\r\n" >> $LANGFILE
-for a in $ALL_LINGUAS; do
-    X="Source: \"..\\..\\..\\..\\po\\$a.gmo\"; DestDir: \"{app}\\lib\\locale\\$a\\LC_MESSAGES\"; DestName: \"workrave.mo\"; Flags: ignoreversion;"
-    echo -n $X     >> $LANGFILE
-    echo -en "\r\n" >> $LANGFILE
-done
-        
-dnl some command line options.                           
-GCONF_LIBS=""
-AC_ARG_ENABLE( app-gtk,
-  [  --disable-app-gtk       compile without Gtk/Gnome support],
-       config_with_gtk=$enableval
-       ,
-       config_with_gtk=yes
-    )
+dnl
+dnl Command line options.                           
+dnl
 
-AC_ARG_ENABLE( app-text,
-  [  --enable-app-text       compile with Dummy text GUI support],
-       config_with_text=$enableval
-       ,
-       config_with_text=no
-    )
+AC_ARG_ENABLE(app-gtk,
+              [AC_HELP_STRING([--disable-app-gtk],
+                              [compile without Gtk/Gnome support])],
+              [config_gtk=$enableval], [config_gtk=yes])
+
+AC_ARG_ENABLE(app-text,
+              [AC_HELP_STRING([--enable-app-text],
+                              [compile with dummy text GUI support])],
+              [config_text=$enableval], [config_text=no])
     
-AC_ARG_ENABLE( gconf,
-  [  --enable-gconf          compile with Gnome gconf2 support],
-       config_with_gconf=$enableval
-       ,
-       config_with_gconf=no
-    )
+AC_ARG_ENABLE(xml,
+              [AC_HELP_STRING([--disable-xml],
+                              [compile without XML support])],
+              [config_xml=$enableval], [config_xml=yes])
 
-AC_ARG_ENABLE( xml,
-  [  --enable-xml            compile with XML support],
-       config_with_xml=$enableval
-       ,
-       config_with_xml=no
-    )
+AC_ARG_ENABLE(gconf,
+              [AC_HELP_STRING([--disable-gconf],
+                              [compile without Gnome gconf2 support])],
+              [config_gconf=$enableval], [config_gconf=yes])
 
 AC_ARG_ENABLE( gnome,
-  [  --disable-gnome         compile without Gnome support],
-       config_with_gnome=$enableval
-       ,
-       config_with_gnome=yes
-    )
+              [AC_HELP_STRING([--disable-gnome],
+                              [compile without Gnome support])],
+              [config_gnome=$enableval], [config_gnome=yes])
 
 AC_ARG_ENABLE( gnomemm,
-  [  --disable-gnomemm       compile without Gnomeuimm support],
-       config_with_gnomemm=$enableval
-       ,
-       config_with_gnomemm=yes
-    )
+              [AC_HELP_STRING([--disable-gnomemm],
+                              [compile without Gnomeuimm support])],
+              [config_gnomemm=$enableval], [config_gnomemm=yes])
 
 AC_ARG_ENABLE( dbus,
-  [  --enable-dbus           compile with DBus support],
-       config_with_dbus=$enableval
-       ,
-       config_with_dbus=no
-    )
-
-    
+              [AC_HELP_STRING([--enable-dbus],
+                              [compile with DBus support])],
+              [config_dbus=$enableval], [config_dbus=no])
+ 
 AC_ARG_ENABLE( kde,
-  [  --enable-kde            compile with KDE support],
-       config_with_kde=$enableval
-       ,
-       config_with_kde=no
-    )
-    
-AC_ARG_ENABLE( registry,
-  [  --enable-registry       compile with Win32 registry support],
-       config_with_registry=$enableval
-       ,
-       config_with_registry=no
-    )
+              [AC_HELP_STRING([--enable-kde],
+                              [compile with KDE support])],
+              [config_kde=$enableval], [config_kde=no])
     
 AC_ARG_ENABLE( debug,
-  [  --enable-debug          compile with debugging flags set],
-       config_debug=$enableval
-       ,
-       config_debug=no
-    )
+              [AC_HELP_STRING([--enable-debug],
+                              [compile with debugging flags set])],
+              [config_debug=$enableval], [config_debug=no])
 
 AC_ARG_ENABLE( distribution,
-  [  --disable-distribution  compile without support for distributed operation],
-       config_distribution=$enableval
-       ,
-       config_distribution=yes
-    )
+              [AC_HELP_STRING([--disable-distribution],
+                              [compile without support for distributed operation])],
+              [config_distribution=$enableval], [config_distribution=yes])
 
 AC_ARG_ENABLE( exercises,
-  [  --disable-exercises      compile without exercises support],
-       config_exercises=$enableval
-       ,
-       config_exercises=yes
-    )
+              [AC_HELP_STRING([--disable-exercises],
+                              [compile without exercises support])],
+              [config_exercises=$enableval], [config_exercises=yes])
 
-AC_ARG_ENABLE( experimental,
-  [  --disable-experimental  compile without experimental features],
-       config_experimental=$enableval
-       ,
-       config_experimental==yes
-    )
+AC_ARG_ENABLE( tests,
+              [AC_HELP_STRING([--enable-tests],
+                              [compile with test code])],
+              [config_tests=$enableval], [config_tests=no])
 
-dnl AC_MSG_CHECKING(whether to link statically)
-dnl AC_ARG_WITH(static-linking,
-dnl [  --with-static-linking   Link binaries statically],
-dnl [ case "$withval" in
-dnl   no)
-dnl         AC_MSG_RESULT(no)
-dnl         LIBTOOL_FLAGS=""
-dnl         ;;
-dnl   *)
-dnl         AC_MSG_RESULT(yes)
-dnl         LIBTOOL_FLAGS="-all-static"
-dnl   esac],
-dnl AC_MSG_RESULT(no)
-dnl )
-dnl 
-dnl AC_SUBST(LIBTOOL_FLAGS)
 
-if test "x$config_debug" = "xyes"; then
-   CFLAGS="${CFLAGS} -g -Wall -DGLIBCXX_FORCE_NEW -DGLIBCPP_FORCE_NEW"
-   CXXFLAGS="${CXXFLAGS} -g -Wall -DGLIBCXX_FORCE_NEW -DGLIBCPP_FORCE_NEW"
+dnl
+dnl Checks for programs
+dnl
+
+AC_PROG_CC
+AC_PROG_CXX
+AC_PROG_CPP
+AC_GNU_SOURCE
+AC_PROG_INSTALL
+AC_PROG_LN_S
+AC_PROG_MAKE_SET
+AC_ISC_POSIX
+AM_PROG_LIBTOOL
+AC_CHECK_PROGS(M4, gm4 m4, m4)
+
+dnl
+dnl checks for compiler characteristics
+dnl
+
+AC_LANG_CPLUSPLUS
+AC_REQUIRE_CPP
+AC_C_INLINE
+AC_C_CONST
+
+
+dnl
+dnl Headers/Types/Functions
+dnl
+
+AC_STDC_HEADERS
+AC_HEADER_STDC
+AC_CHECK_HEADERS([errno.h stdlib.h sys/time.h sys/select.h unistd.h])
+AC_CHECK_MEMBER(MOUSEHOOKSTRUCT.hwnd,AC_DEFINE(HAVE_STRUCT_MOUSEHOOKSTRUCT,,[struct MOUSEHOOKSTRUCT]),, [#include <windows.h>])
+
+AC_TYPE_SIGNAL
+AC_CHECK_FUNCS([gettimeofday nanosleep select setlocale])
+
+dnl
+dnl Debug
+dnl
+
+if test "x$config_debug" = "xyes"
+then
+   CFLAGS="${CFLAGS} -O0 -g -Wall -DGLIBCXX_FORCE_NEW -DGLIBCPP_FORCE_NEW"
+   CXXFLAGS="${CXXFLAGS} -O0 -g -Wall -DGLIBCXX_FORCE_NEW -DGLIBCPP_FORCE_NEW"
    LDFLAGS="${LDFLAGS} -g"
 else
    CFLAGS="${CFLAGS} -Os -g -DNDEBUG"
@@ -149,9 +138,6 @@ else
    LDFLAGS="${LDFLAGS} -g"
 fi
 
-dnl Include --enable-maintainer-mode option.
-AM_MAINTAINER_MODE
-                                                      
 dnl Update version and date.                           
 AC_SUBST(VERSION)
 ISODATE=`date +%Y-%m-%d`
@@ -160,218 +146,189 @@ AC_SUBST(ISODATE)
 AC_CANONICAL_HOST
 AC_PREFIX_PROGRAM(workrave)
 
-dnl Checks for programs.
-AC_PROG_CC
-AC_PROG_CXX
-AC_PROG_CPP
-AC_PROG_INSTALL
-AC_PROG_LN_S
-AC_PROG_MAKE_SET
-dnl AC_PROG_RANLIB
-AC_ISC_POSIX
-dnl AC_ARG_PROGRAM
-AM_PROG_LIBTOOL
+dnl
+dnl Checking target platform.
+dnl
+AC_MSG_CHECKING([for platform])
 
-dnl Checks for programs.
-AC_CHECK_PROGS(M4, gm4 m4, m4)
-AC_CHECK_DOXYGEN
+platform_os_win32=no
+platform_os_osx=no
+platform_os_unix=no
+platform_variant_x11=no
+platform_variant_gnome=no
+platform_variant_kde=no
 
-dnl Copied from the official gtk+-2 configure.in
-AC_MSG_CHECKING([for some Win32 platform])
-case "$host" in
-  *-*-mingw*|*-*-cygwin*)
-    platform_win32=yes
-    config_with_gnome=no
-    config_with_kde=no
+case x"$target" in
+  xNONE | x)
+    target_or_host="$host" ;;
+  *)
+    target_or_host="$target" ;;
+esac
+
+case "$target_or_host" in
+  *-*mingw*|*-*-cygwin*)
+    platform_os_win32=yes
+    platform_os_name="Windows"
+   AC_DEFINE(PLATFORM_OS_WIN32,,[Define if compiling for the Win32 platform])
+    ;;
+  *-*-darwin* | *-*-rhapsody*)
+    platform_os_osx=yes
+    platform_os_name="OS X"
+   AC_DEFINE(PLATFORM_OS_OSX,,[Define if compiling for the OS X platform])
     ;;
   *)
-    platform_win32=no
-    config_with_registry=no
+    platform_os_unix=yes
+    platform_os_name="Unix"
+   AC_DEFINE(PLATFORM_OS_UNIX,,[Define if compiling for a Unix platform])
     ;;
 esac
-AC_MSG_RESULT([$platform_win32])
-AM_CONDITIONAL(PLATFORM_WIN32, test "$platform_win32" = "yes")
 
-PLATFORM_WIN32=
-if test "$platform_win32" = "yes"; then
-   AC_DEFINE(PLATFORM_WIN32,,[Define if this is compiled for some Win32 platform])
-   #if test "x$config_debug" = "xyes"; then
-   #   LDFLAGS="${LDFLAGS} -lduma -lbfd -liberty -lintl"
-   #fi
-fi
+AC_MSG_RESULT([$platform_os_name])
 
-AC_MSG_CHECKING([for native Win32])
-case "$host" in
-  *-*-mingw*)
-    native_win32=yes
+AM_CONDITIONAL(PLATFORM_OS_WIN32, test "$platform_os_win32" = "yes")
+AM_CONDITIONAL(PLATFORM_OS_OSX, test "$platform_os_osx" = "yes")
+AM_CONDITIONAL(PLATFORM_OS_UNIX, test "$platform_os_unix" = "yes")
+
+dnl
+dnl Windows specific checks
+dnl
+
+LIBSTDCPP_LIBS=
+WIN32CONSOLE=
+
+if test "x$platform_os_win32" = "xyes"
+then
     LIBSTDCPP_LIBS=-lstdc++
-    ;;
-  *)
-    native_win32=no
-    LIBSTDCPP_LIBS=
-    ;;
-esac
-AC_SUBST(LIBSTDCPP_LIBS)
-AC_MSG_RESULT([$native_win32])
-AM_CONDITIONAL(PLATFORM_NATIVE_WIN32, test "$native_win32" = "yes")
 
-PLATFORM_NATIVE_WIN32=
-if test "$native_win32" = "yes"; then
-   AC_DEFINE(PLATFORM_NATIVE_WIN32,,[Define if this is compiled for a native Win32 platform])
-fi
-
-if test "x$config_with_registry" = "xno" -a "x$config_with_xml" = "xno" -a "x$config_with_gconf" = "xno" ; then
-    if test "x$platform_win32" = "xyes" ; then
-       config_with_registry=yes
-    elif test "x$config_with_gnome" = "xyes" ; then
-       config_with_gconf=yes
-    else    
-       config_with_xml=yes
+    if test "x$config_debug" != "xyes"
+    then
+        WIN32CONSOLE=-mwindows
     fi
+
+    config_gconf=no
+    config_gnome=no
+    config_gnomemm=no
+    config_xml=no
 fi
+
+AC_SUBST(LIBSTDCPP_LIBS)
+AC_SUBST(WIN32CONSOLE)
+
+dnl
+dnl OSX specific checks
+dnl
+
+if test "$platform_os_osx" = "yes"
+then
+   AC_CHECK_LIB(resolv, res_query)
+
+   AC_CHECK_HEADER(CoreFoundation/CoreFoundation.h, [ AC_CHECK_HEADER(IOKit/IOKitLib.h,
+                                     [  AC_DEFINE(HAVE_IOKIT, 1, [Define if we have IOKit])
+                                        LIBS="$LIBS -framework IOKit -framework CoreFoundation"
+                                     ])])
+
+    config_gnome=no
+    config_gnomemm=no
+    config_gconf=no
+
+    LIBS="$LIBS -framework QuickTime -framework CoreServices -framework Carbon"
+ fi
+
+dnl
+dnl Unix specific checks
+dnl
+
+if test "$platform_os_unix" = "yes"
+then
+    AC_PATH_X
+    AC_PATH_XTRA
+    AC_CHECK_HEADER("X11/Xmu/Xmu.h",,)
     
-dnl Various compiler setup.
-AC_C_INLINE
-AC_C_CONST
-
-# Checks for header files.
-AC_PATH_X
-AC_PATH_XTRA
-
-AC_CHECK_HEADER("X11/Xmu/Xmu.h",,)
-   
-LIBS_save=$LIBS
-if test -n "$ac_x_libraries"; then
-   LIBS="$LIBS -L $ac_x_libraries"
+    LIBS_save=$LIBS
+    if test -n "$ac_x_libraries"
+    then
+       LIBS="$LIBS -L $ac_x_libraries"
+    fi
+    AC_CHECK_LIB(Xtst, XRecordEnableContext,
+                       X_LIBS="$X_LIBS -lXtst" AC_DEFINE(HAVE_XRECORD,,[Define if the RECORD extension is available]),
+    )
+    LIBS=$LIBS_save
 fi
-AC_CHECK_LIB(Xtst, XRecordEnableContext,
-                   X_LIBS="$X_LIBS -lXtst" AC_DEFINE(HAVE_XRECORD,,[Define if the RECORD extension is available]),
-)
-LIBS=$LIBS_save
 
+dnl
+dnl GLIB
+dnl
 
-AC_STDC_HEADERS
-AC_HEADER_STDC
-AC_CHECK_HEADERS([errno.h stdlib.h sys/time.h sys/select.h unistd.h])
-AC_CHECK_HEADER(pthread.h,,)
-                              
-# Checks for typedefs, structures, and compiler characteristics.
-AC_C_CONST
-AC_HEADER_TIME
-
-AC_CHECK_MEMBER(struct timespec.tv_sec, AC_DEFINE(HAVE_STRUCT_TIMESPEC,,[struct timespec]),, [dnl
-#if TIME_WITH_SYS_TIME
-# include <sys/time.h>
-# include <time.h>
-#else
-# if HAVE_SYS_TIME_H
-#  include <sys/time.h>
-# else
-#  include <time.h>
-# endif
-#endif
-])
-
-AC_CHECK_MEMBER(struct timezone.tz_minuteswest,AC_DEFINE(HAVE_STRUCT_TIMEZONE,,[struct timezone]),, [dnl
-#if TIME_WITH_SYS_TIME
-# include <sys/time.h>
-# include <time.h>
-#else
-# if HAVE_SYS_TIME_H
-#  include <sys/time.h>
-# else
-#  include <time.h>
-# endif
-#endif
-])
-
-AC_CHECK_MEMBER(MOUSEHOOKSTRUCT.hwnd,AC_DEFINE(HAVE_STRUCT_MOUSEHOOKSTRUCT,,[struct MOUSEHOOKSTRUCT]),, [#include <windows.h>])
-
-# Checks for library functions.
-AC_TYPE_SIGNAL
-AC_CHECK_FUNCS([gettimeofday nanosleep select setlocale])
-
-PKG_CHECK_MODULES(GLIB, glib-2.0)
+PKG_CHECK_MODULES(GLIB,
+                glib-2.0 \
+                gmodule-2.0 \
+                gthread-2.0)
 
 AC_SUBST(GLIB_LIBS)
 AC_SUBST(GLIB_CFLAGS)
 
-if test "x$config_with_gtk" = "xyes"
+dnl
+dnl GTK
+dnl
+
+if test "x$config_gtk" = "xyes"
 then
-  AC_SUBST(SIGC_LIBS)
-  AC_SUBST(SIGC_CFLAGS)
+    PKG_CHECK_MODULES(GTK,
+                      gtk+-2.0 >= 2.6.0 \
+                      gdk-2.0 \
+                      sigc++-2.0 \
+                      glibmm-2.4 \
+                      gtkmm-2.4)
+fi
 
-  PKG_CHECK_MODULES(GTK, gtk+-2.0)
-  PKG_CHECK_MODULES(GDK, gdk-2.0)
+AC_SUBST(GTK_LIBS)
+AC_SUBST(GTK_CFLAGS)
 
-  AC_SUBST(GTK_LIBS)
-  AC_SUBST(GTK_CFLAGS)
 
-  PKG_CHECK_MODULES(GLIBMM, glibmm-2.4,, :)
-  PKG_CHECK_MODULES(GTKMM, gtkmm-2.4,, :)
+dnl
+dnl GNome
+dnl
 
-  HAVE_GTKMM24=
-  if test "x$GLIBMM_LIBS" = "x" -o "x$GTKMM_LIBS" = "x"
-  then
-        PKG_CHECK_MODULES(SIGC, sigc++-1.2)
-        PKG_CHECK_MODULES(GLIBMM, glibmm-2.0)
-        PKG_CHECK_MODULES(GTKMM, gtkmm-2.0)
-
-        have_gtkmm24=no
-
-  else
-        PKG_CHECK_MODULES(SIGC, sigc++-2.0)
-        AC_DEFINE(HAVE_GTKMM24,,[Define if gtk2.4 is used])
-
-        have_gtkmm24=yes
-  fi
-
-  AC_SUBST(GLIBMM_LIBS)
-  AC_SUBST(GLIBMM_CFLAGS)
-
-  AC_SUBST(GTKMM_LIBS)
-  AC_SUBST(GTKMM_CFLAGS)
-
-  if test "x$config_with_gnome" = "xyes"
-  then
-    if test "x$config_with_gnomemm" = "xyes"
+if test "x$config_gnome" = "xyes";
+then
+    if test "x$config_gnomemm" = "xyes";
     then
-
-      if test "x$have_gtkmm24" = "xyes"
-      then
-          PKG_CHECK_MODULES(GNOMEUIMM, libgnomeuimm-2.6)
-      else
-          PKG_CHECK_MODULES(GNOMEUIMM, libgnomeuimm-2.6,,:)
-      fi
-      
-      AC_SUBST(GNOMEUIMM)
-
-      if test "x$GNOMEUIMM_LIBS" = "x"
-      then
-          PKG_CHECK_MODULES(GNOMEUIMM, libgnomeuimm-2.0)
-      fi
+        PKG_CHECK_MODULES(GNOMEMM, libgnomeuimm-2.6)
     fi
 
-    PKG_CHECK_MODULES(GNOMEUI, libgnomeui-2.0)
-    PKG_CHECK_MODULES(APPLET, libpanelapplet-2.0 >= 2.0.10)
-    PKG_CHECK_MODULES(BONOBO, libbonobo-2.0 >= 2.0.0)
-
-    AM_PATH_ORBIT2(2.8.3)
+    PKG_CHECK_MODULES(GNOME,
+                      libgnomeui-2.0 \
+                      libpanelapplet-2.0 >= 2.0.10 \
+                      libbonobo-2.0 >= 2.0.0 \
+                      bonobo-activation-2.0 \
+                      ORBit-2.0 >= 2.8.3)
 
     AC_MSG_CHECKING(for CORBA include paths)
     IDL_INCLUDES="-I "`pkg-config --variable=idldir libbonobo-2.0`" -I "`pkg-config --variable=idldir bonobo-activation-2.0`
     AC_MSG_RESULT($IDL_INCLUDES)
-    AC_SUBST(IDL_INCLUDES)
 
-  else
-    config_with_gnomemm=no
-  fi
+    AC_PATH_PROG(ORBIT_IDL, orbit-idl-2)
+    AC_SUBST(ORBIT_IDL)
+    
+else
+  config_gnomemm=no
+fi
 
-  KDE_MISC_TESTS
-  if test "x$config_with_kde" = "xyes"
-  then
+AC_SUBST(GNOME_LIBS)
+AC_SUBST(GNOME_CFLAGS)
+AC_SUBST(GNOMEMM_LIBS)
+AC_SUBST(GNOMEMM_CFLAGS)
+AC_SUBST(IDL_INCLUDES)
+   
+
+dnl
+dnl KDE
+dnl
+  
+KDE_MISC_TESTS
+if test "x$config_kde" = "xyes";
+then
     AC_BASE_PATH_KDE
-    dnl KDE_SET_PREFIX
 
     dnl for NLS support. Call them in this order!
     dnl WITH_NLS is for the po files
@@ -380,67 +337,23 @@ then
 
     KDE_USE_QT(3.0.0)
     AC_PATH_KDE
-    #MIN_CONFIG(3.0.0)
 
     dnl PACKAGE set before
     AC_CHECK_KDEMAXPATHLEN
 
     KDE_CREATE_SUBDIRSLIST
-  else
-     build_arts="no"
-     include_ARTS_TRUE='#'
-     include_ARTS_FALSE=
-  fi
-  
-  dnl
-  dnl check if we have gtk+ 2.1.x (again - for multihead support)
-  dnl
-  AC_MSG_CHECKING([for gtk+ multihead support])
-  if test "$platform_win32" != "yes"; then
-    if $PKG_CONFIG --atleast-version 2.1.0 gtk+-2.0; then
-      AC_DEFINE(HAVE_GTK_MULTIHEAD,,[gtk+ with multihead support found])
-      AC_MSG_RESULT(yes)
-    else
-      AC_MSG_RESULT(no)
-    fi
-  else
-    if $PKG_CONFIG --atleast-version 2.2.4 gtk+-2.0; then
-      AC_DEFINE(HAVE_GTK_MULTIHEAD,,[gtk+ with multihead support found])
-      AC_MSG_RESULT(yes)
-    else
-      AC_MSG_RESULT(no)
-    fi
-  fi
 else
-   KDE_MISC_TESTS
-   build_arts="no"
-   include_ARTS_TRUE='#'
-   include_ARTS_FALSE=
+    build_arts="no"
+    include_ARTS_TRUE='#'
+    include_ARTS_FALSE=
 fi
 
-AC_SUBST(GNOMEUIMM_LIBS)
-AC_SUBST(GNOMEUIMM_CFLAGS)
-        
-AC_SUBST(GNOMEUI_LIBS)
-AC_SUBST(GNOMEUI_CFLAGS)
+  
+dnl
+dnl GCONF
+dnl
 
-AC_SUBST(APPLET_CFLAGS)
-AC_SUBST(APPLET_LIBS)
-                
-PKG_CHECK_MODULES(GMODULE, gmodule-2.0)
-
-AC_SUBST(GMODULE_LIBS)
-AC_SUBST(GMODULE_CFLAGS)
-
-PKG_CHECK_MODULES(GTHREAD, gthread-2.0)
-
-AC_SUBST(GTHREAD_LIBS)
-AC_SUBST(GTHREAD_CFLAGS)
-
-GCONF_LIBS=""
-GCONF_CFLAGS=""
-                        
-if test "x$config_with_gconf" = "xyes"
+if test "x$config_gconf" = "xyes"
 then
   PKG_CHECK_MODULES(GCONF, gconf-2.0)
 fi
@@ -448,28 +361,61 @@ fi
 AC_SUBST(GCONF_LIBS)
 AC_SUBST(GCONF_CFLAGS)
 
+dnl
+dnl GNet2
+dnl
+
 if test "x$config_distribution" = "xyes"
 then
-dnl AM_PATH_GNET_2_0(2.0.0,[] ,[] )
-PKG_CHECK_MODULES(GNET, gnet-2.0)
-GNET2=yes                          
-dnl AM_PATH_GNET(1.1.7,[] ,[] )
+    PKG_CHECK_MODULES(GNET, gnet-2.0)
+    GNET2=yes                          
+
+    dnl OS X doesn't have the pkgconfig file, win32 doesn't have uuid
+    # 1.9.0 stuff
+    #if test "$platform_os_unix" = "yes"
+    #then
+    #    PKG_CHECK_MODULES(UUID, uuid)
+    #fi
 fi
-        
 AC_SUBST(GNET_LIBS)
 AC_SUBST(GNET_CFLAGS)
 
-        
-if test "x$GNET_LIBS" == "x"; then
-   config_distribution=no
-fi
 
-dnl DBUS
+dnl
+dnl XML
+dnl
+
+if test "x$config_xml" = "xyes"
+then
+    AC_PATH_PROG(GDOME_CONFIG, gdome-config, no)
+    if test "$GDOME_CONFIG" = no
+    then
+    	if test x$2 = xfailure
+        then
+    		AC_MSG_ERROR(Could not find gdome-config)
+    	fi
+        AC_MSG_ERROR(Need GDome2)
+    fi
+    GDOME_CFLAGS=`$GDOME_CONFIG --cflags`
+    GDOME_LIB=`$GDOME_CONFIG --libs`    
+else
+    GDOME_LIB="";
+    GDOME_CFLAGS=""
+fi
+AC_SUBST(GDOME_CFLAGS)
+AC_SUBST(GDOME_LIB)
+
+
+dnl
+dnl DBus
+dnl
             
-if test "x$config_with_dbus" != "xno"; then
+if test "x$config_dbus" != "xno"
+then
    dbus_pkgconfig="dbus-1 >= 0.92 dbus-glib-1"
    PKG_CHECK_MODULES(DBUS, $dbus_pkgconfig, have_dbus=yes, have_dbus=no)
-   if test x$have_dbus = xyes; then
+   if test x$have_dbus = xyes
+   then
       AC_DEFINE(HAVE_DBUS, 1, d-bus support)
    fi
 
@@ -483,8 +429,10 @@ else
    dbus_pkgconfig=
 fi
 
-if test "x$have_dbus" != "xyes"; then
-  if test "x$enable_dbus" = "xyes"; then
+if test "x$have_dbus" != "xyes"
+then
+  if test "x$enable_dbus" = "xyes"
+  then
       AC_MSG_ERROR([Couldn't find d-bus.])
   else
    dbus_pkgconfig=
@@ -492,106 +440,29 @@ if test "x$have_dbus" != "xyes"; then
 fi
 
 AM_CONDITIONAL(HAVE_DBUS, test x$have_dbus = xyes)
-        
-                
-dnl AC_CHECK_LIB(Xmu,XmuClientWindow,LIBS="$LIBS -lXmu",
-dnl    AC_MSG_ERROR(Xmu library required))
 
-dnl Checks for typedefs, structures, and compiler characteristics.
-AC_CHECK_CXX_EH
-if test "x$ac_cv_cxx_eh" != "xyes"
-then
-        AC_MSG_ERROR([$CXX does provide correct exception handling])
-fi
 
-AC_CHECK_CXX_NS
-if test "x$ac_cv_cxx_ns" != "xyes"
-then
-        AC_MSG_ERROR([$CXX does not support namespaces])
-fi
+dnl
+dnl libao
+dnl
 
-AC_CHECK_CXX_STL
-if test "x$ac_cv_cxx_stl" != "xyes"
-then
-        AC_MSG_ERROR([STL is not available])
-fi
-        
-dnl Some magic copied from xmms
-if test "x$platform_win32" != "xyes"; then
-        PTHREAD_LIBS=error
-        AC_MSG_CHECKING(for old style FreeBSD -pthread flag)
-        AC_EGREP_CPP(yes,
-        	[#if defined(__FreeBSD_cc_version) && __FreeBSD_cc_version <= 500001
-        	  yes
-        	#endif
-        	], AC_MSG_RESULT(yes)
-        	CFLAGS="$CFLAGS -D_THREAD_SAFE" PTHREAD_LIBS="-pthread",
-        	AC_MSG_RESULT(no))
-        if test "x$PTHREAD_LIBS" = xerror; then
-        	AC_CHECK_LIB(pthread, pthread_attr_init,
-        		PTHREAD_LIBS="-lpthread")
-        fi
-        if test "x$PTHREAD_LIBS" = xerror; then
-                AC_CHECK_LIB(pthreads, pthread_attr_init,
-        		PTHREAD_LIBS="-lpthreads")
-        fi
-        if test "x$PTHREAD_LIBS" = xerror; then
-                AC_CHECK_LIB(c_r, pthread_attr_init,
-        		PTHREAD_LIBS="-lc_r")
-        fi
-        if test "x$PTHREAD_LIBS" = xerror; then
-        	AC_CHECK_FUNC(pthread_attr_init, PTHREAD_LIBS="")
-        fi
-                
-        if test "x$PTHREAD_LIBS" = "xerror" -a "x$platform_win32" = "xno" ; then
-        	AC_MSG_ERROR([[no working posix thread library]])
-        fi
-        AC_SUBST(PTHREAD_LIBS)
+dnl if test "x$platform_os_win32" != "xyes"
+dnl then
+dnl  PKG_CHECK_MODULES(LIBAO, ao >= 0.8.8)
+dnl fi
 
-        AC_SEARCH_LIBS(sem_init, pthread rt posix4) # 'Real Time' functions on Solaris
- 		  			        # posix4 on Solaris 2.6
-                                                    # pthread (first!) on Linux
-fi        
-        
-dnl NOT-QUITE-YET (macro does not exists on win32)        
-dnl AM_PATH_ESD(0.2.28, 
-dnl    [have_esd=yes 
-dnl     AC_CHECK_LIB(esd, esd_get_latency, 
-dnl        AC_DEFINE(HAVE_ESD_GET_LATENCY,,
-dnl           [Define if libesd has the esd_get_latency function]))], 
-dnl    have_esd=no)
 
-AM_CONDITIONAL(HAVE_ESD,test "x$have_esd" = xyes)
+dnl
+dnl Internationalization
+dnl
 
-dnl some more magic...
-CFLAGS_save=$CFLAGS
-LIBS_save=$LIBS
-CFLAGS="$CFLAGS $GTK_CFLAGS"
-LIBS="$LIBS $GTK_LIBS"
-AC_MSG_CHECKING(for thread-safe Xlib)
-AC_CACHE_VAL(thread_safe_xlibs,
-[AC_TRY_RUN([
-#include <X11/Xlib.h>
-int main()
-{
-   exit(!(XInitThreads()));
-}],
-thread_safe_xlibs=yes,
-thread_safe_xlibs=no,
-thread_safe_xlibs=no)])
-AC_MSG_RESULT($thread_safe_xlibs)
-CFLAGS=$CFLAGS_save
-LIBS=$LIBS_save
-
-dnl internationalization macros
 AM_GNU_GETTEXT()
-#AM_GLIB_GNU_GETTEXT
 
 dnl Hack because windows gettext package is SEVERELY broken...
-if test "x$platform_win32" == "xyes"; then
+if test "x$platform_os_win32" = "xyes"
+then
         USE_NLS=yes
-        AC_DEFINE(ENABLE_NLS,1,[Define to 1 if translation of program messages to the user's native
-   language is requested.])
+        AC_DEFINE(ENABLE_NLS,1,[Define to 1 if translation of program messages to the user's native language is requested.])
         AC_DEFINE(USE_INCLUDED_LIBINTL, "no", [Dont])
         AC_DEFINE(BUILD_INCLUDED_LIBINTL, "no", [Dont])
         USE_INCLUDED_LIBINTL=no
@@ -600,92 +471,77 @@ fi
 
 GETTEXT_PACKAGE=workrave
 AC_SUBST(GETTEXT_PACKAGE)
-
 AC_DEFINE(GETTEXT_PACKAGE, "workrave", [Blaat])
 AC_PROG_INTLTOOL
 
 
-if test "x$config_with_xml" = "xyes"
+dnl
+dnl What variant to build
+dnl
+    
+variant=""
+
+if test "x$platform_os_win32" = "xyes"
 then
-    AC_PATH_PROG(GDOME_CONFIG, gdome-config, no)
-    if test "$GDOME_CONFIG" = no; then
-    	if test x$2 = xfailure; then
-    		AC_MSG_ERROR(Could not find gdome-config)
-    	fi
-        AC_MSG_ERROR(Need GDome2)
-    fi
-    GDOME_CFLAGS=`$GDOME_CONFIG --cflags`
-    AC_CHECK_LIB(gdome, gdome_el_nodeType, [
-    	dnl $1
-    	GDOME_LIB=`$GDOME_CONFIG --libs`
-    ], [
-    	if test x$2 = xfailure; then 
-    		AC_MSG_ERROR(Could not link sample gdome program)
-    	fi
-    ], `$GDOME_CONFIG --libs`)
+   variant="$variant win32"
+elif test "x$platform_os_osx" = "xyes"
+then
+   variant="$variant osx unix"
 else
-    GDOME_LIB="";
-    GDOME_CFLAGS=""
-fi
-AC_SUBST(GDOME_CFLAGS)
-AC_SUBST(GDOME_LIB)
-    
-dnl Set language requirements for the tests below.
-AC_LANG_CPLUSPLUS
-AC_REQUIRE_CPP
-    
-dnl Configuration defines
-if test "$config_cwd_debug" = yes; then
-
-  dnl Check if we have libcwd
-  AC_CHECK_LIB(cwd, __libcwd_version, [LIBS="-lcwd $LIBS"], [AC_CHECK_LIB(cwd, main,,
-      [AC_MSG_ERROR([
-  --enable-debug: You need to have libcwd installed to enable debugging.
-  Or perhaps you need to add its location to LDFLAGS and CPPFLAGS, for example:
-  LDFLAGS=\"-L/usr/local/lib\" CPPFLAGS=\"-I/usr/local/include\" ./configure])])])
-
-  CXXFLAGS="-DCWDEBUG $CXXFLAGS"
-  AC_DEFINE(HAVE_LIBCWD)
+   variant="$variant unix"
 fi
 
-          
+if test "x$have_x" = "xyes"
+then
+   variant="$variant x11"
+fi
+if test "x$config_gnome" = "xyes"
+then
+   variant="$variant gnome"
+fi
+if test "x$config_kde" = "xyes"
+then
+   variant="$variant kde"
+fi
+
+   
 WR_BACKEND_LIBS="\$(top_srcdir)/backend/src/libworkrave-backend.a"
-WR_BACKEND_CFLAGS="-I \$(top_srcdir)/backend/include -I \$(top_srcdir)/backend/src/"
+WR_BACKEND_CFLAGS="-I \$(top_srcdir)/backend/include"
 WR_BACKEND_INCLUDES="-I \$(top_srcdir)/backend/include"
 WR_COMMON_LIBS="\$(top_srcdir)/common/src/libworkrave-common.a"
 WR_COMMON_CFLAGS="-I \$(top_srcdir)/common/include"
 
-if test "x$platform_win32" = "xyes"; then
-   WR_COMMON_LIBS="\$(top_srcdir)/common/src/win32/libworkrave-common-win32.a $WR_COMMON_LIBS"
-   WR_COMMON_CFLAGS="$WR_COMMON_CFLAGS -I \$(top_srcdir)/common/include/win32"
+for v in $variant; do
 
-   WR_BACKEND_LIBS="$WR_BACKEND_LIBS \$(top_srcdir)/backend/src/win32/libworkrave-backend-win32.a"
-   WR_BACKEND_CFLAGS="$WR_BACKEND_CFLAGS -I \$(top_srcdir)/backend/src/win32"
-else
-   WR_COMMON_LIBS="\$(top_srcdir)/common/src/unix/libworkrave-common-unix.a $WR_COMMON_LIBS"
-   WR_COMMON_CFLAGS="$WR_COMMON_CFLAGS -I \$(top_srcdir)/common/include/unix"
+    if test -d common/src/$v
+    then
+       if test "x$v" != "xunix"
+       then
+         WR_COMMON_LIBS="$WR_COMMON_LIBS \$(top_srcdir)/common/src/$v/libworkrave-common-$v.a"
+       fi
+       WR_COMMON_CFLAGS="$WR_COMMON_CFLAGS -I \$(top_srcdir)/common/include/$v"
+    fi
 
-   WR_BACKEND_LIBS="$WR_BACKEND_LIBS \$(top_srcdir)/backend/src/unix/libworkrave-backend-unix.a"
-   WR_BACKEND_CFLAGS="$WR_BACKEND_CFLAGS -I \$(top_srcdir)/backend/src/unix"
-fi   
+    if test -d backend/src/$v
+    then
+       WR_BACKEND_LIBS="$WR_BACKEND_LIBS \$(top_srcdir)/backend/src/$v/libworkrave-backend-$v.a"
+       WR_BACKEND_CFLAGS="$WR_BACKEND_CFLAGS -I \$(top_srcdir)/backend/src/$v"
+    fi
 
-WR_FRONTEND_LIBS="$WR_BACKEND_LIBS $WR_COMMON_LIBS \$(top_srcdir)/frontend/common/src/libworkrave-frontend-common.a $WR_COMMON_LIBS"
-WR_FRONTEND_CFLAGS="$WR_COMMON_CFLAGS $WR_BACKEND_CFLAGS -I \$(top_srcdir)/frontend/common/include/"
-if test "x$platform_win32" = "xyes"; then
-   WR_FRONTEND_LIBS="$WR_FRONTEND_LIBS \$(top_srcdir)/frontend/common/src/win32/libworkrave-frontend-common-win32.a"
-   WR_FRONTEND_CFLAGS="$WR_FRONTEND_CFLAGS -I \$(top_srcdir)/frontend/common/include/win32"
-fi
-if test "x$config_with_gnome" = "xyes"; then
-   WR_FRONTEND_LIBS="$WR_FRONTEND_LIBS \$(top_srcdir)/frontend/common/src/gnome/libworkrave-frontend-common-gnome.a"
-   WR_FRONTEND_CFLAGS="$WR_FRONTEND_CFLAGS -I \$(top_srcdir)/frontend/common/include/gnome"
-fi   
-if test "x$config_with_kde" = "xyes"; then
-   WR_FRONTEND_LIBS="$WR_FRONTEND_LIBS \$(top_srcdir)/frontend/common/src/kde/libworkrave-frontend-common-kde.a"
-   WR_FRONTEND_CFLAGS="$WR_FRONTEND_CFLAGS -I \$(top_srcdir)/frontend/common/include/kde"
-fi   
-                                             
+    if test -d frontend/common/src/$v
+    then
+       WR_FRONTEND_LIBS="$WR_FRONTEND_LIBS \$(top_srcdir)/frontend/common/src/$v/libworkrave-frontend-common-$v.a"
+       WR_FRONTEND_CFLAGS="$WR_FRONTEND_CFLAGS -I \$(top_srcdir)/frontend/common/include/$v"
+    fi
+done
+
+WR_FRONTEND_LIBS="$WR_BACKEND_LIBS $WR_COMMON_LIBS \$(top_srcdir)/frontend/common/src/libworkrave-frontend-common.a $WR_COMMON_LIBS $WR_FRONTEND_LIBS"
+WR_FRONTEND_CFLAGS="$WR_COMMON_CFLAGS $WR_BACKEND_CFLAGS -I \$(top_srcdir)/frontend/common/include/ $WR_FRONTEND_CFLAGS"
+
 AC_SUBST(WR_FRONTEND_LIBS)
 AC_SUBST(WR_FRONTEND_CFLAGS)
+
+AC_SUBST(WR_FRONTEND_COMMON_CFLAGS)
 
 AC_SUBST(WR_COMMON_DIRS)
 AC_SUBST(WR_COMMON_LIBS)
@@ -698,43 +554,42 @@ AC_SUBST(WR_BACKEND_INCLUDES)
 
 AC_SUBST(include_ARTS)
 
+dnl
+dnl Defines
+dnl
+
 HAVE_X=
 if test x$have_x = xyes ; then
    AC_DEFINE(HAVE_X,,[Define if X is available])
 fi
 
 HAVE_GCONF=
-if test "x$GCONF_LIBS" != "x" -a "x$config_with_gconf" = "xyes"; then
+if test "x$GCONF_LIBS" != "x" -a "x$config_gconf" = "xyes"; then
    AC_DEFINE(HAVE_GCONF,,[Define if GConf is available])
 fi
 
 HAVE_GDOME=
-if test "x$GDOME_LIB" != "x" -a "x$config_with_xml" = "xyes"; then
+if test "x$GDOME_LIB" != "x" -a "x$config_xml" = "xyes"; then
    AC_DEFINE(HAVE_GDOME,,[Define if GDome is available])
 fi
 
-HAVE_REGISTRY=
-if test "x$config_with_registry" = "xyes"; then
-   AC_DEFINE(HAVE_REGISTRY,,[Define if registry is available])
-fi
-
 HAVE_GLIB=
-if test "x$GTKMM_LIBS" != "x"; then
+if test "x$GLIB_LIBS" != "x"; then
    AC_DEFINE(HAVE_GLIB,,[Define if glib is available])
 fi
 
 HAVE_GNOME=
-if test "x$config_with_gnome" = "xyes"; then
+if test "x$config_gnome" = "xyes"; then
    AC_DEFINE(HAVE_GNOME,,[Define if Gnome is available])
 fi
 
 HAVE_GNOMEMM=
-if test "x$config_with_gnomemm" = "xyes"; then
+if test "x$config_gnomemm" = "xyes"; then
    AC_DEFINE(HAVE_GNOMEMM,,[Define if Gnomeuimm/Gnomemm is available])
 fi
 
 HAVE_KDE=
-if test "x$config_with_kde" = "xyes"; then
+if test "x$config_kde" = "xyes"; then
    AC_DEFINE(HAVE_KDE,,[Define if KDE is available])
 fi
 
@@ -752,7 +607,12 @@ HAVE_EXPERIMENTAL=
 if test "x$config_experimental" = "xyes"; then
    AC_DEFINE(HAVE_EXPERIMENTAL,,[Define if experimental features are available])
 fi
-        
+
+HAVE_TESTS=
+if test "x$config_tests" = "xyes"; then
+   AC_DEFINE(HAVE_TESTS,,[Define if test code is enabled])
+fi
+
 HAVE_GNET=
 if test "x$GNET_LIBS" != "x"; then
    AC_DEFINE(HAVE_GNET,,[Define if GNet is available])
@@ -769,42 +629,52 @@ if test "x$GTKMM_LIBS" != "x"; then
 fi
 
 HAVE_APP_TEXT=
-if test "x$config_with_text" = "xyes"; then
+if test "x$config_text" = "xyes"; then
    AC_DEFINE(HAVE_APP_TEXT,,[Define if Text is available])
 fi
                                 
-WIN32CONSOLE=
-if test "x$config_debug" != "xyes" -a "x$platform_win32" = "xyes" ; then
-        WIN32CONSOLE=-mwindows
-fi
-AC_SUBST(WIN32CONSOLE)
+dnl
+dnl Generate Makefile conditionals
+dnl
 
-HAVE_UNIX=
-if test "x$platform_win32" != "xyes" ; then
-   AC_DEFINE(HAVE_UNIX,,[Define if we are compiling for unix])
-fi
-AC_SUBST(HAVE_UNIX)
-
+AM_CONDITIONAL(HAVE_APP_GTKMM, test "x$GTK_LIBS" != "x")
+AM_CONDITIONAL(HAVE_APP_TEXT, test "x$config_text" = "xyes")
 AM_CONDITIONAL(HAVE_X, test x$have_x = xyes)
-AM_CONDITIONAL(HAVE_GCONF, test "x$GCONF_LIBS" != "x" -a "x$config_with_gconf" = "xyes")
-AM_CONDITIONAL(HAVE_GDOME, test "x$GDOME_LIB" != "x" -a "x$config_with_xml" = "xyes")
-AM_CONDITIONAL(HAVE_GNOME, test "x$config_with_gnome" = "xyes")
-AM_CONDITIONAL(HAVE_KDE, test "x$config_with_kde" = "xyes")
+AM_CONDITIONAL(HAVE_GCONF, test "x$GCONF_LIBS" != "x" -a "x$config_gconf" = "xyes")
+AM_CONDITIONAL(HAVE_GDOME, test "x$GDOME_LIB" != "x" -a "x$config_xml" = "xyes")
+AM_CONDITIONAL(HAVE_GNOME, test "x$config_gnome" = "xyes")
+AM_CONDITIONAL(HAVE_KDE, test "x$config_kde" = "xyes")
 AM_CONDITIONAL(HAVE_GNET, test "x$GNET_LIBS" != "x")
-AM_CONDITIONAL(HAVE_REGISTRY, test "x$config_with_registry" = "xyes")
 AM_CONDITIONAL(NDEBUG, test "x$config_debug" != "xyes")
-AM_CONDITIONAL(HAVE_WIN32, test "x$platform_win32" = "xyes")
-AM_CONDITIONAL(HAVE_UNIX, test "x$platform_win32" != "xyes")
-AM_CONDITIONAL(HAVE_APP_GTKMM, test "x$GTKMM_LIBS" != "x")
-AM_CONDITIONAL(HAVE_APP_TEXT, test "x$config_with_text" = "xyes")
 AM_CONDITIONAL(HAVE_DISTRIBUTION, test "x$config_distribution" = "xyes")
 AM_CONDITIONAL(HAVE_EXERCISES, test "x$config_exercises" = "xyes")
 AM_CONDITIONAL(HAVE_EXPERIMENTAL, test "x$config_experimental" = "xyes")
+AM_CONDITIONAL(HAVE_TESTS, test "x$config_tests" = "xyes")
 
-AC_OUTPUT(Makefile \
+
+dnl
+dnl Generate language list for InoSetup installer
+dnl
+
+LANGFILE=frontend/gtkmm/win32/setup/lang.iss
+echo -n "; language.iss --- Inno setup file, support languages" > $LANGFILE
+echo -en "\r\n" >> $LANGFILE
+for a in $ALL_LINGUAS; do
+    X="Source: \"..\\..\\..\\..\\po\\$a.gmo\"; DestDir: \"{app}\\lib\\locale\\$a\\LC_MESSAGES\"; DestName: \"workrave.mo\"; Flags: ignoreversion;"
+    echo -n $X     >> $LANGFILE
+    echo -en "\r\n" >> $LANGFILE
+done
+
+
+dnl
+dnl Makefile output
+dnl
+
+AC_OUTPUT(Makefile
           backend/Makefile \
           backend/src/Makefile \
           backend/src/unix/Makefile \
+          backend/src/osx/Makefile \
           backend/src/win32/Makefile \
           backend/include/Makefile \
           common/Makefile \
@@ -829,6 +699,8 @@ AC_OUTPUT(Makefile \
           frontend/common/src/gnome/Makefile \
           frontend/common/src/kde/Makefile \
           frontend/common/src/win32/Makefile \
+          frontend/common/src/x11/Makefile \
+          frontend/common/src/osx/Makefile \
           frontend/win32/Makefile \
           frontend/win32/applet/Makefile \
           frontend/win32/applet/src/Makefile \
@@ -840,6 +712,7 @@ AC_OUTPUT(Makefile \
           frontend/gtkmm/src/Makefile \
           frontend/gtkmm/src/win32/Makefile \
           frontend/gtkmm/src/unix/Makefile \
+          frontend/gtkmm/src/osx/Makefile \
           frontend/gtkmm/src/gnome_applet/Makefile \
           frontend/gtkmm/src/kde_applet/Makefile \
           frontend/text/Makefile \
@@ -864,3 +737,28 @@ AC_OUTPUT(Makefile \
           build/Makefile \
           m4/Makefile \
           workrave.spec)
+
+dnl ========================================================================
+
+echo ""
+echo "                        Workrave $VERSION"
+echo "                       ==================="
+echo ""
+echo "                        prefix:   ${prefix}"
+echo ""
+echo "                           OS :   ${platform_os_name}"
+echo ""
+echo "          GConf configuration :   ${config_gconf}"
+echo "            XML configuration :   ${config_xml}"
+echo ""
+echo "                      Gtk GUI :   ${config_gtk}"
+echo "                Gnome support :   ${config_gnome}"
+echo "                  Kde support :   ${config_kde}"
+echo "                 DBUS support :   ${config_dbus}"
+echo "           Networking support :   ${config_distribution}"
+echo "                    Exercises :   ${config_exercises}"
+echo ""
+echo "                    Debugging :   ${config_debug}"
+echo "                    Test code :   ${config_tests}"
+echo ""
+          

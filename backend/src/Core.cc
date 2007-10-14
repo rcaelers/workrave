@@ -35,6 +35,7 @@ static const char rcsid[] = "$Id$";
 #include "ActivityMonitor.hh"
 #include "TimerActivityMonitor.hh"
 #include "Break.hh"
+#include "ConfiguratorFactory.hh"
 #include "Configurator.hh"
 #include "Statistics.hh"
 #include "BreakControl.hh"
@@ -127,9 +128,6 @@ Core::~Core()
 
   delete statistics;
   delete monitor;
-
-  // Set whatever values need to be set before quitting.
-  configurator->set_values_now_we_are_quitting();
   delete configurator;
 
 #ifdef HAVE_DISTRIBUTION
@@ -190,22 +188,22 @@ Core::init_configurator()
 
   if (Util::file_exists(ini_file))
     {
-      configurator = Configurator::create(Configurator::FormatIni);
+      configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatIni);
       configurator->load(ini_file);
     }
   else
     {
-#if defined(HAVE_REGISTRY)
-      configurator = Configurator::create(Configurator::FormatNative);
+#if defined(PLATFORM_OS_WIN32)
+      configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatNative);
 
 #elif defined(HAVE_GCONF)
       gconf_init(argc, argv, NULL);
       g_type_init();
-      configurator = Configurator::create(Configurator::FormatNative);
+      configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatNative);
 
 #elif defined(HAVE_GDOME)
       string configFile = Util::complete_directory("config.xml", Util::SEARCH_PATH_CONFIG);
-      configurator = Configurator::create(Configurator::FormatXml);
+      configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatXml);
 
 #  if defined(HAVE_X)
       if (configFile == "" || configFile == "config.xml")
@@ -218,18 +216,29 @@ Core::init_configurator()
           configurator->load(configFile);
         }
 #elif defined(HAVE_QT)
-      configurator = Configurator::create(Configurator::FormatNative);
+      configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatNative);
 #else
-#error No configuator configured
+      configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatIni);
+      configurator->save(ini_file);
 #endif
     }
 
   string home;
-  if (configurator->get_value(CFG_KEY_GENERAL_DATADIR, &home))
+  if (configurator->get_value(CFG_KEY_GENERAL_DATADIR, home))
     {
       Util::set_home_directory(home);
     }
 }
+
+//! Initializes the communication bus.
+void
+Core::init_bus()
+{
+#ifdef HAVE_DBUS
+  workrave_dbus_server_init(this);
+#endif
+}
+
 
 //! Initializes the activity monitor.
 void
@@ -314,22 +323,31 @@ Core::load_monitor_config()
   assert(configurator != NULL);
   assert(monitor != NULL);
 
-  if (! configurator->get_value(CFG_KEY_MONITOR_NOISE, &noise))
+  if (! configurator->get_value(CFG_KEY_MONITOR_NOISE, noise))
     noise = 9000;
-  if (! configurator->get_value(CFG_KEY_MONITOR_ACTIVITY, &activity))
+  if (! configurator->get_value(CFG_KEY_MONITOR_ACTIVITY, activity))
     activity = 1000;
-  if (! configurator->get_value(CFG_KEY_MONITOR_IDLE, &idle))
+  if (! configurator->get_value(CFG_KEY_MONITOR_IDLE, idle))
     idle = 5000;
 
   // Pre 1.0 compatibility...
   if (noise < 50)
-    noise *= 1000;
+    {
+      noise *= 1000;
+      configurator->set_value(CFG_KEY_MONITOR_NOISE, noise);
+    }
 
   if (activity < 50)
-    activity *= 1000;
+    {
+      activity *= 1000;
+      configurator->set_value(CFG_KEY_MONITOR_ACTIVITY, activity);
+    }
 
   if (idle < 50)
-    idle *= 1000;
+    {
+      idle *= 1000;
+      configurator->set_value(CFG_KEY_MONITOR_IDLE, idle);
+    }
 
   TRACE_MSG("Monitor config = " << noise << " " << activity << " " << idle);
 
@@ -340,7 +358,7 @@ Core::load_monitor_config()
 
 //! Notification that the configuration has changed.
 void
-Core::config_changed_notify(string key)
+Core::config_changed_notify(const string &key)
 {
   string::size_type pos = key.find('/');
   string path;
@@ -348,7 +366,6 @@ Core::config_changed_notify(string key)
   if (pos != string::npos)
     {
       path = key.substr(0, pos);
-      key = key.substr(pos + 1);
     }
 
   if (path == CFG_KEY_MONITOR)
@@ -731,6 +748,9 @@ Core::heartbeat()
   // Set current time.
   current_time = time(NULL);
 
+  // Process configuration
+  configurator->heartbeat();
+
   // Perform distribution processing.
   process_distribution();
 
@@ -828,6 +848,25 @@ Core::process_state()
 {
   // Default
   local_state = monitor->get_current_state();
+
+  map<std::string, int>::iterator i = external_activity.begin();
+  while (i != external_activity.end())
+    {
+      map<std::string, int>::iterator next = i;
+      next++;
+
+      if (i->second >= current_time)
+        {
+          local_state = ACTIVITY_ACTIVE;
+        }
+      else
+        {
+          external_activity.erase(i);
+        }
+
+      i = next;
+    }
+
   monitor_state = local_state;
 
 #if defined(HAVE_DISTRIBUTION) and !defined(NDEBUG)
@@ -855,6 +894,22 @@ Core::process_state()
   // Update our idle history.
   idlelog_manager->update_all_idlelogs(dist_manager->get_master_id(), monitor_state);
 #endif
+}
+
+
+void
+Core::report_external_activity(std::string who, bool act)
+{
+  TRACE_ENTER_MSG("Core::report_external_activity", who << " " << act);
+  if (act)
+    {
+      external_activity[who] = current_time + 10;
+    }
+  else
+    {
+      external_activity.erase(who);
+    }
+  TRACE_EXIT();
 }
 
 
@@ -1185,7 +1240,7 @@ void
 Core::load_misc()
 {
   int mode;
-  if (! get_configurator()->get_value(CFG_KEY_OPERATION_MODE, &mode))
+  if (! get_configurator()->get_value(CFG_KEY_OPERATION_MODE, mode))
     {
       mode = OPERATION_MODE_NORMAL;
     }
@@ -1323,6 +1378,13 @@ Core::defrost()
 
   active_insist_policy = ICore::INSIST_POLICY_INVALID;
   TRACE_EXIT();
+}
+
+//! Is the user currently active?
+bool
+Core::is_user_active() const
+{
+  return monitor_state == ACTIVITY_ACTIVE;
 }
 
 

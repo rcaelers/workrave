@@ -1,6 +1,6 @@
 // Dispatcher.cc --- Inter-thread dispatcher
 //
-// Copyright (C) 2003, 2004, 2005 Rob Caelers
+// Copyright (C) 2003, 2004, 2005, 2007 Rob Caelers
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -24,9 +24,7 @@ static const char rcsid[] = "$Id$";
 
 #include "preinclude.h"
 
-#ifdef HAVE_GTKMM24
 #include <sigc++/compatibility.h>
-#endif
 
 #include "Dispatcher.hh"
 

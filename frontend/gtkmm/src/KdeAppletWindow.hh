@@ -24,9 +24,7 @@
 
 #include "AppletWindow.hh"
 
-#ifdef HAVE_GTKMM24
 #include <sigc++/compatibility.h>
-#endif
 
 #include <gtkmm/bin.h>
 #include <gtkmm/menu.h>
@@ -67,11 +65,7 @@ private:
   //! Size of the applet
   int applet_size;
 
-#ifdef HAVE_GTKMM24
   Gtk::Requisition last_size;
-#else
-  GtkRequisition last_size;
-#endif
 
   //!
   AppletControl *control;

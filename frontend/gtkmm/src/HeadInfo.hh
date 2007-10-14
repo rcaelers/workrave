@@ -1,6 +1,6 @@
 // HeadInfo.hh --- Multi head info
 //
-// Copyright (C) 2001, 2002, 2003, 2004 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -26,11 +26,8 @@
 #include "preinclude.h"
 
 #include <gdkmm/rectangle.h>
-
-#ifdef HAVE_GTK_MULTIHEAD
 #include <gdkmm/display.h>
 #include <gdkmm/screen.h>
-#endif
 
 class HeadInfo
 {
@@ -46,11 +43,8 @@ public:
   int get_x() const;
   int get_y() const;
 
-#ifdef HAVE_GTK_MULTIHEAD
   Glib::RefPtr<Gdk::Screen> screen;
   int monitor;
-#endif
-
   int count;
   bool valid;
   Gdk::Rectangle geometry;

@@ -1,6 +1,6 @@
 // XMLConfigurator.cc --- Configuration Access
 //
-// Copyright (C) 2002, 2003, 2006 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2006, 2007 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -27,7 +27,6 @@ static const char rcsid[] = "$Id$";
 #include "XMLConfigurator.hh"
 
 using namespace std;
-
 
 //! Constructor
 XMLConfigurator::XMLConfigurator()
@@ -141,124 +140,132 @@ XMLConfigurator::save()
 
 
 bool
-XMLConfigurator::get_value(string key, string *out) const
+XMLConfigurator::remove_key(const std::string &key)
+{
+  (void) key;
+  return false;
+}
+
+bool
+XMLConfigurator::get_value(const string &key, string &out) const
 {
   TRACE_ENTER_MSG("XMLConfigurator::get_value", key);
   bool ret = false;
+  string stripped_key = key;
 
-  string path = strip_path(key);
+  string path = strip_path(stripped_key);
   if (path != "")
     {
       XMLConfigurator *child = get_child(path);
       if (child != NULL)
         {
-          ret = child->get_value(key, out);
+          ret = child->get_value(stripped_key, out);
         }
     }
   else
     {
-      Attributes::const_iterator i = node_attributes.find(key);
+      Attributes::const_iterator i = node_attributes.find(stripped_key);
 
       if (i != node_attributes.end())
         {
-          *out = (*i).second;
+          out = (*i).second;
           ret = true;
         }
     }
 
-  TRACE_RETURN(*out);
+  TRACE_RETURN(out);
   return ret;
 }
 
 
 bool
-XMLConfigurator::get_value(string key, bool *out) const
+XMLConfigurator::get_value(const string &key, bool &out) const
 {
   string s;
-  bool ret = get_value(key, &s);
+  bool ret = get_value(key, s);
 
   if (ret)
     {
       if (s == "true" || s == "yes" || s == "TRUE" || s == "1")
-        *out = true;
+        out = true;
       else
-        *out = false;
+        out = false;
     }
   return ret;
 }
 
 
 bool
-XMLConfigurator::get_value(string key, int *out) const
+XMLConfigurator::get_value(const string &key, int &out) const
 {
   string s;
-  bool ret = get_value(key, &s);
+  bool ret = get_value(key, s);
 
   if (ret)
     {
-      *out = atoi(s.c_str());
+      out = atoi(s.c_str());
     }
   return ret;
 }
 
 
 bool
-XMLConfigurator::get_value(string key, long *out) const
+XMLConfigurator::get_value(const string &key, long &out) const
 {
   string s;
-  bool ret = get_value(key, &s);
+  bool ret = get_value(key, s);
 
   if (ret)
     {
-      *out = atol(s.c_str());
+      out = atol(s.c_str());
     }
   return ret;
 }
 
 
 bool
-XMLConfigurator::get_value(string key, double *out) const
+XMLConfigurator::get_value(const string &key, double &out) const
 {
   string s;
-  bool ret = get_value(key, &s);
+  bool ret = get_value(key, s);
 
   if (ret)
     {
-      *out = atof(s.c_str());
+      out = atof(s.c_str());
     }
   return ret;
 }
 
 
 bool
-XMLConfigurator::set_value(string key, string v)
+XMLConfigurator::set_value(const string &key, string v)
 {
   TRACE_ENTER_MSG("XMLConfigurator::set_value", key  << " " << v);
   bool ret = false;
 
-  string path = strip_path(key);
+  string stripped_key = key;
+  string path = strip_path(stripped_key);
 
   if (path != "")
     {
       XMLConfigurator *child = get_child(path);
       if (child != NULL)
         {
-          ret = child->set_value(key, v);
+          ret = child->set_value(stripped_key, v);
         }
       else if (create_child(path))
         {
           child = get_child(path);
           if (child != NULL)
             {
-              ret = child->set_value(key, v);
+              ret = child->set_value(stripped_key, v);
             }
         }
     }
   else
     {
-      node_attributes[key] = v;
+      node_attributes[stripped_key] = v;
       ret = true;
-      changed(node_path + key);
     }
 
   TRACE_EXIT();
@@ -267,7 +274,7 @@ XMLConfigurator::set_value(string key, string v)
 
 
 bool
-XMLConfigurator::set_value(string key, int v)
+XMLConfigurator::set_value(const string &key, int v)
 {
   stringstream ss;
   ss << v;
@@ -278,7 +285,7 @@ XMLConfigurator::set_value(string key, int v)
 
 
 bool
-XMLConfigurator::set_value(string key, long v)
+XMLConfigurator::set_value(const string &key, long v)
 {
   stringstream ss;
   ss << v;
@@ -289,7 +296,7 @@ XMLConfigurator::set_value(string key, long v)
 
 
 bool
-XMLConfigurator::set_value(string key, bool v)
+XMLConfigurator::set_value(const string &key, bool v)
 {
   stringstream ss;
   if (v)
@@ -307,37 +314,13 @@ XMLConfigurator::set_value(string key, bool v)
 
 
 bool
-XMLConfigurator::set_value(string key, double v)
+XMLConfigurator::set_value(const string &key, double v)
 {
   stringstream ss;
   ss << v;
   set_value(key, ss.str());
 
   return true;
-}
-
-
-
-
-
-
-//! Informs all interested parties that the specified key has changed.
-void
-XMLConfigurator::changed(string key)
-{
-  TRACE_ENTER_MSG("XMLConfigurator::changed", key << " " << node_path);
-
-  if (parent != NULL)
-    {
-      // Inform parent. Only the top-level XMLConfigurator registers listeners...
-      parent->changed(key);
-    }
-  else
-    {
-      // Inform subscribers.
-      fire_configurator_event(key);
-    }
-  TRACE_EXIT();
 }
 
 
@@ -565,9 +548,9 @@ XMLConfigurator::strip_path(string &key) const
 
 
 XMLConfigurator *
-XMLConfigurator::get_child(string key) const
+XMLConfigurator::get_child(const string &key) const
 {
-  TRACE_ENTER_MSG("XMLConfigurator::get_child", key << "(" << node_name << ")");
+  TRACE_ENTER_MSG("XMLConfigurator::get_value_child", key << "(" << node_name << ")");
 
   XMLConfigurator *ret = NULL;
 
@@ -617,7 +600,7 @@ XMLConfigurator::get_child(string key) const
 
 
 bool
-XMLConfigurator::create_child(string key)
+XMLConfigurator::create_child(const string &key)
 {
   TRACE_ENTER_MSG("XMLConfigurator::create_child", "|" << key << "|");
 
@@ -660,7 +643,6 @@ XMLConfigurator::create_child(string key)
           node_children[prefix] = n;
 
           TRACE_MSG("|" << node_path << "|" << prefix << "|" << newKey << "|");
-          changed(node_path + prefix);
 
           n->create_child(newKey);
         }

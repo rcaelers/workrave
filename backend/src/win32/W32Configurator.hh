@@ -1,6 +1,6 @@
 // W32Configurator.hh
 //
-// Copyright (C) 2002, 2006 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2006, 2007 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -24,37 +24,43 @@
 #include <map>
 
 #include <windows.h>
-#include "Configurator.hh"
-
-class ConfigurationListener;
+#include "IConfigBackend.hh"
+#include "ConfigBackendAdapter.hh"
 
 class W32Configurator :
-  public Configurator
+  public virtual IConfigBackend, public virtual ConfigBackendAdapter
 {
 public:
   W32Configurator();
   virtual ~W32Configurator();
 
-  virtual bool load(string filename);
-  virtual bool save(string filename);
+  virtual bool load(std::string filename);
+  virtual bool save(std::string filename);
   virtual bool save();
-  virtual bool get_value(string key, string *out) const;
-  virtual bool get_value(string key, bool *out) const;
-  virtual bool get_value(string key, int *out) const;
-  virtual bool get_value(string key, long *out) const;
-  virtual bool get_value(string key, double *out) const;
-  virtual bool set_value(string key, string v);
-  virtual bool set_value(string key, int v);
-  virtual bool set_value(string key, long v);
-  virtual bool set_value(string key, bool v);
-  virtual bool set_value(string key, double v);
+
+  virtual bool remove_key(const std::string &key);
+
+  virtual bool get_value(const std::string &key, std::string &out) const;
+  virtual bool get_value(const std::string &key, bool &out) const;
+  virtual bool get_value(const std::string &key, int &out) const;
+  virtual bool get_value(const std::string &key, long &out) const;
+  virtual bool get_value(const std::string &key, double &out) const;
+
+  virtual bool set_value(const std::string &key, std::string v);
+  virtual bool set_value(const std::string &key, int v);
+  virtual bool set_value(const std::string &key, long v);
+  virtual bool set_value(const std::string &key, bool v);
+  virtual bool set_value(const std::string &key, double v);
 
 private:
-  string key_win32ify(string key) const;
-  string key_add_part(string s, string t) const;
-  void key_split(string key, string &parent, string &child) const;
+  std::string key_win32ify(const std::string &key) const;
+  std::string key_add_part(std::string s, std::string t) const;
+  void key_split(const std::string &key, std::string &parent, std::string &child) const;
 
-  string key_root;
+  void strip_trailing_slash(std::string &key) const;
+  void add_trailing_slash(std::string &key) const;
+  
+  std::string key_root;
   PHKEY key_root_handle;
 };
 

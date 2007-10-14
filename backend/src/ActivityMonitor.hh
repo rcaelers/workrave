@@ -96,28 +96,28 @@ private:
   bool button_is_pressed;
 
   //! Last time activity was detected
-  struct timeval last_action_time;
+  GTimeVal last_action_time;
 
   //! First time the \c ACTIVITY_IDLE state was left.
-  struct timeval first_action_time;
+  GTimeVal first_action_time;
 
   //! The noise threshold
-  struct timeval noise_threshold;
+  GTimeVal noise_threshold;
 
   //! The activity threshold.
-  struct timeval activity_threshold;
+  GTimeVal activity_threshold;
 
   //! The idle threshold.
-  struct timeval idle_threshold;
+  GTimeVal idle_threshold;
 
   //! Statistical info.
   ActivityMonitorStatistics statistics;
 
   //! Last time a mouse event was received.
-  struct timeval last_mouse_time;
+  GTimeVal last_mouse_time;
 
   //! Total time that the mouse was moving.
-  struct timeval total_mouse_time;
+  GTimeVal total_mouse_time;
 
   //! Activity listener.
   ActivityMonitorListener *listener;

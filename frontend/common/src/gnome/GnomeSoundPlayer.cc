@@ -57,7 +57,7 @@ GnomeSoundPlayer::~GnomeSoundPlayer()
 void
 GnomeSoundPlayer::play_sound(Sound snd)
 {
-  char *map[] = {
+  const char *map[] = {
     "break_prelude",
     "break_ignored",
     "rest_break_started",

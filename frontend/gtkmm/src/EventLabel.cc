@@ -1,6 +1,6 @@
 // EventLabel.cc ---
 //
-// Copyright (C) 2003, 2004 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2003, 2004, 2007 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -98,7 +98,6 @@ EventLabel::on_unmap_event(GdkEventAny *event)
   return Gtk::Label::on_unmap_event(event);
 }
 
-#ifdef HAVE_GTKMM24
 void
 EventLabel::on_size_allocate(Gtk::Allocation &allocation)
 {
@@ -115,22 +114,3 @@ EventLabel::on_size_allocate(Gtk::Allocation &allocation)
                              allocation.get_height());
     }
 }
-
-#else
-void
-EventLabel::on_size_allocate(GtkAllocation *allocation)
-{
-  Gtk::Label::on_size_allocate(allocation);
-
-  GtkWidget *widget = GTK_WIDGET(gobj());
-
-  if (GTK_WIDGET_REALIZED(widget))
-    {
-      gdk_window_move_resize(event_window,
-                             allocation->x ,
-                             allocation->y ,
-                             allocation->width,
-                             allocation->height);
-    }
-}
-#endif

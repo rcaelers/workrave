@@ -1,6 +1,6 @@
 // Mutex.hh
 //
-// Copyright (C) 2006 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2006, 2007 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -25,10 +25,8 @@
 
 #ifdef HAVE_QT
 #include "QtMutex.hh"
-#elif defined(WIN32)
-#include "W32Mutex.hh"
-#elif defined(HAVE_UNIX)
-#include "UnixMutex.hh"
+#elif defined(HAVE_GLIB)
+#include "GlibMutex.hh"
 #else
 #error Port missing
 #endif

@@ -49,10 +49,14 @@ static const char rcsid[] = "$Id$";
 #include "CoreFactory.hh"
 #include "IConfigurator.hh"
 #include "W32InputMonitor.hh"
-#include "W32AlternateMonitor.hh"
 #include "W32LowLevelMonitor.hh"
+#include "W32AlternateMonitor.hh"
+#elif defined(PLATFORM_OS_OSX)
+#include "OSXInputMonitor.hh"
 #endif
 
+#include "IInputMonitor.hh"
+using namespace std;
 
 //! Constructor.
 ActivityMonitor::ActivityMonitor(const char *display) :
@@ -104,7 +108,7 @@ ActivityMonitor::ActivityMonitor(const char *display) :
   bool initialized = false;
   string monitor_method;
   
-  CoreFactory::get_configurator()->get_value_default("advanced/monitor", &monitor_method, "normal");
+  CoreFactory::get_configurator()->get_value_with_default("advanced/monitor", monitor_method, "normal");
   
   if (monitor_method == "lowlevel")
     {
@@ -209,7 +213,7 @@ ActivityMonitor::ActivityMonitor(const char *display) :
         }
     }
 
-// Final try:
+  // Final try:
   if (monitor_method == "nohook" || !initialized)
     {
       input_monitor = new W32AlternateMonitor();
@@ -247,6 +251,9 @@ ActivityMonitor::ActivityMonitor(const char *display) :
         }
     }
   
+#elif defined(PLATFORM_OS_OSX)
+  input_monitor = new OSXInputMonitor();
+  input_monitor->init(this);
 #endif
 
   TRACE_EXIT();
@@ -325,9 +332,9 @@ ActivityMonitor::get_current_state()
   // First update the state...
   if (activity_state == ACTIVITY_ACTIVE)
     {
-      struct timeval now, tv;
-      gettimeofday(&now, NULL);
+      GTimeVal now, tv;
 
+      g_get_current_time(&now);
       tvSUBTIME(tv, now, last_action_time);
 
       TRACE_MSG("Active: "
@@ -414,10 +421,11 @@ ActivityMonitor::reset_statistics()
 void
 ActivityMonitor::shift_time(int delta)
 {
-  struct timeval d;
+  GTimeVal d;
 
   lock.lock();
-  tvSETTIME(d, delta, 0);
+
+  tvSETTIME(d, delta, 0)
 
   if (!tvTIMEEQ0(last_action_time))
     tvADDTIME(last_action_time, last_action_time, d);
@@ -447,8 +455,8 @@ ActivityMonitor::action_notify()
 {
   lock.lock();
 
-  struct timeval now;
-  gettimeofday(&now, NULL);
+  GTimeVal now;
+  g_get_current_time(&now);
 
   switch (activity_state)
     {
@@ -470,7 +478,7 @@ ActivityMonitor::action_notify()
 
     case ACTIVITY_NOISE:
       {
-        struct timeval tv;
+        GTimeVal tv;
 
         tvSUBTIME(tv, now, last_action_time);
         if (tvTIMEGT(tv, noise_threshold))
@@ -517,9 +525,9 @@ ActivityMonitor::mouse_notify(int x, int y, int wheel_delta)
 
       action_notify();
 
-      struct timeval now, tv;
+      GTimeVal now, tv;
 
-      gettimeofday(&now, NULL);
+      g_get_current_time(&now);
       tvSUBTIME(tv, now, last_mouse_time);
 
       if (!tvTIMEEQ0(last_mouse_time) && tv.tv_sec < 1 && tv.tv_sec >= 0 && tv.tv_usec >= 0)

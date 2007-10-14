@@ -19,14 +19,27 @@
 #ifndef INPUTMONITORLISTENER_HH
 #define INPUTMONITORLISTENER_HH
 
+//! Listener for events from the input monitor.
 class IInputMonitorListener
 {
 public:
   virtual ~IInputMonitorListener() {}
 
+  //! Generic user activity (if no details info is available)
   virtual void action_notify() = 0;
+// };
+
+// //! Listener for events from the input monitor.
+// class IStatisticsMonitorListener
+// {
+// public:
+  //! Reports mouse movement activity
   virtual void mouse_notify(int x, int y, int wheel = 0) = 0;
+
+  //! Reports mouse button activity
   virtual void button_notify(int button_mask, bool is_press) = 0;
+
+  //! Reports keyboard activity
   virtual void keyboard_notify(int key_code, int modifier) = 0;
 };
 

@@ -3,7 +3,7 @@
 // Copyright (C) 2001, 2002, 2003, 2004, 2007 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
-// Time-stamp: <2007-08-30 16:03:04 robc>
+// Time-stamp: <2007-10-08 20:25:29 robc>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -41,13 +41,8 @@ public:
 
 protected:
   bool on_timer();
-#ifdef HAVE_GTKMM24
   void on_size_request(Gtk::Requisition *requisition);
   void on_size_allocate(Gtk::Allocation &allocation);
-#else
-  void on_size_request(GtkRequisition *requisition);
-  void on_size_allocate(GtkAllocation *allocation);
-#endif
 
   bool on_expose_event(GdkEventExpose* e);
   void on_realize();

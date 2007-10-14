@@ -176,6 +176,7 @@ DWORD WINAPI W32SoundPlayer::thread_Play( LPVOID lpParam )
 {
   W32SoundPlayer *pThis = (W32SoundPlayer *) lpParam;
   pThis->Play();
+
   return (DWORD) 0;
 }
 

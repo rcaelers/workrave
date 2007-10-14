@@ -1,22 +1,19 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003 Rob Caelers <robc@krandor.org>
+# Copyright (C) 2001, 2002, 2003, 2007 Rob Caelers <robc@krandor.org>
 #
-# Time-stamp: <2003-06-24 23:20:14 robc>
+# Time-stamp: <2007-10-08 19:38:54 robc>
 #
 # $Id$
 #
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
-if HAVE_UNIX
+if PLATFORM_OS_UNIX
 
 noinst_LIBRARIES = 	libworkrave-common-unix.a
 
-libworkrave_common_unix_a_SOURCES = \
-			Condition.cc \
-			Thread.cc \
-			Sound.cc
+libworkrave_common_unix_a_SOURCES =
 
 libworkrave_common_unix_a_LIBADD =
 

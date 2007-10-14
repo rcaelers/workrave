@@ -1,6 +1,6 @@
 // MainWindow.hh --- Main info Window
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -29,8 +29,6 @@ class NetworkLogDialog;
 class TimerBoxControl;
 class TimerBoxGtkView;
 
-using namespace std;
-
 #include <gtkmm/window.h>
 
 #ifdef WIN32
@@ -38,17 +36,16 @@ using namespace std;
 #include "TimerBoxControl.hh"
 #endif
 
-#include "ConfiguratorListener.hh"
+#include "IConfiguratorListener.hh"
 
 namespace Gtk
 {
   class Menu;
 }
 
-
 class MainWindow :
   public Gtk::Window,
-  public ConfiguratorListener
+  public IConfiguratorListener
 {
 public:
   MainWindow();
@@ -113,7 +110,7 @@ private:
   //
   void init();
   void setup();
-  void config_changed_notify(std::string key);
+  void config_changed_notify(const std::string &key);
   void locate_window(GdkEventConfigure *event);
   void move_to_start_position();
 

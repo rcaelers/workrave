@@ -1,6 +1,6 @@
 // IniConfigurator.hh
 //
-// Copyright (C) 2001, 2002, 2003, 2005, 2006 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -25,38 +25,31 @@
 
 #include <glib.h>
 
-#include "Configurator.hh"
+#include "IConfigBackend.hh"
 
 class GlibIniConfigurator :
-  public Configurator
+  public virtual IConfigBackend
 {
 public:
   GlibIniConfigurator();
   virtual ~GlibIniConfigurator();
 
-  virtual bool load(string filename);
-  virtual bool save(string filename);
+  virtual bool load(std::string filename);
+  virtual bool save(std::string filename);
   virtual bool save();
 
-  virtual bool get_value(string key, string *out) const;
-  virtual bool get_value(string key, bool *out) const;
-  virtual bool get_value(string key, int *out) const;
-  virtual bool get_value(string key, long *out) const;
-  virtual bool get_value(string key, double *out) const;
-  virtual bool set_value(string key, string v);
-  virtual bool set_value(string key, int v);
-  virtual bool set_value(string key, long v);
-  virtual bool set_value(string key, bool v);
-  virtual bool set_value(string key, double v);
+  virtual bool remove_key(const std::string &key);
+  virtual bool get_value(const std::string &key, VariantType type, Variant &value) const;
+  virtual bool set_value(const std::string &key, Variant &value);
 
 private:
-  void split_key(const string key, string &group, string &out_key) const;
-  string key_inify(string key) const;
+  void split_key(const std::string &key, std::string &group, std::string &out_key) const;
+  std::string key_inify(const std::string &key) const;
 
 private:
   GKeyFile *config;
 
-  string last_filename;
+  std::string last_filename;
 };
 
 #endif // GLIBINICONFIGURATOR_HH

@@ -1,6 +1,6 @@
 // GConfConfigurator.hh
 //
-// Copyright (C) 2001, 2002, 2003, 2006 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2006, 2007 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -20,7 +20,6 @@
 #define GCONFCONFIGURATOR_HH
 
 #include <string>
-#include <list>
 #include <map>
 
 #include "glib.h"
@@ -31,60 +30,47 @@ class GConfEntry;
 class GConfValue;
 #endif
 
-#include "Configurator.hh"
-
-class ConfigurationListener;
+#include "IConfigBackend.hh"
 
 class GConfConfigurator :
-  public Configurator
+  public IConfigBackend, public IConfigBackendMonitoring
 {
 public:
   GConfConfigurator();
   virtual ~GConfConfigurator();
 
-  virtual bool load(string filename);
-  virtual bool save(string filename);
+  virtual bool load(std::string filename);
+  virtual bool save(std::string filename);
   virtual bool save();
 
-  virtual bool get_value(string key, GConfValue **value) const;
-  virtual bool get_value(string key, string *out) const;
-  virtual bool get_value(string key, bool *out) const;
-  virtual bool get_value(string key, int *out) const;
-  virtual bool get_value(string key, long *out) const;
-  virtual bool get_value(string key, double *out) const;
-  virtual bool set_value(string key, string v);
-  virtual bool set_value(string key, int v);
-  virtual bool set_value(string key, long v);
-  virtual bool set_value(string key, bool v);
-  virtual bool set_value(string key, double v);
+  virtual bool remove_key(const std::string &key);
+  virtual bool get_value(const std::string &key, VariantType type, Variant &value) const;
+  virtual bool set_value(const std::string &key, Variant &value);
 
-  virtual bool add_listener(string key_prefix, ConfiguratorListener *listener);
-  virtual bool remove_listener(ConfiguratorListener *listener);
-  virtual bool remove_listener(string key_prefix, ConfiguratorListener *listener);
-
-
+  virtual void set_listener(IConfiguratorListener *listener);
+  virtual bool add_listener(const std::string &key_prefix);
+  virtual bool remove_listener(const std::string &key_prefix);
 
 private:
-  // void key_changed(guint id, Gnome::Conf::Entry entry);
+  bool get_value(const std::string &key, GConfValue **value) const;
 
-private:
-  typedef map<guint, string> ListenerIDs;
-  typedef ListenerIDs::iterator ListenerIDsIter;
-
-  typedef map<pair<string, ConfiguratorListener *>, guint> IDMap;
+  typedef std::map<guint, std::string> IDMap;
   typedef IDMap::iterator IDMapIter;
 
-  //! GConf IDs to paths map.
-  ListenerIDs id2key_map;
-
-  //! key/itf to id map.
-  IDMap ids_map;
+  //! id -> key maps
+  IDMap ids;
 
   //! GConf thingy
   GConfClient *gconf_client;
 
+  //! notify connection ID
+  guint connection_id;
+
   //! GConf Root of workrave
-  string gconf_root;
+  std::string gconf_root;
+
+  //! Send changes to.
+  IConfiguratorListener *listener;
 
   //! Callback.
   static void static_key_changed(GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer user_data);
@@ -92,5 +78,6 @@ private:
   //!
   void key_changed(guint cnxn_id, GConfEntry *entry);
 };
+
 
 #endif // GCONFCONFIGURATOR_HH

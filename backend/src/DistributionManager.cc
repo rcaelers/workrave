@@ -1,6 +1,6 @@
 // DistributionManager.cc
 //
-// Copyright (C) 2002, 2003, 2004, 2006 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2004, 2006, 2007 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -524,7 +524,7 @@ DistributionManager::read_configuration()
   else
     {
       string peer ;
-      is_set = configurator->get_value(CFG_KEY_DISTRIBUTION + CFG_KEY_DISTRIBUTION_PEERS, &peer);
+      is_set = configurator->get_value(CFG_KEY_DISTRIBUTION + CFG_KEY_DISTRIBUTION_PEERS, peer);
       if (is_set)
         {
           parse_peers(peer);
@@ -555,7 +555,7 @@ DistributionManager::write_peers()
 
 //! Notification that the specified configuration key has changed.
 void
-DistributionManager::config_changed_notify(string key)
+DistributionManager::config_changed_notify(const string &key)
 {
   TRACE_ENTER_MSG("DistributionManager:config_changed_notify", key);
 
@@ -764,7 +764,7 @@ DistributionManager::get_enabled() const
 {
   bool ret = true;
   bool is_set = configurator->get_value(CFG_KEY_DISTRIBUTION + CFG_KEY_DISTRIBUTION_ENABLED,
-                                        &ret);
+                                        ret);
   if (!is_set)
     {
       ret = false;
@@ -786,7 +786,7 @@ DistributionManager::get_username() const
 {
   string ret;
   configurator->get_value(CFG_KEY_DISTRIBUTION + CFG_KEY_DISTRIBUTION_TCP_USERNAME,
-                          &ret);
+                          ret);
   return ret;
 }
 
@@ -803,7 +803,7 @@ DistributionManager::get_password() const
 {
   string ret;
   configurator->get_value(CFG_KEY_DISTRIBUTION + CFG_KEY_DISTRIBUTION_TCP_PASSWORD,
-                          &ret);
+                          ret);
   return ret;
 }
 
@@ -820,7 +820,7 @@ DistributionManager::get_port() const
 {
   int ret;
   bool is_set = configurator->get_value(CFG_KEY_DISTRIBUTION + CFG_KEY_DISTRIBUTION_TCP_PORT,
-                                        &ret);
+                                        ret);
   if (!is_set)
     {
       ret = DEFAULT_PORT;
@@ -842,7 +842,7 @@ DistributionManager::get_reconnect_attempts() const
 {
   int ret;
   bool is_set = configurator->get_value(CFG_KEY_DISTRIBUTION + CFG_KEY_DISTRIBUTION_TCP_ATTEMPTS,
-                                        &ret);
+                                        ret);
   if (!is_set)
     {
       ret = DEFAULT_ATTEMPTS;
@@ -864,7 +864,7 @@ DistributionManager::get_reconnect_interval() const
 {
   int ret;
   bool is_set = configurator->get_value(CFG_KEY_DISTRIBUTION + CFG_KEY_DISTRIBUTION_TCP_INTERVAL,
-                                        &ret);
+                                        ret);
   if (!is_set)
     {
       ret = DEFAULT_INTERVAL;

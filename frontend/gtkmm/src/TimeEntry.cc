@@ -1,6 +1,6 @@
 // TimeEntry.cc --- Entry widget for time
 //
-// Copyright (C) 2002, 2003, 2004, 2006 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2006, 2007 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -42,8 +42,8 @@ TimeEntry::TimeEntry(bool millis)
 
   secs = manage(new Gtk::SpinButton(secs_adjustment));
   secs->set_numeric(true);
-  secs->signal_changed().connect(MEMBER_SLOT(*this, &TimeEntry::on_changed));
-  secs->signal_value_changed().connect(MEMBER_SLOT(*this, &TimeEntry::on_value_changed));
+  secs->signal_changed().connect(sigc::mem_fun(*this, &TimeEntry::on_changed));
+  secs->signal_value_changed().connect(sigc::mem_fun(*this, &TimeEntry::on_value_changed));
 
   if (millis)
     {
@@ -64,15 +64,15 @@ TimeEntry::TimeEntry(bool millis)
       hrs->set_numeric(true);
       hrs->set_wrap(true);
       hrs->set_width_chars(2);
-      hrs->signal_changed().connect(MEMBER_SLOT(*this, &TimeEntry::on_changed));
-      hrs->signal_value_changed().connect(MEMBER_SLOT(*this, &TimeEntry::on_value_changed));
+      hrs->signal_changed().connect(sigc::mem_fun(*this, &TimeEntry::on_changed));
+      hrs->signal_value_changed().connect(sigc::mem_fun(*this, &TimeEntry::on_value_changed));
 
       mins = manage(new Gtk::SpinButton(mins_adjustment));
       mins->set_numeric(true);
       mins->set_wrap(true);
       mins->set_width_chars(2);
-      mins->signal_changed().connect(MEMBER_SLOT(*this, &TimeEntry::on_changed));
-      mins->signal_value_changed().connect(MEMBER_SLOT(*this, &TimeEntry::on_value_changed));
+      mins->signal_changed().connect(sigc::mem_fun(*this, &TimeEntry::on_changed));
+      mins->signal_value_changed().connect(sigc::mem_fun(*this, &TimeEntry::on_value_changed));
   
       Gtk::Label *semi1 = manage(new Gtk::Label(":"));
       Gtk::Label *semi2 = manage(new Gtk::Label(":"));

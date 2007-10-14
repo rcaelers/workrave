@@ -1,6 +1,6 @@
 // TimerBoxPreferencePage.cc --- Preferences widgets for a timer
 //
-// Copyright (C) 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -108,7 +108,7 @@ TimerBoxPreferencePage::create_page()
   cycle_entry->set_numeric(true);
   cycle_entry->set_width_chars(3);
   cycle_entry->signal_changed().connect
-    (MEMBER_SLOT(*this, &TimerBoxPreferencePage::on_cycle_time_changed));
+    (sigc::mem_fun(*this, &TimerBoxPreferencePage::on_cycle_time_changed));
 
   // Timer display
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -138,7 +138,7 @@ TimerBoxPreferencePage::create_page()
       ontop_cb = manage
         (new Gtk::CheckButton
          (_("The status window stays always on top of other windows")));
-      ontop_cb->signal_toggled().connect(MEMBER_SLOT(*this, &TimerBoxPreferencePage::on_always_on_top_toggled));
+      ontop_cb->signal_toggled().connect(sigc::mem_fun(*this, &TimerBoxPreferencePage::on_always_on_top_toggled));
       ontop_cb->set_active(MainWindow::get_always_on_top());
     }
   else if (name == "applet")
@@ -230,14 +230,14 @@ void
 TimerBoxPreferencePage::init_page_callbacks()
 {
   place_button->signal_changed().connect
-    (MEMBER_SLOT(*this, &TimerBoxPreferencePage::on_place_changed));
+    (sigc::mem_fun(*this, &TimerBoxPreferencePage::on_place_changed));
 
-  enabled_cb->signal_toggled().connect(MEMBER_SLOT(*this, &TimerBoxPreferencePage::on_enabled_toggled));
+  enabled_cb->signal_toggled().connect(sigc::mem_fun(*this, &TimerBoxPreferencePage::on_enabled_toggled));
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       timer_display_button[i]->signal_changed().connect
-        (bind(MEMBER_SLOT(*this, &TimerBoxPreferencePage::on_display_changed), i));
+        (bind(sigc::mem_fun(*this, &TimerBoxPreferencePage::on_display_changed), i));
     }
 }
 
@@ -393,7 +393,7 @@ TimerBoxPreferencePage::on_always_on_top_toggled()
 
 
 void
-TimerBoxPreferencePage::config_changed_notify(string key)
+TimerBoxPreferencePage::config_changed_notify(const string &key)
 {
   TRACE_ENTER("TimerBoxPreferencePage::config_changed_notify");
   (void)key;

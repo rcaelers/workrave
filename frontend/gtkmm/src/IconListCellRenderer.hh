@@ -1,6 +1,6 @@
 // IconListCellRenderer.hh --- Notebook like widget cell renderer
 //
-// Copyright (C) 2003 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2003, 2007 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -47,21 +47,12 @@ protected:
                               int* x_offset, int* y_offset,
                               int* width,    int* height);
 
-#ifdef HAVE_GTKMM24
   virtual void render_vfunc(const Glib::RefPtr<Gdk::Drawable>& window,
                             Gtk::Widget& widget,
                             const Gdk::Rectangle& background_area,
                             const Gdk::Rectangle& cell_area,
                             const Gdk::Rectangle& expose_area,
                             Gtk::CellRendererState flags);
-#else
-  virtual void render_vfunc(const Glib::RefPtr<Gdk::Window>& window,
-                            Gtk::Widget& widget,
-                            const Gdk::Rectangle& background_area,
-                            const Gdk::Rectangle& cell_area,
-                            const Gdk::Rectangle& expose_area,
-                            Gtk::CellRendererState flags);
-#endif
 
 private:
   void update_properties();

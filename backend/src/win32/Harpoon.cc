@@ -58,7 +58,7 @@ Harpoon::init(HarpoonHookFunc func)
   bool debug, mouse_lowlevel, keyboard_lowlevel;
 
   CoreFactory::get_configurator()->
-      get_value_default( "advanced/harpoon/debug", &debug, false );
+      get_value_with_default( "advanced/harpoon/debug", debug, false );
 
   bool default_mouse_lowlevel = false;
   if ( LOBYTE( LOWORD( GetVersion() ) ) >= 6)
@@ -67,10 +67,10 @@ Harpoon::init(HarpoonHookFunc func)
     }
   
   CoreFactory::get_configurator()->
-      get_value_default( "advanced/harpoon/mouse_lowlevel", &mouse_lowlevel, default_mouse_lowlevel );
+      get_value_with_default( "advanced/harpoon/mouse_lowlevel", mouse_lowlevel, default_mouse_lowlevel );
 
   CoreFactory::get_configurator()->
-      get_value_default( "advanced/harpoon/keyboard_lowlevel", &keyboard_lowlevel, true );
+      get_value_with_default( "advanced/harpoon/keyboard_lowlevel", keyboard_lowlevel, true );
 
   if (harpoon_init(critical_filename_list, (BOOL)debug) == FALSE)
     {
@@ -113,7 +113,7 @@ Harpoon::init_critical_filename_list()
 
   filecount = 0;
   if( !CoreFactory::get_configurator()->
-      get_value( "advanced/critical_files/filecount", &filecount) || !filecount )
+      get_value( "advanced/critical_files/filecount", filecount) || !filecount )
           return;
 
   if( filecount >= HARPOON_MAX_UNBLOCKED_APPS )
@@ -130,7 +130,7 @@ Harpoon::init_critical_filename_list()
     {
       sprintf( loc, "advanced/critical_files/file%d", i );
       if( CoreFactory::get_configurator()->
-          get_value( loc, &buffer) )
+          get_value( loc, buffer) )
         {
           strncpy( critical_filename_list[ i ], buffer.c_str(), 510 );
           critical_filename_list[ i ][ 510 ] = '\0';
@@ -191,18 +191,18 @@ Harpoon::check_for_taskmgr_debugger( char *out )
   if( p2 != buffer )
   // e.g. "my debugger.exe" /y /x
     {
-      if( p = _mbschr( p2, '\"' ) )
+      if( (p = _mbschr( p2, '\"' )) )
           *p = '\0';
     }
   else
   // e.g. debugger.exe /y /x
     {
-      if( p = _mbschr( p2, ' ' ) )
+      if( (p = _mbschr( p2, ' ' )) )
           *p = '\0';
     }
 
   // Search the path to find where the filename starts:
-  if( p = (unsigned char *)_mbsrchr( p2, '\\' ) )
+  if( (p = (unsigned char *)_mbsrchr( p2, '\\' )) )
   // Point to first (mb) filename character
       ++p;
   else

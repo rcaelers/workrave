@@ -1,6 +1,6 @@
 // AppletPreferencesPanel.hh --- Preferences widgets for a timer
 //
-// Copyright (C) 2002, 2003, 2005, 2006 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2005, 2006, 2007 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -28,7 +28,7 @@ namespace Gtk
 }
 
 #include "ICore.hh"
-#include "ConfiguratorListener.hh"
+#include "IConfiguratorListener.hh"
 
 #include <string>
 #include <gtkmm/box.h>
@@ -37,7 +37,7 @@ using namespace std;
 
 class TimerBoxPreferencePage
   : public Gtk::HBox,
-    public ConfiguratorListener
+    public IConfiguratorListener
 {
 public:
   TimerBoxPreferencePage(string name);
@@ -54,7 +54,7 @@ private:
   void on_cycle_time_changed();
   void on_always_on_top_toggled();
 
-  void config_changed_notify(string key);
+  void config_changed_notify(const string &key);
 
   string name;
 

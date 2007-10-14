@@ -24,7 +24,7 @@
 #include <iostream>
 
 #include "Orientation.hh"
-using namespace Workrave;
+using namespace workrave;
 
 class TimerBoxControl;
 class ITimerBoxView;

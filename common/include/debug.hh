@@ -1,6 +1,6 @@
 // debug.hh
 //
-// Copyright (C) 2001, 2002, 2003, 2006 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2006, 2007 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -38,29 +38,26 @@
 
 extern Mutex g_logMutex;
 
-using namespace std;
-
-
 #define TRACE_ENTER(x   ) g_logMutex.lock(); \
-                          char *debugMethod = x; \
-                          cerr << ">>> " << x << endl; \
+                          const char *debugMethod = x;   \
+                          std::cerr << ">>> " << x << std::endl; \
                           g_logMutex.unlock();
 
 #define TRACE_ENTER_MSG(x, y) g_logMutex.lock(); \
-                          char *debugMethod = x; \
-                          cerr << ">>> " << x << " " << y << endl; \
+                          const char *debugMethod = x; \
+                          std::cerr << ">>> " << x << " " << y << std::endl; \
                           g_logMutex.unlock();
 
 #define TRACE_RETURN(y)   g_logMutex.lock(); \
-                          cerr << "<<< " << debugMethod << y << endl; \
+                          std::cerr << "<<< " << debugMethod << y << std::endl; \
                           g_logMutex.unlock();
 
 #define TRACE_EXIT()      g_logMutex.lock(); \
-                          cerr << "<<< " << debugMethod << endl; \
+                          std::cerr << "<<< " << debugMethod << std::endl; \
                           g_logMutex.unlock();
 
 #define TRACE_MSG(msg)    g_logMutex.lock(); \
-                          cerr << "    " << debugMethod << " " << msg  << endl; \
+                          std::cerr << "    " << debugMethod << " " << msg  << std::endl; \
                           g_logMutex.unlock();
 
 #endif // NDEBUG

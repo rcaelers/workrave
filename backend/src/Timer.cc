@@ -156,7 +156,7 @@ Timer::set_limit_enabled(bool b)
  *
  */
 void
-Timer::set_limit(long limit_time)
+Timer::set_limit(int limit_time)
 {
   limit_interval = limit_time;
 
@@ -189,7 +189,7 @@ Timer::set_auto_reset_enabled(bool b)
  * \param resetTime after this amount of idle time the timer will reset itself.
  */
 void
-Timer::set_auto_reset(long reset_time)
+Timer::set_auto_reset(int reset_time)
 {
   if (reset_time > autoreset_interval)
     {

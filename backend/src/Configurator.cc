@@ -1,6 +1,7 @@
 // Configurator.cc --- Configuration Access
 //
-// Copyright (C) 2002, 2003, 2006, 2007 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2006, 2007 Rob Caelers <robc@krandor.nl>
+//
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -26,139 +27,577 @@ static const char rcsid[] = "$Id$";
 #include <sstream>
 
 #include "Configurator.hh"
-#include "ConfiguratorListener.hh"
 
-#ifdef HAVE_GLIB
-#include "GlibIniConfigurator.hh"
-#endif
-#ifdef HAVE_QT
-#include "QtIniConfigurator.hh"
-#include "QtNativeConfigurator.hh"
-#endif
-#ifdef HAVE_GDOME
-#include "XMLConfigurator.hh"
-#endif
-#ifdef HAVE_GCONF
-#include "GConfConfigurator.hh"
-#endif
-#ifdef HAVE_REGISTRY
-#include "W32Configurator.hh"
-#endif
+#include "IConfigBackend.hh"
+#include "ICore.hh"
+#include "CoreFactory.hh"
+#include "IConfiguratorListener.hh"
 
-
-//! Creates a configurator of the specified type.
-Configurator *
-Configurator::create(Format fmt)
-{
-  Configurator *c =  NULL;
-
-#ifdef HAVE_GDOME
-  if (fmt == FormatXml)
-    {
-      c = new XMLConfigurator();
-    }
-  else
-#endif
-
-#ifdef HAVE_GCONF
-  if (fmt == FormatNative)
-    {
-      c = new GConfConfigurator();
-    }
-  else
-#endif
-
-#ifdef HAVE_REGISTRY
-  if (fmt == FormatNative)
-    {
-      c = new W32Configurator();
-    }
-  else
-#endif
-
-#ifdef HAVE_QT
-  if (fmt == FormatNative)
-    {
-      c = new QtNativeConfigurator();
-    }
-  else
-#endif
-
-  if (fmt == FormatIni)
-    {
-#ifdef HAVE_GLIB
-      c = new GlibIniConfigurator();
-#elif defined(HAVE_QT)
-      c = new QtIniConfigurator();
-#else
-#error Not ported
-#endif
-    }
-  else
-    {
-      exit(1);
-    }
-  return c;
-}
-
+using namespace std;
 
 // Constructs a new configurator.
-Configurator::Configurator()
+Configurator::Configurator(IConfigBackend *backend)
 {
+  this->auto_save_time = 0;
+  this->backend = backend;
+  if (dynamic_cast<IConfigBackendMonitoring *>(backend) != NULL)
+    {
+      dynamic_cast<IConfigBackendMonitoring *>(backend)->set_listener(this);
+    }
 }
 
 
 // Destructs the configurator.
 Configurator::~Configurator()
 {
+  delete backend;
 }
 
 
-//! Add the specified configuration change listener.
-/*!
- *  \param listener listener to add.
- *
- *  \retval true listener successfully added.
- *  \retval false listener already added.
- */
 bool
-Configurator::add_listener(string key_prefix, ConfiguratorListener *listener)
+Configurator::load(std::string filename)
 {
-  bool ret = true;
+  return backend->load(filename);
+}
 
-  strip_leading_slash(key_prefix);
 
-  ListenerIter i = listeners.begin();
-  while (ret && i != listeners.end())
+bool
+Configurator::save(std::string filename)
+{
+  return backend->save(filename);
+}
+
+
+bool
+Configurator::save()
+{
+  return backend->save();
+}
+
+
+void
+Configurator::heartbeat()
+{
+  ICore *core = CoreFactory::get_core();
+  time_t now = core->get_time();
+
+  DelayedListIter it = delayed_config.begin();
+  while (it != delayed_config.end())
     {
-      if (key_prefix == i->first && listener == i->second)
+      DelayedConfig &delayed = it->second;
+      DelayedListIter next = it;
+      next++;
+
+      if (now >= delayed.until)
         {
-          // Already added. Skip
-          ret = false;
+          delayed_config.erase(it);
+
+          bool b = backend->set_value(delayed.key, delayed.value);
+
+          if (b && dynamic_cast<IConfigBackendMonitoring *>(backend) == NULL)
+            {
+              fire_configurator_event(delayed.key);
+
+              if (auto_save_time == 0)
+                {
+                  ICore *core = CoreFactory::get_core();
+                  auto_save_time = core->get_time() + 30;
+                }
+            }
+
         }
 
-      i++;
+      it = next;
     }
 
-  if (ret)
+  if (now >= auto_save_time)
     {
-      // not found -> add
-      listeners.push_back(make_pair(key_prefix, listener));
+      save();
+      auto_save_time = 0;
+    }
+}
+
+
+void
+Configurator::set_delay(const std::string &key, int delay)
+{
+  Setting setting;
+  bool b = find_setting(key, setting);
+  if (b)
+    {
+      setting.delay = delay;
+    }
+  else
+    {
+      setting.key = key;
+      setting.delay = delay;
+      settings[key] = setting;
+    }
+}
+
+
+
+bool
+Configurator::remove_key(const std::string &key) const
+{
+  return backend->remove_key(key);
+}
+
+
+bool
+Configurator::rename_key(const std::string &key, const std::string &new_key)
+{
+  bool ok = false;
+  Variant value;
+  
+  bool exists = get_value(new_key, VARIANT_TYPE_NONE, value);
+  if (!exists)
+    {
+      ok = get_value(key, VARIANT_TYPE_NONE, value);
+    }
+
+  if (ok)
+    {
+      ok = set_value(new_key, value, CONFIG_FLAG_IMMEDIATE);
+    }
+
+  if (ok)
+    {
+      // Ignore error...
+      remove_key(key);
+    }
+
+  return ok;
+}
+
+
+bool
+Configurator::set_value(const std::string &key, Variant &value, bool force_now)
+{
+  bool ret = false;
+  bool delayed = false;
+  Setting setting;
+
+  string newkey = key;
+  strip_trailing_slash(newkey);
+  strip_leading_slash(newkey);
+
+  bool b = find_setting(newkey, setting);
+  if (b)
+    {
+      if (setting.delay && !force_now)
+        {
+          ICore *core = CoreFactory::get_core();
+
+          DelayedConfig d;
+          d.key = key;
+          d.value = value;
+          d.until = core->get_time() + setting.delay;
+
+          delayed_config[key] = d;
+          delayed = true;
+        }
+    }
+
+  if (!ret && !delayed)
+    {
+      b = backend->set_value(newkey, value);
+
+      if (b && dynamic_cast<IConfigBackendMonitoring *>(backend) == NULL)
+        {
+          fire_configurator_event(newkey);
+
+          if (auto_save_time == 0)
+            {
+              ICore *core = CoreFactory::get_core();
+              auto_save_time = core->get_time() + 30;
+            }
+        }
+    }
+
+  return b || delayed;
+}
+
+
+bool
+Configurator::get_value(const std::string &key, VariantType type, Variant &out) const
+{
+  bool ret = false;
+  Setting setting;
+
+  string newkey = key;
+  strip_trailing_slash(newkey);
+  strip_leading_slash(newkey);
+
+  DelayedListCIter it = delayed_config.find(newkey);
+  if (it != delayed_config.end())
+    {
+      const DelayedConfig &delayed = it->second;
+      out = delayed.value;
+      ret = true;
+    }
+
+  if (!ret)
+    {
+      ret = backend->get_value(newkey, type, out);
+    }
+
+  if (ret && type != VARIANT_TYPE_NONE && out.type != type)
+    {
+      ret = false;
+      out.type = VARIANT_TYPE_NONE;
+    }
+  
+  return ret;
+}
+
+
+
+bool
+Configurator::get_value(const std::string &key, std::string &out) const
+{
+  Variant value;
+  bool b = get_value(key, VARIANT_TYPE_STRING, value);
+  out = value.string_value;
+
+  return b;
+}
+
+
+bool
+Configurator::get_value(const std::string &key, bool &out) const
+{
+  Variant value;
+  bool b = get_value(key, VARIANT_TYPE_BOOL, value);
+  out = value.bool_value;
+
+  return b;
+}
+
+
+bool
+Configurator::get_value(const std::string &key, int &out) const
+{
+  Variant value;
+  bool b = get_value(key, VARIANT_TYPE_INT, value);
+  out = value.int_value;
+
+  return b;
+}
+
+
+bool
+Configurator::get_value(const std::string &key, double &out) const
+{
+  Variant value;
+  bool b = get_value(key, VARIANT_TYPE_DOUBLE, value);
+  out = value.double_value;
+
+  return b;
+}
+
+
+bool
+Configurator::set_value(const std::string &key, const std::string &v, ConfigFlags flags)
+{
+  Variant value;
+  bool ret = false;
+  
+  if (flags & CONFIG_FLAG_DEFAULT != 0)
+    {
+      ret = get_value(key, VARIANT_TYPE_STRING, value);
+    }
+  
+  if (!ret)
+    {
+      value.type = VARIANT_TYPE_STRING;
+      value.string_value = v;
+      ret = set_value(key, value, flags != CONFIG_FLAG_NONE);
     }
 
   return ret;
 }
 
 
-//! Removes the specified configuration change listener.
-/*!
- *  \param listener listener to remove.
- *
- *  \retval true listener successfully removed.
- *  \retval false listener not found.
- */
 bool
-Configurator::remove_listener(ConfiguratorListener *listener)
+Configurator::set_value(const std::string &key, const char *v, ConfigFlags flags)
+{
+  Variant value;
+  bool ret = false;
+  
+  if (flags & CONFIG_FLAG_DEFAULT != 0)
+    {
+      ret = get_value(key, VARIANT_TYPE_STRING, value);
+    }
+  
+  if (!ret)
+    {
+      value.type = VARIANT_TYPE_STRING;
+      value.string_value = v;
+      ret = set_value(key, value, flags != CONFIG_FLAG_NONE);
+    }
+
+  return ret;
+}
+
+bool
+Configurator::set_value(const std::string &key, int v, ConfigFlags flags)
+{
+  Variant value;
+  bool ret = false;
+  
+  if (flags & CONFIG_FLAG_DEFAULT != 0)
+    {
+      ret = get_value(key, VARIANT_TYPE_INT, value);
+    }
+  
+  if (!ret)
+    {
+      value.type = VARIANT_TYPE_INT;
+      value.int_value = v;
+      ret = set_value(key, value, flags != CONFIG_FLAG_NONE);
+    }
+
+  return ret;
+}
+
+
+bool
+Configurator::set_value(const std::string &key, bool v, ConfigFlags flags)
+{
+  Variant value;
+  bool ret = false;
+  
+  if (flags & CONFIG_FLAG_DEFAULT != 0)
+    {
+      ret = get_value(key, VARIANT_TYPE_BOOL, value);
+    }
+  
+  if (!ret)
+    {
+      value.type = VARIANT_TYPE_BOOL;
+      value.bool_value = v;
+      ret = set_value(key, value, flags != CONFIG_FLAG_NONE);
+    }
+
+  return ret;
+}
+
+
+bool
+Configurator::set_value(const std::string &key, double v, ConfigFlags flags)
+{
+  Variant value;
+  bool ret = false;
+  
+  if (flags & CONFIG_FLAG_DEFAULT != 0)
+    {
+      ret = get_value(key, VARIANT_TYPE_DOUBLE, value);
+    }
+  
+  if (!ret)
+    {
+      value.type = VARIANT_TYPE_DOUBLE;
+      value.double_value = v;
+      ret = set_value(key, value, flags != CONFIG_FLAG_NONE);
+    }
+
+  return ret;
+}
+
+
+void
+Configurator::get_value_with_default(const string &key, int &out, const int def) const
+{
+  bool b = get_value(key, out);
+  if (! b)
+    {
+      out = def;
+      b = true;
+    }
+}
+
+
+
+void
+Configurator::get_value_with_default(const string &key, bool &out, const bool def) const
+{
+  bool b = get_value(key, out);
+  if (! b)
+    {
+      out = def;
+    }
+}
+
+
+void
+Configurator::get_value_with_default(const string &key, string &out,
+                                const string def) const
+{
+  bool b = get_value(key, out);
+  if (! b)
+    {
+      out = def;
+    }
+}
+
+
+void
+Configurator::get_value_with_default(const string &key, double &out,
+                                const double def) const
+{
+  bool b = get_value(key, out);
+  if (! b)
+    {
+      out = def;
+    }
+}
+
+
+bool
+Configurator::get_typed_value(const std::string &key, std::string &t) const
+{
+  bool b = false;
+  stringstream ss;
+
+  if (!b)
+    {
+      string s;
+      b = get_value(key, s);
+
+      if (b)
+        {
+          ss << "string:" << s;
+        }
+    }
+
+  if (!b)
+    {
+      int i;
+      b = get_value(key, i);
+
+      if (b)
+        {
+          ss << "int:" << i;
+        }
+    }
+
+  if (!b)
+    {
+      bool bv;
+      b = get_value(key, bv);
+
+      if (b)
+        {
+          ss << "bool:" << bv;
+        }
+    }
+
+  if (!b)
+    {
+      double d;
+      b = get_value(key, d);
+
+      if (b)
+        {
+          ss << "double:" << d;
+        }
+    }
+
+  if (b)
+    {
+      t = ss.str();
+    }
+
+  return b;
+}
+
+
+bool
+Configurator::set_typed_value(const std::string &key, const std::string &t)
+{
+  string::size_type pos = t.find(':');
+  string type;
+  string value;
+
+  if (pos != string::npos)
+    {
+      type = t.substr(0, pos);
+      value = t.substr(pos + 1);
+    }
+  else
+    {
+      type = "string";
+      value = t;
+    }
+
+  if (type == "string")
+    {
+      set_value(key, value, CONFIG_FLAG_IMMEDIATE);
+    }
+  else if (type == "int")
+    {
+      set_value(key, atoi(value.c_str()), CONFIG_FLAG_IMMEDIATE);
+    }
+  else if (type == "bool")
+    {
+      bool b = atoi(value.c_str()) > 0;
+      set_value(key, b, CONFIG_FLAG_IMMEDIATE);
+    }
+  else if (type == "double")
+    {
+      set_value(key, atof(value.c_str()), CONFIG_FLAG_IMMEDIATE);
+    }
+  else
+    {
+      return false;
+    }
+
+  return true;
+}
+
+
+bool
+Configurator::add_listener(const std::string &key_prefix, IConfiguratorListener *listener)
+{
+  bool ret = true;
+  string key = key_prefix;
+
+  strip_leading_slash(key);
+  strip_trailing_slash(key);
+
+  if (dynamic_cast<IConfigBackendMonitoring *>(backend) != NULL)
+    {
+      ret = dynamic_cast<IConfigBackendMonitoring *>(backend)->add_listener(key_prefix);
+    }
+
+  if (ret)
+    {
+      ListenerIter i = listeners.begin();
+      while (ret && i != listeners.end())
+        {
+          if (key == i->first && listener == i->second)
+            {
+              // Already added. Skip
+              ret = false;
+            }
+
+          i++;
+        }
+    }
+
+  if (ret)
+    {
+      // not found -> add
+      listeners.push_back(make_pair(key, listener));
+    }
+
+  return ret;
+}
+
+
+bool
+Configurator::remove_listener(IConfiguratorListener *listener)
 {
   bool ret = false;
 
@@ -181,23 +620,20 @@ Configurator::remove_listener(ConfiguratorListener *listener)
 }
 
 
-//! Removes the specified configuration change listener.
-/*!
- *  \param listener listener to remove.
- *  \param listener key of listener to remove.
- *
- *  \retval true listener successfully removed.
- *  \retval false listener not found.
- */
 bool
-Configurator::remove_listener(string key, ConfiguratorListener *listener)
+Configurator::remove_listener(const std::string &key_prefix, IConfiguratorListener *listener)
 {
   bool ret = false;
+
+  if (dynamic_cast<IConfigBackendMonitoring *>(backend) != NULL)
+    {
+      dynamic_cast<IConfigBackendMonitoring *>(backend)->remove_listener(key_prefix);
+    }
 
   ListenerIter i = listeners.begin();
   while (i != listeners.end())
     {
-      if (i->first == key && i->second == listener)
+      if (i->first == key_prefix && i->second == listener)
         {
           // Found. Remove
           i = listeners.erase(i);
@@ -213,17 +649,8 @@ Configurator::remove_listener(string key, ConfiguratorListener *listener)
 }
 
 
-
-//! Finds the key of the specified configuration change listener.
-/*!
- *  \param listener listener to find the key of.
- *  \param key returned key.
- *
- *  \retval true listener successfully found.
- *  \retval false listener not found.
- */
 bool
-Configurator::find_listener(ConfiguratorListener *listener, string &key) const
+Configurator::find_listener(IConfiguratorListener *listener, std::string &key) const
 {
   bool ret = false;
 
@@ -242,25 +669,27 @@ Configurator::find_listener(ConfiguratorListener *listener, string &key) const
   return ret;
 }
 
-
 //! Fire a configuration changed event.
 void
-Configurator::fire_configurator_event(string key)
+Configurator::fire_configurator_event(const string &key)
 {
   TRACE_ENTER_MSG("Configurator::fire_configurator_event", key);
-  strip_leading_slash(key);
+
+  string k = key;
+  strip_leading_slash(k);
+  strip_trailing_slash(k);
 
   ListenerIter i = listeners.begin();
   while (i != listeners.end())
     {
       string prefix = i->first;
 
-      if (key.substr(0, prefix.length()) == prefix)
+      if (k.substr(0, prefix.length()) == prefix)
         {
-          ConfiguratorListener *l = i->second;
+          IConfiguratorListener *l = i->second;
           if (l != NULL)
             {
-              l->config_changed_notify(key);
+              l->config_changed_notify(k);
             }
         }
       i++;
@@ -314,228 +743,25 @@ Configurator::add_trailing_slash(string &key) const
     }
 }
 
-void
-Configurator::get_value_default(string key, int *out, const int def) const
-{
-  bool b = get_value(key, out);
-  if (! b)
-    {
-      *out = def;
-      b = true;
-    }
-}
 
-
-
-void
-Configurator::get_value_default(string key, bool *out, const bool def) const
-{
-  bool b = get_value(key, out);
-  if (! b)
-    {
-      *out = def;
-    }
-}
-
-void
-Configurator::get_value_default(string key, string *out,
-                                const string def) const
-{
-  bool b = get_value(key, out);
-  if (! b)
-    {
-      *out = def;
-    }
-}
-
-
-void
-Configurator::get_value_default(string key, long *out,
-                                const long def) const
-{
-  bool b = get_value(key, out);
-  if (! b)
-    {
-      *out = def;
-    }
-}
-
-
-void
-Configurator::get_value_default(string key, double *out,
-                                const double def) const
-{
-  bool b = get_value(key, out);
-  if (! b)
-    {
-      *out = def;
-    }
-}
-
-
-// func overloads bool/int/long/double copied from W32Config:
 bool
-Configurator::get_value_on_quit( string key, bool *out) const
+Configurator::find_setting(const string &key, Setting &setting) const
 {
   bool ret = false;
-  map<string, Variant>::const_iterator it = saveonquit_list.find(key);
-  if (it != saveonquit_list.end())
+
+  SettingCIter it = settings.find(key);
+  if (it != settings.end())
     {
-      const Variant &v = it->second;
-      if (v.type == VARIANT_TYPE_BOOL)
-        {
-          *out = v.bool_value;
-          ret = true;
-        }
+      setting = it->second;
+      ret = true;
     }
+
   return ret;
 }
 
-
-bool
-Configurator::get_value_on_quit( string key, int *out ) const
-{
-  bool ret = false;
-  map<string, Variant>::const_iterator it = saveonquit_list.find(key);
-  if (it != saveonquit_list.end())
-    {
-      const Variant &v = it->second;
-      if (v.type == VARIANT_TYPE_INT)
-        {
-          *out = v.int_value;
-          ret = true;
-        }
-    }
-  return ret;
-}
-
-bool
-Configurator::get_value_on_quit( string key, long *out ) const
-{
-  bool ret = false;
-  map<string, Variant>::const_iterator it = saveonquit_list.find(key);
-  if (it != saveonquit_list.end())
-    {
-      const Variant &v = it->second;
-      if (v.type == VARIANT_TYPE_LONG)
-        {
-          *out = v.long_value;
-          ret = true;
-        }
-    }
-  return ret;
-}
-
-bool
-Configurator::get_value_on_quit( string key, double *out ) const
-{
-  bool ret = false;
-  map<string, Variant>::const_iterator it = saveonquit_list.find(key);
-  if (it != saveonquit_list.end())
-    {
-      const Variant &v = it->second;
-      if (v.type == VARIANT_TYPE_DOUBLE)
-        {
-          *out = v.double_value;
-          ret = true;
-        }
-    }
-  return ret;
-}
-
-
-bool
-Configurator::get_value_on_quit( string key, string *out ) const
-{
-  bool ret = false;
-  map<string, Variant>::const_iterator it = saveonquit_list.find(key);
-  if (it != saveonquit_list.end())
-    {
-      const Variant &v = it->second;
-      if (v.type == VARIANT_TYPE_STRING)
-        {
-          *out = v.string_value;
-          ret = true;
-        }
-    }
-  return ret;
-}
-
-
-// func overloads bool/int/long/double copied from W32Config:
 void
-Configurator::set_value_on_quit( string key, bool v )
+Configurator::config_changed_notify(const std::string &key)
 {
-  saveonquit_list[key] = Variant(v);
+  fire_configurator_event(key);
 }
 
-void
-Configurator::set_value_on_quit( string key, int v )
-{
-  saveonquit_list[key] = Variant(v);
-}
-
-void
-Configurator::set_value_on_quit( string key, long v )
-{
-  saveonquit_list[key] = Variant(v);
-}
-
-void
-Configurator::set_value_on_quit( string key, double v )
-{
-  saveonquit_list[key] = Variant(v);
-}
-
-void
-Configurator::set_value_on_quit( string key, string v )
-{
-  saveonquit_list[key] = Variant(v);
-}
-
-
-void
-Configurator::set_values_now_we_are_quitting()
-// This function should be called only from the Core destructor!
-// Do not call from Configurator destructor, because the virtual
-// functions will have already been destroyed.
-{
-  map<string, Variant>::const_iterator it = saveonquit_list.begin();
-  while (it != saveonquit_list.end())
-    {
-      const Variant &v = it->second;
-      const string key = it->first;
-      
-      switch(v.type)
-        {
-        case VARIANT_TYPE_NONE:
-          break;
-
-        case VARIANT_TYPE_INT:
-          set_value(key, v.int_value);
-          break;
-
-        case VARIANT_TYPE_LONG:
-          set_value(key, v.long_value);
-          break;
-
-        case VARIANT_TYPE_BOOL:
-          set_value(key, v.bool_value);
-          break;
-
-        case VARIANT_TYPE_DOUBLE:
-          set_value(key, v.double_value);
-          break;
-
-        case VARIANT_TYPE_STRING:
-          set_value(key, v.string_value);
-          break;
-
-        default:
-          break;
-        }
-      it++;
-    }
-  
-  saveonquit_list.clear();
-}

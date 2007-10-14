@@ -21,9 +21,8 @@
 
 #include "config.h"
 
-#ifdef HAVE_GTKMM24
 #include <sigc++/compatibility.h>
-#endif
+#include <gtkmm/checkmenuitem.h>
 
 #ifdef HAVE_GNOME
 #include <gnome.h>

@@ -245,7 +245,7 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
       stop_button =  manage(GtkUtil::create_custom_stock_button
                                          (NULL, Gtk::Stock::CLOSE));
       stop_button->signal_clicked()
-        .connect(MEMBER_SLOT(*this, &ExercisesPanel::on_stop));
+        .connect(sigc::mem_fun(*this, &ExercisesPanel::on_stop));
 
       Gtk::HBox *button_box = manage(new Gtk::HBox());
       Gtk::Label *browse_label = manage(new Gtk::Label());
@@ -276,13 +276,13 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
   // (end of ugly)
 
   back_button->signal_clicked()
-    .connect(MEMBER_SLOT(*this, &ExercisesPanel::on_go_back));
+    .connect(sigc::mem_fun(*this, &ExercisesPanel::on_go_back));
 
   forward_button->signal_clicked()
-    .connect(MEMBER_SLOT(*this, &ExercisesPanel::on_go_forward));
+    .connect(sigc::mem_fun(*this, &ExercisesPanel::on_go_forward));
 
   pause_button->signal_clicked()
-    .connect(MEMBER_SLOT(*this, &ExercisesPanel::on_pause));
+    .connect(sigc::mem_fun(*this, &ExercisesPanel::on_pause));
 
 #ifdef FIXME // Causes fuzzy translations...
   tooltips = manage( new Gtk::Tooltips() );
@@ -298,7 +298,7 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
   pack_start(*description_widget, false, false, 0);
 
   heartbeat_signal = GUI::get_instance()->signal_heartbeat()
-    .connect(MEMBER_SLOT(*this, &ExercisesPanel::heartbeat));
+    .connect(sigc::mem_fun(*this, &ExercisesPanel::heartbeat));
 
   exercise_count = 0;
   reset();

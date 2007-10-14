@@ -17,8 +17,8 @@ MAINTAINERCLEANFILES = 	\
 		compile AUTHORS.txt COPYING.txt \
 		NEWS.txt README.txt
 
-SUBDIRS = 	m4 intl po backend common frontend 
-DIST_SUBDIRS =  $(SUBDIRS) build contrib
+SUBDIRS =      intl m4 po backend common frontend 
+DIST_SUBDIRS = $(SUBDIRS) build contrib
 
 EXTRA_DIST = 	config.rpath  \
 		config.xml \
@@ -34,7 +34,7 @@ WIN32_NMAKE=wineconsole ~/.wine/fake_windows/Program\ Files/Microsoft\ Visual\ C
 
 noinst_PROGRAMS =
 
-if PLATFORM_WIN32
+if PLATFORM_OS_WIN32
 dist_pkgdata_DATA = README.txt NEWS.txt AUTHORS.txt COPYING.txt
 endif
 

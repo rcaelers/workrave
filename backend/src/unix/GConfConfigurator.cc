@@ -1,6 +1,6 @@
 // GConfConfigurator.cc --- Configuration Access
 //
-// Copyright (C) 2002, 2003, 2006 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2006, 2007 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -29,12 +29,16 @@ static const char rcsid[] = "$Id$";
 #define GCONF_HACK
 
 #include "GConfConfigurator.hh"
+#include "Configurator.hh"
+#include "Core.hh"
+
+using namespace std;
 
 
 GConfConfigurator::GConfConfigurator()
 {
   gconf_client = gconf_client_get_default();
-  gconf_root = "/apps/workrave/";
+  gconf_root = "/apps/workrave";
 
 #ifndef NDEBUG
   const char *env = getenv("WORKRAVE_GCONF_ROOT");
@@ -42,12 +46,41 @@ GConfConfigurator::GConfConfigurator()
     {
       gconf_root = env;
     }
+  int len = gconf_root.length();
+  if (len > 0)
+    {
+      if (gconf_root[len - 1] == '/')
+        {
+          gconf_root = gconf_root.substr(0, len - 1);
+        }
+    }
 #endif
+
+  GError *error = NULL;
+  gconf_client_add_dir(gconf_client, gconf_root.c_str(), GCONF_CLIENT_PRELOAD_NONE, &error);
+  if (error != NULL)
+    {
+      g_error_free(error);
+    }
 }
 
 
 GConfConfigurator::~GConfConfigurator()
 {
+  GError *error = NULL;
+
+  for (IDMapIter i = ids.begin(); i != ids.end(); i++)
+    {
+      guint id = i->first;
+      gconf_client_notify_remove(gconf_client, id);
+    }
+
+  gconf_client_remove_dir(gconf_client, gconf_root.c_str(), &error);
+
+  if (error != NULL)
+    {
+      g_error_free(error);
+    }
 }
 
 
@@ -75,12 +108,12 @@ GConfConfigurator::save()
 
 
 bool
-GConfConfigurator::get_value(string key, GConfValue **value) const
+GConfConfigurator::get_value(const string &key, GConfValue **value) const
 {
   bool ret = true;
   GError *error = NULL;
 
-  string full_key = gconf_root + key;
+  string full_key = gconf_root + "/" + key;
 
   assert(value != NULL);
   *value  = gconf_client_get_without_default(gconf_client, full_key.c_str(), &error);
@@ -93,323 +126,246 @@ GConfConfigurator::get_value(string key, GConfValue **value) const
           gconf_value_free(*value);
           *value = NULL;
         }
+      if (error != NULL)
+        {
+          g_error_free(error);
+        }
     }
+
 
   return ret;
 }
 
 
-
-//! Returns the value of the specified attribute
-/*!
- *  \retval true value successfully returned.
- *  \retval false attribute not found.
- */
 bool
-GConfConfigurator::get_value(string key, string *out) const
-{
-  GConfValue *value;
-
-  bool ret = get_value(key, &value);
-  if (ret)
-    {
-      if (value->type == GCONF_VALUE_STRING)
-        {
-          *out = gconf_value_get_string(value);
-        }
-      else
-        {
-          ret = false;
-        }
-      gconf_value_free(value);
-    }
-  return ret;
-}
-
-
-//! Returns the value of the specified attribute
-/*!
- *  \retval true value successfully returned.
- *  \retval false attribute not found.
- */
-bool
-GConfConfigurator::get_value(string key, bool *out) const
-{
-  GConfValue *value;
-
-  bool ret = get_value(key, &value);
-  if (ret)
-    {
-      if (value->type == GCONF_VALUE_BOOL)
-        {
-          *out = gconf_value_get_bool(value);
-        }
-      else
-        {
-          ret = false;
-        }
-      gconf_value_free(value);
-    }
-  return ret;
-}
-
-
-//! Returns the value of the specified attribute
-/*!
- *  \retval true value successfully returned.
- *  \retval false attribute not found.
- */
-bool
-GConfConfigurator::get_value(string key, int *out) const
-{
-  GConfValue *value;
-
-  bool ret = get_value(key, &value);
-  if (ret)
-    {
-      if (value->type == GCONF_VALUE_INT)
-        {
-          *out = gconf_value_get_int(value);
-        }
-      else
-        {
-          ret = false;
-        }
-      gconf_value_free(value);
-    }
-  return ret;
-}
-
-
-//! Returns the value of the specified attribute
-/*!
- *  \retval true value successfully returned.
- *  \retval false attribute not found.
- */
-bool
-GConfConfigurator::get_value(string key, long *out) const
-{
-  GConfValue *value;
-
-  bool ret = get_value(key, &value);
-  if (ret)
-    {
-      if (value->type == GCONF_VALUE_INT)
-        {
-          *out = gconf_value_get_int(value);
-        }
-      else
-        {
-          ret = false;
-        }
-      gconf_value_free(value);
-    }
-  return ret;
-}
-
-
-//! Returns the value of the specified attribute
-/*!
- *  \retval true value successfully returned.
- *  \retval false attribute not found.
- */
-bool
-GConfConfigurator::get_value(string key, double *out) const
-{
-  GConfValue *value;
-
-  bool ret = get_value(key, &value);
-  if (ret)
-    {
-      if (value->type == GCONF_VALUE_FLOAT)
-        {
-          *out = gconf_value_get_float(value);
-        }
-      else
-        {
-          ret = false;
-        }
-      gconf_value_free(value);
-    }
-  return ret;
-}
-
-
-bool
-GConfConfigurator::set_value(string key, string v)
+GConfConfigurator::remove_key(const std::string &key)
 {
   bool ret = true;
   GError *error = NULL;
 
-  string full_key = gconf_root + key;
-  ret = gconf_client_set_string(gconf_client, full_key.c_str(), v.c_str(), &error);
+  string full_key = gconf_root + "/" + key;
+
+  ret = gconf_client_unset(gconf_client, full_key.c_str(), &error);
 
   if (error != NULL)
     {
+      g_error_free(error);
       ret = false;
     }
+
   return ret;
 }
 
 
 bool
-GConfConfigurator::set_value(string key, int v)
+GConfConfigurator::get_value(const std::string &key, VariantType type,
+                             Variant &out) const
+{
+  bool ret = false;
+  GConfValue *value;
+
+  ret = get_value(key, &value);
+
+  if (ret)
+    {
+      if (type == VARIANT_TYPE_NONE)
+        {
+          switch (value->type)
+            {
+            case GCONF_VALUE_INT:
+              type = VARIANT_TYPE_INT;
+              break;
+
+            case GCONF_VALUE_BOOL:
+              type = VARIANT_TYPE_BOOL;
+              break;
+
+            case GCONF_VALUE_FLOAT:
+              type = VARIANT_TYPE_DOUBLE;
+              break;
+
+            case GCONF_VALUE_STRING:
+              type = VARIANT_TYPE_STRING;
+              break;
+
+            default:
+              break;
+            }
+        }
+
+
+      ret = false;
+      switch(type)
+        {
+        case VARIANT_TYPE_INT:
+          if (value->type == GCONF_VALUE_INT)
+            {
+              out.int_value = gconf_value_get_int(value);
+              ret = true;
+            }
+          break;
+
+        case VARIANT_TYPE_BOOL:
+          if (value->type == GCONF_VALUE_BOOL)
+            {
+              out.bool_value = gconf_value_get_bool(value);
+              ret = true;
+            }
+          break;
+
+        case VARIANT_TYPE_DOUBLE:
+          if (value->type == GCONF_VALUE_FLOAT)
+            {
+              out.double_value = gconf_value_get_float(value);
+              ret = true;
+            }
+          break;
+
+        case VARIANT_TYPE_STRING:
+          if (value->type == GCONF_VALUE_STRING)
+            {
+              out.string_value = gconf_value_get_string(value);
+              ret = true;
+            }
+          break;
+
+        case VARIANT_TYPE_NONE:
+        default:
+          ret = false;
+        }
+
+      gconf_value_free(value);
+    }
+
+  if (ret)
+    {
+      out.type = type;
+    }
+  
+  return ret;
+}
+
+
+bool
+GConfConfigurator::set_value(const std::string &key, Variant &value)
 {
   bool ret = true;
   GError *error = NULL;
 
-  string full_key = gconf_root + key;
-  ret = gconf_client_set_int(gconf_client, full_key.c_str(), v, &error);
+  string full_key = gconf_root + "/" + key;
+
+  switch(value.type)
+    {
+    case VARIANT_TYPE_NONE:
+      ret = false;
+      break;
+
+    case VARIANT_TYPE_INT:
+      ret = gconf_client_set_int(gconf_client, full_key.c_str(),
+                                 value.int_value, &error);
+      break;
+
+    case VARIANT_TYPE_BOOL:
+      ret = gconf_client_set_bool(gconf_client, full_key.c_str(),
+                                  value.bool_value, &error);
+      break;
+
+    case VARIANT_TYPE_DOUBLE:
+      ret = gconf_client_set_float(gconf_client, full_key.c_str(),
+                                   value.double_value, &error);
+      break;
+
+    case VARIANT_TYPE_STRING:
+      ret = gconf_client_set_string(gconf_client, full_key.c_str(),
+                                    value.string_value.c_str(),
+                                    &error);
+      break;
+
+    default:
+      ret = false;
+    }
 
   if (error != NULL)
     {
       ret = false;
+      if (error != NULL)
+        {
+          g_error_free(error);
+        }
     }
   return ret;
-
 }
 
-bool
-GConfConfigurator::set_value(string key, long v)
+
+
+void
+GConfConfigurator::set_listener(IConfiguratorListener *listener)
 {
-  bool ret = true;
-  GError *error = NULL;
-
-  string full_key = gconf_root + key;
-  ret = gconf_client_set_int(gconf_client, full_key.c_str(), v, &error);
-
-  if (error != NULL)
-    {
-      ret = false;
-    }
-  return ret;
-}
-
-bool
-GConfConfigurator::set_value(string key, bool v)
-{
-  bool ret = true;
-  GError *error = NULL;
-
-  string full_key = gconf_root + key;
-  ret = gconf_client_set_bool(gconf_client, full_key.c_str(), v, &error);
-
-  if (error != NULL)
-    {
-      ret = false;
-    }
-  return ret;
+  this->listener = listener;
 }
 
 
 bool
-GConfConfigurator::set_value(string key, double v)
-{
-  bool ret = true;
-  GError *error = NULL;
-
-  string full_key = gconf_root + key;
-  ret = gconf_client_set_float(gconf_client, full_key.c_str(), v, &error);
-
-  if (error != NULL)
-    {
-      ret = false;
-    }
-  return ret;
-}
-
-
-
-bool
-GConfConfigurator::add_listener(string key_prefix, ConfiguratorListener *listener)
+GConfConfigurator::add_listener(const string &key_prefix)
 {
   TRACE_ENTER_MSG("GConfConfigurator::add_listener", key_prefix);
 
-  string full_key = gconf_root + key_prefix;
+  string full_key = gconf_root + "/" + key_prefix;
   GError *error = NULL;
-  bool ret = true;
-
-  // Add directorie to watch
-  gconf_client_add_dir(gconf_client, full_key.c_str(), GCONF_CLIENT_PRELOAD_NONE, &error);
-  if (error != NULL)
-    {
-      ret = false;
-    }
-
-  // Add notification callback.
   guint id = 0;
-  if (ret)
-    {
-      id = gconf_client_notify_add(gconf_client,
-                                   full_key.c_str(),
-                                   &GConfConfigurator::static_key_changed,
-                                   (gpointer)this,
-                                   NULL,
-                                   &error);
 
-      if (error != NULL)
+  int len = full_key.length();
+  if (len > 0)
+    {
+      if (full_key[len - 1] == '/')
         {
-          ret = false;
+          full_key = full_key.substr(0, len - 1);
         }
     }
 
-  // And add callback to Configurator.
-  if (ret)
+  // Add notification callback.
+
+  id = gconf_client_notify_add(gconf_client,
+                               full_key.c_str(),
+                               &GConfConfigurator::static_key_changed,
+                               (gpointer)this,
+                               NULL,
+                               &error);
+
+  if (error != NULL)
     {
-      id2key_map[id] = key_prefix;
-      ids_map[make_pair(key_prefix, listener)] = id;
-      ret = Configurator::add_listener(key_prefix, listener);
+      g_error_free(error);
+    }
+  else
+    {
+      ids[id] = key_prefix;
     }
 
-  // FIXME: cleanup.
-
   TRACE_EXIT();
-  return ret;
+  return error == NULL;
 }
 
 
 bool
-GConfConfigurator::remove_listener(ConfiguratorListener *listener)
-{
-  return remove_listener("", listener);
-}
-
-bool
-GConfConfigurator::remove_listener(string remove_key, ConfiguratorListener *listener)
+GConfConfigurator::remove_listener(const string &remove_key)
 {
   bool ret = false;
 
-  IDMapIter i = ids_map.begin();
-  IDMapIter next;
-  while (i != ids_map.end())
+  IDMapIter i = ids.begin();
+  while (i != ids.end())
     {
-      pair<string, ConfiguratorListener *> key = i->first;
-
-      string key_prefix = key.first;
-
-      next = i;
+      IDMapIter next = i;
       next++;
 
-      if ((key.first == remove_key || remove_key == "") && key.second == listener)
-        {
-          guint id = i->second;
+      string &key = i->second;
 
+      if (key == remove_key)
+        {
+          guint id = i->first;
           gconf_client_notify_remove(gconf_client, id);
 
-          string full_key = gconf_root + key_prefix;
-          GError *error = NULL;
-
-          gconf_client_remove_dir(gconf_client, full_key.c_str(), &error);
-
-          ids_map.erase(i);
-
-          ListenerIDsIter i2 = id2key_map.find(id);
-          if (i2 != id2key_map.end())
-            {
-              id2key_map.erase(i2);
-            }
-
-          ret = Configurator::remove_listener(key_prefix, listener);
+          ids.erase(i);
+          ret = true;
         }
 
       i = next;
@@ -417,9 +373,6 @@ GConfConfigurator::remove_listener(string remove_key, ConfiguratorListener *list
 
   return ret;
 }
-
-
-
 
 
 void
@@ -435,18 +388,13 @@ void
 GConfConfigurator::key_changed(guint id, GConfEntry *entry)
 {
   TRACE_ENTER_MSG("GConfConfigurator::key_changed", id);
-  string dir = id2key_map[id];
+  (void) entry;
 
-  string full_key = entry->key;
-  TRACE_MSG(full_key);
-
-  if (full_key.substr(0, gconf_root.length()) == gconf_root)
+  IDMapIter i = ids.find(id);
+  if (i != ids.end())
     {
-      full_key = full_key.substr(gconf_root.length());
+      listener->config_changed_notify(i->second);
     }
-
-  TRACE_MSG(full_key);
-  fire_configurator_event(full_key);
 
   TRACE_EXIT();
 }

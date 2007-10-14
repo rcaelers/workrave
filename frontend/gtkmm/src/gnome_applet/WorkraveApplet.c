@@ -348,37 +348,25 @@ workrave_applet_fire_workrave()
 static void
 verb_about(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
 {
-  GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(WORKRAVE_DATADIR "/images/workrave.png", NULL);
+  GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(WORKRAVE_PKGDATADIR "/images/workrave.png", NULL);
   GtkAboutDialog *about = GTK_ABOUT_DIALOG(gtk_about_dialog_new());
 
   gtk_container_set_border_width(GTK_CONTAINER(about), 5);
 
 
   gtk_show_about_dialog (NULL,
-       "name", "Workrave",
-       "version", VERSION,
-       "copyright", workrave_copyright,
-       "website", "http://www.workrave.org",
-       "website_label", "www.workrave.org",
-       "comments", _("This program assists in the prevention and recovery"
-                                  " of Repetitive Strain Injury (RSI)."),
+                         "name", "Workrave",
+                         "version", VERSION,
+                         "copyright", workrave_copyright,
+                         "website", "http://www.workrave.org",
+                         "website_label", "www.workrave.org",
+                         "comments", _("This program assists in the prevention and recovery"
+                                       " of Repetitive Strain Injury (RSI)."),
                          "translator-credits", workrave_translators,
-       "authors", workrave_authors,
-       "logo", pixbuf,
-       NULL);
+                         "authors", workrave_authors,
+                         "logo", pixbuf,
+                         NULL);
   g_object_unref(pixbuf);
-
-
-
-/*   gtk_widget_show (gnome_about_new */
-/*                    ("Workrave Applet", VERSION, */
-/*                     "Copyright 2001-2006 Rob Caelers & Raymond Penners", */
-/*                     _("This program assists in the prevention and recovery" */
-/*                       " of Repetitive Strain Injury (RSI)."), */
-/*                     (const gchar **) authors, */
-/*                     (const gchar **) NULL, */
-/*                     translators, */
-/*                     pixbuf)); */
 }
 
 
@@ -1032,7 +1020,7 @@ workrave_applet_fill(PanelApplet *applet)
   gtk_container_set_border_width(GTK_CONTAINER(applet_control->socket), 0);
 
   // Image
-  pixbuf = gdk_pixbuf_new_from_file(WORKRAVE_DATADIR "/images/workrave-icon-medium.png", NULL);
+  pixbuf = gdk_pixbuf_new_from_file(WORKRAVE_PKGDATADIR "/images/workrave-icon-medium.png", NULL);
   applet_control->image = gtk_image_new_from_pixbuf(pixbuf);
 
   // Signals.

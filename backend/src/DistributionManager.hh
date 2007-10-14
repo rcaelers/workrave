@@ -1,6 +1,6 @@
 // DistributionManager.hh
 //
-// Copyright (C) 2002, 2003, 2006 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2006, 2007 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -24,7 +24,7 @@
 
 using namespace std;
 
-#include "ConfiguratorListener.hh"
+#include "IConfiguratorListener.hh"
 #include "IDistributionClientMessage.hh"
 #include "IDistributionManager.hh"
 
@@ -36,7 +36,7 @@ class PacketBuffer;
 
 class DistributionManager :
   public IDistributionManager,
-  public ConfiguratorListener
+  public IConfiguratorListener
 {
 public:
   static const string CFG_KEY_DISTRIBUTION;
@@ -114,7 +114,7 @@ private:
   void parse_peers(string peers, bool connect = true);
   void write_peers();
   void read_configuration();
-  void config_changed_notify(string key);
+  void config_changed_notify(const string &key);
 
   void fire_log_event(string message);
   void fire_signon_client(char *id);

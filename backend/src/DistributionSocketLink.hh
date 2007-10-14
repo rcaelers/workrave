@@ -1,6 +1,6 @@
 // DistributionSocketLink.hh
 //
-// Copyright (C) 2002, 2003, 2006 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2006, 2007 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -35,7 +35,7 @@
 
 #include "DistributionLink.hh"
 #include "IDistributionClientMessage.hh"
-#include "ConfiguratorListener.hh"
+#include "IConfiguratorListener.hh"
 #include "PacketBuffer.hh"
 
 #include "SocketDriver.hh"
@@ -48,7 +48,7 @@ class Configurator;
 
 class DistributionSocketLink :
   public DistributionLink,
-  public ConfiguratorListener,
+  public IConfiguratorListener,
   public SocketListener
 {
 public:
@@ -249,7 +249,7 @@ private:
   bool start_async_server();
 
   void read_configuration();
-  void config_changed_notify(string key);
+  void config_changed_notify(const string &key);
 
 private:
   typedef map<DistributionClientMessageID, ClientMessageListener> ClientMessageMap;

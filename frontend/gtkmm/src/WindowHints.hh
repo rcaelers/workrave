@@ -1,6 +1,6 @@
 // WindowHints.hh
 //
-// Copyright (C) 2001, 2002, 2003 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -25,25 +25,19 @@
 #include <windows.h>
 #endif
 
+namespace Gtk
+{
+  class Window;
+}
+
 class WindowHints
 {
 private:
-#if defined(HAVE_X)
-  enum hint_type { HINTTYPE_NONE, HINTTYPE_WIN, HINTTYPE_NET };
-  static hint_type type;
-  static bool net_supported;
-  static bool win_supported;
-#elif defined(WIN32)
-
-#endif
-
 public:
   typedef void *Grab;
 
-  static bool init();
-  static bool set_always_on_top(GtkWidget *window, bool onTop);
-  static bool set_skip_winlist(GtkWidget *window, bool skip);
-  static bool set_tool_window(GtkWidget *window, bool istool);
+  static void set_always_on_top(Gtk::Window *window, bool ontop);
+  static void set_skip_winlist(Gtk::Window *window, bool skip);
   static Grab *grab(int num_windows, GdkWindow **window);
   static void ungrab(Grab *grab);
 #if defined(WIN32)

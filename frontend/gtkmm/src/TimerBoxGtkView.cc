@@ -165,7 +165,7 @@ TimerBoxGtkView::init_widgets()
   Glib::RefPtr<Gtk::SizeGroup> size_group
     = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_HORIZONTAL);
 
-  char *icons[] = { "timer-micro-break.png", "timer-rest-break.png", "timer-daily.png" };
+  const char *icons[] = { "timer-micro-break.png", "timer-rest-break.png", "timer-daily.png" };
   for (int count = 0; count < BREAK_ID_SIZEOF; count++)
     {
       string icon = Util::complete_directory(string(icons[count]), Util::SEARCH_PATH_IMAGES);
@@ -185,7 +185,7 @@ TimerBoxGtkView::init_widgets()
           tooltips->enable();
 
           Menus *menus = Menus::get_instance();
-          b->signal_clicked().connect(MEMBER_SLOT(*menus, &Menus::on_menu_restbreak_now));
+          b->signal_clicked().connect(sigc::mem_fun(*menus, &Menus::on_menu_restbreak_now));
           w = b;
   }
       else
@@ -236,17 +236,10 @@ TimerBoxGtkView::init_table()
       rows = 1;
     }
 
-#ifdef HAVE_GTKMM24
   Gtk::Requisition label_size;
   Gtk::Requisition bar_size;
 
   labels[0]->size_request(label_size);
-#else
-  GtkRequisition label_size;
-  GtkRequisition bar_size;
-
-  labels[0]->size_request(&label_size);
-#endif
 
   Gtk::Requisition my_size;
   size_request(my_size);

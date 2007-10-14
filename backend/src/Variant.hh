@@ -92,6 +92,4 @@ public:
   };
 };
 
-
-
 #endif // VARIANT_HH

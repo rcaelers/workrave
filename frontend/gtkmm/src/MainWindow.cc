@@ -63,7 +63,6 @@ static const char rcsid[] = "$Id$";
 #include "NetworkLogDialog.hh"
 #endif
 
-
 #include "Menus.hh"
 
 #include <gtkmm/menu.h>
@@ -141,9 +140,9 @@ MainWindow::init()
 
   list<Glib::RefPtr<Gdk::Pixbuf> > icons;
 
-  char *icon_files[] = { "workrave-icon-small.png",
-                         "workrave-icon-medium.png",
-                         "workrave-icon-large.png" };
+  const char *icon_files[] = { "workrave-icon-small.png",
+                               "workrave-icon-medium.png",
+                               "workrave-icon-large.png" };
 
   for (unsigned int i = 0; i < sizeof(icon_files) / sizeof(char *); i++)
     {
@@ -284,8 +283,7 @@ MainWindow::setup()
         {
           open_window();
  
-
-          WindowHints::set_always_on_top(Gtk::Widget::gobj(), always_on_top);
+          WindowHints::set_always_on_top(this, always_on_top);
         }
       else
         {
@@ -355,6 +353,8 @@ MainWindow::close_window()
 {
 #ifdef WIN32
   win32_show(false);
+#elif defined(PLATFORM_OS_OSX)
+  hide_all();
 #else
   if (applet_active)
     {
@@ -405,6 +405,9 @@ MainWindow::on_delete_event(GdkEventAny *)
       close_window();
       TimerBoxControl::set_enabled("main_window", false);
     }
+#elif defined(PLATFORM_OS_OSX) 
+  close_window();
+  TimerBoxControl::set_enabled("main_window", false);
 #else
   gui->terminate();
 #endif // HAVE_GNOME || HAVE_KDE
@@ -423,13 +426,19 @@ MainWindow::on_button_press_event(GdkEventButton *event)
   TRACE_ENTER("MainWindow::on_button_press_event");
   bool ret = false;
 
+  (void) event;
+  
+#ifndef PLATFORM_OS_OSX
+  // No popup menu on OS X
+  
   if ((event->type == GDK_BUTTON_PRESS) && (event->button == 3))
     {
       Menus::get_instance()->popup(Menus::MENU_MAINWINDOW,
                                    event->button, event->time);
       ret = true;
     }
-
+#endif
+  
   TRACE_EXIT();
   return ret;
 }
@@ -455,7 +464,7 @@ MainWindow::on_window_state_event(GdkEventWindowState *event)
 
 
 void
-MainWindow::config_changed_notify(string key)
+MainWindow::config_changed_notify(const string &key)
 {
   TRACE_ENTER_MSG("MainWindow::config_changed_notify", key);
   if (key != CFG_KEY_MAIN_WINDOW_HEAD
@@ -472,8 +481,8 @@ MainWindow::get_always_on_top()
 {
   bool rc;
   CoreFactory::get_configurator()
-    ->get_value_default(MainWindow::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP,
-                        &rc,
+    ->get_value_with_default(MainWindow::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP,
+                        rc,
                         false);
   return rc;
 }
@@ -492,7 +501,7 @@ MainWindow::get_start_in_tray()
 {
   bool rc;
   CoreFactory::get_configurator()
-    ->get_value_default(CFG_KEY_MAIN_WINDOW_START_IN_TRAY, &rc, false);
+    ->get_value_with_default(CFG_KEY_MAIN_WINDOW_START_IN_TRAY, rc, false);
   return rc;
 }
 
@@ -611,9 +620,9 @@ MainWindow::get_start_position(int &x, int &y, int &head)
   TRACE_ENTER("MainWindow::get_start_position");
   // FIXME: Default to right-bottom instead of 256x256
   IConfigurator *cfg = CoreFactory::get_configurator();
-  cfg->get_value_default(CFG_KEY_MAIN_WINDOW_X, &x, 256);
-  cfg->get_value_default(CFG_KEY_MAIN_WINDOW_Y, &y, 256);
-  cfg->get_value_default(CFG_KEY_MAIN_WINDOW_HEAD, &head, 0);
+  cfg->get_value_with_default(CFG_KEY_MAIN_WINDOW_X, x, 256);
+  cfg->get_value_with_default(CFG_KEY_MAIN_WINDOW_Y, y, 256);
+  cfg->get_value_with_default(CFG_KEY_MAIN_WINDOW_HEAD, head, 0);
   if (head < 0)
     {
       head = 0;
@@ -726,6 +735,8 @@ MainWindow::locate_window(GdkEventConfigure *event)
   else
 #endif
     {
+      (void) event;
+
       get_position(x, y);
 
       GtkRequisition req;

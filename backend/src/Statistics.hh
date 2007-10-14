@@ -1,6 +1,6 @@
 // Statistics.hh
 //
-// Copyright (C) 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -93,9 +93,9 @@ private:
     }
   };
 
-  typedef vector<DailyStatsImpl *> History;
-  typedef vector<DailyStatsImpl *>::iterator HistoryIter;
-  typedef vector<DailyStatsImpl *>::reverse_iterator HistoryRIter;
+  typedef std::vector<DailyStatsImpl *> History;
+  typedef std::vector<DailyStatsImpl *>::iterator HistoryIter;
+  typedef std::vector<DailyStatsImpl *>::reverse_iterator HistoryRIter;
 
 public:
   //! Constructor.
@@ -130,8 +130,8 @@ private:
 
 private:
   void save_day(DailyStatsImpl *stats);
-  void save_day(DailyStatsImpl *stats, ofstream &stats_file);
-  void load(ifstream &infile, bool history);
+  void save_day(DailyStatsImpl *stats, std::ofstream &stats_file);
+  void load(std::ifstream &infile, bool history);
 
   void day_to_history(DailyStatsImpl *stats);
   void day_to_remote_history(DailyStatsImpl *stats);

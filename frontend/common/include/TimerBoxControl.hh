@@ -1,6 +1,6 @@
 // TimerBoxControl.hh --- All timers
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -22,10 +22,10 @@
 #include <string>
 
 #include "ICore.hh"
-#include "ConfiguratorListener.hh"
+#include "IConfiguratorListener.hh"
 #include "ITimerBoxView.hh"
 
-class TimerBoxControl : public ConfiguratorListener
+class TimerBoxControl : public IConfiguratorListener
 {
 public:
   TimerBoxControl(std::string name, ITimerBoxView &view);
@@ -69,8 +69,8 @@ public:
 
 
 private:
-  // ConfiguratorListener
-  void config_changed_notify(std::string key);
+  // IConfiguratorListener
+  void config_changed_notify(const std::string &key);
   void update_widgets();
   void init_table();
   void init_icon();

@@ -1,6 +1,6 @@
 // PreferencesDialog.hh --- Preferences Dialog
 //
-// Copyright (C) 2002, 2003, 2004, 2006 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2006, 2007 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -31,6 +31,7 @@ namespace Gtk
 {
   class OptionMenu;
 }
+
 
 class PreferencesDialog : public HigDialog
 {

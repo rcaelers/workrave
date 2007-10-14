@@ -46,6 +46,7 @@
 #include "CoreFactory.hh"
 #include "IConfigurator.hh"
 
+
 /* MinGW does not have this one yet */
 #undef INTERFACE
 #define INTERFACE IShellDispatch

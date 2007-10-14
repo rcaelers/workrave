@@ -211,7 +211,7 @@ W32AppletWindow::init_menu(HWND hwnd)
 {
   menu_data.num_items = 0;
   menu_sent = false;
-  menu_data.command_window = hwnd;
+  menu_data.command_window = (LONG)hwnd;
 }
 
 void

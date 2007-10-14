@@ -1,6 +1,6 @@
 // Core.hh --- The main controller
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -36,13 +36,14 @@
 
 #include <iostream>
 #include <string>
+#include <map>
 
 #include "Break.hh"
 #include "IBreakResponse.hh"
 #include "IActivityMonitor.hh"
 #include "ICore.hh"
 #include "CoreEventListener.hh"
-#include "ConfiguratorListener.hh"
+#include "IConfiguratorListener.hh"
 #include "TimeSource.hh"
 #include "Timer.hh"
 #include "Statistics.hh"
@@ -69,27 +70,30 @@ class Core :
 #endif
   public TimeSource,
   public ICore,
-  public ConfiguratorListener,
+  public IConfiguratorListener,
   public IBreakResponse
 {
 public:
   Core();
   virtual ~Core();
 
-  static const string CFG_KEY_MONITOR;
-  static const string CFG_KEY_MONITOR_NOISE;
-  static const string CFG_KEY_MONITOR_ACTIVITY;
-  static const string CFG_KEY_MONITOR_IDLE;
-  static const string CFG_KEY_GENERAL_DATADIR;
-  static const string CFG_KEY_OPERATION_MODE;
+  static const std::string CFG_KEY_MONITOR;
+  static const std::string CFG_KEY_MONITOR_NOISE;
+  static const std::string CFG_KEY_MONITOR_ACTIVITY;
+  static const std::string CFG_KEY_MONITOR_IDLE;
+  static const std::string CFG_KEY_GENERAL_DATADIR;
+  static const std::string CFG_KEY_OPERATION_MODE;
 
   static Core *get_instance();
 
-  Timer *get_timer(string name) const;
+  Timer *get_timer(std::string name) const;
   Timer *get_timer(BreakId id) const;
   Break *get_break(BreakId id);
+  Break *get_break(std::string name);
   Configurator *get_configurator() const;
   IActivityMonitor *get_activity_monitor() const;
+  bool is_user_active() const;
+
 #ifdef HAVE_DISTRIBUTION
   DistributionManager *get_distribution_manager() const;
 #endif
@@ -116,6 +120,8 @@ public:
   ActivityState get_current_monitor_state() const;
   bool is_master() const;
 
+  void report_external_activity(std::string who, bool act);
+
 private:
 
 #ifndef NDEBUG
@@ -130,9 +136,11 @@ private:
   void init_configurator();
   void init_monitor(char *display_name);
   void init_distribution_manager();
+  void init_bus();
   void init_statistics();
+
   void load_monitor_config();
-  void config_changed_notify(string key);
+  void config_changed_notify(const std::string &key);
   void heartbeat();
   void timer_action(BreakId id, TimerInfo info);
   void process_distribution();
@@ -148,6 +156,8 @@ private:
   void do_postpone_break(BreakId break_id);
   void do_skip_break(BreakId break_id);
   void do_stop_prelude(BreakId break_id);
+
+
 #ifndef NDEBUG
   void test_me();
 #endif
@@ -279,6 +289,8 @@ private:
   int script_start_time;
 #endif
 #endif
+  //! External activity
+  std::map<std::string, int> external_activity;
 };
 
 

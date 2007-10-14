@@ -32,7 +32,6 @@
 #include "ICore.hh"
 
 class HeadInfo;
-
 class EventImage;
 
 class GtkUtil

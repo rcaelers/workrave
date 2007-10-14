@@ -38,6 +38,8 @@ const int MARGINY = 3;
 const int MIN_HORIZONTAL_BAR_WIDTH = 12;
 const int MIN_HORIZONTAL_BAR_HEIGHT = 20; // stolen from gtk's progress bar
 
+using namespace std;
+
 Gdk::Color TimeBar::bar_colors[TimeBar::COLOR_ID_SIZEOF] =
   {
     Gdk::Color("lightblue"),

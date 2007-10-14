@@ -1,6 +1,6 @@
 // AppletControl.cc --- Applet info Control
 //
-// Copyright (C) 2006 Rob Caelers & Raymond Penners
+// Copyright (C) 2006, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -50,6 +50,8 @@ static const char rcsid[] = "$Id$";
 #include "CoreFactory.hh"
 #include "IConfigurator.hh"
 
+using namespace workrave;
+using namespace std;
 
 //! Constructor.
 AppletControl::AppletControl()
@@ -322,7 +324,7 @@ AppletControl::read_configuration()
 
 //! Callback that the configuration has changed.
 void
-AppletControl::config_changed_notify(string key)
+AppletControl::config_changed_notify(const string &key)
 {
   TRACE_ENTER_MSG("AppletControl::config_changed_notify", key);
   (void) key;

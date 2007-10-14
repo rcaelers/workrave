@@ -59,6 +59,9 @@ static const char rcsid[] = "$Id$";
 #include <gdk/gdkwin32.h>
 #include <pbt.h>
 #endif
+#ifdef PLATFORM_OS_OSX
+#include "OSXUtil.hh"
+#endif
 
 #include "Menus.hh"
 
@@ -84,7 +87,6 @@ static const char rcsid[] = "$Id$";
 
 #ifdef WIN32
 #include "crashlog.h"
-#include "W32Compat.hh"
 #endif
 
 #include <gtkmm/main.h>
@@ -120,9 +122,6 @@ GUI::GUI(int argc, char **argv)  :
   num_heads(-1),
   screen_width(-1),
   screen_height(-1),
-#if !defined(HAVE_GTK_MULTIHEAD) && defined(WIN32)
-  current_monitor(0),
-#endif
 #ifdef HAVE_X
   grab_wanted(false),
 #endif
@@ -192,6 +191,12 @@ GUI::main()
   __try1(exception_handler);
 #endif
 
+#ifdef NDEBUG
+#ifdef PLATFORM_OS_OSX
+  OSXUtil::init();
+#endif
+#endif
+  
   Gtk::Main kit(argc, argv);
 
 #ifdef HAVE_GNOME
@@ -201,7 +206,7 @@ GUI::main()
   init_kde();
 #endif
 
-#ifdef WIN32
+#if defined (WIN32) || defined(PLATFORM_OS_OSX)
   // Win32 needs this....
   if (!g_thread_supported())
     {
@@ -361,8 +366,8 @@ GUI::init_gnome()
   Gnome::UI::Client *client = Gnome::UI::Client::master_client();
   if (client != NULL)
     {
-      client->signal_save_yourself().connect(MEMBER_SLOT(*this, &GUI::on_save_yourself));
-      client->signal_die().connect(MEMBER_SLOT(*this, &GUI::on_die));
+      client->signal_save_yourself().connect(sigc::mem_fun(*this, &GUI::on_save_yourself));
+      client->signal_die().connect(sigc::mem_fun(*this, &GUI::on_die));
     }
 
   TRACE_EXIT();
@@ -456,7 +461,7 @@ GUI::init_debug()
 {
 #ifdef NDEBUG
   char *domains[] = { NULL, "Gtk", "GLib", "Gdk", "gtkmm", "GLib-GObject" };
-  for (int i = 0; i < sizeof(domains)/sizeof(char *); i++)
+  for (unsigned int i = 0; i < sizeof(domains)/sizeof(char *); i++)
     {
       g_log_set_handler(domains[i],
                         (GLogLevelFlags) (G_LOG_LEVEL_MASK | G_LOG_FLAG_FATAL | G_LOG_FLAG_RECURSION),
@@ -520,12 +525,7 @@ GUI::init_multihead()
 {
   TRACE_ENTER("GUI::init_multihead");
 
-#if defined(HAVE_GTK_MULTIHEAD)
   init_gtk_multihead();
-#elif defined(WIN32)
-  init_win32_multihead();
-#endif
-
   if (num_heads == -1)
     {
       init_multihead_mem(1);
@@ -658,7 +658,6 @@ GUI::init_multihead_desktop()
 }
 
 
-#ifdef HAVE_GTK_MULTIHEAD
 void
 GUI::init_gtk_multihead()
 {
@@ -675,28 +674,20 @@ GUI::init_gtk_multihead()
       for (int i = 0; i < num_screens; i++)
         {
           Glib::RefPtr<Gdk::Screen> screen = display->get_screen(i);
-#ifdef HAVE_GTKMM24
           if (screen)
-#else
-            if (!screen.is_null())
-#endif
-              {
-                new_num_heads += screen->get_n_monitors();
-                TRACE_MSG("num monitors on screen " << i << " = " << screen->get_n_monitors());
-              }
+            {
+              new_num_heads += screen->get_n_monitors();
+              TRACE_MSG("num monitors on screen " << i << " = " << screen->get_n_monitors());
+            }
         }
 
       for (int i = 0; i < num_screens; i++)
         {
           Glib::RefPtr<Gdk::Screen> screen = display->get_screen(i);
-#ifdef HAVE_GTKMM24
           if (screen)
-#else
-          if (!screen.is_null())
-#endif
-              {
-                TRACE_MSG("num monitors on screen " << i << " = " << screen->get_n_monitors());
-              }
+            {
+              TRACE_MSG("num monitors on screen " << i << " = " << screen->get_n_monitors());
+            }
         }
 
       init_multihead_mem(new_num_heads);
@@ -705,124 +696,56 @@ GUI::init_gtk_multihead()
       for (int i = 0; i < num_screens; i++)
         {
           Glib::RefPtr<Gdk::Screen> screen = display->get_screen(i);
-#ifdef HAVE_GTKMM24
           if (screen)
-#else
-          if (!screen.is_null())
-#endif
-              {
-                int num_monitors = screen->get_n_monitors();
-                TRACE_MSG("monitors = " << num_monitors);
-                for (int j = 0; j < num_monitors && count < new_num_heads; j++)
-                  {
-                    Gdk::Rectangle rect;
-                    screen->get_monitor_geometry(j, rect);
+            {
+              int num_monitors = screen->get_n_monitors();
+              TRACE_MSG("monitors = " << num_monitors);
+              for (int j = 0; j < num_monitors && count < new_num_heads; j++)
+                {
+                  Gdk::Rectangle rect;
+                  screen->get_monitor_geometry(j, rect);
 
-                    bool overlap = false;
-                    for (int k = 0; !overlap && k < count; k++)
-                      {
-                        Gdk::Rectangle irect = rect;
+                  bool overlap = false;
+                  for (int k = 0; !overlap && k < count; k++)
+                    {
+                      Gdk::Rectangle irect = rect;
 
-                        if (heads[k].screen->get_number() == i)
-                          {
-                            irect.intersect(heads[k].geometry, overlap);
-                          }
-                      }
+                      if (heads[k].screen->get_number() == i)
+                        {
+                          irect.intersect(heads[k].geometry, overlap);
+                        }
+                    }
 
-                    if (!overlap)
-                      {
-                        heads[count].screen = screen;
-                        heads[count].monitor = j;
-                        heads[count].valid = true;
-                        heads[count].count = count;
+                  if (!overlap)
+                    {
+                      heads[count].screen = screen;
+                      heads[count].monitor = j;
+                      heads[count].valid = true;
+                      heads[count].count = count;
 
-                        heads[count].geometry = rect;
-                        count++;
-                      }
+                      heads[count].geometry = rect;
+                      count++;
+                    }
 
-                    TRACE_MSG("Screen #" << i << " Monitor #" << j << "  "
-                              << rect.get_x() << " "
-                              << rect.get_y() << " "
-                              << rect.get_width() << " "
-                              << rect.get_height() << " "
-                              << " intersects " << overlap);
-                  }
-              }
+                  TRACE_MSG("Screen #" << i << " Monitor #" << j << "  "
+                            << rect.get_x() << " "
+                            << rect.get_y() << " "
+                            << rect.get_width() << " "
+                            << rect.get_height() << " "
+                            << " intersects " << overlap);
+                }
+            }
         }
       num_heads = count;
       TRACE_MSG("# Heads = " << num_heads);
     }
   TRACE_EXIT();
 }
-#endif
-
-
-#if !defined(HAVE_GTK_MULTIHEAD) && defined(WIN32)
-BOOL CALLBACK enum_monitor_callback(HMONITOR monitor,
-                                    HDC hdc,
-                                    LPRECT rc,
-                                    LPARAM dwData)
-{
-  GUI *gui = (GUI *) dwData;
-  return gui->enum_monitor_callback(monitor, hdc, rc);
-};
-
-BOOL CALLBACK
-GUI::enum_monitor_callback(HMONITOR monitor, HDC hdc, LPRECT rc)
-{
-  TRACE_ENTER("GUI::enum_monitor_callback");
-  TRACE_MSG(current_monitor << " " << num_heads);
-
-  TRACE_MSG(rc->left << " " << rc->top << " - " << rc->right << " " << rc->bottom);
-
-  if (current_monitor < num_heads)
-    {
-      Gdk::Rectangle &geometry = heads[current_monitor].geometry;
-
-      geometry.set_x(rc->left);
-      geometry.set_y(rc->top);
-      geometry.set_width(rc->right-rc->left+1);
-      geometry.set_height(rc->bottom-rc->top+1);
-
-      heads[current_monitor].valid = true;
-      heads[current_monitor].count = current_monitor;
-
-      current_monitor++;
-    }
-
-  return TRUE;
-};
-
-
-void
-GUI::init_win32_multihead()
-{
-  TRACE_ENTER("GUI::init_win32_multihead");
-
-  if (! W32Compat::IsWindows95())
-    {
-      int new_num_heads = GetSystemMetrics(SM_CMONITORS);
-
-      if (new_num_heads > 1)
-        {
-          init_multihead_mem(new_num_heads);
-
-          current_monitor = 0;
-          W32Compat::EnumDisplayMonitors(NULL, NULL, ::enum_monitor_callback, (LPARAM)this);
-        }
-    }
-}
-
-#endif
-
 
 //! Initializes the GUI
 void
 GUI::init_gui()
 {
-  // Setup the window hints module.
-  WindowHints::init();
-
   tooltips = manage(new Gtk::Tooltips());
   tooltips->enable();
 
@@ -854,8 +777,7 @@ GUI::init_gui()
 #endif
 
   // Periodic timer.
-  Glib::signal_timeout().connect(MEMBER_SLOT(*this, &GUI::on_timer), 1000);
-
+  Glib::signal_timeout().connect(sigc::mem_fun(*this, &GUI::on_timer), 1000);
 }
 
 
@@ -1157,7 +1079,7 @@ GUI::get_block_mode()
 {
   int mode;
   CoreFactory::get_configurator()
-    ->get_value_default(CFG_KEY_GUI_BLOCK_MODE, &mode, BLOCK_MODE_INPUT);
+    ->get_value_with_default(CFG_KEY_GUI_BLOCK_MODE, mode, BLOCK_MODE_INPUT);
   return (BlockMode) mode;
 }
 
@@ -1193,7 +1115,7 @@ GUI::grab()
           if (! grab_handle && !grab_retry_connection.connected())
             {
               grab_retry_connection =
-                Glib::signal_timeout().connect(MEMBER_SLOT(*this, &GUI::on_grab_retry_timer), 2000);
+                Glib::signal_timeout().connect(sigc::mem_fun(*this, &GUI::on_grab_retry_timer), 2000);
             }
 #endif
         }
@@ -1232,7 +1154,7 @@ GUI::interrupt_grab()
       grab_handle = NULL;
       if (!grab_retry_connection.connected())
         {
-          Glib::signal_timeout().connect(MEMBER_SLOT(*this, &GUI::on_grab_retry_timer), 2000);
+          Glib::signal_timeout().connect(sigc::mem_fun(*this, &GUI::on_grab_retry_timer), 2000);
         }
 #endif
     }

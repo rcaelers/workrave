@@ -6,7 +6,7 @@
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
-// the Free Software Foundation; either version 2, or (at your option)
+// the Free Software Foundation; either version 3, or (at your option)
 // any later version.
 //
 // This program is distributed in the hope that it will be useful,
@@ -50,7 +50,6 @@ const int TIMEOUT = 1000;
 #include "ICore.hh"
 #include "IConfigurator.hh"
 #include "CoreFactory.hh"
-#include "IActivityMonitor.hh"
 
 #ifdef HAVE_EXERCISES
 #include "Exercise.hh"
@@ -175,18 +174,17 @@ RestBreakWindow::draw_time_bar()
   timebar->set_text(s);
 
   ICore *core = CoreFactory::get_core();
-  IActivityMonitor *monitor = core->get_activity_monitor();
-  ActivityState state = monitor->get_current_state();
+  bool user_active = core->is_user_active();
   if (frame != NULL)
     {
-      if (state == ACTIVITY_ACTIVE && !is_flashing)
+      if (user_active && !is_flashing)
         {
           frame->set_frame_color(Gdk::Color("orange"));
           frame->set_frame_visible(true);
           frame->set_frame_flashing(500);
           is_flashing = true;
         }
-      else if (state == ACTIVITY_IDLE && is_flashing)
+      else if (!user_active && is_flashing)
         {
           frame->set_frame_flashing(0);
           frame->set_frame_visible(false);
@@ -263,7 +261,7 @@ RestBreakWindow::install_exercises_panel()
       pluggable_panel->pack_start(*exercises_panel, false, false, 0);
       exercises_panel->set_exercise_count(get_exercise_count());
       exercises_panel->signal_stop().connect
-        (MEMBER_SLOT(*this, &RestBreakWindow::install_info_panel));
+        (sigc::mem_fun(*this, &RestBreakWindow::install_info_panel));
       pluggable_panel->show_all();
       pluggable_panel->queue_resize();
       center();
@@ -291,7 +289,7 @@ RestBreakWindow::set_ignore_activity(bool i)
 
 #ifdef WIN32
   bool force_focus = false;
-  CoreFactory::get_configurator()->get_value_default("advanced/force_focus", &force_focus, false);
+  CoreFactory::get_configurator()->get_value_with_default("advanced/force_focus", force_focus, false);
   if (force_focus)
     {
       i = true;

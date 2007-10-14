@@ -1,6 +1,6 @@
 // DBus.cc --- The main controller
 //
-// Copyright (C) 2006 Rob Caelers
+// Copyright (C) 2006, 2007 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -30,14 +30,19 @@ static const char rcsid[] = "$Id$";
 #include "DBus.hh"
 #include "workrave-server-bindings.h"
 
+#include "CoreFactory.hh"
 #include "ICore.hh"
+#include "IConfigurator.hh"
+#include "IApp.hh"
+
+#include "Core.hh"
 
 //! Signals
 enum {
-    MICROBREAK,
-    RESTBREAK,
-    DAILYLIMIT,
-    LAST_SIGNAL
+  MICROBREAK,
+  RESTBREAK,
+  DAILYLIMIT,
+  LAST_SIGNAL
 };
 
 G_DEFINE_TYPE (WorkraveService, workrave_service, G_TYPE_OBJECT);
@@ -46,7 +51,8 @@ static guint signals[LAST_SIGNAL] = { 0 };
 /* The main service objects */
 static WorkraveService *the_service = NULL;
 static DBusGConnection *connection = NULL;
-static ICore *the_core = NULL;
+
+using namespace std;
 
 /* -----------------------------------------------------------------------------
  * PUBLIC METHODS
@@ -60,7 +66,7 @@ workrave_service_new()
 
 
 void
-workrave_dbus_server_init(ICore *core)
+workrave_dbus_server_init(Core *core)
 {
   DBusGProxy *driver_proxy;
   GError *err = NULL;
@@ -68,8 +74,6 @@ workrave_dbus_server_init(ICore *core)
 
   g_return_if_fail(connection == NULL);
   g_return_if_fail(the_service == NULL);
-
-  the_core = core;
 
   connection = dbus_g_bus_get(DBUS_BUS_SESSION, &err);
   if (connection == NULL)
@@ -86,8 +90,15 @@ workrave_dbus_server_init(ICore *core)
                                            DBUS_PATH_DBUS,
                                            DBUS_INTERFACE_DBUS);
 
+  char *name = DBUS_SERVICE_WORKRAVE;
+  char *env = getenv("WORKRAVE_DBUS_NAME");
+  if (env != NULL)
+    {
+      name = env;
+    }
+
   if (!org_freedesktop_DBus_request_name(driver_proxy,
-                                         DBUS_SERVICE_WORKRAVE,
+                                         name,
                                          0,
                                          &request_name_result,
                                          &err))
@@ -106,6 +117,8 @@ workrave_dbus_server_init(ICore *core)
                                   &dbus_glib_workrave_object_info);
 
   the_service = (WorkraveService *)g_object_new(WORKRAVE_TYPE_SERVICE, NULL);
+  the_service->core = core;
+
   dbus_g_connection_register_g_object(connection,
                                       "/org/workrave/Workrave",
                                       G_OBJECT(the_service));
@@ -136,7 +149,7 @@ workrave_dbus_server_cleanup ()
  */
 
 gboolean
-workrave_service_set_operation_mode(WorkraveService *svc, gchar *mode, GError **error)
+workrave_core_set_operation_mode(WorkraveService *svc, gchar *mode, GError **error)
 {
   (void) svc;
   OperationMode coremode = OPERATION_MODE_NORMAL;
@@ -165,19 +178,19 @@ workrave_service_set_operation_mode(WorkraveService *svc, gchar *mode, GError **
       return FALSE;
     }
 
-  the_core->set_operation_mode(coremode);
+  the_service->core->set_operation_mode(coremode);
 
   return TRUE;
 }
 
 
 gboolean
-workrave_service_get_operation_mode(WorkraveService *svc, gchar **mode, GError **error)
+workrave_core_get_operation_mode(WorkraveService *svc, gchar **mode, GError **error)
 {
   (void) svc;
   (void) error;
 
-  OperationMode coremode = the_core->get_operation_mode();
+  OperationMode coremode = the_service->core->get_operation_mode();
   char *ret = NULL;
 
   switch(coremode)
@@ -207,24 +220,230 @@ workrave_service_get_operation_mode(WorkraveService *svc, gchar **mode, GError *
 }
 
 gboolean
-workrave_service_report_activity(WorkraveService *svc, gchar *who, gchar *act, GError **error)
+workrave_core_report_activity(WorkraveService *svc, gchar *who, gboolean act, GError **error)
 {
-  g_set_error(error, WORKRAVE_DBUS_ERROR, 0, "Invalid activity report %s, %s", who, act);
-
   (void) svc;
   (void) who;
   (void) act;
   (void) error;
 
-  return FALSE;
+  Core::get_instance()->report_external_activity(who, act);
+
+  return TRUE;
 }
+
+
+gboolean
+workrave_core_is_timer_running(WorkraveService *svc, guint id, gboolean *value, GError **error)
+{
+  (void) svc;
+  (void) error;
+
+  if (id > BREAK_ID_SIZEOF)
+    {
+      g_set_error(error, WORKRAVE_DBUS_ERROR, 0, "Invalid timer: %d", id);
+      return FALSE;
+    }
+
+  Timer *timer = svc->core->get_timer((BreakId)id);
+  *value = timer->get_state() == ITimer::STATE_RUNNING;
+
+  return TRUE;
+}
+
+gboolean
+workrave_core_get_timer_idle(WorkraveService *svc, guint id, guint *value, GError **error)
+{
+  (void) svc;
+  (void) error;
+
+  if (id > BREAK_ID_SIZEOF)
+    {
+      g_set_error(error, WORKRAVE_DBUS_ERROR, 0, "Invalid timer: %d", id);
+      return FALSE;
+    }
+
+  Timer *timer = svc->core->get_timer((BreakId)id);
+  *value = timer->get_elapsed_idle_time();
+
+  return TRUE;
+}
+
+gboolean
+workrave_core_get_timer_elapsed(WorkraveService *svc, guint id, guint *value, GError **error)
+{
+  (void) svc;
+  (void) error;
+
+  if (id > BREAK_ID_SIZEOF)
+    {
+      g_set_error(error, WORKRAVE_DBUS_ERROR, 0, "Invalid timer: %d", id);
+      return FALSE;
+    }
+
+  Timer *timer = svc->core->get_timer((BreakId)id);
+  *value = timer->get_elapsed_time();
+
+  return TRUE;
+}
+
+gboolean
+workrave_core_get_time(WorkraveService *svc, guint *value, GError **error)
+{
+  (void) svc;
+  (void) error;
+
+  *value = svc->core->get_time();
+
+  return TRUE;
+}
+
+gboolean
+workrave_core_is_active(WorkraveService *svc, gboolean *active, GError **error)
+{
+  (void) svc;
+  (void) error;
+
+  *active = svc->core->get_current_monitor_state() == ACTIVITY_ACTIVE;
+
+  return TRUE;
+}
+
+
+gboolean workrave_config_set_string(WorkraveService *svc, gchar *key, gchar *value, GError **error)
+{
+  (void) svc;
+  (void) error;
+
+  IConfigurator *config = CoreFactory::get_configurator();
+
+  string s = value;
+  if (!config->set_value(key, s, CONFIG_FLAG_IMMEDIATE))
+    {
+      g_set_error(error, WORKRAVE_DBUS_ERROR, 0, "Cannot set key %s", key);
+      return FALSE;
+    }
+  return TRUE;
+}
+
+gboolean workrave_config_set_int   (WorkraveService *svc, gchar *key, int value, GError **error)
+{
+  (void) svc;
+  (void) error;
+
+  IConfigurator *config = CoreFactory::get_configurator();
+
+  if (!config->set_value(key, value, CONFIG_FLAG_IMMEDIATE))
+    {
+      g_set_error(error, WORKRAVE_DBUS_ERROR, 0, "Cannot set key %s", key);
+      return FALSE;
+    }
+  return TRUE;
+}
+
+gboolean workrave_config_set_bool  (WorkraveService *svc, gchar *key, bool value, GError **error)
+{
+  (void) svc;
+  (void) error;
+
+  IConfigurator *config = CoreFactory::get_configurator();
+
+  if (!config->set_value(key, value, CONFIG_FLAG_IMMEDIATE))
+    {
+      g_set_error(error, WORKRAVE_DBUS_ERROR, 0, "Cannot set key %s", key);
+      return FALSE;
+    }
+  return TRUE;
+}
+
+gboolean workrave_config_set_double(WorkraveService *svc, gchar *key, double value, GError **error)
+{
+  (void) svc;
+  (void) error;
+
+  IConfigurator *config = CoreFactory::get_configurator();
+
+  if (!config->set_value(key, value, CONFIG_FLAG_IMMEDIATE))
+    {
+      g_set_error(error, WORKRAVE_DBUS_ERROR, 0, "Cannot set key %s", key);
+      return FALSE;
+    }
+  return TRUE;
+}
+
+gboolean workrave_config_get_string(WorkraveService *svc, gchar *key, gchar **value, GError **error)
+{
+  (void) svc;
+  (void) error;
+
+  IConfigurator *config = CoreFactory::get_configurator();
+  string s;
+
+  if (!config->get_value(key, s))
+    {
+      g_set_error(error, WORKRAVE_DBUS_ERROR, 0, "Key not set %s", key);
+      return FALSE;
+    }
+
+  *value = g_strdup(s.c_str());
+  return TRUE;
+}
+
+gboolean workrave_config_get_int   (WorkraveService *svc, gchar *key, int *value, GError **error)
+{
+  (void) svc;
+  (void) error;
+
+  IConfigurator *config = CoreFactory::get_configurator();
+
+  if (!config->get_value(key, *value))
+    {
+      g_set_error(error, WORKRAVE_DBUS_ERROR, 0, "Key not set %s", key);
+      return FALSE;
+    }
+
+  return TRUE;
+}
+
+gboolean workrave_config_get_bool  (WorkraveService *svc, gchar *key, bool *value, GError **error)
+{
+  (void) svc;
+  (void) error;
+
+  IConfigurator *config = CoreFactory::get_configurator();
+
+  if (!config->get_value(key, *value))
+    {
+      g_set_error(error, WORKRAVE_DBUS_ERROR, 0, "Key not set %s", key);
+      return FALSE;
+    }
+
+  return TRUE;
+}
+
+gboolean workrave_config_get_double(WorkraveService *svc, gchar *key, double *value, GError **error)
+{
+  (void) svc;
+  (void) error;
+
+  IConfigurator *config = CoreFactory::get_configurator();
+
+  if (!config->get_value(key, *value))
+    {
+      g_set_error(error, WORKRAVE_DBUS_ERROR, 0, "Key not set %s", key);
+      return FALSE;
+    }
+
+  return TRUE;
+}
+
 
 /* -----------------------------------------------------------------------------
  * DBUS SIGNALS
  */
 
 void
-workrave_service_send_break_stage_signal(BreakId break_id, gchar *progress)
+workrave_core_send_break_stage_signal(BreakId break_id, const gchar *progress)
 {
   switch (break_id)
     {

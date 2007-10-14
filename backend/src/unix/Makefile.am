@@ -18,15 +18,18 @@ if HAVE_GCONF
 sourcesgconf = 		GConfConfigurator.cc 
 endif
 
+if PLATFORM_OS_OSX
+sourcesdummy =          dummy.c
+endif
+
 libworkrave_backend_unix_a_SOURCES = \
-			${sourcesxinput} ${sourcesgconf}
+			${sourcesxinput} ${sourcesgconf} ${sourcesdummy}
 
 libworkrave_backend_unix_a_CXXFLAGS = \
 			-W -I.. -I../../include @X_CFLAGS@ \
-			-DWORKRAVE_DATADIR="\"${pkgdatadir}\"" \
+			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-D_XOPEN_SOURCE=600 \
-			@WR_COMMON_CFLAGS@ @GLIB_CFLAGS@ @GDOME_CFLAGS@ \
-			@GCONF_CFLAGS@ @GDK_CFLAGS@
+			@WR_COMMON_CFLAGS@ @GLIB_CFLAGS@ @GCONF_CFLAGS@
 
 EXTRA_DIST = 		$(wildcard *.cc) $(wildcard *.rc)\
 			$(wildcard *.hh) $(wildcard *.h) $(wildcard *.icc)

@@ -7,7 +7,7 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
-SUBDIRS = 		unix win32 
+SUBDIRS = 		unix win32 osx
 
 noinst_LIBRARIES = 	libworkrave-backend.a
 
@@ -15,12 +15,16 @@ sources = 		ActivityMonitor.cc \
 			Break.cc \
 			BreakControl.cc \
 			Configurator.cc \
+			ConfiguratorFactory.cc \
 			Core.cc \
 			CoreFactory.cc \
 			IdleLogManager.cc \
 			GlibIniConfigurator.cc \
 			Statistics.cc \
-			Timer.cc
+			Timer.cc \
+			DayTimePred.cc \
+			WeekTimePred.cc \
+			TimePredFactory.cc
 
 DEFS = 			@DEFS@ -I$(top_srcdir)/intl -I. -I ../include
 
@@ -74,18 +78,19 @@ libworkrave_backend_a_SOURCES = \
 			${sourcesgnet} ${dbussources}
 
 libworkrave_backend_a_CFLAGS = \
-			-W -DWORKRAVE_DATADIR="\"${pkgdatadir}\"" \
+			-W -DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-D_XOPEN_SOURCE=600 @X_CFLAGS@ \
 			@WR_COMMON_CFLAGS@ @WR_BACKEND_CFLAGS@ @GLIB_CFLAGS@ \
 			@GDOME_CFLAGS@ @GNET_CFLAGS@ @DBUS_CFLAGS@ \
-			@GCONF_CFLAGS@ @GNOMEUI_CFLAGS@
+			@GCONF_CFLAGS@ @GNOME_CFLAGS@
 
 libworkrave_backend_a_CXXFLAGS = \
-			-W -DWORKRAVE_DATADIR="\"${pkgdatadir}\"" \
+			-W -DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-D_XOPEN_SOURCE=600 @X_CFLAGS@ \
 			@WR_COMMON_CFLAGS@ @WR_BACKEND_CFLAGS@ @GLIB_CFLAGS@ \
 			@GDOME_CFLAGS@ @GNET_CFLAGS@ @DBUS_CFLAGS@ \
-			@GCONF_CFLAGS@ @GNOMEUI_CFLAGS@ 
+			@GCONF_CFLAGS@ @GNOME_CFLAGS@
+
 
 if HAVE_DBUS
 ## HACK

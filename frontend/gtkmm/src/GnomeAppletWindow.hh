@@ -24,9 +24,7 @@
 
 #include "AppletWindow.hh"
 
-#ifdef HAVE_GTKMM24
 #include <sigc++/compatibility.h>
-#endif
 
 #include <gnome.h>
 #include <bonobo.h>

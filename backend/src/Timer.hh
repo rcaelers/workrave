@@ -36,8 +36,6 @@
 #include "ITimer.hh"
 #include "IActivityMonitor.hh"
 
-using namespace std;
-
 class TimeSource;
 class TimePred;
 class DataNode;
@@ -132,9 +130,9 @@ public:
   bool is_enabled() const;
 
   // Auto-resetting.
-  void set_auto_reset(long t);
+  void set_auto_reset(int t);
   void set_auto_reset(TimePred *predicate);
-  void set_auto_reset(string predicate);
+  void set_auto_reset(std::string predicate);
   void set_auto_reset_enabled(bool b);
   bool is_auto_reset_enabled() const;
   time_t get_auto_reset() const;
@@ -142,19 +140,19 @@ public:
   time_t get_next_reset_time() const;
 
   // Limiting.
-  void set_limit(long t);
+  void set_limit(int t);
   void set_limit_enabled(bool b);
   bool is_limit_enabled() const;
   time_t get_limit() const;
   time_t get_next_limit_time() const;
 
   // Timer ID
-  void set_id(string id);
-  string get_id() const;
+  void set_id(std::string id);
+  std::string get_id() const;
 
   // State serialization.
-  string serialize_state() const;
-  bool deserialize_state(string state);
+  std::string serialize_state() const;
+  bool deserialize_state(std::string state);
 
   void set_state_data(const TimerStateData &data);
   void get_state_data(TimerStateData &data);
@@ -260,7 +258,7 @@ private:
   time_t total_overdue_time;
 
   //! Id of the timer.
-  string timer_id;
+  std::string timer_id;
 
   //! Our source of time.
   TimeSource *time_source;
@@ -281,5 +279,6 @@ private:
 };
 
 #include "Timer.icc"
+
 
 #endif // TIMER_HH

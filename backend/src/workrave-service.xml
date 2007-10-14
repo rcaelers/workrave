@@ -7,21 +7,54 @@
     
     <method name="SetOperationMode">
       <annotation name="org.freedesktop.DBus.GLib.CSymbol" 
-                  value="workrave_service_set_operation_mode"/>
+                  value="workrave_core_set_operation_mode"/>
       <arg type="s" name="mode" direction="in" />
     </method>
 
     <method name="GetOperationMode">
       <annotation name="org.freedesktop.DBus.GLib.CSymbol" 
-                  value="workrave_service_get_operation_mode"/>
+                  value="workrave_core_get_operation_mode"/>
       <arg type="s" name="mode" direction="out" />
     </method>
 
     <method name="ReportActivity">
       <annotation name="org.freedesktop.DBus.GLib.CSymbol" 
-                  value="workrave_service_report_activity"/>
+                  value="workrave_core_report_activity"/>
       <arg type="s" name="who" direction="in" />
-      <arg type="s" name="who" direction="in" />
+      <arg type="b" name="act" direction="in" />
+    </method>
+
+    <method name="IsTimerRunning">
+      <annotation name="org.freedesktop.DBus.GLib.CSymbol" 
+                  value="workrave_core_is_timer_running"/>
+      <arg type="u" name="timer_id" direction="in"/>
+      <arg type="b" name="value" direction="out" />
+    </method>
+
+    <method name="GetTimerIdle">
+      <annotation name="org.freedesktop.DBus.GLib.CSymbol" 
+                  value="workrave_core_get_timer_idle"/>
+      <arg type="u" name="timer_id" direction="in" />
+      <arg type="u" name="value" direction="out" />
+    </method>
+
+    <method name="GetTimerElapsed">
+      <annotation name="org.freedesktop.DBus.GLib.CSymbol" 
+                  value="workrave_core_get_timer_elapsed"/>
+      <arg type="u" name="timer_id" direction="in" />
+      <arg type="u" name="value" direction="out" />
+    </method>
+    
+    <method name="GetTime">
+      <annotation name="org.freedesktop.DBus.GLib.CSymbol"  
+                  value="workrave_core_get_time"/>
+      <arg type="u" name="value" direction="out" />
+    </method>
+
+    <method name="IsActive">
+      <annotation name="org.freedesktop.DBus.GLib.CSymbol"  
+                  value="workrave_core_is_active"/>
+      <arg type="b" name="value" direction="out" />
     </method>
     
     <signal name="MicrobreakChanged">
@@ -33,7 +66,68 @@
     <signal name="DailylimitChanged">
       <arg type="s" name="progress" direction="out"/>
     </signal>
+  </interface>
+
+
+  <interface name="org.workrave.ConfigInterface">
+    <annotation name="org.freedesktop.DBus.GLib.CSymbol" value="workrave_config"/>
+
+    <method name="SetString">
+      <annotation name="org.freedesktop.DBus.GLib.CSymbol" 
+                  value="workrave_config_set_string"/>
+      <arg type="s" name="key" direction="in" />
+      <arg type="s" name="value" direction="in" />
+    </method>
+
+    <method name="SetInt">
+      <annotation name="org.freedesktop.DBus.GLib.CSymbol" 
+                  value="workrave_config_set_int"/>
+      <arg type="s" name="key" direction="in" />
+      <arg type="u" name="value" direction="in" />
+    </method>
+
+    <method name="SetBool">
+      <annotation name="org.freedesktop.DBus.GLib.CSymbol" 
+                  value="workrave_config_set_bool"/>
+      <arg type="s" name="key" direction="in" />
+      <arg type="b" name="value" direction="in" />
+    </method>
     
+    <method name="SetDouble">
+      <annotation name="org.freedesktop.DBus.GLib.CSymbol" 
+                  value="workrave_config_set_double"/>
+      <arg type="s" name="key" direction="in" />
+      <arg type="b" name="value" direction="in" />
+    </method>
+  
+    <method name="GetString">
+      <annotation name="org.freedesktop.DBus.GLib.CSymbol" 
+                  value="workrave_config_get_string"/>
+      <arg type="s" name="key" direction="in" />
+      <arg type="s" name="value" direction="out" />
+    </method>
+
+    <method name="GetInt">
+      <annotation name="org.freedesktop.DBus.GLib.CSymbol" 
+                  value="workrave_config_get_int"/>
+      <arg type="s" name="key" direction="in" />
+      <arg type="u" name="value" direction="out" />
+    </method>
+
+    <method name="GetBool">
+      <annotation name="org.freedesktop.DBus.GLib.CSymbol" 
+                  value="workrave_config_get_bool"/>
+      <arg type="s" name="key" direction="in" />
+      <arg type="b" name="value" direction="out" />
+    </method>
+    
+    <method name="GetDouble">
+      <annotation name="org.freedesktop.DBus.GLib.CSymbol" 
+                  value="workrave_config_get_double"/>
+      <arg type="s" name="key" direction="in" />
+      <arg type="b" name="value" direction="out" />
+    </method>
+
   </interface>
 
 </node>

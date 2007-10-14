@@ -1,6 +1,6 @@
-// IInputMonitor.hh --- Interface definition for the Activity Monitor
+// IInputMonitor.hh --- Interface definition for the Input monitors.
 //
-// Copyright (C) 2001, 2002, 2003, 2005, 2006 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -19,7 +19,9 @@
 #ifndef IINPUTMONITOR_HH
 #define IINPUTMONITOR_HH
 
+// Forward declarion of internal interfaces.
 class IInputMonitorListener;
+
 
 //! Interface that all input monitors must support.
 class IInputMonitor

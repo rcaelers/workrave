@@ -88,7 +88,7 @@ BOOL W32Compat::SetWindowOnTop( HWND hwnd, BOOL top )
       SwitchToThisWindow = ( VOID ( WINAPI * ) ( HWND, BOOL ) )
         GetProcAddress( GetModuleHandleA( "user32.dll" ), "SwitchToThisWindow" );
   
-      if( !CoreFactory::get_configurator()->get_value( "advanced/force_focus", &force_focus ) )
+      if( !CoreFactory::get_configurator()->get_value( "advanced/force_focus", force_focus ) )
         force_focus = false;
   
       run_once = false;

@@ -109,11 +109,7 @@ IconListCellRenderer::get_size_vfunc(Gtk::Widget& widget,
 
 void
 IconListCellRenderer::render_vfunc(
-#ifdef HAVE_GTKMM24
                                    const Glib::RefPtr<Gdk::Drawable>& window,
-#else
-                                   const Glib::RefPtr<Gdk::Window>& window,
-#endif
                                    Gtk::Widget& widget,
                                    const Gdk::Rectangle& bg_area,
                                    const Gdk::Rectangle& cell_area,

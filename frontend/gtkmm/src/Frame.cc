@@ -1,6 +1,6 @@
 // FrameWindow.hh --- Gtk::Frame like widget
 //
-// Copyright (C) 2001, 2002, 2003, 2004 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2001, 2002, 2003, 2004, 2007 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -97,7 +97,7 @@ Frame::set_frame_flashing(int delay)
             {
               flash_signal.disconnect();
             }
-          flash_signal = Glib::signal_timeout().connect(MEMBER_SLOT(*this, &Frame::on_timer), delay);
+          flash_signal = Glib::signal_timeout().connect(sigc::mem_fun(*this, &Frame::on_timer), delay);
         }
     }
   else
@@ -137,7 +137,6 @@ Frame::on_realize()
   set_frame_color(frame_color);
 }
 
-#ifdef HAVE_GTKMM24
 void
 Frame::on_size_request(Gtk::Requisition *requisition)
 {
@@ -147,19 +146,7 @@ Frame::on_size_request(Gtk::Requisition *requisition)
   requisition->width += d;
   requisition->height += d;
 }
-#else
-void
-Frame::on_size_request(GtkRequisition *requisition)
-{
-  Gtk::Widget *widget = get_child();
-  widget->size_request(requisition);
-  guint d = 2*(get_border_width()+frame_width);
-  requisition->width += d;
-  requisition->height += d;
-}
-#endif
 
-#ifdef HAVE_GTKMM24
 void
 Frame::on_size_allocate(Gtk::Allocation &allocation)
 {
@@ -175,23 +162,6 @@ Frame::on_size_allocate(Gtk::Allocation &allocation)
   alloc.set_height(allocation.get_height() - 2*b);
   widget->size_allocate(alloc);
 }
-#else
-void
-Frame::on_size_allocate(GtkAllocation* allocation)
-{
-  Gtk::Bin::on_size_allocate(allocation);
-
-  Gtk::Widget *widget = get_child();
-  guint b = get_border_width() + frame_width;
-
-  GtkAllocation alloc;
-  alloc.x = allocation->x + b;
-  alloc.y = allocation->y + b;
-  alloc.width = allocation->width - 2*b;
-  alloc.height = allocation->height - 2*b;
-  widget->size_allocate(&alloc);
-}
-#endif
 
 bool
 Frame::on_expose_event(GdkEventExpose* e)
@@ -202,16 +172,12 @@ Frame::on_expose_event(GdkEventExpose* e)
   Gdk::Color bgCol = style->get_background(Gtk::STATE_NORMAL);
 
   // FIXME:
-#ifdef HAVE_GTKMM24
   Gtk::Allocation gtkmmalloc = get_allocation();
   GtkAllocation alloc;
   alloc.x = gtkmmalloc.get_x();
   alloc.y = gtkmmalloc.get_y();
   alloc.width = gtkmmalloc.get_width();
   alloc.height = gtkmmalloc.get_height();
-#else
-  GtkAllocation alloc = get_allocation();
-#endif
 
   switch (frame_style)
     {

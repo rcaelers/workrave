@@ -42,7 +42,7 @@ W32AlternateMonitor::W32AlternateMonitor()
   
   listener = NULL;
   
-  CoreFactory::get_configurator()->get_value_default( "advanced/interval", &interval, 500);
+  CoreFactory::get_configurator()->get_value_with_default( "advanced/interval", interval, 500);
   TRACE_EXIT();
 }
 

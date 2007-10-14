@@ -95,7 +95,8 @@ GnomeAppletWindow::activate_applet()
       if (applet_control == NULL)
         {
           applet_control = bonobo_activation_activate_from_id("OAFIID:GNOME_Workrave_AppletControl",
-                                                              Bonobo_ACTIVATION_FLAG_EXISTING_ONLY, NULL, &ev);
+                                                              Bonobo_ACTIVATION_FLAG_EXISTING_ONLY,
+                                                              NULL, &ev);
         }
 
       // Socket ID of the applet.
@@ -136,8 +137,8 @@ GnomeAppletWindow::activate_applet()
 
           plug->set_events(plug->get_events() | Gdk::BUTTON_PRESS_MASK | Gdk::BUTTON_RELEASE_MASK);
 
-          plug->signal_embedded().connect(MEMBER_SLOT(*this, &GnomeAppletWindow::on_embedded));
-          plug->signal_delete_event().connect(MEMBER_SLOT(*this, &GnomeAppletWindow::delete_event));
+          plug->signal_embedded().connect(sigc::mem_fun(*this, &GnomeAppletWindow::on_embedded));
+          plug->signal_delete_event().connect(sigc::mem_fun(*this, &GnomeAppletWindow::delete_event));
 
           // Gtkmm does not wrap this event....
           g_signal_connect(G_OBJECT(plug->gobj()), "destroy-event",
@@ -150,8 +151,8 @@ GnomeAppletWindow::activate_applet()
           view->set_geometry(applet_orientation, applet_size);
           view->show_all();
 
-          plug->signal_button_press_event().connect(MEMBER_SLOT(*this, &GnomeAppletWindow::on_button_press_event));
-          plug->signal_button_release_event().connect(MEMBER_SLOT(*this, &GnomeAppletWindow::on_button_press_event));
+          plug->signal_button_press_event().connect(sigc::mem_fun(*this, &GnomeAppletWindow::on_button_press_event));
+          plug->signal_button_release_event().connect(sigc::mem_fun(*this, &GnomeAppletWindow::on_button_press_event));
 
           container->add(*view);
           container->show_all();

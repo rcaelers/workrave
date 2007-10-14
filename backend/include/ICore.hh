@@ -1,6 +1,6 @@
 // ICore.hh --- The main controller interface
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -100,13 +100,13 @@ public:
   //! Returns the statistics interface.
   virtual IStatistics *get_statistics() const = 0;
 
-  //! Returns the activity monitor interface
-  virtual IActivityMonitor *get_activity_monitor() const = 0;
-
 #ifdef HAVE_DISTRIBUTION
   //! Returns the distribution manager (if available).
   virtual IDistributionManager *get_distribution_manager() const = 0;
 #endif
+
+  //! Is the user currently active?
+  virtual bool is_user_active() const = 0;
 
   //! Returns the current operational mode.
   virtual OperationMode get_operation_mode() = 0;
@@ -122,10 +122,8 @@ public:
 
   virtual void set_insist_policy(InsistPolicy p) = 0;
 
-#ifndef NDEBUG
-  virtual void test_me() = 0;
-#endif
-
+  //! Return the current time
+  virtual time_t get_time() const = 0;
 };
 
 #endif // ICORE_HH

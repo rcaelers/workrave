@@ -1,6 +1,6 @@
 // IconListNotebook.hh --- Notebook like widget
 //
-// Copyright (C) 2003, 2004 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2003, 2004, 2007 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -59,7 +59,7 @@ IconListNotebook::IconListNotebook()
   Glib::RefPtr<Gtk::TreeSelection> selection = icon_list.get_selection();
   selection->set_mode(Gtk::SELECTION_SINGLE);
   selection->signal_changed()
-    .connect(MEMBER_SLOT(*this, &IconListNotebook::on_page_changed));
+    .connect(sigc::mem_fun(*this, &IconListNotebook::on_page_changed));
 
   notebook.set_show_tabs(false);
   notebook.set_show_border(false);

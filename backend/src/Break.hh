@@ -1,6 +1,6 @@
 // Break.hh
 //
-// Copyright (C) 2001, 2002, 2003, 2005, 2006 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -20,7 +20,7 @@
 #define BREAK_HH
 
 #include "ICore.hh"
-#include "ConfiguratorListener.hh"
+#include "IConfiguratorListener.hh"
 #include "IBreak.hh"
 #include "Timer.hh"
 
@@ -32,7 +32,7 @@ using namespace std;
 
 class Break :
   public IBreak,
-  public ConfiguratorListener
+  public IConfiguratorListener
 {
 private:
   //! ID of the break.
@@ -95,7 +95,7 @@ public:
   void set_break_exercises(int n);
   bool get_break_enabled() const;
   void set_break_enabled(bool b);
-  void config_changed_notify(string key);
+  void config_changed_notify(const string &key);
 
 private:
   void init_timer();
@@ -106,7 +106,7 @@ private:
   void update_break_config();
   void load_break_control_config();
 
-  bool starts_with(string &key, string prefix, string &timer_name);
+  bool starts_with(const string &key, string prefix, string &timer_name);
 
 public:
   static const string CFG_KEY_TIMER_PREFIX;

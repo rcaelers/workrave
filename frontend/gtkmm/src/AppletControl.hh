@@ -1,6 +1,6 @@
 // AppletControl.hh --- Applet window
 //
-// Copyright (C) 2006 Rob Caelers & Raymond Penners
+// Copyright (C) 2006, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -20,11 +20,11 @@
 #define APPLETCONTROL_HH
 
 #include "preinclude.h"
-#include "ConfiguratorListener.hh"
+#include "IConfiguratorListener.hh"
 #include "AppletWindow.hh"
 
 class AppletControl :
-  public ConfiguratorListener
+  public IConfiguratorListener
 {
 public:
   enum AppletType
@@ -75,7 +75,7 @@ private:
   AppletState activate_applet(AppletType type);
   void deactivate_applet(AppletType type);
 
-  void config_changed_notify(std::string key);
+  void config_changed_notify(const std::string &key);
   void read_configuration();
   void check_visible();
 };

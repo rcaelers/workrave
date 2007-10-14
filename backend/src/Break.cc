@@ -235,7 +235,7 @@ Break::load_timer_monitor_config()
 {
   string monitor_name;
 
-  bool ret = configurator->get_value(timer_prefix + CFG_KEY_TIMER_MONITOR, &monitor_name);
+  bool ret = configurator->get_value(timer_prefix + CFG_KEY_TIMER_MONITOR, monitor_name);
   if (ret && monitor_name != "")
     {
       Core *core = Core::get_instance();
@@ -292,7 +292,7 @@ int
 Break::get_timer_limit() const
 {
   int rc;
-  configurator->get_value_default(timer_prefix + CFG_KEY_TIMER_LIMIT, &rc,
+  configurator->get_value_with_default(timer_prefix + CFG_KEY_TIMER_LIMIT, rc,
                                   default_config[break_id].limit);
   return rc;
 }
@@ -311,7 +311,7 @@ int
 Break::get_timer_auto_reset() const
 {
   int rc;
-  configurator->get_value_default(timer_prefix + CFG_KEY_TIMER_AUTO_RESET, &rc,
+  configurator->get_value_with_default(timer_prefix + CFG_KEY_TIMER_AUTO_RESET, rc,
                                   default_config[break_id].auto_reset);
   return rc;
 }
@@ -330,7 +330,7 @@ string
 Break::get_timer_reset_pred() const
 {
   string rc;
-  configurator->get_value_default(timer_prefix + CFG_KEY_TIMER_RESET_PRED, &rc,
+  configurator->get_value_with_default(timer_prefix + CFG_KEY_TIMER_RESET_PRED, rc,
                                   default_config[break_id].resetpred);
   return rc;
 }
@@ -349,7 +349,7 @@ int
 Break::get_timer_snooze() const
 {
   int rc;
-  configurator->get_value_default(timer_prefix + CFG_KEY_TIMER_SNOOZE, &rc,
+  configurator->get_value_with_default(timer_prefix + CFG_KEY_TIMER_SNOOZE, rc,
                                   default_config[break_id].snooze);
   return rc;
 }
@@ -368,7 +368,7 @@ string
 Break::get_timer_monitor() const
 {
   string rc;
-  configurator->get_value(timer_prefix + CFG_KEY_TIMER_MONITOR, &rc);
+  configurator->get_value(timer_prefix + CFG_KEY_TIMER_MONITOR, rc);
 
   return rc;
 }
@@ -387,9 +387,9 @@ bool
 Break::get_timer_activity_sensitive() const
 {
   bool rc = true;
-  configurator->get_value_default(timer_prefix
+  configurator->get_value_with_default(timer_prefix
                                   +CFG_KEY_TIMER_ACTIVITY_SENSITIVE,
-                                  &rc, true);
+                                  rc, true);
   return rc;
 }
 
@@ -405,8 +405,8 @@ int
 Break::get_break_max_preludes() const
 {
   int rc;
-  configurator->get_value_default(break_prefix + CFG_KEY_BREAK_MAX_PRELUDES,
-                                  &rc,
+  configurator->get_value_with_default(break_prefix + CFG_KEY_BREAK_MAX_PRELUDES,
+                                  rc,
                                   default_config[break_id].max_preludes);
   return rc;
 }
@@ -424,8 +424,8 @@ int
 Break::get_break_max_postpone() const
 {
   int rc;
-  configurator->get_value_default(break_prefix + CFG_KEY_BREAK_MAX_POSTPONE,
-                                  &rc,
+  configurator->get_value_with_default(break_prefix + CFG_KEY_BREAK_MAX_POSTPONE,
+                                  rc,
                                   default_config[break_id].max_postpone);
   return rc;
 }
@@ -443,8 +443,8 @@ bool
 Break::get_break_ignorable() const
 {
   bool rc;
-  configurator->get_value_default(break_prefix + CFG_KEY_BREAK_IGNORABLE,
-                                  &rc,
+  configurator->get_value_with_default(break_prefix + CFG_KEY_BREAK_IGNORABLE,
+                                  rc,
                                   default_config[break_id].ignorable_break);
   return rc;
 }
@@ -463,7 +463,7 @@ int
 Break::get_break_exercises() const
 {
   int rc;
-  configurator->get_value_default(break_prefix + CFG_KEY_BREAK_EXERCISES, &rc,
+  configurator->get_value_with_default(break_prefix + CFG_KEY_BREAK_EXERCISES, rc,
                                   default_config[break_id].exercises);
   return rc;
 }
@@ -481,7 +481,7 @@ bool
 Break::get_break_enabled() const
 {
   bool rc;
-  configurator->get_value_default(break_prefix + CFG_KEY_BREAK_ENABLED, &rc,
+  configurator->get_value_with_default(break_prefix + CFG_KEY_BREAK_ENABLED, rc,
                                   true);
   return rc;
 }
@@ -495,24 +495,24 @@ Break::set_break_enabled(bool b)
 
 
 bool
-Break::starts_with(string &key, string prefix, string &name)
+Break::starts_with(const string &key, string prefix, string &name)
 {
   TRACE_ENTER_MSG("Break::starts_with", key << " " << prefix);
   bool ret = false;
 
   // Search prefix (just in case some Configurator added a leading /)
   string::size_type pos = key.rfind(prefix);
+  string k;
 
   if (pos != string::npos)
     {
       TRACE_MSG(pos);
-      key = key.substr(pos + prefix.length());
-      pos = key.find('/');
+      k = key.substr(pos + prefix.length());
+      pos = k.find('/');
 
       if (pos != string::npos)
         {
-          name = key.substr(0, pos);
-          key = key.substr(pos + 1);
+          name = k.substr(0, pos);
         }
       ret = true;
     }
@@ -522,10 +522,9 @@ Break::starts_with(string &key, string prefix, string &name)
 }
 
 
-
 //! Notification that the configuration changed.
 void
-Break::config_changed_notify(string key)
+Break::config_changed_notify(const string &key)
 {
   TRACE_ENTER_MSG("Break::config_changed_notify", key);
   string name;

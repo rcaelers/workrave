@@ -1,6 +1,6 @@
 // SoundPlayer.cc --- Sound player
 //
-// Copyright (C) 2002, 2003, 2004, 2006 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2006, 2007 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -39,11 +39,17 @@ static const char rcsid[] = "$Id$";
 #include <X11/Xlib.h>
 #endif
 #ifdef WIN32
+#include <windows.h>
 #include "W32SoundPlayer.hh"
+#endif
+#ifdef PLATFORM_OS_OSX
+#include "OSXSoundPlayer.hh"
 #endif
 
 const char *SoundPlayer::CFG_KEY_SOUND_ENABLED = "sound/enabled";
 const char *SoundPlayer::CFG_KEY_SOUND_DEVICE = "sound/device";
+
+using namespace std;
 
 /**********************************************************************
  * PC-Speaker
@@ -216,6 +222,8 @@ SoundPlayer::SoundPlayer()
      new GnomeSoundPlayer()
 #elif defined(HAVE_KDE)
      new KdeSoundPlayer()
+#elif defined(PLATFORM_OS_OSX)
+     new OSXSoundPlayer()
 #else
 #  warning Sound card support disabled.
      NULL
@@ -254,7 +262,7 @@ SoundPlayer::is_enabled()
   bool b;
   bool rc;
   b = CoreFactory::get_configurator()
-    ->get_value(CFG_KEY_SOUND_ENABLED, &rc);
+    ->get_value(CFG_KEY_SOUND_ENABLED, rc);
   if (! b)
     {
       rc = true;
@@ -276,7 +284,7 @@ SoundPlayer::get_device()
   Device dev = DEVICE_SOUNDCARD;
   string devstr;
   b = CoreFactory::get_configurator()
-    ->get_value(CFG_KEY_SOUND_DEVICE, &devstr);
+    ->get_value(CFG_KEY_SOUND_DEVICE, devstr);
   if (b)
     {
       if (devstr == "speaker")

@@ -7,9 +7,10 @@
 
 MAINTAINERCLEANFILES =	Makefile.in
 
+if PLATFORM_OS_WIN32
+
 noinst_LIBRARIES = 	libworkrave-backend-win32.a
 
-if HAVE_WIN32
 sources = 		W32Configurator.cc W32InputMonitor.cc W32AlternateMonitor.cc W32LowLevelMonitor.cc Harpoon.cc
 endif
 
@@ -18,7 +19,7 @@ libworkrave_backend_win32_a_SOURCES = \
 
 libworkrave_backend_win32_a_CXXFLAGS = \
 			-W -I.. -I../../include \
-			-DWORKRAVE_DATADIR="\"${pkgdatadir}\"" \
+			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-D_XOPEN_SOURCE=600 \
 			-I$(top_srcdir)/common/win32/harpoon/include/ \
 		  	@WR_COMMON_CFLAGS@ @GLIB_CFLAGS@

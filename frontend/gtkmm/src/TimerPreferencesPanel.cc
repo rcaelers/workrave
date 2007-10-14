@@ -1,6 +1,6 @@
 // TimerPreferencesPanel.cc --- Preferences widgets for a timer
 //
-// Copyright (C) 2002, 2003, 2004, 2006 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2006, 2007 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -62,7 +62,7 @@ TimerPreferencesPanel::TimerPreferencesPanel
   enabled_cb = manage(new Gtk::CheckButton());
   enabled_cb->add(*enabled_lab);
   enabled_cb->set_active(break_data->get_break_enabled());
-  enabled_cb->signal_toggled().connect(MEMBER_SLOT(*this, &TimerPreferencesPanel::on_enabled_toggled));
+  enabled_cb->signal_toggled().connect(sigc::mem_fun(*this, &TimerPreferencesPanel::on_enabled_toggled));
 
   HigCategoriesPanel *categories = manage(new HigCategoriesPanel());;
 
@@ -115,13 +115,13 @@ TimerPreferencesPanel::create_prelude_panel()
   set_prelude_sensitivity();
 
   prelude_cb->signal_toggled()
-    .connect(MEMBER_SLOT(*this,
+    .connect(sigc::mem_fun(*this,
                         &TimerPreferencesPanel::on_preludes_active_toggled));
   has_max_prelude_cb->signal_toggled()
-    .connect(MEMBER_SLOT(*this,
+    .connect(sigc::mem_fun(*this,
                         &TimerPreferencesPanel::on_preludes_maximum_toggled));
   max_prelude_adjustment.signal_value_changed()
-    .connect(MEMBER_SLOT(*this,
+    .connect(sigc::mem_fun(*this,
                         &TimerPreferencesPanel::on_preludes_maximum_changed));
 
   hig->add(*prelude_cb);
@@ -144,7 +144,7 @@ TimerPreferencesPanel::create_options_panel()
                         (_("Show 'Postpone' and 'Skip' button")));
   ignorable_cb->set_active(ignorable);
   ignorable_cb->signal_toggled()
-    .connect(MEMBER_SLOT(*this, &TimerPreferencesPanel::on_ignorable_toggled));
+    .connect(sigc::mem_fun(*this, &TimerPreferencesPanel::on_ignorable_toggled));
   hig->add(*ignorable_cb);
 
   // Sensitive for activity
@@ -153,7 +153,7 @@ TimerPreferencesPanel::create_options_panel()
                         (_("Suspend timer when inactive")));
   activity_sensitive_cb->set_active(sensitive);
   activity_sensitive_cb->signal_toggled()
-    .connect(MEMBER_SLOT(*this, &TimerPreferencesPanel::on_activity_sensitive_toggled));
+    .connect(sigc::mem_fun(*this, &TimerPreferencesPanel::on_activity_sensitive_toggled));
   hig->add(*activity_sensitive_cb);
 
   // Break specific options
@@ -171,7 +171,7 @@ TimerPreferencesPanel::create_options_panel()
       monitor_name = break_data->get_timer_monitor();
       monitor_cb->set_active(monitor_name != "");
       monitor_cb->signal_toggled()
-        .connect(MEMBER_SLOT(*this, &TimerPreferencesPanel::on_monitor_toggled));
+        .connect(sigc::mem_fun(*this, &TimerPreferencesPanel::on_monitor_toggled));
       hig->add(*monitor_cb);
     }
 #endif
@@ -183,7 +183,7 @@ TimerPreferencesPanel::create_options_panel()
       hig->add(_("Number of exercises:"), *exercises_spin);
       exercises_adjustment.set_value(break_data->get_break_exercises());
       exercises_adjustment.signal_value_changed()
-        .connect(MEMBER_SLOT(*this,
+        .connect(sigc::mem_fun(*this,
                             &TimerPreferencesPanel::on_exercises_changed));
     }
 #endif
@@ -203,7 +203,7 @@ TimerPreferencesPanel::create_timers_panel
   limit_tim = manage(new TimeEntry());
   limit_tim->set_value(break_data->get_timer_limit());
   limit_tim->signal_value_changed()
-    .connect(MEMBER_SLOT(*this, &TimerPreferencesPanel::on_limit_changed));
+    .connect(sigc::mem_fun(*this, &TimerPreferencesPanel::on_limit_changed));
   Gtk::Label *limit_lab = hig->add(break_id == BREAK_ID_DAILY_LIMIT
            ? _("Time before end:")
            : _("Time between breaks:"), *limit_tim);
@@ -221,7 +221,7 @@ TimerPreferencesPanel::create_timers_panel
       auto_reset_tim = manage(new TimeEntry());
       auto_reset_tim->set_value (auto_reset_value);
       auto_reset_tim->signal_value_changed()
-        .connect(MEMBER_SLOT(*this,
+        .connect(sigc::mem_fun(*this,
                             &TimerPreferencesPanel::on_auto_reset_changed));
       Gtk::Label *auto_reset_lab = manage(new Gtk::Label(auto_reset_txt));
       hsize_group->add_widget(*auto_reset_lab);
@@ -236,7 +236,7 @@ TimerPreferencesPanel::create_timers_panel
   snooze_tim = manage(new TimeEntry());
   snooze_tim->set_value (break_data->get_timer_snooze());
   snooze_tim->signal_value_changed()
-    .connect(MEMBER_SLOT(*this, &TimerPreferencesPanel::on_snooze_changed));
+    .connect(sigc::mem_fun(*this, &TimerPreferencesPanel::on_snooze_changed));
   Gtk::Label *snooze_lab = hig->add(_("Postpone time:"), *snooze_tim);
   hsize_group->add_widget(*snooze_lab);
 

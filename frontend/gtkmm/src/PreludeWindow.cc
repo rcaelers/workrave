@@ -97,7 +97,7 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
   frame->set_frame_width(6);
   frame->set_border_width(6);
   frame->add(*hbox);
-  frame->signal_flash().connect(MEMBER_SLOT(*this, &PreludeWindow::on_frame_flash));
+  frame->signal_flash().connect(sigc::mem_fun(*this, &PreludeWindow::on_frame_flash));
   flash_visible = true;
   color_warn = Gdk::Color("orange");
   color_alert = Gdk::Color("red");
@@ -127,12 +127,10 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
   stick();
 
   this->head = head;
-#ifdef HAVE_GTK_MULTIHEAD
   if (head.valid)
     {
       Gtk::Window::set_screen(head.screen);
     }
-#endif
 }
 
 
@@ -160,13 +158,13 @@ PreludeWindow::start()
   realize_if_needed();
 
   // Set some window hints.
-  WindowHints::set_skip_winlist(Gtk::Widget::gobj(), true);
+  WindowHints::set_skip_winlist(this, true);
 
 #ifdef WIN32
   SetWindowPos( (HWND) GDK_WINDOW_HWND( Gtk::Widget::gobj()->window ),
       HWND_TOPMOST, 0, 0, 0, 0, SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE );
 #else
-  WindowHints::set_always_on_top(Gtk::Widget::gobj(), true);
+  WindowHints::set_always_on_top(this, true);
 #endif
 
   refresh();
@@ -345,7 +343,7 @@ PreludeWindow::init_avoid_pointer()
   if (! avoid_signal.connected())
     {
       avoid_signal = Glib::signal_timeout()
-        .connect(MEMBER_SLOT(*this, &PreludeWindow::on_avoid_pointer_timer),
+        .connect(sigc::mem_fun(*this, &PreludeWindow::on_avoid_pointer_timer),
                  150);
     }
 #else
@@ -360,7 +358,7 @@ PreludeWindow::init_avoid_pointer()
   did_avoid = false;
 }
 
-#ifdef HAVE_X
+#ifndef WIN32
 
 //! GDK EventNotifyEvent notification.
 bool

@@ -251,9 +251,6 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
 #ifdef HAVE_EXERCISES
           "EXERCISES "
 #endif
-#ifdef HAVE_EXPERIMENTAL
-          "EXPERIMENTAL "
-#endif
 #ifdef HAVE_GCONF
           "GCONF?? "
 #endif
@@ -268,9 +265,6 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
 #endif
 #ifdef HAVE_GNOME
           "GNOME?? "
-#endif
-#ifdef HAVE_GTK_MULTIHEAD
-          "GTK_MULTIHEAD "
 #endif
 #ifdef HAVE_XRECORD
           "XRECORD?? "

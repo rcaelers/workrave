@@ -19,7 +19,7 @@
 #ifndef ORIENTATION_HH
 #define ORIENTATION_HH
 
-namespace Workrave
+namespace workrave
 {
   enum Orientation
     {

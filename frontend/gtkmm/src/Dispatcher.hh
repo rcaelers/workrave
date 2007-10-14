@@ -1,6 +1,6 @@
 // Dispatcher.cc --- Inter-thread dispatcher
 //
-// Copyright (C) 2002, 2003, 2004 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2004, 2007 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -19,9 +19,7 @@
 #ifndef DISPATCHER_HH
 #define DISPATCHER_HH
 
-#ifdef HAVE_GTKMM24
 #include <sigc++/compatibility.h>
-#endif
 
 #include <sigc++/object.h>
 #include <sigc++/slot.h>

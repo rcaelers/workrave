@@ -1,6 +1,6 @@
 // Text.cc
 //
-// Copyright (C) 2002, 2003 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2007 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -36,6 +36,7 @@ static const char rcsid[] = "$Id$";
 #include "nls.h"
 #include "Text.hh"
 
+using namespace std;
 
 //! Converts the specified time to a string
 string

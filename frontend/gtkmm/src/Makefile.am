@@ -6,7 +6,7 @@
 # $Id$
 #
 
-SUBDIRS = 		gnome_applet kde_applet win32 unix
+SUBDIRS = 		gnome_applet kde_applet win32 unix osx
 MAINTAINERCLEANFILES = 	Makefile.in ${IDL_A_GENERATED} ${IDL_C_GENERATED}
 
 if HAVE_APP_GTKMM
@@ -102,11 +102,12 @@ includesx = 		-Iunix/
 workrave_LDFLAGS = 	-Lunix/
 endif
 
-if PLATFORM_WIN32
+if PLATFORM_OS_WIN32
 extrasources +=		$(sourceswin32)
 includeswin32 = 	-I$(top_srcdir)/common/win32/harpoon/include -Iwin32/ \
 			-I../../win32/applet/include
 workrave_LDFLAGS = 	-Lwin32/
+win32cflags		= -D_WIN32_IE=0x0500
 endif
 
 if HAVE_DISTRIBUTION
@@ -117,7 +118,7 @@ if HAVE_EXERCISES
 extrasources +=		$(sourcesexercises)
 endif
 
-if PLATFORM_WIN32
+if PLATFORM_OS_WIN32
 WINDRES ?= 		"windres"
 .rc.o:
 	${WINDRES} -o $@ $<
@@ -132,8 +133,10 @@ if HAVE_X
 X11LIBS = 		-lworkrave-frontend-gtkmm-unix -lX11 -lXmu
 endif
 
-if HAVE_WIN32
-win32cflags		= -D_WIN32_IE=0x0500
+if PLATFORM_OS_OSX
+includesosx  = 		-Iosx
+workrave_LDFLAGS = 	-Losx
+OSXLIBS	=		-lworkrave-frontend-gtkmm-osx
 endif
 
 #if HAVE_KDE
@@ -176,9 +179,7 @@ workrave_SOURCES = \
 			TimeEntry.cc \
 			TimerPreferencesPanel.cc \
 			WindowHints.cc \
-			gnome-winhints.c \
 			Frame.cc \
-			WmSpec.cc \
 			TimerBoxGtkView.cc \
 			TimerBoxPreferencePage.cc \
 			Menus.cc \
@@ -190,24 +191,24 @@ nodist_workrave_SOURCES = \
 			$(extranodistsources)
 
 
-workrave_CXXFLAGS = 	-DWORKRAVE_DATADIR="\"${pkgdatadir}\"" -W \
+workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
 			-DATADIR="\"${datadir}\""  \
 			@WR_FRONTEND_CFLAGS@ -I$(top_srcdir)/src \
-			 -I. @X_CFLAGS@ @GNOMEUIMM_CFLAGS@ \
-			@GNOMEUI_CFLAGS@ @GTK_CFLAGS@ @GTKMM_CFLAGS@ \
+			 -I. @X_CFLAGS@ @GNOMEMM_CFLAGS@ \
+			@GNOME_CFLAGS@ @GTK_CFLAGS@ \
 			@GCONF_CFLAGS@ -D_XOPEN_SOURCE=600 @GNET_CFLAGS@ \
 			@KDE_INCLUDES@ @QT_INCLUDES@\
-			$(includeswin32) $(win32cflags) $(includesinput) \
+			$(includeswin32) $(win32cflags) $(includesinput) $(includesosx) \
 			$(includesx) \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
 			-I${STATISTICS_HOME}/gtkmm/src \
 			-I${EXERCISES_HOME}/gtkmm/src \
 			-I${EXERCISES_HOME}/common/src 
 
-workrave_CFLAGS	= 	-DWORKRAVE_DATADIR="\"${pkgdatadir}\"" \
+workrave_CFLAGS	= 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			@WR_FRONTEND_CFLAGS@ -I$(top_srcdir)/src \
-			-I. @X_CFLAGS@ @GNOMEUI_CFLAGS@ \
-			@GTK_CFLAGS@ @GTKMM_CFLAGS@ -D_XOPEN_SOURCE=600 \
+			-I. @X_CFLAGS@ @GNOME_CFLAGS@ \
+			@GTK_CFLAGS@ -D_XOPEN_SOURCE=600 \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
 			-I${STATISTICS_HOME}/gtkmm/src \
 			-I${EXERCISES_HOME}/gtkmm/src \
@@ -218,12 +219,11 @@ endif
 
 $(bin_PROGRAMS): @WR_FRONTEND_LIBS@
 
-workrave_LDADD =        @WR_FRONTEND_LIBS@ @X_LIBS@ @GNOMEUI_LIBS@ @GNOMEUIMM_LIBS@ \
-			@GTK_LIBS@ @GTKMM_LIBS@ @GNET_LIBS@ @GTHREAD_LIBS@ \
-			@PTHREAD_LIBS@ @X_LIBS@ @GCONF_LIBS@ @GDOME_LIB@ \
+workrave_LDADD =        @WR_FRONTEND_LIBS@ @X_LIBS@ @GNOME_LIBS@ @GNOMEMM_LIBS@ \
+			@GTK_LIBS@ @GNET_LIBS@ @X_LIBS@ @GCONF_LIBS@ @GDOME_LIB@ \
 			@KDE_LDFLAGS@ @LIB_KDEUI@ @LIB_KDECORE@ \
 			@QT_LDFLAGS@ @LIB_QT@ @DBUS_LIBS@ \
-			${X11LIBS} ${WIN32LIBS} ${WIN32CONSOLE}
+			${X11LIBS} ${WIN32LIBS} ${OSXLIBS} ${WIN32CONSOLE}
 
 # workrave_LINK		= $(LINK) \
 # 			  nm - nos > workrave.dmp \

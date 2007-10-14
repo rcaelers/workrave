@@ -1,6 +1,6 @@
 // Timer.icc --- Timer
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2006 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -80,14 +80,14 @@ Timer::get_snooze() const
 
 //! Sets ID of this timer.
 inline void
-Timer::set_id(string id)
+Timer::set_id(std::string id)
 {
   timer_id = id;
 }
 
 
 //! Gets ID of this timer.
-inline string
+inline std::string
 Timer::get_id() const
 {
   return timer_id;

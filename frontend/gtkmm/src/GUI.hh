@@ -30,16 +30,13 @@
 
 #include "HeadInfo.hh"
 #include "CoreEventListener.hh"
-#include "ActivityMonitorListener.hh"
 #include "IApp.hh"
 
 #ifdef HAVE_GNOMEMM
 #include <libgnomeuimm.h>
 #endif
-#ifdef HAVE_GTK_MULTIHEAD
 #include <gdkmm/display.h>
 #include <gdkmm/screen.h>
-#endif
 
 #include "WindowHints.hh"
 
@@ -84,6 +81,7 @@ public:
   virtual void set_break_progress(int value, int max_value);
   virtual void set_prelude_stage(PreludeStage stage);
   virtual void set_prelude_progress_text(PreludeProgressText text);
+  virtual void terminate();
 
   //
   void core_event_notify(CoreEvent event);
@@ -94,7 +92,6 @@ public:
   void open_main_window();
   void close_main_window();
   void toggle_main_window();
-  void terminate();
   void init_multihead();
 
   // Prefs
@@ -129,15 +126,7 @@ private:
   void init_gui();
   void init_remote_control();
 
-#if defined(HAVE_GTK_MULTIHEAD)
   void init_gtk_multihead();
-#elif defined(WIN32)
-  void init_win32_multihead();
-  void update_win32_multihead();
-public:
-  BOOL CALLBACK enum_monitor_callback(HMONITOR mon, HDC hdc, LPRECT rc);
-private:
-#endif
 
 #ifdef HAVE_GNOME
   void init_gnome();

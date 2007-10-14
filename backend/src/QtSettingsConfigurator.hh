@@ -1,6 +1,6 @@
 // QtSettingsConfigurator.hh
 //
-// Copyright (C) 2006 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2006, 2007 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -20,9 +20,10 @@
 #define QTSETTINGSCONFIGURATOR_HH
 
 #include <QSettings>
-#include "Configurator.hh"
+#include "IConfigBackend.hh"
+#include "ConfigBackendAdapter.hh"
 
-class QtSettingsConfigurator : public Configurator
+class QtSettingsConfigurator : public virtual IConfigBackend, public virtual ConfigBackendAdapter
 {
 public:
   QtSettingsConfigurator(QSettings *settings = 0);
@@ -30,19 +31,22 @@ public:
 
   virtual bool save();
 
-  virtual bool get_value(string key, string *out) const;
-  virtual bool get_value(string key, bool *out) const;
-  virtual bool get_value(string key, int *out) const;
-  virtual bool get_value(string key, long *out) const;
-  virtual bool get_value(string key, double *out) const;
-  virtual bool set_value(string key, string v);
-  virtual bool set_value(string key, int v);
-  virtual bool set_value(string key, long v);
-  virtual bool set_value(string key, bool v);
-  virtual bool set_value(string key, double v);
+  virtual bool remove_key(const std::string &key);
+
+  virtual bool get_value(const string &key, string &out) const;
+  virtual bool get_value(const string &key, bool &out) const;
+  virtual bool get_value(const string &key, int &out) const;
+  virtual bool get_value(const string &key, long &out) const;
+  virtual bool get_value(const string &key, double &out) const;
+
+  virtual bool set_value(const string &key, string v);
+  virtual bool set_value(const string &key, int v);
+  virtual bool set_value(const string &key, long v);
+  virtual bool set_value(const string &key, bool v);
+  virtual bool set_value(const string &key, double v);
 
 protected:
-  QVariant qt_get_value(const string key, bool& exists) const;
+  QVariant qt_get(const string key, bool& exists) const;
   QString qt_key(const string key) const;
   void dispose();
 

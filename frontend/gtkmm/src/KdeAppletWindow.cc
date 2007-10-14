@@ -103,7 +103,7 @@ KdeAppletWindow::activate_applet()
 
       Gtk::EventBox *eventbox = new Gtk::EventBox;
       eventbox->set_events(eventbox->get_events() | Gdk::BUTTON_PRESS_MASK | Gdk::BUTTON_RELEASE_MASK);
-      eventbox->signal_button_press_event().connect(MEMBER_SLOT(*this, &KdeAppletWindow::on_button_press_event));
+      eventbox->signal_button_press_event().connect(sigc::mem_fun(*this, &KdeAppletWindow::on_button_press_event));
       container = eventbox;
 
       // container = frame;
@@ -111,8 +111,8 @@ KdeAppletWindow::activate_applet()
       plug = new Gtk::Plug((unsigned int)0);
       plug->add(*container);
 
-      plug->signal_embedded().connect(MEMBER_SLOT(*this, &KdeAppletWindow::on_embedded));
-      plug->signal_delete_event().connect(MEMBER_SLOT(*this, &KdeAppletWindow::delete_event));
+      plug->signal_embedded().connect(sigc::mem_fun(*this, &KdeAppletWindow::on_embedded));
+      plug->signal_delete_event().connect(sigc::mem_fun(*this, &KdeAppletWindow::delete_event));
 
       // Gtkmm does not wrap this event....
       g_signal_connect(G_OBJECT(plug->gobj()), "destroy-event",
@@ -212,13 +212,8 @@ KdeAppletWindow::update_applet()
     {
       timer_box_control->update();
 
-#ifdef HAVE_GTKMM24
       Gtk::Requisition req;
       container->size_request(req);
-#else
-      GtkRequisition req;
-      container->size_request(&req);
-#endif
 
       TRACE_MSG("Size = " << req.width << " " << req.height << " " << applet_orientation);
       if (req.width != last_size.width || req.height != last_size.height)
@@ -290,11 +285,7 @@ KdeAppletWindow::on_embedded()
   if (applet_active)
     {
       container->set_size_request(-1,-1);
-#ifdef HAVE_GTKMM24
       container->size_request(last_size);
-#else
-      container->size_request(&last_size);
-#endif
 
       TRACE_MSG("Size = " << last_size.width << " " << last_size.height << " " << applet_orientation);
       view->set_geometry(applet_orientation, applet_size);

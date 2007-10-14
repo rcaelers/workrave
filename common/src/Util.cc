@@ -52,6 +52,11 @@ BOOL WINAPI PathCanonicalize(LPSTR,LPCSTR);
 // (end of hack)
 #endif
 
+#ifdef PLATFORM_OS_OSX
+#include <mach-o/dyld.h>
+#include <sys/param.h>
+#endif
+
 #include "Util.hh"
 
 #include <glib.h>
@@ -75,7 +80,7 @@ Util::get_home_directory()
       // Default to current directory
       ret = "./";
 
-#if defined(HAVE_X)
+#if defined(PLATFORM_OS_UNIX) || defined(PLATFORM_OS_OSX)
       const char *home = getenv("WORKRAVE_HOME");
 
       if (home == NULL)
@@ -206,6 +211,15 @@ Util::get_search_path(SearchPathId type)
   string home_dir = get_home_directory();
 #if defined(WIN32)
   string app_dir = get_application_directory();
+#elif defined(PLATFORM_OS_OSX)
+  char execpath[MAXPATHLEN+1];
+  uint32_t pathsz = sizeof (execpath);
+      
+  _NSGetExecutablePath (execpath, &pathsz);
+
+  gchar *dir_path = g_path_get_dirname(execpath);
+  string app_dir = dir_path;
+  g_free(dir_path);
 #endif
 
   char *cwd = g_get_current_dir();
@@ -223,11 +237,34 @@ Util::get_search_path(SearchPathId type)
           searchPath.push_back(home_dir + "/");
           searchPath.push_back(home_dir + "/images");
         }
-      searchPath.push_back(string(WORKRAVE_DATADIR) + "/images");
+      searchPath.push_back(string(WORKRAVE_PKGDATADIR) + "/images");
       searchPath.push_back("/usr/local/share/workrave/images");
       searchPath.push_back("/usr/share/workrave/images");
 #elif defined(WIN32)
       searchPath.push_back(app_dir + "\\share\\images");
+#elif defined(PLATFORM_OS_OSX)
+      searchPath.push_back(string(WORKRAVE_PKGDATADIR) + "/images");
+      searchPath.push_back(app_dir + "/share/workrave/images");
+      searchPath.push_back(app_dir +  "/../Resources/images");
+#endif
+    }
+  if (type == SEARCH_PATH_SOUNDS)
+    {
+#if defined(HAVE_X)
+      if (home_dir != "./")
+        {
+          searchPath.push_back(home_dir + "/");
+          searchPath.push_back(home_dir + "/sounds");
+        }
+      searchPath.push_back(string(WORKRAVE_PKGDATADIR) + "/images");
+      searchPath.push_back("/usr/local/share/sounds/workrave");
+      searchPath.push_back("/usr/share/sounds/workrave");
+#elif defined(WIN32)
+      searchPath.push_back(app_dir + "\\share\\sounds");
+#elif defined(PLATFORM_OS_OSX)
+      searchPath.push_back(string(WORKRAVE_DATADIR) + "/sounds/workrave");
+      searchPath.push_back(app_dir + "/share/sounds/workrave");
+      searchPath.push_back(app_dir +  "/../Resources/sounds");
 #endif
     }
   else if (type == SEARCH_PATH_CONFIG)
@@ -238,20 +275,29 @@ Util::get_search_path(SearchPathId type)
           searchPath.push_back(home_dir + "/");
           searchPath.push_back(home_dir + "/etc");
         }
-      searchPath.push_back(string(WORKRAVE_DATADIR) + "/etc");
+      searchPath.push_back(string(WORKRAVE_PKGDATADIR) + "/etc");
       searchPath.push_back("/usr/local/share/workrave/etc");
       searchPath.push_back("/usr/share/workrave/etc");
 #elif defined(WIN32)
       searchPath.push_back(home_dir + "\\");
       searchPath.push_back(app_dir + "\\etc");
+#elif defined(PLATFORM_OS_OSX)
+      searchPath.push_back(string(WORKRAVE_PKGDATADIR) + "/etc");
+      searchPath.push_back(app_dir + "/etc");
+      searchPath.push_back(home_dir + "/");
+      searchPath.push_back(app_dir +  "/../Resources/config");
 #endif
     }
   else if (type == SEARCH_PATH_EXERCISES)
     {
 #if defined(HAVE_X)
-      searchPath.push_back(string(WORKRAVE_DATADIR) + "/exercises");
+      searchPath.push_back(string(WORKRAVE_PKGDATADIR) + "/exercises");
 #elif defined(WIN32)
       searchPath.push_back(app_dir + "\\share\\exercises");
+#elif defined(PLATFORM_OS_OSX)
+      searchPath.push_back(string(WORKRAVE_PKGDATADIR) + "/exercises");
+      searchPath.push_back(app_dir + "/share/exercises");
+      searchPath.push_back(app_dir +  "/../Resources/exercises");
 #else
 #error Not properly ported.
 #endif

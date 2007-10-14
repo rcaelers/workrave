@@ -25,7 +25,7 @@
 #include "ICore.hh"
 #include "Orientation.hh"
 
-using namespace Workrave;
+using namespace workrave;
 
 class ITimerBoxView
 {

@@ -131,7 +131,7 @@ X11SystrayAppletWindow::activate_applet()
       Gtk::EventBox *eventbox = new Gtk::EventBox;
       eventbox->set_visible_window(false);
       eventbox->set_events(eventbox->get_events() | Gdk::BUTTON_PRESS_MASK);
-      eventbox->signal_button_press_event().connect(MEMBER_SLOT(*this,
+      eventbox->signal_button_press_event().connect(sigc::mem_fun(*this,
                                                                 &X11SystrayAppletWindow::on_button_press_event));
       container = eventbox;
 
@@ -146,8 +146,8 @@ X11SystrayAppletWindow::activate_applet()
 
       container->add(*view);
 
-      plug->signal_embedded().connect(MEMBER_SLOT(*this, &X11SystrayAppletWindow::on_embedded));
-      plug->signal_delete_event().connect(MEMBER_SLOT(*this, &X11SystrayAppletWindow::delete_event));
+      plug->signal_embedded().connect(sigc::mem_fun(*this, &X11SystrayAppletWindow::on_embedded));
+      plug->signal_delete_event().connect(sigc::mem_fun(*this, &X11SystrayAppletWindow::delete_event));
 
       plug->add(*container);
       plug->show_all();
@@ -159,15 +159,10 @@ X11SystrayAppletWindow::activate_applet()
       ret = AppletWindow::APPLET_STATE_VISIBLE;
       applet_orientation = ORIENTATION_UP;
 
-#ifdef HAVE_GTKMM24
       Gtk::Requisition req;
       plug->size_request(req);
       applet_size = req.height;
-#else
-      GtkRequisition req;
-      plug->size_request(&req);
-      applet_size = req.height;
-#endif
+
       view->set_geometry(applet_orientation, 24);
 
       applet_active = true;
@@ -237,13 +232,8 @@ X11SystrayAppletWindow::on_embedded()
 
   if (applet_active)
     {
-#ifdef HAVE_GTKMM24
       Gtk::Requisition req;
       plug->size_request(req);
-#else
-      GtkRequisition req;
-      plug->size_request(&req);
-#endif
 
       GtkOrientation o = egg_tray_icon_get_orientation(tray_icon);
       Orientation orientation;
