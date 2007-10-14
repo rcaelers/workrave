@@ -17,7 +17,7 @@ X11LIBS = 		-lXmu
 endif
 
 workrave_SOURCES = 	GUI.cc PreludeWindow.cc BreakWindow.cc TimerBoxTextView.cc MainWindow.cc \
-			UILinkEvent.cc main.cc
+			main.cc
 
 workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
 			-DATADIR="\"${datadir}\""  \

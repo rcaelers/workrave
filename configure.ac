@@ -165,7 +165,7 @@ case x"$target" in
 esac
 
 case "$target_or_host" in
-  *-*mingw*|*-*-cygwin*)
+  *-*mingw*|*-*-mingw*|*-*-cygwin*)
     platform_os_win32=yes
     platform_os_name="Windows"
    AC_DEFINE(PLATFORM_OS_WIN32,,[Define if compiling for the Win32 platform])

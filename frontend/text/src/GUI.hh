@@ -26,7 +26,6 @@
 #include <glib.h>
 
 #include "CoreEventListener.hh"
-#include "ILinkEventListener.hh"
 #include "IApp.hh"
 
 // Generic GUI
