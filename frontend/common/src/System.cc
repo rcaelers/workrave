@@ -42,6 +42,10 @@
 #include <X11/Xutil.h>
 #endif
 
+#if defined(HAVE_UNIX)
+#include <sys/wait.h>
+#endif
+
 #ifdef WIN32
 #include <shlobj.h>
 #include "harpoon.h"

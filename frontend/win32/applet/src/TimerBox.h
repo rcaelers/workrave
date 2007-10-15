@@ -31,6 +31,8 @@ class TimeBar;
 class Icon;
 class CDeskBand;
 
+using namespace workrave;
+
 class TimerBox
 {
  public:

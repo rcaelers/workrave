@@ -61,7 +61,6 @@ static const char rcsid[] = "$Id$";
 #include "IInputMonitor.hh"
 
 using namespace std;
-using namespace workrave;
 
 //! Constructor.
 ActivityMonitor::ActivityMonitor(const char *display) :
