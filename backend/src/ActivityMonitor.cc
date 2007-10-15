@@ -60,6 +60,10 @@ static const char rcsid[] = "$Id$";
 
 #include "IInputMonitor.hh"
 
+#ifdef WIN32
+using namespace workrave;
+#endif
+
 using namespace std;
 
 //! Constructor.
