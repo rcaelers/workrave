@@ -21,7 +21,7 @@ libworkrave_frontend_common_osx_la_SOURCES = \
 libworkrave_frontend_common_osx_la_CXXFLAGS = \
 			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-D_XOPEN_SOURCE=600 \
-			-W -I.. -I../../include
+			-W -I.. -I../../include \
 			@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ \
 			@GTK_CFLAGS@ @GLIB_CFLAGS@ 
 

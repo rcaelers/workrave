@@ -29,7 +29,7 @@ static const char rcsid[] = "$Id: OSXInputMonitor.cc 1090 2006-10-01 20:49:47Z d
 #include "Thread.hh"
 
 OSXInputMonitor::OSXInputMonitor()
-  : terminate(false)
+  : terminate_loop(false)
 {
   monitor_thread = new Thread(this);
   io_service = NULL;
@@ -63,7 +63,7 @@ OSXInputMonitor::init()
 void
 OSXInputMonitor::terminate()
 {  
-  terminate = true;
+  terminate_loop = true;
   monitor_thread->wait();
 }
 
@@ -73,7 +73,7 @@ OSXInputMonitor::run()
 {
   TRACE_ENTER("OSXInputMonitor::run");
 
-  while (!terminate)
+  while (!terminate_loop)
     {
       CFTypeRef property;
       uint64_t idle_time = 0;

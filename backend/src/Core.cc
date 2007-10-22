@@ -158,7 +158,7 @@ Core::~Core()
 
 //! Initializes the core.
 void
-Core::init(int argc, char **argv, IApp *app, char *display_name)
+Core::init(int argc, char **argv, IApp *app, const string &display_name)
 {
   application = app;
   this->argc = argc;
@@ -246,7 +246,7 @@ Core::init_bus()
 
 //! Initializes the activity monitor.
 void
-Core::init_monitor(char *display_name)
+Core::init_monitor(const string &display_name)
 {
 #ifdef HAVE_DISTRIBUTION
 #ifndef NDEBUG

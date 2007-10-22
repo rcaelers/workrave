@@ -506,16 +506,19 @@ GUI::init_nls()
 void
 GUI::init_core()
 {
+  string display_name;
+  
 #ifdef PLATFORM_OS_UNIX
-  char *display_name = gdk_get_display();
-#else
-  char *display_name = NULL;
+  char *display = gdk_get_display();
+  if (display != NULL)
+    {
+      display_name = display;
+    }
 #endif
 
   core = CoreFactory::get_core();
   core->init(argc, argv, this, display_name);
   core->set_core_events_listener(this);
-
 
 // #ifdef PLATFORM_OS_UNIX
 //    g_free(display_name);

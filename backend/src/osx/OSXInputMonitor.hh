@@ -55,13 +55,13 @@ public:
   //! Destructor.
   virtual ~OSXInputMonitor();
 
-  bool init(IInputMonitorListener *);
+  bool init();
   void terminate() ;
   void run();
 
 private:
   //! Terminate driver?
-  bool terminate;
+  bool terminate_loop;
 
   //! The activity monitor thread.
   Thread *monitor_thread;

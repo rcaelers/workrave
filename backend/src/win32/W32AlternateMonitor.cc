@@ -27,6 +27,10 @@
 // jay satiro, workrave project, may 2007
 //
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #if defined(PLATFORM_OS_WIN32)
 
 #include "debug.hh"

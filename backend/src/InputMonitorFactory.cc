@@ -84,6 +84,7 @@ InputMonitorFactory::create_statistics_monitor()
 void
 InputMonitorFactory::init(const std::string &display)
 {
+  (void)display;
 }
 
 //! Retrieves the input activity monitor
@@ -92,7 +93,7 @@ InputMonitorFactory::create_activity_monitor()
 {
   if (activity_monitor == NULL)
     {
-      activity_monitor = new X11InputMonitor(display);
+      activity_monitor = new OSXInputMonitor();
 
       bool init_ok = activity_monitor->init();
       if (!init_ok)
