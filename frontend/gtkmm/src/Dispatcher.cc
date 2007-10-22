@@ -38,7 +38,7 @@ static const char rcsid[] = "$Id$";
 #include <glib.h>
 #include <fcntl.h>
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
 #include <windows.h>
 #include <io.h>
 #include <direct.h>
@@ -54,7 +54,7 @@ struct DispatchData
 
 //! Constructs a new inter-thread dispatcher.
 Dispatcher::Dispatcher() :
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   event_handle(0),
   queue(NULL)
 #else
@@ -71,7 +71,7 @@ Dispatcher::~Dispatcher()
 {
   io_connection.disconnect();
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   if (event_handle != 0)
   {
     CloseHandle(event_handle);
@@ -92,7 +92,7 @@ Dispatcher::~Dispatcher()
 }
 
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
 //! Creates a new inter-thread pipe
 bool
 Dispatcher::create_thread_pipe()
@@ -145,7 +145,7 @@ Dispatcher::io_handler(Glib::IOCondition)
 }
 #endif
 
-#ifndef WIN32
+#ifndef PLATFORM_OS_WIN32
 
 //! Make sure the file descriptor is not leaked.
 void

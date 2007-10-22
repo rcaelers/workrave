@@ -26,14 +26,14 @@
 #include "config.h"
 #endif
 
-#ifdef HAVE_X
+#ifdef PLATFORM_OS_UNIX
 #include <X11/Xlib.h>
 #endif
 
 class Sound
 {
 public:
-#ifdef HAVE_X
+#ifdef PLATFORM_OS_UNIX
   static void beep(Display *x11, int frequency, int millis);
 #else
   static void beep(int frequency, int millis);

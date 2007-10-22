@@ -34,7 +34,7 @@
 #include "WindowHints.hh"
 #include "GUI.hh"
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
 class DesktopWindow;
 #endif
 
@@ -109,7 +109,7 @@ private:
   //! GUI
   Gtk::Widget *gui;
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   DesktopWindow *desktop_window;
 #endif
 };

@@ -349,7 +349,7 @@ GtkUtil::center_window(Gtk::Window &window, HeadInfo &head)
       Gtk::Requisition size;
       window.size_request(size);
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
       TRACE_MSG(
                 head.geometry.get_width() << "x" << head.geometry.get_height() << " +" <<
                 head.geometry.get_x() << "+" << head.geometry.get_y() << " " <<

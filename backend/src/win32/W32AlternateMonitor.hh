@@ -24,21 +24,15 @@
 #define W32ALTERNATEMONITOR_HH
 
 #include <windows.h>
-
-#include "ICore.hh"
-#include "CoreFactory.hh"
-#include "IConfigurator.hh"
-
-#include "IInputMonitor.hh"
-#include "IInputMonitorListener.hh"
+#include "InputMonitor.hh"
 
 class W32AlternateMonitor :
-  public IInputMonitor
+  public InputMonitor
 {
 public:
   W32AlternateMonitor();
   virtual ~W32AlternateMonitor();
-  bool init( IInputMonitorListener * );
+  bool init();
   void terminate();
 
 protected:
@@ -47,12 +41,10 @@ protected:
 private:
   void Monitor();
   void Update( LASTINPUTINFO * );
-  void msg( char * );
-  void exitmsg( char * );
   
   BOOL ( WINAPI *GetLastInputInfo ) ( LASTINPUTINFO * );
-  static volatile IInputMonitorListener *listener;
   int interval;
+  bool terminate_loop;
 };
 
 #endif // W32ALTERNATEMONITOR_HH

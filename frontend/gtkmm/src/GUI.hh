@@ -151,11 +151,11 @@ private:
   bool grab();
   void ungrab();
 
-#if defined(HAVE_X)
+#if defined(PLATFORM_OS_UNIX)
   bool on_grab_retry_timer();
 #endif
 
-#if defined(WIN32)
+#if defined(PLATFORM_OS_WIN32)
   void win32_init_filter();
   static GdkFilterReturn win32_filter_func (void     *xevent,
                                             GdkEvent *event,
@@ -229,11 +229,11 @@ private:
   //! Height of the screen.
   int screen_height;
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   int current_monitor;
 #endif
 
-#ifdef HAVE_X
+#ifdef PLATFORM_OS_UNIX
   //! Do we want a keyboard/pointer grab
   bool grab_wanted;
 

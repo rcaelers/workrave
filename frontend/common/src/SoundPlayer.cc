@@ -38,10 +38,10 @@ static const char rcsid[] = "$Id$";
 #ifdef HAVE_KDE
 #include "KdeSoundPlayer.hh"
 #endif
-#ifdef HAVE_X
+#ifdef PLATFORM_OS_UNIX
 #include <X11/Xlib.h>
 #endif
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
 #include <windows.h>
 #include "W32SoundPlayer.hh"
 #endif
@@ -172,7 +172,7 @@ void
 SpeakerPlayer::run()
 {
   TRACE_ENTER("SpeakerPlayer::run");
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   // Windows 95 Beep() only beeps, it ignores frequency & duration parameters.
   // So, in the case of W95 do not relay on Sound::beep()
   OSVERSIONINFO osvi;
@@ -188,7 +188,7 @@ SpeakerPlayer::run()
 
   short (*b)[2];
   b = beeps;
-#ifdef HAVE_X
+#ifdef PLATFORM_OS_UNIX
   Display *display = NULL;
 #  ifdef HAVE_GNOME
   display = XOpenDisplay(gdk_get_display());
@@ -197,14 +197,14 @@ SpeakerPlayer::run()
 #endif
   while (b[0][0])
     {
-#ifdef HAVE_X
+#ifdef PLATFORM_OS_UNIX
       Sound::beep(display, b[0][0], b[0][1]);
 #else
       Sound::beep(b[0][0], b[0][1]);
 #endif
       b++;
     }
-#ifdef HAVE_X
+#ifdef PLATFORM_OS_UNIX
     XCloseDisplay(display);
   }
 #endif
@@ -220,7 +220,7 @@ SpeakerPlayer::run()
 SoundPlayer::SoundPlayer()
 {
   player =
-#if defined(WIN32)
+#if defined(PLATFORM_OS_WIN32)
      new W32SoundPlayer()
 #elif defined(HAVE_GNOME)
      new GnomeSoundPlayer()

@@ -29,7 +29,7 @@ static const char rcsid[] = "$Id$";
 #include <fstream>
 
 #include "GUI.hh"
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
 #include "dll_hell.h"
 #endif
 
@@ -40,7 +40,7 @@ run(int argc, char **argv)
 {
   GUI *gui = new GUI(argc, argv);
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   dll_hell_check();
 #endif
 
@@ -52,7 +52,7 @@ run(int argc, char **argv)
 }
 
 
-#if !defined(WIN32) || !defined(NDEBUG)
+#if !defined(PLATFORM_OS_WIN32) || !defined(NDEBUG)
 int
 main(int argc, char **argv)
 {

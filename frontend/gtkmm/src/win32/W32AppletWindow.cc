@@ -214,7 +214,11 @@ W32AppletWindow::init_menu(HWND hwnd)
 {
   menu_data.num_items = 0;
   menu_sent = false;
-  menu_data.command_window = (LONG)hwnd;
+  /*
+    As noted in frontend/win32/applet/include/applet.hh: 
+    We pass the command_window HWND as a LONG for compatibility.
+  */
+  menu_data.command_window = HandleToLong( hwnd );
 }
 
 void

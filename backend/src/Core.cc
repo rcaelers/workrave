@@ -46,6 +46,7 @@ static const char rcsid[] = "$Id$";
 #include "TimePredFactory.hh"
 #include "TimePred.hh"
 #include "TimeSource.hh"
+#include "InputMonitorFactory.hh"
 
 #ifdef HAVE_DISTRIBUTION
 #include "DistributionManager.hh"
@@ -208,7 +209,7 @@ Core::init_configurator()
       string configFile = Util::complete_directory("config.xml", Util::SEARCH_PATH_CONFIG);
       configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatXml);
 
-#  if defined(HAVE_X)
+#  if defined(PLATFORM_OS_UNIX)
       if (configFile == "" || configFile == "config.xml")
         {
           configFile = Util::get_home_directory() + "config.xml";
@@ -258,7 +259,9 @@ Core::init_monitor(char *display_name)
 #endif
 #endif
 
-  monitor = new ActivityMonitor(display_name);
+  InputMonitorFactory::init(display_name);
+  
+  monitor = new ActivityMonitor();
   load_monitor_config();
 
   configurator->add_listener(CFG_KEY_MONITOR, this);
@@ -992,7 +995,7 @@ Core::process_timewarp()
 
               force_idle();
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
               monitor->shift_time(gap);
               for (int i = 0; i < BREAK_ID_SIZEOF; i++)
                 {
@@ -1203,7 +1206,7 @@ Core::daily_reset()
       t->daily_reset_timer();
     }
 
-  monitor->reset_statistics();
+  // FIXME: monitor->reset_statistics();
 
 #ifdef HAVE_DISTRIBUTION
   idlelog_manager->reset();

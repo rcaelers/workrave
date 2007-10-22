@@ -27,7 +27,7 @@
 // jay satiro, workrave project, may 2007
 //
 
-#if defined(WIN32)
+#if defined(PLATFORM_OS_WIN32)
 
 #include "debug.hh"
 
@@ -39,13 +39,10 @@
 
 using namespace workrave;
 
-volatile IInputMonitorListener *W32AlternateMonitor::listener = NULL;
-
 W32AlternateMonitor::W32AlternateMonitor()
+  : terminate(false)
 {
   TRACE_ENTER( "W32AlternateMonitor::W32AlternateMonitor" );
-  
-  listener = NULL;
   
   CoreFactory::get_configurator()->get_value_with_default( "advanced/interval", interval, 500);
   TRACE_EXIT();
@@ -58,26 +55,13 @@ W32AlternateMonitor::~W32AlternateMonitor()
 }
 
 
-bool W32AlternateMonitor::init( IInputMonitorListener *l )
+bool W32AlternateMonitor::init()
 {
   TRACE_ENTER( "W32AlternateMonitor::init" );
   
   DWORD id;
   HANDLE hThread;
 
-  if( listener != NULL )
-  /*
-  Calling terminate (listener = NULL), will cause the
-  monitor thread to exit. This shouldn't come up though.
-  */
-  {
-    TRACE_MSG( " listener != NULL " );
-    msg( " W32AlternateMonitor::init : listener != NULL " );
-    terminate();
-    Sleep( interval * 2 + 1000 ); // wait for thread to terminate
-  }
-  listener = l;
-  
   /* Try to get the address of GetLastInputInfo()... */
   GetLastInputInfo = ( BOOL ( WINAPI * ) ( LASTINPUTINFO * ) )
     GetProcAddress( GetModuleHandleA( "user32.dll" ), "GetLastInputInfo" );
@@ -89,7 +73,6 @@ bool W32AlternateMonitor::init( IInputMonitorListener *l )
     GetVersion(), so it shouldn't come to this.
   */
   {
-    //msg( "GetLastInputInfo() address not found in user32.dll" );
     TRACE_MSG( "GetLastInputInfo() address not found in user32.dll" );
     TRACE_EXIT();
     return false;
@@ -99,7 +82,6 @@ bool W32AlternateMonitor::init( IInputMonitorListener *l )
   
   if( hThread == NULL )
   {
-    //msg( "W32AlternateMonitor::init() : Thread could not be created.\n" );
     TRACE_MSG( "Thread could not be created. GetLastError : " << GetLastError() );
     TRACE_EXIT();
     return false;
@@ -117,7 +99,7 @@ bool W32AlternateMonitor::init( IInputMonitorListener *l )
 void W32AlternateMonitor::terminate()
 {
   TRACE_ENTER( "W32AlternateMonitor::terminate" );
-  listener = NULL;
+  terminate = true;
   TRACE_EXIT();
 }
 
@@ -142,7 +124,7 @@ void W32AlternateMonitor::Monitor()
   Update( &lii );
   
   
-  while( listener != NULL )
+  while( !terminate )
   /* Main loop */
   {
     dwPreviousTime = lii.dwTime;
@@ -152,7 +134,7 @@ void W32AlternateMonitor::Monitor()
     /* User session has received input */
     {
       /* Notify the activity monitor */
-       const_cast<IInputMonitorListener *>( listener )->action_notify();
+      fire_action();
     }
     
     Sleep( interval );
@@ -164,7 +146,7 @@ void W32AlternateMonitor::Monitor()
 
 inline void W32AlternateMonitor::Update( LASTINPUTINFO *p )
 {
-  while( ( *GetLastInputInfo ) ( p ) == 0 && listener != NULL )
+  while( ( *GetLastInputInfo ) ( p ) == 0 && !terminate)
   /*
   If GetLastInputInfo errors out, sleep & try again.
   When will this ever happen though?
@@ -175,19 +157,4 @@ inline void W32AlternateMonitor::Update( LASTINPUTINFO *p )
   }
 }
 
-void W32AlternateMonitor::msg( char *msg )
-{
-  MessageBoxA( NULL, msg, "Workrave: Debug Message", MB_OK );
-}
-
-void W32AlternateMonitor::exitmsg( char *msg )
-{
-  TRACE_ENTER( "W32AlternateMonitor::exitmsg" );
-  TRACE_MSG( msg );
-  MessageBoxA( NULL, msg, "Workrave: Unrecoverable Error. Exiting...", MB_OK );
-  
-  TRACE_EXIT();
-  exit( 0 );
-}
-
-#endif // defined(WIN32)
+#endif // defined(PLATFORM_OS_WIN32)

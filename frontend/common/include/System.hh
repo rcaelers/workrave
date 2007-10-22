@@ -30,11 +30,11 @@
 #include <glib.h>
 #endif
 
-#if defined(WIN32)
+#if defined(PLATFORM_OS_WIN32)
 #include <windows.h>
 #endif
 
-#if defined(HAVE_X)
+#if defined(PLATFORM_OS_UNIX)
 #include <string>
 #endif
 
@@ -47,24 +47,24 @@ public:
   static void shutdown();
 
   static void init(
-#if defined(HAVE_X)
+#if defined(PLATFORM_OS_UNIX)
                    const char *display
 #endif
                    );
 
-#if defined(HAVE_X)
+#if defined(PLATFORM_OS_UNIX)
   static bool is_kde() { return kde; }
 #endif
 
 private:
-#if defined(HAVE_X)
+#if defined(PLATFORM_OS_UNIX)
   static void init_kde(const char *display);
 
   static bool kde;
   static bool lockable;
   static std::string lock_display;
 
-#elif defined(WIN32)
+#elif defined(PLATFORM_OS_WIN32)
   static bool shutdown_helper(bool for_real);
 
   typedef HRESULT (FAR PASCAL *LockWorkStationFunc)(void);

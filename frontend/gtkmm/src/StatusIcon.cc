@@ -52,7 +52,7 @@ StatusIcon::StatusIcon(MainWindow& mw)
       mode_icons[i] = Gdk::Pixbuf::create_from_file(file);
     }
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   wm_taskbarcreated = RegisterWindowMessage("TaskbarCreated");
 #endif
 
@@ -119,7 +119,7 @@ void StatusIcon::set_timers_tooltip(std::string& tip)
   status_icon->set_tooltip(tip);
 }
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
 GdkFilterReturn
 StatusIcon::win32_filter_func (void     *xevent,
                                GdkEvent *event)

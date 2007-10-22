@@ -57,7 +57,7 @@ private:
   void init_avoid_pointer();
   void add(Gtk::Widget& widget);
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   bool on_avoid_pointer_timer();
 #else
   bool on_enter_notify_event(GdkEventCrossing* event);
@@ -65,7 +65,7 @@ private:
   void avoid_pointer(int x, int y);
 
 private:
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   //! Avoid time signal
   SigC::Connection avoid_signal;
 #endif

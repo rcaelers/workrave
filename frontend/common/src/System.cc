@@ -35,7 +35,7 @@
 #include "System.hh"
 #include "debug.hh"
 
-#if defined(HAVE_X)
+#if defined(PLATFORM_OS_UNIX)
 #include <X11/X.h>
 #include <X11/Xproto.h>
 #include <X11/Xlib.h>
@@ -46,7 +46,7 @@
 #include <sys/wait.h>
 #endif
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
 #include <shlobj.h>
 #include "harpoon.h"
 
@@ -107,15 +107,15 @@ const GUID CLSID_Shell =
   { 0xa4, 0x9e, 0x44, 0x45, 0x53, 0x54 }
 };
 
-#endif /* WIN32 */
+#endif /* PLATFORM_OS_WIN32 */
 
-#if defined(HAVE_X)
+#if defined(PLATFORM_OS_UNIX)
 
 bool System::kde = false;
 bool System::lockable = false;
 std::string System::lock_display;
 
-#elif defined(WIN32)
+#elif defined(PLATFORM_OS_WIN32)
 
 HINSTANCE System::user32_dll = NULL;
 System::LockWorkStationFunc System::lock_func = NULL;
@@ -127,9 +127,9 @@ bool
 System::is_lockable()
 {
   bool ret;
-#if defined(HAVE_X)
+#if defined(PLATFORM_OS_UNIX)
   ret = lockable;
-#elif defined(WIN32)
+#elif defined(PLATFORM_OS_WIN32)
   ret = lock_func != NULL;
 #else
   ret = false;
@@ -137,7 +137,7 @@ System::is_lockable()
   return ret;
 }
 
-#ifdef HAVE_X
+#ifdef PLATFORM_OS_UNIX
 static bool
 invoke(const gchar* command, bool async = false)
 {
@@ -173,7 +173,7 @@ System::lock()
   TRACE_ENTER("System::lock");
   if (is_lockable())
     {
-#if defined(HAVE_X)
+#if defined(PLATFORM_OS_UNIX)
       gchar *program = NULL, *cmd = NULL;
       if (is_kde() && (program = g_find_program_in_path("kdesktop_lock")))
         {
@@ -204,7 +204,7 @@ System::lock()
 end:  // cleanup of created strings, jump to avoid duplication
       g_free(program);
       g_free(cmd);
-#elif defined(WIN32)
+#elif defined(PLATFORM_OS_WIN32)
       (*lock_func)();
 #endif
     }
@@ -215,9 +215,9 @@ bool
 System::is_shutdown_supported()
 {
   bool ret;
-#if defined(HAVE_X)
+#if defined(PLATFORM_OS_UNIX)
   ret = false;
-#elif defined(WIN32)
+#elif defined(PLATFORM_OS_WIN32)
   ret = shutdown_supported;
 #else
   ret = false;
@@ -228,13 +228,13 @@ System::is_shutdown_supported()
 void
 System::shutdown()
 {
-#if defined(HAVE_X)
-#elif defined(WIN32)
+#if defined(PLATFORM_OS_UNIX)
+#elif defined(PLATFORM_OS_WIN32)
   shutdown_helper(true);
 #endif
 }
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
 bool
 System::shutdown_helper(bool for_real)
 {
@@ -258,13 +258,13 @@ System::shutdown_helper(bool for_real)
 
 void
 System::init(
-#if defined(HAVE_X)
+#if defined(PLATFORM_OS_UNIX)
              const char *display
 #endif
              )
 {
   TRACE_ENTER("System::init");
-#if defined(HAVE_X)
+#if defined(PLATFORM_OS_UNIX)
   init_kde(display);
  
   gchar *program;
@@ -287,7 +287,7 @@ System::init(
     {
       TRACE_MSG("Locking disabled");
     }
-#elif defined(WIN32)
+#elif defined(PLATFORM_OS_WIN32)
   // Note: this memory is never freed
   user32_dll = LoadLibrary("user32.dll");
   if (user32_dll != NULL)
@@ -301,7 +301,7 @@ System::init(
 }
 
 
-#if defined(HAVE_X)
+#if defined(PLATFORM_OS_UNIX)
 static bool
 get_self_typed_prop (Display *display,
                      Window      xwindow,

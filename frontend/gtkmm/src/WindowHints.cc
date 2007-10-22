@@ -31,7 +31,7 @@ static const char rcsid[] = "$Id$";
 
 #include <gtkmm/window.h>
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
 #include <windows.h>
 #include <gtk/gtkwindow.h>
 #include <gdk/gdkwin32.h>
@@ -43,7 +43,7 @@ static const char rcsid[] = "$Id$";
 void
 WindowHints::set_always_on_top(Gtk::Window *window, bool on_top)
 {
-#if defined(WIN32)
+#if defined(PLATFORM_OS_WIN32)
 
   HWND hwnd = (HWND) GDK_WINDOW_HWND(GTK_WIDGET(window->gobj())->window);
   W32Compat::SetWindowOnTop(hwnd, on_top);
@@ -64,7 +64,7 @@ WindowHints::set_skip_winlist(Gtk::Window *window, bool skip)
 }
 
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
 static void
 win32_block_input(BOOL block)
 {
@@ -85,7 +85,7 @@ WindowHints::grab(int num_windows, GdkWindow **windows)
 {
   WindowHints::Grab *handle = NULL;
 
-#if defined(WIN32)
+#if defined(PLATFORM_OS_WIN32)
   if (num_windows > 0)
     {
       HWND unblocked_windows[num_windows + 1];
@@ -141,7 +141,7 @@ WindowHints::ungrab(WindowHints::Grab *handle)
   if (! handle)
     return;
 
-#if defined(WIN32)
+#if defined(PLATFORM_OS_WIN32)
   win32_block_input(FALSE);
 #else
   gdk_keyboard_ungrab(GDK_CURRENT_TIME);

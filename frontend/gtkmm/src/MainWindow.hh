@@ -34,7 +34,7 @@ class TimerBoxGtkView;
 
 #include <gtkmm/window.h>
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
 #include <windows.h>
 #include "TimerBoxControl.hh"
 #endif
@@ -98,7 +98,7 @@ private:
   //! Applet active?
   bool applet_active;
 
-#ifdef HAVE_X
+#ifdef PLATFORM_OS_UNIX
   Gtk::Window *leader;
 #endif
 
@@ -138,7 +138,7 @@ public:
   static const std::string CFG_KEY_MAIN_WINDOW_Y;
   static const std::string CFG_KEY_MAIN_WINDOW_HEAD;
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
 private:
   void win32_show(bool b);
   void win32_init();

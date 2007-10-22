@@ -38,14 +38,14 @@
 #include <IOKit/IOKitLib.h>
 #endif
 
-#include "IInputMonitor.hh"
+#include "InputMonitor.hh"
 #include "IInputMonitorListener.hh"
 #include "Runnable.hh"
 #include "Thread.hh"
 
 //! Activity monitor for OSX.
 class OSXInputMonitor :
-  public IInputMonitor,
+  public InputMonitor,
   public Runnable
 {
 public:
@@ -60,7 +60,8 @@ public:
   void run();
 
 private:
-  static IInputMonitorListener *listener;
+  //! Terminate driver?
+  bool terminate;
 
   //! The activity monitor thread.
   Thread *monitor_thread;

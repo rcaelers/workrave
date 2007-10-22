@@ -34,7 +34,7 @@ static const char rcsid[] = "$Id$";
 #include "DistributionListener.hh"
 #include "Configurator.hh"
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
 #define snprintf _snprintf
 #define vsnprintf _vsnprintf
 #endif

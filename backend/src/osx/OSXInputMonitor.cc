@@ -28,9 +28,8 @@ static const char rcsid[] = "$Id: OSXInputMonitor.cc 1090 2006-10-01 20:49:47Z d
 #include "IInputMonitorListener.hh"
 #include "Thread.hh"
 
-IInputMonitorListener *OSXInputMonitor::listener = NULL;
-
 OSXInputMonitor::OSXInputMonitor()
+  : terminate(false)
 {
   monitor_thread = new Thread(this);
   io_service = NULL;
@@ -48,14 +47,13 @@ OSXInputMonitor::~OSXInputMonitor()
 
 
 bool
-OSXInputMonitor::init(IInputMonitorListener *l)
+OSXInputMonitor::init()
 {
   mach_port_t master;
   IOMasterPort(MACH_PORT_NULL, &master);
   io_service = IOServiceGetMatchingService(master,
                                            IOServiceMatching("IOHIDSystem"));
 
-  listener = l;
   monitor_thread->start();
   return true;
 }
@@ -64,8 +62,8 @@ OSXInputMonitor::init(IInputMonitorListener *l)
 //! Stops the activity monitoring.
 void
 OSXInputMonitor::terminate()
-{
-  listener = NULL;
+{  
+  terminate = true;
   monitor_thread->wait();
 }
 
@@ -75,7 +73,7 @@ OSXInputMonitor::run()
 {
   TRACE_ENTER("OSXInputMonitor::run");
 
-  while (listener != NULL)
+  while (!terminate)
     {
       CFTypeRef property;
       uint64_t idle_time = 0;
@@ -90,7 +88,7 @@ OSXInputMonitor::run()
 
       if (idle_time < 1000000)
         {
-          listener->action_notify();
+          fire_action();
         }
 
       g_usleep(1000);

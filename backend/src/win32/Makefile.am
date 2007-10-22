@@ -9,20 +9,23 @@ MAINTAINERCLEANFILES =	Makefile.in
 
 if PLATFORM_OS_WIN32
 
-noinst_LIBRARIES = 	libworkrave-backend-win32.a
+noinst_LTLIBRARIES = 	libworkrave-backend-win32.la
 
-sources = 		W32Configurator.cc W32InputMonitor.cc W32AlternateMonitor.cc W32LowLevelMonitor.cc Harpoon.cc
+sources = 		W32Configurator.cc \
+			W32InputMonitor.cc \
+			W32AlternateMonitor.cc \
+			W32LowLevelMonitor.cc \
+			Harpoon.cc
 endif
 
-libworkrave_backend_win32_a_SOURCES = \
-				${sources} 
+libworkrave_backend_win32_la_SOURCES = ${sources} 
 
-libworkrave_backend_win32_a_CXXFLAGS = \
+libworkrave_backend_win32_la_CXXFLAGS = \
 			-W -I.. -I../../include \
 			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-D_XOPEN_SOURCE=600 \
 			-I$(top_srcdir)/common/win32/harpoon/include/ \
-		  	@WR_COMMON_CFLAGS@ @GLIB_CFLAGS@
+		  	@WR_COMMON_INCLUDES@ @GLIB_CFLAGS@
 
 EXTRA_DIST = 		$(wildcard *.cc) $(wildcard *.rc) \
 			$(wildcard *.hh) $(wildcard *.h) \

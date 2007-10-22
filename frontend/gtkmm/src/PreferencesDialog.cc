@@ -97,7 +97,7 @@ PreferencesDialog::PreferencesDialog()
   ICore *core = CoreFactory::get_core();
   mode = core->get_operation_mode();
 
-#ifdef HAVE_X
+#ifdef PLATFORM_OS_UNIX
   GtkUtil::set_wmclass(*this, "Preferences");
 #endif
 

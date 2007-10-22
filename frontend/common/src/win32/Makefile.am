@@ -12,16 +12,17 @@ EXTRA_DIST = 		$(wildcard *.hh) $(wildcard *.cc) \
 
 if PLATFORM_OS_WIN32
 
-noinst_LIBRARIES = 	libworkrave-frontend-common-win32.a
+noinst_LTLIBRARIES = 	libworkrave-frontend-common-win32.la
 
-libworkrave_frontend_common_win32_a_SOURCES = \
+libworkrave_frontend_common_win32_la_SOURCES = \
 			W32SoundPlayer.cc \
 			Sound.cc
 
-libworkrave_frontend_common_win32_a_CXXFLAGS = \
+libworkrave_frontend_common_win32_la_CXXFLAGS = \
 			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-D_XOPEN_SOURCE=600 \
-			-W -I.. -I../../include @WR_COMMON_CFLAGS@ \
-			@WR_BACKEND_INCLUDES@ @GLIB_CFLAGS@
+			-W -I.. -I../../include \
+			@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ \
+			@GLIB_CFLAGS@
 
 endif

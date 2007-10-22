@@ -44,7 +44,7 @@ public:
   static const string& get_home_directory();
   static void set_home_directory(const string &home);
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   static string get_application_directory();
 #endif
   static const list<string> &get_search_path(SearchPathId type);

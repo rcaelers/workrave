@@ -117,25 +117,6 @@ public:
 
 
   // Returns the collected statistics.
-  void get_statistics(ActivityMonitorStatistics &stats) const
-  {
-    (void) stats;
-  }
-
-
-  //! Sets the statistics.
-  void set_statistics(const ActivityMonitorStatistics &stats)
-  {
-    (void) stats;
-  }
-
-
-  //! Resets all collected statistics.
-  void reset_statistics()
-  {
-  }
-
-
   //! Sets the activity listener of this monitor.
   void set_listener(ActivityMonitorListener *l)
   {

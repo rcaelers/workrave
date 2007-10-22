@@ -9,7 +9,7 @@ MAINTAINERCLEANFILES = 	Makefile.in
 
 SUBDIRS = 		unix win32 osx
 
-noinst_LIBRARIES = 	libworkrave-backend.a
+noinst_LTLIBRARIES = 	libworkrave-backend.la
 
 sources = 		ActivityMonitor.cc \
 			Break.cc \
@@ -18,13 +18,15 @@ sources = 		ActivityMonitor.cc \
 			ConfiguratorFactory.cc \
 			Core.cc \
 			CoreFactory.cc \
-			IdleLogManager.cc \
-			GlibIniConfigurator.cc \
-			Statistics.cc \
-			Timer.cc \
 			DayTimePred.cc \
-			WeekTimePred.cc \
-			TimePredFactory.cc
+			GlibIniConfigurator.cc \
+			IdleLogManager.cc \
+			InputMonitor.cc \
+			InputMonitorFactory.cc \
+			Statistics.cc \
+			TimePredFactory.cc \
+			Timer.cc \
+			WeekTimePred.cc
 
 DEFS = 			@DEFS@ -I$(top_srcdir)/intl -I. -I ../include
 
@@ -40,6 +42,20 @@ sourcesgnet = 		DistributionSocketLink.cc PacketBuffer.cc \
 endif
 endif
 
+
+if PLATFORM_OS_WIN32
+platform_ldadd = 	win32/libworkrave-backend-win32.la
+platform_cflags = 	-Iwin32
+endif
+if PLATFORM_OS_OSX
+platform_ldadd = 	osx/libworkrave-backend-osx.la
+platform_cflags = 	-Iosx
+endif
+if PLATFORM_OS_UNIX
+platform_ldadd = 	unix/libworkrave-backend-unix.la
+platform_cflags = 	-Iunix
+endif
+
 # DBus service file
 if HAVE_DBUS
 servicedir = $(DBUS_SERVICES_DIR)
@@ -52,9 +68,6 @@ $(service_DATA): $(service_in_files) Makefile
 
 BUILT_SOURCES=workrave-server-bindings.h workrave-client-bindings.h
 
-# We don't want to install this header
-#noinst_HEADERS = $(DBUS_HEADER_SOURCES)
-
 # Correctly clean the generated headers, but keep the xml description
 CLEANFILES = $(BUILT_SOURCES)
 
@@ -65,37 +78,23 @@ workrave-server-bindings.h:  workrave-service.xml
 workrave-client-bindings.h:  workrave-service.xml
 	dbus-binding-tool --prefix=workrave --mode=glib-client $<> $@
 
-#dbussources=DBus.cc
-
-# HACK
-libworkrave_backend_dbus_a_SOURCES=DBus.cc
-noinst_LIBRARIES+=libworkrave-backend-dbus.a
-libworkrave_backend_a_LIBADD=${libworkrave_backend_dbus_a_OBJECTS}
+dbussources=DBus.cc
 endif
 
-libworkrave_backend_a_SOURCES = \
+libworkrave_backend_la_SOURCES = \
 			${sources} ${sourcesgdome} ${sourcesdistribution} \
 			${sourcesgnet} ${dbussources}
 
-libworkrave_backend_a_CFLAGS = \
+libworkrave_backend_la_CFLAGS = \
 			-W -DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-D_XOPEN_SOURCE=600 @X_CFLAGS@ \
-			@WR_COMMON_CFLAGS@ @WR_BACKEND_CFLAGS@ @GLIB_CFLAGS@ \
-			@GDOME_CFLAGS@ @GNET_CFLAGS@ @DBUS_CFLAGS@ \
+			${platform_cflags} @WR_COMMON_INCLUDES@ \
+			@GLIB_CFLAGS@ @GDOME_CFLAGS@ @GNET_CFLAGS@ @DBUS_CFLAGS@ \
 			@GCONF_CFLAGS@ @GNOME_CFLAGS@
 
-libworkrave_backend_a_CXXFLAGS = \
-			-W -DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
-			-D_XOPEN_SOURCE=600 @X_CFLAGS@ \
-			@WR_COMMON_CFLAGS@ @WR_BACKEND_CFLAGS@ @GLIB_CFLAGS@ \
-			@GDOME_CFLAGS@ @GNET_CFLAGS@ @DBUS_CFLAGS@ \
-			@GCONF_CFLAGS@ @GNOME_CFLAGS@
+libworkrave_backend_la_CXXFLAGS = ${libworkrave_backend_la_CFLAGS}
 
-
-if HAVE_DBUS
-## HACK
-libworkrave_backend_dbus_a_CXXFLAGS=-fpermissive ${libworkrave_backend_a_CXXFLAGS}
-endif
+libworkrave_backend_la_LIBADD=${platform_ldadd}
 
 
 EXTRA_DIST = 		$(wildcard *.cc) $(wildcard *.rc) $(wildcard *.hh) \

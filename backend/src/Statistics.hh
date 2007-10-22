@@ -28,6 +28,7 @@
 #include <time.h>
 
 #include "IStatistics.hh"
+#include "Mutex.hh"
 
 // Forward declarion of external interface.
 namespace workrave {
@@ -37,6 +38,7 @@ namespace workrave {
 class TimePred;
 class PacketBuffer;
 class Core;
+class IInputMonitor;
 
 using namespace workrave;
 using namespace std;
@@ -47,9 +49,11 @@ using namespace std;
 #endif
 
 #include "IStatistics.hh"
+#include "IInputMonitorListener.hh"
 
 class Statistics :
-  public IStatistics
+  public IStatistics,
+  public IInputMonitorListener
 #ifdef HAVE_DISTRIBUTION
   ,
   public IDistributionClientMessage
@@ -70,6 +74,9 @@ private:
 
   struct DailyStatsImpl : public DailyStats
   {
+    //! Total time that the mouse was moving.
+    GTimeVal total_mouse_time;
+
     DailyStatsImpl()
     {
       memset((void *)&start, 0, sizeof(start));
@@ -90,6 +97,9 @@ private:
 
       // Empty marker.
       start.tm_year = 0;
+
+      total_mouse_time.tv_sec = 0;
+      total_mouse_time.tv_usec = 0;
     }
 
     bool starts_at_date(int y, int m, int d);
@@ -131,6 +141,11 @@ public:
 
 
 private:
+  void action_notify();
+  void mouse_notify(int x, int y, int wheel = 0);
+  void button_notify(int button_mask, bool is_press);
+  void keyboard_notify(int key_code, int modifier);
+
   bool load_current_day();
   void update_current_day(bool active);
   void load_history();
@@ -142,7 +157,6 @@ private:
 
   void day_to_history(DailyStatsImpl *stats);
   void day_to_remote_history(DailyStatsImpl *stats);
-  void update_enviromnent();
 
   void add_history(DailyStatsImpl *stats);
 
@@ -158,6 +172,12 @@ private:
   //! Interface to the core_control.
   Core *core;
 
+  //! Mouse/Keyboard monitoring.
+  IInputMonitor *input_monitor;
+
+  //! Last time a mouse event was received.
+  GTimeVal last_mouse_time;
+
   //! Statistics of current day.
   DailyStatsImpl *current_day;
 
@@ -166,6 +186,21 @@ private:
 
   //! History
   History history;
+
+  //! Internal locking
+  Mutex lock;
+
+  //! Previous X coordinate
+  int prev_x;
+
+  //! Previous Y coordinate
+  int prev_y;
+
+  //! Previous X-click coordinate
+  int click_x;
+
+  //! Previous Y-click coordinate
+  int click_y;
 };
 
 #endif // STATISTICS_HH

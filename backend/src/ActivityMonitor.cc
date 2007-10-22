@@ -1,4 +1,3 @@
-// ActivityMonitor.cc --- ActivityMonitor
 //
 // Copyright (C) 2001 - 2007 Rob Caelers <robc@krandor.nl>
 // Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
@@ -46,28 +45,13 @@ static const char rcsid[] = "$Id$";
 # include <unistd.h>
 #endif
 
-#if defined(HAVE_X)
-#include "X11InputMonitor.hh"
-#elif defined(WIN32)
-#include "CoreFactory.hh"
-#include "IConfigurator.hh"
-#include "W32InputMonitor.hh"
-#include "W32LowLevelMonitor.hh"
-#include "W32AlternateMonitor.hh"
-#elif defined(PLATFORM_OS_OSX)
-#include "OSXInputMonitor.hh"
-#endif
-
 #include "IInputMonitor.hh"
-
-#ifdef WIN32
-using namespace workrave;
-#endif
+#include "InputMonitorFactory.hh"
 
 using namespace std;
 
 //! Constructor.
-ActivityMonitor::ActivityMonitor(const char *display) :
+ActivityMonitor::ActivityMonitor() :
   activity_state(ACTIVITY_IDLE),
   prev_x(-10),
   prev_y(-10),
@@ -77,8 +61,6 @@ ActivityMonitor::ActivityMonitor(const char *display) :
   listener(NULL)
 {
   TRACE_ENTER("ActivityMonitor::ActivityMonitor");
-
-  (void) display;
 
   first_action_time.tv_sec = 0;
   first_action_time.tv_usec = 0;
@@ -95,175 +77,9 @@ ActivityMonitor::ActivityMonitor(const char *display) :
   idle_threshold.tv_sec = 5;
   idle_threshold.tv_usec = 0;
 
-  last_mouse_time.tv_sec = 0;
-  last_mouse_time.tv_usec = 0;
-
-  total_mouse_time.tv_sec = 0;
-  total_mouse_time.tv_usec = 0;
-
-  statistics.total_movement = 0;
-  statistics.total_click_movement = 0;
-  statistics.total_clicks = 0;
-  statistics.total_keystrokes = 0;
-
-#if defined(HAVE_X)
-
-  input_monitor = new X11InputMonitor(display);
-  input_monitor->init( this );
-
-#elif defined(WIN32)
-
-  bool initialized = false;
-  string monitor_method;
-  
-  CoreFactory::get_configurator()->get_value_with_default("advanced/monitor", monitor_method, "normal");
-  
-  if (monitor_method == "lowlevel")
-    {
-      input_monitor = new W32LowLevelMonitor();
-      initialized = input_monitor->init(this);
-      
-      if (!initialized)
-        {
-          int ret = MessageBoxA( NULL, 
-             "Workrave's alternate low-level activity monitor failed to initialize.\n\n"
-             "Click 'OK' to try using the regular activity monitor instead.\n",
-             "Workrave: Debug Message", 
-             MB_OKCANCEL | MB_ICONERROR | MB_TOPMOST );
-              
-          delete input_monitor;
-          if( ret != IDOK )
-            {
-              delete CoreFactory::get_configurator();
-              TRACE_EXIT();
-              exit(0);
-            }
-          
-          monitor_method = "normal";
-          CoreFactory::get_configurator()->set_value("advanced/monitor", monitor_method);
-          CoreFactory::get_configurator()->save();
-        }
-    }
-  
-
-  if (monitor_method == "nohook")
-    {
-      input_monitor = new W32AlternateMonitor();
-      initialized = input_monitor->init(this);
-
-      if (!initialized)
-        {
-          int ret = MessageBoxA( NULL, 
-             "Workrave's alternate activity monitor failed to initialize.\n\n"
-             "Click 'OK' to try using the regular activity monitor instead.\n",
-             "Workrave: Debug Message", 
-             MB_OKCANCEL | MB_ICONERROR | MB_TOPMOST );
-              
-          delete input_monitor;
-          if( ret != IDOK )
-            {
-              delete CoreFactory::get_configurator();
-              TRACE_EXIT();
-              exit(0);
-            }
-          
-          monitor_method = "normal";
-          CoreFactory::get_configurator()->set_value("advanced/monitor", monitor_method);
-          CoreFactory::get_configurator()->save();
-        }
-    }
-
-  if (monitor_method == "normal" || !initialized)
-    {
-      input_monitor = new W32InputMonitor();
-      initialized = input_monitor->init(this);
-
-      if (!initialized)
-        {
-          int ret = MessageBoxA( NULL,
-              "Workrave must be able to monitor certain system "
-              "events in order to determine when you are idle.\n\n"
-
-              "An attempt was made to hook into your system, but it "
-              "was unsuccessful.\n\n"
-
-              "You might have system safety software that blocks "
-              "Workrave from installing global hooks on your system.\n\n"
-
-              "You can instead run Workrave using the alternate monitor, "
-              "which doesn't require global hooks.\n\n"
-
-              "Click 'OK' to run the alternate monitor, or 'Cancel' to exit.\n",
-
-              "Workrave: Debug Message",
-              MB_OKCANCEL | MB_ICONSTOP | MB_TOPMOST );
-
-          /*
-          We want the current input monitor destructor called
-          at this point, after the user responds to the messagebox.
-          This way, if debugging, debug output can be viewed before
-          the user responds to the message box.
-          */
-          delete input_monitor;
-
-          if( ret == IDCANCEL )
-            {
-              delete CoreFactory::get_configurator();
-              TRACE_EXIT();
-              exit( 0 );
-            }
-          else
-            {
-              monitor_method = "nohook";
-              CoreFactory::get_configurator()->set_value("advanced/monitor", monitor_method);
-              CoreFactory::get_configurator()->save();
-            }
-        }
-    }
-
-  // Final try:
-  if (monitor_method == "nohook" || !initialized)
-    {
-      input_monitor = new W32AlternateMonitor();
-      initialized = input_monitor->init(this);
-
-      if (!initialized)
-        {
-          MessageBoxA( NULL,
-                "Workrave must be able to monitor certain system "
-                "events in order to determine when you are idle.\n\n"
-                
-                "Attempts were made to monitor your system, "
-                "but they were unsuccessful.\n\n"
-                
-                "Workrave has reset itself to use its default monitor."
-                "Please run Workrave again. If you see this message "
-                "again, please file a bug report:\n\n"
-                
-                "http://issues.workrave.org/\n\n"
-                
-                "Workrave must exit now.\n",
-                "Workrave: Debug Message",
-                MB_OK );
-          
-          delete input_monitor;
-          
-          monitor_method = "normal";
-          CoreFactory::get_configurator()->set_value("advanced/monitor", monitor_method);
-          CoreFactory::get_configurator()->save();
-          
-          delete CoreFactory::get_configurator();
-          
-          TRACE_EXIT();
-          exit( 0 );
-        }
-    }
-  
-#elif defined(PLATFORM_OS_OSX)
-  input_monitor = new OSXInputMonitor();
-  input_monitor->init(this);
-#endif
-
+  input_monitor = InputMonitorFactory::create_activity_monitor();
+  input_monitor->subscribe_activity(this);
+                                    
   TRACE_EXIT();
 }
 
@@ -391,40 +207,6 @@ ActivityMonitor::get_parameters(int &noise, int &activity, int &idle)
 }
 
 
-//! Returns the statistics.
-void
-ActivityMonitor::get_statistics(ActivityMonitorStatistics &stats) const
-{
-  stats = statistics;
-  stats.total_movement_time = total_mouse_time.tv_sec;
-}
-
-
-//! Sets the statistics
-void
-ActivityMonitor::set_statistics(const ActivityMonitorStatistics &stats)
-{
-  statistics = stats;
-  total_mouse_time.tv_sec = stats.total_movement_time;
-  total_mouse_time.tv_usec = 0;
-}
-
-
-//! Resets the statistics.
-void
-ActivityMonitor::reset_statistics()
-{
-  total_mouse_time.tv_sec = 0;
-  total_mouse_time.tv_usec = 0;
-
-  statistics.total_movement = 0;
-  statistics.total_click_movement = 0;
-  statistics.total_clicks = 0;
-  statistics.total_keystrokes = 0;
-}
-
-
-
 //! Shifts the internal time (after system clock has been set)
 void
 ActivityMonitor::shift_time(int delta)
@@ -441,8 +223,6 @@ ActivityMonitor::shift_time(int delta)
   if (!tvTIMEEQ0(first_action_time))
     tvADDTIME(first_action_time, first_action_time, d);
 
-  if (!tvTIMEEQ0(last_mouse_time))
-    tvADDTIME(last_mouse_time, last_mouse_time, d);
   lock.unlock();
 }
 
@@ -529,22 +309,7 @@ ActivityMonitor::mouse_notify(int x, int y, int wheel_delta)
   if (abs(delta_x) >= sensitivity || abs(delta_y) >= sensitivity
       || wheel_delta != 0 || button_is_pressed)
     {
-      statistics.total_movement += int(sqrt((double)(delta_x * delta_x + delta_y * delta_y)));
-
       action_notify();
-
-      GTimeVal now, tv;
-
-      g_get_current_time(&now);
-      tvSUBTIME(tv, now, last_mouse_time);
-
-      if (!tvTIMEEQ0(last_mouse_time) && tv.tv_sec < 1 && tv.tv_sec >= 0 && tv.tv_usec >= 0)
-        {
-          tvADDTIME(total_mouse_time, total_mouse_time, tv);
-        }
-
-      last_mouse_time = now;
-
     }
   lock.unlock();
 }
@@ -557,23 +322,12 @@ ActivityMonitor::button_notify(int button_mask, bool is_press)
   (void)button_mask;
 
   lock.lock();
-  if (click_x != -1)
-    {
-      int delta_x = click_x - prev_x;
-      int delta_y = click_y - prev_y;
-
-      statistics.total_click_movement += int(sqrt((double)(delta_x * delta_x + delta_y * delta_y)));
-    }
-
-  click_x = prev_x;
-  click_y = prev_y;
 
   button_is_pressed = is_press;
 
   if (is_press)
     {
       action_notify();
-      statistics.total_clicks++;
     }
 
   lock.unlock();
@@ -589,7 +343,6 @@ ActivityMonitor::keyboard_notify(int key_code, int modifier)
 
   lock.lock();
   action_notify();
-  statistics.total_keystrokes++;
   lock.unlock();
 }
 

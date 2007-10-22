@@ -83,10 +83,10 @@ public:
   static Menus *get_instance();
 
   void set_main_window(MainWindow *main);
-#if defined(HAVE_GNOME) || defined(WIN32)
+#if defined(HAVE_GNOME) || defined(PLATFORM_OS_WIN32)
   void set_applet_window(AppletWindow *applet);
 #endif
-#if defined(WIN32)
+#if defined(PLATFORM_OS_WIN32)
   void on_applet_command(short cmd);
 #endif
   void resync_applet();
@@ -94,7 +94,7 @@ public:
 private:
   Gtk::Menu *create_menu(MenuKind kind, Gtk::CheckMenuItem *check_menus[MENUSYNC_SIZEOF]);
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   void win32_popup_hack_connect(Gtk::Menu *menu);
   static gboolean win32_popup_hack_hide(gpointer data);
   static gboolean win32_popup_hack_leave_enter(GtkWidget *menu,
@@ -155,7 +155,7 @@ private:
   //!
   Gtk::Menu *menus[MENU_SIZEOF];
 
-#if defined(HAVE_GNOME) || defined(WIN32)
+#if defined(HAVE_GNOME) || defined(PLATFORM_OS_WIN32)
   //! The applet windows
   AppletWindow *applet_window;
 #endif

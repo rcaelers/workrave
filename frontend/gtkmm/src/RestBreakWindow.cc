@@ -290,7 +290,7 @@ RestBreakWindow::set_ignore_activity(bool i)
   ICore *core = CoreFactory::get_core();
   assert(core != NULL);
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   bool force_focus = false;
 
   CoreFactory::get_configurator()->get_value_with_default("advanced/force_focus", force_focus, false);

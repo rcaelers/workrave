@@ -96,17 +96,17 @@ extrasources +=		$(sourceskde)
 extranodistsources +=	$(sourcesnodistkde)
 endif
 
-if HAVE_X
+if PLATFORM_OS_UNIX
 extrasources +=		$(sourcesx)
 includesx = 		-Iunix/
-workrave_LDFLAGS = 	-Lunix/
+ldflags = 	        -Lunix/
 endif
 
 if PLATFORM_OS_WIN32
 extrasources +=		$(sourceswin32)
 includeswin32 = 	-I$(top_srcdir)/common/win32/harpoon/include -Iwin32/ \
 			-I../../win32/applet/include
-workrave_LDFLAGS = 	-Lwin32/
+ldflags = 		-Lwin32/
 win32cflags		= -D_WIN32_IE=0x0500
 endif
 
@@ -129,13 +129,13 @@ WIN32LIBS = 		-L$(top_srcdir)/common/win32/harpoon/src/Release/ -lharpoon \
 			-lshell32 -lole32 -lwinmm -lshlwapi
 endif
 
-if HAVE_X
+if PLATFORM_OS_UNIX
 X11LIBS = 		-lworkrave-frontend-gtkmm-unix -lX11 -lXmu
 endif
 
 if PLATFORM_OS_OSX
 includesosx  = 		-Iosx
-workrave_LDFLAGS = 	-Losx
+ldflags =	 	-Losx
 OSXLIBS	=		-lworkrave-frontend-gtkmm-osx
 endif
 
@@ -193,8 +193,8 @@ nodist_workrave_SOURCES = \
 
 workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
 			-DATADIR="\"${datadir}\""  \
-			@WR_FRONTEND_CFLAGS@ -I$(top_srcdir)/src \
-			 -I. @X_CFLAGS@ @GNOMEMM_CFLAGS@ \
+			-I. @WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
+			@X_CFLAGS@ @GNOMEMM_CFLAGS@ \
 			@GNOME_CFLAGS@ @GTK_CFLAGS@ \
 			@GCONF_CFLAGS@ -D_XOPEN_SOURCE=600 @GNET_CFLAGS@ \
 			@KDE_INCLUDES@ @QT_INCLUDES@\
@@ -206,9 +206,9 @@ workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
 			-I${EXERCISES_HOME}/common/src 
 
 workrave_CFLAGS	= 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
-			@WR_FRONTEND_CFLAGS@ -I$(top_srcdir)/src \
-			-I. @X_CFLAGS@ @GNOME_CFLAGS@ \
-			@GTK_CFLAGS@ -D_XOPEN_SOURCE=600 \
+			-I. @WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
+			@X_CFLAGS@ @GNOME_CFLAGS@ @GTK_CFLAGS@ \
+			-D_XOPEN_SOURCE=600 \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
 			-I${STATISTICS_HOME}/gtkmm/src \
 			-I${EXERCISES_HOME}/gtkmm/src \
@@ -217,9 +217,13 @@ workrave_CFLAGS	= 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 
 endif
 
-$(bin_PROGRAMS): @WR_FRONTEND_LIBS@
+$(bin_PROGRAMS):	${top_srcdir}/backend/src/libworkrave-backend.la \
+			${top_srcdir}/common/src/libworkrave-common.la \
+			${top_srcdir}/frontend/common/src/libworkrave-frontend-common.la
 
-workrave_LDADD =        @WR_FRONTEND_LIBS@ @X_LIBS@ @GNOME_LIBS@ @GNOMEMM_LIBS@ \
+workrave_LDFLAGS = 	@WR_LDFLAGS@ ${ldflags}
+
+workrave_LDADD =        @WR_LDADD@ @X_LIBS@ @GNOME_LIBS@ @GNOMEMM_LIBS@ \
 			@GTK_LIBS@ @GNET_LIBS@ @X_LIBS@ @GCONF_LIBS@ @GDOME_LIB@ \
 			@KDE_LDFLAGS@ @LIB_KDEUI@ @LIB_KDECORE@ \
 			@QT_LDFLAGS@ @LIB_QT@ @DBUS_LIBS@ \
@@ -243,7 +247,7 @@ $(IDL_C_GENERATED): $(IDL_C)
 		gnome_applet/Workrave-Control.idl
 
 
-EXTRA_DIST =      ${sourcesgnome} \
+EXTRA_DIST =    ${sourcesgnome} \
 		${sourcesnognome} \
 		${sourceskde} \
 		${sourcesx} \

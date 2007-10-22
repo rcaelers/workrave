@@ -12,16 +12,16 @@ EXTRA_DIST = 		$(wildcard *.hh) $(wildcard *.cc) \
 
 if HAVE_KDE
 
-noinst_LIBRARIES = 	libworkrave-frontend-common-kde.a
+noinst_LTLIBRARIES = 	libworkrave-frontend-common-kde.la
 
-libworkrave_frontend_common_kde_a_SOURCES = \
+libworkrave_frontend_common_kde_la_SOURCES = \
 			KdeSoundPlayer.cc
 
 
-libworkrave_frontend_common_kde_a_CXXFLAGS = \
+libworkrave_frontend_common_kde_la_CXXFLAGS = \
 			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-D_XOPEN_SOURCE=600 -W -I.. -I../../include \
-			@WR_COMMON_CFLAGS@ @WR_BACKEND_INCLUDES@ \
+			@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ \
 			$(KDE_CXXFLAGS) @all_includes@ 
 
 endif

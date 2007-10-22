@@ -46,7 +46,7 @@ static const char rcsid[] = "$Id$";
 #include "Hig.hh"
 #include "GtkUtil.hh"
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
 #include <gdk/gdkwin32.h>
 #endif
 
@@ -68,7 +68,7 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
     prelude_response(NULL)
 {
   Gtk::Window::set_border_width(0);
-#ifdef HAVE_X
+#ifdef PLATFORM_OS_UNIX
   GtkUtil::set_wmclass(*this, "Prelude");
 #endif
 
@@ -140,7 +140,7 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
 //! Destructor.
 PreludeWindow::~PreludeWindow()
 {
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   if (avoid_signal.connected())
     {
       avoid_signal.disconnect();
@@ -163,7 +163,7 @@ PreludeWindow::start()
   // Set some window hints.
   WindowHints::set_skip_winlist(this, true);
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   SetWindowPos( (HWND) GDK_WINDOW_HWND( Gtk::Widget::gobj()->window ),
       HWND_TOPMOST, 0, 0, 0, 0, SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE );
 #else
@@ -240,7 +240,7 @@ PreludeWindow::refresh()
     }
   time_bar->set_text(s);
   time_bar->update();
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
 // Vista GTK phantom toplevel parent kludge:
   HWND hwnd = (HWND) GDK_WINDOW_HWND( Gtk::Widget::gobj()->window );
   if( hwnd )
@@ -342,7 +342,7 @@ PreludeWindow::on_frame_flash(bool frame_visible)
 void
 PreludeWindow::init_avoid_pointer()
 {
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   if (! avoid_signal.connected())
     {
       avoid_signal = Glib::signal_timeout()
@@ -361,7 +361,7 @@ PreludeWindow::init_avoid_pointer()
   did_avoid = false;
 }
 
-#ifndef WIN32
+#ifndef PLATFORM_OS_WIN32
 
 //! GDK EventNotifyEvent notification.
 bool
@@ -385,8 +385,8 @@ PreludeWindow::avoid_pointer(int px, int py)
 
   TRACE_MSG("geom" << winx << " " << winy << " " << width << " " << height << " ");
 
-#ifdef WIN32
-  // This is only necessary for WIN32, since HAVE_X uses GdkEventCrossing.
+#ifdef PLATFORM_OS_WIN32
+  // This is only necessary for PLATFORM_OS_WIN32, since PLATFORM_OS_UNIX uses GdkEventCrossing.
   // Set gravitiy, otherwise, get_position() returns weird winy.
   set_gravity(Gdk::GRAVITY_STATIC);
   get_position(winx, winy);
@@ -426,7 +426,7 @@ PreludeWindow::avoid_pointer(int px, int py)
   did_avoid = true;
 }
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
 bool
 PreludeWindow::on_avoid_pointer_timer()
 {

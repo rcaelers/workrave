@@ -28,7 +28,7 @@ int run(int argc, char *argv[])
 }
 
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
 #include <windows.h>
 int APIENTRY
 WinMain(HINSTANCE hInstance,

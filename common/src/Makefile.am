@@ -9,20 +9,28 @@ MAINTAINERCLEANFILES = 	Makefile.in
 
 SUBDIRS = 		win32 unix
 
-noinst_LIBRARIES = 	libworkrave-common.a
+noinst_LTLIBRARIES = 	libworkrave-common.la
 
-libworkrave_common_a_SOURCES = \
+libworkrave_common_la_SOURCES = \
 			debug.cc \
 			GlibThread.cc \
 			Util.cc \
 			StringUtil.cc \
 			glibnls.c
 
-libworkrave_common_a_LIBADD =
+if PLATFORM_OS_WIN32
+ldadd_platform = 	win32/libworkrave-common-win32.la
+endif
+if PLATFORM_OS_UNIX
+ldadd_platform = 	unix/libworkrave-common-unix.la
+endif
+
+libworkrave_common_la_LIBADD = ${ldadd_platform}
 
 INCLUDES = 		-W -DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -DWORKRAVE_DATADIR="\"${datadir}\"" \
 			-D_XOPEN_SOURCE=600 \
-			@WR_COMMON_CFLAGS@ @GLIB_CFLAGS@ @GNOME_CFLAGS@
+			@WR_COMMON_INCLUDES@ \
+			@GLIB_CFLAGS@ @GNOME_CFLAGS@
 
 #@GNOMEUI_CFLAGS@ 
 #			 -DLIBGNOME_DATADIR=\""$(datadir)"\"

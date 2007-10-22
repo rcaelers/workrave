@@ -141,7 +141,7 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
       if( bufsize )
         {
           // We will need room for \\?\ so add 4
-          if( wbuffer = (WCHAR *)calloc( 4 + bufsize + wcslen( crashlog ), sizeof( WCHAR ) ) )
+          if( (wbuffer = (WCHAR *)calloc( 4 + bufsize + wcslen( crashlog ), sizeof( WCHAR ) ) ) != NULL)
             {
               wcscpy( wbuffer, L"\\\\?\\" );
               p_wbuffer = wbuffer + 4;

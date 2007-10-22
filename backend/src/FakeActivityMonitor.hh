@@ -71,20 +71,6 @@ public:
     state = ACTIVITY_IDLE;
   }
 
-  void get_statistics(ActivityMonitorStatistics &stats) const
-  {
-    (void) stats;
-  }
-
-  void set_statistics(const ActivityMonitorStatistics &stats)
-  {
-    (void) stats;
-  }
-
-  void reset_statistics()
-  {
-  }
-
   void set_state(ActivityState s)
   {
     state = s;

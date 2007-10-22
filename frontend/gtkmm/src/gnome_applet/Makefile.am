@@ -48,7 +48,8 @@ $(IDL_C_GENERATED): $(IDL_C)
 
 INCLUDES 			= -I$(srcdir)
 
-FLAGS				= @GNOME_CFLAGS@ @WR_COMMON_CFLAGS@ @WR_FRONTEND_CFLAGS@ \
+FLAGS				= @GNOME_CFLAGS@ \
+				  @WR_FRONTEND_COMMON_INCLUDES@ @WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ \
 	  	  		  -DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 	  	  		  -DWORKRAVE_UIDATADIR="\"${uidir}\"" \
 	 		 	  -DGNOMELOCALEDIR="\"$(datadir)/locale\"" 

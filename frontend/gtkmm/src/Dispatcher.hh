@@ -29,14 +29,14 @@
 #include <sigc++/class_slot.h>
 #include <glibmm.h>
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
 #include <windows.h>
 #endif
 
 class Dispatcher
 {
 private:
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   //!
   HANDLE event_handle;
 
@@ -66,7 +66,7 @@ public:
 
 private:
 
-#ifndef WIN32
+#ifndef PLATFORM_OS_WIN32
   void fd_set_close_on_exec(int fd);
 #endif
   bool create_thread_pipe();

@@ -156,7 +156,7 @@ StatisticsDialog::init_gui()
 
   get_vbox()->pack_start(*hbox, true, true, 0);
 
-#ifdef HAVE_X
+#ifdef PLATFORM_OS_UNIX
   GtkUtil::set_wmclass(*this, "Statistics");
 #endif
 

@@ -30,6 +30,17 @@ static const char rcsid[] = "$Id$";
 #include <stdio.h>
 #include <sys/types.h>
 
+#if TIME_WITH_SYS_TIME
+# include <sys/time.h>
+# include <time.h>
+#else
+# if HAVE_SYS_TIME_H
+#  include <sys/time.h>
+# else
+#  include <time.h>
+# endif
+#endif
+
 #ifdef HAVE_SYS_SELECT_H
 #include <sys/select.h>
 #endif
@@ -127,8 +138,7 @@ XNextEventTimed(Display* dsp, XEvent* event_return, long millis)
 }
 
 
-X11InputMonitor::X11InputMonitor(const char *name) :
-  x11_display_name(NULL),
+X11InputMonitor::X11InputMonitor(const string &display_name) :
   x11_display(NULL),
   abort(false)
 {
@@ -137,11 +147,8 @@ X11InputMonitor::X11InputMonitor(const char *name) :
   xrecord_context = 0;
   xrecord_datalink = NULL;
 #endif
-  if (name != NULL)
-    {
-      x11_display_name = strdup(name); // FIXME: LEAK
-    }
 
+  x11_display_name = display_name;
   monitor_thread = new Thread(this); // FIXME: LEAK
 }
 
@@ -156,11 +163,6 @@ X11InputMonitor::~X11InputMonitor()
       delete monitor_thread;
     }
 
-  if (x11_display_name != NULL)
-    {
-      free(x11_display_name);
-    }
-
 #ifdef HAVE_XRECORD
   if (xrecord_datalink != NULL)
     {
@@ -172,9 +174,8 @@ X11InputMonitor::~X11InputMonitor()
 
 
 bool
-X11InputMonitor::init(IInputMonitorListener *l)
+X11InputMonitor::init()
 {
-  this->listener = l;
   monitor_thread->start();
   return true;
 }
@@ -209,7 +210,7 @@ X11InputMonitor::run()
 {
   TRACE_ENTER("X11InputMonitor::run");
 
-  if ((x11_display = XOpenDisplay(x11_display_name)) == NULL)
+  if ((x11_display = XOpenDisplay(x11_display_name.c_str())) == NULL)
     {
       return;
     }
@@ -289,7 +290,7 @@ X11InputMonitor::run_events()
       XQueryPointer(x11_display, root_window, &root, &child, &root_x, &root_y, &win_x, &win_y, &mask);
 
       lastMouseRoot = root;
-      listener->mouse_notify(root_x, root_y);
+      fire_mouse(root_x, root_y);
     }
 
   TRACE_EXIT();
@@ -364,7 +365,7 @@ void
 X11InputMonitor::handle_keypress(XEvent *event)
 {
   (void) event;
-  listener->keyboard_notify(0, 0);
+  fire_keyboard(0, 0);
 }
 
 
@@ -390,12 +391,12 @@ X11InputMonitor::handle_button(XEvent *event)
       // FIXME: this is a hack. XGrabButton does not generate a button release
       // event...
 
-      listener->button_notify(b, true);
-      listener->button_notify(b, false);
+      fire_button(b, true);
+      fire_button(b, false);
     }
   else
     {
-      listener->action_notify();
+      fire_action();
     }
 }
 
@@ -416,7 +417,7 @@ X11InputMonitor::handle_xrecord_handle_key_event(XRecordInterceptData *data)
   kevent.state = event->u.keyButtonPointer.state;
   kevent.keycode = event->u.u.detail;
   XLookupString(&kevent, buf, sizeof(buf), &keysym, 0);
-  listener->keyboard_notify(0, 0);
+  fire_keyboard(0, 0);
 }
 
 void
@@ -429,11 +430,11 @@ X11InputMonitor::handle_xrecord_handle_motion_event(XRecordInterceptData *data)
       int x = event->u.keyButtonPointer.rootX;
       int y = event->u.keyButtonPointer.rootY;
 
-      listener->mouse_notify(x, y, 0);
+      fire_mouse(x, y, 0);
     }
   else
     {
-      listener->action_notify();
+      fire_action();
     }
 }
 
@@ -447,11 +448,11 @@ X11InputMonitor::handle_xrecord_handle_button_event(XRecordInterceptData *data)
     {
       int b = event->u.keyButtonPointer.state;
 
-      listener->button_notify(b, event->u.u.type == ButtonPress);
+      fire_button(b, event->u.u.type == ButtonPress);
     }
   else
     {
-      listener->action_notify();
+      fire_action();
     }
 }
 
@@ -549,7 +550,7 @@ X11InputMonitor::init_xrecord()
         {
           XSync(x11_display, True);
 
-          xrecord_datalink = XOpenDisplay(x11_display_name);
+          xrecord_datalink = XOpenDisplay(x11_display_name.c_str());
         }
 
       if (xrecord_datalink == NULL)

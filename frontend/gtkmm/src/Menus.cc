@@ -67,7 +67,7 @@ static const char rcsid[] = "$Id$";
 #include "Exercise.hh"
 #endif
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
 #include <gdk/gdkwin32.h>
 #include "W32AppletWindow.hh"
 #endif
@@ -78,7 +78,7 @@ static const char rcsid[] = "$Id$";
 
 Menus *Menus::instance = 0;
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
 enum
 {
   MENU_COMMAND_PREFERENCES,
@@ -103,7 +103,7 @@ enum
  *  \param control Interface to the controller.
  */
 Menus::Menus() :
-#if defined(HAVE_GNOME) || defined(WIN32)
+#if defined(HAVE_GNOME) || defined(PLATFORM_OS_WIN32)
   applet_window(NULL),
 #endif
 #ifdef HAVE_DISTRIBUTION
@@ -373,7 +373,7 @@ Menus::create_menu(MenuKind kind, Gtk::CheckMenuItem *check_menus[MENUSYNC_SIZEO
                                                  sigc::mem_fun(*this, &Menus::on_menu_quit)));
 
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   if (kind == MENU_APPLET)
     {
       win32_popup_hack_connect(pop_menu);
@@ -413,7 +413,7 @@ Menus::sync_mode_menu(int mode)
       TRACE_MSG("setting gnome active " << mode);
       aw->set_menu_active(mode, true);
     }
-#elif defined(WIN32)
+#elif defined(PLATFORM_OS_WIN32)
   resync_applet();
 #endif
 
@@ -446,7 +446,7 @@ Menus::sync_log_menu(bool active)
     {
       aw->set_menu_active(MENUSYNC_SHOW_LOG, active);
     }
-#elif defined(WIN32)
+#elif defined(PLATFORM_OS_WIN32)
   resync_applet();
 #endif
 
@@ -500,13 +500,11 @@ Menus::resync_applet()
           break;
         }
 #if defined(HAVE_DISTRIBUTION)
-      bool network_log_active = network_log_dialog != NULL;
       aw->set_menu_active(MENUSYNC_SHOW_LOG, network_log_dialog);
-
 #endif
     }
 
-#elif defined(WIN32)
+#elif defined(PLATFORM_OS_WIN32)
   if (applet_window != NULL && main_window != NULL)
     {
       HWND cmd_win = (HWND) GDK_WINDOW_HWND( main_window
@@ -959,7 +957,7 @@ Menus::on_preferences_response(int response)
   preferences_dialog = NULL;
 }
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
 
 void
 Menus::on_applet_command(short cmd)
@@ -1007,7 +1005,7 @@ Menus::on_applet_command(short cmd)
 
 #endif
 
-#if defined(HAVE_GNOME) || defined(WIN32)
+#if defined(HAVE_GNOME) || defined(PLATFORM_OS_WIN32)
 void
 Menus::set_applet_window(AppletWindow *applet)
 {
@@ -1017,7 +1015,7 @@ Menus::set_applet_window(AppletWindow *applet)
 #endif
 
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
 // /* Taken from Gaim. needs to be gtkmm-ified. */
 // /* This is a workaround for a bug in windows GTK+. Clicking outside of the
 //    menu does not get rid of it, so instead we get rid of it as soon as the
@@ -1070,4 +1068,4 @@ Menus::win32_popup_hack_leave_enter(GtkWidget *menu, GdkEventCrossing *event,
   return FALSE;
 }
 
-#endif // WIN32
+#endif // PLATFORM_OS_WIN32

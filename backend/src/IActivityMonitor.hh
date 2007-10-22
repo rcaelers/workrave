@@ -35,27 +35,6 @@ enum ActivityState
     ACTIVITY_ACTIVE
   };
 
-//! Statisticts about user activity.
-class ActivityMonitorStatistics
-{
-public:
-  //! Total mouse movement;
-  int total_movement;
-
-  //! Total mouse movement bewteen click-point;
-  int total_click_movement;
-
-  //! Total mouse movement time.
-  int total_movement_time;
-
-  //! Total mouse button clicks.
-  int total_clicks;
-
-  //! Total number of keystokes
-  int total_keystrokes;
-};
-
-
 //! Interface that all activity monitor implements.
 class IActivityMonitor
 {
@@ -76,15 +55,6 @@ public:
 
   //! Force state to be idle.
   virtual void force_idle() = 0;
-
-  //! Retrieves the statistics.
-  virtual void get_statistics(ActivityMonitorStatistics &stats) const = 0;
-
-  //! Sets the statistics.
-  virtual void set_statistics(const ActivityMonitorStatistics &stats) = 0;
-
-  //! Resets the statistics.
-  virtual void reset_statistics() = 0;
 
   //! Sets the callback for activity monitor events.
   virtual void set_listener(ActivityMonitorListener *l) = 0;

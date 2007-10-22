@@ -24,7 +24,7 @@
 
 #include "preinclude.h"
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
 #include <gdk/gdkwin32.h>
 #endif
 #include <gtkmm/statusicon.h>
@@ -40,7 +40,7 @@ public:
 
   void set_operation_mode(OperationMode m);
   void set_timers_tooltip(std::string& tip);
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   GdkFilterReturn win32_filter_func (void *xevent, GdkEvent *event);
 #endif
 
@@ -56,7 +56,7 @@ private:
   Glib::RefPtr<Gtk::StatusIcon> status_icon;
   MainWindow& main_window;
   Glib::RefPtr<Gdk::Pixbuf> mode_icons[OPERATION_MODE_SIZEOF];
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   UINT wm_taskbarcreated;
 #endif
 };

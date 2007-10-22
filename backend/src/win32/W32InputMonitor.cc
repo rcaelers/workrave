@@ -30,7 +30,6 @@ static const char rcsid[] = "$Id$";
 #include <winuser.h>
 #include "debug.hh"
 #include "W32InputMonitor.hh"
-#include "IInputMonitorListener.hh"
 
 #include "ICore.hh"
 #include "CoreFactory.hh"
@@ -53,7 +52,7 @@ typedef struct {
     DWORD mouseData;
 } MOUSEHOOKSTRUCTEX, *PMOUSEHOOKSTRUCTEX;
 
-IInputMonitorListener *W32InputMonitor::listener = NULL;
+W32InputMonitor *W32InputMonitor::singleton = NULL;
 
 W32InputMonitor::W32InputMonitor()
 {
@@ -66,12 +65,17 @@ W32InputMonitor::~W32InputMonitor()
 }
 
 bool
-W32InputMonitor::init( IInputMonitorListener *l )
+W32InputMonitor::init()
 {
-  assert(! listener);
-  listener = l;
-
-  return Harpoon::init(on_harpoon_event);
+  if (singleton == NULL)
+    {
+      singleton = this;
+      return Harpoon::init(on_harpoon_event);
+    }
+  else
+    {
+      return false;
+    }
 }
 
 
@@ -80,8 +84,6 @@ void
 W32InputMonitor::terminate()
 {
   Harpoon::terminate();
-
-  listener = NULL;
 }
 
 
@@ -91,29 +93,29 @@ W32InputMonitor::on_harpoon_event(HarpoonEvent *event)
   switch (event->type)
     {
     case HARPOON_BUTTON_PRESS:
-      listener->button_notify(0, true); // FIXME: proper parameter
+      singleton->fire_button(0, true); // FIXME: proper parameter
       break;
 
     case HARPOON_BUTTON_RELEASE:
-      listener->button_notify(0, false); // FIXME: proper parameter
+      singleton->fire_button(0, false); // FIXME: proper parameter
       break;
 
     case HARPOON_2BUTTON_PRESS:
     case HARPOON_KEY_PRESS:
-      listener->action_notify();
+      singleton->fire_action();
       break;
 
     case HARPOON_MOUSE_WHEEL:
-      listener->mouse_notify(event->mouse.x, event->mouse.y,
-                             event->mouse.wheel);
+      singleton->fire_mouse(event->mouse.x, event->mouse.y,
+                            event->mouse.wheel);
       break;
 
     case HARPOON_KEY_RELEASE:
-      listener->keyboard_notify(0, 0);
+      singleton->fire_keyboard(0, 0);
       break;
 
     case HARPOON_MOUSE_MOVE:
-      listener->mouse_notify(event->mouse.x, event->mouse.y, 0);
+      singleton->fire_mouse(event->mouse.x, event->mouse.y, 0);
       break;
 
     default:

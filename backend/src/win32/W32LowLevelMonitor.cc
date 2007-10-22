@@ -5,7 +5,7 @@
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
-// the Free Software Foundation; either version 2, or (at your option)
+// the Free Software Foundation; either version 3, or (at your option)
 // any later version.
 //
 // This program is distributed in the hope that it will be useful,
@@ -112,8 +112,6 @@ W32LowLevelMonitor::W32LowLevelMonitor()
   k_hook = NULL;
   m_hook = NULL;
   
-  listener = NULL;
-
   TRACE_EXIT();
 }
 
@@ -135,7 +133,6 @@ W32LowLevelMonitor::~W32LowLevelMonitor()
   
   dispatch = NULL;
   callback = NULL;
-  listener = NULL;
   singleton = NULL;
   
   TRACE_EXIT();
@@ -185,7 +182,7 @@ bool W32LowLevelMonitor::check_api()
 }
 
 
-bool W32LowLevelMonitor::init( IInputMonitorListener *l )
+bool W32LowLevelMonitor::init()
 {
   TRACE_ENTER( "W32LowLevelMonitor::init" );
   
@@ -195,16 +192,12 @@ bool W32LowLevelMonitor::init( IInputMonitorListener *l )
       return false;
     }
   
-  //assert( listener == NULL );
-  listener = l;
-  assert( listener );
-  
   if( !check_api() )
     {
       TRACE_RETURN( " : init failed. " );
       return false;
     }
-  
+
   terminate();
   
   dispatch->handle = 
@@ -232,7 +225,6 @@ bool W32LowLevelMonitor::init( IInputMonitorListener *l )
   TRACE_EXIT();
   return true;
 }
-
 
 bool W32LowLevelMonitor::wait_for_thread_queue( thread_struct *thread )
 {
@@ -350,7 +342,7 @@ DWORD W32LowLevelMonitor::dispatch_thread()
   while( ret = ( *GetMessageW )( &msg, NULL, 0, 0 ) > 0  && dispatch->active )
     {
       msg.message &= 0xFFFF;
-      if( msg.message > WM_APP )
+      if( msg.message > WM_APP)
       // mouse notification
         {
           switch( msg.message - WM_APP )
@@ -358,27 +350,26 @@ DWORD W32LowLevelMonitor::dispatch_thread()
               // msg.wParam == x coord
               // msg.lParam == y coord
               case WM_MOUSEMOVE:
-                  listener->mouse_notify( msg.wParam, msg.lParam, 0 );
+                  fire_mouse( msg.wParam, msg.lParam, 0 );
                   break;
               
               case WM_MOUSEWHEEL:
               case WM_MOUSEHWHEEL:
-                  //listener->action_notify();
-                  listener->mouse_notify( msg.wParam, msg.lParam, 1 );
+                  fire_mouse( msg.wParam, msg.lParam, 1 );
                   break;
               
               case WM_LBUTTONDOWN:
               case WM_MBUTTONDOWN:
               case WM_RBUTTONDOWN:
               case WM_XBUTTONDOWN:
-                  listener->button_notify( 0, true );
+                  fire_button( 0, true );
                   break;
               
               case WM_LBUTTONUP:
               case WM_MBUTTONUP:
               case WM_RBUTTONUP:
               case WM_XBUTTONUP:
-                  listener->button_notify( 0, false );
+                  fire_button( 0, false );
                   break;
             }
         }
@@ -388,10 +379,10 @@ DWORD W32LowLevelMonitor::dispatch_thread()
           // kb->flags == msg.wParam
           if( msg.wParam & 0x00000080 )
           // Transition state: key released
-              listener->keyboard_notify( 0, 0 );
+              fire_keyboard( 0, 0 );
           else
           // Transition state: key pressed
-              listener->action_notify();
+              fire_action();
         }
     }
   

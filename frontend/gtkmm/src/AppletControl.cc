@@ -38,11 +38,11 @@ static const char rcsid[] = "$Id$";
 #include "GnomeAppletWindow.hh"
 #endif
 
-#ifdef HAVE_X
+#ifdef PLATFORM_OS_UNIX
 #include "X11SystrayAppletWindow.hh"
 #endif
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
 #include "W32AppletWindow.hh"
 #endif
 
@@ -96,11 +96,11 @@ AppletControl::init()
   applets[APPLET_GNOME] = new GnomeAppletWindow(this);
 #endif
 
-#ifdef HAVE_X
+#ifdef PLATFORM_OS_UNIX
   applets[APPLET_TRAY] = new X11SystrayAppletWindow(this);
 #endif
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   applets[APPLET_W32] = new W32AppletWindow();
 #endif
 
@@ -139,7 +139,7 @@ AppletControl::show()
       specific = true;
     }
 
-#ifdef HAVE_X
+#ifdef PLATFORM_OS_UNIX
   if (specific)
     {
       deactivate_applet(APPLET_TRAY);
@@ -167,7 +167,7 @@ AppletControl::show(AppletType type)
       specific = true;
     }
 
-#ifdef HAVE_X
+#ifdef PLATFORM_OS_UNIX
   if (applets[APPLET_TRAY] != NULL)
     {
       if ((type == APPLET_KDE || type == APPLET_GNOME)
@@ -225,7 +225,7 @@ AppletControl::set_applet_state(AppletType type, AppletWindow::AppletState state
       break;
     }
 
-#ifdef HAVE_X
+#ifdef PLATFORM_OS_UNIX
   if (visible[type] &&
       (type == APPLET_KDE || type == APPLET_GNOME))
     {

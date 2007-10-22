@@ -38,7 +38,7 @@ static const char rcsid[] = "$Id$";
 #include <sys/types.h>
 #endif
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
 #include <windows.h>
 // HACK: #include <shlobj.h>, need -fvtable-thunks.
 // Perhaps we should enable this, but let's hack it for now...
@@ -98,7 +98,7 @@ Util::get_home_directory()
 
           mkdir(ret.c_str(), 0700);
         }
-#elif defined(WIN32)
+#elif defined(PLATFORM_OS_WIN32)
       void *pidl;
       char buf[MAX_PATH];
       HRESULT hr = SHGetSpecialFolderLocation(HWND_DESKTOP,
@@ -135,7 +135,7 @@ Util::get_home_directory()
 void
 Util::set_home_directory(const string &home)
 {
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   if (home.substr(0, 2) == ".\\" ||
       home.substr(0, 3) == "..\\")
     {
@@ -155,7 +155,7 @@ Util::set_home_directory(const string &home)
       home_directory = home + "/";
     }
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   CreateDirectory(home_directory.c_str(), NULL);
 #else
   mkdir(home_directory.c_str(), 0777);
@@ -181,7 +181,7 @@ Util::file_exists(string path)
 }
 
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
 //! Returns the directory in which workrave is installed.
 string
 Util::get_application_directory()
@@ -212,7 +212,7 @@ Util::get_search_path(SearchPathId type)
   list<string> &searchPath = search_paths[type];
 
   string home_dir = get_home_directory();
-#if defined(WIN32)
+#if defined(PLATFORM_OS_WIN32)
   string app_dir = get_application_directory();
 #elif defined(PLATFORM_OS_OSX)
   char execpath[MAXPATHLEN+1];
@@ -234,7 +234,7 @@ Util::get_search_path(SearchPathId type)
 
   if (type == SEARCH_PATH_IMAGES)
     {
-#if defined(HAVE_X)
+#if defined(PLATFORM_OS_UNIX)
       if (home_dir != "./")
         {
           searchPath.push_back(home_dir + "/");
@@ -243,7 +243,7 @@ Util::get_search_path(SearchPathId type)
       searchPath.push_back(string(WORKRAVE_PKGDATADIR) + "/images");
       searchPath.push_back("/usr/local/share/workrave/images");
       searchPath.push_back("/usr/share/workrave/images");
-#elif defined(WIN32)
+#elif defined(PLATFORM_OS_WIN32)
       searchPath.push_back(app_dir + "\\share\\images");
 #elif defined(PLATFORM_OS_OSX)
       searchPath.push_back(string(WORKRAVE_PKGDATADIR) + "/images");
@@ -253,7 +253,7 @@ Util::get_search_path(SearchPathId type)
     }
   if (type == SEARCH_PATH_SOUNDS)
     {
-#if defined(HAVE_X)
+#if defined(PLATFORM_OS_UNIX)
       if (home_dir != "./")
         {
           searchPath.push_back(home_dir + "/");
@@ -262,7 +262,7 @@ Util::get_search_path(SearchPathId type)
       searchPath.push_back(string(WORKRAVE_PKGDATADIR) + "/images");
       searchPath.push_back("/usr/local/share/sounds/workrave");
       searchPath.push_back("/usr/share/sounds/workrave");
-#elif defined(WIN32)
+#elif defined(PLATFORM_OS_WIN32)
       searchPath.push_back(app_dir + "\\share\\sounds");
 #elif defined(PLATFORM_OS_OSX)
       searchPath.push_back(string(WORKRAVE_DATADIR) + "/sounds/workrave");
@@ -272,7 +272,7 @@ Util::get_search_path(SearchPathId type)
     }
   else if (type == SEARCH_PATH_CONFIG)
     {
-#if defined(HAVE_X)
+#if defined(PLATFORM_OS_UNIX)
       if (home_dir != "./")
         {
           searchPath.push_back(home_dir + "/");
@@ -281,7 +281,7 @@ Util::get_search_path(SearchPathId type)
       searchPath.push_back(string(WORKRAVE_PKGDATADIR) + "/etc");
       searchPath.push_back("/usr/local/share/workrave/etc");
       searchPath.push_back("/usr/share/workrave/etc");
-#elif defined(WIN32)
+#elif defined(PLATFORM_OS_WIN32)
       searchPath.push_back(home_dir + "\\");
       searchPath.push_back(app_dir + "\\etc");
 #elif defined(PLATFORM_OS_OSX)
@@ -293,9 +293,9 @@ Util::get_search_path(SearchPathId type)
     }
   else if (type == SEARCH_PATH_EXERCISES)
     {
-#if defined(HAVE_X)
+#if defined(PLATFORM_OS_UNIX)
       searchPath.push_back(string(WORKRAVE_PKGDATADIR) + "/exercises");
-#elif defined(WIN32)
+#elif defined(PLATFORM_OS_WIN32)
       searchPath.push_back(app_dir + "\\share\\exercises");
 #elif defined(PLATFORM_OS_OSX)
       searchPath.push_back(string(WORKRAVE_PKGDATADIR) + "/exercises");

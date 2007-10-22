@@ -9,13 +9,13 @@ MAINTAINERCLEANFILES = 	Makefile.in
 
 if PLATFORM_OS_UNIX
 
-noinst_LIBRARIES = 	libworkrave-common-unix.a
+noinst_LTLIBRARIES = 	libworkrave-common-unix.la
 
-libworkrave_common_unix_a_SOURCES =
+libworkrave_common_unix_la_SOURCES =
 
-libworkrave_common_unix_a_LIBADD =
+libworkrave_common_unix_la_LIBADD =
 
-libworkrave_common_unix_a_CXXFLAGS = @X_CFLAGS@
+libworkrave_common_unix_la_CXXFLAGS = @X_CFLAGS@
 
 endif
 

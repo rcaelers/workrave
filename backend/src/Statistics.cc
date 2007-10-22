@@ -26,6 +26,7 @@ static const char rcsid[] = "$Id$";
 
 #include <sstream>
 #include <assert.h>
+#include <math.h>
 
 #include "debug.hh"
 
@@ -35,6 +36,8 @@ static const char rcsid[] = "$Id$";
 #include "Util.hh"
 #include "Timer.hh"
 #include "TimePred.hh"
+#include "InputMonitorFactory.hh"
+#include "timeutil.h"
 
 #ifdef HAVE_DISTRIBUTION
 #include "DistributionManager.hh"
@@ -50,6 +53,8 @@ Statistics::Statistics() :
   current_day(NULL),
   been_active(false)
 {
+  last_mouse_time.tv_sec = 0;
+  last_mouse_time.tv_usec = 0;
 }
 
 
@@ -73,6 +78,9 @@ Statistics::init(Core *control)
 {
   core = control;
 
+  input_monitor = InputMonitorFactory::create_activity_monitor();
+  input_monitor->subscribe_statistics(this);
+  
 #ifdef HAVE_DISTRIBUTION
   init_distribution_manager();
 #endif
@@ -84,7 +92,6 @@ Statistics::init(Core *control)
       start_new_day();
     }
 
-  update_enviromnent();
   load_history();
 }
 
@@ -675,43 +682,8 @@ Statistics::update_current_day(bool active)
         }
 
 
-      // Collect activity monitor stats.
-      IActivityMonitor *monitor = core->get_activity_monitor();
-      assert(monitor != NULL);
-
-      ActivityMonitorStatistics ams;
-      monitor->get_statistics(ams);
-
-      current_day->misc_stats[STATS_VALUE_TOTAL_MOUSE_MOVEMENT] = ams.total_movement;
-      current_day->misc_stats[STATS_VALUE_TOTAL_CLICK_MOVEMENT] = ams.total_click_movement;
-      current_day->misc_stats[STATS_VALUE_TOTAL_MOVEMENT_TIME] = ams.total_movement_time;
-      current_day->misc_stats[STATS_VALUE_TOTAL_CLICKS] = ams.total_clicks;
-      current_day->misc_stats[STATS_VALUE_TOTAL_KEYSTROKES] = ams.total_keystrokes;
     }
 }
-
-
-void
-Statistics::update_enviromnent()
-{
-  if (core != NULL)
-    {
-      // Collect activity monitor stats.
-      IActivityMonitor *monitor = core->get_activity_monitor();
-      assert(monitor != NULL);
-
-      ActivityMonitorStatistics ams;
-
-      ams.total_movement = current_day->misc_stats[STATS_VALUE_TOTAL_MOUSE_MOVEMENT];
-      ams.total_click_movement = current_day->misc_stats[STATS_VALUE_TOTAL_CLICK_MOVEMENT];
-      ams.total_movement_time = current_day->misc_stats[STATS_VALUE_TOTAL_MOVEMENT_TIME];
-      ams.total_clicks = current_day->misc_stats[STATS_VALUE_TOTAL_CLICKS];
-      ams.total_keystrokes = current_day->misc_stats[STATS_VALUE_TOTAL_KEYSTROKES];
-
-      monitor->set_statistics(ams);
-    }
-}
-
 
 
 #ifdef HAVE_DISTRIBUTION
@@ -928,7 +900,6 @@ Statistics::client_message(DistributionClientMessageID id, bool master, const ch
       stats_to_history = false;
     }
 
-  update_enviromnent();
   dump();
 
   TRACE_EXIT();
@@ -953,4 +924,89 @@ Statistics::DailyStatsImpl::starts_before_date(int y, int m, int d)
               && (start.tm_mon + 1 < m
                   || (start.tm_mon + 1 == m
                       && start.tm_mday < d))));
+}
+
+
+//! Activity is reported by the input monitor.
+void
+Statistics::action_notify()
+{
+}
+
+
+//! Mouse activity is reported by the input monitor.
+void
+Statistics::mouse_notify(int x, int y, int wheel_delta)
+{
+  static const int sensitivity = 3;
+
+  lock.lock();
+  const int delta_x = x - prev_x;
+  const int delta_y = y - prev_y;
+  prev_x = x;
+  prev_y = y;
+
+  if (abs(delta_x) >= sensitivity || abs(delta_y) >= sensitivity || wheel_delta != 0)
+    {
+      current_day->misc_stats[STATS_VALUE_TOTAL_MOUSE_MOVEMENT]  +=
+        int(sqrt((double)(delta_x * delta_x + delta_y * delta_y)));
+
+      GTimeVal now, tv;
+
+      g_get_current_time(&now);
+      tvSUBTIME(tv, now, last_mouse_time);
+
+      if (!tvTIMEEQ0(last_mouse_time) && tv.tv_sec < 1 && tv.tv_sec >= 0 && tv.tv_usec >= 0)
+        {
+          tvADDTIME(current_day->total_mouse_time, current_day->total_mouse_time, tv);
+
+          current_day->misc_stats[STATS_VALUE_TOTAL_MOVEMENT_TIME] =
+            current_day->total_mouse_time.tv_sec;
+        }
+
+      last_mouse_time = now;
+
+    }
+  lock.unlock();
+}
+
+
+//! Mouse button activity is reported by the input monitor.
+void
+Statistics::button_notify(int button_mask, bool is_press)
+{
+  (void)button_mask;
+
+  lock.lock();
+  if (click_x != -1)
+    {
+      int delta_x = click_x - prev_x;
+      int delta_y = click_y - prev_y;
+
+      current_day->misc_stats[STATS_VALUE_TOTAL_CLICK_MOVEMENT] +=
+        int(sqrt((double)(delta_x * delta_x + delta_y * delta_y)));
+    }
+
+  click_x = prev_x;
+  click_y = prev_y;
+
+  if (is_press)
+    {
+      current_day->misc_stats[STATS_VALUE_TOTAL_CLICKS]++;
+    }
+
+  lock.unlock();
+}
+
+
+//! Keyboard activity is reported by the input monitor.
+void
+Statistics::keyboard_notify(int key_code, int modifier)
+{
+  (void)key_code;
+  (void)modifier;
+
+  lock.lock();
+  current_day->misc_stats[STATS_VALUE_TOTAL_KEYSTROKES]++;
+  lock.unlock();
 }

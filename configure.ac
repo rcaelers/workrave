@@ -242,6 +242,10 @@ then
     AC_PATH_X
     AC_PATH_XTRA
     AC_CHECK_HEADER("X11/Xmu/Xmu.h",,)
+
+    if test x$have_x != xyes ; then
+       AC_MSG_ERROR(X11 required on Unix platform)
+    fi
     
     LIBS_save=$LIBS
     if test -n "$ac_x_libraries"
@@ -486,14 +490,11 @@ then
 elif test "x$platform_os_osx" = "xyes"
 then
    variant="$variant osx unix"
-else
-   variant="$variant unix"
+elif test "x$platform_os_unix" = "xyes"
+then
+   variant="$variant x11 unix"
 fi
 
-if test "x$have_x" = "xyes"
-then
-   variant="$variant x11"
-fi
 if test "x$config_gnome" = "xyes"
 then
    variant="$variant gnome"
@@ -503,52 +504,25 @@ then
    variant="$variant kde"
 fi
 
-   
-WR_BACKEND_LIBS="\$(top_srcdir)/backend/src/libworkrave-backend.a"
-WR_BACKEND_CFLAGS="-I \$(top_srcdir)/backend/include"
 WR_BACKEND_INCLUDES="-I \$(top_srcdir)/backend/include"
-WR_COMMON_LIBS="\$(top_srcdir)/common/src/libworkrave-common.a"
-WR_COMMON_CFLAGS="-I \$(top_srcdir)/common/include"
+WR_COMMON_INCLUDES="-I \$(top_srcdir)/common/include"
+WR_FRONTEND_COMMON_INCLUDES="-I \$(top_srcdir)/frontend/common/include"
 
 for v in $variant; do
-
     if test -d common/src/$v
     then
-       if test "x$v" != "xunix"
-       then
-         WR_COMMON_LIBS="$WR_COMMON_LIBS \$(top_srcdir)/common/src/$v/libworkrave-common-$v.a"
-       fi
-       WR_COMMON_CFLAGS="$WR_COMMON_CFLAGS -I \$(top_srcdir)/common/include/$v"
-    fi
-
-    if test -d backend/src/$v
-    then
-       WR_BACKEND_LIBS="$WR_BACKEND_LIBS \$(top_srcdir)/backend/src/$v/libworkrave-backend-$v.a"
-       WR_BACKEND_CFLAGS="$WR_BACKEND_CFLAGS -I \$(top_srcdir)/backend/src/$v"
-    fi
-
-    if test -d frontend/common/src/$v
-    then
-       WR_FRONTEND_LIBS="$WR_FRONTEND_LIBS \$(top_srcdir)/frontend/common/src/$v/libworkrave-frontend-common-$v.a"
-       WR_FRONTEND_CFLAGS="$WR_FRONTEND_CFLAGS -I \$(top_srcdir)/frontend/common/include/$v"
+       WR_COMMON_INCLUDES="$WR_COMMON_INCLUDES -I \$(top_srcdir)/common/include/$v"
     fi
 done
 
-WR_FRONTEND_LIBS="$WR_BACKEND_LIBS $WR_COMMON_LIBS \$(top_srcdir)/frontend/common/src/libworkrave-frontend-common.a $WR_COMMON_LIBS $WR_FRONTEND_LIBS"
-WR_FRONTEND_CFLAGS="$WR_COMMON_CFLAGS $WR_BACKEND_CFLAGS -I \$(top_srcdir)/frontend/common/include/ $WR_FRONTEND_CFLAGS"
+WR_LDADD="-lworkrave-backend -lworkrave-frontend-common -lworkrave-common"
+WR_LDFLAGS="-L\$(top_srcdir)/common/src/ -L\$(top_srcdir)/backend/src/ -L\$(top_srcdir)/frontend/common/src"
 
-AC_SUBST(WR_FRONTEND_LIBS)
-AC_SUBST(WR_FRONTEND_CFLAGS)
+AC_SUBST(WR_LDADD)
+AC_SUBST(WR_LDFLAGS)
 
-AC_SUBST(WR_FRONTEND_COMMON_CFLAGS)
-
-AC_SUBST(WR_COMMON_DIRS)
-AC_SUBST(WR_COMMON_LIBS)
-AC_SUBST(WR_COMMON_CFLAGS)
- 
-AC_SUBST(WR_BACKEND_DIRS)
-AC_SUBST(WR_BACKEND_LIBS)
-AC_SUBST(WR_BACKEND_CFLAGS)
+AC_SUBST(WR_FRONTEND_COMMON_INCLUDES)
+AC_SUBST(WR_COMMON_INCLUDES)
 AC_SUBST(WR_BACKEND_INCLUDES)
 
 AC_SUBST(include_ARTS)
@@ -556,11 +530,6 @@ AC_SUBST(include_ARTS)
 dnl
 dnl Defines
 dnl
-
-HAVE_X=
-if test x$have_x = xyes ; then
-   AC_DEFINE(HAVE_X,,[Define if X is available])
-fi
 
 HAVE_GCONF=
 if test "x$GCONF_LIBS" != "x" -a "x$config_gconf" = "xyes"; then
@@ -638,7 +607,6 @@ dnl
 
 AM_CONDITIONAL(HAVE_APP_GTKMM, test "x$GTK_LIBS" != "x")
 AM_CONDITIONAL(HAVE_APP_TEXT, test "x$config_text" = "xyes")
-AM_CONDITIONAL(HAVE_X, test x$have_x = xyes)
 AM_CONDITIONAL(HAVE_GCONF, test "x$GCONF_LIBS" != "x" -a "x$config_gconf" = "xyes")
 AM_CONDITIONAL(HAVE_GDOME, test "x$GDOME_LIB" != "x" -a "x$config_xml" = "xyes")
 AM_CONDITIONAL(HAVE_GNOME, test "x$config_gnome" = "xyes")

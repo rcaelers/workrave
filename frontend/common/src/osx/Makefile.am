@@ -12,17 +12,17 @@ EXTRA_DIST = 		$(wildcard *.hh) $(wildcard *.cc) \
 
 if PLATFORM_OS_OSX
 
-noinst_LIBRARIES = 	libworkrave-frontend-common-osx.a
+noinst_LTLIBRARIES = 	libworkrave-frontend-common-osx.la
 
-libworkrave_frontend_common_osx_a_SOURCES = \
+libworkrave_frontend_common_osx_la_SOURCES = \
 			Sound.cc \
 			OSXSoundPlayer.cc
 
-libworkrave_frontend_common_osx_a_CXXFLAGS = \
+libworkrave_frontend_common_osx_la_CXXFLAGS = \
 			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-D_XOPEN_SOURCE=600 \
-			-W -I.. -I../../include @WR_COMMON_CFLAGS@ \
-			@WR_BACKEND_INCLUDES@ \
+			-W -I.. -I../../include
+			@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ \
 			@GTK_CFLAGS@ @GLIB_CFLAGS@ 
 
 endif

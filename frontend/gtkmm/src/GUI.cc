@@ -56,7 +56,7 @@ static const char rcsid[] = "$Id$";
 #include "AppletControl.hh"
 #include "AppletWindow.hh"
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
 #include "W32AppletWindow.hh"
 #include "StatusIcon.hh"
 #include <gdk/gdkwin32.h>
@@ -88,7 +88,7 @@ static const char rcsid[] = "$Id$";
 #include <kapp.h>
 #endif
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
 #include "crashlog.h"
 #endif
 
@@ -125,7 +125,7 @@ GUI::GUI(int argc, char **argv)  :
   num_heads(-1),
   screen_width(-1),
   screen_height(-1),
-#ifdef HAVE_X
+#ifdef PLATFORM_OS_UNIX
   grab_wanted(false),
 #endif
   grab_handle(NULL),
@@ -189,7 +189,7 @@ GUI::main()
 {
   TRACE_ENTER("GUI::main");
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   // Enable Windows structural exception handling.
   __try1(exception_handler);
 #endif
@@ -209,7 +209,7 @@ GUI::main()
   init_kde();
 #endif
 
-#if defined (WIN32) || defined(PLATFORM_OS_OSX)
+#if defined (PLATFORM_OS_WIN32) || defined(PLATFORM_OS_OSX)
   // Win32 needs this....
   if (!g_thread_supported())
     {
@@ -217,7 +217,7 @@ GUI::main()
     }
 #endif
 
-#ifdef HAVE_X
+#ifdef PLATFORM_OS_UNIX
   char *display = gdk_get_display();
   System::init(display);
   g_free(display);
@@ -246,7 +246,7 @@ GUI::main()
   delete applet_control;
   applet_control = NULL;
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   // Disable Windows structural exception handling.
   __except1;
 #endif
@@ -261,7 +261,7 @@ GUI::terminate()
 {
   TRACE_ENTER("GUI::terminate");
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   // HACK: Without it status icon keeps on dangling in tray
   // Nicer solution: nicely cleanup complete gui ~GUI()
   if (status_icon)
@@ -334,7 +334,7 @@ GUI::on_timer()
       applet_control->set_timers_tooltip(tip);
     }
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   if (status_icon)
     {
       status_icon->set_timers_tooltip(tip);
@@ -484,7 +484,7 @@ GUI::init_nls()
   gtk_set_locale();
 #  endif
   const char *locale_dir;
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   string dir = Util::get_application_directory() + "\\lib\\locale";
   locale_dir = dir.c_str();
 #else
@@ -506,7 +506,7 @@ GUI::init_nls()
 void
 GUI::init_core()
 {
-#ifdef HAVE_X
+#ifdef PLATFORM_OS_UNIX
   char *display_name = gdk_get_display();
 #else
   char *display_name = NULL;
@@ -517,7 +517,7 @@ GUI::init_core()
   core->set_core_events_listener(this);
 
 
-// #ifdef HAVE_X
+// #ifdef PLATFORM_OS_UNIX
 //    g_free(display_name);
 // #endif
 }
@@ -757,7 +757,7 @@ GUI::init_gui()
   // The main status window.
   main_window = new MainWindow();
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   // Status icon
   status_icon = new StatusIcon(*main_window);
 #endif
@@ -770,12 +770,12 @@ GUI::init_gui()
   AppletWindow *applet_window = applet_control->get_applet_window(AppletControl::APPLET_GNOME);
   menus->set_applet_window(applet_window);
 #endif
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   AppletWindow *applet_window = applet_control->get_applet_window(AppletControl::APPLET_W32);
   menus->set_applet_window(applet_window);
 #endif
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   win32_init_filter();
 #endif
 
@@ -860,7 +860,7 @@ GUI::core_event_notify(CoreEvent event)
 void
 GUI::core_event_operation_mode_changed(const OperationMode m)
 {
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   if (status_icon)
     status_icon->set_operation_mode(m);
 #else
@@ -1108,13 +1108,13 @@ GUI::grab()
           windows[i] = window->gobj();
         }
 
-#ifdef HAVE_X
+#ifdef PLATFORM_OS_UNIX
       grab_wanted = true;
 #endif
       if (! grab_handle)
         {
           grab_handle = WindowHints::grab(active_break_count, windows);
-#ifdef HAVE_X
+#ifdef PLATFORM_OS_UNIX
           if (! grab_handle && !grab_retry_connection.connected())
             {
               grab_retry_connection =
@@ -1131,12 +1131,12 @@ GUI::grab()
 void
 GUI::ungrab()
 {
-#ifdef HAVE_X
+#ifdef PLATFORM_OS_UNIX
   grab_wanted = false;
 #endif
   if (grab_handle)
     {
-#ifdef HAVE_X
+#ifdef PLATFORM_OS_UNIX
       grab_retry_connection.disconnect();
 #endif
       WindowHints::ungrab(grab_handle);
@@ -1150,7 +1150,7 @@ GUI::interrupt_grab()
 {
   if (grab_handle)
     {
-#ifdef HAVE_X
+#ifdef PLATFORM_OS_UNIX
       grab_wanted = true;
 
       WindowHints::ungrab(grab_handle);
@@ -1165,7 +1165,7 @@ GUI::interrupt_grab()
 
 
 
-#ifdef HAVE_X
+#ifdef PLATFORM_OS_UNIX
 //! Reattempt to get the grab
 bool
 GUI::on_grab_retry_timer()
@@ -1331,7 +1331,7 @@ GUI::get_timers_tooltip()
               text = Text::time_to_string(activeTime);
             }
 
-#ifndef WIN32
+#ifndef PLATFORM_OS_WIN32
           // Win32 tip is limited in length
           if (tip == "")
             {
@@ -1352,7 +1352,7 @@ GUI::get_timers_tooltip()
 }
 
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
 void
 GUI::win32_init_filter()
 {
@@ -1429,7 +1429,7 @@ GUI::win32_filter_func (void     *xevent,
         }
     }
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   if (ret != GDK_FILTER_REMOVE && gui->status_icon)
     {
       ret = gui->status_icon->win32_filter_func(xevent, event);

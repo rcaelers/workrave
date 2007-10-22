@@ -7,10 +7,10 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
-noinst_LIBRARIES = 	libworkrave-backend-unix.a
+noinst_LTLIBRARIES = 	libworkrave-backend-unix.la
 
-if HAVE_X
-sourcesxinput = 	X11InputMonitor.cc 
+if PLATFORM_OS_UNIX
+sourcesxinput = 	X11InputMonitor.cc
 X11LIBS = 		@X_LIBS@ -lXmu
 endif
 
@@ -22,14 +22,15 @@ if PLATFORM_OS_OSX
 sourcesdummy =          dummy.c
 endif
 
-libworkrave_backend_unix_a_SOURCES = \
+libworkrave_backend_unix_la_SOURCES = \
 			${sourcesxinput} ${sourcesgconf} ${sourcesdummy}
 
-libworkrave_backend_unix_a_CXXFLAGS = \
+libworkrave_backend_unix_la_CXXFLAGS = \
 			-W -I.. -I../../include @X_CFLAGS@ \
 			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-D_XOPEN_SOURCE=600 \
-			@WR_COMMON_CFLAGS@ @GLIB_CFLAGS@ @GCONF_CFLAGS@
+			@WR_COMMON_INCLUDES@ \
+			@GLIB_CFLAGS@ @GCONF_CFLAGS@
 
 EXTRA_DIST = 		$(wildcard *.cc) $(wildcard *.rc)\
 			$(wildcard *.hh) $(wildcard *.h) $(wildcard *.icc)

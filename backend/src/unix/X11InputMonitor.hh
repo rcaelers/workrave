@@ -22,17 +22,6 @@
 #ifndef X11INPUTMONITOR_HH
 #define X11INPUTMONITOR_HH
 
-#if TIME_WITH_SYS_TIME
-# include <sys/time.h>
-# include <time.h>
-#else
-# if HAVE_SYS_TIME_H
-#  include <sys/time.h>
-# else
-#  include <time.h>
-# endif
-#endif
-
 #include <X11/X.h>
 #include <X11/Xlib.h>
 
@@ -40,25 +29,25 @@
 #include <X11/extensions/record.h>
 #endif
 
-#include "IInputMonitor.hh"
+#include "InputMonitor.hh"
 
 #include "Runnable.hh"
 #include "Thread.hh"
 
 //! Activity monitor for a local X server.
 class X11InputMonitor :
-  public IInputMonitor,
+  public InputMonitor,
   public Runnable
 {
 public:
   //! Constructor.
-  X11InputMonitor(const char *display_name);
+  X11InputMonitor(const std::string &display_name);
 
   //! Destructor.
   virtual ~X11InputMonitor();
 
   //! Initialize
-  virtual bool init(IInputMonitorListener *l);
+  virtual bool init();
 
   //! Terminate the monitor.
   virtual void terminate();
@@ -108,7 +97,7 @@ private:
 
 private:
   //! The X11 display name.
-  char *x11_display_name;
+  std::string x11_display_name;
 
   //! The X11 display handle.
   Display *x11_display;
@@ -121,9 +110,6 @@ private:
 
   //! Abort the main loop
   bool abort;
-
-  //! Where to deliver action events.
-  IInputMonitorListener *listener;
 
 #ifdef HAVE_XRECORD
   //! Is the X Record extension used ?

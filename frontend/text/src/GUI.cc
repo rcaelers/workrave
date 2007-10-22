@@ -50,7 +50,7 @@ static const char rcsid[] = "$Id$";
 
 #include "Util.hh"
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
 #include "crashlog.h"
 #include "W32Compat.hh"
 #endif
@@ -131,12 +131,12 @@ GUI::main()
 {
   TRACE_ENTER("GUI::main");
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   // Enable Windows structural exception handling.
   __try1(exception_handler);
 #endif
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   System::init();
 #else
   System::init(NULL);
@@ -165,7 +165,7 @@ GUI::main()
   delete main_window;
   main_window = NULL;
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   // Disable Windows structural exception handling.
   __except1;
 #endif
@@ -247,7 +247,7 @@ GUI::init_nls()
 {
 #ifdef ENABLE_NLS
   const char *locale_dir;
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   string dir = Util::get_application_directory() + "\\lib\\locale";
   locale_dir = dir.c_str();
 #else

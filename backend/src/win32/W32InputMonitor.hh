@@ -34,14 +34,13 @@
 #endif
 
 #include <windows.h>
-#include "IInputMonitor.hh"
-#include "IInputMonitorListener.hh"
+#include "InputMonitor.hh"
 
 typedef union HarpoonEventUnion HarpoonEvent;
 
 //! Activity monitor for a local X server.
 class W32InputMonitor :
-  public IInputMonitor
+  public InputMonitor
 {
 public:
   //! Constructor.
@@ -50,12 +49,12 @@ public:
   //! Destructor.
   virtual ~W32InputMonitor();
 
-  bool init(IInputMonitorListener *);
+  bool init();
   void terminate() ;
 
 private:
+  static W32InputMonitor *singleton;
   static void on_harpoon_event(HarpoonEvent *event);
-  static IInputMonitorListener *listener;
 };
 
 #endif // W32INPUTMONITOR_HH

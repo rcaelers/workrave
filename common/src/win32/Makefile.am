@@ -9,14 +9,14 @@ MAINTAINERCLEANFILES = 	Makefile.in
 
 if PLATFORM_OS_WIN32
 
-noinst_LIBRARIES = 	libworkrave-common-win32.a
+noinst_LTLIBRARIES = 	libworkrave-common-win32.la
 
-libworkrave_common_win32_a_SOURCES = \
+libworkrave_common_win32_la_SOURCES = \
 			crashlog.c
 
-libworkrave_common_win32_a_LIBADD =
+libworkrave_common_win32_la_LIBADD =
 
-libworkrave_common_win32_a_CXXFLAGS = @GLIB_CFLAGS@
+libworkrave_common_win32_la_CXXFLAGS = @GLIB_CFLAGS@
 
 endif
 

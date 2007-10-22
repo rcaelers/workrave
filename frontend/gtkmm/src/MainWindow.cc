@@ -25,7 +25,7 @@ static const char rcsid[] = "$Id$";
 #include "config.h"
 #endif
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
 #include <gdk/gdkwin32.h>
 #include <shellapi.h>
 #endif
@@ -51,7 +51,7 @@ static const char rcsid[] = "$Id$";
 #include "TimeBar.hh"
 #include "GUI.hh"
 #include "Util.hh"
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
 #include "StatusIcon.hh"
 #endif
 #include "Text.hh"
@@ -80,7 +80,7 @@ const string MainWindow::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP = "gui/main_window/al
 const string MainWindow::CFG_KEY_MAIN_WINDOW_START_IN_TRAY
 = "gui/main_window/start_in_tray";
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
 const char *WIN32_MAIN_CLASS_NAME = "Workrave";
 const UINT MYWM_TRAY_MESSAGE = WM_USER +0x100;
 #endif
@@ -110,7 +110,7 @@ MainWindow::MainWindow() :
   window_head_location(-1, -1),
   window_relocated_location(-1, -1)
 {
-#ifdef HAVE_X
+#ifdef PLATFORM_OS_UNIX
   leader = NULL;
 #endif
   init();
@@ -122,10 +122,10 @@ MainWindow::~MainWindow()
 {
   TRACE_ENTER("MainWindow::~MainWindow");
   delete timer_box_control;
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   win32_exit();
 #endif
-#ifdef HAVE_X
+#ifdef PLATFORM_OS_UNIX
   delete leader;
 #endif
 
@@ -192,7 +192,7 @@ MainWindow::init()
 
   // (end window decorators)
 
-#ifdef HAVE_X
+#ifdef PLATFORM_OS_UNIX
   // HACK. this sets a different group leader in the WM_HINTS....
   // Without this hack, metacity makes ALL windows on-top.
   leader = new Gtk::Window(Gtk::WINDOW_POPUP);
@@ -204,7 +204,7 @@ MainWindow::init()
   stick();
   setup();
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
 
   win32_init();
   set_gravity(Gdk::GRAVITY_STATIC);
@@ -324,7 +324,7 @@ MainWindow::open_window()
   TRACE_ENTER("MainWindow::open_window");
   if (timer_box_view->get_visible_count() > 0)
     {
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
       win32_show(true);
 #else
       show_all();
@@ -354,7 +354,7 @@ MainWindow::open_window()
 void
 MainWindow::close_window()
 {
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   win32_show(false);
 #elif defined(PLATFORM_OS_OSX)
   hide_all();
@@ -385,7 +385,7 @@ MainWindow::on_delete_event(GdkEventAny *)
 {
   TRACE_ENTER("MainWindow::on_delete_event");
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   win32_show(false);
 #else
   GUI *gui = GUI::get_instance();
@@ -414,7 +414,7 @@ MainWindow::on_delete_event(GdkEventAny *)
 #else
   gui->terminate();
 #endif // HAVE_GNOME || HAVE_KDE
-#endif // WIN32
+#endif // PLATFORM_OS_WIN32
 
   TRACE_EXIT();
   return true;
@@ -517,7 +517,7 @@ MainWindow::set_start_in_tray(bool b)
 }
 
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
 void
 MainWindow::win32_show(bool b)
 {
@@ -724,7 +724,7 @@ MainWindow::locate_window(GdkEventConfigure *event)
 
   (void) event;
 
-#ifndef WIN32
+#ifndef PLATFORM_OS_WIN32
   // Returns bogus results on windows...sometime.
   if (event != NULL)
     {
@@ -845,7 +845,7 @@ MainWindow::relocate_window(int width, int height)
   TRACE_EXIT();
 }
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
 
 LRESULT CALLBACK
 MainWindow::win32_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,

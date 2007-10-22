@@ -5,7 +5,7 @@
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
-// the Free Software Foundation; either version 2, or (at your option)
+// the Free Software Foundation; either version 3, or (at your option)
 // any later version.
 //
 // This program is distributed in the hope that it will be useful,
@@ -17,17 +17,15 @@
 #ifndef W32LOWLEVELMONITOR_HH
 #define W32LOWLEVELMONITOR_HH
 
-#include "IInputMonitor.hh"
-#include "IInputMonitorListener.hh"
-
+#include "InputMonitor.hh"
 
 class W32LowLevelMonitor :
-  public IInputMonitor
+  public InputMonitor
 {
 public:
   W32LowLevelMonitor();
   virtual ~W32LowLevelMonitor();
-  bool init( IInputMonitorListener * );
+  bool init(); 
   void terminate();
   static W32LowLevelMonitor *singleton;
   
@@ -42,7 +40,7 @@ private:
       volatile bool active;
       DWORD id;
       HANDLE handle;
-      char *name;
+      const char *name;
       thread_struct()
         {
           active = false;
@@ -66,8 +64,6 @@ private:
   
   static volatile HHOOK k_hook;
   static volatile HHOOK m_hook;
-  
-  IInputMonitorListener *listener;
   
   bool check_api();
   static HMODULE process_handle;

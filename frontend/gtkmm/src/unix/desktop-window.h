@@ -5,7 +5,7 @@
 #include "config.h"
 #endif
 
-#ifdef HAVE_X
+#ifdef PLATFORM_OS_UNIX
 
 #include <gdk/gdkwindow.h>
 

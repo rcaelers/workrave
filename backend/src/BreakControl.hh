@@ -76,7 +76,8 @@ public:
 
   // Configuration
   void set_max_preludes(int m);
-
+  void set_ignorable_break(bool i);
+  
   // BreakResponseInterface
   void postpone_break();
   void skip_break();
@@ -137,6 +138,9 @@ private:
 
   //! After how many preludes do we force a break or give up?
   int max_number_of_preludes;
+
+  //! Can the use explicitly ignore the break?
+  bool ignorable_break;
 
   //! Is this a break that is not controlled by the timer.
   bool fake_break;

@@ -1,6 +1,6 @@
 // IInputMonitor.hh --- Interface definition for the Input monitors.
 //
-// Copyright (C) 2001, 2002, 2003, 2005, 2006 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,6 @@
 // Forward declarion of internal interfaces.
 class IInputMonitorListener;
 
-
 //! Interface that all input monitors must support.
 class IInputMonitor
 {
@@ -33,10 +32,16 @@ public:
   virtual ~IInputMonitor() {}
 
   //! Initializes the activity monitor.
-  virtual bool init(IInputMonitorListener *) = 0;
+  virtual bool init() = 0;
 
   //! Stops the activity monitoring.
   virtual void terminate() = 0;
+
+  //! Subscribe for activity monitor.
+  virtual void subscribe_activity(IInputMonitorListener *listener) = 0;
+  
+  //! Subscribe for statistics monitor.
+  virtual void subscribe_statistics(IInputMonitorListener *listener) = 0;
 };
 
 #endif // IINPUTMONITOR_HH

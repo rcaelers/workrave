@@ -23,6 +23,13 @@ static const char rcsid[] = "$Id$";
 #include "config.h"
 #endif
 
+#include <ctime>
+
+// FIXME: Debug code, remove later
+#ifdef PLATFORM_OS_WIN32
+#include "w32debug.hh"
+#endif
+
 #include "preinclude.h"
 #include "debug.hh"
 #include "nls.h"
@@ -45,9 +52,9 @@ static const char rcsid[] = "$Id$";
 #include "IConfigurator.hh"
 #include "CoreFactory.hh"
 
-#if defined(WIN32)
+#if defined(PLATFORM_OS_WIN32)
 #include "DesktopWindow.hh"
-#elif defined(HAVE_X)
+#elif defined(PLATFORM_OS_UNIX)
 #include "desktop-window.h"
 #endif
 
@@ -59,7 +66,7 @@ using namespace workrave;
  */
 BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
                          bool ignorable, GUI::BlockMode mode) :
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
 /*
  Windows will have a gtk toplevel window regardless of mode.
  Hopefully this takes care of the phantom parent problem.
@@ -80,7 +87,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
 {
   this->break_id = break_id;
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   desktop_window = NULL;
 
   if( mode != GUI::BLOCK_MODE_NONE )
@@ -91,7 +98,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   }
 #endif
 
-#ifdef HAVE_X
+#ifdef PLATFORM_OS_UNIX
   GtkUtil::set_wmclass(*this, "Break");
 #endif
 
@@ -107,6 +114,23 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
       window->set_functions(Gdk::FUNC_MOVE);
     }
 
+  // trace window handles:
+  // FIXME: debug, remove later
+#ifdef PLATFORM_OS_WIN32
+  struct tm *_localtime;
+  time_t _time;
+  _time = time( NULL );
+  _localtime = localtime( &_time );
+  
+  HWND _hwnd = (HWND) GDK_WINDOW_HWND( Gtk::Widget::gobj()->window );
+  HWND _hAncestor = GetAncestor( _hwnd, GA_ROOT );
+  HWND _hDesktop = GetDesktopWindow();
+  
+  APPEND( asctime( _localtime ) << "Break Window created", hex << _hwnd );
+  APPEND( "Ancestor", hex << _hAncestor );
+  APPEND( "Desktop", hex << _hDesktop << endl );
+#endif
+
   this->head = head;
   if (head.valid)
     {
@@ -114,7 +138,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
     }
 
   bool initial_ignore_activity = false;
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   bool force_focus = false;
   CoreFactory::get_configurator()->get_value_with_default( "advanced/force_focus",
                                                       force_focus,
@@ -168,10 +192,10 @@ BreakWindow::init_gui()
 
           if (block_mode == GUI::BLOCK_MODE_ALL)
             {
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
               desktop_window = new DesktopWindow(head);
               add(*window_frame);
-#elif defined(HAVE_X11)
+#elif defined(PLATFORM_OS_UNIX)
               set_size_request(head.get_width(),
                                head.get_height());
               set_app_paintable(true);
@@ -215,7 +239,7 @@ BreakWindow::~BreakWindow()
       frame->set_frame_flashing(0);
     }
 
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   delete desktop_window;
 #endif
   TRACE_EXIT();
@@ -413,7 +437,7 @@ BreakWindow::start()
 
   init_gui();
   center();
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   if (desktop_window)
     desktop_window->set_visible(true);
 #endif
@@ -445,7 +469,7 @@ BreakWindow::stop()
     }
 
   hide_all();
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   if (desktop_window)
     desktop_window->set_visible(false);
 #endif
@@ -470,7 +494,7 @@ BreakWindow::destroy()
 void
 BreakWindow::refresh()
 {
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
   if (block_mode != GUI::BLOCK_MODE_NONE)
     {
       WindowHints::set_always_on_top(this, true);

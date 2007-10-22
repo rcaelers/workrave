@@ -1,6 +1,6 @@
 #include "desktop-window.h"
 
-#ifdef HAVE_X
+#ifdef PLATFORM_OS_UNIX
 
 #include <gdk/gdkx.h>
 #include <gdk/gdkpixmap.h>

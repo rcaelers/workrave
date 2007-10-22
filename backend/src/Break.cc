@@ -285,6 +285,8 @@ void
 Break::load_break_control_config()
 {
   break_control->set_max_preludes(get_break_max_preludes());
+  break_control->set_ignorable_break(get_break_ignorable());
+
   enabled = get_break_enabled();
 }
 

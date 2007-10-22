@@ -45,7 +45,7 @@ class ActivityMonitor :
   public IActivityMonitor
 {
 public:
-  ActivityMonitor(const char *display);
+  ActivityMonitor();
   virtual ~ActivityMonitor();
 
   void terminate();
@@ -58,10 +58,6 @@ public:
 
   void set_parameters(int noise, int activity, int idle);
   void get_parameters(int &noise, int &activity, int &idle);
-
-  void get_statistics(ActivityMonitorStatistics &stats) const;
-  void set_statistics(const ActivityMonitorStatistics &stats);
-  void reset_statistics();
 
   void set_listener(ActivityMonitorListener *l);
 
@@ -112,15 +108,6 @@ private:
 
   //! The idle threshold.
   GTimeVal idle_threshold;
-
-  //! Statistical info.
-  ActivityMonitorStatistics statistics;
-
-  //! Last time a mouse event was received.
-  GTimeVal last_mouse_time;
-
-  //! Total time that the mouse was moving.
-  GTimeVal total_mouse_time;
 
   //! Activity listener.
   ActivityMonitorListener *listener;

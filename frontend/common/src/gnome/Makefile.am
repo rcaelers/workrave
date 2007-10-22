@@ -12,18 +12,18 @@ EXTRA_DIST = 		$(wildcard *.hh) $(wildcard *.cc) \
 
 if HAVE_GNOME
 
-noinst_LIBRARIES = 	libworkrave-frontend-common-gnome.a
+noinst_LTLIBRARIES = 	libworkrave-frontend-common-gnome.la
 
-libworkrave_frontend_common_gnome_a_SOURCES = \
+libworkrave_frontend_common_gnome_la_SOURCES = \
 			GnomeSoundPlayer.cc
 
 
-libworkrave_frontend_common_gnome_a_CXXFLAGS = \
+libworkrave_frontend_common_gnome_la_CXXFLAGS = \
 			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-DDATADIR="\"${datadir}\"" \
 			@X_CFLAGS@ \
 			-D_XOPEN_SOURCE=600 -W -I.. -I../../include \
-			@WR_COMMON_CFLAGS@ @WR_BACKEND_INCLUDES@ \
+			@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ \
 			@GNOME_CFLAGS@ @GTK_CFLAGS@ @GLIB_CFLAGS@ 
 
 endif

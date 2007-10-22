@@ -1,6 +1,6 @@
-// WindowHints.hh
+// InputMonitor.cc
 //
-// Copyright (C) 2001, 2002, 2003, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -16,36 +16,41 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-// $Id$
-//
 
-#ifndef WINDOWHINTS_HH
-#define WINDOWHINTS_HH
+static const char rcsid[] = "$Id: Core.cc 1351 2007-10-14 20:56:54Z rcaelers $";
 
-#include <gtk/gtkwidget.h>
-
-#ifdef PLATFORM_OS_WIN32
-#include <windows.h>
+#ifdef HAVE_CONFIG_H
+#include "config.h"
 #endif
 
-namespace Gtk
+#include <assert.h>
+
+#include "InputMonitor.hh"
+
+
+InputMonitor::InputMonitor()
+  : activity_listener(NULL),
+    statistics_listener(NULL)
 {
-  class Window;
 }
 
-class WindowHints
+
+InputMonitor::~InputMonitor()
 {
-private:
-public:
-  typedef void *Grab;
+}
 
-  static void set_always_on_top(Gtk::Window *window, bool ontop);
-  static void set_skip_winlist(Gtk::Window *window, bool skip);
-  static Grab *grab(int num_windows, GdkWindow **window);
-  static void ungrab(Grab *grab);
-#if defined(PLATFORM_OS_WIN32)
-  static void attach_thread_input(bool enabled);
-#endif
-};
 
-#endif // WINDOWHINTS_HH
+void
+InputMonitor::subscribe_activity(IInputMonitorListener *listener)
+{
+  assert(activity_listener == NULL);
+  activity_listener = listener;
+}
+
+
+void
+InputMonitor::subscribe_statistics(IInputMonitorListener *listener)
+{
+  assert(statistics_listener == NULL);
+  statistics_listener = listener;
+}

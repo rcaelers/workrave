@@ -1,6 +1,6 @@
 // IdleLogManager.cc
 //
-// Copyright (C) 2003, 2004, 2005 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2003, 2004, 2005, 2007 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -595,7 +595,7 @@ IdleLogManager::unlink_idlelog(PacketBuffer &buffer) const
           ss << Util::get_home_directory();
           ss << "idlelog." << id << ".log" << ends;
           
-#ifdef WIN32
+#ifdef PLATFORM_OS_WIN32
           _unlink(ss.str().c_str());
 #else
           unlink(ss.str().c_str());
@@ -972,7 +972,7 @@ IdleLogManager::dump_idlelog(ClientInfo &info)
 {
   (void) info;
 #if 0
-#ifndef WIN32  
+#ifndef PLATFORM_OS_WIN32  
   TRACE_ENTER("IdleLogManager::dump_idlelog");
 
   TRACE_MSG("id = " << info.client_id);
