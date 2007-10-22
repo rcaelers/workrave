@@ -40,11 +40,13 @@
 
 #include "W32AlternateMonitor.hh"
 #include "Harpoon.hh"
+#include "CoreFactory.hh"
+#include "IConfigurator.hh"
 
 using namespace workrave;
 
 W32AlternateMonitor::W32AlternateMonitor()
-  : terminate(false)
+  : terminate_loop(false)
 {
   TRACE_ENTER( "W32AlternateMonitor::W32AlternateMonitor" );
   
@@ -103,7 +105,7 @@ bool W32AlternateMonitor::init()
 void W32AlternateMonitor::terminate()
 {
   TRACE_ENTER( "W32AlternateMonitor::terminate" );
-  terminate = true;
+  terminate_loop = true;
   TRACE_EXIT();
 }
 
@@ -128,7 +130,7 @@ void W32AlternateMonitor::Monitor()
   Update( &lii );
   
   
-  while( !terminate )
+  while( !terminate_loop )
   /* Main loop */
   {
     dwPreviousTime = lii.dwTime;
@@ -150,7 +152,7 @@ void W32AlternateMonitor::Monitor()
 
 inline void W32AlternateMonitor::Update( LASTINPUTINFO *p )
 {
-  while( ( *GetLastInputInfo ) ( p ) == 0 && !terminate)
+  while( ( *GetLastInputInfo ) ( p ) == 0 && !terminate_loop)
   /*
   If GetLastInputInfo errors out, sleep & try again.
   When will this ever happen though?
