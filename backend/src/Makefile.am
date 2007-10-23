@@ -5,7 +5,10 @@
 # $Id$
 #
 
-MAINTAINERCLEANFILES = 	Makefile.in
+MAINTAINERCLEANFILES = 	Makefile.in \
+			workrave-client-bindings.h \
+			workrave-server-bindings.h \
+			org.workrave.Workrave.service
 
 SUBDIRS = 		unix win32 osx
 
