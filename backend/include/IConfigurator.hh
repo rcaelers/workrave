@@ -1,6 +1,6 @@
-// Configurator.hh
+// IConfigurator.hh -- Interface to the Workrave configuration
 //
-// Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2007 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -28,16 +28,24 @@
 
 namespace workrave {
 
+  // Forward declaratons
   class IConfiguratorListener;
 
+  //! Hints on how to set a configuration value.
   enum ConfigFlags
     {
+      //! No special hints.
       CONFIG_FLAG_NONE = 0,
+
+      //! The default value is set.
       CONFIG_FLAG_DEFAULT = 1,
+
+      //! The value must be set immediately, without delay.
       CONFIG_FLAG_IMMEDIATE = 2,
     };
     
-  
+
+  //! Interface to access the configuration.
   class IConfigurator
   {
   public:
@@ -76,6 +84,6 @@ namespace workrave {
     virtual bool remove_listener(const std::string &key_prefix, IConfiguratorListener *listener) = 0;
     virtual bool find_listener(IConfiguratorListener *listener, std::string &key) const = 0;
   };
-};
+}
 
 #endif // ICONFIGURATOR_HH

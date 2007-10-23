@@ -56,7 +56,7 @@ private:
   std::string break_prefix;
 
   //! The Configurator
-  IConfigurator *configurator;
+  IConfigurator *config;
 
   //!
   IApp *application;
@@ -135,6 +135,5 @@ public:
   static const std::string CFG_KEY_BREAK_ENABLED;
   static const std::string CFG_KEY_BREAK_EXERCISES;
 };
-
 
 #endif // TIMERDATA_HH

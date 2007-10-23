@@ -18,7 +18,6 @@ sources = 		ActivityMonitor.cc \
 			ConfiguratorFactory.cc \
 			Core.cc \
 			CoreFactory.cc \
-			DayTimePred.cc \
 			GlibIniConfigurator.cc \
 			IdleLogManager.cc \
 			InputMonitor.cc \
@@ -26,7 +25,9 @@ sources = 		ActivityMonitor.cc \
 			Statistics.cc \
 			TimePredFactory.cc \
 			Timer.cc \
-			WeekTimePred.cc
+			DayTimePred.cc \
+			WeekTimePred.cc \
+			TimePredFactory.cc
 
 DEFS = 			@DEFS@ -I$(top_srcdir)/intl -I. -I ../include
 
@@ -83,7 +84,7 @@ endif
 
 libworkrave_backend_la_SOURCES = \
 			${sources} ${sourcesgdome} ${sourcesdistribution} \
-			${sourcesgnet} ${dbussources}
+			${sourcesgnet} ${dbussources} 
 
 libworkrave_backend_la_CFLAGS = \
 			-W -DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \

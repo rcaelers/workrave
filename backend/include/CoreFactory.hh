@@ -39,6 +39,6 @@ namespace workrave
     //! Returns the interface to the core's configurator.
     static IConfigurator *get_configurator();
   };
-};
+}
 
 #endif // COREFACTORY_HH

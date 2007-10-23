@@ -38,6 +38,6 @@ namespace workrave
     //! Request to skip the break.
     virtual void skip_break(BreakId break_id) = 0;
   };
-};
+}
 
 #endif // IBREAKRESPONSE_HH

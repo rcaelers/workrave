@@ -80,6 +80,6 @@ namespace workrave
     //! Terminate the application.
     virtual void terminate() = 0;
   };
-};
+}
 
 #endif // IAPP_HH

@@ -1,6 +1,6 @@
-// IConfiguratorListener.hh
+// IConfiguratorListener.hh -- Listen for configuration changes.
 //
-// Copyright (C) 2001, 2002, 2003, 2005, 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2007 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -32,6 +32,6 @@ namespace workrave
     //! The configuration item with specified key has changed.
     virtual void config_changed_notify(const std::string &key) = 0;
   };
-};
+}
 
 #endif // ICONFIGURATORLISTENER_HH

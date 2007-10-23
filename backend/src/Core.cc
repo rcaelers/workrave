@@ -458,6 +458,18 @@ Core::get_break(BreakId id)
   return &breaks[id];
 }
 
+Break *
+Core::get_break(std::string name)
+{
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+    {
+      if (breaks[i].get_name() == name)
+        {
+          return &breaks[i];
+        }
+    }
+  return NULL;
+}
 
 #ifdef HAVE_DISTRIBUTION
 //! Returns the distribution manager.
@@ -527,10 +539,12 @@ void
 Core::force_break(BreakId id, bool initiated_by_user)
 {
   do_force_break(id, initiated_by_user);
+
 #ifdef HAVE_DISTRIBUTION
   send_break_control_message_bool_param(id, BCM_START_BREAK, initiated_by_user);
 #endif
 }
+
 
 //! Forces the start of the specified break.
 void
@@ -645,6 +659,7 @@ void
 Core::postpone_break(BreakId break_id)
 {
   do_postpone_break(break_id);
+
 #ifdef HAVE_DISTRIBUTION
   send_break_control_message(break_id, BCM_POSTPONE);
 #endif
@@ -669,6 +684,7 @@ void
 Core::skip_break(BreakId break_id)
 {
   do_skip_break(break_id);
+
 #ifdef HAVE_DISTRIBUTION
   send_break_control_message(break_id, BCM_SKIP);
 #endif
@@ -694,9 +710,11 @@ Core::stop_prelude(BreakId break_id)
 {
   TRACE_ENTER_MSG("Core::stop_prelude", break_id);
   do_stop_prelude(break_id);
+
 #ifdef HAVE_DISTRIBUTION
   send_break_control_message(break_id, BCM_ABORT_PRELUDE);
 #endif
+
   TRACE_EXIT();
 }
 

@@ -1,4 +1,4 @@
-// IBreak.hh
+// IBreak.hh -- Interface of a break.
 //
 // Copyright (C) 2001 - 2007 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -60,6 +60,6 @@ namespace workrave {
     virtual bool get_break_enabled() const = 0;
     virtual void set_break_enabled(bool b) = 0;
   };
-};
+}
 
-#endif // TIMERDATA_HH
+#endif // IBREAK_HH
