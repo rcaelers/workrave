@@ -28,14 +28,43 @@
 
 namespace workrave {
 
+  //! Interface to retrieve information about a break.
   class IBreak
   {
   public:
     virtual ~IBreak() {}
 
-    virtual ITimer *get_timer() const = 0;
-    virtual bool is_enabled() const = 0;
+    //! Returns the name of the break.
     virtual std::string get_name() const = 0;
+
+    //! Returns the ID of the break.
+    virtual BreakId get_id() const = 0;
+
+    //! Is this break currently enabled?
+    virtual bool is_enabled() const = 0;
+
+    //! Returns the current time state.
+    virtual bool is_running() const = 0;
+
+    //! Returns the elasped active time.
+    virtual time_t get_elapsed_time() const = 0;
+
+    //! Returns the elasped idle time.
+    virtual time_t get_elapsed_idle_time() const = 0;
+
+    //! Returns the auto-reset interval (i.e. break duration)
+    virtual time_t get_auto_reset() const = 0;
+
+    //! Is the auto-reset enabled?
+    virtual bool is_auto_reset_enabled() const = 0;
+
+    //! Returns the break limit (i.e. time before break)
+    virtual time_t get_limit() const = 0;
+
+    //! Is the limit enabled.
+    virtual bool is_limit_enabled() const = 0;
+    
+    // These functions will be removed in the next release
 
     virtual int get_timer_limit() const = 0;
     virtual void set_timer_limit(int n) = 0;

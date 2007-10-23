@@ -36,7 +36,6 @@
 #include "ICore.hh"
 #include "IConfigurator.hh"
 #include "IBreak.hh"
-#include "ITimer.hh"
 
 #include "TimeEntry.hh"
 #include "TimerPreferencesPanel.hh"

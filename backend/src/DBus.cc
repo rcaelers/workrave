@@ -251,7 +251,7 @@ workrave_core_is_timer_running(WorkraveService *svc, guint id, gboolean *value, 
     }
 
   Timer *timer = svc->core->get_timer((BreakId)id);
-  *value = timer->get_state() == ITimer::STATE_RUNNING;
+  *value = timer->get_state() == STATE_RUNNING;
 
   return TRUE;
 }

@@ -76,11 +76,26 @@ public:
 
   void init(BreakId id, IApp *app);
 
-  bool is_enabled() const;
+  static std::string expand(const std::string &str, BreakId id);
+  static std::string get_name(BreakId id);
+
+  std::string expand(const std::string &str);
   std::string get_name() const;
+  BreakId get_id() const;
+
   Timer *get_timer() const;
   BreakControl *get_break_control();
 
+  // IBreak
+  virtual bool is_enabled() const;
+  virtual bool is_running() const;
+  virtual time_t get_elapsed_time() const;
+  virtual time_t get_elapsed_idle_time() const;
+  virtual time_t get_auto_reset() const;
+  virtual bool is_auto_reset_enabled() const;
+  virtual time_t get_limit() const;
+  virtual bool is_limit_enabled() const;
+  
   int get_timer_limit() const;
   void set_timer_limit(int n);
   int get_timer_auto_reset() const;

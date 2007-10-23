@@ -44,7 +44,6 @@ static const char rcsid[] = "$Id$";
 #include "MainWindow.hh"
 #include "IBreakWindow.hh"
 #include "IBreak.hh"
-#include "ITimer.hh"
 #include "BreakWindow.hh"
 #include "MicroBreakWindow.hh"
 #include "PreludeWindow.hh"
@@ -1313,19 +1312,18 @@ GUI::get_timers_tooltip()
   ICore *core = CoreFactory::get_core();
   for (int count = 0; count < BREAK_ID_SIZEOF; count++)
     {
-      IBreak *break_data = core->get_break(BreakId(count));
-      ITimer *timer = break_data->get_timer();
-      bool on = break_data->get_break_enabled();
+      IBreak *b = core->get_break(BreakId(count));
+      bool on = b->is_enabled();
 
-      if (timer != NULL && on)
+      if (b != NULL && on)
         {
           // Collect some data.
-          time_t maxActiveTime = timer->get_limit();
-          time_t activeTime = timer->get_elapsed_time();
+          time_t maxActiveTime = b->get_limit();
+          time_t activeTime = b->get_elapsed_time();
           std::string text;
 
           // Set the text
-          if (timer->is_limit_enabled() && maxActiveTime != 0)
+          if (b->is_limit_enabled() && maxActiveTime != 0)
             {
               text = Text::time_to_string(maxActiveTime - activeTime);
             }

@@ -32,11 +32,12 @@ static const char rcsid[] = "$Id$";
 #include "nls.h"
 #include "debug.hh"
 
+#include "IBreak.hh"
+#include "GUI.hh"
 #include "CoreFactory.hh"
 #include "MicroBreakWindow.hh"
 #include "WindowHints.hh"
 #include "TimeBar.hh"
-#include "ITimer.hh"
 #include "IBreakResponse.hh"
 #include "Util.hh"
 #include "GtkUtil.hh"
@@ -81,9 +82,8 @@ MicroBreakWindow::create_gui()
 
   // Button box at the bottom.
   ICore *core = CoreFactory::get_core();
-  ITimer *restbreak_timer =  core->get_timer(BREAK_ID_REST_BREAK);
-  bool has_rb = restbreak_timer->get_state() != ITimer::STATE_INVALID;
-  if (ignorable_break || has_rb)
+  IBreak *restbreak =  core->get_break(BREAK_ID_REST_BREAK);
+  if (ignorable_break || restbreak->is_enabled())
     {
       Gtk::HBox *button_box;
       if (ignorable_break)
@@ -100,7 +100,7 @@ MicroBreakWindow::create_gui()
             manage(new Gtk::Alignment(1.0, 0.0, 0.0, 0.0));
           bboxa->add(*bbox);
 
-          if (has_rb)
+          if (restbreak->is_enabled())
             {
               button_box->pack_start
                 (*manage(create_restbreaknow_button(false)),
@@ -208,20 +208,20 @@ MicroBreakWindow::refresh_label()
 
   ICore *core = CoreFactory::get_core();
 
-  ITimer *restbreak_timer =  core->get_timer(BREAK_ID_REST_BREAK);
-  ITimer *daily_timer =  core->get_timer(BREAK_ID_DAILY_LIMIT);
+  IBreak *restbreak_timer =  core->get_break(BREAK_ID_REST_BREAK);
+  IBreak *daily_timer =  core->get_break(BREAK_ID_DAILY_LIMIT);
 
   BreakId show_next = BREAK_ID_NONE;
 
   time_t rb = restbreak_timer->get_limit() - restbreak_timer->get_elapsed_time();
   time_t dl = daily_timer->get_limit() - daily_timer->get_elapsed_time();
 
-  if (restbreak_timer->get_state() != ITimer::STATE_INVALID)
+  if (restbreak_timer->is_enabled())
     {
       show_next = BREAK_ID_REST_BREAK;
     }
 
-  if (daily_timer->get_state() != ITimer::STATE_INVALID)
+  if (daily_timer->is_enabled())
     {
       if (show_next == BREAK_ID_NONE || dl < rb)
         {

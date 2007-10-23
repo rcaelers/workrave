@@ -24,7 +24,6 @@
 
 #include "Core.hh"
 #include "IActivityMonitor.hh"
-#include "ITimer.hh"
 
 //! An Activity Monitor that takes its activity state from a timer.
 /*! This Activity Monitor is 'active' if the timer is running or if
@@ -93,11 +92,11 @@ public:
         return ACTIVITY_SUSPENDED;
       }
 
-    Timer::TimerState state = timer->get_state();
+    TimerState state = timer->get_state();
     time_t idle = timer->get_elapsed_idle_time();
     time_t reset = timer->get_auto_reset();
 
-    if (state == ITimer::STATE_STOPPED && idle >= reset)
+    if (state == STATE_STOPPED && idle >= reset)
       {
         return ACTIVITY_IDLE;
       }

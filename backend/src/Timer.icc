@@ -112,7 +112,7 @@ Timer::is_enabled() const
 
 
 //! Returns the timer state.
-inline Timer::TimerState
+inline TimerState
 Timer::get_state() const
 {
   return timer_state;

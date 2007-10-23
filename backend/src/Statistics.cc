@@ -79,7 +79,10 @@ Statistics::init(Core *control)
   core = control;
 
   input_monitor = InputMonitorFactory::create_activity_monitor();
-  input_monitor->subscribe_statistics(this);
+  if (input_monitor != NULL)
+    {
+      input_monitor->subscribe_statistics(this);
+    }
   
 #ifdef HAVE_DISTRIBUTION
   init_distribution_manager();

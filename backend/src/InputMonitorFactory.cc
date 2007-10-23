@@ -137,108 +137,115 @@ IInputMonitor *
 InputMonitorFactory::create_activity_monitor()
 {
   TRACE_ENTER("InputMonitorFactory::create_activity_monitor");
-
-  bool initialized = false;
-  string configure_monitor_method;
-  int max_tries = 3;
   IInputMonitor *monitor = NULL;
-  
-  CoreFactory::get_configurator()->get_value_with_default("advanced/monitor",
-                                                          configure_monitor_method,
-                                                          "default");
 
-  if (configure_monitor_method == "default")
+  if (activity_monitor != NULL)
     {
-      actual_monitor_method = "nohook";
+      monitor = activity_monitor;
     }
   else
     {
-      actual_monitor_method = configure_monitor_method;
-      
-    }
+      bool initialized = false;
+      string configure_monitor_method;
+      int max_tries = 3;
+  
+      CoreFactory::get_configurator()->get_value_with_default("advanced/monitor",
+                                                              configure_monitor_method,
+                                                              "default");
 
-  while (!initialized && max_tries > 0)
-    {
-      if (actual_monitor_method == "lowlevel")
+      if (configure_monitor_method == "default")
         {
-          monitor = new W32LowLevelMonitor();
-          initialized = monitor->init();
-          
-          if (!initialized)
+          actual_monitor_method = "nohook";
+        }
+      else
+        {
+          actual_monitor_method = configure_monitor_method;
+      
+        }
+
+      while (!initialized && max_tries > 0)
+        {
+          if (actual_monitor_method == "lowlevel")
             {
-              delete monitor;
-              monitor = NULL;
+              monitor = new W32LowLevelMonitor();
+              initialized = monitor->init();
+          
+              if (!initialized)
+                {
+                  delete monitor;
+                  monitor = NULL;
               
-              actual_monitor_method = "nohook";
+                  actual_monitor_method = "nohook";
+                }
             }
-        }
       
-      else if (actual_monitor_method == "nohook")
-        {
-          monitor = new W32AlternateMonitor();
-          initialized = monitor->init();
-
-          if (!initialized)
+          else if (actual_monitor_method == "nohook")
             {
-              delete monitor;
-              monitor = NULL;
+              monitor = new W32AlternateMonitor();
+              initialized = monitor->init();
+
+              if (!initialized)
+                {
+                  delete monitor;
+                  monitor = NULL;
           
-              actual_monitor_method = "normal";
+                  actual_monitor_method = "normal";
+                }
             }
-        }
 
-      else if (actual_monitor_method == "normal")
-        {
-          monitor = new W32InputMonitor();
-          initialized = monitor->init();
-
-          if (!initialized)
+          else if (actual_monitor_method == "normal")
             {
-              delete monitor;
-              monitor = NULL;
+              monitor = new W32InputMonitor();
+              initialized = monitor->init();
 
-              actual_monitor_method = "lowlevel";
+              if (!initialized)
+                {
+                  delete monitor;
+                  monitor = NULL;
+
+                  actual_monitor_method = "lowlevel";
+                }
+            }
+
+          max_tries--;
+        }
+  
+      if (!initialized)
+        {
+          MessageBoxA( NULL,
+                       "Workrave must be able to monitor certain system "
+                       "events in order to determine when you are idle.\n\n"
+                
+                       "Attempts were made to monitor your system, "
+                       "but they were unsuccessful.\n\n"
+                
+                       "Workrave has reset itself to use its default monitor."
+                       "Please run Workrave again. If you see this message "
+                       "again, please file a bug report:\n\n"
+                
+                       "http://issues.workrave.org/\n\n"
+                
+                       "Workrave must exit now.\n",
+                       "Workrave",
+                       MB_OK );
+      
+          CoreFactory::get_configurator()->set_value("advanced/monitor", "normal");
+          CoreFactory::get_configurator()->save();
+
+          actual_monitor_method = "";
+        }    
+      else
+        {
+          activity_monitor = monitor;
+      
+          if (configure_monitor_method != "default")
+            {
+              CoreFactory::get_configurator()->set_value("advanced/monitor", actual_monitor_method);
+              CoreFactory::get_configurator()->save();
             }
         }
-
-      max_tries--;
     }
   
-  if (!initialized)
-    {
-      MessageBoxA( NULL,
-                   "Workrave must be able to monitor certain system "
-                   "events in order to determine when you are idle.\n\n"
-                
-                   "Attempts were made to monitor your system, "
-                   "but they were unsuccessful.\n\n"
-                
-                   "Workrave has reset itself to use its default monitor."
-                   "Please run Workrave again. If you see this message "
-                   "again, please file a bug report:\n\n"
-                
-                   "http://issues.workrave.org/\n\n"
-                
-                   "Workrave must exit now.\n",
-                   "Workrave",
-                   MB_OK );
-      
-      CoreFactory::get_configurator()->set_value("advanced/monitor", "normal");
-      CoreFactory::get_configurator()->save();
-
-      actual_monitor_method = "";
-    }    
-  else
-    {
-      activity_monitor = monitor;
-      
-      if (configure_monitor_method != "default")
-        {
-          CoreFactory::get_configurator()->set_value("advanced/monitor", actual_monitor_method);
-          CoreFactory::get_configurator()->save();
-        }
-    }
-
   TRACE_EXIT();
   return monitor;
 }
@@ -247,6 +254,11 @@ InputMonitorFactory::create_activity_monitor()
 IInputMonitor *
 InputMonitorFactory::create_statistics_monitor()
 {
+  if (activity_monitor == NULL)
+    {
+      create_activity_monitor();
+    }
+  
   if (actual_monitor_method == "nohooks")
     {
       IInputMonitor *monitor = new W32LowLevelMonitor();

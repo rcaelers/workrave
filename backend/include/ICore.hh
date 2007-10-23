@@ -100,9 +100,6 @@ namespace workrave {
     //! Return the break interface of the specified type.
     virtual IBreak *get_break(BreakId id) = 0;
 
-    //! Returns the timer interface of the specified break.
-    virtual ITimer *get_timer(BreakId id) const = 0;
-
     //! Return the statistics interface.
     virtual IStatistics *get_statistics() const = 0;
 

@@ -58,7 +58,6 @@ static const char rcsid[] = "$Id$";
 
 #include "CoreFactory.hh"
 #include "IConfigurator.hh"
-#include "ITimer.hh"
 #include "IStatistics.hh"
 
 #ifdef HAVE_DISTRIBUTION

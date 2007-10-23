@@ -104,8 +104,8 @@ BreakControl::heartbeat()
     {
       // Prefer the running state of the break timer as input for
       // our current activity.
-      ITimer::TimerState tstate = break_timer->get_state();
-      is_idle = (tstate == ITimer::STATE_STOPPED);
+      TimerState tstate = break_timer->get_state();
+      is_idle = (tstate == STATE_STOPPED);
     }
   else
     {
@@ -220,14 +220,14 @@ BreakControl::goto_stage(BreakStage stage)
         IActivityMonitor *monitor = core->get_activity_monitor();
         monitor->set_listener(this);
 
-        break_timer->set_insensitive_mode(Timer::MODE_IDLE_ON_LIMIT_REACHED);
+        break_timer->set_insensitive_mode(MODE_IDLE_ON_LIMIT_REACHED);
       }
       break;
 
     case STAGE_NONE:
       {
         // Teminate the break.
-        break_timer->set_insensitive_mode(Timer::MODE_IDLE_ON_LIMIT_REACHED);
+        break_timer->set_insensitive_mode(MODE_IDLE_ON_LIMIT_REACHED);
         application->hide_break_window();
         core->defrost();
 
@@ -276,8 +276,7 @@ BreakControl::goto_stage(BreakStage stage)
 
     case STAGE_PRELUDE:
       {
-        break_timer->set_insensitive_mode(Timer::MODE_FOLLOW_IDLE);
-
+        break_timer->set_insensitive_mode(MODE_FOLLOW_IDLE);
         prelude_count++;
         postponable_count++;
         prelude_time = 0;
@@ -292,8 +291,8 @@ BreakControl::goto_stage(BreakStage stage)
     case STAGE_TAKING:
       {
         // Break timer should always idle.
-        // Previous revisions set ITimer::MODE_IDLE_ON_LIMIT_REACHED
-        break_timer->set_insensitive_mode(Timer::MODE_IDLE_ALWAYS );
+        // Previous revisions set MODE_IDLE_ON_LIMIT_REACHED
+        break_timer->set_insensitive_mode(MODE_IDLE_ALWAYS );
 
         // Remove the prelude window, if necessary.
         application->hide_break_window();

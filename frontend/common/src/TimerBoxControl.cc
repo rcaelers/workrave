@@ -35,7 +35,6 @@ static const char rcsid[] = "$Id$";
 #include "Text.hh"
 
 #include "CoreFactory.hh"
-#include "ITimer.hh"
 #include "IBreak.hh"
 #include "IConfigurator.hh"
 
@@ -150,9 +149,9 @@ TimerBoxControl::init()
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      IBreak *break_data = core->get_break(BreakId(i));
+      IBreak *b = core->get_break(BreakId(i));
       config->add_listener("gui/breaks/"
-                           + break_data->get_name()
+                           + b->get_name()
                            + "/enabled", this);
 
       break_position[i] = i;
@@ -198,8 +197,7 @@ TimerBoxControl::update_widgets()
   for (int count = 0; count < BREAK_ID_SIZEOF; count++)
     {
       ICore *core = CoreFactory::get_core();
-      IBreak *break_data = core->get_break(BreakId(count));
-      ITimer *timer = break_data->get_timer();
+      IBreak *b = core->get_break((BreakId)count);
 
       std::string text;
       ITimeBar::ColorId primary_color;
@@ -207,60 +205,46 @@ TimerBoxControl::update_widgets()
       ITimeBar::ColorId secondary_color;
       int secondary_val, secondary_max;
 
+      if (b == NULL)
         {
-          if (timer == NULL)
-            {
-              continue;
-            }
-
-          ITimer::TimerState timerState = timer->get_state();
-
-          // Collect some data.
-          time_t maxActiveTime = timer->get_limit();
-          time_t activeTime = timer->get_elapsed_time();
-          time_t breakDuration = timer->get_auto_reset();
-          time_t idleTime = timer->get_elapsed_idle_time();
-          bool overdue = (maxActiveTime < activeTime);
-
-          // Set the text
-          if (timer->is_limit_enabled() && maxActiveTime != 0)
-            {
-              text = Text::time_to_string(maxActiveTime - activeTime);
-            }
-          else
-            {
-              text = Text::time_to_string(activeTime);
-            }
-          // And set the bar.
-          secondary_val = secondary_max = 0;
-          secondary_color = ITimeBar::COLOR_ID_INACTIVE;
-
-          if (timerState == ITimer::STATE_INVALID)
-            {
-              primary_color = ITimeBar::COLOR_ID_INACTIVE;
-              primary_val = 0;
-              primary_max = 60;
-              text = _("Wait");
-            }
-          else
-            {
-              // Timer is running, show elapsed time.
-              primary_val = activeTime;
-              primary_max = maxActiveTime;
-
-              primary_color = overdue
-                ? ITimeBar::COLOR_ID_OVERDUE : ITimeBar::COLOR_ID_ACTIVE;
-
-              if (//timerState == ITimer::STATE_STOPPED &&
-                  timer->is_auto_reset_enabled() && breakDuration != 0)
-                {
-                  // resting.
-                  secondary_color = ITimeBar::COLOR_ID_INACTIVE;
-                  secondary_val = idleTime;
-                  secondary_max = breakDuration;
-                }
-            }
+          continue;
         }
+
+      // Collect some data.
+      time_t maxActiveTime = b->get_limit();
+      time_t activeTime = b->get_elapsed_time();
+      time_t breakDuration = b->get_auto_reset();
+      time_t idleTime = b->get_elapsed_idle_time();
+      bool overdue = (maxActiveTime < activeTime);
+
+      // Set the text
+      if (b->is_limit_enabled() && maxActiveTime != 0)
+        {
+          text = Text::time_to_string(maxActiveTime - activeTime);
+        }
+      else
+        {
+          text = Text::time_to_string(activeTime);
+        }
+      // And set the bar.
+      secondary_val = secondary_max = 0;
+      secondary_color = ITimeBar::COLOR_ID_INACTIVE;
+
+      // Timer is running, show elapsed time.
+      primary_val = activeTime;
+      primary_max = maxActiveTime;
+
+      primary_color = overdue
+        ? ITimeBar::COLOR_ID_OVERDUE : ITimeBar::COLOR_ID_ACTIVE;
+
+      if (b->is_auto_reset_enabled() && breakDuration != 0)
+        {
+          // resting.
+          secondary_color = ITimeBar::COLOR_ID_INACTIVE;
+          secondary_val = idleTime;
+          secondary_max = breakDuration;
+        }
+
       view->set_time_bar(BreakId(count), text,
                          primary_color, primary_val, primary_max,
                          secondary_color, secondary_val, secondary_max);
@@ -345,9 +329,9 @@ TimerBoxControl::init_slot(int slot)
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       ICore *core = CoreFactory::get_core();
-      IBreak *break_data = core->get_break(BreakId(i));
+      IBreak *b = core->get_break(BreakId(i));
 
-      bool on = break_data->get_break_enabled();
+      bool on = b->is_enabled();
 
       if (on && break_position[i] == slot && !(break_flags[i] & BREAK_HIDE))
         {
@@ -367,10 +351,9 @@ TimerBoxControl::init_slot(int slot)
       int flags = break_flags[id];
 
       ICore *core = CoreFactory::get_core();
-      IBreak *break_data = core->get_break(BreakId(id));
-      ITimer *timer = break_data->get_timer();
+      IBreak *b = core->get_break((BreakId)i);
 
-      time_t time_left = timer->get_limit() - timer->get_elapsed_time();
+      time_t time_left = b->get_limit() - b->get_elapsed_time();
 
       // Exclude break if not imminent.
       if (flags & BREAK_WHEN_IMMINENT && time_left > break_imminent_time[id] &&

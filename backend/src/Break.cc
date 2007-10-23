@@ -25,12 +25,14 @@ static const char rcsid[] = "$Id$";
 
 #include "debug.hh"
 
-#include "Configurator.hh"
+#include "Break.hh"
+
+#include "IConfigurator.hh"
+#include "ICore.hh"
 #include "CoreFactory.hh"
-#include "Core.hh"
+
 #include "BreakControl.hh"
 #include "Timer.hh"
-#include "Break.hh"
 #include "TimerActivityMonitor.hh"
 
 using namespace std;
@@ -142,13 +144,45 @@ Break::~Break()
 }
 
 
-//! Returns whether the break is enabled.
-bool
-Break::is_enabled() const
+string
+Break::expand(const string &key, BreakId id)
 {
-  return enabled;
+  string str = key;
+  string::size_type pos = 0;
+  string name = get_name(id);
+
+  while ((pos = str.find("%b", pos)) != string::npos)
+    {
+      str.replace(pos, 2, name);
+      pos++;
+    }
+
+  return str;
 }
 
+
+string
+Break::expand(const string &key)
+{
+  string str = key;
+  string::size_type pos = 0;
+  string name = get_name();
+
+  while ((pos = str.find("%b", pos)) != string::npos)
+    {
+      str.replace(pos, 2, name);
+      pos++;
+    }
+
+  return str;
+}
+
+//! Returns the id of the break
+BreakId
+Break::get_id() const
+{
+  return break_id;
+}
 
 
 //! Returns the name of the break (used in configuration)
@@ -156,6 +190,15 @@ string
 Break::get_name() const
 {
   return break_name;
+}
+
+
+//! Returns the name of the break (used in configuration)
+string
+Break::get_name(BreakId id)
+{
+  Defaults &def = default_config[id];
+  return def.name;
 }
 
 
@@ -208,7 +251,7 @@ void
 Break::load_timer_config()
 {
   // Read break limit.
-  int limit = get_timer_limit();;
+  int limit = get_timer_limit();
   timer->set_limit(limit);
   timer->set_limit_enabled(limit > 0);
 
@@ -291,6 +334,55 @@ Break::load_break_control_config()
   enabled = get_break_enabled();
 }
 
+
+bool
+Break::is_enabled() const
+{
+  return enabled;
+}
+
+bool
+Break::is_running() const
+{
+  TimerState state = timer->get_state();
+  return state == STATE_RUNNING;
+}
+
+time_t
+Break::get_elapsed_time() const
+{
+  return timer->get_elapsed_time();
+}
+
+time_t
+Break::get_elapsed_idle_time() const
+{
+  return timer->get_elapsed_idle_time();
+}
+
+time_t
+Break::get_auto_reset() const
+{
+  return timer->get_auto_reset();
+}
+
+bool
+Break::is_auto_reset_enabled() const
+{
+  return timer->is_auto_reset_enabled();
+}
+
+time_t
+Break::get_limit() const
+{
+  return timer->get_limit();
+}
+
+bool
+Break::is_limit_enabled() const
+{
+  return timer->is_limit_enabled();
+}
 
 //!
 int
