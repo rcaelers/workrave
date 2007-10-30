@@ -23,6 +23,8 @@ static const char rcsid[] = "$Id";
 #include "config.h"
 #endif
 
+#include <stdlib.h>
+
 #include "Configurator.hh"
 #include "ConfiguratorFactory.hh"
 

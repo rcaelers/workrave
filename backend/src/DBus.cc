@@ -97,7 +97,7 @@ workrave_dbus_server_init(Core *core)
                                            DBUS_PATH_DBUS,
                                            DBUS_INTERFACE_DBUS);
 
-  char *name = DBUS_SERVICE_WORKRAVE;
+  const char *name = DBUS_SERVICE_WORKRAVE;
   char *env = getenv("WORKRAVE_DBUS_NAME");
   if (env != NULL)
     {

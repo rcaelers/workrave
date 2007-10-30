@@ -165,15 +165,15 @@ gboolean workrave_core_is_active(
     gboolean *active,
     GError **error);
 
-gboolean workrave_config_set_string(WorkraveService *svc, gchar *value, gchar *value, GError **error);
-gboolean workrave_config_set_int   (WorkraveService *svc, gchar *value, int value, GError **error);
-gboolean workrave_config_set_bool  (WorkraveService *svc, gchar *value, bool value, GError **error);
-gboolean workrave_config_set_double(WorkraveService *svc, gchar *value, double value, GError **error);
+gboolean workrave_config_set_string(WorkraveService *svc, gchar *name, gchar *value, GError **error);
+gboolean workrave_config_set_int   (WorkraveService *svc, gchar *name, int value, GError **error);
+gboolean workrave_config_set_bool  (WorkraveService *svc, gchar *name, bool value, GError **error);
+gboolean workrave_config_set_double(WorkraveService *svc, gchar *name, double value, GError **error);
 
-gboolean workrave_config_get_string(WorkraveService *svc, gchar *value, gchar **value, GError **error);
-gboolean workrave_config_get_int   (WorkraveService *svc, gchar *value, int *value, GError **error);
-gboolean workrave_config_get_bool  (WorkraveService *svc, gchar *value, bool *value, GError **error);
-gboolean workrave_config_get_double(WorkraveService *svc, gchar *value, double *value, GError **error);
+gboolean workrave_config_get_string(WorkraveService *svc, gchar *name, gchar **value, GError **error);
+gboolean workrave_config_get_int   (WorkraveService *svc, gchar *name, int *value, GError **error);
+gboolean workrave_config_get_bool  (WorkraveService *svc, gchar *name, bool *value, GError **error);
+gboolean workrave_config_get_double(WorkraveService *svc, gchar *name, double *value, GError **error);
 
 G_END_DECLS
 

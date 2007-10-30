@@ -307,7 +307,7 @@ Configurator::set_value(const std::string &key, const std::string &v, ConfigFlag
   Variant value;
   bool ret = false;
   
-  if (flags & CONFIG_FLAG_DEFAULT != 0)
+  if ((flags & CONFIG_FLAG_DEFAULT) != 0)
     {
       ret = get_value(key, VARIANT_TYPE_STRING, value);
     }
@@ -329,7 +329,7 @@ Configurator::set_value(const std::string &key, const char *v, ConfigFlags flags
   Variant value;
   bool ret = false;
   
-  if (flags & CONFIG_FLAG_DEFAULT != 0)
+  if ((flags & CONFIG_FLAG_DEFAULT) != 0)
     {
       ret = get_value(key, VARIANT_TYPE_STRING, value);
     }
@@ -350,7 +350,7 @@ Configurator::set_value(const std::string &key, int v, ConfigFlags flags)
   Variant value;
   bool ret = false;
   
-  if (flags & CONFIG_FLAG_DEFAULT != 0)
+  if ((flags & CONFIG_FLAG_DEFAULT) != 0)
     {
       ret = get_value(key, VARIANT_TYPE_INT, value);
     }
@@ -372,7 +372,7 @@ Configurator::set_value(const std::string &key, bool v, ConfigFlags flags)
   Variant value;
   bool ret = false;
   
-  if (flags & CONFIG_FLAG_DEFAULT != 0)
+  if ((flags & CONFIG_FLAG_DEFAULT) != 0)
     {
       ret = get_value(key, VARIANT_TYPE_BOOL, value);
     }
@@ -394,7 +394,7 @@ Configurator::set_value(const std::string &key, double v, ConfigFlags flags)
   Variant value;
   bool ret = false;
   
-  if (flags & CONFIG_FLAG_DEFAULT != 0)
+  if ((flags & CONFIG_FLAG_DEFAULT) != 0)
     {
       ret = get_value(key, VARIANT_TYPE_DOUBLE, value);
     }

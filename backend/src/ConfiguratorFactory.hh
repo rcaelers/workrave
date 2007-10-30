@@ -27,7 +27,7 @@ class Configurator;
 class ConfiguratorFactory
 {
 public:
-  typedef enum Format
+  enum Format
     {
       FormatIni,
       FormatXml,
