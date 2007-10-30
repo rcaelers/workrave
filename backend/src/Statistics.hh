@@ -26,6 +26,7 @@
 #include <fstream>
 #include <vector>
 #include <time.h>
+#include <string.h>
 
 #include "IStatistics.hh"
 #include "Mutex.hh"

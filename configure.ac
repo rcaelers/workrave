@@ -15,10 +15,11 @@ AC_PREREQ(2.61)
 dnl Automake
 AM_CONFIG_HEADER(config.h)
 AM_INIT_AUTOMAKE(workrave, 1.8.6-preview1)
+AM_GNU_GETTEXT_VERSION()
 AM_MAINTAINER_MODE
 
 dnl Set of available languages.
-ALL_LINGUAS="nl de eo pl da es zh_TW ru fr pt_BR no lt cs he eu ca sv ja bg hu tr el sk zh_CN it sl"
+ALL_LINGUAS="nl de eo pl da es zh_TW ru fr pt_BR nb lt cs he eu ca sv ja bg hu tr el sk zh_CN it sl"
 
 dnl
 dnl Command line options.                           
@@ -90,6 +91,7 @@ dnl Checks for programs
 dnl
 
 AC_PROG_CC
+AM_PROG_CC_C_O
 AC_PROG_CXX
 AC_PROG_CPP
 AC_GNU_SOURCE

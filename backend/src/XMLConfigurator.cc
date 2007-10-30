@@ -26,6 +26,7 @@ static const char rcsid[] = "$Id$";
 #include "debug.hh"
 #include <sstream>
 #include <iostream>
+#include <stdlib.h>
 
 #include "XMLConfigurator.hh"
 

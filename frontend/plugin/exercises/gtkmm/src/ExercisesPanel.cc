@@ -25,6 +25,7 @@
 
 #include "preinclude.h"
 
+#include <string.h>
 #include <gtkmm/stock.h>
 
 #include "ExercisesPanel.hh"
