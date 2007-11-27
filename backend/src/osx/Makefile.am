@@ -10,7 +10,7 @@ MAINTAINERCLEANFILES = 	Makefile.in
 noinst_LTLIBRARIES = 	libworkrave-backend-osx.la
 
 if PLATFORM_OS_OSX
-sourcesosx = 		OSXInputMonitor.cc
+sourcesosx = 		OSXInputMonitor.cc OSXInputMonitorFactory.cc
 endif
 
 libworkrave_backend_osx_la_SOURCES = \

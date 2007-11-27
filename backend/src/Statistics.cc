@@ -37,6 +37,7 @@ static const char rcsid[] = "$Id$";
 #include "Timer.hh"
 #include "TimePred.hh"
 #include "InputMonitorFactory.hh"
+#include "IInputMonitor.hh"
 #include "timeutil.h"
 
 #ifdef HAVE_DISTRIBUTION
@@ -78,7 +79,7 @@ Statistics::init(Core *control)
 {
   core = control;
 
-  input_monitor = InputMonitorFactory::create_activity_monitor();
+  input_monitor = InputMonitorFactory::get_monitor(IInputMonitorFactory::CAPABILITY_STATISTICS);
   if (input_monitor != NULL)
     {
       input_monitor->subscribe_statistics(this);

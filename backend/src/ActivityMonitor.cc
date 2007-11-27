@@ -77,7 +77,7 @@ ActivityMonitor::ActivityMonitor() :
   idle_threshold.tv_sec = 5;
   idle_threshold.tv_usec = 0;
 
-  input_monitor = InputMonitorFactory::create_activity_monitor();
+  input_monitor = InputMonitorFactory::get_monitor(IInputMonitorFactory::CAPABILITY_ACTIVITY);
   input_monitor->subscribe_activity(this);
                                     
   TRACE_EXIT();

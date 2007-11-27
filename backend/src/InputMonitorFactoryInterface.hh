@@ -19,8 +19,8 @@
 // $Id: IInputMonitor.hh 1351 2007-10-14 20:56:54Z rcaelers $
 //
 
-#ifndef INPUTMONITORFACTORY_HH
-#define INPUTMONITORFACTORY_HH
+#ifndef INPUTMONITORFACTORYINTERFACE_HH
+#define INPUTMONITORFACTORYINTERFACE_HH
 
 #include <stdlib.h>
 #include <string>
@@ -28,22 +28,17 @@
 #include "IInputMonitor.hh"
 
 //! Factory to create input monitors.
-class InputMonitorFactory
+class InputMonitorFactoryInterface
 {
 public:
-  static void init(const std::string &display);
-  static IInputMonitor *create_activity_monitor();
-  static IInputMonitor *create_statistics_monitor();
-
-private:
-  static IInputMonitor *activity_monitor;
-  static IInputMonitor *statistics_monitor;
-
-#if defined(PLATFORM_OS_UNIX)
-  static std::string display;
-#elif defined(PLATFORM_OS_WIN32)
-  static std::string actual_monitor_method;
-#endif
+  enum MonitorCapability
+    {
+      CAPABILITY_ACTIVITY,
+      CAPABILITY_STATISTICS
+    };
+    
+  virtual void init(const std::string &display);
+  virtual IInputMonitor *get_monitor(MonitorCapability capability);
 };
 
-#endif // INPUTMONITORFACTORY_HH
+#endif // INPUTMONITORFACTORYINTERFACE_HH

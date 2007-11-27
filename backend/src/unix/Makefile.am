@@ -10,7 +10,7 @@ MAINTAINERCLEANFILES = 	Makefile.in
 noinst_LTLIBRARIES = 	libworkrave-backend-unix.la
 
 if PLATFORM_OS_UNIX
-sourcesxinput = 	X11InputMonitor.cc
+sourcesxinput = 	X11InputMonitor.cc UnixInputMonitorFactory.cc
 X11LIBS = 		@X_LIBS@ -lXmu
 endif
 
