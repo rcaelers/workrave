@@ -48,8 +48,7 @@ TimeBar::TimeBar(HWND parent, HINSTANCE hinst, CDeskBand *deskband)
   bar_color = ITimeBar::COLOR_ID_ACTIVE;
 
   hwnd = CreateWindowEx(0, TIME_BAR_CLASS_NAME, "",
-                        WS_CHILD | WS_CLIPSIBLINGS, 0, 0, 56, 16, parent, NULL, hinst, NULL);
-  SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG)this);
+      WS_CHILD | WS_CLIPSIBLINGS, 0, 0, 56, 16, parent, NULL, hinst, (LPVOID)this );
 
   compute_size(width, height);
   SetWindowPos(hwnd, NULL, 0, 0, width, height, SWP_NOZORDER|SWP_NOMOVE|SWP_NOACTIVATE);
@@ -67,6 +66,16 @@ TimeBar::wnd_proc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
 
   switch (uMessage)
     {
+    case WM_NCCREATE:
+      {
+        LPCREATESTRUCT lpcs = (LPCREATESTRUCT)lParam;
+        pThis = (TimeBar *)( lpcs->lpCreateParams );
+        SetWindowLongPtr( hWnd, GWLP_USERDATA, (LONG_PTR)pThis );
+        SetWindowPos( hWnd, NULL, 0, 0, 0, 0, 
+            SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED );
+      }
+      break;
+
     case WM_PAINT:
       return pThis->on_paint();
 
@@ -271,10 +280,26 @@ TimeBar::init(HINSTANCE hinst)
       bar_colors[ITimeBar::COLOR_ID_INACTIVE_OVER_OVERDUE] = light_green;
       bar_colors[ITimeBar::COLOR_ID_BG] = bg;
 
-      NONCLIENTMETRICS ncm;
-      ncm.cbSize = sizeof(NONCLIENTMETRICS);
+      NONCLIENTMETRICS_PRE_VISTA_STRUCT ncm;
+	  LOGFONT lfDefault =
+	  // the default status font info on my system:
+	    {
+          -12, 0, 0, 0, 400, 0, 0, 0, '\1', 0, 0, 0, 0, TEXT( "Tahoma" )
+		  //0, 0x00146218, 0, 0x001461F0, 0, '@', 0, 0, 0, 0, 0, 0, 0, TEXT( "·~" )
+	    };
 
-      SystemParametersInfo(SPI_GETNONCLIENTMETRICS, sizeof(NONCLIENTMETRICS), &ncm, 0);
+      ZeroMemory( &ncm, sizeof( ncm ) );
+      ncm.cbSize = sizeof( ncm );
+      ncm.lfStatusFont = lfDefault;
+	  
+	  if( !SystemParametersInfo( SPI_GETNONCLIENTMETRICS, sizeof( ncm ), &ncm, 0 ) )
+	  // If SystemParametersInfo fails, use my default.
+	  // Now that we're filling a pre-vista NCM struct, there 
+	  // shouldn't be any problem though, regardless of target.
+	    {
+		  ncm.lfStatusFont = lfDefault;
+		}
+      
       bar_font = CreateFontIndirect(&ncm.lfStatusFont);
 
     }
@@ -288,7 +313,6 @@ TimeBar::init(HINSTANCE hinst)
 void
 TimeBar::time_to_string(time_t time, char *buf, int len)
 {
-  // FIXME: Should validate len.
   char t[2];
 
   if (time < 0)
@@ -301,17 +325,17 @@ TimeBar::time_to_string(time_t time, char *buf, int len)
     {
       t[0] = 0;
     }
-  int hrs = time/3600;
-  int min = (time / 60) % 60;
-  int sec = time % 60;
+  int hrs = (int)( time / 3600 );
+  int min = (int)( (time / 60) % 60 );
+  int sec = (int)( time % 60 );
 
   if (hrs > 0)
     {
-      sprintf(buf, "%s%d:%02d:%02d", t, hrs, min, sec);
+      _snprintf_s( buf, len, _TRUNCATE, "%s%d:%02d:%02d", t, hrs, min, sec );
     }
   else
     {
-      sprintf(buf, "%s%d:%02d", t, min, sec);
+      _snprintf_s( buf, len, _TRUNCATE, "%s%d:%02d", t, min, sec );
     }
 }
 
@@ -333,9 +357,7 @@ TimeBar::set_secondary_progress(int value, int max_value)
 void
 TimeBar::set_text(const char *text)
 {
-  strncpy(bar_text, text, APPLET_BAR_TEXT_MAX_LENGTH-1);
-  bar_text[APPLET_BAR_TEXT_MAX_LENGTH-1] = '\0';
-
+  strncpy_s( bar_text, APPLET_BAR_TEXT_MAX_LENGTH, text, _TRUNCATE );
 }
 
 void

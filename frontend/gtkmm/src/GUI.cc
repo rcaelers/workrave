@@ -26,6 +26,7 @@ static const char rcsid[] = "$Id$";
 #include "preinclude.h"
 #include "nls.h"
 #include "debug.hh"
+#include "w32debug.hh"
 
 #include <sstream>
 #include <unistd.h>
@@ -233,6 +234,11 @@ GUI::main()
   init_remote_control();
 
   on_timer();
+
+#ifdef PLATFORM_OS_WIN32
+// FIXME: debug, remove later
+  APPEND_TIME( "Workrave started and initialized", "Entering event loop." );
+#endif
 
   // Enter the event loop
   gdk_threads_enter();
@@ -1378,6 +1384,43 @@ GUI::win32_filter_func (void     *xevent,
     case WM_POWERBROADCAST:
       {
         TRACE_MSG("WM_POWERBROADCAST " << msg->wParam << " " << msg->lParam);
+
+#ifdef PLATFORM_OS_WIN32
+// FIXME: debug, remove later
+switch (msg->wParam)
+{
+case PBT_APMBATTERYLOW:
+APPEND_TIME("WM_POWERBROADCAST", "PBT_APMBATTERYLOW");
+break;
+case PBT_APMOEMEVENT:
+APPEND_TIME("WM_POWERBROADCAST", "PBT_APMOEMEVENT");
+break;
+case PBT_APMPOWERSTATUSCHANGE:
+APPEND_TIME("WM_POWERBROADCAST", "PBT_APMPOWERSTATUSCHANGE");
+break;
+case PBT_APMQUERYSUSPEND:
+APPEND_TIME("WM_POWERBROADCAST", "PBT_APMQUERYSUSPEND");
+break;
+case PBT_APMQUERYSUSPENDFAILED:
+APPEND_TIME("WM_POWERBROADCAST", "PBT_APMQUERYSUSPENDFAILED");
+break;
+case PBT_APMRESUMEAUTOMATIC:
+APPEND_TIME("WM_POWERBROADCAST", "PBT_APMRESUMEAUTOMATIC");
+break;
+case PBT_APMRESUMECRITICAL:
+APPEND_TIME("WM_POWERBROADCAST", "PBT_APMRESUMECRITICAL");
+break;
+case PBT_APMRESUMESUSPEND:
+APPEND_TIME("WM_POWERBROADCAST", "PBT_APMRESUMESUSPEND");
+break;
+case PBT_APMSUSPEND:
+APPEND_TIME("WM_POWERBROADCAST", "PBT_APMSUSPEND");
+break;
+default:
+APPEND_TIME("WM_POWERBROADCAST", "<UNKNOWN MESSAGE> : " << hex << msg->wParam );
+}
+#endif
+
           switch (msg->wParam)
             {
             case PBT_APMQUERYSUSPEND:

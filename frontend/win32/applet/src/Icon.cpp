@@ -30,9 +30,8 @@ Icon::Icon(HWND parent, HINSTANCE hinst, const char *resource, CDeskBand *deskba
 {
   init(hinst);
   icon = LoadIcon(hinst, resource);
-  hwnd = CreateWindowEx(0, ICON_CLASS_NAME, "",
-                        WS_CHILD | WS_CLIPSIBLINGS, 0, 0, 16, 16, parent, NULL, hinst, NULL);
-  SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG)this);
+  hwnd = CreateWindowEx( 0, ICON_CLASS_NAME, "",
+      WS_CHILD | WS_CLIPSIBLINGS, 0, 0, 16, 16, parent, NULL, hinst, (LPVOID)this );
 }
 
 Icon::~Icon()
@@ -47,6 +46,16 @@ Icon::wnd_proc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
 
   switch (uMessage)
     {
+    case WM_NCCREATE:
+      {
+        LPCREATESTRUCT lpcs = (LPCREATESTRUCT)lParam;
+        pThis = (Icon *)( lpcs->lpCreateParams );
+        SetWindowLongPtr( hWnd, GWLP_USERDATA, (LONG_PTR)pThis );
+        SetWindowPos( hWnd, NULL, 0, 0, 0, 0, 
+            SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED );
+      }
+      break;
+    
     case WM_PAINT:
       return pThis->on_paint();
 

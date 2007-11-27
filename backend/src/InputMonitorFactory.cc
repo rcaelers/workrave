@@ -259,7 +259,7 @@ InputMonitorFactory::create_statistics_monitor()
       create_activity_monitor();
     }
   
-  if (actual_monitor_method == "nohooks")
+  if (actual_monitor_method == "nohook")
     {
       IInputMonitor *monitor = new W32LowLevelMonitor();
       bool initialized = monitor->init();

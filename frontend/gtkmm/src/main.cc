@@ -26,6 +26,7 @@ static const char rcsid[] = "$Id$";
 #include "preinclude.h"
 
 #include "debug.hh"
+#include "w32debug.hh"
 #include <fstream>
 
 #include "GUI.hh"
@@ -78,6 +79,12 @@ int WINAPI WinMain (HINSTANCE hInstance,
   HANDLE mtx = CreateMutex(NULL, FALSE, "WorkraveMutex");
   if (mtx != NULL && GetLastError() != ERROR_ALREADY_EXISTS)
     {
+#ifdef PLATFORM_OS_WIN32
+// FIXME: debug, remove later
+      APPEND_ENDL();
+      APPEND_ENDL();
+      APPEND_DATE();
+#endif
       run(sizeof(argv)/sizeof(argv[0]), argv);
     }
   return (0);

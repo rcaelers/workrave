@@ -45,18 +45,22 @@
 
 using namespace workrave;
 
-W32AlternateMonitor::W32AlternateMonitor()
-  : terminate_loop(false)
+W32AlternateMonitor::W32AlternateMonitor() : 
+  thread_id( 0 )
 {
   TRACE_ENTER( "W32AlternateMonitor::W32AlternateMonitor" );
   
   CoreFactory::get_configurator()->get_value_with_default( "advanced/interval", interval, 500);
+  
   TRACE_EXIT();
 }
 
 W32AlternateMonitor::~W32AlternateMonitor()
 {
   TRACE_ENTER( "W32AlternateMonitor::~W32AlternateMonitor" );
+  
+  terminate();
+  
   TRACE_EXIT();
 }
 
@@ -65,9 +69,6 @@ bool W32AlternateMonitor::init()
 {
   TRACE_ENTER( "W32AlternateMonitor::init" );
   
-  DWORD id;
-  HANDLE hThread;
-
   /* Try to get the address of GetLastInputInfo()... */
   GetLastInputInfo = ( BOOL ( WINAPI * ) ( LASTINPUTINFO * ) )
     GetProcAddress( GetModuleHandleA( "user32.dll" ), "GetLastInputInfo" );
@@ -84,9 +85,11 @@ bool W32AlternateMonitor::init()
     return false;
   }
   
-  hThread = CreateThread( NULL, 0, thread_Monitor, this, 0, &id );
+  thread_id = 0;
+  SetLastError( 0 );
+  thread_handle = CreateThread( NULL, 0, thread_Monitor, this, 0, (DWORD *)&thread_id );
   
-  if( hThread == NULL )
+  if( thread_handle == NULL || thread_id == 0 )
   {
     TRACE_MSG( "Thread could not be created. GetLastError : " << GetLastError() );
     TRACE_EXIT();
@@ -94,20 +97,29 @@ bool W32AlternateMonitor::init()
   }
   
   /* Close the handle now, we don't need it anymore. */
-  CloseHandle( hThread );
+  CloseHandle( thread_handle );
+  thread_handle = NULL;
+  
+  Harpoon::init( NULL );
   
   TRACE_EXIT();
-
-  Harpoon::init(NULL);
   return true;
 }
 
 void W32AlternateMonitor::terminate()
 {
   TRACE_ENTER( "W32AlternateMonitor::terminate" );
-  terminate_loop = true;
+  
+  if( thread_id )
+    {
+	  TRACE_MSG( "Terminating thread id: " << thread_id );
+      PostThreadMessage( thread_id, WM_QUIT, 0, 0 );
+      thread_id = 0;
+    }
+  
   TRACE_EXIT();
 }
+
 
 DWORD WINAPI W32AlternateMonitor::thread_Monitor( LPVOID lpParam )
 {
@@ -118,25 +130,27 @@ DWORD WINAPI W32AlternateMonitor::thread_Monitor( LPVOID lpParam )
 
 void W32AlternateMonitor::Monitor()
 {
-  TRACE_ENTER( "W32AlternateMonitor::Monitor" );
+  const DWORD current_thread_id = GetCurrentThreadId();
   
-  LASTINPUTINFO lii;
-  DWORD dwPreviousTime;
+  TRACE_ENTER( "W32AlternateMonitor::Monitor" << "[ id: " << current_thread_id << " ]" );
+  
+  assert( GetLastInputInfo );
   
   SetThreadPriority( GetCurrentThread(), THREAD_PRIORITY_BELOW_NORMAL );
   
-  lii.cbSize = sizeof( lii ); 
   
-  Update( &lii );
+  LASTINPUTINFO lii;
+  DWORD dwPreviousTime = 0;
   
+  lii.cbSize = sizeof( lii );
+  lii.dwTime = GetTickCount();
   
-  while( !terminate_loop )
+  while( thread_id == current_thread_id )
   /* Main loop */
   {
     dwPreviousTime = lii.dwTime;
-    Update( &lii );
     
-    if( lii.dwTime > dwPreviousTime )
+    if( ( *GetLastInputInfo )( &lii ) && lii.dwTime > dwPreviousTime )
     /* User session has received input */
     {
       /* Notify the activity monitor */
@@ -146,21 +160,8 @@ void W32AlternateMonitor::Monitor()
     Sleep( interval );
   }
   
+  
   TRACE_EXIT();
-}
-
-
-inline void W32AlternateMonitor::Update( LASTINPUTINFO *p )
-{
-  while( ( *GetLastInputInfo ) ( p ) == 0 && !terminate_loop)
-  /*
-  If GetLastInputInfo errors out, sleep & try again.
-  When will this ever happen though?
-  */
-  {
-          // TRACE_MSG( "GetLastInputInfo() failed." );
-    Sleep( interval + rand() % 1000 );
-  }
 }
 
 #endif // defined(PLATFORM_OS_WIN32)

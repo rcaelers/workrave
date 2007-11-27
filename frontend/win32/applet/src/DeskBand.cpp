@@ -343,6 +343,32 @@ CDeskBand::GetBandInfo(DWORD dwBandID, DWORD dwViewMode, DESKBANDINFO* pdbi)
 }
 
 STDMETHODIMP
+CDeskBand::CanRenderComposited( BOOL *pfCanRenderComposited )
+{
+  if( !pfCanRenderComposited )
+      return E_INVALIDARG;
+  
+  *pfCanRenderComposited = TRUE;
+  return S_OK;
+}
+
+STDMETHODIMP
+CDeskBand::GetCompositionState( BOOL *pfCompositionEnabled )
+{
+  if( !pfCompositionEnabled )
+      return E_INVALIDARG;
+  
+  *pfCompositionEnabled = TRUE;
+  return S_OK;
+}
+
+STDMETHODIMP
+CDeskBand::SetCompositionState( BOOL fCompositionEnabled )
+{
+  return S_OK;
+}
+
+STDMETHODIMP
 CDeskBand::GetClassID(LPCLSID pClassID)
 {
   *pClassID = CLSID_WorkraveDeskBand;
@@ -477,8 +503,10 @@ CDeskBand::WndProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
     case WM_NCCREATE:
       {
         LPCREATESTRUCT lpcs = (LPCREATESTRUCT)lParam;
-        pThis = (CDeskBand*)(lpcs->lpCreateParams);
-        SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG)pThis);
+        pThis = (CDeskBand *)( lpcs->lpCreateParams );
+        SetWindowLongPtr( hWnd, GWLP_USERDATA, (LONG_PTR)pThis );
+        SetWindowPos( hWnd, NULL, 0, 0, 0, 0, 
+            SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED );
 
         //set the window handle
         pThis->m_hWnd = hWnd;

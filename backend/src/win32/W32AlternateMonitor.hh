@@ -23,6 +23,7 @@
 #ifndef W32ALTERNATEMONITOR_HH
 #define W32ALTERNATEMONITOR_HH
 
+#include <assert.h>
 #include <windows.h>
 #include "InputMonitor.hh"
 
@@ -44,7 +45,8 @@ private:
   
   BOOL ( WINAPI *GetLastInputInfo ) ( LASTINPUTINFO * );
   int interval;
-  bool terminate_loop;
+  HANDLE thread_handle;
+  volatile DWORD thread_id;
 };
 
 #endif // W32ALTERNATEMONITOR_HH

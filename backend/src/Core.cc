@@ -24,6 +24,8 @@ static const char rcsid[] = "$Id$";
 #endif
 
 #include "debug.hh"
+#define BACKEND
+#include "w32debug.hh"
 
 #include <assert.h>
 #include <iostream>
@@ -493,35 +495,57 @@ Core::get_operation_mode()
 OperationMode
 Core::set_operation_mode(OperationMode mode)
 {
-  OperationMode previous_mode = operation_mode;
 
+#ifdef PLATFORM_OS_WIN32
+// FIXME: debug, remove later
+if(mode == OPERATION_MODE_NORMAL)
+APPEND_TIME("Core::set_operation_mode()", "OPERATION_MODE_NORMAL ")
+else if (mode == OPERATION_MODE_SUSPENDED)
+APPEND_TIME("Core::set_operation_mode()", "OPERATION_MODE_SUSPENDED ")
+else if (mode == OPERATION_MODE_QUIET)
+APPEND_TIME("Core::set_operation_mode()", "OPERATION_MODE_QUIET ")
+#endif
+
+  OperationMode previous_mode = operation_mode;
+  
   if (operation_mode != mode)
     {
       operation_mode = mode;
-
+      
       if (operation_mode == OPERATION_MODE_SUSPENDED)
         {
           force_idle();
           monitor->suspend();
+          stop_all_breaks();
+          
+          for( int i = 0; i < BREAK_ID_SIZEOF; ++i )
+            {
+              if( breaks[ i ].is_enabled() )
+                {
+                  breaks[ i ].get_timer()->set_insensitive_mode( MODE_IDLE_ALWAYS );
+                  //breaks[ i ].get_timer()->freeze_timer( true );
+                }
+            }
         }
       else if (previous_mode == OPERATION_MODE_SUSPENDED)
         {
+          // stop_all_breaks again will reset insensitive mode (that is good)
+          stop_all_breaks();
           monitor->resume();
         }
-
-      if (operation_mode == OPERATION_MODE_SUSPENDED ||
-          operation_mode == OPERATION_MODE_QUIET)
+      
+      if( operation_mode == OPERATION_MODE_QUIET )
         {
           stop_all_breaks();
         }
-
+      
       get_configurator()->set_value(CFG_KEY_OPERATION_MODE, mode);
       if (core_event_listener != NULL)
         {
           core_event_listener->core_event_operation_mode_changed(mode);
         }
     }
-
+  
   return previous_mode;
 }
 
@@ -589,7 +613,7 @@ Core::set_powersave(bool down)
       // or until some time has passed
       if (powersave_resume_time == 0)
         {
-          powersave_resume_time = current_time;
+          powersave_resume_time = current_time ? current_time : 1;
         }
 
       set_operation_mode(powersave_operation_mode);
@@ -651,7 +675,7 @@ Core::force_idle()
 
 
 /********************************************************************************/
-/**** Break Resonse                                                        ******/
+/**** Break Response                                                        ******/
 /********************************************************************************/
 
 //! User postpones the specified break.
@@ -1011,6 +1035,11 @@ Core::process_timewarp()
             {
               TRACE_MSG("Time warp of " << gap << " seconds. Correcting");
 
+#ifdef PLATFORM_OS_WIN32
+// FIXME: debug, remove later
+APPEND_TIME("Core::process_timewarp()", "Time warp of " << gap << " seconds. Correcting");
+#endif
+
               force_idle();
 
 #ifdef PLATFORM_OS_WIN32
@@ -1037,6 +1066,11 @@ Core::process_timewarp()
             {
               TRACE_MSG("Time warp of " << gap << " seconds because of powersave");
 
+#ifdef PLATFORM_OS_WIN32
+// FIXME: debug, remove later
+APPEND_TIME("Core::process_timewarp()", "Time warp of " << gap << " seconds because of powersave");
+#endif
+
               // In case the windows message was lost. some people reported that
               // workrave never restarted the timers...
               set_operation_mode(powersave_operation_mode);
@@ -1045,6 +1079,12 @@ Core::process_timewarp()
       if (powersave && powersave_resume_time != 0 && current_time > powersave_resume_time + 30)
         {
           TRACE_MSG("End of time warp after powersave");
+
+#ifdef PLATFORM_OS_WIN32
+// FIXME: debug, remove later
+APPEND_TIME("Core::process_timewarp()", "End of time warp after powersave");
+#endif
+
           powersave = false;
           powersave_resume_time = 0;
 
@@ -1206,7 +1246,7 @@ Core::stop_all_breaks()
 /**** Misc                                                                 ******/
 /********************************************************************************/
 
-//! Performs a reset when the dailt limit is reached.
+//! Performs a reset when the daily limit is reached.
 void
 Core::daily_reset()
 {

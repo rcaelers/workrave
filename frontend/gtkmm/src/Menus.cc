@@ -601,7 +601,6 @@ Menus::set_operation_mode(OperationMode m)
 }
 
 
-//! User requested immediate restbreak.
 void
 Menus::on_menu_quiet()
 {
@@ -612,7 +611,6 @@ Menus::on_menu_quiet()
 
 
 
-//! User requested immediate restbreak.
 void
 Menus::on_menu_suspend()
 {
@@ -635,7 +633,6 @@ Menus::on_menu_normal_menu(Gtk::CheckMenuItem *menu)
 }
 
 
-//! User requested immediate restbreak.
 void
 Menus::on_menu_quiet_menu(Gtk::CheckMenuItem *menu)
 {
@@ -651,7 +648,6 @@ Menus::on_menu_quiet_menu(Gtk::CheckMenuItem *menu)
 
 
 
-//! User requested immediate restbreak.
 void
 Menus::on_menu_suspend_menu(Gtk::CheckMenuItem *menu)
 {

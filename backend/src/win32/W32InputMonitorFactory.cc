@@ -166,7 +166,7 @@ W32InputMonitorFactory::create_monitor(IInputMonitorListener *listener,
     }
 
   // Final try:
-  if (monitor_method == "nohook" || !initialized)
+  if (monitor_method == "nohook" && !initialized)
     {
       monitor = new W32AlternateMonitor();
       initialized = monitor->init(listener);

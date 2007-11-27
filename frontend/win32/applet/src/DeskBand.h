@@ -37,7 +37,7 @@
 
 class TimerBox;
 
-class CDeskBand : public IDeskBand,
+class CDeskBand : public IDeskBand2,
                   public IInputObject,
                   public IObjectWithSite,
                   public IPersistStream,
@@ -66,6 +66,11 @@ public:
 
   //IDeskBand methods
   STDMETHOD (GetBandInfo) (DWORD, DWORD, DESKBANDINFO*);
+
+  //IDeskBand2 methods
+  STDMETHOD ( CanRenderComposited )( BOOL * );
+  STDMETHOD ( GetCompositionState )( BOOL * );
+  STDMETHOD ( SetCompositionState )( BOOL );
 
   //IInputObject methods
   STDMETHOD (UIActivateIO) (BOOL, LPMSG);
