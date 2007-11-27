@@ -132,7 +132,7 @@ void W32AlternateMonitor::Monitor()
 {
   const DWORD current_thread_id = GetCurrentThreadId();
   
-  TRACE_ENTER( "W32AlternateMonitor::Monitor" << "[ id: " << current_thread_id << " ]" );
+  TRACE_ENTER_MSG( "W32AlternateMonitor::Monitor [ id: ", current_thread_id << " ]" );
   
   assert( GetLastInputInfo );
   
