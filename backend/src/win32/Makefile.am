@@ -15,6 +15,7 @@ sources = 		W32Configurator.cc \
 			W32InputMonitor.cc \
 			W32AlternateMonitor.cc \
 			W32LowLevelMonitor.cc \
+			W32InputMonitorFactory.cc \
 			Harpoon.cc
 endif
 
