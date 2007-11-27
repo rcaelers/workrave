@@ -31,6 +31,7 @@
 class W32InputMonitorFactory : public IInputMonitorFactory
 {
 public:
+  W32InputMonitorFactory();
   virtual void init(const std::string &display);
   virtual IInputMonitor *get_monitor(MonitorCapability capability);
 
@@ -40,10 +41,10 @@ private:
   
 
 private:
-  static IInputMonitor *activity_monitor;
-  static IInputMonitor *statistics_monitor;
-
-  static std::string actual_monitor_method;
+  IInputMonitor *activity_monitor;
+  IInputMonitor *statistics_monitor;
+  
+  std::string actual_monitor_method;
 };
 
 #endif // W32INPUTMONITORFACTORY_HH

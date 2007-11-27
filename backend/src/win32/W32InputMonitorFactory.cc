@@ -35,13 +35,14 @@ static const char rcsid[] = "$Id: CoreFactory.cc 1351 2007-10-14 20:56:54Z rcael
 #include "W32LowLevelMonitor.hh"
 #include "W32AlternateMonitor.hh"
 
-IInputMonitor *W32InputMonitorFactory::activity_monitor = NULL;
-IInputMonitor *W32InputMonitorFactory::statistics_monitor = NULL;
-std::string W32InputMonitorFactory::actual_monitor_method = "";
-
 using namespace std;
 using namespace workrave;
 
+W32InputMonitorFactory::W32InputMonitorFactory()
+{
+  activity_monitor = NULL;
+  statistics_monitor = NULL;
+}
 
 void
 W32InputMonitorFactory::init(const std::string &display)
@@ -52,7 +53,7 @@ W32InputMonitorFactory::init(const std::string &display)
 
 //! Retrieves the input activity monitor
 IInputMonitor *
-OSXInputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability capability)
+W32InputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability capability)
 {
   if (capability == CAPABILITY_ACTIVITY)
     {
