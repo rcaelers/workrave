@@ -24,8 +24,11 @@ static const char rcsid[] = "$Id$";
 #endif
 
 #include "debug.hh"
+
+#if defined(PLATFORM_OS_WIN32)
 #define BACKEND
 #include "w32debug.hh"
+#endif
 
 #include <assert.h>
 #include <iostream>

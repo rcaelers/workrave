@@ -26,7 +26,10 @@ static const char rcsid[] = "$Id$";
 #include "preinclude.h"
 #include "nls.h"
 #include "debug.hh"
+
+#if defined(PLATFORM_OS_WIN32)
 #include "w32debug.hh"
+#endif
 
 #include <sstream>
 #include <unistd.h>

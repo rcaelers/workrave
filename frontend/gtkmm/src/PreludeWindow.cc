@@ -30,7 +30,9 @@ static const char rcsid[] = "$Id$";
 #include <gtkmm/box.h>
 
 #include "debug.hh"
+#if defined(PLATFORM_OS_WIN32)
 #include "w32debug.hh"
+#endif
 #include "nls.h"
 
 #include "Text.hh"

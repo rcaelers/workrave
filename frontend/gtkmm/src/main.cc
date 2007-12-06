@@ -26,11 +26,11 @@ static const char rcsid[] = "$Id$";
 #include "preinclude.h"
 
 #include "debug.hh"
-#include "w32debug.hh"
 #include <fstream>
 
 #include "GUI.hh"
 #ifdef PLATFORM_OS_WIN32
+#include "w32debug.hh"
 #include "dll_hell.h"
 #endif
 
