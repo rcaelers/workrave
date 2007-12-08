@@ -8,6 +8,9 @@ GTKQUARTZ_ROOT=/opt/gtk
 version=`grep PACKAGE_VERSION config.h | cut -d' ' -f 3 | sed "s/\\"//g"`
 echo "Version is $version"
 
+packagemaker=/Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker
+pkgName="Workrave-${version}.pkg"
+
 # setup directory structure
 
 ROOT=`pwd`/Workrave.app
@@ -120,6 +123,36 @@ for dylib in $Frameworks/*.dylib $Frameworks/modules/*.so ; do
 	install_name_tool -id @executable_path/../Frameworks/$base $dylib
     fi
 done
+
+echo "Prepare for PackageManager"
+
+sudo rm -rf pkgroot
+sudo mkdir -p pkgroot
+
+basedir="/Applications/Workrave"
+sudo mkdir -p "pkgroot/$basedir"
+sudo cp -R Workrave.app "pkgroot/$basedir"
+
+sudo find pkgroot -type d -print0 | xargs -0 sudo chmod 755
+sudo find pkgroot -type f -print0 | xargs -0 sudo chmod 644
+sudo find pkgroot -name '*.sh' -print0 | xargs -0 sudo chmod 755
+sudo chown -R root:wheel pkgroot
+
+sudo chmod 775 pkgroot/Applications
+sudo chown root:admin pkgroot/Applications
+sudo chmod 1775 pkgroot/Library
+sudo chown root:admin pkgroot/Library
+
+echo "Exec PackageMaker"
+
+rm -rf $pkgName
+sudo $packagemaker -build \
+    -p $pkgName \
+    -f pkgroot \
+    -ds \
+    -r pkginfo/Resources \
+    -i pkginfo/Info.plist \
+    -d pkginfo/Description.plist
 
 echo "Done."
 
