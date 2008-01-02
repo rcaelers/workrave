@@ -11,6 +11,6 @@ clean-local:
 	-rm -rf Workrave.app
 	-rm -rf workrave-image
 
-install-exec-hook:
+dmg:
 	./make-app.sh
 	./make-image.sh
