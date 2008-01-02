@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl
-dnl Copyright (C) 2001 - 2007 Rob Caelers & Raymond Penners
+dnl Copyright (C) 2001 - 2008 Rob Caelers & Raymond Penners
 dnl
 dnl
 dnl $Id$
@@ -676,6 +676,7 @@ AC_OUTPUT(Makefile
           frontend/win32/applet/src/Makefile \
           frontend/win32/applet/include/Makefile \
           frontend/gtkmm/Makefile \
+          frontend/gtkmm/osx/Makefile \
           frontend/gtkmm/win32/Makefile \
           frontend/gtkmm/win32/setup/Makefile \
           frontend/gtkmm/win32/setup/setup.iss \
