@@ -132,7 +132,7 @@ if test "x$config_debug" = "xyes"
 then
    CFLAGS="${CFLAGS} -O0 -g -Wall -DGLIBCXX_FORCE_NEW -DGLIBCPP_FORCE_NEW"
    CXXFLAGS="${CXXFLAGS} -O0 -g -Wall -DGLIBCXX_FORCE_NEW -DGLIBCPP_FORCE_NEW"
-   LDFLAGS="${LDFLAGS} -g"
+   LDF,LAGS="${LDFLAGS} -g"
 else
    CFLAGS="${CFLAGS} -Os -g -DNDEBUG"
    CXXFLAGS="${CXXFLAGS} -Os -g -DNDEBUG"
@@ -232,6 +232,7 @@ then
     config_gnomemm=no
     config_gconf=no
 
+    LDFLAGS="$LDFLAGS -headerpad_max_install_names"
     LIBS="$LIBS -framework QuickTime -framework CoreServices -framework Carbon"
  fi
 
