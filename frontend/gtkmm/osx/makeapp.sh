@@ -57,7 +57,7 @@ gtk_version=`pkg-config --variable=gtk_binary_version gtk+-2.0`
 OSX_MINOR_VERSION=`/usr/bin/sw_vers | grep ProductVersion | cut -f2 -d'.'`
 
 package=Workrave.app
-package_version=`grep PACKAGE_VERSION config.h | cut -d' ' -f 3 | sed "s/\\"//g"`
+package_version=`grep PACKAGE_VERSION ../../../config.h | cut -d' ' -f 3 | sed "s/\\"//g"`
 
 pkgrootdir=`pwd`/$package
 pkgcontentsdir=$pkgrootdir/Contents
@@ -98,14 +98,15 @@ mkdir -p $pkglibdir
 
 echo "Installing Workrave"
 
-make install prefix=$pkgrootdir bindir=$pkgexecdir pkgdatadir=$pkgresourcesdir \
+make install -C ../../../ \
+             prefix=$pkgrootdir bindir=$pkgexecdir pkgdatadir=$pkgresourcesdir \
              datadir=$pkgresourcesdir soundsdir=$pkgresourcesdir/sounds \
              DATADIRNAME=Contents/Resources > install.log 2>&1
 rmdir $pkgrootdir/lib
 rmdir $pkgrootdir/libexec
 
 cp Info.plist $pkgcontentsdir
-cp frontend/common/share/images/osx/workrave.icns  $pkgresourcesdir
+cp ../../../frontend/common/share/images/osx/workrave.icns  $pkgresourcesdir
 
 echo "APPLWoRa" > $pkgcontentsdir/PkgInfo
 
@@ -215,100 +216,8 @@ then
     strip -ur $binary
 fi
 
+exit 0
 
-# ------------------------------------------------------------
-# Create image
-# ------------------------------------------------------------
-# Defaults
-set_ds_store=true
-ds_store_file="workrave.ds_store"
-package=""
-rw_name="RWWorkrave.dmg"
-volume_name="Workrave"
-tmp_dir="/tmp/dmg-$$"
-auto_open_opt=
-
-rm -rf "$tmp_dir"
-mkdir "$tmp_dir"
-
-cp -rf "$package" "$tmp_dir"/
-ln -sf /Applications "$tmp_dir"/
-
-mkdir "$tmp_dir/.background"
-cp dmg_background.png "$tmp_dir/.background/background.png"
-
-# If the appearance settings are not to be modified we just copy them
-if [ ${set_ds_store} = "false" ]; then
-	# Copy the .DS_Store file which contains information about
-	# window size, appearance, etc.  Most of this can be set
-	# with Apple script but involves user intervention so we
-	# just keep a copy of the correct settings and use that instead.
-	cp $ds_store_file "$tmp_dir/.DS_Store"
-	auto_open_opt=-noautoopen
-fi
-
-# Create a new RW image from the temp directory.
-echo "Creating a temporary disk image"
-rm -f "$rw_name"
-/usr/bin/hdiutil create -srcfolder "$tmp_dir" -volname "$volume_name" -fs HFS+ -fsargs "-c c=64,a=16,e=16" -format UDRW "$rw_name"
-
-# We're finished with the temp directory, remove it.
-rm -rf "$tmp_dir"
-
-# Mount the created image.
-MOUNT_DIR="/Volumes/$volume_name"
-DEV_NAME=`/usr/bin/hdiutil attach -readwrite -noverify $auto_open_opt  "$rw_name" | egrep '^/dev/' | sed 1q | awk '{print $1}'`
-
-# Have the disk image window open automatically when mounted.
-bless -openfolder /Volumes/$volume_name
-
-# In case the apperance has to be modified, mount the image and apply the base settings to it via Applescript
-if [ ${set_ds_store} = "true" ]; then
-	/usr/bin/osascript dmg_set_style.scpt
-
-	open "/Volumes/$volume_name"
-	# BUG: one needs to move and close the window manually for the
-	# changes in appearance to be retained... 
-        echo " 
-        ************************************** 
-        *  Please move the disk image window * 
-        *    to the center of the screen     *  
-        *   then close it and press enter    * 
-        ************************************** 
-        " 
-        read -e DUMB
-
-	# .DS_Store files aren't written till the disk is unmounted, or finder is restarted.
-	hdiutil detach "$DEV_NAME"
-	auto_open_opt=-noautoopen
-	DEV_NAME=`/usr/bin/hdiutil attach -readwrite -noverify $auto_open_opt  "$rw_name" | egrep '^/dev/' | sed 1q | awk '{print $1}'`
-	echo
-	echo "New $ds_store_file file written. Re-run $0 without the -s option to use it"
-	cp /Volumes/$volume_name/.DS_Store ./$ds_store_file
-	SetFile -a v ./$ds_store_file
-
-	# Unmount the disk image.
-	hdiutil detach "$DEV_NAME"
-	rm -f "$rw_name"
-
-	exit 0
-fi
-
-# Unmount the disk image.
-hdiutil detach "$DEV_NAME"
-
-# Create the offical release image by compressing the RW one.
-echo -e "\033[1mCompressing the final disk image\033[0m"
-img_name="Workrave.dmg"
-# TODO make this a command line option
-if [ -e "$img_name" ]; then
-	echo "$img_name already exists."
-	rm -i "$img_name"
-fi
-/usr/bin/hdiutil convert "$rw_name" -format UDZO -imagekey zlib-level=9 -o "$img_name"
-rm -f "$rw_name"
-
-exit 0;
 
 #------------------------------------------------------------
 
