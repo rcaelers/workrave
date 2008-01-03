@@ -1,11 +1,31 @@
 #!/bin/bash
 #
+# Copyright (C) 2008 Rob Caelers <robc@krandor.nl>
+# All rights reserved.
 #
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# Based on code from inkscape, growl, adium, mozilla and probably others.
 #
 
-# Default settings.
-conf_strip=false
-conf_symlink=false
+# ------------------------------------------------------------
+# Configuration
+# ------------------------------------------------------------
+
+LIBPREFIX=/opt/gtk
+PACKAGE=Workrave.app
+PACKAGE_VERSION=`grep PACKAGE_VERSION ../../../config.h | cut -d' ' -f 3 | sed "s/\\"//g"`
 
 # ------------------------------------------------------------
 # Print usage message
@@ -13,27 +33,27 @@ conf_symlink=false
 usage()
 {
 echo -e "
-Create Workrave app bundle for OS X
+Create Workrave application bundle for OS X
 
-\033[1mUSAGE\033[0m
-	$0 [-s]
+Usage: $0 [OPTION...]
 
-\033[1mOPTIONS\033[0m
-	\033[1m-h,--help\033[0m 
-		display this help message
-	\033[1m-s\033[0m
-		strip the libraries and executables from debugging symbols
+  --help, -h                 Display this help message
+  --keep-symbols             Keep debugging symbols
 "
 }
 
 # ------------------------------------------------------------
 # Parse command line arguments
 # ------------------------------------------------------------
+
+conf_strip=true
+conf_symlink=false
+
 while [ "$1" != "" ]
 do
     case $1 in
-	-s)
-	    conf_strip=true ;;
+	--keep-symbols)
+	    conf_strip=false ;;
 
 	-h|--help)
 	    usage
@@ -50,16 +70,11 @@ done
 # Setup
 # ------------------------------------------------------------
 
-LIBPREFIX=/opt/gtk
 pango_version=`pkg-config --variable=pango_module_version pango`
 gtk_version=`pkg-config --variable=gtk_binary_version gtk+-2.0`
+osx_minor_version=`/usr/bin/sw_vers | grep ProductVersion | cut -f2 -d'.'`
 
-OSX_MINOR_VERSION=`/usr/bin/sw_vers | grep ProductVersion | cut -f2 -d'.'`
-
-package=Workrave.app
-package_version=`grep PACKAGE_VERSION ../../../config.h | cut -d' ' -f 3 | sed "s/\\"//g"`
-
-pkgrootdir=`pwd`/$package
+pkgrootdir=`pwd`/$PACKAGE
 pkgcontentsdir=$pkgrootdir/Contents
 pkgexecdir=$pkgcontentsdir/MacOS
 pkgresourcesdir=$pkgcontentsdir/Resources
@@ -67,22 +82,21 @@ pkgframeworksdir=$pkgcontentsdir/Frameworks
 pkgdatadir=$pkgresourcesdir/share
 pkgetcdir=$pkgresourcesdir/etc
 pkglibdir=$pkgresourcesdir/lib
-binary=$pkgexecdir/workrave
 
-sed -e "s?@ENV@?$env?g" -e "s?@VERSION@?$version?g" < Info.plist.in > Info.plist
+sed -e "s?@ENV@?$env?g" -e "s?@VERSION@?$PACKAGE_VERSION?g" < Info.plist.in > Info.plist
 
 # ------------------------------------------------------------
 # Create directory layout
 # ------------------------------------------------------------
 
 echo
-echo -e "\033[1mCreating Workrave app bundle\033[0m"
-echo -e "\033[1mWorkrave version is $package_version\033[0m\n"
+echo -e "Creating Workrave application bundle"
+echo -e "Workrave version is $PACKAGE_VERSION"
 
-if [ -d $package ];
+if [ -d $PACKAGE ];
 then
-    echo "Removing old $package tree"
-    rm -rf $package
+    echo "Removing old $PACKAGE tree"
+    rm -rf $PACKAGE
 fi
 
 echo "Building new app directory structure"
@@ -153,8 +167,9 @@ echo "Installing dependencies"
 total=0
 stop=false
 while ! $stop; do
-    TARGETS=`find $pkgrootdir \( -name "*.so*" -or -name "*.dylib" \) -print`
-    libs="`otool -L $TARGETS $binary 2>/dev/null | fgrep compatibility | cut -d\( -f1 | grep $LIBPREFIX | sort | uniq`"
+    LIBS=`find $pkgrootdir \( -name "*.so*" -or -name "*.dylib" \) -print`
+    EXECS=`find $pkgexecdir -type f -print`
+    libs="`otool -L $LIBS $EXECS 2>/dev/null | fgrep compatibility | cut -d\( -f1 | grep $LIBPREFIX | sort | uniq`"
     cp -f $libs $pkglibdir
     num_files=`ls $pkglibdir | wc -l`
     if [ $num_files = $total ];
@@ -213,7 +228,7 @@ then
     echo "Stripping debugging symbols"
     chmod +w $pkglibdir/*.dylib
     strip -x $pkglibdir/*.dylib
-    strip -ur $binary
+    strip -ur `find $pkgexecdir -type f -print`
 fi
 
 exit 0
