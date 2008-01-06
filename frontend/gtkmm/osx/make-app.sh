@@ -24,6 +24,7 @@
 # ------------------------------------------------------------
 
 LIBPREFIX=/opt/gtk
+BINARY=workrave
 PACKAGE=Workrave.app
 PACKAGE_VERSION=`grep PACKAGE_VERSION ../../../config.h | cut -d' ' -f 3 | sed "s/\\"//g"`
 
@@ -39,6 +40,7 @@ Usage: $0 [OPTION...]
 
   --help, -h                 Display this help message
   --keep-symbols             Keep debugging symbols
+  --link                     Create symlinks
 "
 }
 
@@ -55,7 +57,10 @@ do
 	--keep-symbols)
 	    conf_strip=false ;;
 
-	-h|--help)
+	--link)
+	    conf_symlink=true ;;
+
+      	-h|--help)
 	    usage
 	    exit 0 ;;
 	*)
@@ -82,6 +87,7 @@ pkgframeworksdir=$pkgcontentsdir/Frameworks
 pkgdatadir=$pkgresourcesdir/share
 pkgetcdir=$pkgresourcesdir/etc
 pkglibdir=$pkgresourcesdir/lib
+pkgthemedir=$pkgresourcesdir/themes
 
 sed -e "s?@ENV@?$env?g" -e "s?@VERSION@?$PACKAGE_VERSION?g" < Info.plist.in > Info.plist
 
@@ -112,17 +118,30 @@ mkdir -p $pkglibdir
 
 echo "Installing Workrave"
 
-make install -C ../../../ \
+if [ $conf_symlink = false ]; then
+   make install -C ../../../ \
              prefix=$pkgrootdir bindir=$pkgexecdir pkgdatadir=$pkgresourcesdir \
              datadir=$pkgresourcesdir soundsdir=$pkgresourcesdir/sounds \
              DATADIRNAME=Contents/Resources > install.log 2>&1
+   INSTALL="cp"
+else
+   make install -C ../../../ \
+             prefix=$pkgrootdir bindir=$pkgexecdir pkgdatadir=$pkgresourcesdir \
+             datadir=$pkgresourcesdir soundsdir=$pkgresourcesdir/sounds \
+             INSTALL=`pwd`/install_symlink \
+             DATADIRNAME=Contents/Resources > install.log 2>&1
+   INSTALL=`pwd`/install_symlink
+fi
+
 rmdir $pkgrootdir/lib
 rmdir $pkgrootdir/libexec
 
+mv $pkgexecdir/$BINARY $pkgexecdir/${BINARY}-bin
 cp Info.plist $pkgcontentsdir
-cp ../../../frontend/common/share/images/osx/workrave.icns  $pkgresourcesdir
+$INSTALL workrave $pkgexecdir
+$INSTALL ../../../frontend/common/share/images/osx/workrave.icns  $pkgresourcesdir
 
-echo "APPLWoRa" > $pkgcontentsdir/PkgInfo
+echo -n "APPL????" > $pkgcontentsdir/PkgInfo
 
 # ------------------------------------------------------------
 # Install Pango
@@ -134,10 +153,21 @@ mkdir -p $pkglibdir/pango/$pango_version/modules
 cp $LIBPREFIX/lib/pango/$pango_version/modules/*.so $pkglibdir/pango/$pango_version/modules/
 
 mkdir -p $pkgetcdir/pango
+
 $LIBPREFIX/bin/pango-querymodules \
     | sed "s?$LIBPREFIX/lib/pango/$pango_version/modules/?@executable_path/../Resources/lib/pango/$pango_version/modules/?" \
     > $pkgetcdir/pango/pango.modules
 
+mkdir -p $pkgetcdir/fonts
+cp $LIBPREFIX/etc/fonts/fonts.dtd $pkgetcdir/fonts/
+cp -r $LIBPREFIX/etc/fonts/conf.avail $pkgetcdir/fonts/
+cp -r $LIBPREFIX/etc/fonts/conf.d $pkgetcdir/fonts/
+cp fonts.conf $pkgetcdir/fonts
+
+cat > $pkgetcdir/pango/pangorc << END
+[Pango]
+ModuleFiles=./pango.modules
+END
 
 # ------------------------------------------------------------
 # Install Gtk
@@ -157,6 +187,11 @@ sed "s?$LIBPREFIX/lib/gtk-2.0/$gtk_version/loaders/?@executable_path/../Resource
 sed "s?$LIBPREFIX/lib/gtk-2.0/$gtk_version/immodules/?@executable_path/../Resources/lib/gtk-2.0/$gtk_version/immodules/?" \
     < $LIBPREFIX/etc/gtk-2.0/gtk.immodules \
     > $pkgetcdir/gtk-2.0/gtk.immodules
+
+## FIXME:
+mkdir -p $pkgthemedir/Leopardish-normal
+cp -r ~/.themes/Leopardish-normal/* $pkgthemedir/Leopardish-normal
+
 
 # ------------------------------------------------------------
 # Install dependencies

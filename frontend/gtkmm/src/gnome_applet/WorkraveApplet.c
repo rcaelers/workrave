@@ -1,6 +1,6 @@
 // WorkraveApplet.cc
 //
-// Copyright (C) 2002, 2003, 2005, 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -24,6 +24,7 @@ static const char rcsid[] = "$Id$";
 #endif
 
 #include "credits.h"
+// FIXME: #include "version.h"
 
 #include <gnome.h>
 #include <bonobo.h>
@@ -359,7 +360,7 @@ verb_about(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
 
   gtk_show_about_dialog (NULL,
                          "name", "Workrave",
-                         "version", VERSION,
+                         "version", VERSION, // FIXME: WORKRAVE_VERSION_STR,
                          "copyright", workrave_copyright,
                          "website", "http://www.workrave.org",
                          "website_label", "www.workrave.org",

@@ -1,0 +1,78 @@
+#!/bin/bash
+#
+# Copyright (C) 2008 Rob Caelers <robc@krandor.nl>
+# All rights reserved.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# Based on code from inkscape and ige-mac-bundler
+#
+
+name="`basename $0`"
+tmp="`pwd`/$0"
+tmp=`dirname "$tmp"`
+tmp=`dirname "$tmp"`
+bundle=`dirname "$tmp"`
+
+pkgrootdir=$bundle
+pkgcontentsdir=$pkgrootdir/Contents
+pkgexecdir=$pkgcontentsdir/MacOS
+pkgresourcesdir=$pkgcontentsdir/Resources
+pkgframeworksdir=$pkgcontentsdir/Frameworks
+pkgdatadir=$pkgresourcesdir/share
+pkgetcdir=$pkgresourcesdir/etc
+pkgbindir=$pkgresourcesdir/bin
+pkglibdir=$pkgresourcesdir/lib
+pkgsharedir=$pkgresourcesdir/share
+pkgthemedir=$pkgresourcesdir/themes
+
+mkdir -p $HOME/.workrave
+chmod og-rwx $HOME/.workrave
+
+cat > $HOME/.workrave/pangorc << END
+[Pango]
+ModuleFiles=$pkgetcdir/pango/pango.modules
+END
+
+export DYLD_LIBRARY_PATH="$pkglibdir"
+
+export XDG_CONFIG_DIRS="$pkgetcdir"/xdg
+export XDG_DATA_DIRS="$pkgdatadir"
+
+export GTK_DATA_PREFIX="$pkgdatadir"
+export GTK_EXE_PREFIX="$pkgresourcesdir"
+export GTK_PATH="$pkgresourcesdir"
+export GTK_IM_MODULE_FILE="$pkgetcdir/gtk-2.0/gtk.immodules"
+
+export GDK_PIXBUF_MODULE_FILE="$pkgetcdir/gtk-2.0/gdk-pixbuf.loaders"
+export FONTCONFIG_PATH="$pkgetcdir/fonts"
+export PANGO_RC_FILE="$HOME/.workrave/pangorc"
+
+#export LANG="`grep \`defaults read .GlobalPreferences AppleCollationOrder 2>&1\`_ /usr/share/locale/locale.alias  | tail -n1 | sed 's/\./ /' | awk '{print $2}'`.UTF-8"
+
+export LANGUAGE=`defaults read .GlobalPreferences AppleLocale`
+export LANG=$LANGUAGE
+
+export CHARSETALIASDIR="$pkglibdir"
+
+if [ ! -e $HOME/.gtkrc-2.0 ]; then
+    export GTK2_RC_FILES="$pkgresourcesdir/themes/Leopardish-normal/gtk-2.0/gtkrc"
+fi
+
+# Strip out the argument added by the OS.
+if [ x`echo "x$1" | sed -e "s/^x-psn_.*//"` == x ]; then
+    shift 1
+fi
+
+exec "$pkgcontentsdir/MacOS/workrave-bin" $*

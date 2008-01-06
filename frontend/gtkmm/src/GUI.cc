@@ -1,6 +1,6 @@
 // GUI.cc --- The WorkRave GUI
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -67,8 +67,16 @@ static const char rcsid[] = "$Id$";
 #endif
 #ifdef PLATFORM_OS_OSX
 #include "OSXUtil.hh"
-#endif
 
+#include <strings.h>
+#include <mach-o/dyld.h>
+#include <sys/param.h>
+
+#import <Cocoa/Cocoa.h>
+#include <Carbon/Carbon.h>
+
+#import "AppController.h"
+#endif
 #include "Menus.hh"
 
 #ifdef HAVE_GCONF
@@ -199,7 +207,7 @@ GUI::main()
 
 #ifdef NDEBUG
 #ifdef PLATFORM_OS_OSX
-  OSXUtil::init();
+  // FIXME: OSXUtil::init();
 #endif
 #endif
   
@@ -212,6 +220,8 @@ GUI::main()
   init_kde();
 #endif
 
+  [ [ AppController alloc ] init ];
+  
 #if defined (PLATFORM_OS_WIN32) || defined(PLATFORM_OS_OSX)
   // Win32 needs this....
   if (!g_thread_supported())
@@ -492,9 +502,24 @@ GUI::init_nls()
   gtk_set_locale();
 #  endif
   const char *locale_dir;
-#ifdef PLATFORM_OS_WIN32
+
+#if defined(PLATFORM_OS_WIN32)
   string dir = Util::get_application_directory() + "\\lib\\locale";
   locale_dir = dir.c_str();
+#elif defined(PLATFORM_OS_OSX)
+  char locale_path[MAXPATHLEN * 4];
+  char execpath[MAXPATHLEN+1];
+  uint32_t pathsz = sizeof (execpath);
+
+  _NSGetExecutablePath(execpath, &pathsz);
+
+  gchar *dir_path = g_path_get_dirname(execpath);
+  strcpy(locale_path, dir_path);
+  g_free(dir_path);
+
+  // Locale
+  strcat(locale_path, "/../Resources/locale");
+  locale_dir = locale_path;
 #else
   locale_dir = GNOMELOCALEDIR;
 #  endif

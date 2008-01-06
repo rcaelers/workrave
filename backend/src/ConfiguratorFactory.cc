@@ -1,6 +1,6 @@
 // ConfiguratorFactory.cc
 //
-// Copyright (C) 2007 Rob Caelers
+// Copyright (C) 2007, 2008 Rob Caelers
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -44,6 +44,9 @@ static const char rcsid[] = "$Id";
 #ifdef PLATFORM_OS_WIN32
 #include "W32Configurator.hh"
 #endif
+#ifdef PLATFORM_OS_OSX
+#include "OSXConfigurator.hh"
+#endif
 
 //! Creates a configurator of the specified type.
 Configurator *
@@ -76,6 +79,14 @@ ConfiguratorFactory::create(Format fmt)
   else
 #endif
 
+#ifdef PLATFORM_OS_OSX
+  if (fmt == FormatNative)
+    {
+      b = new OSXConfigurator();
+    }
+  else
+#endif
+    
 #ifdef HAVE_QT
   if (fmt == FormatNative)
     {

@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
 #
 # $Id$
 #
@@ -63,3 +63,14 @@ win32:
           ${WIN32_NMAKE} /f Applet.mak CFG="Applet - Win32 Release"; \
 	  cd ../../../.. \
 	)
+
+version.h: config.h
+	PACKAGE_VERSION=`grep PACKAGE_VERSION config.h | cut -d' ' -f 3 | sed "s/\\"//g"`
+	echo "#ifndef WORKRAVE_VERSION_H" > version.h
+	echo "#define WORKRAVE_VERSION_H" >> version.h
+	if [ -e ".svn" ] ; then \
+            PACKAGE_SVN_VERION=`svn info . | grep Revision: | sed -e 's/Revision: \([0-9]*\)/\1/'`; \
+	    echo "#define WORKRAVE_VERSION \"$PACKAGE_VERSION" > version.h \
+        fi
+	echo "#define WORKRAVE_SVN_VERSION \"$PACKAGE_SVN_VERSION" > version.h
+	echo "#endif // WORKRAVE_VERSION" > version.h

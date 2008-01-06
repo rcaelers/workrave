@@ -1,13 +1,13 @@
 
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
 #
 # $Id$
 #
 
 SUBDIRS = 		gnome_applet kde_applet win32 unix osx
-MAINTAINERCLEANFILES = 	Makefile.in ${IDL_A_GENERATED} ${IDL_C_GENERATED}
+MAINTAINERCLEANFILES = 	Makefile.in version.h ${IDL_A_GENERATED} ${IDL_C_GENERATED}
 
 if HAVE_APP_GTKMM
 
@@ -82,13 +82,14 @@ if HAVE_GNOME
 extrasources +=		$(sourcesgnome)
 extranodistsources +=	$(sourcesgnome_idl)
 
-Menus.cc:               $(sourcesgnome_idl)
+Menus.cc:               $(sourcesgnome_idl) version.h
 AppletControl.cc:       $(sourcesgnome_idl)
 RemoteControl.cc:       $(sourcesgnome_idl)
 GnomeAppletWindow.cc:   $(sourcesgnome_idl)
 GUI.cc:			$(sourcesgnome_idl)
 else
 extrasources +=		$(sourcesnognome)
+Menus.cc:               version.h
 endif
 
 if HAVE_KDE
@@ -187,6 +188,22 @@ workrave_SOURCES = \
 			main.cc \
 			$(extrasources)
 
+
+.PHONY: version.h
+version.h: 
+			echo "#ifndef WORKRAVE_VERSION_H" > version.h
+			echo "#define WORKRAVE_VERSION_H" >> version.h
+			if [ -e ".svn" ] ; then 											\
+				PACKAGE_VERSION=`grep PACKAGE_VERSION ../../../config.h | cut -d' ' -f 3 | sed "s/\\"//g"`;		\
+				PACKAGE_SVN_VERION=`svn info . | grep Revision: | sed -e 's/Revision: \([0-9]*\)/\1/'` ;		\
+				echo "#define WORKRAVE_VERSION_STR \"$$PACKAGE_VERSION (build-$$PACKAGE_SVN_VERION)\"" >> version.h;    \
+			else 														\
+				PACKAGE_VERSION=`grep PACKAGE_VERSION ../../../config.h | cut -d' ' -f 3 | sed "s/\\"//g"`;		\
+				echo "#define WORKRAVE_VERSION_STR \"$$PACKAGE_VERSION\"" >> version.h;					\
+	        	fi
+			echo "#endif // WORKRAVE_VERSION_H" >> version.h
+
+
 nodist_workrave_SOURCES = \
 			$(extranodistsources)
 
@@ -203,9 +220,11 @@ workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
 			-I${STATISTICS_HOME}/gtkmm/src \
 			-I${EXERCISES_HOME}/gtkmm/src \
-			-I${EXERCISES_HOME}/common/src 
+			-I${EXERCISES_HOME}/common/src
 
-workrave_CFLAGS	= 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
+INCLUDES=		-xobjective-c++
+
+Workrave_CFLAGS	= 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-I. @WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
 			@X_CFLAGS@ @GNOME_CFLAGS@ @GTK_CFLAGS@ \
 			-D_XOPEN_SOURCE=600 \

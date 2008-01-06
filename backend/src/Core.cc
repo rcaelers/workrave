@@ -202,7 +202,7 @@ Core::init_configurator()
     }
   else
     {
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WIN32) // FIXME: does not work yet.... || defined(PLATFORM_OS_OSX)
       configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatNative);
 
 #elif defined(HAVE_GCONF)
@@ -227,6 +227,7 @@ Core::init_configurator()
 #elif defined(HAVE_QT)
       configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatNative);
 #else
+      ini_file = Util::get_home_directory() + "workrave.ini";
       configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatIni);
       configurator->load(ini_file);
       configurator->save(ini_file);

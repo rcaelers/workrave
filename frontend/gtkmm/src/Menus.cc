@@ -1,6 +1,6 @@
 // Menus.cc --- Timer info Window
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -28,6 +28,7 @@ static const char rcsid[] = "$Id$";
 #include "nls.h"
 #include "debug.hh"
 #include "credits.h"
+#include "version.h"
 
 #include <unistd.h>
 #include <iostream>
@@ -771,7 +772,8 @@ Menus::on_menu_about()
                        " of Repetitive Strain Injury (RSI)."));
   about.set_logo(pixbuf);
   about.set_translator_credits(workrave_translators);
-  about.set_version(VERSION);
+
+  about.set_version(WORKRAVE_VERSION_STR);
   about.set_website("http://www.workrave.org/");
   about.set_website_label("www.workrave.org");
 

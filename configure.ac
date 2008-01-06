@@ -92,6 +92,7 @@ dnl
 
 AC_PROG_CC
 AM_PROG_CC_C_O
+AC_PROG_OBJC
 AC_PROG_CXX
 AC_PROG_CPP
 AC_GNU_SOURCE
@@ -219,6 +220,8 @@ dnl
 dnl OSX specific checks
 dnl
 
+AC_SUBST(OSX_CFLAGS)
+
 if test "$platform_os_osx" = "yes"
 then
    AC_CHECK_LIB(resolv, res_query)
@@ -233,7 +236,8 @@ then
     config_gconf=no
 
     LDFLAGS="$LDFLAGS -headerpad_max_install_names"
-    LIBS="$LIBS -framework QuickTime -framework CoreServices -framework Carbon"
+    LIBS="$LIBS -framework QuickTime -framework CoreServices -framework Carbon -framework Cocoa -framework Foundation"
+    OSX_CFLAGS=""
  fi
 
 dnl

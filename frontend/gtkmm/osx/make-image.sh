@@ -78,7 +78,7 @@ rm -f "${DMG_FILENAME}"
 hdiutil convert "${dmg_temp_filename}"  \
                 -format UDZO            \
 		-imagekey zlib-level=9  \
-		-o "${DMG_FILENAME}"    \
+		-o "${DMG_FILENAME}"
 rm -f "${dmg_temp_filename}"
 
 # ------------------------------------------------------------
@@ -122,7 +122,7 @@ resource 'STR#' (5000, \"English buttons\") {
         \"Print...\",
         \"Save...\",
         \"IMPORTANT - Read this License Agreement carefully before clicking on \"
-        \"the \"Agree\" button.  By clicking on the \"Agree\" button, you agree \"
+        \"the \\"Agree\\" button.  By clicking on the \\"Agree\\" button, you agree \"
         \"to be bound by the terms of the License Agreement.\",
         \"Software License Agreement\",
         \"This text cannot be saved. This disk may be full or locked, or the file \"
