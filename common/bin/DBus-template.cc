@@ -2,6 +2,10 @@
 //
 //
 
+\#ifdef HAVE_CONFIG_H
+\#include "config.h"
+\#endif
+
 \#include "DBus.hh"
 \#include "DBusException.hh"
 \#include "${model.include_filename}"
