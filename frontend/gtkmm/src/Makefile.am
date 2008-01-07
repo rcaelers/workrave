@@ -222,9 +222,11 @@ workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
 			-I${EXERCISES_HOME}/gtkmm/src \
 			-I${EXERCISES_HOME}/common/src
 
-INCLUDES=		-xobjective-c++
+if PLATFORM_OS_OSX
+INCLUDES =		-xobjective-c++
+endif
 
-Workrave_CFLAGS	= 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
+workrave_CFLAGS	= 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-I. @WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
 			@X_CFLAGS@ @GNOME_CFLAGS@ @GTK_CFLAGS@ \
 			-D_XOPEN_SOURCE=600 \

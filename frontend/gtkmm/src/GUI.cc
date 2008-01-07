@@ -220,7 +220,9 @@ GUI::main()
   init_kde();
 #endif
 
+#if defined (PLATFORM_OS_OSX)
   [ [ AppController alloc ] init ];
+#endif
   
 #if defined (PLATFORM_OS_WIN32) || defined(PLATFORM_OS_OSX)
   // Win32 needs this....

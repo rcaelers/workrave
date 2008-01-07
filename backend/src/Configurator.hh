@@ -1,6 +1,6 @@
 // Configurator.hh
 //
-// Copyright (C) 2001, 2002, 2003, 2006, 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008 Rob Caelers <robc@krandor.nl>
 // Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
 //
 // All rights reserved.
@@ -119,7 +119,8 @@ private:
 
 private:
   bool find_setting(const string &name, Setting &setting) const;
-  bool set_value(const std::string &key, Variant &value, bool force_now = false);
+  
+  bool set_value(const std::string &key, Variant &value, ConfigFlags flags = CONFIG_FLAG_NONE);
   bool get_value(const std::string &key, VariantType type, Variant &value) const;
 
   void fire_configurator_event(const std::string &key);

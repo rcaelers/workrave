@@ -1,6 +1,6 @@
 // Configurator.cc --- Configuration Access
 //
-// Copyright (C) 2002, 2003, 2006, 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2002, 2003, 2006, 2007, 2008 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -176,41 +176,53 @@ Configurator::rename_key(const std::string &key, const std::string &new_key)
 
 
 bool
-Configurator::set_value(const std::string &key, Variant &value, bool force_now)
+Configurator::set_value(const std::string &key, Variant &value, ConfigFlags flags)
 {
-  bool ret = false;
-  bool delayed = false;
+  bool ret = true;
+  bool skip = false;
   Setting setting;
+  string newkey;
 
-  string newkey = key;
-  strip_trailing_slash(newkey);
-  strip_leading_slash(newkey);
-
-  bool b = find_setting(newkey, setting);
-  if (b)
+  if ((flags & CONFIG_FLAG_DEFAULT) != 0)
     {
-      if (setting.delay && !force_now)
-        {
-          ICore *core = CoreFactory::get_core();
-
-          DelayedConfig d;
-          d.key = key;
-          d.value = value;
-          d.until = core->get_time() + setting.delay;
-
-          delayed_config[key] = d;
-          delayed = true;
-        }
+      skip = get_value(key, value.type, value);
     }
 
-  if (!ret && !delayed)
+  if (!skip)
     {
-      b = backend->set_value(newkey, value);
+      newkey = key;
+      strip_trailing_slash(newkey);
+      strip_leading_slash(newkey);
+    }
 
-      if (b && dynamic_cast<IConfigBackendMonitoring *>(backend) == NULL)
+  if (!skip && flags == CONFIG_FLAG_NONE)
+    {
+      bool b = find_setting(newkey, setting);
+      if (b)
+        {
+          if (setting.delay)
+            {
+              ICore *core = CoreFactory::get_core();
+
+              DelayedConfig d;
+              d.key = key;
+              d.value = value;
+              d.until = core->get_time() + setting.delay;
+
+              delayed_config[key] = d;
+              skip = true;
+            }
+        }
+    }
+  
+  if (!skip)
+    {
+      ret = backend->set_value(newkey, value);
+      
+      if (ret && dynamic_cast<IConfigBackendMonitoring *>(backend) == NULL)
         {
           fire_configurator_event(newkey);
-
+          
           if (auto_save_time == 0)
             {
               ICore *core = CoreFactory::get_core();
@@ -218,8 +230,8 @@ Configurator::set_value(const std::string &key, Variant &value, bool force_now)
             }
         }
     }
-
-  return b || delayed;
+  
+  return ret || skip;
 }
 
 
@@ -307,18 +319,10 @@ Configurator::set_value(const std::string &key, const std::string &v, ConfigFlag
   Variant value;
   bool ret = false;
   
-  if ((flags & CONFIG_FLAG_DEFAULT) != 0)
-    {
-      ret = get_value(key, VARIANT_TYPE_STRING, value);
-    }
+  value.type = VARIANT_TYPE_STRING;
+  value.string_value = v;
+  ret = set_value(key, value, flags);
   
-  if (!ret)
-    {
-      value.type = VARIANT_TYPE_STRING;
-      value.string_value = v;
-      ret = set_value(key, value, flags != CONFIG_FLAG_NONE);
-    }
-
   return ret;
 }
 
@@ -329,17 +333,9 @@ Configurator::set_value(const std::string &key, const char *v, ConfigFlags flags
   Variant value;
   bool ret = false;
   
-  if ((flags & CONFIG_FLAG_DEFAULT) != 0)
-    {
-      ret = get_value(key, VARIANT_TYPE_STRING, value);
-    }
-  
-  if (!ret)
-    {
-      value.type = VARIANT_TYPE_STRING;
-      value.string_value = v;
-      ret = set_value(key, value, flags != CONFIG_FLAG_NONE);
-    }
+  value.type = VARIANT_TYPE_STRING;
+  value.string_value = v;
+  ret = set_value(key, value, flags);
 
   return ret;
 }
@@ -350,17 +346,9 @@ Configurator::set_value(const std::string &key, int v, ConfigFlags flags)
   Variant value;
   bool ret = false;
   
-  if ((flags & CONFIG_FLAG_DEFAULT) != 0)
-    {
-      ret = get_value(key, VARIANT_TYPE_INT, value);
-    }
-  
-  if (!ret)
-    {
-      value.type = VARIANT_TYPE_INT;
-      value.int_value = v;
-      ret = set_value(key, value, flags != CONFIG_FLAG_NONE);
-    }
+  value.type = VARIANT_TYPE_INT;
+  value.int_value = v;
+  ret = set_value(key, value, flags);
 
   return ret;
 }
@@ -372,17 +360,9 @@ Configurator::set_value(const std::string &key, bool v, ConfigFlags flags)
   Variant value;
   bool ret = false;
   
-  if ((flags & CONFIG_FLAG_DEFAULT) != 0)
-    {
-      ret = get_value(key, VARIANT_TYPE_BOOL, value);
-    }
-  
-  if (!ret)
-    {
-      value.type = VARIANT_TYPE_BOOL;
-      value.bool_value = v;
-      ret = set_value(key, value, flags != CONFIG_FLAG_NONE);
-    }
+  value.type = VARIANT_TYPE_BOOL;
+  value.bool_value = v;
+  ret = set_value(key, value, flags);
 
   return ret;
 }
@@ -394,17 +374,9 @@ Configurator::set_value(const std::string &key, double v, ConfigFlags flags)
   Variant value;
   bool ret = false;
   
-  if ((flags & CONFIG_FLAG_DEFAULT) != 0)
-    {
-      ret = get_value(key, VARIANT_TYPE_DOUBLE, value);
-    }
-  
-  if (!ret)
-    {
-      value.type = VARIANT_TYPE_DOUBLE;
-      value.double_value = v;
-      ret = set_value(key, value, flags != CONFIG_FLAG_NONE);
-    }
+  value.type = VARIANT_TYPE_DOUBLE;
+  value.double_value = v;
+  ret = set_value(key, value, flags);
 
   return ret;
 }
