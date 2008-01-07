@@ -1,6 +1,6 @@
 // ICore.hh --- The main controller interface
 //
-// Copyright (C) 2001 - 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2008 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -30,7 +30,7 @@ namespace workrave {
   class IBreak;
   class IApp;
   class IStatistics;
-  class CoreEventListener;
+  class ICoreEventListener;
   class INetwork;
   class ITimer;
   class IDistributionManager;
@@ -100,6 +100,9 @@ namespace workrave {
     //! Return the break interface of the specified type.
     virtual IBreak *get_break(BreakId id) = 0;
 
+    //! Return the break interface of the specified type.
+    virtual IBreak *get_break(std::string name) = 0;
+
     //! Return the statistics interface.
     virtual IStatistics *get_statistics() const = 0;
 
@@ -118,7 +121,7 @@ namespace workrave {
     virtual OperationMode set_operation_mode(OperationMode mode) = 0;
 
     //! Set the callback for activity monitor events.
-    virtual void set_core_events_listener(CoreEventListener *l) = 0;
+    virtual void set_core_events_listener(ICoreEventListener *l) = 0;
 
     //! Notify the core that the computer will enter or leave powersave (suspend/hibernate)
     virtual void set_powersave(bool down) = 0;

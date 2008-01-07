@@ -1,5 +1,5 @@
-# stdint_h.m4 serial 5
-dnl Copyright (C) 1997-2004 Free Software Foundation, Inc.
+# stdint_h.m4 serial 6
+dnl Copyright (C) 1997-2004, 2006 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
 dnl with or without modifications, as long as this notice is preserved.
@@ -15,7 +15,7 @@ AC_DEFUN([gl_AC_HEADER_STDINT_H],
   [AC_TRY_COMPILE(
     [#include <sys/types.h>
 #include <stdint.h>],
-    [uintmax_t i = (uintmax_t) -1;],
+    [uintmax_t i = (uintmax_t) -1; return !i;],
     gl_cv_header_stdint_h=yes,
     gl_cv_header_stdint_h=no)])
   if test $gl_cv_header_stdint_h = yes; then

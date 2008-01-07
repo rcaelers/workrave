@@ -1,5 +1,5 @@
 /* Determine the user's language preferences.
-   Copyright (C) 2004-2005 Free Software Foundation, Inc.
+   Copyright (C) 2004-2006 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify it
    under the terms of the GNU Library General Public License as published
@@ -26,16 +26,16 @@
 
 #if HAVE_CFPREFERENCESCOPYAPPVALUE
 # include <string.h>
-# include <CFPreferences.h>
-# include <CFPropertyList.h>
-# include <CFArray.h>
-# include <CFString.h>
+# include <CoreFoundation/CFPreferences.h>
+# include <CoreFoundation/CFPropertyList.h>
+# include <CoreFoundation/CFArray.h>
+# include <CoreFoundation/CFString.h>
 extern void _nl_locale_name_canonicalize (char *name);
 #endif
 
 /* Determine the user's language preferences, as a colon separated list of
    locale names in XPG syntax
-     language[_territory[.codeset]][@modifier]
+     language[_territory][.codeset][@modifier]
    The result must not be freed; it is statically allocated.
    The LANGUAGE environment variable does not need to be considered; it is
    already taken into account by the caller.  */

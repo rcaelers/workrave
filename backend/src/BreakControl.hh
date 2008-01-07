@@ -23,7 +23,7 @@
 #define BREAKCONTROL_HH
 
 #include "ICore.hh"
-#include "CoreEventListener.hh"
+#include "ICoreEventListener.hh"
 #include "IBreak.hh"
 #include "IBreakResponse.hh"
 #include "ActivityMonitorListener.hh"

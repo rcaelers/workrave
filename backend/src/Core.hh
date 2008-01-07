@@ -45,7 +45,7 @@
 #include "IBreakResponse.hh"
 #include "IActivityMonitor.hh"
 #include "ICore.hh"
-#include "CoreEventListener.hh"
+#include "ICoreEventListener.hh"
 #include "IConfiguratorListener.hh"
 #include "TimeSource.hh"
 #include "Timer.hh"
@@ -58,6 +58,7 @@ namespace workrave {
   class ISoundPlayer;
   class IApp;
   class INetwork;
+  class DBus;
 }
 
 class ActivityMonitor;
@@ -108,7 +109,7 @@ public:
   DistributionManager *get_distribution_manager() const;
 #endif
   Statistics *get_statistics() const;
-  void set_core_events_listener(CoreEventListener *l);
+  void set_core_events_listener(ICoreEventListener *l);
   void force_break(BreakId id, bool initiated_by_user);
   void set_powersave(bool down);
 
@@ -130,8 +131,19 @@ public:
   ActivityState get_current_monitor_state() const;
   bool is_master() const;
 
+  // DBus functions.
   void report_external_activity(std::string who, bool act);
+  void is_timer_running(BreakId id, bool &value);
+  void get_timer_elapsed(BreakId id,int *value);
+  void get_timer_idle(BreakId id, int *value);
 
+#ifdef HAVE_DBUS
+  DBus *get_dbus()
+  {
+    return dbus;
+  }
+#endif
+  
 private:
 
 #ifndef NDEBUG
@@ -252,7 +264,7 @@ private:
   OperationMode operation_mode;
 
   //! Where to send core events to?
-  CoreEventListener *core_event_listener;
+  ICoreEventListener *core_event_listener;
 
   //! Did the OS announce a powersave?
   bool powersave;
@@ -278,6 +290,11 @@ private:
   //! Current overall monitor state.
   ActivityState monitor_state;
 
+#ifdef HAVE_DBUS
+  //! DBUS bridge
+  DBus *dbus;
+#endif
+
 #ifdef HAVE_DISTRIBUTION
   //! The Distribution Manager
   DistributionManager *dist_manager;
@@ -299,6 +316,7 @@ private:
   int script_start_time;
 #endif
 #endif
+
   //! External activity
   std::map<std::string, int> external_activity;
 };

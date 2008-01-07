@@ -274,7 +274,11 @@ Configurator::get_value(const std::string &key, std::string &out) const
 {
   Variant value;
   bool b = get_value(key, VARIANT_TYPE_STRING, value);
-  out = value.string_value;
+
+  if (b)
+    {
+      out = value.string_value;
+    }
 
   return b;
 }
@@ -285,7 +289,11 @@ Configurator::get_value(const std::string &key, bool &out) const
 {
   Variant value;
   bool b = get_value(key, VARIANT_TYPE_BOOL, value);
-  out = value.bool_value;
+
+  if (b)
+    {
+      out = value.bool_value;
+    }
 
   return b;
 }
@@ -296,7 +304,11 @@ Configurator::get_value(const std::string &key, int &out) const
 {
   Variant value;
   bool b = get_value(key, VARIANT_TYPE_INT, value);
-  out = value.int_value;
+
+  if (b)
+    {
+      out = value.int_value;
+    }
 
   return b;
 }
@@ -307,7 +319,11 @@ Configurator::get_value(const std::string &key, double &out) const
 {
   Variant value;
   bool b = get_value(key, VARIANT_TYPE_DOUBLE, value);
-  out = value.double_value;
+
+  if (b)
+    {
+      out = value.double_value;
+    }
 
   return b;
 }

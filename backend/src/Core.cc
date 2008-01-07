@@ -39,7 +39,7 @@ static const char rcsid[] = "$Id$";
 
 #include "Util.hh"
 #include "IApp.hh"
-#include "CoreEventListener.hh"
+#include "ICoreEventListener.hh"
 #include "ActivityMonitor.hh"
 #include "TimerActivityMonitor.hh"
 #include "Break.hh"
@@ -68,6 +68,7 @@ static const char rcsid[] = "$Id$";
 
 #ifdef HAVE_DBUS
 #include "DBus.hh"
+#include "DBusException.hh"
 #endif
 
 Core *Core::instance = NULL;
@@ -81,6 +82,9 @@ const string Core::CFG_KEY_MONITOR_ACTIVITY = "monitor/activity";
 const string Core::CFG_KEY_MONITOR_IDLE = "monitor/idle";
 const string Core::CFG_KEY_GENERAL_DATADIR = "general/datadir";
 const string Core::CFG_KEY_OPERATION_MODE = "gui/operation-mode";
+
+#define DBUS_PATH_WORKRAVE         "/org/workrave/Workrave/Core"
+#define DBUS_SERVICE_WORKRAVE      "org.workrave.Workrave"
 
 //! Constructs a new Core.
 Core::Core() :
@@ -178,14 +182,10 @@ Core::init(int argc, char **argv, IApp *app, const string &display_name)
 
   init_breaks();
   init_statistics();
+  init_bus();
 
   load_state();
   load_misc();
-
-#ifdef HAVE_DBUS
-  // FIXME: move..
-  workrave_dbus_server_init(this);
-#endif
 }
 
 
@@ -246,7 +246,33 @@ void
 Core::init_bus()
 {
 #ifdef HAVE_DBUS
-  workrave_dbus_server_init(this);
+  try
+    {
+      dbus = new DBus();
+
+      dbus->init();
+
+      string name = DBUS_SERVICE_WORKRAVE;
+      char *env = getenv("WORKRAVE_DBUS_NAME");
+      if (env != NULL)
+        {
+          name = env;
+        }      
+      dbus->register_service(name);
+      dbus->register_object_path(DBUS_PATH_WORKRAVE);
+
+      extern void init_DBusWorkrave(DBus *dbus);
+      init_DBusWorkrave(dbus);
+  
+      dbus->connect(DBUS_PATH_WORKRAVE, "org.workrave.CoreInterface", this);
+      
+      dbus->connect(DBUS_PATH_WORKRAVE,
+                    "org.workrave.ConfigInterface",
+                    configurator);
+    }
+  catch (DBusException &e)
+    {
+    }
 #endif
 }
 
@@ -557,7 +583,7 @@ APPEND_TIME("Core::set_operation_mode()", "OPERATION_MODE_QUIET ")
 
 //! Sets the listener for core events.
 void
-Core::set_core_events_listener(CoreEventListener *l)
+Core::set_core_events_listener(ICoreEventListener *l)
 {
   core_event_listener = l;
 }
@@ -962,6 +988,30 @@ Core::report_external_activity(std::string who, bool act)
       external_activity.erase(who);
     }
   TRACE_EXIT();
+}
+
+
+void
+Core::is_timer_running(BreakId id, bool &value)
+{
+  Timer *timer = get_timer(id);
+  value = timer->get_state() == STATE_RUNNING;
+}
+
+
+void
+Core::get_timer_idle(BreakId id, int *value)
+{
+  Timer *timer = get_timer(id);
+  *value = timer->get_elapsed_idle_time();
+}
+
+
+void
+Core::get_timer_elapsed(BreakId id, int *value)
+{
+  Timer *timer = get_timer(id);
+  *value = timer->get_elapsed_time();
 }
 
 
@@ -1370,7 +1420,7 @@ Core::load_state()
 }
 
 
-//! Posts an event.
+//! Post an event.
 void
 Core::post_event(CoreEvent event)
 {
@@ -1381,7 +1431,7 @@ Core::post_event(CoreEvent event)
 }
 
 
-//! Excecutes the insist policy.
+//! Excecute the insist policy.
 void
 Core::freeze()
 {
@@ -1416,7 +1466,7 @@ Core::freeze()
 }
 
 
-//! Undoes the insist policy.
+//! Undo the insist policy.
 void
 Core::defrost()
 {
@@ -1447,6 +1497,7 @@ Core::defrost()
   active_insist_policy = ICore::INSIST_POLICY_INVALID;
   TRACE_EXIT();
 }
+
 
 //! Is the user currently active?
 bool

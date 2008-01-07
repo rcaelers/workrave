@@ -45,6 +45,7 @@ static const char rcsid[] = "$Id$";
 
 #ifdef HAVE_DBUS
 #include "DBus.hh"
+#include "DBusWorkrave.hh"
 #endif
 
 using namespace std;
@@ -807,8 +808,29 @@ BreakControl::send_signal(BreakStage stage)
 
   if (progress != NULL)
     {
-      workrave_core_send_break_stage_signal(break_id, progress);
+      switch (break_id)
+        {
+        case BREAK_ID_MICRO_BREAK:
+          org_workrave_CoreInterface::emit_MicrobreakChanged(core->get_dbus(),
+                                                             "/org/workrave/Workrave/Core",
+                                                             progress);
+          break;
+          
+        case BREAK_ID_REST_BREAK:
+          org_workrave_CoreInterface::emit_MicrobreakChanged(core->get_dbus(),
+                                                             "/org/workrave/Workrave/Core",
+                                                             progress);
+          break;
+          
+        case BREAK_ID_DAILY_LIMIT:
+          org_workrave_CoreInterface::emit_MicrobreakChanged(core->get_dbus(),
+                                                             "/org/workrave/Workrave/Core",
+                                                             progress);
+          break;
+          
+        default:
+          break;
+        }
     }
-
 #endif
 }

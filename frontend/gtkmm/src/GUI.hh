@@ -32,7 +32,7 @@
 #include <gdkmm/types.h>
 
 #include "HeadInfo.hh"
-#include "CoreEventListener.hh"
+#include "ICoreEventListener.hh"
 #include "IApp.hh"
 
 #ifdef HAVE_GNOMEMM
@@ -67,7 +67,7 @@ using namespace workrave;
 
 class GUI :
   public IApp,
-  public CoreEventListener,
+  public ICoreEventListener,
   public SigC::Object
 {
 public:

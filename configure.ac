@@ -422,7 +422,7 @@ dnl
             
 if test "x$config_dbus" != "xno"
 then
-   dbus_pkgconfig="dbus-1 >= 0.92 dbus-glib-1"
+   dbus_pkgconfig="dbus-1 >= 1.0 dbus-glib-1"
    PKG_CHECK_MODULES(DBUS, $dbus_pkgconfig, have_dbus=yes, have_dbus=no)
    if test x$have_dbus = xyes
    then
@@ -646,12 +646,14 @@ dnl
 
 AC_OUTPUT(Makefile
           backend/Makefile \
+          backend/test/Makefile \
           backend/src/Makefile \
           backend/src/unix/Makefile \
           backend/src/osx/Makefile \
           backend/src/win32/Makefile \
           backend/include/Makefile \
           common/Makefile \
+          common/bin/Makefile \
           common/src/Makefile \
           common/src/unix/Makefile \
           common/src/win32/Makefile \
@@ -736,4 +738,3 @@ echo ""
 echo "                    Debugging :   ${config_debug}"
 echo "                    Test code :   ${config_tests}"
 echo ""
-          

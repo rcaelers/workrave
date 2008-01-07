@@ -1,5 +1,5 @@
 /* Description of GNU message catalog format: string hashing function.
-   Copyright (C) 1995, 1997-1998, 2000-2003 Free Software Foundation, Inc.
+   Copyright (C) 1995, 1997-1998, 2000-2003, 2005 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify it
    under the terms of the GNU Library General Public License as published
@@ -22,27 +22,15 @@
 #define HASHWORDBITS 32
 
 
+#ifndef _LIBC
+# ifdef IN_LIBINTL
+#  define __hash_string libintl_hash_string
+# else
+#  define __hash_string hash_string
+# endif
+#endif
+
 /* Defines the so called `hashpjw' function by P.J. Weinberger
    [see Aho/Sethi/Ullman, COMPILERS: Principles, Techniques and Tools,
    1986, 1987 Bell Telephone Laboratories, Inc.]  */
-static inline unsigned long int
-hash_string (const char *str_param)
-{
-  unsigned long int hval, g;
-  const char *str = str_param;
-
-  /* Compute the hash value for the given string.  */
-  hval = 0;
-  while (*str != '\0')
-    {
-      hval <<= 4;
-      hval += (unsigned char) *str++;
-      g = hval & ((unsigned long int) 0xf << (HASHWORDBITS - 4));
-      if (g != 0)
-	{
-	  hval ^= g >> (HASHWORDBITS - 8);
-	  hval ^= g;
-	}
-    }
-  return hval;
-}
+extern unsigned long int __hash_string (const char *str_param);

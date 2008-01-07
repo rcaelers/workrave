@@ -1,6 +1,0 @@
-Makefile
-Makefile.in
-*.gmo
-.intltool-merge-cache
-POTFILES
-workrave.pot

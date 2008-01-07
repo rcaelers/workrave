@@ -1,4 +1,4 @@
-# intmax.m4 serial 2 (gettext-0.14.2)
+# intmax.m4 serial 3 (gettext-0.16)
 dnl Copyright (C) 2002-2005 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
@@ -22,7 +22,10 @@ AC_DEFUN([gt_TYPE_INTMAX_T],
 #if HAVE_INTTYPES_H_WITH_UINTMAX
 #include <inttypes.h>
 #endif
-], [intmax_t x = -1;], gt_cv_c_intmax_t=yes, gt_cv_c_intmax_t=no)])
+],     [intmax_t x = -1;
+        return !x;],
+       gt_cv_c_intmax_t=yes,
+       gt_cv_c_intmax_t=no)])
   if test $gt_cv_c_intmax_t = yes; then
     AC_DEFINE(HAVE_INTMAX_T, 1,
       [Define if you have the 'intmax_t' type in <stdint.h> or <inttypes.h>.])

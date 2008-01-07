@@ -1,5 +1,5 @@
 /* Determine the current selected locale.
-   Copyright (C) 1995-1999, 2000-2005 Free Software Foundation, Inc.
+   Copyright (C) 1995-1999, 2000-2006 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify it
    under the terms of the GNU Library General Public License as published
@@ -29,20 +29,19 @@
 
 #if HAVE_CFLOCALECOPYCURRENT || HAVE_CFPREFERENCESCOPYAPPVALUE
 # include <string.h>
-# include <CFString.h>
+# include <CoreFoundation/CFString.h>
 # if HAVE_CFLOCALECOPYCURRENT
-#  include <CFLocale.h>
+#  include <CoreFoundation/CFLocale.h>
 # elif HAVE_CFPREFERENCESCOPYAPPVALUE
-#  include <CFPreferences.h>
+#  include <CoreFoundation/CFPreferences.h>
 # endif
 #endif
 
 #if defined _WIN32 || defined __WIN32__
-# undef WIN32   /* avoid warning on mingw32 */
-# define WIN32
+# define WIN32_NATIVE
 #endif
 
-#ifdef WIN32
+#ifdef WIN32_NATIVE
 # define WIN32_LEAN_AND_MEAN
 # include <windows.h>
 /* List of language codes, sorted by value:
@@ -974,12 +973,12 @@ _nl_locale_name_canonicalize (char *name)
    However it does not specify the exact format.  Neither do SUSV2 and
    ISO C 99.  So we can use this feature only on selected systems (e.g.
    those using GNU C Library).  */
-#if defined _LIBC || (defined __GNU_LIBRARY__ && __GNU_LIBRARY__ >= 2)
+#if defined _LIBC || (defined __GLIBC__ && __GLIBC__ >= 2)
 # define HAVE_LOCALE_NULL
 #endif
 
 /* Determine the current locale's name, and canonicalize it into XPG syntax
-     language[_territory[.codeset]][@modifier]
+     language[_territory][.codeset][@modifier]
    The codeset part in the result is not reliable; the locale_charset()
    should be used for codeset information instead.
    The result must not be freed; it is statically allocated.  */
@@ -1023,7 +1022,7 @@ _nl_locale_name_default (void)
       locale, customizing it for each location.  POSIX:2001 does not require
       such a facility.  */
 
-#if !(HAVE_CFLOCALECOPYCURRENT || HAVE_CFPREFERENCESCOPYAPPVALUE || defined(WIN32))
+#if !(HAVE_CFLOCALECOPYCURRENT || HAVE_CFPREFERENCESCOPYAPPVALUE || defined(WIN32_NATIVE))
 
   /* The system does not have a way of setting the locale, other than the
      POSIX specified environment variables.  We use C as default locale.  */
@@ -1077,7 +1076,7 @@ _nl_locale_name_default (void)
 
 # endif
 
-# if defined(WIN32) /* WIN32 */
+# if defined(WIN32_NATIVE) /* WIN32, not Cygwin */
   {
     LCID lcid;
     LANGID langid;

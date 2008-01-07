@@ -8,7 +8,8 @@
 MAINTAINERCLEANFILES = 	Makefile.in \
 			workrave-client-bindings.h \
 			workrave-server-bindings.h \
-			org.workrave.Workrave.service
+			DBusWorkrave.cc \
+			DBusWorkrave.hh
 
 SUBDIRS = 		unix win32 osx
 
@@ -31,6 +32,7 @@ sources = 		ActivityMonitor.cc \
 			DayTimePred.cc \
 			WeekTimePred.cc \
 			TimePredFactory.cc
+
 
 DEFS = 			@DEFS@ -I$(top_srcdir)/intl -I. -I ../include
 
@@ -62,27 +64,18 @@ endif
 
 # DBus service file
 if HAVE_DBUS
-servicedir = $(DBUS_SERVICES_DIR)
-service_in_files = org.workrave.Workrave.service.in
-service_DATA = $(service_in_files:.service.in=.service)
+dbussources =           DBusWorkrave.cc
 
-# Rule to make the service file with bindir expanded
-$(service_DATA): $(service_in_files) Makefile
-	@sed -e "s|@bindir@|$(bindir)|" $<> $@
+DBusWorkrave.cc:	workrave-service.xml
+			python ../../common/bin/dbusgen.py workrave-service.xml DBusWorkrave
 
-BUILT_SOURCES=workrave-server-bindings.h workrave-client-bindings.h
+DBusWorkrave.cc: 	../../common/bin/dbusgen.py \
+			../../common/bin/DBus-template.cc \
+			../../common/bin/DBus-template.hh
 
-# Correctly clean the generated headers, but keep the xml description
-CLEANFILES = $(BUILT_SOURCES)
+DBusWorkrave.hh: 	DBusWorkrave.cc
+BreakControl.cc: 	DBusWorkrave.hh
 
-#Rule to generate the binding headers
-workrave-server-bindings.h:  workrave-service.xml
-	dbus-binding-tool --prefix=workrave --mode=glib-server $<> $@
-
-workrave-client-bindings.h:  workrave-service.xml
-	dbus-binding-tool --prefix=workrave --mode=glib-client $<> $@
-
-dbussources=DBus.cc
 endif
 
 libworkrave_backend_la_SOURCES = \

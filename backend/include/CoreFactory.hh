@@ -28,7 +28,8 @@ namespace workrave
   class ICore;
   class IConfigurator;
   class INetwork;
-
+  class DBus;
+  
   //! Main access points to the Core.
   class CoreFactory
   {
@@ -38,6 +39,9 @@ namespace workrave
 
     //! Returns the interface to the core's configurator.
     static IConfigurator *get_configurator();
+
+    //! Returns the interface to the DBUS facility.
+    static DBus *get_dbus();
   };
 }
 

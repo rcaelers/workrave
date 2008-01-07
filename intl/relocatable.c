@@ -1,5 +1,5 @@
 /* Provide relocatable packages.
-   Copyright (C) 2003-2004 Free Software Foundation, Inc.
+   Copyright (C) 2003-2006 Free Software Foundation, Inc.
    Written by Bruno Haible <bruno@clisp.org>, 2003.
 
    This program is free software; you can redistribute it and/or modify it
@@ -25,9 +25,7 @@
 # define _GNU_SOURCE	1
 #endif
 
-#ifdef HAVE_CONFIG_H
-# include "config.h"
-#endif
+#include <config.h>
 
 /* Specification.  */
 #include "relocatable.h"
@@ -45,7 +43,7 @@
 # include "xalloc.h"
 #endif
 
-#if defined _WIN32 || defined __WIN32__
+#if defined _WIN32 || defined __WIN32__ || defined __CYGWIN__
 # define WIN32_LEAN_AND_MEAN
 # include <windows.h>
 #endif
@@ -234,6 +232,9 @@ compute_curr_prefix (const char *orig_installprefix,
 		  same = true;
 		break;
 	      }
+	    /* Do case-insensitive comparison if the filesystem is always or
+	       often case-insensitive.  It's better to accept the comparison
+	       if the difference is only in case, rather than to fail.  */
 #if defined _WIN32 || defined __WIN32__ || defined __CYGWIN__ || defined __EMX__ || defined __DJGPP__
 	    /* Win32, Cygwin, OS/2, DOS - case insignificant filesystem */
 	    if ((*rpi >= 'a' && *rpi <= 'z' ? *rpi - 'a' + 'A' : *rpi)
@@ -280,7 +281,7 @@ compute_curr_prefix (const char *orig_installprefix,
 /* Full pathname of shared library, or NULL.  */
 static char *shared_library_fullname;
 
-#if defined _WIN32 || defined __WIN32__
+#if defined _WIN32 || defined __WIN32__ || defined __CYGWIN__
 
 /* Determine the full pathname of the shared library when it is loaded.  */
 
@@ -302,13 +303,31 @@ DllMain (HINSTANCE module_handle, DWORD event, LPVOID reserved)
 	/* Shouldn't happen.  */
 	return FALSE;
 
-      shared_library_fullname = strdup (location);
+      {
+#if defined __CYGWIN__
+	/* On Cygwin, we need to convert paths coming from Win32 system calls
+	   to the Unix-like slashified notation.  */
+	static char location_as_posix_path[2 * MAX_PATH];
+	/* There's no error return defined for cygwin_conv_to_posix_path.
+	   See cygwin-api/func-cygwin-conv-to-posix-path.html.
+	   Does it overflow the buffer of expected size MAX_PATH or does it
+	   truncate the path?  I don't know.  Let's catch both.  */
+	cygwin_conv_to_posix_path (location, location_as_posix_path);
+	location_as_posix_path[MAX_PATH - 1] = '\0';
+	if (strlen (location_as_posix_path) >= MAX_PATH - 1)
+	  /* A sign of buffer overflow or path truncation.  */
+	  return FALSE;
+	shared_library_fullname = strdup (location_as_posix_path);
+#else
+	shared_library_fullname = strdup (location);
+#endif
+      }
     }
 
   return TRUE;
 }
 
-#else /* Unix */
+#else /* Unix except Cygwin */
 
 static void
 find_shared_library_fullname ()
@@ -359,15 +378,15 @@ find_shared_library_fullname ()
 #endif
 }
 
-#endif /* WIN32 / Unix */
+#endif /* (WIN32 or Cygwin) / (Unix except Cygwin) */
 
 /* Return the full pathname of the current shared library.
    Return NULL if unknown.
-   Guaranteed to work only on Linux and Woe32.  */
+   Guaranteed to work only on Linux, Cygwin and Woe32.  */
 static char *
 get_shared_library_fullname ()
 {
-#if !(defined _WIN32 || defined __WIN32__)
+#if !(defined _WIN32 || defined __WIN32__ || defined __CYGWIN__)
   static bool tried_find_shared_library_fullname;
   if (!tried_find_shared_library_fullname)
     {

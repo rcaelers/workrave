@@ -1,5 +1,5 @@
 /* Expression parsing and evaluation for plural form selection.
-   Copyright (C) 2000-2003 Free Software Foundation, Inc.
+   Copyright (C) 2000-2003, 2005 Free Software Foundation, Inc.
    Written by Ulrich Drepper <drepper@cygnus.com>, 2000.
 
    This program is free software; you can redistribute it and/or modify it
@@ -110,7 +110,7 @@ extern void EXTRACT_PLURAL_EXPRESSION (const char *nullentry,
 				       unsigned long int *npluralsp)
      internal_function;
 
-#if !defined (_LIBC) && !defined (IN_LIBINTL)
+#if !defined (_LIBC) && !defined (IN_LIBINTL) && !defined (IN_LIBGLOCALE)
 extern unsigned long int plural_eval (struct expression *pexp,
 				      unsigned long int n);
 #endif

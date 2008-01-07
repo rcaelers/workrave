@@ -1,6 +1,6 @@
 /* intl-compat.c - Stub functions to call gettext functions from GNU gettext
    Library.
-   Copyright (C) 1995, 2000-2003 Software Foundation, Inc.
+   Copyright (C) 1995, 2000-2003, 2005 Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify it
    under the terms of the GNU Library General Public License as published
@@ -49,7 +49,9 @@
 /* When building a DLL, we must export some functions.  Note that because
    the functions are only defined for binary backward compatibility, we
    don't need to use __declspec(dllimport) in any case.  */
-#if defined _MSC_VER && BUILDING_DLL
+#if HAVE_VISIBILITY && BUILDING_DLL
+# define DLL_EXPORTED __attribute__((__visibility__("default")))
+#elif defined _MSC_VER && BUILDING_DLL
 # define DLL_EXPORTED __declspec(dllexport)
 #else
 # define DLL_EXPORTED

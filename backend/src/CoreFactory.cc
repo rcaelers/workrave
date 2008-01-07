@@ -46,3 +46,14 @@ CoreFactory::get_configurator()
 
   return core->get_configurator();
 }
+
+
+//! Returns the interface to the D-BUS facility
+DBus *
+CoreFactory::get_dbus()
+{
+  Core *core = Core::get_instance();
+  assert(core != NULL);
+
+  return core->get_dbus();
+}
