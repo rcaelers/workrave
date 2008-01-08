@@ -52,8 +52,12 @@ CoreFactory::get_configurator()
 DBus *
 CoreFactory::get_dbus()
 {
+#ifdef HAVE_DBUS
   Core *core = Core::get_instance();
   assert(core != NULL);
 
   return core->get_dbus();
+#else
+  return NULL;
+#endif
 }

@@ -133,7 +133,7 @@ if test "x$config_debug" = "xyes"
 then
    CFLAGS="${CFLAGS} -O0 -g -Wall -DGLIBCXX_FORCE_NEW -DGLIBCPP_FORCE_NEW"
    CXXFLAGS="${CXXFLAGS} -O0 -g -Wall -DGLIBCXX_FORCE_NEW -DGLIBCPP_FORCE_NEW"
-   LDF,LAGS="${LDFLAGS} -g"
+   LDFLAGS="${LDFLAGS} -g"
 else
    CFLAGS="${CFLAGS} -Os -g -DNDEBUG"
    CXXFLAGS="${CXXFLAGS} -Os -g -DNDEBUG"
