@@ -194,11 +194,11 @@ version.h:
 			echo "#ifndef WORKRAVE_VERSION_H" > version.h
 			echo "#define WORKRAVE_VERSION_H" >> version.h
 			if [ -e ".svn" ] ; then 											\
-				PACKAGE_VERSION=`grep PACKAGE_VERSION ../../../config.h | cut -d' ' -f 3 | sed "s/\\"//g"`;		\
+				PACKAGE_VERSION=`grep PACKAGE_VERSION ../../../config.h | cut -d' ' -f 3 | sed "s/\"//g"`;		\
 				PACKAGE_SVN_VERION=`svn info . | grep Revision: | sed -e 's/Revision: \([0-9]*\)/\1/'` ;		\
 				echo "#define WORKRAVE_VERSION_STR \"$$PACKAGE_VERSION (build-$$PACKAGE_SVN_VERION)\"" >> version.h;    \
 			else 														\
-				PACKAGE_VERSION=`grep PACKAGE_VERSION ../../../config.h | cut -d' ' -f 3 | sed "s/\\"//g"`;		\
+				PACKAGE_VERSION=`grep PACKAGE_VERSION ../../../config.h | cut -d' ' -f 3 | sed "s/\"//g"`;		\
 				echo "#define WORKRAVE_VERSION_STR \"$$PACKAGE_VERSION\"" >> version.h;					\
 	        	fi
 			echo "#endif // WORKRAVE_VERSION_H" >> version.h
