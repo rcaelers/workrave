@@ -1,8 +1,8 @@
 //
 //
 
-#ifndef DBUS__HH
-#define DBUS__HH
+\#ifndef DBUS__HH
+\#define DBUS__HH
 
 \#include "DBusBinding.hh"
 
@@ -80,4 +80,4 @@ private:
 
 #end for
 
-#endif // DBUS__HH
+\#endif // DBUS__HH
