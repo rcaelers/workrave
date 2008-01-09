@@ -524,7 +524,7 @@ void
 BreakWindow::refresh()
 {
 #ifdef PLATFORM_OS_WIN32
-  if (block_mode != GUI::BLOCK_MODE_NONE)
+  if (block_mode != GUIConfig::BLOCK_MODE_NONE)
     {
       WindowHints::set_always_on_top(this, true);
     }
