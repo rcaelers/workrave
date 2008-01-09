@@ -25,13 +25,13 @@
 #include <stdio.h>
 
 #include "BreakWindow.hh"
-#include "GUI.hh"
+#include "GUIConfig.hh"
 
 class DailyLimitWindow :
   public BreakWindow
 {
 public:
-  DailyLimitWindow(HeadInfo &head, bool ignorable, GUI::BlockMode mode);
+  DailyLimitWindow(HeadInfo &head, bool ignorable, GUIConfig::BlockMode mode);
   virtual ~DailyLimitWindow();
 
   void set_progress(int value, int max_value);

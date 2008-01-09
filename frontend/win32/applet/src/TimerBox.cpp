@@ -23,6 +23,8 @@
 #include "Util.h"
 #include "Icon.h"
 
+using namespace workrave;
+
 const int PADDING_X = 2;
 const int PADDING_Y = 2;
 

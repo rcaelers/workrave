@@ -36,6 +36,7 @@ namespace Gtk
 #include <string>
 #include <gtkmm/box.h>
 
+using namespace workrave;
 using namespace std;
 using namespace workrave;
 

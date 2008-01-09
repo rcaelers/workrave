@@ -25,7 +25,7 @@
 #include "preinclude.h"
 #include <glib.h>
 
-#include "CoreEventListener.hh"
+#include "ICoreEventListener.hh"
 #include "IApp.hh"
 
 // Generic GUI
@@ -45,7 +45,7 @@ namespace workrave
 
 class GUI :
   public IApp,
-  public CoreEventListener
+  public ICoreEventListener
 {
 public:
   GUI(int argc, char **argv);
@@ -71,7 +71,7 @@ public:
   void core_event_notify(CoreEvent event);
   void core_event_operation_mode_changed(const OperationMode m);
 
-  SoundPlayerInterface *get_sound_player() const;
+  ISoundPlayer *get_sound_player() const;
 
   static gboolean static_on_timer(gpointer data);
 

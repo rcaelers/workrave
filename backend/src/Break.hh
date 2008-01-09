@@ -95,38 +95,19 @@ public:
   virtual bool is_auto_reset_enabled() const;
   virtual time_t get_limit() const;
   virtual bool is_limit_enabled() const;
-  
-  int get_timer_limit() const;
-  void set_timer_limit(int n);
-  int get_timer_auto_reset() const;
-  void set_timer_auto_reset(int n);
-  std::string get_timer_reset_pred() const;
-  void set_timer_reset_pred(std::string n);
-  int get_timer_snooze() const;
-  void set_timer_snooze(int n);
-  std::string get_timer_monitor() const;
-  void set_timer_monitor(std::string n);
+
   bool get_timer_activity_sensitive() const;
-  void set_timer_activity_sensitive(bool b);
-  int get_break_max_preludes() const;
-  void set_break_max_preludes(int n);
-  int get_break_max_postpone() const;
-  void set_break_max_postpone(int n);
-  bool get_break_ignorable() const;
-  void set_break_ignorable(bool b);
-  int get_break_exercises() const;
-  void set_break_exercises(int n);
-  bool get_break_enabled() const;
-  void set_break_enabled(bool b);
+
+private:
   void config_changed_notify(const std::string &key);
 
 private:
+  void init_defaults();
+
   void init_timer();
-  void update_timer_config();
   void load_timer_config();
-  void load_timer_monitor_config();
+
   void init_break_control();
-  void update_break_config();
   void load_break_control_config();
 
   bool starts_with(const std::string &key, std::string prefix, std::string &timer_name);
@@ -144,11 +125,7 @@ public:
   static const std::string CFG_KEY_BREAK_PREFIX;
 
   static const std::string CFG_KEY_BREAK_MAX_PRELUDES;
-  static const std::string CFG_KEY_BREAK_MAX_POSTPONE;
-  static const std::string CFG_KEY_BREAK_FORCE_AFTER_PRELUDES;
-  static const std::string CFG_KEY_BREAK_IGNORABLE;
   static const std::string CFG_KEY_BREAK_ENABLED;
-  static const std::string CFG_KEY_BREAK_EXERCISES;
 };
 
 #endif // TIMERDATA_HH

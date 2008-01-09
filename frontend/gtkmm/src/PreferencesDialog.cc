@@ -45,6 +45,7 @@
 #include "TimerPreferencesPanel.hh"
 #include "Util.hh"
 #include "GUI.hh"
+#include "GUIConfig.hh"
 
 #include "CoreFactory.hh"
 #include "IConfigurator.hh"
@@ -167,12 +168,12 @@ PreferencesDialog::create_gui_page()
                        (_("Block input and screen")));
 
   int block_idx;
-  switch (GUI::get_instance()->get_block_mode())
+  switch (GUIConfig::get_block_mode())
     {
-    case GUI::BLOCK_MODE_NONE:
+    case GUIConfig::BLOCK_MODE_NONE:
       block_idx = 0;
       break;
-    case GUI::BLOCK_MODE_INPUT:
+    case GUIConfig::BLOCK_MODE_INPUT:
       block_idx = 1;
       break;
     default:
@@ -264,19 +265,19 @@ void
 PreferencesDialog::on_block_changed()
 {
   int idx = block_button->get_history();
-  GUI::BlockMode m;
+  GUIConfig::BlockMode m;
   switch (idx)
     {
     case 0:
-      m = GUI::BLOCK_MODE_NONE;
+      m = GUIConfig::BLOCK_MODE_NONE;
       break;
     case 1:
-      m = GUI::BLOCK_MODE_INPUT;
+      m = GUIConfig::BLOCK_MODE_INPUT;
       break;
     default:
-      m = GUI::BLOCK_MODE_ALL;
+      m = GUIConfig::BLOCK_MODE_ALL;
     }
-  GUI::get_instance()->set_block_mode(m);
+  GUIConfig::set_block_mode(m);
 }
 
 

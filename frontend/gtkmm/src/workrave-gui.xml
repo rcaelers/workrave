@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<node name="/org/workrave/Workrave/GUI">
+
+  <interface name="org.workrave.ControlInterface" csymbol="Menus">
+    <import>
+      <include name="Menus.hh"/>
+    </import>
+
+    <method name="OpenMain"              csymbol="on_menu_open_main_window"/>
+    <method name="Preferences"           csymbol="on_menu_preferences"/>
+    <method name="NetworkConnect"        csymbol="on_menu_network_join"/>
+    <method name="NetworkLog"            csymbol="on_menu_network_log"
+                                         condition="defined(FIXME)">
+      <arg type="bool" name="show" direction="in"/>
+    </method>
+    <method name="NetworkReconnect"      csymbol="on_menu_network_reconnect"/>
+    <method name="NetworkDisconnect"     csymbol="on_menu_network_leave"/>
+    <method name="Statistics"            csymbol="on_menu_statistics"/>
+    <method name="Exercises"             csymbol="on_menu_exercises"
+ 	                                 condition="defined(HAVE_EXERCISES)"/>
+    <method name="RestBreak"             csymbol="on_menu_restbreak_now"/>
+    <method name="Quit"                  csymbol="on_menu_quit"/>
+    <method name="About"                 csymbol="on_menu_about"/>
+  </interface>
+
+  <interface name="org.workrave.AppletInterface" csymbol="Menus">
+    <import>
+      <include name="Menus.hh"/>
+    </import>
+  </interface>
+</node>

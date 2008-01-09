@@ -101,11 +101,6 @@ public:
   void init_multihead();
 
   // Prefs
-  static const std::string CFG_KEY_GUI_BLOCK_MODE;
-  enum BlockMode { BLOCK_MODE_NONE = 0, BLOCK_MODE_INPUT, BLOCK_MODE_ALL };
-  BlockMode get_block_mode();
-  void set_block_mode(BlockMode mode);
-
   // Misc
   SigC::Signal0<void> &signal_heartbeat();
   HeadInfo &get_head(int head);
@@ -131,7 +126,8 @@ private:
   void init_multihead_desktop();
   void init_gui();
   void init_remote_control();
-
+  void init_dbus();
+  
   void init_gtk_multihead();
 
 #ifdef HAVE_GNOME

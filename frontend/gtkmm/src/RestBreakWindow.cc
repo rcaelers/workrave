@@ -67,7 +67,7 @@ const int MARGINY = 8;
  *  \param control The controller.
  */
 RestBreakWindow::RestBreakWindow(HeadInfo &head, bool ignorable,
-                                 GUI::BlockMode mode) :
+                                 GUIConfig::BlockMode mode) :
   BreakWindow(BREAK_ID_REST_BREAK, head, ignorable, mode),
   timebar(NULL),
   progress_value(0),
@@ -240,10 +240,7 @@ RestBreakWindow::get_exercise_count()
 
   if (Exercise::has_exercises())
     {
-      ICore *core = CoreFactory::get_core();
-      assert(core != NULL);
-
-      ret = core->get_break(BREAK_ID_REST_BREAK)->get_break_exercises();
+      ret = GUIConfig::get_number_of_exercises(BREAK_ID_REST_BREAK);
     }
   return ret;
 }
@@ -301,7 +298,7 @@ RestBreakWindow::set_ignore_activity(bool i)
 
   core->set_insist_policy(i ?
                         ICore::INSIST_POLICY_IGNORE :
-                        (block_mode != GUI::BLOCK_MODE_NONE
+                        (block_mode != GUIConfig::BLOCK_MODE_NONE
                          ? ICore::INSIST_POLICY_HALT
                          : ICore::INSIST_POLICY_RESET));
 }

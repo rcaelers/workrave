@@ -42,6 +42,8 @@
 #include "GtkUtil.hh"
 #include "Hig.hh"
 
+#include "DataConnector.hh"
+
 using namespace std;
 
 TimerPreferencesPanel::TimerPreferencesPanel
@@ -54,10 +56,8 @@ TimerPreferencesPanel::TimerPreferencesPanel
   ,exercises_adjustment(0, 0, 10)
 #endif
 {
+  connector = new DataConnector();
   break_id = t;
-
-  ICore *core = CoreFactory::get_core();
-  break_data = core->get_break(BreakId(break_id));
 
   Gtk::HBox *box = manage(new Gtk::HBox(false, 6));
 
@@ -65,7 +65,6 @@ TimerPreferencesPanel::TimerPreferencesPanel
   Gtk::Label *enabled_lab = manage(GtkUtil::create_label(_("Enable timer"), true));
   enabled_cb = manage(new Gtk::CheckButton());
   enabled_cb->add(*enabled_lab);
-  enabled_cb->set_active(break_data->get_break_enabled());
   enabled_cb->signal_toggled().connect(sigc::mem_fun(*this, &TimerPreferencesPanel::on_enabled_toggled));
 
   HigCategoriesPanel *categories = manage(new HigCategoriesPanel());;
@@ -89,14 +88,15 @@ TimerPreferencesPanel::TimerPreferencesPanel
   pack_start(*box, false, false, 0);
 
   set_border_width(12);
+
+  connector->connect(break_id, "breaks/%b/enabled", dc::wrap(enabled_cb));
 }
 
 
 TimerPreferencesPanel::~TimerPreferencesPanel()
 {
-  // FIXME: disconnect signals?
+  delete connector;
 }
-
 
 
 Gtk::Widget *
@@ -106,33 +106,21 @@ TimerPreferencesPanel::create_prelude_panel()
   HigCategoryPanel *hig = manage(new HigCategoryPanel(_("Break prompting")));
 
   prelude_cb = manage(new Gtk::CheckButton(_("Prompt before breaking")));
-  int max_preludes = break_data->get_break_max_preludes();
-  prelude_cb->set_active(max_preludes != 0);
-
-  has_max_prelude_cb = manage(new Gtk::CheckButton
-                              (_("Maximum number of prompts:")));
-  has_max_prelude_cb->set_active(max_preludes > 0);
-
-  max_prelude_adjustment.set_value(max_preludes > 0 ? max_preludes : 1);
-  max_prelude_spin = manage(new Gtk::SpinButton(max_prelude_adjustment));
-
-  set_prelude_sensitivity();
-
-  prelude_cb->signal_toggled()
-    .connect(sigc::mem_fun(*this,
-                        &TimerPreferencesPanel::on_preludes_active_toggled));
-  has_max_prelude_cb->signal_toggled()
-    .connect(sigc::mem_fun(*this,
-                        &TimerPreferencesPanel::on_preludes_maximum_toggled));
-  max_prelude_adjustment.signal_value_changed()
-    .connect(sigc::mem_fun(*this,
-                        &TimerPreferencesPanel::on_preludes_maximum_changed));
-
   hig->add(*prelude_cb);
+
   Gtk::HBox *max_box = manage(new Gtk::HBox());
+  has_max_prelude_cb = manage(new Gtk::CheckButton(_("Maximum number of prompts:")));
+  max_prelude_spin = manage(new Gtk::SpinButton(max_prelude_adjustment));
   max_box->pack_start(*has_max_prelude_cb, false, false, 0);
   max_box->pack_start(*max_prelude_spin, false, false, 0);
   hig->add(*max_box);
+
+  connector->connect(break_id, "breaks/%b/max_preludes", dc::wrap(prelude_cb));
+  connector->intercept_last(sigc::mem_fun(*this, &TimerPreferencesPanel::on_preludes_changed));
+  connector->connect(break_id, "breaks/%b/max_preludes", dc::wrap(has_max_prelude_cb), dc::NO_CONFIG);
+  connector->intercept_last(sigc::mem_fun(*this, &TimerPreferencesPanel::on_preludes_changed));
+  connector->connect(break_id, "breaks/%b/max_preludes", dc::wrap(max_prelude_spin), dc::NO_CONFIG);
+  connector->intercept_last(sigc::mem_fun(*this, &TimerPreferencesPanel::on_preludes_changed));
 
   return hig;
 }
@@ -143,21 +131,13 @@ TimerPreferencesPanel::create_options_panel()
   HigCategoryPanel *hig = manage(new HigCategoryPanel(_("Options")));
 
   // Ignorable
-  bool ignorable = break_data->get_break_ignorable();
   ignorable_cb = manage(new Gtk::CheckButton
                         (_("Show 'Postpone' and 'Skip' button")));
-  ignorable_cb->set_active(ignorable);
-  ignorable_cb->signal_toggled()
-    .connect(sigc::mem_fun(*this, &TimerPreferencesPanel::on_ignorable_toggled));
   hig->add(*ignorable_cb);
 
   // Sensitive for activity
-  bool sensitive = break_data->get_timer_activity_sensitive();
   activity_sensitive_cb = manage(new Gtk::CheckButton
                         (_("Suspend timer when inactive")));
-  activity_sensitive_cb->set_active(sensitive);
-  activity_sensitive_cb->signal_toggled()
-    .connect(sigc::mem_fun(*this, &TimerPreferencesPanel::on_activity_sensitive_toggled));
   hig->add(*activity_sensitive_cb);
 
   // Break specific options
@@ -171,11 +151,6 @@ TimerPreferencesPanel::create_options_panel()
     {
       monitor_cb
         = manage(new Gtk::CheckButton(_("Regard micro-breaks as activity")));
-      string monitor_name;
-      monitor_name = break_data->get_timer_monitor();
-      monitor_cb->set_active(monitor_name != "");
-      monitor_cb->signal_toggled()
-        .connect(sigc::mem_fun(*this, &TimerPreferencesPanel::on_monitor_toggled));
       hig->add(*monitor_cb);
     }
 #endif
@@ -185,13 +160,14 @@ TimerPreferencesPanel::create_options_panel()
     {
       exercises_spin = manage(new Gtk::SpinButton(exercises_adjustment));
       hig->add(_("Number of exercises:"), *exercises_spin);
-      exercises_adjustment.set_value(break_data->get_break_exercises());
-      exercises_adjustment.signal_value_changed()
-        .connect(sigc::mem_fun(*this,
-                            &TimerPreferencesPanel::on_exercises_changed));
     }
 #endif
 
+  connector->connect(break_id, "gui/breaks/%b/ignorable_break", dc::wrap(ignorable_cb));
+  connector->connect(break_id, "timers/%b/activity_sensitive", dc::wrap(activity_sensitive_cb));
+  connector->connect(break_id, "gui/breaks/%b/exercises", dc::wrap(exercises_spin));
+  connector->connect(break_id, "timers/%b/monitor", dc::wrap(monitor_cb));
+  connector->intercept_last(sigc::mem_fun(*this, &TimerPreferencesPanel::on_monitor_changed));
 
   return hig;
 }
@@ -205,28 +181,19 @@ TimerPreferencesPanel::create_timers_panel
 
   // Limit time
   limit_tim = manage(new TimeEntry());
-  limit_tim->set_value(break_data->get_timer_limit());
-  limit_tim->signal_value_changed()
-    .connect(sigc::mem_fun(*this, &TimerPreferencesPanel::on_limit_changed));
   Gtk::Label *limit_lab = hig->add(break_id == BREAK_ID_DAILY_LIMIT
            ? _("Time before end:")
            : _("Time between breaks:"), *limit_tim);
   hsize_group->add_widget(*limit_lab);
 
+
   // Auto-reset time
   if (break_id != BREAK_ID_DAILY_LIMIT)
     {
-      const char *auto_reset_txt;
-      time_t auto_reset_value;
-
-      auto_reset_txt = _("Break duration:");
-      auto_reset_value = break_data->get_timer_auto_reset();
+      const char *auto_reset_txt = _("Break duration:");
 
       auto_reset_tim = manage(new TimeEntry());
-      auto_reset_tim->set_value (auto_reset_value);
-      auto_reset_tim->signal_value_changed()
-        .connect(sigc::mem_fun(*this,
-                            &TimerPreferencesPanel::on_auto_reset_changed));
+
       Gtk::Label *auto_reset_lab = manage(new Gtk::Label(auto_reset_txt));
       hsize_group->add_widget(*auto_reset_lab);
       hig->add(*auto_reset_lab, *auto_reset_tim);
@@ -238,16 +205,17 @@ TimerPreferencesPanel::create_timers_panel
 
   // Snooze time
   snooze_tim = manage(new TimeEntry());
-  snooze_tim->set_value (break_data->get_timer_snooze());
-  snooze_tim->signal_value_changed()
-    .connect(sigc::mem_fun(*this, &TimerPreferencesPanel::on_snooze_changed));
   Gtk::Label *snooze_lab = hig->add(_("Postpone time:"), *snooze_tim);
   hsize_group->add_widget(*snooze_lab);
 
   vsize_group->add_widget(*hig);
+
+  connector->connect(break_id, "timers/%b/limit", dc::wrap(limit_tim));
+  connector->connect(break_id, "timers/%b/auto_reset", dc::wrap(auto_reset_tim));
+  connector->connect(break_id, "timers/%b/snooze", dc::wrap(snooze_tim));
+
   return hig;
 }
-
 
 
 void
@@ -260,127 +228,109 @@ TimerPreferencesPanel::set_prelude_sensitivity()
   max_prelude_spin->set_sensitive(has_preludes && has_max && on);
 }
 
-void
-TimerPreferencesPanel::on_preludes_active_toggled()
+bool
+TimerPreferencesPanel::on_preludes_changed(const std::string &key, bool write)
 {
-  int mp;
-  if (prelude_cb->get_active())
+  IConfigurator *config = CoreFactory::get_configurator();
+  if (write)
     {
-      if (has_max_prelude_cb->get_active())
+      int mp;
+      if (prelude_cb->get_active())
         {
-          mp = (int) max_prelude_adjustment.get_value();
+          if (has_max_prelude_cb->get_active())
+            {
+              mp = (int) max_prelude_adjustment.get_value();
+            }
+          else
+            {
+              mp = -1;
+            }
         }
       else
         {
-          mp = -1;
+          mp = 0;
+        }
+      config->set_value(key, mp);
+      set_prelude_sensitivity();
+    }
+  else
+    {
+      int value;
+      bool ok = config->get_value(key, value);
+      if (ok)
+        {
+          bool s1 = prelude_cb->is_sensitive();
+          bool s2 = has_max_prelude_cb->is_sensitive();
+          bool s3 = max_prelude_spin->is_sensitive();
+
+          if (value == -1)
+            {
+              prelude_cb->set_active(true);
+              has_max_prelude_cb->set_active(false);
+            }
+          else if (value == 0)
+            {
+              prelude_cb->set_active(false);
+              has_max_prelude_cb->set_active(false);
+            }
+          else
+            {
+              prelude_cb->set_active(true);
+              has_max_prelude_cb->set_active(true);
+              max_prelude_adjustment.set_value(value);
+            }
+
+          prelude_cb->set_sensitive(s1);
+          has_max_prelude_cb->set_sensitive(s2);
+          max_prelude_spin->set_sensitive(s3);
         }
     }
-  else
-    {
-      mp = 0;
-    }
-  break_data->set_break_max_preludes(mp);
-  set_prelude_sensitivity();
+  return true;
 }
 
-void
-TimerPreferencesPanel::on_preludes_maximum_changed()
-{
-  int mp = (int) max_prelude_adjustment.get_value();
-  break_data->set_break_max_preludes(mp);
-}
-
-#ifdef HAVE_EXERCISES
-void
-TimerPreferencesPanel::on_exercises_changed()
-{
-  int ex = (int) exercises_adjustment.get_value();
-  break_data->set_break_exercises(ex);
-}
-#endif
-
-void
-TimerPreferencesPanel::on_preludes_maximum_toggled()
-{
-  int mp;
-  if (has_max_prelude_cb->get_active())
-    {
-      mp = (int)max_prelude_adjustment.get_value();
-    }
-  else
-    {
-      mp = -1;
-    }
-  break_data->set_break_max_preludes(mp);
-  set_prelude_sensitivity();
-}
-
-
-
-
-void
-TimerPreferencesPanel::on_auto_reset_changed()
-{
-  TRACE_ENTER("TimerPreferencesPanel::on_auto_reset_changed");
-  if (auto_reset_tim != NULL)
-    {
-      time_t val = auto_reset_tim->get_value();
-      break_data->set_timer_auto_reset(val);
-    }
-  TRACE_EXIT();
-}
-
-void
-TimerPreferencesPanel::on_snooze_changed()
-{
-  TRACE_ENTER("TimerPreferencesPanel::on_snooze_changed");
-  break_data->set_timer_snooze(snooze_tim->get_value());
-  TRACE_EXIT();
-}
-
-void
-TimerPreferencesPanel::on_limit_changed()
-{
-  TRACE_ENTER("TimerPreferencesPanel::on_limit_changed");
-  break_data->set_timer_limit(limit_tim->get_value());
-  TRACE_EXIT();
-}
 
 #ifdef HAVE_MICRO_BREAK_ACTIVITY
-void
-TimerPreferencesPanel::on_monitor_toggled()
+bool
+TimerPreferencesPanel::on_monitor_changed(const string &key, bool write)
 {
-  string val;
+  IConfigurator *config = CoreFactory::get_configurator();
 
-  if (monitor_cb->get_active())
+  if (write)
     {
-      ICore *core = CoreFactory::get_core();
-      IBreak *mp_break = core->get_break(BREAK_ID_MICRO_BREAK);
-      val = mp_break->get_name();
+      string val;
+
+      if (monitor_cb->get_active())
+        {
+          ICore *core = CoreFactory::get_core();
+          IBreak *mp_break = core->get_break(BREAK_ID_MICRO_BREAK);
+          val = mp_break->get_name();
+        }
+
+      config->set_value(key, val);
+    }
+  else
+    {
+      string monitor_name;
+      bool ok = config->get_value(key, monitor_name);
+      if (ok)
+        {
+          bool s = monitor_cb->is_sensitive();
+          monitor_cb->set_active(monitor_name != "");
+          monitor_cb->set_sensitive(s);
+        }
     }
 
-  break_data->set_timer_monitor(val);
+  return true;
 }
 #endif
 
-void
-TimerPreferencesPanel::on_ignorable_toggled()
-{
-  break_data->set_break_ignorable(ignorable_cb->get_active());
-}
-
-void
-TimerPreferencesPanel::on_activity_sensitive_toggled()
-{
-  break_data->set_timer_activity_sensitive(activity_sensitive_cb->get_active());
-}
 
 void
 TimerPreferencesPanel::on_enabled_toggled()
 {
-  break_data->set_break_enabled(enabled_cb->get_active());
   enable_buttons();
 }
+
 
 //! Enable widgets
 void

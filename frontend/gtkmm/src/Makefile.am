@@ -7,7 +7,10 @@
 #
 
 SUBDIRS = 		gnome_applet kde_applet win32 unix osx
-MAINTAINERCLEANFILES = 	Makefile.in version.h ${IDL_A_GENERATED} ${IDL_C_GENERATED}
+MAINTAINERCLEANFILES = 	Makefile.in ${IDL_A_GENERATED} ${IDL_C_GENERATED} \
+			org.workrave.Workrave.service \
+			DBusGUI.cc \
+			DBusGUI.hh
 
 if HAVE_APP_GTKMM
 
@@ -82,14 +85,13 @@ if HAVE_GNOME
 extrasources +=		$(sourcesgnome)
 extranodistsources +=	$(sourcesgnome_idl)
 
-Menus.cc:               $(sourcesgnome_idl) version.h
+Menus.cc:               $(sourcesgnome_idl) 
 AppletControl.cc:       $(sourcesgnome_idl)
 RemoteControl.cc:       $(sourcesgnome_idl)
 GnomeAppletWindow.cc:   $(sourcesgnome_idl)
 GUI.cc:			$(sourcesgnome_idl)
 else
 extrasources +=		$(sourcesnognome)
-Menus.cc:               version.h
 endif
 
 if HAVE_KDE
@@ -140,6 +142,33 @@ ldflags =	 	-Losx
 OSXLIBS	=		-lworkrave-frontend-gtkmm-osx
 endif
 
+
+# DBus service file
+if HAVE_DBUS
+servicedir = $(DBUS_SERVICES_DIR)
+service_in_files = org.workrave.Workrave.service.in
+service_DATA = $(service_in_files:.service.in=.service)
+
+# Rule to make the service file with bindir expanded
+$(service_DATA): $(service_in_files) Makefile
+	sed -e "s|@workravebindir@|$(bindir)|" $< > $@
+
+# Correctly clean the generated headers, but keep the xml description
+#CLEANFILES = $(BUILT_SOURCES)
+
+dbussources=DBusGUI.cc
+
+DBusGUI.cc: 		workrave-gui.xml
+			python ../../../common/bin/dbusgen.py workrave-gui.xml DBusGUI
+
+DBusGUI.cc: 		../../../common/bin/dbusgen.py \
+		    	../../../common/bin/DBus-template.cc \
+		    	../../../common/bin/DBus-template.hh
+
+DBusGUI.hh: 		DBusGUI.cc
+
+endif
+
 #if HAVE_KDE
 #
 #KdeWorkraveControl.kidl: $(srcdir)/KdeWorkraveControl.hh $(DCOP_DEPENDENCIES)
@@ -162,7 +191,9 @@ workrave_SOURCES = \
 			AppletControl.cc \
 			BreakWindow.cc \
 			DailyLimitWindow.cc \
+			DataConnector.cc \
 			GUI.cc \
+			GUIConfig.cc \
 			GtkUtil.cc \
 			EventLabel.cc \
 			EventImage.cc \
@@ -186,22 +217,23 @@ workrave_SOURCES = \
 			Menus.cc \
 			Dispatcher.cc \
 			main.cc \
+			${dbussources} \
 			$(extrasources)
 
 
-.PHONY: version.h
-version.h: 
-			echo "#ifndef WORKRAVE_VERSION_H" > version.h
-			echo "#define WORKRAVE_VERSION_H" >> version.h
-			if [ -e ".svn" ] ; then 											\
-				PACKAGE_VERSION=`grep PACKAGE_VERSION ../../../config.h | cut -d' ' -f 3 | sed "s/\"//g"`;		\
-				PACKAGE_SVN_VERION=`svn info . | grep Revision: | sed -e 's/Revision: \([0-9]*\)/\1/'` ;		\
-				echo "#define WORKRAVE_VERSION_STR \"$$PACKAGE_VERSION (build-$$PACKAGE_SVN_VERION)\"" >> version.h;    \
-			else 														\
-				PACKAGE_VERSION=`grep PACKAGE_VERSION ../../../config.h | cut -d' ' -f 3 | sed "s/\"//g"`;		\
-				echo "#define WORKRAVE_VERSION_STR \"$$PACKAGE_VERSION\"" >> version.h;					\
-	        	fi
-			echo "#endif // WORKRAVE_VERSION_H" >> version.h
+##.PHONY: version.h
+##version.h: 
+##			echo "#ifndef WORKRAVE_VERSION_H" > version.h
+##			echo "#define WORKRAVE_VERSION_H" >> version.h
+##			if [ -e ".svn" ] ; then 											\
+##				PACKAGE_VERSION=`grep PACKAGE_VERSION ../../../config.h | cut -d' ' -f 3 | sed "s/\"//g"`;		\
+##				PACKAGE_SVN_VERION=`svn info . | grep Revision: | sed -e 's/Revision: \([0-9]*\)/\1/'` ;		\
+##				echo "#define WORKRAVE_VERSION_STR \"$$PACKAGE_VERSION (build-$$PACKAGE_SVN_VERION)\"" >> version.h;    \
+##			else 														\
+##				PACKAGE_VERSION=`grep PACKAGE_VERSION ../../../config.h | cut -d' ' -f 3 | sed "s/\"//g"`;		\
+##				echo "#define WORKRAVE_VERSION_STR \"$$PACKAGE_VERSION\"" >> version.h;					\
+##	        	fi
+##			echo "#endif // WORKRAVE_VERSION_H" >> version.h
 
 
 nodist_workrave_SOURCES = \
@@ -214,7 +246,7 @@ workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
 			@X_CFLAGS@ @GNOMEMM_CFLAGS@ \
 			@GNOME_CFLAGS@ @GTK_CFLAGS@ \
 			@GCONF_CFLAGS@ -D_XOPEN_SOURCE=600 @GNET_CFLAGS@ \
-			@KDE_INCLUDES@ @QT_INCLUDES@\
+			@KDE_INCLUDES@ @QT_INCLUDES@ @DBUS_CFLAGS@ \
 			$(includeswin32) $(win32cflags) $(includesinput) $(includesosx) \
 			$(includesx) \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
@@ -228,7 +260,7 @@ endif
 
 workrave_CFLAGS	= 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-I. @WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
-			@X_CFLAGS@ @GNOME_CFLAGS@ @GTK_CFLAGS@ \
+			@X_CFLAGS@ @GNOME_CFLAGS@ @GTK_CFLAGS@ @DBUS_CFLAGS@ \
 			-D_XOPEN_SOURCE=600 \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
 			-I${STATISTICS_HOME}/gtkmm/src \

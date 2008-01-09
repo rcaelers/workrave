@@ -485,8 +485,8 @@ MainWindow::get_always_on_top()
   bool rc;
   CoreFactory::get_configurator()
     ->get_value_with_default(MainWindow::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP,
-                        rc,
-                        false);
+                             rc,
+                             false);
   return rc;
 }
 

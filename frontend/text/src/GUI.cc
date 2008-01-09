@@ -264,7 +264,7 @@ GUI::init_nls()
 void
 GUI::init_core()
 {
-  char *display_name = NULL;
+  string display_name = "";
 
   core = CoreFactory::get_core();
   core->init(argc, argv, this, display_name);
@@ -286,7 +286,7 @@ GUI::core_event_notify(CoreEvent event)
 {
   TRACE_ENTER_MSG("GUI::core_event_notify", event)
   // FIXME: HACK
-  SoundPlayerInterface::Sound snd = (SoundPlayerInterface::Sound) event;
+  ISoundPlayer::Sound snd = (ISoundPlayer::Sound) event;
   if (sound_player != NULL)
     {
       TRACE_MSG("play");
@@ -296,6 +296,12 @@ GUI::core_event_notify(CoreEvent event)
 }
 
 
+void
+GUI::core_event_operation_mode_changed(const OperationMode m)
+{
+  (void) m;
+}
+
 //! Returns a break window for the specified break.
 IBreakWindow *
 GUI::create_break_window(BreakId break_id, bool user_initiated)
@@ -304,6 +310,8 @@ GUI::create_break_window(BreakId break_id, bool user_initiated)
   BlockMode block_mode = get_block_mode();
   bool ignorable = true;
 
+  (void) user_initiated;
+  
   if (break_id == BREAK_ID_MICRO_BREAK)
     {
       ret = new BreakWindow(break_id, ignorable, block_mode);

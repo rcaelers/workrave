@@ -347,7 +347,7 @@ TimerBoxPreferencePage::enable_buttons(void)
 
           IBreak *b = core->get_break(BreakId(i));
 
-          bool timer_on = b->get_break_enabled();
+          bool timer_on = b->is_enabled();
           timer_display_button[i]->set_sensitive(on && timer_on);
         }
       cycle_entry->set_sensitive(on && count != 3);
@@ -361,7 +361,7 @@ TimerBoxPreferencePage::enable_buttons(void)
           assert(core != NULL);
 
           IBreak *b = core->get_break(BreakId(i));
-          timer_display_button[i]->set_sensitive(b->get_break_enabled());
+          timer_display_button[i]->set_sensitive(b->is_enabled());
         }
       if (count == 3)
         {

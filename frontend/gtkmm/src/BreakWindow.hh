@@ -32,7 +32,7 @@
 #include "IBreakWindow.hh"
 #include "HeadInfo.hh"
 #include "WindowHints.hh"
-#include "GUI.hh"
+#include "GUIConfig.hh"
 
 #ifdef PLATFORM_OS_WIN32
 class DesktopWindow;
@@ -57,7 +57,7 @@ class BreakWindow :
 {
 public:
   BreakWindow(BreakId break_id, HeadInfo &head, bool ignorable,
-              GUI::BlockMode block_mode);
+              GUIConfig::BlockMode block_mode);
   virtual ~BreakWindow();
 
   void set_response(IBreakResponse *bri);
@@ -85,7 +85,7 @@ protected:
   HeadInfo head;
 
   //! Insist
-  GUI::BlockMode block_mode;
+  GUIConfig::BlockMode block_mode;
 
   //! Ignorable
   bool ignorable_break;

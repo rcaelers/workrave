@@ -1,4 +1,3 @@
-
 #!/usr/bin/python
 #
 # Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.nl>

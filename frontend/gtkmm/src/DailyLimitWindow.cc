@@ -34,6 +34,7 @@ static const char rcsid[] = "$Id$";
 #include <gtkmm/box.h>
 #include <gtkmm/button.h>
 
+#include "GUI.hh"
 #include "IBreakResponse.hh"
 #include "WindowHints.hh"
 #include "Util.hh"
@@ -43,7 +44,7 @@ using namespace workrave;
 
 //! Construct a new Daily limit window.
 DailyLimitWindow::DailyLimitWindow(HeadInfo &head, bool ignorable,
-                                   GUI::BlockMode mode) :
+                                   GUIConfig::BlockMode mode) :
   BreakWindow(BREAK_ID_DAILY_LIMIT, head, ignorable, mode)
 {
   set_title(_("Daily limit"));

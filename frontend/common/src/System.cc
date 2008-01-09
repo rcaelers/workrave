@@ -277,7 +277,7 @@ System::init(
   else if ((program = g_find_program_in_path("xlock")) != NULL)
     lockable = true;
  
-  if (lockable)
+  if (lockable && display != NULL)
     {
       g_free(program);
       lock_display = display;
@@ -405,11 +405,14 @@ void
 System::init_kde(const char *display)
 {
   TRACE_ENTER("System::init_kde");
-  Display * dis = XOpenDisplay(display);
-  if (dis != None)
+  if (display != NULL)
     {
-      kde = look_for_kdesktop_recursive (dis, XRootWindow(dis, 0));
-      XCloseDisplay(dis);
+      Display * dis = XOpenDisplay(display);
+      if (dis != None)
+        {
+          kde = look_for_kdesktop_recursive (dis, XRootWindow(dis, 0));
+          XCloseDisplay(dis);
+        }
     }
   TRACE_RETURN(kde);
 }

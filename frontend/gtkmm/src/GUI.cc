@@ -38,6 +38,7 @@ static const char rcsid[] = "$Id$";
 #include <fcntl.h>
 
 #include "GUI.hh"
+#include "GUIConfig.hh"
 
 #include "CoreFactory.hh"
 #include "ICore.hh"
@@ -99,6 +100,11 @@ static const char rcsid[] = "$Id$";
 #include <kapp.h>
 #endif
 
+#ifdef HAVE_DBUS
+#include "DBus.hh"
+#include "DBusException.hh"
+#endif
+
 #ifdef PLATFORM_OS_WIN32
 #include "crashlog.h"
 #endif
@@ -109,8 +115,6 @@ static const char rcsid[] = "$Id$";
 #include <glibmm/refptr.h>
 
 GUI *GUI::instance = NULL;
-
-const string GUI::CFG_KEY_GUI_BLOCK_MODE =  "gui/breaks/block_mode";
 
 //! GUI Constructor.
 /*!
@@ -247,11 +251,12 @@ GUI::main()
   init_multihead();
   init_gui();
   init_remote_control();
-
+  init_dbus();
+  
   on_timer();
 
 #ifdef PLATFORM_OS_WIN32
-// FIXME: debug, remove later
+  // FIXME: debug, remove later
   APPEND_TIME( "Workrave started and initialized", "Entering event loop." );
 #endif
 
@@ -555,6 +560,8 @@ GUI::init_core()
   core->init(argc, argv, this, display_name);
   core->set_core_events_listener(this);
 
+  GUIConfig::init();
+
 // #ifdef PLATFORM_OS_UNIX
 //    g_free(display_name);
 // #endif
@@ -850,12 +857,48 @@ GUI::init_remote_control()
 }
 
 
+void
+GUI::init_dbus()
+{
+#ifdef HAVE_DBUS
+  DBus *dbus = CoreFactory::get_dbus();
+
+  if (dbus != NULL && !dbus->is_available())
+    {
+      if (!dbus->is_owner())
+        {
+          Gtk::MessageDialog dialog("Could not initialize Workrave. Is Workrave already running?",
+                                    false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK, true);
+          dialog.show();
+          dialog.run();
+          exit(1);
+        }
+      
+      try
+        {
+          dbus->register_object_path("/org/workrave/Workrave/UI");
+
+          extern void init_DBusGUI(DBus *dbus);
+          init_DBusGUI(dbus);
+  
+          dbus->connect("/org/workrave/Workrave/UI",
+                        "org.workrave.ControlInterface",
+                        menus);
+        }
+      catch (DBusException &e)
+        {
+        }
+    }  
+#endif
+}
+
+
 //! Returns a break window for the specified break.
 IBreakWindow *
 GUI::create_break_window(HeadInfo &head, BreakId break_id, bool ignorable)
 {
   IBreakWindow *ret = NULL;
-  BlockMode block_mode = get_block_mode();
+  GUIConfig::BlockMode block_mode = GUIConfig::get_block_mode();
   if (break_id == BREAK_ID_MICRO_BREAK)
     {
       ret = new MicroBreakWindow(head, ignorable, block_mode);
@@ -939,12 +982,18 @@ GUI::start_prelude_window(BreakId break_id)
 
 
 void
-GUI::start_break_window(BreakId break_id, bool ignorable)
+GUI::start_break_window(BreakId break_id, bool user_initiated)
 {
   TRACE_ENTER_MSG("GUI::start_break_window", num_heads);
   hide_break_window();
   init_multihead();
   collect_garbage();
+
+  bool ignorable = true;
+  if (!user_initiated)
+    {
+      ignorable = GUIConfig::get_ignorable(break_id);
+    }
 
   active_break_id = break_id;
 
@@ -959,7 +1008,7 @@ GUI::start_break_window(BreakId break_id, bool ignorable)
     }
 
   active_break_count = num_heads;
-  if (get_block_mode() != GUI::BLOCK_MODE_NONE)
+  if (GUIConfig::get_block_mode() != GUIConfig::BLOCK_MODE_NONE)
     {
       grab();
     }
@@ -1112,23 +1161,6 @@ GUI::collect_garbage()
       active_break_count = 0;
     }
   TRACE_EXIT();
-}
-
-
-GUI::BlockMode
-GUI::get_block_mode()
-{
-  int mode;
-  CoreFactory::get_configurator()
-    ->get_value_with_default(CFG_KEY_GUI_BLOCK_MODE, mode, BLOCK_MODE_INPUT);
-  return (BlockMode) mode;
-}
-
-void
-GUI::set_block_mode(BlockMode mode)
-{
-  CoreFactory::get_configurator()
-    ->set_value(CFG_KEY_GUI_BLOCK_MODE, int(mode));
 }
 
 

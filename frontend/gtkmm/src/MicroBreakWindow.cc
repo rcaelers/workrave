@@ -46,7 +46,7 @@ static const char rcsid[] = "$Id$";
 #include "Frame.hh"
 
 //! Construct a new Microbreak window.
-MicroBreakWindow::MicroBreakWindow(HeadInfo &head, bool ignorable, GUI::BlockMode mode) :
+MicroBreakWindow::MicroBreakWindow(HeadInfo &head, bool ignorable, GUIConfig::BlockMode mode) :
   BreakWindow(BREAK_ID_MICRO_BREAK, head, ignorable, mode),
   progress_value(0),
   progress_max_value(0),

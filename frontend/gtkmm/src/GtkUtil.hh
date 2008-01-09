@@ -68,7 +68,7 @@ public:
                             std::string tooltip);
 
   static Gtk::Widget *
-  create_label_for_break(BreakId id);
+  create_label_for_break(workrave::BreakId id);
 
   static Glib::RefPtr<Gdk::Pixbuf>
   flip_pixbuf(Glib::RefPtr<Gdk::Pixbuf> pixbuf, bool horizontal, bool vertical);

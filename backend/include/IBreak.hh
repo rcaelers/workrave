@@ -63,31 +63,6 @@ namespace workrave {
 
     //! Is the limit enabled.
     virtual bool is_limit_enabled() const = 0;
-    
-    // These functions will be removed in the next release
-
-    virtual int get_timer_limit() const = 0;
-    virtual void set_timer_limit(int n) = 0;
-    virtual int get_timer_auto_reset() const = 0;
-    virtual void set_timer_auto_reset(int n) = 0;
-    virtual std::string get_timer_reset_pred() const = 0;
-    virtual void set_timer_reset_pred(std::string n) = 0;
-    virtual int get_timer_snooze() const = 0;
-    virtual void set_timer_snooze(int n) = 0;
-    virtual std::string get_timer_monitor() const = 0;
-    virtual void set_timer_monitor(std::string n) = 0;
-    virtual bool get_timer_activity_sensitive() const = 0;
-    virtual void set_timer_activity_sensitive(bool b) = 0;
-    virtual int get_break_max_preludes() const = 0;
-    virtual void set_break_max_preludes(int n) = 0;
-    virtual int get_break_max_postpone() const = 0;
-    virtual void set_break_max_postpone(int n) = 0;
-    virtual bool get_break_ignorable() const = 0;
-    virtual void set_break_ignorable(bool b) = 0;
-    virtual int get_break_exercises() const = 0;
-    virtual void set_break_exercises(int n) = 0;
-    virtual bool get_break_enabled() const = 0;
-    virtual void set_break_enabled(bool b) = 0;
   };
 }
 

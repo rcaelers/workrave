@@ -719,6 +719,7 @@ Core::postpone_break(BreakId break_id)
   send_break_control_message(break_id, BCM_POSTPONE);
 #endif
 
+  /* FIXME: move to frontend
   if (resume_break != BREAK_ID_NONE &&
       !breaks[resume_break].get_break_ignorable())
     {
@@ -731,6 +732,7 @@ Core::postpone_break(BreakId break_id)
           resume_break = BREAK_ID_NONE;
         }
     }
+  */
 }
 
 
@@ -744,6 +746,7 @@ Core::skip_break(BreakId break_id)
   send_break_control_message(break_id, BCM_SKIP);
 #endif
 
+  /* FIXME: move to frontend
   if (resume_break != BREAK_ID_NONE &&
       !breaks[resume_break].get_break_ignorable())
     {
@@ -756,6 +759,7 @@ Core::skip_break(BreakId break_id)
           resume_break = BREAK_ID_NONE;
         }
     }
+  */
 }
 
 

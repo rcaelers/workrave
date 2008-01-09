@@ -28,7 +28,6 @@ static const char rcsid[] = "$Id$";
 #include "nls.h"
 #include "debug.hh"
 #include "credits.h"
-#include "version.h"
 
 #include <unistd.h>
 #include <iostream>
@@ -773,7 +772,7 @@ Menus::on_menu_about()
   about.set_logo(pixbuf);
   about.set_translator_credits(workrave_translators);
 
-  about.set_version(WORKRAVE_VERSION_STR);
+  about.set_version(VERSION);
   about.set_website("http://www.workrave.org/");
   about.set_website_label("www.workrave.org");
 

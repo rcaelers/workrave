@@ -32,7 +32,6 @@ namespace workrave {
   class IStatistics;
   class ICoreEventListener;
   class INetwork;
-  class ITimer;
   class IDistributionManager;
   
   //! Mode

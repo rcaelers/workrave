@@ -26,6 +26,7 @@
 
 class TimeBar;
 
+#include "GUIConfig.hh"
 #include "BreakWindow.hh"
 
 namespace Gtk
@@ -38,7 +39,7 @@ class RestBreakWindow :
   public BreakWindow
 {
 public:
-  RestBreakWindow(HeadInfo &head, bool ignorable, GUI::BlockMode mode);
+  RestBreakWindow(HeadInfo &head, bool ignorable, GUIConfig::BlockMode mode);
   virtual ~RestBreakWindow();
 
   void start();

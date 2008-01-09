@@ -28,6 +28,8 @@
 #include "IConfiguratorListener.hh"
 #include "ITimerBoxView.hh"
 
+using namespace workrave;
+
 class TimerBoxControl : public IConfiguratorListener
 {
 public:

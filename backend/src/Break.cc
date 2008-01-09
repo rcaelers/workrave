@@ -49,10 +49,8 @@ const string Break::CFG_KEY_TIMER_ACTIVITY_SENSITIVE = "/activity_sensitive";
 const string Break::CFG_KEY_BREAK_PREFIX = "gui/breaks/";
 
 const string Break::CFG_KEY_BREAK_MAX_PRELUDES = "/max_preludes";
-const string Break::CFG_KEY_BREAK_MAX_POSTPONE = "/max_postpone";
-const string Break::CFG_KEY_BREAK_IGNORABLE = "/ignorable_break";
 const string Break::CFG_KEY_BREAK_ENABLED = "/enabled";
-const string Break::CFG_KEY_BREAK_EXERCISES = "/exercises";
+
 
 struct Defaults
 {
@@ -66,9 +64,6 @@ struct Defaults
 
   // Break settings
   int max_preludes;
-  int max_postpone;
-  bool ignorable_break;
-  int exercises;
 
 } default_config[] =
   {
@@ -76,22 +71,19 @@ struct Defaults
       // FIXME: Rename to micro_break, but in a backwards compatible manner.
       "micro_pause",
       3*60, 30, "", 150,
-      3, -1, true,
-      0,
+      3,
     },
 
     {
       "rest_break",
       45*60, 10*60, "", 180,
-      3, -1, true,
-      3
+      3,
     },
 
     {
       "daily_limit",
       14400, 0, "day/4:00", 20 * 60,
-      3, -1, true,
-      0
+      3,
     }
   };
 
@@ -130,6 +122,7 @@ Break::init(BreakId id, IApp *app)
 
   init_timer();
   init_break_control();
+  init_defaults();
 
   TRACE_EXIT()
 }
@@ -175,6 +168,49 @@ Break::expand(const string &key)
     }
 
   return str;
+}
+
+
+void
+Break::init_defaults()
+{
+  Defaults &def = default_config[break_id];
+
+  config->set_delay(timer_prefix + CFG_KEY_TIMER_LIMIT, 2);
+  config->set_delay(timer_prefix + CFG_KEY_TIMER_AUTO_RESET, 2);
+
+  // Convert old settings.
+
+  config->rename_key(expand("gui/breaks/%b/max_preludes"),
+                     expand("breaks/%b/max_preludes"));
+
+  config->rename_key(expand("gui/breaks/%b/enabled"),
+                     expand("breaks/%b/enabled"));
+
+  config->rename_key(expand("gui/breaks/%b/enabled"),
+                     expand("breaks/%b/enabled"));
+
+  config->remove_key(expand("gui/breaks/%b/max_postpone"));
+
+  // Set defaults.
+
+  config->set_value(expand("timers/%b/limit"), def.limit,
+                    CONFIG_FLAG_DEFAULT);
+  config->set_value(expand("timers/%b/auto_reset"), def.auto_reset,
+                    CONFIG_FLAG_DEFAULT);
+  config->set_value(expand("timers/%b/reset_pred"), def.resetpred,
+                    CONFIG_FLAG_DEFAULT);
+  config->set_value(expand("timers/%b/snooze"), def.snooze,
+                    CONFIG_FLAG_DEFAULT);
+  config->set_value(expand("timers/%b/monitor"), "",
+                    CONFIG_FLAG_DEFAULT);
+  config->set_value(expand("timers/%b/activity_sensitive"), true,
+                    CONFIG_FLAG_DEFAULT);
+  config->set_value(expand("breaks/%b/max_preludes"), def.max_preludes,
+                    CONFIG_FLAG_DEFAULT);
+  config->set_value(expand("breaks/%b/enabled"), true,
+                    CONFIG_FLAG_DEFAULT);
+
 }
 
 //! Returns the id of the break
@@ -224,9 +260,7 @@ Break::init_timer()
 {
   timer_prefix = CFG_KEY_TIMER_PREFIX + break_name;
 
-  update_timer_config();
   load_timer_config();
-  load_timer_monitor_config();
 
   timer->enable();
   timer->stop_timer();
@@ -235,52 +269,41 @@ Break::init_timer()
 }
 
 
-void
-Break::update_timer_config()
-{
-  set_timer_limit(get_timer_limit());
-  set_timer_auto_reset(get_timer_auto_reset());
-  set_timer_reset_pred(get_timer_reset_pred());
-  set_timer_snooze(get_timer_snooze());
-  set_timer_activity_sensitive(get_timer_activity_sensitive());
-
-}
-
 //! Load the configuration of the timer.
 void
 Break::load_timer_config()
 {
   // Read break limit.
-  int limit = get_timer_limit();
+  int limit;
+  config->get_value(timer_prefix + CFG_KEY_TIMER_LIMIT, limit);
   timer->set_limit(limit);
   timer->set_limit_enabled(limit > 0);
 
   // Read autoreset interval
-  int autoreset = get_timer_auto_reset();;
+  int autoreset;
+  config->get_value(timer_prefix + CFG_KEY_TIMER_AUTO_RESET, autoreset);
   timer->set_auto_reset(autoreset);
   timer->set_auto_reset_enabled(autoreset > 0);
 
   // Read reset predicate
-  string reset_pred = get_timer_reset_pred();
+  string reset_pred;
+  config->get_value(timer_prefix + CFG_KEY_TIMER_RESET_PRED, reset_pred);
   if (reset_pred != "")
     {
       timer->set_auto_reset(reset_pred);
     }
 
   // Read the snooze time.
-  int snooze = get_timer_snooze();
+  int snooze;
+  config->get_value(timer_prefix + CFG_KEY_TIMER_SNOOZE, snooze);
   timer->set_snooze_interval(snooze);
 
   // Read the activity insensitive flag
-  bool sensitive = get_timer_activity_sensitive();
+  bool sensitive;
+  config->get_value(timer_prefix + CFG_KEY_TIMER_ACTIVITY_SENSITIVE, sensitive);
   timer->set_activity_sensitive(sensitive);
-}
 
-
-//! Load the monitor setting for the timer.
-void
-Break::load_timer_monitor_config()
-{
+  // Load the monitor setting for the timer.
   string monitor_name;
 
   bool ret = config->get_value(timer_prefix + CFG_KEY_TIMER_MONITOR, monitor_name);
@@ -308,32 +331,33 @@ Break::init_break_control()
 {
   break_prefix = CFG_KEY_BREAK_PREFIX + break_name;
 
-  update_break_config();
   load_break_control_config();
   config->add_listener(CFG_KEY_BREAK_PREFIX + break_name, this);
 }
 
 
 void
-Break::update_break_config()
-{
-  set_break_max_preludes(get_break_max_preludes());
-  set_break_max_postpone(get_break_max_postpone());
-  set_break_ignorable(get_break_ignorable());
-  set_break_enabled(get_break_enabled());
-  set_break_exercises(get_break_exercises());
-}
-
-
-void
 Break::load_break_control_config()
 {
-  break_control->set_max_preludes(get_break_max_preludes());
-  break_control->set_ignorable_break(get_break_ignorable());
+  // Maximum number of prelude windows.
+  int max_preludes;
+  config->get_value(break_prefix + CFG_KEY_BREAK_MAX_PRELUDES, max_preludes);
+  break_control->set_max_preludes(max_preludes);
 
-  enabled = get_break_enabled();
+  // Break enabled?
+  enabled = true;
+  config->get_value(break_prefix + CFG_KEY_BREAK_ENABLED, enabled);
 }
 
+
+bool
+Break::get_timer_activity_sensitive() const
+{
+  bool sensitive;
+  config->get_value(timer_prefix + CFG_KEY_TIMER_ACTIVITY_SENSITIVE, sensitive);
+
+  return sensitive;
+}
 
 bool
 Break::is_enabled() const
@@ -384,213 +408,6 @@ Break::is_limit_enabled() const
   return timer->is_limit_enabled();
 }
 
-//!
-int
-Break::get_timer_limit() const
-{
-  int rc;
-  config->get_value_with_default(timer_prefix + CFG_KEY_TIMER_LIMIT, rc,
-                                  default_config[break_id].limit);
-  return rc;
-}
-
-
-//!
-void
-Break::set_timer_limit(int n)
-{
-  config->set_value(timer_prefix + CFG_KEY_TIMER_LIMIT, n);
-}
-
-
-//!
-int
-Break::get_timer_auto_reset() const
-{
-  int rc;
-  config->get_value_with_default(timer_prefix + CFG_KEY_TIMER_AUTO_RESET, rc,
-                                  default_config[break_id].auto_reset);
-  return rc;
-}
-
-
-//!
-void
-Break::set_timer_auto_reset(int n)
-{
-  config->set_value(timer_prefix + CFG_KEY_TIMER_AUTO_RESET, n);
-}
-
-
-//!
-string
-Break::get_timer_reset_pred() const
-{
-  string rc;
-  config->get_value_with_default(timer_prefix + CFG_KEY_TIMER_RESET_PRED, rc,
-                                  default_config[break_id].resetpred);
-  return rc;
-}
-
-
-//!
-void
-Break::set_timer_reset_pred(string n)
-{
-  config->set_value(timer_prefix + CFG_KEY_TIMER_RESET_PRED, n);
-}
-
-
-//!
-int
-Break::get_timer_snooze() const
-{
-  int rc;
-  config->get_value_with_default(timer_prefix + CFG_KEY_TIMER_SNOOZE, rc,
-                                  default_config[break_id].snooze);
-  return rc;
-}
-
-
-//!
-void
-Break::set_timer_snooze(int n)
-{
-  config->set_value(timer_prefix + CFG_KEY_TIMER_SNOOZE, n);
-}
-
-
-//!
-string
-Break::get_timer_monitor() const
-{
-  string rc;
-  config->get_value(timer_prefix + CFG_KEY_TIMER_MONITOR, rc);
-
-  return rc;
-}
-
-
-//!
-void
-Break::set_timer_monitor(string n)
-{
-  config->set_value(timer_prefix + CFG_KEY_TIMER_MONITOR, n);
-}
-
-
-//!
-bool
-Break::get_timer_activity_sensitive() const
-{
-  bool rc = true;
-  config->get_value_with_default(timer_prefix
-                                  +CFG_KEY_TIMER_ACTIVITY_SENSITIVE,
-                                  rc, true);
-  return rc;
-}
-
-
-void
-Break::set_timer_activity_sensitive(bool b)
-{
-  config->set_value(timer_prefix + CFG_KEY_TIMER_ACTIVITY_SENSITIVE, b);
-}
-
-
-int
-Break::get_break_max_preludes() const
-{
-  int rc;
-  config->get_value_with_default(break_prefix + CFG_KEY_BREAK_MAX_PRELUDES,
-                                  rc,
-                                  default_config[break_id].max_preludes);
-  return rc;
-}
-
-
-//!
-void
-Break::set_break_max_preludes(int n)
-{
-  config->set_value(break_prefix + CFG_KEY_BREAK_MAX_PRELUDES, n);
-}
-
-//!
-int
-Break::get_break_max_postpone() const
-{
-  int rc;
-  config->get_value_with_default(break_prefix + CFG_KEY_BREAK_MAX_POSTPONE,
-                                  rc,
-                                  default_config[break_id].max_postpone);
-  return rc;
-}
-
-//!
-void
-Break::set_break_max_postpone(int n)
-{
-  config->set_value(break_prefix + CFG_KEY_BREAK_MAX_POSTPONE, n);
-}
-
-
-//!
-bool
-Break::get_break_ignorable() const
-{
-  bool rc;
-  config->get_value_with_default(break_prefix + CFG_KEY_BREAK_IGNORABLE,
-                                  rc,
-                                  default_config[break_id].ignorable_break);
-  return rc;
-}
-
-
-//!
-void
-Break::set_break_ignorable(bool b)
-{
-  config->set_value(break_prefix + CFG_KEY_BREAK_IGNORABLE, b);
-}
-
-
-//!
-int
-Break::get_break_exercises() const
-{
-  int rc;
-  config->get_value_with_default(break_prefix + CFG_KEY_BREAK_EXERCISES, rc,
-                                  default_config[break_id].exercises);
-  return rc;
-}
-
-void
-Break::set_break_exercises(int n)
-{
-  config->set_value(break_prefix + CFG_KEY_BREAK_EXERCISES, n);
-}
-
-
-
-
-bool
-Break::get_break_enabled() const
-{
-  bool rc;
-  config->get_value_with_default(break_prefix + CFG_KEY_BREAK_ENABLED, rc,
-                                  true);
-  return rc;
-}
-
-
-void
-Break::set_break_enabled(bool b)
-{
-  config->set_value(break_prefix + CFG_KEY_BREAK_ENABLED, b);
-}
-
-
 bool
 Break::starts_with(const string &key, string prefix, string &name)
 {
@@ -635,7 +452,6 @@ Break::config_changed_notify(const string &key)
     {
       TRACE_MSG("timer: " << name);
       load_timer_config();
-      load_timer_monitor_config();
     }
   TRACE_EXIT();
 }

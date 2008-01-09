@@ -41,6 +41,7 @@ static const char rcsid[] = "$Id$";
 
 #include <math.h>
 
+#include "GUI.hh"
 #include "BreakWindow.hh"
 #include "IBreakResponse.hh"
 #include "GtkUtil.hh"
@@ -65,7 +66,7 @@ using namespace workrave;
  *  \param control The controller.
  */
 BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
-                         bool ignorable, GUI::BlockMode mode) :
+                         bool ignorable, GUIConfig::BlockMode mode) :
 #ifdef PLATFORM_OS_WIN32
 /*
  Windows will have a gtk toplevel window regardless of mode.
@@ -75,7 +76,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
 */
          Gtk::Window( Gtk::WINDOW_TOPLEVEL ),
 #else
-         Gtk::Window(mode==GUI::BLOCK_MODE_NONE
+         Gtk::Window(mode==GUIConfig::BLOCK_MODE_NONE
                      ? Gtk::WINDOW_TOPLEVEL
                      : Gtk::WINDOW_POPUP),
 #endif
@@ -90,7 +91,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
 #ifdef PLATFORM_OS_WIN32
   desktop_window = NULL;
 
-  if( mode != GUI::BLOCK_MODE_NONE )
+  if( mode != GUIConfig::BLOCK_MODE_NONE )
   {
     // Disable titlebar to appear like a popup
     set_decorated(false);
@@ -108,7 +109,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   // Need to realize window before it is shown
   // Otherwise, there is not gobj()...
   realize();
-  if (mode == GUI::BLOCK_MODE_NONE)
+  if (mode == GUIConfig::BLOCK_MODE_NONE)
     {
       Glib::RefPtr<Gdk::Window> window = get_window();
       window->set_functions(Gdk::FUNC_MOVE);
@@ -182,7 +183,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   assert(core != NULL);
   core->set_insist_policy(initial_ignore_activity ?
                         ICore::INSIST_POLICY_IGNORE :
-                        (block_mode != GUI::BLOCK_MODE_NONE
+                        (block_mode != GUIConfig::BLOCK_MODE_NONE
                          ? ICore::INSIST_POLICY_HALT
                          : ICore::INSIST_POLICY_RESET));
 }
@@ -196,7 +197,7 @@ BreakWindow::init_gui()
     {
       gui = manage(create_gui());
 
-      if (block_mode == GUI::BLOCK_MODE_NONE)
+      if (block_mode == GUIConfig::BLOCK_MODE_NONE)
         {
           set_border_width(12);
           add(*gui);
@@ -218,7 +219,7 @@ BreakWindow::init_gui()
           window_frame->add(*frame);
           frame->add(*gui);
 
-          if (block_mode == GUI::BLOCK_MODE_ALL)
+          if (block_mode == GUIConfig::BLOCK_MODE_ALL)
             {
 #ifdef PLATFORM_OS_WIN32
               desktop_window = new DesktopWindow(head);

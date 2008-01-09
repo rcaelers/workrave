@@ -25,7 +25,7 @@
 #include <stdio.h>
 
 #include "BreakWindow.hh"
-#include "GUI.hh"
+#include "GUIConfig.hh"
 
 namespace workrave
 {
@@ -44,7 +44,7 @@ class MicroBreakWindow :
   public BreakWindow
 {
 public:
-  MicroBreakWindow(HeadInfo &head, bool ignorable, GUI::BlockMode mode);
+  MicroBreakWindow(HeadInfo &head, bool ignorable, GUIConfig::BlockMode mode);
   virtual ~MicroBreakWindow();
 
   void set_progress(int value, int max_value);
