@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2006, 2007 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008 Rob Caelers & Raymond Penners
 #
 # $Id$
 #
@@ -67,7 +67,7 @@ if HAVE_DBUS
 dbussources =           DBusWorkrave.cc
 
 DBusWorkrave.cc:	workrave-service.xml
-			python ../../common/bin/dbusgen.py workrave-service.xml DBusWorkrave
+			python ../../common/bin/dbusgen.py -l C++ workrave-service.xml DBusWorkrave
 
 DBusWorkrave.cc: 	../../common/bin/dbusgen.py \
 			../../common/bin/DBus-template.cc \

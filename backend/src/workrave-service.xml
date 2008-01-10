@@ -41,16 +41,16 @@
 
     <method name="GetTimerIdle" csymbol="get_timer_idle">
       <arg type="break_id" name="timer_id" direction="in"/>
-      <arg type="int"     name="value"    direction="out" hint="ptr"/>
+      <arg type="int32"     name="value"    direction="out" hint="ptr"/>
     </method>
 
     <method name="GetTimerElapsed" csymbol="get_timer_elapsed">
       <arg type="break_id" name="timer_id" direction="in"/>
-      <arg type="int"     name="value"    direction="out" hint="ptr"/>
+      <arg type="int32"     name="value"    direction="out" hint="ptr"/>
     </method>
     
     <method name="GetTime" csymbol="get_time">
-      <arg type="int" name="value" direction="out" hint="return"/>
+      <arg type="int32" name="value" direction="out" hint="return"/>
     </method>
 
     <method name="IsActive" csymbol="is_user_active">
@@ -86,7 +86,7 @@
 
     <method name="SetInt" csymbol="set_value">
       <arg type="string" name="key" direction="in" />
-      <arg type="int"    name="value" direction="in" />
+      <arg type="int32"    name="value" direction="in" />
       <arg type="bool"   name="success" direction="out" hint="return" />
     </method>
 
@@ -110,7 +110,7 @@
 
     <method name="GetInt" csymbol="get_value">
       <arg type="string" name="key" direction="in" />
-      <arg type="int"    name="value" direction="out" />
+      <arg type="int32"    name="value" direction="out" />
       <arg type="bool"   name="found" direction="out" hint="return" />
     </method>
 

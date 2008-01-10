@@ -1,6 +1,6 @@
 // DBusBinding.hh --- DBUS interface
 //
-// Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -51,28 +51,26 @@ namespace workrave
     virtual DBusIntrospect *get_signal_introspect() = 0;
 
     void init(DBusConnection *connection);
-    DBusMessage *call(const std::string &method, void *object, DBusMessage *dbus_message);
+    DBusMessage *call(const std::string &method, void *object, DBusMessage *message);
 
   protected:
-    virtual DBusMessage *call(int method, void *object, DBusMessage *dbus_message) = 0;
+    virtual DBusMessage *call(int method, void *object, DBusMessage *message) = 0;
   
-    void dbus_get_int(DBusMessageIter *it, int *value);
-    void dbus_get_guint32(DBusMessageIter *it, guint32 *value);
-    void dbus_get_gint32(DBusMessageIter *it, gint32 *value);
-    void dbus_get_guint64(DBusMessageIter *it, guint64 *value);
-    void dbus_get_gint64(DBusMessageIter *it, gint64 *value);
-    void dbus_get_bool(DBusMessageIter *it, bool *value);
-    void dbus_get_double(DBusMessageIter *it, double *value);
-    void dbus_get_string(DBusMessageIter *it, std::string *value);
+    void get_uint32(DBusMessageIter *it, guint32 *value);
+    void get_int32(DBusMessageIter *it, gint32 *value);
+    void get_uint64(DBusMessageIter *it, guint64 *value);
+    void get_int64(DBusMessageIter *it, gint64 *value);
+    void get_bool(DBusMessageIter *it, bool *value);
+    void get_double(DBusMessageIter *it, double *value);
+    void get_string(DBusMessageIter *it, std::string *value);
 
-    void dbus_put_int(DBusMessageIter *it, int *value);
-    void dbus_put_guint32(DBusMessageIter *it, guint32 *value);
-    void dbus_put_gint32(DBusMessageIter *it, gint32 *value);
-    void dbus_put_guint64(DBusMessageIter *it, guint64 *value);
-    void dbus_put_gint64(DBusMessageIter *it, gint64 *value);
-    void dbus_put_bool(DBusMessageIter *it, bool *value);
-    void dbus_put_double(DBusMessageIter *it, double *value);
-    void dbus_put_string(DBusMessageIter *it, const std::string *value);
+    void put_uint32(DBusMessageIter *it, const guint32 *value);
+    void put_int32(DBusMessageIter *it, const gint32 *value);
+    void put_uint64(DBusMessageIter *it, const guint64 *value);
+    void put_int64(DBusMessageIter *it, const gint64 *value);
+    void put_bool(DBusMessageIter *it, const bool *value);
+    void put_double(DBusMessageIter *it, const double *value);
+    void put_string(DBusMessageIter *it, const std::string *value);
 
   protected:
     //! 

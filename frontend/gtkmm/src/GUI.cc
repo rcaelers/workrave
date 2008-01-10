@@ -863,7 +863,7 @@ GUI::init_dbus()
 #ifdef HAVE_DBUS
   DBus *dbus = CoreFactory::get_dbus();
 
-  if (dbus != NULL && !dbus->is_available())
+  if (dbus != NULL && dbus->is_available())
     {
       if (!dbus->is_owner())
         {

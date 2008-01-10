@@ -1,6 +1,6 @@
 // DBusBinding.c
 //
-// Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -30,6 +30,7 @@
 
 using namespace workrave;
 
+
 DBusBindingBase::DBusBindingBase()
   : connection(NULL)
 {
@@ -49,7 +50,7 @@ DBusBindingBase::init(DBusConnection *connection)
 
 
 DBusMessage *
-DBusBindingBase::call(const std::string &method, void *object, DBusMessage *dbus_message)
+DBusBindingBase::call(const std::string &method, void *object, DBusMessage *message)
 {
   DBusMessage *ret = NULL;
   bool found = false;
@@ -70,7 +71,7 @@ DBusBindingBase::call(const std::string &method, void *object, DBusMessage *dbus
 
   if (found)
     {
-      ret = call(count, object, dbus_message);
+      ret = call(count, object, message);
     }
   else
     {
@@ -82,22 +83,7 @@ DBusBindingBase::call(const std::string &method, void *object, DBusMessage *dbus
 
 
 void
-DBusBindingBase::dbus_get_int(DBusMessageIter *it, int *value)
-{
-	int argtype = dbus_message_iter_get_arg_type(it);
-
-  if (argtype != DBUS_TYPE_INT32)
-    {
-      throw DBusTypeException("Int32 expected");
-    }
-
-	dbus_message_iter_get_basic(it, value);
-  dbus_message_iter_next(it);
-}
-
-
-void
-DBusBindingBase::dbus_get_guint32(DBusMessageIter *it, guint32 *value)
+DBusBindingBase::get_uint32(DBusMessageIter *it, guint32 *value)
 {
 	int argtype = dbus_message_iter_get_arg_type(it);
 
@@ -112,7 +98,7 @@ DBusBindingBase::dbus_get_guint32(DBusMessageIter *it, guint32 *value)
 
 
 void
-DBusBindingBase::dbus_get_gint32(DBusMessageIter *it, gint32 *value)
+DBusBindingBase::get_int32(DBusMessageIter *it, gint32 *value)
 {
 	int argtype = dbus_message_iter_get_arg_type(it);
 
@@ -127,7 +113,7 @@ DBusBindingBase::dbus_get_gint32(DBusMessageIter *it, gint32 *value)
 
 
 void
-DBusBindingBase::dbus_get_guint64(DBusMessageIter *it, guint64 *value)
+DBusBindingBase::get_uint64(DBusMessageIter *it, guint64 *value)
 {
 	int argtype = dbus_message_iter_get_arg_type(it);
 
@@ -142,7 +128,7 @@ DBusBindingBase::dbus_get_guint64(DBusMessageIter *it, guint64 *value)
 
 
 void
-DBusBindingBase::dbus_get_gint64(DBusMessageIter *it, gint64 *value)
+DBusBindingBase::get_int64(DBusMessageIter *it, gint64 *value)
 {
 	int argtype = dbus_message_iter_get_arg_type(it);
 
@@ -157,7 +143,7 @@ DBusBindingBase::dbus_get_gint64(DBusMessageIter *it, gint64 *value)
 
 
 void
-DBusBindingBase::dbus_get_bool(DBusMessageIter *it, bool *value)
+DBusBindingBase::get_bool(DBusMessageIter *it, bool *value)
 {
 	int argtype = dbus_message_iter_get_arg_type(it);
 
@@ -175,7 +161,7 @@ DBusBindingBase::dbus_get_bool(DBusMessageIter *it, bool *value)
 
 
 void
-DBusBindingBase::dbus_get_double(DBusMessageIter *it, double *value)
+DBusBindingBase::get_double(DBusMessageIter *it, double *value)
 {
 	int argtype = dbus_message_iter_get_arg_type(it);
 
@@ -190,7 +176,7 @@ DBusBindingBase::dbus_get_double(DBusMessageIter *it, double *value)
 
 
 void
-DBusBindingBase::dbus_get_string(DBusMessageIter *it, std::string *value)
+DBusBindingBase::get_string(DBusMessageIter *it, std::string *value)
 {
 	int argtype = dbus_message_iter_get_arg_type(it);
 
@@ -211,49 +197,42 @@ DBusBindingBase::dbus_get_string(DBusMessageIter *it, std::string *value)
 
 
 void
-DBusBindingBase::dbus_put_int(DBusMessageIter *it, int *value)
-{
-	dbus_message_iter_append_basic(it, DBUS_TYPE_INT32, value);
-}
-
-
-void
-DBusBindingBase::dbus_put_guint32(DBusMessageIter *it, guint32 *value)
+DBusBindingBase::put_uint32(DBusMessageIter *it, const guint32 *value)
 {
 	dbus_message_iter_append_basic(it, DBUS_TYPE_UINT32, value);
 }
 
 
 void
-DBusBindingBase::dbus_put_gint32(DBusMessageIter *it, gint32 *value)
+DBusBindingBase::put_int32(DBusMessageIter *it, const gint32 *value)
 {
 	dbus_message_iter_append_basic(it, DBUS_TYPE_INT32, value);
 }
 
 
 void
-DBusBindingBase::dbus_put_guint64(DBusMessageIter *it, guint64 *value)
+DBusBindingBase::put_uint64(DBusMessageIter *it, const guint64 *value)
 {
 	dbus_message_iter_append_basic(it, DBUS_TYPE_UINT64, value);
 }
 
 
 void
-DBusBindingBase::dbus_put_gint64(DBusMessageIter *it, gint64 *value)
+DBusBindingBase::put_int64(DBusMessageIter *it, const gint64 *value)
 {
 	dbus_message_iter_append_basic(it, DBUS_TYPE_INT64, value);
 }
 
 
 void
-DBusBindingBase::dbus_put_double(DBusMessageIter *it, double *value)
+DBusBindingBase::put_double(DBusMessageIter *it, const double *value)
 {
 	dbus_message_iter_append_basic(it, DBUS_TYPE_DOUBLE, value);
 }
 
 
 void
-DBusBindingBase::dbus_put_bool(DBusMessageIter *it, bool *value)
+DBusBindingBase::put_bool(DBusMessageIter *it, const bool *value)
 {
   gboolean v = *value;
 	dbus_message_iter_append_basic(it, DBUS_TYPE_BOOLEAN, &v);
@@ -261,7 +240,7 @@ DBusBindingBase::dbus_put_bool(DBusMessageIter *it, bool *value)
 
 
 void
-DBusBindingBase::dbus_put_string(DBusMessageIter *it, const std::string *value)
+DBusBindingBase::put_string(DBusMessageIter *it, const std::string *value)
 {
   const char *cstr = value->c_str();
 	dbus_message_iter_append_basic(it, DBUS_TYPE_STRING, &cstr);

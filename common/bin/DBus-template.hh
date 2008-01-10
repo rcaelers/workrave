@@ -8,21 +8,25 @@
 
 #for $interface in $model.interfaces
 
-#for include in interface.includes
+#for imp in interface.imports
+#for include in imp.includes
 \#include "${include}"
 #end for
+#end for
 
-#for ns in interface.namespaces
+#for imp in interface.imports
+#for ns in imp.namespaces
 using namespace $ns;
+#end for
 #end for
 using namespace std;
 
 class $interface.qname : public DBusBindingBase
 {
 private:
-  typedef DBusMessage * ($interface.qname::*DBusMethod)(void *object, DBusMessage *dbus_message);
+  typedef DBusMessage * ($interface.qname::*DBusMethod)(void *object, DBusMessage *message);
 
-  virtual DBusMessage *call(int method_num, void *object, DBusMessage *dbus_message);
+  virtual DBusMessage *call(int method_num, void *object, DBusMessage *message);
    
   virtual DBusIntrospect *get_method_introspect()
   {
@@ -55,22 +59,22 @@ public:
                                
 private:
   #for $m in interface.methods
-  DBusMessage *${m.qname}(void *object, DBusMessage *dbus_message);
+  DBusMessage *${m.qname}(void *object, DBusMessage *message);
   #end for
 
   #for enum in $interface.enums
-  void dbus_get_${enum.qname}(DBusMessageIter *reader, ${enum.csymbol} *result);
-  void dbus_put_${enum.qname}(DBusMessageIter *writer, const ${enum.csymbol} *result);
+  void get_${enum.qname}(DBusMessageIter *reader, ${enum.csymbol} *result);
+  void put_${enum.qname}(DBusMessageIter *writer, const ${enum.csymbol} *result);
   #end for
 
 #for struct in $interface.structs
-  void dbus_get_${struct.qname}(DBusMessageIter *reader, ${struct.csymbol} *result);
-  void dbus_put_${struct.qname}(DBusMessageIter *writer, const ${struct.csymbol} *result);
+  void get_${struct.qname}(DBusMessageIter *reader, ${struct.csymbol} *result);
+  void put_${struct.qname}(DBusMessageIter *writer, const ${struct.csymbol} *result);
   #end for
 
   #for seq in $interface.sequences
-  void dbus_get_${seq.qname}(DBusMessageIter *reader, ${seq.csymbol} *result);
-  void dbus_put_${seq.qname}(DBusMessageIter *writer, const ${seq.csymbol} *result);
+  void get_${seq.qname}(DBusMessageIter *reader, ${seq.csymbol} *result);
+  void put_${seq.qname}(DBusMessageIter *writer, const ${seq.csymbol} *result);
   #end for
 
   static DBusMethod method_table[];

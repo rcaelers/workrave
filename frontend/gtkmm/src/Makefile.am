@@ -159,7 +159,7 @@ $(service_DATA): $(service_in_files) Makefile
 dbussources=DBusGUI.cc
 
 DBusGUI.cc: 		workrave-gui.xml
-			python ../../../common/bin/dbusgen.py workrave-gui.xml DBusGUI
+			python ../../../common/bin/dbusgen.py --language=C++ workrave-gui.xml DBusGUI
 
 DBusGUI.cc: 		../../../common/bin/dbusgen.py \
 		    	../../../common/bin/DBus-template.cc \
