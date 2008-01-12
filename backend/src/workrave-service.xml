@@ -4,6 +4,12 @@
 
   <interface name="org.workrave.CoreInterface" csymbol="Core">
 
+    <dictionary name="settings"
+		key_type="string"
+		value_type="int32"
+		>
+    </dictionary>
+    
     <import>
       <include name="Core.hh"/>
       <namespace name="workrave"/>

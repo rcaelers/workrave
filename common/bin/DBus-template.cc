@@ -29,8 +29,8 @@
 \#include <deque>
 
 \#include "DBus.hh"
-\#include "DBusException.hh"
 \#include "DBusBinding.hh"
+\#include "DBusException.hh"
 \#include "${model.include_filename}"
 
 using namespace std;
@@ -49,68 +49,6 @@ using namespace $ns;
 #end for
 #end for
 
-\#if 0
-class ${interface.qname}_Binding : public DBusBindingBase, public ${interface.qname}
-{
-private:
-  typedef DBusMessage * ($interface.qname::*DBusMethod)(void *object, DBusMessage *message);
-
-  virtual DBusMessage *call(int method_num, void *object, DBusMessage *message);
-   
-  virtual DBusIntrospect *get_method_introspect()
-  {
-    return method_introspect;
-  }
-
-  virtual DBusIntrospect *get_signal_introspect()
-  {
-    return signal_introspect;
-  }
-
-  #for $m in interface.signals
-private:
-  void internal_emit_${m.qname}(string path, #slurp
-  #set comma = ''
-  #for p in m.params
-  $comma $interface.type2csymbol(p.type) $p.name#slurp
-  #set comma = ','
-  #end for
-  );
-public:
-  static void emit_${m.qname}(DBus *dbus, string path, #slurp
-  #set comma = ''
-  #for p in m.params
-  $comma $interface.type2csymbol(p.type) $p.name#slurp
-  #set comma = ','
-  #end for
-  );
-  #end for
-                               
-private:
-  #for $m in interface.methods
-  DBusMessage *${m.qname}(void *object, DBusMessage *message);
-  #end for
-
-  #for enum in $interface.enums
-  void get_${enum.qname}(DBusMessageIter *reader, ${enum.csymbol} *result);
-  void put_${enum.qname}(DBusMessageIter *writer, const ${enum.csymbol} *result);
-  #end for
-
-  #for struct in $interface.structs
-  void get_${struct.qname}(DBusMessageIter *reader, ${struct.csymbol} *result);
-  void put_${struct.qname}(DBusMessageIter *writer, const ${struct.csymbol} *result);
-  #end for
-
-  #for seq in $interface.sequences
-  void get_${seq.qname}(DBusMessageIter *reader, ${seq.csymbol} *result);
-  void put_${seq.qname}(DBusMessageIter *writer, const ${seq.csymbol} *result);
-  #end for
-
-  static DBusMethod method_table[];
-  static DBusIntrospect method_introspect[];
-  static DBusIntrospect signal_introspect[];
-};
-\#endif
 
 DBusMessage *
 ${interface.qname}::call(int method_num, void *object, DBusMessage *message)
@@ -185,7 +123,7 @@ ${interface.qname}::get_${struct.qname}(DBusMessageIter *reader, ${struct.csymbo
   dbus_message_iter_recurse(reader, &it);
 
   #for p in struct.fields
-  get_${p.type}(&it, (${p.type} *) &(result->${p.name}));
+  get_${p.type}(&it, ($interface.type2csymbol(p.type) *) &(result->${p.name}));
   #end for
 
   dbus_message_iter_next(reader);
@@ -204,7 +142,7 @@ ${interface.qname}::put_${struct.qname}(DBusMessageIter *writer, const ${struct.
     }
 
   #for p in struct.fields
-  put_${p.type}(&it, (${p.type} *) &(result->${p.name}));
+  put_${p.type}(&it, ($interface.type2csymbol(p.type) *) &(result->${p.name}));
   #end for
 
   ok = dbus_message_iter_close_container(writer, &it);
@@ -231,8 +169,6 @@ ${interface.qname}::get_${seq.qname}(DBusMessageIter *reader, ${seq.csymbol} *re
     result->push_back(tmp);
   }
 
-  // TODO: is this next call correct?
-  dbus_message_iter_close_container(reader, &it);
   dbus_message_iter_next(reader);
 }
 
@@ -243,7 +179,7 @@ ${interface.qname}::put_${seq.qname}(DBusMessageIter *writer, const ${seq.csymbo
   ${seq.csymbol}::const_iterator it;
   dbus_bool_t ok;
   
-  ok = dbus_message_iter_open_container(writer, DBUS_TYPE_ARRAY, "todo", &arr);
+  ok = dbus_message_iter_open_container(writer, DBUS_TYPE_ARRAY, "$interface.type2sig(seq.data_type)", &arr);
   if (!ok)
     {
       throw DBusSystemException("Internal error");
@@ -260,12 +196,82 @@ ${interface.qname}::put_${seq.qname}(DBusMessageIter *writer, const ${seq.csymbo
       throw DBusSystemException("Internal error");
     }
 }
+#end for
+
+
+#for dict in $interface.dictionaries
+
+void
+${interface.qname}::get_${dict.qname}(DBusMessageIter *reader, ${dict.csymbol} *result)
+{
+  DBusMessageIter arr_it;
+  DBusMessageIter dict_it;
+
+  dbus_message_iter_recurse(reader, &arr_it);
+  while (dbus_message_iter_has_next(&arr_it))
+  {
+    $interface.type2csymbol(dict.key_type) key;
+    $interface.type2csymbol(dict.value_type) value;
+
+    dbus_message_iter_recurse(&arr_it, &dict_it);
+    
+    get_${dict.key_type}(&dict_it, &key);
+    get_${dict.value_type}(&dict_it, &value);
+
+    (*result)[key] = value;
+
+    dbus_message_iter_next(&arr_it);
+  }
+
+  dbus_message_iter_next(reader);
+}
+
+
+void
+${interface.qname}::put_${dict.qname}(DBusMessageIter *writer, const ${dict.csymbol} *result)
+{
+  DBusMessageIter arr_it;
+  DBusMessageIter dict_it;
+  ${dict.csymbol}::const_iterator it;
+  dbus_bool_t ok;
+  
+  ok = dbus_message_iter_open_container(writer, DBUS_TYPE_ARRAY,
+                                        "$interface.type2sig(dict.value_type)", &arr_it);
+  if (!ok)
+    {
+      throw DBusSystemException("Internal error");
+    }
+
+  for (it = result->begin(); it != result->end(); it++)
+    {
+      ok = dbus_message_iter_open_container(&arr_it, DBUS_TYPE_DICT_ENTRY, NULL, &dict_it);
+      if (!ok)
+        {
+          throw DBusSystemException("Internal error");
+        }
+    
+      put_${dict.key_type}(&dict_it, &(it->first));
+      put_${dict.value_type}(&dict_it, &(it->second));
+
+      ok = dbus_message_iter_close_container(&arr_it, &dict_it);
+      if (!ok)
+        {
+          throw DBusSystemException("Internal error");
+        }
+    }
+  
+  ok = dbus_message_iter_close_container(writer, &arr_it);
+  if (!ok)
+    {
+      throw DBusSystemException("Internal error");
+    }
+}
+
 
 #end for
 
 #for method in $interface.methods
 
-// TODO: catch exception, free, rethrow
 DBusMessage *
 ${interface.qname}::${method.name}(void *object, DBusMessage *message)
 {
@@ -277,77 +283,89 @@ ${interface.qname}::${method.name}(void *object, DBusMessage *message)
   DBusMessageIter reader;
   DBusMessageIter writer;
   dbus_bool_t ok;
-  
-  #if method.csymbol != ""
-  ${interface.csymbol} *dbus_object = (${interface.csymbol} *) object;
-  #else
-  (void) object;
-  #end if
-  
-  #set have_in_args = False
-  #for p in method.params
-  #if p.direction == 'in'
-  #set have_in_args = True
-  #end if
-  #if p.hint == 'ptrptr'
-  $interface.type2csymbol(p.type) *${p.name};
-  #else
-  $interface.type2csymbol(p.type) ${p.name};
-  #end if
-  #end for
-  
-  ok = dbus_message_iter_init(message, &reader);
-  #if have_in_args
-  if (!ok)
-    {
-      throw DBusSystemException("No parameters");
-    }
-  #end if
-    
-  #for arg in method.params:
-  #if $arg.direction == 'in'
-  get_${arg.type}(&reader, &${arg.name});
-  #end if
-  #end for
 
-  #if method.csymbol != ""
-  #if method.return_type() != 'void'
-  $method.return_name() = dbus_object->${method.csymbol}( #slurp
-  #else
-  dbus_object->${method.csymbol}( #slurp
-  #end if
-  #set comma = ''
-  #for p in method.params
-  #if p.hint == '' or p.hint == 'ref'
-  $comma $p.name#slurp
-  #else if p.hint == 'ptr'
-  $comma &$p.name#slurp
-  #else if p.hint == 'ptrptr'
-  $comma &$p.name#slurp
-  #end if
-  #set comma = ','
-  #end for
-  );
-  #end if
-                                                          
-  reply = dbus_message_new_method_return(message);
-  if (reply == NULL)
+  try
     {
-      throw DBusSystemException("Internal error");
+      #if method.csymbol != ""
+      ${interface.csymbol} *dbus_object = (${interface.csymbol} *) object;
+      #else
+      (void) object;
+      #end if
+      
+      #set have_in_args = False
+      #for p in method.params
+      #if p.direction == 'in'
+      #set have_in_args = True
+      #end if
+      #if p.hint == 'ptrptr'
+      $interface.type2csymbol(p.type) *${p.name};
+      #else
+      $interface.type2csymbol(p.type) ${p.name};
+      #end if
+      #end for
+      
+      ok = dbus_message_iter_init(message, &reader);
+      #if have_in_args
+      if (!ok)
+        {
+          throw DBusSystemException("No parameters");
+        }
+      #end if
+        
+      #for arg in method.params:
+      #if $arg.direction == 'in'
+      get_${arg.type}(&reader, &${arg.name});
+      #end if
+      #end for
+
+      #if method.csymbol != ""
+      #if method.return_type() != 'void'
+      $method.return_name() = dbus_object->${method.csymbol}( #slurp
+      #else
+      dbus_object->${method.csymbol}( #slurp
+      #end if
+      #set comma = ''
+      #for p in method.params
+      #if p.hint == '' or p.hint == 'ref'
+      $comma $p.name#slurp
+      #else if p.hint == 'ptr'
+      $comma &$p.name#slurp
+      #else if p.hint == 'ptrptr'
+      $comma &$p.name#slurp
+      #end if
+      #set comma = ','
+      #end for
+      );
+      #end if
+                                                              
+      reply = dbus_message_new_method_return(message);
+      if (reply == NULL)
+        {
+          throw DBusSystemException("Internal error");
+        }
+                                                              
+      dbus_message_iter_init_append(reply, &writer);
+      
+      #for arg in method.params:
+      #if arg.direction == 'out'
+      #if p.hint == 'ptrptr'
+      put_${arg.type}(&writer, ${arg.name});
+      #else                                                        
+      put_${arg.type}(&writer, &${arg.name});
+      #end if                                                         
+      #end if
+      #end for
+  }
+  catch (DBusException)
+    {
+      if (reply != NULL)
+        {
+          dbus_message_unref(reply);
+        }
+
+      throw;
     }
                                                           
-  dbus_message_iter_init_append(reply, &writer);
-  
-  #for arg in method.params:
-  #if arg.direction == 'out'
-  #if p.hint == 'ptrptr'
-  put_${arg.type}(&writer, ${arg.name});
-  #else                                                        
-  put_${arg.type}(&writer, &${arg.name});
-  #end if                                                         
-  #end if
-  #end for
-
 #if method.condition != ''
 \#else
  (void) object;

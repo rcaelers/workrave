@@ -67,7 +67,7 @@ private:
   void put_${enum.qname}(DBusMessageIter *writer, const ${enum.csymbol} *result);
   #end for
 
-#for struct in $interface.structs
+  #for struct in $interface.structs
   void get_${struct.qname}(DBusMessageIter *reader, ${struct.csymbol} *result);
   void put_${struct.qname}(DBusMessageIter *writer, const ${struct.csymbol} *result);
   #end for
@@ -77,6 +77,11 @@ private:
   void put_${seq.qname}(DBusMessageIter *writer, const ${seq.csymbol} *result);
   #end for
 
+  #for dict in $interface.dictionaries
+  void get_${dict.qname}(DBusMessageIter *reader, ${dict.csymbol} *result);
+  void put_${dict.qname}(DBusMessageIter *writer, const ${dict.csymbol} *result);
+  #end for
+  
   static DBusMethod method_table[];
   static DBusIntrospect method_introspect[];
   static DBusIntrospect signal_introspect[];

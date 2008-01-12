@@ -29,16 +29,30 @@ from Cheetah.Template import Template
 from optparse import OptionParser
 from xml.dom.minidom import parse
 
-class ArgNode(object):
+class NodeBase(object):
+    pass
+
+class ArgNode(NodeBase):
     def __init__(self):
+        NodeBase.__init__(self)
         self.name = ''
         self.type = ''
         self.direction = ''
         self.hint = ''
 
+class DefaultTypeNode(NodeBase):
+    def __init__(self, csymbol, type_sig):
+        NodeBase.__init__(self)
+        self.csymbol = csymbol
+        self.type_sig = type_sig
 
-class BindingNode(object):
+    def sig(self):
+        return self.type_sig
+
+    
+class TopNode(NodeBase):
     def __init__(self, name):
+        NodeBase.__init__(self)
         self.file_name = name
         self.interfaces = []
         
@@ -57,9 +71,12 @@ class BindingNode(object):
             self.interfaces.append(p)
 
 
-class InterfaceNode(object):
+class InterfaceNode(NodeBase):
     def __init__(self, parent):
+        NodeBase.__init__(self)
         self.parent = parent
+
+        self.types = {}
 
         self.name = None
         self.csymbol = None
@@ -69,10 +86,12 @@ class InterfaceNode(object):
         self.signals = []
         self.structs = []
         self.sequences = []
+        self.dictionaries = []
         self.enums = []
-        self.types = {}
         self.imports = []
-        
+
+        self.add_default_types()
+            
     def handle(self, node):
         self.name = node.getAttribute('name')
         self.csymbol = node.getAttribute('csymbol')
@@ -96,6 +115,10 @@ class InterfaceNode(object):
                     p = SequenceNode(self)
                     p.handle(child)
                     self.sequences.append(p)
+                elif child.nodeName == 'dictionary':
+                    p = DictionaryNode(self)
+                    p.handle(child)
+                    self.dictionaries.append(p)
                 elif child.nodeName == 'enum':
                     p = EnumNode(self)
                     p.handle(child)
@@ -105,50 +128,37 @@ class InterfaceNode(object):
                     p.handle(child)
                     self.imports.append(p)
 
+    def add_default_types(self):
+        self.types['int']= DefaultTypeNode('int','i')
+        self.types['uint8']= DefaultTypeNode('guint8', 'y')
+        self.types['int16']= DefaultTypeNode('gint16','n')
+        self.types['uint16']= DefaultTypeNode('guint16','q')
+        self.types['int32']= DefaultTypeNode('gint32','i')
+        self.types['uint32']= DefaultTypeNode('guint32','u')
+        self.types['int64']= DefaultTypeNode('gint64','x')
+        self.types['uint64']= DefaultTypeNode('guint64','t')
+        self.types['string']= DefaultTypeNode('std::string','s')
+        self.types['bool']= DefaultTypeNode('bool','b')
+        self.types['double']= DefaultTypeNode('double','d')
+        
     def type2csymbol(self, type):
-        if type == 'int':
-            return 'int'
-        elif type == 'int32':
-            return 'gint32'
-        elif type == 'uint32':
-            return 'guint32'
-        elif type == 'int64':
-            return 'gint64'
-        elif type == 'uint64':
-            return 'guint64'
-        elif type == 'string':
-            return 'std::string'
-        elif type == 'bool':
-            return 'bool'
         if type in self.types:
             return self.types[type].csymbol
         else:
-            return type
+            print 'C type of type ' + type + ' unknown'
+            sys.exit(1)
 
     def type2sig(self, type):
-        if type == 'int':
-            return 'i'
-        elif type == 'int32':
-            return 'i'
-        elif type == 'uint32':
-            return 'u'
-        elif type == 'int64':
-            return 'x'
-        elif type == 'uint64':
-            return 't'
-        elif type == 'string':
-            return 's'
-        elif type == 'bool':
-            return 'b'
-        elif type in self.types:
+        if type in self.types:
             return self.types[type].sig()
         else:
-            return ''
+            print 'Signature of type ' + type + ' unknown'
+            sys.exit(1)
 
 
-class MethodNode(object):
+class MethodNode(NodeBase):
     def __init__(self, parent):
-        object.__init__(self)
+        NodeBase.__init__(self)
         self.parent = parent
 
         self.name = None
@@ -201,8 +211,9 @@ class MethodNode(object):
         
 
 
-class SignalNode(object):
+class SignalNode(NodeBase):
     def __init__(self, parent):
+        NodeBase.__init__(self)
         self.parent = parent
 
     def handle(self, node):
@@ -248,8 +259,9 @@ class SignalNode(object):
         return ret
 
 
-class StructNode(object):
+class StructNode(NodeBase):
     def __init__(self, parent):
+        NodeBase.__init__(self)
         self.parent = parent
 
     def handle(self, node):
@@ -270,7 +282,7 @@ class StructNode(object):
         arg.name = node.getAttribute('name')
         arg.type = node.getAttribute('type')
 
-        self.fields.append(p)
+        self.fields.append(arg)
 
 
     def sig(self):
@@ -283,8 +295,9 @@ class StructNode(object):
 
 
 
-class SequenceNode(object):
+class SequenceNode(NodeBase):
     def __init__(self, parent):
+        NodeBase.__init__(self)
         self.parent = parent
 
     def handle(self, node):
@@ -300,9 +313,33 @@ class SequenceNode(object):
         return 'a' + self.parent.type2sig(self.data_type)
 
 
-
-class EnumNode(object):
+class DictionaryNode(NodeBase):
     def __init__(self, parent):
+        NodeBase.__init__(self)
+        self.parent = parent
+
+    def handle(self, node):
+        self.name = node.getAttribute('name')
+        self.csymbol = node.getAttribute('csymbol')
+        self.qname = self.name.replace('.','_')
+        self.key_type = node.getAttribute('key_type')
+        self.value_type = node.getAttribute('value_type')
+
+        if self.csymbol == '':
+            self.csymbol = 'std::map<%s,%s>' % ( self.parent.type2csymbol(self.key_type),
+                                                 self.parent.type2csymbol(self.value_type))
+        
+        self.parent.types[self.name] = self
+
+    def sig(self):
+        return 'e{' + \
+               self.parent.type2sig(self.key_type) + \
+               self.parent.type2sig(self.value_type) + '}'
+
+
+class EnumNode(NodeBase):
+    def __init__(self, parent):
+        NodeBase.__init__(self)
         self.parent = parent
         self.count = 0
         
@@ -318,7 +355,7 @@ class EnumNode(object):
                     self.handle_value(child)
 
         self.parent.types[self.name] = self
-
+            
     def handle_value(self, node):
         arg = ArgNode()
 
@@ -336,8 +373,9 @@ class EnumNode(object):
         return 's'
 
 
-class ImportNode(object):
+class ImportNode(NodeBase):
     def __init__(self, parent):
+        NodeBase.__init__(self)
         self.parent = parent
         self.includes = []
         self.namespaces = []
@@ -389,7 +427,7 @@ if __name__ == '__main__':
         parser.error("Specify language")
         sys.exit(1)
             
-    binding = BindingNode(args[0])
+    binding = TopNode(args[0])
     binding.parse()
 
     binding.prefix = args[1]

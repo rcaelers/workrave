@@ -56,6 +56,9 @@ namespace workrave
   protected:
     virtual DBusMessage *call(int method, void *object, DBusMessage *message) = 0;
   
+    void get_uint8(DBusMessageIter *it, guint8 *value);
+    void get_uint16(DBusMessageIter *it, guint16 *value);
+    void get_int16(DBusMessageIter *it, gint16 *value);
     void get_uint32(DBusMessageIter *it, guint32 *value);
     void get_int32(DBusMessageIter *it, gint32 *value);
     void get_uint64(DBusMessageIter *it, guint64 *value);
@@ -64,6 +67,9 @@ namespace workrave
     void get_double(DBusMessageIter *it, double *value);
     void get_string(DBusMessageIter *it, std::string *value);
 
+    void put_uint8(DBusMessageIter *it, const guint8 *value);
+    void put_uint16(DBusMessageIter *it, const guint16 *value);
+    void put_int16(DBusMessageIter *it, const gint16 *value);
     void put_uint32(DBusMessageIter *it, const guint32 *value);
     void put_int32(DBusMessageIter *it, const gint32 *value);
     void put_uint64(DBusMessageIter *it, const guint64 *value);

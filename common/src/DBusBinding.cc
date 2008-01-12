@@ -83,6 +83,50 @@ DBusBindingBase::call(const std::string &method, void *object, DBusMessage *mess
 
 
 void
+DBusBindingBase::get_uint8(DBusMessageIter *it, guint8 *value)
+{
+	int argtype = dbus_message_iter_get_arg_type(it);
+
+  if (argtype != DBUS_TYPE_BYTE)
+    {
+      throw DBusTypeException("UInt8 expected");
+    }
+
+	dbus_message_iter_get_basic(it, value);
+  dbus_message_iter_next(it);
+}
+
+
+void
+DBusBindingBase::get_uint16(DBusMessageIter *it, guint16 *value)
+{
+	int argtype = dbus_message_iter_get_arg_type(it);
+
+  if (argtype != DBUS_TYPE_UINT16)
+    {
+      throw DBusTypeException("UInt16 expected");
+    }
+
+	dbus_message_iter_get_basic(it, value);
+  dbus_message_iter_next(it);
+}
+
+
+void
+DBusBindingBase::get_int16(DBusMessageIter *it, gint16 *value)
+{
+	int argtype = dbus_message_iter_get_arg_type(it);
+
+  if (argtype != DBUS_TYPE_INT16)
+    {
+      throw DBusTypeException("Int16 expected");
+    }
+
+	dbus_message_iter_get_basic(it, value);
+  dbus_message_iter_next(it);
+}
+
+void
 DBusBindingBase::get_uint32(DBusMessageIter *it, guint32 *value)
 {
 	int argtype = dbus_message_iter_get_arg_type(it);
@@ -195,6 +239,25 @@ DBusBindingBase::get_string(DBusMessageIter *it, std::string *value)
     }
 }
 
+
+void
+DBusBindingBase::put_uint8(DBusMessageIter *it, const guint8 *value)
+{
+	dbus_message_iter_append_basic(it, DBUS_TYPE_BYTE, value);
+}
+
+void
+DBusBindingBase::put_uint16(DBusMessageIter *it, const guint16 *value)
+{
+	dbus_message_iter_append_basic(it, DBUS_TYPE_UINT16, value);
+}
+
+
+void
+DBusBindingBase::put_int16(DBusMessageIter *it, const gint16 *value)
+{
+	dbus_message_iter_append_basic(it, DBUS_TYPE_INT16, value);
+}
 
 void
 DBusBindingBase::put_uint32(DBusMessageIter *it, const guint32 *value)
