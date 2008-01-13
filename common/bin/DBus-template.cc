@@ -536,7 +536,7 @@ DBusIntrospect ${interface.qname}_Stub::signal_introspect[] = {
 
 #end for
 
-void init_${model.prefix}(DBus *dbus)
+void init_${model.name}(DBus *dbus)
 {
   #for interface in $model.interfaces
   dbus->register_binding("$interface.name", new ${interface.qname}_Stub(dbus));

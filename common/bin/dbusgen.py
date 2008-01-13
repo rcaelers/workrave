@@ -54,16 +54,19 @@ class TopNode(NodeBase):
     def __init__(self, name):
         NodeBase.__init__(self)
         self.file_name = name
+        self.name = None
         self.interfaces = []
         
     def parse(self):
         dom = parse(self.file_name)
 
-        nodelist = dom.getElementsByTagName('node')
+        nodelist = dom.getElementsByTagName('unit')
         for node in nodelist:
             self.handle_node(node)
 
     def handle_node(self, node):
+        self.name = node.getAttribute('name')
+
         nodelist = node.getElementsByTagName('interface')
         for child in nodelist:
             p = InterfaceNode(self)
@@ -398,7 +401,7 @@ class ImportNode(NodeBase):
 # Main program
 
 if __name__ == '__main__':
-    usage = "usage: %prog [options] <introspect.xml> <prefix>"
+    usage = "usage: %prog [options] <introspect.xml>"
     parser = OptionParser(usage=usage)
     parser.add_option("-l", "--language",
                       dest="language",
@@ -430,8 +433,7 @@ if __name__ == '__main__':
     binding = TopNode(args[0])
     binding.parse()
 
-    binding.prefix = args[1]
-    binding.include_filename = binding.prefix + header_ext
+    binding.include_filename = binding.name + header_ext
 
     for template_name in templates:
         t = Template(file=template_name)
@@ -440,7 +442,7 @@ if __name__ == '__main__':
         
         ext = os.path.splitext(template_name)[1]
 
-        f = open(args[1] + ext, 'w+')
+        f = open(binding.name + ext, 'w+')
         try:
             f.write(s)
         finally:

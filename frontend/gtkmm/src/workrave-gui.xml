@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<node name="/org/workrave/Workrave/GUI">
+<unit name="DBusGUI">
 
   <interface name="org.workrave.ControlInterface" csymbol="Menus">
     <import>
@@ -10,8 +10,7 @@
     <method name="OpenMain"              csymbol="on_menu_open_main_window"/>
     <method name="Preferences"           csymbol="on_menu_preferences"/>
     <method name="NetworkConnect"        csymbol="on_menu_network_join"/>
-    <method name="NetworkLog"            csymbol="on_menu_network_log"
-                                         condition="defined(FIXME)">
+    <method name="NetworkLog"            csymbol="on_menu_network_log">
       <arg type="bool" name="show" direction="in"/>
     </method>
     <method name="NetworkReconnect"      csymbol="on_menu_network_reconnect"/>
@@ -29,4 +28,4 @@
       <include name="Menus.hh"/>
     </import>
   </interface>
-</node>
+</unit>

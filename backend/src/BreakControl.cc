@@ -534,24 +534,27 @@ BreakControl::get_break_state()
 void
 BreakControl::postpone_break()
 {
-  if (!user_initiated)
+  if (break_stage == STAGE_TAKING)
     {
-      if (!fake_break)
+      if (!user_initiated)
         {
-          // Snooze the timer.
-          break_timer->snooze_timer();
+          if (!fake_break)
+            {
+              // Snooze the timer.
+              break_timer->snooze_timer();
+            }
+
+          // Update stats.
+          Statistics *stats = core->get_statistics();
+          stats->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_POSTPONED);
         }
 
-      // Update stats.
-      Statistics *stats = core->get_statistics();
-      stats->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_POSTPONED);
+      // This is to avoid a skip sound...
+      user_abort = true;
+
+      // and stop the break.
+      stop_break(true);
     }
-
-  // This is to avoid a skip sound...
-  user_abort = true;
-
-  // and stop the break.
-  stop_break(true);
 }
 
 
@@ -563,25 +566,28 @@ void
 BreakControl::skip_break()
 {
   // This is to avoid a skip sound...
-  user_abort = true;
-
-  if (break_id == BREAK_ID_DAILY_LIMIT)
+  if (break_stage == STAGE_TAKING)
     {
-      // Make sure the daily limit remains silent after skipping.
-      break_timer->inhibit_snooze();
-    }
-  else
-    {
-      // Reset the restbreak timer.
-      break_timer->reset_timer();
-    }
+      user_abort = true;
 
-  // Update stats.
-  Statistics *stats = core->get_statistics();
-  stats->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_SKIPPED);
+      if (break_id == BREAK_ID_DAILY_LIMIT)
+        {
+          // Make sure the daily limit remains silent after skipping.
+          break_timer->inhibit_snooze();
+        }
+      else
+        {
+          // Reset the restbreak timer.
+          break_timer->reset_timer();
+        }
 
-  // and stop the break.
-  stop_break(false);
+      // Update stats.
+      Statistics *stats = core->get_statistics();
+      stats->increment_break_counter(break_id, Statistics::STATS_BREAKVALUE_SKIPPED);
+
+      // and stop the break.
+      stop_break(false);
+    }
 }
 
 void

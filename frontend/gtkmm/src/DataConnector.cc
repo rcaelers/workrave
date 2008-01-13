@@ -1,6 +1,6 @@
 // DataConnector.cc --- Connect Gtkmm widget with Configuration items
 //
-// Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -44,6 +44,7 @@ static const char rcsid[] = "$Id$";
 using namespace workrave;
 using namespace std;
 
+// Define connector for standard gtkmm widgets.
 DEFINE_DATA_TYPE(Gtk::Entry, DataConnectionGtkEntry);
 DEFINE_DATA_TYPE(Gtk::CheckButton, DataConnectionGtkCheckButton);
 DEFINE_DATA_TYPE(Gtk::SpinButton, DataConnectionGtkSpinButton);
@@ -59,14 +60,16 @@ namespace dc
   }
 }
 
-//!
+
+//! Construct a new data connector.
 DataConnector::DataConnector()
 {
   config = CoreFactory::get_configurator();
   last_connection = NULL;
 }
 
-//!
+
+//! Destruct data connector.
 DataConnector::~DataConnector()
 {
   for (WidgetIter i = connections.begin(); i != connections.end(); i++)
@@ -76,10 +79,12 @@ DataConnector::~DataConnector()
 }
 
 
-//!
+//! Connect a widget to a break related configuration item.
 void
-DataConnector::connect(BreakId id, const string &setting,
-                       DataConnection *connection, dc::Flags flags)
+DataConnector::connect(BreakId id,
+                       const string &setting,
+                       DataConnection *connection,
+                       dc::Flags flags)
 {
   string str = setting;
   string::size_type pos = 0;
@@ -97,31 +102,30 @@ DataConnector::connect(BreakId id, const string &setting,
   connect(str, connection, flags);
 }
 
-//!
+
+//! Connect a widget to a configuration item.
 void
-DataConnector::connect(const string &setting, DataConnection *connection,
+DataConnector::connect(const string &setting,
+                       DataConnection *connection,
                        dc::Flags flags)
 {
-  if (connection == NULL)
+  if (connection != NULL)
     {
-      last_connection = NULL;
-      return;
+      MonitoredWidget mw;
+
+      mw.connection = connection;
+
+      connection->set(flags, setting);
+      connection->init();
+
+      connections.push_back(mw);
     }
-
-  MonitoredWidget mw;
-
-  mw.connection = connection;
-
-  connection->set(flags, setting);
-  connection->init();
-
-  connections.push_back(mw);
-
+  
   last_connection = connection;
-
 }
 
 
+//! Attach interceptor to last connected widget
 void
 DataConnector::intercept_last(sigc::slot<bool, const string &, bool> slot)
 {
@@ -131,18 +135,22 @@ DataConnector::intercept_last(sigc::slot<bool, const string &, bool> slot)
     }
 }
 
+
+//! Construct a new data connection
 DataConnection::DataConnection()
 {
   config = CoreFactory::get_configurator();
 }
 
 
+//! Destruct data connection.
 DataConnection::~DataConnection()
 {
   config->remove_listener(key, this);
 }
 
 
+//! Set connection flags and configuration key.
 void
 DataConnection::set(dc::Flags flags, const string &key)
 {
@@ -156,6 +164,14 @@ DataConnection::set(dc::Flags flags, const string &key)
 }
 
 
+/***********************************************************************
+ *                                                                     *
+ * Text Entry                                                          *
+ *                                                                     *
+ ***********************************************************************/
+
+
+//! Initialize connection.
 void
 DataConnectionGtkEntry::init()
 {
@@ -164,36 +180,52 @@ DataConnectionGtkEntry::init()
   config_changed_notify(key);
 }
 
-
+//! Widget changed value.
 void
 DataConnectionGtkEntry::widget_changed_notify()
 {
-  string value = widget->get_text();
+  bool skip = false;
 
-  config->set_value(key, value);
+  if (!intercept.empty())
+    {
+      skip = intercept.emit(key, true);
+    }
+
+  if (!skip)
+    {
+      string value = widget->get_text();
+      config->set_value(key, value);
+    }
 }
 
+//! Configuration item changed value.
 void
 DataConnectionGtkEntry::config_changed_notify(const string &key)
 {
-  string value;
-  bool ok = config->get_value(key, value);
-  if (ok)
+  bool skip = false;
+  if (!intercept.empty())
     {
-      widget->set_text(value);
+      skip = intercept.emit(key, false);
+    }
+
+  if (!skip)
+    {
+      string value;
+      if (config->get_value(key, value))
+        {
+          widget->set_text(value);
+        }
     }
 }
 
 
-void
-DataConnectionGtkSpinButton::widget_changed_notify()
-{
-  int value = widget->get_value_as_int();
+/***********************************************************************
+ *                                                                     *
+ * Spin Button                                                         *
+ *                                                                     *
+ ***********************************************************************/
 
-  config->set_value(key, value);
-}
-
-
+//! Initialize connection.
 void
 DataConnectionGtkSpinButton::init()
 {
@@ -204,17 +236,53 @@ DataConnectionGtkSpinButton::init()
   config_changed_notify(key);
 }
 
+//! Widget changed value.
+void
+DataConnectionGtkSpinButton::widget_changed_notify()
+{
+  bool skip = false;
+
+  if (!intercept.empty())
+    {
+      skip = intercept.emit(key, true);
+    }
+
+  if (!skip)
+    {
+      int value = widget->get_value_as_int();
+      config->set_value(key, value);
+    }
+}
+
+//! Configuration item changed value.
 void
 DataConnectionGtkSpinButton::config_changed_notify(const string &key)
 {
   int value;
-  bool ok = config->get_value(key, value);
-  if (ok)
+
+  bool skip = false;
+  if (!intercept.empty())
     {
-      widget->set_value(value);
+      skip = intercept.emit(key, false);
+    }
+
+  if (!skip)
+    {
+      if (config->get_value(key, value))
+        {
+          widget->set_value(value);
+        }
     }
 }
 
+
+/***********************************************************************
+ *                                                                     *
+ * Spin Button                                                         *
+ *                                                                     *
+ ***********************************************************************/
+
+//! Initialize connection.
 void
 DataConnectionGtkCheckButton::init()
 {
@@ -224,6 +292,7 @@ DataConnectionGtkCheckButton::init()
 }
 
 
+//! Configuration item changed value.
 void
 DataConnectionGtkCheckButton::widget_changed_notify()
 {
@@ -242,6 +311,7 @@ DataConnectionGtkCheckButton::widget_changed_notify()
 }
 
 
+//! Configuration item changed value.
 void
 DataConnectionGtkCheckButton::config_changed_notify(const string &key)
 {
@@ -254,8 +324,7 @@ DataConnectionGtkCheckButton::config_changed_notify(const string &key)
   if (!skip)
     {
       bool value;
-      bool ok = config->get_value(key, value);
-      if (ok)
+      if (config->get_value(key, value))
         {
           widget->set_active(value);
         }
@@ -263,6 +332,13 @@ DataConnectionGtkCheckButton::config_changed_notify(const string &key)
 }
 
 
+/***********************************************************************
+ *                                                                     *
+ * Spin Button                                                         *
+ *                                                                     *
+ ***********************************************************************/
+
+//! Initialize connection.
 void
 DataConnectionGtkOptionMenu::init()
 {
@@ -272,26 +348,52 @@ DataConnectionGtkOptionMenu::init()
 }
 
 
+//! Configuration item changed value.
 void
 DataConnectionGtkOptionMenu::widget_changed_notify()
 {
-  int value = widget->get_history();
+  bool skip = false;
 
-  config->set_value(key, value);
-}
-
-void
-DataConnectionGtkOptionMenu::config_changed_notify(const string &key)
-{
-  int value;
-  bool ok = config->get_value(key, value);
-  if (ok)
+  if (!intercept.empty())
     {
-      widget->set_history(value);
+      skip = intercept.emit(key, true);
+    }
+
+  if (!skip)
+    {
+      int value = widget->get_history();
+
+      config->set_value(key, value);
     }
 }
 
+//! Configuration item changed value.
+void
+DataConnectionGtkOptionMenu::config_changed_notify(const string &key)
+{
+  bool skip = false;
+  if (!intercept.empty())
+    {
+      skip = intercept.emit(key, false);
+    }
 
+  if (!skip)
+    {
+      int value;
+      if (config->get_value(key, value))
+        {
+          widget->set_history(value);
+        }
+    }
+}
+
+/***********************************************************************
+ *                                                                     *
+ * Spin Button                                                         *
+ *                                                                     *
+ ***********************************************************************/
+
+//! Initialize connection.
 void
 DataConnectionGtkAdjustment::init()
 {
@@ -300,27 +402,53 @@ DataConnectionGtkAdjustment::init()
   config_changed_notify(key);
 }
 
+//! Widget changed value.
 void
 DataConnectionGtkAdjustment::widget_changed_notify()
 {
-  int value = (int)widget->get_value();
+  bool skip = false;
 
-  config->set_value(key, value);
-}
-
-void
-DataConnectionGtkAdjustment::config_changed_notify(const string &key)
-{
-  int value;
-  bool ok = config->get_value(key, value);
-  if (ok)
+  if (!intercept.empty())
     {
-      widget->set_value(value);
+      skip = intercept.emit(key, true);
+    }
+
+  if (!skip)
+    {
+      int value = (int)widget->get_value();
+      
+      config->set_value(key, value);
     }
 }
 
+//! Configuration item changed value.
+void
+DataConnectionGtkAdjustment::config_changed_notify(const string &key)
+{
+  bool skip = false;
+  if (!intercept.empty())
+    {
+      skip = intercept.emit(key, false);
+    }
+
+  if (!skip)
+    {
+      int value;
+      if (config->get_value(key, value))
+        {
+          widget->set_value(value);
+        }
+    }
+}
+
+/***********************************************************************
+ *                                                                     *
+ * Spin Button                                                         *
+ *                                                                     *
+ ***********************************************************************/
 
 
+//! Initialize connection.
 void
 DataConnectionTimeEntry::init()
 {
@@ -329,26 +457,52 @@ DataConnectionTimeEntry::init()
   config_changed_notify(key);
 }
 
+//! Widget changed value.
 void
 DataConnectionTimeEntry::widget_changed_notify()
 {
-  int value = widget->get_value();
+  bool skip = false;
 
-  config->set_value(key, value);
-}
-
-void
-DataConnectionTimeEntry::config_changed_notify(const string &key)
-{
-  int value;
-  bool ok = config->get_value(key, value);
-  if (ok)
+  if (!intercept.empty())
     {
-      widget->set_value(value);
+      skip = intercept.emit(key, true);
+    }
+
+  if (!skip)
+    {
+      int value = widget->get_value();
+
+      config->set_value(key, value);
     }
 }
 
+//! Configuration item changed value.
+void
+DataConnectionTimeEntry::config_changed_notify(const string &key)
+{
+  bool skip = false;
+  if (!intercept.empty())
+    {
+      skip = intercept.emit(key, false);
+    }
 
+  if (!skip)
+    {
+      int value;
+      if (config->get_value(key, value))
+        {
+          widget->set_value(value);
+        }
+    }
+}
+
+/***********************************************************************
+ *                                                                     *
+ * Spin Button                                                         *
+ *                                                                     *
+ ***********************************************************************/
+
+//! Initialize connection.
 void
 DataConnectionGtkEntryTwin::init()
 {
@@ -360,41 +514,61 @@ DataConnectionGtkEntryTwin::init()
 }
 
 
-void
-DataConnectionGtkEntryTwin::config_changed_notify(const string &key)
-{
-  string value;
-  bool ok = config->get_value(key, value);
-  if (ok)
-    {
-      widget1->set_text(value);
-      widget2->set_text(value);
-    }
-}
-
-
+//! Widget changed value.
 void
 DataConnectionGtkEntryTwin::widget_changed_notify()
 {
-  string value1 = widget1->get_text();
-  string value2 = widget2->get_text();
-  bool verified = true;
+  bool skip = false;
 
-  if (value1 == value2)
+  if (!intercept.empty())
     {
-      widget1->unset_base(Gtk::STATE_NORMAL);
-      widget2->unset_base(Gtk::STATE_NORMAL);
-    }
-  else
-    {
-      widget1->modify_base(Gtk::STATE_NORMAL, Gdk::Color("orange"));
-      widget2->modify_base(Gtk::STATE_NORMAL, Gdk::Color("orange"));
-      verified = false;
+      skip = intercept.emit(key, true);
     }
 
-  if (verified)
+  if (!skip)
     {
-      config->set_value(key, value1);
+      string value1 = widget1->get_text();
+      string value2 = widget2->get_text();
+      bool verified = true;
+      
+      if (value1 == value2)
+        {
+          widget1->unset_base(Gtk::STATE_NORMAL);
+          widget2->unset_base(Gtk::STATE_NORMAL);
+        }
+      else
+        {
+          widget1->modify_base(Gtk::STATE_NORMAL, Gdk::Color("orange"));
+          widget2->modify_base(Gtk::STATE_NORMAL, Gdk::Color("orange"));
+          verified = false;
+        }
+      
+      if (verified)
+        {
+          config->set_value(key, value1);
+        }
     }
 }
+
+//! Configuration item changed value.
+void
+DataConnectionGtkEntryTwin::config_changed_notify(const string &key)
+{
+  bool skip = false;
+  if (!intercept.empty())
+    {
+      skip = intercept.emit(key, false);
+    }
+
+  if (!skip)
+    {
+      string value;
+      if (config->get_value(key, value))
+        {
+          widget1->set_text(value);
+          widget2->set_text(value);
+        }
+    }
+}
+
 

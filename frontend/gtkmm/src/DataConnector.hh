@@ -65,9 +65,13 @@ public:
   DataConnector();
   ~DataConnector();
 
-  void connect(workrave::BreakId id, const std::string &setting,
-               DataConnection *connection, dc::Flags flags = dc::NONE);
-  void connect(const std::string &setting, DataConnection *connection,
+  void connect(workrave::BreakId id,
+               const std::string &setting,
+               DataConnection *connection,
+               dc::Flags flags = dc::NONE);
+
+  void connect(const std::string &setting,
+               DataConnection *connection,
                dc::Flags flags = dc::NONE);
 
   void intercept_last(sigc::slot<bool, const std::string &, bool> slot);
@@ -86,7 +90,7 @@ private:
   typedef std::list<MonitoredWidget> Widgets;
   typedef Widgets::iterator WidgetIter;
 
-  //!
+  //! 
   Widgets connections;
 
   //!
