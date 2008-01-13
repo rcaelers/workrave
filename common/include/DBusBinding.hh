@@ -28,6 +28,8 @@
 
 namespace workrave
 {
+  class DBus;
+  
   struct DBusIntrospectArg
   {
     const char *name;
@@ -44,17 +46,17 @@ namespace workrave
   class DBusBindingBase
   {
   public:
-    DBusBindingBase();
+    DBusBindingBase(DBus *dbus);
     virtual ~DBusBindingBase();
   
     virtual DBusIntrospect *get_method_introspect() = 0;
     virtual DBusIntrospect *get_signal_introspect() = 0;
 
-    void init(DBusConnection *connection);
     DBusMessage *call(const std::string &method, void *object, DBusMessage *message);
 
   protected:
     virtual DBusMessage *call(int method, void *object, DBusMessage *message) = 0;
+    void send(DBusMessage *msg);
   
     void get_uint8(DBusMessageIter *it, guint8 *value);
     void get_uint16(DBusMessageIter *it, guint16 *value);
@@ -78,9 +80,9 @@ namespace workrave
     void put_double(DBusMessageIter *it, const double *value);
     void put_string(DBusMessageIter *it, const std::string *value);
 
-  protected:
-    //! 
-    DBusConnection *connection;  
+
+    DBus *dbus;
+    
   };
 }
 

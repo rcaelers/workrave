@@ -1,6 +1,6 @@
 // BreakControl.cc
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -808,29 +808,33 @@ BreakControl::send_signal(BreakStage stage)
 
   if (progress != NULL)
     {
-      switch (break_id)
+      DBus *dbus = core->get_dbus();
+      org_workrave_CoreInterface *iface = org_workrave_CoreInterface::instance(dbus);
+
+      if (iface != NULL)
         {
-        case BREAK_ID_MICRO_BREAK:
-          org_workrave_CoreInterface::emit_MicrobreakChanged(core->get_dbus(),
-                                                             "/org/workrave/Workrave/Core",
-                                                             progress);
-          break;
+          switch (break_id)
+            {
+            case BREAK_ID_MICRO_BREAK:
+              iface->MicrobreakChanged("/org/workrave/Workrave/Core",
+                                       progress);
+              break;
           
-        case BREAK_ID_REST_BREAK:
-          org_workrave_CoreInterface::emit_MicrobreakChanged(core->get_dbus(),
-                                                             "/org/workrave/Workrave/Core",
-                                                             progress);
-          break;
+            case BREAK_ID_REST_BREAK:
+              iface->MicrobreakChanged("/org/workrave/Workrave/Core",
+                                       progress);
+              break;
           
-        case BREAK_ID_DAILY_LIMIT:
-          org_workrave_CoreInterface::emit_MicrobreakChanged(core->get_dbus(),
-                                                             "/org/workrave/Workrave/Core",
-                                                             progress);
-          break;
+            case BREAK_ID_DAILY_LIMIT:
+              iface->MicrobreakChanged("/org/workrave/Workrave/Core",
+                                       progress);
+              break;
           
-        default:
-          break;
+            default:
+              break;
+            }
         }
     }
+
 #endif
 }

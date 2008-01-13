@@ -32,13 +32,15 @@
 namespace workrave
 {
   class DBusBindingBase;
-
+  
   class DBus
   {
   public:
     DBus();
     ~DBus();
 
+    typedef DBusMessage *DBusSignal;
+    
     void init();
     void register_service(const std::string &service);
     void register_object_path(const std::string &object_path);
@@ -49,6 +51,7 @@ namespace workrave
 
     bool is_available() const;
     bool is_owner() const;
+
     
   private:
     typedef std::map<std::string, DBusBindingBase *> Bindings;
@@ -75,7 +78,10 @@ namespace workrave
     DBusHandlerResult handle_method(DBusConnection *connection, DBusMessage *message);
 
     void *find_cobject(const std::string &path, const std::string &interface_name) const;
-  
+    void send(DBusMessage *msg) const;
+
+    friend class DBusBindingBase;
+    
   private:
     //! Connection to the DBus.
     DBusConnection *connection;

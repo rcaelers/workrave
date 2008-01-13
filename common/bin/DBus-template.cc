@@ -49,9 +49,94 @@ using namespace $ns;
 #end for
 #end for
 
+class ${interface.qname}_Stub : public DBusBindingBase, public ${interface.qname}
+{
+private:
+  typedef DBusMessage * (${interface.qname}_Stub::*DBusMethod)(void *object, DBusMessage *message);
+
+  virtual DBusMessage *call(int method_num, void *object, DBusMessage *message);
+   
+  virtual DBusIntrospect *get_method_introspect()
+  {
+    return method_introspect;
+  }
+
+  virtual DBusIntrospect *get_signal_introspect()
+  {
+    return signal_introspect;
+  }
+
+public:
+  ${interface.qname}_Stub(DBus *dbus);
+  ~${interface.qname}_Stub();
+  
+  #for $m in interface.signals
+  void ${m.qname}(const string &path, #slurp
+  #set comma = ''
+  #for p in m.params
+  $comma $interface.type2csymbol(p.type) $p.name#slurp
+  #set comma = ','
+  #end for
+  );
+  #end for
+
+  
+private:
+  #for $m in interface.methods
+  DBusMessage *${m.qname}(void *object, DBusMessage *message);
+  #end for
+
+  #for enum in $interface.enums
+  void get_${enum.qname}(DBusMessageIter *reader, ${enum.csymbol} *result);
+  void put_${enum.qname}(DBusMessageIter *writer, const ${enum.csymbol} *result);
+  #end for
+
+  #for struct in $interface.structs
+  void get_${struct.qname}(DBusMessageIter *reader, ${struct.csymbol} *result);
+  void put_${struct.qname}(DBusMessageIter *writer, const ${struct.csymbol} *result);
+  #end for
+
+  #for seq in $interface.sequences
+  void get_${seq.qname}(DBusMessageIter *reader, ${seq.csymbol} *result);
+  void put_${seq.qname}(DBusMessageIter *writer, const ${seq.csymbol} *result);
+  #end for
+
+  #for dict in $interface.dictionaries
+  void get_${dict.qname}(DBusMessageIter *reader, ${dict.csymbol} *result);
+  void put_${dict.qname}(DBusMessageIter *writer, const ${dict.csymbol} *result);
+  #end for
+  
+  static DBusMethod method_table[];
+  static DBusIntrospect method_introspect[];
+  static DBusIntrospect signal_introspect[];
+};
+
+
+${interface.qname} *${interface.qname}::instance(const DBus *dbus)
+{
+  ${interface.qname}_Stub *iface = NULL;
+  DBusBindingBase *binding = dbus->find_binding("${interface.name}");
+  
+  if (binding != NULL)
+    {
+      iface = dynamic_cast<${interface.qname}_Stub *>(binding);
+    }
+
+  return iface;
+}
+
+${interface.qname}_Stub::${interface.qname}_Stub(DBus *dbus)
+  : DBusBindingBase(dbus)
+{
+}
+
+
+${interface.qname}_Stub::~${interface.qname}_Stub()
+{
+}
 
 DBusMessage *
-${interface.qname}::call(int method_num, void *object, DBusMessage *message)
+${interface.qname}_Stub::call(int method_num, void *object, DBusMessage *message)
 {
   DBusMessage *ret = NULL;
   
@@ -70,7 +155,7 @@ ${interface.qname}::call(int method_num, void *object, DBusMessage *message)
 #for enum in $interface.enums
 
 void
-${interface.qname}::get_${enum.qname}(DBusMessageIter *reader, ${enum.csymbol} *result)
+${interface.qname}_Stub::get_${enum.qname}(DBusMessageIter *reader, ${enum.csymbol} *result)
 {
   std::string value;
 	int argtype = dbus_message_iter_get_arg_type(reader);
@@ -95,7 +180,7 @@ ${interface.qname}::get_${enum.qname}(DBusMessageIter *reader, ${enum.csymbol} *
 }
 
 void
-${interface.qname}::put_${enum.qname}(DBusMessageIter *writer, const ${enum.csymbol} *result)
+${interface.qname}_Stub::put_${enum.qname}(DBusMessageIter *writer, const ${enum.csymbol} *result)
 {
   string value;
   switch (*result)
@@ -117,7 +202,7 @@ ${interface.qname}::put_${enum.qname}(DBusMessageIter *writer, const ${enum.csym
 #for struct in $interface.structs
 
 void
-${interface.qname}::get_${struct.qname}(DBusMessageIter *reader, ${struct.csymbol} *result)
+${interface.qname}_Stub::get_${struct.qname}(DBusMessageIter *reader, ${struct.csymbol} *result)
 {
   DBusMessageIter it;
   dbus_message_iter_recurse(reader, &it);
@@ -130,7 +215,7 @@ ${interface.qname}::get_${struct.qname}(DBusMessageIter *reader, ${struct.csymbo
 }
 
 void
-${interface.qname}::put_${struct.qname}(DBusMessageIter *writer, const ${struct.csymbol} *result)
+${interface.qname}_Stub::put_${struct.qname}(DBusMessageIter *writer, const ${struct.csymbol} *result)
 {
   DBusMessageIter it;
   dbus_bool_t ok;
@@ -157,7 +242,7 @@ ${interface.qname}::put_${struct.qname}(DBusMessageIter *writer, const ${struct.
 #for seq in $interface.sequences
 
 void
-${interface.qname}::get_${seq.qname}(DBusMessageIter *reader, ${seq.csymbol} *result)
+${interface.qname}_Stub::get_${seq.qname}(DBusMessageIter *reader, ${seq.csymbol} *result)
 {
   DBusMessageIter it;
 
@@ -173,7 +258,7 @@ ${interface.qname}::get_${seq.qname}(DBusMessageIter *reader, ${seq.csymbol} *re
 }
 
 void
-${interface.qname}::put_${seq.qname}(DBusMessageIter *writer, const ${seq.csymbol} *result)
+${interface.qname}_Stub::put_${seq.qname}(DBusMessageIter *writer, const ${seq.csymbol} *result)
 {
   DBusMessageIter arr;
   ${seq.csymbol}::const_iterator it;
@@ -202,7 +287,7 @@ ${interface.qname}::put_${seq.qname}(DBusMessageIter *writer, const ${seq.csymbo
 #for dict in $interface.dictionaries
 
 void
-${interface.qname}::get_${dict.qname}(DBusMessageIter *reader, ${dict.csymbol} *result)
+${interface.qname}_Stub::get_${dict.qname}(DBusMessageIter *reader, ${dict.csymbol} *result)
 {
   DBusMessageIter arr_it;
   DBusMessageIter dict_it;
@@ -228,7 +313,7 @@ ${interface.qname}::get_${dict.qname}(DBusMessageIter *reader, ${dict.csymbol} *
 
 
 void
-${interface.qname}::put_${dict.qname}(DBusMessageIter *writer, const ${dict.csymbol} *result)
+${interface.qname}_Stub::put_${dict.qname}(DBusMessageIter *writer, const ${dict.csymbol} *result)
 {
   DBusMessageIter arr_it;
   DBusMessageIter dict_it;
@@ -273,7 +358,7 @@ ${interface.qname}::put_${dict.qname}(DBusMessageIter *writer, const ${dict.csym
 #for method in $interface.methods
 
 DBusMessage *
-${interface.qname}::${method.name}(void *object, DBusMessage *message)
+${interface.qname}_Stub::${method.name}(void *object, DBusMessage *message)
 {
   DBusMessage *reply;
 
@@ -383,7 +468,7 @@ ${interface.qname}::${method.name}(void *object, DBusMessage *message)
 #end for
 
 #for signal in interface.signals
-void ${interface.qname}::internal_emit_${signal.qname}(string path, #slurp
+void ${interface.qname}_Stub::${signal.qname}(const string &path, #slurp
 #set comma = ''
 #for p in signal.params
 $comma $interface.type2csymbol(p.type) $p.name#slurp
@@ -416,47 +501,18 @@ $comma $interface.type2csymbol(p.type) $p.name#slurp
       throw;
     }
 
-  dbus_connection_send(connection, msg, NULL);
-  dbus_message_unref(msg);
-  dbus_connection_flush(connection);
+  send(msg);
 }
 
-void ${interface.qname}::emit_${signal.qname}(DBus *dbus, string path, #slurp
-#set comma = ''
-#for p in signal.params
-$comma $interface.type2csymbol(p.type) $p.name#slurp
-#set comma = ','
-#end for
-)
-{
-  DBusBindingBase *binding = dbus->find_binding("${interface.name}");
-  if (binding == NULL)
-    {
-      throw DBusSystemException("Unknown binding");
-    }
-  
-  ${interface.qname} *b = dynamic_cast<${interface.qname} *>(binding);
-  if (b != NULL)
-    {
-      b->internal_emit_${signal.qname}(path, #slurp
-#set comma = ''
-#for p in signal.params
-$comma $p.name#slurp
-#set comma = ','
-#end for
-                                       );
-   }
-}
- 
 #end for
   
-${interface.qname}::DBusMethod ${interface.qname}::method_table[] = {
+${interface.qname}_Stub::DBusMethod ${interface.qname}_Stub::method_table[] = {
 #for method in $interface.methods
-  &${interface.qname}::$method.qname,
+  &${interface.qname}_Stub::$method.qname,
 #end for
 };
 
-DBusIntrospect ${interface.qname}::method_introspect[] = {
+DBusIntrospect ${interface.qname}_Stub::method_introspect[] = {
 #for method in $interface.methods
   { "$method.qname",
     "$method.sig()"
@@ -467,7 +523,7 @@ DBusIntrospect ${interface.qname}::method_introspect[] = {
   }
 };
   
-DBusIntrospect ${interface.qname}::signal_introspect[] = {
+DBusIntrospect ${interface.qname}_Stub::signal_introspect[] = {
 #for signal in $interface.signals
   { "$signal.qname",
     "$signal.sig()"
@@ -483,6 +539,6 @@ DBusIntrospect ${interface.qname}::signal_introspect[] = {
 void init_${model.prefix}(DBus *dbus)
 {
   #for interface in $model.interfaces
-  dbus->register_binding("$interface.name", new $interface.qname);
+  dbus->register_binding("$interface.name", new ${interface.qname}_Stub(dbus));
   #end for
 }

@@ -25,27 +25,21 @@
 
 #include "debug.hh"
 
+#include "DBus.hh"
 #include "DBusBinding.hh"
 #include "DBusException.hh"
 
 using namespace workrave;
 
 
-DBusBindingBase::DBusBindingBase()
-  : connection(NULL)
+DBusBindingBase::DBusBindingBase(DBus *dbus)
+  : dbus(dbus)
 {
 }
 
 
 DBusBindingBase::~DBusBindingBase()
 {
-}
-
-
-void
-DBusBindingBase::init(DBusConnection *connection)
-{
-  this->connection = connection;
 }
 
 
@@ -307,4 +301,11 @@ DBusBindingBase::put_string(DBusMessageIter *it, const std::string *value)
 {
   const char *cstr = value->c_str();
 	dbus_message_iter_append_basic(it, DBUS_TYPE_STRING, &cstr);
+}
+
+
+void
+DBusBindingBase::send(DBusMessage *msg)
+{
+  dbus->send(msg);
 }

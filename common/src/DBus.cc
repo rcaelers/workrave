@@ -163,7 +163,6 @@ void
 DBus::register_binding(const std::string &name, DBusBindingBase *interface)
 {
   bindings[name] = interface;
-  interface->init(connection);
 }
 
 
@@ -181,6 +180,16 @@ DBus::find_binding(const std::string &interface_name) const
   
   return ret;
 }
+
+
+void
+DBus::send(DBusMessage *msg) const
+{
+  dbus_connection_send(connection, msg, NULL);
+  dbus_message_unref(msg);
+  dbus_connection_flush(connection);
+}
+
 
 void *
 DBus::find_cobject(const std::string &path, const std::string &interface_name) const
