@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2007-07-03 13:55+0200\n"
+"POT-Creation-Date: 2008-01-16 23:35+0100\n"
 "PO-Revision-Date: 2003-09-08 19:07+0200\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -166,9 +166,9 @@ msgid "Break prompt"
 msgstr "Ripoza instigado"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:45
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:53
-#: ../frontend/gtkmm/src/GUI.cc:1380 ../frontend/gtkmm/src/GtkUtil.cc:160
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:50
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:58
+#: ../frontend/gtkmm/src/GUI.cc:1377 ../frontend/gtkmm/src/GtkUtil.cc:163
 msgid "Daily limit"
 msgstr "Taglimo"
 
@@ -205,48 +205,39 @@ msgstr "Ripozo por %s"
 msgid "Workrave"
 msgstr ""
 
-#: ../frontend/common/src/Text.cc:75
+#: ../frontend/common/src/Text.cc:79
 #, fuzzy, c-format
 msgid "%s%d:%02d:%02d hours"
 msgstr "%s%ld:%02ld:%02ld horoj"
 
-#: ../frontend/common/src/Text.cc:79
+#: ../frontend/common/src/Text.cc:83
 #, fuzzy, c-format
 msgid "%s%d:%02d minutes"
 msgstr "%s%ld:%02ld minutoj"
 
-#: ../frontend/common/src/Text.cc:83
+#: ../frontend/common/src/Text.cc:87
 #, fuzzy, c-format
 msgid "%s%d seconds"
 msgstr "%s%ld sekundoj"
 
-#: ../frontend/common/src/TimerBoxControl.cc:209
-msgid "Inactive"
-msgstr "Neaktiva"
-
-#: ../frontend/common/src/TimerBoxControl.cc:252
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:203
-msgid "Wait"
-msgstr "Atendu"
-
-#: ../frontend/gtkmm/src/BreakWindow.cc:197
+#: ../frontend/gtkmm/src/BreakWindow.cc:294
 msgid "Lock"
 msgstr "Ŝlosu"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:216
+#: ../frontend/gtkmm/src/BreakWindow.cc:313
 #, fuzzy
 msgid "Shut down"
 msgstr "Montru _protokolon"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:233
+#: ../frontend/gtkmm/src/BreakWindow.cc:330
 msgid "Skip"
 msgstr "Transsaltu"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:246
+#: ../frontend/gtkmm/src/BreakWindow.cc:343
 msgid "Postpone"
 msgstr "Prokrastu"
 
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:54
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:59
 msgid ""
 "You have reached your daily limit. Please stop working\n"
 "behind the computer. If your working day is not over yet,\n"
@@ -256,94 +247,100 @@ msgstr ""
 "malantaŭ via komputilo.  Se via labortago ne ankoraŭ finiĝis,\n"
 "trovu ion alian por fari, kiel revuado de dokumento."
 
-#: ../frontend/gtkmm/src/GUI.cc:867
+#: ../frontend/gtkmm/src/GUI.cc:839
 msgid "I could not initialize Bonobo"
 msgstr ""
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1380 ../frontend/gtkmm/src/GtkUtil.cc:160
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:52
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:171
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:270
+#: ../frontend/gtkmm/src/GUI.cc:1377 ../frontend/gtkmm/src/GtkUtil.cc:163
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:55
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:173
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:271
 #, fuzzy
 msgid "Micro-break"
 msgstr "Paŭzeto"
 
-#: ../frontend/gtkmm/src/GUI.cc:1380 ../frontend/gtkmm/src/GtkUtil.cc:160
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:144
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:76
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:211
+#: ../frontend/gtkmm/src/GUI.cc:1377 ../frontend/gtkmm/src/GtkUtil.cc:163
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:146
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:78
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:212
 msgid "Rest break"
 msgstr "Ripozo"
 
 #. Mode menu item
-#: ../frontend/gtkmm/src/Menus.cc:201 ../frontend/gtkmm/src/Menus.cc:513
+#: ../frontend/gtkmm/src/Menus.cc:220 ../frontend/gtkmm/src/Menus.cc:540
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
 msgid "_Mode"
 msgstr "_Modo"
 
-#: ../frontend/gtkmm/src/Menus.cc:256 ../frontend/gtkmm/src/Menus.cc:532
+#. Mode menu item
+#: ../frontend/gtkmm/src/Menus.cc:228
+msgid "Main"
+msgstr ""
+
+#: ../frontend/gtkmm/src/Menus.cc:290 ../frontend/gtkmm/src/Menus.cc:559
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
 msgid "_Network"
 msgstr "_Reto"
 
-#: ../frontend/gtkmm/src/Menus.cc:260 ../frontend/gtkmm/src/Menus.cc:516
+#: ../frontend/gtkmm/src/Menus.cc:294 ../frontend/gtkmm/src/Menus.cc:543
 msgid "_Connect"
 msgstr "_Konektu"
 
-#: ../frontend/gtkmm/src/Menus.cc:265 ../frontend/gtkmm/src/Menus.cc:519
+#: ../frontend/gtkmm/src/Menus.cc:299 ../frontend/gtkmm/src/Menus.cc:546
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
 msgid "_Disconnect"
 msgstr "_Malkonektu"
 
-#: ../frontend/gtkmm/src/Menus.cc:270 ../frontend/gtkmm/src/Menus.cc:523
+#: ../frontend/gtkmm/src/Menus.cc:304 ../frontend/gtkmm/src/Menus.cc:550
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
 msgid "_Reconnect"
 msgstr "_Rekonektu"
 
-#: ../frontend/gtkmm/src/Menus.cc:275 ../frontend/gtkmm/src/Menus.cc:526
+#: ../frontend/gtkmm/src/Menus.cc:309 ../frontend/gtkmm/src/Menus.cc:553
 msgid "Show _log"
 msgstr "Montru _protokolon"
 
-#: ../frontend/gtkmm/src/Menus.cc:298 ../frontend/gtkmm/src/Menus.cc:488
+#: ../frontend/gtkmm/src/Menus.cc:332 ../frontend/gtkmm/src/Menus.cc:515
 msgid "_Rest break"
 msgstr "_Ripozon"
 
-#: ../frontend/gtkmm/src/Menus.cc:312 ../frontend/gtkmm/src/Menus.cc:489
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:40
+#: ../frontend/gtkmm/src/Menus.cc:342 ../frontend/gtkmm/src/Menus.cc:516
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:43
 msgid "Exercises"
 msgstr ""
 
-#: ../frontend/gtkmm/src/Menus.cc:324 ../frontend/gtkmm/src/Menus.cc:534
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:59
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:138
+#: ../frontend/gtkmm/src/Menus.cc:358 ../frontend/gtkmm/src/Menus.cc:561
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:62
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:141
 msgid "Statistics"
 msgstr "Statistiko"
 
-#: ../frontend/gtkmm/src/Menus.cc:338 ../frontend/gtkmm/src/Menus.cc:535
+#: ../frontend/gtkmm/src/Menus.cc:367 ../frontend/gtkmm/src/Menus.cc:562
 msgid "About..."
 msgstr "Pri..."
 
-#: ../frontend/gtkmm/src/Menus.cc:487
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:55
+#: ../frontend/gtkmm/src/Menus.cc:514
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:62
 msgid "Preferences"
 msgstr ""
 
-#: ../frontend/gtkmm/src/Menus.cc:492
+#: ../frontend/gtkmm/src/Menus.cc:519
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
 msgid "_Normal"
 msgstr "_Normala"
 
-#: ../frontend/gtkmm/src/Menus.cc:499
+#: ../frontend/gtkmm/src/Menus.cc:526
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
 msgid "_Suspended"
 msgstr "_Interrompita"
 
-#: ../frontend/gtkmm/src/Menus.cc:506
+#: ../frontend/gtkmm/src/Menus.cc:533
 msgid "Q_uiet"
 msgstr "S_ilenta"
 
-#: ../frontend/gtkmm/src/Menus.cc:762
+#: ../frontend/gtkmm/src/Menus.cc:770
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:367
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -351,135 +348,139 @@ msgstr ""
 "Tiu ĉi programo helpas kun la malebligado kaj resaniĝado de Ripetada "
 "Trostreĉa Vundo (RSI)."
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:232
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:233
 msgid "Please relax for a few seconds"
 msgstr "Bonvolu trankviliĝi por kelkaj sekundoj"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:239
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:240
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Sekvanta ripozo en %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:244
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:245
 #, fuzzy, c-format
 msgid "Rest break %s overdue"
 msgstr "Ripozo por %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:257
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:258
 #, fuzzy, c-format
 msgid "Daily limit in %s"
 msgstr "Taglimo"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:262
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:263
 #, fuzzy, c-format
 msgid "Daily limit %s overdue"
 msgstr "Taglimo"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:63
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:103
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:70
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:106
 msgid "General"
 msgstr "Ĝenerala"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:66
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:73
 msgid "Status Window"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:69
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:76
 msgid "Applet"
 msgstr ""
 
 #. Notebook
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:76
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:164
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:200
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:83
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:167
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:180
 msgid "Timers"
 msgstr "Horloĝoj"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:77
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:84
 msgid "User interface"
 msgstr "Uzula inferfaco"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:79
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:86
 msgid "Network"
 msgstr "Reto"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:120
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:91
+msgid "Plugins"
+msgstr ""
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:132
 msgid "No sounds"
 msgstr "Ne sonoj"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:122
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:134
 msgid "Play sounds using sound card"
 msgstr "Ludu sonojn uzante sonkarton"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:124
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:136
 msgid "Play sounds using built-in speaker"
 msgstr "Ludu sonojn uzante en-komputila laŭtparolilo"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:152
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:164
 msgid "No blocking"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:154
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:166
 #, fuzzy
 msgid "Block input"
 msgstr "Bloku uzulan enigon"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:156
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:168
 msgid "Block input and screen"
 msgstr ""
 
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:175
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:139
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:187
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:131
 msgid "Options"
 msgstr "Opcioj"
 
 #. panel->add(*start_in_tray_cb);
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:177
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:189
 msgid "Sound:"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:178
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:190
 msgid "Block mode:"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:105
-#: ../frontend/text/src/PreludeWindow.cc:50
+#: ../frontend/gtkmm/src/PreludeWindow.cc:115
+#: ../frontend/text/src/PreludeWindow.cc:53
 #, fuzzy
 msgid "Time for a micro-break?"
 msgstr "Ĉu horo por paŭzeto?"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:109
-#: ../frontend/text/src/PreludeWindow.cc:54
+#: ../frontend/gtkmm/src/PreludeWindow.cc:119
+#: ../frontend/text/src/PreludeWindow.cc:57
 msgid "You need a rest break..."
 msgstr "Vi bezonas ripozon..."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:113
-#: ../frontend/text/src/PreludeWindow.cc:58
+#: ../frontend/gtkmm/src/PreludeWindow.cc:123
+#: ../frontend/text/src/PreludeWindow.cc:61
 msgid "You should stop for today..."
 msgstr "Vi devas halti por hodiaŭ..."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:255
+#: ../frontend/gtkmm/src/PreludeWindow.cc:324
 #, fuzzy, c-format
 msgid "Break in %s"
 msgstr "Ĉesu en"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:259
+#: ../frontend/gtkmm/src/PreludeWindow.cc:328
 #, fuzzy, c-format
 msgid "Disappears in %s"
 msgstr "Malaperas en"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:263
+#: ../frontend/gtkmm/src/PreludeWindow.cc:332
 #, fuzzy, c-format
 msgid "Silent in %s"
 msgstr "Silentiĝu en"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:172
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:174
 #, c-format
 msgid "Rest break for %s"
 msgstr "Ripozo por %s"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:212
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:213
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -490,133 +491,137 @@ msgstr ""
 "piediru ĉirkaŭe por iom da minutoj, streĉu, kaj\n"
 "trankviliĝu."
 
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:184
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:187
 #, fuzzy
 msgid "Take rest break now"
 msgstr "Sekvanta ripozo en %s"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:97
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:206
+msgid "Wait"
+msgstr "Atendu"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:100
 msgid "Place timers next to each other"
 msgstr ""
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:99
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:102
 msgid "Place micro-break and rest break in one spot"
 msgstr ""
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:101
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:104
 msgid "Place rest break and daily limit in one spot"
 msgstr ""
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:103
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:106
 msgid "Place all timers in one spot"
 msgstr ""
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:123
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:126
 msgid "Hide"
 msgstr ""
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:125
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:128
 #, fuzzy
 msgid "Show"
 msgstr "Montru _protokolon"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:127
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:130
 msgid "Show only when this timer is first due"
 msgstr ""
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:135
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:138
 msgid "Show status window"
 msgstr ""
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:140
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:143
 #, fuzzy
 msgid "The status window stays always on top of other windows"
 msgstr "La ĉefa fenestro ĉiam restas antaŭ ol la aliaj fenestroj"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:146
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:149
 msgid "Applet enabled"
 msgstr ""
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:152
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:155
 msgid "Display"
 msgstr ""
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:161
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:164
 msgid "Placement:"
 msgstr ""
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:162
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:165
 msgid "Cycle time:"
 msgstr ""
 
 #. Layout
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:167
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:170
 #, fuzzy
 msgid "Micro-break:"
 msgstr "Paŭzeto"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:168
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:171
 #, fuzzy
 msgid "Rest break:"
 msgstr "Ripozo"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:169
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:172
 #, fuzzy
 msgid "Daily limit:"
 msgstr "Taglimo"
 
 #. Enabled/Disabled checkbox
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:61
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:65
 #, fuzzy
 msgid "Enable timer"
 msgstr "Validigu retumadon"
 
 #. Prelude frame
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:102
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:106
 msgid "Break prompting"
 msgstr "Ripoza instigado"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:104
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:108
 msgid "Prompt before breaking"
 msgstr "Instigu antaŭ ol ripozi"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:109
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:112
 msgid "Maximum number of prompts:"
 msgstr "Maksimuma numero da instigoj:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:144
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:135
 msgid "Show 'Postpone' and 'Skip' button"
 msgstr "Montru 'Proktrastu' kaj 'Transsaltu' butonon"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:153
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:140
 msgid "Suspend timer when inactive"
 msgstr ""
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:169
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:153
 #, fuzzy
 msgid "Regard micro-breaks as activity"
 msgstr "Rigardu paŭzetoj kiel agado"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:183
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:162
 msgid "Number of exercises:"
 msgstr ""
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:208
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:185
 #, fuzzy
 msgid "Time before end:"
 msgstr "Tempo por ripozo"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:209
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:186
 #, fuzzy
 msgid "Time between breaks:"
 msgstr "Tempo por ripozo"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:218
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:193
 #, fuzzy
 msgid "Break duration:"
 msgstr "Daŭro de paŭzo"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:240
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:208
 #, fuzzy
 msgid "Postpone time:"
 msgstr "Prokrasta tempo"
@@ -629,32 +634,6 @@ msgstr "Silentiĝu en"
 #: ../frontend/gtkmm/src/eggtrayicon.c:134
 msgid "The orientation of the tray."
 msgstr ""
-
-#: ../frontend/gtkmm/src/gnome-about.c:308
-msgid "Credits"
-msgstr "Kreditoj"
-
-#: ../frontend/gtkmm/src/gnome-about.c:341
-msgid "_Written by"
-msgstr "_Verkita de"
-
-#: ../frontend/gtkmm/src/gnome-about.c:356
-msgid "_Documented by"
-msgstr "_Dokumentita de"
-
-#: ../frontend/gtkmm/src/gnome-about.c:371
-msgid "_Translated by"
-msgstr "_Tradukita de"
-
-#. Add the credits button
-#: ../frontend/gtkmm/src/gnome-about.c:431
-msgid "_Credits"
-msgstr "_Kreditoj"
-
-#: ../frontend/gtkmm/src/gnome-about.c:614
-#, c-format
-msgid "About %s"
-msgstr "Pri %s"
 
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:1
 #, fuzzy
@@ -707,12 +686,33 @@ msgstr "Statistiko"
 msgid "Workrave Applet"
 msgstr ""
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:48
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:67
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:332
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:392
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:416
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:440
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:463
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:486
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:510
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:533
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:555
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:579
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:622
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:662
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:720
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:767
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:809
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:865
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:981
+#, c-format
+msgid "An exception occurred '%s'"
+msgstr ""
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:52
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:71
 msgid "Network connect"
 msgstr "Rete konekti"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:68
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:72
 msgid ""
 "Enter the host name and port number of a computer\n"
 "in the network you wish to connect to."
@@ -720,58 +720,58 @@ msgstr ""
 "Enigu nomo de retnodo kaj numero de pordo de komputilo\n"
 "en la reto vi volas alkonteki."
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:80
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:84
 #, fuzzy
 msgid "Host name:"
 msgstr "Nomo de retnodo"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:81
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:85
 #, fuzzy
 msgid "Port:"
 msgstr "Pordo"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkLogDialog.cc:43
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkLogDialog.cc:46
 msgid "Network log"
 msgstr "Reta protokolo"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:90
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:93
 msgid "Enable networking"
 msgstr "Validigu retumadon"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:97
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:100
 #, fuzzy
 msgid "Username:"
 msgstr "Salutnomo"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:98
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:101
 #, fuzzy
 msgid "Password:"
 msgstr "Pasvorto"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:115
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:118
 msgid "Server settings"
 msgstr "Servilaj agordoj"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:137
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:140
 #, fuzzy
 msgid "Server port:"
 msgstr "Servila pordo"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:138
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:141
 #, fuzzy
 msgid "Reconnect attempts:"
 msgstr "Rekonektaj provoj"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:139
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:142
 #, fuzzy
 msgid "Reconnect interval:"
 msgstr "Rekonekta intertempo"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:142
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:145
 msgid "Advanced"
 msgstr "Altgrada"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:159
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:162
 msgid ""
 "The following list specifies the hosts that Workrave connects to on\n"
 "start-up. Click the host name or port number to edit."
@@ -779,15 +779,15 @@ msgstr ""
 "La sekvanta listo specifas la retnodoj kiu Workrave alkonektas ĉe\n"
 "startigo.  Klaku nomon de retnodo aŭ numero de pordo por ŝanĝi."
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:188
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:191
 msgid "Host name"
 msgstr "Nomo de retnodo"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:196
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:199
 msgid "Port"
 msgstr "Pordo"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:233
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:236
 msgid "Hosts"
 msgstr "Retnodoj"
 
@@ -904,197 +904,218 @@ msgid ""
 "right and keep it there for 2 seconds."
 msgstr ""
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:253
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:257
 msgid "Exercises player"
 msgstr ""
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:289
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:293
 msgid "Previous exercise"
 msgstr ""
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:290
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:294
 msgid "Next exercise"
 msgstr ""
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:291
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:462
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:295
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:466
 msgid "Pause exercises"
 msgstr ""
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:292
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:296
 msgid "End exercises"
 msgstr ""
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:454
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:458
 msgid "Resume"
 msgstr ""
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:454
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:458
 msgid "Pause"
 msgstr ""
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:460
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:464
 msgid "Resume exercises"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:132
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:135
 msgid "Browse history"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:139
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:142
 msgid "Date:"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:174
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:177
 #, fuzzy
 msgid "Breaks"
 msgstr "Ĉesu en"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:184
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:187
 #, fuzzy
 msgid "Break prompts"
 msgstr "Ripoza instigado"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:185
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:188
 msgid ""
 "The number of times you were prompted to break, excluding repeated prompts "
 "for the same break"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:190
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:193
 msgid "Repeated prompts"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:191
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:194
 msgid "The number of times you were repeatedly prompted to break"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:195
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:198
 #, fuzzy
 msgid "Prompted breaks taken"
 msgstr "Ripozo"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:196
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:199
 msgid "The number of times you took a break when being prompted"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:200
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:203
 #, fuzzy
 msgid "Natural breaks taken"
 msgstr "Ripozo"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:201
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:204
 msgid "The number of times you took a break without being prompted"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:205
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:208
 #, fuzzy
 msgid "Breaks skipped"
 msgstr "Ĉesu en"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:206
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:209
 msgid "The number of breaks you skipped"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:210
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:213
 #, fuzzy
 msgid "Breaks postponed"
 msgstr "Ripoza instigado"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:211
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:214
 #, fuzzy
 msgid "The number of breaks you postponed"
 msgstr "Ripoza instigado"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:215
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:218
 msgid "Overdue time"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:216
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:219
 #, fuzzy
 msgid "The total time this break was overdue"
 msgstr "Ripozo por %s"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:220
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:223
 msgid "Daily usage"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:221
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:224
 msgid "The total computer usage"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:284
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:287
 msgid "Activity"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:294
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:297
 msgid "Mouse usage:"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:295
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:298
 #, fuzzy
 msgid "The total time you were using the mouse"
 msgstr "Ripozo por %s"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:298
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:301
 #, fuzzy
 msgid "Mouse movement:"
 msgstr "Prokrasta tempo"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:299
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:302
 #, fuzzy
 msgid "The total on-screen mouse movement"
 msgstr "Prokrasta tempo"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:302
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:305
 #, fuzzy
 msgid "Effective mouse movement:"
 msgstr "Prokrasta tempo"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:303
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:306
 msgid ""
 "The total mouse movement you would have had if you moved your mouse in "
 "straight lines between clicks"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:307
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:310
 #, fuzzy
 msgid "Mouse button clicks:"
 msgstr "Prokrasta tempo"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:308
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:311
 #, fuzzy
 msgid "The total number of mouse button clicks"
 msgstr "Prokrasta tempo"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:311
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:314
 #, fuzzy
 msgid "Keystrokes:"
 msgstr "Ripozo"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:312
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:315
 msgid "The total number of keys pressed"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:362
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:365
 #, c-format
 msgid "%s, from %s to %s"
 msgstr ""
 
-#: ../frontend/text/src/PreludeWindow.cc:152
+#: ../frontend/text/src/PreludeWindow.cc:155
 #, fuzzy
 msgid "Break in"
 msgstr "Ĉesu en"
 
-#: ../frontend/text/src/PreludeWindow.cc:157
+#: ../frontend/text/src/PreludeWindow.cc:160
 #, fuzzy
 msgid "Disappears in"
 msgstr "Malaperas en"
 
-#: ../frontend/text/src/PreludeWindow.cc:163
+#: ../frontend/text/src/PreludeWindow.cc:166
 #, fuzzy
 msgid "Silent in"
 msgstr "Silentiĝu en"
+
+#~ msgid "Inactive"
+#~ msgstr "Neaktiva"
+
+#~ msgid "Credits"
+#~ msgstr "Kreditoj"
+
+#~ msgid "_Written by"
+#~ msgstr "_Verkita de"
+
+#~ msgid "_Documented by"
+#~ msgstr "_Dokumentita de"
+
+#~ msgid "_Translated by"
+#~ msgstr "_Tradukita de"
+
+#~ msgid "_Credits"
+#~ msgstr "_Kreditoj"
+
+#~ msgid "About %s"
+#~ msgstr "Pri %s"
 
 #, fuzzy
 #~ msgid "Restbreak"
