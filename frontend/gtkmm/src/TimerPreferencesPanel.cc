@@ -1,6 +1,6 @@
 // TimerPreferencesPanel.cc --- Preferences widgets for a timer
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -115,13 +115,14 @@ TimerPreferencesPanel::create_prelude_panel()
   max_box->pack_start(*max_prelude_spin, false, false, 0);
   hig->add(*max_box);
 
-  connector->connect(break_id, "breaks/%b/max_preludes", dc::wrap(prelude_cb));
-  connector->intercept_last(sigc::mem_fun(*this, &TimerPreferencesPanel::on_preludes_changed));
-  connector->connect(break_id, "breaks/%b/max_preludes", dc::wrap(has_max_prelude_cb), dc::NO_CONFIG);
-  connector->intercept_last(sigc::mem_fun(*this, &TimerPreferencesPanel::on_preludes_changed));
-  connector->connect(break_id, "breaks/%b/max_preludes", dc::wrap(max_prelude_spin), dc::NO_CONFIG);
-  connector->intercept_last(sigc::mem_fun(*this, &TimerPreferencesPanel::on_preludes_changed));
-
+  connector->connect_intercept(break_id, "breaks/%b/max_preludes", dc::wrap(prelude_cb),
+                               sigc::mem_fun(*this, &TimerPreferencesPanel::on_preludes_changed));
+  connector->connect_intercept(break_id, "breaks/%b/max_preludes", dc::wrap(has_max_prelude_cb),
+                               sigc::mem_fun(*this, &TimerPreferencesPanel::on_preludes_changed),
+                               dc::NO_CONFIG);
+  connector->connect_intercept(break_id, "breaks/%b/max_preludes", dc::wrap(max_prelude_spin),
+                               sigc::mem_fun(*this, &TimerPreferencesPanel::on_preludes_changed),
+                               dc::NO_CONFIG);
   return hig;
 }
 
@@ -166,9 +167,8 @@ TimerPreferencesPanel::create_options_panel()
   connector->connect(break_id, "gui/breaks/%b/ignorable_break", dc::wrap(ignorable_cb));
   connector->connect(break_id, "timers/%b/activity_sensitive", dc::wrap(activity_sensitive_cb));
   connector->connect(break_id, "gui/breaks/%b/exercises", dc::wrap(exercises_spin));
-  connector->connect(break_id, "timers/%b/monitor", dc::wrap(monitor_cb));
-  connector->intercept_last(sigc::mem_fun(*this, &TimerPreferencesPanel::on_monitor_changed));
-
+  connector->connect_intercept(break_id, "timers/%b/monitor", dc::wrap(monitor_cb),
+                     sigc::mem_fun(*this, &TimerPreferencesPanel::on_monitor_changed));
   return hig;
 }
 

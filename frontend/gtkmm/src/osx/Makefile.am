@@ -2,7 +2,7 @@
 #
 # Copyright (C) 2001, 2002, 2003, 2004, 2005, 2007, 2008 Rob Caelers & Raymond Penners
 #
-# Time-stamp: <2008-01-04 22:20:31 robc>
+# Time-stamp: <2008-01-21 19:53:45 robc>
 #
 # $Id: Makefile.am 1280 2007-08-21 16:23:07Z rcaelers $
 #
@@ -14,7 +14,7 @@ EXTRA_DIST = 		$(wildcard *.hh) $(wildcard *.cc) \
 
 if PLATFORM_OS_OSX
 
-INCLUDES=-xobjective-c++
+##INCLUDES=-xobjective-c++
 
 noinst_LIBRARIES = 	libworkrave-frontend-gtkmm-osx.a
 libworkrave_frontend_gtkmm_osx_a_SOURCES = \
@@ -23,7 +23,7 @@ libworkrave_frontend_gtkmm_osx_a_SOURCES = \
 			sync-menu.c
 
 libworkrave_frontend_gtkmm_osx_a_OBJCFLAGS = \
-			@X_CFLAGS@ \
+			@X_CFLAGS@ -xobjective-c++ \
 			-W  -I../../../common/include \
 			-I../../../../backend/include \
 			-I .. @GTK_CFLAGS@ \

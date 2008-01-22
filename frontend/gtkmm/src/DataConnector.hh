@@ -1,6 +1,6 @@
 // DataConnector.hh --- Connect widget with the configurator
 //
-// Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -74,8 +74,17 @@ public:
                DataConnection *connection,
                dc::Flags flags = dc::NONE);
 
-  void intercept_last(sigc::slot<bool, const std::string &, bool> slot);
+  void connect_intercept(workrave::BreakId id,
+                         const std::string &setting,
+                         DataConnection *connection,
+                         sigc::slot<bool, const std::string &, bool> slot,
+                         dc::Flags flags = dc::NONE);
 
+  void connect_intercept(const std::string &setting,
+                         DataConnection *connection,
+                         sigc::slot<bool, const std::string &, bool> slot,
+                         dc::Flags flags = dc::NONE);
+  
 private:
   struct MonitoredWidget
   {
@@ -95,9 +104,6 @@ private:
 
   //!
   workrave::IConfigurator *config;
-
-  //! Last
-  DataConnection *last_connection;
 };
 
 

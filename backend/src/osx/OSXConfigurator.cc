@@ -84,49 +84,53 @@ OSXConfigurator::remove_key(const std::string &key)
 
 bool
 OSXConfigurator::get_value(const std::string &key, VariantType type,
-                               Variant &out) const
+                           Variant &out) const
 {
-  bool ret = true;
+  bool ret = false;
 
   TRACE_ENTER_MSG("OSXConfigurator::get_value", key);
 
   NSString* keystring = [NSString stringWithCString: key.c_str() encoding: NSASCIIStringEncoding];
   out.type = type;
 
-  switch(type)
+  if ([[NSUserDefaults standardUserDefaults] objectForKey: keystring] != nil)
     {
-    case VARIANT_TYPE_INT:
-      out.int_value = [[NSUserDefaults standardUserDefaults] integerForKey: keystring];  
-      break;
-
-    case VARIANT_TYPE_BOOL:
-      out.bool_value = [[NSUserDefaults standardUserDefaults] boolForKey: keystring];  
-      break;
-
-    case VARIANT_TYPE_DOUBLE:
-      out.double_value = [[NSUserDefaults standardUserDefaults] floatForKey: keystring];  
-      break;
-
-    case VARIANT_TYPE_NONE:
-      out.type = VARIANT_TYPE_STRING;
-      // FALLTHROUGH
-
-    case VARIANT_TYPE_STRING:
-      NSString *val = [[NSUserDefaults standardUserDefaults] stringForKey: keystring];
-      if (val != nil)
+      ret = true;
+      
+      switch(type)
         {
-          out.string_value = [val cStringUsingEncoding:NSUTF8StringEncoding];
-        }
-      else
-        {
+        case VARIANT_TYPE_INT:
+          out.int_value = [[NSUserDefaults standardUserDefaults] integerForKey: keystring];  
+          break;
+
+        case VARIANT_TYPE_BOOL:
+          out.bool_value = [[NSUserDefaults standardUserDefaults] boolForKey: keystring];  
+          break;
+
+        case VARIANT_TYPE_DOUBLE:
+          out.double_value = [[NSUserDefaults standardUserDefaults] floatForKey: keystring];  
+          break;
+
+        case VARIANT_TYPE_NONE:
+          out.type = VARIANT_TYPE_STRING;
+          // FALLTHROUGH
+
+        case VARIANT_TYPE_STRING:
+          NSString *val = [[NSUserDefaults standardUserDefaults] stringForKey: keystring];
+          if (val != nil)
+            {
+              out.string_value = [val cStringUsingEncoding:NSUTF8StringEncoding];
+            }
+          else
+            {
+              ret = false;
+            }
+          break;
+
+        default:
           ret = false;
         }
-      break;
-
-    default:
-      ret = false;
     }
-
 
   TRACE_EXIT();
   return ret;
@@ -138,7 +142,7 @@ OSXConfigurator::set_value(const std::string &key, Variant &value)
   bool ret = true;
 
   NSString* keystring = [NSString stringWithCString: key.c_str() encoding: NSASCIIStringEncoding];
-
+  
   switch(value.type)
     {
     case VARIANT_TYPE_INT:
@@ -159,7 +163,8 @@ OSXConfigurator::set_value(const std::string &key, Variant &value)
 
     case VARIANT_TYPE_STRING:
       {
-        NSString *string_value = [NSString stringWithCString: value.string_value.c_str() encoding: NSASCIIStringEncoding];
+        string val = value.string_value;
+        NSString *string_value = [NSString stringWithCString: val.c_str() encoding: NSASCIIStringEncoding];
         [[NSUserDefaults standardUserDefaults] setObject: string_value forKey: keystring];
       }
       break;

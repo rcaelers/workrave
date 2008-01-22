@@ -202,7 +202,7 @@ Core::init_configurator()
     }
   else
     {
-#if defined(PLATFORM_OS_WIN32) // FIXME: does not work yet.... || defined(PLATFORM_OS_OSX)
+#if defined(PLATFORM_OS_WIN32) || defined(PLATFORM_OS_OSX) // FIXME: does not work yet.... || defined(PLATFORM_OS_OSX)
       configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatNative);
 
 #elif defined(HAVE_GCONF)

@@ -94,8 +94,6 @@ Configurator::heartbeat()
 
       if (now >= delayed.until)
         {
-          delayed_config.erase(it);
-
           bool b = backend->set_value(delayed.key, delayed.value);
 
           if (b && dynamic_cast<IConfigBackendMonitoring *>(backend) == NULL)
@@ -109,6 +107,7 @@ Configurator::heartbeat()
                 }
             }
 
+          delayed_config.erase(it);
         }
 
       it = next;
@@ -183,6 +182,8 @@ Configurator::set_value(const std::string &key, Variant &value, ConfigFlags flag
   Setting setting;
   string newkey;
 
+  TRACE_ENTER_MSG("Configurator::set_value", key);
+
   if ((flags & CONFIG_FLAG_DEFAULT) != 0)
     {
       skip = get_value(key, value.type, value);
@@ -204,12 +205,11 @@ Configurator::set_value(const std::string &key, Variant &value, ConfigFlags flag
             {
               ICore *core = CoreFactory::get_core();
 
-              DelayedConfig d;
-              d.key = key;
+              DelayedConfig &d = delayed_config[key];
+              d.key = (string)key;
               d.value = value;
               d.until = core->get_time() + setting.delay;
 
-              delayed_config[key] = d;
               skip = true;
             }
         }
@@ -230,7 +230,8 @@ Configurator::set_value(const std::string &key, Variant &value, ConfigFlags flag
             }
         }
     }
-  
+
+  TRACE_EXIT();
   return ret || skip;
 }
 
@@ -241,6 +242,8 @@ Configurator::get_value(const std::string &key, VariantType type, Variant &out) 
   bool ret = false;
   Setting setting;
 
+  TRACE_ENTER_MSG("Configurator::get_value", key);
+  
   string newkey = key;
   strip_trailing_slash(newkey);
   strip_leading_slash(newkey);
@@ -263,7 +266,8 @@ Configurator::get_value(const std::string &key, VariantType type, Variant &out) 
       ret = false;
       out.type = VARIANT_TYPE_NONE;
     }
-  
+
+  TRACE_EXIT();
   return ret;
 }
 

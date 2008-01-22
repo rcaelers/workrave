@@ -1,6 +1,6 @@
 // Variant.hh
 //
-// Copyright (C) 2001 - 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2008 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,8 @@
 #ifndef VARIANT_HH
 #define VARIANT_HH
 
+#include "debug.hh"
+
 #include <string>
 using namespace std;
 
@@ -38,6 +40,8 @@ class Variant
 public:
   Variant()
   {
+    TRACE_ENTER_MSG("Variant::Variant", std::hex << (int) this);
+    TRACE_EXIT();
   }
 
   Variant(std::string v)
@@ -70,8 +74,77 @@ public:
     double_value = v;
   }
 
+  Variant(const Variant &rhs)
+  {
+    type = rhs.type;
+    switch(rhs.type)
+      {
+      case VARIANT_TYPE_INT:
+        int_value = rhs.int_value;
+        break;
+          
+      case VARIANT_TYPE_LONG:
+        long_value = rhs.long_value;
+        break;
+
+      case VARIANT_TYPE_BOOL:
+        bool_value = rhs.bool_value;
+        break;
+
+      case VARIANT_TYPE_DOUBLE:
+        double_value = rhs.double_value;
+        break;
+
+      case VARIANT_TYPE_STRING:
+        string_value = rhs.string_value;
+        break;
+
+      case VARIANT_TYPE_NONE:
+      default:
+        break;
+      }
+  }
+
+  Variant& operator=(const Variant &lid)
+  {
+    if (this != &lid)
+      {
+        type = lid.type;
+        switch(lid.type)
+          {
+          case VARIANT_TYPE_INT:
+            int_value = lid.int_value;
+            break;
+          
+          case VARIANT_TYPE_LONG:
+            long_value = lid.long_value;
+            break;
+
+          case VARIANT_TYPE_BOOL:
+            bool_value = lid.bool_value;
+            break;
+
+          case VARIANT_TYPE_DOUBLE:
+            double_value = lid.double_value;
+            break;
+
+          case VARIANT_TYPE_STRING:
+            string_value = lid.string_value;
+            break;
+
+          case VARIANT_TYPE_NONE:
+          default:
+            break;
+          }
+      }
+    return *this;
+  }
+  
   virtual ~Variant()
   {
+    TRACE_ENTER_MSG("Variant::~Variant", std::hex << (int) this);
+    type = VARIANT_TYPE_NONE;
+    TRACE_EXIT();
   }
 
   VariantType get_type()

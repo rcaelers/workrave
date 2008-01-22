@@ -65,7 +65,6 @@ namespace dc
 DataConnector::DataConnector()
 {
   config = CoreFactory::get_configurator();
-  last_connection = NULL;
 }
 
 
@@ -120,18 +119,52 @@ DataConnector::connect(const string &setting,
 
       connections.push_back(mw);
     }
-  
-  last_connection = connection;
 }
 
 
-//! Attach interceptor to last connected widget
+//! Connect a widget to a break related configuration item.
 void
-DataConnector::intercept_last(sigc::slot<bool, const string &, bool> slot)
+DataConnector::connect_intercept(BreakId id,
+                                 const string &setting,
+                                 DataConnection *connection,
+                                 sigc::slot<bool, const string &, bool> slot,
+                                 dc::Flags flags)
 {
-  if (last_connection != NULL)
+  string str = setting;
+  string::size_type pos = 0;
+
+  ICore *core = CoreFactory::get_core();
+  IBreak *b = core->get_break(id);
+  string name = b->get_name();
+
+  while ((pos = str.find("%b", pos)) != string::npos)
     {
-      last_connection->intercept.connect(slot);
+      str.replace(pos, 2, name);
+      pos++;
+    }
+
+  connect_intercept(str, connection, slot, flags);
+}
+
+
+//! Connect a widget to a configuration item.
+void
+DataConnector::connect_intercept(const string &setting,
+                                 DataConnection *connection,
+                                 sigc::slot<bool, const string &, bool> slot,
+                                 dc::Flags flags)
+{
+  if (connection != NULL)
+    {
+      MonitoredWidget mw;
+
+      mw.connection = connection;
+
+      connection->set(flags, setting);
+      connection->init();
+      connection->intercept.connect(slot);
+
+      connections.push_back(mw);
     }
 }
 
