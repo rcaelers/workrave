@@ -40,8 +40,6 @@ class Variant
 public:
   Variant()
   {
-    TRACE_ENTER_MSG("Variant::Variant", std::hex << (int) this);
-    TRACE_EXIT();
   }
 
   Variant(std::string v)
@@ -142,9 +140,7 @@ public:
   
   virtual ~Variant()
   {
-    TRACE_ENTER_MSG("Variant::~Variant", std::hex << (int) this);
     type = VARIANT_TYPE_NONE;
-    TRACE_EXIT();
   }
 
   VariantType get_type()

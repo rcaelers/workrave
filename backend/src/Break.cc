@@ -1,6 +1,6 @@
 // Break.cc
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -46,7 +46,7 @@ const string Break::CFG_KEY_TIMER_SNOOZE = "/snooze";
 const string Break::CFG_KEY_TIMER_MONITOR = "/monitor";
 const string Break::CFG_KEY_TIMER_ACTIVITY_SENSITIVE = "/activity_sensitive";
 
-const string Break::CFG_KEY_BREAK_PREFIX = "gui/breaks/";
+const string Break::CFG_KEY_BREAK_PREFIX = "breaks/";
 
 const string Break::CFG_KEY_BREAK_MAX_PRELUDES = "/max_preludes";
 const string Break::CFG_KEY_BREAK_ENABLED = "/enabled";
@@ -187,11 +187,8 @@ Break::init_defaults()
   config->rename_key(expand("gui/breaks/%b/enabled"),
                      expand("breaks/%b/enabled"));
 
-  config->rename_key(expand("gui/breaks/%b/enabled"),
-                     expand("breaks/%b/enabled"));
-
   config->remove_key(expand("gui/breaks/%b/max_postpone"));
-
+  
   // Set defaults.
 
   config->set_value(expand("timers/%b/limit"), def.limit,
@@ -210,7 +207,6 @@ Break::init_defaults()
                     CONFIG_FLAG_DEFAULT);
   config->set_value(expand("breaks/%b/enabled"), true,
                     CONFIG_FLAG_DEFAULT);
-
 }
 
 //! Returns the id of the break
