@@ -1,6 +1,6 @@
 // ExercisesPanel.cc --- Exercises panel
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -24,6 +24,8 @@
 #ifdef HAVE_EXERCISES
 
 #include "preinclude.h"
+
+#include <algorithm>
 
 #include <string.h>
 #include <gtkmm/stock.h>
@@ -215,7 +217,10 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
          exercises(Exercise::get_exercises())
 {
   standalone = dialog_action_area != NULL;
-
+        
+  copy(exercises.begin(), exercises.end(), back_inserter(shuffled_exercises));  
+  random_shuffle(shuffled_exercises.begin(), shuffled_exercises.end());
+  
   progress_bar.set_orientation(Gtk::PROGRESS_BOTTOM_TO_TOP);
 
   description_scroll.add(description_text);
@@ -332,7 +337,7 @@ void
 ExercisesPanel::reset()
 {
   int i = adjust_exercises_pointer(1);
-  exercise_iterator = exercises.begin();
+  exercise_iterator = shuffled_exercises.begin();
   while (i > 0)
     {
       exercise_iterator++;
@@ -348,7 +353,7 @@ ExercisesPanel::reset()
 void
 ExercisesPanel::start_exercise()
 {
-  if (exercises.size() > 0)
+  if (shuffled_exercises.size() > 0)
     {
       const Exercise &exercise = *exercise_iterator;
 
@@ -428,9 +433,9 @@ void
 ExercisesPanel::on_go_back()
 {
   adjust_exercises_pointer(-1);
-  if (exercise_iterator == exercises.begin())
+  if (exercise_iterator == shuffled_exercises.begin())
     {
-      exercise_iterator = --(exercises.end());
+      exercise_iterator = --(shuffled_exercises.end());
     }
   else
     {
@@ -444,9 +449,9 @@ ExercisesPanel::on_go_forward()
 {
   adjust_exercises_pointer(1);
   exercise_iterator++;
-  if (exercise_iterator == exercises.end())
+  if (exercise_iterator == shuffled_exercises.end())
     {
-      exercise_iterator = exercises.begin();;
+      exercise_iterator = shuffled_exercises.begin();;
     }
   start_exercise();
 }
@@ -480,7 +485,7 @@ ExercisesPanel::heartbeat()
   if (paused || stopped)
     return;
 
-  if (exercises.size() == 0)
+  if (shuffled_exercises.size() == 0)
     return;
 
   const Exercise &exercise = *exercise_iterator;

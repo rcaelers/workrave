@@ -70,9 +70,9 @@ private:
   {
     int ret = exercises_pointer;
     exercises_pointer += inc;
-    if (exercises.size() != 0)
+    if (shuffled_exercises.size() != 0)
       {
-        exercises_pointer %= exercises.size();
+        exercises_pointer %= shuffled_exercises.size();
       }
     return ret;
   }
@@ -89,7 +89,8 @@ private:
   Gtk::Tooltips *tooltips;
   Glib::RefPtr<Gtk::SizeGroup> size_group;
   const std::list<Exercise> exercises;
-  std::list<Exercise>::const_iterator exercise_iterator;
+  std::vector<Exercise> shuffled_exercises;
+  std::vector<Exercise>::const_iterator exercise_iterator;
   std::list<Exercise::Image>::const_iterator image_iterator;
   SigC::Connection heartbeat_signal;
   int exercise_time;
