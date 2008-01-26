@@ -68,6 +68,7 @@ static const char rcsid[] = "$Id$";
 #endif
 #ifdef PLATFORM_OS_OSX
 #include "OSXUtil.hh"
+#include "StatusIcon.hh"
 
 #include <strings.h>
 #include <mach-o/dyld.h>
@@ -802,7 +803,7 @@ GUI::init_gui()
   // The main status window.
   main_window = new MainWindow();
 
-#ifdef PLATFORM_OS_WIN32
+#if defined(PLATFORM_OS_WIN32) || defined(PLATFORM_OS_OSX)
   // Status icon
   status_icon = new StatusIcon(*main_window);
 #endif

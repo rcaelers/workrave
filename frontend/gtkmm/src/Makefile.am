@@ -140,6 +140,7 @@ if PLATFORM_OS_OSX
 includesosx  = 		-Iosx
 ldflags =	 	-Losx
 OSXLIBS	=		-lworkrave-frontend-gtkmm-osx
+sourcesosx = 		resource.rc StatusIcon.cc
 endif
 
 
@@ -300,11 +301,4 @@ $(IDL_C_GENERATED): $(IDL_C)
 		gnome_applet/Workrave-Control.idl
 
 
-EXTRA_DIST =    ${sourcesgnome} \
-		${sourcesnognome} \
-		${sourceskde} \
-		${sourcesx} \
-		${sourceswin32} \
-		${sourcesdistribution} \
-		${sourcesexercises} \
-		*.hh *.h
+EXTRA_DIST = $(wildcard *.cc) $(wildcard *.hh) $(wildcard *.c) $(wildcard *.h)

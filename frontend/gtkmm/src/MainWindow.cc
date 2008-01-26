@@ -51,7 +51,7 @@ static const char rcsid[] = "$Id$";
 #include "TimeBar.hh"
 #include "GUI.hh"
 #include "Util.hh"
-#ifdef PLATFORM_OS_WIN32
+#if defined (PLATFORM_OS_WIN32) || defined (PLATFORM_OS_OSX)
 #include "StatusIcon.hh"
 #endif
 #include "Text.hh"

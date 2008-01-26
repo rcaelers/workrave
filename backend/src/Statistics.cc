@@ -946,32 +946,36 @@ Statistics::mouse_notify(int x, int y, int wheel_delta)
   static const int sensitivity = 3;
 
   lock.lock();
-  const int delta_x = x - prev_x;
-  const int delta_y = y - prev_y;
-  prev_x = x;
-  prev_y = y;
 
-  if (abs(delta_x) >= sensitivity || abs(delta_y) >= sensitivity || wheel_delta != 0)
+  if (current_day != NULL)
     {
-      current_day->misc_stats[STATS_VALUE_TOTAL_MOUSE_MOVEMENT]  +=
-        int(sqrt((double)(delta_x * delta_x + delta_y * delta_y)));
+      const int delta_x = x - prev_x;
+      const int delta_y = y - prev_y;
+      prev_x = x;
+      prev_y = y;
 
-      GTimeVal now, tv;
-
-      g_get_current_time(&now);
-      tvSUBTIME(tv, now, last_mouse_time);
-
-      if (!tvTIMEEQ0(last_mouse_time) && tv.tv_sec < 1 && tv.tv_sec >= 0 && tv.tv_usec >= 0)
+      if (abs(delta_x) >= sensitivity || abs(delta_y) >= sensitivity || wheel_delta != 0)
         {
-          tvADDTIME(current_day->total_mouse_time, current_day->total_mouse_time, tv);
+          current_day->misc_stats[STATS_VALUE_TOTAL_MOUSE_MOVEMENT]  +=
+            int(sqrt((double)(delta_x * delta_x + delta_y * delta_y)));
 
-          current_day->misc_stats[STATS_VALUE_TOTAL_MOVEMENT_TIME] =
-            current_day->total_mouse_time.tv_sec;
+          GTimeVal now, tv;
+
+          g_get_current_time(&now);
+          tvSUBTIME(tv, now, last_mouse_time);
+
+          if (!tvTIMEEQ0(last_mouse_time) && tv.tv_sec < 1 && tv.tv_sec >= 0 && tv.tv_usec >= 0)
+            {
+              tvADDTIME(current_day->total_mouse_time, current_day->total_mouse_time, tv);
+
+              current_day->misc_stats[STATS_VALUE_TOTAL_MOVEMENT_TIME] =
+                current_day->total_mouse_time.tv_sec;
+            }
+
+          last_mouse_time = now;
         }
-
-      last_mouse_time = now;
-
     }
+  
   lock.unlock();
 }
 
@@ -983,23 +987,25 @@ Statistics::button_notify(int button_mask, bool is_press)
   (void)button_mask;
 
   lock.lock();
-  if (click_x != -1)
+  if (current_day != NULL)
     {
-      int delta_x = click_x - prev_x;
-      int delta_y = click_y - prev_y;
+      if (click_x != -1)
+        {
+          int delta_x = click_x - prev_x;
+          int delta_y = click_y - prev_y;
 
-      current_day->misc_stats[STATS_VALUE_TOTAL_CLICK_MOVEMENT] +=
-        int(sqrt((double)(delta_x * delta_x + delta_y * delta_y)));
+          current_day->misc_stats[STATS_VALUE_TOTAL_CLICK_MOVEMENT] +=
+            int(sqrt((double)(delta_x * delta_x + delta_y * delta_y)));
+        }
+
+      click_x = prev_x;
+      click_y = prev_y;
+
+      if (is_press)
+        {
+          current_day->misc_stats[STATS_VALUE_TOTAL_CLICKS]++;
+        }
     }
-
-  click_x = prev_x;
-  click_y = prev_y;
-
-  if (is_press)
-    {
-      current_day->misc_stats[STATS_VALUE_TOTAL_CLICKS]++;
-    }
-
   lock.unlock();
 }
 
@@ -1012,6 +1018,9 @@ Statistics::keyboard_notify(int key_code, int modifier)
   (void)modifier;
 
   lock.lock();
-  current_day->misc_stats[STATS_VALUE_TOTAL_KEYSTROKES]++;
+  if (current_day != NULL)
+    {
+      current_day->misc_stats[STATS_VALUE_TOTAL_KEYSTROKES]++;
+    }
   lock.unlock();
 }
