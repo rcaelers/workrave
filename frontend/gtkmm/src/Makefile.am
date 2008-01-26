@@ -140,7 +140,7 @@ if PLATFORM_OS_OSX
 includesosx  = 		-Iosx
 ldflags =	 	-Losx
 OSXLIBS	=		-lworkrave-frontend-gtkmm-osx
-sourcesosx = 		resource.rc StatusIcon.cc
+extrasources +=		StatusIcon.cc
 endif
 
 

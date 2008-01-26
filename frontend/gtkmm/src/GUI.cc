@@ -942,7 +942,7 @@ GUI::core_event_notify(CoreEvent event)
 void
 GUI::core_event_operation_mode_changed(const OperationMode m)
 {
-#ifdef PLATFORM_OS_WIN32
+#if defined(PLATFORM_OS_WIN32) || defined(PLATFORM_OS_OSX)
   if (status_icon)
     status_icon->set_operation_mode(m);
 #else
