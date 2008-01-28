@@ -1,6 +1,6 @@
 // TimeBar.cc --- Time Bar
 //
-// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -494,6 +494,6 @@ TimeBar::draw_bar(Glib::RefPtr<Gdk::Window> &window,
     }
   else
     {
-      window->draw_rectangle(gc, filled, y, winw - x, height, width);
+      window->draw_rectangle(gc, filled, y, winw - x - width, height, width);
     }
 }

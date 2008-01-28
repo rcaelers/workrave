@@ -1,6 +1,6 @@
 // TimerBoxGtkView.cc --- Timers Widgets
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -190,7 +190,7 @@ TimerBoxGtkView::init_widgets()
           Menus *menus = Menus::get_instance();
           b->signal_clicked().connect(sigc::mem_fun(*menus, &Menus::on_menu_restbreak_now));
           w = b;
-  }
+        }
       else
         {
           w = img;
@@ -271,11 +271,10 @@ TimerBoxGtkView::init_table()
         }
     }
 
-  TRACE_MSG("s "
-            << size << " ts " << tsize << " o " << orientation << " my "
-            << my_size.width << " " << my_size.height << " bar"
-            << bar_size.width << " " << bar_size.height << " label "
-            << label_size.width << " " << label_size.height);
+  TRACE_MSG("size:" << size << " tsize:" << tsize << " orienation:" << orientation);
+  TRACE_MSG("mysize width:" << my_size.width << " height:" << my_size.height);
+  TRACE_MSG("bar width:" << bar_size.width << " height:" << bar_size.height);
+  TRACE_MSG("label width:" << label_size.width << " height:" << label_size.height);
 
   if (orientation == ORIENTATION_LEFT || orientation == ORIENTATION_RIGHT)
     {
@@ -311,7 +310,7 @@ TimerBoxGtkView::init_table()
     }
   else
     {
-      rows = tsize / (bar_size.height + 4);
+      rows = tsize / (bar_size.height);
       if (rows <= 0)
         {
           rows = 1;
@@ -399,7 +398,7 @@ TimerBoxGtkView::init_table()
           int cur_col = (2 * item) % columns;
 
           attach(*labels[id], cur_col, cur_col + 1, cur_row, cur_row + 1,
-                 Gtk::SHRINK, Gtk::SHRINK);
+                 Gtk::SHRINK, Gtk::EXPAND);
 
           int bias = 1;
           if (reverse)
@@ -411,7 +410,7 @@ TimerBoxGtkView::init_table()
           cur_col = (2 * item + bias) % columns;
 
           attach(*bars[id], cur_col, cur_col + 1, cur_row, cur_row + 1,
-                 Gtk::FILL | Gtk::EXPAND, Gtk::SHRINK);
+                 Gtk::FILL | Gtk::EXPAND, Gtk::EXPAND);
         }
     }
 

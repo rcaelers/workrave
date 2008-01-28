@@ -52,6 +52,7 @@ X11SystrayAppletWindow::X11SystrayAppletWindow(AppletControl *control) :
   applet_orientation(ORIENTATION_UP),
   applet_size(0),
   applet_active(false),
+  embedded(false),
   control(control),
   tray_icon(NULL)
 {
@@ -83,7 +84,7 @@ void
 X11SystrayAppletWindow::notify_callback()
 {
   TRACE_ENTER("X11SystrayAppletWindow::notify_callback");
-  if (tray_icon != NULL)
+  if (tray_icon != NULL && embedded)
     {
       GtkOrientation o = egg_tray_icon_get_orientation(tray_icon);
       Orientation orientation;
@@ -130,7 +131,6 @@ X11SystrayAppletWindow::activate_applet()
 
       plug = Glib::wrap(GTK_PLUG(tray_icon));
 
-
       Gtk::EventBox *eventbox = new Gtk::EventBox;
       eventbox->set_visible_window(false);
       eventbox->set_events(eventbox->get_events() | Gdk::BUTTON_PRESS_MASK);
@@ -142,15 +142,20 @@ X11SystrayAppletWindow::activate_applet()
       timer_box_view = view;
       timer_box_control = new TimerBoxControl("applet", *timer_box_view);
 
+      Gtk::VBox *box = manage(new Gtk::VBox());
+      box->set_spacing(1);
+      box->pack_start(*view, true, true, 0);
+      
       if (System::is_kde())
         {
           timer_box_control->set_force_empty(true);
         }
 
-      container->add(*view);
+      container->add(*box); // *view);
 
       plug->signal_embedded().connect(sigc::mem_fun(*this, &X11SystrayAppletWindow::on_embedded));
-      plug->signal_delete_event().connect(sigc::mem_fun(*this, &X11SystrayAppletWindow::delete_event));
+      plug->signal_delete_event().connect(sigc::mem_fun(*this, &X11SystrayAppletWindow::on_delete_event));
+      plug->signal_size_allocate().connect(sigc::mem_fun(*this, &X11SystrayAppletWindow::on_size_allocate));
 
       plug->add(*container);
       plug->show_all();
@@ -166,7 +171,7 @@ X11SystrayAppletWindow::activate_applet()
       plug->size_request(req);
       applet_size = req.height;
 
-      view->set_geometry(applet_orientation, 24);
+      view->set_geometry(applet_orientation, applet_size);
 
       applet_active = true;
       ret = APPLET_STATE_VISIBLE;
@@ -217,7 +222,7 @@ X11SystrayAppletWindow::deactivate_applet()
 
 //! Applet window is deleted. Destroy applet.
 bool
-X11SystrayAppletWindow::delete_event(GdkEventAny *event)
+X11SystrayAppletWindow::on_delete_event(GdkEventAny *event)
 {
   (void) event;
   deactivate_applet();
@@ -235,9 +240,6 @@ X11SystrayAppletWindow::on_embedded()
 
   if (applet_active)
     {
-      Gtk::Requisition req;
-      plug->size_request(req);
-
       GtkOrientation o = egg_tray_icon_get_orientation(tray_icon);
       Orientation orientation;
 
@@ -250,20 +252,10 @@ X11SystrayAppletWindow::on_embedded()
           orientation = ORIENTATION_LEFT;
         }
 
-      if (orientation == ORIENTATION_UP ||
-          orientation == ORIENTATION_DOWN)
-        {
-          applet_size = req.width;
-        }
-      else
-        {
-          applet_size = req.height;
-        }
-
-      TRACE_MSG("Size = " << req.width << " " << req.height << " " << applet_orientation);
+      embedded = true;
+      applet_size = 24;
+      
       view->set_geometry(applet_orientation, applet_size);
-
-      TRACE_MSG(applet_size);
     }
 
   control->set_applet_state(AppletControl::APPLET_TRAY,
@@ -279,7 +271,8 @@ X11SystrayAppletWindow::on_button_press_event(GdkEventButton *event)
   bool ret = false;
 
   if (applet_active &&
-      event->type == GDK_BUTTON_PRESS)
+      event->type == GDK_BUTTON_PRESS &&
+      embedded)
     {
       if (event->button == 3)
         {
@@ -303,4 +296,51 @@ X11SystrayAppletWindow::button_clicked(int button)
 {
   (void) button;
   timer_box_control->force_cycle();
+}
+
+
+void
+X11SystrayAppletWindow::on_size_allocate(Gtk::Allocation& allocation)
+{
+  TRACE_ENTER("X11SystrayAppletWindow::on_size_allocate");
+
+  if (embedded)
+    {
+      TRACE_MSG(allocation.get_x() << " " <<
+                allocation.get_y() << " " <<
+                allocation.get_width() << " " <<
+                allocation.get_height());
+      GtkOrientation o = egg_tray_icon_get_orientation(tray_icon);
+      Orientation orientation;
+  
+      if (o == GTK_ORIENTATION_VERTICAL)
+        {
+          orientation = ORIENTATION_UP;
+        }
+      else
+        {
+          orientation = ORIENTATION_LEFT;
+        }
+  
+      if (orientation == ORIENTATION_UP ||
+          orientation == ORIENTATION_DOWN)
+        {
+          if (applet_size != allocation.get_width())
+            {
+              applet_size = allocation.get_width();
+              TRACE_MSG("New size = " << allocation.get_width() << " " << allocation.get_height() << " " << applet_orientation);
+              view->set_geometry(applet_orientation, applet_size);
+            }
+        }
+      else
+        {
+          if (applet_size != allocation.get_height())
+            {
+              applet_size = allocation.get_height();
+              TRACE_MSG("New size = " << allocation.get_width() << " " << allocation.get_height() << " " << applet_orientation);
+              view->set_geometry(applet_orientation, applet_size);
+            }
+        }
+    }
+  TRACE_EXIT();
 }
