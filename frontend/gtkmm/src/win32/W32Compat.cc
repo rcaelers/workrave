@@ -168,4 +168,5 @@ W32Compat::SetWindowOnTop(HWND hwnd, BOOL top)
     
           AttachThreadInput( dThisThread, dForeThread, FALSE );
         }
+    }
 }
