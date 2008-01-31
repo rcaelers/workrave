@@ -80,13 +80,15 @@ W32Compat::init()
 
 // jay satiro, workrave project, may 2007
 // redistribute under GNU terms.
-BOOL
+void
 W32Compat::SetWindowOnTop(HWND hwnd, BOOL top)
 {
   static bool run_once = true;
   static bool force_focus = false;
   static VOID ( WINAPI *SwitchToThisWindow ) ( HWND, BOOL ) = NULL;
-  
+
+  HWND hFore;
+    
   if (run_once)
     {
       SwitchToThisWindow = ( VOID ( WINAPI * ) ( HWND, BOOL ) )
@@ -99,14 +101,14 @@ W32Compat::SetWindowOnTop(HWND hwnd, BOOL top)
   
       run_once = false;
     }
-  
-  BOOL rv = SetWindowPos(hwnd, top ? HWND_TOPMOST : HWND_NOTOPMOST,
-                         0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
+
+  SetWindowPos(hwnd, top ? HWND_TOPMOST : HWND_NOTOPMOST,
+               0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 
   /* FYI:
    * GetForegroundWindow returns NULL if there is no window in focus.
    */
-  HWND hFore = GetForegroundWindow();
+  hFore = GetForegroundWindow();
   
   /*
    * Return if we don't need to force the focus on a topmost window.
@@ -166,8 +168,4 @@ W32Compat::SetWindowOnTop(HWND hwnd, BOOL top)
     
           AttachThreadInput( dThisThread, dForeThread, FALSE );
         }
-    }
-  
-  // regardless we return the original setwindowpos return value:
-  return rv;
 }
