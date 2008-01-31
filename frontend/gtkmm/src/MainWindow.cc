@@ -284,14 +284,18 @@ MainWindow::setup()
       if (enabled)
         {
           open_window();
- 
-          WindowHints::set_always_on_top(this, always_on_top);
         }
       else
         {
           close_window();
         }
     }
+
+  if (enabled)
+    {
+      WindowHints::set_always_on_top(this, always_on_top);
+    }
+  
   if (enabled && always_on_top)
     {
       raise();
