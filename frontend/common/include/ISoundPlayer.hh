@@ -22,7 +22,6 @@
 #ifndef ISOUNDPLAYER_HH
 #define ISOUNDPLAYER_HH
 
-
 class ISoundPlayer
 {
 public:

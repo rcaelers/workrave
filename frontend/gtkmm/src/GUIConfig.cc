@@ -1,6 +1,6 @@
 // GUIConfig.cc --- The WorkRave GUI Configuration
 //
-// Copyright (C) 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2007, 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -35,9 +35,9 @@ static const char rcsid[] = "$Id: GUI.cc 1288 2007-08-24 09:22:23Z rcaelers $";
 
 using namespace std;
 
-const string GUIConfig::CFG_KEY_BREAK_IGNORABLE = "breaks/%b/ignorable_break";
-const string GUIConfig::CFG_KEY_BREAK_EXERCISES = "breaks/%b/exercises";
-const string GUIConfig::CFG_KEY_GUI_BLOCK_MODE =  "breaks/block_mode";
+const string GUIConfig::CFG_KEY_BREAK_IGNORABLE = "gui/breaks/%b/ignorable_break";
+const string GUIConfig::CFG_KEY_BREAK_EXERCISES = "gui/breaks/%b/exercises";
+const string GUIConfig::CFG_KEY_BLOCK_MODE      = "gui/breaks/block_mode";
 
 //!
 void
@@ -47,14 +47,16 @@ GUIConfig::init()
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      config->set_value(expand(CFG_KEY_BREAK_IGNORABLE, (BreakId)i),
-                        true, CONFIG_FLAG_DEFAULT);
-      config->set_value(expand(CFG_KEY_BREAK_EXERCISES, (BreakId)i),
+      config->set_value(CFG_KEY_BREAK_IGNORABLE % ((BreakId)i),
+                        true,
+                        CONFIG_FLAG_DEFAULT);
+      
+      config->set_value(CFG_KEY_BREAK_EXERCISES % ((BreakId)i),
                         i == BREAK_ID_REST_BREAK ? 3 : 0,
                         CONFIG_FLAG_DEFAULT);
     }
 
-  config->set_value(CFG_KEY_GUI_BLOCK_MODE, BLOCK_MODE_INPUT, CONFIG_FLAG_DEFAULT);
+  config->set_value(CFG_KEY_BLOCK_MODE, BLOCK_MODE_INPUT, CONFIG_FLAG_DEFAULT);
 }
 
 
@@ -64,7 +66,7 @@ GUIConfig::get_ignorable(BreakId id)
 {
   bool rc;
   CoreFactory::get_configurator()
-    ->get_value_with_default(expand(CFG_KEY_BREAK_IGNORABLE, id),
+    ->get_value_with_default(CFG_KEY_BREAK_IGNORABLE % id,
                              rc,
                              true);
   return rc;
@@ -75,9 +77,7 @@ GUIConfig::get_ignorable(BreakId id)
 void
 GUIConfig::set_ignorable(BreakId id, bool b)
 {
-  CoreFactory::get_configurator()
-    ->set_value(expand(CFG_KEY_BREAK_IGNORABLE, id),
-                b);
+  CoreFactory::get_configurator()->set_value(CFG_KEY_BREAK_IGNORABLE % id, b);
 }
 
 
@@ -87,7 +87,7 @@ GUIConfig::get_number_of_exercises(BreakId id)
 {
   int num;
   CoreFactory::get_configurator()
-    ->get_value_with_default(expand(CFG_KEY_BREAK_EXERCISES, id),
+    ->get_value_with_default(CFG_KEY_BREAK_EXERCISES % id,
                              num,
                              0);
   return num;
@@ -99,8 +99,7 @@ void
 GUIConfig::set_number_of_exercises(BreakId id, int num)
 {
   CoreFactory::get_configurator()
-    ->set_value(expand(CFG_KEY_BREAK_EXERCISES, id),
-                          num);
+    ->set_value(CFG_KEY_BREAK_EXERCISES % id, num);
 }
 
 
@@ -109,7 +108,7 @@ GUIConfig::get_block_mode()
 {
   int mode;
   CoreFactory::get_configurator()
-    ->get_value_with_default(CFG_KEY_GUI_BLOCK_MODE, mode, BLOCK_MODE_INPUT);
+    ->get_value_with_default(CFG_KEY_BLOCK_MODE, mode, BLOCK_MODE_INPUT);
   return (BlockMode) mode;
 }
 
@@ -117,7 +116,7 @@ void
 GUIConfig::set_block_mode(BlockMode mode)
 {
   CoreFactory::get_configurator()
-    ->set_value(CFG_KEY_GUI_BLOCK_MODE, int(mode));
+    ->set_value(CFG_KEY_BLOCK_MODE, int(mode));
 }
 
 

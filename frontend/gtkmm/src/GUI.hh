@@ -41,6 +41,7 @@
 #include <gdkmm/display.h>
 #include <gdkmm/screen.h>
 
+#include "BreakWindow.hh"
 #include "WindowHints.hh"
 
 namespace workrave {
@@ -142,7 +143,7 @@ private:
   void init_kde();
 #endif
   void collect_garbage();
-  IBreakWindow *create_break_window(HeadInfo &head, BreakId break_id, bool ignorable);
+  IBreakWindow *create_break_window(HeadInfo &head, BreakId break_id, BreakWindow::BreakFlags break_flags);
 
   bool grab();
   void ungrab();

@@ -1,6 +1,6 @@
 // DailyLimitWindow.cc --- window for the daily limit
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007, 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -43,9 +43,9 @@ static const char rcsid[] = "$Id$";
 using namespace workrave;
 
 //! Construct a new Daily limit window.
-DailyLimitWindow::DailyLimitWindow(HeadInfo &head, bool ignorable,
+DailyLimitWindow::DailyLimitWindow(HeadInfo &head, BreakFlags break_flags,
                                    GUIConfig::BlockMode mode) :
-  BreakWindow(BREAK_ID_DAILY_LIMIT, head, ignorable, mode)
+  BreakWindow(BREAK_ID_DAILY_LIMIT, head, break_flags, mode)
 {
   set_title(_("Daily limit"));
 }

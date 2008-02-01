@@ -1,6 +1,6 @@
 // TimerBoxPreferencePage.cc --- Preferences widgets for a timer
 //
-// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -38,6 +38,7 @@
 #include "IConfigurator.hh"
 #include "CoreFactory.hh"
 #include "ICore.hh"
+#include "CoreConfig.hh"
 #include "GtkUtil.hh"
 #include "Hig.hh"
 #include "MainWindow.hh"
@@ -65,10 +66,7 @@ TimerBoxPreferencePage::TimerBoxPreferencePage(string n)
       ICore *core = CoreFactory::get_core();
       assert(core != NULL);
 
-      IBreak *b = core->get_break(BreakId(i));
-      config->add_listener("gui/breaks/"
-                           + b->get_name()
-                           + "/enabled", this);
+      config->add_listener(CoreConfig::CFG_KEY_BREAK_ENABLED % BreakId(i), this);
     }
 
   TRACE_EXIT();

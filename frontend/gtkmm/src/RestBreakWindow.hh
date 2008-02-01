@@ -1,6 +1,6 @@
 // RestBreakWindow.hh --- window for the microbreak
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -39,7 +39,7 @@ class RestBreakWindow :
   public BreakWindow
 {
 public:
-  RestBreakWindow(HeadInfo &head, bool ignorable, GUIConfig::BlockMode mode);
+  RestBreakWindow(HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode mode);
   virtual ~RestBreakWindow();
 
   void start();

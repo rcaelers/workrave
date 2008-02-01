@@ -1,6 +1,6 @@
 // DistributionSocketLink.cc
 //
-// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -36,6 +36,8 @@ static const char rcsid[] = "$Id$";
 #include <signal.h>
 
 #include "Configurator.hh"
+#include "CoreConfig.hh"
+
 #include "DistributionManager.hh"
 #include "DistributionLink.hh"
 #include "DistributionSocketLink.hh"
@@ -95,7 +97,7 @@ DistributionSocketLink::init()
 
   // Read all tcp link configuration.
   read_configuration();
-  configurator->add_listener(DistributionManager::CFG_KEY_DISTRIBUTION_TCP, this);
+  configurator->add_listener(CoreConfig::CFG_KEY_DISTRIBUTION_TCP, this);
 
   TRACE_EXIT();
 }
@@ -181,7 +183,6 @@ DistributionSocketLink::connect(string url)
 {
   if (server_enabled)
     {
-#ifdef HAVE_GNET2
       GURI *client_url = gnet_uri_new(url.c_str());
 
       if (client_url != NULL)
@@ -190,15 +191,6 @@ DistributionSocketLink::connect(string url)
         }
       gnet_uri_delete(client_url);
 
-#else
-      GURL *client_url = gnet_url_new(url.c_str());
-
-      if (client_url != NULL)
-        {
-          add_client(NULL, client_url->hostname, client_url->port, CLIENTTYPE_DIRECT);
-        }
-      gnet_url_delete(client_url);
-#endif
     }
 }
 

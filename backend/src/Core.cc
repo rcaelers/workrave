@@ -25,6 +25,7 @@ static const char rcsid[] = "$Id$";
 
 #include "debug.hh"
 
+// FIXME: remove
 #if defined(PLATFORM_OS_WIN32)
 #define BACKEND
 #include "w32debug.hh"
@@ -45,6 +46,7 @@ static const char rcsid[] = "$Id$";
 #include "Break.hh"
 #include "ConfiguratorFactory.hh"
 #include "Configurator.hh"
+#include "CoreConfig.hh"
 #include "Statistics.hh"
 #include "BreakControl.hh"
 #include "Timer.hh"
@@ -76,13 +78,6 @@ Core *Core::instance = NULL;
 const char *WORKRAVESTATE="WorkRaveState";
 const int SAVESTATETIME = 60;
 
-const string Core::CFG_KEY_MONITOR = "monitor";
-const string Core::CFG_KEY_MONITOR_NOISE = "monitor/noise";
-const string Core::CFG_KEY_MONITOR_ACTIVITY = "monitor/activity";
-const string Core::CFG_KEY_MONITOR_IDLE = "monitor/idle";
-const string Core::CFG_KEY_GENERAL_DATADIR = "general/datadir";
-const string Core::CFG_KEY_OPERATION_MODE = "gui/operation-mode";
-
 #define DBUS_PATH_WORKRAVE         "/org/workrave/Workrave/Core"
 #define DBUS_SERVICE_WORKRAVE      "org.workrave.Workrave"
 
@@ -111,9 +106,7 @@ Core::Core() :
   idlelog_manager(NULL)
 #  ifndef NDEBUG
   ,
-  fake_monitor(NULL),
-  script_count(-1),
-  script_start_time(-1)
+  fake_monitor(NULL)
 #  endif
 #endif
 {
@@ -202,7 +195,7 @@ Core::init_configurator()
     }
   else
     {
-#if defined(PLATFORM_OS_WIN32) || defined(PLATFORM_OS_OSX) // FIXME: does not work yet.... || defined(PLATFORM_OS_OSX)
+#if defined(PLATFORM_OS_WIN32) || defined(PLATFORM_OS_OSX)
       configurator = ConfiguratorFactory::create(ConfiguratorFactory::FormatNative);
 
 #elif defined(HAVE_GCONF)
@@ -235,7 +228,7 @@ Core::init_configurator()
     }
 
   string home;
-  if (configurator->get_value(CFG_KEY_GENERAL_DATADIR, home))
+  if (configurator->get_value(CoreConfig::CFG_KEY_GENERAL_DATADIR, home))
     {
       Util::set_home_directory(home);
     }
@@ -297,7 +290,7 @@ Core::init_monitor(const string &display_name)
   monitor = new ActivityMonitor();
   load_monitor_config();
 
-  configurator->add_listener(CFG_KEY_MONITOR, this);
+  configurator->add_listener(CoreConfig::CFG_KEY_MONITOR, this);
 }
 
 
@@ -327,9 +320,6 @@ Core::init_distribution_manager()
   dist_manager->register_client_message(DCM_MONITOR, DCMT_MASTER, this);
   dist_manager->register_client_message(DCM_IDLELOG, DCMT_SIGNON, this);
   dist_manager->register_client_message(DCM_BREAKCONTROL, DCMT_PASSIVE, this);
-#ifndef NDEBUG
-  dist_manager->register_client_message(DCM_SCRIPT, DCMT_PASSIVE, this);
-#endif
 
   dist_manager->add_listener(this);
 
@@ -361,30 +351,30 @@ Core::load_monitor_config()
   assert(configurator != NULL);
   assert(monitor != NULL);
 
-  if (! configurator->get_value(CFG_KEY_MONITOR_NOISE, noise))
+  if (! configurator->get_value(CoreConfig::CFG_KEY_MONITOR_NOISE, noise))
     noise = 9000;
-  if (! configurator->get_value(CFG_KEY_MONITOR_ACTIVITY, activity))
+  if (! configurator->get_value(CoreConfig::CFG_KEY_MONITOR_ACTIVITY, activity))
     activity = 1000;
-  if (! configurator->get_value(CFG_KEY_MONITOR_IDLE, idle))
+  if (! configurator->get_value(CoreConfig::CFG_KEY_MONITOR_IDLE, idle))
     idle = 5000;
 
   // Pre 1.0 compatibility...
   if (noise < 50)
     {
       noise *= 1000;
-      configurator->set_value(CFG_KEY_MONITOR_NOISE, noise);
+      configurator->set_value(CoreConfig::CFG_KEY_MONITOR_NOISE, noise);
     }
 
   if (activity < 50)
     {
       activity *= 1000;
-      configurator->set_value(CFG_KEY_MONITOR_ACTIVITY, activity);
+      configurator->set_value(CoreConfig::CFG_KEY_MONITOR_ACTIVITY, activity);
     }
 
   if (idle < 50)
     {
       idle *= 1000;
-      configurator->set_value(CFG_KEY_MONITOR_IDLE, idle);
+      configurator->set_value(CoreConfig::CFG_KEY_MONITOR_IDLE, idle);
     }
 
   TRACE_MSG("Monitor config = " << noise << " " << activity << " " << idle);
@@ -406,7 +396,7 @@ Core::config_changed_notify(const string &key)
       path = key.substr(0, pos);
     }
 
-  if (path == CFG_KEY_MONITOR)
+  if (path == CoreConfig::CFG_KEY_MONITOR)
     {
       load_monitor_config();
     }
@@ -570,7 +560,7 @@ APPEND_TIME("Core::set_operation_mode()", "OPERATION_MODE_QUIET ")
           stop_all_breaks();
         }
       
-      get_configurator()->set_value(CFG_KEY_OPERATION_MODE, mode);
+      get_configurator()->set_value(CoreConfig::CFG_KEY_OPERATION_MODE, mode);
       if (core_event_listener != NULL)
         {
           core_event_listener->core_event_operation_mode_changed(mode);
@@ -879,12 +869,6 @@ Core::process_distribution()
   master_node = true;
 
 #ifdef HAVE_DISTRIBUTION
-#ifndef NDEBUG
-  if (script_start_time != -1 && current_time >= script_start_time)
-    {
-      do_script();
-    }
-#endif
 
   // Retrieve State.
   ActivityState state = monitor->get_current_state();
@@ -1362,7 +1346,7 @@ void
 Core::load_misc()
 {
   int mode;
-  if (! get_configurator()->get_value(CFG_KEY_OPERATION_MODE, mode))
+  if (! get_configurator()->get_value(CoreConfig::CFG_KEY_OPERATION_MODE, mode))
     {
       mode = OPERATION_MODE_NORMAL;
     }
@@ -1515,49 +1499,6 @@ Core::is_user_active() const
 /**** Distribution                                                         ******/
 /********************************************************************************/
 
-#ifndef NDEBUG
-void
-Core::test_me()
-{
-  TRACE_ENTER("Core::test_me");
-
-#if 0
-  script_count = 0;
-  script_start_time = current_time + 5;
-
-  PacketBuffer buffer;
-  buffer.create();
-
-  buffer.pack_ushort(1);
-  buffer.pack_ushort(SCRIPT_START);
-  buffer.pack_ushort(script_start_time);
-
-  dist_manager->broadcast_client_message(DCM_SCRIPT, buffer);
-
-#else
-#ifdef HAVE_DISTRIBUTION
-  if (fake_monitor != NULL)
-    {
-      ActivityState state = fake_monitor->get_current_state();
-
-      if (state == ACTIVITY_ACTIVE)
-        {
-          TRACE_MSG("Setting idle");
-          fake_monitor->set_state(ACTIVITY_IDLE);
-        }
-      else
-        {
-          TRACE_MSG("Setting master");
-          fake_monitor->set_state(ACTIVITY_ACTIVE);
-        }
-    }
-#endif
-#endif
-  TRACE_EXIT();
-}
-#endif
-
-
 #ifdef HAVE_DISTRIBUTION
 //! The distribution manager requests a client message.
 bool
@@ -1606,6 +1547,8 @@ Core::client_message(DistributionClientMessageID id, bool master, const char *cl
 {
   bool ret = false;
 
+  (void) client_id;
+  
   switch (id)
     {
     case DCM_BREAKS:
@@ -1633,11 +1576,6 @@ Core::client_message(DistributionClientMessageID id, bool master, const char *cl
       ret = true;
       break;
 
-#ifndef NDEBUG
-    case DCM_SCRIPT:
-      ret = script_message(master, client_id, buffer);
-      break;
-#endif
     default:
       break;
     }
@@ -1963,89 +1901,24 @@ Core::set_break_control(PacketBuffer &buffer)
   return true;
 }
 
-
-#ifndef NDEBUG
-bool
-Core::script_message(bool master, const char *client_id, PacketBuffer &buffer)
-{
-  TRACE_ENTER("Core::script_message");
-
-  (void) master;
-  (void) client_id;
-
-  int cmd_size = buffer.unpack_ushort();
-  for (int i = 0; i < cmd_size; i++)
-    {
-      ScriptCommand type = (ScriptCommand) buffer.unpack_ushort();
-
-      switch (type)
-        {
-        case SCRIPT_START:
-          {
-            script_start_time = buffer.unpack_ulong();
-            script_count = 0;
-          }
-          break;
-        }
-    }
-
-  TRACE_EXIT();
-  return true;
-}
-
-
-void
-Core::do_script()
-{
-  string id = dist_manager->get_my_id();
-  PacketBuffer packet;
-
-  if (id == "192.168.0.42:2701")
-    {
-      if (script_count == 0)
-        {
-          fake_monitor->set_state(ACTIVITY_ACTIVE);
-        }
-      else if (script_count == 5)
-        {
-          fake_monitor->set_state(ACTIVITY_IDLE);
-        }
-      else if (script_count == 40)
-        {
-          fake_monitor->set_state(ACTIVITY_ACTIVE);
-        }
-      else if (script_count == 50)
-        {
-          fake_monitor->set_state(ACTIVITY_IDLE);
-          dist_manager->disconnect("192.168.0.42:2702");
-        }
-      else if (script_count == 85)
-        {
-          dist_manager->connect("tcp://192.168.0.42:2702");
-        }
-    }
-  else if (id == "192.168.0.42:2702")
-    {
-      if (script_count == 51)
-        {
-          fake_monitor->set_state(ACTIVITY_ACTIVE);
-        }
-      else if (script_count == 61)
-        {
-          fake_monitor->set_state(ACTIVITY_IDLE);
-        }
-      else if (script_count == 71)
-        {
-          fake_monitor->set_state(ACTIVITY_ACTIVE);
-        }
-      else if (script_count == 81)
-        {
-          fake_monitor->set_state(ACTIVITY_IDLE);
-        }
-    }
-
-  script_count++;
-}
-
-#endif // NDEBUG
 #endif // HAVE_DISTRIBUTION
+
+namespace workrave
+{
+  std::string operator%(const string &key, BreakId id)
+  {
+    IBreak *b = Core::get_instance()->get_break(id);
+  
+    string str = key;
+    string::size_type pos = 0;
+    string name = b->get_name();
+  
+    while ((pos = str.find("%b", pos)) != string::npos)
+      {
+        str.replace(pos, 2, name);
+        pos++;
+      }
+  
+    return str;
+  }
+}

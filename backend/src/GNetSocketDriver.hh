@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2002, 2003, 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2002, 2003, 2007, 2008 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -22,12 +22,7 @@
 #define GNETSOCKETDRIVER_HH
 
 #include <glib.h>
-#ifdef HAVE_GNET2
 #include <gnet.h>
-#else
-#include <gnet/gnet.h>
-#endif
-
 #include "SocketDriver.hh"
 
 class GNetSocketDriver;
@@ -90,13 +85,8 @@ private:
   static void static_async_accept(GTcpSocket* server, GTcpSocket* client, gpointer data);
   static gboolean static_async_io(GIOChannel* iochannel, GIOCondition condition, gpointer data);
 
-#ifndef HAVE_GNET2
-  static void static_async_connected(GTcpSocket *socket, GInetAddr *ia,
-                                     GTcpSocketConnectAsyncStatus status, gpointer data);
-#else
   static void static_async_connected(GTcpSocket *socket,
                                      GTcpSocketConnectAsyncStatus status, gpointer data);
-#endif
 };
 
 #endif // GNETSOCKETDRIVER_HH

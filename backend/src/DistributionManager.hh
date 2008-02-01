@@ -1,6 +1,6 @@
 // DistributionManager.hh
 //
-// Copyright (C) 2002, 2003, 2006, 2007 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2006, 2007, 2008 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -45,16 +45,6 @@ class DistributionManager :
   public IConfiguratorListener
 {
 public:
-  static const string CFG_KEY_DISTRIBUTION;
-  static const string CFG_KEY_DISTRIBUTION_ENABLED;
-  static const string CFG_KEY_DISTRIBUTION_PEERS;
-  static const string CFG_KEY_DISTRIBUTION_TCP;
-  static const string CFG_KEY_DISTRIBUTION_TCP_PORT;
-  static const string CFG_KEY_DISTRIBUTION_TCP_USERNAME;
-  static const string CFG_KEY_DISTRIBUTION_TCP_PASSWORD;
-  static const string CFG_KEY_DISTRIBUTION_TCP_INTERVAL;
-  static const string CFG_KEY_DISTRIBUTION_TCP_ATTEMPTS;
-
   enum NodeState { NODE_ACTIVE, NODE_PASSIVE, NODE_STANDBY };
 
   DistributionManager();

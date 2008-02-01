@@ -1,6 +1,6 @@
 // GnetSocketDriver.cc
 //
-// Copyright (C) 2002, 2003, 2004, 2005, 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2002, 2003, 2004, 2005, 2007, 2008 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -56,7 +56,6 @@ GNetSocketDriver::init()
 char *
 GNetSocketDriver::get_my_canonical_name()
 {
-#ifdef HAVE_GNET2
   GInetAddr* ia = gnet_inetaddr_get_host_addr();
 
   if (gnet_inetaddr_is_reserved(ia) ||
@@ -83,10 +82,6 @@ GNetSocketDriver::get_my_canonical_name()
             }
         }
     }
-
-#else
-  GInetAddr *ia = gnet_inetaddr_gethostaddr();
-#endif
 
   char *name = NULL;
   if (ia != NULL)
@@ -139,11 +134,7 @@ GNetSocketDriver::listen(int port, void *data)
   con->driver = this;
   con->data = data;
 
-#ifdef HAVE_GNET2
   con->socket = gnet_tcp_socket_server_new_with_port(port);
-#else
-  con->socket = gnet_tcp_socket_server_new(port);
-#endif
   if (con->socket != NULL)
     {
       gnet_tcp_socket_server_accept_async(con->socket, static_async_accept, con);
@@ -170,11 +161,7 @@ GNetSocketDriver::async_accept(GTcpSocket *server, GTcpSocket *client, GNetSocke
 
       ccon->driver = this;
       ccon->data = NULL;
-#ifdef HAVE_GNET2
       ccon->iochannel = gnet_tcp_socket_get_io_channel(client);
-#else
-      ccon->iochannel = gnet_tcp_socket_get_iochannel(client);
-#endif
       ccon->watch_flags = G_IO_IN | G_IO_ERR | G_IO_HUP | G_IO_NVAL;
       ccon->socket = client;
 
@@ -250,11 +237,7 @@ GNetSocketDriver::async_connected(GTcpSocket *socket, GInetAddr *ia,
       con->socket = socket;
       con->name = gnet_inetaddr_get_canonical_name(ia);
       con->port = gnet_inetaddr_get_port(ia);
-#ifdef HAVE_GNET2
       con->iochannel = gnet_tcp_socket_get_io_channel(socket);
-#else
-      con->iochannel = gnet_tcp_socket_get_iochannel(socket);
-#endif
       con->watch_flags = G_IO_IN | G_IO_ERR | G_IO_HUP | G_IO_NVAL;
       con->watch = g_io_add_watch(con->iochannel, (GIOCondition)con->watch_flags, static_async_io, con);
 
@@ -294,21 +277,16 @@ GNetSocketDriver::static_async_io(GIOChannel *iochannel, GIOCondition condition,
 //! Connection established.
 void
 GNetSocketDriver::static_async_connected(GTcpSocket *socket,
-#ifndef HAVE_GNET2
-                                         GInetAddr *ia,
-#endif
                                          GTcpSocketConnectAsyncStatus status,
                                          gpointer data)
 {
   GNetSocketConnection *con =  (GNetSocketConnection *)data;
 
-#ifdef HAVE_GNET2
   GInetAddr *ia = NULL;
   if (socket != NULL)
     {
       ia = gnet_tcp_socket_get_remote_inetaddr(socket);
     }
-#endif
 
   g_assert(con != NULL);
   con->driver->async_connected(socket, ia, status, con);
@@ -332,13 +310,6 @@ GNetSocketConnection::GNetSocketConnection() :
 GNetSocketConnection::~GNetSocketConnection()
 {
   TRACE_ENTER("GNetSocketConnection::~GNetSocketConnection");
-#ifndef HAVE_GNET2
-  if (iochannel != NULL)
-    {
-      // this causes troubles with gnet2
-      g_io_channel_unref(iochannel);
-    }
-#endif
 
   if (socket != NULL)
     {

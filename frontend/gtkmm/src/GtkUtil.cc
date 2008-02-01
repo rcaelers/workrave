@@ -1,6 +1,6 @@
 // GtkUtil.cc --- Gtk utilities
 //
-// Copyright (C) 2003, 2004, 2005, 2007 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2003, 2004, 2005, 2007, 2008 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -348,19 +348,6 @@ GtkUtil::center_window(Gtk::Window &window, HeadInfo &head)
     {
       Gtk::Requisition size;
       window.size_request(size);
-
-#ifdef PLATFORM_OS_WIN32
-      TRACE_MSG(
-                head.geometry.get_width() << "x" << head.geometry.get_height() << " +" <<
-                head.geometry.get_x() << "+" << head.geometry.get_y() << " " <<
-                size.width << " " << size.height);
-#else
-      TRACE_MSG(
-                head.monitor << " : " <<
-                head.geometry.get_width() << "x" << head.geometry.get_height() << " +" <<
-                head.geometry.get_x() << "+" << head.geometry.get_y() << " " <<
-                size.width << " " << size.height);
-#endif
 
       int x = head.geometry.get_x() + (head.geometry.get_width() - size.width) / 2;
       int y = head.geometry.get_y() + (head.geometry.get_height() - size.height) / 2;

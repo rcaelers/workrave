@@ -88,13 +88,6 @@ public:
   Core();
   virtual ~Core();
 
-  static const std::string CFG_KEY_MONITOR;
-  static const std::string CFG_KEY_MONITOR_NOISE;
-  static const std::string CFG_KEY_MONITOR_ACTIVITY;
-  static const std::string CFG_KEY_MONITOR_IDLE;
-  static const std::string CFG_KEY_GENERAL_DATADIR;
-  static const std::string CFG_KEY_OPERATION_MODE;
-
   static Core *get_instance();
 
   Timer *get_timer(std::string name) const;
@@ -183,11 +176,6 @@ private:
   void do_skip_break(BreakId break_id);
   void do_stop_prelude(BreakId break_id);
 
-
-#ifndef NDEBUG
-  void test_me();
-#endif
-
   void set_insist_policy(ICore::InsistPolicy p);
   ICore::InsistPolicy get_insist_policy() const;
 
@@ -220,10 +208,6 @@ private:
   void signon_remote_client(string client_id);
   void signoff_remote_client(string client_id);
   void compute_timers();
-#ifndef NDEBUG
-  bool script_message(bool master, const char *client_id, PacketBuffer &buffer);
-  void do_script();
-#endif // NDEBUG
 #endif // HAVE_DISTRIBUTION
 
 
@@ -309,12 +293,6 @@ private:
 #ifndef NDEBUG
   //! A fake activity monitor for testing puposes.
   FakeActivityMonitor *fake_monitor;
-
-  //! Program Counter of script execution.
-  int script_count;
-
-  //! Time at which script execution started.
-  int script_start_time;
 #endif
 #endif
 

@@ -21,6 +21,7 @@ sources = 		ActivityMonitor.cc \
 			Configurator.cc \
 			ConfiguratorFactory.cc \
 			Core.cc \
+			CoreConfig.cc \
 			CoreFactory.cc \
 			GlibIniConfigurator.cc \
 			IdleLogManager.cc \

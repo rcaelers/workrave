@@ -1,6 +1,6 @@
 // IConfigurator.hh -- Interface to the Workrave configuration
 //
-// Copyright (C) 2001 - 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2008 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -65,10 +65,10 @@ namespace workrave {
     virtual bool get_value(const std::string &key, int &out) const = 0;
     virtual bool get_value(const std::string &key, double &out) const = 0;
 
-    virtual void get_value_with_default(const std::string & key, std::string &out, std::string s) const = 0;
-    virtual void get_value_with_default(const std::string & key, bool &out, const bool def) const = 0;
-    virtual void get_value_with_default(const std::string & key, int &out, const int def) const = 0;
-    virtual void get_value_with_default(const std::string & key, double &out, const double def) const = 0;
+    virtual void get_value_with_default(const std::string &key, std::string &out, std::string s) const = 0;
+    virtual void get_value_with_default(const std::string &key, bool &out, const bool def) const = 0;
+    virtual void get_value_with_default(const std::string &key, int &out, const int def) const = 0;
+    virtual void get_value_with_default(const std::string &key, double &out, const double def) const = 0;
 
     virtual bool set_value(const std::string &key, const std::string &v, ConfigFlags flags = CONFIG_FLAG_NONE) = 0;
     virtual bool set_value(const std::string &key, const char *v, ConfigFlags flags = CONFIG_FLAG_NONE) = 0;

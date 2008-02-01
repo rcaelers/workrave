@@ -65,25 +65,14 @@ public:
   DataConnector();
   ~DataConnector();
 
-  void connect(workrave::BreakId id,
-               const std::string &setting,
+  void connect(const std::string &setting,
                DataConnection *connection,
                dc::Flags flags = dc::NONE);
 
   void connect(const std::string &setting,
                DataConnection *connection,
+               sigc::slot<bool, const std::string &, bool> slot,
                dc::Flags flags = dc::NONE);
-
-  void connect_intercept(workrave::BreakId id,
-                         const std::string &setting,
-                         DataConnection *connection,
-                         sigc::slot<bool, const std::string &, bool> slot,
-                         dc::Flags flags = dc::NONE);
-
-  void connect_intercept(const std::string &setting,
-                         DataConnection *connection,
-                         sigc::slot<bool, const std::string &, bool> slot,
-                         dc::Flags flags = dc::NONE);
   
 private:
   struct MonitoredWidget

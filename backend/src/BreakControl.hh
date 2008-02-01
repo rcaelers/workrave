@@ -1,6 +1,6 @@
 // BreakControl.hh --- controller for a single break
 //
-// Copyright (C) 2001 - 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -76,7 +76,6 @@ public:
 
   // Configuration
   void set_max_preludes(int m);
-  void set_ignorable_break(bool i);
   
   // BreakResponseInterface
   void postpone_break();
@@ -138,9 +137,6 @@ private:
 
   //! After how many preludes do we force a break or give up?
   int max_number_of_preludes;
-
-  //! Can the use explicitly ignore the break?
-  bool ignorable_break;
 
   //! Is this a break that is not controlled by the timer.
   bool fake_break;

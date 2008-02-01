@@ -72,25 +72,17 @@ static const char rcsid[] = "$Id$";
 
 #include "gtk/gtkmenu.h"
 
-
-const string MainWindow::CFG_KEY_MAIN_WINDOW = "gui/main_window";
+const string MainWindow::CFG_KEY_MAIN_WINDOW               = "gui/main_window";
 const string MainWindow::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP = "gui/main_window/always_on_top";
-
-const string MainWindow::CFG_KEY_MAIN_WINDOW_START_IN_TRAY
-= "gui/main_window/start_in_tray";
+const string MainWindow::CFG_KEY_MAIN_WINDOW_START_IN_TRAY = "gui/main_window/start_in_tray";
+const string MainWindow::CFG_KEY_MAIN_WINDOW_X             = "gui/main_window/x";
+const string MainWindow::CFG_KEY_MAIN_WINDOW_Y             = "gui/main_window/y";
+const string MainWindow::CFG_KEY_MAIN_WINDOW_HEAD          = "gui/main_window/head";
 
 #ifdef PLATFORM_OS_WIN32
 const char *WIN32_MAIN_CLASS_NAME = "Workrave";
 const UINT MYWM_TRAY_MESSAGE = WM_USER +0x100;
 #endif
-
-const string MainWindow::CFG_KEY_MAIN_WINDOW_X
-= "gui/main_window/x";
-const string MainWindow::CFG_KEY_MAIN_WINDOW_Y
-= "gui/main_window/y";
-const string MainWindow::CFG_KEY_MAIN_WINDOW_HEAD
-= "gui/main_window/head";
-
 
 
 //! Constructor.

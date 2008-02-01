@@ -69,14 +69,11 @@ BreakControl::BreakControl(BreakId id, IApp *app, Timer *timer) :
   prelude_count(0),
   postponable_count(0),
   max_number_of_preludes(2),
-  ignorable_break(true),
   fake_break(false),
   fake_break_count(0),
   user_abort(false),
   delayed_abort(false)
 {
-  set_ignorable_break(ignorable_break);
-
   assert(break_timer != NULL);
   assert(application != NULL);
 
@@ -607,25 +604,13 @@ BreakControl::set_max_preludes(int m)
   max_number_of_preludes = m;
 }
 
-//! Sets the ignorable-break flags
-/*!
- *  A break that is ignorable has a skip/postpone button.
- */
-void
-BreakControl::set_ignorable_break(bool i)
-{
-  ignorable_break = i;
-}
-
-
 //! Creates and shows the break window.
 void
 BreakControl::break_window_start()
 {
   TRACE_ENTER_MSG("BreakControl::break_window_start", break_id);
 
-  application->start_break_window(break_id,
-                                  user_initiated ? true : ignorable_break);
+  application->start_break_window(break_id, user_initiated);
 
   update_break_window();
   TRACE_EXIT();

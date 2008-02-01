@@ -1,6 +1,6 @@
 // DailyLimitWindow.hh --- window for the daily limit
 //
-// Copyright (C) 2001, 2002, 2003, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2007, 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -31,7 +31,7 @@ class DailyLimitWindow :
   public BreakWindow
 {
 public:
-  DailyLimitWindow(HeadInfo &head, bool ignorable, GUIConfig::BlockMode mode);
+  DailyLimitWindow(HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode mode);
   virtual ~DailyLimitWindow();
 
   void set_progress(int value, int max_value);

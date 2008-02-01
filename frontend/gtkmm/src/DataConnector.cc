@@ -37,7 +37,6 @@ static const char rcsid[] = "$Id$";
 
 #include "DataConnector.hh"
 
-#include "IBreak.hh"
 #include "CoreFactory.hh"
 #include "IConfigurator.hh"
 
@@ -78,30 +77,6 @@ DataConnector::~DataConnector()
 }
 
 
-//! Connect a widget to a break related configuration item.
-void
-DataConnector::connect(BreakId id,
-                       const string &setting,
-                       DataConnection *connection,
-                       dc::Flags flags)
-{
-  string str = setting;
-  string::size_type pos = 0;
-
-  ICore *core = CoreFactory::get_core();
-  IBreak *b = core->get_break(id);
-  string name = b->get_name();
-
-  while ((pos = str.find("%b", pos)) != string::npos)
-    {
-      str.replace(pos, 2, name);
-      pos++;
-    }
-
-  connect(str, connection, flags);
-}
-
-
 //! Connect a widget to a configuration item.
 void
 DataConnector::connect(const string &setting,
@@ -122,37 +97,12 @@ DataConnector::connect(const string &setting,
 }
 
 
-//! Connect a widget to a break related configuration item.
-void
-DataConnector::connect_intercept(BreakId id,
-                                 const string &setting,
-                                 DataConnection *connection,
-                                 sigc::slot<bool, const string &, bool> slot,
-                                 dc::Flags flags)
-{
-  string str = setting;
-  string::size_type pos = 0;
-
-  ICore *core = CoreFactory::get_core();
-  IBreak *b = core->get_break(id);
-  string name = b->get_name();
-
-  while ((pos = str.find("%b", pos)) != string::npos)
-    {
-      str.replace(pos, 2, name);
-      pos++;
-    }
-
-  connect_intercept(str, connection, slot, flags);
-}
-
-
 //! Connect a widget to a configuration item.
 void
-DataConnector::connect_intercept(const string &setting,
-                                 DataConnection *connection,
-                                 sigc::slot<bool, const string &, bool> slot,
-                                 dc::Flags flags)
+DataConnector::connect(const string &setting,
+                       DataConnection *connection,
+                       sigc::slot<bool, const string &, bool> slot,
+                       dc::Flags flags)
 {
   if (connection != NULL)
     {

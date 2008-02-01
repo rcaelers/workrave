@@ -42,6 +42,8 @@
 #include "GtkUtil.hh"
 #include "Hig.hh"
 
+#include "GUIConfig.hh"
+#include "CoreConfig.hh"
 #include "DataConnector.hh"
 
 using namespace std;
@@ -89,7 +91,7 @@ TimerPreferencesPanel::TimerPreferencesPanel
 
   set_border_width(12);
 
-  connector->connect(break_id, "breaks/%b/enabled", dc::wrap(enabled_cb));
+  connector->connect(GUIConfig::CFG_KEY_BREAK_EXERCISES % break_id, dc::wrap(enabled_cb));
 }
 
 
@@ -115,14 +117,19 @@ TimerPreferencesPanel::create_prelude_panel()
   max_box->pack_start(*max_prelude_spin, false, false, 0);
   hig->add(*max_box);
 
-  connector->connect_intercept(break_id, "breaks/%b/max_preludes", dc::wrap(prelude_cb),
-                               sigc::mem_fun(*this, &TimerPreferencesPanel::on_preludes_changed));
-  connector->connect_intercept(break_id, "breaks/%b/max_preludes", dc::wrap(has_max_prelude_cb),
-                               sigc::mem_fun(*this, &TimerPreferencesPanel::on_preludes_changed),
-                               dc::NO_CONFIG);
-  connector->connect_intercept(break_id, "breaks/%b/max_preludes", dc::wrap(max_prelude_spin),
-                               sigc::mem_fun(*this, &TimerPreferencesPanel::on_preludes_changed),
-                               dc::NO_CONFIG);
+  connector->connect(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % break_id,
+                     dc::wrap(prelude_cb),
+                     sigc::mem_fun(*this, &TimerPreferencesPanel::on_preludes_changed));
+  
+  connector->connect(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % break_id,
+                     dc::wrap(has_max_prelude_cb),
+                     sigc::mem_fun(*this, &TimerPreferencesPanel::on_preludes_changed),
+                     dc::NO_CONFIG);
+
+  connector->connect(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % break_id,
+                     dc::wrap(max_prelude_spin),
+                     sigc::mem_fun(*this, &TimerPreferencesPanel::on_preludes_changed),
+                     dc::NO_CONFIG);
   return hig;
 }
 
@@ -164,10 +171,17 @@ TimerPreferencesPanel::create_options_panel()
     }
 #endif
 
-  connector->connect(break_id, "gui/breaks/%b/ignorable_break", dc::wrap(ignorable_cb));
-  connector->connect(break_id, "timers/%b/activity_sensitive", dc::wrap(activity_sensitive_cb));
-  connector->connect(break_id, "gui/breaks/%b/exercises", dc::wrap(exercises_spin));
-  connector->connect_intercept(break_id, "timers/%b/monitor", dc::wrap(monitor_cb),
+  connector->connect(CoreConfig::CFG_KEY_TIMER_ACTIVITY_SENSITIVE % break_id,
+                     dc::wrap(activity_sensitive_cb));
+
+  connector->connect(GUIConfig::CFG_KEY_BREAK_IGNORABLE % break_id,
+                     dc::wrap(ignorable_cb));
+  
+  connector->connect(GUIConfig::CFG_KEY_BREAK_EXERCISES % break_id,
+                     dc::wrap(exercises_spin));
+  
+  connector->connect(CoreConfig::CFG_KEY_MONITOR % break_id,
+                     dc::wrap(monitor_cb),
                      sigc::mem_fun(*this, &TimerPreferencesPanel::on_monitor_changed));
   return hig;
 }
@@ -210,9 +224,9 @@ TimerPreferencesPanel::create_timers_panel
 
   vsize_group->add_widget(*hig);
 
-  connector->connect(break_id, "timers/%b/limit", dc::wrap(limit_tim));
-  connector->connect(break_id, "timers/%b/auto_reset", dc::wrap(auto_reset_tim));
-  connector->connect(break_id, "timers/%b/snooze", dc::wrap(snooze_tim));
+  connector->connect(CoreConfig::CFG_KEY_TIMER_LIMIT % break_id, dc::wrap(limit_tim));
+  connector->connect(CoreConfig::CFG_KEY_TIMER_AUTO_RESET % break_id, dc::wrap(auto_reset_tim));
+  connector->connect(CoreConfig::CFG_KEY_TIMER_SNOOZE % break_id, dc::wrap(snooze_tim));
 
   return hig;
 }

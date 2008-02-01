@@ -1,6 +1,6 @@
 // BreakWindow.cc --- base class for the break windows
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -66,7 +66,8 @@ using namespace workrave;
  *  \param control The controller.
  */
 BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
-                         bool ignorable, GUIConfig::BlockMode mode) :
+                         BreakFlags break_flags,
+                         GUIConfig::BlockMode mode) :
 #ifdef PLATFORM_OS_WIN32
 /*
  Windows will have a gtk toplevel window regardless of mode.
@@ -81,7 +82,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
                      : Gtk::WINDOW_POPUP),
 #endif
          block_mode(mode),
-         ignorable_break(ignorable),
+         break_flags(break_flags),
          frame(NULL),
          break_response(NULL),
          gui(NULL)
@@ -421,7 +422,7 @@ BreakWindow::create_break_buttons(bool lockable,
 {
   Gtk::HButtonBox *box = NULL;
 
-  if (ignorable_break || lockable || shutdownable)
+  if ((break_flags != BREAK_FLAGS_NONE) || lockable || shutdownable)
     {
       box = new Gtk::HButtonBox(Gtk::BUTTONBOX_END, 6);
 
@@ -444,11 +445,14 @@ BreakWindow::create_break_buttons(bool lockable,
             }
         }
 
-      if (ignorable_break)
+      if ((break_flags & BREAK_FLAGS_SKIPPABLE) != 0)
         {
           Gtk::Button *skip_button = create_skip_button();
           box->pack_end(*skip_button, Gtk::SHRINK, 0);
-
+        }
+      
+        if ((break_flags & BREAK_FLAGS_POSTPONABLE) != 0)
+        {
           Gtk::Button *postpone_button = create_postpone_button();
           box->pack_end(*postpone_button, Gtk::SHRINK, 0);
         }

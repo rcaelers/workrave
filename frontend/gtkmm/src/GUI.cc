@@ -210,12 +210,6 @@ GUI::main()
   __try1(exception_handler);
 #endif
 
-#ifdef NDEBUG
-#ifdef PLATFORM_OS_OSX
-  // FIXME: OSXUtil::init();
-#endif
-#endif
-  
   Gtk::Main kit(argc, argv);
 
 #ifdef HAVE_GNOME
@@ -230,7 +224,7 @@ GUI::main()
 #endif
   
 #if defined (PLATFORM_OS_WIN32) || defined(PLATFORM_OS_OSX)
-  // Win32 needs this....
+  // Win32/OSX need this....
   if (!g_thread_supported())
     {
       g_thread_init(NULL);
@@ -562,10 +556,6 @@ GUI::init_core()
   core->set_core_events_listener(this);
 
   GUIConfig::init();
-
-// #ifdef PLATFORM_OS_UNIX
-//    g_free(display_name);
-// #endif
 }
 
 
@@ -896,21 +886,21 @@ GUI::init_dbus()
 
 //! Returns a break window for the specified break.
 IBreakWindow *
-GUI::create_break_window(HeadInfo &head, BreakId break_id, bool ignorable)
+GUI::create_break_window(HeadInfo &head, BreakId break_id, BreakWindow::BreakFlags break_flags)
 {
   IBreakWindow *ret = NULL;
   GUIConfig::BlockMode block_mode = GUIConfig::get_block_mode();
   if (break_id == BREAK_ID_MICRO_BREAK)
     {
-      ret = new MicroBreakWindow(head, ignorable, block_mode);
+      ret = new MicroBreakWindow(head, break_flags, block_mode);
     }
   else if (break_id == BREAK_ID_REST_BREAK)
     {
-      ret = new RestBreakWindow(head, ignorable, block_mode);
+      ret = new RestBreakWindow(head, break_flags, block_mode);
     }
   else if (break_id == BREAK_ID_DAILY_LIMIT)
     {
-      ret = new DailyLimitWindow(head, ignorable, block_mode);
+      ret = new DailyLimitWindow(head, break_flags, block_mode);
     }
 
   return ret;
@@ -990,17 +980,24 @@ GUI::start_break_window(BreakId break_id, bool user_initiated)
   init_multihead();
   collect_garbage();
 
-  bool ignorable = true;
-  if (!user_initiated)
+  BreakWindow::BreakFlags break_flags = BreakWindow::BREAK_FLAGS_NONE;
+  bool ignorable = GUIConfig::get_ignorable(break_id);
+
+  if (user_initiated)
     {
-      ignorable = GUIConfig::get_ignorable(break_id);
+      break_flags = BreakWindow::BREAK_FLAGS_POSTPONABLE;
+    }
+  else if (ignorable)
+    {
+      break_flags =  ( BreakWindow::BREAK_FLAGS_POSTPONABLE |
+                       BreakWindow::BREAK_FLAGS_SKIPPABLE);
     }
 
   active_break_id = break_id;
 
   for (int i = 0; i < num_heads; i++)
     {
-      IBreakWindow *break_window = create_break_window(heads[i], break_id, ignorable);
+      IBreakWindow *break_window = create_break_window(heads[i], break_id, break_flags);
 
       break_windows[i] = break_window;
 

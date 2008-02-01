@@ -35,21 +35,9 @@ static const char rcsid[] = "$Id$";
 #include "Timer.hh"
 #include "TimerActivityMonitor.hh"
 
+#include "CoreConfig.hh"
+
 using namespace std;
-
-const string Break::CFG_KEY_TIMER_PREFIX = "timers/";
-
-const string Break::CFG_KEY_TIMER_LIMIT = "/limit";
-const string Break::CFG_KEY_TIMER_AUTO_RESET = "/auto_reset";
-const string Break::CFG_KEY_TIMER_RESET_PRED = "/reset_pred";
-const string Break::CFG_KEY_TIMER_SNOOZE = "/snooze";
-const string Break::CFG_KEY_TIMER_MONITOR = "/monitor";
-const string Break::CFG_KEY_TIMER_ACTIVITY_SENSITIVE = "/activity_sensitive";
-
-const string Break::CFG_KEY_BREAK_PREFIX = "breaks/";
-
-const string Break::CFG_KEY_BREAK_MAX_PRELUDES = "/max_preludes";
-const string Break::CFG_KEY_BREAK_ENABLED = "/enabled";
 
 
 struct Defaults
@@ -176,36 +164,51 @@ Break::init_defaults()
 {
   Defaults &def = default_config[break_id];
 
-  config->set_delay(timer_prefix + CFG_KEY_TIMER_LIMIT, 2);
-  config->set_delay(timer_prefix + CFG_KEY_TIMER_AUTO_RESET, 2);
+  config->set_delay(CoreConfig::CFG_KEY_TIMER_LIMIT % break_id, 2);
+  config->set_delay(CoreConfig::CFG_KEY_TIMER_AUTO_RESET % break_id, 2);
 
   // Convert old settings.
 
-  config->rename_key(expand("gui/breaks/%b/max_preludes"),
-                     expand("breaks/%b/max_preludes"));
+  config->rename_key(string("gui/breaks/%b/max_preludes") % break_id,
+                     CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % break_id);
 
-  config->rename_key(expand("gui/breaks/%b/enabled"),
-                     expand("breaks/%b/enabled"));
+  config->rename_key(string("gui/breaks/%b/enabled") % break_id,
+                     CoreConfig::CFG_KEY_BREAK_ENABLED % break_id);
 
-  config->remove_key(expand("gui/breaks/%b/max_postpone"));
+  config->remove_key(string("gui/breaks/%b/max_postpone") % break_id);
   
   // Set defaults.
 
-  config->set_value(expand("timers/%b/limit"), def.limit,
+  config->set_value(CoreConfig::CFG_KEY_TIMER_LIMIT % break_id,
+                    def.limit,
                     CONFIG_FLAG_DEFAULT);
-  config->set_value(expand("timers/%b/auto_reset"), def.auto_reset,
+  
+  config->set_value(CoreConfig::CFG_KEY_TIMER_AUTO_RESET % break_id,
+                    def.auto_reset,
                     CONFIG_FLAG_DEFAULT);
-  config->set_value(expand("timers/%b/reset_pred"), def.resetpred,
+  
+  config->set_value(CoreConfig::CFG_KEY_TIMER_RESET_PRED % break_id,
+                    def.resetpred,
                     CONFIG_FLAG_DEFAULT);
-  config->set_value(expand("timers/%b/snooze"), def.snooze,
+  
+  config->set_value(CoreConfig::CFG_KEY_TIMER_SNOOZE % break_id,
+                    def.snooze,
                     CONFIG_FLAG_DEFAULT);
-  config->set_value(expand("timers/%b/monitor"), "",
+  
+  config->set_value(CoreConfig::CFG_KEY_TIMER_MONITOR % break_id,
+                    "",
                     CONFIG_FLAG_DEFAULT);
-  config->set_value(expand("timers/%b/activity_sensitive"), true,
+  
+  config->set_value(CoreConfig::CFG_KEY_TIMER_ACTIVITY_SENSITIVE % break_id,
+                    true,
                     CONFIG_FLAG_DEFAULT);
-  config->set_value(expand("breaks/%b/max_preludes"), def.max_preludes,
+  
+  config->set_value(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % break_id,
+                    def.max_preludes,
                     CONFIG_FLAG_DEFAULT);
-  config->set_value(expand("breaks/%b/enabled"), true,
+  
+  config->set_value(CoreConfig::CFG_KEY_BREAK_ENABLED,
+                    true,
                     CONFIG_FLAG_DEFAULT);
 }
 
@@ -254,14 +257,12 @@ Break::get_break_control()
 void
 Break::init_timer()
 {
-  timer_prefix = CFG_KEY_TIMER_PREFIX + break_name;
-
   load_timer_config();
 
   timer->enable();
   timer->stop_timer();
 
-  config->add_listener(CFG_KEY_TIMER_PREFIX + break_name, this);
+  config->add_listener(CoreConfig::CFG_KEY_TIMER % break_id, this);
 }
 
 
@@ -271,19 +272,19 @@ Break::load_timer_config()
 {
   // Read break limit.
   int limit;
-  config->get_value(timer_prefix + CFG_KEY_TIMER_LIMIT, limit);
+  config->get_value(CoreConfig::CFG_KEY_TIMER_LIMIT % break_id, limit);
   timer->set_limit(limit);
   timer->set_limit_enabled(limit > 0);
 
   // Read autoreset interval
   int autoreset;
-  config->get_value(timer_prefix + CFG_KEY_TIMER_AUTO_RESET, autoreset);
+  config->get_value(CoreConfig::CFG_KEY_TIMER_AUTO_RESET % break_id, autoreset);
   timer->set_auto_reset(autoreset);
   timer->set_auto_reset_enabled(autoreset > 0);
 
   // Read reset predicate
   string reset_pred;
-  config->get_value(timer_prefix + CFG_KEY_TIMER_RESET_PRED, reset_pred);
+  config->get_value(CoreConfig::CFG_KEY_TIMER_RESET_PRED % break_id, reset_pred);
   if (reset_pred != "")
     {
       timer->set_auto_reset(reset_pred);
@@ -291,18 +292,18 @@ Break::load_timer_config()
 
   // Read the snooze time.
   int snooze;
-  config->get_value(timer_prefix + CFG_KEY_TIMER_SNOOZE, snooze);
+  config->get_value(CoreConfig::CFG_KEY_TIMER_SNOOZE % break_id, snooze);
   timer->set_snooze_interval(snooze);
 
   // Read the activity insensitive flag
   bool sensitive;
-  config->get_value(timer_prefix + CFG_KEY_TIMER_ACTIVITY_SENSITIVE, sensitive);
+  config->get_value(CoreConfig::CFG_KEY_TIMER_ACTIVITY_SENSITIVE % break_id, sensitive);
   timer->set_activity_sensitive(sensitive);
 
   // Load the monitor setting for the timer.
   string monitor_name;
 
-  bool ret = config->get_value(timer_prefix + CFG_KEY_TIMER_MONITOR, monitor_name);
+  bool ret = config->get_value(CoreConfig::CFG_KEY_TIMER_MONITOR % break_id, monitor_name);
 
   if (ret && monitor_name != "")
     {
@@ -325,10 +326,8 @@ Break::load_timer_config()
 void
 Break::init_break_control()
 {
-  break_prefix = CFG_KEY_BREAK_PREFIX + break_name;
-
   load_break_control_config();
-  config->add_listener(CFG_KEY_BREAK_PREFIX + break_name, this);
+  config->add_listener(CoreConfig::CFG_KEY_BREAK % break_id, this);
 }
 
 
@@ -337,12 +336,12 @@ Break::load_break_control_config()
 {
   // Maximum number of prelude windows.
   int max_preludes;
-  config->get_value(break_prefix + CFG_KEY_BREAK_MAX_PRELUDES, max_preludes);
+  config->get_value(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % break_id, max_preludes);
   break_control->set_max_preludes(max_preludes);
 
   // Break enabled?
   enabled = true;
-  config->get_value(break_prefix + CFG_KEY_BREAK_ENABLED, enabled);
+  config->get_value(CoreConfig::CFG_KEY_BREAK_ENABLED % break_id, enabled);
 }
 
 
@@ -350,7 +349,7 @@ bool
 Break::get_timer_activity_sensitive() const
 {
   bool sensitive;
-  config->get_value(timer_prefix + CFG_KEY_TIMER_ACTIVITY_SENSITIVE, sensitive);
+  config->get_value(CoreConfig::CFG_KEY_TIMER_ACTIVITY_SENSITIVE % break_id, sensitive);
 
   return sensitive;
 }
@@ -439,12 +438,12 @@ Break::config_changed_notify(const string &key)
   TRACE_ENTER_MSG("Break::config_changed_notify", key);
   string name;
 
-  if (starts_with(key, CFG_KEY_BREAK_PREFIX, name))
+  if (starts_with(key, CoreConfig::CFG_KEY_BREAKS, name))
     {
       TRACE_MSG("break: " << name);
       load_break_control_config();
     }
-  else if (starts_with(key, CFG_KEY_TIMER_PREFIX, name))
+  else if (starts_with(key, CoreConfig::CFG_KEY_TIMERS, name))
     {
       TRACE_MSG("timer: " << name);
       load_timer_config();

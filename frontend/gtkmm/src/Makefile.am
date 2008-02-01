@@ -216,7 +216,6 @@ workrave_SOURCES = \
 			TimerBoxGtkView.cc \
 			TimerBoxPreferencePage.cc \
 			Menus.cc \
-			Dispatcher.cc \
 			main.cc \
 			${dbussources} \
 			$(extrasources)

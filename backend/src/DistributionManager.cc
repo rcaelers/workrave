@@ -1,6 +1,6 @@
 // DistributionManager.cc
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -33,21 +33,12 @@ static const char rcsid[] = "$Id$";
 #include "DistributionLogListener.hh"
 #include "DistributionListener.hh"
 #include "Configurator.hh"
+#include "CoreConfig.hh"
 
 #ifdef PLATFORM_OS_WIN32
 #define snprintf _snprintf
 #define vsnprintf _vsnprintf
 #endif
-
-const string DistributionManager::CFG_KEY_DISTRIBUTION = "distribution";
-const string DistributionManager::CFG_KEY_DISTRIBUTION_ENABLED = "/enabled";
-const string DistributionManager::CFG_KEY_DISTRIBUTION_PEERS = "/peers";
-const string DistributionManager::CFG_KEY_DISTRIBUTION_TCP = "distribution/tcp";
-const string DistributionManager::CFG_KEY_DISTRIBUTION_TCP_PORT = "/port";
-const string DistributionManager::CFG_KEY_DISTRIBUTION_TCP_USERNAME = "/username";
-const string DistributionManager::CFG_KEY_DISTRIBUTION_TCP_PASSWORD = "/password";
-const string DistributionManager::CFG_KEY_DISTRIBUTION_TCP_ATTEMPTS = "/reconnect_attempts";
-const string DistributionManager::CFG_KEY_DISTRIBUTION_TCP_INTERVAL = "/reconnect_interval";
 
 
 //! Constructs a new DistributionManager.
@@ -81,7 +72,7 @@ DistributionManager::init(Configurator *conf)
 
   // Read configuration.
   read_configuration();
-  configurator->add_listener(CFG_KEY_DISTRIBUTION, this);
+  configurator->add_listener(CoreConfig::CFG_KEY_DISTRIBUTION, this);
 }
 
 
@@ -524,7 +515,7 @@ DistributionManager::read_configuration()
   else
     {
       string peer ;
-      is_set = configurator->get_value(CFG_KEY_DISTRIBUTION + CFG_KEY_DISTRIBUTION_PEERS, peer);
+      is_set = configurator->get_value(CoreConfig::CFG_KEY_DISTRIBUTION_PEERS, peer);
       if (is_set)
         {
           parse_peers(peer);
@@ -548,7 +539,7 @@ DistributionManager::write_peers()
       peers += (*i);
     }
 
-  configurator->set_value(CFG_KEY_DISTRIBUTION + CFG_KEY_DISTRIBUTION_PEERS, peers);
+  configurator->set_value(CoreConfig::CFG_KEY_DISTRIBUTION_PEERS, peers);
   TRACE_EXIT();
 }
 
@@ -763,8 +754,7 @@ bool
 DistributionManager::get_enabled() const
 {
   bool ret = true;
-  bool is_set = configurator->get_value(CFG_KEY_DISTRIBUTION + CFG_KEY_DISTRIBUTION_ENABLED,
-                                        ret);
+  bool is_set = configurator->get_value(CoreConfig::CFG_KEY_DISTRIBUTION_ENABLED, ret);
   if (!is_set)
     {
       ret = false;
@@ -777,7 +767,7 @@ DistributionManager::get_enabled() const
 void
 DistributionManager::set_enabled(bool b)
 {
-  configurator->set_value(CFG_KEY_DISTRIBUTION + CFG_KEY_DISTRIBUTION_ENABLED, b);
+  configurator->set_value(CoreConfig::CFG_KEY_DISTRIBUTION_ENABLED, b);
 }
 
 
@@ -785,8 +775,7 @@ string
 DistributionManager::get_username() const
 {
   string ret;
-  configurator->get_value(CFG_KEY_DISTRIBUTION + CFG_KEY_DISTRIBUTION_TCP_USERNAME,
-                          ret);
+  configurator->get_value(CoreConfig::CFG_KEY_DISTRIBUTION_TCP_USERNAME, ret);
   return ret;
 }
 
@@ -794,7 +783,7 @@ DistributionManager::get_username() const
 void
 DistributionManager::set_username(string name)
 {
-  configurator->set_value(CFG_KEY_DISTRIBUTION + CFG_KEY_DISTRIBUTION_TCP_USERNAME, name);
+  configurator->set_value(CoreConfig::CFG_KEY_DISTRIBUTION + CoreConfig::CFG_KEY_DISTRIBUTION_TCP_USERNAME, name);
 }
 
 
@@ -802,8 +791,7 @@ string
 DistributionManager::get_password() const
 {
   string ret;
-  configurator->get_value(CFG_KEY_DISTRIBUTION + CFG_KEY_DISTRIBUTION_TCP_PASSWORD,
-                          ret);
+  configurator->get_value(CoreConfig::CFG_KEY_DISTRIBUTION_TCP_PASSWORD, ret);
   return ret;
 }
 
@@ -811,7 +799,7 @@ DistributionManager::get_password() const
 void
 DistributionManager::set_password(string name)
 {
-  configurator->set_value(CFG_KEY_DISTRIBUTION + CFG_KEY_DISTRIBUTION_TCP_PASSWORD, name);
+  configurator->set_value(CoreConfig::CFG_KEY_DISTRIBUTION_TCP_PASSWORD, name);
 }
 
 
@@ -819,8 +807,7 @@ int
 DistributionManager::get_port() const
 {
   int ret;
-  bool is_set = configurator->get_value(CFG_KEY_DISTRIBUTION + CFG_KEY_DISTRIBUTION_TCP_PORT,
-                                        ret);
+  bool is_set = configurator->get_value(CoreConfig::CFG_KEY_DISTRIBUTION_TCP_PORT, ret);
   if (!is_set)
     {
       ret = DEFAULT_PORT;
@@ -833,7 +820,7 @@ DistributionManager::get_port() const
 void
 DistributionManager::set_port(int v)
 {
-  configurator->set_value(CFG_KEY_DISTRIBUTION + CFG_KEY_DISTRIBUTION_TCP_PORT, v);
+  configurator->set_value(CoreConfig::CFG_KEY_DISTRIBUTION_TCP_PORT, v);
 }
 
 
@@ -841,8 +828,7 @@ int
 DistributionManager::get_reconnect_attempts() const
 {
   int ret;
-  bool is_set = configurator->get_value(CFG_KEY_DISTRIBUTION + CFG_KEY_DISTRIBUTION_TCP_ATTEMPTS,
-                                        ret);
+  bool is_set = configurator->get_value(CoreConfig::CFG_KEY_DISTRIBUTION_TCP_ATTEMPTS, ret);
   if (!is_set)
     {
       ret = DEFAULT_ATTEMPTS;
@@ -855,7 +841,7 @@ DistributionManager::get_reconnect_attempts() const
 void
 DistributionManager::set_reconnect_attempts(int v)
 {
-  configurator->set_value(CFG_KEY_DISTRIBUTION + CFG_KEY_DISTRIBUTION_TCP_ATTEMPTS, v);
+  configurator->set_value(CoreConfig::CFG_KEY_DISTRIBUTION_TCP_ATTEMPTS, v);
 }
 
 
@@ -863,8 +849,7 @@ int
 DistributionManager::get_reconnect_interval() const
 {
   int ret;
-  bool is_set = configurator->get_value(CFG_KEY_DISTRIBUTION + CFG_KEY_DISTRIBUTION_TCP_INTERVAL,
-                                        ret);
+  bool is_set = configurator->get_value(CoreConfig::CFG_KEY_DISTRIBUTION_TCP_INTERVAL, ret);
   if (!is_set)
     {
       ret = DEFAULT_INTERVAL;
@@ -877,5 +862,5 @@ DistributionManager::get_reconnect_interval() const
 void
 DistributionManager::set_reconnect_interval(int v)
 {
-  configurator->set_value(CFG_KEY_DISTRIBUTION + CFG_KEY_DISTRIBUTION_TCP_INTERVAL, v);
+  configurator->set_value(CoreConfig::CFG_KEY_DISTRIBUTION_TCP_INTERVAL, v);
 }

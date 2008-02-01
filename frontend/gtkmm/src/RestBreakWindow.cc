@@ -1,6 +1,6 @@
 // RestBreakWindow.cc --- window for the microbreak
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 //
@@ -66,9 +66,9 @@ const int MARGINY = 8;
 /*!
  *  \param control The controller.
  */
-RestBreakWindow::RestBreakWindow(HeadInfo &head, bool ignorable,
+RestBreakWindow::RestBreakWindow(HeadInfo &head, BreakFlags break_flags,
                                  GUIConfig::BlockMode mode) :
-  BreakWindow(BREAK_ID_REST_BREAK, head, ignorable, mode),
+  BreakWindow(BREAK_ID_REST_BREAK, head, break_flags, mode),
   timebar(NULL),
   progress_value(0),
   progress_max_value(0),

@@ -1,6 +1,6 @@
 // BreakWindow.hh --- base class for the break windows
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -56,7 +56,16 @@ class BreakWindow :
   public IBreakWindow
 {
 public:
-  BreakWindow(BreakId break_id, HeadInfo &head, bool ignorable,
+  enum BreakFlags
+    {
+      BREAK_FLAGS_NONE            = 0,
+      BREAK_FLAGS_POSTPONABLE     = 1 << 0,
+      BREAK_FLAGS_SKIPPABLE       = 1 << 1
+    };
+    
+  BreakWindow(BreakId break_id,
+              HeadInfo &head,
+              BreakFlags break_flags,
               GUIConfig::BlockMode block_mode);
   virtual ~BreakWindow();
 
@@ -65,7 +74,8 @@ public:
   virtual void start();
   virtual void stop();
   virtual void destroy();
-  void refresh();
+  virtual void refresh();
+  
   Glib::RefPtr<Gdk::Window> get_gdk_window();
 
 protected:
@@ -88,7 +98,7 @@ protected:
   GUIConfig::BlockMode block_mode;
 
   //! Ignorable
-  bool ignorable_break;
+  BreakFlags break_flags;
 
   //! Flash frame
   Frame *frame;
@@ -113,5 +123,51 @@ private:
   DesktopWindow *desktop_window;
 #endif
 };
+
+inline BreakWindow::BreakFlags
+operator|(BreakWindow::BreakFlags lhs, BreakWindow::BreakFlags rhs)
+{
+  return static_cast<BreakWindow::BreakFlags>(static_cast<unsigned>(lhs) | static_cast<unsigned>(rhs));
+}
+
+inline BreakWindow::BreakFlags
+operator&(BreakWindow::BreakFlags lhs, BreakWindow::BreakFlags rhs)
+{
+  return static_cast<BreakWindow::BreakFlags>(static_cast<unsigned>(lhs) & static_cast<unsigned>(rhs));
+}
+
+inline BreakWindow::BreakFlags
+operator^(BreakWindow::BreakFlags lhs, BreakWindow::BreakFlags rhs)
+{
+  return static_cast<BreakWindow::BreakFlags>(static_cast<unsigned>(lhs) ^ static_cast<unsigned>(rhs));
+}
+
+inline BreakWindow::BreakFlags
+operator~(BreakWindow::BreakFlags flags)
+
+{
+  return static_cast<BreakWindow::BreakFlags>(~static_cast<unsigned>(flags));
+}
+
+inline BreakWindow::BreakFlags&
+operator|=(BreakWindow::BreakFlags& lhs, BreakWindow::BreakFlags rhs)
+
+{
+  return (lhs = static_cast<BreakWindow::BreakFlags>(static_cast<unsigned>(lhs) | static_cast<unsigned>(rhs)));
+}
+
+inline BreakWindow::BreakFlags&
+operator&=(BreakWindow::BreakFlags& lhs, BreakWindow::BreakFlags rhs)
+
+{
+  return (lhs = static_cast<BreakWindow::BreakFlags>(static_cast<unsigned>(lhs) & static_cast<unsigned>(rhs)));
+}
+
+inline BreakWindow::BreakFlags&
+operator^=(BreakWindow::BreakFlags& lhs, BreakWindow::BreakFlags rhs)
+
+{
+  return (lhs = static_cast<BreakWindow::BreakFlags>(static_cast<unsigned>(lhs) ^ static_cast<unsigned>(rhs)));
+}
 
 #endif // BREAKWINDOW_HH

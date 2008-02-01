@@ -1,6 +1,6 @@
 // Break.hh
 //
-// Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -50,7 +50,7 @@ private:
   std::string break_name;
 
   //! Timer config prefix
-  std::string timer_prefix;
+  // FIXME:std::string timer_prefix;
 
   //! Break config prefix
   std::string break_prefix;
@@ -111,21 +111,6 @@ private:
   void load_break_control_config();
 
   bool starts_with(const std::string &key, std::string prefix, std::string &timer_name);
-
-public:
-  static const std::string CFG_KEY_TIMER_PREFIX;
-
-  static const std::string CFG_KEY_TIMER_LIMIT;
-  static const std::string CFG_KEY_TIMER_AUTO_RESET;
-  static const std::string CFG_KEY_TIMER_RESET_PRED;
-  static const std::string CFG_KEY_TIMER_SNOOZE;
-  static const std::string CFG_KEY_TIMER_MONITOR;
-  static const std::string CFG_KEY_TIMER_ACTIVITY_SENSITIVE;
-
-  static const std::string CFG_KEY_BREAK_PREFIX;
-
-  static const std::string CFG_KEY_BREAK_MAX_PRELUDES;
-  static const std::string CFG_KEY_BREAK_ENABLED;
 };
 
 #endif // TIMERDATA_HH

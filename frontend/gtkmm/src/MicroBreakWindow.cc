@@ -1,6 +1,6 @@
 // MicroBreakWindow.cc --- window for the microbreak
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -46,8 +46,8 @@ static const char rcsid[] = "$Id$";
 #include "Frame.hh"
 
 //! Construct a new Microbreak window.
-MicroBreakWindow::MicroBreakWindow(HeadInfo &head, bool ignorable, GUIConfig::BlockMode mode) :
-  BreakWindow(BREAK_ID_MICRO_BREAK, head, ignorable, mode),
+MicroBreakWindow::MicroBreakWindow(HeadInfo &head, BreakFlags break_flags, GUIConfig::BlockMode mode) :
+  BreakWindow(BREAK_ID_MICRO_BREAK, head, break_flags, mode),
   progress_value(0),
   progress_max_value(0),
   is_flashing(false)
@@ -83,18 +83,26 @@ MicroBreakWindow::create_gui()
   // Button box at the bottom.
   ICore *core = CoreFactory::get_core();
   IBreak *restbreak =  core->get_break(BREAK_ID_REST_BREAK);
-  if (ignorable_break || restbreak->is_enabled())
+  if ((break_flags != BREAK_FLAGS_NONE) || restbreak->is_enabled())
     {
       Gtk::HBox *button_box;
-      if (ignorable_break)
+      if (break_flags != BREAK_FLAGS_NONE)
         {
           button_box = manage(new Gtk::HBox(false, 6));
 
           Gtk::HBox *bbox = manage(new Gtk::HBox(true, 6));
-          Gtk::Button *postpone_button = create_postpone_button();
-          bbox->pack_end(*postpone_button, Gtk::PACK_EXPAND_WIDGET, 0);
-          Gtk::Button *skip_button = create_skip_button();
-          bbox->pack_end(*skip_button, Gtk::PACK_EXPAND_WIDGET, 0);
+
+          if ((break_flags & BREAK_FLAGS_POSTPONABLE) != 0)
+            {
+              Gtk::Button *postpone_button = create_postpone_button();
+              bbox->pack_end(*postpone_button, Gtk::PACK_EXPAND_WIDGET, 0);
+            }
+
+          if ((break_flags & BREAK_FLAGS_SKIPPABLE) != 0)
+            {
+              Gtk::Button *skip_button = create_skip_button();
+              bbox->pack_end(*skip_button, Gtk::PACK_EXPAND_WIDGET, 0);
+            }
 
           Gtk::Alignment *bboxa =
             manage(new Gtk::Alignment(1.0, 0.0, 0.0, 0.0));

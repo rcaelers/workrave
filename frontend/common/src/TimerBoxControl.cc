@@ -1,6 +1,6 @@
 // TimerBoxControl.cc --- Timers Widgets
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -35,6 +35,7 @@ static const char rcsid[] = "$Id$";
 #include "Text.hh"
 
 #include "CoreFactory.hh"
+#include "CoreConfig.hh"
 #include "IBreak.hh"
 #include "IConfigurator.hh"
 
@@ -141,18 +142,13 @@ TimerBoxControl::init()
 {
   TRACE_ENTER("TimerBoxControl::init");
 
-  ICore *core = CoreFactory::get_core();
-
   // Listen for configugration changes.
   IConfigurator *config = CoreFactory::get_configurator();
   config->add_listener(TimerBoxControl::CFG_KEY_TIMERBOX + name, this);
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      IBreak *b = core->get_break(BreakId(i));
-      config->add_listener("gui/breaks/"
-                           + b->get_name()
-                           + "/enabled", this);
+      config->add_listener(CoreConfig::CFG_KEY_BREAK_ENABLED % BreakId(i), this);
 
       break_position[i] = i;
       break_flags[i] = 0;
