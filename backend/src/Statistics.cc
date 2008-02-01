@@ -486,6 +486,12 @@ Statistics::load(ifstream &infile, bool history)
             }
         }
     }
+
+  if (history && stats != NULL)
+    {
+      add_history(stats);
+    }
+  
   TRACE_EXIT();
 }
 
