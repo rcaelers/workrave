@@ -220,6 +220,8 @@ dnl
 dnl OSX specific checks
 dnl
 
+PKG_PROG_PKG_CONFIG
+
 AC_SUBST(OSX_CFLAGS)
 
 if test "$platform_os_osx" = "yes"
@@ -240,7 +242,10 @@ then
     LDFLAGS="$LDFLAGS -headerpad_max_install_names"
     LIBS="$LIBS -framework QuickTime -framework CoreServices -framework Carbon -framework Cocoa -framework Foundation"
     OSX_CFLAGS=""
- fi
+fi
+
+AC_SUBST(IGE_LIBS)
+AC_SUBST(IGE_CFLAGS)
 
 dnl
 dnl Unix specific checks
