@@ -224,6 +224,8 @@ AC_SUBST(OSX_CFLAGS)
 
 if test "$platform_os_osx" = "yes"
 then
+   PKG_CHECK_MODULES(IGE, ige-mac-integration >= 0.6)
+   
    AC_CHECK_LIB(resolv, res_query)
 
    AC_CHECK_HEADER(CoreFoundation/CoreFoundation.h, [ AC_CHECK_HEADER(IOKit/IOKitLib.h,

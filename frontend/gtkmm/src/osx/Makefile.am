@@ -2,7 +2,7 @@
 #
 # Copyright (C) 2001, 2002, 2003, 2004, 2005, 2007, 2008 Rob Caelers & Raymond Penners
 #
-# Time-stamp: <2008-01-21 19:53:45 robc>
+# Time-stamp: <2008-02-03 17:45:06 robc>
 #
 # $Id: Makefile.am 1280 2007-08-21 16:23:07Z rcaelers $
 #
@@ -19,8 +19,7 @@ if PLATFORM_OS_OSX
 noinst_LIBRARIES = 	libworkrave-frontend-gtkmm-osx.a
 libworkrave_frontend_gtkmm_osx_a_SOURCES = \
 			OSXUtil.cc \
-			AppController.m \
-			sync-menu.c
+			AppController.m
 
 libworkrave_frontend_gtkmm_osx_a_OBJCFLAGS = \
 			@X_CFLAGS@ -xobjective-c++ \

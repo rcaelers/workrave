@@ -72,7 +72,9 @@ static const char rcsid[] = "$Id$";
 #endif
 
 #ifdef PLATFORM_OS_OSX
-  #include "sync-menu.h"
+#include "ige-mac-menu.h"
+#include "ige-mac-dock.h"
+#include "ige-mac-bundle.h"
 #endif
 
 Menus *Menus::instance = 0;
@@ -155,6 +157,25 @@ Menus::get_instance()
 }
 
 
+#ifdef PLATFORM_OS_OSX
+void
+Menus::dock_clicked(IgeMacDock *dock, void *data)
+{
+  (void) dock;
+  Menus *menus = (Menus *) data;
+  menus->on_menu_open_main_window();
+}
+
+
+void
+Menus::dock_quit(IgeMacDock *dock, void *data)
+{
+  (void) dock;
+  Menus *menus = (Menus *) data;
+  menus->on_menu_quit();
+}
+#endif
+
 void
 Menus::create_menu(MenuKind kind)
 {
@@ -185,12 +206,6 @@ Menus::create_menu(MenuKind kind)
         {
           resync_applet();
         }
-#ifdef PLATFORM_OS_OSX
-      else if (kind == MENU_MAINWINDOW)
-        {
-          sync_menu_takeover_menu(GTK_MENU_SHELL(menus[kind]->gobj()));
-        }
-#endif
     }
 }
 
@@ -222,17 +237,27 @@ Menus::create_menu(MenuKind kind, Gtk::CheckMenuItem *check_menus[MENUSYNC_SIZEO
   mode_menu_item->show();
 
 #ifdef PLATFORM_OS_OSX
-  Gtk::Menu *main_menu = manage(new Gtk::Menu());
-
-  // Mode menu item
-  Gtk::MenuItem *main_menu_item = manage(new Gtk::MenuItem(_("Main"),true)); // FIXME: LEAK
-  main_menu_item->set_submenu(*main_menu);
-  main_menu_item->show();
-
-  Gtk::Menu::MenuList &popup_menulist = pop_menu->items();
-  popup_menulist.push_back(*main_menu_item);
+  Gtk::Menu::MenuList menulist; 
+  Gtk::Menu::MenuList popup_menulist;
   
-  Gtk::Menu::MenuList &menulist = main_menu->items();
+  if (kind == MENU_MAINWINDOW)
+    {
+      Gtk::Menu *main_menu = manage(new Gtk::Menu());
+
+      // Mode menu item
+      Gtk::MenuItem *main_menu_item = manage(new Gtk::MenuItem(_("Main"),true)); // FIXME: LEAK
+      main_menu_item->set_submenu(*main_menu);
+      main_menu_item->show();
+      
+      popup_menulist = pop_menu->items();
+      popup_menulist.push_back(*main_menu_item);
+      
+      menulist = main_menu->items();
+    }
+  else
+    {
+      menulist = pop_menu->items();
+    }
 #else
   Gtk::Menu::MenuList &menulist = pop_menu->items();
 #endif  
@@ -321,9 +346,9 @@ Menus::create_menu(MenuKind kind, Gtk::CheckMenuItem *check_menus[MENUSYNC_SIZEO
                            sigc::mem_fun(*this, &Menus::on_menu_open_main_window)));
     }
 
-  menulist.push_back(Gtk::Menu_Helpers::StockMenuElem(Gtk::Stock::PREFERENCES,
-                                                      sigc::mem_fun(*this, &Menus::on_menu_preferences)));
-
+  Gtk::Menu_Helpers::StockMenuElem pref_item = Gtk::Menu_Helpers::StockMenuElem(Gtk::Stock::PREFERENCES,
+                                                                                sigc::mem_fun(*this, &Menus::on_menu_preferences));
+  menulist.push_back(pref_item);
 
   // Rest break
   string rb_icon = Util::complete_directory("timer-rest-break.png", Util::SEARCH_PATH_IMAGES);
@@ -345,7 +370,14 @@ Menus::create_menu(MenuKind kind, Gtk::CheckMenuItem *check_menus[MENUSYNC_SIZEO
 #endif
 
 #ifndef PLATFORM_OS_OSX
-  menulist.push_back(*mode_menu_item);
+  if (kind == MENU_MAINWINDOW)
+    {
+      menulist.push_back(*mode_menu_item);
+    }
+  else
+    {
+      popup_menulist.push_back(*mode_menu_item);
+    }
 #else
   popup_menulist.push_back(*mode_menu_item);
 #endif  
@@ -359,17 +391,17 @@ Menus::create_menu(MenuKind kind, Gtk::CheckMenuItem *check_menus[MENUSYNC_SIZEO
                                                  sigc::mem_fun(*this, &Menus::on_menu_statistics)));
 
 #ifdef HAVE_GNOME
-  menulist.push_back(Gtk::Menu_Helpers::StockMenuElem
-         (Gtk::StockID(GNOME_STOCK_ABOUT),
-          sigc::mem_fun(*this, &Menus::on_menu_about)));
+  Gtk::Menu_Helpers::StockMenuElem about_item = Gtk::Menu_Helpers::StockMenuElem(Gtk::StockID(GNOME_STOCK_ABOUT),
+                                                                                 sigc::mem_fun(*this, &Menus::on_menu_about));
 #else
-  menulist.push_back(Gtk::Menu_Helpers::MenuElem
-         (_("About..."),
-          sigc::mem_fun(*this, &Menus::on_menu_about)));
+  Gtk::Menu_Helpers::MenuElem about_item = Gtk::Menu_Helpers::MenuElem(_("About..."),
+                                                                       sigc::mem_fun(*this, &Menus::on_menu_about));
 #endif
+  menulist.push_back(about_item);
 
-  menulist.push_back(Gtk::Menu_Helpers::StockMenuElem(Gtk::Stock::QUIT,
-                                                 sigc::mem_fun(*this, &Menus::on_menu_quit)));
+  Gtk::Menu_Helpers::StockMenuElem quit_item = Gtk::Menu_Helpers::StockMenuElem(Gtk::Stock::QUIT,
+                                                                                sigc::mem_fun(*this, &Menus::on_menu_quit));
+  menulist.push_back(quit_item);
 
 
 #ifdef PLATFORM_OS_WIN32
@@ -379,6 +411,38 @@ Menus::create_menu(MenuKind kind, Gtk::CheckMenuItem *check_menus[MENUSYNC_SIZEO
     }
 #endif
 
+#ifdef PLATFORM_OS_OSX
+  if (kind == MENU_MAINWINDOW)
+    {
+      IgeMacMenuGroup *group;
+      IgeMacDock      *dock;
+      
+      ige_mac_menu_set_menu_bar(GTK_MENU_SHELL(pop_menu->gobj()));
+      ige_mac_menu_set_quit_menu_item(GTK_MENU_ITEM(quit_item.get_child()->gobj()));
+          
+      group = ige_mac_menu_add_app_menu_group();
+      ige_mac_menu_add_app_menu_item(group,
+                                     GTK_MENU_ITEM(about_item.get_child()->gobj()), 
+                                     NULL);
+          
+      group = ige_mac_menu_add_app_menu_group();
+      ige_mac_menu_add_app_menu_item(group,
+                                     GTK_MENU_ITEM (pref_item.get_child()->gobj()), 
+                                     NULL);
+
+      dock = ige_mac_dock_new ();
+      g_signal_connect(dock,
+                       "clicked",
+                       G_CALLBACK(dock_clicked),
+                       this);
+      g_signal_connect(dock,
+                       "quit-activate",
+                       G_CALLBACK(dock_quit),
+                       this);
+
+    }
+#endif
+  
   TRACE_EXIT();
   return pop_menu;
 }
