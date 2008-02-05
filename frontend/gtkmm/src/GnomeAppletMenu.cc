@@ -60,6 +60,11 @@ GnomeAppletMenu::~GnomeAppletMenu()
 
 
 void
+GnomeAppletMenu::init()
+{
+}
+
+void
 GnomeAppletMenu::popup(const guint button, const guint activate_time)
 {
   (void) button;

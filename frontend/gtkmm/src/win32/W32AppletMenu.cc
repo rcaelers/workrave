@@ -63,6 +63,11 @@ W32AppletMenu::popup(const guint button, const guint activate_time)
 
 
 void
+W32AppletMenu::init()
+{
+}
+
+void
 W32AppletMenu::resync(OperationMode mode, bool show_log)
 {
   if (applet_window != NULL && main_window != NULL)

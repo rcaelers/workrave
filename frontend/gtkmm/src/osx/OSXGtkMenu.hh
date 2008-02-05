@@ -39,9 +39,7 @@ public:
   virtual ~OSXGtkMenu();
 
   virtual void create_ui();
-
-  virtual void popup();
-  virtual void set(std::string name, bool val);
+  virtual void popup(const guint button, const guint activate_time);
   
 private:
   static void dock_clicked(IgeMacDock *dock, void *data);

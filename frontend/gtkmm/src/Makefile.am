@@ -139,7 +139,7 @@ endif
 if PLATFORM_OS_OSX
 includesosx  = 		-Iosx
 ldflags =	 	-Losx
-OSXLIBS	=		-lworkrave-frontend-gtkmm-osx
+OSXLIBS	=		${top_srcdir}/frontend/gtkmm/src/osx/libworkrave-frontend-gtkmm-osx.la
 extrasources +=		StatusIcon.cc
 endif
 

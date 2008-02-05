@@ -37,6 +37,7 @@ static const char rcsid[] = "$Id: OSXGtkMenu.cc 1436 2008-02-03 18:03:23Z rcaele
 #include <gtkmm/iconset.h>
 #include <gtkmm/iconsource.h>
 #include <gtkmm/menu.h>
+#include <gtkmm/menubar.h>
 #include <gtkmm/stock.h>
 
 #include "Menus.hh"
@@ -51,11 +52,8 @@ using namespace std;
 
 //! Constructor.
 OSXGtkMenu::OSXGtkMenu(bool show_open)
-  : popup_menu(NULL),
-    show_open(show_open)
+  : MainGtkMenu(show_open)
 {
-  register_stock_items();
-  create_menu();
 }
 
 
@@ -64,6 +62,13 @@ OSXGtkMenu::~OSXGtkMenu()
 {
 }
 
+
+void
+OSXGtkMenu::popup(const guint button, const guint activate_time)
+{
+  (void) button;
+  (void) activate_time;
+}
 
 void
 OSXGtkMenu::dock_clicked(IgeMacDock *dock, void *data)
@@ -85,30 +90,33 @@ OSXGtkMenu::dock_quit(IgeMacDock *dock, void *data)
 void
 OSXGtkMenu::create_ui()
 {
-  //Layout the actions in a menubar and toolbar:
   Glib::ustring ui_info =
-    "<ui>"
-    "  <menubar name='Applet'>"
-    "    <menuitem action='Preferences'/>"
-    "    <menuitem action='Restbreak'/>"
-    "    <menuitem action='Exercises'/>"
-    "    <menu action='Mode'>"
-    "      <menuitem action='Normal'/>"
-    "      <menuitem action='Suspended'/>"
-    "      <menuitem action='Quiet'/>"
-    "    </menu>"
-    "    <menu action='Network'>"
-    "      <menuitem action='Join'/>"
-    "      <menuitem action='Disconnect'/>"
-    "      <menuitem action='Reconnect'/>"
-    "      <menuitem action='ShowLog'/>"
-    "    </menu>"
-    "    <menuitem action='Statistics'/>"
-    "    <menuitem action='About'/>"
-    "    <menuitem action='Quit'/>"
-    "  </popup>"
-    "</ui>";
-
+    "<ui>\n"
+    "  <menubar name='Apple'>\n"
+    "    <menuitem action='Preferences'/>\n"
+    "    <menuitem action='About'/>\n"
+    "    <menuitem action='Quit'/>\n"
+    "  </menubar>\n"
+    "  <menubar name='Menu'>\n"
+    "    <menu action='Main'>\n"
+    "      <menuitem action='Restbreak'/>\n"
+    "      <menuitem action='Exercises'/>\n"
+    "      <menuitem action='Statistics'/>\n"
+    "    </menu>\n"
+    "    <menu action='Mode'>\n"
+    "      <menuitem action='Normal'/>\n"
+    "      <menuitem action='Suspended'/>\n"
+    "      <menuitem action='Quiet'/>\n"
+    "    </menu>\n"
+    "    <menu action='Network'>\n"
+    "      <menuitem action='Join'/>\n"
+    "      <menuitem action='Disconnect'/>\n"
+    "      <menuitem action='Reconnect'/>\n"
+    "      <menuitem action='ShowLog'/>\n"
+    "    </menu>\n"
+    "  </menubar>\n"
+    "</ui>\n";
+   
   ui_manager = Gtk::UIManager::create();
   ui_manager->insert_action_group(action_group);
   
@@ -124,20 +132,25 @@ OSXGtkMenu::create_ui()
   IgeMacMenuGroup *group;
   IgeMacDock      *dock;
 
+  Gtk::MenuBar *menu = dynamic_cast<Gtk::MenuBar*>(ui_manager->get_widget("/Menu")); 
+  Gtk::MenuItem *item = dynamic_cast<Gtk::MenuItem*>(ui_manager->get_widget("/Apple/Quit")); 
   
-  Gtk::Menu *menu = dynamic_cast<Gtk::Menu*>(ui_manager->get_widget("/Applet")); 
-  
-  ige_mac_menu_set_menu_bar(GTK_MENU_SHELL(pop_menu->gobj()));
-  ige_mac_menu_set_quit_menu_item(GTK_MENU_ITEM(quit_item.get_child()->gobj()));
-          
+  ige_mac_menu_set_menu_bar(GTK_MENU_SHELL(menu->gobj()));
+
+  ige_mac_menu_set_quit_menu_item(GTK_MENU_ITEM(item->gobj()));
+ 
+  item = dynamic_cast<Gtk::MenuItem*>(ui_manager->get_widget("/Apple/About")); 
+ 
   group = ige_mac_menu_add_app_menu_group();
   ige_mac_menu_add_app_menu_item(group,
-                                 GTK_MENU_ITEM(about_item.get_child()->gobj()), 
+                                 GTK_MENU_ITEM(item->gobj()), 
                                  NULL);
           
+  item = dynamic_cast<Gtk::MenuItem*>(ui_manager->get_widget("/Apple/Preferences")); 
+
   group = ige_mac_menu_add_app_menu_group();
   ige_mac_menu_add_app_menu_item(group,
-                                 GTK_MENU_ITEM (pref_item.get_child()->gobj()), 
+                                 GTK_MENU_ITEM (item->gobj()), 
                                  NULL);
 
   dock = ige_mac_dock_new ();

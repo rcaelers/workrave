@@ -51,8 +51,6 @@ MainGtkMenu::MainGtkMenu(bool show_open)
   : popup_menu(NULL),
     show_open(show_open)
 {
-  register_stock_items();
-  create_menu();
 }
 
 
@@ -65,7 +63,7 @@ MainGtkMenu::~MainGtkMenu()
 void
 MainGtkMenu::add_stock_item(const Glib::RefPtr<Gtk::IconFactory>& factory,
                         const std::string &path,
-                        const Glib::ustring& id,
+                        const Glib::ustring& icon_id,
                         const Glib::ustring& label)
 {
   Gtk::IconSource source;
@@ -87,7 +85,7 @@ MainGtkMenu::add_stock_item(const Glib::RefPtr<Gtk::IconFactory>& factory,
 
   icon_set.add_source(source);
 
-  const Gtk::StockID stock_id(id);
+  const Gtk::StockID stock_id(icon_id);
   factory->add(stock_id, icon_set);
   Gtk::Stock::add(Gtk::StockItem(stock_id, label));
 }
@@ -105,8 +103,9 @@ MainGtkMenu::register_stock_items()
 
 
 void
-MainGtkMenu::create_menu()
+MainGtkMenu::init()
 {
+  register_stock_items();
   create_actions();
   create_ui();
   post_init();
@@ -119,6 +118,8 @@ MainGtkMenu::create_actions()
   Menus *menus = Menus::get_instance();
 
   action_group = Gtk::ActionGroup::create();
+
+  action_group->add(Gtk::Action::create("Main", _("_Tools")));
   
   // Mode menu
   Gtk::RadioAction::Group group_mode;
@@ -235,7 +236,11 @@ MainGtkMenu::popup(const guint button, const guint activate_time)
   
   if (popup_menu != NULL)
     {
+#ifdef PLATFORM_OS_WIN32
       popup_menu->popup(1, activate_time);
+#else
+      popup_menu->popup(button, activate_time);
+#endif      
     }
 }
 

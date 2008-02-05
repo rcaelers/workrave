@@ -72,6 +72,10 @@ static const char rcsid[] = "$Id$";
 #include "W32AppletMenu.hh"
 #endif
 
+#if defined(PLATFORM_OS_OSX)
+#include "OSXGtkMenu.hh"
+#endif
+
 Menus *Menus::instance = 0;
 
 //! Constructor.
@@ -142,10 +146,18 @@ Menus::init(MainWindow *main_window, AppletWindow *applet_window)
 #endif
   
 #if defined(PLATFORM_OS_OSX)
-  menus[MENU_MAINWINDOW] = new OSXGtkMenu();
+  menus[MENU_MAINWINDOW] = new OSXGtkMenu(true);
 #else
   menus[MENU_MAINWINDOW] = new MainGtkMenu(false);
 #endif      
+
+  for (int i = 0; i < MENU_SIZEOF; i++)
+    {
+      if (menus[i] != NULL)
+        {
+          menus[i]->init();
+        }
+    }
 }
 
 

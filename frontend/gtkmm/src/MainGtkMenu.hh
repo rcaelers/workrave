@@ -47,12 +47,12 @@ public:
                       const Glib::ustring &label);
   
   void register_stock_items();
-  void create_menu();
 
   virtual void create_actions();
   virtual void create_ui();
-  virtual void post_init() {} ;
+  virtual void post_init() {}
 
+  virtual void init();
   virtual void popup(const guint button, const guint activate_time);
   virtual void resync(workrave::OperationMode mode, bool show_log);
 

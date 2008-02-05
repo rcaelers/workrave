@@ -43,6 +43,7 @@ public:
   GnomeAppletMenu(GnomeAppletWindow *applet_window);
   virtual ~GnomeAppletMenu();
 
+  virtual void init() = 0;
   virtual void popup(const guint button, const guint activate_time);
   virtual void resync(workrave::OperationMode mode, bool show_log);
   

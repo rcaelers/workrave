@@ -44,6 +44,7 @@ public:
   W32AppletMenu(MainWindow *main_window, W32AppletWindow *applet_window);
   virtual ~W32AppletMenu();
 
+  virtual void init();
   virtual void popup(const guint button, const guint activate_time);
   virtual void resync(workrave::OperationMode mode, bool show_log);
   
