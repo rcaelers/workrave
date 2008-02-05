@@ -13,8 +13,8 @@ EXTRA_DIST = 		$(wildcard *.hh) $(wildcard *.cc) \
 
 if HAVE_APP_GTKMM
 if PLATFORM_OS_WIN32
-noinst_LIBRARIES = 	libworkrave-frontend-gtkmm-win32.a
-libworkrave_frontend_gtkmm_win32_a_SOURCES = \
+noinst_LTLIBRARIES = 	libworkrave-frontend-gtkmm-win32.la
+libworkrave_frontend_gtkmm_win32_la_SOURCES = \
 			dll_hell.c \
 			DesktopWindow.cc \
 			W32AppletWindow.cc \
@@ -23,7 +23,7 @@ libworkrave_frontend_gtkmm_win32_a_SOURCES = \
 			W32TrayMenu.cc \
 			Win32
 
-libworkrave_frontend_gtkmm_win32_a_CFLAGS = \
+libworkrave_frontend_gtkmm_win32_la_CFLAGS = \
 			-W  -I../../../common/include \
 			-I../../../../backend/include \
 			-I../../../win32/applet/include \
@@ -32,7 +32,7 @@ libworkrave_frontend_gtkmm_win32_a_CFLAGS = \
                         -I ../../../../common/include
 
 
-libworkrave_frontend_gtkmm_win32_a_CXXFLAGS = \
+libworkrave_frontend_gtkmm_win32_la_CXXFLAGS = \
 			$(libworkrave_frontend_gtkmm_win32_a_CFLAGS)
 
 endif
