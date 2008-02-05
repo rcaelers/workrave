@@ -77,7 +77,7 @@ MainGtkMenu::add_stock_item(const Glib::RefPtr<Gtk::IconFactory>& factory,
   }
   catch(const Glib::Exception& ex)
   {
-    std::cout << ex.what() << std::endl;
+    //std::cout << ex.what() << std::endl;
   }
 
   source.set_size(Gtk::ICON_SIZE_SMALL_TOOLBAR);
@@ -222,7 +222,7 @@ MainGtkMenu::create_ui()
   }
   catch(const Glib::Error& ex)
   {
-    std::cerr << "building menus and toolbars failed: " <<  ex.what();
+    //    std::cerr << "building menus and toolbars failed: " <<  ex.what();
   }
 
   popup_menu = dynamic_cast<Gtk::Menu*>(ui_manager->get_widget("/Menu")); 
