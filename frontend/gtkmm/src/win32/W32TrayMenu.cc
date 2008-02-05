@@ -34,7 +34,7 @@ static const char rcsid[] = "$Id: W32TrayMenu.cc 1436 2008-02-03 18:03:23Z rcael
 
 #include <gtkmm/menu.h>
 #include <gtk/gtkmenu.h>
-#include <glib/gmail.h>
+#include <glib/gmain.h>
 
 #include "Util.hh"
 
