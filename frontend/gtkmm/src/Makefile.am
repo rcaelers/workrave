@@ -40,7 +40,7 @@ extrasources =
 extranodistsources = 
 
 # Additional Gnome sources
-sourcesgnome = 		RemoteControl.cc GnomeAppletWindow.cc
+sourcesgnome = 		RemoteControl.cc GnomeAppletWindow.cc GnomeAppletMenu.cc
 sourcesgnome_idl = 	${IDL_C_GENERATED} ${IDL_A_GENERATED}
 
 # Additional non-Gnome sources.
@@ -217,6 +217,7 @@ workrave_SOURCES = \
 			TimerBoxPreferencePage.cc \
 			Menus.cc \
 			main.cc \
+			MainGtkMenu.cc \
 			${dbussources} \
 			$(extrasources)
 

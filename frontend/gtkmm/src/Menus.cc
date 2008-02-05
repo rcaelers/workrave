@@ -32,16 +32,11 @@ static const char rcsid[] = "$Id$";
 #include <unistd.h>
 #include <iostream>
 
-#include <gtk/gtkmenu.h>
-#include <gtkmm/menu.h>
-#include <gtkmm/stock.h>
 #include <gtkmm/aboutdialog.h>
 
 #include "Menus.hh"
-#include "TimeBar.hh"
 #include "GUI.hh"
 #include "Util.hh"
-#include "Text.hh"
 
 #include "PreferencesDialog.hh"
 #include "StatisticsDialog.hh"
@@ -51,52 +46,33 @@ static const char rcsid[] = "$Id$";
 #include "ICore.hh"
 #include "IConfigurator.hh"
 
+#include "MainWindow.hh"
+
 #ifdef HAVE_DISTRIBUTION
 #include "IDistributionManager.hh"
 #include "NetworkJoinDialog.hh"
 #include "NetworkLogDialog.hh"
 #endif
-#ifdef HAVE_GNOME
-#include "GnomeAppletWindow.hh"
-#endif
-#include "MainWindow.hh"
 
 #ifdef HAVE_EXERCISES
 #include "ExercisesDialog.hh"
 #include "Exercise.hh"
 #endif
 
-#ifdef PLATFORM_OS_WIN32
-#include <gdk/gdkwin32.h>
-#include "W32AppletWindow.hh"
+#include "MainGtkMenu.hh"
+
+#ifdef HAVE_GNOME
+#include "GnomeAppletMenu.hh"
+#include "GnomeAppletWindow.hh"
 #endif
 
-#ifdef PLATFORM_OS_OSX
-#include "ige-mac-menu.h"
-#include "ige-mac-dock.h"
-#include "ige-mac-bundle.h"
+#ifdef PLATFORM_OS_WIN32
+#include "W32AppletWindow.hh"
+#include "W32TrayMenu.hh"
+#include "W32AppletMenu.hh"
 #endif
 
 Menus *Menus::instance = 0;
-
-#ifdef PLATFORM_OS_WIN32
-enum
-{
-  MENU_COMMAND_PREFERENCES,
-  MENU_COMMAND_EXERCISES,
-  MENU_COMMAND_REST_BREAK,
-  MENU_COMMAND_MODE_NORMAL,
-  MENU_COMMAND_MODE_QUIET,
-  MENU_COMMAND_MODE_SUSPENDED,
-  MENU_COMMAND_NETWORK_CONNECT,
-  MENU_COMMAND_NETWORK_DISCONNECT,
-  MENU_COMMAND_NETWORK_LOG,
-  MENU_COMMAND_NETWORK_RECONNECT,
-  MENU_COMMAND_STATISTICS,
-  MENU_COMMAND_ABOUT
-};
-#endif
-
 
 //! Constructor.
 /*!
@@ -104,9 +80,6 @@ enum
  *  \param control Interface to the controller.
  */
 Menus::Menus() :
-#if defined(HAVE_GNOME) || defined(PLATFORM_OS_WIN32)
-  applet_window(NULL),
-#endif
 #ifdef HAVE_DISTRIBUTION
   network_log_dialog(NULL),
   network_join_dialog(NULL),
@@ -116,19 +89,16 @@ Menus::Menus() :
 #ifdef HAVE_EXERCISES
   exercises_dialog(NULL),
 #endif
-  main_window(NULL)
+  main_window(NULL),
+  applet_window(NULL)
 {
   assert(instance == 0);
   instance = this;
   gui = GUI::get_instance();
 
-  for (int k = 0; k < MENU_SIZEOF; k++)
+  for (int i = 0; i < MENU_SIZEOF; i++)
     {
-      menus[k] = NULL;
-      for (int i = 0; i < MENUSYNC_SIZEOF; i++)
-        {
-          sync_menus[k][i] = NULL;
-        }
+      menus[i] = NULL;
     }
 }
 
@@ -138,13 +108,6 @@ Menus::~Menus()
 {
   TRACE_ENTER("Menus::~Menus");
   instance = 0;
-
-  for (int k = 0; k < MENU_SIZEOF; k++)
-    {
-      delete menus[k];
-      menus[k] = NULL;
-    }
-
   TRACE_EXIT();
 }
 
@@ -157,476 +120,45 @@ Menus::get_instance()
 }
 
 
-#ifdef PLATFORM_OS_OSX
-void
-Menus::dock_clicked(IgeMacDock *dock, void *data)
-{
-  (void) dock;
-  Menus *menus = (Menus *) data;
-  menus->on_menu_open_main_window();
-}
-
 
 void
-Menus::dock_quit(IgeMacDock *dock, void *data)
+Menus::init(MainWindow *main_window, AppletWindow *applet_window)
 {
-  (void) dock;
-  Menus *menus = (Menus *) data;
-  menus->on_menu_quit();
-}
+  this->main_window = main_window;
+  this->applet_window = applet_window;
+  
+#ifdef PLATFORM_OS_WIN32
+  menus[MENU_APPLET] = new W32TrayMenu();
+#else
+  menus[MENU_APPLET] = new MainGtkMenu(true);
 #endif
 
-void
-Menus::create_menu(MenuKind kind)
-{
-  if (! menus[kind])
-    {
-      menus[kind] = manage(create_menu(kind, sync_menus[kind]));
-
-#ifdef HAVE_DISTRIBUTION
-
-      switch (kind)
-        {
-        case MENU_MAINWINDOW:
-          sync_menus[kind][MENUSYNC_SHOW_LOG]->signal_toggled().
-            connect(sigc::mem_fun(*this, &Menus::on_menu_network_log_main_window));
-
-          break;
-
-        case MENU_APPLET:
-          sync_menus[kind][MENUSYNC_SHOW_LOG]->signal_toggled().
-            connect(sigc::mem_fun(*this, &Menus::on_menu_network_log_tray));
-          break;
-
-        default:
-          break;
-        }
+#if defined(PLATFORM_OS_WIN32)
+  W32AppletWindow *w32_applet_window = dynamic_cast<W32AppletWindow*>(applet_window);
+  menus[MENU_NATIVE] = new W32AppletMenu(main_window, w32_applet_window);
+#elif defined(HAVE_GNOME)
+  GnomeAppletWindow *gnome_applet_window = dynamic_cast<GnomeAppletWindow*>(applet_window);
+  menus[MENU_NATIVE] = new GnomeAppletMenu(gnome_applet_window);
 #endif
-      if (kind == MENU_APPLET)
-        {
-          resync_applet();
-        }
-    }
+  
+#if defined(PLATFORM_OS_OSX)
+  menus[MENU_MAINWINDOW] = new OSXGtkMenu();
+#else
+  menus[MENU_MAINWINDOW] = new MainGtkMenu(false);
+#endif      
 }
+
 
 void
 Menus::popup(const MenuKind kind,
              const guint button,
              const guint activate_time)
 {
-  Gtk::Menu *pop_menu = menus[kind];
+  Menu *pop_menu = menus[kind];
   if (pop_menu)
     {
       pop_menu->popup(button, activate_time);
     }
-}
-
-//! Create the popup-menu
-Gtk::Menu *
-Menus::create_menu(MenuKind kind, Gtk::CheckMenuItem *check_menus[MENUSYNC_SIZEOF])
-{
-  TRACE_ENTER_MSG("Menus::create_menu", kind);
-  Gtk::Menu *pop_menu = manage(new Gtk::Menu());
-
-  Gtk::Menu *mode_menu = manage(new Gtk::Menu());
-  Gtk::Menu::MenuList &modemenulist = mode_menu->items();
-
-  // Mode menu item
-  Gtk::MenuItem *mode_menu_item = manage(new Gtk::MenuItem(_("_Mode"),true)); // FIXME: LEAK
-  mode_menu_item->set_submenu(*mode_menu);
-  mode_menu_item->show();
-
-#ifdef PLATFORM_OS_OSX
-  Gtk::Menu::MenuList menulist; 
-  Gtk::Menu::MenuList popup_menulist;
-  
-  if (kind == MENU_MAINWINDOW)
-    {
-      Gtk::Menu *main_menu = manage(new Gtk::Menu());
-
-      // Mode menu item
-      Gtk::MenuItem *main_menu_item = manage(new Gtk::MenuItem(_("Main"),true)); // FIXME: LEAK
-      main_menu_item->set_submenu(*main_menu);
-      main_menu_item->show();
-      
-      popup_menulist = pop_menu->items();
-      popup_menulist.push_back(*main_menu_item);
-      
-      menulist = main_menu->items();
-    }
-  else
-    {
-      menulist = pop_menu->items();
-    }
-#else
-  Gtk::Menu::MenuList &menulist = pop_menu->items();
-#endif  
-
-  // Operation mode
-  {
-    const char *modes_str[] =
-      {
-        "_Normal",
-        "_Suspended",
-        "Q_uiet",
-      };
-    OperationMode modes[] =
-      {
-        OPERATION_MODE_NORMAL,
-        OPERATION_MODE_SUSPENDED,
-        OPERATION_MODE_QUIET
-      };
-    typedef void (Menus::*ModeFunc)(Gtk::CheckMenuItem *);
-    ModeFunc modes_func[] =
-      {
-        &Menus::on_menu_normal_menu,
-        &Menus::on_menu_suspend_menu,
-        &Menus::on_menu_quiet_menu
-      };
-
-    ICore *core = CoreFactory::get_core();
-    OperationMode mode = core->get_operation_mode();
-
-    Gtk::RadioMenuItem::Group gr;
-
-    assert(sizeof(modes)/sizeof(modes[0]) == OPERATION_MODE_SIZEOF);
-    for (size_t i = 0; i < OPERATION_MODE_SIZEOF; i++)
-      {
-        Gtk::RadioMenuItem *mode_menu_item
-          = manage(new Gtk::RadioMenuItem(gr, _(modes_str[i]), true));
-        mode_menu_item->show();
-        modemenulist.push_back(*mode_menu_item);
-        mode_menu_item->set_active(mode == modes[i]);
-        check_menus[i] = mode_menu_item;
-      }
-    for (size_t i = 0; i < OPERATION_MODE_SIZEOF; i++)
-      {
-        check_menus[i]->signal_toggled()
-          .connect(bind(sigc::mem_fun(*this, modes_func[i]),
-                        check_menus[i]));
-      }
-  }
-
-#ifdef HAVE_DISTRIBUTION
-  // Distribution menu
-  Gtk::Menu *distr_menu = manage(new Gtk::Menu());
-  Gtk::Menu::MenuList &distr_menu_list = distr_menu->items();
-
-  Gtk::MenuItem *distr_menu_item = manage(new Gtk::MenuItem(_("_Network"),true));
-  distr_menu_item->set_submenu(*distr_menu);
-  distr_menu_item->show();
-
-  Gtk::MenuItem *distr_join_menu_item = manage(new Gtk::MenuItem(_("_Connect"),true));
-  distr_join_menu_item->show();
-  distr_join_menu_item->signal_activate().connect(sigc::mem_fun(*this, &Menus::on_menu_network_join));
-  distr_menu_list.push_back(*distr_join_menu_item);
-
-  Gtk::MenuItem *distr_leave_menu_item = manage(new Gtk::MenuItem(_("_Disconnect"),true));
-  distr_leave_menu_item->show();
-  distr_leave_menu_item->signal_activate().connect(sigc::mem_fun(*this, &Menus::on_menu_network_leave));
-  distr_menu_list.push_back(*distr_leave_menu_item);
-
-  Gtk::MenuItem *distr_reconnect_menu_item = manage(new Gtk::MenuItem(_("_Reconnect"),true));
-  distr_reconnect_menu_item->show();
-  distr_reconnect_menu_item->signal_activate().connect(sigc::mem_fun(*this, &Menus::on_menu_network_reconnect));
-  distr_menu_list.push_back(*distr_reconnect_menu_item);
-
-  Gtk::CheckMenuItem *distr_log_menu_item = manage(new Gtk::CheckMenuItem(_("Show _log"), true));
-  distr_log_menu_item->show();
-  distr_menu_list.push_back(*distr_log_menu_item);
-
-  check_menus[MENUSYNC_SHOW_LOG] = distr_log_menu_item;
-#endif
-
-  // FIXME: add separators, etc...
-  if (kind == MENU_APPLET)
-    {
-      menulist.push_front(Gtk::Menu_Helpers::StockMenuElem
-                          (Gtk::Stock::OPEN,
-                           sigc::mem_fun(*this, &Menus::on_menu_open_main_window)));
-    }
-
-  Gtk::Menu_Helpers::StockMenuElem pref_item = Gtk::Menu_Helpers::StockMenuElem(Gtk::Stock::PREFERENCES,
-                                                                                sigc::mem_fun(*this, &Menus::on_menu_preferences));
-  menulist.push_back(pref_item);
-
-  // Rest break
-  string rb_icon = Util::complete_directory("timer-rest-break.png", Util::SEARCH_PATH_IMAGES);
-  Gtk::Image *img = manage(new Gtk::Image(rb_icon));
-  menulist.push_back(Gtk::Menu_Helpers::ImageMenuElem
-                     (_("_Rest break"),
-                      Gtk::AccelKey("<control>r"),
-                      *img,
-                      sigc::mem_fun(*this, &Menus::on_menu_restbreak_now)));
-
-#ifdef HAVE_EXERCISES
-  // Exercises
-  if (Exercise::has_exercises())
-    {
-      menulist.push_back(Gtk::Menu_Helpers::MenuElem
-                         (_("Exercises"),
-                          sigc::mem_fun(*this, &Menus::on_menu_exercises)));
-    }
-#endif
-
-#ifndef PLATFORM_OS_OSX
-  if (kind == MENU_MAINWINDOW)
-    {
-      menulist.push_back(*mode_menu_item);
-    }
-  else
-    {
-      popup_menulist.push_back(*mode_menu_item);
-    }
-#else
-  popup_menulist.push_back(*mode_menu_item);
-#endif  
-
-
-#ifdef HAVE_DISTRIBUTION
-  menulist.push_back(*distr_menu_item);
-#endif
-
-  menulist.push_back(Gtk::Menu_Helpers::MenuElem(_("Statistics"),
-                                                 sigc::mem_fun(*this, &Menus::on_menu_statistics)));
-
-#ifdef HAVE_GNOME
-  Gtk::Menu_Helpers::StockMenuElem about_item = Gtk::Menu_Helpers::StockMenuElem(Gtk::StockID(GNOME_STOCK_ABOUT),
-                                                                                 sigc::mem_fun(*this, &Menus::on_menu_about));
-#else
-  Gtk::Menu_Helpers::MenuElem about_item = Gtk::Menu_Helpers::MenuElem(_("About..."),
-                                                                       sigc::mem_fun(*this, &Menus::on_menu_about));
-#endif
-  menulist.push_back(about_item);
-
-  Gtk::Menu_Helpers::StockMenuElem quit_item = Gtk::Menu_Helpers::StockMenuElem(Gtk::Stock::QUIT,
-                                                                                sigc::mem_fun(*this, &Menus::on_menu_quit));
-  menulist.push_back(quit_item);
-
-
-#ifdef PLATFORM_OS_WIN32
-  if (kind == MENU_APPLET)
-    {
-      win32_popup_hack_connect(pop_menu);
-    }
-#endif
-
-#ifdef PLATFORM_OS_OSX
-  if (kind == MENU_MAINWINDOW)
-    {
-      IgeMacMenuGroup *group;
-      IgeMacDock      *dock;
-      
-      ige_mac_menu_set_menu_bar(GTK_MENU_SHELL(pop_menu->gobj()));
-      ige_mac_menu_set_quit_menu_item(GTK_MENU_ITEM(quit_item.get_child()->gobj()));
-          
-      group = ige_mac_menu_add_app_menu_group();
-      ige_mac_menu_add_app_menu_item(group,
-                                     GTK_MENU_ITEM(about_item.get_child()->gobj()), 
-                                     NULL);
-          
-      group = ige_mac_menu_add_app_menu_group();
-      ige_mac_menu_add_app_menu_item(group,
-                                     GTK_MENU_ITEM (pref_item.get_child()->gobj()), 
-                                     NULL);
-
-      dock = ige_mac_dock_new ();
-      g_signal_connect(dock,
-                       "clicked",
-                       G_CALLBACK(dock_clicked),
-                       this);
-      g_signal_connect(dock,
-                       "quit-activate",
-                       G_CALLBACK(dock_quit),
-                       this);
-
-    }
-#endif
-  
-  TRACE_EXIT();
-  return pop_menu;
-}
-
-
-void
-Menus::sync_mode_menu(int mode)
-{
-  // Ugh, isn't there an other way to prevent endless signal loops?
-  static bool syncing = false;
-
-  TRACE_ENTER_MSG("Menus::sync_mode_menu", mode << " " << syncing);
-  if (syncing)
-    return;
-  syncing = true;
-
-  for (int k = MENU_MAINWINDOW; k < MENU_SIZEOF; k++)
-    {
-      if (sync_menus[k][mode] != NULL && !sync_menus[k][mode]->get_active())
-        {
-          TRACE_MSG("setting active " << k <<" " << mode);
-          sync_menus[k][mode]->set_active(true);
-        }
-
-    }
-
-#if defined(HAVE_GNOME)
-  GnomeAppletWindow *aw = static_cast<GnomeAppletWindow*>(applet_window);
-  if (aw != NULL)
-    {
-      TRACE_MSG("setting gnome active " << mode);
-      aw->set_menu_active(mode, true);
-    }
-#elif defined(PLATFORM_OS_WIN32)
-  resync_applet();
-#endif
-
-  syncing = false;
-
-  TRACE_EXIT();
-}
-
-void
-Menus::sync_log_menu(bool active)
-{
-  TRACE_ENTER("Menus::sync_log_menu");
-
-  static bool syncing = false;
-  if (syncing)
-    return;
-  syncing = true;
-
-  for (int k = 0; k < MENU_SIZEOF; k++)
-    {
-      if (sync_menus[k][MENUSYNC_SHOW_LOG] != NULL)
-        {
-          sync_menus[k][MENUSYNC_SHOW_LOG]->set_active(active);
-        }
-    }
-
-#if defined(HAVE_GNOME)
-  GnomeAppletWindow *aw = static_cast<GnomeAppletWindow*>(applet_window);
-  if (aw != NULL)
-    {
-      aw->set_menu_active(MENUSYNC_SHOW_LOG, active);
-    }
-#elif defined(PLATFORM_OS_WIN32)
-  resync_applet();
-#endif
-
-  syncing = false;
-
-  TRACE_EXIT();
-}
-
-
-void
-Menus::resync_applet()
-{
-  ICore *core = CoreFactory::get_core();
-  OperationMode mode = core->get_operation_mode();
-
-  for (int k = MENU_MAINWINDOW; k < MENU_SIZEOF; k++)
-    {
-      if (sync_menus[k][mode] != NULL && !sync_menus[k][mode]->get_active())
-        {
-          sync_menus[k][mode]->set_active(true);
-        }
-    }
-
-#if defined(HAVE_DISTRIBUTION)
-  bool network_log_active = network_log_dialog != NULL;
-  for (int k = 0; k < MENU_SIZEOF; k++)
-    {
-      if (sync_menus[k][MENUSYNC_SHOW_LOG] != NULL)
-        {
-          sync_menus[k][MENUSYNC_SHOW_LOG]->set_active(network_log_active);
-        }
-    }
-#endif
-
-#if defined(HAVE_GNOME)
-  GnomeAppletWindow *aw = static_cast<GnomeAppletWindow*>(applet_window);
-  if (aw != NULL)
-    {
-      switch(mode)
-        {
-        case OPERATION_MODE_NORMAL:
-          aw->set_menu_active(MENUSYNC_MODE_NORMAL, true);
-          break;
-        case OPERATION_MODE_SUSPENDED:
-          aw->set_menu_active(MENUSYNC_MODE_SUSPENDED, true);
-          break;
-        case OPERATION_MODE_QUIET:
-          aw->set_menu_active(MENUSYNC_MODE_QUIET, true);
-          break;
-        default:
-          break;
-        }
-#if defined(HAVE_DISTRIBUTION)
-      aw->set_menu_active(MENUSYNC_SHOW_LOG, network_log_dialog);
-#endif
-    }
-
-#elif defined(PLATFORM_OS_WIN32)
-  if (applet_window != NULL && main_window != NULL)
-    {
-      HWND cmd_win = (HWND) GDK_WINDOW_HWND( main_window
-                                             ->Gtk::Widget::gobj()->window);
-      W32AppletWindow *w32aw = static_cast<W32AppletWindow*>(applet_window);
-      w32aw->init_menu(cmd_win);
-
-      w32aw->add_menu(_("Preferences"), MENU_COMMAND_PREFERENCES, 0);
-      w32aw->add_menu(_("_Rest break"), MENU_COMMAND_REST_BREAK, 0);
-      w32aw->add_menu(_("Exercises"), MENU_COMMAND_EXERCISES, 0);
-
-
-      w32aw->add_menu(_("_Normal"), MENU_COMMAND_MODE_NORMAL,
-                      W32AppletWindow::MENU_FLAG_TOGGLE
-                      |W32AppletWindow::MENU_FLAG_POPUP
-                      |(core->get_operation_mode()
-                        == OPERATION_MODE_NORMAL
-                        ? W32AppletWindow::MENU_FLAG_SELECTED
-                        : 0));
-      w32aw->add_menu(_("_Suspended"), MENU_COMMAND_MODE_SUSPENDED,
-                      W32AppletWindow::MENU_FLAG_TOGGLE
-                      |W32AppletWindow::MENU_FLAG_POPUP
-                      |(core->get_operation_mode()
-                        == OPERATION_MODE_SUSPENDED
-                        ? W32AppletWindow::MENU_FLAG_SELECTED
-                        : 0));
-      w32aw->add_menu(_("Q_uiet"), MENU_COMMAND_MODE_QUIET,
-                      W32AppletWindow::MENU_FLAG_TOGGLE
-                      |W32AppletWindow::MENU_FLAG_POPUP
-                      |(core->get_operation_mode()
-                        == OPERATION_MODE_QUIET
-                        ? W32AppletWindow::MENU_FLAG_SELECTED
-                        : 0));
-      w32aw->add_menu(_("_Mode"), 0, 0);
-
-#ifdef HAVE_DISTRIBUTION
-      w32aw->add_menu(_("_Connect"), MENU_COMMAND_NETWORK_CONNECT,
-                      W32AppletWindow::MENU_FLAG_TOGGLE
-                      |W32AppletWindow::MENU_FLAG_POPUP);
-      w32aw->add_menu(_("_Disconnect"),
-                      MENU_COMMAND_NETWORK_DISCONNECT,
-                      W32AppletWindow::MENU_FLAG_TOGGLE
-                      |W32AppletWindow::MENU_FLAG_POPUP);
-      w32aw->add_menu(_("_Reconnect"), MENU_COMMAND_NETWORK_RECONNECT,
-                      W32AppletWindow::MENU_FLAG_TOGGLE
-                      |W32AppletWindow::MENU_FLAG_POPUP);
-      w32aw->add_menu(_("Show _log"), MENU_COMMAND_NETWORK_LOG,
-                      W32AppletWindow::MENU_FLAG_TOGGLE
-                      |W32AppletWindow::MENU_FLAG_POPUP
-                      |(network_log_dialog != NULL
-                        ? W32AppletWindow::MENU_FLAG_SELECTED
-                        : 0));
-      w32aw->add_menu(_("_Network"), 0, 0);
-#endif
-      w32aw->add_menu(_("Statistics"), MENU_COMMAND_STATISTICS, 0);
-      w32aw->add_menu(_("About..."), MENU_COMMAND_ABOUT, 0);
-    }
-#endif
-
 }
 
 void
@@ -661,7 +193,7 @@ Menus::set_operation_mode(OperationMode m)
 {
   ICore *core = CoreFactory::get_core();
   core->set_operation_mode(m);
-  sync_mode_menu(m);
+  resync();  
 }
 
 
@@ -680,49 +212,6 @@ Menus::on_menu_suspend()
 {
   TRACE_ENTER("Menus::on_menu_suspend");
   set_operation_mode(OPERATION_MODE_SUSPENDED);
-  TRACE_EXIT();
-}
-
-
-void
-Menus::on_menu_normal_menu(Gtk::CheckMenuItem *menu)
-{
-  TRACE_ENTER("Menus::on_menu_normal_menu");
-  if (menu != NULL && menu->get_active())
-    {
-      TRACE_MSG("active");
-      on_menu_normal();
-    }
-  TRACE_EXIT();
-}
-
-
-void
-Menus::on_menu_quiet_menu(Gtk::CheckMenuItem *menu)
-{
-  TRACE_ENTER("Menus::on_menu_quiet_menu");
-
-  if (menu != NULL && menu->get_active())
-    {
-      TRACE_MSG("active");
-      on_menu_quiet();
-    }
-  TRACE_EXIT();
-}
-
-
-
-void
-Menus::on_menu_suspend_menu(Gtk::CheckMenuItem *menu)
-{
-  TRACE_ENTER("Menus::on_menu_suspend_menu");
-
-  if (menu != NULL && menu->get_active())
-    {
-      TRACE_MSG("active");
-      on_menu_suspend();
-    }
-
   TRACE_EXIT();
 }
 
@@ -925,7 +414,7 @@ Menus::on_menu_network_log(bool active)
           network_log_dialog->signal_response().
             connect(sigc::mem_fun(*this, &Menus::on_network_log_response));
 
-          sync_log_menu(active);
+          resync();
 
           network_log_dialog->run();
         }
@@ -935,7 +424,7 @@ Menus::on_menu_network_log(bool active)
       network_log_dialog->hide_all();
       delete network_log_dialog;
       network_log_dialog = NULL;
-      sync_log_menu(active);
+      resync();  
     }
 
 
@@ -943,36 +432,6 @@ Menus::on_menu_network_log(bool active)
 #endif
 }
 
-
-#ifdef HAVE_DISTRIBUTION
-
-void
-Menus::on_menu_network_log_tray()
-{
-  TRACE_ENTER("Menus::on_menu_network_log_tray");
-
-  if (sync_menus[MENU_APPLET][MENUSYNC_SHOW_LOG] != NULL)
-    {
-      bool active = sync_menus[MENU_APPLET][MENUSYNC_SHOW_LOG]->get_active();
-      on_menu_network_log(active);
-    }
-
-  TRACE_EXIT();
-}
-
-void
-Menus::on_menu_network_log_main_window()
-{
-  TRACE_ENTER("Menus::on_menu_network_log");
-
-  if (sync_menus[MENU_MAINWINDOW][MENUSYNC_SHOW_LOG] != NULL)
-    {
-      bool active = sync_menus[MENU_MAINWINDOW][MENUSYNC_SHOW_LOG]->get_active();
-      on_menu_network_log(active);
-    }
-
-  TRACE_EXIT();
-}
 
 void
 Menus::on_network_log_response(int response)
@@ -983,12 +442,11 @@ Menus::on_network_log_response(int response)
 
   network_log_dialog->hide_all();
 
-  sync_log_menu(false);
+  resync();  
+
   // done by gtkmm ??? delete network_log_dialog;
   network_log_dialog = NULL;
 }
-
-#endif
 
 void
 Menus::on_statistics_response(int response)
@@ -1017,10 +475,8 @@ Menus::on_preferences_response(int response)
   preferences_dialog = NULL;
 }
 
-#ifdef PLATFORM_OS_WIN32
-
 void
-Menus::on_applet_command(short cmd)
+Menus::applet_command(short cmd)
 {
   switch (cmd)
     {
@@ -1049,7 +505,7 @@ Menus::on_applet_command(short cmd)
       on_menu_network_leave();
       break;
     case MENU_COMMAND_NETWORK_LOG:
-      on_menu_network_log(network_log_dialog==NULL);
+      on_menu_network_log(network_log_dialog == NULL);
       break;
     case MENU_COMMAND_NETWORK_RECONNECT:
       on_menu_network_reconnect();
@@ -1063,69 +519,25 @@ Menus::on_applet_command(short cmd)
     }
 }
 
-#endif
-
-#if defined(HAVE_GNOME) || defined(PLATFORM_OS_WIN32)
-void
-Menus::set_applet_window(AppletWindow *applet)
-{
-  applet_window = applet;
-  resync_applet();
-}
-#endif
-
-
-#ifdef PLATFORM_OS_WIN32
-// /* Taken from Gaim. needs to be gtkmm-ified. */
-// /* This is a workaround for a bug in windows GTK+. Clicking outside of the
-//    menu does not get rid of it, so instead we get rid of it as soon as the
-//    pointer leaves the menu. */
 
 void
-Menus::win32_popup_hack_connect(Gtk::Menu *menu)
+Menus::resync()
 {
-  GtkWidget *window = (GtkWidget*) menu->gobj();
-  // RC: FIXME: remove this c hack HACK
-  g_signal_connect(window, "leave-notify-event",
-                   G_CALLBACK(win32_popup_hack_leave_enter), NULL);
-  g_signal_connect(window, "enter-notify-event",
-                   G_CALLBACK(win32_popup_hack_leave_enter), NULL);
-}
+  static bool syncing = false;
+  if (syncing)
+    return;
+  syncing = true;
 
-gboolean
-Menus::win32_popup_hack_hide(gpointer data)
-{
-  if (data != NULL)
+  for (int i = 0; i < MENU_SIZEOF; i++)
     {
-      gtk_menu_popdown(GTK_MENU(data));
+      if (menus[i] != NULL)
+        {
+          ICore *core = CoreFactory::get_core();
+
+          menus[i]->resync(core->get_operation_mode(),
+                           network_log_dialog != NULL);
+        }
     }
-  return FALSE;
+
+  syncing = false;
 }
-
-
-gboolean
-Menus::win32_popup_hack_leave_enter(GtkWidget *menu, GdkEventCrossing *event,
-                                    void *data)
-{
-  (void) data;
-  static guint hide_docklet_timer = 0;
-  if (event->type == GDK_LEAVE_NOTIFY
-      && event->detail == GDK_NOTIFY_ANCESTOR) {
-    /* Add some slop so that the menu doesn't annoyingly disappear
-       when mousing around */
-    if (hide_docklet_timer == 0) {
-      hide_docklet_timer = g_timeout_add(500, win32_popup_hack_hide, menu);
-    }
-  } else if (event->type == GDK_ENTER_NOTIFY
-             && event->detail == GDK_NOTIFY_ANCESTOR) {
-    if (hide_docklet_timer != 0) {
-      /* Cancel the hiding if we reenter */
-
-      g_source_remove(hide_docklet_timer);
-      hide_docklet_timer = 0;
-    }
-  }
-  return FALSE;
-}
-
-#endif // PLATFORM_OS_WIN32

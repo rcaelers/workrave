@@ -160,10 +160,6 @@ X11SystrayAppletWindow::activate_applet()
       plug->add(*container);
       plug->show_all();
 
-      // Tray menu
-      Menus *menus = Menus::get_instance();
-      menus->create_menu(Menus::MENU_APPLET);
-
       ret = AppletWindow::APPLET_STATE_VISIBLE;
       applet_orientation = ORIENTATION_UP;
 

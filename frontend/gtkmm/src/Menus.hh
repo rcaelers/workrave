@@ -25,7 +25,6 @@
 #include "config.h"
 
 #include <sigc++/compatibility.h>
-#include <gtkmm/checkmenuitem.h>
 
 #ifdef HAVE_GNOME
 #include <gnome.h>
@@ -42,13 +41,7 @@ class PreferencesDialog;
 class MainWindow;
 class AppletWindow;
 class ExercisesDialog;
-class TimerBoxAppletView;
-
-#include <gtkmm/checkmenuitem.h>
-
-#ifdef PLATFORM_OS_OSX
-#include "ige-mac-dock.h"
-#endif
+class Menu;
 
 using namespace workrave;
 
@@ -60,64 +53,43 @@ public:
   ~Menus();
 
   //! Menus items to be synced.
-  enum MenuSyncs
-    {
-      // Note: First 3 elements MUST be same as OperatingMode!!!
-      MENUSYNC_MODE_NORMAL,
-      MENUSYNC_MODE_SUSPENDED,
-      MENUSYNC_MODE_QUIET,
-      MENUSYNC_SHOW_LOG,
-      MENUSYNC_SIZEOF
-    };
-
-  //! Menus items to be synced.
   enum MenuKind
     {
       MENU_MAINWINDOW,
       MENU_APPLET,
-      MENU_SIZEOF
+      MENU_NATIVE,
+      MENU_SIZEOF,
     };
 
-  void create_menu(MenuKind kind);
+  enum
+    {
+      MENU_COMMAND_PREFERENCES,
+      MENU_COMMAND_EXERCISES,
+      MENU_COMMAND_REST_BREAK,
+      MENU_COMMAND_MODE_NORMAL,
+      MENU_COMMAND_MODE_QUIET,
+      MENU_COMMAND_MODE_SUSPENDED,
+      MENU_COMMAND_NETWORK_CONNECT,
+      MENU_COMMAND_NETWORK_DISCONNECT,
+      MENU_COMMAND_NETWORK_LOG,
+      MENU_COMMAND_NETWORK_RECONNECT,
+      MENU_COMMAND_STATISTICS,
+      MENU_COMMAND_ABOUT
+    };
 
+  static Menus *get_instance();
+  
+  void init(MainWindow *main_windows, AppletWindow *applet_window);
+  void applet_command(short cmd);
+  void resync();
   void popup(const MenuKind kind,
              const guint button,
              const guint activate_time);
 
-  static Menus *get_instance();
-
-  void set_main_window(MainWindow *main);
-#if defined(HAVE_GNOME) || defined(PLATFORM_OS_WIN32)
-  void set_applet_window(AppletWindow *applet);
-#endif
-#if defined(PLATFORM_OS_WIN32)
-  void on_applet_command(short cmd);
-#endif
-  void resync_applet();
-
 private:
-  Gtk::Menu *create_menu(MenuKind kind, Gtk::CheckMenuItem *check_menus[MENUSYNC_SIZEOF]);
-
-#ifdef PLATFORM_OS_WIN32
-  void win32_popup_hack_connect(Gtk::Menu *menu);
-  static gboolean win32_popup_hack_hide(gpointer data);
-  static gboolean win32_popup_hack_leave_enter(GtkWidget *menu,
-                                               GdkEventCrossing *event,
-                                               void *data);
-#endif
-
-#ifdef PLATFORM_OS_OSX
-  static void dock_clicked(IgeMacDock *dock, void *data);
-  static void dock_quit(IgeMacDock *dock, void *data);
-#endif
-  
-  void sync_mode_menu(int mode);
-  void sync_log_menu(bool active);
   void set_operation_mode(OperationMode m);
-
+  
 #ifdef HAVE_DISTRIBUTION
-  void on_menu_network_log_main_window();
-  void on_menu_network_log_tray();
   void on_network_log_response(int response);
   void on_network_join_response(int response);
 #endif
@@ -126,10 +98,8 @@ private:
 #ifdef HAVE_EXERCISES
   void on_exercises_response(int response);
 #endif
-  void on_menu_normal_menu(Gtk::CheckMenuItem *);
-  void on_menu_suspend_menu(Gtk::CheckMenuItem *);
-  void on_menu_quiet_menu(Gtk::CheckMenuItem *);
 
+  
 public:
   // Menu actions.
   void on_menu_open_main_window();
@@ -137,36 +107,22 @@ public:
   void on_menu_about();
   void on_menu_quit();
   void on_menu_preferences();
-#ifdef HAVE_EXERCISES
   void on_menu_exercises();
-#endif
   void on_menu_statistics();
   void on_menu_normal();
   void on_menu_suspend();
   void on_menu_quiet();
-#ifndef NDEBUG
-  void on_test_me();
-#endif
   void on_menu_network_join();
   void on_menu_network_leave();
   void on_menu_network_reconnect();
-  void on_menu_network_log(bool active);
-
-protected:
-  //! Interface to the GUI.
-  GUI *gui;
+  void on_menu_network_log(bool show);
 
 private:
   //! The one and only instance
   static Menus *instance;
 
-  //!
-  Gtk::Menu *menus[MENU_SIZEOF];
-
-#if defined(HAVE_GNOME) || defined(PLATFORM_OS_WIN32)
-  //! The applet windows
-  AppletWindow *applet_window;
-#endif
+  //! Interface to the GUI.
+  GUI *gui;
 
 #ifdef HAVE_DISTRIBUTION
   NetworkLogDialog *network_log_dialog;
@@ -186,15 +142,11 @@ private:
   //! The main window.
   MainWindow *main_window;
 
-  //! The system tray popup menu items.
-  Gtk::CheckMenuItem *sync_menus[MENU_SIZEOF][MENUSYNC_SIZEOF];
+  //! The applet window.
+  AppletWindow *applet_window;
+
+  //! Different kind of menus
+  Menu *menus[MENU_SIZEOF];
 };
-
-
-inline void
-Menus::set_main_window(MainWindow *main)
-{
-  main_window = main;
-}
 
 #endif // MENUS_HH

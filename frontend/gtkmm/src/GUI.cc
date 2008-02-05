@@ -802,15 +802,16 @@ GUI::init_gui()
   applet_control = new AppletControl();
   applet_control->init();
 
+  AppletWindow *applet_window = NULL;
 #ifdef HAVE_GNOME
-  AppletWindow *applet_window = applet_control->get_applet_window(AppletControl::APPLET_GNOME);
-  menus->set_applet_window(applet_window);
+  applet_window = applet_control->get_applet_window(AppletControl::APPLET_GNOME);
 #endif
 #ifdef PLATFORM_OS_WIN32
-  AppletWindow *applet_window = applet_control->get_applet_window(AppletControl::APPLET_W32);
-  menus->set_applet_window(applet_window);
+  applet_window = applet_control->get_applet_window(AppletControl::APPLET_W32);
 #endif
 
+  menus->init(main_window, applet_window);
+  
 #ifdef PLATFORM_OS_WIN32
   win32_init_filter();
 #endif
@@ -938,7 +939,7 @@ GUI::core_event_operation_mode_changed(const OperationMode m)
 #else
   (void) m;
 #endif
-  menus->resync_applet();
+  // FIXME: menus->resync_applet();
 }
 
 

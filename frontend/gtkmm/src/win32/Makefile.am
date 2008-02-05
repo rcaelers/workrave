@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
 #
 #
 # $Id$
@@ -18,7 +18,10 @@ libworkrave_frontend_gtkmm_win32_a_SOURCES = \
 			dll_hell.c \
 			DesktopWindow.cc \
 			W32AppletWindow.cc \
-			W32Compat.cc
+			W32Compat.cc \
+			W32AppletMenu.cc \
+			W32TrayMenu.cc \
+			Win32
 
 libworkrave_frontend_gtkmm_win32_a_CFLAGS = \
 			-W  -I../../../common/include \

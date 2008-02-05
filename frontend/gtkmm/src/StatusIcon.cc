@@ -1,6 +1,6 @@
 // StatusIcon.cc --- Status icon
 //
-// Copyright (C) 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2006, 2007, 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -57,7 +57,6 @@ StatusIcon::StatusIcon(MainWindow& mw)
 #endif
 
   insert_icon();
-  Menus::get_instance()->create_menu(Menus::MENU_APPLET);
 }
 
 StatusIcon::~StatusIcon()

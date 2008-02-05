@@ -1,6 +1,6 @@
 // GnomeAppletWindow.hh --- X11 Applet Window
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -53,6 +53,16 @@ public:
   GnomeAppletWindow(AppletControl *control);
   virtual ~GnomeAppletWindow();
 
+  //! Menus items to be synced.
+  enum MenuSyncs
+    {
+      MENUSYNC_MODE_NORMAL,
+      MENUSYNC_MODE_SUSPENDED,
+      MENUSYNC_MODE_QUIET,
+      MENUSYNC_SHOW_LOG,
+      MENUSYNC_SIZEOF
+    };
+  
   void fire_gnome_applet();
 
   void on_menu_restbreak_now();

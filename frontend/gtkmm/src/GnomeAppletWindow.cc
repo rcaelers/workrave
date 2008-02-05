@@ -1,6 +1,6 @@
 // GnomeAppletWindow.cc --- Applet info Window
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -82,7 +82,7 @@ GnomeAppletWindow::~GnomeAppletWindow()
 AppletWindow::AppletState
 GnomeAppletWindow::activate_applet()
 {
-  TRACE_ENTER("GnomeAppletWindow::init_gnome_applet");
+  TRACE_ENTER("GnomeAppletWindow::activate_applet");
   bool ok = true;
 
   if (!applet_active)
@@ -161,11 +161,6 @@ GnomeAppletWindow::activate_applet()
           container->show_all();
           plug->show_all();
 
-          Menus *menus = Menus::get_instance();
-
-          // Tray menu
-          menus->create_menu(Menus::MENU_APPLET);
-
 #ifndef HAVE_EXERCISES
           GNOME_Workrave_AppletControl_set_menu_active(applet_control, "/commands/Exercises", false, &ev);
 #endif
@@ -179,6 +174,9 @@ GnomeAppletWindow::activate_applet()
           applet_control = NULL;
         }
 
+      Menus *menus = Menus::get_instance();
+      menus->resync();
+      
       CORBA_exception_free(&ev);
     }
 
@@ -282,19 +280,19 @@ GnomeAppletWindow::set_menu_active(int menu, bool active)
       CORBA_exception_init (&ev);
       switch (menu)
         {
-        case Menus::MENUSYNC_MODE_NORMAL:
+        case MENUSYNC_MODE_NORMAL:
           GNOME_Workrave_AppletControl_set_menu_status(applet_control, "/commands/Normal",
                                                        active, &ev);
           break;
-        case Menus::MENUSYNC_MODE_SUSPENDED:
+        case MENUSYNC_MODE_SUSPENDED:
           GNOME_Workrave_AppletControl_set_menu_status(applet_control, "/commands/Suspended",
                                                        active, &ev);
           break;
-        case Menus::MENUSYNC_MODE_QUIET:
+        case MENUSYNC_MODE_QUIET:
           GNOME_Workrave_AppletControl_set_menu_status(applet_control, "/commands/Quiet",
                                                        active, &ev);
           break;
-        case Menus::MENUSYNC_SHOW_LOG:
+        case MENUSYNC_SHOW_LOG:
           GNOME_Workrave_AppletControl_set_menu_status(applet_control, "/commands/ShowLog", active, &ev);
           break;
         }
@@ -316,19 +314,19 @@ GnomeAppletWindow::get_menu_active(int menu)
       CORBA_exception_init (&ev);
       switch (menu)
         {
-        case Menus::MENUSYNC_MODE_NORMAL:
+        case MENUSYNC_MODE_NORMAL:
           ret = GNOME_Workrave_AppletControl_get_menu_status(applet_control, "/commands/Normal",
                                                              &ev);
           break;
-        case Menus::MENUSYNC_MODE_SUSPENDED:
+        case MENUSYNC_MODE_SUSPENDED:
           ret = GNOME_Workrave_AppletControl_get_menu_status(applet_control, "/commands/Suspended",
                                                              &ev);
           break;
-        case Menus::MENUSYNC_MODE_QUIET:
+        case MENUSYNC_MODE_QUIET:
           ret = GNOME_Workrave_AppletControl_get_menu_status(applet_control, "/commands/Quiet",
                                                              &ev);
           break;
-        case Menus::MENUSYNC_SHOW_LOG:
+        case MENUSYNC_SHOW_LOG:
           ret = GNOME_Workrave_AppletControl_get_menu_status(applet_control, "/commands/ShowLog",
                                                              &ev);
           break;
@@ -576,5 +574,9 @@ GnomeAppletWindow::on_embedded()
   TRACE_ENTER("GnomeAppletWindow::on_embedded");
   control->set_applet_state(AppletControl::APPLET_GNOME,
                             AppletWindow::APPLET_STATE_VISIBLE);
+
+  Menus *menus = Menus::get_instance();
+  menus->resync();
+  
   TRACE_EXIT();
 }

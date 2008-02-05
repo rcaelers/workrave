@@ -157,10 +157,6 @@ MainWindow::init()
 
   enabled = TimerBoxControl::is_enabled("main_window");
 
-  Menus *menus = Menus::get_instance();
-  menus->set_main_window(this);
-  menus->create_menu(Menus::MENU_MAINWINDOW);
-
   timer_box_view = manage(new TimerBoxGtkView());
   timer_box_control = new TimerBoxControl("main_window", *timer_box_view);
   timer_box_view->set_geometry(ORIENTATION_LEFT, -1);
