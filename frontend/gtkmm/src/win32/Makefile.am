@@ -33,7 +33,7 @@ libworkrave_frontend_gtkmm_win32_la_CFLAGS = \
 
 
 libworkrave_frontend_gtkmm_win32_la_CXXFLAGS = \
-			$(libworkrave_frontend_gtkmm_win32_a_CFLAGS)
+			$(libworkrave_frontend_gtkmm_win32_la_CFLAGS)
 
 endif
 endif
