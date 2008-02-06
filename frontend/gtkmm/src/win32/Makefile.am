@@ -20,8 +20,7 @@ libworkrave_frontend_gtkmm_win32_la_SOURCES = \
 			W32AppletWindow.cc \
 			W32Compat.cc \
 			W32AppletMenu.cc \
-			W32TrayMenu.cc \
-			Win32
+			W32TrayMenu.cc
 
 libworkrave_frontend_gtkmm_win32_la_CFLAGS = \
 			-W  -I../../../common/include \
