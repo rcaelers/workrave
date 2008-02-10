@@ -117,6 +117,15 @@ static const char rcsid[] = "$Id$";
 
 GUI *GUI::instance = NULL;
 
+// FIXME: REMOVE
+#ifndef NDEBUG
+#ifdef PLATFORM_OS_WIN32
+#include <windows.h>
+#include <mmsystem.h>
+#include <time.h>
+#endif
+#endif
+
 //! GUI Constructor.
 /*!
  *  \param argc number of command line parameters.
@@ -337,7 +346,27 @@ bool
 GUI::on_timer()
 {
   std::string tip = get_timers_tooltip();
+  
+  // FIXME: remove
+#ifdef NDEBUG
+  BYTE keyState[256];
+  static bool state = false;
+  
+  GetKeyboardState((LPBYTE)&keyState);
 
+  if ((state && !(keyState[VK_NUMLOCK] & 1)) ||
+      (!state && (keyState[VK_NUMLOCK] & 1)) )
+    {
+      // Simulate a key press
+      keybd_event(VK_NUMLOCK, 0x45, KEYEVENTF_EXTENDEDKEY | 0, 0);
+      
+      // Simulate a key release
+      keybd_event(VK_NUMLOCK, 0x45, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
+    }
+
+  state = ! state;
+#endif
+    
   if (core != NULL)
     {
       core->heartbeat();
