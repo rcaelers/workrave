@@ -8,7 +8,7 @@
 MAINTAINERCLEANFILES = 	Makefile.in
 
 exercisesdir = 		$(pkgdatadir)/exercises
-#exercises_DATA = 	$(wildcard *.png) exercises.xml
+exercises_DATA = 	$(wildcard *.png) exercises.xml
 
 xmldir = 		$(exercisesdir)
 

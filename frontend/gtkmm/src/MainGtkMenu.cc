@@ -193,9 +193,11 @@ MainGtkMenu::create_ui()
         "<ui>"
         "  <popup name='Menu'>"
         + open_ui_info +
-        "    <menuitem action='Preferences'/>"
+        "    <separator/>" +
         "    <menuitem action='Restbreak'/>"
         "    <menuitem action='Exercises'/>"
+        "    <menuitem action='Statistics'/>"
+        "    <separator/>" +
         "    <menu action='Mode'>"
         "      <menuitem action='Normal'/>"
         "      <menuitem action='Suspended'/>"
@@ -207,7 +209,8 @@ MainGtkMenu::create_ui()
         "      <menuitem action='Reconnect'/>"
         "      <menuitem action='ShowLog'/>"
         "    </menu>"
-        "    <menuitem action='Statistics'/>"
+        "    <separator/>" +
+        "    <menuitem action='Preferences'/>"
         "    <menuitem action='About'/>"
         "    <menuitem action='Quit'/>"
         "  </popup>"
