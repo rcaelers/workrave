@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2008-01-16 23:35+0100\n"
+"POT-Creation-Date: 2008-02-10 14:07+0100\n"
 "PO-Revision-Date: 2006-07-31 18:09+0200\n"
 "Last-Translator: ORY Mate <orymate@gmail.com>\n"
 "Language-Team: <ubuntu-l10n-hu@lists.ubuntu.com>\n"
@@ -16,148 +16,152 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.2\n"
 
-#: ../backend/src/DistributionSocketLink.cc:127
+#: ../backend/src/DistributionSocketLink.cc:129
 #, c-format
 msgid "Reconnecting to %s:%d."
 msgstr "Újracsatlakozás a következőhöz: %s:%d."
 
-#: ../backend/src/DistributionSocketLink.cc:356
+#: ../backend/src/DistributionSocketLink.cc:348
 msgid "Cannot resolve my own hostname. Deactivating distribution."
 msgstr ""
 "Nem oldható fel a saját gépnév. A hálózati műveletek felfüggesztésre "
 "kerültek."
 
 #. We did not succeed in starting the server. Arghh.
-#: ../backend/src/DistributionSocketLink.cc:367
+#: ../backend/src/DistributionSocketLink.cc:359
 msgid "Could not enable network operation."
 msgstr "Nem engedélyezhetőek a hálózati műveletek."
 
-#: ../backend/src/DistributionSocketLink.cc:376
+#: ../backend/src/DistributionSocketLink.cc:368
 msgid "Disabling network operation."
 msgstr "Hálózati műveletek tiltása."
 
-#: ../backend/src/DistributionSocketLink.cc:532
-#: ../backend/src/DistributionSocketLink.cc:559
+#: ../backend/src/DistributionSocketLink.cc:524
+#: ../backend/src/DistributionSocketLink.cc:551
 #, c-format
 msgid "Connecting to %s:%d."
 msgstr "Csatlakozás a következőhöz: %s:%d."
 
-#: ../backend/src/DistributionSocketLink.cc:665
-#: ../backend/src/DistributionSocketLink.cc:692
+#: ../backend/src/DistributionSocketLink.cc:657
+#: ../backend/src/DistributionSocketLink.cc:684
 #, c-format
 msgid "Removing client %s:%d."
 msgstr "%s:%d kliens eltávolítása."
 
 #. Closing direct connection.
-#: ../backend/src/DistributionSocketLink.cc:731
+#: ../backend/src/DistributionSocketLink.cc:723
 #, c-format
 msgid "Disconnecting %s:%d."
 msgstr "Kapcsolat bontása a következővel: %s:%d."
 
 #. It's a remote client. mark it master.
-#: ../backend/src/DistributionSocketLink.cc:901
+#: ../backend/src/DistributionSocketLink.cc:893
 #, c-format
 msgid "Client %s:%d is now master."
 msgstr "A következő kliens az elsődleges: %s:%d."
 
 #. Its ME!
-#: ../backend/src/DistributionSocketLink.cc:907
+#: ../backend/src/DistributionSocketLink.cc:899
 msgid "I'm now master."
 msgstr "Én vagyok az elsődleges."
 
-#: ../backend/src/DistributionSocketLink.cc:1238
+#: ../backend/src/DistributionSocketLink.cc:1230
 #, c-format
 msgid "Client %s:%d saying hello."
 msgstr "%s:%d kliens „hello”-t küldött."
 
 #. Duplicate client. inform client that it's bogus and close.
-#: ../backend/src/DistributionSocketLink.cc:1253
-#: ../backend/src/DistributionSocketLink.cc:1381
-#: ../backend/src/DistributionSocketLink.cc:1621
+#: ../backend/src/DistributionSocketLink.cc:1245
+#: ../backend/src/DistributionSocketLink.cc:1373
+#: ../backend/src/DistributionSocketLink.cc:1613
 #, c-format
 msgid "Client %s:%d is duplicate."
 msgstr "A következő kliens többször szerepel: %s:%d."
 
 #. Incorrect password.
-#: ../backend/src/DistributionSocketLink.cc:1262
+#: ../backend/src/DistributionSocketLink.cc:1254
 #, c-format
 msgid "Client %s:%d access denied."
 msgstr "Hozzáférés megtagadva: %s:%d"
 
-#: ../backend/src/DistributionSocketLink.cc:1331
+#: ../backend/src/DistributionSocketLink.cc:1323
 #, c-format
 msgid "Client %s:%d signed off."
 msgstr "%s:%d kliens kijelentkezett."
 
-#: ../backend/src/DistributionSocketLink.cc:1420
+#: ../backend/src/DistributionSocketLink.cc:1412
 #, c-format
 msgid "Client %s:%d is welcoming us."
 msgstr "%s:%d kliens üdvözöl minket."
 
-#: ../backend/src/DistributionSocketLink.cc:1658
+#: ../backend/src/DistributionSocketLink.cc:1650
 #, c-format
 msgid "Requesting master status from %s:%d."
 msgstr "Elsődleges állapot igénylése a következőtől: %s:%d."
 
-#: ../backend/src/DistributionSocketLink.cc:1671
+#: ../backend/src/DistributionSocketLink.cc:1663
 #, c-format
 msgid "Client timeout from %s:%d."
 msgstr "Kliens időtúllépés: %s:%d."
 
-#: ../backend/src/DistributionSocketLink.cc:1692
+#: ../backend/src/DistributionSocketLink.cc:1684
 #, c-format
 msgid "Rejecting master request from client %s:%d."
 msgstr "%s:%d kliens elsődlegességi kérelme elutasítva."
 
-#: ../backend/src/DistributionSocketLink.cc:1698
+#: ../backend/src/DistributionSocketLink.cc:1690
 #, c-format
 msgid "Acknowledging master request from client %s:%d."
 msgstr "%s:%d kliens elsődlegességi kérelme elfogadva."
 
-#: ../backend/src/DistributionSocketLink.cc:1749
+#: ../backend/src/DistributionSocketLink.cc:1741
 #, c-format
 msgid "Non-master client %s:%d rejected master request."
 msgstr "%s:%d nem elsődleges kliens elutasította elsődlegességi kérelmét."
 
-#: ../backend/src/DistributionSocketLink.cc:1754
+#: ../backend/src/DistributionSocketLink.cc:1746
 #, c-format
 msgid "Client %s:%d rejected master request, delaying."
 msgstr "%s:%d kliens elutasította elsődlegességi kérelmét, késleltetés…"
 
 #. gint count =
-#: ../backend/src/DistributionSocketLink.cc:1825
+#: ../backend/src/DistributionSocketLink.cc:1817
 #, c-format
 msgid "Client %s is now the new master."
 msgstr "%s kliens az elsődleges."
 
-#: ../backend/src/DistributionSocketLink.cc:1946
+#: ../backend/src/DistributionSocketLink.cc:1938
 msgid "Network operation started."
 msgstr "Hálózati műveletek elkezdve."
 
-#: ../backend/src/DistributionSocketLink.cc:1963
+#: ../backend/src/DistributionSocketLink.cc:1955
 msgid "Accepted new client."
 msgstr "Új kliens elfogadva."
 
-#: ../backend/src/DistributionSocketLink.cc:2029
+#: ../backend/src/DistributionSocketLink.cc:2021
 #, c-format
 msgid "Client %s:%d read error, closing."
 msgstr "Olvasási hiba: %s:%d. Befejezés."
 
-#: ../backend/src/DistributionSocketLink.cc:2035
-#: ../backend/src/DistributionSocketLink.cc:2109
+#: ../backend/src/DistributionSocketLink.cc:2027
+#: ../backend/src/DistributionSocketLink.cc:2101
 #, c-format
 msgid "Client %s:%d closed connection."
 msgstr "%s:%d kliens befejezte a kapcsolatot."
 
-#: ../backend/src/DistributionSocketLink.cc:2076
+#: ../backend/src/DistributionSocketLink.cc:2068
 #, c-format
 msgid "Client %s:%d connected."
 msgstr "%s:%d kliens kapcsolódott."
 
-#: ../backend/src/DistributionSocketLink.cc:2116
+#: ../backend/src/DistributionSocketLink.cc:2108
 #, c-format
 msgid "Could not connect to client %s:%d."
 msgstr "Sikertelen kapcsolódás %s:%d klienshez."
+
+#: ../common/src/glibnls.c:132
+msgid "Too many alias levels for a locale, may indicate a loop"
+msgstr ""
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
 msgid "Break ignored"
@@ -170,7 +174,7 @@ msgstr "Felszólítás szünetre"
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:50
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:58
-#: ../frontend/gtkmm/src/GUI.cc:1377 ../frontend/gtkmm/src/GtkUtil.cc:163
+#: ../frontend/gtkmm/src/GUI.cc:1376 ../frontend/gtkmm/src/GtkUtil.cc:163
 msgid "Daily limit"
 msgstr "Napi korlátozás"
 
@@ -218,19 +222,19 @@ msgstr "%s%d perc és %02d másodperc"
 msgid "%s%d seconds"
 msgstr "%s%d másodperc"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:294
+#: ../frontend/gtkmm/src/BreakWindow.cc:295
 msgid "Lock"
 msgstr "Zárolás"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:313
+#: ../frontend/gtkmm/src/BreakWindow.cc:314
 msgid "Shut down"
 msgstr "Kikapcsolás"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:330
+#: ../frontend/gtkmm/src/BreakWindow.cc:331
 msgid "Skip"
 msgstr "Kihagyás"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:343
+#: ../frontend/gtkmm/src/BreakWindow.cc:344
 msgid "Postpone"
 msgstr "Elhalasztás"
 
@@ -245,98 +249,101 @@ msgstr ""
 "munkaidejének, keressen valami más tennivalót, például nézzen át\n"
 "egy iratot."
 
-#: ../frontend/gtkmm/src/GUI.cc:839
+#: ../frontend/gtkmm/src/GUI.cc:831
 msgid "I could not initialize Bonobo"
 msgstr "A Bonobo indítása sikertelen"
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1377 ../frontend/gtkmm/src/GtkUtil.cc:163
+#: ../frontend/gtkmm/src/GUI.cc:1376 ../frontend/gtkmm/src/GtkUtil.cc:163
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:55
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:173
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:271
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:181
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:279
 msgid "Micro-break"
 msgstr "Rövid pihenő"
 
-#: ../frontend/gtkmm/src/GUI.cc:1377 ../frontend/gtkmm/src/GtkUtil.cc:163
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:146
+#: ../frontend/gtkmm/src/GUI.cc:1376 ../frontend/gtkmm/src/GtkUtil.cc:163
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:154
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:78
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:212
 msgid "Rest break"
 msgstr "Pihenőidő"
 
-#. Mode menu item
-#: ../frontend/gtkmm/src/Menus.cc:220 ../frontend/gtkmm/src/Menus.cc:540
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
-msgid "_Mode"
-msgstr "_Mód"
-
-#. Mode menu item
-#: ../frontend/gtkmm/src/Menus.cc:228
-msgid "Main"
-msgstr ""
-
-#: ../frontend/gtkmm/src/Menus.cc:290 ../frontend/gtkmm/src/Menus.cc:559
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
-msgid "_Network"
-msgstr "_Hálózat"
-
-#: ../frontend/gtkmm/src/Menus.cc:294 ../frontend/gtkmm/src/Menus.cc:543
-msgid "_Connect"
-msgstr "C_satlakozás"
-
-#: ../frontend/gtkmm/src/Menus.cc:299 ../frontend/gtkmm/src/Menus.cc:546
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
-msgid "_Disconnect"
-msgstr "_Kapcsolat bontása"
-
-#: ../frontend/gtkmm/src/Menus.cc:304 ../frontend/gtkmm/src/Menus.cc:550
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
-msgid "_Reconnect"
-msgstr "Ú_jracsatlakozás"
-
-#: ../frontend/gtkmm/src/Menus.cc:309 ../frontend/gtkmm/src/Menus.cc:553
-msgid "Show _log"
-msgstr "Nap_ló"
-
-#: ../frontend/gtkmm/src/Menus.cc:332 ../frontend/gtkmm/src/Menus.cc:515
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:99
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:156
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:81
 msgid "_Rest break"
 msgstr "_Pihenőidő"
 
-#: ../frontend/gtkmm/src/Menus.cc:342 ../frontend/gtkmm/src/Menus.cc:516
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:122
+msgid "_Tools"
+msgstr ""
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:126
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:102
+msgid "_Mode"
+msgstr "_Mód"
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:128
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:84
+msgid "_Normal"
+msgstr "_Általános"
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:131
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:90
+msgid "_Suspended"
+msgstr "_Felfüggesztett"
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:134
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:96
+msgid "Q_uiet"
+msgstr "_Csendes"
+
+#. Networking menu
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:138
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:121
+msgid "_Network"
+msgstr "_Hálózat"
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:139
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:105
+msgid "_Connect"
+msgstr "C_satlakozás"
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:141
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:108
+msgid "_Disconnect"
+msgstr "_Kapcsolat bontása"
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:143
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:112
+msgid "_Reconnect"
+msgstr "Ú_jracsatlakozás"
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:145
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:115
+msgid "Show _log"
+msgstr "Nap_ló"
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:165
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:82
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:43
 msgid "Exercises"
 msgstr "Gyakorlatok"
 
-#: ../frontend/gtkmm/src/Menus.cc:358 ../frontend/gtkmm/src/Menus.cc:561
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:169
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:123
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:62
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:141
 msgid "Statistics"
 msgstr "Statisztika"
 
-#: ../frontend/gtkmm/src/Menus.cc:367 ../frontend/gtkmm/src/Menus.cc:562
-msgid "About..."
-msgstr "Névjegy…"
-
-#: ../frontend/gtkmm/src/Menus.cc:514
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:62
-msgid "Preferences"
-msgstr "Beállítások"
-
-#: ../frontend/gtkmm/src/Menus.cc:519
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
-msgid "_Normal"
-msgstr "_Általános"
-
-#: ../frontend/gtkmm/src/Menus.cc:526
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
-msgid "_Suspended"
-msgstr "_Felfüggesztett"
-
-#: ../frontend/gtkmm/src/Menus.cc:533
-msgid "Q_uiet"
-msgstr "_Csendes"
-
-#: ../frontend/gtkmm/src/Menus.cc:770
+#: ../frontend/gtkmm/src/Menus.cc:335
 #: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:367
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
@@ -345,29 +352,34 @@ msgstr ""
 "Ez a program segít az ismétlődő mozgásból eredő izomhúzódás (RSI – "
 "repetitive strain injury) megelőzésében és az abból való felépülésben."
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:233
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:241
 msgid "Please relax for a few seconds"
 msgstr "Kérem, lazítson pár másodpercig"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:240
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:248
 #, c-format
 msgid "Next rest break in %s"
 msgstr "A következő pihenőidő %s múlva lesz"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:245
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:253
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "A pihenőidő %s késésben van"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:258
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:266
 #, c-format
 msgid "Daily limit in %s"
 msgstr "A napi korlátozásból %s van hátra"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:263
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:271
 #, c-format
 msgid "Daily limit %s overdue"
 msgstr "A napi korlátozás %s túllépésben2 van"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:62
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:80
+msgid "Preferences"
+msgstr "Beállítások"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:70
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:106
@@ -384,8 +396,8 @@ msgstr "Kisalkalmazás"
 
 #. Notebook
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:83
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:167
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:180
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:165
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:194
 msgid "Timers"
 msgstr "Időzítők"
 
@@ -427,7 +439,7 @@ msgstr "A bemenetek és a képernyő tiltása"
 
 #. Options
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:187
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:131
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:139
 msgid "Options"
 msgstr "Opciók"
 
@@ -493,118 +505,118 @@ msgstr "A következő pihenőidő %s múlva lesz"
 msgid "Wait"
 msgstr "Várakozás"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:100
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:98
 msgid "Place timers next to each other"
 msgstr "Időzítők egymás után helyezése"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:102
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:100
 msgid "Place micro-break and rest break in one spot"
 msgstr "A rövid pihenő és a pihenőidő kijelzőinek összevonása"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:104
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:102
 msgid "Place rest break and daily limit in one spot"
 msgstr "A pihenőidő és a napi korlátozás kijelzőjének összevonása"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:106
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:104
 msgid "Place all timers in one spot"
 msgstr "Az összes időzítő kijelzőjének összevonása"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:126
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:124
 msgid "Hide"
 msgstr "Elrejtés"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:128
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:126
 msgid "Show"
 msgstr "Megjelenítés"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:130
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:128
 msgid "Show only when this timer is first due"
 msgstr "Csak akkor mutassa, ha ez lesz a következő megszakítás"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:138
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:136
 msgid "Show status window"
 msgstr "Állapotjelző ablak megjelenítése"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:143
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:141
 msgid "The status window stays always on top of other windows"
 msgstr "Az állapotjelző ablak mindig a többi ablak fölött helyezkedik el"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:149
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:147
 msgid "Applet enabled"
 msgstr "Kisalkalmazás engedélyezve"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:155
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:153
 msgid "Display"
 msgstr "Kijelzés"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:164
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:162
 msgid "Placement:"
 msgstr "Elhelyezés:"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:165
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:163
 msgid "Cycle time:"
 msgstr "Ciklusidő: (másodpercben)"
 
 #. Layout
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:170
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:168
 msgid "Micro-break:"
 msgstr "Rövid pihenő:"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:171
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:169
 msgid "Rest break:"
 msgstr "Pihenőidő:"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:172
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:170
 msgid "Daily limit:"
 msgstr "Napi korlátozás:"
 
 #. Enabled/Disabled checkbox
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:65
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:67
 msgid "Enable timer"
 msgstr "Időzítés engedélyezése"
 
 #. Prelude frame
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:106
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:108
 msgid "Break prompting"
 msgstr "Felszólítás szünet tartására"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:108
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:110
 msgid "Prompt before breaking"
 msgstr "Felszólítás a szünet előtt"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:112
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:114
 msgid "Maximum number of prompts:"
 msgstr "Felszólítások maximális száma:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:135
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:143
 msgid "Show 'Postpone' and 'Skip' button"
 msgstr "„Elhalasztás” és „Kihagyás” gombok megjelenítése"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:140
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:148
 msgid "Suspend timer when inactive"
 msgstr "Időzítés felfüggesztése, ha a felhasználó inaktív"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:153
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:161
 msgid "Regard micro-breaks as activity"
 msgstr "Rövid pihenők tekintése aktivitásnak"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:162
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:170
 msgid "Number of exercises:"
 msgstr "Gyakorlatok száma:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:185
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:199
 msgid "Time before end:"
 msgstr "Napi géphasználati korlát:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:186
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:200
 msgid "Time between breaks:"
 msgstr "Szünetek közti idő:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:193
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:207
 msgid "Break duration:"
 msgstr "Szünet időtartama:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:208
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:222
 msgid "Postpone time:"
 msgstr "Elhalasztás hossza:"
 
@@ -615,6 +627,14 @@ msgstr "Tájolás"
 #: ../frontend/gtkmm/src/eggtrayicon.c:134
 msgid "The orientation of the tray."
 msgstr "A panel tájolása."
+
+#: ../frontend/gtkmm/src/workrave.desktop.in.in.h:1
+#, fuzzy
+msgid ""
+"Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
+msgstr ""
+"Ez a program segít az ismétlődő mozgásból eredő izomhúzódás (RSI – "
+"repetitive strain injury) megelőzésében és az abból való felépülésben."
 
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:1
 msgid "_About..."
@@ -680,6 +700,10 @@ msgstr "Workrave kisalkalmazás"
 #, c-format
 msgid "An exception occurred '%s'"
 msgstr ""
+
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:124
+msgid "About..."
+msgstr "Névjegy…"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:52
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:71
@@ -904,39 +928,39 @@ msgstr ""
 "Fordítsa balra a fejét és tartsa úgy két másodpercig. Ezután fordítsa jobbra "
 "és tartsa úgy két másodpercig."
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:257
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:262
 msgid "Exercises player"
 msgstr "Feladatok"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:293
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:298
 msgid "Previous exercise"
 msgstr ""
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:294
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:299
 #, fuzzy
 msgid "Next exercise"
 msgstr "Gyakorlatok száma:"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:295
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:466
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:300
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:471
 #, fuzzy
 msgid "Pause exercises"
 msgstr "Gyakorlatok száma:"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:296
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:301
 #, fuzzy
 msgid "End exercises"
 msgstr "Gyakorlatok"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:458
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:463
 msgid "Resume"
 msgstr "Folytatás"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:458
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:463
 msgid "Pause"
 msgstr "Szünet"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:464
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:469
 #, fuzzy
 msgid "Resume exercises"
 msgstr "Gyakorlatok száma:"

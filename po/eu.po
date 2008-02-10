@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eu\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2008-01-16 23:35+0100\n"
+"POT-Creation-Date: 2008-02-10 14:07+0100\n"
 "PO-Revision-Date: 2007-04-30 19:27+0200\n"
 "Last-Translator: Thomas Basset <thomas.basset@netcourrier.com>\n"
 "Language-Team:  <eu@li.org>\n"
@@ -16,146 +16,150 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.9.1\n"
 
-#: ../backend/src/DistributionSocketLink.cc:127
+#: ../backend/src/DistributionSocketLink.cc:129
 #, c-format
 msgid "Reconnecting to %s:%d."
 msgstr "%s:%d-rekin birkonektatzen"
 
-#: ../backend/src/DistributionSocketLink.cc:356
+#: ../backend/src/DistributionSocketLink.cc:348
 msgid "Cannot resolve my own hostname. Deactivating distribution."
 msgstr "Neure host izena ezin dut asmatu. Banaketa desgaitzen."
 
 #. We did not succeed in starting the server. Arghh.
-#: ../backend/src/DistributionSocketLink.cc:367
+#: ../backend/src/DistributionSocketLink.cc:359
 msgid "Could not enable network operation."
 msgstr "Ezin dut sare eragiketa gaitu"
 
-#: ../backend/src/DistributionSocketLink.cc:376
+#: ../backend/src/DistributionSocketLink.cc:368
 msgid "Disabling network operation."
 msgstr "Sare eragiketa desgaitzen"
 
-#: ../backend/src/DistributionSocketLink.cc:532
-#: ../backend/src/DistributionSocketLink.cc:559
+#: ../backend/src/DistributionSocketLink.cc:524
+#: ../backend/src/DistributionSocketLink.cc:551
 #, c-format
 msgid "Connecting to %s:%d."
 msgstr "%s:%d-rekin konektatzen"
 
-#: ../backend/src/DistributionSocketLink.cc:665
-#: ../backend/src/DistributionSocketLink.cc:692
+#: ../backend/src/DistributionSocketLink.cc:657
+#: ../backend/src/DistributionSocketLink.cc:684
 #, c-format
 msgid "Removing client %s:%d."
 msgstr "%s:%d bezeroa kentzen."
 
 #. Closing direct connection.
-#: ../backend/src/DistributionSocketLink.cc:731
+#: ../backend/src/DistributionSocketLink.cc:723
 #, c-format
 msgid "Disconnecting %s:%d."
 msgstr "%s:%d deskonektatzen."
 
 #. It's a remote client. mark it master.
-#: ../backend/src/DistributionSocketLink.cc:901
+#: ../backend/src/DistributionSocketLink.cc:893
 #, c-format
 msgid "Client %s:%d is now master."
 msgstr "Orain %s:%d bezeroa maisua da."
 
 #. Its ME!
-#: ../backend/src/DistributionSocketLink.cc:907
+#: ../backend/src/DistributionSocketLink.cc:899
 msgid "I'm now master."
 msgstr "Orain neu naiz maisua"
 
-#: ../backend/src/DistributionSocketLink.cc:1238
+#: ../backend/src/DistributionSocketLink.cc:1230
 #, c-format
 msgid "Client %s:%d saying hello."
 msgstr "%s:%d bezeroa agurtzen."
 
 #. Duplicate client. inform client that it's bogus and close.
-#: ../backend/src/DistributionSocketLink.cc:1253
-#: ../backend/src/DistributionSocketLink.cc:1381
-#: ../backend/src/DistributionSocketLink.cc:1621
+#: ../backend/src/DistributionSocketLink.cc:1245
+#: ../backend/src/DistributionSocketLink.cc:1373
+#: ../backend/src/DistributionSocketLink.cc:1613
 #, c-format
 msgid "Client %s:%d is duplicate."
 msgstr "%s:%d bezeroa bikoiztuta dago."
 
 #. Incorrect password.
-#: ../backend/src/DistributionSocketLink.cc:1262
+#: ../backend/src/DistributionSocketLink.cc:1254
 #, c-format
 msgid "Client %s:%d access denied."
 msgstr "%s:%d bezeroa ezin da atzitu."
 
-#: ../backend/src/DistributionSocketLink.cc:1331
+#: ../backend/src/DistributionSocketLink.cc:1323
 #, c-format
 msgid "Client %s:%d signed off."
 msgstr "%s:%d bezeroak alde egin du."
 
-#: ../backend/src/DistributionSocketLink.cc:1420
+#: ../backend/src/DistributionSocketLink.cc:1412
 #, c-format
 msgid "Client %s:%d is welcoming us."
 msgstr "%s:%d bezeroak ongi etorria eman digu."
 
-#: ../backend/src/DistributionSocketLink.cc:1658
+#: ../backend/src/DistributionSocketLink.cc:1650
 #, c-format
 msgid "Requesting master status from %s:%d."
 msgstr "%s:%d-tik maisu egoeraz galdetzen."
 
-#: ../backend/src/DistributionSocketLink.cc:1671
+#: ../backend/src/DistributionSocketLink.cc:1663
 #, c-format
 msgid "Client timeout from %s:%d."
 msgstr "%s:%d bezeroaren denbora amaitu da."
 
-#: ../backend/src/DistributionSocketLink.cc:1692
+#: ../backend/src/DistributionSocketLink.cc:1684
 #, c-format
 msgid "Rejecting master request from client %s:%d."
 msgstr "%s:%d bezerotik maisutasun eskaerari uko."
 
-#: ../backend/src/DistributionSocketLink.cc:1698
+#: ../backend/src/DistributionSocketLink.cc:1690
 #, c-format
 msgid "Acknowledging master request from client %s:%d."
 msgstr "%s:%d bezeroaren maisutasun eskaera onartzen."
 
-#: ../backend/src/DistributionSocketLink.cc:1749
+#: ../backend/src/DistributionSocketLink.cc:1741
 #, c-format
 msgid "Non-master client %s:%d rejected master request."
 msgstr "%s:%d bezero ez-maisuari maisutasun eskaera ukatuta."
 
-#: ../backend/src/DistributionSocketLink.cc:1754
+#: ../backend/src/DistributionSocketLink.cc:1746
 #, c-format
 msgid "Client %s:%d rejected master request, delaying."
 msgstr "%s:%d bezeroari maisutasun eskaera utzia, atzeratzen."
 
 #. gint count =
-#: ../backend/src/DistributionSocketLink.cc:1825
+#: ../backend/src/DistributionSocketLink.cc:1817
 #, c-format
 msgid "Client %s is now the new master."
 msgstr "%s bezeroa maisu berria da orain."
 
-#: ../backend/src/DistributionSocketLink.cc:1946
+#: ../backend/src/DistributionSocketLink.cc:1938
 msgid "Network operation started."
 msgstr "Sare eragiketa hasita."
 
-#: ../backend/src/DistributionSocketLink.cc:1963
+#: ../backend/src/DistributionSocketLink.cc:1955
 msgid "Accepted new client."
 msgstr "Bezero berria onartuta."
 
-#: ../backend/src/DistributionSocketLink.cc:2029
+#: ../backend/src/DistributionSocketLink.cc:2021
 #, c-format
 msgid "Client %s:%d read error, closing."
 msgstr "%s:%d bezeroaren irakurketa akatsa, ixten."
 
-#: ../backend/src/DistributionSocketLink.cc:2035
-#: ../backend/src/DistributionSocketLink.cc:2109
+#: ../backend/src/DistributionSocketLink.cc:2027
+#: ../backend/src/DistributionSocketLink.cc:2101
 #, c-format
 msgid "Client %s:%d closed connection."
 msgstr "%s:%d bezeroak konexioa itxia."
 
-#: ../backend/src/DistributionSocketLink.cc:2076
+#: ../backend/src/DistributionSocketLink.cc:2068
 #, c-format
 msgid "Client %s:%d connected."
 msgstr "%s:%d bezeroa konektatuta."
 
-#: ../backend/src/DistributionSocketLink.cc:2116
+#: ../backend/src/DistributionSocketLink.cc:2108
 #, c-format
 msgid "Could not connect to client %s:%d."
 msgstr "Ezin dut %s:%d bezeroarekin konektatu."
+
+#: ../common/src/glibnls.c:132
+msgid "Too many alias levels for a locale, may indicate a loop"
+msgstr ""
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
 msgid "Break ignored"
@@ -168,7 +172,7 @@ msgstr "Etendura eskaera"
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:50
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:58
-#: ../frontend/gtkmm/src/GUI.cc:1377 ../frontend/gtkmm/src/GtkUtil.cc:163
+#: ../frontend/gtkmm/src/GUI.cc:1376 ../frontend/gtkmm/src/GtkUtil.cc:163
 msgid "Daily limit"
 msgstr "Eguneko muga"
 
@@ -216,19 +220,19 @@ msgstr "%s%d:%02d minutu"
 msgid "%s%d seconds"
 msgstr "%s%d segundu"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:294
+#: ../frontend/gtkmm/src/BreakWindow.cc:295
 msgid "Lock"
 msgstr "Blokeatu "
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:313
+#: ../frontend/gtkmm/src/BreakWindow.cc:314
 msgid "Shut down"
 msgstr "Itzali"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:330
+#: ../frontend/gtkmm/src/BreakWindow.cc:331
 msgid "Skip"
 msgstr "Jauzi"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:343
+#: ../frontend/gtkmm/src/BreakWindow.cc:344
 msgid "Postpone"
 msgstr "Atzeratu"
 
@@ -242,98 +246,101 @@ msgstr ""
 "egiteari utzi, mesedez. Zure lan txanda amaitu ez baduzu\n"
 "beste zerbaitetan hasi, dokumentuak birpasatzea adibidez."
 
-#: ../frontend/gtkmm/src/GUI.cc:839
+#: ../frontend/gtkmm/src/GUI.cc:831
 msgid "I could not initialize Bonobo"
 msgstr "Ezin da Bonobo hasi"
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1377 ../frontend/gtkmm/src/GtkUtil.cc:163
+#: ../frontend/gtkmm/src/GUI.cc:1376 ../frontend/gtkmm/src/GtkUtil.cc:163
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:55
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:173
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:271
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:181
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:279
 msgid "Micro-break"
 msgstr "Mikro-atsedena "
 
-#: ../frontend/gtkmm/src/GUI.cc:1377 ../frontend/gtkmm/src/GtkUtil.cc:163
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:146
+#: ../frontend/gtkmm/src/GUI.cc:1376 ../frontend/gtkmm/src/GtkUtil.cc:163
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:154
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:78
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:212
 msgid "Rest break"
 msgstr "Atsedena"
 
-#. Mode menu item
-#: ../frontend/gtkmm/src/Menus.cc:220 ../frontend/gtkmm/src/Menus.cc:540
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
-msgid "_Mode"
-msgstr "_Modua"
-
-#. Mode menu item
-#: ../frontend/gtkmm/src/Menus.cc:228
-msgid "Main"
-msgstr ""
-
-#: ../frontend/gtkmm/src/Menus.cc:290 ../frontend/gtkmm/src/Menus.cc:559
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
-msgid "_Network"
-msgstr "_Sarea"
-
-#: ../frontend/gtkmm/src/Menus.cc:294 ../frontend/gtkmm/src/Menus.cc:543
-msgid "_Connect"
-msgstr "_Konektatu"
-
-#: ../frontend/gtkmm/src/Menus.cc:299 ../frontend/gtkmm/src/Menus.cc:546
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
-msgid "_Disconnect"
-msgstr "_Deskonektatu"
-
-#: ../frontend/gtkmm/src/Menus.cc:304 ../frontend/gtkmm/src/Menus.cc:550
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
-msgid "_Reconnect"
-msgstr "_Birkonektatu"
-
-#: ../frontend/gtkmm/src/Menus.cc:309 ../frontend/gtkmm/src/Menus.cc:553
-msgid "Show _log"
-msgstr "_Log-a erakutsi"
-
-#: ../frontend/gtkmm/src/Menus.cc:332 ../frontend/gtkmm/src/Menus.cc:515
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:99
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:156
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:81
 msgid "_Rest break"
 msgstr "_Atsedena"
 
-#: ../frontend/gtkmm/src/Menus.cc:342 ../frontend/gtkmm/src/Menus.cc:516
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:122
+msgid "_Tools"
+msgstr ""
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:126
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:102
+msgid "_Mode"
+msgstr "_Modua"
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:128
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:84
+msgid "_Normal"
+msgstr "_Arrunta"
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:131
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:90
+msgid "_Suspended"
+msgstr "_Eseki"
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:134
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:96
+msgid "Q_uiet"
+msgstr "I_silik"
+
+#. Networking menu
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:138
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:121
+msgid "_Network"
+msgstr "_Sarea"
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:139
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:105
+msgid "_Connect"
+msgstr "_Konektatu"
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:141
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:108
+msgid "_Disconnect"
+msgstr "_Deskonektatu"
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:143
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:112
+msgid "_Reconnect"
+msgstr "_Birkonektatu"
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:145
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:115
+msgid "Show _log"
+msgstr "_Log-a erakutsi"
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:165
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:82
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:43
 msgid "Exercises"
 msgstr "Ariketak"
 
-#: ../frontend/gtkmm/src/Menus.cc:358 ../frontend/gtkmm/src/Menus.cc:561
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:169
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:123
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:62
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:141
 msgid "Statistics"
 msgstr "Estatistikak"
 
-#: ../frontend/gtkmm/src/Menus.cc:367 ../frontend/gtkmm/src/Menus.cc:562
-msgid "About..."
-msgstr "...(r)i buruz"
-
-#: ../frontend/gtkmm/src/Menus.cc:514
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:62
-msgid "Preferences"
-msgstr "Hobespenak"
-
-#: ../frontend/gtkmm/src/Menus.cc:519
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
-msgid "_Normal"
-msgstr "_Arrunta"
-
-#: ../frontend/gtkmm/src/Menus.cc:526
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
-msgid "_Suspended"
-msgstr "_Eseki"
-
-#: ../frontend/gtkmm/src/Menus.cc:533
-msgid "Q_uiet"
-msgstr "I_silik"
-
-#: ../frontend/gtkmm/src/Menus.cc:770
+#: ../frontend/gtkmm/src/Menus.cc:335
 #: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:367
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
@@ -342,29 +349,34 @@ msgstr ""
 "Programa honek Ahalegin Errepikarkorrek eragindako Kalteak (AEK) prebenitzen "
 "eta sendatzen laguntzen du."
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:233
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:241
 msgid "Please relax for a few seconds"
 msgstr "Lasaitu segundu batzuk mesedez"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:240
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:248
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Hurrengo atsedena %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:245
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:253
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Atsedena %s minutuz atzeratu da"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:258
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:266
 #, c-format
 msgid "Daily limit in %s"
 msgstr "Eguneko mugarako %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:263
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:271
 #, c-format
 msgid "Daily limit %s overdue"
 msgstr "Eguneko muga %s atzeratuta"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:62
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:80
+msgid "Preferences"
+msgstr "Hobespenak"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:70
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:106
@@ -381,8 +393,8 @@ msgstr "Appleta"
 
 #. Notebook
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:83
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:167
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:180
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:165
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:194
 msgid "Timers"
 msgstr "Kontagailuak"
 
@@ -424,7 +436,7 @@ msgstr "Sarrerak eta pantaia blokeatu"
 
 #. Options
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:187
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:131
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:139
 msgid "Options"
 msgstr "Aukerak"
 
@@ -491,118 +503,118 @@ msgstr "Hurrengo atsedena %s"
 msgid "Wait"
 msgstr "Itxaron"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:100
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:98
 msgid "Place timers next to each other"
 msgstr "Kontagailuak bata bestearen atzean jarri"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:102
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:100
 msgid "Place micro-break and rest break in one spot"
 msgstr "Mikro-atsedena eta atsedena toki berean jarri"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:104
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:102
 msgid "Place rest break and daily limit in one spot"
 msgstr "Atsedena eta eguneko muga toki berean jarri"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:106
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:104
 msgid "Place all timers in one spot"
 msgstr "Kontagailu guztiak toki bakarrean jarri"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:126
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:124
 msgid "Hide"
 msgstr "Ezkutatu"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:128
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:126
 msgid "Show"
 msgstr "Erakutsi"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:130
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:128
 msgid "Show only when this timer is first due"
 msgstr "Soilik kontagailu hau betetakoan erakutsi"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:138
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:136
 msgid "Show status window"
 msgstr "Egoera lehioa erakutsi"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:143
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:141
 msgid "The status window stays always on top of other windows"
 msgstr "Egoera lehioa gainontzeko lehioen gainean jarri beti"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:149
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:147
 msgid "Applet enabled"
 msgstr "Appleta gaitu"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:155
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:153
 msgid "Display"
 msgstr "Erakutsi"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:164
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:162
 msgid "Placement:"
 msgstr "Kokagunea:"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:165
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:163
 msgid "Cycle time:"
 msgstr "Zikloaren denbora:"
 
 #. Layout
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:170
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:168
 msgid "Micro-break:"
 msgstr "Mikro-atsedena:"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:171
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:169
 msgid "Rest break:"
 msgstr "Atsedena:"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:172
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:170
 msgid "Daily limit:"
 msgstr "Eguneko muga:"
 
 #. Enabled/Disabled checkbox
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:65
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:67
 msgid "Enable timer"
 msgstr "Kontagailua gaitu"
 
 #. Prelude frame
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:106
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:108
 msgid "Break prompting"
 msgstr "Etenduraren jakinarazpena"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:108
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:110
 msgid "Prompt before breaking"
 msgstr "Eten aurretik jakinarazi"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:112
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:114
 msgid "Maximum number of prompts:"
 msgstr "Jakinarazpen gehienezko kopurua:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:135
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:143
 msgid "Show 'Postpone' and 'Skip' button"
 msgstr "'Atzeratu' eta 'Jauzi' botoiak erakutsi"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:140
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:148
 msgid "Suspend timer when inactive"
 msgstr "Inaktibo dagoenean kontagailua eseki"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:153
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:161
 msgid "Regard micro-breaks as activity"
 msgstr "Mirko-atsedenak jardueratzat hartu"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:162
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:170
 msgid "Number of exercises:"
 msgstr "Ariketa kopurua:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:185
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:199
 msgid "Time before end:"
 msgstr "Amaitzeko denbora:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:186
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:200
 msgid "Time between breaks:"
 msgstr "Etenduren arteko denbora:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:193
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:207
 msgid "Break duration:"
 msgstr "Atsedenaren iraupena:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:208
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:222
 msgid "Postpone time:"
 msgstr "Atzerapenaren iraupena:"
 
@@ -613,6 +625,14 @@ msgstr "Orientazioa "
 #: ../frontend/gtkmm/src/eggtrayicon.c:134
 msgid "The orientation of the tray."
 msgstr "Oharen lehioaren orientazioa "
+
+#: ../frontend/gtkmm/src/workrave.desktop.in.in.h:1
+#, fuzzy
+msgid ""
+"Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
+msgstr ""
+"Programa honek Ahalegin Errepikarkorrek eragindako Kalteak (AEK) prebenitzen "
+"eta sendatzen laguntzen du."
 
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:1
 msgid "_About..."
@@ -678,6 +698,10 @@ msgstr "Workrave Appleta"
 #, c-format
 msgid "An exception occurred '%s'"
 msgstr ""
+
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:124
+msgid "About..."
+msgstr "...(r)i buruz"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:52
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:71
@@ -900,39 +924,39 @@ msgstr ""
 "Burua ezkerrera biratu eta bi segundutan egon. Orduan eskuinera biratu eta "
 "eduki hor beste bi segundutan."
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:257
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:262
 msgid "Exercises player"
 msgstr "Ariketa txanda"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:293
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:298
 msgid "Previous exercise"
 msgstr ""
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:294
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:299
 #, fuzzy
 msgid "Next exercise"
 msgstr "Ariketa kopurua:"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:295
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:466
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:300
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:471
 #, fuzzy
 msgid "Pause exercises"
 msgstr "Ariketa kopurua:"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:296
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:301
 #, fuzzy
 msgid "End exercises"
 msgstr "Ariketak"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:458
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:463
 msgid "Resume"
 msgstr "Berrekin"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:458
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:463
 msgid "Pause"
 msgstr "Gelditu"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:464
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:469
 #, fuzzy
 msgid "Resume exercises"
 msgstr "Ariketa kopurua:"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2008-01-16 23:35+0100\n"
+"POT-Creation-Date: 2008-02-10 14:07+0100\n"
 "PO-Revision-Date: 2007-09-02 22:49+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -15,146 +15,150 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../backend/src/DistributionSocketLink.cc:127
+#: ../backend/src/DistributionSocketLink.cc:129
 #, c-format
 msgid "Reconnecting to %s:%d."
 msgstr "Återansluter till %s:%d."
 
-#: ../backend/src/DistributionSocketLink.cc:356
+#: ../backend/src/DistributionSocketLink.cc:348
 msgid "Cannot resolve my own hostname. Deactivating distribution."
 msgstr "Kan inte slå upp mitt egna värdnamn. Inaktiverar distribution."
 
 #. We did not succeed in starting the server. Arghh.
-#: ../backend/src/DistributionSocketLink.cc:367
+#: ../backend/src/DistributionSocketLink.cc:359
 msgid "Could not enable network operation."
 msgstr "Kunde inte aktivera nätverksfunktionen."
 
-#: ../backend/src/DistributionSocketLink.cc:376
+#: ../backend/src/DistributionSocketLink.cc:368
 msgid "Disabling network operation."
 msgstr "Inaktiverar nätverksfunktion."
 
-#: ../backend/src/DistributionSocketLink.cc:532
-#: ../backend/src/DistributionSocketLink.cc:559
+#: ../backend/src/DistributionSocketLink.cc:524
+#: ../backend/src/DistributionSocketLink.cc:551
 #, c-format
 msgid "Connecting to %s:%d."
 msgstr "Ansluter till %s:%d."
 
-#: ../backend/src/DistributionSocketLink.cc:665
-#: ../backend/src/DistributionSocketLink.cc:692
+#: ../backend/src/DistributionSocketLink.cc:657
+#: ../backend/src/DistributionSocketLink.cc:684
 #, c-format
 msgid "Removing client %s:%d."
 msgstr "Tar bort klient %s:%d."
 
 #. Closing direct connection.
-#: ../backend/src/DistributionSocketLink.cc:731
+#: ../backend/src/DistributionSocketLink.cc:723
 #, c-format
 msgid "Disconnecting %s:%d."
 msgstr "Kopplar ner %s:%d."
 
 #. It's a remote client. mark it master.
-#: ../backend/src/DistributionSocketLink.cc:901
+#: ../backend/src/DistributionSocketLink.cc:893
 #, c-format
 msgid "Client %s:%d is now master."
 msgstr "Klient %s:%d är nu master."
 
 #. Its ME!
-#: ../backend/src/DistributionSocketLink.cc:907
+#: ../backend/src/DistributionSocketLink.cc:899
 msgid "I'm now master."
 msgstr "Jag är nu master."
 
-#: ../backend/src/DistributionSocketLink.cc:1238
+#: ../backend/src/DistributionSocketLink.cc:1230
 #, c-format
 msgid "Client %s:%d saying hello."
 msgstr "Klient %s:%d säger hej."
 
 #. Duplicate client. inform client that it's bogus and close.
-#: ../backend/src/DistributionSocketLink.cc:1253
-#: ../backend/src/DistributionSocketLink.cc:1381
-#: ../backend/src/DistributionSocketLink.cc:1621
+#: ../backend/src/DistributionSocketLink.cc:1245
+#: ../backend/src/DistributionSocketLink.cc:1373
+#: ../backend/src/DistributionSocketLink.cc:1613
 #, c-format
 msgid "Client %s:%d is duplicate."
 msgstr "Klient %s:%d är en dubblett."
 
 #. Incorrect password.
-#: ../backend/src/DistributionSocketLink.cc:1262
+#: ../backend/src/DistributionSocketLink.cc:1254
 #, c-format
 msgid "Client %s:%d access denied."
 msgstr "Klient %s:%d åtkomst nekas."
 
-#: ../backend/src/DistributionSocketLink.cc:1331
+#: ../backend/src/DistributionSocketLink.cc:1323
 #, c-format
 msgid "Client %s:%d signed off."
 msgstr "Klient %s:%d loggade av."
 
-#: ../backend/src/DistributionSocketLink.cc:1420
+#: ../backend/src/DistributionSocketLink.cc:1412
 #, c-format
 msgid "Client %s:%d is welcoming us."
 msgstr "Klient %s:%d välkomnar oss."
 
-#: ../backend/src/DistributionSocketLink.cc:1658
+#: ../backend/src/DistributionSocketLink.cc:1650
 #, c-format
 msgid "Requesting master status from %s:%d."
 msgstr "Begär masterstatus från %s:%d."
 
-#: ../backend/src/DistributionSocketLink.cc:1671
+#: ../backend/src/DistributionSocketLink.cc:1663
 #, c-format
 msgid "Client timeout from %s:%d."
 msgstr "Timeout för klient från %s:%d."
 
-#: ../backend/src/DistributionSocketLink.cc:1692
+#: ../backend/src/DistributionSocketLink.cc:1684
 #, c-format
 msgid "Rejecting master request from client %s:%d."
 msgstr "Avvisar begäran om master från klient %s: %d."
 
-#: ../backend/src/DistributionSocketLink.cc:1698
+#: ../backend/src/DistributionSocketLink.cc:1690
 #, c-format
 msgid "Acknowledging master request from client %s:%d."
 msgstr "Bekräftar begäran om master från klient %s: %d."
 
-#: ../backend/src/DistributionSocketLink.cc:1749
+#: ../backend/src/DistributionSocketLink.cc:1741
 #, c-format
 msgid "Non-master client %s:%d rejected master request."
 msgstr "Icke-master-klient %s:%d avvisade begäran om master."
 
-#: ../backend/src/DistributionSocketLink.cc:1754
+#: ../backend/src/DistributionSocketLink.cc:1746
 #, c-format
 msgid "Client %s:%d rejected master request, delaying."
 msgstr "Klient %s:%d avvisade begäran om master, fördröjer."
 
 #. gint count =
-#: ../backend/src/DistributionSocketLink.cc:1825
+#: ../backend/src/DistributionSocketLink.cc:1817
 #, c-format
 msgid "Client %s is now the new master."
 msgstr "Klient %s är nu ny master."
 
-#: ../backend/src/DistributionSocketLink.cc:1946
+#: ../backend/src/DistributionSocketLink.cc:1938
 msgid "Network operation started."
 msgstr "Nätverksfunktion startad."
 
-#: ../backend/src/DistributionSocketLink.cc:1963
+#: ../backend/src/DistributionSocketLink.cc:1955
 msgid "Accepted new client."
 msgstr "Accepterade ny klient."
 
-#: ../backend/src/DistributionSocketLink.cc:2029
+#: ../backend/src/DistributionSocketLink.cc:2021
 #, c-format
 msgid "Client %s:%d read error, closing."
 msgstr "Klient %s:%d läsfel, stänger."
 
-#: ../backend/src/DistributionSocketLink.cc:2035
-#: ../backend/src/DistributionSocketLink.cc:2109
+#: ../backend/src/DistributionSocketLink.cc:2027
+#: ../backend/src/DistributionSocketLink.cc:2101
 #, c-format
 msgid "Client %s:%d closed connection."
 msgstr "Klient %s:%d stängde anslutning."
 
-#: ../backend/src/DistributionSocketLink.cc:2076
+#: ../backend/src/DistributionSocketLink.cc:2068
 #, c-format
 msgid "Client %s:%d connected."
 msgstr "Klient %s:%d ansluten."
 
-#: ../backend/src/DistributionSocketLink.cc:2116
+#: ../backend/src/DistributionSocketLink.cc:2108
 #, c-format
 msgid "Could not connect to client %s:%d."
 msgstr "Kunde inte ansluta till klient %s: %d."
+
+#: ../common/src/glibnls.c:132
+msgid "Too many alias levels for a locale, may indicate a loop"
+msgstr "För många aliasnivåer för en lokal, kan indikera en slinga"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
 msgid "Break ignored"
@@ -167,7 +171,7 @@ msgstr "Pausuppmaning"
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:50
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:58
-#: ../frontend/gtkmm/src/GUI.cc:1377 ../frontend/gtkmm/src/GtkUtil.cc:163
+#: ../frontend/gtkmm/src/GUI.cc:1376 ../frontend/gtkmm/src/GtkUtil.cc:163
 msgid "Daily limit"
 msgstr "Daglig gräns"
 
@@ -215,19 +219,19 @@ msgstr "%s%d:%02d minuter"
 msgid "%s%d seconds"
 msgstr "%s%d sekunder"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:294
+#: ../frontend/gtkmm/src/BreakWindow.cc:295
 msgid "Lock"
 msgstr "Lås"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:313
+#: ../frontend/gtkmm/src/BreakWindow.cc:314
 msgid "Shut down"
 msgstr "Stäng ner"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:330
+#: ../frontend/gtkmm/src/BreakWindow.cc:331
 msgid "Skip"
 msgstr "Hoppa över"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:343
+#: ../frontend/gtkmm/src/BreakWindow.cc:344
 msgid "Postpone"
 msgstr "Flytta fram"
 
@@ -241,98 +245,101 @@ msgstr ""
 "Om din arbetsdag ännu inte är över, hitta på något\n"
 "annat att göra, såsom granska ett dokument."
 
-#: ../frontend/gtkmm/src/GUI.cc:839
+#: ../frontend/gtkmm/src/GUI.cc:831
 msgid "I could not initialize Bonobo"
 msgstr "Jag kunde inte initiera Bonobo"
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1377 ../frontend/gtkmm/src/GtkUtil.cc:163
+#: ../frontend/gtkmm/src/GUI.cc:1376 ../frontend/gtkmm/src/GtkUtil.cc:163
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:55
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:173
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:271
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:181
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:279
 msgid "Micro-break"
 msgstr "Mikropaus"
 
-#: ../frontend/gtkmm/src/GUI.cc:1377 ../frontend/gtkmm/src/GtkUtil.cc:163
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:146
+#: ../frontend/gtkmm/src/GUI.cc:1376 ../frontend/gtkmm/src/GtkUtil.cc:163
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:154
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:78
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:212
 msgid "Rest break"
 msgstr "Vilopaus"
 
-#. Mode menu item
-#: ../frontend/gtkmm/src/Menus.cc:220 ../frontend/gtkmm/src/Menus.cc:540
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
-msgid "_Mode"
-msgstr "_Läge"
-
-#. Mode menu item
-#: ../frontend/gtkmm/src/Menus.cc:228
-msgid "Main"
-msgstr ""
-
-#: ../frontend/gtkmm/src/Menus.cc:290 ../frontend/gtkmm/src/Menus.cc:559
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
-msgid "_Network"
-msgstr "_Nätverk"
-
-#: ../frontend/gtkmm/src/Menus.cc:294 ../frontend/gtkmm/src/Menus.cc:543
-msgid "_Connect"
-msgstr "_Anslut"
-
-#: ../frontend/gtkmm/src/Menus.cc:299 ../frontend/gtkmm/src/Menus.cc:546
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
-msgid "_Disconnect"
-msgstr "_Koppla ned"
-
-#: ../frontend/gtkmm/src/Menus.cc:304 ../frontend/gtkmm/src/Menus.cc:550
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
-msgid "_Reconnect"
-msgstr "_Återanslut"
-
-#: ../frontend/gtkmm/src/Menus.cc:309 ../frontend/gtkmm/src/Menus.cc:553
-msgid "Show _log"
-msgstr "Visa _logg"
-
-#: ../frontend/gtkmm/src/Menus.cc:332 ../frontend/gtkmm/src/Menus.cc:515
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:99
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:156
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:81
 msgid "_Rest break"
 msgstr "_Vilopaus"
 
-#: ../frontend/gtkmm/src/Menus.cc:342 ../frontend/gtkmm/src/Menus.cc:516
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:122
+msgid "_Tools"
+msgstr ""
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:126
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:102
+msgid "_Mode"
+msgstr "_Läge"
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:128
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:84
+msgid "_Normal"
+msgstr "_Normal"
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:131
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:90
+msgid "_Suspended"
+msgstr "_Viloläge"
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:134
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:96
+msgid "Q_uiet"
+msgstr "_Tyst"
+
+#. Networking menu
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:138
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:121
+msgid "_Network"
+msgstr "_Nätverk"
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:139
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:105
+msgid "_Connect"
+msgstr "_Anslut"
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:141
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:108
+msgid "_Disconnect"
+msgstr "_Koppla ned"
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:143
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:112
+msgid "_Reconnect"
+msgstr "_Återanslut"
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:145
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:115
+msgid "Show _log"
+msgstr "Visa _logg"
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:165
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:82
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:43
 msgid "Exercises"
 msgstr "Övningar"
 
-#: ../frontend/gtkmm/src/Menus.cc:358 ../frontend/gtkmm/src/Menus.cc:561
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:169
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:123
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:62
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:141
 msgid "Statistics"
 msgstr "Statistik"
 
-#: ../frontend/gtkmm/src/Menus.cc:367 ../frontend/gtkmm/src/Menus.cc:562
-msgid "About..."
-msgstr "Om..."
-
-#: ../frontend/gtkmm/src/Menus.cc:514
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:62
-msgid "Preferences"
-msgstr "Inställningar"
-
-#: ../frontend/gtkmm/src/Menus.cc:519
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
-msgid "_Normal"
-msgstr "_Normal"
-
-#: ../frontend/gtkmm/src/Menus.cc:526
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
-msgid "_Suspended"
-msgstr "_Viloläge"
-
-#: ../frontend/gtkmm/src/Menus.cc:533
-msgid "Q_uiet"
-msgstr "_Tyst"
-
-#: ../frontend/gtkmm/src/Menus.cc:770
+#: ../frontend/gtkmm/src/Menus.cc:335
 #: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:367
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
@@ -340,29 +347,34 @@ msgid ""
 msgstr ""
 "Detta program hjälper till att förebygga och återhämta sig från musarm (RSI)."
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:233
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:241
 msgid "Please relax for a few seconds"
 msgstr "Slappna av i ett par sekunder"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:240
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:248
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Nästa vilopaus om %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:245
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:253
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Tidspunkt för vilopaus har överskridits med %s minuter"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:258
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:266
 #, c-format
 msgid "Daily limit in %s"
 msgstr "Daglig gräns på %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:263
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:271
 #, c-format
 msgid "Daily limit %s overdue"
 msgstr "Daglig gräns överskriden med %s"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:62
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:80
+msgid "Preferences"
+msgstr "Inställningar"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:70
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:106
@@ -379,8 +391,8 @@ msgstr "Panelprogram"
 
 #. Notebook
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:83
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:167
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:180
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:165
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:194
 msgid "Timers"
 msgstr "Tidtagare"
 
@@ -422,7 +434,7 @@ msgstr "Blockera tangentbord/mus och skärm"
 
 #. Options
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:187
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:131
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:139
 msgid "Options"
 msgstr "Alternativ"
 
@@ -488,118 +500,118 @@ msgstr "Ta en vilopaus nu"
 msgid "Wait"
 msgstr "Vänta"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:100
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:98
 msgid "Place timers next to each other"
 msgstr "Placera tiderna bredvid varandra"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:102
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:100
 msgid "Place micro-break and rest break in one spot"
 msgstr "Placera mikropauser och vilopauser på samma ställe"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:104
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:102
 msgid "Place rest break and daily limit in one spot"
 msgstr "Placera vilopaus och daglig gräns på samma ställe"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:106
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:104
 msgid "Place all timers in one spot"
 msgstr "Placera alla pauser på samma ställe"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:126
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:124
 msgid "Hide"
 msgstr "Dölj"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:128
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:126
 msgid "Show"
 msgstr "Visa"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:130
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:128
 msgid "Show only when this timer is first due"
 msgstr "Visa endast första gången perioden går ut"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:138
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:136
 msgid "Show status window"
 msgstr "Visa statusfönster"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:143
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:141
 msgid "The status window stays always on top of other windows"
 msgstr "Statusfönstret är alltid överst"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:149
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:147
 msgid "Applet enabled"
 msgstr "Panelprogram aktiverat"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:155
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:153
 msgid "Display"
 msgstr "Visa"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:164
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:162
 msgid "Placement:"
 msgstr "Placering:"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:165
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:163
 msgid "Cycle time:"
 msgstr "Tidscykler:"
 
 #. Layout
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:170
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:168
 msgid "Micro-break:"
 msgstr "Mikropaus:"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:171
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:169
 msgid "Rest break:"
 msgstr "Vilopaus:"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:172
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:170
 msgid "Daily limit:"
 msgstr "Daglig gräns:"
 
 #. Enabled/Disabled checkbox
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:65
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:67
 msgid "Enable timer"
 msgstr "Aktivera tidtagare"
 
 #. Prelude frame
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:106
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:108
 msgid "Break prompting"
 msgstr "Pausuppmaningar"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:108
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:110
 msgid "Prompt before breaking"
 msgstr "Uppmaning före pauser"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:112
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:114
 msgid "Maximum number of prompts:"
 msgstr "Maximalt antal uppmaningar:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:135
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:143
 msgid "Show 'Postpone' and 'Skip' button"
 msgstr "Visa knappar för \"Flytta fram\" och \"Hoppa över\""
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:140
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:148
 msgid "Suspend timer when inactive"
 msgstr "Suspendera tidtagare vid inaktivitet"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:153
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:161
 msgid "Regard micro-breaks as activity"
 msgstr "Anse mikropaus vara en aktivitet"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:162
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:170
 msgid "Number of exercises:"
 msgstr "Antal övningar:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:185
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:199
 msgid "Time before end:"
 msgstr "Tid före slut:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:186
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:200
 msgid "Time between breaks:"
 msgstr "Tid mellan pauser:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:193
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:207
 msgid "Break duration:"
 msgstr "Längd på paus:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:208
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:222
 msgid "Postpone time:"
 msgstr "Flytta fram tid:"
 
@@ -610,6 +622,13 @@ msgstr "Orientering"
 #: ../frontend/gtkmm/src/eggtrayicon.c:134
 msgid "The orientation of the tray."
 msgstr "Lådans orientering."
+
+#: ../frontend/gtkmm/src/workrave.desktop.in.in.h:1
+#, fuzzy
+msgid ""
+"Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
+msgstr ""
+"Detta program hjälper till att förebygga och återhämta sig från musarm (RSI)."
 
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:1
 msgid "_About..."
@@ -675,6 +694,10 @@ msgstr "Workrave-panelprogram"
 #, c-format
 msgid "An exception occurred '%s'"
 msgstr "Ett undantag inträffade \"%s\""
+
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:124
+msgid "About..."
+msgstr "Om..."
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:52
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:71
@@ -900,36 +923,36 @@ msgstr ""
 "Vrid på huvudet åt vänster och håll det kvar där i 2 sekunder. Vrid sedan "
 "ditt huvud åt höger och håll det där i 2 sekunder."
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:257
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:262
 msgid "Exercises player"
 msgstr "Övningar"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:293
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:298
 msgid "Previous exercise"
 msgstr "Föregående övning"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:294
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:299
 msgid "Next exercise"
 msgstr "Nästa övning"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:295
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:466
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:300
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:471
 msgid "Pause exercises"
 msgstr "Pausa övningar"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:296
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:301
 msgid "End exercises"
 msgstr "Avsluta övningar"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:458
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:463
 msgid "Resume"
 msgstr "Återuppta"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:458
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:463
 msgid "Pause"
 msgstr "Paus"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:464
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:469
 msgid "Resume exercises"
 msgstr "Återuppta övningar"
 
@@ -1077,9 +1100,6 @@ msgstr "Försvinner om"
 #: ../frontend/text/src/PreludeWindow.cc:166
 msgid "Silent in"
 msgstr "Tyst om"
-
-#~ msgid "Too many alias levels for a locale, may indicate a loop"
-#~ msgstr "För många aliasnivåer för en lokal, kan indikera en slinga"
 
 #~ msgid "Inactive"
 #~ msgstr "Inaktiv"
