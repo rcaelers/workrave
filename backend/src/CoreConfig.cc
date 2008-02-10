@@ -56,6 +56,7 @@ const string CoreConfig::CFG_KEY_OPERATION_MODE            = "gui/operation-mode
 
 const string CoreConfig::CFG_KEY_DISTRIBUTION              = "distribution";
 const string CoreConfig::CFG_KEY_DISTRIBUTION_ENABLED      = "distribution/enabled";
+const string CoreConfig::CFG_KEY_DISTRIBUTION_LISTENING    = "distribution/listening";
 const string CoreConfig::CFG_KEY_DISTRIBUTION_PEERS        = "distribution/peers";
 const string CoreConfig::CFG_KEY_DISTRIBUTION_TCP          = "distribution/tcp";
 const string CoreConfig::CFG_KEY_DISTRIBUTION_TCP_PORT     = "distribution/port";

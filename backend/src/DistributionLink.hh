@@ -42,7 +42,8 @@ public:
   // virtual void set_distribution_manager(DistributionLinkListener *dll) = 0;
 
   //! Enable/Disable distributed operation.
-  virtual bool set_enabled(bool enabled) = 0;
+  virtual bool set_network_enabled(bool enabled) = 0;
+  virtual bool set_server_enabled(bool enabled) = 0;
 
   //! Periodic heartbeat.
   virtual void heartbeat() = 0;

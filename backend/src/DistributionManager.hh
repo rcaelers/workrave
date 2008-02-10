@@ -84,6 +84,9 @@ public:
   bool get_enabled() const;
   void set_enabled(bool b);
 
+  bool get_listening() const;
+  void set_listening(bool b);
+
   string get_username() const;
   void set_username(string name);
 
@@ -125,7 +128,8 @@ private:
   typedef std::list<DistributionListener *>::iterator ListenerIter;
 
   //! Is distribution operation enabled?
-  bool distribution_enabled;
+  bool network_enabled;
+  bool server_enabled;
 
   //! Access to the configuration.
   Configurator *configurator;

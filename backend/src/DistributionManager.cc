@@ -43,7 +43,8 @@ static const char rcsid[] = "$Id$";
 
 //! Constructs a new DistributionManager.
 DistributionManager::DistributionManager() :
-  distribution_enabled(false),
+  network_enabled(false),
+  server_enabled(false),
   link(NULL),
   state(NODE_ACTIVE)
 {
@@ -500,11 +501,13 @@ DistributionManager::read_configuration()
   bool is_set;
 
   // Distributed operation enabled or not.
-  distribution_enabled = get_enabled();
+  network_enabled = get_enabled();
+  server_enabled = get_listening();
 
   // Enable/Disable link.
   assert(link != NULL);
-  link->set_enabled(distribution_enabled);
+  link->set_network_enabled(network_enabled);
+  link->set_server_enabled(server_enabled);
 
   // Peers
   const char *env = getenv("WORKRAVE_URL");
@@ -768,6 +771,28 @@ void
 DistributionManager::set_enabled(bool b)
 {
   configurator->set_value(CoreConfig::CFG_KEY_DISTRIBUTION_ENABLED, b);
+}
+
+
+bool
+DistributionManager::get_listening() const
+{
+  bool ret = true;
+  bool is_set = configurator->get_value(CoreConfig::CFG_KEY_DISTRIBUTION_LISTENING,
+                                        ret);
+  if (!is_set)
+    {
+      ret = false;
+    }
+
+  return ret;
+}
+
+
+void
+DistributionManager::set_listening(bool b)
+{
+  configurator->set_value(CoreConfig::CFG_KEY_DISTRIBUTION_LISTENING, b);
 }
 
 

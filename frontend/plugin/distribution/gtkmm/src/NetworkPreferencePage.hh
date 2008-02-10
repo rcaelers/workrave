@@ -66,6 +66,7 @@ private:
   void create_model();
 
   void on_enabled_toggled();
+  void on_listening_toggled();
   void on_username_changed();
   void on_password_changed();
   void on_port_changed();
@@ -90,6 +91,7 @@ private:
   Gtk::Entry *username_entry;
   Gtk::Entry *password_entry;
   Gtk::CheckButton *enabled_cb;
+  Gtk::CheckButton *listening_cb;
   Gtk::SpinButton *port_entry;
   Gtk::SpinButton *attempts_entry;
   Gtk::SpinButton *interval_entry;

@@ -1,6 +1,6 @@
 // NetworkPreferencePage.cc --- Preferences widgets for a timer
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -101,13 +101,21 @@ NetworkPreferencePage::create_general_page(Gtk::Notebook *tnotebook)
   id_frame->add(_("Password:"), *password_entry);
   password_entry->set_visibility(false);
   password_entry->set_invisible_char('*');
-
+ 
+  // Server switch
+  listening_cb = manage(new Gtk::CheckButton());
+  Gtk::Label *listening_lab
+    = manage(GtkUtil::create_label(_("Allow incoming connections"), true));
+  listening_cb->add(*listening_lab);
+  id_frame->add(*listening_cb);
+ 
   id_frame->set_border_width(12);
   tnotebook->append_page(*id_frame, _("General"));
 
   enabled_cb->signal_toggled().connect(sigc::mem_fun(*this, &NetworkPreferencePage::on_enabled_toggled));
   username_entry->signal_changed().connect(sigc::mem_fun(*this, &NetworkPreferencePage::on_username_changed));
   password_entry->signal_changed().connect(sigc::mem_fun(*this, &NetworkPreferencePage::on_password_changed));
+  listening_cb->signal_toggled().connect(sigc::mem_fun(*this, &NetworkPreferencePage::on_listening_toggled));
 }
 
 
@@ -280,6 +288,10 @@ NetworkPreferencePage::init_page_values()
   bool enabled = dist_manager->get_enabled();
   enabled_cb->set_active(enabled);
 
+  // Server enabled switch.
+  bool listening = dist_manager->get_listening();
+  listening_cb->set_active(listening);
+
   // Username.
   string str = dist_manager->get_username();
   username_entry->set_text(str);
@@ -308,6 +320,16 @@ NetworkPreferencePage::on_enabled_toggled()
 {
   bool enabled = enabled_cb->get_active();
   dist_manager->set_enabled(enabled);
+
+  listening_cb->set_sensitive(enabled);
+}
+
+
+void
+NetworkPreferencePage::on_listening_toggled()
+{
+  bool listening = listening_cb->get_active();
+  dist_manager->set_listening(listening);
 }
 
 

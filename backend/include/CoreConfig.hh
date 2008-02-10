@@ -51,6 +51,7 @@ public:
 
   static const std::string CFG_KEY_DISTRIBUTION;
   static const std::string CFG_KEY_DISTRIBUTION_ENABLED;
+  static const std::string CFG_KEY_DISTRIBUTION_LISTENING;
   static const std::string CFG_KEY_DISTRIBUTION_PEERS;
   static const std::string CFG_KEY_DISTRIBUTION_TCP;
   static const std::string CFG_KEY_DISTRIBUTION_TCP_PORT;

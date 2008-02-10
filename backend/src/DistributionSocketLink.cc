@@ -61,6 +61,7 @@ DistributionSocketLink::DistributionSocketLink(Configurator *conf) :
   myid(NULL),
   server_port(DEFAULT_PORT),
   server_socket(NULL),
+  network_enabled(false),
   server_enabled(false),
   reconnect_attempts(DEFAULT_ATTEMPTS),
   reconnect_interval(DEFAULT_INTERVAL),
@@ -181,7 +182,7 @@ DistributionSocketLink::get_number_of_peers()
 void
 DistributionSocketLink::connect(string url)
 {
-  if (server_enabled)
+  if (network_enabled)
     {
       GURI *client_url = gnet_uri_new(url.c_str());
 
@@ -316,13 +317,10 @@ DistributionSocketLink::set_distribution_manager(DistributionManager *dll)
 }
 
 
-//! Enable/disable distributed operation.
+//! Enable/disable connecting to distributed operation.
 bool
-DistributionSocketLink::set_enabled(bool enabled)
+DistributionSocketLink::set_network_enabled(bool enabled)
 {
-  TRACE_ENTER_MSG("DistributionSocketLink:set_enabled", enabled);
-  bool ret = server_enabled;
-
   if (enabled)
     {
       if (myname != NULL)
@@ -341,7 +339,6 @@ DistributionSocketLink::set_enabled(bool enabled)
       if (myname != NULL)
         {
           myid = g_strdup_printf("%s:%d", myname, server_port);
-          TRACE_MSG(myid);
         }
       else
         {
@@ -349,6 +346,33 @@ DistributionSocketLink::set_enabled(bool enabled)
           enabled = false;
         }
     }
+
+  if (network_enabled && !enabled)
+    {
+      set_server_enabled(false);
+      set_me_master();
+    }
+  else if (!network_enabled && enabled)
+    {
+      set_server_enabled(server_enabled);
+    }
+
+  network_enabled = enabled;
+  return network_enabled;
+}
+
+
+//! Enable/disable listening for distributed operation.
+bool
+DistributionSocketLink::set_server_enabled(bool enabled)
+{
+  TRACE_ENTER_MSG("DistributionSocketLink:set_server_enabled", enabled);
+  bool ret = server_enabled;
+
+  if (!network_enabled) {
+    // Don't start the server if the network is not enabled
+    return ret;
+  }
 
   if (!server_enabled && enabled)
     {
@@ -371,7 +395,6 @@ DistributionSocketLink::set_enabled(bool enabled)
         }
       server_socket = NULL;
       disconnect_all();
-      set_me_master();
     }
 
   server_enabled = enabled;
@@ -2133,8 +2156,8 @@ DistributionSocketLink::read_configuration()
 
   if (old_port != server_port && server_enabled)
     {
-      set_enabled(false);
-      set_enabled(true);
+      set_server_enabled(false);
+      set_server_enabled(true);
     }
 
   reconnect_interval = dist_manager->get_reconnect_interval();

@@ -180,7 +180,8 @@ public:
   void set_distribution_manager(DistributionManager *dll);
   void init();
   void heartbeat();
-  bool set_enabled(bool enabled);
+  bool set_network_enabled(bool enabled);
+  bool set_server_enabled(bool enabled);
   void set_user(string user, string password);
   void connect(string url);
   void disconnect(string id);
@@ -294,6 +295,7 @@ private:
   SocketConnection *server_socket;
 
   //! Whether distribution is enabled.
+  bool network_enabled;
   bool server_enabled;
 
   //! ClientMessage listeners

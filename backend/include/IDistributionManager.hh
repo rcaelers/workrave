@@ -1,6 +1,6 @@
 // IDistributionManager.hh
 //
-// Copyright (C) 2002, 2003, 2005, 2006, 2007 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2005, 2006, 2007, 2008 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -51,6 +51,9 @@ namespace workrave
     virtual bool get_enabled() const = 0;
     virtual void set_enabled(bool b) = 0;
 
+    virtual bool get_listening() const = 0;
+    virtual void set_listening(bool b) = 0;
+    
     virtual string get_username() const = 0;
     virtual void set_username(string name) = 0;
 
