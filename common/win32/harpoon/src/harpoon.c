@@ -1,7 +1,7 @@
 /*
  * harpoon.c
  *
- * Copyright (C) 2002-2007 Raymond Penners <raymond@dotsphinx.com>
+ * Copyright (C) 2002-2008 Raymond Penners <raymond@dotsphinx.com>
  * Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
  * All rights reserved.
  *
@@ -622,15 +622,23 @@ harpoon_keyboard_hook (int code, WPARAM wpar, LPARAM lpar)
       forcecallnext = !pressed;
       
       /*
-      The low-level keyboard hook is always preferred over the
-      regular keyboard hook. The low-level hook posts its own
-      message to the notification window. Here, we check to
-      see if there is a low-level hook. If not, we post our
-      own message.
+        The low-level keyboard hook is always preferred over the
+        regular keyboard hook. The low-level hook posts its own
+        message to the notification window. Here, we check to
+        see if there is a low-level hook. If not, we post our
+        own message.
       */
       if( !keyboard_ll_hook )
-          harpoon_post_message (evt, 0, flags);
-      
+        {
+          // The low level hook also intercepts keys injected using keybd_event.
+          // Some application use this function to toggle the keyboard lights...
+          if (kb->vkCode != VK_NUMLOCK &&
+              kb->vkCode != VK_CAPITAL &&
+              kb->vkCode != VK_SCROLL)
+            {
+              harpoon_post_message (evt, 0, flags);
+            }
+        }
       if_debug_send_message( "WH_KEYBOARD" );
     }
   return harpoon_generic_hook_return (code, wpar, lpar, keyboard_hook,
