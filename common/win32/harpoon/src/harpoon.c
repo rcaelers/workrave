@@ -632,9 +632,9 @@ harpoon_keyboard_hook (int code, WPARAM wpar, LPARAM lpar)
         {
           // The low level hook also intercepts keys injected using keybd_event.
           // Some application use this function to toggle the keyboard lights...
-          if (kb->vkCode != VK_NUMLOCK &&
-              kb->vkCode != VK_CAPITAL &&
-              kb->vkCode != VK_SCROLL)
+          if (wpar != VK_NUMLOCK &&
+              wpar != VK_CAPITAL &&
+              wpar != VK_SCROLL)
             {
               harpoon_post_message (evt, 0, flags);
             }

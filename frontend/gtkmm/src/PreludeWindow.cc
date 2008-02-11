@@ -1,6 +1,6 @@
 // PreludeWindow.cc
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007, 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -212,17 +212,16 @@ PreludeWindow::start()
   // Set some window hints.
   WindowHints::set_skip_winlist(this, true);
 
-#ifdef PLATFORM_OS_WIN32
-  SetWindowPos( (HWND) GDK_WINDOW_HWND( Gtk::Widget::gobj()->window ),
-      HWND_TOPMOST, 0, 0, 0, 0, SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE );
-#else
+// #ifdef PLATFORM_OS_WIN32
+//   SetWindowPos( (HWND) GDK_WINDOW_HWND( Gtk::Widget::gobj()->window ),
+//       HWND_TOPMOST, 0, 0, 0, 0, SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE );
+// #else
   WindowHints::set_always_on_top(this, true);
-#endif
+// #endif
 
   refresh();
   GtkUtil::center_window(*this, head);
   show_all();
-
 
   time_bar->set_bar_color(TimeBar::COLOR_ID_OVERDUE);
 
@@ -289,7 +288,8 @@ PreludeWindow::refresh()
     }
   time_bar->set_text(s);
   time_bar->update();
-#ifdef PLATFORM_OS_WIN32
+  
+#if defined(PLATFORM_OS_WIN32)
 // Vista GTK phantom toplevel parent kludge:
   HWND hwnd = (HWND) GDK_WINDOW_HWND( Gtk::Widget::gobj()->window );
   if( hwnd )
@@ -445,6 +445,7 @@ PreludeWindow::avoid_pointer(int px, int py)
   px += winx;
   py += winy;
 #endif
+
   TRACE_MSG("geom2" << winx << " " << winy << " " << width << " " << height << " ");
 
   int screen_height = head.get_height();

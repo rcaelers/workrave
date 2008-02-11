@@ -1,6 +1,6 @@
 // main.cc --- Main
 //
-// Copyright (C) 2001, 2002, 2003, 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -30,6 +30,7 @@ static const char rcsid[] = "$Id$";
 
 #include "GUI.hh"
 #ifdef PLATFORM_OS_WIN32
+#include "crashlog.h"
 #include "w32debug.hh"
 #include "dll_hell.h"
 #endif
@@ -39,9 +40,14 @@ extern "C" int run(int argc, char **argv);
 int
 run(int argc, char **argv)
 {
+#if defined(PLATFORM_OS_WIN32)
+  // Enable Windows structural exception handling.
+  __try1(exception_handler);
+#endif
+
   GUI *gui = new GUI(argc, argv);
 
-#ifdef PLATFORM_OS_WIN32
+#if defined(PLATFORM_OS_WIN32)
   dll_hell_check();
 #endif
 
@@ -49,6 +55,11 @@ run(int argc, char **argv)
 
   delete gui;
 
+#if defined(PLATFORM_OS_WIN32)
+  // Disable Windows structural exception handling.
+  __except1;
+#endif
+  
   return 0;
 }
 

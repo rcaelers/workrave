@@ -92,7 +92,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
 #ifdef PLATFORM_OS_WIN32
   desktop_window = NULL;
 
-  if( mode != GUIConfig::BLOCK_MODE_NONE )
+  if (mode != GUIConfig::BLOCK_MODE_NONE)
   {
     // Disable titlebar to appear like a popup
     set_decorated(false);

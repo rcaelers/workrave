@@ -26,23 +26,18 @@
 
 #include <sigc++/object.h>
 #include <glibmm.h>
-
-#include <gdk/gdkevents.h>
 #include <gtkmm/tooltips.h>
-#include <gdkmm/types.h>
 
 #include "HeadInfo.hh"
 #include "ICoreEventListener.hh"
 #include "IApp.hh"
+#include "BreakWindow.hh"
+#include "WindowHints.hh"
 
 #ifdef HAVE_GNOMEMM
 #include <libgnomeuimm.h>
 #endif
-#include <gdkmm/display.h>
-#include <gdkmm/screen.h>
 
-#include "BreakWindow.hh"
-#include "WindowHints.hh"
 
 namespace workrave {
   class IBreakResponse;
@@ -119,6 +114,7 @@ public:
 private:
   std::string get_timers_tooltip();
   bool on_timer();
+  void init_platform();
   void init_debug();
   void init_nls();
   void init_core();
@@ -225,10 +221,6 @@ private:
 
   //! Height of the screen.
   int screen_height;
-
-#ifdef PLATFORM_OS_WIN32
-  int current_monitor;
-#endif
 
 #ifdef PLATFORM_OS_UNIX
   //! Do we want a keyboard/pointer grab

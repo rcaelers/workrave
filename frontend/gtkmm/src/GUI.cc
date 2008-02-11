@@ -31,89 +31,80 @@ static const char rcsid[] = "$Id$";
 #include "w32debug.hh"
 #endif
 
-#include <sstream>
+#include <gtkmm/main.h>
+#include <gtkmm/messagedialog.h>
+#include <glibmm/refptr.h>
+
 #include <unistd.h>
 #include <stdio.h>
 #include <assert.h>
 #include <fcntl.h>
 
 #include "GUI.hh"
-#include "GUIConfig.hh"
 
-#include "CoreFactory.hh"
-#include "ICore.hh"
-#include "IConfigurator.hh"
-
-#include "IBreakResponse.hh"
-#include "DailyLimitWindow.hh"
-#include "MainWindow.hh"
-#include "IBreakWindow.hh"
+// Backend includes.
 #include "IBreak.hh"
+#include "IBreakResponse.hh"
+#include "IBreakWindow.hh"
+#include "IConfigurator.hh"
+#include "ICore.hh"
+#include "CoreFactory.hh"
+  
+#include "AppletControl.hh"
+#include "AppletWindow.hh"
 #include "BreakWindow.hh"
+#include "DailyLimitWindow.hh"
+#include "GUIConfig.hh"
+#include "MainWindow.hh"
+#include "Menus.hh"
 #include "MicroBreakWindow.hh"
 #include "PreludeWindow.hh"
 #include "RestBreakWindow.hh"
-#include "Util.hh"
-#include "WindowHints.hh"
+#include "SoundPlayer.hh"
+#include "StatusIcon.hh"
 #include "System.hh"
 #include "Text.hh"
-#include "AppletControl.hh"
-#include "AppletWindow.hh"
+#include "Util.hh"
+#include "WindowHints.hh"
 
-#ifdef PLATFORM_OS_WIN32
+#if defined(PLATFORM_OS_WIN32)
 #include "W32AppletWindow.hh"
-#include "StatusIcon.hh"
 #include <gdk/gdkwin32.h>
 #include <pbt.h>
 #endif
-#ifdef PLATFORM_OS_OSX
-#include "OSXUtil.hh"
-#include "StatusIcon.hh"
 
+#if defined(PLATFORM_OS_OSX)
+#include "OSXUtil.hh"
 #include <strings.h>
 #include <mach-o/dyld.h>
 #include <sys/param.h>
-
 #import <Cocoa/Cocoa.h>
-#include <Carbon/Carbon.h>
-
 #import "AppController.h"
+#include <Carbon/Carbon.h>
 #endif
-#include "Menus.hh"
 
-#ifdef HAVE_GCONF
+#if defined(HAVE_GCONF)
 #include <gconf/gconf-client.h>
 #endif
 
-#include "SoundPlayer.hh"
-
-#ifdef HAVE_GNOME
+#if defined(HAVE_GNOME)
 #include "RemoteControl.hh"
 #include <bonobo.h>
 #include <bonobo/bonobo-xobject.h>
-#ifdef HAVE_GNOMEMM
+#if defined(HAVE_GNOMEMM)
 #include "libgnomeuimm/wrap_init.h"
 #endif
 #endif
 
-#ifdef HAVE_KDE
+#if defined(HAVE_KDE)
 #include <dcopclient.h>
 #include <kapp.h>
 #endif
 
-#ifdef HAVE_DBUS
+#if defined(HAVE_DBUS)
 #include "DBus.hh"
 #include "DBusException.hh"
 #endif
-
-#ifdef PLATFORM_OS_WIN32
-#include "crashlog.h"
-#endif
-
-#include <gtkmm/main.h>
-#include <gtkmm/messagedialog.h>
-
-#include <glibmm/refptr.h>
 
 GUI *GUI::instance = NULL;
 
@@ -123,7 +114,7 @@ GUI *GUI::instance = NULL;
  *  \param argc number of command line parameters.
  *  \param argv all command line parameters.
  */
-GUI::GUI(int argc, char **argv)  :
+GUI::GUI(int argc, char **argv) :
   configurator(NULL),
   core(NULL),
   sound_player(NULL),
@@ -142,11 +133,11 @@ GUI::GUI(int argc, char **argv)  :
   num_heads(-1),
   screen_width(-1),
   screen_height(-1),
-#ifdef PLATFORM_OS_UNIX
+#if defined(PLATFORM_OS_UNIX)
   grab_wanted(false),
 #endif
   grab_handle(NULL),
-  status_icon(0),
+  status_icon(NULL),
   applet_control(NULL)
 {
   TRACE_ENTER("GUI:GUI");
@@ -183,7 +174,7 @@ GUI::~GUI()
 
   delete sound_player;
 
-#ifdef HAVE_GNOME
+#if defined(HAVE_GNOME)
   RemoteControl *control = RemoteControl::get_instance();
   delete control;
 #endif
@@ -206,40 +197,9 @@ GUI::main()
 {
   TRACE_ENTER("GUI::main");
 
-#ifdef PLATFORM_OS_WIN32
-  // Enable Windows structural exception handling.
-  __try1(exception_handler);
-#endif
-
   Gtk::Main kit(argc, argv);
 
-#ifdef HAVE_GNOME
-  init_gnome();
-#endif
-#ifdef HAVE_KDE
-  init_kde();
-#endif
-
-#if defined (PLATFORM_OS_OSX)
-  [ [ AppController alloc ] init ];
-#endif
-  
-#if defined (PLATFORM_OS_WIN32) || defined(PLATFORM_OS_OSX)
-  // Win32/OSX need this....
-  if (!g_thread_supported())
-    {
-      g_thread_init(NULL);
-    }
-#endif
-
-#ifdef PLATFORM_OS_UNIX
-  char *display = gdk_get_display();
-  System::init(display);
-  g_free(display);
-#else
-  System::init();
-#endif
-
+  init_platform();
   init_debug();
   init_nls();
   init_core();
@@ -251,7 +211,7 @@ GUI::main()
   
   on_timer();
 
-#ifdef PLATFORM_OS_WIN32
+#if defined(PLATFORM_OS_WIN32)
   // FIXME: debug, remove later
   APPEND_TIME( "Workrave started and initialized", "Entering event loop." );
 #endif
@@ -267,11 +227,6 @@ GUI::main()
   delete applet_control;
   applet_control = NULL;
 
-#ifdef PLATFORM_OS_WIN32
-  // Disable Windows structural exception handling.
-  __except1;
-#endif
-
   TRACE_EXIT();
 }
 
@@ -282,9 +237,9 @@ GUI::terminate()
 {
   TRACE_ENTER("GUI::terminate");
 
-#ifdef PLATFORM_OS_WIN32
   // HACK: Without it status icon keeps on dangling in tray
   // Nicer solution: nicely cleanup complete gui ~GUI()
+#if defined(PLATFORM_OS_WIN32) || defined(PLATFORM_OS_OSX)
   if (status_icon)
     {
       delete status_icon;
@@ -355,7 +310,7 @@ GUI::on_timer()
       applet_control->set_timers_tooltip(tip);
     }
 
-#ifdef PLATFORM_OS_WIN32
+#if defined(PLATFORM_OS_WIN32)
   if (status_icon)
     {
       status_icon->set_timers_tooltip(tip);
@@ -368,23 +323,53 @@ GUI::on_timer()
   return true;
 }
 
-#ifdef NDEBUG
+#if defined(NDEBUG)
 static void my_log_handler(const gchar *log_domain, GLogLevelFlags log_level,
                            const gchar *message, gpointer user_data)
 {
 }
 #endif
 
+void
+GUI::init_platform()
+{
+#if defined(HAVE_GNOME)
+  init_gnome();
+#endif
+#if defined(HAVE_KDE)
+  init_kde();
+#endif
+#if defined(PLATFORM_OS_OSX)
+  [ [ AppController alloc ] init ];
+#endif
+  
+#if defined (PLATFORM_OS_WIN32) || defined(PLATFORM_OS_OSX)
+  // Win32/OSX need this....
+  if (!g_thread_supported())
+    {
+      g_thread_init(NULL);
+    }
+#endif
 
-#ifdef HAVE_GNOME
+#if defined(PLATFORM_OS_UNIX)
+  char *display = gdk_get_display();
+  System::init(display);
+  g_free(display);
+#else
+  System::init();
+#endif
+  
+  srand(time(NULL));
+}
+
+#if defined(HAVE_GNOME)
 void
 GUI::init_gnome()
 {
   TRACE_ENTER("GUI::init_gnome");
 
   gnome_init("workrave", VERSION, argc, argv);
-
-#ifdef HAVE_GNOMEMM
+#if defined(HAVE_GNOMEMM)
   Gnome::UI::wrap_init();
 
   Gnome::UI::Client *client = Gnome::UI::Client::master_client();
@@ -398,7 +383,7 @@ GUI::init_gnome()
 #endif
 }
 
-#ifdef HAVE_GNOMEMM
+#if defined(HAVE_GNOMEMM)
 void
 GUI::on_die()
 {
@@ -465,7 +450,7 @@ GUI::on_save_yourself(int phase, Gnome::UI::SaveStyle save_style, bool shutdown,
 #endif // defined HAVE_GNOME
 
 
-#ifdef HAVE_KDE
+#if defined(HAVE_KDE)
 void
 GUI::init_kde()
 {
@@ -483,7 +468,7 @@ GUI::init_kde()
 void
 GUI::init_debug()
 {
-#ifdef NDEBUG
+#if defined(NDEBUG)
   char *domains[] = { NULL, "Gtk", "GLib", "Gdk", "gtkmm", "GLib-GObject" };
   for (unsigned int i = 0; i < sizeof(domains)/sizeof(char *); i++)
     {
@@ -500,8 +485,8 @@ GUI::init_debug()
 void
 GUI::init_nls()
 {
-#ifdef ENABLE_NLS
-#  ifndef HAVE_GNOME
+#if defined(ENABLE_NLS)
+#  if !defined(HAVE_GNOME)
   gtk_set_locale();
 #  endif
   const char *locale_dir;
@@ -544,7 +529,7 @@ GUI::init_core()
 {
   string display_name;
   
-#ifdef PLATFORM_OS_UNIX
+#if defined(PLATFORM_OS_UNIX)
   char *display = gdk_get_display();
   if (display != NULL)
     {
@@ -804,16 +789,16 @@ GUI::init_gui()
   applet_control->init();
 
   AppletWindow *applet_window = NULL;
-#ifdef HAVE_GNOME
+#if defined(HAVE_GNOME)
   applet_window = applet_control->get_applet_window(AppletControl::APPLET_GNOME);
 #endif
-#ifdef PLATFORM_OS_WIN32
+#if defined(PLATFORM_OS_WIN32)
   applet_window = applet_control->get_applet_window(AppletControl::APPLET_W32);
 #endif
 
   menus->init(main_window, applet_window);
   
-#ifdef PLATFORM_OS_WIN32
+#if defined(PLATFORM_OS_WIN32)
   win32_init_filter();
 #endif
 
@@ -826,7 +811,7 @@ GUI::init_gui()
 void
 GUI::init_remote_control()
 {
-#ifdef HAVE_GNOME
+#if defined(HAVE_GNOME)
   if (!bonobo_init(&argc, argv))
     {
       g_error (_("I could not initialize Bonobo"));
@@ -853,7 +838,7 @@ GUI::init_remote_control()
 void
 GUI::init_dbus()
 {
-#ifdef HAVE_DBUS
+#if defined(HAVE_DBUS)
   DBus *dbus = CoreFactory::get_dbus();
 
   if (dbus != NULL && dbus->is_available())
@@ -1178,13 +1163,13 @@ GUI::grab()
           windows[i] = window->gobj();
         }
 
-#ifdef PLATFORM_OS_UNIX
+#if defined(PLATFORM_OS_UNIX)
       grab_wanted = true;
 #endif
       if (! grab_handle)
         {
           grab_handle = WindowHints::grab(active_break_count, windows);
-#ifdef PLATFORM_OS_UNIX
+#if defined(PLATFORM_OS_UNIX)
           if (! grab_handle && !grab_retry_connection.connected())
             {
               grab_retry_connection =
@@ -1201,12 +1186,12 @@ GUI::grab()
 void
 GUI::ungrab()
 {
-#ifdef PLATFORM_OS_UNIX
+#if defined(PLATFORM_OS_UNIX)
   grab_wanted = false;
 #endif
   if (grab_handle)
     {
-#ifdef PLATFORM_OS_UNIX
+#if defined(PLATFORM_OS_UNIX)
       grab_retry_connection.disconnect();
 #endif
       WindowHints::ungrab(grab_handle);
@@ -1220,7 +1205,7 @@ GUI::interrupt_grab()
 {
   if (grab_handle)
     {
-#ifdef PLATFORM_OS_UNIX
+#if defined(PLATFORM_OS_UNIX)
       grab_wanted = true;
 
       WindowHints::ungrab(grab_handle);
@@ -1235,7 +1220,7 @@ GUI::interrupt_grab()
 
 
 
-#ifdef PLATFORM_OS_UNIX
+#if defined(PLATFORM_OS_UNIX)
 //! Reattempt to get the grab
 bool
 GUI::on_grab_retry_timer()
@@ -1400,7 +1385,7 @@ GUI::get_timers_tooltip()
               text = Text::time_to_string(activeTime);
             }
 
-#ifndef PLATFORM_OS_WIN32
+#if !defined(PLATFORM_OS_WIN32)
           // Win32 tip is limited in length
           if (tip == "")
             {
@@ -1421,7 +1406,7 @@ GUI::get_timers_tooltip()
 }
 
 
-#ifdef PLATFORM_OS_WIN32
+#if defined(PLATFORM_OS_WIN32)
 void
 GUI::win32_init_filter()
 {
@@ -1447,7 +1432,7 @@ GUI::win32_filter_func (void     *xevent,
       {
         TRACE_MSG("WM_POWERBROADCAST " << msg->wParam << " " << msg->lParam);
 
-#ifdef PLATFORM_OS_WIN32
+#if defined(PLATFORM_OS_WIN32)
 // FIXME: debug, remove later
 switch (msg->wParam)
 {
@@ -1535,7 +1520,7 @@ APPEND_TIME("WM_POWERBROADCAST", "<UNKNOWN MESSAGE> : " << hex << msg->wParam );
         }
     }
 
-#ifdef PLATFORM_OS_WIN32
+#if defined(PLATFORM_OS_WIN32)
   if (ret != GDK_FILTER_REMOVE && gui->status_icon)
     {
       ret = gui->status_icon->win32_filter_func(xevent, event);
