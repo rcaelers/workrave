@@ -1,70 +1,60 @@
-#ifndef __WR_APPLET_CONTROL_H__
-#define __WR_APPLET_CONTROL_H__
+#ifndef __WORKRAVEAPPLET_H__
+#define __WORKRAVEAPPLET_H__
 
+#include <glib/gerror.h>
 #include <glib-object.h>
-#include <bonobo/bonobo-object.h>
-#include <bonobo-activation/bonobo-activation.h>
-
-#include "Workrave-Applet.h"
 
 G_BEGIN_DECLS
 
-#define WR_APPLET_CONTROL_TYPE         (workrave_applet_control_get_type())
-#define WR_APPLET_CONTROL(o)           (G_TYPE_CHECK_INSTANCE_CAST((o), WR_APPLET_CONTROL_TYPE, AppletControl))
-#define WR_APPLET_CONTROL_CLASS(k)     (G_TYPE_CHECK_CLASS_CAST((k), WR_APPLET_CONTROL_TYPE, AppletControlClass))
-#define WR_APPLET_CONTROL_IS_OBJECT(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), WR_APPLET_CONTROL_TYPE))
-#define WR_APPLET_CONTROL_IS_CLASS(k)  (G_TYPE_CHECK_CLASS_TYPE((k), WR_APPLET_CONTROL_TYPE))
-#define WR_APPLET_CONTROL_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), WR_APPLET_CONTROL_TYPE, AppletControlClass))
+#define WORKRAVE_APPLET_TYPE         (workrave_applet_get_type())
+#define WORKRAVE_APPLET(o)           (G_TYPE_CHECK_INSTANCE_CAST((o), WORKRAVE_APPLET_TYPE, WorkraveApplet))
+#define WORKRAVE_APPLET_CLASS(k)     (G_TYPE_CHECK_CLASS_CAST((k), WORKRAVE_APPLET_TYPE, WorkraveAppletClass))
+#define WORKRAVE_APPLET_IS_OBJECT(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), WORKRAVE_APPLET_TYPE))
+#define WORKRAVE_APPLET_IS_CLASS(k)  (G_TYPE_CHECK_CLASS_TYPE((k), WORKRAVE_APPLET_TYPE))
+#define WORKRAVE_APPLET_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), WORKRAVE_APPLET_TYPE, WorkraveAppletClass))
 
-typedef struct _AppletControl       AppletControl;
-typedef struct _AppletControlClass  AppletControlClass;
+typedef struct _WorkraveApplet       WorkraveApplet;
+typedef struct _WorkraveAppletClass  WorkraveAppletClass;
 
-struct _AppletControl
+struct _WorkraveApplet
 {
-  BonoboObject parent;
+  GObject base;
 
   GtkWidget *event_box;
   GtkWidget *image;
   GtkWidget *socket;
   PanelApplet *applet;
-
-  long size;
-  long socket_id;
-  CORBA_long orientation;
+  
+  int size;
+  int socket_id;
+  int orientation;
 
   gboolean last_showlog_state;
-  GNOME_Workrave_WorkraveControl_Mode last_mode;
+  int last_mode;
+
+  DBusGProxy *support;
+  DBusGProxy *ui;
+  DBusGProxy *core;
 };
 
-struct _AppletControlClass
+struct _WorkraveAppletClass
 {
-  BonoboObjectClass parent_class;
-  POA_GNOME_Workrave_AppletControl__epv epv;
+  GObjectClass base;
 };
 
 
-static void     workrave_applet_control_class_init(AppletControlClass *);
-static void     workrave_applet_control_init(AppletControl *);
-static AppletControl* workrave_applet_control_new(void);
-static CORBA_long   workrave_applet_control_get_socket_id(PortableServer_Servant, CORBA_Environment *);
-static CORBA_long   workrave_applet_control_get_size(PortableServer_Servant, CORBA_Environment *);
-static CORBA_long   workrave_applet_control_get_orientation(PortableServer_Servant, CORBA_Environment *);
+#define DBUS_SERVICE_APPLET "org.workrave.Workrave.GnomeApplet"
+#define WORKRAVE_DBUS_ERROR g_quark_from_static_string ("workrave")
 
-static void             workrave_applet_control_set_menu_status(PortableServer_Servant, const CORBA_char *,
-                                                                const CORBA_boolean, CORBA_Environment *);
-static CORBA_boolean    workrave_applet_control_get_menu_status(PortableServer_Servant, const CORBA_char *,
-                                                                CORBA_Environment *ev);
-static void             workrave_applet_control_set_menu_active(PortableServer_Servant, const CORBA_char *,
-                                                                const CORBA_boolean, CORBA_Environment *);
-static CORBA_boolean    workrave_applet_control_get_menu_active(PortableServer_Servant, const CORBA_char *,
-                                                                CORBA_Environment *ev);
-/* static CORBA_boolean    workrave_applet_control_register_control(PortableServer_Servant, */
-/*                                                                  const GNOME_Workrave_WorkraveControl, */
-/*                                                                  CORBA_Environment *ev); */
-/* static CORBA_boolean    workrave_applet_control_unregister_control(PortableServer_Servant, */
-/*                                                                    const GNOME_Workrave_WorkraveControl, */
-/*                                                                    CORBA_Environment *ev); */
+static GType workrave_applet_get_type(void);
+static gboolean workrave_applet_get_socket_id(WorkraveApplet *, guint *, GError **);
+static gboolean workrave_applet_get_size(WorkraveApplet *, guint *, GError **);
+static gboolean workrave_applet_get_orientation(WorkraveApplet *, guint *, GError **);
+static gboolean workrave_applet_set_menu_status(WorkraveApplet *, const char *, gboolean, GError **);
+static gboolean workrave_applet_get_menu_status(WorkraveApplet *, const char *, gboolean *, GError **);
+static gboolean workrave_applet_set_menu_active(WorkraveApplet *, const char *, gboolean, GError **);
+static gboolean workrave_applet_get_menu_active(WorkraveApplet *, const char *, gboolean *, GError **);
 
 G_END_DECLS
 
-#endif /*__WR_APPLET_CONTROL_H__*/
+#endif /*__WORKRAVEAPPLET_H__*/

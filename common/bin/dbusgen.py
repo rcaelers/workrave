@@ -33,12 +33,16 @@ class NodeBase(object):
     pass
 
 class ArgNode(NodeBase):
-    def __init__(self):
+    def __init__(self, interface_node):
         NodeBase.__init__(self)
+        self.interface_node = interface_node
         self.name = ''
         self.type = ''
         self.direction = ''
-        self.hint = ''
+        self.hint = []
+
+    def sig(self):
+        return self.interface_node.type2sig(self.type)
 
 class DefaultTypeNode(NodeBase):
     def __init__(self, csymbol, type_sig):
@@ -132,6 +136,7 @@ class InterfaceNode(NodeBase):
                     self.imports.append(p)
 
     def add_default_types(self):
+        self.types['void']= DefaultTypeNode('void','i')
         self.types['int']= DefaultTypeNode('int','i')
         self.types['uint8']= DefaultTypeNode('guint8', 'y')
         self.types['int16']= DefaultTypeNode('gint16','n')
@@ -182,12 +187,15 @@ class MethodNode(NodeBase):
                     self.handle_arg(child)
 
     def handle_arg(self, node):
-        p = ArgNode()
+        p = ArgNode(self.parent)
         p.name = node.getAttribute('name')
         p.type = node.getAttribute('type')
         p.direction = node.getAttribute('direction')
-        p.hint = node.getAttribute('hint')
-        
+
+        hint = node.getAttribute('hint')
+        if hint != None and hint != '':
+            p.hint = hint.split(',')
+            
         self.params.append(p)
 
     def sig(self):
@@ -201,14 +209,14 @@ class MethodNode(NodeBase):
     def return_type(self):
         ret = 'void'
         for p in self.params:
-            if p.hint == 'return':
+            if 'return' in p.hint:
                 ret = p.type
         return ret
 
     def return_name(self):
         ret = 'ret'
         for p in self.params:
-            if p.hint == 'return':
+            if 'return' in p.hint:
                 ret = p.name
         return ret
         
@@ -231,7 +239,7 @@ class SignalNode(NodeBase):
                     self.handle_arg(child)
 
     def handle_arg(self, node):
-        p = ArgNode()
+        p = ArgNode(self.parent)
 
         p.name = node.getAttribute('name')
         p.type = node.getAttribute('type')
@@ -250,14 +258,14 @@ class SignalNode(NodeBase):
     def return_type(self):
         ret = 'void'
         for p in self.params:
-            if p.hint == 'return':
+            if 'return' in p.hint:
                 ret = p.type
         return ret
 
     def return_name(self):
         ret = 'ret'
         for p in self.params:
-            if p.hint == 'return':
+            if 'return' in p.hint:
                 ret = p.name
         return ret
 
@@ -281,7 +289,7 @@ class StructNode(NodeBase):
         self.parent.types[self.name] = self
         
     def handle_field(self, node):
-        arg = ArgNode()
+        arg = ArgNode(self.parent)
         arg.name = node.getAttribute('name')
         arg.type = node.getAttribute('type')
 
@@ -360,7 +368,7 @@ class EnumNode(NodeBase):
         self.parent.types[self.name] = self
             
     def handle_value(self, node):
-        arg = ArgNode()
+        arg = ArgNode(self.parent)
 
         val = node.getAttribute('value')
         if val != '':
@@ -405,7 +413,13 @@ if __name__ == '__main__':
     parser = OptionParser(usage=usage)
     parser.add_option("-l", "--language",
                       dest="language",
-                      help="Generate stubs for this language",
+                      help="Generate stubs for this language")
+    parser.add_option("-c", "--client",
+                      action="store_true", dest="client",
+                      help="Generate client stubs")
+    parser.add_option("-s", "--server",
+                      action="store_true", dest="server",
+                      help="Generate server stubs"
                       )
 
     (options, args) = parser.parse_args()
@@ -415,13 +429,18 @@ if __name__ == '__main__':
 
     if options.language:
         if options.language == 'C':
-            templates.append(directory+"/DBus-template.c")
-            templates.append(directory+"/DBus-template.h")
             header_ext=".h"
         elif options.language == 'C++':
-            templates.append(directory+"/DBus-template.cc")
-            templates.append(directory+"/DBus-template.hh")
+            if options.client:
+                templates.append(directory+"/DBus-client-template.cc")
+                templates.append(directory+"/DBus-client-template.hh")
+            if options.server:
+                templates.append(directory+"/DBus-template.cc")
+                templates.append(directory+"/DBus-template.hh")
             header_ext=".hh"
+        elif options.language == 'dbus-glib':
+            templates.append(directory+"/DBus-glib.xml")
+            header_ext=".xml"
         else:
             parser.error("Unsupported language: " + options.language)
             sys.exit(1)
@@ -434,7 +453,7 @@ if __name__ == '__main__':
     binding.parse()
 
     binding.include_filename = binding.name + header_ext
-
+    
     for template_name in templates:
         t = Template(file=template_name)
         t.model = binding

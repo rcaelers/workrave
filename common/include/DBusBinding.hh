@@ -43,21 +43,9 @@ namespace workrave
     const char *signature;
   };
 
-  class DBusBindingBase
+  class DBusBaseTypes
   {
   public:
-    DBusBindingBase(DBus *dbus);
-    virtual ~DBusBindingBase();
-  
-    virtual DBusIntrospect *get_method_introspect() = 0;
-    virtual DBusIntrospect *get_signal_introspect() = 0;
-
-    DBusMessage *call(const std::string &method, void *object, DBusMessage *message);
-
-  protected:
-    virtual DBusMessage *call(int method, void *object, DBusMessage *message) = 0;
-    void send(DBusMessage *msg);
-  
     void get_uint8(DBusMessageIter *it, guint8 *value);
     void get_uint16(DBusMessageIter *it, guint16 *value);
     void get_int16(DBusMessageIter *it, gint16 *value);
@@ -79,10 +67,24 @@ namespace workrave
     void put_bool(DBusMessageIter *it, const bool *value);
     void put_double(DBusMessageIter *it, const double *value);
     void put_string(DBusMessageIter *it, const std::string *value);
+  };
 
+  class DBusBindingBase : public DBusBaseTypes
+  {
+  public:
+    DBusBindingBase(DBus *dbus);
+    virtual ~DBusBindingBase();
+  
+    virtual DBusIntrospect *get_method_introspect() = 0;
+    virtual DBusIntrospect *get_signal_introspect() = 0;
 
+    DBusMessage *call(const std::string &method, void *object, DBusMessage *message);
+
+  protected:
+    virtual DBusMessage *call(int method, void *object, DBusMessage *message) = 0;
+    void send(DBusMessage *msg);
+  
     DBus *dbus;
-    
   };
 }
 

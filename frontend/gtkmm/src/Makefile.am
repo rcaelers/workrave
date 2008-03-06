@@ -7,11 +7,10 @@
 #
 
 SUBDIRS = 		gnome_applet kde_applet win32 unix osx
-MAINTAINERCLEANFILES = 	Makefile.in ${IDL_A_GENERATED} ${IDL_C_GENERATED} \
+MAINTAINERCLEANFILES = 	Makefile.in
 			org.workrave.Workrave.service \
 			workrave.desktop.in workrave.desktop \
-			DBusGUI.cc \
-			DBusGUI.hh
+			DBusGUI.cc DBusGUI.hh DBusGnomeApplet.cc DBusGnomeApplet.hh
 
 if HAVE_APP_GTKMM
 
@@ -19,20 +18,6 @@ bin_PROGRAMS = 		workrave
 
 endif
 
-# Additional IDL sources.
-IDL_A = 		gnome_applet/Workrave-Applet.idl
-
-IDL_A_GENERATED = 	Workrave-Applet.h			\
-			Workrave-Applet-common.c		\
-			Workrave-Applet-skels.c			\
-			Workrave-Applet-stubs.c
-
-IDL_C = 		gnome_applet/Workrave-Control.idl
-
-IDL_C_GENERATED = 	Workrave-Control.h			\
-			Workrave-Control-common.c		\
-		  	Workrave-Control-skels.c		\
-			Workrave-Control-stubs.c
 
 DEFS = 			@DEFS@ -DGNOMELOCALEDIR=\""$(datadir)/locale"\" \
 			-I$(top_srcdir)/intl -I..
@@ -41,8 +26,7 @@ extrasources =
 extranodistsources = 
 
 # Additional Gnome sources
-sourcesgnome = 		RemoteControl.cc GnomeAppletWindow.cc GnomeAppletMenu.cc
-sourcesgnome_idl = 	${IDL_C_GENERATED} ${IDL_A_GENERATED}
+sourcesgnome = 		GnomeAppletWindow.cc GnomeAppletMenu.cc DBusGnomeApplet.cc
 
 # Additional non-Gnome sources.
 sourcesnognome =
@@ -83,14 +67,16 @@ STATISTICS_HOME = 	../../plugin/statistics
 if HAVE_APP_GTKMM
 
 if HAVE_GNOME
-extrasources +=		$(sourcesgnome)
-extranodistsources +=	$(sourcesgnome_idl)
 
-Menus.cc:               $(sourcesgnome_idl) 
-AppletControl.cc:       $(sourcesgnome_idl)
-RemoteControl.cc:       $(sourcesgnome_idl)
-GnomeAppletWindow.cc:   $(sourcesgnome_idl)
-GUI.cc:			$(sourcesgnome_idl)
+DBusGnomeApplet.cc:	gnome_applet/gnome-applet.xml \
+			../../../common/bin/dbusgen.py \
+		    	../../../common/bin/DBus-client-template.cc \
+		    	../../../common/bin/DBus-client-template.hh
+			python ../../../common/bin/dbusgen.py --language=C++ -c gnome_applet/gnome-applet.xml DBUSGnomeApplet
+
+DBusGnomeApplet.hh:	DBusGnomeApplet.cc
+
+extrasources +=		$(sourcesgnome)
 else
 extrasources +=		$(sourcesnognome)
 endif
@@ -160,12 +146,11 @@ $(service_DATA): $(service_in_files) Makefile
 
 dbussources=DBusGUI.cc
 
-DBusGUI.cc: 		workrave-gui.xml
-			python ../../../common/bin/dbusgen.py --language=C++ workrave-gui.xml DBusGUI
-
-DBusGUI.cc: 		../../../common/bin/dbusgen.py \
-		    	../../../common/bin/DBus-template.cc \
-		    	../../../common/bin/DBus-template.hh
+DBusGUI.cc: 		workrave-gui.xml \
+			../../../common/bin/dbusgen.py \
+			../../../common/bin/DBus-template.cc \
+			../../../common/bin/DBus-template.hh
+			python ../../../common/bin/dbusgen.py --language=C++ -s workrave-gui.xml DBusGUI
 
 DBusGUI.hh: 		DBusGUI.cc
 
@@ -305,13 +290,6 @@ workrave_LDADD =        @WR_LDADD@ @X_LIBS@ @GNOME_LIBS@ @GNOMEMM_LIBS@ \
 #	$(CXXLINK) $(workrave_LDFLAGS) $(workrave_OBJECTS) $(workrave_LDADD) $(LIBS)
 
 
-$(IDL_A_GENERATED): $(IDL_A) 
-	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl $(IDL_INCLUDES) \
-		gnome_applet/Workrave-Applet.idl
-
-$(IDL_C_GENERATED): $(IDL_C) 
-	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl $(IDL_INCLUDES) \
-		gnome_applet/Workrave-Control.idl
 
 
 EXTRA_DIST = $(wildcard *.cc) $(wildcard *.hh) $(wildcard *.c) $(wildcard *.h)

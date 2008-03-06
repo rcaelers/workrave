@@ -34,9 +34,6 @@
 #include <bonobo/bonobo-xobject.h>
 #include <string>
 
-#include "Workrave-Applet.h"
-#include "Workrave-Control.h"
-
 #include <gtkmm/bin.h>
 #include <gtkmm/menu.h>
 #include <gtkmm/plug.h>
@@ -44,6 +41,7 @@
 
 class TimerBoxGtkView;
 class AppletControl;
+class org_workrave_GnomeAppletInterface;
 
 class GnomeAppletWindow :
   public SigC::Object,
@@ -70,9 +68,10 @@ public:
 
   void set_menu_active(int menu, bool active);
   bool get_menu_active(int menu);
+  
+  // DBUS methods
   void set_applet_orientation(Orientation orientation);
   void set_applet_size(int size);
-  void set_applet_control(GNOME_Workrave_AppletControl applet_control);
   void set_applet_background(int type, GdkColor &color, long xid);
 
 private:
@@ -85,14 +84,14 @@ private:
   //! Container to put the timers in..
   Gtk::Bin *container;
 
-  //
-  GNOME_Workrave_AppletControl applet_control;
-
   //! Allign break orientationly.
   Orientation applet_orientation;
 
   //! Size of the applet
   int applet_size;
+
+  //!
+  org_workrave_GnomeAppletInterface *applet_control;
 
   //!
   AppletControl *control;

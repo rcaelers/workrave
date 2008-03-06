@@ -122,7 +122,6 @@ private:
   void init_multihead_mem(int new_num_heads);
   void init_multihead_desktop();
   void init_gui();
-  void init_remote_control();
   void init_dbus();
   
   void init_gtk_multihead();

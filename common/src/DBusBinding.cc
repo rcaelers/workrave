@@ -69,7 +69,7 @@ DBusBindingBase::call(const std::string &method, void *object, DBusMessage *mess
     }
   else
     {
-      throw DBusUsageException("No such member");
+      throw DBusUsageException(std::string("No such member:") + method );
     }
 
   return ret;
@@ -77,7 +77,7 @@ DBusBindingBase::call(const std::string &method, void *object, DBusMessage *mess
 
 
 void
-DBusBindingBase::get_uint8(DBusMessageIter *it, guint8 *value)
+DBusBaseTypes::get_uint8(DBusMessageIter *it, guint8 *value)
 {
 	int argtype = dbus_message_iter_get_arg_type(it);
 
@@ -92,7 +92,7 @@ DBusBindingBase::get_uint8(DBusMessageIter *it, guint8 *value)
 
 
 void
-DBusBindingBase::get_uint16(DBusMessageIter *it, guint16 *value)
+DBusBaseTypes::get_uint16(DBusMessageIter *it, guint16 *value)
 {
 	int argtype = dbus_message_iter_get_arg_type(it);
 
@@ -107,7 +107,7 @@ DBusBindingBase::get_uint16(DBusMessageIter *it, guint16 *value)
 
 
 void
-DBusBindingBase::get_int16(DBusMessageIter *it, gint16 *value)
+DBusBaseTypes::get_int16(DBusMessageIter *it, gint16 *value)
 {
 	int argtype = dbus_message_iter_get_arg_type(it);
 
@@ -121,7 +121,7 @@ DBusBindingBase::get_int16(DBusMessageIter *it, gint16 *value)
 }
 
 void
-DBusBindingBase::get_uint32(DBusMessageIter *it, guint32 *value)
+DBusBaseTypes::get_uint32(DBusMessageIter *it, guint32 *value)
 {
 	int argtype = dbus_message_iter_get_arg_type(it);
 
@@ -136,7 +136,7 @@ DBusBindingBase::get_uint32(DBusMessageIter *it, guint32 *value)
 
 
 void
-DBusBindingBase::get_int32(DBusMessageIter *it, gint32 *value)
+DBusBaseTypes::get_int32(DBusMessageIter *it, gint32 *value)
 {
 	int argtype = dbus_message_iter_get_arg_type(it);
 
@@ -151,7 +151,7 @@ DBusBindingBase::get_int32(DBusMessageIter *it, gint32 *value)
 
 
 void
-DBusBindingBase::get_uint64(DBusMessageIter *it, guint64 *value)
+DBusBaseTypes::get_uint64(DBusMessageIter *it, guint64 *value)
 {
 	int argtype = dbus_message_iter_get_arg_type(it);
 
@@ -166,7 +166,7 @@ DBusBindingBase::get_uint64(DBusMessageIter *it, guint64 *value)
 
 
 void
-DBusBindingBase::get_int64(DBusMessageIter *it, gint64 *value)
+DBusBaseTypes::get_int64(DBusMessageIter *it, gint64 *value)
 {
 	int argtype = dbus_message_iter_get_arg_type(it);
 
@@ -181,7 +181,7 @@ DBusBindingBase::get_int64(DBusMessageIter *it, gint64 *value)
 
 
 void
-DBusBindingBase::get_bool(DBusMessageIter *it, bool *value)
+DBusBaseTypes::get_bool(DBusMessageIter *it, bool *value)
 {
 	int argtype = dbus_message_iter_get_arg_type(it);
 
@@ -199,7 +199,7 @@ DBusBindingBase::get_bool(DBusMessageIter *it, bool *value)
 
 
 void
-DBusBindingBase::get_double(DBusMessageIter *it, double *value)
+DBusBaseTypes::get_double(DBusMessageIter *it, double *value)
 {
 	int argtype = dbus_message_iter_get_arg_type(it);
 
@@ -214,7 +214,7 @@ DBusBindingBase::get_double(DBusMessageIter *it, double *value)
 
 
 void
-DBusBindingBase::get_string(DBusMessageIter *it, std::string *value)
+DBusBaseTypes::get_string(DBusMessageIter *it, std::string *value)
 {
 	int argtype = dbus_message_iter_get_arg_type(it);
 
@@ -235,61 +235,61 @@ DBusBindingBase::get_string(DBusMessageIter *it, std::string *value)
 
 
 void
-DBusBindingBase::put_uint8(DBusMessageIter *it, const guint8 *value)
+DBusBaseTypes::put_uint8(DBusMessageIter *it, const guint8 *value)
 {
 	dbus_message_iter_append_basic(it, DBUS_TYPE_BYTE, value);
 }
 
 void
-DBusBindingBase::put_uint16(DBusMessageIter *it, const guint16 *value)
+DBusBaseTypes::put_uint16(DBusMessageIter *it, const guint16 *value)
 {
 	dbus_message_iter_append_basic(it, DBUS_TYPE_UINT16, value);
 }
 
 
 void
-DBusBindingBase::put_int16(DBusMessageIter *it, const gint16 *value)
+DBusBaseTypes::put_int16(DBusMessageIter *it, const gint16 *value)
 {
 	dbus_message_iter_append_basic(it, DBUS_TYPE_INT16, value);
 }
 
 void
-DBusBindingBase::put_uint32(DBusMessageIter *it, const guint32 *value)
+DBusBaseTypes::put_uint32(DBusMessageIter *it, const guint32 *value)
 {
 	dbus_message_iter_append_basic(it, DBUS_TYPE_UINT32, value);
 }
 
 
 void
-DBusBindingBase::put_int32(DBusMessageIter *it, const gint32 *value)
+DBusBaseTypes::put_int32(DBusMessageIter *it, const gint32 *value)
 {
 	dbus_message_iter_append_basic(it, DBUS_TYPE_INT32, value);
 }
 
 
 void
-DBusBindingBase::put_uint64(DBusMessageIter *it, const guint64 *value)
+DBusBaseTypes::put_uint64(DBusMessageIter *it, const guint64 *value)
 {
 	dbus_message_iter_append_basic(it, DBUS_TYPE_UINT64, value);
 }
 
 
 void
-DBusBindingBase::put_int64(DBusMessageIter *it, const gint64 *value)
+DBusBaseTypes::put_int64(DBusMessageIter *it, const gint64 *value)
 {
 	dbus_message_iter_append_basic(it, DBUS_TYPE_INT64, value);
 }
 
 
 void
-DBusBindingBase::put_double(DBusMessageIter *it, const double *value)
+DBusBaseTypes::put_double(DBusMessageIter *it, const double *value)
 {
 	dbus_message_iter_append_basic(it, DBUS_TYPE_DOUBLE, value);
 }
 
 
 void
-DBusBindingBase::put_bool(DBusMessageIter *it, const bool *value)
+DBusBaseTypes::put_bool(DBusMessageIter *it, const bool *value)
 {
   gboolean v = *value;
 	dbus_message_iter_append_basic(it, DBUS_TYPE_BOOLEAN, &v);
@@ -297,7 +297,7 @@ DBusBindingBase::put_bool(DBusMessageIter *it, const bool *value)
 
 
 void
-DBusBindingBase::put_string(DBusMessageIter *it, const std::string *value)
+DBusBaseTypes::put_string(DBusMessageIter *it, const std::string *value)
 {
   const char *cstr = value->c_str();
 	dbus_message_iter_append_basic(it, DBUS_TYPE_STRING, &cstr);

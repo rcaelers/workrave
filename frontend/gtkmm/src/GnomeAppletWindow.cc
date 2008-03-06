@@ -39,8 +39,6 @@ static const char rcsid[] = "$Id$";
 #include "Menus.hh"
 #include "System.hh"
 
-#include "RemoteControl.hh"
-
 #include "ICore.hh"
 #include "CoreFactory.hh"
 
@@ -49,6 +47,9 @@ static const char rcsid[] = "$Id$";
 
 #include <X11/X.h>
 #include <X11/Xlib.h>
+
+#include "DBusException.hh"
+#include "DBusGnomeApplet.hh"
 
 //! Constructor.
 /*!
@@ -59,9 +60,9 @@ GnomeAppletWindow::GnomeAppletWindow(AppletControl *control) :
   view(NULL),
   plug(NULL),
   container(NULL),
-  applet_control(NULL),
   applet_orientation(ORIENTATION_UP),
   applet_size(0),
+  applet_control(NULL),
   control(control),
   applet_active(false)
 {
@@ -87,44 +88,46 @@ GnomeAppletWindow::activate_applet()
 
   if (!applet_active)
     {
-      // Initialize bonobo activation.
-      bonobo_activate();
-
-      CORBA_Environment ev;
-      CORBA_exception_init (&ev);
-
-      // Connect to the applet.
-      // FIXME: leak
-      if (applet_control == NULL)
-        {
-          applet_control = bonobo_activation_activate_from_id("OAFIID:GNOME_Workrave_AppletControl",
-                                                              Bonobo_ACTIVATION_FLAG_EXISTING_ONLY,
-                                                              NULL, &ev);
-        }
-
-      // Socket ID of the applet.
       long id = 0;
-      if (applet_control != NULL && !BONOBO_EX(&ev))
+      
+      try
         {
-          id = GNOME_Workrave_AppletControl_get_socket_id(applet_control, &ev);
-          ok = !BONOBO_EX(&ev);
-        }
+          DBus *dbus = CoreFactory::get_dbus();
 
-      if (ok)
+          if (dbus != NULL && dbus->is_available())
+            {
+              dbus->connect("/org/workrave/Workrave/UI",
+                            "org.workrave.GnomeAppletSupportInterface",
+                            this);
+            }
+      
+          applet_control = org_workrave_GnomeAppletInterface::instance(dbus,
+                                                                       "org.workrave.Workrave.GnomeApplet",
+                                                                       "/org/workrave/Workrave/GnomeApplet");
+          if (applet_control != NULL)
+            {
+              id = applet_control->GetSocketId();
+              applet_size = applet_control->GetSize();
+              applet_orientation =  (Orientation) applet_control->GetOrientation();
+
+#ifndef HAVE_EXERCISES
+              applet_control->SetMenuActive("/commands/Exercises", false);
+#endif
+#ifndef HAVE_DISTRIBUTION
+              applet_control->SetMenuActive("/commands/Network", false);
+#endif
+            }
+        }
+      catch (DBusException)
         {
-          // Retrieve applet size.
-          applet_size = GNOME_Workrave_AppletControl_get_size(applet_control, &ev);
-          ok = !BONOBO_EX(&ev);
+          if (applet_control != NULL)
+            {
+              delete applet_control;
+              applet_control = NULL;
+            }
+          
+          ok = false;
         }
-
-      if (ok)
-        {
-          // Retrieve applet orientation.
-          applet_orientation =  (Orientation)
-            GNOME_Workrave_AppletControl_get_orientation(applet_control, &ev);
-          ok = !BONOBO_EX(&ev);
-        }
-
 
       if (ok)
         {
@@ -161,23 +164,10 @@ GnomeAppletWindow::activate_applet()
           container->show_all();
           plug->show_all();
 
-#ifndef HAVE_EXERCISES
-          GNOME_Workrave_AppletControl_set_menu_active(applet_control, "/commands/Exercises", false, &ev);
-#endif
-#ifndef HAVE_DISTRIBUTION
-          GNOME_Workrave_AppletControl_set_menu_active(applet_control, "/commands/Network", false, &ev);
-#endif
-        }
-
-      if (!ok)
-        {
-          applet_control = NULL;
         }
 
       Menus *menus = Menus::get_instance();
       menus->resync();
-      
-      CORBA_exception_free(&ev);
     }
 
   if (ok)
@@ -221,7 +211,8 @@ GnomeAppletWindow::deactivate_applet()
       timer_box_view = NULL;
       view = NULL;
 
-      applet_control = NULL; // FIXME: free memory.
+      delete applet_control;
+      applet_control = NULL;
     }
 
   applet_active = false;
@@ -251,53 +242,37 @@ GnomeAppletWindow::fire_gnome_applet()
 }
 
 
-//! Sets the applet control callback interface.
-void
-GnomeAppletWindow::set_applet_control(GNOME_Workrave_AppletControl applet_control)
-{
-  TRACE_ENTER("GnomeAppletWindow::set_applet_control");
-  if (this->applet_control != NULL)
-    {
-      // FIXME: free old interface
-    }
-
-  this->applet_control = applet_control;
-
-  control->show(AppletControl::APPLET_GNOME);
-  TRACE_EXIT();
-}
-
-
 //! Sets the state of a toggle menu item.
 void
 GnomeAppletWindow::set_menu_active(int menu, bool active)
 {
   TRACE_ENTER_MSG("GnomeAppletWindow::set_menu_active", menu << " " << active);
-  CORBA_Environment ev;
 
-  if (applet_control != NULL)
+  try
     {
-      CORBA_exception_init (&ev);
-      switch (menu)
+      if (applet_control != NULL)
         {
-        case MENUSYNC_MODE_NORMAL:
-          GNOME_Workrave_AppletControl_set_menu_status(applet_control, "/commands/Normal",
-                                                       active, &ev);
-          break;
-        case MENUSYNC_MODE_SUSPENDED:
-          GNOME_Workrave_AppletControl_set_menu_status(applet_control, "/commands/Suspended",
-                                                       active, &ev);
-          break;
-        case MENUSYNC_MODE_QUIET:
-          GNOME_Workrave_AppletControl_set_menu_status(applet_control, "/commands/Quiet",
-                                                       active, &ev);
-          break;
-        case MENUSYNC_SHOW_LOG:
-          GNOME_Workrave_AppletControl_set_menu_status(applet_control, "/commands/ShowLog", active, &ev);
-          break;
+          switch (menu)
+            {
+            case MENUSYNC_MODE_NORMAL:
+              applet_control->SetMenuStatus("/commands/Normal", active);
+              break;
+            case MENUSYNC_MODE_SUSPENDED:
+              applet_control->SetMenuStatus("/commands/Suspended", active);
+              break;
+            case MENUSYNC_MODE_QUIET:
+              applet_control->SetMenuStatus("/commands/Quiet", active);
+              break;
+            case MENUSYNC_SHOW_LOG:
+              applet_control->SetMenuStatus("/commands/ShowLog", active);
+              break;
+            }
         }
-      CORBA_exception_free(&ev);
     }
+  catch(DBusException)
+    {
+    }
+
   TRACE_EXIT();
 }
 
@@ -306,33 +281,34 @@ GnomeAppletWindow::set_menu_active(int menu, bool active)
 bool
 GnomeAppletWindow::get_menu_active(int menu)
 {
-  CORBA_Environment ev;
   bool ret = false;
 
-  if (applet_control != NULL)
+  try
     {
-      CORBA_exception_init (&ev);
-      switch (menu)
+      if (applet_control != NULL)
         {
-        case MENUSYNC_MODE_NORMAL:
-          ret = GNOME_Workrave_AppletControl_get_menu_status(applet_control, "/commands/Normal",
-                                                             &ev);
-          break;
-        case MENUSYNC_MODE_SUSPENDED:
-          ret = GNOME_Workrave_AppletControl_get_menu_status(applet_control, "/commands/Suspended",
-                                                             &ev);
-          break;
-        case MENUSYNC_MODE_QUIET:
-          ret = GNOME_Workrave_AppletControl_get_menu_status(applet_control, "/commands/Quiet",
-                                                             &ev);
-          break;
-        case MENUSYNC_SHOW_LOG:
-          ret = GNOME_Workrave_AppletControl_get_menu_status(applet_control, "/commands/ShowLog",
-                                                             &ev);
-          break;
+          switch (menu)
+            {
+            case MENUSYNC_MODE_NORMAL:
+              applet_control->GetMenuStatus("/commands/Normal", ret);
+              break;
+            case MENUSYNC_MODE_SUSPENDED:
+              applet_control->GetMenuStatus("/commands/Suspended", ret);
+              break;
+            case MENUSYNC_MODE_QUIET:
+              applet_control->GetMenuStatus("/commands/Quiet", ret);
+              break;
+            case MENUSYNC_SHOW_LOG:
+              applet_control->GetMenuStatus("/commands/ShowLog", ret);
+              break;
+            }
         }
-      CORBA_exception_free(&ev);
     }
+  catch(DBusException)
+    {
+      ret = false;
+    }
+
   return ret;
 }
 

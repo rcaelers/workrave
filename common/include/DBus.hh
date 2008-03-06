@@ -1,6 +1,6 @@
 // DBus.hh --- DBUS interface
 //
-// Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -45,6 +45,7 @@ namespace workrave
     void register_service(const std::string &service);
     void register_object_path(const std::string &object_path);
     void connect(const std::string &path, const std::string &interface_name, void *object);
+    void disconnect(const std::string &path, const std::string &interface_name);
 
     void register_binding(const std::string &interface_name, DBusBindingBase *binding);
     DBusBindingBase *find_binding(const std::string &interface_name) const;
@@ -52,7 +53,8 @@ namespace workrave
     bool is_available() const;
     bool is_owner() const;
 
-    
+    DBusConnection *conn() { return connection; }
+        
   private:
     typedef std::map<std::string, DBusBindingBase *> Bindings;
     typedef Bindings::iterator BindingIter;
@@ -81,7 +83,8 @@ namespace workrave
     void send(DBusMessage *msg) const;
 
     friend class DBusBindingBase;
-    
+
+
   private:
     //! Connection to the DBus.
     DBusConnection *connection;

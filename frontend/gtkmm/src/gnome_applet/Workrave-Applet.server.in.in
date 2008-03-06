@@ -27,16 +27,4 @@
 	        <oaf_attribute name="panel:icon" type="string" value="workrave/workrave-icon-huge.png"/>
         </oaf_server>
 
-	<oaf_server     iid="OAFIID:GNOME_Workrave_AppletControl"
-	        	type="factory"
-		        location="OAFIID:GNOME_WorkraveApplet_Factory">
-
-		<oaf_attribute name="repo_ids" type="stringv">
-			<item value="IDL:GNOME/Workrave/AppletControl:1.0"/>
-		</oaf_attribute>
-
-		<oaf_attribute name="name" type="string" value="Applet Control"/>
-		<oaf_attribute name="description" type="string" value="AppletControl"/>
-	</oaf_server>
-
 </oaf_info>

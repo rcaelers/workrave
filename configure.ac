@@ -316,17 +316,7 @@ then
     PKG_CHECK_MODULES(GNOME,
                       libgnomeui-2.0 \
                       libpanelapplet-2.0 >= 2.0.10 \
-                      libbonobo-2.0 >= 2.0.0 \
-                      bonobo-activation-2.0 \
-                      ORBit-2.0 >= 2.8.3)
-
-    AC_MSG_CHECKING(for CORBA include paths)
-    IDL_INCLUDES="-I "`pkg-config --variable=idldir libbonobo-2.0`" -I "`pkg-config --variable=idldir bonobo-activation-2.0`
-    AC_MSG_RESULT($IDL_INCLUDES)
-
-    AC_PATH_PROG(ORBIT_IDL, orbit-idl-2)
-    AC_SUBST(ORBIT_IDL)
-    
+                      libbonobo-2.0 >= 2.0.0)
 else
   config_gnomemm=no
 fi

@@ -1,6 +1,6 @@
 // DBus.c
 //
-// Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -154,6 +154,20 @@ DBus::connect(const std::string &object_path, const std::string &interface_name,
       Interfaces interfaces;
       interfaces[interface_name] = cobject;
       objects[object_path] = interfaces;
+    }
+}
+
+
+//! Disconnect a D-DBUS object/interface to a C object
+void
+DBus::disconnect(const std::string &object_path, const std::string &interface_name)
+{
+  ObjectIter it = objects.find(object_path);
+  if (it != objects.end())
+    {
+      Interfaces &interfaces = it->second;
+
+      interfaces.erase(interface_name);
     }
 }
 
@@ -377,13 +391,13 @@ DBus::handle_method(DBusConnection *connection, DBusMessage *message)
   void *cobject = find_cobject(path, interface_name);
   if (cobject == NULL)
     {
-      throw DBusUsageException("no such object");
+      throw DBusUsageException(string("no such object: ") + path + " " + interface_name );
     }
   
   DBusBindingBase *binding = find_binding(interface_name);
   if (binding == NULL)
     {
-      throw DBusSystemException("No such binding");
+      throw DBusSystemException(string("No such binding: ") + interface_name );
     }
 
   DBusMessage *reply = binding->call(method, cobject, message);

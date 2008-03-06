@@ -68,7 +68,7 @@ if HAVE_DBUS
 dbussources =           DBusWorkrave.cc
 
 DBusWorkrave.cc:	workrave-service.xml
-			python ../../common/bin/dbusgen.py -l C++ workrave-service.xml DBusWorkrave
+			python ../../common/bin/dbusgen.py -l C++ -s workrave-service.xml DBusWorkrave
 
 DBusWorkrave.cc: 	../../common/bin/dbusgen.py \
 			../../common/bin/DBus-template.cc \

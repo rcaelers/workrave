@@ -360,7 +360,7 @@ ${interface.qname}_Stub::put_${dict.qname}(DBusMessageIter *writer, const ${dict
 DBusMessage *
 ${interface.qname}_Stub::${method.name}(void *object, DBusMessage *message)
 {
-  DBusMessage *reply;
+  DBusMessage *reply = NULL;
 
 #if method.condition != ''
 \#if $method.condition
@@ -382,7 +382,7 @@ ${interface.qname}_Stub::${method.name}(void *object, DBusMessage *message)
       #if p.direction == 'in'
       #set have_in_args = True
       #end if
-      #if p.hint == 'ptrptr'
+      #if 'ptrptr' in p.hint
       $interface.type2csymbol(p.type) *${p.name};
       #else
       $interface.type2csymbol(p.type) ${p.name};
@@ -411,11 +411,11 @@ ${interface.qname}_Stub::${method.name}(void *object, DBusMessage *message)
       #end if
       #set comma = ''
       #for p in method.params
-      #if p.hint == '' or p.hint == 'ref'
+      #if p.hint == [] or 'ref' in p.hint
       $comma $p.name#slurp
-      #else if p.hint == 'ptr'
+      #else if 'ptr' in p.hint
       $comma &$p.name#slurp
-      #else if p.hint == 'ptrptr'
+      #else if 'ptrptr' in p.hint
       $comma &$p.name#slurp
       #end if
       #set comma = ','
@@ -433,7 +433,7 @@ ${interface.qname}_Stub::${method.name}(void *object, DBusMessage *message)
       
       #for arg in method.params:
       #if arg.direction == 'out'
-      #if p.hint == 'ptrptr'
+      #if 'ptrptr' in p.hint
       put_${arg.type}(&writer, ${arg.name});
       #else                                                        
       put_${arg.type}(&writer, &${arg.name});

@@ -87,13 +87,8 @@ static const char rcsid[] = "$Id$";
 #include <gconf/gconf-client.h>
 #endif
 
-#if defined(HAVE_GNOME)
-#include "RemoteControl.hh"
-#include <bonobo.h>
-#include <bonobo/bonobo-xobject.h>
 #if defined(HAVE_GNOMEMM)
 #include "libgnomeuimm/wrap_init.h"
-#endif
 #endif
 
 #if defined(HAVE_KDE)
@@ -174,11 +169,6 @@ GUI::~GUI()
 
   delete sound_player;
 
-#if defined(HAVE_GNOME)
-  RemoteControl *control = RemoteControl::get_instance();
-  delete control;
-#endif
-
   TRACE_EXIT();
 }
 
@@ -205,9 +195,8 @@ GUI::main()
   init_core();
   init_sound_player();
   init_multihead();
-  init_gui();
-  init_remote_control();
   init_dbus();
+  init_gui();
   
   on_timer();
 
@@ -797,6 +786,17 @@ GUI::init_gui()
 #endif
 
   menus->init(main_window, applet_window);
+
+#ifdef HAVE_DBUS
+  DBus *dbus = CoreFactory::get_dbus();
+
+  if (dbus != NULL && dbus->is_available())
+    {
+      dbus->connect("/org/workrave/Workrave/UI",
+                    "org.workrave.ControlInterface",
+                    menus);
+    }
+#endif
   
 #if defined(PLATFORM_OS_WIN32)
   win32_init_filter();
@@ -804,34 +804,6 @@ GUI::init_gui()
 
   // Periodic timer.
   Glib::signal_timeout().connect(sigc::mem_fun(*this, &GUI::on_timer), 1000);
-}
-
-
-//! Initializes the CORBA remote control interface.
-void
-GUI::init_remote_control()
-{
-#if defined(HAVE_GNOME)
-  if (!bonobo_init(&argc, argv))
-    {
-      g_error (_("I could not initialize Bonobo"));
-    }
-
-  RemoteControl *control = RemoteControl::get_instance();
-  if (control == NULL)
-    {
-      Gtk::MessageDialog dialog("Could not initialize Workrave. Is Workrave already running?",
-                                false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK, true);
-      dialog.show();
-      dialog.run();
-      exit(1);
-    }
-
-  BonoboGenericFactory *factory;
-  factory = bonobo_generic_factory_new("OAFIID:GNOME_Workrave_Factory",
-                                       workrave_component_factory, NULL);
-  bonobo_running_context_auto_exit_unref (BONOBO_OBJECT (factory));
-#endif
 }
 
 
@@ -858,10 +830,6 @@ GUI::init_dbus()
 
           extern void init_DBusGUI(DBus *dbus);
           init_DBusGUI(dbus);
-  
-          dbus->connect("/org/workrave/Workrave/UI",
-                        "org.workrave.ControlInterface",
-                        menus);
         }
       catch (DBusException &e)
         {
@@ -925,7 +893,7 @@ GUI::core_event_operation_mode_changed(const OperationMode m)
 #else
   (void) m;
 #endif
-  // FIXME: menus->resync_applet();
+  menus->resync();
 }
 
 
