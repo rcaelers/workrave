@@ -2,7 +2,9 @@ EXTRA_DIST 	= $(ui_DATA)					\
 		  $(wildcard *.xml.in)				\
 		  Workrave-Applet.server.in.in			\
 	  	  WorkraveApplet.c				\
-		  WorkraveApplet.h
+		  WorkraveApplet.h				\
+		  DBusGUI.xml					\
+		  DBusGnomeApplet.xml
 
 MAINTAINERCLEANFILES =  Makefile.in GNOME_WorkraveApplet.xml \
 			Workrave-Applet.server.in Workrave-Applet.server \
@@ -10,7 +12,7 @@ MAINTAINERCLEANFILES =  Makefile.in GNOME_WorkraveApplet.xml \
 
 SUBDIRS = 
 
-if HAVE_GNOME
+if HAVE_GNOMEAPPLET
 
 uidir		= $(datadir)/gnome-2.0/ui
 ui_DATA		= GNOME_WorkraveApplet.xml
@@ -60,11 +62,11 @@ applet-client-bindings.h:  DBusGnomeApplet.xml
 gui-client-bindings.h:  DBusGUI.xml
 	dbus-binding-tool --prefix=workrave --mode=glib-client $<> $@
 
-DBusGUI.xml: ../workrave-gui.xml
-		python ../../../../common/bin/dbusgen.py --language=dbus-glib ../workrave-gui.xml DBusGUI
+DBusGUI.xml: $(top_srcdir)/frontend/gtkmm/src/workrave-gui.xml
+		python $(top_srcdir)/common/bin/dbusgen.py --language=dbus-glib ../workrave-gui.xml DBusGUI
 
 DBusGnomeApplet.xml: gnome-applet.xml
-		python ../../../../common/bin/dbusgen.py --language=dbus-glib gnome-applet.xml DBusGnomeApplet
+		python $(top_srcdir)/common/bin/dbusgen.py --language=dbus-glib gnome-applet.xml DBusGnomeApplet
 
 
 endif

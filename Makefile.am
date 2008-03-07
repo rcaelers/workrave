@@ -16,6 +16,7 @@ MAINTAINERCLEANFILES = 	\
 		intltool-extract.in intltool-extract workrave.spec \
 		compile AUTHORS.txt COPYING.txt \
 		NEWS.txt README.txt
+DISTCLEANFILES = intltool-extract intltool-merge intltool-update
 
 SUBDIRS =      intl m4 po backend common frontend 
 DIST_SUBDIRS = $(SUBDIRS) build contrib
@@ -28,7 +29,8 @@ EXTRA_DIST = 	config.rpath  \
 		depcomp \
 		workrave.spec.in \
 		workrave.spec \
-		intltool-extract.in intltool-merge.in intltool-update.in
+		intltool-extract.in intltool-merge.in intltool-update.in \
+		SConstruct
 
 WIN32_NMAKE=wineconsole ~/.wine/fake_windows/Program\ Files/Microsoft\ Visual\ C++\ Toolkit\ 2003/bin/nmake.exe
 

@@ -19,7 +19,7 @@ libworkrave_backend_osx_la_SOURCES = \
 			${sourcesosx}
 
 libworkrave_backend_osx_la_CXXFLAGS = \
-			-W -I.. -I../../include \
+			-W -I$(top_srcdir)/backend/src -I$(top_srcdir)/backend/include \
 			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			@WR_COMMON_INCLUDES@ \
 			-D_XOPEN_SOURCE=600 @GLIB_CFLAGS@ @OSX_CFLAGS@

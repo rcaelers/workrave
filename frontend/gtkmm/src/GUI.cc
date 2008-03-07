@@ -458,7 +458,7 @@ void
 GUI::init_debug()
 {
 #if defined(NDEBUG)
-  char *domains[] = { NULL, "Gtk", "GLib", "Gdk", "gtkmm", "GLib-GObject" };
+  const char *domains[] = { NULL, "Gtk", "GLib", "Gdk", "gtkmm", "GLib-GObject" };
   for (unsigned int i = 0; i < sizeof(domains)/sizeof(char *); i++)
     {
       g_log_set_handler(domains[i],

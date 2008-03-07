@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2002, 2003, 2004, 2006, 2007 Rob Caelers & Raymond Penners
+# Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008 Rob Caelers & Raymond Penners
 #
 # $Id: Makefile.am 1092 2006-10-01 22:03:56Z dotsphinx $
 #
@@ -20,7 +20,8 @@ libworkrave_frontend_common_x11_la_SOURCES = \
 libworkrave_frontend_common_x11_la_CXXFLAGS = \
 			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-D_XOPEN_SOURCE=600 \
-			-W -I.. -I../../include \
+			-W -I$(top_srcdir)/frontend/common/src \
+			-I$(top_srcdir)/frontend/common/include \
 			@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@  
 
 endif

@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007, 2008 Rob Caelers & Raymond Penners
 #
 # $Id$
 #
@@ -22,7 +22,7 @@ endif
 libworkrave_backend_win32_la_SOURCES = ${sources} 
 
 libworkrave_backend_win32_la_CXXFLAGS = \
-			-W -I.. -I../../include \
+			-W -I$(top_srcdir)/backend/src -I$(top_srcdir)/backend/include \
 			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-D_XOPEN_SOURCE=600 \
 			-I$(top_srcdir)/common/win32/harpoon/include/ \

@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2002, 2003, 2004, 2007 Rob Caelers & Raymond Penners
+# Copyright (C) 2002, 2003, 2004, 2007, 2008 Rob Caelers & Raymond Penners
 #
 # $Id$
 #
@@ -38,12 +38,18 @@ endif
 libworkrave_frontend_common_la_LIBADD=${ldadd_platform}
 
 EXTRA_DIST = 		$(wildcard *.hh) $(wildcard *.cc) \
-			$(wildcard *.c) $(wildcard *.h)  $(wildcard *.icc)
+			$(wildcard *.c) $(wildcard *.h)  $(wildcard *.icc) \
+			SConscript
 
 libworkrave_frontend_common_la_CXXFLAGS = \
 			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-D_XOPEN_SOURCE=600 @X_CFLAGS@ \
-			-W -I. -I../include -Iwin32 -Ignome -Ikde -Iosx\
+			-W -I$(top_srcdir)/frontend/common/src/ \
+			-I$(top_srcdir)/frontend/common/include \
+			-I$(top_srcdir)/frontend/common/src/win32 \
+			-I$(top_srcdir)/frontend/common/src/gnome \
+			-I$(top_srcdir)/frontend/common/src/kde \
+			-I$(top_srcdir)/frontend/common/src/osx \
 			@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ \
 			@GNOME_CFLAGS@ @GTK_CFLAGS@ @GLIB_CFLAGS@ \
 			-I$(top_srcdir)/common/win32/harpoon/include

@@ -520,7 +520,7 @@ for v in $variant; do
 done
 
 WR_LDADD="-lworkrave-backend -lworkrave-frontend-common -lworkrave-common"
-WR_LDFLAGS="-L\$(top_srcdir)/common/src/ -L\$(top_srcdir)/backend/src/ -L\$(top_srcdir)/frontend/common/src"
+WR_LDFLAGS="-L\$(top_builddir)/common/src/ -L\$(top_builddir)/backend/src/ -L\$(top_builddir)/frontend/common/src"
 
 AC_SUBST(WR_LDADD)
 AC_SUBST(WR_LDFLAGS)
@@ -558,6 +558,11 @@ fi
 HAVE_GNOMEMM=
 if test "x$config_gnomemm" = "xyes"; then
    AC_DEFINE(HAVE_GNOMEMM,,[Define if Gnomeuimm/Gnomemm is available])
+fi
+
+HAVE_GNOMEAPPLET=
+if test "x$config_gnome" = "xyes" -a "x$have_dbus" = "xyes"; then
+   AC_DEFINE(HAVE_GNOMEAPPLET,,[Define if Gnome Applet is available])
 fi
 
 HAVE_KDE=
@@ -621,21 +626,25 @@ AM_CONDITIONAL(HAVE_DISTRIBUTION, test "x$config_distribution" = "xyes")
 AM_CONDITIONAL(HAVE_EXERCISES, test "x$config_exercises" = "xyes")
 AM_CONDITIONAL(HAVE_EXPERIMENTAL, test "x$config_experimental" = "xyes")
 AM_CONDITIONAL(HAVE_TESTS, test "x$config_tests" = "xyes")
+AM_CONDITIONAL(HAVE_GNOMEAPPLET, test "x$config_gnome" = "xyes" -a "x$have_dbus" = "xyes")
 
 
 dnl
 dnl Generate language list for InoSetup installer
 dnl
 
-LANGFILE=frontend/gtkmm/win32/setup/lang.iss
-echo -n "; language.iss --- Inno setup file, support languages" > $LANGFILE
-echo -en "\r\n" >> $LANGFILE
-for a in $ALL_LINGUAS; do
-    X="Source: \"..\\..\\..\\..\\po\\$a.gmo\"; DestDir: \"{app}\\lib\\locale\\$a\\LC_MESSAGES\"; DestName: \"workrave.mo\"; Flags: ignoreversion;"
-    echo -n $X     >> $LANGFILE
-    echo -en "\r\n" >> $LANGFILE
-done
+if test "x$platform_os_win32" = "xyes"
+then
+    LANGFILE="./frontend/gtkmm/win32/setup/lang.iss"
 
+    echo -n "; language.iss --- Inno setup file, support languages" > $LANGFILE
+    echo -en "\r\n" >> $LANGFILE
+    for a in $ALL_LINGUAS; do
+        X="Source: \"..\\..\\..\\..\\po\\$a.gmo\"; DestDir: \"{app}\\lib\\locale\\$a\\LC_MESSAGES\"; DestName: \"workrave.mo\"; Flags: ignoreversion;"
+        echo -n $X     >> $LANGFILE
+        echo -en "\r\n" >> $LANGFILE
+    done
+fi
 
 dnl
 dnl Makefile output
@@ -668,6 +677,7 @@ AC_OUTPUT(Makefile
           frontend/common/share/sounds/Makefile \
           frontend/common/share/images/Makefile \
           frontend/common/share/images/win32/Makefile \
+          frontend/common/share/images/osx/Makefile \
           frontend/common/src/Makefile \
           frontend/common/src/gnome/Makefile \
           frontend/common/src/kde/Makefile \
@@ -689,6 +699,8 @@ AC_OUTPUT(Makefile
           frontend/gtkmm/src/osx/Makefile \
           frontend/gtkmm/src/gnome_applet/Makefile \
           frontend/gtkmm/src/kde_applet/Makefile \
+          frontend/qt/Makefile \
+          frontend/qt/src/Makefile \
           frontend/text/Makefile \
           frontend/text/src/Makefile \
           frontend/plugin/Makefile \

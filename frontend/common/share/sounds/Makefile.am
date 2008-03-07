@@ -1,12 +1,13 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2004, 2007 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2004, 2007, 2008 Rob Caelers & Raymond Penners
 #
 #
 # $Id$
 #
 
 MAINTAINERCLEANFILES = 	Makefile.in workrave.soundlist
+DISTCLEANFILES = 	workrave.soundlist
 
 soundsdir = 		$(datadir)/sounds/workrave
 sounds_DATA = 		$(wildcard *.wav)

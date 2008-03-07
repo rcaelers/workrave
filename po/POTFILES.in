@@ -85,7 +85,6 @@ frontend/gtkmm/src/Menus.cc
 frontend/gtkmm/src/MicroBreakWindow.cc
 frontend/gtkmm/src/PreferencesDialog.cc
 frontend/gtkmm/src/PreludeWindow.cc
-frontend/gtkmm/src/RemoteControl.cc
 frontend/gtkmm/src/RestBreakWindow.cc
 frontend/gtkmm/src/StatusIcon.cc
 frontend/gtkmm/src/TimeBar.cc

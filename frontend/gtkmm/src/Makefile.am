@@ -7,10 +7,12 @@
 #
 
 SUBDIRS = 		gnome_applet kde_applet win32 unix osx
-MAINTAINERCLEANFILES = 	Makefile.in
+MAINTAINERCLEANFILES = 	Makefile.in \
 			org.workrave.Workrave.service \
 			workrave.desktop.in workrave.desktop \
 			DBusGUI.cc DBusGUI.hh DBusGnomeApplet.cc DBusGnomeApplet.hh
+
+DISTCLEANFILES = 	workrave.desktop.in workrave.desktop
 
 if HAVE_APP_GTKMM
 
@@ -20,7 +22,7 @@ endif
 
 
 DEFS = 			@DEFS@ -DGNOMELOCALEDIR=\""$(datadir)/locale"\" \
-			-I$(top_srcdir)/intl -I..
+			-I$(top_srcdir)/intl
 
 extrasources =
 extranodistsources = 
@@ -49,30 +51,30 @@ sourcesx = 		X11SystrayAppletWindow.cc eggtrayicon.c
 sourceswin32 = 		resource.rc StatusIcon.cc
 
 # Additional distribution sources.
-DISTRIBUTION_HOME = 	../../plugin/distribution
+DISTRIBUTION_HOME = 	$(top_srcdir)/frontend/plugin/distribution
 sourcesdistribution = 	${DISTRIBUTION_HOME}/gtkmm/src/NetworkJoinDialog.cc \
 			${DISTRIBUTION_HOME}/gtkmm/src/NetworkLogDialog.cc \
 			${DISTRIBUTION_HOME}/gtkmm/src/NetworkPreferencePage.cc
 
 # Additional exercises sources.
-EXERCISES_HOME =	../../plugin/exercises
+EXERCISES_HOME =	$(top_srcdir)/frontend/plugin/exercises
 sourcesexercises = 	${EXERCISES_HOME}/gtkmm/src/ExercisesDialog.cc \
 			${EXERCISES_HOME}/gtkmm/src/ExercisesPanel.cc \
 			${EXERCISES_HOME}/common/src/Exercise.cc
 
 # Statistics.
-STATISTICS_HOME = 	../../plugin/statistics
+STATISTICS_HOME = 	$(top_srcdir)/frontend/plugin/statistics
 
 
 if HAVE_APP_GTKMM
 
-if HAVE_GNOME
+if HAVE_GNOMEAPPLET
 
 DBusGnomeApplet.cc:	gnome_applet/gnome-applet.xml \
-			../../../common/bin/dbusgen.py \
-		    	../../../common/bin/DBus-client-template.cc \
-		    	../../../common/bin/DBus-client-template.hh
-			python ../../../common/bin/dbusgen.py --language=C++ -c gnome_applet/gnome-applet.xml DBUSGnomeApplet
+			$(top_srcdir)/common/bin/dbusgen.py \
+		    	$(top_srcdir)/common/bin/DBus-client-template.cc \
+		    	$(top_srcdir)/common/bin/DBus-client-template.hh
+			python $(top_srcdir)/common/bin/dbusgen.py --language=C++ -c gnome_applet/gnome-applet.xml DBUSGnomeApplet
 
 DBusGnomeApplet.hh:	DBusGnomeApplet.cc
 
@@ -88,15 +90,16 @@ endif
 
 if PLATFORM_OS_UNIX
 extrasources +=		$(sourcesx)
-includesx = 		-Iunix/
-ldflags = 	        -Lunix/
+includesx = 		-I$(top_srcdir)/frontend/gtkmm/src/unix/
+ldflags = 	        -L$(top_builddir)/frontend/gtkmm/src/unix/
 endif
 
 if PLATFORM_OS_WIN32
 extrasources +=		$(sourceswin32)
-includeswin32 = 	-I$(top_srcdir)/common/win32/harpoon/include -Iwin32/ \
-			-I../../win32/applet/include
-ldflags = 		-Lwin32/
+includeswin32 = 	-I$(top_srcdir)/common/win32/harpoon/include \
+			-I$(top_srcdir)/frontend/gtkmm/src/win32/ \
+			-I$(top_srcdir)/fronend/win32/applet/include
+ldflags = 		-L$(top_builddir)/frontend/gtkmm/src/win32/
 win32cflags		= -D_WIN32_IE=0x0500
 endif
 
@@ -114,7 +117,7 @@ WINDRES ?= 		"windres"
 	${WINDRES} -o $@ $<
 
 includesinput = 	-I$(top_srcdir)/common/win32/harpoon/include
-WIN32LIBS = 		-L$(top_srcdir)/common/win32/harpoon/src/Release/ -lharpoon \
+WIN32LIBS = 		-L$(top_builddir)/common/win32/harpoon/src/Release/ -lharpoon \
 			${top_srcdir}/frontend/gtkmm/src/win32/libworkrave-frontend-gtkmm-win32.la \
 			-lshell32 -lole32 -lwinmm -lshlwapi
 endif
@@ -124,8 +127,8 @@ X11LIBS = 		-lworkrave-frontend-gtkmm-unix -lX11 -lXmu
 endif
 
 if PLATFORM_OS_OSX
-includesosx  = 		-Iosx
-ldflags =	 	-Losx
+includesosx  = 		-I$(top_srcdir)/frontend/gtkmm/src/osx
+ldflags =	 	-L$(top_builddir)/frontend/gtkmm/src/osx
 OSXLIBS	=		${top_srcdir}/frontend/gtkmm/src/osx/libworkrave-frontend-gtkmm-osx.la
 extrasources +=		StatusIcon.cc
 endif
@@ -147,10 +150,10 @@ $(service_DATA): $(service_in_files) Makefile
 dbussources=DBusGUI.cc
 
 DBusGUI.cc: 		workrave-gui.xml \
-			../../../common/bin/dbusgen.py \
-			../../../common/bin/DBus-template.cc \
-			../../../common/bin/DBus-template.hh
-			python ../../../common/bin/dbusgen.py --language=C++ -s workrave-gui.xml DBusGUI
+			$(top_srcdir)/common/bin/dbusgen.py \
+			$(top_srcdir)/common/bin/DBus-template.cc \
+			$(top_srcdir)/common/bin/DBus-template.hh
+			python $(top_srcdir)/common/bin/dbusgen.py --language=C++ -s workrave-gui.xml DBusGUI
 
 DBusGUI.hh: 		DBusGUI.cc
 
@@ -241,7 +244,8 @@ nodist_workrave_SOURCES = \
 
 workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
 			-DATADIR="\"${datadir}\""  \
-			-I. @WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
+			-I$(top_srcdir)/frontend/gtkmm/src/ \
+			@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
 			@X_CFLAGS@ @GNOMEMM_CFLAGS@ \
 			@GNOME_CFLAGS@ @GTK_CFLAGS@ \
 			@GCONF_CFLAGS@ -D_XOPEN_SOURCE=600 @GNET_CFLAGS@ \
@@ -258,7 +262,8 @@ INCLUDES =		-xobjective-c++
 endif
 
 workrave_CFLAGS	= 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
-			-I. @WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
+			-I$(top_srcdir)/frontend/gtkmm/src/ \
+			@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
 			@X_CFLAGS@ @GNOME_CFLAGS@ @GTK_CFLAGS@ @DBUS_CFLAGS@ \
 			-D_XOPEN_SOURCE=600 \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
@@ -289,7 +294,6 @@ workrave_LDADD =        @WR_LDADD@ @X_LIBS@ @GNOME_LIBS@ @GNOMEMM_LIBS@ \
 #	@rm -f workrave$(EXEEXT)
 #	$(CXXLINK) $(workrave_LDFLAGS) $(workrave_OBJECTS) $(workrave_LDADD) $(LIBS)
 
-
-
-
-EXTRA_DIST = $(wildcard *.cc) $(wildcard *.hh) $(wildcard *.c) $(wildcard *.h)
+EXTRA_DIST = $(wildcard *.cc) $(wildcard *.hh) $(wildcard *.c) $(wildcard *.h) \
+	     DBusGUI.cc DBusGUI.hh DBusGnomeApplet.cc DBusGnomeApplet.hh \
+	     workrave.desktop.in.in

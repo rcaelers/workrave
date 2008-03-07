@@ -23,12 +23,12 @@ libworkrave_frontend_gtkmm_win32_la_SOURCES = \
 			W32TrayMenu.cc
 
 libworkrave_frontend_gtkmm_win32_la_CFLAGS = \
-			-W  -I../../../common/include \
-			-I../../../../backend/include \
-			-I../../../win32/applet/include \
-			-I .. @GTK_CFLAGS@ \
-                        -I ../../../../common/include/win32 \
-                        -I ../../../../common/include
+			-W  -I$(top_srcdir)/frontend/common/include \
+			-I$(top_srcdir)/backend/include \
+			-I$(top_srcdir)/frontend/win32/applet/include \
+			-I $(top_srcdir)/frontend/gtkmm/src @GTK_CFLAGS@ \
+                        -I $(top_srcdir)/common/include/win32 \
+                        -I $(top_srcdir)/common/include
 
 
 libworkrave_frontend_gtkmm_win32_la_CXXFLAGS = \

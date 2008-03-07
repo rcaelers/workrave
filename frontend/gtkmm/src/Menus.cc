@@ -61,7 +61,7 @@ static const char rcsid[] = "$Id$";
 
 #include "MainGtkMenu.hh"
 
-#ifdef HAVE_GNOME
+#ifdef HAVE_GNOMEAPPLET
 #include "GnomeAppletMenu.hh"
 #include "GnomeAppletWindow.hh"
 #endif
@@ -140,7 +140,7 @@ Menus::init(MainWindow *main_window, AppletWindow *applet_window)
 #if defined(PLATFORM_OS_WIN32)
   W32AppletWindow *w32_applet_window = dynamic_cast<W32AppletWindow*>(applet_window);
   menus[MENU_NATIVE] = new W32AppletMenu(main_window, w32_applet_window);
-#elif defined(HAVE_GNOME)
+#elif defined(HAVE_GNOMEAPPLET)
   GnomeAppletWindow *gnome_applet_window = dynamic_cast<GnomeAppletWindow*>(applet_window);
   menus[MENU_NATIVE] = new GnomeAppletMenu(gnome_applet_window);
 #endif

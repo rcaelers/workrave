@@ -8,7 +8,7 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
-SUBDIRS = 		win32
+SUBDIRS = 		win32 osx
 
 imagesdir = 		$(pkgdatadir)/images
 images_DATA = 		$(wildcard *.png) $(wildcard *.ico) $(wildcard *.xpm)

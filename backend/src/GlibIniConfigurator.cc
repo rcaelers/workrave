@@ -1,6 +1,6 @@
 // IniConfigurator.cc --- Configuration Access
 //
-// Copyright (C) 2005, 2006, 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2005, 2006, 2007, 2008 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -144,7 +144,6 @@ GlibIniConfigurator::get_value(const std::string &key, VariantType type,
   GError *error = NULL;
   string group;
   string inikey;
-  gchar *value;
 
   TRACE_ENTER_MSG("GlibIniConfigurator::get_value", key);
   split_key(key, group, inikey);
@@ -167,7 +166,7 @@ GlibIniConfigurator::get_value(const std::string &key, VariantType type,
         char *s = g_key_file_get_string(config, group.c_str(), inikey.c_str(), &error);
         if (error == NULL && s != NULL)
           {
-            sscanf(value, "%lf", &out.double_value);
+            sscanf(s, "%lf", &out.double_value);
           }
         break;
       }

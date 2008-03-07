@@ -35,7 +35,7 @@ sources = 		ActivityMonitor.cc \
 			TimePredFactory.cc
 
 
-DEFS = 			@DEFS@ -I$(top_srcdir)/intl -I. -I ../include
+DEFS = 			@DEFS@ -I$(top_srcdir)/intl -I. -I $(top_srcdir)/backend/include
 
 if HAVE_GDOME
 sourcesgdome = 		XMLConfigurator.cc
@@ -52,15 +52,15 @@ endif
 
 if PLATFORM_OS_WIN32
 platform_ldadd = 	win32/libworkrave-backend-win32.la
-platform_cflags = 	-Iwin32
+platform_cflags = 	-I$(top_srcdir)/backend/src/win32
 endif
 if PLATFORM_OS_OSX
 platform_ldadd = 	osx/libworkrave-backend-osx.la
-platform_cflags = 	-Iosx
+platform_cflags = 	-I$(top_srcdir)/backend/src/osx
 endif
 if PLATFORM_OS_UNIX
 platform_ldadd = 	unix/libworkrave-backend-unix.la
-platform_cflags = 	-Iunix
+platform_cflags = 	-I$(top_srcdir)/backend/src/unix
 endif
 
 # DBus service file
@@ -68,11 +68,11 @@ if HAVE_DBUS
 dbussources =           DBusWorkrave.cc
 
 DBusWorkrave.cc:	workrave-service.xml
-			python ../../common/bin/dbusgen.py -l C++ -s workrave-service.xml DBusWorkrave
+			python $(top_srcdir)/common/bin/dbusgen.py -l C++ -s workrave-service.xml DBusWorkrave
 
-DBusWorkrave.cc: 	../../common/bin/dbusgen.py \
-			../../common/bin/DBus-template.cc \
-			../../common/bin/DBus-template.hh
+DBusWorkrave.cc: 	$(top_srcdir)/common/bin/dbusgen.py \
+			$(top_srcdir)/common/bin/DBus-template.cc \
+			$(top_srcdir)/common/bin/DBus-template.hh
 
 DBusWorkrave.hh: 	DBusWorkrave.cc
 BreakControl.cc: 	DBusWorkrave.hh
@@ -97,4 +97,5 @@ libworkrave_backend_la_LIBADD=${platform_ldadd}
 
 EXTRA_DIST = 		$(wildcard *.cc) $(wildcard *.rc) $(wildcard *.hh) \
 			$(wildcard *.h) $(wildcard *.icc) workrave-service.xml \
-			org.workrave.Workrave.service.in
+			org.workrave.Workrave.service.in \
+		 	DBusWorkrave.cc DBusWorkrave.hh SConscript

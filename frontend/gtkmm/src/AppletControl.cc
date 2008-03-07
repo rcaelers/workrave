@@ -1,6 +1,6 @@
 // AppletControl.cc --- Applet info Control
 //
-// Copyright (C) 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2006, 2007, 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -34,7 +34,7 @@ static const char rcsid[] = "$Id$";
 #include "KdeAppletWindow.hh"
 #endif
 
-#ifdef HAVE_GNOME
+#ifdef HAVE_GNOMEAPPLET
 #include "GnomeAppletWindow.hh"
 #endif
 
@@ -92,7 +92,7 @@ AppletControl::init()
   applets[APPLET_KDE] = new KdeAppletWindow(this);
 #endif
 
-#ifdef HAVE_GNOME
+#ifdef HAVE_GNOMEAPPLET
   applets[APPLET_GNOME] = new GnomeAppletWindow(this);
 #endif
 

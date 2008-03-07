@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2007 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2007, 2008 Rob Caelers & Raymond Penners
 #
 # $Id$
 #
@@ -26,7 +26,7 @@ libworkrave_backend_unix_la_SOURCES = \
 			${sourcesxinput} ${sourcesgconf} ${sourcesdummy}
 
 libworkrave_backend_unix_la_CXXFLAGS = \
-			-W -I.. -I../../include @X_CFLAGS@ \
+			-W -I${top_srcdir}/backend/src -I${top_srcdir}/backend/include @X_CFLAGS@ \
 			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-D_XOPEN_SOURCE=600 \
 			@WR_COMMON_INCLUDES@ \

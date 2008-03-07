@@ -1,6 +1,6 @@
 // X11InputMonitor.hh --- ActivityMonitor for X11
 //
-// Copyright (C) 2001, 2002, 2003, 2006, 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -21,6 +21,8 @@
 
 #ifndef X11INPUTMONITOR_HH
 #define X11INPUTMONITOR_HH
+
+#include <string>
 
 #include <X11/X.h>
 #include <X11/Xlib.h>

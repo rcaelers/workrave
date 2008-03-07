@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2002, 2003, 2006, 2007 Rob Caelers & Raymond Penners
+# Copyright (C) 2002, 2003, 2006, 2007, 2008 Rob Caelers & Raymond Penners
 #
 # $Id$
 #
@@ -22,7 +22,8 @@ libworkrave_frontend_common_gnome_la_CXXFLAGS = \
 			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-DDATADIR="\"${datadir}\"" \
 			@X_CFLAGS@ \
-			-D_XOPEN_SOURCE=600 -W -I.. -I../../include \
+			-D_XOPEN_SOURCE=600 -W -I$(top_srcdir)/frontend/common/src \
+			-I$(top_srcdir)/frontend/common/include \
 			@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ \
 			@GNOME_CFLAGS@ @GTK_CFLAGS@ @GLIB_CFLAGS@ 
 
