@@ -95,8 +95,8 @@ void StatusIcon::on_popup_menu(guint button, guint activate_time)
 {
   (void) button;
 
-  // Note the 1 is a hack. It used to be button. See bugzilla 598
-  Menus::get_instance()->popup(Menus::MENU_APPLET, 1 , activate_time);
+  // Note the 1 is a hack. It used to be 'button'. See bugzilla 598
+  Menus::get_instance()->popup(Menus::MENU_APPLET, 1, activate_time);
 }
 
 void StatusIcon::activate_callback(GtkStatusIcon *,

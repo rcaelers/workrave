@@ -28,6 +28,8 @@
 
 #include "ICore.hh"
 
+#include <gtkmm/window.h>
+
 class Menu
 {
 public:
@@ -35,6 +37,7 @@ public:
   virtual ~Menu() {}
 
   virtual void init() = 0;
+  virtual void add_accel(Gtk::Window &window) = 0;
   virtual void popup(const guint button, const guint activate_time) = 0;
   virtual void resync(workrave::OperationMode mode, bool show_log) = 0;
 };

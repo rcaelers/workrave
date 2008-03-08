@@ -64,6 +64,13 @@ GnomeAppletMenu::init()
 {
 }
 
+
+void
+GnomeAppletMenu::add_accel(Gtk::Window &)
+{
+}
+
+
 void
 GnomeAppletMenu::popup(const guint button, const guint activate_time)
 {

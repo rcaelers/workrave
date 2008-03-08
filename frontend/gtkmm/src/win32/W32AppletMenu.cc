@@ -67,6 +67,12 @@ W32AppletMenu::init()
 {
 }
 
+
+void
+W32AppletMenu::add_accel(Gtk::Window &window)
+{
+}
+
 void
 W32AppletMenu::resync(OperationMode mode, bool show_log)
 {

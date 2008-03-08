@@ -158,6 +158,11 @@ Menus::init(MainWindow *main_window, AppletWindow *applet_window)
           menus[i]->init();
         }
     }
+
+  if (main_window != NULL)
+    {
+      menus[MENU_MAINWINDOW]->add_accel(*main_window);
+    }
 }
 
 

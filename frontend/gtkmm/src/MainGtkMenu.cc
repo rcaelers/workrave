@@ -77,7 +77,6 @@ MainGtkMenu::add_stock_item(const Glib::RefPtr<Gtk::IconFactory>& factory,
   }
   catch(const Glib::Exception& ex)
   {
-    //std::cout << ex.what() << std::endl;
   }
 
   source.set_size(Gtk::ICON_SIZE_SMALL_TOOLBAR);
@@ -110,7 +109,13 @@ MainGtkMenu::init()
   create_ui();
   post_init();
 }
- 
+
+void
+MainGtkMenu::add_accel(Gtk::Window &window)
+{
+  window.add_accel_group(ui_manager->get_accel_group());
+}
+
 
 void
 MainGtkMenu::create_actions()
@@ -183,50 +188,49 @@ MainGtkMenu::create_ui()
 {
   Glib::ustring open_ui_info;
 
-    if (show_open)
+  if (show_open)
     {
       open_ui_info = "    <menuitem action='Open'/>";
     }
 
   //Layout the actions in a menubar and toolbar:
   Glib::ustring ui_info =
-        "<ui>"
-        "  <popup name='Menu'>"
-        + open_ui_info +
-        "    <separator/>" +
-        "    <menuitem action='Restbreak'/>"
-        "    <menuitem action='Exercises'/>"
-        "    <menuitem action='Statistics'/>"
-        "    <separator/>" +
-        "    <menu action='Mode'>"
-        "      <menuitem action='Normal'/>"
-        "      <menuitem action='Suspended'/>"
-        "      <menuitem action='Quiet'/>"
-        "    </menu>"
-        "    <menu action='Network'>"
-        "      <menuitem action='Join'/>"
-        "      <menuitem action='Disconnect'/>"
-        "      <menuitem action='Reconnect'/>"
-        "      <menuitem action='ShowLog'/>"
-        "    </menu>"
-        "    <separator/>" +
-        "    <menuitem action='Preferences'/>"
-        "    <menuitem action='About'/>"
-        "    <menuitem action='Quit'/>"
-        "  </popup>"
-        "</ui>";
+    "<ui>"
+    "  <popup name='Menu'>"
+    + open_ui_info +
+    "    <separator/>" +
+    "    <menuitem action='Restbreak'/>"
+    "    <menuitem action='Exercises'/>"
+    "    <menuitem action='Statistics'/>"
+    "    <separator/>" +
+    "    <menu action='Mode'>"
+    "      <menuitem action='Normal'/>"
+    "      <menuitem action='Suspended'/>"
+    "      <menuitem action='Quiet'/>"
+    "    </menu>"
+    "    <menu action='Network'>"
+    "      <menuitem action='Join'/>"
+    "      <menuitem action='Disconnect'/>"
+    "      <menuitem action='Reconnect'/>"
+    "      <menuitem action='ShowLog'/>"
+    "    </menu>"
+    "    <separator/>" +
+    "    <menuitem action='Preferences'/>"
+    "    <menuitem action='About'/>"
+    "    <menuitem action='Quit'/>"
+    "  </popup>"
+    "</ui>";
 
   ui_manager = Gtk::UIManager::create();
   ui_manager->insert_action_group(action_group);
   
   try
-  {
-    ui_manager->add_ui_from_string(ui_info);
-  }
+    {
+      ui_manager->add_ui_from_string(ui_info);
+    }
   catch(const Glib::Error& ex)
-  {
-    //    std::cerr << "building menus and toolbars failed: " <<  ex.what();
-  }
+    {
+    }
 
   popup_menu = dynamic_cast<Gtk::Menu*>(ui_manager->get_widget("/Menu")); 
 }

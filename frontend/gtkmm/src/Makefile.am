@@ -73,6 +73,7 @@ DBusGnomeApplet.cc:	gnome_applet/gnome-applet.xml \
 			python $(top_srcdir)/common/bin/dbusgen.py --language=C++ -c gnome_applet/gnome-applet.xml DBUSGnomeApplet
 
 DBusGnomeApplet.hh:	DBusGnomeApplet.cc
+GnomeAppletWindow.cc:   DBusGnomeApplet.hh
 
 if HAVE_APP_GTKMM
 

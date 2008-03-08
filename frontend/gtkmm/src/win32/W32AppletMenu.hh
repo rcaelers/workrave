@@ -45,6 +45,7 @@ public:
   virtual ~W32AppletMenu();
 
   virtual void init();
+  virtual void add_accel(Gtk::Window &window);
   virtual void popup(const guint button, const guint activate_time);
   virtual void resync(workrave::OperationMode mode, bool show_log);
   

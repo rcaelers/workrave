@@ -68,29 +68,36 @@ W32TrayMenu::post_init()
 void
 W32TrayMenu::win32_popup_hack_connect(Gtk::Menu *menu)
 {
-  GtkWidget *window = (GtkWidget*) menu->gobj();
-  // RC: FIXME: remove this c hack HACK
-  g_signal_connect(window, "leave-notify-event",
+  TRACE_ENTER("W32TrayMenu::win32_popup_hack_connect");
+  
+  GtkWidget *widget = (GtkWidget*) menu->gobj();
+  g_signal_connect(widget, "leave-notify-event",
                    G_CALLBACK(win32_popup_hack_leave_enter), NULL);
-  g_signal_connect(window, "enter-notify-event",
+  g_signal_connect(widget, "enter-notify-event",
                    G_CALLBACK(win32_popup_hack_leave_enter), NULL);
+
+  TRACE_EXIT();
 }
 
 gboolean
 W32TrayMenu::win32_popup_hack_hide(gpointer data)
 {
+  TRACE_ENTER("W32TrayMenu::win32_popup_hack_hide");
   if (data != NULL)
     {
       gtk_menu_popdown(GTK_MENU(data));
     }
+  TRACE_EXIT();
   return FALSE;
 }
 
 
 gboolean
 W32TrayMenu::win32_popup_hack_leave_enter(GtkWidget *menu, GdkEventCrossing *event,
-                                    void *data)
+                                          void *data)
 {
+  TRACE_ENTER("W32TrayMenu::win32_popup_hack_leave_enter");
+  
   (void) data;
   static guint hide_docklet_timer = 0;
   if (event->type == GDK_LEAVE_NOTIFY
@@ -109,5 +116,6 @@ W32TrayMenu::win32_popup_hack_leave_enter(GtkWidget *menu, GdkEventCrossing *eve
       hide_docklet_timer = 0;
     }
   }
+  TRACE_EXIT();
   return FALSE;
 }
