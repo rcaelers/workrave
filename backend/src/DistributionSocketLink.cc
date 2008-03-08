@@ -127,7 +127,8 @@ DistributionSocketLink::heartbeat()
               c->reconnect_count--;
               c->reconnect_time = 0;
 
-              dist_manager->log(_("Reconnecting to %s:%d."), c->hostname, c->port);
+              dist_manager->log(_("Reconnecting to %s:%d."),
+                                c->hostname == NULL ? "Unknown" : c->hostname, c->port);
               socket_driver->connect(c->hostname, c->port, c);
             }
           i++;
@@ -544,7 +545,8 @@ DistributionSocketLink::add_client(gchar *id, gchar *host, gint port, ClientType
         }
 
       c->type = type;
-      dist_manager->log(_("Connecting to %s:%d."), host, port);
+      dist_manager->log(_("Connecting to %s:%d."),
+                        host == NULL ? "Unknown" : host, port);
       socket_driver->connect(host, port, c);
       skip = true;
     }
@@ -571,7 +573,8 @@ DistributionSocketLink::add_client(gchar *id, gchar *host, gint port, ClientType
 
       if (type == CLIENTTYPE_DIRECT)
         {
-          dist_manager->log(_("Connecting to %s:%d."), host, port);
+          dist_manager->log(_("Connecting to %s:%d."),
+                            host == NULL ? "Unknown" : host, port);
           socket_driver->connect(host, port, client);
         }
     }
@@ -913,7 +916,8 @@ DistributionSocketLink::set_master_by_id(gchar *id)
   if (c != NULL)
     {
       // It's a remote client. mark it master.
-      dist_manager->log(_("Client %s:%d is now master."), c->hostname, c->port);
+      dist_manager->log(_("Client %s:%d is now master."),
+                        c->hostname == NULL ? "Unknown" : c->hostname, c->port);
       set_master(c);
     }
   else if (strcmp(id, myid) == 0)
@@ -1250,7 +1254,8 @@ DistributionSocketLink::handle_hello(PacketBuffer &packet, Client *client)
   gchar *name = packet.unpack_string();
   gint port = packet.unpack_ushort();
 
-  dist_manager->log(_("Client %s:%d saying hello."), name, port);
+  dist_manager->log(_("Client %s:%d saying hello."),
+                    name == NULL ? "Unknown" : name, port);
 
   if ( (username == NULL || (user != NULL && strcmp(username, user) == 0)) &&
        (password == NULL || (pass != NULL && strcmp(password, pass) == 0)))
@@ -1265,7 +1270,8 @@ DistributionSocketLink::handle_hello(PacketBuffer &packet, Client *client)
       else
         {
           // Duplicate client. inform client that it's bogus and close.
-          dist_manager->log(_("Client %s:%d is duplicate."), name, port);
+          dist_manager->log(_("Client %s:%d is duplicate."),
+                            name == NULL ? "Unknown" : name, port);
 
           send_duplicate(client);
           remove_client(client);
@@ -1274,7 +1280,8 @@ DistributionSocketLink::handle_hello(PacketBuffer &packet, Client *client)
   else
     {
       // Incorrect password.
-      dist_manager->log(_("Client %s:%d access denied."), name, port);
+      dist_manager->log(_("Client %s:%d access denied."),
+                        name == NULL ? "Unknown" : name, port);
       remove_client(client);
     }
 
@@ -1432,7 +1439,8 @@ DistributionSocketLink::handle_welcome(PacketBuffer &packet, Client *client)
   gchar *name = packet.unpack_string();
   gint port = packet.unpack_ushort();
 
-  dist_manager->log(_("Client %s:%d is welcoming us."), name, port);
+  dist_manager->log(_("Client %s:%d is welcoming us."),
+                    name == NULL ? "Unknown" : name, port);
 
   bool ok = set_client_id(client, id, name, port);
 
@@ -1670,7 +1678,8 @@ DistributionSocketLink::send_claim(Client *client)
     {
       PacketBuffer packet;
 
-      dist_manager->log(_("Requesting master status from %s:%d."), client->hostname, client->port);
+      dist_manager->log(_("Requesting master status from %s:%d."),
+                        client->hostname == NULL ? "Unknown" : client->hostname, client->port);
 
       packet.create();
       init_packet(packet, PACKET_CLAIM);
@@ -1683,7 +1692,8 @@ DistributionSocketLink::send_claim(Client *client)
 
       if (client->claim_count >= 3)
         {
-          dist_manager->log(_("Client timeout from %s:%d."), client->hostname, client->port);
+          dist_manager->log(_("Client timeout from %s:%d."),
+                            client->hostname == NULL ? "Unknown" : client->hostname, client->port);
 
           close_client(client, client->outbound);
         }
@@ -1705,13 +1715,13 @@ DistributionSocketLink::handle_claim(PacketBuffer &packet, Client *client)
   if (i_am_master && master_locked)
     {
       dist_manager->log(_("Rejecting master request from client %s:%d."),
-                        client->hostname, client->port);
+                        client->hostname == NULL ? "Unknown" : client->hostname, client->port);
       send_claim_reject(client);
     }
   else
     {
       dist_manager->log(_("Acknowledging master request from client %s:%d."),
-                        client->hostname, client->port);
+                        client->hostname == NULL ? "Unknown" : client->hostname, client->port);
 
       bool was_master = i_am_master;
 
@@ -1762,12 +1772,12 @@ DistributionSocketLink::handle_claim_reject(PacketBuffer &packet, Client *client
   if (client != master_client)
     {
       dist_manager->log(_("Non-master client %s:%d rejected master request."),
-                        client->hostname, client->port);
+                        client->hostname == NULL ? "Unknown" : client->hostname, client->port);
     }
   else
     {
       dist_manager->log(_("Client %s:%d rejected master request, delaying."),
-                        client->hostname, client->port);
+                        client->hostname == NULL ? "Unknown" : client->hostname, client->port);
       client->reject_count++;
       int count = client->reject_count;
 
@@ -1837,7 +1847,8 @@ DistributionSocketLink::handle_new_master(PacketBuffer &packet, Client *client)
   gchar *id = packet.unpack_string();
   /* gint count = */ packet.unpack_ushort();
 
-  dist_manager->log(_("Client %s is now the new master."), id);
+  dist_manager->log(_("Client %s is now the new master."),
+                    id == NULL ? "Unknown" : id);
 
   if (client->id != NULL)
     {

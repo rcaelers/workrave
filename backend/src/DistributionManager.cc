@@ -40,6 +40,7 @@ static const char rcsid[] = "$Id$";
 #define vsnprintf _vsnprintf
 #endif
 
+#define MAX_LOG_LEN (256)
 
 //! Constructs a new DistributionManager.
 DistributionManager::DistributionManager() :
@@ -559,7 +560,7 @@ DistributionManager::config_changed_notify(const string &key)
 }
 
 
-//! Notification that the specified configuration key has changed.
+//! 
 void
 DistributionManager::log(char *fmt, ...)
 {
@@ -570,17 +571,15 @@ DistributionManager::log(char *fmt, ...)
   time_t current_time = time (NULL);
   struct tm *lt = localtime(&current_time);
 
-  char str[256];
-  snprintf(str, 255, "[%02d/%02d/%02d %02d:%02d:%02d] ",
-          lt->tm_mday, lt->tm_mon + 1, lt->tm_year + 1900,
-          lt->tm_hour, lt->tm_min, lt->tm_sec);
+  char log_str[MAX_LOG_LEN];
+  vsnprintf(log_str, MAX_LOG_LEN - 1, fmt, va);
+  log_str[MAX_LOG_LEN - 1] = '\0';
 
-  char *ptr = str + strlen(str);
-  vsnprintf(ptr, 255 - strlen(str), fmt, va);
-
-  ptr = str + strlen(str);
-  ptr[0] = '\n';
-  ptr[1] = 0;
+  char str[MAX_LOG_LEN];
+  snprintf(str, MAX_LOG_LEN - 1, "[%02d/%02d/%02d %02d:%02d:%02d] %s\n",
+           lt->tm_mday, lt->tm_mon + 1, lt->tm_year + 1900,
+           lt->tm_hour, lt->tm_min, lt->tm_sec, log_str);
+  str[MAX_LOG_LEN - 1] = '\0';
 
   log_messages.push_back(str);
 

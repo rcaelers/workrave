@@ -1,6 +1,6 @@
 // DistributionSocketLink.hh
 //
-// Copyright (C) 2002, 2003, 2006, 2007 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2006, 2007, 2008 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -125,6 +125,7 @@ private:
         {
           g_free(hostname);
         }
+      hostname = NULL;
     }
 
     //! Type of connection with client.
