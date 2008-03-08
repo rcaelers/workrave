@@ -1,6 +1,6 @@
 // StatusIcon.hh --- Status icon
 //
-// Copyright (C) 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2006, 2007, 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -30,6 +30,18 @@
 #include <gtkmm/statusicon.h>
 #include "ICore.hh"
 
+#ifndef WR_CHECK_VERSION
+#define WR_CHECK_VERSION(comp,major,minor,micro)   \
+    (comp##_MAJOR_VERSION > (major) || \
+     (comp##_MAJOR_VERSION == (major) && comp##_MINOR_VERSION > (minor)) || \
+     (comp##_MAJOR_VERSION == (major) && comp##_MINOR_VERSION == (minor) && \
+      comp##_MICRO_VERSION >= (micro)))
+#endif
+
+#if WR_CHECK_VERSION(GTKMM,2,11,1)
+#define HAVE_STATUSICON_SIGNAL 1
+#endif
+
 class MainWindow;
 
 class StatusIcon
@@ -49,10 +61,12 @@ private:
   void on_activate();
   void on_popup_menu(guint button, guint activate_time);
 
+#ifndef HAVE_STATUSICON_SIGNAL 
   static void activate_callback(GtkStatusIcon *si, gpointer callback_data);
   static void popup_menu_callback(GtkStatusIcon *si, guint button, guint activate_time,
                                   gpointer callback_data);
-
+#endif
+  
   Glib::RefPtr<Gtk::StatusIcon> status_icon;
   MainWindow& main_window;
   Glib::RefPtr<Gdk::Pixbuf> mode_icons[OPERATION_MODE_SIZEOF];
