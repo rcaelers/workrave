@@ -149,12 +149,17 @@ W32AppletWindow::update_view()
 void
 W32AppletWindow::update_menu()
 {
+  TRACE_ENTER("W32AppletWindow::update_menu");
   if (menu_sent)
     return;
 
+  TRACE_MSG("have to send");
+  
   HWND hwnd = get_applet_window();
   if (hwnd != NULL)
     {
+      TRACE_MSG("sending");
+
       COPYDATASTRUCT msg;
       msg.dwData = APPLET_MESSAGE_MENU;
       msg.cbData = sizeof(AppletMenuData);
@@ -163,6 +168,7 @@ W32AppletWindow::update_menu()
 
       menu_sent = true;
     }
+  TRACE_EXIT();
 }
 
 void

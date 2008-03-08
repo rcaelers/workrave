@@ -84,22 +84,22 @@ W32TrayMenu::popup(const guint button, const guint activate_time)
       SetWindowPos(hwnd, 0, 0, 0, 0, 0,
                    SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_SHOWWINDOW );
 
-      // HWND hFore = GetForegroundWindow();
-      // DWORD dThisThread, dForeThread, dForePID;
+      HWND hFore = GetForegroundWindow();
+      DWORD dThisThread, dForeThread, dForePID;
   
-      // dThisThread = GetCurrentThreadId();
-      // dForeThread = GetWindowThreadProcessId(hFore, &dForePID);
+      dThisThread = GetCurrentThreadId();
+      dForeThread = GetWindowThreadProcessId(hFore, &dForePID);
     
-      // AttachThreadInput(dThisThread, dForeThread, TRUE);
+      AttachThreadInput(dThisThread, dForeThread, TRUE);
 
-      // hFore = GetForegroundWindow();
-      // if (hwnd != hFore)
-      //   {
-      //     BringWindowToTop(hwnd);
-      //     SetForegroundWindow(hwnd);
-      //   }
+      hFore = GetForegroundWindow();
+      if (hwnd != hFore)
+        {
+          BringWindowToTop(hwnd);
+          SetForegroundWindow(hwnd);
+        }
       
-      // AttachThreadInput(dThisThread, dForeThread, FALSE);
+      AttachThreadInput(dThisThread, dForeThread, FALSE);
     }
 }
 

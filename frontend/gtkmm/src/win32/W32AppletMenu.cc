@@ -76,8 +76,11 @@ W32AppletMenu::add_accel(Gtk::Window &window)
 void
 W32AppletMenu::resync(OperationMode mode, bool show_log)
 {
+  TRACE_ENTER_MSG("W32AppletMenu::resync", mode << " " << show_log);
+  
   if (applet_window != NULL && main_window != NULL)
     {
+      TRACE_MSG("ok");
       HWND cmd_win = (HWND) GDK_WINDOW_HWND(main_window
                                              ->Gtk::Widget::gobj()->window);
       W32AppletWindow *w32aw = applet_window;
@@ -129,4 +132,6 @@ W32AppletMenu::resync(OperationMode mode, bool show_log)
       w32aw->add_menu(_("Statistics"), Menus::MENU_COMMAND_STATISTICS, 0);
       w32aw->add_menu(_("About..."), Menus::MENU_COMMAND_ABOUT, 0);
     }
+
+  TRACE_EXIT();
 }

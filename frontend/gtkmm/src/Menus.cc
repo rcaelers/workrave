@@ -163,6 +163,8 @@ Menus::init(MainWindow *main_window, AppletWindow *applet_window)
     {
       menus[MENU_MAINWINDOW]->add_accel(*main_window);
     }
+
+  resync();
 }
 
 
@@ -544,7 +546,8 @@ Menus::resync()
   if (syncing)
     return;
   syncing = true;
-
+  TRACE_ENTER("Menus::resync");
+  
   for (int i = 0; i < MENU_SIZEOF; i++)
     {
       if (menus[i] != NULL)
@@ -557,4 +560,5 @@ Menus::resync()
     }
 
   syncing = false;
+  TRACE_EXIT();
 }

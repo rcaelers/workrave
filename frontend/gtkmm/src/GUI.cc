@@ -786,6 +786,7 @@ GUI::init_gui()
 #endif
 
   menus->init(main_window, applet_window);
+  menus->resync();
   
 #ifdef HAVE_DBUS
   DBus *dbus = CoreFactory::get_dbus();
