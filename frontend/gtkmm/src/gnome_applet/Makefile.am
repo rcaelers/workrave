@@ -62,6 +62,8 @@ applet-client-bindings.h:  DBusGnomeApplet.xml
 gui-client-bindings.h:  DBusGUI.xml
 	dbus-binding-tool --prefix=workrave --mode=glib-client $<> $@
 
+endif
+
 DBusGUI.xml: $(top_srcdir)/frontend/gtkmm/src/workrave-gui.xml
 		python $(top_srcdir)/common/bin/dbusgen.py --language=dbus-glib ../workrave-gui.xml DBusGUI
 
@@ -69,4 +71,3 @@ DBusGnomeApplet.xml: gnome-applet.xml
 		python $(top_srcdir)/common/bin/dbusgen.py --language=dbus-glib gnome-applet.xml DBusGnomeApplet
 
 
-endif
