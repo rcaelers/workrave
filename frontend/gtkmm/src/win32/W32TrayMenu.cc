@@ -33,6 +33,8 @@ static const char rcsid[] = "$Id: W32TrayMenu.cc 1436 2008-02-03 18:03:23Z rcael
 #include <string>
 
 #include <gtkmm/menu.h>
+#include <gtkmm/menushell.h>
+
 #include <gtk/gtkmenu.h>
 #include <glib/gmain.h>
 
@@ -56,9 +58,41 @@ W32TrayMenu::~W32TrayMenu()
 void
 W32TrayMenu::post_init()
 {
+  popup_menu->signal_deactivate().connect(sigc::mem_fun(*this, &W32TrayMenu::on_deactivate));
   win32_popup_hack_connect(popup_menu);
 }
 
+
+void
+W32TrayMenu::popup(const guint button, const guint activate_time)
+{
+  (void) button;
+  
+  if (popup_menu != NULL)
+    {
+      popup_menu->set_take_focus(true);
+      
+      popup_menu->popup(1, activate_time);
+
+      Gtk::Widget *attach_widget = popup_menu->get_attach_widget();
+      if (attach_widget != NULL)
+        {
+          attach_widget->set_state(Gtk::STATE_SELECTED);
+        }
+    }
+}
+
+void
+W32TrayMenu::on_deactivate()
+{
+  popup_menu->popdown();
+
+  Gtk::Widget *attach_widget = popup_menu->get_attach_widget();
+  if (attach_widget != NULL)
+    {
+      attach_widget->set_state(Gtk::STATE_NORMAL);
+    }
+}
 
 // /* Taken from Gaim. needs to be gtkmm-ified. */
 // /* This is a workaround for a bug in windows GTK+. Clicking outside of the

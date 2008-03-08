@@ -243,11 +243,7 @@ MainGtkMenu::popup(const guint button, const guint activate_time)
   
   if (popup_menu != NULL)
     {
-#ifdef PLATFORM_OS_WIN32
-      popup_menu->popup(1, activate_time);
-#else
       popup_menu->popup(button, activate_time);
-#endif      
     }
 }
 
