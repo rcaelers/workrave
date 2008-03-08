@@ -97,6 +97,8 @@ W32TrayMenu::win32_popup_hack_leave_enter(GtkWidget *menu, GdkEventCrossing *eve
                                           void *data)
 {
   TRACE_ENTER("W32TrayMenu::win32_popup_hack_leave_enter");
+
+  TRACE_MSG(event->type << " " <<  event->detail);
   
   (void) data;
   static guint hide_docklet_timer = 0;
@@ -104,11 +106,15 @@ W32TrayMenu::win32_popup_hack_leave_enter(GtkWidget *menu, GdkEventCrossing *eve
       && event->detail == GDK_NOTIFY_ANCESTOR) {
     /* Add some slop so that the menu doesn't annoyingly disappear
        when mousing around */
+    TRACE_MSG("leave " << hide_docklet_timer);
     if (hide_docklet_timer == 0) {
       hide_docklet_timer = g_timeout_add(500, win32_popup_hack_hide, menu);
     }
   } else if (event->type == GDK_ENTER_NOTIFY
              && event->detail == GDK_NOTIFY_ANCESTOR) {
+
+    TRACE_MSG("enter " << hide_docklet_timer);
+    
     if (hide_docklet_timer != 0) {
       /* Cancel the hiding if we reenter */
 
