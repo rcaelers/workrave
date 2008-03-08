@@ -45,7 +45,6 @@ public:
   virtual void popup(const guint button, const guint activate_time);
 
 private:
-  void on_deactivate();
   void win32_popup_hack_connect(Gtk::Menu *menu);
   static gboolean win32_popup_hack_hide(gpointer data);
   static gboolean win32_popup_hack_leave_enter(GtkWidget *menu,

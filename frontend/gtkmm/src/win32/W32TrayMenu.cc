@@ -25,6 +25,9 @@ static const char rcsid[] = "$Id: W32TrayMenu.cc 1436 2008-02-03 18:03:23Z rcael
 #include "config.h"
 #endif
 
+#include <windows.h>
+#include <shellapi.h>
+
 #include "nls.h"
 #include "debug.hh"
 
@@ -36,6 +39,8 @@ static const char rcsid[] = "$Id: W32TrayMenu.cc 1436 2008-02-03 18:03:23Z rcael
 #include <gtkmm/menushell.h>
 
 #include <gtk/gtkmenu.h>
+#include <gdk/gdkwin32.h>
+#include "gdk/gdkwindow.h"
 #include <glib/gmain.h>
 
 #include "Util.hh"
@@ -58,7 +63,6 @@ W32TrayMenu::~W32TrayMenu()
 void
 W32TrayMenu::post_init()
 {
-  popup_menu->signal_deactivate().connect(sigc::mem_fun(*this, &W32TrayMenu::on_deactivate));
   win32_popup_hack_connect(popup_menu);
 }
 
@@ -70,29 +74,36 @@ W32TrayMenu::popup(const guint button, const guint activate_time)
   
   if (popup_menu != NULL)
     {
-      popup_menu->set_take_focus(true);
-      
       popup_menu->popup(1, activate_time);
 
-      Gtk::Widget *attach_widget = popup_menu->get_attach_widget();
-      if (attach_widget != NULL)
-        {
-          attach_widget->set_state(Gtk::STATE_SELECTED);
-        }
+      GtkWidget *w = ((Gtk::Widget *)popup_menu)->gobj();
+      GdkWindow *gdk_window = w->window;
+      HWND hwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
+
+      ShowWindow(hwnd, SW_SHOWNORMAL);
+      SetWindowPos(hwnd, 0, 0, 0, 0, 0,
+                   SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_SHOWWINDOW );
+
+      // HWND hFore = GetForegroundWindow();
+      // DWORD dThisThread, dForeThread, dForePID;
+  
+      // dThisThread = GetCurrentThreadId();
+      // dForeThread = GetWindowThreadProcessId(hFore, &dForePID);
+    
+      // AttachThreadInput(dThisThread, dForeThread, TRUE);
+
+      // hFore = GetForegroundWindow();
+      // if (hwnd != hFore)
+      //   {
+      //     BringWindowToTop(hwnd);
+      //     SetForegroundWindow(hwnd);
+      //   }
+      
+      // AttachThreadInput(dThisThread, dForeThread, FALSE);
     }
 }
 
-void
-W32TrayMenu::on_deactivate()
-{
-  popup_menu->popdown();
 
-  Gtk::Widget *attach_widget = popup_menu->get_attach_widget();
-  if (attach_widget != NULL)
-    {
-      attach_widget->set_state(Gtk::STATE_NORMAL);
-    }
-}
 
 // /* Taken from Gaim. needs to be gtkmm-ified. */
 // /* This is a workaround for a bug in windows GTK+. Clicking outside of the
@@ -137,7 +148,8 @@ W32TrayMenu::win32_popup_hack_leave_enter(GtkWidget *menu, GdkEventCrossing *eve
   (void) data;
   static guint hide_docklet_timer = 0;
   if (event->type == GDK_LEAVE_NOTIFY
-      && event->detail == GDK_NOTIFY_ANCESTOR) {
+      /* RC: it seems gtk now generate a GDK_NOTIFY_UNKNOWN when the menu if left...*/ 
+      && (event->detail == GDK_NOTIFY_ANCESTOR || event->detail == GDK_NOTIFY_UNKNOWN)) {
     /* Add some slop so that the menu doesn't annoyingly disappear
        when mousing around */
     TRACE_MSG("leave " << hide_docklet_timer);
