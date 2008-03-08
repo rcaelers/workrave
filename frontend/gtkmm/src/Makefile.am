@@ -66,10 +66,6 @@ sourcesexercises = 	${EXERCISES_HOME}/gtkmm/src/ExercisesDialog.cc \
 STATISTICS_HOME = 	$(top_srcdir)/frontend/plugin/statistics
 
 
-if HAVE_APP_GTKMM
-
-if HAVE_GNOMEAPPLET
-
 DBusGnomeApplet.cc:	gnome_applet/gnome-applet.xml \
 			$(top_srcdir)/common/bin/dbusgen.py \
 		    	$(top_srcdir)/common/bin/DBus-client-template.cc \
@@ -77,6 +73,10 @@ DBusGnomeApplet.cc:	gnome_applet/gnome-applet.xml \
 			python $(top_srcdir)/common/bin/dbusgen.py --language=C++ -c gnome_applet/gnome-applet.xml DBUSGnomeApplet
 
 DBusGnomeApplet.hh:	DBusGnomeApplet.cc
+
+if HAVE_APP_GTKMM
+
+if HAVE_GNOMEAPPLET
 
 extrasources +=		$(sourcesgnome)
 else
