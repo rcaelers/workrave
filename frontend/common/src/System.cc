@@ -1,6 +1,6 @@
 // System.cc
 //
-// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -216,7 +216,11 @@ System::is_shutdown_supported()
 {
   bool ret;
 #if defined(PLATFORM_OS_UNIX)
+# if defined(HAVE_GNOME)
+  ret = true;
+# else  
   ret = false;
+# endif  
 #elif defined(PLATFORM_OS_WIN32)
   ret = shutdown_supported;
 #else
@@ -229,6 +233,15 @@ void
 System::shutdown()
 {
 #if defined(PLATFORM_OS_UNIX)
+# if defined(HAVE_GNOME)
+  gchar *program = NULL, *cmd = NULL;
+
+  if ((program = g_find_program_in_path("gnome-session-save")))
+    {
+      cmd = g_strdup_printf("%s --kill", program);
+      invoke(cmd, false);
+    }
+# endif
 #elif defined(PLATFORM_OS_WIN32)
   shutdown_helper(true);
 #endif
