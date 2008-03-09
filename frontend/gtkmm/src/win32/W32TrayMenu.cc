@@ -75,31 +75,6 @@ W32TrayMenu::popup(const guint button, const guint activate_time)
   if (popup_menu != NULL)
     {
       popup_menu->popup(1, activate_time);
-
-      GtkWidget *w = ((Gtk::Widget *)popup_menu)->gobj();
-      GdkWindow *gdk_window = w->window;
-      HWND hwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
-
-      ShowWindow(hwnd, SW_SHOWNORMAL);
-      SetWindowPos(hwnd, 0, 0, 0, 0, 0,
-                   SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_SHOWWINDOW );
-
-      HWND hFore = GetForegroundWindow();
-      DWORD dThisThread, dForeThread, dForePID;
-  
-      dThisThread = GetCurrentThreadId();
-      dForeThread = GetWindowThreadProcessId(hFore, &dForePID);
-    
-      AttachThreadInput(dThisThread, dForeThread, TRUE);
-
-      hFore = GetForegroundWindow();
-      if (hwnd != hFore)
-        {
-          BringWindowToTop(hwnd);
-          SetForegroundWindow(hwnd);
-        }
-      
-      AttachThreadInput(dThisThread, dForeThread, FALSE);
     }
 }
 
