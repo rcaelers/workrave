@@ -183,10 +183,8 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   ICore *core = CoreFactory::get_core();
   assert(core != NULL);
   core->set_insist_policy(initial_ignore_activity ?
-                        ICore::INSIST_POLICY_IGNORE :
-                        (block_mode != GUIConfig::BLOCK_MODE_NONE
-                         ? ICore::INSIST_POLICY_HALT
-                         : ICore::INSIST_POLICY_RESET));
+                          ICore::INSIST_POLICY_IGNORE :
+                          ICore::INSIST_POLICY_HALT);
 }
 
 

@@ -263,19 +263,34 @@ RestBreakWindow::install_exercises_panel()
         (sigc::mem_fun(*this, &RestBreakWindow::install_info_panel));
       pluggable_panel->show_all();
       pluggable_panel->queue_resize();
-      center();
     }
+  center();
 }
 
 void
 RestBreakWindow::install_info_panel()
 {
+  Gtk::Requisition old_size = size_request();
+  
   set_ignore_activity(false);
   clear_pluggable_panel();
   pluggable_panel->pack_start(*(create_info_panel()), false, false, 0);
   pluggable_panel->show_all();
   pluggable_panel->queue_resize();
-  center();
+
+  GUIConfig::BlockMode block_mode = GUIConfig::get_block_mode();
+  if (block_mode == GUIConfig::BLOCK_MODE_NONE &&
+      head.count == 0)
+    {
+      Gtk::Requisition new_size = size_request();
+
+      int width_delta = (new_size.width - old_size.width) / 2;
+      int height_delta = (new_size.height -  old_size.height) / 2;
+
+      int x, y;
+      get_position(x, y);
+      move(x - width_delta, y - height_delta);
+    }
 }
 
 #endif
@@ -297,8 +312,6 @@ RestBreakWindow::set_ignore_activity(bool i)
 #endif
 
   core->set_insist_policy(i ?
-                        ICore::INSIST_POLICY_IGNORE :
-                        (block_mode != GUIConfig::BLOCK_MODE_NONE
-                         ? ICore::INSIST_POLICY_HALT
-                         : ICore::INSIST_POLICY_RESET));
+                          ICore::INSIST_POLICY_IGNORE :
+                          ICore::INSIST_POLICY_HALT);
 }
