@@ -50,6 +50,12 @@ _Comment=Exercise ended
 default_presentation=1
 default_sound=workrave/exercise-ended.wav
 
+[exercise_step]
+_Name=Exercise change
+_Comment=Exercise change
+default_presentation=1
+default_sound=workrave/exercise-step.wav
+
 [exercises_ended]
 _Name=Exercises ended
 _Comment=Exercises ended

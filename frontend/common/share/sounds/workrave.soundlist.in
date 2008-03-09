@@ -33,6 +33,10 @@ _description=Daily limit
 file=workrave/exercise-ended.wav
 _description=Exercise ended
 
+[exercise_step]
+file=workrave/exercise-step.wav
+_description=Exercise change
+
 [exercises_ended]
 file=workrave/exercises-ended.wav
 _description=Exercises ended

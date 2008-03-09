@@ -1,6 +1,6 @@
 // GnomeSoundPlayer.cc --- Sound player
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -35,10 +35,10 @@ static const char rcsid[] = "$Id$";
 GnomeSoundPlayer::GnomeSoundPlayer()
 {
   gnome_sound_init(NULL);
-  gnome_sound_sample_load("workrave/exercise_ended",     DATADIR "/sounds/workrave/exercise-ended.wav");
   gnome_sound_sample_load("workrave/break_ignored",      DATADIR "/sounds/workrave/break-ignored.wav");
   gnome_sound_sample_load("workrave/break_prelude",      DATADIR "/sounds/workrave/break-prelude.wav");
   gnome_sound_sample_load("workrave/daily_limit",        DATADIR "/sounds/workrave/daily-limit.wav");
+  gnome_sound_sample_load("workrave/exercise_step",      DATADIR "/sounds/workrave/exercise-step.wav");
   gnome_sound_sample_load("workrave/exercise_ended",     DATADIR "/sounds/workrave/exercise-ended.wav");
   gnome_sound_sample_load("workrave/exercises_ended",    DATADIR "/sounds/workrave/exercises-ended.wav");
   gnome_sound_sample_load("workrave/micro_break_ended",  DATADIR "/sounds/workrave/micro-break-ended.wav");
@@ -69,7 +69,8 @@ GnomeSoundPlayer::play_sound(Sound snd)
     "micro_break_ended",
     "daily_limit",
     "exercise_ended",
-    "exercises_ended"
+    "exercises_ended",
+    "exercise_step",
   };
   TRACE_ENTER_MSG("GnomeSoundPlayer::play_sound", map[snd]);
   gnome_triggers_do ("", NULL, "workrave", map[snd], NULL);

@@ -1,6 +1,6 @@
 // W32SoundPlayer.cc --- Sound player
 //
-// Copyright (C) 2002 - 2007 Raymond Penners & Ray Satiro
+// Copyright (C) 2002 - 2008 Raymond Penners & Ray Satiro
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -55,6 +55,8 @@ static struct SoundRegistry
     "Exercise ended" },
   { "WorkraveExercisesEnded", "exercises-ended.wav",
     "Exercises ended" },
+  { "WorkraveExercisesStep", "exercises-step.wav",
+    "Exercises change" },
 };
 
 static SoundRegistry *sound = NULL;

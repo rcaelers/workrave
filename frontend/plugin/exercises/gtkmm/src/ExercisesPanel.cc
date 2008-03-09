@@ -406,6 +406,11 @@ ExercisesPanel::refresh_sequence()
           image_iterator = exercise.sequence.begin();
         }
       show_image();
+      if (exercise_time != 0)
+        {
+          ISoundPlayer *snd = GUI::get_instance()->get_sound_player();
+          snd->play_sound(ISoundPlayer::SOUND_EXERCISE_STEP);
+        }
     }
 
   TRACE_EXIT();

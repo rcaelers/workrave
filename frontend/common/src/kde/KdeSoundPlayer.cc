@@ -58,6 +58,7 @@ KdeSoundPlayer::play_sound(Sound snd)
     "daily_limit",
     "exercise_ended",
     "exercises_ended"
+    "exercise_step",
   };
   TRACE_ENTER_MSG("KdeSoundPlayer::play_sound", map[snd]);
   KNotifyClient::Instance instance(kinstance);
