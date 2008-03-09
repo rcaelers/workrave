@@ -91,7 +91,7 @@ TimerPreferencesPanel::TimerPreferencesPanel
 
   set_border_width(12);
 
-  connector->connect(GUIConfig::CFG_KEY_BREAK_EXERCISES % break_id, dc::wrap(enabled_cb));
+  connector->connect(CoreConfig::CFG_KEY_BREAK_ENABLED % break_id, dc::wrap(enabled_cb));
 }
 
 

@@ -1,6 +1,6 @@
 // W32InputMonitorFactory.cc -- Factory to create input monitors
 //
-// Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -90,16 +90,19 @@ W32InputMonitorFactory::create_activity_monitor()
 
       if (configure_monitor_method == "default")
         {
+          TRACE_MSG("use default");
           actual_monitor_method = "nohook";
         }
       else
         {
+          TRACE_MSG("use configured: " << configure_monitor_method);
           actual_monitor_method = configure_monitor_method;
-      
         }
 
       while (!initialized && max_tries > 0)
         {
+          TRACE_MSG("try: " << actual_monitor_method);
+
           if (actual_monitor_method == "lowlevel")
             {
               monitor = new W32LowLevelMonitor();
@@ -111,6 +114,7 @@ W32InputMonitorFactory::create_activity_monitor()
                   monitor = NULL;
               
                   actual_monitor_method = "nohook";
+                  TRACE_MSG("failed to init");
                 }
             }
       
@@ -125,6 +129,7 @@ W32InputMonitorFactory::create_activity_monitor()
                   monitor = NULL;
           
                   actual_monitor_method = "normal";
+                  TRACE_MSG("failed to init");
                 }
             }
 
@@ -139,6 +144,7 @@ W32InputMonitorFactory::create_activity_monitor()
                   monitor = NULL;
 
                   actual_monitor_method = "lowlevel";
+                  TRACE_MSG("failed to init");
                 }
             }
 
@@ -178,6 +184,8 @@ W32InputMonitorFactory::create_activity_monitor()
               CoreFactory::get_configurator()->set_value("advanced/monitor", actual_monitor_method);
               CoreFactory::get_configurator()->save();
             }
+
+          TRACE_MSG("using " << actual_monitor_method);
         }
     }
   
@@ -189,6 +197,7 @@ W32InputMonitorFactory::create_activity_monitor()
 IInputMonitor *
 W32InputMonitorFactory::create_statistics_monitor()
 {
+  TRACE_ENTER("W32InputMonitorFactory::create_statistics_monitor");
   if (activity_monitor == NULL)
     {
       create_activity_monitor();
@@ -201,19 +210,23 @@ W32InputMonitorFactory::create_statistics_monitor()
           
       if (!initialized)
         {
+          TRACE_RETURN("failed to init lowlevel monitor");
           delete monitor;
           monitor = NULL;
         }
       else
         {
+          TRACE_RETURN("use lowlevel monitor");
           statistics_monitor = monitor;
           return statistics_monitor;
         }
     }
   else
     {
+      TRACE_RETURN("use activity monitor");
       return activity_monitor;
     }
 
+  TRACE_EXIT();
   return NULL;
 }

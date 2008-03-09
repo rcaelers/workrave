@@ -53,7 +53,11 @@ const int STATSVERSION = 4;
 Statistics::Statistics() :
   core(NULL),
   current_day(NULL),
-  been_active(false)
+  been_active(false),
+  prev_x(-1),
+  prev_y(-1),
+  click_x(-1),
+  click_y(-1)
 {
   last_mouse_time.tv_sec = 0;
   last_mouse_time.tv_usec = 0;
@@ -955,8 +959,15 @@ Statistics::mouse_notify(int x, int y, int wheel_delta)
 
   if (current_day != NULL)
     {
-      const int delta_x = x - prev_x;
-      const int delta_y = y - prev_y;
+      int delta_x = sensitivity;
+      int delta_y = sensitivity;
+
+      if (prev_x != -1 && prev_y != -1)
+        {
+          delta_x = x - prev_x;
+          delta_y = y - prev_y;
+        }
+      
       prev_x = x;
       prev_y = y;
 
@@ -995,7 +1006,8 @@ Statistics::button_notify(int button_mask, bool is_press)
   lock.lock();
   if (current_day != NULL)
     {
-      if (click_x != -1)
+      if (click_x != -1 && click_y != -1 &&
+          prev_x != -1  && prev_y != -1)
         {
           int delta_x = click_x - prev_x;
           int delta_y = click_y - prev_y;
