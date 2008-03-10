@@ -498,7 +498,7 @@ X11InputMonitor::run_xrecord()
 
   init_xrecord();
 
-  if (use_xrecord &&
+  if (0 && use_xrecord &&
       XRecordEnableContext(xrecord_datalink, xrecord_context,  &handle_xrecord_callback, (XPointer)this))
     {
       xrecord_datalink = NULL;
