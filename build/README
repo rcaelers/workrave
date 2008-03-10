@@ -61,7 +61,7 @@ Step 3. Installing MS Compiler
 Some components of Workrave require the Microsoft C++ compiler. You
 need to download and install (on Windows!):
 
-- Inno Setup 4
+- Inno Setup 5
 - Microsoft Platform SDK (core, internet and database is required)
 - Microsoft Visual C++ Toolkit 2003 
 

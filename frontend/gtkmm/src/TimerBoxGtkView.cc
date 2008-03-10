@@ -36,7 +36,6 @@ static const char rcsid[] = "$Id$";
 #include "nls.h"
 #include "debug.hh"
 
-#include "EventImage.hh"
 #include "TimerBoxGtkView.hh"
 #include "TimeBar.hh"
 #include "Util.hh"
@@ -135,6 +134,8 @@ TimerBoxGtkView::init()
   sheep_eventbox->set_events(sheep_eventbox->get_events() |
                              Gdk::BUTTON_PRESS_MASK | Gdk::BUTTON_RELEASE_MASK);
 
+  sheep_eventbox->property_visible_window() = false;
+  
   string sheep_file = Util::complete_directory("workrave-icon-medium.png", Util::SEARCH_PATH_IMAGES);
   sheep = Gtk::manage(new Gtk::Image(sheep_file));
   GUI::get_instance()->get_tooltips()->set_tip(*sheep_eventbox, "Workrave");
