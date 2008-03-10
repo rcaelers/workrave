@@ -126,6 +126,8 @@ MicroBreakWindow::create_gui()
       box->pack_start(*button_box, Gtk::PACK_EXPAND_WIDGET, 0);
     }
 
+  fixed_size = false;
+  
   return box;
 }
 
@@ -289,6 +291,15 @@ MicroBreakWindow::refresh()
 
   refresh_time_bar();
   refresh_label();
+
+  if (!fixed_size)
+    {
+      // Make sure the label doesn't resize anymore.
+      // There has to be a better way to do this...
+      Gtk::Requisition size = label->size_request();
+      label->set_size_request(size.width, size.height);
+      fixed_size = true;
+    }
 }
 
 

@@ -75,6 +75,9 @@ private:
 
   //! Is currently flashing because user is active?
   bool is_flashing;
+
+  //! Label size has been fixed?
+  bool fixed_size;
 };
 
 
