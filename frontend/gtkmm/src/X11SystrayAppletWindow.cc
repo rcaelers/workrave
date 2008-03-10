@@ -38,7 +38,7 @@ static const char rcsid[] = "$Id$";
 #include "Menus.hh"
 #include "System.hh"
 
-#include "eggtrayicon.h"
+#include "gtktrayicon.h"
 
 //! Constructor.
 /*!
@@ -86,7 +86,7 @@ X11SystrayAppletWindow::notify_callback()
   TRACE_ENTER("X11SystrayAppletWindow::notify_callback");
   if (tray_icon != NULL && embedded)
     {
-      GtkOrientation o = egg_tray_icon_get_orientation(tray_icon);
+      GtkOrientation o = gtk_tray_icon_get_orientation(tray_icon);
       Orientation orientation;
 
       if (o != GTK_ORIENTATION_VERTICAL)
@@ -120,7 +120,7 @@ X11SystrayAppletWindow::activate_applet()
       return APPLET_STATE_VISIBLE;
     }
 
-  tray_icon = egg_tray_icon_new("Workrave Tray Icon");
+  tray_icon = gtk_tray_icon_new("Workrave Tray Icon");
   AppletState ret =  APPLET_STATE_DISABLED;
 
   if (tray_icon != NULL)
@@ -135,7 +135,7 @@ X11SystrayAppletWindow::activate_applet()
       eventbox->set_visible_window(false);
       eventbox->set_events(eventbox->get_events() | Gdk::BUTTON_PRESS_MASK);
       eventbox->signal_button_press_event().connect(sigc::mem_fun(*this,
-                                                                &X11SystrayAppletWindow::on_button_press_event));
+                                                                  &X11SystrayAppletWindow::on_button_press_event));
       container = eventbox;
 
       view = new TimerBoxGtkView();
@@ -151,7 +151,7 @@ X11SystrayAppletWindow::activate_applet()
           timer_box_control->set_force_empty(true);
         }
 
-      container->add(*box); // *view);
+      container->add(*box);
 
       plug->signal_embedded().connect(sigc::mem_fun(*this, &X11SystrayAppletWindow::on_embedded));
       plug->signal_delete_event().connect(sigc::mem_fun(*this, &X11SystrayAppletWindow::on_delete_event));
@@ -160,7 +160,6 @@ X11SystrayAppletWindow::activate_applet()
       plug->add(*container);
       plug->show_all();
 
-      ret = AppletWindow::APPLET_STATE_VISIBLE;
       applet_orientation = ORIENTATION_UP;
 
       Gtk::Requisition req;
@@ -236,7 +235,7 @@ X11SystrayAppletWindow::on_embedded()
 
   if (applet_active)
     {
-      GtkOrientation o = egg_tray_icon_get_orientation(tray_icon);
+      GtkOrientation o = gtk_tray_icon_get_orientation(tray_icon);
       Orientation orientation;
 
       if (o == GTK_ORIENTATION_VERTICAL)
@@ -306,7 +305,7 @@ X11SystrayAppletWindow::on_size_allocate(Gtk::Allocation& allocation)
                 allocation.get_y() << " " <<
                 allocation.get_width() << " " <<
                 allocation.get_height());
-      GtkOrientation o = egg_tray_icon_get_orientation(tray_icon);
+      GtkOrientation o = gtk_tray_icon_get_orientation(tray_icon);
       Orientation orientation;
   
       if (o == GTK_ORIENTATION_VERTICAL)

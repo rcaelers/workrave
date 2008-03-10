@@ -38,7 +38,7 @@ class TimerBoxControl;
 class TimerBoxGtkView;
 class AppletControl;
 
-#include "eggtrayicon.h"
+#include "gtktrayicon.h"
 
 class X11SystrayAppletWindow :
   public SigC::Object,
@@ -77,7 +77,7 @@ private:
   AppletControl *control;
 
   //! The tray icon
-  EggTrayIcon *tray_icon;
+  GtkTrayIcon *tray_icon;
 
 private:
   AppletState activate_applet();

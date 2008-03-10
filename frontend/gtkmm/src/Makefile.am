@@ -45,7 +45,7 @@ sourcesnodistkde =
 endif
 
 # Additional X11 sources.
-sourcesx = 		X11SystrayAppletWindow.cc eggtrayicon.c
+sourcesx = 		X11SystrayAppletWindow.cc gtktrayicon.c
 
 # Additional Win32 sources.
 sourceswin32 = 		resource.rc StatusIcon.cc

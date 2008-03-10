@@ -116,10 +116,13 @@ AppletControl::init()
 void
 AppletControl::show()
 {
+  TRACE_ENTER("AppletControl::show");
+  
   bool specific = false;
   AppletState rc;
 
   rc = activate_applet(APPLET_GNOME);
+  TRACE_MSG("Gnome " << rc);
   if (rc != AppletWindow::APPLET_STATE_DISABLED)
     {
       // Applet now visible or pending.
@@ -128,12 +131,14 @@ AppletControl::show()
     }
 
   rc = activate_applet(APPLET_KDE);
+  TRACE_MSG("kde " << rc);
   if (rc != AppletWindow::APPLET_STATE_DISABLED)
     {
       specific = true;
     }
 
   rc = activate_applet(APPLET_W32);
+  TRACE_MSG("Win32 " << rc);
   if (rc != AppletWindow::APPLET_STATE_DISABLED)
     {
       specific = true;
@@ -143,13 +148,17 @@ AppletControl::show()
   if (specific)
     {
       deactivate_applet(APPLET_TRAY);
+      TRACE_MSG("X11 deact ");
     }
   else
     {
-      activate_applet(APPLET_TRAY);
+      rc = activate_applet(APPLET_TRAY);
+      TRACE_MSG("X11 act " << rc);
     }
 #endif
   check_visible();
+  
+  TRACE_EXIT();
 }
 
 
@@ -210,6 +219,7 @@ AppletControl::hide(AppletType type)
 void
 AppletControl::set_applet_state(AppletType type, AppletWindow::AppletState state)
 {
+  TRACE_ENTER_MSG("AppletControl::set_applet_state", type << " " << state);
   switch (state)
     {
     case AppletWindow::APPLET_STATE_DISABLED:
@@ -239,6 +249,7 @@ AppletControl::set_applet_state(AppletType type, AppletWindow::AppletState state
     }
 
   check_visible();
+  TRACE_EXIT();
 }
 
 
@@ -272,7 +283,11 @@ void
 AppletControl::heartbeat()
 {
   TRACE_ENTER("AppletControl::heartbeat");
-  if (delayed_show > 0)
+  if (delayed_show < 0 && !is_visible())
+    {
+      delayed_show = 60;
+    }
+  else if (delayed_show > 0)
     {
       delayed_show--;
     }
