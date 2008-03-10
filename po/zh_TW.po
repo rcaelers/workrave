@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WorkRave 1.8\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2008-02-10 14:07+0100\n"
+"POT-Creation-Date: 2008-03-11 00:20+0100\n"
 "PO-Revision-Date: 2006-07-31 18:11+0200\n"
 "Last-Translator: Rex Tsai <chihchun@linux.org.tw>\n"
 "Language-Team: Chinese/Traditional <zh-l10n@linux.org.tw>\n"
@@ -16,143 +16,143 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../backend/src/DistributionSocketLink.cc:129
+#: ../backend/src/DistributionSocketLink.cc:130
 #, c-format
 msgid "Reconnecting to %s:%d."
 msgstr "重新連接到 %s:%d"
 
-#: ../backend/src/DistributionSocketLink.cc:348
+#: ../backend/src/DistributionSocketLink.cc:346
 msgid "Cannot resolve my own hostname. Deactivating distribution."
 msgstr "無法解析本身主機名稱。停止分散式計算。"
 
 #. We did not succeed in starting the server. Arghh.
-#: ../backend/src/DistributionSocketLink.cc:359
+#: ../backend/src/DistributionSocketLink.cc:384
 msgid "Could not enable network operation."
 msgstr "無法啟用網路功能"
 
-#: ../backend/src/DistributionSocketLink.cc:368
+#: ../backend/src/DistributionSocketLink.cc:393
 msgid "Disabling network operation."
 msgstr "停用網路功能。"
 
-#: ../backend/src/DistributionSocketLink.cc:524
-#: ../backend/src/DistributionSocketLink.cc:551
+#: ../backend/src/DistributionSocketLink.cc:548
+#: ../backend/src/DistributionSocketLink.cc:576
 #, c-format
 msgid "Connecting to %s:%d."
 msgstr "連接到 %s:%d"
 
-#: ../backend/src/DistributionSocketLink.cc:657
-#: ../backend/src/DistributionSocketLink.cc:684
+#: ../backend/src/DistributionSocketLink.cc:683
+#: ../backend/src/DistributionSocketLink.cc:710
 #, c-format
 msgid "Removing client %s:%d."
 msgstr "移除用戶端 %s:%d"
 
 #. Closing direct connection.
-#: ../backend/src/DistributionSocketLink.cc:723
+#: ../backend/src/DistributionSocketLink.cc:749
 #, c-format
 msgid "Disconnecting %s:%d."
 msgstr "斷線中 %s:%d"
 
 #. It's a remote client. mark it master.
-#: ../backend/src/DistributionSocketLink.cc:893
+#: ../backend/src/DistributionSocketLink.cc:919
 #, c-format
 msgid "Client %s:%d is now master."
 msgstr "客戶端 %s:%d 現在是主控。"
 
 #. Its ME!
-#: ../backend/src/DistributionSocketLink.cc:899
+#: ../backend/src/DistributionSocketLink.cc:926
 msgid "I'm now master."
 msgstr "我是新主控端。"
 
-#: ../backend/src/DistributionSocketLink.cc:1230
+#: ../backend/src/DistributionSocketLink.cc:1257
 #, c-format
 msgid "Client %s:%d saying hello."
 msgstr "客戶端 %s;%d 說嗨。"
 
 #. Duplicate client. inform client that it's bogus and close.
-#: ../backend/src/DistributionSocketLink.cc:1245
-#: ../backend/src/DistributionSocketLink.cc:1373
-#: ../backend/src/DistributionSocketLink.cc:1613
+#: ../backend/src/DistributionSocketLink.cc:1273
+#: ../backend/src/DistributionSocketLink.cc:1403
+#: ../backend/src/DistributionSocketLink.cc:1644
 #, c-format
 msgid "Client %s:%d is duplicate."
 msgstr "客戶端 %s;%d 重複。"
 
 #. Incorrect password.
-#: ../backend/src/DistributionSocketLink.cc:1254
+#: ../backend/src/DistributionSocketLink.cc:1283
 #, c-format
 msgid "Client %s:%d access denied."
 msgstr "客戶端 %s:%d 拒絕存取。"
 
-#: ../backend/src/DistributionSocketLink.cc:1323
+#: ../backend/src/DistributionSocketLink.cc:1353
 #, c-format
 msgid "Client %s:%d signed off."
 msgstr "客戶端 %s:%d 離線。"
 
-#: ../backend/src/DistributionSocketLink.cc:1412
+#: ../backend/src/DistributionSocketLink.cc:1442
 #, c-format
 msgid "Client %s:%d is welcoming us."
 msgstr "客戶端 %s:%d 歡迎我們。"
 
-#: ../backend/src/DistributionSocketLink.cc:1650
+#: ../backend/src/DistributionSocketLink.cc:1681
 #, c-format
 msgid "Requesting master status from %s:%d."
 msgstr "向 %s:%d 要求主控端狀態。"
 
-#: ../backend/src/DistributionSocketLink.cc:1663
+#: ../backend/src/DistributionSocketLink.cc:1695
 #, c-format
 msgid "Client timeout from %s:%d."
 msgstr "客戶端 %s:%d 逾時。"
 
-#: ../backend/src/DistributionSocketLink.cc:1684
+#: ../backend/src/DistributionSocketLink.cc:1717
 #, c-format
 msgid "Rejecting master request from client %s:%d."
 msgstr "拒絕來自客戶端 %s:%d 的主控要求"
 
-#: ../backend/src/DistributionSocketLink.cc:1690
+#: ../backend/src/DistributionSocketLink.cc:1723
 #, c-format
 msgid "Acknowledging master request from client %s:%d."
 msgstr "確認來自客戶端 %s:%d 的主控要求。"
 
-#: ../backend/src/DistributionSocketLink.cc:1741
+#: ../backend/src/DistributionSocketLink.cc:1774
 #, c-format
 msgid "Non-master client %s:%d rejected master request."
 msgstr "非主控客戶端 %s:%d 拒絕主控要求。"
 
-#: ../backend/src/DistributionSocketLink.cc:1746
+#: ../backend/src/DistributionSocketLink.cc:1779
 #, c-format
 msgid "Client %s:%d rejected master request, delaying."
 msgstr "客戶端 %s:%d 拒絕主控要求，延遲中。"
 
 #. gint count =
-#: ../backend/src/DistributionSocketLink.cc:1817
+#: ../backend/src/DistributionSocketLink.cc:1850
 #, c-format
 msgid "Client %s is now the new master."
 msgstr "客戶端 %s 現在是新的主控端。"
 
-#: ../backend/src/DistributionSocketLink.cc:1938
+#: ../backend/src/DistributionSocketLink.cc:1972
 msgid "Network operation started."
 msgstr "網路功能啟動"
 
-#: ../backend/src/DistributionSocketLink.cc:1955
+#: ../backend/src/DistributionSocketLink.cc:1989
 msgid "Accepted new client."
 msgstr "接受新客戶端"
 
-#: ../backend/src/DistributionSocketLink.cc:2021
+#: ../backend/src/DistributionSocketLink.cc:2055
 #, c-format
 msgid "Client %s:%d read error, closing."
 msgstr "客戶端 %s:%d 讀取錯誤，關閉中。"
 
-#: ../backend/src/DistributionSocketLink.cc:2027
-#: ../backend/src/DistributionSocketLink.cc:2101
+#: ../backend/src/DistributionSocketLink.cc:2061
+#: ../backend/src/DistributionSocketLink.cc:2135
 #, c-format
 msgid "Client %s:%d closed connection."
 msgstr "客戶端 %s:%d 關閉連線。"
 
-#: ../backend/src/DistributionSocketLink.cc:2068
+#: ../backend/src/DistributionSocketLink.cc:2102
 #, c-format
 msgid "Client %s:%d connected."
 msgstr "連線到用戶端 %s:%d。"
 
-#: ../backend/src/DistributionSocketLink.cc:2108
+#: ../backend/src/DistributionSocketLink.cc:2142
 #, c-format
 msgid "Could not connect to client %s:%d."
 msgstr "無法連線到用戶端 %s:%d。"
@@ -172,67 +172,72 @@ msgstr "休息提示"
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:50
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:58
-#: ../frontend/gtkmm/src/GUI.cc:1376 ../frontend/gtkmm/src/GtkUtil.cc:163
+#: ../frontend/gtkmm/src/GUI.cc:1331 ../frontend/gtkmm/src/GtkUtil.cc:163
 msgid "Daily limit"
 msgstr "每日限制"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:4
-msgid "Exercise ended"
+#, fuzzy
+msgid "Exercise change"
 msgstr "體操停止"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:5
-msgid "Exercises ended"
+msgid "Exercise ended"
 msgstr "體操停止"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:6
+msgid "Exercises ended"
+msgstr "體操停止"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:7
 msgid "Micro-break ended"
 msgstr "暫停結束"
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:7
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:8
 msgid "Micro-break started"
 msgstr "暫停開始"
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:8
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:9
 msgid "Rest break ended"
 msgstr "休息停止"
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:9
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:10
 msgid "Rest break started"
 msgstr "休息開始"
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:10
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:11
 #: ../frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:1
 msgid "Workrave"
 msgstr "Workrave"
 
-#: ../frontend/common/src/Text.cc:79
+#: ../frontend/common/src/Text.cc:80
 #, c-format
 msgid "%s%d:%02d:%02d hours"
 msgstr "%s%d:%02d:%02d 時"
 
-#: ../frontend/common/src/Text.cc:83
+#: ../frontend/common/src/Text.cc:84
 #, c-format
 msgid "%s%d:%02d minutes"
 msgstr "%s%d:%02d 分"
 
-#: ../frontend/common/src/Text.cc:87
+#: ../frontend/common/src/Text.cc:88
 #, c-format
 msgid "%s%d seconds"
 msgstr "%s%d 秒"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:295
+#: ../frontend/gtkmm/src/BreakWindow.cc:293
 msgid "Lock"
 msgstr "鎖定"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:314
+#: ../frontend/gtkmm/src/BreakWindow.cc:312
 msgid "Shut down"
 msgstr "關閉"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:331
+#: ../frontend/gtkmm/src/BreakWindow.cc:329
 msgid "Skip"
 msgstr "略過"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:344
+#: ../frontend/gtkmm/src/BreakWindow.cc:342
 msgid "Postpone"
 msgstr "延後"
 
@@ -245,138 +250,134 @@ msgstr ""
 "您已經達到每日限制量。請停止在電腦前工作工作。\n"
 "如果您尚未下班，找些其他的事情來做，例如檢閱文件。"
 
-#: ../frontend/gtkmm/src/GUI.cc:831
-msgid "I could not initialize Bonobo"
-msgstr "無法啟動 Bonobo"
-
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1376 ../frontend/gtkmm/src/GtkUtil.cc:163
+#: ../frontend/gtkmm/src/GUI.cc:1331 ../frontend/gtkmm/src/GtkUtil.cc:163
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:55
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:181
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:279
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:183
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:281
 msgid "Micro-break"
 msgstr "暫停"
 
-#: ../frontend/gtkmm/src/GUI.cc:1376 ../frontend/gtkmm/src/GtkUtil.cc:163
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:154
+#: ../frontend/gtkmm/src/GUI.cc:1331 ../frontend/gtkmm/src/GtkUtil.cc:163
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:156
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:78
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:212
 msgid "Rest break"
 msgstr "休息"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:99
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:156
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:81
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:98
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:161
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:90
 msgid "_Rest break"
 msgstr "休息(_R)"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:122
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:127
 msgid "_Tools"
 msgstr ""
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:126
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:131
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:102
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:111
 msgid "_Mode"
 msgstr "模式(_M)"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:128
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:133
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:84
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:93
 msgid "_Normal"
 msgstr "一般(_N)"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:131
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:136
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:90
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:99
 msgid "_Suspended"
 msgstr "暫停(_S)"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:134
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:96
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:139
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:105
 msgid "Q_uiet"
 msgstr "離開(_u)"
 
 #. Networking menu
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:138
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:143
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:121
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:130
 msgid "_Network"
 msgstr "網路(_N)"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:139
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:105
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:144
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:114
 msgid "_Connect"
 msgstr "連線(_C)"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:141
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:146
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:108
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:117
 msgid "_Disconnect"
 msgstr "中斷連線(_D)"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:143
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:148
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:112
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:121
 msgid "_Reconnect"
 msgstr "重新連線(_R)"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:145
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:115
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:150
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:124
 msgid "Show _log"
 msgstr "顯示紀錄(_l)"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:165
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:82
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:170
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:91
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:43
 msgid "Exercises"
 msgstr "體操"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:169
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:123
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:174
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:132
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:62
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:141
 msgid "Statistics"
 msgstr "統計"
 
-#: ../frontend/gtkmm/src/Menus.cc:335
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:367
+#: ../frontend/gtkmm/src/Menus.cc:342
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:359
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
 msgstr "這個軟體是協助預防與復原重複性壓力傷害 (Repetitive Strain Injury RSI)"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:241
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:243
 msgid "Please relax for a few seconds"
 msgstr "請放鬆幾秒"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:248
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:250
 #, c-format
 msgid "Next rest break in %s"
 msgstr "下次休息時間 %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:253
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:255
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "休息 %s 逾時"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:266
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:268
 #, c-format
 msgid "Daily limit in %s"
 msgstr "每日限制 %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:271
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:273
 #, c-format
 msgid "Daily limit %s overdue"
 msgstr "每日限制逾時 %s"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:62
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:80
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:89
 msgid "Preferences"
 msgstr "偏好"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:70
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:106
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:113
 msgid "General"
 msgstr "一般"
 
@@ -490,12 +491,12 @@ msgstr ""
 "這是您的休息時間。確認您至少站起來，並走離您的電腦。\n"
 "只要稍微走一走，伸展筋骨並放鬆幾分鐘。"
 
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:187
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:188
 #, fuzzy
 msgid "Take rest break now"
 msgstr "下次休息時間 %s"
 
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:206
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:207
 msgid "Wait"
 msgstr "等待"
 
@@ -614,12 +615,13 @@ msgstr "休息時限:"
 msgid "Postpone time:"
 msgstr "延後時限:"
 
-#: ../frontend/gtkmm/src/eggtrayicon.c:133
+#: ../frontend/gtkmm/src/gtktrayicon.c:103
 msgid "Orientation"
 msgstr "方向"
 
-#: ../frontend/gtkmm/src/eggtrayicon.c:134
-msgid "The orientation of the tray."
+#: ../frontend/gtkmm/src/gtktrayicon.c:104
+#, fuzzy
+msgid "The orientation of the tray"
 msgstr "托盤方向"
 
 #: ../frontend/gtkmm/src/workrave.desktop.in.in.h:1
@@ -672,28 +674,7 @@ msgstr "統計(_S)"
 msgid "Workrave Applet"
 msgstr "Workrave Applet"
 
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:332
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:392
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:416
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:440
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:463
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:486
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:510
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:533
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:555
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:579
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:622
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:662
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:720
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:767
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:809
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:865
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:981
-#, c-format
-msgid "An exception occurred '%s'"
-msgstr ""
-
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:124
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:133
 msgid "About..."
 msgstr "關於..."
 
@@ -732,41 +713,45 @@ msgstr "使用者名稱:"
 msgid "Password:"
 msgstr "密碼:"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:118
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:108
+msgid "Allow incoming connections"
+msgstr ""
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:126
 msgid "Server settings"
 msgstr "伺服器設定"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:140
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:148
 msgid "Server port:"
 msgstr "伺服器連線埠:"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:141
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:149
 msgid "Reconnect attempts:"
 msgstr "嘗試重新連接:"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:142
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:150
 msgid "Reconnect interval:"
 msgstr "重新連接間隔"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:145
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:153
 msgid "Advanced"
 msgstr "進階"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:162
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:170
 msgid ""
 "The following list specifies the hosts that Workrave connects to on\n"
 "start-up. Click the host name or port number to edit."
 msgstr "以下的列表指定在啟動時自動連結的主機點選主機名稱或連接埠進行編輯"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:191
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:199
 msgid "Host name"
 msgstr "主機名稱"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:199
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:207
 msgid "Port"
 msgstr "連接埠"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:236
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:244
 msgid "Hosts"
 msgstr "主機"
 
@@ -919,7 +904,7 @@ msgid "Next exercise"
 msgstr "體操次數"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:300
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:471
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:476
 #, fuzzy
 msgid "Pause exercises"
 msgstr "體操次數"
@@ -929,15 +914,15 @@ msgstr "體操次數"
 msgid "End exercises"
 msgstr "體操"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:463
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:468
 msgid "Resume"
 msgstr "回復"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:463
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:468
 msgid "Pause"
 msgstr "暫停"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:469
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:474
 #, fuzzy
 msgid "Resume exercises"
 msgstr "體操次數"
@@ -1085,6 +1070,9 @@ msgstr "自動消失 %s"
 #, fuzzy
 msgid "Silent in"
 msgstr "沉默 %s"
+
+#~ msgid "I could not initialize Bonobo"
+#~ msgstr "無法啟動 Bonobo"
 
 #~ msgid "Inactive"
 #~ msgstr "靜止"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2008-02-10 14:07+0100\n"
+"POT-Creation-Date: 2008-03-11 00:20+0100\n"
 "PO-Revision-Date: 2007-04-30 19:55+0200\n"
 "Last-Translator: Иван Димов <idimov@users.sourceforge.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,12 +17,12 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../backend/src/DistributionSocketLink.cc:129
+#: ../backend/src/DistributionSocketLink.cc:130
 #, c-format
 msgid "Reconnecting to %s:%d."
 msgstr "Повторно свързване с %s:%d."
 
-#: ../backend/src/DistributionSocketLink.cc:348
+#: ../backend/src/DistributionSocketLink.cc:346
 msgid "Cannot resolve my own hostname. Deactivating distribution."
 msgstr ""
 "Не може да се определи името на Вашия компютър. Деактивиране на "
@@ -30,137 +30,137 @@ msgstr ""
 
 # Ние не успяхме да пуснем сървъра. А-а-х.
 #. We did not succeed in starting the server. Arghh.
-#: ../backend/src/DistributionSocketLink.cc:359
+#: ../backend/src/DistributionSocketLink.cc:384
 msgid "Could not enable network operation."
 msgstr "Неуспешно включване на работа в мрежа."
 
-#: ../backend/src/DistributionSocketLink.cc:368
+#: ../backend/src/DistributionSocketLink.cc:393
 msgid "Disabling network operation."
 msgstr "Спиране на работа в мрежа."
 
-#: ../backend/src/DistributionSocketLink.cc:524
-#: ../backend/src/DistributionSocketLink.cc:551
+#: ../backend/src/DistributionSocketLink.cc:548
+#: ../backend/src/DistributionSocketLink.cc:576
 #, c-format
 msgid "Connecting to %s:%d."
 msgstr "Свързване с %s:%d."
 
-#: ../backend/src/DistributionSocketLink.cc:657
-#: ../backend/src/DistributionSocketLink.cc:684
+#: ../backend/src/DistributionSocketLink.cc:683
+#: ../backend/src/DistributionSocketLink.cc:710
 #, c-format
 msgid "Removing client %s:%d."
 msgstr "Премахване на клиент %s:%d."
 
 # Затваряне на пряката връзка.
 #. Closing direct connection.
-#: ../backend/src/DistributionSocketLink.cc:723
+#: ../backend/src/DistributionSocketLink.cc:749
 #, c-format
 msgid "Disconnecting %s:%d."
 msgstr "Изключване %s:%d."
 
 # Това е отдалечен клиент. Отбелязваме го като главен.
 #. It's a remote client. mark it master.
-#: ../backend/src/DistributionSocketLink.cc:893
+#: ../backend/src/DistributionSocketLink.cc:919
 #, c-format
 msgid "Client %s:%d is now master."
 msgstr "Клиент %s:%d е главен сега."
 
 # АЗ съм!
 #. Its ME!
-#: ../backend/src/DistributionSocketLink.cc:899
+#: ../backend/src/DistributionSocketLink.cc:926
 msgid "I'm now master."
 msgstr "Аз съм главен сега."
 
-#: ../backend/src/DistributionSocketLink.cc:1230
+#: ../backend/src/DistributionSocketLink.cc:1257
 #, c-format
 msgid "Client %s:%d saying hello."
 msgstr "Клиент %s:%d казва здравей."
 
 #. Duplicate client. inform client that it's bogus and close.
-#: ../backend/src/DistributionSocketLink.cc:1245
-#: ../backend/src/DistributionSocketLink.cc:1373
-#: ../backend/src/DistributionSocketLink.cc:1613
+#: ../backend/src/DistributionSocketLink.cc:1273
+#: ../backend/src/DistributionSocketLink.cc:1403
+#: ../backend/src/DistributionSocketLink.cc:1644
 #, c-format
 msgid "Client %s:%d is duplicate."
 msgstr "Клиент %s:%d се повтаря."
 
 #. Incorrect password.
-#: ../backend/src/DistributionSocketLink.cc:1254
+#: ../backend/src/DistributionSocketLink.cc:1283
 #, c-format
 msgid "Client %s:%d access denied."
 msgstr "Клиент %s:%d му е отказан достъп."
 
-#: ../backend/src/DistributionSocketLink.cc:1323
+#: ../backend/src/DistributionSocketLink.cc:1353
 #, c-format
 msgid "Client %s:%d signed off."
 msgstr "Клиент %s:%d излезе."
 
-#: ../backend/src/DistributionSocketLink.cc:1412
+#: ../backend/src/DistributionSocketLink.cc:1442
 #, c-format
 msgid "Client %s:%d is welcoming us."
 msgstr "Клиент %s:%d ни приветствува."
 
-#: ../backend/src/DistributionSocketLink.cc:1650
+#: ../backend/src/DistributionSocketLink.cc:1681
 #, c-format
 msgid "Requesting master status from %s:%d."
 msgstr "Запитване за главен от %s:%d."
 
-#: ../backend/src/DistributionSocketLink.cc:1663
+#: ../backend/src/DistributionSocketLink.cc:1695
 #, c-format
 msgid "Client timeout from %s:%d."
 msgstr "Прекъсване (по таймаут) от клиент %s:%d."
 
-#: ../backend/src/DistributionSocketLink.cc:1684
+#: ../backend/src/DistributionSocketLink.cc:1717
 #, c-format
 msgid "Rejecting master request from client %s:%d."
 msgstr "Отхвърляне на заявка за главен от клиент %s:%d."
 
-#: ../backend/src/DistributionSocketLink.cc:1690
+#: ../backend/src/DistributionSocketLink.cc:1723
 #, c-format
 msgid "Acknowledging master request from client %s:%d."
 msgstr "Потвърждаване на заявка за главен от клиент %s:%d."
 
-#: ../backend/src/DistributionSocketLink.cc:1741
+#: ../backend/src/DistributionSocketLink.cc:1774
 #, c-format
 msgid "Non-master client %s:%d rejected master request."
 msgstr "Обикновен/не-главен клиент %s:%d отхвърли заявка за главен."
 
-#: ../backend/src/DistributionSocketLink.cc:1746
+#: ../backend/src/DistributionSocketLink.cc:1779
 #, c-format
 msgid "Client %s:%d rejected master request, delaying."
 msgstr "Клиент %s:%d отхвърли заявка за главен, изчакване."
 
 # gint count =
 #. gint count =
-#: ../backend/src/DistributionSocketLink.cc:1817
+#: ../backend/src/DistributionSocketLink.cc:1850
 #, c-format
 msgid "Client %s is now the new master."
 msgstr "Клиент %s сега е новият главен."
 
-#: ../backend/src/DistributionSocketLink.cc:1938
+#: ../backend/src/DistributionSocketLink.cc:1972
 msgid "Network operation started."
 msgstr "Започна работа в мрежа."
 
-#: ../backend/src/DistributionSocketLink.cc:1955
+#: ../backend/src/DistributionSocketLink.cc:1989
 msgid "Accepted new client."
 msgstr "Приет е нов клиент."
 
-#: ../backend/src/DistributionSocketLink.cc:2021
+#: ../backend/src/DistributionSocketLink.cc:2055
 #, c-format
 msgid "Client %s:%d read error, closing."
 msgstr "Клиент %s:%d извърши грешка при четене, затваряне."
 
-#: ../backend/src/DistributionSocketLink.cc:2027
-#: ../backend/src/DistributionSocketLink.cc:2101
+#: ../backend/src/DistributionSocketLink.cc:2061
+#: ../backend/src/DistributionSocketLink.cc:2135
 #, c-format
 msgid "Client %s:%d closed connection."
 msgstr "Клиент %s:%d затвори връзката."
 
-#: ../backend/src/DistributionSocketLink.cc:2068
+#: ../backend/src/DistributionSocketLink.cc:2102
 #, c-format
 msgid "Client %s:%d connected."
 msgstr "Клиент %s:%d се свърза."
 
-#: ../backend/src/DistributionSocketLink.cc:2108
+#: ../backend/src/DistributionSocketLink.cc:2142
 #, c-format
 msgid "Could not connect to client %s:%d."
 msgstr "Невъзможно свързване с клиент %s:%d."
@@ -180,67 +180,72 @@ msgstr "Напомняне за почивка"
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:50
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:58
-#: ../frontend/gtkmm/src/GUI.cc:1376 ../frontend/gtkmm/src/GtkUtil.cc:163
+#: ../frontend/gtkmm/src/GUI.cc:1331 ../frontend/gtkmm/src/GtkUtil.cc:163
 msgid "Daily limit"
 msgstr "Дневен лимит"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:4
-msgid "Exercise ended"
+#, fuzzy
+msgid "Exercise change"
 msgstr "Упражнението приключи"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:5
+msgid "Exercise ended"
+msgstr "Упражнението приключи"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:6
 msgid "Exercises ended"
 msgstr "Упражненията приключиха"
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:6
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:7
 msgid "Micro-break ended"
 msgstr "Микро-почивката свърши"
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:7
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:8
 msgid "Micro-break started"
 msgstr "Микро-почивката започна"
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:8
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:9
 msgid "Rest break ended"
 msgstr "Почивката свърши"
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:9
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:10
 msgid "Rest break started"
 msgstr "Почивката започна"
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:10
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:11
 #: ../frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:1
 msgid "Workrave"
 msgstr "Workrave"
 
-#: ../frontend/common/src/Text.cc:79
+#: ../frontend/common/src/Text.cc:80
 #, c-format
 msgid "%s%d:%02d:%02d hours"
 msgstr "%s%d:%02d:%02d часа"
 
-#: ../frontend/common/src/Text.cc:83
+#: ../frontend/common/src/Text.cc:84
 #, c-format
 msgid "%s%d:%02d minutes"
 msgstr "%s%d:%02d минути"
 
-#: ../frontend/common/src/Text.cc:87
+#: ../frontend/common/src/Text.cc:88
 #, c-format
 msgid "%s%d seconds"
 msgstr "%s%d секунди"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:295
+#: ../frontend/gtkmm/src/BreakWindow.cc:293
 msgid "Lock"
 msgstr "Заключване"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:314
+#: ../frontend/gtkmm/src/BreakWindow.cc:312
 msgid "Shut down"
 msgstr "Изключване"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:331
+#: ../frontend/gtkmm/src/BreakWindow.cc:329
 msgid "Skip"
 msgstr "Пропускане"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:344
+#: ../frontend/gtkmm/src/BreakWindow.cc:342
 msgid "Postpone"
 msgstr "Отлагане"
 
@@ -255,104 +260,100 @@ msgstr ""
 "не е свършил намерете си друго занимание напр.\n"
 "преглеждане на документи."
 
-#: ../frontend/gtkmm/src/GUI.cc:831
-msgid "I could not initialize Bonobo"
-msgstr "Невъзможно инициализирането на Bonobo"
-
 # ОПРАВИМЕ: повтарящ се
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1376 ../frontend/gtkmm/src/GtkUtil.cc:163
+#: ../frontend/gtkmm/src/GUI.cc:1331 ../frontend/gtkmm/src/GtkUtil.cc:163
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:55
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:181
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:279
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:183
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:281
 msgid "Micro-break"
 msgstr "Микро-почивка"
 
-#: ../frontend/gtkmm/src/GUI.cc:1376 ../frontend/gtkmm/src/GtkUtil.cc:163
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:154
+#: ../frontend/gtkmm/src/GUI.cc:1331 ../frontend/gtkmm/src/GtkUtil.cc:163
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:156
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:78
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:212
 msgid "Rest break"
 msgstr "Почивка"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:99
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:156
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:81
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:98
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:161
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:90
 msgid "_Rest break"
 msgstr "_Почивка"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:122
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:127
 msgid "_Tools"
 msgstr ""
 
 # Меню Режим
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:126
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:131
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:102
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:111
 msgid "_Mode"
 msgstr "_Режим"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:128
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:133
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:84
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:93
 msgid "_Normal"
 msgstr "_Нормален"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:131
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:136
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:90
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:99
 msgid "_Suspended"
 msgstr "_Летаргичен"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:134
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:96
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:139
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:105
 msgid "Q_uiet"
 msgstr "Т_их"
 
 #. Networking menu
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:138
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:143
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:121
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:130
 msgid "_Network"
 msgstr "_Мрежа"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:139
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:105
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:144
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:114
 msgid "_Connect"
 msgstr "_Свързване"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:141
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:146
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:108
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:117
 msgid "_Disconnect"
 msgstr "_Прекъсване"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:143
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:148
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:112
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:121
 msgid "_Reconnect"
 msgstr "_Повторно свързване"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:145
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:115
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:150
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:124
 msgid "Show _log"
 msgstr "Показване на _дневника"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:165
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:82
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:170
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:91
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:43
 msgid "Exercises"
 msgstr "Упражнения"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:169
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:123
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:174
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:132
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:62
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:141
 msgid "Statistics"
 msgstr "Статистика"
 
-#: ../frontend/gtkmm/src/Menus.cc:335
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:367
+#: ../frontend/gtkmm/src/Menus.cc:342
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:359
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -361,37 +362,37 @@ msgstr ""
 "заболяване свързано с Продължителното Извършване на Еднотипни Движения "
 "(Repetitive Strain Injury - RSI)."
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:241
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:243
 msgid "Please relax for a few seconds"
 msgstr "Моля отпуснете се за няколко секунди"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:248
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:250
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Следващата почивка е след %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:253
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:255
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Почивката %s е просрочена"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:266
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:268
 #, c-format
 msgid "Daily limit in %s"
 msgstr "Дневният лимит е след %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:271
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:273
 #, c-format
 msgid "Daily limit %s overdue"
 msgstr "Дневният лимит %s е просрочен"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:62
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:80
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:89
 msgid "Preferences"
 msgstr "Предпочитания"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:70
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:106
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:113
 msgid "General"
 msgstr "Основни"
 
@@ -510,12 +511,12 @@ msgstr ""
 "Просто се поразходете наоколо за няколко минути,\n"
 "протегнете се, отпуснете се и си починете."
 
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:187
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:188
 #, fuzzy
 msgid "Take rest break now"
 msgstr "Следващата почивка е след %s"
 
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:206
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:207
 msgid "Wait"
 msgstr "Изчакване"
 
@@ -637,12 +638,13 @@ msgstr "Продължителност на почивка:"
 msgid "Postpone time:"
 msgstr "Време за отлагане:"
 
-#: ../frontend/gtkmm/src/eggtrayicon.c:133
+#: ../frontend/gtkmm/src/gtktrayicon.c:103
 msgid "Orientation"
 msgstr "Ориентация"
 
-#: ../frontend/gtkmm/src/eggtrayicon.c:134
-msgid "The orientation of the tray."
+#: ../frontend/gtkmm/src/gtktrayicon.c:104
+#, fuzzy
+msgid "The orientation of the tray"
 msgstr "Ориентация на лентата."
 
 #: ../frontend/gtkmm/src/workrave.desktop.in.in.h:1
@@ -698,28 +700,7 @@ msgstr "_Статистика"
 msgid "Workrave Applet"
 msgstr "Workrave - аплет"
 
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:332
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:392
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:416
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:440
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:463
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:486
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:510
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:533
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:555
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:579
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:622
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:662
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:720
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:767
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:809
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:865
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:981
-#, c-format
-msgid "An exception occurred '%s'"
-msgstr ""
-
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:124
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:133
 msgid "About..."
 msgstr "Относно..."
 
@@ -760,27 +741,31 @@ msgstr "Потребителско име:"
 msgid "Password:"
 msgstr "Парола:"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:118
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:108
+msgid "Allow incoming connections"
+msgstr ""
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:126
 msgid "Server settings"
 msgstr "Настройки на сървър"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:140
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:148
 msgid "Server port:"
 msgstr "Сървърен порт:"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:141
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:149
 msgid "Reconnect attempts:"
 msgstr "Опити за повторно свързване:"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:142
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:150
 msgid "Reconnect interval:"
 msgstr "Интервал за повторно свързване:"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:145
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:153
 msgid "Advanced"
 msgstr "Допълнителни"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:162
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:170
 msgid ""
 "The following list specifies the hosts that Workrave connects to on\n"
 "start-up. Click the host name or port number to edit."
@@ -789,15 +774,15 @@ msgstr ""
 "Workrave се свързва при стартиране.\n"
 "За да ги редактирате щракнете в/у името или порта"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:191
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:199
 msgid "Host name"
 msgstr "Компютър"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:199
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:207
 msgid "Port"
 msgstr "Порт"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:236
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:244
 msgid "Hosts"
 msgstr "Компютри"
 
@@ -964,7 +949,7 @@ msgid "Next exercise"
 msgstr "Брой упражнения:"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:300
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:471
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:476
 #, fuzzy
 msgid "Pause exercises"
 msgstr "Брой упражнения:"
@@ -974,15 +959,15 @@ msgstr "Брой упражнения:"
 msgid "End exercises"
 msgstr "Упражнения"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:463
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:468
 msgid "Resume"
 msgstr "Продължаване"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:463
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:468
 msgid "Pause"
 msgstr "Пауза"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:469
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:474
 #, fuzzy
 msgid "Resume exercises"
 msgstr "Брой упражнения:"
@@ -1132,6 +1117,9 @@ msgstr "Изчезва след %s"
 #, fuzzy
 msgid "Silent in"
 msgstr "Замлъква след %s"
+
+#~ msgid "I could not initialize Bonobo"
+#~ msgstr "Невъзможно инициализирането на Bonobo"
 
 #~ msgid "Inactive"
 #~ msgstr "Неактивен"

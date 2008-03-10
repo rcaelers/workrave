@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.6.2\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2008-02-10 14:07+0100\n"
+"POT-Creation-Date: 2008-03-11 00:20+0100\n"
 "PO-Revision-Date: 2006-07-31 18:08+0200\n"
 "Last-Translator: Juraj Kubelka <Juraj.Kubelka@email.cz>\n"
 "Language-Team: Czech <translation-team-cs@lists.sourceforge.net>\n"
@@ -17,143 +17,143 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: ../backend/src/DistributionSocketLink.cc:129
+#: ../backend/src/DistributionSocketLink.cc:130
 #, c-format
 msgid "Reconnecting to %s:%d."
 msgstr "Obnovuji spojení do %s:%d."
 
-#: ../backend/src/DistributionSocketLink.cc:348
+#: ../backend/src/DistributionSocketLink.cc:346
 msgid "Cannot resolve my own hostname. Deactivating distribution."
 msgstr "Nemohu rozlišit moje vlastní jméno počítače. Deaktivuji distribuci."
 
 #. We did not succeed in starting the server. Arghh.
-#: ../backend/src/DistributionSocketLink.cc:359
+#: ../backend/src/DistributionSocketLink.cc:384
 msgid "Could not enable network operation."
 msgstr "Nemohu povolit síťové operace."
 
-#: ../backend/src/DistributionSocketLink.cc:368
+#: ../backend/src/DistributionSocketLink.cc:393
 msgid "Disabling network operation."
 msgstr "Vypínám síťové operace."
 
-#: ../backend/src/DistributionSocketLink.cc:524
-#: ../backend/src/DistributionSocketLink.cc:551
+#: ../backend/src/DistributionSocketLink.cc:548
+#: ../backend/src/DistributionSocketLink.cc:576
 #, c-format
 msgid "Connecting to %s:%d."
 msgstr "Připojuji se do %s:%d."
 
-#: ../backend/src/DistributionSocketLink.cc:657
-#: ../backend/src/DistributionSocketLink.cc:684
+#: ../backend/src/DistributionSocketLink.cc:683
+#: ../backend/src/DistributionSocketLink.cc:710
 #, c-format
 msgid "Removing client %s:%d."
 msgstr "Odstraňuji klienta %s:%d."
 
 #. Closing direct connection.
-#: ../backend/src/DistributionSocketLink.cc:723
+#: ../backend/src/DistributionSocketLink.cc:749
 #, c-format
 msgid "Disconnecting %s:%d."
 msgstr "Odpojuji %s:%d."
 
 #. It's a remote client. mark it master.
-#: ../backend/src/DistributionSocketLink.cc:893
+#: ../backend/src/DistributionSocketLink.cc:919
 #, c-format
 msgid "Client %s:%d is now master."
 msgstr "Klient %s:%d je nyní vůdčí."
 
 #. Its ME!
-#: ../backend/src/DistributionSocketLink.cc:899
+#: ../backend/src/DistributionSocketLink.cc:926
 msgid "I'm now master."
 msgstr "Nyní jsem vůdčí."
 
-#: ../backend/src/DistributionSocketLink.cc:1230
+#: ../backend/src/DistributionSocketLink.cc:1257
 #, c-format
 msgid "Client %s:%d saying hello."
 msgstr "Klient %s:%d zdraví."
 
 #. Duplicate client. inform client that it's bogus and close.
-#: ../backend/src/DistributionSocketLink.cc:1245
-#: ../backend/src/DistributionSocketLink.cc:1373
-#: ../backend/src/DistributionSocketLink.cc:1613
+#: ../backend/src/DistributionSocketLink.cc:1273
+#: ../backend/src/DistributionSocketLink.cc:1403
+#: ../backend/src/DistributionSocketLink.cc:1644
 #, c-format
 msgid "Client %s:%d is duplicate."
 msgstr "Klient %s:%d je duplikován."
 
 #. Incorrect password.
-#: ../backend/src/DistributionSocketLink.cc:1254
+#: ../backend/src/DistributionSocketLink.cc:1283
 #, c-format
 msgid "Client %s:%d access denied."
 msgstr "Klient %s:%d odmítl přístup."
 
-#: ../backend/src/DistributionSocketLink.cc:1323
+#: ../backend/src/DistributionSocketLink.cc:1353
 #, c-format
 msgid "Client %s:%d signed off."
 msgstr "Klient %s:%d se odhlásil."
 
-#: ../backend/src/DistributionSocketLink.cc:1412
+#: ../backend/src/DistributionSocketLink.cc:1442
 #, c-format
 msgid "Client %s:%d is welcoming us."
 msgstr "Klient %s:%d vás vítá."
 
-#: ../backend/src/DistributionSocketLink.cc:1650
+#: ../backend/src/DistributionSocketLink.cc:1681
 #, c-format
 msgid "Requesting master status from %s:%d."
 msgstr "Požadavek statusu vůdce od %s:%d."
 
-#: ../backend/src/DistributionSocketLink.cc:1663
+#: ../backend/src/DistributionSocketLink.cc:1695
 #, c-format
 msgid "Client timeout from %s:%d."
 msgstr "Vypršení časové prodlevy klienta %s:%d."
 
-#: ../backend/src/DistributionSocketLink.cc:1684
+#: ../backend/src/DistributionSocketLink.cc:1717
 #, c-format
 msgid "Rejecting master request from client %s:%d."
 msgstr "Zamítnutí požadavku statusu vůdce od klienta %s:%d."
 
-#: ../backend/src/DistributionSocketLink.cc:1690
+#: ../backend/src/DistributionSocketLink.cc:1723
 #, c-format
 msgid "Acknowledging master request from client %s:%d."
 msgstr "Uznán požadavek statusu vůdce od klienta %s:%d."
 
-#: ../backend/src/DistributionSocketLink.cc:1741
+#: ../backend/src/DistributionSocketLink.cc:1774
 #, c-format
 msgid "Non-master client %s:%d rejected master request."
 msgstr "Klient %s:%d bez statusu vůdce odmítl požadavek na status vůdce."
 
-#: ../backend/src/DistributionSocketLink.cc:1746
+#: ../backend/src/DistributionSocketLink.cc:1779
 #, c-format
 msgid "Client %s:%d rejected master request, delaying."
 msgstr "Klient %s:%d odmítl požadavek na status vůdce, prodleva."
 
 #. gint count =
-#: ../backend/src/DistributionSocketLink.cc:1817
+#: ../backend/src/DistributionSocketLink.cc:1850
 #, c-format
 msgid "Client %s is now the new master."
 msgstr "Klient %s je nyní vůdce."
 
-#: ../backend/src/DistributionSocketLink.cc:1938
+#: ../backend/src/DistributionSocketLink.cc:1972
 msgid "Network operation started."
 msgstr "Začaly síťové operace."
 
-#: ../backend/src/DistributionSocketLink.cc:1955
+#: ../backend/src/DistributionSocketLink.cc:1989
 msgid "Accepted new client."
 msgstr "Akceptován nový klient."
 
-#: ../backend/src/DistributionSocketLink.cc:2021
+#: ../backend/src/DistributionSocketLink.cc:2055
 #, c-format
 msgid "Client %s:%d read error, closing."
 msgstr "Chyba při čtení s klientem %s:%d, zavírám."
 
-#: ../backend/src/DistributionSocketLink.cc:2027
-#: ../backend/src/DistributionSocketLink.cc:2101
+#: ../backend/src/DistributionSocketLink.cc:2061
+#: ../backend/src/DistributionSocketLink.cc:2135
 #, c-format
 msgid "Client %s:%d closed connection."
 msgstr "Klient %s:%d uzavřel spojení."
 
-#: ../backend/src/DistributionSocketLink.cc:2068
+#: ../backend/src/DistributionSocketLink.cc:2102
 #, c-format
 msgid "Client %s:%d connected."
 msgstr "Klient %s:%d se připojil."
 
-#: ../backend/src/DistributionSocketLink.cc:2108
+#: ../backend/src/DistributionSocketLink.cc:2142
 #, c-format
 msgid "Could not connect to client %s:%d."
 msgstr "Nemohu se připojit ke klientovi %s:%d."
@@ -173,67 +173,72 @@ msgstr "Upozornění na pauzu"
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:50
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:58
-#: ../frontend/gtkmm/src/GUI.cc:1376 ../frontend/gtkmm/src/GtkUtil.cc:163
+#: ../frontend/gtkmm/src/GUI.cc:1331 ../frontend/gtkmm/src/GtkUtil.cc:163
 msgid "Daily limit"
 msgstr "Denní limit"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:4
-msgid "Exercise ended"
+#, fuzzy
+msgid "Exercise change"
 msgstr "Konec cviku"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:5
+msgid "Exercise ended"
+msgstr "Konec cviku"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:6
 msgid "Exercises ended"
 msgstr "Konec cvičení"
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:6
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:7
 msgid "Micro-break ended"
 msgstr "Konec Mikro-pauzy"
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:7
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:8
 msgid "Micro-break started"
 msgstr "Začátek mikro-pauzy"
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:8
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:9
 msgid "Rest break ended"
 msgstr "Konec přestávky"
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:9
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:10
 msgid "Rest break started"
 msgstr "Začátek přestávky"
 
-#: ../frontend/common/share/sounds/workrave.soundlist.in.h:10
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:11
 #: ../frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:1
 msgid "Workrave"
 msgstr "Workrave"
 
-#: ../frontend/common/src/Text.cc:79
+#: ../frontend/common/src/Text.cc:80
 #, c-format
 msgid "%s%d:%02d:%02d hours"
 msgstr "%s%d:%02d:%02d hodin"
 
-#: ../frontend/common/src/Text.cc:83
+#: ../frontend/common/src/Text.cc:84
 #, c-format
 msgid "%s%d:%02d minutes"
 msgstr "%s%d:%02d minut"
 
-#: ../frontend/common/src/Text.cc:87
+#: ../frontend/common/src/Text.cc:88
 #, c-format
 msgid "%s%d seconds"
 msgstr "%s%d sekund"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:295
+#: ../frontend/gtkmm/src/BreakWindow.cc:293
 msgid "Lock"
 msgstr "Zámek"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:314
+#: ../frontend/gtkmm/src/BreakWindow.cc:312
 msgid "Shut down"
 msgstr "Vypnout"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:331
+#: ../frontend/gtkmm/src/BreakWindow.cc:329
 msgid "Skip"
 msgstr "Přeskočit"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:344
+#: ../frontend/gtkmm/src/BreakWindow.cc:342
 msgid "Postpone"
 msgstr "Odložit"
 
@@ -247,102 +252,98 @@ msgstr ""
 "na počítači. Pokud vaše práce ještě není u konce, najděte si\n"
 "k práci něco jiného, například kontrolu dokumentů."
 
-#: ../frontend/gtkmm/src/GUI.cc:831
-msgid "I could not initialize Bonobo"
-msgstr "Nemohu inicializovat Bonobo"
-
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1376 ../frontend/gtkmm/src/GtkUtil.cc:163
+#: ../frontend/gtkmm/src/GUI.cc:1331 ../frontend/gtkmm/src/GtkUtil.cc:163
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:55
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:181
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:279
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:183
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:281
 msgid "Micro-break"
 msgstr "Mikro-pauza"
 
-#: ../frontend/gtkmm/src/GUI.cc:1376 ../frontend/gtkmm/src/GtkUtil.cc:163
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:154
+#: ../frontend/gtkmm/src/GUI.cc:1331 ../frontend/gtkmm/src/GtkUtil.cc:163
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:156
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:78
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:212
 msgid "Rest break"
 msgstr "Přestávka"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:99
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:156
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:81
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:98
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:161
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:90
 msgid "_Rest break"
 msgstr "_Přestávka"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:122
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:127
 msgid "_Tools"
 msgstr ""
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:126
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:131
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:102
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:111
 msgid "_Mode"
 msgstr "_Mód"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:128
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:133
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:84
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:93
 msgid "_Normal"
 msgstr "_Normální"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:131
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:136
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:90
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:99
 msgid "_Suspended"
 msgstr "_Zastavený"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:134
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:96
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:139
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:105
 msgid "Q_uiet"
 msgstr "Ne_rušící"
 
 #. Networking menu
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:138
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:143
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:121
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:130
 msgid "_Network"
 msgstr "_Síť"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:139
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:105
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:144
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:114
 msgid "_Connect"
 msgstr "_Připojit"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:141
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:146
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:108
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:117
 msgid "_Disconnect"
 msgstr "_Odpojit"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:143
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:148
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:112
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:121
 msgid "_Reconnect"
 msgstr "_Obnovit spojení"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:145
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:115
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:150
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:124
 msgid "Show _log"
 msgstr "Zobrazit _záznam"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:165
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:82
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:170
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:91
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:43
 msgid "Exercises"
 msgstr "Cvičení"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:169
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:123
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:174
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:132
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:62
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:141
 msgid "Statistics"
 msgstr "Statistika"
 
-#: ../frontend/gtkmm/src/Menus.cc:335
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:367
+#: ../frontend/gtkmm/src/Menus.cc:342
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:359
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -350,37 +351,37 @@ msgstr ""
 "Tento program podporuje prevenci a regeneraci opakovaných bolestivých napětí "
 "(RSI)."
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:241
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:243
 msgid "Please relax for a few seconds"
 msgstr "Prosím odpočívejte několik sekund"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:248
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:250
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Další přestávka za %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:253
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:255
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Přestávka o %s opožděná"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:266
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:268
 #, c-format
 msgid "Daily limit in %s"
 msgstr "Denní limit za %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:271
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:273
 #, c-format
 msgid "Daily limit %s overdue"
 msgstr "Denní limit o %s překročen"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:62
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:80
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:89
 msgid "Preferences"
 msgstr "Nastavení"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:70
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:106
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:113
 msgid "General"
 msgstr "Obecné"
 
@@ -496,12 +497,12 @@ msgstr ""
 "a odejde od počítače na pravidelnou pauzu. Projděte\n"
 "se na několik minut, protáhněte se a relaxujte."
 
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:187
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:188
 #, fuzzy
 msgid "Take rest break now"
 msgstr "Další přestávka za %s"
 
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:206
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:207
 msgid "Wait"
 msgstr "Čekat"
 
@@ -620,12 +621,13 @@ msgstr "Trvání pauzy:"
 msgid "Postpone time:"
 msgstr "Čas odložení:"
 
-#: ../frontend/gtkmm/src/eggtrayicon.c:133
+#: ../frontend/gtkmm/src/gtktrayicon.c:103
 msgid "Orientation"
 msgstr "Orientace"
 
-#: ../frontend/gtkmm/src/eggtrayicon.c:134
-msgid "The orientation of the tray."
+#: ../frontend/gtkmm/src/gtktrayicon.c:104
+#, fuzzy
+msgid "The orientation of the tray"
 msgstr "Orientace oznamovací ikony"
 
 #: ../frontend/gtkmm/src/workrave.desktop.in.in.h:1
@@ -680,28 +682,7 @@ msgstr "_Statistika"
 msgid "Workrave Applet"
 msgstr "Workrave aplet"
 
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:332
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:392
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:416
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:440
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:463
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:486
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:510
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:533
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:555
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:579
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:622
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:662
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:720
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:767
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:809
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:865
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:981
-#, c-format
-msgid "An exception occurred '%s'"
-msgstr ""
-
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:124
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:133
 msgid "About..."
 msgstr "O..."
 
@@ -742,27 +723,31 @@ msgstr "Jméno:"
 msgid "Password:"
 msgstr "Heslo:"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:118
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:108
+msgid "Allow incoming connections"
+msgstr ""
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:126
 msgid "Server settings"
 msgstr "Nastavení serveru"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:140
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:148
 msgid "Server port:"
 msgstr "Port serveru:"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:141
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:149
 msgid "Reconnect attempts:"
 msgstr "Pokusů obnovení spojení:"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:142
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:150
 msgid "Reconnect interval:"
 msgstr "Interval obnovení spojení:"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:145
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:153
 msgid "Advanced"
 msgstr "Pokročilé"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:162
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:170
 msgid ""
 "The following list specifies the hosts that Workrave connects to on\n"
 "start-up. Click the host name or port number to edit."
@@ -770,15 +755,15 @@ msgstr ""
 "Následující seznam určuje počítače, ke kterým se Workrave připojí při\n"
 "startu. K editaci klikněte na jméno počítače nebo číslo portu."
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:191
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:199
 msgid "Host name"
 msgstr "Jméno počítače"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:199
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:207
 msgid "Port"
 msgstr "Port"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:236
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:244
 msgid "Hosts"
 msgstr "Počítače"
 
@@ -942,7 +927,7 @@ msgid "Next exercise"
 msgstr "Počet cvičení:"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:300
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:471
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:476
 #, fuzzy
 msgid "Pause exercises"
 msgstr "Počet cvičení:"
@@ -952,15 +937,15 @@ msgstr "Počet cvičení:"
 msgid "End exercises"
 msgstr "Cvičení"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:463
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:468
 msgid "Resume"
 msgstr "Obnovit"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:463
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:468
 msgid "Pause"
 msgstr "Pauza"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:469
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:474
 #, fuzzy
 msgid "Resume exercises"
 msgstr "Počet cvičení:"
@@ -1112,6 +1097,9 @@ msgstr "Zmizí za %s"
 #, fuzzy
 msgid "Silent in"
 msgstr "Tichý v %s"
+
+#~ msgid "I could not initialize Bonobo"
+#~ msgstr "Nemohu inicializovat Bonobo"
 
 #~ msgid "Inactive"
 #~ msgstr "Nečinný"

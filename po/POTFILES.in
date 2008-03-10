@@ -94,7 +94,7 @@ frontend/gtkmm/src/TimerBoxPreferencePage.cc
 frontend/gtkmm/src/TimerPreferencesPanel.cc
 frontend/gtkmm/src/WindowHints.cc
 frontend/gtkmm/src/X11SystrayAppletWindow.cc
-frontend/gtkmm/src/eggtrayicon.c
+frontend/gtkmm/src/gtktrayicon.c
 frontend/gtkmm/src/workrave.desktop.in.in
 frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in
 frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in

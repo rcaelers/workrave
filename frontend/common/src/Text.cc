@@ -1,6 +1,6 @@
 // Text.cc
 //
-// Copyright (C) 2002, 2003, 2007 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2007, 2008 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -45,7 +45,8 @@ using namespace std;
 string
 Text::time_to_string(time_t time, bool display_units)
 {
-  char s[128], t[2];
+  char s[128] = "";
+  char t[2];
 
   if (time < 0)
     {
@@ -65,26 +66,26 @@ Text::time_to_string(time_t time, bool display_units)
     {
       if (hrs > 0)
         {
-          sprintf(s, "%s%d:%02d:%02d", t, hrs, min, sec);
+          snprintf(s, sizeof(s), "%s%d:%02d:%02d", t, hrs, min, sec);
         }
       else
         {
-          sprintf(s, "%s%d:%02d", t, min, sec);
+          snprintf(s, sizeof(s), "%s%d:%02d", t, min, sec);
         }
     }
   else
     {
       if (hrs > 0)
         {
-          sprintf(s, _("%s%d:%02d:%02d hours"), t, hrs, min, sec);
+          snprintf(s, sizeof(s), _("%s%d:%02d:%02d hours"), t, hrs, min, sec);
         }
       else if (min > 0)
         {
-          sprintf(s, _("%s%d:%02d minutes"), t, min, sec);
+          snprintf(s, sizeof(s), _("%s%d:%02d minutes"), t, min, sec);
         }
       else
         {
-          sprintf(s, _("%s%d seconds"), t, sec);
+          snprintf(s, sizeof(s), _("%s%d seconds"), t, sec);
         }
     }
 
