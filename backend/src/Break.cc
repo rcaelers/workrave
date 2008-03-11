@@ -207,7 +207,7 @@ Break::init_defaults()
                     def.max_preludes,
                     CONFIG_FLAG_DEFAULT);
   
-  config->set_value(CoreConfig::CFG_KEY_BREAK_ENABLED,
+  config->set_value(CoreConfig::CFG_KEY_BREAK_ENABLED % break_id,
                     true,
                     CONFIG_FLAG_DEFAULT);
 }

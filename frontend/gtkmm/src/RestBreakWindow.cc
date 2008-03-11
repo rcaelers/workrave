@@ -291,6 +291,10 @@ RestBreakWindow::install_info_panel()
       get_position(x, y);
       move(x - width_delta, y - height_delta);
     }
+  else
+    {
+      center();
+    }
 }
 
 #endif

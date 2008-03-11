@@ -7,7 +7,17 @@ http://www.workrave.org
 
 * Workrave 1.8.6
 
+** Many small bugfixes
+
+*** Fixed transparency of tray icon on Linux.
+
 ** New alternate activity moniting for Windows (Ray Satiro)
+
+** Additional tooltips (Ray Satiro)
+
+** Improved 64 bit support (Ray Satiro)
+
+** Improved Vista support.
 
 ** Exercises are now randomized
 
