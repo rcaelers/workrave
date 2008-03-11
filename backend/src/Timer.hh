@@ -167,6 +167,7 @@ public:
   // State serialization.
   std::string serialize_state() const;
   bool deserialize_state(std::string state);
+  void set_state(int elapsed, int idle, int overdue = -1);
 
   void set_state_data(const TimerStateData &data);
   void get_state_data(TimerStateData &data);

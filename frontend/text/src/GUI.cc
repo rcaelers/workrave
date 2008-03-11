@@ -52,8 +52,9 @@ static const char rcsid[] = "$Id$";
 
 #ifdef PLATFORM_OS_WIN32
 #include "crashlog.h"
-#include "W32Compat.hh"
 #endif
+
+#include <glib-object.h>
 
 GUI *GUI::instance = NULL;
 

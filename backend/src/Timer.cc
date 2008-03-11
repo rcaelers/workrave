@@ -935,6 +935,41 @@ Timer::deserialize_state(std::string state)
 }
 
 void
+Timer::set_state(int elapsed, int idle, int overdue)
+{
+  TRACE_ENTER("Timer::set_state");
+
+  elapsed_time = elapsed;
+  elapsed_idle_time = idle;
+
+  if (overdue >= 0)
+    {
+      total_overdue_time = overdue;
+    }
+  
+  if (last_start_time != 0)
+    {
+      last_start_time = core->get_time();
+    }
+
+  if (last_stop_time != 0)
+    {
+      last_stop_time = core->get_time();
+    }
+
+  if (elapsed_idle_time > autoreset_interval && autoreset_enabled)
+    {
+      elapsed_idle_time = autoreset_interval;
+    }
+
+  compute_next_reset_time();
+  compute_next_limit_time();
+  compute_next_predicate_reset_time();
+
+  TRACE_EXIT();
+}
+
+void
 Timer::set_values(int elapsed, int idle)
 {
   elapsed_time = elapsed;

@@ -29,6 +29,7 @@
 #include <string.h>
 
 #include "IStatistics.hh"
+#include "IInputMonitorListener.hh"
 #include "Mutex.hh"
 
 // Forward declarion of external interface.
@@ -48,9 +49,6 @@ using namespace std;
 #include "IDistributionClientMessage.hh"
 #include "PacketBuffer.hh"
 #endif
-
-#include "IStatistics.hh"
-#include "IInputMonitorListener.hh"
 
 class Statistics :
   public IStatistics,

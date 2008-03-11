@@ -26,8 +26,10 @@ static const char rcsid[] = "$Id: Core.cc 1288 2007-08-24 09:22:23Z rcaelers $";
 #include <string>
 
 #include "CoreConfig.hh"
+#include "ICore.hh"
 
 using namespace std;
+using namespace workrave;
 
 const string CoreConfig::CFG_KEY_TIMERS                    = "timers";
 const string CoreConfig::CFG_KEY_TIMER                     = "timers/%b";
@@ -64,3 +66,21 @@ const string CoreConfig::CFG_KEY_DISTRIBUTION_TCP_USERNAME = "distribution/usern
 const string CoreConfig::CFG_KEY_DISTRIBUTION_TCP_PASSWORD = "distribution/password";
 const string CoreConfig::CFG_KEY_DISTRIBUTION_TCP_ATTEMPTS = "distribution/reconnect_attempts";
 const string CoreConfig::CFG_KEY_DISTRIBUTION_TCP_INTERVAL = "distribution/reconnect_interval";
+
+
+bool
+CoreConfig::match(const std::string &str, const std::string &key, workrave::BreakId &id)
+{
+  bool ret = false;
+  
+  for (int i = 0; !ret && i < BREAK_ID_SIZEOF; i++)
+    {
+      if (key % BreakId(i) == str)
+        {
+          id = BreakId(i);
+          ret = true;
+        }
+    }
+
+  return ret;
+}

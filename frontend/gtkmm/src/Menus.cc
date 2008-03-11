@@ -124,7 +124,6 @@ Menus::get_instance()
 }
 
 
-
 void
 Menus::init(MainWindow *main_window, AppletWindow *applet_window)
 {
