@@ -796,6 +796,7 @@ GUI::init_gui()
       dbus->connect("/org/workrave/Workrave/UI",
                     "org.workrave.ControlInterface",
                     menus);
+      
     }
 #endif
   
@@ -827,6 +828,8 @@ GUI::init_dbus()
       
       try
         {
+          dbus->register_service("org.workrave.Workrave.Activator");
+          
           dbus->register_object_path("/org/workrave/Workrave/UI");
 
           extern void init_DBusGUI(DBus *dbus);

@@ -136,17 +136,17 @@ workrave_dbus_server_init()
                                       G_OBJECT(g_applet));
 
   g_applet->support = dbus_g_proxy_new_for_name(g_connection,
-                                                "org.workrave.Workrave",
+                                                "org.workrave.Workrave.Activator",
                                                 "/org/workrave/Workrave/UI",
                                                 "org.workrave.GnomeAppletSupportInterface");
 
   g_applet->ui = dbus_g_proxy_new_for_name(g_connection,
-                                           "org.workrave.Workrave",
+                                           "org.workrave.Workrave.Activator",
                                            "/org/workrave/Workrave/UI",
                                            "org.workrave.ControlInterface");
 
   g_applet->core = dbus_g_proxy_new_for_name(g_connection,
-                                             "org.workrave.Workrave",
+                                             "org.workrave.Workrave.Activator",
                                              "/org/workrave/Workrave/Core",
                                              "org.workrave.CoreInterface");
 }

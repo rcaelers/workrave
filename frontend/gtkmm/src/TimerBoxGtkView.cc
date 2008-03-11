@@ -167,7 +167,7 @@ TimerBoxGtkView::init_widgets()
   bars = new TimeBar*[BREAK_ID_SIZEOF];
 
   Glib::RefPtr<Gtk::SizeGroup> size_group
-    = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_HORIZONTAL);
+    = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_BOTH);
 
   const char *icons[] = { "timer-micro-break.png", "timer-rest-break.png", "timer-daily.png" };
   for (int count = 0; count < BREAK_ID_SIZEOF; count++)
