@@ -291,8 +291,6 @@ PreludeWindow::refresh()
     }
   time_bar->set_text(s);
   time_bar->update();
-
-  GtkUtil::center_window(*this, head);
   
 #if defined(PLATFORM_OS_WIN32)
 // Vista GTK phantom toplevel parent kludge:

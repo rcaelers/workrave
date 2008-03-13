@@ -24,7 +24,7 @@
   </interface>
 
   <interface name="org.workrave.GnomeAppletSupportInterface" csymbol="GnomeAppletWindow"
-             condition="HAVE_GNOME">
+             condition="defined(HAVE_GNOME)">
     <import>
       <include name="gdk/gdkcolor.h"/>
       <include name="GnomeAppletWindow.hh"/>
