@@ -103,6 +103,7 @@ class InterfaceNode(NodeBase):
         self.name = node.getAttribute('name')
         self.csymbol = node.getAttribute('csymbol')
         self.qname = self.name.replace('.','_')
+        self.condition = node.getAttribute('condition')
         
         for child in node.childNodes:
             if child.nodeType == node.ELEMENT_NODE:

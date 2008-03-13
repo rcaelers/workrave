@@ -44,7 +44,7 @@ public:
 
   void start();
   void set_progress(int value, int max_value);
-  void refresh();
+  void update_break_window();
 
 protected:
   Gtk::Widget *create_gui();

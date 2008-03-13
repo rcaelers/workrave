@@ -85,7 +85,8 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
          break_flags(break_flags),
          frame(NULL),
          break_response(NULL),
-         gui(NULL)
+         gui(NULL),
+         visible(false)
 {
   this->break_id = break_id;
 
@@ -472,24 +473,7 @@ BreakWindow::start()
   TRACE_ENTER("BreakWindow::start");
 
   init_gui();
-  center();
-#ifdef PLATFORM_OS_WIN32
-  if (desktop_window)
-    desktop_window->set_visible(true);
-#endif
-  show_all();
 
-  // Set window hints.
-  WindowHints::set_skip_winlist(this, true);
-  WindowHints::set_always_on_top(this, true);
-  raise();
-
-#ifdef CAUSES_FVWM_FOCUS_PROBLEMS
-  present(); // After grab() please (Windows)
-#endif
-
-  // In case the show_all resized the window...
-  center();
   TRACE_EXIT();
 }
 
@@ -505,6 +489,8 @@ BreakWindow::stop()
     }
 
   hide_all();
+  visible = false;
+  
 #ifdef PLATFORM_OS_WIN32
   if (desktop_window)
     desktop_window->set_visible(false);
@@ -530,6 +516,28 @@ BreakWindow::destroy()
 void
 BreakWindow::refresh()
 {
+  update_break_window();
+  
+  if (!visible)
+    {
+      center();
+#ifdef PLATFORM_OS_WIN32
+      if (desktop_window)
+        desktop_window->set_visible(true);
+#endif
+      show_all();
+
+      // Set window hints.
+      WindowHints::set_skip_winlist(this, true);
+      WindowHints::set_always_on_top(this, true);
+      raise();
+
+      // In case the show_all resized the window...
+      center();
+
+      visible = true;
+    }
+  
 #ifdef PLATFORM_OS_WIN32
   if (block_mode != GUIConfig::BLOCK_MODE_NONE)
     {
@@ -546,3 +554,7 @@ BreakWindow::get_gdk_window()
 
 
 
+void
+BreakWindow::update_break_window()
+{
+}

@@ -50,7 +50,8 @@ MicroBreakWindow::MicroBreakWindow(HeadInfo &head, BreakFlags break_flags, GUICo
   BreakWindow(BREAK_ID_MICRO_BREAK, head, break_flags, mode),
   progress_value(0),
   progress_max_value(0),
-  is_flashing(false)
+  is_flashing(false),
+  fixed_size(false)
 {
   set_title(_("Micro-break"));
 }
@@ -141,14 +142,6 @@ MicroBreakWindow::~MicroBreakWindow()
 
 
 
-//! Updates the main window.
-void
-MicroBreakWindow::heartbeat()
-{
-  refresh();
-}
-
-
 Gtk::Button *
 MicroBreakWindow::create_restbreaknow_button(bool label)
 {
@@ -175,7 +168,7 @@ MicroBreakWindow::on_restbreaknow_button_clicked()
 
 
 void
-MicroBreakWindow::refresh_time_bar()
+MicroBreakWindow::update_time_bar()
 {
   TRACE_ENTER("MicroBreakWindow::refresh_time_bar");
 
@@ -212,7 +205,7 @@ MicroBreakWindow::refresh_time_bar()
 
 
 void
-MicroBreakWindow::refresh_label()
+MicroBreakWindow::update_label()
 {
   TRACE_ENTER("MicroBreakWindow::refresh_label");
 
@@ -285,12 +278,10 @@ MicroBreakWindow::refresh_label()
 
 //! Refresh window.
 void
-MicroBreakWindow::refresh()
+MicroBreakWindow::update_break_window()
 {
-  BreakWindow::refresh();
-
-  refresh_time_bar();
-  refresh_label();
+  update_time_bar();
+  update_label();
 
   if (!fixed_size)
     {
@@ -299,6 +290,7 @@ MicroBreakWindow::refresh()
       Gtk::Requisition size = label->size_request();
       label->set_size_request(size.width, size.height);
       fixed_size = true;
+      center();
     }
 }
 

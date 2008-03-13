@@ -23,7 +23,8 @@
     <method name="About"                 csymbol="on_menu_about"/>
   </interface>
 
-  <interface name="org.workrave.GnomeAppletSupportInterface" csymbol="GnomeAppletWindow">
+  <interface name="org.workrave.GnomeAppletSupportInterface" csymbol="GnomeAppletWindow"
+             condition="HAVE_GNOME">
     <import>
       <include name="gdk/gdkcolor.h"/>
       <include name="GnomeAppletWindow.hh"/>

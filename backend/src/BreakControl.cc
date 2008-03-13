@@ -301,7 +301,6 @@ BreakControl::goto_stage(BreakStage stage)
 
         // Start the break.
         break_window_start();
-        application->refresh_break_window();
 
         // Play sound
         if (!user_initiated)
@@ -611,8 +610,9 @@ BreakControl::break_window_start()
   TRACE_ENTER_MSG("BreakControl::break_window_start", break_id);
 
   application->start_break_window(break_id, user_initiated);
-
   update_break_window();
+  application->refresh_break_window();
+
   TRACE_EXIT();
 }
 

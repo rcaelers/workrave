@@ -75,6 +75,8 @@ public:
   virtual void stop();
   virtual void destroy();
   virtual void refresh();
+
+  virtual void update_break_window();
   
   Glib::RefPtr<Gdk::Window> get_gdk_window();
 
@@ -119,6 +121,9 @@ private:
   //! GUI
   Gtk::Widget *gui;
 
+  //! Break windows visible?
+  bool visible;
+  
 #ifdef PLATFORM_OS_WIN32
   DesktopWindow *desktop_window;
 #endif

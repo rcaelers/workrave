@@ -37,6 +37,10 @@ using namespace std;
 
 #for interface in $model.interfaces
 
+#if interface.condition != ''
+\#if $interface.condition
+#end if
+
 #for imp in interface.imports
 #for ns in imp.namespaces
 using namespace $ns;
@@ -534,11 +538,21 @@ DBusIntrospect ${interface.qname}_Stub::signal_introspect[] = {
   }
 };
 
+#if interface.condition != ''
+ \#endif // $interface.condition
+#end if
+ 
 #end for
 
 void init_${model.name}(DBus *dbus)
 {
   #for interface in $model.interfaces
+  #if interface.condition != ''
+\#if $interface.condition
+  #end if
   dbus->register_binding("$interface.name", new ${interface.qname}_Stub(dbus));
+  #if interface.condition != ''
+\#endif // $interface.condition
+  #end if
   #end for
 }

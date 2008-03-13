@@ -137,7 +137,8 @@ RestBreakWindow::start()
 #else
   set_ignore_activity(false);
 #endif
-  refresh();
+  
+  update_break_window();
 
   BreakWindow::start();
 
@@ -147,10 +148,8 @@ RestBreakWindow::start()
 
 //! Period timer callback.
 void
-RestBreakWindow::refresh()
+RestBreakWindow::update_break_window()
 {
-  BreakWindow::refresh();
-
   draw_time_bar();
 }
 

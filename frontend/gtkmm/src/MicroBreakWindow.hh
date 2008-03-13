@@ -55,9 +55,9 @@ protected:
   void on_restbreaknow_button_clicked();
 
 private:
-  void refresh();
-  void refresh_time_bar();
-  void refresh_label();
+  void update_break_window();
+  void update_time_bar();
+  void update_label();
   Gtk::Button *create_restbreaknow_button(bool label);
 
 private:

@@ -37,6 +37,10 @@ using namespace workrave;
 
 #for interface in $model.interfaces
 
+#if interface.condition != ''
+\#if $interface.condition
+#end if
+
 #for imp in interface.imports
 #for ns in imp.namespaces
 using namespace $ns;
@@ -731,5 +735,9 @@ void ${interface.qname}_Impl::${method.qname}_fcn(DBusPendingCall *pending, void
 
 #end for
 
+
+#if interface.condition != ''
+\#endif
+#end if                                                          
 
 #end for

@@ -220,11 +220,14 @@ PreludeWindow::start()
 // #endif
 
   refresh();
+
   GtkUtil::center_window(*this, head);
   show_all();
 
+  WindowHints::set_always_on_top(this, true);
+  
   time_bar->set_bar_color(TimeBar::COLOR_ID_OVERDUE);
-
+  
   TRACE_EXIT();
 }
 
@@ -288,6 +291,8 @@ PreludeWindow::refresh()
     }
   time_bar->set_text(s);
   time_bar->update();
+
+  GtkUtil::center_window(*this, head);
   
 #if defined(PLATFORM_OS_WIN32)
 // Vista GTK phantom toplevel parent kludge:

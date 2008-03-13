@@ -8,6 +8,10 @@
 
 #for $interface in $model.interfaces
 
+#if interface.condition != ''
+\#if $interface.condition
+#end if
+
 #for imp in interface.imports
 #for include in imp.includes
 \#include "${include}"
@@ -40,5 +44,9 @@ public:
 };
 
 #end for
+
+#if interface.condition != ''
+\#endif // $interface.condition
+#end if
 
 \#endif // DBUS__HH
