@@ -1,6 +1,6 @@
 // StatisticsDialog.cc --- Statistics dialog
 //
-// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -67,6 +67,11 @@ StatisticsDialog::StatisticsDialog()
   ICore *core = CoreFactory::get_core();
   statistics = core->get_statistics();
 
+  for (int i = 0; i < 5; i++)
+    {
+      activity_labels[i] = NULL;
+    }
+  
   init_gui();
   display_calendar_date();
 }
@@ -92,9 +97,13 @@ StatisticsDialog::run()
 void
 StatisticsDialog::init_gui()
 {
+#if !defined(PLATFORM_OS_OSX)
   Gtk::Notebook *tnotebook = manage(new Gtk::Notebook());
   tnotebook->set_tab_pos(Gtk::POS_TOP);
-
+#else
+  Gtk::HBox *tnotebook= manage(new Gtk::HBox(false, 6));
+#endif
+  
   // Calendar
   calendar = manage(new Gtk::Calendar());
   calendar->signal_month_changed().connect(sigc::mem_fun(*this, &StatisticsDialog::on_calendar_month_changed));
@@ -148,15 +157,20 @@ StatisticsDialog::init_gui()
   hbox->pack_start(*navbox, true, true, 0);
 
   create_break_page(tnotebook);
+#if !defined(PLATFORM_OS_OSX)
+  // No details activity statistics on OS X..
   create_activity_page(tnotebook);
-
+#endif
 
   tnotebook->show_all();
-  tnotebook->set_current_page(0);
 
+#if !defined(PLATFORM_OS_OSX)
+  tnotebook->set_current_page(0);
+#endif
+  
   get_vbox()->pack_start(*hbox, true, true, 0);
 
-#ifdef PLATFORM_OS_UNIX
+#ifdef PLATFORM_OS_OSX
   GtkUtil::set_wmclass(*this, "Statistics");
 #endif
 
@@ -171,7 +185,7 @@ StatisticsDialog::init_gui()
 
 
 void
-StatisticsDialog::create_break_page(Gtk::Notebook *tnotebook)
+StatisticsDialog::create_break_page(Gtk::Widget *tnotebook)
 {
   Gtk::HBox *box = manage(new Gtk::HBox(false, 3));
   Gtk::Label *lab = manage(new Gtk::Label(_("Breaks")));
@@ -276,12 +290,17 @@ StatisticsDialog::create_break_page(Gtk::Notebook *tnotebook)
     }
 
   box->show_all();
-  tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*table, *box));
+  
+#if !defined(PLATFORM_OS_OSX)
+  ((Gtk::Notebook *)tnotebook)->pages().push_back(Gtk::Notebook_Helpers::TabElem(*table, *box));
+#else
+  ((Gtk::HBox *)tnotebook)->pack_start(*table, true, true, 0);
+#endif
 }
 
 
 void
-StatisticsDialog::create_activity_page(Gtk::Notebook *tnotebook)
+StatisticsDialog::create_activity_page(Gtk::Widget *tnotebook)
 {
   Gtk::HBox *box = manage(new Gtk::HBox(false, 3));
   Gtk::Label *lab = manage(new Gtk::Label(_("Activity")));
@@ -329,7 +348,7 @@ StatisticsDialog::create_activity_page(Gtk::Notebook *tnotebook)
     }
 
   box->show_all();
-  tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*table, *box));
+  ((Gtk::Notebook *)tnotebook)->pages().push_back(Gtk::Notebook_Helpers::TabElem(*table, *box));
 }
 
 
@@ -413,32 +432,36 @@ StatisticsDialog::display_statistics(IStatistics::DailyStats *stats)
 
   stringstream ss;
 
-  value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_MOVEMENT_TIME];
-  if (value > 24 * 60 * 60) {
-    value = 0;
-  }
-  activity_labels[0]->set_text(Text::time_to_string(value));
+  if (activity_labels[0] != NULL)
+    {
+      // Label not available is OS X
+      
+      value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_MOVEMENT_TIME];
+      if (value > 24 * 60 * 60) {
+        value = 0;
+      }
+      activity_labels[0]->set_text(Text::time_to_string(value));
 
-  value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_MOUSE_MOVEMENT];
-  ss.str("");
-  stream_distance(ss, value);
-  activity_labels[1]->set_text(ss.str());
+      value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_MOUSE_MOVEMENT];
+      ss.str("");
+      stream_distance(ss, value);
+      activity_labels[1]->set_text(ss.str());
 
-  value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_CLICK_MOVEMENT];
-  ss.str("");
-  stream_distance(ss, value);
-  activity_labels[2]->set_text(ss.str());
+      value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_CLICK_MOVEMENT];
+      ss.str("");
+      stream_distance(ss, value);
+      activity_labels[2]->set_text(ss.str());
 
-  value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_CLICKS];
-  ss.str("");
-  ss << value;
-  activity_labels[3]->set_text(ss.str());
+      value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_CLICKS];
+      ss.str("");
+      ss << value;
+      activity_labels[3]->set_text(ss.str());
 
-  value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_KEYSTROKES];
-  ss.str("");
-  ss << value;
-  activity_labels[4]->set_text(ss.str());
-
+      value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_KEYSTROKES];
+      ss.str("");
+      ss << value;
+      activity_labels[4]->set_text(ss.str());
+    }
 }
 
 
@@ -458,7 +481,10 @@ StatisticsDialog::clear_display_statistics()
     }
   for (int i = 0; i <= 4; i++)
     {
-      activity_labels[i]->set_text("");
+      if (activity_labels[i] != NULL)
+        {
+          activity_labels[i]->set_text("");
+        }
     }
 }
 

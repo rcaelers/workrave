@@ -1,6 +1,6 @@
 // PreferencesDialog.hh --- Statistics Dialog
 //
-// Copyright (C) 2002, 2003, 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2006, 2007, 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@ namespace Gtk
   class Button;
   class Calendar;
   class Notebook;
+  class Widget;
 }
 
 using namespace workrave;
@@ -82,8 +83,8 @@ private:
   void init_gui();
   void select_day(int day);
 
-  void create_break_page(Gtk::Notebook *tnotebook);
-  void create_activity_page(Gtk::Notebook *tnotebook);
+  void create_break_page(Gtk::Widget *tnotebook);
+  void create_activity_page(Gtk::Widget *tnotebook);
 
   void stream_distance(std::stringstream &stream, int pixels);
   void get_calendar_day_index(int &idx, int &next, int &prev);
