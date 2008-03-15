@@ -111,8 +111,8 @@ DataConnector::connect(const string &setting,
       mw.connection = connection;
 
       connection->set(flags, setting);
-      connection->init();
       connection->intercept.connect(slot);
+      connection->init();
 
       connections.push_back(mw);
     }

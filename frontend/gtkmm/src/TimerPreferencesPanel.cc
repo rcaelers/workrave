@@ -69,6 +69,7 @@ TimerPreferencesPanel::TimerPreferencesPanel
   enabled_cb->add(*enabled_lab);
   enabled_cb->signal_toggled().connect(sigc::mem_fun(*this, &TimerPreferencesPanel::on_enabled_toggled));
 
+
   HigCategoriesPanel *categories = manage(new HigCategoriesPanel());;
 
   Gtk::Widget *prelude_frame = manage(create_prelude_panel());
@@ -80,7 +81,7 @@ TimerPreferencesPanel::TimerPreferencesPanel
   categories->add(*opts_frame);
 
   enable_buttons();
-  set_prelude_sensitivity();
+  //set_prelude_sensitivity();
 
   // Overall box
   box->pack_start(*categories, false, false, 0);
@@ -89,9 +90,9 @@ TimerPreferencesPanel::TimerPreferencesPanel
   pack_start(*enabled_cb, false, false, 0);
   pack_start(*box, false, false, 0);
 
-  set_border_width(12);
-
   connector->connect(CoreConfig::CFG_KEY_BREAK_ENABLED % break_id, dc::wrap(enabled_cb));
+  
+  set_border_width(12);
 }
 
 
@@ -245,6 +246,13 @@ TimerPreferencesPanel::set_prelude_sensitivity()
 bool
 TimerPreferencesPanel::on_preludes_changed(const std::string &key, bool write)
 {
+  static bool inside = false;
+
+  if (inside)
+    return true;
+
+  inside = true;
+  
   IConfigurator *config = CoreFactory::get_configurator();
   if (write)
     {
@@ -273,10 +281,6 @@ TimerPreferencesPanel::on_preludes_changed(const std::string &key, bool write)
       bool ok = config->get_value(key, value);
       if (ok)
         {
-          bool s1 = prelude_cb->is_sensitive();
-          bool s2 = has_max_prelude_cb->is_sensitive();
-          bool s3 = max_prelude_spin->is_sensitive();
-
           if (value == -1)
             {
               prelude_cb->set_active(true);
@@ -294,11 +298,12 @@ TimerPreferencesPanel::on_preludes_changed(const std::string &key, bool write)
               max_prelude_adjustment.set_value(value);
             }
 
-          prelude_cb->set_sensitive(s1);
-          has_max_prelude_cb->set_sensitive(s2);
-          max_prelude_spin->set_sensitive(s3);
+          set_prelude_sensitivity();
         }
     }
+
+  inside = false;
+  
   return true;
 }
 
@@ -343,6 +348,7 @@ void
 TimerPreferencesPanel::on_enabled_toggled()
 {
   enable_buttons();
+  set_prelude_sensitivity();
 }
 
 
@@ -368,5 +374,5 @@ TimerPreferencesPanel::enable_buttons()
   if (auto_reset_tim != NULL)
     auto_reset_tim->set_sensitive(on);
   snooze_tim->set_sensitive(on);
-  max_prelude_spin->set_sensitive(on);
+  // max_prelude_spin->set_sensitive(on);
 }

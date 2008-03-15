@@ -407,7 +407,6 @@ X11InputMonitor::handle_button(XEvent *event)
 void
 X11InputMonitor::handle_xrecord_handle_key_event(XRecordInterceptData *data)
 {
-  TRACE_ENTER("X11InputMonitor::handle_xrecord_handle_key_event");
   xEvent *event = (xEvent *)data->data;
   XKeyEvent  kevent;
   KeySym   keysym;
@@ -417,10 +416,8 @@ X11InputMonitor::handle_xrecord_handle_key_event(XRecordInterceptData *data)
   kevent.display = x11_display;
   kevent.state = event->u.keyButtonPointer.state;
   kevent.keycode = event->u.u.detail;
-  TRACE_MSG("keycode "  << kevent.keycode);
   XLookupString(&kevent, buf, sizeof(buf), &keysym, 0);
   fire_keyboard(0, 0);
-  TRACE_EXIT();
 }
 
 void
