@@ -479,7 +479,7 @@ GUI::init_nls()
   string language = GUIConfig::get_locale();
   if (language != "")
     {
-      setenv("LANGUAGE", language.c_str(), 1);
+      g_setenv("LANGUAGE", language.c_str(), 1);
     }
 
 #  if !defined(HAVE_GNOME)

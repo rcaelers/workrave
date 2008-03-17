@@ -490,7 +490,7 @@ Menus::on_preferences_response(int response)
   string language = GUIConfig::get_locale();
   if (language != "")
     {
-      setenv("LANGUAGE", language.c_str(), 1);
+      g_setenv("LANGUAGE", language.c_str(), 1);
 
       {
         extern int  _nl_msg_cat_cntr;
@@ -499,7 +499,7 @@ Menus::on_preferences_response(int response)
     }
   else
     {
-      unsetenv("LANGUAGE");
+      g_unsetenv("LANGUAGE");
       {
         extern int  _nl_msg_cat_cntr;
         ++_nl_msg_cat_cntr;

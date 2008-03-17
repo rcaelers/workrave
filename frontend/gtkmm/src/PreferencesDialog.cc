@@ -195,7 +195,7 @@ PreferencesDialog::create_gui_page()
   StringUtil::split(string(ALL_LINGUAS), ' ', all_linguas);
   all_linguas.push_back("en");
   
-  char *lang_env = getenv("LANGUAGE");
+  const char *lang_env = g_getenv("LANGUAGE");
   if (lang_env != NULL)
     {
       lang_env = strdup(lang_env);
@@ -240,7 +240,7 @@ PreferencesDialog::create_gui_page()
           loc_country = dgettext("iso_3166", country.c_str());
         }
       
-      setenv("LANGUAGE", code.c_str(), 1);
+      g_setenv("LANGUAGE", code.c_str(), 1);
       ++_nl_msg_cat_cntr;
       
       native_lang = dgettext("iso_639", lang.c_str());
@@ -251,11 +251,11 @@ PreferencesDialog::create_gui_page()
               
       if (lang_env != NULL)
         {
-          setenv("LANGUAGE", lang_env, 1);
+          g_setenv("LANGUAGE", lang_env, 1);
         }
       else
         {
-          unsetenv("LANGUAGE");
+          g_unsetenv("LANGUAGE");
         }
       ++_nl_msg_cat_cntr;
       
@@ -288,7 +288,7 @@ PreferencesDialog::create_gui_page()
 
   if (lang_env != NULL)
     {
-      free(lang_env);
+      free((void*)lang_env);
     }
   
   language_button->set_history(locale_idx);
