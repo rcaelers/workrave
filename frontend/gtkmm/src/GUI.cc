@@ -512,7 +512,15 @@ GUI::init_nls()
   setlocale(LC_ALL, "");
 #  endif
 
+  bindtextdomain("gtk20", locale_dir);
+  bindtextdomain("iso_3166", locale_dir);
+  bindtextdomain("iso_639", locale_dir);
+  bindtextdomain("glib20", locale_dir);
   bindtextdomain(PACKAGE, locale_dir);
+  bind_textdomain_codeset("gk20", "UTF-8");
+  bind_textdomain_codeset("glib20", "UTF-8");
+  bind_textdomain_codeset("iso_3166", "UTF-8");
+  bind_textdomain_codeset("iso_639", "UTF-8");
   bind_textdomain_codeset(PACKAGE, "UTF-8");
   textdomain(PACKAGE);
 #endif
