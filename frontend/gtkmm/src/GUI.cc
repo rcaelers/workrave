@@ -768,9 +768,6 @@ GUI::init_gui()
   // The main status window.
   main_window = new MainWindow();
 
-  // Status icon
-  status_icon = new StatusIcon(*main_window);
-
   // The applet window.
   applet_control = new AppletControl();
   applet_control->init();
@@ -785,6 +782,9 @@ GUI::init_gui()
 
   menus->init(main_window, applet_window);
   menus->resync();
+
+  // Status icon
+  status_icon = new StatusIcon(*main_window);
   
 #ifdef HAVE_DBUS
   DBus *dbus = CoreFactory::get_dbus();
