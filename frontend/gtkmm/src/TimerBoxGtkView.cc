@@ -30,12 +30,13 @@ static const char rcsid[] = "$Id$";
 
 #include <gtkmm/image.h>
 #include <gtkmm/sizegroup.h>
-#include <gtkmm/button.h>
+//#include <gtkmm/button.h>
 #include <gtkmm/eventbox.h>
 
 #include "nls.h"
 #include "debug.hh"
 
+#include "EventButton.hh"
 #include "TimerBoxGtkView.hh"
 #include "TimeBar.hh"
 #include "Util.hh"
@@ -179,7 +180,7 @@ TimerBoxGtkView::init_widgets()
         {
           img->set_padding(0,0);
 
-          Gtk::Button *b = new Gtk::Button();
+          EventButton *b = new EventButton();
           b->set_relief(Gtk::RELIEF_NONE);
           b->set_border_width(0);
           b->add(*manage(img));
@@ -189,7 +190,10 @@ TimerBoxGtkView::init_widgets()
           tooltips->enable();
 
           Menus *menus = Menus::get_instance();
+
           b->signal_clicked().connect(sigc::mem_fun(*menus, &Menus::on_menu_restbreak_now));
+          b->button_pressed.connect(sigc::mem_fun(*this,
+                                                  &TimerBoxGtkView::on_restbreak_button_press_event));
           w = b;
         }
       else
@@ -515,4 +519,21 @@ TimerBoxGtkView::set_enabled(bool enabled)
 {
   (void) enabled;
   // Status window disappears, no need to do anything here.
+}
+
+
+//! User pressed some mouse button in the main window.
+bool
+TimerBoxGtkView::on_restbreak_button_press_event(int button)
+{
+  bool ret = false;
+
+  if (button == 3)
+    {
+      Menus::get_instance()->popup(Menus::MENU_APPLET,
+                                   0 /*event->button */, 0);
+      ret = true;
+    }
+
+  return ret;
 }

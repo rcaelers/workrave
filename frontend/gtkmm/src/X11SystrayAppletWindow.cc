@@ -86,7 +86,7 @@ X11SystrayAppletWindow::notify_callback()
   TRACE_ENTER("X11SystrayAppletWindow::notify_callback");
   if (tray_icon != NULL && embedded)
     {
-      GtkOrientation o = gtk_tray_icon_get_orientation(tray_icon);
+      GtkOrientation o = wrgtk_tray_icon_get_orientation(tray_icon);
       Orientation orientation;
 
       if (o != GTK_ORIENTATION_VERTICAL)
@@ -120,7 +120,7 @@ X11SystrayAppletWindow::activate_applet()
       return APPLET_STATE_VISIBLE;
     }
 
-  tray_icon = gtk_tray_icon_new("Workrave Tray Icon");
+  tray_icon = wrgtk_tray_icon_new("Workrave Tray Icon");
   AppletState ret =  APPLET_STATE_DISABLED;
 
   if (tray_icon != NULL)
@@ -235,7 +235,7 @@ X11SystrayAppletWindow::on_embedded()
 
   if (applet_active)
     {
-      GtkOrientation o = gtk_tray_icon_get_orientation(tray_icon);
+      GtkOrientation o = wrgtk_tray_icon_get_orientation(tray_icon);
       Orientation orientation;
 
       if (o == GTK_ORIENTATION_VERTICAL)
@@ -305,7 +305,7 @@ X11SystrayAppletWindow::on_size_allocate(Gtk::Allocation& allocation)
                 allocation.get_y() << " " <<
                 allocation.get_width() << " " <<
                 allocation.get_height());
-      GtkOrientation o = gtk_tray_icon_get_orientation(tray_icon);
+      GtkOrientation o = wrgtk_tray_icon_get_orientation(tray_icon);
       Orientation orientation;
   
       if (o == GTK_ORIENTATION_VERTICAL)

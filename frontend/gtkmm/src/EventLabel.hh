@@ -1,6 +1,6 @@
 // EventLabel.hh --- Label that receives events.
 //
-// Copyright (C) 2003, 2004, 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2003, 2004, 2007, 2008 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -20,7 +20,7 @@
 //
 
 #ifndef EVENTLABEL_HH
-#define EVEVTLABEL_HH
+#define EVENTLABEL_HH
 
 #include <gtkmm/label.h>
 

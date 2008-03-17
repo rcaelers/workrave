@@ -1,4 +1,4 @@
-// EventImage.hh --- Image that receives events.
+// EventLabel.cc ---
 //
 // Copyright (C) 2003, 2004, 2007, 2008 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
@@ -16,36 +16,31 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-// $Id$
-//
 
-#ifndef EVENTIMAGE_HH
-#define EVENTIMAGE_HH
+static const char rcsid[] = "$Id: EventLabel.cc 1351 2007-10-14 20:56:54Z rcaelers $";
 
-#include <gtkmm/image.h>
+#include "preinclude.h"
 
-class EventImage : public Gtk::Image
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "debug.hh"
+
+#include "EventButton.hh"
+
+
+//! User pressed some mouse button in the main window.
+bool
+EventButton::on_button_press_event(GdkEventButton *event)
 {
-public:
-  EventImage()
-  {
-  }
-
-  EventImage(const Glib::ustring& file, bool mnemonic = false) :
-    Gtk::Image(file)
-  {
-    (void) mnemonic;
-  }
-
-private:
-  void on_realize();
-  void on_unrealize();
-  bool on_map_event(GdkEventAny *event);
-  bool on_unmap_event(GdkEventAny *event);
-  void on_size_allocate(Gtk::Allocation &allocation);
-
-  GdkWindow *event_window;
-};
-
-
-#endif // EVENTIMAGE_HH
+  bool handled = button_pressed.emit(event->button);
+  bool ret = true;
+  
+  if (!handled)
+    {
+      ret = Gtk::Button::on_button_press_event(event);
+    }
+  
+  return ret;
+}

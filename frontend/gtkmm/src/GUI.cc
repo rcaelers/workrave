@@ -768,10 +768,8 @@ GUI::init_gui()
   // The main status window.
   main_window = new MainWindow();
 
-#if defined(PLATFORM_OS_WIN32) || defined(PLATFORM_OS_OSX)
   // Status icon
   status_icon = new StatusIcon(*main_window);
-#endif
 
   // The applet window.
   applet_control = new AppletControl();
@@ -891,12 +889,11 @@ GUI::core_event_notify(CoreEvent event)
 void
 GUI::core_event_operation_mode_changed(const OperationMode m)
 {
-#if defined(PLATFORM_OS_WIN32) || defined(PLATFORM_OS_OSX)
   if (status_icon)
-    status_icon->set_operation_mode(m);
-#else
-  (void) m;
-#endif
+    {
+      status_icon->set_operation_mode(m);
+    }
+
   menus->resync();
 }
 

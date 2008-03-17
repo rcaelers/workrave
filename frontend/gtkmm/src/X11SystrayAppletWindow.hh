@@ -77,7 +77,7 @@ private:
   AppletControl *control;
 
   //! The tray icon
-  GtkTrayIcon *tray_icon;
+  WRGtkTrayIcon *tray_icon;
 
 private:
   AppletState activate_applet();

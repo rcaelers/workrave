@@ -48,7 +48,7 @@ endif
 sourcesx = 		X11SystrayAppletWindow.cc gtktrayicon.c
 
 # Additional Win32 sources.
-sourceswin32 = 		resource.rc StatusIcon.cc
+sourceswin32 = 		resource.rc
 
 # Additional distribution sources.
 DISTRIBUTION_HOME = 	$(top_srcdir)/frontend/plugin/distribution
@@ -131,7 +131,7 @@ if PLATFORM_OS_OSX
 includesosx  = 		-I$(top_srcdir)/frontend/gtkmm/src/osx
 ldflags =	 	-L$(top_builddir)/frontend/gtkmm/src/osx
 OSXLIBS	=		${top_srcdir}/frontend/gtkmm/src/osx/libworkrave-frontend-gtkmm-osx.la
-extrasources +=		StatusIcon.cc
+extrasources +=		
 endif
 
 
@@ -200,6 +200,7 @@ workrave_SOURCES = \
 			GtkUtil.cc \
 			EventLabel.cc \
 			EventImage.cc \
+			EventButton.cc \
 			HeadInfo.cc \
 			Hig.cc \
 			IconListNotebook.cc \
@@ -220,6 +221,7 @@ workrave_SOURCES = \
 			Menus.cc \
 			main.cc \
 			MainGtkMenu.cc \
+			StatusIcon.cc \
 			${dbussources} \
 			$(extrasources)
 
