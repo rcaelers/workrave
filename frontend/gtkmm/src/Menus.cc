@@ -487,6 +487,25 @@ Menus::on_preferences_response(int response)
   assert(preferences_dialog != NULL);
   preferences_dialog->hide_all();
 
+  string language = GUIConfig::get_locale();
+  if (language != "")
+    {
+      setenv("LANGUAGE", language.c_str(), 1);
+
+      {
+        extern int  _nl_msg_cat_cntr;
+        ++_nl_msg_cat_cntr;
+      }
+    }
+  else
+    {
+      unsetenv("LANGUAGE");
+      {
+        extern int  _nl_msg_cat_cntr;
+        ++_nl_msg_cat_cntr;
+      }
+    }
+  
   CoreFactory::get_configurator()->save();
 
   delete preferences_dialog;

@@ -1,6 +1,6 @@
 // PreferencesDialog.hh --- Preferences Dialog
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,8 @@
 #define PREFERENCESDIALOG_HH
 
 #include <stdio.h>
+
+#include <vector>
 
 #include "preinclude.h"
 #include "Hig.hh"
@@ -59,13 +61,18 @@ private:
 
   void on_sound_changed();
   void on_block_changed();
+  void on_language_changed();
 
   Gtk::OptionMenu *sound_button;
   Gtk::OptionMenu *block_button;
+  Gtk::OptionMenu *language_button;
 
   // Mode before focus in.
   OperationMode mode;
   IconListNotebook notebook;
+
+  std::vector<std::string> all_linguas;
+
 };
 
 #endif // PREFERENCESWINDOW_HH

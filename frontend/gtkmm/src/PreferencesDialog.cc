@@ -35,6 +35,9 @@
 #include <gtkmm/menu.h>
 #include <gtkmm/optionmenu.h>
 
+#include "StringUtil.hh"
+#include "Locale.hh"
+
 #include "GtkUtil.hh"
 #include "Hig.hh"
 #include "MainWindow.hh"
@@ -152,15 +155,6 @@ PreferencesDialog::create_gui_page()
   sound_button->set_history(idx);
   sound_button->signal_changed().connect(sigc::mem_fun(*this, &PreferencesDialog::on_sound_changed));
 
-  // Tray start
-//   start_in_tray_cb
-//     = manage(new Gtk::CheckButton(_("Hide main window at start-up")));
-//   start_in_tray_cb->signal_toggled()
-//     .connect(sigc::mem_fun(*this,
-//      &PreferencesDialog::on_start_in_tray_toggled));
-//   start_in_tray_cb->set_active(MainWindow::get_start_in_tray());
-
-
   // Block types
   block_button  = manage(new Gtk::OptionMenu());
   Gtk::Menu *block_menu = manage(new Gtk::Menu());
@@ -188,11 +182,125 @@ PreferencesDialog::create_gui_page()
   block_button->signal_changed()
     .connect(sigc::mem_fun(*this, &PreferencesDialog::on_block_changed));
 
+
+  string current_locale = GUIConfig::get_locale();
+  
+  language_button  = manage(new Gtk::OptionMenu());
+  Gtk::Menu *language_menu = manage(new Gtk::Menu());
+  Gtk::Menu::MenuList &language_list = language_menu->items();
+  language_button->set_menu(*language_menu);
+  
+  language_list.push_back(Gtk::Menu_Helpers::MenuElem(_("System default")));
+
+  StringUtil::split(string(ALL_LINGUAS), ' ', all_linguas);
+  all_linguas.push_back("en");
+  
+  char *lang_env = getenv("LANGUAGE");
+  if (lang_env != NULL)
+    {
+      lang_env = strdup(lang_env);
+    }
+                          
+  int locale_idx = 0;
+  int count = 0;
+  for (vector<std::string>::iterator i = all_linguas.begin();
+       i != all_linguas.end(); i++)
+    {
+      extern int _nl_msg_cat_cntr;
+      
+      string code = *i;
+      string lang_code = code.substr(0,2);
+      string country_code;
+
+      if (code.length() >= 5)
+        {
+          country_code = code.substr(3,2);          
+        }
+
+      string lang;
+      string country;
+      string native_country;
+      string native_lang;
+      string loc_country;
+      string loc_lang;
+      
+      if (!Locale::get_language(lang_code, lang))
+        {
+          lang = code;
+        }
+      
+      if (Locale::get_country(country_code, country))
+        {
+          country = "";
+        }
+
+      loc_lang = dgettext("iso_639", lang.c_str());
+      if (country != "")
+        {
+          loc_country = dgettext("iso_3166", country.c_str());
+        }
+      
+      setenv("LANGUAGE", code.c_str(), 1);
+      ++_nl_msg_cat_cntr;
+      
+      native_lang = dgettext("iso_639", lang.c_str());
+      if (country != "")
+        {
+          native_country = dgettext("iso_3166", country.c_str());
+        }
+              
+      if (lang_env != NULL)
+        {
+          setenv("LANGUAGE", lang_env, 1);
+        }
+      else
+        {
+          unsetenv("LANGUAGE");
+        }
+      ++_nl_msg_cat_cntr;
+      
+      string txt = native_lang;
+      if (native_country != "")
+        {
+          txt += " (" + native_country + ")";
+        }
+
+      if (loc_lang != native_lang)
+        {
+          txt += " / " + loc_lang;
+          if (loc_country != "")
+            {
+              txt += " (" + country + ")";
+            }
+        }
+          
+      language_list.push_back(Gtk::Menu_Helpers::MenuElem(txt.c_str()));
+
+      if (current_locale == code)
+        {
+          locale_idx = count + 1;
+        }
+
+      
+      count++;
+    }
+
+
+  if (lang_env != NULL)
+    {
+      free(lang_env);
+    }
+  
+  language_button->set_history(locale_idx);
+  language_button->signal_changed()
+    .connect(sigc::mem_fun(*this, &PreferencesDialog::on_language_changed));
+  
   // Options
   HigCategoryPanel *panel = manage(new HigCategoryPanel(_("Options")));
-  //panel->add(*start_in_tray_cb);
+
   panel->add(_("Sound:"), *sound_button);
   panel->add(_("Block mode:"), *block_button);
+  panel->add(_("Language:"), *language_button);
   panel->set_border_width(12);
   return panel;
 }
@@ -283,6 +391,21 @@ PreferencesDialog::on_block_changed()
       m = GUIConfig::BLOCK_MODE_ALL;
     }
   GUIConfig::set_block_mode(m);
+}
+
+
+void
+PreferencesDialog::on_language_changed()
+{
+  int idx = language_button->get_history();
+  if (idx == 0)
+    {
+      GUIConfig::set_locale("");
+    }
+  else if (idx > 0 && idx <= (int)all_linguas.size())
+    {
+      GUIConfig::set_locale(all_linguas[idx - 1]);
+    }
 }
 
 

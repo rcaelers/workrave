@@ -19,7 +19,9 @@ AM_GNU_GETTEXT_VERSION()
 AM_MAINTAINER_MODE
 
 dnl Set of available languages.
+AC_SUBST(ALL_LINGUAS)
 ALL_LINGUAS="nl de eo pl da es zh_TW ru fr pt_BR nb lt cs he eu ca sv ja bg hu tr el sk zh_CN it sl"
+AC_DEFINE_UNQUOTED(ALL_LINGUAS, "$ALL_LINGUAS" ,[All available languages])
 
 dnl
 dnl Command line options.                           
@@ -609,7 +611,8 @@ HAVE_APP_TEXT=
 if test "x$config_text" = "xyes"; then
    AC_DEFINE(HAVE_APP_TEXT,,[Define if Text is available])
 fi
-                                
+
+
 dnl
 dnl Generate Makefile conditionals
 dnl

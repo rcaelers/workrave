@@ -189,10 +189,10 @@ GUI::main()
 
   Gtk::Main kit(argc, argv);
 
+  init_core();
+  init_nls();
   init_platform();
   init_debug();
-  init_nls();
-  init_core();
   init_sound_player();
   init_multihead();
   init_dbus();
@@ -351,6 +351,7 @@ GUI::init_platform()
   srand(time(NULL));
 }
 
+
 #if defined(HAVE_GNOME)
 void
 GUI::init_gnome()
@@ -475,6 +476,12 @@ void
 GUI::init_nls()
 {
 #if defined(ENABLE_NLS)
+  string language = GUIConfig::get_locale();
+  if (language != "")
+    {
+      setenv("LANGUAGE", language.c_str(), 1);
+    }
+
 #  if !defined(HAVE_GNOME)
   gtk_set_locale();
 #  endif

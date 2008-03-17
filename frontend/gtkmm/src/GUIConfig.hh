@@ -32,6 +32,7 @@ public:
   static const std::string CFG_KEY_BREAK_IGNORABLE;
   static const std::string CFG_KEY_BREAK_EXERCISES;
   static const std::string CFG_KEY_BLOCK_MODE;
+  static const std::string CFG_KEY_LOCALE;
 
   static void init();
 
@@ -39,6 +40,9 @@ public:
   static BlockMode get_block_mode();
   static void set_block_mode(BlockMode mode);
 
+  static std::string get_locale();
+  static void set_locale(std::string locale);
+  
   static bool get_ignorable(BreakId id);
   static void set_ignorable(BreakId id, bool b);
   static int get_number_of_exercises(BreakId id);

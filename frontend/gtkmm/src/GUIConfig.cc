@@ -38,6 +38,7 @@ using namespace std;
 const string GUIConfig::CFG_KEY_BREAK_IGNORABLE = "gui/breaks/%b/ignorable_break";
 const string GUIConfig::CFG_KEY_BREAK_EXERCISES = "gui/breaks/%b/exercises";
 const string GUIConfig::CFG_KEY_BLOCK_MODE      = "gui/breaks/block_mode";
+const string GUIConfig::CFG_KEY_LOCALE          = "gui/locale";
 
 //!
 void
@@ -119,6 +120,22 @@ GUIConfig::set_block_mode(BlockMode mode)
     ->set_value(CFG_KEY_BLOCK_MODE, int(mode));
 }
 
+std::string
+GUIConfig::get_locale()
+{
+  string ret = "";
+  CoreFactory::get_configurator()
+    ->get_value_with_default(CFG_KEY_LOCALE, ret, "");
+
+  return ret;
+}
+
+void
+GUIConfig::set_locale(std::string locale)
+{
+  CoreFactory::get_configurator()
+    ->set_value(CFG_KEY_LOCALE, locale);
+}
 
 
 string

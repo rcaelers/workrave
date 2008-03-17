@@ -21,6 +21,7 @@ libworkrave_common_la_SOURCES = \
 			GlibThread.cc \
 			Util.cc \
 			StringUtil.cc \
+			Locale.cc \
 			glibnls.c \
 			${dbussources}
 
@@ -38,4 +39,9 @@ INCLUDES = 		-W -DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -DWORKRAVE_DATADIR="\"
 			@WR_COMMON_INCLUDES@ \
 			@GLIB_CFLAGS@ @GNOME_CFLAGS@ @DBUS_CFLAGS@ 
 
-EXTRA_DIST = 		$(wildcard *.hh) $(wildcard *.h) $(wildcard *.icc) SConscript
+EXTRA_DIST = 		$(wildcard *.hh) $(wildcard *.h) $(wildcard *.icc) SConscript locale.inc
+
+Locale.cc:		locale.inc
+
+locale.inc:
+			python $(top_srcdir)/common/bin/create_locale.py > locale.inc
