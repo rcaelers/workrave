@@ -1,6 +1,6 @@
 // Exercise.cc --- Exercises
 //
-// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -48,7 +48,7 @@ struct ExerciseParser
   std::string cdata;
   ExerciseParser(std::list<Exercise> &exe);
 
-  const GList *i18n_languages;
+  const gchar * const *i18n_languages;  
 };
 
 static const gchar *
@@ -149,7 +149,7 @@ exercise_parser_start_element  (GMarkupParseContext *,
 
 /* Updates language dependent attribute */
 static void
-exercise_parse_update_i18n_attribute(const GList *languages,
+exercise_parse_update_i18n_attribute(const gchar * const *languages,
                                      std::string &cur_value, int &cur_rank,
                                      const std::string &new_value,
                                      const std::string &new_lang)
@@ -166,21 +166,17 @@ exercise_parse_update_i18n_attribute(const GList *languages,
           nl_len = 2;
         }
 
-      const GList *langs = languages;
-      r = 0;
-      while (langs)
+      for (r = 0; languages[r] != NULL; r++)
         {
-          const gchar *lang = (const gchar *) langs->data;
+          const gchar *lang = (const gchar *) languages[r];
 
           if (! strncmp(lang, nl, nl_len))
             {
               break;
             }
-          langs = langs->next;
-          r++;
         }
 
-      if (langs == NULL)
+      if (languages[r] == NULL)
         {
           // Language not found...
           if (cur_rank < 0)
@@ -195,7 +191,6 @@ exercise_parse_update_i18n_attribute(const GList *languages,
               cur_value = new_value;
               cur_rank = 9998;
             }
-
         }
       else
         {
@@ -267,11 +262,20 @@ exercise_parser_text (GMarkupParseContext *,
 
 ExerciseParser::ExerciseParser(std::list<Exercise> &exe)
 {
+  TRACE_ENTER("ExerciseParser::ExerciseParser");
   exercises = &exe;
   exercise = NULL;
   lang = "";
 
-  i18n_languages = nls_get_language_list("LC_MESSAGES");
+  i18n_languages =  g_get_language_names(); // nls_get_language_list("LC_MESSAGES");
+
+  // FIXME: remove this debugging
+  int i = 0;
+  for (i = 0; i18n_languages[i] != NULL; i++)
+    {
+      TRACE_MSG("lang " << i18n_languages[i]);
+    }
+  TRACE_EXIT();
 }
 
 

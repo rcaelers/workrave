@@ -25,9 +25,10 @@ libworkrave_common_la_SOURCES = \
 			GlibThread.cc \
 			Util.cc \
 			StringUtil.cc \
-			glibnls.c \
 			${dbussources} \
 			${localesources}
+
+##			glibnls.c \
 
 if PLATFORM_OS_WIN32
 ldadd_platform = 	win32/libworkrave-common-win32.la

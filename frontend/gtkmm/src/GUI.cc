@@ -920,6 +920,8 @@ GUI::core_event_operation_mode_changed(const OperationMode m)
 void
 GUI::config_changed_notify(const std::string &key)
 {
+  (void) key;
+  
 #if defined(PLATFORM_OS_WIN32)
   if (key == GUIConfig::CFG_KEY_LOCALE)
     {

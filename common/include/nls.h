@@ -1,7 +1,7 @@
 /*
  * nls.h --- i18n-isation
  *
- * Copyright (C) 2002, 2003, 2006 Raymond Penners
+ * Copyright (C) 2002, 2003, 2006, 2008 Raymond Penners
  * All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -52,11 +52,12 @@
 extern "C" {
 #endif
 
-#ifdef HAVE_GLIB
-#include <glib/glist.h>
-const GList *
-nls_get_language_list (const gchar *category_name);
-#endif
+  /* Deprecated */
+/* #ifdef HAVE_GLIB */
+/* #include <glib/glist.h> */
+/* const GList * */
+/* nls_get_language_list (const gchar *category_name); */
+/* #endif */
 
 #ifdef __cplusplus
 }
