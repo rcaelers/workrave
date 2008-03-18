@@ -229,13 +229,12 @@ GUI::terminate()
 
   // HACK: Without it status icon keeps on dangling in tray
   // Nicer solution: nicely cleanup complete gui ~GUI()
-#if defined(PLATFORM_OS_WIN32) || defined(PLATFORM_OS_OSX)
   if (status_icon)
     {
       delete status_icon;
       status_icon = 0;
     }
-#endif
+
   CoreFactory::get_configurator()->save();
 
   collect_garbage();
@@ -300,12 +299,11 @@ GUI::on_timer()
       applet_control->set_timers_tooltip(tip);
     }
 
-#if defined(PLATFORM_OS_WIN32)
   if (status_icon)
     {
       status_icon->set_timers_tooltip(tip);
     }
-#endif
+
   heartbeat_signal();
 
   collect_garbage();
@@ -1525,12 +1523,10 @@ APPEND_TIME("WM_POWERBROADCAST", "<UNKNOWN MESSAGE> : " << hex << msg->wParam );
         }
     }
 
-#if defined(PLATFORM_OS_WIN32)
   if (ret != GDK_FILTER_REMOVE && gui->status_icon)
     {
       ret = gui->status_icon->win32_filter_func(xevent, event);
     }
-#endif
 
   TRACE_EXIT();
   return ret;
