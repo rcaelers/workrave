@@ -24,6 +24,7 @@ static const char rcsid[] = "$Id: Locale.cc 1356 2007-10-22 18:22:13Z rcaelers $
 #endif
 
 #include "debug.hh"
+#include "nls.h"
 
 #include <cstdlib>
 #include <stdio.h>
