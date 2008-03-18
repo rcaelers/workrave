@@ -59,6 +59,20 @@
 
 // #include "PluginsPreferencePage.hh"
 
+
+class langcomp : public std::binary_function< const std::pair<std::string, std::string> &,
+                                              const std::pair<std::string, std::string> &,
+                                              bool> 
+{
+public:
+   bool operator()(const std::pair<std::string, std::string> &a,
+                   const std::pair<std::string, std::string> &b) const
+   {
+      return (a.second < b.second);
+   }
+};
+
+
 using namespace std;
 
 PreferencesDialog::PreferencesDialog()
@@ -242,7 +256,11 @@ PreferencesDialog::create_gui_page()
 
       languages.push_back(make_pair(code, txt));
     }
-
+  
+  std::sort(languages.begin(),
+            languages.end(),
+            langcomp());
+  
   int locale_idx = 0;
   int count = 0;
   language_list.push_back(Gtk::Menu_Helpers::MenuElem(_("System default")));
