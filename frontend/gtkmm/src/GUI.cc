@@ -66,6 +66,7 @@ static const char rcsid[] = "$Id$";
 #include "Text.hh"
 #include "Util.hh"
 #include "WindowHints.hh"
+#include "Locale.hh"
 
 #if defined(PLATFORM_OS_WIN32)
 #include "W32AppletWindow.hh"
@@ -512,17 +513,23 @@ GUI::init_nls()
   setlocale(LC_ALL, "");
 #  endif
 
+#if defined(PLATFORM_OS_WIN32)
   bindtextdomain("gtk20", locale_dir);
   bindtextdomain("iso_3166", locale_dir);
   bindtextdomain("iso_639", locale_dir);
   bindtextdomain("glib20", locale_dir);
-  bindtextdomain(PACKAGE, locale_dir);
   bind_textdomain_codeset("gk20", "UTF-8");
   bind_textdomain_codeset("glib20", "UTF-8");
   bind_textdomain_codeset("iso_3166", "UTF-8");
   bind_textdomain_codeset("iso_639", "UTF-8");
+
+  CoreFactory::get_configurator()->add_listener(GUIConfig::CFG_KEY_LOCALE, this);
+#endif
+  
+  bindtextdomain(PACKAGE, locale_dir);
   bind_textdomain_codeset(PACKAGE, "UTF-8");
   textdomain(PACKAGE);
+ 
 #endif
 }
 
@@ -910,6 +917,20 @@ GUI::core_event_operation_mode_changed(const OperationMode m)
     }
 
   menus->resync();
+}
+
+void
+GUI::config_changed_notify(const std::string &key)
+{
+#if defined(PLATFORM_OS_WIN32)
+  if (key == GUIConfig::CFG_KEY_LOCALE)
+    {
+      string locale = GUIConfig::get_locale();
+      Locale::set_locale(locale);
+
+      menus->locale_changed();
+    }
+#endif
 }
 
 

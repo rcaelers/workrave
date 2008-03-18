@@ -27,11 +27,16 @@ static const char rcsid[] = "$Id: Locale.cc 1356 2007-10-22 18:22:13Z rcaelers $
 
 #include <cstdlib>
 #include <stdio.h>
+#include <vector>
 
 #include "Locale.hh"
+#include "StringUtil.hh"
 
 #include "locale.inc"
 
+extern int _nl_msg_cat_cntr;
+
+Locale::LanguageMap Locale::languages_native_locale;
 
 int compare_languages (const void *a, const void *b)
 {
@@ -44,7 +49,7 @@ int compare_countries (const void *a, const void *b)
 }
 
 bool
-Locale::get_language(const string code, string &language)
+Locale::get_language(const string &code, string &language)
 {
   language_t key = { code.c_str(), NULL };
   language_t *val;
@@ -64,7 +69,7 @@ Locale::get_language(const string code, string &language)
 }
 
 bool
-Locale::get_country(const string code, string &country)
+Locale::get_country(const string &code, string &country)
 {
   country_t key = { code.c_str(), NULL };
   country_t *val;
@@ -82,3 +87,134 @@ Locale::get_country(const string code, string &country)
     }
   return false;
 }
+
+void
+Locale::set_locale(const std::string &code)
+{
+  if (code != "")
+    {
+      g_setenv("LANGUAGE", code.c_str(), 1);
+      g_setenv("LANG", code.c_str(), 1);
+    }
+  else
+    {
+      g_unsetenv("LANGUAGE");
+      g_unsetenv("LANG");
+    }
+
+  ++_nl_msg_cat_cntr;
+}
+
+std::string
+Locale::get_locale()
+{
+  string ret;
+  const char *lang_env = g_getenv("LANGUAGE");
+
+  if (lang_env == NULL)
+    {
+      lang_env = g_getenv("LANG");
+    }
+  
+  if (lang_env != NULL)
+    {
+      ret = lang_env;
+    }
+
+  return ret;
+}
+
+void
+Locale::lookup(const string &domain, string &str)
+{
+  string ret;
+  
+  if (str != "")
+    {
+      ret = dgettext(domain.c_str(), str.c_str());
+      str = ret;
+    }
+}
+
+void
+Locale::init()
+{
+}
+
+void
+Locale::get_all_languages_in_current_locale(LanguageMap &languages)
+{
+  std::vector<std::string> all_linguas;
+
+  StringUtil::split(string(ALL_LINGUAS), ' ', all_linguas);
+  all_linguas.push_back("en");
+
+  for (vector<std::string>::iterator i = all_linguas.begin(); i != all_linguas.end(); i++)
+    {
+      string code = *i;
+      string lang_code;
+      string country_code;
+
+      Language &language_entry = languages[code];
+      
+      lang_code = code.substr(0,2);
+      if (code.length() >= 5)
+        {
+          country_code = code.substr(3,2);    
+        }
+
+      Locale::get_language(lang_code, language_entry.language_name);
+      Locale::get_country(country_code, language_entry.country_name);
+
+      Locale::lookup("iso_639", language_entry.language_name);
+      Locale::lookup("iso_3166", language_entry.country_name);
+    }
+}
+
+
+void
+Locale::get_all_languages_in_native_locale(LanguageMap &list)
+{
+  static bool init_done = false;
+
+  if (init_done)
+    {
+      list = languages_native_locale;
+      return;
+    }
+    
+  std::vector<std::string> all_linguas;
+
+  StringUtil::split(string(ALL_LINGUAS), ' ', all_linguas);
+  all_linguas.push_back("en");
+
+  string lang_save = Locale::get_locale();
+                          
+  for (vector<std::string>::iterator i = all_linguas.begin(); i != all_linguas.end(); i++)
+    {
+      string code = *i;
+      string lang_code;
+      string country_code;
+
+      Locale::set_locale(code);
+      
+      Language &language_entry = languages_native_locale[code];
+      
+      lang_code = code.substr(0,2);
+      if (code.length() >= 5)
+        {
+          country_code = code.substr(3,2);    
+        }
+
+      Locale::get_language(lang_code, language_entry.language_name);
+      Locale::get_country(country_code, language_entry.country_name);
+
+      Locale::lookup("iso_639", language_entry.language_name);
+      Locale::lookup("iso_3166", language_entry.country_name);
+    }
+
+  init_done = true;
+  Locale::set_locale(lang_save);
+  list = languages_native_locale;
+}
+

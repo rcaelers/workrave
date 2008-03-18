@@ -82,6 +82,7 @@ public:
   void init(MainWindow *main_windows, AppletWindow *applet_window);
   void applet_command(short cmd);
   void resync();
+  void locale_changed();
   void popup(const MenuKind kind,
              const guint button,
              const guint activate_time);

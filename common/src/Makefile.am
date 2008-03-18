@@ -16,14 +16,18 @@ dbussources = 		DBus.cc \
 			DBusBinding.cc
 endif
 
+if PLATFORM_OS_WIN32
+localesources = 	Locale.cc
+endif
+
 libworkrave_common_la_SOURCES = \
 			debug.cc \
 			GlibThread.cc \
 			Util.cc \
 			StringUtil.cc \
-			Locale.cc \
 			glibnls.c \
-			${dbussources}
+			${dbussources} \
+			${localesources}
 
 if PLATFORM_OS_WIN32
 ldadd_platform = 	win32/libworkrave-common-win32.la

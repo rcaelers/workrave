@@ -121,6 +121,18 @@ PreferencesDialog::~PreferencesDialog()
 {
   TRACE_ENTER("PreferencesDialog::~PreferencesDialog");
 
+#if defined(PLATFORM_OS_WIN32)
+  int idx = language_button->get_history();
+  if (idx == 0)
+    {
+      GUIConfig::set_locale("");
+    }
+  else if (idx > 0 && idx <= (int)languages.size())
+    {
+      GUIConfig::set_locale(languages[idx - 1].first);
+    }
+#endif
+  
   ICore *core = CoreFactory::get_core();
   core->set_operation_mode(mode);
 
@@ -182,7 +194,13 @@ PreferencesDialog::create_gui_page()
   block_button->signal_changed()
     .connect(sigc::mem_fun(*this, &PreferencesDialog::on_block_changed));
 
+  // Options
+  HigCategoryPanel *panel = manage(new HigCategoryPanel(_("Options")));
 
+  panel->add(_("Sound:"), *sound_button);
+  panel->add(_("Block mode:"), *block_button);
+  
+#if defined(PLATFORM_OS_WIN32)
   string current_locale = GUIConfig::get_locale();
   
   language_button  = manage(new Gtk::OptionMenu());
@@ -190,117 +208,62 @@ PreferencesDialog::create_gui_page()
   Gtk::Menu::MenuList &language_list = language_menu->items();
   language_button->set_menu(*language_menu);
   
-  language_list.push_back(Gtk::Menu_Helpers::MenuElem(_("System default")));
-
+  std::vector<std::string> all_linguas;
   StringUtil::split(string(ALL_LINGUAS), ' ', all_linguas);
   all_linguas.push_back("en");
   
-  const char *lang_env = g_getenv("LANGUAGE");
-  if (lang_env != NULL)
+  Locale::LanguageMap languages_current_locale;
+  Locale::LanguageMap languages_native_locale;
+  
+  Locale::get_all_languages_in_current_locale(languages_current_locale);
+  Locale::get_all_languages_in_native_locale(languages_native_locale);
+
+  languages.clear();
+  
+  for (vector<std::string>::iterator i = all_linguas.begin(); i != all_linguas.end(); i++)
     {
-      lang_env = strdup(lang_env);
-    }
-                          
-  int locale_idx = 0;
-  int count = 0;
-  for (vector<std::string>::iterator i = all_linguas.begin();
-       i != all_linguas.end(); i++)
-    {
-      extern int _nl_msg_cat_cntr;
+      string &code = *i;
       
-      string code = *i;
-      string lang_code = code.substr(0,2);
-      string country_code;
-
-      if (code.length() >= 5)
+      string txt = languages_native_locale[code].language_name;
+      if (languages_native_locale[code].country_name != "")
         {
-          country_code = code.substr(3,2);          
+          txt += " (" + languages_native_locale[code].country_name + ")";
         }
 
-      string lang;
-      string country;
-      string native_country;
-      string native_lang;
-      string loc_country;
-      string loc_lang;
-      
-      if (!Locale::get_language(lang_code, lang))
+      if (languages_current_locale[code].language_name !=
+          languages_native_locale[code].language_name)
         {
-          lang = code;
-        }
-      
-      if (Locale::get_country(country_code, country))
-        {
-          country = "";
-        }
-
-      loc_lang = dgettext("iso_639", lang.c_str());
-      if (country != "")
-        {
-          loc_country = dgettext("iso_3166", country.c_str());
-        }
-      
-      g_setenv("LANGUAGE", code.c_str(), 1);
-      ++_nl_msg_cat_cntr;
-      
-      native_lang = dgettext("iso_639", lang.c_str());
-      if (country != "")
-        {
-          native_country = dgettext("iso_3166", country.c_str());
-        }
-              
-      if (lang_env != NULL)
-        {
-          g_setenv("LANGUAGE", lang_env, 1);
-        }
-      else
-        {
-          g_unsetenv("LANGUAGE");
-        }
-      ++_nl_msg_cat_cntr;
-      
-      string txt = native_lang;
-      if (native_country != "")
-        {
-          txt += " (" + native_country + ")";
-        }
-
-      if (loc_lang != native_lang)
-        {
-          txt += " / " + loc_lang;
-          if (loc_country != "")
+          txt += " / " + languages_current_locale[code].language_name;
+          if (languages_current_locale[code].country_name != "")
             {
-              txt += " (" + country + ")";
+              txt += " (" + languages_current_locale[code].country_name + ")";
             }
         }
-          
-      language_list.push_back(Gtk::Menu_Helpers::MenuElem(txt.c_str()));
 
-      if (current_locale == code)
+      languages.push_back(make_pair(code, txt));
+    }
+
+  int locale_idx = 0;
+  int count = 0;
+  language_list.push_back(Gtk::Menu_Helpers::MenuElem(_("System default")));
+  for (LanguageIter i = languages.begin(); i != languages.end(); i++)
+    {
+      language_list.push_back(Gtk::Menu_Helpers::MenuElem(i->second.c_str()));
+
+      if (current_locale == i->first)
         {
           locale_idx = count + 1;
         }
-
-      
       count++;
-    }
-
-
-  if (lang_env != NULL)
-    {
-      free((void*)lang_env);
     }
   
   language_button->set_history(locale_idx);
   language_button->signal_changed()
     .connect(sigc::mem_fun(*this, &PreferencesDialog::on_language_changed));
-  
-  // Options
-  HigCategoryPanel *panel = manage(new HigCategoryPanel(_("Options")));
 
-  panel->add(_("Sound:"), *sound_button);
-  panel->add(_("Block mode:"), *block_button);
   panel->add(_("Language:"), *language_button);
+#endif
+  
   panel->set_border_width(12);
   return panel;
 }
@@ -397,23 +360,8 @@ PreferencesDialog::on_block_changed()
 void
 PreferencesDialog::on_language_changed()
 {
-  int idx = language_button->get_history();
-  if (idx == 0)
-    {
-      GUIConfig::set_locale("");
-    }
-  else if (idx > 0 && idx <= (int)all_linguas.size())
-    {
-      GUIConfig::set_locale(all_linguas[idx - 1]);
-    }
 }
 
-
-// void
-// PreferencesDialog::on_start_in_tray_toggled()
-// {
-//   MainWindow::set_start_in_tray(start_in_tray_cb->get_active());
-// }
 
 
 int

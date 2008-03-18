@@ -65,14 +65,18 @@ private:
 
   Gtk::OptionMenu *sound_button;
   Gtk::OptionMenu *block_button;
-  Gtk::OptionMenu *language_button;
 
   // Mode before focus in.
   OperationMode mode;
   IconListNotebook notebook;
 
-  std::vector<std::string> all_linguas;
-
+#if defined(PLATFORM_OS_WIN32)
+  typedef std::vector<std::pair<std::string, std::string> > Languages;
+  typedef Languages::iterator LanguageIter;
+  
+  Gtk::OptionMenu *language_button;
+  Languages languages;
+#endif
 };
 
 #endif // PREFERENCESWINDOW_HH

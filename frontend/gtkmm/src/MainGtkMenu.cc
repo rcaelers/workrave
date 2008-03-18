@@ -104,10 +104,20 @@ MainGtkMenu::register_stock_items()
 void
 MainGtkMenu::init()
 {
-  register_stock_items();
-  create_actions();
-  create_ui();
-  post_init();
+  if (popup_menu == NULL)
+    {
+      register_stock_items();
+      create_actions();
+      create_ui();
+      post_init();
+    }
+  else
+    {
+      // Re-init.
+      ui_manager->remove_action_group(action_group);
+      create_actions();
+      ui_manager->insert_action_group(action_group);
+    }
 }
 
 void

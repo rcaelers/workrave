@@ -30,6 +30,7 @@
 
 #include "HeadInfo.hh"
 #include "ICoreEventListener.hh"
+#include "IConfiguratorListener.hh"
 #include "IApp.hh"
 #include "BreakWindow.hh"
 #include "WindowHints.hh"
@@ -64,6 +65,7 @@ using namespace workrave;
 class GUI :
   public IApp,
   public ICoreEventListener,
+  public IConfiguratorListener,
   public SigC::Object
 {
 public:
@@ -139,6 +141,7 @@ private:
 #endif
   void collect_garbage();
   IBreakWindow *create_break_window(HeadInfo &head, BreakId break_id, BreakWindow::BreakFlags break_flags);
+  void config_changed_notify(const std::string &key);
 
   bool grab();
   void ungrab();
