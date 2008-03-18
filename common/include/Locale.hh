@@ -25,6 +25,8 @@
 #include <map>
 #include <string>
 
+#include <glib.h>
+
 using namespace std;
 
 class Locale
