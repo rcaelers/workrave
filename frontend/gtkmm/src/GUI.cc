@@ -943,7 +943,7 @@ GUI::set_break_response(IBreakResponse *rep)
 
 
 void
-GUI::start_prelude_window(BreakId break_id)
+GUI::create_prelude_window(BreakId break_id)
 {
   hide_break_window();
   init_multihead();
@@ -952,12 +952,8 @@ GUI::start_prelude_window(BreakId break_id)
   active_break_id = break_id;
   for (int i = 0; i < num_heads; i++)
     {
-      PreludeWindow *prelude_window = new PreludeWindow(heads[i], break_id);
-
-      prelude_windows[i] = prelude_window;
-
-      prelude_window->set_response(response);
-      prelude_window->start();
+      prelude_windows[i] = new PreludeWindow(heads[i], break_id);
+      prelude_windows[i]->set_response(response);
     }
 
   active_prelude_count = num_heads;
@@ -965,7 +961,7 @@ GUI::start_prelude_window(BreakId break_id)
 
 
 void
-GUI::start_break_window(BreakId break_id, bool user_initiated)
+GUI::create_break_window(BreakId break_id, bool user_initiated)
 {
   TRACE_ENTER_MSG("GUI::start_break_window", num_heads);
   hide_break_window();
@@ -994,7 +990,7 @@ GUI::start_break_window(BreakId break_id, bool user_initiated)
       break_windows[i] = break_window;
 
       break_window->set_response(response);
-      break_window->start();
+      break_window->init();
     }
 
   active_break_count = num_heads;
@@ -1038,6 +1034,30 @@ GUI::hide_break_window()
     }
 
   ungrab();
+
+  TRACE_EXIT();
+}
+
+
+void
+GUI::show_break_window()
+{
+  TRACE_ENTER("GUI::hide_break_window");
+
+  for (int i = 0; i < active_prelude_count; i++)
+    {
+      if (prelude_windows[i] != NULL)
+        {
+          prelude_windows[i]->start();
+        }
+    }
+  for (int i = 0; i < active_break_count; i++)
+    {
+      if (break_windows[i] != NULL)
+        {
+          break_windows[i]->start();
+        }
+    }
 
   TRACE_EXIT();
 }

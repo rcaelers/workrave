@@ -71,6 +71,7 @@ public:
 
   void set_response(IBreakResponse *bri);
 
+  virtual void init();
   virtual void start();
   virtual void stop();
   virtual void destroy();

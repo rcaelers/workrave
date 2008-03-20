@@ -468,12 +468,36 @@ BreakWindow::create_break_buttons(bool lockable,
 
 //! Starts the daily limit.
 void
+BreakWindow::init()
+{
+  TRACE_ENTER("BreakWindow::init");
+  init_gui();
+  TRACE_EXIT();
+}
+
+//! Starts the daily limit.
+void
 BreakWindow::start()
 {
   TRACE_ENTER("BreakWindow::start");
+ 
+  update_break_window();
+  center();
+#ifdef PLATFORM_OS_WIN32
+  if (desktop_window)
+    desktop_window->set_visible(true);
+#endif
+  show_all();
 
-  init_gui();
+  // Set window hints.
+  WindowHints::set_skip_winlist(this, true);
+  WindowHints::set_always_on_top(this, true);
+  raise();
 
+  // In case the show_all resized the window...
+  center();
+
+ 
   TRACE_EXIT();
 }
 
@@ -518,25 +542,25 @@ BreakWindow::refresh()
 {
   update_break_window();
   
-  if (!visible)
-    {
-      center();
-#ifdef PLATFORM_OS_WIN32
-      if (desktop_window)
-        desktop_window->set_visible(true);
-#endif
-      show_all();
+//   if (!visible)
+//     {
+//       center();
+// #ifdef PLATFORM_OS_WIN32
+//       if (desktop_window)
+//         desktop_window->set_visible(true);
+// #endif
+//       show_all();
 
-      // Set window hints.
-      WindowHints::set_skip_winlist(this, true);
-      WindowHints::set_always_on_top(this, true);
-      raise();
+//       // Set window hints.
+//       WindowHints::set_skip_winlist(this, true);
+//       WindowHints::set_always_on_top(this, true);
+//       raise();
 
-      // In case the show_all resized the window...
-      center();
+//       // In case the show_all resized the window...
+//       center();
 
-      visible = true;
-    }
+//       visible = true;
+//     }
   
 #ifdef PLATFORM_OS_WIN32
   if (block_mode != GUIConfig::BLOCK_MODE_NONE)

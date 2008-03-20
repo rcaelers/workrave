@@ -78,9 +78,10 @@ public:
 
   // GUIFactoryInterface methods
   virtual void set_break_response(IBreakResponse *rep);
-  virtual void start_prelude_window(BreakId break_id);
-  virtual void start_break_window(BreakId break_id, bool ignorable);
+  virtual void create_prelude_window(BreakId break_id);
+  virtual void create_break_window(BreakId break_id, bool ignorable);
   virtual void hide_break_window();
+  virtual void show_break_window();
   virtual void refresh_break_window();
   virtual void set_break_progress(int value, int max_value);
   virtual void set_prelude_stage(PreludeStage stage);

@@ -609,10 +609,10 @@ BreakControl::break_window_start()
 {
   TRACE_ENTER_MSG("BreakControl::break_window_start", break_id);
 
-  application->start_break_window(break_id, user_initiated);
+  application->create_break_window(break_id, user_initiated);
   update_break_window();
-  application->refresh_break_window();
-
+  application->show_break_window();
+  
   TRACE_EXIT();
 }
 
@@ -622,7 +622,7 @@ BreakControl::prelude_window_start()
 {
   TRACE_ENTER_MSG("BreakControl::prelude_window_start", break_id);
 
-  application->start_prelude_window(break_id);
+  application->create_prelude_window(break_id);
 
   application->set_prelude_stage(IApp::STAGE_INITIAL);
 
@@ -637,6 +637,8 @@ BreakControl::prelude_window_start()
 
   update_prelude_window();
 
+  application->show_break_window();
+  
   TRACE_EXIT();
 }
 

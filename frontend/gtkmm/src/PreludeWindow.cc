@@ -211,13 +211,7 @@ PreludeWindow::start()
 
   // Set some window hints.
   WindowHints::set_skip_winlist(this, true);
-
-// #ifdef PLATFORM_OS_WIN32
-//   SetWindowPos( (HWND) GDK_WINDOW_HWND( Gtk::Widget::gobj()->window ),
-//       HWND_TOPMOST, 0, 0, 0, 0, SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE );
-// #else
   WindowHints::set_always_on_top(this, true);
-// #endif
 
   refresh();
 
@@ -390,6 +384,7 @@ PreludeWindow::on_frame_flash(bool frame_visible)
   TRACE_EXIT();
 }
 
+
 // Sets whether the window should run away for the mouse pointer.
 void
 PreludeWindow::init_avoid_pointer()
@@ -422,6 +417,7 @@ PreludeWindow::on_enter_notify_event(GdkEventCrossing *event)
   avoid_pointer((int)event->x, (int)event->y);
   return Gtk::Window::on_enter_notify_event(event);
 }
+
 #endif
 
 

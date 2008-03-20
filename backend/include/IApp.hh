@@ -1,6 +1,6 @@
 // IApp.hh
 //
-// Copyright (C) 2001 - 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2008 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -56,14 +56,17 @@ namespace workrave
     //! Set the response interface that must the used by the GUI to respond.
     virtual void set_break_response(IBreakResponse *rep) = 0;
 
-    //! Show a prelude window for specified break type.
-    virtual void start_prelude_window(BreakId break_id) = 0;
+    //! Create a prelude window for specified break type.
+    virtual void create_prelude_window(BreakId break_id) = 0;
 
-    //! Show a break window for specified break type.
-    virtual void start_break_window(BreakId break_id, bool ignorable) = 0;
+    //! Create a break window for specified break type.
+    virtual void create_break_window(BreakId break_id, bool ignorable) = 0;
 
     //! Hide the break or prelude window.
     virtual void hide_break_window() = 0;
+
+    //! Hide the break or prelude window.
+    virtual void show_break_window() = 0;
 
     //! Refresh the content of the break or prelude window.
     virtual void refresh_break_window() = 0;

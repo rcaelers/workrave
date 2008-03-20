@@ -1,6 +1,6 @@
 // IBreakWindow.hh --- base class for the break windows
 //
-// Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007, 2008 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,9 @@ class IBreakWindow
 {
 public:
   virtual ~IBreakWindow() {}
+
+  //! Initializes the break window.
+  virtual void init() = 0;
 
   //! Starts (i.e. shows) the break window.
   virtual void start() = 0;
