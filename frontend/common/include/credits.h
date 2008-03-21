@@ -1,7 +1,7 @@
 /*
  * credits.h --- Workrave credits
  *
- * Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
+ * Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.nl>
  * All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,7 @@
 #include <stdlib.h>
 
 const char *workrave_copyright =
-  "Copyright 2001-2007 Rob Caelers & Raymond Penners";
+  "Copyright 2001-2008 Rob Caelers & Raymond Penners";
 
 const char *workrave_authors[] = {
   "Core developers:",

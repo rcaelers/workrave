@@ -1,6 +1,6 @@
 // GUI.hh --- The WorkRave GUI
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2007, 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -59,9 +59,10 @@ public:
 
   // IGUIFactory methods
   virtual void set_break_response(IBreakResponse *rep);
-  virtual void start_prelude_window(BreakId break_id);
-  virtual void start_break_window(BreakId break_id, bool ignorable);
+  virtual void create_prelude_window(BreakId break_id);
+  virtual void create_break_window(BreakId break_id, bool ignorable);
   virtual void hide_break_window();
+  virtual void show_break_window();
   virtual void refresh_break_window();
   virtual void set_break_progress(int value, int max_value);
   virtual void set_prelude_stage(PreludeStage stage);
@@ -86,7 +87,7 @@ private:
   void init_sound_player();
 
   void collect_garbage();
-  IBreakWindow *create_break_window(BreakId break_id, bool ignorable);
+  IBreakWindow *new_break_window(BreakId break_id, bool ignorable);
 
   // Prefs
   static const std::string CFG_KEY_GUI_BLOCK_MODE;

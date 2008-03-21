@@ -1,6 +1,6 @@
 // TextGUI.cc --- The WorkRave GUI
 //
-// Copyright (C) 2001 - 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -305,7 +305,7 @@ GUI::core_event_operation_mode_changed(const OperationMode m)
 
 //! Returns a break window for the specified break.
 IBreakWindow *
-GUI::create_break_window(BreakId break_id, bool user_initiated)
+GUI::new_break_window(BreakId break_id, bool user_initiated)
 {
   IBreakWindow *ret = NULL;
   BlockMode block_mode = get_block_mode();
@@ -338,7 +338,7 @@ GUI::set_break_response(IBreakResponse *rep)
 
 
 void
-GUI::start_prelude_window(BreakId break_id)
+GUI::create_prelude_window(BreakId break_id)
 {
   hide_break_window();
   collect_garbage();
@@ -347,12 +347,11 @@ GUI::start_prelude_window(BreakId break_id)
 
   prelude_window = new PreludeWindow(break_id);
   prelude_window->set_response(response);
-  prelude_window->start();
 }
 
 
 void
-GUI::start_break_window(BreakId break_id, bool ignorable)
+GUI::create_break_window(BreakId break_id, bool ignorable)
 {
   TRACE_ENTER("GUI::start_break_window");
 
@@ -361,9 +360,8 @@ GUI::start_break_window(BreakId break_id, bool ignorable)
 
   active_break_id = break_id;
 
-  break_window = create_break_window(break_id, ignorable);
+  break_window = new_break_window(break_id, ignorable);
   break_window->set_response(response);
-  break_window->start();
 
   if (get_block_mode() != GUI::BLOCK_MODE_NONE)
     {
@@ -392,6 +390,25 @@ GUI::hide_break_window()
     }
 
   // XXX: release the mouse/keyboard grab
+
+  TRACE_EXIT();
+}
+
+void
+GUI::show_break_window()
+{
+  TRACE_ENTER("GUI::hide_break_window");
+  active_break_id = BREAK_ID_NONE;
+
+  if (prelude_window != NULL)
+    {
+      prelude_window->start();
+    }
+
+  if (break_window != NULL)
+    {
+      break_window->start();
+    }
 
   TRACE_EXIT();
 }
