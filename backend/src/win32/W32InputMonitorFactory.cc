@@ -59,7 +59,7 @@ W32InputMonitorFactory::get_monitor(IInputMonitorFactory::MonitorCapability capa
     {
       return create_activity_monitor();
     }
-  else if (capability == CAPABILITY_ACTIVITY)
+  else if (capability == CAPABILITY_STATISTICS)
     {
       return create_statistics_monitor();
     }
