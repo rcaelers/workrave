@@ -922,7 +922,7 @@ GUI::config_changed_notify(const std::string &key)
 {
   (void) key;
   
-#if defined(PLATFORM_OS_WIN32)
+#if defined(HAVE_LANGUAGE_SELECTION)
   if (key == GUIConfig::CFG_KEY_LOCALE)
     {
       string locale = GUIConfig::get_locale();
@@ -971,7 +971,7 @@ GUI::create_break_window(BreakId break_id, bool user_initiated)
   BreakWindow::BreakFlags break_flags = BreakWindow::BREAK_FLAGS_NONE;
   bool ignorable = GUIConfig::get_ignorable(break_id);
 
-  if (user_initiated)
+  if (user_initiated && !ignorable)
     {
       break_flags = BreakWindow::BREAK_FLAGS_POSTPONABLE;
     }

@@ -67,7 +67,6 @@ private:
 
   void on_sound_changed();
   void on_block_changed();
-  void on_language_changed();
 
   Gtk::OptionMenu *sound_button;
   Gtk::OptionMenu *block_button;

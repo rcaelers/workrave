@@ -123,7 +123,7 @@ PreferencesDialog::~PreferencesDialog()
 {
   TRACE_ENTER("PreferencesDialog::~PreferencesDialog");
 
-#if defined(PLATFORM_OS_WIN32)
+#if defined(HAVE_LANGUAGE_SELECTION)
   const Gtk::TreeModel::iterator& iter = languages_combo.get_active();
   const Gtk::TreeModel::Row row = *iter;
   const Glib::ustring code = row[languages_columns.code];
@@ -198,7 +198,7 @@ PreferencesDialog::create_gui_page()
   panel->add(_("Sound:"), *sound_button);
   panel->add(_("Block mode:"), *block_button);
   
-#if defined(PLATFORM_OS_WIN32)
+#if defined(HAVE_LANGUAGE_SELECTION)
   string current_locale = GUIConfig::get_locale();
 
   languages_model = Gtk::ListStore::create(languages_columns);
@@ -286,60 +286,6 @@ PreferencesDialog::create_gui_page()
   
   panel->set_border_width(12);
   return panel;
-}
-
-
-void
-PreferencesDialog::on_current_cell_data(const Gtk::TreeModel::const_iterator& iter)
-{
-  if (iter)
-  {
-    Gtk::TreeModel::Row row = *iter;
-    Glib::ustring name = row[languages_columns.current];
-    bool enabled = row[languages_columns.enabled];
-
-    current_cellrenderer.set_property("text", name);
-    current_cellrenderer.set_property("sensitive", enabled);
-  }
-}
-
-void
-PreferencesDialog::on_native_cell_data(const Gtk::TreeModel::const_iterator& iter)
-{
-  if (iter)
-  {
-    Gtk::TreeModel::Row row = *iter;
-    Glib::ustring name = row[languages_columns.native];
-    bool enabled = row[languages_columns.enabled];
-
-    native_cellrenderer.set_property("text", name);
-    native_cellrenderer.set_property("sensitive", enabled);
-  }
-}
-
-int
-PreferencesDialog::on_cell_data_compare(const Gtk::TreeModel::iterator& iter1,
-                                        const Gtk::TreeModel::iterator& iter2)
-{
-  Gtk::TreeModel::Row row1 = *iter1;
-  Gtk::TreeModel::Row row2 = *iter2;
-  Glib::ustring name1 = row1[languages_columns.current];
-  Glib::ustring name2 = row2[languages_columns.current];
-  Glib::ustring code1 = row1[languages_columns.code];
-  Glib::ustring code2 = row2[languages_columns.code];
-
-  if (code1 == "")
-    {
-      return -1;
-    }
-  else if (code2 == "")
-    {
-      return 1;
-    }
-  else
-    {
-      return g_utf8_collate(name1.c_str(), name2.c_str());
-    }
 }
 
 
@@ -432,13 +378,6 @@ PreferencesDialog::on_block_changed()
 }
 
 
-void
-PreferencesDialog::on_language_changed()
-{
-}
-
-
-
 int
 PreferencesDialog::run()
 {
@@ -478,3 +417,59 @@ PreferencesDialog::on_focus_out_event(GdkEventFocus *event)
   TRACE_EXIT();
   return HigDialog::on_focus_out_event(event);
 }
+
+
+#if defined(HAVE_LANGUAGE_SELECTION)
+void
+PreferencesDialog::on_current_cell_data(const Gtk::TreeModel::const_iterator& iter)
+{
+  if (iter)
+  {
+    Gtk::TreeModel::Row row = *iter;
+    Glib::ustring name = row[languages_columns.current];
+    bool enabled = row[languages_columns.enabled];
+
+    current_cellrenderer.set_property("text", name);
+    current_cellrenderer.set_property("sensitive", enabled);
+  }
+}
+
+void
+PreferencesDialog::on_native_cell_data(const Gtk::TreeModel::const_iterator& iter)
+{
+  if (iter)
+  {
+    Gtk::TreeModel::Row row = *iter;
+    Glib::ustring name = row[languages_columns.native];
+    bool enabled = row[languages_columns.enabled];
+
+    native_cellrenderer.set_property("text", name);
+    native_cellrenderer.set_property("sensitive", enabled);
+  }
+}
+
+int
+PreferencesDialog::on_cell_data_compare(const Gtk::TreeModel::iterator& iter1,
+                                        const Gtk::TreeModel::iterator& iter2)
+{
+  Gtk::TreeModel::Row row1 = *iter1;
+  Gtk::TreeModel::Row row2 = *iter2;
+  Glib::ustring name1 = row1[languages_columns.current];
+  Glib::ustring name2 = row2[languages_columns.current];
+  Glib::ustring code1 = row1[languages_columns.code];
+  Glib::ustring code2 = row2[languages_columns.code];
+
+  if (code1 == "")
+    {
+      return -1;
+    }
+  else if (code2 == "")
+    {
+      return 1;
+    }
+  else
+    {
+      return g_utf8_collate(name1.c_str(), name2.c_str());
+    }
+}
+#endif

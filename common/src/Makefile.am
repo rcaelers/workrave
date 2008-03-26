@@ -16,11 +16,11 @@ dbussources = 		DBus.cc \
 			DBusBinding.cc
 endif
 
-if PLATFORM_OS_WIN32
+if HAVE_LANGUAGE_SELECTION
 localesources = 	Locale.cc
 endif
 
-libworkrave_common_la_SOURCES = Locale.cc \
+libworkrave_common_la_SOURCES =  \
 			debug.cc \
 			GlibThread.cc \
 			Util.cc \

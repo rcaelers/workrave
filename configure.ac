@@ -174,6 +174,7 @@ case "$target_or_host" in
     platform_os_win32=yes
     platform_os_name="Windows"
    AC_DEFINE(PLATFORM_OS_WIN32,,[Define if compiling for the Win32 platform])
+   AC_DEFINE(HAVE_LANGUAGE_SELECTION,,[Define if the UI language can be defined in the preferences])
     ;;
   *-*-darwin* | *-*-rhapsody*)
     platform_os_osx=yes
@@ -192,6 +193,8 @@ AC_MSG_RESULT([$platform_os_name])
 AM_CONDITIONAL(PLATFORM_OS_WIN32, test "$platform_os_win32" = "yes")
 AM_CONDITIONAL(PLATFORM_OS_OSX, test "$platform_os_osx" = "yes")
 AM_CONDITIONAL(PLATFORM_OS_UNIX, test "$platform_os_unix" = "yes")
+
+AM_CONDITIONAL(HAVE_LANGUAGE_SELECTION, test "$platform_os_win32" = "yes")
 
 dnl
 dnl Windows specific checks
