@@ -169,6 +169,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
     }
 
   bool initial_ignore_activity = false;
+
 #ifdef PLATFORM_OS_WIN32
   bool force_focus = false;
   CoreFactory::get_configurator()->get_value_with_default( "advanced/force_focus",
@@ -481,6 +482,7 @@ BreakWindow::start()
 {
   TRACE_ENTER("BreakWindow::start");
  
+  WindowHints::set_always_on_top(this, true);
   update_break_window();
   center();
 #ifdef PLATFORM_OS_WIN32
@@ -491,12 +493,11 @@ BreakWindow::start()
 
   // Set window hints.
   WindowHints::set_skip_winlist(this, true);
-  WindowHints::set_always_on_top(this, true);
   raise();
 
   // In case the show_all resized the window...
   center();
-
+  WindowHints::set_always_on_top(this, true);
  
   TRACE_EXIT();
 }
@@ -541,26 +542,6 @@ void
 BreakWindow::refresh()
 {
   update_break_window();
-  
-//   if (!visible)
-//     {
-//       center();
-// #ifdef PLATFORM_OS_WIN32
-//       if (desktop_window)
-//         desktop_window->set_visible(true);
-// #endif
-//       show_all();
-
-//       // Set window hints.
-//       WindowHints::set_skip_winlist(this, true);
-//       WindowHints::set_always_on_top(this, true);
-//       raise();
-
-//       // In case the show_all resized the window...
-//       center();
-
-//       visible = true;
-//     }
   
 #ifdef PLATFORM_OS_WIN32
   if (block_mode != GUIConfig::BLOCK_MODE_NONE)

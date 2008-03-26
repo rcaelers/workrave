@@ -55,6 +55,7 @@ public:
   //! Menus items to be synced.
   enum MenuKind
     {
+      MENU_NONE,
       MENU_MAINWINDOW,
       MENU_APPLET,
       MENU_NATIVE,

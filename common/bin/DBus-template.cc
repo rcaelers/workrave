@@ -212,9 +212,25 @@ ${interface.qname}_Stub::get_${struct.qname}(DBusMessageIter *reader, ${struct.c
   dbus_message_iter_recurse(reader, &it);
 
   #for p in struct.fields
-  get_${p.type}(&it, ($interface.type2csymbol(p.type) *) &(result->${p.name}));
+  #if p.type != p.ext_type
+    $interface.type2csymbol(p.type) p.name;
+  #end if
+  #end for
+  
+  #for p in struct.fields
+  #if p.type != p.ext_type
+    get_${p.type}(&it, &${p.name});
+  #else
+    get_${p.type}(&it, ($interface.type2csymbol(p.type) *) &(result->${p.name}));
+  #end if
   #end for
 
+  #for p in struct.fields
+  #if p.type != p.ext_type
+    result->${p.name} = p.name;
+  #end if
+  #end for
+    
   dbus_message_iter_next(reader);
 }
 

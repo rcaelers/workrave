@@ -512,7 +512,7 @@ BreakControl::get_break_state()
     }
   else if (break_stage == STAGE_SNOOZED)
     {
-      ret = BREAK_INACTIVE; // FIXME: actually: SUSPENDED;
+      ret = BREAK_INACTIVE;
     }
   else
     {

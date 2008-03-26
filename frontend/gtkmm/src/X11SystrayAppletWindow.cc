@@ -138,7 +138,7 @@ X11SystrayAppletWindow::activate_applet()
                                                                   &X11SystrayAppletWindow::on_button_press_event));
       container = eventbox;
 
-      view = new TimerBoxGtkView();
+      view = new TimerBoxGtkView(Menus::MENU_APPLET);
       timer_box_view = view;
       timer_box_control = new TimerBoxControl("applet", *timer_box_view);
 

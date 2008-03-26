@@ -1307,8 +1307,6 @@ Core::daily_reset()
       t->daily_reset_timer();
     }
 
-  // FIXME: monitor->reset_statistics();
-
 #ifdef HAVE_DISTRIBUTION
   idlelog_manager->reset();
 #endif

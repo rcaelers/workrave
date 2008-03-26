@@ -30,6 +30,7 @@
 
 #include "ITimerBoxView.hh"
 #include "TimeBar.hh"
+#include "Menus.hh"
 
 class EventImage;
 
@@ -44,7 +45,7 @@ namespace Gtk
 class TimerBoxGtkView : public Gtk::Table, public ITimerBoxView
 {
 public:
-  TimerBoxGtkView();
+  TimerBoxGtkView(Menus::MenuKind menu);
   ~TimerBoxGtkView();
 
   void set_geometry(Orientation orientation, int size);
@@ -67,6 +68,9 @@ private:
   void init();
   
   bool on_restbreak_button_press_event(int button);
+
+  //! What menu to active on click
+  Menus::MenuKind menu;
   
   //! Reconfigure the panel.
   bool reconfigure;

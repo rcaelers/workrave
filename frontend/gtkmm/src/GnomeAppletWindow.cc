@@ -150,7 +150,7 @@ GnomeAppletWindow::activate_applet()
           g_signal_connect(G_OBJECT(plug->gobj()), "destroy-event",
                            G_CALLBACK(GnomeAppletWindow::destroy_event), this);
 
-          view = new TimerBoxGtkView();
+          view = new TimerBoxGtkView(Menus::MENU_NONE);
           timer_box_view = view;
           timer_box_control = new TimerBoxControl("applet", *timer_box_view);
 

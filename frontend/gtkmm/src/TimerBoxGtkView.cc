@@ -50,7 +50,8 @@ static const char rcsid[] = "$Id$";
 
 
 //! Constructor.
-TimerBoxGtkView::TimerBoxGtkView() :
+TimerBoxGtkView::TimerBoxGtkView(Menus::MenuKind menu) :
+  menu(menu),
   reconfigure(true),
   labels(NULL),
   bars(NULL),
@@ -528,9 +529,9 @@ TimerBoxGtkView::on_restbreak_button_press_event(int button)
 {
   bool ret = false;
 
-  if (button == 3)
+  if (button == 3 && menu != Menus::MENU_NONE)
     {
-      Menus::get_instance()->popup(Menus::MENU_APPLET,
+      Menus::get_instance()->popup(menu,
                                    0 /*event->button */, 0);
       ret = true;
     }

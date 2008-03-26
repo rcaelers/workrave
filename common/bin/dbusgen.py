@@ -38,11 +38,12 @@ class ArgNode(NodeBase):
         self.interface_node = interface_node
         self.name = ''
         self.type = ''
+        self.ext_type = ''
         self.direction = ''
         self.hint = []
 
     def sig(self):
-        return self.interface_node.type2sig(self.type)
+        return self.interface_node.type2sig(self.ext_type)
 
 class DefaultTypeNode(NodeBase):
     def __init__(self, csymbol, type_sig):
@@ -191,8 +192,12 @@ class MethodNode(NodeBase):
         p = ArgNode(self.parent)
         p.name = node.getAttribute('name')
         p.type = node.getAttribute('type')
+        p.ext_type = node.getAttribute('ext_type')
         p.direction = node.getAttribute('direction')
 
+        if p.ext_type == '':
+            p.ext_type = p.type;
+            
         hint = node.getAttribute('hint')
         if hint != None and hint != '':
             p.hint = hint.split(',')
@@ -202,7 +207,7 @@ class MethodNode(NodeBase):
     def sig(self):
         method_sig = ''
         for p in self.params:
-            param_sig = self.parent.type2sig(p.type)
+            param_sig = self.parent.type2sig(p.ext_type)
             method_sig = method_sig + '%s\\0%s\\0%s\\0' % (p.direction, param_sig, p.name)
 
         return method_sig
@@ -244,6 +249,10 @@ class SignalNode(NodeBase):
 
         p.name = node.getAttribute('name')
         p.type = node.getAttribute('type')
+        p.ext_type = node.getAttribute('ext_type')
+
+        if p.ext_type == '':
+            p.ext_type = p.type;
         
         self.params.append(p)
 
@@ -251,7 +260,7 @@ class SignalNode(NodeBase):
     def sig(self):
         method_sig = ''
         for p in self.params:
-            param_sig = self.parent.type2sig(p.type)
+            param_sig = self.parent.type2sig(p.ext_type)
             method_sig = method_sig + '%s\\0%s\\0' % (param_sig, p.name)
 
         return method_sig
@@ -293,6 +302,10 @@ class StructNode(NodeBase):
         arg = ArgNode(self.parent)
         arg.name = node.getAttribute('name')
         arg.type = node.getAttribute('type')
+        arg.ext_type = node.getAttribute('ext_type')
+
+        if arg.ext_type == '':
+            arg.ext_type = arg.type;
 
         self.fields.append(arg)
 
@@ -300,9 +313,10 @@ class StructNode(NodeBase):
     def sig(self):
         struct_sig = ''
         for f in self.fields:
-            field_sig = self.parent.type2sig(f.type)
+            field_sig = self.parent.type2sig(f.ext_type)
             struct_sig =  struct_sig + field_sig
 
+        print struct_sig
         return '(' + struct_sig + ')'
 
 
