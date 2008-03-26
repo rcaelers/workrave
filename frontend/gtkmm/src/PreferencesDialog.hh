@@ -31,10 +31,16 @@
 #include "IconListNotebook.hh"
 #include "ICore.hh"
 
+#include <gtkmm/treemodel.h>
+#include <gtkmm/treemodelcolumn.h>
+#include <gtkmm/combobox.h>
+#include <gtkmm/liststore.h>
+
 class TimeEntry;
 namespace Gtk
 {
   class OptionMenu;
+  class ComboBox;
 }
 
 using namespace workrave;
@@ -71,11 +77,29 @@ private:
   IconListNotebook notebook;
 
 #if defined(PLATFORM_OS_WIN32)
-  typedef std::vector<std::pair<std::string, std::string> > Languages;
-  typedef Languages::iterator LanguageIter;
+  //Tree model columns:
+  class ModelColumns : public Gtk::TreeModel::ColumnRecord
+  {
+  public:
+    ModelColumns()
+    { add(current); add(native); add(enabled); add(code);  }
+
+    Gtk::TreeModelColumn<bool> enabled;
+    Gtk::TreeModelColumn<Glib::ustring> code;
+    Gtk::TreeModelColumn<Glib::ustring> native;
+    Gtk::TreeModelColumn<Glib::ustring> current;
+  };
+
+  void on_native_cell_data(const Gtk::TreeModel::const_iterator& iter);
+  void on_current_cell_data(const Gtk::TreeModel::const_iterator& iter);
+  int on_cell_data_compare(const Gtk::TreeModel::iterator& iter1,
+                           const Gtk::TreeModel::iterator& iter2);
   
-  Gtk::OptionMenu *language_button;
-  Languages languages;
+  Gtk::ComboBox languages_combo;
+  ModelColumns languages_columns;
+  Glib::RefPtr<Gtk::ListStore> languages_model;
+  Gtk::CellRendererText native_cellrenderer;
+  Gtk::CellRendererText current_cellrenderer;
 #endif
 };
 

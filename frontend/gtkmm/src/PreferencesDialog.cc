@@ -34,6 +34,7 @@
 #include <gtkmm/stock.h>
 #include <gtkmm/menu.h>
 #include <gtkmm/optionmenu.h>
+#include <gtkmm/cellrenderer.h>
 
 #include "StringUtil.hh"
 #include "Locale.hh"
@@ -58,19 +59,6 @@
 #endif
 
 // #include "PluginsPreferencePage.hh"
-
-
-class langcomp : public std::binary_function< const std::pair<std::string, std::string> &,
-                                              const std::pair<std::string, std::string> &,
-                                              bool> 
-{
-public:
-   bool operator()(const std::pair<std::string, std::string> &a,
-                   const std::pair<std::string, std::string> &b) const
-   {
-      return (a.second < b.second);
-   }
-};
 
 
 using namespace std;
@@ -136,15 +124,11 @@ PreferencesDialog::~PreferencesDialog()
   TRACE_ENTER("PreferencesDialog::~PreferencesDialog");
 
 #if defined(PLATFORM_OS_WIN32)
-  int idx = language_button->get_history();
-  if (idx == 0)
-    {
-      GUIConfig::set_locale("");
-    }
-  else if (idx > 0 && idx <= (int)languages.size())
-    {
-      GUIConfig::set_locale(languages[idx - 1].first);
-    }
+  const Gtk::TreeModel::iterator& iter = languages_combo.get_active();
+  const Gtk::TreeModel::Row row = *iter;
+  const Glib::ustring code = row[languages_columns.code];
+
+  GUIConfig::set_locale(code);
 #endif
   
   ICore *core = CoreFactory::get_core();
@@ -216,11 +200,9 @@ PreferencesDialog::create_gui_page()
   
 #if defined(PLATFORM_OS_WIN32)
   string current_locale = GUIConfig::get_locale();
-  
-  language_button  = manage(new Gtk::OptionMenu());
-  Gtk::Menu *language_menu = manage(new Gtk::Menu());
-  Gtk::Menu::MenuList &language_list = language_menu->items();
-  language_button->set_menu(*language_menu);
+
+  languages_model = Gtk::ListStore::create(languages_columns);
+  languages_combo.set_model(languages_model);
   
   std::vector<std::string> all_linguas;
   StringUtil::split(string(ALL_LINGUAS), ' ', all_linguas);
@@ -232,59 +214,134 @@ PreferencesDialog::create_gui_page()
   Locale::get_all_languages_in_current_locale(languages_current_locale);
   Locale::get_all_languages_in_native_locale(languages_native_locale);
 
-  languages.clear();
-  
+  Gtk::TreeModel::iterator iter = languages_model->append();
+  Gtk::TreeModel::Row row = *iter;
+  row[languages_columns.current] = _("System default");
+  row[languages_columns.native] = "";
+  row[languages_columns.code] = "";
+  row[languages_columns.enabled] = true;
+
+  Gtk::TreeModel::iterator selected = iter;  
+
   for (vector<std::string>::iterator i = all_linguas.begin(); i != all_linguas.end(); i++)
     {
-      string &code = *i;
-      
-      string txt = languages_native_locale[code].language_name;
-      if (languages_native_locale[code].country_name != "")
+      string code = *i;
+
+      iter = languages_model->append();
+      row = *iter;
+      row[languages_columns.code] = code;
+      row[languages_columns.enabled] = true;
+
+      if (current_locale == code)
         {
-          txt += " (" + languages_native_locale[code].country_name + ")";
+          selected = iter;
         }
+      
+      string txt = languages_current_locale[code].language_name;
+      if (languages_current_locale[code].country_name != "")
+        {
+          txt += " (" + languages_current_locale[code].country_name + ")";
+        }
+      row[languages_columns.current] = txt;
 
       if (languages_current_locale[code].language_name !=
           languages_native_locale[code].language_name)
         {
-          txt += " / " + languages_current_locale[code].language_name;
-          if (languages_current_locale[code].country_name != "")
+          txt = languages_native_locale[code].language_name;
+          if (languages_native_locale[code].country_name != "")
             {
-              txt += " (" + languages_current_locale[code].country_name + ")";
+              txt += " (" + languages_native_locale[code].country_name + ")";
             }
+
+          Glib::RefPtr<Pango::Layout> pl = create_pango_layout(txt);
+          if (pl->get_unknown_glyphs_count() > 0)
+            {
+              txt = _("(font not available)");
+              row[languages_columns.enabled] = false;
+            }
+          
+          row[languages_columns.native] = txt;
         }
-
-      languages.push_back(make_pair(code, txt));
     }
-  
-  std::sort(languages.begin(),
-            languages.end(),
-            langcomp());
-  
-  int locale_idx = 0;
-  int count = 0;
-  language_list.push_back(Gtk::Menu_Helpers::MenuElem(_("System default")));
-  for (LanguageIter i = languages.begin(); i != languages.end(); i++)
-    {
-      language_list.push_back(Gtk::Menu_Helpers::MenuElem(i->second.c_str()));
 
-      if (current_locale == i->first)
-        {
-          locale_idx = count + 1;
-        }
-      count++;
-    }
+  languages_model->set_sort_column(languages_columns.current, Gtk::SORT_ASCENDING);
+ 	languages_model->set_sort_func (languages_columns.current,
+                                  sigc::mem_fun(*this,
+                                                &PreferencesDialog::on_cell_data_compare));
+    
+  languages_combo.pack_start(current_cellrenderer, true); 
+  languages_combo.pack_start(native_cellrenderer, false);
   
-  language_button->set_history(locale_idx);
-  language_button->signal_changed()
-    .connect(sigc::mem_fun(*this, &PreferencesDialog::on_language_changed));
+  languages_combo.set_cell_data_func(native_cellrenderer,
+                                     sigc::mem_fun(*this,
+                                                   &PreferencesDialog::on_native_cell_data));
+  languages_combo.set_cell_data_func(current_cellrenderer,
+                                     sigc::mem_fun(*this,
+                                                   &PreferencesDialog::on_current_cell_data));
 
-  panel->add(_("Language:"), *language_button);
+  languages_combo.set_active(selected);
+  
+  panel->add(_("Language:"), languages_combo);
 #endif
   
   panel->set_border_width(12);
   return panel;
 }
+
+
+void
+PreferencesDialog::on_current_cell_data(const Gtk::TreeModel::const_iterator& iter)
+{
+  if (iter)
+  {
+    Gtk::TreeModel::Row row = *iter;
+    Glib::ustring name = row[languages_columns.current];
+    bool enabled = row[languages_columns.enabled];
+
+    current_cellrenderer.set_property("text", name);
+    current_cellrenderer.set_property("sensitive", enabled);
+  }
+}
+
+void
+PreferencesDialog::on_native_cell_data(const Gtk::TreeModel::const_iterator& iter)
+{
+  if (iter)
+  {
+    Gtk::TreeModel::Row row = *iter;
+    Glib::ustring name = row[languages_columns.native];
+    bool enabled = row[languages_columns.enabled];
+
+    native_cellrenderer.set_property("text", name);
+    native_cellrenderer.set_property("sensitive", enabled);
+  }
+}
+
+int
+PreferencesDialog::on_cell_data_compare(const Gtk::TreeModel::iterator& iter1,
+                                        const Gtk::TreeModel::iterator& iter2)
+{
+  Gtk::TreeModel::Row row1 = *iter1;
+  Gtk::TreeModel::Row row2 = *iter2;
+  Glib::ustring name1 = row1[languages_columns.current];
+  Glib::ustring name2 = row2[languages_columns.current];
+  Glib::ustring code1 = row1[languages_columns.code];
+  Glib::ustring code2 = row2[languages_columns.code];
+
+  if (code1 == "")
+    {
+      return -1;
+    }
+  else if (code2 == "")
+    {
+      return 1;
+    }
+  else
+    {
+      return g_utf8_collate(name1.c_str(), name2.c_str());
+    }
+}
+
 
 Gtk::Widget *
 PreferencesDialog::create_timer_page()
@@ -385,7 +442,6 @@ PreferencesDialog::on_language_changed()
 int
 PreferencesDialog::run()
 {
-  // CoreFactory::get_configurator()->save();
   show_all();
   return 0;
 }

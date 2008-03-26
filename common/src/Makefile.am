@@ -20,7 +20,7 @@ if PLATFORM_OS_WIN32
 localesources = 	Locale.cc
 endif
 
-libworkrave_common_la_SOURCES = \
+libworkrave_common_la_SOURCES = Locale.cc \
 			debug.cc \
 			GlibThread.cc \
 			Util.cc \
