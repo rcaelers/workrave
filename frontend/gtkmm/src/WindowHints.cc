@@ -1,6 +1,6 @@
 // WindowHints.cc
 //
-// Copyright (C) 2001 - 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -61,6 +61,17 @@ WindowHints::set_skip_winlist(Gtk::Window *window, bool skip)
 {
   window->set_skip_pager_hint(skip);
   window->set_skip_taskbar_hint(skip);
+
+#ifdef PLATFORM_OS_WIN32
+  // FIXME: hack until gtk+ is fixed.
+  if (skip)
+    {
+      GtkWidget *gtkwin = window->Gtk::Widget::gobj();
+      GdkWindow *gdkwin = gtkwin->window;
+      SetWindowLong((HWND)GDK_WINDOW_HWND(gdkwin), GWL_HWNDPARENT,
+                    (long) GetDesktopWindow());
+    }
+#endif
 }
 
 
