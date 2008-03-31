@@ -108,10 +108,6 @@ PreferencesDialog::PreferencesDialog()
   ICore *core = CoreFactory::get_core();
   mode = core->get_operation_mode();
 
-#ifdef PLATFORM_OS_UNIX
-  GtkUtil::set_wmclass(*this, "Preferences");
-#endif
-
   show_all();
 
   TRACE_EXIT();

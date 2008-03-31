@@ -72,10 +72,6 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
 {
   Gtk::Window::set_border_width(0);
 
-#ifdef PLATFORM_OS_UNIX
-  GtkUtil::set_wmclass(*this, "Prelude");
-#endif
-
   init_avoid_pointer();
   realize();
 

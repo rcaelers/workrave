@@ -101,10 +101,6 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   }
 #endif
 
-#ifdef PLATFORM_OS_UNIX
-  GtkUtil::set_wmclass(*this, "Break");
-#endif
-
   // On W32, must be *before* realize, otherwise a border is drawn.
   set_resizable(false);
 

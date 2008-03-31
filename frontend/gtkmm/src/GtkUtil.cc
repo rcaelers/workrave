@@ -246,17 +246,6 @@ GtkUtil::create_label(string text, bool bold)
 }
 
 
-
-void
-GtkUtil::set_wmclass(Gtk::Window &window, string class_postfix)
-{
-  string s = gdk_get_program_class();
-  s += class_postfix;
-
-  window.set_wmclass(g_get_prgname(), s);
-}
-
-
 /*
  * Returns a copy of pixbuf mirrored and or flipped.
  * TO do a 180 degree rotations set both mirror and flipped TRUE

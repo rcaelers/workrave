@@ -18,7 +18,7 @@ MAINTAINERCLEANFILES = 	\
 		NEWS.txt README.txt
 DISTCLEANFILES = intltool-extract intltool-merge intltool-update
 
-SUBDIRS =      intl m4 po backend common frontend 
+SUBDIRS =      intl m4 po common backend frontend 
 DIST_SUBDIRS = $(SUBDIRS) build contrib
 
 EXTRA_DIST = 	config.rpath  \
