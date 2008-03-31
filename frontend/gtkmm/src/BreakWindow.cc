@@ -241,19 +241,15 @@ BreakWindow::init_gui()
               add(*window_frame);
             }
         }
-      show_all_children();
-      stick();
-
-      // Set window hints.
-      WindowHints::set_skip_winlist(this, true);
-      // causes windows to display on win32
-      // WindowHints::set_always_on_top(this, true);
 
       // FIXME: check if it was intentionally not unset for RB
       if (break_id != BREAK_ID_REST_BREAK)
         {
           unset_flags(Gtk::CAN_FOCUS);
         }
+      
+      show_all_children();
+      stick();
     }
 }
 
@@ -482,17 +478,18 @@ BreakWindow::start()
 {
   TRACE_ENTER("BreakWindow::start");
  
+  WindowHints::set_skip_winlist(this, true);
   WindowHints::set_always_on_top(this, true);
+
   update_break_window();
   center();
+
 #ifdef PLATFORM_OS_WIN32
   if (desktop_window)
     desktop_window->set_visible(true);
 #endif
   show_all();
 
-  // Set window hints.
-  WindowHints::set_skip_winlist(this, true);
   raise();
 
   // In case the show_all resized the window...
@@ -543,12 +540,12 @@ BreakWindow::refresh()
 {
   update_break_window();
   
-#ifdef PLATFORM_OS_WIN32
-  if (block_mode != GUIConfig::BLOCK_MODE_NONE)
-    {
-      WindowHints::set_always_on_top(this, true);
-    }
-#endif
+// #ifdef PLATFORM_OS_WIN32
+//   if (block_mode != GUIConfig::BLOCK_MODE_NONE)
+//     {
+//       WindowHints::set_always_on_top(this, true);
+//     }
+// #endif
 }
 
 Glib::RefPtr<Gdk::Window>
