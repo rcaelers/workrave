@@ -28,6 +28,7 @@
 #include "AppletWindow.hh"
 
 //#include <sigc++/compatibility.h>
+#include <sigc++/object.h>
 
 #include <gnome.h>
 #include <bonobo.h>

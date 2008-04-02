@@ -755,6 +755,8 @@ MainWindow::locate_window(GdkEventConfigure *event)
     {
       window_location.set_x(x);
       window_location.set_y(y);
+      window_relocated_location.set_x(x);
+      window_relocated_location.set_y(y);
 
       int head = GUI::get_instance()->map_to_head(x, y);
       TRACE_MSG("main window head = " << x << " " << y);
