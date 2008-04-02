@@ -30,7 +30,6 @@ static const char rcsid[] = "$Id$";
 
 #include <gtkmm/image.h>
 #include <gtkmm/sizegroup.h>
-//#include <gtkmm/button.h>
 #include <gtkmm/eventbox.h>
 
 #include "nls.h"

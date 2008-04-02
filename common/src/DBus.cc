@@ -26,6 +26,7 @@
 #endif
 
 #include "debug.hh"
+#include <string.h>
 
 #include <string>
 #include <list>

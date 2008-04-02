@@ -314,6 +314,7 @@ MainWindow::open_window()
     {
 #ifdef PLATFORM_OS_WIN32
       win32_show(true);
+      show_all();
 #else
       show_all();
       deiconify();

@@ -100,7 +100,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
     set_skip_taskbar_hint(true);
 
     // FIXME: hack until gtk+ is fixed.
-    GtkWidget *gtkwin = window->Gtk::Widget::gobj();
+    GtkWidget *gtkwin = Gtk::Widget::gobj();
     GdkWindow *gdkwin = gtkwin->window;
     SetWindowLong((HWND)GDK_WINDOW_HWND(gdkwin), GWL_HWNDPARENT,
                   (long) GetDesktopWindow());
