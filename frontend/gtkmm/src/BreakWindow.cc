@@ -98,13 +98,6 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
     // Disable titlebar to appear like a popup
     set_decorated(false);
     set_skip_taskbar_hint(true);
-
-    // FIXME: hack until gtk+ is fixed.
-    GtkWidget *gtkwin = Gtk::Widget::gobj();
-    GdkWindow *gdkwin = gtkwin->window;
-    SetWindowLong((HWND)GDK_WINDOW_HWND(gdkwin), GWL_HWNDPARENT,
-                  (long) GetDesktopWindow());
-
   }
 #endif
 
@@ -493,6 +486,14 @@ BreakWindow::start()
   // Set window hints.
   set_skip_pager_hint(true);
   set_skip_taskbar_hint(true);
+
+#ifdef PLATFORM_OS_WIN32
+    // FIXME: hack until gtk+ is fixed.
+    GtkWidget *gtkwin = Gtk::Widget::gobj();
+    GdkWindow *gdkwin = gtkwin->window;
+    SetWindowLong((HWND)GDK_WINDOW_HWND(gdkwin), GWL_HWNDPARENT,
+                  (long) GetDesktopWindow());
+#endif
   
   WindowHints::set_always_on_top(this, true);
   raise();

@@ -276,12 +276,12 @@ MainWindow::setup()
         }
     }
 
-  if (enabled)
+  if (is_visible())
     {
       WindowHints::set_always_on_top(this, always_on_top);
     }
   
-  if (enabled && always_on_top)
+  if (is_visible() && always_on_top)
     {
       raise();
     }
