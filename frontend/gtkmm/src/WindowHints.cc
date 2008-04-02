@@ -56,25 +56,6 @@ WindowHints::set_always_on_top(Gtk::Window *window, bool on_top)
 }
 
 
-void
-WindowHints::set_skip_winlist(Gtk::Window *window, bool skip)
-{
-  window->set_skip_pager_hint(skip);
-  window->set_skip_taskbar_hint(skip);
-
-#ifdef PLATFORM_OS_WIN32
-  // FIXME: hack until gtk+ is fixed.
-  if (skip)
-    {
-      GtkWidget *gtkwin = window->Gtk::Widget::gobj();
-      GdkWindow *gdkwin = gtkwin->window;
-      SetWindowLong((HWND)GDK_WINDOW_HWND(gdkwin), GWL_HWNDPARENT,
-                    (long) GetDesktopWindow());
-    }
-#endif
-}
-
-
 #ifdef PLATFORM_OS_WIN32
 static void
 win32_block_input(BOOL block)

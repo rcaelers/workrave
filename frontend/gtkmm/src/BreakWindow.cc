@@ -1,6 +1,6 @@
 // BreakWindow.cc --- base class for the break windows
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -98,6 +98,13 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
     // Disable titlebar to appear like a popup
     set_decorated(false);
     set_skip_taskbar_hint(true);
+
+    // FIXME: hack until gtk+ is fixed.
+    GtkWidget *gtkwin = window->Gtk::Widget::gobj();
+    GdkWindow *gdkwin = gtkwin->window;
+    SetWindowLong((HWND)GDK_WINDOW_HWND(gdkwin), GWL_HWNDPARENT,
+                  (long) GetDesktopWindow());
+
   }
 #endif
 
@@ -473,9 +480,6 @@ void
 BreakWindow::start()
 {
   TRACE_ENTER("BreakWindow::start");
- 
-  WindowHints::set_skip_winlist(this, true);
-  WindowHints::set_always_on_top(this, true);
 
   update_break_window();
   center();
@@ -486,12 +490,15 @@ BreakWindow::start()
 #endif
   show_all();
 
+  // Set window hints.
+  set_skip_pager_hint(true);
+  set_skip_taskbar_hint(true);
+  
+  WindowHints::set_always_on_top(this, true);
   raise();
 
   // In case the show_all resized the window...
   center();
-  WindowHints::set_always_on_top(this, true);
- 
   TRACE_EXIT();
 }
 

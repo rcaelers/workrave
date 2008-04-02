@@ -207,7 +207,9 @@ PreludeWindow::start()
   realize_if_needed();
 
   // Set some window hints.
-  WindowHints::set_skip_winlist(this, true);
+  set_skip_pager_hint(true);
+  set_skip_taskbar_hint(true);
+
   WindowHints::set_always_on_top(this, true);
 
   refresh();
