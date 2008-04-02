@@ -333,6 +333,8 @@ MainWindow::open_window()
       TRACE_MSG("moving to " << x << " " << y);
       move(x, y);
 
+      bool always_on_top = get_always_on_top();
+      WindowHints::set_always_on_top(this, always_on_top);
     }
   TRACE_EXIT();
 }

@@ -488,11 +488,14 @@ BreakWindow::start()
   set_skip_taskbar_hint(true);
 
 #ifdef PLATFORM_OS_WIN32
-    // FIXME: hack until gtk+ is fixed.
-    GtkWidget *gtkwin = Gtk::Widget::gobj();
-    GdkWindow *gdkwin = gtkwin->window;
-    SetWindowLong((HWND)GDK_WINDOW_HWND(gdkwin), GWL_HWNDPARENT,
-                  (long) GetDesktopWindow());
+  // FIXME: hack until gtk+ is fixed.
+  GtkWidget *gtkwin = Gtk::Widget::gobj();
+  GdkWindow *gdkwin = gtkwin->window;
+
+  parent = GetWindowLong((HWND)GDK_WINDOW_HWND(gdkwin), GWL_HWNDPARENT);
+    
+  SetWindowLong((HWND)GDK_WINDOW_HWND(gdkwin), GWL_HWNDPARENT,
+                (long) GetDesktopWindow());
 #endif
   
   WindowHints::set_always_on_top(this, true);
@@ -509,6 +512,13 @@ BreakWindow::stop()
 {
   TRACE_ENTER("BreakWindow::stop");
 
+#ifdef PLATFORM_OS_WIN32
+  GtkWidget *gtkwin = Gtk::Widget::gobj();
+  GdkWindow *gdkwin = gtkwin->window;
+  SetWindowLong((HWND)GDK_WINDOW_HWND(gdkwin), GWL_HWNDPARENT,
+                parent);
+#endif
+  
   if (frame != NULL)
     {
       frame->set_frame_flashing(0);

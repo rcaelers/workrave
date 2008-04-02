@@ -127,6 +127,8 @@ private:
   
 #ifdef PLATFORM_OS_WIN32
   DesktopWindow *desktop_window;
+
+  long parent;
 #endif
 };
 
