@@ -75,6 +75,7 @@ win32_block_input(BOOL block)
 WindowHints::Grab *
 WindowHints::grab(int num_windows, GdkWindow **windows)
 {
+  TRACE_ENTER("WindowHints::grab");
   WindowHints::Grab *handle = NULL;
 
 #if defined(PLATFORM_OS_WIN32)
@@ -119,9 +120,18 @@ WindowHints::grab(int num_windows, GdkWindow **windows)
           // So, let's not waste memory and simply return a bogus non-NULL ptr.
           handle = (WindowHints::Grab *) 0xdeadf00d;
         }
+      else
+        {
+          // Ungrab both
+          gdk_keyboard_ungrab(GDK_CURRENT_TIME);
+          gdk_pointer_ungrab(GDK_CURRENT_TIME);
+        }
+      
+      TRACE_MSG(keybGrabStatus << " " << pointerGrabStatus);
     }
 
 #endif
+  TRACE_EXIT();
   return handle;
 }
 
