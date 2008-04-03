@@ -142,9 +142,8 @@ Statistics::start_new_day()
   if (current_day == NULL ||
       tmnow->tm_mday !=  current_day->start.tm_mday ||
       tmnow->tm_mon  !=  current_day->start.tm_mon  ||
-      tmnow->tm_year !=  current_day->start.tm_year ||
-      tmnow->tm_hour !=  current_day->start.tm_hour ||
-      tmnow->tm_min  !=  current_day->start.tm_min)
+      tmnow->tm_year !=  current_day->start.tm_year
+      )
     {
 
       TRACE_MSG("New day");

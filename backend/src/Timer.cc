@@ -1,6 +1,6 @@
 // Timer.cc --- break timer
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007, 2008 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -677,7 +677,8 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
   TRACE_MSG("elap = " << info.elapsed_time);
   TRACE_MSG("enabled = " << timer_enabled);
   TRACE_MSG("last_start_time " << last_start_time);
-
+  TRACE_MSG("next_pred_reset_time " << next_pred_reset_time);
+  
   if (activity_sensitive)
     {
       TRACE_MSG("is activity sensitive");
