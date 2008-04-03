@@ -612,6 +612,20 @@ Core::do_force_break(BreakId id, bool initiated_by_user)
 }
 
 
+//! Announces a change in time.
+void
+Core::time_changed()
+{
+  TRACE_ENTER("Core::time_changed");
+
+  // A change of system time idle handled by process_timewarp.
+  // This is used to handle a change in timezone on windows.
+  monitor->shift_time(0);
+
+  TRACE_EXIT();
+}
+
+
 //! Announces a powersave state.
 void
 Core::set_powersave(bool down)

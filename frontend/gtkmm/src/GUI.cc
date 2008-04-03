@@ -1535,6 +1535,14 @@ APPEND_TIME("WM_POWERBROADCAST", "<UNKNOWN MESSAGE> : " << hex << msg->wParam );
       }
       break;
 
+    case WM_TIMECHANGE:
+      {
+        TRACE_MSG("WM_TIMECHANGE " << msg->wParam << " " << msg->lParam);
+        ICore *core = CoreFactory::get_core();
+        core->time_changed();
+      }
+      break;
+
     default:
       W32AppletWindow *applet_window =
         static_cast<W32AppletWindow*>

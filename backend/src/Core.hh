@@ -104,6 +104,7 @@ public:
   Statistics *get_statistics() const;
   void set_core_events_listener(ICoreEventListener *l);
   void force_break(BreakId id, bool initiated_by_user);
+  void time_changed();
   void set_powersave(bool down);
 
   time_t get_time() const;
