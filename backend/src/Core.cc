@@ -31,6 +31,7 @@ static const char rcsid[] = "$Id$";
 #include "w32debug.hh"
 #endif
 
+#include <stdlib.h>
 #include <assert.h>
 #include <iostream>
 #include <fstream>
@@ -617,6 +618,9 @@ void
 Core::time_changed()
 {
   TRACE_ENTER("Core::time_changed");
+
+  // In case out timezone changed..
+  tzset();
 
   // A change of system time idle handled by process_timewarp.
   // This is used to handle a change in timezone on windows.

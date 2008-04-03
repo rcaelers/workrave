@@ -656,7 +656,6 @@ Timer::shift_time(int delta)
   compute_next_predicate_reset_time();
 }
 
-
 //! Perform timer processing.
 /*! \param new_activity_state the current activity state as reported by the
  *         (global) activity monitor.
@@ -678,6 +677,17 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
   TRACE_MSG("enabled = " << timer_enabled);
   TRACE_MSG("last_start_time " << last_start_time);
   TRACE_MSG("next_pred_reset_time " << next_pred_reset_time);
+  
+  const time_t now = core->get_time();
+  struct tm *tmnow = localtime(&now);
+
+  TRACE_MSG(tmnow->tm_mday << " "
+            << tmnow->tm_mon << " "
+            << tmnow->tm_year << " "
+            << tmnow->tm_hour << " "
+            << tmnow->tm_min << " "
+            << tzname[0]);
+
   
   if (activity_sensitive)
     {
