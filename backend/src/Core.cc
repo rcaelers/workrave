@@ -624,8 +624,11 @@ Core::time_changed()
 
   // A change of system time idle handled by process_timewarp.
   // This is used to handle a change in timezone on windows.
-  monitor->shift_time(0);
-
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+    {
+      breaks[i].get_timer()->shift_time(0);
+    }
+  
   TRACE_EXIT();
 }
 
