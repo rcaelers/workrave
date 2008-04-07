@@ -27,7 +27,7 @@
 
 #include "AppletWindow.hh"
 
-#include <sigc++/compatibility.h>
+#include <sigc++/trackable.h>
 
 #include <gtkmm/bin.h>
 #include <gtkmm/menu.h>
@@ -41,7 +41,7 @@ class AppletControl;
 #include "gtktrayicon.h"
 
 class X11SystrayAppletWindow :
-  public SigC::Object,
+  public sigc::trackable,
   public AppletWindow
 {
 public:

@@ -24,7 +24,7 @@
 
 #include "config.h"
 
-#include <sigc++/compatibility.h>
+#include <sigc++/trackable.h>
 
 #ifdef HAVE_GNOME
 #include <gnome.h>
@@ -46,7 +46,7 @@ class Menu;
 using namespace workrave;
 
 class Menus :
-  public SigC::Object
+  public sigc::trackable
 {
 public:
   Menus();

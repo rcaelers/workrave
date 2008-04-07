@@ -49,7 +49,7 @@ public:
   ~ExercisesPanel();
 
   void set_exercise_count(int num);
-  SigC::Signal0<void> &signal_stop() { return stop_signal; }
+  sigc::signal0<void> &signal_stop() { return stop_signal; }
 
 protected:
   void on_realize();
@@ -92,12 +92,12 @@ private:
   std::vector<Exercise> shuffled_exercises;
   std::vector<Exercise>::const_iterator exercise_iterator;
   std::list<Exercise::Image>::const_iterator image_iterator;
-  SigC::Connection heartbeat_signal;
+  sigc::connection heartbeat_signal;
   int exercise_time;
   int seq_time;
   bool paused;
   bool stopped;
-  SigC::Signal0<void> stop_signal;
+  sigc::signal0<void> stop_signal;
   bool standalone;
   int exercise_num;
   int exercise_count;

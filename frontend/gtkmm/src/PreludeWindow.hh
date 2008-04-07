@@ -66,7 +66,7 @@ private:
 private:
 #ifdef PLATFORM_OS_WIN32
   //! Avoid time signal
-  SigC::Connection avoid_signal;
+  sigc::connection avoid_signal;
 #endif
 
   //! Avoid margin.

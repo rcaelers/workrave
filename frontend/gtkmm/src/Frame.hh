@@ -38,7 +38,7 @@ public:
   void set_frame_color(const Gdk::Color &color);
   void set_frame_flashing(int delay);
   void set_frame_visible(bool visible);
-  SigC::Signal1<void,bool> &signal_flash();
+  sigc::signal1<void,bool> &signal_flash();
 
 protected:
   bool on_timer();
@@ -74,9 +74,9 @@ private:
   int flash_delay;
 
   //! Flash timeout signal
-  SigC::Connection flash_signal;
+  sigc::connection flash_signal;
 
   //! Flash signal source
-  SigC::Signal1<void,bool> flash_signal_src;
+  sigc::signal1<void,bool> flash_signal_src;
 };
 

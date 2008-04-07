@@ -27,8 +27,7 @@
 
 #include "AppletWindow.hh"
 
-//#include <sigc++/compatibility.h>
-#include <sigc++/object.h>
+#include <sigc++/trackable.h>
 
 #include <gnome.h>
 #include <bonobo.h>
@@ -45,7 +44,7 @@ class AppletControl;
 class org_workrave_GnomeAppletInterface;
 
 class GnomeAppletWindow :
-  public SigC::Object,
+  public sigc::trackable,
   public AppletWindow
 {
 public:

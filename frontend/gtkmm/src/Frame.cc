@@ -227,7 +227,7 @@ Frame::on_expose_event(GdkEventExpose* e)
   return rc;
 }
 
-SigC::Signal1<void,bool> &
+sigc::signal1<void,bool> &
 Frame::signal_flash()
 {
   return flash_signal_src;

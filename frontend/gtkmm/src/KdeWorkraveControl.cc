@@ -1,6 +1,6 @@
 // kworkraveapplet.cc --- Workrave applet for KDE
 //
-// Copyright (C) 2004, 2005, 2006, 2007 Rob Caelers
+// Copyright (C) 2004, 2005, 2006, 2007, 2008 Rob Caelers
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,7 @@ static const char rcsid[] = "$Id$";
 
 #include <stdio.h>
 
-#include <sigc++/object.h>
+#include <sigc++/trackable.h>
 
 #include "GUI.hh"
 #include "KdeAppletWindow.hh"

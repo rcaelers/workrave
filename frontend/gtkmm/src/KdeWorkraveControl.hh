@@ -1,6 +1,6 @@
 // KdeWorkraveControl.hh --- KDE Workrave Applet
 //
-// Copyright (C) 2004, 2005, 2007 Rob Caelers
+// Copyright (C) 2004, 2005, 2007, 2008 Rob Caelers
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -26,13 +26,13 @@
 #include <config.h>
 #endif
 
-#include <sigc++/object.h>
+#include <sigc++/trackable.h>
 #include <glibmm.h>
 #include "kde_applet/kworkravecontroliface.h"
 
 class KWinModule;
 
-class KdeWorkraveControl : public KWorkraveControlIface, public SigC::Object
+class KdeWorkraveControl : public KWorkraveControlIface, public sigc::trackable
 {
 public:
   void fire();

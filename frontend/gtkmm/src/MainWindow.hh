@@ -150,7 +150,7 @@ private:
   HWND win32_main_hwnd;
   HINSTANCE win32_hinstance;
 
-  SigC::Connection timeout_connection;
+  sigc::connection timeout_connection;
 #endif
 };
 

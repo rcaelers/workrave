@@ -24,7 +24,7 @@
 
 #include "preinclude.h"
 
-#include <sigc++/object.h>
+#include <sigc++/trackable.h>
 #include <glibmm.h>
 #include <gtkmm/tooltips.h>
 
@@ -66,7 +66,7 @@ class GUI :
   public IApp,
   public ICoreEventListener,
   public IConfiguratorListener,
-  public SigC::Object
+  public sigc::trackable
 {
 public:
   GUI(int argc, char **argv);
@@ -101,7 +101,7 @@ public:
 
   // Prefs
   // Misc
-  SigC::Signal0<void> &signal_heartbeat();
+  sigc::signal0<void> &signal_heartbeat();
   HeadInfo &get_head(int head);
   int get_number_of_heads() const;
   int map_to_head(int &x, int &y);
@@ -205,7 +205,7 @@ private:
   Gtk::Tooltips *tooltips;
 
   //! Heartbeat signal
-  SigC::Signal0<void> heartbeat_signal;
+  sigc::signal0<void> heartbeat_signal;
 
   //! Destroy break window on next heartbeat?
   bool break_window_destroy;
@@ -230,7 +230,7 @@ private:
   bool grab_wanted;
 
   //! Connection to the grab retry timeout timer.
-  SigC::Connection grab_retry_connection;
+  sigc::connection grab_retry_connection;
 #endif
 
   //! Grab
@@ -282,7 +282,7 @@ GUI::get_sound_player() const
 }
 
 //! Returns the GUI Heartbeat signal.
-inline SigC::Signal0<void> &
+inline sigc::signal0<void> &
 GUI::signal_heartbeat()
 {
   return heartbeat_signal;
