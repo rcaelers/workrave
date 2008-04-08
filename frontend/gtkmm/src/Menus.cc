@@ -94,7 +94,8 @@ Menus::Menus() :
   exercises_dialog(NULL),
 #endif
   main_window(NULL),
-  applet_window(NULL)
+  applet_window(NULL),
+  about(NULL)
 {
   assert(instance == 0);
   instance = this;
@@ -321,35 +322,49 @@ Menus::on_menu_statistics()
 void
 Menus::on_menu_about()
 {
-  string icon = Util::complete_directory("workrave.png",
-                                         Util::SEARCH_PATH_IMAGES);
-  Glib::RefPtr<Gdk::Pixbuf> pixbuf;
-
-  try
+  if (about == NULL)
     {
-      pixbuf = Gdk::Pixbuf::create_from_file(icon);
+      string icon = Util::complete_directory("workrave.png",
+                                             Util::SEARCH_PATH_IMAGES);
+      Glib::RefPtr<Gdk::Pixbuf> pixbuf;
+
+      try
+        {
+          pixbuf = Gdk::Pixbuf::create_from_file(icon);
+        }
+      catch (...)
+        {
+        }
+
+
+      about = new Gtk::AboutDialog;
+
+      about->set_name("Workrave");
+      about->set_authors(workrave_authors);
+      about->set_copyright(workrave_copyright);
+      about->set_comments(_("This program assists in the prevention and recovery"
+                            " of Repetitive Strain Injury (RSI)."));
+      about->set_logo(pixbuf);
+      about->set_translator_credits(workrave_translators);
+
+      about->set_version(VERSION);
+      about->set_website("http://www.workrave.org/");
+      about->set_website_label("www.workrave.org");
+
+      about->signal_response().connect(sigc::mem_fun(*this, &Menus::on_about_response));
     }
-  catch (...)
-    {
-    }
-
-  Gtk::AboutDialog about;
-
-  about.set_name("Workrave");
-  about.set_authors(workrave_authors);
-  about.set_copyright(workrave_copyright);
-  about.set_comments(_("This program assists in the prevention and recovery"
-                       " of Repetitive Strain Injury (RSI)."));
-  about.set_logo(pixbuf);
-  about.set_translator_credits(workrave_translators);
-
-  about.set_version(VERSION);
-  about.set_website("http://www.workrave.org/");
-  about.set_website_label("www.workrave.org");
-
-  about.run();
+  about->present();
 }
 
+
+void
+Menus::on_about_response(int response)
+{
+  (void) response;
+
+  delete about;
+  about = NULL;
+}
 
 void
 Menus::on_menu_network_join()

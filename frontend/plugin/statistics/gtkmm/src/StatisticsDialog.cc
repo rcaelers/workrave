@@ -170,10 +170,6 @@ StatisticsDialog::init_gui()
   
   get_vbox()->pack_start(*hbox, true, true, 0);
 
-#ifdef PLATFORM_OS_OSX
-  GtkUtil::set_wmclass(*this, "Statistics");
-#endif
-
   // Dialog
   add_button(Gtk::Stock::CLOSE, Gtk::RESPONSE_CLOSE);
   show_all();

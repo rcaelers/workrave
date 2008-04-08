@@ -43,6 +43,11 @@ class AppletWindow;
 class ExercisesDialog;
 class Menu;
 
+namespace Gtk
+{
+  class AboutDialog;
+}
+
 using namespace workrave;
 
 class Menus :
@@ -90,6 +95,8 @@ public:
 
 private:
   void set_operation_mode(OperationMode m);
+  void on_menu_response(int response);
+  void on_about_response(int response);
   
 #ifdef HAVE_DISTRIBUTION
   void on_network_log_response(int response);
@@ -149,6 +156,8 @@ private:
 
   //! Different kind of menus
   Menu *menus[MENU_SIZEOF];
+
+  Gtk::AboutDialog *about;
 };
 
 #endif // MENUS_HH

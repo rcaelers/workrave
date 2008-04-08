@@ -188,6 +188,14 @@ GUI::main()
 {
   TRACE_ENTER("GUI::main");
 
+#if defined (PLATFORM_OS_WIN32) || defined(PLATFORM_OS_OSX)
+  // Win32/OSX need this....
+  if (!g_thread_supported())
+    {
+      g_thread_init(NULL);
+    }
+#endif
+  
   Gtk::Main kit(argc, argv);
 
   init_core();
