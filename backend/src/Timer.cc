@@ -595,8 +595,11 @@ Timer::get_elapsed_idle_time() const
 time_t
 Timer::get_elapsed_time() const
 {
+  TRACE_ENTER("Timer::get_elapsed_time");
   time_t ret = elapsed_time;
 
+  TRACE_MSG(ret << " " << core->get_time() << " " <<  last_start_time);
+    
   if (timer_enabled && last_start_time != 0)
     {
       ret += (core->get_time() - last_start_time);
@@ -790,6 +793,12 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
       compute_next_predicate_reset_time();
       info.event = TIMER_EVENT_RESET;
 
+      if (!activity_sensitive)
+        {
+          activity_state = ACTIVITY_IDLE;
+          TRACE_MSG("pred reset, setting state = IDLE");
+          stop_timer();
+        }
     }
   else if (next_limit_time != 0 && current_time >=  next_limit_time)
     {
