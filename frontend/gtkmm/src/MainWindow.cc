@@ -362,14 +362,6 @@ MainWindow::close_window()
 }
 
 
-//! Toggles the main window.
-void
-MainWindow::toggle_window()
-{
-  TimerBoxControl::set_enabled("main_window", !enabled);
-}
-
-
 //! User has closed the main window.
 bool
 MainWindow::on_delete_event(GdkEventAny *)
