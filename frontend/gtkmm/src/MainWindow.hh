@@ -58,9 +58,7 @@ public:
 
   void open_window();
   void close_window();
-  void toggle_window();
   void set_applet_active(bool a);
-  //bool get_iconified() const;
 
   void update();
   void relocate_window(int width, int height);

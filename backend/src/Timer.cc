@@ -874,14 +874,15 @@ Timer::serialize_state() const
      << total_overdue_time << " "
      << snooze_inhibited << " "
      << last_limit_time << " "
-     << last_limit_elapsed;
+     << last_limit_elapsed << " "
+     << timezone;
 
   return ss.str();
 }
 
 
 bool
-Timer::deserialize_state(std::string state)
+Timer::deserialize_state(const std::string &state, int version)
 {
   TRACE_ENTER("Timer::deserialize_state");
   istringstream ss(state);
@@ -893,6 +894,7 @@ Timer::deserialize_state(std::string state)
   time_t now = core->get_time();
   time_t llt = 0;
   time_t lle = 0;
+  time_t tz = 0;
   bool si = false;
 
   ss >> saveTime
@@ -903,12 +905,29 @@ Timer::deserialize_state(std::string state)
      >> llt
      >> lle;
 
+  if (version == 3)
+    {
+      ss >> tz;
+
+      tz -= timezone;
+    }
+  
   // Sanity check...
   if (lastReset > saveTime)
     {
       lastReset = saveTime;
     }
 
+  lastReset += tz;
+
+  struct tm *lt = localtime(&lastReset);
+  
+  TRACE_MSG(lt->tm_mday << " "
+            << lt->tm_mon << " "
+            << lt->tm_year << " "
+            << lt->tm_hour << " "
+            << lt->tm_min);
+    
   TRACE_MSG(si << " " << llt << " " << lle);
   TRACE_MSG(snooze_inhibited);
 

@@ -1346,7 +1346,7 @@ Core::save_state() const
 
   ofstream stateFile(ss.str().c_str());
 
-  stateFile << "WorkRaveState 2"  << endl
+  stateFile << "WorkRaveState 3"  << endl
             << get_time() << endl;
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -1383,6 +1383,7 @@ Core::load_state()
 
   ifstream stateFile(ss.str().c_str());
 
+  int version = 0;
   bool ok = stateFile;
 
   if (ok)
@@ -1395,10 +1396,9 @@ Core::load_state()
 
   if (ok)
     {
-      int version;
       stateFile >> version;
 
-      ok = (version == 1 || version == 2);
+      ok = (version >= 1 && version <= 3);
     }
 
   if (ok)
@@ -1419,7 +1419,7 @@ Core::load_state()
               string state;
               getline(stateFile, state);
 
-              breaks[i].get_timer()->deserialize_state(state);
+              breaks[i].get_timer()->deserialize_state(state, version);
               break;
             }
         }

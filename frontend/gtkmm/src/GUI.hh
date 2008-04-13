@@ -96,7 +96,6 @@ public:
   void restbreak_now();
   void open_main_window();
   void close_main_window();
-  void toggle_main_window();
   void init_multihead();
 
   // Prefs

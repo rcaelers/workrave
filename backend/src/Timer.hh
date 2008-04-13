@@ -1,6 +1,6 @@
 // Timer.hh --- Break Timer
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007, 2008 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -166,7 +166,7 @@ public:
 
   // State serialization.
   std::string serialize_state() const;
-  bool deserialize_state(std::string state);
+  bool deserialize_state(const std::string &state, int version);
   void set_state(int elapsed, int idle, int overdue = -1);
 
   void set_state_data(const TimerStateData &data);

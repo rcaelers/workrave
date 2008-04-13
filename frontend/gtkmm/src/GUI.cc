@@ -274,17 +274,6 @@ GUI::close_main_window()
 }
 
 
-//! Toggles the main window.
-void
-GUI::toggle_main_window()
-{
-  if (main_window != NULL)
-    {
-      main_window->toggle_window();
-    }
-}
-
-
 //! Periodic heartbeat.
 bool
 GUI::on_timer()
