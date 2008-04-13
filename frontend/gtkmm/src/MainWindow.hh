@@ -119,7 +119,6 @@ private:
 
   // Events.
   bool on_delete_event(GdkEventAny*);
-  bool on_window_state_event(GdkEventWindowState *event);
   bool on_configure_event(GdkEventConfigure *event);
 
 public:

@@ -429,26 +429,6 @@ MainWindow::on_button_press_event(GdkEventButton *event)
   return ret;
 }
 
-
-
-bool
-MainWindow::on_window_state_event(GdkEventWindowState *event)
-{
-  TRACE_ENTER("MainWindow::on_window_state_event");
-  if (event != NULL)
-    {
-      if (event->changed_mask & GDK_WINDOW_STATE_ICONIFIED)
-        {
-          bool iconified = event->new_window_state & GDK_WINDOW_STATE_ICONIFIED;
-          TimerBoxControl::set_enabled("main_window", !iconified);
-        }
-    }
-
-  TRACE_EXIT();
-  return true;
-}
-
-
 void
 MainWindow::config_changed_notify(const string &key)
 {
