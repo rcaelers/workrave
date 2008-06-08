@@ -1084,8 +1084,9 @@ Core::process_timers()
   TRACE_EXIT();
 }
 
+#ifdef PLATFORM_OS_WIN32
 
-//! Process a possible timewarp
+//! Process a possible timewarp on Win32
 void
 Core::process_timewarp()
 {
@@ -1099,14 +1100,9 @@ Core::process_timewarp()
             {
               TRACE_MSG("Time warp of " << gap << " seconds. Correcting");
 
-#ifdef PLATFORM_OS_WIN32
-// FIXME: debug, remove later
-APPEND_TIME("Core::process_timewarp()", "Time warp of " << gap << " seconds. Correcting");
-#endif
 
               force_idle();
 
-#ifdef PLATFORM_OS_WIN32
               monitor->shift_time(gap);
               for (int i = 0; i < BREAK_ID_SIZEOF; i++)
                 {
@@ -1114,26 +1110,11 @@ APPEND_TIME("Core::process_timewarp()", "Time warp of " << gap << " seconds. Cor
                 }
 
               monitor_state = ACTIVITY_IDLE;
-#else
-              /* Assume it is a powersave... */
-              int save_current_time = current_time;
-
-              current_time = last_process_time + 1;
-              monitor_state = ACTIVITY_IDLE;
-
-              process_timers();
-
-              current_time = save_current_time;
-#endif
             }
           else
             {
               TRACE_MSG("Time warp of " << gap << " seconds because of powersave");
 
-#ifdef PLATFORM_OS_WIN32
-// FIXME: debug, remove later
-APPEND_TIME("Core::process_timewarp()", "Time warp of " << gap << " seconds because of powersave");
-#endif
 
               // In case the windows message was lost. some people reported that
               // workrave never restarted the timers...
@@ -1144,10 +1125,6 @@ APPEND_TIME("Core::process_timewarp()", "Time warp of " << gap << " seconds beca
         {
           TRACE_MSG("End of time warp after powersave");
 
-#ifdef PLATFORM_OS_WIN32
-// FIXME: debug, remove later
-APPEND_TIME("Core::process_timewarp()", "End of time warp after powersave");
-#endif
 
           powersave = false;
           powersave_resume_time = 0;
@@ -1157,6 +1134,64 @@ APPEND_TIME("Core::process_timewarp()", "End of time warp after powersave");
   TRACE_EXIT();
 }
 
+#else
+
+//! Process a possible timewarp On Non-Windows
+void
+Core::process_timewarp()
+{
+  TRACE_ENTER("Core::process_timewarp");
+  if (last_process_time != 0)
+    {
+      int gap = current_time - 1 - last_process_time;
+      bool do_powersafe = false;
+      bool do_timeshift = false;
+
+      if (gap < 0 || (gap > 5 && gap < 600))
+        {
+          // Negative gap are always intrepreted as timechanges.
+          // Positive gaps between 5..600 are also considered timechanges
+          do_timeshift = true;
+        }
+      else if (gap >= 600)
+        {
+          // Gaps > 600 are considered powersaves.
+          do_powersafe = true;
+        }
+      
+      if (do_powersafe)
+        {
+          TRACE_MSG("Time warp of " << gap << " seconds. Powersafe");
+          
+          force_idle();
+
+          /* Assume it is a powersave... */
+          int save_current_time = current_time;
+
+          current_time = last_process_time + 1;
+          monitor_state = ACTIVITY_IDLE;
+          
+          process_timers();
+
+          current_time = save_current_time;
+        }
+
+      if (do_timeshift)
+        {
+          TRACE_MSG("Time warp of " << gap << " seconds. Timeshift");
+
+          monitor->shift_time(gap);
+          for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+            {
+              breaks[i].get_timer()->shift_time(gap);
+            }
+        }
+    }
+  
+  TRACE_EXIT();
+}
+
+#endif
 
 //! Notication of a timer action.
 /*!

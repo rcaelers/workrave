@@ -647,23 +647,21 @@ void
 MainWindow::set_applet_active(bool a)
 {
   TRACE_ENTER_MSG("MainWindow::set_applet_active", a);
-  if (applet_active != a)
-    {
-      applet_active = a;
+  applet_active = a;
 
-      if (!enabled)
+  if (!enabled)
+    {
+      if (applet_active)
         {
-          if (applet_active)
-            {
-              hide_all();
-            }
-          else
-            {
-              iconify();
-              show_all();
-            }
+          hide_all();
+        }
+      else
+        {
+          iconify();
+          show_all();
         }
     }
+
   TRACE_EXIT();
 }
 

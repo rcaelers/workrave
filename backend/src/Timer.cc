@@ -680,6 +680,8 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
   TRACE_MSG("enabled = " << timer_enabled);
   TRACE_MSG("last_start_time " << last_start_time);
   TRACE_MSG("next_pred_reset_time " << next_pred_reset_time);
+  TRACE_MSG("next_reset_time " << next_reset_time);
+  TRACE_MSG("time " << current_time);
   
   const time_t now = core->get_time();
   struct tm *tmnow = localtime(&now);
@@ -689,7 +691,11 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
             << tmnow->tm_year << " "
             << tmnow->tm_hour << " "
             << tmnow->tm_min << " "
-            << tzname[0]);
+            << tmnow->tm_min << " "
+            << tmnow->tm_isdst << " "
+            << tmnow->tm_gmtoff << " "
+            << tzname[0] << " " 
+            << tzname[1]);
 
   
   if (activity_sensitive)
@@ -917,7 +923,6 @@ Timer::deserialize_state(const std::string &state, int version)
   if (version == 3)
     {
       ss >> tz;
-
       tz -= timezone;
     }
   
@@ -927,16 +932,23 @@ Timer::deserialize_state(const std::string &state, int version)
       lastReset = saveTime;
     }
 
-  lastReset += tz;
+  // lastReset -= tz;
 
-  struct tm *lt = localtime(&lastReset);
-  
+  time_t xx = lastReset - tz;
+  struct tm *lt = localtime(&xx);
+
   TRACE_MSG(lt->tm_mday << " "
             << lt->tm_mon << " "
             << lt->tm_year << " "
             << lt->tm_hour << " "
-            << lt->tm_min);
-    
+            << lt->tm_min << " "
+            << lt->tm_isdst << " "
+            << lt->tm_gmtoff << " "
+            << tzname[0] << " " 
+            << tzname[1] << " " 
+            << timezone << " "
+            << daylight);
+  
   TRACE_MSG(si << " " << llt << " " << lle);
   TRACE_MSG(snooze_inhibited);
 

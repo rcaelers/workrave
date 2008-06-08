@@ -169,7 +169,6 @@ X11SystrayAppletWindow::activate_applet()
       view->set_geometry(applet_orientation, applet_size);
 
       applet_active = true;
-      ret = APPLET_STATE_VISIBLE;
     }
 
   TRACE_EXIT();

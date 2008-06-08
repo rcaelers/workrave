@@ -43,7 +43,6 @@ common/src/GlibThread.cc
 common/src/StringUtil.cc
 common/src/Util.cc
 common/src/debug.cc
-common/src/glibnls.c
 common/src/unix/Sound.cc
 common/src/win32/crashlog.c
 common/win32/harpoon/src/harpoon.c
