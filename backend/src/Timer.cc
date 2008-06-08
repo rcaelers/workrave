@@ -693,7 +693,7 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
             << tmnow->tm_min << " "
             << tmnow->tm_min << " "
             << tmnow->tm_isdst << " "
-#indef PLATFORM_OS_UNIX            
+#ifdef PLATFORM_OS_UNIX            
             << tmnow->tm_gmtoff << " "
 #endif            
             << tzname[0] << " " 
@@ -945,7 +945,7 @@ Timer::deserialize_state(const std::string &state, int version)
             << lt->tm_hour << " "
             << lt->tm_min << " "
             << lt->tm_isdst << " "
-#ifndef PLATFORM_OS_UNIX            
+#ifdef PLATFORM_OS_UNIX            
             << lt->tm_gmtoff << " "
 #endif
             << tzname[0] << " " 
