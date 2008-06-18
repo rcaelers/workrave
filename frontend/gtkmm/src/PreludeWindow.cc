@@ -136,7 +136,7 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
   HWND _scope = (HWND) GDK_WINDOW_HWND( GTK_WIDGET( this->gobj() )->window );
   HWND _hRoot = GetAncestor( _hwnd, GA_ROOT );
   HWND _hParent = GetAncestor( _hwnd, GA_PARENT );
-  HWND _hParent2 = (HWND)GetWindowLong( _hwnd, GWL_HWNDPARENT );
+  //HWND _hParent2 = (HWND)GetWindowLong( _hwnd, GWL_HWNDPARENT );
   HWND _hDesktop = GetDesktopWindow();
   
   APPEND_TIME( "PreludeWindow created", hex << _hwnd );
@@ -145,28 +145,28 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
     {
       APPEND( "!!!!!!!!!!!!!!!", "Scope issue: " << hex << _scope );
       APPEND_ENDL();
-	}
+    }
   
   if( _hwnd != _hRoot )
     {
-	  APPEND( "GetDesktopWindow()", hex << _hDesktop );
+      APPEND( "GetDesktopWindow()", hex << _hDesktop );
       APPEND( "!!!!!!!!!!!!!!!", "PreludeWindow GA_ROOT: " << hex << _hRoot );
       APPEND_ENDL();
-	}
+    }
   
   if( _hParent != _hDesktop )
     {
-	  APPEND( "GetDesktopWindow()", hex << _hDesktop );
+      APPEND( "GetDesktopWindow()", hex << _hDesktop );
       APPEND( "!!!!!!!!!!!!!!!", "PreludeWindow GA_PARENT: " << hex << _hParent );
       
       HWND _hTemp;
       while( IsWindow( _hParent ) && _hParent != _hDesktop )
         {
-		  _hTemp = _hParent;
+          _hTemp = _hParent;
           _hParent = GetAncestor( _hTemp, GA_PARENT );
-		  HWND _hParent2 = (HWND)GetWindowLong( _hTemp, GWL_HWNDPARENT );
+          HWND _hParent2 = (HWND)GetWindowLong( _hTemp, GWL_HWNDPARENT );
           if( _hParent == _hTemp )
-              break;
+            break;
           APPEND( "!!!!!!!!!!!!!!!", hex << _hTemp << " GA_PARENT: " << hex << _hParent );
           APPEND( "!!!!!!!!!!!!!!!", hex << _hTemp << " GWL_HWNDPARENT: " << hex << _hParent2 );
         }

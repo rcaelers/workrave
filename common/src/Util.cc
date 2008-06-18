@@ -1,6 +1,6 @@
 // Util.cc --- General purpose utility functions
 //
-// Copyright (C) 2001, 2002, 2003, 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -199,6 +199,59 @@ Util::get_application_directory()
   // app_dir_name == c:\program files\workrave
   return string(app_dir_name);
 }
+
+bool
+Util::registry_get_value(const char *path, const char *name,
+                         char *out)
+{
+  HKEY handle;
+  bool rc = false;
+  LONG err;
+
+  err = RegOpenKeyEx(HKEY_CURRENT_USER, path, 0, KEY_ALL_ACCESS, &handle);
+  if (err == ERROR_SUCCESS)
+    {
+      DWORD type, size;
+      size = MAX_PATH;
+      err = RegQueryValueEx(handle, name, 0, &type, (LPBYTE) out, &size);
+      if (err == ERROR_SUCCESS)
+        {
+          rc = true;
+        }
+      RegCloseKey(handle);
+    }
+  return rc;
+}
+
+bool
+Util::registry_set_value(const char *path, const char *name,
+                         const char *value)
+{
+  HKEY handle;
+  bool rc = false;
+  DWORD disp;
+  LONG err;
+
+  err = RegCreateKeyEx(HKEY_CURRENT_USER, path, 0,
+                       "", REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS,
+                       NULL, &handle, &disp);
+  if (err == ERROR_SUCCESS)
+    {
+      if (value != NULL)
+        {
+          err = RegSetValueEx(handle, name, 0, REG_SZ, (BYTE *) value,
+                              strlen(value)+1);
+        }
+      else
+        {
+          err = RegDeleteValue(handle, name);
+        }
+      RegCloseKey(handle);
+      rc = (err == ERROR_SUCCESS);
+    }
+  return rc;
+}
+
 #endif
 
 

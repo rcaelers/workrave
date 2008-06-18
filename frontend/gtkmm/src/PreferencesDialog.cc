@@ -60,6 +60,7 @@
 
 // #include "PluginsPreferencePage.hh"
 
+#define RUNKEY "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run"
 
 using namespace std;
 
@@ -279,7 +280,20 @@ PreferencesDialog::create_gui_page()
   
   panel->add(_("Language:"), languages_combo);
 #endif
-  
+
+#if defined(PLATFORM_OS_WIN32)
+  Gtk::Label *autostart_lab = manage(GtkUtil::create_label(_("_Start Workrave on Windows startup"), true));
+  autostart_cb = manage(new Gtk::CheckButton());
+  autostart_cb->add(*autostart_lab);
+  autostart_cb->signal_toggled().connect(sigc::mem_fun(*this, &PreferencesDialog::on_autostart_toggled));
+
+  panel->add("Autostart", *autostart_cb);
+
+  char *value = NULL;
+  Util::registry_get_value(RUNKEY, "Workrave", value);
+  autostart_cb->set_active(value != NULL);
+#endif  
+
   panel->set_border_width(12);
   return panel;
 }
@@ -467,5 +481,24 @@ PreferencesDialog::on_cell_data_compare(const Gtk::TreeModel::iterator& iter1,
     {
       return g_utf8_collate(name1.c_str(), name2.c_str());
     }
+}
+#endif
+
+#if defined(PLATFORM_OS_WIN32)
+
+void
+PreferencesDialog::on_autostart_toggled()
+{
+  bool on = autostart_cb->get_active();
+  gchar *value = NULL;
+
+  if (on)
+    {
+      string appdir = Util::get_application_directory();
+
+      value = g_strdup_printf("%s" G_DIR_SEPARATOR_S "workrave.exe", appdir.c_str());
+    }
+  
+  Util::registry_set_value(RUNKEY, "Workrave", value);
 }
 #endif

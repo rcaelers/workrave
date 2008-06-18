@@ -75,7 +75,7 @@ private:
   OperationMode mode;
   IconListNotebook notebook;
 
-#if defined(PLATFORM_OS_WIN32)
+#if defined(HAVE_LANGUAGE_SELECTION)
   //Tree model columns:
   class ModelColumns : public Gtk::TreeModel::ColumnRecord
   {
@@ -99,6 +99,11 @@ private:
   Glib::RefPtr<Gtk::ListStore> languages_model;
   Gtk::CellRendererText native_cellrenderer;
   Gtk::CellRendererText current_cellrenderer;
+#endif
+  
+#if defined(PLATFORM_OS_WIN32)
+  Gtk::CheckButton *autostart_cb;
+  void on_autostart_toggled();
 #endif
 };
 

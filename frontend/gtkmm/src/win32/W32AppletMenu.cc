@@ -71,6 +71,7 @@ W32AppletMenu::init()
 void
 W32AppletMenu::add_accel(Gtk::Window &window)
 {
+  (void) window;
 }
 
 void

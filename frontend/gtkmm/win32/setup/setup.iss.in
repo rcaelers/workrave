@@ -72,6 +72,8 @@ Source: "..\..\src\workrave.exe"; DestDir: "{app}\lib"; DestName: "Workrave.exe"
 Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\Workrave.exe"; ValueType: string; ValueData: "{app}\lib\Workrave.exe"; Flags: uninsdeletekeyifempty
 Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\Workrave.exe"; ValueName: "Path"; ValueType: string; ValueData: "{code:GetAppPath}"; Flags: uninsdeletekeyifempty
 Root: HKLM; Subkey: "SOFTWARE\Workrave"; ValueName: "CommonGTK"; ValueType: string; ValueData: "{code:GetCommonGtkKey}";
+Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "Workrave"; ValueData: """\lib\Workrave.exe"""; Flags: uninsdeletevalue; Tasks: startupmenu
+
 
 [Icons]
 Name: "{group}\Workrave"; Filename: "{app}\lib\Workrave.exe"
@@ -80,8 +82,8 @@ Name: "{group}\Read me"; Filename: "{app}\README.txt"
 Name: "{group}\License"; Filename: "{app}\COPYING.txt"
 Name: "{group}\Uninstall"; Filename: "{uninstallexe}"
 Name: "{userdesktop}\Workrave"; Filename: "{app}\lib\Workrave.exe"; MinVersion: 4,4; Tasks: desktopicon
-Name: "{userstartup}\Workrave"; Filename: "{app}\lib\Workrave.exe"; MinVersion: 4,4; Tasks: startupmenu
 Name: "{app}\Workrave"; Filename: "{app}\lib\Workrave.exe"
+;;Name: "{userstartup}\Workrave"; Filename: "{app}\lib\Workrave.exe"; MinVersion: 4,4; Tasks: startupmenu
 
 
 
