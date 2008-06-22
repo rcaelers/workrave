@@ -90,6 +90,9 @@ Name: "{app}\Workrave"; Filename: "{app}\lib\Workrave.exe"
 [Run]
 Filename: "{app}\lib\Workrave.exe"; Description: "Launch Workrave"; Flags: nowait postinstall skipifsilent shellexec;
 
+[InstallDelete]
+Type: files; Name: "{userstartup}\Workrave"
+
 [Code]
 function InitializeSetup(): Boolean;
 begin

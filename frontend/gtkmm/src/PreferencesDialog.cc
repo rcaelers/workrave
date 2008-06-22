@@ -282,7 +282,7 @@ PreferencesDialog::create_gui_page()
 #endif
 
 #if defined(PLATFORM_OS_WIN32)
-  Gtk::Label *autostart_lab = manage(GtkUtil::create_label(_("_Start Workrave on Windows startup"), true));
+  Gtk::Label *autostart_lab = manage(GtkUtil::create_label(_("_Start Workrave on Windows startup"), false));
   autostart_cb = manage(new Gtk::CheckButton());
   autostart_cb->add(*autostart_lab);
   autostart_cb->signal_toggled().connect(sigc::mem_fun(*this, &PreferencesDialog::on_autostart_toggled));
