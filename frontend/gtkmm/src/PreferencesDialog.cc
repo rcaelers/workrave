@@ -287,7 +287,7 @@ PreferencesDialog::create_gui_page()
   autostart_cb->add(*autostart_lab);
   autostart_cb->signal_toggled().connect(sigc::mem_fun(*this, &PreferencesDialog::on_autostart_toggled));
 
-  panel->add("Autostart", *autostart_cb);
+  panel->add(*autostart_cb);
 
   char *value = NULL;
   Util::registry_get_value(RUNKEY, "Workrave", value);
@@ -496,7 +496,7 @@ PreferencesDialog::on_autostart_toggled()
     {
       string appdir = Util::get_application_directory();
 
-      value = g_strdup_printf("%s" G_DIR_SEPARATOR_S "workrave.exe", appdir.c_str());
+      value = g_strdup_printf("%s" G_DIR_SEPARATOR_S "lib" G_DIR_SEPARATOR_S "workrave.exe", appdir.c_str());
     }
   
   Util::registry_set_value(RUNKEY, "Workrave", value);
