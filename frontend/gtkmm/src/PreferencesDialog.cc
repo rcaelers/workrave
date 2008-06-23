@@ -367,7 +367,7 @@ PreferencesDialog::create_sounds_page()
   sound_enabled_cellrenderer.signal_toggled().connect(sigc::mem_fun(*this,
                                                                     &PreferencesDialog::on_sound_enabled)
                                                       );
-
+#if 0
   Gtk::HScale *scale =  manage(new Gtk:: HScale(0.0, 100.0, 5.0));
   scale->set_increments(5.0,25.0);
   scale->set_value(75);
@@ -417,7 +417,7 @@ PreferencesDialog::create_sounds_page()
 
   panel->add("Volume", *box);
 
-  
+#endif  
   
   panel->set_border_width(12);
   return panel;
