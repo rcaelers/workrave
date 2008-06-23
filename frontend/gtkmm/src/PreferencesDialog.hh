@@ -37,6 +37,8 @@
 #include <gtkmm/liststore.h>
 
 class TimeEntry;
+class DataConnector;
+
 namespace Gtk
 {
   class OptionMenu;
@@ -57,6 +59,7 @@ private:
   void add_page(const char *label, const char *image, Gtk::Widget &widget);
   Gtk::Widget *create_gui_page();
   Gtk::Widget *create_timer_page();
+  Gtk::Widget *create_sounds_page();
 #ifdef HAVE_DISTRIBUTION
   Gtk::Widget *create_network_page();
 #endif
@@ -100,6 +103,26 @@ private:
   Gtk::CellRendererText native_cellrenderer;
   Gtk::CellRendererText current_cellrenderer;
 #endif
+
+  class SoundModel : public Gtk::TreeModel::ColumnRecord
+  {
+  public:
+    SoundModel()
+    { add(enabled); add(event); }
+
+    Gtk::TreeModelColumn<bool> enabled;
+    Gtk::TreeModelColumn<Glib::ustring> event;
+    Gtk::TreeModelColumn<bool> selectable;
+  };
+
+  DataConnector *connector;
+  Gtk::TreeView sound_events_treeview;
+  SoundModel sound_model;
+  Glib::RefPtr<Gtk::ListStore> sound_store;
+  Gtk::CellRendererToggle sound_enabled_cellrenderer;
+  Gtk::CellRendererText sound_event_cellrenderer;
+
+  void on_sound_enabled(const Glib::ustring& path_stringxo);
   
 #if defined(PLATFORM_OS_WIN32)
   Gtk::CheckButton *autostart_cb;

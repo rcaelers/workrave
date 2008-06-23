@@ -50,6 +50,7 @@
 #include "Util.hh"
 #include "GUI.hh"
 #include "GUIConfig.hh"
+#include "DataConnector.hh"
 
 #include "CoreFactory.hh"
 #include "IConfigurator.hh"
@@ -69,6 +70,8 @@ PreferencesDialog::PreferencesDialog()
 {
   TRACE_ENTER("PreferencesDialog::PreferencesDialog");
 
+  connector = new DataConnector();
+  
   // Pages
   Gtk::Widget *timer_page = manage(create_timer_page());
   Gtk::Notebook *gui_page = manage(new Gtk::Notebook());
@@ -76,6 +79,11 @@ PreferencesDialog::PreferencesDialog()
 #if !defined(PLATFORM_OS_OSX)
   Gtk::Widget *gui_general_page = manage(create_gui_page());
   gui_page->append_page(*gui_general_page, _("General"));
+#endif
+
+#if 0
+  Gtk::Widget *gui_sounds_page = manage(create_sounds_page());
+  gui_page->append_page(*gui_sounds_page, _("Sounds"));
 #endif
   
   Gtk::Widget *gui_mainwindow_page = manage(create_mainwindow_page());
@@ -282,7 +290,7 @@ PreferencesDialog::create_gui_page()
 #endif
 
 #if defined(PLATFORM_OS_WIN32)
-  Gtk::Label *autostart_lab = manage(GtkUtil::create_label(_("_Start Workrave on Windows startup"), false));
+  Gtk::Label *autostart_lab = manage(GtkUtil::create_label(_("Start Workrave on Windows startup"), false));
   autostart_cb = manage(new Gtk::CheckButton());
   autostart_cb->add(*autostart_lab);
   autostart_cb->signal_toggled().connect(sigc::mem_fun(*this, &PreferencesDialog::on_autostart_toggled));
@@ -294,6 +302,123 @@ PreferencesDialog::create_gui_page()
   autostart_cb->set_active(value != NULL);
 #endif  
 
+  panel->set_border_width(12);
+  return panel;
+}
+
+
+Gtk::Widget *
+PreferencesDialog::create_sounds_page()
+{
+  // Options
+  HigCategoryPanel *panel = manage(new HigCategoryPanel(_("Sound events")));
+
+  // Sound types
+  sound_button  = manage(new Gtk::OptionMenu());
+  Gtk::Menu *sound_menu = manage(new Gtk::Menu());
+  Gtk::Menu::MenuList &sound_list = sound_menu->items();
+  sound_button->set_menu(*sound_menu);
+  sound_list.push_back(Gtk::Menu_Helpers::MenuElem(_("No sounds")));
+  sound_list.push_back(Gtk::Menu_Helpers::MenuElem
+                       (_("Play sounds using sound card")));
+  sound_list.push_back(Gtk::Menu_Helpers::MenuElem
+                       (_("Play sounds using built-in speaker")));
+  int idx;
+  if (! SoundPlayer::is_enabled())
+    idx = 0;
+  else
+    {
+      if (SoundPlayer::DEVICE_SPEAKER == SoundPlayer::get_device())
+        idx = 2;
+      else
+        idx = 1;
+    }
+  sound_button->set_history(idx);
+  sound_button->signal_changed().connect(sigc::mem_fun(*this, &PreferencesDialog::on_sound_changed));
+
+  panel->add(_("Sound:"), *sound_button);
+  
+  sound_store = Gtk::ListStore::create(sound_model);
+  sound_events_treeview.set_model(sound_store);
+  
+  Gtk::TreeModel::iterator iter = sound_store->append();
+  Gtk::TreeModel::Row row = *iter;
+  row[sound_model.enabled] = true;
+  row[sound_model.selectable] = true;
+  row[sound_model.event] = _("System default");
+
+
+  iter = sound_store->append();
+  row = *iter;
+  row[sound_model.enabled] = false;
+  row[sound_model.selectable] = true;
+  row[sound_model.event] = _("System default");
+
+  sound_events_treeview.set_rules_hint();
+  sound_events_treeview.set_search_column(sound_model.event.index());
+  
+  int cols_count = sound_events_treeview.append_column_editable(_("Play"), sound_model.enabled);
+  Gtk::TreeViewColumn *column = sound_events_treeview.get_column(cols_count - 1);
+
+  cols_count = sound_events_treeview.append_column(_("Event"), sound_model.event);
+  column = sound_events_treeview.get_column(cols_count - 1);
+  column->set_fixed_width(40);
+
+  sound_enabled_cellrenderer.signal_toggled().connect(sigc::mem_fun(*this,
+                                                                    &PreferencesDialog::on_sound_enabled)
+                                                      );
+
+  Gtk::HScale *scale =  manage(new Gtk:: HScale(0.0, 100.0, 5.0));
+  scale->set_increments(5.0,25.0);
+  scale->set_value(75);
+  
+  connector->connect("bla",
+                     dc::wrap(scale->get_adjustment()));
+
+  
+  
+  panel->add(sound_events_treeview);
+
+  Gtk::HBox *hbox = manage(new Gtk::HBox(false, 6));
+  
+  Gtk::Button *test_button = manage(new Gtk::Button("_Test"));
+  hbox->pack_start(*test_button, false, false, 0);
+  Gtk::Button *reset_button = manage(new Gtk::Button("_Reset"));
+  hbox->pack_start(*reset_button, false, false, 0);
+  Gtk::Button *choose_button = manage(new Gtk::Button("_Choose..."));
+  hbox->pack_start(*choose_button, false, false, 0);
+
+  
+  Gtk::FileChooserButton *fsbutton =
+    manage(new Gtk::FileChooserButton(_("Choose a sound"),
+                                      Gtk::FILE_CHOOSER_ACTION_OPEN,
+                                      "gtk+"
+                                      ));
+  hbox->pack_start(*fsbutton, false, false, 0);
+
+  
+  //   gtk_box_pack_start (GTK_BOX (hbox), fsbutton, TRUE, TRUE, 2);
+
+ 
+  //   filefilter = gtk_file_filter_new ();
+  //   gtk_file_filter_set_name (filefilter, _("Wavefiles"));
+  // #ifdef WIN32
+  //   gtk_file_filter_add_pattern (filefilter, "*.wav");
+  // #else
+  //   gtk_file_filter_add_mime_type (filefilter, "audio/x-wav");
+  // #endif
+  //   gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (fsbutton), filefilter);
+  
+  panel->add(*hbox);
+  
+  
+  Gtk::HBox *box = manage(new Gtk::HBox(true, 6));
+  box->pack_start(*scale, true, false, 0);
+
+  panel->add("Volume", *box);
+
+  
+  
   panel->set_border_width(12);
   return panel;
 }
@@ -502,3 +627,15 @@ PreferencesDialog::on_autostart_toggled()
   Util::registry_set_value(RUNKEY, "Workrave", value);
 }
 #endif
+
+void
+PreferencesDialog::on_sound_enabled(const Glib::ustring& path_string)
+{
+  // GtkTreePath *gpath = gtk_tree_path_new_from_string (path_string.c_str());
+  // Gtk::TreePath path(gpath);
+
+  // /* get toggled iter */
+  // Gtk::TreeRow row = *(peers_store->get_iter(path));
+
+  // row[peers_columns.hostname]  = new_text;
+}
