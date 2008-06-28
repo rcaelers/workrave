@@ -9,7 +9,7 @@
 MAINTAINERCLEANFILES = 	Makefile.in workrave.soundlist
 DISTCLEANFILES = 	workrave.soundlist
 
-SUBDIRS	= subtle
+## SUBDIRS	= subtle
 
 soundsdir = 		$(datadir)/sounds/workrave/default
 sounds_DATA = 		$(wildcard *.wav) soundtheme
