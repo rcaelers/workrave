@@ -57,8 +57,8 @@ class Menus;
 
 // Generic GUI
 class BreakControl;
-class ISoundPlayer;
 class IBreakWindow;
+class SoundPlayer;
 
 using namespace workrave;
 
@@ -111,7 +111,7 @@ public:
   AppletControl *get_applet_control() const;
   MainWindow *get_main_window() const;
   Gtk::Tooltips *get_tooltips() const;
-  ISoundPlayer *get_sound_player() const;
+  SoundPlayer *get_sound_player() const;
 
 private:
   std::string get_timers_tooltip();
@@ -168,7 +168,7 @@ private:
   ICore *core;
 
   //! The sound player
-  ISoundPlayer *sound_player;
+  SoundPlayer *sound_player;
 
   //! Interface to the break window.
   IBreakWindow **break_windows;
@@ -274,7 +274,7 @@ GUI::get_main_window() const
 
 
 //! Returns the sound player
-inline ISoundPlayer *
+inline SoundPlayer *
 GUI::get_sound_player() const
 {
   return sound_player;

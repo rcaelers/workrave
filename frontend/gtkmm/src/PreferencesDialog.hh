@@ -31,6 +31,8 @@
 #include "IconListNotebook.hh"
 #include "ICore.hh"
 
+#include "SoundPlayer.hh"
+
 #include <gtkmm/treemodel.h>
 #include <gtkmm/treemodelcolumn.h>
 #include <gtkmm/combobox.h>
@@ -43,6 +45,8 @@ namespace Gtk
 {
   class OptionMenu;
   class ComboBox;
+  class FileChooserButton;
+  class HScale;
 }
 
 using namespace workrave;
@@ -73,7 +77,8 @@ private:
 
   Gtk::OptionMenu *sound_button;
   Gtk::OptionMenu *block_button;
-
+  Gtk::OptionMenu *sound_theme_button;
+  
   // Mode before focus in.
   OperationMode mode;
   IconListNotebook notebook;
@@ -108,21 +113,37 @@ private:
   {
   public:
     SoundModel()
-    { add(enabled); add(event); }
+    { add(enabled); add(description); add(selectable); add(label); add(event); }
 
     Gtk::TreeModelColumn<bool> enabled;
-    Gtk::TreeModelColumn<Glib::ustring> event;
+    Gtk::TreeModelColumn<Glib::ustring> description;
     Gtk::TreeModelColumn<bool> selectable;
+    Gtk::TreeModelColumn<Glib::ustring> label;
+    Gtk::TreeModelColumn<int> event;
   };
 
   DataConnector *connector;
-  Gtk::TreeView sound_events_treeview;
+  std::vector<SoundPlayer::Theme> sound_themes;
+  Gtk::TreeView sound_treeview;
   SoundModel sound_model;
   Glib::RefPtr<Gtk::ListStore> sound_store;
   Gtk::CellRendererToggle sound_enabled_cellrenderer;
   Gtk::CellRendererText sound_event_cellrenderer;
-
+  Gtk::HScale *sound_volume_scale;
+  Gtk::Button *sound_play_button;
+  int inhibit_events;
+  
+  Gtk::FileChooserButton *fsbutton;
+  std::string fsbutton_filename;
+  
   void on_sound_enabled(const Glib::ustring& path_stringxo);
+  void on_sound_play();
+  void on_sound_filechooser_play();
+  void on_sound_filechooser_select();
+  void on_sound_events_changed();
+  void on_sound_theme_changed();
+  void update_theme_selection();
+  void update_senstives();
   
 #if defined(PLATFORM_OS_WIN32)
   Gtk::CheckButton *autostart_cb;

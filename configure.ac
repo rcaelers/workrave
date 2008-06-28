@@ -62,6 +62,11 @@ AC_ARG_ENABLE( dbus,
                               [compile with DBus support])],
               [config_dbus=$enableval], [config_dbus=no])
  
+AC_ARG_ENABLE( gstreamer,
+    	      [AC_HELP_STRING([--disable-gstreamer],
+	                      [compile without GStreamer audio support])],
+   	      [config_gst="$enableval"], [enable_gst="yes"])
+
 AC_ARG_ENABLE( kde,
               [AC_HELP_STRING([--enable-kde],
                               [compile with KDE support])],
@@ -453,6 +458,24 @@ fi
 
 AM_CONDITIONAL(HAVE_DBUS, test x$have_dbus = xyes)
 
+dnl 
+dnl GStreamer
+dnl
+
+if test "x$config_gst" != "xno";
+then
+    PKG_CHECK_MODULES(GSTREAMER, [gstreamer-0.10], [
+		AC_DEFINE(HAVE_GSTREAMER, 1, [Use GStreamer for playing sounds])
+		AC_SUBST(GSTREAMER_CFLAGS)
+		AC_SUBST(GSTREAMER_LIBS)
+	      ], [
+		AC_MSG_RESULT(no)
+		AC_MSG_ERROR([
+GStreamer development headers not found.
+Use --disable-gstreamer if you do not need GStreamer (sound) support.
+])])
+fi
+
 
 dnl
 dnl libao
@@ -681,6 +704,7 @@ AC_OUTPUT(Makefile
           frontend/common/include/Makefile \
           frontend/common/share/Makefile \
           frontend/common/share/sounds/Makefile \
+          frontend/common/share/sounds/subtle/Makefile \
           frontend/common/share/images/Makefile \
           frontend/common/share/images/win32/Makefile \
           frontend/common/share/images/osx/Makefile \

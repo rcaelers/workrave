@@ -1,6 +1,6 @@
-// W32SoundPlayer.hh
+// GstSoundPlayer.hh
 //
-// Copyright (C) 2002, 2003, 2006, 2007, 2008 Raymond Penners & Ray Satiro
+// Copyright (C) 2008 Rob Caelers
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -16,19 +16,23 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-// $Id$
+// $Id: GnomeSoundPlayer.hh 1351 2007-10-14 20:56:54Z rcaelers $
 //
 
-#ifndef W32SOUNDPLAYER_HH
-#define W32SOUNDPLAYER_HH
+#ifndef GSTSOUNDPLAYER_HH
+#define GSTSOUNDPLAYER_HH
 
-#include "ISoundDriver.hh"
+#include <ISoundDriver.hh>
 
-class W32SoundPlayer : public ISoundDriver
+#ifdef HAVE_GSTREAMER
+
+#include <gst/gst.h>
+
+class GstSoundPlayer : public ISoundDriver
 {
 public:
-  W32SoundPlayer();
-  virtual ~W32SoundPlayer();
+  GstSoundPlayer();
+  virtual ~GstSoundPlayer();
 
   bool capability(SoundPlayer::SoundCapability cap);
   void play_sound(SoundPlayer::SoundEvent snd);
@@ -38,28 +42,15 @@ public:
   void set_sound_enabled(SoundPlayer::SoundEvent snd, bool enabled);
   bool get_sound_wav_file(SoundPlayer::SoundEvent snd, std::string &wav_file);
   void set_sound_wav_file(SoundPlayer::SoundEvent snd, const std::string &wav_file);
-
-protected:
-  static DWORD WINAPI thread_Play( LPVOID );
   
 private:
-  void Play();
+  //! Sound volue 
+  float volume;
 
-  void open();
-  void close();
-  int write(unsigned char *buffer, size_t size);
-  void flush_buffer(int buffer);
-  void load_wav_file(const std::string &filename);
-  
-  HWAVEOUT waveout;
-  HANDLE wave_event;
-
-  int buffer_position;
-  int number_of_buffers;
-  WAVEHDR **buffers;
-  unsigned char *sample;
-  size_t sample_size;
-  WAVEFORMATEX format;
+  //! GStreamer init OK.
+  gboolean gst_ok;
 };
 
-#endif // W32SOUNDPLAYER_HH
+#endif
+
+#endif // GSTSOUNDPLAYER_HH

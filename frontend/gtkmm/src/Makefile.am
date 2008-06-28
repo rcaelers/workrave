@@ -246,7 +246,7 @@ nodist_workrave_SOURCES = \
 
 
 workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
-			-DATADIR="\"${datadir}\""  \
+			-DWORKRAVE_DATADIR="\"${datadir}\""  \
 			-I$(top_srcdir)/frontend/gtkmm/src/ \
 			@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
 			@X_CFLAGS@ @GNOMEMM_CFLAGS@ \
@@ -286,7 +286,7 @@ workrave_LDFLAGS = 	@WR_LDFLAGS@ ${ldflags}
 workrave_LDADD =        @WR_LDADD@ @X_LIBS@ @GNOME_LIBS@ @GNOMEMM_LIBS@ \
 			@GTK_LIBS@ @GNET_LIBS@ @X_LIBS@ @GCONF_LIBS@ @GDOME_LIB@ \
 			@KDE_LDFLAGS@ @LIB_KDEUI@ @LIB_KDECORE@ \
-			@QT_LDFLAGS@ @LIB_QT@ @DBUS_LIBS@  @IGE_LIBS@ \
+			@QT_LDFLAGS@ @LIB_QT@ @DBUS_LIBS@  @IGE_LIBS@ @GSTREAMER_LIBS@ \
 			${X11LIBS} ${WIN32LIBS} @GTK_LIBS@ ${OSXLIBS} ${WIN32CONSOLE}
 
 #  @UUID_LIBS@ 

@@ -312,7 +312,7 @@ Util::get_search_path(SearchPathId type)
           searchPath.push_back(home_dir + "/");
           searchPath.push_back(home_dir + "/sounds");
         }
-      searchPath.push_back(string(WORKRAVE_PKGDATADIR) + "/images");
+      searchPath.push_back(string(WORKRAVE_DATADIR) + "/sounds/workrave");
       searchPath.push_back("/usr/local/share/sounds/workrave");
       searchPath.push_back("/usr/share/sounds/workrave");
 #elif defined(PLATFORM_OS_WIN32)
@@ -385,3 +385,23 @@ Util::complete_directory(string path, Util::SearchPathId type)
 
   return fullPath;
 }
+
+bool
+Util::running_gnome()
+{
+  bool ret = false;
+
+#ifdef PLATFORM_OS_UNIX
+	gchar *tmp = g_find_program_in_path("gnome-open");
+
+	if (tmp != NULL)
+    {
+      g_free(tmp);
+      tmp = (gchar *)g_getenv("GNOME_DESKTOP_SESSION_ID");
+
+      ret = ((tmp != NULL) && (*tmp != '\0'));
+    }
+#endif
+	return ret;
+}
+

@@ -56,9 +56,22 @@ GnomeSoundPlayer::~GnomeSoundPlayer()
 }
 
 
+bool
+GnomeSoundPlayer::capability(SoundPlayer::SoundCapability cap)
+{
+  (void) cap;
+  return false;
+}
 
 void
-GnomeSoundPlayer::play_sound(Sound snd)
+GnomeSoundPlayer::play_sound(std::string wavfile)
+{
+  (void) wavfile;
+}
+
+
+void
+GnomeSoundPlayer::play_sound(SoundPlayer::SoundEvent snd)
 {
   const char *map[] = {
     "break_prelude",
@@ -77,3 +90,34 @@ GnomeSoundPlayer::play_sound(Sound snd)
   TRACE_EXIT();
 }
 
+
+bool
+GnomeSoundPlayer::get_sound_enabled(SoundPlayer::SoundEvent snd, bool &enabled)
+{
+  (void) snd;
+  (void) enabled;
+  
+  return false;
+}
+
+void
+GnomeSoundPlayer::set_sound_enabled(SoundPlayer::SoundEvent snd, bool enabled)
+{
+  (void) snd;
+  (void) enabled;
+}
+
+bool
+GnomeSoundPlayer::get_sound_wav_file(SoundPlayer::SoundEvent snd, std::string &wav_file)
+{
+  (void) snd;
+  (void) wav_file;
+  return false;
+}
+
+void
+GnomeSoundPlayer::set_sound_wav_file(SoundPlayer::SoundEvent snd, const std::string &wav_file)
+{
+  (void) snd;
+  (void) wav_file;
+}

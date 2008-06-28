@@ -1,6 +1,6 @@
 // KdeSoundPlayer.hh
 //
-// Copyright (C) 2002, 2004, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2004, 2007, 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -22,16 +22,19 @@
 #ifndef KDESOUNDPLAYER_HH
 #define KDESOUNDPLAYER_HH
 
-#include <ISoundPlayer.hh>
+#include <ISoundDriver.hh>
 
 class KInstance;
 
-class KdeSoundPlayer : public ISoundPlayer
+class KdeSoundPlayer : public ISoundDriver
 {
 public:
   KdeSoundPlayer();
   virtual ~KdeSoundPlayer();
-  void play_sound(Sound snd);
+
+  bool capability(SounCapability cap);
+  void play_sound(string wavfile);
+  void play_sound(SoundEvent snd);
 
 private:
   KInstance *kinstance;

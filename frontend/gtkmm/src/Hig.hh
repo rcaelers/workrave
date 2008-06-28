@@ -1,6 +1,6 @@
 // Hig.hh --- Gnome HIG stuff
 //
-// Copyright (C) 2003, 2004, 2007 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2003, 2004, 2007, 2008 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -43,18 +43,18 @@ private:
 class HigCategoryPanel : public Gtk::VBox
 {
 public:
-  HigCategoryPanel(Gtk::Widget &lab);
-  HigCategoryPanel(const char *lab);
+  HigCategoryPanel(Gtk::Widget &lab, bool fill = false);
+  HigCategoryPanel(const char *lab, bool fill = false);
   HigCategoryPanel();
-  Gtk::Label *add(const char *lab, Gtk::Widget &widget);
-  void add(Gtk::Label &label, Gtk::Widget &widget);
-  void add(Gtk::Widget &widget);
+  Gtk::Label *add(const char *lab, Gtk::Widget &widget, bool expand = false, bool fill = false);
+  void add(Gtk::Label &label, Gtk::Widget &widget, bool expand = false, bool fill = false);
+  void add(Gtk::Widget &widget, bool expand = false, bool fill = false);
 
   void add_caption(Gtk::Widget &lab);
   void add_caption(const char *lab);
 
 private:
-  void init(Gtk::Widget &lab);
+  void init(Gtk::Widget &lab, bool fill = false);
 
   Gtk::VBox *options_box;
   Glib::RefPtr<Gtk::SizeGroup> size_group;

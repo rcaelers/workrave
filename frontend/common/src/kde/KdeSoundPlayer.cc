@@ -45,8 +45,21 @@ KdeSoundPlayer::~KdeSoundPlayer()
 }
 
 
+bool
+KdeSoundPlayer::capability(SounCapability cap)
+{
+  (void) cap;
+  return false;
+}
+
 void
-KdeSoundPlayer::play_sound(Sound snd)
+KdeSoundPlayer::play_sound(string wavfile)
+{
+  (void) wavfile;
+}
+
+void
+KdeSoundPlayer::play_sound(SoundEvent snd)
 {
   const char *map[] = {
     "break_prelude",

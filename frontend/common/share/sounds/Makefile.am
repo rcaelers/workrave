@@ -9,8 +9,10 @@
 MAINTAINERCLEANFILES = 	Makefile.in workrave.soundlist
 DISTCLEANFILES = 	workrave.soundlist
 
-soundsdir = 		$(datadir)/sounds/workrave
-sounds_DATA = 		$(wildcard *.wav)
+SUBDIRS	= subtle
+
+soundsdir = 		$(datadir)/sounds/workrave/default
+sounds_DATA = 		$(wildcard *.wav) soundtheme
 
 if HAVE_GNOME
 

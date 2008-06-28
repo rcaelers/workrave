@@ -73,13 +73,34 @@ OSXSoundPlayer::~OSXSoundPlayer()
 {
 }
 
+bool
+OSXSoundPlayer::capability(SounCapability cap)
+{
+  (void) cap;
+  return false;
+}
+
+
 void
-OSXSoundPlayer::play_sound(Sound snd)
+OSXSoundPlayer::play_sound(string wavfile)
+{
+  (void) wavfile;
+}
+
+void
+OSXSoundPlayer::play_sound(SoundEvent snd)
 {
   TRACE_ENTER_MSG( "OSXSoundPlayer::play_sound", sound_registry[snd].friendly_name );
 
   string file = Util::complete_directory(sound_registry[snd].wav_file, Util::SEARCH_PATH_SOUNDS);
 
+  play_sound(file);
+}
+
+
+void
+OSXSoundPlayer::play_sound(string file)
+{
   OSErr err;
   FSSpec spec;
   const char *fname = file.c_str();

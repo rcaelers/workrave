@@ -14,6 +14,7 @@ SUBDIRS = 		gnome kde win32 x11 osx
 libworkrave_frontend_common_la_SOURCES = \
 			Text.cc \
 			SoundPlayer.cc \
+			GstSoundPlayer.cc \
 			System.cc \
 			TimerBoxControl.cc
 
@@ -51,5 +52,5 @@ libworkrave_frontend_common_la_CXXFLAGS = \
 			-I$(top_srcdir)/frontend/common/src/kde \
 			-I$(top_srcdir)/frontend/common/src/osx \
 			@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ \
-			@GNOME_CFLAGS@ @GTK_CFLAGS@ @GLIB_CFLAGS@ \
+			@GNOME_CFLAGS@ @GTK_CFLAGS@ @GLIB_CFLAGS@ @GSTREAMER_CFLAGS@ \
 			-I$(top_srcdir)/common/win32/harpoon/include

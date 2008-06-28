@@ -25,42 +25,28 @@ static const char rcsid[] = "$Id$";
 
 #include "debug.hh"
 
+#include <stdio.h>
+#include <stdlib.h>
+
 #include <windows.h>
+#include <process.h>
+#include <mmsystem.h>
+#include <mmreg.h>
+
 #include "W32SoundPlayer.hh"
+
+#include "CoreFactory.hh"
+#include "IConfigurator.hh"
 #include "SoundPlayer.hh"
+#include "Exception.hh"
 #include "Util.hh"
 
-static struct SoundRegistry
-{
-  const char *event_label;
-  const char *wav_file;
-  const char *friendly_name;
-} sound_registry[] =
-{
-  { "WorkraveBreakPrelude", "break-prelude.wav",
-    "Break prompt" },
-  { "WorkraveBreakIgnored", "break-ignored.wav",
-    "Break ignored" },
-  { "WorkraveRestBreakStarted", "rest-break-started.wav",
-    "Rest break started" },
-  { "WorkraveRestBreakEnded", "rest-break-ended.wav",
-    "Rest break ended" },
-  { "WorkraveMicroBreakStarted", "micro-break-started.wav",
-    "Micro-break started" },
-  { "WorkraveMicroBreakEnded", "micro-break-ended.wav",
-    "Micro-break ended" },
-  { "WorkraveDailyLimit", "daily-limit.wav",
-    "Daily limit" },
-  { "WorkraveExerciseEnded", "exercise-ended.wav",
-    "Exercise ended" },
-  { "WorkraveExercisesEnded", "exercises-ended.wav",
-    "Exercises ended" },
-  { "WorkraveExercisesStep", "exercises-step.wav",
-    "Exercises change" },
-};
+#define	SAMPLE_BITS		    (8)
+#define	WAVE_BUFFER_SIZE  (1024)
 
-static SoundRegistry *sound = NULL;
+using namespace workrave;
 
+static std::string sound_filename;
 
 static bool
 registry_get_value(const char *path, const char *name,
@@ -111,43 +97,11 @@ registry_set_value(const char *path, const char *name,
 
 W32SoundPlayer::W32SoundPlayer()
 {
-  register_sound_events();
-  sound = NULL;
 }
 
 W32SoundPlayer::~W32SoundPlayer()
 {
 }
-
-void
-W32SoundPlayer::register_sound_events()
-{
-  string sound_dir  = Util::get_application_directory() + "\\share\\sounds\\";
-
-  for (unsigned int i = 0; i < sizeof(sound_registry)/sizeof(sound_registry[0]); i++)
-    {
-      SoundRegistry *snd = &sound_registry[i];
-      char key[MAX_PATH], val[MAX_PATH];
-      strcpy(key, "AppEvents\\EventLabels\\");
-      strcat(key, snd->event_label);
-      if (! registry_get_value(key, NULL, val))
-        {
-          registry_set_value(key, NULL, snd->friendly_name);
-        }
-      strcpy(key, "AppEvents\\Schemes\\Apps\\Workrave\\");
-      strcat(key, snd->event_label);
-      strcat(key, "\\.default");
-      if (! registry_get_value(key, NULL, val))
-        {
-          string file = sound_dir + snd->wav_file;
-          registry_set_value(key, NULL, file.c_str());
-          char *def = strrchr(key, '.');
-          strcpy(def, ".current");
-          registry_set_value(key, NULL, file.c_str());
-        }
-    }
-}
-
 
 
 /*
@@ -156,28 +110,147 @@ jay satiro, workrave project, june 2007
 redistribute under GNU terms.
 */
 
-void W32SoundPlayer::play_sound( Sound snd )
+void
+W32SoundPlayer::play_sound(SoundPlayer::SoundEvent snd )
 {
-  TRACE_ENTER_MSG( "W32SoundPlayer::play_sound", sound_registry[snd].friendly_name );
+  TRACE_ENTER_MSG( "W32SoundPlayer::play_sound", SoundPlayer::sound_registry[snd].friendly_name );
 
-  if ( sound == &sound_registry[snd] )
-    {
-      TRACE_MSG( "Sound already queued: sound == &sound_registry[snd]" );
-    }
-  else if( sound == NULL )
-    {
-      DWORD id;
-      sound = &sound_registry[snd];
-      CloseHandle( CreateThread( NULL, 0, thread_Play, this, 0, &id ) );
-    }
-  else
-    {
-      TRACE_MSG( "Failed: sound != NULL && sound != &sound_registry[snd]" );
-    }
+  // if ( sound == &sound_registry[snd] )
+  //   {
+  //     TRACE_MSG( "Sound already queued: sound == &sound_registry[snd]" );
+  //   }
+  // else if( sound == NULL )
+  //   {
+  //     DWORD id;
+  //     sound = &sound_registry[snd];
+  //     CloseHandle( CreateThread( NULL, 0, thread_Play, this, 0, &id ) );
+  //   }
+  // else
+  //   {
+  //     TRACE_MSG( "Failed: sound != NULL && sound != &sound_registry[snd]" );
+  //   }
   TRACE_EXIT();
 }
 
-DWORD WINAPI W32SoundPlayer::thread_Play( LPVOID lpParam )
+
+bool
+W32SoundPlayer::capability(SoundPlayer::SoundCapability cap)
+{
+  (void) cap;
+  return false;
+}
+
+void
+W32SoundPlayer::play_sound(string wavfile)
+{
+  TRACE_ENTER_MSG( "W32SoundPlayer::play_sound", wavfile);
+
+  if (sound_filename != "")
+    {
+      TRACE_MSG("Sound already queued");
+    }
+  else 
+    {
+      DWORD id;
+      sound_filename = wavfile;
+      CloseHandle(CreateThread(NULL, 0, thread_Play, this, 0, &id));
+    }
+
+  TRACE_EXIT();
+}
+
+
+bool
+W32SoundPlayer::get_sound_enabled(SoundPlayer::SoundEvent snd, bool &enabled)
+{
+  char key[MAX_PATH], val[MAX_PATH];
+  
+  strcpy(key, "AppEvents\\Schemes\\Apps\\Workrave\\");
+  strcat(key, SoundPlayer::sound_registry[snd].label);
+  strcat(key, "\\.current");
+
+  if (registry_get_value(key, NULL, val))
+    {
+      enabled = (val[0] != '\0');
+    }
+  
+  return true;
+}
+
+
+void
+W32SoundPlayer::set_sound_enabled(SoundPlayer::SoundEvent snd, bool enabled)
+{
+  if (enabled)
+    {
+      char key[MAX_PATH], def[MAX_PATH];
+      
+      strcpy(key, "AppEvents\\Schemes\\Apps\\Workrave\\");
+      strcat(key, SoundPlayer::sound_registry[snd].label);
+      strcat(key, "\\.default");
+
+      if (registry_get_value(key, NULL, def))
+        {
+          char *def = strrchr(key, '.');
+          strcpy(def, ".current");
+          registry_set_value(key, NULL, def);
+        }
+    }
+  else
+    {
+      char key[MAX_PATH];
+      
+      strcpy(key, "AppEvents\\Schemes\\Apps\\Workrave\\");
+      strcat(key, SoundPlayer::sound_registry[snd].label);
+      strcat(key, "\\.current");
+  
+      registry_set_value(key, NULL, "");
+    }
+}
+
+
+bool
+W32SoundPlayer::get_sound_wav_file(SoundPlayer::SoundEvent snd, std::string &wav_file)
+{
+  char key[MAX_PATH], val[MAX_PATH];
+
+  strcpy(key, "AppEvents\\Schemes\\Apps\\Workrave\\");
+  strcat(key, SoundPlayer::sound_registry[snd].label);
+  strcat(key, "\\.current");
+  
+  if (registry_get_value(key, NULL, val))
+    {
+      wav_file = val;
+    }
+  
+  return true;;
+}
+
+void
+W32SoundPlayer::set_sound_wav_file(SoundPlayer::SoundEvent snd, const std::string &wav_file)
+{
+  char key[MAX_PATH], val[MAX_PATH];
+
+  strcpy(key, "AppEvents\\EventLabels\\");
+  strcat(key, SoundPlayer::sound_registry[snd].label);
+  if (! registry_get_value(key, NULL, val))
+    {
+      registry_set_value(key, NULL, SoundPlayer::sound_registry[snd].friendly_name);
+    }
+  
+  strcpy(key, "AppEvents\\Schemes\\Apps\\Workrave\\");
+  strcat(key, SoundPlayer::sound_registry[snd].label);
+  strcat(key, "\\.default");
+
+  registry_set_value(key, NULL, wav_file.c_str());
+  char *def = strrchr(key, '.');
+  strcpy(def, ".current");
+  registry_set_value(key, NULL, wav_file.c_str());
+}
+
+
+DWORD WINAPI
+W32SoundPlayer::thread_Play(LPVOID lpParam)
 {
   W32SoundPlayer *pThis = (W32SoundPlayer *) lpParam;
   pThis->Play();
@@ -188,12 +261,296 @@ DWORD WINAPI W32SoundPlayer::thread_Play( LPVOID lpParam )
 void W32SoundPlayer::Play()
 {
   TRACE_ENTER("W32SoundPlayer::Play");
-  
-  if( sound )
+
+  try
     {
-      PlaySoundA( sound->event_label, 0, SND_APPLICATION | SND_ASYNC );
-      sound = NULL;
+      load_wav_file(sound_filename);
+      open();
+      write(sample, sample_size);
+      close();
+
     }
+  catch(Exception e)
+    {
+      TRACE_MSG(e.details());
+    }
+  catch(...)
+    {
+    }
+
+  sound_filename = "";
   
   TRACE_EXIT();
 }
+
+
+void
+W32SoundPlayer::open()
+{
+	WAVEFORMATEX wave_format;
+	MMRESULT res = MMSYSERR_NOERROR;
+	int i;
+
+	wave_event = CreateEvent(NULL, FALSE, FALSE, NULL);
+
+	wave_format.wFormatTag      = WAVE_FORMAT_PCM;
+	wave_format.nChannels       = format.nChannels;
+	wave_format.nSamplesPerSec  = format.nSamplesPerSec;
+	wave_format.nAvgBytesPerSec = format.nSamplesPerSec * format.wBitsPerSample / 8;
+	wave_format.nBlockAlign     = format.wBitsPerSample / 8;
+	wave_format.wBitsPerSample  = format.wBitsPerSample;
+	wave_format.cbSize          = 0;
+
+  number_of_buffers          = 16;
+	buffer_position            = 0;
+
+	res = waveOutOpen(&waveout, WAVE_MAPPER, &wave_format,
+                    (DWORD) wave_event, (DWORD) 0,CALLBACK_EVENT);
+  if (res != MMSYSERR_NOERROR)
+    {
+      throw Exception("waveOutOpen");
+    }
+
+
+  int volume = 100;
+  CoreFactory::get_configurator()->get_value(SoundPlayer::CFG_KEY_SOUND_VOLUME, volume);
+  
+  volume = (volume * 0xFFFF / 100);
+  volume = volume | (volume << 16);
+ 	
+  res = waveOutSetVolume(waveout, volume);
+  if (res != MMSYSERR_NOERROR)
+    {
+      throw Exception("waveOutSetVolume");
+    }
+  
+  buffers = (WAVEHDR**) malloc(number_of_buffers * sizeof(WAVEHDR**));
+  for (i = 0; i < number_of_buffers; i++)
+    {
+      buffers[i] = (WAVEHDR*) calloc(1, sizeof(WAVEHDR));
+      if (buffers[i] == NULL)
+        {
+          throw Exception("buffers malloc");
+        }
+          
+      if (buffers[i] != NULL)
+        {
+          buffers[i]->lpData = (CHAR *)malloc(WAVE_BUFFER_SIZE);
+          if (buffers[i]->lpData == NULL)
+            {
+              throw Exception("buffer malloc");
+            }
+        }
+    }
+}
+
+
+int
+W32SoundPlayer::write(unsigned char *buf, size_t size)
+{
+	unsigned char *ptr = buf;
+	unsigned char *end = buf + size;
+	MMRESULT res;
+	
+	for (int i = buffer_position; ptr < end; i = (i + 1) % number_of_buffers)
+    {
+      while ((buffers[i]->dwFlags & WHDR_INQUEUE) != 0)
+        {
+          res = waveOutRestart(waveout);
+          if (res != MMSYSERR_NOERROR)
+            {
+              throw Exception("waveOutOpen");
+            }
+          
+          WaitForSingleObject(wave_event, INFINITE);
+        }
+      
+      int chunck_size = WAVE_BUFFER_SIZE - buffers[i]->dwBytesRecorded;
+      if (ptr + chunck_size > end)
+        {
+          chunck_size = end - ptr;
+        }
+      
+      memcpy(buffers[i]->lpData + buffers[i]->dwBytesRecorded, ptr, chunck_size);
+      ptr += chunck_size;
+      buffers[i]->dwBytesRecorded += chunck_size;
+      
+      if (buffers[i]->dwBytesRecorded == WAVE_BUFFER_SIZE)
+        {
+          flush_buffer(i);
+        }
+      
+      buffer_position = (i + 1) % number_of_buffers;
+    }
+
+	return ptr - buf;
+}
+
+void
+W32SoundPlayer::flush_buffer(int i)
+{
+	MMRESULT res;
+
+	if (buffers[i]->dwBytesRecorded != 0)
+    {
+      buffers[i]->dwBufferLength = buffers[i]->dwBytesRecorded;
+      buffers[i]->dwBytesRecorded = 0;
+      buffers[i]->dwFlags = 0;
+
+      res = waveOutPrepareHeader(waveout, buffers[i], sizeof(WAVEHDR));
+      if (res != MMSYSERR_NOERROR)
+        {
+          throw Exception("waveOutPrepareHeader");
+        }
+
+      res = waveOutWrite(waveout, buffers[i], sizeof(WAVEHDR));
+      if (res != MMSYSERR_NOERROR)
+        {
+          throw Exception("waveOutWrite");
+        }
+    }
+}
+
+void
+W32SoundPlayer::close(void)
+{
+  MMRESULT res;
+
+  flush_buffer(buffer_position);
+
+  res = waveOutRestart(waveout);
+  if (res != MMSYSERR_NOERROR)
+    {
+      throw Exception("waveOutRestart");
+    }
+
+  for (int i = 0; i < number_of_buffers; ++i)
+    {
+      while ((buffers[i]->dwFlags & WHDR_INQUEUE) != 0)
+        {
+          WaitForSingleObject(wave_event, INFINITE);
+        }
+      
+      res = waveOutUnprepareHeader(waveout, buffers[i], sizeof(WAVEHDR));
+      if (res != MMSYSERR_NOERROR)
+        {
+          throw Exception("waveOutUnprepareHeader");
+        }
+
+      free(buffers[i]->lpData);
+      free(buffers[i]);
+    }
+  
+  free(buffers);
+
+  res = waveOutClose(waveout);
+  if (res != MMSYSERR_NOERROR)
+    {
+      throw Exception("waveOutRestart");
+    }
+}
+
+void
+W32SoundPlayer::load_wav_file(const string &filename)
+{
+  MMRESULT res;
+  
+  HMMIO handle = mmioOpen((CHAR*)filename.c_str(), NULL, MMIO_ALLOCBUF | MMIO_READ);
+	if (handle == NULL)
+    {
+      throw Exception("mmioOpen");
+    }
+
+  MMCKINFO in;
+  res = mmioDescend(handle, &in, NULL, 0);
+  if (res != MMSYSERR_NOERROR)
+    {
+      throw Exception("mmioDescend");
+    }
+  
+  if (in.ckid != FOURCC_RIFF || in.fccType != mmioFOURCC('W', 'A', 'V', 'E' ))
+    {
+      throw Exception("no Wave");
+    }
+
+  
+  MMCKINFO parent;
+  MMCKINFO child;
+
+  parent.ckid = mmioFOURCC('f', 'm', 't', ' ');
+  
+  res = mmioDescend(handle, &child, &parent, MMIO_FINDCHUNK);
+  if (res != MMSYSERR_NOERROR)
+    {
+      throw Exception("mmioDescend");
+    }
+  if (child.cksize < sizeof(PCMWAVEFORMAT))
+    {
+      throw Exception("chunk size");
+    }
+
+  int len = mmioRead(handle, (HPSTR)&format, sizeof(format));
+  if (len != sizeof(format))
+    {
+      throw Exception("format size");
+    }
+
+
+  if (format.wFormatTag != WAVE_FORMAT_PCM)
+    {
+      throw Exception("format supported");
+    }
+
+
+  res = mmioAscend(handle, &child, 0);
+  if (res != MMSYSERR_NOERROR)
+    {
+      throw Exception("mmioAscend");
+    }
+
+  parent.ckid = mmioFOURCC('d', 'a', 't', 'a');
+  res = mmioDescend(handle, &child, &parent, MMIO_FINDCHUNK);
+  if (res != MMSYSERR_NOERROR)
+    {
+      throw Exception("mmioAscend");
+    }
+
+  sample = (unsigned char *)malloc(child.cksize);
+  sample_size = child.cksize;
+  if (sample == NULL)
+    {
+      throw Exception("malloc");
+    }
+  
+  MMIOINFO mmio;
+  res = mmioGetInfo(handle, &mmio, 0);
+  if (res != MMSYSERR_NOERROR)
+    {
+      throw Exception("mmioAscend");
+    }
+
+
+  int pos = 0;
+  do
+		{
+			size_t copy = mmio.pchEndRead - mmio.pchNext;
+
+			if (copy > 0) 
+			{	
+				if (copy > sample_size - pos)
+          {
+            copy = sample_size - pos;
+          }
+
+				memcpy(sample + pos, mmio.pchNext, copy);
+				pos += copy;
+			}
+
+			mmio.pchNext = mmio.pchEndRead;
+
+		} while (pos < (int)sample_size && mmioAdvance(handle, &mmio, MMIO_READ) == 0);
+  
+
+	mmioClose(handle, 0);
+}
+

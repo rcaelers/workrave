@@ -892,9 +892,9 @@ GUI::init_sound_player()
 void
 GUI::core_event_notify(CoreEvent event)
 {
-  TRACE_ENTER_MSG("GUI::core_event_notify", event)
+  TRACE_ENTER_MSG("GUI::core_event_notify", event);
   // FIXME: HACK
-  ISoundPlayer::Sound snd = (ISoundPlayer::Sound) event;
+  SoundPlayer::SoundEvent snd = (SoundPlayer::SoundEvent) event;
   if (sound_player != NULL)
     {
       TRACE_MSG("play");

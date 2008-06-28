@@ -36,7 +36,7 @@
 #include "Util.hh"
 #include "Hig.hh"
 #include "nls.h"
-#include "ISoundPlayer.hh"
+#include "SoundPlayer.hh"
 #include "debug.hh"
 
 // This code can be removed once the following bug is closed:
@@ -408,8 +408,8 @@ ExercisesPanel::refresh_sequence()
       show_image();
       if (exercise_time != 0)
         {
-          ISoundPlayer *snd = GUI::get_instance()->get_sound_player();
-          snd->play_sound(ISoundPlayer::SOUND_EXERCISE_STEP);
+          SoundPlayer *snd = GUI::get_instance()->get_sound_player();
+          snd->play_sound(SoundPlayer::SOUND_EXERCISE_STEP);
         }
     }
 
@@ -498,15 +498,15 @@ ExercisesPanel::heartbeat()
   if (exercise_time >= exercise.duration)
     {
       on_go_forward();
-      ISoundPlayer *snd = GUI::get_instance()->get_sound_player();
+      SoundPlayer *snd = GUI::get_instance()->get_sound_player();
       exercise_num++;
       if (exercise_num == exercise_count)
         {
           on_stop();
         }
       snd->play_sound(stopped
-                      ? ISoundPlayer::SOUND_EXERCISES_ENDED
-                      : ISoundPlayer::SOUND_EXERCISE_ENDED);
+                      ? SoundPlayer::SOUND_EXERCISES_ENDED
+                      : SoundPlayer::SOUND_EXERCISE_ENDED);
     }
   else
     {

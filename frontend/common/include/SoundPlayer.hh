@@ -1,6 +1,6 @@
 // SoundPlayer.hh
 //
-// Copyright (C) 2002, 2003, 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2006, 2007, 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -22,31 +22,93 @@
 #ifndef SOUNDPLAYER_HH
 #define SOUNDPLAYER_HH
 
-#include "ISoundPlayer.hh"
+#include <string>
+#include <list>
+#include <vector>
+#include <map>
 
-class SoundPlayer : public ISoundPlayer
+class ISoundDriver;
+
+class SoundPlayer
 {
 public:
   enum Device
+    {
+      DEVICE_SPEAKER = 0,
+      DEVICE_SOUNDCARD
+    };
+
+  enum SoundEvent
+    {
+      SOUND_BREAK_PRELUDE = 0,
+      SOUND_BREAK_IGNORED,
+      SOUND_REST_BREAK_STARTED,
+      SOUND_REST_BREAK_ENDED,
+      SOUND_MICRO_BREAK_STARTED,
+      SOUND_MICRO_BREAK_ENDED,
+      SOUND_DAILY_LIMIT,
+      SOUND_EXERCISE_ENDED,
+      SOUND_EXERCISES_ENDED,
+      SOUND_EXERCISE_STEP,
+      SOUND_EXERCISE_MAX
+    };
+
+  enum SoundCapability
+    {
+      SOUND_CAP_EVENTS = 0,
+    };
+
+
+  class Theme
   {
-    DEVICE_SPEAKER = 0,
-    DEVICE_SOUNDCARD
+  public:
+    std::string description;
+    std::vector<std::string> files;
+    bool active;
   };
 
+  struct SoundRegistry
+  {
+    const char *label;
+    const char *id;
+    const char *wav_file;
+    const char *friendly_name;
+  };
+  
   SoundPlayer();
   virtual ~SoundPlayer();
-  void play_sound(Sound snd);
+  void play_sound(SoundEvent snd);
+  void play_sound(std::string wavfile);
 
   static bool is_enabled();
   static void set_enabled(bool enabled);
   static Device get_device();
   static void set_device(Device dev);
 
+  bool get_sound_enabled(SoundEvent snd, bool &enabled);
+  void set_sound_enabled(SoundEvent snd, bool enabled);
+  bool get_sound_wav_file(SoundEvent snd, std::string &filename);
+  void set_sound_wav_file(SoundEvent snd, const std::string &wav_file);
+  
+  void get_sound_themes(std::vector<Theme> &themes);
+  void load_sound_theme(const std::string &path, Theme &theme);
+  void activate_theme(const Theme &theme, bool force = true);
+                      
 private:
+  void register_sound_events(std::string theme = "");
+  void sync_settings();
+  
+public:
   static const char *CFG_KEY_SOUND_ENABLED;
   static const char *CFG_KEY_SOUND_DEVICE;
+  static const char *CFG_KEY_SOUND_VOLUME;
+  static const char *CFG_KEY_SOUND_EVENTS;
+  static const char *CFG_KEY_SOUND_EVENTS_ENABLED;
 
-  ISoundPlayer *player;
+  static SoundRegistry sound_registry[SOUND_EXERCISE_MAX];
+  
+private:  
+  ISoundDriver *driver;
 };
 
 #endif // SOUNDPLAYER_HH

@@ -1,6 +1,6 @@
 // OSXSoundPlayer.hh
 //
-// Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -22,15 +22,17 @@
 #ifndef OSXSOUNDPLAYER_HH
 #define OSXSOUNDPLAYER_HH
 
-#include "ISoundPlayer.hh"
+#include "ISoundDriver.hh"
 
-class OSXSoundPlayer : public ISoundPlayer
+class OSXSoundPlayer : public ISoundDriver
 {
 public:
   OSXSoundPlayer();
   virtual ~OSXSoundPlayer();
 
-  void play_sound(Sound snd);
+  bool capability(SounCapability cap);
+  void play_sound(string wavfile);
+  void play_sound(SoundEvent snd);
 
 private:
 };

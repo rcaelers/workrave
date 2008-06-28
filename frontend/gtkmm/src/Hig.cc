@@ -34,59 +34,59 @@ HigDialog::set_hig_defaults()
   set_border_width(6);
 }
 
-HigCategoryPanel::HigCategoryPanel(Gtk::Widget &lab)
+HigCategoryPanel::HigCategoryPanel(Gtk::Widget &lab, bool fill)
 {
-  init(lab);
+  init(lab, fill);
 }
 
-HigCategoryPanel::HigCategoryPanel(const char *lab)
+HigCategoryPanel::HigCategoryPanel(const char *lab, bool fill)
 {
   Gtk::Label *widg = manage(GtkUtil::create_label(std::string(lab), true));
   widg->set_alignment(0.0);
-  init(*widg);
+  init(*widg, fill);
 }
 
 void
-HigCategoryPanel::init(Gtk::Widget &lab)
+HigCategoryPanel::init(Gtk::Widget &lab, bool fill)
 {
   size_group = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_HORIZONTAL);
   set_spacing(6);
   pack_start(lab, false, false, 0);
 
   Gtk::HBox *ibox = manage(new Gtk::HBox());
-  pack_start(*ibox, false, false, 0);
+  pack_start(*ibox, fill, fill, 0);
 
   Gtk::Label *indent_lab = manage(new Gtk::Label("    "));
   ibox->pack_start(*indent_lab, false, false, 0);
   options_box = manage(new Gtk::VBox());
-  ibox->pack_start(*options_box, false, false, 0);
+  ibox->pack_start(*options_box, true, true, 0);
   options_box->set_spacing(6);
 }
 
 Gtk::Label *
-HigCategoryPanel::add(const char *text, Gtk::Widget &widget)
+HigCategoryPanel::add(const char *text, Gtk::Widget &widget, bool expand, bool fill)
 {
   Gtk::Label *lab = manage(new Gtk::Label(text));
-  add(*lab, widget);
+  add(*lab, widget, expand, fill);
   return lab;
 }
 
 void
-HigCategoryPanel::add(Gtk::Label &label, Gtk::Widget &widget)
+HigCategoryPanel::add(Gtk::Label &label, Gtk::Widget &widget, bool expand, bool fill)
 {
   label.set_alignment(0.0);
   size_group->add_widget(label);
   Gtk::HBox *box = manage(new Gtk::HBox());
   box->set_spacing(6);
   box->pack_start(label, false, true, 0);
-  box->pack_start(widget, false, false, 0);
+  box->pack_start(widget, expand, fill, 0);
   options_box->pack_start(*box, false, false, 0);
 }
 
 void
-HigCategoryPanel::add(Gtk::Widget &widget)
+HigCategoryPanel::add(Gtk::Widget &widget, bool expand, bool fill)
 {
-  options_box->pack_start(widget, false, false, 0);
+  options_box->pack_start(widget, expand, fill, 0);
 }
 
 void

@@ -53,6 +53,8 @@ public:
   static bool file_exists(string path);
   static string complete_directory(string path, SearchPathId type);
 
+  static bool running_gnome();
+  
 private:
   static list<string> search_paths[SEARCH_PATH_SIZEOF];
   static string home_directory;
