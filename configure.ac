@@ -704,7 +704,6 @@ AC_OUTPUT(Makefile
           frontend/common/include/Makefile \
           frontend/common/share/Makefile \
           frontend/common/share/sounds/Makefile \
-          frontend/common/share/sounds/subtle/Makefile \
           frontend/common/share/images/Makefile \
           frontend/common/share/images/win32/Makefile \
           frontend/common/share/images/osx/Makefile \
@@ -753,6 +752,9 @@ AC_OUTPUT(Makefile
           build/Makefile \
           m4/Makefile \
           workrave.spec)
+
+#          frontend/common/share/sounds/subtle/Makefile
+
 
 dnl ========================================================================
 
