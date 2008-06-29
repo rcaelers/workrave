@@ -374,7 +374,7 @@ Util::complete_directory(string path, Util::SearchPathId type)
 
   for (list<string>::const_iterator i = searchPath.begin(); !found && i != searchPath.end(); i++)
     {
-      fullPath = (*i) + "/" + path;
+      fullPath = (*i) + G_DIR_SEPARATOR_S + path;
       found = file_exists(fullPath);
     }
 

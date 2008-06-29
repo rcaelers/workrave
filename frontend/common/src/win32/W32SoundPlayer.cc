@@ -42,7 +42,7 @@ static const char rcsid[] = "$Id$";
 #include "Util.hh"
 
 #define	SAMPLE_BITS		    (8)
-#define	WAVE_BUFFER_SIZE  (1024)
+#define	WAVE_BUFFER_SIZE  (4096)
 
 using namespace workrave;
 
@@ -287,24 +287,15 @@ void W32SoundPlayer::Play()
 void
 W32SoundPlayer::open()
 {
-	WAVEFORMATEX wave_format;
 	MMRESULT res = MMSYSERR_NOERROR;
 	int i;
 
 	wave_event = CreateEvent(NULL, FALSE, FALSE, NULL);
 
-	wave_format.wFormatTag      = WAVE_FORMAT_PCM;
-	wave_format.nChannels       = format.nChannels;
-	wave_format.nSamplesPerSec  = format.nSamplesPerSec;
-	wave_format.nAvgBytesPerSec = format.nSamplesPerSec * format.wBitsPerSample / 8;
-	wave_format.nBlockAlign     = format.wBitsPerSample / 8;
-	wave_format.wBitsPerSample  = format.wBitsPerSample;
-	wave_format.cbSize          = 0;
-
   number_of_buffers          = 16;
 	buffer_position            = 0;
 
-	res = waveOutOpen(&waveout, WAVE_MAPPER, &wave_format,
+	res = waveOutOpen(&waveout, WAVE_MAPPER, &format,
                     (DWORD) wave_event, (DWORD) 0,CALLBACK_EVENT);
   if (res != MMSYSERR_NOERROR)
     {
@@ -378,9 +369,8 @@ W32SoundPlayer::write(unsigned char *buf, size_t size)
       if (buffers[i]->dwBytesRecorded == WAVE_BUFFER_SIZE)
         {
           flush_buffer(i);
+          buffer_position = (i + 1) % number_of_buffers;
         }
-      
-      buffer_position = (i + 1) % number_of_buffers;
     }
 
 	return ptr - buf;
@@ -410,6 +400,7 @@ W32SoundPlayer::flush_buffer(int i)
         }
     }
 }
+
 
 void
 W32SoundPlayer::close(void)
@@ -461,21 +452,23 @@ W32SoundPlayer::load_wav_file(const string &filename)
       throw Exception("mmioOpen");
     }
 
-  MMCKINFO in;
-  res = mmioDescend(handle, &in, NULL, 0);
+  MMCKINFO parent;
+  memset((void *)&parent, 0, sizeof(parent));
+
+  res = mmioDescend(handle, &parent, NULL, 0);
   if (res != MMSYSERR_NOERROR)
     {
       throw Exception("mmioDescend");
     }
   
-  if (in.ckid != FOURCC_RIFF || in.fccType != mmioFOURCC('W', 'A', 'V', 'E' ))
+  if (parent.ckid != FOURCC_RIFF || parent.fccType != mmioFOURCC('W', 'A', 'V', 'E' ))
     {
       throw Exception("no Wave");
     }
 
   
-  MMCKINFO parent;
   MMCKINFO child;
+  memset((void *)&child, 0, sizeof(child));
 
   parent.ckid = mmioFOURCC('f', 'm', 't', ' ');
   
@@ -507,6 +500,8 @@ W32SoundPlayer::load_wav_file(const string &filename)
     {
       throw Exception("mmioAscend");
     }
+
+  memset((void *)&child, 0, sizeof(child));
 
   parent.ckid = mmioFOURCC('d', 'a', 't', 'a');
   res = mmioDescend(handle, &child, &parent, MMIO_FINDCHUNK);
