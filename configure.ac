@@ -14,7 +14,7 @@ AC_PREREQ(2.61)
 
 dnl Automake
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(workrave, 1.8.6-preview1)
+AM_INIT_AUTOMAKE(workrave, 1.9.0-preview)
 AM_GNU_GETTEXT_VERSION()
 AM_MAINTAINER_MODE
 

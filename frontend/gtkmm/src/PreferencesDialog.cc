@@ -366,6 +366,8 @@ PreferencesDialog::create_sounds_page()
   
   Gtk::ScrolledWindow *sound_scroll = manage(new Gtk::ScrolledWindow());
   sound_scroll->add(sound_treeview);
+	sound_scroll->set_size_request(-1, 200);
+	sound_treeview.set_size_request(-1, 200);
 
   hig->add(*sound_scroll, true, true);
                                                       

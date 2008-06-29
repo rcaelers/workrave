@@ -5,7 +5,7 @@ See the end for copying conditions.
 Please report Workrave bug reports. Visit our bug tracker located at:
 http://www.workrave.org
 
-* Workrave 1.8.6
+* Workrave 1.9.0
 
 ** Many small bugfixes
 
@@ -17,13 +17,32 @@ http://www.workrave.org
 
 ** Improved 64 bit support (Ray Satiro)
 
-** Improved Vista support.
+** Improved Vista support (Ray Satiro)
 
 ** Exercises are now randomized
 
-** Extended DBUS support.
+** On Windows, the language can now be selected in the preferences
+
+** Extended DBUS support
 
 ** Initial OS X port
+
+** TBD: 
+   
+This patch adds a new option (listen for incoming connections) in the General
+tab of the Network preferences.  It is disabled whenever network is disabled.
+
+  (Francois Marier)
+
+** Sounds
+
+*** A sound has been added that indicates a next step in the exercise.
+
+*** The volume can now be configured
+
+*** All sounds can now be configured
+
+*** A new sound theme has been added (Ruairi Fullam)
 
 * Workrave 1.8.5
 
