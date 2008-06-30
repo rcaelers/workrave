@@ -58,7 +58,10 @@ Source: ".\runtime-base\*.*"; DestDir: "{app}"; Flags: ignoreversion recursesubd
 Source: ".\runtime-gtk\*.*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs; Components: gtk;
 Source: ".\runtime-wimp\*.*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs; Components: gtk;
 Source: "..\..\..\common\share\images\*.png"; DestDir: "{app}\share\images\"; Flags: ignoreversion recursesubdirs
-Source: "..\..\..\common\share\sounds\*.wav"; DestDir: "{app}\share\sounds\"; Flags: ignoreversion recursesubdirs
+Source: "..\..\..\common\share\sounds\*.wav"; DestDir: "{app}\share\sounds\default\"; Flags: ignoreversion recursesubdirs
+Source: "..\..\..\common\share\sounds\soundtheme; DestDir: "{app}\share\sounds\default\"; Flags: ignoreversion recursesubdirs
+Source: "..\..\..\common\share\sounds\subtle\*.wav"; DestDir: "{app}\share\sounds\subtle\"; Flags: ignoreversion recursesubdirs
+Source: "..\..\..\common\share\sounds\subtle\soundtheme; DestDir: "{app}\share\sounds\subtle\"; Flags: ignoreversion recursesubdirs
 Source: "..\..\..\plugin\exercises\common\share\*.png"; DestDir: "{app}\share\exercises\"; Flags: ignoreversion recursesubdirs
 Source: "..\..\..\plugin\exercises\common\share\exercises.xml"; DestDir: "{app}\share\exercises\"; Flags: ignoreversion
 Source: "..\..\..\..\COPYING.txt"; DestDir: "{app}"; DestName: "COPYING.txt"; Flags: ignoreversion;
