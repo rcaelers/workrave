@@ -142,6 +142,9 @@ PreferencesDialog::~PreferencesDialog()
   ICore *core = CoreFactory::get_core();
   core->set_operation_mode(mode);
 
+  delete connector;
+  delete filefilter;
+  
   TRACE_EXIT();
 }
 
@@ -383,7 +386,7 @@ PreferencesDialog::create_sounds_page()
   
   hbox->pack_start(*fsbutton, true, true, 0);
 
-  Gtk::FileFilter *filefilter = new Gtk::FileFilter();
+  filefilter = new Gtk::FileFilter();
   filefilter->set_name(_("Wavefiles"));
 #ifdef PLATFORM_OS_WIN32
   filefilter->add_pattern("*.wav");

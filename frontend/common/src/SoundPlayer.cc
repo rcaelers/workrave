@@ -451,6 +451,7 @@ SoundPlayer::load_sound_theme(const string &themefilename, Theme &theme)
       if (desc != NULL)
         {
           theme.description = desc;
+          g_free(desc);
         }
 
       int size = sizeof(sound_registry)/sizeof(sound_registry[0]);

@@ -47,6 +47,7 @@ namespace Gtk
   class ComboBox;
   class FileChooserButton;
   class HScale;
+  class FileFilter;
 }
 
 using namespace workrave;
@@ -134,6 +135,7 @@ private:
   int inhibit_events;
   
   Gtk::FileChooserButton *fsbutton;
+  Gtk::FileFilter *filefilter;
   std::string fsbutton_filename;
   
   void on_sound_enabled(const Glib::ustring& path_stringxo);
