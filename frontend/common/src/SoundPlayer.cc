@@ -360,10 +360,7 @@ SoundPlayer::activate_theme(const Theme &theme, bool force)
 
       if (!valid)
         {
-          CoreFactory::get_configurator()->set_value(string(CFG_KEY_SOUND_EVENTS) +
-                                                     sound_registry[idx].id +
-                                                     CFG_KEY_SOUND_EVENTS_ENABLED,
-                                                     true);
+          SoundPlayer::set_sound_enabled((SoundEvent)idx, true);
         }
 
 
@@ -379,9 +376,7 @@ SoundPlayer::activate_theme(const Theme &theme, bool force)
 
       if (!valid || force)
         {
-          CoreFactory::get_configurator()->set_value(string(CFG_KEY_SOUND_EVENTS) +
-                                                     sound_registry[idx].id,
-                                                     filename);
+          set_sound_wav_file((SoundEvent)idx, filename);
         }
       
       idx++;

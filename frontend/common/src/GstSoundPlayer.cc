@@ -48,6 +48,7 @@ GstSoundPlayer::GstSoundPlayer() :
 	GError *error = NULL;
 
   gst_ok = gst_init_check(NULL, NULL, &error);
+	gst_registry_fork_set_enabled(FALSE);
   
   if (!gst_ok)
     {
@@ -148,7 +149,6 @@ GstSoundPlayer::play_sound(std::string wavfile)
 static gboolean
 bus_watch(GstBus *bus, GstMessage *msg, gpointer data)
 {
-  TRACE_ENTER("GstSoundPlayer::bus_watch");
   GstElement *play = (GstElement *) data;
   GError *err = NULL;
 
@@ -158,7 +158,6 @@ bus_watch(GstBus *bus, GstMessage *msg, gpointer data)
     {
     case GST_MESSAGE_ERROR:
       gst_message_parse_error(msg, &err, NULL);
-      TRACE_MSG(err->message);
       g_error_free(err);
       /* FALLTHROUGH */
       
@@ -169,16 +168,13 @@ bus_watch(GstBus *bus, GstMessage *msg, gpointer data)
       
     case GST_MESSAGE_WARNING:
       gst_message_parse_warning(msg, &err, NULL);
-      TRACE_MSG(err->message);
       g_error_free(err);
       break;
 
     default:
       break;
     }
-  
-  TRACE_EXIT();
-  
+
   return TRUE;
 }
 
