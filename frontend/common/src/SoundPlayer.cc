@@ -591,8 +591,13 @@ SoundPlayer::play_sound(SoundEvent snd)
             }
           else
             {
-              string file = Util::complete_directory(sound_registry[snd].wav_file, Util::SEARCH_PATH_SOUNDS);
-              driver->play_sound(file);
+              string filename;
+              bool valid = SoundPlayer::get_sound_wav_file(snd, filename);
+
+              if (valid)
+                {
+                  driver->play_sound(filename);
+                }
             }
         }
       else
