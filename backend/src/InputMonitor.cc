@@ -59,7 +59,8 @@ InputMonitor::subscribe_statistics(IInputMonitorListener *listener)
 void
 InputMonitor::unsubscribe_activity(IInputMonitorListener *listener)
 {
-  assert(activity_listener == NULL);
+  (void) listener;
+  assert(activity_listener != NULL);
   activity_listener = NULL;
 }
 
@@ -67,6 +68,7 @@ InputMonitor::unsubscribe_activity(IInputMonitorListener *listener)
 void
 InputMonitor::unsubscribe_statistics(IInputMonitorListener *listener)
 {
-  assert(statistics_listener == NULL);
+  (void) listener;
+  assert(statistics_listener != NULL);
   statistics_listener = NULL;
 }
