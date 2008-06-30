@@ -346,11 +346,18 @@ PreferencesDialog::create_sounds_page()
   sound_store = Gtk::ListStore::create(sound_model);
   sound_treeview.set_model(sound_store);
 
+  GUI *gui = GUI::get_instance();
+  SoundPlayer *snd = gui->get_sound_player();
+  
   for (unsigned int i = 0; i < SoundPlayer::SOUND_EXERCISE_MAX; i++)
     {
       Gtk::TreeModel::iterator iter = sound_store->append();
       Gtk::TreeModel::Row row = *iter;
-      row[sound_model.enabled] = true;
+
+      bool sound_enabled = false;
+      snd->get_sound_enabled((SoundPlayer::SoundEvent)i, sound_enabled);
+
+      row[sound_model.enabled] = sound_enabled;
       row[sound_model.selectable] = true;
       row[sound_model.description] = SoundPlayer::sound_registry[i].friendly_name;
       row[sound_model.label] = SoundPlayer::sound_registry[i].id;
@@ -363,6 +370,8 @@ PreferencesDialog::create_sounds_page()
   int cols_count = sound_treeview.append_column_editable(_("Play"), sound_model.enabled);
   Gtk::TreeViewColumn *column = sound_treeview.get_column(cols_count - 1);
 
+  Gtk::CellRendererToggle *cell = dynamic_cast<Gtk::CellRendererToggle*>(sound_treeview.get_column_cell_renderer(cols_count - 1));
+    
   cols_count = sound_treeview.append_column(_("Event"), sound_model.description);
   column = sound_treeview.get_column(cols_count - 1);
   column->set_fixed_width(40);
@@ -397,7 +406,6 @@ PreferencesDialog::create_sounds_page()
   
   hig->add(*hbox);
 
-
   Gtk::HBox *selector_hbox = manage(new Gtk::HBox(false, 0));
   Gtk::Button *selector_playbutton = manage(new Gtk::Button(_("Play")));
 
@@ -405,8 +413,8 @@ PreferencesDialog::create_sounds_page()
   selector_playbutton->show();
   fsbutton->set_extra_widget(*selector_hbox);
 
-  sound_enabled_cellrenderer.signal_toggled().connect(sigc::mem_fun(*this,
-                                                                    &PreferencesDialog::on_sound_enabled));
+  cell->signal_toggled().connect(sigc::mem_fun(*this,
+                                               &PreferencesDialog::on_sound_enabled));
 
   sound_play_button->signal_clicked().connect(sigc::mem_fun(*this,
                                                       &PreferencesDialog::on_sound_play));
@@ -666,6 +674,7 @@ PreferencesDialog::on_sound_enabled(const Glib::ustring &path_string)
 
       GUI *gui = GUI::get_instance();
       SoundPlayer *snd = gui->get_sound_player();
+
       snd->set_sound_enabled((SoundPlayer::SoundEvent)(int)row[sound_model.event],
                               row[sound_model.enabled]);
     }
