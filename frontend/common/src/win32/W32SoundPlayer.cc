@@ -302,6 +302,11 @@ W32SoundPlayer::open()
       throw Exception("waveOutOpen");
     }
 
+  res = waveOutPause(waveout);
+  if (res != MMSYSERR_NOERROR)
+    {
+      throw Exception("waveOutPause");
+    }
 
   int volume = 100;
   CoreFactory::get_configurator()->get_value(SoundPlayer::CFG_KEY_SOUND_VOLUME, volume);
@@ -350,7 +355,7 @@ W32SoundPlayer::write(unsigned char *buf, size_t size)
           res = waveOutRestart(waveout);
           if (res != MMSYSERR_NOERROR)
             {
-              throw Exception("waveOutOpen");
+              throw Exception("waveOutRestart");
             }
           
           WaitForSingleObject(wave_event, INFINITE);
@@ -437,7 +442,7 @@ W32SoundPlayer::close(void)
   res = waveOutClose(waveout);
   if (res != MMSYSERR_NOERROR)
     {
-      throw Exception("waveOutRestart");
+      throw Exception("waveOutClose");
     }
 }
 

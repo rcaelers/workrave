@@ -1,6 +1,6 @@
 // InputMonitor.hh ---  Base class of an activity monitor
 //
-// Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -39,6 +39,8 @@ public:
 
   virtual void subscribe_activity(IInputMonitorListener *listener);
   virtual void subscribe_statistics(IInputMonitorListener *listener);
+  virtual void unsubscribe_activity(IInputMonitorListener *listener);
+  virtual void unsubscribe_statistics(IInputMonitorListener *listener);
 
 protected:
   void fire_action();
