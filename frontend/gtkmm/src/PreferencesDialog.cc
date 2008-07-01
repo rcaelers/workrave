@@ -663,21 +663,14 @@ PreferencesDialog::on_autostart_toggled()
 void
 PreferencesDialog::on_sound_enabled(const Glib::ustring &path_string)
 {
-  (void) path_string;
+  Gtk::TreePath path(path_string);
+  Gtk::TreeRow row = *(sound_store->get_iter(path));
 
-  Glib::RefPtr<Gtk::TreeSelection> selection = sound_treeview.get_selection();
-  Gtk::TreeModel::iterator iter = selection->get_selected();
-
-  if (iter)
-    {
-      Gtk::TreeModel::Row row = *iter;
-
-      GUI *gui = GUI::get_instance();
-      SoundPlayer *snd = gui->get_sound_player();
-
-      snd->set_sound_enabled((SoundPlayer::SoundEvent)(int)row[sound_model.event],
-                              row[sound_model.enabled]);
-    }
+  GUI *gui = GUI::get_instance();
+  SoundPlayer *snd = gui->get_sound_player();
+  
+  snd->set_sound_enabled((SoundPlayer::SoundEvent)(int)row[sound_model.event],
+                         row[sound_model.enabled]);
 }
 
 

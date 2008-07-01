@@ -222,6 +222,16 @@ W32SoundPlayer::get_sound_wav_file(SoundPlayer::SoundEvent snd, std::string &wav
     {
       wav_file = val;
     }
+
+  if (wav_file == "")
+    {
+      char *cur = strrchr(key, '.');
+      strcpy(cur, ".current");
+      if (registry_get_value(key, NULL, val))
+        {
+          wav_file = val;
+        }
+    }
   
   return true;;
 }
@@ -242,10 +252,16 @@ W32SoundPlayer::set_sound_wav_file(SoundPlayer::SoundEvent snd, const std::strin
   strcat(key, SoundPlayer::sound_registry[snd].label);
   strcat(key, "\\.default");
 
-  registry_set_value(key, NULL, wav_file.c_str());
-  char *def = strrchr(key, '.');
-  strcpy(def, ".current");
-  registry_set_value(key, NULL, wav_file.c_str());
+  bool enabled = false;
+  bool valid get_sound_enabled(snd, enabled);
+
+  if (!valid || enabled)
+    {
+      registry_set_value(key, NULL, wav_file.c_str());
+      char *def = strrchr(key, '.');
+      strcpy(def, ".current");
+      registry_set_value(key, NULL, wav_file.c_str());
+    }
 }
 
 
