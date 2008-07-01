@@ -253,7 +253,7 @@ W32SoundPlayer::set_sound_wav_file(SoundPlayer::SoundEvent snd, const std::strin
   strcat(key, "\\.default");
 
   bool enabled = false;
-  bool valid get_sound_enabled(snd, enabled);
+  bool valid = get_sound_enabled(snd, enabled);
 
   if (!valid || enabled)
     {
