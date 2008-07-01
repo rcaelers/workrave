@@ -34,7 +34,7 @@ const char *workrave_authors[] = {
   "Contributors:",
   "Ray Satiro <raysatiro@yahoo.com>",
   "Ruairi Fullam",
-  )  NULL
+  NULL
 };
 
 const char *workrave_translators =
