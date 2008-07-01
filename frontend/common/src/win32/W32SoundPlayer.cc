@@ -191,9 +191,9 @@ W32SoundPlayer::set_sound_enabled(SoundPlayer::SoundEvent snd, bool enabled)
 
       if (registry_get_value(key, NULL, def))
         {
-          char *def = strrchr(key, '.');
-          strcpy(def, ".current");
-          registry_set_value(key, NULL, def);
+          char *defkey = strrchr(key, '.');
+          strcpy(defkey, ".current");
+          registry_set_value(defkey, NULL, def);
         }
     }
   else
