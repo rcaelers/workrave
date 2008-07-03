@@ -134,7 +134,7 @@ MainGtkMenu::create_actions()
 
   action_group = Gtk::ActionGroup::create();
 
-  action_group->add(Gtk::Action::create("Main", _("_Tools")));
+  action_group->add(Gtk::Action::create("Main", "_Tools"));
   
   // Mode menu
   Gtk::RadioAction::Group group_mode;

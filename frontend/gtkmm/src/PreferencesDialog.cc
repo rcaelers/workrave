@@ -108,10 +108,8 @@ PreferencesDialog::PreferencesDialog()
   add_page(_("Network"), "network.png", *network_page);
 #endif
 
-#if 0  
-  Gtk::Widget *plugins_page = manage( new PluginsPreferencePage() );
-  add_page( _("Plugins"), "workrave-icon-huge.png", *plugins_page );
-#endif
+  // Gtk::Widget *plugins_page = manage( new PluginsPreferencePage() );
+  // add_page( _("Plugins"), "workrave-icon-huge.png", *plugins_page );
   
   // Dialog
   get_vbox()->pack_start(notebook, true, true, 0);

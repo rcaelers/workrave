@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2008-03-11 00:20+0100\n"
+"POT-Creation-Date: 2008-07-03 21:19+0200\n"
 "PO-Revision-Date: 2003-09-08 19:07+0200\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -155,55 +155,61 @@ msgstr ""
 msgid "Could not connect to client %s:%d."
 msgstr ""
 
-#: ../common/src/glibnls.c:132
-msgid "Too many alias levels for a locale, may indicate a loop"
-msgstr ""
-
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
+#: ../frontend/common/src/SoundPlayer.cc:80
 #, fuzzy
 msgid "Break ignored"
 msgstr "Ĉesu en"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:2
+#: ../frontend/common/src/SoundPlayer.cc:74
 #, fuzzy
 msgid "Break prompt"
 msgstr "Ripoza instigado"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
+#: ../frontend/common/src/SoundPlayer.cc:111
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:50
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:58
-#: ../frontend/gtkmm/src/GUI.cc:1331 ../frontend/gtkmm/src/GtkUtil.cc:163
+#: ../frontend/gtkmm/src/GUI.cc:1384 ../frontend/gtkmm/src/GtkUtil.cc:163
 msgid "Daily limit"
 msgstr "Taglimo"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:4
+#: ../frontend/common/src/SoundPlayer.cc:129
 msgid "Exercise change"
 msgstr ""
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:5
+#: ../frontend/common/src/SoundPlayer.cc:117
 msgid "Exercise ended"
 msgstr ""
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:6
+#: ../frontend/common/src/SoundPlayer.cc:123
 msgid "Exercises ended"
 msgstr ""
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:7
+#: ../frontend/common/src/SoundPlayer.cc:105
 #, fuzzy
 msgid "Micro-break ended"
 msgstr "Paŭzeto"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:8
+#: ../frontend/common/src/SoundPlayer.cc:99
 #, fuzzy
 msgid "Micro-break started"
 msgstr "Paŭzeto"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:9
+#: ../frontend/common/src/SoundPlayer.cc:93
 #, fuzzy
 msgid "Rest break ended"
 msgstr "Ripozo"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:10
+#: ../frontend/common/src/SoundPlayer.cc:86
 #, fuzzy
 msgid "Rest break started"
 msgstr "Ripozo por %s"
@@ -211,6 +217,10 @@ msgstr "Ripozo por %s"
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:11
 #: ../frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:1
 msgid "Workrave"
+msgstr ""
+
+#: ../frontend/common/src/SoundPlayer.cc:550
+msgid "Custom"
 msgstr ""
 
 #: ../frontend/common/src/Text.cc:80
@@ -228,20 +238,20 @@ msgstr "%s%d:%02d minutoj"
 msgid "%s%d seconds"
 msgstr "%s%d sekundoj"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:293
+#: ../frontend/gtkmm/src/BreakWindow.cc:287
 msgid "Lock"
 msgstr "Ŝlosu"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:312
+#: ../frontend/gtkmm/src/BreakWindow.cc:306
 #, fuzzy
 msgid "Shut down"
 msgstr "Montru _protokolon"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:329
+#: ../frontend/gtkmm/src/BreakWindow.cc:323
 msgid "Skip"
 msgstr "Transsaltu"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:342
+#: ../frontend/gtkmm/src/BreakWindow.cc:336
 msgid "Postpone"
 msgstr "Prokrastu"
 
@@ -256,97 +266,93 @@ msgstr ""
 "trovu ion alian por fari, kiel revuado de dokumento."
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1331 ../frontend/gtkmm/src/GtkUtil.cc:163
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:55
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:183
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:281
+#: ../frontend/gtkmm/src/GUI.cc:1384 ../frontend/gtkmm/src/GtkUtil.cc:163
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:56
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:176
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:274
 #, fuzzy
 msgid "Micro-break"
 msgstr "Paŭzeto"
 
-#: ../frontend/gtkmm/src/GUI.cc:1331 ../frontend/gtkmm/src/GtkUtil.cc:163
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:156
+#: ../frontend/gtkmm/src/GUI.cc:1384 ../frontend/gtkmm/src/GtkUtil.cc:163
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:149
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:78
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:212
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:211
 msgid "Rest break"
 msgstr "Ripozo"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:98
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:161
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:90
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:171
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:91
 msgid "_Rest break"
 msgstr "_Ripozon"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:127
-msgid "_Tools"
-msgstr ""
-
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:131
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:141
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:111
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:112
 msgid "_Mode"
 msgstr "_Modo"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:133
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:143
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:93
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:94
 msgid "_Normal"
 msgstr "_Normala"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:136
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:146
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:99
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:100
 msgid "_Suspended"
 msgstr "_Interrompita"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:139
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:105
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:149
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:106
 msgid "Q_uiet"
 msgstr "S_ilenta"
 
 #. Networking menu
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:143
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:153
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:130
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:131
 msgid "_Network"
 msgstr "_Reto"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:144
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:114
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:154
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:115
 msgid "_Connect"
 msgstr "_Konektu"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:146
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:156
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:117
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:118
 msgid "_Disconnect"
 msgstr "_Malkonektu"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:148
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:158
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:121
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:122
 msgid "_Reconnect"
 msgstr "_Rekonektu"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:150
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:124
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:160
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:125
 msgid "Show _log"
 msgstr "Montru _protokolon"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:170
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:91
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:180
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:92
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:43
 msgid "Exercises"
 msgstr ""
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:174
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:132
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:184
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:133
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:62
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:141
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:150
 msgid "Statistics"
 msgstr "Statistiko"
 
-#: ../frontend/gtkmm/src/Menus.cc:342
+#: ../frontend/gtkmm/src/Menus.cc:345
 #: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:359
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
@@ -355,144 +361,197 @@ msgstr ""
 "Tiu ĉi programo helpas kun la malebligado kaj resaniĝado de Ripetada "
 "Trostreĉa Vundo (RSI)."
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:243
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:236
 msgid "Please relax for a few seconds"
 msgstr "Bonvolu trankviliĝi por kelkaj sekundoj"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:250
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:243
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Sekvanta ripozo en %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:255
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:248
 #, fuzzy, c-format
 msgid "Rest break %s overdue"
 msgstr "Ripozo por %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:268
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:261
 #, fuzzy, c-format
 msgid "Daily limit in %s"
 msgstr "Taglimo"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:273
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:266
 #, fuzzy, c-format
 msgid "Daily limit %s overdue"
 msgstr "Taglimo"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:62
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:89
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:71
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:90
 msgid "Preferences"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:70
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:84
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:113
 msgid "General"
 msgstr "Ĝenerala"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:73
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:89
+#, fuzzy
+msgid "Sounds"
+msgstr "Ne sonoj"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:93
 msgid "Status Window"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:76
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:97
 msgid "Applet"
 msgstr ""
 
 #. Notebook
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:83
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:105
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:165
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:194
 msgid "Timers"
 msgstr "Horloĝoj"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:84
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:106
 msgid "User interface"
 msgstr "Uzula inferfaco"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:86
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:108
 msgid "Network"
 msgstr "Reto"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:91
-msgid "Plugins"
-msgstr ""
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:132
-msgid "No sounds"
-msgstr "Ne sonoj"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:134
-msgid "Play sounds using sound card"
-msgstr "Ludu sonojn uzante sonkarton"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:136
-msgid "Play sounds using built-in speaker"
-msgstr "Ludu sonojn uzante en-komputila laŭtparolilo"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:164
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:159
 msgid "No blocking"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:166
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:161
 #, fuzzy
 msgid "Block input"
 msgstr "Bloku uzulan enigon"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:168
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:163
 msgid "Block input and screen"
 msgstr ""
 
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:187
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:182
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:139
 msgid "Options"
 msgstr "Opcioj"
 
-#. panel->add(*start_in_tray_cb);
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:189
-msgid "Sound:"
-msgstr ""
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:190
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:184
 msgid "Block mode:"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:115
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:204
+msgid "System default"
+msgstr ""
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:244
+msgid "(font not available)"
+msgstr ""
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:269
+msgid "Language:"
+msgstr ""
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:273
+msgid "Start Workrave on Windows startup"
+msgstr ""
+
+#. Options
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:296
+#, fuzzy
+msgid "Sound Options"
+msgstr "Opcioj"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:304
+msgid "No sounds"
+msgstr "Ne sonoj"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:306
+msgid "Play sounds using sound card"
+msgstr "Ludu sonojn uzante sonkarton"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:308
+msgid "Play sounds using built-in speaker"
+msgstr "Ludu sonojn uzante en-komputila laŭtparolilo"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:328
+msgid "Sound:"
+msgstr ""
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:329
+msgid "Volume:"
+msgstr ""
+
+#. Sound themes
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:332
+msgid "Sound Events"
+msgstr ""
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:342
+msgid "Sound Theme:"
+msgstr ""
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:368
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:408
+msgid "Play"
+msgstr ""
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:373
+msgid "Event"
+msgstr ""
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:389
+#, fuzzy
+msgid "Choose a sound"
+msgstr "Ne sonoj"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:397
+msgid "Wavefiles"
+msgstr ""
+
+#: ../frontend/gtkmm/src/PreludeWindow.cc:112
 #: ../frontend/text/src/PreludeWindow.cc:53
 #, fuzzy
 msgid "Time for a micro-break?"
 msgstr "Ĉu horo por paŭzeto?"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:119
+#: ../frontend/gtkmm/src/PreludeWindow.cc:116
 #: ../frontend/text/src/PreludeWindow.cc:57
 msgid "You need a rest break..."
 msgstr "Vi bezonas ripozon..."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:123
+#: ../frontend/gtkmm/src/PreludeWindow.cc:120
 #: ../frontend/text/src/PreludeWindow.cc:61
 msgid "You should stop for today..."
 msgstr "Vi devas halti por hodiaŭ..."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:324
+#: ../frontend/gtkmm/src/PreludeWindow.cc:320
 #, fuzzy, c-format
 msgid "Break in %s"
 msgstr "Ĉesu en"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:328
+#: ../frontend/gtkmm/src/PreludeWindow.cc:324
 #, fuzzy, c-format
 msgid "Disappears in %s"
 msgstr "Malaperas en"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:332
+#: ../frontend/gtkmm/src/PreludeWindow.cc:328
 #, fuzzy, c-format
 msgid "Silent in %s"
 msgstr "Silentiĝu en"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:174
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:173
 #, c-format
 msgid "Rest break for %s"
 msgstr "Ripozo por %s"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:213
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:212
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -503,12 +562,12 @@ msgstr ""
 "piediru ĉirkaŭe por iom da minutoj, streĉu, kaj\n"
 "trankviliĝu."
 
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:188
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:189
 #, fuzzy
 msgid "Take rest break now"
 msgstr "Sekvanta ripozo en %s"
 
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:207
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:211
 msgid "Wait"
 msgstr "Atendu"
 
@@ -638,12 +697,12 @@ msgstr "Daŭro de paŭzo"
 msgid "Postpone time:"
 msgstr "Prokrasta tempo"
 
-#: ../frontend/gtkmm/src/gtktrayicon.c:103
+#: ../frontend/gtkmm/src/gtktrayicon.c:106
 #, fuzzy
 msgid "Orientation"
 msgstr "Silentiĝu en"
 
-#: ../frontend/gtkmm/src/gtktrayicon.c:104
+#: ../frontend/gtkmm/src/gtktrayicon.c:107
 msgid "The orientation of the tray"
 msgstr ""
 
@@ -706,7 +765,7 @@ msgstr "Statistiko"
 msgid "Workrave Applet"
 msgstr ""
 
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:133
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:134
 msgid "About..."
 msgstr "Pri..."
 
@@ -944,146 +1003,146 @@ msgstr ""
 msgid "Resume exercises"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:135
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:144
 msgid "Browse history"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:142
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:151
 msgid "Date:"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:177
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:187
 #, fuzzy
 msgid "Breaks"
 msgstr "Ĉesu en"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:187
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:197
 #, fuzzy
 msgid "Break prompts"
 msgstr "Ripoza instigado"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:188
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:198
 msgid ""
 "The number of times you were prompted to break, excluding repeated prompts "
 "for the same break"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:193
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:203
 msgid "Repeated prompts"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:194
-msgid "The number of times you were repeatedly prompted to break"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:198
-#, fuzzy
-msgid "Prompted breaks taken"
-msgstr "Ripozo"
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:199
-msgid "The number of times you took a break when being prompted"
-msgstr ""
-
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:203
-#, fuzzy
-msgid "Natural breaks taken"
-msgstr "Ripozo"
-
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:204
-msgid "The number of times you took a break without being prompted"
+msgid "The number of times you were repeatedly prompted to break"
 msgstr ""
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:208
 #, fuzzy
-msgid "Breaks skipped"
-msgstr "Ĉesu en"
+msgid "Prompted breaks taken"
+msgstr "Ripozo"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:209
-msgid "The number of breaks you skipped"
+msgid "The number of times you took a break when being prompted"
 msgstr ""
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:213
 #, fuzzy
+msgid "Natural breaks taken"
+msgstr "Ripozo"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:214
+msgid "The number of times you took a break without being prompted"
+msgstr ""
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:218
+#, fuzzy
+msgid "Breaks skipped"
+msgstr "Ĉesu en"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:219
+msgid "The number of breaks you skipped"
+msgstr ""
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:223
+#, fuzzy
 msgid "Breaks postponed"
 msgstr "Ripoza instigado"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:214
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:224
 #, fuzzy
 msgid "The number of breaks you postponed"
 msgstr "Ripoza instigado"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:218
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:228
 msgid "Overdue time"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:219
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:229
 #, fuzzy
 msgid "The total time this break was overdue"
 msgstr "Ripozo por %s"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:223
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:233
 msgid "Daily usage"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:224
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:234
 msgid "The total computer usage"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:287
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:302
 msgid "Activity"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:297
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:312
 msgid "Mouse usage:"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:298
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:313
 #, fuzzy
 msgid "The total time you were using the mouse"
 msgstr "Ripozo por %s"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:301
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:316
 #, fuzzy
 msgid "Mouse movement:"
 msgstr "Prokrasta tempo"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:302
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:317
 #, fuzzy
 msgid "The total on-screen mouse movement"
 msgstr "Prokrasta tempo"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:305
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:320
 #, fuzzy
 msgid "Effective mouse movement:"
 msgstr "Prokrasta tempo"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:306
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:321
 msgid ""
 "The total mouse movement you would have had if you moved your mouse in "
 "straight lines between clicks"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:310
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:325
 #, fuzzy
 msgid "Mouse button clicks:"
 msgstr "Prokrasta tempo"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:311
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:326
 #, fuzzy
 msgid "The total number of mouse button clicks"
 msgstr "Prokrasta tempo"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:314
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:329
 #, fuzzy
 msgid "Keystrokes:"
 msgstr "Ripozo"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:315
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:330
 msgid "The total number of keys pressed"
 msgstr ""
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:365
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:380
 #, c-format
 msgid "%s, from %s to %s"
 msgstr ""

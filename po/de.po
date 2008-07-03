@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.4.0\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2008-03-11 00:20+0100\n"
+"POT-Creation-Date: 2008-07-03 21:19+0200\n"
 "PO-Revision-Date: 2006-07-31 18:08+0200\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -189,63 +189,69 @@ msgstr "Client %s:%d verbunden."
 msgid "Could not connect to client %s:%d."
 msgstr "Konnte nicht mit Client %s:%d verbinden."
 
-#: ../common/src/glibnls.c:132
-msgid "Too many alias levels for a locale, may indicate a loop"
-msgstr ""
-
 # src/app/shared/sounds/workrave.soundlist.in.h:1
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
+#: ../frontend/common/src/SoundPlayer.cc:80
 msgid "Break ignored"
 msgstr "Pause ignoriert"
 
 # src/app/shared/sounds/workrave.soundlist.in.h:2
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:2
+#: ../frontend/common/src/SoundPlayer.cc:74
 msgid "Break prompt"
 msgstr "Pausenhinweise"
 
 # src/app/gtkmm/DailyLimitWindow.cc:47 src/app/gtkmm/GtkUtil.cc:88
 # src/app/shared/sounds/workrave.soundlist.in.h:3
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
+#: ../frontend/common/src/SoundPlayer.cc:111
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:50
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:58
-#: ../frontend/gtkmm/src/GUI.cc:1331 ../frontend/gtkmm/src/GtkUtil.cc:163
+#: ../frontend/gtkmm/src/GUI.cc:1384 ../frontend/gtkmm/src/GtkUtil.cc:163
 msgid "Daily limit"
 msgstr "Tägliches Limit"
 
 # src/app/shared/sounds/workrave.soundlist.in.h:4
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:4
+#: ../frontend/common/src/SoundPlayer.cc:129
 #, fuzzy
 msgid "Exercise change"
 msgstr "Übung beendet"
 
 # src/app/shared/sounds/workrave.soundlist.in.h:4
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:5
+#: ../frontend/common/src/SoundPlayer.cc:117
 msgid "Exercise ended"
 msgstr "Übung beendet"
 
 # src/app/shared/sounds/workrave.soundlist.in.h:5
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:6
+#: ../frontend/common/src/SoundPlayer.cc:123
 msgid "Exercises ended"
 msgstr "Übungen beendet"
 
 # src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/MicroPauseWindow.cc:168
 # src/app/gtkmm/MicroPauseWindow.cc:204
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:7
+#: ../frontend/common/src/SoundPlayer.cc:105
 msgid "Micro-break ended"
 msgstr "Mikropause beendet"
 
 # src/app/shared/sounds/workrave.soundlist.in.h:7
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:8
+#: ../frontend/common/src/SoundPlayer.cc:99
 msgid "Micro-break started"
 msgstr "Mikropause begonnen"
 
 # src/app/shared/sounds/workrave.soundlist.in.h:8
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:9
+#: ../frontend/common/src/SoundPlayer.cc:93
 msgid "Rest break ended"
 msgstr "Ruhepause beendet"
 
 # src/app/shared/sounds/workrave.soundlist.in.h:9
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:10
+#: ../frontend/common/src/SoundPlayer.cc:86
 msgid "Rest break started"
 msgstr "Ruhepause begonnen"
 
@@ -255,6 +261,10 @@ msgstr "Ruhepause begonnen"
 #: ../frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:1
 msgid "Workrave"
 msgstr "Workrave"
+
+#: ../frontend/common/src/SoundPlayer.cc:550
+msgid "Custom"
+msgstr ""
 
 # src/app/Text.cc:75
 #: ../frontend/common/src/Text.cc:80
@@ -274,22 +284,22 @@ msgstr "%s%d:%02d Minuten"
 msgid "%s%d seconds"
 msgstr "%s%d Sekunden"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:293
+#: ../frontend/gtkmm/src/BreakWindow.cc:287
 msgid "Lock"
 msgstr "Sperren"
 
 # src/app/gtkmm/TimerBoxPreferencePage.cc:123
-#: ../frontend/gtkmm/src/BreakWindow.cc:312
+#: ../frontend/gtkmm/src/BreakWindow.cc:306
 msgid "Shut down"
 msgstr "Herunterfahren"
 
 # src/app/gtkmm/BreakWindow.cc:327
-#: ../frontend/gtkmm/src/BreakWindow.cc:329
+#: ../frontend/gtkmm/src/BreakWindow.cc:323
 msgid "Skip"
 msgstr "Überspringen"
 
 # src/app/gtkmm/BreakWindow.cc:338
-#: ../frontend/gtkmm/src/BreakWindow.cc:342
+#: ../frontend/gtkmm/src/BreakWindow.cc:336
 msgid "Postpone"
 msgstr "Aufschieben"
 
@@ -307,117 +317,113 @@ msgstr ""
 # src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/MicroPauseWindow.cc:168
 # src/app/gtkmm/MicroPauseWindow.cc:204
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1331 ../frontend/gtkmm/src/GtkUtil.cc:163
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:55
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:183
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:281
+#: ../frontend/gtkmm/src/GUI.cc:1384 ../frontend/gtkmm/src/GtkUtil.cc:163
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:56
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:176
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:274
 msgid "Micro-break"
 msgstr "Mikropause"
 
 # src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/RestBreakWindow.cc:284
-#: ../frontend/gtkmm/src/GUI.cc:1331 ../frontend/gtkmm/src/GtkUtil.cc:163
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:156
+#: ../frontend/gtkmm/src/GUI.cc:1384 ../frontend/gtkmm/src/GtkUtil.cc:163
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:149
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:78
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:212
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:211
 msgid "Rest break"
 msgstr "Ruhepause"
 
 # src/app/gtkmm/Menus.cc:222
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:98
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:161
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:90
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:171
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:91
 msgid "_Rest break"
 msgstr "_Ruhepause"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:127
-msgid "_Tools"
-msgstr ""
-
 # src/app/gtkmm/Menus.cc:143
 # src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:131
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:141
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:111
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:112
 msgid "_Mode"
 msgstr "_Betriebsart"
 
 # src/app/gtkmm/Menus.cc:150
 # src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:133
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:143
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:93
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:94
 msgid "_Normal"
 msgstr "_Normal"
 
 # src/app/gtkmm/Menus.cc:157
 # src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:136
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:146
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:99
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:100
 msgid "_Suspended"
 msgstr "_Angehalten"
 
 # src/app/gtkmm/Menus.cc:164
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:139
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:105
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:149
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:106
 msgid "Q_uiet"
 msgstr "St_ill"
 
 # src/app/gtkmm/Menus.cc:178
 # src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
 #. Networking menu
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:143
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:153
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:130
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:131
 msgid "_Network"
 msgstr "N_etzwerk"
 
 # src/app/gtkmm/Menus.cc:182
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:144
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:114
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:154
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:115
 msgid "_Connect"
 msgstr "_Verbinden"
 
 # src/app/gtkmm/Menus.cc:187
 # src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:146
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:156
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:117
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:118
 msgid "_Disconnect"
 msgstr "_Trennen"
 
 # src/app/gtkmm/Menus.cc:192
 # src/app/gtkmm/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:148
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:158
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:121
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:122
 msgid "_Reconnect"
 msgstr "Verbindung _Wiederaufnehmen"
 
 # src/app/gtkmm/Menus.cc:197
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:150
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:124
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:160
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:125
 msgid "Show _log"
 msgstr "_Protokoll anzeigen"
 
 # src/app/gtkmm/ExercisesDialog.cc:38 src/app/gtkmm/Menus.cc:234
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:170
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:91
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:180
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:92
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:43
 msgid "Exercises"
 msgstr "Übungen"
 
 # src/app/gtkmm/Menus.cc:244 src/app/gtkmm/StatisticsDialog.cc:51
 # src/app/gtkmm/StatisticsDialog.cc:130
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:174
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:132
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:184
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:133
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:62
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:141
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:150
 msgid "Statistics"
 msgstr "Statistik"
 
 # src/app/gtkmm/Menus.cc:605
-#: ../frontend/gtkmm/src/Menus.cc:342
+#: ../frontend/gtkmm/src/Menus.cc:345
 #: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:359
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
@@ -427,56 +433,62 @@ msgstr ""
 "(Repetetive Strain Injury) und unterstützt den Genesungsprozess."
 
 # src/app/gtkmm/MicroPauseWindow.cc:200
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:243
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:236
 msgid "Please relax for a few seconds"
 msgstr "Bitte entspannen Sie sich für ein paar Sekunden"
 
 # src/app/gtkmm/MicroPauseWindow.cc:190
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:250
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:243
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Nächste Ruhepause in %s"
 
 # src/app/gtkmm/MicroPauseWindow.cc:196
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:255
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:248
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Ruhepause %s überfällig"
 
 # src/app/gtkmm/DailyLimitWindow.cc:47 src/app/gtkmm/GtkUtil.cc:88
 # src/app/shared/sounds/workrave.soundlist.in.h:3
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:268
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:261
 #, c-format
 msgid "Daily limit in %s"
 msgstr "Tageslimit in %s"
 
 # src/app/gtkmm/DailyLimitWindow.cc:47 src/app/gtkmm/GtkUtil.cc:88
 # src/app/shared/sounds/workrave.soundlist.in.h:3
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:273
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:266
 #, c-format
 msgid "Daily limit %s overdue"
 msgstr "Tageslimit um %s überschritten"
 
 # src/app/gtkmm/PreferencesDialog.cc:49
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:62
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:89
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:71
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:90
 msgid "Preferences"
 msgstr "Vorlieben"
 
 # src/app/gtkmm/NetworkPreferencePage.cc:92
 # src/app/gtkmm/PreferencesDialog.cc:57
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:70
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:84
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:113
 msgid "General"
 msgstr "Allgemein"
 
+# src/app/gtkmm/PreferencesDialog.cc:144
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:89
+#, fuzzy
+msgid "Sounds"
+msgstr "Klang:"
+
 # src/app/gtkmm/PreferencesDialog.cc:64
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:73
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:93
 msgid "Status Window"
 msgstr "Statusfenster"
 
 # src/app/gtkmm/PreferencesDialog.cc:61
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:76
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:97
 msgid "Applet"
 msgstr "Applet"
 
@@ -484,117 +496,171 @@ msgstr "Applet"
 # src/app/gtkmm/TimerBoxPreferencePage.cc:167
 # src/app/gtkmm/TimerPreferencesPanel.cc:195
 #. Notebook
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:83
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:105
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:165
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:194
 msgid "Timers"
 msgstr "Zeitmesser"
 
 # src/app/gtkmm/PreferencesDialog.cc:72
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:84
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:106
 msgid "User interface"
 msgstr "Benutzervorlieben"
 
 # src/app/gtkmm/PreferencesDialog.cc:74
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:86
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:108
 msgid "Network"
 msgstr "Netzwerk"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:91
-msgid "Plugins"
-msgstr ""
-
-#
-# src/app/gtkmm/PreferencesDialog.cc:115
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:132
-msgid "No sounds"
-msgstr "Keine Klänge"
-
-# src/app/gtkmm/PreferencesDialog.cc:117
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:134
-msgid "Play sounds using sound card"
-msgstr "Klänge mittels der Soundkarte abspielen"
-
-# src/app/gtkmm/PreferencesDialog.cc:119
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:136
-msgid "Play sounds using built-in speaker"
-msgstr "Klänge mit dem PC-Lautsprecher abspielen"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:164
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:159
 msgid "No blocking"
 msgstr "Nichts"
 
 # src/app/gtkmm/TimerPreferencesPanel.cc:145
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:166
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:161
 msgid "Block input"
 msgstr "Benutzereingaben blockieren"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:168
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:163
 msgid "Block input and screen"
 msgstr "Alles blockieren"
 
 # src/app/gtkmm/PreferencesDialog.cc:142
 # src/app/gtkmm/TimerPreferencesPanel.cc:141
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:187
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:182
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:139
 msgid "Options"
 msgstr "Optionen"
 
-# src/app/gtkmm/PreferencesDialog.cc:144
-#. panel->add(*start_in_tray_cb);
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:189
-msgid "Sound:"
-msgstr "Klang:"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:190
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:184
 msgid "Block mode:"
 msgstr "Blockiermodus:"
 
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:204
+msgid "System default"
+msgstr ""
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:244
+msgid "(font not available)"
+msgstr ""
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:269
+msgid "Language:"
+msgstr ""
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:273
+msgid "Start Workrave on Windows startup"
+msgstr ""
+
+# src/app/gtkmm/PreferencesDialog.cc:142
+# src/app/gtkmm/TimerPreferencesPanel.cc:141
+#. Options
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:296
+#, fuzzy
+msgid "Sound Options"
+msgstr "Optionen"
+
+#
+# src/app/gtkmm/PreferencesDialog.cc:115
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:304
+msgid "No sounds"
+msgstr "Keine Klänge"
+
+# src/app/gtkmm/PreferencesDialog.cc:117
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:306
+msgid "Play sounds using sound card"
+msgstr "Klänge mittels der Soundkarte abspielen"
+
+# src/app/gtkmm/PreferencesDialog.cc:119
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:308
+msgid "Play sounds using built-in speaker"
+msgstr "Klänge mit dem PC-Lautsprecher abspielen"
+
+# src/app/gtkmm/PreferencesDialog.cc:144
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:328
+msgid "Sound:"
+msgstr "Klang:"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:329
+msgid "Volume:"
+msgstr ""
+
+#. Sound themes
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:332
+msgid "Sound Events"
+msgstr ""
+
+# src/app/gtkmm/PreferencesDialog.cc:144
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:342
+#, fuzzy
+msgid "Sound Theme:"
+msgstr "Klang:"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:368
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:408
+msgid "Play"
+msgstr ""
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:373
+msgid "Event"
+msgstr ""
+
+#
+# src/app/gtkmm/PreferencesDialog.cc:115
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:389
+#, fuzzy
+msgid "Choose a sound"
+msgstr "Keine Klänge"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:397
+msgid "Wavefiles"
+msgstr ""
+
 # src/app/gtkmm/PreludeWindow.cc:81
-#: ../frontend/gtkmm/src/PreludeWindow.cc:115
+#: ../frontend/gtkmm/src/PreludeWindow.cc:112
 #: ../frontend/text/src/PreludeWindow.cc:53
 msgid "Time for a micro-break?"
 msgstr "Zeit für eine Mikropause?"
 
 # src/app/gtkmm/PreludeWindow.cc:85
-#: ../frontend/gtkmm/src/PreludeWindow.cc:119
+#: ../frontend/gtkmm/src/PreludeWindow.cc:116
 #: ../frontend/text/src/PreludeWindow.cc:57
 msgid "You need a rest break..."
 msgstr "Sie brauchen eine Ruhepause..."
 
 # src/app/gtkmm/PreludeWindow.cc:89
-#: ../frontend/gtkmm/src/PreludeWindow.cc:123
+#: ../frontend/gtkmm/src/PreludeWindow.cc:120
 #: ../frontend/text/src/PreludeWindow.cc:61
 msgid "You should stop for today..."
 msgstr "Sie sollten für heute aufhören..."
 
 # src/app/gtkmm/PreludeWindow.cc:208
-#: ../frontend/gtkmm/src/PreludeWindow.cc:324
+#: ../frontend/gtkmm/src/PreludeWindow.cc:320
 #, c-format
 msgid "Break in %s"
 msgstr "Pause in %s"
 
 # src/app/gtkmm/PreludeWindow.cc:212
-#: ../frontend/gtkmm/src/PreludeWindow.cc:328
+#: ../frontend/gtkmm/src/PreludeWindow.cc:324
 #, c-format
 msgid "Disappears in %s"
 msgstr "Verschwindet in %s"
 
 # src/app/gtkmm/PreludeWindow.cc:216
-#: ../frontend/gtkmm/src/PreludeWindow.cc:332
+#: ../frontend/gtkmm/src/PreludeWindow.cc:328
 #, c-format
 msgid "Silent in %s"
 msgstr " Still in %s"
 
 # src/app/gtkmm/RestBreakWindow.cc:266
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:174
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:173
 #, c-format
 msgid "Rest break for %s"
 msgstr "Ruhepause für %s"
 
 # src/app/gtkmm/RestBreakWindow.cc:285
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:213
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:212
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -606,13 +672,13 @@ msgstr ""
 "sich."
 
 # src/app/gtkmm/MicroPauseWindow.cc:190
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:188
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:189
 #, fuzzy
 msgid "Take rest break now"
 msgstr "Nächste Ruhepause in %s"
 
 # src/app/gtkmm/TimerBox.cc:220 src/app/gtkmm/TimerBox.cc:300
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:207
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:211
 msgid "Wait"
 msgstr "Warten"
 
@@ -759,12 +825,12 @@ msgid "Postpone time:"
 msgstr "Dauer des Aufschubs:"
 
 # src/app/gtkmm/eggtrayicon.c:118
-#: ../frontend/gtkmm/src/gtktrayicon.c:103
+#: ../frontend/gtkmm/src/gtktrayicon.c:106
 msgid "Orientation"
 msgstr "Ausrichtung"
 
 # src/app/gtkmm/eggtrayicon.c:119
-#: ../frontend/gtkmm/src/gtktrayicon.c:104
+#: ../frontend/gtkmm/src/gtktrayicon.c:107
 #, fuzzy
 msgid "The orientation of the tray"
 msgstr "Ausrichtung des Benachrichtungsfeldes"
@@ -834,7 +900,7 @@ msgid "Workrave Applet"
 msgstr "Workrave-Applet"
 
 # src/app/gtkmm/Menus.cc:258
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:133
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:134
 msgid "About..."
 msgstr "Über..."
 
@@ -1158,134 +1224,134 @@ msgid "Resume exercises"
 msgstr "Anzahl der Übungen"
 
 # src/app/gtkmm/StatisticsDialog.cc:124
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:135
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:144
 msgid "Browse history"
 msgstr "Verlauf betrachten"
 
 # src/app/gtkmm/StatisticsDialog.cc:131
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:142
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:151
 msgid "Date:"
 msgstr "Datum:"
 
 # src/app/gtkmm/StatisticsDialog.cc:166
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:177
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:187
 msgid "Breaks"
 msgstr "Pausen"
 
 # src/app/gtkmm/StatisticsDialog.cc:176
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:187
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:197
 msgid "Break prompts"
 msgstr "Pausenhinweise"
 
 # src/app/gtkmm/StatisticsDialog.cc:177
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:188
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:198
 msgid ""
 "The number of times you were prompted to break, excluding repeated prompts "
 "for the same break"
 msgstr "Wie oft Workrave Sie aufgefordert hat, eine Pause zu machen"
 
 # src/app/gtkmm/StatisticsDialog.cc:182
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:193
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:203
 msgid "Repeated prompts"
 msgstr "Wiederholte Hinweise"
 
 # src/app/gtkmm/StatisticsDialog.cc:183
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:194
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:204
 msgid "The number of times you were repeatedly prompted to break"
 msgstr "Wie häufig Sie mehrfach aufgefordert wurden, eine Pause zu einzulegen"
 
 # src/app/gtkmm/StatisticsDialog.cc:187
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:198
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:208
 msgid "Prompted breaks taken"
 msgstr "Pausen nach vorheriger Aufforderung"
 
 # src/app/gtkmm/StatisticsDialog.cc:188
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:199
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:209
 msgid "The number of times you took a break when being prompted"
 msgstr "Wie oft Sie nach einem Pausenhinweis eine Pause eingelegt haben"
 
 # src/app/gtkmm/StatisticsDialog.cc:192
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:203
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:213
 msgid "Natural breaks taken"
 msgstr "Natürliche Pausen"
 
 # src/app/gtkmm/StatisticsDialog.cc:193
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:204
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:214
 msgid "The number of times you took a break without being prompted"
 msgstr "Wie oft Sie ohne Aufforderung eine Pause eingelegt haben"
 
 # src/app/gtkmm/StatisticsDialog.cc:197
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:208
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:218
 msgid "Breaks skipped"
 msgstr "Übersprungene Pausen"
 
 # src/app/gtkmm/StatisticsDialog.cc:198
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:209
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:219
 msgid "The number of breaks you skipped"
 msgstr "Wie oft Sie Pausen übersprungen haben"
 
 # src/app/gtkmm/StatisticsDialog.cc:202
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:213
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:223
 msgid "Breaks postponed"
 msgstr "Aufgeschobene Pausen"
 
 # src/app/gtkmm/StatisticsDialog.cc:203
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:214
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:224
 msgid "The number of breaks you postponed"
 msgstr "Anzahl der Pausen, die Sie aufgeschoben haben"
 
 # src/app/gtkmm/StatisticsDialog.cc:207
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:218
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:228
 msgid "Overdue time"
 msgstr "Überfällige Zeit"
 
 # src/app/gtkmm/StatisticsDialog.cc:208
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:219
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:229
 msgid "The total time this break was overdue"
 msgstr "Gesamte Zeit, die diese Pause überfällig war."
 
 # src/app/gtkmm/StatisticsDialog.cc:212
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:223
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:233
 msgid "Daily usage"
 msgstr "Tägliche Nutzung"
 
 # src/app/gtkmm/StatisticsDialog.cc:213
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:224
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:234
 msgid "The total computer usage"
 msgstr "Gesamte Computernutzung"
 
 # src/app/gtkmm/StatisticsDialog.cc:276
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:287
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:302
 msgid "Activity"
 msgstr "Aktivität"
 
 # src/app/gtkmm/StatisticsDialog.cc:286
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:297
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:312
 msgid "Mouse usage:"
 msgstr "Mausnutzung"
 
 # src/app/gtkmm/StatisticsDialog.cc:287
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:298
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:313
 msgid "The total time you were using the mouse"
 msgstr "Wie lange Sie die Maus insgesamt genutzt haben."
 
 # src/app/gtkmm/StatisticsDialog.cc:290
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:301
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:316
 msgid "Mouse movement:"
 msgstr "Mausbewegung insgesamt:"
 
 # src/app/gtkmm/StatisticsDialog.cc:291
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:302
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:317
 msgid "The total on-screen mouse movement"
 msgstr "Gesamte vom Mauszeiger zurückgelegte Strecke"
 
 # src/app/gtkmm/StatisticsDialog.cc:294
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:305
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:320
 msgid "Effective mouse movement:"
 msgstr "Effektive Mausbewegung:"
 
 # src/app/gtkmm/StatisticsDialog.cc:295
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:306
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:321
 msgid ""
 "The total mouse movement you would have had if you moved your mouse in "
 "straight lines between clicks"
@@ -1294,27 +1360,27 @@ msgstr ""
 "Maus zwischen den Klicks in geraden Linien bewegt hätten."
 
 # src/app/gtkmm/StatisticsDialog.cc:299
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:310
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:325
 msgid "Mouse button clicks:"
 msgstr "Mausklicks:"
 
 # src/app/gtkmm/StatisticsDialog.cc:300
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:311
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:326
 msgid "The total number of mouse button clicks"
 msgstr "Gesamtzahl der Mausklicks."
 
 # src/app/gtkmm/StatisticsDialog.cc:303
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:314
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:329
 msgid "Keystrokes:"
 msgstr "Tastenanschläge:"
 
 # src/app/gtkmm/StatisticsDialog.cc:304
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:315
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:330
 msgid "The total number of keys pressed"
 msgstr "Gesamtzahl der ausgeführten Tastenanschläge."
 
 # src/app/gtkmm/StatisticsDialog.cc:354
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:365
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:380
 #, c-format
 msgid "%s, from %s to %s"
 msgstr "%s, von %s bis %s"

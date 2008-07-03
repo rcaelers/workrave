@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eu\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2008-03-11 00:20+0100\n"
+"POT-Creation-Date: 2008-07-03 21:19+0200\n"
 "PO-Revision-Date: 2007-04-30 19:27+0200\n"
 "Last-Translator: Thomas Basset <thomas.basset@netcourrier.com>\n"
 "Language-Team:  <eu@li.org>\n"
@@ -157,51 +157,57 @@ msgstr "%s:%d bezeroa konektatuta."
 msgid "Could not connect to client %s:%d."
 msgstr "Ezin dut %s:%d bezeroarekin konektatu."
 
-#: ../common/src/glibnls.c:132
-msgid "Too many alias levels for a locale, may indicate a loop"
-msgstr ""
-
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
+#: ../frontend/common/src/SoundPlayer.cc:80
 msgid "Break ignored"
 msgstr "Etendura baztertua"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:2
+#: ../frontend/common/src/SoundPlayer.cc:74
 msgid "Break prompt"
 msgstr "Etendura eskaera"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
+#: ../frontend/common/src/SoundPlayer.cc:111
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:50
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:58
-#: ../frontend/gtkmm/src/GUI.cc:1331 ../frontend/gtkmm/src/GtkUtil.cc:163
+#: ../frontend/gtkmm/src/GUI.cc:1384 ../frontend/gtkmm/src/GtkUtil.cc:163
 msgid "Daily limit"
 msgstr "Eguneko muga"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:4
+#: ../frontend/common/src/SoundPlayer.cc:129
 #, fuzzy
 msgid "Exercise change"
 msgstr "Ariketa amaituta"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:5
+#: ../frontend/common/src/SoundPlayer.cc:117
 msgid "Exercise ended"
 msgstr "Ariketa amaituta"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:6
+#: ../frontend/common/src/SoundPlayer.cc:123
 msgid "Exercises ended"
 msgstr "Ariketak amaituta"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:7
+#: ../frontend/common/src/SoundPlayer.cc:105
 msgid "Micro-break ended"
 msgstr "Mikro-atsedena amaituta"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:8
+#: ../frontend/common/src/SoundPlayer.cc:99
 msgid "Micro-break started"
 msgstr "Mikro-atsedena hasita"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:9
+#: ../frontend/common/src/SoundPlayer.cc:93
 msgid "Rest break ended"
 msgstr "Atsedena amaituta"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:10
+#: ../frontend/common/src/SoundPlayer.cc:86
 msgid "Rest break started"
 msgstr "Atsedena hasita"
 
@@ -209,6 +215,10 @@ msgstr "Atsedena hasita"
 #: ../frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:1
 msgid "Workrave"
 msgstr "Workrave"
+
+#: ../frontend/common/src/SoundPlayer.cc:550
+msgid "Custom"
+msgstr ""
 
 #: ../frontend/common/src/Text.cc:80
 #, c-format
@@ -225,19 +235,19 @@ msgstr "%s%d:%02d minutu"
 msgid "%s%d seconds"
 msgstr "%s%d segundu"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:293
+#: ../frontend/gtkmm/src/BreakWindow.cc:287
 msgid "Lock"
 msgstr "Blokeatu "
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:312
+#: ../frontend/gtkmm/src/BreakWindow.cc:306
 msgid "Shut down"
 msgstr "Itzali"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:329
+#: ../frontend/gtkmm/src/BreakWindow.cc:323
 msgid "Skip"
 msgstr "Jauzi"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:342
+#: ../frontend/gtkmm/src/BreakWindow.cc:336
 msgid "Postpone"
 msgstr "Atzeratu"
 
@@ -252,96 +262,92 @@ msgstr ""
 "beste zerbaitetan hasi, dokumentuak birpasatzea adibidez."
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1331 ../frontend/gtkmm/src/GtkUtil.cc:163
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:55
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:183
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:281
+#: ../frontend/gtkmm/src/GUI.cc:1384 ../frontend/gtkmm/src/GtkUtil.cc:163
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:56
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:176
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:274
 msgid "Micro-break"
 msgstr "Mikro-atsedena "
 
-#: ../frontend/gtkmm/src/GUI.cc:1331 ../frontend/gtkmm/src/GtkUtil.cc:163
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:156
+#: ../frontend/gtkmm/src/GUI.cc:1384 ../frontend/gtkmm/src/GtkUtil.cc:163
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:149
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:78
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:212
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:211
 msgid "Rest break"
 msgstr "Atsedena"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:98
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:161
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:90
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:171
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:91
 msgid "_Rest break"
 msgstr "_Atsedena"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:127
-msgid "_Tools"
-msgstr ""
-
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:131
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:141
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:111
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:112
 msgid "_Mode"
 msgstr "_Modua"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:133
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:143
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:93
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:94
 msgid "_Normal"
 msgstr "_Arrunta"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:136
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:146
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:99
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:100
 msgid "_Suspended"
 msgstr "_Eseki"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:139
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:105
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:149
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:106
 msgid "Q_uiet"
 msgstr "I_silik"
 
 #. Networking menu
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:143
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:153
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:130
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:131
 msgid "_Network"
 msgstr "_Sarea"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:144
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:114
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:154
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:115
 msgid "_Connect"
 msgstr "_Konektatu"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:146
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:156
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:117
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:118
 msgid "_Disconnect"
 msgstr "_Deskonektatu"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:148
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:158
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:121
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:122
 msgid "_Reconnect"
 msgstr "_Birkonektatu"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:150
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:124
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:160
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:125
 msgid "Show _log"
 msgstr "_Log-a erakutsi"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:170
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:91
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:180
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:92
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:43
 msgid "Exercises"
 msgstr "Ariketak"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:174
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:132
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:184
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:133
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:62
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:141
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:150
 msgid "Statistics"
 msgstr "Estatistikak"
 
-#: ../frontend/gtkmm/src/Menus.cc:342
+#: ../frontend/gtkmm/src/Menus.cc:345
 #: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:359
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
@@ -350,142 +356,196 @@ msgstr ""
 "Programa honek Ahalegin Errepikarkorrek eragindako Kalteak (AEK) prebenitzen "
 "eta sendatzen laguntzen du."
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:243
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:236
 msgid "Please relax for a few seconds"
 msgstr "Lasaitu segundu batzuk mesedez"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:250
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:243
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Hurrengo atsedena %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:255
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:248
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Atsedena %s minutuz atzeratu da"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:268
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:261
 #, c-format
 msgid "Daily limit in %s"
 msgstr "Eguneko mugarako %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:273
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:266
 #, c-format
 msgid "Daily limit %s overdue"
 msgstr "Eguneko muga %s atzeratuta"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:62
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:89
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:71
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:90
 msgid "Preferences"
 msgstr "Hobespenak"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:70
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:84
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:113
 msgid "General"
 msgstr "Orokorra"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:73
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:89
+#, fuzzy
+msgid "Sounds"
+msgstr "Soinua:"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:93
 msgid "Status Window"
 msgstr "Egoera Lehioa"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:76
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:97
 msgid "Applet"
 msgstr "Appleta"
 
 #. Notebook
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:83
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:105
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:165
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:194
 msgid "Timers"
 msgstr "Kontagailuak"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:84
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:106
 msgid "User interface"
 msgstr "Erabiltzaile interfaza"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:86
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:108
 msgid "Network"
 msgstr "Sarea"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:91
-msgid "Plugins"
-msgstr ""
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:132
-msgid "No sounds"
-msgstr "Soinurik ez"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:134
-msgid "Play sounds using sound card"
-msgstr "Soinuak jo soinu txartela erabiliz "
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:136
-msgid "Play sounds using built-in speaker"
-msgstr "Soinuak jo barruko bozgorailua erabiliz"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:164
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:159
 msgid "No blocking"
 msgstr "Blokerorik ez"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:166
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:161
 msgid "Block input"
 msgstr "Erablitzailearen lana blokeatu"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:168
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:163
 msgid "Block input and screen"
 msgstr "Sarrerak eta pantaia blokeatu"
 
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:187
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:182
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:139
 msgid "Options"
 msgstr "Aukerak"
 
-#. panel->add(*start_in_tray_cb);
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:189
-msgid "Sound:"
-msgstr "Soinua:"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:190
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:184
 msgid "Block mode:"
 msgstr "Blokeo modua:"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:115
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:204
+msgid "System default"
+msgstr ""
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:244
+msgid "(font not available)"
+msgstr ""
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:269
+msgid "Language:"
+msgstr ""
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:273
+msgid "Start Workrave on Windows startup"
+msgstr ""
+
+#. Options
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:296
+#, fuzzy
+msgid "Sound Options"
+msgstr "Aukerak"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:304
+msgid "No sounds"
+msgstr "Soinurik ez"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:306
+msgid "Play sounds using sound card"
+msgstr "Soinuak jo soinu txartela erabiliz "
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:308
+msgid "Play sounds using built-in speaker"
+msgstr "Soinuak jo barruko bozgorailua erabiliz"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:328
+msgid "Sound:"
+msgstr "Soinua:"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:329
+msgid "Volume:"
+msgstr ""
+
+#. Sound themes
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:332
+msgid "Sound Events"
+msgstr ""
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:342
+#, fuzzy
+msgid "Sound Theme:"
+msgstr "Soinua:"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:368
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:408
+msgid "Play"
+msgstr ""
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:373
+msgid "Event"
+msgstr ""
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:389
+#, fuzzy
+msgid "Choose a sound"
+msgstr "Soinurik ez"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:397
+msgid "Wavefiles"
+msgstr ""
+
+#: ../frontend/gtkmm/src/PreludeWindow.cc:112
 #: ../frontend/text/src/PreludeWindow.cc:53
 msgid "Time for a micro-break?"
 msgstr "Mikro-atsedentxoa hartuko?"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:119
+#: ../frontend/gtkmm/src/PreludeWindow.cc:116
 #: ../frontend/text/src/PreludeWindow.cc:57
 msgid "You need a rest break..."
 msgstr "Atsedena behar duzu ba..."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:123
+#: ../frontend/gtkmm/src/PreludeWindow.cc:120
 #: ../frontend/text/src/PreludeWindow.cc:61
 msgid "You should stop for today..."
 msgstr "Gaurkoz gelditu beharko zenuke ba..."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:324
+#: ../frontend/gtkmm/src/PreludeWindow.cc:320
 #, c-format
 msgid "Break in %s"
 msgstr "Atsedena: %s"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:328
+#: ../frontend/gtkmm/src/PreludeWindow.cc:324
 #, c-format
 msgid "Disappears in %s"
 msgstr "Desagertuko da %s"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:332
+#: ../frontend/gtkmm/src/PreludeWindow.cc:328
 #, c-format
 msgid "Silent in %s"
 msgstr "Isilunea: %s"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:174
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:173
 #, c-format
 msgid "Rest break for %s"
 msgstr "Atseden denbora: %s"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:213
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:212
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -495,12 +555,12 @@ msgstr ""
 "inguruan ibiltzea duzu onena. Minutu batzutan ibili, luzaketak egin\n"
 "eta lasaitu."
 
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:188
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:189
 #, fuzzy
 msgid "Take rest break now"
 msgstr "Hurrengo atsedena %s"
 
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:207
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:211
 msgid "Wait"
 msgstr "Itxaron"
 
@@ -619,11 +679,11 @@ msgstr "Atsedenaren iraupena:"
 msgid "Postpone time:"
 msgstr "Atzerapenaren iraupena:"
 
-#: ../frontend/gtkmm/src/gtktrayicon.c:103
+#: ../frontend/gtkmm/src/gtktrayicon.c:106
 msgid "Orientation"
 msgstr "Orientazioa "
 
-#: ../frontend/gtkmm/src/gtktrayicon.c:104
+#: ../frontend/gtkmm/src/gtktrayicon.c:107
 #, fuzzy
 msgid "The orientation of the tray"
 msgstr "Oharen lehioaren orientazioa "
@@ -680,7 +740,7 @@ msgstr "_Estatistikak"
 msgid "Workrave Applet"
 msgstr "Workrave Appleta"
 
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:133
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:134
 msgid "About..."
 msgstr "...(r)i buruz"
 
@@ -946,23 +1006,23 @@ msgstr "Gelditu"
 msgid "Resume exercises"
 msgstr "Ariketa kopurua:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:135
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:144
 msgid "Browse history"
 msgstr "Historia ikusi"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:142
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:151
 msgid "Date:"
 msgstr "Data:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:177
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:187
 msgid "Breaks"
 msgstr "Etendurak"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:187
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:197
 msgid "Break prompts"
 msgstr "Etendura eskaerak"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:188
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:198
 msgid ""
 "The number of times you were prompted to break, excluding repeated prompts "
 "for the same break"
@@ -970,110 +1030,110 @@ msgstr ""
 "Atsedena hartzeko eskatu izan zaizun aldi kopurua, etendura berdinarentzako "
 "errepikatutakoak ezik."
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:193
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:203
 msgid "Repeated prompts"
 msgstr "Errepikatutako eskaerak"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:194
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:204
 msgid "The number of times you were repeatedly prompted to break"
 msgstr "Atsedena hartzeko eskaerak errepikatu diren kopurua"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:198
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:208
 msgid "Prompted breaks taken"
 msgstr "Egindako atsedenak"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:199
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:209
 msgid "The number of times you took a break when being prompted"
 msgstr "Eskatutakoan hartutako atseden kopurua"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:203
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:213
 msgid "Natural breaks taken"
 msgstr "Hartutako atseden naturalak"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:204
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:214
 msgid "The number of times you took a break without being prompted"
 msgstr "Eskatu gabe hartu duzun atseden kopurua"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:208
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:218
 msgid "Breaks skipped"
 msgstr "Jauzi egindako etendurak"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:209
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:219
 msgid "The number of breaks you skipped"
 msgstr "Jauzi egin duzun etendura kopurua"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:213
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:223
 msgid "Breaks postponed"
 msgstr "Atzeratutako etendurak"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:214
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:224
 msgid "The number of breaks you postponed"
 msgstr "Atzeratu duzun etendura kopurua"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:218
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:228
 msgid "Overdue time"
 msgstr "Atzerapenen denbora"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:219
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:229
 msgid "The total time this break was overdue"
 msgstr "Atseden honen atzerapenaren denbora osoa"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:223
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:233
 msgid "Daily usage"
 msgstr "Eguneko erabilpena"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:224
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:234
 msgid "The total computer usage"
 msgstr "Ordenagailuaren erabilpen osoa"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:287
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:302
 msgid "Activity"
 msgstr "Jardunean"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:297
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:312
 msgid "Mouse usage:"
 msgstr "Saguaren erabilpena:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:298
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:313
 msgid "The total time you were using the mouse"
 msgstr "Sagua erabili duzun denbora"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:301
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:316
 msgid "Mouse movement:"
 msgstr "Saguaren mugimendua:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:302
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:317
 msgid "The total on-screen mouse movement"
 msgstr "Saguaren mugimendu osoa pantaian"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:305
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:320
 msgid "Effective mouse movement:"
 msgstr "Saguaren mugimendu eraginkorra:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:306
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:321
 msgid ""
 "The total mouse movement you would have had if you moved your mouse in "
 "straight lines between clicks"
 msgstr ""
 "Klikatzeen artean lerro zuzenak marraztu ezkero saguaren mugimendu osoa"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:310
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:325
 msgid "Mouse button clicks:"
 msgstr "Saguaren klik kopurua"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:311
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:326
 msgid "The total number of mouse button clicks"
 msgstr "Saguaren botoien klik kopurua"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:314
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:329
 msgid "Keystrokes:"
 msgstr "Tekla pultsazioak:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:315
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:330
 msgid "The total number of keys pressed"
 msgstr "Sakatutako tekla kopurua"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:365
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:380
 #, c-format
 msgid "%s, from %s to %s"
 msgstr "%s, %s-etatik %s-etara"

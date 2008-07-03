@@ -1,4 +1,4 @@
-Workrave NEWS -- history of user-visible changes.  15 Sep 2007
+Workrave NEWS -- history of user-visible changes.  5 Jul 2008
 Copyright (C) 2001-2008 Rob Caelers & Raymond Penners
 See the end for copying conditions.
 
@@ -23,16 +23,15 @@ http://www.workrave.org
 
 ** On Windows, the language can now be selected in the preferences
 
-** Extended DBUS support
+** The option 'Start Workrave when windows starts' has been added to
+   the preferences
 
-** Initial OS X port
+** Extended DBUS support on Unix
 
-** TBD: 
-   
-This patch adds a new option (listen for incoming connections) in the General
-tab of the Network preferences.  It is disabled whenever network is disabled.
+** Initial OSX port
 
-  (Francois Marier)
+** Networking supports can now be enabled without accepting incoming
+   connections from other Workraves. (Francois Marier)
 
 ** Sounds
 
