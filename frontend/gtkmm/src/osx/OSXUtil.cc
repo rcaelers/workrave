@@ -13,6 +13,7 @@ static const char rcsid[] = "$Id: OSXUtil.cc,v 1.1 2007/09/11 19:46:27 robc Exp 
 #endif
 
 #include "debug.hh"
+#include <glib.h>
 
 #include <mach-o/dyld.h>
 #include <sys/param.h>

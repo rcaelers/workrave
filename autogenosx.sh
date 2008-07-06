@@ -188,7 +188,7 @@ autoconf --force || {
     exit 1
 }
 
-conf_flags="--prefix=/opt/workrave --enable-maintainer-mode --enable-compile-warnings --enable-debug --disable-gnome --disable-gnomemm --disable-xml --enable-distribution --enable-exercises --disable-dbus CPPFLAGS=-I/opt/gtk/include/ LDFLAGS=-L/opt/gtk/lib"
+conf_flags="--prefix=/opt/workrave --enable-maintainer-mode --enable-compile-warnings --enable-debug --disable-gnome --disable-gnomemm --disable-xml --enable-distribution --enable-exercises --disable-dbus --disable-gstreamer CPPFLAGS=-I/opt/gtk/include/ LDFLAGS=-L/opt/gtk/lib"
  
 if test x$NOCONFIGURE = x; then
     

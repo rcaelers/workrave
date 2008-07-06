@@ -25,6 +25,8 @@ static const char rcsid[] = "$Id: OSXGtkMenu.cc 1436 2008-02-03 18:03:23Z rcaele
 #include "config.h"
 #endif
 
+#include <iostream>
+
 #include "nls.h"
 #include "debug.hh"
 
