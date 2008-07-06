@@ -466,13 +466,16 @@ SoundPlayer::load_sound_theme(const string &themefilename, Theme &theme)
 
               if (pathname != NULL)
                 {
+#idef HAVE_REALPATH                  
                   char resolved_path[PATH_MAX];
                   char *sound_pathname = realpath(pathname, resolved_path);
                   if (sound_pathname == NULL)
                     {
                       sound_pathname = pathname;
                     }
-
+#else
+                  char *sound_pathname = pathname;
+#endif                  
                   theme.files.push_back(sound_pathname);
                   
                   if (is_current)
