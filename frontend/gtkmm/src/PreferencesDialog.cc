@@ -388,8 +388,8 @@ PreferencesDialog::create_sounds_page()
                                                       
       Gtk::HBox *hbox = manage(new Gtk::HBox(false, 6));
   
-      sound_play_button = manage(new Gtk::Button("Play"));
-      hbox->pack_start(*sound_play_button, false, false, 0);
+    sound_play_button = manage(new Gtk::Button(_("Play")));
+    hbox->pack_start(*sound_play_button, false, false, 0);
   
       fsbutton = manage(new Gtk::FileChooserButton(_("Choose a sound"),
                                                    Gtk::FILE_CHOOSER_ACTION_OPEN,

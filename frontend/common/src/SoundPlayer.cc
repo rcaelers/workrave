@@ -749,4 +749,6 @@ SoundPlayer::capability(SoundCapability cap)
     {
       ret = driver->capability(cap);
     }
+
+  return ret;
 }

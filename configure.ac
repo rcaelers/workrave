@@ -130,7 +130,7 @@ AC_CHECK_HEADERS([errno.h stdlib.h sys/time.h sys/select.h unistd.h])
 AC_CHECK_MEMBER(MOUSEHOOKSTRUCT.hwnd,AC_DEFINE(HAVE_STRUCT_MOUSEHOOKSTRUCT,,[struct MOUSEHOOKSTRUCT]),, [#include <windows.h>])
 
 AC_TYPE_SIGNAL
-AC_CHECK_FUNCS([gettimeofday nanosleep select setlocale])
+AC_CHECK_FUNCS([gettimeofday nanosleep select setlocale realpath])
 
 dnl
 dnl Debug
