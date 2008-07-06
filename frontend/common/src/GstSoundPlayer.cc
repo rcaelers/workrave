@@ -154,7 +154,8 @@ bus_watch(GstBus *bus, GstMessage *msg, gpointer data)
 {
   GstElement *play = (GstElement *) data;
   GError *err = NULL;
-
+  gboolean ret = TRUE;
+  
   (void) bus;
   
   switch (GST_MESSAGE_TYPE (msg))
@@ -167,6 +168,7 @@ bus_watch(GstBus *bus, GstMessage *msg, gpointer data)
     case GST_MESSAGE_EOS:
       gst_element_set_state(play, GST_STATE_NULL);
       gst_object_unref(GST_OBJECT(play));
+      ret = FALSE;
       break;
       
     case GST_MESSAGE_WARNING:
@@ -178,7 +180,7 @@ bus_watch(GstBus *bus, GstMessage *msg, gpointer data)
       break;
     }
 
-  return TRUE;
+  return ret;
 }
 
 bool
