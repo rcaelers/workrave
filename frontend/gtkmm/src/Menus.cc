@@ -374,12 +374,8 @@ Menus::on_menu_network_join()
     {
       network_join_dialog = new NetworkJoinDialog();
       network_join_dialog->signal_response().connect(sigc::mem_fun(*this, &Menus::on_network_join_response));
-      network_join_dialog->run();
     }
-  else
-    {
-      network_join_dialog->present();
-    }
+  network_join_dialog->present();
 #endif
 }
 

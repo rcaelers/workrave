@@ -56,6 +56,7 @@ public:
   enum SoundCapability
     {
       SOUND_CAP_EVENTS = 0,
+      SOUND_CAP_EDIT,
     };
 
 
@@ -85,6 +86,8 @@ public:
   static Device get_device();
   static void set_device(Device dev);
 
+  bool capability(SoundCapability cap);
+  
   bool get_sound_enabled(SoundEvent snd, bool &enabled);
   void set_sound_enabled(SoundEvent snd, bool enabled);
   bool get_sound_wav_file(SoundEvent snd, std::string &filename);

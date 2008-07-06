@@ -70,7 +70,10 @@ GstSoundPlayer::~GstSoundPlayer()
 bool
 GstSoundPlayer::capability(SoundPlayer::SoundCapability cap)
 {
-  (void) cap;
+  if (cap == SoundPlayer::SOUND_CAP_EDIT)
+    {
+      return true;
+    }
   return false;
 }
 
@@ -206,8 +209,7 @@ void
 GstSoundPlayer::set_sound_wav_file(SoundPlayer::SoundEvent snd, const std::string &wav_file)
 {
   (void) snd;
-  (void) wav_file
-    ;
+  (void) wav_file;
 }
 
 #endif

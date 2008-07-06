@@ -136,7 +136,10 @@ W32SoundPlayer::play_sound(SoundPlayer::SoundEvent snd )
 bool
 W32SoundPlayer::capability(SoundPlayer::SoundCapability cap)
 {
-  (void) cap;
+  if (cap == SoundPlayer::SOUND_CAP_EDIT)
+    {
+      return true;
+    }
   return false;
 }
 

@@ -192,6 +192,8 @@ sed "s?$LIBPREFIX/lib/gtk-2.0/$gtk_version/immodules/?@executable_path/../Resour
 mkdir -p $pkgthemedir/Leopardish-normal
 cp -r ~/.themes/Leopardish-normal/* $pkgthemedir/Leopardish-normal
 
+mkdir -p $pkgthemedir/Quartz
+cp -r $LIBPREFIX/share/themes/Quartz/gtk-2.0 $pkgthemedir/Quartz
 
 # ------------------------------------------------------------
 # Install dependencies

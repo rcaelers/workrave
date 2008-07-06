@@ -23,18 +23,28 @@
 #define OSXSOUNDPLAYER_HH
 
 #include "ISoundDriver.hh"
+#include "Thread.hh"
 
-class OSXSoundPlayer : public ISoundDriver
+class OSXSoundPlayer : public ISoundDriver, public Thread
 {
 public:
   OSXSoundPlayer();
   virtual ~OSXSoundPlayer();
 
-  bool capability(SounCapability cap);
-  void play_sound(string wavfile);
-  void play_sound(SoundEvent snd);
+  bool capability(SoundPlayer::SoundCapability cap);
+  void play_sound(std::string wavfile);
+  void play_sound(SoundPlayer::SoundEvent snd);
 
+  bool get_sound_enabled(SoundPlayer::SoundEvent snd, bool &enabled);
+  void set_sound_enabled(SoundPlayer::SoundEvent snd, bool enabled);
+  bool get_sound_wav_file(SoundPlayer::SoundEvent snd, std::string &wav_file);
+  void set_sound_wav_file(SoundPlayer::SoundEvent snd, const std::string &wav_file);
+ 
 private:
+
+  void run();
+  
+  const char *wav_file;
 };
 
 #endif // OSXSOUNDPLAYER_HH

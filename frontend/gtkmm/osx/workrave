@@ -68,6 +68,7 @@ export CHARSETALIASDIR="$pkglibdir"
 
 if [ ! -e $HOME/.gtkrc-2.0 ]; then
     export GTK2_RC_FILES="$pkgresourcesdir/themes/Leopardish-normal/gtk-2.0/gtkrc"
+    #export GTK2_RC_FILES="$pkgresourcesdir/themes/Quartz/gtk-2.0/gtkrc"
 fi
 
 # Strip out the argument added by the OS.

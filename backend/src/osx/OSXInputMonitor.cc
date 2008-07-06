@@ -1,6 +1,6 @@
 // OSXInputMonitor.cc --- ActivityMonitor for OSX
 //
-// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -91,7 +91,7 @@ OSXInputMonitor::run()
           fire_action();
         }
 
-      g_usleep(1000);
+      g_usleep(500000);
     }
   TRACE_EXIT()
 }

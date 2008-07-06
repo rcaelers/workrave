@@ -367,7 +367,7 @@ TimerBoxGtkView::init_table()
   {
     TRACE_MSG("resize");
     resize(rows, columns);
-    //set_spacings(1);
+    set_spacings(0);
     //show_all();
 
     table_columns = columns;

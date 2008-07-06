@@ -33,36 +33,6 @@ static const char rcsid[] = "$Id: OSXSoundPlayer.cc 1275 2007-08-16 21:30:44Z rc
 #include <Carbon/Carbon.h>
 #include <QuickTime/QuickTime.h>
 
-static struct SoundRegistry
-{
-  const char *event_label;
-  const char *wav_file;
-  const char *friendly_name;
-} sound_registry[] =
-{
-  { "WorkraveBreakPrelude", "break-prelude.wav",
-    "Break prompt" },
-  { "WorkraveBreakIgnored", "break-ignored.wav",
-    "Break ignored" },
-  { "WorkraveRestBreakStarted", "rest-break-started.wav",
-    "Rest break started" },
-  { "WorkraveRestBreakEnded", "rest-break-ended.wav",
-    "Rest break ended" },
-  { "WorkraveMicroBreakStarted", "micro-break-started.wav",
-    "Micro-break started" },
-  { "WorkraveMicroBreakEnded", "micro-break-ended.wav",
-    "Micro-break ended" },
-  { "WorkraveDailyLimit", "daily-limit.wav",
-    "Daily limit" },
-  { "WorkraveExerciseEnded", "exercise-ended.wav",
-    "Exercise ended" },
-  { "WorkraveExercisesEnded", "exercises-ended.wav",
-    "Exercises ended" },
-  { "WorkraveExerciseStep", "exercise-step.wav",
-    "Exercise change" },
-};
-
-
 OSXSoundPlayer::OSXSoundPlayer()
 {
   EnterMovies();
@@ -74,36 +44,40 @@ OSXSoundPlayer::~OSXSoundPlayer()
 }
 
 bool
-OSXSoundPlayer::capability(SounCapability cap)
+OSXSoundPlayer::capability(SoundPlayer::SoundCapability cap)
 {
-  (void) cap;
+  if (cap == SoundPlayer::SOUND_CAP_EDIT)
+    {
+      return true;
+    }
   return false;
 }
 
 
 void
-OSXSoundPlayer::play_sound(string wavfile)
+OSXSoundPlayer::play_sound(SoundPlayer::SoundEvent snd)
 {
-  (void) wavfile;
-}
-
-void
-OSXSoundPlayer::play_sound(SoundEvent snd)
-{
-  TRACE_ENTER_MSG( "OSXSoundPlayer::play_sound", sound_registry[snd].friendly_name );
-
-  string file = Util::complete_directory(sound_registry[snd].wav_file, Util::SEARCH_PATH_SOUNDS);
-
-  play_sound(file);
+  (void) snd;
 }
 
 
 void
 OSXSoundPlayer::play_sound(string file)
 {
+  if (wav_file == NULL)
+    {
+      wav_file = strdup(file.c_str());
+      start();
+    }
+}
+
+
+void
+OSXSoundPlayer::run()
+{
   OSErr err;
   FSSpec spec;
-  const char *fname = file.c_str();
+  const char *fname = wav_file;
   Movie movie;
 
   FSRef fref;
@@ -151,6 +125,34 @@ OSXSoundPlayer::play_sound(string file)
     }
 
   DisposeMovie(movie);
-
-  TRACE_EXIT();
+  free((void*)wav_file);
+  wav_file = NULL;
 }
+
+
+bool OSXSoundPlayer::get_sound_enabled(SoundPlayer::SoundEvent snd, bool &enabled)
+{
+  (void) snd;
+  (void) enabled;
+  return false;
+}
+
+void OSXSoundPlayer::set_sound_enabled(SoundPlayer::SoundEvent snd, bool enabled)
+{
+  (void) snd;
+  (void) enabled;
+}
+
+bool OSXSoundPlayer::get_sound_wav_file(SoundPlayer::SoundEvent snd, std::string &wav_file)
+{
+  (void) snd;
+  (void) wav_file;
+  return false;
+}
+
+void OSXSoundPlayer::set_sound_wav_file(SoundPlayer::SoundEvent snd, const std::string &wav_file)
+{
+  (void) snd;
+  (void) wav_file;
+}
+

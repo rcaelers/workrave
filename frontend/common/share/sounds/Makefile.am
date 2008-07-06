@@ -11,8 +11,9 @@ DISTCLEANFILES = 	workrave.soundlist
 
 ## SUBDIRS	= subtle
 
-soundsdir = 		$(datadir)/sounds/workrave/default
-sounds_DATA = 		$(wildcard *.wav) soundtheme
+soundsdir = 		$(datadir)/sounds/workrave/
+defaultsoundsdir = 	$(soundsdir)/default
+defaultsounds_DATA = 	$(wildcard *.wav) soundtheme
 
 if HAVE_GNOME
 

@@ -466,6 +466,15 @@ SoundPlayer::load_sound_theme(const string &themefilename, Theme &theme)
 
               if (pathname != NULL)
                 {
+                  char resolved_path[PATH_MAX];
+                  char *sound_pathname = realpath(pathname, resolved_path);
+                  if (sound_pathname == NULL)
+                    {
+                      sound_pathname = pathname;
+                    }
+
+                  theme.files.push_back(sound_pathname);
+                  
                   if (is_current)
                     {
                       string current = "";
@@ -473,13 +482,12 @@ SoundPlayer::load_sound_theme(const string &themefilename, Theme &theme)
                                                                  snd->id,
                                                                  current);
                       
-                      if (current != pathname)
+                      if (current != string(sound_pathname))
                         {
                           is_current = false;
                         }
                     }
-              
-                  theme.files.push_back(pathname);
+
                   g_free(pathname);
                 }
             }
@@ -728,5 +736,17 @@ SoundPlayer::set_sound_wav_file(SoundEvent snd, const string &wav_file)
   if (driver != NULL)
     {
       driver->set_sound_wav_file(snd, wav_file);
+    }
+}
+
+
+bool
+SoundPlayer::capability(SoundCapability cap)
+{
+  bool ret = false;
+  
+  if (driver != NULL)
+    {
+      ret = driver->capability(cap);
     }
 }

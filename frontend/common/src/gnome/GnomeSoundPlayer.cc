@@ -59,7 +59,16 @@ GnomeSoundPlayer::~GnomeSoundPlayer()
 bool
 GnomeSoundPlayer::capability(SoundPlayer::SoundCapability cap)
 {
-  (void) cap;
+  if (cap == SoundPlayer::SOUND_CAP_EVENTS)
+    {
+      return true;
+    }
+
+  if (cap == SoundPlayer::SOUND_CAP_EDIT)
+    {
+      return true;
+    }
+  
   return false;
 }
 
