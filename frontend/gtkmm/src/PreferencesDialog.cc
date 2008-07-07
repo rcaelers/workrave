@@ -361,7 +361,7 @@ PreferencesDialog::create_sounds_page()
 
           row[sound_model.enabled] = sound_enabled;
           row[sound_model.selectable] = true;
-          row[sound_model.description] = SoundPlayer::sound_registry[i].friendly_name;
+          row[sound_model.description] = _(SoundPlayer::sound_registry[i].friendly_name);
           row[sound_model.label] = SoundPlayer::sound_registry[i].id;
           row[sound_model.event] = i;
         }
