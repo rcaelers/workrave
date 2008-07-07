@@ -320,9 +320,8 @@ PreferencesDialog::create_sounds_page()
   sound_button->signal_changed().connect(sigc::mem_fun(*this, &PreferencesDialog::on_sound_changed));
 
   // Volume 
-  sound_volume_scale =  manage(new Gtk:: HScale(0.0, 100.0, 1.0));
-  sound_volume_scale->set_increments(1.0, 25.0);
-  sound_volume_scale->set_value(75);
+  sound_volume_scale =  manage(new Gtk:: HScale(0.0, 100.0, 0.0));
+  sound_volume_scale->set_increments(1.0, 5.0);
   connector->connect(SoundPlayer::CFG_KEY_SOUND_VOLUME, dc::wrap(sound_volume_scale->get_adjustment()));
 
   hig->add(_("Sound:"), *sound_button);
@@ -388,8 +387,8 @@ PreferencesDialog::create_sounds_page()
                                                       
       Gtk::HBox *hbox = manage(new Gtk::HBox(false, 6));
   
-    sound_play_button = manage(new Gtk::Button(_("Play")));
-    hbox->pack_start(*sound_play_button, false, false, 0);
+      sound_play_button = manage(new Gtk::Button(_("Play")));
+      hbox->pack_start(*sound_play_button, false, false, 0);
   
       fsbutton = manage(new Gtk::FileChooserButton(_("Choose a sound"),
                                                    Gtk::FILE_CHOOSER_ACTION_OPEN,
@@ -432,6 +431,12 @@ PreferencesDialog::create_sounds_page()
       selection->signal_changed().connect(sigc::mem_fun(*this,
                                                         &PreferencesDialog::on_sound_events_changed));
 
+      Gtk::TreeModel::iterator iter = sound_store->children().begin();
+      if (iter)
+        {
+          selection->select(iter);
+        }
+      
       update_senstives();
     }
     
