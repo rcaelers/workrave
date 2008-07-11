@@ -117,7 +117,7 @@ namespace workrave {
     virtual OperationMode get_operation_mode() = 0;
 
     //! Set the operational mode.
-    virtual OperationMode set_operation_mode(OperationMode mode) = 0;
+    virtual OperationMode set_operation_mode(OperationMode mode, bool persistent = true) = 0;
 
     //! Set the callback for activity monitor events.
     virtual void set_core_events_listener(ICoreEventListener *l) = 0;

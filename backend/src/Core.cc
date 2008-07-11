@@ -515,7 +515,7 @@ Core::get_operation_mode()
 
 //! Sets the operation mode
 OperationMode
-Core::set_operation_mode(OperationMode mode)
+Core::set_operation_mode(OperationMode mode, bool persistent)
 {
 
 #ifdef PLATFORM_OS_WIN32
@@ -560,8 +560,12 @@ APPEND_TIME("Core::set_operation_mode()", "OPERATION_MODE_QUIET ")
         {
           stop_all_breaks();
         }
+
+      if (persistent)
+        {
+          get_configurator()->set_value(CoreConfig::CFG_KEY_OPERATION_MODE, mode);
+        }
       
-      get_configurator()->set_value(CoreConfig::CFG_KEY_OPERATION_MODE, mode);
       if (core_event_listener != NULL)
         {
           core_event_listener->core_event_operation_mode_changed(mode);
@@ -641,7 +645,7 @@ Core::set_powersave(bool down)
   if (down)
     {
       // Computer is going down
-      powersave_operation_mode = set_operation_mode(OPERATION_MODE_SUSPENDED);
+      powersave_operation_mode = set_operation_mode(OPERATION_MODE_SUSPENDED, false);
       powersave_resume_time = 0;
       powersave = true;
 
@@ -658,7 +662,7 @@ Core::set_powersave(bool down)
           powersave_resume_time = current_time ? current_time : 1;
         }
 
-      set_operation_mode(powersave_operation_mode);
+      set_operation_mode(powersave_operation_mode, false);
     }
   TRACE_EXIT();
 }
@@ -1405,7 +1409,7 @@ Core::load_misc()
     {
       mode = OPERATION_MODE_NORMAL;
     }
-  set_operation_mode(OperationMode(mode));
+  set_operation_mode(OperationMode(mode), false);
 }
 
 

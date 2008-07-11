@@ -138,7 +138,7 @@ PreferencesDialog::~PreferencesDialog()
 #endif
   
   ICore *core = CoreFactory::get_core();
-  core->set_operation_mode(mode);
+  core->set_operation_mode(mode, false);
 
   delete connector;
   delete filefilter;
@@ -575,7 +575,7 @@ PreferencesDialog::on_focus_in_event(GdkEventFocus *event)
       mode = core->get_operation_mode();
       if (mode == OPERATION_MODE_NORMAL)
         {
-          mode = core->set_operation_mode(OPERATION_MODE_QUIET);
+          mode = core->set_operation_mode(OPERATION_MODE_QUIET, false);
         }
     }
   TRACE_EXIT();
@@ -589,7 +589,7 @@ PreferencesDialog::on_focus_out_event(GdkEventFocus *event)
   TRACE_ENTER("PreferencesDialog::focus_out");
   ICore *core = CoreFactory::get_core();
 
-  core->set_operation_mode(mode);
+  core->set_operation_mode(mode, false);
   TRACE_EXIT();
   return HigDialog::on_focus_out_event(event);
 }

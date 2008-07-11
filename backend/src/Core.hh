@@ -111,7 +111,7 @@ public:
   void post_event(CoreEvent event);
 
   OperationMode get_operation_mode();
-  OperationMode set_operation_mode(OperationMode mode);
+  OperationMode set_operation_mode(OperationMode mode, bool persistent = true);
   void set_freeze_all_breaks(bool freeze);
 
   void stop_prelude(BreakId break_id);

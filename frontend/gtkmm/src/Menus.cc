@@ -211,7 +211,7 @@ void
 Menus::set_operation_mode(OperationMode m)
 {
   ICore *core = CoreFactory::get_core();
-  core->set_operation_mode(m);
+  core->set_operation_mode(m, true);
   resync();  
 }
 
