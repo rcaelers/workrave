@@ -229,7 +229,7 @@ W32SoundPlayer::get_sound_wav_file(SoundPlayer::SoundEvent snd, std::string &wav
   if (wav_file == "")
     {
       char *cur = strrchr(key, '.');
-      strcpy(cur, ".current");
+      strcpy(cur, ".default");
       if (registry_get_value(key, NULL, val))
         {
           wav_file = val;
