@@ -196,7 +196,7 @@ W32SoundPlayer::set_sound_enabled(SoundPlayer::SoundEvent snd, bool enabled)
         {
           char *defkey = strrchr(key, '.');
           strcpy(defkey, ".current");
-          registry_set_value(defkey, NULL, def);
+          registry_set_value(key, NULL, def);
         }
     }
   else
@@ -254,13 +254,13 @@ W32SoundPlayer::set_sound_wav_file(SoundPlayer::SoundEvent snd, const std::strin
   strcpy(key, "AppEvents\\Schemes\\Apps\\Workrave\\");
   strcat(key, SoundPlayer::sound_registry[snd].label);
   strcat(key, "\\.default");
+  registry_set_value(key, NULL, wav_file.c_str());
 
   bool enabled = false;
   bool valid = get_sound_enabled(snd, enabled);
 
   if (!valid || enabled)
     {
-      registry_set_value(key, NULL, wav_file.c_str());
       char *def = strrchr(key, '.');
       strcpy(def, ".current");
       registry_set_value(key, NULL, wav_file.c_str());
