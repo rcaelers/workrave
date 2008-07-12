@@ -677,13 +677,18 @@ void
 PreferencesDialog::on_sound_enabled(const Glib::ustring &path_string)
 {
   Gtk::TreePath path(path_string);
-  Gtk::TreeRow row = *(sound_store->get_iter(path));
+  const Gtk::TreeModel::iterator iter = sound_store->get_iter(path);
 
-  GUI *gui = GUI::get_instance();
-  SoundPlayer *snd = gui->get_sound_player();
+  if (iter)
+    {
+      Gtk::TreeRow row = *iter;
+
+      GUI *gui = GUI::get_instance();
+      SoundPlayer *snd = gui->get_sound_player();
   
-  snd->set_sound_enabled((SoundPlayer::SoundEvent)(int)row[sound_model.event],
-                         row[sound_model.enabled]);
+      snd->set_sound_enabled((SoundPlayer::SoundEvent)(int)row[sound_model.event],
+                             row[sound_model.enabled]);
+    }
 }
 
 
