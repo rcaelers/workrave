@@ -590,27 +590,33 @@ SoundPlayer::play_sound(SoundEvent snd)
   TRACE_ENTER("SoundPlayer::play_sound");
   if (is_enabled())
     {
-      if (get_device() == DEVICE_SOUNDCARD && driver != NULL)
+      bool enabled = false;
+      bool valid = SoundPlayer::get_sound_enabled(snd, enabled);
+
+      if (valid && enabled)
         {
-          if (driver->capability(SOUND_CAP_EVENTS))
+          if (get_device() == DEVICE_SOUNDCARD && driver != NULL)
             {
-              driver->play_sound(snd);
+              if (driver->capability(SOUND_CAP_EVENTS))
+                {
+                  driver->play_sound(snd);
+                }
+              else
+                {
+                  string filename;
+                  bool valid = SoundPlayer::get_sound_wav_file(snd, filename);
+
+                  if (valid)
+                    {
+                      driver->play_sound(filename);
+                    }
+                }
             }
           else
             {
-              string filename;
-              bool valid = SoundPlayer::get_sound_wav_file(snd, filename);
-
-              if (valid)
-                {
-                  driver->play_sound(filename);
-                }
+              Thread *t = new SpeakerPlayer(beep_map[snd]);
+              t->start();
             }
-        }
-      else
-        {
-          Thread *t = new SpeakerPlayer(beep_map[snd]);
-          t->start();
         }
     }
   TRACE_EXIT();
