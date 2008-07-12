@@ -104,31 +104,10 @@ W32SoundPlayer::~W32SoundPlayer()
 }
 
 
-/*
-thread routine changed
-jay satiro, workrave project, june 2007
-redistribute under GNU terms.
-*/
-
 void
 W32SoundPlayer::play_sound(SoundPlayer::SoundEvent snd )
 {
   TRACE_ENTER_MSG( "W32SoundPlayer::play_sound", SoundPlayer::sound_registry[snd].friendly_name );
-
-  // if ( sound == &sound_registry[snd] )
-  //   {
-  //     TRACE_MSG( "Sound already queued: sound == &sound_registry[snd]" );
-  //   }
-  // else if( sound == NULL )
-  //   {
-  //     DWORD id;
-  //     sound = &sound_registry[snd];
-  //     CloseHandle( CreateThread( NULL, 0, thread_Play, this, 0, &id ) );
-  //   }
-  // else
-  //   {
-  //     TRACE_MSG( "Failed: sound != NULL && sound != &sound_registry[snd]" );
-  //   }
   TRACE_EXIT();
 }
 
@@ -140,8 +119,18 @@ W32SoundPlayer::capability(SoundPlayer::SoundCapability cap)
     {
       return true;
     }
+  if (cap == SoundPlayer::SOUND_CAP_VOLUME)
+    {
+      return true;
+    }
   return false;
 }
+
+/*
+thread routine changed
+jay satiro, workrave project, june 2007
+redistribute under GNU terms.
+*/
 
 void
 W32SoundPlayer::play_sound(string wavfile)

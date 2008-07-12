@@ -68,7 +68,9 @@
 using namespace std;
 
 PreferencesDialog::PreferencesDialog()
-  : HigDialog(_("Preferences"), false, false)
+  : HigDialog(_("Preferences"), false, false),
+    filefilter(NULL),
+    connector(NULL)
 {
   TRACE_ENTER("PreferencesDialog::PreferencesDialog");
 
@@ -319,20 +321,22 @@ PreferencesDialog::create_sounds_page()
   sound_button->set_history(idx);
   sound_button->signal_changed().connect(sigc::mem_fun(*this, &PreferencesDialog::on_sound_changed));
 
-  // Volume 
-  sound_volume_scale =  manage(new Gtk:: HScale(0.0, 100.0, 0.0));
-  sound_volume_scale->set_increments(1.0, 5.0);
-  connector->connect(SoundPlayer::CFG_KEY_SOUND_VOLUME, dc::wrap(sound_volume_scale->get_adjustment()));
-
-  hig->add(_("Sound:"), *sound_button);
-
-#ifndef PLATFORM_OS_OSX
-  hig->add(_("Volume:"), *sound_volume_scale, true, true);
-#endif
-
   GUI *gui = GUI::get_instance();
   SoundPlayer *snd = gui->get_sound_player();
   
+  if (snd->capability(SoundPlayer::SOUND_CAP_VOLUME))
+    {
+      // Volume 
+      sound_volume_scale =  manage(new Gtk:: HScale(0.0, 100.0, 0.0));
+      sound_volume_scale->set_increments(1.0, 5.0);
+      connector->connect(SoundPlayer::CFG_KEY_SOUND_VOLUME, dc::wrap(sound_volume_scale->get_adjustment()));
+
+      hig->add(_("Volume:"), *sound_volume_scale, true, true);
+    }
+
+  hig->add(_("Sound:"), *sound_button);
+
+
   if (snd->capability(SoundPlayer::SOUND_CAP_EDIT))
     {
       // Sound themes

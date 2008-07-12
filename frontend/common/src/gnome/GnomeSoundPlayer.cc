@@ -63,11 +63,6 @@ GnomeSoundPlayer::capability(SoundPlayer::SoundCapability cap)
     {
       return true;
     }
-
-  if (cap == SoundPlayer::SOUND_CAP_EDIT)
-    {
-      return true;
-    }
   
   return false;
 }

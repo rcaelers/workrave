@@ -74,6 +74,10 @@ GstSoundPlayer::capability(SoundPlayer::SoundCapability cap)
     {
       return true;
     }
+  if (cap == SoundPlayer::SOUND_CAP_VOLUME)
+    {
+      return true;
+    }
   return false;
 }
 
