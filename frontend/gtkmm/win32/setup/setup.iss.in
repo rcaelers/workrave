@@ -151,7 +151,7 @@ begin
    Result := True;
   if (not BackClicked and (CurPage = wpSelectComponents)) then begin
     if (not HasGtkRuntime()) and (not IsGtkRuntimeToBeInstalled()) then begin
-      MsgBox('Setup could not find the required GTK+ runtime environment. Please choose the full installation instead, or download and install the GTK+ runtime environment from http://www.dropline.net/gtk/.', mbError, MB_OK);
+      MsgBox('Setup could not find the required GTK+ runtime environment. Please choose the full installation instead.', mbError, MB_OK);
       Result := False;
     end
   end
