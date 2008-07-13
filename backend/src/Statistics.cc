@@ -76,7 +76,6 @@ Statistics::~Statistics()
 
   delete current_day;
 
-  input_monitor = InputMonitorFactory::get_monitor(IInputMonitorFactory::CAPABILITY_STATISTICS);
   if (input_monitor != NULL)
     {
       input_monitor->unsubscribe_statistics(this);
