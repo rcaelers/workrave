@@ -4,7 +4,8 @@ EXTRA_DIST 	= $(ui_DATA)					\
 	  	  WorkraveApplet.c				\
 		  WorkraveApplet.h				\
 		  DBusGUI.xml					\
-		  DBusGnomeApplet.xml
+		  DBusGnomeApplet.xml				\
+		  gnome-applet.xml
 
 MAINTAINERCLEANFILES =  Makefile.in GNOME_WorkraveApplet.xml \
 			Workrave-Applet.server.in Workrave-Applet.server \

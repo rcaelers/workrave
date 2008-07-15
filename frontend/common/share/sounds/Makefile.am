@@ -9,7 +9,7 @@
 MAINTAINERCLEANFILES = 	Makefile.in workrave.soundlist
 DISTCLEANFILES = 	workrave.soundlist
 
-## SUBDIRS	= subtle
+SUBDIRS	= subtle
 
 soundsdir = 		$(datadir)/sounds/workrave/
 defaultsoundsdir = 	$(soundsdir)/default
@@ -25,7 +25,7 @@ utils_DATA = 		$(utils_in_files:.soundlist.in=.soundlist)
 
 endif
 
-EXTRA_DIST = 		${sounds_DATA} $(utils_DATA) workrave.soundlist.in eventsrc.in
+EXTRA_DIST = 		${defaultsounds_DATA} $(utils_DATA) workrave.soundlist.in eventsrc.in
 
 
 if HAVE_KDE

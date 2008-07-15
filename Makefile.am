@@ -29,7 +29,6 @@ EXTRA_DIST = 	config.rpath  \
 		depcomp \
 		workrave.spec.in \
 		workrave.spec \
-		intltool-extract.in intltool-merge.in intltool-update.in \
 		SConstruct
 
 WIN32_NMAKE=wineconsole ~/.wine/fake_windows/Program\ Files/Microsoft\ Visual\ C++\ Toolkit\ 2003/bin/nmake.exe
