@@ -1,0 +1,3 @@
+[Workrave D-BUS Service]
+Name=org.workrave.Workrave
+Exec=@bindir@/workrave

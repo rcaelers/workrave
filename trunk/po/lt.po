@@ -1,0 +1,1275 @@
+# Workrave
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Workrave 1.6.2\n"
+"Report-Msgid-Bugs-To: i18n@workrave.org\n"
+"POT-Creation-Date: 2008-07-03 21:19+0200\n"
+"PO-Revision-Date: 2006-07-31 18:09+0200\n"
+"Last-Translator: Artūras Šlajus <x11@h2o.sky.lt>\n"
+"Language-Team: Artūras Šlajus <x11@h2o.sky.lt>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../backend/src/DistributionSocketLink.cc:130
+#, c-format
+msgid "Reconnecting to %s:%d."
+msgstr "Vėl jungiamasi prie %s:%d."
+
+#: ../backend/src/DistributionSocketLink.cc:346
+msgid "Cannot resolve my own hostname. Deactivating distribution."
+msgstr "Negaliu išspręsti savo kompiuterio vardo. Išjungiu platinimą."
+
+#  We did not succeed in starting the server. Arghh.
+#. We did not succeed in starting the server. Arghh.
+#: ../backend/src/DistributionSocketLink.cc:384
+msgid "Could not enable network operation."
+msgstr "Negaliu įjungti tinklo veiklos."
+
+#: ../backend/src/DistributionSocketLink.cc:393
+msgid "Disabling network operation."
+msgstr "Išjungiamas tinklo veiksnumas."
+
+#: ../backend/src/DistributionSocketLink.cc:548
+#: ../backend/src/DistributionSocketLink.cc:576
+#, c-format
+msgid "Connecting to %s:%d."
+msgstr "Jungiamasi prie %s:%d."
+
+#: ../backend/src/DistributionSocketLink.cc:683
+#: ../backend/src/DistributionSocketLink.cc:710
+#, c-format
+msgid "Removing client %s:%d."
+msgstr "Pašaliname klientą %s:%d."
+
+#  Closing direct connection.
+#. Closing direct connection.
+#: ../backend/src/DistributionSocketLink.cc:749
+#, c-format
+msgid "Disconnecting %s:%d."
+msgstr "Atjungiame %s:%d."
+
+#  It's a remote client. mark it master.
+#. It's a remote client. mark it master.
+#: ../backend/src/DistributionSocketLink.cc:919
+#, c-format
+msgid "Client %s:%d is now master."
+msgstr "Klientas %s:%d dabar yra mūsų šeiminkas."
+
+#  Its ME!
+#. Its ME!
+#: ../backend/src/DistributionSocketLink.cc:926
+msgid "I'm now master."
+msgstr "Aš dabar esu šeiminkas."
+
+#: ../backend/src/DistributionSocketLink.cc:1257
+#, c-format
+msgid "Client %s:%d saying hello."
+msgstr "Klientas %s:%d sveikinasi."
+
+#  Duplicate client. inform client that it's bogus and close.
+#. Duplicate client. inform client that it's bogus and close.
+#: ../backend/src/DistributionSocketLink.cc:1273
+#: ../backend/src/DistributionSocketLink.cc:1403
+#: ../backend/src/DistributionSocketLink.cc:1644
+#, c-format
+msgid "Client %s:%d is duplicate."
+msgstr "Klientas %s:%d kartojasi."
+
+#  Incorrect password.
+#. Incorrect password.
+#: ../backend/src/DistributionSocketLink.cc:1283
+#, c-format
+msgid "Client %s:%d access denied."
+msgstr "Klientui %s:%d uždraustas priejimas."
+
+#: ../backend/src/DistributionSocketLink.cc:1353
+#, c-format
+msgid "Client %s:%d signed off."
+msgstr "Klientas %s:%d atsijungė."
+
+#: ../backend/src/DistributionSocketLink.cc:1442
+#, c-format
+msgid "Client %s:%d is welcoming us."
+msgstr "Klientas %s:%d sveikina mus."
+
+#: ../backend/src/DistributionSocketLink.cc:1681
+#, c-format
+msgid "Requesting master status from %s:%d."
+msgstr "Prašome šeiminko statuso iš %s:%d."
+
+#: ../backend/src/DistributionSocketLink.cc:1695
+#, c-format
+msgid "Client timeout from %s:%d."
+msgstr "Klientui %s:%d baigėsi laiko limitas."
+
+#: ../backend/src/DistributionSocketLink.cc:1717
+#, c-format
+msgid "Rejecting master request from client %s:%d."
+msgstr "Atmetame šeiminko prašymą iš kliento %s:%d."
+
+#: ../backend/src/DistributionSocketLink.cc:1723
+#, c-format
+msgid "Acknowledging master request from client %s:%d."
+msgstr "Patvirtiname šeiminko prašyma iš kliento %s:%d."
+
+#: ../backend/src/DistributionSocketLink.cc:1774
+#, fuzzy, c-format
+msgid "Non-master client %s:%d rejected master request."
+msgstr "Klientas %s:%d, kuris nėra šeiminkas, atmetė šeiminko prašymą."
+
+#: ../backend/src/DistributionSocketLink.cc:1779
+#, c-format
+msgid "Client %s:%d rejected master request, delaying."
+msgstr "Klientas %s:%d atmetė šeiminko prašymą, delsiame."
+
+#  gint count =
+#. gint count =
+#: ../backend/src/DistributionSocketLink.cc:1850
+#, c-format
+msgid "Client %s is now the new master."
+msgstr "Klientas %s yra naujasis šeimininkas."
+
+#: ../backend/src/DistributionSocketLink.cc:1972
+msgid "Network operation started."
+msgstr "Tinklo veiksnumas įjungtas."
+
+#: ../backend/src/DistributionSocketLink.cc:1989
+msgid "Accepted new client."
+msgstr "Priėmėme naują klientą."
+
+#: ../backend/src/DistributionSocketLink.cc:2055
+#, c-format
+msgid "Client %s:%d read error, closing."
+msgstr "Kliento %s:%d nuskaitymo klaida, uždarome."
+
+#: ../backend/src/DistributionSocketLink.cc:2061
+#: ../backend/src/DistributionSocketLink.cc:2135
+#, c-format
+msgid "Client %s:%d closed connection."
+msgstr "Klientas %s:%d uždarė susijungimą."
+
+#: ../backend/src/DistributionSocketLink.cc:2102
+#, c-format
+msgid "Client %s:%d connected."
+msgstr "Klientas %s:%d prisijungė."
+
+#: ../backend/src/DistributionSocketLink.cc:2142
+#, c-format
+msgid "Could not connect to client %s:%d."
+msgstr "Nepavyko prisijungti prie kliento %s:%d."
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
+#: ../frontend/common/src/SoundPlayer.cc:80
+msgid "Break ignored"
+msgstr "Pertauka ignoruota"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:2
+#: ../frontend/common/src/SoundPlayer.cc:74
+msgid "Break prompt"
+msgstr "Pertaukos užklausa"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
+#: ../frontend/common/src/SoundPlayer.cc:111
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:50
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:58
+#: ../frontend/gtkmm/src/GUI.cc:1384 ../frontend/gtkmm/src/GtkUtil.cc:163
+msgid "Daily limit"
+msgstr "Dienos limitas"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:4
+#: ../frontend/common/src/SoundPlayer.cc:129
+#, fuzzy
+msgid "Exercise change"
+msgstr "Pratimas baigtas"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:5
+#: ../frontend/common/src/SoundPlayer.cc:117
+msgid "Exercise ended"
+msgstr "Pratimas baigtas"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:6
+#: ../frontend/common/src/SoundPlayer.cc:123
+msgid "Exercises ended"
+msgstr "Pratimai baigti"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:7
+#: ../frontend/common/src/SoundPlayer.cc:105
+msgid "Micro-break ended"
+msgstr "Mikro-pertraukėlė baigta"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:8
+#: ../frontend/common/src/SoundPlayer.cc:99
+msgid "Micro-break started"
+msgstr "Mikro-pertraukėlė pradėta"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:9
+#: ../frontend/common/src/SoundPlayer.cc:93
+msgid "Rest break ended"
+msgstr "Poilsio pertrauka baigta"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:10
+#: ../frontend/common/src/SoundPlayer.cc:86
+msgid "Rest break started"
+msgstr "Poilsio pertrauka pradėta"
+
+#: ../frontend/common/share/sounds/workrave.soundlist.in.h:11
+#: ../frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:1
+msgid "Workrave"
+msgstr "Workrave"
+
+#: ../frontend/common/src/SoundPlayer.cc:550
+msgid "Custom"
+msgstr ""
+
+#: ../frontend/common/src/Text.cc:80
+#, c-format
+msgid "%s%d:%02d:%02d hours"
+msgstr "%s%d:%02d:%02d valandos"
+
+#: ../frontend/common/src/Text.cc:84
+#, c-format
+msgid "%s%d:%02d minutes"
+msgstr "%s%d:%02d minutės"
+
+#: ../frontend/common/src/Text.cc:88
+#, c-format
+msgid "%s%d seconds"
+msgstr "%s%d sekundės"
+
+#: ../frontend/gtkmm/src/BreakWindow.cc:287
+msgid "Lock"
+msgstr "Užrakinti"
+
+#: ../frontend/gtkmm/src/BreakWindow.cc:306
+msgid "Shut down"
+msgstr "Išjungti"
+
+#: ../frontend/gtkmm/src/BreakWindow.cc:323
+msgid "Skip"
+msgstr "Praleisti"
+
+#: ../frontend/gtkmm/src/BreakWindow.cc:336
+msgid "Postpone"
+msgstr "Atidėti"
+
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:59
+msgid ""
+"You have reached your daily limit. Please stop working\n"
+"behind the computer. If your working day is not over yet,\n"
+"find something else to do, such as reviewing a document."
+msgstr ""
+"Tu pasiekei savo dienos limitą. Baik dirbti su kompiuteriu. \n"
+"Jei tavo darbo diena dar nepasibaigė, susirask kokį nors \n"
+"kitą darba, pavyzdžiui peržiūrėk dokumentus."
+
+#. FIXME: duplicate
+#: ../frontend/gtkmm/src/GUI.cc:1384 ../frontend/gtkmm/src/GtkUtil.cc:163
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:56
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:176
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:274
+msgid "Micro-break"
+msgstr "Mikro-pertraukėlė"
+
+#: ../frontend/gtkmm/src/GUI.cc:1384 ../frontend/gtkmm/src/GtkUtil.cc:163
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:149
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:78
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:211
+msgid "Rest break"
+msgstr "Poilsio pertrauka"
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:98
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:171
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:91
+msgid "_Rest break"
+msgstr "Poilsio pe_rtauka"
+
+#  Mode menu item
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:141
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:112
+msgid "_Mode"
+msgstr "Reži_mas"
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:143
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:94
+msgid "_Normal"
+msgstr "_Normalus"
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:146
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:100
+msgid "_Suspended"
+msgstr "_Sustabdytas"
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:149
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:106
+msgid "Q_uiet"
+msgstr "Tyl_us"
+
+#. Networking menu
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:153
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:131
+msgid "_Network"
+msgstr "Ti_nklas"
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:154
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:115
+msgid "_Connect"
+msgstr "Prisi_jungti"
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:156
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:118
+msgid "_Disconnect"
+msgstr "A_tsijungti"
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:158
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:122
+msgid "_Reconnect"
+msgstr "P_risijungti iš naujo"
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:160
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:125
+msgid "Show _log"
+msgstr "Parodyti žurna_lą"
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:180
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:92
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:43
+msgid "Exercises"
+msgstr "Pratimai"
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:184
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:133
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:62
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:150
+msgid "Statistics"
+msgstr "Statistika"
+
+#: ../frontend/gtkmm/src/Menus.cc:345
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:359
+msgid ""
+"This program assists in the prevention and recovery of Repetitive Strain "
+"Injury (RSI)."
+msgstr ""
+"Ši programa padeda išvengti ir atsistatyti po Pakartotinės Jėgos Žalos (RSI)."
+
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:236
+msgid "Please relax for a few seconds"
+msgstr "Atsipalaiduokite kelioms sekundėms"
+
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:243
+#, c-format
+msgid "Next rest break in %s"
+msgstr "Iki kitos poilsio pertaukos liko %s"
+
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:248
+#, c-format
+msgid "Rest break %s overdue"
+msgstr "Poilsio pertrauka %s praleista"
+
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:261
+#, fuzzy, c-format
+msgid "Daily limit in %s"
+msgstr "Dienos limitas"
+
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:266
+#, fuzzy, c-format
+msgid "Daily limit %s overdue"
+msgstr "Dienos limitas"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:71
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:90
+msgid "Preferences"
+msgstr "Parinktys"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:84
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:113
+msgid "General"
+msgstr "Bendra"
+
+#  panel->add(*start_in_tray_cb);
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:89
+#, fuzzy
+msgid "Sounds"
+msgstr "Garsas:"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:93
+msgid "Status Window"
+msgstr "Būsenos langas"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:97
+#, fuzzy
+msgid "Applet"
+msgstr "Priedas"
+
+#  Notebook
+#. Notebook
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:105
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:165
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:194
+msgid "Timers"
+msgstr "Laikmačiai"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:106
+msgid "User interface"
+msgstr "Vartotojo sąsaja"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:108
+msgid "Network"
+msgstr "Tinklas"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:159
+msgid "No blocking"
+msgstr "Be blokavimo"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:161
+msgid "Block input"
+msgstr "Užblokuoti įvestį"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:163
+msgid "Block input and screen"
+msgstr "Užblokutoi įvestį ir ekraną"
+
+#  Options
+#. Options
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:182
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:139
+msgid "Options"
+msgstr "Parinktys"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:184
+msgid "Block mode:"
+msgstr "Blokavimo režimas:"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:204
+msgid "System default"
+msgstr ""
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:244
+msgid "(font not available)"
+msgstr ""
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:269
+msgid "Language:"
+msgstr ""
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:273
+msgid "Start Workrave on Windows startup"
+msgstr ""
+
+#  Options
+#. Options
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:296
+#, fuzzy
+msgid "Sound Options"
+msgstr "Parinktys"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:304
+msgid "No sounds"
+msgstr "Be garsų"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:306
+msgid "Play sounds using sound card"
+msgstr "Groti garsus per garso plokšte"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:308
+msgid "Play sounds using built-in speaker"
+msgstr "Groti garsus per vidinį garsiakalbį"
+
+#  panel->add(*start_in_tray_cb);
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:328
+msgid "Sound:"
+msgstr "Garsas:"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:329
+msgid "Volume:"
+msgstr ""
+
+#. Sound themes
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:332
+msgid "Sound Events"
+msgstr ""
+
+#  panel->add(*start_in_tray_cb);
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:342
+#, fuzzy
+msgid "Sound Theme:"
+msgstr "Garsas:"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:368
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:408
+msgid "Play"
+msgstr ""
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:373
+msgid "Event"
+msgstr ""
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:389
+#, fuzzy
+msgid "Choose a sound"
+msgstr "Be garsų"
+
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:397
+msgid "Wavefiles"
+msgstr ""
+
+#: ../frontend/gtkmm/src/PreludeWindow.cc:112
+#: ../frontend/text/src/PreludeWindow.cc:53
+msgid "Time for a micro-break?"
+msgstr "Laikas mikro-pertraukėlei?"
+
+#: ../frontend/gtkmm/src/PreludeWindow.cc:116
+#: ../frontend/text/src/PreludeWindow.cc:57
+msgid "You need a rest break..."
+msgstr "Tau reikia poilsio pertraukos..."
+
+#: ../frontend/gtkmm/src/PreludeWindow.cc:120
+#: ../frontend/text/src/PreludeWindow.cc:61
+msgid "You should stop for today..."
+msgstr "Šiandien jau turėtum baigti..."
+
+#: ../frontend/gtkmm/src/PreludeWindow.cc:320
+#, c-format
+msgid "Break in %s"
+msgstr "Pertauka po %s"
+
+#: ../frontend/gtkmm/src/PreludeWindow.cc:324
+#, c-format
+msgid "Disappears in %s"
+msgstr "Išnyks po %s"
+
+#: ../frontend/gtkmm/src/PreludeWindow.cc:328
+#, c-format
+msgid "Silent in %s"
+msgstr "Tylus po %s"
+
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:173
+#, c-format
+msgid "Rest break for %s"
+msgstr "Iki poilsio pertraukos pabaigos liko %s"
+
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:212
+msgid ""
+"This is your rest break. Make sure you stand up and\n"
+"walk away from your computer on a regular basis. Just\n"
+"walk around for a few minutes, stretch, and relax."
+msgstr ""
+"Tai tavo poilsio pertrauka. Atsistok ir nueik nuo kompiuterio\n"
+"kuriam laiko tarpui. Tiesiog pasivaikščiok kelias minutes, \n"
+"pasiražyk ir atsipalaiduok."
+
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:189
+#, fuzzy
+msgid "Take rest break now"
+msgstr "Iki kitos poilsio pertaukos liko %s"
+
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:211
+msgid "Wait"
+msgstr "Laukti"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:98
+msgid "Place timers next to each other"
+msgstr "Patalpinti laikmačius šalia"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:100
+msgid "Place micro-break and rest break in one spot"
+msgstr "Patalpinti mikro-pertraukėlę ir poilsio pertrauką į vieną vietą"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:102
+msgid "Place rest break and daily limit in one spot"
+msgstr "Patalpinti poilsio pertrauka ir dienos limitą į vieną vietą"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:104
+msgid "Place all timers in one spot"
+msgstr "Patalpinti visus laikmačius į vieną vietą"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:124
+msgid "Hide"
+msgstr "Paslėpti"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:126
+msgid "Show"
+msgstr "Parodyti"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:128
+#, fuzzy
+msgid "Show only when this timer is first due"
+msgstr "Parodyti tik tada, kai šis laikmatis pasirodo pirmą kartą"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:136
+msgid "Show status window"
+msgstr "Rodyti būsenos langą"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:141
+msgid "The status window stays always on top of other windows"
+msgstr "Būsenos langas visuomet būna virš kitų langų"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:147
+msgid "Applet enabled"
+msgstr "Priedas įjungtas"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:153
+msgid "Display"
+msgstr "Rodyti"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:162
+msgid "Placement:"
+msgstr "Patalpinimo vieta:"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:163
+msgid "Cycle time:"
+msgstr "Ciklo laikas:"
+
+#  Layout
+#. Layout
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:168
+msgid "Micro-break:"
+msgstr "Mikro-pertraukėlė:"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:169
+msgid "Rest break:"
+msgstr "Poilsio pertrauka:"
+
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:170
+msgid "Daily limit:"
+msgstr "Dienos limitas:"
+
+#  Enabled/Disabled checkbox
+#. Enabled/Disabled checkbox
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:67
+msgid "Enable timer"
+msgstr "Įjungti laikmatį"
+
+#  Prelude frame
+#. Prelude frame
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:108
+msgid "Break prompting"
+msgstr "Pertraukų užklausimas"
+
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:110
+msgid "Prompt before breaking"
+msgstr "Paklausti prieš pertraukiant"
+
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:114
+msgid "Maximum number of prompts:"
+msgstr "Didžiausias užklausų skaičius:"
+
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:143
+msgid "Show 'Postpone' and 'Skip' button"
+msgstr "Rodyti 'Atidėti' ir 'Praleisti' mygtukus"
+
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:148
+msgid "Suspend timer when inactive"
+msgstr "Sustabdyti laikmatį, kai neaktyvus"
+
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:161
+msgid "Regard micro-breaks as activity"
+msgstr "Mikro-pertraukėles laikyti aktyvumu"
+
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:170
+msgid "Number of exercises:"
+msgstr "Pratimų kiekis:"
+
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:199
+msgid "Time before end:"
+msgstr "Laikas iki pabaigos:"
+
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:200
+msgid "Time between breaks:"
+msgstr "Laikas tarp pertraukų:"
+
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:207
+msgid "Break duration:"
+msgstr "Pertraukų trukmė:"
+
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:222
+msgid "Postpone time:"
+msgstr "Atidėjimo laikas:"
+
+#: ../frontend/gtkmm/src/gtktrayicon.c:106
+msgid "Orientation"
+msgstr "Orientacija"
+
+#: ../frontend/gtkmm/src/gtktrayicon.c:107
+#, fuzzy
+msgid "The orientation of the tray"
+msgstr "Skydelio orientacija"
+
+#: ../frontend/gtkmm/src/workrave.desktop.in.in.h:1
+#, fuzzy
+msgid ""
+"Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
+msgstr ""
+"Ši programa padeda išvengti ir atsistatyti po Pakartotinės Jėgos Žalos (RSI)."
+
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:1
+msgid "_About..."
+msgstr "_Apie..."
+
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:2
+msgid "_Connect..."
+msgstr "Prisijun_gti..."
+
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:4
+msgid "_Exercises"
+msgstr "_Pratimai"
+
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:8
+msgid "_Open"
+msgstr "_Atidaryti"
+
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:9
+msgid "_Preferences"
+msgstr "_Parinktys"
+
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:10
+msgid "_Quiet"
+msgstr "_Tylus"
+
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:11
+msgid "_Quit"
+msgstr "_Išeiti"
+
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:13
+msgid "_Restbreak"
+msgstr "Poilsio pe_rtrauka"
+
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:14
+msgid "_Show Log..."
+msgstr "Par_odyti žurnalą"
+
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:15
+msgid "_Statistics"
+msgstr "_Statistika"
+
+#: ../frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:2
+msgid "Workrave Applet"
+msgstr "Workrave priedas"
+
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:134
+msgid "About..."
+msgstr "Apie..."
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:52
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:71
+msgid "Network connect"
+msgstr "Tinklo prisijungimas"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:72
+msgid ""
+"Enter the host name and port number of a computer\n"
+"in the network you wish to connect to."
+msgstr ""
+"Įveskite vardą ir prievado numerį to kompiuterio, \n"
+"prie kurio tu nori jungtis."
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:84
+msgid "Host name:"
+msgstr "Kompiuterio vardas:"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:85
+msgid "Port:"
+msgstr "Prievadas:"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkLogDialog.cc:46
+msgid "Network log"
+msgstr "Tinklo žurnalas"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:93
+msgid "Enable networking"
+msgstr "Įjungti tinklo palaikymą"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:100
+msgid "Username:"
+msgstr "Vartotojo vardas:"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:101
+msgid "Password:"
+msgstr "Slaptažodis:"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:108
+msgid "Allow incoming connections"
+msgstr ""
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:126
+msgid "Server settings"
+msgstr "Serverio nustatymai"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:148
+msgid "Server port:"
+msgstr "Serverio prievadas:"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:149
+#, fuzzy
+msgid "Reconnect attempts:"
+msgstr "Bandyta prisijungti iš naujo:"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:150
+msgid "Reconnect interval:"
+msgstr "Prisijungimo iš naujo intervalas:"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:153
+msgid "Advanced"
+msgstr "Išsamiau"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:170
+msgid ""
+"The following list specifies the hosts that Workrave connects to on\n"
+"start-up. Click the host name or port number to edit."
+msgstr ""
+"Šiame sąraše surašyti kompiuteriai, prie kurių Workrave jungiasi po\n"
+"starto. Spragtelkite pele ant kompiuterio vardo arba prievado numerio,\n"
+"jog redaguotumėte įrašą."
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:199
+msgid "Host name"
+msgstr "Kompiuterio vardas"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:207
+msgid "Port"
+msgstr "Prievadas"
+
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:244
+msgid "Hosts"
+msgstr "Kompiuteriai"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:1
+msgid "Backward shoulder stretch"
+msgstr "Atbulinis pečių įtempimas"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:2
+msgid ""
+"Cover your eyes with your palms in such way that you can still open your "
+"eyelids. Now open your eyes and look into the darkness of your palms. This "
+"exercise gives better relief to your eyes compared to simply closing them."
+msgstr ""
+"Uždenk akis savo delnais taip, jog vis dar galėtum atsimerkti. Dabar "
+"atsimerk ir žiūrėk į savo delnų tamsą. Šis pratimas suteikia didesnį "
+"palengvėjimą, nei paprasčiausiai jas užmerkus."
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:3
+msgid "Finger stretch"
+msgstr "Pirštų įtempimas"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:4
+msgid ""
+"Interlace your fingers behind your back. Then turn your elbows gently "
+"inward, while straightening your arms. Hold this position for 5 to 15 "
+"seconds, and repeat this exercise twice."
+msgstr ""
+"Sunerk savo pirštus už nugaros. Tada švelniai pasuk savo alkūnes į vidų "
+"tiesindamas savo rankas. Pabūk tokioje pozoje nuo 5 iki 15 sekundžių. "
+"Pakartok šį pratimą du kartus."
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
+msgid ""
+"Keep one arm horizontally stretched in front of your chest. Push this arm "
+"with your other arm towards you until you feel a mild tension in your "
+"shoulder. Hold this position briefly, and repeat the exercise for your other "
+"arm."
+msgstr ""
+"Laikyk vieną ranką horizontaliai ištiestą priekyje savo krūtinės. Stumk šia "
+"ranką su kita savo ranka link savęs, kol pajusi švelnų įtemptimą savo "
+"petyje. Pabūk tokio pozoje trumpam, tada pakartok šį pratima su kita ranka."
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
+msgid ""
+"Look at the upper left corner of the outside border of your monitor. Follow "
+"the border slowly to the upper right corner. Continue to the next corner, "
+"until you got around it two times. Then, reverse the exercise."
+msgstr ""
+"Žiūrėk į viršutinį dešinį savo vaizduoklio korpuso kampą. Lėtai sek akimis "
+"jo remeliu į viršutinį kairį kampą. Tesk iki kito kampo, kol apsuksi du "
+"ratus. Tada pakeisk kryptį ir tęsk pratimą."
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
+msgid ""
+"Look for the furthest point you can see behind your monitor. Focus your eyes "
+"on the remote point. Then focus on your monitor border. Repeat it. If you "
+"can't look very far from your monitor, face another direction with a longer "
+"view. Then switch your focus between a distant object and a pen held at the "
+"same distance from your eyes as your monitor."
+msgstr ""
+"Žiūrėk į tolimiausią tašką, kurį tu matai už savo vaizduoklio. Į jį sutelk "
+"žvilgsnį. Tada žvilgsnį perkelk į vaizduoklio remelį. Pakartok pratimą. Jei "
+"negali matyti labai toli nuo savo monitoriaus - pasisuk ten, kur toliausiai "
+"matai. Tada kėlinėk žvilgsnį tarp tolimo daikto ir tušinuko, laikomo tame "
+"pačiame tolyje kaip ir tavo vaizduoklis."
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
+msgid "Look into the darkness"
+msgstr "Pažvelk į tamsą"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:9
+msgid "Move the eyes"
+msgstr "Pajudink akis"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:10
+msgid "Move the shoulders"
+msgstr "Pajudink pečius"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:11
+msgid "Move the shoulders up and down"
+msgstr "Pajudink pečius aukštyn ir žemyn"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
+msgid "Neck tilt stretch"
+msgstr "Pakreipto kaklo ištempimas"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
+msgid ""
+"Put your hands on the armrests of your chair when you are sitting down and "
+"press your body up until your arms are straight. Try to move your head even "
+"further by lowering your shoulders. Slowly move back into your chair."
+msgstr ""
+"Padėk savo rankas ant kedės rankų atlošų. Tada pasikelk ant rankų, kol šios "
+"taps tiesios. Pabandyk iškelti savo galvą į viršų. Lėtai nusileisk į savo "
+"kėdę."
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
+msgid ""
+"Separate and stretch your fingers until a mild tension is felt, and hold "
+"this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
+"again for 10 seconds. Repeat this exercise once more."
+msgstr ""
+"Išskėsk savo pirštus kol pajausi švelnią įtempą ir palaikyk juos taip 10-"
+"čiai sekundžių. Atsipalaiduok, tada sulenk savo pištus per piršto sąnarius "
+"ir palaikyk taip 10 sekundžių. Pakartok šį pratimą dar kartą."
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
+msgid "Shoulder-arm stretch"
+msgstr "Peties-rankos įtempimas"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:16
+msgid ""
+"Spin your right arm slowly round like a plane propeller beside your body. Do "
+"this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
+"with the left arm."
+msgstr ""
+"Lėtai suk savo dešinę ranką kaip lėktuvo propelerį ratu šalia savo kūno. "
+"Pasuk 4 kartus į priekį, 4 kartus atgal ir keliom sekundėm atsipalaiduok. "
+"Pakartok su kairia ranka."
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
+msgid ""
+"Start with your head in a comfortable straight position. Then, slowly tilt "
+"your head to your right shoulder to gently stretch the muscles on the left "
+"side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
+"the left side to stretch your other side. Do this twice for each side."
+msgstr ""
+"Pradėk laikydamas savo galvą patogioje pozicijoje. Tada lėtai palenk galvą "
+"link dešinio peties, jog išsitemptų kairios kaklo pusės raumenys. Pabūk "
+"šioje pozoje 5-ias sekundes. Tada palenk galvą link kairio peties, taip "
+"įtempdamas dešinės pusės kaklo raumenis. Pakartok šį pratimą du kartus "
+"kiekvienai pusei."
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
+msgid "Train focusing the eyes"
+msgstr "Pasitreniruok fokusuoti akis"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:19
+msgid "Turn your head"
+msgstr "Pasuk galvą"
+
+#: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:20
+msgid ""
+"Turn your head left and keep it there for 2 seconds. Then turn your head "
+"right and keep it there for 2 seconds."
+msgstr ""
+"Pasuk galvą kairėn ir palaikyk 2 sekundes. Tada pasuk galvą dešinėn ir "
+"palaikyk 2 sekundes."
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:262
+msgid "Exercises player"
+msgstr "Pratimų grotuvas"
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:298
+msgid "Previous exercise"
+msgstr ""
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:299
+#, fuzzy
+msgid "Next exercise"
+msgstr "Pratimų kiekis:"
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:300
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:476
+#, fuzzy
+msgid "Pause exercises"
+msgstr "Pratimų kiekis:"
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:301
+#, fuzzy
+msgid "End exercises"
+msgstr "Pratimai"
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:468
+msgid "Resume"
+msgstr "Pratęsti"
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:468
+msgid "Pause"
+msgstr "Pristabdyti"
+
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:474
+#, fuzzy
+msgid "Resume exercises"
+msgstr "Pratimų kiekis:"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:144
+msgid "Browse history"
+msgstr "Naršyti istoriją"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:151
+msgid "Date:"
+msgstr "Data:"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:187
+msgid "Breaks"
+msgstr "Pertaukos"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:197
+msgid "Break prompts"
+msgstr "Pertraukų užklausos"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:198
+msgid ""
+"The number of times you were prompted to break, excluding repeated prompts "
+"for the same break"
+msgstr ""
+"Užklausų pertraukoms skaičius, įskaičiuojant ir tas pakartotas užklausas tai "
+"pačiai pertaukai."
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:203
+msgid "Repeated prompts"
+msgstr "Pakartotos užklausos"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:204
+msgid "The number of times you were repeatedly prompted to break"
+msgstr "Pakartotų užklausų (tai pačiai pertaukai) kiekis"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:208
+msgid "Prompted breaks taken"
+msgstr "Pasiūlytos pertraukos"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:209
+msgid "The number of times you took a break when being prompted"
+msgstr "Skaičius pasiūlytų ir priimtų pertraukų"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:213
+msgid "Natural breaks taken"
+msgstr "Natūralios pertraukos"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:214
+msgid "The number of times you took a break without being prompted"
+msgstr "Pertaukų skaičius, kai tu pats jas darei"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:218
+msgid "Breaks skipped"
+msgstr "Praleistos pertraukos"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:219
+msgid "The number of breaks you skipped"
+msgstr "Praleistų pertraukų skaičius"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:223
+msgid "Breaks postponed"
+msgstr "Atidėtos pertraukos"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:224
+msgid "The number of breaks you postponed"
+msgstr "Atidėtų pertraukų skaičius"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:228
+msgid "Overdue time"
+msgstr "Pasivėlinęs laikas"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:229
+#, fuzzy
+msgid "The total time this break was overdue"
+msgstr "Visas laikas, kai ši pertrauka vėlavo"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:233
+msgid "Daily usage"
+msgstr "Kasdieninis vartojimas"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:234
+msgid "The total computer usage"
+msgstr "Visas kompiuterio vartojimas"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:302
+msgid "Activity"
+msgstr "Aktyvumas"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:312
+msgid "Mouse usage:"
+msgstr "Pelės vartojimas:"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:313
+msgid "The total time you were using the mouse"
+msgstr "Visas pelės vartojimo laikas"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:316
+msgid "Mouse movement:"
+msgstr "Pelės judėjimas:"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:317
+msgid "The total on-screen mouse movement"
+msgstr "Visas pelės judėjimas ekrane"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:320
+msgid "Effective mouse movement:"
+msgstr "Efektyvus pelės judėjimas:"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:321
+msgid ""
+"The total mouse movement you would have had if you moved your mouse in "
+"straight lines between clicks"
+msgstr ""
+"Visas numanomas pelės judėjimas, jeigu tu būtum judėjęs tiesiomis linijomis "
+"tarp pelės paspaudimų"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:325
+msgid "Mouse button clicks:"
+msgstr "Pelės paspaudimų kiekis:"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:326
+msgid "The total number of mouse button clicks"
+msgstr "Visas pelės paspaudimų kiekis"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:329
+msgid "Keystrokes:"
+msgstr "Klavišų nuspaudimai:"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:330
+msgid "The total number of keys pressed"
+msgstr "Visas nuspaustų klavišų skaičius"
+
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:380
+#, c-format
+msgid "%s, from %s to %s"
+msgstr "%s, nuo %s iki %s"
+
+#: ../frontend/text/src/PreludeWindow.cc:155
+#, fuzzy
+msgid "Break in"
+msgstr "Pertauka po %s"
+
+#: ../frontend/text/src/PreludeWindow.cc:160
+#, fuzzy
+msgid "Disappears in"
+msgstr "Išnyks po %s"
+
+#: ../frontend/text/src/PreludeWindow.cc:166
+#, fuzzy
+msgid "Silent in"
+msgstr "Tylus po %s"
+
+#~ msgid "Inactive"
+#~ msgstr "Neaktyvus"
+
+#~ msgid "I could not initialize Bonobo"
+#~ msgstr "Nepavyko inicializuoti Bonobo"
+
+#~ msgid "Credits"
+#~ msgstr "Padėkos"
+
+#~ msgid "_Written by"
+#~ msgstr "_Parašė"
+
+#~ msgid "_Documented by"
+#~ msgstr "_Aprašė"
+
+#~ msgid "_Translated by"
+#~ msgstr "Išver_tė"
+
+#  Add the credits button
+#~ msgid "_Credits"
+#~ msgstr "_Padėkos"
+
+#~ msgid "About %s"
+#~ msgstr "Apie %s"
+
+#~ msgid ""
+#~ "Close your eyes and breathe out as long as you can and try to relax. When "
+#~ "breathing in, again do it as slowly as possible. Try to count slowly to 8 "
+#~ "for each time you breathe in and out. To extra relax your eyes, try "
+#~ "closing them in micro pauses too."
+#~ msgstr ""
+#~ "Užsimerki ir iškvėpk taip ilgai, kaip gali, bei pasistenk atsipalaiduoti. "
+#~ "Įkvepiant daryk tai kuo galima lėčiau. Pabandyk suskaičiuoti iki 8 "
+#~ "kiekvieną kartą, kai įkvėpi ar iškvėpi. Kad atpalaiduoti savo akis dar "
+#~ "labiau, užmerk jas ir mikro-pertaukėlių metu."
+
+#~ msgid ""
+#~ "Go stand face to a wall (or something) and put your hands at shoulder "
+#~ "height against it with your elbows slightly bended. Push your body to the "
+#~ "wall, without changing the angle of your elbows. Then push your body back "
+#~ "from the wall again without changing the angle of the elbows."
+#~ msgstr ""
+#~ "Atistok veidu į sieną (ar kažką panašaus) ir padėk savo delnus ant sienos "
+#~ "pečių lygyje taip, jog tavo alkūnės būtų truputį sulenktos. Pristumk savo "
+#~ "kūną prie sienos nekeisdamas alkūnių kampo. Tada atsistumk nuo sienos "
+#~ "taipogi nekeisdamas alkūnių kampo."
+
+#~ msgid ""
+#~ "Keep your head straight and your lower jaw parallel to the floor. Move "
+#~ "your head back (making a double chin). Keep this 2 seconds and relax. "
+#~ "Move your head the same way forward, keep this 2 seconds and relax again."
+#~ msgstr ""
+#~ "Laikyk savo galvą tiesiai ir apatinį  žandikaulį parareliai su grindimis. "
+#~ "Atlošk galvą atgal (padarydamas dvigubą smakrą). Pabūk šioje pozoje 2 "
+#~ "sekundes ir atsipalaiduok. Taip pat nulenk galvą į priekį, pabūk taip 2 "
+#~ "sekundes ir vėl atsipalaiduok."
+
+#~ msgid "Move the shoulder blades"
+#~ msgstr "Pajudink pečių ašmenis"
+
+#~ msgid "Neck stretch"
+#~ msgstr "Kaklo ištempimas"
+
+#~ msgid "Relax the eyes"
+#~ msgstr "Atpalaiduok akis"
+
+#~ msgid ""
+#~ "Stand by your desk and place both your palms on the desk with the fingers "
+#~ "pointing toward your body. Gently stretch your wrists and lower arms."
+#~ msgstr ""
+#~ "Atsistok šalia stalo ir padėk abu delnus ant jo paviršiaus taip, jog "
+#~ "pirštai rodytų į tave. Švelniai įtempk savo riešus ir apatines rankų "
+#~ "dalis."
+
+#, fuzzy
+#~ msgid ""
+#~ "Stand up and try to reach the ceiling with your hands without lifting "
+#~ "your heels. Hold that for a few seconds. Then let your hands slowly go to "
+#~ "the floor, without bending your arms. Keep them moving to the floor by "
+#~ "bending you back slowly until you can (almost) place them in front of "
+#~ "your shoes. Slowly roll your back up straight from your hips up, until it "
+#~ "is straight up again."
+#~ msgstr ""
+#~ "Atsistok ir pabandyk pasiekti lubas nepakėlęs savo kulnų. Pabūk taip "
+#~ "kelias sekundes. Tada lėtai leisk rankoms nusileisti nesulenkiant jų. "
+#~ "Judink jas toliau link grindų lenkdamasis kol galėsi (beveik) pasiekti "
+#~ "savo grindis. Lėtai kelk jas auštai nuo savo klubų, kol jos vėl bus "
+#~ "tiesios."
+
+#~ msgid "Stretch your back"
+#~ msgstr "Įtempk savo nugarą"
+
+#~ msgid "Wrist and lower arm desk stretch"
+#~ msgstr "Riešo ir apatinės rankos dalies stalo įtempimas"
+
+#, fuzzy
+#~ msgid "Restbreak"
+#~ msgstr "Poilsio pe_rtrauka"

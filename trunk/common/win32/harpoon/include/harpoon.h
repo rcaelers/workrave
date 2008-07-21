@@ -1,0 +1,130 @@
+/*
+ * harpoon.h
+ *
+ * Copyright (C) 2002, 2003, 2007 Raymond Penners <raymond@dotsphinx.com>
+ * All rights reserved.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * $Id$
+ */
+#ifndef HARPOON_H
+#define HARPOON_H
+
+#include <windows.h>
+#include <mbstring.h>
+
+#ifndef FALSE
+#define FALSE 0
+#endif
+#ifndef TRUE
+#define TRUE 1
+#endif
+
+#define HARPOON_MAX_UNBLOCKED_APPS 3
+#define HARPOON_WINDOW_CLASS "HarpoonNotificationWindow"
+
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#ifdef HARPOON_EXPORTS
+#define HARPOON_API __declspec(dllexport)
+#else
+#define HARPOON_API __declspec(dllimport)
+#endif
+
+typedef enum
+{
+  HARPOON_NOTHING = -1,
+  HARPOON_BUTTON_PRESS = 0,
+  HARPOON_BUTTON_RELEASE,
+  HARPOON_2BUTTON_PRESS,
+  HARPOON_MOUSE_WHEEL,
+  HARPOON_KEY_PRESS,
+  HARPOON_KEY_RELEASE,
+  HARPOON_MOUSE_MOVE,
+  HARPOON_EVENT__SIZEOF
+} HarpoonEventType;
+
+typedef enum
+{
+  HARPOON_KEY_REPEAT_FLAG = (1 << 0)
+} HarpoonKeyFlags;
+
+typedef struct
+{
+  HarpoonEventType type;
+  int x;
+  int y;
+  int button;
+  int wheel;
+} HarpoonEventMouse;
+
+typedef struct
+{
+  HarpoonEventType type;
+  int flags;
+} HarpoonEventKeyboard;
+
+typedef union HarpoonEventUnion
+{
+  HarpoonEventType type;
+  HarpoonEventMouse mouse;
+  HarpoonEventKeyboard keyboard;
+} HarpoonEvent;
+
+
+
+
+typedef void (* HarpoonHookFunc) (HarpoonEvent *event);
+
+
+HARPOON_API BOOL harpoon_init(
+    char imported_critical_filename_list[][ 511 ], BOOL debug );
+HARPOON_API void harpoon_exit (void);
+
+HARPOON_API void harpoon_unhook();
+HARPOON_API BOOL harpoon_hook(
+    HarpoonHookFunc func, BOOL keyboard_lowlevel, BOOL mouse_lowlevel );
+
+HARPOON_API void harpoon_block_input(void);
+HARPOON_API void harpoon_unblock_input(void);
+
+HARPOON_API char *_mbstrncpy_lowercase( const char *, const char *, int );
+
+#ifdef __cplusplus
+}
+#endif
+
+#define XBUTTON1 0x0001
+#define XBUTTON2 0x0002
+
+#define WM_XBUTTONDOWN 523
+#define WM_XBUTTONUP 524
+#define WM_XBUTTONDBLCLK 525
+#define WM_MOUSEHWHEEL 526
+
+#define WM_NCXBUTTONDOWN 171
+#define WM_NCXBUTTONUP 172
+#define WM_NCXBUTTONDBLCLK 173
+
+#define WM_NCMOUSEHOVER 672
+#define WM_NCMOUSELEAVE 674
+
+#define WM_UNICHAR 265
+#define WM_APPCOMMAND 793
+
+#endif /* HARPOON_H */

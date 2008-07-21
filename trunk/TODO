@@ -1,0 +1,53 @@
+@ W32 applet to default to all in one spot
+@ Fist roll image is wrong, to be fixed
+@ Clean up runtime (remove raleigh themes, ...)
+? Investigate startup performance: a lot of config keys are ready twice++
+@ Main window icon to reflect operation mode
+@ Tooltip on GtkStatusIcon seems to have too limited fixed length (truncated)
+
+Done:
+- W32 window location: window goes down each time (due to decorations)
+
+--8<--8<--8<--8<--8<--8<--8<--8<--8<--8<--8<--8<
+
+1) patrick.clery@gmail.com
+
+Hi,
+	I would first like to say that I very grateful that someone has gone out of 
+their way to make such a great program. I have a very serious RSI -- for 
+which I'm getting treated -- and workrave is helping to minimize possible 
+damage to my hands. Thanks!  :) 
+
+	Onto my problem/question. The pain in my right-hand is especially sensitive 
+to using a mouse. Even placing my hand on the mouse and clicking something 
+can trigger pain immediately that is not otherwise triggered by my keyboard. 
+I try to use my keyboard for everything. One of the only situations where I 
+haven't found a keyboard replacement for something I'd previously do with a 
+mouse is for the workrave "postpone." Is there a keyboard shortcut for this? 
+
+	If such a feature does not exist, could you please add this to your list of 
+feature requests and consider it for a future addition to the program as I 
+think it will definitely help others like me who are looking to gain 
+independence from the (evil) mouse.
+
+2) Make statistics more robust against corrupt files.
+
+3) idimov@users.sourceforge.net Remo Tex
+
+I think it is good to have "Check for updates/New version(s)" option
+> or at least to have URL for download(s) printed in About/Credits dialog
+> so it would be easy to Cut, Paste and check "manually" for existence of
+> new version(s)
+
+4) idimov@users.sourceforge.net Remo Tex
+
+> - Probably it is a good idea to make it also like Gaim etc. i.e.
+> dblclick opens dilaog if closed and closes if open
+
+
+5) raving.20.pccool@dfgh.net
+
+Pictures for fullscreen lockout - just a simple directory where it
+will recursively look for pictures.
+
+6) Randomize order of exercises.

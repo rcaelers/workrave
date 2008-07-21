@@ -1,0 +1,6 @@
+Import('env')
+env = env.Copy()
+src = ['debug.cc',
+       'Util.cc',
+       'win32/gettimeofday.c']
+env.Library('workrave-common', src)

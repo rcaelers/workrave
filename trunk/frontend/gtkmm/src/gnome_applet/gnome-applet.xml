@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<unit name="DBusGnomeApplet">
+
+  <interface name="org.workrave.GnomeAppletInterface" csymbol="workrave_applet">
+
+    <method name="GetSocketId" csymbol="workrave_applet_get_socket_id">
+      <arg type="uint32" name="id" direction="out" hint="return"/>
+    </method>
+
+    <method name="GetSize" csymbol="workrave_applet_get_size">
+      <arg type="uint32" name="size" direction="out" hint="return"/>
+    </method>
+
+    <method name="GetOrientation" csymbol="workrave_applet_get_orientation">
+      <arg type="uint32" name="orientation" direction="out" hint="return"/>
+    </method>
+    
+    <method name="SetMenuStatus" csymbol="workrave_applet_set_menu_status">
+      <arg type="string" name="menu" direction="in" hint="const,ref"/>
+      <arg type="bool" name="status" direction="in" hint="ref"/>
+    </method>
+
+    <method name="GetMenuStatus" csymbol="workrave_applet_get_menu_status">
+      <arg type="string" name="menu" direction="in" hint="const,ref"/>
+      <arg type="bool" name="status" direction="out" hint="ref"/>
+    </method>
+    
+    <method name="SetMenuActive" csymbol="workrave_applet_set_menu_active">
+      <arg type="string" name="menu" direction="in" hint="const,ref"/>
+      <arg type="bool" name="active" direction="in" hint="ref"/>
+    </method>
+
+    <method name="GetMenuActive" csymbol="workrave_applet_get_menu_active">
+      <arg type="string" name="menu" direction="in" hint="const,ref"/>
+      <arg type="bool" name="active" direction="out" hint="ref"/>
+    </method>
+
+  </interface>
+
+</unit>

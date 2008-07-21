@@ -1,0 +1,57 @@
+<Root>
+  <commands>
+    <cmd name="Normal"/>
+    <cmd name="Suspended"/>
+    <cmd name="Quiet"/>
+    <cmd name="ShowLog"/>
+    <cmd name="Mode"/>
+    <cmd name="Network"/>
+  </commands>
+
+  <popups>
+    <popup name="button3">
+      <menuitem name="Open Item" verb="Open" _label="_Open"
+                pixtype="stock" pixname="gtk-open"/>
+ 
+
+      <menuitem name="Prefereces Item" verb="Preferences" _label="_Preferences"
+                pixtype="stock" pixname="gtk-preferences"/>
+ 
+      <menuitem name="Restbreak Item" verb="Restbreak" _label="_Restbreak"
+                pixtype="filename" pixname="@PIXDIR@/timer-rest-break.png"/>
+
+      <menuitem name="Exercises Item" verb="Exercises" _label="_Exercises"/>
+
+      <submenu name="Mode Item" id="Mode" _label="_Mode">
+
+        <menuitem name="Normal Item" verb="Normal" _label="_Normal"
+                  type="radio" group="Mode" id="Normal"/>
+                  
+        <menuitem name="Suspended Item" verb="Suspended" _label="_Suspended"
+                  type="radio" group="Mode" id="Suspended"/>
+
+        <menuitem name="Quiet Item" verb="Quiet" _label="_Quiet"
+                  type="radio" group="Mode" id="Quiet"/>
+
+      </submenu>
+
+      <submenu name="Network Item" id="Network" _label="_Network">
+
+        <menuitem name="Connect Item" verb="Connect" _label="_Connect..."/>
+        <menuitem name="Disconnect Item" verb="Disconnect" _label="_Disconnect"/>
+        <menuitem name="Reconnect Item" verb="Reconnect" _label="_Reconnect"/>
+        <menuitem name="Show Log Item" verb="ShowLog" _label="_Show Log..." type="toggle" id="ShowLog"/>
+
+      </submenu>
+           
+      <menuitem name="Statistics Item" verb="Statistics" _label="_Statistics"/>
+
+      <menuitem name="About Item" verb="About" _label="_About..."
+    		pixtype="stock" pixname="gnome-stock-about"/>
+
+      <menuitem name="Quit Item" verb="Quit" _label="_Quit"
+    		pixtype="stock" pixname="gtk-quit"/>
+                
+    </popup>
+  </popups>
+</Root>

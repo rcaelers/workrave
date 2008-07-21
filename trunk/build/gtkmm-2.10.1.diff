@@ -1,0 +1,12 @@
+diff -u gtkmm-2.10.1.plain/configure.in gtkmm-2.10.1/configure.in
+--- gtkmm-2.10.1.plain/configure.in	2006-08-21 20:05:12.000000000 +0200
++++ gtkmm-2.10.1/configure.in	2006-09-07 23:17:40.000000000 +0200
+@@ -222,7 +222,7 @@
+ AC_SUBST(GDKMM_CFLAGS)
+ AC_SUBST(GDKMM_LIBS)
+ 
+-PKG_CHECK_MODULES(GTKMM, glibmm-2.4 >= ${gtkmm_min_glibmm_version} cairomm-1.0 >= ${gtkmm_min_cairomm_version} gtk+-2.0 >= ${gtkmm_min_gtk_version} gtk+-unix-print-2.0 >= ${gtkmm_min_gtk_version})
++PKG_CHECK_MODULES(GTKMM, glibmm-2.4 >= ${gtkmm_min_glibmm_version} cairomm-1.0 >= ${gtkmm_min_cairomm_version} gtk+-2.0 >= ${gtkmm_min_gtk_version})
+ AC_SUBST(GTKMM_CFLAGS)
+ AC_SUBST(GTKMM_LIBS)
+ 

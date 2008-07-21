@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<unit name="DBusGUI">
+
+  <interface name="org.workrave.ControlInterface" csymbol="Menus">
+    <import>
+      <include name="Menus.hh"/>
+    </import>
+
+    <method name="OpenMain"              csymbol="on_menu_open_main_window"/>
+    <method name="Preferences"           csymbol="on_menu_preferences"/>
+    <method name="NetworkConnect"        csymbol="on_menu_network_join"/>
+    <method name="NetworkLog"            csymbol="on_menu_network_log">
+      <arg type="bool" name="show" direction="in"/>
+    </method>
+    <method name="NetworkReconnect"      csymbol="on_menu_network_reconnect"/>
+    <method name="NetworkDisconnect"     csymbol="on_menu_network_leave"/>
+    <method name="Statistics"            csymbol="on_menu_statistics"/>
+    <method name="Exercises"             csymbol="on_menu_exercises"
+ 	                                 condition="defined(HAVE_EXERCISES)"/>
+    <method name="RestBreak"             csymbol="on_menu_restbreak_now"/>
+    <method name="Quit"                  csymbol="on_menu_quit"/>
+    <method name="About"                 csymbol="on_menu_about"/>
+  </interface>
+
+  <interface name="org.workrave.GnomeAppletSupportInterface" csymbol="GnomeAppletWindow"
+             condition="defined(HAVE_GNOME)">
+    <import>
+      <include name="gdk/gdkcolor.h"/>
+      <include name="GnomeAppletWindow.hh"/>
+      <include name="Orientation.hh"/>
+    </import>
+
+    <struct name="Color" csymbol="GdkColor">
+      <field type="uint32" name="pixel"/>
+      <field type="uint32" name="red"/>
+      <field type="uint32" name="green"/>
+      <field type="uint32" name="blue"/>
+    </struct>
+
+    <enum name="Orientation" csymbol="Orientation">
+      <value name="up"    csymbol="ORIENTATION_UP"/>
+      <value name="right" csymbol="ORIENTATION_RIGHT"/>
+      <value name="down"  csymbol="ORIENTATION_DOWN"/>
+      <value name="left"  csymbol="ORIENTATION_LEFT"/>
+    </enum>
+
+    <method name="SetOrientation" csymbol="set_applet_orientation">
+      <arg type="Orientation" name="orientation" direction="in"/>
+    </method>
+      
+    <method name="SetSize" csymbol="set_applet_size">
+      <arg type="uint32" name="size" direction="in"/>
+    </method>
+      
+    <method name="SetBackground" csymbol="set_applet_background">
+      <arg type="uint32" name="type" direction="in"/>
+      <arg type="Color" name="color" direction="in"/>
+      <arg type="uint32" name="xid" direction="in"/>
+    </method>
+
+    <method name="ButtonClicked" csymbol="button_clicked">
+      <arg type="uint32" name="button" direction="in"/>
+    </method>
+
+    <method name="EmbedRequest" csymbol="fire_gnome_applet"/>
+  </interface>
+</unit>

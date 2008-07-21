@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<unit name="DBusWorkrave">
+
+  <interface name="org.workrave.CoreInterface" csymbol="Core">
+
+    <import>
+      <include name="Core.hh"/>
+      <namespace name="workrave"/>
+    </import>
+
+    <enum name="operation_mode" csymbol="OperationMode">
+      <value name="normal"    csymbol="OPERATION_MODE_NORMAL" value="0"/>
+      <value name="suspended" csymbol="OPERATION_MODE_SUSPENDED"/>
+      <value name="quiet"     csymbol="OPERATION_MODE_QUIET"/>
+    </enum>
+    
+    <enum name="break_id" csymbol="BreakId">
+      <value name="microbreak"  csymbol="BREAK_ID_MICRO_BREAK" value="0"/>
+      <value name="restbreak"   csymbol="BREAK_ID_REST_BREAK"/>
+      <value name="dailylimit"  csymbol="BREAK_ID_DAILY_LIMIT"/>
+    </enum>
+
+    <method name="SetOperationMode" csymbol="set_operation_mode">
+      <arg type="operation_mode" name="mode" direction="in" />
+    </method>
+
+    <method name="GetOperationMode" csymbol="get_operation_mode">
+      <arg type="operation_mode" name="mode" direction="out" hint="return"/>
+    </method>
+
+    <method name="ReportActivity" csymbol="report_external_activity">
+      <arg type="string" name="who" direction="in" />
+      <arg type="bool" name="act" direction="in" />
+    </method>
+
+    <method name="IsTimerRunning" csymbol="is_timer_running">
+      <arg type="break_id" name="timer_id" direction="in"/>
+      <arg type="bool"    name="value"    direction="out" />
+    </method>
+
+    <method name="GetTimerIdle" csymbol="get_timer_idle">
+      <arg type="break_id" name="timer_id" direction="in"/>
+      <arg type="int32"     name="value"    direction="out" hint="ptr"/>
+    </method>
+
+    <method name="GetTimerElapsed" csymbol="get_timer_elapsed">
+      <arg type="break_id" name="timer_id" direction="in"/>
+      <arg type="int32"     name="value"    direction="out" hint="ptr"/>
+    </method>
+    
+    <method name="GetTime" csymbol="get_time">
+      <arg type="int32" name="value" direction="out" hint="return"/>
+    </method>
+
+    <method name="IsActive" csymbol="is_user_active">
+      <arg type="bool" name="value" direction="out" hint="return"/>
+    </method>
+
+    <method name="PostponeBreak" csymbol="postpone_break">
+      <arg type="break_id" name="timer_id" direction="in"/>
+    </method>
+
+    <method name="SkipBreak" csymbol="skip_break">
+      <arg type="break_id" name="timer_id" direction="in"/>
+    </method>
+
+    <signal name="MicrobreakChanged">
+      <arg type="string" name="progress"/>
+    </signal>
+    
+    <signal name="RestbreakChanged">
+      <arg type="string" name="progress"/>
+    </signal>
+    
+    <signal name="DailylimitChanged">
+      <arg type="string" name="progress"/>
+    </signal>
+  </interface>
+
+
+  <interface name="org.workrave.ConfigInterface" csymbol="IConfigurator">
+
+    <import>
+      <include name="IConfigurator.hh"/>
+      <namespace name="workrave"/>
+    </import>
+    
+    <method name="SetString" csymbol="set_value">
+      <arg type="string" name="key" direction="in" />
+      <arg type="string" name="value" direction="in" />
+      <arg type="bool"   name="success" direction="out" hint="return" />
+    </method>
+
+    <method name="SetInt" csymbol="set_value">
+      <arg type="string" name="key" direction="in" />
+      <arg type="int32"    name="value" direction="in" />
+      <arg type="bool"   name="success" direction="out" hint="return" />
+    </method>
+
+    <method name="SetBool" csymbol="set_value">
+      <arg type="string" name="key" direction="in" />
+      <arg type="bool"   name="value" direction="in" />
+      <arg type="bool"   name="success" direction="out" hint="return" />
+    </method>
+    
+    <method name="SetDouble" csymbol="set_value">
+      <arg type="string" name="key" direction="in" />
+      <arg type="double" name="value" direction="in" />
+      <arg type="bool"   name="success" direction="out" hint="return" />
+    </method>
+  
+    <method name="GetString" csymbol="get_value">
+      <arg type="string" name="key" direction="in" />
+      <arg type="bool"   name="found" direction="out" hint="return" />
+      <arg type="string" name="value" direction="out" />
+    </method>
+
+    <method name="GetInt" csymbol="get_value">
+      <arg type="string" name="key" direction="in" />
+      <arg type="int32"    name="value" direction="out" />
+      <arg type="bool"   name="found" direction="out" hint="return" />
+    </method>
+
+    <method name="GetBool" csymbol="get_value">
+      <arg type="string" name="key" direction="in" />
+      <arg type="bool"   name="value" direction="out" />
+      <arg type="bool"   name="found" direction="out" hint="return" />
+    </method>
+    
+    <method name="GetDouble" csymbol="get_value">
+      <arg type="string" name="key"   direction="in" />
+      <arg type="double" name="value" direction="out" />
+      <arg type="bool"   name="found" direction="out" hint="return" />
+    </method>
+
+  </interface>
+
+</unit>

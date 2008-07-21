@@ -1,0 +1,10 @@
+LIBRARY     workrave-applet
+
+DESCRIPTION "Workrave Taskbar Integration"
+
+EXPORTS
+   DllCanUnloadNow   PRIVATE
+   DllGetClassObject PRIVATE
+   DllRegisterServer PRIVATE
+   DllUnregisterServer PRIVATE
+

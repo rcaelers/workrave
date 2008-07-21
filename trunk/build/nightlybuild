@@ -1,0 +1,5 @@
+#!/bin/sh
+export TERM=xterm 
+# Limit virtual memory to 300MB
+ulimit -v 309715200
+( cd $HOME/src/tinderbox/; script -f -c "make --quiet all"; cat typescript )

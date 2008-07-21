@@ -1,0 +1,152 @@
+// Timer.icc --- Timer
+//
+// Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007 Rob Caelers <robc@krandor.nl>
+// All rights reserved.
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+
+//! Does this timer have a limit set?
+inline bool
+Timer::is_limit_enabled() const
+{
+  return limit_enabled;
+}
+
+
+//! Returns the limit.
+inline time_t
+Timer::get_limit() const
+{
+  return limit_interval;
+}
+
+
+//! Returns the time the limit will be reached.
+inline time_t
+Timer::get_next_limit_time() const
+{
+  return next_limit_time;
+}
+
+
+//! Does this timer have an auto reset?
+inline bool
+Timer::is_auto_reset_enabled() const
+{
+  return autoreset_enabled;
+}
+
+
+//! Returns the auto reset interval.
+inline time_t
+Timer::get_auto_reset() const
+{
+  return autoreset_interval;
+}
+
+
+//! Returns the auto reset predicate.
+inline TimePred *
+Timer::get_auto_reset_predicate() const
+{
+  return autoreset_interval_predicate;
+}
+
+
+//! Returns the time the timer will reset.
+inline time_t
+Timer::get_next_reset_time() const
+{
+  return next_reset_time;
+}
+
+
+//! Returns the snooze interval.
+inline time_t
+Timer::get_snooze() const
+{
+  return snooze_interval;
+}
+
+
+//! Sets ID of this timer.
+inline void
+Timer::set_id(std::string id)
+{
+  timer_id = id;
+}
+
+
+//! Gets ID of this timer.
+inline std::string
+Timer::get_id() const
+{
+  return timer_id;
+}
+
+
+//! Returns the enabled state.
+/*!
+ *  The timer only responds to activity events when enabled.
+ *
+ *  \retval true the timer is enabled
+ *  \retval false otherwise.
+ */
+inline bool
+Timer::is_enabled() const
+{
+  return timer_enabled;
+}
+
+
+//! Returns the timer state.
+inline TimerState
+Timer::get_state() const
+{
+  return timer_state;
+}
+
+
+//! Sets the activity monitor to be used for this timer.
+inline void
+Timer::set_activity_monitor(IActivityMonitor *am)
+{
+  delete activity_monitor;
+  activity_monitor = am;
+}
+
+
+//! Returns the activity monitor to be used for this timer.
+inline IActivityMonitor *
+Timer::get_activity_monitor() const
+{
+  return activity_monitor;
+}
+
+//! Does this timer have its own activity monitor?
+inline bool
+Timer::has_activity_monitor() const
+{
+  return activity_monitor != NULL;
+}
+
+
+//! Is this timer activity sensitive?
+inline bool
+Timer::get_activity_sensitive()
+{
+  return activity_sensitive;
+}
+
