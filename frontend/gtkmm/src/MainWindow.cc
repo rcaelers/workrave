@@ -59,7 +59,7 @@ static const char rcsid[] = "$Id$";
 
 #ifdef HAVE_DISTRIBUTION
 #include "NetworkJoinDialog.hh"
-#include "NetworkLogDialog.hh"
+//FIXME: #include "NetworkLogDialog.hh"
 #endif
 
 #include "Menus.hh"

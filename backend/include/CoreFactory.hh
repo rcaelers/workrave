@@ -40,6 +40,9 @@ namespace workrave
     //! Returns the interface to the core's configurator.
     static IConfigurator *get_configurator();
 
+    //! Returns the interface to the networking facility.
+    static INetwork *get_networking();
+
     //! Returns the interface to the DBUS facility.
     static DBus *get_dbus();
   };

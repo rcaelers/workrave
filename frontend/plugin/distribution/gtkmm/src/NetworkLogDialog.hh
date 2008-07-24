@@ -27,26 +27,24 @@
 #include "preinclude.h"
 #include <string>
 
-class TimeEntry;
-
 #include <gtkmm/scrolledwindow.h>
 #include <gtkmm/dialog.h>
 #include <gtkmm/textbuffer.h>
 
-using namespace std;
+#include "INetworkListener.hh"
 
 namespace Gtk
 {
   class TextView;
 }
 
-#include "DistributionLogListener.hh"
+class TimeEntry;
 
 using namespace workrave;
 
 class NetworkLogDialog :
   public Gtk::Dialog,
-  public DistributionLogListener
+  public INetworkListener
 {
 public:
   NetworkLogDialog();
@@ -56,7 +54,7 @@ public:
 
 private:
   void init();
-  void distribution_log(string msg);
+  void network_log(string msg);
   void on_response(int response);
 
   Gtk::TextView *text_view;

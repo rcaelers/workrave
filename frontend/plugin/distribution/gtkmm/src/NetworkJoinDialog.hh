@@ -31,11 +31,6 @@
 #include <gtkmm/entry.h>
 #include <gtkmm/spinbutton.h>
 
-namespace workrave
-{
-  class IDistributionManager;
-}
-  
 class TimeEntry;
 
 class NetworkJoinDialog : public HigDialog

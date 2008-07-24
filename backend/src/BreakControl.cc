@@ -39,10 +39,6 @@ static const char rcsid[] = "$Id$";
 #include "Timer.hh"
 #include "Statistics.hh"
 
-#ifdef HAVE_DISTRIBUTION
-#include "DistributionManager.hh"
-#endif
-
 #ifdef HAVE_DBUS
 #include "DBus.hh"
 #include "DBusWorkrave.hh"
@@ -652,105 +648,6 @@ BreakControl::action_notify()
   core->stop_prelude(break_id);
   TRACE_EXIT();
   return false;   // false: kill listener.
-}
-
-
-//! Initializes this control to the specified state.
-void
-BreakControl::set_state_data(bool active, const BreakStateData &data)
-{
-  TRACE_ENTER_MSG("BreakStateData::set_state_data", active);
-
-  TRACE_MSG("forced = " << data.user_initiated <<
-            " prelude = " << data.prelude_count <<
-            " stage = " <<  data.break_stage <<
-            " final = " << reached_max_prelude <<
-            " total preludes = " << postponable_count <<
-            " time = " << data.prelude_time);
-
-  // TODO: check application->hide_break_window();
-
-  user_initiated = data.user_initiated;
-  prelude_count = data.prelude_count;
-  prelude_time = data.prelude_time;
-  postponable_count = data.postponable_count;
-
-  //TODO:
-  return;
-
-  BreakStage new_break_stage = (BreakStage) data.break_stage;
-
-  if (new_break_stage == STAGE_TAKING)
-    {
-      TRACE_MSG("TAKING -> PRELUDE");
-      new_break_stage = STAGE_PRELUDE;
-      prelude_count = max_number_of_preludes - 1;
-    }
-
-  //TODO: check if this can/must be removed  if (active)
-  {
-    if (user_initiated && new_break_stage == STAGE_TAKING)
-      {
-        TRACE_MSG("User inflicted break -> TAKING");
-
-        prelude_time = 0;
-        goto_stage(STAGE_TAKING);
-      }
-    else if (new_break_stage == STAGE_TAKING) // && !user_initiated
-      {
-        TRACE_MSG("Break active");
-
-        // Idle until proven guilty.
-        core->force_idle();
-        break_timer->stop_timer();
-
-        goto_stage(STAGE_TAKING);
-      }
-    else if (new_break_stage == STAGE_SNOOZED || new_break_stage == STAGE_PRELUDE)
-      {
-        TRACE_MSG("Snooze/Prelude");
-
-        user_initiated = false;
-        prelude_time = 0;
-        reached_max_prelude = max_number_of_preludes >= 0 && prelude_count + 1 >= max_number_of_preludes;
-
-        if (max_number_of_preludes >= 0 && prelude_count >= max_number_of_preludes)
-          {
-            TRACE_MSG("TAKING");
-            goto_stage(STAGE_TAKING);
-          }
-        else
-          {
-            TRACE_MSG("PRELUDE");
-
-            // Idle until proven guilty.
-            core->force_idle();
-            break_timer->stop_timer();
-
-            goto_stage(STAGE_PRELUDE);
-          }
-      }
-    else
-      {
-        TRACE_MSG("NONE");
-        goto_stage(STAGE_NONE);
-      }
-  }
-
-  TRACE_EXIT();
-}
-
-
-//! Returns the state of this control.
-void
-BreakControl::get_state_data(BreakStateData &data)
-{
-  data.user_initiated = user_initiated;
-  data.prelude_count = prelude_count;
-  data.break_stage = break_stage;
-  data.reached_max_prelude = reached_max_prelude;
-  data.prelude_time = prelude_time;
-  data.postponable_count = postponable_count;
 }
 
 

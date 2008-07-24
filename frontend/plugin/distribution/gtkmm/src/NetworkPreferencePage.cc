@@ -45,28 +45,28 @@
 #include "Hig.hh"
 #include "GtkUtil.hh"
 
-#include "ICore.hh"
+#include "INetwork.hh"
 #include "CoreFactory.hh"
 #include "IConfigurator.hh"
-#include "IDistributionManager.hh"
+
+#include "DataConnector.hh"
+
+using namespace std;
+using namespace workrave;
 
 NetworkPreferencePage::NetworkPreferencePage()
   : Gtk::VBox(false, 6)
 {
   TRACE_ENTER("NetworkPreferencePage::NetworkPreferencePage");
 
+  connector = new DataConnector();
+
   Gtk::Notebook *tnotebook = manage(new Gtk::Notebook());
   tnotebook->set_tab_pos(Gtk::POS_TOP);
-
-  ICore *core = CoreFactory::get_core();
-  dist_manager = core->get_distribution_manager();
-  assert(dist_manager != NULL);
 
   create_general_page(tnotebook);
   create_peers_page(tnotebook);
   create_advanced_page(tnotebook);
-
-  init_page_values();
 
   pack_start(*tnotebook, true, true, 0);
 
@@ -80,6 +80,8 @@ NetworkPreferencePage::NetworkPreferencePage()
 NetworkPreferencePage::~NetworkPreferencePage()
 {
   TRACE_ENTER("NetworkPreferencePage::~NetworkPreferencePage");
+
+  delete connector;
   TRACE_EXIT();
 }
 
@@ -96,11 +98,16 @@ NetworkPreferencePage::create_general_page(Gtk::Notebook *tnotebook)
   // Identity
   HigCategoryPanel *id_frame = manage(new HigCategoryPanel(*enabled_cb));
   username_entry = manage(new Gtk::Entry());
-  password_entry = manage(new Gtk::Entry());
+  secret1_entry = manage(new Gtk::Entry());
+  secret2_entry = manage(new Gtk::Entry());
+
   id_frame->add(_("Username:"), *username_entry);
-  id_frame->add(_("Password:"), *password_entry);
-  password_entry->set_visibility(false);
-  password_entry->set_invisible_char('*');
+  id_frame->add(_("Shared secret:"), *secret1_entry);
+  id_frame->add(_("Repeat:"), *secret2_entry);
+  secret1_entry->set_visibility(false);
+  secret1_entry->set_invisible_char('*');
+  secret2_entry->set_visibility(false);
+  secret2_entry->set_invisible_char('*');
  
   // Server switch
   listening_cb = manage(new Gtk::CheckButton());
@@ -112,10 +119,9 @@ NetworkPreferencePage::create_general_page(Gtk::Notebook *tnotebook)
   id_frame->set_border_width(12);
   tnotebook->append_page(*id_frame, _("General"));
 
-  enabled_cb->signal_toggled().connect(sigc::mem_fun(*this, &NetworkPreferencePage::on_enabled_toggled));
-  username_entry->signal_changed().connect(sigc::mem_fun(*this, &NetworkPreferencePage::on_username_changed));
-  password_entry->signal_changed().connect(sigc::mem_fun(*this, &NetworkPreferencePage::on_password_changed));
-  listening_cb->signal_toggled().connect(sigc::mem_fun(*this, &NetworkPreferencePage::on_listening_toggled));
+  connector->connect("networking/enabled", dc::wrap(enabled_cb));
+  connector->connect("networking/username", dc::wrap(username_entry));
+  connector->connect("networking/secret", dc::wrap(secret1_entry, secret2_entry));
 }
 
 
@@ -127,35 +133,18 @@ NetworkPreferencePage::create_advanced_page(Gtk::Notebook *tnotebook)
   advanced_frame->set_border_width(12);
 
   port_entry = manage(new Gtk::SpinButton());
-  attempts_entry = manage(new Gtk::SpinButton());
-  interval_entry = manage(new Gtk::SpinButton());
 
   port_entry->set_range(1024, 65535);
   port_entry->set_increments(1, 10);
   port_entry->set_numeric(true);
   port_entry->set_width_chars(10);
 
-  attempts_entry->set_range(0, 100);
-  attempts_entry->set_increments(1, 10);
-  attempts_entry->set_numeric(true);
-  attempts_entry->set_width_chars(10);
-
-  interval_entry->set_range(1, 3600);
-  interval_entry->set_increments(1, 10);
-  interval_entry->set_numeric(true);
-  interval_entry->set_width_chars(10);
-
   advanced_frame->add(_("Server port:"), *port_entry);
-  advanced_frame->add(_("Reconnect attempts:"), *attempts_entry);
-  advanced_frame->add(_("Reconnect interval:"), *interval_entry);
 
   advanced_frame->set_border_width(12);
   tnotebook->append_page(*advanced_frame, _("Advanced"));
 
-  port_entry->signal_changed().connect(sigc::mem_fun(*this, &NetworkPreferencePage::on_port_changed));
-  interval_entry->signal_changed().connect(sigc::mem_fun(*this, &NetworkPreferencePage::on_interval_changed));
-  attempts_entry->signal_changed().connect(sigc::mem_fun(*this, &NetworkPreferencePage::on_attempts_changed));
-
+  connector->connect("networking/port", dc::wrap(port_entry));
 }
 
 
@@ -249,11 +238,14 @@ NetworkPreferencePage::create_model()
 {
   peers_store = Gtk::ListStore::create(peers_columns);
 
-  list<string> peers = dist_manager->get_peers();
+  string startup_peers;
+  CoreFactory::get_configurator()->get_value("networking/peers", startup_peers);
 
-  for (list<string>::iterator i = peers.begin(); i != peers.end(); i++)
+  gchar **peer_list = g_strsplit(startup_peers.c_str(), ",", 0);
+
+  for (int i = 0; peer_list[i] != NULL; i++)
     {
-      string peer = *i;
+      string peer = peer_list[i];
       string hostname, port;
 
       if (peer != "")
@@ -278,99 +270,9 @@ NetworkPreferencePage::create_model()
         }
     }
 
+  g_strfreev(peer_list);
 }
 
-
-void
-NetworkPreferencePage::init_page_values()
-{
-  // Master enabled switch.
-  bool enabled = dist_manager->get_enabled();
-  enabled_cb->set_active(enabled);
-
-  // Server enabled switch.
-  bool listening = dist_manager->get_listening();
-  listening_cb->set_active(listening);
-
-  // Username.
-  string str = dist_manager->get_username();
-  username_entry->set_text(str);
-
-  // Password
-  str = dist_manager->get_password();
-  password_entry->set_text(str);
-
-  // Port
-  int value = dist_manager->get_port();
-  port_entry->set_value(value);
-
-  // Attempts
-  value = dist_manager->get_reconnect_attempts();
-  attempts_entry->set_value(value);
-
-  // Interval
-  value = dist_manager->get_reconnect_interval();
-  interval_entry->set_value(value);
-
-}
-
-
-void
-NetworkPreferencePage::on_enabled_toggled()
-{
-  bool enabled = enabled_cb->get_active();
-  dist_manager->set_enabled(enabled);
-
-  listening_cb->set_sensitive(enabled);
-}
-
-
-void
-NetworkPreferencePage::on_listening_toggled()
-{
-  bool listening = listening_cb->get_active();
-  dist_manager->set_listening(listening);
-}
-
-
-void
-NetworkPreferencePage::on_username_changed()
-{
-  string name = username_entry->get_text();
-  dist_manager->set_username(name);
-}
-
-
-void
-NetworkPreferencePage::on_password_changed()
-{
-  string pw = password_entry->get_text();
-  dist_manager->set_password(pw);
-}
-
-
-void
-NetworkPreferencePage::on_port_changed()
-{
-  int value = (int) port_entry->get_value();
-  dist_manager->set_port(value);
-}
-
-
-void
-NetworkPreferencePage::on_interval_changed()
-{
-  int value = (int) interval_entry->get_value();
-  dist_manager->set_reconnect_interval(value);
-}
-
-
-void
-NetworkPreferencePage::on_attempts_changed()
-{
-  int value = (int) attempts_entry->get_value();
-  dist_manager->set_reconnect_attempts(value);
-}
 
 void
 NetworkPreferencePage::on_peer_remove()
@@ -501,5 +403,5 @@ NetworkPreferencePage::update_peers()
         }
     }
 
-  dist_manager->set_peers(peers);
+  CoreFactory::get_configurator()->set_value("networking/peers", peers);
 }

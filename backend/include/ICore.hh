@@ -32,8 +32,7 @@ namespace workrave {
   class IStatistics;
   class ICoreEventListener;
   class INetwork;
-  class IDistributionManager;
-  
+
   //! Mode
   enum OperationMode
     {
@@ -104,11 +103,6 @@ namespace workrave {
 
     //! Return the statistics interface.
     virtual IStatistics *get_statistics() const = 0;
-
-#ifdef HAVE_DISTRIBUTION
-    //! Returns the distribution manager (if available).
-    virtual IDistributionManager *get_distribution_manager() const = 0;
-#endif
 
     //! Is the user currently active?
     virtual bool is_user_active() const = 0;

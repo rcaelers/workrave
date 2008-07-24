@@ -26,6 +26,7 @@
 #include <glib.h>
 
 #include "ICoreEventListener.hh"
+#include "ILinkEventListener.hh"
 #include "IApp.hh"
 
 // Generic GUI
@@ -41,11 +42,13 @@ namespace workrave
 {
   // Core interfaces
   class IConfigurator;
+  class LinkEvent;
 }
 
 class GUI :
   public IApp,
-  public ICoreEventListener
+  public ICoreEventListener,
+  public ILinkEventListener
 {
 public:
   GUI(int argc, char **argv);
@@ -71,6 +74,9 @@ public:
   //
   void core_event_notify(CoreEvent event);
   void core_event_operation_mode_changed(const OperationMode m);
+
+  //
+  virtual void event_received(LinkEvent *event);
 
   ISoundPlayer *get_sound_player() const;
 

@@ -48,6 +48,16 @@ CoreFactory::get_configurator()
 }
 
 
+//! Returns the interface to the networking facility
+INetwork *
+CoreFactory::get_networking()
+{
+  Core *core = Core::get_instance();
+  assert(core != NULL);
+
+  return (INetwork *)core->get_networking();
+}
+
 //! Returns the interface to the D-BUS facility
 DBus *
 CoreFactory::get_dbus()

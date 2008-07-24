@@ -69,8 +69,8 @@ using namespace std;
 
 PreferencesDialog::PreferencesDialog()
   : HigDialog(_("Preferences"), false, false),
-    filefilter(NULL),
-    connector(NULL)
+    connector(NULL),
+    filefilter(NULL)
 {
   TRACE_ENTER("PreferencesDialog::PreferencesDialog");
 

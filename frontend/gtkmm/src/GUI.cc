@@ -66,6 +66,7 @@ static const char rcsid[] = "$Id$";
 #include "Text.hh"
 #include "Util.hh"
 #include "WindowHints.hh"
+#include "NetworkHandler.hh"
 #include "Locale.hh"
 
 #if defined(PLATFORM_OS_WIN32)
@@ -104,6 +105,7 @@ static const char rcsid[] = "$Id$";
 
 GUI *GUI::instance = NULL;
 
+#include "Trackable.hh"
 
 //! GUI Constructor.
 /*!
@@ -170,6 +172,8 @@ GUI::~GUI()
 
   delete sound_player;
 
+  Trackable::dump();
+  
   TRACE_EXIT();
 }
 
@@ -205,6 +209,7 @@ GUI::main()
   init_sound_player();
   init_multihead();
   init_dbus();
+  init_network();
   init_gui();
   
   on_timer();
@@ -880,6 +885,15 @@ GUI::create_break_window(HeadInfo &head, BreakId break_id, BreakWindow::BreakFla
   return ret;
 }
 
+void
+GUI::init_network()
+{
+#ifdef HAVE_DISTRIBUTION
+  // FIXME:
+  NetworkHandler *handler = new NetworkHandler();
+  handler->init();
+#endif
+}
 
 //! Initializes the sound player.
 void

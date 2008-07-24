@@ -49,9 +49,9 @@ static const char rcsid[] = "$Id$";
 #include "MainWindow.hh"
 
 #ifdef HAVE_DISTRIBUTION
-#include "IDistributionManager.hh"
+#include "INetwork.hh"
 #include "NetworkJoinDialog.hh"
-#include "NetworkLogDialog.hh"
+// FIXME: #include "NetworkLogDialog.hh"
 #endif
 
 #ifdef HAVE_EXERCISES
@@ -85,7 +85,7 @@ Menus *Menus::instance = 0;
  */
 Menus::Menus() :
 #ifdef HAVE_DISTRIBUTION
-  network_log_dialog(NULL),
+//   network_log_dialog(NULL),
   network_join_dialog(NULL),
 #endif
   statistics_dialog(NULL),
@@ -388,15 +388,8 @@ Menus::on_network_join_response(int response)
   assert(network_join_dialog != NULL);
   network_join_dialog->hide_all();
 
-  if (response == Gtk::RESPONSE_OK)
-    {
-      ICore *core = CoreFactory::get_core();
-      IDistributionManager *dist_manager
-        = core->get_distribution_manager();
-      std::string peer = network_join_dialog->get_connect_url();
-      dist_manager->connect(peer);
-      CoreFactory::get_configurator()->save();
-    }
+  INetwork *network = CoreFactory::get_networking();
+  network->connect(network_join_dialog->get_connect_url());
 
   delete network_join_dialog;
   network_join_dialog = NULL;
@@ -407,12 +400,8 @@ void
 Menus::on_menu_network_leave()
 {
 #ifdef HAVE_DISTRIBUTION
-  ICore *core = CoreFactory::get_core();
-  IDistributionManager *dist_manager = core->get_distribution_manager();
-  if (dist_manager != NULL)
-    {
-      dist_manager->disconnect_all();
-    }
+  INetwork *network = CoreFactory::get_networking();
+  network->leave();
 #endif
 }
 
@@ -420,15 +409,10 @@ void
 Menus::on_menu_network_reconnect()
 {
 #ifdef HAVE_DISTRIBUTION
-  ICore *core = CoreFactory::get_core();
-  IDistributionManager *dist_manager = core->get_distribution_manager();
-  if (dist_manager != NULL)
-    {
-      dist_manager->reconnect_all();
-    }
 #endif
 }
 
+#ifdef FIXME
 void
 Menus::on_menu_network_log(bool active)
 {
@@ -476,6 +460,7 @@ Menus::on_network_log_response(int response)
   // done by gtkmm ??? delete network_log_dialog;
   network_log_dialog = NULL;
 }
+#endif
 
 void
 Menus::on_statistics_response(int response)
@@ -533,9 +518,11 @@ Menus::applet_command(short cmd)
     case MENU_COMMAND_NETWORK_DISCONNECT:
       on_menu_network_leave();
       break;
+#if FIXME
     case MENU_COMMAND_NETWORK_LOG:
       on_menu_network_log(network_log_dialog == NULL);
       break;
+#endif
     case MENU_COMMAND_NETWORK_RECONNECT:
       on_menu_network_reconnect();
       break;

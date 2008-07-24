@@ -39,7 +39,6 @@
 
 #include "ICore.hh"
 #include "CoreFactory.hh"
-#include "IDistributionManager.hh"
 #include "Util.hh"
 
 NetworkLogDialog::NetworkLogDialog()
@@ -75,18 +74,18 @@ NetworkLogDialog::NetworkLogDialog()
 NetworkLogDialog::~NetworkLogDialog()
 {
   TRACE_ENTER("NetworkLogDialog::~NetworkLogDialog");
-  ICore *core = CoreFactory::get_core();
-  IDistributionManager *dist_manager = core->get_distribution_manager();
-  if (dist_manager != NULL)
-    {
-      dist_manager->remove_log_listener(this);
-    }
+//   ICore *core = CoreFactory::get_core();
+//   IDistributionManager *dist_manager = core->get_distribution_manager();
+//   if (dist_manager != NULL)
+//     {
+//       dist_manager->remove_log_listener(this);
+//     }
   TRACE_EXIT();
 }
 
 
 void
-NetworkLogDialog::distribution_log(std::string msg)
+NetworkLogDialog::network_log(std::string msg)
 {
   Gtk::TextIter iter = text_buffer->end();
   iter = text_buffer->insert(iter, msg);
@@ -97,24 +96,24 @@ NetworkLogDialog::distribution_log(std::string msg)
 void
 NetworkLogDialog::init()
 {
-  ICore *core = CoreFactory::get_core();
-  IDistributionManager *dist_manager = core->get_distribution_manager();
+//   ICore *core = CoreFactory::get_core();
+//   IDistributionManager *dist_manager = core->get_distribution_manager();
 
   Gtk::TextIter iter = text_buffer->end();
 
-  if (dist_manager != NULL)
-    {
-      list<string> logs = dist_manager->get_logs();
+//   if (dist_manager != NULL)
+//     {
+//       list<string> logs = dist_manager->get_logs();
 
-      for (list<string>::iterator i = logs.begin(); i != logs.end(); i++)
-        {
-          iter = text_buffer->insert(iter, (*i));
-        }
+//       for (list<string>::iterator i = logs.begin(); i != logs.end(); i++)
+//         {
+//           iter = text_buffer->insert(iter, (*i));
+//         }
 
-      dist_manager->add_log_listener(this);
-      Gtk::Adjustment *a = scrolled_window.get_vadjustment();
-      a->set_value(a->get_upper());
-    }
+//       dist_manager->add_log_listener(this);
+//       Gtk::Adjustment *a = scrolled_window.get_vadjustment();
+//       a->set_value(a->get_upper());
+//     }
 }
 
 int
@@ -134,12 +133,12 @@ NetworkLogDialog::on_response(int response)
 {
   (void) response;
   TRACE_ENTER("NetworkLogDialog::on_response")
-  ICore *core = CoreFactory::get_core();
-  IDistributionManager *dist_manager = core->get_distribution_manager();
-  if (dist_manager != NULL)
-    {
-      dist_manager->remove_log_listener(this);
-    }
+//   ICore *core = CoreFactory::get_core();
+//   IDistributionManager *dist_manager = core->get_distribution_manager();
+//   if (dist_manager != NULL)
+//     {
+//       dist_manager->remove_log_listener(this);
+//     }
   TRACE_EXIT();
 }
 

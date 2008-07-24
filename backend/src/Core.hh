@@ -50,6 +50,7 @@
 #include "TimeSource.hh"
 #include "Timer.hh"
 #include "Statistics.hh"
+#include "ILinkEventListener.hh"
 
 using namespace workrave;
 
@@ -67,22 +68,17 @@ class Statistics;
 class FakeActivityMonitor;
 class IdleLogManager;
 class BreakControl;
-
-#ifdef HAVE_DISTRIBUTION
-#include "DistributionManager.hh"
-#include "IDistributionClientMessage.hh"
-#include "DistributionListener.hh"
-#endif
+class Network;
+class BreakLinkEvent;
+class CoreLinkEvent;
+class TimerStateLinkEvent;
 
 class Core :
-#ifdef HAVE_DISTRIBUTION
-  public IDistributionClientMessage,
-  public DistributionListener,
-#endif
   public TimeSource,
   public ICore,
   public IConfiguratorListener,
-  public IBreakResponse
+  public IBreakResponse,
+  public ILinkEventListener
 {
 public:
   Core();
@@ -98,9 +94,6 @@ public:
   IActivityMonitor *get_activity_monitor() const;
   bool is_user_active() const;
 
-#ifdef HAVE_DISTRIBUTION
-  DistributionManager *get_distribution_manager() const;
-#endif
   Statistics *get_statistics() const;
   void set_core_events_listener(ICoreEventListener *l);
   void force_break(BreakId id, bool initiated_by_user);
@@ -112,6 +105,7 @@ public:
 
   OperationMode get_operation_mode();
   OperationMode set_operation_mode(OperationMode mode, bool persistent = true);
+  OperationMode set_operation_mode_no_event(OperationMode mode, bool persistent);
   void set_freeze_all_breaks(bool freeze);
 
   void stop_prelude(BreakId break_id);
@@ -123,14 +117,27 @@ public:
   void force_idle();
 
   ActivityState get_current_monitor_state() const;
-  bool is_master() const;
 
   // DBus functions.
   void report_external_activity(std::string who, bool act);
   void is_timer_running(BreakId id, bool &value);
   void get_timer_elapsed(BreakId id,int *value);
   void get_timer_idle(BreakId id, int *value);
+  void get_timer_overdue(BreakId id,int *value);
+  
+#ifdef HAVE_DISTRIBUTION
+  Network *get_networking()
+  {
+    return (Network *)network;
+  }
 
+  void event_received(LinkEvent *event);  
+  void break_event_received(const BreakLinkEvent *event);
+  void core_event_received(const CoreLinkEvent *event);
+  void timer_state_event_received(const TimerStateLinkEvent *event);
+  void broadcast_state();
+#endif
+  
   // BreakResponseInterface
   void postpone_break(BreakId break_id);
   void skip_break(BreakId break_id);
@@ -155,7 +162,7 @@ private:
   void init_breaks();
   void init_configurator();
   void init_monitor(const std::string &display_name);
-  void init_distribution_manager();
+  void init_networking();
   void init_bus();
   void init_statistics();
 
@@ -180,37 +187,6 @@ private:
   void set_insist_policy(ICore::InsistPolicy p);
   ICore::InsistPolicy get_insist_policy() const;
 
-#ifdef HAVE_DISTRIBUTION
-  bool request_client_message(DistributionClientMessageID id, PacketBuffer &buffer);
-  bool client_message(DistributionClientMessageID id, bool master, const char *client_id,
-                      PacketBuffer &buffer);
-
-  bool request_break_state(PacketBuffer &buffer);
-  bool set_break_state(bool master, PacketBuffer &buffer);
-
-  bool request_timer_state(PacketBuffer &buffer) const;
-  bool set_timer_state(PacketBuffer &buffer);
-
-  bool set_monitor_state(bool master, PacketBuffer &buffer);
-
-  enum BreakControlMessage
-    {
-      BCM_POSTPONE,
-      BCM_SKIP,
-      BCM_ABORT_PRELUDE,
-      BCM_START_BREAK,
-    };
-
-  void send_break_control_message(BreakId break_id, BreakControlMessage message);
-  void send_break_control_message_bool_param(BreakId break_id, BreakControlMessage message,
-                                             bool param);
-  bool set_break_control(PacketBuffer &buffer);
-
-  void signon_remote_client(string client_id);
-  void signoff_remote_client(string client_id);
-  void compute_timers();
-#endif // HAVE_DISTRIBUTION
-
 
 private:
   //! The one and only instance
@@ -227,9 +203,6 @@ private:
 
   //! The time we last processed the timers.
   time_t last_process_time;
-
-  //! Are we the master node??
-  bool master_node;
 
   //! List of breaks.
   Break breaks[BREAK_ID_SIZEOF];
@@ -276,29 +249,32 @@ private:
   //! Current overall monitor state.
   ActivityState monitor_state;
 
+  //! Current overall monitor state.
+  time_t active_since;
+  
 #ifdef HAVE_DBUS
   //! DBUS bridge
   DBus *dbus;
 #endif
-
-#ifdef HAVE_DISTRIBUTION
-  //! The Distribution Manager
-  DistributionManager *dist_manager;
-
-  //! State of the remote master.
-  ActivityState remote_state;
-
-  //! Manager that collects idle times of all clients.
-  IdleLogManager *idlelog_manager;
-
-#ifndef NDEBUG
+  
+#ifdef HAVE_TESTS
   //! A fake activity monitor for testing puposes.
   FakeActivityMonitor *fake_monitor;
 #endif
+
+#ifdef HAVE_DISTRIBUTION
+  Network *network;
 #endif
 
   //! External activity
   std::map<std::string, int> external_activity;
+
+#ifdef HAVE_TESTS
+  friend class Test;
+
+  // Manual clock
+  bool manual_clock;
+#endif
 };
 
 
@@ -319,13 +295,6 @@ inline ActivityState
 Core::get_current_monitor_state() const
 {
   return monitor_state;
-}
-
-//!
-inline bool
-Core::is_master() const
-{
-  return master_node;
 }
 
 #endif // CORE_HH

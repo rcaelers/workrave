@@ -39,10 +39,6 @@ static const char rcsid[] = "$Id$";
 #include "IBreak.hh"
 #include "IConfigurator.hh"
 
-#ifdef HAVE_DISTRIBUTION
-#include "IDistributionManager.hh"
-#endif
-
 using namespace workrave;
 
 const std::string TimerBoxControl::CFG_KEY_TIMERBOX = "gui/";
@@ -176,20 +172,6 @@ TimerBoxControl::init()
 void
 TimerBoxControl::update_widgets()
 {
-  bool node_master = true;
-  int num_peers = 0;
-
-#ifdef HAVE_DISTRIBUTION
-  ICore *core = CoreFactory::get_core();
-  IDistributionManager *dist_manager = core->get_distribution_manager();
-
-  if (dist_manager != NULL)
-    {
-      node_master = dist_manager->is_master();
-      num_peers = dist_manager->get_number_of_peers();
-    }
-#endif
-
   for (int count = 0; count < BREAK_ID_SIZEOF; count++)
     {
       ICore *core = CoreFactory::get_core();

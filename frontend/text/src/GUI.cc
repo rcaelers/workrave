@@ -54,6 +54,14 @@ static const char rcsid[] = "$Id$";
 #include "crashlog.h"
 #endif
 
+#ifdef HAVE_DISTRIBUTION
+#include "INetwork.hh"
+#include "UILinkEvent.hh"
+#include "ResolveConfigurationLinkEvent.hh"
+#endif
+
+#include "Trackable.hh"
+
 #include <glib-object.h>
 
 GUI *GUI::instance = NULL;
@@ -114,6 +122,14 @@ void
 GUI::restbreak_now()
 {
   core->force_break(BREAK_ID_REST_BREAK, true);
+
+#ifdef HAVE_DISTRIBUTION
+  // Just testing...
+  INetwork *network = CoreFactory::get_networking();
+  UILinkEvent event(UILinkEvent::UI_EVENT_TEST);
+  network->send_event(&event);
+
+#endif
 }
 
 
@@ -148,6 +164,12 @@ GUI::main()
   init_debug();
   init_core();
   init_sound_player();
+
+#ifdef HAVE_DISTRIBUTION
+  // Just testing...
+  INetwork *network = CoreFactory::get_networking();
+  network->subscribe("resolveconfigurationlinkevent", this);
+#endif
 
   // The main status window.
   main_window = new MainWindow();
@@ -186,6 +208,9 @@ GUI::terminate()
   collect_garbage();
 
   g_main_loop_quit(main_loop);
+
+  Trackable::dump();
+    
   TRACE_EXIT();
 }
 
@@ -514,3 +539,44 @@ GUI::set_block_mode(BlockMode mode)
 }
 
 
+void 	 
+GUI::event_received(LinkEvent *event) 	 
+{ 	 
+  TRACE_ENTER_MSG("GUI::event_received", event->str()); 	 
+	  	 
+  INetwork *network = CoreFactory::get_networking(); 	 
+	  	 
+  ResolveConfigurationLinkEvent *resolve = dynamic_cast<ResolveConfigurationLinkEvent *>(event); 	 
+  if (resolve == NULL) 	 
+    { 	 
+      return; 	 
+    } 	 
+	  	 
+  map<string, string> changes = resolve->get_changes(); 	 
+	  	 
+  if (changes.size() == 0) 	 
+    { 	 
+      TRACE_MSG("All changes resolved"); 	 
+    } 	 
+	  	 
+  char *wr = getenv("WORKRAVE_DBUS_NAME"); 	 
+  if (strcmp(wr, "org.workrave.Workrave2") == 0) 	 
+    { 	 
+      map<string, string>::iterator i; 	 
+	  	 
+      for (i = changes.begin(); i != changes.end(); i++) 	 
+        { 	 
+          TRACE_MSG("taking " << i->first); 	 
+          if (i->first == "internal/dontchange") 	 
+            { 	 
+              network->resolve_config(i->first, "string:workrave X"); 	 
+            } 	 
+          else if (i->first == "internal/self-destruct") 	 
+            { 	 
+              network->resolve_config(i->first, "int:666"); 	 
+            } 	 
+        } 	 
+    } 	 
+	  	 
+  TRACE_EXIT(); 	 
+}

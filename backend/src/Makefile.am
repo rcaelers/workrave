@@ -24,7 +24,6 @@ sources = 		ActivityMonitor.cc \
 			CoreConfig.cc \
 			CoreFactory.cc \
 			GlibIniConfigurator.cc \
-			IdleLogManager.cc \
 			InputMonitor.cc \
 			InputMonitorFactory.cc \
 			Statistics.cc \
@@ -32,6 +31,7 @@ sources = 		ActivityMonitor.cc \
 			Timer.cc \
 			DayTimePred.cc \
 			WeekTimePred.cc \
+			Test.cc \
 			TimePredFactory.cc
 
 
@@ -42,10 +42,29 @@ sourcesgdome = 		XMLConfigurator.cc
 endif
 
 if HAVE_DISTRIBUTION
-sourcesdistribution = 	DistributionManager.cc
+sourcesdistribution = 	Network.cc \
+			LinkFactory.cc \
+			LinkRouter.cc \
+			TcpLink.cc \
+			TcpLinkServer.cc \
+			ByteStream.cc \
+			BinaryArchive.cc \
+			SocketDriver.cc \
+			LinkedActivityMonitor.cc \
+			LinkedHistoryManager.cc \
+			LinkedConfigurationManager.cc \
+			LinkEvent.cc \
+			ActivityLinkEvent.cc \
+			BreakLinkEvent.cc \
+			CoreLinkEvent.cc \
+			LinkStateLinkEvent.cc \
+			HistoryLinkEvent.cc \
+			ConfigurationLinkEvent.cc \
+			ResolveConfigurationLinkEvent.cc \
+			TimerStateLinkEvent.cc
+
 if HAVE_GNET
-sourcesgnet = 		DistributionSocketLink.cc PacketBuffer.cc \
-			GNetSocketDriver.cc
+sourcesgnet = 		GNetSocketDriver.cc
 endif
 endif
 

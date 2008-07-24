@@ -213,21 +213,21 @@ ${interface.qname}_Stub::get_${struct.qname}(DBusMessageIter *reader, ${struct.c
 
   #for p in struct.fields
   #if p.type != p.ext_type
-    $interface.type2csymbol(p.type) p.name;
+  $interface.type2csymbol(p.ext_type) _${p.name};
   #end if
   #end for
   
   #for p in struct.fields
   #if p.type != p.ext_type
-    get_${p.type}(&it, &${p.name});
+  get_${p.ext_type}(&it, &_${p.name});
   #else
-    get_${p.type}(&it, ($interface.type2csymbol(p.type) *) &(result->${p.name}));
+  get_${p.ext_type}(&it, ($interface.type2csymbol(p.ext_type) *) &(result->${p.name}));
   #end if
   #end for
 
   #for p in struct.fields
   #if p.type != p.ext_type
-    result->${p.name} = p.name;
+  result->${p.name} = ($interface.type2csymbol(p.type)) _${p.name};
   #end if
   #end for
     
@@ -247,7 +247,17 @@ ${interface.qname}_Stub::put_${struct.qname}(DBusMessageIter *writer, const ${st
     }
 
   #for p in struct.fields
-  put_${p.type}(&it, ($interface.type2csymbol(p.type) *) &(result->${p.name}));
+  #if p.type != p.ext_type
+  $interface.type2csymbol(p.ext_type) _${p.name} = ($interface.type2csymbol(p.ext_type))result->${p.name};
+  #end if
+  #end for
+
+  #for p in struct.fields
+  #if p.type != p.ext_type
+  put_${p.ext_type}(&it, &_${p.name});
+  #else
+  put_${p.ext_type}(&it, ($interface.type2csymbol(p.type) *) &(result->${p.name}));
+  #end if
   #end for
 
   ok = dbus_message_iter_close_container(writer, &it);
@@ -403,10 +413,14 @@ ${interface.qname}_Stub::${method.name}(void *object, DBusMessage *message)
       #set have_in_args = True
       #end if
       #if 'ptrptr' in p.hint
-      $interface.type2csymbol(p.type) *${p.name};
+      $interface.type2csymbol(p.type) *${p.name} #slurp
       #else
-      $interface.type2csymbol(p.type) ${p.name};
+      $interface.type2csymbol(p.type) ${p.name} #slurp
       #end if
+      #if p.direction == 'bind'
+      = ${p.bind} #slurp
+      #end if
+      ;
       #end for
       
       ok = dbus_message_iter_init(message, &reader);

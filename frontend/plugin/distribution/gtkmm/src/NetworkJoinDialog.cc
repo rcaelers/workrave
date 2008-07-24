@@ -41,7 +41,6 @@
 #include "NetworkJoinDialog.hh"
 
 #include "CoreFactory.hh"
-#include "IDistributionManager.hh"
 #include "IConfigurator.hh"
 #include "Util.hh"
 #include "GtkUtil.hh"
@@ -52,10 +51,6 @@ NetworkJoinDialog::NetworkJoinDialog()
   : HigDialog(_("Network connect"), true, false)
 {
   TRACE_ENTER("NetworkJoinDialog::NetworkJoinDialog");
-
-  ICore *core = CoreFactory::get_core();
-  IDistributionManager *dist_manager
-    = core->get_distribution_manager();
 
   // Icon
   std::string title_icon = Util::complete_directory
@@ -73,13 +68,15 @@ NetworkJoinDialog::NetworkJoinDialog()
        "in the network you wish to connect to."));
   title_lab->set_markup(text);
 
-  host_entry.set_width_chars(40);
+  int port = 0;
+  CoreFactory::get_configurator()->get_value("networking/port", port);
 
+  host_entry.set_width_chars(40);
   port_entry.set_range(1024, 65535);
   port_entry.set_increments(1, 10);
   port_entry.set_numeric(true);
   port_entry.set_width_chars(10);
-  port_entry.set_value(dist_manager->get_port());
+  port_entry.set_value(port);
 
   Gtk::Label *host_lab = manage(new Gtk::Label(_("Host name:")));
   Gtk::Label *port_lab = manage(new Gtk::Label(_("Port:")));
@@ -121,6 +118,6 @@ NetworkJoinDialog::~NetworkJoinDialog()
 std::string
 NetworkJoinDialog::get_connect_url()
 {
-  std::string peer = "tcp://" + host_entry.get_text() + ":" + port_entry.get_text();
+  std::string peer = "tcp://" + host_entry.get_text() + ":" + port_entry.get_text() + "/";
   return peer;
 }

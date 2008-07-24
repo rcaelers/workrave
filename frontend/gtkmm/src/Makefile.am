@@ -53,8 +53,11 @@ sourceswin32 = 		resource.rc
 # Additional distribution sources.
 DISTRIBUTION_HOME = 	$(top_srcdir)/frontend/plugin/distribution
 sourcesdistribution = 	${DISTRIBUTION_HOME}/gtkmm/src/NetworkJoinDialog.cc \
-			${DISTRIBUTION_HOME}/gtkmm/src/NetworkLogDialog.cc \
-			${DISTRIBUTION_HOME}/gtkmm/src/NetworkPreferencePage.cc
+			${DISTRIBUTION_HOME}/gtkmm/src/NetworkConflictDialog.cc \
+			${DISTRIBUTION_HOME}/gtkmm/src/NetworkPreferencePage.cc \
+			${DISTRIBUTION_HOME}/gtkmm/src/NetworkHandler.cc
+
+##			${DISTRIBUTION_HOME}/gtkmm/src/NetworkLogDialog.cc
 
 # Additional exercises sources.
 EXERCISES_HOME =	$(top_srcdir)/frontend/plugin/exercises
@@ -289,7 +292,6 @@ workrave_LDADD =        @WR_LDADD@ @X_LIBS@ @GNOME_LIBS@ @GNOMEMM_LIBS@ \
 			@QT_LDFLAGS@ @LIB_QT@ @DBUS_LIBS@  @IGE_LIBS@ @GSTREAMER_LIBS@ \
 			${X11LIBS} ${WIN32LIBS} @GTK_LIBS@ ${OSXLIBS} ${WIN32CONSOLE}
 
-#  @UUID_LIBS@ 
 # workrave_LINK		= $(LINK) \
 # 			  nm - nos > workrave.dmp \
 # 			  strip workrave$(EXEEXT)

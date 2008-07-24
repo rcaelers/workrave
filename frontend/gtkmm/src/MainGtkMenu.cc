@@ -307,9 +307,9 @@ MainGtkMenu::on_menu_network_log()
 
   if (ract)
     {
-      bool active = ract->get_active();
-      Menus *menus = Menus::get_instance();
-      menus->on_menu_network_log(active);
+      // bool active = ract->get_active();
+      // Menus *menus = Menus::get_instance();
+      // FIXME: menus->on_menu_network_log(active);
     }
 }
 

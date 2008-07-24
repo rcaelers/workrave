@@ -125,6 +125,7 @@ private:
   void init_multihead_desktop();
   void init_gui();
   void init_dbus();
+  void init_network();
   
   void init_gtk_multihead();
 

@@ -136,6 +136,9 @@ class InterfaceNode(NodeBase):
                     p = ImportNode(self)
                     p.handle(child)
                     self.imports.append(p)
+                elif child.nodeName == 'type':
+                    p = TypeNode(self)
+                    p.handle(child)
 
     def add_default_types(self):
         self.types['void']= DefaultTypeNode('void','i')
@@ -194,6 +197,7 @@ class MethodNode(NodeBase):
         p.type = node.getAttribute('type')
         p.ext_type = node.getAttribute('ext_type')
         p.direction = node.getAttribute('direction')
+        p.bind = node.getAttribute('bind')
 
         if p.ext_type == '':
             p.ext_type = p.type;
@@ -207,8 +211,9 @@ class MethodNode(NodeBase):
     def sig(self):
         method_sig = ''
         for p in self.params:
-            param_sig = self.parent.type2sig(p.ext_type)
-            method_sig = method_sig + '%s\\0%s\\0%s\\0' % (p.direction, param_sig, p.name)
+            if p.direction != 'bind':
+                param_sig = self.parent.type2sig(p.ext_type)
+                method_sig = method_sig + '%s\\0%s\\0%s\\0' % (p.direction, param_sig, p.name)
 
         return method_sig
 
@@ -397,6 +402,24 @@ class EnumNode(NodeBase):
 
     def sig(self):
         return 's'
+
+class TypeNode(NodeBase):
+    def __init__(self, parent):
+        NodeBase.__init__(self)
+        self.parent = parent
+        self.count = 0
+        
+    def handle(self, node):
+        self.name = node.getAttribute('name')
+        self.csymbol = node.getAttribute('csymbol')
+        self.qname = self.name.replace('.','_')
+
+        self.parent.types[self.name] = self
+            
+    def sig(self):
+        print 'Signature of type ' + self.name + ' unknown'
+        sys.exit(1)
+
 
 
 class ImportNode(NodeBase):

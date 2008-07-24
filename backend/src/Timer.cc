@@ -613,14 +613,18 @@ Timer::get_elapsed_time() const
 time_t
 Timer::get_total_overdue_time() const
 {
+  TRACE_ENTER("Timer::get_total_overdue_time");
   time_t ret = total_overdue_time;
   time_t elapsed = get_elapsed_time();
 
+  TRACE_MSG(ret << " " << elapsed);
+  
   if (elapsed > limit_interval)
     {
       ret += (elapsed - limit_interval);
     }
 
+  TRACE_EXIT();
   return ret;
 }
 
@@ -992,16 +996,11 @@ Timer::deserialize_state(const std::string &state, int version)
 void
 Timer::set_state(int elapsed, int idle, int overdue)
 {
-  TRACE_ENTER("Timer::set_state");
+  TRACE_ENTER_MSG("Timer::set_state", elapsed << " " << idle << " " << overdue);
 
   elapsed_time = elapsed;
   elapsed_idle_time = idle;
 
-  if (overdue >= 0)
-    {
-      total_overdue_time = overdue;
-    }
-  
   if (last_start_time != 0)
     {
       last_start_time = core->get_time();
@@ -1017,94 +1016,15 @@ Timer::set_state(int elapsed, int idle, int overdue)
       elapsed_idle_time = autoreset_interval;
     }
 
+  total_overdue_time = overdue;
+  if (get_elapsed_time() > limit_interval)
+    {
+      total_overdue_time -= (get_elapsed_time() - limit_interval);
+    }
+  
   compute_next_reset_time();
   compute_next_limit_time();
   compute_next_predicate_reset_time();
 
   TRACE_EXIT();
 }
-
-void
-Timer::set_values(int elapsed, int idle)
-{
-  elapsed_time = elapsed;
-  elapsed_idle_time = idle;
-
-  last_start_time = 0;
-  last_stop_time = 0;
-
-  if (timer_state == STATE_RUNNING)
-    {
-      last_start_time = core->get_time();
-    }
-  else if (timer_state == STATE_STOPPED)
-    {
-      last_stop_time = core->get_time();
-    }
-
-  compute_next_limit_time();
-  compute_next_reset_time();
-  compute_next_predicate_reset_time();
-}
-
-void
-Timer::set_state_data(const TimerStateData &data)
-{
-  time_t time_diff =  core->get_time() - data.current_time;
-
-  elapsed_time = data.elapsed_time;
-  elapsed_idle_time = data.elapsed_idle_time;
-  last_pred_reset_time = data.last_pred_reset_time;
-  total_overdue_time = data.total_overdue_time;
-
-  last_limit_time = data.last_limit_time;
-  last_limit_elapsed = data.last_limit_elapsed;
-  snooze_inhibited = data.snooze_inhibited;
-
-  if (last_pred_reset_time > 0)
-    {
-      last_pred_reset_time += time_diff;
-    }
-
-  if (last_limit_time > 0)
-    {
-      last_limit_time += time_diff;
-    }
-
-  last_start_time = 0;
-  last_stop_time = 0;
-
-  if (timer_state == STATE_RUNNING)
-    {
-      last_start_time = core->get_time();
-    }
-  else if (timer_state == STATE_STOPPED)
-    {
-      last_stop_time = core->get_time();
-    }
-
-  compute_next_limit_time();
-  compute_next_reset_time();
-  compute_next_predicate_reset_time();
-}
-
-
-void
-Timer::get_state_data(TimerStateData &data)
-{
-  TRACE_ENTER("Timer::get_state_data");
-  data.current_time = core->get_time();
-
-  data.elapsed_time = get_elapsed_time();
-  data.elapsed_idle_time = get_elapsed_idle_time();
-  data.last_pred_reset_time = last_pred_reset_time;
-  data.total_overdue_time = total_overdue_time;
-
-  data.last_limit_time = last_limit_time;
-  data.last_limit_elapsed = last_limit_elapsed;
-  data.snooze_inhibited = snooze_inhibited;
-
-  TRACE_MSG("elapsed = " << data.elapsed_time);
-  TRACE_EXIT();
-}
-

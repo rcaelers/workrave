@@ -18,56 +18,17 @@
 //
 //
 
-//! Construct a new socket connection.
-inline
-SocketConnection::SocketConnection()
-  : data(NULL)
-{
-}
-
-
-//! Destruct socket connection.
-inline
-SocketConnection::~SocketConnection()
-{
-}
-
-
-//! Returns the user defined data of this connection.
-inline void *
-SocketConnection::get_data() const
-{
-  return data;
-}
-  
-
-//! Sets the user defined data of this connection.
-inline void
-SocketConnection::set_data(void *d)
-{
-  data = d;
-}
-
-
-//! Constructs a new socket driver.
-inline
-SocketDriver::SocketDriver()
-  : listener(NULL)
-{
-}
-
-
-//! Destructs socket drivers.
-inline
-SocketDriver::~SocketDriver()
-{
-}
-
-
-//! Sets the callback handler for asynchronous event.
+//! Sets the callback handler for asynchronous socket events.
 inline void 
-SocketDriver::set_listener(SocketListener *l)
+ISocket::set_listener(ISocketListener *l)
 {
   listener = l;
 }
 
+
+//! Sets the callback handler for asynchronous server events.
+inline void 
+ISocketServer::set_listener(ISocketServerListener *l)
+{
+  listener = l;
+}

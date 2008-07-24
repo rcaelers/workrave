@@ -41,10 +41,15 @@
 
     <method name="GetTimerIdle" csymbol="get_timer_idle">
       <arg type="break_id" name="timer_id" direction="in"/>
-      <arg type="int32"     name="value"    direction="out" hint="ptr"/>
+      <arg type="int32"    name="value"    direction="out" hint="ptr"/>
     </method>
 
     <method name="GetTimerElapsed" csymbol="get_timer_elapsed">
+      <arg type="break_id" name="timer_id" direction="in"/>
+      <arg type="int32"     name="value"    direction="out" hint="ptr"/>
+    </method>
+    
+    <method name="GetTimerOverdue" csymbol="get_timer_overdue">
       <arg type="break_id" name="timer_id" direction="in"/>
       <arg type="int32"     name="value"    direction="out" hint="ptr"/>
     </method>
@@ -76,11 +81,111 @@
     <signal name="DailylimitChanged">
       <arg type="string" name="progress"/>
     </signal>
+    
   </interface>
 
+  <interface name="org.workrave.NetworkInterface" csymbol="Network">
+
+    <import>
+      <include name="Network.hh"/>
+      <namespace name="workrave"/>
+    </import>
+    
+    <method name="Listen" csymbol="listen">
+      <arg type="uint32" name="port" direction="in" />
+    </method>
+
+    <method name="Connect" csymbol="connect">
+      <arg type="string" name="host" direction="in" />
+      <arg type="uint32" name="port" direction="in" />
+      <arg type="string" name="linkid" direction="out" />
+    </method>
+
+    <method name="Disconnect" csymbol="disconnect">
+      <arg type="string" name="linkid" direction="in" />
+    </method>
+  </interface>
+
+  <interface name="org.workrave.DebugInterface" csymbol="Test">
+
+    <import>
+      <include name="LinkedHistoryManager.hh"/>
+      <include name="Test.hh"/>
+      <namespace name="workrave"/>
+    </import>
+
+    <enum name="break_id" csymbol="BreakId">
+      <value name="microbreak"  csymbol="BREAK_ID_MICRO_BREAK" value="0"/>
+      <value name="restbreak"   csymbol="BREAK_ID_REST_BREAK"/>
+      <value name="dailylimit"  csymbol="BREAK_ID_DAILY_LIMIT"/>
+    </enum>
+
+    <enum name="setting" csymbol="LinkedHistoryManager::Setting">
+      <value name="reset"  csymbol="LinkedHistoryManager::SETTING_RESET" value="0"/>
+      <value name="limit"  csymbol="LinkedHistoryManager::SETTING_LIMIT"/>
+    </enum>
+    
+    <struct name="settings_entry" csymbol="LinkedHistoryManager::SettingsEntry">
+      <field ext_type="uint64"   type="uint32" name="timestamp" />
+      <field ext_type="setting"  type="uint8"  name="setting" />
+      <field ext_type="break_id" type="uint8"  name="break_id" />
+      <field ext_type="int32"    type="uint8"  name="value" />
+    </struct>
+
+    <sequence name="settings_history"
+	      container="std::deque"
+	      type="settings_entry"
+	      csymbol="LinkedHistoryManager::Settings">
+    </sequence>
+
+    <struct name="activity_entry"
+	    csymbol="LinkedHistoryManager::ActivityEntry">
+      <field type="uint64" name="timestamp" />
+      <field type="int32" name="activity_mask" />
+    </struct>
+    
+    <sequence name="activity_history"
+	      container="std::deque"
+	      type="activity_entry"
+	      csymbol="LinkedHistoryManager::Activity"/>
+    
+    <method name="SetFakeState" csymbol="fake_monitor">
+      <arg type="int32" name="state" direction="in" />
+    </method>
+
+    <method name="GetRemoteState" csymbol="get_remote_state">
+      <arg type="int32" name="state" direction="out" hint="return"/>
+    </method>
+    
+    <method name="Quit" csymbol="quit">
+    </method>
+
+    <method name="Tick" csymbol="tick">
+      <arg type="int32" name="scale" direction="in" />
+    </method>
+
+    <method name="SetTime" csymbol="set_time">
+      <arg type="int32" name="time" direction="in" />
+    </method>
+
+    <method name="InitTime" csymbol="init_time">
+      <arg type="int32" name="time" direction="in" />
+    </method>
+
+    <method name="GetActivityHistory" csymbol="get_activity_history">
+      <arg type="activity_history" name="history" direction="out" hint="ptrptr"/>
+    </method>
+
+    <method name="GetSettingsHistory" csymbol="get_settings_history">
+      <arg type="settings_history" name="history" direction="out" hint="ptrptr"/>
+    </method>
+    
+  </interface>
 
   <interface name="org.workrave.ConfigInterface" csymbol="IConfigurator">
 
+    <type name="flags" csymbol="ConfigFlags"/>
+    
     <import>
       <include name="IConfigurator.hh"/>
       <namespace name="workrave"/>
@@ -89,24 +194,28 @@
     <method name="SetString" csymbol="set_value">
       <arg type="string" name="key" direction="in" />
       <arg type="string" name="value" direction="in" />
+      <arg type="flags"  name="flags" direction="bind" bind="CONFIG_FLAG_IMMEDIATE"/>
       <arg type="bool"   name="success" direction="out" hint="return" />
     </method>
 
     <method name="SetInt" csymbol="set_value">
       <arg type="string" name="key" direction="in" />
-      <arg type="int32"    name="value" direction="in" />
+      <arg type="int32"  name="value" direction="in" />
+      <arg type="flags"  name="flags" direction="bind" bind="CONFIG_FLAG_IMMEDIATE"/>
       <arg type="bool"   name="success" direction="out" hint="return" />
     </method>
 
     <method name="SetBool" csymbol="set_value">
       <arg type="string" name="key" direction="in" />
       <arg type="bool"   name="value" direction="in" />
+      <arg type="flags"  name="flags" direction="bind" bind="CONFIG_FLAG_IMMEDIATE"/>
       <arg type="bool"   name="success" direction="out" hint="return" />
     </method>
     
     <method name="SetDouble" csymbol="set_value">
       <arg type="string" name="key" direction="in" />
       <arg type="double" name="value" direction="in" />
+      <arg type="flags"  name="flags" direction="bind" bind="CONFIG_FLAG_IMMEDIATE"/>
       <arg type="bool"   name="success" direction="out" hint="return" />
     </method>
   

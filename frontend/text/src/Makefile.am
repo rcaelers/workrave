@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2007 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2007, 2008 Rob Caelers & Raymond Penners
 #
 # $Id$
 #
@@ -17,7 +17,8 @@ X11LIBS = 		-lXmu
 endif
 
 workrave_SOURCES = 	GUI.cc PreludeWindow.cc BreakWindow.cc TimerBoxTextView.cc MainWindow.cc \
-			main.cc
+			main.cc UILinkEvent.cc
+
 
 workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
 			-DATADIR="\"${datadir}\""  \
@@ -52,6 +53,6 @@ workrave_LDFLAGS = 	@WR_LDFLAGS@ ${ldflags}
 workrave_LDADD =        @WR_LDADD@ @X_LIBS@ @GNOME_LIBS@ @GNOMEMM_LIBS@ \
 			@GTK_LIBS@ @GNET_LIBS@ @X_LIBS@ @GCONF_LIBS@ @GDOME_LIB@ \
 			@KDE_LDFLAGS@ @LIB_KDEUI@ @LIB_KDECORE@ \
-			@QT_LDFLAGS@ @LIB_QT@ @DBUS_LIBS@ @UUID_LIBS@ \
+			@QT_LDFLAGS@ @LIB_QT@ @DBUS_LIBS@ \
 			${X11LIBS} ${WIN32LIBS} ${OSXLIBS} ${WIN32CONSOLE}
 endif

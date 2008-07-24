@@ -1,6 +1,6 @@
 // NetworkPreferencesPage.hh --- Preferences for network
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -31,11 +31,7 @@
 #include <gtkmm/box.h>
 
 class Configurator;
-
-namespace workrave
-{
-  class IDistributionManager;
-}
+class DataConnector;
 
 namespace Gtk
 {
@@ -47,7 +43,10 @@ namespace Gtk
   class Notebook;
 }
 
-#include <gtkmm/box.h>
+namespace workrave
+{
+  class INetwork;
+}
 
 using namespace workrave;
 
@@ -59,19 +58,10 @@ public:
   ~NetworkPreferencePage();
 
 private:
-  void init_page_values();
   void create_general_page(Gtk::Notebook *tnotebook);
   void create_advanced_page(Gtk::Notebook *tnotebook);
   void create_peers_page(Gtk::Notebook *tnotebook);
   void create_model();
-
-  void on_enabled_toggled();
-  void on_listening_toggled();
-  void on_username_changed();
-  void on_password_changed();
-  void on_port_changed();
-  void on_interval_changed();
-  void on_attempts_changed();
 
   void on_peer_remove();
   void on_peer_add();
@@ -84,17 +74,16 @@ private:
 
   void remove_peer(const Gtk::TreeModel::iterator &iter);
 
-  IDistributionManager *dist_manager;
+  workrave::INetwork *network;
 
-  Gtk::Label *password2_label;
-  Gtk::Entry *peers_entry;
   Gtk::Entry *username_entry;
-  Gtk::Entry *password_entry;
+  Gtk::Label *secret1_label;
+  Gtk::Entry *secret1_entry;
+  Gtk::Label *secret2_label;
+  Gtk::Entry *secret2_entry;
   Gtk::CheckButton *enabled_cb;
   Gtk::CheckButton *listening_cb;
   Gtk::SpinButton *port_entry;
-  Gtk::SpinButton *attempts_entry;
-  Gtk::SpinButton *interval_entry;
 
   Gtk::Button *remove_btn;
   Gtk::Button *add_btn;
@@ -114,6 +103,8 @@ private:
   Gtk::TreeView *peers_list;
   Glib::RefPtr<Gtk::ListStore> peers_store;
   const ModelColumns peers_columns;
+
+  DataConnector *connector;
 };
 
 #endif // NETWORKPREFERENCEPAGE_HH
