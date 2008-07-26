@@ -6,7 +6,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Workrave 1.4.0\n"
+"Project-Id-Version: Workrave 1.8.4\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
 "POT-Creation-Date: 2008-07-03 21:19+0200\n"
 "PO-Revision-Date: 2006-07-31 18:08+0200\n"
@@ -312,7 +312,7 @@ msgid ""
 msgstr ""
 "Sie haben Ihr tägliches Limit erreicht. Bitte beenden Sie die Arbeit\n"
 "am Computer. Falls Ihr Arbeitstag noch nicht zu Ende ist, wechseln Sie\n"
-"zu einer anderen Tätigkeit, z.B. zur Durchsicht von Dokumenten."
+"zu einer anderen Tätigkeit, z. B. zur Durchsicht von Dokumenten."
 
 # src/app/gtkmm/GtkUtil.cc:88 src/app/gtkmm/MicroPauseWindow.cc:168
 # src/app/gtkmm/MicroPauseWindow.cc:204
@@ -788,7 +788,7 @@ msgstr "Maximale Anzahl von Hinweisen:"
 # src/app/gtkmm/TimerPreferencesPanel.cc:154
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:143
 msgid "Show 'Postpone' and 'Skip' button"
-msgstr "Knöpfe 'Aufschieben' und 'Überspringen' anzeigen"
+msgstr "Knöpfe „Aufschieben“ und „Überspringen“ anzeigen"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:148
 msgid "Suspend timer when inactive"
@@ -987,7 +987,7 @@ msgid ""
 msgstr ""
 "Die folgende Liste legt die Rechner fest, zu denen Workrave beim "
 "Programmstart eine \n"
-"Verbindung aufnimmt.  Klicken Sie zum Bearbeiten auf den Rechnernamen oder "
+"Verbindung aufnimmt. Klicken Sie zum Bearbeiten auf den Rechnernamen oder "
 "die Portnummer."
 
 # src/app/gtkmm/NetworkPreferencePage.cc:177
@@ -1075,7 +1075,7 @@ msgstr ""
 "Schauen Sie den entferntesten Punkt, den Sie hinter Ihrem Bildschirm sehen "
 "können. Fixieren Sie den enfernten Punkt. Nach ein paar Sekunden fokussieren "
 "Sie den Bildschirmrand. Wiederholen Sie. Falls Sie von ihrem Bildschirm aus "
-"nicht sehr weit blicken können, benutzen Sie stattdessen z.B.  einen Stift "
+"nicht sehr weit blicken können, benutzen Sie stattdessen z. B. einen Stift "
 "und halten Sie Ihn in Bildschirmentfernung vor das Gesicht."
 
 # src/app/shared/exercises/exercises.xml.in.h:11
@@ -1248,7 +1248,9 @@ msgstr "Pausenhinweise"
 msgid ""
 "The number of times you were prompted to break, excluding repeated prompts "
 "for the same break"
-msgstr "Wie oft Workrave Sie aufgefordert hat, eine Pause zu machen"
+msgstr ""
+"Wie oft Workrave Sie aufgefordert hat, eine Pause zu machen, ohne wiederholte "
+"Hinweise für dieselbe Pause"
 
 # src/app/gtkmm/StatisticsDialog.cc:182
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:203
@@ -1389,19 +1391,19 @@ msgstr "%s, von %s bis %s"
 #: ../frontend/text/src/PreludeWindow.cc:155
 #, fuzzy
 msgid "Break in"
-msgstr "Pause in %s"
+msgstr "Pause in"
 
 # src/app/gtkmm/PreludeWindow.cc:212
 #: ../frontend/text/src/PreludeWindow.cc:160
 #, fuzzy
 msgid "Disappears in"
-msgstr "Verschwindet in %s"
+msgstr "Verschwindet in"
 
 # src/app/gtkmm/PreludeWindow.cc:216
 #: ../frontend/text/src/PreludeWindow.cc:166
 #, fuzzy
 msgid "Silent in"
-msgstr " Still in %s"
+msgstr " Still in"
 
 # src/app/gtkmm/GUI.cc:676
 #~ msgid "I could not initialize Bonobo"
