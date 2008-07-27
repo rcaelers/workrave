@@ -1,5 +1,0 @@
-Import('env')
-env = env.Copy()
-env.Append(CPPPATH=['../include'])
-env.Append(CPPDEFINES={'HARPOON_EXPORTS':None})
-env.SharedLibrary('harpoon', ['harpoon.c'])

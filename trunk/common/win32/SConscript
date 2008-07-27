@@ -1,2 +1,0 @@
-Import('env')
-env.SConscript('harpoon/SConscript', exports='env')

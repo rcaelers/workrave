@@ -1,2 +1,0 @@
-Import('env')
-env.SConscript('src/SConscript', exports='env')
