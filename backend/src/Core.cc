@@ -1694,15 +1694,15 @@ Core::core_event_received(const CoreLinkEvent *event)
   switch(core_event)
     {
     case CoreLinkEvent::CORE_EVENT_MODE_SUSPENDED:
-      set_operation_mode(OPERATION_MODE_SUSPENDED);
+      set_operation_mode_no_event(OPERATION_MODE_SUSPENDED);
       break;
 
     case CoreLinkEvent::CORE_EVENT_MODE_QUIET:
-      set_operation_mode(OPERATION_MODE_QUIET);
+      set_operation_mode_no_event(OPERATION_MODE_QUIET);
       break;
 
     case CoreLinkEvent::CORE_EVENT_MODE_NORMAL:
-      set_operation_mode(OPERATION_MODE_NORMAL);
+      set_operation_mode_no_event(OPERATION_MODE_NORMAL);
       break;
 
     default:

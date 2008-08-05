@@ -287,7 +287,7 @@ dnl GLIB
 dnl
 
 PKG_CHECK_MODULES(GLIB,
-                glib-2.0 \
+                glib-2.0 >= 2.6.0 \
                 gmodule-2.0 \
                 gthread-2.0)
 
@@ -581,6 +581,10 @@ dnl
 dnl Defines
 dnl
 
+if test "x$config_tests" = "xyes"; then
+   config_text=yes
+fi
+
 HAVE_GCONF=
 if test "x$GCONF_LIBS" != "x" -a "x$config_gconf" = "xyes"; then
    AC_DEFINE(HAVE_GCONF,,[Define if GConf is available])
@@ -775,7 +779,7 @@ AC_OUTPUT(Makefile
 
 
 
-dnl ========================================================================
+dnl ========================================================================1
 
 echo ""
 echo "                        Workrave $VERSION"

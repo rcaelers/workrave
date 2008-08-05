@@ -1016,10 +1016,13 @@ Timer::set_state(int elapsed, int idle, int overdue)
       elapsed_idle_time = autoreset_interval;
     }
 
-  total_overdue_time = overdue;
-  if (get_elapsed_time() > limit_interval)
+  if (overdue != -1)
     {
-      total_overdue_time -= (get_elapsed_time() - limit_interval);
+      total_overdue_time = overdue;
+      if (get_elapsed_time() > limit_interval)
+        {
+          total_overdue_time -= (get_elapsed_time() - limit_interval);
+        }
     }
   
   compute_next_reset_time();

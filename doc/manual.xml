@@ -2,6 +2,9 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
 	  <!ENTITY appversion "1.9.1">
 	  <!ENTITY appurl "http://www.workrave.org">
+	  <!ENTITY docurl "http://www.workrave.org/doc">
+	  <!ENTITY intro SYSTEM "intro.xml">
+	  <!ENTITY faq SYSTEM "faq.xml">
 	  ]>
 
 <book lang="en">
@@ -38,7 +41,6 @@
     </legalnotice>
 
   </bookinfo>
-
 
   &intro;
   &faq;

@@ -1,6 +1,6 @@
 // HistoryLinkEvent.hh --- An event of the Workrave core
 //
-// Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -49,9 +49,11 @@ public:
 
   guint8 *get_log_data() const
   {
+    log.ref();
     return log.data;
   }
 
+  
 private:
   ByteArray log;
 };

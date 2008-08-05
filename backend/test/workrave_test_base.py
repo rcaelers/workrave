@@ -57,7 +57,9 @@ class WorkraveTestBase(unittest.TestCase):
                        "--make-pidfile",
                        "--exec",
                        #"/usr/bin/valgrind",
-                       #"--", "-v", "--log-file=" + cwd +"/val." + str(instance),  
+                       #"--", "-v", "--trace-children=yes", "--leak-check=full",
+                       #"--show-reachable=yes",
+                       #"--log-file=" + cwd +"/val." + str(instance),  
                        cwd + "/frontend/text/src/workrave",
                        env)
                   

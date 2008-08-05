@@ -31,7 +31,7 @@
 
 // Generic GUI
 class BreakControl;
-class ISoundPlayer;
+class SoundPlayer;
 class IBreakWindow;
 class PreludeWindow;
 class MainWindow;
@@ -78,7 +78,7 @@ public:
   //
   virtual void event_received(LinkEvent *event);
 
-  ISoundPlayer *get_sound_player() const;
+  SoundPlayer *get_sound_player() const;
 
   static gboolean static_on_timer(gpointer data);
 
@@ -113,7 +113,7 @@ private:
   ICore *core;
 
   //! The sound player
-  ISoundPlayer *sound_player;
+  SoundPlayer *sound_player;
 
   //! Interface to the break window.
   IBreakWindow *break_window;
@@ -159,7 +159,7 @@ GUI::get_instance()
 }
 
 //! Returns the sound player
-inline ISoundPlayer *
+inline SoundPlayer *
 GUI::get_sound_player() const
 {
   return sound_player;

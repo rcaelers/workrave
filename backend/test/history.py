@@ -162,7 +162,7 @@ class HistoryBaseTest(WorkraveTestBase):
                 
                 self.failUnlessEqual(ref, ret, "History NOK\n"
                                      + ref + "\n" +
-                                     ret + "\nFrom" +  str(w))
+                                     ret + "\nFrom " +  str(w))
             
 
 class HistoryTest1(HistoryBaseTest):

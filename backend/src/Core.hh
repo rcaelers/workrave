@@ -105,7 +105,7 @@ public:
 
   OperationMode get_operation_mode();
   OperationMode set_operation_mode(OperationMode mode, bool persistent = true);
-  OperationMode set_operation_mode_no_event(OperationMode mode, bool persistent);
+  OperationMode set_operation_mode_no_event(OperationMode mode, bool persistent = true);
   void set_freeze_all_breaks(bool freeze);
 
   void stop_prelude(BreakId break_id);

@@ -1,6 +1,6 @@
 // ByteArray.hh
 //
-// Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -62,7 +62,7 @@ namespace workrave
       refcount = 1;
     }
 
-    void ref()
+    void ref() const
     {
       refcount++;
     }
@@ -83,7 +83,7 @@ namespace workrave
 
     int size;
     guint8 *data;
-    int refcount;
+    mutable int refcount;
 
   private:
     ByteArray(const ByteArray &)
