@@ -109,6 +109,7 @@ public:
   void interrupt_grab();
 
   AppletControl *get_applet_control() const;
+  bool is_status_icon_visible() const;
   MainWindow *get_main_window() const;
   Gtk::Tooltips *get_tooltips() const;
   SoundPlayer *get_sound_player() const;

@@ -59,6 +59,7 @@ public:
   void open_window();
   void close_window();
   void set_applet_active(bool a);
+  void status_icon_changed();
 
   void update();
   void relocate_window(int width, int height);

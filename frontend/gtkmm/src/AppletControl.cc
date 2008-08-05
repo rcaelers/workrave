@@ -243,7 +243,7 @@ AppletControl::set_applet_state(AppletType type, AppletWindow::AppletState state
     }
 #endif
 
-  if (!is_visible())
+  if (enabled && !is_visible())
     {
       delayed_show = 5;
     }
@@ -283,7 +283,7 @@ void
 AppletControl::heartbeat()
 {
   TRACE_ENTER("AppletControl::heartbeat");
-  if (delayed_show < 0 && !is_visible())
+  if (delayed_show < 0 && enabled && !is_visible())
     {
       delayed_show = 60;
     }
@@ -329,6 +329,11 @@ AppletControl::read_configuration()
   bool previous_enabled = enabled;
   enabled = TimerBoxControl::is_enabled("applet");
 
+  if (!enabled)
+    {
+      delayed_show = -1;
+    }
+  
   if (!previous_enabled && enabled)
     {
       show();

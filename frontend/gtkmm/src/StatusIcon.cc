@@ -71,6 +71,8 @@ StatusIcon::insert_icon()
   OperationMode mode = core->get_operation_mode();
   status_icon = Gtk::StatusIcon::create(mode_icons[mode]);
 
+  status_icon->signal_size_changed().connect(sigc::mem_fun(*this, &StatusIcon::on_size_changed));
+  
 #ifdef HAVE_STATUSICON_SIGNAL 
   status_icon->signal_activate().connect(sigc::mem_fun(*this, &StatusIcon::on_activate));
   status_icon->signal_popup_menu().connect(sigc::mem_fun(*this, &StatusIcon::on_popup_menu));
@@ -90,6 +92,11 @@ void StatusIcon::set_operation_mode(OperationMode m)
   status_icon->set(mode_icons[m]);
 }
 
+bool StatusIcon::is_embedded() const
+{
+  return status_icon->is_embedded();
+}
+
 void StatusIcon::on_activate()
 {
   main_window.on_activate();
@@ -101,6 +108,12 @@ void StatusIcon::on_popup_menu(guint button, guint activate_time)
 
   // Note the 1 is a hack. It used to be 'button'. See bugzilla 598
   Menus::get_instance()->popup(Menus::MENU_APPLET, 1, activate_time);
+}
+
+bool StatusIcon::on_size_changed(guint size)
+{
+  bool visible = status_icon->is_embedded();
+  main_window.status_icon_changed();
 }
 
 #ifndef HAVE_STATUSICON_SIGNAL 

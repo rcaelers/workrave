@@ -350,7 +350,8 @@ MainWindow::close_window()
 #elif defined(PLATFORM_OS_OSX)
   hide_all();
 #else
-  if (applet_active)
+  GUI *gui = GUI::get_instance();
+  if (applet_active || gui->is_status_icon_visible())
     {
       hide_all();
     }
@@ -379,7 +380,8 @@ MainWindow::on_delete_event(GdkEventAny *)
   AppletControl *applet_control = gui->get_applet_control();
   if (applet_control != NULL)
     {
-      terminate = !applet_control->is_visible();
+      terminate = ( !applet_control->is_visible() &&
+                    !gui->is_status_icon_visible() );
     }
 
   if (terminate)
@@ -651,7 +653,8 @@ MainWindow::set_applet_active(bool a)
 
   if (!enabled)
     {
-      if (applet_active)
+      GUI *gui = GUI::get_instance();
+      if (applet_active || gui->is_status_icon_visible())
         {
           hide_all();
         }
@@ -665,6 +668,26 @@ MainWindow::set_applet_active(bool a)
   TRACE_EXIT();
 }
 
+
+void
+MainWindow::status_icon_changed()
+{
+  TRACE_ENTER("MainWindow::status_icon_changed");
+  if (!enabled)
+    {
+      GUI *gui = GUI::get_instance();
+      if (applet_active || gui->is_status_icon_visible())
+        {
+          hide_all();
+        }
+      else
+        {
+          iconify();
+          show_all();
+        }
+    }
+  TRACE_EXIT();
+}
 
 bool
 MainWindow::on_configure_event(GdkEventConfigure *event)

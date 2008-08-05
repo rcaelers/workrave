@@ -52,6 +52,7 @@ public:
 
   void set_operation_mode(OperationMode m);
   void set_timers_tooltip(std::string& tip);
+  bool is_embedded() const;
 #ifdef PLATFORM_OS_WIN32
   GdkFilterReturn win32_filter_func (void *xevent, GdkEvent *event);
 #endif
@@ -60,6 +61,7 @@ private:
   void insert_icon();
   void on_activate();
   void on_popup_menu(guint button, guint activate_time);
+  bool on_size_changed(guint size);
 
 #ifndef HAVE_STATUSICON_SIGNAL 
   static void activate_callback(GtkStatusIcon *si, gpointer callback_data);
