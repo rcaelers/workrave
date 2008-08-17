@@ -1,0 +1,25 @@
+diff -ur gnet-2.0.7/src/makefile.mingw source/gnet-2.0.7/src/makefile.mingw
+--- gnet-2.0.7/src/makefile.mingw	2005-02-10 10:35:34.000000000 +0100
++++ source/gnet-2.0.7/src/makefile.mingw	2006-01-28 15:34:41.000000000 +0100
+@@ -1,6 +1,6 @@
+-CC = gcc
+-FLAGS = -g -Wall -mno-cygwin -mcpu=pentium -DGNET_EXPERIMENTAL=1
+-INCLUDE = -I./ `pkg-config --cflags glib-2.0`
+-LIBS = `pkg-config --libs glib-2.0` -lws2_32
++#CC = gcc
++FLAGS = -g -O2 -Wall -DGNET_EXPERIMENTAL=1
++INCLUDE = -I./ -I.. `pkg-config --cflags glib-2.0`
++LIBS = `pkg-config --libs glib-2.0 gthread-2.0` -lws2_32
+ OFILES = gnet-private.o gnet.o ipv6.o inetaddr.o iochannel.o tcp.o udp.o mcast.o socks-private.o socks.o conn.o conn-http.o server.o pack.o md5.o sha.o uri.o base64.o
+ 
+@@ -23,4 +23,9 @@
+ 	$(CC) $(FLAGS) $(INCLUDE) -c sha.c
+ 	$(CC) $(FLAGS) $(INCLUDE) -c uri.c
+ 	$(CC) $(FLAGS) $(INCLUDE) -c base64.c
+-	dllwrap $(INCLUDE) --export-all --output-def gnet.def --implib libgnet-2.0.a -o gnet-2.0.dll $(OFILES) $(LIBS)
++	${CC} -shared -o gnet-2.0.dll -Wl,--out-implib,libgnet-2.0.a -Wl,--enable-auto-import -Wl,--whole-archive $(OFILES) -Wl,--no-whole-archive $(LIBS)
++	i386-mingw32msvc-dlltool --def ../gnet.def --dllname gnet-2.0.dll --output-lib libgnet-2.0.a
++
++##        i386-mingw32msvc-dllwrap $(INCLUDE) -def ../gnet.def --output-def gnet.def --implib libgnet-2.0.a -o gnet-2.0.dll $(OFILES) $(LIBS)
++
++

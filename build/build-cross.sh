@@ -16,32 +16,32 @@ TARGET=i386-mingw32msvc
 
 # where does it go?
 
-PREFIX=/usr/local/cross-tools
+PREFIX=/usr/local/cross-tools-gcc421
 
 # you probably don't need to change anything from here down
 
 TOPDIR=`pwd`
 SRCDIR="$TOPDIR/source"
 
-# These are the files from the MinGW 1.1 release
-
-
-
 MINGW_URL=http://surfnet.dl.sourceforge.net/sourceforge/mingw
-GCC=gcc-3.4.5-20060117-1
-GCC_ARCHIVE=gcc-core-3.4.5-20060117-1-src.tar.gz
-GXX_ARCHIVE=gcc-g++-3.4.5-20060117-1-src.tar.gz
+GCC=gcc-4.2.1-2-src
+GCC_ARCHIVE=gcc-4.2.1-2-src.tar.gz  
 
-BINUTILS=binutils-2.16.91-20060119-1
-#BINUTILS=binutils-2.17.50-20070129-1-src
-BINUTILS_ARCHIVE=$BINUTILS-src.tar.gz
-MINGW=mingw-runtime-3.11
+BINUTILS=binutils-2.17.50-20060824-1-src
+BINUTILS_ARCHIVE=$BINUTILS.tar.gz
+
+MINGW=mingw-runtime-3.13-20070825-1
 MINGW_ARCHIVE=$MINGW.tar.gz
-W32API=w32api-3.8
+
+W32API=w32api-3.11
 W32API_ARCHIVE=$W32API.tar.gz
+
 UTILS=mingw-utils-0.3
 UTILS_PATCH=mingw-utils-0.3.diff
 UTILS_ARCHIVE=mingw-utils-0.3-src.tar.gz
+
+HEADERS_ARCHIVE=mingw-w64-headers-20070802.tar.bz2
+CRT_ARCHIVE=mingw-w64-crt-20070802.tar.bz2
 
 
 # need install directory first on the path so gcc can find binutils
@@ -78,11 +78,13 @@ download_files()
 		exit 1
 	fi
 	download_file "$GCC_ARCHIVE" "$MINGW_URL"
-	download_file "$GXX_ARCHIVE" "$MINGW_URL"
+	#download_file "$GXX_ARCHIVE" "$MINGW_URL"
 	download_file "$BINUTILS_ARCHIVE" "$MINGW_URL"
 	download_file "$MINGW_ARCHIVE" "$MINGW_URL"
 	download_file "$W32API_ARCHIVE" "$MINGW_URL"
 	download_file "$UTILS_ARCHIVE" "$MINGW_URL"
+	download_file "$HEADERS_ARCHIVE" "$MINGW_URL"
+	download_file "$CRT_ARCHIVE" "$MINGW_URL"
 }
 
 install_libs()
@@ -145,7 +147,7 @@ extract_gcc()
 	rm -rf "$GCC"
 	echo "Extracting gcc"
 	gzip -dc "$SRCDIR/$GCC_ARCHIVE" | tar xf -
-	gzip -dc "$SRCDIR/$GXX_ARCHIVE" | tar xf -
+	##gzip -dc "$SRCDIR/$GXX_ARCHIVE" | tar xf -
 
 	#cd "$SRCDIR/$GCC/libstdc++-v3/config"
         #ln -s . config
@@ -172,16 +174,27 @@ configure_gcc()
 	"$SRCDIR/$GCC/configure" -v \
 		--prefix="$PREFIX" --target=$TARGET \
 		--with-headers="$PREFIX/$TARGET/include" \
-		--with-gnu-as --with-gnu-ld \
-		--without-newlib --disable-multilib &> configure.log
+		--with-gcc --with-gnu-as --with-gnu-ld \
+	        --enable-threads=win32 --disable-win32-registry --enable-languages=c,c++ \
+		--enable-cxx-flags='-fno-function-sections -fno-data-sections' \
+		--disable-sjlj-exceptions --enable-libstdcxx-debug \
+		--enable-version-specific-runtime-libs --disable-bootstrap \
+		--disable-libgomp \
+		--with-tune=generic --disable-werror \
+		--disable-nls  \
+		  &> configure.log
 	cd "$TOPDIR"
 }
+
+#		--program-suffix=-dw2 --with-arch=i486 --with-tune=generic --disable-werror \
+#		--disable-nls  \
 
 build_gcc()
 {
 	cd "$TOPDIR/gcc-$TARGET"
 	echo "Building gcc"
-	make LANGUAGES="c c++" &> make.log
+	make BOOTCFLAGS="-O2 -D__USE_MINGW_ACCESS" CFLAGS="-O2 -D__USE_MINGW_ACCESS" CXXFLAGS="-O2" &> make.log
+
 	if test $? -ne 0; then
 		echo "make failed - log available: gcc-$TARGET/make.log"
 		exit 1
@@ -193,7 +206,10 @@ install_gcc()
 {
 	cd "$TOPDIR/gcc-$TARGET"
 	echo "Installing gcc"
-	make LANGUAGES="c c++" install &> make-install.log
+	make install &> make-install.log
+#	make -C gcc install-shared-libgcc &> make-install-gcc.log
+#	make -C mingw32/libstdc++-v3/  install-shared-libstdc++ &> make-install-stdc.log
+
 	if test $? -ne 0; then
 		echo "install failed - log available: gcc-$TARGET/make-install.log"
 		exit 1
