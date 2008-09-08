@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave Japanese\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2008-07-03 21:19+0200\n"
+"POT-Creation-Date: 2008-08-30 09:41+0200\n"
 "PO-Revision-Date: 2007-03-09 16:03+0900\n"
 "Last-Translator: Masanobu Yokota <masanobu.yokota@nifty.com>\n"
 "Language-Team: Masanobu Yokota <masanobu.yokota@nifty.com>\n"
@@ -218,7 +218,7 @@ msgstr "休憩開始"
 msgid "Workrave"
 msgstr "Workrave(仕事に夢中?)"
 
-#: ../frontend/common/src/SoundPlayer.cc:550
+#: ../frontend/common/src/SoundPlayer.cc:561
 msgid "Custom"
 msgstr ""
 
@@ -387,128 +387,129 @@ msgstr "一日の制限時間の超過は %s"
 msgid "Preferences"
 msgstr "設定"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:84
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:86
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:113
 msgid "General"
 msgstr "一般"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:89
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:91
 #, fuzzy
 msgid "Sounds"
 msgstr "サウンド："
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:93
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:95
 msgid "Status Window"
 msgstr "ステータス・ウィンドウ"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:97
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:99
 msgid "Applet"
 msgstr "アプレット"
 
 #. Notebook
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:105
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:107
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:165
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:194
 msgid "Timers"
 msgstr "タイマー"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:106
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:108
 msgid "User interface"
 msgstr "ユーザーインターフェース"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:108
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:110
 msgid "Network"
 msgstr "ネットワーク"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:159
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:161
 msgid "No blocking"
 msgstr "ブロックなし"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:161
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:163
 msgid "Block input"
 msgstr "インプットをブロック"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:163
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:165
 msgid "Block input and screen"
 msgstr "インプットとスクリーンをブロック"
 
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:182
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:184
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:139
 msgid "Options"
 msgstr "オプション"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:184
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:186
 msgid "Block mode:"
 msgstr "ブロック（操作禁止）モード："
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:204
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:206
 msgid "System default"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:244
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:246
 msgid "(font not available)"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:269
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:271
 msgid "Language:"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:273
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:275
 msgid "Start Workrave on Windows startup"
 msgstr ""
 
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:296
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:298
 #, fuzzy
 msgid "Sound Options"
 msgstr "オプション"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:304
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:306
 msgid "No sounds"
 msgstr "サウンドなし"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:306
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:308
 msgid "Play sounds using sound card"
 msgstr "サウンドカードを使って音を出す"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:308
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:310
 msgid "Play sounds using built-in speaker"
 msgstr "内蔵スピーカを使って音を出す"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:328
-msgid "Sound:"
-msgstr "サウンド："
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:329
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:334
 msgid "Volume:"
 msgstr ""
 
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:337
+msgid "Sound:"
+msgstr "サウンド："
+
 #. Sound themes
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:332
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:343
 msgid "Sound Events"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:342
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:353
 #, fuzzy
 msgid "Sound Theme:"
 msgstr "サウンド："
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:368
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:408
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:376
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:394
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:416
 msgid "Play"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:373
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:381
 msgid "Event"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:389
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:397
 #, fuzzy
 msgid "Choose a sound"
 msgstr "サウンドなし"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:397
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:405
 msgid "Wavefiles"
 msgstr ""
 

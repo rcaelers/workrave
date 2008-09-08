@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2008-07-03 21:19+0200\n"
+"POT-Creation-Date: 2008-08-30 09:41+0200\n"
 "PO-Revision-Date: 2008-07-26 11:02+0200\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -215,7 +215,7 @@ msgstr "Vilopaus påbörjad"
 msgid "Workrave"
 msgstr "Workrave"
 
-#: ../frontend/common/src/SoundPlayer.cc:550
+#: ../frontend/common/src/SoundPlayer.cc:561
 msgid "Custom"
 msgstr ""
 
@@ -383,128 +383,129 @@ msgstr "Daglig gräns överskriden med %s"
 msgid "Preferences"
 msgstr "Inställningar"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:84
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:86
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:113
 msgid "General"
 msgstr "Allmänt"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:89
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:91
 #, fuzzy
 msgid "Sounds"
 msgstr "Ljud:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:93
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:95
 msgid "Status Window"
 msgstr "Statusfönster"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:97
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:99
 msgid "Applet"
 msgstr "Panelprogram"
 
 #. Notebook
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:105
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:107
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:165
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:194
 msgid "Timers"
 msgstr "Tidtagare"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:106
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:108
 msgid "User interface"
 msgstr "Användargränssnitt"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:108
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:110
 msgid "Network"
 msgstr "Nätverk"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:159
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:161
 msgid "No blocking"
 msgstr "Ingen blockering"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:161
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:163
 msgid "Block input"
 msgstr "Blockera tangentbord/mus"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:163
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:165
 msgid "Block input and screen"
 msgstr "Blockera tangentbord/mus och skärm"
 
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:182
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:184
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:139
 msgid "Options"
 msgstr "Alternativ"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:184
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:186
 msgid "Block mode:"
 msgstr "Blockeringsläge:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:204
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:206
 msgid "System default"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:244
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:246
 msgid "(font not available)"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:269
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:271
 msgid "Language:"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:273
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:275
 msgid "Start Workrave on Windows startup"
 msgstr ""
 
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:296
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:298
 #, fuzzy
 msgid "Sound Options"
 msgstr "Alternativ"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:304
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:306
 msgid "No sounds"
 msgstr "Inga ljud"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:306
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:308
 msgid "Play sounds using sound card"
 msgstr "Spela upp ljud med ljudkort"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:308
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:310
 msgid "Play sounds using built-in speaker"
 msgstr "Spela upp ljud med den inbyggda högtalaren"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:328
-msgid "Sound:"
-msgstr "Ljud:"
-
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:329
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:334
 msgid "Volume:"
 msgstr ""
 
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:337
+msgid "Sound:"
+msgstr "Ljud:"
+
 #. Sound themes
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:332
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:343
 msgid "Sound Events"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:342
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:353
 #, fuzzy
 msgid "Sound Theme:"
 msgstr "Ljud:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:368
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:408
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:376
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:394
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:416
 msgid "Play"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:373
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:381
 msgid "Event"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:389
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:397
 #, fuzzy
 msgid "Choose a sound"
 msgstr "Inga ljud"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:397
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:405
 msgid "Wavefiles"
 msgstr ""
 
@@ -539,7 +540,7 @@ msgid "Silent in %s"
 msgstr "Tyst om %s"
 
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:173
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "Rest break for %s"
 msgstr "Vilopaus under %s minuter"
 
