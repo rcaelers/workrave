@@ -807,7 +807,7 @@ DistributionManager::get_username() const
 void
 DistributionManager::set_username(string name)
 {
-  configurator->set_value(CoreConfig::CFG_KEY_DISTRIBUTION + CoreConfig::CFG_KEY_DISTRIBUTION_TCP_USERNAME, name);
+  configurator->set_value(CoreConfig::CFG_KEY_DISTRIBUTION_TCP_USERNAME, name);
 }
 
 
