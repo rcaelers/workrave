@@ -32,9 +32,14 @@ public:
   KdeSoundPlayer();
   virtual ~KdeSoundPlayer();
 
-  bool capability(SounCapability cap);
+  bool get_sound_enabled(SoundPlayer::SoundEvent snd, bool &enabled);
+  void set_sound_enabled(SoundPlayer::SoundEvent snd, bool enabled);
+  bool get_sound_wav_file(SoundPlayer::SoundEvent snd, std::string &filename);
+  void set_sound_wav_file(SoundPlayer::SoundEvent snd, const std::string &wav_file);
+
+  bool capability(SoundPlayer::SoundCapability cap);
   void play_sound(string wavfile);
-  void play_sound(SoundEvent snd);
+  void play_sound(SoundPlayer::SoundEvent snd);
 
 private:
   KInstance *kinstance;
