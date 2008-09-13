@@ -132,6 +132,17 @@ AC_CHECK_MEMBER(MOUSEHOOKSTRUCT.hwnd,AC_DEFINE(HAVE_STRUCT_MOUSEHOOKSTRUCT,,[str
 AC_TYPE_SIGNAL
 AC_CHECK_FUNCS([gettimeofday nanosleep select setlocale realpath])
 
+
+have_extern_timezone=no
+AC_MSG_CHECKING([external timezone variable])
+AC_TRY_COMPILE([#include <time.h>], 
+        [ timezone += 1;
+          return 0;],
+        [have_extern_timezone=yes
+         AC_DEFINE(HAVE_EXTERN_TIMEZONE, 1, "External timezone")
+         AC_MSG_RESULT(yes)],
+         AC_MSG_RESULT(no))
+
 dnl
 dnl Debug
 dnl

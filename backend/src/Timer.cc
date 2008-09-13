@@ -28,6 +28,7 @@ static const char rcsid[] = "$Id$";
 #include <sstream>
 #include <stdio.h>
 #include <math.h>
+#include <time.h>
 
 #include "CoreFactory.hh"
 #include "ICore.hh"
