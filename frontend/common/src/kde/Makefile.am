@@ -23,6 +23,6 @@ libworkrave_frontend_common_kde_la_CXXFLAGS = \
 			-D_XOPEN_SOURCE=600 -W -I$(top_srcdir)/common/src/ \
 			-I$(top_srcdir)/frontend/common/include \
 			@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ \
-			$(KDE_CXXFLAGS) @all_includes@ 
+			$(KDE_CXXFLAGS) @ALL_INCLUDES@ 
 
 endif

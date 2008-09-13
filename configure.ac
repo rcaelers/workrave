@@ -133,16 +133,27 @@ AC_TYPE_SIGNAL
 AC_CHECK_FUNCS([gettimeofday nanosleep select setlocale realpath])
 
 
+have_extern_timezone_defined=no
+AC_MSG_CHECKING([external timezone variable defined in time.h])
+AC_TRY_COMPILE([#include <time.h>], 
+        [ timezone += 1;
+          return 0;],
+        [have_extern_timezone_defined=no=yes
+         AC_DEFINE(HAVE_EXTERN_TIMEZONE_DEFINED, 1, "External timezone")
+         AC_MSG_RESULT(yes)],
+         AC_MSG_RESULT(no))
+
 have_extern_timezone=no
 AC_MSG_CHECKING([external timezone variable])
 AC_TRY_COMPILE([#include <time.h>], 
-        [ timezone += 1;
+        [ extern long longtime;
+	  timezone += 1;
           return 0;],
         [have_extern_timezone=yes
          AC_DEFINE(HAVE_EXTERN_TIMEZONE, 1, "External timezone")
          AC_MSG_RESULT(yes)],
          AC_MSG_RESULT(no))
-
+	 
 dnl
 dnl Debug
 dnl
@@ -353,28 +364,30 @@ dnl
 dnl KDE
 dnl
   
-KDE_MISC_TESTS
-if test "x$config_kde" = "xyes";
-then
-    AC_BASE_PATH_KDE
+dnl KDE_MISC_TESTS
+dnl if test "x$config_kde" = "xyes";
+dnl then
+    dnl AC_BASE_PATH_KDE
 
     dnl for NLS support. Call them in this order!
     dnl WITH_NLS is for the po files
     dnl AM_KDE_WITH_NLS
     dnl    KDE_PROG_LIBTOOL
 
-    KDE_USE_QT(3.0.0)
-    AC_PATH_KDE
+    dnl KDE_USE_QT(3.0.0)
+    dnl AC_PATH_KDE
 
     dnl PACKAGE set before
-    AC_CHECK_KDEMAXPATHLEN
+    dnl AC_CHECK_KDEMAXPATHLEN
 
-    KDE_CREATE_SUBDIRSLIST
-else
+    dnl KDE_CREATE_SUBDIRSLIST
+    
+    
+dnl else
     build_arts="no"
     include_ARTS_TRUE='#'
     include_ARTS_FALSE=
-fi
+dnl fi
 
   
 dnl
