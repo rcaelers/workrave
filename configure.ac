@@ -364,30 +364,28 @@ dnl
 dnl KDE
 dnl
   
-dnl KDE_MISC_TESTS
-dnl if test "x$config_kde" = "xyes";
-dnl then
-    dnl AC_BASE_PATH_KDE
+KDE_MISC_TESTS
+if test "x$config_kde" = "xyes";
+then
+    AC_BASE_PATH_KDE
 
     dnl for NLS support. Call them in this order!
     dnl WITH_NLS is for the po files
-    dnl AM_KDE_WITH_NLS
-    dnl    KDE_PROG_LIBTOOL
+    AM_KDE_WITH_NLS
+    KDE_PROG_LIBTOOL
 
-    dnl KDE_USE_QT(3.0.0)
-    dnl AC_PATH_KDE
+    KDE_USE_QT(3.0.0)
+    AC_PATH_KDE
 
     dnl PACKAGE set before
-    dnl AC_CHECK_KDEMAXPATHLEN
+    AC_CHECK_KDEMAXPATHLEN
 
-    dnl KDE_CREATE_SUBDIRSLIST
-    
-    
-dnl else
+    KDE_CREATE_SUBDIRSLIST
+else
     build_arts="no"
     include_ARTS_TRUE='#'
     include_ARTS_FALSE=
-dnl fi
+fi
 
   
 dnl
