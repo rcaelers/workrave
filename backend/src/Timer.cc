@@ -961,8 +961,7 @@ Timer::deserialize_state(const std::string &state, int version)
 #endif
             << tzname[0] << " " 
             << tzname[1] << " " 
-            << timezone << " "
-            << daylight);
+            << timezone);
   
   TRACE_MSG(si << " " << llt << " " << lle);
   TRACE_MSG(snooze_inhibited);

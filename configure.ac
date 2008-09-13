@@ -153,6 +153,7 @@ AC_TRY_COMPILE([#include <time.h>],
          AC_DEFINE(HAVE_EXTERN_TIMEZONE, 1, "External timezone")
          AC_MSG_RESULT(yes)],
          AC_MSG_RESULT(no))
+
 	 
 dnl
 dnl Debug
