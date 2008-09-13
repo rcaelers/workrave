@@ -371,8 +371,8 @@ then
 
     dnl for NLS support. Call them in this order!
     dnl WITH_NLS is for the po files
-    AM_KDE_WITH_NLS
-    KDE_PROG_LIBTOOL
+    dnl AM_KDE_WITH_NLS
+    dnl KDE_PROG_LIBTOOL
 
     KDE_USE_QT(3.0.0)
     AC_PATH_KDE
