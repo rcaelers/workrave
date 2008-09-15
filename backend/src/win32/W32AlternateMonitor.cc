@@ -36,7 +36,10 @@
 #include "debug.hh"
 
 #include <sstream>
+
+#if !defined(PLATFORM_OS_WIN32_NATIVE)
 #include <unistd.h>
+#endif
 
 #include "W32AlternateMonitor.hh"
 #include "Harpoon.hh"

@@ -89,7 +89,7 @@ public:
   virtual void terminate();
 
   //
-  void core_event_notify(CoreEvent event);
+  void core_event_notify(const CoreEvent event);
   void core_event_operation_mode_changed(const OperationMode m);
 
   // Internal public methods

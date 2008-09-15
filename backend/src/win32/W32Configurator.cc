@@ -298,7 +298,7 @@ void
 W32Configurator::key_split(const string &key, string &parent, string &child) const
 {
   const char *s = key.c_str();
-  char *slash = strrchr(s, '/');
+  const char *slash = strrchr(s, '/');
   if (slash)
     {
       parent = key.substr(0, slash-s);

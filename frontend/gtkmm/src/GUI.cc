@@ -1450,7 +1450,8 @@ GUI::is_status_icon_visible() const
 void
 GUI::win32_init_filter()
 {
-  GtkWidget *window = main_window->Gtk::Widget::gobj();
+  // FIXME: GtkWidget *window = main_window->Gtk::Widget::gobj();
+  GtkWidget *window = (GtkWidget *)main_window->gobj();
   GdkWindow *gdk_window = window->window;
   gdk_window_add_filter(gdk_window, win32_filter_func, this);
 }
