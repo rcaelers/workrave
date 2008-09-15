@@ -231,13 +231,13 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
   description_text.set_editable(false);
   image_frame.add(image);
 
-  pause_button =  manage(new Gtk::Button());
+  pause_button =  Gtk::manage(new Gtk::Button());
   Gtk::Widget *description_widget;
 
   if (dialog_action_area != NULL)
     {
-      back_button =  manage(new Gtk::Button(Gtk::Stock::GO_BACK));
-      forward_button =  manage(new Gtk::Button(Gtk::Stock::GO_FORWARD));
+      back_button =  Gtk::manage(new Gtk::Button(Gtk::Stock::GO_BACK));
+      forward_button =  Gtk::manage(new Gtk::Button(Gtk::Stock::GO_FORWARD));
 
       dialog_action_area->pack_start(*back_button, false, false, 0);
       dialog_action_area->pack_start(*pause_button, false, false, 0);
@@ -246,18 +246,18 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
     }
   else
     {
-      back_button = manage(GtkUtil::create_custom_stock_button
+      back_button = Gtk::manage(GtkUtil::create_custom_stock_button
                            (NULL, Gtk::Stock::GO_BACK));
-      forward_button =  manage(GtkUtil::create_custom_stock_button
+      forward_button =  Gtk::manage(GtkUtil::create_custom_stock_button
                                (NULL, Gtk::Stock::GO_FORWARD));
 
-      stop_button =  manage(GtkUtil::create_custom_stock_button
+      stop_button =  Gtk::manage(GtkUtil::create_custom_stock_button
                                          (NULL, Gtk::Stock::CLOSE));
       stop_button->signal_clicked()
         .connect(sigc::mem_fun(*this, &ExercisesPanel::on_stop));
 
-      Gtk::HBox *button_box = manage(new Gtk::HBox());
-      Gtk::Label *browse_label = manage(new Gtk::Label());
+      Gtk::HBox *button_box = Gtk::manage(new Gtk::HBox());
+      Gtk::Label *browse_label = Gtk::manage(new Gtk::Label());
       string browse_label_text = "<b>";
       browse_label_text += _("Exercises player");
       browse_label_text += ":</b>";
@@ -268,9 +268,9 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
       button_box->pack_start(*forward_button, false, false, 0);
       button_box->pack_start(*stop_button, false, false, 0);
       Gtk::Alignment *button_align
-        = manage(new Gtk::Alignment(1.0, 0.0, 0.0, 0.0));
+        = Gtk::manage(new Gtk::Alignment(1.0, 0.0, 0.0, 0.0));
       button_align->add(*button_box);
-      Gtk::VBox *description_box = manage(new Gtk::VBox());
+      Gtk::VBox *description_box = Gtk::manage(new Gtk::VBox());
       description_box->pack_start(description_scroll, true, true, 0);
       description_box->pack_start(*button_align, false, false, 0);
       description_widget = description_box;
@@ -294,7 +294,7 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
     .connect(sigc::mem_fun(*this, &ExercisesPanel::on_pause));
 
 #ifdef FIXME // Causes fuzzy translations...
-  tooltips = manage( new Gtk::Tooltips() );
+  tooltips = Gtk::manage( new Gtk::Tooltips() );
   tooltips->set_tip( *back_button, _("Previous exercise") );
   tooltips->set_tip( *forward_button, _("Next exercise") );
   tooltips->set_tip( *pause_button, _("Pause exercises") );

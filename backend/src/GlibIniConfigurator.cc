@@ -248,7 +248,7 @@ void
 GlibIniConfigurator::split_key(const string &key, string &group, string &out_key) const
 {
   const char *s = key.c_str();
-  char *slash = strchr(s, '/');
+  const char *slash = strchr(s, '/');
   if (slash)
     {
       group = key.substr(0, slash-s);

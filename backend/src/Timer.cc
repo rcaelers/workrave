@@ -39,8 +39,6 @@ static const char rcsid[] = "$Id$";
 #include "TimeSource.hh"
 #include "timeutil.h"
 
-extern long timezone;
-
 using namespace std;
 using namespace workrave;
 
@@ -696,20 +694,6 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
   
   const time_t now = core->get_time();
   struct tm *tmnow = localtime(&now);
-
-  TRACE_MSG(tmnow->tm_mday << " "
-            << tmnow->tm_mon << " "
-            << tmnow->tm_year << " "
-            << tmnow->tm_hour << " "
-            << tmnow->tm_min << " "
-            << tmnow->tm_min << " "
-            << tmnow->tm_isdst << " "
-#ifdef PLATFORM_OS_UNIX            
-            << tmnow->tm_gmtoff << " "
-#endif            
-            << tzname[0] << " " 
-            << tzname[1]);
-
   
   if (activity_sensitive)
     {
@@ -950,19 +934,6 @@ Timer::deserialize_state(const std::string &state, int version)
   time_t xx = lastReset - tz;
   struct tm *lt = localtime(&xx);
 
-  TRACE_MSG(lt->tm_mday << " "
-            << lt->tm_mon << " "
-            << lt->tm_year << " "
-            << lt->tm_hour << " "
-            << lt->tm_min << " "
-            << lt->tm_isdst << " "
-#ifdef PLATFORM_OS_UNIX            
-            << lt->tm_gmtoff << " "
-#endif
-            << tzname[0] << " " 
-            << tzname[1] << " " 
-            << timezone);
-  
   TRACE_MSG(si << " " << llt << " " << lle);
   TRACE_MSG(snooze_inhibited);
 

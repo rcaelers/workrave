@@ -23,7 +23,10 @@ static const char rcsid[] = "$Id$";
 #include "config.h"
 #endif
 
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
+
 #include <iostream>
 
 #include "nls.h"

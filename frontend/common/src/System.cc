@@ -30,7 +30,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+
+#ifdef HAVE_STRINGS_H
 #include <strings.h>
+#endif
 
 #include "System.hh"
 #include "debug.hh"
@@ -56,6 +59,7 @@
 using namespace workrave;
 
 /* MinGW does not have this one yet */
+#ifndef PLATFORM_OS_WIN32_NATIVE
 #undef INTERFACE
 #define INTERFACE IShellDispatch
 DECLARE_INTERFACE_(IShellDispatch, IUnknown)
@@ -106,7 +110,7 @@ const GUID CLSID_Shell =
   0x13709620, 0xc279, 0x11ce,
   { 0xa4, 0x9e, 0x44, 0x45, 0x53, 0x54 }
 };
-
+#endif 
 #endif /* PLATFORM_OS_WIN32 */
 
 #if defined(PLATFORM_OS_UNIX)

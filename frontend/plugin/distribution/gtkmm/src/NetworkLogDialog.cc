@@ -24,7 +24,9 @@
 #include "config.h"
 #endif
 
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 #include <assert.h>
 
 #include <gtkmm/textview.h>
@@ -58,7 +60,7 @@ NetworkLogDialog::NetworkLogDialog()
   scrolled_window.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
   scrolled_window.add(*text_view);
 
-  Gtk::HBox *box = manage(new Gtk::HBox(false, 6));
+  Gtk::HBox *box = Gtk::manage(new Gtk::HBox(false, 6));
   box->pack_start(scrolled_window, true, true, 0);
 
   get_vbox()->pack_start(*box, true, true, 0);

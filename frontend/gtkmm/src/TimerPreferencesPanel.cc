@@ -24,7 +24,9 @@
 
 #include "preinclude.h"
 
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 
 #include <gtkmm/spinbutton.h>
 #include <gtkmm/checkbutton.h>
@@ -61,21 +63,21 @@ TimerPreferencesPanel::TimerPreferencesPanel
   connector = new DataConnector();
   break_id = t;
 
-  Gtk::HBox *box = manage(new Gtk::HBox(false, 6));
+  Gtk::HBox *box = Gtk::manage(new Gtk::HBox(false, 6));
 
   // Enabled/Disabled checkbox
-  Gtk::Label *enabled_lab = manage(GtkUtil::create_label(_("Enable timer"), true));
-  enabled_cb = manage(new Gtk::CheckButton());
+  Gtk::Label *enabled_lab = Gtk::manage(GtkUtil::create_label(_("Enable timer"), true));
+  enabled_cb = Gtk::manage(new Gtk::CheckButton());
   enabled_cb->add(*enabled_lab);
   enabled_cb->signal_toggled().connect(sigc::mem_fun(*this, &TimerPreferencesPanel::on_enabled_toggled));
 
 
-  HigCategoriesPanel *categories = manage(new HigCategoriesPanel());;
+  HigCategoriesPanel *categories = Gtk::manage(new HigCategoriesPanel());;
 
-  Gtk::Widget *prelude_frame = manage(create_prelude_panel());
-  Gtk::Widget *timers_frame = manage(create_timers_panel
+  Gtk::Widget *prelude_frame = Gtk::manage(create_prelude_panel());
+  Gtk::Widget *timers_frame = Gtk::manage(create_timers_panel
                                      (hsize_group, vsize_group));
-  Gtk::Widget *opts_frame = manage(create_options_panel());
+  Gtk::Widget *opts_frame = Gtk::manage(create_options_panel());
 
   categories->add(*timers_frame);
   categories->add(*opts_frame);
@@ -105,14 +107,14 @@ Gtk::Widget *
 TimerPreferencesPanel::create_prelude_panel()
 {
   // Prelude frame
-  HigCategoryPanel *hig = manage(new HigCategoryPanel(_("Break prompting")));
+  HigCategoryPanel *hig = Gtk::manage(new HigCategoryPanel(_("Break prompting")));
 
-  prelude_cb = manage(new Gtk::CheckButton(_("Prompt before breaking")));
+  prelude_cb = Gtk::manage(new Gtk::CheckButton(_("Prompt before breaking")));
   hig->add(*prelude_cb);
 
-  Gtk::HBox *max_box = manage(new Gtk::HBox());
-  has_max_prelude_cb = manage(new Gtk::CheckButton(_("Maximum number of prompts:")));
-  max_prelude_spin = manage(new Gtk::SpinButton(max_prelude_adjustment));
+  Gtk::HBox *max_box = Gtk::manage(new Gtk::HBox());
+  has_max_prelude_cb = Gtk::manage(new Gtk::CheckButton(_("Maximum number of prompts:")));
+  max_prelude_spin = Gtk::manage(new Gtk::SpinButton(max_prelude_adjustment));
   max_box->pack_start(*has_max_prelude_cb, false, false, 0);
   max_box->pack_start(*max_prelude_spin, false, false, 0);
   hig->add(*max_box);
@@ -136,15 +138,15 @@ TimerPreferencesPanel::create_prelude_panel()
 Gtk::Widget *
 TimerPreferencesPanel::create_options_panel()
 {
-  HigCategoryPanel *hig = manage(new HigCategoryPanel(_("Options")));
+  HigCategoryPanel *hig = Gtk::manage(new HigCategoryPanel(_("Options")));
 
   // Ignorable
-  ignorable_cb = manage(new Gtk::CheckButton
+  ignorable_cb = Gtk::manage(new Gtk::CheckButton
                         (_("Show 'Postpone' and 'Skip' button")));
   hig->add(*ignorable_cb);
 
   // Sensitive for activity
-  activity_sensitive_cb = manage(new Gtk::CheckButton
+  activity_sensitive_cb = Gtk::manage(new Gtk::CheckButton
                         (_("Suspend timer when inactive")));
   hig->add(*activity_sensitive_cb);
 
@@ -158,7 +160,7 @@ TimerPreferencesPanel::create_options_panel()
   if (break_id == BREAK_ID_DAILY_LIMIT)
     {
       monitor_cb
-        = manage(new Gtk::CheckButton(_("Regard micro-breaks as activity")));
+        = Gtk::manage(new Gtk::CheckButton(_("Regard micro-breaks as activity")));
       hig->add(*monitor_cb);
     }
 #endif
@@ -166,7 +168,7 @@ TimerPreferencesPanel::create_options_panel()
 #ifdef HAVE_EXERCISES
   if (break_id == BREAK_ID_REST_BREAK)
     {
-      exercises_spin = manage(new Gtk::SpinButton(exercises_adjustment));
+      exercises_spin = Gtk::manage(new Gtk::SpinButton(exercises_adjustment));
       hig->add(_("Number of exercises:"), *exercises_spin);
     }
 #endif
@@ -191,10 +193,10 @@ TimerPreferencesPanel::create_timers_panel
 (Glib::RefPtr<Gtk::SizeGroup> hsize_group,
  Glib::RefPtr<Gtk::SizeGroup> vsize_group)
 {
-  HigCategoryPanel *hig = manage(new HigCategoryPanel(_("Timers")));
+  HigCategoryPanel *hig = Gtk::manage(new HigCategoryPanel(_("Timers")));
 
   // Limit time
-  limit_tim = manage(new TimeEntry());
+  limit_tim = Gtk::manage(new TimeEntry());
   Gtk::Label *limit_lab = hig->add(break_id == BREAK_ID_DAILY_LIMIT
            ? _("Time before end:")
            : _("Time between breaks:"), *limit_tim);
@@ -206,9 +208,9 @@ TimerPreferencesPanel::create_timers_panel
     {
       const char *auto_reset_txt = _("Break duration:");
 
-      auto_reset_tim = manage(new TimeEntry());
+      auto_reset_tim = Gtk::manage(new TimeEntry());
 
-      Gtk::Label *auto_reset_lab = manage(new Gtk::Label(auto_reset_txt));
+      Gtk::Label *auto_reset_lab = Gtk::manage(new Gtk::Label(auto_reset_txt));
       hsize_group->add_widget(*auto_reset_lab);
       hig->add(*auto_reset_lab, *auto_reset_tim);
     }
@@ -218,7 +220,7 @@ TimerPreferencesPanel::create_timers_panel
     }
 
   // Snooze time
-  snooze_tim = manage(new TimeEntry());
+  snooze_tim = Gtk::manage(new TimeEntry());
   Gtk::Label *snooze_lab = hig->add(_("Postpone time:"), *snooze_tim);
   hsize_group->add_widget(*snooze_lab);
 

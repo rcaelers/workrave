@@ -960,7 +960,7 @@ Core::process_state()
 
   monitor_state = local_state;
 
-#if defined(HAVE_DISTRIBUTION) and !defined(NDEBUG)
+#if defined(HAVE_DISTRIBUTION) && !defined(NDEBUG)
   if (fake_monitor != NULL)
     {
       monitor_state = fake_monitor->get_current_state();

@@ -29,7 +29,9 @@ static const char rcsid[] = "$Id$";
 #include <stdio.h>
 #include <sstream>
 
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 
 #ifdef HAVE_SYS_STAT_H
 #include <sys/stat.h>
@@ -47,7 +49,9 @@ extern "C" {
 #define SHGetPathFromIDList SHGetPathFromIDListA
 HRESULT WINAPI SHGetSpecialFolderLocation(HWND,int,void**);
 BOOL WINAPI SHGetPathFromIDList(void *,LPSTR);
+#ifndef PLATFORM_OS_WIN32
 VOID WINAPI CoTaskMemFree(PVOID);
+#endif
 #define PathCanonicalize PathCanonicalizeA
 BOOL WINAPI PathCanonicalize(LPSTR,LPCSTR);
 #define CSIDL_APPDATA   26

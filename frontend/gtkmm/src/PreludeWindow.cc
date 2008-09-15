@@ -76,26 +76,26 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
   realize();
 
   // Time bar
-  time_bar = manage(new TimeBar);
+  time_bar = Gtk::manage(new TimeBar);
 
   // Label
-  label = manage(new Gtk::Label());
+  label = Gtk::manage(new Gtk::Label());
 
   // Box
-  Gtk::VBox *vbox = manage(new Gtk::VBox(false, 6));
+  Gtk::VBox *vbox = Gtk::manage(new Gtk::VBox(false, 6));
   vbox->pack_start(*label, false, false, 0);
   vbox->pack_start(*time_bar, false, false, 0);
 
   // Icon
-  image_icon = manage(new Gtk::Image());
+  image_icon = Gtk::manage(new Gtk::Image());
 
   // Box
-  Gtk::HBox *hbox = manage(new Gtk::HBox(false, 6));
+  Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox(false, 6));
   hbox->pack_start(*image_icon, false, false, 0);
   hbox->pack_start(*vbox, false, false, 0);
 
   // Frame
-  frame = manage(new Frame);
+  frame = Gtk::manage(new Frame);
   frame->set_frame_style(Frame::STYLE_SOLID);
   frame->set_frame_width(6);
   frame->set_border_width(6);
@@ -230,7 +230,7 @@ PreludeWindow::add(Gtk::Widget& widget)
 {
   if (! window_frame)
     {
-      window_frame = manage(new Frame());
+      window_frame = Gtk::manage(new Frame());
       window_frame->set_border_width(0);
       window_frame->set_frame_style(Frame::STYLE_BREAK_WINDOW);
       Gtk::Window::add(*window_frame);

@@ -28,6 +28,10 @@
 
 #include "preinclude.h"
 
+#ifdef PLATFORM_OS_WIN32_NATIVE
+#undef max
+#endif
+
 #include <gdkmm/rectangle.h>
 #include <gdkmm/display.h>
 #include <gdkmm/screen.h>

@@ -40,7 +40,7 @@ IconListNotebook::IconListNotebook()
 {
   icon_list.show();
   icon_list.set_headers_visible(false);
-  Gtk::ScrolledWindow *scroller = manage(new Gtk::ScrolledWindow());
+  Gtk::ScrolledWindow *scroller = Gtk::manage(new Gtk::ScrolledWindow());
   scroller->set_policy(Gtk::POLICY_NEVER, Gtk::POLICY_ALWAYS);
   scroller->set_shadow_type(Gtk::SHADOW_IN);
   scroller->show();

@@ -18,6 +18,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include <windows.h>
 #include <stdlib.h>
 #include <string.h>
@@ -41,6 +45,9 @@ DLL_CONFLICT_EXTENSION " in order to avoid any possible conflicts?\x0d\x0a"
 "Tip: If you do not understand what this all means, then please reinstall Workrave, but this time\x0d\x0a"
 "select the full installation (including the GTK+ runtime).";
 
+#ifdef PLATFORM_OS_WIN32_NATIVE
+#define strcasecmp _stricmp
+#endif
 
 static void
 check_dll(char* dll, char* orig)

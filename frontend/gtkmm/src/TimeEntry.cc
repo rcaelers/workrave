@@ -28,7 +28,9 @@
 
 #include "debug.hh"
 
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 #include "TimeEntry.hh"
 
 
@@ -43,7 +45,7 @@ TimeEntry::TimeEntry(bool millis)
 {
   this->millis = millis;
 
-  secs = manage(new Gtk::SpinButton(secs_adjustment));
+  secs = Gtk::manage(new Gtk::SpinButton(secs_adjustment));
   secs->set_numeric(true);
   secs->signal_changed().connect(sigc::mem_fun(*this, &TimeEntry::on_changed));
   secs->signal_value_changed().connect(sigc::mem_fun(*this, &TimeEntry::on_value_changed));
@@ -63,22 +65,22 @@ TimeEntry::TimeEntry(bool millis)
       secs->set_width_chars(2);
       secs->set_wrap(true);
 
-      hrs = manage(new Gtk::SpinButton(hours_adjustment));
+      hrs = Gtk::manage(new Gtk::SpinButton(hours_adjustment));
       hrs->set_numeric(true);
       hrs->set_wrap(true);
       hrs->set_width_chars(2);
       hrs->signal_changed().connect(sigc::mem_fun(*this, &TimeEntry::on_changed));
       hrs->signal_value_changed().connect(sigc::mem_fun(*this, &TimeEntry::on_value_changed));
 
-      mins = manage(new Gtk::SpinButton(mins_adjustment));
+      mins = Gtk::manage(new Gtk::SpinButton(mins_adjustment));
       mins->set_numeric(true);
       mins->set_wrap(true);
       mins->set_width_chars(2);
       mins->signal_changed().connect(sigc::mem_fun(*this, &TimeEntry::on_changed));
       mins->signal_value_changed().connect(sigc::mem_fun(*this, &TimeEntry::on_value_changed));
   
-      Gtk::Label *semi1 = manage(new Gtk::Label(":"));
-      Gtk::Label *semi2 = manage(new Gtk::Label(":"));
+      Gtk::Label *semi1 = Gtk::manage(new Gtk::Label(":"));
+      Gtk::Label *semi2 = Gtk::manage(new Gtk::Label(":"));
   
       pack_start(*hrs, 0, 0);
       pack_start(*semi1, 0, 0);

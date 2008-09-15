@@ -75,15 +75,15 @@ GtkUtil::update_custom_stock_button(Gtk::Button *btn,
 
   if (has_button_images() || !label_text)
     {
-      img = manage(new Gtk::Image(stock_id,
+      img = Gtk::manage(new Gtk::Image(stock_id,
                                   Gtk::ICON_SIZE_BUTTON));
     }
   btn->remove();
   if (label_text != NULL)
     {
-      Gtk::Label *label = manage(new Gtk::Label(label_text));
-      Gtk::HBox *hbox = manage(new Gtk::HBox(false, 2));
-      Gtk::Alignment *align = manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
+      Gtk::Label *label = Gtk::manage(new Gtk::Label(label_text));
+      Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox(false, 2));
+      Gtk::Alignment *align = Gtk::manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
       if (img != NULL)
         {
           hbox->pack_start(*img, false, false, 0);
@@ -112,7 +112,7 @@ GtkUtil::create_image_button(const char *label_text,
     {
       string icon = Util::complete_directory(image_file,
                                              Util::SEARCH_PATH_IMAGES);
-      img = manage(new Gtk::Image(icon));
+      img = Gtk::manage(new Gtk::Image(icon));
     }
   else
     {
@@ -121,9 +121,9 @@ GtkUtil::create_image_button(const char *label_text,
     }
   if (label_text != NULL && label)
     {
-      Gtk::Label *label = manage(new Gtk::Label(label_text));
-      Gtk::HBox *hbox = manage(new Gtk::HBox(false, 2));
-      Gtk::Alignment *align = manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
+      Gtk::Label *label = Gtk::manage(new Gtk::Label(label_text));
+      Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox(false, 2));
+      Gtk::Alignment *align = Gtk::manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
       if (img != NULL)
         {
           hbox->pack_start(*img, false, false, 0);

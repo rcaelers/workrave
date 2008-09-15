@@ -60,16 +60,16 @@ DailyLimitWindow::create_gui()
        "behind the computer. If your working day is not over yet,\n"
        "find something else to do, such as reviewing a document."));
 
-  Gtk::Label *label = manage(new Gtk::Label());
+  Gtk::Label *label = Gtk::manage(new Gtk::Label());
   label->set_markup(txt);
 
   // Icon
   string icon = Util::complete_directory("daily-limit.png", Util::SEARCH_PATH_IMAGES);
-  Gtk::Image *img = manage(new Gtk::Image(icon));
+  Gtk::Image *img = Gtk::manage(new Gtk::Image(icon));
   img->set_alignment(0.0, 0.0);
 
   // HBox
-  Gtk::HBox *hbox = manage(new Gtk::HBox(false, 12));
+  Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox(false, 12));
   hbox->pack_start(*img, false, false, 0);
   hbox->pack_start(*label, Gtk::EXPAND | Gtk::FILL, 0);
 
@@ -81,7 +81,7 @@ DailyLimitWindow::create_gui()
   Gtk::HButtonBox *button_box = create_break_buttons(true, true);
   if (button_box)
     {
-      box->pack_start(*manage(button_box), Gtk::EXPAND | Gtk::FILL, 0);
+      box->pack_start(*Gtk::manage(button_box), Gtk::EXPAND | Gtk::FILL, 0);
     }
   return box;
 }

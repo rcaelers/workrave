@@ -114,6 +114,7 @@ bool StatusIcon::on_size_changed(guint size)
 {
   bool visible = status_icon->is_embedded();
   main_window.status_icon_changed();
+  return true;
 }
 
 #ifndef HAVE_STATUSICON_SIGNAL 

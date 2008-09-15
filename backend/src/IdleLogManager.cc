@@ -26,7 +26,10 @@ static const char rcsid[] = "$Id$";
 #include <fstream>
 #include <sstream>
 #include <assert.h>
+
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 
 #include "Util.hh"
 #include "IdleLogManager.hh"

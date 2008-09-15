@@ -22,6 +22,10 @@
 #ifndef HARPOON_H
 #define HARPOON_H
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include <windows.h>
 #include <mbstring.h>
 
@@ -112,6 +116,8 @@ HARPOON_API char *_mbstrncpy_lowercase( const char *, const char *, int );
 #define XBUTTON1 0x0001
 #define XBUTTON2 0x0002
 
+#ifndef PLATFORM_OS_WIN32_NATIVE
+
 #define WM_XBUTTONDOWN 523
 #define WM_XBUTTONUP 524
 #define WM_XBUTTONDBLCLK 525
@@ -126,5 +132,7 @@ HARPOON_API char *_mbstrncpy_lowercase( const char *, const char *, int );
 
 #define WM_UNICHAR 265
 #define WM_APPCOMMAND 793
+
+#endif
 
 #endif /* HARPOON_H */

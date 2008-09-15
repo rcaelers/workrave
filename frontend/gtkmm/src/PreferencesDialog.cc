@@ -27,7 +27,9 @@
 #include "nls.h"
 #include "debug.hh"
 
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 #include <assert.h>
 
 #include <gtkmm/notebook.h>
@@ -78,29 +80,29 @@ PreferencesDialog::PreferencesDialog()
   inhibit_events = 0;
   
   // Pages
-  Gtk::Widget *timer_page = manage(create_timer_page());
-  Gtk::Notebook *gui_page = manage(new Gtk::Notebook());
+  Gtk::Widget *timer_page = Gtk::manage(create_timer_page());
+  Gtk::Notebook *gui_page = Gtk::manage(new Gtk::Notebook());
 
 #if !defined(PLATFORM_OS_OSX)
-  Gtk::Widget *gui_general_page = manage(create_gui_page());
+  Gtk::Widget *gui_general_page = Gtk::manage(create_gui_page());
   gui_page->append_page(*gui_general_page, _("General"));
 #endif
 
 #if 1
-  Gtk::Widget *gui_sounds_page = manage(create_sounds_page());
+  Gtk::Widget *gui_sounds_page = Gtk::manage(create_sounds_page());
   gui_page->append_page(*gui_sounds_page, _("Sounds"));
 #endif
   
-  Gtk::Widget *gui_mainwindow_page = manage(create_mainwindow_page());
+  Gtk::Widget *gui_mainwindow_page = Gtk::manage(create_mainwindow_page());
   gui_page->append_page(*gui_mainwindow_page, _("Status Window"));
 
 #if !defined(PLATFORM_OS_OSX)
-  Gtk::Widget *gui_applet_page = manage(create_applet_page());
+  Gtk::Widget *gui_applet_page = Gtk::manage(create_applet_page());
   gui_page->append_page(*gui_applet_page, _("Applet"));
 #endif
   
 #ifdef HAVE_DISTRIBUTION
-  Gtk::Widget *network_page = manage(create_network_page());
+  Gtk::Widget *network_page = Gtk::manage(create_network_page());
 #endif
 
   // Notebook
@@ -110,7 +112,7 @@ PreferencesDialog::PreferencesDialog()
   add_page(_("Network"), "network.png", *network_page);
 #endif
 
-  // Gtk::Widget *plugins_page = manage( new PluginsPreferencePage() );
+  // Gtk::Widget *plugins_page = Gtk::manage( new PluginsPreferencePage() );
   // add_page( _("Plugins"), "workrave-icon-huge.png", *plugins_page );
   
   // Dialog
@@ -154,8 +156,8 @@ Gtk::Widget *
 PreferencesDialog::create_gui_page()
 {
   // Block types
-  block_button  = manage(new Gtk::OptionMenu());
-  Gtk::Menu *block_menu = manage(new Gtk::Menu());
+  block_button  = Gtk::manage(new Gtk::OptionMenu());
+  Gtk::Menu *block_menu = Gtk::manage(new Gtk::Menu());
   Gtk::Menu::MenuList &block_list = block_menu->items();
   block_button->set_menu(*block_menu);
   block_list.push_back(Gtk::Menu_Helpers::MenuElem(_("No blocking")));
@@ -181,7 +183,7 @@ PreferencesDialog::create_gui_page()
     .connect(sigc::mem_fun(*this, &PreferencesDialog::on_block_changed));
 
   // Options
-  HigCategoryPanel *panel = manage(new HigCategoryPanel(_("Options")));
+  HigCategoryPanel *panel = Gtk::manage(new HigCategoryPanel(_("Options")));
 
   panel->add(_("Block mode:"), *block_button);
   
@@ -272,8 +274,8 @@ PreferencesDialog::create_gui_page()
 #endif
 
 #if defined(PLATFORM_OS_WIN32)
-  Gtk::Label *autostart_lab = manage(GtkUtil::create_label(_("Start Workrave on Windows startup"), false));
-  autostart_cb = manage(new Gtk::CheckButton());
+  Gtk::Label *autostart_lab = Gtk::manage(GtkUtil::create_label(_("Start Workrave on Windows startup"), false));
+  autostart_cb = Gtk::manage(new Gtk::CheckButton());
   autostart_cb->add(*autostart_lab);
   autostart_cb->signal_toggled().connect(sigc::mem_fun(*this, &PreferencesDialog::on_autostart_toggled));
 
@@ -292,15 +294,15 @@ PreferencesDialog::create_gui_page()
 Gtk::Widget *
 PreferencesDialog::create_sounds_page()
 {
-  Gtk::VBox *panel = manage(new Gtk::VBox(false, 6));
+  Gtk::VBox *panel = Gtk::manage(new Gtk::VBox(false, 6));
 
   // Options
-  HigCategoryPanel *hig = manage(new HigCategoryPanel(_("Sound Options")));
+  HigCategoryPanel *hig = Gtk::manage(new HigCategoryPanel(_("Sound Options")));
   panel->pack_start(*hig, false, false, 0);
   
   // Sound types
-  sound_button  = manage(new Gtk::OptionMenu());
-  Gtk::Menu *sound_menu = manage(new Gtk::Menu());
+  sound_button  = Gtk::manage(new Gtk::OptionMenu());
+  Gtk::Menu *sound_menu = Gtk::manage(new Gtk::Menu());
   Gtk::Menu::MenuList &sound_list = sound_menu->items();
   sound_button->set_menu(*sound_menu);
   sound_list.push_back(Gtk::Menu_Helpers::MenuElem(_("No sounds")));
@@ -327,7 +329,7 @@ PreferencesDialog::create_sounds_page()
   if (snd->capability(SoundPlayer::SOUND_CAP_VOLUME))
     {
       // Volume 
-      sound_volume_scale =  manage(new Gtk:: HScale(0.0, 100.0, 0.0));
+      sound_volume_scale =  Gtk::manage(new Gtk:: HScale(0.0, 100.0, 0.0));
       sound_volume_scale->set_increments(1.0, 5.0);
       connector->connect(SoundPlayer::CFG_KEY_SOUND_VOLUME, dc::wrap(sound_volume_scale->get_adjustment()));
 
@@ -340,11 +342,11 @@ PreferencesDialog::create_sounds_page()
   if (snd->capability(SoundPlayer::SOUND_CAP_EDIT))
     {
       // Sound themes
-      hig = manage(new HigCategoryPanel(_("Sound Events"), true));
+      hig = Gtk::manage(new HigCategoryPanel(_("Sound Events"), true));
       panel->pack_start(*hig, true, true, 0);
   
-      sound_theme_button  = manage(new Gtk::OptionMenu());
-      Gtk::Menu *sound_theme_menu = manage(new Gtk::Menu());
+      sound_theme_button  = Gtk::manage(new Gtk::OptionMenu());
+      Gtk::Menu *sound_theme_menu = Gtk::manage(new Gtk::Menu());
       sound_theme_button->set_menu(*sound_theme_menu);
 
       update_theme_selection();
@@ -382,19 +384,19 @@ PreferencesDialog::create_sounds_page()
       column = sound_treeview.get_column(cols_count - 1);
       column->set_fixed_width(40);
   
-      Gtk::ScrolledWindow *sound_scroll = manage(new Gtk::ScrolledWindow());
+      Gtk::ScrolledWindow *sound_scroll = Gtk::manage(new Gtk::ScrolledWindow());
       sound_scroll->add(sound_treeview);
       sound_scroll->set_size_request(-1, 200);
       sound_treeview.set_size_request(-1, 200);
 
       hig->add(*sound_scroll, true, true);
                                                       
-      Gtk::HBox *hbox = manage(new Gtk::HBox(false, 6));
+      Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox(false, 6));
   
-      sound_play_button = manage(new Gtk::Button(_("Play")));
+      sound_play_button = Gtk::manage(new Gtk::Button(_("Play")));
       hbox->pack_start(*sound_play_button, false, false, 0);
   
-      fsbutton = manage(new Gtk::FileChooserButton(_("Choose a sound"),
+      fsbutton = Gtk::manage(new Gtk::FileChooserButton(_("Choose a sound"),
                                                    Gtk::FILE_CHOOSER_ACTION_OPEN,
                                                    "gtk+"
                                                    ));
@@ -412,8 +414,8 @@ PreferencesDialog::create_sounds_page()
   
       hig->add(*hbox);
 
-      Gtk::HBox *selector_hbox = manage(new Gtk::HBox(false, 0));
-      Gtk::Button *selector_playbutton = manage(new Gtk::Button(_("Play")));
+      Gtk::HBox *selector_hbox = Gtk::manage(new Gtk::HBox(false, 0));
+      Gtk::Button *selector_playbutton = Gtk::manage(new Gtk::Button(_("Play")));
 
       selector_hbox->pack_end(*selector_playbutton, false, false, 0);
       selector_playbutton->show();
@@ -453,7 +455,7 @@ Gtk::Widget *
 PreferencesDialog::create_timer_page()
 {
   // Timers page
-  Gtk::Notebook *tnotebook = manage(new Gtk::Notebook());
+  Gtk::Notebook *tnotebook = Gtk::manage(new Gtk::Notebook());
   tnotebook->set_tab_pos (Gtk::POS_TOP);
   Glib::RefPtr<Gtk::SizeGroup> hsize_group
     = Gtk::SizeGroup::create(Gtk::SIZE_GROUP_HORIZONTAL);
@@ -462,9 +464,9 @@ PreferencesDialog::create_timer_page()
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
       // Label
-      Gtk::Widget *box = manage(GtkUtil::create_label_for_break
+      Gtk::Widget *box = Gtk::manage(GtkUtil::create_label_for_break
                                 ((BreakId) i));
-      TimerPreferencesPanel *tp = manage(new TimerPreferencesPanel(BreakId(i), hsize_group, vsize_group));
+      TimerPreferencesPanel *tp = Gtk::manage(new TimerPreferencesPanel(BreakId(i), hsize_group, vsize_group));
       box->show_all();
       tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*tp, *box));
     }

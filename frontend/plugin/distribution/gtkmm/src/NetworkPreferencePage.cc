@@ -28,7 +28,9 @@
 #include "debug.hh"
 
 #include <sstream>
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 
 #include <gtkmm/label.h>
 #include <gtkmm/entry.h>
@@ -55,7 +57,7 @@ NetworkPreferencePage::NetworkPreferencePage()
 {
   TRACE_ENTER("NetworkPreferencePage::NetworkPreferencePage");
 
-  Gtk::Notebook *tnotebook = manage(new Gtk::Notebook());
+  Gtk::Notebook *tnotebook = Gtk::manage(new Gtk::Notebook());
   tnotebook->set_tab_pos(Gtk::POS_TOP);
 
   ICore *core = CoreFactory::get_core();
@@ -88,24 +90,24 @@ void
 NetworkPreferencePage::create_general_page(Gtk::Notebook *tnotebook)
 {
   // Main switch
-  enabled_cb = manage(new Gtk::CheckButton());
+  enabled_cb = Gtk::manage(new Gtk::CheckButton());
   Gtk::Label *ena_lab
-    = manage(GtkUtil::create_label(_("Enable networking"), true));
+    = Gtk::manage(GtkUtil::create_label(_("Enable networking"), true));
   enabled_cb->add(*ena_lab);
 
   // Identity
-  HigCategoryPanel *id_frame = manage(new HigCategoryPanel(*enabled_cb));
-  username_entry = manage(new Gtk::Entry());
-  password_entry = manage(new Gtk::Entry());
+  HigCategoryPanel *id_frame = Gtk::manage(new HigCategoryPanel(*enabled_cb));
+  username_entry = Gtk::manage(new Gtk::Entry());
+  password_entry = Gtk::manage(new Gtk::Entry());
   id_frame->add(_("Username:"), *username_entry);
   id_frame->add(_("Password:"), *password_entry);
   password_entry->set_visibility(false);
   password_entry->set_invisible_char('*');
  
   // Server switch
-  listening_cb = manage(new Gtk::CheckButton());
+  listening_cb = Gtk::manage(new Gtk::CheckButton());
   Gtk::Label *listening_lab
-    = manage(GtkUtil::create_label(_("Allow incoming connections"), true));
+    = Gtk::manage(GtkUtil::create_label(_("Allow incoming connections"), true));
   listening_cb->add(*listening_lab);
   id_frame->add(*listening_cb);
  
@@ -123,12 +125,12 @@ void
 NetworkPreferencePage::create_advanced_page(Gtk::Notebook *tnotebook)
 {
   HigCategoryPanel *advanced_frame
-    = manage(new HigCategoryPanel(_("Server settings")));
+    = Gtk::manage(new HigCategoryPanel(_("Server settings")));
   advanced_frame->set_border_width(12);
 
-  port_entry = manage(new Gtk::SpinButton());
-  attempts_entry = manage(new Gtk::SpinButton());
-  interval_entry = manage(new Gtk::SpinButton());
+  port_entry = Gtk::manage(new Gtk::SpinButton());
+  attempts_entry = Gtk::manage(new Gtk::SpinButton());
+  interval_entry = Gtk::manage(new Gtk::SpinButton());
 
   port_entry->set_range(1024, 65535);
   port_entry->set_increments(1, 10);
@@ -162,7 +164,7 @@ NetworkPreferencePage::create_advanced_page(Gtk::Notebook *tnotebook)
 void
 NetworkPreferencePage::create_peers_page(Gtk::Notebook *tnotebook)
 {
-  Gtk::VBox *gp = manage(new Gtk::VBox(false, 6));
+  Gtk::VBox *gp = Gtk::manage(new Gtk::VBox(false, 6));
   gp->set_border_width(6);
 
   // Info text
@@ -170,17 +172,17 @@ NetworkPreferencePage::create_peers_page(Gtk::Notebook *tnotebook)
     _("The following list specifies the hosts that Workrave connects to on\n"
       "start-up. Click the host name or port number to edit.");
 
-  Gtk::HBox *infohbox = manage(new Gtk::HBox(false, 6));
-  Gtk::Label *info_lab = manage(new Gtk::Label(label));
+  Gtk::HBox *infohbox = Gtk::manage(new Gtk::HBox(false, 6));
+  Gtk::Label *info_lab = Gtk::manage(new Gtk::Label(label));
 
   infohbox->pack_start(*info_lab, false, false, 0);
   gp->pack_start(*infohbox, false, false, 0);
 
 
   //
-  Gtk::HBox *hbox = manage(new Gtk::HBox(false, 6));
+  Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox(false, 6));
 
-  peers_list = manage(new Gtk::TreeView());
+  peers_list = Gtk::manage(new Gtk::TreeView());
   create_model();
 
   // create tree view
@@ -211,10 +213,10 @@ NetworkPreferencePage::create_peers_page(Gtk::Notebook *tnotebook)
   renderer->property_editable().set_value(true);
   renderer->signal_edited().connect(sigc::mem_fun(*this, &NetworkPreferencePage::on_port_edited));
 
-  Gtk::ScrolledWindow *peers_scroll = manage(new Gtk::ScrolledWindow());
+  Gtk::ScrolledWindow *peers_scroll = Gtk::manage(new Gtk::ScrolledWindow());
   peers_scroll->add(*peers_list);
 
-  Gtk::VBox *peersvbox = manage(new Gtk::VBox(true, 6));
+  Gtk::VBox *peersvbox = Gtk::manage(new Gtk::VBox(true, 6));
   peersvbox->pack_start(*peers_scroll, true, true, 0);
 
   hbox->pack_start(*peersvbox, true, true, 0);
@@ -225,12 +227,12 @@ NetworkPreferencePage::create_peers_page(Gtk::Notebook *tnotebook)
 
 
   // Buttons
-  remove_btn = manage(new Gtk::Button(Gtk::Stock::REMOVE));
+  remove_btn = Gtk::manage(new Gtk::Button(Gtk::Stock::REMOVE));
   remove_btn->signal_clicked().connect(sigc::mem_fun(*this, &NetworkPreferencePage::on_peer_remove));
-  add_btn = manage(new Gtk::Button(Gtk::Stock::ADD));
+  add_btn = Gtk::manage(new Gtk::Button(Gtk::Stock::ADD));
   add_btn->signal_clicked().connect(sigc::mem_fun(*this, &NetworkPreferencePage::on_peer_add));
 
-  Gtk::VBox *btnbox= manage(new Gtk::VBox(false, 6));
+  Gtk::VBox *btnbox= Gtk::manage(new Gtk::VBox(false, 6));
   btnbox->pack_start(*add_btn, false, false, 0);
   btnbox->pack_start(*remove_btn, false, false, 0);
 

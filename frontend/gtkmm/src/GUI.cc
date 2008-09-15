@@ -35,7 +35,9 @@ static const char rcsid[] = "$Id$";
 #include <gtkmm/messagedialog.h>
 #include <glibmm/refptr.h>
 
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 #include <stdio.h>
 #include <assert.h>
 #include <fcntl.h>
@@ -777,7 +779,7 @@ GUI::init_gtk_multihead()
 void
 GUI::init_gui()
 {
-  tooltips = manage(new Gtk::Tooltips());
+  tooltips = Gtk::manage(new Gtk::Tooltips());
   tooltips->enable();
 
   menus = new Menus();
@@ -1177,8 +1179,11 @@ GUI::grab()
 {
   if (break_windows != NULL && active_break_count > 0)
     {
-      GdkWindow *windows[active_break_count];
-
+#ifdef PLATFORM_OS_WIN32_NATIVE
+		GdkWindow *windows[BREAK_ID_SIZEOF];
+#else
+	  GdkWindow *windows[active_break_count];
+#endif
       for (int i = 0; i < active_break_count; i++)
         {
           Glib::RefPtr<Gdk::Window> window = break_windows[i]->get_gdk_window();

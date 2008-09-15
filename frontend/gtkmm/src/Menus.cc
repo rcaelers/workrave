@@ -29,7 +29,9 @@ static const char rcsid[] = "$Id$";
 #include "debug.hh"
 #include "credits.h"
 
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 #include <iostream>
 
 #include <gtkmm/aboutdialog.h>
