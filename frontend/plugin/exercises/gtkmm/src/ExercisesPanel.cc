@@ -400,11 +400,14 @@ ExercisesPanel::refresh_sequence()
   const Exercise &exercise = *exercise_iterator;
   if (exercise_time >= seq_time && exercise.sequence.size() > 0)
     {
-      image_iterator++;
       if (image_iterator == exercise.sequence.end())
         {
           image_iterator = exercise.sequence.begin();
         }
+	  else
+  	    {
+		  image_iterator++;
+	    }
       show_image();
       if (exercise_time != 0)
         {
