@@ -423,8 +423,6 @@ SoundPlayer::load_sound_theme(const string &themefilename, Theme &theme)
   gboolean r = TRUE;
   bool is_current = true;
 
-  // FIXME: leak
-  // FIXME: leak
   GKeyFile *config = g_key_file_new();
 
   r = g_key_file_load_from_file(config, themefilename.c_str(), G_KEY_FILE_KEEP_COMMENTS, &error);
@@ -456,7 +454,6 @@ SoundPlayer::load_sound_theme(const string &themefilename, Theme &theme)
         {
           SoundRegistry *snd = &sound_registry[i];
 
-          // FIXME: leak
           char *filename = g_key_file_get_string(config, snd->id, "file", &error);
           if (error != NULL)
             {
@@ -497,6 +494,7 @@ SoundPlayer::load_sound_theme(const string &themefilename, Theme &theme)
                   g_free(pathname);
                 }
             }
+          g_free(filename);
         }
 
       theme.active = is_current;
@@ -504,6 +502,8 @@ SoundPlayer::load_sound_theme(const string &themefilename, Theme &theme)
       
     }
 
+  g_key_file_free(config);
+    
   TRACE_MSG(is_current);
   TRACE_EXIT();
 }

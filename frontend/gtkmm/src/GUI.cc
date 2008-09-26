@@ -442,7 +442,6 @@ GUI::on_save_yourself(int phase, Gnome::UI::SaveStyle save_style, bool shutdown,
 void
 GUI::init_kde()
 {
-  // FIXME: memory leaks in here.
   TRACE_ENTER("GUI::init_kde");
   new KApplication(argc, argv, "Workrave");
   bool rc = kapp->dcopClient()->attach();

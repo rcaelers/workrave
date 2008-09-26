@@ -90,7 +90,7 @@ void TimeBar::on_realize()
   Glib::RefPtr<Gdk::Window> window = get_window();
   window_gc = Gdk::GC::create(window);
 
-  Glib::RefPtr<Gtk::Style> style = get_style(); // FIXME: leak??
+  Glib::RefPtr<Gtk::Style> style = get_style();
   Gdk::Color light = style->get_light(Gtk::STATE_NORMAL);
   Gdk::Color bg = style->get_bg(Gtk::STATE_NORMAL);
   Gdk::Color mix;

@@ -1795,6 +1795,8 @@ Core::set_timer_state(PacketBuffer &buffer)
         {
           t->set_state_data(state_data);
         }
+
+      g_free(id);
     }
 
   TRACE_EXIT();

@@ -1610,6 +1610,9 @@ DistributionSocketLink::handle_client_list(PacketBuffer &packet, Client *client,
       // Skip trailing junk...
       size -= (packet.bytes_read() - pos);
       packet.skip(size);
+
+      g_free(name);
+      g_free(id);
     }
 
 

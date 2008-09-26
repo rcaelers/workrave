@@ -1,6 +1,6 @@
 // NetworkLogDialog.cc --- NetworkLog dialog
 //
-// Copyright (C) 2002, 2003, 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2006, 2007, 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -51,7 +51,7 @@ NetworkLogDialog::NetworkLogDialog()
 
   set_default_size(600, 400);
 
-  text_buffer = Gtk::TextBuffer::create(); // FIXME: leak
+  text_buffer = Gtk::TextBuffer::create();
 
   text_view = Gtk::manage(new Gtk::TextView(text_buffer));
   text_view->set_cursor_visible(false);
