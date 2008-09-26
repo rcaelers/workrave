@@ -424,6 +424,7 @@ SoundPlayer::load_sound_theme(const string &themefilename, Theme &theme)
   bool is_current = true;
 
   // FIXME: leak
+  // FIXME: leak
   GKeyFile *config = g_key_file_new();
 
   r = g_key_file_load_from_file(config, themefilename.c_str(), G_KEY_FILE_KEEP_COMMENTS, &error);

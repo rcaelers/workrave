@@ -276,7 +276,6 @@ void W32SoundPlayer::Play()
       open();
       write(sample, sample_size);
       close();
-
     }
   catch(Exception e)
     {
@@ -295,15 +294,15 @@ void W32SoundPlayer::Play()
 void
 W32SoundPlayer::open()
 {
-	MMRESULT res = MMSYSERR_NOERROR;
-	int i;
+  MMRESULT res = MMSYSERR_NOERROR;
+  int i;
 
-	wave_event = CreateEvent(NULL, FALSE, FALSE, NULL);
+  wave_event = CreateEvent(NULL, FALSE, FALSE, NULL);
 
   number_of_buffers          = 16;
-	buffer_position            = 0;
+  buffer_position            = 0;
 
-	res = waveOutOpen(&waveout, WAVE_MAPPER, &format,
+  res = waveOutOpen(&waveout, WAVE_MAPPER, &format,
                     (DWORD) wave_event, (DWORD) 0,CALLBACK_EVENT);
   if (res != MMSYSERR_NOERROR)
     {
@@ -392,9 +391,9 @@ W32SoundPlayer::write(unsigned char *buf, size_t size)
 void
 W32SoundPlayer::flush_buffer(int i)
 {
-	MMRESULT res;
+  MMRESULT res;
 
-	if (buffers[i]->dwBytesRecorded != 0)
+  if (buffers[i]->dwBytesRecorded != 0)
     {
       buffers[i]->dwBufferLength = buffers[i]->dwBytesRecorded;
       buffers[i]->dwBytesRecorded = 0;
@@ -443,9 +442,14 @@ W32SoundPlayer::close(void)
 
       free(buffers[i]->lpData);
       free(buffers[i]);
+      buffers[i] = NULL;
     }
   
   free(buffers);
+  free(sample);
+
+  buffers = NULL;
+  sample = NULL;
 
   res = waveOutClose(waveout);
   if (res != MMSYSERR_NOERROR)
@@ -460,7 +464,7 @@ W32SoundPlayer::load_wav_file(const string &filename)
   MMRESULT res;
   
   HMMIO handle = mmioOpen((CHAR*)filename.c_str(), NULL, MMIO_ALLOCBUF | MMIO_READ);
-	if (handle == NULL)
+  if (handle == NULL)
     {
       throw Exception("mmioOpen");
     }
@@ -540,25 +544,25 @@ W32SoundPlayer::load_wav_file(const string &filename)
 
   int pos = 0;
   do
-		{
-			size_t copy = mmio.pchEndRead - mmio.pchNext;
+    {
+      size_t copy = mmio.pchEndRead - mmio.pchNext;
 
-			if (copy > 0) 
-			{	
-				if (copy > sample_size - pos)
-          {
-            copy = sample_size - pos;
-          }
+      if (copy > 0) 
+	{	
+	  if (copy > sample_size - pos)
+	    {
+	      copy = sample_size - pos;
+	    }
 
-				memcpy(sample + pos, mmio.pchNext, copy);
-				pos += copy;
-			}
+	  memcpy(sample + pos, mmio.pchNext, copy);
+	  pos += copy;
+	}
 
-			mmio.pchNext = mmio.pchEndRead;
+      mmio.pchNext = mmio.pchEndRead;
 
-		} while (pos < (int)sample_size && mmioAdvance(handle, &mmio, MMIO_READ) == 0);
+    } while (pos < (int)sample_size && mmioAdvance(handle, &mmio, MMIO_READ) == 0);
   
 
-	mmioClose(handle, 0);
+  mmioClose(handle, 0);
 }
 
