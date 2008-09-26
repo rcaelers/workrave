@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="9.00"
 	Name="harpoon"
 	ProjectGUID="{1DBE998D-2623-4A77-A87D-DBDFEF210531}"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -80,6 +81,8 @@
 				ModuleDefinitionFile=".\harpoon.def"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Debug/harpoon.pdb"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				ImportLibrary=".\Debug/harpoon.lib"
 				TargetMachine="1"
 			/>
@@ -102,9 +105,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -176,6 +176,8 @@
 				SuppressStartupBanner="true"
 				ModuleDefinitionFile=".\harpoon.def"
 				ProgramDatabaseFile=".\Release/harpoon.pdb"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				ImportLibrary=".\Release/harpoon.lib"
 				TargetMachine="1"
 			/>
@@ -198,9 +200,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
