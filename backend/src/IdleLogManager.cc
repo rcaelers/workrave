@@ -176,7 +176,7 @@ IdleLogManager::expire(ClientInfo &info)
   
   int current_time = time_source->get_time();
   int count = 0;
-  for (IdleLogRIter i = info.idlelog.rend(); i != info.idlelog.rbegin(); i++)
+  for (IdleLogRIter i = info.idlelog.rbegin(); i != info.idlelog.rend(); i++)
     {
       IdleInterval &idle = info.idlelog.back();
       if (idle.end_idle_time < current_time - IDLELOG_MAXAGE)
@@ -242,15 +242,18 @@ IdleLogManager::update_idlelog(ClientInfo &info, ActivityState state, bool maste
           // State remained idle. Update end time of idle interval.
           idle->end_idle_time = current_time;
 
-          int total_idle = idle->end_idle_time - idle->begin_time;
-          if (total_idle >= 10)
+          if (info.idlelog.size() > 0)
             {
-              IdleInterval *save_interval = &(info.idlelog.front());
-              if (save_interval->to_be_saved)
+              int total_idle = idle->end_idle_time - idle->begin_time;
+              if (total_idle >= 10)
                 {
-                  TRACE_MSG("Saving");
-                  update_idlelog(info, *save_interval);
-                  save_interval->to_be_saved = false;
+                  IdleInterval *save_interval = &(info.idlelog.front());
+                  if (save_interval->to_be_saved)
+                    {
+                      TRACE_MSG("Saving");
+                      update_idlelog(info, *save_interval);
+                      save_interval->to_be_saved = false;
+                    }
                 }
             }
         }
@@ -817,8 +820,11 @@ IdleLogManager::load_idlelog(ClientInfo &info)
             }
         }
 
-      IdleInterval &idle = info.idlelog.back();
-      idle.begin_time = 1;
+	  if (info.idlelog.size() > 0) 
+	    {
+           IdleInterval &idle = info.idlelog.back();
+           idle.begin_time = 1;
+	    }
     }
 
   dump_idlelog(info);

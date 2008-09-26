@@ -734,7 +734,8 @@ DistributionSocketLink::remove_peer_clients(Client *client)
 void
 DistributionSocketLink::close_client(Client *client, bool reconnect /* = false*/)
 {
-  TRACE_ENTER_MSG("DistributionSocketLink::close_client", client->id << " " << reconnect);
+  TRACE_ENTER_MSG("DistributionSocketLink::close_client", 
+	  (client->id != NULL ? client->id : "Unknown") << " " << reconnect);
 
   if (client == master_client)
     {
@@ -1249,7 +1250,7 @@ DistributionSocketLink::handle_hello(PacketBuffer &packet, Client *client)
   TRACE_ENTER("DistributionSocketLink::handle_hello");
 
   gchar *user = packet.unpack_string();
-  gchar *pass = packet.unpack_string();
+  gchar *pass = packet.unpack_string();\
   gchar *id = packet.unpack_string();
   gchar *name = packet.unpack_string();
   gint port = packet.unpack_ushort();
@@ -1308,7 +1309,7 @@ DistributionSocketLink::send_signoff(Client *to, Client *signedoff_client)
 
   if (signedoff_client != NULL)
     {
-      TRACE_MSG("remote client " << signedoff_client->id);
+	  TRACE_MSG("remote client " << (signedoff_client->id != NULL ? signedoff_client->id : "?"));
       packet.pack_string(signedoff_client->id);
     }
   else
@@ -1319,7 +1320,7 @@ DistributionSocketLink::send_signoff(Client *to, Client *signedoff_client)
 
   if (to != NULL)
     {
-      TRACE_MSG("sending to " << to->id);
+      TRACE_MSG("sending to " << (to->id != NULL ? to->id : "?"));
       send_packet(to, packet);
     }
   else
