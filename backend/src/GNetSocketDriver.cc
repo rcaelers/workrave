@@ -339,8 +339,9 @@ GNetSocketConnection::read(void *buf, int count, int &bytes_read)
   if (iochannel != NULL)
     {
       bytes_read = 0;
-
-      GIOError error = g_io_channel_read(iochannel, (char *)buf, (gsize)count, (gsize *)&bytes_read);
+      gsize bytes_read_gnet = 0;
+      
+      GIOError error = g_io_channel_read(iochannel, (char *)buf, (gsize)count, (gsize *)&bytes_read_gnet);
 
       if (error != G_IO_ERROR_NONE)
         {
@@ -348,6 +349,7 @@ GNetSocketConnection::read(void *buf, int count, int &bytes_read)
         }
       else
         {
+          bytes_read = bytes_read_gnet;
           ret = true;
         }
     }
@@ -365,7 +367,10 @@ GNetSocketConnection::write(void *buf, int count, int &bytes_written)
   if (iochannel != NULL)
     {
       bytes_written = 0;
-      GIOError error = g_io_channel_write(iochannel, (char *)buf, (gsize)count, (gsize *)&bytes_written);
+      gsize bytes_written_gnet = 0;
+      
+      GIOError error = g_io_channel_write(iochannel, (char *)buf, (gsize)count,
+                                          (gsize *)&bytes_written_gnet);
 
       if (error != G_IO_ERROR_NONE)
         {
@@ -373,6 +378,7 @@ GNetSocketConnection::write(void *buf, int count, int &bytes_written)
         }
       else
         {
+          bytes_written = bytes_written_gnet;
           ret = true;
         }
     }

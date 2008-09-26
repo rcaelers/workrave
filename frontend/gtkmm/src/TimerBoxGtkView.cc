@@ -176,6 +176,7 @@ TimerBoxGtkView::init_widgets()
   for (int count = 0; count < BREAK_ID_SIZEOF; count++)
     {
       string icon = Util::complete_directory(string(icons[count]), Util::SEARCH_PATH_IMAGES);
+      // FIXME: leak
       Gtk::Image *img = new Gtk::Image(icon);
       Gtk::Widget *w;
       if (count == BREAK_ID_REST_BREAK)

@@ -422,7 +422,8 @@ SoundPlayer::load_sound_theme(const string &themefilename, Theme &theme)
   GError *error = NULL;
   gboolean r = TRUE;
   bool is_current = true;
-      
+
+  // FIXME: leak
   GKeyFile *config = g_key_file_new();
 
   r = g_key_file_load_from_file(config, themefilename.c_str(), G_KEY_FILE_KEEP_COMMENTS, &error);
@@ -454,6 +455,7 @@ SoundPlayer::load_sound_theme(const string &themefilename, Theme &theme)
         {
           SoundRegistry *snd = &sound_registry[i];
 
+          // FIXME: leak
           char *filename = g_key_file_get_string(config, snd->id, "file", &error);
           if (error != NULL)
             {
