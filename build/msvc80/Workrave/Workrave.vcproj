@@ -20,7 +20,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="C:\Program Files (x86)\gtkmm\MSVC\gtkmm-2.4d.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\..\Program Files (x86)\gtkmm\MSVC\gtkmm-2.4d.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -99,7 +99,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="C:\Program Files (x86)\gtkmm\MSVC\gtkmm-2.4.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\..\Program Files (x86)\gtkmm\MSVC\gtkmm-2.4.vsprops"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>

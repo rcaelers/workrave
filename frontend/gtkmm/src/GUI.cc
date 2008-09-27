@@ -190,7 +190,7 @@ GUI::main()
 {
   TRACE_ENTER("GUI::main");
 
-#if defined (PLATFORM_OS_WIN32) || defined(PLATFORM_OS_OSX)
+#if (defined (PLATFORM_OS_WIN32) && !defined(PLATFORM_OS_WIN32_NATIVE)) || defined(PLATFORM_OS_OSX)
   // Win32/OSX need this....
   if (!g_thread_supported())
     {
@@ -330,7 +330,7 @@ GUI::init_platform()
   [ [ AppController alloc ] init ];
 #endif
   
-#if defined (PLATFORM_OS_WIN32) || defined(PLATFORM_OS_OSX)
+#if (defined (PLATFORM_OS_WIN32) && !defined(PLATFORM_OS_WIN32_NATIVE)) || defined(PLATFORM_OS_OSX)
   // Win32/OSX need this....
   if (!g_thread_supported())
     {
