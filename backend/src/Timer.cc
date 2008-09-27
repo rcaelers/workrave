@@ -692,9 +692,6 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
   TRACE_MSG("next_reset_time " << next_reset_time);
   TRACE_MSG("time " << current_time);
   
-  const time_t now = core->get_time();
-  struct tm *tmnow = localtime(&now);
-  
   if (activity_sensitive)
     {
       TRACE_MSG("is activity sensitive");
@@ -930,9 +927,6 @@ Timer::deserialize_state(const std::string &state, int version)
     }
 
   // lastReset -= tz;
-
-  time_t xx = lastReset - tz;
-  struct tm *lt = localtime(&xx);
 
   TRACE_MSG(si << " " << llt << " " << lle);
   TRACE_MSG(snooze_inhibited);
