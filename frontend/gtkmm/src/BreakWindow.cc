@@ -97,6 +97,13 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
 #ifdef PLATFORM_OS_WIN32
   desktop_window = NULL;
 
+  // Here's the secret: IMMEDIATELY after your window creation, set focus to it
+  // THEN position it. So:
+
+  HWND hwnd = (HWND) GDK_WINDOW_HWND(Gtk::Widget::gobj()->window);
+  ::SetFocus(hwnd);
+  ::SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE);
+
   if (mode != GUIConfig::BLOCK_MODE_NONE)
   {
     // Disable titlebar to appear like a popup
@@ -500,6 +507,9 @@ BreakWindow::start()
     
   SetWindowLong((HWND)GDK_WINDOW_HWND(gdkwin), GWL_HWNDPARENT,
                 (long) GetDesktopWindow());
+
+  ::SetForegroundWindow((HWND)GDK_WINDOW_HWND(gdkwin));
+  ::SetFocus((HWND)GDK_WINDOW_HWND(gdkwin));
 #endif
   
   WindowHints::set_always_on_top(this, true);

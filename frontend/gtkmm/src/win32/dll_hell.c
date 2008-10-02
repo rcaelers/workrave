@@ -1,7 +1,7 @@
 /*
  * dll_hell.c --- DLL hell checking
  *
- * Copyright (C) 2003, 2007 Raymond Penners <raymond@dotsphinx.com>
+ * Copyright (C) 2003, 2007, 2008 Raymond Penners <raymond@dotsphinx.com>
  * Adapted from Gaim, originally written by Herman Bloggs
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,10 +22,10 @@
 #include "config.h"
 #endif
 
+#include <stdio.h>
 #include <windows.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
 
 #define DLL_CONFLICT_EXTENSION ".conflict"
 
