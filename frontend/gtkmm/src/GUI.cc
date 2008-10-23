@@ -1442,6 +1442,19 @@ GUI::get_timers_tooltip()
 }
 
 
+bool
+GUI::is_status_icon_visible() const
+{
+  bool ret = false;
+
+  if (status_icon != NULL)
+    {
+      ret = status_icon->is_embedded();
+    }
+
+  return ret;
+}
+
 #if defined(PLATFORM_OS_WIN32)
 void
 GUI::win32_init_filter()

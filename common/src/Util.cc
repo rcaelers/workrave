@@ -131,7 +131,7 @@ Util::get_home_directory()
 }
 
 
-//! Returns the user's home directory.
+//! Sets Workrave's home directory.
 void
 Util::set_home_directory(const string &home)
 {
@@ -278,19 +278,11 @@ Util::get_search_path(SearchPathId type)
   g_free(dir_path);
 #endif
 
-  char *cwd = g_get_current_dir();
-  if (cwd != NULL)
-    {
-      searchPath.push_back(string(cwd) + "/");
-      g_free(cwd);
-    }
-
   if (type == SEARCH_PATH_IMAGES)
     {
 #if defined(PLATFORM_OS_UNIX)
       if (home_dir != "./")
         {
-          searchPath.push_back(home_dir + "/");
           searchPath.push_back(home_dir + "/images");
         }
       searchPath.push_back(string(WORKRAVE_PKGDATADIR) + "/images");
@@ -309,7 +301,6 @@ Util::get_search_path(SearchPathId type)
 #if defined(PLATFORM_OS_UNIX)
       if (home_dir != "./")
         {
-          searchPath.push_back(home_dir + "/");
           searchPath.push_back(home_dir + "/sounds");
         }
       searchPath.push_back(string(WORKRAVE_DATADIR) + "/sounds/workrave");
