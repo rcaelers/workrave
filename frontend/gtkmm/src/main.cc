@@ -102,7 +102,8 @@ int WINAPI WinMain (HINSTANCE hInstance,
 #endif
 
 #ifndef NDEBUG 
-    AllocConsole();
+#ifdef PLATFORM_OS_WIN32_NATIVE
+	AllocConsole();
 
 	FILE* hf_out = fopen("c:\\temp\\out", "w");
     setvbuf(hf_out, NULL, _IONBF, 1);
@@ -114,6 +115,7 @@ int WINAPI WinMain (HINSTANCE hInstance,
     FILE* hf_in = _fdopen(hCrt, "r");
     setvbuf(hf_in, NULL, _IONBF, 128);
     *stdin = *hf_in;
+#endif
 #endif
 
       run(sizeof(argv)/sizeof(argv[0]), argv);

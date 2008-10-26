@@ -20,6 +20,8 @@
 
 static const char rcsid[] = "$Id$";
 
+#ifdef HAVE_DISTRIBUTION
+
 #define GNET_EXPERIMENTAL
 
 #ifdef HAVE_CONFIG_H
@@ -412,3 +414,5 @@ GNetSocketConnection::close()
   watch_flags = 0;
   return true;
 }
+
+#endif

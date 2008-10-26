@@ -24,6 +24,8 @@
 #include "config.h"
 #endif
 
+#ifdef HAVE_DISTRIBUTION
+
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -126,3 +128,5 @@ NetworkJoinDialog::get_connect_url()
   std::string peer = "tcp://" + host_entry.get_text() + ":" + port_entry.get_text();
   return peer;
 }
+
+#endif

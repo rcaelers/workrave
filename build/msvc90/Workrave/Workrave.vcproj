@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="Workrave"
 	ProjectGUID="{0DC3D347-00E8-4AA8-B687-24E515557C12}"
 	RootNamespace="Workrave"
@@ -21,7 +21,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="C:\Program Files (x86)\gtkmm\MSVC\gtkmm-2.4d.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\..\Program Files\gtkmm\MSVC\gtkmm-vc90-d-2_4.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(SolutionDir)\..\..\frontend\win32\applet\include;$(SolutionDir)\..\..\common\win32\harpoon\include;$(SolutionDir)\..\..\frontend\common\src\win32;&quot;C:\mystuff\src\deps\include\gnet-2.0&quot;;$(SolutionDir)\..\..;$(SolutionDir)\..\..\frontend\gtkmm\src\win32;$(SolutionDir)\..\..\frontend\gtkmm\src;$(SolutionDir)\..\..\frontend\plugin\exercises\gtkmm\src;$(SolutionDir)\..\..\frontend\plugin\statistics\gtkmm\src;$(SolutionDir)\..\..\frontend\plugin\exercises\common\src;$(SolutionDir)\..\..\frontend\plugin\distribution\gtkmm\src;$(SolutionDir)\..\..\frontend\common\include;$(SolutionDir)\..\..\common\include\win32;$(SolutionDir)\..\..\common\include;$(SolutionDir)\..\..\backend\src\win32;$(SolutionDir)\..\..\backend\src;$(SolutionDir)\..\..\backend\include"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)\..\..\build\msvc90&quot;;&quot;$(SolutionDir)\..\..\frontend\win32\applet\include&quot;;&quot;$(SolutionDir)\..\..\common\win32\harpoon\include&quot;;&quot;$(SolutionDir)\..\..\frontend\common\src\win32&quot;;&quot;C:\mystuff\src\deps\include\gnet-2.0&quot;;&quot;$(SolutionDir)\..\..&quot;;&quot;$(SolutionDir)\..\..\frontend\gtkmm\src\win32&quot;;&quot;$(SolutionDir)\..\..\frontend\gtkmm\src&quot;;&quot;$(SolutionDir)\..\..\frontend\plugin\exercises\gtkmm\src&quot;;&quot;$(SolutionDir)\..\..\frontend\plugin\statistics\gtkmm\src&quot;;&quot;$(SolutionDir)\..\..\frontend\plugin\exercises\common\src&quot;;&quot;$(SolutionDir)\..\..\frontend\plugin\distribution\gtkmm\src&quot;;&quot;$(SolutionDir)\..\..\frontend\common\include&quot;;&quot;$(SolutionDir)\..\..\common\include\win32&quot;;&quot;$(SolutionDir)\..\..\common\include&quot;;&quot;$(SolutionDir)\..\..\backend\src\win32&quot;;&quot;$(SolutionDir)\..\..\backend\src&quot;;&quot;$(SolutionDir)\..\..\backend\include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;HAVE_CONFIG_H"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="0"
@@ -64,7 +64,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libgnet-2.0.a winmm.lib shlwapi.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib "
+				AdditionalDependencies="winmm.lib shlwapi.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="C:\mystuff\src\deps\lib"
 				GenerateDebugInformation="true"
@@ -100,7 +100,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="C:\Program Files (x86)\gtkmm\MSVC\gtkmm-2.4.vsprops"
+			InheritedPropertySheets="..\..\..\..\..\..\Program Files\gtkmm\MSVC\gtkmm-vc90-2_4.vsprops"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
@@ -121,7 +121,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="$(SolutionDir)\..\..\frontend\win32\applet\include;$(SolutionDir)\..\..\common\win32\harpoon\include;$(SolutionDir)\..\..\frontend\common\src\win32;&quot;C:\mystuff\src\deps\include\gnet-2.0&quot;;$(SolutionDir)\..\..;$(SolutionDir)\..\..\frontend\gtkmm\src\win32;$(SolutionDir)\..\..\frontend\gtkmm\src;$(SolutionDir)\..\..\frontend\plugin\exercises\gtkmm\src;$(SolutionDir)\..\..\frontend\plugin\statistics\gtkmm\src;$(SolutionDir)\..\..\frontend\plugin\exercises\common\src;$(SolutionDir)\..\..\frontend\plugin\distribution\gtkmm\src;$(SolutionDir)\..\..\frontend\common\include;$(SolutionDir)\..\..\common\include\win32;$(SolutionDir)\..\..\common\include;$(SolutionDir)\..\..\backend\src\win32;$(SolutionDir)\..\..\backend\src;$(SolutionDir)\..\..\backend\include"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)\..\..\build\msvc90&quot;;&quot;$(SolutionDir)\..\..\frontend\win32\applet\include&quot;;&quot;$(SolutionDir)\..\..\common\win32\harpoon\include&quot;;&quot;$(SolutionDir)\..\..\frontend\common\src\win32&quot;;&quot;C:\mystuff\src\deps\include\gnet-2.0&quot;;&quot;$(SolutionDir)\..\..&quot;;&quot;$(SolutionDir)\..\..\frontend\gtkmm\src\win32&quot;;&quot;$(SolutionDir)\..\..\frontend\gtkmm\src&quot;;&quot;$(SolutionDir)\..\..\frontend\plugin\exercises\gtkmm\src&quot;;&quot;$(SolutionDir)\..\..\frontend\plugin\statistics\gtkmm\src&quot;;&quot;$(SolutionDir)\..\..\frontend\plugin\exercises\common\src&quot;;&quot;$(SolutionDir)\..\..\frontend\plugin\distribution\gtkmm\src&quot;;&quot;$(SolutionDir)\..\..\frontend\common\include&quot;;&quot;$(SolutionDir)\..\..\common\include\win32&quot;;&quot;$(SolutionDir)\..\..\common\include&quot;;&quot;$(SolutionDir)\..\..\backend\src\win32&quot;;&quot;$(SolutionDir)\..\..\backend\src&quot;;&quot;$(SolutionDir)\..\..\backend\include&quot;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;HAVE_CONFIG_H"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -140,7 +140,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libgnet-2.0.a winmm.lib shlwapi.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib "
+				AdditionalDependencies="winmm.lib shlwapi.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="C:\mystuff\src\deps\lib"
 				GenerateDebugInformation="true"
@@ -182,6 +182,10 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
+			<File
+				RelativePath="..\config.h"
+				>
+			</File>
 			<Filter
 				Name="Backend"
 				>

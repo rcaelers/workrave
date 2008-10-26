@@ -49,7 +49,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\include"
+				AdditionalIncludeDirectories="..\..\..\common\win32\harpoon\include"
 				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;_USRDLL;HARPOON_EXPORTS;_WIN32_WINNT=0x400;WINVER=0x400"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -79,7 +79,7 @@
 				OutputFile="$(OutDir)\$(ProjectName).dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				ModuleDefinitionFile=".\harpoon.def"
+				ModuleDefinitionFile="..\..\..\common\win32\harpoon\src\harpoon.def"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Debug/harpoon.pdb"
 				RandomizedBaseAddress="1"
@@ -146,7 +146,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\include"
+				AdditionalIncludeDirectories="..\..\..\common\win32\harpoon\include"
 				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;_USRDLL;HARPOON_EXPORTS;_WIN32_WINNT=0x400;WINVER=0x400"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -175,7 +175,7 @@
 				OutputFile="$(OutDir)\$(ProjectName).dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				ModuleDefinitionFile=".\harpoon.def"
+				ModuleDefinitionFile="..\..\..\common\win32\harpoon\src\harpoon.def"
 				ProgramDatabaseFile=".\Release/harpoon.pdb"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
@@ -215,7 +215,7 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
-				RelativePath="harpoon.c"
+				RelativePath="..\..\..\common\win32\harpoon\src\harpoon.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -237,7 +237,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="harpoon.def"
+				RelativePath="..\..\..\common\win32\harpoon\src\harpoon.def"
 				>
 			</File>
 		</Filter>
@@ -246,7 +246,7 @@
 			Filter="h;hpp;hxx;hm;inl"
 			>
 			<File
-				RelativePath="..\include\harpoon.h"
+				RelativePath="..\..\..\common\win32\harpoon\include\harpoon.h"
 				>
 			</File>
 		</Filter>

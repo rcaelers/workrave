@@ -22,6 +22,8 @@
 #include "config.h"
 #endif
 
+#ifdef HAVE_DISTRIBUTION
+
 #include "preinclude.h"
 
 #include "nls.h"
@@ -505,3 +507,5 @@ NetworkPreferencePage::update_peers()
 
   dist_manager->set_peers(peers);
 }
+
+#endif

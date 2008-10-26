@@ -102,8 +102,10 @@ Locale::set_locale(const std::string &code)
       g_unsetenv("LANGUAGE");
       g_unsetenv("LANG");
     }
-  ++_nl_msg_cat_cntr;
 
+#ifndef PLATFORM_OS_WIN32_NATIVE
+    ++_nl_msg_cat_cntr;
+#endif
 }
 
 std::string

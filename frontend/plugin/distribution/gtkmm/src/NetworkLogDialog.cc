@@ -24,6 +24,8 @@
 #include "config.h"
 #endif
 
+#ifdef HAVE_DISTRIBUTION
+
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -145,3 +147,4 @@ NetworkLogDialog::on_response(int response)
   TRACE_EXIT();
 }
 
+#endif

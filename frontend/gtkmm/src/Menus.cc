@@ -464,6 +464,7 @@ Menus::on_menu_network_log(bool active)
 }
 
 
+#ifdef HAVE_DISTRIBUTION
 void
 Menus::on_network_log_response(int response)
 {
@@ -478,6 +479,7 @@ Menus::on_network_log_response(int response)
   // done by gtkmm ??? delete network_log_dialog;
   network_log_dialog = NULL;
 }
+#endif
 
 void
 Menus::on_statistics_response(int response)
@@ -535,13 +537,15 @@ Menus::applet_command(short cmd)
     case MENU_COMMAND_NETWORK_DISCONNECT:
       on_menu_network_leave();
       break;
+#ifdef HAVE_DISTRIBUTION
     case MENU_COMMAND_NETWORK_LOG:
       on_menu_network_log(network_log_dialog == NULL);
       break;
     case MENU_COMMAND_NETWORK_RECONNECT:
       on_menu_network_reconnect();
       break;
-    case MENU_COMMAND_STATISTICS:
+#endif
+	case MENU_COMMAND_STATISTICS:
       on_menu_statistics();
       break;
     case MENU_COMMAND_ABOUT:
@@ -567,7 +571,12 @@ Menus::resync()
           ICore *core = CoreFactory::get_core();
 
           menus[i]->resync(core->get_operation_mode(),
+#ifdef HAVE_DISTRIBUTION
                            network_log_dialog != NULL);
+#else
+						   false);
+#endif
+
         }
     }
 

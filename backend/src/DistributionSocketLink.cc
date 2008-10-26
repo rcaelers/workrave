@@ -21,6 +21,8 @@ static const char rcsid[] = "$Id$";
 #include "config.h"
 #endif
 
+#ifdef HAVE_DISTRIBUTION
+
 #include "debug.hh"
 #include <assert.h>
 
@@ -2194,3 +2196,5 @@ DistributionSocketLink::config_changed_notify(const string &key)
   (void) key;
   read_configuration();
 }
+
+#endif

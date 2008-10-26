@@ -20,6 +20,8 @@ static const char rcsid[] = "$Id$";
 #include "config.h"
 #endif
 
+#ifdef HAVE_DISTRIBUTION
+
 #include "debug.hh"
 #include <algorithm>
 #include <assert.h>
@@ -888,3 +890,6 @@ DistributionManager::set_reconnect_interval(int v)
 {
   configurator->set_value(CoreConfig::CFG_KEY_DISTRIBUTION_TCP_INTERVAL, v);
 }
+
+
+#endif

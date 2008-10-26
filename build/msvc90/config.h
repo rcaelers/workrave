@@ -104,7 +104,7 @@
 #define HAVE_DECL__SNWPRINTF 1
 
 /* Define if distributed operation is available */
-#define HAVE_DISTRIBUTION 
+/* #undef HAVE_DISTRIBUTION */
 
 /* Define to 1 if you have the <dlfcn.h> header file. */
 /* #undef HAVE_DLFCN_H */
