@@ -480,7 +480,7 @@
 #define USE_WIN32_THREADS 1
 
 /* Version number of package */
-#define VERSION "1.8.6-preview1"
+#define VERSION "1.9.1"
 
 /* Define to 1 if the X Window System is missing or not being used. */
 /* #undef X_DISPLAY_MISSING */

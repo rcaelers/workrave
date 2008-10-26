@@ -9,11 +9,10 @@
 MAINTAINERCLEANFILES = 	Makefile.in workrave.soundlist
 DISTCLEANFILES = 	workrave.soundlist
 
-SUBDIRS	= subtle
+SUBDIRS	= subtle default
 
 soundsdir = 		$(datadir)/sounds/workrave/
 defaultsoundsdir = 	$(soundsdir)/default
-defaultsounds_DATA = 	$(wildcard *.wav) soundtheme
 
 if HAVE_GNOME
 
@@ -27,11 +26,10 @@ endif
 
 EXTRA_DIST = 		${defaultsounds_DATA} $(utils_DATA) workrave.soundlist.in eventsrc.in
 
-
 if HAVE_KDE
 
 kdesoundsdir = 		$(kde_sounddir)/workrave
-kdesounds_DATA = 	$(wildcard *.wav)
+kdesounds_DATA = 	$(wildcard default/*.wav)
 
 eventsrc: eventsrc.in
 	LC_ALL=C $(INTLTOOL_MERGE) -d -u -c $(top_builddir)/po/.intltool-merge-cache $(top_srcdir)/po $< $@

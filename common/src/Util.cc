@@ -293,7 +293,11 @@ Util::get_search_path(SearchPathId type)
       searchPath.push_back("/usr/local/share/workrave/images");
       searchPath.push_back("/usr/share/workrave/images");
 #elif defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WIN32_NATIVE)
+	  searchPath.push_back(app_dir + "\\..\\..\\frontend\\common\\share\\images");
+#endif
       searchPath.push_back(app_dir + "\\share\\images");
+
 #elif defined(PLATFORM_OS_OSX)
       searchPath.push_back(string(WORKRAVE_PKGDATADIR) + "/images");
       searchPath.push_back(app_dir + "/share/workrave/images");
@@ -311,7 +315,10 @@ Util::get_search_path(SearchPathId type)
       searchPath.push_back("/usr/local/share/sounds/workrave");
       searchPath.push_back("/usr/share/sounds/workrave");
 #elif defined(PLATFORM_OS_WIN32)
-      searchPath.push_back(app_dir + "\\share\\sounds");
+#if defined(PLATFORM_OS_WIN32_NATIVE)
+	  searchPath.push_back(app_dir + "\\..\\..\\frontend\\common\\share\\sounds");
+#endif
+      searchPath.push_back(app_dir + "\\share\\sounds1");
 #elif defined(PLATFORM_OS_OSX)
       searchPath.push_back(string(WORKRAVE_DATADIR) + "/sounds/workrave");
       searchPath.push_back(app_dir + "/share/sounds/workrave");
@@ -335,7 +342,7 @@ Util::get_search_path(SearchPathId type)
 #elif defined(PLATFORM_OS_OSX)
       searchPath.push_back(string(WORKRAVE_PKGDATADIR) + "/etc");
       searchPath.push_back(app_dir + "/etc");
-      searchPath.push_back(home_dir + "/");
+      searchPath.push_back(home_dir + "/");1
       searchPath.push_back(app_dir +  "/../Resources/config");
 #endif
     }
@@ -344,6 +351,9 @@ Util::get_search_path(SearchPathId type)
 #if defined(PLATFORM_OS_UNIX)
       searchPath.push_back(string(WORKRAVE_PKGDATADIR) + "/exercises");
 #elif defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WIN32_NATIVE)
+	  searchPath.push_back(app_dir + "\\..\\..\\frontend\\common\\share\\exercises");
+#endif
       searchPath.push_back(app_dir + "\\share\\exercises");
 #elif defined(PLATFORM_OS_OSX)
       searchPath.push_back(string(WORKRAVE_PKGDATADIR) + "/exercises");
