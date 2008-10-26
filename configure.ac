@@ -753,6 +753,7 @@ AC_OUTPUT(Makefile
           frontend/common/share/Makefile \
           frontend/common/share/sounds/Makefile \
           frontend/common/share/sounds/subtle/Makefile \
+          frontend/common/share/sounds/default/Makefile \
           frontend/common/share/images/Makefile \
           frontend/common/share/images/win32/Makefile \
           frontend/common/share/images/osx/Makefile \

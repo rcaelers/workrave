@@ -20,13 +20,13 @@
 
 static const char rcsid[] = "$Id$";
 
-#ifdef HAVE_DISTRIBUTION
-
-#define GNET_EXPERIMENTAL
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
+
+#ifdef HAVE_DISTRIBUTION
+
+#define GNET_EXPERIMENTAL
 
 #include "debug.hh"
 #include <assert.h>

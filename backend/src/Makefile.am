@@ -80,8 +80,8 @@ BreakControl.cc: 	DBusWorkrave.hh
 endif
 
 libworkrave_backend_la_SOURCES = \
-			${sources} ${sourcesgdome} ${sourcesdistribution} \
-			${sourcesgnet} ${dbussources} 
+			${sources} ${sourcesgdome} ${sourcesgnet} ${sourcesdistribution} \
+			${dbussources} 
 
 libworkrave_backend_la_CFLAGS = \
 			-W -DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
