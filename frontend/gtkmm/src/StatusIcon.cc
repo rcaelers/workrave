@@ -49,7 +49,13 @@ StatusIcon::StatusIcon(MainWindow& mw)
     {
       std::string file = Util::complete_directory(mode_files[i],
                                                   Util::SEARCH_PATH_IMAGES);
-      mode_icons[i] = Gdk::Pixbuf::create_from_file(file);
+      try
+        {
+          mode_icons[i] = Gdk::Pixbuf::create_from_file(file);
+        }
+      catch(...)
+        {
+        }
     }
 
 #ifdef PLATFORM_OS_WIN32
