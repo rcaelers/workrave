@@ -24,7 +24,7 @@
 
 #include <assert.h>
 
-#ifdef NDEBUG
+#ifdef NDEBUG_REMOVE_ME
 
 #define TRACE_ENTER(x)
 #define TRACE_ENTER_MSG(x,y)
