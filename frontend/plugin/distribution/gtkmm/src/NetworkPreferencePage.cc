@@ -418,19 +418,17 @@ NetworkPreferencePage::on_peer_add()
 {
   TRACE_ENTER("NetworkPreferencePage::on_peer_add");
   Gtk::TreeRow row = *(peers_store->append());
-  TRACE_MSG("1");
-  int port = (int) port_entry->get_value();
-  TRACE_MSG("2");
+
+  const Gtk::TreeModelColumn<std::string> &hostname_column = peers_columns.hostname;
+  
+  row[hostname_column]  = "";
 
   stringstream ss;
-  TRACE_MSG("3");
-  ss << port;
-  TRACE_MSG("4");
+  int port = (int) port_entry->get_value();
 
-  TRACE_MSG("5");
-  row[peers_columns.hostname]  = "";
-  TRACE_MSG("6");
+  ss << port;
   row[peers_columns.port]      = ss.str();
+  
   TRACE_EXIT();
 }
 

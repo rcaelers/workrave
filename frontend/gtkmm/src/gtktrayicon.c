@@ -556,8 +556,8 @@ static gboolean
 wrgtk_tray_icon_delete (GtkWidget   *widget,
 		      GdkEventAny *event)
 {
-  WRGtkTrayIcon *icon = GTK_TRAY_ICON (widget);
-
+  // WRGtkTrayIcon *icon = GTK_TRAY_ICON (widget);
+  
   GTK_NOTE (PLUGSOCKET,
 	    g_print ("GtkStatusIcon %p: delete notify, tray manager window %lx\n",
 		     icon, (gulong) icon->priv->manager_window));
