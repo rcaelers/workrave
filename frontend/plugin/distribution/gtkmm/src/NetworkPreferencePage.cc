@@ -253,6 +253,12 @@ NetworkPreferencePage::create_model()
 {
   peers_store = Gtk::ListStore::create(peers_columns);
 
+#ifdef PLATFORM_OS_WIN32
+  // FIXME: this seems to avoid a crash on windows...bug #791
+  Gtk::ListStore *store = peers_store.operator->();
+  printf("%x\n", store);
+#endif
+  
   list<string> peers = dist_manager->get_peers();
 
   for (list<string>::iterator i = peers.begin(); i != peers.end(); i++)
@@ -417,12 +423,20 @@ void
 NetworkPreferencePage::on_peer_add()
 {
   TRACE_ENTER("NetworkPreferencePage::on_peer_add");
-  Gtk::TreeRow row = *(peers_store->append());
+
+  Gtk::TreeModel::iterator iter = peers_store->append();
+  Gtk::TreeModel::Row row = *iter;
 
   const Gtk::TreeModelColumn<std::string> &hostname_column = peers_columns.hostname;
-  
-  row[hostname_column]  = "";
 
+  try
+    {
+      row[hostname_column]  = "";
+    }
+  catch(...)
+    {
+    }
+        
   stringstream ss;
   int port = (int) port_entry->get_value();
 
