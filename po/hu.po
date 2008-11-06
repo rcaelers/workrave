@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
 "POT-Creation-Date: 2008-08-30 09:41+0200\n"
-"PO-Revision-Date: 2006-07-31 18:09+0200\n"
+"PO-Revision-Date: 2008-09-26 19:51+0200\n"
 "Last-Translator: ORY Mate <orymate@gmail.com>\n"
 "Language-Team: <ubuntu-l10n-hu@lists.ubuntu.com>\n"
 "MIME-Version: 1.0\n"
@@ -381,7 +381,7 @@ msgstr "A napi korlátozásból %s van hátra"
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:266
 #, c-format
 msgid "Daily limit %s overdue"
-msgstr "A napi korlátozás %s túllépésben2 van"
+msgstr "A napi korlátozás %s túllépésben van"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:71
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:90

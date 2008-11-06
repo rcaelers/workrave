@@ -60,19 +60,19 @@ Gtk::Widget *
 MicroBreakWindow::create_gui()
 {
   // Time bar
-  time_bar = manage(new TimeBar);
+  time_bar = Gtk::manage(new TimeBar);
   time_bar->set_text("Microbreak 0:32"); // FIXME:
 
   // Label
-  label = manage(new Gtk::Label());
+  label = Gtk::manage(new Gtk::Label());
 
   // Icon
   string icon = Util::complete_directory("micro-break.png", Util::SEARCH_PATH_IMAGES);
-  Gtk::Image *img = manage(new Gtk::Image(icon));
+  Gtk::Image *img = Gtk::manage(new Gtk::Image(icon));
   img->set_alignment(0.0, 0.0);
 
   // HBox
-  Gtk::HBox *hbox = manage(new Gtk::HBox(false, 12));
+  Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox(false, 12));
   hbox->pack_start(*img, false, false, 0);
   hbox->pack_start(*label, Gtk::PACK_EXPAND_PADDING, 0);
 
@@ -89,9 +89,9 @@ MicroBreakWindow::create_gui()
       Gtk::HBox *button_box;
       if (break_flags != BREAK_FLAGS_NONE)
         {
-          button_box = manage(new Gtk::HBox(false, 6));
+          button_box = Gtk::manage(new Gtk::HBox(false, 6));
 
-          Gtk::HBox *bbox = manage(new Gtk::HBox(true, 6));
+          Gtk::HBox *bbox = Gtk::manage(new Gtk::HBox(true, 6));
 
           if ((break_flags & BREAK_FLAGS_POSTPONABLE) != 0)
             {
@@ -106,13 +106,13 @@ MicroBreakWindow::create_gui()
             }
 
           Gtk::Alignment *bboxa =
-            manage(new Gtk::Alignment(1.0, 0.0, 0.0, 0.0));
+            Gtk::manage(new Gtk::Alignment(1.0, 0.0, 0.0, 0.0));
           bboxa->add(*bbox);
 
           if (restbreak->is_enabled())
             {
               button_box->pack_start
-                (*manage(create_restbreaknow_button(false)),
+                (*Gtk::manage(create_restbreaknow_button(false)),
                  Gtk::PACK_SHRINK, 0);
             }
           button_box->pack_end(*bboxa,
@@ -120,8 +120,8 @@ MicroBreakWindow::create_gui()
         }
       else
         {
-          button_box = manage(new Gtk::HBox(false, 6));
-          button_box->pack_end(*manage(create_restbreaknow_button(true)),
+          button_box = Gtk::manage(new Gtk::HBox(false, 6));
+          button_box->pack_end(*Gtk::manage(create_restbreaknow_button(true)),
                                Gtk::PACK_SHRINK, 0);
         }
       box->pack_start(*button_box, Gtk::PACK_EXPAND_WIDGET, 0);
@@ -146,7 +146,7 @@ Gtk::Button *
 MicroBreakWindow::create_restbreaknow_button(bool label)
 {
   Gtk::Button *ret;
-  ret = manage(GtkUtil::create_image_button(_("Rest break"),
+  ret = Gtk::manage(GtkUtil::create_image_button(_("Rest break"),
                                             "timer-rest-break.png",
                                             label));
   ret->signal_clicked()

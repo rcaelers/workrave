@@ -6,7 +6,7 @@ dnl
 dnl $Id$
 dnl
 
-AC_INIT(workrave, [1.9.0],
+AC_INIT(workrave, [1.9.1-pre],
         [http://issues.workrave.org/cgi-bin/bugzilla/enter_bug.cgi])
 
 dnl Demand at least version 2.61 of autoconf.
@@ -132,6 +132,29 @@ AC_CHECK_MEMBER(MOUSEHOOKSTRUCT.hwnd,AC_DEFINE(HAVE_STRUCT_MOUSEHOOKSTRUCT,,[str
 AC_TYPE_SIGNAL
 AC_CHECK_FUNCS([gettimeofday nanosleep select setlocale realpath])
 
+
+have_extern_timezone_defined=no
+AC_MSG_CHECKING([external timezone variable defined in time.h])
+AC_TRY_COMPILE([#include <time.h>], 
+        [ timezone += 1;
+          return 0;],
+        [have_extern_timezone_defined=no=yes
+         AC_DEFINE(HAVE_EXTERN_TIMEZONE_DEFINED, 1, "External timezone")
+         AC_MSG_RESULT(yes)],
+         AC_MSG_RESULT(no))
+
+have_extern_timezone=no
+AC_MSG_CHECKING([external timezone variable])
+AC_TRY_COMPILE([#include <time.h>], 
+        [ extern long longtime;
+	  timezone += 1;
+          return 0;],
+        [have_extern_timezone=yes
+         AC_DEFINE(HAVE_EXTERN_TIMEZONE, 1, "External timezone")
+         AC_MSG_RESULT(yes)],
+         AC_MSG_RESULT(no))
+
+	 
 dnl
 dnl Debug
 dnl
@@ -350,7 +373,7 @@ then
     dnl for NLS support. Call them in this order!
     dnl WITH_NLS is for the po files
     dnl AM_KDE_WITH_NLS
-    dnl    KDE_PROG_LIBTOOL
+    dnl KDE_PROG_LIBTOOL
 
     KDE_USE_QT(3.0.0)
     AC_PATH_KDE
@@ -728,6 +751,7 @@ AC_OUTPUT(Makefile
           frontend/common/share/Makefile \
           frontend/common/share/sounds/Makefile \
           frontend/common/share/sounds/subtle/Makefile \
+          frontend/common/share/sounds/default/Makefile \
           frontend/common/share/images/Makefile \
           frontend/common/share/images/win32/Makefile \
           frontend/common/share/images/osx/Makefile \

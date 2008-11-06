@@ -29,7 +29,9 @@
 #include "nls.h"
 #include "debug.hh"
 
+#ifndef PLATFORM_OS_WIN32_NATIVE
 #include <unistd.h>
+#endif
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>

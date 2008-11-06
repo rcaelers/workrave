@@ -302,7 +302,6 @@ GUI::init_core()
 void
 GUI::init_sound_player()
 {
-  // FIXME: Memory leak.
   sound_player = new SoundPlayer();
 }
 

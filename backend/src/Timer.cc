@@ -28,6 +28,7 @@ static const char rcsid[] = "$Id$";
 #include <sstream>
 #include <stdio.h>
 #include <math.h>
+#include <time.h>
 
 #include "CoreFactory.hh"
 #include "ICore.hh"
@@ -40,6 +41,14 @@ static const char rcsid[] = "$Id$";
 
 using namespace std;
 using namespace workrave;
+
+#ifdef HAVE_EXTERN_TIMEZONE
+#  ifndef HAVE_EXTERN_TIMEZONE_DEFINED
+extern long timezone;
+#  endif
+#else
+static int timezone = 0;
+#endif
 
 //! Constructs a new break timer.
 /*!
@@ -687,23 +696,6 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
   TRACE_MSG("next_reset_time " << next_reset_time);
   TRACE_MSG("time " << current_time);
   
-  const time_t now = core->get_time();
-  struct tm *tmnow = localtime(&now);
-
-  TRACE_MSG(tmnow->tm_mday << " "
-            << tmnow->tm_mon << " "
-            << tmnow->tm_year << " "
-            << tmnow->tm_hour << " "
-            << tmnow->tm_min << " "
-            << tmnow->tm_min << " "
-            << tmnow->tm_isdst << " "
-#ifdef PLATFORM_OS_UNIX            
-            << tmnow->tm_gmtoff << " "
-#endif            
-            << tzname[0] << " " 
-            << tzname[1]);
-
-  
   if (activity_sensitive)
     {
       TRACE_MSG("is activity sensitive");
@@ -940,23 +932,6 @@ Timer::deserialize_state(const std::string &state, int version)
 
   // lastReset -= tz;
 
-  time_t xx = lastReset - tz;
-  struct tm *lt = localtime(&xx);
-
-  TRACE_MSG(lt->tm_mday << " "
-            << lt->tm_mon << " "
-            << lt->tm_year << " "
-            << lt->tm_hour << " "
-            << lt->tm_min << " "
-            << lt->tm_isdst << " "
-#ifdef PLATFORM_OS_UNIX            
-            << lt->tm_gmtoff << " "
-#endif
-            << tzname[0] << " " 
-            << tzname[1] << " " 
-            << timezone << " "
-            << daylight);
-  
   TRACE_MSG(si << " " << llt << " " << lle);
   TRACE_MSG(snooze_inhibited);
 

@@ -25,7 +25,9 @@ static const char rcsid[] = "$Id$";
 
 #include "TimePredFactory.hh"
 #include "DayTimePred.hh"
+#if 0
 #include "WeekTimePred.hh"
+#endif
 
 using namespace std;
 
@@ -49,12 +51,14 @@ TimePredFactory::create_time_pred(string spec)
           ok = dayPred->init(spec);
           pred = dayPred;
         }
+#if 0
       else if (type == "week")
         {
           WeekTimePred *weekPred = new WeekTimePred();
           ok = weekPred->init(spec);
           pred = weekPred;
         }
+#endif
     }
 
   if (pred && !ok)

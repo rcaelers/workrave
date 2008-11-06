@@ -33,7 +33,10 @@ static const char rcsid[] = "$Id$";
 #include "nls.h"
 #include "debug.hh"
 
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
+
 #include <iostream>
 
 #ifdef HAVE_GNOME
@@ -154,7 +157,7 @@ MainWindow::init()
 
   enabled = TimerBoxControl::is_enabled("main_window");
 
-  timer_box_view = manage(new TimerBoxGtkView(Menus::MENU_MAINWINDOW));
+  timer_box_view = Gtk::manage(new TimerBoxGtkView(Menus::MENU_MAINWINDOW));
   timer_box_control = new TimerBoxControl("main_window", *timer_box_view);
   timer_box_view->set_geometry(ORIENTATION_LEFT, -1);
   timer_box_control->update();

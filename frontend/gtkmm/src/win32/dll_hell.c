@@ -1,7 +1,7 @@
 /*
  * dll_hell.c --- DLL hell checking
  *
- * Copyright (C) 2003, 2007 Raymond Penners <raymond@dotsphinx.com>
+ * Copyright (C) 2003, 2007, 2008 Raymond Penners <raymond@dotsphinx.com>
  * Adapted from Gaim, originally written by Herman Bloggs
  *
  * This program is free software: you can redistribute it and/or modify
@@ -18,10 +18,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include <stdio.h>
 #include <windows.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
 
 #define DLL_CONFLICT_EXTENSION ".conflict"
 
@@ -41,6 +45,9 @@ DLL_CONFLICT_EXTENSION " in order to avoid any possible conflicts?\x0d\x0a"
 "Tip: If you do not understand what this all means, then please reinstall Workrave, but this time\x0d\x0a"
 "select the full installation (including the GTK+ runtime).";
 
+#ifdef PLATFORM_OS_WIN32_NATIVE
+#define strcasecmp _stricmp
+#endif
 
 static void
 check_dll(char* dll, char* orig)

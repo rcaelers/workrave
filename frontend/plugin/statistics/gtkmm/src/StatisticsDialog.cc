@@ -35,7 +35,9 @@
 # endif
 #endif
 
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 #include <assert.h>
 #include <sstream>
 #include <stdio.h>
@@ -98,14 +100,14 @@ void
 StatisticsDialog::init_gui()
 {
 #if !defined(PLATFORM_OS_OSX)
-  Gtk::Notebook *tnotebook = manage(new Gtk::Notebook());
+  Gtk::Notebook *tnotebook = Gtk::manage(new Gtk::Notebook());
   tnotebook->set_tab_pos(Gtk::POS_TOP);
 #else
-  Gtk::HBox *tnotebook= manage(new Gtk::HBox(false, 6));
+  Gtk::HBox *tnotebook= Gtk::manage(new Gtk::HBox(false, 6));
 #endif
   
   // Calendar
-  calendar = manage(new Gtk::Calendar());
+  calendar = Gtk::manage(new Gtk::Calendar());
   calendar->signal_month_changed().connect(sigc::mem_fun(*this, &StatisticsDialog::on_calendar_month_changed));
   calendar->signal_day_selected().connect(sigc::mem_fun(*this, &StatisticsDialog::on_calendar_day_selected));
   calendar->display_options(Gtk::CALENDAR_SHOW_WEEK_NUMBERS
@@ -113,21 +115,21 @@ StatisticsDialog::init_gui()
                             |Gtk::CALENDAR_SHOW_HEADING);
 
   // Button box.
-  Gtk::HBox *btnbox= manage(new Gtk::HBox(false, 6));
+  Gtk::HBox *btnbox= Gtk::manage(new Gtk::HBox(false, 6));
   first_btn
-    = manage(GtkUtil::create_custom_stock_button(NULL,Gtk::Stock::GOTO_FIRST));
+    = Gtk::manage(GtkUtil::create_custom_stock_button(NULL,Gtk::Stock::GOTO_FIRST));
   first_btn->signal_clicked()
     .connect(sigc::mem_fun(*this, &StatisticsDialog::on_history_goto_first));
   last_btn
-    = manage(GtkUtil::create_custom_stock_button(NULL,Gtk::Stock::GOTO_LAST));
+    = Gtk::manage(GtkUtil::create_custom_stock_button(NULL,Gtk::Stock::GOTO_LAST));
   last_btn->signal_clicked()
     .connect(sigc::mem_fun(*this, &StatisticsDialog::on_history_goto_last));
   back_btn
-    = manage(GtkUtil::create_custom_stock_button(NULL,Gtk::Stock::GO_BACK));
+    = Gtk::manage(GtkUtil::create_custom_stock_button(NULL,Gtk::Stock::GO_BACK));
   back_btn->signal_clicked()
     .connect(sigc::mem_fun(*this, &StatisticsDialog::on_history_go_back));
   forward_btn
-    = manage(GtkUtil::create_custom_stock_button(NULL,Gtk::Stock::GO_FORWARD));
+    = Gtk::manage(GtkUtil::create_custom_stock_button(NULL,Gtk::Stock::GO_FORWARD));
   forward_btn->signal_clicked()
     .connect(sigc::mem_fun(*this, &StatisticsDialog::on_history_go_forward));
 
@@ -137,22 +139,22 @@ StatisticsDialog::init_gui()
   btnbox->pack_start(*last_btn, true, true, 0);
 
   // Info box
-  date_label = manage(new Gtk::Label);
+  date_label = Gtk::manage(new Gtk::Label);
 
   // Navigation box
   HigCategoryPanel *browsebox
-    = manage(new HigCategoryPanel(_("Browse history")));
+    = Gtk::manage(new HigCategoryPanel(_("Browse history")));
   browsebox->add(*btnbox);
   browsebox->add(*calendar);
 
   // Stats box
-  HigCategoriesPanel *navbox = manage(new HigCategoriesPanel());
-  HigCategoryPanel *statbox = manage(new HigCategoryPanel(_("Statistics")));
+  HigCategoriesPanel *navbox = Gtk::manage(new HigCategoriesPanel());
+  HigCategoryPanel *statbox = Gtk::manage(new HigCategoryPanel(_("Statistics")));
   statbox->add(_("Date:"), *date_label);
   statbox->add(*tnotebook);
   navbox->add(*statbox);
 
-  Gtk::HBox *hbox = manage(new Gtk::HBox(false, 12));
+  Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox(false, 12));
   hbox->pack_start(*browsebox, false, false, 0);
   hbox->pack_start(*navbox, true, true, 0);
 
@@ -183,11 +185,11 @@ StatisticsDialog::init_gui()
 void
 StatisticsDialog::create_break_page(Gtk::Widget *tnotebook)
 {
-  Gtk::HBox *box = manage(new Gtk::HBox(false, 3));
-  Gtk::Label *lab = manage(new Gtk::Label(_("Breaks")));
+  Gtk::HBox *box = Gtk::manage(new Gtk::HBox(false, 3));
+  Gtk::Label *lab = Gtk::manage(new Gtk::Label(_("Breaks")));
   box->pack_start(*lab, false, false, 0);
 
-  Gtk::Table *table = manage(new Gtk::Table(10, 5, false));
+  Gtk::Table *table = Gtk::manage(new Gtk::Table(10, 5, false));
   table->set_row_spacings(2);
   table->set_col_spacings(6);
   table->set_border_width(6);
@@ -233,17 +235,17 @@ StatisticsDialog::create_break_page(Gtk::Widget *tnotebook)
     (_("Daily usage"),
      _("The total computer usage"));
 
-  Gtk::HSeparator *hrule = manage(new Gtk::HSeparator());
-  Gtk::VSeparator *vrule = manage(new Gtk::VSeparator());
+  Gtk::HSeparator *hrule = Gtk::manage(new Gtk::HSeparator());
+  Gtk::VSeparator *vrule = Gtk::manage(new Gtk::VSeparator());
 
   // Add labels to table.
   int y = 0;
 
-  Gtk::Widget *mp_label = manage(GtkUtil::create_label_for_break
+  Gtk::Widget *mp_label = Gtk::manage(GtkUtil::create_label_for_break
                                  (BREAK_ID_MICRO_BREAK));
-  Gtk::Widget *rb_label = manage(GtkUtil::create_label_for_break
+  Gtk::Widget *rb_label = Gtk::manage(GtkUtil::create_label_for_break
                                  (BREAK_ID_REST_BREAK));
-  Gtk::Widget *dl_label = manage(GtkUtil::create_label_for_break
+  Gtk::Widget *dl_label = Gtk::manage(GtkUtil::create_label_for_break
                                  (BREAK_ID_DAILY_LIMIT));
 
   y = 0;
@@ -264,13 +266,13 @@ StatisticsDialog::create_break_page(Gtk::Widget *tnotebook)
   GtkUtil::table_attach_left_aligned(*table, *postponed_label, 0, y++);
   GtkUtil::table_attach_left_aligned(*table, *overdue_label, 0, y++);
 
-  hrule = manage(new Gtk::HSeparator());
-  vrule = manage(new Gtk::VSeparator());
+  hrule = Gtk::manage(new Gtk::HSeparator());
+  vrule = Gtk::manage(new Gtk::VSeparator());
   table->attach(*hrule, 0, 5, y, y + 1, Gtk::EXPAND | Gtk::FILL, Gtk::SHRINK);
   table->attach(*vrule, 1, 2, 10, 12, Gtk::SHRINK, Gtk::EXPAND | Gtk::FILL);
   y++;
 
-  daily_usage_label = manage(new Gtk::Label());
+  daily_usage_label = Gtk::manage(new Gtk::Label());
 
   GtkUtil::table_attach_left_aligned(*table, *usage_label, 0, y);
   GtkUtil::table_attach_right_aligned(*table, *daily_usage_label, 2, y++);
@@ -280,7 +282,7 @@ StatisticsDialog::create_break_page(Gtk::Widget *tnotebook)
     {
       for (int j = 0; j < BREAK_STATS; j++)
         {
-          break_labels[i][j] = manage(new Gtk::Label());
+          break_labels[i][j] = Gtk::manage(new Gtk::Label());
           GtkUtil::table_attach_right_aligned(*table, *break_labels[i][j], i + 2, j + 2);
         }
     }
@@ -298,11 +300,11 @@ StatisticsDialog::create_break_page(Gtk::Widget *tnotebook)
 void
 StatisticsDialog::create_activity_page(Gtk::Widget *tnotebook)
 {
-  Gtk::HBox *box = manage(new Gtk::HBox(false, 3));
-  Gtk::Label *lab = manage(new Gtk::Label(_("Activity")));
+  Gtk::HBox *box = Gtk::manage(new Gtk::HBox(false, 3));
+  Gtk::Label *lab = Gtk::manage(new Gtk::Label(_("Activity")));
   box->pack_start(*lab, false, false, 0);
 
-  Gtk::Table *table = manage(new Gtk::Table(8, 5, false));
+  Gtk::Table *table = Gtk::manage(new Gtk::Table(8, 5, false));
   table->set_row_spacings(2);
   table->set_col_spacings(6);
   table->set_border_width(6);
@@ -339,7 +341,7 @@ StatisticsDialog::create_activity_page(Gtk::Widget *tnotebook)
 
   for (int i = 0; i < 5; i++)
     {
-      activity_labels[i] = manage(new Gtk::Label());
+      activity_labels[i] = Gtk::manage(new Gtk::Label());
       GtkUtil::table_attach_right_aligned(*table, *activity_labels[i], 1, i);
     }
 

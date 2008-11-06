@@ -90,8 +90,8 @@ void
 TimerBoxPreferencePage::create_page()
 {
   // Placement
-  place_button  = manage(new Gtk::OptionMenu());
-  Gtk::Menu *place_menu = manage(new Gtk::Menu());
+  place_button  = Gtk::manage(new Gtk::OptionMenu());
+  Gtk::Menu *place_menu = Gtk::manage(new Gtk::Menu());
   Gtk::Menu::MenuList &place_items = place_menu->items();
   place_button->set_menu(*place_menu);
   place_items.push_back(Gtk::Menu_Helpers::MenuElem
@@ -103,7 +103,7 @@ TimerBoxPreferencePage::create_page()
   place_items.push_back(Gtk::Menu_Helpers::MenuElem
                         (_("Place all timers in one spot")));
   // Cycle time spin button.
-  cycle_entry = manage(new Gtk::SpinButton());
+  cycle_entry = Gtk::manage(new Gtk::SpinButton());
   cycle_entry->set_range(1, 999);
   cycle_entry->set_increments(1, 10);
   cycle_entry->set_numeric(true);
@@ -114,10 +114,10 @@ TimerBoxPreferencePage::create_page()
   // Timer display
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      Gtk::OptionMenu *display_button  = manage(new Gtk::OptionMenu());
+      Gtk::OptionMenu *display_button  = Gtk::manage(new Gtk::OptionMenu());
       timer_display_button[i] = display_button;
 
-      Gtk::Menu *menu = manage(new Gtk::Menu());
+      Gtk::Menu *menu = Gtk::manage(new Gtk::Menu());
       Gtk::Menu::MenuList &menu_list = menu->items();
       display_button->set_menu(*menu);
       menu_list.push_back(Gtk::Menu_Helpers::MenuElem
@@ -133,10 +133,10 @@ TimerBoxPreferencePage::create_page()
 
   if (name == "main_window")
     {
-      enabled_lab = manage(GtkUtil::create_label(_("Show status window"), false));
+      enabled_lab = Gtk::manage(GtkUtil::create_label(_("Show status window"), false));
 
       // Always-on-top
-      ontop_cb = manage
+      ontop_cb = Gtk::manage
         (new Gtk::CheckButton
          (_("The status window stays always on top of other windows")));
       ontop_cb->signal_toggled().connect(sigc::mem_fun(*this, &TimerBoxPreferencePage::on_always_on_top_toggled));
@@ -144,13 +144,13 @@ TimerBoxPreferencePage::create_page()
     }
   else if (name == "applet")
     {
-      enabled_lab = manage(GtkUtil::create_label(_("Applet enabled"), false));
+      enabled_lab = Gtk::manage(GtkUtil::create_label(_("Applet enabled"), false));
     }
 
-  enabled_cb = manage(new Gtk::CheckButton());
+  enabled_cb = Gtk::manage(new Gtk::CheckButton());
   enabled_cb->add(*enabled_lab);
 
-  HigCategoryPanel *hig = manage(new HigCategoryPanel(_("Display")));
+  HigCategoryPanel *hig = Gtk::manage(new HigCategoryPanel(_("Display")));
 
   hig->add(*enabled_cb);
 

@@ -7,7 +7,9 @@ http://www.workrave.org
 
 * Workrave 1.9.1
 
-** Fixes
+** Fix saving the username in the networking preferences (Francois Marier)
+
+** Fix KDE compilation errors (Stanislav Brabec)
 
 *** Extra "2" character in the Hungarian translation (Márton Németh)
 

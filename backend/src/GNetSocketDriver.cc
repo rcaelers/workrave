@@ -24,6 +24,10 @@ static const char rcsid[] = "$Id$";
 #include "config.h"
 #endif
 
+#ifdef HAVE_DISTRIBUTION
+
+#define GNET_EXPERIMENTAL
+
 #include "debug.hh"
 #include "GNetSocketDriver.hh"
 
@@ -328,3 +332,5 @@ GNetSocket::close()
   watch = 0;
   watch_flags = 0;
 }
+
+#endif

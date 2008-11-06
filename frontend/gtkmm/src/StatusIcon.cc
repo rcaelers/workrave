@@ -49,7 +49,13 @@ StatusIcon::StatusIcon(MainWindow& mw)
     {
       std::string file = Util::complete_directory(mode_files[i],
                                                   Util::SEARCH_PATH_IMAGES);
-      mode_icons[i] = Gdk::Pixbuf::create_from_file(file);
+      try
+        {
+          mode_icons[i] = Gdk::Pixbuf::create_from_file(file);
+        }
+      catch(...)
+        {
+        }
     }
 
 #ifdef PLATFORM_OS_WIN32
@@ -112,8 +118,10 @@ void StatusIcon::on_popup_menu(guint button, guint activate_time)
 
 bool StatusIcon::on_size_changed(guint size)
 {
+  (void) size;
   bool visible = status_icon->is_embedded();
   main_window.status_icon_changed();
+  return true;
 }
 
 #ifndef HAVE_STATUSICON_SIGNAL 

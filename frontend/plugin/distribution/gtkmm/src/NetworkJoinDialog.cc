@@ -24,7 +24,11 @@
 #include "config.h"
 #endif
 
+#ifdef HAVE_DISTRIBUTION
+
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 #include <assert.h>
 
 #include <gtkmm/image.h>
@@ -55,13 +59,13 @@ NetworkJoinDialog::NetworkJoinDialog()
   // Icon
   std::string title_icon = Util::complete_directory
     ("network.png", Util::SEARCH_PATH_IMAGES);
-  Gtk::Image *title_img = manage(new Gtk::Image(title_icon));
+  Gtk::Image *title_img = Gtk::manage(new Gtk::Image(title_icon));
   Gtk::Alignment *img_aln
     = Gtk::manage(new Gtk::Alignment
                   (Gtk::ALIGN_LEFT, Gtk::ALIGN_TOP, 0.0, 0.0));
   img_aln->add(*title_img);
 
-  Gtk::Label *title_lab = manage(new Gtk::Label());
+  Gtk::Label *title_lab = Gtk::manage(new Gtk::Label());
   Glib::ustring text = HigUtil::create_alert_text
     (_("Network connect"),
      _("Enter the host name and port number of a computer\n"
@@ -78,11 +82,11 @@ NetworkJoinDialog::NetworkJoinDialog()
   port_entry.set_width_chars(10);
   port_entry.set_value(port);
 
-  Gtk::Label *host_lab = manage(new Gtk::Label(_("Host name:")));
-  Gtk::Label *port_lab = manage(new Gtk::Label(_("Port:")));
+  Gtk::Label *host_lab = Gtk::manage(new Gtk::Label(_("Host name:")));
+  Gtk::Label *port_lab = Gtk::manage(new Gtk::Label(_("Port:")));
 
   // Table
-  Gtk::Table *table = manage(new Gtk::Table(4, 2, false));
+  Gtk::Table *table = Gtk::manage(new Gtk::Table(4, 2, false));
   table->set_spacings(6);
   title_lab->set_alignment(0.0);
   table->attach(*title_lab, 0, 2, 0, 1, Gtk::FILL, Gtk::SHRINK, 0, 6);
@@ -92,7 +96,7 @@ NetworkJoinDialog::NetworkJoinDialog()
   GtkUtil::table_attach_left_aligned(*table, port_entry, 1, 2);
 
   // Page
-  Gtk::HBox *page = manage(new Gtk::HBox(false, 12));
+  Gtk::HBox *page = Gtk::manage(new Gtk::HBox(false, 12));
   page->pack_start(*img_aln, false, true, 0);
   page->pack_start(*table, false, true, 0);
 
@@ -121,3 +125,5 @@ NetworkJoinDialog::get_connect_url()
   std::string peer = "tcp://" + host_entry.get_text() + ":" + port_entry.get_text() + "/";
   return peer;
 }
+
+#endif

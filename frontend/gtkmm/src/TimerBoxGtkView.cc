@@ -25,7 +25,9 @@ static const char rcsid[] = "$Id$";
 
 #include "preinclude.h"
 
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 #include <iostream>
 
 #include <gtkmm/image.h>
@@ -183,15 +185,15 @@ TimerBoxGtkView::init_widgets()
           EventButton *b = new EventButton();
           b->set_relief(Gtk::RELIEF_NONE);
           b->set_border_width(0);
-          b->add(*manage(img));
+          b->add(*Gtk::manage(img));
     
-          tooltips = manage( new Gtk::Tooltips() );
+          tooltips = Gtk::manage( new Gtk::Tooltips() );
           tooltips->set_tip( *b, _("Take rest break now") );
           tooltips->enable();
 
           Menus *menus = Menus::get_instance();
 
-          b->signal_clicked().connect(sigc::mem_fun(*menus, &Menus::on_menu_restbreak_now));
+	      b->signal_clicked().connect(sigc::mem_fun(*menus, &Menus::on_menu_restbreak_now));
           b->button_pressed.connect(sigc::mem_fun(*this,
                                                   &TimerBoxGtkView::on_restbreak_button_press_event));
           w = b;

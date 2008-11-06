@@ -28,7 +28,9 @@ const int TIMEOUT = 1000;
 
 #include "preinclude.h"
 
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 
 #include <gtkmm/button.h>
 #include <gtkmm/image.h>
@@ -86,7 +88,7 @@ RestBreakWindow::create_gui()
   Gtk::VBox *vbox = new Gtk::VBox(false, 6);
 
 #ifdef HAVE_EXERCISES
-  pluggable_panel = manage(new Gtk::HBox);
+  pluggable_panel = Gtk::manage(new Gtk::HBox);
 #endif
 
   vbox->pack_start(
@@ -98,13 +100,13 @@ RestBreakWindow::create_gui()
                    , false, false, 0);
 
   // Timebar
-  timebar = manage(new TimeBar);
+  timebar = Gtk::manage(new TimeBar);
   vbox->pack_start(*timebar, false, false, 6);
 
   Gtk::HButtonBox *button_box = create_break_buttons(true, false);
   if (button_box)
     {
-      vbox->pack_end(*manage(button_box), Gtk::SHRINK, 6);
+      vbox->pack_end(*Gtk::manage(button_box), Gtk::PACK_SHRINK, 6);
     }
 
   return vbox;
@@ -200,13 +202,13 @@ RestBreakWindow::draw_time_bar()
 Gtk::Widget *
 RestBreakWindow::create_info_panel()
 {
-  Gtk::HBox *info_box = manage(new Gtk::HBox(false, 12));
+  Gtk::HBox *info_box = Gtk::manage(new Gtk::HBox(false, 12));
 
   string icon = Util::complete_directory("rest-break.png", Util::SEARCH_PATH_IMAGES);
-  Gtk::Image *info_img = manage(new Gtk::Image(icon));
+  Gtk::Image *info_img = Gtk::manage(new Gtk::Image(icon));
   info_img->set_alignment(0.0, 0.0);
   Gtk::Label *info_lab =
-    manage(new Gtk::Label());
+    Gtk::manage(new Gtk::Label());
   Glib::ustring txt = HigUtil::create_alert_text
     (_("Rest break"),
      _("This is your rest break. Make sure you stand up and\n"
@@ -255,7 +257,7 @@ RestBreakWindow::install_exercises_panel()
     {
       set_ignore_activity(true);
       clear_pluggable_panel();
-      ExercisesPanel *exercises_panel = manage(new ExercisesPanel(NULL));
+      ExercisesPanel *exercises_panel = Gtk::manage(new ExercisesPanel(NULL));
       pluggable_panel->pack_start(*exercises_panel, false, false, 0);
       exercises_panel->set_exercise_count(get_exercise_count());
       exercises_panel->signal_stop().connect

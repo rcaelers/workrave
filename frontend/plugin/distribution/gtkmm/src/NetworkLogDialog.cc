@@ -1,6 +1,6 @@
 // NetworkLogDialog.cc --- NetworkLog dialog
 //
-// Copyright (C) 2002, 2003, 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2006, 2007, 2008 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,11 @@
 #include "config.h"
 #endif
 
+#ifdef HAVE_DISTRIBUTION
+
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 #include <assert.h>
 
 #include <gtkmm/textview.h>
@@ -48,7 +52,7 @@ NetworkLogDialog::NetworkLogDialog()
 
   set_default_size(600, 400);
 
-  text_buffer = Gtk::TextBuffer::create(); // FIXME: leak
+  text_buffer = Gtk::TextBuffer::create();
 
   text_view = Gtk::manage(new Gtk::TextView(text_buffer));
   text_view->set_cursor_visible(false);
@@ -57,7 +61,7 @@ NetworkLogDialog::NetworkLogDialog()
   scrolled_window.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
   scrolled_window.add(*text_view);
 
-  Gtk::HBox *box = manage(new Gtk::HBox(false, 6));
+  Gtk::HBox *box = Gtk::manage(new Gtk::HBox(false, 6));
   box->pack_start(scrolled_window, true, true, 0);
 
   get_vbox()->pack_start(*box, true, true, 0);
@@ -142,3 +146,4 @@ NetworkLogDialog::on_response(int response)
   TRACE_EXIT();
 }
 
+#endif

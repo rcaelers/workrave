@@ -35,7 +35,7 @@ static const char rcsid[] = "$Id: Locale.cc 1356 2007-10-22 18:22:13Z rcaelers $
 
 #include "locale.inc"
 
-extern int _nl_msg_cat_cntr;
+extern "C" int _nl_msg_cat_cntr;
 
 Locale::LanguageMap Locale::languages_native_locale;
 
@@ -103,7 +103,9 @@ Locale::set_locale(const std::string &code)
       g_unsetenv("LANG");
     }
 
-  ++_nl_msg_cat_cntr;
+#ifndef PLATFORM_OS_WIN32_NATIVE
+    ++_nl_msg_cat_cntr;
+#endif
 }
 
 std::string

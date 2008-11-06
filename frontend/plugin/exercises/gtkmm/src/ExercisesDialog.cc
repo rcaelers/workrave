@@ -26,7 +26,9 @@
 
 #include "preinclude.h"
 
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 #include <assert.h>
 
 #include <gtkmm/stock.h>

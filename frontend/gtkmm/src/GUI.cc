@@ -35,7 +35,9 @@ static const char rcsid[] = "$Id$";
 #include <gtkmm/messagedialog.h>
 #include <glibmm/refptr.h>
 
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 #include <stdio.h>
 #include <assert.h>
 #include <fcntl.h>
@@ -192,7 +194,7 @@ GUI::main()
 {
   TRACE_ENTER("GUI::main");
 
-#if defined (PLATFORM_OS_WIN32) || defined(PLATFORM_OS_OSX)
+#if (defined (PLATFORM_OS_WIN32) && !defined(PLATFORM_OS_WIN32_NATIVE)) || defined(PLATFORM_OS_OSX)
   // Win32/OSX need this....
   if (!g_thread_supported())
     {
@@ -333,7 +335,7 @@ GUI::init_platform()
   [ [ AppController alloc ] init ];
 #endif
   
-#if defined (PLATFORM_OS_WIN32) || defined(PLATFORM_OS_OSX)
+#if (defined (PLATFORM_OS_WIN32) && !defined(PLATFORM_OS_WIN32_NATIVE)) || defined(PLATFORM_OS_OSX)
   // Win32/OSX need this....
   if (!g_thread_supported())
     {
@@ -445,7 +447,6 @@ GUI::on_save_yourself(int phase, Gnome::UI::SaveStyle save_style, bool shutdown,
 void
 GUI::init_kde()
 {
-  // FIXME: memory leaks in here.
   TRACE_ENTER("GUI::init_kde");
   new KApplication(argc, argv, "Workrave");
   bool rc = kapp->dcopClient()->attach();
@@ -782,7 +783,7 @@ GUI::init_gtk_multihead()
 void
 GUI::init_gui()
 {
-  tooltips = manage(new Gtk::Tooltips());
+  tooltips = Gtk::manage(new Gtk::Tooltips());
   tooltips->enable();
 
   menus = new Menus();
@@ -1191,8 +1192,11 @@ GUI::grab()
 {
   if (break_windows != NULL && active_break_count > 0)
     {
-      GdkWindow *windows[active_break_count];
-
+#ifdef PLATFORM_OS_WIN32_NATIVE
+		GdkWindow *windows[BREAK_ID_SIZEOF];
+#else
+	  GdkWindow *windows[active_break_count];
+#endif
       for (int i = 0; i < active_break_count; i++)
         {
           Glib::RefPtr<Gdk::Window> window = break_windows[i]->get_gdk_window();
@@ -1459,7 +1463,8 @@ GUI::is_status_icon_visible() const
 void
 GUI::win32_init_filter()
 {
-  GtkWidget *window = main_window->Gtk::Widget::gobj();
+  // FIXME: GtkWidget *window = main_window->Gtk::Widget::gobj();
+  GtkWidget *window = (GtkWidget *)main_window->gobj();
   GdkWindow *gdk_window = window->window;
   gdk_window_add_filter(gdk_window, win32_filter_func, this);
 }

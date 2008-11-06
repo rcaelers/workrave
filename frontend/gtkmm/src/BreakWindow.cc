@@ -34,6 +34,10 @@ static const char rcsid[] = "$Id$";
 #include "debug.hh"
 #include "nls.h"
 
+#ifdef PLATFORM_OS_WIN32_NATIVE
+#undef max
+#endif
+
 #include <gtkmm/window.h>
 #include <gtkmm/stock.h>
 #include <gtkmm/buttonbox.h>
@@ -92,6 +96,13 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
 
 #ifdef PLATFORM_OS_WIN32
   desktop_window = NULL;
+
+  // Here's the secret: IMMEDIATELY after your window creation, set focus to it
+  // THEN position it. So:
+
+  HWND hwnd = (HWND) GDK_WINDOW_HWND(Gtk::Widget::gobj()->window);
+  ::SetFocus(hwnd);
+  ::SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE);
 
   if (mode != GUIConfig::BLOCK_MODE_NONE)
   {
@@ -192,7 +203,7 @@ BreakWindow::init_gui()
 {
   if (gui == NULL)
     {
-      gui = manage(create_gui());
+      gui = Gtk::manage(create_gui());
 
       if (block_mode == GUIConfig::BLOCK_MODE_NONE)
         {
@@ -202,11 +213,11 @@ BreakWindow::init_gui()
       else
         {
           set_border_width(0);
-          Frame *window_frame = manage(new Frame());
+          Frame *window_frame = Gtk::manage(new Frame());
           window_frame->set_border_width(0);
           window_frame->set_frame_style(Frame::STYLE_BREAK_WINDOW);
 
-          frame = manage(new Frame());
+          frame = Gtk::manage(new Frame());
           frame->set_frame_style(Frame::STYLE_SOLID);
           frame->set_frame_width(6);
           frame->set_border_width(6);
@@ -227,7 +238,7 @@ BreakWindow::init_gui()
               set_app_paintable(true);
               set_desktop_background(GTK_WIDGET (gobj())->window);
               Gtk::Alignment *align
-                = manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
+                = Gtk::manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
               align->add(*window_frame);
               add(*align);
 #endif
@@ -284,7 +295,7 @@ BreakWindow::create_lock_button()
   Gtk::Button *ret;
   if (System::is_lockable())
     {
-      ret = manage(GtkUtil::create_image_button(_("Lock"), "lock.png"));
+      ret = Gtk::manage(GtkUtil::create_image_button(_("Lock"), "lock.png"));
       ret->signal_clicked()
         .connect(sigc::mem_fun(*this, &BreakWindow::on_lock_button_clicked));
       GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
@@ -303,7 +314,7 @@ BreakWindow::create_shutdown_button()
   Gtk::Button *ret;
   if (System::is_shutdown_supported())
     {
-      ret = manage(GtkUtil::create_image_button(_("Shut down"), "shutdown.png"));
+      ret = Gtk::manage(GtkUtil::create_image_button(_("Shut down"), "shutdown.png"));
       ret->signal_clicked()
         .connect(sigc::mem_fun(*this, &BreakWindow::on_shutdown_button_clicked));
       GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
@@ -320,7 +331,7 @@ Gtk::Button *
 BreakWindow::create_skip_button()
 {
   Gtk::Button *ret;
-  ret = manage(GtkUtil::create_custom_stock_button(_("Skip"), Gtk::Stock::CLOSE));
+  ret = Gtk::manage(GtkUtil::create_custom_stock_button(_("Skip"), Gtk::Stock::CLOSE));
   ret->signal_clicked()
     .connect(sigc::mem_fun(*this, &BreakWindow::on_skip_button_clicked));
   GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
@@ -333,7 +344,7 @@ Gtk::Button *
 BreakWindow::create_postpone_button()
 {
   Gtk::Button *ret;
-  ret = manage(GtkUtil::create_custom_stock_button(_("Postpone"), Gtk::Stock::REDO));
+  ret = Gtk::manage(GtkUtil::create_custom_stock_button(_("Postpone"), Gtk::Stock::REDO));
   ret->signal_clicked()
     .connect(sigc::mem_fun(*this, &BreakWindow::on_postpone_button_clicked));
   GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
@@ -429,7 +440,7 @@ BreakWindow::create_break_buttons(bool lockable,
           shutdown_button = create_shutdown_button();
           if (shutdown_button != NULL)
             {
-              box->pack_end(*shutdown_button, Gtk::SHRINK, 0);
+				box->pack_end(*shutdown_button, Gtk::PACK_SHRINK, 0);
             }
         }
 
@@ -438,20 +449,20 @@ BreakWindow::create_break_buttons(bool lockable,
           Gtk::Button *lock_button = create_lock_button();
           if (lock_button != NULL)
             {
-              box->pack_end(*lock_button, Gtk::SHRINK, 0);
+              box->pack_end(*lock_button, Gtk::PACK_SHRINK, 0);
             }
         }
 
       if ((break_flags & BREAK_FLAGS_SKIPPABLE) != 0)
         {
           Gtk::Button *skip_button = create_skip_button();
-          box->pack_end(*skip_button, Gtk::SHRINK, 0);
+          box->pack_end(*skip_button, Gtk::PACK_SHRINK, 0);
         }
       
         if ((break_flags & BREAK_FLAGS_POSTPONABLE) != 0)
         {
           Gtk::Button *postpone_button = create_postpone_button();
-          box->pack_end(*postpone_button, Gtk::SHRINK, 0);
+          box->pack_end(*postpone_button, Gtk::PACK_SHRINK, 0);
         }
     }
 
@@ -496,6 +507,9 @@ BreakWindow::start()
     
   SetWindowLong((HWND)GDK_WINDOW_HWND(gdkwin), GWL_HWNDPARENT,
                 (long) GetDesktopWindow());
+
+  ::SetForegroundWindow((HWND)GDK_WINDOW_HWND(gdkwin));
+  ::SetFocus((HWND)GDK_WINDOW_HWND(gdkwin));
 #endif
   
   WindowHints::set_always_on_top(this, true);

@@ -25,6 +25,9 @@ static const char rcsid[] = "$Id$";
 
 #include "debug.hh"
 
+#include <string>
+using namespace std;
+
 #include "KdeSoundPlayer.hh"
 #include <debug.hh>
 
@@ -46,7 +49,7 @@ KdeSoundPlayer::~KdeSoundPlayer()
 
 
 bool
-KdeSoundPlayer::capability(SounCapability cap)
+KdeSoundPlayer::capability(SoundPlayer::SoundCapability cap)
 {
   (void) cap;
   return false;
@@ -59,7 +62,7 @@ KdeSoundPlayer::play_sound(string wavfile)
 }
 
 void
-KdeSoundPlayer::play_sound(SoundEvent snd)
+KdeSoundPlayer::play_sound(SoundPlayer::SoundEvent snd)
 {
   const char *map[] = {
     "break_prelude",
@@ -80,3 +83,34 @@ KdeSoundPlayer::play_sound(SoundEvent snd)
   TRACE_EXIT();
 }
 
+
+bool
+KdeSoundPlayer::get_sound_enabled(SoundPlayer::SoundEvent snd, bool &enabled)
+{
+  (void) snd;
+  (void) enabled;
+  
+  return false;
+}
+
+void
+KdeSoundPlayer::set_sound_enabled(SoundPlayer::SoundEvent snd, bool enabled)
+{
+  (void) snd;
+  (void) enabled;
+}
+
+bool
+KdeSoundPlayer::get_sound_wav_file(SoundPlayer::SoundEvent snd, std::string &wav_file)
+{
+  (void) snd;
+  (void) wav_file;
+  return false;
+}
+
+void
+KdeSoundPlayer::set_sound_wav_file(SoundPlayer::SoundEvent snd, const std::string &wav_file)
+{
+  (void) snd;
+  (void) wav_file;
+}

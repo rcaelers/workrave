@@ -27,9 +27,13 @@ static const char rcsid[] = "$Id$";
 
 #include "debug.hh"
 #include <fstream>
+#include <stdio.h>
 
 #include "GUI.hh"
 #ifdef PLATFORM_OS_WIN32
+#include <io.h>
+#include <fcntl.h>
+
 #include "crashlog.h"
 #include "w32debug.hh"
 #include "dll_hell.h"
@@ -40,7 +44,7 @@ extern "C" int run(int argc, char **argv);
 int
 run(int argc, char **argv)
 {
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WIN32) && !defined(PLATFORM_OS_WIN32_NATIVE)
   // Enable Windows structural exception handling.
   __try1(exception_handler);
 #endif
@@ -55,7 +59,7 @@ run(int argc, char **argv)
 
   delete gui;
 
-#if defined(PLATFORM_OS_WIN32)
+#if defined(PLATFORM_OS_WIN32) && !defined(PLATFORM_OS_WIN32_NATIVE)
   // Disable Windows structural exception handling.
   __except1;
 #endif
@@ -64,7 +68,7 @@ run(int argc, char **argv)
 }
 
 
-#if !defined(PLATFORM_OS_WIN32) || !defined(NDEBUG)
+#if !defined(PLATFORM_OS_WIN32) || (!defined(PLATFORM_OS_WIN32_NATIVE) && !defined(NDEBUG))
 int
 main(int argc, char **argv)
 {
@@ -96,6 +100,24 @@ int WINAPI WinMain (HINSTANCE hInstance,
       APPEND_ENDL();
       APPEND_DATE();
 #endif
+
+#ifndef NDEBUG 
+#ifdef PLATFORM_OS_WIN32_NATIVE
+	AllocConsole();
+
+	FILE* hf_out = fopen("c:\\temp\\out", "w");
+    setvbuf(hf_out, NULL, _IONBF, 1);
+    *stdout = *hf_out;
+    *stderr = *hf_out;
+
+    HANDLE handle_in = GetStdHandle(STD_INPUT_HANDLE);
+    int hCrt = _open_osfhandle((long) handle_in, _O_TEXT);
+    FILE* hf_in = _fdopen(hCrt, "r");
+    setvbuf(hf_in, NULL, _IONBF, 128);
+    *stdin = *hf_in;
+#endif
+#endif
+
       run(sizeof(argv)/sizeof(argv[0]), argv);
     }
   return (0);

@@ -422,7 +422,7 @@ SoundPlayer::load_sound_theme(const string &themefilename, Theme &theme)
   GError *error = NULL;
   gboolean r = TRUE;
   bool is_current = true;
-      
+
   GKeyFile *config = g_key_file_new();
 
   r = g_key_file_load_from_file(config, themefilename.c_str(), G_KEY_FILE_KEEP_COMMENTS, &error);
@@ -494,6 +494,7 @@ SoundPlayer::load_sound_theme(const string &themefilename, Theme &theme)
                   g_free(pathname);
                 }
             }
+          g_free(filename);
         }
 
       theme.active = is_current;
@@ -501,6 +502,8 @@ SoundPlayer::load_sound_theme(const string &themefilename, Theme &theme)
       
     }
 
+  g_key_file_free(config);
+    
   TRACE_MSG(is_current);
   TRACE_EXIT();
 }

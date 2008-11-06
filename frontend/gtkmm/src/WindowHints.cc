@@ -29,12 +29,19 @@ static const char rcsid[] = "$Id$";
 
 #include "debug.hh"
 
+#ifdef PLATFORM_OS_WIN32_NATIVE
+#undef max
+#endif
+
 #include <gtkmm/window.h>
 
 #ifdef PLATFORM_OS_WIN32
 #include <windows.h>
 #include <gtk/gtkwindow.h>
 #include <gdk/gdkwin32.h>
+#ifdef PLATFORM_OS_WIN32_NATIVE
+#undef max
+#endif
 #include <gtkmm/window.h>
 #include "harpoon.h"
 #include "W32Compat.hh"
@@ -81,7 +88,7 @@ WindowHints::grab(int num_windows, GdkWindow **windows)
 #if defined(PLATFORM_OS_WIN32)
   if (num_windows > 0)
     {
-      HWND unblocked_windows[num_windows + 1];
+      HWND *unblocked_windows = new HWND[num_windows + 1];
       for (int i = 0; i < num_windows; i++)
         {
           unblocked_windows[i] = (HWND) GDK_WINDOW_HWND(windows[i]);
@@ -94,6 +101,8 @@ WindowHints::grab(int num_windows, GdkWindow **windows)
 
       win32_block_input(TRUE);
       handle = (WindowHints::Grab *) 0xdeadf00d;
+
+	  delete [] unblocked_windows;
     }
 #else
   if (num_windows > 0)
