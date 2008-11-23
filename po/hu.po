@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
 "POT-Creation-Date: 2008-08-30 09:41+0200\n"
-"PO-Revision-Date: 2008-09-26 19:51+0200\n"
+"PO-Revision-Date: 2008-11-19 15:16+0100\n"
 "Last-Translator: ORY Mate <orymate@gmail.com>\n"
 "Language-Team: <ubuntu-l10n-hu@lists.ubuntu.com>\n"
 "MIME-Version: 1.0\n"
@@ -179,9 +179,8 @@ msgstr "Napi korlátozás"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:4
 #: ../frontend/common/src/SoundPlayer.cc:129
-#, fuzzy
 msgid "Exercise change"
-msgstr "Gyakorlat vége"
+msgstr "Új gyakorlat"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:5
 #: ../frontend/common/src/SoundPlayer.cc:117
@@ -220,7 +219,7 @@ msgstr "Workrave"
 
 #: ../frontend/common/src/SoundPlayer.cc:561
 msgid "Custom"
-msgstr ""
+msgstr "Egyéb"
 
 #: ../frontend/common/src/Text.cc:80
 #, c-format
@@ -394,9 +393,8 @@ msgid "General"
 msgstr "Általános"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:91
-#, fuzzy
 msgid "Sounds"
-msgstr "Hang:"
+msgstr "Hangok"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:95
 msgid "Status Window"
@@ -445,25 +443,24 @@ msgstr "Korlátozás:"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:206
 msgid "System default"
-msgstr ""
+msgstr "Rendszer alapértelmezése"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:246
 msgid "(font not available)"
-msgstr ""
+msgstr "(nem érhető el a betűtípus)"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:271
 msgid "Language:"
-msgstr ""
+msgstr "Nyelv:"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:275
 msgid "Start Workrave on Windows startup"
-msgstr ""
+msgstr "Workrave indítása a Windows elindulásakor"
 
 #. Options
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:298
-#, fuzzy
 msgid "Sound Options"
-msgstr "Opciók"
+msgstr "Hangbeállítások"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:306
 msgid "No sounds"
@@ -479,7 +476,7 @@ msgstr "Hangok lejátszása a beépített hangszórón"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:334
 msgid "Volume:"
-msgstr ""
+msgstr "Hangerő:"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:337
 msgid "Sound:"
@@ -488,31 +485,29 @@ msgstr "Hang:"
 #. Sound themes
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:343
 msgid "Sound Events"
-msgstr ""
+msgstr "Hangesemények"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:353
-#, fuzzy
 msgid "Sound Theme:"
-msgstr "Hang:"
+msgstr "Hangtéma:"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:376
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:394
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:416
 msgid "Play"
-msgstr ""
+msgstr "Lejátszás"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:381
 msgid "Event"
-msgstr ""
+msgstr "Esemény"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:397
-#, fuzzy
 msgid "Choose a sound"
-msgstr "Hangok nélkül"
+msgstr "Válasszon hangot"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:405
 msgid "Wavefiles"
-msgstr ""
+msgstr "Hangfájlok"
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:112
 #: ../frontend/text/src/PreludeWindow.cc:53
@@ -559,9 +554,8 @@ msgstr ""
 "Lazítson, nyújtózzon, sétáljon pár percig."
 
 #: ../frontend/gtkmm/src/TimerBoxGtkView.cc:189
-#, fuzzy
 msgid "Take rest break now"
-msgstr "A következő pihenőidő %s múlva lesz"
+msgstr "Tarson pihenőt"
 
 #: ../frontend/gtkmm/src/TimerBoxGtkView.cc:211
 msgid "Wait"
@@ -687,17 +681,15 @@ msgid "Orientation"
 msgstr "Tájolás"
 
 #: ../frontend/gtkmm/src/gtktrayicon.c:107
-#, fuzzy
 msgid "The orientation of the tray"
-msgstr "A panel tájolása."
+msgstr "A panel tájolása"
 
 #: ../frontend/gtkmm/src/workrave.desktop.in.in.h:1
-#, fuzzy
 msgid ""
 "Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
 msgstr ""
 "Ez a program segít az ismétlődő mozgásból eredő izomhúzódás (RSI – "
-"repetitive strain injury) megelőzésében és az abból való felépülésben."
+"repetitive strain injury) megelőzésében és az abból való felépülésben"
 
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:1
 msgid "_About..."
@@ -786,7 +778,7 @@ msgstr "Jelszó:"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:108
 msgid "Allow incoming connections"
-msgstr ""
+msgstr "Bejövő kapcsolatok engedélyezése"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:126
 msgid "Server settings"
@@ -980,23 +972,20 @@ msgstr "Feladatok"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:298
 msgid "Previous exercise"
-msgstr ""
+msgstr "Előző gyakorlat"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:299
-#, fuzzy
 msgid "Next exercise"
 msgstr "Gyakorlatok száma:"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:300
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:476
-#, fuzzy
 msgid "Pause exercises"
-msgstr "Gyakorlatok száma:"
+msgstr "Gyakorlatok szüneteltetése"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:301
-#, fuzzy
 msgid "End exercises"
-msgstr "Gyakorlatok"
+msgstr "Gyakorlatok befejezése"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:468
 msgid "Resume"
@@ -1007,9 +996,8 @@ msgid "Pause"
 msgstr "Szünet"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:474
-#, fuzzy
 msgid "Resume exercises"
-msgstr "Gyakorlatok száma:"
+msgstr "Gyakorlatok folytatása"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:144
 msgid "Browse history"
@@ -1147,19 +1135,16 @@ msgid "%s, from %s to %s"
 msgstr "%s, ettől: %s eddig: %s"
 
 #: ../frontend/text/src/PreludeWindow.cc:155
-#, fuzzy
 msgid "Break in"
-msgstr "Szünet ennyi idő múlva: %s"
+msgstr "Szünet ennyi idő múlva:"
 
 #: ../frontend/text/src/PreludeWindow.cc:160
-#, fuzzy
 msgid "Disappears in"
-msgstr "Eltűnik ennyi idő múlva: %s"
+msgstr "Eltűnik ennyi idő múlva:"
 
 #: ../frontend/text/src/PreludeWindow.cc:166
-#, fuzzy
 msgid "Silent in"
-msgstr "Csend ennyi idő múlva: %s"
+msgstr "Csend ennyi idő múlva:"
 
 #~ msgid "I could not initialize Bonobo"
 #~ msgstr "A Bonobo indítása sikertelen"
