@@ -352,7 +352,7 @@ Util::get_search_path(SearchPathId type)
       searchPath.push_back(string(WORKRAVE_PKGDATADIR) + "/exercises");
 #elif defined(PLATFORM_OS_WIN32)
 #if defined(PLATFORM_OS_WIN32_NATIVE)
-	  searchPath.push_back(app_dir + "\\..\\..\\frontend\\common\\share\\exercises");
+	  searchPath.push_back(app_dir + "\\..\\..\\frontend\\plugin\\exercises\\common\\share");
 #endif
       searchPath.push_back(app_dir + "\\share\\exercises");
 #elif defined(PLATFORM_OS_OSX)
