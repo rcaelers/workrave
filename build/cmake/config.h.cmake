@@ -5,6 +5,7 @@
 #cmakedefine PLATFORM_OS_WIN32 
 #cmakedefine PLATFORM_OS_WIN32_NATIVE
 
+#cmakedefine DATA_PATH "${DATA_PATH}"
 
 
 

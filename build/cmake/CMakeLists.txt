@@ -1,13 +1,16 @@
 
+set(ALL_LINGUAS nl de eo pl da es zh_TW ru fr pt_BR nb lt cs he eu ca sv ja bg hu tr el sk zh_CN it sl ro)
+set(SOUND_THEMES subtle default)
+
 # Set Workrave version
-set (VERSION_MAJOR   "1")
-set (VERSION_MINOR   "9")
-set (VERSION_RELEASE "2")
-set (VERSION_PATCH   "0")
+set(VERSION_MAJOR   "1")
+set(VERSION_MINOR   "9")
+set(VERSION_RELEASE "2")
+set(VERSION_PATCH   "0")
 if (VERSION_PATCH)
-    set (VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_RELEASE}-${VERSION_PATCH}" )
+    set(VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_RELEASE}-${VERSION_PATCH}" )
 else (VERSION_PATCH)
-    set (VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_RELEASE}" )
+    set(VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_RELEASE}" )
 endif (VERSION_PATCH)
 
 # CMake
@@ -67,6 +70,15 @@ if (WIN32)
 endif (WIN32)
 
 ######################################################################
+## Options
+######################################################################
+
+option(DEVELOPMENT_MODE "Development" OFF)
+if(DEVELOPMENT_MODE)
+  set(DATA_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../../)
+endif(DEVELOPMENT_MODE)
+
+######################################################################
 ## Find packages
 ######################################################################
 
@@ -93,6 +105,7 @@ if (MINGW)
 endif(MINGW)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h )
+
 
 # compiler definitions 
 add_definitions(-DHAVE_CONFIG_H=1)

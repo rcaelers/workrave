@@ -296,6 +296,9 @@ Util::get_search_path(SearchPathId type)
 #if defined(PLATFORM_OS_WIN32_NATIVE)
 	  searchPath.push_back(app_dir + "\\..\\..\\frontend\\common\\share\\images");
 #endif
+#if defined(DATA_PATH)
+	  searchPath.push_back(string(DATA_PATH) + "frontend\\common\\share\\images");
+#endif
       searchPath.push_back(app_dir + "\\share\\images");
 
 #elif defined(PLATFORM_OS_OSX)
@@ -317,6 +320,9 @@ Util::get_search_path(SearchPathId type)
 #elif defined(PLATFORM_OS_WIN32)
 #if defined(PLATFORM_OS_WIN32_NATIVE)
 	  searchPath.push_back(app_dir + "\\..\\..\\frontend\\common\\share\\sounds");
+#endif
+#if defined(DATA_PATH)
+	  searchPath.push_back(string(DATA_PATH) + "frontend\\common\\share\\sounds");
 #endif
       searchPath.push_back(app_dir + "\\share\\sounds1");
 #elif defined(PLATFORM_OS_OSX)
@@ -353,6 +359,9 @@ Util::get_search_path(SearchPathId type)
 #elif defined(PLATFORM_OS_WIN32)
 #if defined(PLATFORM_OS_WIN32_NATIVE)
 	  searchPath.push_back(app_dir + "\\..\\..\\frontend\\plugin\\exercises\\common\\share");
+#endif
+#if defined(DATA_PATH)
+	  searchPath.push_back(string(DATA_PATH) + "frontend\\plugin\\exercises\\common\\share");
 #endif
       searchPath.push_back(app_dir + "\\share\\exercises");
 #elif defined(PLATFORM_OS_OSX)
