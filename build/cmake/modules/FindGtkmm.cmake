@@ -43,46 +43,45 @@ IF(WIN32)
     )
   
   SET(GTKMM_LIBS
-    ${GTKMM_DIR}/lib/glademm${GTKMM_LIBS_VARIANT}-2_4.lib
-    ${GTKMM_DIR}/lib/xml++${GTKMM_LIBS_VARIANT}-2_6.lib
-    ${GTKMM_DIR}/lib/gtkmm${GTKMM_LIBS_VARIANT}-2_4.lib
+    optimized ${GTKMM_DIR}/lib/atkmm${GTKMM_LIBS_VARIANT}-1_6.lib
+    debug ${GTKMM_DIR}/lib/atkmm${GTKMM_LIBS_VARIANT}-d-1_6.lib
+    optimized ${GTKMM_DIR}/lib/cairomm${GTKMM_LIBS_VARIANT}-1_0.lib
+    debug ${GTKMM_DIR}/lib/cairomm${GTKMM_LIBS_VARIANT}-d-1_0.lib
+    optimized ${GTKMM_DIR}/lib/gdkmm${GTKMM_LIBS_VARIANT}-2_4.lib
+    debug ${GTKMM_DIR}/lib/gdkmm${GTKMM_LIBS_VARIANT}-d-2_4.lib
+    optimized ${GTKMM_DIR}/lib/giomm${GTKMM_LIBS_VARIANT}-2_4.lib
+    debug ${GTKMM_DIR}/lib/giomm${GTKMM_LIBS_VARIANT}-d-2_4.lib
+    optimized ${GTKMM_DIR}/lib/glademm${GTKMM_LIBS_VARIANT}-2_4.lib
+    debug ${GTKMM_DIR}/lib/glademm${GTKMM_LIBS_VARIANT}-d-2_4.lib
+    optimized ${GTKMM_DIR}/lib/glibmm${GTKMM_LIBS_VARIANT}-2_4.lib
+    debug ${GTKMM_DIR}/lib/glibmm${GTKMM_LIBS_VARIANT}-d-2_4.lib
+    optimized ${GTKMM_DIR}/lib/gtkmm${GTKMM_LIBS_VARIANT}-2_4.lib
+    debug ${GTKMM_DIR}/lib/gtkmm${GTKMM_LIBS_VARIANT}-d-2_4.lib
+    optimized ${GTKMM_DIR}/lib/pangomm${GTKMM_LIBS_VARIANT}-1_4.lib
+    debug ${GTKMM_DIR}/lib/pangomm${GTKMM_LIBS_VARIANT}-d-1_4.lib
+    optimized ${GTKMM_DIR}/lib/sigc${GTKMM_LIBS_VARIANT}-2_0.lib
+    debug ${GTKMM_DIR}/lib/sigc${GTKMM_LIBS_VARIANT}-d-2_0.lib
+    optimized ${GTKMM_DIR}/lib/xml++${GTKMM_LIBS_VARIANT}-2_6.lib
+    debug ${GTKMM_DIR}/lib/xml++${GTKMM_LIBS_VARIANT}-d-2_6.lib
+    ${GTKMM_DIR}/lib/atk-1.0.lib
+    ${GTKMM_DIR}/lib/cairo.lib
+    ${GTKMM_DIR}/lib/gdk-win32-2.0.lib
+    ${GTKMM_DIR}/lib/gdk_pixbuf-2.0.lib
+    ${GTKMM_DIR}/lib/gio-2.0.lib
     ${GTKMM_DIR}/lib/glade-2.0.lib
-    ${GTKMM_DIR}/lib/gdkmm${GTKMM_LIBS_VARIANT}-2_4.lib
-    ${GTKMM_DIR}/lib/atkmm${GTKMM_LIBS_VARIANT}-1_6.lib
-    ${GTKMM_DIR}/lib/pangomm${GTKMM_LIBS_VARIANT}-1_4.lib
-    ${GTKMM_DIR}/lib/giomm${GTKMM_LIBS_VARIANT}-2_4.lib
-    ${GTKMM_DIR}/lib/glibmm${GTKMM_LIBS_VARIANT}-2_4.lib
-    ${GTKMM_DIR}/lib/cairomm${GTKMM_LIBS_VARIANT}-1_0.lib
-    ${GTKMM_DIR}/lib/sigc${GTKMM_LIBS_VARIANT}-2_0.lib
+    ${GTKMM_DIR}/lib/glib-2.0.lib
+    ${GTKMM_DIR}/lib/gmodule-2.0.lib
+    ${GTKMM_DIR}/lib/gobject-2.0.lib
     ${GTKMM_DIR}/lib/gtk-win32-2.0.lib
     ${GTKMM_DIR}/lib/libxml2.lib
-    ${GTKMM_DIR}/lib/gdk-win32-2.0.lib
-    ${GTKMM_DIR}/lib/atk-1.0.lib
-    ${GTKMM_DIR}/lib/gdk_pixbuf-2.0.lib
-    ${GTKMM_DIR}/lib/pangowin32-1.0.lib
-    ${GTKMM_DIR}/lib/pangocairo-1.0.lib
     ${GTKMM_DIR}/lib/pango-1.0.lib
-    ${GTKMM_DIR}/lib/cairo.lib
-    ${GTKMM_DIR}/lib/gio-2.0.lib
-    ${GTKMM_DIR}/lib/gobject-2.0.lib
-    ${GTKMM_DIR}/lib/gmodule-2.0.lib
-    ${GTKMM_DIR}/lib/glib-2.0.lib
+    ${GTKMM_DIR}/lib/pangocairo-1.0.lib
+    ${GTKMM_DIR}/lib/pangowin32-1.0.lib
     ${GTKMM_DIR}/lib/intl.lib
     ${GTKMM_DIR}/lib/iconv.lib
     )
 
   SET(GTKMM_DEBUG_LIBS
-    ${GTKMM_DIR}/lib/glademm${GTKMM_LIBS_VARIANT}-d-2_4.lib
-    ${GTKMM_DIR}/lib/xml++${GTKMM_LIBS_VARIANT}-d-2_6.lib
-    ${GTKMM_DIR}/lib/gtkmm${GTKMM_LIBS_VARIANT}-d-2_4.lib
-    ${GTKMM_DIR}/lib/glade-2.0.lib
-    ${GTKMM_DIR}/lib/gdkmm${GTKMM_LIBS_VARIANT}-d-2_4.lib
-    ${GTKMM_DIR}/lib/atkmm${GTKMM_LIBS_VARIANT}-d-1_6.lib
-    ${GTKMM_DIR}/lib/pangomm${GTKMM_LIBS_VARIANT}-d-1_4.lib
-    ${GTKMM_DIR}/lib/giomm${GTKMM_LIBS_VARIANT}-d-2_4.lib
-    ${GTKMM_DIR}/lib/glibmm${GTKMM_LIBS_VARIANT}-d-2_4.lib
-    ${GTKMM_DIR}/lib/cairomm${GTKMM_LIBS_VARIANT}-d-1_0.lib
-    ${GTKMM_DIR}/lib/sigc${GTKMM_LIBS_VARIANT}-d-2_0.lib
     ${GTKMM_DIR}/lib/gtk-win32-2.0.lib
     ${GTKMM_DIR}/lib/libxml2.lib
     ${GTKMM_DIR}/lib/gdk-win32-2.0.lib
