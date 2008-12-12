@@ -88,6 +88,7 @@ include(FindGtkmm)
 include(FindGettext)
 FIND_PROGRAM(GETTEXT_XGETTEXT_EXECUTABLE xgettext)
 FIND_PROGRAM(INTLTOOL_UPDATE_EXECUTABLE intltool-update)
+FIND_PROGRAM(INTLTOOL_MERGE_EXECUTABLE intltool-merge)
 MARK_AS_ADVANCED(INTLTOOL_UPDATE)
 
 if (NOT GETTEXT_FOUND)
@@ -95,6 +96,17 @@ if (NOT GETTEXT_FOUND)
   message("=== Please install Getttext")
   message(FATAL_ERROR "Aborting")
 endif (NOT GETTEXT_FOUND)
+
+if (WIN32)
+  include(FindPerl)
+  if (NOT PERL_FOUND)
+    message("=== Perl not found")
+    message("=== Please install Perl")
+    message(FATAL_ERROR "Aborting")
+  else (NOT PERL_FOUND)
+    set (INTLTOOL_MERGE_EXECUTABLE ${PERL_EXECUTABLE} ${INTLTOOL_MERGE_EXECUTABLE})
+  endif (NOT PERL_FOUND)
+endif (WIN32)
 
 ######################################################################
 ## Create config.h
