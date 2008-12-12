@@ -84,12 +84,13 @@ static HANDLE dll_handle = NULL;
 static volatile HarpoonHookFunc user_callback = NULL;
 static ATOM notification_class = 0;
 
+#if(_WIN32_WINNT < 0x0500)
 typedef struct
 {
   MOUSEHOOKSTRUCT MOUSEHOOKSTRUCT;
   DWORD mouseData;
 } MOUSEHOOKSTRUCTEX, *PMOUSEHOOKSTRUCTEX;
-
+#endif
 
 static void harpoon_hook_block_only(void);
 
@@ -439,13 +440,14 @@ harpoon_mouse_hook (int code, WPARAM wpar, LPARAM lpar)
               if( debug && !mouse_ll_hook )
                   debug_send_message( "WH_MOUSE: WM_MOUSEWHEEL" );
               break;
+#ifdef WM_MOUSEHWHEEL
           case WM_MOUSEHWHEEL:
               evt = HARPOON_MOUSE_WHEEL;
               button = 2;
               if( debug && !mouse_ll_hook )
                   debug_send_message( "WH_MOUSE: WM_MOUSEHWHEEL" );
               break;
-          
+#endif
           case WM_NCMOUSEMOVE:
               if( debug && !mouse_ll_hook )
                   debug_send_message( "WH_MOUSE: WM_NCMOUSEMOVE" );
@@ -534,12 +536,13 @@ harpoon_mouse_ll_hook (int code, WPARAM wpar, LPARAM lpar)
               button = 1;
               if_debug_send_message( "WH_MOUSE_LL: WM_MOUSEWHEEL" );
               break;
+#ifdef WM_MOUSEHWHEEL
           case WM_MOUSEHWHEEL:
               evt = HARPOON_MOUSE_WHEEL;
               button = 2;
               if_debug_send_message( "WH_MOUSE_LL: WM_MOUSEHWHEEL" );
               break;
-          
+#endif          
           case WM_MOUSEMOVE:
               evt = HARPOON_MOUSE_MOVE;
               if_debug_send_message( "WH_MOUSE_LL: WM_MOUSEMOVE" );
