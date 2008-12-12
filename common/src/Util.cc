@@ -293,8 +293,8 @@ Util::get_search_path(SearchPathId type)
       searchPath.push_back("/usr/local/share/workrave/images");
       searchPath.push_back("/usr/share/workrave/images");
 #elif defined(PLATFORM_OS_WIN32)
-#if defined(PLATFORM_OS_WIN32_NATIVE)
-	  searchPath.push_back(app_dir + "\\..\\..\\frontend\\common\\share\\images");
+#if defined(DATA_PATH)
+ 	    searchPath.push_back(string(DATA_PATH) + "frontend\\common\\share\\images");
 #endif
       searchPath.push_back(app_dir + "\\share\\images");
 
@@ -315,10 +315,10 @@ Util::get_search_path(SearchPathId type)
       searchPath.push_back("/usr/local/share/sounds/workrave");
       searchPath.push_back("/usr/share/sounds/workrave");
 #elif defined(PLATFORM_OS_WIN32)
-#if defined(PLATFORM_OS_WIN32_NATIVE)
-	  searchPath.push_back(app_dir + "\\..\\..\\frontend\\common\\share\\sounds");
+#if defined(DATA_PATH)
+	  searchPath.push_back(string(DATA_PATH) + "frontend\\common\\share\\sounds");
 #endif
-      searchPath.push_back(app_dir + "\\share\\sounds1");
+      searchPath.push_back(app_dir + "\\share\\sounds");
 #elif defined(PLATFORM_OS_OSX)
       searchPath.push_back(string(WORKRAVE_DATADIR) + "/sounds/workrave");
       searchPath.push_back(app_dir + "/share/sounds/workrave");
@@ -351,8 +351,8 @@ Util::get_search_path(SearchPathId type)
 #if defined(PLATFORM_OS_UNIX)
       searchPath.push_back(string(WORKRAVE_PKGDATADIR) + "/exercises");
 #elif defined(PLATFORM_OS_WIN32)
-#if defined(PLATFORM_OS_WIN32_NATIVE)
-	  searchPath.push_back(app_dir + "\\..\\..\\frontend\\common\\share\\exercises");
+#if defined(DATA_PATH)
+	  searchPath.push_back(string(DATA_PATH) + "frontend\\plugin\\exercises\\common\\share");
 #endif
       searchPath.push_back(app_dir + "\\share\\exercises");
 #elif defined(PLATFORM_OS_OSX)

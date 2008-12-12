@@ -1,11 +1,17 @@
 /* config.h.  Generated from config.h.in by configure.  */
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
+/* Define if compiling for the Win32 platform */
+#cmakedefine PLATFORM_OS_WIN32 
+#cmakedefine PLATFORM_OS_WIN32_NATIVE
 
-#define PLATFORM_OS_WIN32_NATIVE 1
+#cmakedefine DATA_PATH "${DATA_PATH}"
+
+
+
 #define HAVE_EXTERN_TIMEZONE 1
 #define HAVE_EXTERN_TIMEZONE_DEFINED 1
-#define ALL_LINGUAS "nl de eo pl da es zh_TW ru fr pt_BR nb lt cs he eu ca sv ja bg hu tr el sk zh_CN it sl"
+#define ALL_LINGUAS "nl de eo pl da es zh_TW ru fr pt_BR nb lt cs he eu ca sv ja bg hu tr el sk zh_CN it sl ro"
 
 /* Dont */
 #define BUILD_INCLUDED_LIBINTL "no"
@@ -406,9 +412,6 @@
 
 /* Define if compiling for a Unix platform */
 /* #undef PLATFORM_OS_UNIX */
-
-/* Define if compiling for the Win32 platform */
-#define PLATFORM_OS_WIN32 
 
 /* Define if <inttypes.h> exists and defines unusable PRI* macros. */
 /* #undef PRI_MACROS_BROKEN */
