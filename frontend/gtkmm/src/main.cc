@@ -86,8 +86,7 @@ int WINAPI WinMain (HINSTANCE hInstance,
                     int iCmdShow)
 {
   char *argv[] = { szCmdLine };
-  char buf[1000];
-
+  
   // InnoSetup: [...] requires that you add code to your application
   // which creates a mutex with the name you specify in this
   // directive.
