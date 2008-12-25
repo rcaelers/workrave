@@ -75,7 +75,7 @@ MainGtkMenu::add_stock_item(const Glib::RefPtr<Gtk::IconFactory>& factory,
   {
     source.set_pixbuf(Gdk::Pixbuf::create_from_file(filename));
   }
-  catch(const Glib::Exception& ex)
+  catch(const Glib::Exception&)
   {
   }
 
@@ -238,7 +238,7 @@ MainGtkMenu::create_ui()
     {
       ui_manager->add_ui_from_string(ui_info);
     }
-  catch(const Glib::Error& ex)
+  catch(const Glib::Error&)
     {
     }
 

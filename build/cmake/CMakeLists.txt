@@ -23,13 +23,10 @@ project(Workrave)
 if(MSVC)
   ADD_DEFINITIONS(-D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE)
   
-  set(CMAKE_CXX_WARNING_LEVEL 2 CACHE TYPE STRING FORCE)
+  SET(MSVC_WARNINGS "/W3 /wd4127 /wd4250 /wd4413 /wd4800")
   
-  SET(MSVC_W_ERROR   " /we4028 /we4013 /we4133 /we4047 /we4031 /we4002 /we4003 /we4114")
-  SET(MSVC_W_DISABLE " /wd4127 /wd4090 /wd4101 /wd4244 /wd4250 /wd4413")
-  
-  SET(CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_C_FLAGS_DEBUG}   /FIconfig.h /vd2 ${MSVC_W_ERROR} ${MSVC_W_DISABLE}")
-  SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} /FIconfig.h /vd2 ${MSVC_W_ERROR} ${MSVC_W_DISABLE}")
+  SET(CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_C_FLAGS_DEBUG}   /FIconfig.h /vd2 ${MSVC_WARNINGS}")
+  SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} /FIconfig.h /vd2 ${MSVC_WARNINGS}")
 endif(MSVC)
 
 if(WIN32)
@@ -84,6 +81,7 @@ endif(DEVELOPMENT_MODE)
 
 include(FindGlib)
 include(FindGtkmm)
+include(FindDBus)
 
 include(FindGettext)
 FIND_PROGRAM(GETTEXT_XGETTEXT_EXECUTABLE xgettext)
@@ -96,6 +94,20 @@ if (NOT GETTEXT_FOUND)
   message("=== Please install Getttext")
   message(FATAL_ERROR "Aborting")
 endif (NOT GETTEXT_FOUND)
+
+set(HAVE_DBUS DBUS_FOUND)
+
+if (HAVE_DBUS)
+  include (FindPythonInterp)
+  if (NOT PYTHONINTERP_FOUND)
+    message("=== Python not found")
+    message("=== Please install Python")
+    message(FATAL_ERROR "Aborting")
+  else( NOT PYTHONINTERP_FOUND)
+    include (FindPythonLibs)
+  endif (NOT PYTHONINTERP_FOUND)
+
+endif (HAVE_DBUS)
 
 if (WIN32)
   include(FindPerl)

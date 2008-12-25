@@ -159,7 +159,7 @@ W32Configurator::get_value(const string &key, bool &out) const
   bool rc = get_value(key, l);
   if (rc)
     {
-      out = (bool) l;
+      out = (bool) (l != 0);
     }
   return rc;
 }

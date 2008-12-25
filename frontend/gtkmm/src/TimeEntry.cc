@@ -104,13 +104,13 @@ TimeEntry::set_value(time_t t)
 {
   if (! millis)
     {
-      hours_adjustment.set_value(t / (60*60));
-      mins_adjustment.set_value((t / 60) % 60);
-      secs_adjustment.set_value(t % 60);
+      hours_adjustment.set_value((double)(t / (60*60)));
+      mins_adjustment.set_value((double)((t / 60) % 60));
+      secs_adjustment.set_value((double)(t % 60));
     }
   else
     {
-      secs_adjustment.set_value(t);
+      secs_adjustment.set_value((double)t);
     }
 }
 

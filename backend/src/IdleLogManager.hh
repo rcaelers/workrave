@@ -175,9 +175,9 @@ public:
   void get_idlelog(PacketBuffer &buffer);
   void set_idlelog(PacketBuffer &buffer);
 
-  int compute_total_active_time();
-  int compute_active_time(int length);
-  int compute_idle_time();
+  time_t compute_total_active_time();
+  time_t compute_active_time(int length);
+  time_t compute_idle_time();
 
 private:
   void update_idlelog(ClientInfo &info, ActivityState state, bool master);

@@ -7,7 +7,7 @@
 
 #cmakedefine DATA_PATH "${DATA_PATH}"
 
-
+#cmakedefine HAVE_DBUS
 
 #define HAVE_EXTERN_TIMEZONE 1
 #define HAVE_EXTERN_TIMEZONE_DEFINED 1
@@ -23,9 +23,6 @@
 
 /* Define to 1 if using `alloca.c'. */
 /* #undef C_ALLOCA */
-
-/* Where services dir for DBUS is */
-/* #undef DBUS_SERVICES_DIR */
 
 /* Define to 1 if translation of program messages to the user's native
    language is requested. */
@@ -81,9 +78,6 @@
 
 /* Defines if your system has the crypt function */
 /* #undef HAVE_CRYPT */
-
-/* d-bus support */
-/* #undef HAVE_DBUS */
 
 /* Define if the GNU dcgettext() function is already present or preinstalled.
    */

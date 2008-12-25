@@ -100,6 +100,9 @@ static const char rcsid[] = "$Id$";
 #endif
 
 #if defined(HAVE_DBUS)
+#if defined(PLATFORM_OS_WIN32_NATIVE)
+#undef interface
+#endif
 #include "DBus.hh"
 #include "DBusException.hh"
 #endif
@@ -346,7 +349,7 @@ GUI::init_platform()
   System::init();
 #endif
   
-  srand(time(NULL));
+  srand((unsigned int)time(NULL));
 }
 
 
@@ -851,7 +854,7 @@ GUI::init_dbus()
           extern void init_DBusGUI(DBus *dbus);
           init_DBusGUI(dbus);
         }
-      catch (DBusException &e)
+      catch (DBusException &)
         {
         }
     }  

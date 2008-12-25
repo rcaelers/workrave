@@ -1,16 +1,49 @@
-SET(HAVE_DBUS 0)
+set(HAVE_DBUS 0)
 
-IF(WIN32)
-  SET(DBUS_DIR $ENV{GTKMM_BASEPATH}) ## CACHE PATH "Top-level directory where the gtkmm libraries are located")
-  MARK_AS_ADVANCED(DBUS_DIR)
-    
-  SET(DBUS_INCLUDES
-    ${DBUS_DIR}/include
-    )
-  
-  SET(DBUS_LIBS
-    ${DBUS_DIR}/lib/dbus.lib
-    )
-  SET(HAVE_DBUS 1)
-  
-ENDIF(WIN32)
+# will be empty if not WIN32
+file(TO_CMAKE_PATH "$ENV{PROGRAMFILES}" _progFiles)
+
+find_path(DBUS_HEADER_INCLUDE_DIR dbus/dbus.h
+   PATHS
+   ${_progFiles}/dbus/include
+   PATH_SUFFIXES dbus-1.0
+)
+
+find_library(DBUS_LIBS NAMES dbus-1
+   PATHS
+   ${_progFiles}/dbus/lib
+)
+
+find_library(DBUS_DEBUG_LIBS NAMES dbus-1d
+   PATHS
+   ${_progFiles}/dbus/lib
+)
+
+if (DBUS_LIBS)
+
+   get_filename_component(_dbusLibPath ${DBUS_LIBS} PATH)
+
+   if (DBUS_DEBUG_LIBS)
+      set(DBUS_LIBS
+         optimized ${DBUS_LIBS}
+         debug ${DBUS_DEBUG_LIBS}
+      )
+   endif (DBUS_DEBUG_LIBS)
+   
+
+   
+   find_path(DBUS_LIB_INCLUDE_DIR dbus/dbus-arch-deps.h
+      PATHS
+      ${_dbusLibPath}
+      ${_progFiles}/dbus/include
+      PATH_SUFFIXES dbus-1.0/include
+   )
+endif (DBUS_LIBS)
+
+set(DBUS_INCLUDES ${DBUS_HEADER_INCLUDE_DIR} ${DBUS_LIB_INCLUDE_DIR})
+
+if (DBUS_INCLUDE_DIR AND DBUS_LIBS)
+   set(DBUS_FOUND TRUE)
+else (DBUS_INCLUDE_DIR AND DBUS_LIBS)
+   set(DBUS_FOUND FALSE)
+endif (DBUS_INCLUDE_DIR AND DBUS_LIBS)

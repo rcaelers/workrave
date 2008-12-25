@@ -230,8 +230,8 @@ TimerBoxControl::update_widgets()
       secondary_color = ITimeBar::COLOR_ID_INACTIVE;
 
       // Timer is running, show elapsed time.
-      primary_val = activeTime;
-      primary_max = maxActiveTime;
+      primary_val = (int)activeTime;
+      primary_max = (int)maxActiveTime;
 
       primary_color = overdue
         ? ITimeBar::COLOR_ID_OVERDUE : ITimeBar::COLOR_ID_ACTIVE;
@@ -240,8 +240,8 @@ TimerBoxControl::update_widgets()
         {
           // resting.
           secondary_color = ITimeBar::COLOR_ID_INACTIVE;
-          secondary_val = idleTime;
-          secondary_max = breakDuration;
+          secondary_val = (int)idleTime;
+          secondary_max = (int)breakDuration;
         }
 
       view->set_time_bar(BreakId(count), text,
