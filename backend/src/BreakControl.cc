@@ -369,7 +369,7 @@ BreakControl::update_break_window()
       idle = duration;
     }
 
-  application->set_break_progress(idle, duration);
+  application->set_break_progress((int)idle, (int)duration);
 }
 
 

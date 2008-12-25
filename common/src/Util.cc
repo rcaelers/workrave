@@ -113,13 +113,13 @@ Util::get_home_directory()
           CoTaskMemFree(pidl);
 
           strcat (buf, "\\Workrave");
-          bool dirok = false;
+          BOOL dirok = FALSE;
           dirok = CreateDirectory(buf, NULL);
           if (! dirok)
             {
               if (GetLastError() == ERROR_ALREADY_EXISTS)
                 {
-                  dirok = true;
+                  dirok = TRUE;
                 }
             }
 

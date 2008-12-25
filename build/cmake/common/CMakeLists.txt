@@ -57,5 +57,7 @@ include_directories(
   "${COMMON_DIR}/win32/harpoon/include"
 )
 
+include_directories(${DBUS_INCLUDES})
 include_directories(${GLIB_INCLUDES})
+
 add_library(workrave-common STATIC ${COMMON_SOURCES})

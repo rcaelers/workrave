@@ -213,6 +213,8 @@ Statistics::day_to_remote_history(DailyStatsImpl *stats)
 
       dist_manager->broadcast_client_message(DCM_STATS, state_packet);
     }
+#else
+  (void) stats;
 #endif
 }
 
@@ -370,7 +372,7 @@ Statistics::load(ifstream &infile, bool history)
 
   DailyStatsImpl *stats = NULL;
 
-  bool ok = infile;
+  bool ok = infile.good();
 
   if (ok)
     {
@@ -678,7 +680,7 @@ Statistics::update_current_day(bool active)
       // Collect total active time from dialy limit timer.
       Timer *t = core->get_break(BREAK_ID_DAILY_LIMIT)->get_timer();
       assert(t != NULL);
-      current_day->misc_stats[STATS_VALUE_TOTAL_ACTIVE_TIME] = t->get_elapsed_time();
+      current_day->misc_stats[STATS_VALUE_TOTAL_ACTIVE_TIME] = (int)t->get_elapsed_time();
 
       if (active)
         {
@@ -692,10 +694,10 @@ Statistics::update_current_day(bool active)
           Timer *t = core->get_break(BreakId(i))->get_timer();
           assert(t != NULL);
 
-          int overdue = t->get_total_overdue_time();
+          time_t overdue = t->get_total_overdue_time();
 
           set_break_counter(((BreakId)i),
-                            Statistics::STATS_BREAKVALUE_TOTAL_OVERDUE, overdue);
+                            Statistics::STATS_BREAKVALUE_TOTAL_OVERDUE, (int)overdue);
         }
 
 

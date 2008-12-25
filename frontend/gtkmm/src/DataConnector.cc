@@ -453,9 +453,9 @@ DataConnectionTimeEntry::widget_changed_notify()
 
   if (!skip)
     {
-      int value = widget->get_value();
+      time_t value = widget->get_value();
 
-      config->set_value(key, value);
+      config->set_value(key, (int)value);
     }
 }
 

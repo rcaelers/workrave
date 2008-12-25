@@ -1,0 +1,1 @@
+cmake -G "Visual Studio 9 2008" ../workrave/build/cmake/ -DDEVELOPMENT_MODE=ON -DCMAKE_PREFIX_PATH=c:/cygwin/home/rob/tools -DCMAKE_INSTALL_PREFIX=c:/cygwin/home/rob/opt/workrave

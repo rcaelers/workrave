@@ -119,7 +119,7 @@ public:
     time_t total_overdue_time;
     time_t last_limit_time;
     time_t last_limit_elapsed;
-    time_t snooze_inhibited;
+    bool snooze_inhibited;
   };
 
 

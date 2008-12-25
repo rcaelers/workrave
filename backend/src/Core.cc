@@ -70,6 +70,9 @@ static const char rcsid[] = "$Id$";
 #endif
 
 #ifdef HAVE_DBUS
+#if defined(PLATFORM_OS_WIN32_NATIVE)
+#undef interface
+#endif
 #include "DBus.hh"
 #include "DBusException.hh"
 #endif
@@ -264,7 +267,7 @@ Core::init_bus()
                     "org.workrave.ConfigInterface",
                     configurator);
     }
-  catch (DBusException &e)
+  catch (DBusException &)
     {
     }
 #endif
@@ -940,10 +943,10 @@ Core::process_state()
   // Default
   local_state = monitor->get_current_state();
 
-  map<std::string, int>::iterator i = external_activity.begin();
+  map<std::string, time_t>::iterator i = external_activity.begin();
   while (i != external_activity.end())
     {
-      map<std::string, int>::iterator next = i;
+      map<std::string, time_t>::iterator next = i;
       next++;
 
       if (i->second >= current_time)
@@ -1016,7 +1019,7 @@ void
 Core::get_timer_idle(BreakId id, int *value)
 {
   Timer *timer = get_timer(id);
-  *value = timer->get_elapsed_idle_time();
+  *value = (int) timer->get_elapsed_idle_time();
 }
 
 
@@ -1024,7 +1027,7 @@ void
 Core::get_timer_elapsed(BreakId id, int *value)
 {
   Timer *timer = get_timer(id);
-  *value = timer->get_elapsed_time();
+  *value = (int) timer->get_elapsed_time();
 }
 
 
@@ -1078,7 +1081,7 @@ Core::process_timers()
           (info.event == TIMER_EVENT_NATURAL_RESET ||
            info.event == TIMER_EVENT_RESET))
         {
-          statistics->set_counter(Statistics::STATS_VALUE_TOTAL_ACTIVE_TIME, info.elapsed_time);
+          statistics->set_counter(Statistics::STATS_VALUE_TOTAL_ACTIVE_TIME, (int) info.elapsed_time);
           statistics->start_new_day();
 
           daily_reset();
@@ -1097,8 +1100,8 @@ Core::process_timewarp()
   TRACE_ENTER("Core::process_timewarp");
   if (last_process_time != 0)
     {
-      int gap = current_time - 1 - last_process_time;
-      if (abs(gap) > 5)
+      time_t gap = current_time - 1 - last_process_time;
+      if (abs((int)gap) > 5)
         {
           if (!powersave)
             {
@@ -1107,10 +1110,10 @@ Core::process_timewarp()
 
               force_idle();
 
-              monitor->shift_time(gap);
+              monitor->shift_time((int)gap);
               for (int i = 0; i < BREAK_ID_SIZEOF; i++)
                 {
-                  breaks[i].get_timer()->shift_time(gap);
+                  breaks[i].get_timer()->shift_time((int)gap);
                 }
 
               monitor_state = ACTIVITY_IDLE;
@@ -1359,10 +1362,10 @@ Core::daily_reset()
       Timer *t = breaks[i].get_timer();
       assert(t != NULL);
 
-      int overdue = t->get_total_overdue_time();
+      time_t overdue = t->get_total_overdue_time();
 
       statistics->set_break_counter(((BreakId)i),
-                                    Statistics::STATS_BREAKVALUE_TOTAL_OVERDUE, overdue);
+                                    Statistics::STATS_BREAKVALUE_TOTAL_OVERDUE, (int)overdue);
 
       t->daily_reset_timer();
     }
@@ -1424,7 +1427,7 @@ Core::load_state()
   ifstream stateFile(ss.str().c_str());
 
   int version = 0;
-  bool ok = stateFile;
+  bool ok = stateFile.good();
 
   if (ok)
     {

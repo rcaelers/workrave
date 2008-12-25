@@ -64,6 +64,7 @@ DWORD GetModuleBase(DWORD dwAddress)
   return VirtualQuery((LPCVOID) dwAddress, &Buffer, sizeof(Buffer)) ? (DWORD) Buffer.AllocationBase : 0;
 }
 
+#ifndef PLATFORM_OS_WIN32_NATIVE
 static EXCEPTION_DISPOSITION __cdecl
 double_exception_handler(struct _EXCEPTION_RECORD *exception_record,
                          void *establisher_frame,
@@ -83,6 +84,8 @@ double_exception_handler(struct _EXCEPTION_RECORD *exception_record,
 
   exit(1);
 }
+#endif
+
 EXCEPTION_DISPOSITION __cdecl
 exception_handler(struct _EXCEPTION_RECORD *exception_record,
                   void *establisher_frame,
@@ -802,5 +805,3 @@ dump_registry(FILE *log, HKEY key, char *name)
       RegCloseKey(handle);
     }
 }
-
-
