@@ -267,7 +267,7 @@ private:
 #endif
 
   //! External activity
-  std::map<std::string, int> external_activity;
+  std::map<std::string, time_t> external_activity;
 
 #ifdef HAVE_TESTS
   friend class Test;
