@@ -2,3 +2,7 @@
 /Makefile
 /.deps
 /.libs
+/*.la
+/*.lo
+/*.o
+/*~

@@ -2,3 +2,7 @@
 /.deps
 /Makefile
 /Makefile.in
+/*.la
+/*.lo
+/*.o
+/*~

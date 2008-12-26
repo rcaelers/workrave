@@ -1,8 +1,5 @@
 /Makefile
 /Makefile.in
+/workrave.soundlist
 /.deps
-/.libs
-/*.la
-/*.lo
-/*.o
-/*~
+/eventsrc

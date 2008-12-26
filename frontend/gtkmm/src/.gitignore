@@ -15,3 +15,14 @@
 /Workrave-Control.server
 /Workrave-Control.server.in
 /workrave
+/*.la
+/*.lo
+/*.o
+/*~
+/workrave.desktop
+/workrave.desktop.in
+/org.workrave.Workrave.service
+/DBusGnomeApplet.cc
+/DBusGnomeApplet.hh
+/DBusGUI.cc
+/DBusGUI.hh
