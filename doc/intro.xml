@@ -1,0 +1,34 @@
+<chapter id="intro">
+  <title>
+    Introduction
+  </title>
+  <section>
+    <title>About Workrave</title>
+    <para>
+      FIXME
+    </para>
+  </section>
+  <section>
+    <title>About this document</title>
+    <para>
+      This documentation is available in various formats like HTML, text and PDF. The latest version is
+      always available at <ulink url="&docurl;">&docurl;</ulink>.
+    </para>
+  </section>
+  <section>
+    <title>Where to get it</title>
+    <para>
+      You can obtain Workrave from <ulink url="&appurl;">&appurl;</ulink>
+      or perhaps from your distributor.
+    </para>
+  </section>
+  <section>
+    <title>License</title>
+    <para>
+      This work is licensed under the Creative Commons Attribution-Share Alike 3.0 Netherlands License.
+      To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/nl/ or send a
+      letter to Creative Commons, 171 Second Street, Suite 300, San Francisco, California, 94105, USA.
+    </para>
+  </section>
+</chapter>
+
