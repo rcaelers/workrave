@@ -493,7 +493,7 @@ Menus::on_statistics_response(int response)
   statistics_dialog = NULL;
 }
 
-
+#ifdef HAVE_DISTRIBUTION
 void
 Menus::on_preferences_response(int response)
 {
@@ -507,6 +507,7 @@ Menus::on_preferences_response(int response)
   delete preferences_dialog;
   preferences_dialog = NULL;
 }
+#endif
 
 void
 Menus::applet_command(short cmd)
@@ -574,7 +575,7 @@ Menus::resync()
 #ifdef HAVE_DISTRIBUTION
                            network_log_dialog != NULL);
 #else
-						   false);
+                           false);
 #endif
 
         }
