@@ -26,36 +26,39 @@ static const char rcsid[] = "$Id$";
 #include "debug.hh"
 #include "nls.h"
 
+#ifdef HAVE_REALPATH
+#include <limits.h>
+#include <stdlib.h>
+#endif
+
 #include <list>
 
-#include "SoundPlayer.hh"
 #include "Thread.hh"
+
 #include "Sound.hh"
+#include "SoundPlayer.hh"
+#include "ISoundDriver.hh"
 
 #include "IConfigurator.hh"
 #include "CoreFactory.hh"
 #include "Util.hh"
 
-#ifdef HAVE_GNOME
+#if defined HAVE_GNOME
 #include <gdk/gdk.h>
 #include "GnomeSoundPlayer.hh"
-#endif
-#ifdef HAVE_KDE
+#elif defined HAVE_KDE
 #include "KdeSoundPlayer.hh"
-#endif
-#ifdef PLATFORM_OS_UNIX
+#elif defined PLATFORM_OS_UNIX
 #include <X11/Xlib.h>
-#endif
-#ifdef PLATFORM_OS_WIN32
+#elif defined PLATFORM_OS_WIN32
 #include <windows.h>
 #include "W32SoundPlayer.hh"
-#endif
-#ifdef PLATFORM_OS_OSX
+#elif defined PLATFORM_OS_OSX
 #include "OSXSoundPlayer.hh"
-#endif
-#ifdef HAVE_GSTREAMER
+#elif defined HAVE_GSTREAMER
 #include "GstSoundPlayer.hh"
 #endif
+
 
 const char *SoundPlayer::CFG_KEY_SOUND_ENABLED = "sound/enabled";
 const char *SoundPlayer::CFG_KEY_SOUND_DEVICE = "sound/device";
@@ -296,16 +299,16 @@ SpeakerPlayer::run()
 SoundPlayer::SoundPlayer()
 {
   driver =
-#if defined(PLATFORM_OS_WIN32)
-     new W32SoundPlayer()
-#elif defined(HAVE_KDE)
-     new KdeSoundPlayer()
-#elif defined(HAVE_GSTREAMER)
-     new GstSoundPlayer()
-#elif defined(HAVE_GNOME)
+#if defined HAVE_GNOME
      new GnomeSoundPlayer()
-#elif defined(PLATFORM_OS_OSX)
+#elif defined HAVE_KDE
+     new KdeSoundPlayer()
+#elif defined PLATFORM_OS_WIN32
+     new W32SoundPlayer()
+#elif defined PLATFORM_OS_OSX
      new OSXSoundPlayer()
+#elif defined HAVE_GSTREAMER
+     new GstSoundPlayer()
 #else
 #  warning Sound card support disabled.
      NULL
