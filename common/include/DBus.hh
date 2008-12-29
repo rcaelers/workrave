@@ -97,6 +97,31 @@ namespace workrave
 
     //!
     bool owner;
+
+    GMainContext *context;
+    GSource *queue;
+    GSList *watches;
+    GSList *timeouts;
+ 
+    static GSourceFuncs queue_funcs;   
+
+    static gboolean queue_prepare(GSource *source, gint *timeout);
+    static gboolean queue_check(GSource *source);
+    static gboolean queue_dispatch(GSource *source, GSourceFunc callback, gpointer user_data);
+    static gboolean watch_dispatch(GIOChannel *source, GIOCondition condition, gpointer user_data);
+    static void watch_finalize(gpointer data);
+    static void watch_free(void *data);
+    static dbus_bool_t watch_add(DBusWatch *watch, void *data);
+    static void watch_remove(DBusWatch *watch, void *data);
+    static void watch_toggled(DBusWatch *watch, void *data);
+    static gboolean timeout_dispatch(gpointer data);
+    static void timeout_free(void *data);
+    static dbus_bool_t timeout_add(DBusTimeout *timeout, void *data);
+    static void timeout_remove(DBusTimeout *timeout, void *data);
+    static void timeout_toggled(DBusTimeout *timeout, void *data);
+    static void wakeup(void *data);
+
+    void connection_setup(GMainContext *context);
   };
 }
 

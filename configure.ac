@@ -452,7 +452,7 @@ dnl
             
 if test "x$config_dbus" != "xno"
 then
-   dbus_pkgconfig="dbus-1 >= 1.0 dbus-glib-1"
+   dbus_pkgconfig="dbus-1 >= 1.2"
    PKG_CHECK_MODULES(DBUS, $dbus_pkgconfig, have_dbus=yes, have_dbus=no)
    if test x$have_dbus = xyes
    then
