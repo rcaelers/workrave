@@ -150,6 +150,7 @@ MainGtkMenu::create_actions()
                     sigc::mem_fun(*this, &MainGtkMenu::on_menu_quiet));
   
   // Networking menu
+#ifdef HAVE_DISTRIBUTION
   action_group->add(Gtk::Action::create("Network", _("_Network")));
   action_group->add(Gtk::Action::create("Join", _("_Connect")),
                     sigc::mem_fun(*menus, &Menus::on_menu_network_join));
@@ -159,7 +160,8 @@ MainGtkMenu::create_actions()
                     sigc::mem_fun(*menus, &Menus::on_menu_network_reconnect));
   action_group->add(Gtk::ToggleAction::create("ShowLog", _("Show _log")),
                     sigc::mem_fun(*this, &MainGtkMenu::on_menu_network_log));
-  
+#endif
+
   // Open
   action_group->add(Gtk::Action::create("Open", Gtk::Stock::OPEN),
                     sigc::mem_fun(*menus, &Menus::on_menu_open_main_window));
@@ -176,10 +178,12 @@ MainGtkMenu::create_actions()
                                         Gtk::Stock::PREFERENCES),
                     sigc::mem_fun(*menus, &Menus::on_menu_preferences));
 
+#ifdef HAVE_EXERCISES
   action_group->add(Gtk::Action::create("Exercises",
                                         _("Exercises")),
                     sigc::mem_fun(*menus, &Menus::on_menu_exercises));
 
+#endif
   action_group->add(Gtk::Action::create("Statistics",
                                         _("Statistics")),
                     sigc::mem_fun(*menus, &Menus::on_menu_statistics));
@@ -210,20 +214,23 @@ MainGtkMenu::create_ui()
     + open_ui_info +
     "    <separator/>" +
     "    <menuitem action='Restbreak'/>"
+#ifdef HAVE_EXERCISES
     "    <menuitem action='Exercises'/>"
+#endif
     "    <menuitem action='Statistics'/>"
-    "    <separator/>" +
     "    <menu action='Mode'>"
     "      <menuitem action='Normal'/>"
     "      <menuitem action='Suspended'/>"
     "      <menuitem action='Quiet'/>"
     "    </menu>"
+#ifdef HAVE_DISTRIBUTION
     "    <menu action='Network'>"
     "      <menuitem action='Join'/>"
     "      <menuitem action='Disconnect'/>"
     "      <menuitem action='Reconnect'/>"
     "      <menuitem action='ShowLog'/>"
     "    </menu>"
+#endif
     "    <separator/>" +
     "    <menuitem action='Preferences'/>"
     "    <menuitem action='About'/>"

@@ -1,4 +1,4 @@
-set(HAVE_DBUS 0)
+set(HAVE_DBUS FALSE)
 
 # will be empty if not WIN32
 file(TO_CMAKE_PATH "$ENV{PROGRAMFILES}" _progFiles)
@@ -19,6 +19,7 @@ find_library(DBUS_DEBUG_LIBS NAMES dbus-1d
    ${_progFiles}/dbus/lib
 )
 
+
 if (DBUS_LIBS)
 
    get_filename_component(_dbusLibPath ${DBUS_LIBS} PATH)
@@ -30,8 +31,6 @@ if (DBUS_LIBS)
       )
    endif (DBUS_DEBUG_LIBS)
    
-
-   
    find_path(DBUS_LIB_INCLUDE_DIR dbus/dbus-arch-deps.h
       PATHS
       ${_dbusLibPath}
@@ -42,8 +41,8 @@ endif (DBUS_LIBS)
 
 set(DBUS_INCLUDES ${DBUS_HEADER_INCLUDE_DIR} ${DBUS_LIB_INCLUDE_DIR})
 
-if (DBUS_INCLUDE_DIR AND DBUS_LIBS)
+if (DBUS_INCLUDES AND DBUS_LIBS)
    set(DBUS_FOUND TRUE)
-else (DBUS_INCLUDE_DIR AND DBUS_LIBS)
+else (DBUS_INCLUDES AND DBUS_LIBS)
    set(DBUS_FOUND FALSE)
-endif (DBUS_INCLUDE_DIR AND DBUS_LIBS)
+endif (DBUS_INCLUDES AND DBUS_LIBS)

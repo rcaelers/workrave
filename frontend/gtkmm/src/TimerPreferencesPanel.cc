@@ -179,9 +179,11 @@ TimerPreferencesPanel::create_options_panel()
   connector->connect(GUIConfig::CFG_KEY_BREAK_IGNORABLE % break_id,
                      dc::wrap(ignorable_cb));
   
+#ifdef HAVE_EXERCISES
   connector->connect(GUIConfig::CFG_KEY_BREAK_EXERCISES % break_id,
                      dc::wrap(exercises_spin));
-  
+#endif
+
   connector->connect(CoreConfig::CFG_KEY_MONITOR % break_id,
                      dc::wrap(monitor_cb),
                      sigc::mem_fun(*this, &TimerPreferencesPanel::on_monitor_changed));

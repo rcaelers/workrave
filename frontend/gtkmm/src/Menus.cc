@@ -515,9 +515,11 @@ Menus::applet_command(short cmd)
     case MENU_COMMAND_PREFERENCES:
       on_menu_preferences();
       break;
+#ifdef HAVE_EXERCISES
     case MENU_COMMAND_EXERCISES:
       on_menu_exercises();
       break;
+#endif
     case MENU_COMMAND_REST_BREAK:
       on_menu_restbreak_now();
       break;
