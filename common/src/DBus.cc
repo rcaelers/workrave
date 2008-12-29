@@ -49,7 +49,7 @@ using namespace workrave;
 
 //! Construct a new D-BUS bridge
 DBus::DBus()
-  : connection(NULL), owner(false), watches(NULL), timeouts(NULL)
+  : connection(NULL), owner(false), context(NULL), queue(NULL), watches(NULL), timeouts(NULL)
 {
 }
 
