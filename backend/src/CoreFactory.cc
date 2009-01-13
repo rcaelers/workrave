@@ -52,10 +52,14 @@ CoreFactory::get_configurator()
 INetwork *
 CoreFactory::get_networking()
 {
+#ifdef HAVE_DISTRIBUTION
   Core *core = Core::get_instance();
   assert(core != NULL);
 
   return (INetwork *)core->get_networking();
+#else
+  return NULL;
+#endif
 }
 
 //! Returns the interface to the D-BUS facility

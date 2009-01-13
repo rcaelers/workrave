@@ -68,8 +68,11 @@ static const char rcsid[] = "$Id$";
 #include "Text.hh"
 #include "Util.hh"
 #include "WindowHints.hh"
-#include "NetworkHandler.hh"
 #include "Locale.hh"
+
+#ifdef HAVE_DISTRIBUTION
+#include "NetworkHandler.hh"
+#endif
 
 #if defined(PLATFORM_OS_WIN32)
 #include "W32AppletWindow.hh"
@@ -101,13 +104,19 @@ static const char rcsid[] = "$Id$";
 #endif
 
 #if defined(HAVE_DBUS)
+#if defined(PLATFORM_OS_WIN32_NATIVE)
+#undef interface
+#endif
 #include "DBus.hh"
 #include "DBusException.hh"
 #endif
 
 GUI *GUI::instance = NULL;
 
+#ifdef __linux
+//stack trace
 #include "Trackable.hh"
+#endif
 
 //! GUI Constructor.
 /*!
@@ -173,9 +182,9 @@ GUI::~GUI()
   delete [] heads;
 
   delete sound_player;
-
+#ifdef __linux
   Trackable::dump();
-  
+#endif
   TRACE_EXIT();
 }
 
@@ -351,7 +360,7 @@ GUI::init_platform()
   System::init();
 #endif
   
-  srand(time(NULL));
+  srand((unsigned int)time(NULL));
 }
 
 
@@ -856,7 +865,7 @@ GUI::init_dbus()
           extern void init_DBusGUI(DBus *dbus);
           init_DBusGUI(dbus);
         }
-      catch (DBusException &e)
+      catch (DBusException &)
         {
         }
     }  

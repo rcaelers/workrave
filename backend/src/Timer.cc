@@ -260,7 +260,7 @@ Timer::set_activity_sensitive(bool a)
       // If timer is made insensitive, start it if
       // it has some elasped time. Otherwise a daily limit
       // will never start (well, not until it resets...)
-      int elasped = get_elapsed_time();
+      time_t elasped = get_elapsed_time();
       if (elasped > 0 && elasped < limit_interval)
         {
           activity_state = ACTIVITY_ACTIVE;

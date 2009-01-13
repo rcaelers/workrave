@@ -23,33 +23,45 @@
 #define W32_COMPAT_HH
 
 #include <windows.h>
-#include <winuser.h>
 
 #define MONITOR_DEFAULTTONULL       0x00000000
 #define MONITOR_DEFAULTTOPRIMARY    0x00000001
 #define MONITOR_DEFAULTTONEAREST    0x00000002
 
+
 class W32Compat
 {
 public:
-  static BOOL IsWindows95();
   static BOOL EnumDisplayMonitors(HDC hdc,LPCRECT rect,MONITORENUMPROC proc,LPARAM lparam);
   static BOOL GetMonitorInfo(HMONITOR monitor, LPMONITORINFO info);
   static HMONITOR MonitorFromPoint(POINT pt, DWORD dwFlags);
-  static void SetWindowOnTop(HWND hwnd, BOOL top);
+  static VOID SwitchToThisWindow( HWND, BOOL );
+  static bool get_force_focus_value();
+  static void SetWindowOnTop( HWND, BOOL );
+  static bool ForceWindowFocus( HWND );
+  static void ResetWindow( HWND, bool );
+  static void IMEWindowMagic( HWND );
 
 private:
-  static void init();
+  static inline void init() { if(run_once) init_once(); }
+  static void init_once();
+  
+  static bool run_once;
+  static bool force_focus;
+  static bool ime_magic;
+  static bool reset_window_always;
+  static bool reset_window_never;
 
   typedef BOOL (WINAPI *ENUMDISPLAYMONITORSPROC)(HDC,LPCRECT,MONITORENUMPROC,LPARAM);
   typedef BOOL (WINAPI *GETMONITORINFOPROC)(HMONITOR monitor, LPMONITORINFO info);
   typedef HMONITOR (WINAPI *MONITORFROMPOINTPROC)(POINT pt, DWORD dwFlags);
+  typedef VOID (WINAPI *SWITCHTOTHISWINDOWPROC)( HWND, BOOL );
 
   static ENUMDISPLAYMONITORSPROC enum_display_monitors_proc;
   static GETMONITORINFOPROC get_monitor_info_proc;
   static MONITORFROMPOINTPROC monitor_from_point_proc;
-  static BOOL initialized;
-  static BOOL is_w95;
+  static SWITCHTOTHISWINDOWPROC switch_to_this_window_proc;
+
 };
 
 

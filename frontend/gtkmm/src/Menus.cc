@@ -478,7 +478,6 @@ Menus::on_statistics_response(int response)
   statistics_dialog = NULL;
 }
 
-
 void
 Menus::on_preferences_response(int response)
 {
@@ -559,7 +558,7 @@ Menus::resync()
 #ifdef HAVE_DISTRIBUTION
                            network_log_dialog != NULL);
 #else
-						   false);
+                           false);
 #endif
 
         }

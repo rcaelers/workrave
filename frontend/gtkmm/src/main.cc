@@ -86,8 +86,7 @@ int WINAPI WinMain (HINSTANCE hInstance,
                     int iCmdShow)
 {
   char *argv[] = { szCmdLine };
-  char buf[1000];
-
+  
   // InnoSetup: [...] requires that you add code to your application
   // which creates a mutex with the name you specify in this
   // directive.
@@ -106,15 +105,18 @@ int WINAPI WinMain (HINSTANCE hInstance,
 	AllocConsole();
 
 	FILE* hf_out = fopen("c:\\temp\\out", "w");
-    setvbuf(hf_out, NULL, _IONBF, 1);
-    *stdout = *hf_out;
-    *stderr = *hf_out;
+  if (hf_out != NULL) 
+    {
+      setvbuf(hf_out, NULL, _IONBF, 1);
+      *stdout = *hf_out;
+      *stderr = *hf_out;
 
-    HANDLE handle_in = GetStdHandle(STD_INPUT_HANDLE);
-    int hCrt = _open_osfhandle((long) handle_in, _O_TEXT);
-    FILE* hf_in = _fdopen(hCrt, "r");
-    setvbuf(hf_in, NULL, _IONBF, 128);
-    *stdin = *hf_in;
+      HANDLE handle_in = GetStdHandle(STD_INPUT_HANDLE);
+      int hCrt = _open_osfhandle((long) handle_in, _O_TEXT);
+      FILE* hf_in = _fdopen(hCrt, "r");
+      setvbuf(hf_in, NULL, _IONBF, 128);
+      *stdin = *hf_in;
+    }
 #endif
 #endif
 

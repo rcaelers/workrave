@@ -140,7 +140,7 @@ private:
   bool fake_break;
 
   //! Fake break counter.
-  int fake_break_count;
+  time_t fake_break_count;
 
   //! Break will be stopped because the user pressed postpone/skip.
   bool user_abort;
