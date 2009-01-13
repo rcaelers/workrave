@@ -19,6 +19,8 @@
 
 static const char rcsid[] = "$Id$";
 
+using namespace std;
+
 #include "preinclude.h"
 
 #ifdef HAVE_CONFIG_H
@@ -111,10 +113,14 @@ GnomeAppletWindow::activate_applet()
               applet_orientation =  (Orientation) applet_control->GetOrientation();
 
 #ifndef HAVE_EXERCISES
-              applet_control->SetMenuActive("/commands/Exercises", false);
+              const std::string exercices_command("/commands/Exercises");
+              bool exercices_command_status(false);
+              applet_control->SetMenuActive(exercices_command, exercices_command_status);
 #endif
 #ifndef HAVE_DISTRIBUTION
-              applet_control->SetMenuActive("/commands/Network", false);
+              const std::string network_command("/commands/Network");
+              bool network_command_status(false);
+              applet_control->SetMenuActive(network_command, network_command_status);
 #endif
             }
         }

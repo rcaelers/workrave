@@ -1,7 +1,7 @@
 
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
 #
 # $Id$
 #
@@ -122,7 +122,7 @@ WINDRES ?= 		"windres"
 
 includesinput = 	-I$(top_srcdir)/common/win32/harpoon/include
 WIN32LIBS = 		-L$(top_builddir)/common/win32/harpoon/src/Release/ -lharpoon \
-			${top_srcdir}/frontend/gtkmm/src/win32/libworkrave-frontend-gtkmm-win32.la \
+			$(top_builddir)/frontend/gtkmm/src/win32/libworkrave-frontend-gtkmm-win32.la \
 			-lshell32 -lole32 -lwinmm -lshlwapi
 endif
 
@@ -133,7 +133,7 @@ endif
 if PLATFORM_OS_OSX
 includesosx  = 		-I$(top_srcdir)/frontend/gtkmm/src/osx
 ldflags =	 	-L$(top_builddir)/frontend/gtkmm/src/osx
-OSXLIBS	=		${top_srcdir}/frontend/gtkmm/src/osx/libworkrave-frontend-gtkmm-osx.la
+OSXLIBS	=		$(top_builddir)/frontend/gtkmm/src/osx/libworkrave-frontend-gtkmm-osx.la
 extrasources +=		
 endif
 
@@ -280,9 +280,9 @@ workrave_CFLAGS	= 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 
 endif
 
-$(bin_PROGRAMS):	${top_srcdir}/backend/src/libworkrave-backend.la \
-			${top_srcdir}/common/src/libworkrave-common.la \
-			${top_srcdir}/frontend/common/src/libworkrave-frontend-common.la
+$(bin_PROGRAMS):	$(top_builddir)/backend/src/libworkrave-backend.la \
+			$(top_builddir)/common/src/libworkrave-common.la \
+			$(top_builddir)/frontend/common/src/libworkrave-frontend-common.la
 
 workrave_LDFLAGS = 	@WR_LDFLAGS@ ${ldflags}
 

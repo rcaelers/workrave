@@ -119,7 +119,6 @@ void StatusIcon::on_popup_menu(guint button, guint activate_time)
 bool StatusIcon::on_size_changed(guint size)
 {
   (void) size;
-  bool visible = status_icon->is_embedded();
   main_window.status_icon_changed();
   return true;
 }
