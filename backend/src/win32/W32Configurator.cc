@@ -1,6 +1,6 @@
 // W32Configurator.cc --- Configuration Access
 //
-// Copyright (C) 2002, 2005, 2006, 2007 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2005, 2006, 2007, 2009 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -159,7 +159,7 @@ W32Configurator::get_value(const string &key, bool &out) const
   bool rc = get_value(key, l);
   if (rc)
     {
-      out = (bool) (l != 0);
+      out = l ? true : false;
     }
   return rc;
 }
