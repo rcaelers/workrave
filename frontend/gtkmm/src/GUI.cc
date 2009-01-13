@@ -68,8 +68,11 @@ static const char rcsid[] = "$Id$";
 #include "Text.hh"
 #include "Util.hh"
 #include "WindowHints.hh"
-#include "NetworkHandler.hh"
 #include "Locale.hh"
+
+#ifdef HAVE_DISTRIBUTION
+#include "NetworkHandler.hh"
+#endif
 
 #if defined(PLATFORM_OS_WIN32)
 #include "W32AppletWindow.hh"
@@ -110,7 +113,10 @@ static const char rcsid[] = "$Id$";
 
 GUI *GUI::instance = NULL;
 
+#ifdef __linux
+//stack trace
 #include "Trackable.hh"
+#endif
 
 //! GUI Constructor.
 /*!
@@ -176,9 +182,9 @@ GUI::~GUI()
   delete [] heads;
 
   delete sound_player;
-
+#ifdef __linux
   Trackable::dump();
-  
+#endif
   TRACE_EXIT();
 }
 
