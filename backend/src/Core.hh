@@ -50,7 +50,10 @@
 #include "TimeSource.hh"
 #include "Timer.hh"
 #include "Statistics.hh"
+
+#ifdef HAVE_DISTRIBUTION
 #include "ILinkEventListener.hh"
+#endif
 
 using namespace workrave;
 
@@ -77,8 +80,10 @@ class Core :
   public TimeSource,
   public ICore,
   public IConfiguratorListener,
-  public IBreakResponse,
-  public ILinkEventListener
+#ifdef HAVE_DISTRIBUTION  
+  public ILinkEventListener,
+#endif
+  public IBreakResponse
 {
 public:
   Core();
