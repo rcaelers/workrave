@@ -9,6 +9,9 @@
 
 #cmakedefine HAVE_DBUS
 
+#cmakedefine HAVE_EXERCISES 
+
+
 #define HAVE_EXTERN_TIMEZONE 1
 #define HAVE_EXTERN_TIMEZONE_DEFINED 1
 #define ALL_LINGUAS "nl de eo pl da es zh_TW ru fr pt_BR nb lt cs he eu ca sv ja bg hu tr el sk zh_CN it sl ro"
@@ -111,9 +114,6 @@
 
 /* Define to 1 if you have the <errno.h> header file. */
 #define HAVE_ERRNO_H 1
-
-/* Define if exercises are available */
-#define HAVE_EXERCISES 
 
 /* Define if experimental features are available */
 /* #undef HAVE_EXPERIMENTAL */

@@ -1,6 +1,5 @@
 project(Workrave)
 
-message (${CMAKE_SOURCE_DIR}) 
 SET(COMMON_DIR ${CMAKE_SOURCE_DIR}/../../common)
 
 set(COMMON_SOURCES 
@@ -57,7 +56,9 @@ include_directories(
   "${COMMON_DIR}/win32/harpoon/include"
 )
 
-include_directories(${DBUS_INCLUDES})
+if (HAVE_DBUS)
+  include_directories(${DBUS_INCLUDES})
+endif(HAVE_DBUS)
 include_directories(${GLIB_INCLUDES})
 
 add_library(workrave-common STATIC ${COMMON_SOURCES})

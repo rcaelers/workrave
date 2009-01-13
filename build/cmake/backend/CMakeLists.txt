@@ -163,7 +163,9 @@ include_directories(
 
 
 include_directories(${GLIB_INCLUDES})
-include_directories(${DBUS_INCLUDES})
+if (HAVE_DBUS)
+  include_directories(${DBUS_INCLUDES})
+endif(HAVE_DBUS)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 add_library(workrave-backend STATIC ${BACKEND_SOURCES})

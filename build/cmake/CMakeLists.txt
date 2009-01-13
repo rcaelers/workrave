@@ -82,43 +82,46 @@ endif(DEVELOPMENT_MODE)
 include(FindGlib)
 include(FindGtkmm)
 include(FindDBus)
-
 include(FindGettext)
+
 FIND_PROGRAM(GETTEXT_XGETTEXT_EXECUTABLE xgettext)
 FIND_PROGRAM(INTLTOOL_UPDATE_EXECUTABLE intltool-update)
 FIND_PROGRAM(INTLTOOL_MERGE_EXECUTABLE intltool-merge)
-MARK_AS_ADVANCED(INTLTOOL_UPDATE)
+MARK_AS_ADVANCED(INTLTOOL_UPDATE_EXECUTABLE)
 
 if (NOT GETTEXT_FOUND)
-  message("=== GetText 0.17 not found")
-  message("=== Please install Getttext")
-  message(FATAL_ERROR "Aborting")
+  message("=== GetText not found - disabling i18n")
 endif (NOT GETTEXT_FOUND)
 
-set(HAVE_DBUS DBUS_FOUND)
 
+set(HAVE_DBUS ${DBUS_FOUND})
 if (HAVE_DBUS)
   include (FindPythonInterp)
   if (NOT PYTHONINTERP_FOUND)
-    message("=== Python not found")
-    message("=== Please install Python")
-    message(FATAL_ERROR "Aborting")
-  else( NOT PYTHONINTERP_FOUND)
-    include (FindPythonLibs)
+    message("=== Python not found - disabling dbus")
+    set (HAVE_DBUS FALSE)
   endif (NOT PYTHONINTERP_FOUND)
-
 endif (HAVE_DBUS)
+
 
 if (WIN32)
   include(FindPerl)
   if (NOT PERL_FOUND)
     message("=== Perl not found")
-    message("=== Please install Perl")
-    message(FATAL_ERROR "Aborting")
   else (NOT PERL_FOUND)
-    set (INTLTOOL_MERGE_EXECUTABLE ${PERL_EXECUTABLE} ${INTLTOOL_MERGE_EXECUTABLE})
+    if (INTLTOOL_MERGE_EXECUTABLE)
+      set (INTLTOOL_MERGE_EXECUTABLE ${PERL_EXECUTABLE} ${INTLTOOL_MERGE_EXECUTABLE})
+    endif(INTLTOOL_MERGE_EXECUTABLE)
   endif (NOT PERL_FOUND)
 endif (WIN32)
+
+if (INTLTOOL_MERGE_EXECUTABLE AND PERL_FOUND)
+  set (HAVE_EXERCISES TRUE)
+else (INTLTOOL_MERGE_EXECUTABLE AND PERL_FOUND)
+  message("=== Perl/Intltool not found - disabling exercises")
+  set (HAVE_EXERCISES FALSE)
+endif (INTLTOOL_MERGE_EXECUTABLE AND PERL_FOUND)
+
 
 ######################################################################
 ## Create config.h
@@ -129,7 +132,6 @@ if (MINGW)
 endif(MINGW)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h )
-
 
 # compiler definitions 
 add_definitions(-DHAVE_CONFIG_H=1)
