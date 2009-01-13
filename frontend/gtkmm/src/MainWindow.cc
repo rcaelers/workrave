@@ -496,36 +496,20 @@ MainWindow::win32_show(bool b)
   HWND hwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
   ShowWindow(hwnd, b ? SW_SHOWNORMAL : SW_HIDE);
 
-  if( b )
-    // jay satiro, workrave project, june 2007
-    // redistribute under GNU terms.
-    {
-      SetWindowPos( hwnd, 0, 0, 0, 0, 0,
-                    SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_SHOWWINDOW );
-      {
-        HWND hFore = GetForegroundWindow();
-        DWORD dThisThread, dForeThread, dForePID;
-  
-        dThisThread = GetCurrentThreadId();
-        dForeThread = GetWindowThreadProcessId( hFore, &dForePID );
-    
-        AttachThreadInput( dThisThread, dForeThread, TRUE );
-        /**/
-        present();
-        /**/
-        hFore = GetForegroundWindow();
-        if( hwnd != hFore )
-          {
-            BringWindowToTop( hwnd );
-            SetForegroundWindow( hwnd );
-          }
-        AttachThreadInput( dThisThread, dForeThread, FALSE );
-      }
-    }
-  else
-    {
-      ShowWindow( hwnd, SW_HIDE );
-    }
+	if( b )
+	// show main window
+	{
+		/**/
+		present(); //works in all my testing. does this not always work?
+		/**/
+		if( hwnd != GetForegroundWindow() )
+		{
+			SetWindowPos( hwnd, HWND_TOP, 0, 0, 0, 0, 
+				SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED | SWP_SHOWWINDOW );
+			//BringWindowToTop( hwnd );
+			SetForegroundWindow( hwnd );
+		}
+	}
 }
 
 

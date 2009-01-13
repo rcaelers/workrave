@@ -36,26 +36,24 @@ DesktopWindow::DesktopWindow(const HeadInfo &head)
   int x = head.get_x(), y = head.get_y();
   int w = head.get_width(), h = head.get_height();
 
-  if (! W32Compat::IsWindows95())
-    {
-      POINT pt = { x, y };
-      HMONITOR monitor = W32Compat::MonitorFromPoint(pt, MONITOR_DEFAULTTONULL);
-      if (monitor)
-        {
-          TRACE_MSG("Monitor found");
-          MONITORINFO info;
-          info.cbSize = sizeof(MONITORINFO);
+  POINT pt = { x, y };
+  HMONITOR monitor = W32Compat::MonitorFromPoint(pt, MONITOR_DEFAULTTONULL);
+  if (monitor)
+	{
+	  TRACE_MSG("Monitor found");
+	  MONITORINFO info;
+	  info.cbSize = sizeof(MONITORINFO);
 
-          if (W32Compat::GetMonitorInfo(monitor, &info))
-            {
-              x = info.rcMonitor.left;
-              y = info.rcMonitor.top;
-              w = info.rcMonitor.right - x;
-              h = info.rcMonitor.bottom - y;
-              TRACE_MSG("Monitor dimensions: " << x << ", " << y << ", " << w << ", " << h);
-            }
-        }
-    }
+	  if (W32Compat::GetMonitorInfo(monitor, &info))
+		{
+		  x = info.rcMonitor.left;
+		  y = info.rcMonitor.top;
+		  w = info.rcMonitor.right - x;
+		  h = info.rcMonitor.bottom - y;
+		  TRACE_MSG("Monitor dimensions: " << x << ", " << y << ", " << w << ", " << h);
+		}
+	}
+
 
 
   hwnd = CreateWindowEx(WS_EX_TOOLWINDOW,
