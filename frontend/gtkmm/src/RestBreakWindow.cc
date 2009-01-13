@@ -32,6 +32,10 @@ const int TIMEOUT = 1000;
 #include <unistd.h>
 #endif
 
+#ifdef PLATFORM_OS_WIN32
+#include "W32Compat.hh"
+#endif
+
 #include <gtkmm/button.h>
 #include <gtkmm/image.h>
 #include <gtkmm/label.h>
@@ -307,10 +311,7 @@ RestBreakWindow::set_ignore_activity(bool i)
   assert(core != NULL);
 
 #ifdef PLATFORM_OS_WIN32
-  bool force_focus = false;
-
-  CoreFactory::get_configurator()->get_value_with_default("advanced/force_focus", force_focus, false);
-  if (force_focus)
+  if( W32Compat::get_force_focus_value() )
     {
       i = true;
     }

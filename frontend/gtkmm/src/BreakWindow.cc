@@ -30,6 +30,10 @@ static const char rcsid[] = "$Id$";
 #include "w32debug.hh"
 #endif
 
+#ifdef PLATFORM_OS_WIN32
+#include "W32Compat.hh"
+#endif
+
 #include "preinclude.h"
 #include "debug.hh"
 #include "nls.h"
@@ -178,11 +182,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   bool initial_ignore_activity = false;
 
 #ifdef PLATFORM_OS_WIN32
-  bool force_focus = false;
-  CoreFactory::get_configurator()->get_value_with_default( "advanced/force_focus",
-                                                      force_focus,
-                                                      false);
-  if (force_focus)
+  if( W32Compat::get_force_focus_value() )
     {
       initial_ignore_activity = true;
     }
@@ -497,7 +497,7 @@ BreakWindow::start()
   // Set window hints.
   set_skip_pager_hint(true);
   set_skip_taskbar_hint(true);
-
+/*
 #ifdef PLATFORM_OS_WIN32
   // FIXME: hack until gtk+ is fixed.
   GtkWidget *gtkwin = Gtk::Widget::gobj();
@@ -511,7 +511,7 @@ BreakWindow::start()
   ::SetForegroundWindow((HWND)GDK_WINDOW_HWND(gdkwin));
   ::SetFocus((HWND)GDK_WINDOW_HWND(gdkwin));
 #endif
-  
+  */
   WindowHints::set_always_on_top(this, true);
   raise();
 
@@ -525,14 +525,14 @@ void
 BreakWindow::stop()
 {
   TRACE_ENTER("BreakWindow::stop");
-
+/*
 #ifdef PLATFORM_OS_WIN32
   GtkWidget *gtkwin = Gtk::Widget::gobj();
   GdkWindow *gdkwin = gtkwin->window;
   SetWindowLong((HWND)GDK_WINDOW_HWND(gdkwin), GWL_HWNDPARENT,
                 parent);
 #endif
-  
+*/
   if (frame != NULL)
     {
       frame->set_frame_flashing(0);
@@ -568,12 +568,12 @@ BreakWindow::refresh()
 {
   update_break_window();
   
-// #ifdef PLATFORM_OS_WIN32
-//   if (block_mode != GUIConfig::BLOCK_MODE_NONE)
-//     {
-//       WindowHints::set_always_on_top(this, true);
-//     }
-// #endif
+ #ifdef PLATFORM_OS_WIN32
+   if (block_mode != GUIConfig::BLOCK_MODE_NONE)
+     {
+       WindowHints::set_always_on_top(this, true);
+     }
+ #endif
 }
 
 Glib::RefPtr<Gdk::Window>
