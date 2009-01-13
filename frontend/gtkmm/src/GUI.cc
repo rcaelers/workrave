@@ -70,10 +70,6 @@ static const char rcsid[] = "$Id$";
 #include "WindowHints.hh"
 #include "Locale.hh"
 
-#ifdef HAVE_DISTRIBUTION
-#include "NetworkHandler.hh"
-#endif
-
 #if defined(PLATFORM_OS_WIN32)
 #include "W32AppletWindow.hh"
 #include <gdk/gdkwin32.h>
