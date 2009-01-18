@@ -1,7 +1,7 @@
 
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
 #
 # $Id$
 #
@@ -281,11 +281,7 @@ $(bin_PROGRAMS):	$(top_builddir)/backend/src/libworkrave-backend.la \
 			$(top_builddir)/common/src/libworkrave-common.la \
 			$(top_builddir)/frontend/common/src/libworkrave-frontend-common.la
 
-if PLATFORM_OS_WIN32
-WR_WIN32_LDFLAGS=-no-install
-endif
-
-workrave_LDFLAGS = 	@WR_LDFLAGS@ ${ldflags} ${WR_WIN32_LDFLAGS}
+workrave_LDFLAGS = 	@WR_LDFLAGS@ ${ldflags}
 
 workrave_LDADD =        @WR_LDADD@ @X_LIBS@ @GNOME_LIBS@ @GNOMEMM_LIBS@ \
 			@GTK_LIBS@ @GNET_LIBS@ @X_LIBS@ @GCONF_LIBS@ @GDOME_LIB@ \
