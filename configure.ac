@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl
-dnl Copyright (C) 2001 - 2008 Rob Caelers & Raymond Penners
+dnl Copyright (C) 2001 - 2009 Rob Caelers & Raymond Penners
 dnl
 dnl
 dnl $Id$
