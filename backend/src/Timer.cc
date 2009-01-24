@@ -580,6 +580,15 @@ Timer::freeze_timer(bool freeze)
             }
         }
     }
+
+  //test fix for Bug 746 -  Micro-break not counting down
+  if (timer_enabled && !freeze && timer_frozen && timer_state == STATE_RUNNING && !last_start_time && !activity_sensitive )
+    {
+      last_start_time = core->get_time();
+      elapsed_idle_time = 0;
+      compute_next_limit_time();
+    }
+
   timer_frozen = freeze;
   TRACE_EXIT();
 }
@@ -681,6 +690,10 @@ void
 Timer::process(ActivityState new_activity_state, TimerInfo &info)
 {
   TRACE_ENTER_MSG("Timer::Process", timer_id << timer_id << " " << new_activity_state);
+  
+  // msvc can't handle std::string conditional tracepoints. use TRACE as the conditional
+  bool TRACE = ( timer_id == "micro_pause" || timer_id == "rest_break" );
+  
   time_t current_time= core->get_time();
 
   // Default event to return.
