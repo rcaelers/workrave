@@ -594,15 +594,12 @@ X11InputMonitor::init_xrecord()
 
       // Receive KeyPress, KeyRelease, ButtonPress, ButtonRelease and
       // MotionNotify events.
-      XRecordRange *recordRanges[2];
+      XRecordRange *recordRanges[2] = { NULL, NULL };
       int recordRangesLen = 1;
       recordRanges[0] = XRecordAllocRange();
       memset(recordRanges[0], 0, sizeof(XRecordRange));
       recordRanges[0]->device_events.first = KeyPress;
       recordRanges[0]->device_events.last  = MotionNotify;
-
-#ifdef XI_DeviceMotionNotify
-      TRACE_MSG("Trying XI");
 
       int dummy = 0;
       Bool ok =  XQueryExtension(x11_display, "XInputExtension",
@@ -610,24 +607,20 @@ X11InputMonitor::init_xrecord()
 
       if (ok)
         {
-          TRACE_MSG("XI Ok " << xi_event_base);
-
           recordRanges[1] = XRecordAllocRange();
           memset(recordRanges[1], 0, sizeof(XRecordRange));
           recordRanges[1]->device_events.first = xi_event_base + XI_DeviceKeyPress;
           recordRanges[1]->device_events.last  = xi_event_base + XI_DeviceMotionNotify;
           recordRangesLen = 2;
         }
-#endif
       // And create the XRECORD context.
       xrecord_context = XRecordCreateContext(x11_display, 0, &client,  1, recordRanges, recordRangesLen);
 
       XFree(recordRanges[0]);
-
-#ifdef DeviceMotionNotify
-      XFree(recordRanges[1]);
-#endif
-
+      if (recordRanges[1] != NULL)
+        {
+          XFree(recordRanges[1]);
+        }
 
       if (xrecord_context != 0)
         {
