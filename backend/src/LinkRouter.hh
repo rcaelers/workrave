@@ -1,6 +1,6 @@
 // LinkRouter.hh --- Networking link server
 //
-// Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2009 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,7 @@
 #include "ILinkServerListener.hh"
 #include "ILinkListener.hh"
 #include "ILink.hh"
-#include "UUID.hh"
+#include "WRID.hh"
 
 using namespace workrave;
 
@@ -42,7 +42,7 @@ class LinkRouter
     public ILinkListener
 {
 public:
-  LinkRouter(const UUID &my_id);
+  LinkRouter(const WRID &my_id);
   virtual ~LinkRouter();
 
   void init();
@@ -59,7 +59,7 @@ public:
   virtual bool unsubscribe(const std::string eventid, ILinkEventListener *listener);
 
   // Internal
-  virtual bool send_event_to_link(const UUID &link_id, LinkEvent *event);
+  virtual bool send_event_to_link(const WRID &link_id, LinkEvent *event);
   virtual bool send_event_locally(LinkEvent *event);
 
 private:
@@ -76,12 +76,12 @@ private:
     {
     }
 
-    LinkInfo(UUID &id, ILink *link)
+    LinkInfo(WRID &id, ILink *link)
       : id(id), link(link), state(LINK_DOWN)
     {
     }
 
-    UUID id;
+    WRID id;
     ILink *link;
     LinkState state;
   };
@@ -90,17 +90,17 @@ private:
   virtual void new_link(ILink *link);
 
   // ILinkListener
-  virtual void event_received(const UUID &id, LinkEvent *event);
-  virtual void link_up(const UUID &id);
-  virtual void link_down(const UUID &id);
+  virtual void event_received(const WRID &id, LinkEvent *event);
+  virtual void link_up(const WRID &id);
+  virtual void link_down(const WRID &id);
 
   // Internal
   void fire_event(LinkEvent *event);
 
   // Known links
-  typedef std::map<UUID, LinkInfo> Links;
-  typedef std::map<UUID, LinkInfo>::iterator LinkIter;
-  typedef std::map<UUID, LinkInfo>::const_iterator LinkCIter;
+  typedef std::map<WRID, LinkInfo> Links;
+  typedef std::map<WRID, LinkInfo>::iterator LinkIter;
+  typedef std::map<WRID, LinkInfo>::const_iterator LinkCIter;
 
   // Event subscriptions
   typedef std::list<std::pair<std::string, ILinkEventListener *> > Listeners;
@@ -109,7 +109,7 @@ private:
 
 private:
   //! My ID
-  const UUID my_id;
+  const WRID my_id;
 
   //! Default server
   ILinkServer *default_link;

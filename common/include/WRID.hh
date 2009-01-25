@@ -1,6 +1,6 @@
-// UUID.hh --- Definition of Workrave link ID
+// WRID.hh --- Definition of Workrave link ID
 //
-// Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2009 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -19,8 +19,8 @@
 // $Id$
 //
 
-#ifndef WR_UUID_HH
-#define WR_UUID_HH
+#ifndef WR_WRID_HH
+#define WR_WRID_HH
 
 #include "debug.hh"
 
@@ -30,22 +30,22 @@
 
 namespace workrave
 {
-  class UUID
+  class WRID
   {
   private:
     typedef unsigned char uuid_type[16];
 
     
   public:
-    UUID();
-    UUID(const UUID &rhs);
-    UUID(const std::string &str);
+    WRID();
+    WRID(const WRID &rhs);
+    WRID(const std::string &str);
 
-    UUID& operator=(const UUID &lid);
+    WRID& operator=(const WRID &lid);
 
-    bool operator==(const UUID& lid) const;
-    bool operator!=(const UUID& lid) const;
-    bool operator<(const UUID& lid) const;
+    bool operator==(const WRID& lid) const;
+    bool operator!=(const WRID& lid) const;
+    bool operator<(const WRID& lid) const;
 
     std::string str() const;
     guint8 *raw() const;
@@ -63,4 +63,4 @@ namespace workrave
   };
 };
 
-#endif // UUID_HH
+#endif // WRID_HH

@@ -25,7 +25,7 @@ libworkrave_common_la_SOURCES =  \
 			GlibThread.cc \
 			Util.cc \
 			StringUtil.cc \
-			UUID.cc \
+			WRID.cc \
 			${dbussources} \
 			${localesources}
 

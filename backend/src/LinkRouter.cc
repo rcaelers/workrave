@@ -1,6 +1,6 @@
 // LinkRouter.cc
 //
-// Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2009 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -42,7 +42,7 @@ static const char rcsid[] = "$Id$";
 using namespace std;
 
 //! Constructs a new link router
-LinkRouter::LinkRouter(const UUID &my_id)
+LinkRouter::LinkRouter(const WRID &my_id)
   : my_id(my_id), default_link(NULL)
 {
 }
@@ -141,7 +141,7 @@ LinkRouter::connect(const string &host, int port, string &link_id)
   TRACE_ENTER_MSG("LinkRouter::connect", host << " " << port);
 
   TcpLink *link = new TcpLink();
-  UUID id = link->get_link_id();
+  WRID id = link->get_link_id();
 
   TRACE_MSG(links.size());
 
@@ -170,7 +170,7 @@ LinkRouter::disconnect(const string &link_id)
 {
   TRACE_ENTER_MSG("LinkRouter::disconnect", link_id);
   bool ret = false;
-  UUID id(link_id);
+  WRID id(link_id);
 
   LinkIter it = links.find(id);
   if (it != links.end())
@@ -226,7 +226,7 @@ LinkRouter::send_event(LinkEvent *event)
 
 
 bool
-LinkRouter::send_event_to_link(const UUID &link_id, LinkEvent *event)
+LinkRouter::send_event_to_link(const WRID &link_id, LinkEvent *event)
 {
   TRACE_ENTER_MSG("LinkRouter::send_event_to_link", link_id.str() << " " << event->str());
   bool rc = true;
@@ -288,7 +288,7 @@ LinkRouter::new_link(ILink *link)
 {
   TRACE_ENTER("LinkRouter::new_link");
 
-  UUID id = link->get_link_id();
+  WRID id = link->get_link_id();
   LinkInfo info(id, link);
 
   TRACE_MSG("id " << id.str());
@@ -304,7 +304,7 @@ LinkRouter::new_link(ILink *link)
 
 
 void
-LinkRouter::event_received(const UUID &id, LinkEvent *event)
+LinkRouter::event_received(const WRID &id, LinkEvent *event)
 {
   TRACE_ENTER_MSG("LinkRouter::event_received", id.str()
                   << event->str());
@@ -312,7 +312,7 @@ LinkRouter::event_received(const UUID &id, LinkEvent *event)
   TRACE_MSG("event " << event->get_source().str());
   TRACE_MSG("me " << my_id.str());
 
-  const UUID &event_id = event->get_source();
+  const WRID &event_id = event->get_source();
   if (my_id != event_id)
     {
       fire_event(event);
@@ -345,7 +345,7 @@ LinkRouter::event_received(const UUID &id, LinkEvent *event)
 
 
 void
-LinkRouter::link_down(const UUID &id)
+LinkRouter::link_down(const WRID &id)
 {
   TRACE_ENTER_MSG("LinkRouter::link_down", id.str());
 
@@ -367,7 +367,7 @@ LinkRouter::link_down(const UUID &id)
 
 
 void
-LinkRouter::link_up(const UUID &id)
+LinkRouter::link_up(const WRID &id)
 {
   TRACE_ENTER_MSG("LinkRouter::link_up", id.str());
 

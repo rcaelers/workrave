@@ -1,6 +1,6 @@
 // LinkedActivityMonitor.hh
 //
-// Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2009 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,7 @@
 #include "IActivityMonitor.hh"
 #include "ILinkEventListener.hh"
 
-#include "UUID.hh"
+#include "WRID.hh"
 
 using namespace workrave;
 
@@ -44,14 +44,14 @@ private:
 
   struct RemoteState
   {
-    UUID id;
+    WRID id;
     ActivityState state;
     time_t lastupdate;
     time_t since;
   };
 
   // Known states
-  typedef std::map<UUID, RemoteState> States;
+  typedef std::map<WRID, RemoteState> States;
   typedef States::iterator StateIter;
   typedef States::const_iterator StateCIter;
 
@@ -69,7 +69,7 @@ public:
   void report_active(bool active);
   bool get_active();
 
-  bool is_active(const UUID &remote, time_t &since);
+  bool is_active(const WRID &remote, time_t &since);
   
 private:
   void handle_activity_event(LinkEvent *event);

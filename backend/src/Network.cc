@@ -1,6 +1,6 @@
 // Network.cc
 //
-// Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2009 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -129,7 +129,7 @@ Network::init_my_id()
           string id_str;
           file >> id_str;
 
-          if (id_str.length() == UUID::STR_LENGTH)
+          if (id_str.length() == WRID::STR_LENGTH)
             {
               ok = my_id.set(id_str);              
             }
@@ -235,7 +235,7 @@ Network::send_event(LinkEvent *event)
 
 //! Send an event through a single network link
 bool
-Network::send_event_to_link(const UUID &link_id, LinkEvent *event)
+Network::send_event_to_link(const WRID &link_id, LinkEvent *event)
 {
   return router->send_event_to_link(link_id, event);
 }
@@ -283,7 +283,7 @@ Network::get_remote_active() const
 
 //! Is a remote workrave client active?
 bool
-Network::is_remote_active(const UUID &remote_id, time_t &since) const
+Network::is_remote_active(const WRID &remote_id, time_t &since) const
 {
   return linked_activity->is_active(remote_id, since);
 }

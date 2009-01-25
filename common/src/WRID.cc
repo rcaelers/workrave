@@ -1,6 +1,6 @@
-// UUID.c --- Definition of Workrave link ID
+// WRID.c --- Definition of Workrave link ID
 //
-// Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2009 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -29,7 +29,7 @@
 
 #include <glib.h>
 
-#include "UUID.hh"
+#include "WRID.hh"
 
 #if defined(PLATFORM_OS_WIN32)
 #include <windows.h>
@@ -43,13 +43,13 @@
 #include <string.h>
 #endif
 
-#include "UUID.hh"
+#include "WRID.hh"
 
 using namespace workrave;
 
-UUID::UUID()
+WRID::WRID()
 {
-  TRACE_ENTER("UUID::UUID");
+  TRACE_ENTER("WRID::WRID");
 
   create();
 
@@ -57,24 +57,24 @@ UUID::UUID()
   TRACE_EXIT();
 }
 
-UUID::UUID(const UUID::UUID &rhs)
+WRID::WRID(const WRID::WRID &rhs)
 {
-  TRACE_ENTER("UUID::UUID copy");
+  TRACE_ENTER("WRID::WRID copy");
   memcpy(id, rhs.id, sizeof(id));
   TRACE_EXIT();
 }
 
-UUID::UUID(const std::string &str)
+WRID::WRID(const std::string &str)
 {
-  TRACE_ENTER("UUID::UUID str");
+  TRACE_ENTER("WRID::WRID str");
   set(str);
   TRACE_EXIT();
 }
 
-UUID&
-UUID::operator=(const UUID::UUID &lid)
+WRID&
+WRID::operator=(const WRID::WRID &lid)
 {
-  TRACE_ENTER("UUID::UUID::=");
+  TRACE_ENTER("WRID::WRID::=");
   if (this != &lid)
     {
       memcpy(id, lid.id, sizeof(id));
@@ -84,25 +84,25 @@ UUID::operator=(const UUID::UUID &lid)
 }
 
 bool
-UUID::operator==(const UUID::UUID& lid) const
+WRID::operator==(const WRID::WRID& lid) const
 {
   return memcmp(id, lid.id, sizeof(id)) == 0;
 }
 
 bool
-UUID::operator!=(const UUID::UUID& lid) const
+WRID::operator!=(const WRID::WRID& lid) const
 {
   return memcmp(id, lid.id, sizeof(id)) != 0;
 }
 
 bool
-UUID::operator<(const UUID::UUID& lid) const
+WRID::operator<(const WRID::WRID& lid) const
 {
   return memcmp(id, lid.id, sizeof(id)) < 0;
 }
 
 std::string
-UUID::str() const
+WRID::str() const
 {
   static const char *hex = "0123456789abcdef";
   
@@ -119,14 +119,14 @@ UUID::str() const
 }
 
 guint8 *
-UUID::raw() const
+WRID::raw() const
 {
   return (guint8 *) &id;
 }
 
 
 void
-UUID::create()
+WRID::create()
 {
   GTimeVal now;
   g_get_current_time(&now);
@@ -138,7 +138,7 @@ UUID::create()
 }
 
 bool
-UUID::set(const std::string &str)
+WRID::set(const std::string &str)
 {
   size_t len = str.length();
   bool ret = true;
@@ -192,7 +192,7 @@ UUID::set(const std::string &str)
 #if defined (PLATFORM_OS_UNIX) || defined (PLATFORM_OS_OSX)
 
 void
-UUID::get_random_bytes(unsigned char *buf, size_t length)
+WRID::get_random_bytes(unsigned char *buf, size_t length)
 {
   int fd = -1;
   bool ok = false;
@@ -246,7 +246,7 @@ UUID::get_random_bytes(unsigned char *buf, size_t length)
 #elif defined(PLATFORM_OS_WIN32)
 
 void
-UUID::get_random_bytes(unsigned char *buf, size_t length)
+WRID::get_random_bytes(unsigned char *buf, size_t length)
 {
   HCRYPTPROV hProv;
 

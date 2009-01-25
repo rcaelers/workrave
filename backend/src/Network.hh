@@ -1,6 +1,6 @@
 // Network.hh --- Networking link server
 //
-// Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2009 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -25,12 +25,12 @@
 #include "INetwork.hh"
 #include "IConfiguratorListener.hh"
 
-#include "UUID.hh"
+#include "WRID.hh"
 
 // Forward declarion of external interfaces.
 namespace workrave
 {
-  class UUID;
+  class WRID;
   class ICore;
 }
 using namespace workrave;
@@ -61,7 +61,7 @@ public:
   bool disconnect(const std::string &link_id);
   void heartbeat();
   bool get_remote_active() const;
-  bool is_remote_active(const UUID &remote_id, time_t &since) const;
+  bool is_remote_active(const WRID &remote_id, time_t &since) const;
   void report_active(bool active);
   void report_timer_state(int id, bool running);
 
@@ -69,7 +69,7 @@ public:
   virtual void connect(std::string url);
   virtual void leave();
   virtual bool send_event(LinkEvent *event);
-  virtual bool send_event_to_link(const workrave::UUID &link_id, LinkEvent *event);
+  virtual bool send_event_to_link(const workrave::WRID &link_id, LinkEvent *event);
   virtual bool subscribe(const std::string &eventid, ILinkEventListener *listener);
   virtual bool unsubscribe(const std::string &eventid, ILinkEventListener *listener);
   virtual void monitor_config(const std::string &key);
@@ -85,7 +85,7 @@ private:
 
 private:
   //! My ID
-  UUID my_id;
+  WRID my_id;
 
   //! Distributed event router
   LinkRouter *router;

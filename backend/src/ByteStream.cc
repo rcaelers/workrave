@@ -1,6 +1,6 @@
 // ByteStream.cc --- Stream of bytes
 //
-// Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2009 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -147,18 +147,18 @@ ByteStream::get_raw(int len)
 }
 
 
-//! Return the next UUID from the byte stream
-UUID
+//! Return the next WRID from the byte stream
+WRID
 ByteStream::get_uuid()
 {
-  UUID id;
+  WRID id;
 
   guint8 *uuid = id.raw();
 
-  check_delta(UUID::RAW_LENGTH);
+  check_delta(WRID::RAW_LENGTH);
 
-  memcpy(uuid, data_ptr, UUID::RAW_LENGTH);
-  data_ptr += UUID::RAW_LENGTH;
+  memcpy(uuid, data_ptr, WRID::RAW_LENGTH);
+  data_ptr += WRID::RAW_LENGTH;
 
   return id;
 }
@@ -346,13 +346,13 @@ ByteStream::put_raw(int len, const guint8 *raw)
 }
 
 
-//! Write a UUID to the byte stream
+//! Write a WRID to the byte stream
 void
-ByteStream::put_uuid(const UUID &id)
+ByteStream::put_uuid(const WRID &id)
 {
   guint8 *uuid = id.raw();
 
-  put_raw(UUID::RAW_LENGTH, uuid);
+  put_raw(WRID::RAW_LENGTH, uuid);
 }
 
 

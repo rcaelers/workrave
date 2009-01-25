@@ -1,6 +1,6 @@
 // LinkedHistoryManager.cc --- Linked (networked) HistoryManager
 //
-// Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2009 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -580,7 +580,7 @@ LinkedHistoryManager::handle_linkstate_event(LinkEvent *event)
       LinkStateLinkEvent::LinkState ls = lse->get_link_state();
       if (ls == LinkStateLinkEvent::LINKSTATE_UP)
         {
-          const UUID &link_id = lse->get_link_id();
+          const WRID &link_id = lse->get_link_id();
           ByteStream bs(10240, 1024);
           packetize(&bs);
 

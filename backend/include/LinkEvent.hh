@@ -25,7 +25,7 @@
 #include <string>
 #include <list>
 
-#include "UUID.hh"
+#include "WRID.hh"
 #include "ISerializable.hh"
 
 
@@ -41,10 +41,10 @@ namespace workrave
     virtual ~LinkEvent();
 
     //! Set the ID of the Workrave that sent this event.
-    void set_source(const UUID &id);
+    void set_source(const WRID &id);
 
     //! Return the ID of the Workrave that sent this event.
-    UUID get_source() const;
+    WRID get_source() const;
 
     //! Set the priority of this event
     void set_priority(int prio);
@@ -62,7 +62,7 @@ namespace workrave
 
   private:
     //! ID of the Workrave that send the message
-    UUID source;
+    WRID source;
 
     //! Event priority
     int priority;

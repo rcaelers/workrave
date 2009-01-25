@@ -1,6 +1,6 @@
 // ByteStream.hh
 //
-// Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2009 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,7 @@
 #include <string>
 #include <glib.h>
 
-#include "UUID.hh"
+#include "WRID.hh"
 #include "Exception.hh"
 
 using namespace workrave;
@@ -60,7 +60,7 @@ public:
   guint64 get_u64();
   guint8 *get_raw(int len);
   gchar  *get_string();
-  UUID    get_uuid();
+  WRID    get_uuid();
   guint8  peek_u8(int pos = -1);
   guint16 peek_u16(int pos = -1);
   guint32 peek_u32(int pos = -1);
@@ -73,7 +73,7 @@ public:
   void    put_raw(int len, const guint8 *raw);
   void    put_string(const gchar *str);
   void    put_string(const std::string data);
-  void    put_uuid(const UUID &id);
+  void    put_uuid(const WRID &id);
 
 private:
   void grow_delta(int size);

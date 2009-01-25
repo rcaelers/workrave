@@ -1,6 +1,6 @@
 // LinkStateLinkEvent.cc
 //
-// Copyright (C) 2007 Rob Caelers
+// Copyright (C) 2007, 2009 Rob Caelers
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -40,7 +40,7 @@ LinkStateLinkEvent::LinkStateLinkEvent()
 }
 
 
-LinkStateLinkEvent::LinkStateLinkEvent(const UUID &id, LinkState state)
+LinkStateLinkEvent::LinkStateLinkEvent(const WRID &id, LinkState state)
   : link_id(id), link_state(state)
 {
 }

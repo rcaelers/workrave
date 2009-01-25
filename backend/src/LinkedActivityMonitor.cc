@@ -1,6 +1,6 @@
 // LinkedActivityMonitor.cc --- Linked (networked) ActivityMonitor
 //
-// Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2009 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -90,7 +90,7 @@ LinkedActivityMonitor::handle_activity_event(LinkEvent *event)
   ActivityLinkEvent *act = dynamic_cast<ActivityLinkEvent *>(event);
   if (act != NULL)
     {
-      const UUID &remote_id = act->get_source();
+      const WRID &remote_id = act->get_source();
       const ActivityState state = act->get_state();
 
       StateIter i = states.find(remote_id);
@@ -171,7 +171,7 @@ LinkedActivityMonitor::get_active()
 
 //! Returns the current state
 bool
-LinkedActivityMonitor::is_active(const UUID &remote_id, time_t &since)
+LinkedActivityMonitor::is_active(const WRID &remote_id, time_t &since)
 {
   TRACE_ENTER("LinkedActivityMonitor::is_active");
   bool ret = false;

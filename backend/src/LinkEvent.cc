@@ -1,6 +1,6 @@
 // LinkEvent.cc
 //
-// Copyright (C) 2007 Rob Caelers
+// Copyright (C) 2007, 2009 Rob Caelers
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -52,14 +52,14 @@ LinkEvent::~LinkEvent()
 
 //! Set the ID of the Workrave that sent this event.
 void
-LinkEvent::set_source(const UUID &source)
+LinkEvent::set_source(const WRID &source)
 {
   this->source = source;
 }
 
 
 //! Return the ID of the Workrave that sent this event.
-UUID
+WRID
 LinkEvent::get_source() const
 {
   return source;

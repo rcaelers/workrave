@@ -1,6 +1,6 @@
 // TcpLink.cc
 //
-// Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2009 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -107,7 +107,7 @@ TcpLink::process_packet()
       guint32 size      = byte_stream.get_u32();
       guint16 version   = byte_stream.get_u16();
       guint16 type      = byte_stream.get_u16();
-      UUID    uuid      = byte_stream.get_uuid();
+      WRID    uuid      = byte_stream.get_uuid();
       guint32 reserved1 = byte_stream.get_u32();
       guint32 reserved2 = byte_stream.get_u32();
 
@@ -190,7 +190,7 @@ TcpLink::process_event()
 }
 
 void
-TcpLink::process_auth(const UUID &uuid)
+TcpLink::process_auth(const WRID &uuid)
 {
   TRACE_ENTER("TcpLink::process_auth");
   IConfigurator *config = CoreFactory::get_configurator();
@@ -198,7 +198,7 @@ TcpLink::process_auth(const UUID &uuid)
   string secret;
   config->get_value("networking/secret", secret);
 
-  UUID random = byte_stream.get_uuid();
+  WRID random = byte_stream.get_uuid();
   gchar *username = byte_stream.get_string();
   guint8 *otherdigest = byte_stream.get_raw(GNET_SHA_HASH_LENGTH);
 
@@ -294,7 +294,7 @@ TcpLink::send_auth()
   config->get_value("networking/username", username);
   config->get_value("networking/secret", secret);
 
-  UUID random_id;
+  WRID random_id;
   string random = random_id.str();
   string auth = random + ":" + link_id.str() + ":" + username + ":" + secret;
   GSHA *sha = gnet_sha_new(auth.c_str(), auth.length());
@@ -303,7 +303,7 @@ TcpLink::send_auth()
   random_id.raw();
 
   int size = ( 32 +                     // header
-               UUID::RAW_LENGTH +
+               WRID::RAW_LENGTH +
                username.length() + 1 +  // username
                GNET_SHA_HASH_LENGTH);   // digest
 

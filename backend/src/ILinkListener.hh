@@ -1,6 +1,6 @@
 // ILinkListener.hh  --- Interface definition for a Workrave link server
 //
-// Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2009 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,7 @@
 // Forward declarion of external interface.
 namespace workrave {
   class LinkEvent;
-  class UUID;
+  class WRID;
 }
 using namespace workrave;
 
@@ -37,13 +37,13 @@ public:
   virtual ~ILinkListener() {}
 
   //! Received incoming event from Link
-  virtual void event_received(const UUID &id, LinkEvent *event) = 0;
+  virtual void event_received(const WRID &id, LinkEvent *event) = 0;
 
   //! The specified link is down.
-  virtual void link_down(const UUID &id) = 0;
+  virtual void link_down(const WRID &id) = 0;
 
   //! The specified link is now up and running.
-  virtual void link_up(const UUID &id) = 0;
+  virtual void link_up(const WRID &id) = 0;
 };
 
 #endif // ILINKLISTENER_HH

@@ -1,6 +1,6 @@
 // TcpLink.hh --- Networking link server
 //
-// Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2009 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -46,7 +46,7 @@ public:
   void init();
 
   // ILink
-  const UUID &get_link_id() const;
+  const WRID &get_link_id() const;
   void set_link_listener(ILinkListener *listener);
   void send_event(LinkEvent *event);
 
@@ -59,7 +59,7 @@ private:
   // Internal
   void process_packet();
   void process_event();
-  void process_auth(const UUID &uuid);
+  void process_auth(const WRID &uuid);
   void send_auth();
 
   enum PacketType {
@@ -78,7 +78,7 @@ private:
   ILinkListener *link_listener;
 
   //!
-  UUID link_id;
+  WRID link_id;
 
   //!
   ByteStream byte_stream;

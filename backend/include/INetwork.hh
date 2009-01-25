@@ -1,6 +1,6 @@
 // INetwork.hh -- Interface to the networking facility
 //
-// Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2009 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,7 @@ namespace workrave
   // Forward declarion of external interfaces.
   class LinkEvent;
   class ILinkEventListener;
-  class UUID;
+  class WRID;
 
   //! Interface to the networking facility of Workrave.
   class INetwork
@@ -53,7 +53,7 @@ namespace workrave
     virtual bool send_event(LinkEvent *event) = 0;
 
     //! Send an event through a single link.
-    virtual bool send_event_to_link(const UUID &link_id, LinkEvent *event) = 0;
+    virtual bool send_event_to_link(const WRID &link_id, LinkEvent *event) = 0;
 
     //! Subscribe to a specific network event.
     virtual bool subscribe(const std::string &eventid, ILinkEventListener *listener) = 0;

@@ -1,6 +1,6 @@
 // ILink.hh --- Interface definition for a Workrave link
 //
-// Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2009 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,7 @@
 // Forward declarion of external interfaces.
 namespace workrave {
   class LinkEvent;
-  class UUID;
+  class WRID;
 }
 
 
@@ -40,7 +40,7 @@ public:
   virtual ~ILink() {}
 
   //! Returns the unique link id
-  virtual const workrave::UUID &get_link_id() const = 0;
+  virtual const workrave::WRID &get_link_id() const = 0;
 
   //! Sets the link listener
   virtual void set_link_listener(ILinkListener *listener) = 0;

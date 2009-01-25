@@ -1,6 +1,6 @@
 // LinkStateLinkEvent.hh --- An event of the Workrave core
 //
-// Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2009 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -43,14 +43,14 @@ public:
 
 public:
   LinkStateLinkEvent();
-  LinkStateLinkEvent(const UUID &id, LinkState state);
+  LinkStateLinkEvent(const WRID &id, LinkState state);
   virtual ~LinkStateLinkEvent();
 
   virtual std::string str() const;
   virtual std::string class_name() const;
   virtual void serialize(workrave::serialization::Target *s);
 
-  const UUID &get_link_id() const
+  const WRID &get_link_id() const
   {
     return link_id;
   }
@@ -62,7 +62,7 @@ public:
 
 private:
   /*! Link ID */
-  UUID link_id;
+  WRID link_id;
 
   /*! LinkState Event */
   LinkState link_state;

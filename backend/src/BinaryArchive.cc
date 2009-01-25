@@ -1,6 +1,6 @@
 // BinaryArchive>.cc --- Binary Serialization
 //
-// Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2009 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -42,7 +42,7 @@ enum TLVTypes
     TYPE_U32,
     TYPE_U64,
     TYPE_INT,
-    TYPE_UUID,
+    TYPE_WRID,
     TYPE_STRING,
     TYPE_DOUBLE,
     TYPE_LIST,
@@ -215,7 +215,7 @@ BinaryArchive::add_primitive(string name, string s)
 }
 
 void
-BinaryArchive::add_primitive(string name, const UUID &id)
+BinaryArchive::add_primitive(string name, const WRID &id)
 {
   (void) name;
 
@@ -223,9 +223,9 @@ BinaryArchive::add_primitive(string name, const UUID &id)
 
   id.raw();
 
-  stream->put_u8(TYPE_UUID);
+  stream->put_u8(TYPE_WRID);
   stream->put_u8(0);
-  stream->put_u32(UUID::RAW_LENGTH);
+  stream->put_u32(WRID::RAW_LENGTH);
   stream->put_uuid(id);
 }
 
@@ -537,7 +537,7 @@ BinaryArchive::get_primitive(string name, string &s, int version)
 
 
 void
-BinaryArchive::get_primitive(string name, UUID &id, int version)
+BinaryArchive::get_primitive(string name, WRID &id, int version)
 {
   (void) name;
 
@@ -547,7 +547,7 @@ BinaryArchive::get_primitive(string name, UUID &id, int version)
     }
 
   int t = stream->get_u8();
-  if (t != TYPE_UUID)
+  if (t != TYPE_WRID)
     {
       throw ArchiveException("incorrect type");
     }

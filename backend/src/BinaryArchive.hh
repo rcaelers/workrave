@@ -1,6 +1,6 @@
 // BinaryArchive.hh --- Binary Serialization
 //
-// Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2009 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -40,7 +40,7 @@ public:
   void start_container(std::string name, std::string type);
   void end_container();
 
-  void add_primitive(std::string name, const UUID &id);
+  void add_primitive(std::string name, const WRID &id);
   void add_primitive(std::string name, const int i);
   void add_primitive(std::string name, const guint8 i);
   void add_primitive(std::string name, const guint16 i);
@@ -54,7 +54,7 @@ public:
   void get_container(std::string name, std::string type, int version);
   bool get_next_in_container(std::string name, std::string type, int version);
 
-  void get_primitive(std::string name, UUID &id, int version);
+  void get_primitive(std::string name, WRID &id, int version);
   void get_primitive(std::string name, int &i, int version);
   void get_primitive(std::string name, guint8 &i, int version);
   void get_primitive(std::string name, guint16 &i, int version);
