@@ -1,6 +1,6 @@
 // LinkEvent.hh --- Interface definition for a Workrave link event
 //
-// Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2009 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -34,7 +34,7 @@
 namespace workrave
 {
   //! Event send across the Workrave network.
-  class LinkEvent : public workrave::serialization::ISerializable, public Trackable
+  class LinkEvent : public workrave::serialization::ISerializable
   {
   public:
     LinkEvent();

@@ -1,6 +1,6 @@
 // GUI.cc --- The WorkRave GUI
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -113,11 +113,6 @@ static const char rcsid[] = "$Id$";
 
 GUI *GUI::instance = NULL;
 
-#ifdef __linux
-//stack trace
-#include "Trackable.hh"
-#endif
-
 //! GUI Constructor.
 /*!
  *  \param argc number of command line parameters.
@@ -182,9 +177,7 @@ GUI::~GUI()
   delete [] heads;
 
   delete sound_player;
-#ifdef __linux
-  Trackable::dump();
-#endif
+
   TRACE_EXIT();
 }
 
