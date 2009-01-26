@@ -126,6 +126,7 @@ private:
   //! X Connection for event capturing.
   Display *xrecord_datalink;
 
+  // Event base for Xinput events
   static int xi_event_base;
 #endif
 };
