@@ -1389,6 +1389,26 @@ GUI::get_timers_tooltip()
   string tip = "";
 
   ICore *core = CoreFactory::get_core();
+
+  OperationMode mode = core->get_operation_mode();
+  switch (mode)
+    {
+    case OPERATION_MODE_NORMAL:
+      tip = "Workrave";
+      break;
+        
+    case OPERATION_MODE_SUSPENDED:
+      tip = string(_("Mode: ")) +   _("Suspended");
+      break;
+
+    case OPERATION_MODE_QUIET:
+      tip = string(_("Mode: ")) +   _("Quiet");
+      break;
+
+    default:
+      break;
+    }
+  
   for (int count = 0; count < BREAK_ID_SIZEOF; count++)
     {
       IBreak *b = core->get_break(BreakId(count));
@@ -1411,13 +1431,12 @@ GUI::get_timers_tooltip()
               text = Text::time_to_string(activeTime);
             }
 
-#if !defined(PLATFORM_OS_WIN32)
           // Win32 tip is limited in length
           if (tip == "")
             {
               tip = "Workrave";
             }
-#endif
+
           if (tip != "")
             {
               tip += "\n";
