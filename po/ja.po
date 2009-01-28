@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave Japanese\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2008-08-30 09:41+0200\n"
+"POT-Creation-Date: 2009-01-28 19:33+0100\n"
 "PO-Revision-Date: 2007-03-09 16:03+0900\n"
 "Last-Translator: Masanobu Yokota <masanobu.yokota@nifty.com>\n"
 "Language-Team: Masanobu Yokota <masanobu.yokota@nifty.com>\n"
@@ -18,198 +18,198 @@ msgstr ""
 "X-Poedit-Country: JAPAN\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: ../backend/src/DistributionSocketLink.cc:130
+#: ../backend/src/DistributionSocketLink.cc:132
 #, c-format
 msgid "Reconnecting to %s:%d."
 msgstr "%s:%d に再接続中。"
 
-#: ../backend/src/DistributionSocketLink.cc:346
+#: ../backend/src/DistributionSocketLink.cc:348
 msgid "Cannot resolve my own hostname. Deactivating distribution."
 msgstr "自分のホスト名が解決できません。分散処理を停止します。"
 
 #. We did not succeed in starting the server. Arghh.
-#: ../backend/src/DistributionSocketLink.cc:384
+#: ../backend/src/DistributionSocketLink.cc:386
 msgid "Could not enable network operation."
 msgstr "ネットワークオペレーションを起動できません。"
 
-#: ../backend/src/DistributionSocketLink.cc:393
+#: ../backend/src/DistributionSocketLink.cc:395
 msgid "Disabling network operation."
 msgstr "ネットワークオペレーションを停止中。"
 
-#: ../backend/src/DistributionSocketLink.cc:548
-#: ../backend/src/DistributionSocketLink.cc:576
+#: ../backend/src/DistributionSocketLink.cc:550
+#: ../backend/src/DistributionSocketLink.cc:578
 #, c-format
 msgid "Connecting to %s:%d."
 msgstr "%s:%d に接続中。"
 
-#: ../backend/src/DistributionSocketLink.cc:683
-#: ../backend/src/DistributionSocketLink.cc:710
+#: ../backend/src/DistributionSocketLink.cc:685
+#: ../backend/src/DistributionSocketLink.cc:712
 #, c-format
 msgid "Removing client %s:%d."
 msgstr "クライアント %s:%d を削除中。"
 
 #. Closing direct connection.
-#: ../backend/src/DistributionSocketLink.cc:749
+#: ../backend/src/DistributionSocketLink.cc:752
 #, c-format
 msgid "Disconnecting %s:%d."
 msgstr "%s:%d を切断中。"
 
 #. It's a remote client. mark it master.
-#: ../backend/src/DistributionSocketLink.cc:919
+#: ../backend/src/DistributionSocketLink.cc:922
 #, c-format
 msgid "Client %s:%d is now master."
 msgstr "クライアント %s:%d がマスター。"
 
 #. Its ME!
-#: ../backend/src/DistributionSocketLink.cc:926
+#: ../backend/src/DistributionSocketLink.cc:929
 msgid "I'm now master."
 msgstr "私がマスター。"
 
-#: ../backend/src/DistributionSocketLink.cc:1257
+#: ../backend/src/DistributionSocketLink.cc:1260
 #, c-format
 msgid "Client %s:%d saying hello."
 msgstr "クライアント %s:%d が呼んでいる。"
 
 #. Duplicate client. inform client that it's bogus and close.
-#: ../backend/src/DistributionSocketLink.cc:1273
-#: ../backend/src/DistributionSocketLink.cc:1403
-#: ../backend/src/DistributionSocketLink.cc:1644
+#: ../backend/src/DistributionSocketLink.cc:1276
+#: ../backend/src/DistributionSocketLink.cc:1406
+#: ../backend/src/DistributionSocketLink.cc:1650
 #, c-format
 msgid "Client %s:%d is duplicate."
 msgstr "クライアント %s:%d が重複。"
 
 #. Incorrect password.
-#: ../backend/src/DistributionSocketLink.cc:1283
+#: ../backend/src/DistributionSocketLink.cc:1286
 #, c-format
 msgid "Client %s:%d access denied."
 msgstr "クライアント %s:%d 接続拒否。"
 
-#: ../backend/src/DistributionSocketLink.cc:1353
+#: ../backend/src/DistributionSocketLink.cc:1356
 #, c-format
 msgid "Client %s:%d signed off."
 msgstr "クライアント %s:%d サインオフ。"
 
-#: ../backend/src/DistributionSocketLink.cc:1442
+#: ../backend/src/DistributionSocketLink.cc:1445
 #, c-format
 msgid "Client %s:%d is welcoming us."
 msgstr "クライアント %s:%d 応答。"
 
-#: ../backend/src/DistributionSocketLink.cc:1681
+#: ../backend/src/DistributionSocketLink.cc:1687
 #, c-format
 msgid "Requesting master status from %s:%d."
 msgstr "%s:%d からマスターステータスの要求。"
 
-#: ../backend/src/DistributionSocketLink.cc:1695
+#: ../backend/src/DistributionSocketLink.cc:1701
 #, c-format
 msgid "Client timeout from %s:%d."
 msgstr "%s:%d からクライアントタイムアウト。"
 
-#: ../backend/src/DistributionSocketLink.cc:1717
+#: ../backend/src/DistributionSocketLink.cc:1723
 #, c-format
 msgid "Rejecting master request from client %s:%d."
 msgstr "クライアント %s:%d からのマスターリクエストを拒否。"
 
-#: ../backend/src/DistributionSocketLink.cc:1723
+#: ../backend/src/DistributionSocketLink.cc:1729
 #, c-format
 msgid "Acknowledging master request from client %s:%d."
 msgstr "クライアント %s:%d からの マスターリクエストを承認"
 
-#: ../backend/src/DistributionSocketLink.cc:1774
+#: ../backend/src/DistributionSocketLink.cc:1780
 #, c-format
 msgid "Non-master client %s:%d rejected master request."
 msgstr "マスターでないクライアント %s:%d がマスターリクエストは拒否。"
 
-#: ../backend/src/DistributionSocketLink.cc:1779
+#: ../backend/src/DistributionSocketLink.cc:1785
 #, c-format
 msgid "Client %s:%d rejected master request, delaying."
 msgstr "クライアント %s:%d がマスターリクエストを拒否、延期中。"
 
 #. gint count =
-#: ../backend/src/DistributionSocketLink.cc:1850
+#: ../backend/src/DistributionSocketLink.cc:1856
 #, c-format
 msgid "Client %s is now the new master."
 msgstr "クライアント %s が新しいマスターになった。"
 
-#: ../backend/src/DistributionSocketLink.cc:1972
+#: ../backend/src/DistributionSocketLink.cc:1978
 msgid "Network operation started."
 msgstr "ネットワークオペレーション開始。"
 
-#: ../backend/src/DistributionSocketLink.cc:1989
+#: ../backend/src/DistributionSocketLink.cc:1995
 msgid "Accepted new client."
 msgstr "新しいクライアント承認。"
 
-#: ../backend/src/DistributionSocketLink.cc:2055
+#: ../backend/src/DistributionSocketLink.cc:2061
 #, c-format
 msgid "Client %s:%d read error, closing."
 msgstr "クライアント %s:%d 読み取りエラー、終了中。"
 
-#: ../backend/src/DistributionSocketLink.cc:2061
-#: ../backend/src/DistributionSocketLink.cc:2135
+#: ../backend/src/DistributionSocketLink.cc:2067
+#: ../backend/src/DistributionSocketLink.cc:2141
 #, c-format
 msgid "Client %s:%d closed connection."
 msgstr "クライアント %s:%d 接続終了。"
 
-#: ../backend/src/DistributionSocketLink.cc:2102
+#: ../backend/src/DistributionSocketLink.cc:2108
 #, c-format
 msgid "Client %s:%d connected."
 msgstr "クライアント %s:%d 接続。"
 
-#: ../backend/src/DistributionSocketLink.cc:2142
+#: ../backend/src/DistributionSocketLink.cc:2148
 #, c-format
 msgid "Could not connect to client %s:%d."
 msgstr "クライアント %s:%d 接続不可。"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
-#: ../frontend/common/src/SoundPlayer.cc:80
+#: ../frontend/common/src/SoundPlayer.cc:83
 msgid "Break ignored"
 msgstr "休憩無視"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:2
-#: ../frontend/common/src/SoundPlayer.cc:74
+#: ../frontend/common/src/SoundPlayer.cc:77
 msgid "Break prompt"
 msgstr "休憩のきっかけ"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
-#: ../frontend/common/src/SoundPlayer.cc:111
+#: ../frontend/common/src/SoundPlayer.cc:114
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:50
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:58
-#: ../frontend/gtkmm/src/GUI.cc:1384 ../frontend/gtkmm/src/GtkUtil.cc:163
+#: ../frontend/gtkmm/src/GUI.cc:1388 ../frontend/gtkmm/src/GtkUtil.cc:163
 msgid "Daily limit"
 msgstr "一日の制限時間"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:4
-#: ../frontend/common/src/SoundPlayer.cc:129
+#: ../frontend/common/src/SoundPlayer.cc:132
 #, fuzzy
 msgid "Exercise change"
 msgstr "体操終了"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:5
-#: ../frontend/common/src/SoundPlayer.cc:117
+#: ../frontend/common/src/SoundPlayer.cc:120
 msgid "Exercise ended"
 msgstr "体操終了"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:6
-#: ../frontend/common/src/SoundPlayer.cc:123
+#: ../frontend/common/src/SoundPlayer.cc:126
 msgid "Exercises ended"
 msgstr "体操終了"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:7
-#: ../frontend/common/src/SoundPlayer.cc:105
+#: ../frontend/common/src/SoundPlayer.cc:108
 msgid "Micro-break ended"
 msgstr "小休止終了"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:8
-#: ../frontend/common/src/SoundPlayer.cc:99
+#: ../frontend/common/src/SoundPlayer.cc:102
 msgid "Micro-break started"
 msgstr "小休止開始"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:9
-#: ../frontend/common/src/SoundPlayer.cc:93
+#: ../frontend/common/src/SoundPlayer.cc:96
 msgid "Rest break ended"
 msgstr "休憩終了"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:10
-#: ../frontend/common/src/SoundPlayer.cc:86
+#: ../frontend/common/src/SoundPlayer.cc:89
 msgid "Rest break started"
 msgstr "休憩開始"
 
@@ -218,7 +218,7 @@ msgstr "休憩開始"
 msgid "Workrave"
 msgstr "Workrave(仕事に夢中?)"
 
-#: ../frontend/common/src/SoundPlayer.cc:561
+#: ../frontend/common/src/SoundPlayer.cc:567
 msgid "Custom"
 msgstr ""
 
@@ -237,19 +237,19 @@ msgstr "%s%d 分 %02d 秒"
 msgid "%s%d seconds"
 msgstr "%s%d 秒"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:287
+#: ../frontend/gtkmm/src/BreakWindow.cc:298
 msgid "Lock"
 msgstr "ロック"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:306
+#: ../frontend/gtkmm/src/BreakWindow.cc:317
 msgid "Shut down"
 msgstr "シャットダウン"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:323
+#: ../frontend/gtkmm/src/BreakWindow.cc:334
 msgid "Skip"
 msgstr "とばす"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:336
+#: ../frontend/gtkmm/src/BreakWindow.cc:347
 msgid "Postpone"
 msgstr "延期"
 
@@ -264,92 +264,106 @@ msgstr ""
 "してください。"
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1384 ../frontend/gtkmm/src/GtkUtil.cc:163
+#: ../frontend/gtkmm/src/GUI.cc:1388 ../frontend/gtkmm/src/GtkUtil.cc:163
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:56
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:176
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:274
 msgid "Micro-break"
 msgstr "小休止"
 
-#: ../frontend/gtkmm/src/GUI.cc:1384 ../frontend/gtkmm/src/GtkUtil.cc:163
+#: ../frontend/gtkmm/src/GUI.cc:1388 ../frontend/gtkmm/src/GtkUtil.cc:163
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:149
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:78
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:211
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:84
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:217
 msgid "Rest break"
 msgstr "休憩"
 
+#: ../frontend/gtkmm/src/GUI.cc:1401 ../frontend/gtkmm/src/GUI.cc:1405
+#, fuzzy
+msgid "Mode: "
+msgstr "モード(_M)"
+
+#: ../frontend/gtkmm/src/GUI.cc:1401
+#, fuzzy
+msgid "Suspended"
+msgstr "一時停止(_S)"
+
+#: ../frontend/gtkmm/src/GUI.cc:1405
+#, fuzzy
+msgid "Quiet"
+msgstr "静粛モード(_u)"
+
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:98
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:171
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:91
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:173
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:96
 msgid "_Rest break"
 msgstr "休憩(_R)"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:141
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:112
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:117
 msgid "_Mode"
 msgstr "モード(_M)"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:143
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:94
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:99
 msgid "_Normal"
 msgstr "通常モード(_N)"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:146
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:100
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:105
 msgid "_Suspended"
 msgstr "一時停止(_S)"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:149
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:106
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:111
 msgid "Q_uiet"
 msgstr "静粛モード(_u)"
 
-#. Networking menu
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:153
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:154
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:131
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:136
 msgid "_Network"
 msgstr "ネットワーク(_N)"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:154
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:115
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:155
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:120
 msgid "_Connect"
 msgstr "接続(_C)"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:156
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:157
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:118
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:123
 msgid "_Disconnect"
 msgstr "切断(_D)"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:158
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:159
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:122
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:127
 msgid "_Reconnect"
 msgstr "再接続(_R)"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:160
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:125
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:161
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:130
 msgid "Show _log"
 msgstr "ログ(_l)"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:180
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:92
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:43
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:183
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:97
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:45
 msgid "Exercises"
 msgstr "体操"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:184
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:133
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:62
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:150
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:188
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:138
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:64
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:152
 msgid "Statistics"
 msgstr "統計"
 
-#: ../frontend/gtkmm/src/Menus.cc:345
+#: ../frontend/gtkmm/src/Menus.cc:347
 #: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:359
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
@@ -382,149 +396,146 @@ msgstr "一日の制限時間まで %s"
 msgid "Daily limit %s overdue"
 msgstr "一日の制限時間の超過は %s"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:71
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:90
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:73
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:95
 msgid "Preferences"
 msgstr "設定"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:86
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:113
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:88
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:117
 msgid "General"
 msgstr "一般"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:91
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:93
 #, fuzzy
 msgid "Sounds"
 msgstr "サウンド："
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:95
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:97
 msgid "Status Window"
 msgstr "ステータス・ウィンドウ"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:99
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:101
 msgid "Applet"
 msgstr "アプレット"
 
 #. Notebook
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:107
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:109
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:165
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:194
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:198
 msgid "Timers"
 msgstr "タイマー"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:108
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:110
 msgid "User interface"
 msgstr "ユーザーインターフェース"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:110
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:112
 msgid "Network"
 msgstr "ネットワーク"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:161
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:163
 msgid "No blocking"
 msgstr "ブロックなし"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:163
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:165
 msgid "Block input"
 msgstr "インプットをブロック"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:165
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:167
 msgid "Block input and screen"
 msgstr "インプットとスクリーンをブロック"
 
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:184
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:139
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:186
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:141
 msgid "Options"
 msgstr "オプション"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:186
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:188
 msgid "Block mode:"
 msgstr "ブロック（操作禁止）モード："
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:206
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:208
 msgid "System default"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:246
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:248
 msgid "(font not available)"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:271
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:273
 msgid "Language:"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:275
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:277
 msgid "Start Workrave on Windows startup"
 msgstr ""
 
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:298
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:300
 #, fuzzy
 msgid "Sound Options"
 msgstr "オプション"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:306
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:308
 msgid "No sounds"
 msgstr "サウンドなし"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:308
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:310
 msgid "Play sounds using sound card"
 msgstr "サウンドカードを使って音を出す"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:310
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:312
 msgid "Play sounds using built-in speaker"
 msgstr "内蔵スピーカを使って音を出す"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:334
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:336
 msgid "Volume:"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:337
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:339
 msgid "Sound:"
 msgstr "サウンド："
 
 #. Sound themes
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:343
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:345
 msgid "Sound Events"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:353
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:355
 #, fuzzy
 msgid "Sound Theme:"
 msgstr "サウンド："
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:376
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:394
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:416
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:378
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:396
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:418
 msgid "Play"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:381
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:383
 msgid "Event"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:397
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:399
 #, fuzzy
 msgid "Choose a sound"
 msgstr "サウンドなし"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:405
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:407
 msgid "Wavefiles"
 msgstr ""
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:112
-#: ../frontend/text/src/PreludeWindow.cc:53
 msgid "Time for a micro-break?"
 msgstr "小休止の時間？"
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:116
-#: ../frontend/text/src/PreludeWindow.cc:57
 msgid "You need a rest break..."
 msgstr "休憩が必要です..."
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:120
-#: ../frontend/text/src/PreludeWindow.cc:61
 msgid "You should stop for today..."
 msgstr "今日はもうやめましょう..."
 
@@ -543,12 +554,12 @@ msgstr "消えるまで %s"
 msgid "Silent in %s"
 msgstr "音が消えるまで %s"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:173
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:179
 #, c-format
 msgid "Rest break for %s"
 msgstr "休憩時間の残り %s"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:212
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:218
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -558,12 +569,12 @@ msgstr ""
 "コンピュータから離れて歩きましょう。\n"
 "しばらくの間、周りを歩き回って、伸びをしてリラックスしましょう。"
 
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:189
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:191
 #, fuzzy
 msgid "Take rest break now"
 msgstr "次の休憩まで %s"
 
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:211
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:213
 msgid "Wait"
 msgstr "ウェイト"
 
@@ -633,60 +644,60 @@ msgid "Daily limit:"
 msgstr "一日の制限時間："
 
 #. Enabled/Disabled checkbox
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:67
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:69
 msgid "Enable timer"
 msgstr "タイマー作動"
 
 #. Prelude frame
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:108
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:110
 msgid "Break prompting"
 msgstr "休憩のきっかけ"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:110
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:112
 msgid "Prompt before breaking"
 msgstr "休憩の前にきっかけ表示"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:114
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:116
 msgid "Maximum number of prompts:"
 msgstr "きっかけの最大数："
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:143
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:145
 msgid "Show 'Postpone' and 'Skip' button"
 msgstr "「延期」「とばす」ボタン表示"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:148
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:150
 msgid "Suspend timer when inactive"
 msgstr "不動作時にタイマーを停止"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:161
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:163
 msgid "Regard micro-breaks as activity"
 msgstr "小休止を操作とみなす"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:170
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:172
 msgid "Number of exercises:"
 msgstr "体操の回数："
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:199
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:203
 msgid "Time before end:"
 msgstr "終了までの時間："
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:200
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:204
 msgid "Time between breaks:"
 msgstr "休憩までの時間："
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:207
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:211
 msgid "Break duration:"
 msgstr "休憩時間："
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:222
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:226
 msgid "Postpone time:"
 msgstr "延期時間："
 
-#: ../frontend/gtkmm/src/gtktrayicon.c:106
+#: ../frontend/gtkmm/src/gtktrayicon.c:121
 msgid "Orientation"
 msgstr "方向"
 
-#: ../frontend/gtkmm/src/gtktrayicon.c:107
+#: ../frontend/gtkmm/src/gtktrayicon.c:122
 #, fuzzy
 msgid "The orientation of the tray"
 msgstr "トレイの方向。"
@@ -743,16 +754,16 @@ msgstr "統計(_S)"
 msgid "Workrave Applet"
 msgstr "Workrave(仕事に夢中?) アプレット"
 
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:134
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:139
 msgid "About..."
 msgstr "workrave(仕事に夢中?)について"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:52
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:71
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:56
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:75
 msgid "Network connect"
 msgstr "ネットワーク接続"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:72
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:76
 msgid ""
 "Enter the host name and port number of a computer\n"
 "in the network you wish to connect to."
@@ -760,55 +771,55 @@ msgstr ""
 "接続したいコンピュータのホスト名と\n"
 "ポート番号を入力。"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:84
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:88
 msgid "Host name:"
 msgstr "ホスト名："
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:85
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:89
 msgid "Port:"
 msgstr "ポート："
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkLogDialog.cc:46
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkLogDialog.cc:50
 msgid "Network log"
 msgstr "ネットワークログ"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:93
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:97
 msgid "Enable networking"
 msgstr "ネットワーク作動"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:100
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:104
 msgid "Username:"
 msgstr "ユーザ名："
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:101
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:105
 msgid "Password:"
 msgstr "パスワード："
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:108
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:112
 msgid "Allow incoming connections"
 msgstr ""
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:126
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:130
 msgid "Server settings"
 msgstr "サーバー設定"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:148
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:152
 msgid "Server port:"
 msgstr "サーバーポート："
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:149
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:153
 msgid "Reconnect attempts:"
 msgstr "再接続："
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:150
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:154
 msgid "Reconnect interval:"
 msgstr "再接続間隔："
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:153
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:157
 msgid "Advanced"
 msgstr "高度な設定"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:170
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:174
 msgid ""
 "The following list specifies the hosts that Workrave connects to on\n"
 "start-up. Click the host name or port number to edit."
@@ -816,15 +827,15 @@ msgstr ""
 "以下のリストは Workrave(仕事に夢中?) が起動時に接続するホスト名です。\n"
 "修正はホスト名またはポート番号をクリックする。"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:199
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:203
 msgid "Host name"
 msgstr "ホスト名"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:207
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:211
 msgid "Port"
 msgstr "ポート"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:244
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:248
 msgid "Hosts"
 msgstr "ホスト"
 
@@ -984,7 +995,7 @@ msgid "Next exercise"
 msgstr "体操の回数："
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:300
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:476
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:484
 #, fuzzy
 msgid "Pause exercises"
 msgstr "体操の回数："
@@ -994,162 +1005,159 @@ msgstr "体操の回数："
 msgid "End exercises"
 msgstr "体操"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:468
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:476
 msgid "Resume"
 msgstr "再開"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:468
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:476
 msgid "Pause"
 msgstr "一時停止"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:474
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:482
 #, fuzzy
 msgid "Resume exercises"
 msgstr "体操の回数："
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:144
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:146
 msgid "Browse history"
 msgstr "履歴を見る"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:151
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:153
 msgid "Date:"
 msgstr "日付："
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:187
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:189
 msgid "Breaks"
 msgstr "休憩"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:197
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:199
 msgid "Break prompts"
 msgstr "休憩のきっかけ"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:198
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:200
 msgid ""
 "The number of times you were prompted to break, excluding repeated prompts "
 "for the same break"
 msgstr "同じ休憩のために繰り返されたきっかけを除く、きっかけの回数"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:203
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:205
 msgid "Repeated prompts"
 msgstr "繰り返しきっかけ"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:204
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:206
 msgid "The number of times you were repeatedly prompted to break"
 msgstr "繰り返された休憩のきっかけの数"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:208
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:210
 msgid "Prompted breaks taken"
 msgstr "休憩が取られたきっかけ"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:209
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:211
 msgid "The number of times you took a break when being prompted"
 msgstr "きっかけの後で取られた休憩の数"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:213
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:215
 msgid "Natural breaks taken"
 msgstr "自発的休憩"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:214
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:216
 msgid "The number of times you took a break without being prompted"
 msgstr "きっかけ無しに取られた休憩の数"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:218
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:220
 msgid "Breaks skipped"
 msgstr "とばされた休憩"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:219
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:221
 msgid "The number of breaks you skipped"
 msgstr "とばされた休憩の数"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:223
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:225
 msgid "Breaks postponed"
 msgstr "延期された休憩"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:224
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:226
 msgid "The number of breaks you postponed"
 msgstr "延期された休憩の数"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:228
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:230
 msgid "Overdue time"
 msgstr "遅延(超過)時間"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:229
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:231
 msgid "The total time this break was overdue"
 msgstr "この休憩の遅延(超過)時間の合計"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:233
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:235
 msgid "Daily usage"
 msgstr "一日の使用時間"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:234
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:236
 msgid "The total computer usage"
 msgstr "コンピュータ使用時間の合計"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:302
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:304
 msgid "Activity"
 msgstr "操作"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:312
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:314
 msgid "Mouse usage:"
 msgstr "マウス使用時間："
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:313
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:315
 msgid "The total time you were using the mouse"
 msgstr "マウスを使用した時間の合計"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:316
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:318
 msgid "Mouse movement:"
 msgstr "マウス移動距離："
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:317
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:319
 msgid "The total on-screen mouse movement"
 msgstr "スクリーン上のマウス移動距離の合計"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:320
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:322
 msgid "Effective mouse movement:"
 msgstr "実効マウス移動距離："
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:321
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:323
 msgid ""
 "The total mouse movement you would have had if you moved your mouse in "
 "straight lines between clicks"
 msgstr "クリックの間に直線距離を移動したと考えた場合の、マウスの移動距離"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:325
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:327
 msgid "Mouse button clicks:"
 msgstr "マウスクリック回数："
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:326
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:328
 msgid "The total number of mouse button clicks"
 msgstr "マウスボタンの押された回数"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:329
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:331
 msgid "Keystrokes:"
 msgstr "キーストローク："
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:330
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:332
 msgid "The total number of keys pressed"
 msgstr "キーが押された回数"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:380
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:382
 #, c-format
 msgid "%s, from %s to %s"
 msgstr "%s, %s から %s"
 
-#: ../frontend/text/src/PreludeWindow.cc:155
 #, fuzzy
-msgid "Break in"
-msgstr "休憩まで %s"
+#~ msgid "Break in"
+#~ msgstr "休憩まで %s"
 
-#: ../frontend/text/src/PreludeWindow.cc:160
 #, fuzzy
-msgid "Disappears in"
-msgstr "消えるまで %s"
+#~ msgid "Disappears in"
+#~ msgstr "消えるまで %s"
 
-#: ../frontend/text/src/PreludeWindow.cc:166
 #, fuzzy
-msgid "Silent in"
-msgstr "音が消えるまで %s"
+#~ msgid "Silent in"
+#~ msgstr "音が消えるまで %s"
 
 #~ msgid "I could not initialize Bonobo"
 #~ msgstr "Bonobo の初期化不可能"
