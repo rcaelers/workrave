@@ -3,7 +3,7 @@
 
 DIE=0
 
-export PKG_CONFIG_PATH=/opt/gtk/lib/pkgconfig/:$PKG_CONFIG_PATH
+export PKG_CONFIG_PATH=$HOME/gtk/inst/lib/pkgconfig/:$PKG_CONFIG_PATH
 
 srcdir=`dirname $0`
 test -z "$srcdir" && srcdir=.
@@ -188,7 +188,7 @@ autoconf --force || {
     exit 1
 }
 
-conf_flags="--prefix=/opt/workrave --enable-maintainer-mode --enable-compile-warnings --enable-debug --disable-gnome --disable-gnomemm --disable-xml --enable-distribution --enable-exercises --disable-dbus --disable-gstreamer CPPFLAGS=-I/opt/gtk/include/ LDFLAGS=-L/opt/gtk/lib"
+conf_flags="--prefix=/opt/workrave --enable-maintainer-mode --enable-compile-warnings --enable-debug --disable-gnome --disable-gnomemm --disable-xml --enable-distribution --enable-exercises --disable-dbus --disable-gstreamer CPPFLAGS=-I${HOME}/gtk/inst/include/ LDFLAGS=-L${HOME}/gtk/inst/lib "
  
 if test x$NOCONFIGURE = x; then
     
