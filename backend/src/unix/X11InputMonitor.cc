@@ -66,7 +66,6 @@ static const char rcsid[] = "$Id$";
 #include <X11/extensions/XIproto.h>
 #include <X11/Intrinsic.h>
 #include <X11/Xos.h>
-#include <X11/Xmu/Error.h>
 
 #include "X11InputMonitor.hh"
 #include "IInputMonitorListener.hh"
@@ -90,7 +89,6 @@ errorHandler(Display *dpy, XErrorEvent *error)
 {
   if (error->error_code == BadWindow || error->error_code==BadDrawable)
     return 0;
-  XmuPrintDefaultErrorMessage(dpy,error,stderr);
   return 0;
 }
 #endif

@@ -288,7 +288,6 @@ if test "$platform_os_unix" = "yes"
 then
     AC_PATH_X
     AC_PATH_XTRA
-    AC_CHECK_HEADER("X11/Xmu/Xmu.h",,)
 
     if test x$have_x != xyes ; then
        AC_MSG_ERROR(X11 required on Unix platform)
