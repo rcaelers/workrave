@@ -9,9 +9,6 @@ set(COMMON_SOURCES
   ${COMMON_DIR}/src/Locale.cc
   ${COMMON_DIR}/src/StringUtil.cc
   ${COMMON_DIR}/src/Util.cc
-  ${COMMON_DIR}/include/DBus.hh
-  ${COMMON_DIR}/include/DBusBinding.hh
-  ${COMMON_DIR}/include/DBusException.hh
   ${COMMON_DIR}/include/Exception.hh
   ${COMMON_DIR}/include/GlibMutex.hh
   ${COMMON_DIR}/include/GlibThread.hh
@@ -29,9 +26,13 @@ set(COMMON_SOURCES
 
 if (HAVE_DBUS)
   set (COMMON_SOURCES ${COMMON_SOURCES}
+    ${COMMON_DIR}/include/DBus.hh
+    ${COMMON_DIR}/include/DBusBinding.hh
+    ${COMMON_DIR}/include/DBusException.hh
     ${COMMON_DIR}/src/DBus.cc
     ${COMMON_DIR}/src/DBusBinding.cc
   )
+  include_directories(${DBUS_INCLUDES})
 endif (HAVE_DBUS)
 
 if (WIN32)
@@ -57,7 +58,6 @@ include_directories(
   "${COMMON_DIR}/win32/harpoon/include"
 )
 
-include_directories(${DBUS_INCLUDES})
 include_directories(${GLIB_INCLUDES})
 
 add_library(workrave-common STATIC ${COMMON_SOURCES})

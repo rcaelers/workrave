@@ -81,7 +81,6 @@ endif(DEVELOPMENT_MODE)
 
 include(FindGlib)
 include(FindGtkmm)
-include(FindDBus)
 
 include(FindGettext)
 FIND_PROGRAM(GETTEXT_XGETTEXT_EXECUTABLE xgettext)
@@ -95,7 +94,10 @@ if (NOT GETTEXT_FOUND)
   message(FATAL_ERROR "Aborting")
 endif (NOT GETTEXT_FOUND)
 
-set(HAVE_DBUS DBUS_FOUND)
+if( NOT DISABLE_DBUS )
+  include( FindDBus )
+  set( HAVE_DBUS ${DBUS_FOUND} )
+endif( NOT DISABLE_DBUS )
 
 if (HAVE_DBUS)
   include (FindPythonInterp)
