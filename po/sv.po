@@ -1,14 +1,14 @@
 # Swedish translation of Workrave.
-# Copyright (C) 2006, 2007, 2008 Free Software Foundation, Inc.
+# Copyright (C) 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
 # This file is distributed under the same license as the workrave package.
-# Daniel Nylander <po@danielnylander.se>, 2006, 2007, 2008.
+# Daniel Nylander <po@danielnylander.se>, 2006, 2007, 2008, 2009.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2008-11-18 11:08+0100\n"
-"PO-Revision-Date: 2008-11-18 20:49+0100\n"
+"POT-Creation-Date: 2009-03-02 17:06+0100\n"
+"PO-Revision-Date: 2009-03-02 17:17+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -16,56 +16,56 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
-#: ../frontend/common/src/SoundPlayer.cc:80
+#: ../frontend/common/src/SoundPlayer.cc:83
 msgid "Break ignored"
 msgstr "Paus ignorerad"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:2
-#: ../frontend/common/src/SoundPlayer.cc:74
+#: ../frontend/common/src/SoundPlayer.cc:77
 msgid "Break prompt"
 msgstr "Pausuppmaning"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
-#: ../frontend/common/src/SoundPlayer.cc:111
+#: ../frontend/common/src/SoundPlayer.cc:114
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:50
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:58
-#: ../frontend/gtkmm/src/GUI.cc:1402
+#: ../frontend/gtkmm/src/GUI.cc:1411
 #: ../frontend/gtkmm/src/GtkUtil.cc:163
 msgid "Daily limit"
 msgstr "Daglig gräns"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:4
-#: ../frontend/common/src/SoundPlayer.cc:129
+#: ../frontend/common/src/SoundPlayer.cc:132
 msgid "Exercise change"
 msgstr "Övning ändrad"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:5
-#: ../frontend/common/src/SoundPlayer.cc:117
+#: ../frontend/common/src/SoundPlayer.cc:120
 msgid "Exercise ended"
 msgstr "Övning avslutad"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:6
-#: ../frontend/common/src/SoundPlayer.cc:123
+#: ../frontend/common/src/SoundPlayer.cc:126
 msgid "Exercises ended"
 msgstr "Övningar avslutade"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:7
-#: ../frontend/common/src/SoundPlayer.cc:105
+#: ../frontend/common/src/SoundPlayer.cc:108
 msgid "Micro-break ended"
 msgstr "Mikropaus avslutad"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:8
-#: ../frontend/common/src/SoundPlayer.cc:99
+#: ../frontend/common/src/SoundPlayer.cc:102
 msgid "Micro-break started"
 msgstr "Mikropaus påbörjad"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:9
-#: ../frontend/common/src/SoundPlayer.cc:93
+#: ../frontend/common/src/SoundPlayer.cc:96
 msgid "Rest break ended"
 msgstr "Vilopaus avslutad"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:10
-#: ../frontend/common/src/SoundPlayer.cc:86
+#: ../frontend/common/src/SoundPlayer.cc:89
 msgid "Rest break started"
 msgstr "Vilopaus påbörjad"
 
@@ -74,7 +74,7 @@ msgstr "Vilopaus påbörjad"
 msgid "Workrave"
 msgstr "Workrave"
 
-#: ../frontend/common/src/SoundPlayer.cc:564
+#: ../frontend/common/src/SoundPlayer.cc:567
 msgid "Custom"
 msgstr "Anpassad"
 
@@ -120,7 +120,7 @@ msgstr ""
 "annat att göra, såsom granska ett dokument."
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1402
+#: ../frontend/gtkmm/src/GUI.cc:1411
 #: ../frontend/gtkmm/src/GtkUtil.cc:163
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:56
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:176
@@ -128,11 +128,11 @@ msgstr ""
 msgid "Micro-break"
 msgstr "Mikropaus"
 
-#: ../frontend/gtkmm/src/GUI.cc:1402
+#: ../frontend/gtkmm/src/GUI.cc:1411
 #: ../frontend/gtkmm/src/GtkUtil.cc:163
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:149
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:80
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:213
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:84
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:217
 msgid "Rest break"
 msgstr "Vilopaus"
 
@@ -393,12 +393,12 @@ msgstr "Försvinner om %s"
 msgid "Silent in %s"
 msgstr "Tyst om %s"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:175
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:179
 #, c-format
 msgid "Rest break for %s"
 msgstr "Vilopaus i %s"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:214
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:218
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -906,18 +906,6 @@ msgstr "Totalt antal tangenter tryckta"
 msgid "%s, from %s to %s"
 msgstr "%s, från %s till %s"
 
-#: ../frontend/text/src/PreludeWindow.cc:155
-msgid "Break in"
-msgstr "Paus om"
-
-#: ../frontend/text/src/PreludeWindow.cc:160
-msgid "Disappears in"
-msgstr "Försvinner om"
-
-#: ../frontend/text/src/PreludeWindow.cc:166
-msgid "Silent in"
-msgstr "Tyst om"
-
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkConflictDialog.cc:47
 msgid "Configuration conflict"
 msgstr "Konflikt i konfigurationen"
@@ -929,6 +917,18 @@ msgid ""
 msgstr ""
 "En anslutning har etablerats med en fjärrinstans av Workrave.\n"
 "Denna Workrave använder andra pausinställningar. Lös problemet.."
+
+#: ../frontend/text/src/PreludeWindow.cc:155
+msgid "Break in"
+msgstr "Paus om"
+
+#: ../frontend/text/src/PreludeWindow.cc:160
+msgid "Disappears in"
+msgstr "Försvinner om"
+
+#: ../frontend/text/src/PreludeWindow.cc:166
+msgid "Silent in"
+msgstr "Tyst om"
 
 #~ msgid "Reconnecting to %s:%d."
 #~ msgstr "Återansluter till %s:%d."
