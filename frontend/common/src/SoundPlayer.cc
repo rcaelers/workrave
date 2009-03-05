@@ -1,6 +1,6 @@
 // SoundPlayer.cc --- Sound player
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -390,28 +390,31 @@ SoundPlayer::activate_theme(const Theme &theme, bool force)
 void
 SoundPlayer::sync_settings()
 {
-  for (unsigned int i = 0; i < sizeof(sound_registry)/sizeof(sound_registry[0]); i++)
+  if (driver != NULL)
     {
-      SoundRegistry *snd = &sound_registry[i];
-
-      bool enabled = false;
-      bool valid = driver->get_sound_enabled((SoundEvent)i, enabled);
-
-      if (valid)
+      for (unsigned int i = 0; i < sizeof(sound_registry)/sizeof(sound_registry[0]); i++)
         {
-          CoreFactory::get_configurator()->set_value(string(SoundPlayer::CFG_KEY_SOUND_EVENTS) +
-                                                     snd->id +
-                                                     SoundPlayer::CFG_KEY_SOUND_EVENTS_ENABLED,
-                                                     enabled);
-        }
+          SoundRegistry *snd = &sound_registry[i];
+
+          bool enabled = false;
+          bool valid = driver->get_sound_enabled((SoundEvent)i, enabled);
+
+          if (valid)
+            {
+              CoreFactory::get_configurator()->set_value(string(SoundPlayer::CFG_KEY_SOUND_EVENTS) +
+                                                         snd->id +
+                                                         SoundPlayer::CFG_KEY_SOUND_EVENTS_ENABLED,
+                                                         enabled);
+            }
       
-      string wav_file;
-      valid = driver->get_sound_wav_file((SoundEvent)i, wav_file);
-      if (valid)
-        {
-          CoreFactory::get_configurator()->set_value(string(SoundPlayer::CFG_KEY_SOUND_EVENTS) +
-                                                     snd->id,
-                                                     wav_file);
+          string wav_file;
+          valid = driver->get_sound_wav_file((SoundEvent)i, wav_file);
+          if (valid)
+            {
+              CoreFactory::get_configurator()->set_value(string(SoundPlayer::CFG_KEY_SOUND_EVENTS) +
+                                                         snd->id,
+                                                         wav_file);
+            }
         }
     }
 }
