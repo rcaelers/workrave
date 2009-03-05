@@ -1,6 +1,6 @@
 // Core.hh --- The main controller
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -130,6 +130,7 @@ public:
   void is_timer_running(BreakId id, bool &value);
   void get_timer_elapsed(BreakId id,int *value);
   void get_timer_idle(BreakId id, int *value);
+  void get_timer_overdue(BreakId id,int *value);
 
   // BreakResponseInterface
   void postpone_break(BreakId break_id);
@@ -299,6 +300,10 @@ private:
 
   //! External activity
   std::map<std::string, time_t> external_activity;
+
+#ifdef HAVE_TESTS
+  friend class Test;
+#endif
 };
 
 

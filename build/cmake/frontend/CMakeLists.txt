@@ -182,9 +182,15 @@ if (HAVE_KDE)
 endif(HAVE_KDE)
 
 if (HAVE_DBUS)
+  add_custom_command(
+    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/DBusGUI.cc
+    COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/../../common/bin/dbusgen.py -l C++ -s ${FRONTEND_DIR}/gtkmm/src/workrave-gui.xml DBusGUI
+  )
   set(FRONTEND_SOURCES ${FRONTEND_SOURCES}
     ${CMAKE_CURRENT_BINARY_DIR}/DBusGUI.cc
   )
+  include_directories(${DBUS_INCLUDES})
+  target_link_libraries(workrave ${DBUS_LIBS})
 endif (HAVE_DBUS)
 
 if (HAVE_EXERCISES)
@@ -222,11 +228,6 @@ include_directories(
   ${FRONTEND_DIR}/plugin/exercises/gtkmm/src
   ${FRONTEND_DIR}/plugin/statistics/gtkmm/src
   )
-
-add_custom_command(
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/DBusGUI.cc
-    COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/../../common/bin/dbusgen.py -l C++ -s ${FRONTEND_DIR}/gtkmm/src/workrave-gui.xml DBusGUI
-)
   
 include_directories(${GTKMM_INCLUDES})
 if (HAVE_DBUS)

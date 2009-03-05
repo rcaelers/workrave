@@ -616,6 +616,10 @@ dnl
 dnl Defines
 dnl
 
+if test "x$config_tests" = "xyes"; then
+   config_tests=yes
+fi
+
 HAVE_GCONF=
 if test "x$GCONF_LIBS" != "x" -a "x$config_gconf" = "xyes"; then
    AC_DEFINE(HAVE_GCONF,,[Define if GConf is available])

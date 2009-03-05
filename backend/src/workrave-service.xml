@@ -41,10 +41,15 @@
 
     <method name="GetTimerIdle" csymbol="get_timer_idle">
       <arg type="break_id" name="timer_id" direction="in"/>
-      <arg type="int32"     name="value"    direction="out" hint="ptr"/>
+      <arg type="int32"    name="value"    direction="out" hint="ptr"/>
     </method>
 
     <method name="GetTimerElapsed" csymbol="get_timer_elapsed">
+      <arg type="break_id" name="timer_id" direction="in"/>
+      <arg type="int32"     name="value"    direction="out" hint="ptr"/>
+    </method>
+    
+    <method name="GetTimerOverdue" csymbol="get_timer_overdue">
       <arg type="break_id" name="timer_id" direction="in"/>
       <arg type="int32"     name="value"    direction="out" hint="ptr"/>
     </method>
@@ -78,6 +83,23 @@
     </signal>
   </interface>
 
+  <interface name="org.workrave.DebugInterface" csymbol="Test">
+
+    <import>
+      <include name="Test.hh"/>
+      <namespace name="workrave"/>
+    </import>
+
+    <enum name="break_id" csymbol="BreakId">
+      <value name="microbreak"  csymbol="BREAK_ID_MICRO_BREAK" value="0"/>
+      <value name="restbreak"   csymbol="BREAK_ID_REST_BREAK"/>
+      <value name="dailylimit"  csymbol="BREAK_ID_DAILY_LIMIT"/>
+    </enum>
+
+    <method name="Quit" csymbol="quit">
+    </method>
+    
+  </interface>
 
   <interface name="org.workrave.ConfigInterface" csymbol="IConfigurator">
 

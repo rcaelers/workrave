@@ -1,6 +1,6 @@
 // Timer.cc --- break timer
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007, 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007, 2008, 2009 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -631,14 +631,18 @@ Timer::get_elapsed_time() const
 time_t
 Timer::get_total_overdue_time() const
 {
+  TRACE_ENTER("Timer::get_total_overdue_time");
   time_t ret = total_overdue_time;
   time_t elapsed = get_elapsed_time();
 
+  TRACE_MSG(ret << " " << elapsed);
+  
   if (elapsed > limit_interval)
     {
       ret += (elapsed - limit_interval);
     }
 
+  TRACE_EXIT();
   return ret;
 }
 
@@ -980,16 +984,11 @@ Timer::deserialize_state(const std::string &state, int version)
 void
 Timer::set_state(int elapsed, int idle, int overdue)
 {
-  TRACE_ENTER("Timer::set_state");
+  TRACE_ENTER_MSG("Timer::set_state", elapsed << " " << idle << " " << overdue);
 
   elapsed_time = elapsed;
   elapsed_idle_time = idle;
 
-  if (overdue >= 0)
-    {
-      total_overdue_time = overdue;
-    }
-  
   if (last_start_time != 0)
     {
       last_start_time = core->get_time();
@@ -1005,6 +1004,15 @@ Timer::set_state(int elapsed, int idle, int overdue)
       elapsed_idle_time = autoreset_interval;
     }
 
+  if (overdue != -1)
+    {
+      total_overdue_time = overdue;
+      if (get_elapsed_time() > limit_interval)
+        {
+          total_overdue_time -= (get_elapsed_time() - limit_interval);
+        }
+    }
+  
   compute_next_reset_time();
   compute_next_limit_time();
   compute_next_predicate_reset_time();

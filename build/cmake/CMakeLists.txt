@@ -103,7 +103,6 @@ if (HAVE_DBUS)
   endif (NOT PYTHONINTERP_FOUND)
 endif (HAVE_DBUS)
 
-
 if (WIN32)
   include(FindPerl)
   if (NOT PERL_FOUND)

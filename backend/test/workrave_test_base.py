@@ -57,7 +57,9 @@ class WorkraveTestBase(unittest.TestCase):
                        "--make-pidfile",
                        "--exec",
                        #"/usr/bin/valgrind",
-                       #"--", "-v", "--log-file=" + cwd +"/val." + str(instance),  
+                       #"--", "-v", "--trace-children=yes", "--leak-check=full",
+                       #"--show-reachable=yes",
+                       #"--log-file=" + cwd +"/val." + str(instance),  
                        cwd + "/frontend/text/src/workrave",
                        env)
                   
@@ -80,18 +82,20 @@ class WorkraveTestBase(unittest.TestCase):
         time.sleep(2)
 
         self.wr = []
+        self.wrd = []
         self.core = []
         self.network = []
         self.config = []
         self.debug = []
 
         for i in range(num):
-            self.wr.append(bus.get_object("org.workrave.Workrave" + str(i + 1), "/org/workrave/Workrave"))
+            self.wr.append(bus.get_object("org.workrave.Workrave" + str(i + 1), "/org/workrave/Workrave/Core"))
+            self.wrd.append(bus.get_object("org.workrave.Workrave" + str(i + 1), "/org/workrave/Workrave/Debug"))
 
             self.core.append   (dbus.Interface(self.wr[i], "org.workrave.CoreInterface"))
             self.network.append(dbus.Interface(self.wr[i], "org.workrave.NetworkInterface"))
             self.config.append (dbus.Interface(self.wr[i], "org.workrave.ConfigInterface"))
-            self.debug.append  (dbus.Interface(self.wr[i], "org.workrave.DebugInterface"))
+            self.debug.append  (dbus.Interface(self.wrd[i], "org.workrave.DebugInterface"))
 
         if run_debugger:
             for i in range(1, num + 1):
@@ -127,6 +131,7 @@ class WorkraveTestBase(unittest.TestCase):
 
         self.num_running = 0
         self.wr = []
+        self.wrd = []
         self.core = []
         self.network = []
         self.config = []
@@ -135,6 +140,7 @@ class WorkraveTestBase(unittest.TestCase):
         
         num = self.get_num_autostart_workraves()
         self.launch(num);
+        time.sleep(1)
 
     def tearDown(self): 
         self.kill()

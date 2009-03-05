@@ -1,6 +1,6 @@
 // Core.cc --- The main controller
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -75,6 +75,9 @@ static const char rcsid[] = "$Id$";
 #endif
 #include "DBus.hh"
 #include "DBusException.hh"
+#ifdef HAVE_TESTS
+#include "Test.hh"
+#endif
 #endif
 
 Core *Core::instance = NULL;
@@ -266,6 +269,13 @@ Core::init_bus()
       dbus->connect(DBUS_PATH_WORKRAVE,
                     "org.workrave.ConfigInterface",
                     configurator);
+
+#ifdef HAVE_TESTS
+      dbus->register_object_path("/org/workrave/Workrave/Debug");
+      dbus->connect("/org/workrave/Workrave/Debug",
+                    "org.workrave.DebugInterface",
+                    Test::get_instance());
+#endif
     }
   catch (DBusException &)
     {
@@ -1030,6 +1040,13 @@ Core::get_timer_elapsed(BreakId id, int *value)
   *value = (int) timer->get_elapsed_time();
 }
 
+
+void
+Core::get_timer_overdue(BreakId id, int *value)
+{
+  Timer *timer = get_timer(id);
+  *value = timer->get_total_overdue_time();
+}
 
 //! Processes all timers.
 void

@@ -130,15 +130,16 @@ if (HAVE_GDOME)
   )
 endif (HAVE_GDOME)
 
-add_custom_command(
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/DBusWorkrave.cc
-    COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/../../common/bin/dbusgen.py -l C++ -s ${BACKEND_DIR}/src/workrave-service.xml DBusWorkrave
-)
 
 if (HAVE_DBUS)
+  add_custom_command(
+	OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/DBusWorkrave.cc
+	COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/../../common/bin/dbusgen.py -l C++ -s ${BACKEND_DIR}/src/workrave-service.xml DBusWorkrave
+  )
   set(BACKEND_SOURCES ${BACKEND_SOURCES}
     ${CMAKE_CURRENT_BINARY_DIR}/DBusWorkrave.cc
   )
+  include_directories(${DBUS_INCLUDES})
 endif (HAVE_DBUS)
     
 
