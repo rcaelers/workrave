@@ -1,6 +1,6 @@
 // X11InputMonitor.cc --- ActivityMonitor for X11
 //
-// Copyright (C) 2001-2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001-2007, 2009 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -63,9 +63,9 @@ static const char rcsid[] = "$Id$";
 #include <X11/Xproto.h>
 #include <X11/Xlib.h>
 #include <X11/extensions/XInput.h>
+#include <X11/extensions/XIproto.h>
 #include <X11/Intrinsic.h>
 #include <X11/Xos.h>
-#include <X11/Xmu/Error.h>
 
 #include "X11InputMonitor.hh"
 #include "IInputMonitorListener.hh"
@@ -80,6 +80,8 @@ static const char rcsid[] = "$Id$";
 
 using namespace std;
 
+int X11InputMonitor::xi_event_base = 0;
+
 #ifndef HAVE_APP_GTK
 //! Intercepts X11 protocol errors.
 static int
@@ -87,7 +89,6 @@ errorHandler(Display *dpy, XErrorEvent *error)
 {
   if (error->error_code == BadWindow || error->error_code==BadDrawable)
     return 0;
-  XmuPrintDefaultErrorMessage(dpy,error,stderr);
   return 0;
 }
 #endif
@@ -438,7 +439,6 @@ X11InputMonitor::handle_xrecord_handle_motion_event(XRecordInterceptData *data)
     }
 }
 
-
 void
 X11InputMonitor::handle_xrecord_handle_button_event(XRecordInterceptData *data)
 {
@@ -456,6 +456,54 @@ X11InputMonitor::handle_xrecord_handle_button_event(XRecordInterceptData *data)
     }
 }
 
+void
+X11InputMonitor::handle_xrecord_handle_device_key_event(XRecordInterceptData *data)
+{
+  TRACE_ENTER("X11InputMonitor::handle_xrecord_handle_device_key_event");
+  deviceKeyButtonPointer *event = (deviceKeyButtonPointer *)data->data;
+  static int lastTime = 0;
+
+  if (event->time != lastTime)
+    {
+      lastTime = event->time;
+      fire_keyboard(0, 0);
+    }
+  
+  TRACE_EXIT();
+}
+
+void
+X11InputMonitor::handle_xrecord_handle_device_motion_event(XRecordInterceptData *data)
+{
+  deviceKeyButtonPointer *event = (deviceKeyButtonPointer *)data->data;
+  static int lastTime = 0;
+
+  if (event->time != lastTime)
+    {
+      lastTime = event->time;
+      int x = event->root_x;
+      int y = event->root_y;
+      
+      fire_mouse(x, y, 0);
+    }
+}
+
+void
+X11InputMonitor::handle_xrecord_handle_device_button_event(XRecordInterceptData *data)
+{
+  deviceKeyButtonPointer *event = (deviceKeyButtonPointer *)data->data;
+  static int lastTime = 0;
+
+  if (event->time != lastTime)
+    {
+      lastTime = event->time;
+
+      // FIXME: check if this is correct
+      int b = event->state;
+      
+      fire_button(b, event->type == xi_event_base + XI_DeviceButtonPress);
+    }
+}
 
 void
 X11InputMonitor::handle_xrecord_callback(XPointer closure, XRecordInterceptData * data)
@@ -481,6 +529,22 @@ X11InputMonitor::handle_xrecord_callback(XPointer closure, XRecordInterceptData 
         monitor->handle_xrecord_handle_button_event(data);
       else if (event->u.u.type == MotionNotify)
         monitor->handle_xrecord_handle_motion_event(data);
+      else if (xi_event_base != 0)
+        {
+          if (event->u.u.type == xi_event_base + XI_DeviceMotionNotify)
+            {
+              monitor->handle_xrecord_handle_device_motion_event(data);
+            }
+          else if (event->u.u.type == xi_event_base + XI_DeviceKeyPress)
+            {
+              monitor->handle_xrecord_handle_device_key_event(data);
+            }
+          else if (event->u.u.type == xi_event_base + XI_DeviceButtonPress ||
+                   event->u.u.type == xi_event_base + XI_DeviceButtonRelease)
+            {
+              monitor->handle_xrecord_handle_device_button_event(data);
+            }
+        }
       break;
     }
 
@@ -517,7 +581,7 @@ X11InputMonitor::run_xrecord()
 bool
 X11InputMonitor::init_xrecord()
 {
-  TRACE_ENTER("X11InputMonitor::init_xrecord")
+  TRACE_ENTER("X11InputMonitor::init_xrecord");
   use_xrecord = false;
 
   int major, minor;
@@ -537,15 +601,30 @@ X11InputMonitor::init_xrecord()
       if (recordRange != NULL)
         {
           memset(recordRange, 0, sizeof(XRecordRange));
-          recordRange->device_events.first = KeyPress;
-          recordRange->device_events.last  = MotionNotify;
+
+          int dummy = 0;
+          Bool have_xi =  XQueryExtension(x11_display, "XInputExtension",
+                                          &dummy, &xi_event_base, &dummy);
+
+          if (have_xi && xi_event_base != 0)
+            {
+              TRACE_MSG("Using XI Events");
+              recordRange->device_events.first = xi_event_base + XI_DeviceKeyPress;
+              recordRange->device_events.last  = xi_event_base + XI_DeviceMotionNotify;
+            }
+          else
+            {
+              TRACE_MSG("Using Core Events");
+              recordRange->device_events.first = KeyPress;
+              recordRange->device_events.last  = MotionNotify;
+            }
 
           // And create the XRECORD context.
           xrecord_context = XRecordCreateContext(x11_display, 0, &client,  1, &recordRange, 1);
 
           XFree(recordRange);
         }
-
+      
       if (xrecord_context != 0)
         {
           XSync(x11_display, True);

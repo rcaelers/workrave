@@ -115,9 +115,8 @@ class WorkraveTestBase(unittest.TestCase):
             self.config[i].SetInt("timers/micro_pause/snooze", 180)
             self.config[i].SetBool("timers/rest_break/enabled", False)
             self.config[i].SetBool("timers/daily_limit/enabled", False)
-            
-            self.num_running = num;
 
+        self.num_running = num;
 
     def kill(self):
         time.sleep(2)

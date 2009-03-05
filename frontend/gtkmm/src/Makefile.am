@@ -127,7 +127,7 @@ WIN32LIBS = 		$(top_builddir)/common/win32/harpoon/src/Release/harpoon.dll \
 endif
 
 if PLATFORM_OS_UNIX
-X11LIBS = 		-lworkrave-frontend-gtkmm-unix -lX11 -lXmu
+X11LIBS = 		-lworkrave-frontend-gtkmm-unix -lX11
 endif
 
 if PLATFORM_OS_OSX

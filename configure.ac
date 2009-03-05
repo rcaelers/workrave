@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl
-dnl Copyright (C) 2001 - 2008 Rob Caelers & Raymond Penners
+dnl Copyright (C) 2001 - 2009 Rob Caelers & Raymond Penners
 dnl
 dnl
 dnl $Id$
@@ -288,7 +288,6 @@ if test "$platform_os_unix" = "yes"
 then
     AC_PATH_X
     AC_PATH_XTRA
-    AC_CHECK_HEADER("X11/Xmu/Xmu.h",,)
 
     if test x$have_x != xyes ; then
        AC_MSG_ERROR(X11 required on Unix platform)
@@ -611,7 +610,7 @@ dnl Defines
 dnl
 
 if test "x$config_tests" = "xyes"; then
-   config_text=yes
+   config_tests=yes
 fi
 
 HAVE_GCONF=
@@ -809,7 +808,7 @@ AC_OUTPUT(Makefile
 
 
 
-dnl ========================================================================1
+dnl ========================================================================
 
 echo ""
 echo "                        Workrave $VERSION"

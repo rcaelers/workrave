@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2007, 2008 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2007, 2009 Rob Caelers & Raymond Penners
 #
 # $Id$
 #
@@ -11,10 +11,6 @@ MAINTAINERCLEANFILES = 	Makefile.in
 if HAVE_APP_TEXT
 
 bin_PROGRAMS = 		workrave
-
-if PLATFORM_OS_UNIX
-X11LIBS = 		-lXmu
-endif
 
 workrave_SOURCES = 	GUI.cc PreludeWindow.cc BreakWindow.cc TimerBoxTextView.cc MainWindow.cc \
 			main.cc UILinkEvent.cc

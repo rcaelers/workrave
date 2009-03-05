@@ -1,6 +1,6 @@
 // TimeBar.cc --- Time Bar
 //
-// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2002 - 2009 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -69,7 +69,7 @@ TimeBar::TimeBar() :
 
   set_bar_color(COLOR_ID_INACTIVE);
   set_secondary_bar_color(COLOR_ID_INACTIVE);
-  set_text_color(Gdk::Color("black"));  //
+  set_text_color(Gdk::Color("black"));
 }
 
 
@@ -91,13 +91,8 @@ void TimeBar::on_realize()
   window_gc = Gdk::GC::create(window);
 
   Glib::RefPtr<Gtk::Style> style = get_style();
-  Gdk::Color light = style->get_light(Gtk::STATE_NORMAL);
   Gdk::Color bg = style->get_bg(Gtk::STATE_NORMAL);
-  Gdk::Color mix;
-  mix.set_red((light.get_red() + bg.get_red())/2);
-  mix.set_blue((light.get_blue() + bg.get_blue())/2);
-  mix.set_green((light.get_green() + bg.get_green())/2);
-  bar_colors[COLOR_ID_BG] = mix;
+  bar_colors[COLOR_ID_BG] = bg;
 
   Glib::RefPtr<Gdk::Colormap> colormap = get_colormap();
   for (int i = 0; i < COLOR_ID_SIZEOF; i++)
@@ -381,7 +376,7 @@ TimeBar::on_expose_event(GdkEventExpose *e)
       rect2 = down_rect;
     }
 
-  Gdk::Color textcolor = style->get_text(Gtk::STATE_NORMAL);
+  Gdk::Color textcolor = style->get_fg(Gtk::STATE_NORMAL);
 
   Glib::RefPtr<Gdk::GC> window_gc1 = Gdk::GC::create(window);
 

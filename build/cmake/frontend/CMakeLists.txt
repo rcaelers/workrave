@@ -97,12 +97,6 @@ set(FRONTEND_SOURCES
     ${FRONTEND_DIR}/plugin/distribution/gtkmm/src/NetworkLogDialog.hh
     ${FRONTEND_DIR}/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc
     ${FRONTEND_DIR}/plugin/distribution/gtkmm/src/NetworkPreferencePage.hh
-    ${FRONTEND_DIR}/plugin/exercises/common/src/Exercise.cc
-    ${FRONTEND_DIR}/plugin/exercises/common/src/Exercise.hh
-    ${FRONTEND_DIR}/plugin/exercises/gtkmm/src/ExercisesDialog.cc
-    ${FRONTEND_DIR}/plugin/exercises/gtkmm/src/ExercisesDialog.hh
-    ${FRONTEND_DIR}/plugin/exercises/gtkmm/src/ExercisesPanel.cc
-    ${FRONTEND_DIR}/plugin/exercises/gtkmm/src/ExercisesPanel.hh
     ${FRONTEND_DIR}/plugin/statistics/gtkmm/src/StatisticsDialog.cc
     ${FRONTEND_DIR}/plugin/statistics/gtkmm/src/StatisticsDialog.hh
   )
@@ -199,6 +193,17 @@ if (HAVE_DBUS)
   target_link_libraries(workrave ${DBUS_LIBS})
 endif (HAVE_DBUS)
 
+if (HAVE_EXERCISES)
+  set(FRONTEND_SOURCES ${FRONTEND_SOURCES}
+    ${FRONTEND_DIR}/plugin/exercises/common/src/Exercise.cc
+    ${FRONTEND_DIR}/plugin/exercises/common/src/Exercise.hh
+    ${FRONTEND_DIR}/plugin/exercises/gtkmm/src/ExercisesDialog.cc
+    ${FRONTEND_DIR}/plugin/exercises/gtkmm/src/ExercisesDialog.hh
+    ${FRONTEND_DIR}/plugin/exercises/gtkmm/src/ExercisesPanel.cc
+    ${FRONTEND_DIR}/plugin/exercises/gtkmm/src/ExercisesPanel.hh
+  )
+endif (HAVE_EXERCISES)
+
 if (HAVE_OBSOLETE)
   set(FRONTEND_SOURCES ${FRONTEND_SOURCES}
     ${FRONTEND_DIR}/src/QtIniConfigurator.cc
@@ -225,6 +230,9 @@ include_directories(
   )
   
 include_directories(${GTKMM_INCLUDES})
+if (HAVE_DBUS)
+  include_directories(${DBUS_INCLUDES})
+endif(HAVE_DBUS)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 add_executable(workrave WIN32 ${FRONTEND_SOURCES})
@@ -232,6 +240,10 @@ add_executable(workrave WIN32 ${FRONTEND_SOURCES})
 target_link_libraries(workrave workrave-common)
 target_link_libraries(workrave workrave-backend)
 target_link_libraries(workrave ${GTKMM_LIBS})
+
+if (HAVE_DBUS)
+  target_link_libraries(workrave ${DBUS_LIBS})
+endif(HAVE_DBUS)
 
 if (WIN32)
   target_link_libraries(workrave harpoon)
@@ -242,14 +254,16 @@ endif(WIN32)
 ## Exercises
 ######################################################################
 
-file(GLOB PO_FILES ${CMAKE_SOURCE_DIR}/../../po/*.po) 
+if (HAVE_EXERCISES)
+  file(GLOB PO_FILES ${CMAKE_SOURCE_DIR}/../../po/*.po) 
 
-add_custom_command(
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/exercises.xml
-    COMMAND ${INTLTOOL_MERGE_EXECUTABLE} -x -u -c ${CMAKE_CURRENT_BINARY_DIR}/intltool-merge-cache ${CMAKE_SOURCE_DIR}/../../po ${CMAKE_SOURCE_DIR}/../../frontend/plugin/exercises/common/share/exercises.xml.in ${CMAKE_CURRENT_BINARY_DIR}/exercises.xml
+  add_custom_command(
+      OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/exercises.xml
+      COMMAND ${INTLTOOL_MERGE_EXECUTABLE} -x -u -c ${CMAKE_CURRENT_BINARY_DIR}/intltool-merge-cache ${CMAKE_SOURCE_DIR}/../../po ${CMAKE_SOURCE_DIR}/../../frontend/plugin/exercises/common/share/exercises.xml.in ${CMAKE_CURRENT_BINARY_DIR}/exercises.xml
 
-    DEPENDS ${CMAKE_SOURCE_DIR}/../../frontend/plugin/exercises/common/share/exercises.xml.in
-  )
+      DEPENDS ${CMAKE_SOURCE_DIR}/../../frontend/plugin/exercises/common/share/exercises.xml.in
+    )
+endif (HAVE_EXERCISES)
 
 ######################################################################
 ## Translations
@@ -262,44 +276,52 @@ set(COPYRIGHT_HOLDER "Workrave Development Team")
 set(BUGS_ADDRESS "issues.workrave.org")
 set(POT_FILE ${CMAKE_CURRENT_BINARY_DIR}/workrave.pot)
 
-add_custom_target(nls-update-sources
-  ${INTLTOOL_UPDATE_EXECUTABLE} -m
-  WORKING_DIRECTORY ${PO_SRC_DIR}
-)
+if (GETTEXT_FOUND)
 
-add_custom_command(
-  OUTPUT ${PO_BIN_DIR}/workrave.pot
-  COMMAND ${GETTEXT_XGETTEXT_EXECUTABLE} --directory=${CMAKE_SOURCE_DIR}/../../ --files-from ${PO_SRC_DIR}/POTFILES.in --keyword=_ --keyword=N_ -o ${POT_FILE} --copyright-holder=${COPYRIGHT_HOLDER} --msgid-bugs-address="${BUGS_ADDRESS}" --no-wrap --no-location
-  DEPENDS POTFILES.in
-  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/../../
-)
-
-FOREACH(lang ${ALL_LINGUAS})
-  #ADD_CUSTOM_TARGET(
-  #  nls-update-${lang}.po
-  #  ${GETTEXT_MSGMERGE_EXECUTABLE} ${PO_SRC_DIR}/${lang}.po ${PO_BIN_DIR}/workrave.pot -o ${lang}.po --no-wrap --sort-output
-  #  DEPENDS ${PO_SRC_DIR}/${lang}.po
-  #  WORKING_DIRECTORY ${PO_SRC_DIR}
-  #)  
-
-  FILE(MAKE_DIRECTORY "${PO_BIN_DIR}/${lang}/LC_MESSAGES")
-
-  ADD_CUSTOM_COMMAND(
-    OUTPUT ${PO_BIN_DIR}/${lang}/LC_MESSAGES/workrave.mo
-    COMMAND ${GETTEXT_MSGFMT_EXECUTABLE} -c -o ${PO_BIN_DIR}/${lang}/LC_MESSAGES/workrave.mo ${PO_SRC_DIR}/${lang}.po
-    DEPENDS ${PO_SRC_DIR}/${lang}.po
+  add_custom_target(nls-update-sources
+    ${INTLTOOL_UPDATE_EXECUTABLE} -m
+    WORKING_DIRECTORY ${PO_SRC_DIR}
   )
 
-  INSTALL(FILES ${PO_BIN_DIR}/${lang}/LC_MESSAGES/workrave.mo
-          DESTINATION share/locale/${lang}/LC_MESSAGES
+  add_custom_command(
+    OUTPUT ${PO_BIN_DIR}/workrave.pot
+    COMMAND ${GETTEXT_XGETTEXT_EXECUTABLE} --directory=${CMAKE_SOURCE_DIR}/../../ --files-from ${PO_SRC_DIR}/POTFILES.in --keyword=_ --keyword=N_ -o ${POT_FILE} --copyright-holder=${COPYRIGHT_HOLDER} --msgid-bugs-address="${BUGS_ADDRESS}" --no-wrap --no-location
+    DEPENDS POTFILES.in
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/../../
   )
 
-  SET(LANG_TARGETS ${LANG_TARGETS} ${PO_BIN_DIR}/${lang}/LC_MESSAGES/workrave.mo)
-ENDFOREACH(lang)
+  FOREACH(lang ${ALL_LINGUAS})
+    #ADD_CUSTOM_TARGET(
+    #  nls-update-${lang}.po
+    #  ${GETTEXT_MSGMERGE_EXECUTABLE} ${PO_SRC_DIR}/${lang}.po ${PO_BIN_DIR}/workrave.pot -o ${lang}.po --no-wrap --sort-output
+    #  DEPENDS ${PO_SRC_DIR}/${lang}.po
+    #  WORKING_DIRECTORY ${PO_SRC_DIR}
+    #)  
 
-ADD_CUSTOM_TARGET(nls ALL
-                  DEPENDS ${PO_BIN_DIR}/workrave.pot ${LANG_TARGETS} ${CMAKE_CURRENT_BINARY_DIR}/exercises.xml)
+    FILE(MAKE_DIRECTORY "${PO_BIN_DIR}/${lang}/LC_MESSAGES")
 
+    ADD_CUSTOM_COMMAND(
+      OUTPUT ${PO_BIN_DIR}/${lang}/LC_MESSAGES/workrave.mo
+      COMMAND ${GETTEXT_MSGFMT_EXECUTABLE} -c -o ${PO_BIN_DIR}/${lang}/LC_MESSAGES/workrave.mo ${PO_SRC_DIR}/${lang}.po
+      DEPENDS ${PO_SRC_DIR}/${lang}.po
+    )
+
+    INSTALL(FILES ${PO_BIN_DIR}/${lang}/LC_MESSAGES/workrave.mo
+            DESTINATION share/locale/${lang}/LC_MESSAGES
+    )
+
+    SET(LANG_TARGETS ${LANG_TARGETS} ${PO_BIN_DIR}/${lang}/LC_MESSAGES/workrave.mo)
+  ENDFOREACH(lang)
+
+  if (HAVE_EXERCISES)
+    set (EXERCISE_TARGETS ${CMAKE_CURRENT_BINARY_DIR}/exercises.xml)
+  endif (HAVE_EXERCISES)
+
+  ADD_CUSTOM_TARGET(nls ALL
+                    DEPENDS ${PO_BIN_DIR}/workrave.pot ${LANG_TARGETS} ${EXERCISE_TARGETS})
+
+endif(GETTEXT_FOUND)
+		    
 ######################################################################
 ## Installation
 ######################################################################
@@ -330,10 +352,13 @@ foreach(soundtheme ${SOUND_THEMES})
   )
 endforeach(soundtheme)
 
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/exercises.xml
-        DESTINATION share/exercises)
+if (HAVE_EXERCISES)
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/exercises.xml
+          DESTINATION share/exercises)
 
-file(GLOB EXERCISE_FILES ${CMAKE_SOURCE_DIR}/../../frontend/plugin/exercises/common/share/*.png)
+  file(GLOB EXERCISE_FILES ${CMAKE_SOURCE_DIR}/../../frontend/plugin/exercises/common/share/*.png)
 
-install(FILES ${EXERCISE_FILES}
-        DESTINATION share/exercises)
+  install(FILES ${EXERCISE_FILES}
+          DESTINATION share/exercises)
+
+endif(HAVE_EXERCISES)	   

@@ -34,12 +34,6 @@ set(BACKEND_SOURCES
   ${BACKEND_DIR}/src/CoreFactory.cc
   ${BACKEND_DIR}/src/DayTimePred.cc
   ${BACKEND_DIR}/src/DayTimePred.hh
-#  ${BACKEND_DIR}/src/DistributionLink.hh
-#  ${BACKEND_DIR}/src/DistributionListener.hh
-#  ${BACKEND_DIR}/src/DistributionManager.cc
-#  ${BACKEND_DIR}/src/DistributionManager.hh
-#  ${BACKEND_DIR}/src/DistributionSocketLink.cc
-#  ${BACKEND_DIR}/src/DistributionSocketLink.hh
   ${BACKEND_DIR}/src/FakeActivityMonitor.hh
   ${BACKEND_DIR}/src/GNetSocketDriver.cc
   ${BACKEND_DIR}/src/GNetSocketDriver.hh
@@ -47,20 +41,15 @@ set(BACKEND_SOURCES
   ${BACKEND_DIR}/src/GlibIniConfigurator.hh
   ${BACKEND_DIR}/src/IActivityMonitor.hh
   ${BACKEND_DIR}/src/IConfigBackend.hh
-#  ${BACKEND_DIR}/src/IDistributionClientMessage.hh
   ${BACKEND_DIR}/src/IInputMonitor.hh
   ${BACKEND_DIR}/src/IInputMonitorFactory.hh
   ${BACKEND_DIR}/src/IInputMonitorListener.hh
-#  ${BACKEND_DIR}/src/IdleLogManager.cc
-#  ${BACKEND_DIR}/src/IdleLogManager.hh
   ${BACKEND_DIR}/src/InputMonitor.cc
   ${BACKEND_DIR}/src/InputMonitor.hh
   ${BACKEND_DIR}/src/InputMonitor.icc
   ${BACKEND_DIR}/src/InputMonitorFactory.cc
   ${BACKEND_DIR}/src/InputMonitorFactory.hh
   ${BACKEND_DIR}/src/InputMonitorFactoryInterface.hh
-#  ${BACKEND_DIR}/src/PacketBuffer.cc
-#  ${BACKEND_DIR}/src/PacketBuffer.hh
   ${BACKEND_DIR}/src/SocketDriver.hh
   ${BACKEND_DIR}/src/SocketDriver.icc
   ${BACKEND_DIR}/src/Statistics.cc
@@ -164,6 +153,9 @@ include_directories(
 
 
 include_directories(${GLIB_INCLUDES})
+if (HAVE_DBUS)
+  include_directories(${DBUS_INCLUDES})
+endif(HAVE_DBUS)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 add_library(workrave-backend STATIC ${BACKEND_SOURCES})

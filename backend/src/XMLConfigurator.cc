@@ -1,6 +1,6 @@
 // XMLConfigurator.cc --- Configuration Access
 //
-// Copyright (C) 2002, 2003, 2006, 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2002, 2003, 2006, 2007, 2009 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -28,6 +28,7 @@ static const char rcsid[] = "$Id$";
 #include <iostream>
 #include <stdlib.h>
 
+#include "Util.hh"
 #include "XMLConfigurator.hh"
 
 using namespace std;
@@ -67,39 +68,40 @@ XMLConfigurator::load(string filename)
 
   last_file_name = filename;
 
+  GdomeElement *root = NULL;
   GdomeException exc;
-
-  // First get a DOMImplementation reference
-  GdomeDOMImplementation *domImpl = NULL;
-  domImpl = gdome_di_mkref();
 
   // Create URI from filename
   string uri = "file:///" + filename;
 
-  // Load XML from file.
-  GdomeDocument *doc = NULL;
-  doc = gdome_di_createDocFromURI(domImpl, uri.c_str(), GDOME_LOAD_PARSING, &exc);
+  if (Util::file_exists(filename)) {
+    // First get a DOMImplementation reference
+    GdomeDOMImplementation *domImpl = NULL;
+    domImpl = gdome_di_mkref();
 
-  GdomeElement *root = NULL;
-  if (doc != NULL)
-    {
-      // Get root element
-      root = gdome_doc_documentElement(doc, &exc);
+    // Load XML from file.
+    GdomeDocument *doc = gdome_di_createDocFromURI(domImpl, uri.c_str(), GDOME_LOAD_PARSING, &exc);
 
-      if (root != NULL)
-        {
-          GdomeNode *node = GDOME_N(root);
-          init(node);
+    if (doc != NULL)
+      {
+        // Get root element
+        root = gdome_doc_documentElement(doc, &exc);
 
-          gdome_el_unref(root, &exc);
-        }
+        if (root != NULL)
+          {
+            GdomeNode *node = GDOME_N(root);
+            init(node);
 
-      gdome_di_freeDoc(domImpl, doc, &exc);
-    }
+            gdome_el_unref(root, &exc);
+          }
 
-  gdome_di_unref(domImpl, &exc);
+        gdome_di_freeDoc(domImpl, doc, &exc);
+      }
+  
+    gdome_di_unref(domImpl, &exc);
+  }
 
-  TRACE_EXIT()
+  TRACE_EXIT();
   return root != NULL;
 }
 

@@ -1,6 +1,6 @@
 // X11InputMonitor.hh --- ActivityMonitor for X11
 //
-// Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008, 2009 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -77,6 +77,9 @@ private:
   void handle_xrecord_handle_key_event(XRecordInterceptData *data);
   void handle_xrecord_handle_motion_event(XRecordInterceptData *data);
   void handle_xrecord_handle_button_event(XRecordInterceptData *data);
+  void handle_xrecord_handle_device_key_event(XRecordInterceptData *data);
+  void handle_xrecord_handle_device_motion_event(XRecordInterceptData *data);
+  void handle_xrecord_handle_device_button_event(XRecordInterceptData *data);
 
   static void handle_xrecord_callback(XPointer closure, XRecordInterceptData * data);
 #endif
@@ -122,6 +125,9 @@ private:
 
   //! X Connection for event capturing.
   Display *xrecord_datalink;
+
+  // Event base for Xinput events
+  static int xi_event_base;
 #endif
 };
 
