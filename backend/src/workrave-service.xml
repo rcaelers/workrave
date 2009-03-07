@@ -84,7 +84,7 @@
     
   </interface>
 
-  <interface name="org.workrave.NetworkInterface" csymbol="Network">
+  <interface name="org.workrave.NetworkInterface" csymbol="Network" condition="defined(HAVE_DISTRIBUTION)">
 
     <import>
       <include name="Network.hh"/>
@@ -106,7 +106,7 @@
     </method>
   </interface>
 
-  <interface name="org.workrave.DebugInterface" csymbol="Test">
+  <interface name="org.workrave.DebugInterface" csymbol="Test" condition="defined(HAVE_DISTRIBUTION)">
 
     <import>
       <include name="LinkedHistoryManager.hh"/>

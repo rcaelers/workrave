@@ -47,10 +47,10 @@ public:
   #end for
 };
 
-#end for
-
 #if interface.condition != ''
 \#endif // $interface.condition
 #end if
 
-\#endif // DBUS__HH
+#end for
+
+#endif // DBUS__HH

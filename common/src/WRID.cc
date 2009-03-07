@@ -57,7 +57,7 @@ WRID::WRID()
   TRACE_EXIT();
 }
 
-WRID::WRID(const WRID::WRID &rhs)
+WRID::WRID(const WRID &rhs)
 {
   TRACE_ENTER("WRID::WRID copy");
   memcpy(id, rhs.id, sizeof(id));
@@ -72,7 +72,7 @@ WRID::WRID(const std::string &str)
 }
 
 WRID&
-WRID::operator=(const WRID::WRID &lid)
+WRID::operator=(const WRID &lid)
 {
   TRACE_ENTER("WRID::WRID::=");
   if (this != &lid)
@@ -84,19 +84,19 @@ WRID::operator=(const WRID::WRID &lid)
 }
 
 bool
-WRID::operator==(const WRID::WRID& lid) const
+WRID::operator==(const WRID& lid) const
 {
   return memcmp(id, lid.id, sizeof(id)) == 0;
 }
 
 bool
-WRID::operator!=(const WRID::WRID& lid) const
+WRID::operator!=(const WRID& lid) const
 {
   return memcmp(id, lid.id, sizeof(id)) != 0;
 }
 
 bool
-WRID::operator<(const WRID::WRID& lid) const
+WRID::operator<(const WRID& lid) const
 {
   return memcmp(id, lid.id, sizeof(id)) < 0;
 }

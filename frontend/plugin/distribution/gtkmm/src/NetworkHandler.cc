@@ -28,7 +28,9 @@
 #include "nls.h"
 #include "debug.hh"
 
+#ifdef HAVE_UNISTD
 #include <unistd.h>
+#endif
 
 #include "ICore.hh"
 #include "ResolveConfigurationLinkEvent.hh"

@@ -6,7 +6,6 @@ SET(BACKEND_DIR ${CMAKE_SOURCE_DIR}/../../backend)
 set(BACKEND_SOURCES 
   ${BACKEND_DIR}/include/CoreConfig.hh
   ${BACKEND_DIR}/include/CoreFactory.hh
-  ${BACKEND_DIR}/include/DistributionLogListener.hh
   ${BACKEND_DIR}/include/IApp.hh
   ${BACKEND_DIR}/include/IBreak.hh
   ${BACKEND_DIR}/include/IBreakResponse.hh
@@ -14,7 +13,6 @@ set(BACKEND_SOURCES
   ${BACKEND_DIR}/include/IConfiguratorListener.hh
   ${BACKEND_DIR}/include/ICore.hh
   ${BACKEND_DIR}/include/ICoreEventListener.hh
-  ${BACKEND_DIR}/include/IDistributionManager.hh
   ${BACKEND_DIR}/include/IStatistics.hh
   ${BACKEND_DIR}/src/ActivityMonitor.cc
   ${BACKEND_DIR}/src/ActivityMonitor.hh
@@ -119,11 +117,44 @@ if (HAVE_GDOME)
   )
 endif (HAVE_GDOME)
 
+if (HAVE_DISTRIBUTION)
+  set(BACKEND_SOURCES ${BACKEND_SOURCES}
+    ${BACKEND_DIR}/src/Network.cc
+    ${BACKEND_DIR}/src/LinkFactory.cc
+    ${BACKEND_DIR}/src/LinkRouter.cc
+    ${BACKEND_DIR}/src/TcpLink.cc
+    ${BACKEND_DIR}/src/TcpLinkServer.cc
+    ${BACKEND_DIR}/src/ByteStream.cc
+    ${BACKEND_DIR}/src/BinaryArchive.cc
+    ${BACKEND_DIR}/src/SocketDriver.cc
+    ${BACKEND_DIR}/src/LinkedActivityMonitor.cc
+    ${BACKEND_DIR}/src/LinkedHistoryManager.cc
+    ${BACKEND_DIR}/src/LinkedConfigurationManager.cc
+    ${BACKEND_DIR}/src/LinkEvent.cc
+    ${BACKEND_DIR}/src/ActivityLinkEvent.cc
+    ${BACKEND_DIR}/src/BreakLinkEvent.cc
+    ${BACKEND_DIR}/src/CoreLinkEvent.cc
+    ${BACKEND_DIR}/src/LinkStateLinkEvent.cc
+    ${BACKEND_DIR}/src/HistoryLinkEvent.cc
+    ${BACKEND_DIR}/src/ConfigurationLinkEvent.cc
+    ${BACKEND_DIR}/src/ResolveConfigurationLinkEvent.cc
+    ${BACKEND_DIR}/src/TimerStateLinkEvent.cc
+  )
+  include_directories(${GNET_INCLUDES})
+endif (HAVE_DISTRIBUTION)
+
+if (HAVE_TESTS)
+  set(BACKEND_SOURCES ${BACKEND_SOURCES}
+    ${BACKEND_DIR}/src/Test.cc
+    ${BACKEND_DIR}/src/Test.hh
+  )
+endif (HAVE_TESTS)
 
 if (HAVE_DBUS)
   add_custom_command(
 	OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/DBusWorkrave.cc
 	COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/../../common/bin/dbusgen.py -l C++ -s ${BACKEND_DIR}/src/workrave-service.xml DBusWorkrave
+	DEPENDS ${BACKEND_DIR}/src/workrave-service.xml
   )
   set(BACKEND_SOURCES ${BACKEND_SOURCES}
     ${CMAKE_CURRENT_BINARY_DIR}/DBusWorkrave.cc

@@ -8,6 +8,7 @@ set(COMMON_SOURCES
   ${COMMON_DIR}/src/Locale.cc
   ${COMMON_DIR}/src/StringUtil.cc
   ${COMMON_DIR}/src/Util.cc
+  ${COMMON_DIR}/src/WRID.cc
   ${COMMON_DIR}/include/Exception.hh
   ${COMMON_DIR}/include/GlibMutex.hh
   ${COMMON_DIR}/include/GlibThread.hh

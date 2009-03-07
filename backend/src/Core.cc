@@ -1075,7 +1075,7 @@ void
 Core::get_timer_overdue(BreakId id, int *value)
 {
   Timer *timer = get_timer(id);
-  *value = timer->get_total_overdue_time();
+  *value = (int) timer->get_total_overdue_time();
 }
 
 //! Processes all timers.
@@ -1729,8 +1729,8 @@ Core::timer_state_event_received(const TimerStateLinkEvent *event)
     {
       Timer *timer = breaks[i].get_timer();
 
-      int old_idle = timer->get_elapsed_idle_time();
-      int old_active = timer->get_elapsed_time();
+      time_t old_idle = timer->get_elapsed_idle_time();
+      time_t old_active = timer->get_elapsed_time();
 
       int idle = idle_times[i];
       int active = active_times[i];
@@ -1743,8 +1743,8 @@ Core::timer_state_event_received(const TimerStateLinkEvent *event)
       bool remote_active = network->is_remote_active(event->get_source(),
                                                         remote_active_since);
       
-      if (abs(idle - old_idle) >=2 ||
-          abs(active - old_active) >= 2 ||
+      if (abs((int)(idle - old_idle)) >= 2 ||
+          abs((int)(active - old_active)) >= 2 ||
           /* Remote party is active, and became active after us */
           (remote_active && remote_active_since > active_since))
         {
@@ -1767,8 +1767,8 @@ Core::broadcast_state()
     {
       Timer *timer = breaks[i].get_timer();
 
-      idle_times.push_back(timer->get_elapsed_idle_time());
-      active_times.push_back(timer->get_elapsed_time());
+      idle_times.push_back((int)timer->get_elapsed_idle_time());
+      active_times.push_back((int)timer->get_elapsed_time());
     }
 
   TimerStateLinkEvent event(idle_times, active_times);

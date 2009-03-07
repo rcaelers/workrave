@@ -27,7 +27,9 @@
 #include "nls.h"
 #include "debug.hh"
 
+#ifdef HAVE_UNISTD
 #include <unistd.h>
+#endif
 
 #include <gtkmm/textview.h>
 #include <gtkmm/textbuffer.h>
@@ -92,7 +94,7 @@ NetworkConflictDialog::create_ui()
   const char *label =
     _("A connection has been established with a remote Workrave.\n"
       "This Workrave uses different break setting. Please resolve..");
-  Gtk::Label *info_lab = manage(new Gtk::Label(label));
+  Gtk::Label *info_lab = Gtk::manage(new Gtk::Label(label));
   info_lab->set_alignment(0.0);
   get_vbox()->pack_start(*info_lab, false, false, 0);
 
@@ -110,7 +112,7 @@ NetworkConflictDialog::create_ui()
   Gtk::HBox *ibox = manage(new Gtk::HBox());
   get_vbox()->pack_start(*ibox, false, false, 0);
 
-  Gtk::Label *indent_lab = manage(new Gtk::Label("    "));
+  Gtk::Label *indent_lab = Gtk::manage(new Gtk::Label("    "));
   ibox->pack_start(*indent_lab, false, false, 0);
   Gtk::VBox *options_box = manage(new Gtk::VBox());
   ibox->pack_start(*options_box, false, false, 0);

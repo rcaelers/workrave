@@ -93,8 +93,6 @@ set(FRONTEND_SOURCES
     ${FRONTEND_DIR}/gtkmm/src/preinclude.h
     ${FRONTEND_DIR}/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc
     ${FRONTEND_DIR}/plugin/distribution/gtkmm/src/NetworkJoinDialog.hh
-    ${FRONTEND_DIR}/plugin/distribution/gtkmm/src/NetworkLogDialog.cc
-    ${FRONTEND_DIR}/plugin/distribution/gtkmm/src/NetworkLogDialog.hh
     ${FRONTEND_DIR}/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc
     ${FRONTEND_DIR}/plugin/distribution/gtkmm/src/NetworkPreferencePage.hh
     ${FRONTEND_DIR}/plugin/statistics/gtkmm/src/StatisticsDialog.cc
@@ -190,7 +188,6 @@ if (HAVE_DBUS)
     ${CMAKE_CURRENT_BINARY_DIR}/DBusGUI.cc
   )
   include_directories(${DBUS_INCLUDES})
-  target_link_libraries(workrave ${DBUS_LIBS})
 endif (HAVE_DBUS)
 
 if (HAVE_EXERCISES)
@@ -203,6 +200,19 @@ if (HAVE_EXERCISES)
     ${FRONTEND_DIR}/plugin/exercises/gtkmm/src/ExercisesPanel.hh
   )
 endif (HAVE_EXERCISES)
+
+if (HAVE_DISTRIBUTION)
+  set(FRONTEND_SOURCES ${FRONTEND_SOURCES}
+    ${FRONTEND_DIR}/plugin/distribution/gtkmm/src/NetworkConflictDialog.cc
+    ${FRONTEND_DIR}/plugin/distribution/gtkmm/src/NetworkConflictDialog.hh
+    ${FRONTEND_DIR}/plugin/distribution/gtkmm/src/NetworkHandler.cc
+    ${FRONTEND_DIR}/plugin/distribution/gtkmm/src/NetworkHandler.hh
+    ${FRONTEND_DIR}/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc
+    ${FRONTEND_DIR}/plugin/distribution/gtkmm/src/NetworkJoinDialog.hh
+    ${FRONTEND_DIR}/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc
+    ${FRONTEND_DIR}/plugin/distribution/gtkmm/src/NetworkPreferencePage.hh
+  )
+endif (HAVE_DISTRIBUTION)
 
 if (HAVE_OBSOLETE)
   set(FRONTEND_SOURCES ${FRONTEND_SOURCES}
@@ -244,6 +254,10 @@ target_link_libraries(workrave ${GTKMM_LIBS})
 if (HAVE_DBUS)
   target_link_libraries(workrave ${DBUS_LIBS})
 endif(HAVE_DBUS)
+
+if (HAVE_GNET)
+  target_link_libraries(workrave ${GNET_LIBS})
+endif(HAVE_GNET)
 
 if (WIN32)
   target_link_libraries(workrave harpoon)

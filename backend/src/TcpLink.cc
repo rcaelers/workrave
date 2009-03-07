@@ -142,7 +142,7 @@ TcpLink::process_packet()
           throw LinkException("Unknown message type");
         }
     }
-  catch (ByteStreamException &e)
+  catch (ByteStreamException)
     {
       throw LinkException("bytestream error");
     }
@@ -165,7 +165,7 @@ TcpLink::process_event()
 
       TRACE_MSG("incoming event " << event->str());
     }
-  catch (Exception &e)
+  catch (Exception)
     {
       // Catch ByteStreamException and ArchiveException
       if (event != NULL)
@@ -333,11 +333,11 @@ TcpLink::send_auth()
           throw LinkException("cannot send auth");
         }
     }
-  catch (ByteStreamException &e)
+  catch (ByteStreamException)
     {
       throw LinkException("bytestream error");
     }
-  catch (SocketException &e)
+  catch (SocketException)
     {
       throw LinkException("socket expection");
     }

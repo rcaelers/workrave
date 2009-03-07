@@ -110,7 +110,7 @@ Test::init_time(time_t ts)
         {
           Timer *timer = core->get_timer((BreakId)i);
 
-          int auto_reset = timer->get_auto_reset();
+          int auto_reset = (int)timer->get_auto_reset();
 
           timer->stop_timer();
           timer->set_state(0, auto_reset, 0);

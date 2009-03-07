@@ -100,7 +100,7 @@ NetworkPreferencePage::create_general_page(Gtk::Notebook *tnotebook)
   enabled_cb->add(*ena_lab);
 
   // Identity
-  HigCategoryPanel *id_frame = manage(new HigCategoryPanel(*enabled_cb));
+  HigCategoryPanel *id_frame = Gtk::manage(new HigCategoryPanel(*enabled_cb));
   username_entry = manage(new Gtk::Entry());
   secret1_entry = manage(new Gtk::Entry());
   secret2_entry = manage(new Gtk::Entry());

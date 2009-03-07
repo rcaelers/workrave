@@ -22,7 +22,9 @@
 #ifndef TEST_H
 #define TEST_H
 
+#ifdef HAVE_DISTRIBUTION
 #include "LinkedHistoryManager.hh"
+#endif
 
 class Test
 {
@@ -36,8 +38,10 @@ public:
   void set_time(time_t time);
   void init_time(time_t time);
 
+#if defined(HAVE_DISTRIBUTION) && defined(HAVE_TESTS)
   void get_activity_history(LinkedHistoryManager::Activity **activity);
   void get_settings_history(LinkedHistoryManager::Settings **settings);
+#endif
 
 private:
   //! The one and only instance

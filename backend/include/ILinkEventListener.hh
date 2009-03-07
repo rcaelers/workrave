@@ -22,7 +22,6 @@
 #ifndef ILINKEVENTLISTENER_HH
 #define ILINKEVENTLISTENER_HH
 
-#ifdef HAVE_DISTRIBUTION
 namespace workrave
 {
   // Forward declaratons
@@ -38,6 +37,5 @@ namespace workrave
     virtual void event_received(LinkEvent *event) = 0;
   };
 }
-#endif
 
-#endif // ILINKEVENTLISTENER_HH
+#endif // ILINKEVENTLISTEsNER_HH

@@ -91,11 +91,11 @@ LinkedHistoryManager::init()
 
       config->add_listener(CoreConfig::CFG_KEY_TIMER_AUTO_RESET % (BreakId)i, this);
 
-      auto_reset[i] = b->get_auto_reset();
+      auto_reset[i] = (int) b->get_auto_reset();
 
       config->add_listener(CoreConfig::CFG_KEY_TIMER_LIMIT % (BreakId)i, this);
 
-      limit[i] = b->get_limit();
+      limit[i] = (int) b->get_limit();
 
       report_setting(SETTING_RESET, (BreakId)i, auto_reset[i]);
       report_setting(SETTING_LIMIT, (BreakId)i, limit[i]);
@@ -211,7 +211,7 @@ LinkedHistoryManager::packetize(ByteStream *bs)
     {
       ActivityEntry &ae = *i;
 
-      bs->put_u32(ae.timestamp);
+      bs->put_u32((guint32)ae.timestamp);
       bs->put_u8(ae.activity_mask);
       bs->put_u8(0);   // Reserved
       TRACE_MSG("act: " << ae.timestamp << " " << (int) ae.activity_mask);
@@ -225,7 +225,7 @@ LinkedHistoryManager::packetize(ByteStream *bs)
     {
       SettingsEntry &se = *i;
 
-      bs->put_u32(se.timestamp);
+      bs->put_u32((guint32)se.timestamp);
       bs->put_u8(se.setting);
       bs->put_u8(0);
       bs->put_u8(se.break_id);
@@ -674,13 +674,13 @@ LinkedHistoryManager::config_changed_notify(const std::string &key)
   if (CoreConfig::match(key, CoreConfig::CFG_KEY_TIMER_AUTO_RESET, id))
     {
       IBreak *b = core->get_break(id);
-      report_setting(SETTING_RESET, id, b->get_auto_reset());
+      report_setting(SETTING_RESET, id, (int) b->get_auto_reset());
     }
 
   if (CoreConfig::match(key, CoreConfig::CFG_KEY_TIMER_LIMIT, id))
     {
       IBreak *b = core->get_break(id);
-      report_setting(SETTING_LIMIT, id, b->get_limit());
+      report_setting(SETTING_LIMIT, id, (int) b->get_limit());
     }
 
   TRACE_EXIT();
@@ -752,8 +752,8 @@ LinkedHistoryManager::ActivityMerger::ActivityMerger(History &local, History &re
       ICore *core = CoreFactory::get_core();
       IBreak *b = core->get_break((BreakId)i);
 
-      timers[i].auto_reset = b->get_auto_reset();
-      timers[i].limit = b->get_limit();
+      timers[i].auto_reset = (int) b->get_auto_reset();
+      timers[i].limit = (int) b->get_limit();
     }
 
   string predicate;
@@ -979,7 +979,7 @@ LinkedHistoryManager::ActivityMerger::merge_history()
                   // Now client 'from' stopped the activity.
                   // Store the start delay.
                   
-                  start_delay[j] = start_time[j][FROM_REMOTE] - start_time[j][FROM_LOCAL];
+                  start_delay[j] = (int)(start_time[j][FROM_REMOTE] - start_time[j][FROM_LOCAL]);
                   TRACE_MSG("start delay " << start_delay[j]);
                 }
 
@@ -1014,7 +1014,7 @@ LinkedHistoryManager::ActivityMerger::merge_history()
                       stop_time[j][FROM_LOCAL]  != 0 &&
                       stop_time[j][FROM_REMOTE] != 0)
                     {
-                      int stop_delay = stop_time[j][FROM_REMOTE] - stop_time[j][FROM_LOCAL];
+                      int stop_delay = (int)(stop_time[j][FROM_REMOTE] - stop_time[j][FROM_LOCAL]);
                       TRACE_MSG("stop delay " << stop_delay);
                       TRACE_MSG("start delay " << start_delay[j]);
                       if (abs(stop_delay) < 5 && abs(start_delay[j] - stop_delay) < 5)
@@ -1158,7 +1158,7 @@ LinkedHistoryManager::ActivityMerger::process_timer(int timer_id, time_t ts, boo
   if (timers[timer_id].last_update_time != 0)
     {
       // Elapsed time since last update.
-      int elapsed = ts - timers[timer_id].last_update_time;
+      int elapsed = (int)(ts - timers[timer_id].last_update_time);
 
       if (timers[timer_id].running)
         {
@@ -1172,7 +1172,7 @@ LinkedHistoryManager::ActivityMerger::process_timer(int timer_id, time_t ts, boo
           if (left >= 0 && (elapsed - left) > 0)
             {
               // Timer not overdue yet: only part of elapsed time is overdue.
-              timers[timer_id].overdue_time += (elapsed - left);
+              timers[timer_id].overdue_time += (int)(elapsed - left);
             }
           else if (left < 0)
             {
