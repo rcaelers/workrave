@@ -87,6 +87,8 @@ int X11InputMonitor::xi_event_base = 0;
 static int
 errorHandler(Display *dpy, XErrorEvent *error)
 {
+  (void)dpy;
+  
   if (error->error_code == BadWindow || error->error_code==BadDrawable)
     return 0;
   return 0;
@@ -461,7 +463,7 @@ X11InputMonitor::handle_xrecord_handle_device_key_event(XRecordInterceptData *da
 {
   TRACE_ENTER("X11InputMonitor::handle_xrecord_handle_device_key_event");
   deviceKeyButtonPointer *event = (deviceKeyButtonPointer *)data->data;
-  static int lastTime = 0;
+  static Time lastTime = 0;
 
   if (event->time != lastTime)
     {
@@ -476,7 +478,7 @@ void
 X11InputMonitor::handle_xrecord_handle_device_motion_event(XRecordInterceptData *data)
 {
   deviceKeyButtonPointer *event = (deviceKeyButtonPointer *)data->data;
-  static int lastTime = 0;
+  static Time lastTime = 0;
 
   if (event->time != lastTime)
     {
@@ -492,7 +494,7 @@ void
 X11InputMonitor::handle_xrecord_handle_device_button_event(XRecordInterceptData *data)
 {
   deviceKeyButtonPointer *event = (deviceKeyButtonPointer *)data->data;
-  static int lastTime = 0;
+  static Time lastTime = 0;
 
   if (event->time != lastTime)
     {
