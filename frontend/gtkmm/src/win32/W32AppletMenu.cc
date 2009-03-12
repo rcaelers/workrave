@@ -1,6 +1,6 @@
 // W32AppletMenu.cc --- Menus using W32Applet+
 //
-// Copyright (C) 2001 - 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2009 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -127,12 +127,6 @@ W32AppletMenu::resync(OperationMode mode, bool show_log)
       w32aw->add_menu(_("_Reconnect"), Menus::MENU_COMMAND_NETWORK_RECONNECT,
                       W32AppletWindow::MENU_FLAG_TOGGLE
                       |W32AppletWindow::MENU_FLAG_POPUP);
-      w32aw->add_menu(_("Show _log"), Menus::MENU_COMMAND_NETWORK_LOG,
-                      W32AppletWindow::MENU_FLAG_TOGGLE
-                      |W32AppletWindow::MENU_FLAG_POPUP
-                      |(show_log
-                        ? W32AppletWindow::MENU_FLAG_SELECTED
-                        : 0));
       w32aw->add_menu(_("_Network"), 0, 0);
 #endif
       w32aw->add_menu(_("Statistics"), Menus::MENU_COMMAND_STATISTICS, 0);

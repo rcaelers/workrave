@@ -57,8 +57,6 @@ sourcesdistribution = 	${DISTRIBUTION_HOME}/gtkmm/src/NetworkJoinDialog.cc \
 			${DISTRIBUTION_HOME}/gtkmm/src/NetworkPreferencePage.cc \
 			${DISTRIBUTION_HOME}/gtkmm/src/NetworkHandler.cc
 
-##			${DISTRIBUTION_HOME}/gtkmm/src/NetworkLogDialog.cc
-
 # Additional exercises sources.
 EXERCISES_HOME =	$(top_srcdir)/frontend/plugin/exercises
 sourcesexercises = 	${EXERCISES_HOME}/gtkmm/src/ExercisesDialog.cc \

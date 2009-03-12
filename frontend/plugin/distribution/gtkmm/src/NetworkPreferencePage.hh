@@ -1,6 +1,6 @@
 // NetworkPreferencesPage.hh --- Preferences for network
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -82,7 +82,6 @@ private:
   Gtk::Label *secret2_label;
   Gtk::Entry *secret2_entry;
   Gtk::CheckButton *enabled_cb;
-  Gtk::CheckButton *listening_cb;
   Gtk::SpinButton *port_entry;
 
   Gtk::Button *remove_btn;

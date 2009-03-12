@@ -1,6 +1,6 @@
 // MainGtkMenu.cc --- Menus using Gtk+
 //
-// Copyright (C) 2001 - 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2009 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -157,8 +157,6 @@ MainGtkMenu::create_actions()
                     sigc::mem_fun(*menus, &Menus::on_menu_network_leave));
   action_group->add(Gtk::Action::create("Reconnect", _("_Reconnect")),
                     sigc::mem_fun(*menus, &Menus::on_menu_network_reconnect));
-  action_group->add(Gtk::ToggleAction::create("ShowLog", _("Show _log")),
-                    sigc::mem_fun(*this, &MainGtkMenu::on_menu_network_log));
   
   // Open
   action_group->add(Gtk::Action::create("Open", Gtk::Stock::OPEN),

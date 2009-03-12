@@ -719,13 +719,13 @@ class HistorySettingsTest1(HistoryBaseTest):
         b = '----s-------------s-----------++++s+++++s+++++++++++++++++++----------++++++++++--------------------'
         x = '----------++++++++++++++++++++++++++++++++++++++++++++++++++----------++++++++++----------+++++-----'
 
-        as = [ ('reset', 23), ('reset', 15), ('reset', 30) ] 
+        As = [ ('reset', 23), ('reset', 15), ('reset', 30) ] 
         bs = [ ('reset', 22), ('reset', 15), ('reset', 20), ('reset', 30) ] 
 
         xs = [ ('reset', 22), ('reset', 15), ('reset', 15), ('reset', 30), ('reset', 20), ('reset', 30) ] 
 
         # Simulate activity
-        self.simulate( [a, b], [as, bs])
+        self.simulate( [a, b], [As, bs])
         
         # Join workraves
         link1 = self.network[0].Connect("localhost", 2702)
@@ -754,13 +754,13 @@ class HistorySettingsTest2(HistoryBaseTest):
         b = '----s-----------------------------------------------------------------------------------------------'
         x = '----------++++++++++++++++++++---------++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-'
 
-        as = [ ('reset', 10)                ]
+        As = [ ('reset', 10)                ]
         bs = [ ('reset', 10)  ] 
 
         xs = [ ('reset', 10) ] 
 
         # Simulate activity
-        self.simulate( [a, b], [as, bs])
+        self.simulate( [a, b], [As, bs])
         
         # Join workraves
         link1 = self.network[0].Connect("localhost", 2702)
@@ -790,13 +790,13 @@ class HistorySettingsTest3(HistoryBaseTest):
         b = '----s-----------------------------------------------------------------------------------------------'
         x = '----------++++++++++++++++++++----------+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-'
 
-        as = [ ('reset', 10)                ]
+        As = [ ('reset', 10)                ]
         bs = [ ('reset', 10)  ] 
 
         xs = [ ('reset', 10) ] 
 
         # Simulate activity
-        self.simulate( [a, b], [as, bs])
+        self.simulate( [a, b], [As, bs])
         
         # Join workraves
         link1 = self.network[0].Connect("localhost", 2702)
@@ -825,13 +825,13 @@ class HistorySettingsTest4(HistoryBaseTest):
         b = '----s----------------------------s------------------------------------------------------------------'
         x = '----------++++++++++++++++++++----------+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-'
 
-        as = [ ('reset', 10)                ]
+        As = [ ('reset', 10)                ]
         bs = [ ('reset', 10), ('reset', 14)  ] 
 
         xs = [ ('reset', 10), ('reset', 14) ] 
 
         # Simulate activity
-        self.simulate( [a, b], [as, bs])
+        self.simulate( [a, b], [As, bs])
         
         # Join workraves
         link1 = self.network[0].Connect("localhost", 2702)
@@ -860,7 +860,7 @@ class HistorySettingsTest4A(HistoryBaseTest):
         b = '----s-----------------------------------------------------------------------------------------------'
         x = '----------++++++++++++++++++++----------+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-'
 
-        as = [ ('reset', 10), ('reset', 14) ]
+        As = [ ('reset', 10), ('reset', 14) ]
         bs = [ ('reset', 10)  ] 
 
         xs = [ ('reset', 10), ('reset', 14) ] 
@@ -874,7 +874,7 @@ class HistorySettingsTest4A(HistoryBaseTest):
         self.connected = True
 
         # Simulate activity
-        self.simulate( [a, b], [as, bs])
+        self.simulate( [a, b], [As, bs])
         
         # Check result
         self.check_history(x, 0, 79, 0)
@@ -899,13 +899,13 @@ class HistorySettingsTest5(HistoryBaseTest):
         b = '----s----------------------------s---s--------------------------------------------------------------'
         x = '----------++++++++++++++++++++----------+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-'
 
-        as = [ ('reset', 10), ('reset', 5),  ('reset', 8) ]
+        As = [ ('reset', 10), ('reset', 5),  ('reset', 8) ]
         bs = [ ('reset', 10), ('reset', 11), ('reset', 14) ]
   
         xs = [ ('reset', 10), ('reset', 5), ('reset', 11), ('reset', 8), ('reset', 14) ]
 
         # Simulate activity
-        self.simulate( [a, b], [as, bs])
+        self.simulate( [a, b], [As, bs])
         
         # Join workraves
         link1 = self.network[0].Connect("localhost", 2702)
@@ -934,7 +934,7 @@ class HistorySettingsTest5A(HistoryBaseTest):
         b = '----------------------------------------------------------------------------------------------------'
         x = '----------++++++++++++++++++++----------+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-'
 
-        as = [ ('reset', 10), ('reset', 5), ('reset', 11), ('reset', 7), ('reset', 14) ]
+        As = [ ('reset', 10), ('reset', 5), ('reset', 11), ('reset', 7), ('reset', 14) ]
         bs = [ ('reset', 10) ]
   
         xs = [ ('reset', 10), ('reset', 5), ('reset', 11), ('reset', 7), ('reset', 14) ]
@@ -948,7 +948,7 @@ class HistorySettingsTest5A(HistoryBaseTest):
         self.connected = True
 
         # Simulate activity
-        self.simulate( [a, b], [as, bs])
+        self.simulate( [a, b], [As, bs])
 
         # Check result
         self.check_history(x, 0, 79, 0)
@@ -973,13 +973,13 @@ class HistorySettingsTest6(HistoryBaseTest):
         b = '----s----------------------------s---s--------------------------------------------------------------'
         x = '----------++++++++++++++++++++----------+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-'
 
-        as = [ ('reset', 10), ('reset', 8), ('reset', 7) ]
+        As = [ ('reset', 10), ('reset', 8), ('reset', 7) ]
         bs = [ ('reset', 10), ('reset', 4), ('reset', 14) ]
   
         xs = [ ('reset', 10), ('reset', 8), ('reset', 4), ('reset', 7), ('reset', 14) ]
 
         # Simulate activity
-        self.simulate( [a, b], [as, bs])
+        self.simulate( [a, b], [As, bs])
         
         # Join workraves
         link1 = self.network[0].Connect("localhost", 2702)
@@ -1008,7 +1008,7 @@ class HistorySettingsTest6A(HistoryBaseTest):
         b = '----------------------------------------------------------------------------------------------------'
         x = '----------++++++++++++++++++++----------+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-'
 
-        as = [ ('reset', 10), ('reset', 8), ('reset', 4), ('reset', 7), ('reset', 14) ]
+        As = [ ('reset', 10), ('reset', 8), ('reset', 4), ('reset', 7), ('reset', 14) ]
         bs = []
         xs = [ ('reset', 10), ('reset', 8), ('reset', 4), ('reset', 7), ('reset', 14) ]
 
@@ -1021,7 +1021,7 @@ class HistorySettingsTest6A(HistoryBaseTest):
         self.connected = True
 
         # Simulate activity
-        self.simulate( [a, b], [as, bs])
+        self.simulate( [a, b], [As, bs])
 
         # Check result
         self.check_history(x, 0, 59, 0)

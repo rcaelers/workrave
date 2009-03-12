@@ -1,6 +1,6 @@
 // NetworkPreferencePage.cc --- Preferences widgets for a timer
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -112,13 +112,6 @@ NetworkPreferencePage::create_general_page(Gtk::Notebook *tnotebook)
   secret1_entry->set_invisible_char('*');
   secret2_entry->set_visibility(false);
   secret2_entry->set_invisible_char('*');
- 
-  // Server switch
-  listening_cb = Gtk::manage(new Gtk::CheckButton());
-  Gtk::Label *listening_lab
-    = Gtk::manage(GtkUtil::create_label(_("Allow incoming connections"), true));
-  listening_cb->add(*listening_lab);
-  id_frame->add(*listening_cb);
  
   id_frame->set_border_width(12);
   tnotebook->append_page(*id_frame, _("General"));

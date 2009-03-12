@@ -1,6 +1,6 @@
 // Menus.cc --- Timer info Window
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -414,58 +414,6 @@ Menus::on_menu_network_reconnect()
 #endif
 }
 
-#ifdef FIXME
-void
-Menus::on_menu_network_log(bool active)
-{
-#ifdef HAVE_DISTRIBUTION
-  TRACE_ENTER("Menus::on_menu_network_log");
-
-  if (active)
-    {
-      if (network_log_dialog == NULL)
-        {
-          network_log_dialog = new NetworkLogDialog();
-          network_log_dialog->signal_response().
-            connect(sigc::mem_fun(*this, &Menus::on_network_log_response));
-
-          resync();
-
-          network_log_dialog->run();
-        }
-    }
-  else if (network_log_dialog != NULL)
-    {
-      network_log_dialog->hide_all();
-      delete network_log_dialog;
-      network_log_dialog = NULL;
-      resync();  
-    }
-
-
-  TRACE_EXIT();
-#endif
-}
-
-
-#ifdef HAVE_DISTRIBUTION
-void
-Menus::on_network_log_response(int response)
-{
-  (void) response;
-
-  assert(network_log_dialog != NULL);
-
-  network_log_dialog->hide_all();
-
-  resync();  
-
-  // done by gtkmm ??? delete network_log_dialog;
-  network_log_dialog = NULL;
-}
-#endif
-#endif
-
 void
 Menus::on_statistics_response(int response)
 {
@@ -522,9 +470,6 @@ Menus::applet_command(short cmd)
       on_menu_network_leave();
       break;
 #if FIXME
-    case MENU_COMMAND_NETWORK_LOG:
-      on_menu_network_log(network_log_dialog == NULL);
-      break;
     case MENU_COMMAND_NETWORK_RECONNECT:
       on_menu_network_reconnect();
       break;
