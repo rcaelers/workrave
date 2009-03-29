@@ -1,6 +1,6 @@
 // NetworkConflictDialog.hh --- Network Conflict Dialog
 //
-// Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2009 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -39,18 +39,6 @@ namespace Gtk
   class TextView;
 }
 
-// struct UIConfigConflict
-// {
-//   BreakId break_id;
-//   string setting;
-
-//   string local_value;
-//   string remote_value;
-// };
-
-// typedef list
-// //using namespace workrave;
-
 class NetworkConflictDialog :
   public HigDialog
 {
@@ -60,39 +48,16 @@ public:
 
   int run();
 
-
 private:
+  enum DialogResonse { LOCAL, REMOTE };
+  
   void init();
 
   void create_ui();
   void create_model();
   
   void on_response(int response);
-  
 private:
-//   struct ModelColumns : public Gtk::TreeModelColumnRecord
-//   {
-//     Gtk::TreeModelColumn<std::string> name;
-//     Gtk::TreeModelColumn<std::string> local_value;
-//     Gtk::TreeModelColumn<std::string> remote_value;
-//     Gtk::TreeModelColumn<Glib::RefPtr<Gdk::Pixbuf > > selection;
-
-//     ModelColumns()
-//     {
-//       add(name);
-//       add(local_value);
-//       add(selection);
-//       add(remote_value);
-//     }
-//   };
-
-//   Gtk::TreeView *conflict_list;
-//   Glib::RefPtr<Gtk::ListStore> conflict_store;
-//   const ModelColumns conflict_columns;
-//   Gtk::ScrolledWindow scrolled_window;
-
-  Glib::RefPtr<Gdk::Pixbuf> pixbuf_left_arrow;
-  Glib::RefPtr<Gdk::Pixbuf> pixbuf_right_arrow;
 };
 
 #endif // NETWORKCONFLICTWINDOW_HH
