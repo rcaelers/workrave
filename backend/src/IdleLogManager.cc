@@ -1,6 +1,6 @@
 // IdleLogManager.cc
 //
-// Copyright (C) 2003, 2004, 2005, 2007 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2003, 2004, 2005, 2007, 2009 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -39,8 +39,7 @@ static const char rcsid[] = "$Id$";
 #define IDLELOG_MAXSIZE     (4000)
 #define IDLELOG_MAXAGE    (12 * 60 * 60)
 #define IDLELOG_INTERVAL    (30 * 60)
-#define IDLELOG_OLDVERSION  (1)
-#define IDLELOG_VERSION   (2)
+#define IDLELOG_VERSION   (3)
 #define IDLELOG_INTERVAL_SIZE (17)
 
 
@@ -645,7 +644,7 @@ IdleLogManager::save_index()
   ss << Util::get_home_directory();
   ss << "idlelog.idx" << ends;
 
-  ofstream file(ss.str().c_str());
+  ofstream file(ss.str().c_str(), ios::binary);
   file.write(buffer.get_buffer(), buffer.bytes_written());
   file.close();
 
@@ -671,7 +670,7 @@ IdleLogManager::load_index()
       TRACE_MSG("File exists - ok");
 
       // Open file
-      ifstream file(ss.str().c_str());
+      ifstream file(ss.str().c_str(), ios::binary);
 
       // get file size using buffer's members
       filebuf *pbuf=file.rdbuf();
@@ -719,7 +718,7 @@ IdleLogManager::load_index()
           
           g_free(id);
         }
-      else if (version == IDLELOG_OLDVERSION)
+      else
         {
           TRACE_MSG("Old version - deleting logs of old version");
 
@@ -762,7 +761,7 @@ IdleLogManager::save_idlelog(ClientInfo &info)
   ss << Util::get_home_directory();
   ss << "idlelog." << info.client_id << ".log" << ends;
 
-  ofstream file(ss.str().c_str());
+  ofstream file(ss.str().c_str(), ios::binary);
   file.write(buffer.get_buffer(), buffer.bytes_written());
   file.close();
 }
@@ -781,7 +780,7 @@ IdleLogManager::load_idlelog(ClientInfo &info)
   ss << "idlelog." << info.client_id << ".log" << ends;
 
   // Open file
-  ifstream file(ss.str().c_str());
+  ifstream file(ss.str().c_str(), ios::binary);
 
   // get file size using buffer's members
   filebuf *pbuf=file.rdbuf();
@@ -878,7 +877,7 @@ IdleLogManager::update_idlelog(ClientInfo &info, const IdleInterval &idle)
   ss << Util::get_home_directory();
   ss << "idlelog." << info.client_id << ".log" << ends;
 
-  ofstream file(ss.str().c_str(), ios::app);
+  ofstream file(ss.str().c_str(), ios::app | ios::binary);
   file.write(buffer.get_buffer(), buffer.bytes_written());
   file.close();
 
