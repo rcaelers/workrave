@@ -1,6 +1,6 @@
 // GUI.hh --- The WorkRave GUI
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2007, 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2007, 2008, 2009 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -30,7 +30,7 @@
 
 // Generic GUI
 class BreakControl;
-class ISoundPlayer;
+class SoundPlayer;
 class IBreakWindow;
 class PreludeWindow;
 class MainWindow;
@@ -72,7 +72,7 @@ public:
   void core_event_notify(CoreEvent event);
   void core_event_operation_mode_changed(const OperationMode m);
 
-  ISoundPlayer *get_sound_player() const;
+  SoundPlayer *get_sound_player() const;
 
   static gboolean static_on_timer(gpointer data);
 
@@ -107,7 +107,7 @@ private:
   ICore *core;
 
   //! The sound player
-  ISoundPlayer *sound_player;
+  SoundPlayer *sound_player;
 
   //! Interface to the break window.
   IBreakWindow *break_window;
@@ -153,7 +153,7 @@ GUI::get_instance()
 }
 
 //! Returns the sound player
-inline ISoundPlayer *
+inline SoundPlayer *
 GUI::get_sound_player() const
 {
   return sound_player;
