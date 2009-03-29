@@ -1,6 +1,6 @@
 // ExercisesPanel.cc --- Exercises panel
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2009 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -293,14 +293,12 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
   pause_button->signal_clicked()
     .connect(sigc::mem_fun(*this, &ExercisesPanel::on_pause));
 
-#ifdef FIXME // Causes fuzzy translations...
   tooltips = Gtk::manage( new Gtk::Tooltips() );
   tooltips->set_tip( *back_button, _("Previous exercise") );
   tooltips->set_tip( *forward_button, _("Next exercise") );
   tooltips->set_tip( *pause_button, _("Pause exercises") );
   tooltips->set_tip( *stop_button, _("End exercises") );
   tooltips->enable();
-#endif
 
   pack_start(image_frame, false, false, 0);
   pack_start(progress_bar, false, false, 0);
@@ -477,12 +475,10 @@ ExercisesPanel::refresh_pause()
   GtkUtil::update_custom_stock_button(pause_button,
                                       standalone ? label : NULL,
                                       stock_id);
-#ifdef FIXME // Causes fuzzy translations...
   if (paused)
     tooltips->set_tip( *pause_button, _("Resume exercises"));
   else
     tooltips->set_tip( *pause_button, _("Pause exercises"));
-#endif
 }
 
 void
