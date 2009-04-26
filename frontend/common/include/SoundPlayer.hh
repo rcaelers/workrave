@@ -1,6 +1,6 @@
 // SoundPlayer.hh
 //
-// Copyright (C) 2002, 2003, 2006, 2007, 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -97,10 +97,10 @@ public:
   void get_sound_themes(std::vector<Theme> &themes);
   void load_sound_theme(const std::string &path, Theme &theme);
   void activate_theme(const Theme &theme, bool force = true);
+  void sync_settings();
                       
 private:
   void register_sound_events(std::string theme = "");
-  void sync_settings();
   
 public:
   static const char *CFG_KEY_SOUND_ENABLED;
