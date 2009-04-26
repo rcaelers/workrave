@@ -217,7 +217,7 @@ Util::registry_get_value(const char *path, const char *name,
     {
       DWORD type, size;
       size = MAX_PATH;
-      err = RegQueryValueEx(handle, name, 0, &type, (LPBYTE) out, &size);
+      err = RegQueryValueExA(handle, name, 0, &type, (LPBYTE) out, &size);
       if (err == ERROR_SUCCESS)
         {
           rc = true;
