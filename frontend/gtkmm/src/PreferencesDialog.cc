@@ -1,6 +1,6 @@
 // PreferencesDialog.cc --- Preferences dialog
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2009 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -65,7 +65,7 @@
 
 // #include "PluginsPreferencePage.hh"
 
-#define RUNKEY "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run"
+#define RUNKEY "Software\\Microsoft\\Windows\\CurrentVersion\\Run"
 
 using namespace std;
 
@@ -281,9 +281,9 @@ PreferencesDialog::create_gui_page()
 
   panel->add(*autostart_cb);
 
-  char *value = NULL;
-  Util::registry_get_value(RUNKEY, "Workrave", value);
-  autostart_cb->set_active(value != NULL);
+  char value[MAX_PATH];
+  bool rc = Util::registry_get_value(RUNKEY, "Workrave", value);
+  autostart_cb->set_active(rc);
 #endif  
 
   panel->set_border_width(12);
