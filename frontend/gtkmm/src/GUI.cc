@@ -1586,9 +1586,9 @@ APPEND_TIME("WM_POWERBROADCAST", "<UNKNOWN MESSAGE> : " << hex << msg->wParam );
       }
       break;
 
-    case WM_SETTINGSCHANGE
+    case WM_SETTINGCHANGE:
       {
-        TRACE_MSG("WM_SETTINGSCHANGE " << msg->wParam << " " << msg->lParam);
+        TRACE_MSG("WM_SETTINGCHANGE " << msg->wParam << " " << msg->lParam);
         sound_player->sync_settings();
       }
       break;
