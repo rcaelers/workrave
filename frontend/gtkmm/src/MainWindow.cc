@@ -1,6 +1,6 @@
 // MainWindow.cc --- Main info Window
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -197,7 +197,7 @@ MainWindow::init()
   set_gravity(Gdk::GRAVITY_STATIC);
   set_position(Gtk::WIN_POS_NONE);
 
-#ifndef HAVE_NOT_PROPER_SIZED_MAIN_WINDOW_ON_STARTUP
+#ifdef HAVE_NOT_PROPER_SIZED_MAIN_WINDOW_ON_STARTUP
   // This is the proper code, see hacked code below.
   if (!enabled)
     {
@@ -208,7 +208,7 @@ MainWindow::init()
     }
   else
     {
-      move_to_start_position();;
+      move_to_start_position();
       show_all();
     }
 #else // Hack deprecated: Since GTK+ 2.10 no longer necessary
