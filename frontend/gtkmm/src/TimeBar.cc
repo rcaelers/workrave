@@ -37,7 +37,7 @@ static const char rcsid[] = "$Id$";
 #include "Text.hh"
 
 const int MARGINX = 4;
-const int MARGINY = 3;
+const int MARGINY = 2;
 const int MIN_HORIZONTAL_BAR_WIDTH = 12;
 const int MIN_HORIZONTAL_BAR_HEIGHT = 20; // stolen from gtk's progress bar
 
@@ -83,9 +83,9 @@ void TimeBar::on_realize()
 {
   // FIXME: for some reason, the timebar get realized EACH TIME
   //        the timerbox is cycled...
-
   // We need to call the base on_realize()
   Gtk::DrawingArea::on_realize();
+
   // Now we can allocate any additional resources we need
   Glib::RefPtr<Gdk::Window> window = get_window();
   window_gc = Gdk::GC::create(window);
@@ -177,6 +177,9 @@ TimeBar::on_expose_event(GdkEventExpose *e)
   const int border_size = 2;
   Gtk::Allocation allocation = get_allocation();
 
+  Glib::RefPtr<Gdk::Window> window = get_window();
+  window_gc = Gdk::GC::create(window);
+  
   // Physical width/height
   int win_w = allocation.get_width();
   int win_h = allocation.get_height();
@@ -194,9 +197,6 @@ TimeBar::on_expose_event(GdkEventExpose *e)
       win_lw = win_h;
       win_lh = win_w;
     }
-
-  // we need a ref to the gdkmm window
-  Glib::RefPtr<Gdk::Window> window = get_window();
 
   // Border
   Gdk::Rectangle area(&e->area);

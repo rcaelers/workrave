@@ -1,6 +1,6 @@
 // TimerBoxGtkView.cc --- Timers Widgets
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -193,7 +193,7 @@ TimerBoxGtkView::init_widgets()
 
           Menus *menus = Menus::get_instance();
 
-	      b->signal_clicked().connect(sigc::mem_fun(*menus, &Menus::on_menu_restbreak_now));
+	        b->signal_clicked().connect(sigc::mem_fun(*menus, &Menus::on_menu_restbreak_now));
           b->button_pressed.connect(sigc::mem_fun(*this,
                                                   &TimerBoxGtkView::on_restbreak_button_press_event));
           w = b;
