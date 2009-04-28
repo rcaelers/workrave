@@ -599,6 +599,8 @@ SoundPlayer::play_sound(SoundEvent snd)
   TRACE_ENTER("SoundPlayer::play_sound");
   if (is_enabled())
     {
+      sync_settings();
+      
       bool enabled = false;
       bool valid = SoundPlayer::get_sound_enabled(snd, enabled);
 
