@@ -1,6 +1,6 @@
 // StatusIcon.cc --- Status icon
 //
-// Copyright (C) 2006, 2007, 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -40,7 +40,7 @@ StatusIcon::StatusIcon(MainWindow& mw)
   // Preload icons
   const char *mode_files[] =
     {
-      "workrave-icon-large.png",
+      "workrave-icon-medium.png",
       "workrave-suspended-icon-medium.png",
       "workrave-quiet-icon-medium.png",
     };
