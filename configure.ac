@@ -146,7 +146,7 @@ AC_TRY_COMPILE([#include <time.h>],
 have_extern_timezone=no
 AC_MSG_CHECKING([external timezone variable])
 AC_TRY_COMPILE([#include <time.h>], 
-        [ extern long longtime;
+        [ extern long timezone;
 	  timezone += 1;
           return 0;],
         [have_extern_timezone=yes
