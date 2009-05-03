@@ -3,7 +3,13 @@
 
 DIE=0
 
-export PKG_CONFIG_PATH=$HOME/gtk/inst/lib/pkgconfig/:$PKG_CONFIG_PATH
+export PKG_CONFIG_PATH=$HOME/gtk/inst/lib/pkgconfig/:$PKG_CONFIG_PAT
+export CFLAGS="-mmacosx-version-min=10.4 -isysroot /Developer/SDKs/MacOSX10.4u.sdk"
+export CXXFLAGS="-mmacosx-version-min=10.4 -isysroot /Developer/SDKs/MacOSX10.4u.sdk"
+export OBJCFLAGS="-mmacosx-version-min=10.4 -isysroot /Developer/SDKs/MacOSX10.4u.sdk"
+export CPPFLAGS="-I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I${HOME}/gtk/inst/include/"
+export LDFLAGS="-L/Developer/SDKs/MacOSX10.4u.sdk/usr/lib -L${HOME}/gtk/inst/lib -isysroot /Developer/SDKs/MacOSX10.4u.sdk"
+
 
 srcdir=`dirname $0`
 test -z "$srcdir" && srcdir=.
@@ -188,7 +194,7 @@ autoconf --force || {
     exit 1
 }
 
-conf_flags="--prefix=/opt/workrave --enable-maintainer-mode --enable-compile-warnings --enable-debug --disable-gnome --disable-gnomemm --disable-xml --enable-distribution --enable-exercises --disable-dbus --disable-gstreamer CPPFLAGS=-I${HOME}/gtk/inst/include/ LDFLAGS=-L${HOME}/gtk/inst/lib "
+conf_flags="--prefix=/opt/workrave --enable-maintainer-mode --enable-compile-warnings --enable-debug --disable-gnome --disable-gnomemm --disable-xml --enable-distribution --enable-exercises --disable-dbus --disable-gstreamer"
  
 if test x$NOCONFIGURE = x; then
     

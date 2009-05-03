@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright (C) 2008 Rob Caelers <robc@krandor.nl>
+# Copyright (C) 2008, 2009 Rob Caelers <robc@krandor.nl>
 # All rights reserved.
 #
 # This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,7 @@
 # Configuration
 # ------------------------------------------------------------
 
-LIBPREFIX=/opt/gtk
+LIBPREFIX=$HOME/gtk/inst
 BINARY=workrave
 PACKAGE=Workrave.app
 PACKAGE_VERSION=`grep PACKAGE_VERSION ../../../config.h | cut -d' ' -f 3 | sed "s/\\"//g"`
@@ -121,13 +121,13 @@ echo "Installing Workrave"
 if [ $conf_symlink = false ]; then
    make install -C ../../../ \
              prefix=$pkgrootdir bindir=$pkgexecdir pkgdatadir=$pkgresourcesdir \
-             datadir=$pkgresourcesdir soundsdir=$pkgresourcesdir/sounds \
+             datadir=$pkgresourcesdir soundsbasedir=$pkgresourcesdir/sounds \
              DATADIRNAME=Contents/Resources > install.log 2>&1
    INSTALL="cp"
 else
    make install -C ../../../ \
              prefix=$pkgrootdir bindir=$pkgexecdir pkgdatadir=$pkgresourcesdir \
-             datadir=$pkgresourcesdir soundsdir=$pkgresourcesdir/sounds \
+             datadir=$pkgresourcesdir soundbasesdir=$pkgresourcesdir/sounds \
              INSTALL=`pwd`/install_symlink \
              DATADIRNAME=Contents/Resources > install.log 2>&1
    INSTALL=`pwd`/install_symlink
