@@ -178,7 +178,12 @@ TimeBar::on_expose_event(GdkEventExpose *e)
   Gtk::Allocation allocation = get_allocation();
 
   Glib::RefPtr<Gdk::Window> window = get_window();
-  window_gc = Gdk::GC::create(window);
+
+  Glib::RefPtr<Gdk::Colormap> colormap = get_colormap();
+  for (int i = 0; i < COLOR_ID_SIZEOF; i++)
+    {
+      colormap->alloc_color(bar_colors[i]);
+    }
   
   // Physical width/height
   int win_w = allocation.get_width();
