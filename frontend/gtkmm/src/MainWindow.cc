@@ -696,6 +696,14 @@ MainWindow::locate_window(GdkEventConfigure *event)
 
   (void) event;
 
+  Glib::RefPtr<Gdk::Window> window = get_window();
+  TRACE_MSG(window->get_state());
+  if ((window->get_state() & (Gdk::WINDOW_STATE_ICONIFIED | Gdk::WINDOW_STATE_WITHDRAWN)) != 0)
+    {
+      TRACE_EXIT();
+      return;
+    }
+  
 #ifndef PLATFORM_OS_WIN32
   // Returns bogus results on windows...sometime.
   if (event != NULL)

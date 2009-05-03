@@ -1,6 +1,6 @@
 // OSXGtkMenu.cc --- Menus using Gtk+
 //
-// Copyright (C) 2001 - 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2009 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -160,6 +160,7 @@ OSXGtkMenu::create_ui()
                    "clicked",
                    G_CALLBACK(dock_clicked),
                    this);
+  
   g_signal_connect(dock,
                    "quit-activate",
                    G_CALLBACK(dock_quit),
