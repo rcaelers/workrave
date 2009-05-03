@@ -159,6 +159,7 @@ OSXGtkMenu::create_ui()
                    "clicked",
                    G_CALLBACK(dock_clicked),
                    this);
+  
   g_signal_connect(dock,
                    "quit-activate",
                    G_CALLBACK(dock_quit),

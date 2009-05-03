@@ -928,6 +928,8 @@ GUI::core_event_operation_mode_changed(const OperationMode m)
       status_icon->set_operation_mode(m);
     }
 
+  
+  
   menus->resync();
 }
 

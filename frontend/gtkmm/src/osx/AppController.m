@@ -1,6 +1,6 @@
 // AppController.hh --- OSX Application Controller
 //
-// Copyright (C) 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2008, 2009 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -31,7 +31,7 @@ static const char rcsid[] = "$Id: MainWindow.cc 1367 2007-10-23 19:07:55Z rcaele
 
 + (void) initialize
 {
-    //make sure another Transmission.app isn't running already
+    //make sure another Workrave.app isn't running already
     NSString * bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
     int processIdentifier = [[NSProcessInfo processInfo] processIdentifier];
 

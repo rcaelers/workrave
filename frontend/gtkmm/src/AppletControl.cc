@@ -1,6 +1,6 @@
 // AppletControl.cc --- Applet info Control
 //
-// Copyright (C) 2006, 2007, 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -371,6 +371,10 @@ AppletControl::check_visible()
         }
     }
 
+#ifdef PLATFORM_OS_OSX
+  count++;
+#endif
+    
   GUI *gui = GUI::get_instance();
   MainWindow *main = gui->get_main_window();
   if (main != NULL)

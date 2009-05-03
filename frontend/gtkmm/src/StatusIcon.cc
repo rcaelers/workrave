@@ -28,6 +28,10 @@ static const char rcsid[] = "$Id$";
 #include <string>
 #include <assert.h>
 
+#ifdef PLATFORM_OS_OSX
+#include "ige-mac-dock.h"
+#endif
+
 #include "MainWindow.hh"
 #include "CoreFactory.hh"
 #include "StatusIcon.hh"
