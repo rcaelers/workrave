@@ -237,7 +237,9 @@ MainWindow::init()
 
   if (!enabled) //  || get_start_in_tray())
     {
+#ifndef PLATFORM_OS_OSX
       iconify();
+#endif
       close_window();
     }
 #endif
@@ -338,6 +340,10 @@ MainWindow::open_window()
 
       bool always_on_top = get_always_on_top();
       WindowHints::set_always_on_top(this, always_on_top);
+
+#ifdef PLATFORM_OS_OSX
+      TimerBoxControl::set_enabled("main_window", true);
+#endif
     }
   TRACE_EXIT();
 }
