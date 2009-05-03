@@ -43,7 +43,9 @@ static const char rcsid[] = "$Id$";
 #include "CoreFactory.hh"
 #include "Util.hh"
 
-#if defined HAVE_GNOME
+#if defined HAVE_GSTREAMER
+#include "GstSoundPlayer.hh"
+#elif defined HAVE_GNOME
 #include <gdk/gdk.h>
 #include "GnomeSoundPlayer.hh"
 #elif defined HAVE_KDE
@@ -55,8 +57,6 @@ static const char rcsid[] = "$Id$";
 #include "W32SoundPlayer.hh"
 #elif defined PLATFORM_OS_OSX
 #include "OSXSoundPlayer.hh"
-#elif defined HAVE_GSTREAMER
-#include "GstSoundPlayer.hh"
 #endif
 
 
@@ -299,7 +299,9 @@ SpeakerPlayer::run()
 SoundPlayer::SoundPlayer()
 {
   driver =
-#if defined HAVE_GNOME
+#if defined HAVE_GSTREAMER
+     new GstSoundPlayer()
+#elif defined HAVE_GNOME
      new GnomeSoundPlayer()
 #elif defined HAVE_KDE
      new KdeSoundPlayer()
@@ -307,8 +309,6 @@ SoundPlayer::SoundPlayer()
      new W32SoundPlayer()
 #elif defined PLATFORM_OS_OSX
      new OSXSoundPlayer()
-#elif defined HAVE_GSTREAMER
-     new GstSoundPlayer()
 #else
 #  warning Sound card support disabled.
      NULL
