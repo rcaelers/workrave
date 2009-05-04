@@ -174,6 +174,7 @@ TimeBar::get_preferred_size(int &width, int &height)
 bool
 TimeBar::on_expose_event(GdkEventExpose *e)
 {
+  TRACE_ENTER("TimeBar::on_expose_event");
   const int border_size = 2;
   Gtk::Allocation allocation = get_allocation();
 
@@ -207,6 +208,9 @@ TimeBar::on_expose_event(GdkEventExpose *e)
   Gdk::Rectangle area(&e->area);
   Glib::RefPtr<Gtk::Style> style = get_style();
 
+  Gdk::Color bg = style->get_bg(Gtk::STATE_NORMAL);
+  bar_colors[COLOR_ID_BG] = bg;
+  
   // Draw background
   window_gc->set_foreground(bar_colors[COLOR_ID_BG]);
   style->paint_shadow(window, Gtk::STATE_NORMAL, Gtk::SHADOW_IN, area,
@@ -383,6 +387,10 @@ TimeBar::on_expose_event(GdkEventExpose *e)
 
   Gdk::Color textcolor = style->get_fg(Gtk::STATE_NORMAL);
 
+  TRACE_MSG(textcolor.get_red() << " " <<
+            textcolor.get_green() << " " <<
+            textcolor.get_blue());
+  
   Glib::RefPtr<Gdk::GC> window_gc1 = Gdk::GC::create(window);
 
   window_gc1->set_clip_origin(0,0);
@@ -393,6 +401,7 @@ TimeBar::on_expose_event(GdkEventExpose *e)
   window_gc1->set_foreground(textcolor);
   window_gc1->set_clip_rectangle(rect2);
   window->draw_layout(window_gc1, text_x, text_y, pl1);
+  TRACE_EXIT();
   return true;
 }
 

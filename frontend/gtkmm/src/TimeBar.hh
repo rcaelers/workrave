@@ -1,6 +1,6 @@
 // TimeBar.hh --- Time Bar
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2009 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -45,7 +45,6 @@ public:
   void update();
   void set_bar_color(ColorId color);
   void set_secondary_bar_color(ColorId color);
-  void set_text_color(Gdk::Color color);
   void set_text_alignment(int align);
 
   void set_border_size(int size);
@@ -60,6 +59,8 @@ private:
                 bool filled, int x, int y, int width, int height,
                 int winw, int winh);
 
+  void set_text_color(Gdk::Color color);
+  
 protected:
   //Overridden default signal handlers:
   virtual void on_realize();
