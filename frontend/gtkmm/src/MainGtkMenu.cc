@@ -1,6 +1,6 @@
 // MainGtkMenu.cc --- Menus using Gtk+
 //
-// Copyright (C) 2001 - 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2009 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -250,6 +250,10 @@ MainGtkMenu::create_ui()
     }
 
   popup_menu = dynamic_cast<Gtk::Menu*>(ui_manager->get_widget("/Menu")); 
+
+#ifdef PLATFORM_OS_OSX
+  osx_popup_hack_connect(popup_menu);
+#endif
 }
 
 
@@ -370,3 +374,73 @@ MainGtkMenu::on_menu_quiet()
         }
     }
 }
+
+#ifdef PLATFORM_OS_OSX
+// /* Taken from Gaim. needs to be gtkmm-ified. */
+// /* This is a workaround for a bug in windows GTK+. Clicking outside of the
+//    menu does not get rid of it, so instead we get rid of it as soon as the
+//    pointer leaves the menu. */
+
+void
+MainGtkMenu::osx_popup_hack_connect(Gtk::Menu *menu)
+{
+  TRACE_ENTER("W32TrayMenu::osx_popup_hack_connect");
+  
+  GtkWidget *widget = (GtkWidget*) menu->gobj();
+  g_signal_connect(widget, "leave-notify-event",
+                   G_CALLBACK(osx_popup_hack_leave_enter), NULL);
+  g_signal_connect(widget, "enter-notify-event",
+                   G_CALLBACK(osx_popup_hack_leave_enter), NULL);
+
+  TRACE_EXIT();
+}
+
+gboolean
+MainGtkMenu::osx_popup_hack_hide(gpointer data)
+{
+  TRACE_ENTER("W32TrayMenu::osx_popup_hack_hide");
+  if (data != NULL)
+    {
+      gtk_menu_popdown(GTK_MENU(data));
+    }
+  TRACE_EXIT();
+  return FALSE;
+}
+
+
+gboolean
+MainGtkMenu::osx_popup_hack_leave_enter(GtkWidget *menu, GdkEventCrossing *event,
+                                          void *data)
+{
+  TRACE_ENTER("W32TrayMenu::osx_popup_hack_leave_enter");
+
+  TRACE_MSG(event->type << " " <<  event->detail);
+  
+  (void) data;
+  static guint hide_docklet_timer = 0;
+  if (event->type == GDK_LEAVE_NOTIFY
+      /* RC: it seems gtk now generate a GDK_NOTIFY_UNKNOWN when the menu if left...*/ 
+      && (event->detail == GDK_NOTIFY_ANCESTOR || event->detail == GDK_NOTIFY_UNKNOWN)) {
+    /* Add some slop so that the menu doesn't annoyingly disappear
+       when mousing around */
+    TRACE_MSG("leave " << hide_docklet_timer);
+    if (hide_docklet_timer == 0) {
+      hide_docklet_timer = g_timeout_add(500, osx_popup_hack_hide, menu);
+    }
+  } else if (event->type == GDK_ENTER_NOTIFY
+             && event->detail == GDK_NOTIFY_ANCESTOR) {
+
+    TRACE_MSG("enter " << hide_docklet_timer);
+    
+    if (hide_docklet_timer != 0) {
+      /* Cancel the hiding if we reenter */
+
+      g_source_remove(hide_docklet_timer);
+      hide_docklet_timer = 0;
+    }
+  }
+  TRACE_EXIT();
+  return FALSE;
+}
+#endif
+ 

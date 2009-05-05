@@ -1,6 +1,6 @@
 // MainGtkMenu.hh --- Menu using Gtk+
 //
-// Copyright (C) 2001 - 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2009 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -62,7 +62,16 @@ private:
   void on_menu_normal();
   void on_menu_suspend();
   void on_menu_quiet();
+
+#ifdef PLATFORM_OS_OSX
+  void osx_popup_hack_connect(Gtk::Menu *menu);
+  static gboolean osx_popup_hack_hide(gpointer data);
+  static gboolean osx_popup_hack_leave_enter(GtkWidget *menu,
+                                               GdkEventCrossing *event,
+                                               void *data);
+#endif
   
+
 protected:
   Glib::RefPtr<Gtk::UIManager> ui_manager;
   Glib::RefPtr<Gtk::ActionGroup> action_group;
