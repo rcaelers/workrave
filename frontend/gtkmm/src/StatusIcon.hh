@@ -1,6 +1,6 @@
 // StatusIcon.hh --- Status icon
 //
-// Copyright (C) 2006, 2007, 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify

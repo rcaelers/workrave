@@ -164,3 +164,5 @@ StatusIcon::win32_filter_func (void     *xevent,
   return ret;
 }
 #endif
+
+
