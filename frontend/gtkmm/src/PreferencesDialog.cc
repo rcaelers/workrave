@@ -403,8 +403,7 @@ PreferencesDialog::create_sounds_page()
       hbox->pack_start(*sound_play_button, false, false, 0);
   
       fsbutton = Gtk::manage(new Gtk::FileChooserButton(_("Choose a sound"),
-                                                   Gtk::FILE_CHOOSER_ACTION_OPEN,
-                                                   "gtk+"
+                                                   Gtk::FILE_CHOOSER_ACTION_OPEN
                                                    ));
   
       hbox->pack_start(*fsbutton, true, true, 0);
