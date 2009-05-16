@@ -693,6 +693,7 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
   
   // msvc can't handle std::string conditional tracepoints. use TRACE as the conditional
   bool TRACE = ( timer_id == "micro_pause" || timer_id == "rest_break" );
+  (void) TRACE;
   
   time_t current_time= core->get_time();
 
