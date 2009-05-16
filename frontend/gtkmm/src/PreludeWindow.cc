@@ -1,6 +1,6 @@
 // PreludeWindow.cc
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007, 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -447,8 +447,8 @@ PreludeWindow::avoid_pointer(int px, int py)
   TRACE_MSG("geom2" << winx << " " << winy << " " << width << " " << height << " ");
 
   int screen_height = head.get_height();
-  int top_y = SCREEN_MARGIN;
-  int bottom_y = screen_height - height - SCREEN_MARGIN;
+  int top_y = head.get_y() + SCREEN_MARGIN;
+  int bottom_y = head.get_y() + screen_height - height - SCREEN_MARGIN;
   if (winy < top_y + SCREEN_MARGIN)
     {
       winy = bottom_y;
