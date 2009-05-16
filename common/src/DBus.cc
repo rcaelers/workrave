@@ -1,6 +1,6 @@
 // DBus.c
 //
-// Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2009 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -524,13 +524,13 @@ DBus::watch_free(void *data)
 {
 	WatchData *watch_data = (WatchData*) data;
 
-	if (watch_data->source == NULL)
-		return;
-
-	watch_data->dbus->watches = g_slist_remove(watch_data->dbus->watches, watch_data);
-
-	g_source_destroy(watch_data->source);
-	g_source_unref(watch_data->source);
+	if (watch_data->source != NULL)
+    {
+      watch_data->dbus->watches = g_slist_remove(watch_data->dbus->watches, watch_data);
+      
+      g_source_destroy(watch_data->source);
+      g_source_unref(watch_data->source);
+    }
 }
 
 dbus_bool_t
@@ -593,8 +593,11 @@ DBus::watch_remove(DBusWatch *watch, void *data)
     {
       dbus->watches = g_slist_remove(dbus->watches, watch_data);
 
-      g_source_destroy(watch_data->source);
-      g_source_unref(watch_data->source);
+      if (watch_data->source != NULL)
+        {
+          g_source_destroy(watch_data->source);
+          g_source_unref(watch_data->source);
+        }
     }
 }
 
