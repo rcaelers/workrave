@@ -450,7 +450,7 @@ TimerBoxGtkView::set_time_bar(BreakId id,
                               TimeBar::ColorId secondary_color,
                               int secondary_val, int secondary_max)
 {
-  TRACE_ENTER_MSG("TimerBoxGtkView::set_time_bar", id);
+  TRACE_ENTER_MSG("TimerBoxGtkView::set_time_barxb", id);
 
   TRACE_MSG(text);
   TRACE_MSG(primary_val << " " << primary_max << " " << int(primary_color));
