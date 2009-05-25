@@ -46,6 +46,10 @@ static const char rcsid[] = "$Id$";
 #include "W32AppletWindow.hh"
 #endif
 
+#ifdef PLATFORM_OS_OSX
+#include "OSXAppletWindow.hh"
+#endif
+
 #include "GUI.hh"
 #include "MainWindow.hh"
 #include "TimerBoxControl.hh"
@@ -104,6 +108,10 @@ AppletControl::init()
   applets[APPLET_W32] = new W32AppletWindow();
 #endif
 
+#ifdef PLATFORM_OS_OSX
+  applets[APPLET_OSX] = new OSXAppletWindow();
+#endif
+
   // Read configuration and start monitoring it.
   IConfigurator *config = CoreFactory::get_configurator();
   config->add_listener(TimerBoxControl::CFG_KEY_TIMERBOX + "applet", this);
@@ -139,6 +147,13 @@ AppletControl::show()
 
   rc = activate_applet(APPLET_W32);
   TRACE_MSG("Win32 " << rc);
+  if (rc != AppletWindow::APPLET_STATE_DISABLED)
+    {
+      specific = true;
+    }
+
+  rc = activate_applet(APPLET_OSX);
+  TRACE_MSG("OSX " << rc);
   if (rc != AppletWindow::APPLET_STATE_DISABLED)
     {
       specific = true;
@@ -410,4 +425,4 @@ AppletControl::deactivate_applet(AppletType type)
       applets[type]->deactivate_applet();
       visible[type] = false;
     }
- }
+}
