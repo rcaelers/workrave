@@ -27,22 +27,18 @@ MINGW_URL=http://surfnet.dl.sourceforge.net/sourceforge/mingw
 GCC=gcc-4.2.1-2-src
 GCC_ARCHIVE=gcc-4.2.1-2-src.tar.gz  
 
-BINUTILS=binutils-2.17.50-20060824-1-src
-BINUTILS_ARCHIVE=$BINUTILS.tar.gz
+BINUTILS=binutils-2.19
+BINUTILS_ARCHIVE=$BINUTILS-src.tar.gz
 
-MINGW=mingw-runtime-3.13-20070825-1
-MINGW_ARCHIVE=$MINGW.tar.gz
+MINGW=mingw-runtime-3.15.2
+MINGW_ARCHIVE=mingwrt-3.15.2-mingw32-dev.tar.gz
 
-W32API=w32api-3.11
-W32API_ARCHIVE=$W32API.tar.gz
+W32API=w32api-3.13
+W32API_ARCHIVE=$W32API-mingw32-dev.tar.gz
 
 UTILS=mingw-utils-0.3
 UTILS_PATCH=mingw-utils-0.3.diff
 UTILS_ARCHIVE=mingw-utils-0.3-src.tar.gz
-
-HEADERS_ARCHIVE=mingw-w64-headers-20070802.tar.bz2
-CRT_ARCHIVE=mingw-w64-crt-20070802.tar.bz2
-
 
 # need install directory first on the path so gcc can find binutils
 
@@ -113,7 +109,7 @@ configure_binutils()
 	mkdir "binutils-$TARGET"
 	cd "binutils-$TARGET"
 	echo "Configuring binutils"
-	"$SRCDIR/$BINUTILS/configure" --prefix="$PREFIX" --target=$TARGET &> configure.log
+	"$SRCDIR/$BINUTILS/configure" --prefix="$PREFIX" --target=$TARGET --disable-werror &> configure.log
 	cd "$TOPDIR"
 }
 
@@ -171,20 +167,37 @@ configure_gcc()
 	mkdir "gcc-$TARGET"
 	cd "gcc-$TARGET"
 	echo "Configuring gcc"
+
 	"$SRCDIR/$GCC/configure" -v \
+	        --with-gcc --with-gnu-as --with-gnu-ld --disable-libgomp \
+		--with-arch=i486 --with-tune=generic \
+		--disable-werror \
+		--enable-threads=win32 \
+		--disable-nls \
+		--enable-languages=c,c++ \
+                --disable-win32-registry  \
+		--enable-sjlj-exceptions \
+	        --enable-libstdcxx-debug \
+		--enable-cxx-flags='-fno-function-sections -fno-data-sections' \
+		--enable-version-specific-runtime-libs \
+	        --disable-bootstrap \
 		--prefix="$PREFIX" --target=$TARGET \
 		--with-headers="$PREFIX/$TARGET/include" \
-		--with-gcc --with-gnu-as --with-gnu-ld \
-	        --enable-threads=win32 --disable-win32-registry --enable-languages=c,c++ \
-		--enable-cxx-flags='-fno-function-sections -fno-data-sections' \
-		--disable-sjlj-exceptions --enable-libstdcxx-debug \
-		--enable-version-specific-runtime-libs --disable-bootstrap \
-		--disable-libgomp \
-		--with-tune=generic --disable-werror \
-		--disable-nls  \
+		--disable-multilib \
 		  &> configure.log
 	cd "$TOPDIR"
 }
+
+#		--prefix="$PREFIX" --target=$TARGET \
+#		--with-headers="$PREFIX/$TARGET/include" \
+#		--with-gcc --with-gnu-as --with-gnu-ld \
+#	        --enable-threads=win32 --disable-win32-registry --enable-languages=c,c++ \
+#		--enable-cxx-flags='-fno-function-sections -fno-data-sections' \
+#		--disable-sjlj-exceptions --enable-libstdcxx-debug \
+#		--enable-version-specific-runtime-libs --disable-bootstrap \
+#		--disable-libgomp \
+#		--with-tune=generic --disable-werror \
+#		--disable-nls  \
 
 #		--program-suffix=-dw2 --with-arch=i486 --with-tune=generic --disable-werror \
 #		--disable-nls  \
@@ -193,7 +206,7 @@ build_gcc()
 {
 	cd "$TOPDIR/gcc-$TARGET"
 	echo "Building gcc"
-	make BOOTCFLAGS="-O2 -D__USE_MINGW_ACCESS" CFLAGS="-O2 -D__USE_MINGW_ACCESS" CXXFLAGS="-O2" &> make.log
+	make BOOTCFLAGS="-O2 -D__USE_MINGW_ACCESS" CFLAGS="-O2 -D__USE_MINGW_ACCESS" CXXFLAGS="-mthreads -O2" LDFLAGS="-s" &> make.log
 
 	if test $? -ne 0; then
 		echo "make failed - log available: gcc-$TARGET/make.log"
