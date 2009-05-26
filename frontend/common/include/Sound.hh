@@ -16,8 +16,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-// $Id: Sound.hh 1294 2007-08-26 20:48:23Z rcaelers $
-//
 
 #ifndef SOUND_HH
 #define SOUND_HH

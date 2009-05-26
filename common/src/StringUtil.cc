@@ -17,8 +17,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-static const char rcsid[] = "$Id: Util.cc 1294 2007-08-26 20:48:23Z rcaelers $";
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif

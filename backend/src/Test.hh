@@ -16,8 +16,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-// $Id: DBus.hh 1215 2007-07-01 13:26:31Z rcaelers $
-//
 
 #ifndef TEST_H
 #define TEST_H

@@ -17,8 +17,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-static const char rcsid[] = "$Id: OSXConfigurator.cc 1369 2007-10-30 14:53:51Z rcaelers $";
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif

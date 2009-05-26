@@ -16,8 +16,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-// $Id: Locale.hh 1356 2007-10-22 18:22:13Z rcaelers $
-//
 
 #ifndef LOCALE_HH
 #define LOCALE_HH

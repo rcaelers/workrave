@@ -3,8 +3,6 @@
 # Copyright (C) 2001, 2002, 2004, 2005, 2008 Rob Caelers & Raymond Penners
 #
 #
-# $Id$
-#
 
 MAINTAINERCLEANFILES = 	Makefile.in
 

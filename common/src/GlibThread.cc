@@ -16,8 +16,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-// $Id: GlibThread.cc 927 2005-10-26 18:51:24Z rcaelers $
-//
 
 #include "GlibThread.hh"
 

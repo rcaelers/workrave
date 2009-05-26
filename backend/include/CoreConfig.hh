@@ -16,8 +16,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-// $Id: Core.hh 1280 2007-08-21 16:23:07Z rcaelers $
-//
 
 #ifndef CORECONFIG_HH
 #define CORECONFIG_HH
