@@ -362,7 +362,7 @@ PreludeWindow::set_stage(IApp::PreludeStage stage)
           int winx, winy;
           get_position(winx, winy);
           set_position(Gtk::WIN_POS_NONE);
-          move (winx, SCREEN_MARGIN);
+          move (winx, head.get_y() + SCREEN_MARGIN);
         }
       break;
     }
