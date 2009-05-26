@@ -17,8 +17,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-static const char rcsid[] = "$Id: EventLabel.cc 1351 2007-10-14 20:56:54Z rcaelers $";
-
 #include "preinclude.h"
 
 #ifdef HAVE_CONFIG_H

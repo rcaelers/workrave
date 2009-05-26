@@ -16,8 +16,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-// $Id: ITimeBar.hh 1090 2006-10-01 20:49:47Z dotsphinx $
-//
 
 #ifndef DATACONNECTOR_HH
 #define DATACONNECTOR_HH

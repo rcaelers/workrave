@@ -2,8 +2,6 @@
 #
 # Copyright (C) 2003, 2008 Raymond Penners <raymond@dotsphinx.com>
 #
-# $Id$
-#
 
 MAINTAINERCLEANFILES = 	Makefile.in
 DISTCLEANFILES =	exercises.xml

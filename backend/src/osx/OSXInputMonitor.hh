@@ -16,8 +16,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-// $Id: OSXInputMonitor.hh 1094 2006-10-01 22:05:31Z dotsphinx $
-//
 
 #ifndef OSXINPUTMONITOR_HH
 #define OSXINPUTMONITOR_HH

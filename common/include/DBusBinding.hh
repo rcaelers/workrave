@@ -16,8 +16,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-// $Id: DBus.hh 1380 2007-12-04 21:45:36Z rcaelers $
-//
 
 #ifndef DBUSBINDING_HH
 #define DBUSBINDING_HH

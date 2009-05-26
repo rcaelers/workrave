@@ -16,8 +16,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-// $Id: ICoreEventListener.hh 1359 2007-10-22 19:18:06Z rcaelers $
-//
 
 #ifndef ICOREEVENTLISTENER_HH
 #define ICOREEVENTLISTENER_HH

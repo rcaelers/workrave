@@ -6,8 +6,6 @@
 // Based on code from ggmud
 // Copyright Gabry (gabrielegreco@gmail.com)
 
-static const char rcsid[] = "$Id: OSXUtil.cc,v 1.1 2007/09/11 19:46:27 robc Exp $";
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif

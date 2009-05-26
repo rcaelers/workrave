@@ -2,8 +2,6 @@
 #
 # Copyright (C) 2002, 2003, 2008 Rob Caelers & Raymond Penners
 #
-# $Id: Makefile.am 687 2004-01-28 12:16:46Z dotsphinx $
-#
 
 MAINTAINERCLEANFILES = 	Makefile.in Info.plist install.log tmp.r Workrave.dmg
 

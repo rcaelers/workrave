@@ -2,8 +2,6 @@
 #
 # Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008 Rob Caelers & Raymond Penners
 #
-# $Id: Makefile.am 1092 2006-10-01 22:03:56Z dotsphinx $
-#
 
 MAINTAINERCLEANFILES =	Makefile.in
 

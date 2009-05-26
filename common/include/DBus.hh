@@ -16,8 +16,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-// $Id: DBus.hh 1404 2008-01-07 20:48:30Z rcaelers $
-//
 
 #ifndef DBUS_HH
 #define DBUS_HH

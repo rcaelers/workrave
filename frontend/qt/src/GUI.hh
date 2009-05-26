@@ -16,8 +16,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-// $Id: IniConfigurator.hh 558 2006-02-23 19:42:12Z rcaelers $
-//
 
 #ifndef GUI_HH
 #define GUI_HH

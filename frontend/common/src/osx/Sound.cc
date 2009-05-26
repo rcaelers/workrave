@@ -16,8 +16,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-// $Id: Sound.cc 1277 2007-08-20 10:15:49Z rcaelers $
-//
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
