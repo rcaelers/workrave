@@ -190,7 +190,6 @@ if (HAVE_DBUS)
     ${CMAKE_CURRENT_BINARY_DIR}/DBusGUI.cc
   )
   include_directories(${DBUS_INCLUDES})
-  target_link_libraries(workrave ${DBUS_LIBS})
 endif (HAVE_DBUS)
 
 if (HAVE_EXERCISES)
@@ -244,6 +243,10 @@ target_link_libraries(workrave ${GTKMM_LIBS})
 if (HAVE_DBUS)
   target_link_libraries(workrave ${DBUS_LIBS})
 endif(HAVE_DBUS)
+
+if (HAVE_GNET)
+  target_link_libraries(workrave ${GNET_LIBS})
+endif(HAVE_GNET)
 
 if (WIN32)
   target_link_libraries(workrave harpoon)
