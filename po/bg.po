@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Workrave 1.9.1\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
 "POT-Creation-Date: 2008-08-30 09:41+0200\n"
-"PO-Revision-Date: 2007-04-30 19:55+0200\n"
+"PO-Revision-Date: 2009-05-28 21:24+0200\n"
 "Last-Translator: Иван Димов <idimov@users.sourceforge.net>\n"
 "Language-Team: <i18n@workrave.org>\n"
 "MIME-Version: 1.0\n"
@@ -285,6 +285,22 @@ msgstr "Микро-почивка"
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:211
 msgid "Rest break"
 msgstr "Почивка"
+
+# Меню Режим
+#: ../frontend/gtkmm/src/GUI.cc:1401 ../frontend/gtkmm/src/GUI.cc:1405
+#, fuzzy
+msgid "Mode: "
+msgstr "_Режим"
+
+#: ../frontend/gtkmm/src/GUI.cc:1401
+#, fuzzy
+msgid "Suspended"
+msgstr "_Летаргичен"
+
+#: ../frontend/gtkmm/src/GUI.cc:1405
+#, fuzzy
+msgid "Quiet"
+msgstr "Т_их"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:98
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:171

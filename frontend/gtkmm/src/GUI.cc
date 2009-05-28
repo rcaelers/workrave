@@ -111,6 +111,7 @@
 
 GUI *GUI::instance = NULL;
 
+
 //! GUI Constructor.
 /*!
  *  \param argc number of command line parameters.

@@ -298,4 +298,5 @@ workrave_LDADD =        @WR_LDADD@ @X_LIBS@ @GNOME_LIBS@ @GNOMEMM_LIBS@ \
 
 EXTRA_DIST = $(wildcard *.cc) $(wildcard *.hh) $(wildcard *.c) $(wildcard *.h) \
 	     DBusGUI.cc DBusGUI.hh DBusGnomeApplet.cc DBusGnomeApplet.hh \
-	     workrave.desktop.in.in workrave-gui.xml org.workrave.Workrave.service.in
+	     workrave.desktop.in.in org.workrave.Workrave.service.in workrave-gui.xml
+
