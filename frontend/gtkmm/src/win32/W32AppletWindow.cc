@@ -1,6 +1,6 @@
 // AppletWindow.cc --- Applet info Window
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -54,16 +54,6 @@ W32AppletWindow::~W32AppletWindow()
   delete timer_box_control;
   TRACE_EXIT();
 }
-
-
-AppletWindow::AppletMode
-W32AppletWindow::get_applet_mode() const
-{
-  return APPLET_W32;
-}
-
-
-
 
 
 static HWND

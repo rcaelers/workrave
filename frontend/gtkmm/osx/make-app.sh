@@ -41,6 +41,7 @@ Usage: $0 [OPTION...]
   --help, -h                 Display this help message
   --keep-symbols             Keep debugging symbols
   --link                     Create symlinks
+  --gtk-dylib                Copy Gtk dynalic libraries
 "
 }
 
@@ -50,10 +51,14 @@ Usage: $0 [OPTION...]
 
 conf_strip=true
 conf_symlink=false
+conf_copy_gtk_dylib=false
 
 while [ "$1" != "" ]
 do
     case $1 in
+	--gtk-dylib)
+	    conf_copy_gtk_dylib=true ;;
+
 	--keep-symbols)
 	    conf_strip=false ;;
 
@@ -75,8 +80,6 @@ done
 # Setup
 # ------------------------------------------------------------
 
-pango_version=`pkg-config --variable=pango_module_version pango`
-gtk_version=`pkg-config --variable=gtk_binary_version gtk+-2.0`
 osx_minor_version=`/usr/bin/sw_vers | grep ProductVersion | cut -f2 -d'.'`
 
 pkgrootdir=`pwd`/$PACKAGE
@@ -147,53 +150,65 @@ echo -n "APPL????" > $pkgcontentsdir/PkgInfo
 # Install Pango
 # ------------------------------------------------------------
 
-echo "Installing Pango modules"
+if [ $conf_copy_gtk_dylib = true ]; then
 
-mkdir -p $pkglibdir/pango/$pango_version/modules
-cp $LIBPREFIX/lib/pango/$pango_version/modules/*.so $pkglibdir/pango/$pango_version/modules/
-
-mkdir -p $pkgetcdir/pango
-
-$LIBPREFIX/bin/pango-querymodules \
-    | sed "s?$LIBPREFIX/lib/pango/$pango_version/modules/?@executable_path/../Resources/lib/pango/$pango_version/modules/?" \
-    > $pkgetcdir/pango/pango.modules
-
-mkdir -p $pkgetcdir/fonts
-cp $LIBPREFIX/etc/fonts/fonts.dtd $pkgetcdir/fonts/
-cp -r $LIBPREFIX/etc/fonts/conf.avail $pkgetcdir/fonts/
-cp -r $LIBPREFIX/etc/fonts/conf.d $pkgetcdir/fonts/
-cp fonts.conf $pkgetcdir/fonts
-
-cat > $pkgetcdir/pango/pangorc << END
+    echo "Installing Pango modules"
+    
+    pango_version=`pkg-config --variable=pango_module_version pango`
+    
+    mkdir -p $pkglibdir/pango/$pango_version/modules
+    cp $LIBPREFIX/lib/pango/$pango_version/modules/*.so $pkglibdir/pango/$pango_version/modules/
+    
+    mkdir -p $pkgetcdir/pango
+    
+    $LIBPREFIX/bin/pango-querymodules \
+        | sed "s?$LIBPREFIX/lib/pango/$pango_version/modules/?@executable_path/../Resources/lib/pango/$pango_version/modules/?" \
+        > $pkgetcdir/pango/pango.modules
+    
+    mkdir -p $pkgetcdir/fonts
+    cp $LIBPREFIX/etc/fonts/fonts.dtd $pkgetcdir/fonts/
+    cp -r $LIBPREFIX/etc/fonts/conf.avail $pkgetcdir/fonts/
+    cp -r $LIBPREFIX/etc/fonts/conf.d $pkgetcdir/fonts/
+    cp fonts.conf $pkgetcdir/fonts
+    
+    cat > $pkgetcdir/pango/pangorc << END
 [Pango]
 ModuleFiles=./pango.modules
 END
+
+fi
 
 # ------------------------------------------------------------
 # Install Gtk
 # ------------------------------------------------------------
 
-mkdir -p $pkglibdir/gtk-2.0/$gtk_version/{engines,immodules,loaders}
-mkdir -p $pkgetcdir/gtk-2.0
+if [ $conf_copy_gtk_dylib = true ]; then
 
-cp -r $LIBPREFIX/lib/gtk-2.0/$gtk_version/engines/* $pkglibdir/gtk-2.0/$gtk_version/engines/
-cp $LIBPREFIX/lib/gtk-2.0/$gtk_version/immodules/*.so $pkglibdir/gtk-2.0/$gtk_version/immodules/
-cp $LIBPREFIX/lib/gtk-2.0/$gtk_version/loaders/*.so $pkglibdir/gtk-2.0/$gtk_version/loaders/
+    gtk_version=`pkg-config --variable=gtk_binary_version gtk+-2.0`
+    
+    mkdir -p $pkglibdir/gtk-2.0/$gtk_version/{engines,immodules,loaders}
+    mkdir -p $pkgetcdir/gtk-2.0
+    
+    cp -r $LIBPREFIX/lib/gtk-2.0/$gtk_version/engines/* $pkglibdir/gtk-2.0/$gtk_version/engines/
+    cp $LIBPREFIX/lib/gtk-2.0/$gtk_version/immodules/*.so $pkglibdir/gtk-2.0/$gtk_version/immodules/
+    cp $LIBPREFIX/lib/gtk-2.0/$gtk_version/loaders/*.so $pkglibdir/gtk-2.0/$gtk_version/loaders/
+    
+    sed "s?$LIBPREFIX/lib/gtk-2.0/$gtk_version/loaders/?@executable_path/../Resources/lib/gtk-2.0/$gtk_version/loaders/?" \
+        < $LIBPREFIX/etc/gtk-2.0/gdk-pixbuf.loaders \
+        > $pkgetcdir/gtk-2.0/gdk-pixbuf.loaders
+    
+    sed "s?$LIBPREFIX/lib/gtk-2.0/$gtk_version/immodules/?@executable_path/../Resources/lib/gtk-2.0/$gtk_version/immodules/?" \
+        < $LIBPREFIX/etc/gtk-2.0/gtk.immodules \
+        > $pkgetcdir/gtk-2.0/gtk.immodules
+    
+    ## FIXME:
+    mkdir -p $pkgthemedir/Leopardish-normal
+    cp -r ~/.themes/Leopardish-normal/* $pkgthemedir/Leopardish-normal
+    
+    mkdir -p $pkgthemedir/Quartz
+    cp -r $LIBPREFIX/share/themes/Quartz/gtk-2.0 $pkgthemedir/Quartz
 
-sed "s?$LIBPREFIX/lib/gtk-2.0/$gtk_version/loaders/?@executable_path/../Resources/lib/gtk-2.0/$gtk_version/loaders/?" \
-    < $LIBPREFIX/etc/gtk-2.0/gdk-pixbuf.loaders \
-    > $pkgetcdir/gtk-2.0/gdk-pixbuf.loaders
-
-sed "s?$LIBPREFIX/lib/gtk-2.0/$gtk_version/immodules/?@executable_path/../Resources/lib/gtk-2.0/$gtk_version/immodules/?" \
-    < $LIBPREFIX/etc/gtk-2.0/gtk.immodules \
-    > $pkgetcdir/gtk-2.0/gtk.immodules
-
-## FIXME:
-mkdir -p $pkgthemedir/Leopardish-normal
-cp -r ~/.themes/Leopardish-normal/* $pkgthemedir/Leopardish-normal
-
-mkdir -p $pkgthemedir/Quartz
-cp -r $LIBPREFIX/share/themes/Quartz/gtk-2.0 $pkgthemedir/Quartz
+fi
 
 # ------------------------------------------------------------
 # Install dependencies
@@ -207,7 +222,9 @@ while ! $stop; do
     LIBS=`find $pkgrootdir \( -name "*.so*" -or -name "*.dylib" \) -print`
     EXECS=`find $pkgexecdir -type f -print`
     libs="`otool -L $LIBS $EXECS 2>/dev/null | fgrep compatibility | cut -d\( -f1 | grep $LIBPREFIX | sort | uniq`"
-    cp -f $libs $pkglibdir
+    if [ x$libs != x ] ; then
+        cp -f $libs $pkglibdir
+    fi
     num_files=`ls $pkglibdir | wc -l`
     if [ $num_files = $total ];
     then
