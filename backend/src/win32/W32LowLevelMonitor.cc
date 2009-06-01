@@ -51,9 +51,6 @@ http://msdn2.microsoft.com/en-us/library/ms685100.aspx
 jay satiro, workrave project, september 2007
 */
 
-static const char rcsid[] = "$Id: W32InputMonitor.cc 1317 2007-09-08 18:18:06Z rcaelers $";
-
-
 #include <assert.h>
 #ifdef HAVE_CONFIG_H
 #include "config.h"

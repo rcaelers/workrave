@@ -14,8 +14,6 @@
 // GNU General Public License for more details.
 // 
 
-static const char rcsid[] = "$Id: IdleLogManager.cc 1356 2007-10-22 18:22:13Z rcaelers $";
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif

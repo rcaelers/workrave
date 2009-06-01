@@ -17,8 +17,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-static const char rcsid[] = "$Id: OSXSoundPlayer.cc 1275 2007-08-16 21:30:44Z rcaelers $";
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif

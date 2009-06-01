@@ -17,8 +17,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-static const char rcsid[] = "$Id$";
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -1433,12 +1431,13 @@ GUI::get_timers_tooltip()
               text = Text::time_to_string(activeTime);
             }
 
+#if !defined(PLATFORM_OS_WIN32)
           // Win32 tip is limited in length
           if (tip == "")
             {
               tip = "Workrave";
             }
-
+#endif
           if (tip != "")
             {
               tip += "\n";

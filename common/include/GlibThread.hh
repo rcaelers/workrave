@@ -16,8 +16,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-// $Id: Thread.hh 687 2004-01-28 12:16:46Z dotsphinx $
-//
 
 #ifndef GLIBTHREAD_HH
 #define GLIBTHREAD_HH

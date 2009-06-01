@@ -17,8 +17,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-static const char rcsid[] = "$Id$";
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -463,7 +461,7 @@ X11InputMonitor::handle_xrecord_handle_device_key_event(XRecordInterceptData *da
 {
   TRACE_ENTER("X11InputMonitor::handle_xrecord_handle_device_key_event");
   deviceKeyButtonPointer *event = (deviceKeyButtonPointer *)data->data;
-  static int lastTime = 0;
+  static Time lastTime = 0;
 
   if (event->time != lastTime)
     {
@@ -478,7 +476,7 @@ void
 X11InputMonitor::handle_xrecord_handle_device_motion_event(XRecordInterceptData *data)
 {
   deviceKeyButtonPointer *event = (deviceKeyButtonPointer *)data->data;
-  static int lastTime = 0;
+  static Time lastTime = 0;
 
   if (event->time != lastTime)
     {
@@ -494,7 +492,7 @@ void
 X11InputMonitor::handle_xrecord_handle_device_button_event(XRecordInterceptData *data)
 {
   deviceKeyButtonPointer *event = (deviceKeyButtonPointer *)data->data;
-  static int lastTime = 0;
+  static Time lastTime = 0;
 
   if (event->time != lastTime)
     {

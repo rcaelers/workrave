@@ -604,7 +604,7 @@ DBus::watch_remove(DBusWatch *watch, void *data)
 void
 DBus::watch_toggled(DBusWatch *watch, void *data)
 {
-	if (dbus_watch_get_enabled(watch) == TRUE)
+	if (dbus_watch_get_enabled(watch))
 		watch_add(watch, data);
 	else
 		watch_remove(watch, data);
@@ -677,7 +677,7 @@ DBus::timeout_remove(DBusTimeout *timeout, void *data)
 void
 DBus::timeout_toggled(DBusTimeout *timeout, void *data)
 {
-	if (dbus_timeout_get_enabled(timeout) == TRUE)
+	if (dbus_timeout_get_enabled(timeout))
 		timeout_add(timeout, data);
 	else
 		timeout_remove(timeout, data);

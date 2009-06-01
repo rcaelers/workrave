@@ -16,8 +16,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-// $Id: InputMonitorListenerInterface.hh 527 2005-09-23 19:22:33Z rcaelers $
-//
 
 #ifndef INPUTMONITORLISTENER_HH
 #define INPUTMONITORLISTENER_HH

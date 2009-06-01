@@ -17,8 +17,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-static const char rcsid[] = "$Id$";
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -362,7 +360,7 @@ PreludeWindow::set_stage(IApp::PreludeStage stage)
           int winx, winy;
           get_position(winx, winy);
           set_position(Gtk::WIN_POS_NONE);
-          move (winx, SCREEN_MARGIN);
+          move (winx, head.get_y() + SCREEN_MARGIN);
         }
       break;
     }

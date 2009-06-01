@@ -3,8 +3,6 @@
 #
 # Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
 #
-# $Id$
-#
 
 SUBDIRS = 		gnome_applet kde_applet win32 unix osx
 MAINTAINERCLEANFILES = 	Makefile.in \
@@ -289,7 +287,6 @@ workrave_LDADD =        @WR_LDADD@ @X_LIBS@ @GNOME_LIBS@ @GNOMEMM_LIBS@ \
 			@QT_LDFLAGS@ @LIB_QT@ @DBUS_LIBS@  @IGE_LIBS@ @GSTREAMER_LIBS@ \
 			${X11LIBS} ${WIN32LIBS} @GTK_LIBS@ ${OSXLIBS} ${WIN32CONSOLE}
 
-#  @UUID_LIBS@ 
 # workrave_LINK		= $(LINK) \
 # 			  nm - nos > workrave.dmp \
 # 			  strip workrave$(EXEEXT)

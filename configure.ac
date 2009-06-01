@@ -408,13 +408,6 @@ if test "x$config_distribution" = "xyes"
 then
     PKG_CHECK_MODULES(GNET, gnet-2.0)
     GNET2=yes                          
-
-    dnl OS X doesn't have the pkgconfig file, win32 doesn't have uuid
-    # 1.9.0 stuff
-    #if test "$platform_os_unix" = "yes"
-    #then
-    #    PKG_CHECK_MODULES(UUID, uuid)
-    #fi
 fi
 AC_SUBST(GNET_LIBS)
 AC_SUBST(GNET_CFLAGS)

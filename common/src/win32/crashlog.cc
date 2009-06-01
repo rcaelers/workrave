@@ -18,12 +18,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * $Id: crashlog.c 1356 2007-10-22 18:22:13Z rcaelers $
- *
  * Based on Dr. Mingw. and OpenTTD
  */
-
-static const char rcsid[] = "$Id: crashlog.c 1356 2007-10-22 18:22:13Z rcaelers $";
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"

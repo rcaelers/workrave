@@ -16,8 +16,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-// $Id: GnomeSoundPlayer.hh 1351 2007-10-14 20:56:54Z rcaelers $
-//
 
 #ifndef GSTSOUNDPLAYER_HH
 #define GSTSOUNDPLAYER_HH

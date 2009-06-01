@@ -17,8 +17,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-static const char rcsid[] = "$Id: OSXInputMonitor.cc 1090 2006-10-01 20:49:47Z dotsphinx $";
-
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif

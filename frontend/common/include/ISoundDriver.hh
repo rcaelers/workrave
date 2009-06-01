@@ -16,8 +16,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-// $Id: ISoundDriver.hh 1470 2008-03-09 19:49:45Z rcaelers $
-//
+
 
 #ifndef ISOUNDDRIVER_HH
 #define ISOUNDDRIVER_HH

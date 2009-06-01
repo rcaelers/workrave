@@ -16,8 +16,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-// $Id: MainGtkMenu.hh 1436 2008-02-03 18:03:23Z rcaelers $
-//
 
 #ifndef MAINGTKMENU_HH
 #define MAINGTKMENU_HH

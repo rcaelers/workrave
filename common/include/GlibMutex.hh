@@ -16,8 +16,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-// $Id: debug.hh 650 2006-09-20 17:26:32Z rcaelers $
-//
 
 #ifndef GLIBMUTEX_HH
 #define GLIBMUTEX_HH

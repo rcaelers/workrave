@@ -2,10 +2,6 @@
 #
 # Copyright (C) 2001, 2002, 2003, 2004, 2005, 2007, 2008, 2009 Rob Caelers & Raymond Penners
 #
-# Time-stamp: <2009-05-25 20:09:54 robc>
-#
-# $Id: Makefile.am 1280 2007-08-21 16:23:07Z rcaelers $
-#
 
 MAINTAINERCLEANFILES = 	Makefile.in
 

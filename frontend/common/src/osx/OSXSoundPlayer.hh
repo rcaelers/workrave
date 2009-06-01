@@ -16,8 +16,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-// $Id: OSXSoundPlayer.hh 1230 2007-07-03 15:59:16Z rcaelers $
-//
 
 #ifndef OSXSOUNDPLAYER_HH
 #define OSXSOUNDPLAYER_HH

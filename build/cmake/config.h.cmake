@@ -9,8 +9,13 @@
 
 #cmakedefine HAVE_DBUS
 
+#cmakedefine HAVE_GNET
+
 #cmakedefine HAVE_EXERCISES 
 
+#cmakedefine HAVE_DISTRIBUTION
+
+#cmakedefine HAVE_TESTS
 
 #define HAVE_EXTERN_TIMEZONE 1
 #define HAVE_EXTERN_TIMEZONE_DEFINED 1
@@ -105,9 +110,6 @@
 /* Define to 1 if you have the declaration of `_snwprintf', and to 0 if you
    don't. */
 #define HAVE_DECL__SNWPRINTF 1
-
-/* Define if distributed operation is available */
-/* #undef HAVE_DISTRIBUTION */
 
 /* Define to 1 if you have the <dlfcn.h> header file. */
 /* #undef HAVE_DLFCN_H */

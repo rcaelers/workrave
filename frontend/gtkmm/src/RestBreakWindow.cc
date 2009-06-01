@@ -18,8 +18,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-static const char rcsid[] = "$Id$";
-
 const int TIMEOUT = 1000;
 
 #ifdef HAVE_CONFIG_H
