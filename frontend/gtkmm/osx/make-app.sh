@@ -130,7 +130,7 @@ if [ $conf_symlink = false ]; then
 else
    make install -C ../../../ \
              prefix=$pkgrootdir bindir=$pkgexecdir pkgdatadir=$pkgresourcesdir \
-             datadir=$pkgresourcesdir soundbasesdir=$pkgresourcesdir/sounds \
+             datadir=$pkgresourcesdir soundbasedir=$pkgresourcesdir/sounds \
              INSTALL=`pwd`/install_symlink \
              DATADIRNAME=Contents/Resources > install.log 2>&1
    INSTALL=`pwd`/install_symlink
