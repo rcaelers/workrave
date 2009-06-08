@@ -83,10 +83,13 @@ OSXInputMonitor::run()
       CFNumberGetValue((CFNumberRef)property,
                        kCFNumberSInt64Type, &idle_time);
       CFRelease(property);
-
-      if (idle_time < 1000000)
+      
+      TRACE_MSG(idle_time);
+      
+      if (idle_time < 1000000000)
         {
           fire_action();
+          TRACE_MSG("fire");
         }
 
       g_usleep(500000);
