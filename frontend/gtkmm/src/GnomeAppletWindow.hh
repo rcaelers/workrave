@@ -27,9 +27,6 @@
 
 #include <sigc++/trackable.h>
 
-#include <gnome.h>
-#include <bonobo.h>
-#include <bonobo/bonobo-xobject.h>
 #include <string>
 
 #include <gtkmm/bin.h>
