@@ -26,7 +26,7 @@
 #include <gnome.h>
 #include <panel-applet.h>
 
-#include <gtk/gtkaboutdialog.h>
+#include <gtk/gtk.h>
 #include <gdk/gdkx.h>
 
 #define DBUS_API_SUBJECT_TO_CHANGE

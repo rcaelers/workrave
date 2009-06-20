@@ -2,8 +2,8 @@
 
 #ifdef PLATFORM_OS_UNIX
 
+#include <gdk/gdk.h>
 #include <gdk/gdkx.h>
-#include <gdk/gdkpixmap.h>
 #include <X11/Xatom.h>
 
 

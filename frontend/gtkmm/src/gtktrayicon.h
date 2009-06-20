@@ -20,7 +20,7 @@
 #ifndef __GTK_TRAY_ICON_H__
 #define __GTK_TRAY_ICON_H__
 
-#include "gtk/gtkplug.h"
+#include "gtk/gtk.h"
 
 G_BEGIN_DECLS
 
