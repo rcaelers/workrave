@@ -70,6 +70,10 @@ run(int argc, char **argv)
 int
 main(int argc, char **argv)
 {
+#ifdef PLATFORM_OS_WIN32
+  AllocConsole();
+#endif
+  
   int ret = run(argc, argv);
   return ret;
 }
