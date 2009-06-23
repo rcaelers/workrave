@@ -49,7 +49,8 @@
 #include "IConfigurator.hh"
 #include "ICore.hh"
 #include "CoreFactory.hh"
-  
+
+#include "Exception.hh"
 #include "AppletControl.hh"
 #include "AppletWindow.hh"
 #include "BreakWindow.hh"
@@ -884,7 +885,17 @@ GUI::create_break_window(HeadInfo &head, BreakId break_id, BreakWindow::BreakFla
 void
 GUI::init_sound_player()
 {
-  sound_player = new SoundPlayer(); /* LEAK */
+  TRACE_ENTER("GUI:init_sound_player");
+  try
+    {
+      sound_player = new SoundPlayer(); /* LEAK */
+      sound_player->init();
+    }
+  catch (Exception)
+    {
+      TRACE_MSG("No sound");
+    }
+  TRACE_EXIT();
 }
 
 

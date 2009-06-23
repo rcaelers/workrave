@@ -228,6 +228,7 @@ dnl
 dnl Windows specific checks
 dnl
 
+have_dsound=no
 LIBSTDCPP_LIBS=
 WIN32CONSOLE=
 
@@ -244,10 +245,16 @@ then
     config_gnome=no
     config_gnomemm=no
     config_xml=no
+
+   AC_CHECK_HEADER(dsound.h, [ AC_DEFINE(HAVE_DSOUND, 1, [Define if we have DirectSound])
+                                        have_dsound=yes LIBS="$LIBS -ldsound -luuid -ldxerr8"
+                                     ])
 fi
 
 AC_SUBST(LIBSTDCPP_LIBS)
 AC_SUBST(WIN32CONSOLE)
+
+AM_CONDITIONAL(HAVE_DSOUND, test "$have_dsound" = "yes")
 
 dnl
 dnl OSX specific checks

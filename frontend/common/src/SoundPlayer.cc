@@ -53,6 +53,7 @@
 #elif defined PLATFORM_OS_WIN32
 #include <windows.h>
 #include "W32SoundPlayer.hh"
+#include "W32DirectSoundPlayer.hh"
 #elif defined PLATFORM_OS_OSX
 #include "OSXSoundPlayer.hh"
 #endif
@@ -304,7 +305,7 @@ SoundPlayer::SoundPlayer()
 #elif defined HAVE_KDE
      new KdeSoundPlayer()
 #elif defined PLATFORM_OS_WIN32
-     new W32SoundPlayer()
+     new W32DirectSoundPlayer()
 #elif defined PLATFORM_OS_OSX
      new OSXSoundPlayer()
 #else
@@ -312,7 +313,7 @@ SoundPlayer::SoundPlayer()
      NULL
 #endif
     ;
-  register_sound_events();
+
 }
 
 SoundPlayer::~SoundPlayer()
@@ -320,6 +321,13 @@ SoundPlayer::~SoundPlayer()
   delete driver;
 }
 
+
+void
+SoundPlayer::init()
+{
+  driver->init();
+  register_sound_events();
+}
 
 void
 SoundPlayer::register_sound_events(string theme)
