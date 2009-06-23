@@ -33,7 +33,6 @@
 #include <mmreg.h>
 #include <dxerr8.h>
 #include <dsound.h>
-#include "dsutil.hh"
 
 #include "W32DirectSoundPlayer.hh"
 
