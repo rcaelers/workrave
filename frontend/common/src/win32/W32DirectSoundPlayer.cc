@@ -34,6 +34,7 @@
 #include <dxerr8.h>
 #include <dsound.h>
 
+#include <glib.h>
 #include "W32DirectSoundPlayer.hh"
 
 #include "CoreFactory.hh"
