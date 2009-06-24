@@ -104,8 +104,6 @@ int WINAPI WinMain (HINSTANCE hInstance,
 
 #ifndef NDEBUG 
       //#ifdef PLATFORM_OS_WIN32_NATIVE
-	AllocConsole();
-
 	FILE* hf_out = fopen("c:\\temp\\out", "w");
   if (hf_out != NULL) 
     {
