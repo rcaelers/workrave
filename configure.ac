@@ -239,6 +239,8 @@ then
     if test "x$config_debug" != "xyes"
     then
         WIN32CONSOLE=-mwindows
+    else
+        WIN32CONSOLE=-mconsole
     fi
 
     config_gconf=no
@@ -247,7 +249,7 @@ then
     config_xml=no
 
    AC_CHECK_HEADER(dsound.h, [ AC_DEFINE(HAVE_DSOUND, 1, [Define if we have DirectSound])
-                                        have_dsound=yes LIBS="$LIBS -ldsound -luuid -ldxerr8"
+                                        have_dsound=yes LIBS="$LIBS -ldsound -luuid -ldxguid -ldxerr8"
                                      ])
 fi
 

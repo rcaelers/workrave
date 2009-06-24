@@ -65,7 +65,7 @@ public:
   size_t get_size();
   
   void  reset_file();
-  WAVEFORMATEX *get_format() { return wfx; };
+  WAVEFORMATEX *get_format() { return &format; };
 
 private:
   std::string filename;
@@ -73,7 +73,6 @@ private:
   WAVEFORMATEX format;
   MMCKINFO child;
   MMCKINFO parent;
-  WAVEFORMATEX *wfx;
   DWORD sample_size;
 };
 
@@ -85,7 +84,8 @@ public:
   virtual ~SoundClip();
 
   void init();
-  void play();
+  void play(bool sync = false);
+  void set_volume(int volume);
 
 private:
 
@@ -99,6 +99,7 @@ private:
   WaveFile *wave_file;
   LPDIRECTSOUNDBUFFER sound_buffer;
   DWORD sound_buffer_size;
+  HANDLE stop_event;
 };
 
 

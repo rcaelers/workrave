@@ -9,7 +9,6 @@
 // (at your option) any later version.
 //
 // This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
@@ -25,6 +24,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 #define STRICT
 #include <windows.h>
@@ -41,8 +41,6 @@
 #include "SoundPlayer.hh"
 #include "Exception.hh"
 #include "Util.hh"
-
-//#include "dsutil.hh"
 
 #define	SAMPLE_BITS		    (8)
 #define	WAVE_BUFFER_SIZE  (4096)
@@ -128,7 +126,6 @@ void
 W32DirectSoundPlayer::init()
 {
   HRESULT             hr = S_OK;
-  LPDIRECTSOUNDBUFFER primary_sound_buffer = NULL;
 
   if (direct_sound != NULL)
     {
@@ -149,40 +146,6 @@ W32DirectSoundPlayer::init()
         {
           throw Exception(string("IDirectSound_SetCooperativeLevel") + DXGetErrorString8(hr));
         }
-
-      DSBUFFERDESC dsbd;
-      ZeroMemory(&dsbd, sizeof(DSBUFFERDESC));
-      dsbd.dwSize        = sizeof(DSBUFFERDESC);
-      dsbd.dwFlags       = DSBCAPS_PRIMARYBUFFER;
-      dsbd.dwBufferBytes = 0;
-      dsbd.lpwfxFormat   = NULL;
-
-      hr = direct_sound->CreateSoundBuffer(&dsbd, &primary_sound_buffer, NULL);
-      if (FAILED(hr))
-        {
-          throw Exception(string("IDirectSound_CreateSoundBuffer") + DXGetErrorString8(hr));
-        }
-      
-      WAVEFORMATEX wfx;
-      ZeroMemory(&wfx, sizeof(WAVEFORMATEX));
-      wfx.wFormatTag      = WAVE_FORMAT_PCM; 
-      wfx.nChannels       = (WORD) 2; 
-      wfx.nSamplesPerSec  = (DWORD) 44100; 
-      wfx.wBitsPerSample  = (WORD) 16; 
-      wfx.nBlockAlign     = (WORD) (wfx.wBitsPerSample / 8 * wfx.nChannels);
-      wfx.nAvgBytesPerSec = (DWORD) (wfx.nSamplesPerSec * wfx.nBlockAlign);
-
-      hr = primary_sound_buffer->SetFormat(&wfx);
-      if (FAILED(hr))
-        {
-          throw Exception(string("IDirectSoundBuffer_SetFormat") + DXGetErrorString8(hr));
-        }
-      
-      if (primary_sound_buffer != NULL)
-        {
-          primary_sound_buffer->Release();
-          primary_sound_buffer = NULL;
-        }
     }
   catch (Exception)
     {
@@ -190,12 +153,6 @@ W32DirectSoundPlayer::init()
         {
           direct_sound->Release();
           direct_sound = NULL;
-        }
-
-      if (primary_sound_buffer != NULL)
-        {
-          primary_sound_buffer->Release();
-          primary_sound_buffer = NULL;
         }
       
       throw;
@@ -225,11 +182,6 @@ W32DirectSoundPlayer::capability(SoundPlayer::SoundCapability cap)
   return false;
 }
 
-/*
-thread routine changed
-jay satiro, workrave project, june 2007
-redistribute under GNU terms.
-*/
 
 void
 W32DirectSoundPlayer::play_sound(string wavfile)
@@ -244,8 +196,7 @@ W32DirectSoundPlayer::play_sound(string wavfile)
     {
       DWORD id;
       sound_filename = wavfile;
-      // CloseHandle(CreateThread(NULL, 0, play_thread, this, 0, &id));
-      play();
+      CloseHandle(CreateThread(NULL, 0, play_thread, this, 0, &id));
     }
 
   TRACE_EXIT();
@@ -374,9 +325,15 @@ W32DirectSoundPlayer::play()
 
   try
     {
+      int volume = 100;
+      CoreFactory::get_configurator()->get_value(SoundPlayer::CFG_KEY_SOUND_VOLUME, volume);
+
       SoundClip *clip = new SoundClip(direct_sound, sound_filename);
       clip->init();
-      clip->play();
+      clip->set_volume(100);
+      clip->play(true);
+
+      delete clip;
     }
   catch(Exception e)
     {
@@ -399,6 +356,7 @@ SoundClip::SoundClip(LPDIRECTSOUND8 direct_sound, const string &filename)
   wave_file = NULL;
   sound_buffer = NULL;
   sound_buffer_size = NULL;
+  stop_event = NULL;
 }
 
 
@@ -409,6 +367,11 @@ SoundClip::~SoundClip()
       sound_buffer->Release();
     }
 
+  if (stop_event != NULL)
+    {
+      CloseHandle(stop_event);
+    }
+  
   delete wave_file;
 }
 
@@ -430,7 +393,7 @@ SoundClip::init()
       DSBUFFERDESC dsbd;
       ZeroMemory(&dsbd, sizeof(DSBUFFERDESC));
       dsbd.dwSize          = sizeof(DSBUFFERDESC);
-      dsbd.dwFlags         = 0;
+      dsbd.dwFlags         = DSBCAPS_CTRLVOLUME | DSBCAPS_GLOBALFOCUS | DSBCAPS_CTRLPOSITIONNOTIFY;
       dsbd.dwBufferBytes   = sound_buffer_size;
       dsbd.guid3DAlgorithm = GUID_NULL;
       dsbd.lpwfxFormat     = wave_file->get_format();
@@ -441,6 +404,25 @@ SoundClip::init()
           throw Exception(string("IDirectSoundBuffer_CreateSoundBuffer") + DXGetErrorString8(hr));
         }
 
+      LPDIRECTSOUNDNOTIFY8 notify;
+      hr = sound_buffer->QueryInterface(IID_IDirectSoundNotify8, (LPVOID*)&notify);
+      if (FAILED(hr))
+        {
+          throw Exception(string("IDirectSoundBuffer_QueryInterface IDirectSoundNotify"));
+        }
+
+      stop_event = CreateEvent(0, false, false, 0);
+
+      DSBPOSITIONNOTIFY pn;
+      pn.dwOffset = DSBPN_OFFSETSTOP;
+      pn.hEventNotify = stop_event;
+      
+      hr = notify->SetNotificationPositions(1, &pn);
+      if (FAILED(hr))
+        {
+          throw Exception(string("IDirectSoundNotify_SetPositionNotify") + DXGetErrorString8(hr));
+        }
+      
       fill_buffer();
     }
   catch(Exception)
@@ -450,6 +432,7 @@ SoundClip::init()
           sound_buffer->Release();
           sound_buffer = NULL;
         }
+      throw;
     }
 
   TRACE_EXIT();
@@ -459,33 +442,32 @@ SoundClip::init()
 void
 SoundClip::fill_buffer()
 {
-    HRESULT hr; 
-    VOID *locked_sound_buffer = NULL;
-    DWORD locked_sound_buffer_size = 0;
+  HRESULT hr; 
+  VOID *locked_sound_buffer = NULL;
+  DWORD locked_sound_buffer_size = 0;
 
-    TRACE_ENTER("SoundClip::fill_buffer");
+  restore_buffer();
 
-    restore_buffer();
+  hr = sound_buffer->Lock(0, sound_buffer_size, 
+                          &locked_sound_buffer, &locked_sound_buffer_size, 
+                          NULL, NULL, 0L);
+  if (FAILED(hr))
+    {
+      throw Exception(string("IDirectSoundBuffer_Lock") + DXGetErrorString8(hr));
+    }
 
-    hr = sound_buffer->Lock(0, sound_buffer_size, 
-                            &locked_sound_buffer, &locked_sound_buffer_size, 
-                            NULL, NULL, 0L);
-    if (FAILED(hr))
-      {
-        throw Exception(string("IDirectSoundBuffer_Lock") + DXGetErrorString8(hr));
-      }
+  wave_file->reset_file();
+  int bytes_read = wave_file->read((BYTE*)locked_sound_buffer, locked_sound_buffer_size);
 
-    wave_file->reset_file();
-    int bytes_read = wave_file->read((BYTE*)locked_sound_buffer, locked_sound_buffer_size);
-    
-    FillMemory((BYTE*) locked_sound_buffer + bytes_read, 
-               locked_sound_buffer_size - bytes_read, 
-               (BYTE)(wave_file->get_format()->wBitsPerSample == 8 ? 128 : 0));
-
-    sound_buffer->Unlock(locked_sound_buffer, locked_sound_buffer_size, NULL, 0);
-    sound_buffer->SetCurrentPosition(0);
-
-    TRACE_EXIT();
+  if (locked_sound_buffer_size - bytes_read > 0)
+    {
+      FillMemory((BYTE*) locked_sound_buffer + bytes_read, 
+                 locked_sound_buffer_size - bytes_read, 
+                 (BYTE)(wave_file->get_format()->wBitsPerSample == 8 ? 128 : 0));
+    }
+  
+  sound_buffer->Unlock(locked_sound_buffer, locked_sound_buffer_size, NULL, 0);
+  sound_buffer->SetCurrentPosition(0);
 }
 
 
@@ -508,7 +490,6 @@ SoundClip::is_buffer_lost()
 void
 SoundClip::restore_buffer()
 {
-  TRACE_ENTER("SoundClip::restore_buffer");
   HRESULT hr = S_OK;
   do 
     {
@@ -517,30 +498,49 @@ SoundClip::restore_buffer()
         Sleep(10);
     }
   while (hr != S_OK);
-  TRACE_EXIT();
 }
 
 
 void
-SoundClip::play()
+SoundClip::play(bool sync)
 {
-  TRACE_ENTER("SoundClip::play");
-
   if (is_buffer_lost())
     {
       fill_buffer();
     }
 
-    sound_buffer->Play(0, 0, 0);
-    TRACE_EXIT();
+  HRESULT hr = sound_buffer->Play(0, 0, 0);
+
+  if (sync)
+    {
+      WaitForSingleObject(stop_event, INFINITE);
+    }
 }
 
+
+void
+SoundClip::set_volume(int volume)
+{
+  long dsVolume;
+  
+  if (volume == 0)
+    {
+      dsVolume = -10000;
+    }
+  else
+    {
+      dsVolume = 100 * (long) (20 * log10((double) volume / 100.0));
+    }
+  
+  dsVolume = CLAMP(dsVolume, -10000, 0);
+
+  sound_buffer->SetVolume(dsVolume);
+}
 
 WaveFile::WaveFile(const string &filename)
   : filename(filename)
 {
   mmio = NULL;
-  wfx = NULL;
 }
 
 
@@ -551,11 +551,6 @@ WaveFile::~WaveFile()
       mmioClose(mmio, 0);
       mmio = NULL;
     }
-  if (wfx != NULL)
-    {
-      delete wfx;
-      wfx = NULL;
-    }
 }
 
 
@@ -564,8 +559,6 @@ WaveFile::init()
 {
   MMRESULT res;
 
-  TRACE_ENTER("WaveFile::init");
-  
   mmio = mmioOpen((CHAR*)filename.c_str(), NULL, MMIO_ALLOCBUF | MMIO_READ);
   if (mmio == NULL)
     {
@@ -587,7 +580,7 @@ WaveFile::init()
 
   memset((void *)&child, 0, sizeof(child));
 
-  parent.ckid = mmioFOURCC('f', 'm', 't', ' '); // child????
+  child.ckid = mmioFOURCC('f', 'm', 't', ' ');
   
   res = mmioDescend(mmio, &child, &parent, MMIO_FINDCHUNK);
   if (res != MMSYSERR_NOERROR)
@@ -609,30 +602,17 @@ WaveFile::init()
     {
       throw Exception("format supported");
     }
-
-  wfx = (WAVEFORMATEX*) new char[sizeof(WAVEFORMATEX)];
-  memcpy(wfx, &format, sizeof(format));
-  wfx->cbSize = 0;
+  format.cbSize = 0;
 
   res = mmioAscend(mmio, &child, 0);
   if (res != MMSYSERR_NOERROR)
     {
       throw Exception("mmioAscend");
     }
-
-  res = mmioAscend(mmio, &child, 0);
-  if (res != MMSYSERR_NOERROR)
-    {
-      throw Exception("mmioAscend");
-    }
-
-  memset((void *)&child, 0, sizeof(child));
 
   reset_file();
 
   sample_size = child.cksize;
-
-  TRACE_EXIT();
 }
 
 size_t
@@ -644,34 +624,29 @@ WaveFile::get_size()
 void
 WaveFile::reset_file()
 {
-  TRACE_ENTER("WaveFile::reset_file");
-  
   if (-1 == mmioSeek(mmio, parent.dwDataOffset + sizeof(FOURCC), SEEK_SET))
     {
       throw Exception("mmioAscend");
     }
 
-  parent.ckid = mmioFOURCC('d', 'a', 't', 'a');
+  memset((void *)&child, 0, sizeof(child));
+  child.ckid = mmioFOURCC('d', 'a', 't', 'a');
   if (0 != mmioDescend(mmio, &child, &parent, MMIO_FINDCHUNK))
     {
       throw Exception("mmioAscend");
     }
-
-  TRACE_EXIT();
 }
 
 size_t
 WaveFile::read(BYTE *buffer, size_t size)
 {
-  TRACE_ENTER("WaveFile::read");
-  
   MMRESULT res;
 
   MMIOINFO mmioInfo;
   res = mmioGetInfo(mmio, &mmioInfo, 0);
   if (res != MMSYSERR_NOERROR)
     {
-      throw Exception("mmioAscend");
+      throw Exception("mmioGetInfo");
     }
   
   int pos = 0;
@@ -694,6 +669,5 @@ WaveFile::read(BYTE *buffer, size_t size)
 
     } while (pos < (int)size && mmioAdvance(mmio, &mmioInfo, MMIO_READ) == 0);
 
-  TRACE_EXIT();
   return pos;
 }
