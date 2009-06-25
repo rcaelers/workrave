@@ -236,7 +236,8 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
     {
       back_button =  Gtk::manage(new Gtk::Button(Gtk::Stock::GO_BACK));
       forward_button =  Gtk::manage(new Gtk::Button(Gtk::Stock::GO_FORWARD));
-
+      stop_button = NULL;
+      
       dialog_action_area->pack_start(*back_button, false, false, 0);
       dialog_action_area->pack_start(*pause_button, false, false, 0);
       dialog_action_area->pack_start(*forward_button, false, false, 0);
@@ -295,7 +296,11 @@ ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
   tooltips->set_tip( *back_button, _("Previous exercise") );
   tooltips->set_tip( *forward_button, _("Next exercise") );
   tooltips->set_tip( *pause_button, _("Pause exercises") );
-  tooltips->set_tip( *stop_button, _("End exercises") );
+
+  if (stop_button != NULL)
+    {
+      tooltips->set_tip( *stop_button, _("End exercises") );
+    }
   tooltips->enable();
 
   pack_start(image_frame, false, false, 0);
