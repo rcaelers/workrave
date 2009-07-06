@@ -331,7 +331,7 @@ W32DirectSoundPlayer::play()
 
       SoundClip *clip = new SoundClip(direct_sound, sound_filename);
       clip->init();
-      clip->set_volume(100);
+      clip->set_volume(volume);
       clip->play(true);
 
       delete clip;
