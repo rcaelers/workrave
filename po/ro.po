@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2009-01-28 19:33+0100\n"
+"POT-Creation-Date: 2009-07-20 18:23+0200\n"
 "PO-Revision-Date: 2008-11-26 19:08+0100\n"
 "Last-Translator: alexxed <alexxed@gmail.com>\n"
 "Language-Team: Romanian <LL@li.org>\n"
@@ -159,55 +159,55 @@ msgid "Could not connect to client %s:%d."
 msgstr "Nu se poate efectua conexiunea cu clientul %s:%d."
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
-#: ../frontend/common/src/SoundPlayer.cc:83
+#: ../frontend/common/src/SoundPlayer.cc:82
 msgid "Break ignored"
 msgstr "Pauză ignorată"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:2
-#: ../frontend/common/src/SoundPlayer.cc:77
+#: ../frontend/common/src/SoundPlayer.cc:76
 msgid "Break prompt"
 msgstr "Pauză sugerată"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
-#: ../frontend/common/src/SoundPlayer.cc:114
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:50
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:58
-#: ../frontend/gtkmm/src/GUI.cc:1388 ../frontend/gtkmm/src/GtkUtil.cc:163
+#: ../frontend/common/src/SoundPlayer.cc:113
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:48
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:56
+#: ../frontend/gtkmm/src/GUI.cc:1399 ../frontend/gtkmm/src/GtkUtil.cc:161
 msgid "Daily limit"
 msgstr "Limită zilnică"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:4
-#: ../frontend/common/src/SoundPlayer.cc:132
+#: ../frontend/common/src/SoundPlayer.cc:131
 msgid "Exercise change"
 msgstr "Schimbare de exercițiu"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:5
-#: ../frontend/common/src/SoundPlayer.cc:120
+#: ../frontend/common/src/SoundPlayer.cc:119
 msgid "Exercise ended"
 msgstr "Exercițiul s-a încheiat"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:6
-#: ../frontend/common/src/SoundPlayer.cc:126
+#: ../frontend/common/src/SoundPlayer.cc:125
 msgid "Exercises ended"
 msgstr "Exercițiile s-au încheiat"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:7
-#: ../frontend/common/src/SoundPlayer.cc:108
+#: ../frontend/common/src/SoundPlayer.cc:107
 msgid "Micro-break ended"
 msgstr "Micropauza s-a încheiat"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:8
-#: ../frontend/common/src/SoundPlayer.cc:102
+#: ../frontend/common/src/SoundPlayer.cc:101
 msgid "Micro-break started"
 msgstr "Micropauza a început"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:9
-#: ../frontend/common/src/SoundPlayer.cc:96
+#: ../frontend/common/src/SoundPlayer.cc:95
 msgid "Rest break ended"
 msgstr "Pauza de odihnă s-a încheiat"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:10
-#: ../frontend/common/src/SoundPlayer.cc:89
+#: ../frontend/common/src/SoundPlayer.cc:88
 msgid "Rest break started"
 msgstr "Pauza de odihnă a început"
 
@@ -216,42 +216,42 @@ msgstr "Pauza de odihnă a început"
 msgid "Workrave"
 msgstr "Workrave"
 
-#: ../frontend/common/src/SoundPlayer.cc:567
+#: ../frontend/common/src/SoundPlayer.cc:576
 msgid "Custom"
 msgstr "Particularizat"
 
-#: ../frontend/common/src/Text.cc:80
+#: ../frontend/common/src/Text.cc:78
 #, c-format
 msgid "%s%d:%02d:%02d hours"
 msgstr "%s%d:%02d:%02d ore"
 
-#: ../frontend/common/src/Text.cc:84
+#: ../frontend/common/src/Text.cc:82
 #, c-format
 msgid "%s%d:%02d minutes"
 msgstr "%s%d:%02d minute"
 
-#: ../frontend/common/src/Text.cc:88
+#: ../frontend/common/src/Text.cc:86
 #, c-format
 msgid "%s%d seconds"
 msgstr "%s%d secunde"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:298
+#: ../frontend/gtkmm/src/BreakWindow.cc:296
 msgid "Lock"
 msgstr "Blochează"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:317
+#: ../frontend/gtkmm/src/BreakWindow.cc:315
 msgid "Shut down"
 msgstr "Închidere"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:334
+#: ../frontend/gtkmm/src/BreakWindow.cc:332
 msgid "Skip"
 msgstr "Sari peste"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:347
+#: ../frontend/gtkmm/src/BreakWindow.cc:345
 msgid "Postpone"
 msgstr "Amână"
 
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:59
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:57
 msgid ""
 "You have reached your daily limit. Please stop working\n"
 "behind the computer. If your working day is not over yet,\n"
@@ -263,296 +263,296 @@ msgstr ""
 "revizuirea unui document."
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1388 ../frontend/gtkmm/src/GtkUtil.cc:163
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:56
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:176
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:274
+#: ../frontend/gtkmm/src/GUI.cc:1399 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:54
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:174
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:272
 msgid "Micro-break"
 msgstr "Micropauză"
 
-#: ../frontend/gtkmm/src/GUI.cc:1388 ../frontend/gtkmm/src/GtkUtil.cc:163
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:149
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:84
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:217
+#: ../frontend/gtkmm/src/GUI.cc:1399 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:147
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:82
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:215
 msgid "Rest break"
 msgstr "Pauză de odihnă"
 
-#: ../frontend/gtkmm/src/GUI.cc:1401 ../frontend/gtkmm/src/GUI.cc:1405
+#: ../frontend/gtkmm/src/GUI.cc:1412 ../frontend/gtkmm/src/GUI.cc:1416
 #, fuzzy
 msgid "Mode: "
 msgstr "_Mod"
 
-#: ../frontend/gtkmm/src/GUI.cc:1401
+#: ../frontend/gtkmm/src/GUI.cc:1412
 #, fuzzy
 msgid "Suspended"
 msgstr "_Suspendat"
 
-#: ../frontend/gtkmm/src/GUI.cc:1405
+#: ../frontend/gtkmm/src/GUI.cc:1416
 #, fuzzy
 msgid "Quiet"
 msgstr "_Silențios"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:98
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:173
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:96
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:96
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:171
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:94
 msgid "_Rest break"
 msgstr "_Pauză de odihnă"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:141
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:139
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:117
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:115
 msgid "_Mode"
 msgstr "_Mod"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:143
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:141
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:99
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:97
 msgid "_Normal"
 msgstr "_Normal"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:146
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:144
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:105
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:103
 msgid "_Suspended"
 msgstr "_Suspendat"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:149
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:111
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:147
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:109
 msgid "Q_uiet"
 msgstr "_Silențios"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:154
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:152
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:136
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:134
 msgid "_Network"
 msgstr "_Rețea"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:155
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:120
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:153
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:118
 msgid "_Connect"
 msgstr "_Conectare"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:157
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:155
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:123
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:121
 msgid "_Disconnect"
 msgstr "_Deconectare"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:159
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:157
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:127
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:125
 msgid "_Reconnect"
 msgstr "_Reconectare"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:161
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:130
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:159
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:128
 msgid "Show _log"
 msgstr "Arată jurna_lul"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:183
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:97
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:45
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:181
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:95
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:44
 msgid "Exercises"
 msgstr "Exerciții"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:188
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:138
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:64
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:152
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:186
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:136
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:63
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:151
 msgid "Statistics"
 msgstr "Statistici"
 
-#: ../frontend/gtkmm/src/Menus.cc:347
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:359
+#: ../frontend/gtkmm/src/Menus.cc:345
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:357
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
 msgstr "Acest program vă asistă la prevenirea Repetitive Strain Injury (RSI)."
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:236
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:234
 msgid "Please relax for a few seconds"
 msgstr "Relaxați-vă pentru câteva secunde"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:243
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:241
 #, c-format
 msgid "Next rest break in %s"
 msgstr "Următoarea pauză de odihnă în %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:248
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:246
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "Pauză de odihnă amânată cu %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:261
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:259
 #, c-format
 msgid "Daily limit in %s"
 msgstr "Limita zilnică în %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:266
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:264
 #, c-format
 msgid "Daily limit %s overdue"
 msgstr "Limita zilnică amânată cu %s"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:73
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:95
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:72
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:93
 msgid "Preferences"
 msgstr "Preferințe"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:88
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:117
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:93
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:116
 msgid "General"
 msgstr "General"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:93
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:98
 msgid "Sounds"
 msgstr "Sunete"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:97
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:102
 msgid "Status Window"
 msgstr "Fereastra de stare"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:101
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:106
 msgid "Applet"
 msgstr "Applet"
 
 #. Notebook
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:109
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:165
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:198
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:114
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:163
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:197
 msgid "Timers"
 msgstr "Cronometre"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:110
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:115
 msgid "User interface"
 msgstr "Interfața cu utilizatorul"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:112
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:117
 msgid "Network"
 msgstr "Rețea"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:163
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:168
 msgid "No blocking"
 msgstr "Fără blocare"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:165
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:170
 msgid "Block input"
 msgstr "Blochează dispozitivele de intrare"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:167
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:172
 msgid "Block input and screen"
 msgstr "Blochează dispozitivele de intrare și ecranul"
 
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:186
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:141
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:191
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:140
 msgid "Options"
 msgstr "Opțiuni"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:188
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:193
 msgid "Block mode:"
 msgstr "Mod de blocare:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:208
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:213
 msgid "System default"
 msgstr "Definit de sistem"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:248
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:253
 msgid "(font not available)"
 msgstr "(font indisponibil)"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:273
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:278
 msgid "Language:"
 msgstr "Limbă:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:277
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:282
 msgid "Start Workrave on Windows startup"
 msgstr "Pornește Workrave odată cu Windows"
 
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:300
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:305
 msgid "Sound Options"
 msgstr "Opțiuni legate de sunet"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:308
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:313
 msgid "No sounds"
 msgstr "Fără sunete"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:310
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:315
 msgid "Play sounds using sound card"
 msgstr "Redă sunetele folosind placa de sunet"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:312
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:317
 msgid "Play sounds using built-in speaker"
 msgstr "Redă sunetele folosind difuzorul integrat"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:336
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:341
 msgid "Volume:"
 msgstr "Volum:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:339
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:344
 msgid "Sound:"
 msgstr "Sunet:"
 
 #. Sound themes
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:345
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:350
 msgid "Sound Events"
 msgstr "Evenimente sonore"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:355
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:360
 msgid "Sound Theme:"
 msgstr "Tema sunetelor:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:378
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:396
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:418
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:383
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:401
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:422
 msgid "Play"
 msgstr "Redare"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:383
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:388
 msgid "Event"
 msgstr "Eveniment"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:399
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:404
 msgid "Choose a sound"
 msgstr "Alegeți un sunet"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:407
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:411
 msgid "Wavefiles"
 msgstr "Fișiere wav"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:112
+#: ../frontend/gtkmm/src/PreludeWindow.cc:110
 msgid "Time for a micro-break?"
 msgstr "E timpul pentru o micropauză?"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:116
+#: ../frontend/gtkmm/src/PreludeWindow.cc:114
 msgid "You need a rest break..."
 msgstr "Aveți nevoie de o pauză de odihnă..."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:120
+#: ../frontend/gtkmm/src/PreludeWindow.cc:118
 msgid "You should stop for today..."
 msgstr "Ar trebui să încheiați pe ziua de azi..."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:320
+#: ../frontend/gtkmm/src/PreludeWindow.cc:318
 #, c-format
 msgid "Break in %s"
 msgstr "Pauză în %s"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:324
+#: ../frontend/gtkmm/src/PreludeWindow.cc:322
 #, c-format
 msgid "Disappears in %s"
 msgstr "Dispare în %s"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:328
+#: ../frontend/gtkmm/src/PreludeWindow.cc:326
 #, c-format
 msgid "Silent in %s"
 msgstr "Silețions în %s"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:179
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:177
 #, c-format
 msgid "Rest break for %s"
 msgstr "Pauză de odihnă pentru %s"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:218
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:216
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -563,126 +563,126 @@ msgstr ""
 "Pur și simplu plimbați-vă câteva minute, întindeți-vă mâinile, picioarele și "
 "gâtul; relaxați-vă."
 
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:191
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:189
 msgid "Take rest break now"
 msgstr "Luați o pauză de odihnă acum"
 
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:213
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:211
 msgid "Wait"
 msgstr "Așteaptă"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:98
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:96
 msgid "Place timers next to each other"
 msgstr "Plasează cronometrele unul lângă altul"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:100
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:98
 msgid "Place micro-break and rest break in one spot"
 msgstr "Plasează micropauza și pauza de odihnă în același loc"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:102
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:100
 msgid "Place rest break and daily limit in one spot"
 msgstr "Plasează pauza de odihnă și limita zilnică în același loc"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:104
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:102
 msgid "Place all timers in one spot"
 msgstr "Plasează toate cronometrele în același loc"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:124
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:122
 msgid "Hide"
 msgstr "Ascunde"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:126
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:124
 msgid "Show"
 msgstr "Arată"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:128
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:126
 msgid "Show only when this timer is first due"
 msgstr "Arată numai când cronometrul acesta e primul care expiră"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:136
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:134
 msgid "Show status window"
 msgstr "Arată fereastra de stare"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:141
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:139
 msgid "The status window stays always on top of other windows"
 msgstr "Fereastra de stare stă întotdeauna deasupra celorlalte ferestre"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:147
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:145
 msgid "Applet enabled"
 msgstr "Applet activat"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:153
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:151
 msgid "Display"
 msgstr "Afișare"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:162
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:160
 msgid "Placement:"
 msgstr "Plasament:"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:163
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:161
 msgid "Cycle time:"
 msgstr "Timp ciclic:"
 
 #. Layout
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:168
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:166
 msgid "Micro-break:"
 msgstr "Micropauză:"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:169
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:167
 msgid "Rest break:"
 msgstr "Pauză de odihnă:"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:170
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:168
 msgid "Daily limit:"
 msgstr "Limită zilnică:"
 
 #. Enabled/Disabled checkbox
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:69
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:68
 msgid "Enable timer"
 msgstr "Activează cronometrul"
 
 #. Prelude frame
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:110
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:109
 msgid "Break prompting"
 msgstr "Sugerarea pauzei"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:112
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:111
 msgid "Prompt before breaking"
 msgstr "Sugerează înainte de pauză"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:116
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:115
 msgid "Maximum number of prompts:"
 msgstr "Numărul maxim de sugerări:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:145
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:144
 msgid "Show 'Postpone' and 'Skip' button"
 msgstr "Arată butoanele „Amână” și „Sari peste”"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:150
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:149
 msgid "Suspend timer when inactive"
 msgstr "Suspendă cronometrul când e inactiv"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:163
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:162
 msgid "Regard micro-breaks as activity"
 msgstr "Tratează micropauzele ca activitate"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:172
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:171
 msgid "Number of exercises:"
 msgstr "Numărul de exerciții:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:203
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:202
 msgid "Time before end:"
 msgstr "Timp de terminare:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:204
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:203
 msgid "Time between breaks:"
 msgstr "Timp între pauze:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:211
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:210
 msgid "Break duration:"
 msgstr "Durata pauzei:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:226
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:225
 msgid "Postpone time:"
 msgstr "Amânare cu:"
 
@@ -743,16 +743,16 @@ msgstr "_Statistici"
 msgid "Workrave Applet"
 msgstr "Applet Workrave"
 
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:139
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:137
 msgid "About..."
 msgstr "Despre..."
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:56
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:75
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:55
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:74
 msgid "Network connect"
 msgstr "Conectare la rețea"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:76
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:75
 msgid ""
 "Enter the host name and port number of a computer\n"
 "in the network you wish to connect to."
@@ -760,55 +760,55 @@ msgstr ""
 "Introduceți numele gazdei și numărul portului calculatorului\n"
 "din rețea la care doriți să vă conectați."
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:88
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:87
 msgid "Host name:"
 msgstr "Numele gazdei:"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:89
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:88
 msgid "Port:"
 msgstr "Port:"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkLogDialog.cc:50
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkLogDialog.cc:49
 msgid "Network log"
 msgstr "Jurnal de rețea"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:97
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:96
 msgid "Enable networking"
 msgstr "Activează lucrul cu rețeaua"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:104
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:103
 msgid "Username:"
 msgstr "Nume de utilizator:"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:105
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:104
 msgid "Password:"
 msgstr "Parolă:"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:112
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:111
 msgid "Allow incoming connections"
 msgstr "Permite conexiunile din exterior"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:130
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:129
 msgid "Server settings"
 msgstr "Setări legate de server"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:152
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:151
 msgid "Server port:"
 msgstr "Portul serverului:"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:153
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:152
 msgid "Reconnect attempts:"
 msgstr "Încercări de reconectare:"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:154
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:153
 msgid "Reconnect interval:"
 msgstr "Interval de reconectare:"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:157
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:156
 msgid "Advanced"
 msgstr "Avansat"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:174
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:173
 msgid ""
 "The following list specifies the hosts that Workrave connects to on\n"
 "start-up. Click the host name or port number to edit."
@@ -817,15 +817,15 @@ msgstr ""
 "pornire.\n"
 "Clic pe numele gazdei sau numărul portului pentru a le schimba."
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:203
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:202
 msgid "Host name"
 msgstr "Numele gazdei"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:211
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:210
 msgid "Port"
 msgstr "Port"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:248
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:247
 msgid "Hosts"
 msgstr "Gazde"
 
@@ -982,32 +982,32 @@ msgstr ""
 "Întoarceți-vă capul spre stânga și țineți-l așa 2 secunde. Apoi întoarceți-"
 "vă capul spre dreapta și țineți-l așa 2 secunde."
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:262
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:261
 msgid "Exercises player"
 msgstr "Program de redare a exercițiilor"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:298
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:296
 msgid "Previous exercise"
 msgstr "Exercițiul precedent"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:299
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:297
 msgid "Next exercise"
 msgstr "Următorul exercițiu"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:300
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:298
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:484
 msgid "Pause exercises"
 msgstr "Pune exercițiile pe pauză"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:301
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:302
 msgid "End exercises"
 msgstr "Încheie exercițiile"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:476
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:477
 msgid "Resume"
 msgstr "Continuă"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:476
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:477
 msgid "Pause"
 msgstr "Pauză"
 
@@ -1015,23 +1015,23 @@ msgstr "Pauză"
 msgid "Resume exercises"
 msgstr "Reia exercițiile"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:146
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:145
 msgid "Browse history"
 msgstr "Răsfoiește istoricul"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:153
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:152
 msgid "Date:"
 msgstr "Data:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:189
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:188
 msgid "Breaks"
 msgstr "Pauze"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:199
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:198
 msgid "Break prompts"
 msgstr "Sugestii de pauză"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:200
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:199
 msgid ""
 "The number of times you were prompted to break, excluding repeated prompts "
 "for the same break"
@@ -1039,87 +1039,87 @@ msgstr ""
 "De câte ori vi s-a sugerat o pauză, cu excepția sugestiilor repetate pentru "
 "aceeași pauză"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:205
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:204
 msgid "Repeated prompts"
 msgstr "Sugestii repetate"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:206
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:205
 msgid "The number of times you were repeatedly prompted to break"
 msgstr "De câte ori vi s-a sugerat repetate să luați o pauză"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:210
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:209
 msgid "Prompted breaks taken"
 msgstr "Pauze sugerate care au fost luate"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:211
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:210
 msgid "The number of times you took a break when being prompted"
 msgstr "De câte ori ați luat o pauză când vi s-a sugerat"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:215
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:214
 msgid "Natural breaks taken"
 msgstr "Pauze naturale luate"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:216
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:215
 msgid "The number of times you took a break without being prompted"
 msgstr "De câte ori ați luat o pauză fără a vi se sugera"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:220
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:219
 msgid "Breaks skipped"
 msgstr "Pauze peste care s-a sărit"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:221
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:220
 msgid "The number of breaks you skipped"
 msgstr "Peste câte pauze ați sărit"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:225
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:224
 msgid "Breaks postponed"
 msgstr "Pauze amânate"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:226
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:225
 msgid "The number of breaks you postponed"
 msgstr "Numărul de pauze amânate"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:230
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:229
 msgid "Overdue time"
 msgstr "Timp de amânare"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:231
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:230
 msgid "The total time this break was overdue"
 msgstr "Timpul total consumat de amânări"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:235
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:234
 msgid "Daily usage"
 msgstr "Uz zilnic"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:236
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:235
 msgid "The total computer usage"
 msgstr "Totalul folosirii calculatorului"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:304
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:303
 msgid "Activity"
 msgstr "Activitate"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:314
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:313
 msgid "Mouse usage:"
 msgstr "Folosirea mausului:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:315
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:314
 msgid "The total time you were using the mouse"
 msgstr "Timpul total în care ați folosit mausul"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:318
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:317
 msgid "Mouse movement:"
 msgstr "Mișcarea mausului:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:319
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:318
 msgid "The total on-screen mouse movement"
 msgstr "Totalul mișcării pe ecran a mausului"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:322
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:321
 msgid "Effective mouse movement:"
 msgstr "Mișcarea efectivă a mausului:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:323
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:322
 msgid ""
 "The total mouse movement you would have had if you moved your mouse in "
 "straight lines between clicks"
@@ -1127,23 +1127,23 @@ msgstr ""
 "Numărul total de mișcări de maus pe care le-ați fi făcut dacă ați fi mișcat "
 "mausul în linii drepte între clicuri"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:327
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:326
 msgid "Mouse button clicks:"
 msgstr "Clicuri de butoane ale mausului:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:328
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:327
 msgid "The total number of mouse button clicks"
 msgstr "Numărul total de clicuri de butoane ale mausului"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:331
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:330
 msgid "Keystrokes:"
 msgstr "Taste apăsate:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:332
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:331
 msgid "The total number of keys pressed"
 msgstr "Numărul total de taste apăsate"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:382
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:381
 #, c-format
 msgid "%s, from %s to %s"
 msgstr "%s, de la %s la %s"

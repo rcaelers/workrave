@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WorkRave 1.8\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2009-01-28 19:33+0100\n"
+"POT-Creation-Date: 2009-07-20 18:23+0200\n"
 "PO-Revision-Date: 2006-07-31 18:11+0200\n"
 "Last-Translator: Rex Tsai <chihchun@linux.org.tw>\n"
 "Language-Team: Chinese/Traditional <zh-l10n@linux.org.tw>\n"
@@ -158,56 +158,56 @@ msgid "Could not connect to client %s:%d."
 msgstr "無法連線到用戶端 %s:%d。"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
-#: ../frontend/common/src/SoundPlayer.cc:83
+#: ../frontend/common/src/SoundPlayer.cc:82
 msgid "Break ignored"
 msgstr "忽略休息"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:2
-#: ../frontend/common/src/SoundPlayer.cc:77
+#: ../frontend/common/src/SoundPlayer.cc:76
 msgid "Break prompt"
 msgstr "休息提示"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
-#: ../frontend/common/src/SoundPlayer.cc:114
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:50
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:58
-#: ../frontend/gtkmm/src/GUI.cc:1388 ../frontend/gtkmm/src/GtkUtil.cc:163
+#: ../frontend/common/src/SoundPlayer.cc:113
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:48
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:56
+#: ../frontend/gtkmm/src/GUI.cc:1399 ../frontend/gtkmm/src/GtkUtil.cc:161
 msgid "Daily limit"
 msgstr "每日限制"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:4
-#: ../frontend/common/src/SoundPlayer.cc:132
+#: ../frontend/common/src/SoundPlayer.cc:131
 #, fuzzy
 msgid "Exercise change"
 msgstr "體操停止"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:5
-#: ../frontend/common/src/SoundPlayer.cc:120
+#: ../frontend/common/src/SoundPlayer.cc:119
 msgid "Exercise ended"
 msgstr "體操停止"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:6
-#: ../frontend/common/src/SoundPlayer.cc:126
+#: ../frontend/common/src/SoundPlayer.cc:125
 msgid "Exercises ended"
 msgstr "體操停止"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:7
-#: ../frontend/common/src/SoundPlayer.cc:108
+#: ../frontend/common/src/SoundPlayer.cc:107
 msgid "Micro-break ended"
 msgstr "暫停結束"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:8
-#: ../frontend/common/src/SoundPlayer.cc:102
+#: ../frontend/common/src/SoundPlayer.cc:101
 msgid "Micro-break started"
 msgstr "暫停開始"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:9
-#: ../frontend/common/src/SoundPlayer.cc:96
+#: ../frontend/common/src/SoundPlayer.cc:95
 msgid "Rest break ended"
 msgstr "休息停止"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:10
-#: ../frontend/common/src/SoundPlayer.cc:89
+#: ../frontend/common/src/SoundPlayer.cc:88
 msgid "Rest break started"
 msgstr "休息開始"
 
@@ -216,42 +216,42 @@ msgstr "休息開始"
 msgid "Workrave"
 msgstr "Workrave"
 
-#: ../frontend/common/src/SoundPlayer.cc:567
+#: ../frontend/common/src/SoundPlayer.cc:576
 msgid "Custom"
 msgstr ""
 
-#: ../frontend/common/src/Text.cc:80
+#: ../frontend/common/src/Text.cc:78
 #, c-format
 msgid "%s%d:%02d:%02d hours"
 msgstr "%s%d:%02d:%02d 時"
 
-#: ../frontend/common/src/Text.cc:84
+#: ../frontend/common/src/Text.cc:82
 #, c-format
 msgid "%s%d:%02d minutes"
 msgstr "%s%d:%02d 分"
 
-#: ../frontend/common/src/Text.cc:88
+#: ../frontend/common/src/Text.cc:86
 #, c-format
 msgid "%s%d seconds"
 msgstr "%s%d 秒"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:298
+#: ../frontend/gtkmm/src/BreakWindow.cc:296
 msgid "Lock"
 msgstr "鎖定"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:317
+#: ../frontend/gtkmm/src/BreakWindow.cc:315
 msgid "Shut down"
 msgstr "關閉"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:334
+#: ../frontend/gtkmm/src/BreakWindow.cc:332
 msgid "Skip"
 msgstr "略過"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:347
+#: ../frontend/gtkmm/src/BreakWindow.cc:345
 msgid "Postpone"
 msgstr "延後"
 
-#: ../frontend/gtkmm/src/DailyLimitWindow.cc:59
+#: ../frontend/gtkmm/src/DailyLimitWindow.cc:57
 msgid ""
 "You have reached your daily limit. Please stop working\n"
 "behind the computer. If your working day is not over yet,\n"
@@ -261,300 +261,300 @@ msgstr ""
 "如果您尚未下班，找些其他的事情來做，例如檢閱文件。"
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1388 ../frontend/gtkmm/src/GtkUtil.cc:163
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:56
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:176
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:274
+#: ../frontend/gtkmm/src/GUI.cc:1399 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:54
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:174
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:272
 msgid "Micro-break"
 msgstr "暫停"
 
-#: ../frontend/gtkmm/src/GUI.cc:1388 ../frontend/gtkmm/src/GtkUtil.cc:163
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:149
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:84
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:217
+#: ../frontend/gtkmm/src/GUI.cc:1399 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:147
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:82
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:215
 msgid "Rest break"
 msgstr "休息"
 
-#: ../frontend/gtkmm/src/GUI.cc:1401 ../frontend/gtkmm/src/GUI.cc:1405
+#: ../frontend/gtkmm/src/GUI.cc:1412 ../frontend/gtkmm/src/GUI.cc:1416
 #, fuzzy
 msgid "Mode: "
 msgstr "模式(_M)"
 
-#: ../frontend/gtkmm/src/GUI.cc:1401
+#: ../frontend/gtkmm/src/GUI.cc:1412
 #, fuzzy
 msgid "Suspended"
 msgstr "暫停(_S)"
 
-#: ../frontend/gtkmm/src/GUI.cc:1405
+#: ../frontend/gtkmm/src/GUI.cc:1416
 #, fuzzy
 msgid "Quiet"
 msgstr "離開(_u)"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:98
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:173
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:96
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:96
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:171
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:94
 msgid "_Rest break"
 msgstr "休息(_R)"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:141
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:139
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:117
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:115
 msgid "_Mode"
 msgstr "模式(_M)"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:143
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:141
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:99
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:97
 msgid "_Normal"
 msgstr "一般(_N)"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:146
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:144
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:105
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:103
 msgid "_Suspended"
 msgstr "暫停(_S)"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:149
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:111
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:147
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:109
 msgid "Q_uiet"
 msgstr "離開(_u)"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:154
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:152
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:136
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:134
 msgid "_Network"
 msgstr "網路(_N)"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:155
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:120
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:153
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:118
 msgid "_Connect"
 msgstr "連線(_C)"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:157
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:155
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:123
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:121
 msgid "_Disconnect"
 msgstr "中斷連線(_D)"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:159
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:157
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:127
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:125
 msgid "_Reconnect"
 msgstr "重新連線(_R)"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:161
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:130
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:159
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:128
 msgid "Show _log"
 msgstr "顯示紀錄(_l)"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:183
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:97
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:45
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:181
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:95
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:44
 msgid "Exercises"
 msgstr "體操"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:188
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:138
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:64
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:152
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:186
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:136
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:63
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:151
 msgid "Statistics"
 msgstr "統計"
 
-#: ../frontend/gtkmm/src/Menus.cc:347
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:359
+#: ../frontend/gtkmm/src/Menus.cc:345
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:357
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
 msgstr "這個軟體是協助預防與復原重複性壓力傷害 (Repetitive Strain Injury RSI)"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:236
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:234
 msgid "Please relax for a few seconds"
 msgstr "請放鬆幾秒"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:243
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:241
 #, c-format
 msgid "Next rest break in %s"
 msgstr "下次休息時間 %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:248
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:246
 #, c-format
 msgid "Rest break %s overdue"
 msgstr "休息 %s 逾時"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:261
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:259
 #, c-format
 msgid "Daily limit in %s"
 msgstr "每日限制 %s"
 
-#: ../frontend/gtkmm/src/MicroBreakWindow.cc:266
+#: ../frontend/gtkmm/src/MicroBreakWindow.cc:264
 #, c-format
 msgid "Daily limit %s overdue"
 msgstr "每日限制逾時 %s"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:73
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:95
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:72
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:93
 msgid "Preferences"
 msgstr "偏好"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:88
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:117
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:93
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:116
 msgid "General"
 msgstr "一般"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:93
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:98
 #, fuzzy
 msgid "Sounds"
 msgstr "音效:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:97
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:102
 msgid "Status Window"
 msgstr "狀態視窗"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:101
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:106
 msgid "Applet"
 msgstr "Applet"
 
 #. Notebook
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:109
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:165
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:198
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:114
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:163
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:197
 msgid "Timers"
 msgstr "計時器"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:110
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:115
 msgid "User interface"
 msgstr "使用者介面"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:112
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:117
 msgid "Network"
 msgstr "網路"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:163
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:168
 msgid "No blocking"
 msgstr "不封鎖"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:165
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:170
 msgid "Block input"
 msgstr "封鎖輸入"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:167
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:172
 msgid "Block input and screen"
 msgstr "封鎖輸入與螢幕"
 
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:186
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:141
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:191
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:140
 msgid "Options"
 msgstr "選項"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:188
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:193
 msgid "Block mode:"
 msgstr "封鎖模式:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:208
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:213
 msgid "System default"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:248
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:253
 msgid "(font not available)"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:273
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:278
 msgid "Language:"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:277
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:282
 msgid "Start Workrave on Windows startup"
 msgstr ""
 
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:300
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:305
 #, fuzzy
 msgid "Sound Options"
 msgstr "選項"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:308
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:313
 msgid "No sounds"
 msgstr "無音效"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:310
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:315
 msgid "Play sounds using sound card"
 msgstr "使用音效卡播放"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:312
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:317
 msgid "Play sounds using built-in speaker"
 msgstr "使用內建揚聲器播放"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:336
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:341
 msgid "Volume:"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:339
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:344
 msgid "Sound:"
 msgstr "音效:"
 
 #. Sound themes
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:345
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:350
 msgid "Sound Events"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:355
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:360
 #, fuzzy
 msgid "Sound Theme:"
 msgstr "音效:"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:378
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:396
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:418
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:383
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:401
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:422
 msgid "Play"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:383
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:388
 msgid "Event"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:399
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:404
 #, fuzzy
 msgid "Choose a sound"
 msgstr "無音效"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:407
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:411
 msgid "Wavefiles"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:112
+#: ../frontend/gtkmm/src/PreludeWindow.cc:110
 msgid "Time for a micro-break?"
 msgstr "暫停一下?"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:116
+#: ../frontend/gtkmm/src/PreludeWindow.cc:114
 msgid "You need a rest break..."
 msgstr "您需要休息一下..."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:120
+#: ../frontend/gtkmm/src/PreludeWindow.cc:118
 msgid "You should stop for today..."
 msgstr "今天應該到此為止了..."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:320
+#: ../frontend/gtkmm/src/PreludeWindow.cc:318
 #, c-format
 msgid "Break in %s"
 msgstr "休息 %s"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:324
+#: ../frontend/gtkmm/src/PreludeWindow.cc:322
 #, c-format
 msgid "Disappears in %s"
 msgstr "自動消失 %s"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:328
+#: ../frontend/gtkmm/src/PreludeWindow.cc:326
 #, c-format
 msgid "Silent in %s"
 msgstr "沉默 %s"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:179
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:177
 #, c-format
 msgid "Rest break for %s"
 msgstr "休息 %s"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:218
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:216
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -563,127 +563,127 @@ msgstr ""
 "這是您的休息時間。確認您至少站起來，並走離您的電腦。\n"
 "只要稍微走一走，伸展筋骨並放鬆幾分鐘。"
 
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:191
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:189
 #, fuzzy
 msgid "Take rest break now"
 msgstr "下次休息時間 %s"
 
-#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:213
+#: ../frontend/gtkmm/src/TimerBoxGtkView.cc:211
 msgid "Wait"
 msgstr "等待"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:98
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:96
 msgid "Place timers next to each other"
 msgstr "並排計時器"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:100
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:98
 msgid "Place micro-break and rest break in one spot"
 msgstr "將暫停與休息放在一起"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:102
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:100
 msgid "Place rest break and daily limit in one spot"
 msgstr "將休息與日限制放在一起"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:104
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:102
 msgid "Place all timers in one spot"
 msgstr "將所有的計時器放在一起"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:124
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:122
 msgid "Hide"
 msgstr "隱藏"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:126
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:124
 msgid "Show"
 msgstr "顯示"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:128
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:126
 msgid "Show only when this timer is first due"
 msgstr "只在第一次計時器到時顯示"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:136
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:134
 msgid "Show status window"
 msgstr "顯示狀態視窗"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:141
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:139
 msgid "The status window stays always on top of other windows"
 msgstr "狀態視窗永遠保持在最上層"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:147
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:145
 msgid "Applet enabled"
 msgstr "啟動 Applet"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:153
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:151
 msgid "Display"
 msgstr "顯示"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:162
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:160
 msgid "Placement:"
 msgstr "配置"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:163
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:161
 msgid "Cycle time:"
 msgstr "週期:"
 
 #. Layout
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:168
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:166
 msgid "Micro-break:"
 msgstr "暫停:"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:169
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:167
 msgid "Rest break:"
 msgstr "重置休息:"
 
-#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:170
+#: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:168
 msgid "Daily limit:"
 msgstr "日限制"
 
 #. Enabled/Disabled checkbox
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:69
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:68
 msgid "Enable timer"
 msgstr "啟動計時器"
 
 #. Prelude frame
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:110
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:109
 msgid "Break prompting"
 msgstr "休息提示"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:112
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:111
 msgid "Prompt before breaking"
 msgstr "休息前顯示提示"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:116
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:115
 msgid "Maximum number of prompts:"
 msgstr "最多提示次數"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:145
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:144
 msgid "Show 'Postpone' and 'Skip' button"
 msgstr "顯示 '延後' 與 '略過' 按鈕"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:150
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:149
 msgid "Suspend timer when inactive"
 msgstr "未活動時暫停計時器"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:163
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:162
 msgid "Regard micro-breaks as activity"
 msgstr "將暫停視為活動"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:172
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:171
 msgid "Number of exercises:"
 msgstr "體操次數"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:203
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:202
 msgid "Time before end:"
 msgstr "休息時限"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:204
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:203
 msgid "Time between breaks:"
 msgstr "休息時限"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:211
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:210
 msgid "Break duration:"
 msgstr "休息時限:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:226
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:225
 msgid "Postpone time:"
 msgstr "延後時限:"
 
@@ -746,84 +746,84 @@ msgstr "統計(_S)"
 msgid "Workrave Applet"
 msgstr "Workrave Applet"
 
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:139
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:137
 msgid "About..."
 msgstr "關於..."
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:56
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:75
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:55
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:74
 msgid "Network connect"
 msgstr "網路連線"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:76
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:75
 msgid ""
 "Enter the host name and port number of a computer\n"
 "in the network you wish to connect to."
 msgstr "請輸入您想連接的電腦主機名稱與連接埠號。"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:88
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:87
 msgid "Host name:"
 msgstr "主機名稱:"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:89
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:88
 msgid "Port:"
 msgstr "連接埠:"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkLogDialog.cc:50
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkLogDialog.cc:49
 msgid "Network log"
 msgstr "網路紀錄"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:97
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:96
 msgid "Enable networking"
 msgstr "啟動網路連結"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:104
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:103
 msgid "Username:"
 msgstr "使用者名稱:"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:105
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:104
 msgid "Password:"
 msgstr "密碼:"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:112
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:111
 msgid "Allow incoming connections"
 msgstr ""
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:130
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:129
 msgid "Server settings"
 msgstr "伺服器設定"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:152
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:151
 msgid "Server port:"
 msgstr "伺服器連線埠:"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:153
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:152
 msgid "Reconnect attempts:"
 msgstr "嘗試重新連接:"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:154
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:153
 msgid "Reconnect interval:"
 msgstr "重新連接間隔"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:157
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:156
 msgid "Advanced"
 msgstr "進階"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:174
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:173
 msgid ""
 "The following list specifies the hosts that Workrave connects to on\n"
 "start-up. Click the host name or port number to edit."
 msgstr "以下的列表指定在啟動時自動連結的主機點選主機名稱或連接埠進行編輯"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:203
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:202
 msgid "Host name"
 msgstr "主機名稱"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:211
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:210
 msgid "Port"
 msgstr "連接埠"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:248
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:247
 msgid "Hosts"
 msgstr "主機"
 
@@ -962,35 +962,35 @@ msgstr ""
 "把您的頭轉向左邊，並停在那裡兩秒鐘。然後將您的頭轉回右邊，並也停在那邊兩秒"
 "鐘。"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:262
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:261
 msgid "Exercises player"
 msgstr "體操播放"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:298
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:296
 msgid "Previous exercise"
 msgstr ""
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:299
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:297
 #, fuzzy
 msgid "Next exercise"
 msgstr "體操次數"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:300
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:298
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:484
 #, fuzzy
 msgid "Pause exercises"
 msgstr "體操次數"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:301
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:302
 #, fuzzy
 msgid "End exercises"
 msgstr "體操"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:476
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:477
 msgid "Resume"
 msgstr "回復"
 
-#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:476
+#: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:477
 msgid "Pause"
 msgstr "暫停"
 
@@ -999,131 +999,131 @@ msgstr "暫停"
 msgid "Resume exercises"
 msgstr "體操次數"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:146
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:145
 msgid "Browse history"
 msgstr "瀏覽歷史紀錄"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:153
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:152
 msgid "Date:"
 msgstr "日期:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:189
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:188
 msgid "Breaks"
 msgstr "休息"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:199
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:198
 msgid "Break prompts"
 msgstr "休息提示"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:200
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:199
 msgid ""
 "The number of times you were prompted to break, excluding repeated prompts "
 "for the same break"
 msgstr "這個數目是您休息的次數，不含重複同一次休息的重複提示"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:205
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:204
 msgid "Repeated prompts"
 msgstr "重複提示"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:206
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:205
 msgid "The number of times you were repeatedly prompted to break"
 msgstr "被重複提示休息次數"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:210
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:209
 msgid "Prompted breaks taken"
 msgstr "休息提示次數"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:211
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:210
 msgid "The number of times you took a break when being prompted"
 msgstr "經休息提示後休息次數"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:215
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:214
 msgid "Natural breaks taken"
 msgstr "自行休息次數"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:216
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:215
 msgid "The number of times you took a break without being prompted"
 msgstr "未經休息提示自行休息次數"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:220
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:219
 msgid "Breaks skipped"
 msgstr "略過休息次數"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:221
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:220
 msgid "The number of breaks you skipped"
 msgstr "略過休息次數"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:225
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:224
 msgid "Breaks postponed"
 msgstr "休息延後次數"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:226
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:225
 msgid "The number of breaks you postponed"
 msgstr "延後休息次數"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:230
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:229
 msgid "Overdue time"
 msgstr "逾時時間"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:231
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:230
 msgid "The total time this break was overdue"
 msgstr "這次休息的總共時間逾時"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:235
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:234
 msgid "Daily usage"
 msgstr "日使用量"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:236
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:235
 msgid "The total computer usage"
 msgstr "總電腦使用時間"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:304
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:303
 msgid "Activity"
 msgstr "活動"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:314
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:313
 msgid "Mouse usage:"
 msgstr "滑鼠使用:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:315
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:314
 msgid "The total time you were using the mouse"
 msgstr "統計滑鼠使用時間"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:318
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:317
 msgid "Mouse movement:"
 msgstr "滑鼠移動距離:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:319
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:318
 msgid "The total on-screen mouse movement"
 msgstr "總記滑鼠於螢幕移動距離"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:322
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:321
 msgid "Effective mouse movement:"
 msgstr "有效滑鼠移動距離:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:323
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:322
 msgid ""
 "The total mouse movement you would have had if you moved your mouse in "
 "straight lines between clicks"
 msgstr "滑鼠移動距離是紀錄兩次滑鼠點擊間的直線距離"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:327
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:326
 msgid "Mouse button clicks:"
 msgstr "滑鼠點擊次數"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:328
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:327
 msgid "The total number of mouse button clicks"
 msgstr "總滑鼠點擊次數"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:331
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:330
 msgid "Keystrokes:"
 msgstr "鍵次:"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:332
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:331
 msgid "The total number of keys pressed"
 msgstr "鍵盤輸入的次數統計"
 
-#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:382
+#: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:381
 #, c-format
 msgid "%s, from %s to %s"
 msgstr "%s, 從 %s 到 %s"
