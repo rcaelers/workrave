@@ -105,14 +105,15 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   HWND hwnd = (HWND) GDK_WINDOW_HWND(Gtk::Widget::gobj()->window);
   ::SetFocus(hwnd);
   ::SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE);
+#endif
 
   if (mode != GUIConfig::BLOCK_MODE_NONE)
   {
     // Disable titlebar to appear like a popup
     set_decorated(false);
     set_skip_taskbar_hint(true);
+    set_skip_pager_hint(true);
   }
-#endif
 
   // On W32, must be *before* realize, otherwise a border is drawn.
   set_resizable(false);
