@@ -62,7 +62,6 @@
 #include <X11/Xlib.h>
 #include <X11/extensions/XInput.h>
 #include <X11/extensions/XIproto.h>
-#include <X11/Intrinsic.h>
 #include <X11/Xos.h>
 
 #include "X11InputMonitor.hh"
@@ -408,16 +407,7 @@ X11InputMonitor::handle_button(XEvent *event)
 void
 X11InputMonitor::handle_xrecord_handle_key_event(XRecordInterceptData *data)
 {
-  xEvent *event = (xEvent *)data->data;
-  XKeyEvent  kevent;
-  KeySym   keysym;
-  char   buf[1];
-
-  kevent.type = KeyPress;
-  kevent.display = x11_display;
-  kevent.state = event->u.keyButtonPointer.state;
-  kevent.keycode = event->u.u.detail;
-  XLookupString(&kevent, buf, sizeof(buf), &keysym, 0);
+  (void) data;
   fire_keyboard(0, 0);
 }
 
