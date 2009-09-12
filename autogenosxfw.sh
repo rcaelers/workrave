@@ -20,12 +20,11 @@ done
 echo $PKG_CONFIG_PATH
 
 ## export PKG_CONFIG_PATH=$HOME/gtk/inst/lib/pkgconfig/:$PKG_CONFIG_PATH
-export CFLAGS="-mmacosx-version-min=10.4 -isysroot /Developer/SDKs/MacOSX10.4u.sdk"
-export CXXFLAGS="-mmacosx-version-min=10.4 -isysroot /Developer/SDKs/MacOSX10.4u.sdk"
-export OBJCFLAGS="-mmacosx-version-min=10.4 -isysroot /Developer/SDKs/MacOSX10.4u.sdk"
-export CPPFLAGS="-I/Developer/SDKs/MacOSX10.4u.sdk/usr/include -I${HOME}/gtk/inst/include/"
-export LDFLAGS="-L/Developer/SDKs/MacOSX10.4u.sdk/usr/lib -L${HOME}/gtk/inst/lib -isysroot /Developer/SDKs/MacOSX10.4u.sdk"
-
+export CFLAGS="-m32 -mmacosx-version-min=10.5 -isysroot /Developer/SDKs/MacOSX10.5.sdk"
+export CXXFLAGS="-m32 -mmacosx-version-min=10.5 -isysroot /Developer/SDKs/MacOSX10.5.sdk"
+export OBJCFLAGS="-m32 -mmacosx-version-min=10.5 -isysroot /Developer/SDKs/MacOSX10.5.sdk"
+export CPPFLAGS="-I/Developer/SDKs/MacOSX10.5.sdk/usr/include -I${HOME}/gtk/inst/include/"
+export LDFLAGS="-m32 -L/Developer/SDKs/MacOSX10.5.sdk/usr/lib -L${HOME}/gtk/inst/lib -isysroot /Developer/SDKs/MacOSX10.5.sdk"
 
 srcdir=`dirname $0`
 test -z "$srcdir" && srcdir=.

@@ -122,26 +122,30 @@ mkdir -p $pkglibdir
 echo "Installing Workrave"
 
 if [ $conf_symlink = false ]; then
-   make install -C ../../../ \
-             prefix=$pkgrootdir bindir=$pkgexecdir pkgdatadir=$pkgresourcesdir \
-             datadir=$pkgresourcesdir soundsbasedir=$pkgresourcesdir/sounds \
-             DATADIRNAME=Contents/Resources > install.log 2>&1
    INSTALL="cp"
 else
-   make install -C ../../../ \
-             prefix=$pkgrootdir bindir=$pkgexecdir pkgdatadir=$pkgresourcesdir \
-             datadir=$pkgresourcesdir soundbasedir=$pkgresourcesdir/sounds \
-             INSTALL=`pwd`/install_symlink \
-             DATADIRNAME=Contents/Resources > install.log 2>&1
-   INSTALL=`pwd`/install_symlink
+   INSTALL="ln -s"
 fi
 
-rmdir $pkgrootdir/lib
-rmdir $pkgrootdir/libexec
+make install -C ../../../ \
+    prefix=$pkgrootdir bindir=$pkgexecdir pkgdatadir=$pkgresourcesdir \
+    datadir=$pkgresourcesdir soundsbasedir=$pkgresourcesdir/sounds \
+    DATADIRNAME=Contents/Resources > install.log 2>&1
 
-mv $pkgexecdir/$BINARY $pkgexecdir/${BINARY}-bin
+if [ $conf_symlink = true ]; then
+    rm -rf $pkgexecdir/workrave
+    ln -s ../../../frontend/gtkmm/src/workrave $pkgexecdir
+fi
+    
+rm -rf $pkgrootdir/lib
+rm -rf $pkgrootdir/libexec
+
+if [ $conf_copy_gtk_dylib = true ]; then
+    mv $pkgexecdir/$BINARY $pkgexecdir/${BINARY}-bin
+    $INSTALL workrave $pkgexecdir
+fi
+
 cp Info.plist $pkgcontentsdir
-$INSTALL workrave $pkgexecdir
 $INSTALL ../../../frontend/common/share/images/osx/workrave.icns  $pkgresourcesdir
 
 echo -n "APPL????" > $pkgcontentsdir/PkgInfo
@@ -207,32 +211,33 @@ if [ $conf_copy_gtk_dylib = true ]; then
     
     mkdir -p $pkgthemedir/Quartz
     cp -r $LIBPREFIX/share/themes/Quartz/gtk-2.0 $pkgthemedir/Quartz
-
 fi
 
 # ------------------------------------------------------------
 # Install dependencies
 # ------------------------------------------------------------
 
-echo "Installing dependencies"
+if [ $conf_copy_gtk_dylib = true ]; then
 
-total=0
-stop=false
-while ! $stop; do
-    LIBS=`find $pkgrootdir \( -name "*.so*" -or -name "*.dylib" \) -print`
-    EXECS=`find $pkgexecdir -type f -print`
-    libs="`otool -L $LIBS $EXECS 2>/dev/null | fgrep compatibility | cut -d\( -f1 | grep $LIBPREFIX | sort | uniq`"
-    if [ x$libs != x ] ; then
-        cp -f $libs $pkglibdir
-    fi
-    num_files=`ls $pkglibdir | wc -l`
-    if [ $num_files = $total ];
-    then
-	stop=true
-    fi
-    total=$num_files
-done
+    echo "Installing dependencies"
 
+    total=0
+    stop=false
+    while ! $stop; do
+        LIBS=`find $pkgrootdir \( -name "*.so*" -or -name "*.dylib" \) -print`
+        EXECS=`find $pkgexecdir -type f -print`
+        libs="`otool -L $LIBS $EXECS 2>/dev/null | fgrep compatibility | cut -d\( -f1 | grep $LIBPREFIX | sort | uniq`"
+        if [ x$libs != x ] ; then
+            cp -f $libs $pkglibdir
+        fi
+        num_files=`ls $pkglibdir | wc -l`
+        if [ $num_files = $total ];
+        then
+    	stop=true
+        fi
+        total=$num_files
+    done
+fi
 
 # ------------------------------------------------------------
 # Fix dependencies
@@ -280,8 +285,10 @@ done
 if [ "$conf_strip" = "true" ];
 then
     echo "Stripping debugging symbols"
-    chmod +w $pkglibdir/*.dylib
-    strip -x $pkglibdir/*.dylib
+    if [ $conf_copy_gtk_dylib = true ]; then
+        chmod +w $pkglibdir/*.dylib
+        strip -x $pkglibdir/*.dylib
+    fi
     strip -ur `find $pkgexecdir -type f -print`
 fi
 

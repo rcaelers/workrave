@@ -79,21 +79,21 @@
       // in which this still happens.. need to check
       // this out some time.
       // assert(secondary_bar_color == COLOR_ID_INACTIVE);
-      ColorId overlap_color;
+      NSColor *overlap_color;
       switch (color)
         {
         case COLOR_ID_ACTIVE:
-          overlap_color = COLOR_ID_INACTIVE_OVER_ACTIVE;
+          overlap_color = [NSColor blueColor];
           break;
         case COLOR_ID_OVERDUE:
-          overlap_color = COLOR_ID_INACTIVE_OVER_OVERDUE;
+          overlap_color = [NSColor orangeColor];
           break;
         default:
           // We could abort() because this is not supported
           // but there are some weird boundary cases
           // in which this still happens.. need to check
           // this out some time.
-          overlap_color = COLOR_ID_INACTIVE_OVER_ACTIVE;
+          overlap_color = [NSColor redColor];
         }
 
       if (sbar_width >= bar_width)
