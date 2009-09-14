@@ -1,6 +1,6 @@
 // BreakControl.cc
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -666,74 +666,10 @@ BreakControl::set_state_data(bool active, const BreakStateData &data)
             " total preludes = " << postponable_count <<
             " time = " << data.prelude_time);
 
-  // TODO: check application->hide_break_window();
-
   user_initiated = data.user_initiated;
   prelude_count = data.prelude_count;
   prelude_time = data.prelude_time;
   postponable_count = data.postponable_count;
-
-  //TODO:
-  return;
-
-  BreakStage new_break_stage = (BreakStage) data.break_stage;
-
-  if (new_break_stage == STAGE_TAKING)
-    {
-      TRACE_MSG("TAKING -> PRELUDE");
-      new_break_stage = STAGE_PRELUDE;
-      prelude_count = max_number_of_preludes - 1;
-    }
-
-  //TODO: check if this can/must be removed  if (active)
-  {
-    if (user_initiated && new_break_stage == STAGE_TAKING)
-      {
-        TRACE_MSG("User inflicted break -> TAKING");
-
-        prelude_time = 0;
-        goto_stage(STAGE_TAKING);
-      }
-    else if (new_break_stage == STAGE_TAKING) // && !user_initiated
-      {
-        TRACE_MSG("Break active");
-
-        // Idle until proven guilty.
-        core->force_idle();
-        break_timer->stop_timer();
-
-        goto_stage(STAGE_TAKING);
-      }
-    else if (new_break_stage == STAGE_SNOOZED || new_break_stage == STAGE_PRELUDE)
-      {
-        TRACE_MSG("Snooze/Prelude");
-
-        user_initiated = false;
-        prelude_time = 0;
-        reached_max_prelude = max_number_of_preludes >= 0 && prelude_count + 1 >= max_number_of_preludes;
-
-        if (max_number_of_preludes >= 0 && prelude_count >= max_number_of_preludes)
-          {
-            TRACE_MSG("TAKING");
-            goto_stage(STAGE_TAKING);
-          }
-        else
-          {
-            TRACE_MSG("PRELUDE");
-
-            // Idle until proven guilty.
-            core->force_idle();
-            break_timer->stop_timer();
-
-            goto_stage(STAGE_PRELUDE);
-          }
-      }
-    else
-      {
-        TRACE_MSG("NONE");
-        goto_stage(STAGE_NONE);
-      }
-  }
 
   TRACE_EXIT();
 }

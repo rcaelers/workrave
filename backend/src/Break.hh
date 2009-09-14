@@ -47,9 +47,6 @@ private:
   //! Name of the break (used in configuration)
   std::string break_name;
 
-  //! Timer config prefix
-  // FIXME:std::string timer_prefix;
-
   //! Break config prefix
   std::string break_prefix;
 
