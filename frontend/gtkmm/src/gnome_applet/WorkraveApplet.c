@@ -685,7 +685,7 @@ showlog_callback(BonoboUIComponent *ui, const char *path, Bonobo_UIComponent_Eve
 
   new_state = strcmp(state, "0") != 0;
 
-  if (1) /* FIXME: last_showlog_state != new_state) */
+  if (1)
     {
       g_applet->last_showlog_state = new_state;
 
