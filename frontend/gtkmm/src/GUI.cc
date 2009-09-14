@@ -25,10 +25,6 @@
 #include "nls.h"
 #include "debug.hh"
 
-#if defined(PLATFORM_OS_WIN32)
-#include "w32debug.hh"
-#endif
-
 #include <gtkmm/main.h>
 #include <gtkmm/messagedialog.h>
 #include <glibmm/refptr.h>
@@ -192,13 +188,13 @@ GUI::main()
 {
   TRACE_ENTER("GUI::main");
 
+  Gtk::Main kit(argc, argv);
+
   if (!g_thread_supported())
     {
       g_thread_init(NULL);
     }
   
-  Gtk::Main kit(argc, argv);
-
   init_core();
   init_nls();
   init_platform();
@@ -210,10 +206,7 @@ GUI::main()
   
   on_timer();
 
-#if defined(PLATFORM_OS_WIN32)
-  // FIXME: debug, remove later
-  APPEND_TIME( "Workrave started and initialized", "Entering event loop." );
-#endif
+  TRACE_MSG("Initialized. Entering event loop.");
 
   // Enter the event loop
   gdk_threads_enter();
@@ -1480,7 +1473,6 @@ GUI::is_status_icon_visible() const
 void
 GUI::win32_init_filter()
 {
-  // FIXME: GtkWidget *window = main_window->Gtk::Widget::gobj();
   GtkWidget *window = (GtkWidget *)main_window->gobj();
   GdkWindow *gdk_window = window->window;
   gdk_window_add_filter(gdk_window, win32_filter_func, this);
@@ -1503,74 +1495,38 @@ GUI::win32_filter_func (void     *xevent,
       {
         TRACE_MSG("WM_POWERBROADCAST " << msg->wParam << " " << msg->lParam);
 
-#if defined(PLATFORM_OS_WIN32)
-// FIXME: debug, remove later
-switch (msg->wParam)
-{
-case PBT_APMBATTERYLOW:
-APPEND_TIME("WM_POWERBROADCAST", "PBT_APMBATTERYLOW");
-break;
-case PBT_APMOEMEVENT:
-APPEND_TIME("WM_POWERBROADCAST", "PBT_APMOEMEVENT");
-break;
-case PBT_APMPOWERSTATUSCHANGE:
-APPEND_TIME("WM_POWERBROADCAST", "PBT_APMPOWERSTATUSCHANGE");
-break;
-case PBT_APMQUERYSUSPEND:
-APPEND_TIME("WM_POWERBROADCAST", "PBT_APMQUERYSUSPEND");
-break;
-case PBT_APMQUERYSUSPENDFAILED:
-APPEND_TIME("WM_POWERBROADCAST", "PBT_APMQUERYSUSPENDFAILED");
-break;
-case PBT_APMRESUMEAUTOMATIC:
-APPEND_TIME("WM_POWERBROADCAST", "PBT_APMRESUMEAUTOMATIC");
-break;
-case PBT_APMRESUMECRITICAL:
-APPEND_TIME("WM_POWERBROADCAST", "PBT_APMRESUMECRITICAL");
-break;
-case PBT_APMRESUMESUSPEND:
-APPEND_TIME("WM_POWERBROADCAST", "PBT_APMRESUMESUSPEND");
-break;
-case PBT_APMSUSPEND:
-APPEND_TIME("WM_POWERBROADCAST", "PBT_APMSUSPEND");
-break;
-default:
-APPEND_TIME("WM_POWERBROADCAST", "<UNKNOWN MESSAGE> : " << hex << msg->wParam );
-}
-#endif
+        switch (msg->wParam)
+          {
+          case PBT_APMQUERYSUSPEND:
+            TRACE_MSG("Query Suspend");
+            break;
 
-          switch (msg->wParam)
+          case PBT_APMQUERYSUSPENDFAILED:
+            TRACE_MSG("Query Suspend Failed");
+            break;
+
+          case PBT_APMRESUMESUSPEND:
             {
-            case PBT_APMQUERYSUSPEND:
-              TRACE_MSG("Query Suspend");
-              break;
-
-            case PBT_APMQUERYSUSPENDFAILED:
-              TRACE_MSG("Query Suspend Failed");
-              break;
-
-            case PBT_APMRESUMESUSPEND:
-              {
-                TRACE_MSG("Resume suspend");
-                ICore *core = CoreFactory::get_core();
-                if (core != NULL)
-                  {
-                    core->set_powersave(false);
-                  }
-              }
-              break;
-
-            case PBT_APMSUSPEND:
-              {
-                TRACE_MSG("Suspend");
-                ICore *core = CoreFactory::get_core();
-                if (core != NULL)
-                  {
-                    core->set_powersave(true);
-                  }
-              }
-              break;
+              TRACE_MSG("Resume suspend");
+              ICore *core = CoreFactory::get_core();
+              if (core != NULL)
+                {
+                  core->set_powersave(false);
+                }
             }
+            break;
+
+          case PBT_APMSUSPEND:
+            {
+              TRACE_MSG("Suspend");
+              ICore *core = CoreFactory::get_core();
+              if (core != NULL)
+                {
+                  core->set_powersave(true);
+                }
+            }
+            break;
+          }
       }
       break;
 

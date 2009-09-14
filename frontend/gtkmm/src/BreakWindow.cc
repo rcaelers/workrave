@@ -23,13 +23,9 @@
 
 #include <ctime>
 
-// FIXME: Debug code, remove later
-#ifdef PLATFORM_OS_WIN32
-#include "w32debug.hh"
-#endif
-
 #ifdef PLATFORM_OS_WIN32
 #include "W32Compat.hh"
+#include <gdk/gdkwin32.h>
 #endif
 
 #include "preinclude.h"
@@ -75,25 +71,26 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
                          BreakFlags break_flags,
                          GUIConfig::BlockMode mode) :
 #ifdef PLATFORM_OS_WIN32
-/*
- Windows will have a gtk toplevel window regardless of mode.
- Hopefully this takes care of the phantom parent problem.
- Also, the break window title now appears on the taskbar, and
- it will show up in Windows Task Manager's application list.
-*/
-         Gtk::Window( Gtk::WINDOW_TOPLEVEL ),
+  /*
+    Windows will have a gtk toplevel window regardless of mode.
+    Hopefully this takes care of the phantom parent problem.
+    Also, the break window title now appears on the taskbar, and
+    it will show up in Windows Task Manager's application list.
+  */
+  Gtk::Window( Gtk::WINDOW_TOPLEVEL ),
 #else
-         Gtk::Window(mode==GUIConfig::BLOCK_MODE_NONE
-                     ? Gtk::WINDOW_TOPLEVEL
-                     : Gtk::WINDOW_POPUP),
+  Gtk::Window(mode==GUIConfig::BLOCK_MODE_NONE
+              ? Gtk::WINDOW_TOPLEVEL
+              : Gtk::WINDOW_POPUP),
 #endif
-         block_mode(mode),
-         break_flags(break_flags),
-         frame(NULL),
-         break_response(NULL),
-         gui(NULL),
-         visible(false)
+  block_mode(mode),
+  break_flags(break_flags),
+  frame(NULL),
+  break_response(NULL),
+  gui(NULL),
+  visible(false)
 {
+  TRACE_ENTER("BreakWindow::BreakWindow");
   this->break_id = break_id;
 
 #ifdef PLATFORM_OS_WIN32
@@ -108,12 +105,12 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
 #endif
 
   if (mode != GUIConfig::BLOCK_MODE_NONE)
-  {
-    // Disable titlebar to appear like a popup
-    set_decorated(false);
-    set_skip_taskbar_hint(true);
-    set_skip_pager_hint(true);
-  }
+    {
+      // Disable titlebar to appear like a popup
+      set_decorated(false);
+      set_skip_taskbar_hint(true);
+      set_skip_pager_hint(true);
+    }
 
   // On W32, must be *before* realize, otherwise a border is drawn.
   set_resizable(false);
@@ -136,38 +133,34 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   HWND _hParent = GetAncestor( _hwnd, GA_PARENT );
   HWND _hDesktop = GetDesktopWindow();
   
-  APPEND_TIME( "BreakWindow created", hex << _hwnd );
-  
-  if( _hwnd != _scope )
+  TRACE_MSG("BreakWindow created" <<  hex << _hwnd);
+  if (_hwnd != _scope)
     {
-      APPEND( "!!!!!!!!!!!!!!!", "Scope issue: " << hex << _scope );
-      APPEND_ENDL();
-	}
+      TRACE_MSG("!!! Scope issue: " << hex << _scope);
+    }
   
-  if( _hwnd != _hRoot )
+  if (_hwnd != _hRoot)
     {
-	  APPEND( "GetDesktopWindow()", hex << _hDesktop );
-      APPEND( "!!!!!!!!!!!!!!!", "BreakWindow GA_ROOT: " << hex << _hRoot );
-      APPEND_ENDL();
-	}
+      TRACE_MSG("GetDesktopWindow()" <<  hex << _hDesktop);
+      TRACE_MSG("!!! BreakWindow GA_ROOT: " << hex << _hRoot);
+    }
   
-  if( _hParent != _hDesktop )
+  if (_hParent != _hDesktop)
     {
-	  APPEND( "GetDesktopWindow()", hex << _hDesktop );
-      APPEND( "!!!!!!!!!!!!!!!", "PreludeWindow GA_PARENT: " << hex << _hParent );
+      TRACE_MSG("GetDesktopWindow()" <<  hex << _hDesktop);
+      TRACE_MSG("!!! PreludeWindow GA_PARENT: " << hex << _hParent);
       
       HWND _hTemp;
       while( IsWindow( _hParent ) && _hParent != _hDesktop )
         {
-		  _hTemp = _hParent;
+          _hTemp = _hParent;
           _hParent = GetAncestor( _hTemp, GA_PARENT );
-		  HWND _hParent2 = (HWND)GetWindowLong( _hTemp, GWL_HWNDPARENT );
+          HWND _hParent2 = (HWND)GetWindowLong( _hTemp, GWL_HWNDPARENT );
           if( _hParent == _hTemp )
-              break;
-          APPEND( "!!!!!!!!!!!!!!!", hex << _hTemp << " GA_PARENT: " << hex << _hParent );
-          APPEND( "!!!!!!!!!!!!!!!", hex << _hTemp << " GWL_HWNDPARENT: " << hex << _hParent2 );
+            break;
+          TRACE_MSG("!!!" <<  hex << _hTemp << " GA_PARENT: " << hex << _hParent);
+          TRACE_MSG("!!!" <<  hex << _hTemp << " GWL_HWNDPARENT: " << hex << _hParent2);
         }
-      APPEND_ENDL();
     }
     
 #endif
@@ -193,6 +186,7 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   core->set_insist_policy(initial_ignore_activity ?
                           ICore::INSIST_POLICY_IGNORE :
                           ICore::INSIST_POLICY_HALT);
+  TRACE_EXIT();
 }
 
 
@@ -499,21 +493,6 @@ BreakWindow::start()
   // Set window hints.
   set_skip_pager_hint(true);
   set_skip_taskbar_hint(true);
-/*
-#ifdef PLATFORM_OS_WIN32
-  // FIXME: hack until gtk+ is fixed.
-  GtkWidget *gtkwin = Gtk::Widget::gobj();
-  GdkWindow *gdkwin = gtkwin->window;
-
-  parent = GetWindowLong((HWND)GDK_WINDOW_HWND(gdkwin), GWL_HWNDPARENT);
-    
-  SetWindowLong((HWND)GDK_WINDOW_HWND(gdkwin), GWL_HWNDPARENT,
-                (long) GetDesktopWindow());
-
-  ::SetForegroundWindow((HWND)GDK_WINDOW_HWND(gdkwin));
-  ::SetFocus((HWND)GDK_WINDOW_HWND(gdkwin));
-#endif
-  */
   WindowHints::set_always_on_top(this, true);
   raise();
 
@@ -527,14 +506,7 @@ void
 BreakWindow::stop()
 {
   TRACE_ENTER("BreakWindow::stop");
-/*
-#ifdef PLATFORM_OS_WIN32
-  GtkWidget *gtkwin = Gtk::Widget::gobj();
-  GdkWindow *gdkwin = gtkwin->window;
-  SetWindowLong((HWND)GDK_WINDOW_HWND(gdkwin), GWL_HWNDPARENT,
-                parent);
-#endif
-*/
+
   if (frame != NULL)
     {
       frame->set_frame_flashing(0);

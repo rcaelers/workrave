@@ -268,14 +268,8 @@ ExerciseParser::ExerciseParser(std::list<Exercise> &exe)
   exercise = NULL;
   lang = "";
 
-  i18n_languages =  g_get_language_names(); // nls_get_language_list("LC_MESSAGES");
+  i18n_languages =  g_get_language_names();
 
-  // FIXME: remove this debugging
-  int i = 0;
-  for (i = 0; i18n_languages[i] != NULL; i++)
-    {
-      TRACE_MSG("lang " << i18n_languages[i]);
-    }
   TRACE_EXIT();
 }
 
