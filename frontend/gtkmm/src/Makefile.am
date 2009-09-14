@@ -94,7 +94,7 @@ ldflags = 	        -L$(top_builddir)/frontend/gtkmm/src/unix/
 endif
 
 if PLATFORM_OS_WIN32
-extrasources +=		$(sourceswin32)
+extrasources +=		$(sourceswin32) eggsmclient-win32.c
 includeswin32 = 	-I$(top_srcdir)/common/win32/harpoon/include \
 			-I$(top_srcdir)/frontend/gtkmm/src/win32/ \
 			-I$(top_srcdir)/frontend/win32/applet/include
@@ -129,7 +129,7 @@ if PLATFORM_OS_OSX
 includesosx  = 		-I$(top_srcdir)/frontend/gtkmm/src/osx
 ldflags =	 	-L$(top_builddir)/frontend/gtkmm/src/osx
 OSXLIBS	=		$(top_builddir)/frontend/gtkmm/src/osx/libworkrave-frontend-gtkmm-osx.la
-extrasources +=		
+extrasources +=	        eggsmclient-osx.c	
 endif
 
 
@@ -220,6 +220,10 @@ workrave_SOURCES = \
 			main.cc \
 			MainGtkMenu.cc \
 			StatusIcon.cc \
+			eggdesktopfile.c \
+			eggsmclient-dbus.c \
+			eggsmclient-xsmp.c \
+			eggsmclient.c \
 			${dbussources} \
 			$(extrasources)
 
