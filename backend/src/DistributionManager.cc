@@ -1,6 +1,6 @@
 // DistributionManager.cc
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2009 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -565,7 +565,7 @@ DistributionManager::config_changed_notify(const string &key)
 
 //! 
 void
-DistributionManager::log(char *fmt, ...)
+DistributionManager::log(const char *fmt, ...)
 {
   va_list va;
 

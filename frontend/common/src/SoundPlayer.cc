@@ -44,7 +44,6 @@
 #if defined HAVE_GSTREAMER
 #include "GstSoundPlayer.hh"
 #elif defined HAVE_GNOME
-#include <gdk/gdk.h>
 #include "GnomeSoundPlayer.hh"
 #elif defined HAVE_KDE
 #include "KdeSoundPlayer.hh"
@@ -58,6 +57,9 @@
 #include "OSXSoundPlayer.hh"
 #endif
 
+#if defined HAVE_GNOME
+#include <gdk/gdk.h>
+#endif
 
 const char *SoundPlayer::CFG_KEY_SOUND_ENABLED = "sound/enabled";
 const char *SoundPlayer::CFG_KEY_SOUND_DEVICE = "sound/device";

@@ -1,6 +1,6 @@
 // DistributionManager.hh
 //
-// Copyright (C) 2002, 2003, 2006, 2007, 2008 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2006, 2007, 2008, 2009 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -107,7 +107,7 @@ public:
   void master_changed(bool result, char *id);
   void signon_remote_client(char *client_id);
   void signoff_remote_client(char *client_id);
-  void log(char *fmt, ...);
+  void log(const char *fmt, ...);
 
 private:
   void sanitize_peer(string &peer);

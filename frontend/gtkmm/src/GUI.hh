@@ -25,6 +25,7 @@
 #include <sigc++/trackable.h>
 #include <glibmm.h>
 #include <gtkmm/tooltips.h>
+#include "eggsmclient.h"
 
 #include "HeadInfo.hh"
 #include "ICoreEventListener.hh"
@@ -32,11 +33,6 @@
 #include "IApp.hh"
 #include "BreakWindow.hh"
 #include "WindowHints.hh"
-
-#ifdef HAVE_GNOMEMM
-#include <libgnomeuimm.h>
-#endif
-
 
 namespace workrave {
   class IBreakResponse;
@@ -124,17 +120,14 @@ private:
   void init_multihead_desktop();
   void init_gui();
   void init_dbus();
+  void init_session();
   
   void init_gtk_multihead();
 
-#ifdef HAVE_GNOME
-  void init_gnome();
-#ifdef HAVE_GNOMEMM
-  void on_die();
-  bool on_save_yourself(int phase, Gnome::UI::SaveStyle save_style, bool shutdown,
-                        Gnome::UI::InteractStyle interact_style, bool fast);
-#endif
-#endif
+  static void session_quit_cb(EggSMClient *client, GUI *gui);
+  static void session_save_state_cb(EggSMClient *client, GKeyFile *key_file, GUI *gui);
+  void cleanup_session();
+
 #ifdef HAVE_KDE
   void init_kde();
 #endif

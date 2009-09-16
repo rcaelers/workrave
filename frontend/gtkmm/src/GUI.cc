@@ -27,6 +27,7 @@
 
 #include <gtkmm/main.h>
 #include <gtkmm/messagedialog.h>
+#include <glibmm/optiongroup.h>
 #include <glibmm/refptr.h>
 
 #ifdef HAVE_UNISTD_H
@@ -83,10 +84,6 @@
 
 #if defined(HAVE_GCONF)
 #include <gconf/gconf-client.h>
-#endif
-
-#if defined(HAVE_GNOMEMM)
-#include "libgnomeuimm/wrap_init.h"
 #endif
 
 #if defined(HAVE_KDE)
@@ -188,8 +185,25 @@ GUI::main()
 {
   TRACE_ENTER("GUI::main");
 
-  Gtk::Main kit(argc, argv);
+  Glib::OptionContext option_ctx;
 
+  if (!Glib::thread_supported())
+    Glib::thread_init();
+
+  Glib::OptionGroup *option_group = new Glib::OptionGroup(egg_sm_client_get_option_group());
+  option_ctx.add_group(*option_group);
+
+  Gtk::Main *kit = NULL;
+  try
+    {
+      kit = new Gtk::Main(argc, argv, option_ctx);
+    }
+  catch (const Glib::OptionError &e)
+    {
+      std::cout << "Failed to initialize: " << e.what() << std::endl;
+      exit(1);
+    }
+  
   if (!g_thread_supported())
     {
       g_thread_init(NULL);
@@ -198,6 +212,7 @@ GUI::main()
   init_core();
   init_nls();
   init_platform();
+  init_session();
   init_debug();
   init_sound_player();
   init_multihead();
@@ -213,12 +228,17 @@ GUI::main()
   Gtk::Main::run();
   gdk_threads_leave();
 
+  cleanup_session();
+    
   delete main_window;
   main_window = NULL;
 
   delete applet_control;
   applet_control = NULL;
 
+  delete kit;
+
+  
   TRACE_EXIT();
 }
 
@@ -312,9 +332,6 @@ static void my_log_handler(const gchar *log_domain, GLogLevelFlags log_level,
 void
 GUI::init_platform()
 {
-#if defined(HAVE_GNOME)
-  init_gnome();
-#endif
 #if defined(HAVE_KDE)
   init_kde();
 #endif
@@ -342,32 +359,13 @@ GUI::init_platform()
 }
 
 
-#if defined(HAVE_GNOME)
 void
-GUI::init_gnome()
+GUI::session_quit_cb(EggSMClient *client, GUI *gui)
 {
-  TRACE_ENTER("GUI::init_gnome");
-
-  gnome_init("workrave", VERSION, argc, argv);
-#if defined(HAVE_GNOMEMM)
-  Gnome::UI::wrap_init();
-
-  Gnome::UI::Client *client = Gnome::UI::Client::master_client();
-  if (client != NULL)
-    {
-      client->signal_save_yourself().connect(sigc::mem_fun(*this, &GUI::on_save_yourself));
-      client->signal_die().connect(sigc::mem_fun(*this, &GUI::on_die));
-    }
-
-  TRACE_EXIT();
-#endif
-}
-
-#if defined(HAVE_GNOMEMM)
-void
-GUI::on_die()
-{
-  TRACE_ENTER("GUI::on_die");
+  (void) client;
+  (void) gui;
+  
+  TRACE_ENTER("GUI::session_quit_cb");
 
   CoreFactory::get_configurator()->save();
   Gtk::Main::quit();
@@ -376,58 +374,51 @@ GUI::on_die()
 }
 
 
-bool
-GUI::on_save_yourself(int phase, Gnome::UI::SaveStyle save_style, bool shutdown,
-                      Gnome::UI::InteractStyle interact_style, bool fast)
+void
+GUI::session_save_state_cb(EggSMClient *client, GKeyFile *key_file, GUI *gui)
 {
-  TRACE_ENTER("GUI::on_save_yourself");
-
-  (void) phase;
-  (void) save_style;
-  (void) shutdown;
-  (void) interact_style;
-  (void) fast;
-
-  Gnome::UI::Client *client = Gnome::UI::Client::master_client();
-
-  vector<string> args;
-  args.push_back(argv[0] != NULL ? argv[0] : "workrave");
-
-  bool skip = false;
-
-  if (applet_control != NULL)
-    {
-      if (applet_control->is_visible(AppletControl::APPLET_GNOME))
-        {
-          skip = true;
-        }
-    }
-
-  if (skip)
-    {
-      client->set_restart_style(GNOME_RESTART_NEVER);
-    }
-  else
-    {
-      client->set_restart_style(GNOME_RESTART_IF_RUNNING);
-
-      char *display_name = gdk_get_display();
-      if (display_name != NULL)
-        {
-          args.push_back("--display");
-          args.push_back(display_name);
-        }
-    }
-
-  client->set_clone_command(args);
-  client->set_restart_command(args);
-
-  TRACE_EXIT();
-  return true;
+  (void) client;
+  (void) key_file;
+  (void) gui;
+  
+  CoreFactory::get_configurator()->save();
 }
 
-#endif // defined HAVE_GNOMEMM
-#endif // defined HAVE_GNOME
+void
+GUI::init_session()
+{
+  EggSMClient *client;
+
+  client = egg_sm_client_get();
+  if (client)
+    {
+      g_signal_connect(client,
+                       "quit",
+                       G_CALLBACK(session_quit_cb),
+                       this);
+      g_signal_connect(client,
+                       "save-state",
+                       G_CALLBACK(session_save_state_cb),
+                       this);
+    }
+}
+
+
+void
+GUI::cleanup_session()
+{
+  EggSMClient *client;
+
+  client = egg_sm_client_get();
+
+  g_signal_handlers_disconnect_by_func(client,
+                                       (gpointer)G_CALLBACK(session_quit_cb),
+                                       this);
+  g_signal_handlers_disconnect_by_func(client,
+                                       (gpointer)G_CALLBACK(session_save_state_cb),
+                                       this);
+}
+
 
 
 #if defined(HAVE_KDE)
@@ -1389,7 +1380,7 @@ std::string
 GUI::get_timers_tooltip()
 {
   //FIXME: duplicate
-  char *labels[] = { _("Micro-break"), _("Rest break"), _("Daily limit") };
+  const char *labels[] = { _("Micro-break"), _("Rest break"), _("Daily limit") };
   string tip = "";
 
   ICore *core = CoreFactory::get_core();
