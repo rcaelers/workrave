@@ -35,7 +35,7 @@ Debug::trace_get_time()
 
   time(&ltime);
   struct tm *tmlt = localtime(&ltime);
-  strftime(logtime, 128, "%d%b%Y%H:%M:%S ", tmlt);
+  strftime(logtime, 128, "%d%b%Y %H:%M:%S ", tmlt);
   return logtime;
 }
 
