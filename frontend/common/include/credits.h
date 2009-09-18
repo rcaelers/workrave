@@ -1,7 +1,7 @@
 /*
  * credits.h --- Workrave credits
  *
- * Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.nl>
+ * Copyright (C) 2007, 2008, 2009 Rob Caelers <robc@krandor.nl>
  * All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -46,6 +46,7 @@ const char *workrave_translators =
  /* el */           "Prokopis Prokopidis <prokopidis@gmail.com>\n"
  /* eo */           "Eric lesh <eclesh@pacbell.net>\n"
  /* es */           "Pablo Rodriguez <ousia@gmx.net>\n"
+ /* et */           "Marko Väljaots <aatomik@hotmail.com>\n"
  /* fr 1 */         "Thomas Basset <thomas.basset@netcourrier.com>\n"
  /* fr 2 */         "Benjamin Siband <translations@wordinfrench.com>\n"
  /* he */           "Haggai Eran <he3@bezeqint.net>\n"

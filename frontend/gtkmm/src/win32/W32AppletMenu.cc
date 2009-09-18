@@ -1,4 +1,3 @@
-
 // W32AppletMenu.cc --- Menus using W32Applet+
 //
 // Copyright (C) 2001 - 2009 Rob Caelers & Raymond Penners

@@ -1,6 +1,6 @@
 // WorkraveApplet.cc
 //
-// Copyright (C) 2002, 2003, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2005, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -23,10 +23,9 @@
 
 #include "credits.h"
 
-#include <gnome.h>
 #include <panel-applet.h>
 
-#include <gtk/gtkaboutdialog.h>
+#include <gtk/gtk.h>
 #include <gdk/gdkx.h>
 
 #define DBUS_API_SUBJECT_TO_CHANGE
@@ -37,7 +36,6 @@
 #include "WorkraveApplet.h"
 #include "applet-server-bindings.h"
 #include "gui-client-bindings.h"
-#include "nls.h"
 
 G_DEFINE_TYPE (WorkraveApplet, workrave_applet, G_TYPE_OBJECT);
 
@@ -685,7 +683,7 @@ showlog_callback(BonoboUIComponent *ui, const char *path, Bonobo_UIComponent_Eve
 
   new_state = strcmp(state, "0") != 0;
 
-  if (1) /* FIXME: last_showlog_state != new_state) */
+  if (1)
     {
       g_applet->last_showlog_state = new_state;
 

@@ -106,11 +106,6 @@ GUI::~GUI()
 
   delete main_window;
 
-  if (core != NULL)
-    {
-      // FIXME: cannot delete interface. delete core;
-    }
-
   TRACE_EXIT();
 }
 

@@ -1,7 +1,7 @@
 #ifndef __WORKRAVEAPPLET_H__
 #define __WORKRAVEAPPLET_H__
 
-#include <glib/gerror.h>
+#include <glib.h>
 #include <glib-object.h>
 
 G_BEGIN_DECLS

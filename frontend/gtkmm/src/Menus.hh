@@ -24,10 +24,6 @@
 
 #include <sigc++/trackable.h>
 
-#ifdef HAVE_GNOME
-#include <gnome.h>
-#endif
-
 #include "ICore.hh"
 
 class GUI;

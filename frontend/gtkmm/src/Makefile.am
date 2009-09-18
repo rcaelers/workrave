@@ -95,7 +95,7 @@ ldflags = 	        -L$(top_builddir)/frontend/gtkmm/src/unix/
 endif
 
 if PLATFORM_OS_WIN32
-extrasources +=		$(sourceswin32)
+extrasources +=		$(sourceswin32) eggsmclient-win32.c
 includeswin32 = 	-I$(top_srcdir)/common/win32/harpoon/include \
 			-I$(top_srcdir)/frontend/gtkmm/src/win32/ \
 			-I$(top_srcdir)/frontend/win32/applet/include
@@ -130,7 +130,7 @@ if PLATFORM_OS_OSX
 includesosx  = 		-I$(top_srcdir)/frontend/gtkmm/src/osx
 ldflags =	 	-L$(top_builddir)/frontend/gtkmm/src/osx
 OSXLIBS	=		$(top_builddir)/frontend/gtkmm/src/osx/libworkrave-frontend-gtkmm-osx.la
-extrasources +=		
+extrasources +=	        eggsmclient-osx.c	
 endif
 
 
@@ -221,6 +221,10 @@ workrave_SOURCES = \
 			main.cc \
 			MainGtkMenu.cc \
 			StatusIcon.cc \
+			eggdesktopfile.c \
+			eggsmclient-dbus.c \
+			eggsmclient-xsmp.c \
+			eggsmclient.c \
 			${dbussources} \
 			$(extrasources)
 
@@ -248,7 +252,7 @@ workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
 			-DWORKRAVE_DATADIR="\"${datadir}\""  \
 			-I$(top_srcdir)/frontend/gtkmm/src/ \
 			@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
-			@X_CFLAGS@ @GNOMEMM_CFLAGS@ \
+			@X_CFLAGS@ @GNOME_CFLAGS@ \
 			@GNOME_CFLAGS@ @GTK_CFLAGS@ \
 			@GCONF_CFLAGS@ -D_XOPEN_SOURCE=600 @GNET_CFLAGS@ \
 			@KDE_INCLUDES@ @QT_INCLUDES@ @DBUS_CFLAGS@  @IGE_CFLAGS@ \
@@ -282,7 +286,7 @@ $(bin_PROGRAMS):	$(top_builddir)/backend/src/libworkrave-backend.la \
 
 workrave_LDFLAGS = 	@WR_LDFLAGS@ ${ldflags}
 
-workrave_LDADD =        @WR_LDADD@ @X_LIBS@ @GNOME_LIBS@ @GNOMEMM_LIBS@ \
+workrave_LDADD =        @WR_LDADD@ @X_LIBS@ @GNOME_LIBS@ \
 			@GTK_LIBS@ @GNET_LIBS@ @X_LIBS@ @GCONF_LIBS@ @GDOME_LIB@ \
 			@KDE_LDFLAGS@ @LIB_KDEUI@ @LIB_KDECORE@ \
 			@QT_LDFLAGS@ @LIB_QT@ @DBUS_LIBS@  @IGE_LIBS@ @GSTREAMER_LIBS@ \

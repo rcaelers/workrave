@@ -23,12 +23,6 @@
 
 #include "debug.hh"
 
-// FIXME: remove
-#if defined(PLATFORM_OS_WIN32)
-#define BACKEND
-#include "w32debug.hh"
-#endif
-
 #include <stdlib.h>
 #include <assert.h>
 #include <iostream>
@@ -516,17 +510,11 @@ Core::get_operation_mode()
 OperationMode
 Core::set_operation_mode(OperationMode mode, bool persistent)
 {
-
-#ifdef PLATFORM_OS_WIN32
-// FIXME: debug, remove later
-if(mode == OPERATION_MODE_NORMAL)
-APPEND_TIME("Core::set_operation_mode()", "OPERATION_MODE_NORMAL ")
-else if (mode == OPERATION_MODE_SUSPENDED)
-APPEND_TIME("Core::set_operation_mode()", "OPERATION_MODE_SUSPENDED ")
-else if (mode == OPERATION_MODE_QUIET)
-APPEND_TIME("Core::set_operation_mode()", "OPERATION_MODE_QUIET ")
-#endif
-
+  TRACE_ENTER_MSG("Core::set_operation_mode",
+                  (mode == OPERATION_MODE_NORMAL ? "normal" :
+                   mode == OPERATION_MODE_SUSPENDED ? "suspended" :
+                   mode == OPERATION_MODE_QUIET ? "quiet" : "???"));
+  
   OperationMode previous_mode = operation_mode;
   
   if (operation_mode != mode)
@@ -556,6 +544,7 @@ APPEND_TIME("Core::set_operation_mode()", "OPERATION_MODE_QUIET ")
         }
 #endif
     }
+  TRACE_RETURN(previous_mode);
   return previous_mode;
 }
 
@@ -564,17 +553,11 @@ APPEND_TIME("Core::set_operation_mode()", "OPERATION_MODE_QUIET ")
 OperationMode
 Core::set_operation_mode_no_event(OperationMode mode, bool persistent)
 {
-
-#ifdef PLATFORM_OS_WIN32
-// FIXME: debug, remove later
-if(mode == OPERATION_MODE_NORMAL)
-APPEND_TIME("Core::set_operation_mode()", "OPERATION_MODE_NORMAL ")
-else if (mode == OPERATION_MODE_SUSPENDED)
-APPEND_TIME("Core::set_operation_mode()", "OPERATION_MODE_SUSPENDED ")
-else if (mode == OPERATION_MODE_QUIET)
-APPEND_TIME("Core::set_operation_mode()", "OPERATION_MODE_QUIET ")
-#endif
-
+  TRACE_ENTER_MSG("Core::set_operation_mode_no_event",
+                  (mode == OPERATION_MODE_NORMAL ? "normal" :
+                   mode == OPERATION_MODE_SUSPENDED ? "suspended" :
+                   mode == OPERATION_MODE_QUIET ? "quiet" : "???"));
+  
   OperationMode previous_mode = operation_mode;
   
   if (operation_mode != mode)
@@ -618,7 +601,8 @@ APPEND_TIME("Core::set_operation_mode()", "OPERATION_MODE_QUIET ")
           core_event_listener->core_event_operation_mode_changed(mode);
         }
     }
-  
+
+  TRACE_RETURN(previous_mode);
   return previous_mode;
 }
 
@@ -784,21 +768,6 @@ Core::postpone_break(BreakId break_id)
   BreakLinkEvent event(break_id, BreakLinkEvent::BREAK_EVENT_USER_POSTPONE);
   network->send_event(&event);
 #endif
-
-  /* FIXME: move to frontend
-  if (resume_break != BREAK_ID_NONE &&
-      !breaks[resume_break].get_break_ignorable())
-    {
-      Timer *timer = breaks[resume_break].get_timer();
-      assert(timer != NULL);
-
-      if (timer->get_elapsed_time() > timer->get_limit())
-        {
-          force_break(resume_break, false);
-          resume_break = BREAK_ID_NONE;
-        }
-    }
-  */
 }
 
 
@@ -812,21 +781,6 @@ Core::skip_break(BreakId break_id)
   BreakLinkEvent event(break_id, BreakLinkEvent::BREAK_EVENT_USER_SKIP);
   network->send_event(&event);
 #endif
-
-  /* FIXME: move to frontend
-  if (resume_break != BREAK_ID_NONE &&
-      !breaks[resume_break].get_break_ignorable())
-    {
-      Timer *timer = breaks[resume_break].get_timer();
-      assert(timer != NULL);
-
-      if (timer->get_elapsed_time() > timer->get_limit())
-        {
-          force_break(resume_break, false);
-          resume_break = BREAK_ID_NONE;
-        }
-    }
-  */
 }
 
 

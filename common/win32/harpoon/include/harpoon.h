@@ -112,13 +112,24 @@ HARPOON_API char *_mbstrncpy_lowercase( const char *, const char *, int );
 }
 #endif
 
+#ifndef XBUTTON1
 #define XBUTTON1 0x0001
+#endif
+
+#ifndef XBUTTON2
 #define XBUTTON2 0x0002
+#endif
 
 #ifndef PLATFORM_OS_WIN32_NATIVE
 
+#ifndef WM_XBUTTONDOWN
 #define WM_XBUTTONDOWN 523
+#endif
+
+#ifndef WM_XBUTTONUP
 #define WM_XBUTTONUP 524
+#endif
+
 #define WM_XBUTTONDBLCLK 525
 #define WM_MOUSEHWHEEL 526
 

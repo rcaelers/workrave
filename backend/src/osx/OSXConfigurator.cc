@@ -1,6 +1,6 @@
 // OSXConfigurator.cc --- Configuration Access
 //
-// Copyright (C) 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2008, 2009 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -114,15 +114,17 @@ OSXConfigurator::get_value(const std::string &key, VariantType type,
           // FALLTHROUGH
 
         case VARIANT_TYPE_STRING:
-          NSString *val = [[NSUserDefaults standardUserDefaults] stringForKey: keystring];
-          if (val != nil)
-            {
-              out.string_value = [val cStringUsingEncoding:NSUTF8StringEncoding];
-            }
-          else
-            {
-              ret = false;
-            }
+          {
+            NSString *val = [[NSUserDefaults standardUserDefaults] stringForKey: keystring];
+            if (val != nil)
+              {
+                out.string_value = [val cStringUsingEncoding:NSUTF8StringEncoding];
+              }
+            else
+              {
+                ret = false;
+              }
+          }
           break;
 
         default:

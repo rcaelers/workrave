@@ -20,7 +20,7 @@ AM_MAINTAINER_MODE
 
 dnl Set of available languages.
 AC_SUBST(ALL_LINGUAS)
-ALL_LINGUAS="nl de eo pl da es zh_TW ru fr pt_BR nb lt cs he eu ca sv ja bg hu tr el sk zh_CN it sl ro"
+ALL_LINGUAS="nl de eo pl da es zh_TW ru fr pt_BR nb lt cs he eu ca sv ja bg hu tr el sk zh_CN it sl ro et"
 AC_DEFINE_UNQUOTED(ALL_LINGUAS, "$ALL_LINGUAS" ,[All available languages])
 
 dnl
@@ -29,7 +29,7 @@ dnl
 
 AC_ARG_ENABLE(app-gtk,
               [AC_HELP_STRING([--disable-app-gtk],
-                              [compile without Gtk/Gnome support])],
+                              [compile without Gtk support])],
               [config_gtk=$enableval], [config_gtk=yes])
 
 AC_ARG_ENABLE(app-text,
@@ -51,11 +51,6 @@ AC_ARG_ENABLE( gnome,
               [AC_HELP_STRING([--disable-gnome],
                               [compile without Gnome support])],
               [config_gnome=$enableval], [config_gnome=yes])
-
-AC_ARG_ENABLE( gnomemm,
-              [AC_HELP_STRING([--disable-gnomemm],
-                              [compile without Gnomeuimm support])],
-              [config_gnomemm=$enableval], [config_gnomemm=yes])
 
 AC_ARG_ENABLE( dbus,
               [AC_HELP_STRING([--enable-dbus],
@@ -228,6 +223,7 @@ dnl
 dnl Windows specific checks
 dnl
 
+have_dsound=no
 LIBSTDCPP_LIBS=
 WIN32CONSOLE=
 
@@ -238,16 +234,23 @@ then
     if test "x$config_debug" != "xyes"
     then
         WIN32CONSOLE=-mwindows
+    else
+        WIN32CONSOLE=-mconsole
     fi
 
     config_gconf=no
     config_gnome=no
-    config_gnomemm=no
     config_xml=no
+
+   AC_CHECK_HEADER(dsound.h, [ AC_DEFINE(HAVE_DSOUND, 1, [Define if we have DirectSound])
+                                        have_dsound=yes LIBS="$LIBS -ldsound -luuid -ldxguid -ldxerr8"
+                                     ])
 fi
 
 AC_SUBST(LIBSTDCPP_LIBS)
 AC_SUBST(WIN32CONSOLE)
+
+AM_CONDITIONAL(HAVE_DSOUND, test "$have_dsound" = "yes")
 
 dnl
 dnl OSX specific checks
@@ -269,7 +272,6 @@ then
                                      ])])
 
     config_gnome=no
-    config_gnomemm=no
     config_gconf=no
 
     LDFLAGS="$LDFLAGS -headerpad_max_install_names"
@@ -340,23 +342,13 @@ dnl
 
 if test "x$config_gnome" = "xyes";
 then
-    if test "x$config_gnomemm" = "xyes";
-    then
-        PKG_CHECK_MODULES(GNOMEMM, libgnomeuimm-2.6)
-    fi
-
     PKG_CHECK_MODULES(GNOME,
-                      libgnomeui-2.0 \
                       libpanelapplet-2.0 >= 2.0.10 \
                       libbonobo-2.0 >= 2.0.0)
-else
-  config_gnomemm=no
 fi
 
 AC_SUBST(GNOME_LIBS)
 AC_SUBST(GNOME_CFLAGS)
-AC_SUBST(GNOMEMM_LIBS)
-AC_SUBST(GNOMEMM_CFLAGS)
 AC_SUBST(IDL_INCLUDES)
    
 
@@ -631,11 +623,6 @@ fi
 HAVE_GNOME=
 if test "x$config_gnome" = "xyes"; then
    AC_DEFINE(HAVE_GNOME,,[Define if Gnome is available])
-fi
-
-HAVE_GNOMEMM=
-if test "x$config_gnomemm" = "xyes"; then
-   AC_DEFINE(HAVE_GNOMEMM,,[Define if Gnomeuimm/Gnomemm is available])
 fi
 
 HAVE_GNOMEAPPLET=

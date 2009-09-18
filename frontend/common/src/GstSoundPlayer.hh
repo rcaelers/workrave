@@ -1,6 +1,6 @@
 // GstSoundPlayer.hh
 //
-// Copyright (C) 2008 Rob Caelers
+// Copyright (C) 2008, 2009 Rob Caelers
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -32,6 +32,7 @@ public:
   GstSoundPlayer();
   virtual ~GstSoundPlayer();
 
+  void init() {};
   bool capability(SoundPlayer::SoundCapability cap);
   void play_sound(SoundPlayer::SoundEvent snd);
   void play_sound(std::string wavfile);

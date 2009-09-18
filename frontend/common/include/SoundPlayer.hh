@@ -85,6 +85,7 @@ public:
   static Device get_device();
   static void set_device(Device dev);
 
+  void init();
   bool capability(SoundCapability cap);
   
   bool get_sound_enabled(SoundEvent snd, bool &enabled);

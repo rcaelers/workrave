@@ -7,7 +7,7 @@
 
 #ifdef PLATFORM_OS_UNIX
 
-#include <gdk/gdkwindow.h>
+#include <gdk/gdk.h>
 
 #ifdef __cplusplus
 extern "C" {

@@ -1,6 +1,6 @@
 // GUI.cc --- The WorkRave GUI
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2009 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -25,12 +25,9 @@
 #include "nls.h"
 #include "debug.hh"
 
-#if defined(PLATFORM_OS_WIN32)
-#include "w32debug.hh"
-#endif
-
 #include <gtkmm/main.h>
 #include <gtkmm/messagedialog.h>
+#include <glibmm/optiongroup.h>
 #include <glibmm/refptr.h>
 
 #ifdef HAVE_UNISTD_H
@@ -49,7 +46,8 @@
 #include "IConfigurator.hh"
 #include "ICore.hh"
 #include "CoreFactory.hh"
-  
+
+#include "Exception.hh"
 #include "AppletControl.hh"
 #include "AppletWindow.hh"
 #include "BreakWindow.hh"
@@ -90,10 +88,6 @@
 
 #if defined(HAVE_GCONF)
 #include <gconf/gconf-client.h>
-#endif
-
-#if defined(HAVE_GNOMEMM)
-#include "libgnomeuimm/wrap_init.h"
 #endif
 
 #if defined(HAVE_KDE)
@@ -195,19 +189,29 @@ GUI::main()
 {
   TRACE_ENTER("GUI::main");
 
-#if (defined (PLATFORM_OS_WIN32) && !defined(PLATFORM_OS_WIN32_NATIVE)) || defined(PLATFORM_OS_OSX)
-  // Win32/OSX need this....
-  if (!g_thread_supported())
-    {
-      g_thread_init(NULL);
-    }
-#endif
-  
-  Gtk::Main kit(argc, argv);
+  Glib::OptionContext option_ctx;
 
+  if (!Glib::thread_supported())
+    Glib::thread_init();
+
+  Glib::OptionGroup *option_group = new Glib::OptionGroup(egg_sm_client_get_option_group());
+  option_ctx.add_group(*option_group);
+
+  Gtk::Main *kit = NULL;
+  try
+    {
+      kit = new Gtk::Main(argc, argv, option_ctx);
+    }
+  catch (const Glib::OptionError &e)
+    {
+      std::cout << "Failed to initialize: " << e.what() << std::endl;
+      exit(1);
+    }
+  
   init_core();
   init_nls();
   init_platform();
+  init_session();
   init_debug();
   init_sound_player();
   init_multihead();
@@ -217,22 +221,24 @@ GUI::main()
   
   on_timer();
 
-#if defined(PLATFORM_OS_WIN32)
-  // FIXME: debug, remove later
-  APPEND_TIME( "Workrave started and initialized", "Entering event loop." );
-#endif
+  TRACE_MSG("Initialized. Entering event loop.");
 
   // Enter the event loop
   gdk_threads_enter();
   Gtk::Main::run();
   gdk_threads_leave();
 
+  cleanup_session();
+    
   delete main_window;
   main_window = NULL;
 
   delete applet_control;
   applet_control = NULL;
 
+  delete kit;
+
+  
   TRACE_EXIT();
 }
 
@@ -326,9 +332,6 @@ static void my_log_handler(const gchar *log_domain, GLogLevelFlags log_level,
 void
 GUI::init_platform()
 {
-#if defined(HAVE_GNOME)
-  init_gnome();
-#endif
 #if defined(HAVE_KDE)
   init_kde();
 #endif
@@ -356,32 +359,13 @@ GUI::init_platform()
 }
 
 
-#if defined(HAVE_GNOME)
 void
-GUI::init_gnome()
+GUI::session_quit_cb(EggSMClient *client, GUI *gui)
 {
-  TRACE_ENTER("GUI::init_gnome");
-
-  gnome_init("workrave", VERSION, argc, argv);
-#if defined(HAVE_GNOMEMM)
-  Gnome::UI::wrap_init();
-
-  Gnome::UI::Client *client = Gnome::UI::Client::master_client();
-  if (client != NULL)
-    {
-      client->signal_save_yourself().connect(sigc::mem_fun(*this, &GUI::on_save_yourself));
-      client->signal_die().connect(sigc::mem_fun(*this, &GUI::on_die));
-    }
-
-  TRACE_EXIT();
-#endif
-}
-
-#if defined(HAVE_GNOMEMM)
-void
-GUI::on_die()
-{
-  TRACE_ENTER("GUI::on_die");
+  (void) client;
+  (void) gui;
+  
+  TRACE_ENTER("GUI::session_quit_cb");
 
   CoreFactory::get_configurator()->save();
   Gtk::Main::quit();
@@ -390,58 +374,51 @@ GUI::on_die()
 }
 
 
-bool
-GUI::on_save_yourself(int phase, Gnome::UI::SaveStyle save_style, bool shutdown,
-                      Gnome::UI::InteractStyle interact_style, bool fast)
+void
+GUI::session_save_state_cb(EggSMClient *client, GKeyFile *key_file, GUI *gui)
 {
-  TRACE_ENTER("GUI::on_save_yourself");
-
-  (void) phase;
-  (void) save_style;
-  (void) shutdown;
-  (void) interact_style;
-  (void) fast;
-
-  Gnome::UI::Client *client = Gnome::UI::Client::master_client();
-
-  vector<string> args;
-  args.push_back(argv[0] != NULL ? argv[0] : "workrave");
-
-  bool skip = false;
-
-  if (applet_control != NULL)
-    {
-      if (applet_control->is_visible(AppletControl::APPLET_GNOME))
-        {
-          skip = true;
-        }
-    }
-
-  if (skip)
-    {
-      client->set_restart_style(GNOME_RESTART_NEVER);
-    }
-  else
-    {
-      client->set_restart_style(GNOME_RESTART_IF_RUNNING);
-
-      char *display_name = gdk_get_display();
-      if (display_name != NULL)
-        {
-          args.push_back("--display");
-          args.push_back(display_name);
-        }
-    }
-
-  client->set_clone_command(args);
-  client->set_restart_command(args);
-
-  TRACE_EXIT();
-  return true;
+  (void) client;
+  (void) key_file;
+  (void) gui;
+  
+  CoreFactory::get_configurator()->save();
 }
 
-#endif // defined HAVE_GNOMEMM
-#endif // defined HAVE_GNOME
+void
+GUI::init_session()
+{
+  EggSMClient *client;
+
+  client = egg_sm_client_get();
+  if (client)
+    {
+      g_signal_connect(client,
+                       "quit",
+                       G_CALLBACK(session_quit_cb),
+                       this);
+      g_signal_connect(client,
+                       "save-state",
+                       G_CALLBACK(session_save_state_cb),
+                       this);
+    }
+}
+
+
+void
+GUI::cleanup_session()
+{
+  EggSMClient *client;
+
+  client = egg_sm_client_get();
+
+  g_signal_handlers_disconnect_by_func(client,
+                                       (gpointer)G_CALLBACK(session_quit_cb),
+                                       this);
+  g_signal_handlers_disconnect_by_func(client,
+                                       (gpointer)G_CALLBACK(session_save_state_cb),
+                                       this);
+}
+
 
 
 #if defined(HAVE_KDE)
@@ -901,7 +878,17 @@ GUI::init_network()
 void
 GUI::init_sound_player()
 {
-  sound_player = new SoundPlayer(); /* LEAK */
+  TRACE_ENTER("GUI:init_sound_player");
+  try
+    {
+      sound_player = new SoundPlayer(); /* LEAK */
+      sound_player->init();
+    }
+  catch (Exception)
+    {
+      TRACE_MSG("No sound");
+    }
+  TRACE_EXIT();
 }
 
 
@@ -1402,7 +1389,7 @@ std::string
 GUI::get_timers_tooltip()
 {
   //FIXME: duplicate
-  char *labels[] = { _("Micro-break"), _("Rest break"), _("Daily limit") };
+  const char *labels[] = { _("Micro-break"), _("Rest break"), _("Daily limit") };
   string tip = "";
 
   ICore *core = CoreFactory::get_core();
@@ -1486,7 +1473,6 @@ GUI::is_status_icon_visible() const
 void
 GUI::win32_init_filter()
 {
-  // FIXME: GtkWidget *window = main_window->Gtk::Widget::gobj();
   GtkWidget *window = (GtkWidget *)main_window->gobj();
   GdkWindow *gdk_window = window->window;
   gdk_window_add_filter(gdk_window, win32_filter_func, this);
@@ -1509,74 +1495,38 @@ GUI::win32_filter_func (void     *xevent,
       {
         TRACE_MSG("WM_POWERBROADCAST " << msg->wParam << " " << msg->lParam);
 
-#if defined(PLATFORM_OS_WIN32)
-// FIXME: debug, remove later
-switch (msg->wParam)
-{
-case PBT_APMBATTERYLOW:
-APPEND_TIME("WM_POWERBROADCAST", "PBT_APMBATTERYLOW");
-break;
-case PBT_APMOEMEVENT:
-APPEND_TIME("WM_POWERBROADCAST", "PBT_APMOEMEVENT");
-break;
-case PBT_APMPOWERSTATUSCHANGE:
-APPEND_TIME("WM_POWERBROADCAST", "PBT_APMPOWERSTATUSCHANGE");
-break;
-case PBT_APMQUERYSUSPEND:
-APPEND_TIME("WM_POWERBROADCAST", "PBT_APMQUERYSUSPEND");
-break;
-case PBT_APMQUERYSUSPENDFAILED:
-APPEND_TIME("WM_POWERBROADCAST", "PBT_APMQUERYSUSPENDFAILED");
-break;
-case PBT_APMRESUMEAUTOMATIC:
-APPEND_TIME("WM_POWERBROADCAST", "PBT_APMRESUMEAUTOMATIC");
-break;
-case PBT_APMRESUMECRITICAL:
-APPEND_TIME("WM_POWERBROADCAST", "PBT_APMRESUMECRITICAL");
-break;
-case PBT_APMRESUMESUSPEND:
-APPEND_TIME("WM_POWERBROADCAST", "PBT_APMRESUMESUSPEND");
-break;
-case PBT_APMSUSPEND:
-APPEND_TIME("WM_POWERBROADCAST", "PBT_APMSUSPEND");
-break;
-default:
-APPEND_TIME("WM_POWERBROADCAST", "<UNKNOWN MESSAGE> : " << hex << msg->wParam );
-}
-#endif
+        switch (msg->wParam)
+          {
+          case PBT_APMQUERYSUSPEND:
+            TRACE_MSG("Query Suspend");
+            break;
 
-          switch (msg->wParam)
+          case PBT_APMQUERYSUSPENDFAILED:
+            TRACE_MSG("Query Suspend Failed");
+            break;
+
+          case PBT_APMRESUMESUSPEND:
             {
-            case PBT_APMQUERYSUSPEND:
-              TRACE_MSG("Query Suspend");
-              break;
-
-            case PBT_APMQUERYSUSPENDFAILED:
-              TRACE_MSG("Query Suspend Failed");
-              break;
-
-            case PBT_APMRESUMESUSPEND:
-              {
-                TRACE_MSG("Resume suspend");
-                ICore *core = CoreFactory::get_core();
-                if (core != NULL)
-                  {
-                    core->set_powersave(false);
-                  }
-              }
-              break;
-
-            case PBT_APMSUSPEND:
-              {
-                TRACE_MSG("Suspend");
-                ICore *core = CoreFactory::get_core();
-                if (core != NULL)
-                  {
-                    core->set_powersave(true);
-                  }
-              }
-              break;
+              TRACE_MSG("Resume suspend");
+              ICore *core = CoreFactory::get_core();
+              if (core != NULL)
+                {
+                  core->set_powersave(false);
+                }
             }
+            break;
+
+          case PBT_APMSUSPEND:
+            {
+              TRACE_MSG("Suspend");
+              ICore *core = CoreFactory::get_core();
+              if (core != NULL)
+                {
+                  core->set_powersave(true);
+                }
+            }
+            break;
+          }
       }
       break;
 

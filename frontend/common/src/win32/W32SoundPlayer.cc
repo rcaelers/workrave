@@ -546,15 +546,15 @@ W32SoundPlayer::load_wav_file(const string &filename)
       size_t copy = mmio.pchEndRead - mmio.pchNext;
 
       if (copy > 0) 
-	{	
-	  if (copy > sample_size - pos)
-	    {
-	      copy = sample_size - pos;
-	    }
+        {	
+          if (copy > sample_size - pos)
+            {
+              copy = sample_size - pos;
+            }
 
-	  memcpy(sample + pos, mmio.pchNext, copy);
-	  pos += copy;
-	}
+          memcpy(sample + pos, mmio.pchNext, copy);
+          pos += copy;
+        }
 
       mmio.pchNext = mmio.pchEndRead;
 

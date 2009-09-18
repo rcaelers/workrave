@@ -7,15 +7,37 @@ http://www.workrave.org
 
 * Workrave 1.9.1
 
-** Fix saving the username in the networking preferences (Francois Marier)
+** Updated translations
 
-** Fix KDE compilation errors (Stanislav Brabec)
+*** new Romanian translation (Alexandru Szasz)
 
-** Romanian translation (Alexandru Szasz)
+*** new Estonian translation (Marko Väljaots)
 
-** Removed extra "2" character in the Hungarian translation (Márton Németh)
+*** Removed extra "2" character in the Hungarian translation (Márton Németh)
 
-** Many bug fixes.
+*** Update of Hungarian translation
+
+*** Update of Swedish translation 
+
+** Many bug fixes. Including:
+
+*** Fix saving the username in the networking preferences (Francois Marier)
+
+*** Fix KDE compilation errors (Stanislav Brabec)
+
+*** Fixed issue where autostart settings on Windows was not stored
+
+*** Fixed crashes when trying to add a host in networking preferences
+
+*** User activity is now recognized on Xorg 1.6.0
+
+*** Fixed color in dark UI themes on Gnome.
+
+*** Workrave no longer shows two icons on GNOME notification panel 
+
+*** Fixed tray icon tranparency
+
+*** Fixed issue on Vista where the break window is not on top of other windows
 
 * Workrave 1.9.0
 

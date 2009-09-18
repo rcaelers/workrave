@@ -48,7 +48,6 @@ GnomeSoundPlayer::GnomeSoundPlayer()
 GnomeSoundPlayer::~GnomeSoundPlayer()
 {
   TRACE_ENTER("GnomeSoundPlayer::~GnomeSoundPlayer");
-  // FIXME: check this one:
   gnome_sound_shutdown ();
   TRACE_EXIT();
 }

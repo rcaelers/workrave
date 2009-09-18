@@ -1,7 +1,7 @@
 /*
  * nls.h --- i18n-isation
  *
- * Copyright (C) 2002, 2003, 2006, 2008 Raymond Penners
+ * Copyright (C) 2002, 2003, 2006, 2008, 2009 Raymond Penners
  * All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,43 +22,24 @@
 #ifndef WORKRAVE_NLS_H
 #define WORKRAVE_NLS_H
 
-#ifdef HAVE_GNOME
-#  include <gnome.h>
-#else
-#  ifdef ENABLE_NLS
-#    include <locale.h>
-#      include <libintl.h>
-#      define _(String) gettext (String)
-#      ifdef gettext_noop
-#          define N_(String) gettext_noop (String)
-#      else
-#          define N_(String) (String)
-#      endif
+#ifdef ENABLE_NLS
+#  include <locale.h>
+#  include <libintl.h>
+#  define _(String) ((const char *)gettext(String))
+#  ifdef gettext_noop
+#      define N_(String) gettext_noop (String)
 #  else
-/* Stubs that do something close enough.  */
-#      define textdomain(String) (String)
-#      define gettext(String) (String)
-#      define dgettext(Domain,Message) (Message)
-#      define dcgettext(Domain,Message,Type) (Message)
-#      define bindtextdomain(Domain,Directory) (Domain)
-#      define _(String) (String)
 #      define N_(String) (String)
 #  endif
-#endif
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-  /* Deprecated */
-/* #ifdef HAVE_GLIB */
-/* #include <glib/glist.h> */
-/* const GList * */
-/* nls_get_language_list (const gchar *category_name); */
-/* #endif */
-
-#ifdef __cplusplus
-}
+#else
+/* Stubs that do something close enough.  */
+#  define textdomain(String) (String)
+#  define gettext(String) (String)
+#  define dgettext(Domain,Message) (Message)
+#  define dcgettext(Domain,Message,Type) (Message)
+#  define bindtextdomain(Domain,Directory) (Domain)
+#  define _(String) (String)
+#  define N_(String) (String)
 #endif
 
 #endif // WORKRAVE_NLS_H

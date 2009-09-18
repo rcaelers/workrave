@@ -1,6 +1,6 @@
 // W32SoundPlayer.hh
 //
-// Copyright (C) 2002, 2003, 2006, 2007, 2008 Raymond Penners & Ray Satiro
+// Copyright (C) 2002 - 2009 Raymond Penners, Ray Satiro, Rob Caelers
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -28,6 +28,7 @@ public:
   W32SoundPlayer();
   virtual ~W32SoundPlayer();
 
+  void init() {}
   bool capability(SoundPlayer::SoundCapability cap);
   void play_sound(SoundPlayer::SoundEvent snd);
   void play_sound(std::string wavfile);

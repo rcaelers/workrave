@@ -37,10 +37,6 @@
 
 #include <iostream>
 
-#ifdef HAVE_GNOME
-#include <gnome.h>
-#endif
-
 #include "AppletControl.hh"
 
 #include "TimerBoxGtkView.hh"
