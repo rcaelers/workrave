@@ -41,7 +41,7 @@ GNOME_WorkraveApplet.xml: GNOME_WorkraveApplet.xml.in
 	sed -e "s|\@PIXDIR\@|$(pkgdatadir)/images|" $< > $@
 
 Workrave-Applet.server.in: Workrave-Applet.server.in.in
-	sed -e "s|\@LIBEXECDIR\@|$(libexecdir)|" $< > $@
+	sed -e "s|\@LIBEXECDIR\@|$(libexecdir)|" -e "s|\@ICONSDIR\@|$(datadir)/pixmaps/workrave|" $< > $@
 
 @INTLTOOL_SERVER_RULE@
 
