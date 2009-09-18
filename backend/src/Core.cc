@@ -733,21 +733,6 @@ Core::postpone_break(BreakId break_id)
 #ifdef HAVE_DISTRIBUTION
   send_break_control_message(break_id, BCM_POSTPONE);
 #endif
-
-  /* FIXME: move to frontend
-  if (resume_break != BREAK_ID_NONE &&
-      !breaks[resume_break].get_break_ignorable())
-    {
-      Timer *timer = breaks[resume_break].get_timer();
-      assert(timer != NULL);
-
-      if (timer->get_elapsed_time() > timer->get_limit())
-        {
-          force_break(resume_break, false);
-          resume_break = BREAK_ID_NONE;
-        }
-    }
-  */
 }
 
 
@@ -760,21 +745,6 @@ Core::skip_break(BreakId break_id)
 #ifdef HAVE_DISTRIBUTION
   send_break_control_message(break_id, BCM_SKIP);
 #endif
-
-  /* FIXME: move to frontend
-  if (resume_break != BREAK_ID_NONE &&
-      !breaks[resume_break].get_break_ignorable())
-    {
-      Timer *timer = breaks[resume_break].get_timer();
-      assert(timer != NULL);
-
-      if (timer->get_elapsed_time() > timer->get_limit())
-        {
-          force_break(resume_break, false);
-          resume_break = BREAK_ID_NONE;
-        }
-    }
-  */
 }
 
 

@@ -45,6 +45,7 @@
 
 #include "GUI.hh"
 #include "BreakWindow.hh"
+#include "IBreak.hh"
 #include "IBreakResponse.hh"
 #include "GtkUtil.hh"
 #include "WindowHints.hh"
@@ -401,6 +402,7 @@ BreakWindow::on_postpone_button_clicked()
   if (break_response != NULL)
     {
       break_response->postpone_break(break_id);
+      resume_non_ignorable_break();
     }
   TRACE_EXIT();
 }
@@ -414,10 +416,40 @@ BreakWindow::on_skip_button_clicked()
   if (break_response != NULL)
     {
       break_response->skip_break(break_id);
+      resume_non_ignorable_break();
     }
 }
 
 
+void
+BreakWindow::resume_non_ignorable_break()
+{
+  TRACE_ENTER("BreakWindow::resume_non_ignorable_break");
+  for (int id = break_id - 1; id >= 0; id--)
+    {
+      TRACE_MSG("Break " << id << ": check ignorable");
+
+      bool ignorable = GUIConfig::get_ignorable(BreakId(id));
+      if (!ignorable)
+        {
+          TRACE_MSG("Break " << id << " not ignorable");
+          
+          ICore *core = CoreFactory::get_core();
+          assert(core != NULL);
+              
+          IBreak *b = core->get_break(BreakId(id));
+          assert(b != NULL);
+
+          if (b->get_elapsed_time() > b->get_limit())
+            {
+              TRACE_MSG("Break " << id << " not ignorable and overdue");
+
+              core->force_break(BreakId(id), false);
+              break;
+            }
+        }
+    }
+}
 
 //! Control buttons.
 Gtk::HButtonBox *
