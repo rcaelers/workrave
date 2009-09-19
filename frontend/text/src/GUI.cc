@@ -1,4 +1,3 @@
-
 // TextGUI.cc --- The WorkRave GUI
 //
 // Copyright (C) 2001 - 2009 Rob Caelers & Raymond Penners
