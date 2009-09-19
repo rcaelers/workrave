@@ -204,11 +204,6 @@ GUI::main()
       exit(1);
     }
   
-  if (!g_thread_supported())
-    {
-      g_thread_init(NULL);
-    }
-  
   init_core();
   init_nls();
   init_platform();
@@ -339,14 +334,6 @@ GUI::init_platform()
   [ [ AppController alloc ] init ];
 #endif
   
-#if (defined (PLATFORM_OS_WIN32) && !defined(PLATFORM_OS_WIN32_NATIVE)) || defined(PLATFORM_OS_OSX)
-  // Win32/OSX need this....
-  if (!g_thread_supported())
-    {
-      g_thread_init(NULL);
-    }
-#endif
-
 #if defined(PLATFORM_OS_UNIX)
   char *display = gdk_get_display();
   System::init(display);
