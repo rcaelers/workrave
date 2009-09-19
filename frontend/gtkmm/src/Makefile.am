@@ -89,7 +89,8 @@ extranodistsources +=	$(sourcesnodistkde)
 endif
 
 if PLATFORM_OS_UNIX
-extrasources +=		$(sourcesx)
+extrasources +=		$(sourcesx) eggdesktopfile.c eggsmclient-dbus.c eggsmclient-xsmp.c
+
 includesx = 		-I$(top_srcdir)/frontend/gtkmm/src/unix/
 ldflags = 	        -L$(top_builddir)/frontend/gtkmm/src/unix/
 endif
@@ -130,7 +131,7 @@ if PLATFORM_OS_OSX
 includesosx  = 		-I$(top_srcdir)/frontend/gtkmm/src/osx
 ldflags =	 	-L$(top_builddir)/frontend/gtkmm/src/osx
 OSXLIBS	=		$(top_builddir)/frontend/gtkmm/src/osx/libworkrave-frontend-gtkmm-osx.la
-extrasources +=	        eggsmclient-osx.c	
+extrasources +=	        eggsmclient-osx.c eggdesktopfile.c
 endif
 
 
@@ -221,9 +222,6 @@ workrave_SOURCES = \
 			main.cc \
 			MainGtkMenu.cc \
 			StatusIcon.cc \
-			eggdesktopfile.c \
-			eggsmclient-dbus.c \
-			eggsmclient-xsmp.c \
 			eggsmclient.c \
 			${dbussources} \
 			$(extrasources)

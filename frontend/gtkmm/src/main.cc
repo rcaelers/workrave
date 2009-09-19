@@ -46,7 +46,9 @@ run(int argc, char **argv)
   __try1(exception_handler);
 #endif
 
+#ifndef NDEBUG 
   Debug::init();
+#endif
   
   GUI *gui = new GUI(argc, argv);
 
@@ -71,10 +73,6 @@ run(int argc, char **argv)
 int
 main(int argc, char **argv)
 {
-#ifdef PLATFORM_OS_WIN32
-  AllocConsole();
-#endif
-  
   int ret = run(argc, argv);
   return ret;
 }
@@ -96,24 +94,6 @@ int WINAPI WinMain (HINSTANCE hInstance,
   HANDLE mtx = CreateMutex(NULL, FALSE, "WorkraveMutex");
   if (mtx != NULL && GetLastError() != ERROR_ALREADY_EXISTS)
     {
-#ifndef NDEBUG 
-      //#ifdef PLATFORM_OS_WIN32_NATIVE
-      FILE* hf_out = fopen("c:\\temp\\out", "w");
-      if (hf_out != NULL) 
-        {
-          setvbuf(hf_out, NULL, _IONBF, 1);
-          *stdout = *hf_out;
-          *stderr = *hf_out;
-
-          HANDLE handle_in = GetStdHandle(STD_INPUT_HANDLE);
-          int hCrt = _open_osfhandle((long) handle_in, _O_TEXT); 
-          FILE* hf_in = _fdopen(hCrt, "r");
-          setvbuf(hf_in, NULL, _IONBF, 128);
-          *stdin = *hf_in;
-        }
-      //#endif
-#endif
-
       run(sizeof(argv)/sizeof(argv[0]), argv);
     }
   return (0);

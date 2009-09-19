@@ -324,27 +324,30 @@ W32DirectSoundPlayer::play()
 {
   TRACE_ENTER("W32DirectSoundPlayer::Play");
 
-  try
+  if (direct_sound != NULL)
     {
-      int volume = 100;
-      CoreFactory::get_configurator()->get_value(SoundPlayer::CFG_KEY_SOUND_VOLUME, volume);
+      try
+        {
+          int volume = 100;
+          CoreFactory::get_configurator()->get_value(SoundPlayer::CFG_KEY_SOUND_VOLUME, volume);
 
-      SoundClip *clip = new SoundClip(direct_sound, sound_filename);
-      clip->init();
-      clip->set_volume(volume);
-      clip->play(true);
+          SoundClip *clip = new SoundClip(direct_sound, sound_filename);
+          clip->init();
+          clip->set_volume(volume);
+          clip->play(true);
 
-      delete clip;
-    }
-  catch(Exception e)
-    {
-      TRACE_MSG(e.details());
-    }
-  catch(...)
-    {
-    }
+          delete clip;
+        }
+      catch(Exception e)
+        {
+          TRACE_MSG(e.details());
+        }
+      catch(...)
+        {
+        }
 
-  sound_filename = "";
+      sound_filename = "";
+    }
   
   TRACE_EXIT();
 }
