@@ -46,7 +46,9 @@ run(int argc, char **argv)
   __try1(exception_handler);
 #endif
 
+#ifndef NDEBUG 
   Debug::init();
+#endif
   
   GUI *gui = new GUI(argc, argv);
 

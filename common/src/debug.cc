@@ -21,9 +21,7 @@
 #include "config.h"
 #endif
 
-#include <iostream>
-#include <iomanip>
-#include <fstream>
+#ifndef NDEBUG
 
 #include "Mutex.hh"
 #include "debug.hh"
@@ -75,3 +73,5 @@ Debug::init()
       std::cerr.rdbuf(g_log_stream.rdbuf());
     }
 }
+
+#endif
