@@ -21,8 +21,14 @@
 #include "config.h"
 #endif
 
+#include <iostream>
+#include <iomanip>
+#include <fstream>
+
 #include "Mutex.hh"
 #include "debug.hh"
+
+using namespace std;
 
 Mutex g_log_mutex;
 std::ofstream g_log_stream;
