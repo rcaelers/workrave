@@ -38,6 +38,7 @@
 
 #include "eggsmclient-private.h"
 #include <glib.h>
+#include <strings.h>
 #include <Carbon/Carbon.h>
 #include <CoreServices/CoreServices.h>
 
@@ -95,7 +96,7 @@ egg_sm_client_osx_class_init (EggSMClientOSXClass *klass)
 EggSMClient *
 egg_sm_client_osx_new (void)
 {
-  return g_object_new (EGG_TYPE_SM_CLIENT_OSX, NULL);
+  return (EggSMClient *)g_object_new (EGG_TYPE_SM_CLIENT_OSX, NULL);
 }
 
 static void
@@ -110,15 +111,15 @@ sm_client_osx_startup (EggSMClient *client,
 static gboolean
 idle_quit_requested (gpointer client)
 {
-  egg_sm_client_quit_requested (client);
+  egg_sm_client_quit_requested ( (EggSMClient *)client);
   return FALSE;
 }
 
 static pascal OSErr
 quit_requested (const AppleEvent *aevt, AppleEvent *reply, long refcon)
 {
-  EggSMClient *client = GSIZE_TO_POINTER ((gsize)refcon);
-  EggSMClientOSX *osx = GSIZE_TO_POINTER ((gsize)refcon);
+  EggSMClient *client = (EggSMClient *) GSIZE_TO_POINTER ((gsize)refcon);
+  EggSMClientOSX *osx = (EggSMClientOSX *)GSIZE_TO_POINTER ((gsize)refcon);
 
   g_return_val_if_fail (!osx->quit_requested, userCanceledErr);
     
@@ -139,7 +140,7 @@ quit_requested (const AppleEvent *aevt, AppleEvent *reply, long refcon)
 static pascal OSErr
 quit_requested_resumed (const AppleEvent *aevt, AppleEvent *reply, long refcon)
 {
-  EggSMClientOSX *osx = GSIZE_TO_POINTER ((gsize)refcon);
+  EggSMClientOSX *osx = (EggSMClientOSX *)GSIZE_TO_POINTER ((gsize)refcon);
 
   osx->quit_requested = FALSE;
   return osx->quitting ? noErr : userCanceledErr;
@@ -160,7 +161,7 @@ idle_will_quit (gpointer client)
   AEDisposeDesc (&osx->quit_reply);
 
   if (osx->quitting)
-    egg_sm_client_quit (client);
+    egg_sm_client_quit ((EggSMClient *)client);
   return FALSE;
 }
 
@@ -190,20 +191,20 @@ sm_client_osx_end_session (EggSMClient         *client,
   static const ProcessSerialNumber loginwindow_psn = { 0, kSystemProcess };
   AppleEvent event = { typeNull, NULL }, reply = { typeNull, NULL };
   AEAddressDesc target;
-  AEEventID id;
+  AEEventID eid;
   OSErr err;
 
   switch (style)
     {
     case EGG_SM_CLIENT_END_SESSION_DEFAULT:
     case EGG_SM_CLIENT_LOGOUT:
-      id = request_confirmation ? kAELogOut : kAEReallyLogOut;
+      eid = request_confirmation ? kAELogOut : kAEReallyLogOut;
       break;
     case EGG_SM_CLIENT_REBOOT:
-      id = request_confirmation ? kAEShowRestartDialog : kAERestart;
+      eid = request_confirmation ? kAEShowRestartDialog : kAERestart;
       break;
     case EGG_SM_CLIENT_SHUTDOWN:
-      id = request_confirmation ? kAEShowShutdownDialog : kAEShutDown;
+      eid = request_confirmation ? kAEShowShutdownDialog : kAEShutDown;
       break;
     }
 
@@ -215,7 +216,7 @@ sm_client_osx_end_session (EggSMClient         *client,
       return FALSE;
     }
 
-  err = AECreateAppleEvent (kCoreEventClass, id, &target,
+  err = AECreateAppleEvent (kCoreEventClass, eid, &target,
 			    kAutoGenerateReturnID, kAnyTransactionID,
 			    &event);
   AEDisposeDesc (&target);

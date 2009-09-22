@@ -58,7 +58,7 @@ framework=`dirname "$framework"`/$basename
 framework_name=`echo $basename | sed -e 's@\(^.*\)\..*@\1@'`
 
 # Check framework directory for sanity.
-if [ ! -d "$framework"/Headers -o ! -d "$framework"/Resources -o ! -f "$framework/$framework_name" ]; then
+if [ ! -d "$framework"/Resources -o ! -f "$framework/$framework_name" ]; then
     echo "$framework does not seem to be a valid framework"
     exit 1
 fi

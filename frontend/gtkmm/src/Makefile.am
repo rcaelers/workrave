@@ -130,7 +130,7 @@ if PLATFORM_OS_OSX
 includesosx  = 		-I$(top_srcdir)/frontend/gtkmm/src/osx
 ldflags =	 	-L$(top_builddir)/frontend/gtkmm/src/osx
 OSXLIBS	=		$(top_builddir)/frontend/gtkmm/src/osx/libworkrave-frontend-gtkmm-osx.la
-extrasources +=	        eggsmclient-osx.c eggdesktopfile.c
+extrasources +=	        eggsmclient-osx.c
 endif
 
 
