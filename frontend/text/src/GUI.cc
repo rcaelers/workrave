@@ -26,11 +26,13 @@
 #include "nls.h"
 #include "debug.hh"
 
+#include <stdlib.h>
 #include <sstream>
 #include <unistd.h>
 #include <stdio.h>
 #include <assert.h>
 #include <fcntl.h>
+#include <string.h>
 
 #include "GUI.hh"
 #include "PreludeWindow.hh"
