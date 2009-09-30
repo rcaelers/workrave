@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
 #
 
 MAINTAINERCLEANFILES = 	Makefile.in \
@@ -48,6 +48,7 @@ sourcesdistribution = 	Network.cc \
 			ByteStream.cc \
 			BinaryArchive.cc \
 			SocketDriver.cc \
+			GIOSocketDriver.cc \
 			LinkedActivityMonitor.cc \
 			LinkedHistoryManager.cc \
 			LinkedConfigurationManager.cc \

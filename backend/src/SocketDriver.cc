@@ -1,6 +1,6 @@
 // SocketDriver.cc
 //
-// Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2009 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -25,13 +25,13 @@ static const char rcsid[] = "$Id: GNetSocketDriver.cc 1184 2007-05-12 09:16:31Z 
 #endif
 
 #include "SocketDriver.hh"
-#include "GNetSocketDriver.hh"
+#include "GIOSocketDriver.hh"
 
 //! Create a new socket
 ISocket *
 SocketDriver::create_socket()
 {
-  return new GNetSocket();
+  return new GIOSocket();
 }
 
 
@@ -39,5 +39,5 @@ SocketDriver::create_socket()
 ISocketServer *
 SocketDriver::create_server()
 {
-  return new GNetSocketServer();
+  return new GIOSocketServer();
 }
