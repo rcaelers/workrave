@@ -36,7 +36,6 @@
 #include "WorkraveApplet.h"
 #include "applet-server-bindings.h"
 #include "gui-client-bindings.h"
-#include "nls.h"
 
 G_DEFINE_TYPE (WorkraveApplet, workrave_applet, G_TYPE_OBJECT);
 
