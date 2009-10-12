@@ -83,7 +83,7 @@
     </signal>
   </interface>
 
-  <interface name="org.workrave.DebugInterface" csymbol="Test">
+  <interface name="org.workrave.DebugInterface" csymbol="Test" condition="defined(HAVE_TESTS)">
 
     <import>
       <include name="Test.hh"/>
