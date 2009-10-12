@@ -88,7 +88,7 @@ extranodistsources +=	$(sourcesnodistkde)
 endif
 
 if PLATFORM_OS_UNIX
-extrasources +=		$(sourcesx) eggdesktopfile.c eggsmclient-dbus.c eggsmclient-xsmp.c
+extrasources +=		$(sourcesx) eggdesktopfile.c eggsmclient-xsmp.c
 
 includesx = 		-I$(top_srcdir)/frontend/gtkmm/src/unix/
 ldflags = 	        -L$(top_builddir)/frontend/gtkmm/src/unix/
@@ -148,6 +148,10 @@ $(service_DATA): $(service_in_files) Makefile
 #CLEANFILES = $(BUILT_SOURCES)
 
 dbussources=DBusGUI.cc
+
+if PLATFORM_OS_UNIX
+extrasources +=		eggsmclient-dbus.c
+#endif
 
 DBusGUI.cc: 		workrave-gui.xml \
 			$(top_srcdir)/common/bin/dbusgen.py \
