@@ -303,6 +303,8 @@ then
     AC_CHECK_LIB(Xtst, XRecordEnableContext,
                        X_LIBS="$X_LIBS -lXtst" AC_DEFINE(HAVE_XRECORD,,[Define if the RECORD extension is available]),
     )
+
+    PKG_CHECK_MODULES(X11SM, sm ice)
     LIBS=$LIBS_save
 fi
 
