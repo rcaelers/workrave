@@ -717,7 +717,6 @@ dnl Makefile output
 dnl
 
 AC_OUTPUT(Makefile 
-          doc/Makefile \
           backend/Makefile \
           backend/test/Makefile \
           backend/src/Makefile \
