@@ -76,7 +76,6 @@ GnomeAppletWindow.cc:   DBusGnomeApplet.hh
 if HAVE_APP_GTKMM
 
 if HAVE_GNOMEAPPLET
-
 extrasources +=		$(sourcesgnome)
 else
 extrasources +=		$(sourcesnognome)
@@ -151,7 +150,7 @@ dbussources=DBusGUI.cc
 
 if PLATFORM_OS_UNIX
 extrasources +=		eggsmclient-dbus.c
-#endif
+endif
 
 DBusGUI.cc: 		workrave-gui.xml \
 			$(top_srcdir)/common/bin/dbusgen.py \
