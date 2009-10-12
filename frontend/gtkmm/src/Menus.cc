@@ -347,7 +347,7 @@ Menus::on_menu_about()
       about->set_logo(pixbuf);
       about->set_translator_credits(workrave_translators);
 
-      about->set_version(VERSION);
+      about->set_version(PACKAGE_VERSION);
       about->set_website("http://www.workrave.org/");
       about->set_website_label("www.workrave.org");
 
