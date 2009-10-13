@@ -399,7 +399,9 @@ dnl
 if test "x$config_distribution" = "xyes"
 then
     PKG_CHECK_MODULES(GNET, gnet-2.0)
-    GNET2=yes                          
+    GNET2=yes
+
+    PKG_CHECK_MODULES(PROTOBUF, protobuf >= 2.2.0)
 fi
 AC_SUBST(GNET_LIBS)
 AC_SUBST(GNET_CFLAGS)
@@ -547,6 +549,7 @@ if test "x$enable_manual" = "xyes"; then
 fi
 
 AM_CONDITIONAL(ENABLE_MANUAL, test "x$enable_manual" != "xno")
+
 
 dnl
 dnl What variant to build
