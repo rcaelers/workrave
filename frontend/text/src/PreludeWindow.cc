@@ -48,15 +48,15 @@ PreludeWindow::PreludeWindow(BreakId break_id)
   switch (break_id)
     {
     case BREAK_ID_MICRO_BREAK:
-      cout << _("Time for a micro-break?") << endl;
+      cout << "Time for a micro-break?" << endl;
       break;
 
     case BREAK_ID_REST_BREAK:
-      cout << _("You need a rest break...") << endl;
+      cout << "You need a rest break..." << endl;
       break;
 
     case BREAK_ID_DAILY_LIMIT:
-      cout << _("You should stop for today...") << endl;
+      cout << "You should stop for today..." << endl;
       break;
 
     default:
@@ -150,18 +150,18 @@ PreludeWindow::set_progress_text(IApp::PreludeProgressText text)
       // Workrave will force a break when the prelude window is removed.
       // This is done after 'maximum number of prompts' in the preferences.
     case IApp::PROGRESS_TEXT_BREAK_IN:
-      progress_text = _("Break in");
+      progress_text = "Break in";
       break;
 
       // Workrave will remove the prelude window and try again later.
     case IApp::PROGRESS_TEXT_DISAPPEARS_IN:
-      progress_text = _("Disappears in");
+      progress_text = "Disappears in";
       break;
 
       // Workrave will remove the prelude windows and will NOT try again.
       // I wonder if it is still possible to configure this using the GUI.
     case IApp::PROGRESS_TEXT_SILENT_IN:
-      progress_text = _("Silent in");
+      progress_text = "Silent in";
       break;
     }
 }

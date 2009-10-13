@@ -6,7 +6,7 @@ dnl
 dnl $Id$
 dnl
 
-AC_INIT(workrave, [1.9.1-pre],
+AC_INIT(workrave, [1.9.1-rc1],
         [http://issues.workrave.org/cgi-bin/bugzilla/enter_bug.cgi])
 
 dnl Demand at least version 2.61 of autoconf.
@@ -14,7 +14,7 @@ AC_PREREQ(2.61)
 
 dnl Automake
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(workrave, 1.9.0)
+AM_INIT_AUTOMAKE(workrave, 1.9.1)
 AM_GNU_GETTEXT_VERSION()
 AM_MAINTAINER_MODE
 
@@ -303,6 +303,8 @@ then
     AC_CHECK_LIB(Xtst, XRecordEnableContext,
                        X_LIBS="$X_LIBS -lXtst" AC_DEFINE(HAVE_XRECORD,,[Define if the RECORD extension is available]),
     )
+
+    PKG_CHECK_MODULES(X11SM, sm ice)
     LIBS=$LIBS_save
 fi
 
@@ -720,7 +722,6 @@ dnl Makefile output
 dnl
 
 AC_OUTPUT(Makefile 
-          doc/Makefile \
           backend/Makefile \
           backend/test/Makefile \
           backend/src/Makefile \

@@ -77,7 +77,6 @@ GnomeAppletWindow.cc:   DBusGnomeApplet.hh
 if HAVE_APP_GTKMM
 
 if HAVE_GNOMEAPPLET
-
 extrasources +=		$(sourcesgnome)
 else
 extrasources +=		$(sourcesnognome)
@@ -89,7 +88,7 @@ extranodistsources +=	$(sourcesnodistkde)
 endif
 
 if PLATFORM_OS_UNIX
-extrasources +=		$(sourcesx) eggdesktopfile.c eggsmclient-dbus.c eggsmclient-xsmp.c
+extrasources +=		$(sourcesx) eggdesktopfile.c eggsmclient-xsmp.c
 
 includesx = 		-I$(top_srcdir)/frontend/gtkmm/src/unix/
 ldflags = 	        -L$(top_builddir)/frontend/gtkmm/src/unix/
@@ -131,7 +130,7 @@ if PLATFORM_OS_OSX
 includesosx  = 		-I$(top_srcdir)/frontend/gtkmm/src/osx
 ldflags =	 	-L$(top_builddir)/frontend/gtkmm/src/osx
 OSXLIBS	=		$(top_builddir)/frontend/gtkmm/src/osx/libworkrave-frontend-gtkmm-osx.la
-extrasources +=	        eggsmclient-osx.c eggdesktopfile.c
+extrasources +=	        eggsmclient-osx.c
 endif
 
 
@@ -149,6 +148,10 @@ $(service_DATA): $(service_in_files) Makefile
 #CLEANFILES = $(BUILT_SOURCES)
 
 dbussources=DBusGUI.cc
+
+if PLATFORM_OS_UNIX
+extrasources +=		eggsmclient-dbus.c
+endif
 
 DBusGUI.cc: 		workrave-gui.xml \
 			$(top_srcdir)/common/bin/dbusgen.py \
@@ -268,7 +271,7 @@ endif
 workrave_CFLAGS	= 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-I$(top_srcdir)/frontend/gtkmm/src/ \
 			@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
-			@X_CFLAGS@ @GNOME_CFLAGS@ @GTK_CFLAGS@ @DBUS_CFLAGS@ \
+			@X_CFLAGS@ @GNOME_CFLAGS@ @GTK_CFLAGS@ @DBUS_CFLAGS@ @X11SM_CFLAGS@\
 			-D_XOPEN_SOURCE=600 \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
 			-I${STATISTICS_HOME}/gtkmm/src \
@@ -284,7 +287,7 @@ $(bin_PROGRAMS):	$(top_builddir)/backend/src/libworkrave-backend.la \
 
 workrave_LDFLAGS = 	@WR_LDFLAGS@ ${ldflags}
 
-workrave_LDADD =        @WR_LDADD@ @X_LIBS@ @GNOME_LIBS@ \
+workrave_LDADD =        @WR_LDADD@ @X_LIBS@ @X11SM_LIBS@ @GNOME_LIBS@ \
 			@GTK_LIBS@ @GNET_LIBS@ @X_LIBS@ @GCONF_LIBS@ @GDOME_LIB@ \
 			@KDE_LDFLAGS@ @LIB_KDEUI@ @LIB_KDECORE@ \
 			@QT_LDFLAGS@ @LIB_QT@ @DBUS_LIBS@  @IGE_LIBS@ @GSTREAMER_LIBS@ \

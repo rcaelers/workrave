@@ -41,6 +41,7 @@ Usage: $0 [OPTION...]
   --help, -h                 Display this help message
   --keep-symbols             Keep debugging symbols
   --link                     Create symlinks
+  --import-frameworks        Import frameworks in Workrave.app
   --gtk-dylib                Copy Gtk dynalic libraries
 "
 }
@@ -52,6 +53,7 @@ Usage: $0 [OPTION...]
 conf_strip=true
 conf_symlink=false
 conf_copy_gtk_dylib=false
+conf_import_frameworks=false
 
 while [ "$1" != "" ]
 do
@@ -64,6 +66,9 @@ do
 
 	--link)
 	    conf_symlink=true ;;
+
+        --import-frameworks)
+	    conf_import_frameworks=true ;;
 
       	-h|--help)
 	    usage
@@ -277,6 +282,19 @@ for f in $EXECS $LIBS; do
     fi
 done
 
+# ------------------------------------------------------------
+# Importing Frameworks
+# ------------------------------------------------------------
+
+if [ "$conf_import_frameworks" = "true" ];
+then
+    echo "Importing Frameworks"
+
+    ./import-frameworks.sh
+
+    rm -rf $pkgframeworksdir/Gtk.framework/Versions/2/Resources/share/icons/gnome
+    rm -rf $pkgframeworksdir/Gtk.framework/Versions/2/Resources/share/icons/hicolor
+fi
 
 # ------------------------------------------------------------
 # Stripping
@@ -290,6 +308,13 @@ then
         strip -x $pkglibdir/*.dylib
     fi
     strip -ur `find $pkgexecdir -type f -print`
+    strip -xS `find $pkgframeworksdir -name "*.dylib" -print`
+
+    for framework in $pkgframeworksdir/* ; do
+        base=`basename $framework .framework`
+        strip -xS $framework/$base
+    done;
+
 fi
 
 exit 0

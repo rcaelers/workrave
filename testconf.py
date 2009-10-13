@@ -6,9 +6,9 @@ import sys;
 options = [ "gconf",
             "xml",
             "gnome",
-            "gnomemm",
-            "kde",
             "distribution",
+            "gstreamer",
+            "dbus",
             "exercises"]
 
 for i in range(0, 127) :

@@ -343,7 +343,7 @@ egg_sm_client_get (void)
        * to worry about a %NULL return value.
        */
       if (!global_client)
-	global_client = g_object_new (EGG_TYPE_SM_CLIENT, NULL);
+	global_client = (EggSMClient *) g_object_new (EGG_TYPE_SM_CLIENT, NULL);
     }
 
   return global_client;
@@ -407,7 +407,7 @@ egg_sm_client_get_state_file (EggSMClient *client)
     state_file_path = g_strdup (sm_client_state_file);
 
   priv->state_file = g_key_file_new ();
-  if (!g_key_file_load_from_file (priv->state_file, state_file_path, 0, &err))
+  if (!g_key_file_load_from_file (priv->state_file, state_file_path, (GKeyFileFlags) 0, &err))
     {
       g_warning ("Could not load SM state file '%s': %s",
 		 sm_client_state_file, err->message);

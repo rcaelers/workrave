@@ -44,9 +44,9 @@
 #include "W32AppletWindow.hh"
 #endif
 
-#ifdef PLATFORM_OS_OSX
-#include "OSXAppletWindow.hh"
-#endif
+// #ifdef PLATFORM_OS_OSX
+// #include "OSXAppletWindow.hh"
+// #endif
 
 #include "GUI.hh"
 #include "MainWindow.hh"
@@ -106,9 +106,9 @@ AppletControl::init()
   applets[APPLET_W32] = new W32AppletWindow();
 #endif
 
-#ifdef PLATFORM_OS_OSX
-  applets[APPLET_OSX] = new OSXAppletWindow();
-#endif
+// #ifdef PLATFORM_OS_OSX
+//   applets[APPLET_OSX] = new OSXAppletWindow();
+// #endif
 
   // Read configuration and start monitoring it.
   IConfigurator *config = CoreFactory::get_configurator();
@@ -150,12 +150,12 @@ AppletControl::show()
       specific = true;
     }
 
-  rc = activate_applet(APPLET_OSX);
-  TRACE_MSG("OSX " << rc);
-  if (rc != AppletWindow::APPLET_STATE_DISABLED)
-    {
-      specific = true;
-    }
+//   rc = activate_applet(APPLET_OSX);
+//   TRACE_MSG("OSX " << rc);
+//   if (rc != AppletWindow::APPLET_STATE_DISABLED)
+//     {
+//       specific = true;
+//     }
 
 #ifdef PLATFORM_OS_UNIX
   if (specific)
@@ -384,9 +384,9 @@ AppletControl::check_visible()
         }
     }
 
-#ifdef PLATFORM_OS_OSX
-  count++;
-#endif
+// #ifdef PLATFORM_OS_OSX
+//   count++;
+// #endif
     
   GUI *gui = GUI::get_instance();
   MainWindow *main = gui->get_main_window();

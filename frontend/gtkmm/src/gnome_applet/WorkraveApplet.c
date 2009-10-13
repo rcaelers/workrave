@@ -348,7 +348,7 @@ verb_about(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
 
   gtk_show_about_dialog(NULL,
                         "name", "Workrave",
-                        "version", VERSION,
+                        "version", PACKAGE_VERSION,
                         "copyright", workrave_copyright,
                         "website", "http://www.workrave.org",
                         "website_label", "www.workrave.org",

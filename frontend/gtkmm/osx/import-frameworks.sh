@@ -1,3 +1,4 @@
+#!/bin/sh
 TARGETDIR=`pwd`/Workrave.app
 EXECS=workrave
 
@@ -19,14 +20,19 @@ for f in $FRAMEWORKS ; do
     rm -rf $TARGETDIR/Contents/Frameworks/$FW
     cp -Rp $DIR/$FW $TARGETDIR/Contents/Frameworks
     rm -rf $TARGETDIR/Contents/Frameworks/$FW/Resources/dev/
-    rm -rf $TARGETDIR/Contents/Frameworks/$FW/Headers
 
+    HEADER=`readlink $TARGETDIR/Contents/Frameworks/$FW/Headers`
+    if [ -d $TARGETDIR/Contents/Frameworks/$FW/$HEADER ]; then
+        rm -rf $TARGETDIR/Contents/Frameworks/$FW/$HEADER
+    fi
+    rm $TARGETDIR/Contents/Frameworks/$FW/Headers
+   
     ./relocate-framework.sh $TARGETDIR/Contents/Frameworks/$FW $DIR/$FW @executable_path/../Frameworks/$FW
 
     CHANGES="$CHANGES -change $f @executable_path/../Frameworks/$FW/Versions/$VER"
 done
 
-if [ "x$CHANGES" != x ];
+if [ "x$CHANGES" != "x" ];
 then
     for e in $EXECS; do
 	if install_name_tool $CHANGES $TARGETDIR/Contents/MacOS/$e ;

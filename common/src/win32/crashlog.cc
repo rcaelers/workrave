@@ -263,7 +263,7 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
           SystemTime.wMinute,
           SystemTime.wSecond);
 
-  fprintf(log, "version = %s\n", VERSION);
+  fprintf(log, "version = %s\n", PACKAGE_VERSION);
   fprintf(log, "compile date = %s\n", __DATE__);
   fprintf(log, "compile time = %s\n", __TIME__);
   fprintf(log, "features = "
