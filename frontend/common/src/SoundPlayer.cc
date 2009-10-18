@@ -217,6 +217,12 @@ static short exercises_ended_beeps[][2]=
     { 0, 0 },
 };
 
+static short exercises_step_beeps[][2]=
+{
+    { 320, 70 },
+    { 0, 0 },
+};
+
 static short (*beep_map[])[2] =
 {
   prelude_beeps,
@@ -227,7 +233,8 @@ static short (*beep_map[])[2] =
   micro_break_end_beeps,
   daily_limit_beeps,
   exercise_ended_beeps,
-  exercises_ended_beeps
+  exercises_ended_beeps,
+  exercises_step_beeps
 };
 
 
