@@ -1252,7 +1252,7 @@ DistributionSocketLink::handle_hello(PacketBuffer &packet, Client *client)
   TRACE_ENTER("DistributionSocketLink::handle_hello");
 
   gchar *user = packet.unpack_string();
-  gchar *pass = packet.unpack_string();\
+  gchar *pass = packet.unpack_string();
   gchar *id = packet.unpack_string();
   gchar *name = packet.unpack_string();
   gint port = packet.unpack_ushort();
