@@ -974,10 +974,6 @@ GUI::create_break_window(BreakId break_id, bool user_initiated)
     }
 
   active_break_count = num_heads;
-  if (GUIConfig::get_block_mode() != GUIConfig::BLOCK_MODE_NONE)
-    {
-      grab();
-    }
 
   TRACE_EXIT();
 }
@@ -1039,6 +1035,11 @@ GUI::show_break_window()
         }
     }
 
+  if (GUIConfig::get_block_mode() != GUIConfig::BLOCK_MODE_NONE)
+    {
+      grab();
+    }
+  
   TRACE_EXIT();
 }
 
