@@ -83,7 +83,7 @@ include(FindGlib)
 include(FindGtkmm)
 include(FindDBus)
 include(FindGettext)
-include(FindGnet)
+#include(FindGnet)
 
 FIND_PROGRAM(GETTEXT_XGETTEXT_EXECUTABLE xgettext)
 FIND_PROGRAM(INTLTOOL_UPDATE_EXECUTABLE intltool-update)

@@ -59,6 +59,7 @@ jay satiro, workrave project, september 2007
 #include <windows.h>
 
 #include "debug.hh"
+#include <sstream>
 #include "W32LowLevelMonitor.hh"
 #include "Harpoon.hh"
 

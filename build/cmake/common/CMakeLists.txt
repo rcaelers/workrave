@@ -40,7 +40,7 @@ if (WIN32)
     ${COMMON_DIR}/src/win32/crashlog.cc
     ${COMMON_DIR}/include/win32/Sound.hh
     ${COMMON_DIR}/include/win32/crashlog.h
-    ${COMMON_DIR}/include/win32/w32debug.hh
+#    ${COMMON_DIR}/include/win32/w32debug.hh
   )
 endif (WIN32)
 

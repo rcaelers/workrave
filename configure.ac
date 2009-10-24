@@ -6,7 +6,7 @@ dnl
 dnl $Id$
 dnl
 
-AC_INIT(workrave, [1.9.1-rc1],
+AC_INIT(workrave, [1.9.1],
         [http://issues.workrave.org/cgi-bin/bugzilla/enter_bug.cgi])
 
 dnl Demand at least version 2.61 of autoconf.

@@ -193,10 +193,10 @@ GUI::main()
 
   if (!Glib::thread_supported())
     Glib::thread_init();
-
+#ifdef HAVE_DBUS
   Glib::OptionGroup *option_group = new Glib::OptionGroup(egg_sm_client_get_option_group());
   option_ctx.add_group(*option_group);
-
+#endif
   Gtk::Main *kit = NULL;
   try
     {
@@ -379,9 +379,10 @@ GUI::session_save_state_cb(EggSMClient *client, GKeyFile *key_file, GUI *gui)
 void
 GUI::init_session()
 {
-  EggSMClient *client;
-
+  EggSMClient *client = NULL;
+#ifdef HAVE_DBUS
   client = egg_sm_client_get();
+#endif
   if (client)
     {
       g_signal_connect(client,
@@ -399,16 +400,19 @@ GUI::init_session()
 void
 GUI::cleanup_session()
 {
-  EggSMClient *client;
-
+  EggSMClient *client = NULL;
+#ifdef HAVE_DBUS
   client = egg_sm_client_get();
-
-  g_signal_handlers_disconnect_by_func(client,
-                                       (gpointer)G_CALLBACK(session_quit_cb),
-                                       this);
-  g_signal_handlers_disconnect_by_func(client,
-                                       (gpointer)G_CALLBACK(session_save_state_cb),
-                                       this);
+#endif
+  if (client)
+    {
+      g_signal_handlers_disconnect_by_func(client,
+                                           (gpointer)G_CALLBACK(session_quit_cb),
+                                           this);
+      g_signal_handlers_disconnect_by_func(client,
+                                           (gpointer)G_CALLBACK(session_save_state_cb),
+                                           this);
+    }
 }
 
 
@@ -988,10 +992,6 @@ GUI::create_break_window(BreakId break_id, bool user_initiated)
     }
 
   active_break_count = num_heads;
-  if (GUIConfig::get_block_mode() != GUIConfig::BLOCK_MODE_NONE)
-    {
-      grab();
-    }
 
   TRACE_EXIT();
 }
@@ -1053,6 +1053,11 @@ GUI::show_break_window()
         }
     }
 
+  if (GUIConfig::get_block_mode() != GUIConfig::BLOCK_MODE_NONE)
+    {
+      grab();
+    }
+  
   TRACE_EXIT();
 }
 
