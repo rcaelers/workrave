@@ -128,8 +128,8 @@ endif (UNIX)
 
 if (WIN32)
   set(FRONTEND_SOURCES ${FRONTEND_SOURCES}
-    ${FRONTEND_DIR}/common/src/win32/W32SoundPlayer.cc
-    ${FRONTEND_DIR}/common/src/win32/W32SoundPlayer.hh
+    ${FRONTEND_DIR}/common/src/win32/W32DirectSoundPlayer.cc
+    ${FRONTEND_DIR}/common/src/win32/W32DirectSoundPlayer.hh
     ${FRONTEND_DIR}/gtkmm/src/win32/DesktopWindow.cc
     ${FRONTEND_DIR}/gtkmm/src/win32/DesktopWindow.hh
     ${FRONTEND_DIR}/gtkmm/src/win32/W32AppletMenu.cc
@@ -251,6 +251,8 @@ endif(HAVE_GNET)
 if (WIN32)
   target_link_libraries(workrave harpoon)
   target_link_libraries(workrave winmm shlwapi kernel32 user32 gdi32 winspool comdlg32 advapi32 shell32 ole32 oleaut32 uuid odbc32 odbccp32)
+#maybe an if (DIRECTX) otherwise use regular sound player which doesn't require these libs:  
+  target_link_libraries(workrave dxerr dsound dxguid)
 endif(WIN32)
 
 ######################################################################

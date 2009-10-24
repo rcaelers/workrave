@@ -31,7 +31,10 @@
 #include <process.h>
 #include <mmsystem.h>
 #include <mmreg.h>
-#include <dxerr8.h>
+#include <dxerr.h>
+#ifndef DXGetErrorString8
+#define DXGetErrorString8 DXGetErrorString
+#endif
 #include <dsound.h>
 
 #include <glib.h>
