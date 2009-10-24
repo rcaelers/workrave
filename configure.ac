@@ -438,13 +438,8 @@ dnl
             
 if test "x$config_dbus" != "xno"
 then
-   dbus_pkgconfig="dbus-1 >= 1.2"
+   dbus_pkgconfig="dbus-1 >= 1.2 dbus-glib-1"
 
-   if test "x$config_gnome" = "xyes"
-   then
-       dbus_pkgconfig="$dbus_pkgconfig dbus-glib-1"
-   fi
-   
    PKG_CHECK_MODULES(DBUS, $dbus_pkgconfig, have_dbus=yes, have_dbus=no)
    if test x$have_dbus = xyes
    then
