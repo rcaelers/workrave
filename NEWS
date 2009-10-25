@@ -37,7 +37,8 @@ http://www.workrave.org
 
 *** Fixed tray icon tranparency
 
-*** Fixed issue on Vista where the break window is not on top of other windows
+*** Fixed issue on Vista where the break window is not on top of other
+    windows (Ray Satiro)
 
 *** Improved volume control on Windows
 
