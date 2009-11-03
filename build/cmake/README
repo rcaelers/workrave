@@ -8,7 +8,7 @@ Install Gtkmm (required)
 
 - Download and install gtkmm:
 
-  http://ftp.gnome.org/pub/GNOME/binaries/win32/gtkmm/2.14/gtkmm-win32-devel-2.14.3-2.exe
+  File: ftp://ftp.gnome.org/pub/GNOME/binaries/win32/gtkmm/2.16/gtkmm-win32-devel-2.16.0-4.exe
 
 
 Install CMake 2.6 (required)
@@ -17,7 +17,8 @@ Install CMake 2.6 (required)
 - Download and install cmake:
 
   Website: http://www.cmake.org
-  File: http://www.cmake.org/files/v2.6/cmake-2.6.2-win32-x86.exe
+  
+  File: http://www.cmake.org/files/v2.6/cmake-2.6.4-win32-x86.exe
 
  
 Install Intltool (recommended, needed for exercises)
@@ -27,7 +28,8 @@ Install Intltool (recommended, needed for exercises)
   ActiveState may also work (untested)
 
   Website: http://strawberryperl.com/
-  File: http://strawberry-perl.googlecode.com/files/strawberry-perl-5.10.0.3.exe
+  
+  File: http://strawberry-perl.googlecode.com/files/strawberry-perl-5.10.0.6.msi
 
 - Download and extract intltool
 
@@ -43,9 +45,9 @@ Install Gettext (recommended, needed for localization and exercises)
 
   File: http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/gettext-tools-0.17.zip
 
-  Note for Vista users: You will run into problems (access denied and
-  such) if you extract the files with unzip from cygwin; use Windows
-  built-in zip support.
+  Note: You may run into problems (access denied and such) if you
+  extract the files with unzip from cygwin; use Windows built-in zip
+  support.
 
   
 Install Python/Cheetah (optional/experimental, needed for dbus)
@@ -56,18 +58,25 @@ Install Python/Cheetah (optional/experimental, needed for dbus)
   Install the x86 version, even on a 64bit systems. setuptool will not install otherwise.
 
   Website: http://www.python.org/download/
-  File: http://www.python.org/ftp/python/2.5.2/python-2.5.2.msi
+  
+  File: http://www.python.org/ftp/python/2.6.2/python-2.6.2.msi     
+  File: http://www.python.org/ftp/python/2.6.2/python-2.6.2.amd64.msi
 
 - Download and install setuptools
 
   Website: http://pypi.python.org/pypi/setuptools
-  File:  http://pypi.python.org/packages/2.5/s/setuptools/setuptools-0.6c9.win32-py2.5.exe
+  File:  http://pypi.python.org/packages/source/s/setuptools/setuptools-0.6c9.tar.gz
 
+  - Extract setuptools-0.6c9.tar.gz to directory outside the Windows Python installation directory
+  - Open Command Prompt windows and go to the directory where you extracted setuptools.
+  - Make sure C:\Python26 is in your PATH
+  - Run 'python setup.py install' 
+  
 - Install Cheetah
 
   - Open a Command Prompt (Use Run as Administrator on Vista)
-  - cd C:\Python25\Scripts [replace python installation directory]
-  - Run 'easy_install cheetah'
+  - cd C:\Python26\Scripts [replace python installation directory]
+  - Run 'easy_install-2.6-script.py'
 
 
 Install DBus (optional, needed for dbus)
@@ -91,8 +100,8 @@ Install DBus (optional, needed for dbus)
 
     e.g.
     
-    cmake -G "Visual Studio 9 2008" ../windbus/cmake/ -DCMAKE_PREFIX_PATH="c:/cygwin/home/rob/tools;C:/Program Files (x86)/gtkmm"
-          -DCMAKE_INSTALL_PREFIX=c:/cygwin/home/rob/tools
+    cmake -G "Visual Studio 9 2008" ../windbus/cmake/ -DCMAKE_PREFIX_PATH="c:/mystuff/devel;C:/Program Files (x86)/gtkmm"
+          -DCMAKE_INSTALL_PREFIX=c:/mystuff/devel
 
   - Open dbus solution in visual studio (location in windbus-build directory)
   - Select Release configuration
@@ -117,7 +126,7 @@ Compiling Workrave
     Note: PATH-TO-DEPEDENCIES should contains all dependencies: gettext, dbus, intltool etc.
 
     eg. cmake -G "Visual Studio 9 2008" ../workrave/build/cmake/ -DDEVELOPMENT_MODE=ON
-        -DCMAKE_PREFIX_PATH=c:/cygwin/home/rob/tools -DCMAKE_INSTALL_PREFIX=c:/cygwin/home/rob/opt/workrave
+              -DCMAKE_PREFIX_PATH=c:/mystuff/devel -DCMAKE_INSTALL_PREFIX=c:/mystuff/programs/workrave
 
   - Open Workrave solution in visual studio (location in workrave-build directory)
   - Build

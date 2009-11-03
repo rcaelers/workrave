@@ -219,9 +219,10 @@ W32DirectSoundPlayer::get_sound_enabled(SoundPlayer::SoundEvent snd, bool &enabl
   if (registry_get_value(key, NULL, val))
     {
       enabled = (val[0] != '\0');
+      return true;
     }
   
-  return true;
+  return false;
 }
 
 

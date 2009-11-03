@@ -254,7 +254,7 @@ workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
 			-I$(top_srcdir)/frontend/gtkmm/src/ \
 			@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
 			@X_CFLAGS@ @GNOME_CFLAGS@ \
-			@GNOME_CFLAGS@ @GTK_CFLAGS@ \
+			@GNOME_CFLAGS@ @GTK_CFLAGS@ @GLIB_CFLAGS@ \
 			@GCONF_CFLAGS@ -D_XOPEN_SOURCE=600 @GNET_CFLAGS@ \
 			@KDE_INCLUDES@ @QT_INCLUDES@ @DBUS_CFLAGS@  @IGE_CFLAGS@ \
 			$(includeswin32) $(win32cflags) $(includesinput) $(includesosx) \
@@ -269,7 +269,7 @@ INCLUDES =		-xobjective-c++
 endif
 
 workrave_CFLAGS	= 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
-			-I$(top_srcdir)/frontend/gtkmm/src/ \
+			-I$(top_srcdir)/frontend/gtkmm/src/ @GLIB_CFLAGS@ \
 			@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
 			@X_CFLAGS@ @GNOME_CFLAGS@ @GTK_CFLAGS@ @DBUS_CFLAGS@ @X11SM_CFLAGS@\
 			-D_XOPEN_SOURCE=600 \
@@ -287,7 +287,7 @@ $(bin_PROGRAMS):	$(top_builddir)/backend/src/libworkrave-backend.la \
 
 workrave_LDFLAGS = 	@WR_LDFLAGS@ ${ldflags}
 
-workrave_LDADD =        @WR_LDADD@ @X_LIBS@ @X11SM_LIBS@ @GNOME_LIBS@ \
+workrave_LDADD =        @WR_LDADD@ @X_LIBS@ @X11SM_LIBS@ @GNOME_LIBS@ @GLIB_LIBS@ \
 			@GTK_LIBS@ @GNET_LIBS@ @X_LIBS@ @GCONF_LIBS@ @GDOME_LIB@ \
 			@KDE_LDFLAGS@ @LIB_KDEUI@ @LIB_KDECORE@ \
 			@QT_LDFLAGS@ @LIB_QT@ @DBUS_LIBS@  @IGE_LIBS@ @GSTREAMER_LIBS@ \
