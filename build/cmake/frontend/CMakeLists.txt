@@ -232,7 +232,14 @@ include_directories(${GTKMM_INCLUDES})
 if (HAVE_DBUS)
   include_directories(${DBUS_INCLUDES})
 endif(HAVE_DBUS)
+if (HAVE_DIRECTX)
+  include_directories(${DIRECTX_INCLUDES})
+endif(HAVE_DIRECTX)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
+
+if (HAVE_DIRECTX)
+   link_directories(${DIRECTX_LIBS})
+endif(HAVE_DIRECTX)
 
 add_executable(workrave WIN32 ${FRONTEND_SOURCES})
 
@@ -248,11 +255,13 @@ if (HAVE_GNET)
   target_link_libraries(workrave ${GNET_LIBS})
 endif(HAVE_GNET)
 
+if (HAVE_DIRECTX)
+   target_link_libraries(workrave dxerr dsound dxguid)
+endif(HAVE_DIRECTX)
+
 if (WIN32)
   target_link_libraries(workrave harpoon)
   target_link_libraries(workrave winmm shlwapi kernel32 user32 gdi32 winspool comdlg32 advapi32 shell32 ole32 oleaut32 uuid odbc32 odbccp32)
-#maybe an if (DIRECTX) otherwise use regular sound player which doesn't require these libs:  
-  target_link_libraries(workrave dxerr dsound dxguid)
 endif(WIN32)
 
 ######################################################################

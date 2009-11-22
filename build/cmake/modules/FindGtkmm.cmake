@@ -70,7 +70,7 @@ IF(WIN32)
     ${GTKMM_DIR}/lib/gio-2.0.lib
     ${GTKMM_DIR}/lib/glade-2.0.lib
     ${GTKMM_DIR}/lib/glib-2.0.lib
-	${GTKMM_DIR}/lib/gthread-2.0.lib
+    ${GTKMM_DIR}/lib/gthread-2.0.lib
     ${GTKMM_DIR}/lib/gmodule-2.0.lib
     ${GTKMM_DIR}/lib/gobject-2.0.lib
     ${GTKMM_DIR}/lib/gtk-win32-2.0.lib
@@ -96,7 +96,7 @@ IF(WIN32)
     ${GTKMM_DIR}/lib/gobject-2.0.lib
     ${GTKMM_DIR}/lib/gmodule-2.0.lib
     ${GTKMM_DIR}/lib/glib-2.0.lib
-	${GTKMM_DIR}/lib/gthread-2.0.lib
+    ${GTKMM_DIR}/lib/gthread-2.0.lib
     ${GTKMM_DIR}/lib/intl.lib
     ${GTKMM_DIR}/lib/iconv.lib
     )

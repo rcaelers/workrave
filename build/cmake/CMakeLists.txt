@@ -38,7 +38,7 @@ if(WIN32)
   ) 
 
 endif(WIN32)
-  
+ 
 
 if (WIN32)
   set (LIBRARY_OUTPUT_PATH  ${CMAKE_BINARY_DIR}/bin)
@@ -120,6 +120,13 @@ if (WIN32)
       set (INTLTOOL_MERGE_EXECUTABLE ${PERL_EXECUTABLE} ${INTLTOOL_MERGE_EXECUTABLE})
     endif(INTLTOOL_MERGE_EXECUTABLE)
   endif (NOT PERL_FOUND)
+
+  include(FindDirectX)
+  if (NOT DIRECTX_FOUND)
+    message(FATAL_ERROR "Could not find DirectX SDK")
+  endif(NOT DIRECTX_FOUND)
+  set(HAVE_DIRECTX ${DIRECTX_FOUND})
+
 endif (WIN32)
 
 if (INTLTOOL_MERGE_EXECUTABLE AND PERL_FOUND)
