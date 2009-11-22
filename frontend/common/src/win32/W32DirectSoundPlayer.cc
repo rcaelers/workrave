@@ -430,7 +430,8 @@ SoundClip::init()
         {
           throw Exception(string("IDirectSoundNotify_SetPositionNotify") + DXGetErrorString8(hr));
         }
-      
+      notify->Release();
+
       fill_buffer();
     }
   catch(Exception)
@@ -634,14 +635,14 @@ WaveFile::reset_file()
 {
   if (-1 == mmioSeek(mmio, parent.dwDataOffset + sizeof(FOURCC), SEEK_SET))
     {
-      throw Exception("mmioAscend");
+      throw Exception("mmioSeek");
     }
 
   memset((void *)&child, 0, sizeof(child));
   child.ckid = mmioFOURCC('d', 'a', 't', 'a');
   if (0 != mmioDescend(mmio, &child, &parent, MMIO_FINDCHUNK))
     {
-      throw Exception("mmioAscend");
+      throw Exception("mmioDescend");
     }
 }
 
@@ -676,6 +677,8 @@ WaveFile::read(BYTE *buffer, size_t size)
       mmioInfo.pchNext = mmioInfo.pchEndRead;
 
     } while (pos < (int)size && mmioAdvance(mmio, &mmioInfo, MMIO_READ) == 0);
+
+  mmioSetInfo(mmio, &mmioInfo, 0); 
 
   return pos;
 }
