@@ -1002,7 +1002,7 @@ void
 Core::get_timer_overdue(BreakId id, int *value)
 {
   Timer *timer = get_timer(id);
-  *value = timer->get_total_overdue_time();
+  *value = (int) timer->get_total_overdue_time();
 }
 
 //! Processes all timers.
