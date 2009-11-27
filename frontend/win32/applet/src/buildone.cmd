@@ -1,6 +1,6 @@
 @ECHO OFF
 
-SET MSSdk="C:\Program Files\Microsoft SDKs\Windows\v6.0"
+SET MSSdk="C:\Program Files\Microsoft SDKs\Windows\v7.0"
 
 IF "%~1"=="DEBUG64" (
    call %MSSdk%\bin/setenv /x64 /Debug

@@ -98,6 +98,12 @@ STDMETHODIMP CDeskBand::QueryInterface(REFIID riid, LPVOID *ppReturn)
       *ppReturn = (IDeskBand*)this;
     }
 
+  //IDeskBand2
+  else if(IsEqualIID(riid, IID_IDeskBand2))
+    {
+      *ppReturn = (IDeskBand2*)this;
+    }
+
   //IPersist
   else if(IsEqualIID(riid, IID_IPersist))
     {
