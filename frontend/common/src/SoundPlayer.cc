@@ -340,8 +340,8 @@ SoundPlayer::init()
   if( !CoreFactory::get_configurator()->get_value(CFG_KEY_SOUND_VOLUME, volume) )
   {
     // Volume value was not found, so set default volume @100.
-	// This doesn't belong here if Workrave won't honor it on all platforms.
-	CoreFactory::get_configurator()->set_value(CFG_KEY_SOUND_VOLUME, (int)100);
+    // This doesn't belong here if Workrave won't honor it on all platforms.
+    CoreFactory::get_configurator()->set_value(CFG_KEY_SOUND_VOLUME, (int)100);
   }
 
   // first call will set enabled if no setting not found
@@ -737,7 +737,7 @@ SoundPlayer::set_device(Device dev)
     case DEVICE_SPEAKER:
       devstr = "speaker";
       break;
-	case DEVICE_SOUNDCARD:
+    case DEVICE_SOUNDCARD:
       devstr = "soundcard";
       break;
     default:
