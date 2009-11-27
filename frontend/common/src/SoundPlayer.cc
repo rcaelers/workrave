@@ -77,38 +77,38 @@ SoundPlayer::SoundRegistry SoundPlayer::sound_registry[] =
     "break-prelude.wav",
     _("Break prompt")
   },
-  
+
   { "WorkraveBreakIgnored",
     "break_ignored",
     "break-ignored.wav",
     _("Break ignored")
   },
-  
+
   { "WorkraveRestBreakStarted",
     "rest_break_started",
     "rest-break-started.wav",
     _("Rest break started")
   },
-  
+
   {
     "WorkraveRestBreakEnded",
     "rest_break_ended",
     "rest-break-ended.wav",
     _("Rest break ended")
   },
-  
+
   { "WorkraveMicroBreakStarted",
     "micro_break_started",
     "micro-break-started.wav",
     _("Micro-break started")
   },
-  
+
   { "WorkraveMicroBreakEnded",
     "micro_break_ended",
     "micro-break-ended.wav",
     _("Micro-break ended")
   },
-  
+
   { "WorkraveDailyLimit",
     "daily_limit",
     "daily-limit.wav",
@@ -120,13 +120,13 @@ SoundPlayer::SoundRegistry SoundPlayer::sound_registry[] =
     "exercise-ended.wav",
     _("Exercise ended")
   },
-  
+
   { "WorkraveExercisesEnded",
     "exercises_ended",
     "exercises-ended.wav",
     _("Exercises ended")
   },
-  
+
   { "WorkraveExerciseStep",
     "exercise_step",
     "exercise-step.wav",
@@ -334,15 +334,18 @@ SoundPlayer::~SoundPlayer()
 void
 SoundPlayer::init()
 {
-  driver->init();
+  if (driver != NULL)
+    {
+      driver->init();
+    }
 
   int volume = 0;
   if( !CoreFactory::get_configurator()->get_value(CFG_KEY_SOUND_VOLUME, volume) )
-  {
-    // Volume value was not found, so set default volume @100.
-	// This doesn't belong here if Workrave won't honor it on all platforms.
-	CoreFactory::get_configurator()->set_value(CFG_KEY_SOUND_VOLUME, (int)100);
-  }
+    {
+      // Volume value was not found, so set default volume @100.
+      // This doesn't belong here if Workrave won't honor it on all platforms.
+      CoreFactory::get_configurator()->set_value(CFG_KEY_SOUND_VOLUME, (int)100);
+    }
 
   // first call will set enabled if no setting not found
   is_enabled();
@@ -362,7 +365,7 @@ SoundPlayer::register_sound_events(string theme)
     }
 
   sync_settings();
-  
+
   gchar *path = g_build_filename(theme.c_str(), "soundtheme", NULL);
   if (path != NULL)
     {
@@ -411,7 +414,7 @@ SoundPlayer::activate_theme(const Theme &theme, bool force)
         {
           set_sound_wav_file((SoundEvent)idx, filename);
         }
-      
+
       idx++;
     }
 }
@@ -436,11 +439,11 @@ SoundPlayer::sync_settings()
                                                          SoundPlayer::CFG_KEY_SOUND_EVENTS_ENABLED,
                                                          enabled);
             }
-		  else
-		  {
-			  driver->set_sound_enabled((SoundEvent)i, true);
-		  }
-      
+          else
+            {
+              driver->set_sound_enabled((SoundEvent)i, true);
+            }
+
           string wav_file;
           valid = driver->get_sound_wav_file((SoundEvent)i, wav_file);
           if (valid)
@@ -458,7 +461,7 @@ void
 SoundPlayer::load_sound_theme(const string &themefilename, Theme &theme)
 {
   TRACE_ENTER("SoundPlayer::load_sound_theme");
-  
+
   GError *error = NULL;
   gboolean r = TRUE;
   bool is_current = true;
@@ -472,11 +475,11 @@ SoundPlayer::load_sound_theme(const string &themefilename, Theme &theme)
       g_error_free(error);
       error = NULL;
     }
-  
+
   if (r)
     {
       gchar *themedir = g_path_get_dirname(themefilename.c_str());
-      
+
       char *desc = g_key_file_get_string(config, "general", "description", &error);
       if (error != NULL)
         {
@@ -506,7 +509,7 @@ SoundPlayer::load_sound_theme(const string &themefilename, Theme &theme)
 
               if (pathname != NULL)
                 {
-#ifdef HAVE_REALPATH                  
+#ifdef HAVE_REALPATH
                   char resolved_path[PATH_MAX];
                   char *sound_pathname = realpath(pathname, resolved_path);
                   if (sound_pathname == NULL)
@@ -515,16 +518,16 @@ SoundPlayer::load_sound_theme(const string &themefilename, Theme &theme)
                     }
 #else
                   char *sound_pathname = pathname;
-#endif                  
+#endif
                   theme.files.push_back(sound_pathname);
-                  
+
                   if (is_current)
                     {
                       string current = "";
                       CoreFactory::get_configurator()->get_value(string(CFG_KEY_SOUND_EVENTS) +
                                                                  snd->id,
                                                                  current);
-                      
+
                       if (current != string(sound_pathname))
                         {
                           is_current = false;
@@ -539,11 +542,11 @@ SoundPlayer::load_sound_theme(const string &themefilename, Theme &theme)
 
       theme.active = is_current;
       g_free(themedir);
-      
+
     }
 
   g_key_file_free(config);
-    
+
   TRACE_MSG(is_current);
   TRACE_EXIT();
 }
@@ -557,7 +560,7 @@ SoundPlayer::get_sound_themes(std::vector<Theme> &themes)
   bool has_active = false;
 
   sync_settings();
-  
+
   for (list<string>::iterator it = searchpath.begin(); it != searchpath.end(); it++)
     {
       GDir *dir = g_dir_open(it->c_str(), 0, NULL);
@@ -568,15 +571,15 @@ SoundPlayer::get_sound_themes(std::vector<Theme> &themes)
 		      while ((file = g_dir_read_name(dir)) != NULL)
             {
               gchar *test_path = g_build_filename(it->c_str(), file, NULL);
-              
+
               if (g_file_test(test_path, G_FILE_TEST_IS_DIR))
                 {
                   char *path = g_build_filename(it->c_str(), file, "soundtheme", NULL);
-                  
+
                   if (g_file_test(path, G_FILE_TEST_IS_REGULAR))
                     {
                       Theme theme;
-                      
+
                       load_sound_theme(path, theme);
                       themes.push_back(theme);
 
@@ -588,10 +591,10 @@ SoundPlayer::get_sound_themes(std::vector<Theme> &themes)
 
                   g_free(path);
                 }
-              
+
               g_free(test_path);
             }
-          
+
           g_dir_close(dir);
         }
     }
@@ -602,7 +605,7 @@ SoundPlayer::get_sound_themes(std::vector<Theme> &themes)
 
       active_theme.active = true;
       active_theme.description = _("Custom");
-      
+
       bool valid = true;
       for (unsigned int i = 0; valid && i < sizeof(sound_registry)/sizeof(sound_registry[0]); i++)
         {
@@ -623,7 +626,7 @@ SoundPlayer::get_sound_themes(std::vector<Theme> &themes)
           themes.push_back(active_theme);
         }
     }
-  
+
   TRACE_EXIT();
 }
 
@@ -634,7 +637,7 @@ SoundPlayer::play_sound(SoundEvent snd)
   if (is_enabled())
     {
       sync_settings();
-      
+
       bool enabled = false;
       bool valid = SoundPlayer::get_sound_enabled(snd, enabled);
 
@@ -737,7 +740,7 @@ SoundPlayer::set_device(Device dev)
     case DEVICE_SPEAKER:
       devstr = "speaker";
       break;
-	case DEVICE_SOUNDCARD:
+    case DEVICE_SOUNDCARD:
       devstr = "soundcard";
       break;
     default:
@@ -753,9 +756,9 @@ bool
 SoundPlayer::get_sound_enabled(SoundEvent snd, bool &enabled)
 {
   bool ret = false;
-  
+
   enabled = true;
-  
+
   ret = CoreFactory::get_configurator()->get_value(string(CFG_KEY_SOUND_EVENTS) +
                                                    sound_registry[snd].id +
                                                    CFG_KEY_SOUND_EVENTS_ENABLED,
@@ -783,7 +786,7 @@ SoundPlayer::get_sound_wav_file(SoundEvent snd, string &filename)
 {
   bool ret = false;
   filename = "";
-  
+
   ret = CoreFactory::get_configurator()->get_value(string(SoundPlayer::CFG_KEY_SOUND_EVENTS) +
                                                    sound_registry[snd].id,
                                                    filename);
@@ -808,7 +811,7 @@ bool
 SoundPlayer::capability(SoundCapability cap)
 {
   bool ret = false;
-  
+
   if (driver != NULL)
     {
       ret = driver->capability(cap);

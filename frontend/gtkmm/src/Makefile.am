@@ -99,7 +99,7 @@ includeswin32 = 	-I$(top_srcdir)/common/win32/harpoon/include \
 			-I$(top_srcdir)/frontend/gtkmm/src/win32/ \
 			-I$(top_srcdir)/frontend/win32/applet/include
 ldflags = 		-L$(top_builddir)/frontend/gtkmm/src/win32/
-win32cflags		= -D_WIN32_IE=0x0500
+win32cflags		= -D_WIN32_IE=0x0500 -D_WIN32_WINNT=0x0501
 endif
 
 if HAVE_DISTRIBUTION
@@ -118,7 +118,7 @@ WINDRES ?= 		"windres"
 includesinput = 	-I$(top_srcdir)/common/win32/harpoon/include
 WIN32LIBS = 		$(top_builddir)/common/win32/harpoon/src/Release/harpoon.dll \
 			$(top_builddir)/frontend/gtkmm/src/win32/libworkrave-frontend-gtkmm-win32.la \
-			-lshell32 -lole32 -lwinmm -lshlwapi
+			-lshell32 -lole32 -lwinmm -lshlwapi -lwtsapi32
 endif
 
 if PLATFORM_OS_UNIX

@@ -77,7 +77,9 @@
 
 using namespace std;
 
+#ifdef HAVE_XRECORD
 int X11InputMonitor::xi_event_base = 0;
+#endif
 
 #ifndef HAVE_APP_GTK
 //! Intercepts X11 protocol errors.

@@ -70,6 +70,7 @@
 #include "W32AppletWindow.hh"
 #include <gdk/gdkwin32.h>
 #include <pbt.h>
+#include <wtsapi32.h>
 #endif
 
 #if defined(PLATFORM_OS_OSX)
@@ -327,6 +328,7 @@ static void my_log_handler(const gchar *log_domain, GLogLevelFlags log_level,
 void
 GUI::init_platform()
 {
+  TRACE_ENTER("GUI::init_platform");
 #if defined(HAVE_KDE)
   init_kde();
 #endif
@@ -343,6 +345,7 @@ GUI::init_platform()
 #endif
   
   srand((unsigned int)time(NULL));
+  TRACE_EXIT();
 }
 
 
@@ -374,6 +377,7 @@ GUI::session_save_state_cb(EggSMClient *client, GKeyFile *key_file, GUI *gui)
 void
 GUI::init_session()
 {
+  TRACE_ENTER("GUI::init_session");
   EggSMClient *client = NULL;
 #ifdef HAVE_DBUS
   client = egg_sm_client_get();
@@ -389,6 +393,7 @@ GUI::init_session()
                        G_CALLBACK(session_save_state_cb),
                        this);
     }
+  TRACE_EXIT();
 }
 
 
@@ -430,6 +435,7 @@ void
 GUI::init_debug()
 {
 #if defined(NDEBUG)
+  TRACE_ENTER("GUI::init_debug");
   const char *domains[] = { NULL, "Gtk", "GLib", "Gdk", "gtkmm", "GLib-GObject" };
   for (unsigned int i = 0; i < sizeof(domains)/sizeof(char *); i++)
     {
@@ -437,7 +443,7 @@ GUI::init_debug()
                         (GLogLevelFlags) (G_LOG_LEVEL_MASK | G_LOG_FLAG_FATAL | G_LOG_FLAG_RECURSION),
                         my_log_handler, NULL);
     }
-
+  TRACE_EXIT();
 #endif
 }
 
@@ -863,6 +869,9 @@ GUI::init_sound_player()
   TRACE_ENTER("GUI:init_sound_player");
   try
     {
+      // Tell pulseaudio were are playing sound events
+      g_setenv("PULSE_PROP_media.role", "event", TRUE);
+      
       sound_player = new SoundPlayer(); /* LEAK */
       sound_player->init();
     }
@@ -1459,6 +1468,10 @@ GUI::win32_init_filter()
   GtkWidget *window = (GtkWidget *)main_window->gobj();
   GdkWindow *gdk_window = window->window;
   gdk_window_add_filter(gdk_window, win32_filter_func, this);
+
+  HWND hwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
+  
+  WTSRegisterSessionNotification(hwnd, NOTIFY_FOR_THIS_SESSION);
 }
 
 GdkFilterReturn
@@ -1474,6 +1487,21 @@ GUI::win32_filter_func (void     *xevent,
   GdkFilterReturn ret = GDK_FILTER_CONTINUE;
   switch (msg->message)
     {
+    case WM_WTSSESSION_CHANGE:
+      {
+        TRACE_MSG("WM_WTSSESSION_CHANGE " << msg->wParam << " " << msg->lParam);
+        if (msg->wParam == WTS_SESSION_LOCK)
+          {
+            TRACE_MSG("WTS_SESSION_LOCK");
+            gui->restbreak_now();
+          }
+        if (msg->wParam == WTS_SESSION_LOCK)
+          {
+            TRACE_MSG("WTS_SESSION_UNLOCK");
+          }
+      }
+      break;
+      
     case WM_POWERBROADCAST:
       {
         TRACE_MSG("WM_POWERBROADCAST " << msg->wParam << " " << msg->lParam);
