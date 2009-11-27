@@ -88,7 +88,6 @@ set(FRONTEND_SOURCES
     ${FRONTEND_DIR}/gtkmm/src/TimerPreferencesPanel.hh
     ${FRONTEND_DIR}/gtkmm/src/WindowHints.cc
     ${FRONTEND_DIR}/gtkmm/src/WindowHints.hh
-    ${FRONTEND_DIR}/gtkmm/src/macros.h
     ${FRONTEND_DIR}/gtkmm/src/main.cc
     ${FRONTEND_DIR}/gtkmm/src/preinclude.h
     ${FRONTEND_DIR}/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc

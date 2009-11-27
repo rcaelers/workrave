@@ -335,6 +335,21 @@ void
 SoundPlayer::init()
 {
   driver->init();
+
+  int volume = 0;
+  if( !CoreFactory::get_configurator()->get_value(CFG_KEY_SOUND_VOLUME, volume) )
+  {
+    // Volume value was not found, so set default volume @100.
+	// This doesn't belong here if Workrave won't honor it on all platforms.
+	CoreFactory::get_configurator()->set_value(CFG_KEY_SOUND_VOLUME, (int)100);
+  }
+
+  // first call will set enabled if no setting not found
+  is_enabled();
+
+  // first call will set device to soundcard if no setting not found
+  get_device();
+
   register_sound_events();
 }
 
@@ -421,6 +436,10 @@ SoundPlayer::sync_settings()
                                                          SoundPlayer::CFG_KEY_SOUND_EVENTS_ENABLED,
                                                          enabled);
             }
+		  else
+		  {
+			  driver->set_sound_enabled((SoundEvent)i, true);
+		  }
       
           string wav_file;
           valid = driver->get_sound_wav_file((SoundEvent)i, wav_file);
@@ -673,6 +692,7 @@ SoundPlayer::is_enabled()
   if (! b)
     {
       rc = true;
+      set_enabled(true);
     }
   return rc;
 }
@@ -699,6 +719,12 @@ SoundPlayer::get_device()
           dev = DEVICE_SPEAKER;
         }
     }
+  else
+    {
+      dev = DEVICE_SOUNDCARD;
+      set_device(dev);
+    }
+
   return dev;
 }
 
@@ -710,6 +736,9 @@ SoundPlayer::set_device(Device dev)
     {
     case DEVICE_SPEAKER:
       devstr = "speaker";
+      break;
+	case DEVICE_SOUNDCARD:
+      devstr = "soundcard";
       break;
     default:
       devstr = "soundcard";
