@@ -328,6 +328,7 @@ static void my_log_handler(const gchar *log_domain, GLogLevelFlags log_level,
 void
 GUI::init_platform()
 {
+  TRACE_ENTER("GUI::init_platform");
 #if defined(HAVE_KDE)
   init_kde();
 #endif
@@ -344,6 +345,7 @@ GUI::init_platform()
 #endif
   
   srand((unsigned int)time(NULL));
+  TRACE_EXIT();
 }
 
 
@@ -375,6 +377,7 @@ GUI::session_save_state_cb(EggSMClient *client, GKeyFile *key_file, GUI *gui)
 void
 GUI::init_session()
 {
+  TRACE_ENTER("GUI::init_session");
   EggSMClient *client = NULL;
 #ifdef HAVE_DBUS
   client = egg_sm_client_get();
@@ -390,6 +393,7 @@ GUI::init_session()
                        G_CALLBACK(session_save_state_cb),
                        this);
     }
+  TRACE_EXIT();
 }
 
 
@@ -431,6 +435,7 @@ void
 GUI::init_debug()
 {
 #if defined(NDEBUG)
+  TRACE_ENTER("GUI::init_debug");
   const char *domains[] = { NULL, "Gtk", "GLib", "Gdk", "gtkmm", "GLib-GObject" };
   for (unsigned int i = 0; i < sizeof(domains)/sizeof(char *); i++)
     {
@@ -438,7 +443,7 @@ GUI::init_debug()
                         (GLogLevelFlags) (G_LOG_LEVEL_MASK | G_LOG_FLAG_FATAL | G_LOG_FLAG_RECURSION),
                         my_log_handler, NULL);
     }
-
+  TRACE_EXIT();
 #endif
 }
 
