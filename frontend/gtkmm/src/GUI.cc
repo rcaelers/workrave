@@ -70,6 +70,7 @@
 #include "W32AppletWindow.hh"
 #include <gdk/gdkwin32.h>
 #include <pbt.h>
+#include <wtsapi32.h>
 #endif
 
 #if defined(PLATFORM_OS_OSX)
@@ -1459,6 +1460,10 @@ GUI::win32_init_filter()
   GtkWidget *window = (GtkWidget *)main_window->gobj();
   GdkWindow *gdk_window = window->window;
   gdk_window_add_filter(gdk_window, win32_filter_func, this);
+
+  HWND hwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
+  
+  WTSRegisterSessionNotification(hwnd, NOTIFY_FOR_THIS_SESSION);
 }
 
 GdkFilterReturn
@@ -1474,6 +1479,21 @@ GUI::win32_filter_func (void     *xevent,
   GdkFilterReturn ret = GDK_FILTER_CONTINUE;
   switch (msg->message)
     {
+    case WM_WTSSESSION_CHANGE:
+      {
+        TRACE_MSG("WM_WTSSESSION_CHANGE " << msg->wParam << " " << msg->lParam);
+        if (msg->wParam == WTS_SESSION_LOCK)
+          {
+            TRACE_MSG("WTS_SESSION_LOCK");
+            gui->restbreak_now();
+          }
+        if (msg->wParam == WTS_SESSION_LOCK)
+          {
+            TRACE_MSG("WTS_SESSION_UNLOCK");
+          }
+      }
+      break;
+      
     case WM_POWERBROADCAST:
       {
         TRACE_MSG("WM_POWERBROADCAST " << msg->wParam << " " << msg->lParam);
