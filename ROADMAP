@@ -1,51 +1,380 @@
-@ W32 applet to default to all in one spot
-@ Fist roll image is wrong, to be fixed
-@ Clean up runtime (remove raleigh themes, ...)
-? Investigate startup performance: a lot of config keys are ready twice++
-@ Main window icon to reflect operation mode
-@ Tooltip on GtkStatusIcon seems to have too limited fixed length (truncated)
+-*- org -*-
 
-Done:
-- W32 window location: window goes down each time (due to decorations)
+* OS X port
 
---8<--8<--8<--8<--8<--8<--8<--8<--8<--8<--8<--8<
+** DONE [#A] Always on top
 
-1) patrick.clery@gmail.com
+** DONE [#A] Skip win list
 
-Hi,
-	I would first like to say that I very grateful that someone has gone out of 
-their way to make such a great program. I have a very serious RSI -- for 
-which I'm getting treated -- and workrave is helping to minimize possible 
-damage to my hands. Thanks!  :) 
+** TODO [#A] Block keyboard
 
-	Onto my problem/question. The pain in my right-hand is especially sensitive 
-to using a mouse. Even placing my hand on the mouse and clicking something 
-can trigger pain immediately that is not otherwise triggered by my keyboard. 
-I try to use my keyboard for everything. One of the only situations where I 
-haven't found a keyboard replacement for something I'd previously do with a 
-mouse is for the workrave "postpone." Is there a keyboard shortcut for this? 
+** DONE [#A] Hide statistics
 
-	If such a feature does not exist, could you please add this to your list of 
-feature requests and consider it for a future addition to the program as I 
-think it will definitely help others like me who are looking to gain 
-independence from the (evil) mouse.
+** DONE [#A] Configurator
 
-2) Make statistics more robust against corrupt files.
+** DONE [#A] Workrave.app
 
-3) idimov@users.sourceforge.net Remo Tex
+** DONE [#A] UUID 
 
-I think it is good to have "Check for updates/New version(s)" option
-> or at least to have URL for download(s) printed in About/Credits dialog
-> so it would be easy to Cut, Paste and check "manually" for existence of
-> new version(s)
+* Common
 
-4) idimov@users.sourceforge.net Remo Tex
+** TODO [#B] Object register (for debugging leaks)
 
-> - Probably it is a good idea to make it also like Gaim etc. i.e.
-> dblclick opens dilaog if closed and closes if open
+** TODO [#B] Switch to libcanberra
 
+* Backend
 
-5) raving.20.pccool@dfgh.net
+** Monitoring
 
-Pictures for fullscreen lockout - just a simple directory where it
-will recursively look for pictures.
+*** DONE [#B] Platform input monitor factories
+
+*** DONE [#B] Improve input monitor factory interface
+
+*** TODO [#B] Beter w32 input monitor selection
+
+** General
+
+*** TODO [#B] Check exceptions
+
+**** TODO LinkException
+
+**** DONE SocketException
+     
+**** DONE ByteStreamException
+
+**** DONE ArchiveException
+
+*** TODO [#A] Only one definition of break names.
+
+*** TODO [#B] Link exceptions
+
+*** TODO [#E] Serialize event to XML/SOAP
+
+*** DONE [#A] Make Workrave ID persistent
+
+** Configuators
+
+*** DONE [#B] Beter abstraction of different mechanisms.
+
+*** DONE [#A] Definitions of meta data (default values, type, delay, save-on-exit)
+
+*** DONE [#C] Add 'I' to interface ConfiguratorListener.hh
+
+*** DONE [#A] Add delay to configurator
+
+*** DONE [#B] Add 'remove_key'
+
+*** DONE [#B] Rename settings...
+
+*** DONE [#B] Auto save
+
+** Statistics
+
+*** DONE [#A] Move statistics outside acitivity monitor
+
+*** TODO [#D] Put statistics in Sqlite
+   
+*** TODO [#B] Tell user stats may not be complete on Vista.
+
+"Workrave cannot collect mouse and keyboard statistics
+> from high integrity administrator applications. To do so, run Workrave as
+> administrator."
+
+** Configuration
+
+*** DONE [#B] Handle default values
+
+*** TODO [#E] Cleanup external activity triggers
+
+*** DONE [#E] Cleanup HARPOON_ENABLED
+
+** Dbus
+
+*** DONE [#A] Retrieve timer state
+
+*** DONE [#C] Native bindings?
+
+*** TODO [#C] Error handling
+
+*** TODO [#C] Rewrite basic types (int32 iso guint32)
+
+*** TODO [#C] Rewrite pointer/ref hint (reimplement 'ptrptr')
+
+*** DONE [#E] Add client bindings (to subscribe to remove signals)
+
+*** DONE [#E] C bindings (for gnome applet)
+
+* Networking rewrite
+
+** General
+
+*** TODO [#B] Check that events are deleted
+
+*** TODO [#C] Encrypt password in config
+
+*** DONE [#D] UUID on win32
+
+** Links
+
+*** DONE [#A] Disconnect
+
+*** TODO [#D] Auto connect list
+
+*** TODO [#B] Cycle detection
+
+*** DONE [#B] Username / Secret
+
+** Activity
+
+*** DONE [#B] Periodic sync of timer values
+
+** History
+
+*** DONE [#A] Merge timer/break history
+    
+*** DONE [#C] Add settings changes
+
+*** TODO [#D] Add statistics
+
+*** TODO [#D] Merge statistics history
+
+*** DONE [#A] Make history persistent
+
+*** DONE [#A] Load history on startup
+
+*** DONE [#B] Expire history
+
+*** DONE [#D] Set overdue time.
+
+** GUI
+
+*** DONE [#B] Connect dialog
+
+*** DONE [#C] Autoconnect preference
+
+*** TODO [#B] Resolve configuration conflict
+
+*** DONE [#B] Update Preferences live when remote workrave changes settings
+
+** Configuration
+
+*** DONE [#B] Handle default values
+
+* Review/Cleanup
+
+** Interface
+
+*** DONE CoreFactory.hh
+
+*** DONE IApp.hh
+
+*** DONE IBreak.hh
+
+*** DONE IBreakResponse.hh
+
+*** DONE IConfigurator.hh
+
+*** DONE IConfiguratorListener.hh
+
+*** DONE ICore.hh
+
+*** DONE ICoreEventListener.hh
+
+*** DONE ILinkEventListener.hh
+
+*** DONE INetwork.hh
+
+*** TODO IStatistics.hh
+
+*** DONE LinkEvent.hh
+    
+    Somehow, this clas must be converted to an interface...
+
+*** DONE ResolveConfigurationLinkEvent.hh
+
+** Core
+
+*** TODO Core.cc
+
+*** TODO Core.hh
+
+*** TODO CoreFactory.cc
+
+*** TODO DBus.cc
+
+*** TODO DBus.hh
+
+*** TODO Statistics.cc
+
+*** TODO Statistics.hh
+
+*** TODO Test.cc
+
+*** TODO Test.hh
+
+** Activity
+
+*** TODO IActivityMonitor.hh
+    remove statistics
+
+*** TODO IInputMonitor.hh
+
+*** TODO IInputMonitorListener.hh
+
+*** TODO ActivityMonitor.cc
+
+*** TODO ActivityMonitor.hh
+
+*** TODO FakeActivityMonitor.hh
+
+*** TODO TimerActivityMonitor.hh
+
+*** TODO ActivityMonitorListener.hh
+
+** Timers/Breaks
+
+*** TODO Break.cc
+
+*** TODO Break.hh
+
+*** TODO BreakControl.cc
+
+*** TODO BreakControl.hh
+
+*** TODO DayTimePred.cc
+
+*** TODO DayTimePred.hh
+
+*** TODO WeekTimePred.cc
+
+*** TODO WeekTimePred.hh
+
+*** TODO TimePred.hh
+
+*** TODO TimePredFactory.cc
+
+*** TODO TimePredFactory.hh
+
+*** TODO TimeSource.hh
+
+*** TODO Timer.cc
+
+*** TODO Timer.hh
+
+*** TODO Timer.icc
+
+** Networking
+
+*** TODO LinkEvent.cc
+
+*** TODO ActivityLinkEvent.cc
+
+*** TODO ActivityLinkEvent.hh
+
+*** TODO BreakLinkEvent.cc
+
+*** TODO BreakLinkEvent.hh
+
+*** TODO HistoryLinkEvent.cc
+
+*** TODO HistoryLinkEvent.hh
+
+*** TODO LinkStateLinkEvent.cc
+
+*** TODO LinkStateLinkEvent.hh
+
+*** TODO ConfigurationLinkEvent.cc
+
+*** TODO ConfigurationLinkEvent.hh
+
+*** TODO ByteStream.cc
+
+*** TODO ByteStream.hh
+
+*** TODO BinaryArchive.cc
+
+*** TODO BinaryArchive.hh
+
+*** TODO ILink.hh
+
+*** TODO ILinkListener.hh
+
+*** TODO ILinkServer.hh
+
+    Empty interface: remove?
+
+*** TODO ILinkServerListener.hh
+
+*** TODO Network.cc
+
+*** TODO Network.hh
+
+*** TODO LinkException.hh
+
+*** TODO LinkFactory.cc
+
+*** TODO LinkFactory.hh
+
+*** TODO LinkRouter.cc
+
+*** TODO LinkRouter.hh
+
+*** TODO LinkedActivityMonitor.cc
+
+*** TODO LinkedActivityMonitor.hh
+
+*** TODO LinkedConfigurationManager.cc
+
+*** TODO LinkedConfigurationManager.hh
+
+*** TODO LinkedHistoryManager.cc
+
+*** TODO LinkedHistoryManager.hh
+
+*** TODO TcpLink.cc
+
+*** TODO TcpLink.hh
+
+*** TODO TcpLink.icc
+
+*** TODO TcpLinkServer.cc
+
+*** TODO TcpLinkServer.hh
+
+*** TODO SocketDriver.cc
+
+*** TODO SocketDriver.hh
+
+*** TODO SocketDriver.icc
+
+*** TODO GNetSocketDriver.cc
+
+*** TODO GNetSocketDriver.hh
+
+** Configuration
+
+*** TODO Configurator.cc
+
+*** TODO Configurator.hh
+
+*** TODO GlibIniConfigurator.cc
+
+*** TODO GlibIniConfigurator.hh
+
+*** TODO QtIniConfigurator.cc
+
+*** TODO QtIniConfigurator.hh
+
+*** TODO QtNativeConfigurator.cc
+
+*** TODO QtNativeConfigurator.hh
+
+*** TODO QtSettingsConfigurator.cc
+
+*** TODO QtSettingsConfigurator.hh
+
+*** TODO ResolveConfigurationLinkEvent.cc
+
+*** TODO XMLConfigurator.cc
+
+*** TODO XMLConfigurator.hh
