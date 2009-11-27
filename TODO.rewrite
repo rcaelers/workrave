@@ -20,6 +20,8 @@
 
 ** TODO [#B] Object register (for debugging leaks)
 
+** TODO [#B] Switch to libcanberra
+
 * Backend
 
 ** Monitoring
