@@ -864,6 +864,9 @@ GUI::init_sound_player()
   TRACE_ENTER("GUI:init_sound_player");
   try
     {
+      // Tell pulseaudio were are playing sound events
+      g_setenv("PULSE_PROP_media.role", "event", TRUE);
+      
       sound_player = new SoundPlayer(); /* LEAK */
       sound_player->init();
     }
