@@ -430,8 +430,8 @@ BreakControl::force_start_break(bool initiated_by_user)
     {
       TRACE_MSG("auto reset enabled");
       time_t idle = break_timer->get_elapsed_idle_time();
-      TRACE_MSG(idle << " " << break_timer->get_auto_reset());
-      if (idle >= break_timer->get_auto_reset())
+      TRACE_MSG(idle << " " << break_timer->get_auto_reset() << " " << break_timer->is_enabled());
+      if (idle >= break_timer->get_auto_reset() || !break_timer->is_enabled())
         {
           TRACE_MSG("Faking break");
           fake_break = true;

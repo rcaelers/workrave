@@ -1,6 +1,6 @@
 // TimerPreferencesPanel.cc --- Preferences widgets for a timer
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002 - 2009 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -373,8 +373,17 @@ TimerPreferencesPanel::enable_buttons()
   prelude_cb->set_sensitive(on);
   has_max_prelude_cb->set_sensitive(on);
   limit_tim->set_sensitive(on);
-  if (auto_reset_tim != NULL)
-    auto_reset_tim->set_sensitive(on);
+  if (break_id == BREAK_ID_REST_BREAK)
+    {
+        auto_reset_tim->set_sensitive(true);
+    }
+  else
+    {
+      if (auto_reset_tim != NULL)
+        {
+          auto_reset_tim->set_sensitive(on);
+        }
+    }
   snooze_tim->set_sensitive(on);
   // max_prelude_spin->set_sensitive(on);
 }
