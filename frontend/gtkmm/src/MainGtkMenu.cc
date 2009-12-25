@@ -34,7 +34,6 @@
 #include <gtkmm/action.h>
 #include <gtkmm/iconset.h>
 #include <gtkmm/iconsource.h>
-#include <gtkmm/menu.h>
 #include <gtkmm/stock.h>
 
 

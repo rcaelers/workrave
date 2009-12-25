@@ -30,6 +30,7 @@
 #include <gtkmm/iconfactory.h>
 #include <gtkmm/radioaction.h>
 #include <gtkmm/uimanager.h>
+#include <gtkmm/menu.h>
 
 #include "Menu.hh"
 
