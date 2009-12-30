@@ -1,6 +1,6 @@
 // BreakControl.hh --- controller for a single break
 //
-// Copyright (C) 2001 - 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2009 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -61,7 +61,7 @@ public:
 
   // BreakInterface
   void start_break();
-  void force_start_break(bool initiated_by_user = true);
+  void force_start_break(BreakHint break_hint);
   void stop_break(bool forced_stop = false);
   bool need_heartbeat();
   void heartbeat();

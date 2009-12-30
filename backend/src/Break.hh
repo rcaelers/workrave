@@ -1,6 +1,6 @@
 // Break.hh
 //
-// Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -65,6 +65,9 @@ private:
   //! Break enabled?
   bool enabled;
 
+  //!
+  UsageMode usage_mode;
+
 public:
   Break();
   virtual ~Break();
@@ -91,8 +94,11 @@ public:
   virtual time_t get_limit() const;
   virtual bool is_limit_enabled() const;
 
+  void set_usage_mode(UsageMode mode);
+  
   bool get_timer_activity_sensitive() const;
 
+  
 private:
   void config_changed_notify(const std::string &key);
 

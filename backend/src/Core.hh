@@ -101,7 +101,7 @@ public:
 #endif
   Statistics *get_statistics() const;
   void set_core_events_listener(ICoreEventListener *l);
-  void force_break(BreakId id, bool initiated_by_user);
+  void force_break(BreakId id, BreakHint break_hint);
   void time_changed();
   void set_powersave(bool down);
 
@@ -110,10 +110,14 @@ public:
 
   OperationMode get_operation_mode();
   OperationMode set_operation_mode(OperationMode mode, bool persistent = true);
+
+  UsageMode get_usage_mode();
+  void set_usage_mode(UsageMode mode, bool persistent = true);
+
   void set_freeze_all_breaks(bool freeze);
 
   void stop_prelude(BreakId break_id);
-  void do_force_break(BreakId id, bool initiated_by_user);
+  void do_force_break(BreakId id, BreakHint break_hint);
 
   void freeze();
   void defrost();
@@ -247,6 +251,9 @@ private:
 
   //! Current operation mode.
   OperationMode operation_mode;
+
+  //! Current usage mode.
+  UsageMode usage_mode;
 
   //! Where to send core events to?
   ICoreEventListener *core_event_listener;

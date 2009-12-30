@@ -89,6 +89,7 @@ Core::Core() :
   application(NULL),
   statistics(NULL),
   operation_mode(OPERATION_MODE_NORMAL),
+  usage_mode(USAGE_MODE_NORMAL),
   core_event_listener(NULL),
   powersave(false),
   powersave_resume_time(0),
@@ -539,12 +540,11 @@ Core::set_operation_mode(OperationMode mode, bool persistent)
           monitor->suspend();
           stop_all_breaks();
           
-          for( int i = 0; i < BREAK_ID_SIZEOF; ++i )
+          for (int i = 0; i < BREAK_ID_SIZEOF; ++i)
             {
-              if( breaks[ i ].is_enabled() )
+              if (breaks[i].is_enabled())
                 {
-                  breaks[ i ].get_timer()->set_insensitive_mode( MODE_IDLE_ALWAYS );
-                  //breaks[ i ].get_timer()->freeze_timer( true );
+                  breaks[i].get_timer()->set_insensitive_mode(INSENSITIVE_MODE_IDLE_ALWAYS);
                 }
             }
         }
@@ -555,7 +555,7 @@ Core::set_operation_mode(OperationMode mode, bool persistent)
           monitor->resume();
         }
       
-      if( operation_mode == OPERATION_MODE_QUIET )
+      if (operation_mode == OPERATION_MODE_QUIET)
         {
           stop_all_breaks();
         }
@@ -576,6 +576,31 @@ Core::set_operation_mode(OperationMode mode, bool persistent)
 }
 
 
+UsageMode
+Core::get_usage_mode()
+{
+  return usage_mode;
+}
+
+void
+Core::set_usage_mode(UsageMode mode, bool persistent)
+{
+  if (usage_mode != mode)
+    {
+      usage_mode = mode;
+  
+      for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+        {
+          breaks[i].set_usage_mode(mode);
+        }
+
+      if (persistent)
+        {
+          get_configurator()->set_value(CoreConfig::CFG_KEY_USAGE_MODE, mode);
+        }
+    }      
+}
+
 //! Sets the listener for core events.
 void
 Core::set_core_events_listener(ICoreEventListener *l)
@@ -586,19 +611,19 @@ Core::set_core_events_listener(ICoreEventListener *l)
 
 //! Forces the start of the specified break.
 void
-Core::force_break(BreakId id, bool initiated_by_user)
+Core::force_break(BreakId id, BreakHint break_hint)
 {
-  do_force_break(id, initiated_by_user);
+  do_force_break(id, break_hint);
 
 #ifdef HAVE_DISTRIBUTION
-  send_break_control_message_bool_param(id, BCM_START_BREAK, initiated_by_user);
+  send_break_control_message_bool_param(id, BCM_START_BREAK, break_hint);
 #endif
 }
 
 
 //! Forces the start of the specified break.
 void
-Core::do_force_break(BreakId id, bool initiated_by_user)
+Core::do_force_break(BreakId id, BreakHint break_hint)
 {
   TRACE_ENTER_MSG("Core::do_force_break", id);
   BreakControl *microbreak_control = breaks[BREAK_ID_MICRO_BREAK].get_break_control();
@@ -612,7 +637,7 @@ Core::do_force_break(BreakId id, bool initiated_by_user)
       TRACE_MSG("Resuming Micro break");
     }
 
-  breaker->force_start_break(initiated_by_user);
+  breaker->force_start_break(break_hint);
   TRACE_EXIT();
 }
 
@@ -1387,6 +1412,12 @@ Core::load_misc()
       mode = OPERATION_MODE_NORMAL;
     }
   set_operation_mode(OperationMode(mode), false);
+
+  if (! get_configurator()->get_value(CoreConfig::CFG_KEY_USAGE_MODE, mode))
+    {
+      mode = USAGE_MODE_NORMAL;
+    }
+  set_usage_mode(UsageMode(mode), false);
 }
 
 
@@ -1922,15 +1953,21 @@ Core::set_break_control(PacketBuffer &buffer)
           break;
 
         case BCM_START_BREAK:
-          if (data_size >= 5)
+          if (data_size >= 6)
+            {
+              // Only for post 1.9.1 workrave...
+              int break_hint = (int) buffer.unpack_ushort();
+              do_force_break(break_id, (BreakHint) break_hint);
+            }
+          else if (data_size >= 5)
             {
               // Only for post 1.6.2 workrave...
               bool initiated_by_user = (bool) buffer.unpack_byte();
-              do_force_break(break_id, initiated_by_user);
+              do_force_break(break_id, initiated_by_user ? BREAK_HINT_USER_INITIATED : BREAK_HINT_NONE);
             }
           else
             {
-              do_force_break(break_id, true);
+              do_force_break(break_id, BREAK_HINT_USER_INITIATED);
             }
           break;
         }

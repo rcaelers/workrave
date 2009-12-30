@@ -1,6 +1,6 @@
 // Timer.cc --- break timer
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007, 2008, 2009 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2009 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -80,7 +80,8 @@ Timer::Timer() :
   total_overdue_time(0),
   activity_monitor(NULL),
   activity_sensitive(true),
-  insensitive_mode(MODE_IDLE_ON_LIMIT_REACHED)
+  insensitive_mode(INSENSITIVE_MODE_IDLE_ON_LIMIT_REACHED),
+  insensitive_auto_restart(false)
 {
   core = CoreFactory::get_core();
 }
@@ -271,6 +272,14 @@ void
 Timer::set_insensitive_mode(InsensitiveMode mode)
 {
   insensitive_mode = mode;
+}
+
+
+//! Sets the activity insensitive auto restart
+void
+Timer::set_insensitive_autorestart(bool auto_restart)
+{
+  insensitive_auto_restart = auto_restart;
 }
 
 
@@ -580,7 +589,7 @@ Timer::freeze_timer(bool freeze)
     }
 
   //test fix for Bug 746 -  Micro-break not counting down
-  if (timer_enabled && !freeze && timer_frozen && timer_state == STATE_RUNNING && !last_start_time && !activity_sensitive )
+  if (timer_enabled && !freeze && timer_frozen && timer_state == STATE_RUNNING && !last_start_time && !activity_sensitive)
     {
       last_start_time = core->get_time();
       elapsed_idle_time = 0;
@@ -679,6 +688,7 @@ Timer::shift_time(int delta)
   compute_next_predicate_reset_time();
 }
 
+
 //! Perform timer processing.
 /*! \param new_activity_state the current activity state as reported by the
  *         (global) activity monitor.
@@ -731,32 +741,20 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
 
       if (activity_state != ACTIVITY_UNKNOWN)
         {
-          TRACE_MSG("as = " << activity_state <<
+          TRACE_MSG("as = "   << activity_state <<
                     " nas = " << new_activity_state <<
-                    " el=" << get_elapsed_time());
+                    " el ="   << get_elapsed_time());
 
-          if (insensitive_mode == MODE_IDLE_ALWAYS)
+          if (insensitive_mode == INSENSITIVE_MODE_IDLE_ALWAYS)
             // Forces ACTIVITY_IDLE every time, regardless of sensitivity
             {
               TRACE_MSG("MODE_IDLE_ALWAYS: Forcing ACTIVITY_IDLE");
               new_activity_state = activity_state = ACTIVITY_IDLE;
             }
 
-          // When the timer has no elasped time, and it not running ->
-          // use activity_state from activity monitor. This allows the
-          // timer to start when the user becomes active.
-          //
-          // Otherwise, use the previous state: A timer that is running keep
-          // running until it is set to idle below. An idle timer (after limit
-          // was reached) remains idle.
-          if (activity_state != ACTIVITY_ACTIVE) // RC: removed && get_elapsed_time() == 0)
+          if (activity_state == ACTIVITY_ACTIVE)
             {
-              TRACE_MSG("new state1 = " << activity_state << " " << new_activity_state
-                        << last_limit_time);
-            }
-          else
-            {
-              if (insensitive_mode == MODE_IDLE_ON_LIMIT_REACHED)
+              if (insensitive_mode == INSENSITIVE_MODE_IDLE_ON_LIMIT_REACHED)
                 {
                   new_activity_state = activity_state;
                 }
@@ -853,7 +851,7 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
       if (!activity_sensitive)
         {
           TRACE_MSG("reset reached, setting state = IDLE");
-          activity_state = ACTIVITY_IDLE;
+          activity_state = insensitive_auto_restart ? ACTIVITY_ACTIVE : ACTIVITY_IDLE;
         }
     }
   else if (timer_enabled)

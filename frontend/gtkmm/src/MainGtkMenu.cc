@@ -145,6 +145,9 @@ MainGtkMenu::create_actions()
 
   action_group->add(Gtk::RadioAction::create(group_mode, "Quiet", _("Q_uiet")),
                     sigc::mem_fun(*this, &MainGtkMenu::on_menu_quiet));
+
+  action_group->add(Gtk::ToggleAction::create("Reading", _("_Reading")),
+                    sigc::mem_fun(*this, &MainGtkMenu::on_menu_reading));
   
   // Networking menu
 #ifdef HAVE_DISTRIBUTION
@@ -219,6 +222,8 @@ MainGtkMenu::create_ui()
     "      <menuitem action='Normal'/>"
     "      <menuitem action='Suspended'/>"
     "      <menuitem action='Quiet'/>"
+    "      <separator/>"
+    "      <menuitem action='Reading'/>"
     "    </menu>"
 #ifdef HAVE_DISTRIBUTION
     "    <menu action='Network'>"
@@ -228,7 +233,7 @@ MainGtkMenu::create_ui()
     "      <menuitem action='ShowLog'/>"
     "    </menu>"
 #endif
-    "    <separator/>" +
+    "    <separator/>"
     "    <menuitem action='Preferences'/>"
     "    <menuitem action='About'/>"
     "    <menuitem action='Quit'/>"
@@ -267,7 +272,7 @@ MainGtkMenu::popup(const guint button, const guint activate_time)
 
 
 void
-MainGtkMenu::resync(OperationMode mode, bool show_log)
+MainGtkMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
 {
   Gtk::CheckMenuItem *item = NULL;
   const char *menu_name = NULL;
@@ -303,6 +308,12 @@ MainGtkMenu::resync(OperationMode mode, bool show_log)
   if (item != NULL)
     {
       item->set_active(show_log);
+    }
+
+  item = dynamic_cast<Gtk::CheckMenuItem*>(ui_manager->get_widget("/Menu/Mode/Reading"));
+  if (item != NULL)
+    {
+      item->set_active(usage == USAGE_MODE_READING);
     }
 }
 
@@ -371,6 +382,21 @@ MainGtkMenu::on_menu_quiet()
         }
     }
 }
+
+void
+MainGtkMenu::on_menu_reading()
+{
+  Glib::RefPtr<Gtk::Action> act = ui_manager->get_action("/Menu/Mode/Reading");
+  Glib::RefPtr<Gtk::ToggleAction> ract = Glib::RefPtr<Gtk::ToggleAction>::cast_dynamic(act);
+
+  if (ract)
+    {
+      bool active = ract->get_active();
+      Menus *menus = Menus::get_instance();
+      menus->on_menu_reading(active);
+    }
+}
+
 
 #ifdef PLATFORM_OS_OSX
 // /* Taken from Gaim. needs to be gtkmm-ified. */

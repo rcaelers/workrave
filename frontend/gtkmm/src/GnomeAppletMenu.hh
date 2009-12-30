@@ -1,6 +1,6 @@
 // GnomeAppletMenu.hh --- Menu using GnomeApplet+
 //
-// Copyright (C) 2001 - 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2009 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -44,7 +44,7 @@ public:
   virtual void init();
   virtual void add_accel(Gtk::Window &window);
   virtual void popup(const guint button, const guint activate_time);
-  virtual void resync(workrave::OperationMode mode, bool show_log);
+  virtual void resync(workrave::OperationMode mode, workrave::UsageMode usage, bool show_log);
   
 private:
   GnomeAppletWindow *applet_window;  

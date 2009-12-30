@@ -75,7 +75,8 @@ public:
       MENU_COMMAND_NETWORK_LOG,
       MENU_COMMAND_NETWORK_RECONNECT,
       MENU_COMMAND_STATISTICS,
-      MENU_COMMAND_ABOUT
+      MENU_COMMAND_ABOUT,
+      MENU_COMMAND_MODE_READING,
     };
 
   static Menus *get_instance();
@@ -90,6 +91,7 @@ public:
 
 private:
   void set_operation_mode(OperationMode m);
+  void set_usage_mode(UsageMode m);
   void on_menu_response(int response);
   void on_about_response(int response);
   
@@ -115,6 +117,7 @@ public:
   void on_menu_normal();
   void on_menu_suspend();
   void on_menu_quiet();
+  void on_menu_reading(bool reading);
   void on_menu_network_join();
   void on_menu_network_leave();
   void on_menu_network_reconnect();

@@ -444,7 +444,7 @@ BreakWindow::resume_non_ignorable_break()
             {
               TRACE_MSG("Break " << id << " not ignorable and overdue");
 
-              core->force_break(BreakId(id), false);
+              core->force_break(BreakId(id), BREAK_HINT_USER_INITIATED);
               break;
             }
         }

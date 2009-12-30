@@ -176,7 +176,7 @@ GUI::~GUI()
 void
 GUI::restbreak_now()
 {
-  core->force_break(BREAK_ID_REST_BREAK, true);
+  core->force_break(BREAK_ID_REST_BREAK, BREAK_HINT_USER_INITIATED);
 }
 
 
@@ -1493,11 +1493,16 @@ GUI::win32_filter_func (void     *xevent,
         if (msg->wParam == WTS_SESSION_LOCK)
           {
             TRACE_MSG("WTS_SESSION_LOCK");
-            gui->restbreak_now();
           }
         if (msg->wParam == WTS_SESSION_LOCK)
           {
             TRACE_MSG("WTS_SESSION_UNLOCK");
+            ICore *core = CoreFactory::get_core();
+            IBreak *rest_break = core->get_break(BREAK_ID_REST_BREAK);
+            if (rest_break->get_elapsed_idle_time() < rest_break->get_auto_reset() && rest_break->is_enabled())
+              {
+                gui->restbreak_now();
+              }
           }
       }
       break;

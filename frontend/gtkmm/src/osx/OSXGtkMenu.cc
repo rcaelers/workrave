@@ -17,7 +17,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include "preinclude.h"
+
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -107,6 +107,8 @@ OSXGtkMenu::create_ui()
     "      <menuitem action='Normal'/>\n"
     "      <menuitem action='Suspended'/>\n"
     "      <menuitem action='Quiet'/>\n"
+    "      <separator/>"
+    "      <menuitem action='Reading'/>"
     "    </menu>\n"
     "    <menu action='Network'>\n"
     "      <menuitem action='Join'/>\n"

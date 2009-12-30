@@ -216,14 +216,14 @@ BreakControl::goto_stage(BreakStage stage)
         IActivityMonitor *monitor = core->get_activity_monitor();
         monitor->set_listener(this);
 
-        break_timer->set_insensitive_mode(MODE_IDLE_ON_LIMIT_REACHED);
+        break_timer->set_insensitive_mode(INSENSITIVE_MODE_IDLE_ON_LIMIT_REACHED);
       }
       break;
 
     case STAGE_NONE:
       {
         // Teminate the break.
-        break_timer->set_insensitive_mode(MODE_IDLE_ON_LIMIT_REACHED);
+        break_timer->set_insensitive_mode(INSENSITIVE_MODE_IDLE_ON_LIMIT_REACHED);
         application->hide_break_window();
         core->defrost();
 
@@ -272,7 +272,7 @@ BreakControl::goto_stage(BreakStage stage)
 
     case STAGE_PRELUDE:
       {
-        break_timer->set_insensitive_mode(MODE_FOLLOW_IDLE);
+        break_timer->set_insensitive_mode(INSENSITIVE_MODE_FOLLOW_IDLE);
         prelude_count++;
         postponable_count++;
         prelude_time = 0;
@@ -288,7 +288,7 @@ BreakControl::goto_stage(BreakStage stage)
       {
         // Break timer should always idle.
         // Previous revisions set MODE_IDLE_ON_LIMIT_REACHED
-        break_timer->set_insensitive_mode(MODE_IDLE_ALWAYS );
+        break_timer->set_insensitive_mode(INSENSITIVE_MODE_IDLE_ALWAYS);
 
         // Remove the prelude window, if necessary.
         application->hide_break_window();
@@ -416,12 +416,12 @@ BreakControl::start_break()
 
 //! Starts the break without preludes.
 void
-BreakControl::force_start_break(bool initiated_by_user)
+BreakControl::force_start_break(BreakHint break_hint)
 {
   TRACE_ENTER_MSG("BreakControl::force_start_break", break_id);
 
   fake_break = false;
-  user_initiated = initiated_by_user;
+  user_initiated = (break_hint & BREAK_HINT_USER_INITIATED) != 0;
   prelude_time = 0;
   user_abort = false;
   delayed_abort = false;
