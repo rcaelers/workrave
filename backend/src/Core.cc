@@ -1067,6 +1067,7 @@ Core::process_timers()
         }
     }
 
+  
   // Process all timer events.
   for (int i = BREAK_ID_SIZEOF - 1; i >= 0;  i--)
     {
@@ -1076,6 +1077,21 @@ Core::process_timers()
           timer_action((BreakId)i, info);
         }
 
+      if (i == BREAK_ID_REST_BREAK)
+        {
+          TimerState state = breaks[i].get_timer()->get_state();
+          
+          if (state == STATE_STOPPED)
+            {
+              breaks[BREAK_ID_MICRO_BREAK].get_timer()->set_insensitive_autorestart(false);
+            }
+          else if (state == STATE_RUNNING)
+            {
+              breaks[BREAK_ID_MICRO_BREAK].get_timer()->set_insensitive_autorestart(usage_mode == USAGE_MODE_READING);
+            }
+        }
+      
+      
       if (i == BREAK_ID_DAILY_LIMIT &&
           (info.event == TIMER_EVENT_NATURAL_RESET ||
            info.event == TIMER_EVENT_RESET))
