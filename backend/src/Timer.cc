@@ -57,7 +57,6 @@ Timer::Timer() :
   timer_frozen(false),
   activity_state(ACTIVITY_UNKNOWN),
   timer_state(STATE_INVALID),
-  previous_timer_state(STATE_INVALID),
   snooze_interval(60),
   snooze_on_active(true),
   snooze_inhibited(false),
@@ -147,7 +146,6 @@ Timer::disable()
       next_reset_time = 0;
 
       timer_state = STATE_INVALID;
-      previous_timer_state = STATE_INVALID;
     }
   TRACE_EXIT();
 }
@@ -704,12 +702,14 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
   (void) TRACE;
   
   time_t current_time= core->get_time();
-
+  TimerState initial_timer_state = timer_state;
+  
   // Default event to return.
   info.event = TIMER_EVENT_NONE;
   info.idle_time = get_elapsed_idle_time();
   info.elapsed_time = get_elapsed_time();
-
+  info.state_changed = false;
+  
   TRACE_MSG("idle = " << info.idle_time);
   TRACE_MSG("elap = " << info.elapsed_time);
   TRACE_MSG("enabled = " << timer_enabled);
@@ -854,34 +854,8 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
           activity_state = insensitive_auto_restart ? ACTIVITY_ACTIVE : ACTIVITY_IDLE;
         }
     }
-  else if (timer_enabled)
-    {
-      switch (timer_state)
-        {
-        case STATE_RUNNING:
-          {
-            if (info.event == TIMER_EVENT_NONE && previous_timer_state == STATE_STOPPED)
-              {
-                info.event = TIMER_EVENT_STARTED;
-              }
-          }
-          break;
 
-        case STATE_STOPPED:
-          {
-            if (info.event == TIMER_EVENT_NONE && previous_timer_state == STATE_RUNNING)
-              {
-                info.event = TIMER_EVENT_STOPPED;
-              }
-          }
-          break;
-
-        default:
-          break;
-        }
-    }
-
-  previous_timer_state = timer_state;
+  info.state_changed = (initial_timer_state != timer_state);
 }
 
 

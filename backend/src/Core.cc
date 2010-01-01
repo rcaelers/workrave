@@ -1077,17 +1077,19 @@ Core::process_timers()
           timer_action((BreakId)i, info);
         }
 
-      if (i == BREAK_ID_REST_BREAK)
+      if (usage_mode == USAGE_MODE_READING && info.state_changed && i == BREAK_ID_REST_BREAK)
         {
           TimerState state = breaks[i].get_timer()->get_state();
           
           if (state == STATE_STOPPED)
             {
               breaks[BREAK_ID_MICRO_BREAK].get_timer()->set_insensitive_autorestart(false);
+              breaks[BREAK_ID_MICRO_BREAK].get_timer()->force_idle();
+              breaks[BREAK_ID_DAILY_LIMIT].get_timer()->force_idle();
             }
           else if (state == STATE_RUNNING)
             {
-              breaks[BREAK_ID_MICRO_BREAK].get_timer()->set_insensitive_autorestart(usage_mode == USAGE_MODE_READING);
+              breaks[BREAK_ID_MICRO_BREAK].get_timer()->set_insensitive_autorestart(true);
             }
         }
       

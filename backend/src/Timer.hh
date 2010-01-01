@@ -65,12 +65,6 @@ enum TimerEvent
     //! No event occurred.
     TIMER_EVENT_NONE,
 
-    //! The timer stopped counting.
-    TIMER_EVENT_STOPPED,
-
-    //! The timer started counting.
-    TIMER_EVENT_STARTED,
-
     //! The timer was reset back to 0 after the limit was reached.
     TIMER_EVENT_RESET,
 
@@ -96,6 +90,9 @@ struct TimerInfo
 
   //! Total elasped time of the timer.
   time_t elapsed_time;
+
+  //! Time state has changed.
+  bool state_changed;
 };
 
 
@@ -207,9 +204,6 @@ private:
 
   //! State of the timer.
   TimerState timer_state;
-
-  //! The previous state of the timer. (i.e. before process() was called).
-  TimerState previous_timer_state;
 
   //! Default snooze time
   time_t snooze_interval;
