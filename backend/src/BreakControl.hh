@@ -1,6 +1,6 @@
 // BreakControl.hh --- controller for a single break
 //
-// Copyright (C) 2001 - 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -147,6 +147,9 @@ private:
 
   //! User became active during delayed break.
   bool delayed_abort;
+
+  //! Break hint if break has been started.
+  BreakHint break_hint;
 };
 
 #endif // BREAKCONTROL_HH

@@ -954,7 +954,7 @@ GUI::create_prelude_window(BreakId break_id)
 
 
 void
-GUI::create_break_window(BreakId break_id, bool user_initiated)
+GUI::create_break_window(BreakId break_id, BreakHint break_hint)
 {
   TRACE_ENTER_MSG("GUI::start_break_window", num_heads);
   hide_break_window();
@@ -964,7 +964,7 @@ GUI::create_break_window(BreakId break_id, bool user_initiated)
   BreakWindow::BreakFlags break_flags = BreakWindow::BREAK_FLAGS_NONE;
   bool ignorable = GUIConfig::get_ignorable(break_id);
 
-  if (user_initiated && !ignorable)
+  if ( (break_hint & BREAK_HINT_USER_INITIATED) && !ignorable)
     {
       break_flags = BreakWindow::BREAK_FLAGS_POSTPONABLE;
     }
@@ -974,6 +974,11 @@ GUI::create_break_window(BreakId break_id, bool user_initiated)
                        BreakWindow::BREAK_FLAGS_SKIPPABLE);
     }
 
+  if (break_hint & BREAK_HINT_NATURAL_BREAK )
+    {
+      break_flags |=  (BreakWindow::BREAK_FLAGS_NO_EXERCISES | BreakWindow::BREAK_FLAGS_NATURAL);
+    }
+  
   active_break_id = break_id;
 
   for (int i = 0; i < num_heads; i++)

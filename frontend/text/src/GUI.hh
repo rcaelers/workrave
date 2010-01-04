@@ -1,6 +1,6 @@
 // GUI.hh --- The WorkRave GUI
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2007, 2008, 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2007, 2008, 2009, 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -58,7 +58,7 @@ public:
   // IGUIFactory methods
   virtual void set_break_response(IBreakResponse *rep);
   virtual void create_prelude_window(BreakId break_id);
-  virtual void create_break_window(BreakId break_id, bool ignorable);
+  virtual void create_break_window(BreakId break_id, BreakHint break_hint);
   virtual void hide_break_window();
   virtual void show_break_window();
   virtual void refresh_break_window();

@@ -1,6 +1,6 @@
 // TextGUI.cc --- The WorkRave GUI
 //
-// Copyright (C) 2001 - 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -344,7 +344,7 @@ GUI::create_prelude_window(BreakId break_id)
 
 
 void
-GUI::create_break_window(BreakId break_id, bool ignorable)
+GUI::create_break_window(BreakId break_id, BreakHint break_hint)
 {
   TRACE_ENTER("GUI::start_break_window");
 

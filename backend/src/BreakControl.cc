@@ -63,14 +63,14 @@ BreakControl::BreakControl(BreakId id, IApp *app, Timer *timer) :
   break_stage(STAGE_NONE),
   reached_max_prelude(false),
   prelude_time(0),
-  user_initiated(false),
   prelude_count(0),
   postponable_count(0),
   max_number_of_preludes(2),
   fake_break(false),
   fake_break_count(0),
   user_abort(false),
-  delayed_abort(false)
+  delayed_abort(false),
+  break_hint(BREAK_HINT_NONE)
 {
   assert(break_timer != NULL);
   assert(application != NULL);
@@ -386,8 +386,10 @@ void
 BreakControl::start_break()
 {
   TRACE_ENTER_MSG("BreakControl::start_break", break_id);
-  fake_break = false;
+
+  break_hint = BREAK_HINT_NONE;
   user_initiated = false;
+  fake_break = false;
   prelude_time = 0;
   user_abort = false;
   delayed_abort = false;
@@ -426,12 +428,13 @@ BreakControl::start_break()
 
 //! Starts the break without preludes.
 void
-BreakControl::force_start_break(BreakHint break_hint)
+BreakControl::force_start_break(BreakHint hint)
 {
   TRACE_ENTER_MSG("BreakControl::force_start_break", break_id);
 
-  fake_break = false;
+  break_hint = hint;
   user_initiated = (break_hint & BREAK_HINT_USER_INITIATED) != 0;
+  fake_break = false;
   prelude_time = 0;
   user_abort = false;
   delayed_abort = false;
@@ -493,6 +496,8 @@ BreakControl::suspend_break()
 {
   TRACE_ENTER_MSG("BreakControl::suspend_break", break_id);
 
+  break_hint = BREAK_HINT_NONE;
+  
   goto_stage(STAGE_NONE);
   core->defrost();
 
@@ -618,7 +623,7 @@ BreakControl::break_window_start()
 {
   TRACE_ENTER_MSG("BreakControl::break_window_start", break_id);
 
-  application->create_break_window(break_id, user_initiated);
+  application->create_break_window(break_id, break_hint);
   update_break_window();
   application->show_break_window();
   
