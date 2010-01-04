@@ -1,6 +1,6 @@
 // OSXGtkMenu.cc --- Menus using Gtk+
 //
-// Copyright (C) 2001 - 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -107,8 +107,6 @@ OSXGtkMenu::create_ui()
     "      <menuitem action='Normal'/>\n"
     "      <menuitem action='Suspended'/>\n"
     "      <menuitem action='Quiet'/>\n"
-    "      <separator/>"
-    "      <menuitem action='Reading'/>"
     "    </menu>\n"
     "    <menu action='Network'>\n"
     "      <menuitem action='Join'/>\n"
@@ -116,6 +114,7 @@ OSXGtkMenu::create_ui()
     "      <menuitem action='Reconnect'/>\n"
     "      <menuitem action='ShowLog'/>\n"
     "    </menu>\n"
+    "    <menuitem action='Reading'/>"
     "  </menubar>\n"
     "</ui>\n";
    

@@ -1,6 +1,6 @@
 // MainGtkMenu.cc --- Menus using Gtk+
 //
-// Copyright (C) 2001 - 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -222,8 +222,6 @@ MainGtkMenu::create_ui()
     "      <menuitem action='Normal'/>"
     "      <menuitem action='Suspended'/>"
     "      <menuitem action='Quiet'/>"
-    "      <separator/>"
-    "      <menuitem action='Reading'/>"
     "    </menu>"
 #ifdef HAVE_DISTRIBUTION
     "    <menu action='Network'>"
@@ -233,6 +231,7 @@ MainGtkMenu::create_ui()
     "      <menuitem action='ShowLog'/>"
     "    </menu>"
 #endif
+    "    <menuitem action='Reading'/>"
     "    <separator/>"
     "    <menuitem action='Preferences'/>"
     "    <menuitem action='About'/>"
@@ -310,7 +309,7 @@ MainGtkMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
       item->set_active(show_log);
     }
 
-  item = dynamic_cast<Gtk::CheckMenuItem*>(ui_manager->get_widget("/Menu/Mode/Reading"));
+  item = dynamic_cast<Gtk::CheckMenuItem*>(ui_manager->get_widget("/Menu/Reading"));
   if (item != NULL)
     {
       item->set_active(usage == USAGE_MODE_READING);
@@ -386,7 +385,7 @@ MainGtkMenu::on_menu_quiet()
 void
 MainGtkMenu::on_menu_reading()
 {
-  Glib::RefPtr<Gtk::Action> act = ui_manager->get_action("/Menu/Mode/Reading");
+  Glib::RefPtr<Gtk::Action> act = ui_manager->get_action("/Menu/Reading");
   Glib::RefPtr<Gtk::ToggleAction> ract = Glib::RefPtr<Gtk::ToggleAction>::cast_dynamic(act);
 
   if (ract)

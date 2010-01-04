@@ -1,6 +1,6 @@
 // Break.cc
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -415,12 +415,10 @@ Break::set_usage_mode(UsageMode mode)
           bool sensitive;
           config->get_value(CoreConfig::CFG_KEY_TIMER_ACTIVITY_SENSITIVE % break_id, sensitive);
           timer->set_activity_sensitive(sensitive);
-          timer->set_insensitive_autorestart(false);
         }
       else if (mode == USAGE_MODE_READING)
         {
           timer->set_activity_sensitive(false);
-          timer->set_insensitive_autorestart(break_id == BREAK_ID_MICRO_BREAK);
         }
     }
 }

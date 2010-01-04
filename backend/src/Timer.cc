@@ -1,6 +1,6 @@
 // Timer.cc --- break timer
 //
-// Copyright (C) 2001 - 2009 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2010 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -79,8 +79,7 @@ Timer::Timer() :
   total_overdue_time(0),
   activity_monitor(NULL),
   activity_sensitive(true),
-  insensitive_mode(INSENSITIVE_MODE_IDLE_ON_LIMIT_REACHED),
-  insensitive_auto_restart(false)
+  insensitive_mode(INSENSITIVE_MODE_IDLE_ON_LIMIT_REACHED)
 {
   core = CoreFactory::get_core();
 }
@@ -270,14 +269,6 @@ void
 Timer::set_insensitive_mode(InsensitiveMode mode)
 {
   insensitive_mode = mode;
-}
-
-
-//! Sets the activity insensitive auto restart
-void
-Timer::set_insensitive_autorestart(bool auto_restart)
-{
-  insensitive_auto_restart = auto_restart;
 }
 
 
@@ -708,7 +699,6 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
   info.event = TIMER_EVENT_NONE;
   info.idle_time = get_elapsed_idle_time();
   info.elapsed_time = get_elapsed_time();
-  info.state_changed = false;
   
   TRACE_MSG("idle = " << info.idle_time);
   TRACE_MSG("elap = " << info.elapsed_time);
@@ -851,11 +841,9 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
       if (!activity_sensitive)
         {
           TRACE_MSG("reset reached, setting state = IDLE");
-          activity_state = insensitive_auto_restart ? ACTIVITY_ACTIVE : ACTIVITY_IDLE;
+          activity_state = ACTIVITY_IDLE;
         }
     }
-
-  info.state_changed = (initial_timer_state != timer_state);
 }
 
 

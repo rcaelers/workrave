@@ -1,6 +1,6 @@
 // Core.cc --- The main controller
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -741,6 +741,8 @@ Core::force_idle()
         {
           am->force_idle();
         }
+
+      breaks[i].get_timer()->force_idle();
     }
 }
 
@@ -1077,23 +1079,6 @@ Core::process_timers()
           timer_action((BreakId)i, info);
         }
 
-      if (usage_mode == USAGE_MODE_READING && info.state_changed && i == BREAK_ID_REST_BREAK)
-        {
-          TimerState state = breaks[i].get_timer()->get_state();
-          
-          if (state == STATE_STOPPED)
-            {
-              breaks[BREAK_ID_MICRO_BREAK].get_timer()->set_insensitive_autorestart(false);
-              breaks[BREAK_ID_MICRO_BREAK].get_timer()->force_idle();
-              breaks[BREAK_ID_DAILY_LIMIT].get_timer()->force_idle();
-            }
-          else if (state == STATE_RUNNING)
-            {
-              breaks[BREAK_ID_MICRO_BREAK].get_timer()->set_insensitive_autorestart(true);
-            }
-        }
-      
-      
       if (i == BREAK_ID_DAILY_LIMIT &&
           (info.event == TIMER_EVENT_NATURAL_RESET ||
            info.event == TIMER_EVENT_RESET))
@@ -1246,19 +1231,15 @@ Core::timer_action(BreakId id, TimerInfo info)
         }
       break;
 
+    case TIMER_EVENT_NATURAL_RESET:
+      statistics->increment_break_counter(id, Statistics::STATS_BREAKVALUE_NATURAL_TAKEN);
+      // FALLTHROUGH
+      
     case TIMER_EVENT_RESET:
       if (breaker->get_break_state() == BreakControl::BREAK_ACTIVE)
         {
           breaker->stop_break();
         }
-      break;
-
-    case TIMER_EVENT_NATURAL_RESET:
-      if (breaker->get_break_state() == BreakControl::BREAK_ACTIVE)
-        {
-          breaker->stop_break();
-        }
-      statistics->increment_break_counter(id, Statistics::STATS_BREAKVALUE_NATURAL_TAKEN);
       break;
 
     default:
@@ -1508,7 +1489,7 @@ Core::post_event(CoreEvent event)
 void
 Core::freeze()
 {
-  TRACE_ENTER_MSG("BreakControl::freeze", insist_policy);
+  TRACE_ENTER_MSG("Core::freeze", insist_policy);
   ICore::InsistPolicy policy = insist_policy;
 
   switch (policy)
@@ -1543,7 +1524,7 @@ Core::freeze()
 void
 Core::defrost()
 {
-  TRACE_ENTER_MSG("BreakControl::defrost", active_insist_policy);
+  TRACE_ENTER_MSG("Core::defrost", active_insist_policy);
 
   switch (active_insist_policy)
     {

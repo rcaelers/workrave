@@ -1,6 +1,6 @@
 // Timer.hh --- Break Timer
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007, 2008, 2009 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2010 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -90,9 +90,6 @@ struct TimerInfo
 
   //! Total elasped time of the timer.
   time_t elapsed_time;
-
-  //! Time state has changed.
-  bool state_changed;
 };
 
 
@@ -190,7 +187,6 @@ public:
   void force_idle();
 
   void set_insensitive_mode(InsensitiveMode mode);
-  void set_insensitive_autorestart(bool auto_restart);
   
 private:
   //! Is this timer enabled ?
@@ -280,9 +276,6 @@ private:
   //!
   InsensitiveMode insensitive_mode;
 
-  //!
-  bool insensitive_auto_restart;
-  
 private:
   void compute_next_limit_time();
   void compute_next_reset_time();

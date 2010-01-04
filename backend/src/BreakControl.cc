@@ -1,6 +1,6 @@
 // BreakControl.cc
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -227,6 +227,16 @@ BreakControl::goto_stage(BreakStage stage)
         application->hide_break_window();
         core->defrost();
 
+        if (break_id == BREAK_ID_MICRO_BREAK &&
+            core->get_usage_mode() == USAGE_MODE_READING)
+          {
+            for (int i = BREAK_ID_MICRO_BREAK; i < BREAK_ID_SIZEOF; i++)
+              {
+                Timer *timer = core->get_timer(BreakId(i));
+                timer->start_timer();
+              }
+          }
+        
         if (break_stage == STAGE_TAKING && !fake_break)
           {
             // Update statistics and play sound if the break end
@@ -590,6 +600,7 @@ BreakControl::stop_prelude()
   delayed_abort = true;
 }
 
+
 //! Sets the maximum number of preludes.
 /*!
  *  After the maximum number of preludes, the break either stops bothering the
@@ -641,8 +652,6 @@ BreakControl::prelude_window_start()
 }
 
 
-
-
 bool
 BreakControl::action_notify()
 {
@@ -651,6 +660,30 @@ BreakControl::action_notify()
   TRACE_EXIT();
   return false;   // false: kill listener.
 }
+
+
+// void
+// BreakControl::handle_reading_mode()
+// {
+//   TRACE_ENTER_MSG("BreakControl::handle_reading_mode", id << " " << started);
+//   if (usage_mode == USAGE_MODE_READING)
+//     {
+//       if (started)
+//         {
+//           TRACE_MSG("started");
+//           if (id == BREAK_ID_REST_BREAK || id == BREAK_ID_DAILY_LIMIT)
+//             {
+//               breaks[BREAK_ID_MICRO_BREAK].get_timer()->set_insensitive_autorestart(false);
+//             }
+//         }
+//       else
+//         {
+//           TRACE_MSG("stopped");
+//           breaks[BREAK_ID_MICRO_BREAK].get_timer()->set_insensitive_autorestart(true);
+//         }
+//     }
+//   TRACE_EXIT();
+// }     
 
 
 //! Initializes this control to the specified state.

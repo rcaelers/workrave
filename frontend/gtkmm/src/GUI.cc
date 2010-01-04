@@ -1,6 +1,6 @@
 // GUI.cc --- The WorkRave GUI
 //
-// Copyright (C) 2001 - 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -1501,7 +1501,7 @@ GUI::win32_filter_func (void     *xevent,
             IBreak *rest_break = core->get_break(BREAK_ID_REST_BREAK);
             if (rest_break->get_elapsed_idle_time() < rest_break->get_auto_reset() && rest_break->is_enabled())
               {
-                gui->restbreak_now();
+                core->force_break(BREAK_ID_REST_BREAK, BREAK_HINT_NATURAL_BREAK);
               }
           }
       }
