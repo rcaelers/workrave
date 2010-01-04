@@ -1,6 +1,6 @@
 // SoundPlayer.cc --- Sound player
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2009, 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -30,6 +30,7 @@
 #endif
 
 #include <list>
+#include <set>
 
 #include "Thread.hh"
 
@@ -556,12 +557,12 @@ void
 SoundPlayer::get_sound_themes(std::vector<Theme> &themes)
 {
   TRACE_ENTER("SoundPlayer::get_sound_themes");
-  list<string> searchpath = Util::get_search_path(Util::SEARCH_PATH_SOUNDS);
+  set<string> searchpath = Util::get_search_path(Util::SEARCH_PATH_SOUNDS);
   bool has_active = false;
 
   sync_settings();
 
-  for (list<string>::iterator it = searchpath.begin(); it != searchpath.end(); it++)
+  for (set<string>::iterator it = searchpath.begin(); it != searchpath.end(); it++)
     {
       GDir *dir = g_dir_open(it->c_str(), 0, NULL);
 

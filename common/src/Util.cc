@@ -1,6 +1,6 @@
 // Util.cc --- General purpose utility functions
 //
-// Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -66,7 +66,9 @@ BOOL WINAPI PathCanonicalize(LPSTR,LPCSTR);
 
 #include <glib.h>
 
-list<string> Util::search_paths[Util::SEARCH_PATH_SIZEOF];
+using namespace std;
+
+set<string> Util::search_paths[Util::SEARCH_PATH_SIZEOF];
 string Util::home_directory = "";
 
 //! Returns the user's home directory.
@@ -258,13 +260,13 @@ Util::registry_set_value(const char *path, const char *name,
 
 
 //! Returns the searchpath for the specified file type.
-const list<string> &
+const set<string> &
 Util::get_search_path(SearchPathId type)
 {
   if (search_paths[type].size() > 0)
     return search_paths[type];
 
-  list<string> &searchPath = search_paths[type];
+  set<string> &searchPath = search_paths[type];
 
   string home_dir = get_home_directory();
 #if defined(PLATFORM_OS_WIN32)
@@ -285,21 +287,21 @@ Util::get_search_path(SearchPathId type)
 #if defined(PLATFORM_OS_UNIX)
       if (home_dir != "./")
         {
-          searchPath.push_back(home_dir + "/images");
+          searchPath.insert(home_dir + "/images");
         }
-      searchPath.push_back(string(WORKRAVE_PKGDATADIR) + "/images");
-      searchPath.push_back("/usr/local/share/workrave/images");
-      searchPath.push_back("/usr/share/workrave/images");
+      searchPath.insert(string(WORKRAVE_PKGDATADIR) + "/images");
+      searchPath.insert("/usr/local/share/workrave/images");
+      searchPath.insert("/usr/share/workrave/images");
 #elif defined(PLATFORM_OS_WIN32)
 #if defined(DATA_PATH)
- 	    searchPath.push_back(string(DATA_PATH) + "frontend\\common\\share\\images");
+ 	    searchPath.insert(string(DATA_PATH) + "frontend\\common\\share\\images");
 #endif
-      searchPath.push_back(app_dir + "\\share\\images");
+      searchPath.insert(app_dir + "\\share\\images");
 
 #elif defined(PLATFORM_OS_OSX)
-      searchPath.push_back(string(WORKRAVE_PKGDATADIR) + "/images");
-      searchPath.push_back(app_dir + "/share/workrave/images");
-      searchPath.push_back(app_dir +  "/../Resources/images");
+      searchPath.insert(string(WORKRAVE_PKGDATADIR) + "/images");
+      searchPath.insert(app_dir + "/share/workrave/images");
+      searchPath.insert(app_dir +  "/../Resources/images");
 #endif
     }
   if (type == SEARCH_PATH_SOUNDS)
@@ -307,20 +309,20 @@ Util::get_search_path(SearchPathId type)
 #if defined(PLATFORM_OS_UNIX)
       if (home_dir != "./")
         {
-          searchPath.push_back(home_dir + "/sounds");
+          searchPath.insert(home_dir + "/sounds");
         }
-      searchPath.push_back(string(WORKRAVE_DATADIR) + "/sounds/workrave");
-      searchPath.push_back("/usr/local/share/sounds/workrave");
-      searchPath.push_back("/usr/share/sounds/workrave");
+      searchPath.insert(string(WORKRAVE_DATADIR) + "/sounds/workrave");
+      searchPath.insert("/usr/local/share/sounds/workrave");
+      searchPath.insert("/usr/share/sounds/workrave");
 #elif defined(PLATFORM_OS_WIN32)
 #if defined(DATA_PATH)
-	  searchPath.push_back(string(DATA_PATH) + "frontend\\common\\share\\sounds");
+	  searchPath.insert(string(DATA_PATH) + "frontend\\common\\share\\sounds");
 #endif
-      searchPath.push_back(app_dir + "\\share\\sounds");
+      searchPath.insert(app_dir + "\\share\\sounds");
 #elif defined(PLATFORM_OS_OSX)
-      searchPath.push_back(string(WORKRAVE_DATADIR) + "/sounds/workrave");
-      searchPath.push_back(app_dir + "/share/sounds/workrave");
-      searchPath.push_back(app_dir +  "/../Resources/sounds");
+      searchPath.insert(string(WORKRAVE_DATADIR) + "/sounds/workrave");
+      searchPath.insert(app_dir + "/share/sounds/workrave");
+      searchPath.insert(app_dir +  "/../Resources/sounds");
 #endif
     }
   else if (type == SEARCH_PATH_CONFIG)
@@ -328,35 +330,35 @@ Util::get_search_path(SearchPathId type)
 #if defined(PLATFORM_OS_UNIX)
       if (home_dir != "./")
         {
-          searchPath.push_back(home_dir + "/");
-          searchPath.push_back(home_dir + "/etc");
+          searchPath.insert(home_dir + "/");
+          searchPath.insert(home_dir + "/etc");
         }
-      searchPath.push_back(string(WORKRAVE_PKGDATADIR) + "/etc");
-      searchPath.push_back("/usr/local/share/workrave/etc");
-      searchPath.push_back("/usr/share/workrave/etc");
+      searchPath.insert(string(WORKRAVE_PKGDATADIR) + "/etc");
+      searchPath.insert("/usr/local/share/workrave/etc");
+      searchPath.insert("/usr/share/workrave/etc");
 #elif defined(PLATFORM_OS_WIN32)
-      searchPath.push_back(home_dir + "\\");
-      searchPath.push_back(app_dir + "\\etc");
+      searchPath.insert(home_dir + "\\");
+      searchPath.insert(app_dir + "\\etc");
 #elif defined(PLATFORM_OS_OSX)
-      searchPath.push_back(string(WORKRAVE_PKGDATADIR) + "/etc");
-      searchPath.push_back(app_dir + "/etc");
-      searchPath.push_back(home_dir + "/");
-      searchPath.push_back(app_dir +  "/../Resources/config");
+      searchPath.insert(string(WORKRAVE_PKGDATADIR) + "/etc");
+      searchPath.insert(app_dir + "/etc");
+      searchPath.insert(home_dir + "/");
+      searchPath.insert(app_dir +  "/../Resources/config");
 #endif
     }
   else if (type == SEARCH_PATH_EXERCISES)
     {
 #if defined(PLATFORM_OS_UNIX)
-      searchPath.push_back(string(WORKRAVE_PKGDATADIR) + "/exercises");
+      searchPath.insert(string(WORKRAVE_PKGDATADIR) + "/exercises");
 #elif defined(PLATFORM_OS_WIN32)
 #if defined(DATA_PATH)
-	  searchPath.push_back(string(DATA_PATH) + "frontend\\plugin\\exercises\\common\\share");
+	  searchPath.insert(string(DATA_PATH) + "frontend\\plugin\\exercises\\common\\share");
 #endif
-      searchPath.push_back(app_dir + "\\share\\exercises");
+      searchPath.insert(app_dir + "\\share\\exercises");
 #elif defined(PLATFORM_OS_OSX)
-      searchPath.push_back(string(WORKRAVE_PKGDATADIR) + "/exercises");
-      searchPath.push_back(app_dir + "/share/exercises");
-      searchPath.push_back(app_dir +  "/../Resources/exercises");
+      searchPath.insert(string(WORKRAVE_PKGDATADIR) + "/exercises");
+      searchPath.insert(app_dir + "/share/exercises");
+      searchPath.insert(app_dir +  "/../Resources/exercises");
 #else
 #error Not properly ported.
 #endif
@@ -373,9 +375,9 @@ Util::complete_directory(string path, Util::SearchPathId type)
   string fullPath;
   bool found = false;
 
-  const list<string> &searchPath = get_search_path(type);
+  const set<string> &searchPath = get_search_path(type);
 
-  for (list<string>::const_iterator i = searchPath.begin(); !found && i != searchPath.end(); i++)
+  for (set<string>::const_iterator i = searchPath.begin(); !found && i != searchPath.end(); i++)
     {
       fullPath = (*i) + G_DIR_SEPARATOR_S + path;
       found = file_exists(fullPath);
