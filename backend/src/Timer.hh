@@ -185,7 +185,7 @@ public:
   bool get_activity_sensitive();
   void set_activity_sensitive(bool a);
   void force_idle();
-
+  void force_active();
   void set_insensitive_mode(InsensitiveMode mode);
   
 private:

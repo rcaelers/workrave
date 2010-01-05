@@ -134,9 +134,8 @@ W32AppletMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
                         : 0));
       w32aw->add_menu(_("_Network"), 0, 0);
 #endif
-      w32aw->add_menu(_("Reading"), Menus::MENU_COMMAND_MODE_READING,
+      w32aw->add_menu(_("Reading mode"), Menus::MENU_COMMAND_MODE_READING,
                       W32AppletWindow::MENU_FLAG_TOGGLE
-                      |W32AppletWindow::MENU_FLAG_POPUP
                       |(usage == USAGE_MODE_READING
                         ? W32AppletWindow::MENU_FLAG_SELECTED
                         : 0));

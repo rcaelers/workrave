@@ -248,6 +248,8 @@ Timer::inhibit_snooze()
 void
 Timer::set_activity_sensitive(bool a)
 {
+  TRACE_ENTER_MSG("Timer::set_activity_sensitive", a);
+  
   activity_sensitive = a;
   activity_state = ACTIVITY_UNKNOWN;
 
@@ -262,6 +264,7 @@ Timer::set_activity_sensitive(bool a)
           activity_state = ACTIVITY_ACTIVE;
         }
     }
+  TRACE_EXIT();
 }
 
 //! Sets the activity insensitive mode
@@ -279,6 +282,17 @@ Timer::force_idle()
   if (!activity_sensitive)
     {
       activity_state = ACTIVITY_IDLE;
+    }
+}
+
+
+//! Forces a activity insensitive timer to become active
+void
+Timer::force_active()
+{
+  if (!activity_sensitive)
+    {
+      activity_state = ACTIVITY_ACTIVE;
     }
 }
 
@@ -693,7 +707,6 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
   (void) TRACE;
   
   time_t current_time= core->get_time();
-  TimerState initial_timer_state = timer_state;
   
   // Default event to return.
   info.event = TIMER_EVENT_NONE;

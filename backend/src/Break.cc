@@ -404,11 +404,13 @@ Break::is_limit_enabled() const
 
 void
 Break::set_usage_mode(UsageMode mode)
-{
+{ 
+  TRACE_ENTER_MSG("Break::set_usage_mode", mode); 
   if (usage_mode != mode)
     {
       usage_mode = mode;
-      
+
+      TRACE_MSG("changing");
       if (mode == USAGE_MODE_NORMAL)
         {
           // Read the activity insensitive flag
@@ -421,6 +423,7 @@ Break::set_usage_mode(UsageMode mode)
           timer->set_activity_sensitive(false);
         }
     }
+  TRACE_EXIT();
 }
 
 

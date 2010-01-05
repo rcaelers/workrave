@@ -1,6 +1,6 @@
 // TimerPreferencesPanel.cc --- Preferences widgets for a timer
 //
-// Copyright (C) 2002 - 2009 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002 - 2010 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -147,8 +147,10 @@ TimerPreferencesPanel::create_options_panel()
   // Sensitive for activity
   activity_sensitive_cb = Gtk::manage(new Gtk::CheckButton
                         (_("Suspend timer when inactive")));
+#if REMOVED_IN_FAVOR_OF_READING_MODE__REMOVE_LATER
   hig->add(*activity_sensitive_cb);
-
+#endif
+  
   // Break specific options
 #ifdef HAVE_EXERCISES
   exercises_spin = NULL;

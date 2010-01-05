@@ -146,7 +146,7 @@ MainGtkMenu::create_actions()
   action_group->add(Gtk::RadioAction::create(group_mode, "Quiet", _("Q_uiet")),
                     sigc::mem_fun(*this, &MainGtkMenu::on_menu_quiet));
 
-  action_group->add(Gtk::ToggleAction::create("Reading", _("_Reading")),
+  action_group->add(Gtk::ToggleAction::create("Reading", _("_Reading mode")),
                     sigc::mem_fun(*this, &MainGtkMenu::on_menu_reading));
   
   // Networking menu

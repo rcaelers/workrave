@@ -233,7 +233,7 @@ BreakControl::goto_stage(BreakStage stage)
             for (int i = BREAK_ID_MICRO_BREAK; i < BREAK_ID_SIZEOF; i++)
               {
                 Timer *timer = core->get_timer(BreakId(i));
-                timer->start_timer();
+                timer->force_active();
               }
           }
         
@@ -471,9 +471,9 @@ BreakControl::force_start_break(BreakHint hint)
 void
 BreakControl::stop_break(bool forced_stop)
 {
-  TRACE_ENTER_MSG("BreakControl::stop_break", break_id);
+  TRACE_ENTER_MSG("BreakControl::stop_break", forced_stop);
 
-  TRACE_MSG(" forced stop = " << forced_stop);
+  TRACE_MSG(" forced stop = " << break_id);
 
   suspend_break();
   prelude_count = 0;
@@ -499,7 +499,6 @@ BreakControl::suspend_break()
   break_hint = BREAK_HINT_NONE;
   
   goto_stage(STAGE_NONE);
-  core->defrost();
 
   TRACE_EXIT();
 }
@@ -665,30 +664,6 @@ BreakControl::action_notify()
   TRACE_EXIT();
   return false;   // false: kill listener.
 }
-
-
-// void
-// BreakControl::handle_reading_mode()
-// {
-//   TRACE_ENTER_MSG("BreakControl::handle_reading_mode", id << " " << started);
-//   if (usage_mode == USAGE_MODE_READING)
-//     {
-//       if (started)
-//         {
-//           TRACE_MSG("started");
-//           if (id == BREAK_ID_REST_BREAK || id == BREAK_ID_DAILY_LIMIT)
-//             {
-//               breaks[BREAK_ID_MICRO_BREAK].get_timer()->set_insensitive_autorestart(false);
-//             }
-//         }
-//       else
-//         {
-//           TRACE_MSG("stopped");
-//           breaks[BREAK_ID_MICRO_BREAK].get_timer()->set_insensitive_autorestart(true);
-//         }
-//     }
-//   TRACE_EXIT();
-// }     
 
 
 //! Initializes this control to the specified state.

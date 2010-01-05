@@ -114,7 +114,7 @@ OSXGtkMenu::create_ui()
     "      <menuitem action='Reconnect'/>\n"
     "      <menuitem action='ShowLog'/>\n"
     "    </menu>\n"
-    "    <menuitem action='Reading'/>"
+    "    <menuitem action='Reading mode'/>"
     "  </menubar>\n"
     "</ui>\n";
    
