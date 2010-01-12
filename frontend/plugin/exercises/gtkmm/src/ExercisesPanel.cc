@@ -1,6 +1,6 @@
 // ExercisesPanel.cc --- Exercises panel
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2009 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2009, 2010 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -210,7 +210,7 @@ text_buffer_set_markup (GtkTextBuffer *buffer,
 
 int ExercisesPanel::exercises_pointer = 0;
 
-ExercisesPanel::ExercisesPanel(Gtk::HButtonBox *dialog_action_area)
+ExercisesPanel::ExercisesPanel(Gtk::ButtonBox *dialog_action_area)
   : Gtk::HBox(false, 6),
          exercises(Exercise::get_exercises())
 {

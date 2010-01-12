@@ -1,6 +1,6 @@
 // ExercisesPanel.hh --- Exercises panel
 //
-// Copyright (C) 2002, 2003, 2004, 2005, 2007 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2005, 2007, 2010 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -43,7 +43,7 @@
 class ExercisesPanel : public Gtk::HBox
 {
 public:
-  ExercisesPanel(Gtk::HButtonBox *dialog_action_area);
+  ExercisesPanel(Gtk::ButtonBox *dialog_action_area);
   ~ExercisesPanel();
 
   void set_exercise_count(int num);
