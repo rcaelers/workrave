@@ -37,6 +37,7 @@
 #include "Sound.hh"
 #include "SoundPlayer.hh"
 #include "ISoundDriver.hh"
+#include "IMixer.hh"
 
 #include "IConfigurator.hh"
 #include "CoreFactory.hh"
@@ -58,6 +59,10 @@
 #include "OSXSoundPlayer.hh"
 #endif
 
+#if defined HAVE_PULSE
+#include "PulseMixer.hh"
+#endif
+
 #if defined HAVE_GNOME
 #include <gdk/gdk.h>
 #endif
@@ -65,6 +70,7 @@
 const char *SoundPlayer::CFG_KEY_SOUND_ENABLED = "sound/enabled";
 const char *SoundPlayer::CFG_KEY_SOUND_DEVICE = "sound/device";
 const char *SoundPlayer::CFG_KEY_SOUND_VOLUME = "sound/volume";
+const char *SoundPlayer::CFG_KEY_SOUND_MUTE = "sound/mute";
 const char *SoundPlayer::CFG_KEY_SOUND_EVENTS = "sound/events/";
 const char *SoundPlayer::CFG_KEY_SOUND_EVENTS_ENABLED = "_enabled";
 
@@ -324,6 +330,13 @@ SoundPlayer::SoundPlayer()
 #endif
     ;
 
+  mixer =
+#if defined HAVE_PULSE
+    new PulseMixer()
+#else
+     NULL
+#endif
+    ;
 }
 
 SoundPlayer::~SoundPlayer()
@@ -340,6 +353,11 @@ SoundPlayer::init()
       driver->init();
     }
 
+  if (mixer != NULL)
+    {
+      mixer->init();
+    }
+  
   int volume = 0;
   if( !CoreFactory::get_configurator()->get_value(CFG_KEY_SOUND_VOLUME, volume) )
     {
@@ -813,9 +831,27 @@ SoundPlayer::capability(SoundCapability cap)
 {
   bool ret = false;
 
-  if (driver != NULL)
+  if (mixer != NULL && cap == SOUND_CAP_MUTE)
+    {
+      ret = true;
+    }
+
+  if (!ret && driver != NULL)
     {
       ret = driver->capability(cap);
+    }
+  
+  return ret;
+}
+
+bool
+SoundPlayer::set_mute(bool on)
+{
+  bool ret = false;
+  
+  if (mixer != NULL)
+    {
+      ret = mixer->set_mute(on);
     }
 
   return ret;

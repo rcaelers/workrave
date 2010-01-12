@@ -132,7 +132,8 @@ GUI::GUI(int argc, char **argv) :
 #endif
   grab_handle(NULL),
   status_icon(NULL),
-  applet_control(NULL)
+  applet_control(NULL),
+  muted(false)
 {
   TRACE_ENTER("GUI:GUI");
 
@@ -993,6 +994,17 @@ GUI::create_break_window(BreakId break_id, BreakHint break_hint)
 
   active_break_count = num_heads;
 
+  if (break_id == BREAK_ID_REST_BREAK ||
+      break_id == BREAK_ID_DAILY_LIMIT)
+    {
+      bool mute = false;
+      CoreFactory::get_configurator()->get_value(SoundPlayer::CFG_KEY_SOUND_MUTE, mute);
+      if (mute)
+        {
+          muted = !sound_player->set_mute(true);
+        }
+    }
+  
   TRACE_EXIT();
 }
 
@@ -1029,6 +1041,12 @@ GUI::hide_break_window()
 
   ungrab();
 
+  if (muted)
+    {
+      sound_player->set_mute(false);
+      muted = false;
+    }
+  
   TRACE_EXIT();
 }
 

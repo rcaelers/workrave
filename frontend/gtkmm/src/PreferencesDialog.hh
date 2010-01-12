@@ -1,6 +1,6 @@
 // PreferencesDialog.hh --- Preferences Dialog
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2010 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -131,6 +131,7 @@ private:
   Gtk::HScale *sound_volume_scale;
   Gtk::Button *sound_play_button;
   int inhibit_events;
+  Gtk::CheckButton *mute_cb;
   
   Gtk::FileChooserButton *fsbutton;
   Gtk::FileFilter *filefilter;

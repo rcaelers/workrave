@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl
-dnl Copyright (C) 2001 - 2009 Rob Caelers & Raymond Penners
+dnl Copyright (C) 2001 - 2010 Rob Caelers & Raymond Penners
 dnl
 dnl
 dnl $Id$
@@ -486,6 +486,33 @@ Use --disable-gstreamer if you do not need GStreamer (sound) support.
 ])])
 fi
 
+
+dnl
+dnl PulseAudio
+dnl
+
+have_pulse=false
+AC_ARG_ENABLE(pulse,
+  AC_HELP_STRING([--disable-pulse],
+                 [turn off PulseAudio support]),
+       [case "${enableval}" in
+               yes) WANT_PULSE=yes ;;
+               no)  WANT_PULSE=no ;;
+               *) AC_MSG_ERROR(bad value ${enableval} for --disable-pulse) ;;
+       esac],
+       [WANT_PULSE=yes]) dnl Default value
+
+if test x$WANT_PULSE = xyes ; then
+       PA_REQUIRED_VERSION=0.9.15
+       PKG_CHECK_MODULES(PULSE, glib-2.0 libpulse >= $PA_REQUIRED_VERSION libpulse-mainloop-glib >= $PA_REQUIRED_VERSION,
+             [have_pulse=true
+              AC_DEFINE(HAVE_PULSE, 1, [Define if PULSE sound server should be used])],
+             [have_pulse=false])
+fi
+AM_CONDITIONAL(HAVE_PULSE, test "x$have_pulse" = "xtrue")
+
+AC_SUBST(PULSE_CFLAGS)
+AC_SUBST(PULSE_LIBS)
 
 dnl
 dnl libao

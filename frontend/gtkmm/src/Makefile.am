@@ -1,7 +1,7 @@
 
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010 Rob Caelers & Raymond Penners
 #
 
 SUBDIRS = 		gnome_applet kde_applet win32 unix osx
@@ -288,7 +288,7 @@ workrave_LDFLAGS = 	@WR_LDFLAGS@ ${ldflags}
 
 workrave_LDADD =        @WR_LDADD@ @X_LIBS@ @X11SM_LIBS@ @GNOME_LIBS@ @GLIB_LIBS@ \
 			@GTK_LIBS@ @GNET_LIBS@ @X_LIBS@ @GCONF_LIBS@ @GDOME_LIB@ \
-			@KDE_LDFLAGS@ @LIB_KDEUI@ @LIB_KDECORE@ \
+			@KDE_LDFLAGS@ @LIB_KDEUI@ @LIB_KDECORE@ @PULSE_LIBS@ \
 			@QT_LDFLAGS@ @LIB_QT@ @DBUS_LIBS@  @IGE_LIBS@ @GSTREAMER_LIBS@ \
 			${X11LIBS} ${WIN32LIBS} @GTK_LIBS@ ${OSXLIBS} ${WIN32CONSOLE}
 

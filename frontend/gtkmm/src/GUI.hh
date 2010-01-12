@@ -232,6 +232,9 @@ private:
 
   //! The applet controller
   AppletControl *applet_control;
+
+  //!
+  bool muted;
 };
 
 

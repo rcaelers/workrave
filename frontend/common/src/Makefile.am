@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2002, 2003, 2004, 2007, 2008 Rob Caelers & Raymond Penners
+# Copyright (C) 2002, 2003, 2004, 2007, 2008, 2010 Rob Caelers & Raymond Penners
 #
 
 MAINTAINERCLEANFILES =	Makefile.in
@@ -13,6 +13,7 @@ libworkrave_frontend_common_la_SOURCES = \
 			Text.cc \
 			SoundPlayer.cc \
 			GstSoundPlayer.cc \
+			PulseMixer.cc \
 			System.cc \
 			TimerBoxControl.cc
 
@@ -49,6 +50,6 @@ libworkrave_frontend_common_la_CXXFLAGS = \
 			-I$(top_srcdir)/frontend/common/src/gnome \
 			-I$(top_srcdir)/frontend/common/src/kde \
 			-I$(top_srcdir)/frontend/common/src/osx \
-			@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ \
+			@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @PULSE_CFLAGS@ \
 			@GNOME_CFLAGS@ @GTK_CFLAGS@ @GLIB_CFLAGS@ @GSTREAMER_CFLAGS@ \
 			-I$(top_srcdir)/common/win32/harpoon/include
