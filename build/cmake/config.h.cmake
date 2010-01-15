@@ -21,6 +21,8 @@
 #define HAVE_EXTERN_TIMEZONE_DEFINED 1
 #define ALL_LINGUAS "nl de eo pl da es zh_TW ru fr pt_BR nb lt cs he eu ca sv ja bg hu tr el sk zh_CN it sl ro"
 
+#define HAVE_MMDEVICEAPI_H 1
+
 /* Dont */
 #define BUILD_INCLUDED_LIBINTL "no"
 

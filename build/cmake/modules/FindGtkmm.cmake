@@ -31,6 +31,7 @@ IF(WIN32)
     ${GTKMM_DIR}/include/pango-1.0
     ${GTKMM_DIR}/include/pangomm-1.4
     ${GTKMM_DIR}/include/sigc++-2.0
+    ${GTKMM_DIR}/include/freetype2
     ${GTKMM_DIR}/lib/gdkmm-2.4/include
     ${GTKMM_DIR}/lib/giomm-2.4/include
     ${GTKMM_DIR}/lib/glib-2.0/include
@@ -40,6 +41,7 @@ IF(WIN32)
     ${GTKMM_DIR}/lib/libglademm-2.4/include
     ${GTKMM_DIR}/lib/libxml++-2.6/include
     ${GTKMM_DIR}/lib/sigc++-2.0/include
+    ${GTKMM_DIR}/lib/pangomm-1.4/include
     )
   
   SET(GTKMM_LIBS

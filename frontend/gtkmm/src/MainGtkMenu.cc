@@ -163,7 +163,7 @@ MainGtkMenu::create_actions()
 #endif
 
   // Open
-  action_group->add(Gtk::Action::create("Open", Gtk::Stock::OPEN),
+  action_group->add(Gtk::Action::create("Open"/*, Gtk::Stock::OPEN*/),
                     sigc::mem_fun(*menus, &Menus::on_menu_open_main_window));
 
   // Restbreak now
