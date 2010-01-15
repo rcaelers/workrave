@@ -18,8 +18,8 @@ diff -ur gnet-2.0.7/src/makefile.mingw source/gnet-2.0.7/src/makefile.mingw
  	$(CC) $(FLAGS) $(INCLUDE) -c base64.c
 -	dllwrap $(INCLUDE) --export-all --output-def gnet.def --implib libgnet-2.0.a -o gnet-2.0.dll $(OFILES) $(LIBS)
 +	${CC} -shared -o gnet-2.0.dll -Wl,--out-implib,libgnet-2.0.a -Wl,--enable-auto-import -Wl,--whole-archive $(OFILES) -Wl,--no-whole-archive $(LIBS)
-+	i386-mingw32msvc-dlltool --def ../gnet.def --dllname gnet-2.0.dll --output-lib libgnet-2.0.a
++	i586-mingw32msvc-dlltool --def ../gnet.def --dllname gnet-2.0.dll --output-lib libgnet-2.0.a
 +
-+##        i386-mingw32msvc-dllwrap $(INCLUDE) -def ../gnet.def --output-def gnet.def --implib libgnet-2.0.a -o gnet-2.0.dll $(OFILES) $(LIBS)
++##        i586-mingw32msvc-dllwrap $(INCLUDE) -def ../gnet.def --output-def gnet.def --implib libgnet-2.0.a -o gnet-2.0.dll $(OFILES) $(LIBS)
 +
 +

@@ -5,15 +5,17 @@ ALL_LINGUAS="nl de eo pl da es zh_TW ru fr pt_BR"
 
 if [ "x$1" != "x" ]; then
     if [ -e $1 ]; then
-        ALL_LINGUAS=`grep ALL_LING $1/configure.ac | grep -v "for a in" | sed -e 's/^ALL_LINGUAS="\([a-zA-Z_ ]*\)"/\1/g'`
+        ALL_LINGUAS=`grep ^ALL_LING $1/configure.ac | grep -v "for a in" | sed -e 's/^ALL_LINGUAS="\([a-zA-Z_ ]*\)"/\1/g'`
         echo $ALL_LINGUAS
     fi
 fi
 
-. $HOME/bin/mingw32
+
+. `dirname $0`/mingw32
 
 mkdir -p $RUNTIMEDIR/runtime-base
 mkdir -p $RUNTIMEDIR/runtime-gtk
+mkdir -p $RUNTIMEDIR/runtime-wimp
 
 ## Helper
 
@@ -57,12 +59,17 @@ copy_dir  etc    pango						etc
 copy_dir  bin    zlib1.dll					lib
 copy_dir  bin    iconv.dll					lib
 copy_dir  bin    intl.dll                           		lib
-copy_dir  bin    libpng13.dll                         		lib
-#copy_dir  bin    libpng12.dll                         		lib
+copy_dir  bin    libexpat-1.dll                       		lib
+copy_dir  bin    freetype6.dll                       		lib
+copy_dir  bin    libpng*.dll                         		lib
+copy_dir  bin    jpeg62.dll                         		lib
+copy_dir  bin    libtiff3.dll                         		lib
+copy_dir  bin    libfontconfig-1.dll                   		lib
 copy_dir  bin    libatk-1.0-0.dll                   		lib
 copy_dir  bin    libgdk-win32-2.0-0.dll             		lib
 copy_dir  bin    libgdk_pixbuf-2.0-0.dll            		lib
 copy_dir  bin    libglib-2.0-0.dll                  		lib
+copy_dir  bin    libgio-2.0-0.dll                  		lib
 copy_dir  bin    libgmodule-2.0-0.dll               		lib
 copy_dir  bin    libgobject-2.0-0.dll               		lib
 copy_dir  bin    libgthread-2.0-0.dll               		lib
@@ -78,15 +85,25 @@ copy_dir  lib    gtk-2.0/$GTKVER/loaders/libpixbufloader-ico.dll   lib
 copy_dir  lib    gtk-2.0/$GTKVER/loaders/libpixbufloader-png.dll   lib
 copy_dir  lib    gtk-2.0/$GTKVER/loaders/libpixbufloader-pnm.dll   lib
 
-if [ -f $CROSSROOT/lib/gtk-2.0/$GTKVER/engines/libwimp.dll ]; then
-    copy_dir  lib    gtk-2.0/$GTKVER/engines/libwimp.dll        lib
-    copy_dir  share  themes/*   share
-fi
-
 copy_dir  lib    pango/$PANVER/modules      			lib
 
 for lang in $ALL_LINGUAS; do
     copy_dir lib locale/$lang lib  
 done
+for lang in $ALL_LINGUAS; do
+    copy_dir share locale/$lang lib  
+done
+for lang in $ALL_LINGUAS; do
+    cp -a /usr/share/locale/$lang/LC_MESSAGES/iso_639.mo $TARGETDIR/lib/locale/$lang/LC_MESSAGES/
+    cp -a /usr/share/locale/$lang/LC_MESSAGES/iso_3166.mo $TARGETDIR/lib/locale/$lang/LC_MESSAGES/ 
+done
 
-find $TARGETDIR -name "*.dll" -not -name "iconv.dll" -not -name "intl.dll" -print | xargs $STRIP
+TARGETDIR=$RUNTIMEDIR/runtime-wimp
+
+if [ -f $CROSSROOT/lib/gtk-2.0/$GTKVER/engines/libwimp.dll ]; then
+    copy_dir  lib    gtk-2.0/$GTKVER/engines/libwimp.dll        lib
+    copy_dir  share  themes/*   share
+fi
+cp -a $TARGETDIR/share/themes/MS-Windows/gtk-2.0/gtkrc $TARGETDIR/share/themes/Raleigh/gtk-2.0/
+
+find $RUNTIMEDIR -name "*.dll" -not -name "iconv.dll" -not -name "intl.dll" -not -name "zlib1.dll" -print | xargs $STRIP
