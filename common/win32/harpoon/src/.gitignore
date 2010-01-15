@@ -2,3 +2,10 @@
 /Makefile.in
 /.deps
 /.libs
+/Release
+/Debug
+/*.la
+/*.lo
+/*.o
+/*.a
+/*~
