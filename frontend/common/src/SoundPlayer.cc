@@ -55,6 +55,7 @@
 #include <windows.h>
 #include "W32SoundPlayer.hh"
 #include "W32DirectSoundPlayer.hh"
+#include "W32Mixer.hh"
 #elif defined PLATFORM_OS_OSX
 #include "OSXSoundPlayer.hh"
 #endif
@@ -333,8 +334,10 @@ SoundPlayer::SoundPlayer()
   mixer =
 #if defined HAVE_PULSE
     new PulseMixer()
+#elif defined PLATFORM_OS_WIN32
+    new W32Mixer()
 #else
-     NULL
+    NULL
 #endif
     ;
 }

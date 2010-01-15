@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
+# Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2009, 2010 Rob Caelers & Raymond Penners
 #
 
 MAINTAINERCLEANFILES =	Makefile.in
@@ -18,6 +18,7 @@ endif
 
 libworkrave_frontend_common_win32_la_SOURCES = \
 			W32SoundPlayer.cc \
+			W32Mixer.cc \
 			Sound.cc \
 			$(dsound_sources)
 

@@ -245,6 +245,16 @@ then
    AC_CHECK_HEADER(dsound.h, [ AC_DEFINE(HAVE_DSOUND, 1, [Define if we have DirectSound])
                                         have_dsound=yes LIBS="$LIBS -ldsound -luuid -ldxguid -ldxerr8"
                                      ])
+
+   AC_CHECK_HEADERS(mmdeviceapi.h endpointvolume.h, [ AC_DEFINE(HAVE_MMDEVICEAPI_H, 1, [Define if we have mm device api])
+                                        have_mmdeviceapi=yes
+                                     ])
+				     
+#ifdef HAVE_MMDEVICEAPI_H
+#include <mmdeviceapi.h>
+#include <endpointvolume.h>
+#else
+				     
 fi
 
 AC_SUBST(LIBSTDCPP_LIBS)
@@ -492,36 +502,33 @@ dnl PulseAudio
 dnl
 
 have_pulse=false
-AC_ARG_ENABLE(pulse,
-  AC_HELP_STRING([--disable-pulse],
-                 [turn off PulseAudio support]),
-       [case "${enableval}" in
-               yes) WANT_PULSE=yes ;;
-               no)  WANT_PULSE=no ;;
-               *) AC_MSG_ERROR(bad value ${enableval} for --disable-pulse) ;;
-       esac],
-       [WANT_PULSE=yes]) dnl Default value
 
-if test x$WANT_PULSE = xyes ; then
-       PA_REQUIRED_VERSION=0.9.15
-       PKG_CHECK_MODULES(PULSE, glib-2.0 libpulse >= $PA_REQUIRED_VERSION libpulse-mainloop-glib >= $PA_REQUIRED_VERSION,
-             [have_pulse=true
-              AC_DEFINE(HAVE_PULSE, 1, [Define if PULSE sound server should be used])],
-             [have_pulse=false])
+if test "$platform_os_unix" = "yes"
+then
+    have_pulse=false
+    AC_ARG_ENABLE(pulse,
+      AC_HELP_STRING([--disable-pulse],
+                     [turn off PulseAudio support]),
+           [case "${enableval}" in
+                   yes) WANT_PULSE=yes ;;
+                   no)  WANT_PULSE=no ;;
+                   *) AC_MSG_ERROR(bad value ${enableval} for --disable-pulse) ;;
+           esac],
+           [WANT_PULSE=yes]) dnl Default value
+
+    if test x$WANT_PULSE = xyes ; then
+           PA_REQUIRED_VERSION=0.9.15
+           PKG_CHECK_MODULES(PULSE, glib-2.0 libpulse >= $PA_REQUIRED_VERSION libpulse-mainloop-glib >= $PA_REQUIRED_VERSION,
+                 [have_pulse=true
+                  AC_DEFINE(HAVE_PULSE, 1, [Define if PULSE sound server should be used])],
+                 [have_pulse=false])
+    fi
+    AC_SUBST(PULSE_CFLAGS)
+    AC_SUBST(PULSE_LIBS)
 fi
+
 AM_CONDITIONAL(HAVE_PULSE, test "x$have_pulse" = "xtrue")
 
-AC_SUBST(PULSE_CFLAGS)
-AC_SUBST(PULSE_LIBS)
-
-dnl
-dnl libao
-dnl
-
-dnl if test "x$platform_os_win32" != "xyes"
-dnl then
-dnl  PKG_CHECK_MODULES(LIBAO, ao >= 0.8.8)
-dnl fi
 
 
 dnl
