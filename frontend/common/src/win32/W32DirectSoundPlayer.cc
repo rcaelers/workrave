@@ -335,12 +335,14 @@ W32DirectSoundPlayer::play()
           int volume = 100;
           CoreFactory::get_configurator()->get_value(SoundPlayer::CFG_KEY_SOUND_VOLUME, volume);
 
+          direct_sound->AddRef();
           SoundClip *clip = new SoundClip(direct_sound, sound_filename);
           clip->init();
           clip->set_volume(volume);
           clip->play(true);
 
           delete clip;
+          direct_sound->Release();
         }
       catch(Exception e)
         {
