@@ -40,11 +40,11 @@
 #include <gtkmm/scrolledwindow.h>
 #include <gtkmm/tooltips.h>
 
-#define PREVIOUS_BUTTON_ID Gtk::Stock::GO_BACK
+#define PREVIOUS_BUTTON_ID Gtk::Stock::MEDIA_PREVIOUS
 #define CLOSE_BUTTON_ID Gtk::Stock::CLOSE
-#define NEXT_BUTTON_ID Gtk::Stock::GO_FORWARD
-#define EXECUTE_BUTTON_ID Gtk::Stock::EXECUTE
-#define STOP_BUTTON_ID Gtk::Stock::STOP
+#define NEXT_BUTTON_ID Gtk::Stock::MEDIA_NEXT
+#define EXECUTE_BUTTON_ID Gtk::Stock::MEDIA_PLAY
+#define STOP_BUTTON_ID Gtk::Stock::MEDIA_PAUSE
 
 class ExercisesPanel : public Gtk::HBox
 {
