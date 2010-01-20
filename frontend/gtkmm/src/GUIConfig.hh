@@ -1,6 +1,6 @@
 // GUI.hh --- The WorkRave GUI
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -31,6 +31,7 @@ public:
   static const std::string CFG_KEY_BREAK_EXERCISES;
   static const std::string CFG_KEY_BLOCK_MODE;
   static const std::string CFG_KEY_LOCALE;
+  static const std::string CFG_KEY_TRAYICON_ENABLED;
 
   static void init();
 
@@ -40,6 +41,9 @@ public:
 
   static std::string get_locale();
   static void set_locale(std::string locale);
+
+  static bool get_trayicon_enabled();
+  static void set_trayicon_enabled(bool enabled);
   
   static bool get_ignorable(BreakId id);
   static void set_ignorable(BreakId id, bool b);

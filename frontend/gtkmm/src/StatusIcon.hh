@@ -1,6 +1,6 @@
 // StatusIcon.hh --- Status icon
 //
-// Copyright (C) 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2006, 2007, 2008, 2009, 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -48,6 +48,7 @@ public:
   StatusIcon(MainWindow& mw);
   ~StatusIcon();
 
+  void set_visible(bool b);
   void set_operation_mode(OperationMode m);
   void set_timers_tooltip(std::string& tip);
   bool is_embedded() const;

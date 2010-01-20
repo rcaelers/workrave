@@ -291,6 +291,13 @@ PreferencesDialog::create_gui_page()
   autostart_cb->set_active(rc);
 #endif  
 
+  Gtk::Label *trayicon_lab = Gtk::manage(GtkUtil::create_label(_("Show system tray icon"), false));
+  trayicon_cb = Gtk::manage(new Gtk::CheckButton());
+  trayicon_cb->add(*trayicon_lab);
+  connector->connect(GUIConfig::CFG_KEY_TRAYICON_ENABLED, dc::wrap(trayicon_cb));
+
+  panel->add(*trayicon_cb);
+
   panel->set_border_width(12);
   return panel;
 }

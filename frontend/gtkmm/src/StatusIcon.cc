@@ -1,6 +1,6 @@
 // StatusIcon.cc --- Status icon
 //
-// Copyright (C) 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2006, 2007, 2008, 2009, 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -100,9 +100,14 @@ void StatusIcon::set_operation_mode(OperationMode m)
   status_icon->set(mode_icons[m]);
 }
 
+void StatusIcon::set_visible(bool b)
+{
+  status_icon->set_visible(b);
+}
+
 bool StatusIcon::is_embedded() const
 {
-  return status_icon->is_embedded();
+  return status_icon->is_embedded() && status_icon->get_visible();
 }
 
 void StatusIcon::on_activate()

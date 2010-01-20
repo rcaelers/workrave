@@ -1,6 +1,6 @@
 // MainWindow.cc --- Main info Window
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -346,12 +346,14 @@ MainWindow::open_window()
 void
 MainWindow::close_window()
 {
+  TRACE_ENTER("MainWindow::close_window");
 #ifdef PLATFORM_OS_WIN32
   win32_show(false);
 #elif defined(PLATFORM_OS_OSX)
   hide_all();
 #else
   GUI *gui = GUI::get_instance();
+
   if (applet_active || gui->is_status_icon_visible())
     {
       hide_all();
@@ -361,6 +363,7 @@ MainWindow::close_window()
       iconify();
     }
 #endif
+  TRACE_EXIT();
 }
 
 

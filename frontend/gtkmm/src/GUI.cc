@@ -506,7 +506,7 @@ GUI::init_nls()
 
   CoreFactory::get_configurator()->add_listener(GUIConfig::CFG_KEY_LOCALE, this);
 #endif
-  
+
   bindtextdomain(PACKAGE, locale_dir);
   bind_textdomain_codeset(PACKAGE, "UTF-8");
   textdomain(PACKAGE);
@@ -788,6 +788,8 @@ GUI::init_gui()
 
   // Status icon
   status_icon = new StatusIcon(*main_window);
+  status_icon->set_visible(GUIConfig::get_trayicon_enabled());
+  CoreFactory::get_configurator()->add_listener(GUIConfig::CFG_KEY_TRAYICON_ENABLED, this);
   
 #ifdef HAVE_DBUS
   DBus *dbus = CoreFactory::get_dbus();
@@ -918,7 +920,7 @@ GUI::core_event_operation_mode_changed(const OperationMode m)
 void
 GUI::config_changed_notify(const std::string &key)
 {
-  (void) key;
+  TRACE_ENTER_MSG("GUI::config_changed_notify", key);
   
 #if defined(HAVE_LANGUAGE_SELECTION)
   if (key == GUIConfig::CFG_KEY_LOCALE)
@@ -929,6 +931,28 @@ GUI::config_changed_notify(const std::string &key)
       menus->locale_changed();
     }
 #endif
+  if (key == GUIConfig::CFG_KEY_TRAYICON_ENABLED)
+    {
+      if (status_icon != NULL)
+        {
+          bool tray = GUIConfig::get_trayicon_enabled();
+          status_icon->set_visible(tray);
+
+          if (!tray)
+            {
+              AppletControl *applet_control = get_applet_control();
+              if (applet_control != NULL)
+                {
+                  if (!applet_control->is_visible())
+                    {
+                      open_main_window();
+                    }
+                }
+            }
+        }
+    }
+    
+  TRACE_EXIT();
 }
 
 
