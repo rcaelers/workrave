@@ -372,7 +372,7 @@ PreferencesDialog::create_sounds_page()
       sound_store = Gtk::ListStore::create(sound_model);
       sound_treeview.set_model(sound_store);
 
-      for (unsigned int i = 0; i < SoundPlayer::SOUND_EXERCISE_MAX; i++)
+      for (unsigned int i = 0; i < SoundPlayer::SOUND_MAX; i++)
         {
           Gtk::TreeModel::iterator iter = sound_store->append();
           Gtk::TreeModel::Row row = *iter;

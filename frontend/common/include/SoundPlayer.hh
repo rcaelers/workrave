@@ -39,6 +39,7 @@ public:
 
   enum SoundEvent
     {
+      SOUND_MIN = 0,
       SOUND_BREAK_PRELUDE = 0,
       SOUND_BREAK_IGNORED,
       SOUND_REST_BREAK_STARTED,
@@ -49,7 +50,7 @@ public:
       SOUND_EXERCISE_ENDED,
       SOUND_EXERCISES_ENDED,
       SOUND_EXERCISE_STEP,
-      SOUND_EXERCISE_MAX
+      SOUND_MAX
     };
 
   enum SoundCapability
@@ -112,7 +113,7 @@ public:
   static const char *CFG_KEY_SOUND_EVENTS_ENABLED;
   static const char *CFG_KEY_SOUND_MUTE;
 
-  static SoundRegistry sound_registry[SOUND_EXERCISE_MAX];
+  static SoundRegistry sound_registry[SOUND_MAX];
   
 private:  
   ISoundDriver *driver;
