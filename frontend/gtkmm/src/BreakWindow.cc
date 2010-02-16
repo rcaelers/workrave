@@ -1,6 +1,6 @@
 // BreakWindow.cc --- base class for the break windows
 //
-// Copyright (C) 2001 - 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -425,27 +425,30 @@ void
 BreakWindow::resume_non_ignorable_break()
 {
   TRACE_ENTER("BreakWindow::resume_non_ignorable_break");
-  for (int id = break_id - 1; id >= 0; id--)
+  if (! (break_flags & BreakWindow::BREAK_FLAGS_USER_INITIATED))
     {
-      TRACE_MSG("Break " << id << ": check ignorable");
-
-      bool ignorable = GUIConfig::get_ignorable(BreakId(id));
-      if (!ignorable)
+      for (int id = break_id - 1; id >= 0; id--)
         {
-          TRACE_MSG("Break " << id << " not ignorable");
-          
-          ICore *core = CoreFactory::get_core();
-          assert(core != NULL);
-              
-          IBreak *b = core->get_break(BreakId(id));
-          assert(b != NULL);
+          TRACE_MSG("Break " << id << ": check ignorable");
 
-          if (b->get_elapsed_time() > b->get_limit())
+          bool ignorable = GUIConfig::get_ignorable(BreakId(id));
+          if (!ignorable)
             {
-              TRACE_MSG("Break " << id << " not ignorable and overdue");
+              TRACE_MSG("Break " << id << " not ignorable");
+          
+              ICore *core = CoreFactory::get_core();
+              assert(core != NULL);
+              
+              IBreak *b = core->get_break(BreakId(id));
+              assert(b != NULL);
 
-              core->force_break(BreakId(id), BREAK_HINT_USER_INITIATED);
-              break;
+              if (b->get_elapsed_time() > b->get_limit())
+                {
+                  TRACE_MSG("Break " << id << " not ignorable and overdue");
+
+                  core->force_break(BreakId(id), BREAK_HINT_NONE);
+                  break;
+                }
             }
         }
     }

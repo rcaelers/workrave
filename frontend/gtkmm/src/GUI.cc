@@ -995,7 +995,8 @@ GUI::create_break_window(BreakId break_id, BreakHint break_hint)
 
   if ( (break_hint & BREAK_HINT_USER_INITIATED) && !ignorable)
     {
-      break_flags = BreakWindow::BREAK_FLAGS_POSTPONABLE;
+      break_flags = ( BreakWindow::BREAK_FLAGS_POSTPONABLE |
+                      BreakWindow::BREAK_FLAGS_USER_INITIATED);
     }
   else if (ignorable)
     {
@@ -1003,7 +1004,7 @@ GUI::create_break_window(BreakId break_id, BreakHint break_hint)
                        BreakWindow::BREAK_FLAGS_SKIPPABLE);
     }
 
-  if (break_hint & BREAK_HINT_NATURAL_BREAK )
+  if (break_hint & BREAK_HINT_NATURAL_BREAK)
     {
       break_flags |=  (BreakWindow::BREAK_FLAGS_NO_EXERCISES | BreakWindow::BREAK_FLAGS_NATURAL);
     }
