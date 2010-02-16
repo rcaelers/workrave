@@ -407,6 +407,26 @@ Core::config_changed_notify(const string &key)
     {
       load_monitor_config();
     }
+
+  if (key == CoreConfig::CFG_KEY_OPERATION_MODE)
+    {
+      int mode;
+      if (! get_configurator()->get_value(CoreConfig::CFG_KEY_OPERATION_MODE, mode))
+        {
+          mode = OPERATION_MODE_NORMAL;
+        }
+      set_operation_mode(OperationMode(mode), false);
+    }
+
+  if (key == CoreConfig::CFG_KEY_USAGE_MODE)
+    {
+      int mode;
+      if (! get_configurator()->get_value(CoreConfig::CFG_KEY_USAGE_MODE, mode))
+        {
+          mode = USAGE_MODE_NORMAL;
+        }
+      set_usage_mode(UsageMode(mode), false);
+    }
 }
 
 
@@ -1405,6 +1425,9 @@ Core::save_state() const
 void
 Core::load_misc()
 {
+  configurator->add_listener(CoreConfig::CFG_KEY_OPERATION_MODE, this);
+  configurator->add_listener(CoreConfig::CFG_KEY_USAGE_MODE, this);
+  
   int mode;
   if (! get_configurator()->get_value(CoreConfig::CFG_KEY_OPERATION_MODE, mode))
     {
