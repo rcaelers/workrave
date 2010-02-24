@@ -3,6 +3,8 @@ using Microsoft Visual Studio (2008 Express Edition).
 
 The minimal requirement is gtkmm, Directx SDK and cmake.
 
+Only networking is currently not easy to build on Windows.
+
 
 Install Gtkmm (required)
 ========================
