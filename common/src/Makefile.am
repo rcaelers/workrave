@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008, 2009, 2010 Rob Caelers & Raymond Penners
 #
 
 MAINTAINERCLEANFILES = 	Makefile.in
@@ -23,6 +23,7 @@ libworkrave_common_la_SOURCES =  \
 			GlibThread.cc \
 			Util.cc \
 			StringUtil.cc \
+			WRID.cc \
 			${dbussources} \
 			${localesources}
 

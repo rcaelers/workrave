@@ -1,6 +1,6 @@
 // SocketDriver.hh
 //
-// Copyright (C) 2002, 2003, 2005, 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2002, 2003, 2005, 2007, 2010 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -20,52 +20,103 @@
 #ifndef SOCKETDRIVER_HH
 #define SOCKETDRIVER_HH
 
+class ISocket;
+class ISocketServer;
 
-//! TCP Socket connection abstraction.
-class SocketConnection
+#include "Exception.hh"
+
+using namespace workrave;
+
+//! Asynchronous socket callbacks.
+class ISocketListener
 {
 public:
-  //! User-defined client data.
-  void *data;
+  ISocketListener() {}
+  virtual ~ISocketListener() {}
 
-public:
-  SocketConnection();
-  virtual ~SocketConnection();
+  //! The specified socket is now connected.
+  virtual void socket_connected(ISocket *con, void *data) = 0;
 
-  //! Reads data from the connection.
-  virtual bool read(void *buf, int count, int &bytes_read) = 0;
+  //! The specified socket has data ready to be read.
+  virtual void socket_io(ISocket *con, void *data) = 0;
 
-  //! Writes data to the connection
-  virtual bool write(void *buf, int count, int &bytes_written) = 0;
-
-  //! Closes the connection.
-  virtual bool close() = 0;
-
-  //! Returns the user defined data of this connection.
-  void *get_data() const;
-
-  //! Sets the user defined data of this connection.
-  void set_data(void *d);
+  //! The specified socket closed its connection.
+  virtual void socket_closed(ISocket *con, void *data) = 0;
 };
 
 
-//! Asynchronous socket callbacks.
-class SocketListener
+//! Asynchronous server socket callbacks.
+class ISocketServerListener
 {
 public:
-  virtual ~SocketListener() {}
+  ISocketServerListener() {}
+  virtual ~ISocketServerListener() {}
 
-  //! The specified server socket connection has accepted a new client connection
-  virtual void socket_accepted(SocketConnection *server_con, SocketConnection *client_con) = 0;
+  //! The specified server socket has accepted a new connection
+  virtual void socket_accepted(ISocketServer *server, ISocket *con) = 0;
+};
 
-  //! The specified socket connection has successfully connected.
-  virtual void socket_connected(SocketConnection *con, void *data) = 0;
 
-  //! The specified socket connection has data ready to be read.
-  virtual void socket_io(SocketConnection *con, void *data) = 0;
+//! TCP Socket.
+class ISocket
+{
+public:
+  ISocket() :
+    listener(NULL)
+  {
+  }
 
-  //! The specified socket connection closed its connection.
-  virtual void socket_closed(SocketConnection *con, void *data) = 0;
+  virtual ~ISocket() {};
+
+  //! Create a connection to the specified host and port.
+  virtual void connect(const std::string &hostname, int port) = 0;
+
+  //! Read data from the connection.
+  virtual void read(void *buf, int count, int &bytes_read) = 0;
+
+  //! Write data to the connection
+  virtual void write(void *buf, int count, int &bytes_written) = 0;
+
+  //! Close the connection.
+  virtual void close() = 0;
+
+  //! Set the callback listener for asynchronous socket events.
+  void set_listener(ISocketListener *l);
+
+  //! Set user data
+  void set_data(void *data);
+  
+protected:
+  //! Listener that received notifications of socket events.
+  ISocketListener *listener;
+
+  // User data for callback.
+  void *user_data;
+};
+
+
+//! TCP Listen ISocket.
+class ISocketServer
+{
+public:
+  ISocketServer() :
+    listener(NULL)
+  {
+  }
+
+  virtual ~ISocketServer() {};
+
+  //! Listen at the specified port.
+  /*! \pre set_listener called
+   */
+  virtual void listen(int port) = 0;
+
+  //! Sets the callback listener for asynchronous events.
+  void set_listener(ISocketServerListener *l);
+
+protected:
+  //! Listener that receives notification of accepted connections.
+  ISocketServerListener *listener;
 };
 
 
@@ -73,30 +124,27 @@ public:
 class SocketDriver
 {
 public:
-  SocketDriver();
-  virtual ~SocketDriver();
+  static SocketDriver *create();
+  
+  //! Create a new socket
+  virtual ISocket *create_socket() = 0;
 
-  //! Returns this host's canonical host name.
-  virtual char *get_my_canonical_name() = 0;
+  //! Create a new listen socket
+  virtual ISocketServer *create_server() = 0;
+};
 
-  //! Returns the canonical host name for the specified host name.
-  virtual char *canonicalize(const char *) = 0;
+//! Socket exception
+class SocketException : public Exception
+{
+public:
+  explicit SocketException(const std::string &detail) :
+    Exception(detail)
+  {
+  }
 
-  //! Initialize the socket driver.
-  virtual bool init() = 0;
-
-  //! Create a connection to the specified host and port.
-  virtual SocketConnection *connect(const char *hostname, int port, void *data) = 0;
-
-  //! Listen at the specified port.
-  virtual SocketConnection *listen(int port, void *data) = 0;
-
-  //! Sets the callback listener for asynchronous events.
-  void set_listener(SocketListener *l);
-
-protected:
-  //! Async callbacks.
-  SocketListener *listener;
+  virtual ~SocketException() throw()
+  {
+  }
 };
 
 #include "SocketDriver.icc"

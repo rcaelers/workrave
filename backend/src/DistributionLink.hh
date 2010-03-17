@@ -1,6 +1,6 @@
 // DistributionLink.hh
 //
-// Copyright (C) 2002, 2003, 2005, 2006 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2005, 2006, 2010 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -34,7 +34,7 @@ public:
   virtual ~DistributionLink() {}
 
   //! Returns the ID of the node.
-  virtual string get_id() const = 0;
+  virtual char *get_my_id() const = 0;
 
   //! Returns the number of remote peers.
   virtual int get_number_of_peers() = 0;

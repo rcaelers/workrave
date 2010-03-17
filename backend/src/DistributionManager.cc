@@ -1,6 +1,6 @@
 // DistributionManager.cc
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2009 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2009, 2010 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -140,7 +140,7 @@ DistributionManager::get_my_id() const
 
   if (link != NULL)
     {
-      id = link->get_id();
+      id = link->get_my_id();
     }
 
   return id;

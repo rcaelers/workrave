@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2002, 2003, 2007, 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2002, 2003, 2007, 2008, 2010 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -19,27 +19,35 @@
 #ifndef GNETSOCKETDRIVER_HH
 #define GNETSOCKETDRIVER_HH
 
+#define GNET_EXPERIMENTAL
 #include <glib.h>
 #include <gnet.h>
+
 #include "SocketDriver.hh"
 
-class GNetSocketDriver;
+using namespace workrave;
 
-class GNetSocketConnection : public SocketConnection
+//! Listen socket implementation usinf GNet
+class GNetSocketServer
+  : public ISocketServer
 {
 public:
-  GNetSocketConnection();
-  virtual ~GNetSocketConnection();
+  GNetSocketServer();
+  virtual ~GNetSocketServer();
 
-  bool read(void *buf, int count, int &bytes_read);
-  bool write(void *buf, int count, int &bytes_written);
-  bool close();
+  // ISocketServer  interface
+  virtual void listen(int port);
+
+private:
+  // GNET callbacks
+  void async_accept(GTcpSocket *server, GTcpSocket *client);
+  static void static_async_accept(GTcpSocket* server, GTcpSocket* client, gpointer data);
 
 private:
   //! GNet socket
   GTcpSocket *socket;
 
-  //! Glib IOChannel.
+  //! Glib IOChannel
   GIOChannel *iochannel;
 
   //! I/O Events we are monitoring.
@@ -47,44 +55,55 @@ private:
 
   //! Our watch ID
   guint watch;
-
-  //! Reference to driver for static methods.
-  GNetSocketDriver *driver;
-
-  //! Canonical host name.
-  gchar *name;
-
-  //! Port connected to.
-  gint port;
-
-  friend class GNetSocketDriver;
 };
 
 
-class GNetSocketDriver : public SocketDriver
+//! Socket implementation based on GNet
+class GNetSocket
+  : public ISocket
 {
 public:
-  GNetSocketDriver();
-  virtual ~GNetSocketDriver();
+  GNetSocket();
+  GNetSocket(GTcpSocket *socket);
+  virtual ~GNetSocket();
 
-  // Socket driver methods.
-  char *get_my_canonical_name();
-  char *canonicalize(const char *);
-  bool init();
-  SocketConnection *connect(const char *hostname, int port, void *data);
-  SocketConnection *listen(int port, void *data);
+  // ISocket interface
+  virtual void connect(const std::string &hostname, int port);
+  virtual void read(void *buf, int count, int &bytes_read);
+  virtual void write(void *buf, int count, int &bytes_written);
+  virtual void close();
 
 private:
-  void async_accept(GTcpSocket *server, GTcpSocket *client, GNetSocketConnection *c);
-  bool async_io(GIOChannel* iochannel, GIOCondition condition, GNetSocketConnection *c);
-  void async_connected(GTcpSocket *socket, GInetAddr *ia, GTcpSocketConnectAsyncStatus status,
-                       GNetSocketConnection *c);
-
-  static void static_async_accept(GTcpSocket* server, GTcpSocket* client, gpointer data);
+  // GNET callbacks
+  bool async_io(GIOChannel* iochannel, GIOCondition condition);
+  void async_connected(GTcpSocket *socket, GInetAddr *ia, GTcpSocketConnectAsyncStatus status);
   static gboolean static_async_io(GIOChannel* iochannel, GIOCondition condition, gpointer data);
+  static void static_async_connected(GTcpSocket *socket, GTcpSocketConnectAsyncStatus status, gpointer data);
 
-  static void static_async_connected(GTcpSocket *socket,
-                                     GTcpSocketConnectAsyncStatus status, gpointer data);
+private:
+  //! GNet socket
+  GTcpSocket *socket;
+
+  //! Glib IOChannel
+  GIOChannel *iochannel;
+
+  //! I/O Events we are monitoring
+  gint watch_flags;
+
+  //! Our watch ID
+  guint watch;
 };
+
+
+class GNetSocketDriver
+  : public SocketDriver
+{
+  //! Create a new socket
+  ISocket *create_socket();
+
+  //! Create a new listen socket
+  ISocketServer *create_server();
+};
+
 
 #endif // GNETSOCKETDRIVER_HH

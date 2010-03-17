@@ -1,6 +1,6 @@
-// SocketDriver.icc
+// SocketDriver.cc
 //
-// Copyright (C) 2002, 2003, 2007, 2010 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2009, 2010 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -18,23 +18,32 @@
 //
 //
 
-//! Sets the callback handler for asynchronous socket events.
-inline void 
-ISocket::set_listener(ISocketListener *l)
+static const char rcsid[] = "$Id: GNetSocketDriver.cc 1184 2007-05-12 09:16:31Z rcaelers $";
+
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "SocketDriver.hh"
+
+#if defined(HAVE_GIO_NETX)
+#include "GIOSocketDriver.hh"
+#endif
+
+#if defined(HAVE_GNET)
+#include "GNetSocketDriver.hh"
+#endif
+
+//! Create a new socket
+SocketDriver *
+SocketDriver::create()
 {
-  listener = l;
+#if defined(HAVE_GIO_NETX)
+  return new GIOSocketDriver();
+#elif defined(HAVE_GNET)
+  return new GNetSocketDriver();
+#else
+#error No socket driver
+#endif
 }
 
-
-inline void 
-ISocket::set_data(void *data)
-{
-  user_data = data;
-}
-
-//! Sets the callback handler for asynchronous server events.
-inline void 
-ISocketServer::set_listener(ISocketServerListener *l)
-{
-  listener = l;
-}

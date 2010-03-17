@@ -1,6 +1,6 @@
 // DistributionSocketLink.hh
 //
-// Copyright (C) 2002, 2003, 2006, 2007, 2008 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2006, 2007, 2008, 2010 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -39,6 +39,7 @@
 #include "PacketBuffer.hh"
 
 #include "SocketDriver.hh"
+#include "WRID.hh"
 
 #define DEFAULT_PORT (27273)
 #define DEFAULT_INTERVAL (15)
@@ -49,7 +50,8 @@ class Configurator;
 class DistributionSocketLink :
   public DistributionLink,
   public IConfiguratorListener,
-  public SocketListener
+  public ISocketServerListener,
+  public ISocketListener
 {
 public:
 private:
@@ -135,7 +137,7 @@ private:
     Client *peer;
 
     //!
-    SocketConnection *socket;
+    ISocket *socket;
 
     //! ID
     gchar *id;
@@ -176,7 +178,8 @@ public:
   DistributionSocketLink(Configurator *conf);
   virtual ~DistributionSocketLink();
 
-  string get_id() const;
+  void init_my_id(); 
+  gchar *get_my_id() const;
   int get_number_of_peers();
   void set_distribution_manager(DistributionManager *dll);
   void init();
@@ -196,10 +199,10 @@ public:
   bool unregister_client_message(DistributionClientMessageID id);
   bool broadcast_client_message(DistributionClientMessageID id, PacketBuffer &buffer);
 
-  void socket_accepted(SocketConnection *scon, SocketConnection *ccon);
-  void socket_connected(SocketConnection *con, void *data);
-  void socket_io(SocketConnection *con, void *data);
-  void socket_closed(SocketConnection *con, void *data);
+  void socket_accepted(ISocketServer *server, ISocket *con);
+  void socket_connected(ISocket *con, void *data);
+  void socket_io(ISocket *con, void *data);
+  void socket_closed(ISocket *con, void *data);
 
 private:
   bool is_client_valid(Client *client);
@@ -210,10 +213,9 @@ private:
   Client *find_client_by_canonicalname(gchar *name, gint port);
   Client *find_client_by_id(gchar *id);
   bool client_is_me(gchar *id);
-  bool exists_client(gchar *host, gint port);
   bool exists_client(gchar *id);
 
-  bool set_client_id(Client *client, gchar *id, gchar *name, gint port);
+  bool set_client_id(Client *client, gchar *id);
 
   char *get_master() const;
   void set_master_by_id(gchar *id);
@@ -256,14 +258,16 @@ private:
 private:
   typedef map<DistributionClientMessageID, ClientMessageListener> ClientMessageMap;
 
-  //! The socket library.
-  SocketDriver *socket_driver;
-
   //! The distribution manager.
   DistributionManager *dist_manager;
 
+  SocketDriver *socket_driver;
+  
   //! The configuration access.
   Configurator *configurator;
+
+  //! My ID
+  WRID my_id;
 
   //! Username for client authentication
   gchar *username;
@@ -284,21 +288,21 @@ private:
   bool master_locked;
 
   //! My name
-  gchar *myname;
+  //gchar *myname;
 
   //! My ID accross the network.
-  gchar *myid;
+  //gchar *myid;
 
   //! My server port
   gint server_port;
 
   //! The server socket.
-  SocketConnection *server_socket;
+  ISocketServer *server_socket;
 
   //! Whether distribution is enabled.
   bool network_enabled;
   bool server_enabled;
-
+  
   //! ClientMessage listeners
   ClientMessageMap client_message_map;
 

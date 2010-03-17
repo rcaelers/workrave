@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008, 2009, 2010 Rob Caelers & Raymond Penners
 #
 
 MAINTAINERCLEANFILES = 	Makefile.in \
@@ -41,10 +41,13 @@ sourcesgdome = 		XMLConfigurator.cc
 endif
 
 if HAVE_DISTRIBUTION
-sourcesdistribution = 	DistributionManager.cc
+sourcesdistribution = 	DistributionManager.cc \
+			DistributionSocketLink.cc \
+			PacketBuffer.cc \
+			SocketDriver.cc \
+			GIOSocketDriver.cc
 if HAVE_GNET
-sourcesgnet = 		DistributionSocketLink.cc PacketBuffer.cc \
-			GNetSocketDriver.cc
+sourcesgnet = 		GNetSocketDriver.cc
 endif
 endif
 

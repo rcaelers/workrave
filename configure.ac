@@ -418,6 +418,28 @@ AC_SUBST(GNET_CFLAGS)
 
 
 dnl
+dnl GIO networking
+dnl
+
+have_gio_net=no
+AC_MSG_CHECKING([GIO networking support])
+
+CFLAGS_save=$LIBS
+CFLAGS="$CFLAGS $GLIB_CFLAGS"
+CXXFLAGS="$CXXFLAGS $GLIB_CFLAGS"
+
+AC_TRY_COMPILE([#include <gio/gio.h>], 
+        [ GSocketService *socket = g_socket_service_new();
+	],
+        [have_gio_net=yes
+         AC_DEFINE(HAVE_GIO_NET, 1, "Have GIO networking support")
+         AC_MSG_RESULT(yes)],
+         AC_MSG_RESULT(no))
+
+CLFAGS=$CFLAGS_save
+CXXLFAGS=$CXXFLAGS_save
+	 
+dnl
 dnl XML
 dnl
 
