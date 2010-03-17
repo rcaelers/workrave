@@ -26,7 +26,7 @@ static const char rcsid[] = "$Id: GNetSocketDriver.cc 1184 2007-05-12 09:16:31Z 
 
 #include "SocketDriver.hh"
 
-#if defined(HAVE_GIO_NETX)
+#if defined(HAVE_GIO_NET)
 #include "GIOSocketDriver.hh"
 #endif
 
@@ -38,7 +38,7 @@ static const char rcsid[] = "$Id: GNetSocketDriver.cc 1184 2007-05-12 09:16:31Z 
 SocketDriver *
 SocketDriver::create()
 {
-#if defined(HAVE_GIO_NETX)
+#if defined(HAVE_GIO_NET)
   return new GIOSocketDriver();
 #elif defined(HAVE_GNET)
   return new GNetSocketDriver();
