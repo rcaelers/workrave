@@ -26,10 +26,10 @@
 #include "debug.hh"
 #include <assert.h>
 
-#include "nls.h"
+#include <iostream>
+#include <fstream>
 
-#define GNET_EXPERIMENTAL
-#include <gnet.h>
+#include "nls.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -46,6 +46,7 @@
 #include "GNetSocketDriver.hh"
 #include "Util.hh"
 
+using namespace std;
 
 //! Construct a new socket link.
 /*!
@@ -226,14 +227,33 @@ DistributionSocketLink::connect(string url)
 {
   if (network_enabled)
     {
-      GURI *client_url = gnet_uri_new(url.c_str());
-
-      if (client_url != NULL)
+      std::string::size_type pos = url.find("://");
+      std::string hostport;
+      
+      if (pos == std::string::npos)
         {
-          add_client(NULL, client_url->hostname, client_url->port, CLIENTTYPE_DIRECT);
+          hostport = url;
         }
-      gnet_uri_delete(client_url);
-
+      else
+        {
+          hostport = url.substr(pos + 3);
+        }
+      
+      pos = hostport.find(":");
+      std::string host;
+      std::string port = "0";
+      
+      if (pos == std::string::npos)
+        {
+          host = hostport;
+        }
+      else
+        {
+          host = hostport.substr(0, pos);
+          port = hostport.substr(pos + 1);
+        }
+       
+      add_client(NULL, (gchar *)host.c_str(), atoi(port.c_str()), CLIENTTYPE_DIRECT);
     }
 }
 
