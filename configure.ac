@@ -483,6 +483,19 @@ then
    DBUS_SERVICES_DIR="$DATADIR/dbus-1/services"
    AC_SUBST(DBUS_SERVICES_DIR)
    AC_DEFINE_UNQUOTED(DBUS_SERVICES_DIR, "$DBUS_SERVICES_DIR", [Where services dir for DBUS is])
+
+   AC_CHECK_PROG(PYTHON,python,python)
+   
+   AC_MSG_CHECKING([for the Cheetah Python package])
+     ac_cheetah_result=`$PYTHON -c "from Cheetah.Template import Template" 2>&1`
+     if test -z "$ac_cheetah_result"; then
+        AC_MSG_RESULT([yes])
+     else
+        AC_MSG_RESULT([no])
+        AC_MSG_ERROR([cannot import Python module "cheetah"])
+	have_dbus=no
+        dbus_pkgconfig=
+     fi	
 else
    have_dbus=no
    dbus_pkgconfig=
