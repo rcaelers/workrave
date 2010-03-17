@@ -299,7 +299,14 @@ MainWindow::update()
 
 void MainWindow::on_activate()
 {
-  open_window();
+  if (get_visible())
+    {
+      close_window();
+    }
+  else
+    {
+      open_window();
+    }
 }
 
 
