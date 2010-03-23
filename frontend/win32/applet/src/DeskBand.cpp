@@ -1,6 +1,6 @@
 // DeskBand.cpp --- CDeskBand implementation
 //
-// Copyright (C) 2004, 2005, 2006, 2007 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2004, 2005, 2006, 2007, 2010 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -41,6 +41,10 @@ CDeskBand::CDeskBand()
   m_TimerBox = NULL;
   m_HasAppletMenu = FALSE;
   m_LastCopyData = 0;
+
+#ifndef NDEBUG 
+  Debug::init();
+#endif
 
   m_ObjRefCount = 1;
   g_DllRefCount++;
