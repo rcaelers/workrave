@@ -155,7 +155,7 @@ W32AppletWindow::update_menu()
       msg.dwData = APPLET_MESSAGE_MENU;
       msg.cbData = sizeof(AppletMenuData);
       msg.lpData = &menu_data;
-      PostMessage(hwnd, WM_COPYDATA, 0, (LPARAM) &msg);
+      SendMessage(hwnd, WM_COPYDATA, 0, (LPARAM) &msg);
 
       menu_sent = true;
     }
@@ -178,7 +178,7 @@ W32AppletWindow::update_time_bars()
         {
           TRACE_MSG("sending: slots[]=" << heartbeat_data.slots[i]);
         }
-      PostMessage(hwnd, WM_COPYDATA, 0, (LPARAM) &msg);
+      SendMessage(hwnd, WM_COPYDATA, 0, (LPARAM) &msg);
     }
   TRACE_EXIT();
 }
