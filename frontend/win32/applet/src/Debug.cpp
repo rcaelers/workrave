@@ -32,8 +32,9 @@ Debug::trace_get_time()
   time_t ltime;
 
   time(&ltime);
-  struct tm *tmlt = localtime(&ltime);
-  strftime(logtime, 128, "%d%b%Y %H:%M:%S ", tmlt);
+  struct tm tmlt;
+  localtime_s(&tmlt, &ltime);
+  strftime(logtime, 128, "%d%b%Y %H:%M:%S ", &tmlt);
   return logtime;
 }
 
@@ -44,8 +45,9 @@ Debug::init()
   time_t ltime;
   
   time(&ltime);
-  struct tm *tmlt = localtime(&ltime);
-  strftime(logfile, 128, "C:\\temp\\workrave-applet-%d%b%Y-%H%M%S", tmlt);
+  struct tm tmlt;
+  localtime_s(&tmlt, &ltime);
+  strftime(logfile, 128, "C:\\temp\\workrave-applet-%d%b%Y-%H%M%S", &tmlt);
 
   g_log_stream.open(logfile, std::ios::app);
   if (g_log_stream.is_open())

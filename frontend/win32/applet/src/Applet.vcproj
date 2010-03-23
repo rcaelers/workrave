@@ -498,6 +498,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\Debug.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\Debug.h"
+			>
+		</File>
+		<File
 			RelativePath="DeskBand.cpp"
 			>
 			<FileConfiguration

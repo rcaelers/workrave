@@ -22,6 +22,7 @@
 
 #include "TimeBar.h"
 #include "DeskBand.h"
+#include "Debug.h"
 
 const int BORDER_SIZE = 2;
 const int MARGINX = 4;
@@ -97,6 +98,7 @@ TimeBar::get_size(int &w, int &h)
 void
 TimeBar::compute_size(int &w, int &h)
 {
+  TRACE_ENTER("TimeBar::compute_size");
   HDC dc = GetDC(hwnd);
   SelectObject(dc, (HGDIOBJ) bar_font);
   char buf[80];
@@ -124,11 +126,15 @@ TimeBar::compute_size(int &w, int &h)
   if (h < MINIMAL_HEIGHT)
     h = MINIMAL_HEIGHT;
   ReleaseDC(hwnd, dc);
+
+  TRACE_MSG(w << " " << h);
+  TRACE_EXIT();
 }
 
 LRESULT
 TimeBar::on_paint(void)
 {
+  TRACE_ENTER("TimeBar::on_paint");
   PAINTSTRUCT ps;
   RECT        rc;
 
@@ -145,6 +151,7 @@ TimeBar::on_paint(void)
   SelectObject(dc, (HGDIOBJ) bar_font);
   r.left = r.top = r.bottom = r.right = 0;
 
+  TRACE_MSG("1");
   // Bar
   int bar_width = 0;
   int border_size = BORDER_SIZE;
@@ -162,6 +169,7 @@ TimeBar::on_paint(void)
 
   int bar_h = winh - 2 * border_size;
 
+  TRACE_MSG("2");
   if (sbar_width > 0)
     {
       // Overlap
@@ -222,6 +230,7 @@ TimeBar::on_paint(void)
       r.bottom = r.top + bar_h;
       FillRect(dc, &r, bar_colors[bar_color]);       }
 
+  TRACE_MSG("3");
   r.left = winx + border_size + __max(bar_width, sbar_width);
   r.top = winy + border_size;
   r.right = winx + winw - border_size;
@@ -240,15 +249,19 @@ TimeBar::on_paint(void)
   r.left += border_size + MARGINX;
   DrawText(dc, bar_text, (int)strlen( bar_text ), &r, DT_SINGLELINE|DT_VCENTER|DT_RIGHT);
 
+  TRACE_MSG("4");
+
   ReleaseDC(hwnd, dc);
   EndPaint(hwnd, &ps);
 
+  TRACE_EXIT();
   return 0;
 }
 
 void
 TimeBar::init(HINSTANCE hinst)
 {
+  TRACE_ENTER("TimeBar::init");
   //If the window class has not been registered, then do so.
   WNDCLASS wc;
   if(!GetClassInfo(hinst, TIME_BAR_CLASS_NAME, &wc))
@@ -303,10 +316,8 @@ TimeBar::init(HINSTANCE hinst)
       bar_font = CreateFontIndirect(&ncm.lfStatusFont);
 
     }
+  TRACE_EXIT();
 }
-
-
-
 
 
 //! Converts the specified time to a string
@@ -357,13 +368,17 @@ TimeBar::set_secondary_progress(int value, int max_value)
 void
 TimeBar::set_text(const char *text)
 {
-  strncpy_s( bar_text, APPLET_BAR_TEXT_MAX_LENGTH, text, _TRUNCATE );
+  TRACE_ENTER("TimeBar::set_text");
+  strncpy_s(bar_text, APPLET_BAR_TEXT_MAX_LENGTH, text, _TRUNCATE);
+  TRACE_EXIT();
 }
 
 void
 TimeBar::update()
 {
+  TRACE_ENTER("TimeBar::update");
   RedrawWindow(hwnd, NULL, NULL, RDW_INTERNALPAINT);
+  TRACE_EXIT();
 }
 
 void

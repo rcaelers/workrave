@@ -1,6 +1,7 @@
 @ECHO OFF
 
 SET MSSdk="C:\Program Files\Microsoft SDKs\Windows\v7.0"
+REM PATH=%PATH%;C:\Windows\Microsoft.NET\Framework\v3.5
 
 IF "%~1"=="DEBUG64" (
    call %MSSdk%\bin/setenv /x64 /Debug

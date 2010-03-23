@@ -25,6 +25,7 @@
 #include "TimerBox.h"
 #include "Guid.h"
 #include "Applet.hh"
+#include "Debug.h"
 
 CDeskBand::CDeskBand()
 {
@@ -152,8 +153,10 @@ STDMETHODIMP_(DWORD)
 STDMETHODIMP
 CDeskBand::GetWindow(HWND *phWnd)
 {
+  TRACE_ENTER("CDeskBand::GetWindow");
   *phWnd = m_hWnd;
 
+  TRACE_EXIT();
   return S_OK;
 }
 
@@ -166,6 +169,7 @@ CDeskBand::ContextSensitiveHelp(BOOL fEnterMode)
 STDMETHODIMP
 CDeskBand::ShowDW(BOOL fShow)
 {
+  TRACE_ENTER_MSG("CDeskBand::ShowDW", fShow);
   if(m_hWnd)
     {
       if(fShow)
@@ -180,12 +184,14 @@ CDeskBand::ShowDW(BOOL fShow)
         }
     }
 
+  TRACE_EXIT();
   return S_OK;
 }
 
 STDMETHODIMP
 CDeskBand::CloseDW(DWORD dwReserved)
 {
+  TRACE_ENTER("CDeskBand::CloseDW");
   ShowDW(FALSE);
 
   delete m_TimerBox;
@@ -196,6 +202,7 @@ CDeskBand::CloseDW(DWORD dwReserved)
 
   m_hWnd = NULL;
 
+  TRACE_EXIT();
   return S_OK;
 }
 
@@ -234,6 +241,7 @@ CDeskBand::TranslateAcceleratorIO(LPMSG pMsg)
 STDMETHODIMP
 CDeskBand::SetSite(IUnknown* punkSite)
 {
+  TRACE_ENTER("CDeskBand::SetSite");
   //If a site is being held, release it.
   if(m_pSite)
     {
@@ -270,12 +278,14 @@ CDeskBand::SetSite(IUnknown* punkSite)
       return E_FAIL;
     }
 
+  TRACE_EXIT();
   return S_OK;
 }
 
 STDMETHODIMP
 CDeskBand::GetSite(REFIID riid, LPVOID *ppvReturn)
 {
+  TRACE_ENTER("CDeskBand::GetSite");
   *ppvReturn = NULL;
 
   if(m_pSite)
@@ -287,6 +297,7 @@ CDeskBand::GetSite(REFIID riid, LPVOID *ppvReturn)
 STDMETHODIMP
 CDeskBand::GetBandInfo(DWORD dwBandID, DWORD dwViewMode, DESKBANDINFO* pdbi)
 {
+  TRACE_ENTER_MSG("CDeskBand::GetBandInfo", dwBandID << " " << dwViewMode);
   if(pdbi)
     {
       m_dwBandID = dwBandID;
@@ -345,6 +356,7 @@ CDeskBand::GetBandInfo(DWORD dwBandID, DWORD dwViewMode, DESKBANDINFO* pdbi)
       return S_OK;
     }
 
+  TRACE_EXIT();
   return E_INVALIDARG;
 }
 
@@ -412,6 +424,7 @@ CDeskBand::QueryContextMenu( HMENU hMenu,
                                           UINT idCmdLast,
                                           UINT uFlags)
 {
+  TRACE_ENTER("CDeskBand::QueryContextMenu");
   if ((!m_HasAppletMenu) || (CMF_DEFAULTONLY & uFlags) || !IsWindow( get_command_window() ))
     return MAKE_HRESULT(SEVERITY_SUCCESS, 0, USHORT(0));
 
@@ -467,12 +480,14 @@ CDeskBand::QueryContextMenu( HMENU hMenu,
       m++;
     }
 
+  TRACE_EXIT();
   return MAKE_HRESULT(SEVERITY_SUCCESS, 0, USHORT(m_AppletMenu.num_items + 1));
 }
 
 STDMETHODIMP
 CDeskBand::InvokeCommand(LPCMINVOKECOMMANDINFO lpcmi)
 {
+  TRACE_ENTER("CDeskBand::InvokeCommand");
   int cmd = LOWORD(lpcmi->lpVerb);
   HRESULT ret;
 
@@ -485,6 +500,7 @@ CDeskBand::InvokeCommand(LPCMINVOKECOMMANDINFO lpcmi)
     {
       ret = E_INVALIDARG;
     }
+  TRACE_EXIT();
   return ret;
 }
 
@@ -550,8 +566,6 @@ CDeskBand::WndProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
   return DefWindowProc(hWnd, uMessage, wParam, lParam);
 }
 
-
-
 LRESULT
 CDeskBand::OnCommand(WPARAM wParam, LPARAM lParam)
 {
@@ -561,6 +575,7 @@ CDeskBand::OnCommand(WPARAM wParam, LPARAM lParam)
 LRESULT
 CDeskBand::OnTimer(WPARAM wParam, LPARAM lParam)
 {
+  TRACE_ENTER_MSG("CDeskBand::OnTimer", wParam << " " << lParam);
   if (m_TimerBox != NULL)
     {
       if (m_LastCopyData == 0 || difftime(time(NULL), m_LastCopyData) > 2)
@@ -569,51 +584,55 @@ CDeskBand::OnTimer(WPARAM wParam, LPARAM lParam)
           m_TimerBox->update(false);
         }
     }
+  TRACE_EXIT();
   return 0;
 }
 
 LRESULT
 CDeskBand::OnCopyData(PCOPYDATASTRUCT copy_data)
 {
-    m_LastCopyData = time(NULL);
-    if (copy_data->dwData == APPLET_MESSAGE_MENU
-        && copy_data->cbData == sizeof(AppletMenuData))
+  TRACE_ENTER("CDeskBand::OnCopyData");
+  m_LastCopyData = time(NULL);
+  if (copy_data->dwData == APPLET_MESSAGE_MENU
+      && copy_data->cbData == sizeof(AppletMenuData))
+    {
+      m_AppletMenu = *((AppletMenuData *) copy_data->lpData);
+      m_HasAppletMenu = TRUE;
+    }
+  else if (m_TimerBox != NULL
+           && copy_data->dwData == APPLET_MESSAGE_HEARTBEAT
+           && copy_data->cbData == sizeof(AppletHeartbeatData))
+    {
+      AppletHeartbeatData *data = (AppletHeartbeatData *) copy_data->lpData;
+      m_TimerBox->set_enabled(data->enabled);
+      for (int s = 0; s < BREAK_ID_SIZEOF; s++)
       {
-        m_AppletMenu = *((AppletMenuData *) copy_data->lpData);
-        m_HasAppletMenu = TRUE;
+          m_TimerBox->set_slot(s, (BreakId) data->slots[s]);
       }
-    else if (m_TimerBox != NULL
-             && copy_data->dwData == APPLET_MESSAGE_HEARTBEAT
-             && copy_data->cbData == sizeof(AppletHeartbeatData))
+      for (int b = 0; b < BREAK_ID_SIZEOF; b++)
       {
-        AppletHeartbeatData *data = (AppletHeartbeatData *) copy_data->lpData;
-        m_TimerBox->set_enabled(data->enabled);
-        for (int s = 0; s < BREAK_ID_SIZEOF; s++)
-        {
-            m_TimerBox->set_slot(s, (BreakId) data->slots[s]);
-        }
-        for (int b = 0; b < BREAK_ID_SIZEOF; b++)
-        {
-            TimeBar *bar = m_TimerBox->get_time_bar(BreakId(b));
-            if (bar != NULL)
-            {
-                bar->set_text(data->bar_text[b]);
-                bar->set_bar_color((ITimeBar::ColorId) data->bar_primary_color[b]);
-                bar->set_secondary_bar_color((ITimeBar::ColorId) data->bar_secondary_color[b]);
-                bar->set_progress(data->bar_primary_val[b], data->bar_primary_max[b]);
-                bar->set_secondary_progress(data->bar_secondary_val[b], data->bar_secondary_max[b]);
-            }
-        }
+          TimeBar *bar = m_TimerBox->get_time_bar(BreakId(b));
+          if (bar != NULL)
+          {
+              bar->set_text(data->bar_text[b]);
+              bar->set_bar_color((ITimeBar::ColorId) data->bar_primary_color[b]);
+              bar->set_secondary_bar_color((ITimeBar::ColorId) data->bar_secondary_color[b]);
+              bar->set_progress(data->bar_primary_val[b], data->bar_primary_max[b]);
+              bar->set_secondary_progress(data->bar_secondary_val[b], data->bar_secondary_max[b]);
+          }
+      }
 
-        m_TimerBox->update(false);
-      }
-    return 0;
+      m_TimerBox->update(false);
+    }
+  TRACE_EXIT();
+  return 0;
 }
 
 
 LRESULT
 CDeskBand::OnSize(LPARAM lParam)
 {
+  TRACE_ENTER_MSG("CDeskBand::OnSize",lParam);
   int   cx, cy;
 
   cx = LOWORD(lParam);
@@ -624,14 +643,15 @@ CDeskBand::OnSize(LPARAM lParam)
       m_TimerBox->update(true);
     }
 
+  TRACE_EXIT();
   return 0;
 }
-
 
 
 void
 CDeskBand::FocusChange(BOOL bFocus)
 {
+  TRACE_ENTER_MSG("CDeskBand::OnWindowPosChanging", bFocus);
   m_bFocus = bFocus;
 
   //inform the input object site that the focus has changed
@@ -639,14 +659,16 @@ CDeskBand::FocusChange(BOOL bFocus)
     {
       m_pSite->OnFocusChangeIS((IDockingWindow*)this, bFocus);
     }
+  TRACE_EXIT();
 }
 
 
 LRESULT
 CDeskBand::OnSetFocus(void)
 {
+  TRACE_ENTER("CDeskBand::OnSetFocus");
   FocusChange(TRUE);
-
+  TRACE_EXIT();
   return 0;
 }
 
@@ -654,14 +676,16 @@ CDeskBand::OnSetFocus(void)
 LRESULT
 CDeskBand::OnKillFocus(void)
 {
+  TRACE_ENTER("CDeskBand::OnKillFocus");
   FocusChange(FALSE);
-
+  TRACE_EXIT();
   return 0;
 }
 
 BOOL
 CDeskBand::RegisterAndCreateWindow(void)
 {
+  TRACE_ENTER("CDeskBand::RegisterAndCreateWindow");
   //If the window doesn't exist yet, create it now.
   if(!m_hWnd)
     {
@@ -715,16 +739,18 @@ CDeskBand::RegisterAndCreateWindow(void)
     }
 
   return (NULL != m_hWnd);
+  TRACE_EXIT();
 }
-
 
 
 LRESULT
 CDeskBand::OnWindowPosChanging(WPARAM wParam, LPARAM lParam)
 {
+  TRACE_ENTER_MSG("CDeskBand::OnWindowPosChanging", wParam << " " << lParam);
   if (m_TimerBox != NULL)
     {
       m_TimerBox->update(true);
     }
+  TRACE_EXIT();
   return 0;
 }

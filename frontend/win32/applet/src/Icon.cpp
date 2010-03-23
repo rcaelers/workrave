@@ -22,6 +22,7 @@
 
 #include "Icon.h"
 #include "DeskBand.h"
+#include "Debug.h"
 
 #define ICON_CLASS_NAME "WorkraveIcon"
 
@@ -74,10 +75,10 @@ Icon::get_size(int &w, int &h) const
 }
 
 
-
 LRESULT
 Icon::on_paint(void)
 {
+  TRACE_ENTER("Icon::OnPaint");
   PAINTSTRUCT ps;
 
   BeginPaint(hwnd, &ps);
@@ -85,7 +86,7 @@ Icon::on_paint(void)
   DrawIconEx(dc, 0, 0, icon, 16, 16, 0, NULL, DI_NORMAL);
   ReleaseDC(hwnd, dc);
   EndPaint(hwnd, &ps);
-
+  TRACE_EXIT();
   return 0;
 }
 

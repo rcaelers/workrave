@@ -47,16 +47,21 @@ public:
 };
 
 #define TRACE_ENTER(x)          const char *_trace_method_name = x; \
-                                std::cerr << Debug::trace_get_time() << ">>> " << x << std::endl;
+                                std::cerr << Debug::trace_get_time() << ">>> " << x << std::endl; \
+                                std::cerr.flush();
 
 #define TRACE_ENTER_MSG(x, y)   const char *_trace_method_name = x; \
-                                std::cerr  << Debug::trace_get_time() << ">>> " << x << " " << y << std::endl;
+                                std::cerr << Debug::trace_get_time() << ">>> " << x << " " << y << std::endl; \
+                                std::cerr.flush();
 
-#define TRACE_RETURN(y)         std::cerr << Debug::trace_get_time() << "<<< " << _trace_method_name << y << std::endl;
+#define TRACE_RETURN(y)         std::cerr << Debug::trace_get_time() << "<<< " << _trace_method_name << y << std::endl; \
+                                std::cerr.flush();
 
-#define TRACE_EXIT()            std::cerr << Debug::trace_get_time() << "<<< " << _trace_method_name << std::endl;
+#define TRACE_EXIT()            std::cerr << Debug::trace_get_time() << "<<< " << _trace_method_name << std::endl; \
+                                std::cerr.flush();
 
-#define TRACE_MSG(msg)          std::cerr << Debug::trace_get_time() << "    " << _trace_method_name << " " << msg  << std::endl;
+#define TRACE_MSG(msg)          std::cerr << Debug::trace_get_time() << "    " << _trace_method_name << " " << msg  << std::endl; \
+                                std::cerr.flush();
 
 #endif // NDEBUG
 
