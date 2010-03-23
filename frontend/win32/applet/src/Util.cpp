@@ -1,6 +1,6 @@
 // Util.cpp --- Utils
 //
-// Copyright (C) 2004, 2007 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2004, 2007, 2010 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -40,12 +40,9 @@ TransparentHideWindow(HWND hwnd)
     }
 }
 
-
-
 static void
 TransparentPrepareShowWindow(HWND hwnd, int x, int y, BOOL repaint)
 {
-
   if (IsWindowVisible(hwnd))
     {
       RECT r;
@@ -61,7 +58,6 @@ TransparentPrepareShowWindow(HWND hwnd, int x, int y, BOOL repaint)
     }
 }
 
-
 void
 TransparentDamageControl::BeginPaint(BOOL rp)
 {
@@ -73,16 +69,22 @@ TransparentDamageControl::BeginPaint(BOOL rp)
 void
 TransparentDamageControl::HideWindow(HWND hwnd)
 {
-  hide_windows[hide_windows_num++] = hwnd;
+  if (hide_windows_num < TRANSPARENT_DAMAGE_CONTROL_BUF_SIZE)
+    {
+      hide_windows[hide_windows_num++] = hwnd;
+    }
 }
 
 void
 TransparentDamageControl::ShowWindow(HWND hwnd, int x, int y)
 {
-  ShowWindowData *d = &show_windows[show_windows_num++];
-  d->hwnd = hwnd;
-  d->x = x;
-  d->y = y;
+  if (hide_windows_num < TRANSPARENT_DAMAGE_CONTROL_BUF_SIZE)
+    {
+      ShowWindowData *d = &show_windows[show_windows_num++];
+      d->hwnd = hwnd;
+      d->x = x;
+      d->y = y;
+    }
 }
 
 void

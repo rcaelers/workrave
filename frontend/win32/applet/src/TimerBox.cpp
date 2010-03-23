@@ -1,6 +1,6 @@
 // TimerBox.cpp --- Timer box
 //
-// Copyright (C) 2004, 2005, 2009 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2004, 2005, 2009, 2010 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -140,8 +140,8 @@ TimerBox::update_time_bars(TransparentDamageControl &ctrl)
       break_to_icon[0]->get_size(icon_width, icon_height);
       int icon_bar_w = icon_width + 2 * PADDING_X + bar_w;
       int max_columns = __max(1, width / icon_bar_w);
-      int max_rows = (height + PADDING_Y) / (__max(icon_height, bar_h) + PADDING_Y);
-      int rows = __min(max_rows, (filled_slots + max_columns - 1) / max_columns);
+      int max_rows = __max(1, (height + PADDING_Y) / (__max(icon_height, bar_h) + PADDING_Y));
+      int rows = __max(1, __min(max_rows, (filled_slots + max_columns - 1) / max_columns));
       int columns = (filled_slots + rows -1) / rows;
       
       int box_h = rows * __max(icon_height, bar_h) + (rows - 1) * PADDING_Y;
@@ -158,8 +158,7 @@ TimerBox::update_time_bars(TransparentDamageControl &ctrl)
         {
           bar_dy = (icon_height - bar_h + 1) / 2;
         }
-         
-        
+      
       int current_column = 0;
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
@@ -196,9 +195,6 @@ TimerBox::update_time_bars(TransparentDamageControl &ctrl)
       ctrl.HideWindow(slot_to_time_bar[j]->get_handle());
     }
 }
-
-
-
 
 
 TimeBar *

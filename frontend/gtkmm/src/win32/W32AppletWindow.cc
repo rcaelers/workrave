@@ -1,6 +1,6 @@
 // AppletWindow.cc --- Applet info Window
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -139,7 +139,10 @@ W32AppletWindow::update_menu()
 {
   TRACE_ENTER("W32AppletWindow::update_menu");
   if (menu_sent)
-    return;
+    {
+      TRACE_EXIT();
+      return;
+    }
 
   TRACE_MSG("have to send");
   
@@ -152,7 +155,7 @@ W32AppletWindow::update_menu()
       msg.dwData = APPLET_MESSAGE_MENU;
       msg.cbData = sizeof(AppletMenuData);
       msg.lpData = &menu_data;
-      SendMessage(hwnd, WM_COPYDATA, 0, (LPARAM) &msg);
+      PostMessage(hwnd, WM_COPYDATA, 0, (LPARAM) &msg);
 
       menu_sent = true;
     }
@@ -175,7 +178,7 @@ W32AppletWindow::update_time_bars()
         {
           TRACE_MSG("sending: slots[]=" << heartbeat_data.slots[i]);
         }
-      SendMessage(hwnd, WM_COPYDATA, 0, (LPARAM) &msg);
+      PostMessage(hwnd, WM_COPYDATA, 0, (LPARAM) &msg);
     }
   TRACE_EXIT();
 }
@@ -247,9 +250,10 @@ W32AppletWindow::set_geometry(Orientation orientation, int size)
 bool
 W32AppletWindow::on_applet_command(int command)
 {
+  TRACE_ENTER_MSG("W32AppletWindow::on_applet_command", command);
   Menus *menus = Menus::get_instance();
   menus->applet_command(command);
-
+  TRACE_EXIT();
   return false;
 }
 
@@ -258,9 +262,12 @@ GdkFilterReturn
 W32AppletWindow::win32_filter_func (void     *xevent,
                                     GdkEvent *event)
 {
+  TRACE_ENTER("W32AppletWindow::win32_filter_func");
   (void) event;
   MSG *msg = (MSG *) xevent;
   GdkFilterReturn ret = GDK_FILTER_CONTINUE;
+
+  TRACE_MSG(msg->message);
   switch (msg->message)
     {
     case WM_USER:
@@ -280,5 +287,6 @@ W32AppletWindow::win32_filter_func (void     *xevent,
       }
       break;
     }
+  TRACE_EXIT();
   return ret;
 }
