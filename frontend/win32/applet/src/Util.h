@@ -43,7 +43,5 @@ private:
   BOOL repaint;
 };
 
-
-
 #endif // UTIL_H
 

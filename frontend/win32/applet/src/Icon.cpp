@@ -31,8 +31,8 @@ Icon::Icon(HWND parent, HINSTANCE hinst, const char *resource, CDeskBand *deskba
 {
   init(hinst);
   icon = LoadIcon(hinst, resource);
-  hwnd = CreateWindowEx( 0, ICON_CLASS_NAME, "",
-      WS_CHILD | WS_CLIPSIBLINGS, 0, 0, 16, 16, parent, NULL, hinst, (LPVOID)this );
+  hwnd = CreateWindowEx(0, ICON_CLASS_NAME, "",
+      WS_CHILD | WS_CLIPSIBLINGS, 0, 0, 16, 16, parent, NULL, hinst, (LPVOID)this);
 }
 
 Icon::~Icon()
@@ -52,8 +52,8 @@ Icon::wnd_proc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
         LPCREATESTRUCT lpcs = (LPCREATESTRUCT)lParam;
         pThis = (Icon *)( lpcs->lpCreateParams );
         SetWindowLongPtr( hWnd, GWLP_USERDATA, (LONG_PTR)pThis );
-        SetWindowPos( hWnd, NULL, 0, 0, 0, 0, 
-            SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED );
+        SetWindowPos(hWnd, NULL, 0, 0, 0, 0, 
+            SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
       }
       break;
     
@@ -74,9 +74,8 @@ Icon::get_size(int &w, int &h) const
   h = 16;
 }
 
-
 LRESULT
-Icon::on_paint(void)
+Icon::on_paint()
 {
   TRACE_ENTER("Icon::OnPaint");
   PAINTSTRUCT ps;
@@ -95,7 +94,7 @@ Icon::init(HINSTANCE hinst)
 {
   //If the window class has not been registered, then do so.
   WNDCLASS wc;
-  if(!GetClassInfo(hinst, ICON_CLASS_NAME, &wc))
+  if (!GetClassInfo(hinst, ICON_CLASS_NAME, &wc))
     {
       ZeroMemory(&wc, sizeof(wc));
       wc.style          = CS_HREDRAW | CS_VREDRAW | CS_GLOBALCLASS;

@@ -224,6 +224,7 @@ TimerBox::update_time_bars(TransparentDamageControl &ctrl)
   TRACE_EXIT();
 }
 
+
 TimeBar *
 TimerBox::get_time_bar(BreakId timer)
 {

@@ -64,7 +64,7 @@ private:
   static LRESULT CALLBACK wnd_proc(HWND hWnd, UINT uMessage, WPARAM wParam,
                                    LPARAM lParam);
   void compute_size(int &width, int &height);
-  LRESULT on_paint(void);
+  LRESULT on_paint();
   void time_to_string(time_t time, char *buf, int len);
 };
 
