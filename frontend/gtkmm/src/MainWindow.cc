@@ -299,7 +299,7 @@ MainWindow::update()
 
 void MainWindow::on_activate()
 {
-  if (get_visible())
+  if (GTK_WIDGET_VISIBLE(GTK_WIDGET(gobj())))
     {
       close_window();
     }
