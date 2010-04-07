@@ -35,6 +35,8 @@ W32AppletWindow::W32AppletWindow()
 {
   TRACE_ENTER("W32AppletWindow::W32AppletWindow");
 
+  thread_id = 0;
+  thread_handle = NULL;
   timer_box_view = this;
   applet_window = NULL;
   heartbeat_data.enabled = false;
@@ -43,6 +45,9 @@ W32AppletWindow::W32AppletWindow()
   // Intentionally last line, as this one calls W32AW::set_enabled(), e.g.
   timer_box_control = new TimerBoxControl("applet", *this);
 
+  ::InitializeCriticalSection(&heartbeat_data_lock);
+  heartbeat_data_event = ::CreateEvent(NULL, FALSE, FALSE, NULL);
+  
   TRACE_EXIT();
 }
 
@@ -50,6 +55,10 @@ W32AppletWindow::~W32AppletWindow()
 {
   TRACE_ENTER("W32AppletWindow::~W32AppletWindow");
   delete timer_box_control;
+
+  ::DeleteCriticalSection(&heartbeat_data_lock);
+  CloseHandle(heartbeat_data_event);
+
   TRACE_EXIT();
 }
 
@@ -129,8 +138,25 @@ void
 W32AppletWindow::update_view()
 {
   TRACE_ENTER("W32AppletWindow::update_view");
-  update_time_bars();
-  update_menu();
+
+  BOOL entered = ::TryEnterCriticalSection(&heartbeat_data_lock);
+  if (entered)
+  {
+    memcpy(&local_heartbeat_data, &heartbeat_data, sizeof(AppletHeartbeatData));
+
+    HWND window = get_applet_window();
+
+    if (!menu_sent)
+      {
+        memcpy(&local_menu_data, &menu_data, sizeof(AppletMenuData));
+        local_applet_window = window;
+        menu_sent = true;
+      }
+          
+    SetEvent(heartbeat_data_event);
+    ::LeaveCriticalSection(&heartbeat_data_lock);
+  }
+
   TRACE_EXIT();
 }
 
@@ -138,26 +164,15 @@ void
 W32AppletWindow::update_menu()
 {
   TRACE_ENTER("W32AppletWindow::update_menu");
-  if (menu_sent)
-    {
-      TRACE_EXIT();
-      return;
-    }
-
-  TRACE_MSG("have to send");
-  
-  HWND hwnd = get_applet_window();
-  if (hwnd != NULL)
+  if (local_applet_window != NULL)
     {
       TRACE_MSG("sending");
 
       COPYDATASTRUCT msg;
       msg.dwData = APPLET_MESSAGE_MENU;
       msg.cbData = sizeof(AppletMenuData);
-      msg.lpData = &menu_data;
-      SendMessage(hwnd, WM_COPYDATA, 0, (LPARAM) &msg);
-
-      menu_sent = true;
+      msg.lpData = &local_menu_data;
+      SendMessage(local_applet_window, WM_COPYDATA, 0, (LPARAM) &msg);
     }
   TRACE_EXIT();
 }
@@ -166,19 +181,18 @@ void
 W32AppletWindow::update_time_bars()
 {
   TRACE_ENTER("W32AppletWindow::update_time_bars");
-  HWND hwnd = get_applet_window();
-  if (hwnd != NULL)
+  if (local_applet_window != NULL)
     {
       COPYDATASTRUCT msg;
       msg.dwData = APPLET_MESSAGE_HEARTBEAT;
       msg.cbData = sizeof(AppletHeartbeatData);
-      msg.lpData = &heartbeat_data;
-      TRACE_MSG("sending: enabled=" << heartbeat_data.enabled);
+      msg.lpData = &local_heartbeat_data;
+      TRACE_MSG("sending: enabled=" << local_heartbeat_data.enabled);
       for (size_t i = 0; i < BREAK_ID_SIZEOF; i++)
         {
-          TRACE_MSG("sending: slots[]=" << heartbeat_data.slots[i]);
+          TRACE_MSG("sending: slots[]=" << local_heartbeat_data.slots[i]);
         }
-      SendMessage(hwnd, WM_COPYDATA, 0, (LPARAM) &msg);
+      SendMessage(local_applet_window, WM_COPYDATA, 0, (LPARAM) &msg);
     }
   TRACE_EXIT();
 }
@@ -197,20 +211,68 @@ W32AppletWindow::get_applet_window()
   return applet_window;
 }
 
+
 void
 W32AppletWindow::set_enabled(bool enabled)
 {
   TRACE_ENTER_MSG("W32AppletWindow::set_enabled", enabled);
   heartbeat_data.enabled = enabled;
+
+  if (enabled)
+    {
+      thread_id = 0;
+      thread_handle = CreateThread(NULL, 0, run_event_pipe_static, this, 0, (DWORD *)&thread_id);
+  
+      if (thread_handle == NULL || thread_id == 0)
+        {
+          TRACE_MSG( "Thread could not be created. GetLastError : " << GetLastError());
+          TRACE_EXIT();
+        }
+
+      CloseHandle(thread_handle);
+      thread_handle = NULL;
+    }
+
   TRACE_EXIT();
 }
 
 
+DWORD WINAPI
+W32AppletWindow::run_event_pipe_static(LPVOID lpParam)
+{
+  W32AppletWindow *pThis = (W32AppletWindow *) lpParam;
+  pThis->run_event_pipe();
+  return (DWORD) 0;
+}
+
+
+void
+W32AppletWindow::run_event_pipe()
+{
+  while (heartbeat_data.enabled)
+    {
+      DWORD wait_result = ::WaitForSingleObjectEx(heartbeat_data_event,
+                                                  INFINITE,
+                                                  FALSE);
+      if (wait_result != WAIT_FAILED)
+        {
+          ::EnterCriticalSection(&heartbeat_data_lock);
+
+          update_time_bars();
+          update_menu();
+
+          ::LeaveCriticalSection(&heartbeat_data_lock);
+        }
+    }
+}
+
+    
 void
 W32AppletWindow::init_menu(HWND hwnd)
 {
   menu_data.num_items = 0;
   menu_sent = false;
+  
   /*
     As noted in frontend/win32/applet/include/applet.hh: 
     We pass the command_window HWND as a LONG for compatibility.
@@ -227,17 +289,18 @@ W32AppletWindow::add_menu(const char *text, short cmd, int flags)
   d->flags = flags;
 }
 
-
 AppletWindow::AppletState
 W32AppletWindow::activate_applet()
 {
   return APPLET_STATE_VISIBLE;
 }
 
+
 void
 W32AppletWindow::deactivate_applet()
 {
 }
+
 
 void
 W32AppletWindow::set_geometry(Orientation orientation, int size)
