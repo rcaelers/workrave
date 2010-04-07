@@ -11,6 +11,9 @@
 		<Platform
 			Name="Win32"
 		/>
+		<Platform
+			Name="Win64"
+		/>
 	</Platforms>
 	<ToolFiles>
 	</ToolFiles>
@@ -234,7 +237,7 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Debug/harpoon.tlb"
+				TypeLibraryName=".\Debug64/harpoon.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -245,10 +248,10 @@
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
-				PrecompiledHeaderFile=".\Debug/harpoon.pch"
-				AssemblerListingLocation=".\Debug/"
-				ObjectFile=".\Debug/"
-				ProgramDataBaseFileName=".\Debug/"
+				PrecompiledHeaderFile=".\Debug64/harpoon.pch"
+				AssemblerListingLocation=".\Debug64/"
+				ObjectFile=".\Debug64/"
+				ProgramDataBaseFileName=".\Debug64/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
@@ -266,17 +269,18 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalOptions="/MACHINE:AMD64"
 				AdditionalDependencies="kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib "
 				OutputFile="$(OutDir)\$(ProjectName).dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				ModuleDefinitionFile=".\harpoon.def"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\Debug/harpoon.pdb"
+				ProgramDatabaseFile=".\Debug64/harpoon.pdb"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
-				ImportLibrary=".\Debug/harpoon.lib"
-				TargetMachine="1"
+				ImportLibrary=".\Debug64/harpoon.lib"
+				TargetMachine="0"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -290,7 +294,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\Debug/harpoon.bsc"
+				OutputFile=".\Debug64/harpoon.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -330,7 +334,7 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Release/harpoon.tlb"
+				TypeLibraryName=".\Release64/harpoon.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -342,10 +346,10 @@
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\Release/harpoon.pch"
-				AssemblerListingLocation=".\Release/"
-				ObjectFile=".\Release/"
-				ProgramDataBaseFileName=".\Release/"
+				PrecompiledHeaderFile=".\Release64/harpoon.pch"
+				AssemblerListingLocation=".\Release64/"
+				ObjectFile=".\Release64/"
+				ProgramDataBaseFileName=".\Release64/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 			/>
@@ -362,16 +366,17 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalOptions="/MACHINE:AMD64"
 				AdditionalDependencies="kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib "
 				OutputFile="$(OutDir)\$(ProjectName).dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				ModuleDefinitionFile=".\harpoon.def"
-				ProgramDatabaseFile=".\Release/harpoon.pdb"
+				ProgramDatabaseFile=".\Release64/harpoon.pdb"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
-				ImportLibrary=".\Release/harpoon.lib"
-				TargetMachine="1"
+				ImportLibrary=".\Release64/harpoon.lib"
+				TargetMachine="0"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -385,7 +390,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\Release/harpoon.bsc"
+				OutputFile=".\Release64/harpoon.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"

@@ -76,8 +76,8 @@ Harpoon::init(HINSTANCE hInstance)
 
   notification_window = CreateWindowEx(
       dwExStyle,
-      HARPOON_WINDOW_CLASS,
-      HARPOON_WINDOW_CLASS,
+      HARPOON_WRAPPER_WINDOW_CLASS,
+      HARPOON_WRAPPER_WINDOW_CLASS,
       dwStyle,
       CW_USEDEFAULT,
       CW_USEDEFAULT,

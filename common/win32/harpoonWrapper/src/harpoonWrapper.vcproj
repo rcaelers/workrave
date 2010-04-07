@@ -208,10 +208,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalOptions="/MACHINE:AMD64"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="2"
-				TargetMachine="1"
+				TargetMachine="0"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -281,12 +282,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalOptions="/MACHINE:AMD64"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				TargetMachine="1"
+				TargetMachine="0"
 			/>
 			<Tool
 				Name="VCALinkTool"
