@@ -1,6 +1,6 @@
 // Harpoon.cc --- ActivityMonitor for W32
 //
-// Copyright (C) 2007, 2010 Ray Satiro <raysatiro@yahoo.com>
+// Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
 // Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
@@ -28,20 +28,11 @@
 
 #include <windows.h>
 #include <winuser.h>
-#include "debug.hh"
-#include "Harpoon.hh"
+#include "HarpoonWrapper.h"
 
-#include "ICore.hh"
-#include "CoreFactory.hh"
-#include "IConfigurator.hh"
-
-#include "timeutil.h"
-#include "harpoon.h"
-
-using namespace workrave;
 using namespace std;
 
-static char critical_filename_list[ HARPOON_MAX_UNBLOCKED_APPS ][ 511 ];
+#define HARPOON_WRAPPER_WINDOW_CLASS "HarpoonWrapperNotificationWindow"
 
 Harpoon::Harpoon()
 {
@@ -53,17 +44,63 @@ Harpoon::~Harpoon()
   terminate();
 }
 
-
 bool
-Harpoon::init(HarpoonHookFunc func)
+Harpoon::init(HINSTANCE hInstance)
 {
-  assert( HARPOON_MAX_UNBLOCKED_APPS );
+  this->hInstance = hInstance;
+
+  DWORD dwStyle, dwExStyle;
+
+  dwStyle = WS_OVERLAPPED;
+  dwExStyle = WS_EX_TOOLWINDOW;
+
+    WNDCLASSEX wclass =
+    {
+      sizeof(WNDCLASSEX),
+      0,
+      harpoon_window_proc,
+      0,
+      0,
+      hInstance,
+      NULL,
+      NULL,
+      NULL,
+      NULL,
+      HARPOON_WRAPPER_WINDOW_CLASS,
+      NULL
+    };
+
+  notification_class = RegisterClassEx(&wclass);
+  if( !notification_class )
+      return FALSE;
+
+  notification_window = CreateWindowEx(
+      dwExStyle,
+      HARPOON_WINDOW_CLASS,
+      HARPOON_WINDOW_CLASS,
+      dwStyle,
+      CW_USEDEFAULT,
+      CW_USEDEFAULT,
+      CW_USEDEFAULT,
+      CW_USEDEFAULT,
+      NULL,
+      NULL,
+      hInstance,
+      NULL
+      );
+
+  if (!notification_window)
+    {
+      UnregisterClass(HARPOON_WINDOW_CLASS, hInstance);
+      notification_class = 0;
+      return FALSE;
+    }
+
   init_critical_filename_list();
 
-  bool debug, mouse_lowlevel, keyboard_lowlevel;
-
-  CoreFactory::get_configurator()->
-      get_value_with_default( "advanced/harpoon/debug", debug, false );
+  bool debug = false;
+  bool mouse_lowlevel;
+  bool keyboard_lowlevel;
 
   bool default_mouse_lowlevel = false;
   if ( LOBYTE( LOWORD( GetVersion() ) ) >= 6)
@@ -71,24 +108,14 @@ Harpoon::init(HarpoonHookFunc func)
       default_mouse_lowlevel = true;
     }
   
-  CoreFactory::get_configurator()->
-      get_value_with_default( "advanced/harpoon/mouse_lowlevel", mouse_lowlevel, default_mouse_lowlevel );
-
-  CoreFactory::get_configurator()->
-      get_value_with_default( "advanced/harpoon/keyboard_lowlevel", keyboard_lowlevel, true );
+  mouse_lowlevel = default_mouse_lowlevel;
+  keyboard_lowlevel = true;
 
   if (!harpoon_init(critical_filename_list, (BOOL)debug))
     {
       return false;
     }
 
-  if (func != NULL)
-    {
-      if (!harpoon_hook(func, (BOOL)keyboard_lowlevel, (BOOL)mouse_lowlevel))
-        {
-          return false;
-        }
-    }
   return true;
 }
 
@@ -97,14 +124,26 @@ Harpoon::init(HarpoonHookFunc func)
 void
 Harpoon::terminate()
 {
-  harpoon_exit();
+    harpoon_exit();
 }
 
+
+
+void
+Harpoon::run()
+{
+    MSG msg;
+    while (GetMessage(&msg, NULL, 0, 0))
+    {
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
+    }
+}
 
 void
 Harpoon::init_critical_filename_list()
 {
-  int i, filecount;
+  int i;
 
   // Task Manager is always on the critical_filename_list
   if( GetVersion() >= 0x80000000 )
@@ -116,31 +155,31 @@ Harpoon::init_critical_filename_list()
   for( i = 1; i < HARPOON_MAX_UNBLOCKED_APPS; ++i )
       critical_filename_list[ i ][ 0 ] = '\0';
 
-  filecount = 0;
-  if( !CoreFactory::get_configurator()->
-      get_value( "advanced/critical_files/filecount", filecount) || !filecount )
-          return;
+  //int filecount = 0;
+  //if( !CoreFactory::get_configurator()->
+  //    get_value( "advanced/critical_files/filecount", filecount) || !filecount )
+  //        return;
 
-  if( filecount >= HARPOON_MAX_UNBLOCKED_APPS )
-  // This shouldn't happen
-    {
-      filecount = HARPOON_MAX_UNBLOCKED_APPS - 1;
-      CoreFactory::get_configurator()->
-          set_value( "advanced/critical_files/filecount", filecount );
-    }
+  //if( filecount >= HARPOON_MAX_UNBLOCKED_APPS )
+  //// This shouldn't happen
+  //  {
+  //    filecount = HARPOON_MAX_UNBLOCKED_APPS - 1;
+  //    CoreFactory::get_configurator()->
+  //        set_value( "advanced/critical_files/filecount", filecount );
+  //  }
 
-  char loc[40];
-  string buffer;
-  for( i = 1; i <= filecount; ++i )
-    {
-      sprintf( loc, "advanced/critical_files/file%d", i );
-      if( CoreFactory::get_configurator()->
-          get_value( loc, buffer) )
-        {
-          strncpy( critical_filename_list[ i ], buffer.c_str(), 510 );
-          critical_filename_list[ i ][ 510 ] = '\0';
-        }
-    }
+  //char loc[40];
+  //string buffer;
+  //for( i = 1; i <= filecount; ++i )
+  //  {
+  //    sprintf( loc, "advanced/critical_files/file%d", i );
+  //    if( CoreFactory::get_configurator()->
+  //        get_value( loc, buffer) )
+  //      {
+  //        strncpy( critical_filename_list[ i ], buffer.c_str(), 510 );
+  //        critical_filename_list[ i ][ 510 ] = '\0';
+  //      }
+  //  }
 }
 
 
@@ -220,4 +259,29 @@ Harpoon::check_for_taskmgr_debugger( char *out )
   RegCloseKey( hKey );
   free( buffer );
   return true;
+}
+
+
+
+LRESULT CALLBACK
+Harpoon::harpoon_window_proc (HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+  int evt_type;
+  evt_type = uMsg - WM_USER;
+
+  if (evt_type >= 0 && evt_type < HARPOON_WRAPPER_EVENT__SIZEOF)
+  {
+    switch ((HarpoonWrapperEventType) evt_type)
+      {
+        case HARPOON_WRAPPER_BLOCK:
+          harpoon_block_input();
+        break;
+      
+        case HARPOON_WRAPPER_UNBLOCK:
+          harpoon_unblock_input();
+        break;
+      } 
+  }
+
+  return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
