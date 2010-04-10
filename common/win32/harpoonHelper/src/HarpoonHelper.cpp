@@ -28,25 +28,25 @@
 
 #include <windows.h>
 #include <winuser.h>
-#include "HarpoonWrapper.h"
+#include "HarpoonHelper.h"
+#include "Debug.h" 
 
 using namespace std;
 
-#define HARPOON_WRAPPER_WINDOW_CLASS "HarpoonWrapperNotificationWindow"
-
-Harpoon::Harpoon()
+HarpoonHelper::HarpoonHelper()
 {
 }
 
 
-Harpoon::~Harpoon()
+HarpoonHelper::~HarpoonHelper()
 {
   terminate();
 }
 
 bool
-Harpoon::init(HINSTANCE hInstance)
+HarpoonHelper::init(HINSTANCE hInstance)
 {
+  TRACE_ENTER("HarpoonHelper::init");
   this->hInstance = hInstance;
 
   DWORD dwStyle, dwExStyle;
@@ -66,7 +66,7 @@ Harpoon::init(HINSTANCE hInstance)
       NULL,
       NULL,
       NULL,
-      HARPOON_WRAPPER_WINDOW_CLASS,
+      HARPOON_HELPER_WINDOW_CLASS,
       NULL
     };
 
@@ -76,8 +76,8 @@ Harpoon::init(HINSTANCE hInstance)
 
   notification_window = CreateWindowEx(
       dwExStyle,
-      HARPOON_WRAPPER_WINDOW_CLASS,
-      HARPOON_WRAPPER_WINDOW_CLASS,
+      HARPOON_HELPER_WINDOW_CLASS,
+      HARPOON_HELPER_WINDOW_CLASS,
       dwStyle,
       CW_USEDEFAULT,
       CW_USEDEFAULT,
@@ -113,16 +113,18 @@ Harpoon::init(HINSTANCE hInstance)
 
   if (!harpoon_init(critical_filename_list, (BOOL)debug))
     {
+      TRACE_RETURN(false);
       return false;
     }
 
+  TRACE_RETURN(true);
   return true;
 }
 
 
 //! Stops the activity monitoring.
 void
-Harpoon::terminate()
+HarpoonHelper::terminate()
 {
     harpoon_exit();
 }
@@ -130,18 +132,20 @@ Harpoon::terminate()
 
 
 void
-Harpoon::run()
+HarpoonHelper::run()
 {
-    MSG msg;
-    while (GetMessage(&msg, NULL, 0, 0))
+  TRACE_ENTER("HarpoonHelper::run");
+  MSG msg;
+  while (GetMessage(&msg, NULL, 0, 0))
     {
-        TranslateMessage(&msg);
-        DispatchMessage(&msg);
+      TranslateMessage(&msg);
+      DispatchMessage(&msg);
     }
+  TRACE_EXIT();
 }
 
 void
-Harpoon::init_critical_filename_list()
+HarpoonHelper::init_critical_filename_list()
 {
   int i;
 
@@ -184,7 +188,7 @@ Harpoon::init_critical_filename_list()
 
 
 bool
-Harpoon::check_for_taskmgr_debugger( char *out )
+HarpoonHelper::check_for_taskmgr_debugger( char *out )
 {
   HKEY hKey = NULL;
   LONG err;
@@ -264,24 +268,33 @@ Harpoon::check_for_taskmgr_debugger( char *out )
 
 
 LRESULT CALLBACK
-Harpoon::harpoon_window_proc (HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+HarpoonHelper::harpoon_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+  TRACE_ENTER("HarpoonHelper::harpoon_window_proc");
   int evt_type;
   evt_type = uMsg - WM_USER;
 
-  if (evt_type >= 0 && evt_type < HARPOON_WRAPPER_EVENT__SIZEOF)
+  TRACE_MSG(evt_type);
+  if (evt_type >= 0 && evt_type < HARPOON_HELPER_EVENT__SIZEOF)
   {
-    switch ((HarpoonWrapperEventType) evt_type)
+    switch ((HarpoonHelperEventType) evt_type)
       {
-        case HARPOON_WRAPPER_BLOCK:
+        case HARPOON_HELPER_INIT:
+          TRACE_MSG("init");
+          break;
+
+        case HARPOON_HELPER_BLOCK:
+          TRACE_MSG("block");
           harpoon_block_input();
         break;
       
-        case HARPOON_WRAPPER_UNBLOCK:
+        case HARPOON_HELPER_UNBLOCK:
+          TRACE_MSG("unblock");
           harpoon_unblock_input();
         break;
       } 
   }
 
+  TRACE_EXIT();
   return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }

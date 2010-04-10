@@ -1,6 +1,6 @@
 // Harpoon.hh --- ActivityMonitor for W32
 //
-// Copyright (C) 2002, 2004, 2006, 2007 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2004, 2006, 2007, 2010 Raymond Penners <raymond@dotsphinx.com>
 // Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
 // All rights reserved.
 //
@@ -19,8 +19,8 @@
 
 //
 
-#ifndef HARPOON_HH
-#define HARPOON_HH
+#ifndef HARPOON_HELPER_H
+#define HARPOON_HELPER_H
 
 #if TIME_WITH_SYS_TIME
 # include <sys/time.h>
@@ -34,28 +34,31 @@
 #endif
 
 #include <windows.h>
-#include "HarpoonWrapper.h"
+#include "HarpoonHelper.h"
 #include "harpoon.h"
+
+#define HARPOON_HELPER_WINDOW_CLASS "HarpoonHelperNotificationWindow"
 
 typedef enum
 {
-  HARPOON_WRAPPER_NOTHING = -1,
-  HARPOON_WRAPPER_BLOCK = 0,
-  HARPOON_WRAPPER_UNBLOCK,
-  HARPOON_WRAPPER_EVENT__SIZEOF
+  HARPOON_HELPER_NOTHING = -1,
+  HARPOON_HELPER_INIT = 0,
+  HARPOON_HELPER_BLOCK,
+  HARPOON_HELPER_UNBLOCK,
+  HARPOON_HELPER_EVENT__SIZEOF
 
-} HarpoonWrapperEventType;
+} HarpoonHelperEventType;
 
 
 //! Activity monitor for a local X server.
-class Harpoon
+class HarpoonHelper
 {
 public:
   //! Constructor.
-  Harpoon();
+  HarpoonHelper();
 
   //! Destructor.
-  virtual ~Harpoon();
+  virtual ~HarpoonHelper();
 
   bool init(HINSTANCE hInstance);
   void run();
@@ -69,10 +72,8 @@ private:
   ATOM notification_class;
   static LRESULT CALLBACK harpoon_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-
   void init_critical_filename_list();
   bool check_for_taskmgr_debugger( char *out );
-  //static void on_harpoon_event(HarpoonEvent *event);
 };
 
-#endif // HARPOON_HH
+#endif // HARPOON_HELPER_H

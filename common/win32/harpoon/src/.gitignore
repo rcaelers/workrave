@@ -4,8 +4,12 @@
 /.libs
 /Release
 /Debug
+/Release64
+/Debug64
 /*.la
 /*.lo
 /*.o
 /*.a
 /*~
+/*.suo
+/*.ncb

@@ -55,6 +55,7 @@ include_directories(
   "${COMMON_DIR}/include"
   "${COMMON_DIR}/include/win32"
   "${COMMON_DIR}/win32/harpoon/include"
+  "${COMMON_DIR}/win32/harpoonHelper/include"
 )
 
 if (HAVE_DBUS)

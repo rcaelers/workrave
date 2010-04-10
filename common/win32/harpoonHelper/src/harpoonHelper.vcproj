@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="harpoonWrapper"
+	Name="harpoonHelper"
 	ProjectGUID="{46E776F1-7859-41C7-B885-6F45E27CE48F}"
-	RootNamespace="harpoonWrapper"
+	RootNamespace="harpoonHelper"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -322,11 +322,15 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\HarpoonWrapper.cc"
+				RelativePath=".\Debug.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\main.cc"
+				RelativePath=".\HarpoonHelper.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\main.cpp"
 				>
 			</File>
 		</Filter>
@@ -336,7 +340,11 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\HarpoonWrapper.h"
+				RelativePath=".\Debug.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\HarpoonHelper.h"
 				>
 			</File>
 		</Filter>

@@ -28,6 +28,10 @@
 
 #include <windows.h>
 #include <winuser.h>
+
+#include <stdio.h>
+#include <tchar.h>
+
 #include "debug.hh"
 #include "Harpoon.hh"
 
@@ -37,11 +41,14 @@
 
 #include "timeutil.h"
 #include "harpoon.h"
+#include "HarpoonHelper.h"
 
 using namespace workrave;
 using namespace std;
 
 static char critical_filename_list[ HARPOON_MAX_UNBLOCKED_APPS ][ 511 ];
+
+HWND Harpoon::helper_window = NULL;
 
 Harpoon::Harpoon()
 {
@@ -89,6 +96,20 @@ Harpoon::init(HarpoonHookFunc func)
           return false;
         }
     }
+
+#if defined(_WIN32)
+  if (is_64bit_windows())
+    {
+       start_harpoon_helper();
+    }
+    //// Wait until child process exits.
+    //WaitForSingleObject( pi.hProcess, INFINITE );
+
+    //// Close process and thread handles. 
+    //CloseHandle( pi.hProcess );
+    //CloseHandle( pi.hThread );
+#endif
+
   return true;
 }
 
@@ -100,6 +121,26 @@ Harpoon::terminate()
   harpoon_exit();
 }
 
+
+void 
+Harpoon::block_input()
+{
+  harpoon_block_input();
+  if (helper_window != NULL)
+    {
+      PostMessage(helper_window, WM_USER + HARPOON_HELPER_BLOCK, 0, 0);
+    }
+}
+
+void 
+Harpoon::unblock_input()
+{
+  harpoon_unblock_input();
+  if (helper_window != NULL)
+    {
+      PostMessage(helper_window, WM_USER + HARPOON_HELPER_UNBLOCK, 0, 0);
+    }
+}
 
 void
 Harpoon::init_critical_filename_list()
@@ -220,4 +261,98 @@ Harpoon::check_for_taskmgr_debugger( char *out )
   RegCloseKey( hKey );
   free( buffer );
   return true;
+}
+
+
+bool 
+Harpoon::is_64bit_windows()
+{
+#if defined(_WIN64)
+    return TRUE;  // 64-bit programs run only on Win64
+#elif defined(_WIN32)
+    // 32-bit programs run on both 32-bit and 64-bit Windows
+    // so must sniff
+    BOOL f64 = FALSE;
+    return IsWow64Process(GetCurrentProcess(), &f64) && f64;
+#else
+    return FALSE; // Win64 does not support Win16
+#endif
+}
+
+static HWND
+RecursiveFindWindow(HWND hwnd, LPCTSTR lpClassName)
+{
+  TRACE_ENTER("Harpoon::RecursiveFindWindow");
+  static char buf[80];
+  int num = GetClassName(hwnd, buf, sizeof(buf)-1);
+  buf[num] = 0;
+  HWND ret = NULL;
+
+  TRACE_MSG(buf);
+  if (! stricmp(lpClassName, buf))
+    {
+      ret =  hwnd;
+    }
+  else
+    {
+      HWND child = FindWindowEx(hwnd, 0, NULL, NULL);
+      while (child != NULL)
+        {
+          ret = RecursiveFindWindow(child, lpClassName);
+          if (ret)
+            {
+              break;
+            }
+          child = FindWindowEx(hwnd, child, NULL, NULL);
+        }
+    }
+  TRACE_EXIT();
+  return ret;
+}
+
+
+void
+Harpoon::start_harpoon_helper()
+{
+  TRACE_ENTER("Harpoon::start_harpoon_helper" );
+
+  if (helper_window == NULL)
+    {
+      STARTUPINFO si;
+      PROCESS_INFORMATION pi;
+
+      ZeroMemory(&si, sizeof(si));
+      si.cb = sizeof(si);
+
+      ZeroMemory( &pi, sizeof(pi) );
+
+      if (!CreateProcess(NULL,   // No module name (use command line)
+                "HarpoonHelper.exe",        // Command line
+                NULL,           // Process handle not inheritable
+                NULL,           // Thread handle not inheritable
+                FALSE,          // Set handle inheritance to FALSE
+                0,              // No creation flags
+                NULL,           // Use parent's environment block
+                NULL,           // Use parent's starting directory 
+                &si,            // Pointer to STARTUPINFO structure
+                &pi)            // Pointer to PROCESS_INFORMATION structure
+            ) 
+        {
+            printf( "CreateProcess failed (%d).\n", GetLastError() );
+        }
+   
+        helper_window = RecursiveFindWindow(NULL, HARPOON_HELPER_WINDOW_CLASS);
+    }
+
+    TRACE_EXIT();
+}
+
+void
+Harpoon::stop_harpoon_helper()
+{
+  if (helper_window != NULL)
+    {
+      PostMessage(helper_window, WM_USER + HARPOON_HELPER_INIT, 0, 0);
+      helper_window = NULL;
+    }
 }

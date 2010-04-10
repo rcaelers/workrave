@@ -50,11 +50,18 @@ public:
 
   static bool init(HarpoonHookFunc func);
   static void terminate();
+  static void block_input();
+  static void unblock_input();
 
 private:
   static void init_critical_filename_list();
   static bool check_for_taskmgr_debugger( char *out );
   static void on_harpoon_event(HarpoonEvent *event);
-};
 
+  static bool is_64bit_windows();
+  static void start_harpoon_helper();
+  static void stop_harpoon_helper();
+
+  static HWND helper_window;
+};
 #endif // HARPOON_HH

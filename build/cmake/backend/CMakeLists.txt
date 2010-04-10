@@ -102,7 +102,7 @@ endif (UNIX)
 if (WIN32)
   set(BACKEND_SOURCES ${BACKEND_SOURCES}
     ${BACKEND_DIR}/src/win32/Harpoon.cc
-    ${BACKEND_DIR}/src/win32/Harpoon.hh
+    ${BACKEND_DIR}/include/Harpoon.hh
     ${BACKEND_DIR}/src/win32/W32AlternateMonitor.cc
     ${BACKEND_DIR}/src/win32/W32AlternateMonitor.hh
     ${BACKEND_DIR}/src/win32/W32Configurator.cc
@@ -118,6 +118,7 @@ if (WIN32)
   include_directories( 
     "${COMMON_DIR}/include/win32"
     "${COMMON_DIR}/win32/harpoon/include"
+    "${COMMON_DIR}/win32/harpoonHelper/include"
     "${BACKEND_DIR}/src/win32"
   )
 

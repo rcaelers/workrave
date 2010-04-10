@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual C++ Express 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "harpoon", "harpoon\src\harpoon.vcproj", "{1DBE998D-2623-4A77-A87D-DBDFEF210531}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "harpoonWrapper", "harpoonWrapper\src\harpoonWrapper.vcproj", "{46E776F1-7859-41C7-B885-6F45E27CE48F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "harpoonHelper", "harpoonHelper\src\harpoonHelper.vcproj", "{46E776F1-7859-41C7-B885-6F45E27CE48F}"
 	ProjectSection(ProjectDependencies) = postProject
 		{1DBE998D-2623-4A77-A87D-DBDFEF210531} = {1DBE998D-2623-4A77-A87D-DBDFEF210531}
 	EndProjectSection

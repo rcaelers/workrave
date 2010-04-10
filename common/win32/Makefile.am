@@ -5,6 +5,6 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
-SUBDIRS = 		harpoon harpoonWrapper
+SUBDIRS = 		harpoon harpoonHelper
 
 EXTRA_DIST = 		SConscript
