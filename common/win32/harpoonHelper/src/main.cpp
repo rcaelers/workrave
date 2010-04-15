@@ -34,13 +34,11 @@ int WINAPI WinMain (HINSTANCE hInstance,
                     PSTR szCmdLine,
                     int iCmdShow)
 {
-  char *argv[] = { szCmdLine };
-
 #ifndef NDEBUG 
   Debug::init();
 #endif
 
-  HarpoonHelper *h = new HarpoonHelper();
+  HarpoonHelper *h = new HarpoonHelper(szCmdLine);
   h->init(hInstance);
   h->run();
 
