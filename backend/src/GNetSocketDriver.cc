@@ -21,7 +21,7 @@
 #include "config.h"
 #endif
 
-#ifdef HAVE_DISTRIBUTION
+#if defined(HAVE_DISTRIBUTION) && defined(HAVE_GNET)
 
 #define GNET_EXPERIMENTAL
 
