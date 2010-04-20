@@ -1,7 +1,7 @@
 // Harpoon.cc --- ActivityMonitor for W32
 //
 // Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
-// Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2007, 2008, 2010 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -19,21 +19,19 @@
 
 //
 
-#include <assert.h>
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
+#define _CRT_SECURE_NO_WARNINGS
 #include <string>
 
 #include <windows.h>
 #include <winuser.h>
 #include "HarpoonHelper.h"
 #include "Debug.h" 
+#include "Config.h"
 
 using namespace std;
 
-HarpoonHelper::HarpoonHelper()
+HarpoonHelper::HarpoonHelper(char *args)
+  : args(args)
 {
 }
 
@@ -99,18 +97,19 @@ HarpoonHelper::init(HINSTANCE hInstance)
   init_critical_filename_list();
 
   bool debug = false;
-  bool mouse_lowlevel;
-  bool keyboard_lowlevel;
-
-  bool default_mouse_lowlevel = false;
-  if ( LOBYTE( LOWORD( GetVersion() ) ) >= 6)
-    {
-      default_mouse_lowlevel = true;
-    }
+  bool mouse_lowlevel = false;
+  bool keyboard_lowlevel = true;
   
-  mouse_lowlevel = default_mouse_lowlevel;
-  keyboard_lowlevel = true;
+  if (LOBYTE(LOWORD(GetVersion())) >= 6)
+    {
+      mouse_lowlevel = true;
+    }
 
+  Config config;
+  config.get_value("advanced/harpoon/debug", debug);
+  config.get_value("advanced/harpoon/mouse_lowlevel", mouse_lowlevel);
+  config.get_value("advanced/harpoon/keyboard_lowlevel", keyboard_lowlevel);
+ 
   if (!harpoon_init(critical_filename_list, (BOOL)debug))
     {
       TRACE_RETURN(false);
@@ -147,43 +146,49 @@ HarpoonHelper::run()
 void
 HarpoonHelper::init_critical_filename_list()
 {
+  Config config;
   int i;
 
+  for (i = 0; i < HARPOON_MAX_UNBLOCKED_APPS; ++i)
+      critical_filename_list[i][0] = '\0';
+
   // Task Manager is always on the critical_filename_list
-  if( GetVersion() >= 0x80000000 )
-  // Windows Me/98/95
-      strcpy( critical_filename_list[ 0 ], "taskman.exe" );
-  else if( !check_for_taskmgr_debugger( critical_filename_list[ 0 ] ) )
-      strcpy( critical_filename_list[ 0 ], "taskmgr.exe" );
+  if (GetVersion() >= 0x80000000)
+    {
+      // Windows Me/98/95
+      strcpy(critical_filename_list[0], "taskman.exe");
+    }
+  else if (!check_for_taskmgr_debugger(critical_filename_list[0]))
+    {
+      strcpy(critical_filename_list[0], "taskmgr.exe");
+    }
 
-  for( i = 1; i < HARPOON_MAX_UNBLOCKED_APPS; ++i )
-      critical_filename_list[ i ][ 0 ] = '\0';
+  strcpy(critical_filename_list[1], "workrave.exe");
+  strcpy(critical_filename_list[2], args);
 
-  //int filecount = 0;
-  //if( !CoreFactory::get_configurator()->
-  //    get_value( "advanced/critical_files/filecount", filecount) || !filecount )
-  //        return;
+  int filecount = 0;
+  config.get_value("advanced/critical_files/filecount", filecount);
 
-  //if( filecount >= HARPOON_MAX_UNBLOCKED_APPS )
-  //// This shouldn't happen
-  //  {
-  //    filecount = HARPOON_MAX_UNBLOCKED_APPS - 1;
-  //    CoreFactory::get_configurator()->
-  //        set_value( "advanced/critical_files/filecount", filecount );
-  //  }
+  if (filecount > 0)
+    {
+      if (filecount >= HARPOON_MAX_UNBLOCKED_APPS - 2)
+        {
+          filecount = HARPOON_MAX_UNBLOCKED_APPS - 3;
+        }
 
-  //char loc[40];
-  //string buffer;
-  //for( i = 1; i <= filecount; ++i )
-  //  {
-  //    sprintf( loc, "advanced/critical_files/file%d", i );
-  //    if( CoreFactory::get_configurator()->
-  //        get_value( loc, buffer) )
-  //      {
-  //        strncpy( critical_filename_list[ i ], buffer.c_str(), 510 );
-  //        critical_filename_list[ i ][ 510 ] = '\0';
-  //      }
-  //  }
+      char loc[40];
+      string buffer;
+    
+      for(i = 1; i <= filecount; ++i)
+        {
+          sprintf(loc, "advanced/critical_files/file%d", i );
+          if (config.get_value(loc, buffer))
+            {
+              strncpy_s(critical_filename_list[i + 2], buffer.c_str(), 510);
+             critical_filename_list[i][510] = '\0';
+            }
+        }
+    }
 }
 
 
@@ -281,6 +286,11 @@ HarpoonHelper::harpoon_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
       {
         case HARPOON_HELPER_INIT:
           TRACE_MSG("init");
+          break;
+
+        case HARPOON_HELPER_EXIT:
+          TRACE_MSG("exit");
+          PostQuitMessage(0);
           break;
 
         case HARPOON_HELPER_BLOCK:

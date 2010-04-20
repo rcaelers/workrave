@@ -43,6 +43,7 @@ typedef enum
 {
   HARPOON_HELPER_NOTHING = -1,
   HARPOON_HELPER_INIT = 0,
+  HARPOON_HELPER_EXIT,
   HARPOON_HELPER_BLOCK,
   HARPOON_HELPER_UNBLOCK,
   HARPOON_HELPER_EVENT__SIZEOF
@@ -55,7 +56,7 @@ class HarpoonHelper
 {
 public:
   //! Constructor.
-  HarpoonHelper();
+  HarpoonHelper(char *args);
 
   //! Destructor.
   virtual ~HarpoonHelper();
@@ -67,6 +68,8 @@ public:
 private:
   HINSTANCE hInstance;
   HWND notification_window;
+  char *args;
+
   char critical_filename_list[ HARPOON_MAX_UNBLOCKED_APPS ][ 511 ];
 
   ATOM notification_class;

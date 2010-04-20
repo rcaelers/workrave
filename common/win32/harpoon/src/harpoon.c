@@ -21,6 +21,8 @@
  *
  */
 
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <windows.h>
 
 #include <stdio.h>
@@ -256,7 +258,7 @@ harpoon_window_proc (HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
             {
             case HARPOON_KEY_PRESS:
             case HARPOON_KEY_RELEASE:
-              evt.keyboard.flags = lParam;
+              evt.keyboard.flags = (int) lParam;
               break;
 
             case HARPOON_BUTTON_PRESS:
@@ -276,11 +278,11 @@ harpoon_window_proc (HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
               if (evt.type == HARPOON_MOUSE_WHEEL)
                 {
                   evt.mouse.button = -1;
-                  evt.mouse.wheel = wParam;
+                  evt.mouse.wheel = (int) wParam;
                 }
               else
                 {
-                  evt.mouse.button = wParam;
+                  evt.mouse.button = (int) wParam;
                   evt.mouse.wheel = 0;
                 }
               break;
