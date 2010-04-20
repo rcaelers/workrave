@@ -803,6 +803,9 @@ AC_OUTPUT(Makefile
           common/win32/harpoon/Makefile \
           common/win32/harpoon/include/Makefile \
           common/win32/harpoon/src/Makefile \
+          common/win32/harpoonHelper/Makefile \
+          common/win32/harpoonHelper/include/Makefile \
+          common/win32/harpoonHelper/src/Makefile \
           frontend/Makefile \
           frontend/common/Makefile \
           frontend/common/include/Makefile \
