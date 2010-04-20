@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2009-07-20 18:23+0200\n"
+"POT-Creation-Date: 2010-04-19 18:55+0200\n"
 "PO-Revision-Date: 2003-09-08 19:07+0200\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -14,202 +14,201 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../backend/src/DistributionSocketLink.cc:132
+#: ../backend/src/DistributionSocketLink.cc:129
 #, fuzzy, c-format
-msgid "Reconnecting to %s:%d."
+msgid "Reconnecting to %s."
 msgstr "Rekonektaj provoj"
 
-#: ../backend/src/DistributionSocketLink.cc:348
-msgid "Cannot resolve my own hostname. Deactivating distribution."
-msgstr ""
-
 #. We did not succeed in starting the server. Arghh.
-#: ../backend/src/DistributionSocketLink.cc:386
+#: ../backend/src/DistributionSocketLink.cc:421
 msgid "Could not enable network operation."
 msgstr ""
 
-#: ../backend/src/DistributionSocketLink.cc:395
+#: ../backend/src/DistributionSocketLink.cc:430
 msgid "Disabling network operation."
 msgstr ""
 
-#: ../backend/src/DistributionSocketLink.cc:550
-#: ../backend/src/DistributionSocketLink.cc:578
+#: ../backend/src/DistributionSocketLink.cc:546
+#: ../backend/src/DistributionSocketLink.cc:583
 #, fuzzy, c-format
-msgid "Connecting to %s:%d."
+msgid "Connecting to %s."
 msgstr "Konektaj detaloj"
 
-#: ../backend/src/DistributionSocketLink.cc:685
-#: ../backend/src/DistributionSocketLink.cc:712
+#: ../backend/src/DistributionSocketLink.cc:703
+#: ../backend/src/DistributionSocketLink.cc:729
 #, c-format
-msgid "Removing client %s:%d."
+msgid "Removing client %s."
 msgstr ""
 
 #. Closing direct connection.
-#: ../backend/src/DistributionSocketLink.cc:752
+#: ../backend/src/DistributionSocketLink.cc:768
 #, fuzzy, c-format
-msgid "Disconnecting %s:%d."
+msgid "Disconnecting %s"
 msgstr "_Malkonektu"
 
 #. It's a remote client. mark it master.
-#: ../backend/src/DistributionSocketLink.cc:922
+#: ../backend/src/DistributionSocketLink.cc:937
 #, c-format
-msgid "Client %s:%d is now master."
+msgid "Client %s is now master."
 msgstr ""
 
 #. Its ME!
-#: ../backend/src/DistributionSocketLink.cc:929
+#: ../backend/src/DistributionSocketLink.cc:944
 msgid "I'm now master."
 msgstr ""
 
-#: ../backend/src/DistributionSocketLink.cc:1260
+#. gchar *name =
+#. int port =
+#: ../backend/src/DistributionSocketLink.cc:1275
 #, c-format
-msgid "Client %s:%d saying hello."
+msgid "Client %s saying hello."
 msgstr ""
 
 #. Duplicate client. inform client that it's bogus and close.
-#: ../backend/src/DistributionSocketLink.cc:1276
-#: ../backend/src/DistributionSocketLink.cc:1406
-#: ../backend/src/DistributionSocketLink.cc:1650
+#: ../backend/src/DistributionSocketLink.cc:1290
+#: ../backend/src/DistributionSocketLink.cc:1418
+#: ../backend/src/DistributionSocketLink.cc:1662
 #, c-format
-msgid "Client %s:%d is duplicate."
+msgid "Client %s is duplicate."
 msgstr ""
 
 #. Incorrect password.
-#: ../backend/src/DistributionSocketLink.cc:1286
+#: ../backend/src/DistributionSocketLink.cc:1300
 #, c-format
-msgid "Client %s:%d access denied."
+msgid "Client %s access denied."
 msgstr ""
 
-#: ../backend/src/DistributionSocketLink.cc:1356
+#: ../backend/src/DistributionSocketLink.cc:1369
 #, c-format
-msgid "Client %s:%d signed off."
+msgid "Client %s signed off."
 msgstr ""
 
-#: ../backend/src/DistributionSocketLink.cc:1445
+#. gint port =
+#: ../backend/src/DistributionSocketLink.cc:1457
 #, c-format
-msgid "Client %s:%d is welcoming us."
+msgid "Client %s is welcoming us."
 msgstr ""
 
-#: ../backend/src/DistributionSocketLink.cc:1687
+#: ../backend/src/DistributionSocketLink.cc:1698
 #, c-format
-msgid "Requesting master status from %s:%d."
+msgid "Requesting master status from %s."
 msgstr ""
 
-#: ../backend/src/DistributionSocketLink.cc:1701
+#: ../backend/src/DistributionSocketLink.cc:1712
 #, c-format
-msgid "Client timeout from %s:%d."
+msgid "Client timeout from %s."
 msgstr ""
 
-#: ../backend/src/DistributionSocketLink.cc:1723
+#: ../backend/src/DistributionSocketLink.cc:1734
 #, c-format
-msgid "Rejecting master request from client %s:%d."
+msgid "Rejecting master request from client %s."
 msgstr ""
 
-#: ../backend/src/DistributionSocketLink.cc:1729
+#: ../backend/src/DistributionSocketLink.cc:1740
 #, c-format
-msgid "Acknowledging master request from client %s:%d."
+msgid "Acknowledging master request from client %s."
 msgstr ""
 
-#: ../backend/src/DistributionSocketLink.cc:1780
+#: ../backend/src/DistributionSocketLink.cc:1791
 #, c-format
-msgid "Non-master client %s:%d rejected master request."
+msgid "Non-master client %s rejected master request."
 msgstr ""
 
-#: ../backend/src/DistributionSocketLink.cc:1785
+#: ../backend/src/DistributionSocketLink.cc:1796
 #, c-format
-msgid "Client %s:%d rejected master request, delaying."
+msgid "Client %s rejected master request, delaying."
 msgstr ""
 
 #. gint count =
-#: ../backend/src/DistributionSocketLink.cc:1856
+#: ../backend/src/DistributionSocketLink.cc:1867
 #, c-format
 msgid "Client %s is now the new master."
 msgstr ""
 
-#: ../backend/src/DistributionSocketLink.cc:1978
+#: ../backend/src/DistributionSocketLink.cc:1992
 msgid "Network operation started."
 msgstr ""
 
-#: ../backend/src/DistributionSocketLink.cc:1995
+#: ../backend/src/DistributionSocketLink.cc:2009
 msgid "Accepted new client."
 msgstr ""
 
-#: ../backend/src/DistributionSocketLink.cc:2061
+#: ../backend/src/DistributionSocketLink.cc:2083
 #, c-format
-msgid "Client %s:%d read error, closing."
+msgid "Client %s read error, closing."
 msgstr ""
 
-#: ../backend/src/DistributionSocketLink.cc:2067
-#: ../backend/src/DistributionSocketLink.cc:2141
+#: ../backend/src/DistributionSocketLink.cc:2089
+#: ../backend/src/DistributionSocketLink.cc:2162
 #, c-format
-msgid "Client %s:%d closed connection."
+msgid "Client %s closed connection."
 msgstr ""
 
-#: ../backend/src/DistributionSocketLink.cc:2108
+#: ../backend/src/DistributionSocketLink.cc:2130
 #, c-format
-msgid "Client %s:%d connected."
+msgid "Client %s connected."
 msgstr ""
 
-#: ../backend/src/DistributionSocketLink.cc:2148
+#: ../backend/src/DistributionSocketLink.cc:2168
 #, c-format
-msgid "Could not connect to client %s:%d."
+msgid "Could not connect to client %s."
 msgstr ""
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
-#: ../frontend/common/src/SoundPlayer.cc:82
+#: ../frontend/common/src/SoundPlayer.cc:92
 #, fuzzy
 msgid "Break ignored"
 msgstr "Ĉesu en"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:2
-#: ../frontend/common/src/SoundPlayer.cc:76
+#: ../frontend/common/src/SoundPlayer.cc:86
 #, fuzzy
 msgid "Break prompt"
 msgstr "Ripoza instigado"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
-#: ../frontend/common/src/SoundPlayer.cc:113
+#: ../frontend/common/src/SoundPlayer.cc:123
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:48
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:56
-#: ../frontend/gtkmm/src/GUI.cc:1399 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/GUI.cc:1436 ../frontend/gtkmm/src/GtkUtil.cc:161
 msgid "Daily limit"
 msgstr "Taglimo"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:4
-#: ../frontend/common/src/SoundPlayer.cc:131
+#: ../frontend/common/src/SoundPlayer.cc:141
 msgid "Exercise change"
 msgstr ""
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:5
-#: ../frontend/common/src/SoundPlayer.cc:119
+#: ../frontend/common/src/SoundPlayer.cc:129
 msgid "Exercise ended"
 msgstr ""
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:6
-#: ../frontend/common/src/SoundPlayer.cc:125
+#: ../frontend/common/src/SoundPlayer.cc:135
 msgid "Exercises ended"
 msgstr ""
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:7
-#: ../frontend/common/src/SoundPlayer.cc:107
+#: ../frontend/common/src/SoundPlayer.cc:117
 #, fuzzy
 msgid "Micro-break ended"
 msgstr "Paŭzeto"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:8
-#: ../frontend/common/src/SoundPlayer.cc:101
+#: ../frontend/common/src/SoundPlayer.cc:111
 #, fuzzy
 msgid "Micro-break started"
 msgstr "Paŭzeto"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:9
-#: ../frontend/common/src/SoundPlayer.cc:95
+#: ../frontend/common/src/SoundPlayer.cc:105
 #, fuzzy
 msgid "Rest break ended"
 msgstr "Ripozo"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:10
-#: ../frontend/common/src/SoundPlayer.cc:88
+#: ../frontend/common/src/SoundPlayer.cc:98
 #, fuzzy
 msgid "Rest break started"
 msgstr "Ripozo por %s"
@@ -219,7 +218,7 @@ msgstr "Ripozo por %s"
 msgid "Workrave"
 msgstr ""
 
-#: ../frontend/common/src/SoundPlayer.cc:576
+#: ../frontend/common/src/SoundPlayer.cc:617
 msgid "Custom"
 msgstr ""
 
@@ -238,20 +237,20 @@ msgstr "%s%d:%02d minutoj"
 msgid "%s%d seconds"
 msgstr "%s%d sekundoj"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:296
+#: ../frontend/gtkmm/src/BreakWindow.cc:292
 msgid "Lock"
 msgstr "Ŝlosu"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:315
+#: ../frontend/gtkmm/src/BreakWindow.cc:311
 #, fuzzy
 msgid "Shut down"
 msgstr "Montru _protokolon"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:332
+#: ../frontend/gtkmm/src/BreakWindow.cc:328
 msgid "Skip"
 msgstr "Transsaltu"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:345
+#: ../frontend/gtkmm/src/BreakWindow.cc:341
 msgid "Postpone"
 msgstr "Prokrastu"
 
@@ -266,7 +265,7 @@ msgstr ""
 "trovu ion alian por fari, kiel revuado de dokumento."
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1399 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/GUI.cc:1436 ../frontend/gtkmm/src/GtkUtil.cc:161
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:54
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:174
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:272
@@ -274,100 +273,104 @@ msgstr ""
 msgid "Micro-break"
 msgstr "Paŭzeto"
 
-#: ../frontend/gtkmm/src/GUI.cc:1399 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/GUI.cc:1436 ../frontend/gtkmm/src/GtkUtil.cc:161
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:147
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:82
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:215
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:81
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:224
 msgid "Rest break"
 msgstr "Ripozo"
 
-#: ../frontend/gtkmm/src/GUI.cc:1412 ../frontend/gtkmm/src/GUI.cc:1416
+#: ../frontend/gtkmm/src/GUI.cc:1449 ../frontend/gtkmm/src/GUI.cc:1453
 #, fuzzy
 msgid "Mode: "
 msgstr "_Modo"
 
-#: ../frontend/gtkmm/src/GUI.cc:1412
+#: ../frontend/gtkmm/src/GUI.cc:1449
 #, fuzzy
 msgid "Suspended"
 msgstr "_Interrompita"
 
-#: ../frontend/gtkmm/src/GUI.cc:1416
+#: ../frontend/gtkmm/src/GUI.cc:1453
 #, fuzzy
 msgid "Quiet"
 msgstr "S_ilenta"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:96
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:171
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:95
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:173
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:94
 msgid "_Rest break"
 msgstr "_Ripozon"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:139
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:138
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:115
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:116
 msgid "_Mode"
 msgstr "_Modo"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:141
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:140
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:97
 msgid "_Normal"
 msgstr "_Normala"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:144
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:143
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:103
 msgid "_Suspended"
 msgstr "_Interrompita"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:147
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:146
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:109
 msgid "Q_uiet"
 msgstr "S_ilenta"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:152
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:149
+msgid "_Reading mode"
+msgstr ""
+
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:154
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:134
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:135
 msgid "_Network"
 msgstr "_Reto"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:153
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:118
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:155
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:119
 msgid "_Connect"
 msgstr "_Konektu"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:155
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:157
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:121
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:122
 msgid "_Disconnect"
 msgstr "_Malkonektu"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:157
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:159
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:125
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:126
 msgid "_Reconnect"
 msgstr "_Rekonektu"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:159
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:128
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:161
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:129
 msgid "Show _log"
 msgstr "Montru _protokolon"
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:181
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:183
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:95
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:44
 msgid "Exercises"
 msgstr ""
 
-#: ../frontend/gtkmm/src/MainGtkMenu.cc:186
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:136
+#: ../frontend/gtkmm/src/MainGtkMenu.cc:188
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:143
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:63
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:151
 msgid "Statistics"
 msgstr "Statistiko"
 
-#: ../frontend/gtkmm/src/Menus.cc:345
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:357
+#: ../frontend/gtkmm/src/Menus.cc:363
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:355
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -425,7 +428,7 @@ msgstr ""
 #. Notebook
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:114
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:163
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:197
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:199
 msgid "Timers"
 msgstr "Horloĝoj"
 
@@ -476,94 +479,112 @@ msgstr ""
 msgid "Start Workrave on Windows startup"
 msgstr ""
 
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:294
+msgid "Show system tray icon"
+msgstr ""
+
 #. Options
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:305
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:312
 #, fuzzy
 msgid "Sound Options"
 msgstr "Opcioj"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:313
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:320
 msgid "No sounds"
 msgstr "Ne sonoj"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:315
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:322
 msgid "Play sounds using sound card"
 msgstr "Ludu sonojn uzante sonkarton"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:317
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:324
 msgid "Play sounds using built-in speaker"
 msgstr "Ludu sonojn uzante en-komputila laŭtparolilo"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:341
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:348
 msgid "Volume:"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:344
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:351
 msgid "Sound:"
 msgstr ""
 
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:357
+msgid "Mute sounds during rest break and daily limit"
+msgstr ""
+
 #. Sound themes
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:350
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:367
 msgid "Sound Events"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:360
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:377
 msgid "Sound Theme:"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:383
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:401
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:422
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:400
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:418
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:439
 msgid "Play"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:388
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:405
 msgid "Event"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:404
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:421
 #, fuzzy
 msgid "Choose a sound"
 msgstr "Ne sonoj"
 
-#: ../frontend/gtkmm/src/PreferencesDialog.cc:411
+#: ../frontend/gtkmm/src/PreferencesDialog.cc:428
 msgid "Wavefiles"
 msgstr ""
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:110
+#: ../frontend/gtkmm/src/PreludeWindow.cc:108
 #, fuzzy
 msgid "Time for a micro-break?"
 msgstr "Ĉu horo por paŭzeto?"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:114
+#: ../frontend/gtkmm/src/PreludeWindow.cc:112
 msgid "You need a rest break..."
 msgstr "Vi bezonas ripozon..."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:118
+#: ../frontend/gtkmm/src/PreludeWindow.cc:116
 msgid "You should stop for today..."
 msgstr "Vi devas halti por hodiaŭ..."
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:318
+#: ../frontend/gtkmm/src/PreludeWindow.cc:312
 #, fuzzy, c-format
 msgid "Break in %s"
 msgstr "Ĉesu en"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:322
+#: ../frontend/gtkmm/src/PreludeWindow.cc:316
 #, fuzzy, c-format
 msgid "Disappears in %s"
 msgstr "Malaperas en"
 
-#: ../frontend/gtkmm/src/PreludeWindow.cc:326
+#: ../frontend/gtkmm/src/PreludeWindow.cc:320
 #, fuzzy, c-format
 msgid "Silent in %s"
 msgstr "Silentiĝu en"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:177
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:176
 #, c-format
 msgid "Rest break for %s"
 msgstr "Ripozo por %s"
 
-#: ../frontend/gtkmm/src/RestBreakWindow.cc:216
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:218
+#, fuzzy
+msgid "Natural rest break"
+msgstr "Ripozo"
+
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:219
+#, fuzzy
+msgid "This is your natural rest break."
+msgstr "Vi bezonas ripozon..."
+
+#: ../frontend/gtkmm/src/RestBreakWindow.cc:225
 msgid ""
 "This is your rest break. Make sure you stand up and\n"
 "walk away from your computer on a regular basis. Just\n"
@@ -680,31 +701,31 @@ msgstr "Montru 'Proktrastu' kaj 'Transsaltu' butonon"
 msgid "Suspend timer when inactive"
 msgstr ""
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:162
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:164
 #, fuzzy
 msgid "Regard micro-breaks as activity"
 msgstr "Rigardu paŭzetoj kiel agado"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:171
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:173
 msgid "Number of exercises:"
 msgstr ""
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:202
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:204
 #, fuzzy
 msgid "Time before end:"
 msgstr "Tempo por ripozo"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:203
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:205
 #, fuzzy
 msgid "Time between breaks:"
 msgstr "Tempo por ripozo"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:210
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:212
 #, fuzzy
 msgid "Break duration:"
 msgstr "Daŭro de paŭzo"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:225
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:227
 #, fuzzy
 msgid "Postpone time:"
 msgstr "Prokrasta tempo"
@@ -778,6 +799,10 @@ msgid "Workrave Applet"
 msgstr ""
 
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:137
+msgid "Reading mode"
+msgstr ""
+
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:144
 msgid "About..."
 msgstr "Pri..."
 
@@ -857,7 +882,7 @@ msgstr ""
 "La sekvanta listo specifas la retnodoj kiu Workrave alkonektas ĉe\n"
 "startigo.  Klaku nomon de retnodo aŭ numero de pordo por ŝanĝi."
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:202
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:201
 msgid "Host name"
 msgstr "Nomo de retnodo"
 
@@ -865,7 +890,7 @@ msgstr "Nomo de retnodo"
 msgid "Port"
 msgstr "Pordo"
 
-#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:247
+#: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:250
 msgid "Hosts"
 msgstr "Retnodoj"
 
@@ -1157,6 +1182,69 @@ msgstr ""
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:381
 #, c-format
 msgid "%s, from %s to %s"
+msgstr ""
+
+#: ../frontend/gtkmm/src/eggdesktopfile.c:165
+#, c-format
+msgid "File is not a valid .desktop file"
+msgstr ""
+
+#: ../frontend/gtkmm/src/eggdesktopfile.c:188
+#, c-format
+msgid "Unrecognized desktop file Version '%s'"
+msgstr ""
+
+#: ../frontend/gtkmm/src/eggdesktopfile.c:958
+#, fuzzy, c-format
+msgid "Starting %s"
+msgstr "Silentiĝu en"
+
+#: ../frontend/gtkmm/src/eggdesktopfile.c:1100
+#, c-format
+msgid "Application does not accept documents on command line"
+msgstr ""
+
+#: ../frontend/gtkmm/src/eggdesktopfile.c:1168
+#, c-format
+msgid "Unrecognized launch option: %d"
+msgstr ""
+
+#: ../frontend/gtkmm/src/eggdesktopfile.c:1373
+#, c-format
+msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
+msgstr ""
+
+#: ../frontend/gtkmm/src/eggdesktopfile.c:1394
+#, c-format
+msgid "Not a launchable item"
+msgstr ""
+
+#: ../frontend/gtkmm/src/eggsmclient.c:225
+msgid "Disable connection to session manager"
+msgstr ""
+
+#: ../frontend/gtkmm/src/eggsmclient.c:228
+msgid "Specify file containing saved configuration"
+msgstr ""
+
+#: ../frontend/gtkmm/src/eggsmclient.c:228
+msgid "FILE"
+msgstr ""
+
+#: ../frontend/gtkmm/src/eggsmclient.c:231
+msgid "Specify session management ID"
+msgstr ""
+
+#: ../frontend/gtkmm/src/eggsmclient.c:231
+msgid "ID"
+msgstr ""
+
+#: ../frontend/gtkmm/src/eggsmclient.c:252
+msgid "Session management options:"
+msgstr ""
+
+#: ../frontend/gtkmm/src/eggsmclient.c:253
+msgid "Show session management options"
 msgstr ""
 
 #, fuzzy

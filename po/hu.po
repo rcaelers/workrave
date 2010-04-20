@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2010-02-09 11:33+0100\n"
+"POT-Creation-Date: 2010-04-19 18:55+0200\n"
 "PO-Revision-Date: 2010-02-09 11:45+0100\n"
 "Last-Translator: Gabor Kelemen <kelemeng at gnome dot hu>\n"
 "Language-Team: Hungarian <gnome at fsf dot hu>\n"
@@ -17,147 +17,144 @@ msgstr ""
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
-#: ../backend/src/DistributionSocketLink.cc:132
-#, c-format
-msgid "Reconnecting to %s:%d."
+#: ../backend/src/DistributionSocketLink.cc:129
+#, fuzzy, c-format
+msgid "Reconnecting to %s."
 msgstr "Újracsatlakozás a következőhöz: %s:%d."
 
-#: ../backend/src/DistributionSocketLink.cc:348
-msgid "Cannot resolve my own hostname. Deactivating distribution."
-msgstr ""
-"Nem oldható fel a saját gépnév. A hálózati műveletek felfüggesztésre "
-"kerültek."
-
 #. We did not succeed in starting the server. Arghh.
-#: ../backend/src/DistributionSocketLink.cc:386
+#: ../backend/src/DistributionSocketLink.cc:421
 msgid "Could not enable network operation."
 msgstr "Nem engedélyezhetőek a hálózati műveletek."
 
-#: ../backend/src/DistributionSocketLink.cc:395
+#: ../backend/src/DistributionSocketLink.cc:430
 msgid "Disabling network operation."
 msgstr "Hálózati műveletek tiltása."
 
-#: ../backend/src/DistributionSocketLink.cc:550
-#: ../backend/src/DistributionSocketLink.cc:578
-#, c-format
-msgid "Connecting to %s:%d."
+#: ../backend/src/DistributionSocketLink.cc:546
+#: ../backend/src/DistributionSocketLink.cc:583
+#, fuzzy, c-format
+msgid "Connecting to %s."
 msgstr "Csatlakozás a következőhöz: %s:%d."
 
-#: ../backend/src/DistributionSocketLink.cc:685
-#: ../backend/src/DistributionSocketLink.cc:712
-#, c-format
-msgid "Removing client %s:%d."
+#: ../backend/src/DistributionSocketLink.cc:703
+#: ../backend/src/DistributionSocketLink.cc:729
+#, fuzzy, c-format
+msgid "Removing client %s."
 msgstr "%s:%d kliens eltávolítása."
 
 #. Closing direct connection.
-#: ../backend/src/DistributionSocketLink.cc:752
-#, c-format
-msgid "Disconnecting %s:%d."
+#: ../backend/src/DistributionSocketLink.cc:768
+#, fuzzy, c-format
+msgid "Disconnecting %s"
 msgstr "Kapcsolat bontása a következővel: %s:%d."
 
 #. It's a remote client. mark it master.
-#: ../backend/src/DistributionSocketLink.cc:922
-#, c-format
-msgid "Client %s:%d is now master."
+#: ../backend/src/DistributionSocketLink.cc:937
+#, fuzzy, c-format
+msgid "Client %s is now master."
 msgstr "A következő kliens az elsődleges: %s:%d."
 
 #. Its ME!
-#: ../backend/src/DistributionSocketLink.cc:929
+#: ../backend/src/DistributionSocketLink.cc:944
 msgid "I'm now master."
 msgstr "Én vagyok az elsődleges."
 
-#: ../backend/src/DistributionSocketLink.cc:1260
-#, c-format
-msgid "Client %s:%d saying hello."
+#. gchar *name =
+#. int port =
+#: ../backend/src/DistributionSocketLink.cc:1275
+#, fuzzy, c-format
+msgid "Client %s saying hello."
 msgstr "%s:%d kliens „hello”-t küldött."
 
 #. Duplicate client. inform client that it's bogus and close.
-#: ../backend/src/DistributionSocketLink.cc:1276
-#: ../backend/src/DistributionSocketLink.cc:1406
-#: ../backend/src/DistributionSocketLink.cc:1650
-#, c-format
-msgid "Client %s:%d is duplicate."
+#: ../backend/src/DistributionSocketLink.cc:1290
+#: ../backend/src/DistributionSocketLink.cc:1418
+#: ../backend/src/DistributionSocketLink.cc:1662
+#, fuzzy, c-format
+msgid "Client %s is duplicate."
 msgstr "A következő kliens többször szerepel: %s:%d."
 
 #. Incorrect password.
-#: ../backend/src/DistributionSocketLink.cc:1286
-#, c-format
-msgid "Client %s:%d access denied."
+#: ../backend/src/DistributionSocketLink.cc:1300
+#, fuzzy, c-format
+msgid "Client %s access denied."
 msgstr "Hozzáférés megtagadva: %s:%d"
 
-#: ../backend/src/DistributionSocketLink.cc:1356
-#, c-format
-msgid "Client %s:%d signed off."
+#: ../backend/src/DistributionSocketLink.cc:1369
+#, fuzzy, c-format
+msgid "Client %s signed off."
 msgstr "%s:%d kliens kijelentkezett."
 
-#: ../backend/src/DistributionSocketLink.cc:1445
-#, c-format
-msgid "Client %s:%d is welcoming us."
+#. gint port =
+#: ../backend/src/DistributionSocketLink.cc:1457
+#, fuzzy, c-format
+msgid "Client %s is welcoming us."
 msgstr "%s:%d kliens üdvözöl minket."
 
-#: ../backend/src/DistributionSocketLink.cc:1687
-#, c-format
-msgid "Requesting master status from %s:%d."
+#: ../backend/src/DistributionSocketLink.cc:1698
+#, fuzzy, c-format
+msgid "Requesting master status from %s."
 msgstr "Elsődleges állapot igénylése a következőtől: %s:%d."
 
-#: ../backend/src/DistributionSocketLink.cc:1701
-#, c-format
-msgid "Client timeout from %s:%d."
+#: ../backend/src/DistributionSocketLink.cc:1712
+#, fuzzy, c-format
+msgid "Client timeout from %s."
 msgstr "Kliens időtúllépés: %s:%d."
 
-#: ../backend/src/DistributionSocketLink.cc:1723
-#, c-format
-msgid "Rejecting master request from client %s:%d."
+#: ../backend/src/DistributionSocketLink.cc:1734
+#, fuzzy, c-format
+msgid "Rejecting master request from client %s."
 msgstr "%s:%d kliens elsődlegességi kérelme elutasítva."
 
-#: ../backend/src/DistributionSocketLink.cc:1729
-#, c-format
-msgid "Acknowledging master request from client %s:%d."
+#: ../backend/src/DistributionSocketLink.cc:1740
+#, fuzzy, c-format
+msgid "Acknowledging master request from client %s."
 msgstr "%s:%d kliens elsődlegességi kérelme elfogadva."
 
-#: ../backend/src/DistributionSocketLink.cc:1780
-#, c-format
-msgid "Non-master client %s:%d rejected master request."
+#: ../backend/src/DistributionSocketLink.cc:1791
+#, fuzzy, c-format
+msgid "Non-master client %s rejected master request."
 msgstr "%s:%d nem elsődleges kliens elutasította elsődlegességi kérelmét."
 
-#: ../backend/src/DistributionSocketLink.cc:1785
-#, c-format
-msgid "Client %s:%d rejected master request, delaying."
+#: ../backend/src/DistributionSocketLink.cc:1796
+#, fuzzy, c-format
+msgid "Client %s rejected master request, delaying."
 msgstr "%s:%d kliens elutasította elsődlegességi kérelmét, késleltetés…"
 
 #. gint count =
-#: ../backend/src/DistributionSocketLink.cc:1856
+#: ../backend/src/DistributionSocketLink.cc:1867
 #, c-format
 msgid "Client %s is now the new master."
 msgstr "%s kliens az elsődleges."
 
-#: ../backend/src/DistributionSocketLink.cc:1978
+#: ../backend/src/DistributionSocketLink.cc:1992
 msgid "Network operation started."
 msgstr "Hálózati műveletek elkezdve."
 
-#: ../backend/src/DistributionSocketLink.cc:1995
+#: ../backend/src/DistributionSocketLink.cc:2009
 msgid "Accepted new client."
 msgstr "Új kliens elfogadva."
 
-#: ../backend/src/DistributionSocketLink.cc:2061
-#, c-format
-msgid "Client %s:%d read error, closing."
+#: ../backend/src/DistributionSocketLink.cc:2083
+#, fuzzy, c-format
+msgid "Client %s read error, closing."
 msgstr "Olvasási hiba: %s:%d. Befejezés."
 
-#: ../backend/src/DistributionSocketLink.cc:2067
-#: ../backend/src/DistributionSocketLink.cc:2141
-#, c-format
-msgid "Client %s:%d closed connection."
+#: ../backend/src/DistributionSocketLink.cc:2089
+#: ../backend/src/DistributionSocketLink.cc:2162
+#, fuzzy, c-format
+msgid "Client %s closed connection."
 msgstr "%s:%d kliens befejezte a kapcsolatot."
 
-#: ../backend/src/DistributionSocketLink.cc:2108
-#, c-format
-msgid "Client %s:%d connected."
+#: ../backend/src/DistributionSocketLink.cc:2130
+#, fuzzy, c-format
+msgid "Client %s connected."
 msgstr "%s:%d kliens kapcsolódott."
 
-#: ../backend/src/DistributionSocketLink.cc:2148
-#, c-format
-msgid "Could not connect to client %s:%d."
+#: ../backend/src/DistributionSocketLink.cc:2168
+#, fuzzy, c-format
+msgid "Could not connect to client %s."
 msgstr "Sikertelen kapcsolódás %s:%d klienshez."
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
@@ -174,7 +171,7 @@ msgstr "Felszólítás szünetre"
 #: ../frontend/common/src/SoundPlayer.cc:123
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:48
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:56
-#: ../frontend/gtkmm/src/GUI.cc:1435 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/GUI.cc:1436 ../frontend/gtkmm/src/GtkUtil.cc:161
 msgid "Daily limit"
 msgstr "Napi korlátozás"
 
@@ -265,29 +262,29 @@ msgstr ""
 "egy iratot."
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1435 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/GUI.cc:1436 ../frontend/gtkmm/src/GtkUtil.cc:161
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:54
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:174
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:272
 msgid "Micro-break"
 msgstr "Rövid pihenő"
 
-#: ../frontend/gtkmm/src/GUI.cc:1435 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/GUI.cc:1436 ../frontend/gtkmm/src/GtkUtil.cc:161
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:147
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:81
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:224
 msgid "Rest break"
 msgstr "Pihenőidő"
 
-#: ../frontend/gtkmm/src/GUI.cc:1448 ../frontend/gtkmm/src/GUI.cc:1452
+#: ../frontend/gtkmm/src/GUI.cc:1449 ../frontend/gtkmm/src/GUI.cc:1453
 msgid "Mode: "
 msgstr "Mód: "
 
-#: ../frontend/gtkmm/src/GUI.cc:1448
+#: ../frontend/gtkmm/src/GUI.cc:1449
 msgid "Suspended"
 msgstr "Felfüggesztett"
 
-#: ../frontend/gtkmm/src/GUI.cc:1452
+#: ../frontend/gtkmm/src/GUI.cc:1453
 msgid "Quiet"
 msgstr "Csendes"
 
@@ -714,7 +711,8 @@ msgid "The orientation of the tray"
 msgstr "A panel tájolása"
 
 #: ../frontend/gtkmm/src/workrave.desktop.in.in.h:1
-msgid "Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
+msgid ""
+"Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
 msgstr ""
 "Ez a program segít az ismétlődő mozgásból eredő izomhúzódás (RSI – "
 "repetitive strain injury) megelőzésében és az abból való felépülésben"
@@ -1069,7 +1067,8 @@ msgstr "Megtartott kért szünetek"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:210
 msgid "The number of times you took a break when being prompted"
-msgstr "Azoknak az eseteknek a száma, amikor Ön a felszólításra szünetet tartott"
+msgstr ""
+"Azoknak az eseteknek a száma, amikor Ön a felszólításra szünetet tartott"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:214
 msgid "Natural breaks taken"
@@ -1077,7 +1076,8 @@ msgstr "Természetes szünetek"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:215
 msgid "The number of times you took a break without being prompted"
-msgstr "Azoknak az eseteknek a száma, amikor Ön felszólítás nélkül tartott szünetet"
+msgstr ""
+"Azoknak az eseteknek a száma, amikor Ön felszólítás nélkül tartott szünetet"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:219
 msgid "Breaks skipped"
@@ -1227,3 +1227,7 @@ msgstr "Munkamenet-kezelés kapcsolói:"
 msgid "Show session management options"
 msgstr "Munkamenet-kezelési kapcsolók megjelenítése"
 
+#~ msgid "Cannot resolve my own hostname. Deactivating distribution."
+#~ msgstr ""
+#~ "Nem oldható fel a saját gépnév. A hálózati műveletek felfüggesztésre "
+#~ "kerültek."
