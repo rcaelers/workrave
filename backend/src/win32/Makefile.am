@@ -24,6 +24,7 @@ libworkrave_backend_win32_la_CXXFLAGS = \
 			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-D_XOPEN_SOURCE=600 \
 			-I$(top_srcdir)/common/win32/harpoon/include/ \
+			-I$(top_srcdir)/common/win32/harpoonHelper/include/ \
 		  	@WR_COMMON_INCLUDES@ @GLIB_CFLAGS@
 
 EXTRA_DIST = 		$(wildcard *.cc) $(wildcard *.rc) \
