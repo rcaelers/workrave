@@ -2,6 +2,7 @@
 //
 // Copyright (C) 2002, 2004, 2006, 2007 Raymond Penners <raymond@dotsphinx.com>
 // Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
+// Copyright (C) 2010 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -62,6 +63,10 @@ private:
   static void start_harpoon_helper();
   static void stop_harpoon_helper();
 
+  static HWND recursive_find_window(HWND hwnd, LPCTSTR lpClassName);
+  
   static HWND helper_window;
+
+  static char critical_filename_list[HARPOON_MAX_UNBLOCKED_APPS][511];
 };
 #endif // HARPOON_HH

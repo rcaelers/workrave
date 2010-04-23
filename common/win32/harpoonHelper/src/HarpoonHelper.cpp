@@ -146,6 +146,7 @@ HarpoonHelper::run()
 void
 HarpoonHelper::init_critical_filename_list()
 {
+  TRACE_ENTER("HarpoonHelper::init_critical_filename_list");
   Config config;
   int i;
 
@@ -166,6 +167,8 @@ HarpoonHelper::init_critical_filename_list()
   strcpy(critical_filename_list[1], "workrave.exe");
   strcpy(critical_filename_list[2], args);
 
+  TRACE_MSG(args);
+  
   int filecount = 0;
   config.get_value("advanced/critical_files/filecount", filecount);
 
@@ -189,6 +192,7 @@ HarpoonHelper::init_critical_filename_list()
             }
         }
     }
+  TRACE_EXIT();
 }
 
 
