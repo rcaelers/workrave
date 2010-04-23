@@ -81,6 +81,8 @@ using namespace std;
 int X11InputMonitor::xi_event_base = 0;
 #endif
 
+static int (*old_handler)(Display *dpy, XErrorEvent *error);
+
 #ifndef HAVE_APP_GTK
 //! Intercepts X11 protocol errors.
 static int
@@ -398,7 +400,6 @@ X11InputMonitor::error_trap_enter()
 #ifdef HAVE_APP_GTK
   gdk_error_trap_push();
 #else
-  int (*old_handler)(Display *dpy, XErrorEvent *error);
   old_handler = XSetErrorHandler(&errorHandler);
 #endif
 }

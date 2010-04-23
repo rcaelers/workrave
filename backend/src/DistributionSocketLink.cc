@@ -43,7 +43,7 @@
 #include "DistributionManager.hh"
 #include "DistributionLink.hh"
 #include "DistributionSocketLink.hh"
-#include "GNetSocketDriver.hh"
+
 #include "Util.hh"
 
 using namespace std;

@@ -1,7 +1,8 @@
 ; setup.iss --- Inno setup file
 ; (Important: *MUST* be DOS encoded)
 ;
-; Copyright (C) 2002, 2003, 2004, 2005, 2007, 2008, 2009 Raymond Penners <raymond@dotsphinx.com>
+; Copyright (C) 2002 - 2010 Raymond Penners <raymond@dotsphinx.com>
+; Copyright (C) 2010  Rob Caelers <robc@krandor.nl>
 ; All rights reserved.
 ;
 ; This program is free software: you can redistribute it and/or modify
@@ -52,6 +53,8 @@ Name: "startupmenu"; Description: "Start Workrave when Windows starts"; GroupDes
 
 [Files]
 Source: "..\..\..\..\common\win32\harpoon\src\Release\harpoon.dll"; DestDir: "{app}\lib"; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
+Source: "..\..\..\..\common\win32\harpoon\src\Release\harpoon64.dll"; DestDir: "{app}\lib"; Check: IsWin64; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
+Source: "..\..\..\..\common\win32\harpoonHelper\src\Release\harpoonHelper.exe"; DestDir: "{app}\lib"; Check: IsWin64; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
 Source: "..\..\..\win32\applet\src\Release\workrave-applet.dll"; DestDir: "{app}\lib"; Check: (not IsWin64); Flags: ignoreversion restartreplace uninsrestartdelete regserver 32bit;
 Source: "..\..\..\win32\applet\src\Release\workrave-applet64.dll"; DestDir: "{app}\lib"; Check: IsWin64; Flags: ignoreversion restartreplace uninsrestartdelete regserver 64bit;
 Source: ".\runtime-base\*.*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs;

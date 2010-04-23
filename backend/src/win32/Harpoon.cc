@@ -2,6 +2,7 @@
 //
 // Copyright (C) 2007, 2010 Ray Satiro <raysatiro@yahoo.com>
 // Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2010 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -46,9 +47,9 @@
 using namespace workrave;
 using namespace std;
 
-static char critical_filename_list[ HARPOON_MAX_UNBLOCKED_APPS ][ 511 ];
-
+char Harpoon::critical_filename_list[HARPOON_MAX_UNBLOCKED_APPS][511];
 HWND Harpoon::helper_window = NULL;
+
 
 Harpoon::Harpoon()
 {
@@ -97,18 +98,10 @@ Harpoon::init(HarpoonHookFunc func)
         }
     }
 
-#if defined(_WIN32)
   if (is_64bit_windows())
     {
        start_harpoon_helper();
     }
-    //// Wait until child process exits.
-    //WaitForSingleObject( pi.hProcess, INFINITE );
-
-    //// Close process and thread handles. 
-    //CloseHandle( pi.hProcess );
-    //CloseHandle( pi.hThread );
-#endif
 
   return true;
 }
@@ -118,6 +111,7 @@ Harpoon::init(HarpoonHookFunc func)
 void
 Harpoon::terminate()
 {
+  stop_harpoon_helper();
   harpoon_exit();
 }
 
@@ -279,10 +273,10 @@ Harpoon::is_64bit_windows()
 #endif
 }
 
-static HWND
-RecursiveFindWindow(HWND hwnd, LPCTSTR lpClassName)
+HWND
+Harpoon::recursive_find_window(HWND hwnd, LPCTSTR lpClassName)
 {
-  TRACE_ENTER("Harpoon::RecursiveFindWindow");
+  TRACE_ENTER("Harpoon::recursive_find_window");
   static char buf[80];
   int num = GetClassName(hwnd, buf, sizeof(buf)-1);
   buf[num] = 0;
@@ -298,7 +292,7 @@ RecursiveFindWindow(HWND hwnd, LPCTSTR lpClassName)
       HWND child = FindWindowEx(hwnd, 0, NULL, NULL);
       while (child != NULL)
         {
-          ret = RecursiveFindWindow(child, lpClassName);
+          ret = recursive_find_window(child, lpClassName);
           if (ret)
             {
               break;
@@ -324,35 +318,31 @@ Harpoon::start_harpoon_helper()
       ZeroMemory(&si, sizeof(si));
       si.cb = sizeof(si);
 
-      ZeroMemory( &pi, sizeof(pi) );
+      ZeroMemory(&pi, sizeof(pi));
 
-      if (!CreateProcess(NULL,   // No module name (use command line)
-                "HarpoonHelper.exe",        // Command line
-                NULL,           // Process handle not inheritable
-                NULL,           // Thread handle not inheritable
-                FALSE,          // Set handle inheritance to FALSE
-                0,              // No creation flags
-                NULL,           // Use parent's environment block
-                NULL,           // Use parent's starting directory 
-                &si,            // Pointer to STARTUPINFO structure
-                &pi)            // Pointer to PROCESS_INFORMATION structure
-            ) 
+      gchar *prgname = g_get_prgname();
+      TRACE_MSG("Workrave = " << prgname);
+      
+      if (CreateProcess("HarpoonHelper.exe", prgname, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi)) 
         {
-            printf( "CreateProcess failed (%d).\n", GetLastError() );
+          helper_window = recursive_find_window(NULL, HARPOON_HELPER_WINDOW_CLASS);
         }
-   
-        helper_window = RecursiveFindWindow(NULL, HARPOON_HELPER_WINDOW_CLASS);
+      else
+        {
+          TRACE_MSG("CreateProcess failed " << GetLastError());
+        }
     }
-
     TRACE_EXIT();
 }
 
 void
 Harpoon::stop_harpoon_helper()
 {
+  TRACE_ENTER("Harpoon::stop_harpoon_helper" );
   if (helper_window != NULL)
     {
       PostMessage(helper_window, WM_USER + HARPOON_HELPER_INIT, 0, 0);
       helper_window = NULL;
     }
+  TRACE_EXIT();
 }

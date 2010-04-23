@@ -19,6 +19,8 @@
 #ifndef GIOSOCKETDRIVER_HH
 #define GIOSOCKETDRIVER_HH
 
+#if defined(HAVE_GIO_NET) && defined(HAVE_DISTRIBUTION)
+
 #include <glib.h>
 #include <glib-object.h>
 #include <gio/gio.h>
@@ -90,4 +92,5 @@ class GIOSocketDriver
   ISocketServer *create_server();
 };
 
+#endif
 #endif // GIOSOCKETDRIVER_HH

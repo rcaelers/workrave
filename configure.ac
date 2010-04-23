@@ -405,19 +405,6 @@ AC_SUBST(GCONF_LIBS)
 AC_SUBST(GCONF_CFLAGS)
 
 dnl
-dnl GNet2
-dnl
-
-if test "x$config_distribution" = "xyes"
-then
-    PKG_CHECK_MODULES(GNET, gnet-2.0)
-    GNET2=yes                          
-fi
-AC_SUBST(GNET_LIBS)
-AC_SUBST(GNET_CFLAGS)
-
-
-dnl
 dnl GIO networking
 dnl
 
@@ -438,7 +425,21 @@ AC_TRY_COMPILE([#include <gio/gio.h>],
 
 CLFAGS=$CFLAGS_save
 CXXLFAGS=$CXXFLAGS_save
-	 
+
+dnl
+dnl GNet2
+dnl
+
+if test "x$config_distribution" = "xyes" -a $have_gio_net != yes
+then
+    PKG_CHECK_MODULES(GNET, gnet-2.0)
+    GNET2=yes                          
+fi
+AC_SUBST(GNET_LIBS)
+AC_SUBST(GNET_CFLAGS)
+
+
+
 dnl
 dnl XML
 dnl
@@ -802,6 +803,9 @@ AC_OUTPUT(Makefile
           common/win32/harpoon/Makefile \
           common/win32/harpoon/include/Makefile \
           common/win32/harpoon/src/Makefile \
+          common/win32/harpoonHelper/Makefile \
+          common/win32/harpoonHelper/include/Makefile \
+          common/win32/harpoonHelper/src/Makefile \
           frontend/Makefile \
           frontend/common/Makefile \
           frontend/common/include/Makefile \
