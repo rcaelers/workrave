@@ -38,9 +38,12 @@ int WINAPI WinMain (HINSTANCE hInstance,
   Debug::init();
 #endif
 
+  TRACE_ENTER_MSG("WinMain", szCmdLine);
+
   HarpoonHelper *h = new HarpoonHelper(szCmdLine);
   h->init(hInstance);
   h->run();
 
+  TRACE_EXIT();
   return (0);
 }

@@ -39,6 +39,7 @@
 #include "ICore.hh"
 #include "CoreFactory.hh"
 #include "IConfigurator.hh"
+#include "Util.hh"
 
 #include "timeutil.h"
 #include "harpoon.h"
@@ -49,7 +50,7 @@ using namespace std;
 
 char Harpoon::critical_filename_list[HARPOON_MAX_UNBLOCKED_APPS][511];
 HWND Harpoon::helper_window = NULL;
-
+bool Harpoon::helper_started = false;
 
 Harpoon::Harpoon()
 {
@@ -120,9 +121,17 @@ void
 Harpoon::block_input()
 {
   harpoon_block_input();
-  if (helper_window != NULL)
+  if (helper_started)
     {
-      PostMessage(helper_window, WM_USER + HARPOON_HELPER_BLOCK, 0, 0);
+      if (helper_window == NULL)
+        {
+          helper_window = recursive_find_window(NULL, HARPOON_HELPER_WINDOW_CLASS);
+        }
+
+      if (helper_window != NULL)
+        {
+          PostMessage(helper_window, WM_USER + HARPOON_HELPER_BLOCK, 0, 0);
+        }
     }
 }
 
@@ -130,9 +139,17 @@ void
 Harpoon::unblock_input()
 {
   harpoon_unblock_input();
-  if (helper_window != NULL)
+  if (helper_started)
     {
-      PostMessage(helper_window, WM_USER + HARPOON_HELPER_UNBLOCK, 0, 0);
+      if (helper_window == NULL)
+        {
+          helper_window = recursive_find_window(NULL, HARPOON_HELPER_WINDOW_CLASS);
+        }
+
+      if (helper_window != NULL)
+        {
+          PostMessage(helper_window, WM_USER + HARPOON_HELPER_UNBLOCK, 0, 0);
+        }
     }
 }
 
@@ -312,6 +329,15 @@ Harpoon::start_harpoon_helper()
 
   if (helper_window == NULL)
     {
+      helper_window = recursive_find_window(NULL, HARPOON_HELPER_WINDOW_CLASS);
+      if (helper_window != NULL)
+        {
+          helper_started = true;
+        }
+    }
+
+  if (!helper_started)
+    {
       STARTUPINFO si;
       PROCESS_INFORMATION pi;
 
@@ -320,17 +346,22 @@ Harpoon::start_harpoon_helper()
 
       ZeroMemory(&pi, sizeof(pi));
 
-      gchar *prgname = g_get_prgname();
-      TRACE_MSG("Workrave = " << prgname);
-      
-      if (CreateProcess("HarpoonHelper.exe", prgname, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi)) 
+      string install_dir = g_win32_get_package_installation_directory_of_module(NULL);
+      string helper = install_dir + G_DIR_SEPARATOR_S + "HarpoonHelper.exe";
+      string args = helper + " " + g_get_prgname();
+
+      if (CreateProcessA(helper.c_str(), (LPSTR) args.c_str(), NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi)) 
         {
+          helper_started = true;
           helper_window = recursive_find_window(NULL, HARPOON_HELPER_WINDOW_CLASS);
         }
       else
         {
           TRACE_MSG("CreateProcess failed " << GetLastError());
         }
+
+      TRACE_MSG(pi.hProcess);
+      TRACE_MSG(pi.hThread);
     }
     TRACE_EXIT();
 }
@@ -341,8 +372,9 @@ Harpoon::stop_harpoon_helper()
   TRACE_ENTER("Harpoon::stop_harpoon_helper" );
   if (helper_window != NULL)
     {
-      PostMessage(helper_window, WM_USER + HARPOON_HELPER_INIT, 0, 0);
+      PostMessage(helper_window, WM_USER + HARPOON_HELPER_EXIT, 0, 0);
       helper_window = NULL;
+      helper_started = false;
     }
   TRACE_EXIT();
 }

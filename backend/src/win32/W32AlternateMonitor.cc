@@ -118,6 +118,8 @@ void W32AlternateMonitor::terminate()
       thread_id = 0;
     }
   
+  Harpoon::terminate();
+
   TRACE_EXIT();
 }
 
