@@ -121,6 +121,7 @@ void
 Harpoon::block_input()
 {
   harpoon_block_input();
+
   if (helper_started)
     {
       if (helper_window == NULL)

@@ -36,8 +36,11 @@
 #endif
 
 #define HARPOON_MAX_UNBLOCKED_APPS 3
+#ifdef _WIN64
+#define HARPOON_WINDOW_CLASS "Harpoon64NotificationWindow"
+#else
 #define HARPOON_WINDOW_CLASS "HarpoonNotificationWindow"
-
+#endif
 
 #ifdef __cplusplus
 extern "C" {
