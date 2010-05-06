@@ -1,4 +1,3 @@
-LIBRARY   HARPOON
 EXPORTS
     harpoon_unblock_input @1
     harpoon_block_input @2

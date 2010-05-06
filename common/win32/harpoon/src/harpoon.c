@@ -698,31 +698,30 @@ static LRESULT CALLBACK
 harpoon_msg_block_hook(int code, WPARAM wpar, LPARAM lpar)
 {
   BOOL forcecallnext = TRUE;
-  char buffer[4096];
 
   if (code >= 0)
     {
-      if (((MSG*)lpar)->message == WM_KEYDOWN)
-        {
-          sprintf(buffer, "msg key %x %x", code, wpar);
-          if_debug_send_message( buffer );
+       if (is_app_blocked() && block_input)
+       {
+          ((MSG*)lpar)->message = WM_NULL;
+       }
 
-          if (is_app_blocked() && block_input)
-            {
-              ((MSG*)lpar)->message = WM_NULL;
-            }
-        }
+    //   if (((MSG*)lpar)->message == WM_KEYDOWN)
+    //    {
+    //      if (is_app_blocked() && block_input)
+    //        {
+    //          ((MSG*)lpar)->message = WM_NULL;
+    //        }
+    //    }
 
-      if ( ((MSG*)lpar)->message >= WM_MOUSEFIRST &&
-           ((MSG*)lpar)->message <= WM_MOUSELAST)
-        {
-          sprintf(buffer, "msg mouse %x %x %d", code, wpar, ((MSG*)lpar)->message);
-          if_debug_send_message( buffer );
-          if (is_app_blocked() && block_input)
-            {
-              ((MSG*)lpar)->message = WM_NULL;
-            }
-        }
+    //  if ( ((MSG*)lpar)->message >= WM_MOUSEFIRST &&
+    //       ((MSG*)lpar)->message <= WM_MOUSELAST)
+    //    {
+    //      if (is_app_blocked() && block_input)
+    //        {
+    //          ((MSG*)lpar)->message = WM_NULL;
+    //        }
+    //    }
     }
 
   return CallNextHookEx(msg_hook, code, wpar, lpar);
@@ -914,6 +913,12 @@ harpoon_unhook ()
 {
   if_debug_send_message( "harpoon_unhook() called" );
 
+  if (msg_hook)
+    {
+      UnhookWindowsHookEx(msg_hook);
+      if_debug_send_message( "UnhookWindowsHookEx(msg_hook)" );
+      msg_hook = NULL;
+    }
   if (mouse_hook)
     {
       UnhookWindowsHookEx(mouse_hook);
@@ -1250,6 +1255,7 @@ buffer len is 1024 - 540 = ~480 max str len
       0, 0, 0, 0, 0
     };
   */
+
   GetLocalTime( &local );
 
   if( local.wSecond == wSecond_previous_call &&
