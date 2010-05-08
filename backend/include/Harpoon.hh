@@ -66,7 +66,7 @@ private:
   static HWND recursive_find_window(HWND hwnd, LPCTSTR lpClassName);
   
   static HWND helper_window;
-
+  static bool helper_started;
   static char critical_filename_list[HARPOON_MAX_UNBLOCKED_APPS][511];
 };
 #endif // HARPOON_HH

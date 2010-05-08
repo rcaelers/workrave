@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="harpoon"
 	ProjectGUID="{1DBE998D-2623-4A77-A87D-DBDFEF210531}"
 	RootNamespace="harpoon"

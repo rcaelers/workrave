@@ -275,6 +275,8 @@ void W32LowLevelMonitor::terminate()
   
   terminate_thread( callback );
   terminate_thread( dispatch );
+
+  Harpoon::terminate();
 }
 
 
