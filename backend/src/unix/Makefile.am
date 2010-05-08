@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2007, 2008, 2009 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2007, 2008, 2009, 2010 Rob Caelers & Raymond Penners
 #
 
 MAINTAINERCLEANFILES = 	Makefile.in
@@ -28,7 +28,7 @@ libworkrave_backend_unix_la_CXXFLAGS = \
 			-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-D_XOPEN_SOURCE=600 \
 			@WR_COMMON_INCLUDES@ \
-			@GLIB_CFLAGS@ @GCONF_CFLAGS@
+			@GLIB_CFLAGS@ @GTK_CFLAGS@ @GCONF_CFLAGS@
 
 EXTRA_DIST = 		$(wildcard *.cc) $(wildcard *.rc)\
 			$(wildcard *.hh) $(wildcard *.h) $(wildcard *.icc)

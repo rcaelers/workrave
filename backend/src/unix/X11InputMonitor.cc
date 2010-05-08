@@ -70,7 +70,7 @@
 #include "timeutil.h"
 
 #ifdef HAVE_APP_GTK
-#include <gdk/gdk.h>
+#include <gdk/gdkx.h>
 #endif
 
 #include "Thread.hh"
@@ -81,7 +81,9 @@ using namespace std;
 int X11InputMonitor::xi_event_base = 0;
 #endif
 
+#ifndef HAVE_APP_GTK
 static int (*old_handler)(Display *dpy, XErrorEvent *error);
+#endif
 
 #ifndef HAVE_APP_GTK
 //! Intercepts X11 protocol errors.
@@ -566,13 +568,17 @@ X11InputMonitor::run_xrecord()
 
   init_xrecord();
 
+  error_trap_enter();
+  
   if (use_xrecord &&
       XRecordEnableContext(xrecord_datalink, xrecord_context,  &handle_xrecord_callback, (XPointer)this))
     {
+      error_trap_exit();
       xrecord_datalink = NULL;
     }
   else
     {
+      error_trap_exit();
       TRACE_MSG("Fallback to run events");
       use_xrecord = false;
       run_events();

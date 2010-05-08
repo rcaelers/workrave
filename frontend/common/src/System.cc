@@ -1,6 +1,6 @@
 // System.cc
 //
-// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -41,6 +41,9 @@
 #include <X11/Xproto.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
+#ifdef HAVE_APP_GTK
+#include <gdk/gdkx.h>
+#endif
 #endif
 
 #if defined(HAVE_UNIX)
@@ -55,6 +58,21 @@
 #include "IConfigurator.hh"
 
 using namespace workrave;
+
+static int (*old_handler)(Display *dpy, XErrorEvent *error);
+
+#if defined(PLATFORM_OS_UNIX) && !defined(HAVE_APP_GTK)
+//! Intercepts X11 protocol errors.
+static int
+errorHandler(Display *dpy, XErrorEvent *error)
+{
+  (void)dpy;
+  
+  if (error->error_code == BadWindow || error->error_code==BadDrawable)
+    return 0;
+  return 0;
+}
+#endif
 
 /* MinGW does not have this one yet */
 #ifndef PLATFORM_OS_WIN32_NATIVE
@@ -366,6 +384,12 @@ look_for_kdesktop_recursive (Display *display, Window xwindow)
   unsigned int i = 0;
   bool retval;
 
+#ifdef HAVE_APP_GTK
+  gdk_error_trap_push();
+#else
+  old_handler = XSetErrorHandler(&errorHandler);
+#endif
+  
   /* If WM_STATE is set, this is a managed client, so look
    * for the class hint and end recursion. Otherwise,
    * this is probably just a WM frame, so keep recursing.
@@ -412,6 +436,13 @@ look_for_kdesktop_recursive (Display *display, Window xwindow)
         XFree (children);
     }
 
+#ifdef HAVE_APP_GTK
+  gdk_flush();
+  gdk_error_trap_pop();
+#else
+  XSetErrorHandler(old_handler);
+#endif
+  
   return retval;
 }
 
