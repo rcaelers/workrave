@@ -19,7 +19,7 @@ msgstr ""
 #: ../backend/src/DistributionSocketLink.cc:129
 #, fuzzy, c-format
 msgid "Reconnecting to %s."
-msgstr "התחבר מחדש ל-%s:%d."
+msgstr "התחבר מחדש ל-%s."
 
 #. We did not succeed in starting the server. Arghh.
 #: ../backend/src/DistributionSocketLink.cc:421
@@ -34,25 +34,25 @@ msgstr "מבטל פעילות רשת."
 #: ../backend/src/DistributionSocketLink.cc:583
 #, fuzzy, c-format
 msgid "Connecting to %s."
-msgstr "מתחבר אל %s:%d."
+msgstr "מתחבר אל %s."
 
 #: ../backend/src/DistributionSocketLink.cc:703
 #: ../backend/src/DistributionSocketLink.cc:729
 #, fuzzy, c-format
 msgid "Removing client %s."
-msgstr "מסיר לקוח %s:%d."
+msgstr "מסיר לקוח %s."
 
 #. Closing direct connection.
 #: ../backend/src/DistributionSocketLink.cc:768
 #, fuzzy, c-format
 msgid "Disconnecting %s"
-msgstr "מנתק %s:%d."
+msgstr "מנתק %s."
 
 #. It's a remote client. mark it master.
 #: ../backend/src/DistributionSocketLink.cc:937
 #, fuzzy, c-format
 msgid "Client %s is now master."
-msgstr "הלקוח .%s:%d הוא כעת השליט."
+msgstr "הלקוח .%s הוא כעת השליט."
 
 #. Its ME!
 #: ../backend/src/DistributionSocketLink.cc:944
@@ -64,7 +64,7 @@ msgstr "כעת אני השליט."
 #: ../backend/src/DistributionSocketLink.cc:1275
 #, fuzzy, c-format
 msgid "Client %s saying hello."
-msgstr "הלקוח %s:%d אומר שלום."
+msgstr "הלקוח %s אומר שלום."
 
 #. Duplicate client. inform client that it's bogus and close.
 #: ../backend/src/DistributionSocketLink.cc:1290
@@ -72,54 +72,54 @@ msgstr "הלקוח %s:%d אומר שלום."
 #: ../backend/src/DistributionSocketLink.cc:1662
 #, fuzzy, c-format
 msgid "Client %s is duplicate."
-msgstr "הלקוח %s:%d הוא כפיל."
+msgstr "הלקוח %s הוא כפיל."
 
 #. Incorrect password.
 #: ../backend/src/DistributionSocketLink.cc:1300
 #, fuzzy, c-format
 msgid "Client %s access denied."
-msgstr "גישה נדחתה ללקוח %s:%d."
+msgstr "גישה נדחתה ללקוח %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1369
 #, fuzzy, c-format
 msgid "Client %s signed off."
-msgstr "הלקוח %s:%d התנתק."
+msgstr "הלקוח %s התנתק."
 
 #. gint port =
 #: ../backend/src/DistributionSocketLink.cc:1457
 #, fuzzy, c-format
 msgid "Client %s is welcoming us."
-msgstr "הלקוח %s:%d מברך אותנו."
+msgstr "הלקוח %s מברך אותנו."
 
 #: ../backend/src/DistributionSocketLink.cc:1698
 #, fuzzy, c-format
 msgid "Requesting master status from %s."
-msgstr "מבקש מצב שליט מ-%s:%d."
+msgstr "מבקש מצב שליט מ-%s."
 
 #: ../backend/src/DistributionSocketLink.cc:1712
 #, fuzzy, c-format
 msgid "Client timeout from %s."
-msgstr "זמן ההמתנה ללקוח %s:%d עבר."
+msgstr "זמן ההמתנה ללקוח %s עבר."
 
 #: ../backend/src/DistributionSocketLink.cc:1734
 #, fuzzy, c-format
 msgid "Rejecting master request from client %s."
-msgstr "דוחה בקשת שליט מלקוח %s:%d."
+msgstr "דוחה בקשת שליט מלקוח %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1740
 #, fuzzy, c-format
 msgid "Acknowledging master request from client %s."
-msgstr "מאשר בקשת שליט מלקוח %s:%d."
+msgstr "מאשר בקשת שליט מלקוח %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1791
 #, fuzzy, c-format
 msgid "Non-master client %s rejected master request."
-msgstr "לקוח שאינו שליט %s:%d דחה את בקשת השליט."
+msgstr "לקוח שאינו שליט %s דחה את בקשת השליט."
 
 #: ../backend/src/DistributionSocketLink.cc:1796
 #, fuzzy, c-format
 msgid "Client %s rejected master request, delaying."
-msgstr "הלקוח %s:%d דחה את בקשת השליט, ממתין."
+msgstr "הלקוח %s דחה את בקשת השליט, ממתין."
 
 #. gint count =
 #: ../backend/src/DistributionSocketLink.cc:1867
@@ -138,23 +138,23 @@ msgstr "התקבל לקוח חדש."
 #: ../backend/src/DistributionSocketLink.cc:2083
 #, fuzzy, c-format
 msgid "Client %s read error, closing."
-msgstr "שגיאה בקריאה מן הלקוח %s:%d, סוגר."
+msgstr "שגיאה בקריאה מן הלקוח %s, סוגר."
 
 #: ../backend/src/DistributionSocketLink.cc:2089
 #: ../backend/src/DistributionSocketLink.cc:2162
 #, fuzzy, c-format
 msgid "Client %s closed connection."
-msgstr "הלקוח %s:%d סגר את החיבור."
+msgstr "הלקוח %s סגר את החיבור."
 
 #: ../backend/src/DistributionSocketLink.cc:2130
 #, fuzzy, c-format
 msgid "Client %s connected."
-msgstr "הלקוח %s:%d התחבר."
+msgstr "הלקוח %s התחבר."
 
 #: ../backend/src/DistributionSocketLink.cc:2168
 #, fuzzy, c-format
 msgid "Could not connect to client %s."
-msgstr "לא ניתן להתחבר ללקוח %s:%d."
+msgstr "לא ניתן להתחבר ללקוח %s."
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
 #: ../frontend/common/src/SoundPlayer.cc:92

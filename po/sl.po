@@ -19,7 +19,7 @@ msgstr ""
 #: ../backend/src/DistributionSocketLink.cc:129
 #, fuzzy, c-format
 msgid "Reconnecting to %s."
-msgstr "Ponovno se povezujem z %s:%d."
+msgstr "Ponovno se povezujem z %s."
 
 #. We did not succeed in starting the server. Arghh.
 #: ../backend/src/DistributionSocketLink.cc:421
@@ -34,25 +34,25 @@ msgstr "Omrežne operacije so nemogočene."
 #: ../backend/src/DistributionSocketLink.cc:583
 #, fuzzy, c-format
 msgid "Connecting to %s."
-msgstr "Povezujem se z %s:%d."
+msgstr "Povezujem se z %s."
 
 #: ../backend/src/DistributionSocketLink.cc:703
 #: ../backend/src/DistributionSocketLink.cc:729
 #, fuzzy, c-format
 msgid "Removing client %s."
-msgstr "Odstanjujem odjemalca %s:%d."
+msgstr "Odstanjujem odjemalca %s."
 
 #. Closing direct connection.
 #: ../backend/src/DistributionSocketLink.cc:768
 #, fuzzy, c-format
 msgid "Disconnecting %s"
-msgstr "Prekinjam povezavo %s:%d."
+msgstr "Prekinjam povezavo %s."
 
 #. It's a remote client. mark it master.
 #: ../backend/src/DistributionSocketLink.cc:937
 #, fuzzy, c-format
 msgid "Client %s is now master."
-msgstr "Odjemalec %s:%d je zdaj gospodar."
+msgstr "Odjemalec %s je zdaj gospodar."
 
 #. Its ME!
 #: ../backend/src/DistributionSocketLink.cc:944
@@ -64,7 +64,7 @@ msgstr "Jaz sem zdaj gospodar."
 #: ../backend/src/DistributionSocketLink.cc:1275
 #, fuzzy, c-format
 msgid "Client %s saying hello."
-msgstr "Odjemalec %s:%d pozdravlja."
+msgstr "Odjemalec %s pozdravlja."
 
 #. Duplicate client. inform client that it's bogus and close.
 #: ../backend/src/DistributionSocketLink.cc:1290
@@ -72,55 +72,55 @@ msgstr "Odjemalec %s:%d pozdravlja."
 #: ../backend/src/DistributionSocketLink.cc:1662
 #, fuzzy, c-format
 msgid "Client %s is duplicate."
-msgstr "Odjemalec %s:%d je dvojnik."
+msgstr "Odjemalec %s je dvojnik."
 
 #. Incorrect password.
 #: ../backend/src/DistributionSocketLink.cc:1300
 #, fuzzy, c-format
 msgid "Client %s access denied."
-msgstr "Odjemalcu %s:%d je prepovedan dostop."
+msgstr "Odjemalcu %s je prepovedan dostop."
 
 #: ../backend/src/DistributionSocketLink.cc:1369
 #, fuzzy, c-format
 msgid "Client %s signed off."
-msgstr "Odjemalec %s:%d se je odključil."
+msgstr "Odjemalec %s se je odključil."
 
 #. gint port =
 #: ../backend/src/DistributionSocketLink.cc:1457
 #, fuzzy, c-format
 msgid "Client %s is welcoming us."
-msgstr "Odjemalec %s:%d nam daje dobodošlico."
+msgstr "Odjemalec %s nam daje dobodošlico."
 
 #: ../backend/src/DistributionSocketLink.cc:1698
 #, fuzzy, c-format
 msgid "Requesting master status from %s."
-msgstr "%s:%d zahteva status gospodarja"
+msgstr "%s zahteva status gospodarja"
 
 #: ../backend/src/DistributionSocketLink.cc:1712
 #, fuzzy, c-format
 msgid "Client timeout from %s."
-msgstr "Odjemalec %s:%d se je zakasnil"
+msgstr "Odjemalec %s se je zakasnil"
 
 #: ../backend/src/DistributionSocketLink.cc:1734
 #, fuzzy, c-format
 msgid "Rejecting master request from client %s."
-msgstr "Za odjemalca %s:%d je zahteva po statusu gospodarja zavrnjena"
+msgstr "Za odjemalca %s je zahteva po statusu gospodarja zavrnjena"
 
 #: ../backend/src/DistributionSocketLink.cc:1740
 #, fuzzy, c-format
 msgid "Acknowledging master request from client %s."
-msgstr "Za odjemalca %s:%d je zahteva po statusu gospodarja potrjena"
+msgstr "Za odjemalca %s je zahteva po statusu gospodarja potrjena"
 
 #: ../backend/src/DistributionSocketLink.cc:1791
 #, fuzzy, c-format
 msgid "Non-master client %s rejected master request."
 msgstr ""
-"Odjemalec %s:%d ki ni gospodar je zavrnil zahtevo po statusu gospodarja."
+"Odjemalec %s ki ni gospodar je zavrnil zahtevo po statusu gospodarja."
 
 #: ../backend/src/DistributionSocketLink.cc:1796
 #, fuzzy, c-format
 msgid "Client %s rejected master request, delaying."
-msgstr "Odjemalec %s:%d je odbil prošnjo po statusu gospodarja, zakasnjujem."
+msgstr "Odjemalec %s je odbil prošnjo po statusu gospodarja, zakasnjujem."
 
 #. gint count =
 #: ../backend/src/DistributionSocketLink.cc:1867
@@ -139,23 +139,23 @@ msgstr "Spejet je nov odjemalec."
 #: ../backend/src/DistributionSocketLink.cc:2083
 #, fuzzy, c-format
 msgid "Client %s read error, closing."
-msgstr "Napaka pri branju odjemalca %s:%d, zapiram."
+msgstr "Napaka pri branju odjemalca %s, zapiram."
 
 #: ../backend/src/DistributionSocketLink.cc:2089
 #: ../backend/src/DistributionSocketLink.cc:2162
 #, fuzzy, c-format
 msgid "Client %s closed connection."
-msgstr "Odjemalec %s:%d je zaprl povezavo."
+msgstr "Odjemalec %s je zaprl povezavo."
 
 #: ../backend/src/DistributionSocketLink.cc:2130
 #, fuzzy, c-format
 msgid "Client %s connected."
-msgstr "Odjemalec %s:%d se je povezal."
+msgstr "Odjemalec %s se je povezal."
 
 #: ../backend/src/DistributionSocketLink.cc:2168
 #, fuzzy, c-format
 msgid "Could not connect to client %s."
-msgstr "Z odjemalcem %s:%d se ni mogoče povezati."
+msgstr "Z odjemalcem %s se ni mogoče povezati."
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
 #: ../frontend/common/src/SoundPlayer.cc:92

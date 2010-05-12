@@ -21,7 +21,7 @@ msgstr ""
 #: ../backend/src/DistributionSocketLink.cc:129
 #, fuzzy, c-format
 msgid "Reconnecting to %s."
-msgstr "%s:%d に再接続中。"
+msgstr "%s に再接続中。"
 
 #. We did not succeed in starting the server. Arghh.
 #: ../backend/src/DistributionSocketLink.cc:421
@@ -36,25 +36,25 @@ msgstr "ネットワークオペレーションを停止中。"
 #: ../backend/src/DistributionSocketLink.cc:583
 #, fuzzy, c-format
 msgid "Connecting to %s."
-msgstr "%s:%d に接続中。"
+msgstr "%s に接続中。"
 
 #: ../backend/src/DistributionSocketLink.cc:703
 #: ../backend/src/DistributionSocketLink.cc:729
 #, fuzzy, c-format
 msgid "Removing client %s."
-msgstr "クライアント %s:%d を削除中。"
+msgstr "クライアント %s を削除中。"
 
 #. Closing direct connection.
 #: ../backend/src/DistributionSocketLink.cc:768
 #, fuzzy, c-format
 msgid "Disconnecting %s"
-msgstr "%s:%d を切断中。"
+msgstr "%s を切断中。"
 
 #. It's a remote client. mark it master.
 #: ../backend/src/DistributionSocketLink.cc:937
 #, fuzzy, c-format
 msgid "Client %s is now master."
-msgstr "クライアント %s:%d がマスター。"
+msgstr "クライアント %s がマスター。"
 
 #. Its ME!
 #: ../backend/src/DistributionSocketLink.cc:944
@@ -66,7 +66,7 @@ msgstr "私がマスター。"
 #: ../backend/src/DistributionSocketLink.cc:1275
 #, fuzzy, c-format
 msgid "Client %s saying hello."
-msgstr "クライアント %s:%d が呼んでいる。"
+msgstr "クライアント %s が呼んでいる。"
 
 #. Duplicate client. inform client that it's bogus and close.
 #: ../backend/src/DistributionSocketLink.cc:1290
@@ -74,54 +74,54 @@ msgstr "クライアント %s:%d が呼んでいる。"
 #: ../backend/src/DistributionSocketLink.cc:1662
 #, fuzzy, c-format
 msgid "Client %s is duplicate."
-msgstr "クライアント %s:%d が重複。"
+msgstr "クライアント %s が重複。"
 
 #. Incorrect password.
 #: ../backend/src/DistributionSocketLink.cc:1300
 #, fuzzy, c-format
 msgid "Client %s access denied."
-msgstr "クライアント %s:%d 接続拒否。"
+msgstr "クライアント %s 接続拒否。"
 
 #: ../backend/src/DistributionSocketLink.cc:1369
 #, fuzzy, c-format
 msgid "Client %s signed off."
-msgstr "クライアント %s:%d サインオフ。"
+msgstr "クライアント %s サインオフ。"
 
 #. gint port =
 #: ../backend/src/DistributionSocketLink.cc:1457
 #, fuzzy, c-format
 msgid "Client %s is welcoming us."
-msgstr "クライアント %s:%d 応答。"
+msgstr "クライアント %s 応答。"
 
 #: ../backend/src/DistributionSocketLink.cc:1698
 #, fuzzy, c-format
 msgid "Requesting master status from %s."
-msgstr "%s:%d からマスターステータスの要求。"
+msgstr "%s からマスターステータスの要求。"
 
 #: ../backend/src/DistributionSocketLink.cc:1712
 #, fuzzy, c-format
 msgid "Client timeout from %s."
-msgstr "%s:%d からクライアントタイムアウト。"
+msgstr "%s からクライアントタイムアウト。"
 
 #: ../backend/src/DistributionSocketLink.cc:1734
 #, fuzzy, c-format
 msgid "Rejecting master request from client %s."
-msgstr "クライアント %s:%d からのマスターリクエストを拒否。"
+msgstr "クライアント %s からのマスターリクエストを拒否。"
 
 #: ../backend/src/DistributionSocketLink.cc:1740
 #, fuzzy, c-format
 msgid "Acknowledging master request from client %s."
-msgstr "クライアント %s:%d からの マスターリクエストを承認"
+msgstr "クライアント %s からの マスターリクエストを承認"
 
 #: ../backend/src/DistributionSocketLink.cc:1791
 #, fuzzy, c-format
 msgid "Non-master client %s rejected master request."
-msgstr "マスターでないクライアント %s:%d がマスターリクエストは拒否。"
+msgstr "マスターでないクライアント %s がマスターリクエストは拒否。"
 
 #: ../backend/src/DistributionSocketLink.cc:1796
 #, fuzzy, c-format
 msgid "Client %s rejected master request, delaying."
-msgstr "クライアント %s:%d がマスターリクエストを拒否、延期中。"
+msgstr "クライアント %s がマスターリクエストを拒否、延期中。"
 
 #. gint count =
 #: ../backend/src/DistributionSocketLink.cc:1867
@@ -140,23 +140,23 @@ msgstr "新しいクライアント承認。"
 #: ../backend/src/DistributionSocketLink.cc:2083
 #, fuzzy, c-format
 msgid "Client %s read error, closing."
-msgstr "クライアント %s:%d 読み取りエラー、終了中。"
+msgstr "クライアント %s 読み取りエラー、終了中。"
 
 #: ../backend/src/DistributionSocketLink.cc:2089
 #: ../backend/src/DistributionSocketLink.cc:2162
 #, fuzzy, c-format
 msgid "Client %s closed connection."
-msgstr "クライアント %s:%d 接続終了。"
+msgstr "クライアント %s 接続終了。"
 
 #: ../backend/src/DistributionSocketLink.cc:2130
 #, fuzzy, c-format
 msgid "Client %s connected."
-msgstr "クライアント %s:%d 接続。"
+msgstr "クライアント %s 接続。"
 
 #: ../backend/src/DistributionSocketLink.cc:2168
 #, fuzzy, c-format
 msgid "Could not connect to client %s."
-msgstr "クライアント %s:%d 接続不可。"
+msgstr "クライアント %s 接続不可。"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
 #: ../frontend/common/src/SoundPlayer.cc:92

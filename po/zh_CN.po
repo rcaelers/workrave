@@ -20,7 +20,7 @@ msgstr ""
 #: ../backend/src/DistributionSocketLink.cc:129
 #, fuzzy, c-format
 msgid "Reconnecting to %s."
-msgstr "重新连接到 %s:%d"
+msgstr "重新连接到 %s"
 
 #. We did not succeed in starting the server. Arghh.
 #: ../backend/src/DistributionSocketLink.cc:421
@@ -35,25 +35,25 @@ msgstr "停用网络功能。"
 #: ../backend/src/DistributionSocketLink.cc:583
 #, fuzzy, c-format
 msgid "Connecting to %s."
-msgstr "连接到 %s:%d"
+msgstr "连接到 %s"
 
 #: ../backend/src/DistributionSocketLink.cc:703
 #: ../backend/src/DistributionSocketLink.cc:729
 #, fuzzy, c-format
 msgid "Removing client %s."
-msgstr "移除用户端 %s:%d"
+msgstr "移除用户端 %s"
 
 #. Closing direct connection.
 #: ../backend/src/DistributionSocketLink.cc:768
 #, fuzzy, c-format
 msgid "Disconnecting %s"
-msgstr "断线中 %s:%d"
+msgstr "断线中 %s"
 
 #. It's a remote client. mark it master.
 #: ../backend/src/DistributionSocketLink.cc:937
 #, fuzzy, c-format
 msgid "Client %s is now master."
-msgstr "客户端 %s:%d 现在是主控。"
+msgstr "客户端 %s 现在是主控。"
 
 #. Its ME!
 #: ../backend/src/DistributionSocketLink.cc:944
@@ -79,48 +79,48 @@ msgstr "客户端 %s;%d 重复。"
 #: ../backend/src/DistributionSocketLink.cc:1300
 #, fuzzy, c-format
 msgid "Client %s access denied."
-msgstr "客户端 %s:%d 拒绝存取。"
+msgstr "客户端 %s 拒绝存取。"
 
 #: ../backend/src/DistributionSocketLink.cc:1369
 #, fuzzy, c-format
 msgid "Client %s signed off."
-msgstr "客户端 %s:%d 离线。"
+msgstr "客户端 %s 离线。"
 
 #. gint port =
 #: ../backend/src/DistributionSocketLink.cc:1457
 #, fuzzy, c-format
 msgid "Client %s is welcoming us."
-msgstr "客户端 %s:%d 欢迎我们。"
+msgstr "客户端 %s 欢迎我们。"
 
 #: ../backend/src/DistributionSocketLink.cc:1698
 #, fuzzy, c-format
 msgid "Requesting master status from %s."
-msgstr "向 %s:%d 要求主控端状态。"
+msgstr "向 %s 要求主控端状态。"
 
 #: ../backend/src/DistributionSocketLink.cc:1712
 #, fuzzy, c-format
 msgid "Client timeout from %s."
-msgstr "客户端 %s:%d 超时。"
+msgstr "客户端 %s 超时。"
 
 #: ../backend/src/DistributionSocketLink.cc:1734
 #, fuzzy, c-format
 msgid "Rejecting master request from client %s."
-msgstr "拒绝来自客户端 %s:%d 的主控要求"
+msgstr "拒绝来自客户端 %s 的主控要求"
 
 #: ../backend/src/DistributionSocketLink.cc:1740
 #, fuzzy, c-format
 msgid "Acknowledging master request from client %s."
-msgstr "确认来自客户端 %s:%d 的主控要求。"
+msgstr "确认来自客户端 %s 的主控要求。"
 
 #: ../backend/src/DistributionSocketLink.cc:1791
 #, fuzzy, c-format
 msgid "Non-master client %s rejected master request."
-msgstr "非主控客户端 %s:%d 拒绝主控要求。"
+msgstr "非主控客户端 %s 拒绝主控要求。"
 
 #: ../backend/src/DistributionSocketLink.cc:1796
 #, fuzzy, c-format
 msgid "Client %s rejected master request, delaying."
-msgstr "客户端 %s:%d 拒绝主控要求，延迟中。"
+msgstr "客户端 %s 拒绝主控要求，延迟中。"
 
 #. gint count =
 #: ../backend/src/DistributionSocketLink.cc:1867
@@ -139,23 +139,23 @@ msgstr "接受新客户端"
 #: ../backend/src/DistributionSocketLink.cc:2083
 #, fuzzy, c-format
 msgid "Client %s read error, closing."
-msgstr "客户端 %s:%d 读取错误，关闭中。"
+msgstr "客户端 %s 读取错误，关闭中。"
 
 #: ../backend/src/DistributionSocketLink.cc:2089
 #: ../backend/src/DistributionSocketLink.cc:2162
 #, fuzzy, c-format
 msgid "Client %s closed connection."
-msgstr "客户端 %s:%d 关闭连接。"
+msgstr "客户端 %s 关闭连接。"
 
 #: ../backend/src/DistributionSocketLink.cc:2130
 #, fuzzy, c-format
 msgid "Client %s connected."
-msgstr "连接到用户端 %s:%d。"
+msgstr "连接到用户端 %s。"
 
 #: ../backend/src/DistributionSocketLink.cc:2168
 #, fuzzy, c-format
 msgid "Could not connect to client %s."
-msgstr "无法连接到用户端 %s:%d。"
+msgstr "无法连接到用户端 %s。"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
 #: ../frontend/common/src/SoundPlayer.cc:92

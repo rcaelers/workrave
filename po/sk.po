@@ -20,7 +20,7 @@ msgstr ""
 #: ../backend/src/DistributionSocketLink.cc:129
 #, fuzzy, c-format
 msgid "Reconnecting to %s."
-msgstr "Obnovujem spojenie ku %s:%d."
+msgstr "Obnovujem spojenie ku %s."
 
 #. We did not succeed in starting the server. Arghh.
 #: ../backend/src/DistributionSocketLink.cc:421
@@ -35,25 +35,25 @@ msgstr "Vypínam sieťové operácie."
 #: ../backend/src/DistributionSocketLink.cc:583
 #, fuzzy, c-format
 msgid "Connecting to %s."
-msgstr "Pripájam sa k %s:%d."
+msgstr "Pripájam sa k %s."
 
 #: ../backend/src/DistributionSocketLink.cc:703
 #: ../backend/src/DistributionSocketLink.cc:729
 #, fuzzy, c-format
 msgid "Removing client %s."
-msgstr "Odstraňujem klienta %s:%d."
+msgstr "Odstraňujem klienta %s."
 
 #. Closing direct connection.
 #: ../backend/src/DistributionSocketLink.cc:768
 #, fuzzy, c-format
 msgid "Disconnecting %s"
-msgstr "Odpájam %s:%d."
+msgstr "Odpájam %s."
 
 #. It's a remote client. mark it master.
 #: ../backend/src/DistributionSocketLink.cc:937
 #, fuzzy, c-format
 msgid "Client %s is now master."
-msgstr "Klient %s:%d je teraz vedúci."
+msgstr "Klient %s je teraz vedúci."
 
 #. Its ME!
 #: ../backend/src/DistributionSocketLink.cc:944
@@ -65,7 +65,7 @@ msgstr "Teraz som vedúci."
 #: ../backend/src/DistributionSocketLink.cc:1275
 #, fuzzy, c-format
 msgid "Client %s saying hello."
-msgstr "Klient %s:%d zdraví."
+msgstr "Klient %s zdraví."
 
 #. Duplicate client. inform client that it's bogus and close.
 #: ../backend/src/DistributionSocketLink.cc:1290
@@ -73,54 +73,54 @@ msgstr "Klient %s:%d zdraví."
 #: ../backend/src/DistributionSocketLink.cc:1662
 #, fuzzy, c-format
 msgid "Client %s is duplicate."
-msgstr "Klient %s:%d je duplikovaný."
+msgstr "Klient %s je duplikovaný."
 
 #. Incorrect password.
 #: ../backend/src/DistributionSocketLink.cc:1300
 #, fuzzy, c-format
 msgid "Client %s access denied."
-msgstr "Klient %s:%d odmietol prístup."
+msgstr "Klient %s odmietol prístup."
 
 #: ../backend/src/DistributionSocketLink.cc:1369
 #, fuzzy, c-format
 msgid "Client %s signed off."
-msgstr "Klient %s:%d sa odhlásil."
+msgstr "Klient %s sa odhlásil."
 
 #. gint port =
 #: ../backend/src/DistributionSocketLink.cc:1457
 #, fuzzy, c-format
 msgid "Client %s is welcoming us."
-msgstr "Klient %s:%d nás víta."
+msgstr "Klient %s nás víta."
 
 #: ../backend/src/DistributionSocketLink.cc:1698
 #, fuzzy, c-format
 msgid "Requesting master status from %s."
-msgstr "Požiadavka vedúceho stavu od %s:%d."
+msgstr "Požiadavka vedúceho stavu od %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1712
 #, fuzzy, c-format
 msgid "Client timeout from %s."
-msgstr "Vypršal čas klienta %s:%d."
+msgstr "Vypršal čas klienta %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1734
 #, fuzzy, c-format
 msgid "Rejecting master request from client %s."
-msgstr "Zamieta sa požiadavka vedúceho stavu od klienta %s:%d."
+msgstr "Zamieta sa požiadavka vedúceho stavu od klienta %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1740
 #, fuzzy, c-format
 msgid "Acknowledging master request from client %s."
-msgstr "Uznáva sa požiadavka vedúceho stavu od klienta %s:%d."
+msgstr "Uznáva sa požiadavka vedúceho stavu od klienta %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1791
 #, fuzzy, c-format
 msgid "Non-master client %s rejected master request."
-msgstr "Klient %s:%d nie je vedúci a odmietol požiadavku na vedúci stav."
+msgstr "Klient %s nie je vedúci a odmietol požiadavku na vedúci stav."
 
 #: ../backend/src/DistributionSocketLink.cc:1796
 #, fuzzy, c-format
 msgid "Client %s rejected master request, delaying."
-msgstr "Klient %s:%d odmietol požiadavku na vedúci stav, čakám."
+msgstr "Klient %s odmietol požiadavku na vedúci stav, čakám."
 
 #. gint count =
 #: ../backend/src/DistributionSocketLink.cc:1867
@@ -139,23 +139,23 @@ msgstr "Akceptovaný nový klient."
 #: ../backend/src/DistributionSocketLink.cc:2083
 #, fuzzy, c-format
 msgid "Client %s read error, closing."
-msgstr "Chyba pri čitania s klientom %s:%d, ukončujem."
+msgstr "Chyba pri čitania s klientom %s, ukončujem."
 
 #: ../backend/src/DistributionSocketLink.cc:2089
 #: ../backend/src/DistributionSocketLink.cc:2162
 #, fuzzy, c-format
 msgid "Client %s closed connection."
-msgstr "Klient %s:%d ukončil spojenie."
+msgstr "Klient %s ukončil spojenie."
 
 #: ../backend/src/DistributionSocketLink.cc:2130
 #, fuzzy, c-format
 msgid "Client %s connected."
-msgstr "Klient %s:%d sa pripojil."
+msgstr "Klient %s sa pripojil."
 
 #: ../backend/src/DistributionSocketLink.cc:2168
 #, fuzzy, c-format
 msgid "Could not connect to client %s."
-msgstr "Nepodarilo sa pripojiť ku klientovi %s:%d."
+msgstr "Nepodarilo sa pripojiť ku klientovi %s."
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
 #: ../frontend/common/src/SoundPlayer.cc:92

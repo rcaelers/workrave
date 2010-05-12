@@ -19,7 +19,7 @@ msgstr ""
 #: ../backend/src/DistributionSocketLink.cc:129
 #, fuzzy, c-format
 msgid "Reconnecting to %s."
-msgstr "Reconectare la %s:%d."
+msgstr "Reconectare la %s."
 
 #. We did not succeed in starting the server. Arghh.
 #: ../backend/src/DistributionSocketLink.cc:421
@@ -34,25 +34,25 @@ msgstr "Se dezactivează lucrul în rețea."
 #: ../backend/src/DistributionSocketLink.cc:583
 #, fuzzy, c-format
 msgid "Connecting to %s."
-msgstr "Conectare la %s:%d."
+msgstr "Conectare la %s."
 
 #: ../backend/src/DistributionSocketLink.cc:703
 #: ../backend/src/DistributionSocketLink.cc:729
 #, fuzzy, c-format
 msgid "Removing client %s."
-msgstr "Se elimină clientul %s:%d."
+msgstr "Se elimină clientul %s."
 
 #. Closing direct connection.
 #: ../backend/src/DistributionSocketLink.cc:768
 #, fuzzy, c-format
 msgid "Disconnecting %s"
-msgstr "Se deconectează %s:%d."
+msgstr "Se deconectează %s."
 
 #. It's a remote client. mark it master.
 #: ../backend/src/DistributionSocketLink.cc:937
 #, fuzzy, c-format
 msgid "Client %s is now master."
-msgstr "Clientul %s:%d este acum clientul principal."
+msgstr "Clientul %s este acum clientul principal."
 
 #. Its ME!
 #: ../backend/src/DistributionSocketLink.cc:944
@@ -64,7 +64,7 @@ msgstr "Acum sunt clientul principal."
 #: ../backend/src/DistributionSocketLink.cc:1275
 #, fuzzy, c-format
 msgid "Client %s saying hello."
-msgstr "Clientul %s:%d salută."
+msgstr "Clientul %s salută."
 
 #. Duplicate client. inform client that it's bogus and close.
 #: ../backend/src/DistributionSocketLink.cc:1290
@@ -72,54 +72,54 @@ msgstr "Clientul %s:%d salută."
 #: ../backend/src/DistributionSocketLink.cc:1662
 #, fuzzy, c-format
 msgid "Client %s is duplicate."
-msgstr "Clientul %s:%d este duplicat."
+msgstr "Clientul %s este duplicat."
 
 #. Incorrect password.
 #: ../backend/src/DistributionSocketLink.cc:1300
 #, fuzzy, c-format
 msgid "Client %s access denied."
-msgstr "Acces interzis pentru clientul %s:%d."
+msgstr "Acces interzis pentru clientul %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1369
 #, fuzzy, c-format
 msgid "Client %s signed off."
-msgstr "Clientul %s:%d s-a deconectat."
+msgstr "Clientul %s s-a deconectat."
 
 #. gint port =
 #: ../backend/src/DistributionSocketLink.cc:1457
 #, fuzzy, c-format
 msgid "Client %s is welcoming us."
-msgstr "Clientul %s:%d ne întâmpină."
+msgstr "Clientul %s ne întâmpină."
 
 #: ../backend/src/DistributionSocketLink.cc:1698
 #, fuzzy, c-format
 msgid "Requesting master status from %s."
-msgstr "Se cere statutul de client principal de la %s:%d."
+msgstr "Se cere statutul de client principal de la %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1712
 #, fuzzy, c-format
 msgid "Client timeout from %s."
-msgstr "Timpul de așteptare după clientul %s:%d a expirat."
+msgstr "Timpul de așteptare după clientul %s a expirat."
 
 #: ../backend/src/DistributionSocketLink.cc:1734
 #, fuzzy, c-format
 msgid "Rejecting master request from client %s."
-msgstr "Se respinge cererea de a deveni client principal clientului %s:%d."
+msgstr "Se respinge cererea de a deveni client principal clientului %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1740
 #, fuzzy, c-format
 msgid "Acknowledging master request from client %s."
-msgstr "Se acceptă cererea de a deveni client principal clientului %s:%d."
+msgstr "Se acceptă cererea de a deveni client principal clientului %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1791
 #, fuzzy, c-format
 msgid "Non-master client %s rejected master request."
-msgstr "S-a respins cererea de a deveni client principal clientului %s:%d."
+msgstr "S-a respins cererea de a deveni client principal clientului %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1796
 #, fuzzy, c-format
 msgid "Client %s rejected master request, delaying."
-msgstr "Clientul %s:%d a respins cererea de client principal, se amână."
+msgstr "Clientul %s a respins cererea de client principal, se amână."
 
 #. gint count =
 #: ../backend/src/DistributionSocketLink.cc:1867
@@ -138,23 +138,23 @@ msgstr "S-a acceptat un client nou."
 #: ../backend/src/DistributionSocketLink.cc:2083
 #, fuzzy, c-format
 msgid "Client %s read error, closing."
-msgstr "Eroare de citire de la clientul %s:%d, închidere."
+msgstr "Eroare de citire de la clientul %s, închidere."
 
 #: ../backend/src/DistributionSocketLink.cc:2089
 #: ../backend/src/DistributionSocketLink.cc:2162
 #, fuzzy, c-format
 msgid "Client %s closed connection."
-msgstr "Clientul %s:%d a închis conexiunea."
+msgstr "Clientul %s a închis conexiunea."
 
 #: ../backend/src/DistributionSocketLink.cc:2130
 #, fuzzy, c-format
 msgid "Client %s connected."
-msgstr "Clientul %s:%d s-a conectat."
+msgstr "Clientul %s s-a conectat."
 
 #: ../backend/src/DistributionSocketLink.cc:2168
 #, fuzzy, c-format
 msgid "Could not connect to client %s."
-msgstr "Nu se poate efectua conexiunea cu clientul %s:%d."
+msgstr "Nu se poate efectua conexiunea cu clientul %s."
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
 #: ../frontend/common/src/SoundPlayer.cc:92

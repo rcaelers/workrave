@@ -18,7 +18,7 @@ msgstr ""
 #: ../backend/src/DistributionSocketLink.cc:129
 #, fuzzy, c-format
 msgid "Reconnecting to %s."
-msgstr "Vėl jungiamasi prie %s:%d."
+msgstr "Vėl jungiamasi prie %s."
 
 #  We did not succeed in starting the server. Arghh.
 #. We did not succeed in starting the server. Arghh.
@@ -34,27 +34,27 @@ msgstr "Išjungiamas tinklo veiksnumas."
 #: ../backend/src/DistributionSocketLink.cc:583
 #, fuzzy, c-format
 msgid "Connecting to %s."
-msgstr "Jungiamasi prie %s:%d."
+msgstr "Jungiamasi prie %s."
 
 #: ../backend/src/DistributionSocketLink.cc:703
 #: ../backend/src/DistributionSocketLink.cc:729
 #, fuzzy, c-format
 msgid "Removing client %s."
-msgstr "Pašaliname klientą %s:%d."
+msgstr "Pašaliname klientą %s."
 
 #  Closing direct connection.
 #. Closing direct connection.
 #: ../backend/src/DistributionSocketLink.cc:768
 #, fuzzy, c-format
 msgid "Disconnecting %s"
-msgstr "Atjungiame %s:%d."
+msgstr "Atjungiame %s."
 
 #  It's a remote client. mark it master.
 #. It's a remote client. mark it master.
 #: ../backend/src/DistributionSocketLink.cc:937
 #, fuzzy, c-format
 msgid "Client %s is now master."
-msgstr "Klientas %s:%d dabar yra mūsų šeiminkas."
+msgstr "Klientas %s dabar yra mūsų šeiminkas."
 
 #  Its ME!
 #. Its ME!
@@ -67,7 +67,7 @@ msgstr "Aš dabar esu šeiminkas."
 #: ../backend/src/DistributionSocketLink.cc:1275
 #, fuzzy, c-format
 msgid "Client %s saying hello."
-msgstr "Klientas %s:%d sveikinasi."
+msgstr "Klientas %s sveikinasi."
 
 #  Duplicate client. inform client that it's bogus and close.
 #. Duplicate client. inform client that it's bogus and close.
@@ -76,55 +76,55 @@ msgstr "Klientas %s:%d sveikinasi."
 #: ../backend/src/DistributionSocketLink.cc:1662
 #, fuzzy, c-format
 msgid "Client %s is duplicate."
-msgstr "Klientas %s:%d kartojasi."
+msgstr "Klientas %s kartojasi."
 
 #  Incorrect password.
 #. Incorrect password.
 #: ../backend/src/DistributionSocketLink.cc:1300
 #, fuzzy, c-format
 msgid "Client %s access denied."
-msgstr "Klientui %s:%d uždraustas priejimas."
+msgstr "Klientui %s uždraustas priejimas."
 
 #: ../backend/src/DistributionSocketLink.cc:1369
 #, fuzzy, c-format
 msgid "Client %s signed off."
-msgstr "Klientas %s:%d atsijungė."
+msgstr "Klientas %s atsijungė."
 
 #. gint port =
 #: ../backend/src/DistributionSocketLink.cc:1457
 #, fuzzy, c-format
 msgid "Client %s is welcoming us."
-msgstr "Klientas %s:%d sveikina mus."
+msgstr "Klientas %s sveikina mus."
 
 #: ../backend/src/DistributionSocketLink.cc:1698
 #, fuzzy, c-format
 msgid "Requesting master status from %s."
-msgstr "Prašome šeiminko statuso iš %s:%d."
+msgstr "Prašome šeiminko statuso iš %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1712
 #, fuzzy, c-format
 msgid "Client timeout from %s."
-msgstr "Klientui %s:%d baigėsi laiko limitas."
+msgstr "Klientui %s baigėsi laiko limitas."
 
 #: ../backend/src/DistributionSocketLink.cc:1734
 #, fuzzy, c-format
 msgid "Rejecting master request from client %s."
-msgstr "Atmetame šeiminko prašymą iš kliento %s:%d."
+msgstr "Atmetame šeiminko prašymą iš kliento %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1740
 #, fuzzy, c-format
 msgid "Acknowledging master request from client %s."
-msgstr "Patvirtiname šeiminko prašyma iš kliento %s:%d."
+msgstr "Patvirtiname šeiminko prašyma iš kliento %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1791
 #, fuzzy, c-format
 msgid "Non-master client %s rejected master request."
-msgstr "Klientas %s:%d, kuris nėra šeiminkas, atmetė šeiminko prašymą."
+msgstr "Klientas %s, kuris nėra šeiminkas, atmetė šeiminko prašymą."
 
 #: ../backend/src/DistributionSocketLink.cc:1796
 #, fuzzy, c-format
 msgid "Client %s rejected master request, delaying."
-msgstr "Klientas %s:%d atmetė šeiminko prašymą, delsiame."
+msgstr "Klientas %s atmetė šeiminko prašymą, delsiame."
 
 #  gint count =
 #. gint count =
@@ -144,23 +144,23 @@ msgstr "Priėmėme naują klientą."
 #: ../backend/src/DistributionSocketLink.cc:2083
 #, fuzzy, c-format
 msgid "Client %s read error, closing."
-msgstr "Kliento %s:%d nuskaitymo klaida, uždarome."
+msgstr "Kliento %s nuskaitymo klaida, uždarome."
 
 #: ../backend/src/DistributionSocketLink.cc:2089
 #: ../backend/src/DistributionSocketLink.cc:2162
 #, fuzzy, c-format
 msgid "Client %s closed connection."
-msgstr "Klientas %s:%d uždarė susijungimą."
+msgstr "Klientas %s uždarė susijungimą."
 
 #: ../backend/src/DistributionSocketLink.cc:2130
 #, fuzzy, c-format
 msgid "Client %s connected."
-msgstr "Klientas %s:%d prisijungė."
+msgstr "Klientas %s prisijungė."
 
 #: ../backend/src/DistributionSocketLink.cc:2168
 #, fuzzy, c-format
 msgid "Could not connect to client %s."
-msgstr "Nepavyko prisijungti prie kliento %s:%d."
+msgstr "Nepavyko prisijungti prie kliento %s."
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
 #: ../frontend/common/src/SoundPlayer.cc:92

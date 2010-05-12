@@ -17,7 +17,7 @@ msgstr ""
 #: ../backend/src/DistributionSocketLink.cc:129
 #, fuzzy, c-format
 msgid "Reconnecting to %s."
-msgstr "Opnieuw aan het verbinden met cliënt %s:%d."
+msgstr "Opnieuw aan het verbinden met cliënt %s."
 
 #. We did not succeed in starting the server. Arghh.
 #: ../backend/src/DistributionSocketLink.cc:421
@@ -32,25 +32,25 @@ msgstr "Netwerkfuncties uitgezet."
 #: ../backend/src/DistributionSocketLink.cc:583
 #, fuzzy, c-format
 msgid "Connecting to %s."
-msgstr "Aan het verbinden met %s:%d."
+msgstr "Aan het verbinden met %s."
 
 #: ../backend/src/DistributionSocketLink.cc:703
 #: ../backend/src/DistributionSocketLink.cc:729
 #, fuzzy, c-format
 msgid "Removing client %s."
-msgstr "Cliënt %s:%d verwijderd."
+msgstr "Cliënt %s verwijderd."
 
 #. Closing direct connection.
 #: ../backend/src/DistributionSocketLink.cc:768
 #, fuzzy, c-format
 msgid "Disconnecting %s"
-msgstr "Verbinding verbroken met %s:%d."
+msgstr "Verbinding verbroken met %s."
 
 #. It's a remote client. mark it master.
 #: ../backend/src/DistributionSocketLink.cc:937
 #, fuzzy, c-format
 msgid "Client %s is now master."
-msgstr "Cliënt %s:%d is nu de leider."
+msgstr "Cliënt %s is nu de leider."
 
 #. Its ME!
 #: ../backend/src/DistributionSocketLink.cc:944
@@ -62,7 +62,7 @@ msgstr "Ik ben nu de leider."
 #: ../backend/src/DistributionSocketLink.cc:1275
 #, fuzzy, c-format
 msgid "Client %s saying hello."
-msgstr "Cliënt %s:%d zegt hallo."
+msgstr "Cliënt %s zegt hallo."
 
 #. Duplicate client. inform client that it's bogus and close.
 #: ../backend/src/DistributionSocketLink.cc:1290
@@ -70,54 +70,54 @@ msgstr "Cliënt %s:%d zegt hallo."
 #: ../backend/src/DistributionSocketLink.cc:1662
 #, fuzzy, c-format
 msgid "Client %s is duplicate."
-msgstr "Cliënt %s:%d komt vaker voor."
+msgstr "Cliënt %s komt vaker voor."
 
 #. Incorrect password.
 #: ../backend/src/DistributionSocketLink.cc:1300
 #, fuzzy, c-format
 msgid "Client %s access denied."
-msgstr "Cliënt %s:%d krijgt geen toegang."
+msgstr "Cliënt %s krijgt geen toegang."
 
 #: ../backend/src/DistributionSocketLink.cc:1369
 #, fuzzy, c-format
 msgid "Client %s signed off."
-msgstr "Cliënt %s:%d heeft zich afgemeld."
+msgstr "Cliënt %s heeft zich afgemeld."
 
 #. gint port =
 #: ../backend/src/DistributionSocketLink.cc:1457
 #, fuzzy, c-format
 msgid "Client %s is welcoming us."
-msgstr "Cliënt %s:%d heet ons welkom."
+msgstr "Cliënt %s heet ons welkom."
 
 #: ../backend/src/DistributionSocketLink.cc:1698
 #, fuzzy, c-format
 msgid "Requesting master status from %s."
-msgstr "Leiderschapsaanvraag ingediend bij %s:%d."
+msgstr "Leiderschapsaanvraag ingediend bij %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1712
 #, fuzzy, c-format
 msgid "Client timeout from %s."
-msgstr "Cliënt reageerde niet op tijd vanaf %s:%d."
+msgstr "Cliënt reageerde niet op tijd vanaf %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1734
 #, fuzzy, c-format
 msgid "Rejecting master request from client %s."
-msgstr "Verzoek tot leiderschap van cliënt %s:%d gewijgerd."
+msgstr "Verzoek tot leiderschap van cliënt %s gewijgerd."
 
 #: ../backend/src/DistributionSocketLink.cc:1740
 #, fuzzy, c-format
 msgid "Acknowledging master request from client %s."
-msgstr "Leiderschapsoverdracht van cliënt %s:%d bevestigd."
+msgstr "Leiderschapsoverdracht van cliënt %s bevestigd."
 
 #: ../backend/src/DistributionSocketLink.cc:1791
 #, fuzzy, c-format
 msgid "Non-master client %s rejected master request."
-msgstr "Niet-leidende cliënt %s:%d weigert leiderschapsverzoek."
+msgstr "Niet-leidende cliënt %s weigert leiderschapsverzoek."
 
 #: ../backend/src/DistributionSocketLink.cc:1796
 #, fuzzy, c-format
 msgid "Client %s rejected master request, delaying."
-msgstr "Cliënt %s:%d weigerde leiderschapsverzoek, uitgesteld."
+msgstr "Cliënt %s weigerde leiderschapsverzoek, uitgesteld."
 
 #. gint count =
 #: ../backend/src/DistributionSocketLink.cc:1867
@@ -136,23 +136,23 @@ msgstr "Nieuwe cliënt geaccepteerd."
 #: ../backend/src/DistributionSocketLink.cc:2083
 #, fuzzy, c-format
 msgid "Client %s read error, closing."
-msgstr "Leesfout van cliënt %s:%d, verbinding gesloten."
+msgstr "Leesfout van cliënt %s, verbinding gesloten."
 
 #: ../backend/src/DistributionSocketLink.cc:2089
 #: ../backend/src/DistributionSocketLink.cc:2162
 #, fuzzy, c-format
 msgid "Client %s closed connection."
-msgstr "Cliënt %s:%d heeft de connectie gesloten."
+msgstr "Cliënt %s heeft de connectie gesloten."
 
 #: ../backend/src/DistributionSocketLink.cc:2130
 #, fuzzy, c-format
 msgid "Client %s connected."
-msgstr "Cliënt %s:%d heeft verbinding gemaakt."
+msgstr "Cliënt %s heeft verbinding gemaakt."
 
 #: ../backend/src/DistributionSocketLink.cc:2168
 #, fuzzy, c-format
 msgid "Could not connect to client %s."
-msgstr "Kon niet verbinden met cliënt %s:%d."
+msgstr "Kon niet verbinden met cliënt %s."
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
 #: ../frontend/common/src/SoundPlayer.cc:92

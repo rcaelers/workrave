@@ -20,7 +20,7 @@ msgstr ""
 #: ../backend/src/DistributionSocketLink.cc:129
 #, fuzzy, c-format
 msgid "Reconnecting to %s."
-msgstr "%s:%d adresine yeniden bağlanılıyor."
+msgstr "%s adresine yeniden bağlanılıyor."
 
 #. We did not succeed in starting the server. Arghh.
 #: ../backend/src/DistributionSocketLink.cc:421
@@ -35,25 +35,25 @@ msgstr "Ağ işlevi hizmet dışı bırakılıyor."
 #: ../backend/src/DistributionSocketLink.cc:583
 #, fuzzy, c-format
 msgid "Connecting to %s."
-msgstr "%s:%d adresine bağlanılıyor."
+msgstr "%s adresine bağlanılıyor."
 
 #: ../backend/src/DistributionSocketLink.cc:703
 #: ../backend/src/DistributionSocketLink.cc:729
 #, fuzzy, c-format
 msgid "Removing client %s."
-msgstr "%s:%d istemcisi listeden çıkarılıyor."
+msgstr "%s istemcisi listeden çıkarılıyor."
 
 #. Closing direct connection.
 #: ../backend/src/DistributionSocketLink.cc:768
 #, fuzzy, c-format
 msgid "Disconnecting %s"
-msgstr "%s:%d bağlantısı kesiliyor."
+msgstr "%s bağlantısı kesiliyor."
 
 #. It's a remote client. mark it master.
 #: ../backend/src/DistributionSocketLink.cc:937
 #, fuzzy, c-format
 msgid "Client %s is now master."
-msgstr "%s:%d istemcisi asıl sunucu oldu."
+msgstr "%s istemcisi asıl sunucu oldu."
 
 #. Its ME!
 #: ../backend/src/DistributionSocketLink.cc:944
@@ -65,7 +65,7 @@ msgstr "Bu istemci şimdi asıl sunucu oldu."
 #: ../backend/src/DistributionSocketLink.cc:1275
 #, fuzzy, c-format
 msgid "Client %s saying hello."
-msgstr "%s:%d istemcisi merhaba diyor."
+msgstr "%s istemcisi merhaba diyor."
 
 #. Duplicate client. inform client that it's bogus and close.
 #: ../backend/src/DistributionSocketLink.cc:1290
@@ -73,54 +73,54 @@ msgstr "%s:%d istemcisi merhaba diyor."
 #: ../backend/src/DistributionSocketLink.cc:1662
 #, fuzzy, c-format
 msgid "Client %s is duplicate."
-msgstr "%s:%d istemcisi bir kopya."
+msgstr "%s istemcisi bir kopya."
 
 #. Incorrect password.
 #: ../backend/src/DistributionSocketLink.cc:1300
 #, fuzzy, c-format
 msgid "Client %s access denied."
-msgstr "%s:%d istemcisinin erişimi reddedildi."
+msgstr "%s istemcisinin erişimi reddedildi."
 
 #: ../backend/src/DistributionSocketLink.cc:1369
 #, fuzzy, c-format
 msgid "Client %s signed off."
-msgstr "%s:%d istemcisi bağlantıyı kesti."
+msgstr "%s istemcisi bağlantıyı kesti."
 
 #. gint port =
 #: ../backend/src/DistributionSocketLink.cc:1457
 #, fuzzy, c-format
 msgid "Client %s is welcoming us."
-msgstr "%s:%d istemcisi bağlantıya davet ediyor."
+msgstr "%s istemcisi bağlantıya davet ediyor."
 
 #: ../backend/src/DistributionSocketLink.cc:1698
 #, fuzzy, c-format
 msgid "Requesting master status from %s."
-msgstr "%s:%d adresinden asıl sunucu durumu isteniyor."
+msgstr "%s adresinden asıl sunucu durumu isteniyor."
 
 #: ../backend/src/DistributionSocketLink.cc:1712
 #, fuzzy, c-format
 msgid "Client timeout from %s."
-msgstr "%s:%d istemcisinin bağlantısı zaman aşımına uğradı."
+msgstr "%s istemcisinin bağlantısı zaman aşımına uğradı."
 
 #: ../backend/src/DistributionSocketLink.cc:1734
 #, fuzzy, c-format
 msgid "Rejecting master request from client %s."
-msgstr "%s:%d istemcisinden gelen asıl sunucu isteği reddedildi."
+msgstr "%s istemcisinden gelen asıl sunucu isteği reddedildi."
 
 #: ../backend/src/DistributionSocketLink.cc:1740
 #, fuzzy, c-format
 msgid "Acknowledging master request from client %s."
-msgstr "%s:%d istemcisinin asıl sunucu isteği yanıtlanıyor."
+msgstr "%s istemcisinin asıl sunucu isteği yanıtlanıyor."
 
 #: ../backend/src/DistributionSocketLink.cc:1791
 #, fuzzy, c-format
 msgid "Non-master client %s rejected master request."
-msgstr "Asıl olmayan istemci %s:%d asıl sunucu isteğini reddetti."
+msgstr "Asıl olmayan istemci %s asıl sunucu isteğini reddetti."
 
 #: ../backend/src/DistributionSocketLink.cc:1796
 #, fuzzy, c-format
 msgid "Client %s rejected master request, delaying."
-msgstr "%s:%d istemcisi asıl sunucu isteğini reddetti, bekleniyor."
+msgstr "%s istemcisi asıl sunucu isteğini reddetti, bekleniyor."
 
 #. gint count =
 #: ../backend/src/DistributionSocketLink.cc:1867
@@ -139,23 +139,23 @@ msgstr "Yeni istemci kabul edildi."
 #: ../backend/src/DistributionSocketLink.cc:2083
 #, fuzzy, c-format
 msgid "Client %s read error, closing."
-msgstr "%s:%d istemcisinden veri okunurken hatası oluştu, bağlantı kesiliyor."
+msgstr "%s istemcisinden veri okunurken hatası oluştu, bağlantı kesiliyor."
 
 #: ../backend/src/DistributionSocketLink.cc:2089
 #: ../backend/src/DistributionSocketLink.cc:2162
 #, fuzzy, c-format
 msgid "Client %s closed connection."
-msgstr "%s:%d istemcisi bağlantıyı kesti."
+msgstr "%s istemcisi bağlantıyı kesti."
 
 #: ../backend/src/DistributionSocketLink.cc:2130
 #, fuzzy, c-format
 msgid "Client %s connected."
-msgstr "%s:%d istemcisi bağlandı."
+msgstr "%s istemcisi bağlandı."
 
 #: ../backend/src/DistributionSocketLink.cc:2168
 #, fuzzy, c-format
 msgid "Could not connect to client %s."
-msgstr "%s:%d istemcisine bağlanılamadı."
+msgstr "%s istemcisine bağlanılamadı."
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
 #: ../frontend/common/src/SoundPlayer.cc:92

@@ -18,7 +18,7 @@ msgstr ""
 #: ../backend/src/DistributionSocketLink.cc:129
 #, fuzzy, c-format
 msgid "Reconnecting to %s."
-msgstr "Forsøg at genoprette til %s:%d."
+msgstr "Forsøg at genoprette til %s."
 
 #. We did not succeed in starting the server. Arghh.
 #: ../backend/src/DistributionSocketLink.cc:421
@@ -33,25 +33,25 @@ msgstr "Afbryder netværksfunktionen."
 #: ../backend/src/DistributionSocketLink.cc:583
 #, fuzzy, c-format
 msgid "Connecting to %s."
-msgstr "Tilslutter til %s:%d."
+msgstr "Tilslutter til %s."
 
 #: ../backend/src/DistributionSocketLink.cc:703
 #: ../backend/src/DistributionSocketLink.cc:729
 #, fuzzy, c-format
 msgid "Removing client %s."
-msgstr "Fjerner klient %s:%d."
+msgstr "Fjerner klient %s."
 
 #. Closing direct connection.
 #: ../backend/src/DistributionSocketLink.cc:768
 #, fuzzy, c-format
 msgid "Disconnecting %s"
-msgstr "Afbryder %s:%d."
+msgstr "Afbryder %s."
 
 #. It's a remote client. mark it master.
 #: ../backend/src/DistributionSocketLink.cc:937
 #, fuzzy, c-format
 msgid "Client %s is now master."
-msgstr "Klienten %s:%d er nu 'master'"
+msgstr "Klienten %s er nu 'master'"
 
 #. Its ME!
 #: ../backend/src/DistributionSocketLink.cc:944
@@ -63,7 +63,7 @@ msgstr "Jeg er nu 'master'"
 #: ../backend/src/DistributionSocketLink.cc:1275
 #, fuzzy, c-format
 msgid "Client %s saying hello."
-msgstr "Klient %s:%d siger 'hej'."
+msgstr "Klient %s siger 'hej'."
 
 #. Duplicate client. inform client that it's bogus and close.
 #: ../backend/src/DistributionSocketLink.cc:1290
@@ -71,54 +71,54 @@ msgstr "Klient %s:%d siger 'hej'."
 #: ../backend/src/DistributionSocketLink.cc:1662
 #, fuzzy, c-format
 msgid "Client %s is duplicate."
-msgstr "Klient %s:%d er duplikat."
+msgstr "Klient %s er duplikat."
 
 #. Incorrect password.
 #: ../backend/src/DistributionSocketLink.cc:1300
 #, fuzzy, c-format
 msgid "Client %s access denied."
-msgstr "Adgang nægtet til klient %s:%d."
+msgstr "Adgang nægtet til klient %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1369
 #, fuzzy, c-format
 msgid "Client %s signed off."
-msgstr "Klient %s:%d lukkede ned."
+msgstr "Klient %s lukkede ned."
 
 #. gint port =
 #: ../backend/src/DistributionSocketLink.cc:1457
 #, fuzzy, c-format
 msgid "Client %s is welcoming us."
-msgstr "Klient %s:%d byder os velkommen."
+msgstr "Klient %s byder os velkommen."
 
 #: ../backend/src/DistributionSocketLink.cc:1698
 #, fuzzy, c-format
 msgid "Requesting master status from %s."
-msgstr "Anmoder om master status fra %s:%d."
+msgstr "Anmoder om master status fra %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1712
 #, fuzzy, c-format
 msgid "Client timeout from %s."
-msgstr "Klient timeout fra %s:%d.."
+msgstr "Klient timeout fra %s.."
 
 #: ../backend/src/DistributionSocketLink.cc:1734
 #, fuzzy, c-format
 msgid "Rejecting master request from client %s."
-msgstr "Afviser master anmodning fra klient %s:%d."
+msgstr "Afviser master anmodning fra klient %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1740
 #, fuzzy, c-format
 msgid "Acknowledging master request from client %s."
-msgstr "Bekræfter master anmodning fra klient %s:%d."
+msgstr "Bekræfter master anmodning fra klient %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1791
 #, fuzzy, c-format
 msgid "Non-master client %s rejected master request."
-msgstr "Ikke-master klient %s:%d afviste master anmodning."
+msgstr "Ikke-master klient %s afviste master anmodning."
 
 #: ../backend/src/DistributionSocketLink.cc:1796
 #, fuzzy, c-format
 msgid "Client %s rejected master request, delaying."
-msgstr "Klient %s:%d afviste master anmodning, udsætter."
+msgstr "Klient %s afviste master anmodning, udsætter."
 
 #. gint count =
 #: ../backend/src/DistributionSocketLink.cc:1867
@@ -137,23 +137,23 @@ msgstr "Accepterede ny klient."
 #: ../backend/src/DistributionSocketLink.cc:2083
 #, fuzzy, c-format
 msgid "Client %s read error, closing."
-msgstr "Klient %s:%d læse-fejl, lukker."
+msgstr "Klient %s læse-fejl, lukker."
 
 #: ../backend/src/DistributionSocketLink.cc:2089
 #: ../backend/src/DistributionSocketLink.cc:2162
 #, fuzzy, c-format
 msgid "Client %s closed connection."
-msgstr "Klient %s:%d afbrød forbindelsen."
+msgstr "Klient %s afbrød forbindelsen."
 
 #: ../backend/src/DistributionSocketLink.cc:2130
 #, fuzzy, c-format
 msgid "Client %s connected."
-msgstr "Klient %s:%d tilsluttet."
+msgstr "Klient %s tilsluttet."
 
 #: ../backend/src/DistributionSocketLink.cc:2168
 #, fuzzy, c-format
 msgid "Could not connect to client %s."
-msgstr "Kunne ikke forbinde til klient %s:%d."
+msgstr "Kunne ikke forbinde til klient %s."
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
 #: ../frontend/common/src/SoundPlayer.cc:92

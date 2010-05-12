@@ -21,7 +21,7 @@ msgstr ""
 #: ../backend/src/DistributionSocketLink.cc:129
 #, fuzzy, c-format
 msgid "Reconnecting to %s."
-msgstr "Taasühendamine %s:%d."
+msgstr "Taasühendamine %s."
 
 #. We did not succeed in starting the server. Arghh.
 #: ../backend/src/DistributionSocketLink.cc:421
@@ -36,25 +36,25 @@ msgstr "Võrguoperatsiooni väljalülitamine."
 #: ../backend/src/DistributionSocketLink.cc:583
 #, fuzzy, c-format
 msgid "Connecting to %s."
-msgstr "Ühendamine %s:%d."
+msgstr "Ühendamine %s."
 
 #: ../backend/src/DistributionSocketLink.cc:703
 #: ../backend/src/DistributionSocketLink.cc:729
 #, fuzzy, c-format
 msgid "Removing client %s."
-msgstr "Kliendi %s:%d eemaldamine"
+msgstr "Kliendi %s eemaldamine"
 
 #. Closing direct connection.
 #: ../backend/src/DistributionSocketLink.cc:768
 #, fuzzy, c-format
 msgid "Disconnecting %s"
-msgstr "Ühenduse katkestamine %s:%d."
+msgstr "Ühenduse katkestamine %s."
 
 #. It's a remote client. mark it master.
 #: ../backend/src/DistributionSocketLink.cc:937
 #, fuzzy, c-format
 msgid "Client %s is now master."
-msgstr "Klient %s:%d on nüüd juht."
+msgstr "Klient %s on nüüd juht."
 
 #. Its ME!
 #: ../backend/src/DistributionSocketLink.cc:944
@@ -66,7 +66,7 @@ msgstr "Ma olen nüüd juht."
 #: ../backend/src/DistributionSocketLink.cc:1275
 #, fuzzy, c-format
 msgid "Client %s saying hello."
-msgstr "Klient %s:%d tervitab."
+msgstr "Klient %s tervitab."
 
 #. Duplicate client. inform client that it's bogus and close.
 #: ../backend/src/DistributionSocketLink.cc:1290
@@ -74,54 +74,54 @@ msgstr "Klient %s:%d tervitab."
 #: ../backend/src/DistributionSocketLink.cc:1662
 #, fuzzy, c-format
 msgid "Client %s is duplicate."
-msgstr "Klient %s:%d on duplikaat."
+msgstr "Klient %s on duplikaat."
 
 #. Incorrect password.
 #: ../backend/src/DistributionSocketLink.cc:1300
 #, fuzzy, c-format
 msgid "Client %s access denied."
-msgstr "Kliendile %s:%d ligipääs keelatud."
+msgstr "Kliendile %s ligipääs keelatud."
 
 #: ../backend/src/DistributionSocketLink.cc:1369
 #, fuzzy, c-format
 msgid "Client %s signed off."
-msgstr "Klient %s:%d logis välja."
+msgstr "Klient %s logis välja."
 
 #. gint port =
 #: ../backend/src/DistributionSocketLink.cc:1457
 #, fuzzy, c-format
 msgid "Client %s is welcoming us."
-msgstr "Klient %s:%d tervitab meid."
+msgstr "Klient %s tervitab meid."
 
 #: ../backend/src/DistributionSocketLink.cc:1698
 #, fuzzy, c-format
 msgid "Requesting master status from %s."
-msgstr "Juhi staatuse küsimine %s:%d käest."
+msgstr "Juhi staatuse küsimine %s käest."
 
 #: ../backend/src/DistributionSocketLink.cc:1712
 #, fuzzy, c-format
 msgid "Client timeout from %s."
-msgstr "Kliendi timeout %s:%d."
+msgstr "Kliendi timeout %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1734
 #, fuzzy, c-format
 msgid "Rejecting master request from client %s."
-msgstr "Juhi staatuse andmisest keeldumine kliendile %s:%d."
+msgstr "Juhi staatuse andmisest keeldumine kliendile %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1740
 #, fuzzy, c-format
 msgid "Acknowledging master request from client %s."
-msgstr "Kliendi %s:%d juhi staatuse küsimise teadvustamine."
+msgstr "Kliendi %s juhi staatuse küsimise teadvustamine."
 
 #: ../backend/src/DistributionSocketLink.cc:1791
 #, fuzzy, c-format
 msgid "Non-master client %s rejected master request."
-msgstr "Juhiks mitteolev klient %s:%d lükkas tagasi juhi staatuse päringu."
+msgstr "Juhiks mitteolev klient %s lükkas tagasi juhi staatuse päringu."
 
 #: ../backend/src/DistributionSocketLink.cc:1796
 #, fuzzy, c-format
 msgid "Client %s rejected master request, delaying."
-msgstr "Klient %s:%d lükkas tagasi juhi staatuse päringu, viivitus."
+msgstr "Klient %s lükkas tagasi juhi staatuse päringu, viivitus."
 
 #. gint count =
 #: ../backend/src/DistributionSocketLink.cc:1867
@@ -140,23 +140,23 @@ msgstr "Uus klient vastuvõetud."
 #: ../backend/src/DistributionSocketLink.cc:2083
 #, fuzzy, c-format
 msgid "Client %s read error, closing."
-msgstr "Kliendi %s:%d lugemise viga, sulgemine."
+msgstr "Kliendi %s lugemise viga, sulgemine."
 
 #: ../backend/src/DistributionSocketLink.cc:2089
 #: ../backend/src/DistributionSocketLink.cc:2162
 #, fuzzy, c-format
 msgid "Client %s closed connection."
-msgstr "Klient %s:%d sulges ühenduse."
+msgstr "Klient %s sulges ühenduse."
 
 #: ../backend/src/DistributionSocketLink.cc:2130
 #, fuzzy, c-format
 msgid "Client %s connected."
-msgstr "Klient %s:%d on ühendatud."
+msgstr "Klient %s on ühendatud."
 
 #: ../backend/src/DistributionSocketLink.cc:2168
 #, fuzzy, c-format
 msgid "Could not connect to client %s."
-msgstr "Ei saanud luua ühendust kliendiga %s:%d."
+msgstr "Ei saanud luua ühendust kliendiga %s."
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
 #: ../frontend/common/src/SoundPlayer.cc:92

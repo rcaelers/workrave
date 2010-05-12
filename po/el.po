@@ -16,7 +16,7 @@ msgstr ""
 #: ../backend/src/DistributionSocketLink.cc:129
 #, fuzzy, c-format
 msgid "Reconnecting to %s."
-msgstr "Επανασύνδεση σε %s:%d."
+msgstr "Επανασύνδεση σε %s."
 
 #  We did not succeed in starting the server. Arghh.
 #. We did not succeed in starting the server. Arghh.
@@ -32,13 +32,13 @@ msgstr "Απενεργοποίηση του δικτύου."
 #: ../backend/src/DistributionSocketLink.cc:583
 #, fuzzy, c-format
 msgid "Connecting to %s."
-msgstr "Σύνδεση σε %s:%d."
+msgstr "Σύνδεση σε %s."
 
 #: ../backend/src/DistributionSocketLink.cc:703
 #: ../backend/src/DistributionSocketLink.cc:729
 #, fuzzy, c-format
 msgid "Removing client %s."
-msgstr "Αφαίρεση του πελάτη %s:%d."
+msgstr "Αφαίρεση του πελάτη %s."
 
 #  Closing direct connection.
 #  Closing direct connection.
@@ -46,7 +46,7 @@ msgstr "Αφαίρεση του πελάτη %s:%d."
 #: ../backend/src/DistributionSocketLink.cc:768
 #, fuzzy, c-format
 msgid "Disconnecting %s"
-msgstr "Αποσύνδεση του %s:%d."
+msgstr "Αποσύνδεση του %s."
 
 #  It's a remote client. mark it master.
 #  It's a remote client. mark it master.
@@ -54,7 +54,7 @@ msgstr "Αποσύνδεση του %s:%d."
 #: ../backend/src/DistributionSocketLink.cc:937
 #, fuzzy, c-format
 msgid "Client %s is now master."
-msgstr "Ο πελάτης %s:%d είναι τώρα ο κύριος υπολογιστής."
+msgstr "Ο πελάτης %s είναι τώρα ο κύριος υπολογιστής."
 
 #  Its ME!
 #. Its ME!
@@ -67,7 +67,7 @@ msgstr "Εγώ είμαι τώρα ο κύριος υπολογιστής."
 #: ../backend/src/DistributionSocketLink.cc:1275
 #, fuzzy, c-format
 msgid "Client %s saying hello."
-msgstr "Χαιρετισμός από τον πελάτη %s:%d."
+msgstr "Χαιρετισμός από τον πελάτη %s."
 
 #  Duplicate client. inform client that it's bogus and close.
 #  Duplicate client. inform client that it's bogus and close.
@@ -77,7 +77,7 @@ msgstr "Χαιρετισμός από τον πελάτη %s:%d."
 #: ../backend/src/DistributionSocketLink.cc:1662
 #, fuzzy, c-format
 msgid "Client %s is duplicate."
-msgstr "Ο πελάτης %s:%d υπάρχει δύο φορές στη λίστα."
+msgstr "Ο πελάτης %s υπάρχει δύο φορές στη λίστα."
 
 #  Incorrect password.
 #  Incorrect password.
@@ -85,50 +85,50 @@ msgstr "Ο πελάτης %s:%d υπάρχει δύο φορές στη λίστ
 #: ../backend/src/DistributionSocketLink.cc:1300
 #, fuzzy, c-format
 msgid "Client %s access denied."
-msgstr "Άρνηση πρόσβασης στον πελάτη %s:%d."
+msgstr "Άρνηση πρόσβασης στον πελάτη %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1369
 #, fuzzy, c-format
 msgid "Client %s signed off."
-msgstr "Ο πελάτης %s:%d αποσυνδέθηκε."
+msgstr "Ο πελάτης %s αποσυνδέθηκε."
 
 #. gint port =
 #: ../backend/src/DistributionSocketLink.cc:1457
 #, fuzzy, c-format
 msgid "Client %s is welcoming us."
-msgstr "Καλωσόρισμα από τον πελάτη %s:%d."
+msgstr "Καλωσόρισμα από τον πελάτη %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1698
 #, fuzzy, c-format
 msgid "Requesting master status from %s."
-msgstr "Αίτηση για ανάληψη ρόλου κύριου υπολογιστή από τον πελάτη %s:%d."
+msgstr "Αίτηση για ανάληψη ρόλου κύριου υπολογιστή από τον πελάτη %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1712
 #, fuzzy, c-format
 msgid "Client timeout from %s."
-msgstr "Αποσύνδεση πελάτη από %s:%d "
+msgstr "Αποσύνδεση πελάτη από %s "
 
 #: ../backend/src/DistributionSocketLink.cc:1734
 #, fuzzy, c-format
 msgid "Rejecting master request from client %s."
-msgstr "Άρνηση αίτησης ρόλου κύριου υπολογιστή από τον πελάτη %s:%d."
+msgstr "Άρνηση αίτησης ρόλου κύριου υπολογιστή από τον πελάτη %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1740
 #, fuzzy, c-format
 msgid "Acknowledging master request from client %s."
-msgstr "Άναγνώριση αίτησης κύριου υπολογιστή από τον πελάτη %s:%d."
+msgstr "Άναγνώριση αίτησης κύριου υπολογιστή από τον πελάτη %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1791
 #, fuzzy, c-format
 msgid "Non-master client %s rejected master request."
 msgstr ""
-"Άπόρριψη αίτησης ρόλου κύριου υπολογιστή από τον μη-κύριο πελάτη %s:%d."
+"Άπόρριψη αίτησης ρόλου κύριου υπολογιστή από τον μη-κύριο πελάτη %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1796
 #, fuzzy, c-format
 msgid "Client %s rejected master request, delaying."
 msgstr ""
-"Η αίτηση ρόλου κύριου υπολογιστή απορρίφθηκε από τον πελάτη %s:%d. "
+"Η αίτηση ρόλου κύριου υπολογιστή απορρίφθηκε από τον πελάτη %s. "
 "Καθυστέρηση."
 
 #  gint count =
@@ -149,23 +149,23 @@ msgstr "Αποδοχή νέου πελάτη."
 #: ../backend/src/DistributionSocketLink.cc:2083
 #, fuzzy, c-format
 msgid "Client %s read error, closing."
-msgstr "Σφάλμα ανάγνωσης στον πελάτη %s:%d. Διακοπή σύνδεσης."
+msgstr "Σφάλμα ανάγνωσης στον πελάτη %s. Διακοπή σύνδεσης."
 
 #: ../backend/src/DistributionSocketLink.cc:2089
 #: ../backend/src/DistributionSocketLink.cc:2162
 #, fuzzy, c-format
 msgid "Client %s closed connection."
-msgstr "Ο πελάτης %s:%d διέκοψε τη σύνδεση."
+msgstr "Ο πελάτης %s διέκοψε τη σύνδεση."
 
 #: ../backend/src/DistributionSocketLink.cc:2130
 #, fuzzy, c-format
 msgid "Client %s connected."
-msgstr "Ο πελάτης %s:%d συνδέθηκε."
+msgstr "Ο πελάτης %s συνδέθηκε."
 
 #: ../backend/src/DistributionSocketLink.cc:2168
 #, fuzzy, c-format
 msgid "Could not connect to client %s."
-msgstr "Σύνδεση με τον πελάτη %s:%d αδύνατη."
+msgstr "Σύνδεση με τον πελάτη %s αδύνατη."
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
 #: ../frontend/common/src/SoundPlayer.cc:92

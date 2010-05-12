@@ -18,7 +18,7 @@ msgstr ""
 #: ../backend/src/DistributionSocketLink.cc:129
 #, fuzzy, c-format
 msgid "Reconnecting to %s."
-msgstr "Återansluter till %s:%d."
+msgstr "Återansluter till %s."
 
 #. We did not succeed in starting the server. Arghh.
 #: ../backend/src/DistributionSocketLink.cc:421
@@ -33,25 +33,25 @@ msgstr "Inaktiverar nätverksfunktion."
 #: ../backend/src/DistributionSocketLink.cc:583
 #, fuzzy, c-format
 msgid "Connecting to %s."
-msgstr "Ansluter till %s:%d."
+msgstr "Ansluter till %s."
 
 #: ../backend/src/DistributionSocketLink.cc:703
 #: ../backend/src/DistributionSocketLink.cc:729
 #, fuzzy, c-format
 msgid "Removing client %s."
-msgstr "Tar bort klient %s:%d."
+msgstr "Tar bort klient %s."
 
 #. Closing direct connection.
 #: ../backend/src/DistributionSocketLink.cc:768
 #, fuzzy, c-format
 msgid "Disconnecting %s"
-msgstr "Kopplar ner %s:%d."
+msgstr "Kopplar ner %s."
 
 #. It's a remote client. mark it master.
 #: ../backend/src/DistributionSocketLink.cc:937
 #, fuzzy, c-format
 msgid "Client %s is now master."
-msgstr "Klient %s:%d är nu master."
+msgstr "Klient %s är nu master."
 
 #. Its ME!
 #: ../backend/src/DistributionSocketLink.cc:944
@@ -63,7 +63,7 @@ msgstr "Jag är nu master."
 #: ../backend/src/DistributionSocketLink.cc:1275
 #, fuzzy, c-format
 msgid "Client %s saying hello."
-msgstr "Klient %s:%d säger hej."
+msgstr "Klient %s säger hej."
 
 #. Duplicate client. inform client that it's bogus and close.
 #: ../backend/src/DistributionSocketLink.cc:1290
@@ -71,34 +71,34 @@ msgstr "Klient %s:%d säger hej."
 #: ../backend/src/DistributionSocketLink.cc:1662
 #, fuzzy, c-format
 msgid "Client %s is duplicate."
-msgstr "Klient %s:%d är en dubblett."
+msgstr "Klient %s är en dubblett."
 
 #. Incorrect password.
 #: ../backend/src/DistributionSocketLink.cc:1300
 #, fuzzy, c-format
 msgid "Client %s access denied."
-msgstr "Klient %s:%d åtkomst nekas."
+msgstr "Klient %s åtkomst nekas."
 
 #: ../backend/src/DistributionSocketLink.cc:1369
 #, fuzzy, c-format
 msgid "Client %s signed off."
-msgstr "Klient %s:%d loggade av."
+msgstr "Klient %s loggade av."
 
 #. gint port =
 #: ../backend/src/DistributionSocketLink.cc:1457
 #, fuzzy, c-format
 msgid "Client %s is welcoming us."
-msgstr "Klient %s:%d välkomnar oss."
+msgstr "Klient %s välkomnar oss."
 
 #: ../backend/src/DistributionSocketLink.cc:1698
 #, fuzzy, c-format
 msgid "Requesting master status from %s."
-msgstr "Begär masterstatus från %s:%d."
+msgstr "Begär masterstatus från %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1712
 #, fuzzy, c-format
 msgid "Client timeout from %s."
-msgstr "Timeout för klient från %s:%d."
+msgstr "Timeout för klient från %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1734
 #, fuzzy, c-format
@@ -113,12 +113,12 @@ msgstr "Bekräftar begäran om master från klient %s: %d."
 #: ../backend/src/DistributionSocketLink.cc:1791
 #, fuzzy, c-format
 msgid "Non-master client %s rejected master request."
-msgstr "Icke-master-klient %s:%d avvisade begäran om master."
+msgstr "Icke-master-klient %s avvisade begäran om master."
 
 #: ../backend/src/DistributionSocketLink.cc:1796
 #, fuzzy, c-format
 msgid "Client %s rejected master request, delaying."
-msgstr "Klient %s:%d avvisade begäran om master, fördröjer."
+msgstr "Klient %s avvisade begäran om master, fördröjer."
 
 #. gint count =
 #: ../backend/src/DistributionSocketLink.cc:1867
@@ -137,18 +137,18 @@ msgstr "Accepterade ny klient."
 #: ../backend/src/DistributionSocketLink.cc:2083
 #, fuzzy, c-format
 msgid "Client %s read error, closing."
-msgstr "Klient %s:%d läsfel, stänger."
+msgstr "Klient %s läsfel, stänger."
 
 #: ../backend/src/DistributionSocketLink.cc:2089
 #: ../backend/src/DistributionSocketLink.cc:2162
 #, fuzzy, c-format
 msgid "Client %s closed connection."
-msgstr "Klient %s:%d stängde anslutning."
+msgstr "Klient %s stängde anslutning."
 
 #: ../backend/src/DistributionSocketLink.cc:2130
 #, fuzzy, c-format
 msgid "Client %s connected."
-msgstr "Klient %s:%d ansluten."
+msgstr "Klient %s ansluten."
 
 #: ../backend/src/DistributionSocketLink.cc:2168
 #, fuzzy, c-format

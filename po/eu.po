@@ -19,7 +19,7 @@ msgstr ""
 #: ../backend/src/DistributionSocketLink.cc:129
 #, fuzzy, c-format
 msgid "Reconnecting to %s."
-msgstr "%s:%d-rekin birkonektatzen"
+msgstr "%s-rekin birkonektatzen"
 
 #. We did not succeed in starting the server. Arghh.
 #: ../backend/src/DistributionSocketLink.cc:421
@@ -34,25 +34,25 @@ msgstr "Sare eragiketa desgaitzen"
 #: ../backend/src/DistributionSocketLink.cc:583
 #, fuzzy, c-format
 msgid "Connecting to %s."
-msgstr "%s:%d-rekin konektatzen"
+msgstr "%s-rekin konektatzen"
 
 #: ../backend/src/DistributionSocketLink.cc:703
 #: ../backend/src/DistributionSocketLink.cc:729
 #, fuzzy, c-format
 msgid "Removing client %s."
-msgstr "%s:%d bezeroa kentzen."
+msgstr "%s bezeroa kentzen."
 
 #. Closing direct connection.
 #: ../backend/src/DistributionSocketLink.cc:768
 #, fuzzy, c-format
 msgid "Disconnecting %s"
-msgstr "%s:%d deskonektatzen."
+msgstr "%s deskonektatzen."
 
 #. It's a remote client. mark it master.
 #: ../backend/src/DistributionSocketLink.cc:937
 #, fuzzy, c-format
 msgid "Client %s is now master."
-msgstr "Orain %s:%d bezeroa maisua da."
+msgstr "Orain %s bezeroa maisua da."
 
 #. Its ME!
 #: ../backend/src/DistributionSocketLink.cc:944
@@ -64,7 +64,7 @@ msgstr "Orain neu naiz maisua"
 #: ../backend/src/DistributionSocketLink.cc:1275
 #, fuzzy, c-format
 msgid "Client %s saying hello."
-msgstr "%s:%d bezeroa agurtzen."
+msgstr "%s bezeroa agurtzen."
 
 #. Duplicate client. inform client that it's bogus and close.
 #: ../backend/src/DistributionSocketLink.cc:1290
@@ -72,54 +72,54 @@ msgstr "%s:%d bezeroa agurtzen."
 #: ../backend/src/DistributionSocketLink.cc:1662
 #, fuzzy, c-format
 msgid "Client %s is duplicate."
-msgstr "%s:%d bezeroa bikoiztuta dago."
+msgstr "%s bezeroa bikoiztuta dago."
 
 #. Incorrect password.
 #: ../backend/src/DistributionSocketLink.cc:1300
 #, fuzzy, c-format
 msgid "Client %s access denied."
-msgstr "%s:%d bezeroa ezin da atzitu."
+msgstr "%s bezeroa ezin da atzitu."
 
 #: ../backend/src/DistributionSocketLink.cc:1369
 #, fuzzy, c-format
 msgid "Client %s signed off."
-msgstr "%s:%d bezeroak alde egin du."
+msgstr "%s bezeroak alde egin du."
 
 #. gint port =
 #: ../backend/src/DistributionSocketLink.cc:1457
 #, fuzzy, c-format
 msgid "Client %s is welcoming us."
-msgstr "%s:%d bezeroak ongi etorria eman digu."
+msgstr "%s bezeroak ongi etorria eman digu."
 
 #: ../backend/src/DistributionSocketLink.cc:1698
 #, fuzzy, c-format
 msgid "Requesting master status from %s."
-msgstr "%s:%d-tik maisu egoeraz galdetzen."
+msgstr "%s-tik maisu egoeraz galdetzen."
 
 #: ../backend/src/DistributionSocketLink.cc:1712
 #, fuzzy, c-format
 msgid "Client timeout from %s."
-msgstr "%s:%d bezeroaren denbora amaitu da."
+msgstr "%s bezeroaren denbora amaitu da."
 
 #: ../backend/src/DistributionSocketLink.cc:1734
 #, fuzzy, c-format
 msgid "Rejecting master request from client %s."
-msgstr "%s:%d bezerotik maisutasun eskaerari uko."
+msgstr "%s bezerotik maisutasun eskaerari uko."
 
 #: ../backend/src/DistributionSocketLink.cc:1740
 #, fuzzy, c-format
 msgid "Acknowledging master request from client %s."
-msgstr "%s:%d bezeroaren maisutasun eskaera onartzen."
+msgstr "%s bezeroaren maisutasun eskaera onartzen."
 
 #: ../backend/src/DistributionSocketLink.cc:1791
 #, fuzzy, c-format
 msgid "Non-master client %s rejected master request."
-msgstr "%s:%d bezero ez-maisuari maisutasun eskaera ukatuta."
+msgstr "%s bezero ez-maisuari maisutasun eskaera ukatuta."
 
 #: ../backend/src/DistributionSocketLink.cc:1796
 #, fuzzy, c-format
 msgid "Client %s rejected master request, delaying."
-msgstr "%s:%d bezeroari maisutasun eskaera utzia, atzeratzen."
+msgstr "%s bezeroari maisutasun eskaera utzia, atzeratzen."
 
 #. gint count =
 #: ../backend/src/DistributionSocketLink.cc:1867
@@ -138,23 +138,23 @@ msgstr "Bezero berria onartuta."
 #: ../backend/src/DistributionSocketLink.cc:2083
 #, fuzzy, c-format
 msgid "Client %s read error, closing."
-msgstr "%s:%d bezeroaren irakurketa akatsa, ixten."
+msgstr "%s bezeroaren irakurketa akatsa, ixten."
 
 #: ../backend/src/DistributionSocketLink.cc:2089
 #: ../backend/src/DistributionSocketLink.cc:2162
 #, fuzzy, c-format
 msgid "Client %s closed connection."
-msgstr "%s:%d bezeroak konexioa itxia."
+msgstr "%s bezeroak konexioa itxia."
 
 #: ../backend/src/DistributionSocketLink.cc:2130
 #, fuzzy, c-format
 msgid "Client %s connected."
-msgstr "%s:%d bezeroa konektatuta."
+msgstr "%s bezeroa konektatuta."
 
 #: ../backend/src/DistributionSocketLink.cc:2168
 #, fuzzy, c-format
 msgid "Could not connect to client %s."
-msgstr "Ezin dut %s:%d bezeroarekin konektatu."
+msgstr "Ezin dut %s bezeroarekin konektatu."
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
 #: ../frontend/common/src/SoundPlayer.cc:92

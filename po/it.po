@@ -19,7 +19,7 @@ msgstr ""
 #: ../backend/src/DistributionSocketLink.cc:129
 #, fuzzy, c-format
 msgid "Reconnecting to %s."
-msgstr "Riconnessione tra %s:%d:"
+msgstr "Riconnessione tra %s:"
 
 #. We did not succeed in starting the server. Arghh.
 #: ../backend/src/DistributionSocketLink.cc:421
@@ -34,25 +34,25 @@ msgstr "Disattivo la connessione in rete."
 #: ../backend/src/DistributionSocketLink.cc:583
 #, fuzzy, c-format
 msgid "Connecting to %s."
-msgstr "Connessione a %s:%d."
+msgstr "Connessione a %s."
 
 #: ../backend/src/DistributionSocketLink.cc:703
 #: ../backend/src/DistributionSocketLink.cc:729
 #, fuzzy, c-format
 msgid "Removing client %s."
-msgstr "Rimozione client %s:%d."
+msgstr "Rimozione client %s."
 
 #. Closing direct connection.
 #: ../backend/src/DistributionSocketLink.cc:768
 #, fuzzy, c-format
 msgid "Disconnecting %s"
-msgstr "Disconnessione %s:%d."
+msgstr "Disconnessione %s."
 
 #. It's a remote client. mark it master.
 #: ../backend/src/DistributionSocketLink.cc:937
 #, fuzzy, c-format
 msgid "Client %s is now master."
-msgstr "Il client %s:%d è adesso il master."
+msgstr "Il client %s è adesso il master."
 
 #. Its ME!
 #: ../backend/src/DistributionSocketLink.cc:944
@@ -64,7 +64,7 @@ msgstr "Adesso sono il master."
 #: ../backend/src/DistributionSocketLink.cc:1275
 #, fuzzy, c-format
 msgid "Client %s saying hello."
-msgstr "Il client %s:%d dice 'Ciao'."
+msgstr "Il client %s dice 'Ciao'."
 
 #. Duplicate client. inform client that it's bogus and close.
 #: ../backend/src/DistributionSocketLink.cc:1290
@@ -72,54 +72,54 @@ msgstr "Il client %s:%d dice 'Ciao'."
 #: ../backend/src/DistributionSocketLink.cc:1662
 #, fuzzy, c-format
 msgid "Client %s is duplicate."
-msgstr "Il client %s:%d è duplicato."
+msgstr "Il client %s è duplicato."
 
 #. Incorrect password.
 #: ../backend/src/DistributionSocketLink.cc:1300
 #, fuzzy, c-format
 msgid "Client %s access denied."
-msgstr "Accesso negato al client %s:%d."
+msgstr "Accesso negato al client %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1369
 #, fuzzy, c-format
 msgid "Client %s signed off."
-msgstr "Il client %s:%d si é disconnesso."
+msgstr "Il client %s si é disconnesso."
 
 #. gint port =
 #: ../backend/src/DistributionSocketLink.cc:1457
 #, fuzzy, c-format
 msgid "Client %s is welcoming us."
-msgstr "Il client %s:%d ci dà il benvenuto."
+msgstr "Il client %s ci dà il benvenuto."
 
 #: ../backend/src/DistributionSocketLink.cc:1698
 #, fuzzy, c-format
 msgid "Requesting master status from %s."
-msgstr "Richiedo lo stato di master a %s:%d."
+msgstr "Richiedo lo stato di master a %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1712
 #, fuzzy, c-format
 msgid "Client timeout from %s."
-msgstr "Tempo scaduto per il client %s:%d."
+msgstr "Tempo scaduto per il client %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1734
 #, fuzzy, c-format
 msgid "Rejecting master request from client %s."
-msgstr "Rifiuto dello stato di master dal client %s:%d."
+msgstr "Rifiuto dello stato di master dal client %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1740
 #, fuzzy, c-format
 msgid "Acknowledging master request from client %s."
-msgstr "Conferma della richiesta di master dal client %s:%d."
+msgstr "Conferma della richiesta di master dal client %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1791
 #, fuzzy, c-format
 msgid "Non-master client %s rejected master request."
-msgstr "Il client %s:%d (non è master) ha rifiutato la richiesta di master."
+msgstr "Il client %s (non è master) ha rifiutato la richiesta di master."
 
 #: ../backend/src/DistributionSocketLink.cc:1796
 #, fuzzy, c-format
 msgid "Client %s rejected master request, delaying."
-msgstr "Il client %s:%d ha rifiutato la richiesta di master, ritardando."
+msgstr "Il client %s ha rifiutato la richiesta di master, ritardando."
 
 #. gint count =
 #: ../backend/src/DistributionSocketLink.cc:1867
@@ -138,23 +138,23 @@ msgstr "Nuovo client accettato."
 #: ../backend/src/DistributionSocketLink.cc:2083
 #, fuzzy, c-format
 msgid "Client %s read error, closing."
-msgstr "Errore di lettura nel client %s:%d, chiusura connessione."
+msgstr "Errore di lettura nel client %s, chiusura connessione."
 
 #: ../backend/src/DistributionSocketLink.cc:2089
 #: ../backend/src/DistributionSocketLink.cc:2162
 #, fuzzy, c-format
 msgid "Client %s closed connection."
-msgstr "Connessione chiusa per il client %s:%d."
+msgstr "Connessione chiusa per il client %s."
 
 #: ../backend/src/DistributionSocketLink.cc:2130
 #, fuzzy, c-format
 msgid "Client %s connected."
-msgstr "Client %s:%d connesso."
+msgstr "Client %s connesso."
 
 #: ../backend/src/DistributionSocketLink.cc:2168
 #, fuzzy, c-format
 msgid "Could not connect to client %s."
-msgstr "Impossibile connettersi al client %s:%d."
+msgstr "Impossibile connettersi al client %s."
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
 #: ../frontend/common/src/SoundPlayer.cc:92

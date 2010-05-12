@@ -20,7 +20,7 @@ msgstr ""
 #: ../backend/src/DistributionSocketLink.cc:129
 #, fuzzy, c-format
 msgid "Reconnecting to %s."
-msgstr "Újracsatlakozás a következőhöz: %s:%d."
+msgstr "Újracsatlakozás a következőhöz: %s."
 
 #. We did not succeed in starting the server. Arghh.
 #: ../backend/src/DistributionSocketLink.cc:421
@@ -35,25 +35,25 @@ msgstr "Hálózati műveletek tiltása."
 #: ../backend/src/DistributionSocketLink.cc:583
 #, fuzzy, c-format
 msgid "Connecting to %s."
-msgstr "Csatlakozás a következőhöz: %s:%d."
+msgstr "Csatlakozás a következőhöz: %s."
 
 #: ../backend/src/DistributionSocketLink.cc:703
 #: ../backend/src/DistributionSocketLink.cc:729
 #, fuzzy, c-format
 msgid "Removing client %s."
-msgstr "%s:%d kliens eltávolítása."
+msgstr "%s kliens eltávolítása."
 
 #. Closing direct connection.
 #: ../backend/src/DistributionSocketLink.cc:768
 #, fuzzy, c-format
 msgid "Disconnecting %s"
-msgstr "Kapcsolat bontása a következővel: %s:%d."
+msgstr "Kapcsolat bontása a következővel: %s."
 
 #. It's a remote client. mark it master.
 #: ../backend/src/DistributionSocketLink.cc:937
 #, fuzzy, c-format
 msgid "Client %s is now master."
-msgstr "A következő kliens az elsődleges: %s:%d."
+msgstr "A következő kliens az elsődleges: %s."
 
 #. Its ME!
 #: ../backend/src/DistributionSocketLink.cc:944
@@ -65,7 +65,7 @@ msgstr "Én vagyok az elsődleges."
 #: ../backend/src/DistributionSocketLink.cc:1275
 #, fuzzy, c-format
 msgid "Client %s saying hello."
-msgstr "%s:%d kliens „hello”-t küldött."
+msgstr "%s kliens „hello”-t küldött."
 
 #. Duplicate client. inform client that it's bogus and close.
 #: ../backend/src/DistributionSocketLink.cc:1290
@@ -73,54 +73,54 @@ msgstr "%s:%d kliens „hello”-t küldött."
 #: ../backend/src/DistributionSocketLink.cc:1662
 #, fuzzy, c-format
 msgid "Client %s is duplicate."
-msgstr "A következő kliens többször szerepel: %s:%d."
+msgstr "A következő kliens többször szerepel: %s."
 
 #. Incorrect password.
 #: ../backend/src/DistributionSocketLink.cc:1300
 #, fuzzy, c-format
 msgid "Client %s access denied."
-msgstr "Hozzáférés megtagadva: %s:%d"
+msgstr "Hozzáférés megtagadva: %s"
 
 #: ../backend/src/DistributionSocketLink.cc:1369
 #, fuzzy, c-format
 msgid "Client %s signed off."
-msgstr "%s:%d kliens kijelentkezett."
+msgstr "%s kliens kijelentkezett."
 
 #. gint port =
 #: ../backend/src/DistributionSocketLink.cc:1457
 #, fuzzy, c-format
 msgid "Client %s is welcoming us."
-msgstr "%s:%d kliens üdvözöl minket."
+msgstr "%s kliens üdvözöl minket."
 
 #: ../backend/src/DistributionSocketLink.cc:1698
 #, fuzzy, c-format
 msgid "Requesting master status from %s."
-msgstr "Elsődleges állapot igénylése a következőtől: %s:%d."
+msgstr "Elsődleges állapot igénylése a következőtől: %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1712
 #, fuzzy, c-format
 msgid "Client timeout from %s."
-msgstr "Kliens időtúllépés: %s:%d."
+msgstr "Kliens időtúllépés: %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1734
 #, fuzzy, c-format
 msgid "Rejecting master request from client %s."
-msgstr "%s:%d kliens elsődlegességi kérelme elutasítva."
+msgstr "%s kliens elsődlegességi kérelme elutasítva."
 
 #: ../backend/src/DistributionSocketLink.cc:1740
 #, fuzzy, c-format
 msgid "Acknowledging master request from client %s."
-msgstr "%s:%d kliens elsődlegességi kérelme elfogadva."
+msgstr "%s kliens elsődlegességi kérelme elfogadva."
 
 #: ../backend/src/DistributionSocketLink.cc:1791
 #, fuzzy, c-format
 msgid "Non-master client %s rejected master request."
-msgstr "%s:%d nem elsődleges kliens elutasította elsődlegességi kérelmét."
+msgstr "%s nem elsődleges kliens elutasította elsődlegességi kérelmét."
 
 #: ../backend/src/DistributionSocketLink.cc:1796
 #, fuzzy, c-format
 msgid "Client %s rejected master request, delaying."
-msgstr "%s:%d kliens elutasította elsődlegességi kérelmét, késleltetés…"
+msgstr "%s kliens elutasította elsődlegességi kérelmét, késleltetés…"
 
 #. gint count =
 #: ../backend/src/DistributionSocketLink.cc:1867
@@ -139,23 +139,23 @@ msgstr "Új kliens elfogadva."
 #: ../backend/src/DistributionSocketLink.cc:2083
 #, fuzzy, c-format
 msgid "Client %s read error, closing."
-msgstr "Olvasási hiba: %s:%d. Befejezés."
+msgstr "Olvasási hiba: %s. Befejezés."
 
 #: ../backend/src/DistributionSocketLink.cc:2089
 #: ../backend/src/DistributionSocketLink.cc:2162
 #, fuzzy, c-format
 msgid "Client %s closed connection."
-msgstr "%s:%d kliens befejezte a kapcsolatot."
+msgstr "%s kliens befejezte a kapcsolatot."
 
 #: ../backend/src/DistributionSocketLink.cc:2130
 #, fuzzy, c-format
 msgid "Client %s connected."
-msgstr "%s:%d kliens kapcsolódott."
+msgstr "%s kliens kapcsolódott."
 
 #: ../backend/src/DistributionSocketLink.cc:2168
 #, fuzzy, c-format
 msgid "Could not connect to client %s."
-msgstr "Sikertelen kapcsolódás %s:%d klienshez."
+msgstr "Sikertelen kapcsolódás %s klienshez."
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
 #: ../frontend/common/src/SoundPlayer.cc:92
