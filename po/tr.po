@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.8.3\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2010-04-19 18:55+0200\n"
+"POT-Creation-Date: 2010-05-12 23:34+0200\n"
 "PO-Revision-Date: 2006-08-16 02:24+0300\n"
 "Last-Translator: Enver ALTIN <ealtin@parkyeri.com>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 #: ../backend/src/DistributionSocketLink.cc:129
 #, fuzzy, c-format
 msgid "Reconnecting to %s."
-msgstr "%s:%d adresine yeniden bağlanılıyor."
+msgstr "%s adresine yeniden bağlanılıyor."
 
 #. We did not succeed in starting the server. Arghh.
 #: ../backend/src/DistributionSocketLink.cc:421
@@ -35,25 +35,25 @@ msgstr "Ağ işlevi hizmet dışı bırakılıyor."
 #: ../backend/src/DistributionSocketLink.cc:583
 #, fuzzy, c-format
 msgid "Connecting to %s."
-msgstr "%s:%d adresine bağlanılıyor."
+msgstr "%s adresine bağlanılıyor."
 
 #: ../backend/src/DistributionSocketLink.cc:703
 #: ../backend/src/DistributionSocketLink.cc:729
 #, fuzzy, c-format
 msgid "Removing client %s."
-msgstr "%s:%d istemcisi listeden çıkarılıyor."
+msgstr "%s istemcisi listeden çıkarılıyor."
 
 #. Closing direct connection.
 #: ../backend/src/DistributionSocketLink.cc:768
 #, fuzzy, c-format
 msgid "Disconnecting %s"
-msgstr "%s:%d bağlantısı kesiliyor."
+msgstr "%s bağlantısı kesiliyor."
 
 #. It's a remote client. mark it master.
 #: ../backend/src/DistributionSocketLink.cc:937
 #, fuzzy, c-format
 msgid "Client %s is now master."
-msgstr "%s:%d istemcisi asıl sunucu oldu."
+msgstr "%s istemcisi asıl sunucu oldu."
 
 #. Its ME!
 #: ../backend/src/DistributionSocketLink.cc:944
@@ -65,7 +65,7 @@ msgstr "Bu istemci şimdi asıl sunucu oldu."
 #: ../backend/src/DistributionSocketLink.cc:1275
 #, fuzzy, c-format
 msgid "Client %s saying hello."
-msgstr "%s:%d istemcisi merhaba diyor."
+msgstr "%s istemcisi merhaba diyor."
 
 #. Duplicate client. inform client that it's bogus and close.
 #: ../backend/src/DistributionSocketLink.cc:1290
@@ -73,54 +73,54 @@ msgstr "%s:%d istemcisi merhaba diyor."
 #: ../backend/src/DistributionSocketLink.cc:1662
 #, fuzzy, c-format
 msgid "Client %s is duplicate."
-msgstr "%s:%d istemcisi bir kopya."
+msgstr "%s istemcisi bir kopya."
 
 #. Incorrect password.
 #: ../backend/src/DistributionSocketLink.cc:1300
 #, fuzzy, c-format
 msgid "Client %s access denied."
-msgstr "%s:%d istemcisinin erişimi reddedildi."
+msgstr "%s istemcisinin erişimi reddedildi."
 
 #: ../backend/src/DistributionSocketLink.cc:1369
 #, fuzzy, c-format
 msgid "Client %s signed off."
-msgstr "%s:%d istemcisi bağlantıyı kesti."
+msgstr "%s istemcisi bağlantıyı kesti."
 
 #. gint port =
 #: ../backend/src/DistributionSocketLink.cc:1457
 #, fuzzy, c-format
 msgid "Client %s is welcoming us."
-msgstr "%s:%d istemcisi bağlantıya davet ediyor."
+msgstr "%s istemcisi bağlantıya davet ediyor."
 
 #: ../backend/src/DistributionSocketLink.cc:1698
 #, fuzzy, c-format
 msgid "Requesting master status from %s."
-msgstr "%s:%d adresinden asıl sunucu durumu isteniyor."
+msgstr "%s adresinden asıl sunucu durumu isteniyor."
 
 #: ../backend/src/DistributionSocketLink.cc:1712
 #, fuzzy, c-format
 msgid "Client timeout from %s."
-msgstr "%s:%d istemcisinin bağlantısı zaman aşımına uğradı."
+msgstr "%s istemcisinin bağlantısı zaman aşımına uğradı."
 
 #: ../backend/src/DistributionSocketLink.cc:1734
 #, fuzzy, c-format
 msgid "Rejecting master request from client %s."
-msgstr "%s:%d istemcisinden gelen asıl sunucu isteği reddedildi."
+msgstr "%s istemcisinden gelen asıl sunucu isteği reddedildi."
 
 #: ../backend/src/DistributionSocketLink.cc:1740
 #, fuzzy, c-format
 msgid "Acknowledging master request from client %s."
-msgstr "%s:%d istemcisinin asıl sunucu isteği yanıtlanıyor."
+msgstr "%s istemcisinin asıl sunucu isteği yanıtlanıyor."
 
 #: ../backend/src/DistributionSocketLink.cc:1791
 #, fuzzy, c-format
 msgid "Non-master client %s rejected master request."
-msgstr "Asıl olmayan istemci %s:%d asıl sunucu isteğini reddetti."
+msgstr "Asıl olmayan istemci %s asıl sunucu isteğini reddetti."
 
 #: ../backend/src/DistributionSocketLink.cc:1796
 #, fuzzy, c-format
 msgid "Client %s rejected master request, delaying."
-msgstr "%s:%d istemcisi asıl sunucu isteğini reddetti, bekleniyor."
+msgstr "%s istemcisi asıl sunucu isteğini reddetti, bekleniyor."
 
 #. gint count =
 #: ../backend/src/DistributionSocketLink.cc:1867
@@ -139,23 +139,23 @@ msgstr "Yeni istemci kabul edildi."
 #: ../backend/src/DistributionSocketLink.cc:2083
 #, fuzzy, c-format
 msgid "Client %s read error, closing."
-msgstr "%s:%d istemcisinden veri okunurken hatası oluştu, bağlantı kesiliyor."
+msgstr "%s istemcisinden veri okunurken hatası oluştu, bağlantı kesiliyor."
 
 #: ../backend/src/DistributionSocketLink.cc:2089
 #: ../backend/src/DistributionSocketLink.cc:2162
 #, fuzzy, c-format
 msgid "Client %s closed connection."
-msgstr "%s:%d istemcisi bağlantıyı kesti."
+msgstr "%s istemcisi bağlantıyı kesti."
 
 #: ../backend/src/DistributionSocketLink.cc:2130
 #, fuzzy, c-format
 msgid "Client %s connected."
-msgstr "%s:%d istemcisi bağlandı."
+msgstr "%s istemcisi bağlandı."
 
 #: ../backend/src/DistributionSocketLink.cc:2168
 #, fuzzy, c-format
 msgid "Could not connect to client %s."
-msgstr "%s:%d istemcisine bağlanılamadı."
+msgstr "%s istemcisine bağlanılamadı."
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
 #: ../frontend/common/src/SoundPlayer.cc:92
@@ -171,7 +171,7 @@ msgstr "Mola istemi"
 #: ../frontend/common/src/SoundPlayer.cc:123
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:48
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:56
-#: ../frontend/gtkmm/src/GUI.cc:1436 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/GUI.cc:1438 ../frontend/gtkmm/src/GtkUtil.cc:161
 msgid "Daily limit"
 msgstr "Günlük sınır"
 
@@ -262,31 +262,31 @@ msgstr ""
 "yapacak belge incelemek gibi başka bir iş bulun."
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1436 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/GUI.cc:1438 ../frontend/gtkmm/src/GtkUtil.cc:161
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:54
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:174
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:272
 msgid "Micro-break"
 msgstr "Kısa-mola"
 
-#: ../frontend/gtkmm/src/GUI.cc:1436 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/GUI.cc:1438 ../frontend/gtkmm/src/GtkUtil.cc:161
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:147
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:81
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:224
 msgid "Rest break"
 msgstr "Dinlenme molası"
 
-#: ../frontend/gtkmm/src/GUI.cc:1449 ../frontend/gtkmm/src/GUI.cc:1453
+#: ../frontend/gtkmm/src/GUI.cc:1451 ../frontend/gtkmm/src/GUI.cc:1455
 #, fuzzy
 msgid "Mode: "
 msgstr "Çalış_ma biçimi"
 
-#: ../frontend/gtkmm/src/GUI.cc:1449
+#: ../frontend/gtkmm/src/GUI.cc:1451
 #, fuzzy
 msgid "Suspended"
 msgstr "_Duraklat"
 
-#: ../frontend/gtkmm/src/GUI.cc:1453
+#: ../frontend/gtkmm/src/GUI.cc:1455
 #, fuzzy
 msgid "Quiet"
 msgstr "_Rahatsız etme"
@@ -1186,68 +1186,9 @@ msgstr "Toplam tuş vuruşu sayısı"
 msgid "%s, from %s to %s"
 msgstr "%2$s'den %3$s'ye kadar %1$s."
 
-#: ../frontend/gtkmm/src/eggdesktopfile.c:165
-#, c-format
-msgid "File is not a valid .desktop file"
-msgstr ""
-
-#: ../frontend/gtkmm/src/eggdesktopfile.c:188
-#, c-format
-msgid "Unrecognized desktop file Version '%s'"
-msgstr ""
-
-#: ../frontend/gtkmm/src/eggdesktopfile.c:958
-#, fuzzy, c-format
-msgid "Starting %s"
-msgstr "%s sonra sessiz olacak."
-
-#: ../frontend/gtkmm/src/eggdesktopfile.c:1100
-#, c-format
-msgid "Application does not accept documents on command line"
-msgstr ""
-
-#: ../frontend/gtkmm/src/eggdesktopfile.c:1168
-#, c-format
-msgid "Unrecognized launch option: %d"
-msgstr ""
-
-#: ../frontend/gtkmm/src/eggdesktopfile.c:1373
-#, c-format
-msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
-msgstr ""
-
-#: ../frontend/gtkmm/src/eggdesktopfile.c:1394
-#, c-format
-msgid "Not a launchable item"
-msgstr ""
-
-#: ../frontend/gtkmm/src/eggsmclient.c:225
-msgid "Disable connection to session manager"
-msgstr ""
-
-#: ../frontend/gtkmm/src/eggsmclient.c:228
-msgid "Specify file containing saved configuration"
-msgstr ""
-
-#: ../frontend/gtkmm/src/eggsmclient.c:228
-msgid "FILE"
-msgstr ""
-
-#: ../frontend/gtkmm/src/eggsmclient.c:231
-msgid "Specify session management ID"
-msgstr ""
-
-#: ../frontend/gtkmm/src/eggsmclient.c:231
-msgid "ID"
-msgstr ""
-
-#: ../frontend/gtkmm/src/eggsmclient.c:252
-msgid "Session management options:"
-msgstr ""
-
-#: ../frontend/gtkmm/src/eggsmclient.c:253
-msgid "Show session management options"
-msgstr ""
+#, fuzzy
+#~ msgid "Starting %s"
+#~ msgstr "%s sonra sessiz olacak."
 
 #~ msgid "Cannot resolve my own hostname. Deactivating distribution."
 #~ msgstr ""

@@ -733,7 +733,7 @@ if test "x$GNET2" != "x"; then
 fi
         
 HAVE_APP_GTK=
-if test "x$GTKMM_LIBS" != "x"; then
+if test "x$GTK_LIBS" != "x"; then
    AC_DEFINE(HAVE_APP_GTK,,[Define if Gtk is available])
 fi
 

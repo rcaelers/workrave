@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2010-04-19 18:55+0200\n"
+"POT-Creation-Date: 2010-05-12 23:34+0200\n"
 "PO-Revision-Date: 2010-02-09 11:45+0100\n"
 "Last-Translator: Gabor Kelemen <kelemeng at gnome dot hu>\n"
 "Language-Team: Hungarian <gnome at fsf dot hu>\n"
@@ -20,7 +20,7 @@ msgstr ""
 #: ../backend/src/DistributionSocketLink.cc:129
 #, fuzzy, c-format
 msgid "Reconnecting to %s."
-msgstr "Újracsatlakozás a következőhöz: %s:%d."
+msgstr "Újracsatlakozás a következőhöz: %s."
 
 #. We did not succeed in starting the server. Arghh.
 #: ../backend/src/DistributionSocketLink.cc:421
@@ -35,25 +35,25 @@ msgstr "Hálózati műveletek tiltása."
 #: ../backend/src/DistributionSocketLink.cc:583
 #, fuzzy, c-format
 msgid "Connecting to %s."
-msgstr "Csatlakozás a következőhöz: %s:%d."
+msgstr "Csatlakozás a következőhöz: %s."
 
 #: ../backend/src/DistributionSocketLink.cc:703
 #: ../backend/src/DistributionSocketLink.cc:729
 #, fuzzy, c-format
 msgid "Removing client %s."
-msgstr "%s:%d kliens eltávolítása."
+msgstr "%s kliens eltávolítása."
 
 #. Closing direct connection.
 #: ../backend/src/DistributionSocketLink.cc:768
 #, fuzzy, c-format
 msgid "Disconnecting %s"
-msgstr "Kapcsolat bontása a következővel: %s:%d."
+msgstr "Kapcsolat bontása a következővel: %s."
 
 #. It's a remote client. mark it master.
 #: ../backend/src/DistributionSocketLink.cc:937
 #, fuzzy, c-format
 msgid "Client %s is now master."
-msgstr "A következő kliens az elsődleges: %s:%d."
+msgstr "A következő kliens az elsődleges: %s."
 
 #. Its ME!
 #: ../backend/src/DistributionSocketLink.cc:944
@@ -65,7 +65,7 @@ msgstr "Én vagyok az elsődleges."
 #: ../backend/src/DistributionSocketLink.cc:1275
 #, fuzzy, c-format
 msgid "Client %s saying hello."
-msgstr "%s:%d kliens „hello”-t küldött."
+msgstr "%s kliens „hello”-t küldött."
 
 #. Duplicate client. inform client that it's bogus and close.
 #: ../backend/src/DistributionSocketLink.cc:1290
@@ -73,54 +73,54 @@ msgstr "%s:%d kliens „hello”-t küldött."
 #: ../backend/src/DistributionSocketLink.cc:1662
 #, fuzzy, c-format
 msgid "Client %s is duplicate."
-msgstr "A következő kliens többször szerepel: %s:%d."
+msgstr "A következő kliens többször szerepel: %s."
 
 #. Incorrect password.
 #: ../backend/src/DistributionSocketLink.cc:1300
 #, fuzzy, c-format
 msgid "Client %s access denied."
-msgstr "Hozzáférés megtagadva: %s:%d"
+msgstr "Hozzáférés megtagadva: %s"
 
 #: ../backend/src/DistributionSocketLink.cc:1369
 #, fuzzy, c-format
 msgid "Client %s signed off."
-msgstr "%s:%d kliens kijelentkezett."
+msgstr "%s kliens kijelentkezett."
 
 #. gint port =
 #: ../backend/src/DistributionSocketLink.cc:1457
 #, fuzzy, c-format
 msgid "Client %s is welcoming us."
-msgstr "%s:%d kliens üdvözöl minket."
+msgstr "%s kliens üdvözöl minket."
 
 #: ../backend/src/DistributionSocketLink.cc:1698
 #, fuzzy, c-format
 msgid "Requesting master status from %s."
-msgstr "Elsődleges állapot igénylése a következőtől: %s:%d."
+msgstr "Elsődleges állapot igénylése a következőtől: %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1712
 #, fuzzy, c-format
 msgid "Client timeout from %s."
-msgstr "Kliens időtúllépés: %s:%d."
+msgstr "Kliens időtúllépés: %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1734
 #, fuzzy, c-format
 msgid "Rejecting master request from client %s."
-msgstr "%s:%d kliens elsődlegességi kérelme elutasítva."
+msgstr "%s kliens elsődlegességi kérelme elutasítva."
 
 #: ../backend/src/DistributionSocketLink.cc:1740
 #, fuzzy, c-format
 msgid "Acknowledging master request from client %s."
-msgstr "%s:%d kliens elsődlegességi kérelme elfogadva."
+msgstr "%s kliens elsődlegességi kérelme elfogadva."
 
 #: ../backend/src/DistributionSocketLink.cc:1791
 #, fuzzy, c-format
 msgid "Non-master client %s rejected master request."
-msgstr "%s:%d nem elsődleges kliens elutasította elsődlegességi kérelmét."
+msgstr "%s nem elsődleges kliens elutasította elsődlegességi kérelmét."
 
 #: ../backend/src/DistributionSocketLink.cc:1796
 #, fuzzy, c-format
 msgid "Client %s rejected master request, delaying."
-msgstr "%s:%d kliens elutasította elsődlegességi kérelmét, késleltetés…"
+msgstr "%s kliens elutasította elsődlegességi kérelmét, késleltetés…"
 
 #. gint count =
 #: ../backend/src/DistributionSocketLink.cc:1867
@@ -139,23 +139,23 @@ msgstr "Új kliens elfogadva."
 #: ../backend/src/DistributionSocketLink.cc:2083
 #, fuzzy, c-format
 msgid "Client %s read error, closing."
-msgstr "Olvasási hiba: %s:%d. Befejezés."
+msgstr "Olvasási hiba: %s. Befejezés."
 
 #: ../backend/src/DistributionSocketLink.cc:2089
 #: ../backend/src/DistributionSocketLink.cc:2162
 #, fuzzy, c-format
 msgid "Client %s closed connection."
-msgstr "%s:%d kliens befejezte a kapcsolatot."
+msgstr "%s kliens befejezte a kapcsolatot."
 
 #: ../backend/src/DistributionSocketLink.cc:2130
 #, fuzzy, c-format
 msgid "Client %s connected."
-msgstr "%s:%d kliens kapcsolódott."
+msgstr "%s kliens kapcsolódott."
 
 #: ../backend/src/DistributionSocketLink.cc:2168
 #, fuzzy, c-format
 msgid "Could not connect to client %s."
-msgstr "Sikertelen kapcsolódás %s:%d klienshez."
+msgstr "Sikertelen kapcsolódás %s klienshez."
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
 #: ../frontend/common/src/SoundPlayer.cc:92
@@ -171,7 +171,7 @@ msgstr "Felszólítás szünetre"
 #: ../frontend/common/src/SoundPlayer.cc:123
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:48
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:56
-#: ../frontend/gtkmm/src/GUI.cc:1436 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/GUI.cc:1438 ../frontend/gtkmm/src/GtkUtil.cc:161
 msgid "Daily limit"
 msgstr "Napi korlátozás"
 
@@ -262,29 +262,29 @@ msgstr ""
 "egy iratot."
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1436 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/GUI.cc:1438 ../frontend/gtkmm/src/GtkUtil.cc:161
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:54
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:174
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:272
 msgid "Micro-break"
 msgstr "Rövid pihenő"
 
-#: ../frontend/gtkmm/src/GUI.cc:1436 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/GUI.cc:1438 ../frontend/gtkmm/src/GtkUtil.cc:161
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:147
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:81
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:224
 msgid "Rest break"
 msgstr "Pihenőidő"
 
-#: ../frontend/gtkmm/src/GUI.cc:1449 ../frontend/gtkmm/src/GUI.cc:1453
+#: ../frontend/gtkmm/src/GUI.cc:1451 ../frontend/gtkmm/src/GUI.cc:1455
 msgid "Mode: "
 msgstr "Mód: "
 
-#: ../frontend/gtkmm/src/GUI.cc:1449
+#: ../frontend/gtkmm/src/GUI.cc:1451
 msgid "Suspended"
 msgstr "Felfüggesztett"
 
-#: ../frontend/gtkmm/src/GUI.cc:1453
+#: ../frontend/gtkmm/src/GUI.cc:1455
 msgid "Quiet"
 msgstr "Csendes"
 
@@ -1164,68 +1164,48 @@ msgstr "A lenyomott billentyűk száma"
 msgid "%s, from %s to %s"
 msgstr "%s, ettől: %s eddig: %s"
 
-#: ../frontend/gtkmm/src/eggdesktopfile.c:165
-#, c-format
-msgid "File is not a valid .desktop file"
-msgstr "A fájl nem egy érvényes .desktop fájl"
+#~ msgid "File is not a valid .desktop file"
+#~ msgstr "A fájl nem egy érvényes .desktop fájl"
 
-#: ../frontend/gtkmm/src/eggdesktopfile.c:188
-#, c-format
-msgid "Unrecognized desktop file Version '%s'"
-msgstr "Ismeretlen .desktop fájl verzió: „%s”"
+#~ msgid "Unrecognized desktop file Version '%s'"
+#~ msgstr "Ismeretlen .desktop fájl verzió: „%s”"
 
-#: ../frontend/gtkmm/src/eggdesktopfile.c:958
-#, c-format
-msgid "Starting %s"
-msgstr "%s indítása"
+#~ msgid "Starting %s"
+#~ msgstr "%s indítása"
 
-#: ../frontend/gtkmm/src/eggdesktopfile.c:1100
-#, c-format
-msgid "Application does not accept documents on command line"
-msgstr "Az alkalmazás nem fogad el dokumentumokat a parancssorban"
+#~ msgid "Application does not accept documents on command line"
+#~ msgstr "Az alkalmazás nem fogad el dokumentumokat a parancssorban"
 
-#: ../frontend/gtkmm/src/eggdesktopfile.c:1168
-#, c-format
-msgid "Unrecognized launch option: %d"
-msgstr "Ismeretlen indítási kapcsoló: %d"
+#~ msgid "Unrecognized launch option: %d"
+#~ msgstr "Ismeretlen indítási kapcsoló: %d"
 
-#: ../frontend/gtkmm/src/eggdesktopfile.c:1373
-#, c-format
-msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
-msgstr "Nem adhatók dokumentum-URI címek egy „Type=Link” asztali bejegyzésnek"
+#~ msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
+#~ msgstr ""
+#~ "Nem adhatók dokumentum-URI címek egy „Type=Link” asztali bejegyzésnek"
 
-#: ../frontend/gtkmm/src/eggdesktopfile.c:1394
-#, c-format
-msgid "Not a launchable item"
-msgstr "Nem futtatható elem"
+#~ msgid "Not a launchable item"
+#~ msgstr "Nem futtatható elem"
 
-#: ../frontend/gtkmm/src/eggsmclient.c:225
-msgid "Disable connection to session manager"
-msgstr "A munkamenet-kezelőhöz való csatlakozás tiltása"
+#~ msgid "Disable connection to session manager"
+#~ msgstr "A munkamenet-kezelőhöz való csatlakozás tiltása"
 
-#: ../frontend/gtkmm/src/eggsmclient.c:228
-msgid "Specify file containing saved configuration"
-msgstr "A mentett beállításokat tartalmazó fájl megadása"
+#~ msgid "Specify file containing saved configuration"
+#~ msgstr "A mentett beállításokat tartalmazó fájl megadása"
 
-#: ../frontend/gtkmm/src/eggsmclient.c:228
-msgid "FILE"
-msgstr "FÁJL"
+#~ msgid "FILE"
+#~ msgstr "FÁJL"
 
-#: ../frontend/gtkmm/src/eggsmclient.c:231
-msgid "Specify session management ID"
-msgstr "A munkamenet-kezelő azonosítójának megadása"
+#~ msgid "Specify session management ID"
+#~ msgstr "A munkamenet-kezelő azonosítójának megadása"
 
-#: ../frontend/gtkmm/src/eggsmclient.c:231
-msgid "ID"
-msgstr "Azonosító"
+#~ msgid "ID"
+#~ msgstr "Azonosító"
 
-#: ../frontend/gtkmm/src/eggsmclient.c:252
-msgid "Session management options:"
-msgstr "Munkamenet-kezelés kapcsolói:"
+#~ msgid "Session management options:"
+#~ msgstr "Munkamenet-kezelés kapcsolói:"
 
-#: ../frontend/gtkmm/src/eggsmclient.c:253
-msgid "Show session management options"
-msgstr "Munkamenet-kezelési kapcsolók megjelenítése"
+#~ msgid "Show session management options"
+#~ msgstr "Munkamenet-kezelési kapcsolók megjelenítése"
 
 #~ msgid "Cannot resolve my own hostname. Deactivating distribution."
 #~ msgstr ""

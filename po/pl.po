@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2010-04-19 18:55+0200\n"
+"POT-Creation-Date: 2010-05-12 23:34+0200\n"
 "PO-Revision-Date: 2007-02-10 22:50+0100\n"
 "Last-Translator: Mikolaj Machowski <mikmach@wp.pl>\n"
 "Language-Team: Polish <kde-transl@mer.chemia.polsl.gliwice.pl>\n"
@@ -21,7 +21,7 @@ msgstr ""
 #: ../backend/src/DistributionSocketLink.cc:129
 #, fuzzy, c-format
 msgid "Reconnecting to %s."
-msgstr "Ponowne łączenie z %s:%d."
+msgstr "Ponowne łączenie z %s."
 
 #. We did not succeed in starting the server. Arghh.
 #: ../backend/src/DistributionSocketLink.cc:421
@@ -36,25 +36,25 @@ msgstr "Wyłączanie operacji sieciowych."
 #: ../backend/src/DistributionSocketLink.cc:583
 #, fuzzy, c-format
 msgid "Connecting to %s."
-msgstr "Łączenie z %s:%d."
+msgstr "Łączenie z %s."
 
 #: ../backend/src/DistributionSocketLink.cc:703
 #: ../backend/src/DistributionSocketLink.cc:729
 #, fuzzy, c-format
 msgid "Removing client %s."
-msgstr "Usuwanie klienta %s:%d."
+msgstr "Usuwanie klienta %s."
 
 #. Closing direct connection.
 #: ../backend/src/DistributionSocketLink.cc:768
 #, fuzzy, c-format
 msgid "Disconnecting %s"
-msgstr "Rozłączanie %s:%d."
+msgstr "Rozłączanie %s."
 
 #. It's a remote client. mark it master.
 #: ../backend/src/DistributionSocketLink.cc:937
 #, fuzzy, c-format
 msgid "Client %s is now master."
-msgstr "Klient %s:%d jest teraz nadrzędny."
+msgstr "Klient %s jest teraz nadrzędny."
 
 #. Its ME!
 #: ../backend/src/DistributionSocketLink.cc:944
@@ -66,7 +66,7 @@ msgstr "Jestem nadrzędny."
 #: ../backend/src/DistributionSocketLink.cc:1275
 #, fuzzy, c-format
 msgid "Client %s saying hello."
-msgstr "Klient %s:%d pozdrawia."
+msgstr "Klient %s pozdrawia."
 
 #. Duplicate client. inform client that it's bogus and close.
 #: ../backend/src/DistributionSocketLink.cc:1290
@@ -74,54 +74,54 @@ msgstr "Klient %s:%d pozdrawia."
 #: ../backend/src/DistributionSocketLink.cc:1662
 #, fuzzy, c-format
 msgid "Client %s is duplicate."
-msgstr "Klient %s:%d jest duplikatem."
+msgstr "Klient %s jest duplikatem."
 
 #. Incorrect password.
 #: ../backend/src/DistributionSocketLink.cc:1300
 #, fuzzy, c-format
 msgid "Client %s access denied."
-msgstr "Dostęp do klienta %s:%d niemożliwy."
+msgstr "Dostęp do klienta %s niemożliwy."
 
 #: ../backend/src/DistributionSocketLink.cc:1369
 #, fuzzy, c-format
 msgid "Client %s signed off."
-msgstr "Klient %s:%d odłączony."
+msgstr "Klient %s odłączony."
 
 #. gint port =
 #: ../backend/src/DistributionSocketLink.cc:1457
 #, fuzzy, c-format
 msgid "Client %s is welcoming us."
-msgstr "Klient %s:%d wita."
+msgstr "Klient %s wita."
 
 #: ../backend/src/DistributionSocketLink.cc:1698
 #, fuzzy, c-format
 msgid "Requesting master status from %s."
-msgstr "Żądanie przejęcia kontroli od %s:%d."
+msgstr "Żądanie przejęcia kontroli od %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1712
 #, fuzzy, c-format
 msgid "Client timeout from %s."
-msgstr "Przekroczenie czasu przez %s:%d."
+msgstr "Przekroczenie czasu przez %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1734
 #, fuzzy, c-format
 msgid "Rejecting master request from client %s."
-msgstr "Odrzucenie żądania nadrzędnego przez %s:%d."
+msgstr "Odrzucenie żądania nadrzędnego przez %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1740
 #, fuzzy, c-format
 msgid "Acknowledging master request from client %s."
-msgstr "Akceptacja prośby nadrzędnego przez %s:%d."
+msgstr "Akceptacja prośby nadrzędnego przez %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1791
 #, fuzzy, c-format
 msgid "Non-master client %s rejected master request."
-msgstr "Zwykły klient %s:%d odrzucił żądanie nadrzędnego."
+msgstr "Zwykły klient %s odrzucił żądanie nadrzędnego."
 
 #: ../backend/src/DistributionSocketLink.cc:1796
 #, fuzzy, c-format
 msgid "Client %s rejected master request, delaying."
-msgstr "Klient %s:%d odrzucił żądanie nadrzędnego, opóźnienie."
+msgstr "Klient %s odrzucił żądanie nadrzędnego, opóźnienie."
 
 #. gint count =
 #: ../backend/src/DistributionSocketLink.cc:1867
@@ -140,23 +140,23 @@ msgstr "Nowy klient zaakceptowany."
 #: ../backend/src/DistributionSocketLink.cc:2083
 #, fuzzy, c-format
 msgid "Client %s read error, closing."
-msgstr "%s:%d - błąd odczytu, zamykam."
+msgstr "%s - błąd odczytu, zamykam."
 
 #: ../backend/src/DistributionSocketLink.cc:2089
 #: ../backend/src/DistributionSocketLink.cc:2162
 #, fuzzy, c-format
 msgid "Client %s closed connection."
-msgstr "Klient %s:%d zamknął połączenie."
+msgstr "Klient %s zamknął połączenie."
 
 #: ../backend/src/DistributionSocketLink.cc:2130
 #, fuzzy, c-format
 msgid "Client %s connected."
-msgstr "Klient %s:%d połączony."
+msgstr "Klient %s połączony."
 
 #: ../backend/src/DistributionSocketLink.cc:2168
 #, fuzzy, c-format
 msgid "Could not connect to client %s."
-msgstr "Połączenie z klientem %s:%d niemożliwe."
+msgstr "Połączenie z klientem %s niemożliwe."
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
 #: ../frontend/common/src/SoundPlayer.cc:92
@@ -172,7 +172,7 @@ msgstr "Zachęta do przerwy"
 #: ../frontend/common/src/SoundPlayer.cc:123
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:48
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:56
-#: ../frontend/gtkmm/src/GUI.cc:1436 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/GUI.cc:1438 ../frontend/gtkmm/src/GtkUtil.cc:161
 msgid "Daily limit"
 msgstr "Dzienny limit"
 
@@ -264,31 +264,31 @@ msgstr ""
 "dokumentów."
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1436 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/GUI.cc:1438 ../frontend/gtkmm/src/GtkUtil.cc:161
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:54
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:174
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:272
 msgid "Micro-break"
 msgstr "Mikroprzerwa"
 
-#: ../frontend/gtkmm/src/GUI.cc:1436 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/GUI.cc:1438 ../frontend/gtkmm/src/GtkUtil.cc:161
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:147
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:81
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:224
 msgid "Rest break"
 msgstr "Odpoczynek"
 
-#: ../frontend/gtkmm/src/GUI.cc:1449 ../frontend/gtkmm/src/GUI.cc:1453
+#: ../frontend/gtkmm/src/GUI.cc:1451 ../frontend/gtkmm/src/GUI.cc:1455
 #, fuzzy
 msgid "Mode: "
 msgstr "_Tryb"
 
-#: ../frontend/gtkmm/src/GUI.cc:1449
+#: ../frontend/gtkmm/src/GUI.cc:1451
 #, fuzzy
 msgid "Suspended"
 msgstr "_Zawieszony"
 
-#: ../frontend/gtkmm/src/GUI.cc:1453
+#: ../frontend/gtkmm/src/GUI.cc:1455
 #, fuzzy
 msgid "Quiet"
 msgstr "_Cichy"
@@ -1177,68 +1177,9 @@ msgstr "Całkowita liczba naciśnięć klawiszy"
 msgid "%s, from %s to %s"
 msgstr "%s, od %s do %s"
 
-#: ../frontend/gtkmm/src/eggdesktopfile.c:165
-#, c-format
-msgid "File is not a valid .desktop file"
-msgstr ""
-
-#: ../frontend/gtkmm/src/eggdesktopfile.c:188
-#, c-format
-msgid "Unrecognized desktop file Version '%s'"
-msgstr ""
-
-#: ../frontend/gtkmm/src/eggdesktopfile.c:958
-#, fuzzy, c-format
-msgid "Starting %s"
-msgstr "Cisza za %s"
-
-#: ../frontend/gtkmm/src/eggdesktopfile.c:1100
-#, c-format
-msgid "Application does not accept documents on command line"
-msgstr ""
-
-#: ../frontend/gtkmm/src/eggdesktopfile.c:1168
-#, c-format
-msgid "Unrecognized launch option: %d"
-msgstr ""
-
-#: ../frontend/gtkmm/src/eggdesktopfile.c:1373
-#, c-format
-msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
-msgstr ""
-
-#: ../frontend/gtkmm/src/eggdesktopfile.c:1394
-#, c-format
-msgid "Not a launchable item"
-msgstr ""
-
-#: ../frontend/gtkmm/src/eggsmclient.c:225
-msgid "Disable connection to session manager"
-msgstr ""
-
-#: ../frontend/gtkmm/src/eggsmclient.c:228
-msgid "Specify file containing saved configuration"
-msgstr ""
-
-#: ../frontend/gtkmm/src/eggsmclient.c:228
-msgid "FILE"
-msgstr ""
-
-#: ../frontend/gtkmm/src/eggsmclient.c:231
-msgid "Specify session management ID"
-msgstr ""
-
-#: ../frontend/gtkmm/src/eggsmclient.c:231
-msgid "ID"
-msgstr ""
-
-#: ../frontend/gtkmm/src/eggsmclient.c:252
-msgid "Session management options:"
-msgstr ""
-
-#: ../frontend/gtkmm/src/eggsmclient.c:253
-msgid "Show session management options"
-msgstr ""
+#, fuzzy
+#~ msgid "Starting %s"
+#~ msgstr "Cisza za %s"
 
 #~ msgid "Cannot resolve my own hostname. Deactivating distribution."
 #~ msgstr "Nie mogę rozwiązać własnej nazwy. Dezaktywacja dystrybucji."
