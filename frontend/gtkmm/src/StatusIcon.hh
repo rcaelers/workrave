@@ -40,6 +40,7 @@
 #define HAVE_STATUSICON_SIGNAL 1
 #endif
 
+class W32StatusIcon;
 class MainWindow;
 
 class StatusIcon
@@ -68,11 +69,14 @@ private:
                                   gpointer callback_data);
 #endif
   
-  Glib::RefPtr<Gtk::StatusIcon> status_icon;
   MainWindow& main_window;
   Glib::RefPtr<Gdk::Pixbuf> mode_icons[OPERATION_MODE_SIZEOF];
+
 #ifdef PLATFORM_OS_WIN32
   UINT wm_taskbarcreated;
+  W32StatusIcon *status_icon;
+#else
+  Glib::RefPtr<Gtk::StatusIcon> status_icon;
 #endif
 };
 

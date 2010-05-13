@@ -142,6 +142,8 @@ if (WIN32)
     ${FRONTEND_DIR}/gtkmm/src/win32/W32Compat.hh
     ${FRONTEND_DIR}/gtkmm/src/win32/W32TrayMenu.cc
     ${FRONTEND_DIR}/gtkmm/src/win32/W32TrayMenu.hh
+    ${FRONTEND_DIR}/gtkmm/src/win32/W32StatusIcon.cc
+    ${FRONTEND_DIR}/gtkmm/src/win32/W32StatusIcon.hh
     ${FRONTEND_DIR}/gtkmm/src/win32/dll_hell.c
     ${FRONTEND_DIR}/gtkmm/src/win32/dll_hell.h
     )

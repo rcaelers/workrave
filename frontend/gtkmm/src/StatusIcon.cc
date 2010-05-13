@@ -30,11 +30,16 @@
 #include "ige-mac-dock.h"
 #endif
 
+#ifdef PLATFORM_OS_WIN32
+#include "W32StatusIcon.hh"
+#endif
+
 #include "MainWindow.hh"
 #include "CoreFactory.hh"
 #include "StatusIcon.hh"
 #include "Menus.hh"
 #include "Util.hh"
+
 
 StatusIcon::StatusIcon(MainWindow& mw)
   : main_window(mw)
@@ -77,8 +82,14 @@ StatusIcon::insert_icon()
   // Create status icon
   ICore *core = CoreFactory::get_core();
   OperationMode mode = core->get_operation_mode();
-  status_icon = Gtk::StatusIcon::create(mode_icons[mode]);
 
+#ifdef PLATFORM_OS_WIN32
+  status_icon = new W32StatusIcon();
+  set_operation_mode(mode);
+#else
+  status_icon = Gtk::StatusIcon::create(mode_icons[mode]);
+#endif
+  
   status_icon->signal_size_changed().connect(sigc::mem_fun(*this, &StatusIcon::on_size_changed));
   
 #ifdef HAVE_STATUSICON_SIGNAL 
@@ -166,6 +177,7 @@ StatusIcon::win32_filter_func (void     *xevent,
     }
   return ret;
 }
+
 #endif
 
 
