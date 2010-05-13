@@ -67,6 +67,7 @@ int DLLSHARE( debug ) = FALSE;
 #define IDM_MENU_SAVE 0
 #define IDM_MENU_MONITOR 1
 #define IDM_MENU_CLEAR 2
+#define IDM_MENU_UNHOOK 3
 
 // Each instance of harpoon should have the
 // filename of the process it is attached to.
@@ -701,27 +702,36 @@ harpoon_msg_block_hook(int code, WPARAM wpar, LPARAM lpar)
 
   if (code >= 0)
     {
-       if (is_app_blocked() && block_input)
-       {
-          ((MSG*)lpar)->message = WM_NULL;
-       }
+       //if (is_app_blocked() && block_input)
+       //{
+       //   ((MSG*)lpar)->message = WM_NULL;
+       //}
 
-    //   if (((MSG*)lpar)->message == WM_KEYDOWN)
-    //    {
-    //      if (is_app_blocked() && block_input)
-    //        {
-    //          ((MSG*)lpar)->message = WM_NULL;
-    //        }
-    //    }
+       if (((MSG*)lpar)->message == WM_KEYDOWN)
+        {
+          if (is_app_blocked() && block_input)
+            {
+              ((MSG*)lpar)->message = WM_NULL;
+            }
+        }
 
-    //  if ( ((MSG*)lpar)->message >= WM_MOUSEFIRST &&
-    //       ((MSG*)lpar)->message <= WM_MOUSELAST)
-    //    {
-    //      if (is_app_blocked() && block_input)
-    //        {
-    //          ((MSG*)lpar)->message = WM_NULL;
-    //        }
-    //    }
+      if ( ((MSG*)lpar)->message >= WM_MOUSEFIRST &&
+           ((MSG*)lpar)->message <= WM_MOUSELAST)
+        {
+          if (is_app_blocked() && block_input)
+            {
+              ((MSG*)lpar)->message = WM_NULL;
+            }
+        }
+
+      if ( ((MSG*)lpar)->message >= WM_NCMOUSEMOVE &&
+           ((MSG*)lpar)->message <= WM_NCMOUSEMOVE + 0x10)
+        {
+          if (is_app_blocked() && block_input)
+            {
+              ((MSG*)lpar)->message = WM_NULL;
+            }
+        }
     }
 
   return CallNextHookEx(msg_hook, code, wpar, lpar);
@@ -786,6 +796,7 @@ harpoon_init ( char imported_critical_file_list[][511], BOOL debug_harpoon )
               "Capture &Debug Messages" );
           AppendMenu( menu_popup, MF_SEPARATOR, 0,0 );
           AppendMenu( menu_popup, MF_STRING, IDM_MENU_CLEAR, "&Clear Display" );
+          AppendMenu( menu_popup, MF_STRING, IDM_MENU_UNHOOK, "&Unhook" );
           AppendMenu( menu, MF_POPUP, (UINT_PTR)menu_popup, "&Menu" );
         }
       else
@@ -1341,6 +1352,11 @@ static void debug_process_menu_selection( WORD idm )
       case IDM_MENU_CLEAR:
           SetWindowText( debug_hwnd, "" );
           if_debug_send_message( "IDM_MENU_CLEAR" );
+          break;
+
+      case IDM_MENU_UNHOOK:
+          harpoon_unhook();
+          if_debug_send_message( "IDM_MENU_UNHOOK" );
           break;
     }
   return;

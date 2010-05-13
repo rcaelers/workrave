@@ -99,10 +99,12 @@ Harpoon::init(HarpoonHookFunc func)
         }
     }
 
+#if 0
   if (is_64bit_windows())
     {
        start_harpoon_helper();
     }
+#endif
 
   return true;
 }
