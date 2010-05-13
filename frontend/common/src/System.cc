@@ -59,9 +59,9 @@
 
 using namespace workrave;
 
+#if defined(PLATFORM_OS_UNIX) && !defined(HAVE_APP_GTK)
 static int (*old_handler)(Display *dpy, XErrorEvent *error);
 
-#if defined(PLATFORM_OS_UNIX) && !defined(HAVE_APP_GTK)
 //! Intercepts X11 protocol errors.
 static int
 errorHandler(Display *dpy, XErrorEvent *error)
