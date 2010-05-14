@@ -1,8 +1,8 @@
 #include <winver.h>
 
 VS_VERSION_INFO VERSIONINFO
-  FILEVERSION ${WORKRAVE_RESOURCE_VERSION}
-  PRODUCTVERSION ${WORKRAVE_RESOURCE_VERSION}
+  FILEVERSION ${RESOURCE_VERSION}
+  PRODUCTVERSION ${RESOURCE_VERSION}
   FILEFLAGSMASK 0
   FILEFLAGS 0
   FILEOS VOS__WINDOWS32
@@ -15,12 +15,12 @@ VS_VERSION_INFO VERSIONINFO
       BEGIN
         VALUE "CompanyName", "The Workrave development team"
         VALUE "FileDescription", "Workrave"
-        VALUE "FileVersion", "${WORKRAVE_VERSION}"
+        VALUE "FileVersion", "${VERSION}"
         VALUE "InternalName", "workrave"
         VALUE "LegalCopyright", "Copyright (C) 2001-2010 The Workrave development team."
         VALUE "OriginalFilename", "workrave.exe"
         VALUE "ProductName", "Workrave"
-        VALUE "ProductVersion", "${WORKRAVE_VERSION}"
+        VALUE "ProductVersion", "${VERSION}"
       END
     END
     BLOCK "VarFileInfo"

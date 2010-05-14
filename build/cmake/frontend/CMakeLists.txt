@@ -146,6 +146,7 @@ if (WIN32)
     ${FRONTEND_DIR}/gtkmm/src/win32/W32StatusIcon.hh
     ${FRONTEND_DIR}/gtkmm/src/win32/dll_hell.c
     ${FRONTEND_DIR}/gtkmm/src/win32/dll_hell.h
+    ${CMAKE_BINARY_DIR}/workrave.rc
     )
 
     # ${FRONTEND_DIR}/common/src/win32/Sound.cc
@@ -157,6 +158,18 @@ if (WIN32)
     "${FRONTEND_DIR}/gtkmm/src/win32"
     "${FRONTEND_DIR}/win32/applet/include"
   )
+
+  #ADD_CUSTOM_COMMAND(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/workrave_rc.o
+  #                      COMMAND windres.exe
+  #                          -o ${CMAKE_CURRENT_BINARY_DIR}/workrave_rc.o
+  #                          -i ${CMAKE_CURRENT_BINARY_DIR}/workrave.rc
+  #		         DEPENDS workrave.rc			    
+  #                      )
+  #	
+  #set(FRONTEND_SOURCES ${FRONTEND_SOURCES}
+  #  ${CMAKE_CURRENT_BINARY_DIR}/workrave_rc.o
+  #)
+  
 endif (WIN32)
 
 if (HAVE_GNOME)
