@@ -6,7 +6,17 @@ dnl
 dnl $Id$
 dnl
 
-AC_INIT(workrave, [1.9.1],
+m4_define([workrave_major_version], [1])
+m4_define([workrave_minor_version], [9])
+m4_define([workrave_micro_version], [2])
+m4_define([workrave_version_suffix], [])
+m4_define([workrave_version],
+          [workrave_major_version.workrave_minor_version.workrave_micro_version])
+m4_define([workrave_resource_version],
+          [workrave_major_version,workrave_minor_version,workrave_micro_version,]m4_default([workrave_version_suffix],[0]))
+m4_define([workrave_display_version], workrave_version[]m4_ifdef([workrave_version_suffix],[workrave_version_suffix]))
+
+AC_INIT(workrave, [workrave_version],
         [http://issues.workrave.org/cgi-bin/bugzilla/enter_bug.cgi])
 
 dnl Demand at least version 2.61 of autoconf.
@@ -14,7 +24,7 @@ AC_PREREQ(2.61)
 
 dnl Automake
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(workrave, 1.9.1)
+AM_INIT_AUTOMAKE(workrave, workrave_version)
 AM_GNU_GETTEXT_VERSION()
 AM_MAINTAINER_MODE
 
@@ -169,6 +179,9 @@ dnl Update version and date.
 AC_SUBST(VERSION)
 ISODATE=`date +%Y-%m-%d`
 AC_SUBST(ISODATE)
+
+WORKRAVE_RESOURCE_VERSION=workrave_resource_version
+AC_SUBST(WORKRAVE_RESOURCE_VERSION)
 
 AC_CANONICAL_HOST
 AC_PREFIX_PROGRAM(workrave)

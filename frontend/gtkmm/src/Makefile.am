@@ -8,7 +8,8 @@ SUBDIRS = 		gnome_applet kde_applet win32 unix osx
 MAINTAINERCLEANFILES = 	Makefile.in \
 			org.workrave.Workrave.service \
 			workrave.desktop.in workrave.desktop \
-			DBusGUI.cc DBusGUI.hh DBusGnomeApplet.cc DBusGnomeApplet.hh
+			DBusGUI.cc DBusGUI.hh DBusGnomeApplet.cc DBusGnomeApplet.hh \
+			resource.rc
 
 DISTCLEANFILES = 	workrave.desktop.in workrave.desktop
 
@@ -47,6 +48,11 @@ sourcesx = 		X11SystrayAppletWindow.cc gtktrayicon.c
 
 # Additional Win32 sources.
 sourceswin32 = 		resource.rc
+
+resource.rc: resource.rc.in
+	sed -e 's/@WORKRAVE_VERSION@/$(VERSION)/g' \
+	    -e 's/@WORKRAVE_RESOURCE_VERSION@/$(WORKRAVE_RESOURCE_VERSION)/g' \
+		$@.in > $@
 
 # Additional distribution sources.
 DISTRIBUTION_HOME = 	$(top_srcdir)/frontend/plugin/distribution
@@ -99,7 +105,7 @@ includeswin32 = 	-I$(top_srcdir)/common/win32/harpoon/include \
 			-I$(top_srcdir)/frontend/gtkmm/src/win32/ \
 			-I$(top_srcdir)/frontend/win32/applet/include
 ldflags = 		-L$(top_builddir)/frontend/gtkmm/src/win32/
-win32cflags		= -D_WIN32_IE=0x0500 -D_WIN32_WINNT=0x0501
+win32cflags		= -D_WIN32_IE=0x0500 -D_WIN32_WINNT=0x0600
 endif
 
 if HAVE_DISTRIBUTION
@@ -302,5 +308,5 @@ workrave_LDADD =        @WR_LDADD@ @X_LIBS@ @X11SM_LIBS@ @GNOME_LIBS@ @GLIB_LIBS
 
 EXTRA_DIST = $(wildcard *.cc) $(wildcard *.hh) $(wildcard *.c) $(wildcard *.h) \
 	     DBusGUI.cc DBusGUI.hh DBusGnomeApplet.cc DBusGnomeApplet.hh \
-	     workrave.desktop.in.in org.workrave.Workrave.service.in workrave-gui.xml
+	     workrave.desktop.in.in org.workrave.Workrave.service.in workrave-gui.xml resource.rc.in
 
