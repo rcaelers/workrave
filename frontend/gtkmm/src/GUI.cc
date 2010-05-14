@@ -730,6 +730,12 @@ GUI::init_gtk_multihead()
                         }
                     }
 
+                  if (count == 1)
+                    {
+                      rect.set_width(1024);
+                      rect.set_height(768);
+                    }
+                  
                   if (!overlap)
                     {
                       heads[count].screen = screen;
@@ -1382,10 +1388,15 @@ GUI::map_from_head(int &x, int &y, int head)
 
 
 bool
-GUI::bound_head(int &x, int &y, int width, int height, int head)
+GUI::bound_head(int &x, int &y, int width, int height, int &head)
 {
   bool ret = false;
 
+  if (head >= num_heads)
+    {
+      head = 0;
+    }
+  
   HeadInfo &h = get_head(head);
   if (x < - h.get_width())
     {
