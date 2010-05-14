@@ -1,6 +1,6 @@
 // Statistics.cc
 //
-// Copyright (C) 2002 - 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2002 - 2008, 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -1001,10 +1001,8 @@ Statistics::mouse_notify(int x, int y, int wheel_delta)
 
 //! Mouse button activity is reported by the input monitor.
 void
-Statistics::button_notify(int button_mask, bool is_press)
+Statistics::button_notify(bool is_press)
 {
-  (void)button_mask;
-
   lock.lock();
   if (current_day != NULL)
     {
@@ -1032,10 +1030,10 @@ Statistics::button_notify(int button_mask, bool is_press)
 
 //! Keyboard activity is reported by the input monitor.
 void
-Statistics::keyboard_notify(int key_code, int modifier)
+Statistics::keyboard_notify(bool repeat)
 {
-  (void)key_code;
-  (void)modifier;
+  if (repeat)
+    return;
 
   lock.lock();
   if (current_day != NULL)

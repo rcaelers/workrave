@@ -1,6 +1,6 @@
 // Statistics.hh
 //
-// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -140,8 +140,8 @@ public:
 private:
   void action_notify();
   void mouse_notify(int x, int y, int wheel = 0);
-  void button_notify(int button_mask, bool is_press);
-  void keyboard_notify(int key_code, int modifier);
+  void button_notify(bool is_press);
+  void keyboard_notify(bool repeat);
 
   bool load_current_day();
   void update_current_day(bool active);

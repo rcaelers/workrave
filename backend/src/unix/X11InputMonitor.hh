@@ -78,7 +78,7 @@ private:
   void handle_xrecord_handle_key_event(XRecordInterceptData *data);
   void handle_xrecord_handle_motion_event(XRecordInterceptData *data);
   void handle_xrecord_handle_button_event(XRecordInterceptData *data);
-  void handle_xrecord_handle_device_key_event(XRecordInterceptData *data);
+  void handle_xrecord_handle_device_key_event(bool press, XRecordInterceptData *data);
   void handle_xrecord_handle_device_motion_event(XRecordInterceptData *data);
   void handle_xrecord_handle_device_button_event(XRecordInterceptData *data);
 

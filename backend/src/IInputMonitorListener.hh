@@ -1,6 +1,6 @@
 // IInputMonitorListener.hh
 //
-// Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2005, 2006, 2007, 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -33,10 +33,10 @@ public:
   virtual void mouse_notify(int x, int y, int wheel = 0) = 0;
 
   //! Reports mouse button activity
-  virtual void button_notify(int button_mask, bool is_press) = 0;
+  virtual void button_notify(bool is_press) = 0;
 
   //! Reports keyboard activity
-  virtual void keyboard_notify(int key_code, int modifier) = 0;
+  virtual void keyboard_notify(bool repeat) = 0;
 };
 
 #endif // IINPUTMONITORLISTENER_HH

@@ -317,10 +317,8 @@ ActivityMonitor::mouse_notify(int x, int y, int wheel_delta)
 
 //! Mouse button activity is reported by the input monitor.
 void
-ActivityMonitor::button_notify(int button_mask, bool is_press)
+ActivityMonitor::button_notify(bool is_press)
 {
-  (void)button_mask;
-
   lock.lock();
 
   button_is_pressed = is_press;
@@ -336,10 +334,9 @@ ActivityMonitor::button_notify(int button_mask, bool is_press)
 
 //! Keyboard activity is reported by the input monitor.
 void
-ActivityMonitor::keyboard_notify(int key_code, int modifier)
+ActivityMonitor::keyboard_notify(bool repeat)
 {
-  (void)key_code;
-  (void)modifier;
+  (void)repeat;
 
   lock.lock();
   action_notify();

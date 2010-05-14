@@ -110,7 +110,7 @@ DBus::register_service(const std::string &service)
       throw DBusSystemException("Unable to request service");
     }
 
-	owner == (result == DBUS_REQUEST_NAME_REPLY_PRIMARY_OWNER);
+	owner = (result == DBUS_REQUEST_NAME_REPLY_PRIMARY_OWNER);
 }
 
 

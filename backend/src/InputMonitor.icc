@@ -1,6 +1,6 @@
 // InputMonitor.icc
 //
-// Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2010 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -42,28 +42,28 @@ InputMonitor::fire_mouse(int x, int y, int wheel)
 
 
 inline void
-InputMonitor::fire_button(int button_mask, bool is_press)
+InputMonitor::fire_button(bool is_press)
 {
   if (activity_listener != NULL)
     {
-      activity_listener->button_notify(button_mask, is_press);
+      activity_listener->button_notify(is_press);
     }
   if (statistics_listener != NULL)
     {
-      statistics_listener->button_notify(button_mask, is_press);
+      statistics_listener->button_notify(is_press);
     }
 }
 
 
 inline void
-InputMonitor::fire_keyboard(int key_code, int modifier)
+InputMonitor::fire_keyboard(bool repeat)
 {
   if (activity_listener != NULL)
     {
-      activity_listener->keyboard_notify(key_code, modifier);
+      activity_listener->keyboard_notify(repeat);
     }
   if (statistics_listener != NULL)
     {
-      statistics_listener->keyboard_notify(key_code, modifier);
+      statistics_listener->keyboard_notify(repeat);
     }
 }
