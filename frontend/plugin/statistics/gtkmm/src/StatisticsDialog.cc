@@ -383,7 +383,7 @@ StatisticsDialog::display_statistics(IStatistics::DailyStats *stats)
     }
 
 
-  int value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_ACTIVE_TIME];
+  uint64_t value = stats->misc_stats[IStatistics::STATS_VALUE_TOTAL_ACTIVE_TIME];
   daily_usage_label->set_text(Text::time_to_string(value));
 
   // Put the breaks in table.
