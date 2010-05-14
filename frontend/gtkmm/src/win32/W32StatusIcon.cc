@@ -46,13 +46,16 @@ pixbuf_to_hicon (GdkPixbuf *pixbuf);
 W32StatusIcon::W32StatusIcon()
   : visible(false)
 {
+  init();
 }
 
 
 //! Destructor.
 W32StatusIcon::~W32StatusIcon()
 {
+  cleanup();
 }
+
 
 void
 W32StatusIcon::set(const Glib::RefPtr<Gdk::Pixbuf> &pixbuf)
@@ -68,8 +71,8 @@ W32StatusIcon::set(const Glib::RefPtr<Gdk::Pixbuf> &pixbuf)
   if (width > size || height > size)
     {
       scaled = pixbuf->scale_simple(MIN (size, width),
-                                   MIN (size, height),
-                                   Gdk::INTERP_BILINEAR);
+                                    MIN (size, height),
+                                    Gdk::INTERP_BILINEAR);
       nid.hIcon = pixbuf_to_hicon(scaled->gobj());
     }
   else
@@ -82,34 +85,30 @@ W32StatusIcon::set(const Glib::RefPtr<Gdk::Pixbuf> &pixbuf)
     {
       Shell_NotifyIconW (NIM_MODIFY, &nid);
     }
-  if (old_hicon)
-    DestroyIcon(old_hicon);
+
+  if (old_hicon != NULL)
+    {
+      DestroyIcon(old_hicon);
+    }
 }
 
 
 void
 W32StatusIcon::set_tooltip(const Glib::ustring &text)
 {
-  if (text == "")
-    {
-      nid.uFlags &= ~NIF_TIP;
-    }
-  else
-    {
-      gunichar2 *wtext = g_utf8_to_utf16(text.c_str(), -1, NULL, NULL, NULL);
+  gunichar2 *wtext = g_utf8_to_utf16(text.c_str(), -1, NULL, NULL, NULL);
 
-      nid.uFlags |= NIF_TIP;
-      wcsncpy(nid.szTip, (wchar_t *)wtext, G_N_ELEMENTS(nid.szTip) - 1);
-      nid.szTip[G_N_ELEMENTS(nid.szTip) - 1] = 0;
-      g_free(wtext);
-      
-    }
+  nid.uFlags |= NIF_TIP;
+  wcsncpy(nid.szTip, (wchar_t *)wtext, G_N_ELEMENTS(nid.szTip) - 1);
+  nid.szTip[G_N_ELEMENTS(nid.szTip) - 1] = 0;
+  g_free(wtext);
   
   if (nid.hWnd != NULL && visible)
     {
       Shell_NotifyIconW(NIM_MODIFY, &nid);
     }
 }
+
 
 void
 W32StatusIcon::set_visible(bool visible)
@@ -120,13 +119,11 @@ W32StatusIcon::set_visible(bool visible)
 
       if (nid.hWnd != NULL)
         {
-          if (visible)
-            Shell_NotifyIconW(NIM_ADD, &nid);
-          else
-            Shell_NotifyIconW(NIM_DELETE, &nid);
+          Shell_NotifyIconW(visible ? NIM_ADD : NIM_DELETE, &nid);
         }
     }
 }
+
 
 bool
 W32StatusIcon::get_visible() const
@@ -140,30 +137,22 @@ W32StatusIcon::is_embedded() const
   return true;
 }
 
-const Glib::SignalProxyInfo
-_signal_size_changed =
-{
-    "size_changed",
-    (GCallback) &Glib::SignalProxyNormal::slot0_void_callback,
-    (GCallback) &Glib::SignalProxyNormal::slot0_void_callback
-};
-
-Glib::SignalProxy1<bool, int>
+sigc::signal<bool, int> &
 W32StatusIcon::signal_size_changed()
 {
-  //  return size_changed_slot;
+    return size_changed_signal;
 }
 
-Glib::SignalProxy0<void>
+sigc::signal<void>
 W32StatusIcon::signal_activate()
 {
-  //  return Glib::SignalProxy0< void >(this, &StatusIcon_signal_activate_info);
+  return activate_signal;
 }
 
-Glib::SignalProxy2<void, guint, guint32>
+sigc::signal<void, guint, guint32>
 W32StatusIcon::signal_popup_menu()
 {
-  //  return Glib::SignalProxy2< void,guint,guint32 >(this, &StatusIcon_signal_popup_menu_info);
+  return popup_menu_signal;
 }
 
 void
@@ -173,11 +162,20 @@ W32StatusIcon::init()
 
   if (tray_hwnd == NULL)
     {
+      memset(&nid, 0, sizeof(NOTIFYICONDATA));
+    
+      nid.cbSize = sizeof(NOTIFYICONDATA);
+      nid.uID = 1;
+      nid.uFlags = NIF_MESSAGE;
+      nid.uCallbackMessage = MYWM_TRAY_MESSAGE;
+
+      set_tooltip("Workrave");
+
       WNDCLASS wclass;
       memset(&wclass, 0, sizeof(WNDCLASS));
       wclass.lpszClassName = "WorkraveTrayObserver";
-      wclass.lpfnWndProc   = window_proc;
-      wclass.hInstance     = hinstance;
+      wclass.lpfnWndProc = window_proc;
+      wclass.hInstance = hinstance;
       
       ATOM atom = RegisterClass(&wclass);
       if (atom != 0)
@@ -194,12 +192,11 @@ W32StatusIcon::init()
         }
       else
         {
+          nid.hWnd = tray_hwnd;
           SetWindowLong(tray_hwnd, GWL_USERDATA, (LONG) this);
-
+          wm_taskbarcreated = RegisterWindowMessage("TaskbarCreated");
         }
     }
-
-  wm_taskbarcreated = RegisterWindowMessage("TaskbarCreated");
 }
 
 void
@@ -209,9 +206,12 @@ W32StatusIcon::cleanup()
     {
       Shell_NotifyIconW(NIM_DELETE, &nid);
       if (nid.hIcon)
-        DestroyIcon(nid.hIcon);
+        {
+          DestroyIcon(nid.hIcon);
+        }
     }
 }
+
 
 void
 W32StatusIcon::add_tray_icon()
@@ -224,7 +224,6 @@ W32StatusIcon::add_tray_icon()
   nid.uFlags = NIF_MESSAGE;
   nid.uCallbackMessage = MYWM_TRAY_MESSAGE;
 
-  Shell_NotifyIconW(NIM_ADD, &nid);
 }
 
 LRESULT CALLBACK
@@ -237,15 +236,20 @@ W32StatusIcon::window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
     {
       if (uMsg == status_icon->wm_taskbarcreated)
         {
-          status_icon->add_tray_icon();
+          if (status_icon->visible)
+            {
+              Shell_NotifyIconW(NIM_ADD, &status_icon->nid);
+            }
         }
       else if (uMsg == MYWM_TRAY_MESSAGE)
         {
           switch (lParam)
             {
             case WM_RBUTTONDOWN:
+              status_icon->popup_menu_signal.emit(3, 0);
               break;
             case WM_LBUTTONDOWN:
+              status_icon->activate_signal.emit();
               break;
             }
         }

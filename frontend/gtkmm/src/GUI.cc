@@ -1623,10 +1623,12 @@ GUI::win32_filter_func (void     *xevent,
         }
     }
 
+#ifndef USE_W32STATUSICON
   if (ret != GDK_FILTER_REMOVE && gui->status_icon)
     {
       ret = gui->status_icon->win32_filter_func(xevent, event);
     }
+#endif
 
   TRACE_EXIT();
   return ret;

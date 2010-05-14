@@ -36,9 +36,9 @@
 
 #include "MainWindow.hh"
 #include "CoreFactory.hh"
-#include "StatusIcon.hh"
 #include "Menus.hh"
 #include "Util.hh"
+#include "StatusIcon.hh"
 
 
 StatusIcon::StatusIcon(MainWindow& mw)
@@ -65,8 +65,10 @@ StatusIcon::StatusIcon(MainWindow& mw)
         }
     }
 
+#ifndef USE_W32STATUSICON
 #ifdef PLATFORM_OS_WIN32
   wm_taskbarcreated = RegisterWindowMessage("TaskbarCreated");
+#endif
 #endif
 
   insert_icon();
@@ -83,13 +85,13 @@ StatusIcon::insert_icon()
   ICore *core = CoreFactory::get_core();
   OperationMode mode = core->get_operation_mode();
 
-#ifdef PLATFORM_OS_WIN32
+#ifdef USE_W32STATUSICON
   status_icon = new W32StatusIcon();
   set_operation_mode(mode);
 #else
   status_icon = Gtk::StatusIcon::create(mode_icons[mode]);
 #endif
-  
+
   status_icon->signal_size_changed().connect(sigc::mem_fun(*this, &StatusIcon::on_size_changed));
   
 #ifdef HAVE_STATUSICON_SIGNAL 
@@ -162,6 +164,7 @@ void StatusIcon::set_timers_tooltip(std::string& tip)
   status_icon->set_tooltip(tip);
 }
 
+#ifndef USE_W32STATUSICON
 #ifdef PLATFORM_OS_WIN32
 GdkFilterReturn
 StatusIcon::win32_filter_func (void     *xevent,
@@ -177,7 +180,6 @@ StatusIcon::win32_filter_func (void     *xevent,
     }
   return ret;
 }
-
 #endif
-
+#endif
 

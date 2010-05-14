@@ -42,10 +42,14 @@ public:
   bool get_visible() const;
   bool is_embedded() const;
   
-  Glib::SignalProxy1<bool, int> signal_size_changed();
-  Glib::SignalProxy0<void> 	signal_activate();
-  Glib::SignalProxy2<void, guint, guint32> signal_popup_menu();
-  
+  sigc::signal<bool, int> size_changed_signal;
+  sigc::signal<void> 	activate_signal;
+  sigc::signal<void, guint, guint32> popup_menu_signal;
+
+  sigc::signal<bool, int> &signal_size_changed();
+  sigc::signal<void> signal_activate();
+  sigc::signal<void, guint, guint32> signal_popup_menu();
+
 private:
   bool visible;
 
