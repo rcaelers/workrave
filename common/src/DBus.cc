@@ -1,6 +1,6 @@
 // DBus.c
 //
-// Copyright (C) 2007, 2008, 2009 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2009, 2010 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -110,12 +110,7 @@ DBus::register_service(const std::string &service)
       throw DBusSystemException("Unable to request service");
     }
 
-	if (result != DBUS_REQUEST_NAME_REPLY_PRIMARY_OWNER)
-    {
-      owner = false;
-    }
-
-  owner = true;
+	owner == (result == DBUS_REQUEST_NAME_REPLY_PRIMARY_OWNER);
 }
 
 

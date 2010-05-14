@@ -195,10 +195,10 @@ GUI::main()
 
   if (!Glib::thread_supported())
     Glib::thread_init();
-#ifdef HAVE_DBUS
+
   Glib::OptionGroup *option_group = new Glib::OptionGroup(egg_sm_client_get_option_group());
   option_ctx.add_group(*option_group);
-#endif
+
   Gtk::Main *kit = NULL;
   try
     {
@@ -384,9 +384,7 @@ GUI::init_session()
 {
   TRACE_ENTER("GUI::init_session");
   EggSMClient *client = NULL;
-#ifdef HAVE_DBUS
   client = egg_sm_client_get();
-#endif
   if (client)
     {
       g_signal_connect(client,
@@ -406,9 +404,8 @@ void
 GUI::cleanup_session()
 {
   EggSMClient *client = NULL;
-#ifdef HAVE_DBUS
+
   client = egg_sm_client_get();
-#endif
   if (client)
     {
       g_signal_handlers_disconnect_by_func(client,

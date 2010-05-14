@@ -1982,15 +1982,21 @@ DistributionSocketLink::start_async_server()
   TRACE_ENTER("DistributionSocketLink::start_async_server");
   bool ret = false;
 
-  /* Create the server */
-  server_socket = socket_driver->create_server();
-  
-  if (server_socket != NULL)
+  try
     {
-      server_socket->set_listener(this);
-      server_socket->listen(server_port);
-      dist_manager->log(_("Network operation started."));
-      ret = true;
+      /* Create the server */
+      server_socket = socket_driver->create_server();
+      
+      if (server_socket != NULL)
+        {
+          server_socket->set_listener(this);
+          server_socket->listen(server_port);
+          dist_manager->log(_("Network operation started."));
+          ret = true;
+        }
+    }
+  catch(SocketException e)
+    {
     }
   
   TRACE_RETURN(ret);
