@@ -13,8 +13,7 @@ m4_define([workrave_version_suffix], [])
 m4_define([workrave_version],
           [workrave_major_version.workrave_minor_version.workrave_micro_version])
 m4_define([workrave_resource_version],
-          [workrave_major_version,workrave_minor_version,workrave_micro_version,]m4_default([workrave_version_suffix],[0]))
-m4_define([workrave_display_version], workrave_version[]m4_ifdef([workrave_version_suffix],[workrave_version_suffix]))
+          [workrave_major_version,workrave_minor_version,workrave_micro_version,0])
 
 AC_INIT(workrave, [workrave_version],
         [http://issues.workrave.org/cgi-bin/bugzilla/enter_bug.cgi])
@@ -180,8 +179,8 @@ AC_SUBST(VERSION)
 ISODATE=`date +%Y-%m-%d`
 AC_SUBST(ISODATE)
 
-WORKRAVE_RESOURCE_VERSION=workrave_resource_version
-AC_SUBST(WORKRAVE_RESOURCE_VERSION)
+RESOURCE_VERSION=workrave_resource_version
+AC_SUBST(RESOURCE_VERSION)
 
 AC_CANONICAL_HOST
 AC_PREFIX_PROGRAM(workrave)

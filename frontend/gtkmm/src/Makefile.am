@@ -51,7 +51,7 @@ sourceswin32 = 		resource.rc
 
 resource.rc: resource.rc.in
 	sed -e 's/@WORKRAVE_VERSION@/$(VERSION)/g' \
-	    -e 's/@WORKRAVE_RESOURCE_VERSION@/$(WORKRAVE_RESOURCE_VERSION)/g' \
+	    -e 's/@WORKRAVE_RESOURCE_VERSION@/$(RESOURCE_VERSION)/g' \
 		$@.in > $@
 
 # Additional distribution sources.
