@@ -23,6 +23,8 @@ exception_handler(struct _EXCEPTION_RECORD *exception_record,
                   struct _CONTEXT *context_record,
                   void *dispatcher_context);
 
+LONG WINAPI exception_filter(EXCEPTION_POINTERS *ep);
+  
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
