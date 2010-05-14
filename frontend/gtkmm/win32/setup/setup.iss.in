@@ -39,13 +39,14 @@ PrivilegesRequired=none
 ; MinVersion=4,3.51
 
 [Types]
-Name: "gtk"; Description: "Full installation (including GTK+ runtime)"
+;Name: "gtk"; Description: "Full installation (including GTK+ runtime)"
 ;Name: "nogtk"; Description: "Compact installation (excludes GTK+ runtime)"
 
 [Components]
 ;Name: "main"; Description: "Main Files"; Types: gtk nogtk; Flags: fixed
-Name: "main"; Description: "Main Files"; Types: gtk; Flags: fixed
-Name: "gtk"; Description: "GTK+ Runtime Environment"; Types: gtk;
+;Name: "gtk"; Description: "GTK+ Runtime Environment"; Types: gtk;
+Name: "main"; Description: "Main Files"; Flags: fixed
+Name: "gtk"; Description: "GTK+ Runtime Environment";
 
 
 [Tasks]
