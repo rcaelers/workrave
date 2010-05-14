@@ -1,6 +1,6 @@
 // IdleLogManager.cc
 //
-// Copyright (C) 2003, 2004, 2005, 2007, 2009 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2003, 2004, 2005, 2007, 2009, 2010 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -190,7 +190,14 @@ IdleLogManager::expire(ClientInfo &info)
 
   if (count != 0)
     {
-      info.idlelog.resize(info.idlelog.size() - count);
+      if (info.idlelog.size() > (size_t)count)
+        {
+          info.idlelog.resize(info.idlelog.size() - count);
+        }
+      else
+        {
+          info.idlelog.clear();
+        }
     }
 }
 
