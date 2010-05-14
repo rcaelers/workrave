@@ -40,10 +40,11 @@ PrivilegesRequired=none
 
 [Types]
 Name: "gtk"; Description: "Full installation (including GTK+ runtime)"
-Name: "nogtk"; Description: "Compact installation (excludes GTK+ runtime)"
+;Name: "nogtk"; Description: "Compact installation (excludes GTK+ runtime)"
 
 [Components]
-Name: "main"; Description: "Main Files"; Types: gtk nogtk; Flags: fixed
+;Name: "main"; Description: "Main Files"; Types: gtk nogtk; Flags: fixed
+Name: "main"; Description: "Main Files"; Types: gtk; Flags: fixed
 Name: "gtk"; Description: "GTK+ Runtime Environment"; Types: gtk;
 
 
