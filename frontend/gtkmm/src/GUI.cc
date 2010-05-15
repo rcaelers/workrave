@@ -729,12 +729,6 @@ GUI::init_gtk_multihead()
                           irect.intersect(heads[k].geometry, overlap);
                         }
                     }
-
-                  if (count == 1)
-                    {
-                      rect.set_width(1024);
-                      rect.set_height(768);
-                    }
                   
                   if (!overlap)
                     {
