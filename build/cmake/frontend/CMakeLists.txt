@@ -111,6 +111,7 @@ if (APPLE)
     ${FRONTEND_DIR}/gtkmm/src/osx/OSXGtkMenu.hh
     ${FRONTEND_DIR}/gtkmm/src/osx/OSXUtil.cc
     ${FRONTEND_DIR}/gtkmm/src/osx/OSXUtil.hh
+    ${FRONTEND_DIR}/gtkmm/src/eggsmclient-osx.c
   )
 endif (APPLE)
   
@@ -123,7 +124,10 @@ if (UNIX)
     ${FRONTEND_DIR}/gtkmm/src/unix/desktop-window.h
     ${FRONTEND_DIR}/gtkmm/src/gtktrayicon.c
     ${FRONTEND_DIR}/gtkmm/src/gtktrayicon.h
+    ${FRONTEND_DIR}/gtkmm/src/eggdesktopfile.c
+    ${FRONTEND_DIR}/gtkmm/src/eggsmclient-xsmp.c
   )
+ add_definitions(-DEGG_SM_CLIENT_BACKEND_XSMP)
 endif (UNIX)
 
 if (WIN32)
@@ -146,6 +150,7 @@ if (WIN32)
     ${FRONTEND_DIR}/gtkmm/src/win32/W32StatusIcon.hh
     ${FRONTEND_DIR}/gtkmm/src/win32/dll_hell.c
     ${FRONTEND_DIR}/gtkmm/src/win32/dll_hell.h
+    ${FRONTEND_DIR}/gtkmm/src/eggsmclient-win32.c
     ${CMAKE_BINARY_DIR}/workrave.rc
     )
 
@@ -205,8 +210,10 @@ if (HAVE_DBUS)
   )
   set(FRONTEND_SOURCES ${FRONTEND_SOURCES}
     ${CMAKE_CURRENT_BINARY_DIR}/DBusGUI.cc
+    ${FRONTEND_DIR}/gtkmm/src/eggsmclient-dbus.c
   )
   include_directories(${DBUS_INCLUDES})
+  add_definitions(-DEGG_SM_CLIENT_BACKEND_DBUS)
 endif (HAVE_DBUS)
 
 if (HAVE_EXERCISES)
