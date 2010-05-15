@@ -5,9 +5,6 @@
 /*.spec
 /*.tar.gz
 /.new.ltmain.sh
-/ABOUT-NLS
-/COPYING
-/INSTALL
 /Makefile
 /Makefile.in
 /TAGS

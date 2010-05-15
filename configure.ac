@@ -38,12 +38,12 @@ dnl
 
 AC_ARG_ENABLE(app-gtk,
               [AC_HELP_STRING([--disable-app-gtk],
-                              [compile without Gtk support])],
+                              [compile without Gtk support (NOT recommended)])],
               [config_gtk=$enableval], [config_gtk=yes])
 
 AC_ARG_ENABLE(app-text,
               [AC_HELP_STRING([--enable-app-text],
-                              [compile with dummy text GUI support])],
+                              [compile with dummy text GUI support (NOT recommended)])],
               [config_text=$enableval], [config_text=no])
     
 AC_ARG_ENABLE(xml,
@@ -62,9 +62,9 @@ AC_ARG_ENABLE( gnome,
               [config_gnome=$enableval], [config_gnome=yes])
 
 AC_ARG_ENABLE( dbus,
-              [AC_HELP_STRING([--enable-dbus],
-                              [compile with DBus support])],
-              [config_dbus=$enableval], [config_dbus=no])
+              [AC_HELP_STRING([--disable-dbus],
+                              [compile withouy DBus support])],
+              [config_dbus=$enableval], [config_dbus=yes])
  
 AC_ARG_ENABLE( gstreamer,
     	      [AC_HELP_STRING([--disable-gstreamer],
@@ -73,7 +73,7 @@ AC_ARG_ENABLE( gstreamer,
 
 AC_ARG_ENABLE( kde,
               [AC_HELP_STRING([--enable-kde],
-                              [compile with KDE support])],
+                              [compile with KDE support (broken)])],
               [config_kde=$enableval], [config_kde=no])
     
 AC_ARG_ENABLE( debug,
