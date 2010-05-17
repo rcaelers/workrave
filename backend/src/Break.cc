@@ -1,6 +1,6 @@
 // Break.cc
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -82,7 +82,8 @@ Break::Break() :
   application(NULL),
   timer(NULL),
   break_control(NULL),
-  enabled(true)
+  enabled(true),
+  usage_mode(USAGE_MODE_NORMAL)
 {
   TRACE_ENTER("Break:Break");
   TRACE_EXIT()
@@ -400,6 +401,31 @@ Break::is_limit_enabled() const
 {
   return timer->is_limit_enabled();
 }
+
+void
+Break::set_usage_mode(UsageMode mode)
+{ 
+  TRACE_ENTER_MSG("Break::set_usage_mode", mode); 
+  if (usage_mode != mode)
+    {
+      usage_mode = mode;
+
+      TRACE_MSG("changing");
+      if (mode == USAGE_MODE_NORMAL)
+        {
+          // Read the activity insensitive flag
+          bool sensitive;
+          config->get_value(CoreConfig::CFG_KEY_TIMER_ACTIVITY_SENSITIVE % break_id, sensitive);
+          timer->set_activity_sensitive(sensitive);
+        }
+      else if (mode == USAGE_MODE_READING)
+        {
+          timer->set_activity_sensitive(false);
+        }
+    }
+  TRACE_EXIT();
+}
+
 
 bool
 Break::starts_with(const string &key, string prefix, string &name)

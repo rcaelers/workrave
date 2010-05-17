@@ -1,6 +1,6 @@
 // BreakWindow.hh --- base class for the break windows
 //
-// Copyright (C) 2001 - 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -58,7 +58,10 @@ public:
     {
       BREAK_FLAGS_NONE            = 0,
       BREAK_FLAGS_POSTPONABLE     = 1 << 0,
-      BREAK_FLAGS_SKIPPABLE       = 1 << 1
+      BREAK_FLAGS_SKIPPABLE       = 1 << 1,
+      BREAK_FLAGS_NO_EXERCISES    = 1 << 2,
+      BREAK_FLAGS_NATURAL         = 1 << 3,
+      BREAK_FLAGS_USER_INITIATED  = 1 << 4
     };
     
   BreakWindow(BreakId break_id,

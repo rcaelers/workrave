@@ -3,6 +3,7 @@
  *
  * Copyright (C) 2002-2008 Raymond Penners <raymond@dotsphinx.com>
  * Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
+ * Copyright (C) 2009-2010 Rob Caelers <robc@krandor.nl>
  * All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,6 +20,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+#define _CRT_SECURE_NO_WARNINGS
 
 #include <windows.h>
 
@@ -255,7 +258,7 @@ harpoon_window_proc (HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
             {
             case HARPOON_KEY_PRESS:
             case HARPOON_KEY_RELEASE:
-              evt.keyboard.flags = lParam;
+              evt.keyboard.flags = (int) lParam;
               break;
 
             case HARPOON_BUTTON_PRESS:
@@ -275,11 +278,11 @@ harpoon_window_proc (HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
               if (evt.type == HARPOON_MOUSE_WHEEL)
                 {
                   evt.mouse.button = -1;
-                  evt.mouse.wheel = wParam;
+                  evt.mouse.wheel = (int) wParam;
                 }
               else
                 {
-                  evt.mouse.button = wParam;
+                  evt.mouse.button = (int) wParam;
                   evt.mouse.wheel = 0;
                 }
               break;

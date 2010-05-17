@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl
-dnl Copyright (C) 2001 - 2009 Rob Caelers & Raymond Penners
+dnl Copyright (C) 2001 - 2010 Rob Caelers & Raymond Penners
 dnl
 dnl
 dnl $Id$
@@ -245,6 +245,16 @@ then
    AC_CHECK_HEADER(dsound.h, [ AC_DEFINE(HAVE_DSOUND, 1, [Define if we have DirectSound])
                                         have_dsound=yes LIBS="$LIBS -ldsound -luuid -ldxguid -ldxerr8"
                                      ])
+
+   AC_CHECK_HEADERS(mmdeviceapi.h endpointvolume.h, [ AC_DEFINE(HAVE_MMDEVICEAPI_H, 1, [Define if we have mm device api])
+                                        have_mmdeviceapi=yes
+                                     ])
+				     
+#ifdef HAVE_MMDEVICEAPI_H
+#include <mmdeviceapi.h>
+#include <endpointvolume.h>
+#else
+				     
 fi
 
 AC_SUBST(LIBSTDCPP_LIBS)
@@ -395,19 +405,26 @@ AC_SUBST(GCONF_LIBS)
 AC_SUBST(GCONF_CFLAGS)
 
 dnl
-dnl GNet2
+dnl GIO networking
 dnl
 
-if test "x$config_distribution" = "xyes"
-then
-    PKG_CHECK_MODULES(GNET, gnet-2.0)
-    GNET2=yes
+have_gio_net=no
+AC_MSG_CHECKING([GIO networking support])
 
-    PKG_CHECK_MODULES(PROTOBUF, protobuf >= 2.2.0)
-fi
-AC_SUBST(GNET_LIBS)
-AC_SUBST(GNET_CFLAGS)
+CFLAGS_save=$LIBS
+CFLAGS="$CFLAGS $GLIB_CFLAGS"
+CXXFLAGS="$CXXFLAGS $GLIB_CFLAGS"
 
+AC_TRY_COMPILE([#include <gio/gio.h>], 
+        [ GSocketService *socket = g_socket_service_new();
+	],
+        [have_gio_net=yes
+         AC_DEFINE(HAVE_GIO_NET, 1, "Have GIO networking support")
+         AC_MSG_RESULT(yes)],
+         AC_MSG_RESULT(no))
+
+CLFAGS=$CFLAGS_save
+CXXLFAGS=$CXXFLAGS_save
 
 dnl
 dnl XML
@@ -453,6 +470,19 @@ then
    DBUS_SERVICES_DIR="$DATADIR/dbus-1/services"
    AC_SUBST(DBUS_SERVICES_DIR)
    AC_DEFINE_UNQUOTED(DBUS_SERVICES_DIR, "$DBUS_SERVICES_DIR", [Where services dir for DBUS is])
+
+   AC_CHECK_PROG(PYTHON,python,python)
+   
+   AC_MSG_CHECKING([for the Cheetah Python package])
+     ac_cheetah_result=`$PYTHON -c "from Cheetah.Template import Template" 2>&1`
+     if test -z "$ac_cheetah_result"; then
+        AC_MSG_RESULT([yes])
+     else
+        AC_MSG_RESULT([no])
+        AC_MSG_ERROR([cannot import Python module "cheetah"])
+	have_dbus=no
+        dbus_pkgconfig=
+     fi	
 else
    have_dbus=no
    dbus_pkgconfig=
@@ -490,13 +520,37 @@ fi
 
 
 dnl
-dnl libao
+dnl PulseAudio
 dnl
 
-dnl if test "x$platform_os_win32" != "xyes"
-dnl then
-dnl  PKG_CHECK_MODULES(LIBAO, ao >= 0.8.8)
-dnl fi
+have_pulse=false
+
+if test "$platform_os_unix" = "yes"
+then
+    have_pulse=false
+    AC_ARG_ENABLE(pulse,
+      AC_HELP_STRING([--disable-pulse],
+                     [turn off PulseAudio support]),
+           [case "${enableval}" in
+                   yes) WANT_PULSE=yes ;;
+                   no)  WANT_PULSE=no ;;
+                   *) AC_MSG_ERROR(bad value ${enableval} for --disable-pulse) ;;
+           esac],
+           [WANT_PULSE=yes]) dnl Default value
+
+    if test x$WANT_PULSE = xyes ; then
+           PA_REQUIRED_VERSION=0.9.15
+           PKG_CHECK_MODULES(PULSE, glib-2.0 libpulse >= $PA_REQUIRED_VERSION libpulse-mainloop-glib >= $PA_REQUIRED_VERSION,
+                 [have_pulse=true
+                  AC_DEFINE(HAVE_PULSE, 1, [Define if PULSE sound server should be used])],
+                 [have_pulse=false])
+    fi
+    AC_SUBST(PULSE_CFLAGS)
+    AC_SUBST(PULSE_LIBS)
+fi
+
+AM_CONDITIONAL(HAVE_PULSE, test "x$have_pulse" = "xtrue")
+
 
 
 dnl
@@ -736,6 +790,9 @@ AC_OUTPUT(Makefile
           common/win32/harpoon/Makefile \
           common/win32/harpoon/include/Makefile \
           common/win32/harpoon/src/Makefile \
+          common/win32/harpoonHelper/Makefile \
+          common/win32/harpoonHelper/include/Makefile \
+          common/win32/harpoonHelper/src/Makefile \
           frontend/Makefile \
           frontend/common/Makefile \
           frontend/common/include/Makefile \

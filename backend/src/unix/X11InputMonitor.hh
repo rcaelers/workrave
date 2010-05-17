@@ -1,6 +1,6 @@
 // X11InputMonitor.hh --- ActivityMonitor for X11
 //
-// Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008, 2009 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008, 2009, 2010 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -60,6 +60,9 @@ private:
   //! the events execution thread.
   void run_events();
 
+  void error_trap_enter();
+  void error_trap_exit();
+  
 #ifdef HAVE_XRECORD
   //! Initialize
   bool init_xrecord();

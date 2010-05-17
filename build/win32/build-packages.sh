@@ -15,24 +15,31 @@ export PATH="$TOOLS/bin:$PATH"
 
 TOPDIR=`pwd`
 SRCDIR="$TOPDIR/source"
+BUILDDIR="$TOPDIR/build"
 
 SF_URL="http://surfnet.dl.sourceforge.net/sourceforge"
 GNU_URL="ftp://ftp.gnu.org/gnu"
 
-GLIB_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/glib/2.20/"
-GLIB_FILES=" glib_2.20.1-1_win32.zip glib-dev_2.20.1-1_win32.zip"
+GLIB_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/glib/2.22/"
+GLIB_FILES="glib_2.22.3-1_win32.zip glib-dev_2.22.3-1_win32.zip"
 
-GTK_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/gtk+/2.16/"
-GTK_FILES="gtk+_2.16.1-1_win32.zip gtk+-dev_2.16.1-1_win32.zip"
+GTK_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/gtk+/2.18/"
+GTK_FILES="gtk+_2.18.5-1_win32.zip gtk+-dev_2.18.5-1_win32.zip"
 
-PANGO_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/pango/1.24"
-PANGO_FILES="pango_1.24.0-1_win32.zip pango-dev_1.24.0-1_win32.zip"
+PANGO_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/pango/1.26"
+PANGO_FILES="pango_1.26.1-1_win32.zip pango-dev_1.26.1-1_win32.zip"
 
-ATK_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/atk/1.24/"
-ATK_FILES="atk_1.24.0-1_win32.zip atk-dev_1.24.0-1_win32.zip"
+ATK_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/atk/1.28/"
+ATK_FILES="atk_1.28.0-1_win32.zip atk-dev_1.28.0-1_win32.zip"
+
+# http://www.dgrigoriadis.net/post/2004/06/26/DirectXDevPak-for-Dev-Cpp.aspx
+# http://www.dgrigoriadis.net/file.axd?file=2009%2f2%2fDirectX90c.DevPak
+
+DIRECTX_URL="http://www.g-productions.net/files/devpak/"
+DIRECTX_FILE="DirectX90c.DevPak"
 
 DEP_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/dependencies/"
-DEP_FILES="cairo_1.8.6-1_win32.zip cairo-dev_1.8.6-1_win32.zip libjpeg-6b-4.zip libpng_1.2.34-1_win32.zip libpng-dev_1.2.34-1_win32.zip zlib-1.2.3.zip zlib-dev-1.2.3.zip libtiff-dev-3.8.2.zip libtiff-3.8.2.zip libiconv-1.9.1.bin.woe32.zip gettext-runtime-dev-0.17-1.zip gettext-runtime-0.17-1.zip"
+DEP_FILES="cairo_1.8.8-3_win32.zip cairo-dev_1.8.8-3_win32.zip jpeg_7-1_win32.zip jpeg-dev_7-1_win32.zip libpng_1.2.40-1_win32.zip libpng-dev_1.2.40-1_win32.zip zlib-1.2.3.zip zlib-dev-1.2.3.zip libtiff-dev_3.9.1-1_win32.zip libtiff_3.9.1-1_win32.zip  libiconv-1.9.1.bin.woe32.zip gettext-runtime-dev-0.17-1.zip gettext-runtime-0.17-1.zip freetype-dev_2.3.11-1_win32.zip freetype_2.3.11-1_win32.zip fontconfig_2.8.0-1_win32.zip fontconfig-dev_2.8.0-1_win32.zip expat-dev_2.0.1-1_win32.zip expat_2.0.1-1_win32.zip"
 
 PKGCONFIG_URL="http://pkgconfig.freedesktop.org/releases/"
 PKGCONFIG_FILES="pkg-config-0.23.tar.gz"
@@ -42,17 +49,17 @@ GNOME_URL="http://ftp.gnome.org/pub/GNOME/sources/"
 
 UUID_URL=$SF_URL/e2fsprogs/
 SIGCPPSRC_URL=$GNOME_URL/libsigc++/2.2/
-GLIBMMSRC_URL=$GNOME_URL/glibmm/2.20/
-GTKMMSRC_URL=$GNOME_URL/gtkmm/2.16/
-PANGOMMSRC_URL=$GNOME_URL/pangomm/2.24/
+GLIBMMSRC_URL=$GNOME_URL/glibmm/2.22/
+GTKMMSRC_URL=$GNOME_URL/gtkmm/2.18/
+PANGOMMSRC_URL=$GNOME_URL/pangomm/2.26/
 CAIROMMSRC_URL=http://cairographics.org/releases/
 
 GNETSRC_FILES="gnet-2.0.8.tar.gz"
-GTKMMSRC_FILES="gtkmm-2.16.0.tar.bz2"
-GLIBMMSRC_FILES="glibmm-2.20.0.tar.bz2"
-SIGCPPSRC_FILES="libsigc++-2.2.3.tar.bz2"
-PANGOMMSRC_FILES="pangomm-2.24.0.tar.bz2"
-CAIROMMSRC_FILES="cairomm-1.8.0.tar.gz"
+GTKMMSRC_FILES="gtkmm-2.18.2.tar.bz2"
+GLIBMMSRC_FILES="glibmm-2.22.1.tar.bz2"
+SIGCPPSRC_FILES="libsigc++-2.2.4.tar.bz2"
+PANGOMMSRC_FILES="pangomm-2.26.0.tar.bz2"
+CAIROMMSRC_FILES="cairomm-1.8.4.tar.gz"
 UUID_FILES="e2fsprogs-libs-1.40.5.tar.gz"
 
 BINUTILS=binutils-2.16.91-20060119-1
@@ -120,6 +127,8 @@ download()
         download_files $CAIROMMSRC_URL $CAIROMMSRC_FILES
         download_files $UUID_URL $UUID_FILES
         download_files $PKGCONFIG_URL $PKGCONFIG_FILES
+
+        download_files $DIRECTX_URL $DIRECTX_FILE
 }
 
 unpack()
@@ -135,6 +144,12 @@ unpack()
 	unzip_files $ATK_FILES
 }
 
+fix_theme()
+{
+    cat $PREFIX/share/themes/MS-Windows/gtk-2.0/gtkrc | sed -e 's/gtk-button-images = 0/gtk-button-images = 1/' > gtkrc.tmp
+    cp -a gtkrc.tmp $PREFIX/share/themes/MS-Windows/gtk-2.0/gtkrc
+    rm gtkrc.tmp
+}
 
 fix_pkgconfig()
 {
@@ -171,7 +186,7 @@ fix_lib()
     rm -f iconv.lib libiconv.dll.a
     #rm -f atk-1.0.lib libatk-1.0.dll.a
 
-    cd "$TOPDIR"
+    cd "$BUILDDIR"
 
     # | sed "s/^\([a-z]\)/_\1/"
     pexports $PREFIX/bin/intl.dll  > intl.def
@@ -186,9 +201,17 @@ fix_lib()
     #i386-mingw32msvc-ranlib $PREFIX/lib/libatk-1.0.dll.a
 }
 
+extract_directx()
+{
+    extract_package "DirectX 90c" $DIRECTX_FILE
+    cp -a $BUILDDIR/DirectX90c/include/* $PREFIX/include
+    cp -a $BUILDDIR/DirectX90c/lib/* $PREFIX/lib
+    ln -s $PREFIX/include/dxerr8.h $PREFIX/include/dxerr.h
+}
+
 extract_package()
 {
-	cd "$SRCDIR"
+	cd "$BUILDDIR"
 	rm -rf "$1"
 	echo "Extracting $1"
         case $2 in
@@ -199,6 +222,9 @@ extract_package()
                  tar xzf $SRCDIR/$2
                  ;;
             *.tar.bz2)
+                 tar xjf $SRCDIR/$2
+                 ;;
+            *.DevPak)
                  tar xjf $SRCDIR/$2
                  ;;
             *.tar)
@@ -215,7 +241,7 @@ extract_package()
 
 	if [ -f "$TOPDIR/$1.diff" ]; then
 		echo "Patching $1"
-		cd "$SRCDIR/$1"
+		cd "$BUILDDIR/$1"
 		patch -p1 < "$TOPDIR/$1.diff"
 		cd "$TOPDIR"
 	fi
@@ -223,14 +249,14 @@ extract_package()
 
 build_pkgconfig()
 {
-	cd "$TOPDIR"
+	cd "$BUILDDIR"
 	rm -rf "pkgconfig-$TARGET"
 	mkdir "pkgconfig-$TARGET"
 
-	cd "$TOPDIR/pkgconfig-$TARGET"
+	cd "$BUILDDIR/pkgconfig-$TARGET"
 
         echo "Configuring pkgconfig"
-        (   "$SRCDIR/$1/configure" -v \
+        (   "$BUILDDIR/$1/configure" -v \
 		--prefix="$TOOLS" --disable-shared --enable-static \
                 --target=$TARGET --host=i586-linux --build=i586-linux \
 		--with-gnu-as --with-gnu-ld &> configure.log
@@ -251,7 +277,7 @@ build_pkgconfig()
 	fi
 
         
-	cd "$TOPDIR/pkgconfig-$TARGET"
+	cd "$BUILDDIR/pkgconfig-$TARGET"
 	echo "Installing pkgconfig"
         (   . $TOPDIR/mingw32-debian -gtk2.14
             make install &> make-install.log
@@ -266,23 +292,23 @@ build_pkgconfig()
 
 build_sigcpp()
 {
-	cd "$TOPDIR"
+	cd "$BUILDDIR"
 	rm -rf "libsigc++-$TARGET"
 	mkdir "libsigc++-$TARGET"
 
         # We want statis libs... remove #define XXX_DLL
-        #cd $SRCDIR/$1
+        #cd $BUILDDIR/$1
         #for a in sigc++/config/sigcconfig.h.in; do
         #    echo Patching $a...
         #    sed -e "s|\(#define.*_DLL\)|//\1|g" < $a > $a.new
         #    mv $a.new $a
         #done
 
-        cd "$TOPDIR/libsigc++-$TARGET"
+        cd "$BUILDDIR/libsigc++-$TARGET"
 
         echo "Configuring Libsigc++"
         (   . $TOPDIR/mingw32-debian -gtk2.14
-            "$SRCDIR/$1/configure" -v \
+            "$BUILDDIR/$1/configure" -v \
 		--prefix="$PREFIX" --disable-shared --disable-static \
                 --target=$TARGET --host=$TARGET --build=i586-linux \
 		--with-headers="$PREFIX/$TARGET/include" \
@@ -303,7 +329,7 @@ build_sigcpp()
 	fi
 
         
-	cd "$TOPDIR/libsigc++-$TARGET"
+	cd "$BUILDDIR/libsigc++-$TARGET"
 	echo "Installing Libsigc++"
         (   . $TOPDIR/mingw32-debian -gtk2.14
             make -k install &> make-install.log
@@ -318,23 +344,23 @@ build_sigcpp()
 
 build_glibmm()
 {
-	cd "$TOPDIR"
+	cd "$BUILDDIR"
 	rm -rf "libglibmm-$TARGET"
 	mkdir "libglibmm-$TARGET"
 
         # We want statis libs... remove #define XXX_DLL
-        cd $SRCDIR/$1
+        cd $BUILDDIR/$1
         for a in glib/glibmmconfig.h.in; do
             echo Patching $a...
             sed -e "s|\(#define.*_DLL\)|//\1|g" < $a > $a.new
             mv $a.new $a
         done
 
-	cd "$TOPDIR/libglibmm-$TARGET"
+	cd "$BUILDDIR/libglibmm-$TARGET"
 
         echo "Configuring Libglibmm"
         (   . $TOPDIR/mingw32-debian -gtk2.14
-            "$SRCDIR/$1/configure" -v \
+            "$BUILDDIR/$1/configure" -v \
 		--prefix="$PREFIX" --disable-shared --enable-static \
                 --target=$TARGET --host=$TARGET --build=i586-linux \
 		--with-headers="$PREFIX/$TARGET/include" \
@@ -355,7 +381,7 @@ build_glibmm()
 	fi
 
         
-	cd "$TOPDIR/libglibmm-$TARGET"
+	cd "$BUILDDIR/libglibmm-$TARGET"
 	echo "Installing Libglibmm"
         (   . $TOPDIR/mingw32-debian -gtk2.14
             make install &> make-install.log
@@ -369,23 +395,23 @@ build_glibmm()
 
 build_cairomm()
 {
-	cd "$TOPDIR"
+	cd "$BUILDDIR"
 	rm -rf "libcairomm-$TARGET"
 	mkdir "libcairomm-$TARGET"
 
         # We want statis libs... remove #define XXX_DLL
-        #cd $SRCDIR/$1
+        #cd $BUILDDIR/$1
         #for a in cairo/cairommconfig.h.in; do
         #    echo Patching $a...
         #    sed -e "s|\(#define.*_DLL\)|//\1|g" < $a > $a.new
         #    mv $a.new $a
         #done
 
-	cd "$TOPDIR/libcairomm-$TARGET"
+	cd "$BUILDDIR/libcairomm-$TARGET"
 
         echo "Configuring Libcairomm"
         (   . $TOPDIR/mingw32-debian -gtk2.14
-            "$SRCDIR/$1/configure" -v \
+            "$BUILDDIR/$1/configure" -v \
 		--prefix="$PREFIX" --disable-shared --enable-static \
                 --target=$TARGET --host=$TARGET --build=i586-linux \
 		--with-headers="$PREFIX/$TARGET/include" \
@@ -413,7 +439,7 @@ build_cairomm()
 	fi
 
         
-	cd "$TOPDIR/libcairomm-$TARGET"
+	cd "$BUILDDIR/libcairomm-$TARGET"
 	echo "Installing Libcairomm"
         (   . $TOPDIR/mingw32-debian -gtk2.14
             make install &> make-install.log
@@ -427,23 +453,23 @@ build_cairomm()
 
 build_pangomm()
 {
-	cd "$TOPDIR"
+	cd "$BUILDDIR"
 	rm -rf "libpangomm-$TARGET"
 	mkdir "libpangomm-$TARGET"
 
         # We want statis libs... remove #define XXX_DLL
-        #cd $SRCDIR/$1
+        #cd $BUILDDIR/$1
         #for a in pango/pangommconfig.h.in; do
         #    echo Patching $a...
         #    sed -e "s|\(#define.*_DLL\)|//\1|g" < $a > $a.new
         #    mv $a.new $a
         #done
 
-	cd "$TOPDIR/libpangomm-$TARGET"
+	cd "$BUILDDIR/libpangomm-$TARGET"
 
         echo "Configuring Libpangomm"
         (   . $TOPDIR/mingw32-debian -gtk2.14
-            "$SRCDIR/$1/configure" -v \
+            "$BUILDDIR/$1/configure" -v \
 		--prefix="$PREFIX" --disable-shared --enable-static \
                 --target=$TARGET --host=$TARGET --build=i586-linux \
 		--with-headers="$PREFIX/$TARGET/include" \
@@ -471,7 +497,7 @@ build_pangomm()
 	fi
 
         
-	cd "$TOPDIR/libpangomm-$TARGET"
+	cd "$BUILDDIR/libpangomm-$TARGET"
 	echo "Installing Libpangomm"
         (   . $TOPDIR/mingw32-debian -gtk2.14
             make install &> make-install.log
@@ -485,12 +511,12 @@ build_pangomm()
 
 build_gtkmm()
 {
-	cd "$TOPDIR"
+	cd "$BUILDDIR"
 	rm -rf "libgtkmm-$TARGET"
 	mkdir "libgtkmm-$TARGET"
 
         # We want statis libs... remove #define XXX_DLL
-        cd $SRCDIR/$1
+        cd $BUILDDIR/$1
         for a in gdk/gdkmmconfig.h.in gtk/gtkmmconfig.h.in; do
             echo Patching $a...
             sed -e "s|\(#define.*_DLL\)|//\1|g" < $a > $a.new
@@ -502,12 +528,12 @@ build_gtkmm()
         #sed -e "s|^SUBDIRS.*$|SUBDIRS=|g" < Makefile.in > Makefile.in.new
         #mv -f Makefile.in.new Makefile.in
         
-	cd "$TOPDIR/libgtkmm-$TARGET"
+	cd "$BUILDDIR/libgtkmm-$TARGET"
 
         echo "Configuring Libgtkmm"
         (   . $TOPDIR/mingw32-debian -gtk2.14
-            $SRCDIR/$1/autogen.sh
-            "$SRCDIR/$1/configure" -v \
+            $BUILDDIR/$1/autogen.sh
+            "$BUILDDIR/$1/configure" -v \
 		--prefix="$PREFIX" --disable-shared --enable-static \
                 --target=$TARGET --host=$TARGET --build=i586-linux \
 		--with-headers="$PREFIX/$TARGET/include" \
@@ -535,7 +561,7 @@ build_gtkmm()
 	fi
 
         
-	cd "$TOPDIR/libgtkmm-$TARGET"
+	cd "$BUILDDIR/libgtkmm-$TARGET"
 	echo "Installing Libgtkmm"
         (   . $TOPDIR/mingw32-debian -gtk2.14
             make install &> make-install.log
@@ -549,7 +575,7 @@ build_gtkmm()
 
 build_gnet()
 {
-	cd "$SRCDIR/$1/"
+	cd "$BUILDDIR/$1/"
 
         echo "Configuring Libgnet"
         (       PKG_CONFIG_PATH=/usr/lib/pkgconfig ./configure -v --prefix=$PREFIX --disable-pthreads \
@@ -580,16 +606,17 @@ build_gnet()
         cp -a src/*.h $PREFIX/include/gnet-2.0
         cp -a src/libgnet-2.0.a $PREFIX/lib
         cp -a src/gnet-2.0.dll $PREFIX/bin
-        cp -a gnet-2.0.pc $PREFIX/lib/pkgconfig
         cp -a gnet-2.0.m4 $PREFIX/share/aclocal
         cp -a gnetconfig.h $PREFIX/include/gnet-2.0
+
+	cat gnet-2.0.pc | sed -e 's/-pthread//' -e 's/-lrt//' > $PREFIX/lib/pkgconfig/gnet-2.0.pc
 	cd "$TOPDIR"
 }
 
 
 extract_bfd()
 {
-	cd "$SRCDIR"
+	cd "$BUILDDIR"
 	rm -rf "$BINUTILS"
 	echo "Extracting bfd"
 	gzip -dc "$SRCDIR/$BINUTILS_ARCHIVE" | tar xf -
@@ -598,20 +625,20 @@ extract_bfd()
 
 configure_bfd()
 {
-	cd "$TOPDIR"
+	cd "$BUILDDIR"
 	rm -rf "binutils-$TARGET"-bfd
 	mkdir "binutils-$TARGET"-bfd
 	cd "binutils-$TARGET"-bfd
 	echo "Configuring bfd"
         (   . $TOPDIR/mingw32-debian -gtk2.14
-	    "$SRCDIR/$BINUTILS/bfd/configure" --prefix="$PREFIX" --host=$TARGET --target=$TARGET --enable-install-libbfd --enable-install-libiberty=yes CFLAGS=-g &> configure.log
+	    "$BUILDDIR/$BINUTILS/bfd/configure" --prefix="$PREFIX" --host=$TARGET --target=$TARGET --enable-install-libbfd --enable-install-libiberty=yes CFLAGS=-g &> configure.log
         )
 	cd "$TOPDIR"
 }
 
 build_bfd()
 {
-	cd "$TOPDIR/binutils-$TARGET"-bfd
+	cd "$BUILDDIR/binutils-$TARGET"-bfd
 	echo "Building bfd"
         (   . $TOPDIR/mingw32-debian -gtk2.14
 	    make &> make.log
@@ -625,7 +652,7 @@ build_bfd()
 
 install_bfd()
 {
-	cd "$TOPDIR/binutils-$TARGET"-bfd
+	cd "$BUILDDIR/binutils-$TARGET"-bfd
 	echo "Installing bfd"
         (   . $TOPDIR/mingw32-debian -gtk2.14
 	    make install &> make-install.log
@@ -643,15 +670,15 @@ install_bfd()
 
 build_uuid()
 {
-	cd "$TOPDIR"
+	cd "$BUILDDIR"
 	rm -rf "libuuid-$TARGET"
 	mkdir "libuuid-$TARGET"
 
-	cd "$TOPDIR/libuuid-$TARGET"
+	cd "$BUILDDIR/libuuid-$TARGET"
 
         echo "Configuring e2fsprogs-libs"
         (   . $TOPDIR/mingw32-debian -gtk2.14
-            "$SRCDIR/$1/configure" -v \
+            "$BUILDDIR/$1/configure" -v \
 		--prefix="$PREFIX" --disable-shared --enable-static \
                 --target=$TARGET --host=$TARGET --build=i586-linux \
                 --with-cc=i586-mingw32msvc-gcc \
@@ -674,7 +701,7 @@ build_uuid()
 	fi
 
         
-	cd "$TOPDIR/libuuid-$TARGET"
+	cd "$BUILDDIR/libuuid-$TARGET"
 	echo "Installing Libuuid"
         (   . $TOPDIR/mingw32-debian -gtk2.14
             #make install &> make-install.log
@@ -688,26 +715,28 @@ build_uuid()
 
 download
 unpack
+extract_directx
 
+fix_theme
 fix_pkgconfig
 
 extract_package "pkg-config-0.23" "pkg-config-0.23.tar.gz" 
 build_pkgconfig "pkg-config-0.23"
 
-extract_package "libsigc++-2.2.3" "libsigc++-2.2.3.tar.bz2"
-build_sigcpp "libsigc++-2.2.3"
+extract_package "libsigc++-2.2.4" "libsigc++-2.2.4.tar.bz2"
+build_sigcpp "libsigc++-2.2.4"
 
-extract_package "glibmm-2.20.0" "glibmm-2.20.0.tar.bz2"
-build_glibmm "glibmm-2.20.0"
+extract_package "glibmm-2.22.1" "glibmm-2.22.1.tar.bz2"
+build_glibmm "glibmm-2.22.1"
 
-extract_package "cairomm-1.8.0" "cairomm-1.8.0.tar.gz"
-build_cairomm "cairomm-1.8.0"
+extract_package "cairomm-1.8.4" "cairomm-1.8.4.tar.gz"
+build_cairomm "cairomm-1.8.4"
 
-extract_package "pangomm-2.24.0" "pangomm-2.24.0.tar.bz2"
-build_pangomm "pangomm-2.24.0"
+extract_package "pangomm-2.26.0" "pangomm-2.26.0.tar.bz2"
+build_pangomm "pangomm-2.26.0"
 
-extract_package "gtkmm-2.16.0" "gtkmm-2.16.0.tar.bz2"
-build_gtkmm "gtkmm-2.16.0"
+extract_package "gtkmm-2.18.2" "gtkmm-2.18.2.tar.bz2"
+build_gtkmm "gtkmm-2.18.2"
 
 extract_package "gnet-2.0.8" "gnet-2.0.8.tar.gz"
 build_gnet "gnet-2.0.8"

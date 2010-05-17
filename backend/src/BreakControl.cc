@@ -1,6 +1,6 @@
 // BreakControl.cc
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -59,14 +59,14 @@ BreakControl::BreakControl(BreakId id, IApp *app, Timer *timer) :
   break_stage(STAGE_NONE),
   reached_max_prelude(false),
   prelude_time(0),
-  user_initiated(false),
   prelude_count(0),
   postponable_count(0),
   max_number_of_preludes(2),
   fake_break(false),
   fake_break_count(0),
   user_abort(false),
-  delayed_abort(false)
+  delayed_abort(false),
+  break_hint(BREAK_HINT_NONE)
 {
   assert(break_timer != NULL);
   assert(application != NULL);
@@ -212,17 +212,27 @@ BreakControl::goto_stage(BreakStage stage)
         IActivityMonitor *monitor = core->get_activity_monitor();
         monitor->set_listener(this);
 
-        break_timer->set_insensitive_mode(MODE_IDLE_ON_LIMIT_REACHED);
+        break_timer->set_insensitive_mode(INSENSITIVE_MODE_IDLE_ON_LIMIT_REACHED);
       }
       break;
 
     case STAGE_NONE:
       {
         // Teminate the break.
-        break_timer->set_insensitive_mode(MODE_IDLE_ON_LIMIT_REACHED);
+        break_timer->set_insensitive_mode(INSENSITIVE_MODE_IDLE_ON_LIMIT_REACHED);
         application->hide_break_window();
         core->defrost();
 
+        if (break_id == BREAK_ID_MICRO_BREAK &&
+            core->get_usage_mode() == USAGE_MODE_READING)
+          {
+            for (int i = BREAK_ID_MICRO_BREAK; i < BREAK_ID_SIZEOF; i++)
+              {
+                Timer *timer = core->get_timer(BreakId(i));
+                timer->force_active();
+              }
+          }
+        
         if (break_stage == STAGE_TAKING && !fake_break)
           {
             // Update statistics and play sound if the break end
@@ -268,7 +278,7 @@ BreakControl::goto_stage(BreakStage stage)
 
     case STAGE_PRELUDE:
       {
-        break_timer->set_insensitive_mode(MODE_FOLLOW_IDLE);
+        break_timer->set_insensitive_mode(INSENSITIVE_MODE_FOLLOW_IDLE);
         prelude_count++;
         postponable_count++;
         prelude_time = 0;
@@ -284,7 +294,7 @@ BreakControl::goto_stage(BreakStage stage)
       {
         // Break timer should always idle.
         // Previous revisions set MODE_IDLE_ON_LIMIT_REACHED
-        break_timer->set_insensitive_mode(MODE_IDLE_ALWAYS );
+        break_timer->set_insensitive_mode(INSENSITIVE_MODE_IDLE_ALWAYS);
 
         // Remove the prelude window, if necessary.
         application->hide_break_window();
@@ -372,8 +382,10 @@ void
 BreakControl::start_break()
 {
   TRACE_ENTER_MSG("BreakControl::start_break", break_id);
-  fake_break = false;
+
+  break_hint = BREAK_HINT_NONE;
   user_initiated = false;
+  fake_break = false;
   prelude_time = 0;
   user_abort = false;
   delayed_abort = false;
@@ -412,12 +424,13 @@ BreakControl::start_break()
 
 //! Starts the break without preludes.
 void
-BreakControl::force_start_break(bool initiated_by_user)
+BreakControl::force_start_break(BreakHint hint)
 {
   TRACE_ENTER_MSG("BreakControl::force_start_break", break_id);
 
+  break_hint = hint;
+  user_initiated = (break_hint & BREAK_HINT_USER_INITIATED) != 0;
   fake_break = false;
-  user_initiated = initiated_by_user;
   prelude_time = 0;
   user_abort = false;
   delayed_abort = false;
@@ -426,8 +439,8 @@ BreakControl::force_start_break(bool initiated_by_user)
     {
       TRACE_MSG("auto reset enabled");
       time_t idle = break_timer->get_elapsed_idle_time();
-      TRACE_MSG(idle << " " << break_timer->get_auto_reset());
-      if (idle >= break_timer->get_auto_reset())
+      TRACE_MSG(idle << " " << break_timer->get_auto_reset() << " " << break_timer->is_enabled());
+      if (idle >= break_timer->get_auto_reset() || !break_timer->is_enabled())
         {
           TRACE_MSG("Faking break");
           fake_break = true;
@@ -454,9 +467,9 @@ BreakControl::force_start_break(bool initiated_by_user)
 void
 BreakControl::stop_break(bool forced_stop)
 {
-  TRACE_ENTER_MSG("BreakControl::stop_break", break_id);
+  TRACE_ENTER_MSG("BreakControl::stop_break", forced_stop);
 
-  TRACE_MSG(" forced stop = " << forced_stop);
+  TRACE_MSG(" forced stop = " << break_id);
 
   suspend_break();
   prelude_count = 0;
@@ -479,8 +492,9 @@ BreakControl::suspend_break()
 {
   TRACE_ENTER_MSG("BreakControl::suspend_break", break_id);
 
+  break_hint = BREAK_HINT_NONE;
+  
   goto_stage(STAGE_NONE);
-  core->defrost();
 
   TRACE_EXIT();
 }
@@ -586,6 +600,7 @@ BreakControl::stop_prelude()
   delayed_abort = true;
 }
 
+
 //! Sets the maximum number of preludes.
 /*!
  *  After the maximum number of preludes, the break either stops bothering the
@@ -603,7 +618,7 @@ BreakControl::break_window_start()
 {
   TRACE_ENTER_MSG("BreakControl::break_window_start", break_id);
 
-  application->create_break_window(break_id, user_initiated);
+  application->create_break_window(break_id, break_hint);
   update_break_window();
   application->show_break_window();
   
@@ -635,8 +650,6 @@ BreakControl::prelude_window_start()
   
   TRACE_EXIT();
 }
-
-
 
 
 bool

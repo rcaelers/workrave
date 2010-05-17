@@ -217,6 +217,15 @@ Menus::set_operation_mode(OperationMode m)
 
 
 void
+Menus::set_usage_mode(UsageMode m)
+{
+  ICore *core = CoreFactory::get_core();
+  core->set_usage_mode(m, true);
+  resync();  
+}
+
+
+void
 Menus::on_menu_quiet()
 {
   TRACE_ENTER("Menus::on_menu_quiet");
@@ -240,6 +249,15 @@ Menus::on_menu_normal()
 {
   TRACE_ENTER("Menus::on_menu_normal");
   set_operation_mode(OPERATION_MODE_NORMAL);
+  TRACE_EXIT();
+}
+
+
+void
+Menus::on_menu_reading(bool reading)
+{
+  TRACE_ENTER("Menus::on_menu_reading");
+  set_usage_mode(reading ? USAGE_MODE_READING : USAGE_MODE_NORMAL);
   TRACE_EXIT();
 }
 
@@ -498,6 +516,7 @@ Menus::resync()
           ICore *core = CoreFactory::get_core();
 
           menus[i]->resync(core->get_operation_mode(),
+                           core->get_usage_mode(),
 #ifdef HAVE_DISTRIBUTION
                            network_log_dialog != NULL);
 #else

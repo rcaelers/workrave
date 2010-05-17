@@ -1,6 +1,6 @@
 // GUIConfig.cc --- The WorkRave GUI Configuration
 //
-// Copyright (C) 2007, 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2007, 2008, 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -33,10 +33,11 @@
 
 using namespace std;
 
-const string GUIConfig::CFG_KEY_BREAK_IGNORABLE = "gui/breaks/%b/ignorable_break";
-const string GUIConfig::CFG_KEY_BREAK_EXERCISES = "gui/breaks/%b/exercises";
-const string GUIConfig::CFG_KEY_BLOCK_MODE      = "gui/breaks/block_mode";
-const string GUIConfig::CFG_KEY_LOCALE          = "gui/locale";
+const string GUIConfig::CFG_KEY_BREAK_IGNORABLE  = "gui/breaks/%b/ignorable_break";
+const string GUIConfig::CFG_KEY_BREAK_EXERCISES  = "gui/breaks/%b/exercises";
+const string GUIConfig::CFG_KEY_BLOCK_MODE       = "gui/breaks/block_mode";
+const string GUIConfig::CFG_KEY_LOCALE           = "gui/locale";
+const string GUIConfig::CFG_KEY_TRAYICON_ENABLED = "gui/trayicon_enabled";
 
 //!
 void
@@ -79,6 +80,25 @@ GUIConfig::set_ignorable(BreakId id, bool b)
   CoreFactory::get_configurator()->set_value(CFG_KEY_BREAK_IGNORABLE % id, b);
 }
 
+//!
+bool
+GUIConfig::get_trayicon_enabled()
+{
+  bool rc;
+  CoreFactory::get_configurator()
+    ->get_value_with_default(CFG_KEY_TRAYICON_ENABLED,
+                             rc,
+                             true);
+  return rc;
+}
+
+
+//!
+void
+GUIConfig::set_trayicon_enabled(bool b)
+{
+  CoreFactory::get_configurator()->set_value(CFG_KEY_TRAYICON_ENABLED, b);
+}
 
 //!
 int

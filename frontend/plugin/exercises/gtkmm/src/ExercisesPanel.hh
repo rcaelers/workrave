@@ -1,6 +1,6 @@
 // ExercisesPanel.hh --- Exercises panel
 //
-// Copyright (C) 2002, 2003, 2004, 2005, 2007 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2005, 2007, 2010 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -40,10 +40,16 @@
 #include <gtkmm/scrolledwindow.h>
 #include <gtkmm/tooltips.h>
 
+#define PREVIOUS_BUTTON_ID Gtk::Stock::MEDIA_PREVIOUS
+#define CLOSE_BUTTON_ID Gtk::Stock::CLOSE
+#define NEXT_BUTTON_ID Gtk::Stock::MEDIA_NEXT
+#define EXECUTE_BUTTON_ID Gtk::Stock::MEDIA_PLAY
+#define STOP_BUTTON_ID Gtk::Stock::MEDIA_PAUSE
+
 class ExercisesPanel : public Gtk::HBox
 {
 public:
-  ExercisesPanel(Gtk::HButtonBox *dialog_action_area);
+  ExercisesPanel(Gtk::ButtonBox *dialog_action_area);
   ~ExercisesPanel();
 
   void set_exercise_count(int num);

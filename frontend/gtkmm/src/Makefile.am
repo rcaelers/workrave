@@ -1,7 +1,7 @@
 
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010 Rob Caelers & Raymond Penners
 #
 
 SUBDIRS = 		gnome_applet kde_applet win32 unix osx
@@ -100,7 +100,7 @@ includeswin32 = 	-I$(top_srcdir)/common/win32/harpoon/include \
 			-I$(top_srcdir)/frontend/gtkmm/src/win32/ \
 			-I$(top_srcdir)/frontend/win32/applet/include
 ldflags = 		-L$(top_builddir)/frontend/gtkmm/src/win32/
-win32cflags		= -D_WIN32_IE=0x0500
+win32cflags		= -D_WIN32_IE=0x0500 -D_WIN32_WINNT=0x0501
 endif
 
 if HAVE_DISTRIBUTION
@@ -119,7 +119,7 @@ WINDRES ?= 		"windres"
 includesinput = 	-I$(top_srcdir)/common/win32/harpoon/include
 WIN32LIBS = 		$(top_builddir)/common/win32/harpoon/src/Release/harpoon.dll \
 			$(top_builddir)/frontend/gtkmm/src/win32/libworkrave-frontend-gtkmm-win32.la \
-			-lshell32 -lole32 -lwinmm -lshlwapi
+			-lshell32 -lole32 -lwinmm -lshlwapi -lwtsapi32
 endif
 
 if PLATFORM_OS_UNIX
@@ -255,7 +255,7 @@ workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
 			@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
 			@X_CFLAGS@ @GNOME_CFLAGS@ \
 			@GNOME_CFLAGS@ @GTK_CFLAGS@ @GLIB_CFLAGS@ \
-			@GCONF_CFLAGS@ -D_XOPEN_SOURCE=600 @GNET_CFLAGS@ \
+			@GCONF_CFLAGS@ -D_XOPEN_SOURCE=600 \
 			@KDE_INCLUDES@ @QT_INCLUDES@ @DBUS_CFLAGS@  @IGE_CFLAGS@ \
 			$(includeswin32) $(win32cflags) $(includesinput) $(includesosx) \
 			$(includesx) \
@@ -288,8 +288,8 @@ $(bin_PROGRAMS):	$(top_builddir)/backend/src/libworkrave-backend.la \
 workrave_LDFLAGS = 	@WR_LDFLAGS@ ${ldflags}
 
 workrave_LDADD =        @WR_LDADD@ @X_LIBS@ @X11SM_LIBS@ @GNOME_LIBS@ @GLIB_LIBS@ \
-			@GTK_LIBS@ @GNET_LIBS@ @X_LIBS@ @GCONF_LIBS@ @GDOME_LIB@ \
-			@KDE_LDFLAGS@ @LIB_KDEUI@ @LIB_KDECORE@ \
+			@GTK_LIBS@ @X_LIBS@ @GCONF_LIBS@ @GDOME_LIB@ \
+			@KDE_LDFLAGS@ @LIB_KDEUI@ @LIB_KDECORE@ @PULSE_LIBS@ \
 			@QT_LDFLAGS@ @LIB_QT@ @DBUS_LIBS@  @IGE_LIBS@ @GSTREAMER_LIBS@ \
 			${X11LIBS} ${WIN32LIBS} @GTK_LIBS@ ${OSXLIBS} ${WIN32CONSOLE}
 

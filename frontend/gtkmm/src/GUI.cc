@@ -1,6 +1,6 @@
 // GUI.cc --- The WorkRave GUI
 //
-// Copyright (C) 2001 - 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -29,6 +29,10 @@
 #include <gtkmm/messagedialog.h>
 #include <glibmm/optiongroup.h>
 #include <glibmm/refptr.h>
+
+#ifdef PLATFORM_OS_WIN32_NATIVE
+#undef HAVE_UNISTD_H
+#endif
 
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -74,6 +78,7 @@
 #include "W32AppletWindow.hh"
 #include <gdk/gdkwin32.h>
 #include <pbt.h>
+#include <wtsapi32.h>
 #endif
 
 #if defined(PLATFORM_OS_OSX)
@@ -135,7 +140,8 @@ GUI::GUI(int argc, char **argv) :
 #endif
   grab_handle(NULL),
   status_icon(NULL),
-  applet_control(NULL)
+  applet_control(NULL),
+  muted(false)
 {
   TRACE_ENTER("GUI:GUI");
 
@@ -179,7 +185,7 @@ GUI::~GUI()
 void
 GUI::restbreak_now()
 {
-  core->force_break(BREAK_ID_REST_BREAK, true);
+  core->force_break(BREAK_ID_REST_BREAK, BREAK_HINT_USER_INITIATED);
 }
 
 
@@ -332,6 +338,7 @@ static void my_log_handler(const gchar *log_domain, GLogLevelFlags log_level,
 void
 GUI::init_platform()
 {
+  TRACE_ENTER("GUI::init_platform");
 #if defined(HAVE_KDE)
   init_kde();
 #endif
@@ -348,6 +355,7 @@ GUI::init_platform()
 #endif
   
   srand((unsigned int)time(NULL));
+  TRACE_EXIT();
 }
 
 
@@ -379,6 +387,7 @@ GUI::session_save_state_cb(EggSMClient *client, GKeyFile *key_file, GUI *gui)
 void
 GUI::init_session()
 {
+  TRACE_ENTER("GUI::init_session");
   EggSMClient *client = NULL;
 #ifdef HAVE_DBUS
   client = egg_sm_client_get();
@@ -394,6 +403,7 @@ GUI::init_session()
                        G_CALLBACK(session_save_state_cb),
                        this);
     }
+  TRACE_EXIT();
 }
 
 
@@ -435,6 +445,7 @@ void
 GUI::init_debug()
 {
 #if defined(NDEBUG)
+  TRACE_ENTER("GUI::init_debug");
   const char *domains[] = { NULL, "Gtk", "GLib", "Gdk", "gtkmm", "GLib-GObject" };
   for (unsigned int i = 0; i < sizeof(domains)/sizeof(char *); i++)
     {
@@ -442,7 +453,7 @@ GUI::init_debug()
                         (GLogLevelFlags) (G_LOG_LEVEL_MASK | G_LOG_FLAG_FATAL | G_LOG_FLAG_RECURSION),
                         my_log_handler, NULL);
     }
-
+  TRACE_EXIT();
 #endif
 }
 
@@ -500,7 +511,7 @@ GUI::init_nls()
 
   CoreFactory::get_configurator()->add_listener(GUIConfig::CFG_KEY_LOCALE, this);
 #endif
-  
+
   bindtextdomain(PACKAGE, locale_dir);
   bind_textdomain_codeset(PACKAGE, "UTF-8");
   textdomain(PACKAGE);
@@ -782,6 +793,8 @@ GUI::init_gui()
 
   // Status icon
   status_icon = new StatusIcon(*main_window);
+  status_icon->set_visible(GUIConfig::get_trayicon_enabled());
+  CoreFactory::get_configurator()->add_listener(GUIConfig::CFG_KEY_TRAYICON_ENABLED, this);
   
 #ifdef HAVE_DBUS
   DBus *dbus = CoreFactory::get_dbus();
@@ -877,6 +890,9 @@ GUI::init_sound_player()
   TRACE_ENTER("GUI:init_sound_player");
   try
     {
+      // Tell pulseaudio were are playing sound events
+      g_setenv("PULSE_PROP_media.role", "event", TRUE);
+      
       sound_player = new SoundPlayer(); /* LEAK */
       sound_player->init();
     }
@@ -918,7 +934,7 @@ GUI::core_event_operation_mode_changed(const OperationMode m)
 void
 GUI::config_changed_notify(const std::string &key)
 {
-  (void) key;
+  TRACE_ENTER_MSG("GUI::config_changed_notify", key);
   
 #if defined(HAVE_LANGUAGE_SELECTION)
   if (key == GUIConfig::CFG_KEY_LOCALE)
@@ -929,6 +945,28 @@ GUI::config_changed_notify(const std::string &key)
       menus->locale_changed();
     }
 #endif
+  if (key == GUIConfig::CFG_KEY_TRAYICON_ENABLED)
+    {
+      if (status_icon != NULL)
+        {
+          bool tray = GUIConfig::get_trayicon_enabled();
+          status_icon->set_visible(tray);
+
+          if (!tray)
+            {
+              AppletControl *applet_control = get_applet_control();
+              if (applet_control != NULL)
+                {
+                  if (!applet_control->is_visible())
+                    {
+                      open_main_window();
+                    }
+                }
+            }
+        }
+    }
+    
+  TRACE_EXIT();
 }
 
 
@@ -959,7 +997,7 @@ GUI::create_prelude_window(BreakId break_id)
 
 
 void
-GUI::create_break_window(BreakId break_id, bool user_initiated)
+GUI::create_break_window(BreakId break_id, BreakHint break_hint)
 {
   TRACE_ENTER_MSG("GUI::start_break_window", num_heads);
   hide_break_window();
@@ -969,9 +1007,10 @@ GUI::create_break_window(BreakId break_id, bool user_initiated)
   BreakWindow::BreakFlags break_flags = BreakWindow::BREAK_FLAGS_NONE;
   bool ignorable = GUIConfig::get_ignorable(break_id);
 
-  if (user_initiated && !ignorable)
+  if ( (break_hint & BREAK_HINT_USER_INITIATED) && !ignorable)
     {
-      break_flags = BreakWindow::BREAK_FLAGS_POSTPONABLE;
+      break_flags = ( BreakWindow::BREAK_FLAGS_POSTPONABLE |
+                      BreakWindow::BREAK_FLAGS_USER_INITIATED);
     }
   else if (ignorable)
     {
@@ -979,6 +1018,11 @@ GUI::create_break_window(BreakId break_id, bool user_initiated)
                        BreakWindow::BREAK_FLAGS_SKIPPABLE);
     }
 
+  if (break_hint & BREAK_HINT_NATURAL_BREAK)
+    {
+      break_flags |=  (BreakWindow::BREAK_FLAGS_NO_EXERCISES | BreakWindow::BREAK_FLAGS_NATURAL);
+    }
+  
   active_break_id = break_id;
 
   for (int i = 0; i < num_heads; i++)
@@ -993,6 +1037,17 @@ GUI::create_break_window(BreakId break_id, bool user_initiated)
 
   active_break_count = num_heads;
 
+  if (break_id == BREAK_ID_REST_BREAK ||
+      break_id == BREAK_ID_DAILY_LIMIT)
+    {
+      bool mute = false;
+      CoreFactory::get_configurator()->get_value(SoundPlayer::CFG_KEY_SOUND_MUTE, mute);
+      if (mute)
+        {
+          muted = !sound_player->set_mute(true);
+        }
+    }
+  
   TRACE_EXIT();
 }
 
@@ -1029,6 +1084,12 @@ GUI::hide_break_window()
 
   ungrab();
 
+  if (muted)
+    {
+      sound_player->set_mute(false);
+      muted = false;
+    }
+  
   TRACE_EXIT();
 }
 
@@ -1473,6 +1534,10 @@ GUI::win32_init_filter()
   GtkWidget *window = (GtkWidget *)main_window->gobj();
   GdkWindow *gdk_window = window->window;
   gdk_window_add_filter(gdk_window, win32_filter_func, this);
+
+  HWND hwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
+  
+  WTSRegisterSessionNotification(hwnd, NOTIFY_FOR_THIS_SESSION);
 }
 
 GdkFilterReturn
@@ -1488,6 +1553,26 @@ GUI::win32_filter_func (void     *xevent,
   GdkFilterReturn ret = GDK_FILTER_CONTINUE;
   switch (msg->message)
     {
+    case WM_WTSSESSION_CHANGE:
+      {
+        TRACE_MSG("WM_WTSSESSION_CHANGE " << msg->wParam << " " << msg->lParam);
+        if (msg->wParam == WTS_SESSION_LOCK)
+          {
+            TRACE_MSG("WTS_SESSION_LOCK");
+          }
+        if (msg->wParam == WTS_SESSION_LOCK)
+          {
+            TRACE_MSG("WTS_SESSION_UNLOCK");
+            ICore *core = CoreFactory::get_core();
+            IBreak *rest_break = core->get_break(BREAK_ID_REST_BREAK);
+            if (rest_break->get_elapsed_idle_time() < rest_break->get_auto_reset() && rest_break->is_enabled())
+              {
+                core->force_break(BREAK_ID_REST_BREAK, BREAK_HINT_NATURAL_BREAK);
+              }
+          }
+      }
+      break;
+      
     case WM_POWERBROADCAST:
       {
         TRACE_MSG("WM_POWERBROADCAST " << msg->wParam << " " << msg->lParam);

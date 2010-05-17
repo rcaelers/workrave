@@ -40,7 +40,7 @@ private:
   static void init(HINSTANCE hinst);
   static LRESULT CALLBACK wnd_proc(HWND hWnd, UINT uMessage, WPARAM wParam,
                                    LPARAM lParam);
-  LRESULT on_paint(void);
+  LRESULT on_paint();
 };
 
 #endif // ICON_H

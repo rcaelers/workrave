@@ -1,6 +1,6 @@
 // MainGtkMenu.cc --- Menus using Gtk+
 //
-// Copyright (C) 2001 - 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -34,7 +34,6 @@
 #include <gtkmm/action.h>
 #include <gtkmm/iconset.h>
 #include <gtkmm/iconsource.h>
-#include <gtkmm/menu.h>
 #include <gtkmm/stock.h>
 
 
@@ -146,6 +145,9 @@ MainGtkMenu::create_actions()
 
   action_group->add(Gtk::RadioAction::create(group_mode, "Quiet", _("Q_uiet")),
                     sigc::mem_fun(*this, &MainGtkMenu::on_menu_quiet));
+
+  action_group->add(Gtk::ToggleAction::create("Reading", _("_Reading mode")),
+                    sigc::mem_fun(*this, &MainGtkMenu::on_menu_reading));
   
   // Networking menu
   action_group->add(Gtk::Action::create("Network", _("_Network")));
@@ -221,6 +223,8 @@ MainGtkMenu::create_ui()
     "      <menuitem action='ShowLog'/>"
     "    </menu>"
     "    <separator/>" +
+    "    <menuitem action='Reading'/>"
+    "    <separator/>"
     "    <menuitem action='Preferences'/>"
     "    <menuitem action='About'/>"
     "    <menuitem action='Quit'/>"
@@ -259,7 +263,7 @@ MainGtkMenu::popup(const guint button, const guint activate_time)
 
 
 void
-MainGtkMenu::resync(OperationMode mode, bool show_log)
+MainGtkMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
 {
   Gtk::CheckMenuItem *item = NULL;
   const char *menu_name = NULL;
@@ -295,6 +299,12 @@ MainGtkMenu::resync(OperationMode mode, bool show_log)
   if (item != NULL)
     {
       item->set_active(show_log);
+    }
+
+  item = dynamic_cast<Gtk::CheckMenuItem*>(ui_manager->get_widget("/Menu/Reading"));
+  if (item != NULL)
+    {
+      item->set_active(usage == USAGE_MODE_READING);
     }
 }
 
@@ -363,6 +373,21 @@ MainGtkMenu::on_menu_quiet()
         }
     }
 }
+
+void
+MainGtkMenu::on_menu_reading()
+{
+  Glib::RefPtr<Gtk::Action> act = ui_manager->get_action("/Menu/Reading");
+  Glib::RefPtr<Gtk::ToggleAction> ract = Glib::RefPtr<Gtk::ToggleAction>::cast_dynamic(act);
+
+  if (ract)
+    {
+      bool active = ract->get_active();
+      Menus *menus = Menus::get_instance();
+      menus->on_menu_reading(active);
+    }
+}
+
 
 #ifdef PLATFORM_OS_OSX
 // /* Taken from Gaim. needs to be gtkmm-ified. */

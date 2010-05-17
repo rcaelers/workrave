@@ -1,6 +1,6 @@
 // W32AppletMenu.cc --- Menus using W32Applet+
 //
-// Copyright (C) 2001 - 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -73,7 +73,7 @@ W32AppletMenu::add_accel(Gtk::Window &window)
 }
 
 void
-W32AppletMenu::resync(OperationMode mode, bool show_log)
+W32AppletMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
 {
   TRACE_ENTER_MSG("W32AppletMenu::resync", mode << " " << show_log);
   
@@ -112,6 +112,7 @@ W32AppletMenu::resync(OperationMode mode, bool show_log)
                       |(mode == OPERATION_MODE_QUIET
                         ? W32AppletWindow::MENU_FLAG_SELECTED
                         : 0));
+
       w32aw->add_menu(_("_Mode"), 0, 0);
 
 #ifdef HAVE_DISTRIBUTION
@@ -127,6 +128,12 @@ W32AppletMenu::resync(OperationMode mode, bool show_log)
                       |W32AppletWindow::MENU_FLAG_POPUP);
       w32aw->add_menu(_("_Network"), 0, 0);
 #endif
+      w32aw->add_menu(_("Reading mode"), Menus::MENU_COMMAND_MODE_READING,
+                      W32AppletWindow::MENU_FLAG_TOGGLE
+                      |(usage == USAGE_MODE_READING
+                        ? W32AppletWindow::MENU_FLAG_SELECTED
+                        : 0));
+      
       w32aw->add_menu(_("Statistics"), Menus::MENU_COMMAND_STATISTICS, 0);
       w32aw->add_menu(_("About..."), Menus::MENU_COMMAND_ABOUT, 0);
     }

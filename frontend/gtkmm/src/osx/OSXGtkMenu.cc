@@ -1,6 +1,6 @@
 // OSXGtkMenu.cc --- Menus using Gtk+
 //
-// Copyright (C) 2001 - 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -17,7 +17,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include "preinclude.h"
+
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -113,6 +113,7 @@ OSXGtkMenu::create_ui()
     "      <menuitem action='Disconnect'/>\n"
     "      <menuitem action='Reconnect'/>\n"
     "    </menu>\n"
+    "    <menuitem action='Reading mode'/>"
     "  </menubar>\n"
     "</ui>\n";
    

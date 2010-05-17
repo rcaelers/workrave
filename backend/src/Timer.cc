@@ -1,6 +1,6 @@
 // Timer.cc --- break timer
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007, 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2010 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -57,7 +57,6 @@ Timer::Timer() :
   timer_frozen(false),
   activity_state(ACTIVITY_UNKNOWN),
   timer_state(STATE_INVALID),
-  previous_timer_state(STATE_INVALID),
   snooze_interval(60),
   snooze_on_active(true),
   snooze_inhibited(false),
@@ -80,7 +79,7 @@ Timer::Timer() :
   total_overdue_time(0),
   activity_monitor(NULL),
   activity_sensitive(true),
-  insensitive_mode(MODE_IDLE_ON_LIMIT_REACHED)
+  insensitive_mode(INSENSITIVE_MODE_IDLE_ON_LIMIT_REACHED)
 {
   core = CoreFactory::get_core();
 }
@@ -146,7 +145,6 @@ Timer::disable()
       next_reset_time = 0;
 
       timer_state = STATE_INVALID;
-      previous_timer_state = STATE_INVALID;
     }
   TRACE_EXIT();
 }
@@ -250,6 +248,8 @@ Timer::inhibit_snooze()
 void
 Timer::set_activity_sensitive(bool a)
 {
+  TRACE_ENTER_MSG("Timer::set_activity_sensitive", a);
+  
   activity_sensitive = a;
   activity_state = ACTIVITY_UNKNOWN;
 
@@ -264,6 +264,7 @@ Timer::set_activity_sensitive(bool a)
           activity_state = ACTIVITY_ACTIVE;
         }
     }
+  TRACE_EXIT();
 }
 
 //! Sets the activity insensitive mode
@@ -281,6 +282,17 @@ Timer::force_idle()
   if (!activity_sensitive)
     {
       activity_state = ACTIVITY_IDLE;
+    }
+}
+
+
+//! Forces a activity insensitive timer to become active
+void
+Timer::force_active()
+{
+  if (!activity_sensitive)
+    {
+      activity_state = ACTIVITY_ACTIVE;
     }
 }
 
@@ -580,7 +592,7 @@ Timer::freeze_timer(bool freeze)
     }
 
   //test fix for Bug 746 -  Micro-break not counting down
-  if (timer_enabled && !freeze && timer_frozen && timer_state == STATE_RUNNING && !last_start_time && !activity_sensitive )
+  if (timer_enabled && !freeze && timer_frozen && timer_state == STATE_RUNNING && !last_start_time && !activity_sensitive)
     {
       last_start_time = core->get_time();
       elapsed_idle_time = 0;
@@ -679,6 +691,7 @@ Timer::shift_time(int delta)
   compute_next_predicate_reset_time();
 }
 
+
 //! Perform timer processing.
 /*! \param new_activity_state the current activity state as reported by the
  *         (global) activity monitor.
@@ -694,12 +707,12 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
   (void) TRACE;
   
   time_t current_time= core->get_time();
-
+  
   // Default event to return.
   info.event = TIMER_EVENT_NONE;
   info.idle_time = get_elapsed_idle_time();
   info.elapsed_time = get_elapsed_time();
-
+  
   TRACE_MSG("idle = " << info.idle_time);
   TRACE_MSG("elap = " << info.elapsed_time);
   TRACE_MSG("enabled = " << timer_enabled);
@@ -731,32 +744,20 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
 
       if (activity_state != ACTIVITY_UNKNOWN)
         {
-          TRACE_MSG("as = " << activity_state <<
+          TRACE_MSG("as = "   << activity_state <<
                     " nas = " << new_activity_state <<
-                    " el=" << get_elapsed_time());
+                    " el ="   << get_elapsed_time());
 
-          if (insensitive_mode == MODE_IDLE_ALWAYS)
+          if (insensitive_mode == INSENSITIVE_MODE_IDLE_ALWAYS)
             // Forces ACTIVITY_IDLE every time, regardless of sensitivity
             {
               TRACE_MSG("MODE_IDLE_ALWAYS: Forcing ACTIVITY_IDLE");
               new_activity_state = activity_state = ACTIVITY_IDLE;
             }
 
-          // When the timer has no elasped time, and it not running ->
-          // use activity_state from activity monitor. This allows the
-          // timer to start when the user becomes active.
-          //
-          // Otherwise, use the previous state: A timer that is running keep
-          // running until it is set to idle below. An idle timer (after limit
-          // was reached) remains idle.
-          if (activity_state != ACTIVITY_ACTIVE) // RC: removed && get_elapsed_time() == 0)
+          if (activity_state == ACTIVITY_ACTIVE)
             {
-              TRACE_MSG("new state1 = " << activity_state << " " << new_activity_state
-                        << last_limit_time);
-            }
-          else
-            {
-              if (insensitive_mode == MODE_IDLE_ON_LIMIT_REACHED)
+              if (insensitive_mode == INSENSITIVE_MODE_IDLE_ON_LIMIT_REACHED)
                 {
                   new_activity_state = activity_state;
                 }
@@ -856,34 +857,6 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
           activity_state = ACTIVITY_IDLE;
         }
     }
-  else if (timer_enabled)
-    {
-      switch (timer_state)
-        {
-        case STATE_RUNNING:
-          {
-            if (info.event == TIMER_EVENT_NONE && previous_timer_state == STATE_STOPPED)
-              {
-                info.event = TIMER_EVENT_STARTED;
-              }
-          }
-          break;
-
-        case STATE_STOPPED:
-          {
-            if (info.event == TIMER_EVENT_NONE && previous_timer_state == STATE_RUNNING)
-              {
-                info.event = TIMER_EVENT_STOPPED;
-              }
-          }
-          break;
-
-        default:
-          break;
-        }
-    }
-
-  previous_timer_state = timer_state;
 }
 
 

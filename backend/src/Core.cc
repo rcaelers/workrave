@@ -1,6 +1,6 @@
 // Core.cc --- The main controller
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -91,6 +91,7 @@ Core::Core() :
   application(NULL),
   statistics(NULL),
   operation_mode(OPERATION_MODE_NORMAL),
+  usage_mode(USAGE_MODE_NORMAL),
   core_event_listener(NULL),
   powersave(false),
   powersave_resume_time(0),
@@ -403,6 +404,26 @@ Core::config_changed_notify(const string &key)
     {
       load_monitor_config();
     }
+
+  if (key == CoreConfig::CFG_KEY_OPERATION_MODE)
+    {
+      int mode;
+      if (! get_configurator()->get_value(CoreConfig::CFG_KEY_OPERATION_MODE, mode))
+        {
+          mode = OPERATION_MODE_NORMAL;
+        }
+      set_operation_mode(OperationMode(mode), false);
+    }
+
+  if (key == CoreConfig::CFG_KEY_USAGE_MODE)
+    {
+      int mode;
+      if (! get_configurator()->get_value(CoreConfig::CFG_KEY_USAGE_MODE, mode))
+        {
+          mode = USAGE_MODE_NORMAL;
+        }
+      set_usage_mode(UsageMode(mode), false);
+    }
 }
 
 
@@ -570,12 +591,11 @@ Core::set_operation_mode_no_event(OperationMode mode, bool persistent)
           monitor->suspend();
           stop_all_breaks();
           
-          for( int i = 0; i < BREAK_ID_SIZEOF; ++i )
+          for (int i = 0; i < BREAK_ID_SIZEOF; ++i)
             {
-              if( breaks[ i ].is_enabled() )
+              if (breaks[i].is_enabled())
                 {
-                  breaks[ i ].get_timer()->set_insensitive_mode( MODE_IDLE_ALWAYS );
-                  //breaks[ i ].get_timer()->freeze_timer( true );
+                  breaks[i].get_timer()->set_insensitive_mode(INSENSITIVE_MODE_IDLE_ALWAYS);
                 }
             }
         }
@@ -586,7 +606,7 @@ Core::set_operation_mode_no_event(OperationMode mode, bool persistent)
           monitor->resume();
         }
       
-      if( operation_mode == OPERATION_MODE_QUIET )
+      if (operation_mode == OPERATION_MODE_QUIET)
         {
           stop_all_breaks();
         }
@@ -607,6 +627,31 @@ Core::set_operation_mode_no_event(OperationMode mode, bool persistent)
 }
 
 
+UsageMode
+Core::get_usage_mode()
+{
+  return usage_mode;
+}
+
+void
+Core::set_usage_mode(UsageMode mode, bool persistent)
+{
+  if (usage_mode != mode)
+    {
+      usage_mode = mode;
+  
+      for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+        {
+          breaks[i].set_usage_mode(mode);
+        }
+
+      if (persistent)
+        {
+          get_configurator()->set_value(CoreConfig::CFG_KEY_USAGE_MODE, mode);
+        }
+    }      
+}
+
 //! Sets the listener for core events.
 void
 Core::set_core_events_listener(ICoreEventListener *l)
@@ -617,12 +662,12 @@ Core::set_core_events_listener(ICoreEventListener *l)
 
 //! Forces the start of the specified break.
 void
-Core::force_break(BreakId id, bool initiated_by_user)
+Core::force_break(BreakId id, BreakHint break_hint)
 {
-  do_force_break(id, initiated_by_user);
+  do_force_break(id, break_hint);
 
 #ifdef HAVE_DISTRIBUTION
-  BreakLinkEvent event(id, initiated_by_user ?
+  BreakLinkEvent event(id, ((break_hint & BREAK_HINT_USER_INITIATED) != 0) ?
                        BreakLinkEvent::BREAK_EVENT_USER_FORCE_BREAK :
                        BreakLinkEvent::BREAK_EVENT_SYST_FORCE_BREAK) ;
   network->send_event(&event);
@@ -632,7 +677,7 @@ Core::force_break(BreakId id, bool initiated_by_user)
 
 //! Forces the start of the specified break.
 void
-Core::do_force_break(BreakId id, bool initiated_by_user)
+Core::do_force_break(BreakId id, BreakHint break_hint)
 {
   TRACE_ENTER_MSG("Core::do_force_break", id);
   BreakControl *microbreak_control = breaks[BREAK_ID_MICRO_BREAK].get_break_control();
@@ -646,7 +691,7 @@ Core::do_force_break(BreakId id, bool initiated_by_user)
       TRACE_MSG("Resuming Micro break");
     }
 
-  breaker->force_start_break(initiated_by_user);
+  breaker->force_start_break(break_hint);
   TRACE_EXIT();
 }
 
@@ -750,6 +795,8 @@ Core::force_idle()
         {
           am->force_idle();
         }
+
+      breaks[i].get_timer()->force_idle();
     }
 }
 
@@ -1073,6 +1120,7 @@ Core::process_timers()
 #endif
     }
 
+  
   // Process all timer events.
   for (int i = BREAK_ID_SIZEOF - 1; i >= 0;  i--)
     {
@@ -1243,19 +1291,15 @@ Core::timer_action(BreakId id, TimerInfo info)
         }
       break;
 
+    case TIMER_EVENT_NATURAL_RESET:
+      statistics->increment_break_counter(id, Statistics::STATS_BREAKVALUE_NATURAL_TAKEN);
+      // FALLTHROUGH
+      
     case TIMER_EVENT_RESET:
       if (breaker->get_break_state() == BreakControl::BREAK_ACTIVE)
         {
           breaker->stop_break();
         }
-      break;
-
-    case TIMER_EVENT_NATURAL_RESET:
-      if (breaker->get_break_state() == BreakControl::BREAK_ACTIVE)
-        {
-          breaker->stop_break();
-        }
-      statistics->increment_break_counter(id, Statistics::STATS_BREAKVALUE_NATURAL_TAKEN);
       break;
 
     default:
@@ -1416,12 +1460,21 @@ Core::save_state() const
 void
 Core::load_misc()
 {
+  configurator->add_listener(CoreConfig::CFG_KEY_OPERATION_MODE, this);
+  configurator->add_listener(CoreConfig::CFG_KEY_USAGE_MODE, this);
+  
   int mode;
   if (! get_configurator()->get_value(CoreConfig::CFG_KEY_OPERATION_MODE, mode))
     {
       mode = OPERATION_MODE_NORMAL;
     }
   set_operation_mode(OperationMode(mode), false);
+
+  if (! get_configurator()->get_value(CoreConfig::CFG_KEY_USAGE_MODE, mode))
+    {
+      mode = USAGE_MODE_NORMAL;
+    }
+  set_usage_mode(UsageMode(mode), false);
 }
 
 
@@ -1494,7 +1547,7 @@ Core::post_event(CoreEvent event)
 void
 Core::freeze()
 {
-  TRACE_ENTER_MSG("BreakControl::freeze", insist_policy);
+  TRACE_ENTER_MSG("Core::freeze", insist_policy);
   ICore::InsistPolicy policy = insist_policy;
 
   switch (policy)
@@ -1529,7 +1582,7 @@ Core::freeze()
 void
 Core::defrost()
 {
-  TRACE_ENTER_MSG("BreakControl::defrost", active_insist_policy);
+  TRACE_ENTER_MSG("Core::defrost", active_insist_policy);
 
   switch (active_insist_policy)
     {
@@ -1619,11 +1672,11 @@ Core::break_event_received(const BreakLinkEvent *event)
       break;
 
     case BreakLinkEvent::BREAK_EVENT_USER_FORCE_BREAK:
-      do_force_break(break_id, true);
+      do_force_break(break_id, BREAK_HINT_USER_INITIATED);
       break;
 
     case BreakLinkEvent::BREAK_EVENT_SYST_FORCE_BREAK:
-      do_force_break(break_id, false);
+      do_force_break(break_id, (BreakHint)0);
       break;
 
     case BreakLinkEvent::BREAK_EVENT_SYST_STOP_PRELUDE:

@@ -1,6 +1,6 @@
 // PreferencesDialog.cc --- Preferences dialog
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2009 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2009, 2010 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -291,6 +291,13 @@ PreferencesDialog::create_gui_page()
   autostart_cb->set_active(rc);
 #endif  
 
+  Gtk::Label *trayicon_lab = Gtk::manage(GtkUtil::create_label(_("Show system tray icon"), false));
+  trayicon_cb = Gtk::manage(new Gtk::CheckButton());
+  trayicon_cb->add(*trayicon_lab);
+  connector->connect(GUIConfig::CFG_KEY_TRAYICON_ENABLED, dc::wrap(trayicon_cb));
+
+  panel->add(*trayicon_cb);
+
   panel->set_border_width(12);
   return panel;
 }
@@ -343,6 +350,16 @@ PreferencesDialog::create_sounds_page()
 
   hig->add(_("Sound:"), *sound_button);
 
+  if (snd->capability(SoundPlayer::SOUND_CAP_MUTE))
+    {
+      // Volume 
+      mute_cb = Gtk::manage(new Gtk::CheckButton
+                            (_("Mute sounds during rest break and daily limit")));
+  
+      connector->connect(SoundPlayer::CFG_KEY_SOUND_MUTE, dc::wrap(mute_cb));
+
+      hig->add(*mute_cb, true, true);
+    }
 
   if (snd->capability(SoundPlayer::SOUND_CAP_EDIT))
     {
@@ -362,7 +379,7 @@ PreferencesDialog::create_sounds_page()
       sound_store = Gtk::ListStore::create(sound_model);
       sound_treeview.set_model(sound_store);
 
-      for (unsigned int i = 0; i < SoundPlayer::SOUND_EXERCISE_MAX; i++)
+      for (unsigned int i = 0; i < SoundPlayer::SOUND_MAX; i++)
         {
           Gtk::TreeModel::iterator iter = sound_store->append();
           Gtk::TreeModel::Row row = *iter;

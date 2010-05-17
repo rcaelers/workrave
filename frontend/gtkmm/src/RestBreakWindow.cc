@@ -1,8 +1,7 @@
 // RestBreakWindow.cc --- window for the microbreak
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
-//
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -211,11 +210,23 @@ RestBreakWindow::create_info_panel()
   info_img->set_alignment(0.0, 0.0);
   Gtk::Label *info_lab =
     Gtk::manage(new Gtk::Label());
-  Glib::ustring txt = HigUtil::create_alert_text
-    (_("Rest break"),
-     _("This is your rest break. Make sure you stand up and\n"
-       "walk away from your computer on a regular basis. Just\n"
-       "walk around for a few minutes, stretch, and relax."));
+  Glib::ustring txt;
+
+  if (break_flags & BREAK_FLAGS_NATURAL)
+    {
+      txt = HigUtil::create_alert_text
+        (_("Natural rest break"),
+         _("This is your natural rest break."));
+    }
+  else
+    {
+      txt = HigUtil::create_alert_text
+        (_("Rest break"),
+         _("This is your rest break. Make sure you stand up and\n"
+           "walk away from your computer on a regular basis. Just\n"
+           "walk around for a few minutes, stretch, and relax."));
+    }
+
   info_lab->set_markup(txt);
   info_box->pack_start(*info_img, false, false, 0);
   info_box->pack_start(*info_lab, false, true, 0);
@@ -251,7 +262,7 @@ RestBreakWindow::get_exercise_count()
 void
 RestBreakWindow::install_exercises_panel()
 {
-  if (head.count != 0)
+  if (head.count != 0 || (break_flags & BREAK_FLAGS_NO_EXERCISES))
     {
       install_info_panel();
     }

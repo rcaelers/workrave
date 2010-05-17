@@ -1,6 +1,6 @@
 // TcpLinkServer.cc
 //
-// Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2010 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -29,7 +29,6 @@ static const char rcsid[] = "$Id$";
 
 #include "TcpLinkServer.hh"
 #include "ILinkServerListener.hh"
-#include "GNetSocketDriver.hh"
 #include "TcpLink.hh"
 
 

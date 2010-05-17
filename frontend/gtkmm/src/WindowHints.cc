@@ -37,6 +37,7 @@
 #include <windows.h>
 #include <gtk/gtkwindow.h>
 #include <gdk/gdkwin32.h>
+#include "Harpoon.hh"
 #ifdef PLATFORM_OS_WIN32_NATIVE
 #undef max
 #endif
@@ -66,9 +67,9 @@ static void
 win32_block_input(BOOL block)
 {
   if (block)
-      harpoon_block_input();
+    Harpoon::block_input();
   else
-      harpoon_unblock_input();
+    Harpoon::unblock_input();
 
   UINT uPreviousState;
   SystemParametersInfo(SPI_SETSCREENSAVERRUNNING, block, &uPreviousState, 0);

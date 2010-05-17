@@ -1,6 +1,6 @@
 // X11InputMonitor.cc --- ActivityMonitor for X11
 //
-// Copyright (C) 2001-2007, 2009 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001-2007, 2009, 2010 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -77,7 +77,11 @@
 
 using namespace std;
 
+#ifdef HAVE_XRECORD
 int X11InputMonitor::xi_event_base = 0;
+#endif
+
+static int (*old_handler)(Display *dpy, XErrorEvent *error);
 
 #ifndef HAVE_APP_GTK
 //! Intercepts X11 protocol errors.
@@ -230,27 +234,18 @@ X11InputMonitor::run_events()
 {
   TRACE_ENTER("X11InputMonitor::run_events");
 
+  error_trap_enter();
+  
   root_window = DefaultRootWindow(x11_display);
-
   set_all_events(root_window);
-
-#ifdef HAVE_APP_GTK
-  gdk_error_trap_push();
-#else
-  int (*old_handler)(Display *dpy, XErrorEvent *error);
-  old_handler = XSetErrorHandler(&errorHandler);
-#endif
 
   XGrabButton(x11_display, AnyButton, AnyModifier, root_window, True,
               ButtonPressMask, GrabModeSync, GrabModeAsync, None, None);
   XSync(x11_display,False);
 
-#ifdef HAVE_APP_GTK
-  gdk_error_trap_pop();
-#else
-  XSetErrorHandler(old_handler);
-#endif
 
+  error_trap_exit();
+  
   Window lastMouseRoot = 0;
   while (1)
     {
@@ -265,6 +260,8 @@ X11InputMonitor::run_events()
 
       if (gotEvent)
         {
+          error_trap_enter();
+          
           switch (event.xany.type)
             {
             case KeyPress:
@@ -280,15 +277,22 @@ X11InputMonitor::run_events()
               handle_button(&event);
               break;
             }
+
+          error_trap_exit();
         }
 
+      
       // timeout
       Window root, child;
       int root_x, root_y, win_x, win_y;
       unsigned mask;
 
+      error_trap_enter();
+      
       XQueryPointer(x11_display, root_window, &root, &child, &root_x, &root_y, &win_x, &win_y, &mask);
 
+      error_trap_exit();
+      
       lastMouseRoot = root;
       fire_mouse(root_x, root_y);
     }
@@ -342,22 +346,12 @@ X11InputMonitor::set_event_mask(Window window)
 void
 X11InputMonitor::set_all_events(Window window)
 {
-
-#ifdef HAVE_APP_GTK
-  gdk_error_trap_push();
-#else
-  int (*old_handler)(Display *dpy, XErrorEvent *error);
-  old_handler = XSetErrorHandler(&errorHandler);
-#endif
-
+  error_trap_enter();
+  
   set_event_mask(window);
   XSync(x11_display,False);
 
-#ifdef HAVE_APP_GTK
-  gdk_error_trap_pop();
-#else
-  XSetErrorHandler(old_handler);
-#endif
+  error_trap_exit();
 }
 
 
@@ -400,7 +394,27 @@ X11InputMonitor::handle_button(XEvent *event)
     }
 }
 
+void
+X11InputMonitor::error_trap_enter()
+{
+#ifdef HAVE_APP_GTK
+  gdk_error_trap_push();
+#else
+  old_handler = XSetErrorHandler(&errorHandler);
+#endif
+}
 
+void
+X11InputMonitor::error_trap_exit()
+{
+#ifdef HAVE_APP_GTK
+  gdk_flush ();
+  gdk_error_trap_pop();
+#else
+  XSetErrorHandler(old_handler);
+#endif
+}
+  
 
 #ifdef HAVE_XRECORD
 

@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008, 2009, 2010 Rob Caelers & Raymond Penners
 #
 
 MAINTAINERCLEANFILES = 	Makefile.in \
@@ -62,9 +62,6 @@ sourcesdistribution = 	Network.cc \
 			ResolveConfigurationLinkEvent.cc \
 			TimerStateLinkEvent.cc
 
-if HAVE_GNET
-sourcesgnet = 		GNetSocketDriver.cc
-endif
 endif
 
 
@@ -98,14 +95,14 @@ BreakControl.cc: 	DBusWorkrave.hh
 endif
 
 libworkrave_backend_la_SOURCES = \
-			${sources} ${sourcesgdome} ${sourcesgnet} ${sourcesdistribution} \
+			${sources} ${sourcesgdome} ${sourcesdistribution} \
 			${dbussources} 
 
 libworkrave_backend_la_CFLAGS = \
 			-W -DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-D_XOPEN_SOURCE=600 @X_CFLAGS@ \
 			${platform_cflags} @WR_COMMON_INCLUDES@ \
-			@GLIB_CFLAGS@ @GDOME_CFLAGS@ @GNET_CFLAGS@ @DBUS_CFLAGS@ \
+			@GLIB_CFLAGS@ @GDOME_CFLAGS@ @DBUS_CFLAGS@ \
 			@GCONF_CFLAGS@ @GNOME_CFLAGS@
 
 libworkrave_backend_la_CXXFLAGS = ${libworkrave_backend_la_CFLAGS}

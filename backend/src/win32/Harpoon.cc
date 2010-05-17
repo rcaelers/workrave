@@ -1,7 +1,8 @@
 // Harpoon.cc --- ActivityMonitor for W32
 //
-// Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
+// Copyright (C) 2007, 2010 Ray Satiro <raysatiro@yahoo.com>
 // Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2010 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -28,6 +29,10 @@
 
 #include <windows.h>
 #include <winuser.h>
+
+#include <stdio.h>
+#include <tchar.h>
+
 #include "debug.hh"
 #include "Harpoon.hh"
 
@@ -37,11 +42,14 @@
 
 #include "timeutil.h"
 #include "harpoon.h"
+#include "HarpoonHelper.h"
 
 using namespace workrave;
 using namespace std;
 
-static char critical_filename_list[ HARPOON_MAX_UNBLOCKED_APPS ][ 511 ];
+char Harpoon::critical_filename_list[HARPOON_MAX_UNBLOCKED_APPS][511];
+HWND Harpoon::helper_window = NULL;
+
 
 Harpoon::Harpoon()
 {
@@ -89,6 +97,12 @@ Harpoon::init(HarpoonHookFunc func)
           return false;
         }
     }
+
+  if (is_64bit_windows())
+    {
+       start_harpoon_helper();
+    }
+
   return true;
 }
 
@@ -97,9 +111,30 @@ Harpoon::init(HarpoonHookFunc func)
 void
 Harpoon::terminate()
 {
+  stop_harpoon_helper();
   harpoon_exit();
 }
 
+
+void 
+Harpoon::block_input()
+{
+  harpoon_block_input();
+  if (helper_window != NULL)
+    {
+      PostMessage(helper_window, WM_USER + HARPOON_HELPER_BLOCK, 0, 0);
+    }
+}
+
+void 
+Harpoon::unblock_input()
+{
+  harpoon_unblock_input();
+  if (helper_window != NULL)
+    {
+      PostMessage(helper_window, WM_USER + HARPOON_HELPER_UNBLOCK, 0, 0);
+    }
+}
 
 void
 Harpoon::init_critical_filename_list()
@@ -220,4 +255,94 @@ Harpoon::check_for_taskmgr_debugger( char *out )
   RegCloseKey( hKey );
   free( buffer );
   return true;
+}
+
+
+bool 
+Harpoon::is_64bit_windows()
+{
+#if defined(_WIN64)
+    return TRUE;  // 64-bit programs run only on Win64
+#elif defined(_WIN32)
+    // 32-bit programs run on both 32-bit and 64-bit Windows
+    // so must sniff
+    BOOL f64 = FALSE;
+    return IsWow64Process(GetCurrentProcess(), &f64) && f64;
+#else
+    return FALSE; // Win64 does not support Win16
+#endif
+}
+
+HWND
+Harpoon::recursive_find_window(HWND hwnd, LPCTSTR lpClassName)
+{
+  TRACE_ENTER("Harpoon::recursive_find_window");
+  static char buf[80];
+  int num = GetClassName(hwnd, buf, sizeof(buf)-1);
+  buf[num] = 0;
+  HWND ret = NULL;
+
+  TRACE_MSG(buf);
+  if (! stricmp(lpClassName, buf))
+    {
+      ret =  hwnd;
+    }
+  else
+    {
+      HWND child = FindWindowEx(hwnd, 0, NULL, NULL);
+      while (child != NULL)
+        {
+          ret = recursive_find_window(child, lpClassName);
+          if (ret)
+            {
+              break;
+            }
+          child = FindWindowEx(hwnd, child, NULL, NULL);
+        }
+    }
+  TRACE_EXIT();
+  return ret;
+}
+
+
+void
+Harpoon::start_harpoon_helper()
+{
+  TRACE_ENTER("Harpoon::start_harpoon_helper" );
+
+  if (helper_window == NULL)
+    {
+      STARTUPINFO si;
+      PROCESS_INFORMATION pi;
+
+      ZeroMemory(&si, sizeof(si));
+      si.cb = sizeof(si);
+
+      ZeroMemory(&pi, sizeof(pi));
+
+      gchar *prgname = g_get_prgname();
+      TRACE_MSG("Workrave = " << prgname);
+      
+      if (CreateProcess("HarpoonHelper.exe", prgname, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi)) 
+        {
+          helper_window = recursive_find_window(NULL, HARPOON_HELPER_WINDOW_CLASS);
+        }
+      else
+        {
+          TRACE_MSG("CreateProcess failed " << GetLastError());
+        }
+    }
+    TRACE_EXIT();
+}
+
+void
+Harpoon::stop_harpoon_helper()
+{
+  TRACE_ENTER("Harpoon::stop_harpoon_helper" );
+  if (helper_window != NULL)
+    {
+      PostMessage(helper_window, WM_USER + HARPOON_HELPER_INIT, 0, 0);
+      helper_window = NULL;
+    }
+  TRACE_EXIT();
 }

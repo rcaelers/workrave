@@ -1,6 +1,6 @@
 // Core.hh --- The main controller
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -99,7 +99,7 @@ public:
 
   Statistics *get_statistics() const;
   void set_core_events_listener(ICoreEventListener *l);
-  void force_break(BreakId id, bool initiated_by_user);
+  void force_break(BreakId id, BreakHint break_hint);
   void time_changed();
   void set_powersave(bool down);
 
@@ -109,10 +109,14 @@ public:
   OperationMode get_operation_mode();
   OperationMode set_operation_mode(OperationMode mode, bool persistent = true);
   OperationMode set_operation_mode_no_event(OperationMode mode, bool persistent = true);
+
+  UsageMode get_usage_mode();
+  void set_usage_mode(UsageMode mode, bool persistent = true);
+
   void set_freeze_all_breaks(bool freeze);
 
   void stop_prelude(BreakId break_id);
-  void do_force_break(BreakId id, bool initiated_by_user);
+  void do_force_break(BreakId id, BreakHint break_hint);
 
   void freeze();
   void defrost();
@@ -186,7 +190,7 @@ private:
   void do_postpone_break(BreakId break_id);
   void do_skip_break(BreakId break_id);
   void do_stop_prelude(BreakId break_id);
-
+  
   void set_insist_policy(ICore::InsistPolicy p);
   ICore::InsistPolicy get_insist_policy() const;
 
@@ -224,6 +228,9 @@ private:
 
   //! Current operation mode.
   OperationMode operation_mode;
+
+  //! Current usage mode.
+  UsageMode usage_mode;
 
   //! Where to send core events to?
   ICoreEventListener *core_event_listener;

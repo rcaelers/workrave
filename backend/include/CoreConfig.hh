@@ -1,6 +1,6 @@
 // CoreConfig.hh --- Configuration keys of the core.
 //
-// Copyright (C) 2001 - 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2009 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -46,6 +46,7 @@ public:
   static const std::string CFG_KEY_MONITOR_IDLE;
   static const std::string CFG_KEY_GENERAL_DATADIR;
   static const std::string CFG_KEY_OPERATION_MODE;
+  static const std::string CFG_KEY_USAGE_MODE;
 
   static const std::string CFG_KEY_DISTRIBUTION;
   static const std::string CFG_KEY_DISTRIBUTION_ENABLED;

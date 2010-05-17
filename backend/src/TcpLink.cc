@@ -1,6 +1,6 @@
 // TcpLink.cc
 //
-// Copyright (C) 2007, 2008, 2009 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2009, 2010 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -33,7 +33,7 @@ static const char rcsid[] = "$Id$";
 #include "IConfigurator.hh"
 #include "CoreFactory.hh"
 #include "ILinkListener.hh"
-#include "GNetSocketDriver.hh"
+//#include "GNetSocketDriver.hh"
 #include "Serializer.hh"
 #include "BinaryArchive.hh"
 #include "LinkEvent.hh"
@@ -198,18 +198,19 @@ TcpLink::process_auth(const WRID &uuid)
   string secret;
   config->get_value("networking/secret", secret);
 
+  int hash_len = g_checksum_type_get_length(G_CHECKSUM_SHA256);
+
   WRID random = byte_stream.get_uuid();
   gchar *username = byte_stream.get_string();
-  guint8 *otherdigest = byte_stream.get_raw(GNET_SHA_HASH_LENGTH);
+  guint8 *other_hash = byte_stream.get_raw(hash_len);
 
   string auth = random.str() + ":" + uuid.str() + ":" + string(username) + ":" + secret;
-  GSHA *sha = gnet_sha_new(auth.c_str(), auth.length());
-  gchar *mydigest = gnet_sha_get_digest(sha);
+  char *hash = g_compute_checksum_for_data (G_CHECKSUM_SHA256, (const guchar*) auth.c_str(), auth.length());
 
-  if (memcmp(otherdigest, mydigest, GNET_SHA_HASH_LENGTH) != 0)
+  if (memcmp(hash, other_hash, hash_len) != 0)
     {
-      gnet_sha_delete(sha);
-
+      g_free(hash);
+  
       throw LinkException("Auth failed");
     }
   else
@@ -221,7 +222,7 @@ TcpLink::process_auth(const WRID &uuid)
         }
     }
 
-  gnet_sha_delete(sha);
+  g_free(hash);
 
   TRACE_EXIT();
 }
@@ -294,18 +295,20 @@ TcpLink::send_auth()
   config->get_value("networking/username", username);
   config->get_value("networking/secret", secret);
 
+  int hash_len = g_checksum_type_get_length(G_CHECKSUM_SHA256);
+  
   WRID random_id;
   string random = random_id.str();
   string auth = random + ":" + link_id.str() + ":" + username + ":" + secret;
-  GSHA *sha = gnet_sha_new(auth.c_str(), auth.length());
-  gchar *digest = gnet_sha_get_digest(sha);
+
+  char *hash = g_compute_checksum_for_data(G_CHECKSUM_SHA256, (const guchar*) auth.c_str(), auth.length());
 
   random_id.raw();
 
   int size = ( 32 +                     // header
                WRID::RAW_LENGTH +
                username.length() + 1 +  // username
-               GNET_SHA_HASH_LENGTH);   // digest
+               hash_len);   // digest
 
 
   try
@@ -322,9 +325,9 @@ TcpLink::send_auth()
 
       header.put_uuid(random);              // Random ID
       header.put_string(username);
-      header.put_raw(GNET_SHA_HASH_LENGTH, (guint8 *)digest);
+      header.put_raw(hash_len, (guint8 *)hash);
 
-      gnet_sha_delete(sha);
+      g_free(hash);
 
       socket->write(header.get_data(), header.get_offset(), bytes_written);
       if (bytes_written != header.get_offset() ||

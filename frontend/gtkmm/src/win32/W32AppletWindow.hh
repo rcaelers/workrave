@@ -1,6 +1,6 @@
 // AppletWindow.hh --- Applet window
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2009, 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -70,11 +70,25 @@ public:
 private:
   HWND get_applet_window();
 
+  static DWORD WINAPI run_event_pipe_static(LPVOID);
+
+private:
+  void run_event_pipe();
+
   HWND applet_window;
   bool menu_sent;
+
+  bool local_menu_ready;
+  AppletHeartbeatData local_heartbeat_data;
+  AppletMenuData local_menu_data;
+  HWND local_applet_window;
+  
   AppletHeartbeatData heartbeat_data;
   AppletMenuData menu_data;
-
+  CRITICAL_SECTION heartbeat_data_lock;
+  HANDLE heartbeat_data_event;
+  HANDLE thread_handle;
+  volatile DWORD thread_id;
 };
 
 #endif // W32APPLETWINDOW_HH

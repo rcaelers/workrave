@@ -1,6 +1,6 @@
 // NetworkPreferencesPage.hh --- Preferences for network
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -71,6 +71,7 @@ private:
   void update_peers();
 
   void remove_peer(const Gtk::TreeModel::iterator &iter);
+  void parse_peers(const std::string &peer, std::string &hostname, std::string &port);
 
   workrave::INetwork *network;
 
@@ -87,8 +88,8 @@ private:
 
   struct ModelColumns : public Gtk::TreeModelColumnRecord
   {
-    Gtk::TreeModelColumn<std::string> hostname;
-    Gtk::TreeModelColumn<std::string> port;
+    Gtk::TreeModelColumn<Glib::ustring> hostname;
+    Gtk::TreeModelColumn<Glib::ustring> port;
 
     ModelColumns()
     {

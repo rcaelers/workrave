@@ -1,9 +1,12 @@
 Compiling Workrave for Windows
 ******************************
 
-The Windows version of Workrave is cross compiled on Linux. This
-document describes how to setup a cross compile environment and how to
-compile Workrave in four easy steps:
+The Windows version of Workrave can be compiled (and debugged!) using Visual 
+Studio (including Express Edition) on windows, or cross compiled on Linux. 
+
+To build on windows, see README in build/cmake. This document (which is a
+little outdated) describes how to setup a cross compile environment and how
+to compile Workrave in four easy steps:
 
 1. Installing MinGW cross compiler
 2. Installing 3rd party packages

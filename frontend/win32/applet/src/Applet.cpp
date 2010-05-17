@@ -57,26 +57,26 @@ return TRUE;
 }
 
 STDAPI
-DllCanUnloadNow(void)
+DllCanUnloadNow()
 {
 return (g_DllRefCount ? S_FALSE : S_OK);
 }
 
 
 STDAPI
-DllGetClassObject(  REFCLSID rclsid,
-                    REFIID riid,
-                    LPVOID *ppReturn)
+DllGetClassObject(REFCLSID rclsid,
+                  REFIID riid,
+                  LPVOID *ppReturn)
 {
   *ppReturn = NULL;
 
   //if we don't support this classid, return the proper error code
-  if(   !IsEqualCLSID(rclsid, CLSID_WorkraveDeskBand))
+  if (!IsEqualCLSID(rclsid, CLSID_WorkraveDeskBand))
     return CLASS_E_CLASSNOTAVAILABLE;
 
   //create a CClassFactory object and check it for validity
   CClassFactory *pClassFactory = new CClassFactory(rclsid);
-  if(NULL == pClassFactory)
+  if (NULL == pClassFactory)
     return E_OUTOFMEMORY;
 
   //get the QueryInterface return for our return value
@@ -93,7 +93,7 @@ DllGetClassObject(  REFCLSID rclsid,
 
 
 static void
-ClearDeskBandCache(void)
+ClearDeskBandCache()
 {
 /*
 Remove the cache of the deskbands on Windows 2000. This will cause the new
@@ -105,7 +105,7 @@ up. See KB article Q214842 for more information on this.
   LPWSTR   pwszCATID;
 
   StringFromCLSID(CATID_DeskBand, &pwszCATID);
-  if(pwszCATID)
+  if (pwszCATID)
     {
 #ifdef UNICODE
       lstrcpy(szCATID, pwszCATID);
@@ -131,7 +131,7 @@ up. See KB article Q214842 for more information on this.
 
 }
 
-STDAPI DllUnregisterServer(void)
+STDAPI DllUnregisterServer()
 {
   RegisterComCat(CLSID_WorkraveDeskBand, CATID_DeskBand, FALSE);
   RegisterServer(CLSID_WorkraveDeskBand, TEXT("Workrave"), FALSE);
@@ -142,14 +142,14 @@ STDAPI DllUnregisterServer(void)
 
 
 
-STDAPI DllRegisterServer(void)
+STDAPI DllRegisterServer()
 {
   //Register the desk band object.
-  if(!RegisterServer(CLSID_WorkraveDeskBand, TEXT("Workrave"), TRUE))
+  if (!RegisterServer(CLSID_WorkraveDeskBand, TEXT("Workrave"), TRUE))
     return SELFREG_E_CLASS;
 
 //Register the component categories for the desk band object.
-  if(!RegisterComCat(CLSID_WorkraveDeskBand, CATID_DeskBand, TRUE))
+  if (!RegisterComCat(CLSID_WorkraveDeskBand, CATID_DeskBand, TRUE))
     return SELFREG_E_CLASS;
 
   ClearDeskBandCache();
@@ -181,7 +181,7 @@ RegisterServer(CLSID clsid, LPTSTR lpszTitle, BOOL reg)
   //get the CLSID in string form
   StringFromIID(clsid, &pwsz);
 
-  if(pwsz)
+  if (pwsz)
     {
 #ifdef UNICODE
       lstrcpy(szCLSID, pwsz);
@@ -226,7 +226,7 @@ RegisterServer(CLSID clsid, LPTSTR lpszTitle, BOOL reg)
                                      &hKey,
                                      &dwDisp);
 
-          if(NOERROR == lResult)
+          if (NOERROR == lResult)
             {
               TCHAR szData[MAX_PATH];
 
@@ -260,7 +260,7 @@ RegisterServer(CLSID clsid, LPTSTR lpszTitle, BOOL reg)
   osvi.dwOSVersionInfoSize = sizeof(osvi);
   GetVersionEx(&osvi);
 
-  if(VER_PLATFORM_WIN32_NT == osvi.dwPlatformId)
+  if (VER_PLATFORM_WIN32_NT == osvi.dwPlatformId)
     {
       lstrcpy( szSubKey, TEXT("Software\\Microsoft\\Windows\\CurrentVersion\\Shell Extensions\\Approved"));
 
@@ -274,7 +274,7 @@ RegisterServer(CLSID clsid, LPTSTR lpszTitle, BOOL reg)
                                  &hKey,
                                  &dwDisp);
 
-      if(NOERROR == lResult)
+      if (NOERROR == lResult)
         {
           TCHAR szData[MAX_PATH];
 
@@ -318,7 +318,7 @@ RegisterComCat(CLSID clsid, CATID CatID, BOOL reg)
                           IID_ICatRegister,
                           (LPVOID*)&pcr);
 
-  if(SUCCEEDED(hr))
+  if (SUCCEEDED(hr))
     {
       if (reg)
         {

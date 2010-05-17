@@ -27,8 +27,7 @@ static const char rcsid[] = "$Id$";
 #include "debug.hh"
 #include <assert.h>
 #include <string.h>
-
-#include <gnet.h>
+#include <stdlib.h>
 
 #include "LinkRouter.hh"
 
@@ -73,21 +72,38 @@ LinkRouter::init()
 
 //! Connect to a remote workrave
 void
-LinkRouter::connect(string uri)
+LinkRouter::connect(string url)
 {
-  TRACE_ENTER_MSG("LinkRouter::connect", uri);
-  GURI *guri = gnet_uri_new(uri.c_str());
-
-  if (guri != NULL)
+  TRACE_ENTER_MSG("LinkRouter::connect", url);
+  std::string::size_type pos = url.find("://");
+  std::string hostport;
+      
+  if (pos == std::string::npos)
     {
-      if (strcmp(guri->scheme, "tcp") == 0)
-        {
-          string linkid;
-          connect(guri->hostname, guri->port, linkid);
-        }
-
-      gnet_uri_delete(guri);
+      hostport = url;
     }
+  else
+    {
+      hostport = url.substr(pos + 3);
+    }
+  
+  pos = hostport.find(":");
+  std::string host;
+  std::string port = "0";
+  
+  if (pos == std::string::npos)
+    {
+      host = hostport;
+    }
+  else
+    {
+      host = hostport.substr(0, pos);
+      port = hostport.substr(pos + 1);
+    }
+  
+  string linkid;
+  connect(host.c_str(), atoi(port.c_str()), linkid);
+
   TRACE_EXIT();
 }
 

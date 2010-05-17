@@ -1,6 +1,6 @@
 // SoundPlayer.hh
 //
-// Copyright (C) 2002, 2003, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2006, 2007, 2008, 2009, 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -26,6 +26,7 @@
 #include <map>
 
 class ISoundDriver;
+class IMixer;
 
 class SoundPlayer
 {
@@ -38,6 +39,7 @@ public:
 
   enum SoundEvent
     {
+      SOUND_MIN = 0,
       SOUND_BREAK_PRELUDE = 0,
       SOUND_BREAK_IGNORED,
       SOUND_REST_BREAK_STARTED,
@@ -48,7 +50,7 @@ public:
       SOUND_EXERCISE_ENDED,
       SOUND_EXERCISES_ENDED,
       SOUND_EXERCISE_STEP,
-      SOUND_EXERCISE_MAX
+      SOUND_MAX
     };
 
   enum SoundCapability
@@ -56,6 +58,7 @@ public:
       SOUND_CAP_EVENTS = 0,
       SOUND_CAP_EDIT,
       SOUND_CAP_VOLUME,
+      SOUND_CAP_MUTE,
     };
 
 
@@ -87,6 +90,7 @@ public:
 
   void init();
   bool capability(SoundCapability cap);
+  bool set_mute(bool on);
   
   bool get_sound_enabled(SoundEvent snd, bool &enabled);
   void set_sound_enabled(SoundEvent snd, bool enabled);
@@ -107,11 +111,13 @@ public:
   static const char *CFG_KEY_SOUND_VOLUME;
   static const char *CFG_KEY_SOUND_EVENTS;
   static const char *CFG_KEY_SOUND_EVENTS_ENABLED;
+  static const char *CFG_KEY_SOUND_MUTE;
 
-  static SoundRegistry sound_registry[SOUND_EXERCISE_MAX];
+  static SoundRegistry sound_registry[SOUND_MAX];
   
 private:  
   ISoundDriver *driver;
+  IMixer *mixer;
 };
 
 #endif // SOUNDPLAYER_HH

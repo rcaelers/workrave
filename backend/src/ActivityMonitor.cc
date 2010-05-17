@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2001 - 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2010 Rob Caelers <robc@krandor.nl>
 // Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
 // All rights reserved.
 //
@@ -138,6 +138,8 @@ ActivityMonitor::force_idle()
   if (activity_state != ACTIVITY_SUSPENDED)
     {
       activity_state = ACTIVITY_IDLE;
+      last_action_time.tv_sec = 0;
+      last_action_time.tv_usec = 0;
     }
   lock.unlock();
   TRACE_RETURN(activity_state);

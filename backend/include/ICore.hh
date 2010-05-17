@@ -1,6 +1,6 @@
 // ICore.hh --- The main controller interface
 //
-// Copyright (C) 2001 - 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2009 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -47,6 +47,14 @@ namespace workrave {
       OPERATION_MODE_SIZEOF
     };
 
+  enum UsageMode
+    {
+      //! Normal 'average' PC usage.
+      USAGE_MODE_NORMAL=0,
+
+      //! User is reading.
+      USAGE_MODE_READING,
+    };
 
   //! ID of a break.
   enum BreakId
@@ -58,6 +66,18 @@ namespace workrave {
       BREAK_ID_SIZEOF
     };
 
+    enum BreakHint
+      {
+        BREAK_HINT_NONE = 0,
+
+        // Break was started on user request
+        BREAK_HINT_USER_INITIATED = 1,
+
+        // Natural break.
+        BREAK_HINT_NATURAL_BREAK = 2,
+        
+      };
+      
 
   //! Main interface of the backend.
   class ICore
@@ -91,7 +111,7 @@ namespace workrave {
     virtual void heartbeat() = 0;
 
     //! Force a break of the specified type.
-    virtual void force_break(BreakId id, bool initiated_by_user) = 0;
+    virtual void force_break(BreakId id, BreakHint break_hint) = 0;
 
     //! Return the break interface of the specified type.
     virtual IBreak *get_break(BreakId id) = 0;
@@ -110,6 +130,12 @@ namespace workrave {
 
     //! Set the operational mode.
     virtual OperationMode set_operation_mode(OperationMode mode, bool persistent = true) = 0;
+
+    //! Return the current usage mode.
+    virtual UsageMode get_usage_mode() = 0;
+
+    //! Set the usage mode.
+    virtual void set_usage_mode(UsageMode mode, bool persistent = true) = 0;
 
     //! Set the callback for activity monitor events.
     virtual void set_core_events_listener(ICoreEventListener *l) = 0;

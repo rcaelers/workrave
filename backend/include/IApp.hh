@@ -1,6 +1,6 @@
 // IApp.hh
 //
-// Copyright (C) 2001 - 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2008, 2010 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -58,7 +58,7 @@ namespace workrave
     virtual void create_prelude_window(BreakId break_id) = 0;
 
     //! Create a break window for specified break type.
-    virtual void create_break_window(BreakId break_id, bool ignorable) = 0;
+    virtual void create_break_window(BreakId break_id, BreakHint break_hint) = 0;
 
     //! Hide the break or prelude window.
     virtual void hide_break_window() = 0;

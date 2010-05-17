@@ -1,6 +1,9 @@
-This document gives some hints on how to compile Workrave on Windows.
+This document gives some hints on how to compile Workrave on Windows
+using Microsoft Visual Studio (2008 Express Edition).
 
-The minimal requirement is gtkmm and cmake.
+The minimal requirement is gtkmm, Directx SDK and cmake.
+
+Only networking is currently not easy to build on Windows.
 
 
 Install Gtkmm (required)
@@ -9,6 +12,14 @@ Install Gtkmm (required)
 - Download and install gtkmm:
 
   File: ftp://ftp.gnome.org/pub/GNOME/binaries/win32/gtkmm/2.16/gtkmm-win32-devel-2.16.0-4.exe
+
+
+Install DirectX SDK (required)
+=============================
+
+- Download and install DirectX 9 SDK:
+
+  Site: http://msdn.microsoft.com/en-us/directx/default.aspx
 
 
 Install CMake 2.6 (required)
@@ -79,8 +90,8 @@ Install Python/Cheetah (optional/experimental, needed for dbus)
   - Run 'easy_install-2.6-script.py'
 
 
-Install DBus (optional, needed for dbus)
-========================================
+Install DBus (optional/experimental, needed for dbus)
+=====================================================
 
 - Download and extract libiconv
 
@@ -130,4 +141,5 @@ Compiling Workrave
 
   - Open Workrave solution in visual studio (location in workrave-build directory)
   - Build
+
   

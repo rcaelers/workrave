@@ -1,6 +1,6 @@
 // W32DirectSoundPlayer.cc --- Sound player
 //
-// Copyright (C) 2002 - 2009 Raymond Penners & Ray Satiro
+// Copyright (C) 2002 - 2010 Raymond Penners & Ray Satiro
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -335,12 +335,14 @@ W32DirectSoundPlayer::play()
           int volume = 100;
           CoreFactory::get_configurator()->get_value(SoundPlayer::CFG_KEY_SOUND_VOLUME, volume);
 
+          direct_sound->AddRef();
           SoundClip *clip = new SoundClip(direct_sound, sound_filename);
           clip->init();
           clip->set_volume(volume);
           clip->play(true);
 
           delete clip;
+          direct_sound->Release();
         }
       catch(Exception e)
         {
@@ -430,7 +432,8 @@ SoundClip::init()
         {
           throw Exception(string("IDirectSoundNotify_SetPositionNotify") + DXGetErrorString8(hr));
         }
-      
+      notify->Release();
+
       fill_buffer();
     }
   catch(Exception)
@@ -634,14 +637,14 @@ WaveFile::reset_file()
 {
   if (-1 == mmioSeek(mmio, parent.dwDataOffset + sizeof(FOURCC), SEEK_SET))
     {
-      throw Exception("mmioAscend");
+      throw Exception("mmioSeek");
     }
 
   memset((void *)&child, 0, sizeof(child));
   child.ckid = mmioFOURCC('d', 'a', 't', 'a');
   if (0 != mmioDescend(mmio, &child, &parent, MMIO_FINDCHUNK))
     {
-      throw Exception("mmioAscend");
+      throw Exception("mmioDescend");
     }
 }
 
@@ -676,6 +679,8 @@ WaveFile::read(BYTE *buffer, size_t size)
       mmioInfo.pchNext = mmioInfo.pchEndRead;
 
     } while (pos < (int)size && mmioAdvance(mmio, &mmioInfo, MMIO_READ) == 0);
+
+  mmioSetInfo(mmio, &mmioInfo, 0); 
 
   return pos;
 }

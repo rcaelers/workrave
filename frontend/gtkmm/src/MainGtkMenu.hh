@@ -30,6 +30,7 @@
 #include <gtkmm/iconfactory.h>
 #include <gtkmm/radioaction.h>
 #include <gtkmm/uimanager.h>
+#include <gtkmm/menu.h>
 
 #include "Menu.hh"
 
@@ -53,13 +54,14 @@ public:
   virtual void init();
   virtual void add_accel(Gtk::Window &window);
   virtual void popup(const guint button, const guint activate_time);
-  virtual void resync(workrave::OperationMode mode, bool show_log);
+  virtual void resync(workrave::OperationMode mode, workrave::UsageMode usage, bool show_log);
 
 private:
   void on_menu_network_log();
   void on_menu_normal();
   void on_menu_suspend();
   void on_menu_quiet();
+  void on_menu_reading();
 
 #ifdef PLATFORM_OS_OSX
   void osx_popup_hack_connect(Gtk::Menu *menu);

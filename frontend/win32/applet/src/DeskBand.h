@@ -32,8 +32,6 @@
 #define DB_MIN_SIZE_X   10
 #define DB_MIN_SIZE_Y   10
 
-
-
 class TimerBox;
 
 class CDeskBand : public IDeskBand2,
@@ -48,16 +46,16 @@ protected:
 public:
   CDeskBand();
   ~CDeskBand();
-
+  
   //IUnknown methods
   STDMETHODIMP QueryInterface(REFIID, LPVOID*);
   STDMETHODIMP_(DWORD) AddRef();
   STDMETHODIMP_(DWORD) Release();
-
+  
   //IOleWindow methods
   STDMETHOD (GetWindow) (HWND*);
   STDMETHOD (ContextSensitiveHelp) (BOOL);
-
+  
   //IDockingWindow methods
   STDMETHOD (ShowDW) (BOOL fShow);
   STDMETHOD (CloseDW) (DWORD dwReserved);
@@ -73,7 +71,7 @@ public:
 
   //IInputObject methods
   STDMETHOD (UIActivateIO) (BOOL, LPMSG);
-  STDMETHOD (HasFocusIO) (void);
+  STDMETHOD (HasFocusIO) ();
   STDMETHOD (TranslateAcceleratorIO) (LPMSG);
 
   //IObjectWithSite methods
@@ -82,7 +80,7 @@ public:
 
   //IPersistStream methods
   STDMETHOD (GetClassID) (LPCLSID);
-  STDMETHOD (IsDirty) (void);
+  STDMETHOD (IsDirty) ();
   STDMETHOD (Load) (LPSTREAM);
   STDMETHOD (Save) (LPSTREAM, BOOL);
   STDMETHOD (GetSizeMax) (ULARGE_INTEGER*);
@@ -108,15 +106,15 @@ private:
 
 private:
   void FocusChange(BOOL);
-  LRESULT OnKillFocus(void);
-  LRESULT OnSetFocus(void);
+  LRESULT OnKillFocus();
+  LRESULT OnSetFocus();
   static LRESULT CALLBACK WndProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam);
   LRESULT OnCommand(WPARAM wParam, LPARAM lParam);
   LRESULT OnCopyData(PCOPYDATASTRUCT data);
   LRESULT OnSize(LPARAM);
   LRESULT OnTimer(WPARAM wParam, LPARAM lParam);
   LRESULT OnWindowPosChanging(WPARAM wParam, LPARAM lParam);
-  BOOL RegisterAndCreateWindow(void);
+  BOOL RegisterAndCreateWindow();
 };
 
 inline HWND
