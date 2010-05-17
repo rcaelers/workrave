@@ -20,17 +20,17 @@ BUILDDIR="$TOPDIR/build"
 SF_URL="http://surfnet.dl.sourceforge.net/sourceforge"
 GNU_URL="ftp://ftp.gnu.org/gnu"
 
-GLIB_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/glib/2.22/"
-GLIB_FILES="glib_2.22.3-1_win32.zip glib-dev_2.22.3-1_win32.zip"
+GLIB_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/glib/2.20/"
+GLIB_FILES=" glib_2.20.5-1_win32.zip glib-dev_2.20.5-1_win32.zip"
 
-GTK_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/gtk+/2.18/"
-GTK_FILES="gtk+_2.18.5-1_win32.zip gtk+-dev_2.18.5-1_win32.zip"
+GTK_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/gtk+/2.16/"
+GTK_FILES="gtk+_2.16.6-2_win32.zip gtk+-dev_2.16.6-2_win32.zip"
 
-PANGO_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/pango/1.26"
-PANGO_FILES="pango_1.26.1-1_win32.zip pango-dev_1.26.1-1_win32.zip"
+PANGO_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/pango/1.24"
+PANGO_FILES="pango_1.24.5-1_win32.zip pango-dev_1.24.5-1_win32.zip"
 
-ATK_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/atk/1.28/"
-ATK_FILES="atk_1.28.0-1_win32.zip atk-dev_1.28.0-1_win32.zip"
+ATK_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/atk/1.24/"
+ATK_FILES="atk_1.24.0-1_win32.zip atk-dev_1.24.0-1_win32.zip"
 
 # http://www.dgrigoriadis.net/post/2004/06/26/DirectXDevPak-for-Dev-Cpp.aspx
 # http://www.dgrigoriadis.net/file.axd?file=2009%2f2%2fDirectX90c.DevPak
@@ -39,7 +39,7 @@ DIRECTX_URL="http://www.g-productions.net/files/devpak/"
 DIRECTX_FILE="DirectX90c.DevPak"
 
 DEP_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/dependencies/"
-DEP_FILES="cairo_1.8.8-3_win32.zip cairo-dev_1.8.8-3_win32.zip jpeg_7-1_win32.zip jpeg-dev_7-1_win32.zip libpng_1.2.40-1_win32.zip libpng-dev_1.2.40-1_win32.zip zlib-1.2.3.zip zlib-dev-1.2.3.zip libtiff-dev_3.9.1-1_win32.zip libtiff_3.9.1-1_win32.zip  libiconv-1.9.1.bin.woe32.zip gettext-runtime-dev-0.17-1.zip gettext-runtime-0.17-1.zip freetype-dev_2.3.11-1_win32.zip freetype_2.3.11-1_win32.zip fontconfig_2.8.0-1_win32.zip fontconfig-dev_2.8.0-1_win32.zip expat-dev_2.0.1-1_win32.zip expat_2.0.1-1_win32.zip"
+DEP_FILES="cairo_1.8.10-1_win32.zip cairo-dev_1.8.10-1_win32.zip jpeg_7-1_win32.zip jpeg-dev_7-1_win32.zip libpng_1.4.0-1_win32.zip libpng-dev_1.4.0-1_win32.zip zlib-1.2.3.zip zlib-dev-1.2.3.zip libtiff-dev_3.9.1-1_win32.zip libtiff_3.9.1-1_win32.zip libiconv-1.9.1.bin.woe32.zip gettext-runtime-dev-0.17-1.zip gettext-runtime-0.17-1.zip freetype-dev_2.3.11-1_win32.zip freetype_2.3.11-1_win32.zip fontconfig_2.8.0-1_win32.zip fontconfig-dev_2.8.0-1_win32.zip expat-dev_2.0.1-1_win32.zip expat_2.0.1-1_win32.zip"
 
 PKGCONFIG_URL="http://pkgconfig.freedesktop.org/releases/"
 PKGCONFIG_FILES="pkg-config-0.23.tar.gz"
@@ -49,17 +49,17 @@ GNOME_URL="http://ftp.gnome.org/pub/GNOME/sources/"
 
 UUID_URL=$SF_URL/e2fsprogs/
 SIGCPPSRC_URL=$GNOME_URL/libsigc++/2.2/
-GLIBMMSRC_URL=$GNOME_URL/glibmm/2.22/
-GTKMMSRC_URL=$GNOME_URL/gtkmm/2.18/
-PANGOMMSRC_URL=$GNOME_URL/pangomm/2.26/
+GLIBMMSRC_URL=$GNOME_URL/glibmm/2.20/
+GTKMMSRC_URL=$GNOME_URL/gtkmm/2.16/
+PANGOMMSRC_URL=$GNOME_URL/pangomm/2.24/
 CAIROMMSRC_URL=http://cairographics.org/releases/
 
 GNETSRC_FILES="gnet-2.0.8.tar.gz"
-GTKMMSRC_FILES="gtkmm-2.18.2.tar.bz2"
-GLIBMMSRC_FILES="glibmm-2.22.1.tar.bz2"
-SIGCPPSRC_FILES="libsigc++-2.2.4.tar.bz2"
-PANGOMMSRC_FILES="pangomm-2.26.0.tar.bz2"
-CAIROMMSRC_FILES="cairomm-1.8.4.tar.gz"
+GTKMMSRC_FILES="gtkmm-2.16.0.tar.bz2"
+GLIBMMSRC_FILES="glibmm-2.20.2.tar.bz2"
+SIGCPPSRC_FILES="libsigc++-2.2.3.tar.bz2"
+PANGOMMSRC_FILES="pangomm-2.24.0.tar.bz2"
+CAIROMMSRC_FILES="cairomm-1.8.0.tar.gz"
 UUID_FILES="e2fsprogs-libs-1.40.5.tar.gz"
 
 BINUTILS=binutils-2.16.91-20060119-1
@@ -268,7 +268,7 @@ build_pkgconfig()
 	fi
         
 	echo "Building pkgconfig"
-        (   . $TOPDIR/mingw32-debian -gtk2.14
+        (   . $TOPDIR/mingw32 -gtk2.14
             make &> make.log
         )
 	if test $? -ne 0; then
@@ -279,7 +279,7 @@ build_pkgconfig()
         
 	cd "$BUILDDIR/pkgconfig-$TARGET"
 	echo "Installing pkgconfig"
-        (   . $TOPDIR/mingw32-debian -gtk2.14
+        (   . $TOPDIR/mingw32 -gtk2.14
             make install &> make-install.log
         )
         if test $? -ne 0; then
@@ -307,7 +307,7 @@ build_sigcpp()
         cd "$BUILDDIR/libsigc++-$TARGET"
 
         echo "Configuring Libsigc++"
-        (   . $TOPDIR/mingw32-debian -gtk2.14
+        (   . $TOPDIR/mingw32 -gtk2.14
             "$BUILDDIR/$1/configure" -v \
 		--prefix="$PREFIX" --disable-shared --disable-static \
                 --target=$TARGET --host=$TARGET --build=i586-linux \
@@ -320,7 +320,7 @@ build_sigcpp()
 	fi
         
 	echo "Building Libsigc++"
-        (   . $TOPDIR/mingw32-debian -gtk2.14
+        (   . $TOPDIR/mingw32 -gtk2.14
             make &> make.log
         )
 	if test $? -ne 0; then
@@ -331,7 +331,7 @@ build_sigcpp()
         
 	cd "$BUILDDIR/libsigc++-$TARGET"
 	echo "Installing Libsigc++"
-        (   . $TOPDIR/mingw32-debian -gtk2.14
+        (   . $TOPDIR/mingw32 -gtk2.14
             make -k install &> make-install.log
         )
 
@@ -359,7 +359,7 @@ build_glibmm()
 	cd "$BUILDDIR/libglibmm-$TARGET"
 
         echo "Configuring Libglibmm"
-        (   . $TOPDIR/mingw32-debian -gtk2.14
+        (   . $TOPDIR/mingw32 -gtk2.14
             "$BUILDDIR/$1/configure" -v \
 		--prefix="$PREFIX" --disable-shared --enable-static \
                 --target=$TARGET --host=$TARGET --build=i586-linux \
@@ -372,7 +372,7 @@ build_glibmm()
 	fi
         
 	echo "Building Libglibmm"
-        (   . $TOPDIR/mingw32-debian -gtk2.14
+        (   . $TOPDIR/mingw32 -gtk2.14
             make &> make.log
         )
 	if test $? -ne 0; then
@@ -383,7 +383,7 @@ build_glibmm()
         
 	cd "$BUILDDIR/libglibmm-$TARGET"
 	echo "Installing Libglibmm"
-        (   . $TOPDIR/mingw32-debian -gtk2.14
+        (   . $TOPDIR/mingw32 -gtk2.14
             make install &> make-install.log
         )
         if test $? -ne 0; then
@@ -410,7 +410,7 @@ build_cairomm()
 	cd "$BUILDDIR/libcairomm-$TARGET"
 
         echo "Configuring Libcairomm"
-        (   . $TOPDIR/mingw32-debian -gtk2.14
+        (   . $TOPDIR/mingw32 -gtk2.14
             "$BUILDDIR/$1/configure" -v \
 		--prefix="$PREFIX" --disable-shared --enable-static \
                 --target=$TARGET --host=$TARGET --build=i586-linux \
@@ -430,7 +430,7 @@ build_cairomm()
 	fi
         
 	echo "Building Libcairomm"
-        (   . $TOPDIR/mingw32-debian -gtk2.14
+        (   . $TOPDIR/mingw32 -gtk2.14
             make &> make.log
         )
 	if test $? -ne 0; then
@@ -441,7 +441,7 @@ build_cairomm()
         
 	cd "$BUILDDIR/libcairomm-$TARGET"
 	echo "Installing Libcairomm"
-        (   . $TOPDIR/mingw32-debian -gtk2.14
+        (   . $TOPDIR/mingw32 -gtk2.14
             make install &> make-install.log
         )
         if test $? -ne 0; then
@@ -468,7 +468,7 @@ build_pangomm()
 	cd "$BUILDDIR/libpangomm-$TARGET"
 
         echo "Configuring Libpangomm"
-        (   . $TOPDIR/mingw32-debian -gtk2.14
+        (   . $TOPDIR/mingw32 -gtk2.14
             "$BUILDDIR/$1/configure" -v \
 		--prefix="$PREFIX" --disable-shared --enable-static \
                 --target=$TARGET --host=$TARGET --build=i586-linux \
@@ -488,7 +488,7 @@ build_pangomm()
 	fi
         
 	echo "Building Libpangomm"
-        (   . $TOPDIR/mingw32-debian -gtk2.14
+        (   . $TOPDIR/mingw32 -gtk2.14
             make &> make.log
         )
 	if test $? -ne 0; then
@@ -499,7 +499,7 @@ build_pangomm()
         
 	cd "$BUILDDIR/libpangomm-$TARGET"
 	echo "Installing Libpangomm"
-        (   . $TOPDIR/mingw32-debian -gtk2.14
+        (   . $TOPDIR/mingw32 -gtk2.14
             make install &> make-install.log
         )
         if test $? -ne 0; then
@@ -531,7 +531,7 @@ build_gtkmm()
 	cd "$BUILDDIR/libgtkmm-$TARGET"
 
         echo "Configuring Libgtkmm"
-        (   . $TOPDIR/mingw32-debian -gtk2.14
+        (   . $TOPDIR/mingw32 -gtk2.14
             $BUILDDIR/$1/autogen.sh
             "$BUILDDIR/$1/configure" -v \
 		--prefix="$PREFIX" --disable-shared --enable-static \
@@ -552,7 +552,7 @@ build_gtkmm()
 	fi
         
 	echo "Building Libgtkmm"
-        (   . $TOPDIR/mingw32-debian -gtk2.14
+        (   . $TOPDIR/mingw32 -gtk2.14
             make &> make.log
         )
 	if test $? -ne 0; then
@@ -563,7 +563,7 @@ build_gtkmm()
         
 	cd "$BUILDDIR/libgtkmm-$TARGET"
 	echo "Installing Libgtkmm"
-        (   . $TOPDIR/mingw32-debian -gtk2.14
+        (   . $TOPDIR/mingw32 -gtk2.14
             make install &> make-install.log
         )
         if test $? -ne 0; then
@@ -589,7 +589,7 @@ build_gnet()
         cp -a config.h.win32 config.h
         
 	echo "Building Libgnet"
-        (   . $TOPDIR/mingw32-debian -gtk2.14
+        (   . $TOPDIR/mingw32 -gtk2.14
             export CC='i586-mingw32msvc-gcc -mms-bitfields -mno-cygwin'
             export CXX='i586-mingw32msvc-g++ -mms-bitfields -mno-cygwin'
             cd src
@@ -630,7 +630,7 @@ configure_bfd()
 	mkdir "binutils-$TARGET"-bfd
 	cd "binutils-$TARGET"-bfd
 	echo "Configuring bfd"
-        (   . $TOPDIR/mingw32-debian -gtk2.14
+        (   . $TOPDIR/mingw32 -gtk2.14
 	    "$BUILDDIR/$BINUTILS/bfd/configure" --prefix="$PREFIX" --host=$TARGET --target=$TARGET --enable-install-libbfd --enable-install-libiberty=yes CFLAGS=-g &> configure.log
         )
 	cd "$TOPDIR"
@@ -640,7 +640,7 @@ build_bfd()
 {
 	cd "$BUILDDIR/binutils-$TARGET"-bfd
 	echo "Building bfd"
-        (   . $TOPDIR/mingw32-debian -gtk2.14
+        (   . $TOPDIR/mingw32 -gtk2.14
 	    make &> make.log
         )
         if test $? -ne 0; then
@@ -654,7 +654,7 @@ install_bfd()
 {
 	cd "$BUILDDIR/binutils-$TARGET"-bfd
 	echo "Installing bfd"
-        (   . $TOPDIR/mingw32-debian -gtk2.14
+        (   . $TOPDIR/mingw32 -gtk2.14
 	    make install &> make-install.log
         )
 	if test $? -ne 0; then
@@ -677,7 +677,7 @@ build_uuid()
 	cd "$BUILDDIR/libuuid-$TARGET"
 
         echo "Configuring e2fsprogs-libs"
-        (   . $TOPDIR/mingw32-debian -gtk2.14
+        (   . $TOPDIR/mingw32 -gtk2.14
             "$BUILDDIR/$1/configure" -v \
 		--prefix="$PREFIX" --disable-shared --enable-static \
                 --target=$TARGET --host=$TARGET --build=i586-linux \
@@ -692,7 +692,7 @@ build_uuid()
 	fi
         
 	echo "Building Libuuid"
-        (   . $TOPDIR/mingw32-debian -gtk2.14
+        (   . $TOPDIR/mingw32 -gtk2.14
             make -C lib/uuid &> make.log
         )
 	if test $? -ne 0; then
@@ -703,7 +703,7 @@ build_uuid()
         
 	cd "$BUILDDIR/libuuid-$TARGET"
 	echo "Installing Libuuid"
-        (   . $TOPDIR/mingw32-debian -gtk2.14
+        (   . $TOPDIR/mingw32 -gtk2.14
             #make install &> make-install.log
         )
         if test $? -ne 0; then
@@ -723,20 +723,20 @@ fix_pkgconfig
 extract_package "pkg-config-0.23" "pkg-config-0.23.tar.gz" 
 build_pkgconfig "pkg-config-0.23"
 
-extract_package "libsigc++-2.2.4" "libsigc++-2.2.4.tar.bz2"
-build_sigcpp "libsigc++-2.2.4"
+extract_package "libsigc++-2.2.3" "libsigc++-2.2.3.tar.bz2"
+build_sigcpp "libsigc++-2.2.3"
 
-extract_package "glibmm-2.22.1" "glibmm-2.22.1.tar.bz2"
-build_glibmm "glibmm-2.22.1"
+extract_package "glibmm-2.20.2" "glibmm-2.20.2.tar.bz2"
+build_glibmm "glibmm-2.20.2"
 
-extract_package "cairomm-1.8.4" "cairomm-1.8.4.tar.gz"
-build_cairomm "cairomm-1.8.4"
+extract_package "cairomm-1.8.0" "cairomm-1.8.0.tar.gz"
+build_cairomm "cairomm-1.8.0"
 
-extract_package "pangomm-2.26.0" "pangomm-2.26.0.tar.bz2"
-build_pangomm "pangomm-2.26.0"
+extract_package "pangomm-2.24.0" "pangomm-2.24.0.tar.bz2"
+build_pangomm "pangomm-2.24.0"
 
-extract_package "gtkmm-2.18.2" "gtkmm-2.18.2.tar.bz2"
-build_gtkmm "gtkmm-2.18.2"
+extract_package "gtkmm-2.16.0" "gtkmm-2.16.0.tar.bz2"
+build_gtkmm "gtkmm-2.16.0"
 
 extract_package "gnet-2.0.8" "gnet-2.0.8.tar.gz"
 build_gnet "gnet-2.0.8"

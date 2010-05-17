@@ -3,6 +3,8 @@
 ######################################################################
 BUILD_DATE=`date +"%Y%m%d"`
 
+GIT_URL=git@github.com:rcaelers/workrave.git
+
 TINDERBOX_HOME=${HOME}/src/tinderbox
 TINDERBOX_SNAPSHOTS_DIR=${TINDERBOX_HOME}/snapshots
 TINDERBOX_BIN_DIR=${TINDERBOX_SNAPSHOTS_DIR}/${BUILD_DATE}
@@ -28,14 +30,8 @@ WORKRAVE_TAG=v1_9
 #WORKRAVE_TAG=v1_9_0-no-networking
 #CONF_FLAGS = --quiet --disable-distribution
 
-#WORKRAVE_GIT_BRANCH_PREFIX=origin
-#WORKRAVE_GIT_BRANCH=bug791
-#WORKRAVE_TAG=bug791
-
 WORKRAVE_VERSION=`cat ${WORKRAVE_GIT_DIR}/configure.ac | grep AM_INIT_AUTOMAKE | cut -d ','  -f2 | cut -d' ' -f2 | cut -d')' -f1`
 WORKRAVE_PREVERSION=`cat ${WORKRAVE_GIT_DIR}/configure.ac | grep AM_INIT_AUTOMAKE | perl -ne ' $$_ =~ /.*([0-9]+).([0-9]+).([0-9]+)/ ; printf "%d.%d.%d.99", $$1, $$2, ($$3 - 1) '`
-
-GIT_URL=git@github.com:rcaelers/workrave.git
 
 unix2dos=perl -e 'while (<>) { s/$$/\r/; print; }'
 
@@ -48,7 +44,7 @@ usage:
 
 all: setup git-setup workrave-win32-all
 
-debug: workrave-win32-debug-build
+debug: workrave-win32-debug-setup
 
 init: 
 	mkdir -p ${TINDERBOX_BIN_DIR}
@@ -101,15 +97,17 @@ workrave-win32-build-original=\
 	   $$NM -nosC ${1}/frontend/gtkmm/src/workrave.exe >${1}/frontend/gtkmm/src/workrave.sym )
 
 workrave-win32-build=\
-	( cd ${1}; \
-          . ${HOME}/bin/vcvars32.sh; \
-          cd ${1}/common/win32/harpoon/src; \
+	( cd ${1}/common/win32/harpoonHelper/src; \
           mkdir Release; \
-	  ${WIN32_NMAKE} /f harpoon.mak CFG="harpoon - Win32 Release"; \
+	  cp -a ${TINDERBOX_HOME}/prebuilt/${3}/harpoonHelper.exe Release; \
+	  cd ${1}/common/win32/harpoon/src; \
+          mkdir Release; \
+	  cp -a ${TINDERBOX_HOME}/prebuilt/${3}/harpoon.dll Release; \
+	  cp -a ${TINDERBOX_HOME}/prebuilt/${3}64/harpoon64.dll Release; \
           cd ${1}/frontend/win32/applet/src; \
           mkdir Release; \
-	  cp -a ${TINDERBOX_HOME}/prebuilt/Release/workrave-applet.dll Release; \
-	  cp -a ${TINDERBOX_HOME}/prebuilt/Release64/workrave-applet.dll Release/workrave-applet64.dll ); \
+	  cp -a ${TINDERBOX_HOME}/prebuilt/${3}/workrave-applet.dll Release; \
+	  cp -a ${TINDERBOX_HOME}/prebuilt/${3}64/workrave-applet.dll Release/workrave-applet64.dll ); \
 	( cd ${1}; \
 	  . ${WIN32_MINGW_ENV}; \
 	  ./autogencross.sh ${CONF_FLAGS} ${2} && make WINDRES=$$WINDRES ; \
@@ -128,27 +126,30 @@ workrave-win32-setup=\
 	gzip -c ${1}/frontend/gtkmm/src/workrave.sym >${TINDERBOX_BIN_DIR}/workrave-win32-${WORKRAVE_TAG}-${BUILD_DATE}-${2}.sym.gz
 
 
-workrave-win32-dir: 
+workrave-win32-release-dir: 
 	$(call workrave-win32-dir,${WORKRAVE_GIT_DIR})
 
-workrave-win32-build: workrave-win32-dir
-	$(call workrave-win32-build,${WORKRAVE_GIT_DIR},--disable-debug)
+workrave-win32-release-build: workrave-win32-release-dir
+	$(call workrave-win32-build,${WORKRAVE_GIT_DIR},--disable-debug,Release)
 	$(call workrave-win32-strip,${WORKRAVE_GIT_DIR})
 
-workrave-win32-setup: workrave-win32-build
+workrave-win32-release-setup: workrave-win32-release-build
 	$(call workrave-win32-setup,${WORKRAVE_GIT_DIR},installer)
 
 workrave-win32-debug-dir: 
 	$(call workrave-win32-dir,${WORKRAVE_GIT_DIR})
 
 workrave-win32-debug-build: workrave-win32-debug-dir
-	$(call workrave-win32-build,${WORKRAVE_GIT_DIR},--enable-debug)
+	$(call workrave-win32-build,${WORKRAVE_GIT_DIR},--enable-debug,Debug)
+
+workrave-win32-debug-setup: workrave-win32-debug-build
+	$(call workrave-win32-setup,${WORKRAVE_GIT_DIR},debug-installer)
 	( cd ${WORKRAVE_GIT_DIR}/frontend/gtkmm/src; \
 	  zip ${TINDERBOX_BIN_DIR}/workrave-win32-${WORKRAVE_TAG}-${BUILD_DATE}-debug.zip workrave.exe )
 
 workrave-win32-all: \
-		workrave-win32-setup \
-		workrave-win32-debug-build 
+		workrave-win32-release-setup \
+		workrave-win32-debug-setup 
 
 ######################################################################
 # Source
