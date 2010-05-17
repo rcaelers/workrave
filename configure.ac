@@ -627,6 +627,7 @@ fi
 
 AM_CONDITIONAL(ENABLE_MANUAL, test "x$enable_manual" != "xno")
 
+
 dnl
 dnl What variant to build
 dnl

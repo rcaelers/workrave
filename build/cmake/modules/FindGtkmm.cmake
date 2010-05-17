@@ -39,6 +39,7 @@ IF(WIN32)
     ${GTKMM_DIR}/lib/gtk-2.0/include
     ${GTKMM_DIR}/lib/gtkmm-2.4/include
     ${GTKMM_DIR}/lib/libglademm-2.4/include
+    ${GTKMM_DIR}/lib/pangomm-1.4/include
     ${GTKMM_DIR}/lib/libxml++-2.6/include
     ${GTKMM_DIR}/lib/sigc++-2.0/include
     ${GTKMM_DIR}/lib/pangomm-1.4/include

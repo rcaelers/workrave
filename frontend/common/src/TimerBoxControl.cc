@@ -1,6 +1,6 @@
 // TimerBoxControl.cc --- Timers Widgets
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -39,10 +39,6 @@
 #include "CoreConfig.hh"
 #include "IBreak.hh"
 #include "IConfigurator.hh"
-
-#ifdef HAVE_DISTRIBUTION
-#include "IDistributionManager.hh"
-#endif
 
 using namespace workrave;
 
@@ -177,20 +173,6 @@ TimerBoxControl::init()
 void
 TimerBoxControl::update_widgets()
 {
-  bool node_master = true;
-  int num_peers = 0;
-
-#ifdef HAVE_DISTRIBUTION
-  ICore *core = CoreFactory::get_core();
-  IDistributionManager *dist_manager = core->get_distribution_manager();
-
-  if (dist_manager != NULL)
-    {
-      node_master = dist_manager->is_master();
-      num_peers = dist_manager->get_number_of_peers();
-    }
-#endif
-
   for (int count = 0; count < BREAK_ID_SIZEOF; count++)
     {
       ICore *core = CoreFactory::get_core();
