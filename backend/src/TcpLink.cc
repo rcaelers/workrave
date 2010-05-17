@@ -351,9 +351,11 @@ TcpLink::send_auth()
 
   //! Incoming data.
 void
-TcpLink::socket_io(ISocket *con)
+TcpLink::socket_io(ISocket *con, void *data)
 {
   TRACE_ENTER("TcpLink::socket_io");
+  (void) data;
+  
   bool error = false;
 
   try
@@ -404,7 +406,7 @@ TcpLink::socket_io(ISocket *con)
   if (error)
     {
       socket->close();
-      socket_closed(con);
+      socket_closed(con, data);
     }
 
   TRACE_EXIT();
@@ -413,10 +415,11 @@ TcpLink::socket_io(ISocket *con)
 
   //! Connection established
 void
-TcpLink::socket_connected(ISocket *con)
+TcpLink::socket_connected(ISocket *con, void *data)
 {
   TRACE_ENTER("TcpLink::socket_connected");
   (void) con;
+  (void) data;
 
   try
     {
@@ -429,7 +432,7 @@ TcpLink::socket_connected(ISocket *con)
   catch(...)
     {
       socket->close();
-      socket_closed(con);
+      socket_closed(con, data);
     }
 
   TRACE_EXIT();
@@ -438,10 +441,11 @@ TcpLink::socket_connected(ISocket *con)
 
   //! Connection closed.
 void
-TcpLink::socket_closed(ISocket *con)
+TcpLink::socket_closed(ISocket *con, void *data)
 {
   TRACE_ENTER("TcpLink::socket_closed");
   (void) con;
+  (void) data;
 
   try
     {

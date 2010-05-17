@@ -1,6 +1,6 @@
 // Test.hh --- Whitebox testing code
 //
-// Copyright (C) 2006, 2007, 2008 Rob Caelers
+// Copyright (C) 2006, 2007, 2008, 2009, 2010 Rob Caelers
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify

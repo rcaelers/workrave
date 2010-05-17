@@ -1,6 +1,6 @@
 // TcpLink.hh --- Networking link server
 //
-// Copyright (C) 2007, 2009 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2009, 2010 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -52,9 +52,9 @@ public:
 
 private:
   // ISocketListener
-  virtual void socket_connected(ISocket *con);
-  virtual void socket_io(ISocket *con);
-  virtual void socket_closed(ISocket *con);
+  virtual void socket_connected(ISocket *con, void *data);
+  virtual void socket_io(ISocket *con, void *data);
+  virtual void socket_closed(ISocket *con, void *data);
 
   // Internal
   void process_packet();

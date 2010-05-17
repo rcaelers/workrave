@@ -1,6 +1,6 @@
 // SocketDriver.hh
 //
-// Copyright (C) 2002, 2003, 2005, 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2002, 2003, 2005, 2007, 2010 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -35,13 +35,13 @@ public:
   virtual ~ISocketListener() {}
 
   //! The specified socket is now connected.
-  virtual void socket_connected(ISocket *con) = 0;
+  virtual void socket_connected(ISocket *con, void *data) = 0;
 
   //! The specified socket has data ready to be read.
-  virtual void socket_io(ISocket *con) = 0;
+  virtual void socket_io(ISocket *con, void *data) = 0;
 
   //! The specified socket closed its connection.
-  virtual void socket_closed(ISocket *con) = 0;
+  virtual void socket_closed(ISocket *con, void *data) = 0;
 };
 
 
@@ -83,9 +83,15 @@ public:
   //! Set the callback listener for asynchronous socket events.
   void set_listener(ISocketListener *l);
 
+  //! Set user data
+  void set_data(void *data);
+  
 protected:
   //! Listener that received notifications of socket events.
   ISocketListener *listener;
+
+  // User data for callback.
+  void *user_data;
 };
 
 

@@ -1,6 +1,6 @@
 // GnetSocketDriver.cc
 //
-// Copyright (C) 2009 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2009, 2010 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,7 @@
 #include "config.h"
 #endif
 
-#ifdef HAVE_DISTRIBUTION
+#if defined(HAVE_GIO_NET) && defined(HAVE_DISTRIBUTION)
 
 #include "debug.hh"
 #include "GIOSocketDriver.hh"
@@ -152,8 +152,8 @@ GIOSocket::static_data_callback(GSocket *socket,
           if (giosocket->listener != NULL)
             {
               TRACE_MSG("Closing socket");
-              giosocket->close();
-              giosocket->listener->socket_closed(giosocket);
+              // giosocket->close();
+              giosocket->listener->socket_closed(giosocket, giosocket->user_data);
             }
           ret = false;
         }
@@ -163,7 +163,7 @@ GIOSocket::static_data_callback(GSocket *socket,
         {
           if (giosocket->listener != NULL)
             {
-              giosocket->listener->socket_io(giosocket);
+              giosocket->listener->socket_io(giosocket, giosocket->user_data);
             }
         }
     }

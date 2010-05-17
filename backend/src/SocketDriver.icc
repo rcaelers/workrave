@@ -1,6 +1,6 @@
 // SocketDriver.icc
 //
-// Copyright (C) 2002, 2003, 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2002, 2003, 2007, 2010 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -25,6 +25,12 @@ ISocket::set_listener(ISocketListener *l)
   listener = l;
 }
 
+
+inline void 
+ISocket::set_data(void *data)
+{
+  user_data = data;
+}
 
 //! Sets the callback handler for asynchronous server events.
 inline void 

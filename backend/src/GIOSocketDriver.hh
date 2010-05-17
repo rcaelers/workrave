@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2002, 2003, 2007, 2008, 2009 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2002, 2003, 2007, 2008, 2009, 2010 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -18,6 +18,8 @@
 
 #ifndef GIOSOCKETDRIVER_HH
 #define GIOSOCKETDRIVER_HH
+
+#if defined(HAVE_GIO_NET) && defined(HAVE_DISTRIBUTION)
 
 #include <glib.h>
 #include <glib-object.h>
@@ -79,5 +81,5 @@ private:
   GSocket *socket;
 };
 
-
+#endif
 #endif // GIOSOCKETDRIVER_HH
