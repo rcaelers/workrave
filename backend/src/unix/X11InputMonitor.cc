@@ -70,7 +70,7 @@
 #include "timeutil.h"
 
 #ifdef HAVE_APP_GTK
-#include <gdk/gdk.h>
+#include <gdk/gdkx.h>
 #endif
 
 #include "Thread.hh"
@@ -81,7 +81,9 @@ using namespace std;
 int X11InputMonitor::xi_event_base = 0;
 #endif
 
+#ifndef HAVE_APP_GTK
 static int (*old_handler)(Display *dpy, XErrorEvent *error);
+#endif
 
 #ifndef HAVE_APP_GTK
 //! Intercepts X11 protocol errors.
@@ -359,7 +361,7 @@ void
 X11InputMonitor::handle_keypress(XEvent *event)
 {
   (void) event;
-  fire_keyboard(0, 0);
+  fire_keyboard(false);
 }
 
 
@@ -381,12 +383,11 @@ X11InputMonitor::handle_button(XEvent *event)
 
   if (event != NULL)
     {
-      int b = event->xbutton.button;
       // FIXME: this is a hack. XGrabButton does not generate a button release
       // event...
 
-      fire_button(b, true);
-      fire_button(b, false);
+      fire_button(true);
+      fire_button(false);
     }
   else
     {
@@ -422,7 +423,7 @@ void
 X11InputMonitor::handle_xrecord_handle_key_event(XRecordInterceptData *data)
 {
   (void) data;
-  fire_keyboard(0, 0);
+  fire_keyboard(false);
 }
 
 void
@@ -450,9 +451,7 @@ X11InputMonitor::handle_xrecord_handle_button_event(XRecordInterceptData *data)
 
   if (event != NULL)
     {
-      int b = event->u.keyButtonPointer.state;
-
-      fire_button(b, event->u.u.type == ButtonPress);
+      fire_button(event->u.u.type == ButtonPress);
     }
   else
     {
@@ -461,16 +460,30 @@ X11InputMonitor::handle_xrecord_handle_button_event(XRecordInterceptData *data)
 }
 
 void
-X11InputMonitor::handle_xrecord_handle_device_key_event(XRecordInterceptData *data)
+X11InputMonitor::handle_xrecord_handle_device_key_event(bool press, XRecordInterceptData *data)
 {
   TRACE_ENTER("X11InputMonitor::handle_xrecord_handle_device_key_event");
   deviceKeyButtonPointer *event = (deviceKeyButtonPointer *)data->data;
   static Time lastTime = 0;
-
-  if (event->time != lastTime)
+  static int detail = 0;
+  static int state = 0;
+  
+  if (press)
     {
-      lastTime = event->time;
-      fire_keyboard(0, 0);
+      if (event->time != lastTime)
+        {
+          lastTime = event->time;
+
+          fire_keyboard(state == event->state && detail == event->detail);
+
+          detail = event->detail;
+          state = event->state;
+        }
+    }
+  else
+    {
+      detail = 0;
+      state = 0;
     }
   
   TRACE_EXIT();
@@ -502,10 +515,7 @@ X11InputMonitor::handle_xrecord_handle_device_button_event(XRecordInterceptData 
     {
       lastTime = event->time;
 
-      // FIXME: check if this is correct
-      int b = event->state;
-      
-      fire_button(b, event->type == xi_event_base + XI_DeviceButtonPress);
+      fire_button(event->type == xi_event_base + XI_DeviceButtonPress);
     }
 }
 
@@ -541,7 +551,11 @@ X11InputMonitor::handle_xrecord_callback(XPointer closure, XRecordInterceptData 
             }
           else if (event->u.u.type == xi_event_base + XI_DeviceKeyPress)
             {
-              monitor->handle_xrecord_handle_device_key_event(data);
+              monitor->handle_xrecord_handle_device_key_event(true, data);
+            }
+          else if (event->u.u.type == xi_event_base + XI_DeviceKeyRelease)
+            {
+              monitor->handle_xrecord_handle_device_key_event(false, data);
             }
           else if (event->u.u.type == xi_event_base + XI_DeviceButtonPress ||
                    event->u.u.type == xi_event_base + XI_DeviceButtonRelease)
@@ -566,13 +580,17 @@ X11InputMonitor::run_xrecord()
 
   init_xrecord();
 
+  error_trap_enter();
+  
   if (use_xrecord &&
       XRecordEnableContext(xrecord_datalink, xrecord_context,  &handle_xrecord_callback, (XPointer)this))
     {
+      error_trap_exit();
       xrecord_datalink = NULL;
     }
   else
     {
+      error_trap_exit();
       TRACE_MSG("Fallback to run events");
       use_xrecord = false;
       run_events();

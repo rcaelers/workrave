@@ -30,11 +30,16 @@
 #include "ige-mac-dock.h"
 #endif
 
+#ifdef PLATFORM_OS_WIN32
+#include "W32StatusIcon.hh"
+#endif
+
 #include "MainWindow.hh"
 #include "CoreFactory.hh"
-#include "StatusIcon.hh"
 #include "Menus.hh"
 #include "Util.hh"
+#include "StatusIcon.hh"
+
 
 StatusIcon::StatusIcon(MainWindow& mw)
   : main_window(mw)
@@ -60,8 +65,10 @@ StatusIcon::StatusIcon(MainWindow& mw)
         }
     }
 
+#ifndef USE_W32STATUSICON
 #ifdef PLATFORM_OS_WIN32
   wm_taskbarcreated = RegisterWindowMessage("TaskbarCreated");
+#endif
 #endif
 
   insert_icon();
@@ -77,7 +84,13 @@ StatusIcon::insert_icon()
   // Create status icon
   ICore *core = CoreFactory::get_core();
   OperationMode mode = core->get_operation_mode();
+
+#ifdef USE_W32STATUSICON
+  status_icon = new W32StatusIcon();
+  set_operation_mode(mode);
+#else
   status_icon = Gtk::StatusIcon::create(mode_icons[mode]);
+#endif
 
   status_icon->signal_size_changed().connect(sigc::mem_fun(*this, &StatusIcon::on_size_changed));
   
@@ -151,6 +164,7 @@ void StatusIcon::set_timers_tooltip(std::string& tip)
   status_icon->set_tooltip(tip);
 }
 
+#ifndef USE_W32STATUSICON
 #ifdef PLATFORM_OS_WIN32
 GdkFilterReturn
 StatusIcon::win32_filter_func (void     *xevent,
@@ -167,5 +181,5 @@ StatusIcon::win32_filter_func (void     *xevent,
   return ret;
 }
 #endif
-
+#endif
 

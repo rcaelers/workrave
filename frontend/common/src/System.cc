@@ -41,6 +41,9 @@
 #include <X11/Xproto.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
+#ifdef HAVE_APP_GTK
+#include <gdk/gdkx.h>
+#endif
 #endif
 
 #if defined(HAVE_UNIX)
@@ -56,9 +59,9 @@
 
 using namespace workrave;
 
+#if defined(PLATFORM_OS_UNIX) && !defined(HAVE_APP_GTK)
 static int (*old_handler)(Display *dpy, XErrorEvent *error);
 
-#ifndef HAVE_APP_GTK
 //! Intercepts X11 protocol errors.
 static int
 errorHandler(Display *dpy, XErrorEvent *error)

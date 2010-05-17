@@ -1,6 +1,6 @@
 // W32LowLevelMonitor.cc --- ActivityMonitor for W32
 //
-// Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
+// Copyright (C) 2007, 2010 Ray Satiro <raysatiro@yahoo.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -275,6 +275,8 @@ void W32LowLevelMonitor::terminate()
   
   terminate_thread( callback );
   terminate_thread( dispatch );
+
+  Harpoon::terminate();
 }
 
 
@@ -360,14 +362,14 @@ DWORD W32LowLevelMonitor::dispatch_thread()
               case WM_MBUTTONDOWN:
               case WM_RBUTTONDOWN:
               case WM_XBUTTONDOWN:
-                  fire_button( 0, true );
+                  fire_button( true );
                   break;
               
               case WM_LBUTTONUP:
               case WM_MBUTTONUP:
               case WM_RBUTTONUP:
               case WM_XBUTTONUP:
-                  fire_button( 0, false );
+                  fire_button( false );
                   break;
             }
         }
@@ -377,7 +379,7 @@ DWORD W32LowLevelMonitor::dispatch_thread()
           // kb->flags == msg.wParam
           if( msg.wParam & 0x00000080 )
           // Transition state: key released
-              fire_keyboard( 0, 0 );
+              fire_keyboard(false);
           else
           // Transition state: key pressed
               fire_action();

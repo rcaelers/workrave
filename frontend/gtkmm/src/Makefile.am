@@ -8,7 +8,8 @@ SUBDIRS = 		gnome_applet kde_applet win32 unix osx
 MAINTAINERCLEANFILES = 	Makefile.in \
 			org.workrave.Workrave.service \
 			workrave.desktop.in workrave.desktop \
-			DBusGUI.cc DBusGUI.hh DBusGnomeApplet.cc DBusGnomeApplet.hh
+			DBusGUI.cc DBusGUI.hh DBusGnomeApplet.cc DBusGnomeApplet.hh \
+			resource.rc
 
 DISTCLEANFILES = 	workrave.desktop.in workrave.desktop
 
@@ -18,6 +19,8 @@ bin_PROGRAMS = 		workrave
 
 endif
 
+
+eggcflags = 
 
 DEFS = 			@DEFS@ -DGNOMELOCALEDIR=\""$(datadir)/locale"\" \
 			-I$(top_srcdir)/intl
@@ -47,6 +50,11 @@ sourcesx = 		X11SystrayAppletWindow.cc gtktrayicon.c
 
 # Additional Win32 sources.
 sourceswin32 = 		resource.rc
+
+resource.rc: resource.rc.in
+	sed -e 's/@WORKRAVE_VERSION@/$(VERSION)/g' \
+	    -e 's/@WORKRAVE_RESOURCE_VERSION@/$(RESOURCE_VERSION)/g' \
+		$@.in > $@
 
 # Additional distribution sources.
 DISTRIBUTION_HOME = 	$(top_srcdir)/frontend/plugin/distribution
@@ -89,6 +97,7 @@ endif
 
 if PLATFORM_OS_UNIX
 extrasources +=		$(sourcesx) eggdesktopfile.c eggsmclient-xsmp.c
+eggcflags += 		-DEGG_SM_CLIENT_BACKEND_XSMP
 
 includesx = 		-I$(top_srcdir)/frontend/gtkmm/src/unix/
 ldflags = 	        -L$(top_builddir)/frontend/gtkmm/src/unix/
@@ -100,7 +109,7 @@ includeswin32 = 	-I$(top_srcdir)/common/win32/harpoon/include \
 			-I$(top_srcdir)/frontend/gtkmm/src/win32/ \
 			-I$(top_srcdir)/frontend/win32/applet/include
 ldflags = 		-L$(top_builddir)/frontend/gtkmm/src/win32/
-win32cflags		= -D_WIN32_IE=0x0500 -D_WIN32_WINNT=0x0501
+win32cflags		= -D_WIN32_IE=0x0500 -D_WIN32_WINNT=0x0600
 endif
 
 if HAVE_DISTRIBUTION
@@ -151,6 +160,7 @@ dbussources=DBusGUI.cc
 
 if PLATFORM_OS_UNIX
 extrasources +=		eggsmclient-dbus.c
+eggcflags += -DEGG_SM_CLIENT_BACKEND_DBUS
 endif
 
 DBusGUI.cc: 		workrave-gui.xml \
@@ -258,7 +268,7 @@ workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
 			@GCONF_CFLAGS@ -D_XOPEN_SOURCE=600 \
 			@KDE_INCLUDES@ @QT_INCLUDES@ @DBUS_CFLAGS@  @IGE_CFLAGS@ \
 			$(includeswin32) $(win32cflags) $(includesinput) $(includesosx) \
-			$(includesx) \
+			$(includesx) $(eggcflags) \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
 			-I${STATISTICS_HOME}/gtkmm/src \
 			-I${EXERCISES_HOME}/gtkmm/src \
@@ -272,7 +282,7 @@ workrave_CFLAGS	= 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-I$(top_srcdir)/frontend/gtkmm/src/ @GLIB_CFLAGS@ \
 			@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
 			@X_CFLAGS@ @GNOME_CFLAGS@ @GTK_CFLAGS@ @DBUS_CFLAGS@ @X11SM_CFLAGS@\
-			-D_XOPEN_SOURCE=600 \
+			-D_XOPEN_SOURCE=600  $(eggcflags) \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
 			-I${STATISTICS_HOME}/gtkmm/src \
 			-I${EXERCISES_HOME}/gtkmm/src \
@@ -303,5 +313,5 @@ workrave_LDADD =        @WR_LDADD@ @X_LIBS@ @X11SM_LIBS@ @GNOME_LIBS@ @GLIB_LIBS
 
 EXTRA_DIST = $(wildcard *.cc) $(wildcard *.hh) $(wildcard *.c) $(wildcard *.h) \
 	     DBusGUI.cc DBusGUI.hh DBusGnomeApplet.cc DBusGnomeApplet.hh \
-	     workrave.desktop.in.in org.workrave.Workrave.service.in workrave-gui.xml
+	     workrave.desktop.in.in org.workrave.Workrave.service.in workrave-gui.xml resource.rc.in
 

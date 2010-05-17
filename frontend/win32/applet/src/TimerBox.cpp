@@ -149,8 +149,6 @@ TimerBox::update_time_bars(TransparentDamageControl &ctrl)
   TRACE_ENTER("TimerBox::update_time_bars");
   if (enabled)
     {
-      static int count = 100;
-
       int x = 0, y = 0;
       int bar_w, bar_h;
       int icon_width, icon_height;
@@ -166,10 +164,6 @@ TimerBox::update_time_bars(TransparentDamageControl &ctrl)
       int columns = (filled_slots + rows -1) / rows;
       TRACE_MSG("3");
       
-      count --;
-      int foo = rows / count;
-      TRACE_MSG(foo << ""<< count);
-
       int box_h = rows * __max(icon_height, bar_h) + (rows - 1) * PADDING_Y;
       y = __max(0, (height - box_h)/2);
 

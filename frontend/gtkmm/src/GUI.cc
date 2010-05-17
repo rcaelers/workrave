@@ -199,10 +199,10 @@ GUI::main()
 
   if (!Glib::thread_supported())
     Glib::thread_init();
-#ifdef HAVE_DBUS
+
   Glib::OptionGroup *option_group = new Glib::OptionGroup(egg_sm_client_get_option_group());
   option_ctx.add_group(*option_group);
-#endif
+
   Gtk::Main *kit = NULL;
   try
     {
@@ -389,9 +389,7 @@ GUI::init_session()
 {
   TRACE_ENTER("GUI::init_session");
   EggSMClient *client = NULL;
-#ifdef HAVE_DBUS
   client = egg_sm_client_get();
-#endif
   if (client)
     {
       g_signal_connect(client,
@@ -411,9 +409,8 @@ void
 GUI::cleanup_session()
 {
   EggSMClient *client = NULL;
-#ifdef HAVE_DBUS
+
   client = egg_sm_client_get();
-#endif
   if (client)
     {
       g_signal_handlers_disconnect_by_func(client,
@@ -737,7 +734,7 @@ GUI::init_gtk_multihead()
                           irect.intersect(heads[k].geometry, overlap);
                         }
                     }
-
+                  
                   if (!overlap)
                     {
                       heads[count].screen = screen;
@@ -1399,10 +1396,15 @@ GUI::map_from_head(int &x, int &y, int head)
 
 
 bool
-GUI::bound_head(int &x, int &y, int width, int height, int head)
+GUI::bound_head(int &x, int &y, int width, int height, int &head)
 {
   bool ret = false;
 
+  if (head >= num_heads)
+    {
+      head = 0;
+    }
+  
   HeadInfo &h = get_head(head);
   if (x < - h.get_width())
     {
@@ -1637,10 +1639,12 @@ GUI::win32_filter_func (void     *xevent,
         }
     }
 
+#ifndef USE_W32STATUSICON
   if (ret != GDK_FILTER_REMOVE && gui->status_icon)
     {
       ret = gui->status_icon->win32_filter_func(xevent, event);
     }
+#endif
 
   TRACE_EXIT();
   return ret;

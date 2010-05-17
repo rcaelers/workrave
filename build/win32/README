@@ -4,108 +4,91 @@ Compiling Workrave for Windows
 The Windows version of Workrave can be compiled (and debugged!) using Visual 
 Studio (including Express Edition) on windows, or cross compiled on Linux. 
 
-To build on windows, see README in build/cmake. This document (which is a
-little outdated) describes how to setup a cross compile environment and how
-to compile Workrave in four easy steps:
+To build on windows, see README in build/cmake. This document
+describes how to setup a cross compile environment and how to compile
+Workrave in a few "easy" steps:
 
 1. Installing MinGW cross compiler
 2. Installing 3rd party packages
 3. Installing MS compiler
-4. Compile Workrave
-
+4. Build Harpoon and Applet
+5. Install Tinderbox
+6. Compile Workrave
 
 Step 1. Installing MinGW cross compiler
 =======================================
 
 Workrave for Windows is compiled using MinGW. MinGW can be obtained
-from http://mingw.org/. The following packages are required:
+from http://mingw.org/.
 
-gcc-core        3.3.3-200402017-1
-gcc-g++         3.3.3-200402017-1
-binutils        2.15.90-20040222-1
-mingw-runtime   3.3
-w32api          2.5
-mingw-utils     0.3
+On Ubuntu/Debian, the following three package need to be installed.
 
-All of these packages can be downloaded, extracted, configured, compiled
-and installed by running the 'build-cross.sh" script. The cross
-compiler is installed in /usr/local/cross-tools. 
+mingw32 (4.2.1)
+mingw32-binutils (2.20)
+mingw32-runtime (3.15.2)
 
-Use this script at your own risk. It may be necessary to fine-tune and
-update the script before use.
+Alternatively, you can run the 'build-cross.sh" script from the
+'build/win32/crossbuild' directory to download, extract, configure,
+compile and install the MinGW packages. The cross compiler tool chain
+is installed in /usr/local/cross-tools. Note that this script is no
+longer maintained in favour of the standard Ubuntu/Debian packages
 
 
 Step 2. Installing required packages
 ====================================
 
-Workrave requires quite some 3rd party packages:
-
-glib            2.4.2
-gtk+            2.4.3
-atk             1.6.0
-pango           1.4.0
-zlib            1.2.1
-libpng          1.2.5
-libiconv        1.9.1
-gettext-runtime 0.13.1
-gnet            2.0.5
-gtkmm           2.4.4
-glibmm          2.4.3
-libsigc++       2.0.3
-
-All of these packages can be downloaded, extracted, configured, compiled
-and installed by running the 'build-packages.sh" script. The cross
-compiled packages are installed in /usr/local/cross-packages.
+Workrave requires a number of 3rd party packages. All of these
+packages can be downloaded, extracted, configured, compiled and
+installed by running the 'build-packages.sh" script from the
+'build/win32/crossbuild'. The cross compiled packages are installed in
+/usr/local/cross-packages.
 
 
-Step 3. Installing MS Compiler
-==============================
+Step 3. Installing InnoSetup
+============================
 
-Some components of Workrave require the Microsoft C++ compiler. You
-need to download and install (on Windows!):
-
-- Inno Setup 5
-- Microsoft Platform SDK (core, internet and database is required)
-- Microsoft Visual C++ Toolkit 2003 
-
-Copy all of these to your ~/.wine/fake_windows/Program Files. Make
-sure that the bin directories of these packages are added to your
-Windows PATH. Note that nmake.exe is hidden in an IA64 directory. It
-also seems to work on IA32.
-
-And of course, you have to setup wine.
+Workrave uses InnoSetup to create the installer. InnoSetup 5 must be
+installed with wine.
 
 
-Step 5. Compiling Workrave
-==========================
+Step 4. Build Harpoon and Applet
+================================
 
-First of all download and extract Workrave. Then follow the following
-steps:
+This step must be executed on Window...
 
-1. Create runtime
+- Install the Window 7 SDK
+- Open a Command Prompt, go to the common/win32 directory and run buildall.cmd
+- In the Command Prompt window, go to frontend/win32/applet/src/ directory and run buildall.cmd
 
-cd frontend/gtkmm/win32/setup
-make-runtime.sh ../../../..
-tar xzf runtime-wimp.tar.gz; \
-mv runtime-wimp/lib/gtk-2.0/2.2.0 runtime-wimp/lib/gtk-2.0/2.4.0
+The generated DLLs and EXEs must be copied to Linux for step 5.
 
-2. Compile harpoon and applet
 
-. vcvars32.sh;
-cd common/win32/harpoon/src
-wine nmake /f harpoon.mak CFG="harpoon - Win32 Release"
-cd frontend/win32/applet/src
-wine nmake /f Applet.mak CFG="Applet - Win32 Release"
+Step 5. Setup Workrave's Tinderbox
+==================================
 
-3. Configure and compile Workrave
+- Copy the 'build/win32/tinderbox' directory to ~/src/tinderbox (You
+  need to edit build/win32/tinderbox/Makefile if you choose a
+  different location)
 
-. mingw32
-./autogencross.sh
-make
+- Create the following empty directories
+  - ~/src/tinderbox/snapshots
+  - ~/src/tinderbox/prebuilt/Debug
+  - ~/src/tinderbox/prebuilt/Debug64
+  - ~/src/tinderbox/prebuilt/Release
+  - ~/src/tinderbox/prebuilt/Release64
 
-4. Create setup.exe
+- Copy the harpoon en applet DLLs and EXEs build in step 4 to the
+  prebuilt directories
 
-cd frontend/gtkmm/win32/setup
-wine ISCC.exe setup.iss
+  
+Step 6. Compile Workrave
+========================
 
-You now have a windows installer.
+In the ~/src/tinderbox directory, run 'make all'.
+
+Tinderbox will checkout the latest version from git, compile it and
+generate an installer.
+
+
+
+  

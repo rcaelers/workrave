@@ -9,8 +9,10 @@ set(VERSION_RELEASE "2")
 set(VERSION_PATCH   "0")
 if (VERSION_PATCH)
     set(VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_RELEASE}-${VERSION_PATCH}" )
+    set(RESOURCE_VERSION "${VERSION_MAJOR},${VERSION_MINOR},${VERSION_RELEASE},${VERSION_PATCH}" )
 else (VERSION_PATCH)
     set(VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_RELEASE}" )
+    set(RESOURCE_VERSION "${VERSION_MAJOR},${VERSION_MINOR},${VERSION_RELEASE},0" )
 endif (VERSION_PATCH)
 
 # CMake
@@ -34,7 +36,8 @@ if(WIN32)
 
   add_definitions( 
     -DWIN32
-    -D_WINDOWS	   
+    -D_WINDOWS
+    -D_WIN32_WINNT=0x0600
   ) 
 
 endif(WIN32)
@@ -146,6 +149,7 @@ if (MINGW)
 endif(MINGW)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h )
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/workrave.rc.cmake ${CMAKE_CURRENT_BINARY_DIR}/workrave.rc )
 
 # compiler definitions 
 add_definitions(-DHAVE_CONFIG_H=1)

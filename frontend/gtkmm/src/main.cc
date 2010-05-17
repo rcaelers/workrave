@@ -41,7 +41,10 @@ extern "C" int run(int argc, char **argv);
 int
 run(int argc, char **argv)
 {
+  
 #if defined(PLATFORM_OS_WIN32) && !defined(PLATFORM_OS_WIN32_NATIVE)
+	SetUnhandledExceptionFilter(exception_filter);
+
   // Enable Windows structural exception handling.
   __try1(exception_handler);
 #endif

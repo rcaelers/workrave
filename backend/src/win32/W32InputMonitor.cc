@@ -1,6 +1,6 @@
 // W32InputMonitor.cc --- ActivityMonitor for W32
 //
-// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2010 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -93,11 +93,11 @@ W32InputMonitor::on_harpoon_event(HarpoonEvent *event)
   switch (event->type)
     {
     case HARPOON_BUTTON_PRESS:
-      singleton->fire_button(0, true); // FIXME: proper parameter
+      singleton->fire_button(true);
       break;
 
     case HARPOON_BUTTON_RELEASE:
-      singleton->fire_button(0, false); // FIXME: proper parameter
+      singleton->fire_button(false);
       break;
 
     case HARPOON_2BUTTON_PRESS:
@@ -111,7 +111,7 @@ W32InputMonitor::on_harpoon_event(HarpoonEvent *event)
       break;
 
     case HARPOON_KEY_RELEASE:
-      singleton->fire_keyboard(0, 0);
+      singleton->fire_keyboard(false);
       break;
 
     case HARPOON_MOUSE_MOVE:

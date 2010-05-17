@@ -1,6 +1,6 @@
 // InputMonitor.hh ---  Base class of an activity monitor
 //
-// Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2010 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -43,8 +43,8 @@ public:
 protected:
   void fire_action();
   void fire_mouse(int x, int y, int wheel = 0);
-  void fire_button(int button_mask, bool is_press);
-  void fire_keyboard(int key_code, int modifier);
+  void fire_button(bool is_press);
+  void fire_keyboard(bool repeat);
 
 private:
   //!

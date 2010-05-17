@@ -53,12 +53,12 @@ HHOOK DLLSHARE(mouse_hook) = NULL;
 HHOOK DLLSHARE(mouse_ll_hook) = NULL;
 HHOOK DLLSHARE(keyboard_hook) = NULL;
 HHOOK DLLSHARE(keyboard_ll_hook) = NULL;
+HHOOK DLLSHARE(msg_hook) = NULL;
 BOOL DLLSHARE(block_input) = FALSE;
 BOOL DLLSHARE(initialized) = FALSE;
 char DLLSHARE( critical_file_list[ HARPOON_MAX_UNBLOCKED_APPS ][ 511 ] ) = { 0, };
 HWND DLLSHARE( debug_hwnd ) = NULL;
 int DLLSHARE( debug ) = FALSE;
-//int DLLSHARE( harpoon_supports_mouse_hook_struct_ex ) = FALSE;
 
 #if !defined(__GNUC__)
 #pragma data_seg()
@@ -67,6 +67,7 @@ int DLLSHARE( debug ) = FALSE;
 #define IDM_MENU_SAVE 0
 #define IDM_MENU_MONITOR 1
 #define IDM_MENU_CLEAR 2
+#define IDM_MENU_UNHOOK 3
 
 // Each instance of harpoon should have the
 // filename of the process it is attached to.
@@ -307,7 +308,7 @@ harpoon_window_proc (HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
  * Mouse hook
  **********************************************************************/
 
-LRESULT CALLBACK
+static LRESULT CALLBACK
 harpoon_mouse_hook (int code, WPARAM wpar, LPARAM lpar)
 {
   BOOL forcecallnext = FALSE;
@@ -478,7 +479,7 @@ harpoon_mouse_hook (int code, WPARAM wpar, LPARAM lpar)
                                       forcecallnext);
 }
 
-LRESULT CALLBACK
+static LRESULT CALLBACK
 harpoon_mouse_ll_hook (int code, WPARAM wpar, LPARAM lpar)
 {
   if (code == HC_ACTION)
@@ -558,13 +559,15 @@ harpoon_mouse_ll_hook (int code, WPARAM wpar, LPARAM lpar)
 }
 
 
-LRESULT CALLBACK
+static LRESULT CALLBACK
 harpoon_mouse_block_hook (int code, WPARAM wpar, LPARAM lpar)
 {
   BOOL forcecallnext = FALSE;
 
   if (code == HC_ACTION)
     {
+      if_debug_send_message( "WH_MOUSE" );
+
       switch (wpar)
         {
         case WM_LBUTTONUP:
@@ -692,6 +695,50 @@ harpoon_keyboard_block_hook (int code, WPARAM wpar, LPARAM lpar)
 }
 
 
+static LRESULT CALLBACK 
+harpoon_msg_block_hook(int code, WPARAM wpar, LPARAM lpar)
+{
+  BOOL forcecallnext = TRUE;
+
+  if (code >= 0)
+    {
+       //if (is_app_blocked() && block_input)
+       //{
+       //   ((MSG*)lpar)->message = WM_NULL;
+       //}
+
+       if (((MSG*)lpar)->message == WM_KEYDOWN)
+        {
+          if (is_app_blocked() && block_input)
+            {
+              ((MSG*)lpar)->message = WM_NULL;
+            }
+        }
+
+      if ( ((MSG*)lpar)->message >= WM_MOUSEFIRST &&
+           ((MSG*)lpar)->message <= WM_MOUSELAST)
+        {
+          if (is_app_blocked() && block_input)
+            {
+              ((MSG*)lpar)->message = WM_NULL;
+            }
+        }
+
+      if ( ((MSG*)lpar)->message >= WM_NCMOUSEMOVE &&
+           ((MSG*)lpar)->message <= WM_NCMOUSEMOVE + 0x10)
+        {
+          if (is_app_blocked() && block_input)
+            {
+              ((MSG*)lpar)->message = WM_NULL;
+            }
+        }
+    }
+
+  return CallNextHookEx(msg_hook, code, wpar, lpar);
+}
+
+
+
 /**********************************************************************
  * Initialisation
  **********************************************************************/
@@ -749,6 +796,7 @@ harpoon_init ( char imported_critical_file_list[][511], BOOL debug_harpoon )
               "Capture &Debug Messages" );
           AppendMenu( menu_popup, MF_SEPARATOR, 0,0 );
           AppendMenu( menu_popup, MF_STRING, IDM_MENU_CLEAR, "&Clear Display" );
+          AppendMenu( menu_popup, MF_STRING, IDM_MENU_UNHOOK, "&Unhook" );
           AppendMenu( menu, MF_POPUP, (UINT_PTR)menu_popup, "&Menu" );
         }
       else
@@ -876,6 +924,12 @@ harpoon_unhook ()
 {
   if_debug_send_message( "harpoon_unhook() called" );
 
+  if (msg_hook)
+    {
+      UnhookWindowsHookEx(msg_hook);
+      if_debug_send_message( "UnhookWindowsHookEx(msg_hook)" );
+      msg_hook = NULL;
+    }
   if (mouse_hook)
     {
       UnhookWindowsHookEx(mouse_hook);
@@ -992,7 +1046,22 @@ harpoon_hook_block_only(void)
   if (user_callback == NULL)
     {
       harpoon_unhook();
-      
+
+#ifdef _WIN64
+      if (msg_hook == NULL)
+        {
+          msg_hook = SetWindowsHookEx(WH_GETMESSAGE, 
+                                      harpoon_msg_block_hook, 
+                                      dll_handle, 0);
+          if ( msg_hook )
+            if_debug_send_message( "SetWindowsHookEx: WH_GETMESSAGE (success)" );
+          else
+            {
+              if_debug_send_message( "SetWindowsHookEx: WH_GETMESSAGE (failure)" );
+              harpoon_exit();
+            }
+        }
+#else
       if (mouse_hook == NULL)
         {
           mouse_hook = SetWindowsHookEx(WH_MOUSE,
@@ -1022,6 +1091,7 @@ harpoon_hook_block_only(void)
               harpoon_exit();
             }
         }
+#endif
     }
 }
 
@@ -1196,6 +1266,7 @@ buffer len is 1024 - 540 = ~480 max str len
       0, 0, 0, 0, 0
     };
   */
+
   GetLocalTime( &local );
 
   if( local.wSecond == wSecond_previous_call &&
@@ -1281,6 +1352,11 @@ static void debug_process_menu_selection( WORD idm )
       case IDM_MENU_CLEAR:
           SetWindowText( debug_hwnd, "" );
           if_debug_send_message( "IDM_MENU_CLEAR" );
+          break;
+
+      case IDM_MENU_UNHOOK:
+          harpoon_unhook();
+          if_debug_send_message( "IDM_MENU_UNHOOK" );
           break;
     }
   return;

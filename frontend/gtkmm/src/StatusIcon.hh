@@ -23,6 +23,7 @@
 #include "preinclude.h"
 
 #ifdef PLATFORM_OS_WIN32
+#define USE_W32STATUSICON
 #include <gdk/gdkwin32.h>
 #endif
 #include <gtkmm/statusicon.h>
@@ -40,6 +41,7 @@
 #define HAVE_STATUSICON_SIGNAL 1
 #endif
 
+class W32StatusIcon;
 class MainWindow;
 
 class StatusIcon
@@ -53,7 +55,9 @@ public:
   void set_timers_tooltip(std::string& tip);
   bool is_embedded() const;
 #ifdef PLATFORM_OS_WIN32
+#ifndef USE_W32STATUSICON
   GdkFilterReturn win32_filter_func (void *xevent, GdkEvent *event);
+#endif
 #endif
 
 private:
@@ -68,11 +72,16 @@ private:
                                   gpointer callback_data);
 #endif
   
-  Glib::RefPtr<Gtk::StatusIcon> status_icon;
   MainWindow& main_window;
   Glib::RefPtr<Gdk::Pixbuf> mode_icons[OPERATION_MODE_SIZEOF];
+
+#ifdef USE_W32STATUSICON
+  W32StatusIcon *status_icon;
+#else
+  Glib::RefPtr<Gtk::StatusIcon> status_icon;
 #ifdef PLATFORM_OS_WIN32
   UINT wm_taskbarcreated;
+#endif
 #endif
 };
 

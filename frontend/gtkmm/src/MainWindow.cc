@@ -705,7 +705,6 @@ MainWindow::locate_window(GdkEventConfigure *event)
   (void) event;
 
   Glib::RefPtr<Gdk::Window> window = get_window();
-  TRACE_MSG(window->get_state());
   if ((window->get_state() & (Gdk::WINDOW_STATE_ICONIFIED | Gdk::WINDOW_STATE_WITHDRAWN)) != 0)
     {
       TRACE_EXIT();
@@ -720,8 +719,6 @@ MainWindow::locate_window(GdkEventConfigure *event)
       y = event->y;
       width = event->width;
       height = event->height;
-
-      TRACE_MSG("main window2 = " << x << " " << y);
     }
   else
 #endif
@@ -734,8 +731,6 @@ MainWindow::locate_window(GdkEventConfigure *event)
       on_size_request(&req);
       width = req.width;
       height = req.height;
-
-      TRACE_MSG("main window1 = " << x << " " << y);
     }
 
 
@@ -757,10 +752,10 @@ MainWindow::locate_window(GdkEventConfigure *event)
       window_relocated_location.set_y(y);
 
       int head = GUI::get_instance()->map_to_head(x, y);
-      TRACE_MSG("main window head = " << x << " " << y);
-      // Stores location relative to origin of current head.
+      TRACE_MSG("main window head = " << x << " " << y << " " << head);
 
       bool rc = GUI::get_instance()->bound_head(x, y, width, height, head);
+      TRACE_MSG("main window bounded = " << x << " " << y);
 
       window_head_location.set_x(x);
       window_head_location.set_y(y);

@@ -6,7 +6,16 @@ dnl
 dnl $Id$
 dnl
 
-AC_INIT(workrave, [1.9.1],
+m4_define([workrave_major_version], [1])
+m4_define([workrave_minor_version], [9])
+m4_define([workrave_micro_version], [2])
+m4_define([workrave_version_suffix], [])
+m4_define([workrave_version],
+          [workrave_major_version.workrave_minor_version.workrave_micro_version])
+m4_define([workrave_resource_version],
+          [workrave_major_version,workrave_minor_version,workrave_micro_version,0])
+
+AC_INIT(workrave, [workrave_version],
         [http://issues.workrave.org/cgi-bin/bugzilla/enter_bug.cgi])
 
 dnl Demand at least version 2.61 of autoconf.
@@ -14,7 +23,7 @@ AC_PREREQ(2.61)
 
 dnl Automake
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(workrave, 1.9.1)
+AM_INIT_AUTOMAKE(workrave, workrave_version)
 AM_GNU_GETTEXT_VERSION()
 AM_MAINTAINER_MODE
 
@@ -29,12 +38,12 @@ dnl
 
 AC_ARG_ENABLE(app-gtk,
               [AC_HELP_STRING([--disable-app-gtk],
-                              [compile without Gtk support])],
+                              [compile without Gtk support (NOT recommended)])],
               [config_gtk=$enableval], [config_gtk=yes])
 
 AC_ARG_ENABLE(app-text,
               [AC_HELP_STRING([--enable-app-text],
-                              [compile with dummy text GUI support])],
+                              [compile with dummy text GUI support (NOT recommended)])],
               [config_text=$enableval], [config_text=no])
     
 AC_ARG_ENABLE(xml,
@@ -53,9 +62,9 @@ AC_ARG_ENABLE( gnome,
               [config_gnome=$enableval], [config_gnome=yes])
 
 AC_ARG_ENABLE( dbus,
-              [AC_HELP_STRING([--enable-dbus],
-                              [compile with DBus support])],
-              [config_dbus=$enableval], [config_dbus=no])
+              [AC_HELP_STRING([--disable-dbus],
+                              [compile withouy DBus support])],
+              [config_dbus=$enableval], [config_dbus=yes])
  
 AC_ARG_ENABLE( gstreamer,
     	      [AC_HELP_STRING([--disable-gstreamer],
@@ -64,7 +73,7 @@ AC_ARG_ENABLE( gstreamer,
 
 AC_ARG_ENABLE( kde,
               [AC_HELP_STRING([--enable-kde],
-                              [compile with KDE support])],
+                              [compile with KDE support (broken)])],
               [config_kde=$enableval], [config_kde=no])
     
 AC_ARG_ENABLE( debug,
@@ -169,6 +178,9 @@ dnl Update version and date.
 AC_SUBST(VERSION)
 ISODATE=`date +%Y-%m-%d`
 AC_SUBST(ISODATE)
+
+RESOURCE_VERSION=workrave_resource_version
+AC_SUBST(RESOURCE_VERSION)
 
 AC_CANONICAL_HOST
 AC_PREFIX_PROGRAM(workrave)
@@ -720,7 +732,7 @@ if test "x$GNET2" != "x"; then
 fi
         
 HAVE_APP_GTK=
-if test "x$GTKMM_LIBS" != "x"; then
+if test "x$GTK_LIBS" != "x"; then
    AC_DEFINE(HAVE_APP_GTK,,[Define if Gtk is available])
 fi
 

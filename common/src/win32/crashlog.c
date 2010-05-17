@@ -1,7 +1,7 @@
 /*
  * crashlog.c
  *
- * Copyright (C) 2003, 2004, 2005, 2007 Rob Caelers <robc@krandor.nl>
+ * Copyright (C) 2003, 2004, 2005, 2007, 2010 Rob Caelers <robc@krandor.nl>
  * Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
  * All rights reserved.
  *
@@ -73,6 +73,12 @@ double_exception_handler(struct _EXCEPTION_RECORD *exception_record,
 
   exit(1);
 }
+
+LONG WINAPI exception_filter(EXCEPTION_POINTERS *ep)
+{
+  return exception_handler(ep->ExceptionRecord, NULL, ep->ContextRecord, NULL);
+}
+
 EXCEPTION_DISPOSITION __cdecl
 exception_handler(struct _EXCEPTION_RECORD *exception_record,
                   void *establisher_frame,
