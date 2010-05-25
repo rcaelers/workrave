@@ -1,14 +1,14 @@
 # Catalan translation of Workrave.
-# Copyright © 2005 Free Software Foundation, Inc.
+# Copyright © 2005, 2010 Free Software Foundation, Inc.
 # This file is distributed under the same license as the workrave package.
-# Jordi Mallach <jordi@sindominio.net>, 2005.
+# Jordi Mallach <jordi@sindominio.net>, 2005, 2010.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: workrave 1.8.1\n"
+"Project-Id-Version: workrave 1.9.1\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2010-05-12 23:34+0200\n"
-"PO-Revision-Date: 2006-07-31 17:56+0200\n"
+"POT-Creation-Date: 2010-04-19 18:55+0200\n"
+"PO-Revision-Date: 2010-04-28 19:45+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
 "MIME-Version: 1.0\n"
@@ -16,54 +16,54 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../backend/src/DistributionSocketLink.cc:129
-#, fuzzy, c-format
+#, c-format
 msgid "Reconnecting to %s."
 msgstr "S'està reconnectant a %s."
 
 #. We did not succeed in starting the server. Arghh.
 #: ../backend/src/DistributionSocketLink.cc:421
 msgid "Could not enable network operation."
-msgstr ""
+msgstr "No s'ha pogut habilitar el funcionament en xarxa."
 
 #: ../backend/src/DistributionSocketLink.cc:430
 msgid "Disabling network operation."
-msgstr ""
+msgstr "S'està inhabilitant el funcionament en xarxa."
 
 #: ../backend/src/DistributionSocketLink.cc:546
 #: ../backend/src/DistributionSocketLink.cc:583
-#, fuzzy, c-format
+#, c-format
 msgid "Connecting to %s."
-msgstr "S'està reconnectant a %s."
+msgstr "S'està connectant a %s."
 
 #: ../backend/src/DistributionSocketLink.cc:703
 #: ../backend/src/DistributionSocketLink.cc:729
 #, c-format
 msgid "Removing client %s."
-msgstr ""
+msgstr "S'està suprimint el client %s."
 
 #. Closing direct connection.
 #: ../backend/src/DistributionSocketLink.cc:768
-#, fuzzy, c-format
+#, c-format
 msgid "Disconnecting %s"
-msgstr "_Desconnecta"
+msgstr "S'està desconnectant a %s"
 
 #. It's a remote client. mark it master.
 #: ../backend/src/DistributionSocketLink.cc:937
 #, c-format
 msgid "Client %s is now master."
-msgstr ""
+msgstr "El client %s és ara el mestre."
 
 #. Its ME!
 #: ../backend/src/DistributionSocketLink.cc:944
 msgid "I'm now master."
-msgstr ""
+msgstr "Ara sóc el mestre."
 
 #. gchar *name =
 #. int port =
 #: ../backend/src/DistributionSocketLink.cc:1275
 #, c-format
 msgid "Client %s saying hello."
-msgstr ""
+msgstr "El client %s diu hola."
 
 #. Duplicate client. inform client that it's bogus and close.
 #: ../backend/src/DistributionSocketLink.cc:1290
@@ -71,89 +71,89 @@ msgstr ""
 #: ../backend/src/DistributionSocketLink.cc:1662
 #, c-format
 msgid "Client %s is duplicate."
-msgstr ""
+msgstr "El client %s està duplicat."
 
 #. Incorrect password.
 #: ../backend/src/DistributionSocketLink.cc:1300
 #, c-format
 msgid "Client %s access denied."
-msgstr ""
+msgstr "S'ha denegat l'accés al client %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1369
 #, c-format
 msgid "Client %s signed off."
-msgstr ""
+msgstr "El client %s s'ha desconnectat."
 
 #. gint port =
 #: ../backend/src/DistributionSocketLink.cc:1457
 #, c-format
 msgid "Client %s is welcoming us."
-msgstr ""
+msgstr "El client %s ens dóna la benvinguda."
 
 #: ../backend/src/DistributionSocketLink.cc:1698
 #, c-format
 msgid "Requesting master status from %s."
-msgstr ""
+msgstr "S'està demanant l'estatus de mestre a %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1712
 #, c-format
 msgid "Client timeout from %s."
-msgstr ""
+msgstr "S'ha exhaurit el temps d'espera per al client %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1734
 #, c-format
 msgid "Rejecting master request from client %s."
-msgstr ""
+msgstr "S'està rebutjant la petició de mestre del client %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1740
 #, c-format
 msgid "Acknowledging master request from client %s."
-msgstr ""
+msgstr "S'està acceptant la petició de mestre del client %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1791
 #, c-format
 msgid "Non-master client %s rejected master request."
-msgstr ""
+msgstr "El client no mestre %s ha rebutjat una petició de mestre."
 
 #: ../backend/src/DistributionSocketLink.cc:1796
 #, c-format
 msgid "Client %s rejected master request, delaying."
-msgstr ""
+msgstr "El client %s ha rebutjat la petició de mestre, s'està ajornant."
 
 #. gint count =
 #: ../backend/src/DistributionSocketLink.cc:1867
 #, c-format
 msgid "Client %s is now the new master."
-msgstr ""
+msgstr "El client %s és ara el nou mestre."
 
 #: ../backend/src/DistributionSocketLink.cc:1992
 msgid "Network operation started."
-msgstr ""
+msgstr "S'ha iniciat el funcionament en xarxa."
 
 #: ../backend/src/DistributionSocketLink.cc:2009
 msgid "Accepted new client."
-msgstr ""
+msgstr "S'ha acceptat el nou client."
 
 #: ../backend/src/DistributionSocketLink.cc:2083
 #, c-format
 msgid "Client %s read error, closing."
-msgstr ""
+msgstr "S'ha produït un error de lectura del client %s, s'està tancant."
 
 #: ../backend/src/DistributionSocketLink.cc:2089
 #: ../backend/src/DistributionSocketLink.cc:2162
 #, c-format
 msgid "Client %s closed connection."
-msgstr ""
+msgstr "El client %s ha tancat la connexió."
 
 #: ../backend/src/DistributionSocketLink.cc:2130
 #, c-format
 msgid "Client %s connected."
-msgstr ""
+msgstr "S'ha connectat el client %s."
 
 #: ../backend/src/DistributionSocketLink.cc:2168
 #, c-format
 msgid "Could not connect to client %s."
-msgstr ""
+msgstr "No s'ha pogut connectar al client %s."
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
 #: ../frontend/common/src/SoundPlayer.cc:92
@@ -169,15 +169,14 @@ msgstr "Petició de descans"
 #: ../frontend/common/src/SoundPlayer.cc:123
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:48
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:56
-#: ../frontend/gtkmm/src/GUI.cc:1438 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/GUI.cc:1436 ../frontend/gtkmm/src/GtkUtil.cc:161
 msgid "Daily limit"
 msgstr "Límit diari"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:4
 #: ../frontend/common/src/SoundPlayer.cc:141
-#, fuzzy
 msgid "Exercise change"
-msgstr "Final de l'exercici"
+msgstr "Canvi d'exercici"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:5
 #: ../frontend/common/src/SoundPlayer.cc:129
@@ -216,7 +215,7 @@ msgstr "Workrave"
 
 #: ../frontend/common/src/SoundPlayer.cc:617
 msgid "Custom"
-msgstr ""
+msgstr "Personalitzat"
 
 #: ../frontend/common/src/Text.cc:78
 #, c-format
@@ -260,34 +259,31 @@ msgstr ""
 "acabat encara, trobeu alguna cosa a fer, com revisar un document."
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1438 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/GUI.cc:1436 ../frontend/gtkmm/src/GtkUtil.cc:161
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:54
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:174
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:272
 msgid "Micro-break"
 msgstr "Micropausa"
 
-#: ../frontend/gtkmm/src/GUI.cc:1438 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/GUI.cc:1436 ../frontend/gtkmm/src/GtkUtil.cc:161
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:147
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:81
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:224
 msgid "Rest break"
 msgstr "Descans"
 
-#: ../frontend/gtkmm/src/GUI.cc:1451 ../frontend/gtkmm/src/GUI.cc:1455
-#, fuzzy
+#: ../frontend/gtkmm/src/GUI.cc:1449 ../frontend/gtkmm/src/GUI.cc:1453
 msgid "Mode: "
-msgstr "_Mode"
+msgstr "Mode: "
 
-#: ../frontend/gtkmm/src/GUI.cc:1451
-#, fuzzy
+#: ../frontend/gtkmm/src/GUI.cc:1449
 msgid "Suspended"
-msgstr "_Suspés"
+msgstr "Suspés"
 
-#: ../frontend/gtkmm/src/GUI.cc:1455
-#, fuzzy
+#: ../frontend/gtkmm/src/GUI.cc:1453
 msgid "Quiet"
-msgstr "S_ilenciós"
+msgstr "Silenciós"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:95
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:173
@@ -320,7 +316,7 @@ msgstr "S_ilenciós"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:149
 msgid "_Reading mode"
-msgstr ""
+msgstr "Mode de _lectura"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:154
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
@@ -407,9 +403,8 @@ msgid "General"
 msgstr "General"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:98
-#, fuzzy
 msgid "Sounds"
-msgstr "So:"
+msgstr "Sons"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:102
 msgid "Status Window"
@@ -458,29 +453,28 @@ msgstr "Mode de bloqueig"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:213
 msgid "System default"
-msgstr ""
+msgstr "Predeterminat del sistema"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:253
 msgid "(font not available)"
-msgstr ""
+msgstr "(tipus de lletra no disponible)"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:278
 msgid "Language:"
-msgstr ""
+msgstr "Llengua:"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:282
 msgid "Start Workrave on Windows startup"
-msgstr ""
+msgstr "Inicia el Workrave en iniciar el Windows"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:294
 msgid "Show system tray icon"
-msgstr ""
+msgstr "Mostra la icona de la safata del sistema"
 
 #. Options
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:312
-#, fuzzy
 msgid "Sound Options"
-msgstr "Opcions"
+msgstr "Opcions de so"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:320
 msgid "No sounds"
@@ -496,45 +490,42 @@ msgstr "Reprodueix sons utilitzant l'altaveu intern"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:348
 msgid "Volume:"
-msgstr ""
+msgstr "Volum:"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:351
 msgid "Sound:"
 msgstr "So:"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:357
-#, fuzzy
 msgid "Mute sounds during rest break and daily limit"
-msgstr "Posiciona el descans i el límit diari en un lloc"
+msgstr "Silencia els sons durant el descans i el límit diari"
 
 #. Sound themes
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:367
 msgid "Sound Events"
-msgstr ""
+msgstr "Esdeveniments de so"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:377
-#, fuzzy
 msgid "Sound Theme:"
-msgstr "So:"
+msgstr "Tema de so:"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:400
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:418
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:439
 msgid "Play"
-msgstr ""
+msgstr "Reprodueix"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:405
 msgid "Event"
-msgstr ""
+msgstr "Esdeveniment"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:421
-#, fuzzy
 msgid "Choose a sound"
-msgstr "Sense so"
+msgstr "Seleccioneu un so"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:428
 msgid "Wavefiles"
-msgstr ""
+msgstr "Fitxers d'ones"
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:108
 msgid "Time for a micro-break?"
@@ -569,14 +560,12 @@ msgid "Rest break for %s"
 msgstr "Descans de %s"
 
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:218
-#, fuzzy
 msgid "Natural rest break"
-msgstr "Descansos naturals presos"
+msgstr "Descans natural"
 
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:219
-#, fuzzy
 msgid "This is your natural rest break."
-msgstr "Necessiteu un descans..."
+msgstr "Aquest és el vostre descans..."
 
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:225
 msgid ""
@@ -589,9 +578,8 @@ msgstr ""
 "camineu durants uns minuts, estireu-vos i relaxeu-vos."
 
 #: ../frontend/gtkmm/src/TimerBoxGtkView.cc:189
-#, fuzzy
 msgid "Take rest break now"
-msgstr "El següent descans és en %s"
+msgstr "Inicia un descans ara"
 
 #: ../frontend/gtkmm/src/TimerBoxGtkView.cc:211
 msgid "Wait"
@@ -717,17 +705,13 @@ msgid "Orientation"
 msgstr "Orientació"
 
 #: ../frontend/gtkmm/src/gtktrayicon.c:122
-#, fuzzy
 msgid "The orientation of the tray"
-msgstr "L'orientació de la safata."
+msgstr "L'orientació de la safata"
 
 #: ../frontend/gtkmm/src/workrave.desktop.in.in.h:1
-#, fuzzy
 msgid ""
 "Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
-msgstr ""
-"Aquest programa ajuda a la prevenció i recuperació del mal de pressió "
-"repetitiva (RSI)."
+msgstr "Ajuda a la prevenció i recuperació del mal de pressió repetitiva (RSI)"
 
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:1
 msgid "_About..."
@@ -775,7 +759,7 @@ msgstr "Miniaplicació del Workrave"
 
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:137
 msgid "Reading mode"
-msgstr ""
+msgstr "Mode de lectura"
 
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:144
 msgid "About..."
@@ -820,7 +804,7 @@ msgstr "Contrasenya:"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:111
 msgid "Allow incoming connections"
-msgstr ""
+msgstr "Permet connexions entrants"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:129
 msgid "Server settings"
@@ -872,7 +856,7 @@ msgid ""
 "Cover your eyes with your palms in such way that you can still open your "
 "eyelids. Now open your eyes and look into the darkness of your palms. This "
 "exercise gives better relief to your eyes compared to simply closing them."
-msgstr ""
+msgstr "Cobriu-vos els ulls amb els vostres palmells de manera que encara pogueu obrir els parpalls. Ara obriu els ulls i mireu en la foscor dels vostres palmells. Aquest exercici dóna millor alleujament als vostres ulls comparat amb simplement tancar-los."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:3
 msgid "Finger stretch"
@@ -898,16 +882,17 @@ msgid ""
 "Look at the upper left corner of the outside border of your monitor. Follow "
 "the border slowly to the upper right corner. Continue to the next corner, "
 "until you got around it two times. Then, reverse the exercise."
-msgstr ""
+msgstr "Mireu el cantó superior esquerre del contorn exterior del vostre monitor. Resseguiu el contorn lentament cap al cantó superior dret. Continueu cap al següent cantó, fins a haver completat dues voltes. A continuació, invertiu l'exercici."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
+#, fuzzy
 msgid ""
 "Look for the furthest point you can see behind your monitor. Focus your eyes "
 "on the remote point. Then focus on your monitor border. Repeat it. If you "
 "can't look very far from your monitor, face another direction with a longer "
 "view. Then switch your focus between a distant object and a pen held at the "
 "same distance from your eyes as your monitor."
-msgstr ""
+msgstr "Busqueu el punt més llunyà que pugueu veure darrere del vostre monitor. Enfoqueu els vostres ulls al punt remot. Després, enfoqueu el contorn del vostre monitor. Torneu-ho a repetir. Si no podeu mirar massa lluny del vostre monitor, encareu-vos cap a una altra direcció amb una vista més llarga."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
 msgid "Look into the darkness"
@@ -974,7 +959,7 @@ msgstr "Gireu el cap"
 msgid ""
 "Turn your head left and keep it there for 2 seconds. Then turn your head "
 "right and keep it there for 2 seconds."
-msgstr ""
+msgstr "Gira el cap a la dreta i mantin-lo així durant 2 segons. A continuació, gira'l cap a la dreta i mantin-lo així altres 2 segons."
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:261
 msgid "Exercises player"
@@ -982,23 +967,20 @@ msgstr "Reproductor d'exercicis"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:296
 msgid "Previous exercise"
-msgstr ""
+msgstr "Exercici anterior"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:297
-#, fuzzy
 msgid "Next exercise"
-msgstr "Nombre d'exercicis:"
+msgstr "Exercici següent"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:298
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:484
-#, fuzzy
 msgid "Pause exercises"
-msgstr "Nombre d'exercicis:"
+msgstr "Posa en pausa els exercicis"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:302
-#, fuzzy
 msgid "End exercises"
-msgstr "Exercicis"
+msgstr "Finalitza els exercicis"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:477
 msgid "Resume"
@@ -1009,9 +991,8 @@ msgid "Pause"
 msgstr "Pausa"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:482
-#, fuzzy
 msgid "Resume exercises"
-msgstr "Nombre d'exercicis:"
+msgstr "Reprén els exercicis"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:145
 msgid "Browse history"
@@ -1122,7 +1103,7 @@ msgstr "Moviment efectiu del ratolí:"
 msgid ""
 "The total mouse movement you would have had if you moved your mouse in "
 "straight lines between clicks"
-msgstr ""
+msgstr "El moviment total del ratolí que hauríeu acumulat si l'haguereu mogut en línies rectes entre clics"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:326
 msgid "Mouse button clicks:"
@@ -1145,25 +1126,72 @@ msgstr "El nombre total de pulsacions de tecles"
 msgid "%s, from %s to %s"
 msgstr "%s, de %s a %s"
 
-#, fuzzy
-#~ msgid "Starting %s"
-#~ msgstr "Silenciós en %s"
+#: ../frontend/gtkmm/src/eggdesktopfile.c:165
+#, c-format
+msgid "File is not a valid .desktop file"
+msgstr "El fitxer no és un fitxer .desktop vàlid"
+
+#: ../frontend/gtkmm/src/eggdesktopfile.c:188
+#, c-format
+msgid "Unrecognized desktop file Version '%s'"
+msgstr "No es reconeix la versió del fitxer desktop «%s»"
+
+#: ../frontend/gtkmm/src/eggdesktopfile.c:958
+#, c-format
+msgid "Starting %s"
+msgstr "S'està iniciant %s"
+
+#: ../frontend/gtkmm/src/eggdesktopfile.c:1100
+#, c-format
+msgid "Application does not accept documents on command line"
+msgstr "L'aplicació no accepta documents a la línia d'ordres"
+
+#: ../frontend/gtkmm/src/eggdesktopfile.c:1168
+#, c-format
+msgid "Unrecognized launch option: %d"
+msgstr "No es reconeix l'opció de llançament: %d"
+
+#: ../frontend/gtkmm/src/eggdesktopfile.c:1373
+#, c-format
+msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
+msgstr "No es poden passar URI de documents a una entrada de desktop «Type=Link»"
+
+#: ../frontend/gtkmm/src/eggdesktopfile.c:1394
+#, c-format
+msgid "Not a launchable item"
+msgstr "No és un element llançable"
+
+#: ../frontend/gtkmm/src/eggsmclient.c:225
+msgid "Disable connection to session manager"
+msgstr "Inhabilita la connexió al gestor de sessions"
+
+#: ../frontend/gtkmm/src/eggsmclient.c:228
+msgid "Specify file containing saved configuration"
+msgstr "Especifica el fitxer que conté la configuració desada"
+
+#: ../frontend/gtkmm/src/eggsmclient.c:228
+msgid "FILE"
+msgstr "FITXER"
+
+#: ../frontend/gtkmm/src/eggsmclient.c:231
+msgid "Specify session management ID"
+msgstr "Especifica l'ID de gestió de sessió"
+
+#: ../frontend/gtkmm/src/eggsmclient.c:231
+msgid "ID"
+msgstr "ID"
+
+#: ../frontend/gtkmm/src/eggsmclient.c:252
+msgid "Session management options:"
+msgstr "Opcions de gestió de sessió:"
+
+#: ../frontend/gtkmm/src/eggsmclient.c:253
+msgid "Show session management options"
+msgstr "Mostra les opcions de gestió de la sessió"
 
 #~ msgid "Cannot resolve my own hostname. Deactivating distribution."
 #~ msgstr ""
 #~ "No es pot resoldre el nom propi. S'està inhabilitant la distribució."
-
-#, fuzzy
-#~ msgid "Break in"
-#~ msgstr "Descans en %s"
-
-#, fuzzy
-#~ msgid "Disappears in"
-#~ msgstr "Desapareix en %s"
-
-#, fuzzy
-#~ msgid "Silent in"
-#~ msgstr "Silenciós en %s"
 
 #~ msgid "I could not initialize Bonobo"
 #~ msgstr "No s'ha pogut iniciar el Bonobo"
