@@ -8,12 +8,12 @@ dnl
 
 m4_define([workrave_major_version], [1])
 m4_define([workrave_minor_version], [9])
-m4_define([workrave_micro_version], [2])
-m4_define([workrave_version_suffix], [])
+m4_define([workrave_micro_version], [1])
+m4_define([workrave_version_suffix], [90])
 m4_define([workrave_version],
           [workrave_major_version.workrave_minor_version.workrave_micro_version])
 m4_define([workrave_resource_version],
-          [workrave_major_version,workrave_minor_version,workrave_micro_version,0])
+          [workrave_major_version,workrave_minor_version,workrave_micro_version,workrave_version_suffix])
 
 AC_INIT(workrave, [workrave_version],
         [http://issues.workrave.org/cgi-bin/bugzilla/enter_bug.cgi])

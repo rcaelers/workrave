@@ -11,13 +11,20 @@ http://www.workrave.org
   The activity insensitive breaks have been replaced by a 'reading
   mode'. This mode can easily be activated from the menu.
 
-** Mute audio when restbreak starts.
-  Workrave can not mute all audio during breaks.
+** Workrave can now mute all audio during breaks.
 
-** Properly remember the Window hide/show notification area settings.
+** Workrave now properly remembers the Window hide/show notification
+   icon settings.
 
-** Applet is functional again on Window 7
+** The Workrave applet is functional again on Window 7
 
+** Updated tranlations:
+   - Brazilian Portuguese
+   - Catalan
+   - Hungarian
+   - Hebrew
+
+** Many bug fixes.
 
 * Workrave 1.9.1
 
