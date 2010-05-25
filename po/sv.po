@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2010-05-12 23:34+0200\n"
+"POT-Creation-Date: 2010-05-25 20:08+0200\n"
 "PO-Revision-Date: 2009-03-02 17:17+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -126,31 +126,31 @@ msgstr "Klient %s avvisade begäran om master, fördröjer."
 msgid "Client %s is now the new master."
 msgstr "Klient %s är nu ny master."
 
-#: ../backend/src/DistributionSocketLink.cc:1992
+#: ../backend/src/DistributionSocketLink.cc:1994
 msgid "Network operation started."
 msgstr "Nätverksfunktion startad."
 
-#: ../backend/src/DistributionSocketLink.cc:2009
+#: ../backend/src/DistributionSocketLink.cc:2015
 msgid "Accepted new client."
 msgstr "Accepterade ny klient."
 
-#: ../backend/src/DistributionSocketLink.cc:2083
+#: ../backend/src/DistributionSocketLink.cc:2089
 #, fuzzy, c-format
 msgid "Client %s read error, closing."
 msgstr "Klient %s läsfel, stänger."
 
-#: ../backend/src/DistributionSocketLink.cc:2089
-#: ../backend/src/DistributionSocketLink.cc:2162
+#: ../backend/src/DistributionSocketLink.cc:2095
+#: ../backend/src/DistributionSocketLink.cc:2168
 #, fuzzy, c-format
 msgid "Client %s closed connection."
 msgstr "Klient %s stängde anslutning."
 
-#: ../backend/src/DistributionSocketLink.cc:2130
+#: ../backend/src/DistributionSocketLink.cc:2136
 #, fuzzy, c-format
 msgid "Client %s connected."
 msgstr "Klient %s ansluten."
 
-#: ../backend/src/DistributionSocketLink.cc:2168
+#: ../backend/src/DistributionSocketLink.cc:2174
 #, fuzzy, c-format
 msgid "Could not connect to client %s."
 msgstr "Kunde inte ansluta till klient %s: %d."
@@ -1163,6 +1163,16 @@ msgstr "Totalt antal tangenter tryckta"
 #, c-format
 msgid "%s, from %s to %s"
 msgstr "%s, från %s till %s"
+
+#, fuzzy
+#~ msgid ""
+#~ "This is your natural rest break. Make sure you stand up and\n"
+#~ "walk away from your computer on a regular basis. Just\n"
+#~ "walk around for a few minutes, stretch, and relax."
+#~ msgstr ""
+#~ "Detta är din vilopaus. Se till att du ställer dig upp och går\n"
+#~ "bort från din dator på en regelbunden basis. Gå bara\n"
+#~ "runt i några minuter, stretcha och slappna av."
 
 #, fuzzy
 #~ msgid "Starting %s"

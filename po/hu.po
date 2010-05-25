@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2010-05-12 23:34+0200\n"
+"POT-Creation-Date: 2010-05-25 20:08+0200\n"
 "PO-Revision-Date: 2010-02-09 11:45+0100\n"
 "Last-Translator: Gabor Kelemen <kelemeng at gnome dot hu>\n"
 "Language-Team: Hungarian <gnome at fsf dot hu>\n"
@@ -128,31 +128,31 @@ msgstr "%s kliens elutasította elsődlegességi kérelmét, késleltetés…"
 msgid "Client %s is now the new master."
 msgstr "%s kliens az elsődleges."
 
-#: ../backend/src/DistributionSocketLink.cc:1992
+#: ../backend/src/DistributionSocketLink.cc:1994
 msgid "Network operation started."
 msgstr "Hálózati műveletek elkezdve."
 
-#: ../backend/src/DistributionSocketLink.cc:2009
+#: ../backend/src/DistributionSocketLink.cc:2015
 msgid "Accepted new client."
 msgstr "Új kliens elfogadva."
 
-#: ../backend/src/DistributionSocketLink.cc:2083
+#: ../backend/src/DistributionSocketLink.cc:2089
 #, fuzzy, c-format
 msgid "Client %s read error, closing."
 msgstr "Olvasási hiba: %s. Befejezés."
 
-#: ../backend/src/DistributionSocketLink.cc:2089
-#: ../backend/src/DistributionSocketLink.cc:2162
+#: ../backend/src/DistributionSocketLink.cc:2095
+#: ../backend/src/DistributionSocketLink.cc:2168
 #, fuzzy, c-format
 msgid "Client %s closed connection."
 msgstr "%s kliens befejezte a kapcsolatot."
 
-#: ../backend/src/DistributionSocketLink.cc:2130
+#: ../backend/src/DistributionSocketLink.cc:2136
 #, fuzzy, c-format
 msgid "Client %s connected."
 msgstr "%s kliens kapcsolódott."
 
-#: ../backend/src/DistributionSocketLink.cc:2168
+#: ../backend/src/DistributionSocketLink.cc:2174
 #, fuzzy, c-format
 msgid "Could not connect to client %s."
 msgstr "Sikertelen kapcsolódás %s klienshez."
@@ -1163,6 +1163,15 @@ msgstr "A lenyomott billentyűk száma"
 #, c-format
 msgid "%s, from %s to %s"
 msgstr "%s, ettől: %s eddig: %s"
+
+#, fuzzy
+#~ msgid ""
+#~ "This is your natural rest break. Make sure you stand up and\n"
+#~ "walk away from your computer on a regular basis. Just\n"
+#~ "walk around for a few minutes, stretch, and relax."
+#~ msgstr ""
+#~ "Ez az Ön pihenőideje. Álljon föl, sétáljon el a számítógéptől.\n"
+#~ "Lazítson, nyújtózzon, sétáljon pár percig."
 
 #~ msgid "File is not a valid .desktop file"
 #~ msgstr "A fájl nem egy érvényes .desktop fájl"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: no\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2010-05-12 23:34+0200\n"
+"POT-Creation-Date: 2010-05-25 20:08+0200\n"
 "PO-Revision-Date: 2006-07-31 18:10+0200\n"
 "Last-Translator: Morten Lunde <morten.lunde@broadpark.no>\n"
 "Language-Team:  >\n"
@@ -127,31 +127,31 @@ msgstr "Klient %s avviste master anmodning, utsetter."
 msgid "Client %s is now the new master."
 msgstr "Klient %s er nå ny master."
 
-#: ../backend/src/DistributionSocketLink.cc:1992
+#: ../backend/src/DistributionSocketLink.cc:1994
 msgid "Network operation started."
 msgstr "Nettverksfunksjon startet"
 
-#: ../backend/src/DistributionSocketLink.cc:2009
+#: ../backend/src/DistributionSocketLink.cc:2015
 msgid "Accepted new client."
 msgstr "Aksepterte ny klient."
 
-#: ../backend/src/DistributionSocketLink.cc:2083
+#: ../backend/src/DistributionSocketLink.cc:2089
 #, fuzzy, c-format
 msgid "Client %s read error, closing."
 msgstr "Klient %s lesefeil, lukker."
 
-#: ../backend/src/DistributionSocketLink.cc:2089
-#: ../backend/src/DistributionSocketLink.cc:2162
+#: ../backend/src/DistributionSocketLink.cc:2095
+#: ../backend/src/DistributionSocketLink.cc:2168
 #, fuzzy, c-format
 msgid "Client %s closed connection."
 msgstr "Klient %s avbrøt forbindelsen."
 
-#: ../backend/src/DistributionSocketLink.cc:2130
+#: ../backend/src/DistributionSocketLink.cc:2136
 #, fuzzy, c-format
 msgid "Client %s connected."
 msgstr "Klient %s tilkoblet."
 
-#: ../backend/src/DistributionSocketLink.cc:2168
+#: ../backend/src/DistributionSocketLink.cc:2174
 #, fuzzy, c-format
 msgid "Could not connect to client %s."
 msgstr "Kunne ikke koble til klient %s."
@@ -1185,6 +1185,16 @@ msgstr "Totalt antall tastetrykk"
 #, c-format
 msgid "%s, from %s to %s"
 msgstr "%s, fra %s til %s"
+
+#, fuzzy
+#~ msgid ""
+#~ "This is your natural rest break. Make sure you stand up and\n"
+#~ "walk away from your computer on a regular basis. Just\n"
+#~ "walk around for a few minutes, stretch, and relax."
+#~ msgstr ""
+#~ "Du har nå hvilepause. Husk å reise deg opp og gå vekk \n"
+#~ "fra datamaskinen regelmessig. Bare gå litt rundt i et \n"
+#~ "par minutter, strekk ut og slapp av."
 
 #, fuzzy
 #~ msgid "Starting %s"

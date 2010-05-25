@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.6.2\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2010-05-12 23:34+0200\n"
+"POT-Creation-Date: 2010-05-25 20:08+0200\n"
 "PO-Revision-Date: 2006-12-28 19:05+0100\n"
 "Last-Translator: Peter Tuharsky <peter.tuharsky@banskabystrica.sk>\n"
 "Language-Team: Slovak \n"
@@ -128,31 +128,31 @@ msgstr "Klient %s odmietol požiadavku na vedúci stav, čakám."
 msgid "Client %s is now the new master."
 msgstr "Klient %s je teraz vedúci."
 
-#: ../backend/src/DistributionSocketLink.cc:1992
+#: ../backend/src/DistributionSocketLink.cc:1994
 msgid "Network operation started."
 msgstr "Začali sieťové operácie."
 
-#: ../backend/src/DistributionSocketLink.cc:2009
+#: ../backend/src/DistributionSocketLink.cc:2015
 msgid "Accepted new client."
 msgstr "Akceptovaný nový klient."
 
-#: ../backend/src/DistributionSocketLink.cc:2083
+#: ../backend/src/DistributionSocketLink.cc:2089
 #, fuzzy, c-format
 msgid "Client %s read error, closing."
 msgstr "Chyba pri čitania s klientom %s, ukončujem."
 
-#: ../backend/src/DistributionSocketLink.cc:2089
-#: ../backend/src/DistributionSocketLink.cc:2162
+#: ../backend/src/DistributionSocketLink.cc:2095
+#: ../backend/src/DistributionSocketLink.cc:2168
 #, fuzzy, c-format
 msgid "Client %s closed connection."
 msgstr "Klient %s ukončil spojenie."
 
-#: ../backend/src/DistributionSocketLink.cc:2130
+#: ../backend/src/DistributionSocketLink.cc:2136
 #, fuzzy, c-format
 msgid "Client %s connected."
 msgstr "Klient %s sa pripojil."
 
-#: ../backend/src/DistributionSocketLink.cc:2168
+#: ../backend/src/DistributionSocketLink.cc:2174
 #, fuzzy, c-format
 msgid "Could not connect to client %s."
 msgstr "Nepodarilo sa pripojiť ku klientovi %s."
@@ -1177,6 +1177,16 @@ msgstr "Celkový počet stlačení kláves"
 #, c-format
 msgid "%s, from %s to %s"
 msgstr "%s, od %s do %s"
+
+#, fuzzy
+#~ msgid ""
+#~ "This is your natural rest break. Make sure you stand up and\n"
+#~ "walk away from your computer on a regular basis. Just\n"
+#~ "walk around for a few minutes, stretch, and relax."
+#~ msgstr ""
+#~ "Nadišiel čas Vašej prestávky. Rozhodne nezostaňte\n"
+#~ "sedieť -vstaňte, rozhýbte sa, choďte na chvíľu preč\n"
+#~ "od počítača. Venujte niekoľko minút oddychu."
 
 #, fuzzy
 #~ msgid "Starting %s"

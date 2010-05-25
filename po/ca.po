@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.9.1\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2010-04-19 18:55+0200\n"
+"POT-Creation-Date: 2010-05-25 20:08+0200\n"
 "PO-Revision-Date: 2010-04-28 19:45+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
@@ -126,31 +126,31 @@ msgstr "El client %s ha rebutjat la petició de mestre, s'està ajornant."
 msgid "Client %s is now the new master."
 msgstr "El client %s és ara el nou mestre."
 
-#: ../backend/src/DistributionSocketLink.cc:1992
+#: ../backend/src/DistributionSocketLink.cc:1994
 msgid "Network operation started."
 msgstr "S'ha iniciat el funcionament en xarxa."
 
-#: ../backend/src/DistributionSocketLink.cc:2009
+#: ../backend/src/DistributionSocketLink.cc:2015
 msgid "Accepted new client."
 msgstr "S'ha acceptat el nou client."
 
-#: ../backend/src/DistributionSocketLink.cc:2083
+#: ../backend/src/DistributionSocketLink.cc:2089
 #, c-format
 msgid "Client %s read error, closing."
 msgstr "S'ha produït un error de lectura del client %s, s'està tancant."
 
-#: ../backend/src/DistributionSocketLink.cc:2089
-#: ../backend/src/DistributionSocketLink.cc:2162
+#: ../backend/src/DistributionSocketLink.cc:2095
+#: ../backend/src/DistributionSocketLink.cc:2168
 #, c-format
 msgid "Client %s closed connection."
 msgstr "El client %s ha tancat la connexió."
 
-#: ../backend/src/DistributionSocketLink.cc:2130
+#: ../backend/src/DistributionSocketLink.cc:2136
 #, c-format
 msgid "Client %s connected."
 msgstr "S'ha connectat el client %s."
 
-#: ../backend/src/DistributionSocketLink.cc:2168
+#: ../backend/src/DistributionSocketLink.cc:2174
 #, c-format
 msgid "Could not connect to client %s."
 msgstr "No s'ha pogut connectar al client %s."
@@ -169,7 +169,7 @@ msgstr "Petició de descans"
 #: ../frontend/common/src/SoundPlayer.cc:123
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:48
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:56
-#: ../frontend/gtkmm/src/GUI.cc:1436 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/GUI.cc:1438 ../frontend/gtkmm/src/GtkUtil.cc:161
 msgid "Daily limit"
 msgstr "Límit diari"
 
@@ -259,29 +259,29 @@ msgstr ""
 "acabat encara, trobeu alguna cosa a fer, com revisar un document."
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1436 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/GUI.cc:1438 ../frontend/gtkmm/src/GtkUtil.cc:161
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:54
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:174
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:272
 msgid "Micro-break"
 msgstr "Micropausa"
 
-#: ../frontend/gtkmm/src/GUI.cc:1436 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/GUI.cc:1438 ../frontend/gtkmm/src/GtkUtil.cc:161
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:147
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:81
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:224
 msgid "Rest break"
 msgstr "Descans"
 
-#: ../frontend/gtkmm/src/GUI.cc:1449 ../frontend/gtkmm/src/GUI.cc:1453
+#: ../frontend/gtkmm/src/GUI.cc:1451 ../frontend/gtkmm/src/GUI.cc:1455
 msgid "Mode: "
 msgstr "Mode: "
 
-#: ../frontend/gtkmm/src/GUI.cc:1449
+#: ../frontend/gtkmm/src/GUI.cc:1451
 msgid "Suspended"
 msgstr "Suspés"
 
-#: ../frontend/gtkmm/src/GUI.cc:1453
+#: ../frontend/gtkmm/src/GUI.cc:1455
 msgid "Quiet"
 msgstr "Silenciós"
 
@@ -856,7 +856,11 @@ msgid ""
 "Cover your eyes with your palms in such way that you can still open your "
 "eyelids. Now open your eyes and look into the darkness of your palms. This "
 "exercise gives better relief to your eyes compared to simply closing them."
-msgstr "Cobriu-vos els ulls amb els vostres palmells de manera que encara pogueu obrir els parpalls. Ara obriu els ulls i mireu en la foscor dels vostres palmells. Aquest exercici dóna millor alleujament als vostres ulls comparat amb simplement tancar-los."
+msgstr ""
+"Cobriu-vos els ulls amb els vostres palmells de manera que encara pogueu "
+"obrir els parpalls. Ara obriu els ulls i mireu en la foscor dels vostres "
+"palmells. Aquest exercici dóna millor alleujament als vostres ulls comparat "
+"amb simplement tancar-los."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:3
 msgid "Finger stretch"
@@ -882,7 +886,11 @@ msgid ""
 "Look at the upper left corner of the outside border of your monitor. Follow "
 "the border slowly to the upper right corner. Continue to the next corner, "
 "until you got around it two times. Then, reverse the exercise."
-msgstr "Mireu el cantó superior esquerre del contorn exterior del vostre monitor. Resseguiu el contorn lentament cap al cantó superior dret. Continueu cap al següent cantó, fins a haver completat dues voltes. A continuació, invertiu l'exercici."
+msgstr ""
+"Mireu el cantó superior esquerre del contorn exterior del vostre monitor. "
+"Resseguiu el contorn lentament cap al cantó superior dret. Continueu cap al "
+"següent cantó, fins a haver completat dues voltes. A continuació, invertiu "
+"l'exercici."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
 #, fuzzy
@@ -892,7 +900,12 @@ msgid ""
 "can't look very far from your monitor, face another direction with a longer "
 "view. Then switch your focus between a distant object and a pen held at the "
 "same distance from your eyes as your monitor."
-msgstr "Busqueu el punt més llunyà que pugueu veure darrere del vostre monitor. Enfoqueu els vostres ulls al punt remot. Després, enfoqueu el contorn del vostre monitor. Torneu-ho a repetir. Si no podeu mirar massa lluny del vostre monitor, encareu-vos cap a una altra direcció amb una vista més llarga."
+msgstr ""
+"Busqueu el punt més llunyà que pugueu veure darrere del vostre monitor. "
+"Enfoqueu els vostres ulls al punt remot. Després, enfoqueu el contorn del "
+"vostre monitor. Torneu-ho a repetir. Si no podeu mirar massa lluny del "
+"vostre monitor, encareu-vos cap a una altra direcció amb una vista més "
+"llarga."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
 msgid "Look into the darkness"
@@ -959,7 +972,9 @@ msgstr "Gireu el cap"
 msgid ""
 "Turn your head left and keep it there for 2 seconds. Then turn your head "
 "right and keep it there for 2 seconds."
-msgstr "Gira el cap a la dreta i mantin-lo així durant 2 segons. A continuació, gira'l cap a la dreta i mantin-lo així altres 2 segons."
+msgstr ""
+"Gira el cap a la dreta i mantin-lo així durant 2 segons. A continuació, "
+"gira'l cap a la dreta i mantin-lo així altres 2 segons."
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:261
 msgid "Exercises player"
@@ -1103,7 +1118,9 @@ msgstr "Moviment efectiu del ratolí:"
 msgid ""
 "The total mouse movement you would have had if you moved your mouse in "
 "straight lines between clicks"
-msgstr "El moviment total del ratolí que hauríeu acumulat si l'haguereu mogut en línies rectes entre clics"
+msgstr ""
+"El moviment total del ratolí que hauríeu acumulat si l'haguereu mogut en "
+"línies rectes entre clics"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:326
 msgid "Mouse button clicks:"
@@ -1126,68 +1143,58 @@ msgstr "El nombre total de pulsacions de tecles"
 msgid "%s, from %s to %s"
 msgstr "%s, de %s a %s"
 
-#: ../frontend/gtkmm/src/eggdesktopfile.c:165
-#, c-format
-msgid "File is not a valid .desktop file"
-msgstr "El fitxer no és un fitxer .desktop vàlid"
+#, fuzzy
+#~ msgid ""
+#~ "This is your natural rest break. Make sure you stand up and\n"
+#~ "walk away from your computer on a regular basis. Just\n"
+#~ "walk around for a few minutes, stretch, and relax."
+#~ msgstr ""
+#~ "Aquest és el vostre descans. Assegureu-vos que us alceu i\n"
+#~ "us allunyeu de l'ordinador de tant en tant. Simplement\n"
+#~ "camineu durants uns minuts, estireu-vos i relaxeu-vos."
 
-#: ../frontend/gtkmm/src/eggdesktopfile.c:188
-#, c-format
-msgid "Unrecognized desktop file Version '%s'"
-msgstr "No es reconeix la versió del fitxer desktop «%s»"
+#~ msgid "File is not a valid .desktop file"
+#~ msgstr "El fitxer no és un fitxer .desktop vàlid"
 
-#: ../frontend/gtkmm/src/eggdesktopfile.c:958
-#, c-format
-msgid "Starting %s"
-msgstr "S'està iniciant %s"
+#~ msgid "Unrecognized desktop file Version '%s'"
+#~ msgstr "No es reconeix la versió del fitxer desktop «%s»"
 
-#: ../frontend/gtkmm/src/eggdesktopfile.c:1100
-#, c-format
-msgid "Application does not accept documents on command line"
-msgstr "L'aplicació no accepta documents a la línia d'ordres"
+#~ msgid "Starting %s"
+#~ msgstr "S'està iniciant %s"
 
-#: ../frontend/gtkmm/src/eggdesktopfile.c:1168
-#, c-format
-msgid "Unrecognized launch option: %d"
-msgstr "No es reconeix l'opció de llançament: %d"
+#~ msgid "Application does not accept documents on command line"
+#~ msgstr "L'aplicació no accepta documents a la línia d'ordres"
 
-#: ../frontend/gtkmm/src/eggdesktopfile.c:1373
-#, c-format
-msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
-msgstr "No es poden passar URI de documents a una entrada de desktop «Type=Link»"
+#~ msgid "Unrecognized launch option: %d"
+#~ msgstr "No es reconeix l'opció de llançament: %d"
 
-#: ../frontend/gtkmm/src/eggdesktopfile.c:1394
-#, c-format
-msgid "Not a launchable item"
-msgstr "No és un element llançable"
+#~ msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
+#~ msgstr ""
+#~ "No es poden passar URI de documents a una entrada de desktop «Type=Link»"
 
-#: ../frontend/gtkmm/src/eggsmclient.c:225
-msgid "Disable connection to session manager"
-msgstr "Inhabilita la connexió al gestor de sessions"
+#~ msgid "Not a launchable item"
+#~ msgstr "No és un element llançable"
 
-#: ../frontend/gtkmm/src/eggsmclient.c:228
-msgid "Specify file containing saved configuration"
-msgstr "Especifica el fitxer que conté la configuració desada"
+#~ msgid "Disable connection to session manager"
+#~ msgstr "Inhabilita la connexió al gestor de sessions"
 
-#: ../frontend/gtkmm/src/eggsmclient.c:228
-msgid "FILE"
-msgstr "FITXER"
+#~ msgid "Specify file containing saved configuration"
+#~ msgstr "Especifica el fitxer que conté la configuració desada"
 
-#: ../frontend/gtkmm/src/eggsmclient.c:231
-msgid "Specify session management ID"
-msgstr "Especifica l'ID de gestió de sessió"
+#~ msgid "FILE"
+#~ msgstr "FITXER"
 
-#: ../frontend/gtkmm/src/eggsmclient.c:231
-msgid "ID"
-msgstr "ID"
+#~ msgid "Specify session management ID"
+#~ msgstr "Especifica l'ID de gestió de sessió"
 
-#: ../frontend/gtkmm/src/eggsmclient.c:252
-msgid "Session management options:"
-msgstr "Opcions de gestió de sessió:"
+#~ msgid "ID"
+#~ msgstr "ID"
 
-#: ../frontend/gtkmm/src/eggsmclient.c:253
-msgid "Show session management options"
-msgstr "Mostra les opcions de gestió de la sessió"
+#~ msgid "Session management options:"
+#~ msgstr "Opcions de gestió de sessió:"
+
+#~ msgid "Show session management options"
+#~ msgstr "Mostra les opcions de gestió de la sessió"
 
 #~ msgid "Cannot resolve my own hostname. Deactivating distribution."
 #~ msgstr ""

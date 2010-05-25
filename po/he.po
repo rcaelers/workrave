@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave cvs\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2010-05-12 23:34+0200\n"
-"PO-Revision-Date: 2006-07-31 18:09+0200\n"
+"POT-Creation-Date: 2010-05-25 20:08+0200\n"
+"PO-Revision-Date: 2010-05-25 20:01+0200\n"
 "Last-Translator: Haggai Eran <he3@bezeqint.net>\n"
 "Language-Team: Hebrew <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -17,9 +17,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../backend/src/DistributionSocketLink.cc:129
-#, fuzzy, c-format
+#, c-format
 msgid "Reconnecting to %s."
-msgstr "התחבר מחדש ל-%s."
+msgstr "התחברות מחדש אל %s."
 
 #. We did not succeed in starting the server. Arghh.
 #: ../backend/src/DistributionSocketLink.cc:421
@@ -127,31 +127,31 @@ msgstr "הלקוח %s דחה את בקשת השליט, ממתין."
 msgid "Client %s is now the new master."
 msgstr "הלקוח %s הוא השליט החדש."
 
-#: ../backend/src/DistributionSocketLink.cc:1992
+#: ../backend/src/DistributionSocketLink.cc:1994
 msgid "Network operation started."
 msgstr "פעולת רשת התחילה."
 
-#: ../backend/src/DistributionSocketLink.cc:2009
+#: ../backend/src/DistributionSocketLink.cc:2015
 msgid "Accepted new client."
 msgstr "התקבל לקוח חדש."
 
-#: ../backend/src/DistributionSocketLink.cc:2083
+#: ../backend/src/DistributionSocketLink.cc:2089
 #, fuzzy, c-format
 msgid "Client %s read error, closing."
 msgstr "שגיאה בקריאה מן הלקוח %s, סוגר."
 
-#: ../backend/src/DistributionSocketLink.cc:2089
-#: ../backend/src/DistributionSocketLink.cc:2162
+#: ../backend/src/DistributionSocketLink.cc:2095
+#: ../backend/src/DistributionSocketLink.cc:2168
 #, fuzzy, c-format
 msgid "Client %s closed connection."
 msgstr "הלקוח %s סגר את החיבור."
 
-#: ../backend/src/DistributionSocketLink.cc:2130
+#: ../backend/src/DistributionSocketLink.cc:2136
 #, fuzzy, c-format
 msgid "Client %s connected."
 msgstr "הלקוח %s התחבר."
 
-#: ../backend/src/DistributionSocketLink.cc:2168
+#: ../backend/src/DistributionSocketLink.cc:2174
 #, fuzzy, c-format
 msgid "Could not connect to client %s."
 msgstr "לא ניתן להתחבר ללקוח %s."
@@ -722,11 +722,10 @@ msgid "The orientation of the tray"
 msgstr "כיוון המגש"
 
 #: ../frontend/gtkmm/src/workrave.desktop.in.in.h:1
-#, fuzzy
 msgid ""
 "Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
 msgstr ""
-"תוכנית זו מסייעת במניעה והחלמה מפגיעת מתח חוזרת (Repetitive Strain Injury - "
+"תכנית זו מסייעת במניעה והחלמה מפגיעת מתח חוזרת (Repetitive Strain Injury - "
 "RSI)."
 
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:1
@@ -775,7 +774,7 @@ msgstr "ישומון Workrave"
 
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:137
 msgid "Reading mode"
-msgstr ""
+msgstr "מצב קריאה"
 
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:144
 msgid "About..."
@@ -818,7 +817,7 @@ msgstr "סיסמה:"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:111
 msgid "Allow incoming connections"
-msgstr ""
+msgstr "אפשור חיבורים נכנסים"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:129
 msgid "Server settings"
@@ -1004,7 +1003,7 @@ msgstr "מציג התרגילים"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:296
 msgid "Previous exercise"
-msgstr ""
+msgstr "התרגיל הקודם"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:297
 #, fuzzy
@@ -1165,21 +1164,27 @@ msgid "%s, from %s to %s"
 msgstr "%s, מ- %s עד %s"
 
 #, fuzzy
+#~ msgid ""
+#~ "This is your natural rest break. Make sure you stand up and\n"
+#~ "walk away from your computer on a regular basis. Just\n"
+#~ "walk around for a few minutes, stretch, and relax."
+#~ msgstr ""
+#~ "זוהי הפסקת המנוחה שלך. קום/י על הרגלים\n"
+#~ "והתרחק מן המחשב באופן סדיר. רק התהלך\n"
+#~ "סביב לכמה דקות, התמתח והרגע."
+
 #~ msgid "Starting %s"
 #~ msgstr "שקט בעוד %s"
 
 #~ msgid "Cannot resolve my own hostname. Deactivating distribution."
 #~ msgstr "לא יכול לתרגם את שם המחשב שלי. מבטל הפצה."
 
-#, fuzzy
 #~ msgid "Break in"
 #~ msgstr "הפסקה בעוד %s"
 
-#, fuzzy
 #~ msgid "Disappears in"
 #~ msgstr "יעלם בעוד %s"
 
-#, fuzzy
 #~ msgid "Silent in"
 #~ msgstr "שקט בעוד %s"
 
