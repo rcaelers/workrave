@@ -1,6 +1,6 @@
 // PacketBufer.hh
 //
-// Copyright (C) 2002, 2003 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2010 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -43,6 +43,7 @@ public:
   void pack(const guint8 *data, int size);
   void pack_raw(const guint8 *data, int size);
   void pack_raw(PacketBuffer &buffer);
+  void pack_string(const std::string &data);
   void pack_string(const gchar *data);
   void pack_ushort(guint16 data);
   void pack_ulong(guint32 data);

@@ -355,20 +355,12 @@ DistributionManager::broadcast_client_message(DistributionClientMessageID id, Pa
 
 //! Event from Link that our 'master' status changed.
 void
-DistributionManager::master_changed(bool new_master, char *id)
+DistributionManager::master_changed(bool new_master, string id)
 {
   TRACE_ENTER_MSG("DistributionManager::master_changed", new_master);
   state = (new_master ? NODE_ACTIVE : NODE_STANDBY);
 
-  if (id != NULL)
-    {
-      // id
-      current_master = id;
-    }
-  else
-    {
-      current_master = "";
-    }
+  current_master = id;
 
   TRACE_EXIT();
 }
