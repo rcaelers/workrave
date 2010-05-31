@@ -97,7 +97,7 @@
 #endif
 
 #if defined(HAVE_DBUS)
-#if defined(PLATFORM_OS_WIN32_NATIVE)
+#if defined(interface)
 #undef interface
 #endif
 #include "DBus.hh"
