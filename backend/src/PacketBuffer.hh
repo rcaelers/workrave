@@ -20,6 +20,8 @@
 #ifndef PACKETBUFER_HH
 #define PACKETBUFER_HH
 
+#include <string>
+
 #include "glib.h"
 
 #define GROW_SIZE (4096)
