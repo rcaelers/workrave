@@ -133,6 +133,7 @@ public:
   virtual ISocketServer *create_server() = 0;
 };
 
+
 //! Socket exception
 class SocketException : public Exception
 {

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2010-05-12 23:34+0200\n"
+"POT-Creation-Date: 2010-05-25 20:08+0200\n"
 "PO-Revision-Date: 2006-10-15 10:02+0200\n"
 "Last-Translator: Prokopis Prokopidis <prokopidis@gmail.com>\n"
 "Language-Team:  <en@li.org>\n"
@@ -136,31 +136,31 @@ msgstr ""
 msgid "Client %s is now the new master."
 msgstr "Ο πελάτης %s είναι τώρα ο νέος κύριος υπολογιστής."
 
-#: ../backend/src/DistributionSocketLink.cc:1992
+#: ../backend/src/DistributionSocketLink.cc:1994
 msgid "Network operation started."
 msgstr "Ενεργοποίηση λειτουργίας δικτύου."
 
-#: ../backend/src/DistributionSocketLink.cc:2009
+#: ../backend/src/DistributionSocketLink.cc:2015
 msgid "Accepted new client."
 msgstr "Αποδοχή νέου πελάτη."
 
-#: ../backend/src/DistributionSocketLink.cc:2083
+#: ../backend/src/DistributionSocketLink.cc:2089
 #, fuzzy, c-format
 msgid "Client %s read error, closing."
 msgstr "Σφάλμα ανάγνωσης στον πελάτη %s. Διακοπή σύνδεσης."
 
-#: ../backend/src/DistributionSocketLink.cc:2089
-#: ../backend/src/DistributionSocketLink.cc:2162
+#: ../backend/src/DistributionSocketLink.cc:2095
+#: ../backend/src/DistributionSocketLink.cc:2168
 #, fuzzy, c-format
 msgid "Client %s closed connection."
 msgstr "Ο πελάτης %s διέκοψε τη σύνδεση."
 
-#: ../backend/src/DistributionSocketLink.cc:2130
+#: ../backend/src/DistributionSocketLink.cc:2136
 #, fuzzy, c-format
 msgid "Client %s connected."
 msgstr "Ο πελάτης %s συνδέθηκε."
 
-#: ../backend/src/DistributionSocketLink.cc:2168
+#: ../backend/src/DistributionSocketLink.cc:2174
 #, fuzzy, c-format
 msgid "Could not connect to client %s."
 msgstr "Σύνδεση με τον πελάτη %s αδύνατη."
@@ -1204,6 +1204,16 @@ msgstr "Συνολικός αριθμός πληκτρισμών"
 #, c-format
 msgid "%s, from %s to %s"
 msgstr "%s, από %s μέχρι %s"
+
+#, fuzzy
+#~ msgid ""
+#~ "This is your natural rest break. Make sure you stand up and\n"
+#~ "walk away from your computer on a regular basis. Just\n"
+#~ "walk around for a few minutes, stretch, and relax."
+#~ msgstr ""
+#~ "Είναι ώρα για το διάλειμμά σας. Σηκωθείτε από το\n"
+#~ "κάθισμα και απομακρυνθείτε από τον υπολογιστή.\n"
+#~ "Περπατήστε μερικά λεπτά, τεντωθείτε και χαλαρώστε."
 
 #, fuzzy
 #~ msgid "Starting %s"

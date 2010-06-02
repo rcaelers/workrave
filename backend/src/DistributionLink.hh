@@ -34,7 +34,7 @@ public:
   virtual ~DistributionLink() {}
 
   //! Returns the ID of the node.
-  virtual char *get_my_id() const = 0;
+  virtual std::string get_my_id() const = 0;
 
   //! Returns the number of remote peers.
   virtual int get_number_of_peers() = 0;

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WorkRave 1.8\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2010-05-12 23:34+0200\n"
+"POT-Creation-Date: 2010-05-25 20:08+0200\n"
 "PO-Revision-Date: 2007-01-02 18:38+0100\n"
 "Last-Translator: Tao WEI; <weitao1979@gmail.com>\n"
 "Language-Team: \n"
@@ -128,31 +128,31 @@ msgstr "客户端 %s 拒绝主控要求，延迟中。"
 msgid "Client %s is now the new master."
 msgstr "客户端 %s 现在是新的主控端。"
 
-#: ../backend/src/DistributionSocketLink.cc:1992
+#: ../backend/src/DistributionSocketLink.cc:1994
 msgid "Network operation started."
 msgstr "网络功能启动"
 
-#: ../backend/src/DistributionSocketLink.cc:2009
+#: ../backend/src/DistributionSocketLink.cc:2015
 msgid "Accepted new client."
 msgstr "接受新客户端"
 
-#: ../backend/src/DistributionSocketLink.cc:2083
+#: ../backend/src/DistributionSocketLink.cc:2089
 #, fuzzy, c-format
 msgid "Client %s read error, closing."
 msgstr "客户端 %s 读取错误，关闭中。"
 
-#: ../backend/src/DistributionSocketLink.cc:2089
-#: ../backend/src/DistributionSocketLink.cc:2162
+#: ../backend/src/DistributionSocketLink.cc:2095
+#: ../backend/src/DistributionSocketLink.cc:2168
 #, fuzzy, c-format
 msgid "Client %s closed connection."
 msgstr "客户端 %s 关闭连接。"
 
-#: ../backend/src/DistributionSocketLink.cc:2130
+#: ../backend/src/DistributionSocketLink.cc:2136
 #, fuzzy, c-format
 msgid "Client %s connected."
 msgstr "连接到用户端 %s。"
 
-#: ../backend/src/DistributionSocketLink.cc:2168
+#: ../backend/src/DistributionSocketLink.cc:2174
 #, fuzzy, c-format
 msgid "Could not connect to client %s."
 msgstr "无法连接到用户端 %s。"
@@ -1154,6 +1154,15 @@ msgstr "键盘输入的次数统计"
 #, c-format
 msgid "%s, from %s to %s"
 msgstr "%s, 从 %s 到 %s"
+
+#, fuzzy
+#~ msgid ""
+#~ "This is your natural rest break. Make sure you stand up and\n"
+#~ "walk away from your computer on a regular basis. Just\n"
+#~ "walk around for a few minutes, stretch, and relax."
+#~ msgstr ""
+#~ "这是您的休息时间。确认您至少站起来，并走离您的电脑。\n"
+#~ "只要稍微走一走，伸展筋骨并放松几分钟。"
 
 #, fuzzy
 #~ msgid "Starting %s"

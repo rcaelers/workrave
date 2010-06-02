@@ -1,170 +1,174 @@
-# Italian translation for Workrave 1.8.
-# This file is distributed under the same license as the Workrave package.
-# Eraldo Girardi <eraldster@katamail.com>
-#
-#
+# Esperanto translation of workrave.
+# Copyright (C) 2002 Rob Caelers & Raymond Penners
+# Eric lesh <eclesh@pacbell.net>, 2002.
+# Veeven <veeven@gmail.com>, 2010.
 msgid ""
 msgstr ""
-"Project-Id-Version: Workrave 1.8\n"
+"Project-Id-Version: Workrave\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
 "POT-Creation-Date: 2010-05-25 20:08+0200\n"
-"PO-Revision-Date: 2007-02-19 19:28+0100\n"
-"Last-Translator: Eraldo Girardi <eraldster@katamail.com>\n"
-"Language-Team: \n"
+"PO-Revision-Date: 2010-05-25 20:02+0200\n"
+"Last-Translator: Veeven <veeven@gmail.com>\n"
+"Language-Team: e-Telugu Localization Team\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Italian\n"
+"Language: te\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Virtaal 0.5.2\n"
+"X-Poedit-Language: Telugu\n"
+"X-Poedit-Country: INDIA\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 
 #: ../backend/src/DistributionSocketLink.cc:129
-#, fuzzy, c-format
+#, c-format
 msgid "Reconnecting to %s."
-msgstr "Riconnessione tra %s:"
+msgstr ""
 
 #. We did not succeed in starting the server. Arghh.
 #: ../backend/src/DistributionSocketLink.cc:421
 msgid "Could not enable network operation."
-msgstr "Impossibile abilitare la connessione in rete."
+msgstr ""
 
 #: ../backend/src/DistributionSocketLink.cc:430
 msgid "Disabling network operation."
-msgstr "Disattivo la connessione in rete."
+msgstr ""
 
 #: ../backend/src/DistributionSocketLink.cc:546
 #: ../backend/src/DistributionSocketLink.cc:583
-#, fuzzy, c-format
+#, c-format
 msgid "Connecting to %s."
-msgstr "Connessione a %s."
+msgstr "%s కి అనుసంధానిస్తున్నాం."
 
 #: ../backend/src/DistributionSocketLink.cc:703
 #: ../backend/src/DistributionSocketLink.cc:729
-#, fuzzy, c-format
+#, c-format
 msgid "Removing client %s."
-msgstr "Rimozione client %s."
+msgstr ""
 
 #. Closing direct connection.
 #: ../backend/src/DistributionSocketLink.cc:768
-#, fuzzy, c-format
+#, c-format
 msgid "Disconnecting %s"
-msgstr "Disconnessione %s."
+msgstr ""
 
 #. It's a remote client. mark it master.
 #: ../backend/src/DistributionSocketLink.cc:937
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s is now master."
-msgstr "Il client %s è adesso il master."
+msgstr ""
 
 #. Its ME!
 #: ../backend/src/DistributionSocketLink.cc:944
 msgid "I'm now master."
-msgstr "Adesso sono il master."
+msgstr ""
 
 #. gchar *name =
 #. int port =
 #: ../backend/src/DistributionSocketLink.cc:1275
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s saying hello."
-msgstr "Il client %s dice 'Ciao'."
+msgstr ""
 
 #. Duplicate client. inform client that it's bogus and close.
 #: ../backend/src/DistributionSocketLink.cc:1290
 #: ../backend/src/DistributionSocketLink.cc:1418
 #: ../backend/src/DistributionSocketLink.cc:1662
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s is duplicate."
-msgstr "Il client %s è duplicato."
+msgstr ""
 
 #. Incorrect password.
 #: ../backend/src/DistributionSocketLink.cc:1300
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s access denied."
-msgstr "Accesso negato al client %s."
+msgstr ""
 
 #: ../backend/src/DistributionSocketLink.cc:1369
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s signed off."
-msgstr "Il client %s si é disconnesso."
+msgstr ""
 
 #. gint port =
 #: ../backend/src/DistributionSocketLink.cc:1457
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s is welcoming us."
-msgstr "Il client %s ci dà il benvenuto."
+msgstr ""
 
 #: ../backend/src/DistributionSocketLink.cc:1698
-#, fuzzy, c-format
+#, c-format
 msgid "Requesting master status from %s."
-msgstr "Richiedo lo stato di master a %s."
+msgstr ""
 
 #: ../backend/src/DistributionSocketLink.cc:1712
-#, fuzzy, c-format
+#, c-format
 msgid "Client timeout from %s."
-msgstr "Tempo scaduto per il client %s."
+msgstr ""
 
 #: ../backend/src/DistributionSocketLink.cc:1734
-#, fuzzy, c-format
+#, c-format
 msgid "Rejecting master request from client %s."
-msgstr "Rifiuto dello stato di master dal client %s."
+msgstr ""
 
 #: ../backend/src/DistributionSocketLink.cc:1740
-#, fuzzy, c-format
+#, c-format
 msgid "Acknowledging master request from client %s."
-msgstr "Conferma della richiesta di master dal client %s."
+msgstr ""
 
 #: ../backend/src/DistributionSocketLink.cc:1791
-#, fuzzy, c-format
+#, c-format
 msgid "Non-master client %s rejected master request."
-msgstr "Il client %s (non è master) ha rifiutato la richiesta di master."
+msgstr ""
 
 #: ../backend/src/DistributionSocketLink.cc:1796
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s rejected master request, delaying."
-msgstr "Il client %s ha rifiutato la richiesta di master, ritardando."
+msgstr ""
 
 #. gint count =
 #: ../backend/src/DistributionSocketLink.cc:1867
 #, c-format
 msgid "Client %s is now the new master."
-msgstr "Il client %s é ora il nuovo master."
+msgstr ""
 
 #: ../backend/src/DistributionSocketLink.cc:1994
 msgid "Network operation started."
-msgstr "Attività di rete avviata."
+msgstr ""
 
 #: ../backend/src/DistributionSocketLink.cc:2015
 msgid "Accepted new client."
-msgstr "Nuovo client accettato."
+msgstr ""
 
 #: ../backend/src/DistributionSocketLink.cc:2089
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s read error, closing."
-msgstr "Errore di lettura nel client %s, chiusura connessione."
+msgstr ""
 
 #: ../backend/src/DistributionSocketLink.cc:2095
 #: ../backend/src/DistributionSocketLink.cc:2168
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s closed connection."
-msgstr "Connessione chiusa per il client %s."
+msgstr ""
 
 #: ../backend/src/DistributionSocketLink.cc:2136
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s connected."
-msgstr "Client %s connesso."
+msgstr ""
 
 #: ../backend/src/DistributionSocketLink.cc:2174
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect to client %s."
-msgstr "Impossibile connettersi al client %s."
+msgstr ""
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:1
 #: ../frontend/common/src/SoundPlayer.cc:92
 msgid "Break ignored"
-msgstr "Pausa ignorata"
+msgstr "విరామాన్ని పట్టించుకోలేదు"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:2
 #: ../frontend/common/src/SoundPlayer.cc:86
 msgid "Break prompt"
-msgstr "Avviso di pausa"
+msgstr ""
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:3
 #: ../frontend/common/src/SoundPlayer.cc:123
@@ -172,83 +176,82 @@ msgstr "Avviso di pausa"
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:56
 #: ../frontend/gtkmm/src/GUI.cc:1438 ../frontend/gtkmm/src/GtkUtil.cc:161
 msgid "Daily limit"
-msgstr "Limite giornaliero"
+msgstr "రోజువారీ పరిమితి"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:4
 #: ../frontend/common/src/SoundPlayer.cc:141
-#, fuzzy
 msgid "Exercise change"
-msgstr "Esercizio terminato"
+msgstr ""
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:5
 #: ../frontend/common/src/SoundPlayer.cc:129
 msgid "Exercise ended"
-msgstr "Esercizio terminato"
+msgstr ""
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:6
 #: ../frontend/common/src/SoundPlayer.cc:135
 msgid "Exercises ended"
-msgstr "Esercizi terminati"
+msgstr ""
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:7
 #: ../frontend/common/src/SoundPlayer.cc:117
 msgid "Micro-break ended"
-msgstr "Micropausa terminata"
+msgstr "సూక్ష్మ-విరామం ముగిసింది"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:8
 #: ../frontend/common/src/SoundPlayer.cc:111
 msgid "Micro-break started"
-msgstr "Micropausa iniziata"
+msgstr "సూక్ష్మ-విరామం మొదలైంది"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:9
 #: ../frontend/common/src/SoundPlayer.cc:105
 msgid "Rest break ended"
-msgstr "Riposo terminato"
+msgstr "విశ్రాంతి విరామం ముగిసింది"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:10
 #: ../frontend/common/src/SoundPlayer.cc:98
 msgid "Rest break started"
-msgstr "Riposo iniziato"
+msgstr "విశ్రాంతి విరామం మొదలైంది"
 
 #: ../frontend/common/share/sounds/workrave.soundlist.in.h:11
 #: ../frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:1
 msgid "Workrave"
-msgstr "Workrave"
+msgstr "వర్క్‌రేవ్"
 
 #: ../frontend/common/src/SoundPlayer.cc:617
 msgid "Custom"
-msgstr ""
+msgstr "అభిమత"
 
 #: ../frontend/common/src/Text.cc:78
 #, c-format
 msgid "%s%d:%02d:%02d hours"
-msgstr "%s%d:%02d:%02d ore"
+msgstr "%s%d:%02d:%02d గంటలు"
 
 #: ../frontend/common/src/Text.cc:82
 #, c-format
 msgid "%s%d:%02d minutes"
-msgstr "%s%d:%02d minuti"
+msgstr "%s%d:%02d నిమిషాలు"
 
 #: ../frontend/common/src/Text.cc:86
 #, c-format
 msgid "%s%d seconds"
-msgstr "%s%d secondi"
+msgstr "%s%d క్షణాలు"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:292
 msgid "Lock"
-msgstr "Blocca"
+msgstr "తాళంవేయి"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:311
 msgid "Shut down"
-msgstr "Spegni"
+msgstr "నిలివివేయి"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:328
 msgid "Skip"
-msgstr "Salta"
+msgstr "దాటవేయి"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:341
 msgid "Postpone"
-msgstr "Posponi"
+msgstr "వాయిదావేయి"
 
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:57
 msgid ""
@@ -256,9 +259,6 @@ msgid ""
 "behind the computer. If your working day is not over yet,\n"
 "find something else to do, such as reviewing a document."
 msgstr ""
-"Hai raggiunto il tuo limite giornaliero. Interrompi il tuo\n"
-"lavoro al computer. Se la tua giornata lavorativa non è ancora\n"
-"terminata trova qualcos'altro da fare, come "
 
 #. FIXME: duplicate
 #: ../frontend/gtkmm/src/GUI.cc:1438 ../frontend/gtkmm/src/GtkUtil.cc:161
@@ -266,58 +266,55 @@ msgstr ""
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:174
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:272
 msgid "Micro-break"
-msgstr "Micropausa"
+msgstr "సూక్ష్మ-విరామం"
 
 #: ../frontend/gtkmm/src/GUI.cc:1438 ../frontend/gtkmm/src/GtkUtil.cc:161
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:147
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:81
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:224
 msgid "Rest break"
-msgstr "Riposo"
+msgstr "విశ్రాంతి విరామం"
 
 #: ../frontend/gtkmm/src/GUI.cc:1451 ../frontend/gtkmm/src/GUI.cc:1455
-#, fuzzy
 msgid "Mode: "
-msgstr "_Modalità"
+msgstr ""
 
 #: ../frontend/gtkmm/src/GUI.cc:1451
-#, fuzzy
 msgid "Suspended"
-msgstr "_Sospeso"
+msgstr ""
 
 #: ../frontend/gtkmm/src/GUI.cc:1455
-#, fuzzy
 msgid "Quiet"
-msgstr "_Silenzioso"
+msgstr ""
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:95
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:173
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:94
 msgid "_Rest break"
-msgstr "_Riposo"
+msgstr "విశ్రాంతి విరామం (_R)"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:138
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:116
 msgid "_Mode"
-msgstr "_Modalità"
+msgstr ""
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:140
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:97
 msgid "_Normal"
-msgstr "_Normale"
+msgstr ""
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:143
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:103
 msgid "_Suspended"
-msgstr "_Sospeso"
+msgstr ""
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:146
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:109
 msgid "Q_uiet"
-msgstr "_Silenzioso"
+msgstr ""
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:149
 msgid "_Reading mode"
@@ -327,42 +324,42 @@ msgstr ""
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:135
 msgid "_Network"
-msgstr "_Rete"
+msgstr ""
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:155
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:119
 msgid "_Connect"
-msgstr "_Connetti"
+msgstr "అనుసంధానించు (_C)"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:157
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:122
 msgid "_Disconnect"
-msgstr "_Disconnetti"
+msgstr ""
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:159
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:126
 msgid "_Reconnect"
-msgstr "_Riconnetti"
+msgstr ""
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:161
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:129
 msgid "Show _log"
-msgstr "Mostra _log"
+msgstr ""
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:183
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:95
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:44
 msgid "Exercises"
-msgstr "Esercizi"
+msgstr ""
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:188
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:143
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:63
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:151
 msgid "Statistics"
-msgstr "Statistiche"
+msgstr "గణాంకాలు"
 
 #: ../frontend/gtkmm/src/Menus.cc:363
 #: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:355
@@ -370,108 +367,105 @@ msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
 msgstr ""
-"Questo programma assiste nella prevenzione e recupero delle lesioni da "
-"sforzo ripetuto (Repetitive Strain Injury - RSI)"
 
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:234
 msgid "Please relax for a few seconds"
-msgstr "Rilassati per alcuni secondi"
+msgstr "దయచేసి కొన్ని క్షణాలు విరమించండి"
 
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:241
 #, c-format
 msgid "Next rest break in %s"
-msgstr "Prossimo riposo tra %s"
+msgstr "తర్వాతి విశ్రాంతి విరామం %s లో"
 
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:246
 #, c-format
 msgid "Rest break %s overdue"
-msgstr "Riposo posticipato di %s minuti"
+msgstr ""
 
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:259
 #, c-format
 msgid "Daily limit in %s"
-msgstr "Limite giornaliero tra %s"
+msgstr "%s లో రోజువారీ పరిమితి"
 
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:264
 #, c-format
 msgid "Daily limit %s overdue"
-msgstr "Limite giornaliero %s superato"
+msgstr ""
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:72
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:93
 msgid "Preferences"
-msgstr "Preferenze"
+msgstr "అభిరుచులు"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:93
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:116
 msgid "General"
-msgstr "Generale"
+msgstr "సాధారణ"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:98
-#, fuzzy
 msgid "Sounds"
-msgstr "Suoni:"
+msgstr "ధ్వనులు"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:102
 msgid "Status Window"
-msgstr "Finestra di Stato"
+msgstr "స్థితి కిటికీ"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:106
 msgid "Applet"
-msgstr "Applet"
+msgstr ""
 
 #. Notebook
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:114
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:163
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:199
 msgid "Timers"
-msgstr "Timer"
+msgstr ""
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:115
 msgid "User interface"
-msgstr "Interfaccia"
+msgstr "వాడుకరి ముఖాంతరం"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:117
 msgid "Network"
-msgstr "Rete"
+msgstr ""
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:168
 msgid "No blocking"
-msgstr "No blocco"
+msgstr "నిరోధం లేదు"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:170
 msgid "Block input"
-msgstr "Blocca input"
+msgstr ""
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:172
 msgid "Block input and screen"
-msgstr "Blocca input e schermo"
+msgstr ""
 
 #. Options
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:191
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:140
 msgid "Options"
-msgstr "Opzioni"
+msgstr "ఎంపికలు"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:193
 msgid "Block mode:"
-msgstr "Blocco:"
+msgstr "నిరోధపు రీతి:"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:213
 msgid "System default"
-msgstr ""
+msgstr "వ్యవస్థ అప్రమేయం"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:253
 msgid "(font not available)"
-msgstr ""
+msgstr "(ఖతి అందుబాటులో లేదు)"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:278
 msgid "Language:"
-msgstr ""
+msgstr "భాష:"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:282
 msgid "Start Workrave on Windows startup"
-msgstr ""
+msgstr "విండోస్ మొదలవుతున్నప్పుడే వర్క్‌రేవ్‌ని కూడా ప్రారంభించు"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:294
 msgid "Show system tray icon"
@@ -479,21 +473,20 @@ msgstr ""
 
 #. Options
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:312
-#, fuzzy
 msgid "Sound Options"
-msgstr "Opzioni"
+msgstr "ధ్వని ఎంపికలు"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:320
 msgid "No sounds"
-msgstr "No suoni"
+msgstr "ధ్వనులు లేవు"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:322
 msgid "Play sounds using sound card"
-msgstr "Riproduci suoni con la scheda audio"
+msgstr ""
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:324
 msgid "Play sounds using built-in speaker"
-msgstr "Riproduci suoni usando gli altoparlanti integrati"
+msgstr ""
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:348
 msgid "Volume:"
@@ -501,37 +494,34 @@ msgstr ""
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:351
 msgid "Sound:"
-msgstr "Suoni:"
+msgstr ""
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:357
-#, fuzzy
 msgid "Mute sounds during rest break and daily limit"
-msgstr "Posiziona riposo e limite giornaliero insieme"
+msgstr ""
 
 #. Sound themes
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:367
 msgid "Sound Events"
-msgstr ""
+msgstr "ధ్వని ఘటనలు"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:377
-#, fuzzy
 msgid "Sound Theme:"
-msgstr "Suoni:"
+msgstr ""
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:400
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:418
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:439
 msgid "Play"
-msgstr ""
+msgstr "ఆడించు"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:405
 msgid "Event"
-msgstr ""
+msgstr "ఘటన"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:421
-#, fuzzy
 msgid "Choose a sound"
-msgstr "No suoni"
+msgstr "ఒక ధ్వనిని ఎంచుకోండి"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:428
 msgid "Wavefiles"
@@ -539,45 +529,43 @@ msgstr ""
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:108
 msgid "Time for a micro-break?"
-msgstr "Tempo per una micropausa?"
+msgstr "ఒక సూక్ష్మ-విరామానికి సమయమా?"
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:112
 msgid "You need a rest break..."
-msgstr "Hai bisogno di un po' di riposo..."
+msgstr "మీకు విశ్రాంతి విరామం కావాలి..."
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:116
 msgid "You should stop for today..."
-msgstr "Dovresti fermarti per oggi..."
+msgstr "మీరు ఈ రోజుకి ఇక ఆపివేయాలి..."
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:312
-#, fuzzy, c-format
+#, c-format
 msgid "Break in %s"
-msgstr "In pausa"
+msgstr "%s లో విరామం"
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:316
-#, fuzzy, c-format
+#, c-format
 msgid "Disappears in %s"
-msgstr "Scompare tra"
+msgstr ""
 
 #: ../frontend/gtkmm/src/PreludeWindow.cc:320
-#, fuzzy, c-format
+#, c-format
 msgid "Silent in %s"
-msgstr "Silenzioso"
+msgstr ""
 
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:176
 #, c-format
 msgid "Rest break for %s"
-msgstr "Riposo per %s"
+msgstr ""
 
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:218
-#, fuzzy
 msgid "Natural rest break"
-msgstr "Pause spontanee"
+msgstr "సహజ విశ్రాంతి విరామం"
 
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:219
-#, fuzzy
 msgid "This is your natural rest break."
-msgstr "Hai bisogno di un po' di riposo..."
+msgstr "ఇది మీ సహజ విశ్రాంతి విరామం."
 
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:225
 msgid ""
@@ -585,194 +573,186 @@ msgid ""
 "walk away from your computer on a regular basis. Just\n"
 "walk around for a few minutes, stretch, and relax."
 msgstr ""
-"Questo è il tuo riposo. Alzati in piedi e cammina lontano\n"
-"dal tuo computer. Fai giusto due passi lì intorno per qualche\n"
-"minuto, stiracchiati, e rilassati."
 
 #: ../frontend/gtkmm/src/TimerBoxGtkView.cc:189
-#, fuzzy
 msgid "Take rest break now"
-msgstr "Prossimo riposo tra %s"
+msgstr "ఇప్పుడు విశ్రాంతి విరామం తీసుకోండి"
 
 #: ../frontend/gtkmm/src/TimerBoxGtkView.cc:211
 msgid "Wait"
-msgstr "Attendere"
+msgstr "ఆగు"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:96
 msgid "Place timers next to each other"
-msgstr "Posiziona i timer uno accanto all'altro"
+msgstr ""
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:98
 msgid "Place micro-break and rest break in one spot"
-msgstr "Posiziona micropausa e riposo insieme"
+msgstr ""
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:100
 msgid "Place rest break and daily limit in one spot"
-msgstr "Posiziona riposo e limite giornaliero insieme"
+msgstr ""
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:102
 msgid "Place all timers in one spot"
-msgstr "Mostra tutti i timer insieme"
+msgstr ""
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:122
 msgid "Hide"
-msgstr "Nascondi"
+msgstr "దాచు"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:124
 msgid "Show"
-msgstr "Mostra"
+msgstr "చూపించు"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:126
 msgid "Show only when this timer is first due"
-msgstr "Mostra solo quando questo timer è scaduto"
+msgstr ""
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:134
 msgid "Show status window"
-msgstr "Mostra la finestra di stato"
+msgstr "స్థితి కిటికీని చూపించు"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:139
 msgid "The status window stays always on top of other windows"
-msgstr "Mostra la finestra di stato sempre in primo piano"
+msgstr ""
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:145
 msgid "Applet enabled"
-msgstr "Applet attivata"
+msgstr ""
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:151
 msgid "Display"
-msgstr "Visualizza"
+msgstr ""
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:160
 msgid "Placement:"
-msgstr "Posizione:"
+msgstr ""
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:161
 msgid "Cycle time:"
-msgstr "Tempo ciclico per la visualizzazione:"
+msgstr ""
 
 #. Layout
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:166
 msgid "Micro-break:"
-msgstr "Micropausa:"
+msgstr "సూక్ష్మ-విరామం:"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:167
 msgid "Rest break:"
-msgstr "Riposo:"
+msgstr "విశ్రాంతి విరామం:"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:168
 msgid "Daily limit:"
-msgstr "Limite giornaliero:"
+msgstr "రోజువారీ పరిమితి:"
 
 #. Enabled/Disabled checkbox
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:68
 msgid "Enable timer"
-msgstr "Abilita timer"
+msgstr ""
 
 #. Prelude frame
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:109
 msgid "Break prompting"
-msgstr "Avviso di pausa"
+msgstr ""
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:111
 msgid "Prompt before breaking"
-msgstr "Avvisa prima della pausa"
+msgstr ""
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:115
 msgid "Maximum number of prompts:"
-msgstr "Massimo numero di avvisi:"
+msgstr ""
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:144
 msgid "Show 'Postpone' and 'Skip' button"
-msgstr "Mostra i pulsanti 'Posponi' e 'Salta'"
+msgstr ""
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:149
 msgid "Suspend timer when inactive"
-msgstr "Sospendi il timer quando inattivo"
+msgstr ""
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:164
 msgid "Regard micro-breaks as activity"
-msgstr "Considera la micropausa come attività"
+msgstr ""
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:173
 msgid "Number of exercises:"
-msgstr "Numero di esercizi:"
+msgstr ""
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:204
 msgid "Time before end:"
-msgstr "Tempo prima dell'interruzione:"
+msgstr ""
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:205
 msgid "Time between breaks:"
-msgstr "Tempo tra le interruzioni:"
+msgstr ""
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:212
 msgid "Break duration:"
-msgstr "Durata pausa:"
+msgstr "విరామపు నిడివి:"
 
 #: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:227
 msgid "Postpone time:"
-msgstr "Posponi di:"
+msgstr "వాయిదా సమయం:"
 
 #: ../frontend/gtkmm/src/gtktrayicon.c:121
 msgid "Orientation"
-msgstr "Orientamento"
+msgstr "దిశ"
 
 #: ../frontend/gtkmm/src/gtktrayicon.c:122
-#, fuzzy
 msgid "The orientation of the tray"
-msgstr "Orientamento della traybar"
+msgstr ""
 
 #: ../frontend/gtkmm/src/workrave.desktop.in.in.h:1
-#, fuzzy
 msgid ""
 "Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
 msgstr ""
-"Questo programma assiste nella prevenzione e recupero delle lesioni da "
-"sforzo ripetuto (Repetitive Strain Injury - RSI)"
 
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:1
 msgid "_About..."
-msgstr "Info..."
+msgstr "గురించి (_A)..."
 
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:2
 msgid "_Connect..."
-msgstr "_Connetti..."
+msgstr ""
 
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:4
 msgid "_Exercises"
-msgstr "_Esercizi"
+msgstr ""
 
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:8
 msgid "_Open"
-msgstr "_Apri"
+msgstr ""
 
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:9
 msgid "_Preferences"
-msgstr "_Preferenze"
+msgstr "అభిరుచులు (_P)"
 
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:10
 msgid "_Quiet"
-msgstr "_Silenzioso"
+msgstr ""
 
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:11
 msgid "_Quit"
-msgstr "_Esci"
+msgstr "చాలించు (_Q)"
 
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:13
 msgid "_Restbreak"
-msgstr "_Riposo"
+msgstr "విశ్రాంతివిరామం (_R)"
 
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:14
 msgid "_Show Log..."
-msgstr "_Mostra Log"
+msgstr ""
 
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:15
 msgid "_Statistics"
-msgstr "_Statistiche"
+msgstr "గణాంకాలు (_S)"
 
 #: ../frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:2
 msgid "Workrave Applet"
-msgstr "Applet di Workrave"
+msgstr ""
 
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:137
 msgid "Reading mode"
@@ -780,92 +760,88 @@ msgstr ""
 
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:144
 msgid "About..."
-msgstr "Info..."
+msgstr "గురించి..."
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:55
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:74
 msgid "Network connect"
-msgstr "Conneti alla Rete"
+msgstr ""
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:75
 msgid ""
 "Enter the host name and port number of a computer\n"
 "in the network you wish to connect to."
 msgstr ""
-"Inserisci il nome dell'host e il numero di porta del\n"
-"computer al quale vuoi connetterti."
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:87
 msgid "Host name:"
-msgstr "Host:"
+msgstr ""
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkJoinDialog.cc:88
 msgid "Port:"
-msgstr "Porta:"
+msgstr ""
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkLogDialog.cc:49
 msgid "Network log"
-msgstr "Log di Rete"
+msgstr ""
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:96
 msgid "Enable networking"
-msgstr "Abilita Rete"
+msgstr ""
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:103
 msgid "Username:"
-msgstr "Nome Utente:"
+msgstr "వాడుకరిపేరు:"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:104
 msgid "Password:"
-msgstr "Password:"
+msgstr "సంకేతపదం:"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:111
 msgid "Allow incoming connections"
-msgstr ""
+msgstr "లోనికివచ్చు  సంధానాలను అనుమతించు"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:129
 msgid "Server settings"
-msgstr "Impostazioni Server"
+msgstr "సేవకి అమరికలు"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:151
 msgid "Server port:"
-msgstr "Porta del Server:"
+msgstr ""
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:152
 msgid "Reconnect attempts:"
-msgstr "Tentativi di connessione:"
+msgstr ""
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:153
 msgid "Reconnect interval:"
-msgstr "Intervallo tra i tentativi:"
+msgstr ""
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:156
 msgid "Advanced"
-msgstr "Avanzate"
+msgstr "ఉన్నత"
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:173
 msgid ""
 "The following list specifies the hosts that Workrave connects to on\n"
 "start-up. Click the host name or port number to edit."
 msgstr ""
-"Il seguente elenco specifica gli host al quale Workrave si connette\n"
-"all'avvio. Clicca sull'host o sulla porta per modificare."
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:201
 msgid "Host name"
-msgstr "Nome host"
+msgstr ""
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:210
 msgid "Port"
-msgstr "Porta"
+msgstr ""
 
 #: ../frontend/plugin/distribution/gtkmm/src/NetworkPreferencePage.cc:250
 msgid "Hosts"
-msgstr "Hosts"
+msgstr ""
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:1
 msgid "Backward shoulder stretch"
-msgstr "Stretching delle spalle all'indietro"
+msgstr ""
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:2
 msgid ""
@@ -873,13 +849,10 @@ msgid ""
 "eyelids. Now open your eyes and look into the darkness of your palms. This "
 "exercise gives better relief to your eyes compared to simply closing them."
 msgstr ""
-"Copriti gli occhi con le mani in modo da lasciare aperte le palpebre. Ora "
-"apri gli occhi e guarda nel buio del palmo delle tue mani. Questo esercizio "
-"dà maggior sollievo agli occhi della semplice chiusura delle palpebre."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:3
 msgid "Finger stretch"
-msgstr "Stretching delle dita"
+msgstr ""
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:4
 msgid ""
@@ -887,9 +860,6 @@ msgid ""
 "inward, while straightening your arms. Hold this position for 5 to 15 "
 "seconds, and repeat this exercise twice."
 msgstr ""
-"Intreccia le dita dietro la schiena. Poi ruota delicatamente i gomiti verso "
-"l'interno, mentre stiri le braccia. Tieni questa posizione da 5 a 15 "
-"secondi, e ripeti l'esercizio 2 volte."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
 msgid ""
@@ -898,12 +868,6 @@ msgid ""
 "shoulder. Hold this position briefly, and repeat the exercise for your other "
 "arm."
 msgstr ""
-"Tieni il braccio sinistro ad angolo retto orizzontalmente davanti al petto, "
-"con il polso poggiato nell'incavo del braccio destro anche questo piegato ad "
-"angolo retto ma verticalmente. Ora spingi con il sinistro contro il destro "
-"fino a che non senti una leggera tensione nella spalla sinistra. Mantieni "
-"per qualche istante questa posizione, e ripeti l'esercizio scambiando le "
-"braccia."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
 msgid ""
@@ -911,9 +875,6 @@ msgid ""
 "the border slowly to the upper right corner. Continue to the next corner, "
 "until you got around it two times. Then, reverse the exercise."
 msgstr ""
-"Guarda l'angolo in alto a sinistra del bordo esterno del monitor. Segui il "
-"bordo lentamente fino all'angolo destro. Continua fino allo spigolo "
-"successivo, fino a completare il giro 2 volte. Poi, inverti l'esercizio."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
 msgid ""
@@ -923,31 +884,26 @@ msgid ""
 "view. Then switch your focus between a distant object and a pen held at the "
 "same distance from your eyes as your monitor."
 msgstr ""
-"Cerca il punto più lontano che puoi trovare oltre il tuo monitor. Focalizza "
-"lo sguardo su quel punto. Poi metti a fuoco il bordo del monitor. Ripeti. Se "
-"non hai niente che sia molto lontano dal monitor, prova in un'altra "
-"direzione. Quindi sposta la messa a fuoco da un oggeto a distanza ad una "
-"penna mantenuta alla distanza occhi-monitor."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
 msgid "Look into the darkness"
-msgstr "Guarda nel buio"
+msgstr "చీకటి లోనికి చూడండి"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:9
 msgid "Move the eyes"
-msgstr "Muovi gli occhi"
+msgstr "కళ్ళని కదపండి"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:10
 msgid "Move the shoulders"
-msgstr "Muovi le spalle"
+msgstr "భుజాలని కదపండి"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:11
 msgid "Move the shoulders up and down"
-msgstr "Muovi su e giù le spalle"
+msgstr "భుజాలని పైకి మరియు క్రిందికి కదల్చండి"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
 msgid "Neck tilt stretch"
-msgstr "Stira il collo inclinandolo"
+msgstr ""
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
 msgid ""
@@ -955,9 +911,6 @@ msgid ""
 "press your body up until your arms are straight. Try to move your head even "
 "further by lowering your shoulders. Slowly move back into your chair."
 msgstr ""
-"Poggia le mani sui braccioli della sedia e spingi il corpo verso l'alto fino "
-"a stendere le braccia. Prova a sollevare ancora la testa abbassando le "
-"spalle. Torna lentamente a sedere."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
 msgid ""
@@ -965,13 +918,10 @@ msgid ""
 "this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
 "again for 10 seconds. Repeat this exercise once more."
 msgstr ""
-"Separa e stira le dita fino a sentire una certa tensione e mantieni per 10 "
-"secondi. Rilassati, poi piega le dita verso le nocche e mantieni per altri "
-"10 secondi. Ripeti l'esercizio una volta."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
 msgid "Shoulder-arm stretch"
-msgstr "Stretch spalla-braccio"
+msgstr ""
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:16
 msgid ""
@@ -979,9 +929,6 @@ msgid ""
 "this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
 "with the left arm."
 msgstr ""
-"Stendi in basso il braccio destro e muovilo lentamente come un pendolo al "
-"lato del corpo. Fallo 4 volte in avanti e 4 volte all'indietro e rilassati "
-"per pochi secondi. Ripeti con il braccio sinistro."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
 msgid ""
@@ -990,342 +937,179 @@ msgid ""
 "side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
 "the left side to stretch your other side. Do this twice for each side."
 msgstr ""
-"Comincia con la testa nella normale posizione diritta. Quindi inclinala "
-"lentamente verso la spalla destra per stirare delicatamente i muscoli sul "
-"lato sinistro del collo. Mantieni per 5 secondi. Ora inclina la testa verso "
-"sinistra per stirare l'altro lato. Ripeti 2 volte per ogni lato."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
 msgid "Train focusing the eyes"
-msgstr "Allenamento della messa a fuoco degli occhi"
+msgstr ""
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:19
 msgid "Turn your head"
-msgstr "Ruota la testa"
+msgstr "మీ తలని తిప్పండి"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:20
 msgid ""
 "Turn your head left and keep it there for 2 seconds. Then turn your head "
 "right and keep it there for 2 seconds."
 msgstr ""
-"Gira la testa a sinistra e mantieni per 2 secondi. Poi gira la testa a "
-"destra e mantieni per altri 2 secondi."
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:261
 msgid "Exercises player"
-msgstr "Turno di esercizi"
+msgstr ""
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:296
 msgid "Previous exercise"
 msgstr ""
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:297
-#, fuzzy
 msgid "Next exercise"
-msgstr "Numero di esercizi:"
+msgstr ""
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:298
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:484
-#, fuzzy
 msgid "Pause exercises"
-msgstr "Numero di esercizi:"
+msgstr ""
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:302
-#, fuzzy
 msgid "End exercises"
-msgstr "Esercizi"
+msgstr ""
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:477
 msgid "Resume"
-msgstr "Riprendi"
+msgstr "కొనసాగించు"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:477
 msgid "Pause"
-msgstr "Pausa"
+msgstr "నిలుపు"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:482
-#, fuzzy
 msgid "Resume exercises"
-msgstr "Numero di esercizi:"
+msgstr ""
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:145
 msgid "Browse history"
-msgstr "Sfoglia cronologia"
+msgstr "చరిత్రని చూడండి"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:152
 msgid "Date:"
-msgstr "Data:"
+msgstr "తేదీ:"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:188
 msgid "Breaks"
-msgstr "Pause"
+msgstr "విరామాలు"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:198
 msgid "Break prompts"
-msgstr "Avvisi di pausa"
+msgstr ""
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:199
 msgid ""
 "The number of times you were prompted to break, excluding repeated prompts "
 "for the same break"
 msgstr ""
-"Numero di volte in cui hai ricevuto un avviso di pausa, escluso gli avvisi "
-"ripetuti per la stessa pausa"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:204
 msgid "Repeated prompts"
-msgstr "Avvisi ripetuti"
+msgstr ""
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:205
 msgid "The number of times you were repeatedly prompted to break"
-msgstr "Numero di avvisi mostrati ripetutamente per la stessa pausa"
+msgstr ""
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:209
 msgid "Prompted breaks taken"
-msgstr "Pause efettuate"
+msgstr ""
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:210
 msgid "The number of times you took a break when being prompted"
-msgstr "Numero di volte in cui hai fatto la pausa quando hai ricevuto l'avviso"
+msgstr ""
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:214
 msgid "Natural breaks taken"
-msgstr "Pause spontanee"
+msgstr "సహజంగా తీసుకున్న విరామాలు"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:215
 msgid "The number of times you took a break without being prompted"
 msgstr ""
-"Numero di volte in cui hai fatto una pausa senza aver ricevuto l'avviso"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:219
 msgid "Breaks skipped"
-msgstr "Pause saltate"
+msgstr "వదిలివేసిన విరామాలు"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:220
 msgid "The number of breaks you skipped"
-msgstr "Numero di pause che hai saltato"
+msgstr ""
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:224
 msgid "Breaks postponed"
-msgstr "Pause posposte"
+msgstr "వాయిదావేసిన విరామాలు"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:225
 msgid "The number of breaks you postponed"
-msgstr "Numero di pause che hai posposto"
+msgstr ""
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:229
 msgid "Overdue time"
-msgstr "Tempo di ritardo"
+msgstr ""
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:230
 msgid "The total time this break was overdue"
-msgstr "Tempo totale in cui questa pausa è stata ritardata"
+msgstr ""
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:234
 msgid "Daily usage"
-msgstr "Utilizzo giornaliero"
+msgstr "రోజువారీ వాడకం"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:235
 msgid "The total computer usage"
-msgstr "Utilizzo totale del computer"
+msgstr ""
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:303
 msgid "Activity"
-msgstr "Attività"
+msgstr "కార్యకలాపం"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:313
 msgid "Mouse usage:"
-msgstr "Utilizzo Mouse:"
+msgstr "మూషికపు వాడుక:"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:314
 msgid "The total time you were using the mouse"
-msgstr "Tempo totale in cui hai utilizzato il mouse"
+msgstr ""
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:317
 msgid "Mouse movement:"
-msgstr "Movimento del mouse:"
+msgstr "మూషిక కదలిక:"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:318
 msgid "The total on-screen mouse movement"
-msgstr "Distanza totale percorsa con il mouse sullo schermo"
+msgstr ""
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:321
 msgid "Effective mouse movement:"
-msgstr "Movimento effettivo del mouse:"
+msgstr ""
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:322
 msgid ""
 "The total mouse movement you would have had if you moved your mouse in "
 "straight lines between clicks"
 msgstr ""
-"Distanza totale che avresti percorso con il mouse se avessi compiuto "
-"movimenti rettilinei tra un click e l'altro"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:326
 msgid "Mouse button clicks:"
-msgstr "Click:"
+msgstr ""
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:327
 msgid "The total number of mouse button clicks"
-msgstr "Numero totale di click del mouse"
+msgstr ""
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:330
 msgid "Keystrokes:"
-msgstr "Tasti premuti:"
+msgstr ""
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:331
 msgid "The total number of keys pressed"
-msgstr "Numero totale di tasti premuti sulla tastiera"
+msgstr ""
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:381
 #, c-format
 msgid "%s, from %s to %s"
-msgstr "%s, dalle %s alle %s"
-
-#, fuzzy
-#~ msgid ""
-#~ "This is your natural rest break. Make sure you stand up and\n"
-#~ "walk away from your computer on a regular basis. Just\n"
-#~ "walk around for a few minutes, stretch, and relax."
-#~ msgstr ""
-#~ "Questo è il tuo riposo. Alzati in piedi e cammina lontano\n"
-#~ "dal tuo computer. Fai giusto due passi lì intorno per qualche\n"
-#~ "minuto, stiracchiati, e rilassati."
-
-#, fuzzy
-#~ msgid "Starting %s"
-#~ msgstr "Silenzioso"
-
-#~ msgid "Cannot resolve my own hostname. Deactivating distribution."
-#~ msgstr ""
-#~ "Non posso risolvere il nome del mio server. Disattivo la distribuzione."
-
-#~ msgid "Break in"
-#~ msgstr "In pausa"
-
-#~ msgid "Disappears in"
-#~ msgstr "Scompare tra"
-
-#~ msgid "Silent in"
-#~ msgstr "Silenzioso"
-
-#~ msgid "I could not initialize Bonobo"
-#~ msgstr "Impossibile inizializzare Bonobo"
-
-#~ msgid "Inactive"
-#~ msgstr "Inattivo"
-
-#~ msgid "Credits"
-#~ msgstr "Credits"
-
-#~ msgid "_Written by"
-#~ msgstr "_Autore:"
-
-#~ msgid "_Documented by"
-#~ msgstr "_Documentazione di:"
-
-#~ msgid "_Translated by"
-#~ msgstr "_Traduttori:"
-
-#~ msgid "_Credits"
-#~ msgstr "_Credits"
-
-#~ msgid "About %s"
-#~ msgstr "Info su %s"
-
-#~ msgid ""
-#~ "Close your eyes and breathe out as long as you can and try to relax. When "
-#~ "breathing in, again do it as slowly as possible. Try to count slowly to 8 "
-#~ "for each time you breathe in and out. To extra relax your eyes, try "
-#~ "closing them in micro pauses too."
-#~ msgstr ""
-#~ "Chiudi gli occhi, espira il più possibile e prova a rilassarti. Quando "
-#~ "inspiri fallo il più lentamente possibile. Prova a contare lentamente "
-#~ "fino a 8 ogni volta che inspiri ed espiri. Per rilassare ulteriormente "
-#~ "gli occhi, cerca di chiuderli anche nelle micro pause."
-
-#~ msgid ""
-#~ "Go stand face to a wall (or something) and put your hands at shoulder "
-#~ "height against it with your elbows slightly bended. Push your body to the "
-#~ "wall, without changing the angle of your elbows. Then push your body back "
-#~ "from the wall again without changing the angle of the elbows."
-#~ msgstr ""
-#~ "Poniti di fronte ad un muro (o qualcosa del genere) e poggiaci le mani "
-#~ "tenendole all'altezza delle spalle, con i gomiti leggermente piegati. "
-#~ "Spingi il corpo verso il muro, senza cambiare l'angolo dei gomiti. Poi "
-#~ "spingilo di nuovo lontano dal muro sempre senza cambiare l'angolo dei "
-#~ "gomiti."
-
-#~ msgid ""
-#~ "Keep your head straight and your lower jaw parallel to the floor. Move "
-#~ "your head back (making a double chin). Keep this 2 seconds and relax. "
-#~ "Move your head the same way forward, keep this 2 seconds and relax again."
-#~ msgstr ""
-#~ "Tieni la testa diritta con la mndibola parallela al suolo. Muovi la testa "
-#~ "all'indietro, facendo doppio mento. Mantieni 2 secondi e rilassati. Ora "
-#~ "muovi la testa in avanti allo stesso modo, mantieni 2 secondi e rilassati "
-#~ "ancora."
-
-#~ msgid "Move the shoulder blades"
-#~ msgstr "Muovi le scapole"
-
-#~ msgid "Neck stretch"
-#~ msgstr "Stira il collo"
-
-#~ msgid "Relax the eyes"
-#~ msgstr "Rilassa gli occhi"
-
-#~ msgid ""
-#~ "Stand by your desk and place both your palms on the desk with the fingers "
-#~ "pointing toward your body. Gently stretch your wrists and lower arms."
-#~ msgstr ""
-#~ "Stai in piedi davanti alla tua scrivania e poggia il palmo delle mani sul "
-#~ "piano con le dita rivolte verso di te. Delicatamente  stira i polsi e gli "
-#~ "avambracci."
-
-#~ msgid ""
-#~ "Stand up and try to reach the ceiling with your hands without lifting "
-#~ "your heels. Hold that for a few seconds. Then let your hands slowly go to "
-#~ "the floor, without bending your arms. Keep them moving to the floor by "
-#~ "bending you back slowly until you can (almost) place them in front of "
-#~ "your shoes. Slowly roll your back up straight from your hips up, until it "
-#~ "is straight up again."
-#~ msgstr ""
-#~ "In piedi, prova a raggiungere il soffitto con le mani tenendo i talloni a "
-#~ "terra. Mantieni pochi secondi. Quindi lascia andare lentamente le mani "
-#~ "verso il pavimento, senza piegare le braccia. Continua a muoverti verso "
-#~ "il pavimento curvando lentamente la schiena fino a posizionare le mani "
-#~ "(quasi) davanti ai piedi. Ora ruota piano la schiena verso l'alto sulle "
-#~ "anche, fino a tornare in posizione eretta."
-
-#~ msgid "Stretch your back"
-#~ msgstr "Stretching della schiena"
-
-#~ msgid "Wrist and lower arm desk stretch"
-#~ msgstr "Stretching di polsi e avambracci sulla scrivania"
-
-#, fuzzy
-#~ msgid "Restbreak"
-#~ msgstr "_Descanso"
-
-#~ msgid "Connect at start-up"
-#~ msgstr "Conectar al comienzo del programa"
-
-#~ msgid "Resets at:"
-#~ msgstr "Restablecer después de:"
-
-#, fuzzy
-#~ msgid "Timer ignores activity"
-#~ msgstr "Considerar las micropausas como actividad"
-
-#~ msgid "Micro-pause ended"
-#~ msgstr "Fin de la micropausa"
-
-#~ msgid "None"
-#~ msgstr "Ninguno"
-
-#~ msgid "Block all"
-#~ msgstr "Impedir todo"
-
-#~ msgid "Force break after maximum exceeded"
-#~ msgstr "Forzar interrupción, si se supera el máximo"
+msgstr ""

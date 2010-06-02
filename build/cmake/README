@@ -22,14 +22,14 @@ Install DirectX SDK (required)
   Site: http://msdn.microsoft.com/en-us/directx/default.aspx
 
 
-Install CMake 2.6 (required)
+Install CMake 2.8 (required)
 ============================
 
 - Download and install cmake:
 
   Website: http://www.cmake.org
   
-  File: http://www.cmake.org/files/v2.6/cmake-2.6.4-win32-x86.exe
+  File: http://www.cmake.org/files/v2.8/cmake-2.8.1-win32-x86.exe
 
  
 Install Intltool (recommended, needed for exercises)
@@ -68,8 +68,8 @@ Install Python/Cheetah (optional/experimental, needed for dbus)
 
   Website: http://www.python.org/download/
   
-  File: http://www.python.org/ftp/python/2.6.4/python-2.6.4.msi     
-  File: http://www.python.org/ftp/python/2.6.4/python-2.6.4.amd64.msi
+  File: http://www.python.org/ftp/python/2.6.5/python-2.6.5.msi     
+  File: http://www.python.org/ftp/python/2.6.5/python-2.6.5.amd64.msi
 
 - Download and install setuptools
 

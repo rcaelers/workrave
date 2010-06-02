@@ -97,7 +97,7 @@
 #endif
 
 #if defined(HAVE_DBUS)
-#if defined(PLATFORM_OS_WIN32_NATIVE)
+#if defined(interface)
 #undef interface
 #endif
 #include "DBus.hh"
@@ -728,12 +728,6 @@ GUI::init_gtk_multihead()
                         {
                           irect.intersect(heads[k].geometry, overlap);
                         }
-                    }
-
-                  if (count == 1)
-                    {
-                      rect.set_width(1024);
-                      rect.set_height(768);
                     }
                   
                   if (!overlap)
@@ -1547,6 +1541,7 @@ GUI::win32_filter_func (void     *xevent,
   GdkFilterReturn ret = GDK_FILTER_CONTINUE;
   switch (msg->message)
     {
+#if 0
     case WM_WTSSESSION_CHANGE:
       {
         TRACE_MSG("WM_WTSSESSION_CHANGE " << msg->wParam << " " << msg->lParam);
@@ -1566,6 +1561,7 @@ GUI::win32_filter_func (void     *xevent,
           }
       }
       break;
+#endif
       
     case WM_POWERBROADCAST:
       {
