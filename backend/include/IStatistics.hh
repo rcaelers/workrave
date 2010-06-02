@@ -21,7 +21,12 @@
 #define ISTATISTICS_HH
 
 #include <time.h>
+
+#ifdef PLATFORM_OS_WIN32_NATIVE
+typedef __int64 int64_t;
+#else
 #include <stdint.h>
+#endif
 
 #include "ICore.hh"
 
@@ -54,7 +59,7 @@ namespace workrave {
       };
 
     typedef int BreakStats[STATS_BREAKVALUE_SIZEOF];
-    typedef uint64_t MiscStats[STATS_VALUE_SIZEOF];
+    typedef int64_t MiscStats[STATS_VALUE_SIZEOF];
 
     struct DailyStats
     {

@@ -99,6 +99,7 @@ set(FRONTEND_SOURCES
     ${FRONTEND_DIR}/plugin/distribution/gtkmm/src/NetworkPreferencePage.hh
     ${FRONTEND_DIR}/plugin/statistics/gtkmm/src/StatisticsDialog.cc
     ${FRONTEND_DIR}/plugin/statistics/gtkmm/src/StatisticsDialog.hh
+    ${FRONTEND_DIR}/gtkmm/src/eggsmclient.c
   )
 
 if (APPLE)
@@ -210,8 +211,12 @@ if (HAVE_DBUS)
   )
   set(FRONTEND_SOURCES ${FRONTEND_SOURCES}
     ${CMAKE_CURRENT_BINARY_DIR}/DBusGUI.cc
-    ${FRONTEND_DIR}/gtkmm/src/eggsmclient-dbus.c
   )
+  if (UNIX)
+    set(FRONTEND_SOURCES ${FRONTEND_SOURCES}
+      ${FRONTEND_DIR}/gtkmm/src/eggsmclient-dbus.c
+     )
+  endif(UNIX)
   include_directories(${DBUS_INCLUDES})
   add_definitions(-DEGG_SM_CLIENT_BACKEND_DBUS)
 endif (HAVE_DBUS)

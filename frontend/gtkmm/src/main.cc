@@ -89,6 +89,10 @@ int WINAPI WinMain (HINSTANCE hInstance,
                     PSTR szCmdLine,
                     int iCmdShow)
 {
+  (void) hInstance;
+  (void) hPrevInstance;
+  (void) iCmdShow;
+
   char *argv[] = { szCmdLine };
   
   // InnoSetup: [...] requires that you add code to your application

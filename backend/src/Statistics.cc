@@ -548,7 +548,7 @@ Statistics::set_counter(StatsValueType t, int value)
 }
 
 
-int
+int64_t
 Statistics::get_counter(StatsValueType t)
 {
   return current_day->misc_stats[t];
@@ -580,7 +580,7 @@ Statistics::dump()
   ss << "stats ";
   for(int j = 0; j < STATS_VALUE_SIZEOF; j++)
     {
-      int value = current_day->misc_stats[j];
+      int64_t value = current_day->misc_stats[j];
 
       ss  << value << " ";
     }
@@ -978,7 +978,7 @@ Statistics::mouse_notify(int x, int y, int wheel_delta)
       if ( delta_x < MAX_JUMP && delta_y < MAX_JUMP &&
           (delta_x >= sensitivity || delta_y >= sensitivity || wheel_delta != 0 ))
         {
-          int movement = current_day->misc_stats[STATS_VALUE_TOTAL_MOUSE_MOVEMENT];
+          int64_t movement = current_day->misc_stats[STATS_VALUE_TOTAL_MOUSE_MOVEMENT];
           int distance = int(sqrt((double)(delta_x * delta_x + delta_y * delta_y)));
 
           movement += distance;
@@ -1021,8 +1021,8 @@ Statistics::button_notify(bool is_press)
           int delta_x = click_x - prev_x;
           int delta_y = click_y - prev_y;
 
-          int movement = current_day->misc_stats[STATS_VALUE_TOTAL_CLICK_MOVEMENT];
-          int distance = int(sqrt((double)(delta_x * delta_x + delta_y * delta_y)));
+          int64_t movement = current_day->misc_stats[STATS_VALUE_TOTAL_CLICK_MOVEMENT];
+          int64_t distance = int(sqrt((double)(delta_x * delta_x + delta_y * delta_y)));
 
           movement += distance;
           if (movement > 0)
