@@ -509,6 +509,10 @@ then
            dbus_pkgconfig=
         fi
    else
+     AC_MSG_ERROR([
+DBus development headers not found.
+Use --disable-dbus if you do not need DBus support.
+])
       have_dbus=no
       dbus_pkgconfig=
    fi
@@ -572,7 +576,10 @@ then
            PKG_CHECK_MODULES(PULSE, glib-2.0 libpulse >= $PA_REQUIRED_VERSION libpulse-mainloop-glib >= $PA_REQUIRED_VERSION,
                  [have_pulse=true
                   AC_DEFINE(HAVE_PULSE, 1, [Define if PULSE sound server should be used])],
-                 [have_pulse=false])
+                 [AC_MSG_ERROR([
+Pulseaudio development headers not found.
+Use --disable-pulse if you do not need Pulseaudio (mute) support.
+])])
     fi
     AC_SUBST(PULSE_CFLAGS)
     AC_SUBST(PULSE_LIBS)
