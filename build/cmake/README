@@ -64,9 +64,7 @@ Install Gettext (recommended, needed for localization and exercises)
 Install Python/Cheetah (optional/experimental, needed for dbus)
 ===============================================================
 
-- Download and Install Python 2.6.5
-
-  Install the x86 version, even on a 64bit systems. setuptool will not install otherwise.
+- Download and Install Python 2.6.5 
 
   Website: http://www.python.org/download/
   
@@ -76,45 +74,40 @@ Install Python/Cheetah (optional/experimental, needed for dbus)
 - Download and install setuptools
 
   Website: http://pypi.python.org/pypi/setuptools
-  File:  http://pypi.python.org/packages/source/s/setuptools/setuptools-0.6c9.tar.gz
-
-  - Extract setuptools-0.6c9.tar.gz to directory outside the Windows Python installation directory
+  File:  http://pypi.python.org/packages/source/s/setuptools/setuptools-0.6c11.tar.gz
+  
+  - Extract setuptools-0.6c11.tar.gz to directory outside the Windows Python installation directory
   - Open Command Prompt windows and go to the directory where you extracted setuptools.
   - Make sure C:\Python26 is in your PATH
   - Run 'python setup.py install' 
   
 - Install Cheetah
 
-  - Open a Command Prompt (Use Run as Administrator on Vista)
+  - Open a Command Prompt (Use Run as Administrator on Vista+)
   - cd C:\Python26\Scripts [replace python installation directory]
-  - Run 'easy_install-2.6-script.py'
+  - Run 'C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\bin'
+  - Run 'easy_install-2.6-script.py Cheetah'
 
 
 Install DBus (optional/experimental, needed for dbus)
 =====================================================
 
-- Download and extract libiconv
-
-  File: http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/libiconv-1.9.1.bin.woe32.zip
-
-  Extract to <PATH-TO-DEPEDENCIES>.
-  
 - Download, compile and install DBUS:
 
-  - svn co https://windbus.svn.sourceforge.net/svnroot/windbus/trunk windbus
-  - mkdir windbus-build
-  - cd windbus-build
+  - git clone git://anongit.freedesktop.org/git/dbus/dbus
+  - mkdir dbus-build
+  - cd dbus-build
   - Run cmake
-
-    cmake -G "Visual Studio 9 2008" ../windbus/cmake/ -DCMAKE_PREFIX_PATH="<PATH-TO-DEPEDENCIES>;<PATH-TO-GTKMM>"
+  
+    cmake -G "Visual Studio 9 2008" ../dbus/cmake/ -DCMAKE_PREFIX_PATH="<PATH-TO-DEPEDENCIES>;<PATH-TO-GTKMM>"
           -DCMAKE_INSTALL_PREFIX=<PATH-TO-DEPEDENCIES>
 
     e.g.
     
-    cmake -G "Visual Studio 9 2008" ../windbus/cmake/ -DCMAKE_PREFIX_PATH="c:/mystuff/devel;C:/Program Files (x86)/gtkmm"
+    cmake -G "Visual Studio 9 2008" ../dbus/cmake/ -DCMAKE_PREFIX_PATH="c:/mystuff/devel;C:/Program Files (x86)/gtkmm"
           -DCMAKE_INSTALL_PREFIX=c:/mystuff/devel
 
-  - Open dbus solution in visual studio (location in windbus-build directory)
+  - Open dbus solution in visual studio (located in dbus-build directory)
   - Select Release configuration
   - From Build menu, choose rebuild solution
   - Right click on INSTALL project, choose build

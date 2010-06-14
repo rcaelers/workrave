@@ -84,7 +84,7 @@ private:
   void create_break_page(Gtk::Widget *tnotebook);
   void create_activity_page(Gtk::Widget *tnotebook);
 
-  void stream_distance(std::stringstream &stream, int pixels);
+  void stream_distance(std::stringstream &stream, int64_t pixels);
   void get_calendar_day_index(int &idx, int &next, int &prev);
   void set_calendar_day_index(int idx);
   void on_calendar_month_changed();

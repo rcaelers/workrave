@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.8.4\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2010-05-12 23:34+0200\n"
+"POT-Creation-Date: 2010-05-25 20:08+0200\n"
 "PO-Revision-Date: 2006-07-31 18:08+0200\n"
 "Last-Translator: Johannes Rohr <j.rohr@comlink.apc.org>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
@@ -152,37 +152,37 @@ msgid "Client %s is now the new master."
 msgstr "Client %s ist jetzt der neue Master."
 
 # src/core/DistributionSocketLink.cc:1894
-#: ../backend/src/DistributionSocketLink.cc:1992
+#: ../backend/src/DistributionSocketLink.cc:1994
 msgid "Network operation started."
 msgstr "Netzwerkbetrieb gestartet."
 
 # src/core/DistributionSocketLink.cc:1911
-#: ../backend/src/DistributionSocketLink.cc:2009
+#: ../backend/src/DistributionSocketLink.cc:2015
 msgid "Accepted new client."
 msgstr "Akzeptiere neuen Client."
 
 # src/core/DistributionSocketLink.cc:1966
-#: ../backend/src/DistributionSocketLink.cc:2083
+#: ../backend/src/DistributionSocketLink.cc:2089
 #, fuzzy, c-format
 msgid "Client %s read error, closing."
 msgstr "Lesefehler bei Client %s. Schließe Verbindung."
 
 # src/core/DistributionSocketLink.cc:1971
 # src/core/DistributionSocketLink.cc:2042
-#: ../backend/src/DistributionSocketLink.cc:2089
-#: ../backend/src/DistributionSocketLink.cc:2162
+#: ../backend/src/DistributionSocketLink.cc:2095
+#: ../backend/src/DistributionSocketLink.cc:2168
 #, fuzzy, c-format
 msgid "Client %s closed connection."
 msgstr "Client %s hat Verbindung geschlossen."
 
 # src/core/DistributionSocketLink.cc:2011
-#: ../backend/src/DistributionSocketLink.cc:2130
+#: ../backend/src/DistributionSocketLink.cc:2136
 #, fuzzy, c-format
 msgid "Client %s connected."
 msgstr "Client %s verbunden."
 
 # src/core/DistributionSocketLink.cc:2047
-#: ../backend/src/DistributionSocketLink.cc:2168
+#: ../backend/src/DistributionSocketLink.cc:2174
 #, fuzzy, c-format
 msgid "Could not connect to client %s."
 msgstr "Konnte nicht mit Client %s verbinden."
@@ -1431,6 +1431,18 @@ msgstr "Gesamtzahl der ausgeführten Tastenanschläge."
 #, c-format
 msgid "%s, from %s to %s"
 msgstr "%s, von %s bis %s"
+
+# src/app/gtkmm/RestBreakWindow.cc:285
+#, fuzzy
+#~ msgid ""
+#~ "This is your natural rest break. Make sure you stand up and\n"
+#~ "walk away from your computer on a regular basis. Just\n"
+#~ "walk around for a few minutes, stretch, and relax."
+#~ msgstr ""
+#~ "Dies ist Ihre Ruhepause. Achten Sie darauf, dass Sie regelmäßig\n"
+#~ "aufstehen und Ihren Computerarbeitsplatz verlassen. Gehen Sie einfach\n"
+#~ "ein paar Minuten umher, strecken sie sich aus und entspannen Sie\n"
+#~ "sich."
 
 # src/app/gtkmm/PreludeWindow.cc:216
 #, fuzzy

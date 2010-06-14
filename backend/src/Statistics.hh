@@ -124,7 +124,7 @@ public:
 
   int get_history_size() const;
   void set_counter(StatsValueType t, int value);
-  int get_counter(StatsValueType t);
+  int64_t get_counter(StatsValueType t);
 
 
 private:

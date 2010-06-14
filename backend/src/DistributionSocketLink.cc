@@ -193,10 +193,10 @@ DistributionSocketLink::init_my_id()
 
 
 //! Returns the id of this node.
-gchar *
+string
 DistributionSocketLink::get_my_id() const
 {
-  return (char *)my_id.str().c_str();
+  return my_id.str();
 }
 
 
@@ -477,7 +477,7 @@ DistributionSocketLink::broadcast_client_message(DistributionClientMessageID dsi
   packet.create();
   init_packet(packet, PACKET_CLIENTMSG);
 
-  gchar *id = get_master();
+  string id = get_master();
   packet.pack_string(id);
 
   packet.pack_ushort(1);
@@ -874,10 +874,10 @@ DistributionSocketLink::find_client_by_id(gchar *id)
 
 
 //! Returns the master client.
-char *
+string
 DistributionSocketLink::get_master() const
 {
-  char *id = NULL;
+  string id;
 
   if (i_am_master)
     {
@@ -938,7 +938,7 @@ DistributionSocketLink::set_master_by_id(gchar *id)
                         c->id == NULL ? "Unknown" : c->id);
       set_master(c);
     }
-  else if (strcmp(id, get_my_id()) == 0)
+  else if (strcmp(id, get_my_id().c_str()) == 0)
     {
       // Its ME!
       dist_manager->log(_("I'm now master."));
@@ -1820,7 +1820,7 @@ DistributionSocketLink::send_new_master(Client *client)
   packet.create();
   init_packet(packet, PACKET_NEW_MASTER);
 
-  gchar *id = NULL;
+  string id;
 
   if (master_client == NULL)
     {
@@ -1890,7 +1890,7 @@ DistributionSocketLink::send_client_message(DistributionClientMessageType type)
   packet.create();
   init_packet(packet, PACKET_CLIENTMSG);
 
-  gchar *id = get_master();
+  string id = get_master();
   packet.pack_string(id);
 
   packet.pack_ushort(client_message_map.size());

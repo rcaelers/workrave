@@ -8,12 +8,12 @@ dnl
 
 m4_define([workrave_major_version], [1])
 m4_define([workrave_minor_version], [9])
-m4_define([workrave_micro_version], [2])
-m4_define([workrave_version_suffix], [])
+m4_define([workrave_micro_version], [1])
+m4_define([workrave_version_suffix], [90])
 m4_define([workrave_version],
           [workrave_major_version.workrave_minor_version.workrave_micro_version])
 m4_define([workrave_resource_version],
-          [workrave_major_version,workrave_minor_version,workrave_micro_version,0])
+          [workrave_major_version,workrave_minor_version,workrave_micro_version,workrave_version_suffix])
 
 AC_INIT(workrave, [workrave_version],
         [http://issues.workrave.org/cgi-bin/bugzilla/enter_bug.cgi])
@@ -29,7 +29,7 @@ AM_MAINTAINER_MODE
 
 dnl Set of available languages.
 AC_SUBST(ALL_LINGUAS)
-ALL_LINGUAS="nl de eo pl da es zh_TW ru fr pt_BR nb lt cs he eu ca sv ja bg hu tr el sk zh_CN it sl ro et"
+ALL_LINGUAS="nl de eo pl da es zh_TW ru fr pt_BR nb lt cs he eu ca sv ja bg hu tr el sk zh_CN it sl ro et te"
 AC_DEFINE_UNQUOTED(ALL_LINGUAS, "$ALL_LINGUAS" ,[All available languages])
 
 dnl
@@ -475,26 +475,33 @@ then
    if test x$have_dbus = xyes
    then
       AC_DEFINE(HAVE_DBUS, 1, d-bus support)
+
+      AS_AC_EXPAND(DATADIR, $datadir)
+
+      DBUS_SERVICES_DIR="$DATADIR/dbus-1/services"
+      AC_SUBST(DBUS_SERVICES_DIR)
+      AC_DEFINE_UNQUOTED(DBUS_SERVICES_DIR, "$DBUS_SERVICES_DIR", [Where services dir for DBUS is])
+
+      AC_CHECK_PROG(PYTHON,python,python)
+      
+      AC_MSG_CHECKING([for the Cheetah Python package])
+        ac_cheetah_result=`$PYTHON -c "from Cheetah.Template import Template" 2>&1`
+        if test -z "$ac_cheetah_result"; then
+           AC_MSG_RESULT([yes])
+        else
+           AC_MSG_RESULT([no])
+           AC_MSG_ERROR([cannot import Python module "cheetah"])
+   	   have_dbus=no
+           dbus_pkgconfig=
+        fi
+   else
+     AC_MSG_ERROR([
+DBus development headers not found.
+Use --disable-dbus if you do not need DBus support.
+])
+      have_dbus=no
+      dbus_pkgconfig=
    fi
-
-   AS_AC_EXPAND(DATADIR, $datadir)
-
-   DBUS_SERVICES_DIR="$DATADIR/dbus-1/services"
-   AC_SUBST(DBUS_SERVICES_DIR)
-   AC_DEFINE_UNQUOTED(DBUS_SERVICES_DIR, "$DBUS_SERVICES_DIR", [Where services dir for DBUS is])
-
-   AC_CHECK_PROG(PYTHON,python,python)
-   
-   AC_MSG_CHECKING([for the Cheetah Python package])
-     ac_cheetah_result=`$PYTHON -c "from Cheetah.Template import Template" 2>&1`
-     if test -z "$ac_cheetah_result"; then
-        AC_MSG_RESULT([yes])
-     else
-        AC_MSG_RESULT([no])
-        AC_MSG_ERROR([cannot import Python module "cheetah"])
-	have_dbus=no
-        dbus_pkgconfig=
-     fi	
 else
    have_dbus=no
    dbus_pkgconfig=
@@ -555,7 +562,10 @@ then
            PKG_CHECK_MODULES(PULSE, glib-2.0 libpulse >= $PA_REQUIRED_VERSION libpulse-mainloop-glib >= $PA_REQUIRED_VERSION,
                  [have_pulse=true
                   AC_DEFINE(HAVE_PULSE, 1, [Define if PULSE sound server should be used])],
-                 [have_pulse=false])
+                 [AC_MSG_ERROR([
+Pulseaudio development headers not found.
+Use --disable-pulse if you do not need Pulseaudio (mute) support.
+])])
     fi
     AC_SUBST(PULSE_CFLAGS)
     AC_SUBST(PULSE_LIBS)
@@ -879,7 +889,7 @@ echo ""
 echo "                      Gtk GUI :   ${config_gtk}"
 echo "                Gnome support :   ${config_gnome}"
 echo "                  Kde support :   ${config_kde}"
-echo "                 DBUS support :   ${config_dbus}"
+echo "                 DBUS support :   ${have_dbus}"
 echo "           Networking support :   ${config_distribution}"
 echo "                    Exercises :   ${config_exercises}"
 echo ""

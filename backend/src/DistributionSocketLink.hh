@@ -179,7 +179,7 @@ public:
   virtual ~DistributionSocketLink();
 
   void init_my_id(); 
-  gchar *get_my_id() const;
+  std::string get_my_id() const;
   int get_number_of_peers();
   void set_distribution_manager(DistributionManager *dll);
   void init();
@@ -217,7 +217,7 @@ private:
 
   bool set_client_id(Client *client, gchar *id);
 
-  char *get_master() const;
+  string get_master() const;
   void set_master_by_id(gchar *id);
   void set_master(Client *client);
   void set_me_master();

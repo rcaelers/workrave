@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2010-05-12 23:34+0200\n"
+"POT-Creation-Date: 2010-05-25 20:08+0200\n"
 "PO-Revision-Date: 2007-02-10 22:50+0100\n"
 "Last-Translator: Mikolaj Machowski <mikmach@wp.pl>\n"
 "Language-Team: Polish <kde-transl@mer.chemia.polsl.gliwice.pl>\n"
@@ -129,31 +129,31 @@ msgstr "Klient %s odrzucił żądanie nadrzędnego, opóźnienie."
 msgid "Client %s is now the new master."
 msgstr "Klient %s jest teraz nadrzędny."
 
-#: ../backend/src/DistributionSocketLink.cc:1992
+#: ../backend/src/DistributionSocketLink.cc:1994
 msgid "Network operation started."
 msgstr "Rozpoczęcie operacji w sieci."
 
-#: ../backend/src/DistributionSocketLink.cc:2009
+#: ../backend/src/DistributionSocketLink.cc:2015
 msgid "Accepted new client."
 msgstr "Nowy klient zaakceptowany."
 
-#: ../backend/src/DistributionSocketLink.cc:2083
+#: ../backend/src/DistributionSocketLink.cc:2089
 #, fuzzy, c-format
 msgid "Client %s read error, closing."
 msgstr "%s - błąd odczytu, zamykam."
 
-#: ../backend/src/DistributionSocketLink.cc:2089
-#: ../backend/src/DistributionSocketLink.cc:2162
+#: ../backend/src/DistributionSocketLink.cc:2095
+#: ../backend/src/DistributionSocketLink.cc:2168
 #, fuzzy, c-format
 msgid "Client %s closed connection."
 msgstr "Klient %s zamknął połączenie."
 
-#: ../backend/src/DistributionSocketLink.cc:2130
+#: ../backend/src/DistributionSocketLink.cc:2136
 #, fuzzy, c-format
 msgid "Client %s connected."
 msgstr "Klient %s połączony."
 
-#: ../backend/src/DistributionSocketLink.cc:2168
+#: ../backend/src/DistributionSocketLink.cc:2174
 #, fuzzy, c-format
 msgid "Could not connect to client %s."
 msgstr "Połączenie z klientem %s niemożliwe."
@@ -1176,6 +1176,16 @@ msgstr "Całkowita liczba naciśnięć klawiszy"
 #, c-format
 msgid "%s, from %s to %s"
 msgstr "%s, od %s do %s"
+
+#, fuzzy
+#~ msgid ""
+#~ "This is your natural rest break. Make sure you stand up and\n"
+#~ "walk away from your computer on a regular basis. Just\n"
+#~ "walk around for a few minutes, stretch, and relax."
+#~ msgstr ""
+#~ "Czas na odpoczynek. Wstawaj od komputera w regularnych\n"
+#~ "odstępach czasu. Pochodź przez kilka minut, wykonaj\n"
+#~ "kilka prostych ćwiczeń, rozciągnij się, zrelaksuj."
 
 #, fuzzy
 #~ msgid "Starting %s"

@@ -90,6 +90,7 @@ W32AppletMenu::resync(OperationMode mode, UsageMode usage, bool show_log)
       W32AppletWindow *w32aw = applet_window;
       w32aw->init_menu(cmd_win);
 
+      w32aw->add_menu(_("Open"), Menus::MENU_COMMAND_OPEN, 0);
       w32aw->add_menu(_("Preferences"), Menus::MENU_COMMAND_PREFERENCES, 0);
       w32aw->add_menu(_("_Rest break"), Menus::MENU_COMMAND_REST_BREAK, 0);
       w32aw->add_menu(_("Exercises"), Menus::MENU_COMMAND_EXERCISES, 0);

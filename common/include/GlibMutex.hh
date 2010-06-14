@@ -1,4 +1,4 @@
-// QtMutex.hh
+// GLibMutex.hh
 //
 // Copyright (C) 2007 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
