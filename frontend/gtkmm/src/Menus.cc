@@ -32,8 +32,6 @@
 #endif
 #include <iostream>
 
-#include <gtkmm/aboutdialog.h>
-
 #include "Menus.hh"
 #include "GUI.hh"
 #include "Util.hh"
@@ -365,6 +363,10 @@ Menus::on_menu_about()
       about->set_logo(pixbuf);
       about->set_translator_credits(workrave_translators);
 
+#ifndef HAVE_DEFAULT_URL_HOOK
+      about->set_url_hook(sigc::mem_fun(*this, &Menus::on_about_link_activate));
+#endif
+      
       about->set_version(PACKAGE_VERSION);
       about->set_website("http://www.workrave.org/");
       about->set_website_label("www.workrave.org");
@@ -374,6 +376,19 @@ Menus::on_menu_about()
   about->present();
 }
 
+
+#ifndef HAVE_DEFAULT_URL_HOOK
+void
+Menus::on_about_link_activate(Gtk::AboutDialog &about, const Glib::ustring &link)
+{
+  GdkScreen *screen;
+  GError *error = NULL;
+  
+  screen = gtk_widget_get_screen(GTK_WIDGET(about.gobj()));
+
+  gtk_show_uri(screen, link.c_str(), gtk_get_current_event_time(), &error);
+}
+#endif
 
 void
 Menus::on_about_response(int response)
