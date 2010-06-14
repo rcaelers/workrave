@@ -186,7 +186,7 @@ autoconf --force || {
     exit 1
 }
 
-conf_flags=" --target=i386-mingw32msvc --host=i386-mingw32msvc --build=i386-linux  --enable-maintainer-mode --enable-debug --without-x --enable-distribution --enable-exercises --disable-gstreamer"
+conf_flags=" --target=i386-mingw32msvc --host=i386-mingw32msvc --build=i386-linux  --enable-maintainer-mode --enable-debug --without-x --enable-distribution --enable-exercises --disable-gstreamer --disable-dbus"
  
 if test x$NOCONFIGURE = x; then
     
