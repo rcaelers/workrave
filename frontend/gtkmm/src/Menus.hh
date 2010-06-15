@@ -38,18 +38,6 @@ class AppletWindow;
 class ExercisesDialog;
 class Menu;
 
-#ifndef WR_CHECK_VERSION
-#define WR_CHECK_VERSION(comp,major,minor,micro)   \
-    (comp##_MAJOR_VERSION > (major) || \
-     (comp##_MAJOR_VERSION == (major) && comp##_MINOR_VERSION > (minor)) || \
-     (comp##_MAJOR_VERSION == (major) && comp##_MINOR_VERSION == (minor) && \
-      comp##_MICRO_VERSION >= (micro)))
-#endif
-
-#if WR_CHECK_VERSION(GTK,2,18,1)
-#define HAVE_DEFAULT_URL_HOOK 1
-#endif
-
 namespace Gtk
 {
   class Menu;
@@ -136,7 +124,7 @@ public:
   void on_menu_network_reconnect();
   void on_menu_network_log(bool show);
 
-#ifndef HAVE_DEFAULT_URL_HOOK
+#ifdef PLATFORM_OS_WIN32
   void on_about_link_activate(Gtk::AboutDialog &about, const Glib::ustring &link);
 #endif
   

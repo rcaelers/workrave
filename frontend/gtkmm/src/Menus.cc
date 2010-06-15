@@ -65,6 +65,8 @@
 #endif
 
 #ifdef PLATFORM_OS_WIN32
+#include <shellapi.h>
+
 #include "W32AppletWindow.hh"
 #include "W32TrayMenu.hh"
 #include "W32AppletMenu.hh"
@@ -363,7 +365,7 @@ Menus::on_menu_about()
       about->set_logo(pixbuf);
       about->set_translator_credits(workrave_translators);
 
-#ifndef HAVE_DEFAULT_URL_HOOK
+#ifdef PLATFORM_OS_WIN32
       about->set_url_hook(sigc::mem_fun(*this, &Menus::on_about_link_activate));
 #endif
       
@@ -377,16 +379,12 @@ Menus::on_menu_about()
 }
 
 
-#ifndef HAVE_DEFAULT_URL_HOOK
+#ifdef PLATFORM_OS_WIN32
 void
 Menus::on_about_link_activate(Gtk::AboutDialog &about, const Glib::ustring &link)
 {
-  GdkScreen *screen;
-  GError *error = NULL;
-  
-  screen = gtk_widget_get_screen(GTK_WIDGET(about.gobj()));
-
-  gtk_show_uri(screen, link.c_str(), gtk_get_current_event_time(), &error);
+  (void) about;
+  ShellExecute(NULL, "open", link.c_str(), NULL, NULL, SW_SHOWNORMAL);
 }
 #endif
 
