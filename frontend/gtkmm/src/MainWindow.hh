@@ -137,6 +137,7 @@ public:
 #ifdef PLATFORM_OS_WIN32
 private:
   void win32_show(bool b);
+  bool win32_show_retry();
   void win32_init();
   void win32_exit();
 
@@ -145,6 +146,7 @@ private:
 
   HWND win32_main_hwnd;
   HINSTANCE win32_hinstance;
+  int show_retry_count;
 
   sigc::connection timeout_connection;
 #endif

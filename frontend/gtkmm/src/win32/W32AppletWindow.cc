@@ -325,12 +325,10 @@ GdkFilterReturn
 W32AppletWindow::win32_filter_func (void     *xevent,
                                     GdkEvent *event)
 {
-  TRACE_ENTER("W32AppletWindow::win32_filter_func");
   (void) event;
   MSG *msg = (MSG *) xevent;
   GdkFilterReturn ret = GDK_FILTER_CONTINUE;
 
-  TRACE_MSG(msg->message);
   switch (msg->message)
     {
     case WM_USER:
@@ -350,6 +348,5 @@ W32AppletWindow::win32_filter_func (void     *xevent,
       }
       break;
     }
-  TRACE_EXIT();
   return ret;
 }
