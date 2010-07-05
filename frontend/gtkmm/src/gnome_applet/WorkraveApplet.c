@@ -385,7 +385,6 @@ verb_preferences(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
     {
       dbus_g_proxy_begin_call(g_applet->ui, "Preferences", dbus_callback, NULL, NULL,
                              G_TYPE_INVALID);
-
     }
 }
 
@@ -402,8 +401,6 @@ verb_exercises(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
     {
       dbus_g_proxy_begin_call(g_applet->ui, "Exercises", dbus_callback, NULL, NULL,
                               G_TYPE_INVALID);
-
-
     }
 }
 
@@ -419,8 +416,6 @@ verb_statistics(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
     { 
       dbus_g_proxy_begin_call(g_applet->ui, "Statistics", dbus_callback, NULL, NULL,
                              G_TYPE_INVALID);
-
-
     }
 }
 
@@ -436,8 +431,6 @@ verb_restbreak(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
     {
       dbus_g_proxy_begin_call(g_applet->ui, "RestBreak", dbus_callback, NULL, NULL,
                              G_TYPE_INVALID);
-
-
     }
 }
 
@@ -456,8 +449,6 @@ verb_connect(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
       dbus_g_proxy_begin_call(g_applet->ui, "NetworkConnect", dbus_callback, NULL, NULL,
                              G_TYPE_INVALID);
 
-
-
     }
 }
 
@@ -474,8 +465,6 @@ verb_disconnect(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
     {
       dbus_g_proxy_begin_call(g_applet->ui, "NetworkDisconnect", dbus_callback, NULL, NULL,
                              G_TYPE_INVALID);
-
-
     }
 }
 
@@ -491,8 +480,6 @@ verb_reconnect(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
     {
       dbus_g_proxy_begin_call(g_applet->ui, "NetworkReconnect", dbus_callback, NULL, NULL,
                              G_TYPE_INVALID);
-
-
     }
 }
 
@@ -510,8 +497,6 @@ verb_quit(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
     {
       dbus_g_proxy_begin_call(g_applet->ui, "Quit", dbus_callback, NULL, NULL,
                              G_TYPE_INVALID);
-
-
     }
 }
 
