@@ -559,11 +559,19 @@ change_background(PanelApplet * widget,
   if (type == PANEL_NO_BACKGROUND)
     {
       GtkStyle *style = gtk_widget_get_style(GTK_WIDGET(widget));
-      color = &style->bg[GTK_STATE_NORMAL];
 
-      if (color != NULL)
+      if (style->bg_pixmap[GTK_STATE_NORMAL])
         {
-          type = PANEL_COLOR_BACKGROUND;
+          pixmap = style->bg_pixmap[GTK_STATE_NORMAL];
+          type = PANEL_PIXMAP_BACKGROUND;
+        }
+      else
+        {
+          color = &style->bg[GTK_STATE_NORMAL];
+          if (color != NULL)
+            {
+              type = PANEL_COLOR_BACKGROUND;
+            }
         }
     }
   
@@ -614,10 +622,10 @@ change_background(PanelApplet * widget,
   if (g_applet->support != NULL && workrave_is_running())
     {
       dbus_g_proxy_begin_call(g_applet->support, "SetBackground", dbus_callback, NULL, NULL,
-                             G_TYPE_UINT, type,
-                             G_TYPE_VALUE_ARRAY, val,
-                             G_TYPE_UINT, xid,
-                             G_TYPE_INVALID);
+                              G_TYPE_UINT, type,
+                              G_TYPE_VALUE_ARRAY, val,
+                              G_TYPE_UINT, xid,
+                              G_TYPE_INVALID);
       
 
     }
