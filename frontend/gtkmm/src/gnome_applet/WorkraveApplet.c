@@ -1,6 +1,6 @@
 // WorkraveApplet.cc
 //
-// Copyright (C) 2002, 2003, 2005, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2005, 2006, 2007, 2008, 2009, 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -571,23 +571,34 @@ change_background(PanelApplet * widget,
   long xid = 0;
   GValueArray *val = g_value_array_new(4);
 
+  if (type == PANEL_NO_BACKGROUND)
+    {
+      GtkStyle *style = gtk_widget_get_style(GTK_WIDGET(widget));
+      color = &style->bg[GTK_STATE_NORMAL];
+
+      if (color != NULL)
+        {
+          type = PANEL_COLOR_BACKGROUND;
+        }
+    }
+  
   if (type == PANEL_COLOR_BACKGROUND && color != NULL)
     {
-      g_value_array_prepend(val, NULL);
+      g_value_array_append(val, NULL);
       g_value_init(g_value_array_get_nth(val, 0), G_TYPE_UINT);
       g_value_set_uint(g_value_array_get_nth(val, 0), color->pixel);
  
-      g_value_array_prepend(val, NULL);
-      g_value_init(g_value_array_get_nth(val, 0), G_TYPE_UINT);
-      g_value_set_uint(g_value_array_get_nth(val, 0), color->red);
+      g_value_array_append(val, NULL);
+      g_value_init(g_value_array_get_nth(val, 1), G_TYPE_UINT);
+      g_value_set_uint(g_value_array_get_nth(val, 1), color->red);
       
-      g_value_array_prepend(val, NULL);
-      g_value_init(g_value_array_get_nth(val, 0), G_TYPE_UINT);
-      g_value_set_uint(g_value_array_get_nth(val, 0), color->green);
+      g_value_array_append(val, NULL);
+      g_value_init(g_value_array_get_nth(val, 2), G_TYPE_UINT);
+      g_value_set_uint(g_value_array_get_nth(val, 2), color->green);
 
-      g_value_array_prepend(val, NULL);
-      g_value_init(g_value_array_get_nth(val, 0), G_TYPE_UINT);
-      g_value_set_uint(g_value_array_get_nth(val, 0), color->blue);
+      g_value_array_append(val, NULL);
+      g_value_init(g_value_array_get_nth(val, 3), G_TYPE_UINT);
+      g_value_set_uint(g_value_array_get_nth(val, 3), color->blue);
     }
   else
     {

@@ -366,7 +366,12 @@ GnomeAppletWindow::set_applet_size(int size)
 void
 GnomeAppletWindow::set_applet_background(int type, GdkColor &color, long xid)
 {
-  TRACE_ENTER_MSG("GnomeAppletWindow::set_applet_pixmap", xid);
+  TRACE_ENTER_MSG("GnomeAppletWindow::set_applet_background", type << " " << xid 
+                  << " " << color.pixel
+                  << " " << color.red 
+                  << " " << color.green
+                  << " " << color.blue
+                  );
 
   if (plug == NULL)
     {
@@ -414,31 +419,31 @@ GnomeAppletWindow::set_applet_background(int type, GdkColor &color, long xid)
         }
     }
 
-  GtkRcStyle *rc_style = gtk_rc_style_new();
+  GtkRcStyle *rc_style = NULL;
   GtkStyle *style = NULL;
 
-  gtk_widget_set_style (widget, NULL);
+  gtk_widget_set_style(widget, NULL);
+  rc_style = gtk_rc_style_new();
   gtk_widget_modify_style (widget, rc_style);
+  g_object_unref(rc_style);
 
   switch (type)
     {
     case 0: //PANEL_NO_BACKGROUND:
       break;
     case 1: //PANEL_COLOR_BACKGROUND:
-      gtk_widget_modify_bg (widget,
-                            GTK_STATE_NORMAL, &color);
+      gtk_widget_modify_bg(widget, GTK_STATE_NORMAL, &color);
       break;
     case 2: //PANEL_PIXMAP_BACKGROUND:
-      style = gtk_style_copy (widget->style);
+      style = gtk_style_copy(widget->style);
       if (style->bg_pixmap[GTK_STATE_NORMAL])
-        g_object_unref (style->bg_pixmap[GTK_STATE_NORMAL]);
-      style->bg_pixmap[GTK_STATE_NORMAL] = (GdkPixmap *)g_object_ref (pixmap);
-      gtk_widget_set_style (widget, style);
-      g_object_unref (style);
+        g_object_unref(style->bg_pixmap[GTK_STATE_NORMAL]);
+      style->bg_pixmap[GTK_STATE_NORMAL] = (GdkPixmap *)g_object_ref(pixmap);
+      gtk_widget_set_style(widget, style);
+      g_object_unref(style);
       break;
     }
 
-  gtk_rc_style_unref (rc_style);
 
   if (pixmap != NULL)
     {
