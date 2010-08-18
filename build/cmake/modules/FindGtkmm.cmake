@@ -11,7 +11,21 @@ IF(WIN32)
   ELSE(${CMAKE_GENERATOR} MATCHES "Visual Studio 9")
     SET(GTKMM_LIBS_VARIANT "")
   ENDIF(${CMAKE_GENERATOR} MATCHES "Visual Studio 9")
-    
+
+  FIND_LIBRARY(ICONV_LIBS NAMES iconv
+   PATHS
+   ${GTKMM_DIR}/lib
+  )
+  
+  EXECUTE_PROCESS(
+        COMMAND ${GTKMM_DIR}/bin/pkg-config.exe --modversion glib-2.0
+        OUTPUT_VARIABLE glib_version)
+
+  IF (NOT ${glib_version} VERSION_LESS 2.24.0)
+     SET(HAVE_GIO_NET 1)
+  ENDIF(NOT ${glib_version} VERSION_LESS 2.24.0)
+
+	
   SET(GTKMM_INCLUDES
     ${GTKMM_DIR}/include
     ${GTKMM_DIR}/include/atk-1.0
@@ -82,7 +96,7 @@ IF(WIN32)
     ${GTKMM_DIR}/lib/pangocairo-1.0.lib
     ${GTKMM_DIR}/lib/pangowin32-1.0.lib
     ${GTKMM_DIR}/lib/intl.lib
-    ${GTKMM_DIR}/lib/iconv.lib
+    ${ICONV_LIBS}
     )
 
   SET(GTKMM_DEBUG_LIBS
@@ -101,7 +115,7 @@ IF(WIN32)
     ${GTKMM_DIR}/lib/glib-2.0.lib
     ${GTKMM_DIR}/lib/gthread-2.0.lib
     ${GTKMM_DIR}/lib/intl.lib
-    ${GTKMM_DIR}/lib/iconv.lib
+    ${ICONV_LIBS}
     )
 
     SET(HAVE_GTKMM 1)

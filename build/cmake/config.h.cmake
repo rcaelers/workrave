@@ -11,6 +11,8 @@
 
 #cmakedefine HAVE_GNET
 
+#cmakedefine HAVE_GIO_NET
+
 #cmakedefine HAVE_EXERCISES 
 
 #cmakedefine HAVE_DISTRIBUTION
@@ -157,12 +159,6 @@
 
 /* Define if glib is available */
 #define HAVE_GLIB 
-
-/* Define if GNet is available */
-#define HAVE_GNET 
-
-/* Define if GNet2 is available */
-#define HAVE_GNET2 
 
 /* Define if Gnome is available */
 /* #undef HAVE_GNOME */

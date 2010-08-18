@@ -6,7 +6,6 @@ SET(BACKEND_DIR ${CMAKE_SOURCE_DIR}/../../backend)
 set(BACKEND_SOURCES 
   ${BACKEND_DIR}/include/CoreConfig.hh
   ${BACKEND_DIR}/include/CoreFactory.hh
-  ${BACKEND_DIR}/include/DistributionLogListener.hh
   ${BACKEND_DIR}/include/IApp.hh
   ${BACKEND_DIR}/include/IBreak.hh
   ${BACKEND_DIR}/include/IBreakResponse.hh
@@ -14,7 +13,6 @@ set(BACKEND_SOURCES
   ${BACKEND_DIR}/include/IConfiguratorListener.hh
   ${BACKEND_DIR}/include/ICore.hh
   ${BACKEND_DIR}/include/ICoreEventListener.hh
-  ${BACKEND_DIR}/include/IDistributionManager.hh
   ${BACKEND_DIR}/include/IStatistics.hh
   ${BACKEND_DIR}/src/ActivityMonitor.cc
   ${BACKEND_DIR}/src/ActivityMonitor.hh
@@ -34,15 +32,6 @@ set(BACKEND_SOURCES
   ${BACKEND_DIR}/src/CoreFactory.cc
   ${BACKEND_DIR}/src/DayTimePred.cc
   ${BACKEND_DIR}/src/DayTimePred.hh
-  ${BACKEND_DIR}/src/DistributionLink.hh
-  ${BACKEND_DIR}/src/DistributionListener.hh
-  ${BACKEND_DIR}/src/DistributionManager.cc
-  ${BACKEND_DIR}/src/DistributionManager.hh
-  ${BACKEND_DIR}/src/DistributionSocketLink.cc
-  ${BACKEND_DIR}/src/DistributionSocketLink.hh
-  ${BACKEND_DIR}/src/FakeActivityMonitor.hh
-  ${BACKEND_DIR}/src/GNetSocketDriver.cc
-  ${BACKEND_DIR}/src/GNetSocketDriver.hh
   ${BACKEND_DIR}/src/GlibIniConfigurator.cc
   ${BACKEND_DIR}/src/GlibIniConfigurator.hh
   ${BACKEND_DIR}/src/IActivityMonitor.hh
@@ -61,8 +50,6 @@ set(BACKEND_SOURCES
   ${BACKEND_DIR}/src/InputMonitorFactoryInterface.hh
   ${BACKEND_DIR}/src/PacketBuffer.cc
   ${BACKEND_DIR}/src/PacketBuffer.hh
-  ${BACKEND_DIR}/src/SocketDriver.hh
-  ${BACKEND_DIR}/src/SocketDriver.icc
   ${BACKEND_DIR}/src/Statistics.cc
   ${BACKEND_DIR}/src/Statistics.hh
   ${BACKEND_DIR}/src/TimePred.hh
@@ -131,6 +118,28 @@ if (HAVE_GDOME)
   )
 endif (HAVE_GDOME)
 
+if (HAVE_DISTRIBUTION)
+  set(BACKEND_SOURCES ${BACKEND_SOURCES}
+    ${BACKEND_DIR}/include/DistributionLogListener.hh
+    ${BACKEND_DIR}/include/IDistributionManager.hh
+    ${BACKEND_DIR}/src/DistributionLink.hh
+    ${BACKEND_DIR}/src/DistributionListener.hh
+    ${BACKEND_DIR}/src/DistributionManager.cc
+    ${BACKEND_DIR}/src/DistributionManager.hh
+    ${BACKEND_DIR}/src/DistributionSocketLink.cc
+    ${BACKEND_DIR}/src/DistributionSocketLink.hh
+    ${BACKEND_DIR}/src/FakeActivityMonitor.hh
+    ${BACKEND_DIR}/src/GNetSocketDriver.cc
+    ${BACKEND_DIR}/src/GNetSocketDriver.hh
+    ${BACKEND_DIR}/src/GIOSocketDriver.cc
+    ${BACKEND_DIR}/src/GIOSocketDriver.hh
+    ${BACKEND_DIR}/src/SocketDriver.hh
+    ${BACKEND_DIR}/src/SocketDriver.icc
+    ${BACKEND_DIR}/src/SocketDriver.cc
+    ${BACKEND_DIR}/src/Test.cc
+    ${BACKEND_DIR}/src/Test.hh
+  )
+endif(HAVE_DISTRIBUTION)
 
 if (HAVE_DBUS)
   add_custom_command(
