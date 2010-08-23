@@ -153,7 +153,7 @@ $(service_DATA): $(service_in_files) Makefile
 	sed -e "s|@workravebindir@|$(bindir)|" $< > $@
 
 # Correctly clean the generated headers, but keep the xml description
-#CLEANFILES = $(BUILT_SOURCES)
+CLEANFILES = org.workrave.Workrave.service
 
 dbussources=DBusGUI.cc
 

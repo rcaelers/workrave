@@ -45,7 +45,7 @@ Workrave-Applet.server.in: Workrave-Applet.server.in.in
 
 @INTLTOOL_SERVER_RULE@
 
-BUILT_SOURCES=applet-server-bindings.h applet-client-bindings.h gui-client-bindings.h
+BUILT_SOURCES=applet-server-bindings.h applet-client-bindings.h gui-client-bindings.h  Workrave-Applet.server Workrave-Applet.server.in
 
 # Correctly clean the generated headers, but keep the xml description
 CLEANFILES = $(BUILT_SOURCES)

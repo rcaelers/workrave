@@ -1,4 +1,4 @@
-Workrave NEWS -- history of user-visible changes.  25 Oct 2009
+Workrave NEWS -- history of user-visible changes.  26 Aug 2010
 Copyright (C) 2001-2010 Rob Caelers & Raymond Penners
 See the end for copying conditions.
 
@@ -16,13 +16,14 @@ http://www.workrave.org
 ** Workrave now properly remembers the Window hide/show notification
    icon settings.
 
-** The Workrave applet is functional again on Window 7
+** The Workrave applet is functional again on Windows 7
 
 ** Updated tranlations:
    - Brazilian Portuguese
    - Catalan
    - Hungarian
    - Hebrew
+   - Polish
 
 ** Many bug fixes.
 
