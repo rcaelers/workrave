@@ -295,9 +295,10 @@ Break::load_timer_config()
   timer->set_snooze_interval(snooze);
 
   // Read the activity insensitive flag
-  bool sensitive;
-  config->get_value(CoreConfig::CFG_KEY_TIMER_ACTIVITY_SENSITIVE % break_id, sensitive);
-  timer->set_activity_sensitive(sensitive);
+  //bool sensitive;
+  //config->get_value(CoreConfig::CFG_KEY_TIMER_ACTIVITY_SENSITIVE % break_id, sensitive);
+  //timer->set_activity_sensitive(sensitive);
+  timer->set_activity_sensitive(true);
 
   // Load the monitor setting for the timer.
   string monitor_name;
@@ -347,10 +348,10 @@ Break::load_break_control_config()
 bool
 Break::get_timer_activity_sensitive() const
 {
-  bool sensitive;
-  config->get_value(CoreConfig::CFG_KEY_TIMER_ACTIVITY_SENSITIVE % break_id, sensitive);
+  // bool sensitive;
+  // config->get_value(CoreConfig::CFG_KEY_TIMER_ACTIVITY_SENSITIVE % break_id, sensitive);
 
-  return sensitive;
+  return true; // sensitive;
 }
 
 bool
@@ -414,9 +415,10 @@ Break::set_usage_mode(UsageMode mode)
       if (mode == USAGE_MODE_NORMAL)
         {
           // Read the activity insensitive flag
-          bool sensitive;
-          config->get_value(CoreConfig::CFG_KEY_TIMER_ACTIVITY_SENSITIVE % break_id, sensitive);
-          timer->set_activity_sensitive(sensitive);
+          // bool sensitive;
+          // config->get_value(CoreConfig::CFG_KEY_TIMER_ACTIVITY_SENSITIVE % break_id, sensitive);
+          // timer->set_activity_sensitive(sensitive);
+          timer->set_activity_sensitive(true);
         }
       else if (mode == USAGE_MODE_READING)
         {
