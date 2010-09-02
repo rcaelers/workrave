@@ -25,6 +25,7 @@ fi
 
 dnl Demand at least version 2.61 of autoconf.
 AC_PREREQ(2.61)
+AC_CONFIG_MACRO_DIR([m4])
 
 dnl Automake
 AM_CONFIG_HEADER(config.h)
