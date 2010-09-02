@@ -368,8 +368,12 @@ Menus::on_menu_about()
 #ifdef PLATFORM_OS_WIN32
       about->set_url_hook(sigc::mem_fun(*this, &Menus::on_about_link_activate));
 #endif
-      
+
+#ifdef GIT_VERSION
+      about->set_version(PACKAGE_VERSION "\n(" GIT_VERSION ")");
+#else
       about->set_version(PACKAGE_VERSION);
+#endif
       about->set_website("http://www.workrave.org/");
       about->set_website_label("www.workrave.org");
 

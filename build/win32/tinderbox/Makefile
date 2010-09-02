@@ -18,8 +18,8 @@ WORKRAVE_GIT_DIR=${TINDERBOX_HOME}/workrave
 CONF_FLAGS = --quiet
 
 WORKRAVE_GIT_BRANCH_PREFIX=origin
-WORKRAVE_GIT_BRANCH=branch_v1_9
-WORKRAVE_TAG=v1_9
+WORKRAVE_GIT_BRANCH=master
+WORKRAVE_TAG=v1_9_2
 
 #WORKRAVE_GIT_BRANCH_PREFIX=origin
 #WORKRAVE_GIT_BRANCH=master
@@ -30,8 +30,15 @@ WORKRAVE_TAG=v1_9
 #WORKRAVE_TAG=v1_9_0-no-networking
 #CONF_FLAGS = --quiet --disable-distribution
 
+#WORKRAVE_GIT_BRANCH_PREFIX=origin
+#WORKRAVE_GIT_BRANCH=bug791
+#WORKRAVE_TAG=bug791
+
 WORKRAVE_VERSION=`cat ${WORKRAVE_GIT_DIR}/configure.ac | grep AM_INIT_AUTOMAKE | cut -d ','  -f2 | cut -d' ' -f2 | cut -d')' -f1`
 WORKRAVE_PREVERSION=`cat ${WORKRAVE_GIT_DIR}/configure.ac | grep AM_INIT_AUTOMAKE | perl -ne ' $$_ =~ /.*([0-9]+).([0-9]+).([0-9]+)/ ; printf "%d.%d.%d.99", $$1, $$2, ($$3 - 1) '`
+WORKRAVE_GIT_VERSION=`( cd ${WORKRAVE_GIT_DIR} ; git describe --tags --abbrev=10 --dirty 2>/dev/null )`
+
+TINDERBOX_BUILD=yes
 
 unix2dos=perl -e 'while (<>) { s/$$/\r/; print; }'
 
@@ -122,8 +129,8 @@ workrave-win32-setup=\
 	( cd ${1}/frontend/gtkmm/win32/setup/; \
 	  unix2dos setup.iss; \
 	  wine "${WIN32_ISCC}" setup.iss ); \
-	mv ${1}/frontend/gtkmm/win32/setup/Output/setup.exe ${TINDERBOX_BIN_DIR}/workrave-win32-${WORKRAVE_TAG}-${BUILD_DATE}-${2}.exe; \
-	gzip -c ${1}/frontend/gtkmm/src/workrave.sym >${TINDERBOX_BIN_DIR}/workrave-win32-${WORKRAVE_TAG}-${BUILD_DATE}-${2}.sym.gz
+	mv ${1}/frontend/gtkmm/win32/setup/Output/setup.exe ${TINDERBOX_BIN_DIR}/workrave-win32-${WORKRAVE_GIT_VERSION}-${BUILD_DATE}-${2}.exe; \
+	gzip -c ${1}/frontend/gtkmm/src/workrave.sym >${TINDERBOX_BIN_DIR}/workrave-win32-${WORKRAVE_GIT_VERSION}-${BUILD_DATE}-${2}.sym.gz
 
 
 workrave-win32-release-dir: 
@@ -145,7 +152,7 @@ workrave-win32-debug-build: workrave-win32-debug-dir
 workrave-win32-debug-setup: workrave-win32-debug-build
 	$(call workrave-win32-setup,${WORKRAVE_GIT_DIR},debug-installer)
 	( cd ${WORKRAVE_GIT_DIR}/frontend/gtkmm/src; \
-	  zip ${TINDERBOX_BIN_DIR}/workrave-win32-${WORKRAVE_TAG}-${BUILD_DATE}-debug.zip workrave.exe )
+	  zip ${TINDERBOX_BIN_DIR}/workrave-win32-${WORKRAVE_GIT_VERSION}-${BUILD_DATE}-debug.zip workrave.exe )
 
 workrave-win32-all: \
 		workrave-win32-release-setup \
@@ -159,7 +166,7 @@ workrave-source:
 	( cd ${WORKRAVE_GIT_DIR}; \
 	  ./autogen.sh --disable-gnome \
 	  && make dist \
-	  && mv ${WORKRAVE_GIT_DIR}/workrave-${WORKRAVE_VERSION}.tar.gz ${TINDERBOX_BIN_DIR}/workrave-src-${WORKRAVE_TAG}-${BUILD_DATE}.tar.gz )
+	  && mv ${WORKRAVE_GIT_DIR}/workrave-${WORKRAVE_VERSION}.tar.gz ${TINDERBOX_BIN_DIR}/workrave-src-${WORKRAVE_GIT_VERSION}-${BUILD_DATE}.tar.gz )
 
 
 ######################################################################
@@ -186,11 +193,11 @@ upload-purge:
 		rm -rf $$i; \
 	done
 
-upload:
+upload-sf:
 	( cd ${TINDERBOX_SNAPSHOTS_DIR} ; \
           rsync -rv --delete --rsh="ssh -i/home/robc/.ssh/miss_workrave_id_dsa -l miss-workrave,workrave" . miss-workrave,workrave@shell.sourceforge.net:/home/users/m/mi/miss-workrave/public_html/download/snapshots )
 
-shell:
+shell-sf:
 	ssh -i/home/robc/.ssh/miss_workrave_id_dsa -t miss-workrave,workrave@shell.sourceforge.net create < /dev/null
 
 #	sitecopy --update snapshots
