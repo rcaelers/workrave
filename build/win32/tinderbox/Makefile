@@ -38,7 +38,7 @@ WORKRAVE_VERSION=`cat ${WORKRAVE_GIT_DIR}/configure.ac | grep AM_INIT_AUTOMAKE |
 WORKRAVE_PREVERSION=`cat ${WORKRAVE_GIT_DIR}/configure.ac | grep AM_INIT_AUTOMAKE | perl -ne ' $$_ =~ /.*([0-9]+).([0-9]+).([0-9]+)/ ; printf "%d.%d.%d.99", $$1, $$2, ($$3 - 1) '`
 WORKRAVE_GIT_VERSION=`( cd ${WORKRAVE_GIT_DIR} ; git describe --tags --abbrev=10 --dirty 2>/dev/null )`
 
-TINDERBOX_BUILD=yes
+export TINDERBOX_BUILD=yes
 
 unix2dos=perl -e 'while (<>) { s/$$/\r/; print; }'
 
@@ -48,6 +48,7 @@ unix2dos=perl -e 'while (<>) { s/$$/\r/; print; }'
 
 usage:
 	@echo Usage: "make all" to make all files from scratch
+	env
 
 all: setup git-setup workrave-win32-all
 
