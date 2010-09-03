@@ -127,10 +127,12 @@ W32DirectSoundPlayer::~W32DirectSoundPlayer()
 
 //!
 void
-W32DirectSoundPlayer::init()
+W32DirectSoundPlayer::init(ISoundDriverEvents *events)
 {
   HRESULT             hr = S_OK;
 
+  this->events = events;
+  
   if (direct_sound != NULL)
     {
       direct_sound->Release();
@@ -165,7 +167,7 @@ W32DirectSoundPlayer::init()
 
 
 void
-W32DirectSoundPlayer::play_sound(SoundPlayer::SoundEvent snd)
+W32DirectSoundPlayer::play_sound(SoundEvent snd)
 {
   TRACE_ENTER_MSG( "W32DirectSoundPlayer::play_sound", SoundPlayer::sound_registry[snd].friendly_name );
   TRACE_EXIT();
@@ -173,13 +175,17 @@ W32DirectSoundPlayer::play_sound(SoundPlayer::SoundEvent snd)
 
 
 bool
-W32DirectSoundPlayer::capability(SoundPlayer::SoundCapability cap)
+W32DirectSoundPlayer::capability(SoundCapability cap)
 {
-  if (cap == SoundPlayer::SOUND_CAP_EDIT)
+  if (cap == SOUND_CAP_EDIT)
     {
       return true;
     }
-  if (cap == SoundPlayer::SOUND_CAP_VOLUME)
+  if (cap == SOUND_CAP_VOLUME)
+    {
+      return true;
+    }
+  if (cap == SOUND_CAP_EOS_EVENT)
     {
       return true;
     }
@@ -196,7 +202,7 @@ W32DirectSoundPlayer::play_sound(string wavfile)
     {
       DWORD id;
 
-      SoundClip *clip = new SoundClip(direct_sound, wavfile);
+      SoundClip *clip = new SoundClip(direct_sound, wavfile, events);
       CloseHandle(CreateThread(NULL, 0, play_thread, clip, 0, &id));
     }
 
@@ -205,7 +211,7 @@ W32DirectSoundPlayer::play_sound(string wavfile)
 
 
 bool
-W32DirectSoundPlayer::get_sound_enabled(SoundPlayer::SoundEvent snd, bool &enabled)
+W32DirectSoundPlayer::get_sound_enabled(SoundEvent snd, bool &enabled)
 {
   char key[MAX_PATH], val[MAX_PATH];
   
@@ -224,7 +230,7 @@ W32DirectSoundPlayer::get_sound_enabled(SoundPlayer::SoundEvent snd, bool &enabl
 
 
 void
-W32DirectSoundPlayer::set_sound_enabled(SoundPlayer::SoundEvent snd, bool enabled)
+W32DirectSoundPlayer::set_sound_enabled(SoundEvent snd, bool enabled)
 {
   if (enabled)
     {
@@ -255,7 +261,7 @@ W32DirectSoundPlayer::set_sound_enabled(SoundPlayer::SoundEvent snd, bool enable
 
 
 bool
-W32DirectSoundPlayer::get_sound_wav_file(SoundPlayer::SoundEvent snd, std::string &wav_file)
+W32DirectSoundPlayer::get_sound_wav_file(SoundEvent snd, std::string &wav_file)
 {
   char key[MAX_PATH], val[MAX_PATH];
 
@@ -282,7 +288,7 @@ W32DirectSoundPlayer::get_sound_wav_file(SoundPlayer::SoundEvent snd, std::strin
 }
 
 void
-W32DirectSoundPlayer::set_sound_wav_file(SoundPlayer::SoundEvent snd, const std::string &wav_file)
+W32DirectSoundPlayer::set_sound_wav_file(SoundEvent snd, const std::string &wav_file)
 {
   char key[MAX_PATH], val[MAX_PATH];
 
@@ -321,7 +327,13 @@ W32DirectSoundPlayer::play_thread(LPVOID lpParam)
       if (clip != NULL)
         {
           clip->init();
-          clip->play(true);
+          clip->play();
+
+          if (events != NULL)
+            {
+              events->eos_event();
+            }
+      break;
         }
     }
   catch(Exception e)
@@ -340,13 +352,14 @@ W32DirectSoundPlayer::play_thread(LPVOID lpParam)
 
 
 
-SoundClip::SoundClip(LPDIRECTSOUND8 direct_sound, const string &filename)
+SoundClip::SoundClip(LPDIRECTSOUND8 direct_sound, const string &filename, ISoundDriverEvents *events)
 {
   TRACE_ENTER("SoundClip::SoundClip");
   direct_sound->AddRef();
 
   this->direct_sound = direct_sound;
   this->filename = filename;
+  this->events = events;
 
   wave_file = NULL;
   sound_buffer = NULL;
@@ -521,7 +534,7 @@ SoundClip::restore_buffer()
 
 
 void
-SoundClip::play(bool sync)
+SoundClip::play()
 {
   TRACE_ENTER("SoundClip::play");
 
@@ -532,10 +545,12 @@ SoundClip::play(bool sync)
 
   HRESULT hr = sound_buffer->Play(0, 0, 0);
 
-  if (sync)
+  WaitForSingleObject(stop_event, INFINITE);
+  if (events != NULL)
     {
-      WaitForSingleObject(stop_event, INFINITE);
+      events->eos_event();
     }
+  
   TRACE_EXIT();
 }
 

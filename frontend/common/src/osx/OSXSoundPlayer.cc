@@ -1,6 +1,6 @@
 // OSXSoundPlayer.cc --- Sound player
 //
-// Copyright (C) 2002 - 2008 Raymond Penners & Ray Satiro
+// Copyright (C) 2002 - 2008, 2010 Raymond Penners & Ray Satiro
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -42,9 +42,9 @@ OSXSoundPlayer::~OSXSoundPlayer()
 }
 
 bool
-OSXSoundPlayer::capability(SoundPlayer::SoundCapability cap)
+OSXSoundPlayer::capability(SoundCapability cap)
 {
-  if (cap == SoundPlayer::SOUND_CAP_EDIT)
+  if (cap == SOUND_CAP_EDIT)
     {
       return true;
     }
@@ -53,7 +53,7 @@ OSXSoundPlayer::capability(SoundPlayer::SoundCapability cap)
 
 
 void
-OSXSoundPlayer::play_sound(SoundPlayer::SoundEvent snd)
+OSXSoundPlayer::play_sound(SoundEvent snd)
 {
   (void) snd;
 }
@@ -128,27 +128,27 @@ OSXSoundPlayer::run()
 }
 
 
-bool OSXSoundPlayer::get_sound_enabled(SoundPlayer::SoundEvent snd, bool &enabled)
+bool OSXSoundPlayer::get_sound_enabled(SoundEvent snd, bool &enabled)
 {
   (void) snd;
   (void) enabled;
   return false;
 }
 
-void OSXSoundPlayer::set_sound_enabled(SoundPlayer::SoundEvent snd, bool enabled)
+void OSXSoundPlayer::set_sound_enabled(SoundEvent snd, bool enabled)
 {
   (void) snd;
   (void) enabled;
 }
 
-bool OSXSoundPlayer::get_sound_wav_file(SoundPlayer::SoundEvent snd, std::string &wav_file)
+bool OSXSoundPlayer::get_sound_wav_file(SoundEvent snd, std::string &wav_file)
 {
   (void) snd;
   (void) wav_file;
   return false;
 }
 
-void OSXSoundPlayer::set_sound_wav_file(SoundPlayer::SoundEvent snd, const std::string &wav_file)
+void OSXSoundPlayer::set_sound_wav_file(SoundEvent snd, const std::string &wav_file)
 {
   (void) snd;
   (void) wav_file;

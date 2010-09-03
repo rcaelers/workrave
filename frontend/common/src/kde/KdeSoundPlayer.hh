@@ -1,6 +1,6 @@
 // KdeSoundPlayer.hh
 //
-// Copyright (C) 2002, 2004, 2007, 2008, 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2004, 2007, 2008, 2009, 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -30,15 +30,15 @@ public:
   KdeSoundPlayer();
   virtual ~KdeSoundPlayer();
 
-  void init() {};
-  bool get_sound_enabled(SoundPlayer::SoundEvent snd, bool &enabled);
-  void set_sound_enabled(SoundPlayer::SoundEvent snd, bool enabled);
-  bool get_sound_wav_file(SoundPlayer::SoundEvent snd, std::string &filename);
-  void set_sound_wav_file(SoundPlayer::SoundEvent snd, const std::string &wav_file);
+  void init(ISoundDriverEvents *) {};
+  bool get_sound_enabled(SoundEvent snd, bool &enabled);
+  void set_sound_enabled(SoundEvent snd, bool enabled);
+  bool get_sound_wav_file(SoundEvent snd, std::string &filename);
+  void set_sound_wav_file(SoundEvent snd, const std::string &wav_file);
 
-  bool capability(SoundPlayer::SoundCapability cap);
+  bool capability(SoundCapability cap);
   void play_sound(string wavfile);
-  void play_sound(SoundPlayer::SoundEvent snd);
+  void play_sound(SoundEvent snd);
 
 private:
   KInstance *kinstance;

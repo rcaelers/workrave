@@ -12,6 +12,9 @@ http://www.workrave.org
 ** Workrave now stops all timers when the screen is locked. When the
    screen in unlocked, a natural restbreak is started.
 
+** Audio muting improvements:
+   - Audio is now muted after the start break sound is played.
+
 * Workrave 1.9.2
 
 ** Reading mode

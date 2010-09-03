@@ -1,6 +1,6 @@
 // W32SoundPlayer.cc --- Sound player
 //
-// Copyright (C) 2002 - 2008 Raymond Penners & Ray Satiro
+// Copyright (C) 2002 - 2008, 2010 Raymond Penners & Ray Satiro
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -103,7 +103,7 @@ W32SoundPlayer::~W32SoundPlayer()
 
 
 void
-W32SoundPlayer::play_sound(SoundPlayer::SoundEvent snd )
+W32SoundPlayer::play_sound(SoundEvent snd )
 {
   TRACE_ENTER_MSG( "W32SoundPlayer::play_sound", SoundPlayer::sound_registry[snd].friendly_name );
   TRACE_EXIT();
@@ -111,13 +111,13 @@ W32SoundPlayer::play_sound(SoundPlayer::SoundEvent snd )
 
 
 bool
-W32SoundPlayer::capability(SoundPlayer::SoundCapability cap)
+W32SoundPlayer::capability(SoundCapability cap)
 {
-  if (cap == SoundPlayer::SOUND_CAP_EDIT)
+  if (cap == SOUND_CAP_EDIT)
     {
       return true;
     }
-  if (cap == SoundPlayer::SOUND_CAP_VOLUME)
+  if (cap == SOUND_CAP_VOLUME)
     {
       return true;
     }
@@ -151,7 +151,7 @@ W32SoundPlayer::play_sound(string wavfile)
 
 
 bool
-W32SoundPlayer::get_sound_enabled(SoundPlayer::SoundEvent snd, bool &enabled)
+W32SoundPlayer::get_sound_enabled(SoundEvent snd, bool &enabled)
 {
   char key[MAX_PATH], val[MAX_PATH];
   
@@ -169,7 +169,7 @@ W32SoundPlayer::get_sound_enabled(SoundPlayer::SoundEvent snd, bool &enabled)
 
 
 void
-W32SoundPlayer::set_sound_enabled(SoundPlayer::SoundEvent snd, bool enabled)
+W32SoundPlayer::set_sound_enabled(SoundEvent snd, bool enabled)
 {
   if (enabled)
     {
@@ -200,7 +200,7 @@ W32SoundPlayer::set_sound_enabled(SoundPlayer::SoundEvent snd, bool enabled)
 
 
 bool
-W32SoundPlayer::get_sound_wav_file(SoundPlayer::SoundEvent snd, std::string &wav_file)
+W32SoundPlayer::get_sound_wav_file(SoundEvent snd, std::string &wav_file)
 {
   char key[MAX_PATH], val[MAX_PATH];
 
@@ -227,7 +227,7 @@ W32SoundPlayer::get_sound_wav_file(SoundPlayer::SoundEvent snd, std::string &wav
 }
 
 void
-W32SoundPlayer::set_sound_wav_file(SoundPlayer::SoundEvent snd, const std::string &wav_file)
+W32SoundPlayer::set_sound_wav_file(SoundEvent snd, const std::string &wav_file)
 {
   char key[MAX_PATH], val[MAX_PATH];
 

@@ -1,6 +1,6 @@
 // W32DirectSoundPlayer.hh
 //
-// Copyright (C) 2002, 2003, 2006, 2007, 2008, 2009 Raymond Penners & Ray Satiro
+// Copyright (C) 2002, 2003, 2006, 2007, 2008, 2009, 2010 Raymond Penners & Ray Satiro
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -33,15 +33,15 @@ public:
   W32DirectSoundPlayer();
   virtual ~W32DirectSoundPlayer();
 
-  void init();
-  bool capability(SoundPlayer::SoundCapability cap);
-  void play_sound(SoundPlayer::SoundEvent snd);
+  void init(ISoundDriverEvents *events);
+  bool capability(SoundCapability cap);
+  void play_sound(SoundEvent snd);
   void play_sound(std::string wavfile);
 
-  bool get_sound_enabled(SoundPlayer::SoundEvent snd, bool &enabled);
-  void set_sound_enabled(SoundPlayer::SoundEvent snd, bool enabled);
-  bool get_sound_wav_file(SoundPlayer::SoundEvent snd, std::string &wav_file);
-  void set_sound_wav_file(SoundPlayer::SoundEvent snd, const std::string &wav_file);
+  bool get_sound_enabled(SoundEvent snd, bool &enabled);
+  void set_sound_enabled(SoundEvent snd, bool enabled);
+  bool get_sound_wav_file(SoundEvent snd, std::string &wav_file);
+  void set_sound_wav_file(SoundEvent snd, const std::string &wav_file);
 
 private:
   static DWORD WINAPI play_thread(LPVOID);
@@ -50,6 +50,7 @@ private:
     
 private:
   LPDIRECTSOUND8 direct_sound;
+  ISoundDriverEvents *events;
 };
 
 
@@ -80,11 +81,11 @@ private:
 class SoundClip
 {
 public:
-  SoundClip(LPDIRECTSOUND8 direct_sound, const std::string &filename);
+  SoundClip(LPDIRECTSOUND8 direct_sound, const std::string &filename, ISoundDriverEvents *events);
   virtual ~SoundClip();
 
   void init();
-  void play(bool sync = false);
+  void play();
   void set_volume(int volume);
 
 private:
@@ -100,6 +101,7 @@ private:
   LPDIRECTSOUNDBUFFER sound_buffer;
   DWORD sound_buffer_size;
   HANDLE stop_event;
+  ISoundDriverEvents *events;
 };
 
 
