@@ -7,7 +7,10 @@ http://www.workrave.org
 
 * Workrave 1.9.3
 
-*** Seanán Ó Coistín translated Workrave into Irish.
+** Seanán Ó Coistín translated Workrave into Irish.
+
+** Workrave now stops all timers when the screen is locked. When the
+   screen in unlocked, a natural restbreak is started.
 
 * Workrave 1.9.2
 

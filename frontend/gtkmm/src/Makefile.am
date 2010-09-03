@@ -223,6 +223,7 @@ workrave_SOURCES = \
 			PreludeWindow.cc \
 			RestBreakWindow.cc \
 			${STATISTICS_HOME}/gtkmm/src/StatisticsDialog.cc \
+			Session.cc \
 			TimeBar.cc \
 			TimeEntry.cc \
 			TimerPreferencesPanel.cc \

@@ -69,6 +69,7 @@
 #include "Util.hh"
 #include "WindowHints.hh"
 #include "Locale.hh"
+#include "Session.hh"
 
 #if defined(PLATFORM_OS_WIN32)
 #include "W32AppletWindow.hh"
@@ -396,6 +397,10 @@ GUI::init_session()
                        G_CALLBACK(session_save_state_cb),
                        this);
     }
+
+  session = new Session();
+  session->init();
+  
   TRACE_EXIT();
 }
 
@@ -829,7 +834,6 @@ GUI::init_dbus()
       try
         {
           dbus->register_service("org.workrave.Workrave.Activator");
-          
           dbus->register_object_path("/org/workrave/Workrave/UI");
 
           extern void init_DBusGUI(DBus *dbus);
@@ -908,8 +912,6 @@ GUI::core_event_operation_mode_changed(const OperationMode m)
     {
       status_icon->set_operation_mode(m);
     }
-
-  
   
   menus->resync();
 }
@@ -1515,6 +1517,7 @@ GUI::is_status_icon_visible() const
   return ret;
 }
 
+
 #if defined(PLATFORM_OS_WIN32)
 void
 GUI::win32_init_filter()
@@ -1527,6 +1530,7 @@ GUI::win32_init_filter()
   
   WTSRegisterSessionNotification(hwnd, NOTIFY_FOR_THIS_SESSION);
 }
+
 
 GdkFilterReturn
 GUI::win32_filter_func (void     *xevent,
@@ -1541,27 +1545,18 @@ GUI::win32_filter_func (void     *xevent,
   GdkFilterReturn ret = GDK_FILTER_CONTINUE;
   switch (msg->message)
     {
-#if 0
     case WM_WTSSESSION_CHANGE:
       {
-        TRACE_MSG("WM_WTSSESSION_CHANGE " << msg->wParam << " " << msg->lParam);
         if (msg->wParam == WTS_SESSION_LOCK)
           {
-            TRACE_MSG("WTS_SESSION_LOCK");
+            session->set_idle(true);
           }
-        if (msg->wParam == WTS_SESSION_LOCK)
+        if (msg->wParam == WTS_SESSION_UNLOCK)
           {
-            TRACE_MSG("WTS_SESSION_UNLOCK");
-            ICore *core = CoreFactory::get_core();
-            IBreak *rest_break = core->get_break(BREAK_ID_REST_BREAK);
-            if (rest_break->get_elapsed_idle_time() < rest_break->get_auto_reset() && rest_break->is_enabled())
-              {
-                core->force_break(BREAK_ID_REST_BREAK, BREAK_HINT_NATURAL_BREAK);
-              }
+            session->set_idle(false);
           }
       }
       break;
-#endif
       
     case WM_POWERBROADCAST:
       {

@@ -76,6 +76,8 @@ set(FRONTEND_SOURCES
     ${FRONTEND_DIR}/gtkmm/src/RestBreakWindow.hh
     ${FRONTEND_DIR}/gtkmm/src/StatusIcon.cc
     ${FRONTEND_DIR}/gtkmm/src/StatusIcon.hh
+    ${FRONTEND_DIR}/gtkmm/src/Session.hh
+    ${FRONTEND_DIR}/gtkmm/src/Session.hh
     ${FRONTEND_DIR}/gtkmm/src/TimeBar.cc
     ${FRONTEND_DIR}/gtkmm/src/TimeBar.hh
     ${FRONTEND_DIR}/gtkmm/src/TimeEntry.cc
