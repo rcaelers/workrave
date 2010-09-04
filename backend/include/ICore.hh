@@ -149,7 +149,7 @@ namespace workrave {
     //! Notify the core that the computer will enter or leave powersave (suspend/hibernate)
     virtual void set_powersave(bool down) = 0;
 
-    //! Notify the core that the computer will enter or leave powersave (suspend/hibernate)
+    //! Notify the core that the computer time has changed
     virtual void time_changed() = 0;
 
     //! Set the break insist policy.

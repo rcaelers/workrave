@@ -321,6 +321,18 @@ GUI::on_timer()
 
   collect_garbage();
 
+  if (active_break_count == 0 && muted)
+    {
+      ICore *core = CoreFactory::get_core();
+      bool user_active = core->is_user_active();
+
+      if (user_active)
+        {
+          sound_player->set_mute(false);
+          muted = false;
+        }
+    }
+  
   return true;
 }
 
@@ -1069,12 +1081,6 @@ GUI::hide_break_window()
 
   ungrab();
 
-  if (muted)
-    {
-      sound_player->set_mute(false);
-      muted = false;
-    }
-  
   TRACE_EXIT();
 }
 

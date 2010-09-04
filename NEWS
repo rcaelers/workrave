@@ -14,7 +14,9 @@ http://www.workrave.org
 
 ** Audio muting improvements:
    - Audio is now muted after the start break sound is played.
-
+   - Audio is now unmuted when the user becomes active after the break
+     has ended instead of immediately after the break ended.
+     
 * Workrave 1.9.2
 
 ** Reading mode

@@ -489,13 +489,18 @@ dnl
             
 if test "x$config_dbus" != "xno"
 then
-   dbus_pkgconfig="dbus-1 >= 1.2 dbus-glib-1"
+   dbus_pkgconfig="dbus-1 >= 1.2"
 
    PKG_CHECK_MODULES(DBUS, $dbus_pkgconfig, have_dbus=yes, have_dbus=no)
    if test x$have_dbus = xyes
    then
-      AC_DEFINE(HAVE_DBUS, 1, d-bus support)
+      AC_DEFINE(HAVE_DBUS, 1, DBus support)
 
+      PKG_CHECK_MODULES(DBUSGLIB, "dbus-glib-1", have_dbus=yes, have_dbus=no)
+      if test x$have_dbus = xyes; then
+         AC_DEFINE(HAVE_DBUSGLIB, 1, DBus-glib support)
+      fi
+	 
       AS_AC_EXPAND(DATADIR, $datadir)
 
       DBUS_SERVICES_DIR="$DATADIR/dbus-1/services"
