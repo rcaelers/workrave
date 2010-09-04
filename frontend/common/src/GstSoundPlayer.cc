@@ -60,6 +60,10 @@ GstSoundPlayer::GstSoundPlayer() :
 GstSoundPlayer::~GstSoundPlayer()
 {
   TRACE_ENTER("GstSoundPlayer::~GstSoundPlayer");
+  if (gst_ok)
+    {
+  		gst_deinit();
+    }
   TRACE_EXIT();
 }
 
@@ -102,7 +106,7 @@ GstSoundPlayer::play_sound(std::string wavfile)
 {
   TRACE_ENTER_MSG("GstSoundPlayer::play_sound", wavfile);
 
-	GstElement *play;
+	GstElement *play = NULL;
 	GstElement *sink = NULL;
   GstBus *bus = NULL;
 
