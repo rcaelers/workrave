@@ -43,7 +43,7 @@ Session::Session()
 void
 Session::init()
 {
-#if defined(HAVE_DBUS) && defined(HAVE_GNOME)
+#if defined(HAVE_DBUSGLIB) && defined(HAVE_GNOME)
   init_gnome();
 #endif
 }
@@ -75,7 +75,7 @@ Session::set_idle(bool new_idle)
 }
 
 
-#if defined(HAVE_DBUS) && defined(HAVE_GNOME)
+#if defined(HAVE_DBUSGLIB) && defined(HAVE_GNOME)
 static void
 status_changed_cb(DBusGProxy *proxy, int session_status, void *data)
 {

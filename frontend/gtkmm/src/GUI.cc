@@ -1549,11 +1549,11 @@ GUI::win32_filter_func (void     *xevent,
       {
         if (msg->wParam == WTS_SESSION_LOCK)
           {
-            session->set_idle(true);
+            gui->session->set_idle(true);
           }
         if (msg->wParam == WTS_SESSION_UNLOCK)
           {
-            session->set_idle(false);
+            gui->session->set_idle(false);
           }
       }
       break;

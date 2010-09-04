@@ -328,12 +328,6 @@ W32DirectSoundPlayer::play_thread(LPVOID lpParam)
         {
           clip->init();
           clip->play();
-
-          if (events != NULL)
-            {
-              events->eos_event();
-            }
-      break;
         }
     }
   catch(Exception e)

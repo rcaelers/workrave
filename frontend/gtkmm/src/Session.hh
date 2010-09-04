@@ -24,7 +24,7 @@
 #include "config.h"
 #endif
 
-#ifdef HAVE_DBUS
+#ifdef HAVE_DBUSGLIB
 #define DBUS_API_SUBJECT_TO_CHANGE
 #include <dbus/dbus.h>
 #include <dbus/dbus-glib-bindings.h>
@@ -41,13 +41,13 @@ public:
 
   void set_idle(bool idle);
   
-#if defined(HAVE_DBUS) && defined(HAVE_GNOME)
+#if defined(HAVE_DBUSGLIB) && defined(HAVE_GNOME)
 public:
   void init_gnome();
 
 private:  
   DBusGConnection *connection;
-#endif // defined(HAVE_DBUS) && defined(HAVE_GNOME)
+#endif // defined(HAVE_DBUSGLIB) && defined(HAVE_GNOME)
 
 private:
   bool is_idle;
