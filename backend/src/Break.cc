@@ -345,6 +345,25 @@ Break::load_break_control_config()
 }
 
 
+void
+Break::override(BreakId id)
+{
+  int max_preludes;
+  config->get_value(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % break_id, max_preludes);
+
+  if (break_id != id)
+    {
+      int override_max_preludes;
+      config->get_value(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % id, override_max_preludes);
+      if (override_max_preludes != -1 && override_max_preludes < max_preludes)
+        {
+          max_preludes = override_max_preludes;
+        }
+    }
+
+  break_control->set_max_preludes(max_preludes);
+}
+
 bool
 Break::get_timer_activity_sensitive() const
 {

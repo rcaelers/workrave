@@ -1288,6 +1288,11 @@ Core::start_break(BreakId break_id, BreakId resume_this_break)
   BreakControl *restbreak_control;
   restbreak_control = breaks[BREAK_ID_REST_BREAK].get_break_control();
 
+  if (break_id == BREAK_ID_REST_BREAK && resume_this_break == BREAK_ID_NONE)
+    {
+      breaks[BREAK_ID_REST_BREAK].override(BREAK_ID_REST_BREAK);
+    }
+  
   if (break_id == BREAK_ID_MICRO_BREAK && breaks[BREAK_ID_REST_BREAK].is_enabled())
     {
       Timer *rb_timer = breaks[BREAK_ID_REST_BREAK].get_timer();
@@ -1308,6 +1313,8 @@ Core::start_break(BreakId break_id, BreakId resume_this_break)
 
           if (now + duration + 30 >= rb_timer->get_next_limit_time())
             {
+              breaks[BREAK_ID_REST_BREAK].override(BREAK_ID_MICRO_BREAK);
+                
               start_break(BREAK_ID_REST_BREAK, BREAK_ID_MICRO_BREAK);
 
               // Snooze timer before the limit was reached. Just to make sure
