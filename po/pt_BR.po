@@ -215,9 +215,9 @@ msgstr "Início do descanso"
 msgid "Workrave"
 msgstr "Workrave"
 
-#: ../frontend/common/src/SoundPlayer.cc:617
+#: ../frontend/common/src/SoundPlayer.cc:619
 msgid "Custom"
-msgstr ""
+msgstr "Personalizado"
 
 #: ../frontend/common/src/Text.cc:78
 #, c-format
@@ -322,7 +322,7 @@ msgstr "_Quieto"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:149
 msgid "_Reading mode"
-msgstr ""
+msgstr "Modo _leitura"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:154
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
@@ -371,7 +371,7 @@ msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
 msgstr ""
-"Este programa lhe ajuda na prevencão e cura de lesões por esforço repetitivo "
+"Este programa lhe ajuda na prevenção e cura de lesões por esforço repetitivo "
 "(LER)."
 
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:234
@@ -419,7 +419,7 @@ msgstr "Janela de status"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:106
 msgid "Applet"
-msgstr "Applet"
+msgstr "Miniaplicativo"
 
 #. Notebook
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:114
@@ -456,7 +456,7 @@ msgstr "Opções"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:193
 msgid "Block mode:"
-msgstr "Modo de impedimento"
+msgstr "Modo de impedimento:"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:213
 msgid "System default"
@@ -476,7 +476,7 @@ msgstr "Iniciar Workrave na inicialização do Windows"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:294
 msgid "Show system tray icon"
-msgstr ""
+msgstr "Mostrar ícone na bandeja do sistema"
 
 #. Options
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:312
@@ -507,7 +507,7 @@ msgstr "Som:"
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:357
 #, fuzzy
 msgid "Mute sounds during rest break and daily limit"
-msgstr "Mostrar descanso e limite diário no mesmo espaço"
+msgstr "Ficar mudo durante descanso e limite diário"
 
 #. Sound themes
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:367
@@ -637,7 +637,7 @@ msgstr "A janela de status fica sempre acima das demais janelas"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:145
 msgid "Applet enabled"
-msgstr "Applet ativado"
+msgstr "Miniaplicativo ativado"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:151
 msgid "Display"
@@ -773,7 +773,7 @@ msgstr "_Estatísticas"
 
 #: ../frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:2
 msgid "Workrave Applet"
-msgstr "Workrave Applet"
+msgstr "Miniaplicativo Workrave"
 
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:93
 #, fuzzy
@@ -782,7 +782,7 @@ msgstr "_Abrir"
 
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:138
 msgid "Reading mode"
-msgstr ""
+msgstr "Modo leitura"
 
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:145
 msgid "About..."
