@@ -6,10 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.8.0\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2010-05-25 20:08+0200\n"
+"POT-Creation-Date: 2010-08-31 21:40+0200\n"
 "PO-Revision-Date: 2008-07-03 21:25+0200\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -289,30 +290,30 @@ msgstr "_Stil"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:95
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:173
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:94
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:95
 msgid "_Rest break"
 msgstr "Rustpauze"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:138
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:116
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:117
 msgid "_Mode"
 msgstr "_Modus"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:140
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:97
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:98
 msgid "_Normal"
 msgstr "_Normaal"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:143
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:103
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:104
 msgid "_Suspended"
 msgstr "_Uitgeschakeld"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:146
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:109
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:110
 msgid "Q_uiet"
 msgstr "_Stil"
 
@@ -322,40 +323,40 @@ msgstr ""
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:154
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:135
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:136
 msgid "_Network"
 msgstr "_Netwerk"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:155
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:119
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:120
 msgid "_Connect"
 msgstr "Maak verbinding"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:157
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:122
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:123
 msgid "_Disconnect"
 msgstr "Verbreek verbinding"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:159
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:126
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:127
 msgid "_Reconnect"
 msgstr "Opnieuw verbinden"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:161
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:129
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:130
 msgid "Show _log"
 msgstr "Toon _logboek"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:183
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:95
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:96
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:44
 msgid "Exercises"
 msgstr "Oefeningen"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:188
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:143
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:144
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:63
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:151
 msgid "Statistics"
@@ -395,7 +396,7 @@ msgid "Daily limit %s overdue"
 msgstr "%s over dagelijkse limiet"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:72
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:93
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:94
 msgid "Preferences"
 msgstr "Voorkeuren"
 
@@ -764,11 +765,16 @@ msgstr "Statistieken"
 msgid "Workrave Applet"
 msgstr "Workrave Applet"
 
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:137
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:93
+#, fuzzy
+msgid "Open"
+msgstr "_Open"
+
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:138
 msgid "Reading mode"
 msgstr ""
 
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:144
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:145
 msgid "About..."
 msgstr "Info..."
 
@@ -1361,10 +1367,6 @@ msgstr "%s, van %s tot %s"
 #~ msgstr ""
 #~ "Het is mogelijk om meerdere instanties van het programma in een\n"
 #~ "netwerk met elkaar te verbinden en de pauze informatie te delen."
-
-#, fuzzy
-#~ msgid "Open"
-#~ msgstr "_Open"
 
 #~ msgid "Total breaks"
 #~ msgstr "Aantal pauzes"

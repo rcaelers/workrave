@@ -6,14 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2010-05-25 20:08+0200\n"
+"POT-Creation-Date: 2010-08-31 21:40+0200\n"
 "PO-Revision-Date: 2010-05-25 20:02+0200\n"
 "Last-Translator: Veeven <veeven@gmail.com>\n"
 "Language-Team: e-Telugu Localization Team\n"
+"Language: te\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: te\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Virtaal 0.5.2\n"
 "X-Poedit-Language: Telugu\n"
@@ -289,30 +289,30 @@ msgstr ""
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:95
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:173
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:94
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:95
 msgid "_Rest break"
 msgstr "విశ్రాంతి విరామం (_R)"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:138
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:116
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:117
 msgid "_Mode"
 msgstr ""
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:140
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:97
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:98
 msgid "_Normal"
 msgstr ""
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:143
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:103
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:104
 msgid "_Suspended"
 msgstr ""
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:146
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:109
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:110
 msgid "Q_uiet"
 msgstr ""
 
@@ -322,40 +322,40 @@ msgstr ""
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:154
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:135
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:136
 msgid "_Network"
 msgstr ""
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:155
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:119
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:120
 msgid "_Connect"
 msgstr "అనుసంధానించు (_C)"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:157
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:122
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:123
 msgid "_Disconnect"
 msgstr ""
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:159
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:126
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:127
 msgid "_Reconnect"
 msgstr ""
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:161
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:129
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:130
 msgid "Show _log"
 msgstr ""
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:183
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:95
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:96
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:44
 msgid "Exercises"
 msgstr ""
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:188
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:143
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:144
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:63
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:151
 msgid "Statistics"
@@ -393,7 +393,7 @@ msgid "Daily limit %s overdue"
 msgstr ""
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:72
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:93
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:94
 msgid "Preferences"
 msgstr "అభిరుచులు"
 
@@ -754,11 +754,15 @@ msgstr "గణాంకాలు (_S)"
 msgid "Workrave Applet"
 msgstr ""
 
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:137
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:93
+msgid "Open"
+msgstr ""
+
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:138
 msgid "Reading mode"
 msgstr ""
 
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:144
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:145
 msgid "About..."
 msgstr "గురించి..."
 

@@ -98,6 +98,9 @@ MainWindow::MainWindow() :
 #ifdef PLATFORM_OS_UNIX
   leader = NULL;
 #endif
+#ifdef PLATFORM_OS_WIN32
+  show_retry_count = 0;
+#endif
   init();
 }
 
@@ -498,27 +501,62 @@ MainWindow::set_start_in_tray(bool b)
 void
 MainWindow::win32_show(bool b)
 {
+  TRACE_ENTER("MainWindow::win32_show");
+  bool retry = false;
+
   // Gtk's hide() seems to quit the program.
   GtkWidget *window = Gtk::Widget::gobj();
   GdkWindow *gdk_window = window->window;
   HWND hwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
   ShowWindow(hwnd, b ? SW_SHOWNORMAL : SW_HIDE);
 
-	if( b )
-	// show main window
-	{
-		/**/
-		present(); //works in all my testing. does this not always work?
-		/**/
-		if( hwnd != GetForegroundWindow() )
-		{
-			SetWindowPos( hwnd, HWND_TOP, 0, 0, 0, 0, 
-				SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED | SWP_SHOWWINDOW );
-			//BringWindowToTop( hwnd );
-			SetForegroundWindow( hwnd );
-		}
-	}
+	if (b)
+	  {
+		  present();
+
+		  if (hwnd != GetForegroundWindow())
+		    {
+          if (show_retry_count == 0)
+            {
+              show_retry_count = 20;
+            }
+          else
+            {
+              show_retry_count--;
+            }
+
+          TRACE_MSG("2 " << show_retry_count);
+          retry = true;  
+        }
+    }
+
+  if (retry)
+    {
+      if (show_retry_count > 0)
+        {
+          Glib::signal_timeout().connect(sigc::mem_fun(*this, &MainWindow::win32_show_retry), 50);
+        }
+    }
+  else
+    {
+      show_retry_count = 0;
+    }
+  TRACE_EXIT();
 }
+
+bool
+MainWindow::win32_show_retry()
+{
+  TRACE_ENTER("MainWindow::win32_show_retry");
+  if (show_retry_count > 0)
+  {
+     TRACE_MSG("retry");
+     win32_show(true);
+  }
+  TRACE_EXIT();
+  return false;
+}
+
 
 
 void
@@ -836,7 +874,7 @@ LRESULT CALLBACK
 MainWindow::win32_window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
                               LPARAM lParam)
 {
-  TRACE_ENTER("MainWindow::win32_window_proc");
+  TRACE_ENTER_MSG("MainWindow::win32_window_proc", uMsg << " " << wParam);
   TRACE_EXIT();
   return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }

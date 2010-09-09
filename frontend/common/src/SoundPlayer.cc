@@ -340,6 +340,8 @@ SoundPlayer::SoundPlayer()
     NULL
 #endif
     ;
+
+  muted = false;
 }
 
 SoundPlayer::~SoundPlayer()
@@ -353,7 +355,7 @@ SoundPlayer::init()
 {
   if (driver != NULL)
     {
-      driver->init();
+      driver->init(this);
     }
 
   if (mixer != NULL)
@@ -855,12 +857,36 @@ SoundPlayer::capability(SoundCapability cap)
 bool
 SoundPlayer::set_mute(bool on)
 {
+  TRACE_ENTER_MSG("SoundPlayer::set_mute", on);
   bool ret = false;
   
   if (mixer != NULL)
     {
-      ret = mixer->set_mute(on);
+      if (!on || !driver->capability(SOUND_CAP_EOS_EVENT))
+        {
+          ret = mixer->set_mute(on);
+        }
+      else
+        {
+          // mute after next playback....
+          TRACE_MSG("delayed");
+        }
     }
 
+  muted = on;
+
+  TRACE_EXIT();
   return ret;
+}
+
+void
+SoundPlayer::eos_event()
+{
+  TRACE_ENTER("SoundPlayer::eos_event");
+  if (muted && mixer != NULL)
+    {
+      TRACE_MSG("muting");
+      mixer->set_mute(true);
+    }
+  TRACE_EXIT();
 }

@@ -338,7 +338,7 @@ PreferencesDialog::create_sounds_page()
   GUI *gui = GUI::get_instance();
   SoundPlayer *snd = gui->get_sound_player();
   
-  if (snd->capability(SoundPlayer::SOUND_CAP_VOLUME))
+  if (snd->capability(SOUND_CAP_VOLUME))
     {
       // Volume 
       sound_volume_scale =  Gtk::manage(new Gtk:: HScale(0.0, 100.0, 0.0));
@@ -350,7 +350,7 @@ PreferencesDialog::create_sounds_page()
 
   hig->add(_("Sound:"), *sound_button);
 
-  if (snd->capability(SoundPlayer::SOUND_CAP_MUTE))
+  if (snd->capability(SOUND_CAP_MUTE))
     {
       // Volume 
       mute_cb = Gtk::manage(new Gtk::CheckButton
@@ -361,7 +361,7 @@ PreferencesDialog::create_sounds_page()
       hig->add(*mute_cb, true, true);
     }
 
-  if (snd->capability(SoundPlayer::SOUND_CAP_EDIT))
+  if (snd->capability(SOUND_CAP_EDIT))
     {
       // Sound themes
       hig = Gtk::manage(new HigCategoryPanel(_("Sound Events"), true));
@@ -379,13 +379,13 @@ PreferencesDialog::create_sounds_page()
       sound_store = Gtk::ListStore::create(sound_model);
       sound_treeview.set_model(sound_store);
 
-      for (unsigned int i = 0; i < SoundPlayer::SOUND_MAX; i++)
+      for (unsigned int i = 0; i < SOUND_MAX; i++)
         {
           Gtk::TreeModel::iterator iter = sound_store->append();
           Gtk::TreeModel::Row row = *iter;
 
           bool sound_enabled = false;
-          snd->get_sound_enabled((SoundPlayer::SoundEvent)i, sound_enabled);
+          snd->get_sound_enabled((SoundEvent)i, sound_enabled);
 
           row[sound_model.enabled] = sound_enabled;
           row[sound_model.selectable] = true;
@@ -721,7 +721,7 @@ PreferencesDialog::on_sound_enabled(const Glib::ustring &path_string)
       GUI *gui = GUI::get_instance();
       SoundPlayer *snd = gui->get_sound_player();
   
-      snd->set_sound_enabled((SoundPlayer::SoundEvent)(int)row[sound_model.event],
+      snd->set_sound_enabled((SoundEvent)(int)row[sound_model.event],
                              row[sound_model.enabled]);
     }
 }
@@ -784,7 +784,7 @@ PreferencesDialog::on_sound_filechooser_select()
 
         GUI *gui = GUI::get_instance();
         SoundPlayer *snd = gui->get_sound_player();
-        snd->set_sound_wav_file( (SoundPlayer::SoundEvent)(int)row[sound_model.event], filename);
+        snd->set_sound_wav_file( (SoundEvent)(int)row[sound_model.event], filename);
         TRACE_MSG(filename);
         update_theme_selection();
       }

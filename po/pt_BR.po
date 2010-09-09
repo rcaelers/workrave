@@ -6,11 +6,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.6\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2010-05-25 20:08+0200\n"
+"POT-Creation-Date: 2010-08-31 21:40+0200\n"
 "PO-Revision-Date: 2007-04-30 19:55+0200\n"
 "Last-Translator:  <Claudio Ferreira Filho <filhocf@yahoo.com.br>, Renato "
 "Botelho <renato@galle.com.br>\n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -214,9 +215,9 @@ msgstr "Início do descanso"
 msgid "Workrave"
 msgstr "Workrave"
 
-#: ../frontend/common/src/SoundPlayer.cc:617
+#: ../frontend/common/src/SoundPlayer.cc:619
 msgid "Custom"
-msgstr ""
+msgstr "Personalizado"
 
 #: ../frontend/common/src/Text.cc:78
 #, c-format
@@ -292,73 +293,73 @@ msgstr "_Quieto"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:95
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:173
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:94
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:95
 msgid "_Rest break"
 msgstr "_Descanso"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:138
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:116
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:117
 msgid "_Mode"
 msgstr "_Modo"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:140
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:97
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:98
 msgid "_Normal"
 msgstr "_Normal"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:143
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:103
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:104
 msgid "_Suspended"
 msgstr "_Suspenso"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:146
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:109
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:110
 msgid "Q_uiet"
 msgstr "_Quieto"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:149
 msgid "_Reading mode"
-msgstr ""
+msgstr "Modo _leitura"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:154
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:135
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:136
 msgid "_Network"
 msgstr "_Rede"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:155
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:119
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:120
 msgid "_Connect"
 msgstr "_Conectar"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:157
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:122
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:123
 msgid "_Disconnect"
 msgstr "_Desconectar"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:159
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:126
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:127
 msgid "_Reconnect"
 msgstr "_Reconectar"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:161
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:129
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:130
 msgid "Show _log"
 msgstr "_Mostrar registro"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:183
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:95
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:96
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:44
 msgid "Exercises"
 msgstr "Exercícios"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:188
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:143
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:144
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:63
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:151
 msgid "Statistics"
@@ -370,7 +371,7 @@ msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
 msgstr ""
-"Este programa lhe ajuda na prevencão e cura de lesões por esforço repetitivo "
+"Este programa lhe ajuda na prevenção e cura de lesões por esforço repetitivo "
 "(LER)."
 
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:234
@@ -398,7 +399,7 @@ msgid "Daily limit %s overdue"
 msgstr "Limite diário ultrapassado em %s"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:72
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:93
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:94
 msgid "Preferences"
 msgstr "Preferências"
 
@@ -418,7 +419,7 @@ msgstr "Janela de status"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:106
 msgid "Applet"
-msgstr "Applet"
+msgstr "Miniaplicativo"
 
 #. Notebook
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:114
@@ -455,7 +456,7 @@ msgstr "Opções"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:193
 msgid "Block mode:"
-msgstr "Modo de impedimento"
+msgstr "Modo de impedimento:"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:213
 msgid "System default"
@@ -475,7 +476,7 @@ msgstr "Iniciar Workrave na inicialização do Windows"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:294
 msgid "Show system tray icon"
-msgstr ""
+msgstr "Mostrar ícone na bandeja do sistema"
 
 #. Options
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:312
@@ -506,7 +507,7 @@ msgstr "Som:"
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:357
 #, fuzzy
 msgid "Mute sounds during rest break and daily limit"
-msgstr "Mostrar descanso e limite diário no mesmo espaço"
+msgstr "Ficar mudo durante descanso e limite diário"
 
 #. Sound themes
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:367
@@ -636,7 +637,7 @@ msgstr "A janela de status fica sempre acima das demais janelas"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:145
 msgid "Applet enabled"
-msgstr "Applet ativado"
+msgstr "Miniaplicativo ativado"
 
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:151
 msgid "Display"
@@ -772,13 +773,18 @@ msgstr "_Estatísticas"
 
 #: ../frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in.h:2
 msgid "Workrave Applet"
-msgstr "Workrave Applet"
+msgstr "Miniaplicativo Workrave"
 
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:137
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:93
+#, fuzzy
+msgid "Open"
+msgstr "_Abrir"
+
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:138
 msgid "Reading mode"
-msgstr ""
+msgstr "Modo leitura"
 
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:144
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:145
 msgid "About..."
 msgstr "Sobre..."
 

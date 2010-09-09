@@ -72,7 +72,7 @@ DBus::init()
   
 	dbus_error_init(&error);
   
-	connection = dbus_bus_get(DBUS_BUS_STARTER, &error);
+	connection = dbus_bus_get_private(DBUS_BUS_STARTER, &error);
   if (dbus_error_is_set(&error))
     {
       connection = NULL;

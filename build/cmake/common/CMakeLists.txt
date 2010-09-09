@@ -50,6 +50,13 @@ if (UNIX)
   )
 endif (UNIX)
 
+if (HAVE_DISTRIBUTION)
+  set (COMMON_SOURCES ${COMMON_SOURCES}
+    ${COMMON_DIR}/include/WRID.hh 
+    ${COMMON_DIR}/src/WRID.cc
+ )
+endif (HAVE_DISTRIBUTION)
+
 add_definitions(-D_XOPEN_SOURCE=600)
 
 include_directories( 

@@ -9,10 +9,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2010-05-25 20:08+0200\n"
-"PO-Revision-Date: 2007-02-10 22:50+0100\n"
+"POT-Creation-Date: 2010-08-31 21:40+0200\n"
+"PO-Revision-Date: 2010-08-17 14:20+0200\n"
 "Last-Translator: Mikolaj Machowski <mikmach@wp.pl>\n"
 "Language-Team: Polish <kde-transl@mer.chemia.polsl.gliwice.pl>\n"
+"Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -279,46 +280,43 @@ msgid "Rest break"
 msgstr "Odpoczynek"
 
 #: ../frontend/gtkmm/src/GUI.cc:1451 ../frontend/gtkmm/src/GUI.cc:1455
-#, fuzzy
 msgid "Mode: "
-msgstr "_Tryb"
+msgstr "Tryb:"
 
 #: ../frontend/gtkmm/src/GUI.cc:1451
-#, fuzzy
 msgid "Suspended"
-msgstr "_Zawieszony"
+msgstr "Zawieszony"
 
 #: ../frontend/gtkmm/src/GUI.cc:1455
-#, fuzzy
 msgid "Quiet"
-msgstr "_Cichy"
+msgstr "Cichy"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:95
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:173
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:94
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:95
 msgid "_Rest break"
 msgstr "_Odpoczynek"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:138
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:116
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:117
 msgid "_Mode"
 msgstr "_Tryb"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:140
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:97
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:98
 msgid "_Normal"
 msgstr "_Normalny"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:143
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:103
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:104
 msgid "_Suspended"
 msgstr "_Zawieszony"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:146
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:109
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:110
 msgid "Q_uiet"
 msgstr "_Cichy"
 
@@ -328,40 +326,40 @@ msgstr ""
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:154
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:135
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:136
 msgid "_Network"
 msgstr "_Sieć"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:155
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:119
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:120
 msgid "_Connect"
 msgstr "_Połącz"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:157
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:122
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:123
 msgid "_Disconnect"
 msgstr "_Rozłącz"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:159
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:126
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:127
 msgid "_Reconnect"
 msgstr "P_ołącz znowu"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:161
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:129
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:130
 msgid "Show _log"
 msgstr "_Pokaż log"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:183
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:95
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:96
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:44
 msgid "Exercises"
 msgstr "Ćwiczenia"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:188
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:143
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:144
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:63
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:151
 msgid "Statistics"
@@ -401,7 +399,7 @@ msgid "Daily limit %s overdue"
 msgstr "Dzienny limit przekroczony o %s"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:72
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:93
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:94
 msgid "Preferences"
 msgstr "Preferencje"
 
@@ -411,9 +409,8 @@ msgid "General"
 msgstr "Ogólne"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:98
-#, fuzzy
 msgid "Sounds"
-msgstr "Dźwięk:"
+msgstr "Dźwięki"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:102
 msgid "Status Window"
@@ -470,7 +467,7 @@ msgstr ""
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:278
 msgid "Language:"
-msgstr ""
+msgstr "Język:"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:282
 msgid "Start Workrave on Windows startup"
@@ -500,7 +497,7 @@ msgstr "za pomocą głośniczka w komputerze"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:348
 msgid "Volume:"
-msgstr ""
+msgstr "Głośność:"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:351
 msgid "Sound:"
@@ -529,7 +526,7 @@ msgstr ""
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:405
 msgid "Event"
-msgstr ""
+msgstr "Zdarzenie"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:421
 #, fuzzy
@@ -777,11 +774,16 @@ msgstr "_Statystyki"
 msgid "Workrave Applet"
 msgstr "Aplet Workrave"
 
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:137
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:93
+#, fuzzy
+msgid "Open"
+msgstr "_Otwórz"
+
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:138
 msgid "Reading mode"
 msgstr ""
 
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:144
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:145
 msgid "About..."
 msgstr "O programie..."
 
@@ -1019,20 +1021,17 @@ msgid "Previous exercise"
 msgstr ""
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:297
-#, fuzzy
 msgid "Next exercise"
-msgstr "Liczba ćwiczeń:"
+msgstr "Następne ćwiczenie"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:298
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:484
-#, fuzzy
 msgid "Pause exercises"
-msgstr "Liczba ćwiczeń:"
+msgstr "Wstrzymaj ćwiczenia"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:302
-#, fuzzy
 msgid "End exercises"
-msgstr "Ćwiczenia"
+msgstr "Zakończ ćwiczenia"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:477
 msgid "Resume"
@@ -1043,9 +1042,8 @@ msgid "Pause"
 msgstr "Przerwa"
 
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesPanel.cc:482
-#, fuzzy
 msgid "Resume exercises"
-msgstr "Liczba ćwiczeń:"
+msgstr "Wznów ćwiczenia"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:145
 msgid "Browse history"
@@ -1177,7 +1175,6 @@ msgstr "Całkowita liczba naciśnięć klawiszy"
 msgid "%s, from %s to %s"
 msgstr "%s, od %s do %s"
 
-#, fuzzy
 #~ msgid ""
 #~ "This is your natural rest break. Make sure you stand up and\n"
 #~ "walk away from your computer on a regular basis. Just\n"
@@ -1187,22 +1184,18 @@ msgstr "%s, od %s do %s"
 #~ "odstępach czasu. Pochodź przez kilka minut, wykonaj\n"
 #~ "kilka prostych ćwiczeń, rozciągnij się, zrelaksuj."
 
-#, fuzzy
 #~ msgid "Starting %s"
 #~ msgstr "Cisza za %s"
 
 #~ msgid "Cannot resolve my own hostname. Deactivating distribution."
 #~ msgstr "Nie mogę rozwiązać własnej nazwy. Dezaktywacja dystrybucji."
 
-#, fuzzy
 #~ msgid "Break in"
 #~ msgstr "Przerwa za %s"
 
-#, fuzzy
 #~ msgid "Disappears in"
 #~ msgstr "Znika za %s"
 
-#, fuzzy
 #~ msgid "Silent in"
 #~ msgstr "Cisza za %s"
 

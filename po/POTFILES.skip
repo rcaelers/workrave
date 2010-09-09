@@ -1,3 +1,6 @@
-frontend/gtkmm/src/workrave.desktop.in
+frontend/gtkmm/src/eggdesktopfile.c
+frontend/gtkmm/src/eggsmclient.c
 frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml
+frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in
+frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in
 frontend/gtkmm/src/workrave.desktop.in

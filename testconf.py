@@ -9,9 +9,10 @@ options = [ "gconf",
             "distribution",
             "gstreamer",
             "dbus",
-            "exercises"]
+            "exercises",
+            "debug"]
 
-for i in range(0, 127) :
+for i in range(0, 255) :
     conf = "./configure ";
     for j in range(0, 6) :
         if i & (1 << j) :

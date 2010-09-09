@@ -13,9 +13,10 @@ Install Gtkmm (required)
 
   File: ftp://ftp.gnome.org/pub/GNOME/binaries/win32/gtkmm/2.16/gtkmm-win32-devel-2.16.0-4.exe
 
-
+  More recent versions of gtkmm are currently not supported.
+  
 Install DirectX SDK (required)
-=============================
+==============================
 
 - Download and install DirectX 9 SDK:
 

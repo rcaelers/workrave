@@ -9,10 +9,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.9.1\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2010-05-25 20:08+0200\n"
+"POT-Creation-Date: 2010-08-31 21:40+0200\n"
 "PO-Revision-Date: 2007-04-30 19:55+0200\n"
 "Last-Translator: Иван Димов <idimov@users.sourceforge.net>\n"
 "Language-Team: <i18n@workrave.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -301,31 +302,31 @@ msgstr "Т_их"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:95
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:173
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:94
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:95
 msgid "_Rest break"
 msgstr "_Почивка"
 
 # Меню Режим
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:138
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:116
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:117
 msgid "_Mode"
 msgstr "_Режим"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:140
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:97
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:98
 msgid "_Normal"
 msgstr "_Нормален"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:143
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:103
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:104
 msgid "_Suspended"
 msgstr "_Летаргичен"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:146
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:109
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:110
 msgid "Q_uiet"
 msgstr "Т_их"
 
@@ -335,40 +336,40 @@ msgstr ""
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:154
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:135
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:136
 msgid "_Network"
 msgstr "_Мрежа"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:155
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:119
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:120
 msgid "_Connect"
 msgstr "_Свързване"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:157
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:122
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:123
 msgid "_Disconnect"
 msgstr "_Прекъсване"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:159
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:126
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:127
 msgid "_Reconnect"
 msgstr "_Повторно свързване"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:161
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:129
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:130
 msgid "Show _log"
 msgstr "Показване на _дневника"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:183
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:95
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:96
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:44
 msgid "Exercises"
 msgstr "Упражнения"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:188
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:143
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:144
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:63
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:151
 msgid "Statistics"
@@ -409,7 +410,7 @@ msgid "Daily limit %s overdue"
 msgstr "Дневният лимит %s е просрочен"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:72
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:93
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:94
 msgid "Preferences"
 msgstr "Предпочитания"
 
@@ -796,11 +797,16 @@ msgstr "_Статистика"
 msgid "Workrave Applet"
 msgstr "Workrave - аплет"
 
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:137
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:93
+#, fuzzy
+msgid "Open"
+msgstr "_Отваряне"
+
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:138
 msgid "Reading mode"
 msgstr ""
 
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:144
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:145
 msgid "About..."
 msgstr "Относно..."
 

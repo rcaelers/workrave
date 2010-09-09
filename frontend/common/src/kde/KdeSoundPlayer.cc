@@ -1,6 +1,6 @@
 // KdeSoundPlayer.cc --- Sound player
 //
-// Copyright (C) 2002, 2003, 2004, 2007, 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2007, 2008, 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -47,7 +47,7 @@ KdeSoundPlayer::~KdeSoundPlayer()
 
 
 bool
-KdeSoundPlayer::capability(SoundPlayer::SoundCapability cap)
+KdeSoundPlayer::capability(SoundCapability cap)
 {
   (void) cap;
   return false;
@@ -60,7 +60,7 @@ KdeSoundPlayer::play_sound(string wavfile)
 }
 
 void
-KdeSoundPlayer::play_sound(SoundPlayer::SoundEvent snd)
+KdeSoundPlayer::play_sound(SoundEvent snd)
 {
   const char *map[] = {
     "break_prelude",
@@ -83,7 +83,7 @@ KdeSoundPlayer::play_sound(SoundPlayer::SoundEvent snd)
 
 
 bool
-KdeSoundPlayer::get_sound_enabled(SoundPlayer::SoundEvent snd, bool &enabled)
+KdeSoundPlayer::get_sound_enabled(SoundEvent snd, bool &enabled)
 {
   (void) snd;
   (void) enabled;
@@ -92,14 +92,14 @@ KdeSoundPlayer::get_sound_enabled(SoundPlayer::SoundEvent snd, bool &enabled)
 }
 
 void
-KdeSoundPlayer::set_sound_enabled(SoundPlayer::SoundEvent snd, bool enabled)
+KdeSoundPlayer::set_sound_enabled(SoundEvent snd, bool enabled)
 {
   (void) snd;
   (void) enabled;
 }
 
 bool
-KdeSoundPlayer::get_sound_wav_file(SoundPlayer::SoundEvent snd, std::string &wav_file)
+KdeSoundPlayer::get_sound_wav_file(SoundEvent snd, std::string &wav_file)
 {
   (void) snd;
   (void) wav_file;
@@ -107,7 +107,7 @@ KdeSoundPlayer::get_sound_wav_file(SoundPlayer::SoundEvent snd, std::string &wav
 }
 
 void
-KdeSoundPlayer::set_sound_wav_file(SoundPlayer::SoundEvent snd, const std::string &wav_file)
+KdeSoundPlayer::set_sound_wav_file(SoundEvent snd, const std::string &wav_file)
 {
   (void) snd;
   (void) wav_file;

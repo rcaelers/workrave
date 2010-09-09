@@ -1,6 +1,6 @@
 // W32SoundPlayer.hh
 //
-// Copyright (C) 2002 - 2009 Raymond Penners, Ray Satiro, Rob Caelers
+// Copyright (C) 2002 - 2010 Raymond Penners, Ray Satiro, Rob Caelers
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -28,15 +28,15 @@ public:
   W32SoundPlayer();
   virtual ~W32SoundPlayer();
 
-  void init() {}
-  bool capability(SoundPlayer::SoundCapability cap);
-  void play_sound(SoundPlayer::SoundEvent snd);
+  void init(ISoundDriverEvents *) {}
+  bool capability(SoundCapability cap);
+  void play_sound(SoundEvent snd);
   void play_sound(std::string wavfile);
 
-  bool get_sound_enabled(SoundPlayer::SoundEvent snd, bool &enabled);
-  void set_sound_enabled(SoundPlayer::SoundEvent snd, bool enabled);
-  bool get_sound_wav_file(SoundPlayer::SoundEvent snd, std::string &wav_file);
-  void set_sound_wav_file(SoundPlayer::SoundEvent snd, const std::string &wav_file);
+  bool get_sound_enabled(SoundEvent snd, bool &enabled);
+  void set_sound_enabled(SoundEvent snd, bool enabled);
+  bool get_sound_wav_file(SoundEvent snd, std::string &wav_file);
+  void set_sound_wav_file(SoundEvent snd, const std::string &wav_file);
 
 protected:
   static DWORD WINAPI thread_Play( LPVOID );

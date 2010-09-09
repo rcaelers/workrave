@@ -2,3 +2,6 @@
 /Makefile.in
 /setup.iss
 /lang.iss
+/runtime-base
+/runtime-gtk
+/runtime-wimp

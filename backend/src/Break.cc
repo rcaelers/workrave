@@ -295,9 +295,10 @@ Break::load_timer_config()
   timer->set_snooze_interval(snooze);
 
   // Read the activity insensitive flag
-  bool sensitive;
-  config->get_value(CoreConfig::CFG_KEY_TIMER_ACTIVITY_SENSITIVE % break_id, sensitive);
-  timer->set_activity_sensitive(sensitive);
+  //bool sensitive;
+  //config->get_value(CoreConfig::CFG_KEY_TIMER_ACTIVITY_SENSITIVE % break_id, sensitive);
+  //timer->set_activity_sensitive(sensitive);
+  timer->set_activity_sensitive(true);
 
   // Load the monitor setting for the timer.
   string monitor_name;
@@ -344,13 +345,32 @@ Break::load_break_control_config()
 }
 
 
+void
+Break::override(BreakId id)
+{
+  int max_preludes;
+  config->get_value(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % break_id, max_preludes);
+
+  if (break_id != id)
+    {
+      int override_max_preludes;
+      config->get_value(CoreConfig::CFG_KEY_BREAK_MAX_PRELUDES % id, override_max_preludes);
+      if (override_max_preludes != -1 && override_max_preludes < max_preludes)
+        {
+          max_preludes = override_max_preludes;
+        }
+    }
+
+  break_control->set_max_preludes(max_preludes);
+}
+
 bool
 Break::get_timer_activity_sensitive() const
 {
-  bool sensitive;
-  config->get_value(CoreConfig::CFG_KEY_TIMER_ACTIVITY_SENSITIVE % break_id, sensitive);
+  // bool sensitive;
+  // config->get_value(CoreConfig::CFG_KEY_TIMER_ACTIVITY_SENSITIVE % break_id, sensitive);
 
-  return sensitive;
+  return true; // sensitive;
 }
 
 bool
@@ -414,9 +434,10 @@ Break::set_usage_mode(UsageMode mode)
       if (mode == USAGE_MODE_NORMAL)
         {
           // Read the activity insensitive flag
-          bool sensitive;
-          config->get_value(CoreConfig::CFG_KEY_TIMER_ACTIVITY_SENSITIVE % break_id, sensitive);
-          timer->set_activity_sensitive(sensitive);
+          // bool sensitive;
+          // config->get_value(CoreConfig::CFG_KEY_TIMER_ACTIVITY_SENSITIVE % break_id, sensitive);
+          // timer->set_activity_sensitive(sensitive);
+          timer->set_activity_sensitive(true);
         }
       else if (mode == USAGE_MODE_READING)
         {

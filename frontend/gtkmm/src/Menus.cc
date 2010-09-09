@@ -32,8 +32,6 @@
 #endif
 #include <iostream>
 
-#include <gtkmm/aboutdialog.h>
-
 #include "Menus.hh"
 #include "GUI.hh"
 #include "Util.hh"
@@ -67,6 +65,8 @@
 #endif
 
 #ifdef PLATFORM_OS_WIN32
+#include <shellapi.h>
+
 #include "W32AppletWindow.hh"
 #include "W32TrayMenu.hh"
 #include "W32AppletMenu.hh"
@@ -365,7 +365,15 @@ Menus::on_menu_about()
       about->set_logo(pixbuf);
       about->set_translator_credits(workrave_translators);
 
+#ifdef PLATFORM_OS_WIN32
+      about->set_url_hook(sigc::mem_fun(*this, &Menus::on_about_link_activate));
+#endif
+
+#ifdef GIT_VERSION
+      about->set_version(PACKAGE_VERSION "\n(" GIT_VERSION ")");
+#else
       about->set_version(PACKAGE_VERSION);
+#endif
       about->set_website("http://www.workrave.org/");
       about->set_website_label("www.workrave.org");
 
@@ -374,6 +382,15 @@ Menus::on_menu_about()
   about->present();
 }
 
+
+#ifdef PLATFORM_OS_WIN32
+void
+Menus::on_about_link_activate(Gtk::AboutDialog &about, const Glib::ustring &link)
+{
+  (void) about;
+  ShellExecute(NULL, "open", link.c_str(), NULL, NULL, SW_SHOWNORMAL);
+}
+#endif
 
 void
 Menus::on_about_response(int response)

@@ -5,12 +5,13 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: workrave 1.9.1\n"
+"Project-Id-Version: workrave 1.9.2\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2010-05-25 20:08+0200\n"
-"PO-Revision-Date: 2010-04-28 19:45+0200\n"
+"POT-Creation-Date: 2010-08-31 21:40+0200\n"
+"PO-Revision-Date: 2010-06-15 22:26+0200\n"
 "Last-Translator: Jordi Mallach <jordi@sindominio.net>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
+"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -287,30 +288,30 @@ msgstr "Silenciós"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:95
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:173
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:94
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:95
 msgid "_Rest break"
 msgstr "_Descans"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:138
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:116
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:117
 msgid "_Mode"
 msgstr "_Mode"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:140
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:97
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:98
 msgid "_Normal"
 msgstr "_Normal"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:143
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:103
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:104
 msgid "_Suspended"
 msgstr "_Suspés"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:146
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:109
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:110
 msgid "Q_uiet"
 msgstr "S_ilenciós"
 
@@ -320,40 +321,40 @@ msgstr "Mode de _lectura"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:154
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:135
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:136
 msgid "_Network"
 msgstr "_Xarxa"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:155
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:119
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:120
 msgid "_Connect"
 msgstr "_Connecta"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:157
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:122
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:123
 msgid "_Disconnect"
 msgstr "_Desconnecta"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:159
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:126
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:127
 msgid "_Reconnect"
 msgstr "_Reconnecta"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:161
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:129
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:130
 msgid "Show _log"
 msgstr "Mostra el _registre"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:183
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:95
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:96
 #: ../frontend/plugin/exercises/gtkmm/src/ExercisesDialog.cc:44
 msgid "Exercises"
 msgstr "Exercicis"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:188
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:143
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:144
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:63
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:151
 msgid "Statistics"
@@ -393,7 +394,7 @@ msgid "Daily limit %s overdue"
 msgstr "Fa %s que heu arribat al vostre límit diari"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:72
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:93
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:94
 msgid "Preferences"
 msgstr "Preferències"
 
@@ -757,11 +758,16 @@ msgstr "_Estadístiques"
 msgid "Workrave Applet"
 msgstr "Miniaplicació del Workrave"
 
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:137
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:93
+#, fuzzy
+msgid "Open"
+msgstr "_Obre"
+
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:138
 msgid "Reading mode"
 msgstr "Mode de lectura"
 
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:144
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:145
 msgid "About..."
 msgstr "Quant a..."
 
@@ -872,6 +878,9 @@ msgid ""
 "inward, while straightening your arms. Hold this position for 5 to 15 "
 "seconds, and repeat this exercise twice."
 msgstr ""
+"Entrellaceu els dits per darrere de l'esquena. Gireu els colzes lleugerament "
+"cap a dins, mentre estireu els braços. Mantingueu aquesta posició entre 5 i "
+"15 segons, i repetiu l'exercici dues vegades."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:5
 msgid ""
@@ -880,6 +889,10 @@ msgid ""
 "shoulder. Hold this position briefly, and repeat the exercise for your other "
 "arm."
 msgstr ""
+"Mantingueu un braç estirat horitzontalment per davant del pit. Empenyeu "
+"aquest braç amb l'altre cap al cos fins que noteu una tensió lleugera al "
+"muscle. Mantingueu aquesta posició breument, i repetiu l'exercici amb "
+"l'altre braç."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:6
 msgid ""
@@ -893,7 +906,6 @@ msgstr ""
 "l'exercici."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:7
-#, fuzzy
 msgid ""
 "Look for the furthest point you can see behind your monitor. Focus your eyes "
 "on the remote point. Then focus on your monitor border. Repeat it. If you "
@@ -905,7 +917,8 @@ msgstr ""
 "Enfoqueu els vostres ulls al punt remot. Després, enfoqueu el contorn del "
 "vostre monitor. Torneu-ho a repetir. Si no podeu mirar massa lluny del "
 "vostre monitor, encareu-vos cap a una altra direcció amb una vista més "
-"llarga."
+"llarga. Canvieu el focus entre un objecte distant i un bolígraf mantingut a "
+"la mateixa distància dels vostres ulls que el monitor."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:8
 msgid "Look into the darkness"
@@ -925,7 +938,7 @@ msgstr "Moveu els muscles amunt i avall"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:12
 msgid "Neck tilt stretch"
-msgstr ""
+msgstr "Estirament lateral del coll"
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:13
 msgid ""
@@ -933,6 +946,10 @@ msgid ""
 "press your body up until your arms are straight. Try to move your head even "
 "further by lowering your shoulders. Slowly move back into your chair."
 msgstr ""
+"Poseu les mans al reposabraços de la cadira mentre esteu asseguts i empenteu "
+"el vostre cos cap amunt fins que el braços estiguen rectes. Intenteu moure "
+"el cap més enllà encara baixant els muscles. Lentament, torneu a seure a la "
+"cadira."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:14
 msgid ""
@@ -940,6 +957,10 @@ msgid ""
 "this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold "
 "again for 10 seconds. Repeat this exercise once more."
 msgstr ""
+"Separeu i estireu els dits fins que noteu una tensió lleugera, i mantingueu "
+"aquesta posició durant 10 segons. Relaxeu-vos i flexioneu els dits pels "
+"artells i mantingueu la posició durant 10 segons. Repetiu aquest exercici "
+"una vegada més."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:15
 msgid "Shoulder-arm stretch"
@@ -951,6 +972,9 @@ msgid ""
 "this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat "
 "with the left arm."
 msgstr ""
+"Gireu el braç dret lentament en cercles con una hèlice d'un avió, pel costat "
+"del cos. Feu això 4 vegades cap a davant i 4 vegades cap a enrere i relaxeu-"
+"vos durant uns segons. Repetiu-ho amb el braç esquerre."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
 msgid ""
@@ -959,6 +983,11 @@ msgid ""
 "side of your neck. Hold this position for 5 seconds. Then, tilt your head to "
 "the left side to stretch your other side. Do this twice for each side."
 msgstr ""
+"Comenceu amb el cap en una posició recta i còmoda. Inclineu el cap cap al "
+"muscle dret per a estirar suaument els músculs del costat esquerre del coll. "
+"Mantingueu aquesta posició durant 5 segons. A continuació, inclineu el cap "
+"cap al costat esquerre per a estirar l'altre costat. Feu això dues vegades "
+"per a cada costat."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
 msgid "Train focusing the eyes"
@@ -1076,11 +1105,11 @@ msgstr "El número de descansos que heu ajornat"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:229
 msgid "Overdue time"
-msgstr ""
+msgstr "Temps sobrepassat"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:230
 msgid "The total time this break was overdue"
-msgstr ""
+msgstr "El temps total que heu sobrepassat el límit per a aquest descans"
 
 #: ../frontend/plugin/statistics/gtkmm/src/StatisticsDialog.cc:234
 msgid "Daily usage"
@@ -1142,16 +1171,6 @@ msgstr "El nombre total de pulsacions de tecles"
 #, c-format
 msgid "%s, from %s to %s"
 msgstr "%s, de %s a %s"
-
-#, fuzzy
-#~ msgid ""
-#~ "This is your natural rest break. Make sure you stand up and\n"
-#~ "walk away from your computer on a regular basis. Just\n"
-#~ "walk around for a few minutes, stretch, and relax."
-#~ msgstr ""
-#~ "Aquest és el vostre descans. Assegureu-vos que us alceu i\n"
-#~ "us allunyeu de l'ordinador de tant en tant. Simplement\n"
-#~ "camineu durants uns minuts, estireu-vos i relaxeu-vos."
 
 #~ msgid "File is not a valid .desktop file"
 #~ msgstr "El fitxer no és un fitxer .desktop vàlid"

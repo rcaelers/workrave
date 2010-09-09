@@ -1,6 +1,6 @@
 // OSXSoundPlayer.hh
 //
-// Copyright (C) 2007, 2008, 2009 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2009, 2010 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -29,15 +29,15 @@ public:
   OSXSoundPlayer();
   virtual ~OSXSoundPlayer();
 
-  void init() {};
-  bool capability(SoundPlayer::SoundCapability cap);
+  void init(ISoundDriverEvents *) {};
+  bool capability(SoundCapability cap);
   void play_sound(std::string wavfile);
-  void play_sound(SoundPlayer::SoundEvent snd);
+  void play_sound(SoundEvent snd);
 
-  bool get_sound_enabled(SoundPlayer::SoundEvent snd, bool &enabled);
-  void set_sound_enabled(SoundPlayer::SoundEvent snd, bool enabled);
-  bool get_sound_wav_file(SoundPlayer::SoundEvent snd, std::string &wav_file);
-  void set_sound_wav_file(SoundPlayer::SoundEvent snd, const std::string &wav_file);
+  bool get_sound_enabled(SoundEvent snd, bool &enabled);
+  void set_sound_enabled(SoundEvent snd, bool enabled);
+  bool get_sound_wav_file(SoundEvent snd, std::string &wav_file);
+  void set_sound_wav_file(SoundEvent snd, const std::string &wav_file);
  
 private:
 

@@ -53,6 +53,7 @@ class Menus;
 class BreakControl;
 class IBreakWindow;
 class SoundPlayer;
+class Session;
 
 using namespace workrave;
 
@@ -236,6 +237,9 @@ private:
 
   //!
   bool muted;
+
+  //!
+  Session *session;
 };
 
 

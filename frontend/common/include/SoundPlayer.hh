@@ -25,10 +25,11 @@
 #include <vector>
 #include <map>
 
-class ISoundDriver;
+#include "ISoundDriver.hh"
+
 class IMixer;
 
-class SoundPlayer
+class SoundPlayer : public ISoundDriverEvents
 {
 public:
   enum Device
@@ -36,31 +37,6 @@ public:
       DEVICE_SPEAKER = 0,
       DEVICE_SOUNDCARD
     };
-
-  enum SoundEvent
-    {
-      SOUND_MIN = 0,
-      SOUND_BREAK_PRELUDE = 0,
-      SOUND_BREAK_IGNORED,
-      SOUND_REST_BREAK_STARTED,
-      SOUND_REST_BREAK_ENDED,
-      SOUND_MICRO_BREAK_STARTED,
-      SOUND_MICRO_BREAK_ENDED,
-      SOUND_DAILY_LIMIT,
-      SOUND_EXERCISE_ENDED,
-      SOUND_EXERCISES_ENDED,
-      SOUND_EXERCISE_STEP,
-      SOUND_MAX
-    };
-
-  enum SoundCapability
-    {
-      SOUND_CAP_EVENTS = 0,
-      SOUND_CAP_EDIT,
-      SOUND_CAP_VOLUME,
-      SOUND_CAP_MUTE,
-    };
-
 
   class Theme
   {
@@ -101,7 +77,9 @@ public:
   void load_sound_theme(const std::string &path, Theme &theme);
   void activate_theme(const Theme &theme, bool force = true);
   void sync_settings();
-                      
+
+  void eos_event();
+  
 private:
   void register_sound_events(std::string theme = "");
   
@@ -118,6 +96,7 @@ public:
 private:  
   ISoundDriver *driver;
   IMixer *mixer;
+  bool muted;
 };
 
 #endif // SOUNDPLAYER_HH

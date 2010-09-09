@@ -1,6 +1,6 @@
 // GnomeSoundPlayer.cc --- Sound player
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -54,9 +54,9 @@ GnomeSoundPlayer::~GnomeSoundPlayer()
 
 
 bool
-GnomeSoundPlayer::capability(SoundPlayer::SoundCapability cap)
+GnomeSoundPlayer::capability(SoundCapability cap)
 {
-  if (cap == SoundPlayer::SOUND_CAP_EVENTS)
+  if (cap == SOUND_CAP_EVENTS)
     {
       return true;
     }
@@ -72,7 +72,7 @@ GnomeSoundPlayer::play_sound(std::string wavfile)
 
 
 void
-GnomeSoundPlayer::play_sound(SoundPlayer::SoundEvent snd)
+GnomeSoundPlayer::play_sound(SoundEvent snd)
 {
   const char *map[] = {
     "break_prelude",
@@ -93,7 +93,7 @@ GnomeSoundPlayer::play_sound(SoundPlayer::SoundEvent snd)
 
 
 bool
-GnomeSoundPlayer::get_sound_enabled(SoundPlayer::SoundEvent snd, bool &enabled)
+GnomeSoundPlayer::get_sound_enabled(SoundEvent snd, bool &enabled)
 {
   (void) snd;
   (void) enabled;
@@ -102,14 +102,14 @@ GnomeSoundPlayer::get_sound_enabled(SoundPlayer::SoundEvent snd, bool &enabled)
 }
 
 void
-GnomeSoundPlayer::set_sound_enabled(SoundPlayer::SoundEvent snd, bool enabled)
+GnomeSoundPlayer::set_sound_enabled(SoundEvent snd, bool enabled)
 {
   (void) snd;
   (void) enabled;
 }
 
 bool
-GnomeSoundPlayer::get_sound_wav_file(SoundPlayer::SoundEvent snd, std::string &wav_file)
+GnomeSoundPlayer::get_sound_wav_file(SoundEvent snd, std::string &wav_file)
 {
   (void) snd;
   (void) wav_file;
@@ -117,7 +117,7 @@ GnomeSoundPlayer::get_sound_wav_file(SoundPlayer::SoundEvent snd, std::string &w
 }
 
 void
-GnomeSoundPlayer::set_sound_wav_file(SoundPlayer::SoundEvent snd, const std::string &wav_file)
+GnomeSoundPlayer::set_sound_wav_file(SoundEvent snd, const std::string &wav_file)
 {
   (void) snd;
   (void) wav_file;

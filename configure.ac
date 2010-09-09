@@ -8,8 +8,8 @@ dnl
 
 m4_define([workrave_major_version], [1])
 m4_define([workrave_minor_version], [9])
-m4_define([workrave_micro_version], [1])
-m4_define([workrave_version_suffix], [90])
+m4_define([workrave_micro_version], [2])
+m4_define([workrave_version_suffix], [1])
 m4_define([workrave_version],
           [workrave_major_version.workrave_minor_version.workrave_micro_version])
 m4_define([workrave_resource_version],
@@ -18,8 +18,14 @@ m4_define([workrave_resource_version],
 AC_INIT(workrave, [workrave_version],
         [http://issues.workrave.org/cgi-bin/bugzilla/enter_bug.cgi])
 
+if test -d $srcdir/.git && test "$TINDERBOX_BUILD" = yes; then
+    git_version=`git describe --tags --abbrev=10 --dirty 2>/dev/null`
+    AC_DEFINE_UNQUOTED(GIT_VERSION, "$git_version", [GIT Version])
+fi	
+
 dnl Demand at least version 2.61 of autoconf.
 AC_PREREQ(2.61)
+AC_CONFIG_MACRO_DIR([m4])
 
 dnl Automake
 AM_CONFIG_HEADER(config.h)
@@ -29,7 +35,7 @@ AM_MAINTAINER_MODE
 
 dnl Set of available languages.
 AC_SUBST(ALL_LINGUAS)
-ALL_LINGUAS="nl de eo pl da es zh_TW ru fr pt_BR nb lt cs he eu ca sv ja bg hu tr el sk zh_CN it sl ro et te"
+ALL_LINGUAS="nl de eo pl da es zh_TW ru fr pt_BR nb lt cs he eu ca sv ja bg hu tr el sk zh_CN it sl ro et te ga"
 AC_DEFINE_UNQUOTED(ALL_LINGUAS, "$ALL_LINGUAS" ,[All available languages])
 
 dnl
@@ -469,13 +475,18 @@ dnl
             
 if test "x$config_dbus" != "xno"
 then
-   dbus_pkgconfig="dbus-1 >= 1.2 dbus-glib-1"
+   dbus_pkgconfig="dbus-1 >= 1.2"
 
    PKG_CHECK_MODULES(DBUS, $dbus_pkgconfig, have_dbus=yes, have_dbus=no)
    if test x$have_dbus = xyes
    then
-      AC_DEFINE(HAVE_DBUS, 1, d-bus support)
+      AC_DEFINE(HAVE_DBUS, 1, DBus support)
 
+      PKG_CHECK_MODULES(DBUSGLIB, "dbus-glib-1", have_dbus=yes, have_dbus=no)
+      if test x$have_dbus = xyes; then
+         AC_DEFINE(HAVE_DBUSGLIB, 1, DBus-glib support)
+      fi
+	 
       AS_AC_EXPAND(DATADIR, $datadir)
 
       DBUS_SERVICES_DIR="$DATADIR/dbus-1/services"

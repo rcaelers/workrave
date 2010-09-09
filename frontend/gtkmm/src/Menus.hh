@@ -23,6 +23,7 @@
 #include "config.h"
 
 #include <sigc++/trackable.h>
+#include <gtkmm/aboutdialog.h>
 
 #include "ICore.hh"
 
@@ -39,7 +40,6 @@ class Menu;
 
 namespace Gtk
 {
-  class AboutDialog;
   class Menu;
 }
 
@@ -124,6 +124,10 @@ public:
   void on_menu_network_reconnect();
   void on_menu_network_log(bool show);
 
+#ifdef PLATFORM_OS_WIN32
+  void on_about_link_activate(Gtk::AboutDialog &about, const Glib::ustring &link);
+#endif
+  
 private:
   //! The one and only instance
   static Menus *instance;

@@ -1,6 +1,6 @@
 // WorkraveApplet.cc
 //
-// Copyright (C) 2002, 2003, 2005, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2005, 2006, 2007, 2008, 2009, 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -348,7 +348,11 @@ verb_about(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
 
   gtk_show_about_dialog(NULL,
                         "name", "Workrave",
+#ifdef GIT_VERSION                        
+                        "version", PACKAGE_VERSION "\n(" GIT_VERSION ")",
+#else                        
                         "version", PACKAGE_VERSION,
+#endif                        
                         "copyright", workrave_copyright,
                         "website", "http://www.workrave.org",
                         "website_label", "www.workrave.org",
@@ -385,7 +389,6 @@ verb_preferences(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
     {
       dbus_g_proxy_begin_call(g_applet->ui, "Preferences", dbus_callback, NULL, NULL,
                              G_TYPE_INVALID);
-
     }
 }
 
@@ -402,8 +405,6 @@ verb_exercises(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
     {
       dbus_g_proxy_begin_call(g_applet->ui, "Exercises", dbus_callback, NULL, NULL,
                               G_TYPE_INVALID);
-
-
     }
 }
 
@@ -419,8 +420,6 @@ verb_statistics(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
     { 
       dbus_g_proxy_begin_call(g_applet->ui, "Statistics", dbus_callback, NULL, NULL,
                              G_TYPE_INVALID);
-
-
     }
 }
 
@@ -436,8 +435,6 @@ verb_restbreak(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
     {
       dbus_g_proxy_begin_call(g_applet->ui, "RestBreak", dbus_callback, NULL, NULL,
                              G_TYPE_INVALID);
-
-
     }
 }
 
@@ -456,8 +453,6 @@ verb_connect(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
       dbus_g_proxy_begin_call(g_applet->ui, "NetworkConnect", dbus_callback, NULL, NULL,
                              G_TYPE_INVALID);
 
-
-
     }
 }
 
@@ -474,8 +469,6 @@ verb_disconnect(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
     {
       dbus_g_proxy_begin_call(g_applet->ui, "NetworkDisconnect", dbus_callback, NULL, NULL,
                              G_TYPE_INVALID);
-
-
     }
 }
 
@@ -491,8 +484,6 @@ verb_reconnect(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
     {
       dbus_g_proxy_begin_call(g_applet->ui, "NetworkReconnect", dbus_callback, NULL, NULL,
                              G_TYPE_INVALID);
-
-
     }
 }
 
@@ -510,8 +501,6 @@ verb_quit(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
     {
       dbus_g_proxy_begin_call(g_applet->ui, "Quit", dbus_callback, NULL, NULL,
                              G_TYPE_INVALID);
-
-
     }
 }
 
@@ -571,23 +560,42 @@ change_background(PanelApplet * widget,
   long xid = 0;
   GValueArray *val = g_value_array_new(4);
 
+  if (type == PANEL_NO_BACKGROUND)
+    {
+      GtkStyle *style = gtk_widget_get_style(GTK_WIDGET(widget));
+
+      if (style->bg_pixmap[GTK_STATE_NORMAL])
+        {
+          pixmap = style->bg_pixmap[GTK_STATE_NORMAL];
+          type = PANEL_PIXMAP_BACKGROUND;
+        }
+      else
+        {
+          color = &style->bg[GTK_STATE_NORMAL];
+          if (color != NULL)
+            {
+              type = PANEL_COLOR_BACKGROUND;
+            }
+        }
+    }
+  
   if (type == PANEL_COLOR_BACKGROUND && color != NULL)
     {
-      g_value_array_prepend(val, NULL);
+      g_value_array_append(val, NULL);
       g_value_init(g_value_array_get_nth(val, 0), G_TYPE_UINT);
       g_value_set_uint(g_value_array_get_nth(val, 0), color->pixel);
  
-      g_value_array_prepend(val, NULL);
-      g_value_init(g_value_array_get_nth(val, 0), G_TYPE_UINT);
-      g_value_set_uint(g_value_array_get_nth(val, 0), color->red);
+      g_value_array_append(val, NULL);
+      g_value_init(g_value_array_get_nth(val, 1), G_TYPE_UINT);
+      g_value_set_uint(g_value_array_get_nth(val, 1), color->red);
       
-      g_value_array_prepend(val, NULL);
-      g_value_init(g_value_array_get_nth(val, 0), G_TYPE_UINT);
-      g_value_set_uint(g_value_array_get_nth(val, 0), color->green);
+      g_value_array_append(val, NULL);
+      g_value_init(g_value_array_get_nth(val, 2), G_TYPE_UINT);
+      g_value_set_uint(g_value_array_get_nth(val, 2), color->green);
 
-      g_value_array_prepend(val, NULL);
-      g_value_init(g_value_array_get_nth(val, 0), G_TYPE_UINT);
-      g_value_set_uint(g_value_array_get_nth(val, 0), color->blue);
+      g_value_array_append(val, NULL);
+      g_value_init(g_value_array_get_nth(val, 3), G_TYPE_UINT);
+      g_value_set_uint(g_value_array_get_nth(val, 3), color->blue);
     }
   else
     {
@@ -618,10 +626,10 @@ change_background(PanelApplet * widget,
   if (g_applet->support != NULL && workrave_is_running())
     {
       dbus_g_proxy_begin_call(g_applet->support, "SetBackground", dbus_callback, NULL, NULL,
-                             G_TYPE_UINT, type,
-                             G_TYPE_VALUE_ARRAY, val,
-                             G_TYPE_UINT, xid,
-                             G_TYPE_INVALID);
+                              G_TYPE_UINT, type,
+                              G_TYPE_VALUE_ARRAY, val,
+                              G_TYPE_UINT, xid,
+                              G_TYPE_INVALID);
       
 
     }

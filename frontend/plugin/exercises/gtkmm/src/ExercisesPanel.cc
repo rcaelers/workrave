@@ -418,7 +418,7 @@ ExercisesPanel::refresh_sequence()
       if (exercise_time != 0)
         {
           SoundPlayer *snd = GUI::get_instance()->get_sound_player();
-          snd->play_sound(SoundPlayer::SOUND_EXERCISE_STEP);
+          snd->play_sound(SOUND_EXERCISE_STEP);
         }
     }
 
@@ -512,8 +512,8 @@ ExercisesPanel::heartbeat()
           on_stop();
         }
       snd->play_sound(stopped
-                      ? SoundPlayer::SOUND_EXERCISES_ENDED
-                      : SoundPlayer::SOUND_EXERCISE_ENDED);
+                      ? SOUND_EXERCISES_ENDED
+                      : SOUND_EXERCISE_ENDED);
     }
   else
     {

@@ -11,6 +11,8 @@
 
 #cmakedefine HAVE_GNET
 
+#cmakedefine HAVE_GIO_NET
+
 #cmakedefine HAVE_EXERCISES 
 
 #cmakedefine HAVE_DISTRIBUTION
@@ -157,12 +159,6 @@
 
 /* Define if glib is available */
 #define HAVE_GLIB 
-
-/* Define if GNet is available */
-#define HAVE_GNET 
-
-/* Define if GNet2 is available */
-#define HAVE_GNET2 
 
 /* Define if Gnome is available */
 /* #undef HAVE_GNOME */
@@ -397,13 +393,13 @@
 #define PACKAGE_NAME "workrave"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "workrave 1.9.1"
+#define PACKAGE_STRING "workrave 1.9.2"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "workrave"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.9.1"
+#define PACKAGE_VERSION "1.9.2"
 
 /* Define if compiling for the OS X platform */
 /* #undef PLATFORM_OS_OSX */
@@ -481,7 +477,7 @@
 #define USE_WIN32_THREADS 1
 
 /* Version number of package */
-#define VERSION "1.9.1"
+#define VERSION "1.9.2"
 
 /* Define to 1 if the X Window System is missing or not being used. */
 /* #undef X_DISPLAY_MISSING */

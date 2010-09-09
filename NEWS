@@ -1,10 +1,22 @@
-Workrave NEWS -- history of user-visible changes.  25 Oct 2009
+Workrave NEWS -- history of user-visible changes.  29 Aug 2010
 Copyright (C) 2001-2010 Rob Caelers & Raymond Penners
 See the end for copying conditions.
 
 Please report Workrave bug reports. Visit our bug tracker located at:
 http://www.workrave.org
 
+* Workrave 1.9.3
+
+** Seanán Ó Coistín translated Workrave into Irish.
+
+** Workrave now stops all timers when the screen is locked. When the
+   screen in unlocked, a natural restbreak is started.
+
+** Audio muting improvements:
+   - Audio is now muted after the start break sound is played.
+   - Audio is now unmuted when the user becomes active after the break
+     has ended instead of immediately after the break ended.
+     
 * Workrave 1.9.2
 
 ** Reading mode
@@ -16,13 +28,14 @@ http://www.workrave.org
 ** Workrave now properly remembers the Window hide/show notification
    icon settings.
 
-** The Workrave applet is functional again on Window 7
+** The Workrave applet is functional again on Windows 7
 
 ** Updated tranlations:
    - Brazilian Portuguese
    - Catalan
    - Hungarian
    - Hebrew
+   - Polish
 
 ** Many bug fixes.
 

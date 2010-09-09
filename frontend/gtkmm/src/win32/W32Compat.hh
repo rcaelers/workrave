@@ -1,6 +1,6 @@
 // W32Compat.hh --- W32 compatibility
 //
-// Copyright (C) 2004, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2004, 2007, 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -22,9 +22,17 @@
 
 #include <windows.h>
 
+#ifndef MONITOR_DEFAULTTONULL
 #define MONITOR_DEFAULTTONULL       0x00000000
+#endif
+
+#ifndef MONITOR_DEFAULTTOPRIMARY
 #define MONITOR_DEFAULTTOPRIMARY    0x00000001
+#endif
+
+#ifndef MONITOR_DEFAULTTONEAREST
 #define MONITOR_DEFAULTTONEAREST    0x00000002
+#endif
 
 
 class W32Compat

@@ -304,7 +304,7 @@ GUI::core_event_notify(CoreEvent event)
 {
   TRACE_ENTER_MSG("GUI::core_event_notify", event)
   // FIXME: HACK
-  SoundPlayer::SoundEvent snd = (SoundPlayer::SoundEvent) event;
+  SoundEvent snd = (SoundEvent) event;
   if (sound_player != NULL)
     {
       TRACE_MSG("play");
