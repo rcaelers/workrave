@@ -17,8 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef GNOMESESSION_HH
-#define GNOMESESSION_HH
+#ifndef SESSION_HH
+#define SESSION_HH
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
