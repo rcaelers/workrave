@@ -157,10 +157,11 @@ CLEANFILES = org.workrave.Workrave.service
 
 dbussources=DBusGUI.cc
 
-if PLATFORM_OS_UNIX
-extrasources +=		eggsmclient-dbus.c
-eggcflags += -DEGG_SM_CLIENT_BACKEND_DBUS
-endif
+# broken: 
+# if PLATFORM_OS_UNIX
+# extrasources +=		eggsmclient-dbus.c
+# eggcflags += -DEGG_SM_CLIENT_BACKEND_DBUS
+# endif
 
 DBusGUI.cc: 		workrave-gui.xml \
 			$(top_srcdir)/common/bin/dbusgen.py \

@@ -431,6 +431,16 @@ egg_desktop_file_get_numeric (EggDesktopFile  *desktop_file,
 				error);
 }
 
+int
+egg_desktop_file_get_integer (EggDesktopFile *desktop_file,
+			      const char     *key,
+    			      GError	    **error)
+{
+  return g_key_file_get_integer (desktop_file->key_file,
+				 EGG_DESKTOP_FILE_GROUP, key,
+				 error);
+}
+
 char **
 egg_desktop_file_get_string_list (EggDesktopFile  *desktop_file,
 				  const char      *key,
