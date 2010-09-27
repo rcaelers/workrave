@@ -43,7 +43,7 @@ Session::Session()
 void
 Session::init()
 {
-#if defined(HAVE_DBUSGLIB) && defined(HAVE_GNOME)
+#if defined(HAVE_DBUSGLIB_GET_PRIVATE) && defined(HAVE_GNOME)
   init_gnome();
 #endif
 }
@@ -75,7 +75,7 @@ Session::set_idle(bool new_idle)
 }
 
 
-#if defined(HAVE_DBUSGLIB) && defined(HAVE_GNOME)
+#if defined(HAVE_DBUSGLIB_GET_PRIVATE) && defined(HAVE_GNOME)
 static void
 status_changed_cb(DBusGProxy *proxy, int session_status, void *data)
 {
@@ -97,7 +97,7 @@ Session::init_gnome()
   connection = dbus_g_bus_get_private(DBUS_BUS_SESSION, NULL, &err);
   if (connection == NULL)
     {
-      g_warning("DBUS sessio bus not available: %s", err ? err->message : "");
+      g_warning("DBUS session bus not available: %s", err ? err->message : "");
       g_error_free(err);
       return;
     }

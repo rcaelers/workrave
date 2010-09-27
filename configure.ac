@@ -496,9 +496,15 @@ then
    then
       AC_DEFINE(HAVE_DBUS, 1, DBus support)
 
-      PKG_CHECK_MODULES(DBUSGLIB, "dbus-glib-1", have_dbus=yes, have_dbus=no)
-      if test x$have_dbus = xyes; then
+      PKG_CHECK_MODULES(DBUSGLIB, dbus-glib-1 >= 0.84, have_dbus_glib=yes, have_dbus_glib=no)
+      if test x$have_dbus_glib = xyes; then
          AC_DEFINE(HAVE_DBUSGLIB, 1, DBus-glib support)
+         AC_DEFINE(HAVE_DBUSGLIB_GET_PRIVATE, 1, DBus-glib support)
+      else
+         PKG_CHECK_MODULES(DBUSGLIB, dbus-glib-1, have_dbus_glib=yes, have_dbus_glib=no)
+         if test x$have_dbus_glib = xyes; then
+            AC_DEFINE(HAVE_DBUSGLIB, 1, DBus-glib support)
+         fi
       fi
 	 
       AS_AC_EXPAND(DATADIR, $datadir)
@@ -516,7 +522,8 @@ then
         else
            AC_MSG_RESULT([no])
            AC_MSG_ERROR([cannot import Python module "cheetah"])
-   	   have_dbus=no
+	   have_dbus=no
+	   have_dbus_glib=no
            dbus_pkgconfig=
         fi
    else
@@ -525,10 +532,12 @@ DBus development headers not found.
 Use --disable-dbus if you do not need DBus support.
 ])
       have_dbus=no
+      have_dbus_glib=no
       dbus_pkgconfig=
    fi
 else
    have_dbus=no
+   have_dbus_glib=no
    dbus_pkgconfig=
 fi
 
@@ -727,7 +736,7 @@ if test "x$config_gnome" = "xyes"; then
 fi
 
 HAVE_GNOMEAPPLET=
-if test "x$config_gnome" = "xyes" -a "x$have_dbus" = "xyes"; then
+if test "x$config_gnome" = "xyes" -a "x$have_dbus" = "xyes" -a "x$have_dbus_glib" = "xyes"; then
    AC_DEFINE(HAVE_GNOMEAPPLET,,[Define if Gnome Applet is available])
 fi
 
