@@ -84,7 +84,7 @@ endif(DEVELOPMENT_MODE)
 
 include(FindGlib)
 include(FindGtkmm)
-include(FindDBus)
+include(FindDbus)
 include(FindGettext)
 #include(FindGnet)
 
