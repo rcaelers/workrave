@@ -22,7 +22,7 @@
 
 #include <assert.h>
 
-#ifdef NDEBUG
+#ifndef TRACING
 
 #define TRACE_ENTER(x)
 #define TRACE_ENTER_MSG(x,y)
@@ -64,6 +64,5 @@ public:
 #define TRACE_MSG(msg)          std::cerr << Debug::trace_get_time() << "    " << _trace_method_name << " " << msg  << std::endl; \
                                 std::cerr.flush();
 
-#endif // NDEBUG
-
+#endif // TRACING
 #endif // DEBUG_H

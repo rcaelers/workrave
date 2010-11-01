@@ -102,6 +102,10 @@ AC_ARG_ENABLE( tests,
                               [compile with test code])],
               [config_tests=$enableval], [config_tests=no])
 
+AC_ARG_ENABLE( tracing,
+              [AC_HELP_STRING([--enable-tracing],
+                              [compile with method call tracing])],
+              [config_tracing=$enableval], [config_tracing=no])
 
 dnl
 dnl Checks for programs
@@ -174,10 +178,17 @@ then
    CFLAGS="${CFLAGS} -O0 -g -Wall -DGLIBCXX_FORCE_NEW -DGLIBCPP_FORCE_NEW"
    CXXFLAGS="${CXXFLAGS} -O0 -g -Wall -DGLIBCXX_FORCE_NEW -DGLIBCPP_FORCE_NEW"
    LDFLAGS="${LDFLAGS} -g"
+   config_tracing=yes
 else
-   CFLAGS="${CFLAGS} -Os -g -DNDEBUG"
-   CXXFLAGS="${CXXFLAGS} -Os -g -DNDEBUG"
+   CFLAGS="${CFLAGS} -O2 -g -DNDEBUG" 
+   CXXFLAGS="${CXXFLAGS} -O2 -g -DNDEBUG"
    LDFLAGS="${LDFLAGS} -g"
+fi
+
+if test "x$config_tracing" = "xyes"
+then
+   CFLAGS="${CFLAGS} -DTRACING"
+   CXXFLAGS="${CXXFLAGS} -DTRACING"
 fi
 
 dnl Update version and date.                           

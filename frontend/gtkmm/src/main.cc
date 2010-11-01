@@ -49,7 +49,7 @@ run(int argc, char **argv)
   __try1(exception_handler);
 #endif
 
-#ifndef NDEBUG 
+#ifdef TRACING 
   Debug::init();
 #endif
   

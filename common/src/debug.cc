@@ -21,7 +21,7 @@
 #include "config.h"
 #endif
 
-#ifndef NDEBUG
+#ifdef TRACING
 
 #include "Mutex.hh"
 #include "debug.hh"
