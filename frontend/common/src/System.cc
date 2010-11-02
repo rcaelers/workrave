@@ -75,7 +75,7 @@ errorHandler(Display *dpy, XErrorEvent *error)
 #endif
 
 /* MinGW does not have this one yet */
-#ifndef PLATFORM_OS_WIN32_NATIVE
+#ifndef HAVE_ISHELLDISPATCH
 #undef INTERFACE
 #define INTERFACE IShellDispatch
 DECLARE_INTERFACE_(IShellDispatch, IUnknown)

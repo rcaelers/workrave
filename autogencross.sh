@@ -155,7 +155,7 @@ if grep "^AM_PROG_LIBTOOL" configure.ac >/dev/null; then
 fi
 
 echo "Running aclocal $aclocalinclude ..."
-aclocal $aclocalinclude -I m4 || {
+aclocal -I m4 $aclocalinclude || {
     echo
     echo "**Error**: aclocal failed. This may mean that you have not"
     echo "installed all of the packages you need, or you may need to"
@@ -175,7 +175,7 @@ if grep "^AM_CONFIG_HEADER" configure.ac >/dev/null; then
 fi
 
 echo "Running automake --foreign $am_opt ..."
-automake --add-missing --foreign  --copy $am_opt || {
+automake --add-missing --foreign --copy $am_opt || {
     echo "**Error**: automake failed.";
     exit 1;
 }
@@ -186,7 +186,7 @@ autoconf --force || {
     exit 1
 }
 
-conf_flags=" --target=i386-mingw32msvc --host=i386-mingw32msvc --build=i386-linux  --enable-maintainer-mode --enable-debug --without-x --enable-distribution --enable-exercises --disable-gstreamer --disable-dbus"
+conf_flags=" --target=i686-w64-mingw32 --host=i686-w64-mingw32 --build=i386-linux  --enable-maintainer-mode --enable-debug --without-x --enable-distribution --enable-exercises --disable-gstreamer --disable-dbus"
  
 if test x$NOCONFIGURE = x; then
     

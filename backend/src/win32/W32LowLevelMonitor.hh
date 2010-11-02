@@ -1,6 +1,6 @@
 // W32LowLevelMonitor.cc --- ActivityMonitor for W32
 //
-// Copyright (C) 2007 Ray Satiro <raysatiro@yahoo.com>
+// Copyright (C) 2007, 2010 Ray Satiro <raysatiro@yahoo.com>
 // All rights reserved.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -75,10 +75,19 @@ private:
   
 };
 
-#ifndef PLATFORM_OS_WIN32_NATIVE
+#ifndef WM_XBUTTONDOWN
 #define WM_XBUTTONDOWN 523
+#endif
+
+#ifndef WM_XBUTTONUP
 #define WM_XBUTTONUP 524
+#endif
+
+#ifndef WM_XBUTTONDBLCLK
 #define WM_XBUTTONDBLCLK 525
+#endif
+
+#ifndef WM_MOUSEHWHEEL
 #define WM_MOUSEHWHEEL 526
 #endif
 
