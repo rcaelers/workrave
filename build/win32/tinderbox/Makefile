@@ -13,6 +13,7 @@ WIN32_MAKERUNTIME=${TINDERBOX_HOME}/bin/make-runtime.sh
 WIN32_MINGW_ENV=${TINDERBOX_HOME}/bin/mingw32
 WIN32_ISCC=${HOME}/.wine/fake_windows/Program Files/Inno Setup 5/ISCC.exe
 WIN32_NMAKE=wine ${HOME}/.wine/fake_windows/Program\ Files/Microsoft\ Visual\ C++\ Toolkit\ 2003/bin/nmake.exe
+NM=i686-w64-mingw32-nm
 
 WORKRAVE_GIT_DIR=${TINDERBOX_HOME}/workrave
 CONF_FLAGS = --quiet
@@ -48,7 +49,6 @@ unix2dos=perl -e 'while (<>) { s/$$/\r/; print; }'
 
 usage:
 	@echo Usage: "make all" to make all files from scratch
-	env
 
 all: setup git-setup workrave-win32-all
 
@@ -101,8 +101,8 @@ workrave-win32-build-original=\
           ${WIN32_NMAKE} /f Applet.mak CFG="Applet - Win32 Release" ); \
 	( cd ${1}; \
 	  . ${WIN32_MINGW_ENV}; \
-	  ./autogencross.sh ${CONF_FLAGS} ${2} && make WINDRES=$$WINDRES ; \
-	   $$NM -nosC ${1}/frontend/gtkmm/src/workrave.exe >${1}/frontend/gtkmm/src/workrave.sym )
+	  ./autogencross.sh ${CONF_FLAGS} ${2} && make ; \
+	   $$TARGET-nm -nosC ${1}/frontend/gtkmm/src/workrave.exe >${1}/frontend/gtkmm/src/workrave.sym )
 
 workrave-win32-build=\
 	( cd ${1}/common/win32/harpoonHelper/src; \
@@ -118,13 +118,13 @@ workrave-win32-build=\
 	  cp -a ${TINDERBOX_HOME}/prebuilt/${3}64/workrave-applet.dll Release/workrave-applet64.dll ); \
 	( cd ${1}; \
 	  . ${WIN32_MINGW_ENV}; \
-	  ./autogencross.sh ${CONF_FLAGS} ${2} && make WINDRES=$$WINDRES ; \
+	  ./autogencross.sh ${CONF_FLAGS} ${2} && make ; \
 	  cp -a ${1}/frontend/gtkmm/src/.libs/workrave.exe ${1}/frontend/gtkmm/src; \
-	  $$NM -nosC ${1}/frontend/gtkmm/src/workrave.exe >${1}/frontend/gtkmm/src/workrave.sym )
+	  $$TARGET-nm -nosC ${1}/frontend/gtkmm/src/workrave.exe >${1}/frontend/gtkmm/src/workrave.sym )
 
 workrave-win32-strip=\
 	(  . ${WIN32_MINGW_ENV}; \
-	$$STRIP ${1}/frontend/gtkmm/src/workrave.exe )
+	$$TARGET-strip ${1}/frontend/gtkmm/src/workrave.exe )
 
 workrave-win32-setup=\
 	( cd ${1}/frontend/gtkmm/win32/setup/; \
