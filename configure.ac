@@ -250,12 +250,7 @@ then
    LDFLAGS="${LDFLAGS} -g"
    config_tracing=yes
 else
-   if test "x$platform_os_win32" = "xyes"
-   then
-     OPT=0
-   else
-     OPT=2
-   fi
+   OPT=2
 
    CFLAGS="${CFLAGS} -O${OPT} -g -DNDEBUG"
    CXXFLAGS="${CXXFLAGS} -O${OPT} -g -DNDEBUG"
