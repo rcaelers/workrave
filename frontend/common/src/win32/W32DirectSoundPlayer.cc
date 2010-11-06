@@ -428,8 +428,8 @@ SoundClip::init()
   hr = sound_buffer->QueryInterface(IID_IDirectSoundNotify8, (LPVOID*)&notify);
   if (FAILED(hr) || notify == NULL)
     {
-      TRACE_RETURN("Exception: IDirectSoundBuffer_QueryInterface IDirectSoundNotify");
-      throw Exception(string("IDirectSoundBuffer_QueryInterface IDirectSoundNotify"));
+      TRACE_RETURN("Exception: IDirectSoundBuffer_QueryInterface IDirectSoundNotify" << DXGetErrorString8(hr));
+      throw Exception(string("IDirectSoundBuffer_QueryInterface IDirectSoundNotify") + DXGetErrorString8(hr));
     }
 
   stop_event = CreateEvent(0, false, false, 0);
@@ -441,7 +441,7 @@ SoundClip::init()
   hr = notify->SetNotificationPositions(1, &pn);
   if (FAILED(hr))
     {
-      TRACE_RETURN("Exception: IDirectSoundNotify_SetPositionNotify");
+      TRACE_RETURN("Exception: IDirectSoundNotify_SetPositionNotify" << DXGetErrorString8(hr));
       throw Exception(string("IDirectSoundNotify_SetPositionNotify") + DXGetErrorString8(hr));
     }
   notify->Release();
