@@ -18,6 +18,8 @@ http://www.workrave.org
    - Audio is now muted after the start break sound is played.
    - Audio is now unmuted when the user becomes active after the break
      has ended instead of immediately after the break ended.
+
+** Fixed crash on non-Gnome systems.
      
 * Workrave 1.9.2
 
