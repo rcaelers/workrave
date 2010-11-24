@@ -116,12 +116,13 @@ GIOSocket::static_connected_callback(GObject *source_object,
 
   if (error == NULL && socket_connection != NULL)
     {
+      socket->connection = socket_connection;
       socket->socket = g_socket_connection_get_socket(socket->connection);
       g_socket_set_blocking(socket->socket, FALSE);
       g_socket_set_keepalive(socket->socket, TRUE);
 
       GSource *source = g_socket_create_source(socket->socket,
-                                               (GIOCondition) (G_IO_IN | G_IO_OUT | G_IO_ERR | G_IO_HUP),
+                                               (GIOCondition) (G_IO_IN | G_IO_ERR | G_IO_HUP),
                                                NULL);
       g_source_set_callback(source, (GSourceFunc) static_data_callback, (void*)socket, NULL);
       g_source_attach(source, NULL);
@@ -197,7 +198,8 @@ GIOSocket::GIOSocket(GSocketConnection *connection) :
 
 //! Creates a new connection.
 GIOSocket::GIOSocket() :
-  connection(NULL)
+  connection(NULL),
+  socket(NULL)
 {
 }
 
@@ -210,22 +212,26 @@ GIOSocket::~GIOSocket()
   TRACE_EXIT();
 }
 
+   #include <arpa/inet.h>
 
 //! Connects to the specified host.
 void
 GIOSocket::connect(const string &host, int port)
 {
   GInetAddress *inet_addr = g_inet_address_new_from_string(host.c_str());
-  GSocketAddress *socket_address = g_inet_socket_address_new(inet_addr, port);
-  GSocketClient *socket_client = g_socket_client_new();
+  if (inet_addr != NULL)
+    {
+      GSocketAddress *socket_address = g_inet_socket_address_new(inet_addr, port);
+      GSocketClient *socket_client = g_socket_client_new();
 
-  g_socket_client_connect_async(socket_client,
-                                G_SOCKET_CONNECTABLE(socket_address),
-                                NULL,
-                                static_connected_callback,
-                                this);  
+      g_socket_client_connect_async(socket_client,
+                                    G_SOCKET_CONNECTABLE(socket_address),
+                                    NULL,
+                                    static_connected_callback,
+                                    this);  
   
-  g_object_unref(inet_addr);
+      g_object_unref(inet_addr);
+    }
 }
 
 
@@ -236,13 +242,16 @@ GIOSocket::read(void *buf, int count, int &bytes_read)
   TRACE_ENTER_MSG("GIOSocket::read", count);
   
   GError *error = NULL;
-
   gsize num_read = 0;
-  num_read = g_socket_receive(socket, (char *)buf, count, NULL, &error);
 
-  if (error != NULL)
+  if (socket != NULL)
     {
-      throw SocketException(string("socket read error: ") + error->message);
+      num_read = g_socket_receive(socket, (char *)buf, count, NULL, &error);
+
+      if (error != NULL)
+        {
+          throw SocketException(string("socket read error: ") + error->message);
+        }
     }
   
   bytes_read = (int)num_read;
@@ -256,13 +265,14 @@ GIOSocket::write(void *buf, int count, int &bytes_written)
 {
   GError *error = NULL;
   gsize num_written = 0;
-  num_written = g_socket_send(socket, (char *)buf, count, NULL, &error);
-
-  if (error != NULL)
+  if (socket != NULL)
     {
-      throw SocketException(string("socket write error: ") + error->message);
+      num_written = g_socket_send(socket, (char *)buf, count, NULL, &error);
+      if (error != NULL)
+        {
+          throw SocketException(string("socket write error: ") + error->message);
+        }
     }
-
   bytes_written = (int) num_written;
 }
 
@@ -273,8 +283,12 @@ GIOSocket::close()
 {
   TRACE_ENTER("GIOSocket::close");
   GError *error = NULL;
-  g_socket_shutdown(socket, TRUE, TRUE, &error);
-  g_socket_close(socket, &error);
+  if (socket != NULL)
+    {
+      g_socket_shutdown(socket, TRUE, TRUE, &error);
+      g_socket_close(socket, &error);
+      socket = NULL;
+    }
   TRACE_EXIT();
 }
 

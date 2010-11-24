@@ -239,7 +239,7 @@ DistributionSocketLink::connect(string url)
           hostport = url.substr(pos + 3);
         }
       
-      pos = hostport.find(":");
+      pos = hostport.rfind(":");
       std::string host;
       std::string port = "0";
       
@@ -543,7 +543,7 @@ DistributionSocketLink::add_client(gchar *id, gchar *host, gint port, ClientType
         }
 
       c->type = type;
-      dist_manager->log(_("Connecting to %s."), id);
+      dist_manager->log(_("Connecting to %s."), host);
 
       if (c->socket != NULL)
         {
@@ -580,7 +580,7 @@ DistributionSocketLink::add_client(gchar *id, gchar *host, gint port, ClientType
 
       if (type == CLIENTTYPE_DIRECT)
         {
-          dist_manager->log(_("Connecting to %s."), id);
+          dist_manager->log(_("Connecting to %s."), host);
 
           if (client->socket != NULL)
             {

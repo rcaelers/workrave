@@ -501,16 +501,19 @@ Menus::on_menu_network_log(bool active)
 void
 Menus::on_network_log_response(int response)
 {
+  TRACE_ENTER_MSG("Menus::on_network_log_response", response);
   (void) response;
 
   assert(network_log_dialog != NULL);
 
   network_log_dialog->hide_all();
 
-  resync();  
-
   // done by gtkmm ??? delete network_log_dialog;
   network_log_dialog = NULL;
+
+  resync();  
+
+  TRACE_EXIT();
 }
 #endif
 
