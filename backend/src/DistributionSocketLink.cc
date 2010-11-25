@@ -594,8 +594,6 @@ DistributionSocketLink::add_client(gchar *id, gchar *host, gint port, ClientType
           socket->connect(host, port);
           
           client->socket = socket;
-
-          socket->connect(host, port);
         }
     }
   g_free(canonical_host);

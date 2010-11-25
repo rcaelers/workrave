@@ -183,6 +183,7 @@ GIOSocket::static_data_callback(GSocket *socket,
 GIOSocket::GIOSocket(GSocketConnection *connection) :
   connection(connection)
 {
+  TRACE_ENTER("GIOSocket::GIOSocket(con)");
   socket = g_socket_connection_get_socket(connection);
   g_object_ref(connection);
   
@@ -192,7 +193,8 @@ GIOSocket::GIOSocket(GSocketConnection *connection) :
   GSource *source = g_socket_create_source(socket, (GIOCondition)G_IO_IN, NULL);
   g_source_set_callback(source, (GSourceFunc) static_data_callback, (void*)this, NULL);
   g_source_attach(source, NULL);
-  g_source_unref(source);  
+  g_source_unref(source);
+  TRACE_EXIT();
 }
 
 
@@ -201,7 +203,9 @@ GIOSocket::GIOSocket() :
   connection(NULL),
   socket(NULL)
 {
-}
+  TRACE_ENTER("GIOSocket::GIOSocket()");
+  TRACE_EXIT()
+    }
 
 
 //! Destructs the connection.
@@ -212,12 +216,12 @@ GIOSocket::~GIOSocket()
   TRACE_EXIT();
 }
 
-   #include <arpa/inet.h>
 
 //! Connects to the specified host.
 void
 GIOSocket::connect(const string &host, int port)
 {
+  TRACE_ENTER_MSG("GIOSocket::connect", host << " " << port);
   GInetAddress *inet_addr = g_inet_address_new_from_string(host.c_str());
   if (inet_addr != NULL)
     {
@@ -232,6 +236,7 @@ GIOSocket::connect(const string &host, int port)
   
       g_object_unref(inet_addr);
     }
+  TRACE_EXIT();
 }
 
 
