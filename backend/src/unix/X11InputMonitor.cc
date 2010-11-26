@@ -65,6 +65,10 @@
 #include <X11/Xos.h>
 
 #include "X11InputMonitor.hh"
+
+#include "Core.hh"
+#include "ICore.hh"
+#include "ICoreEventListener.hh"
 #include "IInputMonitorListener.hh"
 
 #include "timeutil.h"
@@ -76,10 +80,9 @@
 #include "Thread.hh"
 
 using namespace std;
+using namespace workrave;
 
-#ifdef HAVE_XRECORD
 int X11InputMonitor::xi_event_base = 0;
-#endif
 
 #ifndef HAVE_APP_GTK
 static int (*old_handler)(Display *dpy, XErrorEvent *error);
@@ -98,6 +101,7 @@ errorHandler(Display *dpy, XErrorEvent *error)
 }
 #endif
 
+#ifdef HAVE_XRECORD_FALLBACK
 //! Obtains the next X11 event with specified timeout.
 static Bool
 XNextEventTimed(Display* dsp, XEvent* event_return, long millis)
@@ -142,20 +146,18 @@ XNextEventTimed(Display* dsp, XEvent* event_return, long millis)
         }
     }
 }
-
+#endif
 
 X11InputMonitor::X11InputMonitor(const string &display_name) :
   x11_display(NULL),
   abort(false)
 {
-#ifdef HAVE_XRECORD
   use_xrecord = false;
   xrecord_context = 0;
   xrecord_datalink = NULL;
-#endif
 
   x11_display_name = display_name;
-  monitor_thread = new Thread(this); // FIXME: LEAK
+  monitor_thread = new Thread(this);
 }
 
 
@@ -169,12 +171,10 @@ X11InputMonitor::~X11InputMonitor()
       delete monitor_thread;
     }
 
-#ifdef HAVE_XRECORD
   if (xrecord_datalink != NULL)
     {
       XCloseDisplay(xrecord_datalink);
     }
-#endif
   TRACE_EXIT();
 }
 
@@ -191,22 +191,14 @@ X11InputMonitor::terminate()
 {
   TRACE_ENTER("X11InputMonitor::terminate");
 
-#ifdef HAVE_XRECORD
   if (use_xrecord)
     {
       stop_xrecord();
     }
-#endif
 
   abort = true;
+  monitor_thread->wait();
 
-#ifdef HAVE_XRECORD
-  //FIXME:  stop_xrecord does not seem to work.
-  if (use_xrecord)
-    {
-      monitor_thread->wait();
-    }
-#endif
   TRACE_EXIT();
 }
 
@@ -221,21 +213,23 @@ X11InputMonitor::run()
       return;
     }
 
-#ifdef HAVE_XRECORD
   run_xrecord();
-#else
-  run_events();
-  XCloseDisplay(x11_display);
-#endif
 
   TRACE_EXIT();
 }
+
+#ifdef HAVE_XRECORD_FALLBACK  
 
 void
 X11InputMonitor::run_events()
 {
   TRACE_ENTER("X11InputMonitor::run_events");
 
+  if (x11_display == NULL)
+    {
+      return;
+    }
+  
   error_trap_enter();
   
   root_window = DefaultRootWindow(x11_display);
@@ -244,7 +238,6 @@ X11InputMonitor::run_events()
   XGrabButton(x11_display, AnyButton, AnyModifier, root_window, True,
               ButtonPressMask, GrabModeSync, GrabModeAsync, None, None);
   XSync(x11_display,False);
-
 
   error_trap_exit();
   
@@ -395,6 +388,8 @@ X11InputMonitor::handle_button(XEvent *event)
     }
 }
 
+#endif // HAVE_XRECORD_FALLBACK
+
 void
 X11InputMonitor::error_trap_enter()
 {
@@ -416,8 +411,6 @@ X11InputMonitor::error_trap_exit()
 #endif
 }
   
-
-#ifdef HAVE_XRECORD
 
 void
 X11InputMonitor::handle_xrecord_handle_key_event(XRecordInterceptData *data)
@@ -590,10 +583,14 @@ X11InputMonitor::run_xrecord()
     }
   else
     {
+#ifdef HAVE_XRECORD_FALLBACK  
       error_trap_exit();
       TRACE_MSG("Fallback to run events");
       use_xrecord = false;
       run_events();
+#else
+      g_idle_add(static_report_failure, NULL);
+#endif      
     }
   TRACE_EXIT();
 }
@@ -678,10 +675,21 @@ X11InputMonitor::stop_xrecord()
       XRecordFreeContext(x11_display, xrecord_context);
       XFlush(xrecord_datalink);
       XCloseDisplay(x11_display);
+      x11_display = NULL;
     }
 
   TRACE_EXIT();
   return true;
 }
 
-#endif
+
+gboolean
+X11InputMonitor::static_report_failure(void *data)
+{
+  (void) data;
+
+  Core *core = Core::get_instance();
+  core->post_event(CORE_EVENT_MONITOR_FAILURE);
+
+  return FALSE;
+}

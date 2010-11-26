@@ -343,6 +343,14 @@ ActivityMonitor::keyboard_notify(bool repeat)
   lock.unlock();
 }
 
+void
+ActivityMonitor::failure_notify(std::string details)
+{
+  (void) details;
+  
+  lock.lock();
+  lock.unlock();
+}
 
 //! Calls the callback listener.
 void

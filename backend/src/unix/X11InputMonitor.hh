@@ -25,9 +25,7 @@
 #include <X11/X.h>
 #include <X11/Xlib.h>
 
-#ifdef HAVE_XRECORD
 #include <X11/extensions/record.h>
-#endif
 
 #include "InputMonitor.hh"
 
@@ -57,13 +55,14 @@ private:
   //! The monitor's execution thread.
   virtual void run();
 
+#ifdef HAVE_XRECORD_FALLBACK  
   //! the events execution thread.
   void run_events();
-
+#endif
+  
   void error_trap_enter();
   void error_trap_exit();
   
-#ifdef HAVE_XRECORD
   //! Initialize
   bool init_xrecord();
 
@@ -72,9 +71,7 @@ private:
 
   //! Stop the capturing.
   bool stop_xrecord();
-#endif
 
-#ifdef HAVE_XRECORD
   void handle_xrecord_handle_key_event(XRecordInterceptData *data);
   void handle_xrecord_handle_motion_event(XRecordInterceptData *data);
   void handle_xrecord_handle_button_event(XRecordInterceptData *data);
@@ -83,9 +80,10 @@ private:
   void handle_xrecord_handle_device_button_event(XRecordInterceptData *data);
 
   static void handle_xrecord_callback(XPointer closure, XRecordInterceptData * data);
-#endif
+  static gboolean static_report_failure(void *data);
 
 private:
+#ifdef HAVE_XRECORD_FALLBACK  
   //! Internal X magic
   void set_event_mask(Window window);
 
@@ -100,7 +98,8 @@ private:
 
   //! Handle a mouse button event.
   void handle_button(XEvent *event);
-
+#endif
+  
 private:
   //! The X11 display name.
   std::string x11_display_name;
@@ -108,16 +107,17 @@ private:
   //! The X11 display handle.
   Display *x11_display;
 
+#ifdef HAVE_XRECORD_FALLBACK  
   //! The X11 root window handle.
   Window root_window;
-
-  //! The activity monitor thread.
-  Thread *monitor_thread;
+#endif
 
   //! Abort the main loop
   bool abort;
 
-#ifdef HAVE_XRECORD
+  //! The activity monitor thread.
+  Thread *monitor_thread;
+
   //! Is the X Record extension used ?
   bool use_xrecord;
 
@@ -129,7 +129,6 @@ private:
 
   // Event base for Xinput events
   static int xi_event_base;
-#endif
 };
 
 #endif // X11INPUTMONITOR_HH

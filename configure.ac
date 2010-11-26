@@ -69,7 +69,7 @@ AC_ARG_ENABLE( gnome,
 
 AC_ARG_ENABLE( dbus,
               [AC_HELP_STRING([--disable-dbus],
-                              [compile withouy DBus support])],
+                              [compile without DBus support])],
               [config_dbus=$enableval], [config_dbus=yes])
  
 AC_ARG_ENABLE( gstreamer,
@@ -81,7 +81,12 @@ AC_ARG_ENABLE( kde,
               [AC_HELP_STRING([--enable-kde],
                               [compile with KDE support (broken)])],
               [config_kde=$enableval], [config_kde=no])
-    
+
+AC_ARG_ENABLE( x11-monitoring-fallback,
+              [AC_HELP_STRING([--enable-x11-monitoring-fallback],
+                              [compile with fallback monitoring if RECORD is not available (discouraged)])],
+              [config_fallback=$enableval], [config_fallback=no])
+	      
 AC_ARG_ENABLE( debug,
               [AC_HELP_STRING([--enable-debug],
                               [compile with debugging flags set])],
@@ -816,6 +821,11 @@ fi
 HAVE_APP_TEXT=
 if test "x$config_text" = "xyes"; then
    AC_DEFINE(HAVE_APP_TEXT,,[Define if Text is available])
+fi
+
+HAVE_XRECORD_FALLBACK=
+if test "x$config_fallback" = "xyes"; then
+   AC_DEFINE(HAVE_XRECORD_FALLBACK,,[Define if RECORD fallback is enabled])
 fi
 
 
