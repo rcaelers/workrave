@@ -73,6 +73,7 @@ workrave_applet_init(WorkraveApplet *applet)
   applet->socket_id = 0;
   applet->orientation = 0;
   applet->last_showlog_state = FALSE;
+  applet->last_reading_mode_state = FALSE;
   applet->last_mode = 0; 
   applet->applet = NULL;
   
@@ -703,6 +704,31 @@ showlog_callback(BonoboUIComponent *ui, const char *path, Bonobo_UIComponent_Eve
     }
 }
 
+static void
+reading_mode_callback(BonoboUIComponent *ui, const char *path, Bonobo_UIComponent_EventType type,
+                      const char *state, gpointer user_data)
+{
+  gboolean new_state;
+
+  if (state == NULL || strcmp(state, "") == 0)
+    {
+      /* State goes blank when component is removed; ignore this. */
+      return;
+    }
+
+  new_state = strcmp(state, "0") != 0;
+
+  if (1)
+    {
+      g_applet->last_reading_mode_state = new_state;
+
+      if (g_applet->ui != NULL && workrave_is_running())
+        {
+          dbus_g_proxy_begin_call(g_applet->ui, "ReadingMode", dbus_callback, NULL, NULL,
+                                 G_TYPE_BOOLEAN, new_state, G_TYPE_INVALID);
+        }
+    }
+}
 
 static void
 mode_callback(BonoboUIComponent *ui, const char *path, Bonobo_UIComponent_EventType type,
@@ -894,6 +920,7 @@ workrave_applet_fill(PanelApplet *applet)
   bonobo_ui_component_add_listener(ui, "Normal", mode_callback, NULL);
   bonobo_ui_component_add_listener(ui, "Suspended", mode_callback, NULL);
   bonobo_ui_component_add_listener(ui, "Quiet", mode_callback, NULL);
+  bonobo_ui_component_add_listener(ui, "ReadingMode", reading_mode_callback, NULL);
 
   panel_applet_set_flags(PANEL_APPLET(applet),
                          PANEL_APPLET_EXPAND_MINOR);
