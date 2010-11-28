@@ -30,6 +30,7 @@ struct _WorkraveApplet
   int orientation;
 
   gboolean last_showlog_state;
+  gboolean last_reading_mode_state;
   int last_mode;
 
   DBusGProxy *support;

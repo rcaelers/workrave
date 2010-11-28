@@ -6,6 +6,7 @@
     <cmd name="ShowLog"/>
     <cmd name="Mode"/>
     <cmd name="Network"/>
+    <cmd name="ReadingMode"/>
   </commands>
 
   <popups>
@@ -44,6 +45,8 @@
 
       </submenu>
            
+      <menuitem name="Reading Mode" verb="ReadingMode" _label="Reading Mode" type="toggle" id="ReadingMode"/>
+
       <menuitem name="Statistics Item" verb="Statistics" _label="_Statistics"/>
 
       <menuitem name="About Item" verb="About" _label="_About..."

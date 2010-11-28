@@ -20,6 +20,8 @@
 #ifndef INPUTMONITORLISTENER_HH
 #define INPUTMONITORLISTENER_HH
 
+#include <string>
+
 //! Listener for events from the input monitor.
 class IInputMonitorListener
 {
@@ -37,6 +39,9 @@ public:
 
   //! Reports keyboard activity
   virtual void keyboard_notify(bool repeat) = 0;
+
+  //! Reports async monitoring failure
+  virtual void failure_notify(std::string details) = 0;
 };
 
 #endif // IINPUTMONITORLISTENER_HH

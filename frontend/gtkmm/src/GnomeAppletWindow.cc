@@ -1,6 +1,6 @@
 // GnomeAppletWindow.cc --- Applet info Window
 //
-// Copyright (C) 2001 - 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2010 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -268,7 +268,7 @@ GnomeAppletWindow::set_menu_active(int menu, bool active)
               applet_control->SetMenuStatus("/commands/Quiet", active);
               break;
             case MENUSYNC_MODE_READING:
-              applet_control->SetMenuStatus("/commands/Reading", active);
+              applet_control->SetMenuStatus("/commands/ReadingMode", active);
               break;
             case MENUSYNC_SHOW_LOG:
               applet_control->SetMenuStatus("/commands/ShowLog", active);
@@ -306,7 +306,7 @@ GnomeAppletWindow::get_menu_active(int menu)
               applet_control->GetMenuStatus("/commands/Quiet", ret);
               break;
             case MENUSYNC_MODE_READING:
-              applet_control->GetMenuStatus("/commands/Reading", ret);
+              applet_control->GetMenuStatus("/commands/ReadingMode", ret);
               break;
             case MENUSYNC_SHOW_LOG:
               applet_control->GetMenuStatus("/commands/ShowLog", ret);
@@ -346,8 +346,7 @@ GnomeAppletWindow::set_applet_size(int size)
 {
   TRACE_ENTER_MSG("GnomeAppletWindow::set_applet_size", size);
 
-  if (plug != NULL)
-    {
+  if (plug != NULL)    {
       plug->queue_resize();
     }
 

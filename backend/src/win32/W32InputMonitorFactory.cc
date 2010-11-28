@@ -1,6 +1,6 @@
 // W32InputMonitorFactory.cc -- Factory to create input monitors
 //
-// Copyright (C) 2007, 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2007, 2008, 2010 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -89,7 +89,7 @@ W32InputMonitorFactory::create_activity_monitor()
       if (configure_monitor_method == "default")
         {
           TRACE_MSG("use default");
-          actual_monitor_method = "nohook";
+          actual_monitor_method = "lowlevel";
         }
       else
         {

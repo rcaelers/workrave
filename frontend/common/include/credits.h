@@ -55,6 +55,7 @@ const char *workrave_translators =
  /* ga */           "Seanán Ó Coistín <seananoc@gmail.com>\n"
  /* it */           "Eraldo Girardi <eraldster@katamail.com>\n"
  /* ja */           "Masanobu Yokota <masanobu.yokota@nifty.com>\n"
+ /* ko */           "김재용 <nawane@naver.com>\n"
  /* lt */           "Artūras Šlajus <x11@h2o.sky.lt>\n"
  /* nl */           "Raymond Penners <raymond@dotsphinx.com>\n"
  /* no */           "Morten Lunde <morten.lunde@broadpark.no>\n"

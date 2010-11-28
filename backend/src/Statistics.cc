@@ -1057,3 +1057,9 @@ Statistics::keyboard_notify(bool repeat)
     }
   lock.unlock();
 }
+
+void
+Statistics::failure_notify(std::string details)
+{
+  (void) details;
+}

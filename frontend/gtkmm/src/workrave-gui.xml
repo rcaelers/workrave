@@ -15,6 +15,9 @@
     </method>
     <method name="NetworkReconnect"      csymbol="on_menu_network_reconnect"/>
     <method name="NetworkDisconnect"     csymbol="on_menu_network_leave"/>
+    <method name="ReadingMode"           csymbol="on_menu_reading">
+      <arg type="bool" name="show" direction="in"/>
+    </method>
     <method name="Statistics"            csymbol="on_menu_statistics"/>
     <method name="Exercises"             csymbol="on_menu_exercises"
  	                                 condition="defined(HAVE_EXERCISES)"/>

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
 "POT-Creation-Date: 2010-08-31 21:40+0200\n"
-"PO-Revision-Date: 2010-09-09 01:06-0000\n"
+"PO-Revision-Date: 2010-11-16 12:56-0000\n"
 "Last-Translator: Seanán Ó Coistín <seananoc@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -916,7 +916,7 @@ msgstr "Cas do dheasóg go mall amhail gurb lián eitleáin é le hais do cholai
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:17
 msgid "Start with your head in a comfortable straight position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side."
-msgstr "Bíodh do cheann díreach suas agus sócúlach agat. Ansin, claon do cheann go réidh mall chuig do ghualainn ar deis chun na matáin ar an taobh clé do do mhuinéail a shíneadh go réidh. Fan mar sin ar feadh 5 shoicind. Ansin, claon do cheann ar chlé chun an taobh eile a shíneadh. Déan seo faoi dhó don dá thaobh."
+msgstr "Bíodh do cheann díreach suas agus sócúlach agat. Ansin, claon do cheann go réidh mall chuig do ghualainn ar dheis chun na matáin ar an taobh clé do do mhuinéail a shíneadh go réidh. Fan mar sin ar feadh 5 shoicind. Ansin, claon do cheann ar chlé chun an taobh eile a shíneadh. Déan seo faoi dhó don dá thaobh."
 
 #: ../frontend/plugin/exercises/common/share/exercises.xml.in.h:18
 msgid "Train focusing the eyes"
