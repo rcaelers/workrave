@@ -127,7 +127,7 @@
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
-				CommandLine="regsvr32.exe /s /c $(OUTDIR)\workrave-applet.dll&#x0D;&#x0A;"
+				CommandLine="&#x0D;&#x0A;"
 				Outputs="$(OUTDIR)\Register.out"
 			/>
 			<Tool
