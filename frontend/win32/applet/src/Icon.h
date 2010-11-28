@@ -22,7 +22,9 @@
 
 #include <windows.h>
 
+
 class CDeskBand;
+class PaintHelper;
 
 class Icon
 {
@@ -37,6 +39,7 @@ private:
   CDeskBand *deskband;
   HWND hwnd;
   HICON icon;
+  PaintHelper *paint_helper;
   static void init(HINSTANCE hinst);
   static LRESULT CALLBACK wnd_proc(HWND hWnd, UINT uMessage, WPARAM wParam,
                                    LPARAM lParam);

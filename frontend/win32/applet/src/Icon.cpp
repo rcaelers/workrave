@@ -23,6 +23,7 @@
 #include "Icon.h"
 #include "DeskBand.h"
 #include "Debug.h"
+#include "PaintHelper.h"
 
 #define ICON_CLASS_NAME "WorkraveIcon"
 
@@ -33,11 +34,14 @@ Icon::Icon(HWND parent, HINSTANCE hinst, const char *resource, CDeskBand *deskba
   icon = LoadIcon(hinst, resource);
   hwnd = CreateWindowEx(0, ICON_CLASS_NAME, "",
       WS_CHILD | WS_CLIPSIBLINGS, 0, 0, 16, 16, parent, NULL, hinst, (LPVOID)this);
+
+  paint_helper = new PaintHelper(hwnd);
 }
 
 Icon::~Icon()
 {
   DestroyWindow(hwnd);
+  delete paint_helper;
 }
 
 LRESULT CALLBACK
@@ -78,13 +82,13 @@ LRESULT
 Icon::on_paint()
 {
   TRACE_ENTER("Icon::OnPaint");
-  PAINTSTRUCT ps;
-
-  BeginPaint(hwnd, &ps);
-  HDC dc = GetDC(hwnd);
-  DrawIconEx(dc, 0, 0, icon, 16, 16, 0, NULL, DI_NORMAL);
-  ReleaseDC(hwnd, dc);
-  EndPaint(hwnd, &ps);
+  
+  HDC dc = paint_helper->BeginPaint();
+  if (dc != NULL)
+    {
+      DrawIconEx(dc, 0, 0, icon, 16, 16, 0, NULL, DI_NORMAL);
+      paint_helper->EndPaint();
+    }
   TRACE_EXIT();
   return 0;
 }

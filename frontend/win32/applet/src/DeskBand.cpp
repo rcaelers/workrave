@@ -26,6 +26,7 @@
 #include "Guid.h"
 #include "Applet.hh"
 #include "Debug.h"
+#include "PaintHelper.h"
 
 CDeskBand::CDeskBand()
 {
@@ -46,6 +47,7 @@ CDeskBand::CDeskBand()
 
 CDeskBand::~CDeskBand()
 {
+  TRACE_ENTER("CDeskBand::~CDeskBand");
   //this should have been freed in a call to SetSite(NULL), but just to be safe
   if (m_pSite)
     {
@@ -54,6 +56,8 @@ CDeskBand::~CDeskBand()
     }
 
   g_DllRefCount--;
+  TRACE_MSG(g_DllRefCount);
+  TRACE_EXIT();
 }
 
 STDMETHODIMP
@@ -362,26 +366,36 @@ CDeskBand::GetBandInfo(DWORD dwBandID, DWORD dwViewMode, DESKBANDINFO* pdbi)
 STDMETHODIMP
 CDeskBand::CanRenderComposited(BOOL *pfCanRenderComposited)
 {
+  TRACE_ENTER("CDeskBand::CanRenderComposited");
+
   if (!pfCanRenderComposited)
     return E_INVALIDARG;
   
   *pfCanRenderComposited = TRUE;
+  TRACE_EXIT();
   return S_OK;
 }
 
 STDMETHODIMP
 CDeskBand::GetCompositionState( BOOL *pfCompositionEnabled )
 {
+  TRACE_ENTER("CDeskBand::GetCompositionState");
   if (!pfCompositionEnabled)
     return E_INVALIDARG;
   
-  *pfCompositionEnabled = TRUE;
+  *pfCompositionEnabled = m_CompositionEnabled;
+  TRACE_EXIT();
   return S_OK;
 }
 
 STDMETHODIMP
 CDeskBand::SetCompositionState( BOOL fCompositionEnabled )
 {
+  TRACE_ENTER_MSG("CDeskBand::SetCompositionState", fCompositionEnabled);
+  m_CompositionEnabled = fCompositionEnabled;
+
+  PaintHelper::SetCompositionEnabled(fCompositionEnabled != FALSE);
+  TRACE_EXIT();
   return S_OK;
 }
 
@@ -714,6 +728,8 @@ CDeskBand::RegisterAndCreateWindow()
             {
               //If RegisterClass fails, CreateWindow below will fail.
             }
+
+          PaintHelper::Init();
         }
 
       RECT  rc;

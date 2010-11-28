@@ -93,7 +93,7 @@ STDMETHODIMP CClassFactory::CreateInstance(LPUNKNOWN pUnknown,
   //create the proper object
   if (IsEqualCLSID(m_clsidObject, CLSID_WorkraveDeskBand))
     {
-#ifndef NDEBUG 
+#ifdef TRACING
       Debug::init();
 #endif
 
@@ -121,4 +121,3 @@ STDMETHODIMP CClassFactory::LockServer(BOOL)
 {
   return E_NOTIMPL;
 }
-
