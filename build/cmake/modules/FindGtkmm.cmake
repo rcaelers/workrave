@@ -8,6 +8,8 @@ IF(WIN32)
     SET(GTKMM_LIBS_VARIANT "-vc90")
   ELSEIF(${CMAKE_GENERATOR} MATCHES "Visual Studio 8")
     SET(GTKMM_LIBS_VARIANT "-vc80")
+  ELSEIF(${CMAKE_GENERATOR} MATCHES "Visual Studio 10")
+    SET(GTKMM_LIBS_VARIANT "-vc100")
   ELSE(${CMAKE_GENERATOR} MATCHES "Visual Studio 9")
     SET(GTKMM_LIBS_VARIANT "")
   ENDIF(${CMAKE_GENERATOR} MATCHES "Visual Studio 9")
@@ -46,6 +48,7 @@ IF(WIN32)
     ${GTKMM_DIR}/include/pangomm-1.4
     ${GTKMM_DIR}/include/sigc++-2.0
     ${GTKMM_DIR}/include/freetype2
+    ${GTKMM_DIR}/include/gdk-pixbuf-2.0
     ${GTKMM_DIR}/lib/gdkmm-2.4/include
     ${GTKMM_DIR}/lib/giomm-2.4/include
     ${GTKMM_DIR}/lib/glib-2.0/include

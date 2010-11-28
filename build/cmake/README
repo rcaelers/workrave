@@ -1,5 +1,6 @@
 This document gives some hints on how to compile Workrave on Windows
 using Microsoft Visual Studio (2008 Express Edition).
+Please use autoconf to build Workrave on Unix systems.
 
 The minimal requirement is gtkmm, Directx SDK and cmake.
 
@@ -22,7 +23,6 @@ Install DirectX SDK (required)
 
   Site: http://msdn.microsoft.com/en-us/directx/default.aspx
 
-
 Install CMake 2.8 (required)
 ============================
 
@@ -30,9 +30,8 @@ Install CMake 2.8 (required)
 
   Website: http://www.cmake.org
   
-  File: http://www.cmake.org/files/v2.8/cmake-2.8.1-win32-x86.exe
-
- 
+  File: http://www.cmake.org/files/v2.8/cmake-2.8.2-win32-x86.exe
+  
 Install Intltool (recommended, needed for exercises)
 ====================================================
 
@@ -41,8 +40,8 @@ Install Intltool (recommended, needed for exercises)
 
   Website: http://strawberryperl.com/
   
-  File: http://strawberry-perl.googlecode.com/files/strawberry-perl-5.10.0.6.msi
-
+  File: http://strawberry-perl.googlecode.com/files/strawberry-perl-5.12.1.0.msi
+  
 - Download and extract intltool
 
   File: http://ftp.gnome.org/pub/gnome/binaries/win32/intltool/0.40/intltool_0.40.4-1_win32.zip
@@ -55,8 +54,8 @@ Install Gettext (recommended, needed for localization and exercises)
 
 - Download and extract Gettext
 
-  File: http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/gettext-tools-0.17.zip
-
+  File: http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/gettext-tools-dev_0.18.1.1-2_win32.zip
+  
   Note: You may run into problems (access denied and such) if you
   extract the files with unzip from cygwin; use Windows built-in zip
   support.
@@ -65,13 +64,13 @@ Install Gettext (recommended, needed for localization and exercises)
 Install Python/Cheetah (optional/experimental, needed for dbus)
 ===============================================================
 
-- Download and Install Python 2.6.5 
+- Download and Install Python 2.6.x or 2.7
 
   Website: http://www.python.org/download/
-  
-  File: http://www.python.org/ftp/python/2.6.5/python-2.6.5.msi     
-  File: http://www.python.org/ftp/python/2.6.5/python-2.6.5.amd64.msi
 
+  File: http://www.python.org/ftp/python/2.7/python-2.7.msi
+  File: http://www.python.org/ftp/python/2.7/python-2.7.amd64.msi
+  
 - Download and install setuptools
 
   Website: http://pypi.python.org/pypi/setuptools
@@ -79,16 +78,19 @@ Install Python/Cheetah (optional/experimental, needed for dbus)
   
   - Extract setuptools-0.6c11.tar.gz to directory outside the Windows Python installation directory
   - Open Command Prompt windows and go to the directory where you extracted setuptools.
-  - Make sure C:\Python26 is in your PATH
+  - Make sure C:\Python27 [replace with python installation directory] is in your PATH
   - Run 'python setup.py install' 
   
 - Install Cheetah
 
   - Open a Command Prompt (Use Run as Administrator on Vista+)
-  - cd C:\Python26\Scripts [replace python installation directory]
-  - Run 'C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\bin'
-  - Run 'easy_install-2.6-script.py Cheetah'
+  - cd C:\Python27\Scripts [replace python installation directory]
+  - Run 'C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\bin\vcvars32.bat'
+    [use vcvars64.bat if 64 bit Python is installed]
+  - Run 'easy_install-2.7-script.py Cheetah'
 
+  Note: Cheetah may need a fix if python 2.7 is used.
+        see : https://github.com/rtyler/cheetah/issues/#issue/2
 
 Install DBus (optional/experimental, needed for dbus)
 =====================================================

@@ -24,6 +24,7 @@
 #define ALL_LINGUAS "nl de eo pl da es zh_TW ru fr pt_BR nb lt cs he eu ca sv ja bg hu tr el sk zh_CN it sl ro"
 
 #define HAVE_MMDEVICEAPI_H 1
+#define HAVE_ISHELLDISPATCH 1
 
 /* Dont */
 #define BUILD_INCLUDED_LIBINTL "no"
@@ -312,6 +313,8 @@
 
 /* struct MOUSEHOOKSTRUCT */
 #define HAVE_STRUCT_MOUSEHOOKSTRUCT 
+
+#define HAVE_STRUCT_MOUSEHOOKSTRUCTEX
 
 /* Define to 1 if you have the <sys/param.h> header file. */
 #define HAVE_SYS_PARAM_H 1
