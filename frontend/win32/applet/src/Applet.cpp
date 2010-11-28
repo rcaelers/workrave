@@ -30,6 +30,9 @@
 #include <initguid.h>
 #include <shlguid.h>
 #include "Guid.h"
+
+#include "Debug.h"
+
 #pragma data_seg()
 
 extern "C" BOOL WINAPI DllMain(HINSTANCE, DWORD, LPVOID);
@@ -59,7 +62,9 @@ return TRUE;
 STDAPI
 DllCanUnloadNow()
 {
-return (g_DllRefCount ? S_FALSE : S_OK);
+  TRACE_ENTER("DllCanUnloadNow");
+  TRACE_RETURN(g_DllRefCount);
+  return (g_DllRefCount ? S_FALSE : S_OK);
 }
 
 

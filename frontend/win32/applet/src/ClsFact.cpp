@@ -24,15 +24,20 @@
 
 CClassFactory::CClassFactory(CLSID clsid)
 {
+  TRACE_ENTER("CClassFactory::CClassFactory");
   m_clsidObject = clsid;
   m_ObjRefCount = 1;
   g_DllRefCount++;
+  TRACE_EXIT();
 }
 
 
 CClassFactory::~CClassFactory()
 {
+  TRACE_ENTER("CClassFactory::CClassFactory");
   g_DllRefCount--;
+  TRACE_MSG(g_DllRefCount);
+  TRACE_EXIT();
 }
 
 

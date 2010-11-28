@@ -35,13 +35,8 @@ HDC
 PaintHelper::BeginPaint()
 {
   TRACE_ENTER("PaintHelper::BeginPaint");
-     TRACE_MSG(hwnd);
-      TRACE_MSG(&ps);
   hdc = ::BeginPaint(hwnd, &ps);
-      TRACE_MSG("0a");
   paint_hdc = hdc;
-      TRACE_MSG("0b");
-
 
   if (hdc)
     {
