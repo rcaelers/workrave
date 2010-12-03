@@ -3,6 +3,7 @@ set(DIRECTX_FOUND TRUE)
 
 find_path(DIRECTX_INCLUDES dxdiag.h
             "$ENV{DXSDK_DIR}/Include"
+	    "$ENV{PROGRAMFILES}/Microsoft DirectX SDK (June 2010)/Include"
 	    "$ENV{PROGRAMFILES}/Microsoft DirectX SDK (February 2010)/Include"
             "$ENV{PROGRAMFILES}/Microsoft DirectX SDK (August 2009)/Include"
             "$ENV{PROGRAMFILES}/Microsoft DirectX SDK (March 2009)/Include"
@@ -21,6 +22,7 @@ endif (NOT DIRECTX_INCLUDES)
 
 find_path(DIRECTX_LIBS dxguid.lib
             "$ENV{DXSDK_DIR}/Lib/x86"
+	    "$ENV{PROGRAMFILES}/Microsoft DirectX SDK (June 2010)/Lib/x86"
 	    "$ENV{PROGRAMFILES}/Microsoft DirectX SDK (February 2010)/Lib/x86"
             "$ENV{PROGRAMFILES}/Microsoft DirectX SDK (August 2009)/Lib/x86"
             "$ENV{PROGRAMFILES}/Microsoft DirectX SDK (March 2009)/Lib/x86"

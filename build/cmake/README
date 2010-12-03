@@ -12,7 +12,7 @@ Install Gtkmm (required)
 
 - Download and install gtkmm:
 
-  File: ftp://ftp.gnome.org/pub/GNOME/binaries/win32/gtkmm/2.16/gtkmm-win32-devel-2.16.0-4.exe
+  File: ftp://ftp.gnome.org/pub/GNOME/binaries/win32/gtkmm/2.22/gtkmm-win32-devel-2.22.0-2.exe
 
   More recent versions of gtkmm are currently not supported.
   
@@ -21,7 +21,7 @@ Install DirectX SDK (required)
 
 - Download and install DirectX 9 SDK:
 
-  Site: http://msdn.microsoft.com/en-us/directx/default.aspx
+  Site: http://msdn.microsoft.com/en-us/directx/default.asxp
 
 Install CMake 2.8 (required)
 ============================
@@ -30,7 +30,7 @@ Install CMake 2.8 (required)
 
   Website: http://www.cmake.org
   
-  File: http://www.cmake.org/files/v2.8/cmake-2.8.2-win32-x86.exe
+  File: http://www.cmake.org/files/v2.8/cmake-2.8.3-win32-x86.exe
   
 Install Intltool (recommended, needed for exercises)
 ====================================================

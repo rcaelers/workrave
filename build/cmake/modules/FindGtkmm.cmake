@@ -99,7 +99,6 @@ IF(WIN32)
     ${GTKMM_DIR}/lib/pangocairo-1.0.lib
     ${GTKMM_DIR}/lib/pangowin32-1.0.lib
     ${GTKMM_DIR}/lib/intl.lib
-    ${ICONV_LIBS}
     )
 
   SET(GTKMM_DEBUG_LIBS
@@ -118,8 +117,18 @@ IF(WIN32)
     ${GTKMM_DIR}/lib/glib-2.0.lib
     ${GTKMM_DIR}/lib/gthread-2.0.lib
     ${GTKMM_DIR}/lib/intl.lib
-    ${ICONV_LIBS}
     )
+
+    if (ICONV_LIBS)
+      SET(GTKMM_LIBS
+        ${GTKMM_DEBUG_LIBS}
+        ${ICONV_LIBS}
+      )
+      SET(GTKMM_DEBUG_LIBS
+        ${GTKMM_DEBUG_LIBS}
+        ${ICONV_LIBS}
+      )
+    endif (ICONV_LIBS)
 
     SET(HAVE_GTKMM 1)
   
