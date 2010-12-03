@@ -214,11 +214,11 @@ GUI::main()
   init_core();
   init_nls();
   init_platform();
-  init_session();
   init_debug();
   init_sound_player();
   init_multihead();
   init_dbus();
+  init_session();
   init_gui();
   
   on_timer();
