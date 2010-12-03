@@ -16,6 +16,7 @@ BUFFERED_PAINT_INIT PaintHelper::BufferedPaintInit = NULL;
 GET_BUFFERED_PAINT_BITS PaintHelper::GetBufferedPaintBits = NULL;
 
 bool PaintHelper::composition_enabled = false;
+bool PaintHelper::composition_available = false;
 
 PaintHelper::PaintHelper(HWND hwnd)
 : paint_buffer(NULL)
@@ -40,29 +41,27 @@ PaintHelper::BeginPaint()
 
 	if (hdc)
 	{
-		if (composition_enabled)
+		if (composition_enabled && composition_available)
 		{
 			RECT rc;
 			BP_PAINTPARAMS paint_params = {0};
 
-			GetClientRect(hwnd, &rc);
+			//GetClientRect(hwnd, &rc);
 
-			HBRUSH hbrush, hbrushOld;
-			POINT pt;
+			//HBRUSH hbrush, hbrushOld;
+			//POINT pt;
 
-            pt.x = rc.left;
-            pt.y  = rc.top;
-            ClientToScreen(hwnd, &pt);
+   //         pt.x = rc.left;
+   //         pt.y  = rc.top;
+   //         ClientToScreen(hwnd, &pt);
 
-            hbrush = CreateSolidBrush(0);
-            hbrushOld = (HBRUSH) SelectObject(hdc, hbrush);
+   //         hbrush = CreateSolidBrush(0);
+   //         hbrushOld = (HBRUSH) SelectObject(hdc, hbrush);
 
-            Rectangle(hdc, rc.left, rc.top, rc.right, rc.bottom);
+   //         Rectangle(hdc, rc.left, rc.top, rc.right, rc.bottom);
 
-            SelectObject(hdc, hbrushOld);
-            DeleteObject(hbrush);
-
-			//PatBlt(hdc, 0, 0, rc.right - rc.left, rc.bottom - rc.top, BLACKNESS);
+   //         SelectObject(hdc, hbrushOld);
+   //         DeleteObject(hbrush);
 
 			paint_params.dwFlags = BPPF_ERASE;
 			paint_params.cbSize = sizeof(paint_params);
@@ -109,8 +108,13 @@ PaintHelper::FixIconAlpha(HICON icon)
 	RGBQUAD *paint_bits;
 	Gdiplus::ARGB *paint_bits_argb;
 	int row_size;
+  HRESULT hr = (paint_buffer != NULL) ? S_OK : E_FAIL;
 
-	HRESULT hr = GetBufferedPaintBits(paint_buffer, &paint_bits, &row_size);
+  if (SUCCEEDED(hr))
+    {
+	    hr = GetBufferedPaintBits(paint_buffer, &paint_bits, &row_size);
+    }
+
 	if (SUCCEEDED(hr))
 	{
 		paint_bits_argb = (Gdiplus::ARGB *)paint_bits;
@@ -176,6 +180,7 @@ PaintHelper::FixIconAlpha(HICON icon)
 	TRACE_EXIT();
 }
 
+
 void
 PaintHelper::DrawIcon(int x, int y, HICON hIcon, int width, int height)
 {
@@ -191,6 +196,10 @@ PaintHelper::Init()
 {
 	TRACE_ENTER("PaintHelper::Init");
 	HINSTANCE handle = LoadLibrary("UxTheme.dll");
+
+  composition_available = false;
+	composition_enabled = false;
+
 	if (handle != NULL)
 	{
 		BeginBufferedPaint = (BEGIN_BUFFERED_PAINT)::GetProcAddress(handle, "BeginBufferedPaint");
@@ -199,9 +208,18 @@ PaintHelper::Init()
 		BufferedPaintUnInit = (BUFFERED_PAINT_UNINIT)::GetProcAddress(handle, "BufferedPaintUnInit");
 		BufferedPaintInit = (BUFFERED_PAINT_INIT)::GetProcAddress(handle, "BufferedPaintInit");
 		GetBufferedPaintBits = (GET_BUFFERED_PAINT_BITS)::GetProcAddress(handle,"GetBufferedPaintBits");
+
+    if (BeginBufferedPaint != NULL &&
+        EndBufferedPaint != NULL &&
+        BufferedPaintSetAlpha != NULL &&
+        BufferedPaintUnInit != NULL &&
+        BufferedPaintInit != NULL &&
+        GetBufferedPaintBits != NULL)
+      {
+          composition_available = true;
+      }
 	}
 
-	composition_enabled = false;
 	TRACE_EXIT();
 }
 

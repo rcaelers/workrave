@@ -58,6 +58,7 @@ private:
   bool alpha_set;
 
   static bool composition_enabled;
+  static bool composition_available;
 
 public:
   static BUFFERED_PAINT_UNINIT BufferedPaintUnInit;
