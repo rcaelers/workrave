@@ -31,7 +31,7 @@ Icon::Icon(HWND parent, HINSTANCE hinst, const char *resource, CDeskBand *deskba
   : deskband(deskband)
 {
   init(hinst);
-  icon = LoadIcon(hinst, resource);
+  icon = (HICON)LoadImage(hinst, resource,  IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
   hwnd = CreateWindowEx(0, ICON_CLASS_NAME, "",
       WS_CHILD | WS_CLIPSIBLINGS, 0, 0, 16, 16, parent, NULL, hinst, (LPVOID)this);
 
@@ -47,6 +47,8 @@ Icon::~Icon()
 LRESULT CALLBACK
 Icon::wnd_proc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
 {
+  TRACE_ENTER("Icon::WndProc");
+  LRESULT lResult = 0;
   Icon  *pThis = (Icon*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 
   switch (uMessage)
@@ -54,21 +56,36 @@ Icon::wnd_proc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
     case WM_NCCREATE:
       {
         LPCREATESTRUCT lpcs = (LPCREATESTRUCT)lParam;
-        pThis = (Icon *)( lpcs->lpCreateParams );
-        SetWindowLongPtr( hWnd, GWLP_USERDATA, (LONG_PTR)pThis );
-        SetWindowPos(hWnd, NULL, 0, 0, 0, 0, 
-            SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+        pThis = (Icon *)(lpcs->lpCreateParams);
+        SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)pThis);
+        SetWindowPos(hWnd, NULL, 0, 0, 0, 0,
+                     SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
       }
       break;
-    
+
     case WM_PAINT:
-      return pThis->on_paint();
+      pThis->on_paint();
+      break;
+
+    case WM_ERASEBKGND:
+      if (PaintHelper::GetCompositionEnabled())
+        {
+          lResult = 1;
+        }
+      break;
 
     case WM_LBUTTONUP:
       SendMessage(pThis->deskband->get_command_window(), WM_USER + 1, 0, NULL);
       break;
     }
-  return DefWindowProc(hWnd, uMessage, wParam, lParam);
+
+  if (uMessage != WM_ERASEBKGND)
+    {
+      lResult = DefWindowProc(hWnd, uMessage, wParam, lParam);
+    }
+
+  TRACE_EXIT();
+  return lResult;
 }
 
 void
@@ -82,11 +99,11 @@ LRESULT
 Icon::on_paint()
 {
   TRACE_ENTER("Icon::OnPaint");
-  
+
   HDC dc = paint_helper->BeginPaint();
   if (dc != NULL)
     {
-      DrawIconEx(dc, 0, 0, icon, 16, 16, 0, NULL, DI_NORMAL);
+      paint_helper->DrawIcon(0, 0, icon, 16, 16);
       paint_helper->EndPaint();
     }
   TRACE_EXIT();
@@ -114,4 +131,12 @@ Icon::init(HINSTANCE hinst)
 
       RegisterClass(&wc);
     }
+}
+
+void
+Icon::update()
+{
+  TRACE_ENTER("Icon::update");
+  InvalidateRect(hwnd, NULL, FALSE);
+  TRACE_EXIT();
 }

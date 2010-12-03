@@ -376,9 +376,7 @@ void
 TimeBar::update()
 {
   TRACE_ENTER("TimeBar::update");
-  //RedrawWindow(hwnd, NULL, NULL, RDW_INTERNALPAINT);
   InvalidateRect(hwnd, NULL, FALSE);
-
   TRACE_EXIT();
 }
 

@@ -1,6 +1,9 @@
 #include "PaintHelper.h"
 #include "Debug.h"
 
+#include <Uxtheme.h>
+#include <GdiPlus.h>
+
 #include <string>
 
 using namespace std;
@@ -10,19 +13,16 @@ END_BUFFERED_PAINT PaintHelper::EndBufferedPaint = NULL;
 BUFFERED_PAINT_SET_ALPHA PaintHelper::BufferedPaintSetAlpha = NULL;
 BUFFERED_PAINT_UNINIT PaintHelper::BufferedPaintUnInit = NULL;
 BUFFERED_PAINT_INIT PaintHelper::BufferedPaintInit = NULL;
-DRAW_THEME_PARENT_BACKGROUND PaintHelper::DrawThemeParentBackground = NULL;
-IS_THEME_ACTIVE PaintHelper::IsThemeActive = NULL;
-DWM_EXTEND_FRAME_INTO_CLIENT_AREA PaintHelper::DwmExtendFrameIntoClientArea = NULL;
-DWM_IS_COMPOSITION_ENABLED PaintHelper::DwmIsCompositionEnabled = NULL;
-DWM_ENABLE_COMPOSITION PaintHelper::DwmEnableComposition = NULL;
+GET_BUFFERED_PAINT_BITS PaintHelper::GetBufferedPaintBits = NULL;
 
-bool PaintHelper::comp_enabled = false;
+bool PaintHelper::composition_enabled = false;
 
 PaintHelper::PaintHelper(HWND hwnd)
+: paint_buffer(NULL)
 {
-    this->hwnd = hwnd; 
-    MARGINS m = { -1, -1, -1, -1 };
-    DwmExtendFrameIntoClientArea(hwnd, &m);
+	TRACE_ENTER_MSG("PaintHelper::PaintHelper", hwnd);
+	this->hwnd = hwnd;
+	TRACE_EXIT();
 }
 
 
@@ -31,85 +31,190 @@ PaintHelper::~PaintHelper()
 }
 
 
-HDC 
+HDC
 PaintHelper::BeginPaint()
 {
-  TRACE_ENTER("PaintHelper::BeginPaint");
-  hdc = ::BeginPaint(hwnd, &ps);
-  paint_hdc = hdc;
+	TRACE_ENTER("PaintHelper::BeginPaint");
+	hdc = ::BeginPaint(hwnd, &ps);
+	paint_hdc = hdc;
 
-  if (hdc)
-    {
-      TRACE_MSG("1");
-      RECT rc;
-      GetClientRect(hwnd, &rc);
+	if (hdc)
+	{
+		if (composition_enabled)
+		{
+			RECT rc;
+			BP_PAINTPARAMS paint_params = {0};
 
-      DrawThemeParentBackground(hwnd, hdc, &rc) ;
+			GetClientRect(hwnd, &rc);
 
-      if (comp_enabled)
-        {
-          TRACE_MSG("2");
+			HBRUSH hbrush, hbrushOld;
+			POINT pt;
 
-          BP_PAINTPARAMS paint_params = {0};
-          paint_params.cbSize = sizeof(paint_params);
-          paint_buffer = BeginBufferedPaint(hdc, &rc, BPBF_TOPDOWNDIB, &paint_params, &paint_hdc);
-        }
-    }
+            pt.x = rc.left;
+            pt.y  = rc.top;
+            ClientToScreen(hwnd, &pt);
 
-  TRACE_EXIT();
-  return paint_hdc;
+            hbrush = CreateSolidBrush(0);
+            hbrushOld = (HBRUSH) SelectObject(hdc, hbrush);
+
+            Rectangle(hdc, rc.left, rc.top, rc.right, rc.bottom);
+
+            SelectObject(hdc, hbrushOld);
+            DeleteObject(hbrush);
+
+			//PatBlt(hdc, 0, 0, rc.right - rc.left, rc.bottom - rc.top, BLACKNESS);
+
+			paint_params.dwFlags = BPPF_ERASE;
+			paint_params.cbSize = sizeof(paint_params);
+			paint_buffer = BeginBufferedPaint(hdc, &rc, BPBF_TOPDOWNDIB, &paint_params, &paint_hdc);
+			PatBlt(paint_hdc, 0, 0, rc.right - rc.left, rc.bottom - rc.top, BLACKNESS);
+			BufferedPaintSetAlpha(paint_buffer, 0, 255);
+			alpha_set = false;
+		}
+		else
+		{
+			paint_buffer = NULL;
+		}
+	}
+
+	TRACE_EXIT();
+	return paint_hdc;
 }
 
-void 
+void
 PaintHelper::EndPaint()
 {
-  TRACE_ENTER("PaintHelper::EndPaint");
+	TRACE_ENTER("PaintHelper::EndPaint");
 
-  if (comp_enabled)
-    {
-      TRACE_MSG("1");
-      BufferedPaintSetAlpha(paint_buffer, 0, 255);
-      EndBufferedPaint(paint_buffer, TRUE);
-    }
-  ::EndPaint(hwnd, &ps);
- 
-  TRACE_EXIT();
+	if (paint_buffer != NULL)
+	{
+		if (!alpha_set)
+		{
+			BufferedPaintSetAlpha(paint_buffer, 0, 255);
+		}
+		EndBufferedPaint(paint_buffer, TRUE);
+		paint_buffer = NULL;
+	}
+	::EndPaint(hwnd, &ps);
+
+	TRACE_EXIT();
 }
+
+
+void
+PaintHelper::FixIconAlpha(HICON icon)
+{
+	TRACE_ENTER("PaintHelper::FixIconAlpha");
+	ICONINFO icon_info;
+	RGBQUAD *paint_bits;
+	Gdiplus::ARGB *paint_bits_argb;
+	int row_size;
+
+	HRESULT hr = GetBufferedPaintBits(paint_buffer, &paint_bits, &row_size);
+	if (SUCCEEDED(hr))
+	{
+		paint_bits_argb = (Gdiplus::ARGB *)paint_bits;
+		if (!GetIconInfo(icon, &icon_info))
+		{
+			hr = E_FAIL;
+		}
+	}
+
+	if (SUCCEEDED(hr))
+	{
+		HDC hdc = GetDC(0);
+		BITMAPINFO bmi = { 0, };
+
+		bmi.bmiHeader.biSize = sizeof(bmi.bmiHeader);
+	
+		if (GetDIBits(hdc, icon_info.hbmColor, 0, 0, 0, &bmi, DIB_RGB_COLORS))
+		{
+			int icon_width = abs(bmi.bmiHeader.biWidth);
+			int icon_height = abs(bmi.bmiHeader.biHeight);
+
+			bmi.bmiHeader.biWidth = icon_width;
+			bmi.bmiHeader.biHeight = -icon_height;
+			bmi.bmiHeader.biCompression = BI_RGB;
+			bmi.bmiHeader.biBitCount = 32;
+			bmi.bmiHeader.biPlanes = 1;
+
+			int row_delta = row_size - bmi.bmiHeader.biWidth;
+			unsigned char *mask_data = (unsigned char*)malloc(icon_width * icon_height * 4);
+
+			if (GetDIBits(hdc, icon_info.hbmMask, 0, abs(bmi.bmiHeader.biHeight), mask_data, &bmi, DIB_RGB_COLORS))
+			{	
+				unsigned char *mask_ptr = mask_data;
+
+				for (int y = 0; y < icon_height; y++)
+				{
+					for (int x = 0; x < icon_width; x++)
+					{
+						if (mask_ptr[0])
+						{
+							*paint_bits_argb++ = 0x40000000;
+						}
+						else
+						{
+							*paint_bits_argb++ |= 0xff000000;
+						}
+						mask_ptr += 4;
+					}
+					paint_bits_argb += row_delta;
+				}
+
+				alpha_set = true;
+			}
+
+			free (mask_data);	
+		}
+
+		ReleaseDC(0, hdc);
+		DeleteObject(icon_info.hbmColor);
+		DeleteObject(icon_info.hbmMask);
+	}
+
+	TRACE_EXIT();
+}
+
+void
+PaintHelper::DrawIcon(int x, int y, HICON hIcon, int width, int height)
+{
+	TRACE_ENTER("PaintHelper::DrawIcon");
+	DrawIconEx(paint_hdc, x, y, hIcon, width, height, 0, NULL, DI_NORMAL);
+	FixIconAlpha(hIcon);
+	TRACE_EXIT();
+}
+
 
 void
 PaintHelper::Init()
 {
-  TRACE_ENTER("PaintHelper::Init");
-  HINSTANCE handle = LoadLibrary("UxTheme.dll");
-  if (handle != NULL)
-    {
-      BeginBufferedPaint = (BEGIN_BUFFERED_PAINT)::GetProcAddress(handle, "BeginBufferedPaint");
-      EndBufferedPaint = (END_BUFFERED_PAINT)::GetProcAddress(handle, "EndBufferedPaint");
-      BufferedPaintSetAlpha = (BUFFERED_PAINT_SET_ALPHA)::GetProcAddress(handle, "BufferedPaintSetAlpha");
-      BufferedPaintUnInit = (BUFFERED_PAINT_UNINIT)::GetProcAddress(handle, "BufferedPaintUnInit");
-      BufferedPaintInit = (BUFFERED_PAINT_INIT)::GetProcAddress(handle, "BufferedPaintInit");
+	TRACE_ENTER("PaintHelper::Init");
+	HINSTANCE handle = LoadLibrary("UxTheme.dll");
+	if (handle != NULL)
+	{
+		BeginBufferedPaint = (BEGIN_BUFFERED_PAINT)::GetProcAddress(handle, "BeginBufferedPaint");
+		EndBufferedPaint = (END_BUFFERED_PAINT)::GetProcAddress(handle, "EndBufferedPaint");
+		BufferedPaintSetAlpha = (BUFFERED_PAINT_SET_ALPHA)::GetProcAddress(handle, "BufferedPaintSetAlpha");
+		BufferedPaintUnInit = (BUFFERED_PAINT_UNINIT)::GetProcAddress(handle, "BufferedPaintUnInit");
+		BufferedPaintInit = (BUFFERED_PAINT_INIT)::GetProcAddress(handle, "BufferedPaintInit");
+		GetBufferedPaintBits = (GET_BUFFERED_PAINT_BITS)::GetProcAddress(handle,"GetBufferedPaintBits");
+	}
 
-      DrawThemeParentBackground = (DRAW_THEME_PARENT_BACKGROUND)::GetProcAddress(handle,"DrawThemeParentBackground");
-      IsThemeActive = (IS_THEME_ACTIVE)::GetProcAddress(handle,"IsThemeActive");
-    }
-
-  HINSTANCE dwm_handle = LoadLibrary("dwmapi.dll");
-  if (dwm_handle != NULL)
-    {
-      DwmExtendFrameIntoClientArea = (DWM_EXTEND_FRAME_INTO_CLIENT_AREA)::GetProcAddress(dwm_handle, "DwmExtendFrameIntoClientArea");
-      DwmIsCompositionEnabled = (DWM_IS_COMPOSITION_ENABLED)::GetProcAddress(dwm_handle, "DwmIsCompositionEnabled");
-      DwmEnableComposition = (DWM_ENABLE_COMPOSITION)::GetProcAddress(dwm_handle, "DwmEnableComposition");
-    }
-
-  comp_enabled = false;
-  TRACE_EXIT();
+	composition_enabled = false;
+	TRACE_EXIT();
 }
 
-void 
+void
 PaintHelper::SetCompositionEnabled(bool enabled)
 {
-  TRACE_ENTER_MSG("PaintHelper::SetCompositionEnabled", enabled);
-  comp_enabled = enabled;
-  TRACE_EXIT();
+	TRACE_ENTER_MSG("PaintHelper::SetCompositionEnabled", enabled);
+	composition_enabled = enabled;
+	TRACE_EXIT();
 }
 
+bool
+PaintHelper::GetCompositionEnabled()
+{
+	return composition_enabled;
+}

@@ -25,19 +25,12 @@
 #include <Uxtheme.h>
 #include <vssym32.h>
 
-typedef HRESULT (__stdcall *DWM_EXTEND_FRAME_INTO_CLIENT_AREA)(HWND ,const MARGINS* );
-typedef HRESULT (__stdcall *DWM_IS_COMPOSITION_ENABLED)(BOOL *pfEnabled);
-typedef HRESULT (__stdcall *DWM_ENABLE_COMPOSITION)(UINT uCompositionAction);
-
 typedef HRESULT (__stdcall *BUFFERED_PAINT_INIT)(VOID);
 typedef HRESULT (__stdcall *BUFFERED_PAINT_UNINIT)(VOID);
 typedef HPAINTBUFFER (__stdcall *BEGIN_BUFFERED_PAINT)(HDC hdcTarget, const RECT* prcTarget, BP_BUFFERFORMAT dwFormat, BP_PAINTPARAMS *pPaintParams,  HDC *phdc);
 typedef HRESULT (__stdcall *END_BUFFERED_PAINT)(HPAINTBUFFER hBufferedPaint, BOOL fUpdateTarget);
 typedef HRESULT (__stdcall *BUFFERED_PAINT_SET_ALPHA)(HPAINTBUFFER hBufferedPaint, const RECT *prc, BYTE alpha);
-typedef HRESULT (__stdcall *DRAW_THEME_PARENT_BACKGROUND)(HWND hwnd, HDC hdc, const RECT *prc);
-typedef BOOL (__stdcall *IS_THEME_ACTIVE)(void) ;
-typedef HRESULT (__stdcall *DRAW_THEME_PARENT_BACKGROUND)(HWND, HDC, const RECT *);
-
+typedef HRESULT (__stdcall *GET_BUFFERED_PAINT_BITS)(HPAINTBUFFER hBufferedPaint, RGBQUAD **ppbBuffer, int *pcxRow);
 
 class PaintHelper
 {
@@ -48,8 +41,13 @@ public:
   HDC BeginPaint();
   void EndPaint();
 
+  void DrawIcon(int x, int y, HICON icon, int width, int height);
+  void FixIconAlpha(HICON icon);
+
   static void SetCompositionEnabled(bool enabled);
+  static bool GetCompositionEnabled();
   static void Init();
+
 
 private:
   HPAINTBUFFER paint_buffer;
@@ -57,20 +55,17 @@ private:
   HWND hwnd;
   HDC hdc;
   HDC paint_hdc;
+  bool alpha_set;
 
-  static bool comp_enabled;
+  static bool composition_enabled;
 
+public:
   static BUFFERED_PAINT_UNINIT BufferedPaintUnInit;
   static BUFFERED_PAINT_INIT BufferedPaintInit;
   static BEGIN_BUFFERED_PAINT BeginBufferedPaint;
   static END_BUFFERED_PAINT EndBufferedPaint;
   static BUFFERED_PAINT_SET_ALPHA BufferedPaintSetAlpha;
-  static DRAW_THEME_PARENT_BACKGROUND DrawThemeParentBackground;
-  static IS_THEME_ACTIVE IsThemeActive;
-
-  static DWM_EXTEND_FRAME_INTO_CLIENT_AREA DwmExtendFrameIntoClientArea;
-  static DWM_IS_COMPOSITION_ENABLED DwmIsCompositionEnabled;
-  static DWM_ENABLE_COMPOSITION DwmEnableComposition;
+  static GET_BUFFERED_PAINT_BITS GetBufferedPaintBits;
 };
 
 #endif // PAINTHELPER_H

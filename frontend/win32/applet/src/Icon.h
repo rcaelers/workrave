@@ -34,6 +34,7 @@ public:
 
   HWND get_handle() const { return hwnd; };
   void get_size(int &w, int &h) const;
+  void update();
 
 private:
   CDeskBand *deskband;
