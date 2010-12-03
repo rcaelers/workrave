@@ -46,22 +46,7 @@ PaintHelper::BeginPaint()
 			RECT rc;
 			BP_PAINTPARAMS paint_params = {0};
 
-			//GetClientRect(hwnd, &rc);
-
-			//HBRUSH hbrush, hbrushOld;
-			//POINT pt;
-
-   //         pt.x = rc.left;
-   //         pt.y  = rc.top;
-   //         ClientToScreen(hwnd, &pt);
-
-   //         hbrush = CreateSolidBrush(0);
-   //         hbrushOld = (HBRUSH) SelectObject(hdc, hbrush);
-
-   //         Rectangle(hdc, rc.left, rc.top, rc.right, rc.bottom);
-
-   //         SelectObject(hdc, hbrushOld);
-   //         DeleteObject(hbrush);
+			GetClientRect(hwnd, &rc);
 
 			paint_params.dwFlags = BPPF_ERASE;
 			paint_params.cbSize = sizeof(paint_params);
