@@ -23,16 +23,17 @@ http://www.workrave.org
 
 ** Bug fixes:
 
-*** Fixed crash on non-Gnome systems.
+*** Fixed crash on Windows systems without audio installed.
 
-*** Fixed translucency of Deskband applet on Windows 7/Vista
+*** Fixed translucency of Deskband applet on Windows 7/Vista.
 
-*** Fixed Reading mode menu entry in Windows and Gnome applet
+*** Fixed Reading mode menu entry in Windows and Gnome applet.
 
 *** Networking now supports IPV6 addresses.
 
 *** Activity monitor should now filter out mouse jitter.
 
+*** Fixed monitoring of (Wacom) tablets.
 
 * Workrave 1.9.2
 
@@ -533,7 +534,7 @@ the last program exit.
 ----------------------------------------------------------------------
 Copyright information:
 
-Copyright (C) 2001-2007 Rob Caelers & Raymond Penners
+Copyright (C) 2001-2010 Rob Caelers & Raymond Penners
 
    Permission is granted to anyone to make or distribute verbatim copies
    of this document as received, in any medium, provided that the
