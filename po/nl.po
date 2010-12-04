@@ -1,5 +1,5 @@
 # Workrave 
-# Copyright (C) 2002, 2003, 2004, 2005, 2006, 2008 Rob Caelers & Raymond Penners
+# Copyright (C) 2002, 2003, 2004, 2005, 2006, 2008, 2010 Rob Caelers & Raymond Penners
 # Raymond Penners <raymond@dotsphinx.com>, 2002.
 #
 msgid ""
@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: workrave 1.8.0\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
 "POT-Creation-Date: 2010-08-31 21:40+0200\n"
-"PO-Revision-Date: 2008-07-03 21:25+0200\n"
+"PO-Revision-Date: 2010-12-04 12:45+0100\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language: \n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../backend/src/DistributionSocketLink.cc:129
-#, fuzzy, c-format
+#, c-format
 msgid "Reconnecting to %s."
 msgstr "Opnieuw aan het verbinden met cliënt %s."
 
@@ -31,25 +31,25 @@ msgstr "Netwerkfuncties uitgezet."
 
 #: ../backend/src/DistributionSocketLink.cc:546
 #: ../backend/src/DistributionSocketLink.cc:583
-#, fuzzy, c-format
+#, c-format
 msgid "Connecting to %s."
 msgstr "Aan het verbinden met %s."
 
 #: ../backend/src/DistributionSocketLink.cc:703
 #: ../backend/src/DistributionSocketLink.cc:729
-#, fuzzy, c-format
+#, c-format
 msgid "Removing client %s."
 msgstr "Cliënt %s verwijderd."
 
 #. Closing direct connection.
 #: ../backend/src/DistributionSocketLink.cc:768
-#, fuzzy, c-format
+#, c-format
 msgid "Disconnecting %s"
 msgstr "Verbinding verbroken met %s."
 
 #. It's a remote client. mark it master.
 #: ../backend/src/DistributionSocketLink.cc:937
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s is now master."
 msgstr "Cliënt %s is nu de leider."
 
@@ -61,7 +61,7 @@ msgstr "Ik ben nu de leider."
 #. gchar *name =
 #. int port =
 #: ../backend/src/DistributionSocketLink.cc:1275
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s saying hello."
 msgstr "Cliënt %s zegt hallo."
 
@@ -69,54 +69,54 @@ msgstr "Cliënt %s zegt hallo."
 #: ../backend/src/DistributionSocketLink.cc:1290
 #: ../backend/src/DistributionSocketLink.cc:1418
 #: ../backend/src/DistributionSocketLink.cc:1662
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s is duplicate."
 msgstr "Cliënt %s komt vaker voor."
 
 #. Incorrect password.
 #: ../backend/src/DistributionSocketLink.cc:1300
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s access denied."
 msgstr "Cliënt %s krijgt geen toegang."
 
 #: ../backend/src/DistributionSocketLink.cc:1369
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s signed off."
 msgstr "Cliënt %s heeft zich afgemeld."
 
 #. gint port =
 #: ../backend/src/DistributionSocketLink.cc:1457
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s is welcoming us."
 msgstr "Cliënt %s heet ons welkom."
 
 #: ../backend/src/DistributionSocketLink.cc:1698
-#, fuzzy, c-format
+#, c-format
 msgid "Requesting master status from %s."
 msgstr "Leiderschapsaanvraag ingediend bij %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1712
-#, fuzzy, c-format
+#, c-format
 msgid "Client timeout from %s."
 msgstr "Cliënt reageerde niet op tijd vanaf %s."
 
 #: ../backend/src/DistributionSocketLink.cc:1734
-#, fuzzy, c-format
+#, c-format
 msgid "Rejecting master request from client %s."
 msgstr "Verzoek tot leiderschap van cliënt %s gewijgerd."
 
 #: ../backend/src/DistributionSocketLink.cc:1740
-#, fuzzy, c-format
+#, c-format
 msgid "Acknowledging master request from client %s."
 msgstr "Leiderschapsoverdracht van cliënt %s bevestigd."
 
 #: ../backend/src/DistributionSocketLink.cc:1791
-#, fuzzy, c-format
+#, c-format
 msgid "Non-master client %s rejected master request."
 msgstr "Niet-leidende cliënt %s weigert leiderschapsverzoek."
 
 #: ../backend/src/DistributionSocketLink.cc:1796
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s rejected master request, delaying."
 msgstr "Cliënt %s weigerde leiderschapsverzoek, uitgesteld."
 
@@ -135,23 +135,23 @@ msgid "Accepted new client."
 msgstr "Nieuwe cliënt geaccepteerd."
 
 #: ../backend/src/DistributionSocketLink.cc:2089
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s read error, closing."
 msgstr "Leesfout van cliënt %s, verbinding gesloten."
 
 #: ../backend/src/DistributionSocketLink.cc:2095
 #: ../backend/src/DistributionSocketLink.cc:2168
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s closed connection."
 msgstr "Cliënt %s heeft de connectie gesloten."
 
 #: ../backend/src/DistributionSocketLink.cc:2136
-#, fuzzy, c-format
+#, c-format
 msgid "Client %s connected."
 msgstr "Cliënt %s heeft verbinding gemaakt."
 
 #: ../backend/src/DistributionSocketLink.cc:2174
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect to client %s."
 msgstr "Kon niet verbinden met cliënt %s."
 
@@ -274,17 +274,14 @@ msgid "Rest break"
 msgstr "Rustpauze"
 
 #: ../frontend/gtkmm/src/GUI.cc:1451 ../frontend/gtkmm/src/GUI.cc:1455
-#, fuzzy
 msgid "Mode: "
 msgstr "_Modus"
 
 #: ../frontend/gtkmm/src/GUI.cc:1451
-#, fuzzy
 msgid "Suspended"
 msgstr "_Uitgeschakeld"
 
 #: ../frontend/gtkmm/src/GUI.cc:1455
-#, fuzzy
 msgid "Quiet"
 msgstr "_Stil"
 
@@ -500,9 +497,8 @@ msgid "Sound:"
 msgstr "Geluid:"
 
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:357
-#, fuzzy
 msgid "Mute sounds during rest break and daily limit"
-msgstr "Plaats rustpauze en dagelijkse limiet op één plek"
+msgstr "Schakel geluid uit tijdens rustpauze en dagelijkse limiet"
 
 #. Sound themes
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:367
@@ -564,14 +560,12 @@ msgid "Rest break for %s"
 msgstr "Rustpauze gedurende %s"
 
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:218
-#, fuzzy
 msgid "Natural rest break"
 msgstr "Zelfstandig genomen pauzes"
 
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:219
-#, fuzzy
 msgid "This is your natural rest break."
-msgstr "Je bent toe aan een rustpauze..."
+msgstr "Dit is een zelfstandig genomen pauze..."
 
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:225
 msgid ""
@@ -766,7 +760,6 @@ msgid "Workrave Applet"
 msgstr "Workrave Applet"
 
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:93
-#, fuzzy
 msgid "Open"
 msgstr "_Open"
 
