@@ -141,7 +141,6 @@ private:
   void mouse_notify(int x, int y, int wheel = 0);
   void button_notify(bool is_press);
   void keyboard_notify(bool repeat);
-  void failure_notify(std::string details);
 
   bool load_current_day();
   void update_current_day(bool active);
