@@ -1,4 +1,4 @@
-Workrave NEWS -- history of user-visible changes.  29 Aug 2010
+Workrave NEWS -- history of user-visible changes.  11 Dec 2010
 Copyright (C) 2001-2010 Rob Caelers & Raymond Penners
 See the end for copying conditions.
 
@@ -19,8 +19,21 @@ http://www.workrave.org
    - Audio is now unmuted when the user becomes active after the break
      has ended instead of immediately after the break ended.
 
-** Fixed crash on non-Gnome systems.
-     
+** By default, the RECORD extention is now mandatory on X windows systems.
+
+** Bug fixes:
+
+*** Fixed crash on non-Gnome systems.
+
+*** Fixed translucency of Deskband applet on Windows 7/Vista
+
+*** Fixed Reading mode menu entry in Windows and Gnome applet
+
+*** Networking now supports IPV6 addresses.
+
+*** Activity monitor should now filter out mouse jitter.
+
+
 * Workrave 1.9.2
 
 ** Reading mode
