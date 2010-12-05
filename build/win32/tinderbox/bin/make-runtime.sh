@@ -38,6 +38,12 @@ copy_dir bin     gnet-2.0.dll                                   lib
 
 find $TARGETDIR -name "*.dll" -print | xargs $STRIP
 
+for lang in $ALL_LINGUAS; do
+    mkdir -p $TARGETDIR/lib/locale/$lang/LC_MESSAGES/
+    cp -a /usr/share/locale/$lang/LC_MESSAGES/iso_639.mo $TARGETDIR/lib/locale/$lang/LC_MESSAGES/
+    cp -a /usr/share/locale/$lang/LC_MESSAGES/iso_3166.mo $TARGETDIR/lib/locale/$lang/LC_MESSAGES/ 
+done
+
 ## Gtk runtime
 
 if [ -d $CROSSROOT/lib/gtk-2.0/2.4.0 ]; then
@@ -63,7 +69,9 @@ copy_dir  bin    libexpat-1.dll                       		lib
 copy_dir  bin    freetype6.dll                       		lib
 copy_dir  bin    libpng*.dll                         		lib
 copy_dir  bin    jpeg62.dll                         		lib
+copy_dir  bin    libjpeg-7.dll                         		lib
 copy_dir  bin    libtiff3.dll                         		lib
+copy_dir  bin    libtiff-3.dll                         		lib
 copy_dir  bin    libfontconfig-1.dll                   		lib
 copy_dir  bin    libatk-1.0-0.dll                   		lib
 copy_dir  bin    libgdk-win32-2.0-0.dll             		lib
@@ -92,10 +100,6 @@ for lang in $ALL_LINGUAS; do
 done
 for lang in $ALL_LINGUAS; do
     copy_dir share locale/$lang lib  
-done
-for lang in $ALL_LINGUAS; do
-    cp -a /usr/share/locale/$lang/LC_MESSAGES/iso_639.mo $TARGETDIR/lib/locale/$lang/LC_MESSAGES/
-    cp -a /usr/share/locale/$lang/LC_MESSAGES/iso_3166.mo $TARGETDIR/lib/locale/$lang/LC_MESSAGES/ 
 done
 
 TARGETDIR=$RUNTIMEDIR/runtime-wimp

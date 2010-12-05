@@ -13,7 +13,6 @@ WIN32_MAKERUNTIME=${TINDERBOX_HOME}/bin/make-runtime.sh
 WIN32_MINGW_ENV=${TINDERBOX_HOME}/bin/mingw32
 WIN32_ISCC=${HOME}/.wine/fake_windows/Program Files/Inno Setup 5/ISCC.exe
 WIN32_NMAKE=wine ${HOME}/.wine/fake_windows/Program\ Files/Microsoft\ Visual\ C++\ Toolkit\ 2003/bin/nmake.exe
-NM=i686-w64-mingw32-nm
 
 WORKRAVE_GIT_DIR=${TINDERBOX_HOME}/workrave
 CONF_FLAGS = --quiet
@@ -75,6 +74,7 @@ git-setup:
           git checkout ${WORKRAVE_GIT_BRANCH}; \
 	  git reset --hard HEAD; \
 	  git pull; )
+
 
 git-mkbranch:
 	( cd ${WORKRAVE_GIT_DIR}; \
@@ -194,12 +194,16 @@ upload-purge:
 		rm -rf $$i; \
 	done
 
-upload-sf:
-	( cd ${TINDERBOX_SNAPSHOTS_DIR} ; \
-          rsync -rv --delete --rsh="ssh -i/home/robc/.ssh/miss_workrave_id_dsa -l miss-workrave,workrave" . miss-workrave,workrave@shell.sourceforge.net:/home/users/m/mi/miss-workrave/public_html/download/snapshots )
+#upload-sf:
+#	( cd ${TINDERBOX_SNAPSHOTS_DIR} ; \
+#          rsync -rv --delete --rsh="ssh -i/home/robc/.ssh/miss_workrave_id_dsa -l miss-workrave,workrave" . miss-workrave,workrave@shell.sourceforge.net:/home/users/m/mi/miss-workrave/public_html/download/snapshots )
+#
+#shell-sf:
+#	ssh -i/home/robc/.ssh/miss_workrave_id_dsa -t miss-workrave,workrave@shell.sourceforge.net create < /dev/null
 
-shell-sf:
-	ssh -i/home/robc/.ssh/miss_workrave_id_dsa -t miss-workrave,workrave@shell.sourceforge.net create < /dev/null
+upload:
+	( cd ${TINDERBOX_SNAPSHOTS_DIR} ; \
+          rsync -rv --delete --rsh=ssh . workrave@liberator.krandor.org:/home/workrave/public_html )
 
 #	sitecopy --update snapshots
 	  
