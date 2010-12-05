@@ -1,6 +1,6 @@
 // debug.hh
 //
-// Copyright (C) 2001 - 2009 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2010 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@
 
 #include <assert.h>
 
-#ifdef NDEBUG
+#ifndef TRACING
 
 #define TRACE_ENTER(x)
 #define TRACE_ENTER_MSG(x,y)
@@ -71,6 +71,6 @@ public:
                           std::cerr << Debug::trace_get_time() << "    " << _trace_method_name << " " << msg  << std::endl; \
                           g_log_mutex.unlock();
 
-#endif // NDEBUG
+#endif // TRACING
 
 #endif // DEBUG_HH

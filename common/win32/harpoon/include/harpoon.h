@@ -1,7 +1,7 @@
 /*
  * harpoon.h
  *
- * Copyright (C) 2002, 2003, 2007 Raymond Penners <raymond@dotsphinx.com>
+ * Copyright (C) 2002, 2003, 2007, 2010 Raymond Penners <raymond@dotsphinx.com>
  * All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -133,18 +133,40 @@ HARPOON_API char *_mbstrncpy_lowercase( const char *, const char *, int );
 #define WM_XBUTTONUP 524
 #endif
 
+#ifndef WM_XBUTTONDBLCLK
 #define WM_XBUTTONDBLCLK 525
+#endif
+
+#ifndef WM_MOUSEHWHEEL
 #define WM_MOUSEHWHEEL 526
+#endif
 
+#ifndef WM_NCXBUTTONDOWN
 #define WM_NCXBUTTONDOWN 171
+#endif
+
+#ifndef WM_NCXBUTTONUP
 #define WM_NCXBUTTONUP 172
+#endif
+#ifndef WM_NCXBUTTONDBLCLK
 #define WM_NCXBUTTONDBLCLK 173
+#endif
 
+#ifndef WM_NCMOUSEHOVER
 #define WM_NCMOUSEHOVER 672
-#define WM_NCMOUSELEAVE 674
+#endif
 
+#ifndef WM_NCMOUSELEAVE
+#define WM_NCMOUSELEAVE 674
+#endif
+
+#ifndef WM_UNICHAR
 #define WM_UNICHAR 265
+#endif
+
+#ifndef WM_APPCOMMAND 
 #define WM_APPCOMMAND 793
+#endif
 
 #endif
 

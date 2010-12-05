@@ -23,6 +23,7 @@
 #include "TimeBar.h"
 #include "DeskBand.h"
 #include "Debug.h"
+#include "PaintHelper.h"
 
 const int BORDER_SIZE = 2;
 const int MARGINX = 4;
@@ -51,6 +52,7 @@ TimeBar::TimeBar(HWND parent, HINSTANCE hinst, CDeskBand *deskband)
   hwnd = CreateWindowEx(0, TIME_BAR_CLASS_NAME, "",
       WS_CHILD | WS_CLIPSIBLINGS, 0, 0, 56, 16, parent, NULL, hinst, (LPVOID)this );
 
+  paint_helper = new PaintHelper(hwnd);
   compute_size(width, height);
   SetWindowPos(hwnd, NULL, 0, 0, width, height, SWP_NOZORDER|SWP_NOMOVE|SWP_NOACTIVATE);
 }
@@ -134,11 +136,9 @@ LRESULT
 TimeBar::on_paint()
 {
   TRACE_ENTER("TimeBar::on_paint");
-  PAINTSTRUCT ps;
   RECT        rc;
 
-  BeginPaint(hwnd, &ps);
-  HDC dc = GetDC(hwnd);
+  HDC dc = paint_helper->BeginPaint();
 
   GetClientRect(hwnd, &rc);
 
@@ -149,7 +149,7 @@ TimeBar::on_paint()
   SelectObject(dc, (HGDIOBJ) bar_font);
   r.left = r.top = r.bottom = r.right = 0;
 
-  TRACE_MSG("1");
+  TRACE_MSG("1" << winx << " " << winy << " " << winw << " " << winh);
   // Bar
   int bar_width = 0;
   int border_size = BORDER_SIZE;
@@ -251,8 +251,7 @@ TimeBar::on_paint()
 
   TRACE_MSG("4");
 
-  ReleaseDC(hwnd, dc);
-  EndPaint(hwnd, &ps);
+  paint_helper->EndPaint();
 
   TRACE_EXIT();
   return 0;
@@ -377,7 +376,7 @@ void
 TimeBar::update()
 {
   TRACE_ENTER("TimeBar::update");
-  RedrawWindow(hwnd, NULL, NULL, RDW_INTERNALPAINT);
+  InvalidateRect(hwnd, NULL, FALSE);
   TRACE_EXIT();
 }
 

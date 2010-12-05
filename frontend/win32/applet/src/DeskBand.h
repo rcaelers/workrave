@@ -103,6 +103,7 @@ private:
   time_t m_LastCopyData;
   AppletMenuData m_AppletMenu;
   BOOL m_HasAppletMenu;
+  BOOL m_CompositionEnabled;
 
 private:
   void FocusChange(BOOL);

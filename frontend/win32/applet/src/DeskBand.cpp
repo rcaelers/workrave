@@ -26,6 +26,7 @@
 #include "Guid.h"
 #include "Applet.hh"
 #include "Debug.h"
+#include "PaintHelper.h"
 
 CDeskBand::CDeskBand()
 {
@@ -46,6 +47,7 @@ CDeskBand::CDeskBand()
 
 CDeskBand::~CDeskBand()
 {
+  TRACE_ENTER("CDeskBand::~CDeskBand");
   //this should have been freed in a call to SetSite(NULL), but just to be safe
   if (m_pSite)
     {
@@ -54,6 +56,8 @@ CDeskBand::~CDeskBand()
     }
 
   g_DllRefCount--;
+  TRACE_MSG(g_DllRefCount);
+  TRACE_EXIT();
 }
 
 STDMETHODIMP
@@ -336,13 +340,19 @@ CDeskBand::GetBandInfo(DWORD dwBandID, DWORD dwViewMode, DESKBANDINFO* pdbi)
 
       if (pdbi->dwMask & DBIM_TITLE)
         {
-          lstrcpyW(pdbi->wszTitle, L"Workrave");
+          if (dwViewMode & DBIF_VIEWMODE_FLOATING)
+            {
+              lstrcpyW(pdbi->wszTitle, L"Workrave");
+            }
+          else
+            {
+              pdbi->dwMask &= ~DBIM_TITLE;
+            }
         }
 
       if (pdbi->dwMask & DBIM_MODEFLAGS)
         {
           pdbi->dwModeFlags = DBIMF_NORMAL;
-
           pdbi->dwModeFlags |= DBIMF_VARIABLEHEIGHT;
         }
 
@@ -362,26 +372,36 @@ CDeskBand::GetBandInfo(DWORD dwBandID, DWORD dwViewMode, DESKBANDINFO* pdbi)
 STDMETHODIMP
 CDeskBand::CanRenderComposited(BOOL *pfCanRenderComposited)
 {
+  TRACE_ENTER("CDeskBand::CanRenderComposited");
+
   if (!pfCanRenderComposited)
     return E_INVALIDARG;
   
   *pfCanRenderComposited = TRUE;
+  TRACE_EXIT();
   return S_OK;
 }
 
 STDMETHODIMP
 CDeskBand::GetCompositionState( BOOL *pfCompositionEnabled )
 {
+  TRACE_ENTER("CDeskBand::GetCompositionState");
   if (!pfCompositionEnabled)
     return E_INVALIDARG;
   
-  *pfCompositionEnabled = TRUE;
+  *pfCompositionEnabled = m_CompositionEnabled;
+  TRACE_EXIT();
   return S_OK;
 }
 
 STDMETHODIMP
 CDeskBand::SetCompositionState( BOOL fCompositionEnabled )
 {
+  TRACE_ENTER_MSG("CDeskBand::SetCompositionState", fCompositionEnabled);
+  m_CompositionEnabled = fCompositionEnabled;
+
+  PaintHelper::SetCompositionEnabled(fCompositionEnabled != FALSE);
+  TRACE_EXIT();
   return S_OK;
 }
 
@@ -517,6 +537,8 @@ CDeskBand::GetCommandString(UINT_PTR idCommand,
 LRESULT CALLBACK
 CDeskBand::WndProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
 {
+  TRACE_ENTER("CDeskBand::WndProc");
+  LRESULT lResult = 0;
   CDeskBand  *pThis = (CDeskBand*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 
   switch (uMessage)
@@ -526,32 +548,46 @@ CDeskBand::WndProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
         LPCREATESTRUCT lpcs = (LPCREATESTRUCT)lParam;
         pThis = (CDeskBand *)( lpcs->lpCreateParams );
         SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)pThis);
-        SetWindowPos(hWnd, NULL, 0, 0, 0, 0, 
+        SetWindowPos(hWnd, NULL, 0, 0, 0, 0,
                      SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
 
         //set the window handle
         pThis->m_hWnd = hWnd;
         SetTimer(hWnd, 0xdeadf00d, 3000, NULL);
+        PaintHelper::Init();
       }
       break;
 
+    case WM_ERASEBKGND:
+	  if (pThis->m_CompositionEnabled)
+	  {
+		lResult = 1;
+	  }
+      break;
+
     case WM_COMMAND:
-      return pThis->OnCommand(wParam, lParam);
+      pThis->OnCommand(wParam, lParam);
+      break;
 
     case WM_TIMER:
-      return pThis->OnTimer(wParam, lParam);
+      pThis->OnTimer(wParam, lParam);
+      break;
 
     case WM_COPYDATA:
-      return pThis->OnCopyData((PCOPYDATASTRUCT) lParam);
+      pThis->OnCopyData((PCOPYDATASTRUCT) lParam);
+      break;
 
     case WM_SETFOCUS:
-      return pThis->OnSetFocus();
+      pThis->OnSetFocus();
+      break;
 
     case WM_KILLFOCUS:
-      return pThis->OnKillFocus();
+      pThis->OnKillFocus();
+      break;
 
     case WM_SIZE:
-      return pThis->OnSize(lParam);
+      pThis->OnSize(lParam);
+      break;
 
     case WM_WINDOWPOSCHANGING:
       pThis->OnWindowPosChanging(wParam, lParam);
@@ -562,7 +598,14 @@ CDeskBand::WndProc(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
                   WM_USER + 1, 0, NULL);
       break;
     }
-  return DefWindowProc(hWnd, uMessage, wParam, lParam);
+
+    if (uMessage != WM_ERASEBKGND)
+    {
+        lResult = DefWindowProc(hWnd, uMessage, wParam, lParam);
+    }
+
+    TRACE_EXIT();
+    return lResult;
 }
 
 LRESULT

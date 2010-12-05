@@ -88,7 +88,3 @@ In the ~/src/tinderbox directory, run 'make all'.
 
 Tinderbox will checkout the latest version from git, compile it and
 generate an installer.
-
-
-
-  

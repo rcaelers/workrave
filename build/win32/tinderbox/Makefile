@@ -48,7 +48,6 @@ unix2dos=perl -e 'while (<>) { s/$$/\r/; print; }'
 
 usage:
 	@echo Usage: "make all" to make all files from scratch
-	env
 
 all: setup git-setup workrave-win32-all
 
@@ -76,6 +75,7 @@ git-setup:
 	  git reset --hard HEAD; \
 	  git pull; )
 
+
 git-mkbranch:
 	( cd ${WORKRAVE_GIT_DIR}; \
 	git branch --track ${WORKRAVE_GIT_BRANCH} ${WORKRAVE_GIT_BRANCH_PREFIX}/${WORKRAVE_GIT_BRANCH}; )
@@ -101,8 +101,8 @@ workrave-win32-build-original=\
           ${WIN32_NMAKE} /f Applet.mak CFG="Applet - Win32 Release" ); \
 	( cd ${1}; \
 	  . ${WIN32_MINGW_ENV}; \
-	  ./autogencross.sh ${CONF_FLAGS} ${2} && make WINDRES=$$WINDRES ; \
-	   $$NM -nosC ${1}/frontend/gtkmm/src/workrave.exe >${1}/frontend/gtkmm/src/workrave.sym )
+	  ./autogencross.sh ${CONF_FLAGS} ${2} && make ; \
+	   $$TARGET-nm -nosC ${1}/frontend/gtkmm/src/workrave.exe >${1}/frontend/gtkmm/src/workrave.sym )
 
 workrave-win32-build=\
 	( cd ${1}/common/win32/harpoonHelper/src; \
@@ -118,13 +118,13 @@ workrave-win32-build=\
 	  cp -a ${TINDERBOX_HOME}/prebuilt/${3}64/workrave-applet.dll Release/workrave-applet64.dll ); \
 	( cd ${1}; \
 	  . ${WIN32_MINGW_ENV}; \
-	  ./autogencross.sh ${CONF_FLAGS} ${2} && make WINDRES=$$WINDRES ; \
+	  ./autogencross.sh ${CONF_FLAGS} ${2} && make ; \
 	  cp -a ${1}/frontend/gtkmm/src/.libs/workrave.exe ${1}/frontend/gtkmm/src; \
-	  $$NM -nosC ${1}/frontend/gtkmm/src/workrave.exe >${1}/frontend/gtkmm/src/workrave.sym )
+	  $$TARGET-nm -nosC ${1}/frontend/gtkmm/src/workrave.exe >${1}/frontend/gtkmm/src/workrave.sym )
 
 workrave-win32-strip=\
 	(  . ${WIN32_MINGW_ENV}; \
-	$$STRIP ${1}/frontend/gtkmm/src/workrave.exe )
+	$$TARGET-strip ${1}/frontend/gtkmm/src/workrave.exe )
 
 workrave-win32-setup=\
 	( cd ${1}/frontend/gtkmm/win32/setup/; \
@@ -194,12 +194,16 @@ upload-purge:
 		rm -rf $$i; \
 	done
 
-upload-sf:
-	( cd ${TINDERBOX_SNAPSHOTS_DIR} ; \
-          rsync -rv --delete --rsh="ssh -i/home/robc/.ssh/miss_workrave_id_dsa -l miss-workrave,workrave" . miss-workrave,workrave@shell.sourceforge.net:/home/users/m/mi/miss-workrave/public_html/download/snapshots )
+#upload-sf:
+#	( cd ${TINDERBOX_SNAPSHOTS_DIR} ; \
+#          rsync -rv --delete --rsh="ssh -i/home/robc/.ssh/miss_workrave_id_dsa -l miss-workrave,workrave" . miss-workrave,workrave@shell.sourceforge.net:/home/users/m/mi/miss-workrave/public_html/download/snapshots )
+#
+#shell-sf:
+#	ssh -i/home/robc/.ssh/miss_workrave_id_dsa -t miss-workrave,workrave@shell.sourceforge.net create < /dev/null
 
-shell-sf:
-	ssh -i/home/robc/.ssh/miss_workrave_id_dsa -t miss-workrave,workrave@shell.sourceforge.net create < /dev/null
+upload:
+	( cd ${TINDERBOX_SNAPSHOTS_DIR} ; \
+          rsync -rv --delete --rsh=ssh . workrave@liberator.krandor.org:/home/workrave/public_html )
 
 #	sitecopy --update snapshots
 	  

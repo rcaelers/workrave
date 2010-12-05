@@ -24,7 +24,7 @@ server_DATA     = $(server_in_files:.server.in=.server)
 
 INCLUDES 			= -I$(srcdir)
 
-FLAGS				= @GNOME_CFLAGS@  @DBUS_CFLAGS@ \
+FLAGS				= @GNOME_CFLAGS@ @DBUSGLIB_CFLAGS@ \
 				  @WR_FRONTEND_COMMON_INCLUDES@ @WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ \
 	  	  		  -DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 	  	  		  -DWORKRAVE_UIDATADIR="\"${uidir}\"" \
@@ -33,7 +33,7 @@ FLAGS				= @GNOME_CFLAGS@  @DBUS_CFLAGS@ \
 libexec_PROGRAMS 		= workrave-applet
 
 workrave_applet_SOURCES 	= WorkraveApplet.c
-workrave_applet_LDADD 		= @GNOME_LIBS@
+workrave_applet_LDADD 		= @GNOME_LIBS@ @DBUSGLIB_LIBS@
 workrave_applet_CXXFLAGS 	= ${FLAGS}
 workrave_applet_CFLAGS 		= ${FLAGS}
 

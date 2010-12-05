@@ -20,6 +20,8 @@
 #ifndef INPUTMONITORLISTENER_HH
 #define INPUTMONITORLISTENER_HH
 
+#include <string>
+
 //! Listener for events from the input monitor.
 class IInputMonitorListener
 {

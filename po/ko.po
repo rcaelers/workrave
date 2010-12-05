@@ -1,0 +1,779 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: workrave 1.9.2\n"
+"Report-Msgid-Bugs-To: i18n@workrave.org\n"
+"POT-Creation-Date: 2010-04-19 18:55+0200\n"
+"PO-Revision-Date: 2010-11-07 02:56+0900\n"
+"Last-Translator: softwant\n"
+"Language-Team: Korean <freeware@softwant.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Korean\n"
+"X-Poedit-Country: Korea\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+msgid "%s%d seconds"
+msgstr "%s%d 초"
+
+msgid "%s%d:%02d minutes"
+msgstr "%s%d 분 %02d 초"
+
+msgid "%s%d:%02d:%02d hours"
+msgstr "%s%d 시간 %02d 분 %02d 초"
+
+msgid "%s, from %s to %s"
+msgstr "%s,  %s 부터 %s 까지"
+
+msgid "(font not available)"
+msgstr "(글꼴을 사용할 수 없음)"
+
+msgid "About..."
+msgstr "제품정보..."
+
+msgid "Accepted new client."
+msgstr "새로운 클라언트 "
+
+msgid "Acknowledging master request from client %s."
+msgstr "고개 %s의 요청을 확인중입니다."
+
+msgid "Activity"
+msgstr "활동"
+
+msgid "Advanced"
+msgstr "고급설정"
+
+msgid "Allow incoming connections"
+msgstr "들어오는 연결 허용"
+
+msgid "Applet"
+msgstr "애플릿"
+
+msgid "Applet enabled"
+msgstr "애플릿 사용"
+
+msgid "Application does not accept documents on command line"
+msgstr "프로그램이 명령줄에서 문서를 접수하지 못하였습니다"
+
+msgid "Assists in the prevention and recovery of Repetitive Strain Injury (RSI)"
+msgstr "반복 긴장성 손상 증후군(RSI)을 방지하고 회복하는 데 도움을 줍니다"
+
+msgid "Backward shoulder stretch"
+msgstr "뒤쪽으로 어깨를 뻗습니다."
+
+msgid "Block input"
+msgstr "입력 차단"
+
+msgid "Block input and screen"
+msgstr "입력과 화면 차단"
+
+msgid "Block mode:"
+msgstr "차단 방식"
+
+msgid "Break duration:"
+msgstr "휴식 시간:"
+
+msgid "Break ignored"
+msgstr "무시된 휴식 "
+
+msgid "Break in %s"
+msgstr "%s 경과 후 휴식"
+
+msgid "Break prompt"
+msgstr "휴식 알림"
+
+msgid "Break prompting"
+msgstr "휴식 알림"
+
+msgid "Break prompts"
+msgstr "휴식 알림"
+
+msgid "Breaks"
+msgstr "휴식"
+
+msgid "Breaks postponed"
+msgstr "연기된 휴식"
+
+msgid "Breaks skipped"
+msgstr "건너뛴 휴식"
+
+msgid "Browse history"
+msgstr "탐색 기록"
+
+msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
+msgstr "문서 URL을 'Type=Link' desktop 엔트리로 넘길 수 없습니다."
+
+msgid "Choose a sound"
+msgstr "소리 선택"
+
+msgid "Client %s access denied."
+msgstr "클라이언트 %s의 접근이 차단됨"
+
+msgid "Client %s closed connection."
+msgstr "클라이언트 %s의 연결이 끊어짐"
+
+msgid "Client %s connected."
+msgstr "클라이언트 %s가 연결됨."
+
+msgid "Client %s is duplicate."
+msgstr "클라이언트 %s가 중복임"
+
+msgid "Client %s is now master."
+msgstr "클라이언트 %s는 현재 마스터임 "
+
+msgid "Client %s is now the new master."
+msgstr "클라이언트 %s는 현재 새로운 마스터임"
+
+msgid "Client %s is welcoming us."
+msgstr "클라이언트 %s가 우리를 환영하고 있습니다."
+
+msgid "Client %s read error, closing."
+msgstr "클라이언트 %s 읽기 오류, 닫는 중"
+
+msgid "Client %s rejected master request, delaying."
+msgstr "클라이언트 %s가 주인장 요청을 거부하였습니다, 거부중"
+
+msgid "Client %s saying hello."
+msgstr "클라이언트 %s 인사를 전합니다"
+
+msgid "Client %s signed off."
+msgstr "클라이언트 %s 탈퇴하였습니다"
+
+msgid "Client timeout from %s."
+msgstr "%s부터 클라이언트 종료"
+
+msgid "Connecting to %s."
+msgstr "%s에 연결 중"
+
+msgid "Could not connect to client %s."
+msgstr "클라이언트 %s에 연결할 수 없음 "
+
+msgid "Could not enable network operation."
+msgstr "네트워크 작업을 할 수 없음"
+
+msgid "Cover your eyes with your palms in such way that you can still open your eyelids. Now open your eyes and look into the darkness of your palms. This exercise gives better relief to your eyes compared to simply closing them."
+msgstr "손바닥으로 눈을 덮는 데, 눈꺼풀이 뜰 수 있는 정도로 말이죠. 이제 눈을 뜨고서 손바닥의 어둠을 응시합니다. 이런 훈련은 단순히 눈을 감는 것과 비교하여 여러분에게 보다 높은 안정감을 줍니다."
+
+msgid "Custom"
+msgstr "사용자 설정"
+
+msgid "Cycle time:"
+msgstr "시간 주기:"
+
+msgid "Daily limit"
+msgstr "일일 제한"
+
+msgid "Daily limit %s overdue"
+msgstr "일간 제한 %s를 넘어섬"
+
+msgid "Daily limit in %s"
+msgstr "%s으로 일간 제한"
+
+msgid "Daily limit:"
+msgstr "일간 제한:"
+
+msgid "Daily usage"
+msgstr "일일 사용량"
+
+msgid "Date:"
+msgstr "날짜:"
+
+msgid "Disable connection to session manager"
+msgstr "세션 관리자에 대한 연결을 사용중지합니다"
+
+msgid "Disabling network operation."
+msgstr "네트워크 작업을 사용중지 중."
+
+msgid "Disappears in %s"
+msgstr "%s 후에 사라짐"
+
+msgid "Disconnecting %s"
+msgstr "%s 연결을 끊는 중"
+
+msgid "Display"
+msgstr "표시"
+
+msgid "Effective mouse movement:"
+msgstr "의미있는 마우스 움직임:"
+
+msgid "Enable networking"
+msgstr "네트워킹 사용"
+
+msgid "Enable timer"
+msgstr "시간 조절기 사용"
+
+msgid "End exercises"
+msgstr "운동 종료"
+
+msgid ""
+"Enter the host name and port number of a computer\n"
+"in the network you wish to connect to."
+msgstr ""
+"연결하고자 하는 네트워크에 있는\n"
+"컴퓨터의 호스트명과 포트 숫자를 입력하세요."
+
+msgid "Event"
+msgstr "활동"
+
+msgid "Exercise change"
+msgstr "운동 바꾸기"
+
+msgid "Exercise ended"
+msgstr "운동 종료됨"
+
+msgid "Exercises"
+msgstr "운동"
+
+msgid "Exercises ended"
+msgstr "운동이 종료됨"
+
+msgid "Exercises player"
+msgstr "운동 연습자"
+
+msgid "FILE"
+msgstr "파일"
+
+msgid "File is not a valid .desktop file"
+msgstr "파일은 유효한 .데스크탑 파일이 아닙니다"
+
+msgid "Finger stretch"
+msgstr "손가락을 뻗습니다"
+
+msgid "General"
+msgstr "일반"
+
+msgid "Hide"
+msgstr "숨기기"
+
+msgid "Host name"
+msgstr "호스트명"
+
+msgid "Host name:"
+msgstr "호스트명:"
+
+msgid "Hosts"
+msgstr "호스트"
+
+msgid "I'm now master."
+msgstr "내가 주인장."
+
+msgid "ID"
+msgstr "ID"
+
+msgid "Interlace your fingers behind your back. Then turn your elbows gently inward, while straightening your arms. Hold this position for 5 to 15 seconds, and repeat this exercise twice."
+msgstr "손가락을 등 뒤로 꼽니다. 그리고나서 팔꿈치를 부드럽게 안쪽으로 돌리고, 그러면서 팔을 뻗습니다. 이 동작을 5-15초 동안 유지하고, 이 운동을 두번 반복합니다."
+
+msgid "Keep one arm horizontally stretched in front of your chest. Push this arm with your other arm towards you until you feel a mild tension in your shoulder. Hold this position briefly, and repeat the exercise for your other arm."
+msgstr "가슴 앞으로 한 팔을 수평으로 뻗은 상태에서 다른 쪽 팔을 여러분 쪽으로 밀는 데, 어깨에 약간의 긴장을 느낄 정도까지 합니다. 이 동작은 짦게 하면서, 교대로 운동을 합니다."
+
+msgid "Keystrokes:"
+msgstr "키입력:"
+
+msgid "Language:"
+msgstr "언어:"
+
+msgid "Lock"
+msgstr "잠금"
+
+msgid "Look at the upper left corner of the outside border of your monitor. Follow the border slowly to the upper right corner. Continue to the next corner, until you got around it two times. Then, reverse the exercise."
+msgstr "모니터 바깥 왼쪽 상단 구석을 바라봅니다. 바깥을 따라서 느리게 위로하여 오른쪽 구석으로 이동합니다. 다음 구석까지 계속하여, 2바뀌 돌 때까지 합니다. 그리고 반대로 운동합니다."
+
+msgid "Look for the furthest point you can see behind your monitor. Focus your eyes on the remote point. Then focus on your monitor border. Repeat it. If you can't look very far from your monitor, face another direction with a longer view. Then switch your focus between a distant object and a pen held at the same distance from your eyes as your monitor."
+msgstr "모니터에서 가능한 먼 곳을 찾습니다. 눈을 먼 곳에 집중합니다. 그리고 모니터 바깥 쪽에 응시합니다. 이것을 반복합니다. 모니터 먼 곳을 볼 수 없다면 먼 곳을 볼 수 있는 곳을 찾습니다. 그리고 모니터에서 가까운 곳과 먼 사물 사이의 바꾸어 가며 응시합니다."
+
+msgid "Look into the darkness"
+msgstr "어둠 속을 바라 봅니다."
+
+msgid "Maximum number of prompts:"
+msgstr "최대 알림 수:"
+
+msgid "Micro-break"
+msgstr "잠깐 휴식"
+
+msgid "Micro-break ended"
+msgstr "잠깐의 휴식이 끝남"
+
+msgid "Micro-break started"
+msgstr "잠깐 휴식 시작됨"
+
+msgid "Micro-break:"
+msgstr "잠깐 휴식:"
+
+msgid "Mode: "
+msgstr "작업 방식: "
+
+msgid "Mouse button clicks:"
+msgstr "마우스 버튼 누름:"
+
+msgid "Mouse movement:"
+msgstr "마우스 동작:"
+
+msgid "Mouse usage:"
+msgstr "마우스 사용량:"
+
+msgid "Move the eyes"
+msgstr "눈을 움직입니다."
+
+msgid "Move the shoulders"
+msgstr "어깨를 움직입니다"
+
+msgid "Move the shoulders up and down"
+msgstr "어깨를 위 아래로 움직입니다"
+
+msgid "Mute sounds during rest break and daily limit"
+msgstr "정규 휴식과 일일 제한 동안에는 소리 죽이기"
+
+msgid "Natural breaks taken"
+msgstr "자연스럽게 취한 휴식"
+
+msgid "Natural rest break"
+msgstr "자연스런 휴식"
+
+msgid "Neck tilt stretch"
+msgstr "목을 기울여 뻗어줍니다"
+
+msgid "Network"
+msgstr "네트워크"
+
+msgid "Network connect"
+msgstr "네트워크 연결"
+
+msgid "Network log"
+msgstr "네트워크 기록"
+
+msgid "Network operation started."
+msgstr "네트워크 작업이 시작됨"
+
+msgid "Next exercise"
+msgstr "다음 운동"
+
+msgid "Next rest break in %s"
+msgstr "다음 휴식은 %s 후입니다"
+
+msgid "No blocking"
+msgstr "차단하지 않음"
+
+msgid "No sounds"
+msgstr "소리사용 안함"
+
+msgid "Non-master client %s rejected master request."
+msgstr "주인장이 아닌 클라이언트 %s가 아니면 주인장 요청을 거부하였슴"
+
+msgid "Not a launchable item"
+msgstr "실행할 수 있는 항목이 아님"
+
+msgid "Number of exercises:"
+msgstr "운동 횟수:"
+
+msgid "Options"
+msgstr "선택사항"
+
+msgid "Orientation"
+msgstr "방향"
+
+msgid "Overdue time"
+msgstr "경과된 시간"
+
+msgid "Password:"
+msgstr "비밀번호:"
+
+msgid "Pause"
+msgstr "잠시 대기"
+
+msgid "Pause exercises"
+msgstr "운동 잠시 중지"
+
+msgid "Place all timers in one spot"
+msgstr "모든 시간 조절기를 한 곳에  둠"
+
+msgid "Place micro-break and rest break in one spot"
+msgstr "잠깐 휴식과 정규 휴식을 한 곳에 둠"
+
+msgid "Place rest break and daily limit in one spot"
+msgstr "정규 휴식과 일일 제한은 한 곳에 둠"
+
+msgid "Place timers next to each other"
+msgstr "시간 조절(기)를 서로 옆에 둠"
+
+msgid "Placement:"
+msgstr "위치 :"
+
+msgid "Play"
+msgstr "재생"
+
+msgid "Play sounds using built-in speaker"
+msgstr "내장 스피커를 사용하여 소리 재생"
+
+msgid "Play sounds using sound card"
+msgstr "사운드카드를 사용하여 소리 재생"
+
+msgid "Please relax for a few seconds"
+msgstr "잠시동안 긴장을 푸세요."
+
+msgid "Port"
+msgstr "포트"
+
+msgid "Port:"
+msgstr "포트:"
+
+msgid "Postpone"
+msgstr "연기시킴"
+
+msgid "Postpone time:"
+msgstr "연기 시간:"
+
+msgid "Preferences"
+msgstr "환경설정"
+
+msgid "Previous exercise"
+msgstr "이전 운동"
+
+msgid "Prompt before breaking"
+msgstr "휴식 전 알림"
+
+msgid "Prompted breaks taken"
+msgstr "알림으로 취한 휴식"
+
+msgid "Put your hands on the armrests of your chair when you are sitting down and press your body up until your arms are straight. Try to move your head even further by lowering your shoulders. Slowly move back into your chair."
+msgstr "앉아서 의자 팔거리에 손을 높고서 팔을 주욱 펴서 몸을 위로 올립니다. 어깨를 낮추어서 머리가 보다 위로 가게 합니다. 느리게 의자로 돌아옵니다."
+
+msgid "Q_uiet"
+msgstr "조~용(_u)"
+
+msgid "Quiet"
+msgstr "조용"
+
+msgid "Reading mode"
+msgstr "읽기방식"
+
+msgid "Reconnect attempts:"
+msgstr "다시 연결 시도:"
+
+msgid "Reconnect interval:"
+msgstr "다시 연결 간격:"
+
+msgid "Reconnecting to %s."
+msgstr "%에 대한 다시 연결 중"
+
+msgid "Regard micro-breaks as activity"
+msgstr "잠깐 휴식을 활동으로 간주"
+
+msgid "Rejecting master request from client %s."
+msgstr "클라이언트 %s로 부터 주인장 요청 거부"
+
+msgid "Removing client %s."
+msgstr "클라이언트 %s를 제거 중"
+
+msgid "Repeated prompts"
+msgstr "반복된 알림"
+
+msgid "Requesting master status from %s."
+msgstr "%s로 부터 주인장 상태 요청 중."
+
+msgid "Rest break"
+msgstr "정규 휴식"
+
+msgid "Rest break %s overdue"
+msgstr "%s 초과 휴식"
+
+msgid "Rest break ended"
+msgstr "정규 휴식 끝남"
+
+msgid "Rest break for %s"
+msgstr "%s 동안 휴식"
+
+msgid "Rest break started"
+msgstr "휴식 시작됨"
+
+msgid "Rest break:"
+msgstr "휴식:"
+
+msgid "Resume"
+msgstr "다시 시작"
+
+msgid "Resume exercises"
+msgstr "운동 다시 시작"
+
+msgid "Separate and stretch your fingers until a mild tension is felt, and hold this for 10 seconds. Relax, then bend your fingers at the knuckles, and hold again for 10 seconds. Repeat this exercise once more."
+msgstr "약간의 긴장이 느껴질 때까지 손가락을 펼칩니다. 그리고 10초 동안 유지합니다. 긴장을 풀고서, 손가락을 구부리고 다시 10 초 동안 누르고 있습니다. 이 운동을 한번 더 반복합니다."
+
+msgid "Server port:"
+msgstr "서버 포트:"
+
+msgid "Server settings"
+msgstr "서버 설정"
+
+msgid "Session management options:"
+msgstr "세션 관리 선택사항:"
+
+msgid "Shoulder-arm stretch"
+msgstr "어깨-팔 펴기"
+
+msgid "Show"
+msgstr "보이기"
+
+msgid "Show 'Postpone' and 'Skip' button"
+msgstr "'연기시킴'과 '건너뛰기' 버튼 보이기"
+
+msgid "Show _log"
+msgstr "로그표시(_l)"
+
+msgid "Show only when this timer is first due"
+msgstr "시간조절(기)가 처음 설정된 때만 표시"
+
+msgid "Show session management options"
+msgstr "세션 관리 선택사항 표시"
+
+msgid "Show status window"
+msgstr "상태 창에 표시"
+
+msgid "Show system tray icon"
+msgstr "시계표시줄에 아이콘 표시"
+
+msgid "Shut down"
+msgstr "종료"
+
+msgid "Silent in %s"
+msgstr "%s 경과 후 잠잠잠"
+
+msgid "Skip"
+msgstr "건너뛰기"
+
+msgid "Sound Events"
+msgstr "소리 효과"
+
+msgid "Sound Options"
+msgstr "소리 선택사항"
+
+msgid "Sound Theme:"
+msgstr "소리 테마:"
+
+msgid "Sound:"
+msgstr "소리:"
+
+msgid "Sounds"
+msgstr "소리"
+
+msgid "Specify file containing saved configuration"
+msgstr "저장된 환경설장 파일 지정"
+
+msgid "Specify session management ID"
+msgstr "세션 관리 ID 지정"
+
+msgid "Spin your right arm slowly round like a plane propeller beside your body. Do this 4 times forwards, 4 times backwards and relax for a few seconds. Repeat with the left arm."
+msgstr "오른쪽 팔을 느리게 몸의 옆으로 비행기 프로펠러처럼 돌립니다. 이것을 앞 쪽으로 4회 하고, 뒤쪽으로 4회 합니다. 그리고 잠깐 긴장을 풀고. 왼쪽 팔로 반복합니다."
+
+msgid "Start Workrave on Windows startup"
+msgstr "윈도우즈 시작시 Workrave 시작"
+
+msgid "Start with your head in a comfortable straight position. Then, slowly tilt your head to your right shoulder to gently stretch the muscles on the left side of your neck. Hold this position for 5 seconds. Then, tilt your head to the left side to stretch your other side. Do this twice for each side."
+msgstr "머리를 편안한 방향으로 뻗습니다.  그리고 느리게 머리를 오른쪽 어깨 쪽으로 기울여 목의 왼쪽 근육을 부드럽게 뻗을 수 있게 합니다. 이 동작을 5초 동안 유지합니다. 그리고, 머리를 왼쪽으로 기울여 반대쪽으로 뻗습니다. 이 동작을 각각 2번 합니다."
+
+msgid "Starting %s"
+msgstr "%s 시작 중"
+
+msgid "Statistics"
+msgstr "통계"
+
+msgid "Status Window"
+msgstr "상태 창"
+
+msgid "Suspend timer when inactive"
+msgstr "사용 안할 땐 시간조절(기) 일시중지"
+
+msgid "Suspended"
+msgstr "일시중지"
+
+msgid "System default"
+msgstr "시스템 설정 사용"
+
+msgid "Take rest break now"
+msgstr "지금 휴식 취하기"
+
+msgid ""
+"The following list specifies the hosts that Workrave connects to on\n"
+"start-up. Click the host name or port number to edit."
+msgstr ""
+"다음 목록은 Workrave가 다음 시 시작시 연결하려는 호스트를 지정합니다.\n"
+"편집할 호스트 명과 포트 숫자를 누릅니다."
+
+msgid "The number of breaks you postponed"
+msgstr "연기한 휴식 횟수"
+
+msgid "The number of breaks you skipped"
+msgstr "건너뛴 휴식 횟수"
+
+msgid "The number of times you took a break when being prompted"
+msgstr "알림을 받았을 때 취한 휴식 횟수"
+
+msgid "The number of times you took a break without being prompted"
+msgstr "알림없이 취한 휴식횟수"
+
+msgid "The number of times you were prompted to break, excluding repeated prompts for the same break"
+msgstr "동일한 휴식에 대해 반복된 알림을 제외한, 휴식을 알린 횟수"
+
+msgid "The number of times you were repeatedly prompted to break"
+msgstr "반복적으로 휴식을 알린 횟수"
+
+msgid "The orientation of the tray"
+msgstr "시계표시줄의 방향"
+
+msgid "The status window stays always on top of other windows"
+msgstr "상태 창은 다른 창 위에 항상 표시함"
+
+msgid "The total computer usage"
+msgstr "총 컴퓨터 사용량"
+
+msgid "The total mouse movement you would have had if you moved your mouse in straight lines between clicks"
+msgstr "누름 사이에 직선으로 마우스를 움직인 경우 전체 마우스 움직임"
+
+msgid "The total number of keys pressed"
+msgstr "키를 누른 총 횟수"
+
+msgid "The total number of mouse button clicks"
+msgstr "마우스 버튼을 누른 총 횟수"
+
+msgid "The total on-screen mouse movement"
+msgstr "화면상에서 마우스 움직임 횟수"
+
+msgid "The total time this break was overdue"
+msgstr "이번 휴식이 경과된 총 시간"
+
+msgid "The total time you were using the mouse"
+msgstr "마우스를 사용한 총 시간"
+
+msgid "This is your natural rest break."
+msgstr "이것은 여러분이 선택한 휴식입니다."
+
+msgid ""
+"This is your rest break. Make sure you stand up and\n"
+"walk away from your computer on a regular basis. Just\n"
+"walk around for a few minutes, stretch, and relax."
+msgstr ""
+"휴식시간입니다. 규칙적으로 일어나서 컴퓨터에서\n"
+"떨어지세요. 몇 분이라도 주변을 걷고, 몸을 뻗어서\n"
+"긴장을 푸세요."
+
+msgid "This program assists in the prevention and recovery of Repetitive Strain Injury (RSI)."
+msgstr "이 프로그램은 반복 긴장성 손상 증후군(RSI)을 방지하고 회복하는 데 도움을 제공합니다."
+
+msgid "Time before end:"
+msgstr "전에 :"
+
+msgid "Time between breaks:"
+msgstr "휴식 간 시간:"
+
+msgid "Time for a micro-break?"
+msgstr "잠깐의 휴식 어때요 ?"
+
+msgid "Timers"
+msgstr "시간 조절(기)"
+
+msgid "Train focusing the eyes"
+msgstr "눈 응시 훈련"
+
+msgid "Turn your head"
+msgstr "머리를 돌립니다"
+
+msgid "Turn your head left and keep it there for 2 seconds. Then turn your head right and keep it there for 2 seconds."
+msgstr "머리를 왼쪽으로 돌려서 2초 동안 그대로 유지합니다. 그리고 오른쪽으로 돌려서 2초 동안 유지합니다."
+
+msgid "Unrecognized desktop file Version '%s'"
+msgstr "미확인 데스크탑 파일 버전 '%s'"
+
+msgid "Unrecognized launch option: %d"
+msgstr "미확인 실행 선택사항 : %d"
+
+msgid "User interface"
+msgstr "사용자 화면"
+
+msgid "Username:"
+msgstr "사용자명:"
+
+msgid "Volume:"
+msgstr "소리 크기:"
+
+msgid "Wait"
+msgstr "기다려"
+
+msgid "Wavefiles"
+msgstr "Wav 파일"
+
+msgid "Workrave"
+msgstr "Workrave"
+
+msgid "Workrave Applet"
+msgstr "Workrave 애플릿"
+
+msgid ""
+"You have reached your daily limit. Please stop working\n"
+"behind the computer. If your working day is not over yet,\n"
+"find something else to do, such as reviewing a document."
+msgstr ""
+"일일 제한에 도달하였습니다. 컴퓨터를 뒤로 하고\n"
+"작업을 중단해주세요. 작업시간은 아직 끝나지 않았지만\n"
+"다른 일을 찾아보세요. 예를 들어, 문서 검토같은..."
+
+msgid "You need a rest break..."
+msgstr "휴식이 필요해요..."
+
+msgid "You should stop for today..."
+msgstr "오늘은 그만해야 해요..."
+
+msgid "_About..."
+msgstr "정보(_A)..."
+
+msgid "_Connect"
+msgstr "연결(_C)"
+
+msgid "_Connect..."
+msgstr "연결(_C)..."
+
+msgid "_Disconnect"
+msgstr "끊기(_D)"
+
+msgid "_Exercises"
+msgstr "운동(_E)"
+
+msgid "_Mode"
+msgstr "작업방식(_M)"
+
+msgid "_Network"
+msgstr "네트워크(_N)"
+
+msgid "_Normal"
+msgstr "보통(_N)"
+
+msgid "_Open"
+msgstr "열기(_O)"
+
+msgid "_Preferences"
+msgstr "환경설정(_P)"
+
+msgid "_Quiet"
+msgstr "조용(_Q)"
+
+msgid "_Quit"
+msgstr "끝내기(_Q)"
+
+msgid "_Reading mode"
+msgstr "읽기방식(_R)"
+
+msgid "_Reconnect"
+msgstr "다시 연결(_R)"
+
+msgid "_Rest break"
+msgstr "휴식 취하기(_R)"
+
+msgid "_Restbreak"
+msgstr "휴식(_R)"
+
+msgid "_Show Log..."
+msgstr "기록 표시(_S)..."
+
+msgid "_Statistics"
+msgstr "통계(_S)"
+
+msgid "_Suspended"
+msgstr "일시중지(_S)"
+

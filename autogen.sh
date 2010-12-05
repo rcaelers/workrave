@@ -186,7 +186,7 @@ autoconf --force || {
     exit 1
 }
 
-conf_flags="--enable-maintainer-mode --enable-compile-warnings --enable-debug --enable-gnome --enable-distribution --enable-exercises --enable-dbus --enable-tests --enable-manual"
+conf_flags="--enable-maintainer-mode --enable-compile-warnings --enable-debug --enable-gnome --enable-distribution --enable-exercises --enable-dbus --enable-tests"
  
 if test x$NOCONFIGURE = x; then
     

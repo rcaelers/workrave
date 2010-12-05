@@ -1,4 +1,4 @@
-Workrave NEWS -- history of user-visible changes.  29 Aug 2010
+Workrave NEWS -- history of user-visible changes.  11 Dec 2010
 Copyright (C) 2001-2010 Rob Caelers & Raymond Penners
 See the end for copying conditions.
 
@@ -9,6 +9,8 @@ http://www.workrave.org
 
 ** Seanán Ó Coistín translated Workrave into Irish.
 
+** 김재용 translated Workrave into Korean.
+
 ** Workrave now stops all timers when the screen is locked. When the
    screen in unlocked, a natural restbreak is started.
 
@@ -16,7 +18,23 @@ http://www.workrave.org
    - Audio is now muted after the start break sound is played.
    - Audio is now unmuted when the user becomes active after the break
      has ended instead of immediately after the break ended.
-     
+
+** By default, the RECORD extention is now mandatory on X windows systems.
+
+** Bug fixes:
+
+*** Fixed crash on Windows systems without audio installed.
+
+*** Fixed translucency of Deskband applet on Windows 7/Vista.
+
+*** Fixed Reading mode menu entry in Windows and Gnome applet.
+
+*** Networking now supports IPV6 addresses.
+
+*** Activity monitor should now filter out mouse jitter.
+
+*** Fixed monitoring of (Wacom) tablets.
+
 * Workrave 1.9.2
 
 ** Reading mode
@@ -516,7 +534,7 @@ the last program exit.
 ----------------------------------------------------------------------
 Copyright information:
 
-Copyright (C) 2001-2007 Rob Caelers & Raymond Penners
+Copyright (C) 2001-2010 Rob Caelers & Raymond Penners
 
    Permission is granted to anyone to make or distribute verbatim copies
    of this document as received, in any medium, provided that the

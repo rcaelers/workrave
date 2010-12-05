@@ -158,10 +158,11 @@ CLEANFILES = org.workrave.Workrave.service
 
 dbussources=DBusGUI.cc
 
-if PLATFORM_OS_UNIX
-extrasources +=		eggsmclient-dbus.c
-eggcflags += -DEGG_SM_CLIENT_BACKEND_DBUS
-endif
+# broken: 
+# if PLATFORM_OS_UNIX
+# extrasources +=		eggsmclient-dbus.c
+# eggcflags += -DEGG_SM_CLIENT_BACKEND_DBUS
+# endif
 
 DBusGUI.cc: 		workrave-gui.xml \
 			$(top_srcdir)/common/bin/dbusgen.py \
@@ -241,21 +242,6 @@ workrave_SOURCES = \
 			$(extrasources)
 
 
-##.PHONY: version.h
-##version.h: 
-##			echo "#ifndef WORKRAVE_VERSION_H" > version.h
-##			echo "#define WORKRAVE_VERSION_H" >> version.h
-##			if [ -e ".svn" ] ; then 											\
-##				PACKAGE_VERSION=`grep PACKAGE_VERSION ../../../config.h | cut -d' ' -f 3 | sed "s/\"//g"`;		\
-##				PACKAGE_SVN_VERION=`svn info . | grep Revision: | sed -e 's/Revision: \([0-9]*\)/\1/'` ;		\
-##				echo "#define WORKRAVE_VERSION_STR \"$$PACKAGE_VERSION (build-$$PACKAGE_SVN_VERION)\"" >> version.h;    \
-##			else 														\
-##				PACKAGE_VERSION=`grep PACKAGE_VERSION ../../../config.h | cut -d' ' -f 3 | sed "s/\"//g"`;		\
-##				echo "#define WORKRAVE_VERSION_STR \"$$PACKAGE_VERSION\"" >> version.h;					\
-##	        	fi
-##			echo "#endif // WORKRAVE_VERSION_H" >> version.h
-
-
 nodist_workrave_SOURCES = \
 			$(extranodistsources)
 
@@ -267,7 +253,7 @@ workrave_CXXFLAGS = 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" -W \
 			@X_CFLAGS@ @GNOME_CFLAGS@ \
 			@GNOME_CFLAGS@ @GTK_CFLAGS@ @GLIB_CFLAGS@ \
 			@GCONF_CFLAGS@ -D_XOPEN_SOURCE=600 \
-			@KDE_INCLUDES@ @QT_INCLUDES@ @DBUS_CFLAGS@  @IGE_CFLAGS@ \
+			@KDE_INCLUDES@ @QT_INCLUDES@ @DBUS_CFLAGS@ @DBUSGLIB_CFLAGS@ @IGE_CFLAGS@ \
 			$(includeswin32) $(win32cflags) $(includesinput) $(includesosx) \
 			$(includesx) $(eggcflags) \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
@@ -282,7 +268,7 @@ endif
 workrave_CFLAGS	= 	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\"" \
 			-I$(top_srcdir)/frontend/gtkmm/src/ @GLIB_CFLAGS@ \
 			@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @WR_FRONTEND_COMMON_INCLUDES@ \
-			@X_CFLAGS@ @GNOME_CFLAGS@ @GTK_CFLAGS@ @DBUS_CFLAGS@ @X11SM_CFLAGS@\
+			@X_CFLAGS@ @GNOME_CFLAGS@ @GTK_CFLAGS@ @DBUS_CFLAGS@ @DBUSGLIB_CFLAGS@ @X11SM_CFLAGS@\
 			-D_XOPEN_SOURCE=600  $(eggcflags) \
 			-I${DISTRIBUTION_HOME}/gtkmm/src \
 			-I${STATISTICS_HOME}/gtkmm/src \
@@ -301,8 +287,9 @@ workrave_LDFLAGS = 	@WR_LDFLAGS@ ${ldflags}
 workrave_LDADD =        @WR_LDADD@ @X_LIBS@ @X11SM_LIBS@ @GNOME_LIBS@ @GLIB_LIBS@ \
 			@GTK_LIBS@ @X_LIBS@ @GCONF_LIBS@ @GDOME_LIB@ \
 			@KDE_LDFLAGS@ @LIB_KDEUI@ @LIB_KDECORE@ @PULSE_LIBS@ \
-			@QT_LDFLAGS@ @LIB_QT@ @DBUS_LIBS@ @IGE_LIBS@ @GSTREAMER_LIBS@ \
-			${X11LIBS} ${WIN32LIBS} @GTK_LIBS@ ${OSXLIBS} ${WIN32CONSOLE}
+			@QT_LDFLAGS@ @LIB_QT@ @DBUS_LIBS@ @DBUSGLIB_LIBS@ @IGE_LIBS@ @GSTREAMER_LIBS@ \
+			${X11LIBS} ${WIN32LIBS} @GTK_LIBS@ ${OSXLIBS} ${WIN32CONSOLE} \
+			${DIRECTSOUNDLIBS} 
 
 # workrave_LINK		= $(LINK) \
 # 			  nm - nos > workrave.dmp \

@@ -126,7 +126,6 @@ public:
   void set_counter(StatsValueType t, int value);
   int64_t get_counter(StatsValueType t);
 
-
 private:
   void action_notify();
   void mouse_notify(int x, int y, int wheel = 0);

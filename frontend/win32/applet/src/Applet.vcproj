@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="Applet"
 	ProjectGUID="{319F28B8-69E2-452D-AC84-ED2094F893F5}"
 	TargetFrameworkVersion="131072"
@@ -51,7 +51,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../include,..\..\..\..\backend\include,..\..\..\common\include"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS,TRACING"
 				MinimalRebuild="true"
 				RuntimeLibrary="1"
 				PrecompiledHeaderFile=".\Debug/Applet.pch"
@@ -127,7 +127,7 @@
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
-				CommandLine="regsvr32.exe /s /c $(OUTDIR)\workrave-applet.dll&#x0D;&#x0A;"
+				CommandLine="&#x0D;&#x0A;"
 				Outputs="$(OUTDIR)\Register.out"
 			/>
 			<Tool
@@ -342,7 +342,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../include,..\..\..\..\backend\include,..\..\..\common\include"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;TRACING"
 				MinimalRebuild="true"
 				RuntimeLibrary="1"
 				PrecompiledHeaderFile=".\Debug64/Applet.pch"
@@ -599,6 +599,14 @@
 		</File>
 		<File
 			RelativePath="Icon.h"
+			>
+		</File>
+		<File
+			RelativePath=".\PaintHelper.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\PaintHelper.h"
 			>
 		</File>
 		<File

@@ -218,12 +218,12 @@ GUI::main()
   init_core();
   init_nls();
   init_platform();
-  init_session();
   init_debug();
   init_sound_player();
   init_multihead();
   init_dbus();
   init_network();
+  init_session();
   init_gui();
   
   on_timer();
@@ -841,8 +841,9 @@ GUI::init_dbus()
     {
       if (!dbus->is_owner())
         {
-          Gtk::MessageDialog dialog("Could not initialize Workrave. Is Workrave already running?",
+          Gtk::MessageDialog dialog(_("Workrave failed to start"),
                                     false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK, true);
+          dialog.set_secondary_text(_("Is Workrave already running?"));
           dialog.show();
           dialog.run();
           exit(1);
@@ -918,18 +919,38 @@ GUI::init_sound_player()
 
 
 void
-GUI::core_event_notify(CoreEvent event)
+GUI::core_event_notify(const CoreEvent event)
 {
-  TRACE_ENTER_MSG("GUI::core_event_notify", event);
-  // FIXME: HACK
-  SoundEvent snd = (SoundEvent) event;
+  TRACE_ENTER_MSG("GUI::core_event_sound_notify", event);
+
   if (sound_player != NULL)
     {
-      TRACE_MSG("play");
-      sound_player->play_sound(snd);
+      if (event >= CORE_EVENT_SOUND_FIRST &&
+          event <= CORE_EVENT_SOUND_LAST)
+        {
+          SoundEvent snd = (SoundEvent) ( (int)event - CORE_EVENT_SOUND_FIRST);
+          TRACE_MSG("play");
+          sound_player->play_sound(snd);
+        }
+    }
+
+  if (event == CORE_EVENT_MONITOR_FAILURE)
+    {
+      string msg = _("Workrave could not monitor your keyboard and mouse activity.\n");
+
+#ifdef PLATFORM_OS_UNIX
+      msg += _("Make sure that the RECORD extention is enabled in the X server.");
+#endif
+      Gtk::MessageDialog dialog(_("Workrave failed to start"),
+                                false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK, true);
+      dialog.set_secondary_text(msg);
+      dialog.show();
+      dialog.run();
+      terminate();
     }
   TRACE_EXIT();
 }
+
 
 void
 GUI::core_event_operation_mode_changed(const OperationMode m)

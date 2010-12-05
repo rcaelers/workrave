@@ -206,6 +206,11 @@ TimerBox::update_time_bars(TransparentDamageControl &ctrl)
                 }
             }
         }
+      for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+        {
+          BreakId bid = slot_to_break[i];
+          break_to_icon[bid]->update();
+        }
     }
   
   TRACE_MSG("8");

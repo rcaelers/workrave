@@ -27,6 +27,7 @@
 #include "Applet.hh"
 
 class CDeskBand;
+class PaintHelper;
 
 class TimeBar
 {
@@ -57,6 +58,7 @@ private:
   ITimeBar::ColorId secondary_bar_color;
   ITimeBar::ColorId bar_color;
   char bar_text[APPLET_BAR_TEXT_MAX_LENGTH];
+  PaintHelper *paint_helper;
 
   static HFONT bar_font;
   static HBRUSH bar_colors[ITimeBar::COLOR_ID_SIZEOF];

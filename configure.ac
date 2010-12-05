@@ -35,7 +35,7 @@ AM_MAINTAINER_MODE
 
 dnl Set of available languages.
 AC_SUBST(ALL_LINGUAS)
-ALL_LINGUAS="nl de eo pl da es zh_TW ru fr pt_BR nb lt cs he eu ca sv ja bg hu tr el sk zh_CN it sl ro et te ga"
+ALL_LINGUAS="nl de eo pl da es zh_TW ru fr pt_BR nb lt cs he eu ca sv ja bg hu tr el sk zh_CN it sl ro et te ga ko"
 AC_DEFINE_UNQUOTED(ALL_LINGUAS, "$ALL_LINGUAS" ,[All available languages])
 
 dnl
@@ -69,7 +69,7 @@ AC_ARG_ENABLE( gnome,
 
 AC_ARG_ENABLE( dbus,
               [AC_HELP_STRING([--disable-dbus],
-                              [compile withouy DBus support])],
+                              [compile without DBus support])],
               [config_dbus=$enableval], [config_dbus=yes])
  
 AC_ARG_ENABLE( gstreamer,
@@ -81,7 +81,12 @@ AC_ARG_ENABLE( kde,
               [AC_HELP_STRING([--enable-kde],
                               [compile with KDE support (broken)])],
               [config_kde=$enableval], [config_kde=no])
-    
+
+AC_ARG_ENABLE( x11-monitoring-fallback,
+              [AC_HELP_STRING([--enable-x11-monitoring-fallback],
+                              [compile with fallback monitoring if RECORD is not available (discouraged)])],
+              [config_fallback=$enableval], [config_fallback=no])
+	      
 AC_ARG_ENABLE( debug,
               [AC_HELP_STRING([--enable-debug],
                               [compile with debugging flags set])],
@@ -102,7 +107,19 @@ AC_ARG_ENABLE( tests,
                               [compile with test code])],
               [config_tests=$enableval], [config_tests=no])
 
+AC_ARG_ENABLE( tracing,
+              [AC_HELP_STRING([--enable-tracing],
+                              [compile with method call tracing])],
+              [config_tracing=$enableval], [config_tracing=no])
 
+case x"$target" in
+  xNONE | x)
+    target_or_host="$host" ;;
+  *)
+    target_or_host="$target" ;;
+esac
+
+	      
 dnl
 dnl Checks for programs
 dnl
@@ -119,6 +136,8 @@ AC_PROG_MAKE_SET
 AC_ISC_POSIX
 AM_PROG_LIBTOOL
 AC_CHECK_PROGS(M4, gm4 m4, m4)
+
+AC_CHECK_PROGS(WINDRES, ${target_or_host}-windres,false)
 
 dnl
 dnl checks for compiler characteristics
@@ -138,7 +157,17 @@ AC_STDC_HEADERS
 AC_HEADER_STDC
 AC_CHECK_HEADERS([errno.h stdlib.h sys/time.h sys/select.h unistd.h])
 AC_CHECK_MEMBER(MOUSEHOOKSTRUCT.hwnd,AC_DEFINE(HAVE_STRUCT_MOUSEHOOKSTRUCT,,[struct MOUSEHOOKSTRUCT]),, [#include <windows.h>])
+AC_CHECK_MEMBER(MOUSEHOOKSTRUCTEX.mouseData,AC_DEFINE(HAVE_STRUCT_MOUSEHOOKSTRUCTEX,,[struct MOUSEHOOKSTRUCTEX]),, [#include <windows.h>])
 
+have_ishelldispatch=no
+AC_MSG_CHECKING([IShellDispatch])
+AC_TRY_COMPILE([#include <shlobj.h>], 
+        [ IShellDispatch* pShellDispatch = NULL; ],
+        [have_ishelldispatch=yes
+         AC_DEFINE(HAVE_ISHELLDISPATCH, 1, "IShellDispatch")
+         AC_MSG_RESULT(yes)],
+         AC_MSG_RESULT(no))
+	 
 AC_TYPE_SIGNAL
 AC_CHECK_FUNCS([gettimeofday nanosleep select setlocale realpath])
 
@@ -148,7 +177,7 @@ AC_MSG_CHECKING([external timezone variable defined in time.h])
 AC_TRY_COMPILE([#include <time.h>], 
         [ timezone += 1;
           return 0;],
-        [have_extern_timezone_defined=no=yes
+        [have_extern_timezone_defined=yes
          AC_DEFINE(HAVE_EXTERN_TIMEZONE_DEFINED, 1, "External timezone")
          AC_MSG_RESULT(yes)],
          AC_MSG_RESULT(no))
@@ -165,21 +194,6 @@ AC_TRY_COMPILE([#include <time.h>],
          AC_MSG_RESULT(no))
 
 	 
-dnl
-dnl Debug
-dnl
-
-if test "x$config_debug" = "xyes"
-then
-   CFLAGS="${CFLAGS} -O0 -g -Wall -DGLIBCXX_FORCE_NEW -DGLIBCPP_FORCE_NEW"
-   CXXFLAGS="${CXXFLAGS} -O0 -g -Wall -DGLIBCXX_FORCE_NEW -DGLIBCPP_FORCE_NEW"
-   LDFLAGS="${LDFLAGS} -g"
-else
-   CFLAGS="${CFLAGS} -Os -g -DNDEBUG"
-   CXXFLAGS="${CXXFLAGS} -Os -g -DNDEBUG"
-   LDFLAGS="${LDFLAGS} -g"
-fi
-
 dnl Update version and date.                           
 AC_SUBST(VERSION)
 ISODATE=`date +%Y-%m-%d`
@@ -202,13 +216,6 @@ platform_os_unix=no
 platform_variant_x11=no
 platform_variant_gnome=no
 platform_variant_kde=no
-
-case x"$target" in
-  xNONE | x)
-    target_or_host="$host" ;;
-  *)
-    target_or_host="$target" ;;
-esac
 
 case "$target_or_host" in
   *-*mingw*|*-*-mingw*|*-*-cygwin*)
@@ -238,12 +245,38 @@ AM_CONDITIONAL(PLATFORM_OS_UNIX, test "$platform_os_unix" = "yes")
 AM_CONDITIONAL(HAVE_LANGUAGE_SELECTION, test "$platform_os_win32" = "yes")
 
 dnl
+dnl Debug
+dnl
+
+if test "x$config_debug" = "xyes"
+then
+   CFLAGS="${CFLAGS} -O0 -g -Wall -DGLIBCXX_FORCE_NEW -DGLIBCPP_FORCE_NEW"
+   CXXFLAGS="${CXXFLAGS} -O0 -g -Wall -DGLIBCXX_FORCE_NEW -DGLIBCPP_FORCE_NEW"
+   LDFLAGS="${LDFLAGS} -g"
+   config_tracing=yes
+else
+   OPT=2
+
+   CFLAGS="${CFLAGS} -O${OPT} -g -DNDEBUG"
+   CXXFLAGS="${CXXFLAGS} -O${OPT} -g -DNDEBUG"
+   LDFLAGS="${LDFLAGS} -g"
+fi
+
+if test "x$config_tracing" = "xyes"
+then
+   CFLAGS="${CFLAGS} -DTRACING"
+   CXXFLAGS="${CXXFLAGS} -DTRACING"
+fi
+
+
+dnl
 dnl Windows specific checks
 dnl
 
 have_dsound=no
 LIBSTDCPP_LIBS=
 WIN32CONSOLE=
+DIRECTSOUNDLIBS=
 
 if test "x$platform_os_win32" = "xyes"
 then
@@ -261,7 +294,7 @@ then
     config_xml=no
 
    AC_CHECK_HEADER(dsound.h, [ AC_DEFINE(HAVE_DSOUND, 1, [Define if we have DirectSound])
-                                        have_dsound=yes LIBS="$LIBS -ldsound -luuid -ldxguid -ldxerr8"
+                                        have_dsound=yes DIRECTSOUNDLIBS="-ldsound -luuid -ldxguid -ldxerr8"
                                      ])
 
    AC_CHECK_HEADERS(mmdeviceapi.h endpointvolume.h, [ AC_DEFINE(HAVE_MMDEVICEAPI_H, 1, [Define if we have mm device api])
@@ -277,6 +310,7 @@ fi
 
 AC_SUBST(LIBSTDCPP_LIBS)
 AC_SUBST(WIN32CONSOLE)
+AC_SUBST(DIRECTSOUNDLIBS)
 
 AM_CONDITIONAL(HAVE_DSOUND, test "$have_dsound" = "yes")
 
@@ -328,9 +362,13 @@ then
     then
        LIBS="$LIBS -L $ac_x_libraries"
     fi
+    have_xrecord=no
     AC_CHECK_LIB(Xtst, XRecordEnableContext,
-                       X_LIBS="$X_LIBS -lXtst" AC_DEFINE(HAVE_XRECORD,,[Define if the RECORD extension is available]),
+                       have_xrecord=yes X_LIBS="$X_LIBS -lXtst" AC_DEFINE(HAVE_XRECORD,,[Define if the RECORD extension is available]),
     )
+    if test x$have_xrecord != xyes ; then
+       AC_MSG_ERROR(X RECORD extention headers files required on Unix platform)
+    fi
 
     PKG_CHECK_MODULES(X11SM, sm ice)
     LIBS=$LIBS_save
@@ -482,9 +520,15 @@ then
    then
       AC_DEFINE(HAVE_DBUS, 1, DBus support)
 
-      PKG_CHECK_MODULES(DBUSGLIB, "dbus-glib-1", have_dbus=yes, have_dbus=no)
-      if test x$have_dbus = xyes; then
+      PKG_CHECK_MODULES(DBUSGLIB, dbus-glib-1 >= 0.84, have_dbus_glib=yes, have_dbus_glib=no)
+      if test x$have_dbus_glib = xyes; then
          AC_DEFINE(HAVE_DBUSGLIB, 1, DBus-glib support)
+         AC_DEFINE(HAVE_DBUSGLIB_GET_PRIVATE, 1, DBus-glib support)
+      else
+         PKG_CHECK_MODULES(DBUSGLIB, dbus-glib-1, have_dbus_glib=yes, have_dbus_glib=no)
+         if test x$have_dbus_glib = xyes; then
+            AC_DEFINE(HAVE_DBUSGLIB, 1, DBus-glib support)
+         fi
       fi
 	 
       AS_AC_EXPAND(DATADIR, $datadir)
@@ -502,7 +546,8 @@ then
         else
            AC_MSG_RESULT([no])
            AC_MSG_ERROR([cannot import Python module "cheetah"])
-   	   have_dbus=no
+	   have_dbus=no
+	   have_dbus_glib=no
            dbus_pkgconfig=
         fi
    else
@@ -511,10 +556,12 @@ DBus development headers not found.
 Use --disable-dbus if you do not need DBus support.
 ])
       have_dbus=no
+      have_dbus_glib=no
       dbus_pkgconfig=
    fi
 else
    have_dbus=no
+   have_dbus_glib=no
    dbus_pkgconfig=
 fi
 
@@ -713,7 +760,7 @@ if test "x$config_gnome" = "xyes"; then
 fi
 
 HAVE_GNOMEAPPLET=
-if test "x$config_gnome" = "xyes" -a "x$have_dbus" = "xyes"; then
+if test "x$config_gnome" = "xyes" -a "x$have_dbus" = "xyes" -a "x$have_dbus_glib" = "xyes"; then
    AC_DEFINE(HAVE_GNOMEAPPLET,,[Define if Gnome Applet is available])
 fi
 
@@ -760,6 +807,11 @@ fi
 HAVE_APP_TEXT=
 if test "x$config_text" = "xyes"; then
    AC_DEFINE(HAVE_APP_TEXT,,[Define if Text is available])
+fi
+
+HAVE_XRECORD_FALLBACK=
+if test "x$config_fallback" = "xyes"; then
+   AC_DEFINE(HAVE_XRECORD_FALLBACK,,[Define if RECORD fallback is enabled])
 fi
 
 

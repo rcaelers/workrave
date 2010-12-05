@@ -127,6 +127,9 @@ gboolean  egg_desktop_file_get_boolean            (EggDesktopFile  *desktop_file
 double    egg_desktop_file_get_numeric            (EggDesktopFile  *desktop_file,
 						   const char      *key,
 						   GError         **error);
+int       egg_desktop_file_get_integer            (EggDesktopFile  *desktop_file,
+						   const char      *key,
+						   GError         **error);
 char    **egg_desktop_file_get_string_list        (EggDesktopFile  *desktop_file,
 						   const char      *key,
 						   gsize           *length,

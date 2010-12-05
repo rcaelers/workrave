@@ -488,8 +488,10 @@ LRESULT CALLBACK W32LowLevelMonitor::m_hook_callback(
 {
   DWORD flags = ( (_MSLLHOOKSTRUCT *) lParam )->flags;
   
-  if( !nCode && !( flags & LLMHF_INJECTED ) )
+
+  if( !nCode ) // && !( flags & LLMHF_INJECTED ) )
   // If there is an event, and it's not injected, notify.
+  // RC: My Wacom tablet driver injects mouse move events...
     {
       ( *PostThreadMessageW )
         (

@@ -282,14 +282,24 @@ bool
 Harpoon::is_64bit_windows()
 {
 #if defined(_WIN64)
-    return TRUE;  // 64-bit programs run only on Win64
+  return TRUE;  // 64-bit programs run only on Win64
 #elif defined(_WIN32)
-    // 32-bit programs run on both 32-bit and 64-bit Windows
-    // so must sniff
-    BOOL f64 = FALSE;
-    return IsWow64Process(GetCurrentProcess(), &f64) && f64;
+  BOOL f64 = FALSE;
+
+  typedef BOOL (WINAPI *LPFN_ISWOW64PROCESS)(HANDLE, PBOOL);
+  LPFN_ISWOW64PROCESS fnIsWow64Process;
+
+  fnIsWow64Process = (LPFN_ISWOW64PROCESS)GetProcAddress(GetModuleHandleA("kernel32.dll"), "IsWow64Process");
+  if (fnIsWow64Process != NULL)
+    {
+      return fnIsWow64Process(GetCurrentProcess(), &f64) && f64;
+    }
+  else
+    {
+      return FALSE;
+    }
 #else
-    return FALSE; // Win64 does not support Win16
+  return FALSE; // Win64 does not support Win16
 #endif
 }
 

@@ -258,6 +258,7 @@ Menus::on_menu_reading(bool reading)
 {
   TRACE_ENTER("Menus::on_menu_reading");
   set_usage_mode(reading ? USAGE_MODE_READING : USAGE_MODE_NORMAL);
+  resync();
   TRACE_EXIT();
 }
 
@@ -510,11 +511,17 @@ Menus::applet_command(short cmd)
       on_menu_network_reconnect();
       break;
 #endif
-	case MENU_COMMAND_STATISTICS:
+    case MENU_COMMAND_STATISTICS:
       on_menu_statistics();
       break;
     case MENU_COMMAND_ABOUT:
       on_menu_about();
+      break;
+    case MENU_COMMAND_MODE_READING:
+      {
+        ICore *core = CoreFactory::get_core();
+        on_menu_reading(core->get_usage_mode() == USAGE_MODE_NORMAL);
+      }
       break;
     }
 }

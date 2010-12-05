@@ -1,6 +1,6 @@
 // Locale.cc
 //
-// Copyright (C) 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2008, 2010 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -27,6 +27,7 @@
 #include <cstdlib>
 #include <stdio.h>
 #include <vector>
+#include <string.h>
 
 #include "Locale.hh"
 #include "StringUtil.hh"

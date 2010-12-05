@@ -17,14 +17,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
-#ifndef GNOMESESSION_HH
-#define GNOMESESSION_HH
+#ifndef SESSION_HH
+#define SESSION_HH
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
 
-#ifdef HAVE_DBUSGLIB
+#ifdef HAVE_DBUSGLIB_GET_PRIVATE
 #define DBUS_API_SUBJECT_TO_CHANGE
 #include <dbus/dbus.h>
 #include <dbus/dbus-glib-bindings.h>
@@ -41,13 +41,13 @@ public:
 
   void set_idle(bool idle);
   
-#if defined(HAVE_DBUSGLIB) && defined(HAVE_GNOME)
+#if defined(HAVE_DBUSGLIB_GET_PRIVATE) && defined(HAVE_GNOME)
 public:
   void init_gnome();
 
 private:  
   DBusGConnection *connection;
-#endif // defined(HAVE_DBUSGLIB) && defined(HAVE_GNOME)
+#endif // defined(HAVE_DBUSGLIB_GET_PRIVATE) && defined(HAVE_GNOME)
 
 private:
   bool is_idle;

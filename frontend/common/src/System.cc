@@ -52,6 +52,7 @@
 
 #ifdef PLATFORM_OS_WIN32
 #include <shlobj.h>
+#include <shldisp.h>
 #include "harpoon.h"
 
 #include "CoreFactory.hh"
@@ -74,8 +75,7 @@ errorHandler(Display *dpy, XErrorEvent *error)
 }
 #endif
 
-/* MinGW does not have this one yet */
-#ifndef PLATFORM_OS_WIN32_NATIVE
+#ifndef HAVE_ISHELLDISPATCH
 #undef INTERFACE
 #define INTERFACE IShellDispatch
 DECLARE_INTERFACE_(IShellDispatch, IUnknown)
@@ -113,6 +113,7 @@ DECLARE_INTERFACE_(IShellDispatch, IUnknown)
 END_INTERFACE
 };
 typedef IShellDispatch *LPSHELLDISPATCH;
+#endif 
 
 //uuid(D8F015C0-C278-11CE-A49E-444553540000);
 const GUID IID_IShellDispatch =
@@ -126,7 +127,6 @@ const GUID CLSID_Shell =
   0x13709620, 0xc279, 0x11ce,
   { 0xa4, 0x9e, 0x44, 0x45, 0x53, 0x54 }
 };
-#endif 
 #endif /* PLATFORM_OS_WIN32 */
 
 #if defined(PLATFORM_OS_UNIX)
