@@ -668,7 +668,7 @@ button_pressed(GtkWidget *widget, GdkEventButton *event, gpointer data)
     {
       if (g_applet->support != NULL && workrave_is_running())
         {
-          dbus_g_proxy_begin_call(g_applet->support, "ButtonPressed", dbus_callback, NULL, NULL,
+          dbus_g_proxy_begin_call(g_applet->support, "ButtonClicked", dbus_callback, NULL, NULL,
                                   G_TYPE_UINT, event->button, G_TYPE_INVALID);
 
           ret = TRUE;
