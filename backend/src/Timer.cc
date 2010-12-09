@@ -496,7 +496,7 @@ Timer::start_timer()
 void
 Timer::stop_timer()
 {
-  TRACE_ENTER_MSG("Timer::stop_timer", timer_id << timer_state);
+  TRACE_ENTER_MSG("Timer::stop_timer", timer_id << " " << timer_state);
 
   if (timer_state != STATE_STOPPED)
     {
@@ -512,7 +512,8 @@ Timer::stop_timer()
           elapsed_time += (last_stop_time - last_start_time);
         }
 
-      TRACE_MSG(elapsed_idle_time);
+      TRACE_MSG("elapsed_idle_time = " << elapsed_idle_time);
+      TRACE_MSG("elapsed_time = " << elapsed_time);
 
       // Reset last start time.
       last_start_time = 0;
@@ -817,7 +818,7 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
           stop_timer();
         }
     }
-  else if (next_limit_time != 0 && current_time >=  next_limit_time)
+  else if (next_limit_time != 0 && current_time >= next_limit_time)
     {
       // A next limit time was set and the current time >= limit time.
       next_limit_time = 0;
@@ -857,6 +858,7 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
           activity_state = ACTIVITY_IDLE;
         }
     }
+  TRACE_EXIT();
 }
 
 

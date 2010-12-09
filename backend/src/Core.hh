@@ -168,7 +168,7 @@ private:
   void timer_action(BreakId id, TimerInfo info);
   void process_distribution();
   void process_state();
-  void process_timewarp();
+  bool process_timewarp();
   void process_timers();
   void start_break(BreakId break_id, BreakId resume_this_break = BREAK_ID_NONE);
   void stop_all_breaks();
