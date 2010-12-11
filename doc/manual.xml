@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
-	  <!ENTITY appversion "1.9.2">
+	  <!ENTITY appversion "1.9.3">
 	  <!ENTITY appurl "http://www.workrave.org">
 	  <!ENTITY docurl "http://www.workrave.org/doc">
 	  <!ENTITY intro SYSTEM "intro.xml">
