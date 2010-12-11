@@ -23,7 +23,6 @@ DIST_SUBDIRS = $(SUBDIRS) build contrib
 EXTRA_DIST = 	config.rpath  \
 		config.xml \
 		autogen.sh \
-		autogenwin32.sh \
 		autogencross.sh \
 		depcomp \
 		workrave.spec.in \
