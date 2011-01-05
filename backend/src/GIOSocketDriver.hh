@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2002, 2003, 2007, 2008, 2009, 2010 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2002, 2003, 2007, 2008, 2009, 2010, 2011 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -68,6 +68,10 @@ public:
   virtual void close();
 
 private:
+  void connect(GInetAddress *inet_addr, int port);
+
+  static void static_connect_after_resolve(GObject *source_object, GAsyncResult *res, gpointer user_data);
+
   static void static_connected_callback(GObject *source_object,
                                         GAsyncResult *result,
                                         gpointer user_data);
@@ -79,6 +83,9 @@ private:
 private:
   GSocketConnection *connection;
   GSocket *socket;
+  GResolver *resolver;
+  GSource *source;
+  int port;
 };
 
 

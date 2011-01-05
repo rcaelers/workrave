@@ -1,6 +1,6 @@
 // GnetSocketDriver.cc
 //
-// Copyright (C) 2009, 2010 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2009, 2010, 2011 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -114,19 +114,29 @@ GIOSocket::static_connected_callback(GObject *source_object,
   GSocketConnection *socket_connection =
     g_socket_client_connect_finish(G_SOCKET_CLIENT(source_object), result, &error);
 
-  if (error == NULL && socket_connection != NULL)
+  if (error != NULL)
+    {
+      TRACE_MSG("failed to connect");
+      g_error_free(error);
+    }
+  else if (socket_connection != NULL)
     {
       socket->connection = socket_connection;
       socket->socket = g_socket_connection_get_socket(socket->connection);
       g_socket_set_blocking(socket->socket, FALSE);
       g_socket_set_keepalive(socket->socket, TRUE);
 
-      GSource *source = g_socket_create_source(socket->socket,
-                                               (GIOCondition) (G_IO_IN | G_IO_ERR | G_IO_HUP),
-                                               NULL);
-      g_source_set_callback(source, (GSourceFunc) static_data_callback, (void*)socket, NULL);
-      g_source_attach(source, NULL);
+      socket->source = g_socket_create_source(socket->socket,
+                                              (GIOCondition) (G_IO_IN | G_IO_ERR | G_IO_HUP),
+                                              NULL);
+      g_source_set_callback(socket->source, (GSourceFunc) static_data_callback, (void*)socket, NULL);
+      g_source_attach(socket->source, NULL);
       // g_source_unref(source);  
+
+      if (socket->listener != NULL)
+        {
+          socket->listener->socket_connected(socket, socket->user_data);
+        }
     }
   TRACE_EXIT();
 }
@@ -137,14 +147,13 @@ GIOSocket::static_data_callback(GSocket *socket,
                                 GIOCondition condition,
                                 gpointer user_data)
 {
-  TRACE_ENTER("GIOSocketServer::static_data_incoming");
+  TRACE_ENTER("GIOSocket::static_data_incoming");
 
   GIOSocket *giosocket = (GIOSocket *)user_data;
   bool ret = true;
 
   (void) socket;
 
-  TRACE_MSG(condition);
   try
     {
       // check for socket error
@@ -190,7 +199,7 @@ GIOSocket::GIOSocket(GSocketConnection *connection) :
   g_socket_set_blocking(socket, FALSE);
   g_socket_set_keepalive(socket, TRUE);
   
-  GSource *source = g_socket_create_source(socket, (GIOCondition)G_IO_IN, NULL);
+  source = g_socket_create_source(socket, (GIOCondition)G_IO_IN, NULL);
   g_source_set_callback(source, (GSourceFunc) static_data_callback, (void*)this, NULL);
   g_source_attach(source, NULL);
   g_source_unref(source);
@@ -201,18 +210,32 @@ GIOSocket::GIOSocket(GSocketConnection *connection) :
 //! Creates a new connection.
 GIOSocket::GIOSocket() :
   connection(NULL),
-  socket(NULL)
+  socket(NULL),
+  resolver(NULL),
+  source(NULL),
+  port(0)
 {
   TRACE_ENTER("GIOSocket::GIOSocket()");
-  TRACE_EXIT()
-    }
+  TRACE_EXIT();
+}
 
 
 //! Destructs the connection.
 GIOSocket::~GIOSocket()
 {
   TRACE_ENTER("GIOSocket::~GIOSocket");
-  g_object_unref(connection);
+  if (connection != NULL)
+    {
+      g_object_unref(connection);
+    }
+  if (resolver != NULL)
+    {
+      g_object_unref(resolver);
+    }
+  if (source != NULL)
+    {
+      g_source_destroy(source);
+    }
   TRACE_EXIT();
 }
 
@@ -222,19 +245,65 @@ void
 GIOSocket::connect(const string &host, int port)
 {
   TRACE_ENTER_MSG("GIOSocket::connect", host << " " << port);
+  this->port = port;
+  
   GInetAddress *inet_addr = g_inet_address_new_from_string(host.c_str());
   if (inet_addr != NULL)
     {
-      GSocketAddress *socket_address = g_inet_socket_address_new(inet_addr, port);
-      GSocketClient *socket_client = g_socket_client_new();
-
-      g_socket_client_connect_async(socket_client,
-                                    G_SOCKET_CONNECTABLE(socket_address),
-                                    NULL,
-                                    static_connected_callback,
-                                    this);  
-  
+      connect(inet_addr, port);
       g_object_unref(inet_addr);
+    }
+  else
+    {
+      GResolver *resolver = g_resolver_get_default();
+      g_resolver_lookup_by_name_async(resolver,
+                                      host.c_str(),
+                                      NULL,
+                                      static_connect_after_resolve,
+                                      this);
+
+    }
+  TRACE_EXIT();
+}
+
+void
+GIOSocket::connect(GInetAddress *inet_addr, int port)
+{
+  TRACE_ENTER_MSG("GIOSocket::connect", port);
+  GSocketAddress *socket_address = g_inet_socket_address_new(inet_addr, port);
+  GSocketClient *socket_client = g_socket_client_new();
+
+  g_socket_client_connect_async(socket_client,
+                                G_SOCKET_CONNECTABLE(socket_address),
+                                NULL,
+                                static_connected_callback,
+                                this);
+  TRACE_EXIT();
+}
+
+void
+GIOSocket::static_connect_after_resolve(GObject *source_object, GAsyncResult *res, gpointer user_data)
+{
+  TRACE_ENTER("GIOSocket::static_connect_after_resolve");
+  GError *error = NULL;
+  GList *addresses = g_resolver_lookup_by_name_finish((GResolver *)source_object, res, &error);
+
+  if (error != NULL)
+    {
+      TRACE_MSG("failed");
+      g_error_free(error);
+    }
+  
+  if (addresses != NULL)
+    {
+      // Take first result
+      if (addresses->data != NULL)
+        {
+          GInetAddress *a = (GInetAddress *) addresses->data;
+          GIOSocket *socket = (GIOSocket *) user_data;
+          socket->connect(a, socket->port);
+        }
+       g_resolver_free_addresses(addresses);
     }
   TRACE_EXIT();
 }

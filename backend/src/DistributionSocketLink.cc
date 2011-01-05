@@ -1,6 +1,6 @@
 // DistributionSocketLink.cc
 //
-// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2010 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2010, 2011 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -663,7 +663,7 @@ DistributionSocketLink::set_client_id(Client *client, gchar *id)
       g_free(client->hostname);
       client->id = g_strdup(id);
       client->hostname = NULL;
-      client->port = NULL;
+      client->port = 0;
 
       if (client->id != NULL)
         {
@@ -899,7 +899,7 @@ DistributionSocketLink::set_master(Client *client)
 
   if (dist_manager != NULL)
     {
-      dist_manager->master_changed(false, client != NULL ? client->id : NULL);
+      dist_manager->master_changed(false, client != NULL ? client->id : "");
     }
   TRACE_EXIT();
 }
@@ -1372,13 +1372,15 @@ DistributionSocketLink::handle_signoff(PacketBuffer &packet, Client *client)
           TRACE_MSG("Direct connection. setting signedoff");
           c->type = CLIENTTYPE_SIGNEDOFF;
           remove_peer_clients(c);
-
+          
           if (c->socket != NULL)
             {
               TRACE_MSG("Remove connection");
               delete c->socket;
               c->socket = NULL;
             }
+
+          remove_client(c);
         }
       else
         {
