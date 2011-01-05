@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl
-dnl Copyright (C) 2001 - 2010 Rob Caelers & Raymond Penners
+dnl Copyright (C) 2001 - 2011 Rob Caelers & Raymond Penners
 dnl
 dnl
 dnl $Id$
@@ -367,7 +367,7 @@ then
                        have_xrecord=yes X_LIBS="$X_LIBS -lXtst" AC_DEFINE(HAVE_XRECORD,,[Define if the RECORD extension is available]),
     )
     if test x$have_xrecord != xyes ; then
-       AC_MSG_ERROR(X RECORD extention headers files required on Unix platform)
+       AC_MSG_ERROR(X RECORD extension headers files required on Unix platform)
     fi
 
     PKG_CHECK_MODULES(X11SM, sm ice)
