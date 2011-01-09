@@ -190,7 +190,8 @@ GIOSocket::static_data_callback(GSocket *socket,
 
 //! Creates a new connection.
 GIOSocket::GIOSocket(GSocketConnection *connection) :
-  connection(connection)
+  connection(connection),
+  resolver(NULL)
 {
   TRACE_ENTER("GIOSocket::GIOSocket(con)");
   socket = g_socket_connection_get_socket(connection);
@@ -255,7 +256,7 @@ GIOSocket::connect(const string &host, int port)
     }
   else
     {
-      GResolver *resolver = g_resolver_get_default();
+      resolver = g_resolver_get_default();
       g_resolver_lookup_by_name_async(resolver,
                                       host.c_str(),
                                       NULL,
