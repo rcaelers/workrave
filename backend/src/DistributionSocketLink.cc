@@ -688,16 +688,15 @@ DistributionSocketLink::remove_client(Client *client)
 {
   list<Client *>::iterator i = clients.begin();
 
-  if (client == master_client)
-    {
-      // Client to be removed is master. Unset master client.
-      master_client = NULL;
-    }
-
   while (i != clients.end())
     {
       if (client == NULL || *i == client || (*i)->peer == client)
         {
+          if ((*i)->id != NULL)
+            {
+              dist_manager->signoff_remote_client((*i)->id);
+            }
+          
           dist_manager->log(_("Removing client %s."),
                             (*i)->id == NULL ? "Unknown" : (*i)->id);
           delete *i;
@@ -707,6 +706,12 @@ DistributionSocketLink::remove_client(Client *client)
         {
           i++;
         }
+    }
+
+  if (client == master_client)
+    {
+      // Client to be removed is master. Unset master client.
+      master_client = NULL;
     }
 }
 
@@ -728,6 +733,11 @@ DistributionSocketLink::remove_peer_clients(Client *client)
                             (*i)->id == NULL ? "Unknown" : (*i)->id);
           send_signoff(NULL, *i);
 
+          if ((*i)->id != NULL)
+            {
+              dist_manager->signoff_remote_client((*i)->id);
+            }
+          
           if (client == master_client)
             {
               // Connection to master is lost. Unset master client.
@@ -753,6 +763,11 @@ DistributionSocketLink::close_client(Client *client, bool reconnect /* = false*/
   TRACE_ENTER_MSG("DistributionSocketLink::close_client", 
 	  (client->id != NULL ? client->id : "Unknown") << " " << reconnect);
 
+  if (client->id != NULL)
+    {
+      dist_manager->signoff_remote_client(client->id);
+    }
+  
   if (client == master_client)
     {
       // Client to be closed is master. Unset master client.

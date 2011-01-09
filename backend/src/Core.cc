@@ -1,6 +1,6 @@
 // Core.cc --- The main controller
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -1866,12 +1866,16 @@ Core::signon_remote_client(string client_id)
 void
 Core::signoff_remote_client(string client_id)
 {
+  TRACE_ENTER_MSG("Core::signoff_remote_client", client_id);
+  TRACE_MSG("Master = " << dist_manager->get_master_id());
   if (client_id == dist_manager->get_master_id())
     {
+      TRACE_MSG("Idle");
       remote_state = ACTIVITY_IDLE;
     }
 
   idlelog_manager->signoff_remote_client(client_id);
+  TRACE_EXIT();
 }
 
 

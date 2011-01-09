@@ -1,6 +1,6 @@
 // IdleLogManager.cc
 //
-// Copyright (C) 2003, 2004, 2005, 2007, 2009, 2010 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2003, 2004, 2005, 2007, 2009, 2010, 2011 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -972,7 +972,7 @@ IdleLogManager::signon_remote_client(string client_id)
 void
 IdleLogManager::signoff_remote_client(string client_id)
 {
-  TRACE_ENTER_MSG("signon_remote_client", client_id);
+  TRACE_ENTER_MSG("signoff_remote_client", client_id);
 
   clients[client_id].state = ACTIVITY_IDLE;
   clients[client_id].master = false;
