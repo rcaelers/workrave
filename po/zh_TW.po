@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WorkRave 1.8\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2010-08-31 21:40+0200\n"
+"POT-Creation-Date: 2011-01-11 18:39+0100\n"
 "PO-Revision-Date: 2006-07-31 18:11+0200\n"
 "Last-Translator: Rex Tsai <chihchun@linux.org.tw>\n"
 "Language-Team: Chinese/Traditional <zh-l10n@linux.org.tw>\n"
@@ -37,122 +37,122 @@ msgstr "停用網路功能。"
 msgid "Connecting to %s."
 msgstr "連接到 %s"
 
-#: ../backend/src/DistributionSocketLink.cc:703
-#: ../backend/src/DistributionSocketLink.cc:729
+#: ../backend/src/DistributionSocketLink.cc:700
+#: ../backend/src/DistributionSocketLink.cc:732
 #, fuzzy, c-format
 msgid "Removing client %s."
 msgstr "移除用戶端 %s"
 
 #. Closing direct connection.
-#: ../backend/src/DistributionSocketLink.cc:768
+#: ../backend/src/DistributionSocketLink.cc:781
 #, fuzzy, c-format
 msgid "Disconnecting %s"
 msgstr "斷線中 %s"
 
 #. It's a remote client. mark it master.
-#: ../backend/src/DistributionSocketLink.cc:937
+#: ../backend/src/DistributionSocketLink.cc:950
 #, fuzzy, c-format
 msgid "Client %s is now master."
 msgstr "客戶端 %s 現在是主控。"
 
 #. Its ME!
-#: ../backend/src/DistributionSocketLink.cc:944
+#: ../backend/src/DistributionSocketLink.cc:957
 msgid "I'm now master."
 msgstr "我是新主控端。"
 
 #. gchar *name =
 #. int port =
-#: ../backend/src/DistributionSocketLink.cc:1275
+#: ../backend/src/DistributionSocketLink.cc:1288
 #, fuzzy, c-format
 msgid "Client %s saying hello."
 msgstr "客戶端 %s;%d 說嗨。"
 
 #. Duplicate client. inform client that it's bogus and close.
-#: ../backend/src/DistributionSocketLink.cc:1290
-#: ../backend/src/DistributionSocketLink.cc:1418
-#: ../backend/src/DistributionSocketLink.cc:1662
+#: ../backend/src/DistributionSocketLink.cc:1303
+#: ../backend/src/DistributionSocketLink.cc:1433
+#: ../backend/src/DistributionSocketLink.cc:1677
 #, fuzzy, c-format
 msgid "Client %s is duplicate."
 msgstr "客戶端 %s;%d 重複。"
 
 #. Incorrect password.
-#: ../backend/src/DistributionSocketLink.cc:1300
+#: ../backend/src/DistributionSocketLink.cc:1313
 #, fuzzy, c-format
 msgid "Client %s access denied."
 msgstr "客戶端 %s 拒絕存取。"
 
-#: ../backend/src/DistributionSocketLink.cc:1369
+#: ../backend/src/DistributionSocketLink.cc:1382
 #, fuzzy, c-format
 msgid "Client %s signed off."
 msgstr "客戶端 %s 離線。"
 
 #. gint port =
-#: ../backend/src/DistributionSocketLink.cc:1457
+#: ../backend/src/DistributionSocketLink.cc:1472
 #, fuzzy, c-format
 msgid "Client %s is welcoming us."
 msgstr "客戶端 %s 歡迎我們。"
 
-#: ../backend/src/DistributionSocketLink.cc:1698
+#: ../backend/src/DistributionSocketLink.cc:1713
 #, fuzzy, c-format
 msgid "Requesting master status from %s."
 msgstr "向 %s 要求主控端狀態。"
 
-#: ../backend/src/DistributionSocketLink.cc:1712
+#: ../backend/src/DistributionSocketLink.cc:1727
 #, fuzzy, c-format
 msgid "Client timeout from %s."
 msgstr "客戶端 %s 逾時。"
 
-#: ../backend/src/DistributionSocketLink.cc:1734
+#: ../backend/src/DistributionSocketLink.cc:1749
 #, fuzzy, c-format
 msgid "Rejecting master request from client %s."
 msgstr "拒絕來自客戶端 %s 的主控要求"
 
-#: ../backend/src/DistributionSocketLink.cc:1740
+#: ../backend/src/DistributionSocketLink.cc:1755
 #, fuzzy, c-format
 msgid "Acknowledging master request from client %s."
 msgstr "確認來自客戶端 %s 的主控要求。"
 
-#: ../backend/src/DistributionSocketLink.cc:1791
+#: ../backend/src/DistributionSocketLink.cc:1806
 #, fuzzy, c-format
 msgid "Non-master client %s rejected master request."
 msgstr "非主控客戶端 %s 拒絕主控要求。"
 
-#: ../backend/src/DistributionSocketLink.cc:1796
+#: ../backend/src/DistributionSocketLink.cc:1811
 #, fuzzy, c-format
 msgid "Client %s rejected master request, delaying."
 msgstr "客戶端 %s 拒絕主控要求，延遲中。"
 
 #. gint count =
-#: ../backend/src/DistributionSocketLink.cc:1867
+#: ../backend/src/DistributionSocketLink.cc:1882
 #, c-format
 msgid "Client %s is now the new master."
 msgstr "客戶端 %s 現在是新的主控端。"
 
-#: ../backend/src/DistributionSocketLink.cc:1994
+#: ../backend/src/DistributionSocketLink.cc:2009
 msgid "Network operation started."
 msgstr "網路功能啟動"
 
-#: ../backend/src/DistributionSocketLink.cc:2015
+#: ../backend/src/DistributionSocketLink.cc:2030
 msgid "Accepted new client."
 msgstr "接受新客戶端"
 
-#: ../backend/src/DistributionSocketLink.cc:2089
+#: ../backend/src/DistributionSocketLink.cc:2104
 #, fuzzy, c-format
 msgid "Client %s read error, closing."
 msgstr "客戶端 %s 讀取錯誤，關閉中。"
 
-#: ../backend/src/DistributionSocketLink.cc:2095
-#: ../backend/src/DistributionSocketLink.cc:2168
+#: ../backend/src/DistributionSocketLink.cc:2110
+#: ../backend/src/DistributionSocketLink.cc:2183
 #, fuzzy, c-format
 msgid "Client %s closed connection."
 msgstr "客戶端 %s 關閉連線。"
 
-#: ../backend/src/DistributionSocketLink.cc:2136
+#: ../backend/src/DistributionSocketLink.cc:2151
 #, fuzzy, c-format
 msgid "Client %s connected."
 msgstr "連線到用戶端 %s。"
 
-#: ../backend/src/DistributionSocketLink.cc:2174
+#: ../backend/src/DistributionSocketLink.cc:2189
 #, fuzzy, c-format
 msgid "Could not connect to client %s."
 msgstr "無法連線到用戶端 %s。"
@@ -171,7 +171,7 @@ msgstr "休息提示"
 #: ../frontend/common/src/SoundPlayer.cc:123
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:48
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:56
-#: ../frontend/gtkmm/src/GUI.cc:1438 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/GUI.cc:1467 ../frontend/gtkmm/src/GtkUtil.cc:161
 msgid "Daily limit"
 msgstr "每日限制"
 
@@ -216,7 +216,7 @@ msgstr "休息開始"
 msgid "Workrave"
 msgstr "Workrave"
 
-#: ../frontend/common/src/SoundPlayer.cc:617
+#: ../frontend/common/src/SoundPlayer.cc:619
 msgid "Custom"
 msgstr ""
 
@@ -260,32 +260,49 @@ msgstr ""
 "您已經達到每日限制量。請停止在電腦前工作工作。\n"
 "如果您尚未下班，找些其他的事情來做，例如檢閱文件。"
 
+#: ../frontend/gtkmm/src/GUI.cc:839 ../frontend/gtkmm/src/GUI.cc:930
+#, fuzzy
+msgid "Workrave failed to start"
+msgstr "Workrave Applet"
+
+#: ../frontend/gtkmm/src/GUI.cc:841
+msgid "Is Workrave already running?"
+msgstr ""
+
+#: ../frontend/gtkmm/src/GUI.cc:925
+msgid "Workrave could not monitor your keyboard and mouse activity.\n"
+msgstr ""
+
+#: ../frontend/gtkmm/src/GUI.cc:928
+msgid "Make sure that the RECORD extention is enabled in the X server."
+msgstr ""
+
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1438 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/GUI.cc:1467 ../frontend/gtkmm/src/GtkUtil.cc:161
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:54
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:174
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:272
 msgid "Micro-break"
 msgstr "暫停"
 
-#: ../frontend/gtkmm/src/GUI.cc:1438 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/GUI.cc:1467 ../frontend/gtkmm/src/GtkUtil.cc:161
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:147
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:81
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:224
 msgid "Rest break"
 msgstr "休息"
 
-#: ../frontend/gtkmm/src/GUI.cc:1451 ../frontend/gtkmm/src/GUI.cc:1455
+#: ../frontend/gtkmm/src/GUI.cc:1480 ../frontend/gtkmm/src/GUI.cc:1484
 #, fuzzy
 msgid "Mode: "
 msgstr "模式(_M)"
 
-#: ../frontend/gtkmm/src/GUI.cc:1451
+#: ../frontend/gtkmm/src/GUI.cc:1480
 #, fuzzy
 msgid "Suspended"
 msgstr "暫停(_S)"
 
-#: ../frontend/gtkmm/src/GUI.cc:1455
+#: ../frontend/gtkmm/src/GUI.cc:1484
 #, fuzzy
 msgid "Quiet"
 msgstr "離開(_u)"
@@ -297,19 +314,19 @@ msgid "_Rest break"
 msgstr "休息(_R)"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:138
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:117
 msgid "_Mode"
 msgstr "模式(_M)"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:140
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:8
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:98
 msgid "_Normal"
 msgstr "一般(_N)"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:143
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:17
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:104
 msgid "_Suspended"
 msgstr "暫停(_S)"
@@ -324,7 +341,7 @@ msgid "_Reading mode"
 msgstr ""
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:154
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:136
 msgid "_Network"
 msgstr "網路(_N)"
@@ -335,13 +352,13 @@ msgid "_Connect"
 msgstr "連線(_C)"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:157
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:4
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:123
 msgid "_Disconnect"
 msgstr "中斷連線(_D)"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:159
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:13
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:127
 msgid "_Reconnect"
 msgstr "重新連線(_R)"
@@ -364,8 +381,8 @@ msgstr "體操"
 msgid "Statistics"
 msgstr "統計"
 
-#: ../frontend/gtkmm/src/Menus.cc:363
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:355
+#: ../frontend/gtkmm/src/Menus.cc:364
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:360
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -421,7 +438,7 @@ msgstr "Applet"
 #. Notebook
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:114
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:163
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:199
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:211
 msgid "Timers"
 msgstr "計時器"
 
@@ -694,19 +711,23 @@ msgstr "將暫停視為活動"
 msgid "Number of exercises:"
 msgstr "體操次數"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:204
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:178
+msgid "Start natural restbreak when screen is locked"
+msgstr ""
+
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:216
 msgid "Time before end:"
 msgstr "休息時限"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:205
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:217
 msgid "Time between breaks:"
 msgstr "休息時限"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:212
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:224
 msgid "Break duration:"
 msgstr "休息時限:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:227
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:239
 msgid "Postpone time:"
 msgstr "延後時限:"
 
@@ -726,42 +747,47 @@ msgid ""
 msgstr "這個軟體是協助預防與復原重複性壓力傷害 (Repetitive Strain Injury RSI)"
 
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:1
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:138
+msgid "Reading mode"
+msgstr ""
+
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:2
 msgid "_About..."
 msgstr "關於(_A)..."
 
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:2
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
 msgid "_Connect..."
 msgstr "連線(_C)..."
 
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:4
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
 msgid "_Exercises"
 msgstr "體操(_E)"
 
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:8
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:9
 msgid "_Open"
 msgstr "開啟(_O)"
 
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:9
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:10
 msgid "_Preferences"
 msgstr "偏好(_P)"
 
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:10
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:11
 msgid "_Quiet"
 msgstr "靜止(_Q)"
 
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:11
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
 msgid "_Quit"
 msgstr "離開(_Q)"
 
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:13
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:14
 msgid "_Restbreak"
 msgstr "休息(_R)"
 
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:14
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:15
 msgid "_Show Log..."
 msgstr "顯示紀錄(_S)..."
 
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:15
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
 msgid "_Statistics"
 msgstr "統計(_S)"
 
@@ -773,10 +799,6 @@ msgstr "Workrave Applet"
 #, fuzzy
 msgid "Open"
 msgstr "開啟(_O)"
-
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:138
-msgid "Reading mode"
-msgstr ""
 
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:145
 msgid "About..."

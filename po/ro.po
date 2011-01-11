@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2010-08-31 21:40+0200\n"
+"POT-Creation-Date: 2011-01-11 18:39+0100\n"
 "PO-Revision-Date: 2008-11-26 19:08+0100\n"
 "Last-Translator: alexxed <alexxed@gmail.com>\n"
 "Language-Team: Romanian <LL@li.org>\n"
@@ -37,122 +37,122 @@ msgstr "Se dezactivează lucrul în rețea."
 msgid "Connecting to %s."
 msgstr "Conectare la %s."
 
-#: ../backend/src/DistributionSocketLink.cc:703
-#: ../backend/src/DistributionSocketLink.cc:729
+#: ../backend/src/DistributionSocketLink.cc:700
+#: ../backend/src/DistributionSocketLink.cc:732
 #, fuzzy, c-format
 msgid "Removing client %s."
 msgstr "Se elimină clientul %s."
 
 #. Closing direct connection.
-#: ../backend/src/DistributionSocketLink.cc:768
+#: ../backend/src/DistributionSocketLink.cc:781
 #, fuzzy, c-format
 msgid "Disconnecting %s"
 msgstr "Se deconectează %s."
 
 #. It's a remote client. mark it master.
-#: ../backend/src/DistributionSocketLink.cc:937
+#: ../backend/src/DistributionSocketLink.cc:950
 #, fuzzy, c-format
 msgid "Client %s is now master."
 msgstr "Clientul %s este acum clientul principal."
 
 #. Its ME!
-#: ../backend/src/DistributionSocketLink.cc:944
+#: ../backend/src/DistributionSocketLink.cc:957
 msgid "I'm now master."
 msgstr "Acum sunt clientul principal."
 
 #. gchar *name =
 #. int port =
-#: ../backend/src/DistributionSocketLink.cc:1275
+#: ../backend/src/DistributionSocketLink.cc:1288
 #, fuzzy, c-format
 msgid "Client %s saying hello."
 msgstr "Clientul %s salută."
 
 #. Duplicate client. inform client that it's bogus and close.
-#: ../backend/src/DistributionSocketLink.cc:1290
-#: ../backend/src/DistributionSocketLink.cc:1418
-#: ../backend/src/DistributionSocketLink.cc:1662
+#: ../backend/src/DistributionSocketLink.cc:1303
+#: ../backend/src/DistributionSocketLink.cc:1433
+#: ../backend/src/DistributionSocketLink.cc:1677
 #, fuzzy, c-format
 msgid "Client %s is duplicate."
 msgstr "Clientul %s este duplicat."
 
 #. Incorrect password.
-#: ../backend/src/DistributionSocketLink.cc:1300
+#: ../backend/src/DistributionSocketLink.cc:1313
 #, fuzzy, c-format
 msgid "Client %s access denied."
 msgstr "Acces interzis pentru clientul %s."
 
-#: ../backend/src/DistributionSocketLink.cc:1369
+#: ../backend/src/DistributionSocketLink.cc:1382
 #, fuzzy, c-format
 msgid "Client %s signed off."
 msgstr "Clientul %s s-a deconectat."
 
 #. gint port =
-#: ../backend/src/DistributionSocketLink.cc:1457
+#: ../backend/src/DistributionSocketLink.cc:1472
 #, fuzzy, c-format
 msgid "Client %s is welcoming us."
 msgstr "Clientul %s ne întâmpină."
 
-#: ../backend/src/DistributionSocketLink.cc:1698
+#: ../backend/src/DistributionSocketLink.cc:1713
 #, fuzzy, c-format
 msgid "Requesting master status from %s."
 msgstr "Se cere statutul de client principal de la %s."
 
-#: ../backend/src/DistributionSocketLink.cc:1712
+#: ../backend/src/DistributionSocketLink.cc:1727
 #, fuzzy, c-format
 msgid "Client timeout from %s."
 msgstr "Timpul de așteptare după clientul %s a expirat."
 
-#: ../backend/src/DistributionSocketLink.cc:1734
+#: ../backend/src/DistributionSocketLink.cc:1749
 #, fuzzy, c-format
 msgid "Rejecting master request from client %s."
 msgstr "Se respinge cererea de a deveni client principal clientului %s."
 
-#: ../backend/src/DistributionSocketLink.cc:1740
+#: ../backend/src/DistributionSocketLink.cc:1755
 #, fuzzy, c-format
 msgid "Acknowledging master request from client %s."
 msgstr "Se acceptă cererea de a deveni client principal clientului %s."
 
-#: ../backend/src/DistributionSocketLink.cc:1791
+#: ../backend/src/DistributionSocketLink.cc:1806
 #, fuzzy, c-format
 msgid "Non-master client %s rejected master request."
 msgstr "S-a respins cererea de a deveni client principal clientului %s."
 
-#: ../backend/src/DistributionSocketLink.cc:1796
+#: ../backend/src/DistributionSocketLink.cc:1811
 #, fuzzy, c-format
 msgid "Client %s rejected master request, delaying."
 msgstr "Clientul %s a respins cererea de client principal, se amână."
 
 #. gint count =
-#: ../backend/src/DistributionSocketLink.cc:1867
+#: ../backend/src/DistributionSocketLink.cc:1882
 #, c-format
 msgid "Client %s is now the new master."
 msgstr "Clientul %s e acum clientul principal."
 
-#: ../backend/src/DistributionSocketLink.cc:1994
+#: ../backend/src/DistributionSocketLink.cc:2009
 msgid "Network operation started."
 msgstr "S-a pornit lucrul în rețea."
 
-#: ../backend/src/DistributionSocketLink.cc:2015
+#: ../backend/src/DistributionSocketLink.cc:2030
 msgid "Accepted new client."
 msgstr "S-a acceptat un client nou."
 
-#: ../backend/src/DistributionSocketLink.cc:2089
+#: ../backend/src/DistributionSocketLink.cc:2104
 #, fuzzy, c-format
 msgid "Client %s read error, closing."
 msgstr "Eroare de citire de la clientul %s, închidere."
 
-#: ../backend/src/DistributionSocketLink.cc:2095
-#: ../backend/src/DistributionSocketLink.cc:2168
+#: ../backend/src/DistributionSocketLink.cc:2110
+#: ../backend/src/DistributionSocketLink.cc:2183
 #, fuzzy, c-format
 msgid "Client %s closed connection."
 msgstr "Clientul %s a închis conexiunea."
 
-#: ../backend/src/DistributionSocketLink.cc:2136
+#: ../backend/src/DistributionSocketLink.cc:2151
 #, fuzzy, c-format
 msgid "Client %s connected."
 msgstr "Clientul %s s-a conectat."
 
-#: ../backend/src/DistributionSocketLink.cc:2174
+#: ../backend/src/DistributionSocketLink.cc:2189
 #, fuzzy, c-format
 msgid "Could not connect to client %s."
 msgstr "Nu se poate efectua conexiunea cu clientul %s."
@@ -171,7 +171,7 @@ msgstr "Pauză sugerată"
 #: ../frontend/common/src/SoundPlayer.cc:123
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:48
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:56
-#: ../frontend/gtkmm/src/GUI.cc:1438 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/GUI.cc:1467 ../frontend/gtkmm/src/GtkUtil.cc:161
 msgid "Daily limit"
 msgstr "Limită zilnică"
 
@@ -215,7 +215,7 @@ msgstr "Pauza de odihnă a început"
 msgid "Workrave"
 msgstr "Workrave"
 
-#: ../frontend/common/src/SoundPlayer.cc:617
+#: ../frontend/common/src/SoundPlayer.cc:619
 msgid "Custom"
 msgstr "Particularizat"
 
@@ -261,32 +261,49 @@ msgstr ""
 "Dacă ziua de lucru nu s-a încheiat încă, găsiți altceva de făcut, cum ar fi "
 "revizuirea unui document."
 
+#: ../frontend/gtkmm/src/GUI.cc:839 ../frontend/gtkmm/src/GUI.cc:930
+#, fuzzy
+msgid "Workrave failed to start"
+msgstr "Pornește Workrave odată cu Windows"
+
+#: ../frontend/gtkmm/src/GUI.cc:841
+msgid "Is Workrave already running?"
+msgstr ""
+
+#: ../frontend/gtkmm/src/GUI.cc:925
+msgid "Workrave could not monitor your keyboard and mouse activity.\n"
+msgstr ""
+
+#: ../frontend/gtkmm/src/GUI.cc:928
+msgid "Make sure that the RECORD extention is enabled in the X server."
+msgstr ""
+
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1438 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/GUI.cc:1467 ../frontend/gtkmm/src/GtkUtil.cc:161
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:54
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:174
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:272
 msgid "Micro-break"
 msgstr "Micropauză"
 
-#: ../frontend/gtkmm/src/GUI.cc:1438 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/GUI.cc:1467 ../frontend/gtkmm/src/GtkUtil.cc:161
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:147
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:81
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:224
 msgid "Rest break"
 msgstr "Pauză de odihnă"
 
-#: ../frontend/gtkmm/src/GUI.cc:1451 ../frontend/gtkmm/src/GUI.cc:1455
+#: ../frontend/gtkmm/src/GUI.cc:1480 ../frontend/gtkmm/src/GUI.cc:1484
 #, fuzzy
 msgid "Mode: "
 msgstr "_Mod"
 
-#: ../frontend/gtkmm/src/GUI.cc:1451
+#: ../frontend/gtkmm/src/GUI.cc:1480
 #, fuzzy
 msgid "Suspended"
 msgstr "_Suspendat"
 
-#: ../frontend/gtkmm/src/GUI.cc:1455
+#: ../frontend/gtkmm/src/GUI.cc:1484
 #, fuzzy
 msgid "Quiet"
 msgstr "_Silențios"
@@ -298,19 +315,19 @@ msgid "_Rest break"
 msgstr "_Pauză de odihnă"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:138
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:117
 msgid "_Mode"
 msgstr "_Mod"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:140
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:8
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:98
 msgid "_Normal"
 msgstr "_Normal"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:143
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:17
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:104
 msgid "_Suspended"
 msgstr "_Suspendat"
@@ -325,7 +342,7 @@ msgid "_Reading mode"
 msgstr ""
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:154
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:136
 msgid "_Network"
 msgstr "_Rețea"
@@ -336,13 +353,13 @@ msgid "_Connect"
 msgstr "_Conectare"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:157
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:4
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:123
 msgid "_Disconnect"
 msgstr "_Deconectare"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:159
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:13
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:127
 msgid "_Reconnect"
 msgstr "_Reconectare"
@@ -365,8 +382,8 @@ msgstr "Exerciții"
 msgid "Statistics"
 msgstr "Statistici"
 
-#: ../frontend/gtkmm/src/Menus.cc:363
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:355
+#: ../frontend/gtkmm/src/Menus.cc:364
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:360
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -421,7 +438,7 @@ msgstr "Applet"
 #. Notebook
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:114
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:163
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:199
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:211
 msgid "Timers"
 msgstr "Cronometre"
 
@@ -692,19 +709,23 @@ msgstr "Tratează micropauzele ca activitate"
 msgid "Number of exercises:"
 msgstr "Numărul de exerciții:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:204
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:178
+msgid "Start natural restbreak when screen is locked"
+msgstr ""
+
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:216
 msgid "Time before end:"
 msgstr "Timp de terminare:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:205
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:217
 msgid "Time between breaks:"
 msgstr "Timp între pauze:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:212
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:224
 msgid "Break duration:"
 msgstr "Durata pauzei:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:227
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:239
 msgid "Postpone time:"
 msgstr "Amânare cu:"
 
@@ -722,42 +743,47 @@ msgid ""
 msgstr "Vă asistă în prevenirea Repetitive Strain Injury (RSI)"
 
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:1
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:138
+msgid "Reading mode"
+msgstr ""
+
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:2
 msgid "_About..."
 msgstr "_Despre..."
 
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:2
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
 msgid "_Connect..."
 msgstr "_Conectare..."
 
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:4
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
 msgid "_Exercises"
 msgstr "_Exerciții"
 
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:8
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:9
 msgid "_Open"
 msgstr "_Deschide"
 
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:9
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:10
 msgid "_Preferences"
 msgstr "_Preferințe"
 
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:10
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:11
 msgid "_Quiet"
 msgstr "_Silențios"
 
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:11
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
 msgid "_Quit"
 msgstr "_Închide"
 
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:13
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:14
 msgid "_Restbreak"
 msgstr "_Pauză de odihnă"
 
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:14
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:15
 msgid "_Show Log..."
 msgstr "_Arată jurnalul..."
 
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:15
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
 msgid "_Statistics"
 msgstr "_Statistici"
 
@@ -769,10 +795,6 @@ msgstr "Applet Workrave"
 #, fuzzy
 msgid "Open"
 msgstr "_Deschide"
-
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:138
-msgid "Reading mode"
-msgstr ""
 
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:145
 msgid "About..."

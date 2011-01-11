@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Workrave 1.9.1\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2010-08-31 21:40+0200\n"
+"POT-Creation-Date: 2011-01-11 18:39+0100\n"
 "PO-Revision-Date: 2007-04-30 19:55+0200\n"
 "Last-Translator: Иван Димов <idimov@users.sourceforge.net>\n"
 "Language-Team: <i18n@workrave.org>\n"
@@ -39,126 +39,126 @@ msgstr "Спиране на работа в мрежа."
 msgid "Connecting to %s."
 msgstr "Свързване с %s."
 
-#: ../backend/src/DistributionSocketLink.cc:703
-#: ../backend/src/DistributionSocketLink.cc:729
+#: ../backend/src/DistributionSocketLink.cc:700
+#: ../backend/src/DistributionSocketLink.cc:732
 #, fuzzy, c-format
 msgid "Removing client %s."
 msgstr "Премахване на клиент %s."
 
 # Затваряне на пряката връзка.
 #. Closing direct connection.
-#: ../backend/src/DistributionSocketLink.cc:768
+#: ../backend/src/DistributionSocketLink.cc:781
 #, fuzzy, c-format
 msgid "Disconnecting %s"
 msgstr "Изключване %s."
 
 # Това е отдалечен клиент. Отбелязваме го като главен.
 #. It's a remote client. mark it master.
-#: ../backend/src/DistributionSocketLink.cc:937
+#: ../backend/src/DistributionSocketLink.cc:950
 #, fuzzy, c-format
 msgid "Client %s is now master."
 msgstr "Клиент %s е главен сега."
 
 # АЗ съм!
 #. Its ME!
-#: ../backend/src/DistributionSocketLink.cc:944
+#: ../backend/src/DistributionSocketLink.cc:957
 msgid "I'm now master."
 msgstr "Аз съм главен сега."
 
 #. gchar *name =
 #. int port =
-#: ../backend/src/DistributionSocketLink.cc:1275
+#: ../backend/src/DistributionSocketLink.cc:1288
 #, fuzzy, c-format
 msgid "Client %s saying hello."
 msgstr "Клиент %s казва здравей."
 
 #. Duplicate client. inform client that it's bogus and close.
-#: ../backend/src/DistributionSocketLink.cc:1290
-#: ../backend/src/DistributionSocketLink.cc:1418
-#: ../backend/src/DistributionSocketLink.cc:1662
+#: ../backend/src/DistributionSocketLink.cc:1303
+#: ../backend/src/DistributionSocketLink.cc:1433
+#: ../backend/src/DistributionSocketLink.cc:1677
 #, fuzzy, c-format
 msgid "Client %s is duplicate."
 msgstr "Клиент %s се повтаря."
 
 #. Incorrect password.
-#: ../backend/src/DistributionSocketLink.cc:1300
+#: ../backend/src/DistributionSocketLink.cc:1313
 #, fuzzy, c-format
 msgid "Client %s access denied."
 msgstr "Клиент %s му е отказан достъп."
 
-#: ../backend/src/DistributionSocketLink.cc:1369
+#: ../backend/src/DistributionSocketLink.cc:1382
 #, fuzzy, c-format
 msgid "Client %s signed off."
 msgstr "Клиент %s излезе."
 
 #. gint port =
-#: ../backend/src/DistributionSocketLink.cc:1457
+#: ../backend/src/DistributionSocketLink.cc:1472
 #, fuzzy, c-format
 msgid "Client %s is welcoming us."
 msgstr "Клиент %s ни приветствува."
 
-#: ../backend/src/DistributionSocketLink.cc:1698
+#: ../backend/src/DistributionSocketLink.cc:1713
 #, fuzzy, c-format
 msgid "Requesting master status from %s."
 msgstr "Запитване за главен от %s."
 
-#: ../backend/src/DistributionSocketLink.cc:1712
+#: ../backend/src/DistributionSocketLink.cc:1727
 #, fuzzy, c-format
 msgid "Client timeout from %s."
 msgstr "Прекъсване (по таймаут) от клиент %s."
 
-#: ../backend/src/DistributionSocketLink.cc:1734
+#: ../backend/src/DistributionSocketLink.cc:1749
 #, fuzzy, c-format
 msgid "Rejecting master request from client %s."
 msgstr "Отхвърляне на заявка за главен от клиент %s."
 
-#: ../backend/src/DistributionSocketLink.cc:1740
+#: ../backend/src/DistributionSocketLink.cc:1755
 #, fuzzy, c-format
 msgid "Acknowledging master request from client %s."
 msgstr "Потвърждаване на заявка за главен от клиент %s."
 
-#: ../backend/src/DistributionSocketLink.cc:1791
+#: ../backend/src/DistributionSocketLink.cc:1806
 #, fuzzy, c-format
 msgid "Non-master client %s rejected master request."
 msgstr "Обикновен/не-главен клиент %s отхвърли заявка за главен."
 
-#: ../backend/src/DistributionSocketLink.cc:1796
+#: ../backend/src/DistributionSocketLink.cc:1811
 #, fuzzy, c-format
 msgid "Client %s rejected master request, delaying."
 msgstr "Клиент %s отхвърли заявка за главен, изчакване."
 
 # gint count =
 #. gint count =
-#: ../backend/src/DistributionSocketLink.cc:1867
+#: ../backend/src/DistributionSocketLink.cc:1882
 #, c-format
 msgid "Client %s is now the new master."
 msgstr "Клиент %s сега е новият главен."
 
-#: ../backend/src/DistributionSocketLink.cc:1994
+#: ../backend/src/DistributionSocketLink.cc:2009
 msgid "Network operation started."
 msgstr "Започна работа в мрежа."
 
-#: ../backend/src/DistributionSocketLink.cc:2015
+#: ../backend/src/DistributionSocketLink.cc:2030
 msgid "Accepted new client."
 msgstr "Приет е нов клиент."
 
-#: ../backend/src/DistributionSocketLink.cc:2089
+#: ../backend/src/DistributionSocketLink.cc:2104
 #, fuzzy, c-format
 msgid "Client %s read error, closing."
 msgstr "Клиент %s извърши грешка при четене, затваряне."
 
-#: ../backend/src/DistributionSocketLink.cc:2095
-#: ../backend/src/DistributionSocketLink.cc:2168
+#: ../backend/src/DistributionSocketLink.cc:2110
+#: ../backend/src/DistributionSocketLink.cc:2183
 #, fuzzy, c-format
 msgid "Client %s closed connection."
 msgstr "Клиент %s затвори връзката."
 
-#: ../backend/src/DistributionSocketLink.cc:2136
+#: ../backend/src/DistributionSocketLink.cc:2151
 #, fuzzy, c-format
 msgid "Client %s connected."
 msgstr "Клиент %s се свърза."
 
-#: ../backend/src/DistributionSocketLink.cc:2174
+#: ../backend/src/DistributionSocketLink.cc:2189
 #, fuzzy, c-format
 msgid "Could not connect to client %s."
 msgstr "Невъзможно свързване с клиент %s."
@@ -177,7 +177,7 @@ msgstr "Напомняне за почивка"
 #: ../frontend/common/src/SoundPlayer.cc:123
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:48
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:56
-#: ../frontend/gtkmm/src/GUI.cc:1438 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/GUI.cc:1467 ../frontend/gtkmm/src/GtkUtil.cc:161
 msgid "Daily limit"
 msgstr "Дневен лимит"
 
@@ -222,7 +222,7 @@ msgstr "Почивката започна"
 msgid "Workrave"
 msgstr "Workrave"
 
-#: ../frontend/common/src/SoundPlayer.cc:617
+#: ../frontend/common/src/SoundPlayer.cc:619
 msgid "Custom"
 msgstr ""
 
@@ -268,16 +268,33 @@ msgstr ""
 "не е свършил намерете си друго занимание напр.\n"
 "преглеждане на документи."
 
+#: ../frontend/gtkmm/src/GUI.cc:839 ../frontend/gtkmm/src/GUI.cc:930
+#, fuzzy
+msgid "Workrave failed to start"
+msgstr "Workrave - аплет"
+
+#: ../frontend/gtkmm/src/GUI.cc:841
+msgid "Is Workrave already running?"
+msgstr ""
+
+#: ../frontend/gtkmm/src/GUI.cc:925
+msgid "Workrave could not monitor your keyboard and mouse activity.\n"
+msgstr ""
+
+#: ../frontend/gtkmm/src/GUI.cc:928
+msgid "Make sure that the RECORD extention is enabled in the X server."
+msgstr ""
+
 # ОПРАВИМЕ: повтарящ се
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1438 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/GUI.cc:1467 ../frontend/gtkmm/src/GtkUtil.cc:161
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:54
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:174
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:272
 msgid "Micro-break"
 msgstr "Микро-почивка"
 
-#: ../frontend/gtkmm/src/GUI.cc:1438 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/GUI.cc:1467 ../frontend/gtkmm/src/GtkUtil.cc:161
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:147
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:81
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:224
@@ -285,17 +302,17 @@ msgid "Rest break"
 msgstr "Почивка"
 
 # Меню Режим
-#: ../frontend/gtkmm/src/GUI.cc:1451 ../frontend/gtkmm/src/GUI.cc:1455
+#: ../frontend/gtkmm/src/GUI.cc:1480 ../frontend/gtkmm/src/GUI.cc:1484
 #, fuzzy
 msgid "Mode: "
 msgstr "_Режим"
 
-#: ../frontend/gtkmm/src/GUI.cc:1451
+#: ../frontend/gtkmm/src/GUI.cc:1480
 #, fuzzy
 msgid "Suspended"
 msgstr "_Летаргичен"
 
-#: ../frontend/gtkmm/src/GUI.cc:1455
+#: ../frontend/gtkmm/src/GUI.cc:1484
 #, fuzzy
 msgid "Quiet"
 msgstr "Т_их"
@@ -308,19 +325,19 @@ msgstr "_Почивка"
 
 # Меню Режим
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:138
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:117
 msgid "_Mode"
 msgstr "_Режим"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:140
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:8
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:98
 msgid "_Normal"
 msgstr "_Нормален"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:143
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:17
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:104
 msgid "_Suspended"
 msgstr "_Летаргичен"
@@ -335,7 +352,7 @@ msgid "_Reading mode"
 msgstr ""
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:154
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:6
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:7
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:136
 msgid "_Network"
 msgstr "_Мрежа"
@@ -346,13 +363,13 @@ msgid "_Connect"
 msgstr "_Свързване"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:157
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:4
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:123
 msgid "_Disconnect"
 msgstr "_Прекъсване"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:159
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:13
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:127
 msgid "_Reconnect"
 msgstr "_Повторно свързване"
@@ -375,8 +392,8 @@ msgstr "Упражнения"
 msgid "Statistics"
 msgstr "Статистика"
 
-#: ../frontend/gtkmm/src/Menus.cc:363
-#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:355
+#: ../frontend/gtkmm/src/Menus.cc:364
+#: ../frontend/gtkmm/src/gnome_applet/WorkraveApplet.c:360
 msgid ""
 "This program assists in the prevention and recovery of Repetitive Strain "
 "Injury (RSI)."
@@ -437,7 +454,7 @@ msgstr "Аплет"
 #. Notebook
 #: ../frontend/gtkmm/src/PreferencesDialog.cc:114
 #: ../frontend/gtkmm/src/TimerBoxPreferencePage.cc:163
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:199
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:211
 msgid "Timers"
 msgstr "Таймери"
 
@@ -719,19 +736,23 @@ msgstr "Зачитане на микро-почивките като дейно�
 msgid "Number of exercises:"
 msgstr "Брой упражнения:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:204
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:178
+msgid "Start natural restbreak when screen is locked"
+msgstr ""
+
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:216
 msgid "Time before end:"
 msgstr "Време преди завършване:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:205
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:217
 msgid "Time between breaks:"
 msgstr "Време между почиките:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:212
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:224
 msgid "Break duration:"
 msgstr "Продължителност на почивка:"
 
-#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:227
+#: ../frontend/gtkmm/src/TimerPreferencesPanel.cc:239
 msgid "Postpone time:"
 msgstr "Време за отлагане:"
 
@@ -754,42 +775,47 @@ msgstr ""
 "(Repetitive Strain Injury - RSI)."
 
 #: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:1
+#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:138
+msgid "Reading mode"
+msgstr ""
+
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:2
 msgid "_About..."
 msgstr "_Относно..."
 
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:2
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:3
 msgid "_Connect..."
 msgstr "_Свързване..."
 
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:4
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:5
 msgid "_Exercises"
 msgstr "_Упражнения"
 
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:8
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:9
 msgid "_Open"
 msgstr "_Отваряне"
 
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:9
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:10
 msgid "_Preferences"
 msgstr "_Конфигуриране"
 
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:10
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:11
 msgid "_Quiet"
 msgstr "_Тих"
 
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:11
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:12
 msgid "_Quit"
 msgstr "_Изход"
 
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:13
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:14
 msgid "_Restbreak"
 msgstr "_Почивка"
 
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:14
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:15
 msgid "_Show Log..."
 msgstr "_Показване на дневника..."
 
-#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:15
+#: ../frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in.h:16
 msgid "_Statistics"
 msgstr "_Статистика"
 
@@ -801,10 +827,6 @@ msgstr "Workrave - аплет"
 #, fuzzy
 msgid "Open"
 msgstr "_Отваряне"
-
-#: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:138
-msgid "Reading mode"
-msgstr ""
 
 #: ../frontend/gtkmm/src/win32/W32AppletMenu.cc:145
 msgid "About..."
