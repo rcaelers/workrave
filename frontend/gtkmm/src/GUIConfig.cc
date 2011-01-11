@@ -54,6 +54,10 @@ GUIConfig::init()
       config->set_value(CFG_KEY_BREAK_EXERCISES % ((BreakId)i),
                         i == BREAK_ID_REST_BREAK ? 3 : 0,
                         CONFIG_FLAG_DEFAULT);
+
+      config->set_value(CFG_KEY_BREAK_AUTO_NATURAL % ((BreakId)i),
+                        false,
+                        CONFIG_FLAG_DEFAULT);
     }
 
   config->set_value(CFG_KEY_BLOCK_MODE, BLOCK_MODE_INPUT, CONFIG_FLAG_DEFAULT);
