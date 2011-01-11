@@ -70,6 +70,7 @@
 #include "WindowHints.hh"
 #include "Locale.hh"
 #include "Session.hh"
+#include "TimerBoxControl.hh"
 
 #if defined(PLATFORM_OS_WIN32)
 #include "W32AppletWindow.hh"
@@ -801,8 +802,14 @@ GUI::init_gui()
   menus->resync();
 
   // Status icon
+  bool tray_icon_enabled = GUIConfig::get_trayicon_enabled();
+  if (!tray_icon_enabled)
+    {
+      // Recover from bug in 1.9.3 where tray icon AND mainwindow could be disabled
+      TimerBoxControl::set_enabled("main_window", true);
+    }
   status_icon = new StatusIcon(*main_window);
-  status_icon->set_visible(GUIConfig::get_trayicon_enabled());
+  status_icon->set_visible(tray_icon_enabled);
   CoreFactory::get_configurator()->add_listener(GUIConfig::CFG_KEY_TRAYICON_ENABLED, this);
   
 #ifdef HAVE_DBUS
