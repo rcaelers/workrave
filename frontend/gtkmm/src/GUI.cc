@@ -1,6 +1,6 @@
 // GUI.cc --- The WorkRave GUI
 //
-// Copyright (C) 2001 - 2010 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -972,6 +972,8 @@ GUI::config_changed_notify(const std::string &key)
 
           if (!tray)
             {
+              TimerBoxControl::set_enabled("main_window", true);
+              
               AppletControl *applet_control = get_applet_control();
               if (applet_control != NULL)
                 {
