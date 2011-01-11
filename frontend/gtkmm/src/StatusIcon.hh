@@ -1,6 +1,6 @@
 // StatusIcon.hh --- Status icon
 //
-// Copyright (C) 2006, 2007, 2008, 2009, 2010 Rob Caelers & Raymond Penners
+// Copyright (C) 2006, 2007, 2008, 2009, 2010, 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,9 @@
 #include "preinclude.h"
 
 #ifdef PLATFORM_OS_WIN32
-#define USE_W32STATUSICON
+#if ! GTK_CHECK_VERSION(2,22,1)
+#define USE_W32STATUSICON 1
+#endif
 #include <gdk/gdkwin32.h>
 #endif
 #include <gtkmm/statusicon.h>
