@@ -1481,10 +1481,6 @@ GUI::get_timers_tooltip()
   OperationMode mode = core->get_operation_mode();
   switch (mode)
     {
-    case OPERATION_MODE_NORMAL:
-      tip = "Workrave";
-      break;
-        
     case OPERATION_MODE_SUSPENDED:
       tip = string(_("Mode: ")) +   _("Suspended");
       break;
@@ -1493,7 +1489,12 @@ GUI::get_timers_tooltip()
       tip = string(_("Mode: ")) +   _("Quiet");
       break;
 
+    case OPERATION_MODE_NORMAL:
     default:
+#if !defined(PLATFORM_OS_WIN32)
+          // Win32 tip is limited in length
+      tip = "Workrave";
+#endif      
       break;
     }
   
@@ -1519,13 +1520,6 @@ GUI::get_timers_tooltip()
               text = Text::time_to_string(activeTime);
             }
 
-#if !defined(PLATFORM_OS_WIN32)
-          // Win32 tip is limited in length
-          if (tip == "")
-            {
-              tip = "Workrave";
-            }
-#endif
           if (tip != "")
             {
               tip += "\n";
