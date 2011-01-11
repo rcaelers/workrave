@@ -1,6 +1,6 @@
 // TimerPreferencesPanel.hh --- Preferences widgets for a timer
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2011 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -89,6 +89,7 @@ private:
   Gtk::SpinButton *max_prelude_spin;
   Gtk::Adjustment max_prelude_adjustment;
   Gtk::CheckButton *enabled_cb;
+  Gtk::CheckButton *auto_natural_cb;
 #ifdef HAVE_EXERCISES
   Gtk::SpinButton *exercises_spin;
   Gtk::Adjustment exercises_adjustment;

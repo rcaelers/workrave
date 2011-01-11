@@ -1,6 +1,6 @@
 // TimerPreferencesPanel.cc --- Preferences widgets for a timer
 //
-// Copyright (C) 2002 - 2010 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002 - 2011 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -173,16 +173,28 @@ TimerPreferencesPanel::create_options_panel()
       hig->add(_("Number of exercises:"), *exercises_spin);
     }
 #endif
+  if (break_id == BREAK_ID_REST_BREAK)
+    {
+      auto_natural_cb = Gtk::manage(new Gtk::CheckButton(_("Start natural restbreak when screen is locked")));
+      hig->add(*auto_natural_cb);
+      
+      connector->connect(GUIConfig::CFG_KEY_BREAK_AUTO_NATURAL % break_id,
+                         dc::wrap(auto_natural_cb));
+    }
 
   connector->connect(CoreConfig::CFG_KEY_TIMER_ACTIVITY_SENSITIVE % break_id,
                      dc::wrap(activity_sensitive_cb));
 
   connector->connect(GUIConfig::CFG_KEY_BREAK_IGNORABLE % break_id,
                      dc::wrap(ignorable_cb));
+
   
 #ifdef HAVE_EXERCISES
-  connector->connect(GUIConfig::CFG_KEY_BREAK_EXERCISES % break_id,
-                     dc::wrap(exercises_spin));
+  if (break_id == BREAK_ID_REST_BREAK)
+    {
+      connector->connect(GUIConfig::CFG_KEY_BREAK_EXERCISES % break_id,
+                         dc::wrap(exercises_spin));
+    }
 #endif
 
   connector->connect(CoreConfig::CFG_KEY_MONITOR % break_id,

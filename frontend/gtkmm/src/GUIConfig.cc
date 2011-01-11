@@ -1,6 +1,6 @@
 // GUIConfig.cc --- The WorkRave GUI Configuration
 //
-// Copyright (C) 2007, 2008, 2010 Rob Caelers & Raymond Penners
+// Copyright (C) 2007, 2008, 2010, 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -33,12 +33,12 @@
 
 using namespace std;
 
-const string GUIConfig::CFG_KEY_BREAK_IGNORABLE  = "gui/breaks/%b/ignorable_break";
-const string GUIConfig::CFG_KEY_BREAK_EXERCISES  = "gui/breaks/%b/exercises";
-const string GUIConfig::CFG_KEY_BLOCK_MODE       = "gui/breaks/block_mode";
-const string GUIConfig::CFG_KEY_LOCALE           = "gui/locale";
-const string GUIConfig::CFG_KEY_TRAYICON_ENABLED = "gui/trayicon_enabled";
-
+const string GUIConfig::CFG_KEY_BREAK_IGNORABLE    = "gui/breaks/%b/ignorable_break";
+const string GUIConfig::CFG_KEY_BREAK_EXERCISES    = "gui/breaks/%b/exercises";
+const string GUIConfig::CFG_KEY_BREAK_AUTO_NATURAL = "gui/breaks/%b/auto_natural";
+const string GUIConfig::CFG_KEY_BLOCK_MODE         = "gui/breaks/block_mode";
+const string GUIConfig::CFG_KEY_LOCALE             = "gui/locale";
+const string GUIConfig::CFG_KEY_TRAYICON_ENABLED   = "gui/trayicon_enabled";
 //!
 void
 GUIConfig::init()

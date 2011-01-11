@@ -1,6 +1,6 @@
 // Session.cc --- Monitor the user session
 //
-// Copyright (C) 2010 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010, 2011 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -28,6 +28,8 @@
 #include "nls.h"
 #include "debug.hh"
 
+#include "IConfigurator.hh"
+#include "GUIConfig.hh"
 #include "CoreFactory.hh"
 #include "IBreak.hh"
 
@@ -52,24 +54,31 @@ void
 Session::set_idle(bool new_idle)
 {
   TRACE_ENTER_MSG("Session::set_idle", new_idle);
-  
-  if (new_idle && !is_idle)
+
+  bool auto_natural = false;
+  IConfigurator *config = CoreFactory::get_configurator();
+  config->get_value(GUIConfig::CFG_KEY_BREAK_AUTO_NATURAL % BREAK_ID_REST_BREAK, auto_natural);
+
+  if (auto_natural)
     {
-      ICore *core = CoreFactory::get_core();
-      mode_before_screenlock = core->set_operation_mode(OPERATION_MODE_SUSPENDED, false);
-    }
-  else if (!new_idle && is_idle)
-    {
-      ICore *core = CoreFactory::get_core();
-      IBreak *rest_break = core->get_break(BREAK_ID_REST_BREAK);
-      
-      core->set_operation_mode(mode_before_screenlock, false);
-      if (rest_break->get_elapsed_idle_time() < rest_break->get_auto_reset() && rest_break->is_enabled())
+      if (new_idle && !is_idle)
         {
-          core->force_break(BREAK_ID_REST_BREAK, BREAK_HINT_NATURAL_BREAK);
+          ICore *core = CoreFactory::get_core();
+          mode_before_screenlock = core->set_operation_mode(OPERATION_MODE_SUSPENDED, false);
+        }
+      else if (!new_idle && is_idle)
+        {
+          ICore *core = CoreFactory::get_core();
+          IBreak *rest_break = core->get_break(BREAK_ID_REST_BREAK);
+      
+          core->set_operation_mode(mode_before_screenlock, false);
+          if (rest_break->get_elapsed_idle_time() < rest_break->get_auto_reset() && rest_break->is_enabled())
+            {
+              core->force_break(BREAK_ID_REST_BREAK, BREAK_HINT_NATURAL_BREAK);
+            }
         }
     }
-
+  
   is_idle = new_idle;
   TRACE_EXIT();
 }
