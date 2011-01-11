@@ -45,7 +45,7 @@
 
       </submenu>
            
-      <menuitem name="Reading Mode" verb="ReadingMode" _label="Reading Mode" type="toggle" id="ReadingMode"/>
+      <menuitem name="Reading Mode" verb="ReadingMode" _label="Reading mode" type="toggle" id="ReadingMode"/>
 
       <menuitem name="Statistics Item" verb="Statistics" _label="_Statistics"/>
 
