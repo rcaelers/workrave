@@ -1,6 +1,6 @@
 // BreakControl.cc
 //
-// Copyright (C) 2001 - 2010 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -272,7 +272,7 @@ BreakControl::goto_stage(BreakStage stage)
     case STAGE_SNOOZED:
       {
         application->hide_break_window();
-        if (!user_initiated)
+        if (!forced_break)
           {
             post_event(CORE_EVENT_SOUND_BREAK_IGNORED);
           }
@@ -311,7 +311,7 @@ BreakControl::goto_stage(BreakStage stage)
         break_window_start();
 
         // Play sound
-        if (!user_initiated)
+        if (!forced_break)
           {
             CoreEvent event = CORE_EVENT_NONE;
             switch (break_id)
@@ -388,7 +388,7 @@ BreakControl::start_break()
   TRACE_ENTER_MSG("BreakControl::start_break", break_id);
 
   break_hint = BREAK_HINT_NONE;
-  user_initiated = false;
+  forced_break = false;
   fake_break = false;
   prelude_time = 0;
   user_abort = false;
@@ -433,7 +433,7 @@ BreakControl::force_start_break(BreakHint hint)
   TRACE_ENTER_MSG("BreakControl::force_start_break", break_id);
 
   break_hint = hint;
-  user_initiated = (break_hint & BREAK_HINT_USER_INITIATED) != 0;
+  forced_break = (break_hint & (BREAK_HINT_USER_INITIATED | BREAK_HINT_NATURAL_BREAK) ) != 0;
   fake_break = false;
   prelude_time = 0;
   user_abort = false;
@@ -544,7 +544,7 @@ BreakControl::postpone_break()
 {
   if (break_stage == STAGE_TAKING)
     {
-      if (!user_initiated)
+      if (!forced_break)
         {
           if (!fake_break)
             {
@@ -672,14 +672,14 @@ BreakControl::set_state_data(bool active, const BreakStateData &data)
 {
   TRACE_ENTER_MSG("BreakStateData::set_state_data", active);
 
-  TRACE_MSG("forced = " << data.user_initiated <<
+  TRACE_MSG("forced = " << data.forced_break <<
             " prelude = " << data.prelude_count <<
             " stage = " <<  data.break_stage <<
             " final = " << reached_max_prelude <<
             " total preludes = " << postponable_count <<
             " time = " << data.prelude_time);
 
-  user_initiated = data.user_initiated;
+  forced_break = data.forced_break;
   prelude_count = data.prelude_count;
   prelude_time = data.prelude_time;
   postponable_count = data.postponable_count;
@@ -692,7 +692,7 @@ BreakControl::set_state_data(bool active, const BreakStateData &data)
 void
 BreakControl::get_state_data(BreakStateData &data)
 {
-  data.user_initiated = user_initiated;
+  data.forced_break = forced_break;
   data.prelude_count = prelude_count;
   data.break_stage = break_stage;
   data.reached_max_prelude = reached_max_prelude;

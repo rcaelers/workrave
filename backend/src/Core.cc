@@ -1678,7 +1678,7 @@ Core::request_break_state(PacketBuffer &buffer)
           int pos = buffer.bytes_written();
 
           buffer.pack_ushort(0);
-          buffer.pack_byte((guint8)state_data.user_initiated);
+          buffer.pack_byte((guint8)state_data.forced_break);
           buffer.pack_byte((guint8)state_data.reached_max_prelude);
           buffer.pack_ulong((guint32)state_data.prelude_count);
           buffer.pack_ulong((guint32)state_data.break_stage);
@@ -1716,7 +1716,7 @@ Core::set_break_state(bool master, PacketBuffer &buffer)
 
       if (data_size > 0)
         {
-          state_data.user_initiated = buffer.unpack_byte();
+          state_data.forced_break = buffer.unpack_byte();
           state_data.reached_max_prelude = buffer.unpack_byte();
           state_data.prelude_count = buffer.unpack_ulong();
           state_data.break_stage = buffer.unpack_ulong();

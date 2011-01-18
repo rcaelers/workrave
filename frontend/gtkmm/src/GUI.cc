@@ -1047,7 +1047,8 @@ GUI::create_break_window(BreakId break_id, BreakHint break_hint)
 
   if (break_hint & BREAK_HINT_NATURAL_BREAK)
     {
-      break_flags |=  (BreakWindow::BREAK_FLAGS_NO_EXERCISES | BreakWindow::BREAK_FLAGS_NATURAL);
+      break_flags |=  (BreakWindow::BREAK_FLAGS_NO_EXERCISES | BreakWindow::BREAK_FLAGS_NATURAL |
+                       BreakWindow::BREAK_FLAGS_POSTPONABLE | BreakWindow::BREAK_FLAGS_SKIPPABLE);
     }
   
   active_break_id = break_id;

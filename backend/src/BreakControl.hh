@@ -1,6 +1,6 @@
 // BreakControl.hh --- controller for a single break
 //
-// Copyright (C) 2001 - 2010 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -47,7 +47,7 @@ public:
   //! Defines what to do when the user is active during a break.
   struct BreakStateData
   {
-    bool user_initiated;
+    bool forced_break;
     int prelude_count;
     int postponable_count;
 
@@ -121,8 +121,8 @@ private:
   //! How long is the prelude active.
   int prelude_time;
 
-  //! (User initiated/seld-inflicted) forced break (i.e. RestBreak now)
-  bool user_initiated;
+  //! forced break (i.e. RestBreak now, or screenlock)
+  bool forced_break;
 
   //! How many times have we preluded (since the limit was reached)
   int prelude_count;
