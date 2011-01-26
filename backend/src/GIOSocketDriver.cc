@@ -147,10 +147,10 @@ GIOSocket::static_data_callback(GSocket *socket,
                                 GIOCondition condition,
                                 gpointer user_data)
 {
-  TRACE_ENTER("GIOSocket::static_data_incoming");
+  TRACE_ENTER_MSG("GIOSocket::static_data_callback", (int)condition);
 
   GIOSocket *giosocket = (GIOSocket *)user_data;
-  bool ret = true;
+  gboolean ret = TRUE;
 
   (void) socket;
 
@@ -165,7 +165,7 @@ GIOSocket::static_data_callback(GSocket *socket,
               // giosocket->close();
               giosocket->listener->socket_closed(giosocket, giosocket->user_data);
             }
-          ret = false;
+          ret = FALSE;
         }
 
       // process input
@@ -182,7 +182,7 @@ GIOSocket::static_data_callback(GSocket *socket,
       // Make sure that no exception reach the glib mainloop.
       TRACE_MSG("Exception. Closing socket");
       giosocket->close();
-      ret = false;
+      ret = FALSE;
     }
   TRACE_EXIT();
   return ret;
