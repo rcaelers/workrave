@@ -1,6 +1,6 @@
 // BreakWindow.cc --- base class for the break windows
 //
-// Copyright (C) 2001 - 2010 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -134,22 +134,22 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   HWND _hParent = GetAncestor( _hwnd, GA_PARENT );
   HWND _hDesktop = GetDesktopWindow();
   
-  TRACE_MSG("BreakWindow created" <<  hex << _hwnd);
+  TRACE_MSG("BreakWindow created" <<  hex << _hwnd << dec);
   if (_hwnd != _scope)
     {
-      TRACE_MSG("!!! Scope issue: " << hex << _scope);
+      TRACE_MSG("!!! Scope issue: " << hex << _scope << dec);
     }
   
   if (_hwnd != _hRoot)
     {
-      TRACE_MSG("GetDesktopWindow()" <<  hex << _hDesktop);
-      TRACE_MSG("!!! BreakWindow GA_ROOT: " << hex << _hRoot);
+      TRACE_MSG("GetDesktopWindow()" <<  hex << _hDesktop << dec);
+      TRACE_MSG("!!! BreakWindow GA_ROOT: " << hex << _hRoot << dec);
     }
   
   if (_hParent != _hDesktop)
     {
-      TRACE_MSG("GetDesktopWindow()" <<  hex << _hDesktop);
-      TRACE_MSG("!!! PreludeWindow GA_PARENT: " << hex << _hParent);
+      TRACE_MSG("GetDesktopWindow()" <<  hex << _hDesktop << dec);
+      TRACE_MSG("!!! PreludeWindow GA_PARENT: " << hex << _hParent << dec);
       
       HWND _hTemp;
       while( IsWindow( _hParent ) && _hParent != _hDesktop )
@@ -159,8 +159,8 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
           HWND _hParent2 = (HWND)GetWindowLong( _hTemp, GWL_HWNDPARENT );
           if( _hParent == _hTemp )
             break;
-          TRACE_MSG("!!!" <<  hex << _hTemp << " GA_PARENT: " << hex << _hParent);
-          TRACE_MSG("!!!" <<  hex << _hTemp << " GWL_HWNDPARENT: " << hex << _hParent2);
+          TRACE_MSG("!!!" <<  hex << _hTemp << " GA_PARENT: " << hex << _hParent  << dec);
+          TRACE_MSG("!!!" <<  hex << _hTemp << " GWL_HWNDPARENT: " << hex << _hParent2  << dec);
         }
     }
     
