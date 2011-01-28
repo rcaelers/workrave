@@ -1262,11 +1262,8 @@ GUI::grab()
 {
   if (break_windows != NULL && active_break_count > 0)
     {
-#ifdef PLATFORM_OS_WIN32_NATIVE
-		GdkWindow *windows[BREAK_ID_SIZEOF];
-#else
-	  GdkWindow *windows[active_break_count];
-#endif
+      GdkWindow **windows = new GdkWindow *[active_break_count];
+
       for (int i = 0; i < active_break_count; i++)
         {
           Glib::RefPtr<Gdk::Window> window = break_windows[i]->get_gdk_window();
@@ -1287,6 +1284,8 @@ GUI::grab()
             }
 #endif
         }
+
+      delete [] windows;
     }
   return grab_handle != NULL;
 }
