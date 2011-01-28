@@ -103,11 +103,11 @@ W32AppletWindow::set_slot(BreakId id, int slot)
 
 void
 W32AppletWindow::set_time_bar(BreakId id,
-                                 std::string text,
-                                 ITimeBar::ColorId primary_color,
-                                 int primary_val, int primary_max,
-                                 ITimeBar::ColorId secondary_color,
-                                 int secondary_val, int secondary_max)
+                              std::string text,
+                              ITimeBar::ColorId primary_color,
+                              int primary_val, int primary_max,
+                              ITimeBar::ColorId secondary_color,
+                              int secondary_val, int secondary_max)
 {
   TRACE_ENTER_MSG("W32AppletWindow::set_time_bar", int(id) << "=" << text);
   strncpy(heartbeat_data.bar_text[id], text.c_str(), APPLET_BAR_TEXT_MAX_LENGTH-1);

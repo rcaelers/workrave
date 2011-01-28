@@ -471,7 +471,7 @@ BreakWindow::create_break_buttons(bool lockable,
           shutdown_button = create_shutdown_button();
           if (shutdown_button != NULL)
             {
-				box->pack_end(*shutdown_button, Gtk::PACK_SHRINK, 0);
+              box->pack_end(*shutdown_button, Gtk::PACK_SHRINK, 0);
             }
         }
 
@@ -490,7 +490,7 @@ BreakWindow::create_break_buttons(bool lockable,
           box->pack_end(*skip_button, Gtk::PACK_SHRINK, 0);
         }
       
-        if ((break_flags & BREAK_FLAGS_POSTPONABLE) != 0)
+      if ((break_flags & BREAK_FLAGS_POSTPONABLE) != 0)
         {
           Gtk::Button *postpone_button = create_postpone_button();
           box->pack_end(*postpone_button, Gtk::PACK_SHRINK, 0);
@@ -577,12 +577,12 @@ BreakWindow::refresh()
 {
   update_break_window();
   
- #ifdef PLATFORM_OS_WIN32
+#ifdef PLATFORM_OS_WIN32
    if (block_mode != GUIConfig::BLOCK_MODE_NONE)
      {
        WindowHints::set_always_on_top(this, true);
      }
- #endif
+#endif
 }
 
 Glib::RefPtr<Gdk::Window>
