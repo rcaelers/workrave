@@ -1,6 +1,6 @@
 // AppletWindow.cc --- Applet info Window
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -40,6 +40,7 @@ W32AppletWindow::W32AppletWindow()
   timer_box_view = this;
   applet_window = NULL;
   heartbeat_data.enabled = false;
+  local_applet_window = NULL;
   init_menu(NULL);
 
   // Intentionally last line, as this one calls W32AW::set_enabled(), e.g.
@@ -47,6 +48,11 @@ W32AppletWindow::W32AppletWindow()
 
   ::InitializeCriticalSection(&heartbeat_data_lock);
   heartbeat_data_event = ::CreateEvent(NULL, FALSE, FALSE, NULL);
+
+  memset(&local_heartbeat_data, 0, sizeof(AppletHeartbeatData));
+  memset(&local_menu_data, 0, sizeof(AppletMenuData));
+  memset(&heartbeat_data, 0, sizeof(AppletHeartbeatData));
+  memset(&menu_data, 0, sizeof(AppletMenuData));
   
   TRACE_EXIT();
 }
