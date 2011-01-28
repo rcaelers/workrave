@@ -1,6 +1,6 @@
 // W32StatusIcon.cc --- Window Notifcation Icon
 //
-// Copyright (C) 2010 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2010, 2011 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -98,10 +98,17 @@ W32StatusIcon::set_tooltip(const Glib::ustring &text)
 {
   gunichar2 *wtext = g_utf8_to_utf16(text.c_str(), -1, NULL, NULL, NULL);
 
-  nid.uFlags |= NIF_TIP;
-  wcsncpy(nid.szTip, (wchar_t *)wtext, G_N_ELEMENTS(nid.szTip) - 1);
-  nid.szTip[G_N_ELEMENTS(nid.szTip) - 1] = 0;
-  g_free(wtext);
+  if (wtext != NULL)
+    {
+      nid.uFlags |= NIF_TIP;
+      wcsncpy(nid.szTip, (wchar_t *)wtext, G_N_ELEMENTS(nid.szTip) - 1);
+      nid.szTip[G_N_ELEMENTS(nid.szTip) - 1] = 0;
+      g_free(wtext);
+    }
+  else
+    {
+      nid.szTip[0] = 0;
+    }
   
   if (nid.hWnd != NULL && visible)
     {
@@ -162,15 +169,6 @@ W32StatusIcon::init()
 
   if (tray_hwnd == NULL)
     {
-      memset(&nid, 0, sizeof(NOTIFYICONDATA));
-    
-      nid.cbSize = sizeof(NOTIFYICONDATA);
-      nid.uID = 1;
-      nid.uFlags = NIF_MESSAGE;
-      nid.uCallbackMessage = MYWM_TRAY_MESSAGE;
-
-      set_tooltip("Workrave");
-
       WNDCLASS wclass;
       memset(&wclass, 0, sizeof(WNDCLASS));
       wclass.lpszClassName = "WorkraveTrayObserver";
@@ -192,10 +190,22 @@ W32StatusIcon::init()
         }
       else
         {
-          nid.hWnd = tray_hwnd;
-          SetWindowLong(tray_hwnd, GWL_USERDATA, (LONG) this);
           wm_taskbarcreated = RegisterWindowMessage("TaskbarCreated");
         }
+    }
+
+  memset(&nid, 0, sizeof(NOTIFYICONDATA));
+  nid.cbSize = sizeof(NOTIFYICONDATA);
+  nid.uID = 1;
+  nid.uFlags = NIF_MESSAGE;
+  nid.uCallbackMessage = MYWM_TRAY_MESSAGE;
+  nid.hWnd = tray_hwnd;
+
+  set_tooltip("Workrave");
+  
+  if (tray_hwnd != NULL)
+    {
+      SetWindowLong(tray_hwnd, GWL_USERDATA, (LONG) this);
     }
 }
 
@@ -236,7 +246,7 @@ W32StatusIcon::window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
     {
       if (uMsg == status_icon->wm_taskbarcreated)
         {
-          if (status_icon->visible)
+          if (status_icon->visible && status_icon->nid.hWnd != NULL)
             {
               Shell_NotifyIconW(NIM_ADD, &status_icon->nid);
             }
