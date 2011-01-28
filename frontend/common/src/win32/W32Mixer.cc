@@ -1,6 +1,6 @@
 // W32Mixer.cc --- W32Audio mixer
 //
-// Copyright (C) 2010 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010, 2011 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -102,7 +102,6 @@ W32Mixer::init()
   if (hr == S_OK)
     {
       hr = device_enum->GetDefaultAudioEndpoint(eRender, eConsole, &default_device);
-
       device_enum->Release();
     }
 
@@ -131,7 +130,6 @@ W32Mixer::set_mute_mmdevice(bool on)
   if (hr == S_OK)
     {
       TRACE_MSG("current mute is: " <<  mute);
-
       hr = endpoint_volume->SetMute(on, NULL);
     }
 
@@ -151,16 +149,16 @@ W32Mixer::set_mute_mixer(bool on)
 	int mute_control = -1;
   bool ret = false;
   
-  memset(&mixer_line, 0, sizeof(mixer_line));
-  memset(&mixer_line_controls, 0, sizeof(mixer_line_controls));
+  memset(&mixer_line, 0, sizeof(MIXERLINE));
+  memset(&mixer_line_controls, 0, sizeof(MIXERLINECONTROLS));
   
 	mixer_line.cbStruct = sizeof(MIXERLINE);
-	mixer_line_controls.cbStruct = sizeof(MIXERLINECONTROLS);
+  mixer_line_controls.cbStruct = sizeof(MIXERLINECONTROLS);
 
 	result = mixerGetLineInfo(NULL, &mixer_line, MIXER_OBJECTF_MIXER | MIXER_GETLINEINFOF_DESTINATION);
   if (result == MMSYSERR_NOERROR)
-    {
-      mixer_control = new MIXERCONTROL[mixer_line_controls.cControls];
+    { 
+      mixer_control = new MIXERCONTROL[mixer_line.cControls];
 
       mixer_line_controls.dwLineID = mixer_line.dwLineID;
       mixer_line_controls.cControls = mixer_line.cControls;
@@ -172,7 +170,7 @@ W32Mixer::set_mute_mixer(bool on)
 
   if (result == MMSYSERR_NOERROR)
     {
-      for(unsigned int i = 0; i < mixer_line_controls.cControls; i++)
+      for (unsigned int i = 0; i < mixer_line_controls.cControls; i++)
         {
           if (mixer_control[i].dwControlType == MIXERCONTROL_CONTROLTYPE_MUTE)
             {
@@ -185,12 +183,12 @@ W32Mixer::set_mute_mixer(bool on)
   if (result == MMSYSERR_NOERROR && mute_control != -1)
     {
       MIXERCONTROLDETAILS_BOOLEAN value;
-      memset(&value, 0, sizeof(value));
+      memset(&value, 0, sizeof(MIXERCONTROLDETAILS_BOOLEAN));
 
-      value.fValue    = FALSE; 
+      value.fValue = FALSE; 
 
       MIXERCONTROLDETAILS mixer_control_details;
-      memset(&mixer_control_details, 0, sizeof(mixer_control_details));
+      memset(&mixer_control_details, 0, sizeof(MIXERCONTROLDETAILS));
 
       mixer_control_details.cbStruct	     = sizeof(MIXERCONTROLDETAILS);
       mixer_control_details.dwControlID    = mute_control;
@@ -204,6 +202,11 @@ W32Mixer::set_mute_mixer(bool on)
   
       value.fValue = on; 
       mixerSetControlDetails(NULL, &mixer_control_details, MIXER_GETCONTROLDETAILSF_VALUE | MIXER_OBJECTF_MIXER);
+    }
+
+  if (mixer_control != NULL)
+    {
+      delete [] mixer_control;
     }
   
   TRACE_EXIT();
