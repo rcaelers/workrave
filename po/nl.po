@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: workrave 1.8.0\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
 "POT-Creation-Date: 2011-01-11 18:39+0100\n"
-"PO-Revision-Date: 2011-01-11 18:56+0100\n"
+"PO-Revision-Date: 2011-01-28 23:24+0100\n"
 "Last-Translator: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language-Team: Raymond Penners <raymond@dotsphinx.com>\n"
 "Language: \n"
@@ -291,15 +291,15 @@ msgstr "Rustpauze"
 
 #: ../frontend/gtkmm/src/GUI.cc:1480 ../frontend/gtkmm/src/GUI.cc:1484
 msgid "Mode: "
-msgstr "_Modus"
+msgstr "Modus"
 
 #: ../frontend/gtkmm/src/GUI.cc:1480
 msgid "Suspended"
-msgstr "_Uitgeschakeld"
+msgstr "Uitgeschakeld"
 
 #: ../frontend/gtkmm/src/GUI.cc:1484
 msgid "Quiet"
-msgstr "_Stil"
+msgstr "Stil"
 
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:95
 #: ../frontend/gtkmm/src/MainGtkMenu.cc:173
