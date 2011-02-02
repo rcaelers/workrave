@@ -300,7 +300,8 @@ MainWindow::update()
 }
 
 
-void MainWindow::on_activate()
+void
+MainWindow::on_activate()
 {
   if (GTK_WIDGET_VISIBLE(GTK_WIDGET(gobj())))
     {
