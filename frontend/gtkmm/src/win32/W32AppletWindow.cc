@@ -35,6 +35,11 @@ W32AppletWindow::W32AppletWindow()
 {
   TRACE_ENTER("W32AppletWindow::W32AppletWindow");
 
+  memset(&local_heartbeat_data, 0, sizeof(AppletHeartbeatData));
+  memset(&local_menu_data, 0, sizeof(AppletMenuData));
+  memset(&heartbeat_data, 0, sizeof(AppletHeartbeatData));
+  memset(&menu_data, 0, sizeof(AppletMenuData));
+  
   thread_id = 0;
   thread_handle = NULL;
   timer_box_view = this;
@@ -43,17 +48,12 @@ W32AppletWindow::W32AppletWindow()
   local_applet_window = NULL;
   init_menu(NULL);
 
-  // Intentionally last line, as this one calls W32AW::set_enabled(), e.g.
-  timer_box_control = new TimerBoxControl("applet", *this);
-
   ::InitializeCriticalSection(&heartbeat_data_lock);
   heartbeat_data_event = ::CreateEvent(NULL, FALSE, FALSE, NULL);
 
-  memset(&local_heartbeat_data, 0, sizeof(AppletHeartbeatData));
-  memset(&local_menu_data, 0, sizeof(AppletMenuData));
-  memset(&heartbeat_data, 0, sizeof(AppletHeartbeatData));
-  memset(&menu_data, 0, sizeof(AppletMenuData));
-  
+  // Intentionally last line, as this one calls W32AW::set_enabled(), e.g.
+  timer_box_control = new TimerBoxControl("applet", *this);
+
   TRACE_EXIT();
 }
 
