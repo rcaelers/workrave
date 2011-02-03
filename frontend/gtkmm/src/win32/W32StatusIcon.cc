@@ -240,7 +240,7 @@ LRESULT CALLBACK
 W32StatusIcon::window_proc(HWND hwnd, UINT uMsg, WPARAM wParam,
                               LPARAM lParam)
 {
-  TRACE_ENTER("MainWindow::win32_window_proc");
+  TRACE_ENTER_MSG("W32StatusIcon::window_proc", uMsg << " " << wParam);
   W32StatusIcon *status_icon = (W32StatusIcon *) GetWindowLong(hwnd, GWL_USERDATA);
   if (status_icon != NULL)
     {
