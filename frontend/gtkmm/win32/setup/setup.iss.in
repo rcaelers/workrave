@@ -2,7 +2,7 @@
 ; (Important: *MUST* be DOS encoded)
 ;
 ; Copyright (C) 2002 - 2010 Raymond Penners <raymond@dotsphinx.com>
-; Copyright (C) 2010  Rob Caelers <robc@krandor.nl>
+; Copyright (C) 2010 - 2011 Rob Caelers <robc@krandor.nl>
 ; All rights reserved.
 ;
 ; This program is free software: you can redistribute it and/or modify
@@ -30,7 +30,7 @@ AppUpdatesURL=http://www.workrave.org
 DefaultDirName={pf}\Workrave
 DefaultGroupName=Workrave
 LicenseFile=..\..\..\..\COPYING
-AppMutex=WorkraveMutex
+;AppMutex=WorkraveMutex
 WizardImageFile=WizModernImage.bmp
 WizardSmallImageFile=WizModernSmall.bmp
 PrivilegesRequired=none
@@ -74,7 +74,9 @@ Source: "..\..\..\..\AUTHORS.txt"; DestDir: "{app}"; DestName: "AUTHORS.txt"; Fl
 Source: "..\..\..\..\NEWS.txt"; DestDir: "{app}"; DestName: "NEWS.txt"; Flags: ignoreversion;
 Source: "..\..\..\..\README.txt"; DestDir: "{app}"; DestName: "README.txt"; Flags: ignoreversion;
 Source: "..\..\src\workrave.exe"; DestDir: "{app}\lib"; DestName: "Workrave.exe"; Flags: ignoreversion;
+Source: "src\.libs\libzapper-0.dll"; DestDir: "{app}"; Flags: dontcopy
 #include "lang.iss"
+
 
 [Registry]
 Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\Workrave.exe"; ValueType: string; ValueData: "{app}\lib\Workrave.exe"; Flags: uninsdeletekeyifempty
@@ -91,9 +93,6 @@ Name: "{group}\License"; Filename: "{app}\COPYING.txt"
 Name: "{group}\Uninstall"; Filename: "{uninstallexe}"
 Name: "{userdesktop}\Workrave"; Filename: "{app}\lib\Workrave.exe"; MinVersion: 4,4; Tasks: desktopicon
 Name: "{app}\Workrave"; Filename: "{app}\lib\Workrave.exe"
-;;Name: "{userstartup}\Workrave"; Filename: "{app}\lib\Workrave.exe"; MinVersion: 4,4; Tasks: startupmenu
-
-
 
 [Run]
 Filename: "{app}\lib\Workrave.exe"; Description: "Launch Workrave"; Flags: nowait postinstall skipifsilent shellexec;
@@ -103,9 +102,43 @@ Type: files; Name: "{userstartup}\Workrave.lnk"
 Type: files; Name: "{app}\share\sounds\*.wav"
 
 [Code]
-function InitializeSetup(): Boolean;
+
+function ZapWorkrave(): Boolean;
+external 'ZapWorkrave@{tmp}\libzapper-0.dll stdcall delayload';
+
+Function EnsureWorkraveIsNotRunning() : Boolean;
+var winHwnd: longint;
+    retVal : boolean;
 begin
   Result := true;
+  try
+    winHwnd := FindWindowByWindowName('Workrave');
+    if winHwnd <> 0 then
+    begin
+      if MsgBox('Workrave is still running. Setup must close Workrave before continuing. Please click OK to continue, or Cancel to exit',
+                mbConfirmation, MB_OKCANCEL) = IDOK then
+      begin
+        retVal := ZapWorkrave();
+	if not retVal then begin
+	  MsgBox('Failed to close Workrave. Please close Workrave manually.', mbError, MB_OK);
+	  Result := False;
+	end
+      end
+    end
+  except
+  end;
+end;
+
+Function InitializeSetup() : Boolean;
+begin
+    ExtractTemporaryFile('libzapper-0.dll');
+    Result := EnsureWorkraveIsNotRunning();
+end;
+
+Function InitializeUninstall() : Boolean;
+begin
+    FileCopy(ExpandConstant('{app}\libzapper-0.dll'), ExpandConstant('{tmp}\libzapper-0.dll'), False);
+    Result := EnsureWorkraveIsNotRunning();
 end;
 
 function HasGtkRuntime(): Boolean;

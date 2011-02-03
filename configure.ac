@@ -917,6 +917,7 @@ AC_OUTPUT(Makefile
           frontend/gtkmm/win32/Makefile \
           frontend/gtkmm/win32/setup/Makefile \
           frontend/gtkmm/win32/setup/setup.iss \
+          frontend/gtkmm/win32/setup/src/Makefile \
           frontend/gtkmm/src/Makefile \
           frontend/gtkmm/src/win32/Makefile \
           frontend/gtkmm/src/unix/Makefile \
