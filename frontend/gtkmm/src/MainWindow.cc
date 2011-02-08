@@ -303,7 +303,19 @@ MainWindow::update()
 void
 MainWindow::on_activate()
 {
-  if (GTK_WIDGET_VISIBLE(GTK_WIDGET(gobj())))
+  TRACE_ENTER("MainWindow::on_activate");
+
+#ifdef PLATFORM_OS_WIN32  
+  GtkWidget *window = Gtk::Widget::gobj();
+  GdkWindow *gdk_window = window->window;
+  HWND hwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
+  
+  bool visible = IsWindowVisible(hwnd);
+#else
+  bool visible = GTK_WIDGET_VISIBLE(GTK_WIDGET(gobj()))
+#endif
+
+  if (visible)
     {
       close_window();
     }
@@ -311,6 +323,7 @@ MainWindow::on_activate()
     {
       open_window();
     }
+  TRACE_EXIT();
 }
 
 
