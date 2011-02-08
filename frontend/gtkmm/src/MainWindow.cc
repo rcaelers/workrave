@@ -312,7 +312,7 @@ MainWindow::on_activate()
   
   bool visible = IsWindowVisible(hwnd);
 #else
-  bool visible = GTK_WIDGET_VISIBLE(GTK_WIDGET(gobj()))
+  bool visible = GTK_WIDGET_VISIBLE(GTK_WIDGET(gobj()));
 #endif
 
   if (visible)
