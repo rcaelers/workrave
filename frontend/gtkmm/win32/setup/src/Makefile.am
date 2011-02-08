@@ -5,7 +5,13 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
+EXTRA_DIST = $(wildcard *.c) $(wildcard *.h)
+
+if PLATFORM_OS_WIN32
+
 lib_LTLIBRARIES		= libzapper.la
 libzapper_la_SOURCES    = zapper.c
 libzapper_la_LDFLAGS    = -no-undefined -version-info 0:0:0
 include_HEADERS         = zapper.h
+
+endif
