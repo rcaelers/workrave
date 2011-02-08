@@ -1,6 +1,6 @@
 // SoundPlayer.hh
 //
-// Copyright (C) 2002, 2003, 2006, 2007, 2008, 2009, 2010 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2006, 2007, 2008, 2009, 2010, 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -56,7 +56,7 @@ public:
   
   SoundPlayer();
   virtual ~SoundPlayer();
-  void play_sound(SoundEvent snd);
+  void play_sound(SoundEvent snd, bool mute_after_playback = false);
   void play_sound(std::string wavfile);
 
   static bool is_enabled();
@@ -66,7 +66,7 @@ public:
 
   void init();
   bool capability(SoundCapability cap);
-  bool set_mute(bool on);
+  void restore_mute();
   
   bool get_sound_enabled(SoundEvent snd, bool &enabled);
   void set_sound_enabled(SoundEvent snd, bool enabled);
@@ -96,7 +96,8 @@ public:
 private:  
   ISoundDriver *driver;
   IMixer *mixer;
-  bool muted;
+  bool delayed_mute;
+  bool must_unmute;
 };
 
 #endif // SOUNDPLAYER_HH

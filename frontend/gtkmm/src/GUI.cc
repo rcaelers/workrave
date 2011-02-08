@@ -329,7 +329,7 @@ GUI::on_timer()
 
       if (user_active)
         {
-          sound_player->set_mute(false);
+          sound_player->restore_mute();
           muted = false;
         }
     }
@@ -921,9 +921,21 @@ GUI::core_event_notify(const CoreEvent event)
       if (event >= CORE_EVENT_SOUND_FIRST &&
           event <= CORE_EVENT_SOUND_LAST)
         {
+          bool mute = false;
           SoundEvent snd = (SoundEvent) ( (int)event - CORE_EVENT_SOUND_FIRST);
-          TRACE_MSG("play");
-          sound_player->play_sound(snd);
+          TRACE_MSG("play " << event);
+
+          if (event == CORE_EVENT_SOUND_REST_BREAK_STARTED ||
+              event == CORE_EVENT_SOUND_DAILY_LIMIT)
+            {
+              CoreFactory::get_configurator()->get_value(SoundPlayer::CFG_KEY_SOUND_MUTE, mute);
+              if (mute)
+                {
+                  muted = true;
+                }
+            }
+          TRACE_MSG("Mute after playback " << mute);
+          sound_player->play_sound(snd, mute);
         }
     }
 
@@ -1065,17 +1077,6 @@ GUI::create_break_window(BreakId break_id, BreakHint break_hint)
 
   active_break_count = num_heads;
 
-  if (break_id == BREAK_ID_REST_BREAK ||
-      break_id == BREAK_ID_DAILY_LIMIT)
-    {
-      bool mute = false;
-      CoreFactory::get_configurator()->get_value(SoundPlayer::CFG_KEY_SOUND_MUTE, mute);
-      if (mute)
-        {
-          muted = !sound_player->set_mute(true);
-        }
-    }
-  
   TRACE_EXIT();
 }
 

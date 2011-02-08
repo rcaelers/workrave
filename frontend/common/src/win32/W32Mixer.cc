@@ -199,6 +199,7 @@ W32Mixer::set_mute_mixer(bool on)
 
       mixerGetControlDetails(NULL, &mixer_control_details, MIXER_GETCONTROLDETAILSF_VALUE | MIXER_OBJECTF_MIXER);
       ret = value.fValue;
+      TRACE_MSG("current mute is: " <<  ret);
   
       value.fValue = on; 
       mixerSetControlDetails(NULL, &mixer_control_details, MIXER_GETCONTROLDETAILSF_VALUE | MIXER_OBJECTF_MIXER);

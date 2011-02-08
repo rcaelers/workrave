@@ -1,6 +1,6 @@
 // SoundPlayer.cc --- Sound player
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2009, 2010 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2009, 2010, 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -341,7 +341,8 @@ SoundPlayer::SoundPlayer()
 #endif
     ;
 
-  muted = false;
+  must_unmute = false;
+  delayed_mute = false;
 }
 
 SoundPlayer::~SoundPlayer()
@@ -643,9 +644,9 @@ SoundPlayer::get_sound_themes(std::vector<Theme> &themes)
 }
 
 void
-SoundPlayer::play_sound(SoundEvent snd)
+SoundPlayer::play_sound(SoundEvent snd, bool mute_after_playback)
 {
-  TRACE_ENTER("SoundPlayer::play_sound");
+  TRACE_ENTER_MSG("SoundPlayer::play_sound ", snd << " " << mute_after_playback);
   if (is_enabled() &&
       snd >= SOUND_MIN && snd < SOUND_MAX)
     {
@@ -656,6 +657,14 @@ SoundPlayer::play_sound(SoundEvent snd)
 
       if (valid && enabled)
         {
+          delayed_mute = false;
+          if (mute_after_playback &&
+              mixer != NULL && driver != NULL &&
+              driver->capability(SOUND_CAP_EOS_EVENT))
+            {
+              delayed_mute = true;
+            }
+
           if (get_device() == DEVICE_SOUNDCARD && driver != NULL)
             {
               if (driver->capability(SOUND_CAP_EVENTS))
@@ -670,6 +679,10 @@ SoundPlayer::play_sound(SoundEvent snd)
                   if (valid)
                     {
                       driver->play_sound(filename);
+                    }
+                  else
+                    {
+                      delayed_mute = false;
                     }
                 }
             }
@@ -854,39 +867,32 @@ SoundPlayer::capability(SoundCapability cap)
   return ret;
 }
 
-bool
-SoundPlayer::set_mute(bool on)
+void
+SoundPlayer::restore_mute()
 {
-  TRACE_ENTER_MSG("SoundPlayer::set_mute", on);
-  bool ret = false;
+  TRACE_ENTER("SoundPlayer::restore_mute");
   
-  if (mixer != NULL)
+  if (mixer != NULL && must_unmute)
     {
-      if (!on || !driver->capability(SOUND_CAP_EOS_EVENT))
-        {
-          ret = mixer->set_mute(on);
-        }
-      else
-        {
-          // mute after next playback....
-          TRACE_MSG("delayed");
-        }
+      mixer->set_mute(false);
     }
 
-  muted = on;
-
   TRACE_EXIT();
-  return ret;
 }
+
 
 void
 SoundPlayer::eos_event()
 {
   TRACE_ENTER("SoundPlayer::eos_event");
-  if (muted && mixer != NULL)
+  if (delayed_mute && mixer != NULL)
     {
-      TRACE_MSG("muting");
-      mixer->set_mute(true);
+      TRACE_MSG("delayed muting");
+      bool was_muted = mixer->set_mute(true);
+      if (!was_muted)
+        {
+          must_unmute = true;
+        }
     }
   TRACE_EXIT();
 }
