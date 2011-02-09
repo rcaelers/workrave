@@ -10,6 +10,8 @@ http://www.workrave.org
 ** The automatic start of a restbreak when the screen is locked is now
    configurable.
 
+** Fixed crash when the 'mute all audio during breaks' option is enabled.
+
 * Workrave 1.9.3
 
 ** Seanán Ó Coistín translated Workrave into Irish.
