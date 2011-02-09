@@ -1,6 +1,6 @@
 // Break.cc
 //
-// Copyright (C) 2001 - 2010 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -294,12 +294,6 @@ Break::load_timer_config()
   config->get_value(CoreConfig::CFG_KEY_TIMER_SNOOZE % break_id, snooze);
   timer->set_snooze_interval(snooze);
 
-  // Read the activity insensitive flag
-  //bool sensitive;
-  //config->get_value(CoreConfig::CFG_KEY_TIMER_ACTIVITY_SENSITIVE % break_id, sensitive);
-  //timer->set_activity_sensitive(sensitive);
-  timer->set_activity_sensitive(true);
-
   // Load the monitor setting for the timer.
   string monitor_name;
 
@@ -367,10 +361,7 @@ Break::override(BreakId id)
 bool
 Break::get_timer_activity_sensitive() const
 {
-  // bool sensitive;
-  // config->get_value(CoreConfig::CFG_KEY_TIMER_ACTIVITY_SENSITIVE % break_id, sensitive);
-
-  return true; // sensitive;
+  return timer->get_activity_sensitive();
 }
 
 bool
@@ -433,10 +424,6 @@ Break::set_usage_mode(UsageMode mode)
       TRACE_MSG("changing");
       if (mode == USAGE_MODE_NORMAL)
         {
-          // Read the activity insensitive flag
-          // bool sensitive;
-          // config->get_value(CoreConfig::CFG_KEY_TIMER_ACTIVITY_SENSITIVE % break_id, sensitive);
-          // timer->set_activity_sensitive(sensitive);
           timer->set_activity_sensitive(true);
         }
       else if (mode == USAGE_MODE_READING)
