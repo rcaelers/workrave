@@ -61,6 +61,7 @@ W32TrayMenu::~W32TrayMenu()
 void
 W32TrayMenu::post_init()
 {
+  // FIXME: this appears to be broken for recent versions of gtk+ (> 2.16)
   win32_popup_hack_connect(popup_menu);
 }
 
