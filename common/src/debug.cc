@@ -24,6 +24,7 @@
 #ifdef TRACING
 
 #include <glib.h>
+#include <glib/gstdio.h>
 
 #include "Mutex.hh"
 #include "debug.hh"
