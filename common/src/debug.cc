@@ -1,6 +1,6 @@
 // debug.cc
 //
-// Copyright (C) 2001, 2002, 2003, 2007, 2009 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2001, 2002, 2003, 2007, 2009, 2011 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -50,6 +50,7 @@ Debug::init()
 
 #if defined(WIN32) || defined(PLATFORM_OS_WIN32)
   debug_filename = "C:\\temp\\";
+  g_mkdir(debug_filename);
 #elif defined(PLATFORM_OS_OSX)
   debug_filename = "/tmp/";
 #elif defined(PLATFORM_OS_UNIX)
