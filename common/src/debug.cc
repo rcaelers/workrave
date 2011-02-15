@@ -24,6 +24,7 @@
 #ifdef TRACING
 
 #include <glib.h>
+#include <glib/gstdio.h>
 
 #include "Mutex.hh"
 #include "debug.hh"
@@ -52,7 +53,7 @@ Debug::init()
 
 #if defined(WIN32) || defined(PLATFORM_OS_WIN32)
   debug_filename = "C:\\temp\\";
-  g_mkdir(debug_filename);
+  g_mkdir(debug_filename.c_str());
 #elif defined(PLATFORM_OS_OSX)
   debug_filename = "/tmp/";
 #elif defined(PLATFORM_OS_UNIX)
