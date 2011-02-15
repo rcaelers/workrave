@@ -304,7 +304,7 @@ BreakWindow::create_lock_button()
         .connect(sigc::mem_fun(*this, &BreakWindow::on_lock_button_clicked));
       GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
 
-      ret->add_accelerator("activate", accel_group, GDK_L, Gdk::META_MASK, Gtk::ACCEL_VISIBLE);
+      ret->add_accelerator("activate", accel_group, GDK_L, Gdk::CONTROL_MASK, Gtk::ACCEL_VISIBLE);
     }
   else
     {
@@ -325,7 +325,7 @@ BreakWindow::create_shutdown_button()
         .connect(sigc::mem_fun(*this, &BreakWindow::on_shutdown_button_clicked));
       GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
 
-      ret->add_accelerator("activate", accel_group, GDK_D, Gdk::META_MASK, Gtk::ACCEL_VISIBLE);
+      ret->add_accelerator("activate", accel_group, GDK_D, Gdk::CONTROL_MASK, Gtk::ACCEL_VISIBLE);
     }
   else
     {
@@ -344,7 +344,7 @@ BreakWindow::create_skip_button()
     .connect(sigc::mem_fun(*this, &BreakWindow::on_skip_button_clicked));
   GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
 
-  ret->add_accelerator("activate", accel_group, GDK_S, Gdk::META_MASK, Gtk::ACCEL_VISIBLE);
+  ret->add_accelerator("activate", accel_group, GDK_S, Gdk::CONTROL_MASK, Gtk::ACCEL_VISIBLE);
   
   return ret;
 }
@@ -360,7 +360,7 @@ BreakWindow::create_postpone_button()
     .connect(sigc::mem_fun(*this, &BreakWindow::on_postpone_button_clicked));
   GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
 
-  ret->add_accelerator("activate", accel_group, GDK_P, Gdk::META_MASK, Gtk::ACCEL_VISIBLE);
+  ret->add_accelerator("activate", accel_group, GDK_P, Gdk::CONTROL_MASK, Gtk::ACCEL_VISIBLE);
 
   return ret;
 }
