@@ -395,6 +395,7 @@ Core::load_monitor_config()
 void
 Core::config_changed_notify(const string &key)
 {
+  TRACE_ENTER_MSG("Core::config_changed_notify", key);
   string::size_type pos = key.find('/');
   string path;
 
@@ -415,6 +416,7 @@ Core::config_changed_notify(const string &key)
         {
           mode = OPERATION_MODE_NORMAL;
         }
+      TRACE_MSG("Setting mode");
       set_operation_mode(OperationMode(mode), false);
     }
 
@@ -427,6 +429,7 @@ Core::config_changed_notify(const string &key)
         }
       set_usage_mode(UsageMode(mode), false);
     }
+  TRACE_EXIT();
 }
 
 
@@ -546,9 +549,13 @@ Core::set_operation_mode(OperationMode mode, bool persistent)
   TRACE_ENTER_MSG("Core::set_operation_mode",
                   (mode == OPERATION_MODE_NORMAL ? "normal" :
                    mode == OPERATION_MODE_SUSPENDED ? "suspended" :
-                   mode == OPERATION_MODE_QUIET ? "quiet" : "???"));
+                   mode == OPERATION_MODE_QUIET ? "quiet" : "???") << " " << persistent);
   
   OperationMode previous_mode = operation_mode;
+
+  TRACE_MSG("Previous " << (mode == OPERATION_MODE_NORMAL ? "normal" :
+                            mode == OPERATION_MODE_SUSPENDED ? "suspended" :
+                            mode == OPERATION_MODE_QUIET ? "quiet" : "???"));
   
   if (operation_mode != mode)
     {
@@ -691,6 +698,7 @@ Core::set_powersave(bool down)
     {
       // Computer is going down
       powersave_operation_mode = set_operation_mode(OPERATION_MODE_SUSPENDED, false);
+      TRACE_MSG("prev mode " << powersave_operation_mode);
       powersave_resume_time = 0;
       powersave = true;
 
@@ -705,8 +713,10 @@ Core::set_powersave(bool down)
       if (powersave_resume_time == 0)
         {
           powersave_resume_time = current_time ? current_time : 1;
+          TRACE_MSG("set resume time " << powersave_resume_time);
         }
 
+      TRACE_MSG("resume time " << powersave_resume_time);
       set_operation_mode(powersave_operation_mode, false);
     }
   TRACE_EXIT();

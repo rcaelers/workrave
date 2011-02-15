@@ -61,13 +61,16 @@ Session::set_idle(bool new_idle)
 
   if (auto_natural)
     {
+      TRACE_MSG("Automatic natural break enabled");
       if (new_idle && !is_idle)
         {
+          TRACE_MSG("Now idle");
           ICore *core = CoreFactory::get_core();
           mode_before_screenlock = core->set_operation_mode(OPERATION_MODE_SUSPENDED, false);
         }
       else if (!new_idle && is_idle)
         {
+          TRACE_MSG("No longer idle");
           ICore *core = CoreFactory::get_core();
           IBreak *rest_break = core->get_break(BREAK_ID_REST_BREAK);
       
