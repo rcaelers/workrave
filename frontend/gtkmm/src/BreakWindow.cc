@@ -28,6 +28,8 @@
 #include <gdk/gdkwin32.h>
 #endif
 
+#include <gdk/gdkkeysyms.h>
+
 #include "preinclude.h"
 #include "debug.hh"
 #include "nls.h"
@@ -40,6 +42,9 @@
 #include <gtkmm/stock.h>
 #include <gtkmm/buttonbox.h>
 #include <gtkmm/button.h>
+#include <gtkmm/enums.h>
+#include <gdkmm/types.h>
+#include <gtkmm/accelgroup.h>
 
 #include <math.h>
 
@@ -89,7 +94,12 @@ BreakWindow::BreakWindow(BreakId break_id, HeadInfo &head,
   frame(NULL),
   break_response(NULL),
   gui(NULL),
-  visible(false)
+  visible(false),
+  postpone_button(NULL),
+  skip_button(NULL),
+  lock_button(NULL),
+  shutdown_button(NULL),
+  accel_added(false)
 {
   TRACE_ENTER("BreakWindow::BreakWindow");
   this->break_id = break_id;
@@ -293,6 +303,8 @@ BreakWindow::create_lock_button()
       ret->signal_clicked()
         .connect(sigc::mem_fun(*this, &BreakWindow::on_lock_button_clicked));
       GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
+
+      ret->add_accelerator("activate", accel_group, GDK_L, Gdk::META_MASK, Gtk::ACCEL_VISIBLE);
     }
   else
     {
@@ -312,6 +324,8 @@ BreakWindow::create_shutdown_button()
       ret->signal_clicked()
         .connect(sigc::mem_fun(*this, &BreakWindow::on_shutdown_button_clicked));
       GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
+
+      ret->add_accelerator("activate", accel_group, GDK_D, Gdk::META_MASK, Gtk::ACCEL_VISIBLE);
     }
   else
     {
@@ -329,6 +343,9 @@ BreakWindow::create_skip_button()
   ret->signal_clicked()
     .connect(sigc::mem_fun(*this, &BreakWindow::on_skip_button_clicked));
   GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
+
+  ret->add_accelerator("activate", accel_group, GDK_S, Gdk::META_MASK, Gtk::ACCEL_VISIBLE);
+  
   return ret;
 }
 
@@ -342,6 +359,9 @@ BreakWindow::create_postpone_button()
   ret->signal_clicked()
     .connect(sigc::mem_fun(*this, &BreakWindow::on_postpone_button_clicked));
   GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
+
+  ret->add_accelerator("activate", accel_group, GDK_P, Gdk::META_MASK, Gtk::ACCEL_VISIBLE);
+
   return ret;
 }
 
@@ -460,12 +480,15 @@ BreakWindow::create_break_buttons(bool lockable,
                                   bool shutdownable)
 {
   Gtk::HButtonBox *box = NULL;
+  accel_group = Gtk::AccelGroup::create();
 
+  add_accel_group(accel_group);
+  
   if ((break_flags != BREAK_FLAGS_NONE) || lockable || shutdownable)
     {
       box = new Gtk::HButtonBox(Gtk::BUTTONBOX_END, 6);
 
-      Gtk::Button *shutdown_button = NULL;
+      shutdown_button = NULL;
       if (shutdownable)
         {
           shutdown_button = create_shutdown_button();
@@ -477,7 +500,7 @@ BreakWindow::create_break_buttons(bool lockable,
 
       if (lockable)
         {
-          Gtk::Button *lock_button = create_lock_button();
+          lock_button = create_lock_button();
           if (lock_button != NULL)
             {
               box->pack_end(*lock_button, Gtk::PACK_SHRINK, 0);
@@ -486,13 +509,13 @@ BreakWindow::create_break_buttons(bool lockable,
 
       if ((break_flags & BREAK_FLAGS_SKIPPABLE) != 0)
         {
-          Gtk::Button *skip_button = create_skip_button();
+          skip_button = create_skip_button();
           box->pack_end(*skip_button, Gtk::PACK_SHRINK, 0);
         }
       
       if ((break_flags & BREAK_FLAGS_POSTPONABLE) != 0)
         {
-          Gtk::Button *postpone_button = create_postpone_button();
+          postpone_button = create_postpone_button();
           box->pack_end(*postpone_button, Gtk::PACK_SHRINK, 0);
         }
     }
@@ -575,14 +598,48 @@ BreakWindow::destroy()
 void
 BreakWindow::refresh()
 {
+  TRACE_ENTER("BreakWindow::refresh");
+  
   update_break_window();
+
+  ICore *core = CoreFactory::get_core();
+  bool user_active = core->is_user_active();
+
+  if (!user_active && !accel_added)
+    {
+      IBreak *b = core->get_break(BreakId(break_id));
+      assert(b != NULL);
+
+      TRACE_MSG(b->get_elapsed_idle_time());
+      if (b->get_elapsed_idle_time() > 5)
+        {
+          if (postpone_button != NULL)
+            {
+              postpone_button->add_accelerator("activate", accel_group, GDK_P, (Gdk::ModifierType)0, Gtk::ACCEL_VISIBLE);
+            }
+          if (skip_button != NULL)
+            {
+              skip_button->add_accelerator("activate", accel_group, GDK_S, (Gdk::ModifierType)0, Gtk::ACCEL_VISIBLE);
+            }
+          if (shutdown_button != NULL)
+            {
+              shutdown_button->add_accelerator("activate", accel_group, GDK_D, (Gdk::ModifierType)0, Gtk::ACCEL_VISIBLE);
+            }
+          if (lock_button != NULL)
+            {
+              lock_button->add_accelerator("activate", accel_group, GDK_L, (Gdk::ModifierType)0, Gtk::ACCEL_VISIBLE);
+            }
+          accel_added = true;
+        }
+    }
   
 #ifdef PLATFORM_OS_WIN32
-   if (block_mode != GUIConfig::BLOCK_MODE_NONE)
-     {
-       WindowHints::set_always_on_top(this, true);
-     }
+  if (block_mode != GUIConfig::BLOCK_MODE_NONE)
+    {
+      WindowHints::set_always_on_top(this, true);
+    }
 #endif
+  TRACE_EXIT();
 }
 
 Glib::RefPtr<Gdk::Window>

@@ -1,6 +1,6 @@
 // BreakWindow.hh --- base class for the break windows
 //
-// Copyright (C) 2001 - 2010 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -114,6 +114,8 @@ protected:
   Gtk::Button *create_lock_button();
   Gtk::Button *create_shutdown_button();
 
+  Glib::RefPtr<Gtk::AccelGroup> accel_group;
+  
 private:
   //! Send response to this interface.
   IBreakResponse *break_response;
@@ -126,6 +128,12 @@ private:
 
   //! Break windows visible?
   bool visible;
+
+  Gtk::Button *postpone_button;
+  Gtk::Button *skip_button;
+  Gtk::Button *lock_button;
+  Gtk::Button *shutdown_button;
+  bool accel_added;
   
 #ifdef PLATFORM_OS_WIN32
   DesktopWindow *desktop_window;
