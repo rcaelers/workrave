@@ -282,6 +282,9 @@ if test "x$platform_os_win32" = "xyes"
 then
     LIBSTDCPP_LIBS=-lstdc++
 
+   CFLAGS="${CFLAGS} -D_WIN32_IE=0x0600 -D_WIN32_WINNT=0x0600"
+   CXXFLAGS="${CXXFLAGS} -D_WIN32_IE=0x0600 -D_WIN32_WINNT=0x0600"
+    
     if test "x$config_debug" != "xyes"
     then
         WIN32CONSOLE=-mwindows

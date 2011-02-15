@@ -1,6 +1,6 @@
 // W32StatusIcon.hh --- Window Notifcation Icon
 //
-// Copyright (C) 2010 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2010, 2011 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -38,6 +38,7 @@ public:
 
   void set(const Glib::RefPtr<Gdk::Pixbuf> &pixbuf);
   void set_tooltip(const Glib::ustring &text);
+  void show_balloon(const Glib::ustring &balloon);
   void set_visible(bool visible = true);
   bool get_visible() const;
   bool is_embedded() const;

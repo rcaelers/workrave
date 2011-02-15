@@ -92,7 +92,8 @@ public:
   void open_main_window();
   void close_main_window();
   void init_multihead();
-
+  void main_window_closed();
+  
   // Prefs
   // Misc
   sigc::signal0<void> &signal_heartbeat();
@@ -239,6 +240,7 @@ private:
 
   //
   bool muted;
+
 };
 
 

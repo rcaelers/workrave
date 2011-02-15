@@ -1,6 +1,6 @@
 // StatusIcon.cc --- Status icon
 //
-// Copyright (C) 2006, 2007, 2008, 2009, 2010 Rob Caelers & Raymond Penners
+// Copyright (C) 2006, 2007, 2008, 2009, 2010, 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -127,6 +127,14 @@ void StatusIcon::on_activate()
 {
   main_window.on_activate();
 }
+
+void StatusIcon::show_balloon(const string &balloon)
+{
+#ifdef USE_W32STATUSICON
+  status_icon->show_balloon(balloon);
+#endif
+}
+
 
 void StatusIcon::on_popup_menu(guint button, guint activate_time)
 {

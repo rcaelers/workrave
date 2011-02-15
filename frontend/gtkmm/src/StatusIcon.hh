@@ -61,6 +61,7 @@ public:
   GdkFilterReturn win32_filter_func (void *xevent, GdkEvent *event);
 #endif
 #endif
+  void show_balloon(const std::string& balloon);
 
 private:
   void insert_icon();

@@ -112,8 +112,48 @@ W32StatusIcon::set_tooltip(const Glib::ustring &text)
   
   if (nid.hWnd != NULL && visible)
     {
-      Shell_NotifyIconW(NIM_MODIFY, &nid);
+      // Shell_NotifyIconW(NIM_MODIFY, &nid);
     }
+}
+
+
+void
+W32StatusIcon::show_balloon(const Glib::ustring &balloon)
+{
+  TRACE_ENTER("W32StatusIcon::show_balloon");
+  gunichar2 *winfo = g_utf8_to_utf16(balloon.c_str(), -1, NULL, NULL, NULL);
+  gunichar2 *wtitle = g_utf8_to_utf16("Workrave", -1, NULL, NULL, NULL);
+
+  if (winfo != NULL && wtitle != NULL)
+    {
+      nid.uFlags |= NIF_INFO;
+      nid.uTimeout = 20000;
+      nid.dwInfoFlags = NIIF_INFO | NIIF_USER;
+
+      wcsncpy(nid.szInfo, (wchar_t *)winfo, G_N_ELEMENTS(nid.szInfo) - 1);
+      nid.szInfo[G_N_ELEMENTS(nid.szInfo) - 1] = 0;
+
+      wcsncpy(nid.szInfoTitle, (wchar_t *)wtitle, G_N_ELEMENTS(nid.szInfoTitle) - 1);
+      nid.szInfoTitle[G_N_ELEMENTS(nid.szInfoTitle) - 1] = 0;
+
+      if (nid.hWnd != NULL && visible)
+        {
+          Shell_NotifyIconW(NIM_MODIFY, &nid);
+        }
+
+      nid.uFlags &= ~NIF_INFO;
+    }
+
+  if (winfo != NULL)
+    {
+      g_free(winfo);
+    }
+  if (wtitle != NULL)
+    {
+      g_free(wtitle);
+    }
+
+  TRACE_EXIT();
 }
 
 
@@ -195,7 +235,7 @@ W32StatusIcon::init()
     }
 
   memset(&nid, 0, sizeof(NOTIFYICONDATA));
-  nid.cbSize = sizeof(NOTIFYICONDATA);
+  nid.cbSize = NOTIFYICONDATAW_V2_SIZE;
   nid.uID = 1;
   nid.uFlags = NIF_MESSAGE;
   nid.uCallbackMessage = MYWM_TRAY_MESSAGE;
@@ -293,18 +333,18 @@ _gdk_win32_pixbuf_to_hicon_supports_alpha (void)
       is_win_xp_checked = TRUE;
 
       if (!G_WIN32_IS_NT_BASED ())
-	is_win_xp = FALSE;
+        is_win_xp = FALSE;
       else
-	{
-	  OSVERSIONINFO version;
+        {
+          OSVERSIONINFO version;
 
-	  memset (&version, 0, sizeof (version));
-	  version.dwOSVersionInfoSize = sizeof (version);
-	  is_win_xp = GetVersionEx (&version)
-	    && version.dwPlatformId == VER_PLATFORM_WIN32_NT
-	    && (version.dwMajorVersion > 5
-		|| (version.dwMajorVersion == 5 && version.dwMinorVersion >= 1));
-	}
+          memset (&version, 0, sizeof (version));
+          version.dwOSVersionInfoSize = sizeof (version);
+          is_win_xp = GetVersionEx (&version)
+            && version.dwPlatformId == VER_PLATFORM_WIN32_NT
+            && (version.dwMajorVersion > 5
+                || (version.dwMajorVersion == 5 && version.dwMinorVersion >= 1));
+        }
     }
   return is_win_xp;
 }

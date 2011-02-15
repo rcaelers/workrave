@@ -291,6 +291,27 @@ GUI::close_main_window()
 }
 
 
+//! The user close the main window.
+void
+GUI::main_window_closed()
+{
+  TRACE_ENTER("GUI::main_window_closed");
+  if (status_icon)
+    {
+      bool closewarn = false;
+      CoreFactory::get_configurator()->get_value(GUIConfig::CFG_KEY_CLOSEWARN_ENABLED, closewarn);
+      TRACE_MSG(closewarn);
+      if (closewarn)
+        {
+          status_icon->show_balloon(_("Workrave is still running. "
+                                      "You can access Workrave by clicking on the white sheep icon."));
+          CoreFactory::get_configurator()->set_value(GUIConfig::CFG_KEY_CLOSEWARN_ENABLED, false);
+        }
+    }
+  TRACE_EXIT();
+}
+
+
 //! Periodic heartbeat.
 bool
 GUI::on_timer()

@@ -397,13 +397,13 @@ bool
 MainWindow::on_delete_event(GdkEventAny *)
 {
   TRACE_ENTER("MainWindow::on_delete_event");
-
-#ifdef PLATFORM_OS_WIN32
-  win32_show(false);
-#else
   GUI *gui = GUI::get_instance();
   assert(gui != NULL);
 
+#ifdef PLATFORM_OS_WIN32
+  win32_show(false);
+  gui->main_window_closed();
+#else
 #if defined(HAVE_GNOME) || defined(HAVE_KDE)
   bool terminate = true;
   AppletControl *applet_control = gui->get_applet_control();

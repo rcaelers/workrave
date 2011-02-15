@@ -33,6 +33,7 @@ public:
   static const std::string CFG_KEY_BLOCK_MODE;
   static const std::string CFG_KEY_LOCALE;
   static const std::string CFG_KEY_TRAYICON_ENABLED;
+  static const std::string CFG_KEY_CLOSEWARN_ENABLED;
 
   static void init();
 

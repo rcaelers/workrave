@@ -108,7 +108,7 @@ includeswin32 = 	-I$(top_srcdir)/common/win32/harpoon/include \
 			-I$(top_srcdir)/frontend/gtkmm/src/win32/ \
 			-I$(top_srcdir)/frontend/win32/applet/include
 ldflags = 		-L$(top_builddir)/frontend/gtkmm/src/win32/
-win32cflags		= -D_WIN32_IE=0x0500 -D_WIN32_WINNT=0x0600
+win32cflags		= -D_WIN32_IE=0x0600 -D_WIN32_WINNT=0x0600
 endif
 
 if HAVE_DISTRIBUTION

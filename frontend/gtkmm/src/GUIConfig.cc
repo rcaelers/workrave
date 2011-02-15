@@ -39,6 +39,8 @@ const string GUIConfig::CFG_KEY_BREAK_AUTO_NATURAL = "gui/breaks/%b/auto_natural
 const string GUIConfig::CFG_KEY_BLOCK_MODE         = "gui/breaks/block_mode";
 const string GUIConfig::CFG_KEY_LOCALE             = "gui/locale";
 const string GUIConfig::CFG_KEY_TRAYICON_ENABLED   = "gui/trayicon_enabled";
+const string GUIConfig::CFG_KEY_CLOSEWARN_ENABLED  = "gui/closewarn_enabled";
+
 //!
 void
 GUIConfig::init()
@@ -62,6 +64,7 @@ GUIConfig::init()
 
   config->set_value(CFG_KEY_BLOCK_MODE, BLOCK_MODE_INPUT, CONFIG_FLAG_DEFAULT);
   config->set_value(CFG_KEY_TRAYICON_ENABLED, true, CONFIG_FLAG_DEFAULT);
+  config->set_value(CFG_KEY_CLOSEWARN_ENABLED, true, CONFIG_FLAG_DEFAULT);
 }
 
 
