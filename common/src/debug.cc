@@ -23,6 +23,8 @@
 
 #ifdef TRACING
 
+#include <glib.h>
+
 #include "Mutex.hh"
 #include "debug.hh"
 
