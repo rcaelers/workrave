@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Workrave 1.8.3\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
 "POT-Creation-Date: 2011-02-16 19:18+0100\n"
-"PO-Revision-Date: 2006-08-16 02:24+0300\n"
+"PO-Revision-Date: 2011-02-16 19:50+0100\n"
 "Last-Translator: Enver ALTIN <ealtin@parkyeri.com>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
 "Language: tr\n"
@@ -239,7 +239,7 @@ msgstr "%s%d saniye"
 #: ../frontend/gtkmm/src/BreakWindow.cc:296
 #, fuzzy
 msgid "_Lock"
-msgstr "Kilitle"
+msgstr "_Kilitle"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:315
 #, fuzzy
@@ -249,12 +249,12 @@ msgstr "Kapat"
 #: ../frontend/gtkmm/src/BreakWindow.cc:332
 #, fuzzy
 msgid "_Skip"
-msgstr "Atla"
+msgstr "_Atla"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:346
 #, fuzzy
 msgid "_Postpone"
-msgstr "Ertele"
+msgstr "_Ertele"
 
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:57
 msgid ""

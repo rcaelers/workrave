@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Workrave\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
 "POT-Creation-Date: 2011-02-16 19:18+0100\n"
-"PO-Revision-Date: 2010-05-25 20:02+0200\n"
+"PO-Revision-Date: 2011-02-16 19:50+0100\n"
 "Last-Translator: Veeven <veeven@gmail.com>\n"
 "Language-Team: e-Telugu Localization Team\n"
 "Language: te\n"
@@ -240,22 +240,22 @@ msgstr "%s%d క్షణాలు"
 #: ../frontend/gtkmm/src/BreakWindow.cc:296
 #, fuzzy
 msgid "_Lock"
-msgstr "తాళంవేయి"
+msgstr "_తాళంవేయి"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:315
 #, fuzzy
 msgid "Shut _down"
-msgstr "నిలివివేయి"
+msgstr "_నిలివివేయి"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:332
 #, fuzzy
 msgid "_Skip"
-msgstr "దాటవేయి"
+msgstr "_దాటవేయి"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:346
 #, fuzzy
 msgid "_Postpone"
-msgstr "వాయిదావేయి"
+msgstr "_వాయిదావేయి"
 
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:57
 msgid ""

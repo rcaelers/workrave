@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: workrave 1.6.0\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
 "POT-Creation-Date: 2011-02-16 19:18+0100\n"
-"PO-Revision-Date: 2006-07-31 18:10+0200\n"
+"PO-Revision-Date: 2011-02-16 19:51+0100\n"
 "Last-Translator: Sergey Kirkinsky <ksa@pfr.altai.ru>\n"
 "Language-Team: Sergey Kirkinsky <ksa@pfr.altai.ru>\n"
 "Language: \n"
@@ -237,22 +237,22 @@ msgstr "%s%d секунд"
 #: ../frontend/gtkmm/src/BreakWindow.cc:296
 #, fuzzy
 msgid "_Lock"
-msgstr "Блокировать"
+msgstr "_Блокировать"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:315
 #, fuzzy
 msgid "Shut _down"
-msgstr "Завершить"
+msgstr "_Завершить"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:332
 #, fuzzy
 msgid "_Skip"
-msgstr "Пропустить"
+msgstr "_Пропустить"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:346
 #, fuzzy
 msgid "_Postpone"
-msgstr "Отложить"
+msgstr "_Отложить"
 
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:57
 msgid ""

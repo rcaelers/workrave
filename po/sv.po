@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
 "POT-Creation-Date: 2011-02-16 19:18+0100\n"
-"PO-Revision-Date: 2009-03-02 17:17+0100\n"
+"PO-Revision-Date: 2011-02-16 19:51+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -236,22 +236,22 @@ msgstr "%s%d sekunder"
 #: ../frontend/gtkmm/src/BreakWindow.cc:296
 #, fuzzy
 msgid "_Lock"
-msgstr "Lås"
+msgstr "_Lås"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:315
 #, fuzzy
 msgid "Shut _down"
-msgstr "Stäng ner"
+msgstr "_Stäng ner"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:332
 #, fuzzy
 msgid "_Skip"
-msgstr "Hoppa över"
+msgstr "_Hoppa över"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:346
 #, fuzzy
 msgid "_Postpone"
-msgstr "Flytta fram"
+msgstr "_Flytta fram"
 
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:57
 msgid ""

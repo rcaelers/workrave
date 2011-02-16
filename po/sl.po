@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: workrave\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
 "POT-Creation-Date: 2011-02-16 19:18+0100\n"
-"PO-Revision-Date: 2007-03-28 09:31+0000\n"
+"PO-Revision-Date: 2011-02-16 19:51+0100\n"
 "Last-Translator: Vanja Cvelbar <cvelbar@gmail.com>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
 "Language: sl\n"
@@ -238,22 +238,22 @@ msgstr "%s%d sekund"
 #: ../frontend/gtkmm/src/BreakWindow.cc:296
 #, fuzzy
 msgid "_Lock"
-msgstr "Zakleni"
+msgstr "_Zakleni"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:315
 #, fuzzy
 msgid "Shut _down"
-msgstr "Ugasni"
+msgstr "_Ugasni"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:332
 #, fuzzy
 msgid "_Skip"
-msgstr "Preskoči"
+msgstr "_Preskoči"
 
 #: ../frontend/gtkmm/src/BreakWindow.cc:346
 #, fuzzy
 msgid "_Postpone"
-msgstr "Odloži"
+msgstr "_Odloži"
 
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:57
 msgid ""
