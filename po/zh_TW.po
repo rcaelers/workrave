@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WorkRave 1.8\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2011-01-11 18:39+0100\n"
+"POT-Creation-Date: 2011-02-16 19:18+0100\n"
 "PO-Revision-Date: 2006-07-31 18:11+0200\n"
 "Last-Translator: Rex Tsai <chihchun@linux.org.tw>\n"
 "Language-Team: Chinese/Traditional <zh-l10n@linux.org.tw>\n"
@@ -171,7 +171,7 @@ msgstr "休息提示"
 #: ../frontend/common/src/SoundPlayer.cc:123
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:48
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:56
-#: ../frontend/gtkmm/src/GUI.cc:1467 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/GUI.cc:1498 ../frontend/gtkmm/src/GtkUtil.cc:164
 msgid "Daily limit"
 msgstr "每日限制"
 
@@ -216,7 +216,7 @@ msgstr "休息開始"
 msgid "Workrave"
 msgstr "Workrave"
 
-#: ../frontend/common/src/SoundPlayer.cc:619
+#: ../frontend/common/src/SoundPlayer.cc:620
 msgid "Custom"
 msgstr ""
 
@@ -235,20 +235,24 @@ msgstr "%s%d:%02d 分"
 msgid "%s%d seconds"
 msgstr "%s%d 秒"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:292
-msgid "Lock"
+#: ../frontend/gtkmm/src/BreakWindow.cc:296
+#, fuzzy
+msgid "_Lock"
 msgstr "鎖定"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:311
-msgid "Shut down"
+#: ../frontend/gtkmm/src/BreakWindow.cc:315
+#, fuzzy
+msgid "Shut _down"
 msgstr "關閉"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:328
-msgid "Skip"
+#: ../frontend/gtkmm/src/BreakWindow.cc:332
+#, fuzzy
+msgid "_Skip"
 msgstr "略過"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:341
-msgid "Postpone"
+#: ../frontend/gtkmm/src/BreakWindow.cc:346
+#, fuzzy
+msgid "_Postpone"
 msgstr "延後"
 
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:57
@@ -260,49 +264,55 @@ msgstr ""
 "您已經達到每日限制量。請停止在電腦前工作工作。\n"
 "如果您尚未下班，找些其他的事情來做，例如檢閱文件。"
 
-#: ../frontend/gtkmm/src/GUI.cc:839 ../frontend/gtkmm/src/GUI.cc:930
+#: ../frontend/gtkmm/src/GUI.cc:306
+msgid ""
+"Workrave is still running. You can access Workrave by clicking on the white "
+"sheep icon."
+msgstr ""
+
+#: ../frontend/gtkmm/src/GUI.cc:867 ../frontend/gtkmm/src/GUI.cc:970
 #, fuzzy
 msgid "Workrave failed to start"
 msgstr "Workrave Applet"
 
-#: ../frontend/gtkmm/src/GUI.cc:841
+#: ../frontend/gtkmm/src/GUI.cc:869
 msgid "Is Workrave already running?"
 msgstr ""
 
-#: ../frontend/gtkmm/src/GUI.cc:925
+#: ../frontend/gtkmm/src/GUI.cc:965
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
 msgstr ""
 
-#: ../frontend/gtkmm/src/GUI.cc:928
+#: ../frontend/gtkmm/src/GUI.cc:968
 msgid "Make sure that the RECORD extention is enabled in the X server."
 msgstr ""
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1467 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/GUI.cc:1498 ../frontend/gtkmm/src/GtkUtil.cc:164
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:54
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:174
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:272
 msgid "Micro-break"
 msgstr "暫停"
 
-#: ../frontend/gtkmm/src/GUI.cc:1467 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/GUI.cc:1498 ../frontend/gtkmm/src/GtkUtil.cc:164
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:147
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:81
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:224
 msgid "Rest break"
 msgstr "休息"
 
-#: ../frontend/gtkmm/src/GUI.cc:1480 ../frontend/gtkmm/src/GUI.cc:1484
+#: ../frontend/gtkmm/src/GUI.cc:1507 ../frontend/gtkmm/src/GUI.cc:1511
 #, fuzzy
 msgid "Mode: "
 msgstr "模式(_M)"
 
-#: ../frontend/gtkmm/src/GUI.cc:1480
+#: ../frontend/gtkmm/src/GUI.cc:1507
 #, fuzzy
 msgid "Suspended"
 msgstr "暫停(_S)"
 
-#: ../frontend/gtkmm/src/GUI.cc:1484
+#: ../frontend/gtkmm/src/GUI.cc:1511
 #, fuzzy
 msgid "Quiet"
 msgstr "離開(_u)"

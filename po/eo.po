@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: workrave 1.0.0\n"
 "Report-Msgid-Bugs-To: i18n@workrave.org\n"
-"POT-Creation-Date: 2011-01-11 18:39+0100\n"
-"PO-Revision-Date: 2003-09-08 19:07+0200\n"
+"POT-Creation-Date: 2011-02-16 19:18+0100\n"
+"PO-Revision-Date: 2011-02-16 19:21+0100\n"
 "Last-Translator: Eric lesh <eclesh@pacbell.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
 "Language: eo\n"
@@ -171,7 +171,7 @@ msgstr "Ripoza instigado"
 #: ../frontend/common/src/SoundPlayer.cc:123
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:48
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:56
-#: ../frontend/gtkmm/src/GUI.cc:1467 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/GUI.cc:1498 ../frontend/gtkmm/src/GtkUtil.cc:164
 msgid "Daily limit"
 msgstr "Taglimo"
 
@@ -219,7 +219,7 @@ msgstr "Ripozo por %s"
 msgid "Workrave"
 msgstr ""
 
-#: ../frontend/common/src/SoundPlayer.cc:619
+#: ../frontend/common/src/SoundPlayer.cc:620
 msgid "Custom"
 msgstr ""
 
@@ -238,22 +238,25 @@ msgstr "%s%d:%02d minutoj"
 msgid "%s%d seconds"
 msgstr "%s%d sekundoj"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:292
-msgid "Lock"
-msgstr "Ŝlosu"
-
-#: ../frontend/gtkmm/src/BreakWindow.cc:311
+#: ../frontend/gtkmm/src/BreakWindow.cc:296
 #, fuzzy
-msgid "Shut down"
+msgid "_Lock"
+msgstr "_Ŝlosu"
+
+#: ../frontend/gtkmm/src/BreakWindow.cc:315
+#, fuzzy
+msgid "Shut _down"
 msgstr "Montru _protokolon"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:328
-msgid "Skip"
-msgstr "Transsaltu"
+#: ../frontend/gtkmm/src/BreakWindow.cc:332
+#, fuzzy
+msgid "_Skip"
+msgstr "_Transsaltu"
 
-#: ../frontend/gtkmm/src/BreakWindow.cc:341
-msgid "Postpone"
-msgstr "Prokrastu"
+#: ../frontend/gtkmm/src/BreakWindow.cc:346
+#, fuzzy
+msgid "_Postpone"
+msgstr "_Prokrastu"
 
 #: ../frontend/gtkmm/src/DailyLimitWindow.cc:57
 msgid ""
@@ -265,24 +268,30 @@ msgstr ""
 "malantaŭ via komputilo.  Se via labortago ne ankoraŭ finiĝis,\n"
 "trovu ion alian por fari, kiel revuado de dokumento."
 
-#: ../frontend/gtkmm/src/GUI.cc:839 ../frontend/gtkmm/src/GUI.cc:930
+#: ../frontend/gtkmm/src/GUI.cc:306
+msgid ""
+"Workrave is still running. You can access Workrave by clicking on the white "
+"sheep icon."
+msgstr ""
+
+#: ../frontend/gtkmm/src/GUI.cc:867 ../frontend/gtkmm/src/GUI.cc:970
 msgid "Workrave failed to start"
 msgstr ""
 
-#: ../frontend/gtkmm/src/GUI.cc:841
+#: ../frontend/gtkmm/src/GUI.cc:869
 msgid "Is Workrave already running?"
 msgstr ""
 
-#: ../frontend/gtkmm/src/GUI.cc:925
+#: ../frontend/gtkmm/src/GUI.cc:965
 msgid "Workrave could not monitor your keyboard and mouse activity.\n"
 msgstr ""
 
-#: ../frontend/gtkmm/src/GUI.cc:928
+#: ../frontend/gtkmm/src/GUI.cc:968
 msgid "Make sure that the RECORD extention is enabled in the X server."
 msgstr ""
 
 #. FIXME: duplicate
-#: ../frontend/gtkmm/src/GUI.cc:1467 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/GUI.cc:1498 ../frontend/gtkmm/src/GtkUtil.cc:164
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:54
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:174
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:272
@@ -290,24 +299,24 @@ msgstr ""
 msgid "Micro-break"
 msgstr "Paŭzeto"
 
-#: ../frontend/gtkmm/src/GUI.cc:1467 ../frontend/gtkmm/src/GtkUtil.cc:161
+#: ../frontend/gtkmm/src/GUI.cc:1498 ../frontend/gtkmm/src/GtkUtil.cc:164
 #: ../frontend/gtkmm/src/MicroBreakWindow.cc:147
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:81
 #: ../frontend/gtkmm/src/RestBreakWindow.cc:224
 msgid "Rest break"
 msgstr "Ripozo"
 
-#: ../frontend/gtkmm/src/GUI.cc:1480 ../frontend/gtkmm/src/GUI.cc:1484
+#: ../frontend/gtkmm/src/GUI.cc:1507 ../frontend/gtkmm/src/GUI.cc:1511
 #, fuzzy
 msgid "Mode: "
 msgstr "_Modo"
 
-#: ../frontend/gtkmm/src/GUI.cc:1480
+#: ../frontend/gtkmm/src/GUI.cc:1507
 #, fuzzy
 msgid "Suspended"
 msgstr "_Interrompita"
 
-#: ../frontend/gtkmm/src/GUI.cc:1484
+#: ../frontend/gtkmm/src/GUI.cc:1511
 #, fuzzy
 msgid "Quiet"
 msgstr "S_ilenta"

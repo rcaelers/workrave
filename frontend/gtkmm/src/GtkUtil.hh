@@ -1,6 +1,6 @@
 // GtkUtil.hh --- Gtk utilities
 //
-// Copyright (C) 2003, 2004, 2005, 2006, 2007, 2008 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2003, 2004, 2005, 2006, 2007, 2008, 2011 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -86,6 +86,8 @@ public:
   static void center_window(Gtk::Window &window, HeadInfo &head);
 
   static bool has_button_images();
+
+  static void set_shortcut(Gtk::Widget *widget, Glib::RefPtr<Gtk::AccelGroup> accel_group, int modifier, Glib::ustring text);
 };
 
 #endif // GTKMMGUI_HH

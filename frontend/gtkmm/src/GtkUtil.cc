@@ -1,6 +1,7 @@
 // GtkUtil.cc --- Gtk utilities
 //
 // Copyright (C) 2003, 2004, 2005, 2007, 2008 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2011 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -86,6 +87,7 @@ GtkUtil::update_custom_stock_button(Gtk::Button *btn,
         {
           hbox->pack_start(*img, false, false, 0);
         }
+      label->set_use_underline();
       hbox->pack_end(*label, false, false, 0);
       btn->add(*align);
       align->add(*hbox);
@@ -126,6 +128,7 @@ GtkUtil::create_image_button(const char *label_text,
         {
           hbox->pack_start(*img, false, false, 0);
         }
+      label->set_use_underline();
       hbox->pack_end(*label, false, false, 0);
       btn->add(*align);
       align->add(*hbox);
@@ -351,3 +354,4 @@ GtkUtil::center_window(Gtk::Window &window, HeadInfo &head)
     }
   TRACE_EXIT();
 }
+
