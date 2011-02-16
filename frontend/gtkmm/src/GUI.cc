@@ -1625,6 +1625,8 @@ GUI::win32_filter_func (void     *xevent,
             break;
 
           case PBT_APMRESUMESUSPEND:
+          case PBT_APMRESUMEAUTOMATIC:
+          case PBT_APMRESUMECRITICAL:
             {
               TRACE_MSG("Resume suspend");
               ICore *core = CoreFactory::get_core();
