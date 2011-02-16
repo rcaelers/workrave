@@ -112,7 +112,7 @@ W32StatusIcon::set_tooltip(const Glib::ustring &text)
   
   if (nid.hWnd != NULL && visible)
     {
-      // Shell_NotifyIconW(NIM_MODIFY, &nid);
+      Shell_NotifyIconW(NIM_MODIFY, &nid);
     }
 }
 
