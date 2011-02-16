@@ -25,6 +25,7 @@
 #include "preinclude.h"
 
 #include <gtkmm/window.h>
+#include <gtkmm/accelgroup.h>
 
 #include "ICore.hh"
 #include "IBreakWindow.hh"
@@ -132,6 +133,13 @@ private:
 
   long parent;
 #endif
+
+  bool accel_added;
+  Gtk::Button *postpone_button;
+  Gtk::Button *skip_button;
+  Gtk::Button *lock_button;
+  Gtk::Button *shutdown_button;
+  Glib::RefPtr<Gtk::AccelGroup> accel_group;
 };
 
 inline BreakWindow::BreakFlags

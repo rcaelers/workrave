@@ -29,6 +29,7 @@
 #include "debug.hh"
 
 #include <gtk/gtksettings.h>
+#include <gdk/gdkkeysyms.h>
 #include <glib-object.h>
 
 #include "GUI.hh"
@@ -37,6 +38,8 @@
 #include "EventLabel.hh"
 #include "EventImage.hh"
 #include "HeadInfo.hh"
+
+Glib::Quark *GtkUtil::label_quark = new Glib::Quark("workrave-button-label");
 
 bool
 GtkUtil::has_button_images()
@@ -64,7 +67,6 @@ GtkUtil::create_custom_stock_button(const char *label_text,
   return ret;
 }
 
-
 void
 GtkUtil::update_custom_stock_button(Gtk::Button *btn,
                                     const char *label_text,
@@ -88,6 +90,7 @@ GtkUtil::update_custom_stock_button(Gtk::Button *btn,
           hbox->pack_start(*img, false, false, 0);
         }
       label->set_use_underline();
+      btn->set_data(*label_quark, (void*)label);
       hbox->pack_end(*label, false, false, 0);
       btn->add(*align);
       align->add(*hbox);
@@ -129,6 +132,7 @@ GtkUtil::create_image_button(const char *label_text,
           hbox->pack_start(*img, false, false, 0);
         }
       label->set_use_underline();
+      btn->set_data(*label_quark, (void*)label);
       hbox->pack_end(*label, false, false, 0);
       btn->add(*align);
       align->add(*hbox);
@@ -355,3 +359,16 @@ GtkUtil::center_window(Gtk::Window &window, HeadInfo &head)
   TRACE_EXIT();
 }
 
+void
+GtkUtil::update_mnemonic(Gtk::Widget *widget, Glib::RefPtr<Gtk::AccelGroup> accel_group)
+{
+  Gtk::Label *label = (Gtk::Label *)widget->get_data(*label_quark);
+  if (label != NULL)
+    {
+      guint mnemonic = label->get_mnemonic_keyval();
+      if (mnemonic != GDK_VoidSymbol)
+        {
+          widget->add_accelerator("activate", accel_group, mnemonic,  (Gdk::ModifierType)0, Gtk::ACCEL_VISIBLE);
+        }
+    }
+}

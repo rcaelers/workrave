@@ -27,6 +27,8 @@
 #include <gtkmm/image.h>
 #include <gtkmm/box.h>
 #include <gtkmm/alignment.h>
+#include <glibmm/quark.h>
+#include <gtkmm/accelgroup.h>
 
 #include <string>
 
@@ -87,7 +89,10 @@ public:
 
   static bool has_button_images();
 
-  static void set_shortcut(Gtk::Widget *widget, Glib::RefPtr<Gtk::AccelGroup> accel_group, int modifier, Glib::ustring text);
+  static void update_mnemonic(Gtk::Widget *widget, Glib::RefPtr<Gtk::AccelGroup>);
+  
+private:
+  static Glib::Quark *label_quark;
 };
 
 #endif // GTKMMGUI_HH
