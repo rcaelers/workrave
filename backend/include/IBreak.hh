@@ -1,6 +1,6 @@
 // IBreak.hh -- Interface of a break.
 //
-// Copyright (C) 2001 - 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2007, 2011 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -61,6 +61,9 @@ namespace workrave {
 
     //! Is the limit enabled.
     virtual bool is_limit_enabled() const = 0;
+
+    //! Is the break window visible.
+    virtual bool is_taking() const = 0;
   };
 }
 

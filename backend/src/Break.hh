@@ -1,6 +1,6 @@
 // Break.hh
 //
-// Copyright (C) 2001 - 2010 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -93,6 +93,7 @@ public:
   virtual bool is_auto_reset_enabled() const;
   virtual time_t get_limit() const;
   virtual bool is_limit_enabled() const;
+  virtual bool is_taking() const;
 
   void set_usage_mode(UsageMode mode);
   

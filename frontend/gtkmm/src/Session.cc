@@ -37,7 +37,8 @@ using namespace workrave;
 using namespace std;
 
 Session::Session()
-  : is_idle(false)
+  : is_idle(false),
+    taking(false)
 {
 }
 
@@ -66,16 +67,25 @@ Session::set_idle(bool new_idle)
         {
           TRACE_MSG("Now idle");
           ICore *core = CoreFactory::get_core();
-          mode_before_screenlock = core->set_operation_mode(OPERATION_MODE_SUSPENDED, false);
+          IBreak *rest_break = core->get_break(BREAK_ID_REST_BREAK);
+
+          taking = rest_break->is_taking();
+          TRACE_MSG("taking " << taking);
+          if (!taking)
+            {
+              mode_before_screenlock = core->set_operation_mode(OPERATION_MODE_SUSPENDED, false);
+            }
         }
-      else if (!new_idle && is_idle)
+      else if (!new_idle && is_idle && !taking)
         {
           TRACE_MSG("No longer idle");
           ICore *core = CoreFactory::get_core();
           IBreak *rest_break = core->get_break(BREAK_ID_REST_BREAK);
-      
+
           core->set_operation_mode(mode_before_screenlock, false);
-          if (rest_break->get_elapsed_idle_time() < rest_break->get_auto_reset() && rest_break->is_enabled())
+          if (rest_break->get_elapsed_idle_time() < rest_break->get_auto_reset()
+              && rest_break->is_enabled()
+              && !rest_break->is_taking())
             {
               core->force_break(BREAK_ID_REST_BREAK, BREAK_HINT_NATURAL_BREAK);
             }

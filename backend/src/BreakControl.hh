@@ -68,7 +68,8 @@ public:
   BreakState get_break_state();
   void set_state_data(bool activate, const BreakStateData &data);
   void get_state_data(BreakStateData &data);
-
+  bool is_taking();
+  
   // ActivityMonitorListener
   bool action_notify();
 

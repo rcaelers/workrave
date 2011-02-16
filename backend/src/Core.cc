@@ -1126,7 +1126,7 @@ Core::process_timers()
   TRACE_EXIT();
 }
 
-#ifdef PLATFORM_OS_WIN32
+#if defined(PLATFORM_OS_WIN32)
 
 //! Process a possible timewarp on Win32
 bool

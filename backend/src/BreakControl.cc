@@ -533,6 +533,12 @@ BreakControl::get_break_state()
   return ret;
 }
 
+bool
+BreakControl::is_taking()
+{
+  return break_stage == STAGE_TAKING;
+}
+
 
 //! Postpones the active break.
 /*!

@@ -377,6 +377,13 @@ Break::is_running() const
   return state == STATE_RUNNING;
 }
 
+
+bool
+Break::is_taking() const
+{
+  return break_control->is_taking();
+}
+
 time_t
 Break::get_elapsed_time() const
 {
