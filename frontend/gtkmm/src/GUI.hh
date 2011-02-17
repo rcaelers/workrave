@@ -123,6 +123,7 @@ private:
   void init_gui();
   void init_dbus();
   void init_session();
+  void init_startup_warnings();
   
   void init_gtk_multihead();
 
@@ -143,7 +144,8 @@ private:
 #if defined(PLATFORM_OS_UNIX)
   bool on_grab_retry_timer();
 #endif
-
+  bool on_operational_mode_warning_timer();
+  
 #if defined(PLATFORM_OS_WIN32)
   void win32_init_filter();
   static GdkFilterReturn win32_filter_func (void     *xevent,
@@ -241,6 +243,8 @@ private:
   //
   bool muted;
 
+  //
+  bool closewarn_shown;
 };
 
 

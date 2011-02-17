@@ -139,7 +139,8 @@ GUI::GUI(int argc, char **argv) :
   grab_handle(NULL),
   status_icon(NULL),
   applet_control(NULL),
-  muted(false)
+  muted(false),
+  closewarn_shown(false)
 {
   TRACE_ENTER("GUI:GUI");
 
@@ -221,6 +222,7 @@ GUI::main()
   init_dbus();
   init_session();
   init_gui();
+  init_startup_warnings();
   
   on_timer();
 
@@ -301,11 +303,11 @@ GUI::main_window_closed()
       bool closewarn = false;
       CoreFactory::get_configurator()->get_value(GUIConfig::CFG_KEY_CLOSEWARN_ENABLED, closewarn);
       TRACE_MSG(closewarn);
-      if (closewarn)
+      if (closewarn && !closewarn_shown)
         {
           status_icon->show_balloon(_("Workrave is still running. "
                                       "You can access Workrave by clicking on the white sheep icon."));
-          CoreFactory::get_configurator()->set_value(GUIConfig::CFG_KEY_CLOSEWARN_ENABLED, false);
+          closewarn_shown =  true;
         }
     }
   TRACE_EXIT();
@@ -345,7 +347,6 @@ GUI::on_timer()
 
   if (active_break_count == 0 && muted)
     {
-      ICore *core = CoreFactory::get_core();
       bool user_active = core->is_user_active();
 
       if (user_active)
@@ -887,6 +888,16 @@ GUI::init_dbus()
 #endif
 }
 
+void
+GUI::init_startup_warnings()
+{
+  OperationMode mode = core->get_operation_mode();
+  if (mode != OPERATION_MODE_NORMAL)
+    {
+      Glib::signal_timeout().connect(sigc::mem_fun(*this, &GUI::on_operational_mode_warning_timer), 5000);
+    }
+}
+
 
 //! Returns a break window for the specified break.
 IBreakWindow *
@@ -1373,6 +1384,23 @@ GUI::on_grab_retry_timer()
 #endif
 
 
+bool
+GUI::on_operational_mode_warning_timer()
+{
+  OperationMode mode = core->get_operation_mode();
+  if (mode == OPERATION_MODE_SUSPENDED)
+    {
+      status_icon->show_balloon(_("Workrave is in suspended mode. "
+                                  "Mouse and keyboard activity will not be monitored."));
+    }
+  else if (mode == OPERATION_MODE_QUIET)
+    {
+      status_icon->show_balloon(_("Workrave is in quiet mode. "
+                                  "No break windows will appear."));
+    }
+  return false;
+}
+
 HeadInfo &
 GUI::get_head(int head)
 {
@@ -1497,8 +1525,6 @@ GUI::get_timers_tooltip()
   //FIXME: duplicate
   const char *labels[] = { _("Micro-break"), _("Rest break"), _("Daily limit") };
   string tip = "";
-
-  ICore *core = CoreFactory::get_core();
 
   OperationMode mode = core->get_operation_mode();
   switch (mode)

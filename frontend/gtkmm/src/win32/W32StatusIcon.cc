@@ -128,7 +128,7 @@ W32StatusIcon::show_balloon(const Glib::ustring &balloon)
     {
       nid.uFlags |= NIF_INFO;
       nid.uTimeout = 20000;
-      nid.dwInfoFlags = NIIF_INFO | NIIF_USER;
+      nid.dwInfoFlags = NIIF_INFO;
 
       wcsncpy(nid.szInfo, (wchar_t *)winfo, G_N_ELEMENTS(nid.szInfo) - 1);
       nid.szInfo[G_N_ELEMENTS(nid.szInfo) - 1] = 0;
