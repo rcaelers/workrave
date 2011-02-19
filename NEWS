@@ -1,4 +1,4 @@
-Workrave NEWS -- history of user-visible changes.  11 Dec 2010
+Workrave NEWS -- history of user-visible changes.  xx Mar 2011
 Copyright (C) 2001-2011 Rob Caelers & Raymond Penners
 See the end for copying conditions.
 
@@ -11,6 +11,18 @@ http://www.workrave.org
    configurable.
 
 ** Fixed crash when the 'mute all audio during breaks' option is enabled.
+
+** The skip and postpone button now have keyboard shortcuts (Alt-S
+   and Alt-P in the English version).
+
+** Fixed issue where Workrave remains suspended after
+   hibernate/standby on Window 7.
+
+** On Windows, Workrave shows a reminder balloon when Workrave starts up
+   in suspended or quiet mode.
+
+** The (un)installer now automatically shuts down Workrave before
+   (un)installation.
 
 * Workrave 1.9.3
 
