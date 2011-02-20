@@ -98,6 +98,8 @@ frontend/gtkmm/src/workrave.desktop.in.in
 frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in
 frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in
 frontend/gtkmm/src/gnome_applet/WorkraveApplet.c
+frontend/gtkmm/src/gnome_applet3/org.workrave.WorkraveApplet.panel-applet.in.in
+frontend/gtkmm/src/gnome_applet3/WorkraveApplet.c
 frontend/gtkmm/src/main.cc
 frontend/gtkmm/src/osx/OSXGtkMenu.cc
 frontend/gtkmm/src/osx/OSXUtil.cc

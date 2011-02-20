@@ -1,6 +1,6 @@
 // WorkraveApplet.cc
 //
-// Copyright (C) 2002, 2003, 2005, 2006, 2007, 2008, 2009, 2010 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2005, 2006, 2007, 2008, 2009, 2010, 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -37,13 +37,15 @@
 #include "applet-server-bindings.h"
 #include "gui-client-bindings.h"
 
+#include "nls.h"
+
 G_DEFINE_TYPE (WorkraveApplet, workrave_applet, G_TYPE_OBJECT);
 
 static WorkraveApplet *g_applet = NULL;
 static DBusGConnection *g_connection = NULL;
 
-static void workrave_applet_hide_menus(gboolean hide);
-static void workrave_applet_set_hidden(gchar *name, gboolean hidden);
+static void workrave_applet_set_all_visible(gboolean visible);
+static void workrave_applet_set_visible(gchar *name, gboolean visible);
 
 static
 void workrave_applet_destroy(GtkObject *object);
@@ -206,7 +208,7 @@ workrave_is_running(void)
 }
 
 
-static gboolean
+gboolean
 workrave_applet_get_socket_id(WorkraveApplet *applet, guint *id, GError **err)
 {
   *id = applet->socket_id;
@@ -215,7 +217,7 @@ workrave_applet_get_socket_id(WorkraveApplet *applet, guint *id, GError **err)
 }
 
 
-static gboolean
+gboolean
 workrave_applet_get_size(WorkraveApplet *applet, guint *size, GError **err)
 {
   *size = applet->size;
@@ -224,7 +226,7 @@ workrave_applet_get_size(WorkraveApplet *applet, guint *size, GError **err)
 }
 
 
-static gboolean
+gboolean
 workrave_applet_get_orientation(WorkraveApplet *applet, guint *orientation, GError **err)
 {
   *orientation = applet->orientation;
@@ -233,87 +235,64 @@ workrave_applet_get_orientation(WorkraveApplet *applet, guint *orientation, GErr
 }
 
 
-static gboolean
-workrave_applet_set_menu_status(WorkraveApplet *applet, const char *name,
-                                gboolean status, GError **err)
+gboolean
+workrave_applet_set_menu_status(WorkraveApplet *applet, const char *name, gboolean status, GError **err)
 {
-  BonoboUIComponent *ui = NULL;
-  gboolean set = FALSE;
-
-  if (applet != NULL && applet->applet != NULL)
+  if (g_str_has_prefix(name, "/commands/"))
     {
-      ui = panel_applet_get_popup_component(PANEL_APPLET(applet->applet));
+      name += 10; // Skip gnome2 prefix for compatibility
     }
 
-  if (ui != NULL)
+  GtkAction *action = gtk_action_group_get_action(g_applet->action_group, name);
+  if (GTK_IS_TOGGLE_ACTION(action))
     {
-      const char *s = bonobo_ui_component_get_prop(ui, name, "state", NULL);
+      GtkToggleAction *toggle = GTK_TOGGLE_ACTION(action);
+      gtk_toggle_action_set_active(toggle, status);
 
-      set = (s != NULL && atoi(s) != 0);
-
-      if ((status && !set) || (!status && set))
-        {
-          bonobo_ui_component_set_prop(ui, name, "state", status ? "1" : "0", NULL);
-        }
+      return TRUE;
     }
 
-  return TRUE;
+  return FALSE;
 }
 
 
-static gboolean
-workrave_applet_get_menu_status(WorkraveApplet *applet, const char *name, gboolean *status, GError **err)
+gboolean
+workrave_applet_get_menu_status(WorkraveApplet *applet, const char *name,  gboolean *status, GError **err)
 {
-  BonoboUIComponent *ui = NULL;
-  gboolean ret = FALSE;
-
-  if (applet != NULL && applet->applet != NULL)
+  if (g_str_has_prefix(name, "/commands/"))
     {
-      ui = panel_applet_get_popup_component(PANEL_APPLET(applet->applet));
+      name += 10; // Skip gnome2 prefix for compatibility
     }
 
-  if (ui != NULL)
+  GtkAction *action = gtk_action_group_get_action(g_applet->action_group, name);
+  if (GTK_IS_TOGGLE_ACTION(action))
     {
-      const char *s = bonobo_ui_component_get_prop(ui, name, "state", NULL);
+      GtkToggleAction *toggle = GTK_TOGGLE_ACTION(action);
+      *status = gtk_toggle_action_get_active(toggle);
 
-      ret = (s != NULL && atoi(s) != 0);
+      return TRUE;
     }
-
-  *status = ret;
-  
-  return TRUE;
+  return FALSE;
 }
 
 
 gboolean
 workrave_applet_set_menu_active(WorkraveApplet *applet, const char *name, gboolean status, GError **err)
 {
-  workrave_applet_set_hidden((char *) name, !status);
+  GtkAction *action = gtk_action_group_get_action(g_applet->action_group, name);
+  gtk_action_set_visible(action, status);
+
   return TRUE;
 }
 
 
-static gboolean
+gboolean
 workrave_applet_get_menu_active(WorkraveApplet *applet, const char *name, gboolean *active, GError **err)
 {
-  BonoboUIComponent *ui = NULL;
-  gboolean ret = FALSE;
-
-  if (applet != NULL && applet->applet != NULL)
-    {
-      ui = panel_applet_get_popup_component(PANEL_APPLET(applet->applet));
-    }
-
-  if (ui != NULL)
-    {
-      const char *s = bonobo_ui_component_get_prop(ui, name, "hidden", NULL);
-
-      *active = (s != NULL && atoi(s) != 0);
-
-      ret = TRUE;
-    }
-
-  return ret;
+  GtkAction *action = gtk_action_group_get_action(g_applet->action_group, name);
+  *active = gtk_action_get_visible(action);
+    
+  return TRUE;
 }
 
 
@@ -340,7 +319,7 @@ dbus_callback(DBusGProxy *proxy,
 
 
 static void
-verb_about(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
+on_menu_about(GtkAction *action, WorkraveApplet *a)
 {
   GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(WORKRAVE_PKGDATADIR "/images/workrave.png", NULL);
   GtkAboutDialog *about = GTK_ABOUT_DIALOG(gtk_about_dialog_new());
@@ -368,7 +347,7 @@ verb_about(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
 
 
 static void
-verb_open(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
+on_menu_open(GtkAction *action, WorkraveApplet *a)
 {
   if (g_applet->ui != NULL)
     {
@@ -379,7 +358,7 @@ verb_open(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
 
 
 static void
-verb_preferences(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
+on_menu_preferences(GtkAction *action, WorkraveApplet *a)
 {
   if (!workrave_is_running())
     {
@@ -395,7 +374,7 @@ verb_preferences(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
 
 
 static void
-verb_exercises(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
+on_menu_exercises(GtkAction *action, WorkraveApplet *a)
 {
   if (!workrave_is_running())
     {
@@ -410,7 +389,7 @@ verb_exercises(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
 }
 
 static void
-verb_statistics(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
+on_menu_statistics(GtkAction *action, WorkraveApplet *a)
 {
   if (!workrave_is_running())
     {
@@ -425,7 +404,7 @@ verb_statistics(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
 }
 
 static void
-verb_restbreak(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
+on_menu_restbreak(GtkAction *action, WorkraveApplet *a)
 {
   if (!workrave_is_running())
     {
@@ -442,7 +421,7 @@ verb_restbreak(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
 
 
 static void
-verb_connect(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
+on_menu_connect(GtkAction *action, WorkraveApplet *a)
 {
   if (!workrave_is_running())
     {
@@ -459,7 +438,7 @@ verb_connect(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
 
 
 static void
-verb_disconnect(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
+on_menu_disconnect(GtkAction *action, WorkraveApplet *a)
 {
   if (!workrave_is_running())
     {
@@ -474,7 +453,7 @@ verb_disconnect(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
 }
 
 static void
-verb_reconnect(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
+on_menu_reconnect(GtkAction *action, WorkraveApplet *a)
 {
   if (!workrave_is_running())
     {
@@ -491,7 +470,7 @@ verb_reconnect(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
 
 
 static void
-verb_quit(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
+on_menu_quit(GtkAction *action, WorkraveApplet *a)
 {
   if (!workrave_is_running())
     {
@@ -504,23 +483,6 @@ verb_quit(BonoboUIComponent *uic, gpointer data, const gchar *verbname)
                              G_TYPE_INVALID);
     }
 }
-
-static const BonoboUIVerb
-workrave_applet_verbs [] =
-  {
-    BONOBO_UI_VERB("About", verb_about),
-    BONOBO_UI_VERB("Open", verb_open),
-    BONOBO_UI_VERB("Exercises", verb_exercises),
-    BONOBO_UI_VERB("Preferences", verb_preferences),
-    BONOBO_UI_VERB("Restbreak", verb_restbreak),
-    BONOBO_UI_VERB("Connect", verb_connect),
-    BONOBO_UI_VERB("Disconnect", verb_disconnect),
-    BONOBO_UI_VERB("Reconnect", verb_reconnect),
-    BONOBO_UI_VERB("Statistics", verb_statistics),
-    BONOBO_UI_VERB("Quit", verb_quit),
-    BONOBO_UI_VERB_END
-  };
-
 
 static void
 change_orient(PanelApplet *applet, PanelAppletOrient o, gpointer data)
@@ -644,7 +606,7 @@ plug_removed(GtkSocket *socket, void *manager)
 {
   gtk_widget_show(GTK_WIDGET(g_applet->image));
   gtk_widget_hide(GTK_WIDGET(g_applet->socket));
-  workrave_applet_hide_menus(TRUE);
+  workrave_applet_set_all_visible(FALSE);
   return TRUE;
 }
 
@@ -654,7 +616,7 @@ plug_added(GtkSocket *socket, void *manager)
 {
   gtk_widget_hide(GTK_WIDGET(g_applet->image));
   gtk_widget_show(GTK_WIDGET(g_applet->socket));
-  workrave_applet_hide_menus(FALSE);
+  workrave_applet_set_all_visible(TRUE);
   return TRUE;
 }
 
@@ -679,144 +641,94 @@ button_pressed(GtkWidget *widget, GdkEventButton *event, gpointer data)
 }
 
 static void
-showlog_callback(BonoboUIComponent *ui, const char *path, Bonobo_UIComponent_EventType type,
-                 const char *state, gpointer user_data)
+showlog_callback(GtkAction *action, WorkraveApplet *a)
 {
-  gboolean new_state;
+  gboolean new_state = FALSE;
 
-  if (state == NULL || strcmp(state, "") == 0)
+  if (GTK_IS_TOGGLE_ACTION(action))
     {
-      /* State goes blank when component is removed; ignore this. */
-      return;
+      GtkToggleAction *toggle = GTK_TOGGLE_ACTION(action);
+      new_state = gtk_toggle_action_get_active(toggle);
     }
 
-  new_state = strcmp(state, "0") != 0;
+  g_applet->last_showlog_state = new_state;
 
-  if (1)
+  if (g_applet->ui != NULL && workrave_is_running())
     {
-      g_applet->last_showlog_state = new_state;
-
-      if (g_applet->ui != NULL && workrave_is_running())
-        {
-          dbus_g_proxy_begin_call(g_applet->ui, "NetworkLog", dbus_callback, NULL, NULL,
-                                 G_TYPE_BOOLEAN, new_state, G_TYPE_INVALID);
-        }
+      dbus_g_proxy_begin_call(g_applet->ui, "NetworkLog", dbus_callback, NULL, NULL,
+                              G_TYPE_BOOLEAN, new_state, G_TYPE_INVALID);
     }
 }
 
 static void
-reading_mode_callback(BonoboUIComponent *ui, const char *path, Bonobo_UIComponent_EventType type,
-                      const char *state, gpointer user_data)
+reading_mode_callback(GtkAction *action, WorkraveApplet *a)
 {
-  gboolean new_state;
+  gboolean new_state = FALSE;
 
-  if (state == NULL || strcmp(state, "") == 0)
+  if (GTK_IS_TOGGLE_ACTION(action))
     {
-      /* State goes blank when component is removed; ignore this. */
-      return;
+      GtkToggleAction *toggle = GTK_TOGGLE_ACTION(action);
+      new_state = gtk_toggle_action_get_active(toggle);
     }
 
-  new_state = strcmp(state, "0") != 0;
-
-  if (1)
+  g_applet->last_reading_mode_state = new_state;
+  
+  if (g_applet->ui != NULL && workrave_is_running())
     {
-      g_applet->last_reading_mode_state = new_state;
-
-      if (g_applet->ui != NULL && workrave_is_running())
-        {
-          dbus_g_proxy_begin_call(g_applet->ui, "ReadingMode", dbus_callback, NULL, NULL,
-                                 G_TYPE_BOOLEAN, new_state, G_TYPE_INVALID);
-        }
+      dbus_g_proxy_begin_call(g_applet->ui, "ReadingMode", dbus_callback, NULL, NULL,
+                              G_TYPE_BOOLEAN, new_state, G_TYPE_INVALID);
     }
 }
 
 static void
-mode_callback(BonoboUIComponent *ui, const char *path, Bonobo_UIComponent_EventType type,
-              const char *state, gpointer user_data)
+mode_callback(GtkAction *action, WorkraveApplet *a)
 {
-  gboolean new_state;
+  const char *modes[] = { "normal", "suspended", "quiet" };
   int mode = 0;
-  char *mode_str = "";
-  
-  if (state == NULL || strcmp(state, "") == 0)
+
+  if (GTK_IS_RADIO_ACTION(action))
     {
-      /* State goes blank when component is removed; ignore this. */
-      return;
+      GtkRadioAction *toggle = GTK_RADIO_ACTION(action);
+      mode = gtk_radio_action_get_current_value(toggle);
     }
-  
-  new_state = strcmp(state, "0") != 0;
 
-  if (path != NULL && new_state)
+  if (mode >= 0 && mode < G_N_ELEMENTS(modes))
     {
-      if (g_ascii_strcasecmp(path, "Normal") == 0)
-        {
-          mode = 0;
-          mode_str = "normal";
-        }
-      else if (g_ascii_strcasecmp(path, "Suspended") == 0)
-        {
-          mode = 1;
-          mode_str = "suspended";
-        }
-      else if (g_ascii_strcasecmp(path, "Quiet") == 0)
-        {
-          mode = 2;
-          mode_str = "quiet";
-        }
-
-      if (mode != -1)
-        {
-          g_applet->last_mode = mode;
+      g_applet->last_mode = mode;
           
-          if (g_applet->ui != NULL && workrave_is_running())
-            {
-              dbus_g_proxy_begin_call(g_applet->core, "SetOperationMode", dbus_callback, NULL, NULL,
-                                      G_TYPE_STRING, mode_str, G_TYPE_INVALID);
-            }
+      if (g_applet->ui != NULL && workrave_is_running())
+        {
+          dbus_g_proxy_begin_call(g_applet->core, "SetOperationMode", dbus_callback, NULL, NULL,
+                                  G_TYPE_STRING, modes[mode], G_TYPE_INVALID);
         }
     }
 }
 
 
 static void
-workrave_applet_set_hidden(gchar *name, gboolean hidden)
+workrave_applet_set_visible(gchar *name, gboolean visible)
 {
-  BonoboUIComponent *ui = NULL;
-  gboolean set = FALSE;
+  GtkAction *action;
 
-  if (g_applet != NULL && g_applet->applet != NULL)
-    {
-      ui = panel_applet_get_popup_component(PANEL_APPLET(g_applet->applet));
-    }
-
-  if (ui != NULL)
-    {
-      const char *s = bonobo_ui_component_get_prop(ui, name, "hidden", NULL);
-
-      set = (s != NULL && atoi(s) != 0);
-
-      if ((hidden && !set) || (!hidden && set))
-      {
-        bonobo_ui_component_set_prop(ui, name, "hidden", hidden ? "1" : "0", NULL);
-      }
-    }
+  action = gtk_action_group_get_action(g_applet->action_group, name);
+  gtk_action_set_visible(action, visible);
 }
 
 
 static void
-workrave_applet_hide_menus(gboolean hide)
+workrave_applet_set_all_visible(gboolean visible)
 {
-  workrave_applet_set_hidden("/commands/Preferences", hide);
-  workrave_applet_set_hidden("/commands/Restbreak", hide);
-  workrave_applet_set_hidden("/commands/Network", hide);
-  workrave_applet_set_hidden("/commands/Normal", hide);
-  workrave_applet_set_hidden("/commands/Suspended", hide);
-  workrave_applet_set_hidden("/commands/Quiet", hide);
-  workrave_applet_set_hidden("/commands/Mode", hide);
-  workrave_applet_set_hidden("/commands/Statistics", hide);
-  workrave_applet_set_hidden("/commands/Exercises", hide);
-  workrave_applet_set_hidden("/commands/ReadingMode", hide);
-  workrave_applet_set_hidden("/commands/Quit", hide);
+  workrave_applet_set_visible("Preferences", visible);
+  workrave_applet_set_visible("Restbreak", visible);
+  workrave_applet_set_visible("Network", visible);
+  workrave_applet_set_visible("Normal", visible);
+  workrave_applet_set_visible("Suspended", visible);
+  workrave_applet_set_visible("Quiet", visible);
+  workrave_applet_set_visible("Mode", visible);
+  workrave_applet_set_visible("Statistics", visible);
+  workrave_applet_set_visible("Exercises", visible);
+  workrave_applet_set_visible("ReadingMode", visible);
+  workrave_applet_set_visible("Quit", visible);
 }
 
 
@@ -903,26 +815,111 @@ workrave_applet_unrealize(GtkWidget *widget, void *data)
   workrave_dbus_server_cleanup();
 }
 
+static const GtkActionEntry menu_actions [] = {
+  { "Open", GTK_STOCK_OPEN, N_("_Open"),
+    NULL, NULL,
+    G_CALLBACK(on_menu_open) },
+
+  { "Statistics", NULL, N_("_Statistics"),
+    NULL, NULL,
+    G_CALLBACK(on_menu_statistics) },
+
+  { "Preferences", GTK_STOCK_PREFERENCES, N_("_Preferences"),
+    NULL, NULL,
+    G_CALLBACK(on_menu_preferences) },
+  
+  { "Exercises", NULL, N_("_Exercises"),
+    NULL, NULL,
+    G_CALLBACK(on_menu_exercises) },
+
+  { "Restbreak", NULL, N_("_Restbreak"),
+    NULL, NULL,
+    G_CALLBACK(on_menu_restbreak) },
+
+  { "Mode", NULL, N_("_Mode"),
+    NULL, NULL,
+    NULL },
+
+  { "Network", NULL, N_("_Network"),
+    NULL, NULL,
+    NULL },
+
+  { "Join", NULL, N_("_Join"),
+    NULL, NULL,
+    G_CALLBACK(on_menu_connect) },
+
+  { "Disconnect", NULL, N_("_Disconnect"),
+    NULL, NULL,
+    G_CALLBACK(on_menu_disconnect) },
+
+  { "Reconnect", NULL, N_("_Reconnect"),
+    NULL, NULL,
+    G_CALLBACK(on_menu_reconnect) },
+
+  { "About", GTK_STOCK_ABOUT, N_("_About"),
+    NULL, NULL,
+    G_CALLBACK(on_menu_about) },
+
+  { "Quit", GTK_STOCK_QUIT, N_("_Quit"),
+    NULL, NULL,
+    G_CALLBACK(on_menu_quit) },
+};
+
+
+static const GtkToggleActionEntry toggle_actions[] = {
+    { "ShowLog", NULL, N_("Show log"),
+      NULL, NULL,
+      G_CALLBACK(showlog_callback), FALSE },
+
+    { "ReadingMode", NULL, N_("Reading mode"),
+      NULL, NULL,
+      G_CALLBACK(reading_mode_callback), FALSE },
+};
+
+static const GtkRadioActionEntry mode_actions[] = {
+    { "Normal", NULL, N_("Normal"),
+      NULL, NULL,
+      0 },
+
+    { "Suspended", NULL, N_("Suspended"),
+      NULL, NULL,
+      1 },
+
+    { "Quiet", NULL, N_("Quiet"),
+      NULL, NULL,
+      2 },
+};
+
+
 static gboolean
 workrave_applet_fill(PanelApplet *applet)
 {
   GdkPixbuf *pixbuf = NULL;
   GtkWidget *hbox = NULL;
-  BonoboUIComponent *ui = NULL;
   PanelAppletOrient orient;
 
-  // Create menus.
-  panel_applet_setup_menu_from_file(applet, WORKRAVE_UIDATADIR, "GNOME_WorkraveApplet.xml", NULL,
-                                    workrave_applet_verbs, applet);
+  g_applet->action_group = gtk_action_group_new("WorkraveAppletActions");
+  gtk_action_group_set_translation_domain(g_applet->action_group, GETTEXT_PACKAGE);
+  gtk_action_group_add_actions(g_applet->action_group,
+                               menu_actions,
+                               G_N_ELEMENTS (menu_actions),
+                               applet);
+  gtk_action_group_add_toggle_actions(g_applet->action_group,
+                                      toggle_actions,
+                                      G_N_ELEMENTS (toggle_actions),
+                                      applet);
+  gtk_action_group_add_radio_actions (g_applet->action_group,
+                                      mode_actions,
+                                      G_N_ELEMENTS(mode_actions),
+                                      0,
+                                      G_CALLBACK(mode_callback),
+                                      NULL);
 
-  // Add listeners for menu toggle-items.
-  ui = panel_applet_get_popup_component(applet);
-  bonobo_ui_component_add_listener(ui, "ShowLog", showlog_callback, NULL);
-  bonobo_ui_component_add_listener(ui, "Normal", mode_callback, NULL);
-  bonobo_ui_component_add_listener(ui, "Suspended", mode_callback, NULL);
-  bonobo_ui_component_add_listener(ui, "Quiet", mode_callback, NULL);
-  bonobo_ui_component_add_listener(ui, "ReadingMode", reading_mode_callback, NULL);
-
+ gchar *ui_path = g_build_filename(WORKRAVE_UIDATADIR, "workrave-applet-menu.xml", NULL);
+  panel_applet_setup_menu_from_file(applet, ui_path, g_applet->action_group);
+  g_free(ui_path);
+  //g_object_unref(action_group);
+  
   panel_applet_set_flags(PANEL_APPLET(applet),
                          PANEL_APPLET_EXPAND_MINOR);
 
@@ -1003,7 +1000,7 @@ workrave_applet_factory(PanelApplet *applet, const gchar *iid, gpointer data)
 {
   gboolean retval = FALSE;
 
-  if (!strcmp(iid, "OAFIID:GNOME_WorkraveApplet"))
+  if (!g_ascii_strcasecmp(iid, "WorkraveApplet"))
     {
       g_applet = workrave_applet_new();
       g_applet->applet = applet;
@@ -1021,10 +1018,8 @@ workrave_applet_factory(PanelApplet *applet, const gchar *iid, gpointer data)
   return retval;
 }
 
-
-PANEL_APPLET_BONOBO_FACTORY("OAFIID:GNOME_WorkraveApplet_Factory",
-                            PANEL_TYPE_APPLET,
-                            "Workrave Applet",
-                            "0",
-                            workrave_applet_factory,
-                            NULL)
+PANEL_APPLET_OUT_PROCESS_FACTORY("WorkraveAppletFactory",
+                                 PANEL_TYPE_APPLET,
+                                 "Workrave Applet",
+                                 workrave_applet_factory,
+                                 NULL)

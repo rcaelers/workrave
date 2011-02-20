@@ -97,6 +97,11 @@ AC_ARG_ENABLE( distribution,
                               [compile without support for distributed operation])],
               [config_distribution=$enableval], [config_distribution=yes])
 
+AC_ARG_ENABLE( experimental,
+              [AC_HELP_STRING([--enable-experimental],
+                              [compile with experimental features])],
+              [config_experimental=$enableval], [config_experimental=yes])
+	      
 AC_ARG_ENABLE( exercises,
               [AC_HELP_STRING([--disable-exercises],
                               [compile without exercises support])],
@@ -413,10 +418,25 @@ dnl
 
 if test "x$config_gnome" = "xyes";
 then
-    PKG_CHECK_MODULES(GNOME,
+   have_panelapplet3=no
+   
+   if test "x$config_experimental" = "xyes"; then
+      PKG_CHECK_MODULES(GNOME, libpanelapplet-3.0, have_panelapplet3=yes, have_panelapplet3=no)
+      if test x$have_panelapplet3 = xyes
+      then
+	  AC_DEFINE(HAVE_PANELAPPLET3, 1, Support for Gnome panel applet V3)
+      fi
+   fi
+   
+   if test x$have_panelapplet3 = xno
+   then
+      PKG_CHECK_MODULES(GNOME,
                       libpanelapplet-2.0 >= 2.0.10 \
                       libbonobo-2.0 >= 2.0.0)
+   fi
 fi
+
+AM_CONDITIONAL(HAVE_PANELAPPLET3, test "x$have_panelapplet3" = "xyes")
 
 AC_SUBST(GNOME_LIBS)
 AC_SUBST(GNOME_CFLAGS)
@@ -906,7 +926,6 @@ AC_OUTPUT(Makefile
           frontend/common/share/images/win32/Makefile \
           frontend/common/share/images/osx/Makefile \
           frontend/common/src/Makefile \
-          frontend/common/src/gnome/Makefile \
           frontend/common/src/kde/Makefile \
           frontend/common/src/win32/Makefile \
           frontend/common/src/x11/Makefile \
@@ -926,6 +945,7 @@ AC_OUTPUT(Makefile
           frontend/gtkmm/src/unix/Makefile \
           frontend/gtkmm/src/osx/Makefile \
           frontend/gtkmm/src/gnome_applet/Makefile \
+          frontend/gtkmm/src/gnome_applet3/Makefile \
           frontend/gtkmm/src/kde_applet/Makefile \
           frontend/qt/Makefile \
           frontend/qt/src/Makefile \

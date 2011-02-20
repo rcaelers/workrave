@@ -45,7 +45,7 @@
 
 #if defined HAVE_GSTREAMER
 #include "GstSoundPlayer.hh"
-#elif defined HAVE_GNOME
+#elif defined HAVE_DEPRECATED_GNOME
 #include "GnomeSoundPlayer.hh"
 #elif defined HAVE_KDE
 #include "KdeSoundPlayer.hh"
@@ -317,7 +317,7 @@ SoundPlayer::SoundPlayer()
   driver =
 #if defined HAVE_GSTREAMER
      new GstSoundPlayer()
-#elif defined HAVE_GNOME
+#elif defined HAVE_DEPRECATED_GNOME
      new GnomeSoundPlayer()
 #elif defined HAVE_KDE
      new KdeSoundPlayer()

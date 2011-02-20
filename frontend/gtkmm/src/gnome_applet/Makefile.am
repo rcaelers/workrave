@@ -13,6 +13,7 @@ MAINTAINERCLEANFILES =  Makefile.in GNOME_WorkraveApplet.xml \
 
 SUBDIRS = 
 
+if !HAVE_PANELAPPLET3
 if HAVE_GNOMEAPPLET
 
 uidir		= $(datadir)/gnome-2.0/ui
@@ -63,6 +64,7 @@ applet-client-bindings.h:  DBusGnomeApplet.xml
 gui-client-bindings.h:  DBusGUI.xml
 	dbus-binding-tool --prefix=workrave --mode=glib-client $<> $@
 
+endif
 endif
 
 DBusGUI.xml: $(top_srcdir)/frontend/gtkmm/src/workrave-gui.xml

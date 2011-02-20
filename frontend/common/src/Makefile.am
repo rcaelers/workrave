@@ -1,13 +1,13 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2002, 2003, 2004, 2007, 2008, 2010 Rob Caelers & Raymond Penners
+# Copyright (C) 2002, 2003, 2004, 2007, 2008, 2010, 2011 Rob Caelers & Raymond Penners
 #
 
 MAINTAINERCLEANFILES =	Makefile.in
 
 noinst_LTLIBRARIES = 	libworkrave-frontend-common.la
 
-SUBDIRS = 		gnome kde win32 x11 osx
+SUBDIRS = 		kde win32 x11 osx
 
 libworkrave_frontend_common_la_SOURCES = \
 			Text.cc \
@@ -28,9 +28,6 @@ endif
 if PLATFORM_OS_UNIX
 ldadd_platform += 	x11/libworkrave-frontend-common-x11.la
 endif
-if HAVE_GNOME
-ldadd_platform += 	gnome/libworkrave-frontend-common-gnome.la
-endif
 if HAVE_KDE
 ldadd_platform += 	kde/libworkrave-frontend-common-kde.la
 endif
@@ -47,9 +44,8 @@ libworkrave_frontend_common_la_CXXFLAGS = \
 			-W -I$(top_srcdir)/frontend/common/src/ \
 			-I$(top_srcdir)/frontend/common/include \
 			-I$(top_srcdir)/frontend/common/src/win32 \
-			-I$(top_srcdir)/frontend/common/src/gnome \
 			-I$(top_srcdir)/frontend/common/src/kde \
 			-I$(top_srcdir)/frontend/common/src/osx \
 			@WR_COMMON_INCLUDES@ @WR_BACKEND_INCLUDES@ @PULSE_CFLAGS@ \
-			@GNOME_CFLAGS@ @GTK_CFLAGS@ @GLIB_CFLAGS@ @GSTREAMER_CFLAGS@ \
+			@GTK_CFLAGS@ @GLIB_CFLAGS@ @GSTREAMER_CFLAGS@ \
 			-I$(top_srcdir)/common/win32/harpoon/include
