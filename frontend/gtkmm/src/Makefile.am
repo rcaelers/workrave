@@ -7,11 +7,11 @@
 SUBDIRS = 		gnome_applet gnome_applet3 kde_applet win32 unix osx
 MAINTAINERCLEANFILES = 	Makefile.in \
 			org.workrave.Workrave.service \
-			workrave.desktop.in workrave.desktop \
+			workrave.desktop \
 			DBusGUI.cc DBusGUI.hh DBusGnomeApplet.cc DBusGnomeApplet.hh \
 			resource.rc
 
-DISTCLEANFILES = 	workrave.desktop.in workrave.desktop
+DISTCLEANFILES = 	workrave.desktop
 
 if HAVE_APP_GTKMM
 
@@ -198,10 +198,6 @@ desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 
 @INTLTOOL_DESKTOP_RULE@
 
-# Rule to make the icons file with iconsdir expanded
-workrave.desktop.in: workrave.desktop.in.in Makefile
-	sed -e "s|@workraveiconsdir@|$(iconsdir)|" $< > $@
-
 workrave_SOURCES = \
 			AppletWindow.cc \
 			AppletControl.cc \
@@ -300,5 +296,5 @@ workrave_LDADD =        @WR_LDADD@ @X_LIBS@ @X11SM_LIBS@ @GNOME_LIBS@ @GLIB_LIBS
 
 EXTRA_DIST = $(wildcard *.cc) $(wildcard *.hh) $(wildcard *.c) $(wildcard *.h) \
 	     DBusGUI.cc DBusGUI.hh DBusGnomeApplet.cc DBusGnomeApplet.hh \
-	     workrave.desktop.in.in org.workrave.Workrave.service.in workrave-gui.xml resource.rc.in
+	     workrave.desktop.in org.workrave.Workrave.service.in workrave-gui.xml resource.rc.in
 

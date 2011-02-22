@@ -20,7 +20,6 @@
 /*.o
 /*~
 /workrave.desktop
-/workrave.desktop.in
 /org.workrave.Workrave.service
 /DBusGnomeApplet.cc
 /DBusGnomeApplet.hh

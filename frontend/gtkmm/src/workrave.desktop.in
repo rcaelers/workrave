@@ -2,6 +2,6 @@
 Type=Application
 Categories=Utility;GTK;Accessibility
 Exec=workrave
-Icon=@workraveiconsdir@/workrave.xpm
+Icon=workrave-sheep
 _Comment=Assists in the prevention and recovery of Repetitive Strain Injury (RSI)
 Name=Workrave
