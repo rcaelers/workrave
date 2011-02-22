@@ -119,9 +119,18 @@ begin
                 mbConfirmation, MB_OKCANCEL) = IDOK then
       begin
         retVal := ZapWorkrave();
-	if not retVal then begin
-	  MsgBox('Failed to close Workrave. Please close Workrave manually.', mbError, MB_OK);
-	  Result := False;
+	if not retVal then
+	begin
+	  winHwnd := FindWindowByWindowName('Workrave');
+	  if winHwnd <> 0 then
+	  begin
+ 	    MsgBox('Failed to close Workrave. Please close Workrave manually.', mbError, MB_OK);
+	    Result := False;
+          end
+	  else
+	  begin
+	    Result := True;
+          end
 	end
       end
     end
