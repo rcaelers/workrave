@@ -563,6 +563,7 @@ Core::set_operation_mode(OperationMode mode, bool persistent)
       
       if (operation_mode == OPERATION_MODE_SUSPENDED)
         {
+          TRACE_MSG("Force idle");
           force_idle();
           monitor->suspend();
           stop_all_breaks();
@@ -762,6 +763,7 @@ Core::get_insist_policy() const
 void
 Core::force_idle()
 {
+  TRACE_ENTER("Core::force_idle");
   monitor->force_idle();
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -774,6 +776,7 @@ Core::force_idle()
 
       breaks[i].get_timer()->force_idle();
     }
+  TRACE_EXIT();
 }
 
 

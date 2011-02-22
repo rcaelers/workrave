@@ -197,7 +197,7 @@ TimerPreferencesPanel::create_options_panel()
     }
 #endif
 
-  connector->connect(CoreConfig::CFG_KEY_MONITOR % break_id,
+  connector->connect(CoreConfig::CFG_KEY_TIMER_MONITOR % break_id,
                      dc::wrap(monitor_cb),
                      sigc::mem_fun(*this, &TimerPreferencesPanel::on_monitor_changed));
   return hig;

@@ -1,6 +1,6 @@
 // TimerActivityMonitor.hh
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2011 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -65,28 +65,29 @@ public:
   //! Returns the current state
   ActivityState get_current_state()
   {
+    TRACE_ENTER("TimerActivityMonitor::get_current_state");
     if (forced_idle)
       {
-        TRACE_ENTER("ActivityState::get_current_state");
         ActivityState local_state = monitor->get_current_state();
-
         TRACE_MSG(local_state)
+          
         if (local_state != ACTIVITY_IDLE &&
             local_state != ACTIVITY_SUSPENDED)
           {
             forced_idle = false;
           }
 
-        TRACE_EXIT();
       }
 
     if (forced_idle)
       {
+        TRACE_RETURN("Idle");
         return ACTIVITY_IDLE;
       }
 
     if (suspended)
       {
+        TRACE_RETURN("Suspended");
         return ACTIVITY_SUSPENDED;
       }
 
@@ -96,10 +97,12 @@ public:
 
     if (state == STATE_STOPPED && idle >= reset)
       {
+        TRACE_RETURN("Idle stopped");
         return ACTIVITY_IDLE;
       }
     else
       {
+        TRACE_RETURN("Active");
         return ACTIVITY_ACTIVE;
       }
   }
@@ -108,7 +111,8 @@ public:
   void force_idle()
   {
     TRACE_ENTER("TimerActivityMonitor::force_idle");
-    forced_idle = true;
+    // TRACE_MSG("Forcing idle");
+    // forced_idle = true;
     TRACE_EXIT();
   }
 

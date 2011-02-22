@@ -279,10 +279,13 @@ Timer::set_insensitive_mode(InsensitiveMode mode)
 void
 Timer::force_idle()
 {
+  TRACE_ENTER("Timer::force_idle");
   if (!activity_sensitive)
     {
+      TRACE_MSG("Forcing idle");
       activity_state = ACTIVITY_IDLE;
     }
+  TRACE_EXIT();
 }
 
 
@@ -721,28 +724,26 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
   TRACE_MSG("next_pred_reset_time " << next_pred_reset_time);
   TRACE_MSG("next_reset_time " << next_reset_time);
   TRACE_MSG("time " << current_time);
+
+  if (activity_monitor != NULL)
+    {
+      // The timer uses its own activity monitor and ignores the 'global'
+      // activity monitor state (ie. new_activity_state). So get the state
+      // of the activity monitor used by this timer.
+      new_activity_state = activity_monitor->get_current_state();
+      TRACE_MSG("foreign activity state =" << new_activity_state);
+    }
   
   if (activity_sensitive)
     {
-      TRACE_MSG("is activity sensitive");
-
       // This timer responds to the activity monitoring.
-      if (activity_monitor != NULL)
-        {
-          // The timer uses its own activity monitor and ignores the 'global'
-          // activity monitor state (ie. new_activity_state). So get the state
-          // of the activity monitor used by this timer.
-          new_activity_state = activity_monitor->get_current_state();
-          TRACE_MSG("state =" << new_activity_state);
-        }
+      TRACE_MSG("is activity sensitive");
     }
   else
     {
       // This timer is activity insensitive. It periodically switches between
       // idle and active.
-
       TRACE_MSG("is not activity sensitive");
-
       if (activity_state != ACTIVITY_UNKNOWN)
         {
           TRACE_MSG("as = "   << activity_state <<

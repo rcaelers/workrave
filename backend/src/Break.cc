@@ -269,6 +269,7 @@ Break::init_timer()
 void
 Break::load_timer_config()
 {
+  TRACE_ENTER("Break::load_timer_config");
   // Read break limit.
   int limit;
   config->get_value(CoreConfig::CFG_KEY_TIMER_LIMIT % break_id, limit);
@@ -299,12 +300,14 @@ Break::load_timer_config()
 
   bool ret = config->get_value(CoreConfig::CFG_KEY_TIMER_MONITOR % break_id, monitor_name);
 
+  TRACE_MSG(ret << " " << monitor_name);
   if (ret && monitor_name != "")
     {
       Core *core = Core::get_instance();
       Timer *master = core->get_timer(monitor_name);
       if (master != NULL)
         {
+          TRACE_MSG("found master timer");
           TimerActivityMonitor *am = new TimerActivityMonitor(master);
           timer->set_activity_monitor(am);
         }
@@ -313,6 +316,7 @@ Break::load_timer_config()
     {
       timer->set_activity_monitor(NULL);
     }
+  TRACE_EXIT();
 }
 
 
