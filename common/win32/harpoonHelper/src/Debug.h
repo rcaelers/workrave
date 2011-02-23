@@ -1,6 +1,6 @@
 // Debug.hh
 //
-// Copyright (C) 2001 - 2010 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2001 - 2011 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@
 
 #include <assert.h>
 
-#ifndef TRACING
+#ifdef NDEBUG
 
 #define TRACE_ENTER(x)
 #define TRACE_ENTER_MSG(x,y)
