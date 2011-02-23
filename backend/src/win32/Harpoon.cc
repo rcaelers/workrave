@@ -99,7 +99,7 @@ Harpoon::init(HarpoonHookFunc func)
         }
     }
 
-#if 0
+#if 1
   if (is_64bit_windows())
     {
        start_harpoon_helper();
@@ -360,9 +360,13 @@ Harpoon::start_harpoon_helper()
       ZeroMemory(&pi, sizeof(pi));
 
       string install_dir = g_win32_get_package_installation_directory_of_module(NULL);
-      string helper = install_dir + G_DIR_SEPARATOR_S + "HarpoonHelper.exe";
+      string helper = install_dir + G_DIR_SEPARATOR_S + "lib" + G_DIR_SEPARATOR_S + "HarpoonHelper.exe";
       string args = helper + " " + g_get_prgname();
 
+      TRACE_MSG(install_dir.c_str());
+      TRACE_MSG(helper.c_str());
+      TRACE_MSG(args.c_str());
+      
       if (CreateProcessA(helper.c_str(), (LPSTR) args.c_str(), NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi)) 
         {
           helper_started = true;
