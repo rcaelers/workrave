@@ -380,9 +380,26 @@ PreludeWindow::on_frame_flash(bool frame_visible)
 void
 PreludeWindow::init_avoid_pointer()
 {
+  TRACE_ENTER("PreludeWindow::init_avoid_pointer");
 #ifdef PLATFORM_OS_WIN32
   if (! avoid_signal.connected())
     {
+      POINT p;
+      GetCursorPos(&p);
+      
+      Glib::RefPtr<Gdk::Display> display = Gdk::Display::get_default();
+      int x, y;
+      Gdk::ModifierType mod;
+      display->get_pointer(x, y, mod);
+
+      TRACE_MSG("p " << p.x << " " << p.y);
+      TRACE_MSG("d " << x << " " << y);
+
+      gdk_offset_x = p.x - x;
+      gdk_offset_y = p.y - y;
+
+      TRACE_MSG("offset " << gdk_offset_x << " " << gdk_offset_y); 
+     
       avoid_signal = Glib::signal_timeout()
         .connect(sigc::mem_fun(*this, &PreludeWindow::on_avoid_pointer_timer),
                  150);
@@ -397,6 +414,7 @@ PreludeWindow::init_avoid_pointer()
     }
 #endif
   did_avoid = false;
+  TRACE_EXIT();
 }
 
 #ifndef PLATFORM_OS_WIN32
@@ -429,6 +447,7 @@ PreludeWindow::avoid_pointer(int px, int py)
   // Set gravitiy, otherwise, get_position() returns weird winy.
   set_gravity(Gdk::GRAVITY_STATIC);
   get_position(winx, winy);
+  TRACE_MSG("pos " << winx << " " << winy);
   if (px < winx || px > winx+width || py < winy || py > winy+height)
     return;
 #else
@@ -441,6 +460,8 @@ PreludeWindow::avoid_pointer(int px, int py)
   int screen_height = head.get_height();
   int top_y = head.get_y() + SCREEN_MARGIN;
   int bottom_y = head.get_y() + screen_height - height - SCREEN_MARGIN;
+  TRACE_MSG("geom3" << screen_height << " " << top_y << " " << bottom_y);
+  
   if (winy < top_y + SCREEN_MARGIN)
     {
       winy = bottom_y;
@@ -470,6 +491,7 @@ PreludeWindow::avoid_pointer(int px, int py)
 bool
 PreludeWindow::on_avoid_pointer_timer()
 {
+  TRACE_ENTER("PreludeWindow::on_avoid_pointer_timer");
   /*
     display->get_pointer reads low-level keyboard state, and that's a
     problem for anti-hook monitors. use GetCursorPos() instead.
@@ -477,9 +499,10 @@ PreludeWindow::on_avoid_pointer_timer()
   POINT p;
   if (GetCursorPos(&p))
     {
-      avoid_pointer(p.x, p.y);
+     avoid_pointer(p.x - gdk_offset_x, p.y - gdk_offset_y);
     }
 
+  TRACE_EXIT();
   return true;
 }
 #endif
