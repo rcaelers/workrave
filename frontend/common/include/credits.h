@@ -1,7 +1,7 @@
 /*
  * credits.h --- Workrave credits
  *
- * Copyright (C) 2007, 2008, 2009, 2010 Rob Caelers <robc@krandor.nl>
+ * Copyright (C) 2007, 2008, 2009, 2010, 2011 Rob Caelers <robc@krandor.nl>
  * All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -68,6 +68,7 @@ const char *workrave_translators =
  /* sv */           "Daniel Nylander <info@danielnylander.se>\n"
  /* tr */           "Enver ALTIN <ealtin@parkyeri.com>\n"
  /* zh_CN */        "Tao WEI <weitao1979@gmail.com>\n"
- /* zh_TW */        "Rex Tsai <chihchun@linux.org.tw>\n";
+ /* zh_TW */        "Rex Tsai <chihchun@linux.org.tw>\n"
+ /* zh_TW */        "Daniel YC Lin (林原志) <dlin.tw@gmail.com>>\n";
 
 #endif /* CREDITS_H */
