@@ -5,10 +5,13 @@
 #
 
 SUBDIRS = 		gnome_applet gnome_applet3 kde_applet win32 unix osx
+
+BUILT_SOURCES =		DBusGUI.cc DBusGUI.hh DBusGnomeApplet.cc DBusGnomeApplet.hh
+
+
 MAINTAINERCLEANFILES = 	Makefile.in \
 			org.workrave.Workrave.service \
 			workrave.desktop \
-			DBusGUI.cc DBusGUI.hh DBusGnomeApplet.cc DBusGnomeApplet.hh \
 			resource.rc
 
 DISTCLEANFILES = 	workrave.desktop
@@ -72,11 +75,15 @@ sourcesexercises = 	${EXERCISES_HOME}/gtkmm/src/ExercisesDialog.cc \
 STATISTICS_HOME = 	$(top_srcdir)/frontend/plugin/statistics
 
 
+if HAVE_PYTHON_CHEETAH
+
 DBusGnomeApplet.cc:	gnome_applet/gnome-applet.xml \
 			$(top_srcdir)/common/bin/dbusgen.py \
 		    	$(top_srcdir)/common/bin/DBus-client-template.cc \
 		    	$(top_srcdir)/common/bin/DBus-client-template.hh
-			python $(top_srcdir)/common/bin/dbusgen.py --language=C++ -c gnome_applet/gnome-applet.xml DBUSGnomeApplet
+			python $(top_srcdir)/common/bin/dbusgen.py --language=C++ -c $(srcdir)/gnome_applet/gnome-applet.xml DBUSGnomeApplet
+
+endif
 
 DBusGnomeApplet.hh:	DBusGnomeApplet.cc
 GnomeAppletWindow.cc:   DBusGnomeApplet.hh
@@ -163,13 +170,17 @@ dbussources=DBusGUI.cc
 # eggcflags += -DEGG_SM_CLIENT_BACKEND_DBUS
 # endif
 
+if HAVE_PYTHON_CHEETAH
+
 DBusGUI.cc: 		workrave-gui.xml \
 			$(top_srcdir)/common/bin/dbusgen.py \
 			$(top_srcdir)/common/bin/DBus-template.cc \
 			$(top_srcdir)/common/bin/DBus-template.hh
-			python $(top_srcdir)/common/bin/dbusgen.py --language=C++ -s workrave-gui.xml DBusGUI
+			python $(top_srcdir)/common/bin/dbusgen.py --language=C++ -s $(srcdir)/workrave-gui.xml DBusGUI
 
 DBusGUI.hh: 		DBusGUI.cc
+
+endif
 
 endif
 
@@ -280,7 +291,7 @@ $(bin_PROGRAMS):	$(top_builddir)/backend/src/libworkrave-backend.la \
 workrave_LDFLAGS = 	@WR_LDFLAGS@ ${ldflags}
 
 workrave_LDADD =        @WR_LDADD@ @X_LIBS@ @X11SM_LIBS@ @GNOME_LIBS@ @GLIB_LIBS@ \
-			@GTK_LIBS@ @GNET_LIBS@ @X_LIBS@ @GCONF_LIBS@ @GDOME_LIB@ \
+			@GTK_LIBS@ @GNET_LIBS@ @X_LIBS@ @GCONF_LIBS@ @GDOME_LIBS@ \
 			@KDE_LDFLAGS@ @LIB_KDEUI@ @LIB_KDECORE@ @PULSE_LIBS@ \
 			@QT_LDFLAGS@ @LIB_QT@ @DBUS_LIBS@ @DBUSGLIB_LIBS@ @IGE_LIBS@ @GSTREAMER_LIBS@ \
 			${X11LIBS} ${WIN32LIBS} @GTK_LIBS@ ${OSXLIBS} ${WIN32CONSOLE} \
@@ -295,6 +306,5 @@ workrave_LDADD =        @WR_LDADD@ @X_LIBS@ @X11SM_LIBS@ @GNOME_LIBS@ @GLIB_LIBS
 #	$(CXXLINK) $(workrave_LDFLAGS) $(workrave_OBJECTS) $(workrave_LDADD) $(LIBS)
 
 EXTRA_DIST = $(wildcard *.cc) $(wildcard *.hh) $(wildcard *.c) $(wildcard *.h) \
-	     DBusGUI.cc DBusGUI.hh DBusGnomeApplet.cc DBusGnomeApplet.hh \
 	     workrave.desktop.in org.workrave.Workrave.service.in workrave-gui.xml resource.rc.in
 

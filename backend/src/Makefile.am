@@ -3,11 +3,12 @@
 # Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008, 2009, 2010 Rob Caelers & Raymond Penners
 #
 
-MAINTAINERCLEANFILES = 	Makefile.in \
-			workrave-client-bindings.h \
+BUILT_SOURCES =		workrave-client-bindings.h \
 			workrave-server-bindings.h \
 			DBusWorkrave.cc \
 			DBusWorkrave.hh
+
+MAINTAINERCLEANFILES = 	Makefile.in
 
 SUBDIRS = 		unix win32 osx
 
@@ -69,15 +70,23 @@ endif
 if HAVE_DBUS
 dbussources =           DBusWorkrave.cc
 
-DBusWorkrave.cc:	workrave-service.xml
-			python $(top_srcdir)/common/bin/dbusgen.py -l C++ -s workrave-service.xml DBusWorkrave
 
-DBusWorkrave.cc: 	$(top_srcdir)/common/bin/dbusgen.py \
+if HAVE_PYTHON_CHEETAH
+
+DBusWorkrave.cc:	workrave-service.xml \
+			$(top_srcdir)/common/bin/dbusgen.py \
 			$(top_srcdir)/common/bin/DBus-template.cc \
 			$(top_srcdir)/common/bin/DBus-template.hh
+			python $(top_srcdir)/common/bin/dbusgen.py -l C++ -s $(srcdir)/workrave-service.xml DBusWorkrave
+
 
 DBusWorkrave.hh: 	DBusWorkrave.cc
 BreakControl.cc: 	DBusWorkrave.hh
+
+workrave-client-bindings.h: DBusWorkrave.cc
+workrave-server-bindings.h: DBusWorkrave.cc
+
+endif
 
 endif
 

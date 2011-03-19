@@ -43,84 +43,74 @@ dnl Command line options.
 dnl
 
 AC_ARG_ENABLE(app-gtk,
-              [AC_HELP_STRING([--disable-app-gtk],
-                              [compile without Gtk support (NOT recommended)])],
-              [config_gtk=$enableval], [config_gtk=yes])
+              [AS_HELP_STRING([--disable-app-gtk],
+                              [compile without Gtk support (NOT recommended)])])
 
 AC_ARG_ENABLE(app-text,
-              [AC_HELP_STRING([--enable-app-text],
-                              [compile with dummy text GUI support (NOT recommended)])],
-              [config_text=$enableval], [config_text=no])
+              [AS_HELP_STRING([--enable-app-text],
+                              [compile with dummy text GUI support (NOT recommended)])])
     
 AC_ARG_ENABLE(xml,
-              [AC_HELP_STRING([--disable-xml],
-                              [compile without XML support])],
-              [config_xml=$enableval], [config_xml=yes])
+              [AS_HELP_STRING([--disable-xml],
+                              [compile without XML support])])
 
 AC_ARG_ENABLE(gconf,
-              [AC_HELP_STRING([--disable-gconf],
-                              [compile without Gnome gconf2 support])],
-              [config_gconf=$enableval], [config_gconf=yes])
+              [AS_HELP_STRING([--disable-gconf],
+                              [compile without Gnome gconf2 support])])
 
-AC_ARG_ENABLE( gnome,
-              [AC_HELP_STRING([--disable-gnome],
-                              [compile without Gnome support])],
-              [config_gnome=$enableval], [config_gnome=yes])
+AC_ARG_ENABLE(gnome,
+              [AS_HELP_STRING([--disable-gnome],
+                              [compile without Gnome support])])
 
-AC_ARG_ENABLE( gnome,
-              [AC_HELP_STRING([--enable-gnome3],
+AC_ARG_ENABLE(gnome3,
+              [AS_HELP_STRING([--enable-gnome3],
                               [compile with preliminary Gnome 3 support])],
-              [config_gnome=$enableval; config_gnome3=$enableval], [config_gnome=yes; config_gnome3=yes])
-	      
-AC_ARG_ENABLE( dbus,
-              [AC_HELP_STRING([--disable-dbus],
-                              [compile without DBus support])],
-              [config_dbus=$enableval], [config_dbus=yes])
- 
-AC_ARG_ENABLE( gstreamer,
-    	      [AC_HELP_STRING([--disable-gstreamer],
-	                      [compile without GStreamer audio support])],
-   	      [config_gst="$enableval"], [enable_gst="yes"])
+              [test "x$enable_gnome3" = "xyes" && enable_gnome=yes])
 
-AC_ARG_ENABLE( kde,
-              [AC_HELP_STRING([--enable-kde],
-                              [compile with KDE support (broken)])],
-              [config_kde=$enableval], [config_kde=no])
+AC_ARG_ENABLE(dbus,
+              [AS_HELP_STRING([--disable-dbus],
+                              [compile without DBus support])])
 
-AC_ARG_ENABLE( x11-monitoring-fallback,
-              [AC_HELP_STRING([--enable-x11-monitoring-fallback],
-                              [compile with fallback monitoring if RECORD is not available (discouraged)])],
-              [config_fallback=$enableval], [config_fallback=no])
-	      
-AC_ARG_ENABLE( debug,
-              [AC_HELP_STRING([--enable-debug],
-                              [compile with debugging flags set])],
-              [config_debug=$enableval], [config_debug=no])
+AC_ARG_ENABLE(gstreamer,
+              [AS_HELP_STRING([--disable-gstreamer],
+                              [compile without GStreamer audio support])])
 
-AC_ARG_ENABLE( distribution,
-              [AC_HELP_STRING([--disable-distribution],
-                              [compile without support for distributed operation])],
-              [config_distribution=$enableval], [config_distribution=yes])
+AC_ARG_ENABLE(pulse,
+              [AS_HELP_STRING([--disable-pulse],
+                              [compile without PulseAudio support])])
 
-AC_ARG_ENABLE( experimental,
-              [AC_HELP_STRING([--enable-experimental],
-                              [compile with experimental features])],
-              [config_experimental=$enableval], [config_experimental=yes])
-	      
-AC_ARG_ENABLE( exercises,
-              [AC_HELP_STRING([--disable-exercises],
-                              [compile without exercises support])],
-              [config_exercises=$enableval], [config_exercises=yes])
+AC_ARG_ENABLE(kde,
+              [AS_HELP_STRING([--enable-kde],
+                              [compile with KDE support (broken)])])
 
-AC_ARG_ENABLE( tests,
-              [AC_HELP_STRING([--enable-tests],
-                              [compile with test code])],
-              [config_tests=$enableval], [config_tests=no])
+AC_ARG_ENABLE(x11-monitoring-fallback,
+              [AS_HELP_STRING([--enable-x11-monitoring-fallback],
+                              [compile with fallback monitoring if RECORD is not available (discouraged)])])
 
-AC_ARG_ENABLE( tracing,
-              [AC_HELP_STRING([--enable-tracing],
+AC_ARG_ENABLE(debug,
+              [AS_HELP_STRING([--enable-debug],
+                              [compile with debugging flags set])])
+
+AC_ARG_ENABLE(distribution,
+              [AS_HELP_STRING([--disable-distribution],
+                              [compile without support for distributed operation])])
+
+AC_ARG_ENABLE(experimental,
+              [AS_HELP_STRING([--enable-experimental],
+                              [compile with experimental features])])
+
+AC_ARG_ENABLE(exercises,
+              [AS_HELP_STRING([--disable-exercises],
+                              [compile without exercises support])])
+
+AC_ARG_ENABLE(tests,
+              [AS_HELP_STRING([--enable-tests],
+                              [compile with test code])])
+
+AC_ARG_ENABLE(tracing,
+              [AS_HELP_STRING([--enable-tracing],
                               [compile with method call tracing])],
-              [config_tracing=$enableval], [config_tracing=no])
+              [test "x$enable_tracing" = "xyes" && enable_debug=yes])
 
 case x"$target" in
   xNONE | x)
@@ -258,24 +248,24 @@ dnl
 dnl Debug
 dnl
 
-if test "x$config_debug" = "xyes"
-then
-   CFLAGS="${CFLAGS} -O0 -g -Wall -DGLIBCXX_FORCE_NEW -DGLIBCPP_FORCE_NEW"
-   CXXFLAGS="${CXXFLAGS} -O0 -g -Wall -DGLIBCXX_FORCE_NEW -DGLIBCPP_FORCE_NEW"
-   LDFLAGS="${LDFLAGS} -g"
-   config_tracing=yes
-else
-   OPT=2
+config_debug=no
 
-   CFLAGS="${CFLAGS} -O${OPT} -g -DNDEBUG"
-   CXXFLAGS="${CXXFLAGS} -O${OPT} -g -DNDEBUG"
+if test "x$enable_debug" = "xyes"
+then
+   config_debug=yes
+   CFLAGS="${CFLAGS} -O0 -g -Wall"
+   CXXFLAGS="${CXXFLAGS} -O0 -g -Wall"
    LDFLAGS="${LDFLAGS} -g"
+
+   AC_DEFINE([GLIBCXX_FORCE_NEW], , [Define for debugging purposes])
+   AC_DEFINE([GLIBCPP_FORCE_NEW], , [Define for debugging purposes])
+else
+   AC_DEFINE([NDEBUG], , [Define if debugging code should be disabled])
 fi
 
-if test "x$config_tracing" = "xyes"
+if test "x$enable_tracing" = "xyes"
 then
-   CFLAGS="${CFLAGS} -DTRACING"
-   CXXFLAGS="${CXXFLAGS} -DTRACING"
+   AC_DEFINE([TRACING], , [Define to enable method call tracing])
 fi
 
 
@@ -292,10 +282,10 @@ if test "x$platform_os_win32" = "xyes"
 then
     LIBSTDCPP_LIBS=-lstdc++
 
-   CFLAGS="${CFLAGS} -D_WIN32_IE=0x0600 -D_WIN32_WINNT=0x0600"
-   CXXFLAGS="${CXXFLAGS} -D_WIN32_IE=0x0600 -D_WIN32_WINNT=0x0600"
+    AC_DEFINE([_WIN32_IE],    [0x0600], [Windows version])
+    AC_DEFINE([_WIN32_WINNT], [0x0600], [Windows version])
     
-    if test "x$config_debug" != "xyes"
+    if test "x$enable_debug" != "xyes"
     then
         WIN32CONSOLE=-mwindows
     else
@@ -387,73 +377,84 @@ then
     LIBS=$LIBS_save
 fi
 
+
 dnl
 dnl GLIB
 dnl
 
-PKG_CHECK_MODULES(GLIB,
-                glib-2.0 >= 2.10 \
-                gmodule-2.0 \
-                gthread-2.0)
+PKG_CHECK_MODULES([GLIB],
+                  [glib-2.0 >= 2.10 gmodule-2.0 gthread-2.0],
+                  [AC_DEFINE(HAVE_GLIB, , [Define if GLib is available])])
 
-AC_SUBST(GLIB_LIBS)
-AC_SUBST(GLIB_CFLAGS)
 
 dnl
-dnl GTK
+dnl GTK+
 dnl
 
-if test "x$config_gtk" = "xyes"
+config_gtk=no
+
+if test "x$enable_gtk" != "xno"
 then
-    PKG_CHECK_MODULES(GTK,
-                      gtk+-2.0 >= 2.6.0 \
+    PKG_CHECK_MODULES([GTK],
+                      [gtk+-2.0 >= 2.6.0 \
                       gdk-2.0 >= 2.8 \
                       sigc++-2.0 \
                       glibmm-2.4 >= 2.10 \
-                      gtkmm-2.4 >= 2.10)
+                       gtkmm-2.4 >= 2.10],
+                      [config_gtk=yes
+                       AC_DEFINE([HAVE_APP_GTK], , [Define if GTK+ is available])])
 fi
 
-AC_SUBST(GTK_LIBS)
-AC_SUBST(GTK_CFLAGS)
+AM_CONDITIONAL(HAVE_APP_GTKMM, test $config_gtk = yes)
 
 
 dnl
-dnl GNome
+dnl Gnome
 dnl
 
-if test "x$config_gnome" = "xyes";
+config_gnome=no
+have_panelapplet3=no
+
+if test "x$enable_gnome3" != "xno"
 then
-   have_panelapplet3=no
+    PKG_CHECK_MODULES([GNOME],
+                      [libpanelapplet-3.0],
+                      [config_gnome=yes
+                       have_panelapplet3=yes
+                       AC_DEFINE(HAVE_PANELAPPLET3, 1, [Support for Gnome panel applet v3])],
+                      [if test "x$enable_gnome3" = "xyes"; then
+                          AC_MSG_ERROR([Gnome 3 development headers not found.])
+                       fi])
+fi
    
-   if test "x$config_gnome3" = "xyes"; then
-      PKG_CHECK_MODULES(GNOME, libpanelapplet-3.0, have_panelapplet3=yes, have_panelapplet3=no)
-      if test x$have_panelapplet3 = xyes
-      then
-	  AC_DEFINE(HAVE_PANELAPPLET3, 1, Support for Gnome panel applet V3)
-      fi
-   fi
+if test "x$enable_gnome" != "xno" -a x$have_panelapplet3 = xno
+then
+    PKG_CHECK_MODULES([GNOME],
+                      [libpanelapplet-2.0 >= 2.0.10 \
+                       libbonobo-2.0 >= 2.0.0],
+                      [config_gnome=yes],
+                      [if test "x$enable_gnome" = "xyes"; then
+                          AC_MSG_ERROR([Gnome development headers not found.])
+                       fi])
+fi
    
-   if test x$have_panelapplet3 = xno
-   then
-      PKG_CHECK_MODULES(GNOME,
-                      libpanelapplet-2.0 >= 2.0.10 \
-                      libbonobo-2.0 >= 2.0.0)
-   fi
+if test $config_gnome = yes
+then
+    AC_DEFINE([HAVE_GNOME], , [Define if Gnome is available])
 fi
 
+AM_CONDITIONAL(HAVE_GNOME, test "x$config_gnome" = "xyes")
 AM_CONDITIONAL(HAVE_PANELAPPLET3, test "x$have_panelapplet3" = "xyes")
 
-AC_SUBST(GNOME_LIBS)
-AC_SUBST(GNOME_CFLAGS)
-AC_SUBST(IDL_INCLUDES)
-   
 
 dnl
 dnl KDE
 dnl
   
+config_kde=no
+
 KDE_MISC_TESTS
-if test "x$config_kde" = "xyes";
+if test "x$enable_kde" = "xyes";
 then
     AC_BASE_PATH_KDE
 
@@ -469,172 +470,153 @@ then
     AC_CHECK_KDEMAXPATHLEN
 
     KDE_CREATE_SUBDIRSLIST
+
+    config_kde=yes
+    AC_DEFINE([HAVE_KDE], , [Define if KDE is available])
 else
     build_arts="no"
     include_ARTS_TRUE='#'
     include_ARTS_FALSE=
 fi
 
+AC_SUBST(include_ARTS)
+AM_CONDITIONAL(HAVE_KDE, test "x$config_kde" = "xyes")
   
+
 dnl
-dnl GCONF
+dnl GConf
 dnl
 
-if test "x$config_gconf" = "xyes"
+config_gconf=no
+
+if test "x$enable_gconf" != "xno"
 then
-  PKG_CHECK_MODULES(GCONF, gconf-2.0)
+  PKG_CHECK_MODULES([GCONF],
+                    [gconf-2.0],
+                    [config_gconf=yes
+                     AC_DEFINE([HAVE_GCONF], , [Define if GConf is available])],
+                    [if test "x$enable_gconf" = "xyes"; then
+                       AC_MSG_ERROR([GConf development headers not found.])
+                     fi])
 fi
-                                
-AC_SUBST(GCONF_LIBS)
-AC_SUBST(GCONF_CFLAGS)
+
+AM_CONDITIONAL(HAVE_GCONF, test "x$config_gconf" = "xyes")
+
 
 dnl
-dnl GIO networking
+dnl GIO/GNet2 networking
 dnl
 
-have_gio_net=no
-AC_MSG_CHECKING([GIO networking support])
+config_distribution=no
+have_gnet=no
 
-CFLAGS_save=$LIBS
-CFLAGS="$CFLAGS $GLIB_CFLAGS"
-CXXFLAGS="$CXXFLAGS $GLIB_CFLAGS"
-
-AC_TRY_COMPILE([#include <gio/gio.h>], 
-        [ GSocketService *socket = g_socket_service_new();
-	],
-        [have_gio_net=yes
-         AC_DEFINE(HAVE_GIO_NET, 1, "Have GIO networking support")
-         AC_MSG_RESULT(yes)],
-         AC_MSG_RESULT(no))
-
-CLFAGS=$CFLAGS_save
-CXXLFAGS=$CXXFLAGS_save
-
-dnl
-dnl GNet2
-dnl
-
-if test "x$config_distribution" = "xyes" -a $have_gio_net != yes
+if test "x$enable_distribution" != "xno"
 then
-    PKG_CHECK_MODULES(GNET, gnet-2.0)
-    GNET2=yes                          
+  PKG_CHECK_MODULES([GIO],
+                    [gio-2.0],
+                    [config_distribution=yes
+                     AC_DEFINE(HAVE_GIO_NET, 1, [Have GIO networking support])],
+                    [PKG_CHECK_MODULES([GNET],
+                                       [gnet-2.0],
+                                       [config_distribution=yes
+                                        have_gnet=yes
+                                        AC_DEFINE([HAVE_GNET], , [Define if GNet is available]),
+                                        AC_DEFINE([HAVE_GNET2], , [Define if GNet2 is available])],
+                                       [if test "x$enable_distribution" = "xyes"; then
+                                          AC_MSG_ERROR([GIO/GNet development headers not found.])
+                                        fi])])
 fi
-AC_SUBST(GNET_LIBS)
-AC_SUBST(GNET_CFLAGS)
 
+if test $config_distribution = yes
+then
+  AC_DEFINE([HAVE_DISTRIBUTION], , [Define if network-distributed operation is available])
+fi
+
+AM_CONDITIONAL(HAVE_DISTRIBUTION, test "x$config_distribution" = "xyes")
+AM_CONDITIONAL(HAVE_GNET, test $have_gnet = yes)
 
 
 dnl
 dnl XML
 dnl
 
-if test "x$config_xml" = "xyes"
+config_xml=no
+
+if test "x$enable_xml" != "xno"
 then
-    AC_PATH_PROG(GDOME_CONFIG, gdome-config, no)
-    if test "$GDOME_CONFIG" = no
-    then
-    	if test x$2 = xfailure
-        then
-    		AC_MSG_ERROR(Could not find gdome-config)
-    	fi
-        AC_MSG_ERROR(Need GDome2)
-    fi
-    GDOME_CFLAGS=`$GDOME_CONFIG --cflags`
-    GDOME_LIB=`$GDOME_CONFIG --libs`    
-else
-    GDOME_LIB="";
-    GDOME_CFLAGS=""
+    PKG_CHECK_MODULES([GDOME],
+                      [gdome2],
+                      [config_xml=yes
+                       AC_DEFINE([HAVE_GDOME], ,[Define if GDome is available])],
+                      [if test "x$enable_xml" = "xyes"; then
+                         AC_MSG_ERROR([GDome2 development headers not found.])
+                       fi])
 fi
-AC_SUBST(GDOME_CFLAGS)
-AC_SUBST(GDOME_LIB)
+
+AM_CONDITIONAL(HAVE_GDOME, test "x$config_xml" = "xyes")
 
 
 dnl
 dnl DBus
 dnl
             
-if test "x$config_dbus" != "xno"
+have_dbus=no
+have_python_cheetah=no
+
+if test "x$enable_dbus" != "xno"
 then
-   dbus_pkgconfig="dbus-1 >= 1.2"
+    AS_AC_EXPAND(DATADIR, "$datadir")
+    DBUS_SERVICES_DIR="$DATADIR/dbus-1/services"
+    AC_SUBST(DBUS_SERVICES_DIR)
 
-   PKG_CHECK_MODULES(DBUS, $dbus_pkgconfig, have_dbus=yes, have_dbus=no)
-   if test x$have_dbus = xyes
-   then
-      AC_DEFINE(HAVE_DBUS, 1, DBus support)
+    PKG_CHECK_MODULES([DBUS],
+                      [dbus-1 >= 1.2],
+                      [PKG_CHECK_MODULES([DBUSGLIB], [dbus-glib-1], [have_dbus=yes], [true])
+                       PKG_CHECK_EXISTS([dbus-glib-1 >= 0.84],
+                                        [AC_DEFINE(HAVE_DBUSGLIB_GET_PRIVATE, , [DBus-glib 0.84+ support])])],
+                      [true])
 
-      PKG_CHECK_MODULES(DBUSGLIB, dbus-glib-1 >= 0.84, have_dbus_glib=yes, have_dbus_glib=no)
-      if test x$have_dbus_glib = xyes; then
-         AC_DEFINE(HAVE_DBUSGLIB, 1, DBus-glib support)
-         AC_DEFINE(HAVE_DBUSGLIB_GET_PRIVATE, 1, DBus-glib support)
-      else
-         PKG_CHECK_MODULES(DBUSGLIB, dbus-glib-1, have_dbus_glib=yes, have_dbus_glib=no)
-         if test x$have_dbus_glib = xyes; then
-            AC_DEFINE(HAVE_DBUSGLIB, 1, DBus-glib support)
-         fi
+    if test "x$have_dbus" != "xyes" -a "x$enable_dbus" = "xyes"; then
+        AC_MSG_ERROR([DBus and DBus-glib development headers not found.])
       fi
 	 
-      AS_AC_EXPAND(DATADIR, $datadir)
+    if test "x$have_dbus" = "xyes"
+    then
+        AC_DEFINE(HAVE_DBUS, , [DBus support])
+        AC_DEFINE(HAVE_DBUSGLIB, , [DBus-glib support])],
+        AC_DEFINE_UNQUOTED(DBUS_SERVICES_DIR, "$DBUS_SERVICES_DIR", [Where services dir for DBUS is])
+    fi
 
-      DBUS_SERVICES_DIR="$DATADIR/dbus-1/services"
-      AC_SUBST(DBUS_SERVICES_DIR)
-      AC_DEFINE_UNQUOTED(DBUS_SERVICES_DIR, "$DBUS_SERVICES_DIR", [Where services dir for DBUS is])
-
-      AC_CHECK_PROG(PYTHON,python,python)
-      
+    AC_CHECK_PROG(PYTHON, python, python)
       AC_MSG_CHECKING([for the Cheetah Python package])
         ac_cheetah_result=`$PYTHON -c "from Cheetah.Template import Template" 2>&1`
         if test -z "$ac_cheetah_result"; then
            AC_MSG_RESULT([yes])
+        have_python_cheetah=yes
         else
-           AC_MSG_RESULT([no])
-           AC_MSG_ERROR([cannot import Python module "cheetah"])
-	   have_dbus=no
-	   have_dbus_glib=no
-           dbus_pkgconfig=
-        fi
-   else
-     AC_MSG_ERROR([
-DBus development headers not found.
-Use --disable-dbus if you do not need DBus support.
-])
-      have_dbus=no
-      have_dbus_glib=no
-      dbus_pkgconfig=
-   fi
-else
-   have_dbus=no
-   have_dbus_glib=no
-   dbus_pkgconfig=
-fi
-
-if test "x$have_dbus" != "xyes"
-then
-  if test "x$enable_dbus" = "xyes"
-  then
-      AC_MSG_ERROR([Couldn't find d-bus.])
-  else
-   dbus_pkgconfig=
+        AC_MSG_RESULT([no, dbusgen rules will be disabled])
   fi
 fi
 
 AM_CONDITIONAL(HAVE_DBUS, test x$have_dbus = xyes)
+AM_CONDITIONAL(HAVE_PYTHON_CHEETAH, test x$have_python_cheetah = xyes)
+
 
 dnl 
 dnl GStreamer
 dnl
 
-if test "x$config_gst" != "xno";
+config_gstreamer=no
+
+if test "x$enable_gstreamer" != "xno";
 then
-    PKG_CHECK_MODULES(GSTREAMER, [gstreamer-0.10], [
-		AC_DEFINE(HAVE_GSTREAMER, 1, [Use GStreamer for playing sounds])
-		AC_SUBST(GSTREAMER_CFLAGS)
-		AC_SUBST(GSTREAMER_LIBS)
-	      ], [
-		AC_MSG_RESULT(no)
-		AC_MSG_ERROR([
-GStreamer development headers not found.
-Use --disable-gstreamer if you do not need GStreamer (sound) support.
-])])
+    PKG_CHECK_MODULES([GSTREAMER],
+                      [gstreamer-0.10],
+                      [config_gstreamer=yes
+                       AC_DEFINE(HAVE_GSTREAMER, 1, [Use GStreamer for playing sounds])],
+                      [if test "x$enable_gstreamer" = "xyes"; then
+                           AC_MSG_ERROR([GStreamer development headers not found.])
+                       fi])
 fi
 
 
@@ -642,37 +624,21 @@ dnl
 dnl PulseAudio
 dnl
 
-have_pulse=false
+have_pulse=no
 
-if test "$platform_os_unix" = "yes"
+if test "$platform_os_unix" = "yes" -a "x$enable_pulse" != "xno"
 then
-    have_pulse=false
-    AC_ARG_ENABLE(pulse,
-      AC_HELP_STRING([--disable-pulse],
-                     [turn off PulseAudio support]),
-           [case "${enableval}" in
-                   yes) WANT_PULSE=yes ;;
-                   no)  WANT_PULSE=no ;;
-                   *) AC_MSG_ERROR(bad value ${enableval} for --disable-pulse) ;;
-           esac],
-           [WANT_PULSE=yes]) dnl Default value
-
-    if test x$WANT_PULSE = xyes ; then
            PA_REQUIRED_VERSION=0.9.15
-           PKG_CHECK_MODULES(PULSE, glib-2.0 libpulse >= $PA_REQUIRED_VERSION libpulse-mainloop-glib >= $PA_REQUIRED_VERSION,
-                 [have_pulse=true
+    PKG_CHECK_MODULES([PULSE],
+                      [glib-2.0 libpulse >= $PA_REQUIRED_VERSION libpulse-mainloop-glib >= $PA_REQUIRED_VERSION],
+                      [have_pulse=yes
                   AC_DEFINE(HAVE_PULSE, 1, [Define if PULSE sound server should be used])],
-                 [AC_MSG_ERROR([
-Pulseaudio development headers not found.
-Use --disable-pulse if you do not need Pulseaudio (mute) support.
-])])
-    fi
-    AC_SUBST(PULSE_CFLAGS)
-    AC_SUBST(PULSE_LIBS)
+                      [if test "x$enable_pulse" = "xyes"; then
+                           AC_MSG_ERROR([Pulseaudio development headers not found.])
+                       fi])
 fi
 
-AM_CONDITIONAL(HAVE_PULSE, test "x$have_pulse" = "xtrue")
-
+AM_CONDITIONAL(HAVE_PULSE, test "x$have_pulse" = "xyes")
 
 
 dnl
@@ -705,9 +671,8 @@ dnl (taken from clutter)
 dnl
 
 AC_ARG_ENABLE(manual,
-              AC_HELP_STRING([--enable-manual=@<:@no/yes@:>@],
-                             [Build user manual. Requires jw and xmlto binaries.]),
-              enable_manual=$enableval, enable_manual=no)
+              AS_HELP_STRING([--enable-manual],
+                             [Build user manual. Requires jw and xmlto binaries.]))
 
 if test "x$enable_manual" = "xyes"; then
   AC_PATH_PROG(JW, jw, no)
@@ -721,7 +686,7 @@ if test "x$enable_manual" = "xyes"; then
   fi
 fi
 
-AM_CONDITIONAL(ENABLE_MANUAL, test "x$enable_manual" != "xno")
+AM_CONDITIONAL(ENABLE_MANUAL, test "x$enable_manual" = "xyes")
 
 
 dnl
@@ -750,14 +715,14 @@ then
    variant="$variant kde"
 fi
 
-WR_BACKEND_INCLUDES="-I \$(top_srcdir)/backend/include"
-WR_COMMON_INCLUDES="-I \$(top_srcdir)/common/include"
-WR_FRONTEND_COMMON_INCLUDES="-I \$(top_srcdir)/frontend/common/include"
+WR_BACKEND_INCLUDES="-I\$(top_srcdir)/backend/include"
+WR_COMMON_INCLUDES="-I\$(top_srcdir)/common/include"
+WR_FRONTEND_COMMON_INCLUDES="-I\$(top_srcdir)/frontend/common/include"
 
 for v in $variant; do
     if test -d common/src/$v
     then
-       WR_COMMON_INCLUDES="$WR_COMMON_INCLUDES -I \$(top_srcdir)/common/include/$v"
+       WR_COMMON_INCLUDES="$WR_COMMON_INCLUDES -I\$(top_srcdir)/common/include/$v"
     fi
 done
 
@@ -771,109 +736,49 @@ AC_SUBST(WR_FRONTEND_COMMON_INCLUDES)
 AC_SUBST(WR_COMMON_INCLUDES)
 AC_SUBST(WR_BACKEND_INCLUDES)
 
-AC_SUBST(include_ARTS)
 
 dnl
 dnl Defines
 dnl
 
-if test "x$config_tests" = "xyes"; then
+config_tests=no
+if test "x$enable_tests" = "xyes"; then
    config_tests=yes
+   AC_DEFINE([HAVE_TESTS], , [Define if test code is enabled])
 fi
+AM_CONDITIONAL(HAVE_TESTS, test "x$config_tests" = "xyes")
 
-HAVE_GCONF=
-if test "x$GCONF_LIBS" != "x" -a "x$config_gconf" = "xyes"; then
-   AC_DEFINE(HAVE_GCONF,,[Define if GConf is available])
-fi
-
-HAVE_GDOME=
-if test "x$GDOME_LIB" != "x" -a "x$config_xml" = "xyes"; then
-   AC_DEFINE(HAVE_GDOME,,[Define if GDome is available])
-fi
-
-HAVE_GLIB=
-if test "x$GLIB_LIBS" != "x"; then
-   AC_DEFINE(HAVE_GLIB,,[Define if glib is available])
-fi
-
-HAVE_GNOME=
-if test "x$config_gnome" = "xyes"; then
-   AC_DEFINE(HAVE_GNOME,,[Define if Gnome is available])
-fi
-
-HAVE_GNOMEAPPLET=
-if test "x$config_gnome" = "xyes" -a "x$have_dbus" = "xyes" -a "x$have_dbus_glib" = "xyes"; then
+config_gnomeapplet=no
+if test "x$config_gnome" = "xyes" -a "x$have_dbus" = "xyes" ; then
+   config_gnomeapplet=yes
    AC_DEFINE(HAVE_GNOMEAPPLET,,[Define if Gnome Applet is available])
 fi
+AM_CONDITIONAL(HAVE_GNOMEAPPLET, test "x$config_gnomeapplet" = "xyes")
 
-HAVE_KDE=
-if test "x$config_kde" = "xyes"; then
-   AC_DEFINE(HAVE_KDE,,[Define if KDE is available])
-fi
-
-HAVE_DISTRIBUTION=
-if test "x$config_distribution" = "xyes"; then
-   AC_DEFINE(HAVE_DISTRIBUTION,,[Define if distributed operation is available])
-fi
-
-HAVE_EXERCISES=
-if test "x$config_exercises" = "xyes"; then
+config_exercises=no
+if test "x$enable_exercises" != "xno"; then
+   config_exercises=yes
    AC_DEFINE(HAVE_EXERCISES,,[Define if exercises are available])
 fi
+AM_CONDITIONAL(HAVE_EXERCISES, test "x$config_exercises" = "xyes")
 
-HAVE_EXPERIMENTAL=
-if test "x$config_experimental" = "xyes"; then
+config_experimental=no
+if test "x$enable_experimental" = "xyes"; then
+   config_experimental=yes
    AC_DEFINE(HAVE_EXPERIMENTAL,,[Define if experimental features are available])
 fi
+AM_CONDITIONAL(HAVE_EXPERIMENTAL, test "x$config_experimental" = "xyes")
 
-HAVE_TESTS=
-if test "x$config_tests" = "xyes"; then
-   AC_DEFINE(HAVE_TESTS,,[Define if test code is enabled])
-fi
-
-HAVE_GNET=
-if test "x$GNET_LIBS" != "x"; then
-   AC_DEFINE(HAVE_GNET,,[Define if GNet is available])
-fi
-
-HAVE_GNET2=
-if test "x$GNET2" != "x"; then
-   AC_DEFINE(HAVE_GNET2,,[Define if GNet2 is available])
-fi
-        
-HAVE_APP_GTK=
-if test "x$GTK_LIBS" != "x"; then
-   AC_DEFINE(HAVE_APP_GTK,,[Define if Gtk is available])
-fi
-
-HAVE_APP_TEXT=
-if test "x$config_text" = "xyes"; then
+config_text=no
+if test "x$enable_app_text" = "xyes"; then
+   config_text=yes
    AC_DEFINE(HAVE_APP_TEXT,,[Define if Text is available])
 fi
+AM_CONDITIONAL(HAVE_APP_TEXT, test "x$config_text" = "xyes")
 
-HAVE_XRECORD_FALLBACK=
-if test "x$config_fallback" = "xyes"; then
+if test "x$enable_x11_monitoring_fallback" = "xyes"; then
    AC_DEFINE(HAVE_XRECORD_FALLBACK,,[Define if RECORD fallback is enabled])
 fi
-
-
-dnl
-dnl Generate Makefile conditionals
-dnl
-
-AM_CONDITIONAL(HAVE_APP_GTKMM, test "x$GTK_LIBS" != "x")
-AM_CONDITIONAL(HAVE_APP_TEXT, test "x$config_text" = "xyes")
-AM_CONDITIONAL(HAVE_GCONF, test "x$GCONF_LIBS" != "x" -a "x$config_gconf" = "xyes")
-AM_CONDITIONAL(HAVE_GDOME, test "x$GDOME_LIB" != "x" -a "x$config_xml" = "xyes")
-AM_CONDITIONAL(HAVE_GNOME, test "x$config_gnome" = "xyes")
-AM_CONDITIONAL(HAVE_KDE, test "x$config_kde" = "xyes")
-AM_CONDITIONAL(HAVE_GNET, test "x$GNET_LIBS" != "x")
-AM_CONDITIONAL(NDEBUG, test "x$config_debug" != "xyes")
-AM_CONDITIONAL(HAVE_DISTRIBUTION, test "x$config_distribution" = "xyes")
-AM_CONDITIONAL(HAVE_EXERCISES, test "x$config_exercises" = "xyes")
-AM_CONDITIONAL(HAVE_EXPERIMENTAL, test "x$config_experimental" = "xyes")
-AM_CONDITIONAL(HAVE_TESTS, test "x$config_tests" = "xyes")
-AM_CONDITIONAL(HAVE_GNOMEAPPLET, test "x$config_gnome" = "xyes" -a "x$have_dbus" = "xyes")
 
 
 dnl
@@ -994,11 +899,16 @@ echo "            XML configuration :   ${config_xml}"
 echo ""
 echo "                      Gtk GUI :   ${config_gtk}"
 echo "                Gnome support :   ${config_gnome}"
-echo "                  Kde support :   ${config_kde}"
+echo "                  KDE support :   ${config_kde}"
 echo "                 DBUS support :   ${have_dbus}"
 echo "           Networking support :   ${config_distribution}"
+echo "            GStreamer support :   ${config_gstreamer}"
+if test "$platform_os_unix" = "yes"; then
+echo "           Pulseaudio support :   ${have_pulse}"
+fi
 echo "                    Exercises :   ${config_exercises}"
 echo ""
+echo "        Experimental features :   ${config_experimental}"
 echo "                    Debugging :   ${config_debug}"
 echo "                    Test code :   ${config_tests}"
 echo ""

@@ -44,7 +44,7 @@ $(bin_PROGRAMS):	${top_srcdir}/backend/src/libworkrave-backend.la \
 workrave_LDFLAGS = 	@WR_LDFLAGS@ ${ldflags}
 
 workrave_LDADD =        @WR_LDADD@ @X_LIBS@ @GNOME_LIBS@ \
-			@GTK_LIBS@ @GNET_LIBS@ @X_LIBS@ @GCONF_LIBS@ @GDOME_LIB@ \
+			@GTK_LIBS@ @GNET_LIBS@ @X_LIBS@ @GCONF_LIBS@ @GDOME_LIBS@ \
 			@KDE_LDFLAGS@ @LIB_KDEUI@ @LIB_KDECORE@ \
 			@QT_LDFLAGS@ @LIB_QT@ @DBUS_LIBS@ @GSTREAMER_LIBS@ \
 			${X11LIBS} ${WIN32LIBS} ${OSXLIBS} ${WIN32CONSOLE}
