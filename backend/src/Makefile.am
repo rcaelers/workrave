@@ -3,10 +3,6 @@
 # Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008, 2009, 2010 Rob Caelers & Raymond Penners
 #
 
-BUILT_SOURCES =		workrave-client-bindings.h \
-			workrave-server-bindings.h \
-			DBusWorkrave.cc \
-			DBusWorkrave.hh
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
@@ -85,6 +81,11 @@ BreakControl.cc: 	DBusWorkrave.hh
 
 workrave-client-bindings.h: DBusWorkrave.cc
 workrave-server-bindings.h: DBusWorkrave.cc
+
+BUILT_SOURCES =		workrave-client-bindings.h \
+			workrave-server-bindings.h \
+			DBusWorkrave.cc \
+			DBusWorkrave.hh
 
 endif
 
