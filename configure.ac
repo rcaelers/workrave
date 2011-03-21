@@ -513,7 +513,7 @@ have_gnet=no
 if test "x$enable_distribution" != "xno"
 then
   PKG_CHECK_MODULES([GIO],
-                    [gio-2.0],
+                    [gio-2.0 >= 2.22.0],
                     [config_distribution=yes
                      AC_DEFINE(HAVE_GIO_NET, 1, [Have GIO networking support])],
                     [PKG_CHECK_MODULES([GNET],
