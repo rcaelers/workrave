@@ -5,7 +5,7 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
-EXTRA_DIST = $(wildcard *.c) $(wildcard *.h)
+EXTRA_DIST = $(wildcard $(srcdir)/*.c) $(wildcard $(srcdir)/*.h)
 
 if PLATFORM_OS_WIN32
 

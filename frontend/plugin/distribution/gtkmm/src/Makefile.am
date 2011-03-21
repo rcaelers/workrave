@@ -5,6 +5,6 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
-EXTRA_DIST = 		$(wildcard *.cc) $(wildcard *.hh) 
+EXTRA_DIST = 		$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.hh) 
 
 

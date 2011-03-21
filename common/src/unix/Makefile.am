@@ -20,5 +20,5 @@ endif
 INCLUDES = 		-W -D_XOPEN_SOURCE=600 -I. -I../../include \
 			-I../../include/unix 
 
-EXTRA_DIST = 		$(wildcard *.cc) $(wildcard *.hh) \
-			$(wildcard *.h) $(wildcard *.icc)
+EXTRA_DIST = 		$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.hh) \
+			$(wildcard $(srcdir)/*.h) $(wildcard $(srcdir)/*.icc)

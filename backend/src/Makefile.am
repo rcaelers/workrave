@@ -3,7 +3,6 @@
 # Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008, 2009, 2010 Rob Caelers & Raymond Penners
 #
 
-
 MAINTAINERCLEANFILES = 	Makefile.in
 
 SUBDIRS = 		unix win32 osx
@@ -64,8 +63,10 @@ endif
 
 # DBus service file
 if HAVE_DBUS
-dbussources =           DBusWorkrave.cc
+dbussources =		DBusWorkrave.cc \
+			DBusWorkrave.hh
 
+BUILT_SOURCES = $(dbussources)
 
 if HAVE_PYTHON_CHEETAH
 
@@ -75,21 +76,19 @@ DBusWorkrave.cc:	workrave-service.xml \
 			$(top_srcdir)/common/bin/DBus-template.hh
 			python $(top_srcdir)/common/bin/dbusgen.py -l C++ -s $(srcdir)/workrave-service.xml DBusWorkrave
 
+DBusWorkrave.hh: 	DBusWorkrave.cc ; test -f $@
+#BreakControl.cc: 	DBusWorkrave.hh ; test -f $@
 
-DBusWorkrave.hh: 	DBusWorkrave.cc
-BreakControl.cc: 	DBusWorkrave.hh
+#workrave-client-bindings.h: DBusWorkrave.cc ; test -f $@
+#workrave-server-bindings.h: DBusWorkrave.cc ; test -f $@
 
-workrave-client-bindings.h: DBusWorkrave.cc
-workrave-server-bindings.h: DBusWorkrave.cc
+endif # HAVE_PYTHON_CHEETAH
 
-BUILT_SOURCES =		workrave-client-bindings.h \
-			workrave-server-bindings.h \
-			DBusWorkrave.cc \
-			DBusWorkrave.hh
+else # HAVE_DBUS
 
-endif
+dbussources =
 
-endif
+endif # HAVE_DBUS
 
 libworkrave_backend_la_SOURCES = \
 			${sources} ${sourcesgdome} ${sourcesgnet} ${sourcesdistribution} \
@@ -107,7 +106,6 @@ libworkrave_backend_la_CXXFLAGS = ${libworkrave_backend_la_CFLAGS}
 libworkrave_backend_la_LIBADD=${platform_ldadd}
 
 
-EXTRA_DIST = 		$(wildcard *.cc) $(wildcard *.rc) $(wildcard *.hh) \
-			$(wildcard *.h) $(wildcard *.icc) workrave-service.xml \
-			org.workrave.Workrave.service.in \
-		 	DBusWorkrave.cc DBusWorkrave.hh SConscript
+EXTRA_DIST = 		$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.rc) $(wildcard $(srcdir)/*.hh) \
+			$(wildcard $(srcdir)/*.h) $(wildcard $(srcdir)/*.icc) workrave-service.xml \
+			org.workrave.Workrave.service.in SConscript

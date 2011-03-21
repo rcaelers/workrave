@@ -6,9 +6,6 @@
 
 SUBDIRS = 		gnome_applet gnome_applet3 kde_applet win32 unix osx
 
-BUILT_SOURCES =		DBusGUI.cc DBusGUI.hh DBusGnomeApplet.cc DBusGnomeApplet.hh
-
-
 MAINTAINERCLEANFILES = 	Makefile.in \
 			org.workrave.Workrave.service \
 			workrave.desktop \
@@ -32,7 +29,7 @@ extrasources =
 extranodistsources = 
 
 # Additional Gnome sources
-sourcesgnome = 		GnomeAppletWindow.cc GnomeAppletMenu.cc DBusGnomeApplet.cc
+sourcesgnome = 		GnomeAppletWindow.cc GnomeAppletMenu.cc
 
 # Additional non-Gnome sources.
 sourcesnognome =
@@ -57,7 +54,7 @@ sourceswin32 = 		resource.rc
 resource.rc: resource.rc.in
 	sed -e 's/@WORKRAVE_VERSION@/$(VERSION)/g' \
 	    -e 's/@WORKRAVE_RESOURCE_VERSION@/$(RESOURCE_VERSION)/g' \
-		$@.in > $@
+		$(srcdir)/$@.in > $@
 
 # Additional distribution sources.
 DISTRIBUTION_HOME = 	$(top_srcdir)/frontend/plugin/distribution
@@ -162,7 +159,9 @@ $(service_DATA): $(service_in_files) Makefile
 # Correctly clean the generated headers, but keep the xml description
 CLEANFILES = org.workrave.Workrave.service
 
-dbussources=DBusGUI.cc
+dbussources = DBusGUI.cc DBusGUI.hh DBusGnomeApplet.cc DBusGnomeApplet.hh
+
+BUILT_SOURCES = $(dbussources)
 
 # broken: 
 # if PLATFORM_OS_UNIX
@@ -178,11 +177,15 @@ DBusGUI.cc: 		workrave-gui.xml \
 			$(top_srcdir)/common/bin/DBus-template.hh
 			python $(top_srcdir)/common/bin/dbusgen.py --language=C++ -s $(srcdir)/workrave-gui.xml DBusGUI
 
-DBusGUI.hh: 		DBusGUI.cc
+DBusGUI.hh: 		DBusGUI.cc ; test -f $@
 
-endif
+endif # HAVE_PYTHON_CHEETAH
 
-endif
+else # HAVE_DBUS
+
+dbussources =
+
+endif # HAVE_DBUS
 
 #if HAVE_KDE
 #
@@ -305,6 +308,6 @@ workrave_LDADD =        @WR_LDADD@ @X_LIBS@ @X11SM_LIBS@ @GNOME_LIBS@ @GLIB_LIBS
 #	@rm -f workrave$(EXEEXT)
 #	$(CXXLINK) $(workrave_LDFLAGS) $(workrave_OBJECTS) $(workrave_LDADD) $(LIBS)
 
-EXTRA_DIST = $(wildcard *.cc) $(wildcard *.hh) $(wildcard *.c) $(wildcard *.h) \
+EXTRA_DIST = $(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.c) $(wildcard $(srcdir)/*.h) \
 	     workrave.desktop.in org.workrave.Workrave.service.in workrave-gui.xml resource.rc.in
 

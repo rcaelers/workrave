@@ -52,7 +52,6 @@ frontend/common/src/SoundPlayer.cc
 frontend/common/src/System.cc
 frontend/common/src/Text.cc
 frontend/common/src/TimerBoxControl.cc
-frontend/common/src/gnome/GnomeSoundPlayer.cc
 frontend/common/src/kde/KdeSoundPlayer.cc
 frontend/common/src/osx/OSXSoundPlayer.cc
 frontend/common/src/osx/Sound.cc
@@ -94,7 +93,7 @@ frontend/gtkmm/src/TimerPreferencesPanel.cc
 frontend/gtkmm/src/WindowHints.cc
 frontend/gtkmm/src/X11SystrayAppletWindow.cc
 frontend/gtkmm/src/gtktrayicon.c
-frontend/gtkmm/src/workrave.desktop.in.in
+frontend/gtkmm/src/workrave.desktop.in
 frontend/gtkmm/src/gnome_applet/GNOME_WorkraveApplet.xml.in
 frontend/gtkmm/src/gnome_applet/Workrave-Applet.server.in.in
 frontend/gtkmm/src/gnome_applet/WorkraveApplet.c

@@ -21,5 +21,5 @@ endif
 INCLUDES = 		-W -D_XOPEN_SOURCE=600 -I. -I$(top_srcdir)/common/include \
 			-I$(top_srcdir)/common/include/win32 -I$(top_srcdir)/common/win32/harpoon/include
 
-EXTRA_DIST = 		$(wildcard *.cc) $(wildcard *.c) \
-			$(wildcard *.hh) $(wildcard *.h) $(wildcard *.icc)
+EXTRA_DIST = 		$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.c) \
+			$(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.h) $(wildcard $(srcdir)/*.icc)

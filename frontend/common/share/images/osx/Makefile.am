@@ -5,4 +5,4 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
-EXTRA_DIST = 		$(wildcard *.icns)
+EXTRA_DIST = 		$(wildcard $(srcdir)/*.icns)

@@ -583,7 +583,7 @@ then
     if test "x$have_dbus" = "xyes"
     then
         AC_DEFINE(HAVE_DBUS, , [DBus support])
-        AC_DEFINE(HAVE_DBUSGLIB, , [DBus-glib support])],
+        AC_DEFINE(HAVE_DBUSGLIB, , [DBus-glib support])
         AC_DEFINE_UNQUOTED(DBUS_SERVICES_DIR, "$DBUS_SERVICES_DIR", [Where services dir for DBUS is])
     fi
 

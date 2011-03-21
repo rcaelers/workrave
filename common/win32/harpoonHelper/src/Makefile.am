@@ -5,7 +5,7 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
-EXTRA_DIST = 		$(wildcard *.c) $(wildcard *.h) \
-			$(wildcard *.cc) $(wildcard *.hh) \
-			$(wildcard *.cpp)  \
-			$(wildcard *.dsp) $(wildcard *.vcproj) $(wildcard *.def)
+EXTRA_DIST = 		$(wildcard $(srcdir)/*.c) $(wildcard $(srcdir)/*.h) \
+			$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.hh) \
+			$(wildcard $(srcdir)/*.cpp)  \
+			$(wildcard $(srcdir)/*.dsp) $(wildcard $(srcdir)/*.vcproj) $(wildcard $(srcdir)/*.def)

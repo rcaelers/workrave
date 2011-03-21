@@ -27,6 +27,6 @@ libworkrave_backend_win32_la_CXXFLAGS = \
 			-I$(top_srcdir)/common/win32/harpoonHelper/include/ \
 		  	@WR_COMMON_INCLUDES@ @GLIB_CFLAGS@
 
-EXTRA_DIST = 		$(wildcard *.cc) $(wildcard *.rc) \
-			$(wildcard *.hh) $(wildcard *.h) \
-			$(wildcard *.icc)
+EXTRA_DIST = 		$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.rc) \
+			$(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.h) \
+			$(wildcard $(srcdir)/*.icc)

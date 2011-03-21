@@ -5,4 +5,4 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
-EXTRA_DIST = 		SConscript $(wildcard *.cc) $(wildcard *.hh) $(wildcard *.c) $(wildcard *.h)
+EXTRA_DIST = 		SConscript $(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.c) $(wildcard $(srcdir)/*.h)

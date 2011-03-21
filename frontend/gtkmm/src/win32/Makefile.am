@@ -5,8 +5,8 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
-EXTRA_DIST = 		$(wildcard *.hh) $(wildcard *.cc) \
-			$(wildcard *.c) $(wildcard *.h)  $(wildcard *.icc)
+EXTRA_DIST = 		$(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.cc) \
+			$(wildcard $(srcdir)/*.c) $(wildcard $(srcdir)/*.h)  $(wildcard $(srcdir)/*.icc)
 
 if HAVE_APP_GTKMM
 if PLATFORM_OS_WIN32

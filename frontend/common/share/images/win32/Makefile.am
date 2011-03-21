@@ -5,4 +5,4 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in
 
-EXTRA_DIST = 		$(wildcard *.ico)
+EXTRA_DIST = 		$(wildcard $(srcdir)/*.ico)

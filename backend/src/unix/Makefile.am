@@ -30,5 +30,5 @@ libworkrave_backend_unix_la_CXXFLAGS = \
 			@WR_COMMON_INCLUDES@ \
 			@GLIB_CFLAGS@ @GTK_CFLAGS@ @GCONF_CFLAGS@
 
-EXTRA_DIST = 		$(wildcard *.cc) $(wildcard *.rc)\
-			$(wildcard *.hh) $(wildcard *.h) $(wildcard *.icc)
+EXTRA_DIST = 		$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.rc)\
+			$(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.h) $(wildcard $(srcdir)/*.icc)

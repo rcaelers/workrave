@@ -22,5 +22,5 @@ libworkrave_backend_osx_la_CXXFLAGS = \
 			@WR_COMMON_INCLUDES@ \
 			-D_XOPEN_SOURCE=600 @GLIB_CFLAGS@ @OSX_CFLAGS@
 
-EXTRA_DIST = 		$(wildcard *.cc) $(wildcard *.rc)\
-			$(wildcard *.hh) $(wildcard *.h) $(wildcard *.icc)
+EXTRA_DIST = 		$(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.rc)\
+			$(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.h) $(wildcard $(srcdir)/*.icc)

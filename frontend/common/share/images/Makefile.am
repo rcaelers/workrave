@@ -9,7 +9,7 @@ MAINTAINERCLEANFILES = 	Makefile.in
 SUBDIRS = 		win32 osx
 
 imagesdir = 		$(pkgdatadir)/images
-images_DATA = 		$(wildcard *.png) $(wildcard *.ico) $(wildcard *.xpm)
+images_DATA = 		$(wildcard $(srcdir)/*.png) $(wildcard $(srcdir)/*.ico) $(wildcard $(srcdir)/*.xpm)
 
 iconsize = 		48x48
 category = 		apps

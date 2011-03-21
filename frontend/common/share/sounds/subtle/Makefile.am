@@ -8,7 +8,7 @@ DISTCLEANFILES =
 
 soundsbasedir = 	$(datadir)/sounds/workrave
 soundsdir = 		$(soundsbasedir)/subtle
-sounds_DATA = 		$(wildcard *.wav) soundtheme
+sounds_DATA = 		$(wildcard $(srcdir)/*.wav) soundtheme
 
 
 EXTRA_DIST = 		${sounds_DATA} 

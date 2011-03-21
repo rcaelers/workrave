@@ -5,4 +5,4 @@
 
 MAINTAINERCLEANFILES = 	Makefile.in 
 
-EXTRA_DIST = 		$(wildcard *.py) $(wildcard *.cc) $(wildcard *.hh) $(wildcard *.xml)
+EXTRA_DIST = 		$(wildcard $(srcdir)/*.py) $(wildcard $(srcdir)/*.cc) $(wildcard $(srcdir)/*.hh) $(wildcard $(srcdir)/*.xml)
