@@ -102,12 +102,12 @@ workrave-win32-build-original=\
 	( cd ${1}; \
 	  . ${WIN32_MINGW_ENV}; \
 	  ./autogencross.sh ${CONF_FLAGS} ${2} && make ; \
-	   $$TARGET-nm -nosC ${1}/frontend/gtkmm/src/workrave.exe >${1}/frontend/gtkmm/src/workrave.sym )
+	   $$TARGET-nm -nosC --line-numbers ${1}/frontend/gtkmm/src/workrave.exe >${1}/frontend/gtkmm/src/workrave.sym )
 
 workrave-win32-build=\
 	( cd ${1}/common/win32/harpoonHelper/src; \
           mkdir Release; \
-	  cp -a ${TINDERBOX_HOME}/prebuilt/${3}/harpoonHelper.exe Release; \
+	  cp -a ${TINDERBOX_HOME}/prebuilt/${3}64/harpoonHelper.exe Release; \
 	  cd ${1}/common/win32/harpoon/src; \
           mkdir Release; \
 	  cp -a ${TINDERBOX_HOME}/prebuilt/${3}/harpoon.dll Release; \
@@ -120,7 +120,9 @@ workrave-win32-build=\
 	  . ${WIN32_MINGW_ENV}; \
 	  ./autogencross.sh ${CONF_FLAGS} ${2} && make ; \
 	  cp -a ${1}/frontend/gtkmm/src/.libs/workrave.exe ${1}/frontend/gtkmm/src; \
-	  $$TARGET-nm -nosC ${1}/frontend/gtkmm/src/workrave.exe >${1}/frontend/gtkmm/src/workrave.sym )
+	  $$TARGET-nm -nosC --line-numbers ${1}/frontend/gtkmm/src/workrave.exe >${1}/frontend/gtkmm/src/workrave.sym)
+
+# $$TARGET-objdump -D --line-numbers ${1}/frontend/gtkmm/src/workrave.exe >${1}/frontend/gtkmm/src/workrave.debugsym )
 
 workrave-win32-strip=\
 	(  . ${WIN32_MINGW_ENV}; \
@@ -131,7 +133,9 @@ workrave-win32-setup=\
 	  unix2dos setup.iss; \
 	  wine "${WIN32_ISCC}" setup.iss ); \
 	mv ${1}/frontend/gtkmm/win32/setup/Output/setup.exe ${TINDERBOX_BIN_DIR}/workrave-win32-${WORKRAVE_GIT_VERSION}-${BUILD_DATE}-${2}.exe; \
-	gzip -c ${1}/frontend/gtkmm/src/workrave.sym >${TINDERBOX_BIN_DIR}/workrave-win32-${WORKRAVE_GIT_VERSION}-${BUILD_DATE}-${2}.sym.gz
+	bzip2 -c ${1}/frontend/gtkmm/src/workrave.sym >${TINDERBOX_BIN_DIR}/workrave-win32-${WORKRAVE_GIT_VERSION}-${BUILD_DATE}-${2}.sym.bz2;
+
+## bzip2 -c ${1}/frontend/gtkmm/src/workrave.debugsym >${TINDERBOX_BIN_DIR}/workrave-win32-${WORKRAVE_GIT_VERSION}-${BUILD_DATE}-${2}.debugsym.bz2
 
 
 workrave-win32-release-dir: 

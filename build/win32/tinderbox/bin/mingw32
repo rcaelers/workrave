@@ -17,7 +17,7 @@ export LDFLAGS="-L$CROSSROOT/lib"
 #export AS="i586-mingw32msvc-as"
 #export MACHTYPE="i586-mingw32msvc"
 
-export PKG_CONFIG_LIBDIR="$CROSSROOT/lib/pkgconfig"
+export PKG_CONFIG_PATH="$CROSSROOT/lib/pkgconfig"
 #export PATH="$TOOLSROOT/bin:$PATH"
 
 export TARGET=i686-w64-mingw32
