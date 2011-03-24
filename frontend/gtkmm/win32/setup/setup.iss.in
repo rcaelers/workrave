@@ -53,7 +53,7 @@ Name: "startupmenu"; Description: "Start Workrave when Windows starts"; GroupDes
 [Files]
 Source: "..\..\..\..\common\win32\harpoon\src\Release\harpoon.dll"; DestDir: "{app}\lib"; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
 Source: "..\..\..\..\common\win32\harpoon\src\Release\harpoon64.dll"; DestDir: "{app}\lib"; Check: IsWin64; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
-Source: "..\..\..\..\common\win32\harpoonHelper\src\Release\harpoonHelper.exe"; DestDir: "{app}\lib"; Check: IsWin64; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
+Source: "..\..\..\..\common\win32\harpoonHelper\src\Release\harpoonHelper.exe"; DestDir: "{app}\lib"; DestName: "harpoonHelper-no-auto-start.exe"; Check: IsWin64; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
 Source: "..\..\..\win32\applet\src\Release\workrave-applet.dll"; DestDir: "{app}\lib"; Check: (not IsWin64); Flags: ignoreversion restartreplace uninsrestartdelete regserver 32bit;
 Source: "..\..\..\win32\applet\src\Release\workrave-applet64.dll"; DestDir: "{app}\lib"; Check: IsWin64; Flags: ignoreversion restartreplace uninsrestartdelete regserver 64bit;
 Source: ".\runtime-base\*.*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs;
