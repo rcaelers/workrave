@@ -8,8 +8,8 @@ dnl
 
 m4_define([workrave_major_version], [1])
 m4_define([workrave_minor_version], [9])
-m4_define([workrave_micro_version], [3])
-m4_define([workrave_version_suffix], [99])
+m4_define([workrave_micro_version], [4])
+m4_define([workrave_version_suffix], [0])
 m4_define([workrave_version],
           [workrave_major_version.workrave_minor_version.workrave_micro_version])
 m4_define([workrave_resource_version],
@@ -29,7 +29,7 @@ AC_CONFIG_MACRO_DIR([m4])
 
 dnl Automake
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(workrave, 1.9.4-rc1) # workrave_version)
+AM_INIT_AUTOMAKE(workrave, workrave_version)
 AM_GNU_GETTEXT_VERSION()
 AM_MAINTAINER_MODE
 

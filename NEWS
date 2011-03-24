@@ -1,4 +1,4 @@
-Workrave NEWS -- history of user-visible changes.  xx Mar 2011
+Workrave NEWS -- history of user-visible changes.  24 Mar 2011
 Copyright (C) 2001-2011 Rob Caelers & Raymond Penners
 See the end for copying conditions.
 
@@ -18,11 +18,16 @@ http://www.workrave.org
 ** Fixed issue where Workrave remains suspended after
    hibernate/standby on Window 7.
 
+** Fixed issue where the reading mode was reset after changing settings.
+
 ** On Windows, Workrave shows a reminder balloon when Workrave starts up
    in suspended or quiet mode.
 
 ** The (un)installer now automatically shuts down Workrave before
    (un)installation.
+
+** It is no longer possible to disable both the notification icon and
+   the main window.
 
 * Workrave 1.9.3
 
