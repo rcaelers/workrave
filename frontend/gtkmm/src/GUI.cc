@@ -925,7 +925,7 @@ GUI::core_event_notify(const CoreEvent event)
       string msg = _("Workrave could not monitor your keyboard and mouse activity.\n");
 
 #ifdef PLATFORM_OS_UNIX
-      msg += _("Make sure that the RECORD extention is enabled in the X server.");
+      msg += _("Make sure that the RECORD extension is enabled in the X server.");
 #endif
       Gtk::MessageDialog dialog(_("Workrave failed to start"),
                                 false, Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK, true);
