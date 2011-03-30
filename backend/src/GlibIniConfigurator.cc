@@ -97,6 +97,11 @@ GlibIniConfigurator::save(string filename)
       config_file.close();
     }
 
+  if (str != NULL)
+    {
+      g_free(str);
+    }
+
   TRACE_EXIT();
   return error == NULL;
 }
