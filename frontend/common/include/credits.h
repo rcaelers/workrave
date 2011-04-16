@@ -52,6 +52,7 @@ const char *workrave_translators =
  /* he */           "Haggai Eran <he3@bezeqint.net>\n"
  /* hu-1 */         "ORY Mate <orymate@gmail.com>\n"
  /* hu-2 */         "Gabor Kelemen <kelemeng@gnome.hu>\n"
+ /* fa */           "Moein Gh <tarfandkhaneh@gmail.com>\n"
  /* ga */           "Seanán Ó Coistín <seananoc@gmail.com>\n"
  /* it */           "Eraldo Girardi <eraldster@katamail.com>\n"
  /* ja */           "Masanobu Yokota <masanobu.yokota@nifty.com>\n"
