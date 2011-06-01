@@ -1,6 +1,6 @@
 // TimerBoxPreferencePage.cc --- Preferences widgets for a timer
 //
-// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -23,9 +23,7 @@
 
 #include "preinclude.h"
 
-#include <gtkmm/optionmenu.h>
-#include <gtkmm/spinbutton.h>
-#include <gtkmm/checkbutton.h>
+#include <gtkmm.h>
 
 #include "nls.h"
 #include "debug.hh"
@@ -88,18 +86,12 @@ void
 TimerBoxPreferencePage::create_page()
 {
   // Placement
-  place_button  = Gtk::manage(new Gtk::OptionMenu());
-  Gtk::Menu *place_menu = Gtk::manage(new Gtk::Menu());
-  Gtk::Menu::MenuList &place_items = place_menu->items();
-  place_button->set_menu(*place_menu);
-  place_items.push_back(Gtk::Menu_Helpers::MenuElem
-                        (_("Place timers next to each other")));
-  place_items.push_back(Gtk::Menu_Helpers::MenuElem
-                        (_("Place micro-break and rest break in one spot")));
-  place_items.push_back(Gtk::Menu_Helpers::MenuElem
-                        (_("Place rest break and daily limit in one spot")));
-  place_items.push_back(Gtk::Menu_Helpers::MenuElem
-                        (_("Place all timers in one spot")));
+  place_button  = Gtk::manage(new Gtk::ComboBoxText());
+  place_button->append(_("Place timers next to each other"));
+  place_button->append(_("Place micro-break and rest break in one spot"));
+  place_button->append(_("Place rest break and daily limit in one spot"));
+  place_button->append(_("Place all timers in one spot"));
+  
   // Cycle time spin button.
   cycle_entry = Gtk::manage(new Gtk::SpinButton());
   cycle_entry->set_range(1, 999);
@@ -112,18 +104,12 @@ TimerBoxPreferencePage::create_page()
   // Timer display
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      Gtk::OptionMenu *display_button  = Gtk::manage(new Gtk::OptionMenu());
+      Gtk::ComboBoxText *display_button  = Gtk::manage(new Gtk::ComboBoxText());
       timer_display_button[i] = display_button;
 
-      Gtk::Menu *menu = Gtk::manage(new Gtk::Menu());
-      Gtk::Menu::MenuList &menu_list = menu->items();
-      display_button->set_menu(*menu);
-      menu_list.push_back(Gtk::Menu_Helpers::MenuElem
-                          (_("Hide")));
-      menu_list.push_back(Gtk::Menu_Helpers::MenuElem
-                          (_("Show")));
-      menu_list.push_back(Gtk::Menu_Helpers::MenuElem
-                          (_("Show only when this timer is first due")));
+      display_button->append(_("Hide"));
+      display_button->append(_("Show"));
+      display_button->append(_("Show only when this timer is first due"));
     }
 
   // Enabled/Disabled checkbox
@@ -197,7 +183,7 @@ TimerBoxPreferencePage::init_page_values()
     {
       place = 2;
     }
-  place_button->set_history(place);
+  place_button->set_active(place);
 
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -216,7 +202,7 @@ TimerBoxPreferencePage::init_page_values()
         {
           showhide = 1;
         }
-      timer_display_button[i]->set_history(showhide);
+      timer_display_button[i]->set_active(showhide);
     }
   cycle_entry->set_value(TimerBoxControl::get_cycle_time(name));
 
@@ -257,7 +243,7 @@ void
 TimerBoxPreferencePage::on_place_changed()
 {
   int slots[BREAK_ID_SIZEOF];
-  int idx = place_button->get_history();
+  int idx = place_button->get_active_row_number();
   switch (idx)
     {
     case 0:
@@ -298,7 +284,7 @@ TimerBoxPreferencePage::on_place_changed()
 void
 TimerBoxPreferencePage::on_display_changed(int break_id)
 {
-  int sel = timer_display_button[break_id]->get_history();
+  int sel = timer_display_button[break_id]->get_active_row_number();
   int flags = 0;
   switch (sel)
     {
@@ -325,7 +311,7 @@ TimerBoxPreferencePage::enable_buttons(void)
   int count = 0;
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
-      if (timer_display_button[i]->get_history() == 0)
+      if (timer_display_button[i]->get_active() == 0)
         {
           count++;
         }

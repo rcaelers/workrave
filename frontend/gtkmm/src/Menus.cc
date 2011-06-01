@@ -1,6 +1,6 @@
 // Menus.cc --- Timer info Window
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -306,7 +306,7 @@ Menus::on_exercises_response(int response)
   (void) response;
 
   assert(exercises_dialog != NULL);
-  exercises_dialog->hide_all();
+  exercises_dialog->hide();
 
   delete exercises_dialog;
   exercises_dialog = NULL;
@@ -359,7 +359,17 @@ Menus::on_menu_about()
       about = new Gtk::AboutDialog;
 
       about->set_name("Workrave");
+#ifdef HAVE_GTK3
+      std::vector<Glib::ustring> authors;
+      for (int index = 0; workrave_authors[index] != NULL; index++)
+        {
+          authors.push_back(workrave_authors[index]);
+        }
+      about->set_authors(authors);
+#else
       about->set_authors(workrave_authors);
+#endif
+      
       about->set_copyright(workrave_copyright);
       about->set_comments(_("This program assists in the prevention and recovery"
                             " of Repetitive Strain Injury (RSI)."));
@@ -422,7 +432,7 @@ Menus::on_network_join_response(int response)
   (void) response;
 
   assert(network_join_dialog != NULL);
-  network_join_dialog->hide_all();
+  network_join_dialog->hide();
 
   if (response == Gtk::RESPONSE_OK)
     {
@@ -486,7 +496,7 @@ Menus::on_menu_network_log(bool active)
     }
   else if (network_log_dialog != NULL)
     {
-      network_log_dialog->hide_all();
+      network_log_dialog->hide();
       delete network_log_dialog;
       network_log_dialog = NULL;
       resync();  
@@ -507,7 +517,7 @@ Menus::on_network_log_response(int response)
 
   assert(network_log_dialog != NULL);
 
-  network_log_dialog->hide_all();
+  network_log_dialog->hide();
 
   // done by gtkmm ??? delete network_log_dialog;
   network_log_dialog = NULL;
@@ -524,7 +534,7 @@ Menus::on_statistics_response(int response)
   (void) response;
 
   assert(statistics_dialog != NULL);
-  statistics_dialog->hide_all();
+  statistics_dialog->hide();
 
   delete statistics_dialog;
   statistics_dialog = NULL;
@@ -536,7 +546,7 @@ Menus::on_preferences_response(int response)
   (void) response;
 
   assert(preferences_dialog != NULL);
-  preferences_dialog->hide_all();
+  preferences_dialog->hide();
 
   CoreFactory::get_configurator()->save();
 

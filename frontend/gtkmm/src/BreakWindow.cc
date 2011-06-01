@@ -42,12 +42,7 @@
 #undef max
 #endif
 
-#include <gtkmm/window.h>
-#include <gtkmm/stock.h>
-#include <gtkmm/buttonbox.h>
-#include <gtkmm/button.h>
-#include <gtkmm/enums.h>
-#include <gdkmm/types.h>
+#include <gtkmm.h>
 
 #include <math.h>
 
@@ -243,7 +238,12 @@ BreakWindow::init_gui()
               set_size_request(head.get_width(),
                                head.get_height());
               set_app_paintable(true);
-              set_desktop_background(GTK_WIDGET (gobj())->window);
+#ifdef HAVE_GTK3
+              Glib::RefPtr<Gdk::Window> window = get_window();
+              set_desktop_background(window->gobj());
+#else
+              set_desktop_background(GTK_WIDGET(gobj())->window);
+#endif
               Gtk::Alignment *align
                 = Gtk::manage(new Gtk::Alignment(0.5, 0.5, 0.0, 0.0));
               align->add(*window_frame);
@@ -259,7 +259,11 @@ BreakWindow::init_gui()
       // FIXME: check if it was intentionally not unset for RB
       if (break_id != BREAK_ID_REST_BREAK)
         {
+#ifdef HAVE_GTK3
+          set_can_focus(false);
+#else          
           unset_flags(Gtk::CAN_FOCUS);
+#endif
         }
       
       show_all_children();
@@ -305,7 +309,11 @@ BreakWindow::create_lock_button()
       ret = Gtk::manage(GtkUtil::create_image_button(_("_Lock"), "lock.png"));
       ret->signal_clicked()
         .connect(sigc::mem_fun(*this, &BreakWindow::on_lock_button_clicked));
+#ifdef HAVE_GTK3
+      ret->set_can_focus(false);
+#else
       GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
+#endif
     }
   else
     {
@@ -324,7 +332,11 @@ BreakWindow::create_shutdown_button()
       ret = Gtk::manage(GtkUtil::create_image_button(_("Shut _down"), "shutdown.png"));
       ret->signal_clicked()
         .connect(sigc::mem_fun(*this, &BreakWindow::on_shutdown_button_clicked));
+#ifdef HAVE_GTK3
+      ret->set_can_focus(false);
+#else
       GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
+#endif
     }
   else
     {
@@ -341,8 +353,11 @@ BreakWindow::create_skip_button()
   ret = Gtk::manage(GtkUtil::create_custom_stock_button(_("_Skip"), Gtk::Stock::CLOSE));
   ret->signal_clicked()
     .connect(sigc::mem_fun(*this, &BreakWindow::on_skip_button_clicked));
+#ifdef HAVE_GTK3
+  ret->set_can_focus(false);
+#else
   GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
-
+#endif
   return ret;
 }
 
@@ -355,7 +370,11 @@ BreakWindow::create_postpone_button()
   ret = Gtk::manage(GtkUtil::create_custom_stock_button(_("_Postpone"), Gtk::Stock::REDO));
   ret->signal_clicked()
     .connect(sigc::mem_fun(*this, &BreakWindow::on_postpone_button_clicked));
+#ifdef HAVE_GTK3
+  ret->set_can_focus(false);
+#else
   GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
+#endif
   return ret;
 }
 
@@ -564,7 +583,11 @@ BreakWindow::stop()
       frame->set_frame_flashing(0);
     }
 
+#ifdef HAVE_GTK3
+  hide();
+#else
   hide_all();
+#endif
   visible = false;
   
 #ifdef PLATFORM_OS_WIN32

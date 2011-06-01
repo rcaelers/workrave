@@ -1,6 +1,6 @@
 // TimeBar.hh --- Time Bar
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2009, 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -22,10 +22,8 @@
 
 #include <string>
 
-#include <gtkmm/drawingarea.h>
-#include <gdkmm/colormap.h>
-#include <gdkmm/window.h>
-#include <gtkmm/box.h>
+#include <gtkmm.h>
+#include <gdkmm.h>
 
 #include "ITimeBar.hh"
 
@@ -48,30 +46,50 @@ public:
   void set_border_size(int size);
   void set_rotation(int r);
 
-  void get_minimum_size(int &width, int &height);
-  void get_preferred_size(int &width, int &height);
+  void get_minimum_size(int &width, int &height) const;
+  void get_preferred_size(int &width, int &height) const;
 
 private:
+#ifdef HAVE_GTK3
+  void draw_bar(const Cairo::RefPtr<Cairo::Context>& cr,
+                int x, int y, int width, int height,
+                int winw, int winh);
+  void set_color(const Cairo::RefPtr<Cairo::Context>& cr, const Gdk::Color &color);
+  void set_color(const Cairo::RefPtr<Cairo::Context>& cr, const Gdk::RGBA &color);
+#else  
   void draw_bar(Glib::RefPtr<Gdk::Window> &window,
                 const Glib::RefPtr<Gdk::GC> &gc,
                 bool filled, int x, int y, int width, int height,
                 int winw, int winh);
-
+#endif
   void set_text_color(Gdk::Color color);
   
 protected:
-  //Overridden default signal handlers:
+#ifdef HAVE_GTK3
+  virtual Gtk::SizeRequestMode get_request_mode_vfunc() const;
+  virtual void get_preferred_width_vfunc(int& minimum_width, int& natural_width) const;
+  virtual void get_preferred_height_vfunc(int& minimum_height, int& natural_height) const;
+  virtual void get_preferred_width_for_height_vfunc(int height, int& minimum_width, int& natural_width) const;
+  virtual void get_preferred_height_for_width_vfunc(int width, int& minimum_height, int& natural_height) const;
+  virtual void on_size_allocate(Gtk::Allocation& allocation);
+  // virtual void on_realize();
+  // virtual void on_unrealize();
+  virtual bool on_draw(const Cairo::RefPtr<Cairo::Context>& cr);
+#else
   virtual void on_realize();
   virtual bool on_expose_event(GdkEventExpose *event);
   virtual void on_size_request(GtkRequisition *requisition);
   virtual void on_size_allocate(Gtk::Allocation& allocation);
+#endif  
 
 private:
   static Gdk::Color bar_colors[COLOR_ID_SIZEOF];
 
+#ifndef HAVE_GTK3
   //! Graphic context.
   Glib::RefPtr<Gdk::GC> window_gc;
-
+#endif
+  
   //! Color of the time-bar.
   ColorId bar_color;
 

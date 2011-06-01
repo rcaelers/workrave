@@ -3,8 +3,22 @@
 #ifdef PLATFORM_OS_UNIX
 
 #include <gdk/gdk.h>
+#include <gdk/gdk.h>
 #include <gdk/gdkx.h>
 #include <X11/Xatom.h>
+
+#ifdef HAVE_GTK3
+#include <cairo.h>
+#include <cairo-xlib.h>
+
+// GTK3 compatibility
+#undef GDK_DISPLAY
+#define GDK_DISPLAY() GDK_DISPLAY_XDISPLAY(gdk_display_get_default())
+#endif
+
+#ifndef GDK_WINDOW_XWINDOW
+#define GDK_WINDOW_XWINDOW(w) GDK_WINDOW_XID(w)
+#endif
 
 
 static Window
@@ -55,7 +69,6 @@ get_pixmap_prop (Window the_window, char *prop_id)
   unsigned long length, after;
   unsigned char *data;
 
-
   Window desktop_window = get_desktop_window(the_window);
 
   if(desktop_window == None)
@@ -81,14 +94,40 @@ get_pixmap_prop (Window the_window, char *prop_id)
 void
 set_desktop_background(GdkWindow *window)
 {
-  Pixmap xpm = get_pixmap_prop(GDK_WINDOW_XWINDOW(window),
-                             "_XROOTPMAP_ID");
+  Pixmap xpm = get_pixmap_prop(GDK_WINDOW_XWINDOW(window), "_XROOTPMAP_ID");
 
   if (xpm != None)
     {
+#ifdef HAVE_GTK3
+      GdkScreen *screen = gdk_window_get_screen(window);
+      Window root_return;
+      int x, y;
+      unsigned int width, height, bw, depth_ret;
+      cairo_surface_t *surface = NULL;
+      
+      gdk_error_trap_push();
+      if (XGetGeometry(GDK_SCREEN_XDISPLAY(screen),
+                       xpm,
+                       &root_return,
+                       &x, &y, &width, &height, &bw, &depth_ret))
+        {
+          surface = cairo_xlib_surface_create(GDK_SCREEN_XDISPLAY (screen),
+                                              xpm,
+                                              GDK_VISUAL_XVISUAL(gdk_screen_get_system_visual(screen)),
+                                              width, height);
+        }
+      gdk_error_trap_pop_ignored ();
+      
+      cairo_pattern_t *pattern = cairo_pattern_create_for_surface(surface);
+      gdk_window_set_background_pattern(window, pattern);
+
+      cairo_surface_destroy(surface);
+      // cairo_pattern_destroy      ???
+#else
       GdkPixmap *gpm = gdk_pixmap_foreign_new(xpm);
       gdk_window_set_back_pixmap (window, gpm, FALSE);
       g_object_unref (gpm);
+#endif      
     }
 }
 

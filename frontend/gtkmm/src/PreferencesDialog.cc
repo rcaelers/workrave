@@ -1,6 +1,6 @@
 // PreferencesDialog.cc --- Preferences dialog
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2009, 2010 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2009, 2010, 2011 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -34,7 +34,7 @@
 #include <gtkmm/notebook.h>
 #include <gtkmm/stock.h>
 #include <gtkmm/menu.h>
-#include <gtkmm/optionmenu.h>
+#include <gtkmm/combobox.h>
 #include <gtkmm/cellrenderer.h>
 #include <gtkmm/scale.h>
 #include <gtkmm/scrolledwindow.h>
@@ -150,8 +150,9 @@ PreferencesDialog::~PreferencesDialog()
   core->set_operation_mode(mode, false);
 
   delete connector;
+#ifndef HAVE_GTK3
   delete filefilter;
-  
+#endif  
   TRACE_EXIT();
 }
 
@@ -161,15 +162,10 @@ Gtk::Widget *
 PreferencesDialog::create_gui_page()
 {
   // Block types
-  block_button  = Gtk::manage(new Gtk::OptionMenu());
-  Gtk::Menu *block_menu = Gtk::manage(new Gtk::Menu());
-  Gtk::Menu::MenuList &block_list = block_menu->items();
-  block_button->set_menu(*block_menu);
-  block_list.push_back(Gtk::Menu_Helpers::MenuElem(_("No blocking")));
-  block_list.push_back(Gtk::Menu_Helpers::MenuElem
-                       (_("Block input")));
-  block_list.push_back(Gtk::Menu_Helpers::MenuElem
-                       (_("Block input and screen")));
+  block_button = Gtk::manage(new Gtk::ComboBoxText());
+  block_button->append(_("No blocking"));
+  block_button->append(_("Block input"));
+  block_button->append(_("Block input and screen"));
 
   int block_idx;
   switch (GUIConfig::get_block_mode())
@@ -183,7 +179,7 @@ PreferencesDialog::create_gui_page()
     default:
       block_idx = 2;
     }
-  block_button->set_history(block_idx);
+  block_button->set_active(block_idx);
   block_button->signal_changed()
     .connect(sigc::mem_fun(*this, &PreferencesDialog::on_block_changed));
 
@@ -313,15 +309,10 @@ PreferencesDialog::create_sounds_page()
   panel->pack_start(*hig, false, false, 0);
   
   // Sound types
-  sound_button  = Gtk::manage(new Gtk::OptionMenu());
-  Gtk::Menu *sound_menu = Gtk::manage(new Gtk::Menu());
-  Gtk::Menu::MenuList &sound_list = sound_menu->items();
-  sound_button->set_menu(*sound_menu);
-  sound_list.push_back(Gtk::Menu_Helpers::MenuElem(_("No sounds")));
-  sound_list.push_back(Gtk::Menu_Helpers::MenuElem
-                       (_("Play sounds using sound card")));
-  sound_list.push_back(Gtk::Menu_Helpers::MenuElem
-                       (_("Play sounds using built-in speaker")));
+  sound_button  = Gtk::manage(new Gtk::ComboBoxText());
+  sound_button->append(_("No sounds"));
+  sound_button->append(_("Play sounds using sound card"));
+  sound_button->append(_("Play sounds using built-in speaker"));
   int idx;
   if (! SoundPlayer::is_enabled())
     idx = 0;
@@ -332,7 +323,7 @@ PreferencesDialog::create_sounds_page()
       else
         idx = 1;
     }
-  sound_button->set_history(idx);
+  sound_button->set_active(idx);
   sound_button->signal_changed().connect(sigc::mem_fun(*this, &PreferencesDialog::on_sound_changed));
 
   GUI *gui = GUI::get_instance();
@@ -367,9 +358,7 @@ PreferencesDialog::create_sounds_page()
       hig = Gtk::manage(new HigCategoryPanel(_("Sound Events"), true));
       panel->pack_start(*hig, true, true, 0);
   
-      sound_theme_button  = Gtk::manage(new Gtk::OptionMenu());
-      Gtk::Menu *sound_theme_menu = Gtk::manage(new Gtk::Menu());
-      sound_theme_button->set_menu(*sound_theme_menu);
+      sound_theme_button  = Gtk::manage(new Gtk::ComboBoxText());
 
       update_theme_selection();
   
@@ -424,14 +413,23 @@ PreferencesDialog::create_sounds_page()
   
       hbox->pack_start(*fsbutton, true, true, 0);
 
+#ifdef HAVE_GTK3
+      filefilter = Gtk::FileFilter::create();
+#else
       filefilter = new Gtk::FileFilter();
+#endif
+      
       filefilter->set_name(_("Wavefiles"));
 #ifdef PLATFORM_OS_WIN32
       filefilter->add_pattern("*.wav");
 #else
       filefilter->add_mime_type("audio/x-wav");
 #endif
+#ifdef HAVE_GTK3
+      fsbutton->add_filter(filefilter);
+#else
       fsbutton->add_filter(*filefilter);
+#endif
   
       hig->add(*hbox);
 
@@ -489,7 +487,11 @@ PreferencesDialog::create_timer_page()
                                 ((BreakId) i));
       TimerPreferencesPanel *tp = Gtk::manage(new TimerPreferencesPanel(BreakId(i), hsize_group, vsize_group));
       box->show_all();
+#ifdef HAVE_GTK3
+      tnotebook->append_page(*tp, *box);
+#else
       tnotebook->pages().push_back(Gtk::Notebook_Helpers::TabElem(*tp, *box));
+#endif      
     }
   return tnotebook;
 }
@@ -530,7 +532,7 @@ PreferencesDialog::add_page(const char *label, const char *image,
 void
 PreferencesDialog::on_sound_changed()
 {
-  int idx = sound_button->get_history();
+  int idx = sound_button->get_active_row_number();
   SoundPlayer::set_enabled(idx > 0);
   if (idx > 0)
     {
@@ -546,7 +548,7 @@ PreferencesDialog::on_sound_changed()
 void
 PreferencesDialog::update_senstives()
 {
-  int idx = sound_button->get_history();
+  int idx = sound_button->get_active_row_number();
   if (idx > 0)
     {
       SoundPlayer::Device dev = idx == 1
@@ -576,7 +578,7 @@ PreferencesDialog::update_senstives()
 void
 PreferencesDialog::on_block_changed()
 {
-  int idx = block_button->get_history();
+  int idx = block_button->get_active_row_number();
   GUIConfig::BlockMode m;
   switch (idx)
     {
@@ -830,7 +832,7 @@ void
 PreferencesDialog::on_sound_theme_changed()
 {
   TRACE_ENTER("PreferencesDialog::on_sound_theme_changed");
-  int idx = sound_theme_button->get_history();
+  int idx = sound_theme_button->get_active_row_number();
 
   SoundPlayer::Theme &theme = sound_themes[idx];
 
@@ -874,19 +876,16 @@ PreferencesDialog::update_theme_selection()
   SoundPlayer *snd = gui->get_sound_player();
   snd->get_sound_themes(sound_themes);
 
-  Gtk::Menu *sound_theme_menu = sound_theme_button->get_menu();
-  Gtk::Menu::MenuList &sound_theme_list = sound_theme_menu->items();
-
-  sound_theme_list.erase(sound_theme_list.begin(), sound_theme_list.end());
+  sound_theme_button->remove_all();
 
   int idx = 0;
   for (vector<SoundPlayer::Theme>::iterator it = sound_themes.begin(); it != sound_themes.end(); it++)
     {
-      sound_theme_list.push_back(Gtk::Menu_Helpers::MenuElem(it->description));
+      sound_theme_button->append(it->description);
       
       if (it->active)
        {
-          sound_theme_button->set_history(idx);
+          sound_theme_button->set_active(idx);
         }
       idx++;
     }

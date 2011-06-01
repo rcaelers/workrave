@@ -1,6 +1,6 @@
 // FrameWindow.hh --- Gtk::Frame like widget
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2007 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2001, 2002, 2003, 2004, 2007, 2011 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -40,22 +40,37 @@ public:
 
 protected:
   bool on_timer();
-  void on_size_request(Gtk::Requisition *requisition);
   void on_size_allocate(Gtk::Allocation &allocation);
 
-  bool on_expose_event(GdkEventExpose* e);
+#ifdef HAVE_GTK3
+  virtual Gtk::SizeRequestMode get_request_mode_vfunc() const;
+  virtual void get_preferred_width_vfunc(int& minimum_width, int& natural_width) const;
+  virtual void get_preferred_height_vfunc(int& minimum_height, int& natural_height) const;
+  virtual void get_preferred_width_for_height_vfunc(int height, int& minimum_width, int& natural_width) const;
+  virtual void get_preferred_height_for_width_vfunc(int width, int& minimum_height, int& natural_height) const;
+  virtual bool on_draw(const Cairo::RefPtr< Cairo::Context >& cr);
+
+  void set_color(const Cairo::RefPtr<Cairo::Context>& cr, const Gdk::Color &color);
+  void set_color(const Cairo::RefPtr<Cairo::Context>& cr, const Gdk::RGBA &color);
+#else
   void on_realize();
+  bool on_expose_event(GdkEventExpose* e);
+  void on_size_request(Gtk::Requisition *requisition);
+#endif
+  
 
 private:
   //! Frame border width
   guint frame_width;
 
+#ifndef HAVE_GTK3
   //! Graphic context.
   Glib::RefPtr<Gdk::GC> gc;
 
   //! Color map
   Glib::RefPtr<Gdk::Colormap> color_map;
-
+#endif
+  
   //! Color of the frame.
   Gdk::Color frame_color;
 

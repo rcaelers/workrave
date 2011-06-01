@@ -1,6 +1,6 @@
 // IconListNotebook.hh --- Notebook like widget
 //
-// Copyright (C) 2003, 2004, 2007 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2003, 2004, 2007, 2011 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -25,8 +25,8 @@
 #include "debug.hh"
 #include "nls.h"
 
-#include <gtkmm/scrolledwindow.h>
-#include <gtk/gtknotebook.h>
+#include <gtkmm.h>
+#include <gtk/gtk.h>
 
 #include "IconListNotebook.hh"
 #include "IconListCellRenderer.hh"

@@ -1,6 +1,6 @@
 // ExercisesPanel.cc --- Exercises panel
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2009, 2010 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2009, 2010, 2011 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,7 @@
 #include <algorithm>
 
 #include <string.h>
-#include <gtkmm/stock.h>
+#include <gtkmm.h>
 
 #include "ExercisesPanel.hh"
 #include "GtkUtil.hh"
@@ -39,8 +39,6 @@
 
 // This code can be removed once the following bug is closed:
 // http://bugzilla.gnome.org/show_bug.cgi?id=59390
-
-#include <gtk/gtktextbuffer.h>
 
 static void
 text_buffer_insert_markup_real (GtkTextBuffer *buffer,
@@ -218,9 +216,13 @@ ExercisesPanel::ExercisesPanel(Gtk::ButtonBox *dialog_action_area)
         
   copy(exercises.begin(), exercises.end(), back_inserter(shuffled_exercises));  
   random_shuffle(shuffled_exercises.begin(), shuffled_exercises.end());
-  
-  progress_bar.set_orientation(Gtk::PROGRESS_BOTTOM_TO_TOP);
 
+#ifdef HAVE_GTK3  
+  progress_bar.set_orientation(Gtk::ORIENTATION_VERTICAL);
+#else  
+  progress_bar.set_orientation(Gtk::PROGRESS_BOTTOM_TO_TOP);
+#endif
+  
   description_scroll.add(description_text);
   description_scroll.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
 
@@ -292,16 +294,14 @@ ExercisesPanel::ExercisesPanel(Gtk::ButtonBox *dialog_action_area)
   pause_button->signal_clicked()
     .connect(sigc::mem_fun(*this, &ExercisesPanel::on_pause));
 
-  tooltips = Gtk::manage( new Gtk::Tooltips() );
-  tooltips->set_tip( *back_button, _("Previous exercise") );
-  tooltips->set_tip( *forward_button, _("Next exercise") );
-  tooltips->set_tip( *pause_button, _("Pause exercises") );
+  back_button->set_tooltip_text(_("Previous exercise"));
+  forward_button->set_tooltip_text(_("Next exercise"));
+  pause_button->set_tooltip_text(_("Pause exercises"));
 
   if (stop_button != NULL)
     {
-      tooltips->set_tip( *stop_button, _("End exercises") );
+      stop_button->set_tooltip_text(_("End exercises"));
     }
-  tooltips->enable();
 
   pack_start(image_frame, false, false, 0);
   pack_start(progress_bar, false, false, 0);
@@ -319,8 +319,12 @@ void
 ExercisesPanel::on_realize()
 {
   Gtk::HBox::on_realize();
+#ifdef HAVE_GTK3
+  description_text.override_background_color(get_style_context()->get_background_color());
+#else
   description_text.modify_base
     (Gtk::STATE_NORMAL, get_style()->get_background(Gtk::STATE_NORMAL));
+#endif
 }
 
 
@@ -479,9 +483,9 @@ ExercisesPanel::refresh_pause()
                                       standalone ? label : NULL,
                                       stock_id);
   if (paused)
-    tooltips->set_tip( *pause_button, _("Resume exercises"));
+    pause_button->set_tooltip_text(_("Resume exercises"));
   else
-    tooltips->set_tip( *pause_button, _("Pause exercises"));
+    pause_button->set_tooltip_text(_("Pause exercises"));
 }
 
 void

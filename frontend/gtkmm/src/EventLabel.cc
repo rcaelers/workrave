@@ -1,6 +1,6 @@
 // EventLabel.cc ---
 //
-// Copyright (C) 2003, 2004, 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2003, 2004, 2007, 2011 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -33,12 +33,15 @@ EventLabel::on_realize()
 {
   GtkWidget *widget = GTK_WIDGET(gobj());
 
+  GtkAllocation allocation;
+  gtk_widget_get_allocation(widget, &allocation);
+
   GdkWindowAttr attributes;
   attributes.window_type = GDK_WINDOW_CHILD;
-  attributes.x = widget->allocation.x;
-  attributes.y = widget->allocation.y;
-  attributes.width = widget->allocation.width;
-  attributes.height = widget->allocation.height;
+  attributes.x = allocation.x;
+  attributes.y = allocation.y;
+  attributes.width = allocation.width;
+  attributes.height = allocation.height;
   attributes.wclass = GDK_INPUT_ONLY;
   attributes.event_mask = gtk_widget_get_events(widget);
   attributes.event_mask |= (GDK_EXPOSURE_MASK |
@@ -106,7 +109,7 @@ EventLabel::on_size_allocate(Gtk::Allocation &allocation)
 
   GtkWidget *widget = GTK_WIDGET(gobj());
 
-  if (GTK_WIDGET_REALIZED(widget))
+  if (gtk_widget_get_realized (widget))
     {
       gdk_window_move_resize(event_window,
                              allocation.get_x(),

@@ -1,6 +1,6 @@
 // TimeEntry.cc --- Entry widget for time
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2011 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -42,9 +42,15 @@ TimeEntry::TimeEntry(bool millis)
     hrs(NULL),
     mins(NULL),
     secs(NULL),
+#ifdef HAVE_GTK3    
+    hours_adjustment(Gtk::Adjustment::create(0, 0, 23)),
+    mins_adjustment(Gtk::Adjustment::create(0, 0, 59)),
+    secs_adjustment(Gtk::Adjustment::create(0, 0, 59))
+#else    
     hours_adjustment(0, 0, 23),
     mins_adjustment(0, 0, 59),
     secs_adjustment(0, 0, 59)
+#endif
 {
   this->millis = millis;
 
@@ -58,9 +64,15 @@ TimeEntry::TimeEntry(bool millis)
       secs->set_width_chars(6);
       secs->set_wrap(false);
 
+#ifdef HAVE_GTK3
+      secs_adjustment->set_upper(60000);
+      secs_adjustment->set_step_increment(100);
+      secs_adjustment->set_page_increment(1000);
+#else
       secs_adjustment.set_upper(60000);
       secs_adjustment.set_step_increment(100);
       secs_adjustment.set_page_increment(1000);
+#endif
       pack_start(*secs, 0, 0);
     }
   else
@@ -107,13 +119,23 @@ TimeEntry::set_value(time_t t)
 {
   if (! millis)
     {
+#ifdef HAVE_GTK3
+      hours_adjustment->set_value((double)(t / (60*60)));
+      mins_adjustment->set_value((double)((t / 60) % 60));
+      secs_adjustment->set_value((double)(t % 60));
+#else
       hours_adjustment.set_value((double)(t / (60*60)));
       mins_adjustment.set_value((double)((t / 60) % 60));
       secs_adjustment.set_value((double)(t % 60));
+#endif      
     }
   else
     {
+#ifdef HAVE_GTK3
+      secs_adjustment->set_value((double)t);
+#else
       secs_adjustment.set_value((double)t);
+#endif
     }
 }
 

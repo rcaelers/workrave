@@ -1,6 +1,6 @@
 // StatisticsDialog.cc --- Statistics dialog
 //
-// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2011 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -109,10 +109,16 @@ StatisticsDialog::init_gui()
   calendar = Gtk::manage(new Gtk::Calendar());
   calendar->signal_month_changed().connect(sigc::mem_fun(*this, &StatisticsDialog::on_calendar_month_changed));
   calendar->signal_day_selected().connect(sigc::mem_fun(*this, &StatisticsDialog::on_calendar_day_selected));
+#ifdef HAVE_GTK3
+  calendar->set_display_options(Gtk::CALENDAR_SHOW_WEEK_NUMBERS
+                                |Gtk::CALENDAR_SHOW_DAY_NAMES
+                                |Gtk::CALENDAR_SHOW_HEADING);
+#else
   calendar->display_options(Gtk::CALENDAR_SHOW_WEEK_NUMBERS
                             |Gtk::CALENDAR_SHOW_DAY_NAMES
                             |Gtk::CALENDAR_SHOW_HEADING);
-
+#endif
+  
   // Button box.
   Gtk::HBox *btnbox= Gtk::manage(new Gtk::HBox(false, 6));
   first_btn
@@ -289,7 +295,11 @@ StatisticsDialog::create_break_page(Gtk::Widget *tnotebook)
   box->show_all();
   
 #if !defined(PLATFORM_OS_OSX)
+  #ifdef HAVE_GTK3  
+  ((Gtk::Notebook *)tnotebook)->append_page(*table, *box);
+  #else
   ((Gtk::Notebook *)tnotebook)->pages().push_back(Gtk::Notebook_Helpers::TabElem(*table, *box));
+  #endif  
 #else
   ((Gtk::HBox *)tnotebook)->pack_start(*table, true, true, 0);
 #endif
@@ -345,7 +355,12 @@ StatisticsDialog::create_activity_page(Gtk::Widget *tnotebook)
     }
 
   box->show_all();
+#ifdef HAVE_GTK3  
+  ((Gtk::Notebook *)tnotebook)->append_page(*table, *box);
+#else
   ((Gtk::Notebook *)tnotebook)->pages().push_back(Gtk::Notebook_Helpers::TabElem(*table, *box));
+#endif  
+
 }
 
 
@@ -508,11 +523,9 @@ StatisticsDialog::get_calendar_day_index(int &idx, int &next, int &prev)
 void
 StatisticsDialog::set_calendar_day_index(int idx)
 {
-  calendar->freeze();
   IStatistics::DailyStats *stats = statistics->get_day(idx);
   calendar->select_month(stats->start.tm_mon, stats->start.tm_year+1900);
   calendar->select_day(stats->start.tm_mday);
-  calendar->thaw();
   display_calendar_date();
 }
 

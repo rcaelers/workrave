@@ -24,7 +24,6 @@
 
 #include <sigc++/trackable.h>
 #include <glibmm.h>
-#include <gtkmm/tooltips.h>
 #include "eggsmclient.h"
 
 #include "HeadInfo.hh"
@@ -107,7 +106,6 @@ public:
   AppletControl *get_applet_control() const;
   bool is_status_icon_visible() const;
   MainWindow *get_main_window() const;
-  Gtk::Tooltips *get_tooltips() const;
   SoundPlayer *get_sound_player() const;
 
 private:
@@ -196,9 +194,6 @@ private:
   //! Menus
   Menus *menus;
 
-  //! Tooptip manager.
-  Gtk::Tooltips *tooltips;
-
   //! Heartbeat signal
   sigc::signal0<void> heartbeat_signal;
 
@@ -255,13 +250,6 @@ GUI::get_instance()
   return instance;
 }
 
-
-//! Returns tooltips
-inline Gtk::Tooltips *
-GUI::get_tooltips() const
-{
-  return tooltips;
-}
 
 //! Returns the applet window.
 inline AppletControl *

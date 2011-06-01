@@ -126,7 +126,6 @@ GUI::GUI(int argc, char **argv) :
   active_break_id(BREAK_ID_NONE),
   main_window(NULL),
   menus(0),
-  tooltips(NULL),
   break_window_destroy(false),
   prelude_window_destroy(false),
   heads(NULL),
@@ -800,9 +799,6 @@ GUI::init_gtk_multihead()
 void
 GUI::init_gui()
 {
-  tooltips = Gtk::manage(new Gtk::Tooltips());
-  tooltips->enable();
-
   menus = new Menus();
 
   // The main status window.

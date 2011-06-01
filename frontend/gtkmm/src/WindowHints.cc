@@ -1,6 +1,6 @@
 // WindowHints.cc
 //
-// Copyright (C) 2001 - 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2008, 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -35,7 +35,7 @@
 
 #ifdef PLATFORM_OS_WIN32
 #include <windows.h>
-#include <gtk/gtkwindow.h>
+#include <gtk.h>
 #include <gdk/gdkwin32.h>
 #include "Harpoon.hh"
 #ifdef PLATFORM_OS_WIN32_NATIVE
@@ -44,6 +44,11 @@
 #include <gtkmm/window.h>
 #include "harpoon.h"
 #include "W32Compat.hh"
+#endif
+
+#ifdef HAVE_GTK3
+GdkDevice *WindowHints::keyboard = NULL;
+GdkDevice *WindowHints::pointer = NULL;  
 #endif
 
 void
@@ -101,9 +106,53 @@ WindowHints::grab(int num_windows, GdkWindow **windows)
       win32_block_input(TRUE);
       handle = (WindowHints::Grab *) 0xdeadf00d;
 
-	  delete [] unblocked_windows;
+      delete [] unblocked_windows;
     }
-#else
+#elif defined(HAVE_GTK3)
+  if (num_windows > 0)
+    {
+      GdkDevice *device = gtk_get_current_event_device();
+      if (device != NULL)
+        {
+          if (gdk_device_get_source(device) == GDK_SOURCE_KEYBOARD)
+            {
+              keyboard = device;
+              pointer = gdk_device_get_associated_device(device);
+            }
+          else
+            {
+              pointer = device;
+              keyboard = gdk_device_get_associated_device(device);
+            }
+        }
+      
+      GdkGrabStatus keybGrabStatus;
+      keybGrabStatus = gdk_device_grab(keyboard, windows[0],
+                                       GDK_OWNERSHIP_NONE, TRUE,
+                                       (GdkEventMask) (GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK),
+                                       NULL, GDK_CURRENT_TIME);
+      
+      if (keybGrabStatus == GDK_GRAB_SUCCESS)
+        {
+          GdkGrabStatus pointerGrabStatus;
+          pointerGrabStatus = gdk_device_grab(pointer, windows[0],
+                                              GDK_OWNERSHIP_NONE, TRUE,
+                                              (GdkEventMask) (GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK),
+                                              NULL, GDK_CURRENT_TIME);
+            
+          if (pointerGrabStatus != GDK_GRAB_SUCCESS)
+            {
+              gdk_device_ungrab(keyboard, GDK_CURRENT_TIME);
+            }
+          else
+            {
+              // A bit of a hack, but GTK does not need any data in the handle.
+              // So, let's not waste memory and simply return a bogus non-NULL ptr.
+              handle = (WindowHints::Grab *) 0xdeadf00d;
+            }
+        }
+    }
+#else  
   if (num_windows > 0)
     {
       // Only grab first window.
@@ -153,6 +202,17 @@ WindowHints::ungrab(WindowHints::Grab *handle)
 
 #if defined(PLATFORM_OS_WIN32)
   win32_block_input(FALSE);
+#elif defined(HAVE_GTK3)
+  if (keyboard != NULL)
+    {
+      gdk_device_ungrab(keyboard, GDK_CURRENT_TIME);
+      keyboard = NULL;
+    }
+  if (pointer != NULL)
+    {
+      gdk_device_ungrab(pointer, GDK_CURRENT_TIME);
+      pointer = NULL;
+    }
 #else
   gdk_keyboard_ungrab(GDK_CURRENT_TIME);
   gdk_pointer_ungrab(GDK_CURRENT_TIME);

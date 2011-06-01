@@ -1,6 +1,6 @@
 // GtkUtil.cc --- Gtk utilities
 //
-// Copyright (C) 2003, 2004, 2005, 2007, 2008 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2003, 2004, 2005, 2007, 2008, 2011 Raymond Penners <raymond@dotsphinx.com>
 // Copyright (C) 2011 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
@@ -28,9 +28,9 @@
 
 #include "debug.hh"
 
-#include <gtk/gtksettings.h>
-#include <gdk/gdkkeysyms.h>
 #include <glib-object.h>
+#include <gdk/gdk.h>
+#include <gtk/gtk.h>
 
 #include "GUI.hh"
 #include "Util.hh"
@@ -180,8 +180,13 @@ GtkUtil::table_attach_aligned(Gtk::Table &table, Gtk::Widget &child,
                               guint left_attach, guint top_attach, bool left)
 {
   Gtk::Alignment *a = Gtk::manage(new Gtk::Alignment
+#ifdef HAVE_GTK3
+                                  (left ? Gtk::ALIGN_START : Gtk::ALIGN_END,
+                                   Gtk::ALIGN_START,
+#else                                  
                                   (left ? Gtk::ALIGN_LEFT : Gtk::ALIGN_RIGHT,
                                    Gtk::ALIGN_BOTTOM,
+#endif                                   
                                    0.0, 0.0));
   a->add(child);
   table.attach(*a, left_attach, left_attach+1, top_attach, top_attach + 1,
@@ -213,12 +218,11 @@ GtkUtil::create_label_with_tooltip(string text, string tooltip)
   Gtk::EventBox *eventbox = Gtk::manage(new Gtk::EventBox());
   eventbox->add(*label);
 
-  GUI::get_instance()->get_tooltips()->set_tip(*eventbox, tooltip);
+  eventbox->set_tooltip_text(tooltip);
   return eventbox;
 #else
   EventLabel *label = Gtk::manage(new EventLabel(text));
-
-  GUI::get_instance()->get_tooltips()->set_tip(*label, tooltip);
+  label->set_tooltip_text(tooltip);
   return label;
 #endif
 }
@@ -229,7 +233,7 @@ GtkUtil::create_image_with_tooltip(string file, string tooltip)
 {
   EventImage *image = Gtk::manage(new EventImage(file));
 
-  GUI::get_instance()->get_tooltips()->set_tip(*image, tooltip);
+  image->set_tooltip_text(tooltip);
   return image;
 }
 
@@ -341,7 +345,13 @@ GtkUtil::center_window(Gtk::Window &window, HeadInfo &head)
   if (head.valid)
     {
       Gtk::Requisition size;
+#ifdef HAVE_GTK3
+      // FIXME: GTK3
+      Gtk::Requisition minsize;
+      window.get_preferred_size(minsize, size);
+#else
       window.size_request(size);
+#endif      
 
       int x = head.geometry.get_x() + (head.geometry.get_width() - size.width) / 2;
       int y = head.geometry.get_y() + (head.geometry.get_height() - size.height) / 2;
@@ -366,7 +376,7 @@ GtkUtil::update_mnemonic(Gtk::Widget *widget, Glib::RefPtr<Gtk::AccelGroup> acce
   if (label != NULL)
     {
       guint mnemonic = label->get_mnemonic_keyval();
-      if (mnemonic != GDK_VoidSymbol)
+      if (mnemonic != GDK_KEY_VoidSymbol)
         {
           widget->add_accelerator("activate", accel_group, mnemonic,  (Gdk::ModifierType)0, Gtk::ACCEL_VISIBLE);
         }

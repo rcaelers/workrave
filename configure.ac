@@ -392,20 +392,44 @@ dnl GTK+
 dnl
 
 config_gtk=no
+config_gtk3=no
 
 if test "x$enable_gtk" != "xno"
 then
-    PKG_CHECK_MODULES([GTK],
-                      [gtk+-2.0 >= 2.6.0 \
-                      gdk-2.0 >= 2.8 \
-                      sigc++-2.0 \
-                      glibmm-2.4 >= 2.10 \
-                       gtkmm-2.4 >= 2.10],
-                      [config_gtk=yes
-                       AC_DEFINE([HAVE_APP_GTK], , [Define if GTK+ is available])])
+   if test "x$enable_experimental" = "xyes"; then
+      PKG_CHECK_MODULES(GTK,
+			glib-2.0 >= 2.28.0
+			gtk+-3.0 >= 3.0.0
+			gdk-3.0 >= 3.0.0
+                        sigc++-2.0 >= 2.2.4.2
+                        glibmm-2.4 >= 2.28.0
+                        gtkmm-3.0 >= 3.0.0,
+                        [config_gtk3=yes
+                         AC_DEFINE([HAVE_APP_GTK], , [Define if GTK+ is available])])
+      if test x$config_gtk3 = xyes
+      then
+	  config_gtk=yes
+	  AC_DEFINE(HAVE_GTK3, 1, Support for GTK3)
+          CFLAGS="${CFLAGS} -DGTK_DISABLE_SINGLE_INCLUDES_XX  -DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGSEAL_ENABLE"
+          CXXFLAGS="${CXXFLAGS} -DGTK_DISABLE_SINGLE_INCLUDES_XX  -DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGSEAL_ENABLE"
+      fi
+   fi
+
+   if test x$config_gtk3 = xno
+   then
+      PKG_CHECK_MODULES(GTK,
+                        gtk+-2.0 >= 2.6.0 \
+                        gdk-2.0 >= 2.8 \
+                        sigc++-2.0 \
+                        glibmm-2.4 >= 2.10 \
+                        gtkmm-2.4 >= 2.10,
+                        [config_gtk=yes
+                         AC_DEFINE([HAVE_APP_GTK], , [Define if GTK+ is available])])
+fi
 fi
 
 AM_CONDITIONAL(HAVE_APP_GTKMM, test $config_gtk = yes)
+AM_CONDITIONAL(HAVE_GTK3, test "x$config_gtk3" = "xyes")
 
 
 dnl
@@ -413,6 +437,7 @@ dnl Gnome
 dnl
 
 config_gnome=no
+config_gnome3=no
 have_panelapplet3=no
 
 if test "x$enable_gnome3" != "xno"
@@ -420,6 +445,7 @@ then
     PKG_CHECK_MODULES([GNOME],
                       [libpanelapplet-3.0],
                       [config_gnome=yes
+		       config_gnome3=yes
                        have_panelapplet3=yes
                        AC_DEFINE(HAVE_PANELAPPLET3, 1, [Support for Gnome panel applet v3])],
                       [if test "x$enable_gnome3" = "xyes"; then
@@ -898,7 +924,14 @@ echo "          GConf configuration :   ${config_gconf}"
 echo "            XML configuration :   ${config_xml}"
 echo ""
 echo "                      Gtk GUI :   ${config_gtk}"
-echo "                Gnome support :   ${config_gnome}"
+if test "${config_gnome3}" = "yes"; then
+echo "                Gnome support :   Gnome 3"
+elif test "${config_gnome}" = "yes"; then
+echo "                Gnome support :   Gnome 2"
+else
+echo "                Gnome support :   No"
+fi
+echo "                Gnome support :   ${config_gnome}" 
 echo "                  KDE support :   ${config_kde}"
 echo "                 DBUS support :   ${have_dbus}"
 echo "           Networking support :   ${config_distribution}"

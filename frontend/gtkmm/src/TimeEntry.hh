@@ -1,6 +1,6 @@
 // TimeEntry.hh --- Entry widget for time
 //
-// Copyright (C) 2002, 2003, 2007 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2007, 2011 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -56,9 +56,15 @@ private:
   Gtk::SpinButton *mins;
   Gtk::SpinButton *secs;
 
+#ifdef HAVE_GTK3
+  Glib::RefPtr<Gtk::Adjustment> hours_adjustment;
+  Glib::RefPtr<Gtk::Adjustment> mins_adjustment;
+  Glib::RefPtr<Gtk::Adjustment> secs_adjustment;
+#else
   Gtk::Adjustment hours_adjustment;
   Gtk::Adjustment mins_adjustment;
   Gtk::Adjustment secs_adjustment;
+#endif  
 
   bool millis;
 };

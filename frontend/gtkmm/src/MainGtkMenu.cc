@@ -30,12 +30,8 @@
 
 #include <string>
 
-#include <gdkmm/pixbuf.h>
-#include <gtkmm/action.h>
-#include <gtkmm/iconset.h>
-#include <gtkmm/iconsource.h>
-#include <gtkmm/stock.h>
-
+#include <gdkmm.h>
+#include <gtkmm.h>
 
 #include "Menus.hh"
 #include "Util.hh"
@@ -59,28 +55,36 @@ MainGtkMenu::~MainGtkMenu()
 
 void
 MainGtkMenu::add_stock_item(const Glib::RefPtr<Gtk::IconFactory>& factory,
-                        const std::string &path,
-                        const Glib::ustring& icon_id,
-                        const Glib::ustring& label)
+                            const std::string &path,
+                            const Glib::ustring& icon_id,
+                            const Glib::ustring& label)
 {
   Gtk::IconSource source;
+#ifdef HAVE_GTK3
+  Glib::RefPtr<Gtk::IconSet> icon_set;
+#else
   Gtk::IconSet icon_set;
-
+#endif
+    
   string filename = Util::complete_directory(path, Util::SEARCH_PATH_IMAGES);
 
   try
-  {
-    source.set_pixbuf(Gdk::Pixbuf::create_from_file(filename));
-  }
+    {
+      source.set_pixbuf(Gdk::Pixbuf::create_from_file(filename));
+    }
   catch(const Glib::Exception&)
-  {
-  }
+    {
+    }
 
   source.set_size(Gtk::ICON_SIZE_SMALL_TOOLBAR);
   source.set_size_wildcarded();
 
+#ifdef HAVE_GTK3
+  icon_set->add_source(source);
+#else
   icon_set.add_source(source);
-
+#endif
+  
   const Gtk::StockID stock_id(icon_id);
   factory->add(stock_id, icon_set);
   Gtk::Stock::add(Gtk::StockItem(stock_id, label));

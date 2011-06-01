@@ -1,6 +1,6 @@
 // MicroBreakWindow.cc --- window for the microbreak
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -150,7 +150,12 @@ MicroBreakWindow::create_restbreaknow_button(bool label)
   ret->signal_clicked()
     .connect(sigc::mem_fun(*this,
                          &MicroBreakWindow::on_restbreaknow_button_clicked));
-  GTK_WIDGET_UNSET_FLAGS(ret->gobj(), GTK_CAN_FOCUS);
+#ifdef HAVE_GTK3
+  ret->set_can_focus(false);
+#else          
+  ret->unset_flags(Gtk::CAN_FOCUS);
+#endif
+
   return ret;
 }
 
@@ -285,8 +290,15 @@ MicroBreakWindow::update_break_window()
     {
       // Make sure the label doesn't resize anymore.
       // There has to be a better way to do this...
-      Gtk::Requisition size = label->size_request();
-      label->set_size_request(size.width, size.height);
+#ifdef HAVE_GTK3
+      GtkRequisition min_size;
+      GtkRequisition natural_size;
+      label->get_preferred_size(min_size, natural_size);
+#else      
+      Gtk::Requisition min_size = label->size_request();
+#endif
+
+      label->set_size_request(min_size.width, min_size.height);
       fixed_size = true;
       center();
     }

@@ -1,6 +1,6 @@
 // NetworkJoinDialog.cc --- NetworkJoin dialog
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007 Rob Caelers & Raymond Penners
+// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -66,7 +66,12 @@ NetworkJoinDialog::NetworkJoinDialog()
   Gtk::Image *title_img = Gtk::manage(new Gtk::Image(title_icon));
   Gtk::Alignment *img_aln
     = Gtk::manage(new Gtk::Alignment
+#ifdef HAVE_GTK3
+                  (Gtk::ALIGN_START, Gtk::ALIGN_END, 0.0, 0.0));
+#else
                   (Gtk::ALIGN_LEFT, Gtk::ALIGN_TOP, 0.0, 0.0));
+#endif
+  
   img_aln->add(*title_img);
 
   Gtk::Label *title_lab = Gtk::manage(new Gtk::Label());

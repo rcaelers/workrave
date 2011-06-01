@@ -1,6 +1,6 @@
 // TimerBoxtGtkView.hh --- All timers
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007, 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2006, 2007, 2008, 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -23,8 +23,7 @@
 #include "preinclude.h"
 
 #include <string>
-#include <gtkmm/table.h>
-#include <gtkmm/tooltips.h>
+#include <gtkmm.h>
 
 #include "ITimerBoxView.hh"
 #include "TimeBar.hh"
@@ -75,9 +74,6 @@ private:
 
   //! Parent container
   Gtk::Bin *parent;
-
-  //! Tooltips
-  Gtk::Tooltips *tooltips;
 
   //! Array of time labels
   Gtk::Widget **labels;

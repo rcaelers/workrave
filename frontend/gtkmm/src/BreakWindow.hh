@@ -24,8 +24,7 @@
 
 #include "preinclude.h"
 
-#include <gtkmm/window.h>
-#include <gtkmm/accelgroup.h>
+#include <gtkmm.h>
 
 #include "ICore.hh"
 #include "IBreakWindow.hh"

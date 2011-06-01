@@ -169,7 +169,11 @@ void StatusIcon::popup_menu_callback(GtkStatusIcon *,
 
 void StatusIcon::set_timers_tooltip(std::string& tip)
 {
+#ifdef HAVE_GTK3
+  status_icon->set_tooltip_text(tip);
+#else
   status_icon->set_tooltip(tip);
+#endif
 }
 
 #ifndef USE_W32STATUSICON

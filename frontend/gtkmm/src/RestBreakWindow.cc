@@ -1,6 +1,6 @@
 // RestBreakWindow.cc --- window for the microbreak
 //
-// Copyright (C) 2001 - 2010 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -284,7 +284,13 @@ RestBreakWindow::install_exercises_panel()
 void
 RestBreakWindow::install_info_panel()
 {
+#ifdef HAVE_GTK3
+  Gtk::Requisition old_size;
+  Gtk::Requisition natural_size;
+  get_preferred_size(old_size, natural_size);
+#else
   Gtk::Requisition old_size = size_request();
+#endif
   
   set_ignore_activity(false);
   clear_pluggable_panel();
@@ -296,7 +302,12 @@ RestBreakWindow::install_info_panel()
   if (block_mode == GUIConfig::BLOCK_MODE_NONE &&
       head.count == 0)
     {
+#ifdef HAVE_GTK3
+      Gtk::Requisition new_size;
+      get_preferred_size(new_size, natural_size);
+#else
       Gtk::Requisition new_size = size_request();
+#endif
 
       int width_delta = (new_size.width - old_size.width) / 2;
       int height_delta = (new_size.height -  old_size.height) / 2;

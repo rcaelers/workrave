@@ -29,7 +29,7 @@
   <interface name="org.workrave.GnomeAppletSupportInterface" csymbol="GnomeAppletWindow"
              condition="defined(HAVE_GNOME)">
     <import>
-      <include name="gdk/gdkcolor.h"/>
+      <include name="gdk/gdk.h"/>
       <include name="GnomeAppletWindow.hh"/>
       <include name="Orientation.hh"/>
     </import>

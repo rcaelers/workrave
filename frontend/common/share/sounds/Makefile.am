@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2004, 2007, 2008 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2004, 2007, 2008, 2011 Rob Caelers & Raymond Penners
 #
 
 MAINTAINERCLEANFILES = 	Makefile.in workrave.soundlist
@@ -10,16 +10,6 @@ SUBDIRS	= subtle default
 
 soundsdir = 		$(datadir)/sounds/workrave/
 defaultsoundsdir = 	$(soundsdir)/default
-
-if HAVE_GNOME
-
-utilsdir = 		$(sysconfdir)/sound/events
-utils_in_files = 	workrave.soundlist.in
-utils_DATA = 		$(utils_in_files:.soundlist.in=.soundlist)
-
-@INTLTOOL_SOUNDLIST_RULE@
-
-endif
 
 EXTRA_DIST = 		${defaultsounds_DATA} $(utils_DATA) workrave.soundlist.in eventsrc.in
 

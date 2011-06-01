@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 #
-# Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008, 2009, 2010 Rob Caelers & Raymond Penners
+# Copyright (C) 2001, 2002, 2003, 2006, 2007, 2008, 2009, 2010, 2011 Rob Caelers & Raymond Penners
 #
 
 MAINTAINERCLEANFILES = 	Makefile.in
@@ -99,7 +99,7 @@ libworkrave_backend_la_CFLAGS = \
 			-D_XOPEN_SOURCE=600 @X_CFLAGS@ \
 			${platform_cflags} @WR_COMMON_INCLUDES@ \
 			@GLIB_CFLAGS@ @GDOME_CFLAGS@ @GNET_CFLAGS@ @DBUS_CFLAGS@ \
-			@GCONF_CFLAGS@ @GNOME_CFLAGS@
+			@GCONF_CFLAGS@
 
 libworkrave_backend_la_CXXFLAGS = ${libworkrave_backend_la_CFLAGS}
 

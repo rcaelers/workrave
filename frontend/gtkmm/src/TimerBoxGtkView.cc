@@ -1,6 +1,6 @@
 // TimerBoxGtkView.cc --- Timers Widgets
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -139,7 +139,7 @@ TimerBoxGtkView::init()
   
   string sheep_file = Util::complete_directory("workrave-icon-medium.png", Util::SEARCH_PATH_IMAGES);
   sheep = Gtk::manage(new Gtk::Image(sheep_file));
-  GUI::get_instance()->get_tooltips()->set_tip(*sheep_eventbox, "Workrave");
+  sheep_eventbox->set_tooltip_text("Workrave");
 
   sheep_eventbox->add(*sheep);
 
@@ -185,9 +185,7 @@ TimerBoxGtkView::init_widgets()
           b->set_border_width(0);
           b->add(*Gtk::manage(img));
     
-          tooltips = Gtk::manage( new Gtk::Tooltips() );
-          tooltips->set_tip( *b, _("Take rest break now") );
-          tooltips->enable();
+          b->set_tooltip_text(_("Take rest break now"));
 
           Menus *menus = Menus::get_instance();
 
@@ -246,11 +244,16 @@ TimerBoxGtkView::init_table()
 
   Gtk::Requisition label_size;
   Gtk::Requisition bar_size;
-
-  labels[0]->size_request(label_size);
-
   Gtk::Requisition my_size;
+
+#ifdef HAVE_GTK3
+  GtkRequisition natural_size;
+  labels[0]->get_preferred_size(label_size, natural_size);
+  get_preferred_size(my_size, natural_size);
+#else
+  labels[0]->size_request(label_size);
   size_request(my_size);
+#endif
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
@@ -467,8 +470,7 @@ TimerBoxGtkView::set_time_bar(BreakId id,
 void
 TimerBoxGtkView::set_tip(string tip)
 {
-  Gtk::Tooltips *tt = GUI::get_instance()->get_tooltips();
-  tt->set_tip(*sheep_eventbox, tip.c_str());
+  sheep_eventbox->set_tooltip_text(tip.c_str());
 }
 
 

@@ -1,6 +1,6 @@
 // FrameWindow.hh --- Gtk::Frame like widget
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2007 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2001, 2002, 2003, 2004, 2007, 2011 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -69,15 +69,17 @@ Frame::set_frame_style(const Style style)
 }
 
 void
-Frame::set_frame_color(const Gdk::Color &col )
+Frame::set_frame_color(const Gdk::Color &col)
 {
   frame_color = col;
+#ifndef HAVE_GTK3
   if (color_map)
     {
 #if 1 // FIXME: bug66
       color_map->alloc_color(frame_color);
 #endif
     }
+#endif
 }
 
 void
@@ -123,6 +125,153 @@ Frame::on_timer()
 }
 
 void
+Frame::on_size_allocate(Gtk::Allocation &allocation)
+{
+  Gtk::Bin::on_size_allocate(allocation);
+
+  Gtk::Widget *widget = get_child();
+  guint b = get_border_width() + frame_width;
+
+  Gtk::Allocation alloc;
+  alloc.set_x(allocation.get_x() + b);
+  alloc.set_y(allocation.get_y() + b);
+  alloc.set_width(allocation.get_width() - 2*b);
+  alloc.set_height(allocation.get_height() - 2*b);
+  widget->size_allocate(alloc);
+}
+
+#ifdef HAVE_GTK3
+Gtk::SizeRequestMode
+Frame::get_request_mode_vfunc() const
+{
+  return Gtk::Widget::get_request_mode_vfunc();
+}
+
+void
+Frame::get_preferred_width_vfunc(int &minimum_width, int &natural_width) const
+{ 
+  TRACE_ENTER_MSG("Frame::get_preferred_width_vfunc", (int)frame_style);
+  const Gtk::Widget *widget = get_child();
+  widget->get_preferred_width(minimum_width, natural_width);
+    
+  guint d = 2*(get_border_width()+frame_width);
+  minimum_width += d;
+  natural_width += d;
+  TRACE_MSG(minimum_width << " " << natural_width);
+  TRACE_EXIT();
+}
+
+void
+Frame::get_preferred_height_vfunc(int &minimum_height, int &natural_height) const
+{
+  TRACE_ENTER_MSG("Frame::get_preferred_height_vfunc", (int)frame_style);
+  const Gtk::Widget *widget = get_child();
+  widget->get_preferred_height(minimum_height, natural_height);
+    
+  guint d = 2*(get_border_width()+frame_width);
+  minimum_height += d;
+  natural_height += d;
+  TRACE_MSG(minimum_height << " " << natural_height);
+  TRACE_EXIT();
+}
+
+void
+Frame::get_preferred_width_for_height_vfunc(int /* height */, int &minimum_width, int &natural_width) const
+{
+  TRACE_ENTER_MSG("Frame::get_preferred_width_for_height_vfunc", (int)frame_style);
+  get_preferred_width_vfunc(minimum_width, natural_width);
+  TRACE_MSG(minimum_width << " " << natural_width);
+  TRACE_EXIT();
+}
+
+void
+Frame::get_preferred_height_for_width_vfunc(int /* width */, int &minimum_height, int &natural_height) const
+{
+  TRACE_ENTER_MSG("Frame::get_preferred_height_for_width_vfunc", (int)frame_style);
+  get_preferred_height_vfunc(minimum_height, natural_height);
+  TRACE_MSG(minimum_height << " " << natural_height);
+  TRACE_EXIT();
+}
+
+bool
+Frame::on_draw(const Cairo::RefPtr< Cairo::Context >& cr)
+{
+  TRACE_ENTER("Frame::on_draw");
+  Glib::RefPtr<Gtk::StyleContext> style_context = get_style_context();
+  style_context->set_state(Gtk::STATE_FLAG_ACTIVE);
+  Gdk::RGBA back_color = style_context->get_background_color();
+
+  // Physical width/height
+  Gtk::Allocation allocation = get_allocation();
+  int width = allocation.get_width();
+  int height = allocation.get_height();
+
+  TRACE_MSG(width << " " << height);
+  TRACE_MSG(frame_width);
+  TRACE_MSG("frame_style " << frame_style);
+  TRACE_MSG(frame_color.get_red_p() << " " << frame_color.get_green_p()  << " " << frame_color.get_blue_p());
+  TRACE_MSG(back_color.get_red() << " " << back_color.get_green() << " " << back_color.get_blue());
+  
+  switch (frame_style)
+    {
+    case STYLE_SOLID:
+      if (frame_visible)
+        {
+          set_color(cr, frame_color);
+        }
+      else
+        {
+          set_color(cr, back_color);
+        }
+
+      cr->rectangle(0, 0, frame_width, height);
+      cr->fill();
+      cr->rectangle(0+width-frame_width, 0, frame_width, height);
+      cr->fill();
+      cr->rectangle(0+frame_width, 0, width-2*frame_width, frame_width);
+      cr->fill();
+      cr->rectangle(0+frame_width, 0+height-frame_width, width-2*frame_width, frame_width);
+      cr->fill();
+      break;
+
+    case STYLE_BREAK_WINDOW:
+      style_context->context_save();
+
+      style_context->add_class(GTK_STYLE_CLASS_FRAME);
+      style_context->set_state((Gtk::StateFlags)0);
+
+      style_context->render_background(cr, 0, 0, width, height);
+      style_context->render_frame(cr, 0, 0, width, height);
+
+      style_context->render_background(cr, 1, 1, width - 2, height -2);
+      style_context->render_frame(cr, 1, 1, width - 2, height -2);
+
+      style_context->context_restore();
+      break;
+    }
+
+  Gtk::Widget::on_draw(cr);
+  
+  TRACE_EXIT();
+  return true;
+}
+
+void
+Frame::set_color(const Cairo::RefPtr<Cairo::Context>& cr, const Gdk::Color &color)
+{
+  cr->set_source_rgb(color.get_red_p(), color.get_green_p(), color.get_blue_p());
+}
+
+
+void
+Frame::set_color(const Cairo::RefPtr<Cairo::Context>& cr, const Gdk::RGBA &color)
+{
+  cr->set_source_rgb(color.get_red(), color.get_green(), color.get_blue());
+}
+
+#else
+    
+void
 Frame::on_realize()
 {
   Gtk::Bin::on_realize();
@@ -148,21 +297,6 @@ Frame::on_size_request(Gtk::Requisition *requisition)
   requisition->height += d;
 }
 
-void
-Frame::on_size_allocate(Gtk::Allocation &allocation)
-{
-  Gtk::Bin::on_size_allocate(allocation);
-
-  Gtk::Widget *widget = get_child();
-  guint b = get_border_width() + frame_width;
-
-  Gtk::Allocation alloc;
-  alloc.set_x(allocation.get_x() + b);
-  alloc.set_y(allocation.get_y() + b);
-  alloc.set_width(allocation.get_width() - 2*b);
-  alloc.set_height(allocation.get_height() - 2*b);
-  widget->size_allocate(alloc);
-}
 
 bool
 Frame::on_expose_event(GdkEventExpose* e)
@@ -224,6 +358,7 @@ Frame::on_expose_event(GdkEventExpose* e)
 
   return rc;
 }
+#endif
 
 sigc::signal1<void,bool> &
 Frame::signal_flash()

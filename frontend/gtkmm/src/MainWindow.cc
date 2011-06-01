@@ -61,10 +61,7 @@
 
 #include "Menus.hh"
 
-#include <gtkmm/menu.h>
-#include <gtkmm/stock.h>
-
-#include "gtk/gtkmenu.h"
+#include <gtkmm.h>
 
 const string MainWindow::CFG_KEY_MAIN_WINDOW               = "gui/main_window";
 const string MainWindow::CFG_KEY_MAIN_WINDOW_ALWAYS_ON_TOP = "gui/main_window/always_on_top";
@@ -278,12 +275,18 @@ MainWindow::setup()
         }
     }
 
-  if (is_visible())
+#ifdef HAVE_GTK3
+  bool visible = get_visible();
+#else
+  bool visible = is_visible();
+#endif
+  
+  if (visible)
     {
       WindowHints::set_always_on_top(this, always_on_top);
     }
   
-  if (is_visible() && always_on_top)
+  if (visible && always_on_top)
     {
       raise();
     }
@@ -305,14 +308,16 @@ MainWindow::on_activate()
 {
   TRACE_ENTER("MainWindow::on_activate");
 
-#ifdef PLATFORM_OS_WIN32  
+#if defined(PLATFORM_OS_WIN32)
   GtkWidget *window = Gtk::Widget::gobj();
   GdkWindow *gdk_window = window->window;
   HWND hwnd = (HWND) GDK_WINDOW_HWND(gdk_window);
   
   bool visible = IsWindowVisible(hwnd);
+#elif defined(HAVE_GTK3)
+  bool visible = get_visible();
 #else
-  bool visible = GTK_WIDGET_VISIBLE(GTK_WIDGET(gobj()));
+  bool visible = is_visible();
 #endif
 
   if (visible)
@@ -348,9 +353,16 @@ MainWindow::open_window()
       set_gravity(Gdk::GRAVITY_STATIC);
       get_start_position(x, y, head);
 
-      GtkRequisition req;
-      on_size_request(&req);
-      GUI::get_instance()->bound_head(x, y, req.width, req.height, head);
+#ifdef HAVE_GTK3
+      GtkRequisition min_size;
+      GtkRequisition natural_size;
+      get_preferred_size(min_size, natural_size);
+#else      
+      GtkRequisition min_size;
+      on_size_request(&min_size);
+#endif
+      
+      GUI::get_instance()->bound_head(x, y, min_size.width, min_size.height, head);
 
       GUI::get_instance()->map_from_head(x, y, head);
       TRACE_MSG("moving to " << x << " " << y);
@@ -380,7 +392,8 @@ MainWindow::close_window()
 
   if (applet_active || gui->is_status_icon_visible())
     {
-      hide_all();
+      // FIXME: GTK3 was hideall
+      hide();
     }
   else
     {
@@ -671,17 +684,23 @@ MainWindow::move_to_start_position()
   int x, y, head;
   get_start_position(x, y, head);
 
-  GtkRequisition req;
-  on_size_request(&req);
+#ifdef HAVE_GTK3
+  GtkRequisition min_size;
+  GtkRequisition natural_size;
+  get_preferred_size(min_size, natural_size);
+#else      
+  GtkRequisition min_size;
+  on_size_request(&min_size);
+#endif
 
-  GUI::get_instance()->bound_head(x, y, req.width, req.height, head);
+  GUI::get_instance()->bound_head(x, y, min_size.width, min_size.height, head);
 
   window_head_location.set_x(x);
   window_head_location.set_y(y);
 
   GUI::get_instance()->map_from_head(x, y, head);
 
-  TRACE_MSG("Main window size " << req.width << " " << req.height);
+  TRACE_MSG("Main window size " << min_size.width << " " << min_size.height);
 
   window_location.set_x(x);
   window_location.set_y(y);
@@ -704,7 +723,8 @@ MainWindow::set_applet_active(bool a)
       GUI *gui = GUI::get_instance();
       if (applet_active || gui->is_status_icon_visible())
         {
-          hide_all();
+          // FIXME: GTK3 was hide_all
+          hide();
         }
       else
         {
@@ -726,7 +746,8 @@ MainWindow::status_icon_changed()
       GUI *gui = GUI::get_instance();
       if (applet_active || gui->is_status_icon_visible())
         {
-          hide_all();
+          // FIXME: GTK3 was hide_all
+          hide();
         }
       else
         {
@@ -780,12 +801,18 @@ MainWindow::locate_window(GdkEventConfigure *event)
 
       get_position(x, y);
 
-      GtkRequisition req;
-      on_size_request(&req);
-      width = req.width;
-      height = req.height;
+#ifdef HAVE_GTK3
+      GtkRequisition min_size;
+      GtkRequisition natural_size;
+      get_preferred_size(min_size, natural_size);
+#else      
+      GtkRequisition min_size;
+      on_size_request(&min_size);
+#endif
+      
+      width = min_size.width;
+      height = min_size.height;
     }
-
 
   TRACE_MSG("main window = " << x << " " << y);
 
@@ -854,9 +881,16 @@ MainWindow::relocate_window(int width, int height)
           HeadInfo &head = gui->get_head(i);
           if (head.valid)
             {
-              GtkRequisition req;
-              on_size_request(&req);
-              GUI::get_instance()->bound_head(x, y, req.width, req.height, i);
+#ifdef HAVE_GTK3
+              GtkRequisition min_size;
+              GtkRequisition natural_size;
+              get_preferred_size(min_size, natural_size);
+#else      
+              GtkRequisition min_size;
+              on_size_request(&min_size);
+#endif
+              
+              GUI::get_instance()->bound_head(x, y, min_size.width, min_size.height, i);
 
               gui->map_from_head(x, y, i);
               break;

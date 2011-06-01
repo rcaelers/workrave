@@ -1,6 +1,6 @@
 // X11SystrayAppletWindow.cc --- Applet info Window
 //
-// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 Rob Caelers & Raymond Penners
+// Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -160,9 +160,16 @@ X11SystrayAppletWindow::activate_applet()
 
       applet_orientation = ORIENTATION_UP;
 
+#ifdef HAVE_GTK3
+      GtkRequisition min_size;
+      GtkRequisition natural_size;
+      plug->get_preferred_size(min_size, natural_size);
+      applet_size = min_size.height;
+#else
       Gtk::Requisition req;
       plug->size_request(req);
       applet_size = req.height;
+#endif      
 
       view->set_geometry(applet_orientation, applet_size);
 

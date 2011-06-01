@@ -64,9 +64,7 @@
 #include "PulseMixer.hh"
 #endif
 
-#if defined HAVE_GNOME
 #include <gdk/gdk.h>
-#endif
 
 const char *SoundPlayer::CFG_KEY_SOUND_ENABLED = "sound/enabled";
 const char *SoundPlayer::CFG_KEY_SOUND_DEVICE = "sound/device";
@@ -284,10 +282,7 @@ SpeakerPlayer::run()
   short (*b)[2];
   b = beeps;
 #ifdef PLATFORM_OS_UNIX
-  Display *display = NULL;
-#  ifdef HAVE_GNOME
-  display = XOpenDisplay(gdk_get_display());
-#  endif
+  Display *display = XOpenDisplay(gdk_get_display());
   if (display) {
 #endif
   while (b[0][0])

@@ -570,7 +570,9 @@ change_background(PanelApplet * widget,
           g_value_set_uint(g_value_array_get_nth(val, 0), 0);
         }
     }
-  
+
+#ifndef HAVE_GTK3
+  // TODO: gtk3 port
   if (type == PANEL_PIXMAP_BACKGROUND)
     {
       if (keep != NULL)
@@ -585,7 +587,8 @@ change_background(PanelApplet * widget,
 
       xid = GDK_PIXMAP_XID(pixmap);
     }
-
+#endif
+  
   if (g_applet->support != NULL && workrave_is_running())
     {
       dbus_g_proxy_begin_call(g_applet->support, "SetBackground", dbus_callback, NULL, NULL,

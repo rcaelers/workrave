@@ -1,6 +1,6 @@
 // ExercisesPanel.hh --- Exercises panel
 //
-// Copyright (C) 2002, 2003, 2004, 2005, 2007, 2010 Raymond Penners <raymond@dotsphinx.com>
+// Copyright (C) 2002, 2003, 2004, 2005, 2007, 2010, 2011 Raymond Penners <raymond@dotsphinx.com>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -29,16 +29,7 @@
 #include "preinclude.h"
 #include "Exercise.hh"
 
-#include <gtkmm/box.h>
-#include <gtkmm/buttonbox.h>
-#include <gtkmm/button.h>
-#include <gtkmm/image.h>
-#include <gtkmm/frame.h>
-#include <gtkmm/progressbar.h>
-#include <gtkmm/sizegroup.h>
-#include <gtkmm/textview.h>
-#include <gtkmm/scrolledwindow.h>
-#include <gtkmm/tooltips.h>
+#include <gtkmm.h>
 
 #define PREVIOUS_BUTTON_ID Gtk::Stock::MEDIA_PREVIOUS
 #define CLOSE_BUTTON_ID Gtk::Stock::CLOSE
@@ -90,7 +81,6 @@ private:
   Gtk::Button *pause_button;
   Gtk::Button *forward_button;
   Gtk::Button *stop_button;
-  Gtk::Tooltips *tooltips;
   Glib::RefPtr<Gtk::SizeGroup> size_group;
   const std::list<Exercise> exercises;
   std::vector<Exercise> shuffled_exercises;

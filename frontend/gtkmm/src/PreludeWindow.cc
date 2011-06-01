@@ -120,8 +120,12 @@ PreludeWindow::PreludeWindow(HeadInfo &head, BreakId break_id)
       break;
     }
 
+#ifdef HAVE_GTK3
+  set_can_focus(false);
+#else  
   unset_flags(Gtk::CAN_FOCUS);
-
+#endif
+  
   show_all_children();
   stick();
 
@@ -252,7 +256,11 @@ PreludeWindow::stop()
   TRACE_ENTER("PreludeWindow::stop");
 
   frame->set_frame_flashing(0);
+#ifdef HAVE_GTK3
+  hide();
+#else
   hide_all();
+#endif
 
   TRACE_EXIT();
 }
@@ -405,7 +413,13 @@ PreludeWindow::init_avoid_pointer()
                  150);
     }
 #else
-  if (! is_realized())
+  if (
+#ifdef HAVE_GTK3
+      ! get_realized()
+#else
+      ! is_realized()
+#endif
+      )
     {
       Gdk::EventMask events;
 
@@ -437,9 +451,14 @@ PreludeWindow::avoid_pointer(int px, int py)
   TRACE_ENTER_MSG("PreludeWindow::avoid_pointer", px << " " << py);
   Glib::RefPtr<Gdk::Window> window = get_window();
 
+#ifdef HAVE_GTK3
+  int winx, winy, width, height;
+  window->get_geometry(winx, winy, width, height);
+#else
   int winx, winy, width, height, wind;
   window->get_geometry(winx, winy, width, height, wind);
-
+#endif
+  
   TRACE_MSG("geom" << winx << " " << winy << " " << width << " " << height << " ");
 
 #ifdef PLATFORM_OS_WIN32

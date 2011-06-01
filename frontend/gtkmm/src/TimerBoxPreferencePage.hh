@@ -1,6 +1,6 @@
 // AppletPreferencesPanel.hh --- Preferences widgets for a timer
 //
-// Copyright (C) 2002, 2003, 2005, 2006, 2007 Rob Caelers <robc@krandor.nl>
+// Copyright (C) 2002, 2003, 2005, 2006, 2007, 2011 Rob Caelers <robc@krandor.nl>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,7 @@
 class Configurator;
 namespace Gtk
 {
-  class OptionMenu;
+  class ComboBoxText;
   class SpinButton;
   class CheckButton;
 }
@@ -63,8 +63,8 @@ private:
 
   Gtk::CheckButton *ontop_cb;
   Gtk::CheckButton *enabled_cb;
-  Gtk::OptionMenu *place_button;
-  Gtk::OptionMenu *timer_display_button[BREAK_ID_SIZEOF];
+  Gtk::ComboBoxText *place_button;
+  Gtk::ComboBoxText *timer_display_button[BREAK_ID_SIZEOF];
   Gtk::SpinButton *cycle_entry;
 };
 

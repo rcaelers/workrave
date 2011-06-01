@@ -1,6 +1,6 @@
 // GnomeAppletWindow.hh --- X11 Applet Window
 //
-// Copyright (C) 2001 - 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2001 - 2009, 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -29,10 +29,9 @@
 
 #include <string>
 
-#include <gtkmm/bin.h>
-#include <gtkmm/menu.h>
+#include <gdkmm.h>
+#include <gtkmm.h>
 #include <gtkmm/plug.h>
-#include <gtkmm/eventbox.h>
 
 class TimerBoxGtkView;
 class AppletControl;
@@ -101,11 +100,6 @@ private:
 
   bool init_gnome_applet();
   void destroy_gnome_applet();
-  void setbackground(int type,
-                     GtkRcStyle * rc_style,
-                     GtkWidget * w,
-                     GdkColor * color,
-                     GdkPixmap * pixmap);
 
   static gboolean destroy_event(GtkWidget *widget, GdkEvent *event, gpointer user_data);
 
