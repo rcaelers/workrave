@@ -796,7 +796,7 @@ TimeBar::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
   style_context->context_restore();
   
   TRACE_EXIT();
-  return Gtk::Widget::on_draw(cr);;
+  return Gtk::Widget::on_draw(cr);
 }
 
 void

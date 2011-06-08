@@ -44,6 +44,7 @@ DEFINE_DATA_TYPE(Gtk::SpinButton *, DataConnectionGtkSpinButton);
 DEFINE_DATA_TYPE(Gtk::ComboBox *, DataConnectionGtkComboBox);
 
 #ifdef HAVE_GTK3
+// FIXME: pointer conversion
 DEFINE_DATA_TYPE(Glib::RefPtr<Gtk::Adjustment>, DataConnectionGtkAdjustment);
 #else
 DEFINE_DATA_TYPE(Gtk::Adjustment *, DataConnectionGtkAdjustment);

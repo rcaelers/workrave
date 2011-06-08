@@ -33,6 +33,8 @@
 #include <gtkmm.h>
 #include <gtkmm/plug.h>
 
+#include "Plug.hh"
+
 class TimerBoxGtkView;
 class AppletControl;
 class org_workrave_GnomeAppletInterface;
@@ -74,7 +76,7 @@ private:
   TimerBoxGtkView *view;
 
   //! The Gtk+ plug in the panel.
-  Gtk::Plug *plug;
+  Plug *plug;
 
   //! Container to put the timers in..
   Gtk::Bin *container;

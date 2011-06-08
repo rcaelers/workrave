@@ -25,7 +25,10 @@
 
 #include <panel-applet.h>
 
+#include <glib-object.h>
 #include <gtk/gtk.h>
+#include <gtk/gtkx.h>
+#include <gdk/gdk.h>
 #include <gdk/gdkx.h>
 
 #define DBUS_API_SUBJECT_TO_CHANGE
@@ -39,61 +42,52 @@
 
 #include "nls.h"
 
-G_DEFINE_TYPE (WorkraveApplet, workrave_applet, G_TYPE_OBJECT);
+struct _WorkraveAppletPrivate
+{
+  GtkActionGroup *action_group;
+  
+  GtkWidget *hbox;
+  GtkWidget *event_box;
+  GtkWidget *image;
+  GtkWidget *socket;
+  PanelApplet *applet;
+  gboolean has_alpha;
+  
+  int size;
+  int orientation;
 
-static WorkraveApplet *g_applet = NULL;
+  gboolean last_showlog_state;
+  gboolean last_reading_mode_state;
+  int last_mode;
+
+  DBusGProxy *support;
+  DBusGProxy *ui;
+  DBusGProxy *core;
+};
+
+G_DEFINE_TYPE (WorkraveApplet, workrave_applet, PANEL_TYPE_APPLET);
+
 static DBusGConnection *g_connection = NULL;
 
-static void workrave_applet_set_all_visible(gboolean visible);
-static void workrave_applet_set_visible(gchar *name, gboolean visible);
+static void workrave_applet_set_all_visible(WorkraveAppletPrivate *priv, gboolean visible);
+static void workrave_applet_set_visible(WorkraveAppletPrivate *priv, gchar *name, gboolean visible);
+static void workrave_applet_fill(WorkraveApplet *applet);
 
-static
-void workrave_applet_destroy(GtkObject *object);
+static void workrave_applet_destroy(GtkWidget *widget);
 
 /************************************************************************/
 /* DBUS                                                                 */
 /************************************************************************/
 
-static WorkraveApplet*
-workrave_applet_new()
-{
-  return (WorkraveApplet *)g_object_new(WORKRAVE_APPLET_TYPE, NULL);
-}
-
 static void
-workrave_applet_class_init(WorkraveAppletClass *klass)
-{
-}
-
-
-static void
-workrave_applet_init(WorkraveApplet *applet)
-{
-  applet->image = NULL;
-  applet->socket = NULL;
-  applet->size = 48;
-  applet->socket_id = 0;
-  applet->orientation = 0;
-  applet->last_showlog_state = FALSE;
-  applet->last_reading_mode_state = FALSE;
-  applet->last_mode = 0; 
-  applet->applet = NULL;
-  
-  applet->support = NULL;
-  applet->ui = NULL;
-  applet->core = NULL;
-}
-
-
-static void
-workrave_dbus_server_init()
+workrave_dbus_server_init(WorkraveApplet *applet)
 {
   DBusGProxy *driver_proxy;
   GError *err = NULL;
   guint request_name_result;
 
   g_return_if_fail(g_connection == NULL);
-  g_return_if_fail(g_applet != NULL);
+  g_return_if_fail(applet->priv != NULL);
 
   g_connection = dbus_g_bus_get(DBUS_BUS_SESSION, &err);
   if (g_connection == NULL)
@@ -127,24 +121,24 @@ workrave_dbus_server_init()
       return;
     }
 
-  dbus_g_object_type_install_info(WORKRAVE_APPLET_TYPE,
+  dbus_g_object_type_install_info(WORKRAVE_TYPE_APPLET,
                                   &dbus_glib_workrave_object_info);
 
   dbus_g_connection_register_g_object(g_connection,
                                       "/org/workrave/Workrave/GnomeApplet",
-                                      G_OBJECT(g_applet));
+                                      G_OBJECT(applet));
 
-  g_applet->support = dbus_g_proxy_new_for_name(g_connection,
+  applet->priv->support = dbus_g_proxy_new_for_name(g_connection,
                                                 "org.workrave.Workrave.Activator",
                                                 "/org/workrave/Workrave/UI",
                                                 "org.workrave.GnomeAppletSupportInterface");
 
-  g_applet->ui = dbus_g_proxy_new_for_name(g_connection,
+  applet->priv->ui = dbus_g_proxy_new_for_name(g_connection,
                                            "org.workrave.Workrave.Activator",
                                            "/org/workrave/Workrave/UI",
                                            "org.workrave.ControlInterface");
 
-  g_applet->core = dbus_g_proxy_new_for_name(g_connection,
+  applet->priv->core = dbus_g_proxy_new_for_name(g_connection,
                                              "org.workrave.Workrave.Activator",
                                              "/org/workrave/Workrave/Core",
                                              "org.workrave.CoreInterface");
@@ -211,7 +205,7 @@ workrave_is_running(void)
 gboolean
 workrave_applet_get_socket_id(WorkraveApplet *applet, guint *id, GError **err)
 {
-  *id = applet->socket_id;
+  *id = gtk_socket_get_id(GTK_SOCKET(applet->priv->socket));
 
   return TRUE;
 }
@@ -220,7 +214,7 @@ workrave_applet_get_socket_id(WorkraveApplet *applet, guint *id, GError **err)
 gboolean
 workrave_applet_get_size(WorkraveApplet *applet, guint *size, GError **err)
 {
-  *size = applet->size;
+  *size = applet->priv->size;
 
   return TRUE;
 }
@@ -229,7 +223,7 @@ workrave_applet_get_size(WorkraveApplet *applet, guint *size, GError **err)
 gboolean
 workrave_applet_get_orientation(WorkraveApplet *applet, guint *orientation, GError **err)
 {
-  *orientation = applet->orientation;
+  *orientation = applet->priv->orientation;
 
   return TRUE;
 }
@@ -243,7 +237,7 @@ workrave_applet_set_menu_status(WorkraveApplet *applet, const char *name, gboole
       name += 10; // Skip gnome2 prefix for compatibility
     }
 
-  GtkAction *action = gtk_action_group_get_action(g_applet->action_group, name);
+  GtkAction *action = gtk_action_group_get_action(applet->priv->action_group, name);
   if (GTK_IS_TOGGLE_ACTION(action))
     {
       GtkToggleAction *toggle = GTK_TOGGLE_ACTION(action);
@@ -264,7 +258,7 @@ workrave_applet_get_menu_status(WorkraveApplet *applet, const char *name,  gbool
       name += 10; // Skip gnome2 prefix for compatibility
     }
 
-  GtkAction *action = gtk_action_group_get_action(g_applet->action_group, name);
+  GtkAction *action = gtk_action_group_get_action(applet->priv->action_group, name);
   if (GTK_IS_TOGGLE_ACTION(action))
     {
       GtkToggleAction *toggle = GTK_TOGGLE_ACTION(action);
@@ -279,7 +273,7 @@ workrave_applet_get_menu_status(WorkraveApplet *applet, const char *name,  gbool
 gboolean
 workrave_applet_set_menu_active(WorkraveApplet *applet, const char *name, gboolean status, GError **err)
 {
-  GtkAction *action = gtk_action_group_get_action(g_applet->action_group, name);
+  GtkAction *action = gtk_action_group_get_action(applet->priv->action_group, name);
   gtk_action_set_visible(action, status);
 
   return TRUE;
@@ -289,7 +283,7 @@ workrave_applet_set_menu_active(WorkraveApplet *applet, const char *name, gboole
 gboolean
 workrave_applet_get_menu_active(WorkraveApplet *applet, const char *name, gboolean *active, GError **err)
 {
-  GtkAction *action = gtk_action_group_get_action(g_applet->action_group, name);
+  GtkAction *action = gtk_action_group_get_action(applet->priv->action_group, name);
   *active = gtk_action_get_visible(action);
     
   return TRUE;
@@ -319,7 +313,7 @@ dbus_callback(DBusGProxy *proxy,
 
 
 static void
-on_menu_about(GtkAction *action, WorkraveApplet *a)
+on_menu_about(GtkAction *action, WorkraveApplet *applet)
 {
   GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(WORKRAVE_PKGDATADIR "/images/workrave.png", NULL);
   GtkAboutDialog *about = GTK_ABOUT_DIALOG(gtk_about_dialog_new());
@@ -347,73 +341,73 @@ on_menu_about(GtkAction *action, WorkraveApplet *a)
 
 
 static void
-on_menu_open(GtkAction *action, WorkraveApplet *a)
+on_menu_open(GtkAction *action, WorkraveApplet *applet)
 {
-  if (g_applet->ui != NULL)
+  if (applet->priv->ui != NULL)
     {
-      dbus_g_proxy_begin_call(g_applet->ui, "OpenMain", dbus_callback, NULL, NULL,
+      dbus_g_proxy_begin_call(applet->priv->ui, "OpenMain", dbus_callback, NULL, NULL,
                               G_TYPE_INVALID);
     }
 }
 
 
 static void
-on_menu_preferences(GtkAction *action, WorkraveApplet *a)
+on_menu_preferences(GtkAction *action, WorkraveApplet *applet)
 {
   if (!workrave_is_running())
     {
       return;
     }
   
-  if (g_applet->ui != NULL)
+  if (applet->priv->ui != NULL)
     {
-      dbus_g_proxy_begin_call(g_applet->ui, "Preferences", dbus_callback, NULL, NULL,
+      dbus_g_proxy_begin_call(applet->priv->ui, "Preferences", dbus_callback, NULL, NULL,
                              G_TYPE_INVALID);
     }
 }
 
 
 static void
-on_menu_exercises(GtkAction *action, WorkraveApplet *a)
+on_menu_exercises(GtkAction *action, WorkraveApplet *applet)
 {
   if (!workrave_is_running())
     {
       return;
     }
   
-  if (g_applet->ui != NULL)
+  if (applet->priv->ui != NULL)
     {
-      dbus_g_proxy_begin_call(g_applet->ui, "Exercises", dbus_callback, NULL, NULL,
+      dbus_g_proxy_begin_call(applet->priv->ui, "Exercises", dbus_callback, NULL, NULL,
                               G_TYPE_INVALID);
     }
 }
 
 static void
-on_menu_statistics(GtkAction *action, WorkraveApplet *a)
+on_menu_statistics(GtkAction *action, WorkraveApplet *applet)
 {
   if (!workrave_is_running())
     {
       return;
     }
   
-  if (g_applet->ui != NULL)
+  if (applet->priv->ui != NULL)
     { 
-      dbus_g_proxy_begin_call(g_applet->ui, "Statistics", dbus_callback, NULL, NULL,
+      dbus_g_proxy_begin_call(applet->priv->ui, "Statistics", dbus_callback, NULL, NULL,
                              G_TYPE_INVALID);
     }
 }
 
 static void
-on_menu_restbreak(GtkAction *action, WorkraveApplet *a)
+on_menu_restbreak(GtkAction *action, WorkraveApplet *applet)
 {
   if (!workrave_is_running())
     {
       return;
     }
   
-  if (g_applet->ui != NULL)
+  if (applet->priv->ui != NULL)
     {
-      dbus_g_proxy_begin_call(g_applet->ui, "RestBreak", dbus_callback, NULL, NULL,
+      dbus_g_proxy_begin_call(applet->priv->ui, "RestBreak", dbus_callback, NULL, NULL,
                              G_TYPE_INVALID);
     }
 }
@@ -421,16 +415,16 @@ on_menu_restbreak(GtkAction *action, WorkraveApplet *a)
 
 
 static void
-on_menu_connect(GtkAction *action, WorkraveApplet *a)
+on_menu_connect(GtkAction *action, WorkraveApplet *applet)
 {
   if (!workrave_is_running())
     {
       return;
     }
   
-  if (g_applet->ui != NULL)
+  if (applet->priv->ui != NULL)
     {
-      dbus_g_proxy_begin_call(g_applet->ui, "NetworkConnect", dbus_callback, NULL, NULL,
+      dbus_g_proxy_begin_call(applet->priv->ui, "NetworkConnect", dbus_callback, NULL, NULL,
                              G_TYPE_INVALID);
 
     }
@@ -438,31 +432,31 @@ on_menu_connect(GtkAction *action, WorkraveApplet *a)
 
 
 static void
-on_menu_disconnect(GtkAction *action, WorkraveApplet *a)
+on_menu_disconnect(GtkAction *action, WorkraveApplet *applet)
 {
   if (!workrave_is_running())
     {
       return;
     }
   
-  if (g_applet->ui != NULL)
+  if (applet->priv->ui != NULL)
     {
-      dbus_g_proxy_begin_call(g_applet->ui, "NetworkDisconnect", dbus_callback, NULL, NULL,
+      dbus_g_proxy_begin_call(applet->priv->ui, "NetworkDisconnect", dbus_callback, NULL, NULL,
                              G_TYPE_INVALID);
     }
 }
 
 static void
-on_menu_reconnect(GtkAction *action, WorkraveApplet *a)
+on_menu_reconnect(GtkAction *action, WorkraveApplet *applet)
 {
   if (!workrave_is_running())
     {
       return;
     }
   
-  if (g_applet->ui != NULL)
+  if (applet->priv->ui != NULL)
     {
-      dbus_g_proxy_begin_call(g_applet->ui, "NetworkReconnect", dbus_callback, NULL, NULL,
+      dbus_g_proxy_begin_call(applet->priv->ui, "NetworkReconnect", dbus_callback, NULL, NULL,
                              G_TYPE_INVALID);
     }
 }
@@ -470,170 +464,52 @@ on_menu_reconnect(GtkAction *action, WorkraveApplet *a)
 
 
 static void
-on_menu_quit(GtkAction *action, WorkraveApplet *a)
+on_menu_quit(GtkAction *action, WorkraveApplet *applet)
 {
   if (!workrave_is_running())
     {
       return;
     }
   
-  if (g_applet->ui != NULL)
+  if (applet->priv->ui != NULL)
     {
-      dbus_g_proxy_begin_call(g_applet->ui, "Quit", dbus_callback, NULL, NULL,
+      dbus_g_proxy_begin_call(applet->priv->ui, "Quit", dbus_callback, NULL, NULL,
                              G_TYPE_INVALID);
     }
-}
-
-static void
-change_orient(PanelApplet *applet, PanelAppletOrient o, gpointer data)
-{
-  switch (o)
-    {
-    case PANEL_APPLET_ORIENT_UP:
-      g_applet->orientation = 0;
-      break;
-    case PANEL_APPLET_ORIENT_RIGHT:
-      g_applet->orientation = 1;
-      break;
-    case PANEL_APPLET_ORIENT_DOWN:
-      g_applet->orientation = 2;
-      break;
-    case PANEL_APPLET_ORIENT_LEFT:
-      g_applet->orientation = 3;
-      break;
-    }
-
-  if (g_applet->support != NULL && workrave_is_running())
-    {
-      dbus_g_proxy_begin_call(g_applet->support, "SetOrientation", dbus_callback, NULL, NULL,
-                             G_TYPE_UINT, g_applet->orientation, G_TYPE_INVALID);
-
-
-    }
-}
-
-static void
-change_background(PanelApplet * widget,
-                  PanelAppletBackgroundType type,
-                  GdkColor * color,
-                  GdkPixmap * pixmap,
-                  void *data)
-{
-  static GdkPixmap *keep = NULL;
-  long xid = 0;
-  GValueArray *val = g_value_array_new(4);
-
-  if (type == PANEL_NO_BACKGROUND)
-    {
-      GtkStyle *style = gtk_widget_get_style(GTK_WIDGET(widget));
-
-      if (style->bg_pixmap[GTK_STATE_NORMAL])
-        {
-          pixmap = style->bg_pixmap[GTK_STATE_NORMAL];
-          type = PANEL_PIXMAP_BACKGROUND;
-        }
-      else
-        {
-          color = &style->bg[GTK_STATE_NORMAL];
-          if (color != NULL)
-            {
-              type = PANEL_COLOR_BACKGROUND;
-            }
-        }
-    }
-  
-  if (type == PANEL_COLOR_BACKGROUND && color != NULL)
-    {
-      g_value_array_append(val, NULL);
-      g_value_init(g_value_array_get_nth(val, 0), G_TYPE_UINT);
-      g_value_set_uint(g_value_array_get_nth(val, 0), color->pixel);
- 
-      g_value_array_append(val, NULL);
-      g_value_init(g_value_array_get_nth(val, 1), G_TYPE_UINT);
-      g_value_set_uint(g_value_array_get_nth(val, 1), color->red);
-      
-      g_value_array_append(val, NULL);
-      g_value_init(g_value_array_get_nth(val, 2), G_TYPE_UINT);
-      g_value_set_uint(g_value_array_get_nth(val, 2), color->green);
-
-      g_value_array_append(val, NULL);
-      g_value_init(g_value_array_get_nth(val, 3), G_TYPE_UINT);
-      g_value_set_uint(g_value_array_get_nth(val, 3), color->blue);
-    }
-  else
-    {
-      int i;
-      for (i = 0; i < 4; i++)
-        {
-          g_value_array_prepend(val, NULL);
-          g_value_init(g_value_array_get_nth(val, 0), G_TYPE_UINT);
-          g_value_set_uint(g_value_array_get_nth(val, 0), 0);
-        }
-    }
-
-#ifndef HAVE_GTK3
-  // TODO: gtk3 port
-  if (type == PANEL_PIXMAP_BACKGROUND)
-    {
-      if (keep != NULL)
-        {
-          gdk_pixmap_unref(keep);
-          keep = pixmap;
-        }
-      if (pixmap != NULL)
-        {
-          gdk_pixmap_ref(pixmap);
-        }
-
-      xid = GDK_PIXMAP_XID(pixmap);
-    }
-#endif
-  
-  if (g_applet->support != NULL && workrave_is_running())
-    {
-      dbus_g_proxy_begin_call(g_applet->support, "SetBackground", dbus_callback, NULL, NULL,
-                              G_TYPE_UINT, type,
-                              G_TYPE_VALUE_ARRAY, val,
-                              G_TYPE_UINT, xid,
-                              G_TYPE_INVALID);
-      
-
-    }
-
-  g_value_array_free(val);
 }
 
 
 static gboolean
-plug_removed(GtkSocket *socket, void *manager)
+plug_removed(GtkSocket *socket, WorkraveAppletPrivate *priv)
 {
-  gtk_widget_show(GTK_WIDGET(g_applet->image));
-  gtk_widget_hide(GTK_WIDGET(g_applet->socket));
-  workrave_applet_set_all_visible(FALSE);
+  gtk_widget_show(GTK_WIDGET(priv->image));
+  gtk_widget_hide(GTK_WIDGET(priv->socket));
+  workrave_applet_set_all_visible(priv, FALSE);
   return TRUE;
 }
 
 
 static gboolean
-plug_added(GtkSocket *socket, void *manager)
+plug_added(GtkSocket *socket, WorkraveAppletPrivate *priv)
 {
-  gtk_widget_hide(GTK_WIDGET(g_applet->image));
-  gtk_widget_show(GTK_WIDGET(g_applet->socket));
-  workrave_applet_set_all_visible(TRUE);
+  gtk_widget_hide(GTK_WIDGET(priv->image));
+  gtk_widget_show(GTK_WIDGET(priv->socket));
+  workrave_applet_set_all_visible(priv, TRUE);
+  
   return TRUE;
 }
 
 
 static gboolean
-button_pressed(GtkWidget *widget, GdkEventButton *event, gpointer data)
+button_pressed(GtkWidget *widget, GdkEventButton *event, WorkraveAppletPrivate *priv)
 {
   gboolean ret = FALSE;
   
   if (event->button == 1)
     {
-      if (g_applet->support != NULL && workrave_is_running())
+      if (priv->support != NULL && workrave_is_running())
         {
-          dbus_g_proxy_begin_call(g_applet->support, "ButtonClicked", dbus_callback, NULL, NULL,
+          dbus_g_proxy_begin_call(priv->support, "ButtonClicked", dbus_callback, NULL, NULL,
                                   G_TYPE_UINT, event->button, G_TYPE_INVALID);
 
           ret = TRUE;
@@ -644,7 +520,7 @@ button_pressed(GtkWidget *widget, GdkEventButton *event, gpointer data)
 }
 
 static void
-showlog_callback(GtkAction *action, WorkraveApplet *a)
+showlog_callback(GtkAction *action, WorkraveApplet *applet)
 {
   gboolean new_state = FALSE;
 
@@ -654,17 +530,18 @@ showlog_callback(GtkAction *action, WorkraveApplet *a)
       new_state = gtk_toggle_action_get_active(toggle);
     }
 
-  g_applet->last_showlog_state = new_state;
+  applet->priv->last_showlog_state = new_state;
 
-  if (g_applet->ui != NULL && workrave_is_running())
+  if (applet->priv->ui != NULL && workrave_is_running())
     {
-      dbus_g_proxy_begin_call(g_applet->ui, "NetworkLog", dbus_callback, NULL, NULL,
+      dbus_g_proxy_begin_call(applet->priv->ui, "NetworkLog", dbus_callback, NULL, NULL,
                               G_TYPE_BOOLEAN, new_state, G_TYPE_INVALID);
     }
 }
 
+
 static void
-reading_mode_callback(GtkAction *action, WorkraveApplet *a)
+reading_mode_callback(GtkAction *action, WorkraveApplet *applet)
 {
   gboolean new_state = FALSE;
 
@@ -674,18 +551,19 @@ reading_mode_callback(GtkAction *action, WorkraveApplet *a)
       new_state = gtk_toggle_action_get_active(toggle);
     }
 
-  g_applet->last_reading_mode_state = new_state;
+  applet->priv->last_reading_mode_state = new_state;
   
-  if (g_applet->ui != NULL && workrave_is_running())
+  if (applet->priv->ui != NULL && workrave_is_running())
     {
-      dbus_g_proxy_begin_call(g_applet->ui, "ReadingMode", dbus_callback, NULL, NULL,
+      dbus_g_proxy_begin_call(applet->priv->ui, "ReadingMode", dbus_callback, NULL, NULL,
                               G_TYPE_BOOLEAN, new_state, G_TYPE_INVALID);
     }
 }
 
 static void
-mode_callback(GtkAction *action, WorkraveApplet *a)
+mode_callback(GtkRadioAction *action, GtkRadioAction *current, gpointer user_data)
 {
+  WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
   const char *modes[] = { "normal", "suspended", "quiet" };
   int mode = 0;
 
@@ -697,11 +575,11 @@ mode_callback(GtkAction *action, WorkraveApplet *a)
 
   if (mode >= 0 && mode < G_N_ELEMENTS(modes))
     {
-      g_applet->last_mode = mode;
+      applet->priv->last_mode = mode;
           
-      if (g_applet->ui != NULL && workrave_is_running())
+      if (applet->priv->core != NULL && workrave_is_running())
         {
-          dbus_g_proxy_begin_call(g_applet->core, "SetOperationMode", dbus_callback, NULL, NULL,
+          dbus_g_proxy_begin_call(applet->priv->core, "SetOperationMode", dbus_callback, NULL, NULL,
                                   G_TYPE_STRING, modes[mode], G_TYPE_INVALID);
         }
     }
@@ -709,59 +587,39 @@ mode_callback(GtkAction *action, WorkraveApplet *a)
 
 
 static void
-workrave_applet_set_visible(gchar *name, gboolean visible)
+workrave_applet_set_visible(WorkraveAppletPrivate *priv, gchar *name, gboolean visible)
 {
   GtkAction *action;
 
-  action = gtk_action_group_get_action(g_applet->action_group, name);
+  action = gtk_action_group_get_action(priv->action_group, name);
   gtk_action_set_visible(action, visible);
 }
 
 
 static void
-workrave_applet_set_all_visible(gboolean visible)
+workrave_applet_set_all_visible(WorkraveAppletPrivate *priv, gboolean visible)
 {
-  workrave_applet_set_visible("Preferences", visible);
-  workrave_applet_set_visible("Restbreak", visible);
-  workrave_applet_set_visible("Network", visible);
-  workrave_applet_set_visible("Normal", visible);
-  workrave_applet_set_visible("Suspended", visible);
-  workrave_applet_set_visible("Quiet", visible);
-  workrave_applet_set_visible("Mode", visible);
-  workrave_applet_set_visible("Statistics", visible);
-  workrave_applet_set_visible("Exercises", visible);
-  workrave_applet_set_visible("ReadingMode", visible);
-  workrave_applet_set_visible("Quit", visible);
+  workrave_applet_set_visible(priv, "Preferences", visible);
+  workrave_applet_set_visible(priv, "Restbreak", visible);
+  workrave_applet_set_visible(priv, "Network", visible);
+  workrave_applet_set_visible(priv, "Normal", visible);
+  workrave_applet_set_visible(priv, "Suspended", visible);
+  workrave_applet_set_visible(priv, "Quiet", visible);
+  workrave_applet_set_visible(priv, "Mode", visible);
+  workrave_applet_set_visible(priv, "Statistics", visible);
+  workrave_applet_set_visible(priv, "Exercises", visible);
+  workrave_applet_set_visible(priv, "ReadingMode", visible);
+  workrave_applet_set_visible(priv, "Quit", visible);
 }
 
 
-/* stolen from clock applet :) */
-static inline void
-force_no_focus_padding(GtkWidget *widget)
+void workrave_applet_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
 {
-  static gboolean first = TRUE;
+  WorkraveApplet *applet = WORKRAVE_APPLET(widget);
 
-  if (first)
-    {
-      gtk_rc_parse_string ("\n"
-                           "   style \"hdate-applet-button-style\"\n"
-                           "   {\n"
-                           "      GtkWidget::focus-line-width=0\n"
-                           "      GtkWidget::focus-padding=0\n"
-                           "   }\n"
-                           "\n"
-                           "    widget \"*.hdate-applet-button\" style \"hdate-applet-button-style\"\n"
-                           "\n");
-      first = FALSE;
-    }
-
-  gtk_widget_set_name(widget, "hdate-applet-button");
-}
-
-void size_allocate(GtkWidget     *widget,
-                   GtkAllocation *allocation,
-                   gpointer       user_data)
-{
+  gtk_widget_size_allocate(gtk_bin_get_child(GTK_BIN(widget)), allocation);
+  gtk_widget_set_allocation(widget, allocation);
+  
   static int prev_width = -1;
   static int prev_height = -1;
 
@@ -772,20 +630,20 @@ void size_allocate(GtkWidget     *widget,
       prev_height = allocation->height;
       prev_width = allocation->width;
 
-      if (g_applet->orientation == 1 ||
-          g_applet->orientation == 3)
+      if (applet->priv->orientation == 1 ||
+          applet->priv->orientation == 3)
         {
-          g_applet->size = allocation->width;
+          applet->priv->size = allocation->width;
         }
       else
         {
-          g_applet->size = allocation->height;
+          applet->priv->size = allocation->height;
         }
 
-      if (g_applet->support != NULL && workrave_is_running())
+      if (applet->priv->support != NULL && workrave_is_running())
         {
-          dbus_g_proxy_begin_call(g_applet->support, "SetSize", dbus_callback, NULL, NULL,
-                                  G_TYPE_UINT, g_applet->size,
+          dbus_g_proxy_begin_call(applet->priv->support, "SetSize", dbus_callback, NULL, NULL,
+                                  G_TYPE_UINT, applet->priv->size,
                                   G_TYPE_INVALID);
       
         }
@@ -794,29 +652,35 @@ void size_allocate(GtkWidget     *widget,
       
 
 static
-void workrave_applet_destroy(GtkObject *object)
+void workrave_applet_destroy(GtkWidget *widget)
 {
   workrave_dbus_server_cleanup();
 }
 
 
 static void
-workrave_applet_realize(GtkWidget *widget, void *data)
+workrave_applet_draw(GtkWidget *widget, cairo_t *cr, gpointer user_data)
 {
-}
+  WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
 
-
-static void
-workrave_applet_unrealize(GtkWidget *widget, void *data)
-{
-  if (g_applet != NULL)
+  if (applet->priv->has_alpha)
     {
-      g_object_unref(g_applet);
-      g_applet = NULL;
-    }
+      GtkAllocation allocation;
 
-  workrave_dbus_server_cleanup();
+      gtk_widget_get_allocation (applet->priv->socket, &allocation);
+
+      cairo_save (cr);
+      gdk_cairo_set_source_window (cr,
+                                   gtk_widget_get_window (applet->priv->socket),
+				   allocation.x,
+				   allocation.y);
+      cairo_rectangle (cr, allocation.x, allocation.y, allocation.width, allocation.height);
+      cairo_clip (cr);
+      cairo_paint (cr);
+      cairo_restore (cr);
+    }
 }
+
 
 static const GtkActionEntry menu_actions [] = {
   { "Open", GTK_STOCK_OPEN, N_("_Open"),
@@ -879,6 +743,7 @@ static const GtkToggleActionEntry toggle_actions[] = {
       G_CALLBACK(reading_mode_callback), FALSE },
 };
 
+
 static const GtkRadioActionEntry mode_actions[] = {
     { "Normal", NULL, N_("Normal"),
       NULL, NULL,
@@ -894,135 +759,267 @@ static const GtkRadioActionEntry mode_actions[] = {
 };
 
 
-static gboolean
-workrave_applet_fill(PanelApplet *applet)
+static void
+workrave_applet_socket_realize(GtkWidget *widget, gpointer user_data)
+{
+  GtkSocket *socket = GTK_SOCKET(widget);
+  WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
+
+  GdkWindow *window = gtk_widget_get_window(widget);
+  // GdkVisual *visual = gtk_widget_get_visual(widget);
+
+  if (applet->priv->has_alpha)
+    {
+      cairo_pattern_t *transparent = cairo_pattern_create_rgba(255, 0, 0, 128);
+      gdk_window_set_background_pattern(window, transparent);
+      gdk_window_set_composited(window, TRUE);
+      cairo_pattern_destroy(transparent);
+      
+      gtk_widget_set_app_paintable(GTK_WIDGET(socket), TRUE);
+      gtk_widget_set_double_buffered(GTK_WIDGET(socket), TRUE);
+      gtk_container_set_border_width(GTK_CONTAINER(socket), 0);
+    }
+  
+  // TODO: background relative to parent.
+}
+
+static void
+workrave_applet_realize(GtkWidget *widget)
+{
+  GTK_WIDGET_CLASS(workrave_applet_parent_class)->realize(widget);
+}
+
+static void
+workrave_applet_unrealize(GtkWidget *widget)
+{
+  workrave_dbus_server_cleanup();
+  GTK_WIDGET_CLASS(workrave_applet_parent_class)->unrealize (widget);
+}
+
+
+static void
+workrave_applet_change_background(PanelApplet *panel_applet, cairo_pattern_t *pattern)
+{
+  // WorkraveApplet *applet = WORKRAVE_APPLET(panel);
+  // workrave_force_redraw(applet);
+}
+
+
+static void
+workrave_applet_change_orient(PanelApplet *panel, PanelAppletOrient o)
+{
+  WorkraveApplet *applet = WORKRAVE_APPLET(panel);
+  char *str = "";
+  
+  switch (o)
+    {
+    case PANEL_APPLET_ORIENT_UP:
+      applet->priv->orientation = 0;
+      str = "up";
+      break;
+    case PANEL_APPLET_ORIENT_RIGHT:
+      applet->priv->orientation = 1;
+      str = "right";
+      break;
+    case PANEL_APPLET_ORIENT_DOWN:
+      applet->priv->orientation = 2;
+      str = "down";
+      break;
+    case PANEL_APPLET_ORIENT_LEFT:
+      applet->priv->orientation = 3;
+      str = "left";
+      break;
+    }
+
+  if (applet->priv->support != NULL && workrave_is_running())
+    {
+      dbus_g_proxy_begin_call(applet->priv->support, "SetOrientation", dbus_callback, NULL, NULL,
+                              G_TYPE_STRING, str, G_TYPE_INVALID);
+    }
+}
+
+
+static void
+force_no_focus_padding(GtkWidget *widget)
+{
+  GtkCssProvider *provider = gtk_css_provider_new();
+  gtk_css_provider_load_from_data(provider,
+                                  "WorkraveApplet {\n"
+                                  " -GtkWidget-focus-line-width: 0px;\n"
+                                  " -GtkWidget-focus-padding: 0px;\n"
+                                  "}", -1, NULL);
+  
+  gtk_style_context_add_provider(gtk_widget_get_style_context(widget),
+                                 GTK_STYLE_PROVIDER(provider),
+                                 GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+  g_object_unref(provider);
+}
+
+
+static void
+workrave_applet_class_init(WorkraveAppletClass *class)
+{
+  GtkWidgetClass   *widget_class = GTK_WIDGET_CLASS(class);
+  PanelAppletClass *applet_class = PANEL_APPLET_CLASS(class);
+
+  widget_class->realize = workrave_applet_realize;
+  widget_class->unrealize = workrave_applet_unrealize;
+  widget_class->destroy = workrave_applet_destroy;
+  // FIXME: widget_class->size_allocate = workrave_applet_size_allocate;
+
+  applet_class->change_background = workrave_applet_change_background;
+  applet_class->change_orient = workrave_applet_change_orient;
+
+  g_type_class_add_private(class, sizeof(WorkraveAppletPrivate));
+}
+
+
+static void
+workrave_applet_fill(WorkraveApplet *applet)
 {
   GdkPixbuf *pixbuf = NULL;
-  GtkWidget *hbox = NULL;
   PanelAppletOrient orient;
 
-  g_applet->action_group = gtk_action_group_new("WorkraveAppletActions");
-  gtk_action_group_set_translation_domain(g_applet->action_group, GETTEXT_PACKAGE);
-  gtk_action_group_add_actions(g_applet->action_group,
+  applet->priv->action_group = gtk_action_group_new("WorkraveAppletActions");
+  gtk_action_group_set_translation_domain(applet->priv->action_group, GETTEXT_PACKAGE);
+  gtk_action_group_add_actions(applet->priv->action_group,
                                menu_actions,
                                G_N_ELEMENTS (menu_actions),
                                applet);
-  gtk_action_group_add_toggle_actions(g_applet->action_group,
+  gtk_action_group_add_toggle_actions(applet->priv->action_group,
                                       toggle_actions,
                                       G_N_ELEMENTS (toggle_actions),
                                       applet);
-  gtk_action_group_add_radio_actions (g_applet->action_group,
+  gtk_action_group_add_radio_actions (applet->priv->action_group,
                                       mode_actions,
                                       G_N_ELEMENTS(mode_actions),
                                       0,
                                       G_CALLBACK(mode_callback),
-                                      NULL);
+                                      applet);
 
- gchar *ui_path = g_build_filename(WORKRAVE_UIDATADIR, "workrave-applet-menu.xml", NULL);
-  panel_applet_setup_menu_from_file(applet, ui_path, g_applet->action_group);
+  gchar *ui_path = g_build_filename(WORKRAVE_UIDATADIR, "workrave-applet-menu.xml", NULL);
+  panel_applet_setup_menu_from_file(PANEL_APPLET(applet), ui_path, applet->priv->action_group);
   g_free(ui_path);
-  //g_object_unref(action_group);
   
-  panel_applet_set_flags(PANEL_APPLET(applet),
-                         PANEL_APPLET_EXPAND_MINOR);
+  panel_applet_set_flags(PANEL_APPLET(applet), PANEL_APPLET_EXPAND_MINOR);
 
   gtk_container_set_border_width(GTK_CONTAINER(applet), 0);
-  panel_applet_set_background_widget(applet, GTK_WIDGET(applet));
-  gtk_widget_set_events(GTK_WIDGET(applet),
-                        gtk_widget_get_events(GTK_WIDGET(applet)) | GDK_BUTTON_PRESS_MASK);
-
-
-  g_signal_connect(G_OBJECT(applet), "button_press_event", G_CALLBACK(button_pressed),
-                   g_applet);
+  panel_applet_set_background_widget(PANEL_APPLET(applet), GTK_WIDGET(applet));
+  gtk_widget_set_events(GTK_WIDGET(applet), gtk_widget_get_events(GTK_WIDGET(applet)) | GDK_BUTTON_PRESS_MASK);
 
   // Socket.
-  g_applet->socket = gtk_socket_new();
-  gtk_container_set_border_width(GTK_CONTAINER(g_applet->socket), 0);
+  applet->priv->socket = gtk_socket_new();
+  GdkScreen *screen = gtk_widget_get_screen(GTK_WIDGET(applet));
+  GdkDisplay *display = gtk_widget_get_display(GTK_WIDGET(applet));
+ 
+  if (gdk_screen_get_rgba_visual(screen) != NULL && gdk_display_supports_composite(display))
+    {
+      GdkVisual *visual = gdk_screen_get_rgba_visual(screen);
+      gtk_widget_set_visual(applet->priv->socket, visual);
+      applet->priv->has_alpha = TRUE;
+    }
+  else
+    {
+      applet->priv->has_alpha = FALSE;
+    }
 
+	g_signal_connect(applet->priv->socket, "realize", G_CALLBACK(workrave_applet_socket_realize), applet);
+  
   // Image
   pixbuf = gdk_pixbuf_new_from_file(WORKRAVE_PKGDATADIR "/images/workrave-icon-medium.png", NULL);
-  g_applet->image = gtk_image_new_from_pixbuf(pixbuf);
-
-  // Signals.
-  g_signal_connect(g_applet->socket, "plug_removed", G_CALLBACK(plug_removed), NULL);
-  g_signal_connect(g_applet->socket, "plug_added", G_CALLBACK(plug_added), NULL);
-  g_signal_connect(G_OBJECT(applet), "change_orient", G_CALLBACK(change_orient), NULL);
+  applet->priv->image = gtk_image_new_from_pixbuf(pixbuf);
 
   // Container.
-  hbox = gtk_vbox_new(FALSE, 0);
-  gtk_container_add(GTK_CONTAINER(applet), hbox);
-  gtk_box_pack_end(GTK_BOX(hbox), g_applet->socket, TRUE, TRUE, 0);
-  gtk_box_pack_end(GTK_BOX(hbox), g_applet->image, TRUE, TRUE, 0);
+  applet->priv->hbox = gtk_vbox_new(FALSE, 0);
+  gtk_box_pack_end(GTK_BOX(applet->priv->hbox), applet->priv->socket, TRUE, TRUE, 0);
+  gtk_box_pack_end(GTK_BOX(applet->priv->hbox), applet->priv->image, TRUE, TRUE, 0);
+	g_signal_connect(applet->priv->hbox, "draw", G_CALLBACK(workrave_applet_draw), applet);
 
-  gtk_container_set_border_width(GTK_CONTAINER(hbox), 0);
+  gtk_container_set_border_width(GTK_CONTAINER(applet->priv->hbox), 0);
 
-  g_applet->socket_id = gtk_socket_get_id(GTK_SOCKET(g_applet->socket));
-  g_applet->size = panel_applet_get_size(applet);
+  applet->priv->size = panel_applet_get_size(PANEL_APPLET(applet));
 
-  orient = panel_applet_get_orient(applet);
+  orient = panel_applet_get_orient(PANEL_APPLET(applet));
 
   switch (orient)
     {
     case PANEL_APPLET_ORIENT_UP:
-      g_applet->orientation = 0;
+      applet->priv->orientation = 0;
       break;
     case PANEL_APPLET_ORIENT_RIGHT:
-      g_applet->orientation = 1;
+      applet->priv->orientation = 1;
       break;
     case PANEL_APPLET_ORIENT_DOWN:
-      g_applet->orientation = 2;
+      applet->priv->orientation = 2;
       break;
     case PANEL_APPLET_ORIENT_LEFT:
-      g_applet->orientation = 3;
+      applet->priv->orientation = 3;
       break;
     }
 
   force_no_focus_padding(GTK_WIDGET(applet));
-  force_no_focus_padding(GTK_WIDGET(g_applet->socket));
-  force_no_focus_padding(GTK_WIDGET(g_applet->image));
-  force_no_focus_padding(GTK_WIDGET(hbox));
+  force_no_focus_padding(GTK_WIDGET(applet->priv->socket));
+  force_no_focus_padding(GTK_WIDGET(applet->priv->image));
+  force_no_focus_padding(GTK_WIDGET(applet->priv->hbox));
 
-  g_signal_connect(G_OBJECT(applet), "destroy", G_CALLBACK(workrave_applet_destroy), NULL);
-	g_signal_connect(G_OBJECT(hbox), "realize",   G_CALLBACK(workrave_applet_realize), NULL);
-	g_signal_connect(G_OBJECT(hbox), "unrealize", G_CALLBACK(workrave_applet_unrealize), NULL);
-  
-  gtk_widget_show(GTK_WIDGET(g_applet->image));
-  gtk_widget_show(GTK_WIDGET(g_applet->socket));
-  gtk_widget_show(GTK_WIDGET(hbox));
+  // Signals.
+  g_signal_connect(applet->priv->socket, "plug_removed", G_CALLBACK(plug_removed), applet->priv);
+  g_signal_connect(applet->priv->socket, "plug_added", G_CALLBACK(plug_added), applet->priv);
+  g_signal_connect(G_OBJECT(applet), "button_press_event", G_CALLBACK(button_pressed),  applet->priv);
+
+  gtk_widget_show(GTK_WIDGET(applet->priv->image));
+  gtk_widget_show(GTK_WIDGET(applet->priv->socket));
+  gtk_container_add(GTK_CONTAINER(applet), GTK_WIDGET(applet->priv->hbox));
+  gtk_widget_show(GTK_WIDGET(applet->priv->hbox));
   gtk_widget_show(GTK_WIDGET(applet));
+}
 
-  g_signal_connect(G_OBJECT(applet), "size-allocate", G_CALLBACK(size_allocate), NULL);
-  g_signal_connect(G_OBJECT(applet), "change_background", G_CALLBACK(change_background), NULL);
 
-  return TRUE;
+static void
+workrave_applet_init(WorkraveApplet *applet)
+{
+  applet->priv = G_TYPE_INSTANCE_GET_PRIVATE(applet, WORKRAVE_TYPE_APPLET, WorkraveAppletPrivate);
+
+  WorkraveAppletPrivate *priv = applet->priv;
+  
+  priv->image = NULL;
+  priv->socket = NULL;
+  priv->size = 48;
+  priv->orientation = 0;
+  priv->last_showlog_state = FALSE;
+  priv->last_reading_mode_state = FALSE;
+  priv->last_mode = 0; 
+  priv->support = NULL;
+  priv->ui = NULL;
+  priv->core = NULL;
+
+  workrave_dbus_server_init(applet);
+  workrave_applet_fill(applet);
+
+  if (applet->priv->support != NULL)
+    {
+      dbus_g_proxy_begin_call(applet->priv->support, "EmbedRequest", dbus_callback, NULL, NULL,
+                              G_TYPE_INVALID);
+    }
+  
+  force_no_focus_padding(GTK_WIDGET(applet));
 }
 
 
 static gboolean
-workrave_applet_factory(PanelApplet *applet, const gchar *iid, gpointer data)
+applet_factory(PanelApplet *applet, const gchar *iid, gpointer user_data)
 {
-  gboolean retval = FALSE;
-
-  if (!g_ascii_strcasecmp(iid, "WorkraveApplet"))
+  if (strcmp(iid, "WorkraveApplet") == 0)
     {
-      g_applet = workrave_applet_new();
-      g_applet->applet = applet;
-      
-      workrave_dbus_server_init();
-      retval = workrave_applet_fill(applet);
-
-      if (g_applet->support != NULL)
-        {
-          dbus_g_proxy_begin_call(g_applet->support, "EmbedRequest", dbus_callback, NULL, NULL,
-                                  G_TYPE_INVALID);
-        }
+      gtk_widget_show_all(GTK_WIDGET(applet));
+      return TRUE;
     }
 
-  return retval;
+  return FALSE;
 }
 
+
 PANEL_APPLET_OUT_PROCESS_FACTORY("WorkraveAppletFactory",
-                                 PANEL_TYPE_APPLET,
-                                 "Workrave Applet",
-                                 workrave_applet_factory,
+                                 WORKRAVE_TYPE_APPLET,
+                                 applet_factory,
                                  NULL)

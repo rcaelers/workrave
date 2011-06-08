@@ -51,6 +51,10 @@ using namespace std;
 #include "DBusException.hh"
 #include "DBusGnomeApplet.hh"
 
+#ifndef GDK_WINDOW_XWINDOW
+#define GDK_WINDOW_XWINDOW(w) GDK_WINDOW_XID(w)
+#endif
+
 //! Constructor.
 /*!
  *  \param gui the main GUI entry point.
@@ -139,13 +143,12 @@ GnomeAppletWindow::activate_applet()
 
           Gtk::Alignment *frame = new Gtk::Alignment(0.0, 0.0, 0.0, 0.0);
           frame->set_border_width(0);
-
           container = frame;
 
-          plug = new Gtk::Plug(id);
+          plug = new Plug(id);
           plug->add(*frame);
 
-          plug->set_events(plug->get_events() | Gdk::BUTTON_PRESS_MASK | Gdk::BUTTON_RELEASE_MASK);
+          // plug->set_events(plug->get_events() | Gdk::BUTTON_PRESS_MASK | Gdk::BUTTON_RELEASE_MASK);
 
           plug->signal_embedded().connect(sigc::mem_fun(*this, &GnomeAppletWindow::on_embedded));
           plug->signal_delete_event().connect(sigc::mem_fun(*this, &GnomeAppletWindow::delete_event));
@@ -154,20 +157,19 @@ GnomeAppletWindow::activate_applet()
           g_signal_connect(G_OBJECT(plug->gobj()), "destroy-event",
                            G_CALLBACK(GnomeAppletWindow::destroy_event), this);
 
-          view = new TimerBoxGtkView(Menus::MENU_NONE);
+          view = new TimerBoxGtkView(Menus::MENU_NONE, true);
           timer_box_view = view;
           timer_box_control = new TimerBoxControl("applet", *timer_box_view);
 
           view->set_geometry(applet_orientation, applet_size);
           view->show_all();
 
-          plug->signal_button_press_event().connect(sigc::mem_fun(*this, &GnomeAppletWindow::on_button_press_event));
-          plug->signal_button_release_event().connect(sigc::mem_fun(*this, &GnomeAppletWindow::on_button_press_event));
+          // plug->signal_button_press_event().connect(sigc::mem_fun(*this, &GnomeAppletWindow::on_button_press_event));
+          // plug->signal_button_release_event().connect(sigc::mem_fun(*this, &GnomeAppletWindow::on_button_press_event));
 
           container->add(*view);
           container->show_all();
           plug->show_all();
-
         }
 
       Menus *menus = Menus::get_instance();
@@ -473,11 +475,9 @@ GnomeAppletWindow::destroy_event(GtkWidget *widget, GdkEvent *event, gpointer us
 bool
 GnomeAppletWindow::on_button_press_event(GdkEventButton *event)
 {
+  TRACE_ENTER("GnomeAppletWindow::on_button_press_event");
   bool ret = false;
 
-#ifdef HAVE_GTK3
-  // FIXME: GTK3.
-#else
   /* Taken from:
    *
    * bonobo-plug.c: a Gtk plug wrapper.
@@ -496,6 +496,7 @@ GnomeAppletWindow::on_button_press_event(GdkEventButton *event)
 
   if (event->type == GDK_BUTTON_PRESS)
     {
+      TRACE_MSG("press");
       xevent.xbutton.type = ButtonPress;
 
       /* X does an automatic pointer grab on button press
@@ -503,22 +504,24 @@ GnomeAppletWindow::on_button_press_event(GdkEventButton *event)
        * selected.
        * We don't want to hog the pointer on our parent.
        */
-      gdk_display_pointer_ungrab(gtk_widget_get_display (widget),
-                                 GDK_CURRENT_TIME);
+      // FIXME: GTK3 gdk_display_pointer_ungrab(gtk_widget_get_display(widget), GDK_CURRENT_TIME);
       ok = true;
     }
   else if (event->type == GDK_BUTTON_RELEASE)
     {
+      TRACE_MSG("release");
       xevent.xbutton.type = ButtonRelease;
       ok = true;
     }
 
   if (ok)
     {
-      xevent.xbutton.display     = GDK_WINDOW_XDISPLAY(widget->window);
-      xevent.xbutton.window      = GDK_WINDOW_XWINDOW(GTK_PLUG(widget)->socket_window);
-      xevent.xbutton.root        = GDK_WINDOW_XWINDOW(gdk_screen_get_root_window
-                                                      (gdk_drawable_get_screen(widget->window)));
+      GdkScreen *screen = gtk_widget_get_screen(widget);
+
+      xevent.xbutton.display     = GDK_WINDOW_XDISPLAY(gtk_widget_get_window(widget));
+      xevent.xbutton.window      = GDK_WINDOW_XWINDOW(gtk_plug_get_socket_window(GTK_PLUG(widget)));
+      xevent.xbutton.root        = GDK_WINDOW_XWINDOW(gdk_screen_get_root_window(screen));
+
       /*
        * FIXME: the following might cause
        *        big problems for non-GTK apps
@@ -538,14 +541,17 @@ GnomeAppletWindow::on_button_press_event(GdkEventButton *event)
 
       gdk_error_trap_push();
 
-      XSendEvent(GDK_WINDOW_XDISPLAY(widget->window),
-                 GDK_WINDOW_XWINDOW(GTK_PLUG(widget)->socket_window),
+      TRACE_MSG("send");
+      
+      XSendEvent(GDK_WINDOW_XDISPLAY(gtk_widget_get_window(widget)),
+                 GDK_WINDOW_XWINDOW(gtk_plug_get_socket_window(GTK_PLUG(widget))),
                  False, NoEventMask, &xevent);
 
       gdk_flush();
       gdk_error_trap_pop();
     }
-#endif
+
+  TRACE_EXIT();
   return ret;
 }
 

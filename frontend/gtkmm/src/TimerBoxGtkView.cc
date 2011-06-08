@@ -49,8 +49,9 @@
 
 
 //! Constructor.
-TimerBoxGtkView::TimerBoxGtkView(Menus::MenuKind menu) :
+TimerBoxGtkView::TimerBoxGtkView(Menus::MenuKind menu, bool transparent) :
   menu(menu),
+  transparent(transparent),
   reconfigure(true),
   labels(NULL),
   bars(NULL),
@@ -538,4 +539,18 @@ TimerBoxGtkView::on_restbreak_button_press_event(int button)
     }
 
   return ret;
+}
+
+
+bool
+TimerBoxGtkView::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
+{
+  if (transparent)
+    {
+      cr->set_source_rgba(0, 0, 0, 0);
+      cr->set_operator(Cairo::OPERATOR_SOURCE);
+      cr->paint();
+    };
+  
+  return Gtk::Widget::on_draw(cr);
 }

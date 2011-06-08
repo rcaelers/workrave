@@ -13,7 +13,7 @@ MAINTAINERCLEANFILES =  Makefile.in GNOME_WorkraveApplet.xml \
 
 SUBDIRS = 
 
-if !HAVE_PANELAPPLET3
+if !HAVE_PANELAPPLET4
 if HAVE_GNOMEAPPLET
 
 uidir		= $(datadir)/gnome-2.0/ui

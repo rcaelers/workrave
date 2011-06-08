@@ -29,7 +29,7 @@ extrasources =
 extranodistsources = 
 
 # Additional Gnome sources
-sourcesgnome = 		GnomeAppletWindow.cc GnomeAppletMenu.cc
+sourcesgnome = 		GnomeAppletWindow.cc GnomeAppletMenu.cc Plug.cc
 
 # Additional non-Gnome sources.
 sourcesnognome =

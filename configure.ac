@@ -438,22 +438,22 @@ dnl
 
 config_gnome=no
 config_gnome3=no
-have_panelapplet3=no
+have_panelapplet4=no
 
 if test "x$enable_gnome3" != "xno"
 then
     PKG_CHECK_MODULES([GNOME],
-                      [libpanelapplet-3.0],
+                      [libpanelapplet-4.0],
                       [config_gnome=yes
 		       config_gnome3=yes
-                       have_panelapplet3=yes
-                       AC_DEFINE(HAVE_PANELAPPLET3, 1, [Support for Gnome panel applet v3])],
-                      [if test "x$enable_gnome3" = "xyes"; then
-                          AC_MSG_ERROR([Gnome 3 development headers not found.])
+                       have_panelapplet4=yes
+                       AC_DEFINE(HAVE_PANELAPPLET4, 1, [Support for Gnome panel applet v4])],
+                       [if test "x$enable_gnome3" = "xyes"; then
+                           AC_MSG_ERROR([Gnome 3 development headers not found.])
                        fi])
 fi
    
-if test "x$enable_gnome" != "xno" -a x$have_panelapplet3 = xno
+if test "x$enable_gnome" != "xno" -a x$have_panelapplet4 = xno
 then
     PKG_CHECK_MODULES([GNOME],
                       [libpanelapplet-2.0 >= 2.0.10 \
@@ -470,7 +470,7 @@ then
 fi
 
 AM_CONDITIONAL(HAVE_GNOME, test "x$config_gnome" = "xyes")
-AM_CONDITIONAL(HAVE_PANELAPPLET3, test "x$have_panelapplet3" = "xyes")
+AM_CONDITIONAL(HAVE_PANELAPPLET4, test "x$have_panelapplet4" = "xyes")
 
 
 dnl
@@ -931,7 +931,6 @@ echo "                Gnome support :   Gnome 2"
 else
 echo "                Gnome support :   No"
 fi
-echo "                Gnome support :   ${config_gnome}" 
 echo "                  KDE support :   ${config_kde}"
 echo "                 DBUS support :   ${have_dbus}"
 echo "           Networking support :   ${config_distribution}"

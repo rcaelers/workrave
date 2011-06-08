@@ -42,22 +42,23 @@ namespace Gtk
 class TimerBoxGtkView : public Gtk::Table, public ITimerBoxView
 {
 public:
-  TimerBoxGtkView(Menus::MenuKind menu);
+  TimerBoxGtkView(Menus::MenuKind menu, bool transparent = false);
   ~TimerBoxGtkView();
 
   void set_geometry(Orientation orientation, int size);
   int get_visible_count() const;
   void set_slot(BreakId  id, int slot);
   void set_time_bar(BreakId id,
-                            std::string text, TimeBar::ColorId primary_color,
-                            int primary_value, int primary_max,
-                            TimeBar::ColorId secondary_color,
-                            int secondary_value, int secondary_max);
+                    std::string text, TimeBar::ColorId primary_color,
+                    int primary_value, int primary_max,
+                    TimeBar::ColorId secondary_color,
+                    int secondary_value, int secondary_max);
   void set_tip(std::string tip);
   void set_icon(IconType icon);
   void update_view();
   void set_enabled(bool enabled);
 
+  virtual bool on_draw(const Cairo::RefPtr<Cairo::Context>& cr);
 
 private:
   void init_widgets();
@@ -69,6 +70,9 @@ private:
   //! What menu to active on click
   Menus::MenuKind menu;
   
+  //! Use tranparentcy.
+  bool transparent;
+
   //! Reconfigure the panel.
   bool reconfigure;
 

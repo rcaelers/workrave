@@ -15,12 +15,13 @@ MAINTAINERCLEANFILES =  Makefile.in \
 SUBDIRS = 
 
 if HAVE_GNOMEAPPLET
-if HAVE_PANELAPPLET3
+if HAVE_PANELAPPLET4
 
+LIBPANEL_APPLET_DIR		= `$PKG_CONFIG --variable=libpanel_applet_dir libpanelapplet-4.0`
 APPLET_IN_PROCESS 		= false
 APPLET_LOCATION   		= $(libexecdir)/workrave-applet
 
-appletdir       		= $(datadir)/gnome-panel/applets
+appletdir       		= $(datadir)/gnome-panel/4.0/applets  # LIBPANEL_APPLET_DIR
 applet_in_files 		= org.workrave.WorkraveApplet.panel-applet.in
 applet_DATA     		= $(applet_in_files:.panel-applet.in=.panel-applet)
 
