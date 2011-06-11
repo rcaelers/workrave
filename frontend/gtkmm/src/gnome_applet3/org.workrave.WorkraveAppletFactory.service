@@ -1,3 +1,0 @@
-[D-BUS Service]
-Name=org.workrave.WorkraveAppletFactory
-Exec=/opt/workrave/libexec/workrave-applet

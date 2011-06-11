@@ -4,7 +4,7 @@
 # Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011 Rob Caelers & Raymond Penners
 #
 
-SUBDIRS = 		gnome_applet gnome_applet3 kde_applet win32 unix osx
+SUBDIRS = 		gnome_applet gnome3_applet kde_applet win32 unix osx
 
 MAINTAINERCLEANFILES = 	Makefile.in \
 			org.workrave.Workrave.service \

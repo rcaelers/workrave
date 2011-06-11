@@ -881,7 +881,7 @@ AC_OUTPUT(Makefile
           frontend/gtkmm/src/unix/Makefile \
           frontend/gtkmm/src/osx/Makefile \
           frontend/gtkmm/src/gnome_applet/Makefile \
-          frontend/gtkmm/src/gnome_applet3/Makefile \
+          frontend/gtkmm/src/gnome3_applet/Makefile \
           frontend/gtkmm/src/kde_applet/Makefile \
           frontend/qt/Makefile \
           frontend/qt/src/Makefile \

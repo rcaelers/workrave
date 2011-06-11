@@ -504,7 +504,7 @@ static gboolean
 button_pressed(GtkWidget *widget, GdkEventButton *event, WorkraveAppletPrivate *priv)
 {
   gboolean ret = FALSE;
-  
+
   if (event->button == 1)
     {
       if (priv->support != NULL && workrave_is_running())
@@ -613,72 +613,10 @@ workrave_applet_set_all_visible(WorkraveAppletPrivate *priv, gboolean visible)
 }
 
 
-void workrave_applet_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
-{
-  WorkraveApplet *applet = WORKRAVE_APPLET(widget);
-
-  gtk_widget_size_allocate(gtk_bin_get_child(GTK_BIN(widget)), allocation);
-  gtk_widget_set_allocation(widget, allocation);
-  
-  static int prev_width = -1;
-  static int prev_height = -1;
-
-  if (prev_height == -1 || prev_width == -1 ||
-      allocation->width != prev_width ||
-      allocation->height != prev_height)
-    {
-      prev_height = allocation->height;
-      prev_width = allocation->width;
-
-      if (applet->priv->orientation == 1 ||
-          applet->priv->orientation == 3)
-        {
-          applet->priv->size = allocation->width;
-        }
-      else
-        {
-          applet->priv->size = allocation->height;
-        }
-
-      if (applet->priv->support != NULL && workrave_is_running())
-        {
-          dbus_g_proxy_begin_call(applet->priv->support, "SetSize", dbus_callback, NULL, NULL,
-                                  G_TYPE_UINT, applet->priv->size,
-                                  G_TYPE_INVALID);
-      
-        }
-    }
-}
-      
-
 static
 void workrave_applet_destroy(GtkWidget *widget)
 {
   workrave_dbus_server_cleanup();
-}
-
-
-static void
-workrave_applet_draw(GtkWidget *widget, cairo_t *cr, gpointer user_data)
-{
-  WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
-
-  if (applet->priv->has_alpha)
-    {
-      GtkAllocation allocation;
-
-      gtk_widget_get_allocation (applet->priv->socket, &allocation);
-
-      cairo_save (cr);
-      gdk_cairo_set_source_window (cr,
-                                   gtk_widget_get_window (applet->priv->socket),
-				   allocation.x,
-				   allocation.y);
-      cairo_rectangle (cr, allocation.x, allocation.y, allocation.width, allocation.height);
-      cairo_clip (cr);
-      cairo_paint (cr);
-      cairo_restore (cr);
-    }
 }
 
 
@@ -784,6 +722,29 @@ workrave_applet_socket_realize(GtkWidget *widget, gpointer user_data)
 }
 
 static void
+workrave_applet_draw(GtkWidget *widget, cairo_t *cr, gpointer user_data)
+{
+  WorkraveApplet *applet = WORKRAVE_APPLET(user_data);
+
+  if (applet->priv->has_alpha)
+    {
+      GtkAllocation allocation;
+      
+      gtk_widget_get_allocation(applet->priv->socket, &allocation);
+
+      cairo_save (cr);
+      gdk_cairo_set_source_window (cr,
+                                   gtk_widget_get_window (applet->priv->socket),
+				   allocation.x,
+				   allocation.y);
+      cairo_rectangle (cr, allocation.x, allocation.y, allocation.width, allocation.height);
+      cairo_clip (cr);
+      cairo_paint (cr);
+      cairo_restore (cr);
+    }
+}
+
+static void
 workrave_applet_realize(GtkWidget *widget)
 {
   GTK_WIDGET_CLASS(workrave_applet_parent_class)->realize(widget);
@@ -865,7 +826,6 @@ workrave_applet_class_init(WorkraveAppletClass *class)
   widget_class->realize = workrave_applet_realize;
   widget_class->unrealize = workrave_applet_unrealize;
   widget_class->destroy = workrave_applet_destroy;
-  // FIXME: widget_class->size_allocate = workrave_applet_size_allocate;
 
   applet_class->change_background = workrave_applet_change_background;
   applet_class->change_orient = workrave_applet_change_orient;
@@ -905,7 +865,7 @@ workrave_applet_fill(WorkraveApplet *applet)
 
   gtk_container_set_border_width(GTK_CONTAINER(applet), 0);
   panel_applet_set_background_widget(PANEL_APPLET(applet), GTK_WIDGET(applet));
-  gtk_widget_set_events(GTK_WIDGET(applet), gtk_widget_get_events(GTK_WIDGET(applet)) | GDK_BUTTON_PRESS_MASK);
+
 
   // Socket.
   applet->priv->socket = gtk_socket_new();
@@ -930,7 +890,7 @@ workrave_applet_fill(WorkraveApplet *applet)
   applet->priv->image = gtk_image_new_from_pixbuf(pixbuf);
 
   // Container.
-  applet->priv->hbox = gtk_vbox_new(FALSE, 0);
+  applet->priv->hbox = gtk_hbox_new(FALSE, 0);
   gtk_box_pack_end(GTK_BOX(applet->priv->hbox), applet->priv->socket, TRUE, TRUE, 0);
   gtk_box_pack_end(GTK_BOX(applet->priv->hbox), applet->priv->image, TRUE, TRUE, 0);
 	g_signal_connect(applet->priv->hbox, "draw", G_CALLBACK(workrave_applet_draw), applet);
@@ -965,11 +925,14 @@ workrave_applet_fill(WorkraveApplet *applet)
   // Signals.
   g_signal_connect(applet->priv->socket, "plug_removed", G_CALLBACK(plug_removed), applet->priv);
   g_signal_connect(applet->priv->socket, "plug_added", G_CALLBACK(plug_added), applet->priv);
+
+  gtk_widget_set_events(GTK_WIDGET(applet), gtk_widget_get_events(GTK_WIDGET(applet)) | GDK_BUTTON_PRESS_MASK);
   g_signal_connect(G_OBJECT(applet), "button_press_event", G_CALLBACK(button_pressed),  applet->priv);
 
-  gtk_widget_show(GTK_WIDGET(applet->priv->image));
-  gtk_widget_show(GTK_WIDGET(applet->priv->socket));
   gtk_container_add(GTK_CONTAINER(applet), GTK_WIDGET(applet->priv->hbox));
+  
+  gtk_widget_show(GTK_WIDGET(applet->priv->image));
+  gtk_widget_hide(GTK_WIDGET(applet->priv->socket));
   gtk_widget_show(GTK_WIDGET(applet->priv->hbox));
   gtk_widget_show(GTK_WIDGET(applet));
 }

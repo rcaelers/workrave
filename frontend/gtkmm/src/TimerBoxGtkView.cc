@@ -280,11 +280,6 @@ TimerBoxGtkView::init_table()
         }
     }
 
-  TRACE_MSG("size:" << size << " tsize:" << tsize << " orienation:" << orientation);
-  TRACE_MSG("mysize width:" << my_size.width << " height:" << my_size.height);
-  TRACE_MSG("bar width:" << bar_size.width << " height:" << bar_size.height);
-  TRACE_MSG("label width:" << label_size.width << " height:" << label_size.height);
-
   if (orientation == ORIENTATION_LEFT || orientation == ORIENTATION_RIGHT)
     {
       if (tsize > bar_size.width + label_size.width + 8)

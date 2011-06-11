@@ -148,8 +148,10 @@ GnomeAppletWindow::activate_applet()
           plug = new Plug(id);
           plug->add(*frame);
 
-          // plug->set_events(plug->get_events() | Gdk::BUTTON_PRESS_MASK | Gdk::BUTTON_RELEASE_MASK);
-
+          plug->signal_size_allocate().connect(sigc::mem_fun(*this, &GnomeAppletWindow::on_plug_size_allocate));
+          
+          plug->set_events(plug->get_events() | Gdk::BUTTON_PRESS_MASK | Gdk::BUTTON_RELEASE_MASK);
+          
           plug->signal_embedded().connect(sigc::mem_fun(*this, &GnomeAppletWindow::on_embedded));
           plug->signal_delete_event().connect(sigc::mem_fun(*this, &GnomeAppletWindow::delete_event));
 
@@ -164,8 +166,8 @@ GnomeAppletWindow::activate_applet()
           view->set_geometry(applet_orientation, applet_size);
           view->show_all();
 
-          // plug->signal_button_press_event().connect(sigc::mem_fun(*this, &GnomeAppletWindow::on_button_press_event));
-          // plug->signal_button_release_event().connect(sigc::mem_fun(*this, &GnomeAppletWindow::on_button_press_event));
+          plug->signal_button_press_event().connect(sigc::mem_fun(*this, &GnomeAppletWindow::on_button_press_event));
+          plug->signal_button_release_event().connect(sigc::mem_fun(*this, &GnomeAppletWindow::on_button_press_event));
 
           container->add(*view);
           container->show_all();
@@ -348,7 +350,8 @@ GnomeAppletWindow::set_applet_size(int size)
 {
   TRACE_ENTER_MSG("GnomeAppletWindow::set_applet_size", size);
 
-  if (plug != NULL)    {
+  if (plug != NULL)
+    {
       plug->queue_resize();
     }
 
@@ -367,15 +370,13 @@ GnomeAppletWindow::set_applet_size(int size)
 void
 GnomeAppletWindow::set_applet_background(int type, GdkColor &color, long xid)
 {
+#ifndef HAVE_GTK3
   TRACE_ENTER_MSG("GnomeAppletWindow::set_applet_background", type << " " << xid 
                   << " " << color.pixel
                   << " " << color.red 
                   << " " << color.green
                   << " " << color.blue
                   );
-#ifdef HAVE_GTK3
-  // FIXME: GTK3.
-#else
   if (plug == NULL)
     {
       return;
@@ -452,8 +453,8 @@ GnomeAppletWindow::set_applet_background(int type, GdkColor &color, long xid)
     {
       g_object_unref(G_OBJECT(pixmap));
     }
-#endif
   TRACE_EXIT();
+#endif
 }
 
 //! Destroy notification.
@@ -470,6 +471,23 @@ GnomeAppletWindow::destroy_event(GtkWidget *widget, GdkEvent *event, gpointer us
   return true;
 }
 
+
+void
+GnomeAppletWindow::on_plug_size_allocate(Gtk::Allocation &allocation)
+{
+  TRACE_ENTER("GnomeAppletWindow::on_plug_size_allocate");
+  TRACE_MSG("alloc " << allocation.get_width() << " " << allocation.get_height());
+  
+  if ((applet_orientation == ORIENTATION_LEFT || applet_orientation == ORIENTATION_RIGHT))
+    {
+      set_applet_size(allocation.get_width());
+    }
+  else
+    {
+      set_applet_size(allocation.get_height());
+    }
+  TRACE_EXIT();
+}
 
 //! User pressed some mouse button in the main window.
 bool
@@ -496,15 +514,26 @@ GnomeAppletWindow::on_button_press_event(GdkEventButton *event)
 
   if (event->type == GDK_BUTTON_PRESS)
     {
-      TRACE_MSG("press");
       xevent.xbutton.type = ButtonPress;
 
-      /* X does an automatic pointer grab on button press
-       * if we have both button press and release events
-       * selected.
-       * We don't want to hog the pointer on our parent.
-       */
-      // FIXME: GTK3 gdk_display_pointer_ungrab(gtk_widget_get_display(widget), GDK_CURRENT_TIME);
+#ifdef HAVE_GTK3
+      GdkDeviceManager *device_manager = gdk_display_get_device_manager(gtk_widget_get_display(widget));
+      GList *devices = gdk_device_manager_list_devices(device_manager, GDK_DEVICE_TYPE_MASTER);
+
+      for (GList *d = devices; d; d = d->next)
+        {
+          GdkDevice *device = (GdkDevice *)d->data;
+
+          if (gdk_device_get_source(device) == GDK_SOURCE_MOUSE)
+            {
+              gdk_device_ungrab(device, GDK_CURRENT_TIME);
+            }
+        }
+
+      g_list_free(devices);
+#else
+      gdk_display_pointer_ungrab(gtk_widget_get_display(widget), GDK_CURRENT_TIME);
+#endif      
       ok = true;
     }
   else if (event->type == GDK_BUTTON_RELEASE)

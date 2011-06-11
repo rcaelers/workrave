@@ -110,6 +110,7 @@ private:
   bool on_button_press_event(GdkEventButton *event);
   bool on_delete_event(GdkEventAny*);
   bool delete_event(GdkEventAny *event);
+  void on_plug_size_allocate(Gtk::Allocation &allocation);
 };
 
 #endif // GNOMEAPPLETWINDOW_HH
