@@ -399,6 +399,7 @@ then
    if test "x$enable_experimental" = "xyes"; then
       PKG_CHECK_MODULES(GTK,
 			glib-2.0 >= 2.28.0
+			gio-2.0 >= 2.25.0
 			gtk+-3.0 >= 3.0.0
 			gdk-3.0 >= 3.0.0
                         sigc++-2.0 >= 2.2.4.2
@@ -438,7 +439,7 @@ dnl
 
 config_gnome=no
 config_gnome3=no
-have_panelapplet4=no
+config_panelapplet4=no
 
 if test "x$enable_gnome3" != "xno"
 then
@@ -446,14 +447,14 @@ then
                       [libpanelapplet-4.0],
                       [config_gnome=yes
 		       config_gnome3=yes
-                       have_panelapplet4=yes
+                       config_panelapplet4=yes
                        AC_DEFINE(HAVE_PANELAPPLET4, 1, [Support for Gnome panel applet v4])],
                        [if test "x$enable_gnome3" = "xyes"; then
                            AC_MSG_ERROR([Gnome 3 development headers not found.])
                        fi])
 fi
    
-if test "x$enable_gnome" != "xno" -a x$have_panelapplet4 = xno
+if test "x$enable_gnome" != "xno" -a x$config_panelapplet4 = xno -a x$config_gtk3 = xno
 then
     PKG_CHECK_MODULES([GNOME],
                       [libpanelapplet-2.0 >= 2.0.10 \
@@ -470,7 +471,7 @@ then
 fi
 
 AM_CONDITIONAL(HAVE_GNOME, test "x$config_gnome" = "xyes")
-AM_CONDITIONAL(HAVE_PANELAPPLET4, test "x$have_panelapplet4" = "xyes")
+AM_CONDITIONAL(HAVE_PANELAPPLET4, test "x$config_panelapplet4" = "xyes")
 
 
 dnl
@@ -518,7 +519,7 @@ config_gconf=no
 if test "x$enable_gconf" != "xno"
 then
   PKG_CHECK_MODULES([GCONF],
-                    [gconf-2.0],
+                    [gconf-2.0 >= 2.31.1],
                     [config_gconf=yes
                      AC_DEFINE([HAVE_GCONF], , [Define if GConf is available])],
                     [if test "x$enable_gconf" = "xyes"; then

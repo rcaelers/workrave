@@ -25,10 +25,9 @@
 #include "nls.h"
 #include "debug.hh"
 
-#include <gtkmm/main.h>
-#include <gtkmm/messagedialog.h>
-#include <glibmm/optiongroup.h>
-#include <glibmm/refptr.h>
+#include <gtkmm.h>
+#include <glibmm.h>
+#include <gtk/gtk.h>
 
 #ifdef PLATFORM_OS_WIN32_NATIVE
 #undef HAVE_UNISTD_H
@@ -500,7 +499,7 @@ GUI::init_nls()
       g_setenv("LANGUAGE", language.c_str(), 1);
     }
 
-#  if !defined(HAVE_GNOME)
+#  if !defined(HAVE_GNOME) && !defined(HAVE_GTK3)
   gtk_set_locale();
 #  endif
   const char *locale_dir;

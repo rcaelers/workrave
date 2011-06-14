@@ -537,6 +537,7 @@ TimerBoxGtkView::on_restbreak_button_press_event(int button)
 }
 
 
+#ifdef HAVE_GTK3
 bool
 TimerBoxGtkView::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
 {
@@ -549,3 +550,4 @@ TimerBoxGtkView::on_draw(const Cairo::RefPtr<Cairo::Context> &cr)
   
   return Gtk::Widget::on_draw(cr);
 }
+#endif

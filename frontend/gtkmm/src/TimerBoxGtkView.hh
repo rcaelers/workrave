@@ -58,8 +58,10 @@ public:
   void update_view();
   void set_enabled(bool enabled);
 
+#ifdef HAVE_GTK3
   virtual bool on_draw(const Cairo::RefPtr<Cairo::Context>& cr);
-
+#endif
+  
 private:
   void init_widgets();
   void init_table();
