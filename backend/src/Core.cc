@@ -1394,6 +1394,8 @@ Core::daily_reset()
   idlelog_manager->reset();
 #endif
 
+  save_state();
+
   TRACE_EXIT();
 }
 
