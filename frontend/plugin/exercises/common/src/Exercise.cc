@@ -314,7 +314,7 @@ Exercise::parse_exercises(const char *file_name,
       g_markup_parse_context_free(context);
     }
 
-#ifndef NDEBUG
+#ifdef TRACING
   for (std::list<Exercise>::iterator it = exe.begin(); it != exe.end(); it++)
     {
       Exercise &ex = *it;
