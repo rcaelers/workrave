@@ -68,4 +68,13 @@ private:
   Gtk::SpinButton *cycle_entry;
 };
 
+#ifndef GTKMM_CHECK_VERSION
+# define GTKMM_CHECK_VERSION(major, minor, micro) \
+   (GTKMM_MAJOR_VERSION > (major)                     \
+    || (GTKMM_MAJOR_VERSION == (major)                \
+        && (GTKMM_MINOR_VERSION > (minor)             \
+            || (GTKMM_MINOR_VERSION == (minor)        \
+                && GTKMM_MICRO_VERSION >= (micro)))))
+#endif
+
 #endif // TIMERBOXPREFERENCEPAGE_HH

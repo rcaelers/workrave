@@ -300,15 +300,20 @@ then
                                         have_dsound=yes DIRECTSOUNDLIBS="-ldsound -luuid -ldxguid -ldxerr8"
                                      ])
 
-   AC_CHECK_HEADERS(mmdeviceapi.h endpointvolume.h, [ AC_DEFINE(HAVE_MMDEVICEAPI_H, 1, [Define if we have mm device api])
-                                        have_mmdeviceapi=yes
-                                     ])
-				     
-#ifdef HAVE_MMDEVICEAPI_H
+   AC_TRY_COMPILE(
+   [
 #include <mmdeviceapi.h>
 #include <endpointvolume.h>
-#else
-				     
+   ], 
+   [
+      IMMDeviceEnumerator *device_enum = NULL;
+   ],
+   [ have_mmdeviceapi=yes
+     AC_DEFINE(HAVE_MMDEVICEAPI_H, 1, [Define if we have mm device api])
+     AC_MSG_RESULT(yes)
+   ],
+   AC_MSG_RESULT(no))
+
 fi
 
 AC_SUBST(LIBSTDCPP_LIBS)

@@ -35,7 +35,7 @@
 
 #ifdef PLATFORM_OS_WIN32
 #include <windows.h>
-#include <gtk.h>
+#include <gtk/gtk.h>
 #include <gdk/gdkwin32.h>
 #include "Harpoon.hh"
 #ifdef PLATFORM_OS_WIN32_NATIVE

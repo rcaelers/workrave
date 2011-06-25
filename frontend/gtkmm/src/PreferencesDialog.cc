@@ -163,10 +163,16 @@ PreferencesDialog::create_gui_page()
 {
   // Block types
   block_button = Gtk::manage(new Gtk::ComboBoxText());
+#if GTKMM_CHECK_VERSION(2, 18, 0)
   block_button->append(_("No blocking"));
   block_button->append(_("Block input"));
   block_button->append(_("Block input and screen"));
-
+#else
+  block_button->append_text(_("No blocking"));
+  block_button->append_text(_("Block input"));
+  block_button->append_text(_("Block input and screen"));
+#endif
+  
   int block_idx;
   switch (GUIConfig::get_block_mode())
     {
@@ -310,9 +316,15 @@ PreferencesDialog::create_sounds_page()
   
   // Sound types
   sound_button  = Gtk::manage(new Gtk::ComboBoxText());
+#if GTKMM_CHECK_VERSION(2, 18, 0)
   sound_button->append(_("No sounds"));
   sound_button->append(_("Play sounds using sound card"));
   sound_button->append(_("Play sounds using built-in speaker"));
+#else
+  sound_button->append_text(_("No sounds"));
+  sound_button->append_text(_("Play sounds using sound card"));
+  sound_button->append_text(_("Play sounds using built-in speaker"));
+#endif
   int idx;
   if (! SoundPlayer::is_enabled())
     idx = 0;
@@ -876,12 +888,20 @@ PreferencesDialog::update_theme_selection()
   SoundPlayer *snd = gui->get_sound_player();
   snd->get_sound_themes(sound_themes);
 
+#if GTKMM_CHECK_VERSION(2, 18, 0)
   sound_theme_button->remove_all();
-
+#else
+  sound_theme_button->clear_items();
+#endif
+  
   int idx = 0;
   for (vector<SoundPlayer::Theme>::iterator it = sound_themes.begin(); it != sound_themes.end(); it++)
     {
+#if GTKMM_CHECK_VERSION(2, 18, 0)
       sound_theme_button->append(it->description);
+#else
+      sound_theme_button->append_text(it->description);
+#endif
       
       if (it->active)
        {
