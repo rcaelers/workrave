@@ -65,14 +65,20 @@ Configurator::load(std::string filename)
 bool
 Configurator::save(std::string filename)
 {
-  return backend->save(filename);
+  TRACE_ENTER_MSG("Configurator::save", filename);
+  bool ret = backend->save(filename);
+  TRACE_RETURN(ret);
+  return ret;
 }
 
 
 bool
 Configurator::save()
 {
-  return backend->save();
+  TRACE_ENTER("Configurator::save");
+  bool ret = backend->save();
+  TRACE_RETURN(ret);
+  return ret;
 }
 
 
@@ -110,7 +116,7 @@ Configurator::heartbeat()
       it = next;
     }
 
-  if (now >= auto_save_time)
+  if (auto_save_time != 0 && now >= auto_save_time)
     {
       save();
       auto_save_time = 0;
