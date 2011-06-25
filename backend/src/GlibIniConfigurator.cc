@@ -155,7 +155,7 @@ GlibIniConfigurator::get_value(const std::string &key, VariantType type,
   out.type = type;
 
   gboolean has_key = g_key_file_has_key(config, group.c_str(), inikey.c_str(), &error);
-  if (has_key == TRUE)
+  if (has_key == TRUE && error == NULL)
     {
       ret = true;
       
@@ -198,11 +198,12 @@ GlibIniConfigurator::get_value(const std::string &key, VariantType type,
           ret = false;
         }
 
-      if (error != NULL)
-        {
-          g_error_free(error);
-          ret = false;
-        }
+    }
+
+  if (error != NULL)
+    {
+      g_error_free(error);
+      ret = false;
     }
   
   TRACE_RETURN(ret);
