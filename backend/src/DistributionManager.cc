@@ -1,6 +1,6 @@
 // DistributionManager.cc
 //
-// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2009, 2010 Rob Caelers <robc@krandor.org>
+// Copyright (C) 2002, 2003, 2004, 2006, 2007, 2008, 2009, 2010, 2011 Rob Caelers <robc@krandor.org>
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -548,7 +548,8 @@ void
 DistributionManager::config_changed_notify(const string &key)
 {
   TRACE_ENTER_MSG("DistributionManager:config_changed_notify", key);
-
+  (void)key;
+  
   read_configuration();
 
   TRACE_EXIT();

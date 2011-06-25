@@ -679,6 +679,7 @@ BreakControl::action_notify()
 void
 BreakControl::set_state_data(bool active, const BreakStateData &data)
 {
+  (void) active;
   TRACE_ENTER_MSG("BreakStateData::set_state_data", active);
 
   TRACE_MSG("forced = " << data.forced_break <<

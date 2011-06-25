@@ -206,6 +206,7 @@ IdleLogManager::expire(ClientInfo &info)
 void
 IdleLogManager::update_idlelog(ClientInfo &info, ActivityState state, bool master)
 {
+  (void) master;
   TRACE_ENTER_MSG("IdleLogManager::update_idlelog", ((int)state) << " " << master);
   
   // Did the state/master status change?

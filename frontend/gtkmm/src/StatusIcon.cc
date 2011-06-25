@@ -132,6 +132,8 @@ void StatusIcon::show_balloon(const string &balloon)
 {
 #ifdef USE_W32STATUSICON
   status_icon->show_balloon(balloon);
+#else
+  (void) balloon;
 #endif
 }
 

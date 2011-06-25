@@ -1840,6 +1840,7 @@ Core::set_timer_state(PacketBuffer &buffer)
 bool
 Core::set_monitor_state(bool master, PacketBuffer &buffer)
 {
+  (void) master;
   TRACE_ENTER_MSG("Core::set_monitor_state", master << " " << master_node);
 
   if (!master_node)

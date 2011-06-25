@@ -1,6 +1,6 @@
 // GstSoundPlayer.cc --- Sound player
 //
-// Copyright (C) 2002 - 2010 Rob Caelers & Raymond Penners
+// Copyright (C) 2002 - 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -96,6 +96,7 @@ GstSoundPlayer::capability(SoundCapability cap)
 void
 GstSoundPlayer::play_sound(SoundEvent snd)
 {
+  (void) snd;
   TRACE_ENTER_MSG("GstSoundPlayer::play_sound", snd);
   TRACE_EXIT();
 }
