@@ -376,7 +376,11 @@ GtkUtil::update_mnemonic(Gtk::Widget *widget, Glib::RefPtr<Gtk::AccelGroup> acce
   if (label != NULL)
     {
       guint mnemonic = label->get_mnemonic_keyval();
+#ifdef HAVE_GTK3
       if (mnemonic != GDK_KEY_VoidSymbol)
+#else
+      if (mnemonic != GDK_VoidSymbol)
+#endif        
         {
           widget->add_accelerator("activate", accel_group, mnemonic,  (Gdk::ModifierType)0, Gtk::ACCEL_VISIBLE);
         }
