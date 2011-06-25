@@ -143,7 +143,7 @@ bool
 GlibIniConfigurator::get_value(const std::string &key, VariantType type,
                                Variant &out) const
 {
-  bool ret = true;
+  bool ret = false;
   GError *error = NULL;
   string group;
   string inikey;
@@ -154,51 +154,58 @@ GlibIniConfigurator::get_value(const std::string &key, VariantType type,
 
   out.type = type;
 
-  switch(type)
+  gboolean has_key = g_key_file_has_key(config, group.c_str(), inikey.c_str(), &error);
+  if (has_key == TRUE)
     {
-    case VARIANT_TYPE_INT:
-      out.int_value = g_key_file_get_integer(config, group.c_str(), inikey.c_str(), &error);
-      break;
+      ret = true;
+      
+      switch(type)
+        {
+        case VARIANT_TYPE_INT:
+          out.int_value = g_key_file_get_integer(config, group.c_str(), inikey.c_str(), &error);
+          break;
 
-    case VARIANT_TYPE_BOOL:
-      out.bool_value = g_key_file_get_boolean(config, group.c_str(), inikey.c_str(), &error);
-      break;
+        case VARIANT_TYPE_BOOL:
+          out.bool_value = g_key_file_get_boolean(config, group.c_str(), inikey.c_str(), &error);
+          break;
 
-    case VARIANT_TYPE_DOUBLE:
-      {
-        char *s = g_key_file_get_string(config, group.c_str(), inikey.c_str(), &error);
-        if (error == NULL && s != NULL)
+        case VARIANT_TYPE_DOUBLE:
           {
-            sscanf(s, "%lf", &out.double_value);
+            char *s = g_key_file_get_string(config, group.c_str(), inikey.c_str(), &error);
+            if (error == NULL && s != NULL)
+              {
+                sscanf(s, "%lf", &out.double_value);
+              }
+            break;
           }
-        break;
-      }
 
-    case VARIANT_TYPE_NONE:
-      out.type = VARIANT_TYPE_STRING;
-      // FALLTHROUGH
+        case VARIANT_TYPE_NONE:
+          out.type = VARIANT_TYPE_STRING;
+          // FALLTHROUGH
 
-    case VARIANT_TYPE_STRING:
-      {
-        char *s = g_key_file_get_string(config, group.c_str(), inikey.c_str(), &error);
-        if (error == NULL && s != NULL)
+        case VARIANT_TYPE_STRING:
           {
-            out.string_value = s;
+            char *s = g_key_file_get_string(config, group.c_str(), inikey.c_str(), &error);
+            if (error == NULL && s != NULL)
+              {
+                out.string_value = s;
+              }
+            g_free(s);
           }
-      }
-      break;
+          break;
 
-    default:
-      ret = false;
+        default:
+          ret = false;
+        }
+
+      if (error != NULL)
+        {
+          g_error_free(error);
+          ret = false;
+        }
     }
-
-  if (error != NULL)
-    {
-      g_error_free(error);
-      ret = false;
-    }
-
-  TRACE_EXIT();
+  
+  TRACE_RETURN(ret);
   return ret;
 }
 
