@@ -771,12 +771,12 @@ BreakControl::send_signal(BreakStage stage)
               break;
           
             case BREAK_ID_REST_BREAK:
-              iface->MicrobreakChanged("/org/workrave/Workrave/Core",
+              iface->RestbreakChanged("/org/workrave/Workrave/Core",
                                        progress);
               break;
           
             case BREAK_ID_DAILY_LIMIT:
-              iface->MicrobreakChanged("/org/workrave/Workrave/Core",
+              iface->DailylimitChanged("/org/workrave/Workrave/Core",
                                        progress);
               break;
           
