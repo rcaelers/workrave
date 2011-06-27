@@ -1,7 +1,7 @@
 ; setup.iss --- Inno setup file
 ; (Important: *MUST* be DOS encoded)
 ;
-; Copyright (C) 2002 - 2010 Raymond Penners <raymond@dotsphinx.com>
+; Copyright (C) 2002 - 2011 Raymond Penners <raymond@dotsphinx.com>
 ; Copyright (C) 2010 - 2011 Rob Caelers <robc@krandor.nl>
 ; All rights reserved.
 ;
@@ -41,9 +41,9 @@ PrivilegesRequired=none
 ;Name: "gtk"; Description: "Full installation (including GTK+ runtime)"
 ;Name: "nogtk"; Description: "Compact installation (excludes GTK+ runtime)"
 
-;[Components]
+[Components]
 ;Name: "main"; Description: "Main Files"; Types: gtk nogtk; Flags: fixed
-;Name: "gtk"; Description: "GTK+ Runtime Environment"; Types: gtk;
+Name: "dbus"; Description: "D-BUS Runtime Environment"
 
 
 [Tasks]
@@ -56,6 +56,9 @@ Source: "..\..\..\..\common\win32\harpoon\src\Release\harpoon64.dll"; DestDir: "
 Source: "..\..\..\..\common\win32\harpoonHelper\src\Release\harpoonHelper.exe"; DestDir: "{app}\lib"; DestName: "harpoonHelper-no-auto-start.exe"; Check: IsWin64; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
 Source: "..\..\..\win32\applet\src\Release\workrave-applet.dll"; DestDir: "{app}\lib"; Check: (not IsWin64); Flags: ignoreversion restartreplace uninsrestartdelete regserver 32bit;
 Source: "..\..\..\win32\applet\src\Release\workrave-applet64.dll"; DestDir: "{app}\lib"; Check: IsWin64; Flags: ignoreversion restartreplace uninsrestartdelete regserver 64bit;
+Source: ".\runtime-dbus\bin\*.*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs; Components: dbus;
+Source: ".\runtime-dbus\etc\*.*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs; Components: dbus;
+Source: ".\runtime-dbus\lib\libdbus-1.dll"; DestDir: "{app}\lib"; Flags: ignoreversion recursesubdirs; Components: dbus;
 Source: ".\runtime-base\*.*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs;
 Source: ".\runtime-gtk\*.*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs;
 ; Components: gtk;
