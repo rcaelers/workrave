@@ -37,14 +37,13 @@ PrivilegesRequired=none
 ; uncomment the following line if you want your installation to run on NT 3.51 too.
 ; MinVersion=4,3.51
 
-;[Types]
-;Name: "gtk"; Description: "Full installation (including GTK+ runtime)"
-;Name: "nogtk"; Description: "Compact installation (excludes GTK+ runtime)"
+[Types]
+Name: "full"; Description: "Full installation"
+Name: "compact"; Description: "Compact installation (excludes DBus runtime)"
 
 [Components]
-;Name: "main"; Description: "Main Files"; Types: gtk nogtk; Flags: fixed
-Name: "dbus"; Description: "D-BUS Runtime Environment"
-
+Name: "main"; Description: "Main Files"; Types: full compact; Flags: fixed
+Name: "dbus"; Description: "D-BUS Runtime Environment"; Types: full
 
 [Tasks]
 Name: "desktopicon"; Description: "Create a &desktop icon"; GroupDescription: "Additional tasks:"; MinVersion: 4,4
@@ -192,31 +191,6 @@ begin
     Result := Result + ';' + GetGtkRuntimePath() + '\lib';    
   end
 end;
-
-function ScriptDlgPages(CurPage: Integer; BackClicked: Boolean): Boolean;
-var
-  I, CurSubPage: Integer;
-begin
-   Result := True;
-  ;if (not BackClicked and (CurPage = wpSelectComponents)) then begin
-  ;  if (not HasGtkRuntime()) and (not IsGtkRuntimeToBeInstalled()) then begin
-  ;    MsgBox('Setup could not find the required GTK+ runtime environment. Please choose the full installation instead.', mbError, MB_OK);
-  ;    Result := False;
-  ;  end
-  ;end
-end;
-
-
-function NextButtonClick(CurPage: Integer): Boolean;
-begin
-  Result := ScriptDlgPages(CurPage, False);
-end;
-
-function BackButtonClick(CurPage: Integer): Boolean;
-begin
-  Result := ScriptDlgPages(CurPage, True);
-end;
-
 
 [Code]
 function IsX64: Boolean;

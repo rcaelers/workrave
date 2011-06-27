@@ -552,7 +552,7 @@ then
                                        [gnet-2.0],
                                        [config_distribution=yes
                                         have_gnet=yes
-                                        AC_DEFINE([HAVE_GNET], , [Define if GNet is available]),
+                                        AC_DEFINE([HAVE_GNET], , [Define if GNet is available])
                                         AC_DEFINE([HAVE_GNET2], , [Define if GNet2 is available])],
                                        [if test "x$enable_distribution" = "xyes"; then
                                           AC_MSG_ERROR([GIO/GNet development headers not found.])
@@ -601,21 +601,33 @@ then
     DBUS_SERVICES_DIR="$DATADIR/dbus-1/services"
     AC_SUBST(DBUS_SERVICES_DIR)
 
-    PKG_CHECK_MODULES([DBUS],
-                      [dbus-1 >= 1.2],
-                      [PKG_CHECK_MODULES([DBUSGLIB], [dbus-glib-1], [have_dbus=yes], [true])
-                       PKG_CHECK_EXISTS([dbus-glib-1 >= 0.84],
-                                        [AC_DEFINE(HAVE_DBUSGLIB_GET_PRIVATE, , [DBus-glib 0.84+ support])])],
-                      [true])
+    if test "x$platform_os_win32" = "xyes"
+    then
+	PKG_CHECK_MODULES([DBUS],
+                          [dbus-1 >= 1.2],
+                          [have_dbus=yes],
+                          [true])
+    else
+	PKG_CHECK_MODULES([DBUS],
+                          [dbus-1 >= 1.2],
+                          [PKG_CHECK_MODULES([DBUSGLIB], [dbus-glib-1], [have_dbus=yes], [true])
+                           PKG_CHECK_EXISTS([dbus-glib-1 >= 0.84],
+                                         [AC_DEFINE(HAVE_DBUSGLIB_GET_PRIVATE, , [DBus-glib 0.84+ support])])],
+                          [true])
 
-    if test "x$have_dbus" != "xyes" -a "x$enable_dbus" = "xyes"; then
-        AC_MSG_ERROR([DBus and DBus-glib development headers not found.])
-      fi
+        if test "x$have_dbus" != "xyes" -a "x$enable_dbus" = "xyes"; then
+            AC_MSG_ERROR([DBus and DBus-glib development headers not found.])
+        fi
+    fi
+    
 	 
     if test "x$have_dbus" = "xyes"
     then
         AC_DEFINE(HAVE_DBUS, , [DBus support])
-        AC_DEFINE(HAVE_DBUSGLIB, , [DBus-glib support])
+	if test "x$platform_os_win32" != "xyes"
+	then
+            AC_DEFINE(HAVE_DBUSGLIB, , [DBus-glib support])
+	fi
         AC_DEFINE_UNQUOTED(DBUS_SERVICES_DIR, "$DBUS_SERVICES_DIR", [Where services dir for DBUS is])
     fi
 
