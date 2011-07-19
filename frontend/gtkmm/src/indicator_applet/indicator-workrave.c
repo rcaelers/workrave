@@ -334,9 +334,12 @@ receive_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVaria
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
           WorkraveTimebar *timebar = workrave_timerbox_get_time_bar(self->priv->timerbox, i);
-          workrave_timebar_set_progress(timebar, td[i].bar_primary_val, td[i].bar_primary_max, td[i].bar_primary_color);
-          workrave_timebar_set_secondary_progress(timebar, td[i].bar_secondary_val, td[i].bar_secondary_max, td[i].bar_secondary_color);
-          workrave_timebar_set_text(timebar, td[i].bar_text);
+          if (timebar != NULL)
+            {
+              workrave_timebar_set_progress(timebar, td[i].bar_primary_val, td[i].bar_primary_max, td[i].bar_primary_color);
+              workrave_timebar_set_secondary_progress(timebar, td[i].bar_secondary_val, td[i].bar_secondary_max, td[i].bar_secondary_color);
+              workrave_timebar_set_text(timebar, td[i].bar_text);
+            }
         }
 
       workrave_timerbox_update(self->priv->timerbox, self->priv->image);

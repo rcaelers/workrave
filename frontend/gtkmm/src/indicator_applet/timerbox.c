@@ -249,6 +249,12 @@ workrave_timerbox_update(WorkraveTimerbox *self, GtkImage *image)
   cairo_surface_t *surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, win_w, win_h);
   cairo_t *cr = cairo_create (surface);
 
+  cairo_save(cr);
+  cairo_set_source_rgba(cr, 0, 0, 0, 0);
+  cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
+  cairo_paint(cr);
+  cairo_restore(cr);   
+  
   workrave_timerbox_update_time_bars(self, cr, surface);
   workrave_timerbox_update_sheep(self, cr);
 
