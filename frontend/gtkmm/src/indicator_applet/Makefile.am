@@ -1,6 +1,6 @@
 if HAVE_INDICATOR
 
-libexec_PROGRAMS = indicator-workrave-service
+libexec_PROGRAMS = indicator-workrave-service indicator-workrave-test
 
 dbus_servicesdir = $(DBUS_SERVICES_DIR)
 dbus_services_DATA = indicator-workrave.service
@@ -43,6 +43,21 @@ libworkrave_la_LIBADD = \
 libworkrave_la_LDFLAGS = \
 	-module \
 	-avoid-version
+
+indicator_workrave_test_SOURCES = \
+	timebar.c \
+	timebar.h \
+	timerbox.c \
+	timerbox.h \
+	test.c
+indicator_workrave_test_CFLAGS = \
+	-Wall -std=c99 $(GTK_CFLAGS) \
+	-DG_LOG_DOMAIN=\"Indicator-Workrave\" \
+	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" \
+	-DWORKRAVE_PKGDATADIR="\"${pkgdatadir}\""
+indicator_workrave_test_LDADD = \
+	$(GTK_LIBS)
+
 
 gen-%.xml.c: %.xml
 	@echo "Building $@ from $<"

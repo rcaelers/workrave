@@ -32,6 +32,7 @@ using namespace std;
 
 #include "UnityAppletWindow.hh"
 
+#include "AppletControl.hh"
 #include "TimerBoxControl.hh"
 #include "GUI.hh"
 #include "Menus.hh"
@@ -44,8 +45,22 @@ using namespace std;
 #include "DBusGUI.hh"
 
 //! Constructor.
-UnityAppletWindow::UnityAppletWindow()
+UnityAppletWindow::UnityAppletWindow(AppletControl *control) :
+  control(control)
 {
+  timer_box_control = new TimerBoxControl("applet", *this);
+  timer_box_view = this;
+
+  for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+    {
+      data[i].bar_text = "";
+      data[i].bar_primary_color = 0;
+      data[i].bar_primary_val = 0;
+      data[i].bar_primary_max = 0;
+      data[i].bar_secondary_color = 0;
+      data[i].bar_secondary_val = 0;
+      data[i].bar_secondary_max = 0;
+    }
 }
 
 
@@ -58,7 +73,7 @@ void
 UnityAppletWindow::set_slot(BreakId id, int slot)
 {
   TRACE_ENTER_MSG("UnityAppletWindow::set_slot", int(id) << ", " << slot);
-  data[id].slot = slot;
+  data[slot].slot = id;
   TRACE_EXIT();
 }
 
@@ -126,6 +141,9 @@ UnityAppletWindow::activate_applet()
       dbus->connect("/org/workrave/Workrave/UI",
                     "org.workrave.UnityInterface",
                     this);
+
+      control->set_applet_state(AppletControl::APPLET_UNITY,
+                                AppletWindow::APPLET_STATE_VISIBLE);
     }
       
   TRACE_EXIT();
@@ -138,6 +156,8 @@ void
 UnityAppletWindow::deactivate_applet()
 {
   TRACE_ENTER("UnityAppletWindow::deactivate_applet");
+  control->set_applet_state(AppletControl::APPLET_UNITY,
+                            AppletWindow::APPLET_STATE_DISABLED);
   TRACE_EXIT();
 }
 

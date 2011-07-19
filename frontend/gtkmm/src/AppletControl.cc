@@ -101,7 +101,7 @@ AppletControl::init()
 #endif
 
 
-  applets[APPLET_UNITY] = new UnityAppletWindow();
+  applets[APPLET_UNITY] = new UnityAppletWindow(this);
   
 #ifdef PLATFORM_OS_UNIX
   applets[APPLET_TRAY] = new X11SystrayAppletWindow(this);

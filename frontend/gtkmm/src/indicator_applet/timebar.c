@@ -494,7 +494,7 @@ workrave_timebar_draw(WorkraveTimebar *self, cairo_t *cr, int x, int y, int win_
   /* cairo_set_source_rgb(cr, front_color.red, front_color.green, front_color.blue); */
   /* pango_cairo_show_layout(cr, layout); */
 
-  gtk_style_context_restore(context);
+  //gtk_style_context_restore(context);
 
   gtk_widget_path_free (path);
 }

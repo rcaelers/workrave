@@ -33,18 +33,20 @@ struct TimerData
 {
   std::string bar_text;
   int slot;
-  short bar_secondary_color;
+  int bar_secondary_color;
   int bar_secondary_val;
   int bar_secondary_max;
-  short bar_primary_color;
+  int bar_primary_color;
   int bar_primary_val;
   int bar_primary_max;
 };
 
-class UnityAppletWindow : public AppletWindow, ITimerBoxView
+class AppletControl;
+
+class UnityAppletWindow : public AppletWindow , ITimerBoxView
 {
 public:
-  UnityAppletWindow();
+  UnityAppletWindow(AppletControl *control);
   virtual ~UnityAppletWindow();
 
   virtual AppletState activate_applet();
@@ -67,9 +69,10 @@ public:
 
 private:
   bool enabled;
-  short slots[BREAK_ID_SIZEOF];
-
   TimerData data[BREAK_ID_SIZEOF];
+
+  //! Controller
+  AppletControl *control;
 };
 
 #endif // UNITYAPPLETWINDOW_HH

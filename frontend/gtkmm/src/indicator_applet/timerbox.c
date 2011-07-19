@@ -111,7 +111,7 @@ workrave_timerbox_init(WorkraveTimerbox *self)
       self->priv->break_to_slot[i] = -1;
     }
   self->priv->filled_slots = 0;
-  self->priv->enabled = FALSE;
+  self->priv->enabled = TRUE;
   
   /* initialize all public and private members to reasonable default values. */
 
@@ -243,8 +243,8 @@ workrave_timerbox_set_slot(WorkraveTimerbox *self, int slot, BreakId brk)
 void
 workrave_timerbox_update(WorkraveTimerbox *self, GtkImage *image)
 {
-  int win_w = 40; // allocation.get_width();
-  int win_h = 16; // allocation.get_height();
+  int win_w = 3 * 60;
+  int win_h = 16;
 
   cairo_surface_t *surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, win_w, win_h);
   cairo_t *cr = cairo_create (surface);
@@ -280,17 +280,12 @@ workrave_timerbox_update_time_bars(WorkraveTimerbox *self, cairo_t *cr, cairo_su
   if (priv->enabled)
     {
       int x = 0, y = 0;
-      int bar_w = 50, bar_h = 10;
+      int bar_w = 40, bar_h = 16;
 
       int icon_width = gdk_pixbuf_get_width(priv->break_to_icon[0]);
       int icon_height = gdk_pixbuf_get_height(priv->break_to_icon[0]);
 
       int icon_bar_w = icon_width + 2 * PADDING_X + bar_w;
-      int rows = priv->filled_slots;
-      int columns = 1;
-      
-      int box_h = rows * MAX(icon_height, bar_h) + (rows - 1) * PADDING_Y;
-
       int icon_dy = 0;
       int bar_dy = 0;
 
@@ -303,7 +298,6 @@ workrave_timerbox_update_time_bars(WorkraveTimerbox *self, cairo_t *cr, cairo_su
           bar_dy = (icon_height - bar_h + 1) / 2;
         }
        
-      int current_column = 0;
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
           BreakId bid = priv->slot_to_break[i];
@@ -314,21 +308,15 @@ workrave_timerbox_update_time_bars(WorkraveTimerbox *self, cairo_t *cr, cairo_su
 
               cairo_surface_t *bar_surface = cairo_surface_create_for_rectangle(surface, x+icon_width+PADDING_X, y + bar_dy, bar_w, bar_h);
               cairo_t *bar_cr = cairo_create(bar_surface);
-              workrave_timebar_draw(bar, cr, 0, 0, bar_w, bar_h);
+              workrave_timebar_draw(bar, bar_cr, 0, 0, bar_w, bar_h);
               cairo_surface_destroy(bar_surface);
               cairo_destroy(bar_cr);
               
               gdk_cairo_set_source_pixbuf(cr, priv->break_to_icon[bid], x, y + icon_dy);
-              //cairo_fill(cr);
+              cairo_fill(cr);
+              cairo_paint(cr);
               
               x += icon_bar_w + 2 * PADDING_X;
-              current_column++;
-              if (current_column >= columns)
-                {
-                  current_column = 0;
-                  x = 0;
-                  y += MAX(icon_height, bar_h) + PADDING_Y;
-                }
             }
         }
     }
