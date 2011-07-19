@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<node name="/">
+	<interface name="org.workrave.indicator.workrave.service">
+
+<!-- Methods -->
+
+<!-- Signals -->
+		<signal name="Update" />
+
+	</interface>
+</node>

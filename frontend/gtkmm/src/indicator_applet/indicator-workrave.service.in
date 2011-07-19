@@ -1,0 +1,3 @@
+[D-BUS Service]
+Name=org.workrave.indicator.workrave
+Exec=@libexecdir@/indicator-workrave-service

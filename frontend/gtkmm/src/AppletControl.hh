@@ -1,6 +1,6 @@
 // AppletControl.hh --- Applet window
 //
-// Copyright (C) 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2006, 2007, 2008, 2009, 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -33,6 +33,8 @@ public:
       APPLET_NONE = -1,
       APPLET_TRAY,
       APPLET_GNOME,
+      APPLET_GNOME_SHELL,
+      APPLET_UNITY,
       APPLET_KDE,
       APPLET_W32,
       APPLET_OSX,

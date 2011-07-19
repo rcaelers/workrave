@@ -1279,9 +1279,6 @@ Core::start_break(BreakId break_id, BreakId resume_this_break)
     }
 
   // Advance restbreak if it follows within 30s after the end of a microbreak
-  BreakControl *restbreak_control;
-  restbreak_control = breaks[BREAK_ID_REST_BREAK].get_break_control();
-
   if (break_id == BREAK_ID_REST_BREAK && resume_this_break == BREAK_ID_NONE)
     {
       breaks[BREAK_ID_REST_BREAK].override(BREAK_ID_REST_BREAK);

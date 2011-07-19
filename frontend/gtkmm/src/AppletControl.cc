@@ -1,6 +1,6 @@
 // AppletControl.cc --- Applet info Control
 //
-// Copyright (C) 2006, 2007, 2008, 2009 Rob Caelers & Raymond Penners
+// Copyright (C) 2006, 2007, 2008, 2009, 2011 Rob Caelers & Raymond Penners
 // All rights reserved.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -43,6 +43,8 @@
 #ifdef PLATFORM_OS_WIN32
 #include "W32AppletWindow.hh"
 #endif
+
+#include "UnityAppletWindow.hh"
 
 // #ifdef PLATFORM_OS_OSX
 // #include "OSXAppletWindow.hh"
@@ -98,6 +100,9 @@ AppletControl::init()
   applets[APPLET_GNOME] = new GnomeAppletWindow(this);
 #endif
 
+
+  applets[APPLET_UNITY] = new UnityAppletWindow();
+  
 #ifdef PLATFORM_OS_UNIX
   applets[APPLET_TRAY] = new X11SystrayAppletWindow(this);
 #endif
@@ -126,6 +131,14 @@ AppletControl::show()
   
   bool specific = false;
   AppletState rc;
+
+
+  rc = activate_applet(APPLET_UNITY);
+  TRACE_MSG("Unity" << rc);
+  if (rc != AppletWindow::APPLET_STATE_DISABLED)
+    {
+      specific = true;
+    }
 
   rc = activate_applet(APPLET_GNOME);
   TRACE_MSG("Gnome " << rc);

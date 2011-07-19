@@ -67,6 +67,10 @@ AC_ARG_ENABLE(gnome3,
                               [compile with preliminary Gnome 3 support])],
               [test "x$enable_gnome3" = "xyes" && enable_gnome=yes])
 
+AC_ARG_ENABLE(indicator,
+              [AS_HELP_STRING([--enable-indicator],
+                              [compile with preliminary indicator applet support])])
+	      
 AC_ARG_ENABLE(dbus,
               [AS_HELP_STRING([--disable-dbus],
                               [compile without DBus support])])
@@ -112,6 +116,12 @@ AC_ARG_ENABLE(tracing,
                               [compile with method call tracing])],
               [test "x$enable_tracing" = "xyes" && enable_debug=yes])
 
+AC_ARG_WITH([indicator-gtk],
+  [AS_HELP_STRING([--with-indicator-gtk],
+    [Which version of gtk to use for the indicator @<:@default=3@:>@])],
+  [],
+  [with_indicator_gtk=3])
+	      
 case x"$target" in
   xNONE | x)
     target_or_host="$host" ;;
@@ -478,6 +488,65 @@ fi
 AM_CONDITIONAL(HAVE_GNOME, test "x$config_gnome" = "xyes")
 AM_CONDITIONAL(HAVE_PANELAPPLET4, test "x$config_panelapplet4" = "xyes")
 
+dnl
+dnl Indicator applet
+dnl
+
+
+INDICATOR_REQUIRED_VERSION=0.3.19
+DBUSMENUGLIB_REQUIRED_VERSION=0.1.1
+DBUSMENUGTK_REQUIRED_VERSION=0.3.95
+
+if test "x$enable_indicator" != "xno"
+then
+    AS_IF([test "x$with_indicator_gtk" = x3],
+          [PKG_CHECK_MODULES(INDICATOR, indicator3-0.4 >= $INDICATOR_REQUIRED_VERSION
+                                        dbusmenu-glib-0.4 >= $DBUSMENUGLIB_REQUIRED_VERSION
+                                        dbusmenu-gtk3-0.4 >= $DBUSMENUGTK_REQUIRED_VERSION,
+                              [ config_indicator=yes
+                       	        AC_DEFINE(HAVE_INDICATORS, 1, [Support for indicator applet])])
+          ],
+          [test "x$with_indicator_gtk" = x2],
+          [PKG_CHECK_MODULES(INDICATOR, indicator-0.4 >= $INDICATOR_REQUIRED_VERSION
+                                        dbusmenu-glib-0.4 >= $DBUSMENUGLIB_REQUIRED_VERSION
+                                        dbusmenu-gtk-0.4 >= $DBUSMENUGTK_REQUIRED_VERSION,
+				 [config_indicator=yes
+                       		  AC_DEFINE(HAVE_INDICATORS, 1, [Support for indicator applet])])
+        ],
+        [AC_MSG_FAILURE([Value for --with-gtk was neither 2 nor 3])]
+    )
+fi
+
+with_localinstall="no"
+AC_ARG_ENABLE(localinstall, AS_HELP_STRING([--enable-localinstall], [install all of the files localy instead of system directories (for distcheck)]), with_localinstall=$enableval, with_localinstall=no)
+
+AS_IF([test "x$with_localinstall" = "xyes"],
+	[AS_IF([test "x$with_indicator_gtk" = "x2"],
+		[
+		INDICATORDIR="${libdir}/indicators/5/"
+		INDICATORICONSDIR="${datadir}/libindicate/icons/"
+		],
+		[
+		INDICATORDIR="${libdir}/indicators3/2/"
+		INDICATORICONSDIR="${datadir}/libindicate/icons/"
+		])],
+	[AS_IF([test "x$with_indicator_gtk" = "x2"],
+		[
+		INDICATORDIR=`$PKG_CONFIG --variable=indicatordir indicator`
+		INDICATORICONSDIR=`$PKG_CONFIG --variable=iconsdir indicator`
+		],
+		[
+		INDICATORDIR=`$PKG_CONFIG --variable=indicatordir indicator3`
+		INDICATORICONSDIR=`$PKG_CONFIG --variable=iconsdir indicator3`
+		])])
+
+AC_SUBST(INDICATORDIR)
+AC_SUBST(INDICATORICONSDIR)
+
+AC_SUBST(INDICATORDIR)
+AC_SUBST(INDICATORICONSDIR)
+	
+AM_CONDITIONAL(HAVE_INDICATOR, test "x$config_indicator" = "xyes")
 
 dnl
 dnl KDE
@@ -900,6 +969,7 @@ AC_OUTPUT(Makefile
           frontend/gtkmm/src/osx/Makefile \
           frontend/gtkmm/src/gnome_applet/Makefile \
           frontend/gtkmm/src/gnome3_applet/Makefile \
+          frontend/gtkmm/src/indicator_applet/Makefile \
           frontend/gtkmm/src/kde_applet/Makefile \
           frontend/qt/Makefile \
           frontend/qt/src/Makefile \

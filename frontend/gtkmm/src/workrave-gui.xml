@@ -26,6 +26,34 @@
     <method name="About"                 csymbol="on_menu_about"/>
   </interface>
 
+  <interface name="org.workrave.UnityInterface" csymbol="UnityAppletWindow">
+    <import>
+      <include name="UnityAppletWindow.hh"/>
+    </import>
+
+    <struct name="TimerData" csymbol="TimerData">
+      <field type="string" name="bar_text"/>
+      <field type="uint32" name="slot"/>
+      <field type="uint32" name="bar_secondary_color"/>
+      <field type="uint32" name="bar_secondary_val"/>
+      <field type="uint32" name="bar_secondary_max"/>
+      <field type="uint32" name="bar_primary_color"/>
+      <field type="uint32" name="bar_primary_val"/>
+      <field type="uint32" name="bar_primary_max"/>
+    </struct>
+
+    <method name="SetEnabled" csymbol="set_applet_enabled">
+      <arg type="bool" name="enabled" direction="in"/>
+    </method>
+
+    <signal name="UpdateIndicator">
+      <arg type="TimerData" name="micro"/>
+      <arg type="TimerData" name="rest"/>
+      <arg type="TimerData" name="daily"/>
+    </signal>
+
+  </interface>
+    
   <interface name="org.workrave.GnomeAppletSupportInterface" csymbol="GnomeAppletWindow"
              condition="defined(HAVE_GNOME)">
     <import>
