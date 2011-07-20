@@ -116,7 +116,7 @@ receive_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVaria
 
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
-          workrave_timerbox_set_slot(timerbox, td[i].slot, i);
+          workrave_timerbox_set_slot(timerbox, i, td[i].slot);
         }
       
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)

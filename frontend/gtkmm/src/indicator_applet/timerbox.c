@@ -135,17 +135,6 @@ workrave_timerbox_dispose(GObject *gobject)
       g_object_unref(self->priv->slot_to_time_bar[i]);
     }
 
-  /* 
-   * In dispose, you are supposed to free all types referenced from this
-   * object which might themselves hold a reference to self. Generally,
-   * the most simple solution is to unref all members on which you own a 
-   * reference.
-   */
-
-  /* dispose might be called multiple times, so we must guard against
-   * calling g_object_unref() on an invalid GObject.
-   */
-
   /* Chain up to the parent class */
   G_OBJECT_CLASS(workrave_timerbox_parent_class)->dispose(gobject);
 }
@@ -158,15 +147,6 @@ workrave_timerbox_finalize(GObject *gobject)
 
   /* Chain up to the parent class */
   G_OBJECT_CLASS(workrave_timerbox_parent_class)->finalize(gobject);
-}
-
-
-void
-workrave_timerbox_do_action(WorkraveTimerbox *self, int param)
-{
-  g_return_if_fail(WORKRAVE_IS_TIMERBOX(self));
-
-  /* do stuff here. */
 }
 
 
@@ -243,10 +223,16 @@ workrave_timerbox_set_slot(WorkraveTimerbox *self, int slot, BreakId brk)
 void
 workrave_timerbox_update(WorkraveTimerbox *self, GtkImage *image)
 {
-  int win_w = 3 * 60;
-  int win_h = 16;
+  WorkraveTimerboxPrivate *priv = self->priv;
 
-  cairo_surface_t *surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, win_w, win_h);
+  int bar_width, bar_height;
+  workrave_timebar_get_dimensions(priv->slot_to_time_bar[0], &bar_width, &bar_height);
+
+  int icon_width = gdk_pixbuf_get_width(priv->break_to_icon[0]);
+  int icon_bar_width = priv->filled_slots * (icon_width + 4 * PADDING_X + bar_width) - 2 * PADDING_X;
+  int icon_bar_height = 24;
+  
+  cairo_surface_t *surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, icon_bar_width, icon_bar_height);
   cairo_t *cr = cairo_create (surface);
 
   cairo_save(cr);
@@ -258,7 +244,7 @@ workrave_timerbox_update(WorkraveTimerbox *self, GtkImage *image)
   workrave_timerbox_update_time_bars(self, cr, surface);
   workrave_timerbox_update_sheep(self, cr);
 
-  GdkPixbuf *pixbuf = gdk_pixbuf_get_from_surface(surface, 0, 0, win_w, win_h);
+  GdkPixbuf *pixbuf = gdk_pixbuf_get_from_surface(surface, 0, 0, icon_bar_width, icon_bar_height);
   gtk_image_set_from_pixbuf(image, pixbuf);
 
   cairo_surface_destroy(surface);
@@ -286,22 +272,24 @@ workrave_timerbox_update_time_bars(WorkraveTimerbox *self, cairo_t *cr, cairo_su
   if (priv->enabled)
     {
       int x = 0, y = 0;
-      int bar_w = 40, bar_h = 16;
+      int bar_width, bar_height;
+
+      workrave_timebar_get_dimensions(priv->slot_to_time_bar[0], &bar_width, &bar_height);
 
       int icon_width = gdk_pixbuf_get_width(priv->break_to_icon[0]);
       int icon_height = gdk_pixbuf_get_height(priv->break_to_icon[0]);
 
-      int icon_bar_w = icon_width + 2 * PADDING_X + bar_w;
+      int icon_bar_width = icon_width + 2 * PADDING_X + bar_width;
       int icon_dy = 0;
       int bar_dy = 0;
 
-      if (bar_h > icon_height)
+      if (bar_height > icon_height)
         {
-          icon_dy = (bar_h - icon_height + 1) / 2;
+          icon_dy = (bar_height - icon_height + 1) / 2;
         }
       else
         {
-          bar_dy = (icon_height - bar_h + 1) / 2;
+          bar_dy = (icon_height - bar_height + 1) / 2;
         }
        
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
@@ -312,9 +300,10 @@ workrave_timerbox_update_time_bars(WorkraveTimerbox *self, cairo_t *cr, cairo_su
             {
               WorkraveTimebar *bar = priv->slot_to_time_bar[bid];
 
-              cairo_surface_t *bar_surface = cairo_surface_create_for_rectangle(surface, x+icon_width+PADDING_X, y + bar_dy, bar_w, bar_h);
+              cairo_surface_t *bar_surface = cairo_surface_create_for_rectangle(surface, x+icon_width+PADDING_X, y + bar_dy,
+                                                                                bar_width, bar_height);
               cairo_t *bar_cr = cairo_create(bar_surface);
-              workrave_timebar_draw(bar, bar_cr, 0, 0, bar_w, bar_h);
+              workrave_timebar_draw(bar, bar_cr);
               cairo_surface_destroy(bar_surface);
               cairo_destroy(bar_cr);
               
@@ -322,22 +311,10 @@ workrave_timerbox_update_time_bars(WorkraveTimerbox *self, cairo_t *cr, cairo_su
               cairo_fill(cr);
               cairo_paint(cr);
               
-              x += icon_bar_w + 2 * PADDING_X;
+              x += icon_bar_width + 2 * PADDING_X;
             }
         }
     }
-  
-  /* for (int h = 0; h < BREAK_ID_SIZEOF; h++) */
-  /*   { */
-  /*     if ((! enabled) || (! break_visible[h])) */
-  /*       { */
-  /*         ctrl.HideWindow(break_to_icon[h]->get_handle()); */
-  /*       } */
-  /*   } */
-  /* for (int j = enabled ? filled_slots : 0; j < BREAK_ID_SIZEOF; j++) */
-  /*   { */
-  /*     ctrl.HideWindow(slot_to_time_bar[j]->get_handle()); */
-  /*   } */
 }
 
 
@@ -345,14 +322,7 @@ WorkraveTimebar *
 workrave_timerbox_get_time_bar(WorkraveTimerbox *self, BreakId timer)
 {
   WorkraveTimerboxPrivate *priv = self->priv;
-
-  WorkraveTimebar *ret = NULL;
-  int slot = priv->break_to_slot[timer];
-  if (slot >= 0)
-    {
-      ret = priv->slot_to_time_bar[slot];
-    }
-  return ret;
+  return priv->slot_to_time_bar[timer];
 }
 
 

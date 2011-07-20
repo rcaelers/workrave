@@ -70,10 +70,11 @@ GType workrave_timebar_get_type(void);
  */
 
 void workrave_timebar_do_action(WorkraveTimebar *self, int param);
-void workrave_timebar_draw(WorkraveTimebar *self, cairo_t *cr, int x, int y, int width, int height);
+void workrave_timebar_draw(WorkraveTimebar *self, cairo_t *cr);
 
 void workrave_timebar_set_progress(WorkraveTimebar *self, int value, int max_value, ColorId color);
 void workrave_timebar_set_secondary_progress(WorkraveTimebar *self, int value, int max_value, ColorId color);
 void workrave_timebar_set_text(WorkraveTimebar *self, const char *text);
+void workrave_timebar_get_dimensions(WorkraveTimebar *self, int *width, int *height);
 
 #endif /* __WORKRAVE_TIMEBAR_H__ */

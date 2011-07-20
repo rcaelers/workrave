@@ -333,6 +333,11 @@ receive_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVaria
 
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
+          workrave_timerbox_set_slot(self->priv->timerbox, i, td[i].slot);
+        }
+      
+      for (int i = 0; i < BREAK_ID_SIZEOF; i++)
+        {
           WorkraveTimebar *timebar = workrave_timerbox_get_time_bar(self->priv->timerbox, i);
           if (timebar != NULL)
             {
