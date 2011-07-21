@@ -10,12 +10,15 @@
 
 #include "timerbox.h"
 
-static GtkImage *image;
+static GtkWidget *image;
 static GCancellable *workrave_proxy_cancel;
 static GDBusProxy *workrave_proxy;
 static WorkraveTimerbox *timerbox;
+static guint timer;
+static gboolean alive;
 
 static void receive_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVariant *parameters, gpointer user_data);
+static gboolean on_timer(gpointer user_data);
 
 static gboolean delete_event( GtkWidget *widget,
                               GdkEvent  *event,
@@ -77,12 +80,18 @@ receive_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVaria
 {
 
 	g_debug("indicator-workrave: signal %s", signal_name);
-  
+
 	if (g_strcmp0(signal_name, "Update") == 0)
     {
     }
 	else if (g_strcmp0(signal_name, "UpdateIndicator") == 0)
     {
+      alive = TRUE;
+      if (timer == 0)
+        {
+          timer = g_timeout_add_seconds(10, on_timer, NULL);
+        }
+      
       TimerData td[BREAK_ID_SIZEOF];
 
       memset(td, 0, sizeof(td));
@@ -124,14 +133,30 @@ receive_signal(GDBusProxy *proxy, gchar *sender_name, gchar *signal_name, GVaria
           WorkraveTimebar *timebar = workrave_timerbox_get_time_bar(timerbox, i);
           if (timebar != NULL)
             {
+              workrave_timerbox_set_enabled(timerbox, TRUE);
               workrave_timebar_set_progress(timebar, td[i].bar_primary_val, td[i].bar_primary_max, td[i].bar_primary_color);
               workrave_timebar_set_secondary_progress(timebar, td[i].bar_secondary_val, td[i].bar_secondary_max, td[i].bar_secondary_color);
               workrave_timebar_set_text(timebar, td[i].bar_text);
             }
         }
 
-      workrave_timerbox_update(timerbox, image);
+      workrave_timerbox_update(timerbox, GTK_IMAGE(image));
     }
+}
+
+static gboolean
+on_timer(gpointer user_data)
+{
+  if (alive == FALSE)
+    {
+      workrave_timerbox_set_enabled(timerbox, FALSE);
+      workrave_timerbox_update(timerbox, GTK_IMAGE(image));
+      timer = 0;
+      return FALSE;
+    }
+
+  alive = FALSE;
+	return TRUE;
 }
 
 int main( int   argc,
@@ -167,6 +192,8 @@ int main( int   argc,
                            workrave_proxy_cb,
                            NULL);
   
+
+  timer = g_timeout_add_seconds(10, on_timer, NULL);
   
   gtk_main();
     

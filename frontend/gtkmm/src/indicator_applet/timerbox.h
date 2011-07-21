@@ -69,6 +69,7 @@ typedef enum BreakId
 void workrave_timerbox_do_action(WorkraveTimerbox *self, int param);
 void workrave_timerbox_update(WorkraveTimerbox *self, GtkImage *image);
 void workrave_timerbox_set_slot(WorkraveTimerbox *self, int slot, BreakId brk);
+void workrave_timerbox_set_enabled(WorkraveTimerbox *self, gboolean enabled);
 WorkraveTimebar *workrave_timerbox_get_time_bar(WorkraveTimerbox *self, BreakId timer);
   
 #endif /* __WORKRAVE_TIMERBOX_H__ */

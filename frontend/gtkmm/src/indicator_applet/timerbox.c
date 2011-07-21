@@ -95,7 +95,7 @@ workrave_timerbox_init(WorkraveTimerbox *self)
   self->priv = WORKRAVE_TIMERBOX_GET_PRIVATE(self); 
 
   const char *icons[] = { "timer-micro-break.png", "timer-rest-break.png", "timer-daily.png" };
-  self->priv->sheep_icon = gdk_pixbuf_new_from_file(WORKRAVE_PKGDATADIR "/images/workrave.png", NULL);
+  self->priv->sheep_icon = gdk_pixbuf_new_from_file(WORKRAVE_PKGDATADIR "/images/workrave-icon-medium.png", NULL);
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {
@@ -111,7 +111,7 @@ workrave_timerbox_init(WorkraveTimerbox *self)
       self->priv->break_to_slot[i] = -1;
     }
   self->priv->filled_slots = 0;
-  self->priv->enabled = TRUE;
+  self->priv->enabled = FALSE;
   
   /* initialize all public and private members to reasonable default values. */
 
@@ -229,9 +229,18 @@ workrave_timerbox_update(WorkraveTimerbox *self, GtkImage *image)
   workrave_timebar_get_dimensions(priv->slot_to_time_bar[0], &bar_width, &bar_height);
 
   int icon_width = gdk_pixbuf_get_width(priv->break_to_icon[0]);
-  int icon_bar_width = priv->filled_slots * (icon_width + 4 * PADDING_X + bar_width) - 2 * PADDING_X;
+  int icon_bar_width = 24;
   int icon_bar_height = 24;
-  
+
+  if (priv->enabled && priv->filled_slots > 0)
+    {
+      icon_bar_width = priv->filled_slots * (icon_width + 4 * PADDING_X + bar_width) - 2 * PADDING_X;
+    }
+  else
+    {
+      icon_bar_width = gdk_pixbuf_get_width(priv->sheep_icon);
+    }
+
   cairo_surface_t *surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, icon_bar_width, icon_bar_height);
   cairo_t *cr = cairo_create (surface);
 
@@ -260,6 +269,7 @@ workrave_timerbox_update_sheep(WorkraveTimerbox *self, cairo_t *cr)
   if (!priv->enabled || priv->filled_slots == 0)
     {
       gdk_cairo_set_source_pixbuf(cr, priv->sheep_icon, 0, 0);
+      cairo_paint(cr);
     }
 }
 
@@ -326,11 +336,9 @@ workrave_timerbox_get_time_bar(WorkraveTimerbox *self, BreakId timer)
 }
 
 
-/* void */
-/* TimerBox::set_enabled(bool ena) */
-/* { */
-/*   TRACE_ENTER_MSG("TimerBox::set_enabled", ena); */
-/*   enabled = ena; */
-/*   TRACE_EXIT(); */
-/* } */
-
+void
+workrave_timerbox_set_enabled(WorkraveTimerbox *self, gboolean enabled)
+{
+    WorkraveTimerboxPrivate *priv = self->priv;
+    priv->enabled = enabled;
+}
