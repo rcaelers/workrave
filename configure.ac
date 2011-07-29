@@ -304,6 +304,8 @@ then
    [
 #include <mmdeviceapi.h>
 #include <endpointvolume.h>
+
+static REFIID foo = __uuidof(IAudioEndpointVolume); 
    ], 
    [
       IMMDeviceEnumerator *device_enum = NULL;

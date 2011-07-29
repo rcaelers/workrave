@@ -15,7 +15,7 @@ ${WIN32_MAKERUNTIME} ${WORKRAVE_GIT_DIR}
 
 cd ${WORKRAVE_GIT_DIR}/common/win32/harpoonHelper/src
 mkdir Release
-cp -a ${TINDERBOX_HOME}/prebuilt/Debug/harpoonHelper.exe Release
+cp -a ${TINDERBOX_HOME}/prebuilt/Debug64/harpoonHelper.exe Release
 cd ${WORKRAVE_GIT_DIR}/common/win32/harpoon/src
 mkdir Release
 cp -a ${TINDERBOX_HOME}/prebuilt/Debug/harpoon.dll Release

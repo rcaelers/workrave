@@ -44,6 +44,15 @@ for lang in $ALL_LINGUAS; do
     cp -a /usr/share/locale/$lang/LC_MESSAGES/iso_3166.mo $TARGETDIR/lib/locale/$lang/LC_MESSAGES/ 
 done
 
+## Dbus runtime
+
+TARGETDIR=$RUNTIMEDIR/runtime-dbus
+
+copy_dir  bin    dbus*.exe					bin
+copy_dir  bin    dbus*.bat					bin
+copy_dir  lib    libdbus-1.dll					lib
+copy_dir  etc    dbus-1					        etc
+
 ## Gtk runtime
 
 if [ -d $CROSSROOT/lib/gtk-2.0/2.4.0 ]; then

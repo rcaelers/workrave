@@ -6,10 +6,10 @@
 # Changed by Rob Caelers for workrave cross compilation.
 #
 
-TOOLS=/usr/local/cross-tools-gcc421
+TOOLS=/usr/local/cross-tools-gcc450
 POSTFIX=-gtk2.14
 PREFIX=/usr/local/cross-packages${POSTFIX}
-TARGET=i586-mingw32msvc
+TARGET=i686-w64-mingw32
 
 export PATH="$TOOLS/bin:$PATH"
 
@@ -31,6 +31,9 @@ PANGO_FILES="pango_1.24.5-1_win32.zip pango-dev_1.24.5-1_win32.zip"
 
 ATK_URL="http://ftp.gnome.org/pub/gnome/binaries/win32/atk/1.24/"
 ATK_FILES="atk_1.24.0-1_win32.zip atk-dev_1.24.0-1_win32.zip"
+
+DBUS_URL="http://dbus.freedesktop.org/releases/dbus/"
+DBUS_FILES="dbus-1.5.4.tar.gz"
 
 # http://www.dgrigoriadis.net/post/2004/06/26/DirectXDevPak-for-Dev-Cpp.aspx
 # http://www.dgrigoriadis.net/file.axd?file=2009%2f2%2fDirectX90c.DevPak
@@ -126,6 +129,7 @@ download()
         download_files $SIGCPPSRC_URL $SIGCPPSRC_FILES
         download_files $CAIROMMSRC_URL $CAIROMMSRC_FILES
         download_files $UUID_URL $UUID_FILES
+        download_files $DBUS_URL $DBUS_FILES
         download_files $PKGCONFIG_URL $PKGCONFIG_FILES
 
         download_files $DIRECTX_URL $DIRECTX_FILE
@@ -268,7 +272,7 @@ build_pkgconfig()
 	fi
         
 	echo "Building pkgconfig"
-        (   . $TOPDIR/mingw32 -gtk2.14
+        (   . $TOPDIR/mingw32-x -gtk2.14
             make &> make.log
         )
 	if test $? -ne 0; then
@@ -279,7 +283,7 @@ build_pkgconfig()
         
 	cd "$BUILDDIR/pkgconfig-$TARGET"
 	echo "Installing pkgconfig"
-        (   . $TOPDIR/mingw32 -gtk2.14
+        (   . $TOPDIR/mingw32-x -gtk2.14
             make install &> make-install.log
         )
         if test $? -ne 0; then
@@ -307,7 +311,7 @@ build_sigcpp()
         cd "$BUILDDIR/libsigc++-$TARGET"
 
         echo "Configuring Libsigc++"
-        (   . $TOPDIR/mingw32 -gtk2.14
+        (   . $TOPDIR/mingw32-x -gtk2.14
             "$BUILDDIR/$1/configure" -v \
 		--prefix="$PREFIX" --disable-shared --disable-static \
                 --target=$TARGET --host=$TARGET --build=i586-linux \
@@ -320,7 +324,7 @@ build_sigcpp()
 	fi
         
 	echo "Building Libsigc++"
-        (   . $TOPDIR/mingw32 -gtk2.14
+        (   . $TOPDIR/mingw32-x -gtk2.14
             make &> make.log
         )
 	if test $? -ne 0; then
@@ -331,7 +335,7 @@ build_sigcpp()
         
 	cd "$BUILDDIR/libsigc++-$TARGET"
 	echo "Installing Libsigc++"
-        (   . $TOPDIR/mingw32 -gtk2.14
+        (   . $TOPDIR/mingw32-x -gtk2.14
             make -k install &> make-install.log
         )
 
@@ -359,7 +363,7 @@ build_glibmm()
 	cd "$BUILDDIR/libglibmm-$TARGET"
 
         echo "Configuring Libglibmm"
-        (   . $TOPDIR/mingw32 -gtk2.14
+        (   . $TOPDIR/mingw32-x -gtk2.14
             "$BUILDDIR/$1/configure" -v \
 		--prefix="$PREFIX" --disable-shared --enable-static \
                 --target=$TARGET --host=$TARGET --build=i586-linux \
@@ -372,7 +376,7 @@ build_glibmm()
 	fi
         
 	echo "Building Libglibmm"
-        (   . $TOPDIR/mingw32 -gtk2.14
+        (   . $TOPDIR/mingw32-x -gtk2.14
             make &> make.log
         )
 	if test $? -ne 0; then
@@ -383,7 +387,7 @@ build_glibmm()
         
 	cd "$BUILDDIR/libglibmm-$TARGET"
 	echo "Installing Libglibmm"
-        (   . $TOPDIR/mingw32 -gtk2.14
+        (   . $TOPDIR/mingw32-x -gtk2.14
             make install &> make-install.log
         )
         if test $? -ne 0; then
@@ -410,7 +414,7 @@ build_cairomm()
 	cd "$BUILDDIR/libcairomm-$TARGET"
 
         echo "Configuring Libcairomm"
-        (   . $TOPDIR/mingw32 -gtk2.14
+        (   . $TOPDIR/mingw32-x -gtk2.14
             "$BUILDDIR/$1/configure" -v \
 		--prefix="$PREFIX" --disable-shared --enable-static \
                 --target=$TARGET --host=$TARGET --build=i586-linux \
@@ -430,7 +434,7 @@ build_cairomm()
 	fi
         
 	echo "Building Libcairomm"
-        (   . $TOPDIR/mingw32 -gtk2.14
+        (   . $TOPDIR/mingw32-x -gtk2.14
             make &> make.log
         )
 	if test $? -ne 0; then
@@ -441,7 +445,7 @@ build_cairomm()
         
 	cd "$BUILDDIR/libcairomm-$TARGET"
 	echo "Installing Libcairomm"
-        (   . $TOPDIR/mingw32 -gtk2.14
+        (   . $TOPDIR/mingw32-x -gtk2.14
             make install &> make-install.log
         )
         if test $? -ne 0; then
@@ -468,7 +472,7 @@ build_pangomm()
 	cd "$BUILDDIR/libpangomm-$TARGET"
 
         echo "Configuring Libpangomm"
-        (   . $TOPDIR/mingw32 -gtk2.14
+        (   . $TOPDIR/mingw32-x -gtk2.14
             "$BUILDDIR/$1/configure" -v \
 		--prefix="$PREFIX" --disable-shared --enable-static \
                 --target=$TARGET --host=$TARGET --build=i586-linux \
@@ -488,7 +492,7 @@ build_pangomm()
 	fi
         
 	echo "Building Libpangomm"
-        (   . $TOPDIR/mingw32 -gtk2.14
+        (   . $TOPDIR/mingw32-x -gtk2.14
             make &> make.log
         )
 	if test $? -ne 0; then
@@ -499,7 +503,7 @@ build_pangomm()
         
 	cd "$BUILDDIR/libpangomm-$TARGET"
 	echo "Installing Libpangomm"
-        (   . $TOPDIR/mingw32 -gtk2.14
+        (   . $TOPDIR/mingw32-x -gtk2.14
             make install &> make-install.log
         )
         if test $? -ne 0; then
@@ -531,7 +535,7 @@ build_gtkmm()
 	cd "$BUILDDIR/libgtkmm-$TARGET"
 
         echo "Configuring Libgtkmm"
-        (   . $TOPDIR/mingw32 -gtk2.14
+        (   . $TOPDIR/mingw32-x -gtk2.14
             $BUILDDIR/$1/autogen.sh
             "$BUILDDIR/$1/configure" -v \
 		--prefix="$PREFIX" --disable-shared --enable-static \
@@ -552,7 +556,7 @@ build_gtkmm()
 	fi
         
 	echo "Building Libgtkmm"
-        (   . $TOPDIR/mingw32 -gtk2.14
+        (   . $TOPDIR/mingw32-x -gtk2.14
             make &> make.log
         )
 	if test $? -ne 0; then
@@ -563,7 +567,7 @@ build_gtkmm()
         
 	cd "$BUILDDIR/libgtkmm-$TARGET"
 	echo "Installing Libgtkmm"
-        (   . $TOPDIR/mingw32 -gtk2.14
+        (   . $TOPDIR/mingw32-x -gtk2.14
             make install &> make-install.log
         )
         if test $? -ne 0; then
@@ -589,9 +593,9 @@ build_gnet()
         cp -a config.h.win32 config.h
         
 	echo "Building Libgnet"
-        (   . $TOPDIR/mingw32 -gtk2.14
-            export CC='i586-mingw32msvc-gcc -mms-bitfields -mno-cygwin'
-            export CXX='i586-mingw32msvc-g++ -mms-bitfields -mno-cygwin'
+        (   . $TOPDIR/mingw32-x -gtk2.14
+            export CC='i686-w64-mingw32-gcc -mms-bitfields -mno-cygwin'
+            export CXX='i686-w64-mingw32-g++ -mms-bitfields -mno-cygwin'
             cd src
             make -f makefile.mingw &> make.log
         )
@@ -630,7 +634,7 @@ configure_bfd()
 	mkdir "binutils-$TARGET"-bfd
 	cd "binutils-$TARGET"-bfd
 	echo "Configuring bfd"
-        (   . $TOPDIR/mingw32 -gtk2.14
+        (   . $TOPDIR/mingw32-x -gtk2.14
 	    "$BUILDDIR/$BINUTILS/bfd/configure" --prefix="$PREFIX" --host=$TARGET --target=$TARGET --enable-install-libbfd --enable-install-libiberty=yes CFLAGS=-g &> configure.log
         )
 	cd "$TOPDIR"
@@ -640,7 +644,7 @@ build_bfd()
 {
 	cd "$BUILDDIR/binutils-$TARGET"-bfd
 	echo "Building bfd"
-        (   . $TOPDIR/mingw32 -gtk2.14
+        (   . $TOPDIR/mingw32-x -gtk2.14
 	    make &> make.log
         )
         if test $? -ne 0; then
@@ -654,7 +658,7 @@ install_bfd()
 {
 	cd "$BUILDDIR/binutils-$TARGET"-bfd
 	echo "Installing bfd"
-        (   . $TOPDIR/mingw32 -gtk2.14
+        (   . $TOPDIR/mingw32-x -gtk2.14
 	    make install &> make-install.log
         )
 	if test $? -ne 0; then
@@ -677,12 +681,12 @@ build_uuid()
 	cd "$BUILDDIR/libuuid-$TARGET"
 
         echo "Configuring e2fsprogs-libs"
-        (   . $TOPDIR/mingw32 -gtk2.14
+        (   . $TOPDIR/mingw32-x -gtk2.14
             "$BUILDDIR/$1/configure" -v \
 		--prefix="$PREFIX" --disable-shared --enable-static \
                 --target=$TARGET --host=$TARGET --build=i586-linux \
-                --with-cc=i586-mingw32msvc-gcc \
-                --with-linker=i586-mingw32msvc-ld \
+                --with-cc=i686-w64-mingw32-gcc \
+                --with-linker=i686-w64-mingw32-ld \
 		--with-headers="$PREFIX/$TARGET/include" \
                 &> configure.log
         )
@@ -692,7 +696,7 @@ build_uuid()
 	fi
         
 	echo "Building Libuuid"
-        (   . $TOPDIR/mingw32 -gtk2.14
+        (   . $TOPDIR/mingw32-x -gtk2.14
             make -C lib/uuid &> make.log
         )
 	if test $? -ne 0; then
@@ -703,11 +707,95 @@ build_uuid()
         
 	cd "$BUILDDIR/libuuid-$TARGET"
 	echo "Installing Libuuid"
-        (   . $TOPDIR/mingw32 -gtk2.14
+        (   . $TOPDIR/mingw32-x -gtk2.14
             #make install &> make-install.log
         )
         if test $? -ne 0; then
             echo "install failed - log available: libuuid-$TARGET/make-install.log"
+            exit 1
+        fi
+	cd "$TOPDIR"
+}
+
+
+build_dbus()
+{
+	cd "$BUILDDIR"
+
+        if [ ! -e dbus-git ]; then
+	    git clone git://anongit.freedesktop.org/dbus/dbus dbus-git
+	fi
+	
+	cd "$BUILDDIR"
+	rm -rf "dbus-$TARGET"
+	mkdir "dbus-$TARGET"
+
+	cd "$BUILDDIR/dbus-$TARGET"
+
+        echo "Configuring Dbus"
+        (   . $TOPDIR/mingw32-x -gtk2.14
+            cmake $BUILDDIR/dbus-git/cmake \
+                -DCMAKE_SYSTEM_NAME="Windows" \
+                -DCMAKE_VERBOSE_MAKEFILE=ON \
+                -DCMAKE_INSTALL_PREFIX:PATH=$PREFIX \
+                -DCMAKE_INSTALL_LIBDIR:PATH=$PREFIX/bin \
+                -DINCLUDE_INSTALL_DIR:PATH=$PREFIX/include \
+                -DLIB_INSTALL_DIR:PATH=$PREFIX/bin \
+                -DSYSCONF_INSTALL_DIR:PATH=$PREFIX/etc \
+                -DSHARE_INSTALL_PREFIX:PATH=$PREFIX/share \
+                -DBUILD_SHARED_LIBS:BOOL=ON \
+                -DCMAKE_C_COMPILER="i686-w64-mingw32-gcc" \
+                -DCMAKE_CXX_COMPILER="i686-w64-mingw32-g++" \
+                -DCMAKE_FIND_ROOT_PATH="$PREFIX" \
+                -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
+                -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
+                -DCMAKE_FIND_ROOT_PATH="$PREFIX" \
+                -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY \
+                -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY \
+                -DDBUS_USE_EXPAT=ON \
+		-DLIBEXPAT_INCLUDE_DIR:PATH=$PREFIX/include -DLIBEXPAT_LIBRARIES:PATH=$PREFIX/lib/libexpat.dll.a  \
+                -DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER \
+		-DDBUS_BUILD_TESTS=OFF \
+                -DDBUS_ENABLE_XML_DOCS=OFF \
+                -DDBUS_ENABLE_DOXYGEN_DOCS=OFF \
+                -DDBUS_REPLACE_LOCAL_DIR=ON \
+                -DDBUS_ENABLE_VERBOSE_MODE=OFF \
+                -DDBUS_DISABLE_ASSERTS=ON \
+                -DDBUS_SESSION_BUS_DEFAULT_ADDRESS:STRING=autolaunch:scope=install-path \
+                -DDBUS_USE_OUTPUT_DEBUG_STRING=OFF
+	    
+	)
+	if test $? -ne 0; then
+		echo "configure failed - log available: dbus-$TARGET/configure.log"
+		exit 1
+	fi
+        
+	echo "Building Dbus"
+        (   . $TOPDIR/mingw32-x -gtk2.14
+            make &> make.log
+        )
+	if test $? -ne 0; then
+		echo "make failed - log available: dbus-$TARGET/make.log"
+		exit 1
+	fi
+
+        
+	cd "$BUILDDIR/dbus-$TARGET"
+	echo "Installing Dbus"
+        (   . $TOPDIR/mingw32-x -gtk2.14
+            make install &> make-install.log
+        )
+	cp -a bin/libdbus-1.dll.a $PREFIX/lib
+
+        sed -e "s|@prefix@|$PREFIX|g" \
+            -e "s|@exec_prefix@|$PREFIX/bin|g" \
+            -e "s|@libdir@|$PREFIX/lib|g" \
+            -e "s|@includedir@|$PREFIX/include|g" \
+            -e "s|@VERSION@|1.5.4|g" \
+	< $BUILDDIR/dbus-git/dbus-1.pc.in > $PREFIX/lib/pkgconfig/dbus-1.pc
+
+        if test $? -ne 0; then
+            echo "install failed - log available: dbus-$TARGET/make-install.log"
             exit 1
         fi
 	cd "$TOPDIR"
@@ -740,3 +828,5 @@ build_gtkmm "gtkmm-2.16.0"
 
 extract_package "gnet-2.0.8" "gnet-2.0.8.tar.gz"
 build_gnet "gnet-2.0.8"
+
+build_dbus
