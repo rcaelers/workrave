@@ -300,6 +300,7 @@ then
     config_gconf=no
     config_gnome=no
     config_xml=no
+    config_indicator=no
 
    AC_CHECK_HEADER(dsound.h, [ AC_DEFINE(HAVE_DSOUND, 1, [Define if we have DirectSound])
                                         have_dsound=yes DIRECTSOUNDLIBS="-ldsound -luuid -ldxguid -ldxerr8"
@@ -501,14 +502,20 @@ then
                                         dbusmenu-glib-0.4 >= $DBUSMENUGLIB_REQUIRED_VERSION
                                         dbusmenu-gtk3-0.4 >= $DBUSMENUGTK_REQUIRED_VERSION,
                               [ config_indicator=yes
-                       	        AC_DEFINE(HAVE_INDICATORS, 1, [Support for indicator applet])])
+                       	        AC_DEFINE(HAVE_INDICATOR, 1, [Support for indicator applet])],
+                              [if test "x$enable_indicator" = "xyes"; then
+                                  AC_MSG_ERROR([Libindicator development headers not found.])
+                               fi])
           ],
           [test "x$with_indicator_gtk" = x2],
           [PKG_CHECK_MODULES(INDICATOR, indicator-0.4 >= $INDICATOR_REQUIRED_VERSION
                                         dbusmenu-glib-0.4 >= $DBUSMENUGLIB_REQUIRED_VERSION
                                         dbusmenu-gtk-0.4 >= $DBUSMENUGTK_REQUIRED_VERSION,
 				 [config_indicator=yes
-                       		  AC_DEFINE(HAVE_INDICATORS, 1, [Support for indicator applet])])
+                       		  AC_DEFINE(HAVE_INDICATOR, 1, [Support for indicator applet])],
+                              [if test "x$enable_indicator" = "xyes"; then
+                                  AC_MSG_ERROR([Libindicator development headers not found.])
+                               fi])
         ],
         [AC_MSG_FAILURE([Value for --with-gtk was neither 2 nor 3])]
     )

@@ -40,7 +40,7 @@
 #include "W32AppletWindow.hh"
 #endif
 
-#ifdef HAVE_INDICATORS
+#ifdef HAVE_INDICATOR
 #include "IndicatorAppletWindow.hh"
 #endif
 
@@ -95,7 +95,7 @@ AppletControl::init()
   applets[APPLET_GNOME] = new GnomeAppletWindow(this);
 #endif
 
-#ifdef HAVE_INDICATORS  
+#ifdef HAVE_INDICATOR  
   applets[APPLET_INDICATOR] = new IndicatorAppletWindow(this);
 #endif
   

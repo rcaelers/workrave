@@ -36,6 +36,8 @@ sourcesgnome = 		GnomeAppletWindow.cc GnomeAppletMenu.cc Plug.cc
 # Additional non-Gnome sources.
 sourcesnognome =
 
+sourcesindicator = 	IndicatorAppletWindow.cc IndicatorAppletMenu.cc
+
 # Additional X11 sources.
 if HAVE_GTK3
 sourcesx = 		X11SystrayAppletWindow.cc gtktrayicon3.c
@@ -86,6 +88,10 @@ if HAVE_GNOMEAPPLET
 extrasources +=		$(sourcesgnome)
 else
 extrasources +=		$(sourcesnognome)
+endif
+
+if HAVE_INDICATOR
+extrasources += 	$(sourcesindicator)
 endif
 
 if PLATFORM_OS_UNIX
@@ -220,8 +226,6 @@ workrave_SOURCES = \
 			MainGtkMenu.cc \
 			StatusIcon.cc \
 			eggsmclient.c \
-			IndicatorAppletWindow.cc \
-			IndicatorAppletMenu.cc \
 			${dbussources} \
 			$(extrasources)
 

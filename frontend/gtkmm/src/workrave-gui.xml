@@ -27,7 +27,7 @@
   </interface>
 
   <interface name="org.workrave.IndicatorInterface" csymbol="IndicatorAppletWindow"
-	     condition="defined(HAVE_INDICATORS)">
+	     condition="defined(HAVE_INDICATOR)">
     <import>
       <include name="IndicatorAppletWindow.hh"/>
     </import>
